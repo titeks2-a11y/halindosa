@@ -32,6 +32,10 @@
 - [ ] 앱 카테고리: 쇼핑
 - [ ] 짧은 설명 입력
 - [ ] 긴 설명 입력
+- [ ] `docs/play-store-listing.md` 내용 검토
+- [ ] `docs/data-safety-guide.md` 기준으로 데이터 보안 섹션 작성
+- [ ] `docs/content-rating-guide.md` 기준으로 콘텐츠 등급 설문 작성
+- [ ] `docs/test-plan.md` 기준으로 내부 테스트 진행
 - [ ] 스크린샷 업로드
 - [ ] 기능 그래픽 업로드
 - [ ] 개인정보처리방침 URL 입력

@@ -11,7 +11,9 @@ export async function GET(request: Request) {
       q: searchParams.get("q")?.trim(),
       sort: normalizeSort(searchParams.get("sort")),
       limit,
-      freeShippingOnly: searchParams.get("freeShippingOnly") === "true"
+      freeShippingOnly: searchParams.get("freeShippingOnly") === "true",
+      hotOnly: searchParams.get("hotOnly") === "true",
+      endingSoonOnly: searchParams.get("endingSoonOnly") === "true"
     });
 
     return NextResponse.json({

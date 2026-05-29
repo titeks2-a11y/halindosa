@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { BellRing, CheckCircle2, Info, SlidersHorizontal, Truck, UserRound } from "lucide-react";
+import { BellRing, CheckCircle2, Flame, Info, SlidersHorizontal, Timer, Truck, UserRound } from "lucide-react";
 import { AppView, BottomNav, DesktopNav } from "@/components/BottomNav";
 import { CategoryTabs } from "@/components/CategoryTabs";
 import { CommercialFooter } from "@/components/CommercialFooter";
@@ -44,7 +44,15 @@ function isFreeShippingDeal(deal: Deal) {
   return /무료배송|무배|네멤무료|로켓프레시/.test([deal.shippingInfo, ...deal.tags].join(" "));
 }
 
-function filterLocalDeals(items: Deal[], category: string, query: string, sort: DealSort, freeShippingOnly = false) {
+function filterLocalDeals(
+  items: Deal[],
+  category: string,
+  query: string,
+  sort: DealSort,
+  freeShippingOnly = false,
+  hotOnly = false,
+  endingSoonOnly = false
+) {
   const searchQuery = query.trim().toLowerCase();
   let filtered = items;
 
@@ -62,6 +70,14 @@ function filterLocalDeals(items: Deal[], category: string, query: string, sort: 
 
   if (freeShippingOnly) {
     filtered = filtered.filter(isFreeShippingDeal);
+  }
+
+  if (hotOnly) {
+    filtered = filtered.filter((deal) => deal.isHot);
+  }
+
+  if (endingSoonOnly) {
+    filtered = filtered.filter((deal) => deal.isEndingSoon);
   }
 
   switch (sort) {
@@ -126,9 +142,12 @@ export default function Home() {
   const [category, setCategory] = useState("all");
   const [sort, setSort] = useState<DealSort>("latest");
   const [freeShippingOnly, setFreeShippingOnly] = useState(false);
+  const [hotOnly, setHotOnly] = useState(false);
+  const [endingSoonOnly, setEndingSoonOnly] = useState(false);
   const [updatedAt, setUpdatedAt] = useState("");
   const [providerSource, setProviderSource] = useState("mock");
   const [isLoading, setIsLoading] = useState(false);
+  const [loadError, setLoadError] = useState("");
   const [hotSignals, setHotSignals] = useState<HotSignal[]>(mockHotSignals);
   const [isSignalLoading, setIsSignalLoading] = useState(false);
   const [favorites, setFavorites] = useState<string[]>(() => {
@@ -158,7 +177,7 @@ export default function Home() {
 
       try {
         if (await isNativeRuntime()) {
-          const localDeals = filterLocalDeals(mockDeals, category, query, sort, freeShippingOnly);
+          const localDeals = filterLocalDeals(mockDeals, category, query, sort, freeShippingOnly, hotOnly, endingSoonOnly);
           setDeals(localDeals);
           setCatalog(mockDeals);
           setProviderSource("android bundle");
@@ -171,10 +190,13 @@ export default function Home() {
           return;
         }
 
+        setLoadError("");
         const params = new URLSearchParams({
           category,
           sort,
-          freeShippingOnly: String(freeShippingOnly)
+          freeShippingOnly: String(freeShippingOnly),
+          hotOnly: String(hotOnly),
+          endingSoonOnly: String(endingSoonOnly)
         });
 
         if (query.trim()) {
@@ -184,7 +206,12 @@ export default function Home() {
         const data = await requestJson<DealsResponse>(`/api/deals?${params.toString()}`);
 
         const nextDeals = Array.isArray(data.deals) ? data.deals : [];
-        setDeals(freeShippingOnly ? nextDeals.filter(isFreeShippingDeal) : nextDeals);
+        setDeals(
+          nextDeals
+            .filter((deal) => !freeShippingOnly || isFreeShippingDeal(deal))
+            .filter((deal) => !hotOnly || deal.isHot)
+            .filter((deal) => !endingSoonOnly || deal.isEndingSoon)
+        );
         setUpdatedAt(data.updatedAt);
         setProviderSource(data.source ?? "mock");
         if (!query.trim() && category === "all") {
@@ -195,12 +222,17 @@ export default function Home() {
           showToast(toastMessage);
         }
       } catch {
+        setLoadError("특가 데이터를 불러오지 못했습니다. 기본 저장 데이터를 표시합니다.");
+        setDeals(filterLocalDeals(mockDeals, category, query, sort, freeShippingOnly, hotOnly, endingSoonOnly));
+        setCatalog(mockDeals);
+        setProviderSource("mock fallback");
+        setUpdatedAt(new Date().toISOString());
         showToast("데이터를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.");
       } finally {
         setIsLoading(false);
       }
     },
-    [category, freeShippingOnly, query, showToast, sort]
+    [category, endingSoonOnly, freeShippingOnly, hotOnly, query, showToast, sort]
   );
 
   useEffect(() => {
@@ -557,6 +589,32 @@ export default function Home() {
                   <Truck size={18} />
                   무료배송만
                 </button>
+                <button
+                  type="button"
+                  onClick={() => setHotOnly((value) => !value)}
+                  className={`inline-flex min-h-[54px] items-center justify-center gap-2 rounded-2xl border px-4 text-sm font-black shadow-sm transition ${
+                    hotOnly
+                      ? "border-dossa-red bg-red-50 text-dossa-red"
+                      : "border-slate-200 bg-white text-slate-600 hover:border-red-200 hover:text-dossa-red"
+                  }`}
+                  aria-pressed={hotOnly}
+                >
+                  <Flame size={18} />
+                  핫딜만
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setEndingSoonOnly((value) => !value)}
+                  className={`inline-flex min-h-[54px] items-center justify-center gap-2 rounded-2xl border px-4 text-sm font-black shadow-sm transition ${
+                    endingSoonOnly
+                      ? "border-amber-300 bg-amber-50 text-amber-700"
+                      : "border-slate-200 bg-white text-slate-600 hover:border-amber-200 hover:text-amber-700"
+                  }`}
+                  aria-pressed={endingSoonOnly}
+                >
+                  <Timer size={18} />
+                  마감임박만
+                </button>
               </div>
               <div className="mt-3">
                 <CategoryTabs selected={category} onSelect={setCategory} counts={categoryCounts} />
@@ -578,6 +636,9 @@ export default function Home() {
               <p className="mt-3 text-xs font-semibold text-slate-500">
                 {providerSource === "mock" ? "할인도사 기본 특가" : "할인도사 실시간 특가"} · 주요 특가 브리핑은 2분 단위로 갱신됩니다.
               </p>
+              {loadError ? (
+                <p className="mt-3 rounded-2xl bg-amber-50 px-4 py-3 text-xs font-black text-amber-700">{loadError}</p>
+              ) : null}
             </div>
 
             {isLoading && !deals.length ? (
@@ -598,7 +659,9 @@ export default function Home() {
               renderDealGrid(
                 deals,
                 "조건에 맞는 특가가 없습니다.",
-                freeShippingOnly ? "무료배송 필터를 끄거나 다른 카테고리를 선택해보세요." : "검색어를 줄이거나 다른 카테고리를 선택해보세요."
+                freeShippingOnly || hotOnly || endingSoonOnly
+                  ? "선택한 필터를 줄이거나 다른 카테고리를 선택해보세요."
+                  : "검색어를 줄이거나 다른 카테고리를 선택해보세요."
               )
             )}
           </>

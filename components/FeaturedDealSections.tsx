@@ -1,4 +1,4 @@
-import { Flame, Sparkles, Timer } from "lucide-react";
+import { Flame, Sparkles, Timer, Truck } from "lucide-react";
 import { DealCard } from "@/components/DealCard";
 import { Deal } from "@/types/deal";
 
@@ -35,6 +35,17 @@ const sections = [
       [...deals]
         .filter((deal) => deal.isEndingSoon)
         .sort((a, b) => new Date(a.expiresAt).getTime() - new Date(b.expiresAt).getTime())
+        .slice(0, 4)
+  },
+  {
+    id: "free-shipping",
+    title: "무료배송 특가",
+    description: "배송비 부담 없이 보기 좋은 특가",
+    icon: Truck,
+    getDeals: (deals: Deal[]) =>
+      [...deals]
+        .filter((deal) => /무료배송|무배|네멤무료|로켓프레시/.test([deal.shippingInfo, ...deal.tags].join(" ")))
+        .sort((a, b) => b.discountRate - a.discountRate)
         .slice(0, 4)
   }
 ] as const;

@@ -92,7 +92,10 @@ async function checkPolicyAndStoreDocs() {
     "docs/play-store-listing.md",
     "docs/release-checklist.md",
     "docs/privacy-policy-draft.md",
-    "docs/terms-draft.md"
+    "docs/terms-draft.md",
+    "docs/data-safety-guide.md",
+    "docs/content-rating-guide.md",
+    "docs/test-plan.md"
   ];
   const missing = requiredFiles.filter((file) => !existsSync(join(root, file)));
 

@@ -140,6 +140,10 @@ export default async function DealDetailPage({ params }: DealDetailPageProps) {
               {deal.description}
             </div>
 
+            <div className="mt-3 rounded-2xl border border-red-100 bg-red-50 px-3 py-3 text-sm font-semibold leading-6 text-dossa-deep">
+              추천 이유: {priceInsight.summary} {deal.isHot ? "인기 반응이 높은 상품입니다." : "가격 조건을 비교해 볼 만한 상품입니다."}
+            </div>
+
             <div className="mt-3 rounded-2xl border border-amber-100 bg-amber-50 px-3 py-3 text-sm font-semibold leading-6 text-amber-800">
               {deal.notice}
             </div>
