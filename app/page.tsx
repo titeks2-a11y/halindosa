@@ -1,7 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { BellRing, CheckCircle2, SlidersHorizontal, UserRound } from "lucide-react";
+import Link from "next/link";
+import { BellRing, CheckCircle2, Info, SlidersHorizontal, Truck, UserRound } from "lucide-react";
 import { AppView, BottomNav, DesktopNav } from "@/components/BottomNav";
 import { CategoryTabs } from "@/components/CategoryTabs";
 import { CommercialFooter } from "@/components/CommercialFooter";
@@ -39,7 +40,11 @@ async function isNativeRuntime() {
   return Capacitor.isNativePlatform();
 }
 
-function filterLocalDeals(items: Deal[], category: string, query: string, sort: DealSort) {
+function isFreeShippingDeal(deal: Deal) {
+  return /무료배송|무배|네멤무료|로켓프레시/.test([deal.shippingInfo, ...deal.tags].join(" "));
+}
+
+function filterLocalDeals(items: Deal[], category: string, query: string, sort: DealSort, freeShippingOnly = false) {
   const searchQuery = query.trim().toLowerCase();
   let filtered = items;
 
@@ -53,6 +58,10 @@ function filterLocalDeals(items: Deal[], category: string, query: string, sort: 
         value.toLowerCase().includes(searchQuery)
       )
     );
+  }
+
+  if (freeShippingOnly) {
+    filtered = filtered.filter(isFreeShippingDeal);
   }
 
   switch (sort) {
@@ -116,6 +125,7 @@ export default function Home() {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("all");
   const [sort, setSort] = useState<DealSort>("latest");
+  const [freeShippingOnly, setFreeShippingOnly] = useState(false);
   const [updatedAt, setUpdatedAt] = useState("");
   const [providerSource, setProviderSource] = useState("mock");
   const [isLoading, setIsLoading] = useState(false);
@@ -148,7 +158,7 @@ export default function Home() {
 
       try {
         if (await isNativeRuntime()) {
-          const localDeals = filterLocalDeals(mockDeals, category, query, sort);
+          const localDeals = filterLocalDeals(mockDeals, category, query, sort, freeShippingOnly);
           setDeals(localDeals);
           setCatalog(mockDeals);
           setProviderSource("android bundle");
@@ -163,7 +173,8 @@ export default function Home() {
 
         const params = new URLSearchParams({
           category,
-          sort
+          sort,
+          freeShippingOnly: String(freeShippingOnly)
         });
 
         if (query.trim()) {
@@ -172,7 +183,8 @@ export default function Home() {
 
         const data = await requestJson<DealsResponse>(`/api/deals?${params.toString()}`);
 
-        setDeals(Array.isArray(data.deals) ? data.deals : []);
+        const nextDeals = Array.isArray(data.deals) ? data.deals : [];
+        setDeals(freeShippingOnly ? nextDeals.filter(isFreeShippingDeal) : nextDeals);
         setUpdatedAt(data.updatedAt);
         setProviderSource(data.source ?? "mock");
         if (!query.trim() && category === "all") {
@@ -188,7 +200,7 @@ export default function Home() {
         setIsLoading(false);
       }
     },
-    [category, query, showToast, sort]
+    [category, freeShippingOnly, query, showToast, sort]
   );
 
   useEffect(() => {
@@ -430,6 +442,17 @@ export default function Home() {
     [catalog]
   );
 
+  const categoryCounts = useMemo(
+    () =>
+      Object.fromEntries(
+        dealChannels.map((channel) => [
+          channel.id,
+          channel.id === "all" ? catalog.length : catalog.filter((deal) => dealMatchesChannel(deal, channel.id)).length
+        ])
+      ),
+    [catalog]
+  );
+
   const openCategory = (id: string) => {
     setCategory(id);
     setActiveView("home");
@@ -523,9 +546,22 @@ export default function Home() {
               <div className="flex flex-col gap-3 lg:flex-row">
                 <SearchBar value={query} onChange={setQuery} />
                 <SortSelect value={sort} onChange={setSort} />
+                <button
+                  type="button"
+                  onClick={() => setFreeShippingOnly((value) => !value)}
+                  className={`inline-flex min-h-[54px] items-center justify-center gap-2 rounded-2xl border px-4 text-sm font-black shadow-sm transition ${
+                    freeShippingOnly
+                      ? "border-dossa-red bg-red-50 text-dossa-red"
+                      : "border-slate-200 bg-white text-slate-600 hover:border-red-200 hover:text-dossa-red"
+                  }`}
+                  aria-pressed={freeShippingOnly}
+                >
+                  <Truck size={18} />
+                  무료배송만
+                </button>
               </div>
               <div className="mt-3">
-                <CategoryTabs selected={category} onSelect={setCategory} />
+                <CategoryTabs selected={category} onSelect={setCategory} counts={categoryCounts} />
               </div>
               <div className="mt-4 grid gap-2 text-sm font-bold text-slate-700 sm:grid-cols-4">
                 <div className="rounded-2xl bg-slate-50 px-4 py-3">
@@ -561,7 +597,11 @@ export default function Home() {
                 ))}
               </div>
             ) : (
-              renderDealGrid(deals, "조건에 맞는 특가가 없습니다.", "검색어를 줄이거나 다른 카테고리를 선택해보세요.")
+              renderDealGrid(
+                deals,
+                "조건에 맞는 특가가 없습니다.",
+                freeShippingOnly ? "무료배송 필터를 끄거나 다른 카테고리를 선택해보세요." : "검색어를 줄이거나 다른 카테고리를 선택해보세요."
+              )
             )}
           </>
         ) : null}
@@ -588,29 +628,45 @@ export default function Home() {
         ) : null}
 
         {activeView === "alerts" ? (
-          <div className="space-y-3">
-            {alertDeals.map((deal) => (
-              <button
-                key={deal.id}
-                type="button"
-                onClick={() => {
-                  setQuery(deal.mall);
-                  setActiveView("home");
-                }}
-                className="flex w-full items-center gap-3 rounded-3xl border border-slate-200 bg-white p-4 text-left shadow-sm transition hover:border-red-100 hover:shadow-deal"
-              >
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-red-50 text-dossa-red">
-                  <BellRing size={21} />
-                </span>
-                <span className="min-w-0 flex-1">
-                  <span className="block truncate text-sm font-black text-slate-950">
-                    {deal.isEndingSoon ? "마감임박" : deal.isNew ? "신규 특가" : "인기 핫딜"} · {deal.mall}
+          <div className="grid gap-4 lg:grid-cols-[1fr_0.8fr]">
+            <div className="space-y-3">
+              {alertDeals.map((deal) => (
+                <button
+                  key={deal.id}
+                  type="button"
+                  onClick={() => {
+                    setQuery(deal.mall);
+                    setActiveView("home");
+                  }}
+                  className="flex w-full items-center gap-3 rounded-3xl border border-slate-200 bg-white p-4 text-left shadow-sm transition hover:border-red-100 hover:shadow-deal"
+                >
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-red-50 text-dossa-red">
+                    <BellRing size={21} />
                   </span>
-                  <span className="mt-1 block truncate text-sm font-semibold text-slate-500">{deal.title}</span>
-                </span>
-                <span className="shrink-0 text-base font-black text-dossa-red">{deal.discountRate}%</span>
-              </button>
-            ))}
+                  <span className="min-w-0 flex-1">
+                    <span className="block truncate text-sm font-black text-slate-950">
+                      {deal.isEndingSoon ? "마감 임박 특가" : deal.isNew ? "신규 등록 특가" : "오늘의 인기 특가"} · {deal.mall}
+                    </span>
+                    <span className="mt-1 block truncate text-sm font-semibold text-slate-500">{deal.title}</span>
+                  </span>
+                  <span className="shrink-0 text-base font-black text-dossa-red">{deal.discountRate}%</span>
+                </button>
+              ))}
+            </div>
+            <aside className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+              <div className="flex items-center gap-2">
+                <Info size={19} className="text-dossa-red" />
+                <p className="text-lg font-black text-slate-950">알림 설정 준비 중</p>
+              </div>
+              <p className="mt-3 text-sm font-semibold leading-6 text-slate-500">
+                현재는 앱 안에서 마감 임박, 인기, 신규 특가를 우선 표시합니다. 출시 후 푸시 알림 권한과 관심 카테고리 설정을 연결할 수 있는 구조입니다.
+              </p>
+              <div className="mt-4 grid gap-2 text-sm font-bold text-slate-600">
+                <div className="rounded-2xl bg-red-50 px-4 py-3">마감 임박 {alertDeals.filter((deal) => deal.isEndingSoon).length}개</div>
+                <div className="rounded-2xl bg-slate-50 px-4 py-3">오늘의 인기 {alertDeals.filter((deal) => deal.isHot).length}개</div>
+                <div className="rounded-2xl bg-slate-50 px-4 py-3">신규 등록 {alertDeals.filter((deal) => deal.isNew).length}개</div>
+              </div>
+            </aside>
           </div>
         ) : null}
 
@@ -626,8 +682,8 @@ export default function Home() {
                   <UserRound size={23} />
                 </span>
                 <div>
-                  <p className="text-lg font-black text-slate-950">게스트 쇼핑러</p>
-                  <p className="text-sm font-semibold text-slate-500">찜과 최근 필터는 이 브라우저에 저장됩니다.</p>
+                  <p className="text-lg font-black text-slate-950">할인도사</p>
+                  <p className="text-sm font-semibold text-slate-500">회원가입 없이 실시간 할인 특가를 확인하는 앱입니다.</p>
                 </div>
               </div>
               <div className="mt-5 grid grid-cols-3 gap-3">
@@ -654,6 +710,12 @@ export default function Home() {
                     {item}
                   </div>
                 ))}
+              </div>
+              <div className="mt-5 grid gap-2 text-sm font-black text-slate-600">
+                <Link href="/privacy" className="rounded-2xl bg-slate-50 px-4 py-3 hover:bg-red-50 hover:text-dossa-red">개인정보처리방침</Link>
+                <Link href="/terms" className="rounded-2xl bg-slate-50 px-4 py-3 hover:bg-red-50 hover:text-dossa-red">이용약관</Link>
+                <a href="mailto:support@halindosa.example" className="rounded-2xl bg-slate-50 px-4 py-3 hover:bg-red-50 hover:text-dossa-red">문의하기</a>
+                <p className="rounded-2xl bg-red-50 px-4 py-3 text-dossa-red">앱 버전 1.0.0</p>
               </div>
             </div>
             <ConsentSettings consent={consent} onChange={setConsent} />

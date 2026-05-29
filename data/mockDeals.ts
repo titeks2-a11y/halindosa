@@ -19,6 +19,9 @@ function deal(
   link = `https://example.com/deals/${id}`
 ): Deal {
   const salePrice = Math.round((originalPrice * (100 - discountRate)) / 100 / 10) * 10;
+  const shippingInfo = tags.some((tag) => /무료배송|무배|네멤무료/.test(tag)) ? "무료배송" : "판매처 조건부 배송";
+  const description = `${mall}에서 확인된 ${title} 특가입니다. 할인율, 배송 조건, 쿠폰 적용 여부를 함께 비교해 볼 만한 상품입니다.`;
+  const notice = "가격, 재고, 쿠폰, 배송 조건은 판매처 사정에 따라 달라질 수 있습니다. 구매 전 판매처 상세 페이지에서 최종 조건을 확인하세요.";
 
   return {
     id,
@@ -32,6 +35,9 @@ function deal(
     imageUrl,
     link,
     source: "mock",
+    shippingInfo,
+    description,
+    notice,
     expiresAt: new Date(now + expiresInHours * hour).toISOString(),
     createdAt: new Date(now - offsetHours * hour).toISOString(),
     ...flags,
@@ -72,7 +78,15 @@ export const mockDeals: Deal[] = [
   deal("d029", "G마켓", "에어프라이어 7L 대용량", "가전", 149000, 53, 14, 6, { isHot: true, isNew: false, isEndingSoon: true }, ["마감임박", "역대가"], 90),
   deal("d030", "11번가", "태블릿 10인치 Wi-Fi 모델", "전자기기", 329000, 22, 1, 40, { isHot: false, isNew: true, isEndingSoon: false }, ["카드할인", "무료배송"], 71),
   deal("d031", "오늘의집", "스탠드 조명 무드등", "생활용품", 59000, 80, 21, 27, { isHot: false, isNew: false, isEndingSoon: false }, ["역대가", "쿠폰적용"], 68),
-  deal("d032", "SSG닷컴", "명품 향수 50ml", "뷰티", 179000, 26, 3, 15, { isHot: false, isNew: true, isEndingSoon: false }, ["인기", "한정수량"], 76)
+  deal("d032", "SSG닷컴", "명품 향수 50ml", "뷰티", 179000, 26, 3, 15, { isHot: false, isNew: true, isEndingSoon: false }, ["인기", "한정수량"], 76),
+  deal("d033", "코레일관광", "부산 주말 KTX 연계 숙박 패키지", "여행/티켓", 189000, 35, 1, 72, { isHot: true, isNew: true, isEndingSoon: false }, ["여행", "쿠폰적용", "한정수량"], 82),
+  deal("d034", "네이버쇼핑", "국산 KF94 마스크 100매", "생활용품", 24900, 44, 2, 36, { isHot: false, isNew: true, isEndingSoon: false }, ["무료배송", "생활필수", "인기"], 78),
+  deal("d035", "쿠팡", "로켓프레시 친환경 토마토 2kg", "식품", 19800, 30, 0.5, 8, { isHot: true, isNew: true, isEndingSoon: true }, ["무료배송", "오늘만", "신선식품"], 91),
+  deal("d036", "하이마트", "무선청소기 흡입력 강화 모델", "가전", 329000, 46, 6, 48, { isHot: true, isNew: false, isEndingSoon: false }, ["카드할인", "무료배송", "역대가"], 86),
+  deal("d037", "무신사", "여름 기능성 반팔 티셔츠 3팩", "의류", 69000, 52, 4, 18, { isHot: false, isNew: true, isEndingSoon: true }, ["무배", "패션", "마감임박"], 83),
+  deal("d038", "베이비플러스", "기저귀 팬티형 4팩 대용량", "육아", 92000, 38, 7, 30, { isHot: false, isNew: false, isEndingSoon: false }, ["무료배송", "쿠폰적용", "육아"], 77),
+  deal("d039", "인터파크", "뮤지컬 평일 공연 R석 타임세일", "여행/티켓", 140000, 50, 3, 11, { isHot: true, isNew: true, isEndingSoon: true }, ["오늘만", "마감임박", "티켓"], 88),
+  deal("d040", "올리브영", "클렌징폼 1+1 대용량 기획", "뷰티", 32000, 41, 1, 22, { isHot: false, isNew: true, isEndingSoon: false }, ["쿠폰적용", "인기", "오늘만"], 80)
 ];
 
 export const categories = ["전체", "식품", "전자기기", "생활용품", "의류", "육아", "여행/티켓", "뷰티", "가전", "기타"] as const;

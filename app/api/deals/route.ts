@@ -10,7 +10,8 @@ export async function GET(request: Request) {
       category: searchParams.get("category")?.trim(),
       q: searchParams.get("q")?.trim(),
       sort: normalizeSort(searchParams.get("sort")),
-      limit
+      limit,
+      freeShippingOnly: searchParams.get("freeShippingOnly") === "true"
     });
 
     return NextResponse.json({

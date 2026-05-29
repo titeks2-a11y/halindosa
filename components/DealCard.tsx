@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Clock, ExternalLink, Heart, Share2, ShoppingBag, Store, Tag } from "lucide-react";
+import { Clock, ExternalLink, Heart, Share2, ShoppingBag, Store, Tag, Truck } from "lucide-react";
 import { getAffiliateDisclosure } from "@/lib/affiliate";
 import { getDealImageSrc } from "@/lib/imageSrc";
 import { Deal } from "@/types/deal";
@@ -38,8 +38,8 @@ export function DealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, onSha
           <Heart size={20} fill={isFavorite ? "currentColor" : "none"} />
         </button>
         <div className="absolute left-3 top-3 flex flex-wrap gap-1.5">
-          {deal.isHot ? <span className="rounded-full bg-dossa-red px-2.5 py-1 text-xs font-black text-white">HOT</span> : null}
-          {deal.isNew ? <span className="rounded-full bg-slate-950 px-2.5 py-1 text-xs font-black text-white">NEW</span> : null}
+          {deal.isHot ? <span className="rounded-full bg-dossa-red px-2.5 py-1 text-xs font-black text-white">핫딜</span> : null}
+          {deal.isNew ? <span className="rounded-full bg-slate-950 px-2.5 py-1 text-xs font-black text-white">신규</span> : null}
           {deal.isEndingSoon ? <span className="rounded-full bg-amber-400 px-2.5 py-1 text-xs font-black text-slate-950">마감임박</span> : null}
         </div>
         <div className="absolute bottom-3 right-3 flex gap-2">
@@ -92,6 +92,10 @@ export function DealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, onSha
         </div>
 
         <div className="flex flex-wrap gap-1.5">
+          <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-1 text-xs font-bold text-slate-600">
+            <Truck size={12} />
+            {deal.shippingInfo}
+          </span>
           {deal.tags.slice(0, 3).map((tag) => (
             <span key={tag} className="inline-flex items-center gap-1 rounded-full bg-red-50 px-2.5 py-1 text-xs font-bold text-dossa-deep">
               <Tag size={12} />

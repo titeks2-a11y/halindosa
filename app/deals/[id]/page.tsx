@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { AlertTriangle, ArrowLeft, Clock, ExternalLink, ShieldCheck, Tag } from "lucide-react";
+import { AlertTriangle, ArrowLeft, Clock, ShieldCheck, Tag, Truck } from "lucide-react";
+import { DealDetailActions } from "@/components/DealDetailActions";
 import { mockDeals } from "@/data/mockDeals";
 import { getAffiliateDisclosure } from "@/lib/affiliate";
 import { findDealByIdLive, getRelatedDeals } from "@/lib/dealService";
@@ -110,8 +111,11 @@ export default async function DealDetailPage({ params }: DealDetailPageProps) {
                 </p>
               </div>
               <div className="rounded-2xl bg-slate-50 p-3">
-                <p className="text-xs text-slate-400">인기도</p>
-                <p className="mt-1">{deal.isHot ? "높음" : "보통"}</p>
+                <p className="text-xs text-slate-400">배송</p>
+                <p className="mt-1 inline-flex items-center gap-1">
+                  <Truck size={15} />
+                  {deal.shippingInfo}
+                </p>
               </div>
               <div className="rounded-2xl bg-slate-50 p-3">
                 <p className="text-xs text-slate-400">가격 신뢰도</p>
@@ -133,24 +137,19 @@ export default async function DealDetailPage({ params }: DealDetailPageProps) {
             </div>
 
             <div className="mt-4 rounded-2xl border border-slate-100 bg-white px-3 py-3 text-sm font-semibold leading-6 text-slate-600">
-              {deal.mall}에서 진행 중인 {deal.category} 특가입니다. 원가 대비 {deal.discountRate}% 할인되어
-              {formatPrice(deal.discountAmount)}를 절약할 수 있으며, 종료 전 가격과 조건을 판매처에서 다시 확인하세요.
+              {deal.description}
+            </div>
+
+            <div className="mt-3 rounded-2xl border border-amber-100 bg-amber-50 px-3 py-3 text-sm font-semibold leading-6 text-amber-800">
+              {deal.notice}
             </div>
 
             <p className="mt-4 rounded-2xl bg-slate-50 px-3 py-2 text-xs font-bold leading-5 text-slate-500">
               {getAffiliateDisclosure(deal)}
             </p>
 
-            <div className="mt-5 grid gap-2 sm:grid-cols-[1fr_auto]">
-              <a
-                href={deal.link}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-2xl bg-dossa-red px-5 py-3 text-sm font-black text-white transition hover:bg-dossa-deep"
-              >
-                구매하러 가기
-                <ExternalLink size={17} />
-              </a>
+            <DealDetailActions deal={deal} />
+            <div className="mt-2">
               <a
                 href={`/reports?dealId=${deal.id}`}
                 className="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-black text-slate-700 transition hover:border-red-100 hover:text-dossa-red"

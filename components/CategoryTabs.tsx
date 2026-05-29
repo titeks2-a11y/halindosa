@@ -3,9 +3,10 @@ import { dealChannels } from "@/data/dealChannels";
 interface CategoryTabsProps {
   selected: string;
   onSelect: (category: string) => void;
+  counts?: Record<string, number>;
 }
 
-export function CategoryTabs({ selected, onSelect }: CategoryTabsProps) {
+export function CategoryTabs({ selected, onSelect, counts = {} }: CategoryTabsProps) {
   const groups = Array.from(new Set(dealChannels.map((channel) => channel.group)));
 
   return (
@@ -32,6 +33,9 @@ export function CategoryTabs({ selected, onSelect }: CategoryTabsProps) {
                     }`}
                   >
                     {channel.label}
+                    <span className={`ml-2 rounded-full px-1.5 py-0.5 text-[11px] ${active ? "bg-white/20 text-white" : "bg-slate-100 text-slate-500"}`}>
+                      {counts[channel.id] ?? 0}
+                    </span>
                   </button>
                 );
               })}

@@ -8,6 +8,7 @@ export interface DealQuery {
   q?: string;
   sort?: DealSort;
   limit?: number;
+  freeShippingOnly?: boolean;
 }
 
 export interface DealProviderResult {
@@ -98,6 +99,10 @@ export async function getDeals(query: DealQuery = {}) {
         value.toLowerCase().includes(searchQuery)
       )
     );
+  }
+
+  if (query.freeShippingOnly) {
+    deals = deals.filter((deal) => /무료배송|무배|네멤무료|로켓프레시/.test([deal.shippingInfo, ...deal.tags].join(" ")));
   }
 
   deals = sortDeals(deals, sort);

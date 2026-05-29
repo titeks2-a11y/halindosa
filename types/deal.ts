@@ -23,6 +23,9 @@ export interface Deal {
   imageUrl: string;
   link: string;
   source: string;
+  shippingInfo: string;
+  description: string;
+  notice: string;
   expiresAt: string;
   isHot: boolean;
   isNew: boolean;
