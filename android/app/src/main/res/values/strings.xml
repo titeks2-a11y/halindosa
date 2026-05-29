@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">할인도사</string>
+    <string name="title_activity_main">할인도사</string>
+    <string name="package_name">com.halindosa.app</string>
+    <string name="custom_url_scheme">com.halindosa.app</string>
+</resources>

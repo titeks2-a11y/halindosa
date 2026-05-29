@@ -1,0 +1,43 @@
+{
+  "name": "halindosa",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "stop:dev": "node scripts/stop-dev-server.mjs",
+    "build:android": "node scripts/stop-dev-server.mjs && node scripts/build-android.mjs",
+    "cap:sync": "npx cap sync android",
+    "cap:open": "npx cap open android",
+    "android:doctor": "node scripts/android-gradle.mjs doctor",
+    "android:debug": "node scripts/android-gradle.mjs assembleDebug",
+    "android:bundle": "node scripts/android-gradle.mjs bundleRelease",
+    "start": "next start",
+    "lint": "eslint .",
+    "smoke": "node scripts/smoke.mjs",
+    "audit:commercial": "node scripts/audit.mjs",
+    "wait:health": "node scripts/wait-for-health.mjs"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.3.4",
+    "@capacitor/app": "^8.1.0",
+    "@capacitor/browser": "^8.0.3",
+    "@capacitor/cli": "^8.3.4",
+    "@capacitor/core": "^8.3.4",
+    "lucide-react": "^0.468.0",
+    "next": "^16.2.6",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.10",
+    "@types/react": "^19.2.15",
+    "@types/react-dom": "^19.2.3",
+    "autoprefixer": "^10.4.19",
+    "eslint": "^9.39.4",
+    "eslint-config-next": "^16.2.6",
+    "postcss": "^8.4.39",
+    "tailwindcss": "^3.4.4",
+    "typescript": "^5.5.3"
+  }
+}

@@ -1,0 +1,23 @@
+import type { MetadataRoute } from "next";
+import { mockDeals } from "@/data/mockDeals";
+
+export default function sitemap(): MetadataRoute.Sitemap {
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://127.0.0.1:3000";
+  const updatedAt = new Date();
+
+  const staticPages: MetadataRoute.Sitemap = ["/", "/terms", "/privacy", "/admin", "/reports"].map((path) => ({
+    url: `${baseUrl}${path}`,
+    lastModified: updatedAt,
+    changeFrequency: path === "/" ? "hourly" : "monthly",
+    priority: path === "/" ? 1 : path === "/admin" ? 0.2 : 0.4
+  }));
+
+  const dealPages = mockDeals.map((deal) => ({
+    url: `${baseUrl}/deals/${deal.id}`,
+    lastModified: new Date(deal.createdAt),
+    changeFrequency: "hourly" as const,
+    priority: deal.isHot ? 0.9 : 0.7
+  }));
+
+  return [...staticPages, ...dealPages];
+}
