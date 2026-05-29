@@ -17,6 +17,7 @@
     "smoke": "node scripts/smoke.mjs",
     "audit:commercial": "node scripts/audit.mjs",
     "release:doctor": "node scripts/release-doctor.mjs",
+    "qa": "npm run lint && npm run build && npm run release:doctor",
     "wait:health": "node scripts/wait-for-health.mjs"
   },
   "dependencies": {

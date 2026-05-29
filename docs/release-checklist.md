@@ -38,6 +38,7 @@
 - [ ] `docs/test-plan.md` 기준으로 내부 테스트 진행
 - [ ] 스크린샷 업로드
 - [ ] 기능 그래픽 업로드
+- [ ] `docs/store-assets-guide.md` 기준으로 이미지 문구 검수
 - [ ] 개인정보처리방침 URL 입력
 - [ ] 테스트 트랙 생성
 - [ ] 내부 테스트 업로드
@@ -65,6 +66,7 @@
 - Debug APK: `android/app/build/outputs/apk/debug/app-debug.apk`
 - Release AAB: `android/app/build/outputs/bundle/release/app-release.aab`
 - Roadmap: `docs/roadmap.md`
+- Store asset guide: `docs/store-assets-guide.md`
 
 ## 남은 Critical Issue
 

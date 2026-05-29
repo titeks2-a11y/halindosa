@@ -54,17 +54,19 @@
 - `npm run smoke`
 - `npm run release:doctor`
 - `npm run audit:commercial`
+- `npm run qa`
+- Play Store 이미지 제작 기준 문서화
 
 ## 진행 중 작업
 
 - Play Store 제출 직전 리스크 축소
 - smoke 테스트 범위 확대
 - release doctor 범위 확대
-- 출시 문서의 중복/불명확한 표현 정리
+- 출시 이미지와 스크린샷 기준 유지
 
 ## 다음 작업
 
-1. 실제 Play Console 등록정보에 맞춰 스크린샷/기능 그래픽 제작
+1. `docs/store-assets-guide.md` 기준으로 실제 스크린샷/기능 그래픽 제작
 2. signed release AAB 생성을 위한 실제 keystore 생성
 3. 내부 테스트 트랙 업로드
 4. 실제 기기 2종 이상 설치 확인
