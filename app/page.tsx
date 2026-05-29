@@ -11,12 +11,14 @@ import { DealCard } from "@/components/DealCard";
 import { FeaturedDealSections } from "@/components/FeaturedDealSections";
 import { Header } from "@/components/Header";
 import { HeroSection } from "@/components/HeroSection";
+import { HotSignalSection } from "@/components/HotSignalSection";
 import { SearchBar } from "@/components/SearchBar";
 import { SortSelect } from "@/components/SortSelect";
 import { Toast } from "@/components/Toast";
 import { categories, mockDeals } from "@/data/mockDeals";
 import { ConsentState, hasAffiliateConsent, hasAnalyticsConsent, readStoredConsent } from "@/lib/consent";
 import { Deal, DealSort } from "@/types/deal";
+import { HotSignal } from "@/types/hotSignal";
 
 const favoriteKey = "halindosa:favorites";
 const toastMessages = [
@@ -72,6 +74,15 @@ interface DealsResponse {
   message: string;
 }
 
+interface HotSignalsResponse {
+  ok: boolean;
+  signals: HotSignal[];
+  count: number;
+  updatedAt: string;
+  source: string;
+  message: string;
+}
+
 export default function Home() {
   const [deals, setDeals] = useState<Deal[]>(mockDeals);
   const [catalog, setCatalog] = useState<Deal[]>(mockDeals);
@@ -82,6 +93,8 @@ export default function Home() {
   const [updatedAt, setUpdatedAt] = useState("");
   const [providerSource, setProviderSource] = useState("mock");
   const [isLoading, setIsLoading] = useState(false);
+  const [hotSignals, setHotSignals] = useState<HotSignal[]>([]);
+  const [isSignalLoading, setIsSignalLoading] = useState(false);
   const [favorites, setFavorites] = useState<string[]>(() => {
     if (typeof window === "undefined") return [];
 
@@ -195,6 +208,41 @@ export default function Home() {
   }, [activeView]);
 
   useEffect(() => {
+    async function fetchSignals() {
+      setIsSignalLoading(true);
+
+      try {
+        if (await isNativeRuntime()) {
+          setHotSignals([]);
+          return;
+        }
+
+        const params = new URLSearchParams({
+          category,
+          limit: "9"
+        });
+
+        if (query.trim()) {
+          params.set("q", query.trim());
+        }
+
+        const response = await fetch(`/api/hot-signals?${params.toString()}`, {
+          cache: "no-store"
+        });
+        const data = (await response.json()) as HotSignalsResponse;
+        setHotSignals(Array.isArray(data.signals) ? data.signals : []);
+      } catch {
+        setHotSignals([]);
+      } finally {
+        setIsSignalLoading(false);
+      }
+    }
+
+    const handle = window.setTimeout(fetchSignals, 250);
+    return () => window.clearTimeout(handle);
+  }, [category, query]);
+
+  useEffect(() => {
     async function fetchCatalog() {
       try {
         if (await isNativeRuntime()) {
@@ -290,6 +338,18 @@ export default function Home() {
     }
 
     window.open(`/api/redirect/${deal.id}?${params.toString()}`, "_blank", "noopener,noreferrer");
+  };
+
+  const openHotSignal = async (signal: HotSignal) => {
+    showToast(`${signal.sourceName} 소식으로 이동합니다.`);
+
+    if (await isNativeRuntime()) {
+      const { Browser } = await import("@capacitor/browser");
+      await Browser.open({ url: signal.url });
+      return;
+    }
+
+    window.open(signal.url, "_blank", "noopener,noreferrer");
   };
 
   const stats = useMemo(() => {
@@ -391,6 +451,8 @@ export default function Home() {
           onToggleFavorite={toggleFavorite}
           onOpenDeal={openDeal}
         />
+
+        <HotSignalSection signals={hotSignals} isLoading={isSignalLoading} onOpenSignal={openHotSignal} />
 
         <div id="all-deals" className="h-1" />
         <div className="flex flex-col gap-3 lg:flex-row">
