@@ -16,26 +16,32 @@ function getSignalLabel(signal: HotSignal) {
 
 export function HotSignalSection({ signals, isLoading, onOpenSignal }: HotSignalSectionProps) {
   const leadSignal = signals[0];
-  const restSignals = signals.slice(1, 7);
+  const restSignals = signals.slice(1, 9);
+  const freeCount = signals.filter((signal) => /무료|공짜|무료배포|무료입장|무료개방/.test(`${signal.title} ${signal.summary}`)).length;
+  const limitedCount = signals.filter((signal) => /기간한정|오늘만|마감|쿠폰|역대가|반값|1\+1/.test(`${signal.title} ${signal.summary}`)).length;
 
   return (
-    <section id="live-signals" className="rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+    <section id="live-signals" className="rounded-[28px] border border-red-100 bg-white p-4 shadow-sm sm:p-5">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <div className="flex items-center gap-2">
             <span className="flex h-9 w-9 items-center justify-center rounded-2xl bg-dossa-red text-white">
               <Radio size={18} />
             </span>
-            <h3 className="text-xl font-black text-slate-950">할인도사 특가 브리핑</h3>
+            <h3 className="text-2xl font-black text-slate-950">오늘 먼저 봐야 할 할인 정보</h3>
           </div>
           <p className="mt-1 text-sm font-semibold text-slate-500">
-            흩어진 할인 단서를 할인도사가 읽기 쉽게 정리했습니다.
+            무료/무배, 기간한정 쿠폰, 고할인 특가처럼 놓치기 쉬운 정보를 할인도사가 먼저 정리합니다.
           </p>
         </div>
-        <span className="inline-flex w-fit items-center gap-1 rounded-full bg-red-50 px-3 py-1 text-xs font-black text-dossa-red">
-          <Sparkles size={13} />
-          {isLoading ? "업데이트 중" : `${signals.length}개 감지`}
-        </span>
+        <div className="grid grid-cols-3 gap-2 text-center text-xs font-black">
+          <span className="rounded-2xl bg-red-50 px-3 py-2 text-dossa-red">
+            <Sparkles size={13} className="mx-auto mb-1" />
+            {isLoading ? "갱신중" : `${signals.length}개`}
+          </span>
+          <span className="rounded-2xl bg-slate-50 px-3 py-2 text-slate-700">무료/무배 {freeCount}</span>
+          <span className="rounded-2xl bg-amber-50 px-3 py-2 text-amber-700">한정 {limitedCount}</span>
+        </div>
       </div>
 
       {isLoading && !signals.length ? (
@@ -61,11 +67,11 @@ export function HotSignalSection({ signals, isLoading, onOpenSignal }: HotSignal
                 <div className="flex items-center justify-between gap-3">
                   <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1.5 text-xs font-black text-white">
                     <TrendingUp size={13} />
-                    최고 신호
+                    할인도사 추천
                   </span>
                   <span className="rounded-full bg-dossa-red px-3 py-1.5 text-xs font-black text-white">{leadSignal.score}점</span>
                 </div>
-                <p className="mt-5 line-clamp-4 text-2xl font-black leading-tight">{leadSignal.title}</p>
+                <p className="mt-5 line-clamp-4 text-2xl font-black leading-tight sm:text-3xl">{leadSignal.title}</p>
                 <p className="mt-3 line-clamp-3 text-sm font-semibold leading-6 text-slate-300">{leadSignal.summary}</p>
               </div>
               <div>
@@ -79,7 +85,7 @@ export function HotSignalSection({ signals, isLoading, onOpenSignal }: HotSignal
                 </div>
                 <p className="mt-4 flex items-center justify-between gap-3 text-xs font-bold text-slate-300">
                   <span className="truncate">
-                    할인도사 업데이트 · {getRelativeTime(leadSignal.publishedAt)}
+                    실시간 확인 · {getRelativeTime(leadSignal.publishedAt)}
                   </span>
                   <ExternalLink size={15} className="shrink-0" />
                 </p>
@@ -118,7 +124,7 @@ export function HotSignalSection({ signals, isLoading, onOpenSignal }: HotSignal
                   ))}
                 </div>
                 <p className="mt-3 truncate text-xs font-semibold text-slate-500">
-                  할인도사 업데이트 · {getRelativeTime(signal.publishedAt)}
+                  실시간 확인 · {getRelativeTime(signal.publishedAt)}
                 </p>
               </button>
             ))}

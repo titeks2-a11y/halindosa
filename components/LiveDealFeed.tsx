@@ -33,11 +33,11 @@ export function LiveDealFeed({
         <div>
           <div className="inline-flex items-center gap-2 rounded-full bg-red-50 px-3 py-1 text-xs font-black text-dossa-red">
             <Radio size={14} />
-            실시간 업데이트
+            쇼핑몰별 특가
           </div>
-          <h2 className="mt-2 text-2xl font-black text-slate-950 sm:text-3xl">지금 올라온 특가</h2>
+          <h2 className="mt-2 text-2xl font-black text-slate-950 sm:text-3xl">쇼핑몰 특가 모아보기</h2>
           <p className="mt-1 text-sm font-semibold text-slate-500">
-            할인도사가 감지한 가격 하락, 쿠폰, 마감 임박 정보를 바로 확인하세요.
+            쿠팡, 네이버, G마켓, 11번가 등 쇼핑몰 특가는 채널별로 빠르게 확인하세요.
           </p>
         </div>
         <div className="grid grid-cols-3 gap-2 text-center text-xs font-black">
@@ -55,26 +55,6 @@ export function LiveDealFeed({
           </div>
         </div>
       </div>
-
-      {signals.length ? (
-        <div className="mt-4 flex gap-2 overflow-x-auto pb-1 hide-scrollbar">
-          {signals.slice(0, 5).map((signal) => (
-            <button
-              key={signal.id}
-              type="button"
-              onClick={() => onOpenSignal(signal)}
-              className="min-w-[260px] rounded-2xl border border-red-100 bg-red-50 px-4 py-3 text-left transition hover:bg-red-100 sm:min-w-[320px]"
-            >
-              <div className="flex items-center justify-between gap-2">
-                <span className="rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-dossa-red">할인도사 감지</span>
-                <span className="text-xs font-black text-dossa-red">{signal.score}점</span>
-              </div>
-              <p className="mt-2 line-clamp-2 text-sm font-black leading-6 text-slate-950">{signal.title}</p>
-              <p className="mt-2 text-xs font-bold text-slate-500">{getRelativeTime(signal.publishedAt)} 업데이트</p>
-            </button>
-          ))}
-        </div>
-      ) : null}
 
       <div className="mt-4 divide-y divide-slate-100 overflow-hidden rounded-3xl border border-slate-100">
         {leadDeals.map((deal) => (

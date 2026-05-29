@@ -15,6 +15,7 @@ import { SearchBar } from "@/components/SearchBar";
 import { SortSelect } from "@/components/SortSelect";
 import { Toast } from "@/components/Toast";
 import { dealChannels, dealMatchesChannel, getDealChannel, getProviderCategory } from "@/data/dealChannels";
+import { mockHotSignals } from "@/data/mockHotSignals";
 import { mockDeals } from "@/data/mockDeals";
 import { ConsentState, hasAffiliateConsent, hasAnalyticsConsent, readStoredConsent } from "@/lib/consent";
 import { Deal, DealSort } from "@/types/deal";
@@ -118,7 +119,7 @@ export default function Home() {
   const [updatedAt, setUpdatedAt] = useState("");
   const [providerSource, setProviderSource] = useState("mock");
   const [isLoading, setIsLoading] = useState(false);
-  const [hotSignals, setHotSignals] = useState<HotSignal[]>([]);
+  const [hotSignals, setHotSignals] = useState<HotSignal[]>(mockHotSignals);
   const [isSignalLoading, setIsSignalLoading] = useState(false);
   const [favorites, setFavorites] = useState<string[]>(() => {
     if (typeof window === "undefined") return [];
@@ -235,7 +236,7 @@ export default function Home() {
 
       try {
         if (await isNativeRuntime()) {
-          setHotSignals([]);
+          setHotSignals(mockHotSignals);
           return;
         }
 
@@ -249,9 +250,10 @@ export default function Home() {
         }
 
         const data = await requestJson<HotSignalsResponse>(`/api/hot-signals?${params.toString()}`);
-        setHotSignals(Array.isArray(data.signals) ? data.signals : []);
+        const nextSignals = Array.isArray(data.signals) && data.signals.length ? data.signals : mockHotSignals;
+        setHotSignals(nextSignals);
       } catch {
-        setHotSignals([]);
+        setHotSignals(mockHotSignals);
       } finally {
         setIsSignalLoading(false);
       }
@@ -496,6 +498,8 @@ export default function Home() {
 
         {activeView === "home" ? (
           <>
+            <HotSignalSection signals={hotSignals} isLoading={isSignalLoading} onOpenSignal={openHotSignal} />
+
             <LiveDealFeed
               deals={deals}
               signals={hotSignals}
@@ -505,8 +509,6 @@ export default function Home() {
               onShareDeal={shareDeal}
               onOpenSignal={openHotSignal}
             />
-
-            <HotSignalSection signals={hotSignals} isLoading={isSignalLoading} onOpenSignal={openHotSignal} />
 
             <FeaturedDealSections
               deals={catalog.length ? catalog : deals}

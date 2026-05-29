@@ -1,5 +1,6 @@
-import { HotSignal, HotSignalType } from "@/types/hotSignal";
 import { DealCategory } from "@/types/deal";
+import { getProviderCategory } from "@/data/dealChannels";
+import { HotSignal, HotSignalType } from "@/types/hotSignal";
 
 interface FeedSource {
   name: string;
@@ -12,12 +13,21 @@ const hotKeywords = [
   "특가",
   "할인",
   "역대가",
+  "무료",
+  "무료배포",
+  "무료입장",
+  "무료개방",
+  "공짜",
   "쿠폰",
   "카드할인",
   "무료배송",
+  "1+1",
+  "반값",
   "반값",
   "품절",
-  "마감"
+  "마감",
+  "기간한정",
+  "오늘만"
 ];
 
 const categoryMatchers: Array<{ category: DealCategory; pattern: RegExp }> = [
@@ -32,7 +42,12 @@ const categoryMatchers: Array<{ category: DealCategory; pattern: RegExp }> = [
 ];
 
 function getDefaultNewsFeeds(): FeedSource[] {
-  const queries = ["핫딜 특가 할인 when:14d", "쇼핑몰 쿠폰 할인 when:14d", "역대가 특가 when:14d"];
+  const queries = [
+    "특가 할인 무료 when:7d",
+    "기간한정 무료 할인 이벤트 when:7d",
+    "역대가 핫딜 쿠폰 할인 when:7d",
+    "항공권 숙박 무료 할인 when:14d"
+  ];
 
   return queries.map((query) => {
     const url = new URL("https://news.google.com/rss/search");
@@ -124,12 +139,16 @@ function extractKeywords(text: string) {
 }
 
 function scoreSignal(title: string, publishedAt: string, type: HotSignalType) {
+  const text = title.replace(/\s+/g, "");
   const keywordScore = extractKeywords(title).length * 8;
+  const freeScore = /무료|공짜|무료배포|무료입장|무료개방/.test(text) ? 22 : 0;
+  const dealScore = /역대가|반값|1\+1|쿠폰|기간한정|오늘만|마감/.test(text) ? 14 : 0;
+  const percentScore = /[5-9][0-9]\s*%|[1-9]0\s*프로/.test(text) ? 16 : 0;
   const ageHours = Math.max(0, (Date.now() - new Date(publishedAt).getTime()) / (60 * 60 * 1000));
   const recencyScore = Math.max(0, 60 - Math.floor(ageHours * 1.5));
   const typeScore = type === "community" ? 12 : 6;
 
-  return Math.min(99, 20 + keywordScore + recencyScore + typeScore);
+  return Math.min(99, 20 + keywordScore + freeScore + dealScore + percentScore + recencyScore + typeScore);
 }
 
 function collectBlocks(xml: string, pattern: RegExp) {
@@ -190,18 +209,135 @@ async function fetchFeed(source: FeedSource) {
   return parseRss(await response.text(), source);
 }
 
+interface NaverNewsItem {
+  title: string;
+  originallink: string;
+  link: string;
+  description: string;
+  pubDate: string;
+}
+
+interface NaverNewsResponse {
+  items: NaverNewsItem[];
+}
+
+async function fetchNaverNewsSignals() {
+  const clientId = process.env.NAVER_CLIENT_ID?.trim();
+  const clientSecret = process.env.NAVER_CLIENT_SECRET?.trim();
+
+  if (!clientId || !clientSecret) return [];
+
+  const queries = ["특가 할인 무료", "기간한정 무료 이벤트", "역대가 핫딜 할인", "항공권 숙박 할인 무료"];
+  const settled = await Promise.allSettled(
+    queries.map(async (query) => {
+      const url = new URL("https://openapi.naver.com/v1/search/news.json");
+      url.searchParams.set("query", query);
+      url.searchParams.set("display", "10");
+      url.searchParams.set("start", "1");
+      url.searchParams.set("sort", "date");
+
+      const response = await fetch(url, {
+        headers: {
+          "X-Naver-Client-Id": clientId,
+          "X-Naver-Client-Secret": clientSecret
+        },
+        next: { revalidate: 120 }
+      });
+
+      if (!response.ok) {
+        throw new Error(`Naver news API failed: ${response.status}`);
+      }
+
+      const data = (await response.json()) as NaverNewsResponse;
+
+      return data.items.map((item) => {
+        const title = decodeXml(item.title);
+        const summary = decodeXml(item.description || title);
+        const publishedAt = Number.isNaN(new Date(item.pubDate).getTime()) ? new Date().toISOString() : new Date(item.pubDate).toISOString();
+        const text = `${title} ${summary}`;
+
+        return {
+          id: `naver-news-${stableId(`${title}-${item.link}`)}`,
+          title,
+          sourceName: "할인도사 브리핑",
+          url: item.originallink || item.link,
+          publishedAt,
+          summary,
+          category: inferCategory(text),
+          keywords: extractKeywords(text),
+          signalType: "news" as const,
+          score: scoreSignal(title, publishedAt, "news")
+        } satisfies HotSignal;
+      });
+    })
+  );
+
+  return settled.flatMap((result) => (result.status === "fulfilled" ? result.value : []));
+}
+
+async function fetchPublicBoardSignals() {
+  if (process.env.DEAL_PUBLIC_BOARD_ENABLE === "false") return [];
+
+  const response = await fetch("https://www.ppomppu.co.kr/zboard/zboard.php?id=ppomppu", {
+    headers: {
+      "User-Agent": "Mozilla/5.0 (compatible; Halindosa/1.0)",
+      Accept: "text/html,application/xhtml+xml"
+    },
+    next: { revalidate: 120 }
+  });
+
+  if (!response.ok) {
+    throw new Error(`Live board signals failed: ${response.status}`);
+  }
+
+  const html = new TextDecoder("euc-kr").decode(await response.arrayBuffer());
+  const itemPattern =
+    /<tr[^>]*class="baseList[^"]*"[\s\S]*?<td class="baseList-space baseList-numb"[^>]*>(\d+)<\/td>[\s\S]*?<a class='baseList-title' href="([^"]+)"[\s\S]*?<span>([\s\S]*?)<\/span><\/a>[\s\S]*?<small class="baseList-small">\[([^\]]+)\]<\/small>[\s\S]*?title="([^"]+)"[\s\S]*?<td class='baseList-space baseList-views' colspan=2>([^<]+)<\/td>/g;
+  const signals: HotSignal[] = [];
+  let match = itemPattern.exec(html);
+  let index = 0;
+
+  while (match && signals.length < 18) {
+    const [, no, url, rawTitle, boardCategory, dateLabel, views] = match;
+    const title = decodeXml(rawTitle);
+    const link = new URL(url.replaceAll("&amp;", "&"), "https://www.ppomppu.co.kr/zboard/").toString();
+    const viewCount = Number(views.replace(/[^0-9]/g, "")) || 0;
+    const publishedAt = new Date(Date.now() - index * 5 * 60 * 1000).toISOString();
+    const summary = `${boardCategory}에서 빠르게 반응이 올라오는 할인 정보입니다. 조회 ${viewCount.toLocaleString("ko-KR")}회 기준으로 할인도사가 우선 확인했습니다.`;
+
+    signals.push({
+      id: `board-signal-${no}`,
+      title,
+      sourceName: "할인도사 브리핑",
+      url: link,
+      publishedAt,
+      summary,
+      category: inferCategory(`${boardCategory} ${title}`),
+      keywords: extractKeywords(title),
+      signalType: "community",
+      score: Math.min(99, scoreSignal(title, publishedAt, "community") + Math.floor(viewCount / 900))
+    });
+
+    index += 1;
+    match = itemPattern.exec(html);
+  }
+
+  return signals;
+}
+
 export async function fetchHotSignals(options: { category?: string; q?: string; limit?: number; source?: string } = {}) {
   const feeds = getConfiguredFeeds().filter((feed) => {
     if (!options.source || options.source === "all") return true;
     return feed.type === options.source || feed.name.includes(options.source);
   });
 
-  const settled = await Promise.allSettled(feeds.map(fetchFeed));
+  const settled = await Promise.allSettled([fetchNaverNewsSignals(), fetchPublicBoardSignals(), ...feeds.map(fetchFeed)]);
   let signals = settled.flatMap((result) => (result.status === "fulfilled" ? result.value : []));
   const query = options.q?.trim().toLowerCase();
+  const providerCategory = getProviderCategory(options.category) ?? options.category;
 
-  if (options.category && options.category !== "전체") {
-    signals = signals.filter((signal) => signal.category === options.category);
+  if (providerCategory && !["전체", "all", "popular", "ending", "news"].includes(providerCategory)) {
+    signals = signals.filter((signal) => signal.category === providerCategory);
   }
 
   if (query) {
