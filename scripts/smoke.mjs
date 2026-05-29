@@ -46,6 +46,23 @@ await check("deals api", async () => {
   assert(data.deals[0].discountRate >= data.deals[1].discountRate, "Deals are not sorted by discount");
 });
 
+await check("deals filters api", async () => {
+  const hot = await fetchJson("/api/deals?hotOnly=true&limit=5");
+  assert(hot.response.status === 200, `Expected 200, got ${hot.response.status}`);
+  assert(hot.data.deals.every((deal) => deal.isHot), "hotOnly returned a non-hot deal");
+
+  const ending = await fetchJson("/api/deals?endingSoonOnly=true&limit=5");
+  assert(ending.response.status === 200, `Expected 200, got ${ending.response.status}`);
+  assert(ending.data.deals.every((deal) => deal.isEndingSoon), "endingSoonOnly returned a non-ending deal");
+
+  const freeShipping = await fetchJson("/api/deals?freeShippingOnly=true&limit=5");
+  assert(freeShipping.response.status === 200, `Expected 200, got ${freeShipping.response.status}`);
+  assert(
+    freeShipping.data.deals.every((deal) => /무료배송|무배|네멤무료|로켓프레시/.test([deal.shippingInfo, ...deal.tags].join(" "))),
+    "freeShippingOnly returned a non-free-shipping deal"
+  );
+});
+
 await check("deal detail api", async () => {
   const { response, data } = await fetchJson("/api/deals/d001");
   assert(response.status === 200, `Expected 200, got ${response.status}`);

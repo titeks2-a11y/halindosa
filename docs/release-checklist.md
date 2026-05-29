@@ -2,14 +2,14 @@
 
 ## 빌드 전
 
-- [ ] `npm install`
-- [ ] `npm run build`
-- [ ] `npm run build:android`
-- [ ] `npm run cap:sync`
-- [ ] `npm run android:doctor`
-- [ ] `npm run android:debug`
-- [ ] `npm run android:bundle`
-- [ ] `npm run release:doctor`
+- [x] `npm install`
+- [x] `npm run build`
+- [x] `npm run build:android`
+- [x] `npm run cap:sync`
+- [x] `npm run android:doctor`
+- [x] `npm run android:debug`
+- [x] `npm run android:bundle`
+- [x] `npm run release:doctor`
 
 ## Android 설정
 
@@ -24,7 +24,7 @@
 - [ ] release keystore 생성
 - [ ] signed AAB 생성
 - [ ] `android/keystore.properties`는 로컬에만 보관
-- [ ] `android/keystore.properties.example` 기준으로 서명 설정 확인
+- [x] `android/keystore.properties.example` 기준으로 서명 설정 확인
 
 ## Play Console
 
@@ -39,8 +39,6 @@
 - [ ] 스크린샷 업로드
 - [ ] 기능 그래픽 업로드
 - [ ] 개인정보처리방침 URL 입력
-- [ ] 데이터 보안 섹션 작성
-- [ ] 콘텐츠 등급 설문 완료
 - [ ] 테스트 트랙 생성
 - [ ] 내부 테스트 업로드
 
@@ -61,3 +59,13 @@
 - [ ] 제휴/광고 고지 문구 법무 검토
 - [ ] 고객 문의 이메일 준비
 - [ ] 개인정보처리방침 실제 도메인 배포
+
+## 현재 확인된 산출물
+
+- Debug APK: `android/app/build/outputs/apk/debug/app-debug.apk`
+- Release AAB: `android/app/build/outputs/bundle/release/app-release.aab`
+- Roadmap: `docs/roadmap.md`
+
+## 남은 Critical Issue
+
+현재 코드와 자동 검증 기준에서 남은 Critical Issue 없음.

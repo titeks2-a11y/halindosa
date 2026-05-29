@@ -1,0 +1,102 @@
+# 할인도사 Roadmap
+
+## 현재 상태
+
+할인도사는 Next.js + Capacitor 기반 Android 앱으로 실행 가능하며, Play Store 내부 테스트에 올릴 수 있는 기본 구조를 갖췄다. 앱 이름, 패키지명, 버전, 아이콘, 스플래시, 정책 페이지, 하단 탭, 찜, 알림, 마이 화면, Android sync, APK/AAB 빌드 검증이 완료되어 있다.
+
+## 완료 작업
+
+### PHASE 1 UI/UX
+
+- 홈 화면 실시간 할인 정보 피드 구성
+- 오늘의 추천, 인기 특가, 마감 임박, 무료배송 특가 섹션 구성
+- 상품 카드 이미지 비율 고정
+- 할인율, 원가, 할인가, 쇼핑몰명, 배송 정보, 등록/마감 시간 표시
+- 찜, 공유, 외부 이동 버튼 배치
+- 검색 결과 없음, 로딩, fallback 오류 상태 구현
+
+### PHASE 2 코드 품질
+
+- Deal 타입에 배송 정보, 설명, 유의사항 추가
+- 실시간/파트너 피드 정규화 경로에 Deal 필수 필드 반영
+- 린트 오류 제거
+- 하단 탭 safe-area 대응
+- Android WebView 외부 링크는 Capacitor Browser 구조 사용
+
+### PHASE 3 Play Store 문서
+
+- `docs/play-store-listing.md`
+- `docs/release-checklist.md`
+- `docs/privacy-policy-draft.md`
+- `docs/terms-draft.md`
+- `docs/data-safety-guide.md`
+- `docs/content-rating-guide.md`
+- `docs/test-plan.md`
+
+### PHASE 4 Android 출시 준비
+
+- Capacitor appId: `com.halindosa.app`
+- Android applicationId: `com.halindosa.app`
+- 앱 이름: `할인도사`
+- versionCode: `1`
+- versionName: `1.0.0`
+- Android 권한 최소화: `INTERNET`
+- launcher icon/splash 리소스 존재 확인
+- `android/keystore.properties.example` 추가
+- `npm run android:debug`, `npm run android:bundle` 성공
+
+### PHASE 5 QA 자동화
+
+- `npm run lint`
+- `npm run build`
+- `npm run build:android`
+- `npm run cap:sync`
+- `npm run smoke`
+- `npm run release:doctor`
+- `npm run audit:commercial`
+
+## 진행 중 작업
+
+- Play Store 제출 직전 리스크 축소
+- smoke 테스트 범위 확대
+- release doctor 범위 확대
+- 출시 문서의 중복/불명확한 표현 정리
+
+## 다음 작업
+
+1. 실제 Play Console 등록정보에 맞춰 스크린샷/기능 그래픽 제작
+2. signed release AAB 생성을 위한 실제 keystore 생성
+3. 내부 테스트 트랙 업로드
+4. 실제 기기 2종 이상 설치 확인
+5. 개인정보처리방침 실제 URL 배포
+6. 운영 데이터 공급 방식 확정
+7. 제휴/광고 고지 문구 법무 검토
+
+## 출시 전 남은 작업
+
+### Critical
+
+- 현재 코드 기준 남은 Critical Issue 없음
+
+### High
+
+- 실제 Play Store 업로드용 signed AAB는 Android Studio 또는 로컬 keystore로 다시 생성해야 함
+- 개인정보처리방침 URL을 실제 공개 URL로 배포해야 함
+
+### Medium
+
+- `npm install`에서 moderate 취약점 2개가 보고됨. 강제 수정은 breaking change 가능성이 있어 프레임워크 패치 확인 후 처리
+- 실제 운영 데이터는 공식 API, RSS, 제휴 피드, 허용된 수집 방식만 사용해야 함
+
+### Low
+
+- 기능 그래픽, 스크린샷, 소개 이미지 제작 필요
+- 테스트 사용자 피드백 반영 필요
+
+## 우선순위
+
+1. Play Console 필수 입력값과 정책 문서 완성도 유지
+2. Android signed AAB 생성 가능 상태 유지
+3. 홈/검색/찜/알림/마이 핵심 흐름 안정화
+4. 외부 링크와 제휴 고지 리스크 관리
+5. 실제 운영 데이터 전환 설계

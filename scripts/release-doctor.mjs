@@ -95,7 +95,8 @@ async function checkPolicyAndStoreDocs() {
     "docs/terms-draft.md",
     "docs/data-safety-guide.md",
     "docs/content-rating-guide.md",
-    "docs/test-plan.md"
+    "docs/test-plan.md",
+    "docs/roadmap.md"
   ];
   const missing = requiredFiles.filter((file) => !existsSync(join(root, file)));
 
