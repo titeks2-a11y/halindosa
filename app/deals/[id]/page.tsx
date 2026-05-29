@@ -111,11 +111,11 @@ export default async function DealDetailPage({ params }: DealDetailPageProps) {
               </div>
               <div className="rounded-2xl bg-slate-50 p-3">
                 <p className="text-xs text-slate-400">인기도</p>
-                <p className="mt-1">{deal.popularityScore}점</p>
+                <p className="mt-1">{deal.isHot ? "높음" : "보통"}</p>
               </div>
               <div className="rounded-2xl bg-slate-50 p-3">
                 <p className="text-xs text-slate-400">가격 신뢰도</p>
-                <p className="mt-1">{priceInsight.confidenceScore}점</p>
+                <p className="mt-1">{priceInsight.confidenceScore >= 90 ? "높음" : "참고"}</p>
               </div>
               <div className="rounded-2xl bg-slate-50 p-3">
                 <p className="text-xs text-slate-400">최근 최저가</p>

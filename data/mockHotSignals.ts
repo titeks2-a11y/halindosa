@@ -34,7 +34,7 @@ export const mockHotSignals: HotSignal[] = [
   signal(
     "briefing-707648",
     "샤오미 86인치 4K 120hz 스마트TV 80만원대",
-    "대형 TV 고할인 특가. 무료배송 조건과 재고 변동 확인 필요.",
+    "대형 TV 고할인 특가. 무료배송 조건 포함.",
     "전자기기",
     ["특가", "무료배송", "고할인"],
     99,
