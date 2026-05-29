@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ArrowLeft, ExternalLink, Heart, Share2 } from "lucide-react";
 import { Deal } from "@/types/deal";
 
@@ -17,17 +17,16 @@ async function isNativeRuntime() {
 }
 
 export function DealDetailActions({ deal }: { deal: Deal }) {
-  const [isFavorite, setIsFavorite] = useState(false);
-
-  useEffect(() => {
+  const [isFavorite, setIsFavorite] = useState(() => {
+    if (typeof window === "undefined") return false;
     try {
       const stored = window.localStorage.getItem(favoriteKey);
       const favorites = stored ? (JSON.parse(stored) as string[]) : [];
-      setIsFavorite(favorites.includes(deal.id));
+      return favorites.includes(deal.id);
     } catch {
-      setIsFavorite(false);
+      return false;
     }
-  }, [deal.id]);
+  });
 
   const toggleFavorite = () => {
     try {

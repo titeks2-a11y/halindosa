@@ -2,26 +2,21 @@ import { Clock, ExternalLink, Heart, Radio, Share2, ShoppingBag, Zap } from "luc
 import { formatPrice, getRelativeTime, getTimeLeft } from "@/lib/format";
 import { getDealImageSrc } from "@/lib/imageSrc";
 import { Deal } from "@/types/deal";
-import { HotSignal } from "@/types/hotSignal";
 
 interface LiveDealFeedProps {
   deals: Deal[];
-  signals: HotSignal[];
   favorites: string[];
   onToggleFavorite: (id: string) => void;
   onOpenDeal: (deal: Deal) => void;
   onShareDeal: (deal: Deal) => void;
-  onOpenSignal: (signal: HotSignal) => void;
 }
 
 export function LiveDealFeed({
   deals,
-  signals,
   favorites,
   onToggleFavorite,
   onOpenDeal,
-  onShareDeal,
-  onOpenSignal
+  onShareDeal
 }: LiveDealFeedProps) {
   const leadDeals = deals.slice(0, 10);
   const hotCount = leadDeals.filter((deal) => deal.isHot).length;
@@ -65,6 +60,7 @@ export function LiveDealFeed({
             <div className="flex items-center gap-3">
               <div className="relative flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-br from-red-50 to-rose-100 text-dossa-red">
                 {deal.imageUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
                   <img src={getDealImageSrc(deal.imageUrl)} alt="" className="h-full w-full object-cover" />
                 ) : (
                   <ShoppingBag size={24} />

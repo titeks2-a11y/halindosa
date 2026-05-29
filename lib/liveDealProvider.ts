@@ -144,22 +144,6 @@ function parsePrice(rawTitle: string) {
   return prices[0] ?? 0;
 }
 
-function parseBoardDate(label: string) {
-  const match = label.match(/(\d{2})\.(\d{2})\.(\d{2})\s+(\d{2}):(\d{2}):(\d{2})/);
-
-  if (!match) return new Date().toISOString();
-
-  const [, year, month, day, hour, minute, second] = match;
-  return new Date(
-    2000 + Number(year),
-    Number(month) - 1,
-    Number(day),
-    Number(hour),
-    Number(minute),
-    Number(second)
-  ).toISOString();
-}
-
 function normalizeBoardImage(value: string) {
   if (!value || /noimage/i.test(value)) return "";
   const absoluteUrl = value.startsWith("//")

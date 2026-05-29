@@ -22,6 +22,7 @@ export function Header({ updatedAt, isLoading, onRefresh }: HeaderProps) {
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
         <div className="flex min-w-0 items-center gap-3">
           <div className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-white shadow-lg shadow-red-100 ring-1 ring-red-100">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/halindosa-icon-192.png" alt="" className="h-full w-full object-cover" />
           </div>
           <div className="min-w-0">

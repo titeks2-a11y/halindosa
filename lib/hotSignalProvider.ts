@@ -298,7 +298,7 @@ async function fetchPublicBoardSignals() {
   let index = 0;
 
   while (match && signals.length < 18) {
-    const [, no, imageUrl, url, rawTitle, boardCategory, dateLabel, views] = match;
+    const [, no, imageUrl, url, rawTitle, boardCategory, , views] = match;
     const title = decodeXml(rawTitle);
     const link = new URL(url.replaceAll("&amp;", "&"), "https://www.ppomppu.co.kr/zboard/").toString();
     const viewCount = Number(views.replace(/[^0-9]/g, "")) || 0;

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { ArrowLeft, Heart } from "lucide-react";
 import { DealCard } from "@/components/DealCard";
 import { mockDeals } from "@/data/mockDeals";
@@ -25,16 +25,15 @@ async function openExternalDeal(deal: Deal) {
 }
 
 export default function FavoritesPage() {
-  const [favorites, setFavorites] = useState<string[]>([]);
-
-  useEffect(() => {
+  const [favorites, setFavorites] = useState<string[]>(() => {
+    if (typeof window === "undefined") return [];
     try {
       const stored = window.localStorage.getItem(favoriteKey);
-      setFavorites(stored ? (JSON.parse(stored) as string[]) : []);
+      return stored ? (JSON.parse(stored) as string[]) : [];
     } catch {
-      setFavorites([]);
+      return [];
     }
-  }, []);
+  });
 
   const favoriteDeals = useMemo(() => mockDeals.filter((deal) => favorites.includes(deal.id)), [favorites]);
 

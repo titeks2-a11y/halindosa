@@ -35,7 +35,7 @@ await check("home page", async () => {
   const text = await response.text();
   assert(response.status === 200, `Expected 200, got ${response.status}`);
   assert(text.includes("할인도사"), "Home page missing brand text");
-  assert(text.includes("삼겹살 구이용") || text.includes("갤럭시 버즈"), "Home page missing initial deal cards");
+  assert(text.includes("샤오미 86인치") || text.includes("새우깡"), "Home page missing initial deal cards");
 });
 
 await check("deals api", async () => {
@@ -188,7 +188,7 @@ await check("track api", async () => {
 });
 
 await check("redirect api", async () => {
-  const response = await fetch(`${baseUrl}/api/redirect/d001?from=smoke&analytics=granted&affiliate=granted`, {
+  const response = await fetch(`${baseUrl}/api/redirect/d014?from=smoke&analytics=granted&affiliate=granted`, {
     redirect: "manual"
   });
   const location = response.headers.get("location") ?? "";
@@ -199,7 +199,7 @@ await check("redirect api", async () => {
 });
 
 await check("redirect consent guard", async () => {
-  const response = await fetch(`${baseUrl}/api/redirect/d001?from=smoke`, {
+  const response = await fetch(`${baseUrl}/api/redirect/d014?from=smoke`, {
     redirect: "manual"
   });
   const location = response.headers.get("location") ?? "";

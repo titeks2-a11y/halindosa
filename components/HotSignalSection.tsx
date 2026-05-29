@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ExternalLink, Heart, Radio, Share2, ShoppingBag, Sparkles, TrendingUp } from "lucide-react";
 import { getRelativeTime } from "@/lib/format";
 import { getDealImageSrc } from "@/lib/imageSrc";
@@ -25,16 +25,15 @@ export function HotSignalSection({ signals, isLoading, onOpenSignal }: HotSignal
   const restSignals = signals.slice(1, 9);
   const freeCount = signals.filter((signal) => /무료|공짜|무료배포|무료입장|무료개방/.test(`${signal.title} ${signal.summary}`)).length;
   const limitedCount = signals.filter((signal) => /기간한정|오늘만|마감|쿠폰|역대가|반값|1\+1/.test(`${signal.title} ${signal.summary}`)).length;
-  const [favoriteSignals, setFavoriteSignals] = useState<string[]>([]);
-
-  useEffect(() => {
+  const [favoriteSignals, setFavoriteSignals] = useState<string[]>(() => {
+    if (typeof window === "undefined") return [];
     try {
       const stored = window.localStorage.getItem(signalFavoriteKey);
-      setFavoriteSignals(stored ? (JSON.parse(stored) as string[]) : []);
+      return stored ? (JSON.parse(stored) as string[]) : [];
     } catch {
-      setFavoriteSignals([]);
+      return [];
     }
-  }, []);
+  });
 
   const toggleSignalFavorite = (id: string) => {
     setFavoriteSignals((current) => {
@@ -67,6 +66,7 @@ export function HotSignalSection({ signals, isLoading, onOpenSignal }: HotSignal
   const renderImage = (signal: HotSignal, sizeClass: string) => (
     <div className={`${sizeClass} relative shrink-0 overflow-hidden rounded-2xl bg-gradient-to-br from-red-50 to-rose-100 text-dossa-red`}>
       {signal.imageUrl ? (
+        // eslint-disable-next-line @next/next/no-img-element
         <img src={getDealImageSrc(signal.imageUrl)} alt="" className="h-full w-full object-cover" />
       ) : (
         <div className="flex h-full w-full items-center justify-center">

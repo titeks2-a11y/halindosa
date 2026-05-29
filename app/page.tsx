@@ -525,12 +525,10 @@ export default function Home() {
 
             <LiveDealFeed
               deals={deals}
-              signals={hotSignals}
               favorites={favorites}
               onToggleFavorite={toggleFavorite}
               onOpenDeal={openDeal}
               onShareDeal={shareDeal}
-              onOpenSignal={openHotSignal}
             />
 
             <FeaturedDealSections
