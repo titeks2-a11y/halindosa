@@ -10,8 +10,8 @@ import { ConsentSettings } from "@/components/ConsentSettings";
 import { DealCard } from "@/components/DealCard";
 import { FeaturedDealSections } from "@/components/FeaturedDealSections";
 import { Header } from "@/components/Header";
-import { HeroSection } from "@/components/HeroSection";
 import { HotSignalSection } from "@/components/HotSignalSection";
+import { LiveDealFeed } from "@/components/LiveDealFeed";
 import { SearchBar } from "@/components/SearchBar";
 import { SortSelect } from "@/components/SortSelect";
 import { Toast } from "@/components/Toast";
@@ -341,7 +341,7 @@ export default function Home() {
   };
 
   const openHotSignal = async (signal: HotSignal) => {
-    showToast(`${signal.sourceName} 소식으로 이동합니다.`);
+    showToast("할인도사 특가 브리핑으로 이동합니다.");
 
     if (await isNativeRuntime()) {
       const { Browser } = await import("@capacitor/browser");
@@ -421,12 +421,10 @@ export default function Home() {
         isLoading={isLoading}
         onRefresh={() => fetchDeals("특가 데이터를 새로 불러왔습니다.")}
       />
-      <HeroSection />
-
       <section id="deals" className="mx-auto max-w-7xl space-y-5 px-4 py-5 sm:px-6 lg:px-8">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <p className="text-sm font-black text-dossa-red">실시간 핫딜 피드</p>
+            <p className="text-sm font-black text-dossa-red">실시간 특가 모아보기</p>
             <h2 className="text-2xl font-black text-slate-950">
               {activeView === "home" && "실시간 할인 정보"}
               {activeView === "categories" && "카테고리"}
@@ -445,60 +443,69 @@ export default function Home() {
 
         {activeView === "home" ? (
           <>
-        <HotSignalSection signals={hotSignals} isLoading={isSignalLoading} onOpenSignal={openHotSignal} />
+            <LiveDealFeed
+              deals={deals}
+              signals={hotSignals}
+              favorites={favorites}
+              onToggleFavorite={toggleFavorite}
+              onOpenDeal={openDeal}
+              onOpenSignal={openHotSignal}
+            />
 
-        <FeaturedDealSections
-          deals={catalog.length ? catalog : deals}
-          favorites={favorites}
-          onToggleFavorite={toggleFavorite}
-          onOpenDeal={openDeal}
-        />
+            <HotSignalSection signals={hotSignals} isLoading={isSignalLoading} onOpenSignal={openHotSignal} />
 
-        <div id="all-deals" className="h-1" />
-        <div className="rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
-          <div className="flex flex-col gap-3 lg:flex-row">
-            <SearchBar value={query} onChange={setQuery} />
-            <SortSelect value={sort} onChange={setSort} />
-          </div>
-          <div className="mt-3">
-            <CategoryTabs selected={category} onSelect={setCategory} />
-          </div>
-          <div className="mt-4 grid gap-2 text-sm font-bold text-slate-700 sm:grid-cols-4">
-            <div className="rounded-2xl bg-slate-50 px-4 py-3">
-              총 <span className="text-dossa-red">{deals.length}</span>개
-            </div>
-            <div className="rounded-2xl bg-red-50 px-4 py-3">
-              HOT <span className="text-dossa-red">{stats.hotCount}</span>개
-            </div>
-            <div className="rounded-2xl bg-amber-50 px-4 py-3">
-              마감임박 <span className="text-amber-700">{stats.endingCount}</span>개
-            </div>
-            <div className="rounded-2xl bg-slate-50 px-4 py-3">
-              찜 <span className="text-dossa-red">{favorites.length}</span>개
-            </div>
-          </div>
-          <p className="mt-3 text-xs font-semibold text-slate-500">
-            데이터 {providerSource === "mock" ? "mock fallback" : providerSource} · 뉴스/RSS 신호는 2분 단위 캐시로 갱신됩니다.
-          </p>
-        </div>
+            <FeaturedDealSections
+              deals={catalog.length ? catalog : deals}
+              favorites={favorites}
+              onToggleFavorite={toggleFavorite}
+              onOpenDeal={openDeal}
+            />
 
-        {isLoading && !deals.length ? (
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
-            {Array.from({ length: 8 }).map((_, index) => (
-              <div key={index} className="h-96 animate-pulse rounded-3xl border border-slate-200 bg-white shadow-sm">
-                <div className="h-40 rounded-t-3xl bg-red-50" />
-                <div className="space-y-3 p-4">
-                  <div className="h-4 w-24 rounded-full bg-slate-100" />
-                  <div className="h-5 rounded-full bg-slate-100" />
-                  <div className="h-5 w-2/3 rounded-full bg-slate-100" />
-                  <div className="h-10 rounded-2xl bg-slate-100" />
+            <div id="all-deals" className="h-1" />
+            <div className="rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+              <div className="flex flex-col gap-3 lg:flex-row">
+                <SearchBar value={query} onChange={setQuery} />
+                <SortSelect value={sort} onChange={setSort} />
+              </div>
+              <div className="mt-3">
+                <CategoryTabs selected={category} onSelect={setCategory} />
+              </div>
+              <div className="mt-4 grid gap-2 text-sm font-bold text-slate-700 sm:grid-cols-4">
+                <div className="rounded-2xl bg-slate-50 px-4 py-3">
+                  총 <span className="text-dossa-red">{deals.length}</span>개
+                </div>
+                <div className="rounded-2xl bg-red-50 px-4 py-3">
+                  HOT <span className="text-dossa-red">{stats.hotCount}</span>개
+                </div>
+                <div className="rounded-2xl bg-amber-50 px-4 py-3">
+                  마감임박 <span className="text-amber-700">{stats.endingCount}</span>개
+                </div>
+                <div className="rounded-2xl bg-slate-50 px-4 py-3">
+                  찜 <span className="text-dossa-red">{favorites.length}</span>개
                 </div>
               </div>
-            ))}
-          </div>
-        ) : (
-          renderDealGrid(deals, "조건에 맞는 특가가 없습니다.", "검색어를 줄이거나 다른 카테고리를 선택해보세요.")
-        )}
+              <p className="mt-3 text-xs font-semibold text-slate-500">
+                {providerSource === "mock" ? "할인도사 기본 특가" : "할인도사 실시간 특가"} · 주요 특가 브리핑은 2분 단위로 갱신됩니다.
+              </p>
+            </div>
+
+            {isLoading && !deals.length ? (
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+                {Array.from({ length: 8 }).map((_, index) => (
+                  <div key={index} className="h-96 animate-pulse rounded-3xl border border-slate-200 bg-white shadow-sm">
+                    <div className="h-40 rounded-t-3xl bg-red-50" />
+                    <div className="space-y-3 p-4">
+                      <div className="h-4 w-24 rounded-full bg-slate-100" />
+                      <div className="h-5 rounded-full bg-slate-100" />
+                      <div className="h-5 w-2/3 rounded-full bg-slate-100" />
+                      <div className="h-10 rounded-2xl bg-slate-100" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              renderDealGrid(deals, "조건에 맞는 특가가 없습니다.", "검색어를 줄이거나 다른 카테고리를 선택해보세요.")
+            )}
           </>
         ) : null}
 
@@ -583,7 +590,7 @@ export default function Home() {
             <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
               <p className="text-lg font-black text-slate-950">상업화 준비 체크</p>
               <div className="mt-4 space-y-3">
-                {["공식 API/RSS 연동 구조", "이벤트 추적 API", "SEO/정책 페이지", "헬스체크 API"].map((item) => (
+                {["실시간 특가 업데이트 구조", "이벤트 추적 API", "SEO/정책 페이지", "헬스체크 API"].map((item) => (
                   <div key={item} className="flex items-center gap-2 text-sm font-bold text-slate-700">
                     <CheckCircle2 size={18} className="text-dossa-red" />
                     {item}

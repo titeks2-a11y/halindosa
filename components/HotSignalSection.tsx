@@ -1,4 +1,4 @@
-import { ExternalLink, Newspaper, Radio, Sparkles, TrendingUp } from "lucide-react";
+import { ExternalLink, Radio, Sparkles, TrendingUp } from "lucide-react";
 import { getRelativeTime } from "@/lib/format";
 import { HotSignal } from "@/types/hotSignal";
 
@@ -9,9 +9,9 @@ interface HotSignalSectionProps {
 }
 
 function getSignalLabel(signal: HotSignal) {
-  if (signal.signalType === "community") return "커뮤니티";
-  if (signal.signalType === "news") return "뉴스";
-  return "RSS";
+  if (signal.signalType === "community") return "사용자 반응";
+  if (signal.signalType === "news") return "가격 이슈";
+  return "특가 감지";
 }
 
 export function HotSignalSection({ signals, isLoading, onOpenSignal }: HotSignalSectionProps) {
@@ -26,10 +26,10 @@ export function HotSignalSection({ signals, isLoading, onOpenSignal }: HotSignal
             <span className="flex h-9 w-9 items-center justify-center rounded-2xl bg-dossa-red text-white">
               <Radio size={18} />
             </span>
-            <h3 className="text-xl font-black text-slate-950">실시간 핫딜 신호</h3>
+            <h3 className="text-xl font-black text-slate-950">할인도사 특가 브리핑</h3>
           </div>
           <p className="mt-1 text-sm font-semibold text-slate-500">
-            뉴스/RSS/허용된 커뮤니티 피드에서 특가 단서를 빠르게 모읍니다.
+            흩어진 할인 단서를 할인도사가 읽기 쉽게 정리했습니다.
           </p>
         </div>
         <span className="inline-flex w-fit items-center gap-1 rounded-full bg-red-50 px-3 py-1 text-xs font-black text-dossa-red">
@@ -79,7 +79,7 @@ export function HotSignalSection({ signals, isLoading, onOpenSignal }: HotSignal
                 </div>
                 <p className="mt-4 flex items-center justify-between gap-3 text-xs font-bold text-slate-300">
                   <span className="truncate">
-                    {leadSignal.sourceName} · {getRelativeTime(leadSignal.publishedAt)}
+                    할인도사 업데이트 · {getRelativeTime(leadSignal.publishedAt)}
                   </span>
                   <ExternalLink size={15} className="shrink-0" />
                 </p>
@@ -104,7 +104,6 @@ export function HotSignalSection({ signals, isLoading, onOpenSignal }: HotSignal
               >
                 <div className="flex items-center justify-between gap-2">
                   <span className="inline-flex items-center gap-1 rounded-full bg-white px-2.5 py-1 text-xs font-black text-slate-600">
-                    <Newspaper size={12} />
                     {getSignalLabel(signal)}
                   </span>
                   <span className="text-xs font-black text-dossa-red">{signal.score}점</span>
@@ -119,7 +118,7 @@ export function HotSignalSection({ signals, isLoading, onOpenSignal }: HotSignal
                   ))}
                 </div>
                 <p className="mt-3 truncate text-xs font-semibold text-slate-500">
-                  {signal.sourceName} · {getRelativeTime(signal.publishedAt)}
+                  할인도사 업데이트 · {getRelativeTime(signal.publishedAt)}
                 </p>
               </button>
             ))}

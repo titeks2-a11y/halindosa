@@ -16,10 +16,10 @@ export function HeroSection() {
                 사람들이 놓치기 쉬운 특가 신호를 먼저 잡아드립니다
               </h2>
               <p className="mt-4 max-w-2xl text-base font-semibold leading-7 text-slate-200 sm:text-xl">
-                할인 뉴스, 쇼핑몰 가격, 커뮤니티 피드에서 핫딜 단서를 모아 읽기 쉬운 피드로 정리합니다.
+                할인도사가 가격 하락, 쿠폰, 마감 임박 단서를 모아 읽기 쉬운 피드로 정리합니다.
               </p>
               <div className="mt-6 flex flex-wrap gap-2">
-                {["뉴스 RSS", "커뮤니티 피드", "가격 비교", "마감 임박"].map((label) => (
+                {["실시간 감지", "가격 하락", "쿠폰 특가", "마감 임박"].map((label) => (
                   <span key={label} className="rounded-full bg-white/10 px-3 py-1.5 text-xs font-black text-white ring-1 ring-white/10">
                     {label}
                   </span>
