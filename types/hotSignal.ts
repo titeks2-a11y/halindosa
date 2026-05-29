@@ -7,6 +7,7 @@ export interface HotSignal {
   title: string;
   sourceName: string;
   url: string;
+  imageUrl?: string;
   publishedAt: string;
   summary: string;
   category: DealCategory | "전체";

@@ -292,13 +292,13 @@ async function fetchPublicBoardSignals() {
 
   const html = new TextDecoder("euc-kr").decode(await response.arrayBuffer());
   const itemPattern =
-    /<tr[^>]*class="baseList[^"]*"[\s\S]*?<td class="baseList-space baseList-numb"[^>]*>(\d+)<\/td>[\s\S]*?<a class='baseList-title' href="([^"]+)"[\s\S]*?<span>([\s\S]*?)<\/span><\/a>[\s\S]*?<small class="baseList-small">\[([^\]]+)\]<\/small>[\s\S]*?title="([^"]+)"[\s\S]*?<td class='baseList-space baseList-views' colspan=2>([^<]+)<\/td>/g;
+    /<tr[^>]*class="baseList[^"]*"[\s\S]*?<td class="baseList-space baseList-numb"[^>]*>(\d+)<\/td>[\s\S]*?<img src="([^"]*)"[\s\S]*?<a class='baseList-title' href="([^"]+)"[\s\S]*?<span>([\s\S]*?)<\/span><\/a>[\s\S]*?<small class="baseList-small">\[([^\]]+)\]<\/small>[\s\S]*?title="([^"]+)"[\s\S]*?<td class='baseList-space baseList-views' colspan=2>([^<]+)<\/td>/g;
   const signals: HotSignal[] = [];
   let match = itemPattern.exec(html);
   let index = 0;
 
   while (match && signals.length < 18) {
-    const [, no, url, rawTitle, boardCategory, dateLabel, views] = match;
+    const [, no, imageUrl, url, rawTitle, boardCategory, dateLabel, views] = match;
     const title = decodeXml(rawTitle);
     const link = new URL(url.replaceAll("&amp;", "&"), "https://www.ppomppu.co.kr/zboard/").toString();
     const viewCount = Number(views.replace(/[^0-9]/g, "")) || 0;
@@ -310,6 +310,7 @@ async function fetchPublicBoardSignals() {
       title,
       sourceName: "할인도사 브리핑",
       url: link,
+      imageUrl: normalizeSignalImage(imageUrl),
       publishedAt,
       summary,
       category: inferCategory(`${boardCategory} ${title}`),
@@ -323,6 +324,17 @@ async function fetchPublicBoardSignals() {
   }
 
   return signals;
+}
+
+function normalizeSignalImage(value: string) {
+  if (!value || /noimage/i.test(value)) return "";
+  const absoluteUrl = value.startsWith("//")
+    ? `https:${value}`
+    : value.startsWith("/")
+      ? `https://www.ppomppu.co.kr${value}`
+      : value;
+
+  return `/api/image?url=${encodeURIComponent(absoluteUrl)}`;
 }
 
 export async function fetchHotSignals(options: { category?: string; q?: string; limit?: number; source?: string } = {}) {
