@@ -1,6 +1,6 @@
 "use client";
 
-import { Bell, RefreshCw, Sparkles } from "lucide-react";
+import { Bell, RefreshCw } from "lucide-react";
 
 interface HeaderProps {
   updatedAt: string;
@@ -21,12 +21,12 @@ export function Header({ updatedAt, isLoading, onRefresh }: HeaderProps) {
     <header className="sticky top-0 z-30 border-b border-slate-200/80 bg-white/95 backdrop-blur">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
         <div className="flex min-w-0 items-center gap-3">
-          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-dossa-red text-white shadow-lg shadow-red-200">
-            <Sparkles size={24} aria-hidden="true" />
+          <div className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-white shadow-lg shadow-red-100 ring-1 ring-red-100">
+            <img src="/halindosa-icon-192.png" alt="" className="h-full w-full object-cover" />
           </div>
           <div className="min-w-0">
             <h1 className="truncate text-xl font-black tracking-normal text-slate-950">할인도사</h1>
-            <p className="truncate text-xs font-medium text-slate-500 sm:text-sm">국내 특가를 가장 빠르게 찾는 방법</p>
+            <p className="truncate text-xs font-medium text-slate-500 sm:text-sm">실시간 할인 특가 정보를 가장 빠르게 찾는 방법</p>
           </div>
         </div>
 

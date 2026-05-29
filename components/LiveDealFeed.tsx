@@ -1,5 +1,6 @@
-import { Clock, ExternalLink, Heart, Radio, Zap } from "lucide-react";
+import { Clock, ExternalLink, Heart, Radio, ShoppingBag, Zap } from "lucide-react";
 import { formatPrice, getRelativeTime, getTimeLeft } from "@/lib/format";
+import { getDealImageSrc } from "@/lib/imageSrc";
 import { Deal } from "@/types/deal";
 import { HotSignal } from "@/types/hotSignal";
 
@@ -77,8 +78,15 @@ export function LiveDealFeed({
         {leadDeals.map((deal) => (
           <article key={deal.id} className="grid gap-3 bg-white p-3 transition hover:bg-slate-50 sm:grid-cols-[auto_1fr_auto] sm:items-center">
             <div className="flex items-center gap-3">
-              <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-dossa-red text-lg font-black text-white">
-                {deal.discountRate}%
+              <div className="relative flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-br from-red-50 to-rose-100 text-dossa-red">
+                {deal.imageUrl ? (
+                  <img src={getDealImageSrc(deal.imageUrl)} alt="" className="h-full w-full object-cover" />
+                ) : (
+                  <ShoppingBag size={24} />
+                )}
+                <span className="absolute bottom-1 left-1 rounded-full bg-dossa-red px-1.5 py-0.5 text-[10px] font-black text-white">
+                  {deal.discountRate}%
+                </span>
               </div>
               <div className="min-w-0 sm:hidden">
                 <p className="line-clamp-2 text-base font-black leading-snug text-slate-950">{deal.title}</p>
@@ -92,6 +100,7 @@ export function LiveDealFeed({
 
             <div className="hidden min-w-0 sm:block">
               <div className="flex items-center gap-2">
+                <span className="rounded-full bg-red-50 px-2 py-0.5 text-[11px] font-black text-dossa-red">{deal.discountRate}% 할인</span>
                 {deal.isHot ? <span className="rounded-full bg-dossa-red px-2 py-0.5 text-[11px] font-black text-white">HOT</span> : null}
                 {deal.isEndingSoon ? <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[11px] font-black text-amber-700">마감임박</span> : null}
                 <span className="text-xs font-bold text-slate-500">{deal.mall} · {deal.category}</span>

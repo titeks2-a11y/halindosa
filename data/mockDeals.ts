@@ -15,7 +15,8 @@ function deal(
   flags: Pick<Deal, "isHot" | "isNew" | "isEndingSoon">,
   tags: string[],
   popularityScore: number,
-  imageUrl = ""
+  imageUrl = "",
+  link = `https://example.com/deals/${id}`
 ): Deal {
   const salePrice = Math.round((originalPrice * (100 - discountRate)) / 100 / 10) * 10;
 
@@ -29,7 +30,7 @@ function deal(
     discountRate,
     discountAmount: originalPrice - salePrice,
     imageUrl,
-    link: `https://example.com/deals/${id}`,
+    link,
     source: "mock",
     expiresAt: new Date(now + expiresInHours * hour).toISOString(),
     createdAt: new Date(now - offsetHours * hour).toISOString(),
@@ -40,16 +41,16 @@ function deal(
 }
 
 export const mockDeals: Deal[] = [
-  deal("d001", "쿠팡", "삼겹살 구이용 1kg 냉장 특가", "식품", 28900, 42, 1, 9, { isHot: true, isNew: true, isEndingSoon: false }, ["무료배송", "오늘만", "인기"], 98),
-  deal("d002", "11번가", "갤럭시 버즈 FE 무선 이어폰", "전자기기", 119000, 35, 2, 16, { isHot: true, isNew: false, isEndingSoon: false }, ["카드할인", "역대가"], 93),
-  deal("d003", "G마켓", "제주 왕복 항공권 주중 한정", "여행/티켓", 99000, 58, 4, 5, { isHot: true, isNew: false, isEndingSoon: true }, ["마감임박", "한정수량"], 91),
-  deal("d004", "네이버쇼핑", "LG 퓨리케어 공기청정기", "가전", 499000, 31, 3, 36, { isHot: false, isNew: true, isEndingSoon: false }, ["쿠폰적용", "무료배송"], 82),
-  deal("d005", "마켓컬리", "새벽배송 샐러드 도시락 6팩", "식품", 42000, 29, 1, 12, { isHot: false, isNew: true, isEndingSoon: false }, ["오늘만", "쿠폰적용"], 77),
-  deal("d006", "오늘의집", "호텔식 차렵이불 세트 Q", "생활용품", 129000, 46, 7, 48, { isHot: true, isNew: false, isEndingSoon: false }, ["무료배송", "인기"], 88),
-  deal("d007", "무신사", "베이직 오버핏 후드티", "의류", 69000, 52, 5, 18, { isHot: true, isNew: false, isEndingSoon: false }, ["역대가", "쿠폰적용"], 86),
-  deal("d008", "티몬", "키즈 영양제 2개월 세트", "육아", 76000, 38, 10, 6, { isHot: false, isNew: false, isEndingSoon: true }, ["마감임박", "카드할인"], 70),
-  deal("d009", "위메프", "물티슈 20팩 대용량 박스", "육아", 35900, 44, 8, 22, { isHot: false, isNew: false, isEndingSoon: false }, ["무료배송", "한정수량"], 74),
-  deal("d010", "인터파크", "뮤지컬 R석 평일 공연권", "여행/티켓", 150000, 50, 6, 8, { isHot: true, isNew: false, isEndingSoon: true }, ["마감임박", "오늘만"], 90),
+  deal("d001", "롯데온", "샤오미 86인치 4K 120hz 스마트TV", "전자기기", 1201350, 26, 0.1, 18, { isHot: true, isNew: true, isEndingSoon: false }, ["실시간", "핫딜", "무료배송"], 99, "/deal-images/live-707648.jpg", "https://www.ppomppu.co.kr/zboard/view.php?id=ppomppu&page=1&divpage=112&no=707648"),
+  deal("d002", "지마켓", "새우깡 8봉 + 매운새우깡 8봉", "식품", 19160, 25, 0.2, 12, { isHot: true, isNew: true, isEndingSoon: false }, ["실시간", "무료배송", "인기"], 95, "/deal-images/live-707791.jpg", "https://www.ppomppu.co.kr/zboard/view.php?id=ppomppu&page=1&divpage=112&no=707791"),
+  deal("d003", "g마켓", "국내산 돌산갓김치 1.5kg", "식품", 11080, 24, 0.3, 10, { isHot: true, isNew: true, isEndingSoon: false }, ["실시간", "무배", "오늘만"], 92, "/deal-images/live-707790.jpg", "https://www.ppomppu.co.kr/zboard/view.php?id=ppomppu&page=1&divpage=112&no=707790"),
+  deal("d004", "네이버", "JMW 에이플로 AI 온도 센서 플라즈마 미니 드라이기", "뷰티", 86960, 31, 0.4, 9, { isHot: true, isNew: true, isEndingSoon: false }, ["실시간", "네멤무료", "뷰티"], 91, "/deal-images/live-707788.jpg", "https://www.ppomppu.co.kr/zboard/view.php?id=ppomppu&page=1&divpage=112&no=707788"),
+  deal("d005", "굿웨어몰", "베네베딩 여름 냉감 쿨 침대패드", "생활용품", 22740, 30, 0.5, 8, { isHot: true, isNew: true, isEndingSoon: true }, ["실시간", "무료배송", "마감임박"], 90, "/deal-images/live-707787.jpg", "https://www.ppomppu.co.kr/zboard/view.php?id=ppomppu&page=1&divpage=112&no=707787"),
+  deal("d006", "롯데온", "닥터유 제주용암수 2L 18병", "식품", 13940, 29, 0.6, 14, { isHot: true, isNew: true, isEndingSoon: false }, ["실시간", "무료배송", "생활필수"], 89, "/deal-images/live-707786.jpg", "https://www.ppomppu.co.kr/zboard/view.php?id=ppomppu&page=1&divpage=112&no=707786"),
+  deal("d007", "토스", "돼지목살 양념구이 600g X 4팩", "식품", 27500, 28, 0.7, 7, { isHot: true, isNew: true, isEndingSoon: true }, ["실시간", "무료배송", "한정수량"], 88, "/deal-images/live-707785.jpg", "https://www.ppomppu.co.kr/zboard/view.php?id=ppomppu&page=1&divpage=112&no=707785"),
+  deal("d008", "롯데온", "아이더 POP ON 폴로 티셔츠", "의류", 42190, 27, 0.8, 20, { isHot: true, isNew: true, isEndingSoon: false }, ["실시간", "무배", "패션"], 87, "/deal-images/live-707784.jpg", "https://www.ppomppu.co.kr/zboard/view.php?id=ppomppu&page=1&divpage=112&no=707784"),
+  deal("d009", "지마켓", "신라면+너구리+짜파게티+오징어짬뽕 총 20봉", "식품", 19780, 26, 0.9, 11, { isHot: true, isNew: true, isEndingSoon: false }, ["실시간", "쿠폰적용", "무배"], 86, "/deal-images/live-707783.jpg", "https://www.ppomppu.co.kr/zboard/view.php?id=ppomppu&page=1&divpage=112&no=707783"),
+  deal("d010", "G마켓", "알리사 급속 냉각 에어컨 무선 휴대용 선풍기", "가전", 27210, 25, 1, 6, { isHot: true, isNew: true, isEndingSoon: true }, ["실시간", "무료배송", "마감임박"], 85, "/deal-images/live-707782.jpg", "https://www.ppomppu.co.kr/zboard/view.php?id=ppomppu&page=1&divpage=112&no=707782"),
   deal("d011", "SSG닷컴", "프리미엄 한우 불고기 600g", "식품", 53000, 34, 2, 28, { isHot: false, isNew: true, isEndingSoon: false }, ["카드할인", "무료배송"], 79),
   deal("d012", "올리브영", "세라마이드 보습 크림 기획세트", "뷰티", 48000, 37, 1, 20, { isHot: true, isNew: true, isEndingSoon: false }, ["쿠폰적용", "인기"], 92),
   deal("d013", "하이마트", "삼성 55형 4K UHD TV", "가전", 899000, 40, 11, 30, { isHot: true, isNew: false, isEndingSoon: false }, ["카드할인", "역대가"], 89),

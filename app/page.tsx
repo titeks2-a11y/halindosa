@@ -5,7 +5,6 @@ import { BellRing, CheckCircle2, SlidersHorizontal, UserRound } from "lucide-rea
 import { AppView, BottomNav, DesktopNav } from "@/components/BottomNav";
 import { CategoryTabs } from "@/components/CategoryTabs";
 import { CommercialFooter } from "@/components/CommercialFooter";
-import { ConsentBanner } from "@/components/ConsentBanner";
 import { ConsentSettings } from "@/components/ConsentSettings";
 import { DealCard } from "@/components/DealCard";
 import { FeaturedDealSections } from "@/components/FeaturedDealSections";
@@ -30,6 +29,10 @@ const toastMessages = [
 ];
 
 async function isNativeRuntime() {
+  if (typeof window !== "undefined" && ["localhost", "127.0.0.1", "::1"].includes(window.location.hostname)) {
+    return false;
+  }
+
   const { Capacitor } = await import("@capacitor/core");
   return Capacitor.isNativePlatform();
 }
@@ -81,6 +84,27 @@ interface HotSignalsResponse {
   updatedAt: string;
   source: string;
   message: string;
+}
+
+function requestJson<T>(url: string): Promise<T> {
+  if (typeof window.fetch === "function") {
+    return window.fetch(url, { cache: "no-store" }).then(async (response) => (await response.json()) as T);
+  }
+
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", url, true);
+    xhr.setRequestHeader("Accept", "application/json");
+    xhr.onload = () => {
+      try {
+        resolve(JSON.parse(xhr.responseText) as T);
+      } catch (error) {
+        reject(error);
+      }
+    };
+    xhr.onerror = () => reject(new Error("Network request failed"));
+    xhr.send();
+  });
 }
 
 export default function Home() {
@@ -144,10 +168,7 @@ export default function Home() {
           params.set("q", query.trim());
         }
 
-        const response = await fetch(`/api/deals?${params.toString()}`, {
-          cache: "no-store"
-        });
-        const data = (await response.json()) as DealsResponse;
+        const data = await requestJson<DealsResponse>(`/api/deals?${params.toString()}`);
 
         setDeals(Array.isArray(data.deals) ? data.deals : []);
         setUpdatedAt(data.updatedAt);
@@ -226,10 +247,7 @@ export default function Home() {
           params.set("q", query.trim());
         }
 
-        const response = await fetch(`/api/hot-signals?${params.toString()}`, {
-          cache: "no-store"
-        });
-        const data = (await response.json()) as HotSignalsResponse;
+        const data = await requestJson<HotSignalsResponse>(`/api/hot-signals?${params.toString()}`);
         setHotSignals(Array.isArray(data.signals) ? data.signals : []);
       } catch {
         setHotSignals([]);
@@ -250,10 +268,7 @@ export default function Home() {
           return;
         }
 
-        const response = await fetch("/api/deals?sort=latest", {
-          cache: "no-store"
-        });
-        const data = (await response.json()) as DealsResponse;
+        const data = await requestJson<DealsResponse>("/api/deals?sort=latest");
         setCatalog(data.deals);
       } catch {
         setCatalog([]);
@@ -604,7 +619,6 @@ export default function Home() {
       </section>
 
       <CommercialFooter />
-      <ConsentBanner consent={consent} onChange={setConsent} />
 
       <BottomNav
         activeView={activeView}

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Clock, ExternalLink, Heart, ShoppingBag, Store, Tag } from "lucide-react";
 import { getAffiliateDisclosure } from "@/lib/affiliate";
+import { getDealImageSrc } from "@/lib/imageSrc";
 import { Deal } from "@/types/deal";
 import { formatPrice, getRelativeTime, getTimeLeft } from "@/lib/format";
 
@@ -17,7 +18,7 @@ export function DealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal }: Dea
       <div className="relative flex aspect-[16/10] items-center justify-center overflow-hidden bg-gradient-to-br from-red-50 via-rose-100 to-red-200">
         {deal.imageUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={deal.imageUrl} alt="" className="h-full w-full object-cover transition duration-300 group-hover:scale-105" />
+          <img src={getDealImageSrc(deal.imageUrl)} alt="" className="h-full w-full object-cover transition duration-300 group-hover:scale-105" />
         ) : (
           <div className="px-6 text-center">
             <ShoppingBag className="mx-auto mb-2 text-dossa-red" size={38} />

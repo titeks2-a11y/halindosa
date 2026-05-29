@@ -39,6 +39,17 @@ const categoryKeywords: Record<DealCategory, string[]> = {
 };
 
 const liveTags = ["실시간", "가격비교", "공식API"];
+const boardTags = ["실시간", "핫딜", "할인도사픽"];
+
+interface BoardDealSeed {
+  no: string;
+  url: string;
+  rawTitle: string;
+  boardCategory: string;
+  dateLabel: string;
+  views: number;
+  imageUrl: string;
+}
 
 function cleanTitle(value: string) {
   return value
@@ -79,6 +90,19 @@ function inferCategory(item: NaverShoppingItem): DealCategory {
   return "기타";
 }
 
+function inferCategoryFromText(text: string): DealCategory {
+  if (/식품|건강|과자|라면|김치|물|우유|고기|목살|새우깡|생수|음료|커피|밥|쌀/.test(text)) return "식품";
+  if (/디지털|컴퓨터|모바일|이어폰|노트북|태블릿|카메라|게임|모니터|SSD|충전기/.test(text)) return "전자기기";
+  if (/생활|주방|수납|침구|침대|패드|세제|화장지|물티슈|청소|샴푸/.test(text)) return "생활용품";
+  if (/의류|잡화|패션|팬츠|티셔츠|신발|벨트|가방|아우터|조거/.test(text)) return "의류";
+  if (/육아|유아|분유|기저귀|키즈|장난감/.test(text)) return "육아";
+  if (/여행|티켓|항공|숙박|공연|전시|호텔/.test(text)) return "여행/티켓";
+  if (/뷰티|화장품|크림|선크림|향수|헤어|드라이기|미용/.test(text)) return "뷰티";
+  if (/가전|TV|냉장고|청소기|공기청정기|세탁기|에어컨|선풍기|드라이기/.test(text)) return "가전";
+
+  return "기타";
+}
+
 function estimateOriginalPrice(item: NaverShoppingItem, salePrice: number) {
   const highPrice = toNumber(item.hprice);
 
@@ -89,6 +113,96 @@ function estimateOriginalPrice(item: NaverShoppingItem, salePrice: number) {
   const score = stableScore(item.productId || item.link || item.title);
   const estimatedRate = 10 + (score % 26);
   return Math.round((salePrice / (1 - estimatedRate / 100)) / 10) * 10;
+}
+
+function parseMallAndTitle(rawTitle: string) {
+  const mallMatch = rawTitle.match(/^\[([^\]]+)\]\s*(.+)$/);
+
+  if (!mallMatch) {
+    return { mall: "할인도사", title: rawTitle.trim() };
+  }
+
+  return {
+    mall: mallMatch[1].trim(),
+    title: mallMatch[2].trim()
+  };
+}
+
+function parsePrice(rawTitle: string) {
+  const pattern = /([0-9][0-9,\.]*)\s*(?:원|\/|$)/g;
+  const prices: number[] = [];
+  let match = pattern.exec(rawTitle);
+
+  while (match) {
+    const price = Number(match[1].replace(/[,.]/g, ""));
+    if (Number.isFinite(price) && price >= 100) {
+      prices.push(price);
+    }
+    match = pattern.exec(rawTitle);
+  }
+
+  return prices[0] ?? 0;
+}
+
+function parseBoardDate(label: string) {
+  const match = label.match(/(\d{2})\.(\d{2})\.(\d{2})\s+(\d{2}):(\d{2}):(\d{2})/);
+
+  if (!match) return new Date().toISOString();
+
+  const [, year, month, day, hour, minute, second] = match;
+  return new Date(
+    2000 + Number(year),
+    Number(month) - 1,
+    Number(day),
+    Number(hour),
+    Number(minute),
+    Number(second)
+  ).toISOString();
+}
+
+function normalizeBoardImage(value: string) {
+  if (!value || /noimage/i.test(value)) return "";
+  const absoluteUrl = value.startsWith("//")
+    ? `https:${value}`
+    : value.startsWith("/")
+      ? `https://www.ppomppu.co.kr${value}`
+      : value;
+
+  return `/api/image?url=${encodeURIComponent(absoluteUrl)}`;
+}
+
+function normalizeBoardDeal(seed: BoardDealSeed, index: number): Deal {
+  const { mall, title } = parseMallAndTitle(seed.rawTitle);
+  const salePrice = parsePrice(seed.rawTitle);
+  const score = stableScore(seed.no || seed.rawTitle);
+  const estimatedRate = 12 + (score % 34);
+  const originalPrice = salePrice > 0 ? Math.round((salePrice / (1 - estimatedRate / 100)) / 10) * 10 : 0;
+  const discountAmount = Math.max(0, originalPrice - salePrice);
+  const discountRate = originalPrice > salePrice ? Math.round((discountAmount / originalPrice) * 100) : estimatedRate;
+  const createdAt = new Date(Date.now() - index * 5 * 60 * 1000).toISOString();
+  const expiresInHours = 5 + (score % 36);
+  const category = inferCategoryFromText(`${seed.boardCategory} ${seed.rawTitle}`);
+
+  return {
+    id: `live-board-${seed.no}`,
+    mall,
+    title,
+    category,
+    originalPrice,
+    salePrice,
+    discountRate,
+    discountAmount,
+    imageUrl: normalizeBoardImage(seed.imageUrl),
+    link: seed.url,
+    source: "halindosa_live",
+    expiresAt: new Date(Date.now() + expiresInHours * 60 * 60 * 1000).toISOString(),
+    createdAt,
+    isHot: seed.views >= 2000 || discountRate >= 25,
+    isNew: index < 12,
+    isEndingSoon: expiresInHours <= 8 || score % 6 === 0,
+    tags: seed.views >= 5000 ? [...boardTags, "인기"] : boardTags,
+    popularityScore: Math.min(99, 55 + Math.floor(seed.views / 350) + (score % 18))
+  };
 }
 
 function normalizeNaverItem(item: NaverShoppingItem, index: number): Deal {
@@ -176,6 +290,48 @@ async function fetchJsonFeed(url: string) {
   return Array.isArray(data) ? data : data.deals ?? [];
 }
 
+async function fetchPublicBoardDeals() {
+  if (process.env.DEAL_PUBLIC_BOARD_ENABLE === "false") return [];
+
+  const response = await fetch("https://www.ppomppu.co.kr/zboard/zboard.php?id=ppomppu", {
+    headers: {
+      "User-Agent": "Mozilla/5.0 (compatible; Halindosa/1.0; +https://halindosa.local)",
+      Accept: "text/html,application/xhtml+xml"
+    },
+    next: { revalidate: 120 }
+  });
+
+  if (!response.ok) {
+    throw new Error(`Live board failed: ${response.status}`);
+  }
+
+  const buffer = await response.arrayBuffer();
+  const html = new TextDecoder("euc-kr").decode(buffer);
+  const itemPattern =
+    /<tr[^>]*class="baseList[^"]*"[\s\S]*?<td class="baseList-space baseList-numb"[^>]*>(\d+)<\/td>[\s\S]*?<img src="([^"]*)"[\s\S]*?<a class='baseList-title' href="([^"]+)"[\s\S]*?<span>([\s\S]*?)<\/span><\/a>[\s\S]*?<small class="baseList-small">\[([^\]]+)\]<\/small>[\s\S]*?title="([^"]+)"[\s\S]*?<td class='baseList-space baseList-views' colspan=2>([^<]+)<\/td>/g;
+  const seeds: BoardDealSeed[] = [];
+
+  let match = itemPattern.exec(html);
+
+  while (match) {
+    const [, no, imageUrl, url, rawTitle, boardCategory, dateLabel, views] = match;
+
+    seeds.push({
+      no,
+      imageUrl,
+      url: new URL(url.replaceAll("&amp;", "&"), "https://www.ppomppu.co.kr/zboard/").toString(),
+      rawTitle: cleanTitle(rawTitle),
+      boardCategory,
+      dateLabel,
+      views: Number(views.replace(/[^0-9]/g, "")) || 0
+    });
+
+    match = itemPattern.exec(html);
+  }
+
+  return seeds.slice(0, 24).map(normalizeBoardDeal).filter((deal) => deal.salePrice > 0);
+}
+
 export async function fetchLiveDeals(options: { category?: string; q?: string } = {}) {
   const feedUrls = (process.env.DEAL_FEED_URLS ?? "")
     .split(",")
@@ -183,6 +339,7 @@ export async function fetchLiveDeals(options: { category?: string; q?: string } 
     .filter(Boolean);
   const keywords = getLiveKeywords(options.category, options.q);
   const settled = await Promise.allSettled([
+    fetchPublicBoardDeals(),
     ...keywords.map((keyword) => fetchNaverShopping(keyword)),
     ...feedUrls.map((url) => fetchJsonFeed(url))
   ]);
