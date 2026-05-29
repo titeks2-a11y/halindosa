@@ -57,6 +57,7 @@
 - `npm run qa`
 - `npm run smoke:local`
 - Play Store 이미지 제작 기준 문서화
+- Play Store 512 아이콘과 기능 그래픽 초안 생성
 
 ## 진행 중 작업
 
@@ -67,7 +68,7 @@
 
 ## 다음 작업
 
-1. `docs/store-assets-guide.md` 기준으로 실제 스크린샷/기능 그래픽 제작
+1. 실제 기기/에뮬레이터에서 Play Store 스크린샷 6장 촬영
 2. signed release AAB 생성을 위한 실제 keystore 생성
 3. 내부 테스트 트랙 업로드
 4. 실제 기기 2종 이상 설치 확인

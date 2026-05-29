@@ -68,6 +68,8 @@
 - Release AAB: `android/app/build/outputs/bundle/release/app-release.aab`
 - Roadmap: `docs/roadmap.md`
 - Store asset guide: `docs/store-assets-guide.md`
+- Play Store icon draft: `assets/store/play-store-icon-512.png`
+- Feature graphic draft: `assets/store/feature-graphic-1024x500.png`
 
 ## 남은 Critical Issue
 

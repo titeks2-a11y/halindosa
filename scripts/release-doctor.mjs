@@ -127,11 +127,24 @@ function checkSigningAndArtifacts() {
   else pass("debug APK", `${apk} (${fileSize(apk)} bytes)`);
 }
 
+function checkStoreAssets() {
+  const assets = [
+    "assets/store/halindosa-logo-source.jpg",
+    "assets/store/play-store-icon-512.png",
+    "assets/store/feature-graphic-1024x500.png"
+  ];
+  const missing = assets.filter((file) => fileSize(file) <= 0);
+
+  if (missing.length) fail("store assets", `Missing: ${missing.join(", ")}`);
+  else pass("store assets", "Play Store icon source and feature graphic drafts are present.");
+}
+
 await checkPackage();
 await checkCapacitor();
 await checkAndroid();
 await checkPolicyAndStoreDocs();
 checkSigningAndArtifacts();
+checkStoreAssets();
 
 for (const check of checks) {
   const prefix = check.ok ? "PASS" : "FAIL";
