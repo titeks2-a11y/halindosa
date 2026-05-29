@@ -23,6 +23,7 @@ body {
     "Apple SD Gothic Neo",
     "Noto Sans KR",
     sans-serif;
+  -webkit-tap-highlight-color: transparent;
 }
 
 button,

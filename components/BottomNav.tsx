@@ -25,7 +25,7 @@ function getBadgeCount(view: AppView, favoriteCount: number, alertCount: number)
 
 export function BottomNav({ activeView, favoriteCount, alertCount, onChange }: BottomNavProps) {
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 border-t border-slate-200 bg-white/95 px-2 pb-2 pt-1 shadow-2xl shadow-slate-300 backdrop-blur sm:hidden">
+    <nav className="fixed bottom-0 left-0 right-0 z-40 border-t border-slate-200 bg-white/95 px-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] pt-1 shadow-2xl shadow-slate-300 backdrop-blur sm:hidden">
       <div className="mx-auto grid max-w-md grid-cols-5">
         {items.map((item) => {
           const Icon = item.icon;
@@ -40,6 +40,7 @@ export function BottomNav({ activeView, favoriteCount, alertCount, onChange }: B
               className={`relative flex min-h-[56px] flex-col items-center justify-center gap-1 rounded-2xl text-xs font-black transition ${
                 active ? "text-dossa-red" : "text-slate-400 hover:text-slate-700"
               }`}
+              aria-current={active ? "page" : undefined}
             >
               <Icon size={21} fill={active && item.id === "favorites" ? "currentColor" : "none"} />
               {item.label}

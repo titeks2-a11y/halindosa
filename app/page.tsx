@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { BellRing, CheckCircle2, Flame, Info, SlidersHorizontal, Timer, Truck, UserRound } from "lucide-react";
+import { BellRing, CheckCircle2, Flame, Info, Share2, SlidersHorizontal, Timer, Truck, UserRound } from "lucide-react";
 import { AppView, BottomNav, DesktopNav } from "@/components/BottomNav";
 import { CategoryTabs } from "@/components/CategoryTabs";
 import { CommercialFooter } from "@/components/CommercialFooter";
@@ -441,6 +441,28 @@ export default function Home() {
     window.open(signal.url, "_blank", "noopener,noreferrer");
   };
 
+  const shareApp = async () => {
+    const appUrl = typeof window === "undefined" ? "https://halindosa.example" : window.location.origin;
+    const text = "할인도사 - 실시간 할인 특가 정보를 가장 빠르게 찾는 방법";
+
+    try {
+      const nav = navigator as Navigator & {
+        share?: (data: ShareData) => Promise<void>;
+        clipboard?: Clipboard;
+      };
+
+      if (nav.share) {
+        await nav.share({ title: "할인도사", text, url: appUrl });
+        return;
+      }
+
+      await nav.clipboard?.writeText(`${text}\n${appUrl}`);
+      showToast("앱 공유 링크를 복사했습니다.");
+    } catch {
+      showToast("공유를 취소했습니다.");
+    }
+  };
+
   const stats = useMemo(() => {
     const hotCount = deals.filter((deal) => deal.isHot).length;
     const endingCount = deals.filter((deal) => deal.isEndingSoon).length;
@@ -726,6 +748,7 @@ export default function Home() {
                 <div className="rounded-2xl bg-red-50 px-4 py-3">마감 임박 {alertDeals.filter((deal) => deal.isEndingSoon).length}개</div>
                 <div className="rounded-2xl bg-slate-50 px-4 py-3">오늘의 인기 {alertDeals.filter((deal) => deal.isHot).length}개</div>
                 <div className="rounded-2xl bg-slate-50 px-4 py-3">신규 등록 {alertDeals.filter((deal) => deal.isNew).length}개</div>
+                <div className="rounded-2xl bg-red-50 px-4 py-3 text-dossa-red">무료배송 {alertDeals.filter(isFreeShippingDeal).length}개</div>
               </div>
             </aside>
           </div>
@@ -761,6 +784,12 @@ export default function Home() {
                   <p className="mt-1 text-2xl font-black text-slate-950">{catalog.length}</p>
                 </div>
               </div>
+              <div className="mt-5 rounded-2xl bg-slate-50 p-4">
+                <p className="text-sm font-black text-slate-950">공지사항</p>
+                <p className="mt-2 text-sm font-semibold leading-6 text-slate-500">
+                  현재 할인도사는 회원가입 없이 사용할 수 있으며, 관심 특가는 이 기기에만 저장됩니다. 실제 운영 전 공식 API와 제휴 피드를 연결할 예정입니다.
+                </p>
+              </div>
             </div>
             <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
               <p className="text-lg font-black text-slate-950">상업화 준비 체크</p>
@@ -776,6 +805,14 @@ export default function Home() {
                 <Link href="/privacy" className="rounded-2xl bg-slate-50 px-4 py-3 hover:bg-red-50 hover:text-dossa-red">개인정보처리방침</Link>
                 <Link href="/terms" className="rounded-2xl bg-slate-50 px-4 py-3 hover:bg-red-50 hover:text-dossa-red">이용약관</Link>
                 <a href="mailto:support@halindosa.example" className="rounded-2xl bg-slate-50 px-4 py-3 hover:bg-red-50 hover:text-dossa-red">문의하기</a>
+                <button
+                  type="button"
+                  onClick={shareApp}
+                  className="inline-flex items-center justify-between rounded-2xl bg-slate-50 px-4 py-3 text-left hover:bg-red-50 hover:text-dossa-red"
+                >
+                  앱 공유하기
+                  <Share2 size={16} />
+                </button>
                 <p className="rounded-2xl bg-red-50 px-4 py-3 text-dossa-red">앱 버전 1.0.0</p>
               </div>
             </div>
