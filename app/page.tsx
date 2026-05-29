@@ -14,7 +14,8 @@ import { LiveDealFeed } from "@/components/LiveDealFeed";
 import { SearchBar } from "@/components/SearchBar";
 import { SortSelect } from "@/components/SortSelect";
 import { Toast } from "@/components/Toast";
-import { categories, mockDeals } from "@/data/mockDeals";
+import { dealChannels, dealMatchesChannel, getDealChannel, getProviderCategory } from "@/data/dealChannels";
+import { mockDeals } from "@/data/mockDeals";
 import { ConsentState, hasAffiliateConsent, hasAnalyticsConsent, readStoredConsent } from "@/lib/consent";
 import { Deal, DealSort } from "@/types/deal";
 import { HotSignal } from "@/types/hotSignal";
@@ -41,8 +42,8 @@ function filterLocalDeals(items: Deal[], category: string, query: string, sort: 
   const searchQuery = query.trim().toLowerCase();
   let filtered = items;
 
-  if (category && category !== "전체") {
-    filtered = filtered.filter((deal) => deal.category === category);
+  if (category && category !== "전체" && category !== "all") {
+    filtered = filtered.filter((deal) => dealMatchesChannel(deal, category));
   }
 
   if (searchQuery) {
@@ -112,7 +113,7 @@ export default function Home() {
   const [catalog, setCatalog] = useState<Deal[]>(mockDeals);
   const [activeView, setActiveView] = useState<AppView>("home");
   const [query, setQuery] = useState("");
-  const [category, setCategory] = useState("전체");
+  const [category, setCategory] = useState("all");
   const [sort, setSort] = useState<DealSort>("latest");
   const [updatedAt, setUpdatedAt] = useState("");
   const [providerSource, setProviderSource] = useState("mock");
@@ -173,7 +174,7 @@ export default function Home() {
         setDeals(Array.isArray(data.deals) ? data.deals : []);
         setUpdatedAt(data.updatedAt);
         setProviderSource(data.source ?? "mock");
-        if (!query.trim() && category === "전체") {
+        if (!query.trim() && category === "all") {
           setCatalog(Array.isArray(data.deals) ? data.deals : []);
         }
 
@@ -239,7 +240,7 @@ export default function Home() {
         }
 
         const params = new URLSearchParams({
-          category,
+          category: getProviderCategory(category) ?? category,
           limit: "9"
         });
 
@@ -355,6 +356,33 @@ export default function Home() {
     window.open(`/api/redirect/${deal.id}?${params.toString()}`, "_blank", "noopener,noreferrer");
   };
 
+  const shareDeal = async (deal: Deal) => {
+    const shareUrl = typeof window === "undefined" ? deal.link : `${window.location.origin}/deals/${deal.id}`;
+    const text = `${deal.mall} ${deal.title} ${deal.discountRate}% 할인`;
+
+    try {
+      const nav = navigator as Navigator & {
+        share?: (data: ShareData) => Promise<void>;
+        clipboard?: Clipboard;
+      };
+
+      if (typeof navigator !== "undefined" && nav.share) {
+        await nav.share({
+          title: `할인도사 - ${deal.title}`,
+          text,
+          url: shareUrl
+        });
+      } else if (nav.clipboard) {
+        await nav.clipboard.writeText(`${text}\n${shareUrl}`);
+        showToast("특가 링크를 복사했습니다.");
+      } else {
+        showToast("공유 기능을 사용할 수 없습니다.");
+      }
+    } catch {
+      showToast("공유를 취소했습니다.");
+    }
+  };
+
   const openHotSignal = async (signal: HotSignal) => {
     showToast("할인도사 특가 브리핑으로 이동합니다.");
 
@@ -385,12 +413,14 @@ export default function Home() {
 
   const categoryStats = useMemo(
     () =>
-      categories.map((name) => {
-        const categoryDeals = name === "전체" ? catalog : catalog.filter((deal) => deal.category === name);
+      dealChannels.map((channel) => {
+        const categoryDeals = channel.id === "all" ? catalog : catalog.filter((deal) => dealMatchesChannel(deal, channel.id));
         const bestDiscount = categoryDeals.reduce((best, deal) => Math.max(best, deal.discountRate), 0);
 
         return {
-          name,
+          name: channel.label,
+          id: channel.id,
+          description: channel.description,
           count: categoryDeals.length,
           bestDiscount
         };
@@ -398,11 +428,24 @@ export default function Home() {
     [catalog]
   );
 
-  const openCategory = (name: string) => {
-    setCategory(name);
+  const openCategory = (id: string) => {
+    setCategory(id);
     setActiveView("home");
     window.setTimeout(() => document.getElementById("deals")?.scrollIntoView({ behavior: "smooth" }), 0);
   };
+
+  const viewTitle =
+    activeView === "home"
+      ? getDealChannel(category).label === "전체"
+        ? "실시간 할인 정보"
+        : getDealChannel(category).label
+      : activeView === "categories"
+        ? "카테고리"
+        : activeView === "alerts"
+          ? "알림"
+          : activeView === "favorites"
+            ? "찜한 특가"
+            : "마이";
 
   const renderDealGrid = (items: Deal[], emptyTitle: string, emptyDescription: string) => {
     if (!items.length) {
@@ -423,6 +466,7 @@ export default function Home() {
             isFavorite={favorites.includes(deal.id)}
             onToggleFavorite={toggleFavorite}
             onOpenDeal={openDeal}
+            onShareDeal={shareDeal}
           />
         ))}
       </div>
@@ -440,13 +484,7 @@ export default function Home() {
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <p className="text-sm font-black text-dossa-red">실시간 특가 모아보기</p>
-            <h2 className="text-2xl font-black text-slate-950">
-              {activeView === "home" && "실시간 할인 정보"}
-              {activeView === "categories" && "카테고리"}
-              {activeView === "alerts" && "알림"}
-              {activeView === "favorites" && "찜한 특가"}
-              {activeView === "my" && "마이"}
-            </h2>
+            <h2 className="text-2xl font-black text-slate-950">{viewTitle}</h2>
           </div>
           <DesktopNav
             activeView={activeView}
@@ -464,6 +502,7 @@ export default function Home() {
               favorites={favorites}
               onToggleFavorite={toggleFavorite}
               onOpenDeal={openDeal}
+              onShareDeal={shareDeal}
               onOpenSignal={openHotSignal}
             />
 
@@ -472,9 +511,10 @@ export default function Home() {
             <FeaturedDealSections
               deals={catalog.length ? catalog : deals}
               favorites={favorites}
-              onToggleFavorite={toggleFavorite}
-              onOpenDeal={openDeal}
-            />
+          onToggleFavorite={toggleFavorite}
+          onOpenDeal={openDeal}
+          onShareDeal={shareDeal}
+        />
 
             <div id="all-deals" className="h-1" />
             <div className="rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
@@ -528,17 +568,18 @@ export default function Home() {
           <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-5">
             {categoryStats.map((item) => (
               <button
-                key={item.name}
+                key={item.id}
                 type="button"
-                onClick={() => openCategory(item.name)}
+                onClick={() => openCategory(item.id)}
                 className="rounded-3xl border border-slate-200 bg-white p-4 text-left shadow-sm transition hover:-translate-y-1 hover:border-red-100 hover:shadow-deal"
               >
                 <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-red-50 text-dossa-red">
                   <SlidersHorizontal size={19} />
                 </span>
                 <p className="mt-4 text-lg font-black text-slate-950">{item.name}</p>
-                <p className="mt-1 text-sm font-bold text-slate-500">{item.count}개 특가</p>
+                <p className="mt-1 text-sm font-bold text-slate-500">{item.description}</p>
                 <p className="mt-3 text-sm font-black text-dossa-red">최대 {item.bestDiscount}%</p>
+                <p className="mt-1 text-xs font-bold text-slate-400">{item.count}개 특가</p>
               </button>
             ))}
           </div>

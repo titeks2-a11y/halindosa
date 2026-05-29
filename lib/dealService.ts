@@ -1,4 +1,5 @@
 import { mockDeals } from "@/data/mockDeals";
+import { dealMatchesChannel, getProviderCategory } from "@/data/dealChannels";
 import { fetchLiveDeals } from "@/lib/liveDealProvider";
 import { Deal, DealSort } from "@/types/deal";
 
@@ -52,7 +53,10 @@ export async function fetchDealProvider(query: Pick<DealQuery, "category" | "q">
 
   if (shouldFetchLive) {
     try {
-      const liveDeals = await fetchLiveDeals(query);
+      const liveDeals = await fetchLiveDeals({
+        category: getProviderCategory(query.category) ?? query.category,
+        q: query.q
+      });
 
       if (liveDeals.length > 0) {
         const deals = providerMode === "hybrid" ? [...liveDeals, ...mockDeals] : liveDeals;
@@ -84,8 +88,8 @@ export async function getDeals(query: DealQuery = {}) {
   const limit = query.limit ?? 0;
   let deals = provider.deals;
 
-  if (query.category && query.category !== "전체") {
-    deals = deals.filter((deal) => deal.category === query.category);
+  if (query.category && query.category !== "전체" && query.category !== "all") {
+    deals = deals.filter((deal) => dealMatchesChannel(deal, query.category));
   }
 
   if (searchQuery) {

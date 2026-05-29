@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Clock, ExternalLink, Heart, ShoppingBag, Store, Tag } from "lucide-react";
+import { Clock, ExternalLink, Heart, Share2, ShoppingBag, Store, Tag } from "lucide-react";
 import { getAffiliateDisclosure } from "@/lib/affiliate";
 import { getDealImageSrc } from "@/lib/imageSrc";
 import { Deal } from "@/types/deal";
@@ -10,9 +10,10 @@ interface DealCardProps {
   isFavorite: boolean;
   onToggleFavorite: (id: string) => void;
   onOpenDeal: (deal: Deal) => void;
+  onShareDeal: (deal: Deal) => void;
 }
 
-export function DealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal }: DealCardProps) {
+export function DealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, onShareDeal }: DealCardProps) {
   return (
     <article className="group overflow-hidden rounded-[24px] border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:border-red-100 hover:shadow-deal">
       <div className="relative flex aspect-[16/10] items-center justify-center overflow-hidden bg-gradient-to-br from-red-50 via-rose-100 to-red-200">
@@ -40,6 +41,24 @@ export function DealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal }: Dea
           {deal.isHot ? <span className="rounded-full bg-dossa-red px-2.5 py-1 text-xs font-black text-white">HOT</span> : null}
           {deal.isNew ? <span className="rounded-full bg-slate-950 px-2.5 py-1 text-xs font-black text-white">NEW</span> : null}
           {deal.isEndingSoon ? <span className="rounded-full bg-amber-400 px-2.5 py-1 text-xs font-black text-slate-950">마감임박</span> : null}
+        </div>
+        <div className="absolute bottom-3 right-3 flex gap-2">
+          <button
+            type="button"
+            onClick={() => onShareDeal(deal)}
+            aria-label="특가 공유하기"
+            className="flex h-10 w-10 items-center justify-center rounded-2xl bg-white/95 text-slate-600 shadow-md transition hover:text-dossa-red"
+          >
+            <Share2 size={17} />
+          </button>
+          <button
+            type="button"
+            onClick={() => onOpenDeal(deal)}
+            aria-label="특가 보러가기"
+            className="flex h-10 w-10 items-center justify-center rounded-2xl bg-slate-950 text-white shadow-md transition hover:bg-dossa-red"
+          >
+            <ExternalLink size={17} />
+          </button>
         </div>
       </div>
 
@@ -92,15 +111,6 @@ export function DealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal }: Dea
         <p className="line-clamp-2 rounded-2xl bg-white px-0 py-0 text-xs font-bold leading-5 text-slate-500">
           {getAffiliateDisclosure(deal)}
         </p>
-
-        <button
-          type="button"
-          onClick={() => onOpenDeal(deal)}
-          className="flex w-full items-center justify-center gap-2 rounded-2xl bg-slate-950 px-4 py-3 text-sm font-black text-white transition hover:bg-dossa-red"
-        >
-          특가 보러가기
-          <ExternalLink size={16} />
-        </button>
 
         <Link href={`/deals/${deal.id}`} className="block text-center text-xs font-black text-slate-500 hover:text-dossa-red">
           상세 정보와 가격 신고

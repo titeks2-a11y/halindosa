@@ -1,4 +1,4 @@
-import { Clock, ExternalLink, Heart, Radio, ShoppingBag, Zap } from "lucide-react";
+import { Clock, ExternalLink, Heart, Radio, Share2, ShoppingBag, Zap } from "lucide-react";
 import { formatPrice, getRelativeTime, getTimeLeft } from "@/lib/format";
 import { getDealImageSrc } from "@/lib/imageSrc";
 import { Deal } from "@/types/deal";
@@ -10,6 +10,7 @@ interface LiveDealFeedProps {
   favorites: string[];
   onToggleFavorite: (id: string) => void;
   onOpenDeal: (deal: Deal) => void;
+  onShareDeal: (deal: Deal) => void;
   onOpenSignal: (signal: HotSignal) => void;
 }
 
@@ -19,6 +20,7 @@ export function LiveDealFeed({
   favorites,
   onToggleFavorite,
   onOpenDeal,
+  onShareDeal,
   onOpenSignal
 }: LiveDealFeedProps) {
   const leadDeals = deals.slice(0, 10);
@@ -76,7 +78,10 @@ export function LiveDealFeed({
 
       <div className="mt-4 divide-y divide-slate-100 overflow-hidden rounded-3xl border border-slate-100">
         {leadDeals.map((deal) => (
-          <article key={deal.id} className="grid gap-3 bg-white p-3 transition hover:bg-slate-50 sm:grid-cols-[auto_1fr_auto] sm:items-center">
+          <article
+            key={deal.id}
+            className="relative grid gap-3 bg-white p-3 pr-24 transition hover:bg-slate-50 sm:grid-cols-[auto_1fr_auto] sm:items-center sm:pr-28"
+          >
             <div className="flex items-center gap-3">
               <div className="relative flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-br from-red-50 to-rose-100 text-dossa-red">
                 {deal.imageUrl ? (
@@ -117,22 +122,32 @@ export function LiveDealFeed({
                 <p className="text-xs font-semibold text-slate-400 line-through">{formatPrice(deal.originalPrice)}</p>
                 <p className="truncate text-xl font-black text-dossa-red">{formatPrice(deal.salePrice)}</p>
               </div>
+            </div>
+            <button
+              type="button"
+              onClick={() => onToggleFavorite(deal.id)}
+              aria-label="찜하기"
+              className={`absolute right-3 top-3 flex h-10 w-10 items-center justify-center rounded-2xl border bg-white/95 shadow-sm transition ${
+                favorites.includes(deal.id)
+                  ? "border-red-100 text-dossa-red"
+                  : "border-slate-200 text-slate-400 hover:text-dossa-red"
+              }`}
+            >
+              <Heart size={18} fill={favorites.includes(deal.id) ? "currentColor" : "none"} />
+            </button>
+            <div className="absolute bottom-3 right-3 flex gap-2">
               <button
                 type="button"
-                onClick={() => onToggleFavorite(deal.id)}
-                aria-label="찜하기"
-                className={`flex h-10 w-10 items-center justify-center rounded-2xl border transition ${
-                  favorites.includes(deal.id)
-                    ? "border-red-100 bg-red-50 text-dossa-red"
-                    : "border-slate-200 bg-white text-slate-400 hover:text-dossa-red"
-                }`}
+                onClick={() => onShareDeal(deal)}
+                className="flex h-10 w-10 items-center justify-center rounded-2xl border border-slate-200 bg-white text-slate-500 shadow-sm transition hover:border-red-100 hover:text-dossa-red"
+                aria-label="특가 공유하기"
               >
-                <Heart size={18} fill={favorites.includes(deal.id) ? "currentColor" : "none"} />
+                <Share2 size={17} />
               </button>
               <button
                 type="button"
                 onClick={() => onOpenDeal(deal)}
-                className="flex h-10 w-10 items-center justify-center rounded-2xl bg-slate-950 text-white transition hover:bg-dossa-red"
+                className="flex h-10 w-10 items-center justify-center rounded-2xl bg-slate-950 text-white shadow-sm transition hover:bg-dossa-red"
                 aria-label="특가 보러가기"
               >
                 <ExternalLink size={17} />

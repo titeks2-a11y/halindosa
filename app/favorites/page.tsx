@@ -46,6 +46,27 @@ export default function FavoritesPage() {
     });
   };
 
+  const shareDeal = async (deal: Deal) => {
+    const shareUrl = `${window.location.origin}/deals/${deal.id}`;
+    const text = `${deal.mall} ${deal.title} ${deal.discountRate}% 할인`;
+
+    try {
+      const nav = navigator as Navigator & {
+        share?: (data: ShareData) => Promise<void>;
+        clipboard?: Clipboard;
+      };
+
+      if (nav.share) {
+        await nav.share({ title: `할인도사 - ${deal.title}`, text, url: shareUrl });
+        return;
+      }
+
+      await nav.clipboard?.writeText(`${text}\n${shareUrl}`);
+    } catch {
+      // Sharing is optional and should not interrupt browsing.
+    }
+  };
+
   return (
     <main className="min-h-screen bg-slate-50 px-4 py-5 pb-12 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl space-y-5">
@@ -75,6 +96,7 @@ export default function FavoritesPage() {
                 isFavorite={favorites.includes(deal.id)}
                 onToggleFavorite={toggleFavorite}
                 onOpenDeal={openExternalDeal}
+                onShareDeal={shareDeal}
               />
             ))}
           </div>
