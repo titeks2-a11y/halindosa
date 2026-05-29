@@ -8,6 +8,8 @@
 - [ ] `npm run cap:sync`
 - [ ] `npm run android:doctor`
 - [ ] `npm run android:debug`
+- [ ] `npm run android:bundle`
+- [ ] `npm run release:doctor`
 
 ## Android 설정
 
@@ -21,6 +23,8 @@
 - [x] INTERNET 권한만 사용
 - [ ] release keystore 생성
 - [ ] signed AAB 생성
+- [ ] `android/keystore.properties`는 로컬에만 보관
+- [ ] `android/keystore.properties.example` 기준으로 서명 설정 확인
 
 ## Play Console
 

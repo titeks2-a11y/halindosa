@@ -17,6 +17,7 @@ npm run build:android
 npm run cap:sync
 npm run android:doctor
 npm run android:debug
+npm run release:doctor
 npm run cap:open
 ```
 
@@ -35,6 +36,30 @@ npm run cap:open
 
 ```bash
 npm run android:bundle
+npm run release:doctor
+```
+
+## Release 서명 준비
+
+Play Store 업로드용 AAB는 release 서명이 필요합니다. 안전한 기본 절차는 Android Studio의
+`Build > Generate Signed Bundle / APK` 마법사를 사용하는 것입니다.
+
+터미널 서명을 준비하려면 `android/keystore.properties.example`을
+`android/keystore.properties`로 복사한 뒤 실제 keystore 경로와 비밀번호를 채웁니다.
+`android/keystore.properties`와 `.jks` 파일은 `.gitignore` 대상이며 절대 커밋하지 않습니다.
+
+```properties
+storeFile=../release/halindosa-release.jks
+storePassword=실제_비밀번호
+keyAlias=halindosa
+keyPassword=실제_비밀번호
+```
+
+서명 준비 후 아래 명령으로 AAB 생성 가능 여부를 확인합니다.
+
+```bash
+npm run android:bundle
+npm run release:doctor
 ```
 
 ## 구현 메모

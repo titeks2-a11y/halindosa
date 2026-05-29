@@ -16,6 +16,7 @@
     "lint": "eslint .",
     "smoke": "node scripts/smoke.mjs",
     "audit:commercial": "node scripts/audit.mjs",
+    "release:doctor": "node scripts/release-doctor.mjs",
     "wait:health": "node scripts/wait-for-health.mjs"
   },
   "dependencies": {
