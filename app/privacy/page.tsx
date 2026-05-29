@@ -6,14 +6,14 @@ export default function PrivacyPage() {
       <Link href="/" className="text-sm font-black text-dossa-red">
         할인도사로 돌아가기
       </Link>
-      <h1 className="mt-6 text-3xl font-black text-slate-950">개인정보 처리방침</h1>
+      <h1 className="mt-6 text-3xl font-black text-slate-950">할인도사 개인정보처리방침</h1>
       <div className="mt-6 space-y-5 rounded-3xl border border-slate-200 bg-white p-6 text-sm font-semibold leading-7 text-slate-600 shadow-sm">
         <section>
-          <h2 className="text-lg font-black text-slate-950">수집 항목</h2>
+          <h2 className="text-lg font-black text-slate-950">현재 수집 항목</h2>
           <p className="mt-2">
-            현재 MVP는 회원가입 없이 동작하며, 찜 목록은 사용자의 브라우저 localStorage에만 저장됩니다. 서버는
-            mock 이벤트 응답만 반환하며 개인정보를 영구 저장하지 않습니다. 분석/제휴 성과 측정 동의 상태도
-            사용자의 브라우저 localStorage에 저장됩니다.
+            할인도사는 현재 회원가입 없이 사용할 수 있습니다. 찜한 특가, 동의 설정 등 앱 사용 편의를 위한 정보는
+            사용자의 기기 또는 브라우저 저장소에만 저장됩니다. 현재 앱은 이름, 전화번호, 이메일, 주소 같은 회원
+            개인정보를 요구하지 않습니다.
           </p>
         </section>
         <section>
@@ -24,10 +24,17 @@ export default function PrivacyPage() {
           </p>
         </section>
         <section>
-          <h2 className="text-lg font-black text-slate-950">운영 전 추가 고지</h2>
+          <h2 className="text-lg font-black text-slate-950">향후 도입 가능 기능</h2>
           <p className="mt-2">
-            실제 운영에서 계정, 푸시 알림, 광고 측정, 제휴 추적, 분석 도구를 연결하는 경우 수집 목적, 보관 기간,
-            제3자 제공 여부를 별도로 고지하고 동의를 받아야 합니다.
+            광고, 분석, 푸시 알림, 제휴 성과 측정, 고객 문의 기능을 도입하는 경우 수집 항목, 이용 목적, 보관 기간,
+            제3자 제공 여부를 본 방침에 반영하고 필요한 동의를 받습니다.
+          </p>
+        </section>
+        <section>
+          <h2 className="text-lg font-black text-slate-950">외부 링크</h2>
+          <p className="mt-2">
+            구매 버튼을 누르면 판매처 또는 제휴사 웹사이트로 이동할 수 있습니다. 외부 사이트의 개인정보 처리와
+            결제, 배송, 환불 정책은 해당 사업자의 정책을 따릅니다.
           </p>
         </section>
         <section>
@@ -36,6 +43,10 @@ export default function PrivacyPage() {
             사용자는 브라우저 저장소 삭제를 통해 찜 데이터를 제거할 수 있습니다. 상업 운영 시 개인정보 열람,
             정정, 삭제, 처리정지 요청 창구를 제공합니다.
           </p>
+        </section>
+        <section>
+          <h2 className="text-lg font-black text-slate-950">문의</h2>
+          <p className="mt-2">개인정보 관련 문의는 앱 내 마이 화면의 문의하기 영역을 통해 접수할 수 있습니다.</p>
         </section>
       </div>
     </main>
