@@ -10,6 +10,7 @@
 - [x] `npm run android:debug`
 - [x] `npm run android:bundle`
 - [x] `npm run release:doctor`
+- [x] `npm run smoke:local`
 
 ## Android 설정
 

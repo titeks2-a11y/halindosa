@@ -77,6 +77,7 @@ npm run lint
 npm run build
 npm run build:android
 npm run cap:sync
+npm run smoke:local
 npm run release:doctor
 ```
 
@@ -85,6 +86,8 @@ npm run release:doctor
 ```bash
 npm run smoke
 ```
+
+`smoke:local`은 개발 서버 실행, 헬스체크 대기, smoke 검증, 서버 종료까지 한 번에 수행합니다.
 
 ## 내부 테스트 기준
 

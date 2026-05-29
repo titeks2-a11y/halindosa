@@ -15,6 +15,7 @@
     "start": "next start",
     "lint": "eslint .",
     "smoke": "node scripts/smoke.mjs",
+    "smoke:local": "node scripts/smoke-local.mjs",
     "audit:commercial": "node scripts/audit.mjs",
     "release:doctor": "node scripts/release-doctor.mjs",
     "qa": "npm run lint && npm run build && npm run release:doctor",

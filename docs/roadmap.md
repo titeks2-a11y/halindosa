@@ -55,6 +55,7 @@
 - `npm run release:doctor`
 - `npm run audit:commercial`
 - `npm run qa`
+- `npm run smoke:local`
 - Play Store 이미지 제작 기준 문서화
 
 ## 진행 중 작업
