@@ -15,12 +15,14 @@
 - 찜, 공유, 외부 이동 버튼 배치
 - 검색 결과 없음, 로딩, fallback 오류 상태 구현
 - 오늘의 특가 배너, 실시간 인기 TOP10, 카테고리별 인기, 최근 본 특가, 추천 특가 구성
+- 특가 카드와 상세 화면에 검수 신뢰 배지 추가
 
 ### PHASE 2 코드 품질
 
 - Deal 타입에 배송 정보, 설명, 유의사항 추가
 - Deal canonical 필드 표준화: `mallName`, `thumbnail`, `shipping`, `expireAt`, `isFreeShipping`
 - mock/staging/production/hybrid 데이터 provider 레이어 분리
+- `/api/sources` 공급원 상태 API와 관리자 공급원 상태 패널 추가
 - 실시간/파트너 피드 정규화 경로에 Deal 필수 필드 반영
 - 린트 오류 제거
 - 하단 탭 safe-area 대응
@@ -45,6 +47,7 @@
 - `docs/weekly-operation-guide.md`
 - `docs/customer-support-guide.md`
 - `docs/v1-1-roadmap.md`
+- `docs/data-source-runbook.md`
 
 ### PHASE 4 Android 출시 준비
 
@@ -69,6 +72,7 @@
 - `npm run audit:commercial`
 - `npm run qa`
 - `npm run smoke:local`
+- smoke 17개 항목으로 확장: sources API 포함
 - Play Store 이미지 제작 기준 문서화
 - Play Store 512 아이콘과 기능 그래픽 초안 생성
 
