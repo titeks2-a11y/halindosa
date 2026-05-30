@@ -143,6 +143,17 @@ async function checkEnvExample() {
   } else {
     pass("env fallback guidance", "External API keys can be left blank for fallback operation.");
   }
+
+  const dataModeMatch = env.match(/^DEAL_DATA_MODE=(.+)$/m);
+  const providerMatch = env.match(/^DEAL_PROVIDER=(.+)$/m);
+  const supportedModes = ["mock", "staging", "production", "hybrid"];
+  const invalidModes = [dataModeMatch?.[1], providerMatch?.[1]].filter((mode) => mode && !supportedModes.includes(mode));
+
+  if (!env.includes("mock | staging | production | hybrid") || invalidModes.length) {
+    fail("env data mode values", `.env.example should document and use supported runtime modes only. Invalid: ${invalidModes.join(", ") || "comment mismatch"}`);
+  } else {
+    pass("env data mode values", "Data provider mode examples match the repository runtime modes.");
+  }
 }
 
 async function checkPublicContact() {
@@ -247,6 +258,7 @@ async function checkUiAccessibility() {
 }
 
 async function checkOperationalDataSurfaces() {
+  const dealsRoute = await text("app/api/deals/route.ts");
   const categoriesPage = await text("app/categories/page.tsx");
   const notificationsPage = await text("app/notifications/page.tsx");
   const favoritesPage = await text("app/favorites/page.tsx");
@@ -270,6 +282,12 @@ async function checkOperationalDataSurfaces() {
     fail("admin product copy", `Admin page still exposes raw internal terms: ${adminRawTerms.join(", ")}`);
   } else {
     pass("admin product copy", "Admin dashboard avoids raw internal source and score copy.");
+  }
+
+  if (!dealsRoute.includes("normalizeDeals(mockDeals") || dealsRoute.includes("mock 데이터로 대체")) {
+    fail("api fallback normalization", "Deals API fallback should normalize canonical fields and avoid public mock wording.");
+  } else {
+    pass("api fallback normalization", "Deals API fallback keeps canonical fields and user-facing fallback copy.");
   }
 }
 

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { mockDeals } from "@/data/mockDeals";
 import { getDeals, normalizeSort } from "@/lib/dealService";
+import { normalizeDeals } from "@/lib/deals/normalizer";
 import { summarizeDealQuality } from "@/lib/deals/quality";
 
 export async function GET(request: Request) {
@@ -29,15 +30,17 @@ export async function GET(request: Request) {
       message: "할인도사 특가 데이터를 성공적으로 불러왔습니다."
     });
   } catch (error) {
+    const fallbackDeals = normalizeDeals(mockDeals, "mock");
+
     return NextResponse.json(
       {
         ok: false,
-        deals: mockDeals,
-        count: mockDeals.length,
-        quality: summarizeDealQuality(mockDeals),
+        deals: fallbackDeals,
+        count: fallbackDeals.length,
+        quality: summarizeDealQuality(fallbackDeals),
         updatedAt: new Date().toISOString(),
         source: "mock",
-        message: "특가 데이터를 불러오는 중 문제가 발생해 mock 데이터로 대체했습니다.",
+        message: "특가 데이터를 불러오는 중 문제가 발생해 기본 큐레이션 데이터로 대체했습니다.",
         error: error instanceof Error ? error.message : "Unknown error"
       },
       { status: 200 }

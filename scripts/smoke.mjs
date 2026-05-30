@@ -160,6 +160,7 @@ await check("deals api", async () => {
   for (const field of ["mallName", "thumbnail", "shipping", "expireAt", "isFreeShipping"]) {
     assert(field in data.deals[0], `Canonical Deal field missing: ${field}`);
   }
+  assert(!data.message.includes("mock"), "Deals API should not expose mock wording in success message");
   for (const field of ["mall", "imageUrl", "shippingInfo", "expiresAt"]) {
     assert(field in data.deals[0], `Legacy Deal alias missing: ${field}`);
   }
