@@ -819,10 +819,10 @@ export default function Home() {
               <span className="text-xs font-black text-slate-950">{getProviderDisplayLabel(providerSource)}</span>
             </span>
             <span className="inline-flex shrink-0 items-center gap-2 rounded-full bg-slate-50 px-3 py-2 text-xs font-black text-slate-700">
-              구매 링크 확인 <b className="text-slate-950">{dataQuality.verifiedLinkCount}/{dataQuality.total}개</b>
+              구매 전 판매처 확인 <b className="text-slate-950">권장</b>
             </span>
             <span className="inline-flex shrink-0 items-center gap-2 rounded-full bg-amber-50 px-3 py-2 text-xs font-black text-amber-800">
-              판매처 검색 확인 필요 <b>{dataQuality.reviewLinkCount}개</b>
+              가격/재고 변동 <b>안내</b>
             </span>
             <span className="inline-flex shrink-0 items-center gap-2 rounded-full bg-slate-50 px-3 py-2 text-xs font-black text-slate-700">
               네트워크 <b className="text-slate-950">{isOffline ? "오프라인 모드" : "온라인"}</b>

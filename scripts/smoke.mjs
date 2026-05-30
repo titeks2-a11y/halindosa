@@ -76,7 +76,8 @@ await check("home page", async () => {
   assert(text.includes("할인도사"), "Home page missing brand text");
   assert(text.includes("샤오미 86인치") || text.includes("새우깡"), "Home page missing initial deal cards");
   assert(text.includes("데이터 상태"), "Home page missing data quality summary");
-  assert(text.includes("구매 링크 확인"), "Home page missing verified link count");
+  assert(text.includes("구매 전 판매처 확인"), "Home page missing purchase verification guidance");
+  assert(text.includes("가격/재고 변동"), "Home page missing price stock risk guidance");
   assert(text.includes("네트워크 정상") || text.includes("오프라인 상태"), "Home page missing network status summary");
 });
 

@@ -45,6 +45,7 @@
 - `.gitignore`에 Android/iOS 민감 파일과 빌드 산출물 보호 범위를 확장하고 release doctor에 추적 민감 파일 검사를 추가
 - `.env.example`과 Vercel 배포 가이드에 `DEAL_DATA_MODE`를 반영하고 release doctor에 환경변수 예시 검사 추가
 - 운영 대시보드에 링크 검수 큐를 추가해 판매처 검색 fallback 상품을 우선 보강할 수 있도록 개선하고 smoke 검증 추가
+- 홈 상단의 내부 링크 검수 수치 노출을 제거하고 일반 사용자에게 구매 전 판매처 확인/가격 재고 변동 안내 중심으로 표시
 
 ### PHASE 2 코드 품질
 
