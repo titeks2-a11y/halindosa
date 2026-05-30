@@ -30,6 +30,12 @@ export const dealChannels: DealChannel[] = [
   { id: "gmarket", label: "G마켓", group: "쇼핑몰", type: "mall", value: "G마켓", description: "G마켓/지마켓 특가" },
   { id: "11st", label: "11번가", group: "쇼핑몰", type: "mall", value: "11번가", description: "11번가 특가" },
   { id: "ssg", label: "SSG", group: "쇼핑몰", type: "mall", value: "SSG", description: "SSG/이마트 특가" },
+  { id: "auction", label: "옥션", group: "쇼핑몰", type: "mall", value: "옥션", description: "옥션 쿠폰/특가" },
+  { id: "aliexpress", label: "알리", group: "쇼핑몰", type: "mall", value: "알리", description: "알리익스프레스 해외직구 특가" },
+  { id: "lotteon", label: "롯데온", group: "쇼핑몰", type: "mall", value: "롯데온", description: "롯데온 타임딜" },
+  { id: "interpark", label: "인터파크", group: "쇼핑몰", type: "mall", value: "인터파크", description: "인터파크 쇼핑/티켓 특가" },
+  { id: "oliveyoung", label: "올리브영", group: "쇼핑몰", type: "mall", value: "올리브영", description: "올리브영 뷰티 특가" },
+  { id: "musinsa", label: "무신사", group: "쇼핑몰", type: "mall", value: "무신사", description: "무신사 패션 특가" },
   { id: "etc", label: "기타", group: "카테고리", type: "category", value: "기타", description: "그 외 실속 특가" }
 ];
 
@@ -64,6 +70,9 @@ export function dealMatchesChannel(deal: Deal, id?: string | null) {
       if (!channel.value) return true;
       if (channel.value === "G마켓") return /g마켓|지마켓|gmarket/.test(mall);
       if (channel.value === "네이버") return /네이버|naver/.test(mall);
+      if (channel.value === "SSG") return /ssg|쓱|이마트/.test(mall);
+      if (channel.value === "알리") return /알리|ali/.test(mall);
+      if (channel.value === "인터파크") return /인터파크|interpark/.test(mall);
       return mall.includes(channel.value.toLowerCase());
     case "category":
       if (channel.id === "digital") return deal.category === "전자기기" || deal.category === "가전";

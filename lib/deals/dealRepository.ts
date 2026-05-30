@@ -14,6 +14,7 @@ export interface DealQuery {
   freeShippingOnly?: boolean;
   hotOnly?: boolean;
   endingSoonOnly?: boolean;
+  verifiedOnly?: boolean;
   mall?: string;
 }
 
@@ -116,6 +117,10 @@ export async function getDeals(query: DealQuery = {}) {
       if (mallQuery === "gmarket") return /g마켓|지마켓|gmarket/.test(mall);
       if (mallQuery === "naver") return /네이버|naver/.test(mall);
       if (mallQuery === "ssg") return /ssg|쓱|이마트/.test(mall);
+      if (mallQuery === "auction") return /옥션|auction/.test(mall);
+      if (mallQuery === "aliexpress") return /알리|ali/.test(mall);
+      if (mallQuery === "lotteon") return /롯데온|lotte/.test(mall);
+      if (mallQuery === "interpark") return /인터파크|interpark/.test(mall);
       return mall.includes(mallQuery);
     });
   }
@@ -123,6 +128,7 @@ export async function getDeals(query: DealQuery = {}) {
   if (query.freeShippingOnly) deals = deals.filter((deal) => deal.isFreeShipping);
   if (query.hotOnly) deals = deals.filter((deal) => deal.isHot);
   if (query.endingSoonOnly) deals = deals.filter((deal) => deal.isEndingSoon);
+  if (query.verifiedOnly) deals = deals.filter((deal) => deal.linkStatus === "verified" && deal.linkType !== "seller_search");
 
   deals = sortDeals(deals, sort);
   if (Number.isFinite(limit) && limit > 0) deals = deals.slice(0, limit);

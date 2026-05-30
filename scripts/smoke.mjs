@@ -115,6 +115,19 @@ await check("deals filters api", async () => {
     freeShipping.data.deals.every((deal) => /무료배송|무배|네멤무료|로켓프레시/.test([deal.shippingInfo, ...deal.tags].join(" "))),
     "freeShippingOnly returned a non-free-shipping deal"
   );
+
+  const verified = await fetchJson("/api/deals?verifiedOnly=true&limit=10");
+  assert(verified.response.status === 200, `Expected 200, got ${verified.response.status}`);
+  assert(verified.data.deals.length > 0, "verifiedOnly should return verified direct purchase deals");
+  assert(
+    verified.data.deals.every((deal) => deal.linkStatus === "verified" && deal.linkType !== "seller_search"),
+    "verifiedOnly returned a deal that still needs link review"
+  );
+
+  const auction = await fetchJson("/api/deals?mall=auction&limit=5");
+  assert(auction.response.status === 200, `Expected 200, got ${auction.response.status}`);
+  assert(auction.data.deals.length > 0, "Auction mall filter should return at least one deal");
+  assert(auction.data.deals.every((deal) => /옥션|auction/i.test(`${deal.mallName} ${deal.mall}`)), "Auction mall filter returned another mall");
 });
 
 await check("deal link integrity", async () => {

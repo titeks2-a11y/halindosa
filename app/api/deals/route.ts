@@ -14,6 +14,7 @@ export async function GET(request: Request) {
       freeShippingOnly: searchParams.get("freeShippingOnly") === "true",
       hotOnly: searchParams.get("hotOnly") === "true",
       endingSoonOnly: searchParams.get("endingSoonOnly") === "true",
+      verifiedOnly: searchParams.get("verifiedOnly") === "true",
       mall: searchParams.get("mall")?.trim()
     });
 

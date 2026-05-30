@@ -34,8 +34,13 @@ const mallFilters = [
   { id: "gmarket", label: "G마켓" },
   { id: "11번가", label: "11번가" },
   { id: "ssg", label: "SSG/이마트" },
+  { id: "auction", label: "옥션" },
+  { id: "aliexpress", label: "알리익스프레스" },
+  { id: "롯데온", label: "롯데온" },
+  { id: "interpark", label: "인터파크" },
   { id: "올리브영", label: "올리브영" },
-  { id: "무신사", label: "무신사" }
+  { id: "무신사", label: "무신사" },
+  { id: "하이마트", label: "하이마트" }
 ];
 const toastMessages = [
   "🔥 새로운 역대급 특가가 등록되었습니다!",
@@ -80,6 +85,7 @@ function filterLocalDeals(
   freeShippingOnly = false,
   hotOnly = false,
   endingSoonOnly = false,
+  verifiedOnly = false,
   mallFilter = "all"
 ) {
   const searchQuery = query.trim().toLowerCase();
@@ -103,6 +109,9 @@ function filterLocalDeals(
       if (mallFilter === "gmarket") return /g마켓|지마켓|gmarket/.test(mall);
       if (mallFilter === "naver") return /네이버|naver/.test(mall);
       if (mallFilter === "ssg") return /ssg|쓱|이마트/.test(mall);
+      if (mallFilter === "auction") return /옥션|auction/.test(mall);
+      if (mallFilter === "aliexpress") return /알리|ali/.test(mall);
+      if (mallFilter === "interpark") return /인터파크|interpark/.test(mall);
       return mall.includes(mallFilter.toLowerCase());
     });
   }
@@ -117,6 +126,10 @@ function filterLocalDeals(
 
   if (endingSoonOnly) {
     filtered = filtered.filter((deal) => deal.isEndingSoon);
+  }
+
+  if (verifiedOnly) {
+    filtered = filtered.filter((deal) => deal.linkStatus === "verified" && deal.linkType !== "seller_search");
   }
 
   switch (sort) {
@@ -184,6 +197,7 @@ export default function Home() {
   const [freeShippingOnly, setFreeShippingOnly] = useState(false);
   const [hotOnly, setHotOnly] = useState(false);
   const [endingSoonOnly, setEndingSoonOnly] = useState(false);
+  const [verifiedOnly, setVerifiedOnly] = useState(false);
   const [mallFilter, setMallFilter] = useState("all");
   const [updatedAt, setUpdatedAt] = useState("");
   const [providerSource, setProviderSource] = useState("mock");
@@ -275,7 +289,7 @@ export default function Home() {
 
       try {
         if (await isNativeRuntime()) {
-          const localDeals = filterLocalDeals(mockDeals, category, query, sort, freeShippingOnly, hotOnly, endingSoonOnly, mallFilter);
+          const localDeals = filterLocalDeals(mockDeals, category, query, sort, freeShippingOnly, hotOnly, endingSoonOnly, verifiedOnly, mallFilter);
           setDeals(localDeals);
           setCatalog(mockDeals);
           setProviderSource("android bundle");
@@ -295,6 +309,7 @@ export default function Home() {
           freeShippingOnly: String(freeShippingOnly),
           hotOnly: String(hotOnly),
           endingSoonOnly: String(endingSoonOnly),
+          verifiedOnly: String(verifiedOnly),
           mall: mallFilter
         });
 
@@ -310,6 +325,7 @@ export default function Home() {
             .filter((deal) => !freeShippingOnly || isFreeShippingDeal(deal))
             .filter((deal) => !hotOnly || deal.isHot)
             .filter((deal) => !endingSoonOnly || deal.isEndingSoon)
+            .filter((deal) => !verifiedOnly || (deal.linkStatus === "verified" && deal.linkType !== "seller_search"))
         );
         setUpdatedAt(data.updatedAt);
         setProviderSource(data.source ?? "mock");
@@ -322,7 +338,7 @@ export default function Home() {
         }
       } catch {
         setLoadError("특가 데이터를 불러오지 못했습니다. 기본 저장 데이터를 표시합니다.");
-        setDeals(filterLocalDeals(mockDeals, category, query, sort, freeShippingOnly, hotOnly, endingSoonOnly, mallFilter));
+        setDeals(filterLocalDeals(mockDeals, category, query, sort, freeShippingOnly, hotOnly, endingSoonOnly, verifiedOnly, mallFilter));
         setCatalog(mockDeals);
         setProviderSource("mock fallback");
         setUpdatedAt(new Date().toISOString());
@@ -331,7 +347,7 @@ export default function Home() {
         setIsLoading(false);
       }
     },
-    [category, endingSoonOnly, freeShippingOnly, hotOnly, isOffline, mallFilter, query, showToast, sort]
+    [category, endingSoonOnly, freeShippingOnly, hotOnly, isOffline, mallFilter, query, showToast, sort, verifiedOnly]
   );
 
   useEffect(() => {
@@ -689,6 +705,7 @@ export default function Home() {
     if (query.trim()) labels.push(`검색: ${query.trim()}`);
     if (category !== "all") labels.push(selectedChannel.label);
     if (mallFilter !== "all" && selectedMall) labels.push(selectedMall.label);
+    if (verifiedOnly) labels.push("구매링크 확인");
     if (freeShippingOnly) labels.push("무료배송");
     if (hotOnly) labels.push("핫딜");
     if (endingSoonOnly) labels.push("마감임박");
@@ -704,7 +721,7 @@ export default function Home() {
     }
 
     return labels;
-  }, [category, endingSoonOnly, freeShippingOnly, hotOnly, mallFilter, query, sort]);
+  }, [category, endingSoonOnly, freeShippingOnly, hotOnly, mallFilter, query, sort, verifiedOnly]);
 
   const resetFilters = () => {
     setQuery("");
@@ -714,6 +731,7 @@ export default function Home() {
     setFreeShippingOnly(false);
     setHotOnly(false);
     setEndingSoonOnly(false);
+    setVerifiedOnly(false);
     showToast("검색 조건을 초기화했습니다.");
   };
 
@@ -1001,6 +1019,19 @@ export default function Home() {
                 </button>
                 <button
                   type="button"
+                  onClick={() => setVerifiedOnly((value) => !value)}
+                  className={`inline-flex min-h-[54px] items-center justify-center gap-2 rounded-2xl border px-4 text-sm font-black shadow-sm transition ${
+                    verifiedOnly
+                      ? "border-emerald-300 bg-emerald-50 text-emerald-700"
+                      : "border-slate-200 bg-white text-slate-600 hover:border-emerald-200 hover:text-emerald-700"
+                  }`}
+                  aria-pressed={verifiedOnly}
+                >
+                  <CheckCircle2 size={18} />
+                  구매링크 확인만
+                </button>
+                <button
+                  type="button"
                   onClick={() => setHotOnly((value) => !value)}
                   className={`inline-flex min-h-[54px] items-center justify-center gap-2 rounded-2xl border px-4 text-sm font-black shadow-sm transition ${
                     hotOnly
@@ -1069,6 +1100,7 @@ export default function Home() {
               </div>
               <p className="mt-3 text-xs font-semibold text-slate-500">
                 {providerSource === "mock" ? "할인도사 기본 특가" : "할인도사 실시간 특가"} · 주요 특가 브리핑은 2분 단위로 갱신됩니다.
+                구매링크 확인 필터를 켜면 판매처 검색 확인이 필요한 특가는 제외됩니다.
               </p>
               {loadError ? (
                 <p className="mt-3 rounded-2xl bg-amber-50 px-4 py-3 text-xs font-black text-amber-700">{loadError}</p>
@@ -1093,7 +1125,7 @@ export default function Home() {
               renderDealGrid(
                 deals,
                 "조건에 맞는 특가가 없습니다.",
-                freeShippingOnly || hotOnly || endingSoonOnly
+                freeShippingOnly || hotOnly || endingSoonOnly || verifiedOnly
                   ? "선택한 필터를 줄이거나 다른 카테고리를 선택해보세요."
                   : "검색어를 줄이거나 다른 카테고리를 선택해보세요."
               )
