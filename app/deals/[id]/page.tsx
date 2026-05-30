@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { AlertTriangle, ArrowLeft, Clock, ShieldCheck, Tag, Truck } from "lucide-react";
 import { DealDetailActions } from "@/components/DealDetailActions";
 import { DealTrustBadge } from "@/components/DealTrustBadge";
+import { RecentDealMarker } from "@/components/RecentDealMarker";
 import { mockDeals } from "@/data/mockDeals";
 import { getAffiliateDisclosure, getDealLinkTrustLabel } from "@/lib/affiliate";
 import { findDealByIdLive, getRelatedDeals } from "@/lib/dealService";
@@ -59,6 +60,7 @@ export default async function DealDetailPage({ params }: DealDetailPageProps) {
 
   return (
     <main className="min-h-screen bg-slate-50 px-4 py-5 sm:px-6 lg:px-8">
+      <RecentDealMarker dealId={deal.id} />
       <div className="mx-auto max-w-6xl space-y-5">
         <Link href="/" className="inline-flex items-center gap-2 text-sm font-black text-dossa-red">
           <ArrowLeft size={17} />

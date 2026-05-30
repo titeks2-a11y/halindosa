@@ -6,6 +6,7 @@ import { ArrowLeft, ExternalLink, Heart, Share2 } from "lucide-react";
 import { Deal } from "@/types/deal";
 import { buildDealRedirectUrl } from "@/lib/redirectUrl";
 import { canOpenDealLink } from "@/lib/affiliate";
+import { rememberRecentDealId } from "@/lib/recentDeals";
 import { PurchaseConfirmSheet } from "@/components/PurchaseConfirmSheet";
 
 const favoriteKey = "halindosa:favorites";
@@ -51,6 +52,7 @@ export function DealDetailActions({ deal }: { deal: Deal }) {
 
   const confirmPurchase = async () => {
     setShowPurchaseConfirm(false);
+    rememberRecentDealId(deal.id);
     const redirectUrl = buildDealRedirectUrl(deal.id, "detail", { analytics: true, affiliate: true });
 
     if (await isNativeRuntime()) {

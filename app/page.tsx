@@ -20,11 +20,11 @@ import { mockDeals } from "@/data/mockDeals";
 import { ConsentState, hasAffiliateConsent, hasAnalyticsConsent, readStoredConsent } from "@/lib/consent";
 import { canOpenDealLink } from "@/lib/affiliate";
 import { buildDealRedirectUrl } from "@/lib/redirectUrl";
+import { readRecentDealIds, rememberRecentDealId } from "@/lib/recentDeals";
 import { Deal, DealSort } from "@/types/deal";
 import { HotSignal } from "@/types/hotSignal";
 
 const favoriteKey = "halindosa:favorites";
-const recentKey = "halindosa:recent-deals";
 type AppView = "home" | "categories" | "alerts" | "favorites" | "my";
 const mallFilters = [
   { id: "all", label: "전체 쇼핑몰" },
@@ -369,12 +369,7 @@ export default function Home() {
 
   useEffect(() => {
     const handle = window.setTimeout(() => {
-      try {
-        const stored = window.localStorage.getItem(recentKey);
-        setRecentDealIds(stored ? (JSON.parse(stored) as string[]) : []);
-      } catch {
-        setRecentDealIds([]);
-      }
+      setRecentDealIds(readRecentDealIds());
     }, 0);
 
     return () => window.clearTimeout(handle);
@@ -410,9 +405,13 @@ export default function Home() {
 
   const rememberRecentDeal = useCallback((id: string) => {
     setRecentDealIds((current) => {
-      const next = [id, ...current.filter((dealId) => dealId !== id)].slice(0, 20);
-      window.localStorage.setItem(recentKey, JSON.stringify(next));
-      return next;
+      const fallback = [id, ...current.filter((dealId) => dealId !== id)].slice(0, 20);
+
+      try {
+        return rememberRecentDealId(id);
+      } catch {
+        return fallback;
+      }
     });
   }, []);
 
