@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect } from "react";
 import { AlertTriangle, CheckCircle2, ExternalLink, ShieldCheck, X } from "lucide-react";
 import { getAffiliateDisclosure, getDealLinkTrustLabel } from "@/lib/affiliate";
@@ -96,6 +97,17 @@ export function PurchaseConfirmSheet({ deal, isOpen, onClose, onConfirm }: Purch
               <li>{getAffiliateDisclosure(deal)}</li>
             </ul>
           </div>
+
+          <Link
+            href={`/reports?dealId=${deal.id}&reason=price_changed`}
+            className="flex items-center justify-between gap-3 rounded-3xl border border-amber-100 bg-amber-50 px-4 py-3 text-left transition hover:border-amber-200 hover:bg-amber-100"
+          >
+            <span>
+              <span className="block text-sm font-black text-amber-900">가격이나 품절 정보가 다르다면</span>
+              <span className="mt-1 block text-xs font-semibold leading-5 text-amber-800">운영 검수 큐로 바로 신고할 수 있습니다.</span>
+            </span>
+            <AlertTriangle size={19} className="shrink-0 text-amber-700" />
+          </Link>
         </div>
 
         <div className="grid grid-cols-[0.7fr_1fr] gap-2 border-t border-slate-100 p-4 sm:p-5">

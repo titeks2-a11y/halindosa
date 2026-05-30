@@ -241,6 +241,15 @@ await check("report api", async () => {
   assert(response.headers.get("x-ratelimit-remaining"), "Report API missing rate limit header");
 });
 
+await check("report page reason prefill", async () => {
+  const response = await fetch(`${baseUrl}/reports?dealId=d014&reason=sold_out`);
+  const text = await response.text();
+  assert(response.status === 200, `Expected 200, got ${response.status}`);
+  assert(text.includes("가격 오류 신고"), "Report page missing title");
+  assert(text.includes("애플워치 호환 스포츠 밴드"), "Report page missing deal summary");
+  assert(text.includes("품절이에요"), "Report page missing sold out reason option");
+});
+
 await check("report validation", async () => {
   const { response, data } = await fetchJson("/api/reports", {
     method: "POST",

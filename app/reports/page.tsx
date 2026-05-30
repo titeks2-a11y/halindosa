@@ -7,11 +7,12 @@ import { formatPrice } from "@/lib/format";
 interface ReportsPageProps {
   searchParams: Promise<{
     dealId?: string;
+    reason?: string;
   }>;
 }
 
 export default async function ReportsPage({ searchParams }: ReportsPageProps) {
-  const { dealId } = await searchParams;
+  const { dealId, reason } = await searchParams;
   const deal = dealId ? findDealById(dealId) : null;
 
   return (
@@ -51,7 +52,7 @@ export default async function ReportsPage({ searchParams }: ReportsPageProps) {
             </div>
           )}
 
-          <ReportForm dealId={deal?.id ?? ""} disabled={!deal} />
+          <ReportForm dealId={deal?.id ?? ""} disabled={!deal} initialReason={reason} />
         </section>
       </div>
     </main>

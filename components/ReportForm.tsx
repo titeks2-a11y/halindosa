@@ -7,10 +7,18 @@ import { maxReportMessageLength } from "@/lib/reportConfig";
 interface ReportFormProps {
   dealId: string;
   disabled: boolean;
+  initialReason?: string;
 }
 
-export function ReportForm({ dealId, disabled }: ReportFormProps) {
-  const [reason, setReason] = useState("price_changed");
+const reportReasonValues = ["price_changed", "sold_out", "expired", "wrong_info", "other"] as const;
+type ReportReasonValue = (typeof reportReasonValues)[number];
+
+function normalizeInitialReason(reason?: string): ReportReasonValue {
+  return reportReasonValues.includes(reason as ReportReasonValue) ? (reason as ReportReasonValue) : "price_changed";
+}
+
+export function ReportForm({ dealId, disabled, initialReason }: ReportFormProps) {
+  const [reason, setReason] = useState(normalizeInitialReason(initialReason));
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState("");
   const [requestId, setRequestId] = useState("");
@@ -68,7 +76,7 @@ export function ReportForm({ dealId, disabled }: ReportFormProps) {
         <select
           id="reason"
           value={reason}
-          onChange={(event) => setReason(event.target.value)}
+          onChange={(event) => setReason(normalizeInitialReason(event.target.value))}
           disabled={disabled || isSubmitting}
           className="mt-2 h-12 w-full rounded-2xl border border-slate-200 bg-white px-3 text-sm font-bold text-slate-700 outline-none focus:border-dossa-red focus:ring-4 focus:ring-red-100 disabled:opacity-60"
         >

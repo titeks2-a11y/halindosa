@@ -170,11 +170,11 @@ export default async function DealDetailPage({ params }: DealDetailPageProps) {
             <DealDetailActions deal={deal} />
             <div className="mt-2">
               <a
-                href={`/reports?dealId=${deal.id}`}
+                href={`/reports?dealId=${deal.id}&reason=wrong_info`}
                 className="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-black text-slate-700 transition hover:border-red-100 hover:text-dossa-red"
               >
                 <AlertTriangle size={17} />
-                오류 신고
+                가격/품절 신고
               </a>
             </div>
           </div>
