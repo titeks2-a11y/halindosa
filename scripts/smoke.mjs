@@ -118,6 +118,22 @@ await check("service guide page", async () => {
   assert(text.includes("외부 판매처 이동 방식"), "Guide page missing redirect explanation");
 });
 
+await check("category and notification pages", async () => {
+  const categories = await fetch(`${baseUrl}/categories`);
+  const categoriesText = await categories.text();
+  assert(categories.status === 200, `Expected categories 200, got ${categories.status}`);
+  assert(categoriesText.includes("원하는 할인 정보만 빠르게 보기"), "Categories page missing title");
+  assert(categoriesText.includes("전체") && categoriesText.includes("쿠팡") && categoriesText.includes("여행"), "Categories page missing key channels");
+  assert(categoriesText.includes("개 특가"), "Categories page missing deal counts");
+
+  const notifications = await fetch(`${baseUrl}/notifications`);
+  const notificationsText = await notifications.text();
+  assert(notifications.status === 200, `Expected notifications 200, got ${notifications.status}`);
+  assert(notificationsText.includes("알림 센터"), "Notifications page missing title");
+  assert(notificationsText.includes("마감 임박 특가"), "Notifications page missing ending group");
+  assert(notificationsText.includes("무료배송 특가"), "Notifications page missing free shipping group");
+});
+
 await check("admin dashboard quality cards", async () => {
   const response = await fetch(`${baseUrl}/admin`);
   const text = await response.text();
@@ -129,6 +145,8 @@ await check("admin dashboard quality cards", async () => {
   assert(text.includes("판매처 확인"), "Admin dashboard missing seller review action");
   assert(text.includes("처리 기준"), "Admin dashboard missing report handling guidance");
   assert(text.includes("상품 상세 URL 보강 필요"), "Admin dashboard missing localized link review action");
+  assert(!text.includes("mock, staging, production"), "Admin dashboard exposes raw source pipeline copy");
+  assert(!text.includes("· score "), "Admin dashboard exposes raw score copy");
 });
 
 await check("deals api", async () => {

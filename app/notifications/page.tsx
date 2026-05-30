@@ -1,17 +1,18 @@
 import Link from "next/link";
 import { Bell, Clock, Flame, Sparkles, Truck } from "lucide-react";
 import { NotificationPreferences } from "@/components/NotificationPreferences";
-import { mockDeals } from "@/data/mockDeals";
+import { getDeals } from "@/lib/dealService";
 import { getRelativeTime, getTimeLeft } from "@/lib/format";
 
-const alertGroups = [
-  { title: "마감 임박 특가", icon: Clock, items: mockDeals.filter((deal) => deal.isEndingSoon).slice(0, 4) },
-  { title: "오늘의 인기 특가", icon: Flame, items: mockDeals.filter((deal) => deal.isHot).slice(0, 4) },
-  { title: "신규 등록 특가", icon: Sparkles, items: mockDeals.filter((deal) => deal.isNew).slice(0, 4) },
-  { title: "무료배송 특가", icon: Truck, items: mockDeals.filter((deal) => deal.isFreeShipping).slice(0, 4) }
-];
+export default async function NotificationsPage() {
+  const { deals } = await getDeals();
+  const alertGroups = [
+    { title: "마감 임박 특가", icon: Clock, items: deals.filter((deal) => deal.isEndingSoon).slice(0, 4) },
+    { title: "오늘의 인기 특가", icon: Flame, items: deals.filter((deal) => deal.isHot).slice(0, 4) },
+    { title: "신규 등록 특가", icon: Sparkles, items: deals.filter((deal) => deal.isNew).slice(0, 4) },
+    { title: "무료배송 특가", icon: Truck, items: deals.filter((deal) => deal.isFreeShipping).slice(0, 4) }
+  ];
 
-export default function NotificationsPage() {
   return (
     <div className="space-y-4 px-3 py-4 sm:px-4 lg:px-0 lg:py-8">
       <section className="rounded-[24px] bg-dossa-red p-5 text-white shadow-sm lg:rounded-[28px] lg:p-7">

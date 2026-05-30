@@ -246,6 +246,32 @@ async function checkUiAccessibility() {
   }
 }
 
+async function checkOperationalDataSurfaces() {
+  const categoriesPage = await text("app/categories/page.tsx");
+  const notificationsPage = await text("app/notifications/page.tsx");
+  const adminPage = await text("app/admin/page.tsx");
+
+  const staticDataImports = [
+    ["app/categories/page.tsx", categoriesPage],
+    ["app/notifications/page.tsx", notificationsPage]
+  ].filter(([, body]) => body.includes('from "@/data/mockDeals"'));
+
+  if (staticDataImports.length) {
+    fail("operational data surfaces", `Pages still bypass Deal repository: ${staticDataImports.map(([file]) => file).join(", ")}`);
+  } else if (!categoriesPage.includes("await getDeals()") || !notificationsPage.includes("await getDeals()")) {
+    fail("operational data surfaces", "Categories and notifications pages should read through Deal repository.");
+  } else {
+    pass("operational data surfaces", "Category and notification pages use the Deal repository instead of static mock arrays.");
+  }
+
+  const adminRawTerms = ["mock, staging, production", "· score "].filter((term) => adminPage.includes(term));
+  if (adminRawTerms.length) {
+    fail("admin product copy", `Admin page still exposes raw internal terms: ${adminRawTerms.join(", ")}`);
+  } else {
+    pass("admin product copy", "Admin dashboard avoids raw internal source and score copy.");
+  }
+}
+
 async function checkCapacitor() {
   const config = await text("capacitor.config.ts");
 
@@ -467,6 +493,7 @@ await checkPublicContact();
 await checkPublicClaimCopy();
 await checkPartnerFeedSafety();
 await checkUiAccessibility();
+await checkOperationalDataSurfaces();
 await checkCapacitor();
 await checkAndroid();
 await checkIos();

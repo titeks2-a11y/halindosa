@@ -60,6 +60,7 @@
 - 운영 링크 검수 큐의 내부 상태 코드를 한국어 상태와 보강 액션으로 바꿔 직접 구매 URL 보강 우선순위를 명확히 표시
 - 홈 추천 점수와 주요 섹션 정렬에 구매 링크 확인 상태를 반영해 직접 구매 URL이 검증된 특가를 더 우선 노출
 - 핫시그널 버튼 접근성 라벨과 링크 상태 배지 색상을 상품/상태별로 정리하고 상세 가격 문구의 단정 표현을 완화
+- 카테고리와 알림 페이지가 기본 데이터 배열이 아니라 Deal repository를 통해 운영/검수 피드 전환 구조를 따르도록 개선
 
 ### PHASE 2 코드 품질
 
@@ -117,7 +118,7 @@
 - `npm run audit:commercial`
 - `npm run qa`
 - `npm run smoke:local`
-- smoke 29개 항목으로 확장: report validation, home query filters, deal link integrity, partner feed unsafe link guard, redirect fallback, affiliate status, admin export, metrics link review queue 포함
+- smoke 30개 항목으로 확장: category/notification pages, report validation, home query filters, deal link integrity, partner feed unsafe link guard, redirect fallback, affiliate status, admin export, metrics link review queue 포함
 - Play Store 이미지 제작 기준 문서화
 - Play Store 512 아이콘과 기능 그래픽 초안 생성
 - PWA/iOS 홈 화면 설치용 manifest icon, shortcut, apple web app metadata 보강

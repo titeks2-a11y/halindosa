@@ -1,11 +1,12 @@
 import Link from "next/link";
 import { Grid3X3, Tag } from "lucide-react";
 import { dealChannels, dealMatchesChannel } from "@/data/dealChannels";
-import { mockDeals } from "@/data/mockDeals";
+import { getDeals } from "@/lib/dealService";
 
-export default function CategoriesPage() {
+export default async function CategoriesPage() {
+  const { deals } = await getDeals();
   const categories = dealChannels.map((channel) => {
-    const items = channel.id === "all" ? mockDeals : mockDeals.filter((deal) => dealMatchesChannel(deal, channel.id));
+    const items = channel.id === "all" ? deals : deals.filter((deal) => dealMatchesChannel(deal, channel.id));
     const bestDiscount = items.reduce((best, deal) => Math.max(best, deal.discountRate), 0);
 
     return {

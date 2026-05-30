@@ -136,7 +136,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
           <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <h2 className="text-xl font-black text-slate-950">데이터 공급원 상태</h2>
-              <p className="mt-1 text-sm font-semibold text-slate-500">mock, staging, production 전환을 위한 공급원별 준비 상태입니다.</p>
+              <p className="mt-1 text-sm font-semibold text-slate-500">기본 큐레이션, 검수 피드, 운영 피드 전환을 위한 공급원별 준비 상태입니다.</p>
             </div>
             <a href="/api/sources" className="inline-flex items-center gap-2 rounded-2xl bg-slate-950 px-4 py-3 text-sm font-black text-white">
               <DatabaseZap size={17} />
@@ -251,7 +251,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-sm font-black text-slate-950">{deal.title}</p>
                     <p className="mt-1 text-xs font-bold text-slate-500">
-                      {deal.mall} · {deal.category} · score {deal.popularityScore}
+                      {deal.mall} · {deal.category} · 인기도 기준 {deal.popularityScore}
                     </p>
                   </div>
                   <span className="text-lg font-black text-dossa-red">{deal.discountRate}%</span>
