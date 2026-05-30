@@ -20,8 +20,15 @@ interface LiveDealRowProps {
   onShareDeal: (deal: Deal) => void;
 }
 
+function getLinkTrustClassName(deal: Deal) {
+  if (deal.linkStatus === "verified") return "bg-emerald-50 text-emerald-700";
+  if (deal.linkStatus === "broken" || deal.linkStatus === "sold_out") return "bg-slate-100 text-slate-500";
+  return "bg-amber-50 text-amber-700";
+}
+
 function LiveDealRow({ deal, isFavorite, onToggleFavorite, onOpenDeal, onShareDeal }: LiveDealRowProps) {
   const linkAvailable = canOpenDealLink(deal);
+  const linkTrustClassName = getLinkTrustClassName(deal);
 
   return (
     <article className="relative grid gap-3 bg-white p-3 pr-24 transition hover:bg-slate-50 sm:grid-cols-[auto_1fr_auto] sm:items-center sm:pr-28">
@@ -42,7 +49,9 @@ function LiveDealRow({ deal, isFavorite, onToggleFavorite, onOpenDeal, onShareDe
           <p className="mt-1 text-xs font-bold text-slate-500">
             {deal.mall} · {deal.category}
           </p>
-          <p className="mt-1 text-[11px] font-black text-emerald-700">{getDealLinkTrustLabel(deal)}</p>
+          <p className={`mt-1 inline-flex rounded-full px-2 py-0.5 text-[11px] font-black ${linkTrustClassName}`}>
+            {getDealLinkTrustLabel(deal)}
+          </p>
           <p className="mt-1 inline-flex items-center gap-1 text-[11px] font-semibold text-slate-400">
             <Clock size={12} />
             {getRelativeTime(deal.createdAt)} · {getTimeLeft(deal.expiresAt)}
@@ -55,7 +64,7 @@ function LiveDealRow({ deal, isFavorite, onToggleFavorite, onOpenDeal, onShareDe
           <span className="rounded-full bg-red-50 px-2 py-0.5 text-[11px] font-black text-dossa-red">{deal.discountRate}% 할인</span>
           {deal.isHot ? <span className="rounded-full bg-dossa-red px-2 py-0.5 text-[11px] font-black text-white">HOT</span> : null}
           {deal.isEndingSoon ? <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[11px] font-black text-amber-700">마감임박</span> : null}
-          <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-[11px] font-black text-emerald-700">{getDealLinkTrustLabel(deal)}</span>
+          <span className={`rounded-full px-2 py-0.5 text-[11px] font-black ${linkTrustClassName}`}>{getDealLinkTrustLabel(deal)}</span>
           <span className="text-xs font-bold text-slate-500">
             {deal.mall} · {deal.category}
           </span>
