@@ -47,6 +47,7 @@
 - 운영 대시보드에 링크 검수 큐를 추가해 판매처 검색 fallback 상품을 우선 보강할 수 있도록 개선하고 smoke 검증 추가
 - 홈 상단의 내부 링크 검수 수치 노출을 제거하고 일반 사용자에게 구매 전 판매처 확인/가격 재고 변동 안내 중심으로 표시
 - 링크 품질 요약과 검수 큐 산출 기준을 공용 품질 레이어로 분리하고 운영 지표 API와 관리자 화면이 같은 기준을 사용하도록 정리
+- 테스트 계획을 자동 검증/수동 확인/데이터 링크 신뢰도 기준으로 재정리하고 release doctor가 테스트 종료 기준 문구를 검사하도록 보강
 
 ### PHASE 2 코드 품질
 
@@ -104,7 +105,7 @@
 - `npm run audit:commercial`
 - `npm run qa`
 - `npm run smoke:local`
-- smoke 22개 항목으로 확장: report validation, home query filters, deal link integrity, redirect fallback, affiliate status, admin export 포함
+- smoke 28개 항목으로 확장: report validation, home query filters, deal link integrity, redirect fallback, affiliate status, admin export, metrics link review queue 포함
 - Play Store 이미지 제작 기준 문서화
 - Play Store 512 아이콘과 기능 그래픽 초안 생성
 - PWA/iOS 홈 화면 설치용 manifest icon, shortcut, apple web app metadata 보강

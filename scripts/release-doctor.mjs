@@ -302,6 +302,11 @@ async function checkPolicyAndStoreDocs() {
       name: "data safety guide content",
       file: "docs/data-safety-guide.md",
       phrases: ["수집하지 않음", "앱 내 결제 없음", "데이터 삭제", "개인정보처리방침 URL"]
+    },
+    {
+      name: "test plan content",
+      file: "docs/test-plan.md",
+      phrases: ["자동 검증", "수동 확인", "데이터/링크 신뢰도", "테스트 종료 기준", "링크 검수 큐"]
     }
   ];
 
