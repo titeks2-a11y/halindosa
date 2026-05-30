@@ -86,6 +86,15 @@ await check("mypage data controls", async () => {
   assert(text.includes("분석/제휴 동의 초기화"), "Mypage missing consent reset action");
 });
 
+await check("admin dashboard quality cards", async () => {
+  const response = await fetch(`${baseUrl}/admin`);
+  const text = await response.text();
+  assert(response.status === 200, `Expected 200, got ${response.status}`);
+  assert(text.includes("운영 대시보드"), "Admin dashboard missing title");
+  assert(text.includes("구매 링크 확인율"), "Admin dashboard missing verified link rate card");
+  assert(text.includes("링크 검토 필요"), "Admin dashboard missing link review count card");
+});
+
 await check("deals api", async () => {
   const { response, data } = await fetchJson("/api/deals?limit=3&sort=discount");
   assert(response.status === 200, `Expected 200, got ${response.status}`);
