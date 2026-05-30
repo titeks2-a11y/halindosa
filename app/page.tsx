@@ -1,8 +1,9 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { BellRing, CheckCircle2, Flame, Share2, ShieldCheck, SlidersHorizontal, Timer, Truck, UserRound } from "lucide-react";
+import { BellRing, CheckCircle2, Flame, Share2, ShieldCheck, ShoppingBag, SlidersHorizontal, Timer, Truck, UserRound } from "lucide-react";
 import { CategoryTabs } from "@/components/CategoryTabs";
 import { CommercialFooter } from "@/components/CommercialFooter";
 import { ConsentSettings } from "@/components/ConsentSettings";
@@ -764,12 +765,19 @@ export default function Home() {
             ? "찜한 특가"
             : "마이";
 
-  const renderDealGrid = (items: Deal[], emptyTitle: string, emptyDescription: string) => {
+  const renderDealGrid = (items: Deal[], emptyTitle: string, emptyDescription: string, emptyAction: ReactNode = null) => {
     if (!items.length) {
       return (
-        <div className="rounded-3xl border border-dashed border-slate-300 bg-white px-6 py-16 text-center">
-          <p className="text-lg font-black text-slate-900">{emptyTitle}</p>
-          <p className="mt-2 text-sm font-semibold text-slate-500">{emptyDescription}</p>
+        <div className="rounded-3xl border border-dashed border-slate-300 bg-white px-6 py-14 text-center shadow-sm">
+          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-3xl bg-red-50 text-dossa-red">
+            <ShoppingBag size={26} />
+          </div>
+          <p className="mt-4 text-lg font-black text-slate-900">{emptyTitle}</p>
+          <p className="mx-auto mt-2 max-w-md text-sm font-semibold leading-6 text-slate-500">{emptyDescription}</p>
+          {emptyAction ? <div className="mt-5 flex justify-center">{emptyAction}</div> : null}
+          <p className="mx-auto mt-4 max-w-md text-xs font-semibold leading-5 text-slate-400">
+            가격과 재고는 판매처에서 변동될 수 있으므로 구매 전 최종 조건을 다시 확인하세요.
+          </p>
         </div>
       );
     }
@@ -1130,7 +1138,14 @@ export default function Home() {
                 "조건에 맞는 특가가 없습니다.",
                 freeShippingOnly || hotOnly || endingSoonOnly || verifiedOnly
                   ? "선택한 필터를 줄이거나 다른 카테고리를 선택해보세요."
-                  : "검색어를 줄이거나 다른 카테고리를 선택해보세요."
+                  : "검색어를 줄이거나 다른 카테고리를 선택해보세요.",
+                <button
+                  type="button"
+                  onClick={resetFilters}
+                  className="rounded-2xl bg-slate-950 px-5 py-3 text-sm font-black text-white transition hover:bg-dossa-red"
+                >
+                  조건 초기화하고 전체 특가 보기
+                </button>
               )
             )}
           </>
@@ -1196,7 +1211,18 @@ export default function Home() {
         ) : null}
 
         {activeView === "favorites"
-          ? renderDealGrid(favoriteDeals, "아직 찜한 특가가 없습니다.", "마음에 드는 특가의 하트 버튼을 눌러 저장해보세요.")
+          ? renderDealGrid(
+              favoriteDeals,
+              "아직 찜한 특가가 없습니다.",
+              "마음에 드는 특가의 하트 버튼을 눌러 저장해보세요.",
+              <button
+                type="button"
+                onClick={() => setActiveView("home")}
+                className="rounded-2xl bg-slate-950 px-5 py-3 text-sm font-black text-white transition hover:bg-dossa-red"
+              >
+                홈에서 특가 둘러보기
+              </button>
+            )
           : null}
 
         {activeView === "my" ? (

@@ -50,6 +50,7 @@
 - 테스트 계획을 자동 검증/수동 확인/데이터 링크 신뢰도 기준으로 재정리하고 release doctor가 테스트 종료 기준 문구를 검사하도록 보강
 - 문의 이메일을 `NEXT_PUBLIC_SUPPORT_EMAIL`로 중앙화하고 공개 앱 화면에 `.example` 주소가 노출되지 않도록 release doctor와 smoke 검증 추가
 - 특가 카드 이미지 alt, 찜/공유/판매처 이동/상세 링크의 상품별 접근성 라벨을 보강하고 release doctor와 smoke 검증 추가
+- 검색/필터 결과 없음과 찜 목록 빈 상태에 다음 행동 CTA와 구매 전 확인 안내를 추가하고 release doctor 검증 추가
 
 ### PHASE 2 코드 품질
 

@@ -173,6 +173,7 @@ async function checkPublicContact() {
 
 async function checkUiAccessibility() {
   const dealCard = await text("components/DealCard.tsx");
+  const homePage = await text("app/page.tsx");
   const requiredSnippets = [
     "aria-pressed={isFavorite}",
     "alt={deal.title}",
@@ -185,6 +186,15 @@ async function checkUiAccessibility() {
     fail("deal card accessibility", `Missing snippets: ${missingSnippets.join(", ")}`);
   } else {
     pass("deal card accessibility", "Deal images and icon buttons expose product-specific accessible labels.");
+  }
+
+  const requiredEmptyStateSnippets = ["조건 초기화하고 전체 특가 보기", "홈에서 특가 둘러보기", "가격과 재고는 판매처에서 변동"];
+  const missingEmptyStateSnippets = requiredEmptyStateSnippets.filter((snippet) => !homePage.includes(snippet));
+
+  if (missingEmptyStateSnippets.length) {
+    fail("empty state UX", `Missing snippets: ${missingEmptyStateSnippets.join(", ")}`);
+  } else {
+    pass("empty state UX", "Search and favorites empty states include clear next actions and purchase caution copy.");
   }
 }
 
