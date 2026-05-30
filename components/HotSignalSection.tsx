@@ -90,7 +90,8 @@ export function HotSignalSection({ signals, isLoading, onOpenSignal }: HotSignal
             event.stopPropagation();
             toggleSignalFavorite(signal.id);
           }}
-          aria-label="찜하기"
+          aria-label={`${signal.title} ${isFavorite ? "찜 해제" : "찜하기"}`}
+          aria-pressed={isFavorite}
           className={`absolute right-3 top-3 flex h-10 w-10 items-center justify-center rounded-2xl transition ${baseButton} ${
             isFavorite ? "text-dossa-red" : ""
           }`}
@@ -105,7 +106,7 @@ export function HotSignalSection({ signals, isLoading, onOpenSignal }: HotSignal
               void shareSignal(signal);
             }}
             className={`flex h-10 w-10 items-center justify-center rounded-2xl transition ${baseButton}`}
-            aria-label="특가 공유하기"
+            aria-label={`${signal.title} 공유하기`}
           >
             <Share2 size={17} />
           </button>
@@ -118,7 +119,7 @@ export function HotSignalSection({ signals, isLoading, onOpenSignal }: HotSignal
             className={`flex h-10 w-10 items-center justify-center rounded-2xl transition ${
               dark ? "bg-white text-slate-950 hover:bg-red-50" : "bg-slate-950 text-white shadow-sm hover:bg-dossa-red"
             }`}
-            aria-label="자세히 보기"
+            aria-label={`${signal.title} 자세히 보기`}
           >
             <ExternalLink size={17} />
           </button>
@@ -219,23 +220,23 @@ export function HotSignalSection({ signals, isLoading, onOpenSignal }: HotSignal
               >
                 {renderImage(signal, "h-[72px] w-[72px]")}
                 <div className="min-w-0">
-                <div className="flex items-center justify-between gap-2">
-                  <span className="inline-flex items-center gap-1 rounded-full bg-white px-2.5 py-1 text-xs font-black text-slate-600">
-                    {getSignalLabel(signal)}
-                  </span>
-                </div>
-                <p className="mt-3 line-clamp-2 text-sm font-black leading-6 text-slate-950">{signal.title}</p>
-                <div className="mt-3 flex flex-wrap items-center gap-1.5">
-                  <span className="rounded-full bg-white px-2 py-1 text-[11px] font-bold text-slate-500">{signal.category}</span>
-                  {signal.keywords.slice(0, 2).map((keyword) => (
-                    <span key={keyword} className="rounded-full bg-white px-2 py-1 text-[11px] font-bold text-dossa-red">
-                      {keyword}
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="inline-flex items-center gap-1 rounded-full bg-white px-2.5 py-1 text-xs font-black text-slate-600">
+                      {getSignalLabel(signal)}
                     </span>
-                  ))}
-                </div>
-                <p className="mt-3 truncate text-xs font-semibold text-slate-500">
-                  실시간 확인 · {getRelativeTime(signal.publishedAt)}
-                </p>
+                  </div>
+                  <p className="mt-3 line-clamp-2 text-sm font-black leading-6 text-slate-950">{signal.title}</p>
+                  <div className="mt-3 flex flex-wrap items-center gap-1.5">
+                    <span className="rounded-full bg-white px-2 py-1 text-[11px] font-bold text-slate-500">{signal.category}</span>
+                    {signal.keywords.slice(0, 2).map((keyword) => (
+                      <span key={keyword} className="rounded-full bg-white px-2 py-1 text-[11px] font-bold text-dossa-red">
+                        {keyword}
+                      </span>
+                    ))}
+                  </div>
+                  <p className="mt-3 truncate text-xs font-semibold text-slate-500">
+                    실시간 확인 · {getRelativeTime(signal.publishedAt)}
+                  </p>
                 </div>
                 {renderActions(signal)}
               </article>
