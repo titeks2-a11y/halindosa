@@ -64,6 +64,14 @@ await check("home page", async () => {
   assert(text.includes("샤오미 86인치") || text.includes("새우깡"), "Home page missing initial deal cards");
 });
 
+await check("home query filters", async () => {
+  const response = await fetch(`${baseUrl}/?category=식품&sort=discount&q=새우깡`);
+  const text = await response.text();
+  assert(response.status === 200, `Expected 200, got ${response.status}`);
+  assert(text.includes("할인도사"), "Filtered home missing brand text");
+  assert(text.includes("새우깡") || text.includes("검색"), "Filtered home missing query result context");
+});
+
 await check("deals api", async () => {
   const { response, data } = await fetchJson("/api/deals?limit=3&sort=discount");
   assert(response.status === 200, `Expected 200, got ${response.status}`);

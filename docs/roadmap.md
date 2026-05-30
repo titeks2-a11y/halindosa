@@ -18,6 +18,8 @@
 - 특가 카드와 상세 화면에 검수 신뢰 배지 추가
 - 외부 판매처 이동 전 앱 내부 확인 시트 추가
 - 상세 페이지 진입과 구매 이동 시 최근 본 특가 자동 저장
+- 카테고리/검색 URL query 진입 시 홈 필터 자동 반영
+- 찜 페이지 판매처 이동도 동일한 앱 내부 확인 시트 사용
 
 ### PHASE 2 코드 품질
 
@@ -75,7 +77,7 @@
 - `npm run audit:commercial`
 - `npm run qa`
 - `npm run smoke:local`
-- smoke 20개 항목으로 확장: deal link integrity, redirect fallback, affiliate status, admin export 포함
+- smoke 21개 항목으로 확장: home query filters, deal link integrity, redirect fallback, affiliate status, admin export 포함
 - Play Store 이미지 제작 기준 문서화
 - Play Store 512 아이콘과 기능 그래픽 초안 생성
 - PWA/iOS 홈 화면 설치용 manifest icon, shortcut, apple web app metadata 보강

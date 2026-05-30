@@ -4,13 +4,17 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { ArrowLeft, Heart } from "lucide-react";
 import { DealCard } from "@/components/DealCard";
+import { PurchaseConfirmSheet } from "@/components/PurchaseConfirmSheet";
 import { mockDeals } from "@/data/mockDeals";
+import { canOpenDealLink } from "@/lib/affiliate";
 import { buildDealRedirectUrl } from "@/lib/redirectUrl";
+import { rememberRecentDealId } from "@/lib/recentDeals";
 import { Deal } from "@/types/deal";
 
 const favoriteKey = "halindosa:favorites";
 
 async function openExternalDeal(deal: Deal) {
+  rememberRecentDealId(deal.id);
   const redirectUrl = buildDealRedirectUrl(deal.id, "favorites", { analytics: true, affiliate: true });
 
   try {
@@ -28,6 +32,7 @@ async function openExternalDeal(deal: Deal) {
 }
 
 export default function FavoritesPage() {
+  const [pendingPurchaseDeal, setPendingPurchaseDeal] = useState<Deal | null>(null);
   const [favorites, setFavorites] = useState<string[]>(() => {
     if (typeof window === "undefined") return [];
     try {
@@ -69,6 +74,16 @@ export default function FavoritesPage() {
     }
   };
 
+  const openDeal = (deal: Deal) => {
+    if (!canOpenDealLink(deal)) return;
+    setPendingPurchaseDeal(deal);
+  };
+
+  const confirmOpenDeal = (deal: Deal) => {
+    setPendingPurchaseDeal(null);
+    void openExternalDeal(deal);
+  };
+
   return (
     <div className="space-y-5 px-3 py-4 sm:px-4 lg:px-0 lg:py-8">
         <Link href="/" className="inline-flex items-center gap-2 text-sm font-black text-dossa-red">
@@ -96,7 +111,7 @@ export default function FavoritesPage() {
                 deal={deal}
                 isFavorite={favorites.includes(deal.id)}
                 onToggleFavorite={toggleFavorite}
-                onOpenDeal={openExternalDeal}
+                onOpenDeal={openDeal}
                 onShareDeal={shareDeal}
               />
             ))}
@@ -113,6 +128,12 @@ export default function FavoritesPage() {
             </Link>
           </div>
         )}
+        <PurchaseConfirmSheet
+          deal={pendingPurchaseDeal}
+          isOpen={Boolean(pendingPurchaseDeal)}
+          onClose={() => setPendingPurchaseDeal(null)}
+          onConfirm={confirmOpenDeal}
+        />
     </div>
   );
 }

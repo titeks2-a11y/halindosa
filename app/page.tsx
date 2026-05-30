@@ -173,6 +173,7 @@ function requestJson<T>(url: string): Promise<T> {
 }
 
 export default function Home() {
+  const [hasAppliedInitialParams, setHasAppliedInitialParams] = useState(false);
   const [deals, setDeals] = useState<Deal[]>(mockDeals);
   const [catalog, setCatalog] = useState<Deal[]>(mockDeals);
   const [activeView, setActiveView] = useState<AppView>("home");
@@ -210,6 +211,40 @@ export default function Home() {
   const showToast = useCallback((message: string) => {
     setToast(message);
     window.setTimeout(() => setToast(""), 4200);
+  }, []);
+
+  useEffect(() => {
+    const handle = window.setTimeout(() => {
+      const params = new URLSearchParams(window.location.search);
+      const initialCategory = params.get("category");
+      const initialMall = params.get("mall");
+      const initialSort = params.get("sort") as DealSort | null;
+      const initialQuery = params.get("q");
+
+      if (initialCategory) {
+        setCategory(initialCategory);
+        setActiveView("home");
+      }
+
+      if (initialMall) {
+        setMallFilter(initialMall);
+        setActiveView("home");
+      }
+
+      if (initialSort && ["latest", "discount", "price", "hot", "endingSoon"].includes(initialSort)) {
+        setSort(initialSort);
+        setActiveView("home");
+      }
+
+      if (initialQuery) {
+        setQuery(initialQuery);
+        setActiveView("home");
+      }
+
+      setHasAppliedInitialParams(true);
+    }, 0);
+
+    return () => window.clearTimeout(handle);
   }, []);
 
   const fetchDeals = useCallback(
@@ -278,12 +313,14 @@ export default function Home() {
   );
 
   useEffect(() => {
+    if (!hasAppliedInitialParams) return;
+
     const handle = window.setTimeout(() => {
       fetchDeals();
     }, 180);
 
     return () => window.clearTimeout(handle);
-  }, [fetchDeals]);
+  }, [fetchDeals, hasAppliedInitialParams]);
 
   useEffect(() => {
     let cleanup: (() => void) | undefined;
