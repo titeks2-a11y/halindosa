@@ -23,6 +23,7 @@ import { Deal, DealSort } from "@/types/deal";
 import { HotSignal } from "@/types/hotSignal";
 
 const favoriteKey = "halindosa:favorites";
+const recentKey = "halindosa:recent-deals";
 const toastMessages = [
   "🔥 새로운 역대급 특가가 등록되었습니다!",
   "⚡ 마감임박 상품이 빠르게 소진되고 있어요.",
@@ -41,7 +42,18 @@ async function isNativeRuntime() {
 }
 
 function isFreeShippingDeal(deal: Deal) {
-  return /무료배송|무배|네멤무료|로켓프레시/.test([deal.shippingInfo, ...deal.tags].join(" "));
+  return deal.isFreeShipping || /무료배송|무배|네멤무료|로켓프레시/.test([deal.shipping, ...deal.tags].join(" "));
+}
+
+function commercialScore(deal: Deal) {
+  const expireHours = Math.max(1, (new Date(deal.expireAt).getTime() - Date.now()) / (60 * 60 * 1000));
+  return (
+    Number(deal.isHot) * 40 +
+    Number(deal.isFreeShipping) * 12 +
+    deal.popularityScore +
+    deal.discountRate * 0.8 +
+    Math.max(0, 24 - expireHours)
+  );
 }
 
 function filterLocalDeals(
@@ -62,7 +74,7 @@ function filterLocalDeals(
 
   if (searchQuery) {
     filtered = filtered.filter((deal) =>
-      [deal.title, deal.mall, deal.category, deal.source, ...deal.tags].some((value) =>
+      [deal.title, deal.mallName, deal.category, deal.source, ...deal.tags].some((value) =>
         value.toLowerCase().includes(searchQuery)
       )
     );
@@ -88,7 +100,7 @@ function filterLocalDeals(
     case "hot":
       return [...filtered].sort((a, b) => Number(b.isHot) - Number(a.isHot) || b.popularityScore - a.popularityScore);
     case "endingSoon":
-      return [...filtered].sort((a, b) => new Date(a.expiresAt).getTime() - new Date(b.expiresAt).getTime());
+      return [...filtered].sort((a, b) => new Date(a.expireAt).getTime() - new Date(b.expireAt).getTime());
     case "latest":
     default:
       return [...filtered].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
@@ -155,6 +167,16 @@ export default function Home() {
 
     try {
       const stored = window.localStorage.getItem(favoriteKey);
+      return stored ? (JSON.parse(stored) as string[]) : [];
+    } catch {
+      return [];
+    }
+  });
+  const [recentDealIds, setRecentDealIds] = useState<string[]>(() => {
+    if (typeof window === "undefined") return [];
+
+    try {
+      const stored = window.localStorage.getItem(recentKey);
       return stored ? (JSON.parse(stored) as string[]) : [];
     } catch {
       return [];
@@ -353,6 +375,14 @@ export default function Home() {
     });
   };
 
+  const rememberRecentDeal = useCallback((id: string) => {
+    setRecentDealIds((current) => {
+      const next = [id, ...current.filter((dealId) => dealId !== id)].slice(0, 20);
+      window.localStorage.setItem(recentKey, JSON.stringify(next));
+      return next;
+    });
+  }, []);
+
   const trackEvent = async (eventType: "deal_click" | "favorite_add" | "favorite_remove", dealId: string) => {
     if (!hasAnalyticsConsent(consent)) return;
 
@@ -378,8 +408,9 @@ export default function Home() {
   };
 
   const openDeal = async (deal: Deal) => {
+    rememberRecentDeal(deal.id);
     void trackEvent("deal_click", deal.id);
-    showToast(`${deal.mall} 특가 페이지로 이동합니다.`);
+    showToast(`${deal.mallName} 특가 페이지로 이동합니다.`);
 
     if (await isNativeRuntime()) {
       const { Browser } = await import("@capacitor/browser");
@@ -404,7 +435,7 @@ export default function Home() {
 
   const shareDeal = async (deal: Deal) => {
     const shareUrl = typeof window === "undefined" ? deal.link : `${window.location.origin}/deals/${deal.id}`;
-    const text = `${deal.mall} ${deal.title} ${deal.discountRate}% 할인`;
+    const text = `${deal.mallName} ${deal.title} ${deal.discountRate}% 할인`;
 
     try {
       const nav = navigator as Navigator & {
@@ -496,6 +527,36 @@ export default function Home() {
     [catalog]
   );
 
+  const heroDeal = useMemo(() => {
+    const source = catalog.length ? catalog : deals;
+    return [...source].sort((a, b) => commercialScore(b) - commercialScore(a))[0] ?? null;
+  }, [catalog, deals]);
+
+  const topDeals = useMemo(() => {
+    const source = catalog.length ? catalog : deals;
+    return [...source].sort((a, b) => commercialScore(b) - commercialScore(a)).slice(0, 10);
+  }, [catalog, deals]);
+
+  const recentDeals = useMemo(() => {
+    const source = catalog.length ? catalog : deals;
+    return recentDealIds.map((id) => source.find((deal) => deal.id === id)).filter((deal): deal is Deal => Boolean(deal)).slice(0, 6);
+  }, [catalog, deals, recentDealIds]);
+
+  const recommendedDeals = useMemo(() => {
+    const source = catalog.length ? catalog : deals;
+    return [...source].filter((deal) => deal.isHot || deal.isFreeShipping).sort((a, b) => commercialScore(b) - commercialScore(a)).slice(0, 6);
+  }, [catalog, deals]);
+
+  const categoryHighlights = useMemo(
+    () =>
+      ["food", "living", "digital", "fashion", "baby", "travel", "etc"].map((id) => {
+        const channel = getDealChannel(id);
+        const items = catalog.filter((deal) => dealMatchesChannel(deal, id)).sort((a, b) => commercialScore(b) - commercialScore(a));
+        return { id, label: channel.label, deal: items[0] };
+      }).filter((item) => item.deal),
+    [catalog]
+  );
+
   const categoryCounts = useMemo(
     () =>
       Object.fromEntries(
@@ -575,6 +636,118 @@ export default function Home() {
 
         {activeView === "home" ? (
           <>
+            {heroDeal ? (
+              <section className="overflow-hidden rounded-[30px] bg-dossa-red text-white shadow-deal">
+                <div className="grid gap-0 md:grid-cols-[1.1fr_0.9fr]">
+                  <div className="p-5 sm:p-7">
+                    <p className="text-sm font-black text-red-100">오늘의 특가 배너</p>
+                    <h3 className="mt-2 text-3xl font-black leading-tight sm:text-4xl">{heroDeal.title}</h3>
+                    <p className="mt-3 line-clamp-2 text-sm font-semibold leading-6 text-red-50">{heroDeal.description}</p>
+                    <div className="mt-5 flex flex-wrap gap-2">
+                      <span className="rounded-full bg-white px-3 py-1 text-sm font-black text-dossa-red">{heroDeal.discountRate}% 할인</span>
+                      <span className="rounded-full bg-white/15 px-3 py-1 text-sm font-black">{heroDeal.mallName}</span>
+                      <span className="rounded-full bg-white/15 px-3 py-1 text-sm font-black">{heroDeal.shipping}</span>
+                    </div>
+                    <div className="mt-6 flex gap-2">
+                      <button
+                        type="button"
+                        onClick={() => openDeal(heroDeal)}
+                        className="rounded-2xl bg-white px-5 py-3 text-sm font-black text-dossa-red"
+                      >
+                        특가 보러가기
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => toggleFavorite(heroDeal.id)}
+                        className="rounded-2xl bg-white/15 px-5 py-3 text-sm font-black text-white"
+                      >
+                        {favorites.includes(heroDeal.id) ? "찜 해제" : "찜하기"}
+                      </button>
+                    </div>
+                  </div>
+                  <div className="min-h-64 bg-red-950/15">
+                    {heroDeal.thumbnail ? (
+                      <img src={heroDeal.thumbnail} alt="" className="h-full min-h-64 w-full object-cover" />
+                    ) : (
+                      <div className="flex h-full min-h-64 items-center justify-center text-7xl font-black text-white/25">SALE</div>
+                    )}
+                  </div>
+                </div>
+              </section>
+            ) : null}
+
+            <section className="rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+              <div className="flex items-center justify-between gap-3">
+                <div>
+                  <p className="text-xs font-black text-dossa-red">실시간 인기 TOP10</p>
+                  <h3 className="text-xl font-black text-slate-950">지금 먼저 볼 특가</h3>
+                </div>
+                <button type="button" onClick={() => setSort("hot")} className="text-sm font-black text-dossa-red">
+                  인기순 보기
+                </button>
+              </div>
+              <div className="mt-4 grid gap-2">
+                {topDeals.map((deal, index) => (
+                  <button
+                    key={deal.id}
+                    type="button"
+                    onClick={() => openDeal(deal)}
+                    className="flex items-center gap-3 rounded-2xl border border-slate-100 bg-slate-50 p-3 text-left transition hover:border-red-100 hover:bg-red-50"
+                  >
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-dossa-red text-sm font-black text-white">
+                      {index + 1}
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block truncate text-sm font-black text-slate-950">{deal.title}</span>
+                      <span className="mt-0.5 block truncate text-xs font-bold text-slate-500">{deal.mallName} · {deal.category} · {deal.shipping}</span>
+                    </span>
+                    <span className="shrink-0 text-base font-black text-dossa-red">{deal.discountRate}%</span>
+                  </button>
+                ))}
+              </div>
+            </section>
+
+            <section className="grid gap-4 lg:grid-cols-[1fr_0.9fr]">
+              <div className="rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+                <p className="text-xs font-black text-dossa-red">카테고리별 인기</p>
+                <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                  {categoryHighlights.map((item) => (
+                    <button
+                      key={item.id}
+                      type="button"
+                      onClick={() => openCategory(item.id)}
+                      className="rounded-2xl bg-slate-50 p-4 text-left transition hover:bg-red-50"
+                    >
+                      <span className="text-xs font-black text-dossa-red">{item.label}</span>
+                      <span className="mt-1 block line-clamp-2 text-sm font-black text-slate-950">{item.deal?.title}</span>
+                      <span className="mt-2 block text-xs font-bold text-slate-500">{item.deal?.mallName} · {item.deal?.discountRate}%</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div className="rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+                <p className="text-xs font-black text-dossa-red">{recentDeals.length ? "최근 본 특가" : "추천 특가"}</p>
+                <div className="mt-4 space-y-2">
+                  {(recentDeals.length ? recentDeals : recommendedDeals).slice(0, 6).map((deal) => (
+                    <button
+                      key={deal.id}
+                      type="button"
+                      onClick={() => openDeal(deal)}
+                      className="flex w-full items-center gap-3 rounded-2xl bg-slate-50 p-3 text-left transition hover:bg-red-50"
+                    >
+                      <span className="h-12 w-12 shrink-0 overflow-hidden rounded-2xl bg-red-50">
+                        {deal.thumbnail ? <img src={deal.thumbnail} alt="" className="h-full w-full object-cover" /> : null}
+                      </span>
+                      <span className="min-w-0 flex-1">
+                        <span className="block truncate text-sm font-black text-slate-950">{deal.title}</span>
+                        <span className="block truncate text-xs font-bold text-slate-500">{deal.mallName} · {deal.shipping}</span>
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </section>
+
             <HotSignalSection signals={hotSignals} isLoading={isSignalLoading} onOpenSignal={openHotSignal} />
 
             <LiveDealFeed
