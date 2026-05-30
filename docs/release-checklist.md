@@ -27,6 +27,23 @@
 - [ ] `android/keystore.properties`는 로컬에만 보관
 - [x] `android/keystore.properties.example` 기준으로 서명 설정 확인
 
+## iOS / App Store 설정
+
+- [x] Capacitor iOS 플랫폼 생성: `ios/App`
+- [x] Bundle Identifier: `com.halindosa.app`
+- [x] 앱 표시 이름: 할인도사
+- [x] iOS version: `1.0.0`
+- [x] iOS build number: `1`
+- [x] App Icon asset 구조 준비
+- [x] Splash asset 구조 준비
+- [x] `npm run cap:sync:ios` 스크립트 준비
+- [x] `npm run cap:open:ios` 스크립트 준비
+- [ ] Mac/Xcode에서 Signing Team 선택
+- [ ] 실제 iPhone 또는 Simulator에서 실행 확인
+- [ ] Xcode Archive 생성
+- [ ] App Store Connect 업로드
+- [ ] `docs/app-store-checklist.md` 기준으로 App Privacy 작성
+
 ## Play Console
 
 - [ ] 앱 등록

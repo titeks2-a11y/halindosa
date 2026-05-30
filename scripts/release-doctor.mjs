@@ -24,11 +24,24 @@ function fileSize(path) {
 
 async function checkPackage() {
   const pkg = JSON.parse(await text("package.json"));
-  const requiredScripts = ["build", "build:android", "cap:sync", "cap:open", "android:doctor", "android:debug", "android:bundle"];
+  const requiredScripts = [
+    "build",
+    "build:android",
+    "cap:sync",
+    "cap:sync:ios",
+    "cap:open",
+    "cap:open:ios",
+    "android:doctor",
+    "android:debug",
+    "android:bundle"
+  ];
   const missing = requiredScripts.filter((script) => !pkg.scripts?.[script]);
 
   if (missing.length) fail("package scripts", `Missing scripts: ${missing.join(", ")}`);
-  else pass("package scripts", "Android release command flow is available.");
+  else pass("package scripts", "Android and iOS release command flow is available.");
+
+  if (!pkg.dependencies?.["@capacitor/ios"]) fail("Capacitor iOS dependency", "Missing @capacitor/ios.");
+  else pass("Capacitor iOS dependency", pkg.dependencies["@capacitor/ios"]);
 }
 
 async function checkCapacitor() {
@@ -85,6 +98,45 @@ async function checkAndroid() {
   else pass("Android splash", "Splash image exists.");
 }
 
+async function checkIos() {
+  const project = "ios/App/App.xcodeproj/project.pbxproj";
+  const plist = "ios/App/App/Info.plist";
+  const icon = "ios/App/App/Assets.xcassets/AppIcon.appiconset/AppIcon-512@2x.png";
+  const splash = "ios/App/App/Assets.xcassets/Splash.imageset/splash-2732x2732.png";
+
+  if (!existsSync(join(root, project))) {
+    fail("iOS project", "Run npx cap add ios on a machine with Capacitor iOS support.");
+    return;
+  }
+  pass("iOS project", "ios/App is present.");
+
+  if (!existsSync(join(root, plist))) {
+    fail("iOS Info.plist", "Missing ios/App/App/Info.plist.");
+    return;
+  }
+
+  const pbx = await text(project);
+  const info = await text(plist);
+
+  if (!pbx.includes("PRODUCT_BUNDLE_IDENTIFIER = com.halindosa.app;")) fail("iOS bundle identifier", "Expected com.halindosa.app.");
+  else pass("iOS bundle identifier", "com.halindosa.app");
+
+  if (!pbx.includes("CURRENT_PROJECT_VERSION = 1;")) fail("iOS build number", "Expected CURRENT_PROJECT_VERSION 1.");
+  else pass("iOS build number", "1");
+
+  if (!pbx.includes("MARKETING_VERSION = 1.0.0;")) fail("iOS version", "Expected MARKETING_VERSION 1.0.0.");
+  else pass("iOS version", "1.0.0");
+
+  if (!info.includes("<string>할인도사</string>")) fail("iOS display name", "Expected 할인도사.");
+  else pass("iOS display name", "할인도사");
+
+  if (fileSize(icon) <= 0) fail("iOS app icon", "Missing AppIcon-512@2x.png.");
+  else pass("iOS app icon", "App Store icon asset is present.");
+
+  if (fileSize(splash) <= 0) fail("iOS splash", "Missing Splash.imageset splash image.");
+  else pass("iOS splash", "Splash image asset is present.");
+}
+
 async function checkPolicyAndStoreDocs() {
   const requiredFiles = [
     "app/privacy/page.tsx",
@@ -105,6 +157,7 @@ async function checkPolicyAndStoreDocs() {
     "docs/competitor-analysis.md",
     "docs/analytics-plan.md",
     "docs/data-source-runbook.md",
+    "docs/app-store-checklist.md",
     "docs/launch-day-checklist.md",
     "docs/weekly-operation-guide.md",
     "docs/customer-support-guide.md",
@@ -153,6 +206,7 @@ function checkStoreAssets() {
 await checkPackage();
 await checkCapacitor();
 await checkAndroid();
+await checkIos();
 await checkPolicyAndStoreDocs();
 checkSigningAndArtifacts();
 checkStoreAssets();
