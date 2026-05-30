@@ -115,7 +115,7 @@
 - `npm run audit:commercial`
 - `npm run qa`
 - `npm run smoke:local`
-- smoke 28개 항목으로 확장: report validation, home query filters, deal link integrity, redirect fallback, affiliate status, admin export, metrics link review queue 포함
+- smoke 29개 항목으로 확장: report validation, home query filters, deal link integrity, partner feed unsafe link guard, redirect fallback, affiliate status, admin export, metrics link review queue 포함
 - Play Store 이미지 제작 기준 문서화
 - Play Store 512 아이콘과 기능 그래픽 초안 생성
 - PWA/iOS 홈 화면 설치용 manifest icon, shortcut, apple web app metadata 보강
