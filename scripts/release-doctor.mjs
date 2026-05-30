@@ -182,6 +182,42 @@ async function checkPolicyAndStoreDocs() {
 
   if (missing.length) fail("policy and store docs", `Missing: ${missing.join(", ")}`);
   else pass("policy and store docs", "Required policy/listing drafts are present.");
+
+  const requiredContent = [
+    {
+      name: "privacy policy content",
+      file: "app/privacy/page.tsx",
+      phrases: ["회원가입 없이", "기기 또는 브라우저 저장소", "분석 및 제휴 추적", "외부 링크", "사용자 권리", "가격 오류"]
+    },
+    {
+      name: "terms content",
+      file: "app/terms/page.tsx",
+      phrases: ["정보 제공 서비스", "판매처 페이지의 최종 조건", "직접 처리하지 않습니다", "제휴 링크 또는 광고 링크"]
+    },
+    {
+      name: "service guide content",
+      file: "app/guide/page.tsx",
+      phrases: ["직접 상품을 판매하지 않습니다", "구매 전 꼭 확인하세요", "외부 판매처 이동 방식", "제휴 파라미터"]
+    },
+    {
+      name: "data safety guide content",
+      file: "docs/data-safety-guide.md",
+      phrases: ["수집하지 않음", "앱 내 결제 없음", "데이터 삭제", "개인정보처리방침 URL"]
+    }
+  ];
+
+  for (const item of requiredContent) {
+    if (!existsSync(join(root, item.file))) {
+      fail(item.name, `Missing ${item.file}.`);
+      continue;
+    }
+
+    const body = await text(item.file);
+    const missingPhrases = item.phrases.filter((phrase) => !body.includes(phrase));
+
+    if (missingPhrases.length) fail(item.name, `Missing phrases in ${item.file}: ${missingPhrases.join(", ")}`);
+    else pass(item.name, `${item.file} includes launch-critical policy copy.`);
+  }
 }
 
 function checkSigningAndArtifacts() {
