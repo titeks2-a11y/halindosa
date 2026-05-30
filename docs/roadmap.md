@@ -31,6 +31,7 @@
 - Capacitor iOS 플랫폼, App Store 체크리스트, iOS sync/open 스크립트와 release doctor 점검 추가
 - iOS 권한/ATT 미선언 검사와 모바일 터치, 입력 줌, overscroll polish CSS 추가
 - `/guide` 서비스 안내 페이지 추가, 구매 전 확인/외부 판매처 이동/제휴 고지 기준을 마이와 푸터에 연결
+- `/guide`를 sitemap, SEO 전략, Play Store 등록 문구에 반영
 
 ### PHASE 2 코드 품질
 
