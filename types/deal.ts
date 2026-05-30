@@ -13,24 +13,31 @@ export type DealSort = "latest" | "discount" | "price" | "hot" | "endingSoon";
 
 export interface Deal {
   id: string;
-  mall: string;
   title: string;
-  category: DealCategory;
+  description: string;
   originalPrice: number;
   salePrice: number;
   discountRate: number;
-  discountAmount: number;
-  imageUrl: string;
+  mallName: string;
+  category: DealCategory;
+  thumbnail: string;
   link: string;
-  source: string;
-  shippingInfo: string;
-  description: string;
-  notice: string;
-  expiresAt: string;
+  shipping: string;
+  createdAt: string;
+  expireAt: string;
+  tags: string[];
   isHot: boolean;
+  isFreeShipping: boolean;
+  discountAmount: number;
+  source: string;
+  notice: string;
   isNew: boolean;
   isEndingSoon: boolean;
-  createdAt: string;
-  tags: string[];
   popularityScore: number;
+  mall: string;
+  imageUrl: string;
+  shippingInfo: string;
+  expiresAt: string;
 }
+
+export type DealDataMode = "mock" | "staging" | "production" | "hybrid";

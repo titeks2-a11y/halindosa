@@ -1,4 +1,5 @@
 import { categories } from "@/data/mockDeals";
+import { normalizeDeal } from "@/lib/deals/normalizer";
 import { Deal, DealCategory } from "@/types/deal";
 
 interface NaverShoppingItem {
@@ -168,29 +169,29 @@ function normalizeBoardDeal(seed: BoardDealSeed, index: number): Deal {
   const category = inferCategoryFromText(`${seed.boardCategory} ${seed.rawTitle}`);
   const shippingInfo = /무료배송|무배|네멤무료|배송/.test(seed.rawTitle) ? "무료배송 또는 배송 혜택 포함" : "판매처 조건 확인";
 
-  return {
+  return normalizeDeal({
     id: `live-board-${seed.no}`,
-    mall,
+    mallName: mall,
     title,
     category,
     originalPrice,
     salePrice,
     discountRate,
     discountAmount,
-    imageUrl: normalizeBoardImage(seed.imageUrl),
+    thumbnail: normalizeBoardImage(seed.imageUrl),
     link: seed.url,
     source: "halindosa_live",
-    shippingInfo,
+    shipping: shippingInfo,
     description: `${mall}에서 확인된 실시간 특가입니다. 가격, 혜택, 배송 조건을 함께 비교해 볼 만한 정보입니다.`,
     notice: "실시간 특가 정보는 판매처 조건 변경이 빠를 수 있습니다. 구매 전 판매처 상세 페이지에서 최종 가격과 혜택을 확인하세요.",
-    expiresAt: new Date(Date.now() + expiresInHours * 60 * 60 * 1000).toISOString(),
+    expireAt: new Date(Date.now() + expiresInHours * 60 * 60 * 1000).toISOString(),
     createdAt,
     isHot: seed.views >= 2000 || discountRate >= 25,
     isNew: index < 12,
     isEndingSoon: expiresInHours <= 8 || score % 6 === 0,
     tags: seed.views >= 5000 ? [...boardTags, "인기"] : boardTags,
     popularityScore: Math.min(99, 55 + Math.floor(seed.views / 350) + (score % 18))
-  };
+  }, "halindosa_live");
 }
 
 function normalizeNaverItem(item: NaverShoppingItem, index: number): Deal {
@@ -202,29 +203,29 @@ function normalizeNaverItem(item: NaverShoppingItem, index: number): Deal {
   const score = stableScore(item.productId || item.link || `${item.title}-${index}`);
   const cleanItemTitle = cleanTitle(item.title);
 
-  return {
+  return normalizeDeal({
     id: `naver-${item.productId || score}`,
-    mall: item.mallName || "네이버쇼핑",
+    mallName: item.mallName || "네이버쇼핑",
     title: cleanItemTitle,
     category: inferCategory(item),
     originalPrice,
     salePrice,
     discountRate,
     discountAmount,
-    imageUrl: item.image,
+    thumbnail: item.image,
     link: item.link,
     source: "naver_shopping",
-    shippingInfo: "판매처 조건 확인",
+    shipping: "판매처 조건 확인",
     description: `${item.mallName || "네이버쇼핑"}에서 검색된 ${cleanItemTitle} 가격 비교 특가입니다. 할인율과 판매처 조건을 함께 확인하세요.`,
     notice: "네이버쇼핑 검색 결과는 판매처별 조건이 다를 수 있습니다. 결제 전 배송비, 쿠폰, 옵션가를 확인하세요.",
-    expiresAt: new Date(now + (6 + (score % 42)) * 60 * 60 * 1000).toISOString(),
+    expireAt: new Date(now + (6 + (score % 42)) * 60 * 60 * 1000).toISOString(),
     createdAt: new Date(now - (index + 1) * 12 * 60 * 1000).toISOString(),
     isHot: discountRate >= 25 || score % 5 === 0,
     isNew: index < 8,
     isEndingSoon: score % 7 === 0,
     tags: discountRate >= 30 ? [...liveTags, "핫딜"] : liveTags,
     popularityScore: Math.min(99, 62 + (score % 38))
-  };
+  }, "naver_shopping");
 }
 
 function getLiveKeywords(category?: string, q?: string) {

@@ -1,4 +1,5 @@
 import { categories } from "@/data/mockDeals";
+import { normalizeDeal } from "@/lib/deals/normalizer";
 import { Deal, DealCategory } from "@/types/deal";
 
 export interface PartnerFeedItem {
@@ -72,29 +73,29 @@ export function normalizePartnerFeed(items: PartnerFeedItem[], source = "partner
     const mall = item.mall!.trim();
     const title = item.title!.trim();
 
-    return {
+    return normalizeDeal({
       id: `${source}-${item.externalId}`,
-      mall,
+      mallName: mall,
       title,
       category: normalizeCategory(item.category),
       originalPrice,
       salePrice,
       discountRate,
       discountAmount,
-      imageUrl: item.imageUrl ?? "",
+      thumbnail: item.imageUrl ?? "",
       link: item.link!,
       source,
-      shippingInfo: tags.some((tag) => /무료배송|무배/.test(tag)) ? "무료배송" : "판매처 조건 확인",
+      shipping: tags.some((tag) => /무료배송|무배/.test(tag)) ? "무료배송" : "판매처 조건 확인",
       description: `${mall} 파트너 피드에서 수신한 ${title} 특가입니다. 원가, 할인가, 배송 조건을 함께 확인하세요.`,
       notice: "파트너 피드 정보는 판매처 사정에 따라 변경될 수 있습니다. 구매 전 판매처의 최종 가격과 옵션 조건을 확인하세요.",
-      expiresAt: item.expiresAt ?? new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
+      expireAt: item.expiresAt ?? new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
       isHot: discountRate >= 40,
       isNew: true,
       isEndingSoon: item.expiresAt ? new Date(item.expiresAt).getTime() - Date.now() < 6 * 60 * 60 * 1000 : false,
       createdAt: now,
       tags,
       popularityScore: Math.min(99, 50 + discountRate + tags.length * 2)
-    } satisfies Deal;
+    }, source) satisfies Deal;
   });
 }
 

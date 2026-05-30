@@ -22,27 +22,34 @@ function deal(
   const shippingInfo = tags.some((tag) => /무료배송|무배|네멤무료/.test(tag)) ? "무료배송" : "판매처 조건부 배송";
   const description = `${mall}에서 확인된 ${title} 특가입니다. 할인율, 배송 조건, 쿠폰 적용 여부를 함께 비교해 볼 만한 상품입니다.`;
   const notice = "가격, 재고, 쿠폰, 배송 조건은 판매처 사정에 따라 달라질 수 있습니다. 구매 전 판매처 상세 페이지에서 최종 조건을 확인하세요.";
+  const expiresAt = new Date(now + expiresInHours * hour).toISOString();
+  const createdAt = new Date(now - offsetHours * hour).toISOString();
 
   return {
     id,
-    mall,
     title,
-    category,
+    description,
     originalPrice,
     salePrice,
     discountRate,
-    discountAmount: originalPrice - salePrice,
-    imageUrl,
+    mallName: mall,
+    category,
+    thumbnail: imageUrl,
     link,
-    source: "mock",
-    shippingInfo,
-    description,
-    notice,
-    expiresAt: new Date(now + expiresInHours * hour).toISOString(),
-    createdAt: new Date(now - offsetHours * hour).toISOString(),
-    ...flags,
+    shipping: shippingInfo,
+    createdAt,
+    expireAt: expiresAt,
     tags,
-    popularityScore
+    isFreeShipping: shippingInfo === "무료배송",
+    discountAmount: originalPrice - salePrice,
+    source: "mock",
+    notice,
+    ...flags,
+    popularityScore,
+    mall,
+    imageUrl,
+    shippingInfo,
+    expiresAt
   };
 }
 
