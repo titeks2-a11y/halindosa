@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Bell, Clock, Flame, Sparkles, Truck } from "lucide-react";
+import { NotificationPreferences } from "@/components/NotificationPreferences";
 import { mockDeals } from "@/data/mockDeals";
 import { getRelativeTime, getTimeLeft } from "@/lib/format";
 
@@ -25,12 +26,7 @@ export default function NotificationsPage() {
         </div>
       </section>
 
-      <section className="rounded-[22px] border border-slate-200 bg-white p-4 shadow-sm">
-        <p className="text-sm font-black text-slate-950">푸시 알림 준비 중</p>
-        <p className="mt-2 text-xs font-bold leading-5 text-slate-500">
-          지금은 앱 안에서 마감 임박, 신규, 인기 특가를 확인할 수 있습니다. 실제 푸시 알림은 사용자 동의 후 관심 카테고리 기반으로 연결할 예정입니다.
-        </p>
-      </section>
+      <NotificationPreferences />
 
       {alertGroups.map((group) => {
         const Icon = group.icon;

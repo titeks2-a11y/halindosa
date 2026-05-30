@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { BellRing, CheckCircle2, Flame, Info, Share2, ShieldCheck, SlidersHorizontal, Timer, Truck, UserRound } from "lucide-react";
+import { BellRing, CheckCircle2, Flame, Share2, ShieldCheck, SlidersHorizontal, Timer, Truck, UserRound } from "lucide-react";
 import { CategoryTabs } from "@/components/CategoryTabs";
 import { CommercialFooter } from "@/components/CommercialFooter";
 import { ConsentSettings } from "@/components/ConsentSettings";
@@ -10,6 +10,7 @@ import { DealCard } from "@/components/DealCard";
 import { FeaturedDealSections } from "@/components/FeaturedDealSections";
 import { HotSignalSection } from "@/components/HotSignalSection";
 import { LiveDealFeed } from "@/components/LiveDealFeed";
+import { NotificationPreferences } from "@/components/NotificationPreferences";
 import { PurchaseConfirmSheet } from "@/components/PurchaseConfirmSheet";
 import { SearchBar } from "@/components/SearchBar";
 import { SortSelect } from "@/components/SortSelect";
@@ -1180,14 +1181,8 @@ export default function Home() {
                 </button>
               ))}
             </div>
-            <aside className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-              <div className="flex items-center gap-2">
-                <Info size={19} className="text-dossa-red" />
-                <p className="text-lg font-black text-slate-950">알림 설정 준비 중</p>
-              </div>
-              <p className="mt-3 text-sm font-semibold leading-6 text-slate-500">
-                현재는 앱 안에서 마감 임박, 인기, 신규 특가를 우선 표시합니다. 출시 후 푸시 알림 권한과 관심 카테고리 설정을 연결할 수 있는 구조입니다.
-              </p>
+            <aside className="space-y-3">
+              <NotificationPreferences />
               <div className="mt-4 grid gap-2 text-sm font-bold text-slate-600">
                 <div className="rounded-2xl bg-red-50 px-4 py-3">마감 임박 {alertDeals.filter((deal) => deal.isEndingSoon).length}개</div>
                 <div className="rounded-2xl bg-slate-50 px-4 py-3">오늘의 인기 {alertDeals.filter((deal) => deal.isHot).length}개</div>

@@ -33,6 +33,7 @@
 - `/guide` 서비스 안내 페이지 추가, 구매 전 확인/외부 판매처 이동/제휴 고지 기준을 마이와 푸터에 연결
 - `/guide`를 sitemap, SEO 전략, Play Store 등록 문구에 반영
 - `qa`에 로컬 smoke를 포함하고 `qa:release`로 Android/iOS sync까지 검증하는 출시 후보 명령 추가
+- 알림 화면의 미완성 표현을 제거하고 기기 저장 기반 관심 알림 설정 UI를 추가
 
 ### PHASE 2 코드 품질
 

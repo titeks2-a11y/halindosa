@@ -16,7 +16,7 @@ export default function MyPage() {
           </div>
         </div>
         <p className="mt-5 rounded-2xl bg-slate-50 p-4 text-sm font-semibold leading-6 text-slate-600">
-          회원가입 없이 특가를 탐색하고, 관심 특가는 이 기기에만 저장됩니다. 향후 공식 API, 제휴 피드, 푸시 알림을 안전하게 연결할 수 있도록 준비 중입니다.
+          회원가입 없이 특가를 탐색하고, 관심 특가는 이 기기에만 저장됩니다. 운영 데이터는 공식 API, 제휴 피드, 허용된 RSS처럼 권한이 확인된 소스만 연결하는 기준으로 관리합니다.
         </p>
       </section>
 
