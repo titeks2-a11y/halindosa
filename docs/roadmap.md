@@ -2,7 +2,7 @@
 
 ## 현재 상태
 
-할인도사는 Next.js + Capacitor 기반 Android 앱으로 실행 가능하며, Play Store 내부 테스트에 올릴 수 있는 기본 구조를 갖췄다. 앱 이름, 패키지명, 버전, 아이콘, 스플래시, 정책 페이지, 하단 탭, 찜, 알림, 마이 화면, Android sync, APK/AAB 빌드 검증이 완료되어 있다.
+할인도사는 Next.js + Capacitor 기반 Android 앱으로 실행 가능하며, Play Store 내부 테스트에 올릴 수 있는 기본 구조를 갖췄다. 앱 이름, 패키지명, 버전, 아이콘, 스플래시, 정책 페이지, 하단 탭, 찜, 알림, 마이 화면, Android sync, APK/AAB 빌드 검증이 완료되어 있다. V1.0 기준 Deal canonical 모델, mock/staging/production provider 구조, 운영/수익화/푸시/SEO 문서, 홈 discovery 섹션까지 추가되었다.
 
 ## 완료 작업
 
@@ -14,10 +14,13 @@
 - 할인율, 원가, 할인가, 쇼핑몰명, 배송 정보, 등록/마감 시간 표시
 - 찜, 공유, 외부 이동 버튼 배치
 - 검색 결과 없음, 로딩, fallback 오류 상태 구현
+- 오늘의 특가 배너, 실시간 인기 TOP10, 카테고리별 인기, 최근 본 특가, 추천 특가 구성
 
 ### PHASE 2 코드 품질
 
 - Deal 타입에 배송 정보, 설명, 유의사항 추가
+- Deal canonical 필드 표준화: `mallName`, `thumbnail`, `shipping`, `expireAt`, `isFreeShipping`
+- mock/staging/production/hybrid 데이터 provider 레이어 분리
 - 실시간/파트너 피드 정규화 경로에 Deal 필수 필드 반영
 - 린트 오류 제거
 - 하단 탭 safe-area 대응
@@ -32,6 +35,16 @@
 - `docs/data-safety-guide.md`
 - `docs/content-rating-guide.md`
 - `docs/test-plan.md`
+- `docs/admin-system-design.md`
+- `docs/monetization.md`
+- `docs/push-notification-design.md`
+- `docs/seo-strategy.md`
+- `docs/competitor-analysis.md`
+- `docs/analytics-plan.md`
+- `docs/launch-day-checklist.md`
+- `docs/weekly-operation-guide.md`
+- `docs/customer-support-guide.md`
+- `docs/v1-1-roadmap.md`
 
 ### PHASE 4 Android 출시 준비
 
@@ -61,9 +74,7 @@
 
 ## 진행 중 작업
 
-- Play Store 제출 직전 리스크 축소
-- smoke 테스트 범위 확대
-- release doctor 범위 확대
+- Play Store 제출 직전 실기기/스토어 작업만 남음
 - 출시 이미지와 스크린샷 기준 유지
 
 ## 다음 작업
@@ -73,7 +84,7 @@
 3. 내부 테스트 트랙 업로드
 4. 실제 기기 2종 이상 설치 확인
 5. 개인정보처리방침 실제 URL 배포
-6. 운영 데이터 공급 방식 확정
+6. 운영 데이터 공급 방식 확정 및 Supabase/API 연결
 7. 제휴/광고 고지 문구 법무 검토
 
 ## 출시 전 남은 작업
