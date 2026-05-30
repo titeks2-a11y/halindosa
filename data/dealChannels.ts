@@ -16,7 +16,7 @@ export const dealChannels: DealChannel[] = [
   { id: "popular", label: "인기 급상승", group: "추천", type: "curated", description: "반응이 빠르게 올라오는 특가" },
   { id: "freezero", label: "무료/0원딜", group: "추천", type: "curated", description: "무료배송, 쿠폰, 0원딜 중심" },
   { id: "ending", label: "마감임박", group: "추천", type: "curated", description: "마감 시간이 가까운 특가" },
-  { id: "lowest", label: "최저가 의심", group: "추천", type: "curated", description: "할인율과 반응이 높은 가격 주목 상품" },
+  { id: "lowest", label: "가격 주목", group: "추천", type: "curated", description: "할인율과 반응이 높은 가격 주목 상품" },
   { id: "food", label: "식품", group: "카테고리", type: "category", value: "식품", description: "식품, 간편식, 생필품 특가" },
   { id: "living", label: "생활용품", group: "카테고리", type: "category", value: "생활용품", description: "생활용품과 홈 인테리어" },
   { id: "digital", label: "디지털", group: "카테고리", type: "category", value: "전자기기", description: "디지털 기기와 가전" },

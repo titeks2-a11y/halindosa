@@ -39,8 +39,8 @@ const sections = [
   },
   {
     id: "lowest-suspect",
-    title: "최저가 의심 상품",
-    description: "역대가 태그와 높은 할인율을 함께 본 상품",
+    title: "가격 주목 상품",
+    description: "가격 하락 신호와 높은 할인율을 함께 본 상품",
     icon: BadgePercent,
     getDeals: (deals: Deal[]) =>
       [...deals]

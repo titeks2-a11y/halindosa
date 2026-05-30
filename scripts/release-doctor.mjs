@@ -171,6 +171,33 @@ async function checkPublicContact() {
   }
 }
 
+async function checkPublicClaimCopy() {
+  const publicFiles = [
+    "app/page.tsx",
+    "app/admin/page.tsx",
+    "app/deals/[id]/page.tsx",
+    "components/FeaturedDealSections.tsx",
+    "components/DealCard.tsx",
+    "data/dealChannels.ts",
+    "docs/play-store-listing.md"
+  ];
+  const blockedPhrases = ["무조건 최저가", "100% 실시간 보장", "공식 판매처 보장", "수익 보장", "최저가 의심 상품", "최근 최저가"];
+  const findings = [];
+
+  for (const file of publicFiles) {
+    const body = await text(file);
+    for (const phrase of blockedPhrases) {
+      if (body.includes(phrase)) findings.push(`${file}: ${phrase}`);
+    }
+  }
+
+  if (findings.length) {
+    fail("public claim copy", `Risky public phrases found: ${findings.join(", ")}`);
+  } else {
+    pass("public claim copy", "Public UI and listing copy avoids absolute price/availability guarantees.");
+  }
+}
+
 async function checkUiAccessibility() {
   const dealCard = await text("components/DealCard.tsx");
   const homePage = await text("app/page.tsx");
@@ -416,6 +443,7 @@ await checkPackage();
 await checkRepositorySafety();
 await checkEnvExample();
 await checkPublicContact();
+await checkPublicClaimCopy();
 await checkUiAccessibility();
 await checkCapacitor();
 await checkAndroid();

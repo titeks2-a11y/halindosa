@@ -62,7 +62,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
     { label: "평균 할인율", value: `${metrics.averageDiscount}%`, icon: BadgePercent },
     { label: "예상 절약액", value: formatPrice(metrics.potentialSavings), icon: WalletCards },
     { label: "예상 클릭 가치", value: metrics.estimatedClickValue.toLocaleString("ko-KR"), icon: LineChart },
-    { label: "최근 최저가", value: metrics.lowestPriceDeals.toLocaleString("ko-KR"), icon: TrendingDown },
+    { label: "가격 주목 상품", value: metrics.lowestPriceDeals.toLocaleString("ko-KR"), icon: TrendingDown },
     { label: "평균 신뢰도", value: `${metrics.averageConfidenceScore}점`, icon: ShieldCheck },
     { label: "구매 링크 확인율", value: `${metrics.verifiedLinkRate}%`, icon: ShieldCheck },
     { label: "링크 검토 필요", value: metrics.needsReviewLinks.toLocaleString("ko-KR"), icon: Activity },

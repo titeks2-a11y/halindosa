@@ -125,8 +125,8 @@ export default async function DealDetailPage({ params }: DealDetailPageProps) {
                 <p className="mt-1">{priceInsight.confidenceScore >= 90 ? "높음" : "참고"}</p>
               </div>
               <div className="rounded-2xl bg-slate-50 p-3">
-                <p className="text-xs text-slate-400">최근 최저가</p>
-                <p className="mt-1">{priceInsight.isLowestPrice ? "예" : "확인 필요"}</p>
+                <p className="text-xs text-slate-400">최근 기준 주목가</p>
+                <p className="mt-1">{priceInsight.isLowestPrice ? "가격 하락 신호" : "확인 필요"}</p>
               </div>
               <div className="rounded-2xl bg-slate-50 p-3">
                 <p className="text-xs text-slate-400">가격 기준</p>
