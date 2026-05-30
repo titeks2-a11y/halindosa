@@ -75,7 +75,7 @@
 - `npm run audit:commercial`
 - `npm run qa`
 - `npm run smoke:local`
-- smoke 19개 항목으로 확장: redirect fallback, affiliate status, admin export 포함
+- smoke 20개 항목으로 확장: deal link integrity, redirect fallback, affiliate status, admin export 포함
 - Play Store 이미지 제작 기준 문서화
 - Play Store 512 아이콘과 기능 그래픽 초안 생성
 

@@ -31,6 +31,31 @@ async function fetchJson(path, init) {
   return { response, data };
 }
 
+function isUnsafeDealUrl(value) {
+  try {
+    const url = new URL(value);
+    const host = url.hostname.toLowerCase();
+    return (
+      !["http:", "https:"].includes(url.protocol) ||
+      host === "example.com" ||
+      host.endsWith(".example.com") ||
+      host.includes("ppomppu.co.kr")
+    );
+  } catch {
+    return true;
+  }
+}
+
+function isMallHomeOnlyUrl(value) {
+  try {
+    const url = new URL(value);
+    const path = url.pathname.replace(/\/+$/, "");
+    return path === "" || path === "/" || path === "/main" || path === "/index";
+  } catch {
+    return true;
+  }
+}
+
 await check("home page", async () => {
   const response = await fetch(`${baseUrl}/`);
   const text = await response.text();
@@ -68,6 +93,31 @@ await check("deals filters api", async () => {
     freeShipping.data.deals.every((deal) => /무료배송|무배|네멤무료|로켓프레시/.test([deal.shippingInfo, ...deal.tags].join(" "))),
     "freeShippingOnly returned a non-free-shipping deal"
   );
+});
+
+await check("deal link integrity", async () => {
+  const { response, data } = await fetchJson("/api/deals?limit=100&sort=latest");
+  assert(response.status === 200, `Expected 200, got ${response.status}`);
+  assert(data.ok === true, "Deals API ok should be true");
+  assert(data.deals.length >= 50, `Expected at least 50 deals, got ${data.deals.length}`);
+
+  for (const deal of data.deals) {
+    const destination = deal.purchaseUrl || deal.url || deal.link;
+    assert(!/티몬|위메프/.test(`${deal.mallName} ${deal.mall}`), `${deal.id} uses excluded mall: ${deal.mallName}`);
+    assert(["direct_purchase", "seller_search", "affiliate", "unavailable"].includes(deal.linkType), `${deal.id} invalid linkType`);
+    assert(["verified", "needs_review", "broken", "sold_out"].includes(deal.linkStatus), `${deal.id} invalid linkStatus`);
+    assert(!isUnsafeDealUrl(destination), `${deal.id} has unsafe/community/placeholder destination: ${destination}`);
+
+    if (deal.linkStatus === "verified") {
+      assert(deal.linkType !== "seller_search", `${deal.id} verified deal should not be seller_search`);
+      assert(!isMallHomeOnlyUrl(destination), `${deal.id} verified deal points to mall home: ${destination}`);
+    }
+
+    if (deal.linkType === "seller_search") {
+      assert(deal.linkStatus === "needs_review", `${deal.id} seller_search should be needs_review`);
+      assert(/검색|확인/.test(deal.linkLabel), `${deal.id} seller_search label should warn about review`);
+    }
+  }
 });
 
 await check("deal detail api", async () => {
