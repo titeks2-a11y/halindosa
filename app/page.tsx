@@ -204,7 +204,7 @@ export default function Home() {
   const [providerSource, setProviderSource] = useState("mock");
   const [isLoading, setIsLoading] = useState(false);
   const [loadError, setLoadError] = useState("");
-  const [isOffline, setIsOffline] = useState(() => (typeof navigator === "undefined" ? false : !navigator.onLine));
+  const [isOffline, setIsOffline] = useState(false);
   const [hotSignals, setHotSignals] = useState<HotSignal[]>(mockHotSignals);
   const [isSignalLoading, setIsSignalLoading] = useState(false);
   const [favorites, setFavorites] = useState<string[]>(() => {
@@ -801,31 +801,24 @@ export default function Home() {
             새로고침
           </button>
         </div>
-        <div className="grid gap-2 rounded-[24px] border border-slate-200 bg-white p-3 shadow-sm sm:grid-cols-4 sm:p-4">
-          <div className="flex items-center gap-3 rounded-2xl bg-red-50 px-3 py-3">
-            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-white text-dossa-red">
-              <ShieldCheck size={18} />
+        <div className="rounded-[22px] border border-slate-200 bg-white px-3 py-3 shadow-sm">
+          <div className="flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <span className="inline-flex shrink-0 items-center gap-2 rounded-full bg-red-50 px-3 py-2">
+              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white text-dossa-red">
+                <ShieldCheck size={18} />
+              </span>
+              <span className="text-xs font-black text-dossa-deep">데이터 상태</span>
+              <span className="text-xs font-black text-slate-950">{providerSource}</span>
             </span>
-            <div className="min-w-0">
-              <p className="text-[11px] font-black text-dossa-deep">데이터 상태</p>
-              <p className="truncate text-sm font-black text-slate-950">{providerSource}</p>
-            </div>
-          </div>
-          <div className="rounded-2xl bg-slate-50 px-3 py-3">
-            <p className="text-[11px] font-black text-slate-400">구매 링크 확인</p>
-            <p className="mt-1 text-sm font-black text-slate-950">
-              {dataQuality.verifiedLinkCount}/{dataQuality.total}개
-            </p>
-          </div>
-          <div className="rounded-2xl bg-amber-50 px-3 py-3">
-            <p className="text-[11px] font-black text-amber-700">판매처 검색 확인 필요</p>
-            <p className="mt-1 text-sm font-black text-amber-900">{dataQuality.reviewLinkCount}개</p>
-          </div>
-          <div className="rounded-2xl bg-slate-50 px-3 py-3">
-            <p className="text-[11px] font-black text-slate-400">네트워크</p>
-            <p className="mt-1 truncate text-sm font-black text-slate-950">
-              {isOffline ? "오프라인 모드" : "온라인"}
-            </p>
+            <span className="inline-flex shrink-0 items-center gap-2 rounded-full bg-slate-50 px-3 py-2 text-xs font-black text-slate-700">
+              구매 링크 확인 <b className="text-slate-950">{dataQuality.verifiedLinkCount}/{dataQuality.total}개</b>
+            </span>
+            <span className="inline-flex shrink-0 items-center gap-2 rounded-full bg-amber-50 px-3 py-2 text-xs font-black text-amber-800">
+              판매처 검색 확인 필요 <b>{dataQuality.reviewLinkCount}개</b>
+            </span>
+            <span className="inline-flex shrink-0 items-center gap-2 rounded-full bg-slate-50 px-3 py-2 text-xs font-black text-slate-700">
+              네트워크 <b className="text-slate-950">{isOffline ? "오프라인 모드" : "온라인"}</b>
+            </span>
           </div>
         </div>
         <div className="rounded-[22px] border border-slate-200 bg-white px-4 py-3 shadow-sm">
