@@ -11,6 +11,8 @@
 - [x] `npm run android:bundle`
 - [x] `npm run release:doctor`
 - [x] `npm run smoke:local`
+- [x] `npm run qa`
+- [x] `npm run qa:release`
 
 ## Android 설정
 

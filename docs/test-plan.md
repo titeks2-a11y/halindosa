@@ -78,6 +78,8 @@ npm run build
 npm run build:android
 npm run cap:sync
 npm run smoke:local
+npm run qa
+npm run qa:release
 npm run release:doctor
 ```
 
@@ -88,6 +90,8 @@ npm run smoke
 ```
 
 `smoke:local`은 개발 서버 실행, 헬스체크 대기, smoke 검증, 서버 종료까지 한 번에 수행합니다.
+`qa`는 lint, 로컬 smoke, Next.js build, release doctor를 포함합니다.
+`qa:release`는 `qa`에 Android 정적 빌드와 Android/iOS Capacitor sync까지 더한 출시 후보 검증입니다.
 
 ## 내부 테스트 기준
 

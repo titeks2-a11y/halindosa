@@ -88,6 +88,7 @@ npm install
 npm run lint
 npm run smoke:local
 npm run qa
+npm run qa:release
 npm run build:android
 npm run cap:sync
 npm run cap:sync:ios

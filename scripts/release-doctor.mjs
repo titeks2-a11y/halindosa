@@ -33,7 +33,8 @@ async function checkPackage() {
     "cap:open:ios",
     "android:doctor",
     "android:debug",
-    "android:bundle"
+    "android:bundle",
+    "qa:release"
   ];
   const missing = requiredScripts.filter((script) => !pkg.scripts?.[script]);
 
