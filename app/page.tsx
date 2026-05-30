@@ -90,9 +90,18 @@ function getProviderDisplayLabel(source: string) {
   return "기본 특가";
 }
 
+function linkQualityScore(deal: Deal) {
+  if (deal.linkStatus === "broken" || deal.linkStatus === "sold_out") return -40;
+  if (deal.linkStatus === "verified" && deal.linkType !== "seller_search") return 28;
+  if (deal.linkType === "direct_purchase" || deal.linkType === "affiliate") return 16;
+  if (deal.linkStatus === "needs_review" || deal.linkType === "seller_search") return -10;
+  return 0;
+}
+
 function commercialScore(deal: Deal) {
   const expireHours = Math.max(1, (new Date(deal.expireAt).getTime() - Date.now()) / (60 * 60 * 1000));
   return (
+    linkQualityScore(deal) +
     Number(deal.isHot) * 40 +
     Number(deal.isFreeShipping) * 12 +
     deal.popularityScore +

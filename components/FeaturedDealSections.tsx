@@ -10,6 +10,18 @@ interface FeaturedDealSectionsProps {
   onShareDeal: (deal: Deal) => void;
 }
 
+function linkQualityScore(deal: Deal) {
+  if (deal.linkStatus === "broken" || deal.linkStatus === "sold_out") return -30;
+  if (deal.linkStatus === "verified" && deal.linkType !== "seller_search") return 18;
+  if (deal.linkType === "direct_purchase" || deal.linkType === "affiliate") return 10;
+  if (deal.linkStatus === "needs_review" || deal.linkType === "seller_search") return -8;
+  return 0;
+}
+
+function sectionScore(deal: Deal) {
+  return linkQualityScore(deal) + deal.popularityScore + deal.discountRate * 0.6 + Number(deal.isHot) * 10 + Number(deal.isFreeShipping) * 6;
+}
+
 const sections = [
   {
     id: "popular",
@@ -17,7 +29,7 @@ const sections = [
     description: "반응이 빠르게 올라오는 핫딜",
     icon: Flame,
     getDeals: (deals: Deal[]) =>
-      [...deals].sort((a, b) => Number(b.isHot) - Number(a.isHot) || b.popularityScore - a.popularityScore).slice(0, 4)
+      [...deals].sort((a, b) => Number(b.isHot) - Number(a.isHot) || sectionScore(b) - sectionScore(a)).slice(0, 4)
   },
   {
     id: "free-zero",
@@ -27,7 +39,7 @@ const sections = [
     getDeals: (deals: Deal[]) =>
       [...deals]
         .filter((deal) => deal.isFreeShipping || /0원딜|무료|쿠폰/.test([deal.category, ...deal.tags].join(" ")))
-        .sort((a, b) => b.popularityScore + b.discountRate - (a.popularityScore + a.discountRate))
+        .sort((a, b) => sectionScore(b) - sectionScore(a))
         .slice(0, 4)
   },
   {
@@ -35,7 +47,7 @@ const sections = [
     title: "오늘의 특가",
     description: "할인율과 인기도를 함께 본 추천",
     icon: Sparkles,
-    getDeals: (deals: Deal[]) => [...deals].sort((a, b) => b.discountRate + b.popularityScore - (a.discountRate + a.popularityScore)).slice(0, 4)
+    getDeals: (deals: Deal[]) => [...deals].sort((a, b) => sectionScore(b) - sectionScore(a)).slice(0, 4)
   },
   {
     id: "lowest-suspect",
@@ -45,7 +57,7 @@ const sections = [
     getDeals: (deals: Deal[]) =>
       [...deals]
         .filter((deal) => deal.discountRate >= 50 || deal.tags.some((tag) => /역대가|최저가/.test(tag)))
-        .sort((a, b) => b.discountRate - a.discountRate || b.popularityScore - a.popularityScore)
+        .sort((a, b) => b.discountRate - a.discountRate || sectionScore(b) - sectionScore(a))
         .slice(0, 4)
   },
   {
@@ -56,7 +68,7 @@ const sections = [
     getDeals: (deals: Deal[]) =>
       [...deals]
         .filter((deal) => deal.isEndingSoon)
-        .sort((a, b) => new Date(a.expiresAt).getTime() - new Date(b.expiresAt).getTime())
+        .sort((a, b) => new Date(a.expiresAt).getTime() - new Date(b.expiresAt).getTime() || sectionScore(b) - sectionScore(a))
         .slice(0, 4)
   },
   {
@@ -67,7 +79,7 @@ const sections = [
     getDeals: (deals: Deal[]) =>
       [...deals]
         .filter((deal) => /무료배송|무배|네멤무료|로켓프레시/.test([deal.shippingInfo, ...deal.tags].join(" ")))
-        .sort((a, b) => b.discountRate - a.discountRate)
+        .sort((a, b) => sectionScore(b) - sectionScore(a))
         .slice(0, 4)
   }
 ] as const;
