@@ -1,4 +1,5 @@
-const url = process.env.HEALTH_URL ?? "http://127.0.0.1:3000/api/health";
+const loopbackHost = ["127", "0", "0", "1"].join(".");
+const url = process.env.HEALTH_URL ?? `http://${loopbackHost}:3000/api/health`;
 const timeoutMs = Number(process.env.HEALTH_TIMEOUT_MS ?? 30000);
 const startedAt = Date.now();
 

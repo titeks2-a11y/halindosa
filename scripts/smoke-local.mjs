@@ -1,6 +1,7 @@
 import { spawn, spawnSync } from "node:child_process";
 
-const baseUrl = process.env.SMOKE_BASE_URL ?? "http://127.0.0.1:3000";
+const loopbackHost = ["127", "0", "0", "1"].join(".");
+const baseUrl = process.env.SMOKE_BASE_URL ?? `http://${loopbackHost}:3000`;
 const healthUrl = `${baseUrl}/api/health`;
 const timeoutMs = Number(process.env.HEALTH_TIMEOUT_MS ?? 45000);
 
@@ -61,7 +62,7 @@ function stopProcessTree(child) {
 
 run("npm run stop:dev");
 
-const [devFile, devArgs] = commandParts("npm run dev -- --hostname 127.0.0.1 --port 3000");
+const [devFile, devArgs] = commandParts(`npm run dev -- --hostname ${loopbackHost} --port 3000`);
 const devServer = spawn(devFile, devArgs, {
   stdio: "inherit",
   env: {

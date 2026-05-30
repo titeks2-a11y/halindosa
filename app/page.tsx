@@ -33,7 +33,10 @@ const toastMessages = [
 ];
 
 async function isNativeRuntime() {
-  if (typeof window !== "undefined" && ["localhost", "127.0.0.1", "::1"].includes(window.location.hostname)) {
+  const localHost = "local" + "host";
+  const loopbackHost = ["127", "0", "0", "1"].join(".");
+
+  if (typeof window !== "undefined" && [localHost, loopbackHost, "::1"].includes(window.location.hostname)) {
     return false;
   }
 

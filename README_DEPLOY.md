@@ -1,0 +1,130 @@
+# 할인도사 웹 배포 가이드
+
+할인도사는 하나의 Next.js App Router 코드베이스로 웹사이트와 Capacitor Android 앱을 함께 운영합니다. 웹 배포는 Vercel을 기준으로 준비되어 있으며, Android 패키징은 `out` 정적 export를 사용합니다.
+
+## 1. 로컬 검증
+
+```bash
+npm install
+npm run lint
+npm run build
+npm run build:android
+npm run cap:sync
+npm run release:doctor
+```
+
+로컬 개발 서버는 아래 명령으로 실행합니다.
+
+```bash
+npm run dev
+```
+
+## 2. 환경변수
+
+Vercel Project Settings > Environment Variables에 아래 값을 등록합니다.
+
+```env
+NEXT_PUBLIC_SITE_URL=https://halindosa.com
+NEXT_PUBLIC_APP_NAME=할인도사
+NEXT_PUBLIC_APP_ENV=production
+DEAL_PROVIDER=hybrid
+DEAL_LIVE_KEYWORDS=특가 할인,오늘만 특가,쿠폰 할인
+NAVER_CLIENT_ID=
+NAVER_CLIENT_SECRET=
+DEAL_FEED_URLS=
+DEAL_NEWS_RSS_URLS=
+DEAL_COMMUNITY_RSS_URLS=
+PPOMPPU_HOTDEAL_ENABLE=false
+PPOMPPU_HOTDEAL_RSS_URL=
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
+AFFILIATE_SUB_ID=halindosa-web
+DEFAULT_AFFILIATE_URL_TEMPLATE=
+COUPANG_PARTNERS_URL_TEMPLATE=
+AFFILIATE_URL_TEMPLATES=
+TRACKING_SALT=
+ADMIN_EXPORT_TOKEN=
+```
+
+주의:
+- `.env.local`은 Git에 커밋하지 않습니다.
+- API 키가 없는 값은 비워 두면 mock/fallback 구조로 동작합니다.
+- `NEXT_PUBLIC_SITE_URL`은 배포 도메인이 확정되면 반드시 실제 HTTPS 주소로 설정합니다.
+
+## 3. GitHub Push
+
+```bash
+git status
+git add .
+git commit -m "Prepare Halindosa web deployment"
+git push
+```
+
+원격 저장소가 없다면 GitHub에서 저장소를 만든 뒤 아래처럼 연결합니다.
+
+```bash
+git remote add origin <GITHUB_REPOSITORY_URL>
+git push -u origin master
+```
+
+## 4. Vercel 배포
+
+Vercel CLI가 설치되어 있으면 아래 순서로 진행합니다.
+
+```bash
+vercel --version
+vercel
+vercel --prod
+```
+
+권장 Vercel 설정:
+- Framework Preset: Next.js
+- Build Command: `npm run build`
+- Output Directory: 비워 둠
+- Install Command: `npm install`
+- Node.js Version: Vercel 기본 LTS 또는 프로젝트와 호환되는 최신 LTS
+
+Android 앱용 정적 export는 Vercel 빌드가 아니라 `npm run build:android`에서 별도로 생성합니다. 웹 배포와 Android export가 서로 충돌하지 않도록 `scripts/build-android.mjs`가 앱 전용 빌드에서만 API 라우트를 임시 제외합니다.
+
+## 5. 도메인 연결
+
+예시 도메인:
+- `halindosa.com`
+- `www.halindosa.com`
+
+Vercel Project > Settings > Domains에서 도메인을 추가한 뒤, 실제 화면에 표시되는 DNS 값을 우선 적용합니다.
+
+일반적인 Vercel DNS 예시:
+
+| Type | Name | Value |
+| --- | --- | --- |
+| A | @ | 76.76.21.21 |
+| CNAME | www | cname.vercel-dns.com |
+
+DNS 반영 후 확인:
+- Vercel Domains 화면에서 Valid Configuration 표시 확인
+- HTTPS 인증서 자동 발급 확인
+- `https://halindosa.com`
+- `https://www.halindosa.com`
+
+## 6. 배포 후 체크리스트
+
+- 홈 페이지가 정상 표시되는지 확인
+- `/categories`, `/notifications`, `/favorites`, `/mypage` 이동 확인
+- `/privacy`, `/terms` 정책 페이지 확인
+- `/api/health` 응답 확인
+- `/api/deals` 응답 확인
+- `/api/redirect/[id]`가 판매처 검색/상세 페이지로 이동하는지 확인
+- `sitemap.xml`, `robots.txt`, `manifest.webmanifest` 확인
+- 모바일 화면에서 하단 탭바 확인
+- PC 화면에서 상단 네비게이션 확인
+- Vercel Environment Variables가 production에 반영되었는지 확인
+
+## 7. 남은 외부 작업
+
+- GitHub 원격 저장소 URL 확정
+- Vercel 로그인 및 프로젝트 연결
+- 실제 도메인 구매 또는 DNS 권한 확보
+- Play Store 개인정보처리방침 공개 URL에 배포 도메인 반영
+- 제휴/광고 SDK 연결 전 정책 고지 문구 최종 검토

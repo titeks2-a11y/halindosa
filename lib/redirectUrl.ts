@@ -4,11 +4,15 @@ export function buildDealRedirectUrl(dealId: string, from: string, options: { an
       ? window.location.origin
       : process.env.NEXT_PUBLIC_SITE_URL || "";
   const path = `/api/redirect/${dealId}`;
-  const url = baseUrl ? new URL(path, baseUrl) : new URL(path, "http://127.0.0.1:3000");
+  const params = new URLSearchParams();
 
-  url.searchParams.set("from", from);
-  if (options.analytics) url.searchParams.set("analytics", "granted");
-  if (options.affiliate) url.searchParams.set("affiliate", "granted");
+  params.set("from", from);
+  if (options.analytics) params.set("analytics", "granted");
+  if (options.affiliate) params.set("affiliate", "granted");
 
-  return baseUrl ? url.toString() : `${path}?${url.searchParams.toString()}`;
+  if (!baseUrl) return `${path}?${params.toString()}`;
+
+  const url = new URL(path, baseUrl);
+  params.forEach((value, key) => url.searchParams.set(key, value));
+  return url.toString();
 }

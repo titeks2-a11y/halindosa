@@ -7,7 +7,7 @@ npm install
 npm run lint
 npm run build
 npm run audit:commercial
-npm run dev -- --hostname 127.0.0.1 --port 3000
+npm run dev
 npm run smoke
 ```
 

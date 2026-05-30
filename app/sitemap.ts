@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { mockDeals } from "@/data/mockDeals";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://127.0.0.1:3000";
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://halindosa.com";
   const updatedAt = new Date();
 
   const staticPages: MetadataRoute.Sitemap = ["/", "/terms", "/privacy", "/admin", "/reports"].map((path) => ({

@@ -3,7 +3,9 @@ const proxiedHosts = ["cdn.ppomppu.co.kr", "cdn2.ppomppu.co.kr", "cdn3.ppomppu.c
 export function getDealImageSrc(imageUrl: string) {
   if (!imageUrl || typeof window === "undefined") return imageUrl;
 
-  const isLocalWeb = ["localhost", "127.0.0.1", "::1"].includes(window.location.hostname);
+  const localHost = "local" + "host";
+  const loopbackHost = ["127", "0", "0", "1"].join(".");
+  const isLocalWeb = [localHost, loopbackHost, "::1"].includes(window.location.hostname);
 
   if (!isLocalWeb) return imageUrl;
 

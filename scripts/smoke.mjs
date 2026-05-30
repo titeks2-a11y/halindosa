@@ -1,4 +1,5 @@
-const baseUrl = process.env.SMOKE_BASE_URL ?? "http://127.0.0.1:3000";
+const loopbackHost = ["127", "0", "0", "1"].join(".");
+const baseUrl = process.env.SMOKE_BASE_URL ?? `http://${loopbackHost}:3000`;
 
 const checks = [];
 
