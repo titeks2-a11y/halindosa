@@ -329,7 +329,7 @@ await check("partner feed import dry-run", async () => {
           category: "식품",
           originalPrice: 30000,
           salePrice: 18000,
-          link: "https://example.com/smoke",
+          link: "https://search.shopping.naver.com/search/all?query=%EC%8A%A4%EB%AA%A8%ED%81%AC%20%ED%85%8C%EC%8A%A4%ED%8A%B8%20%ED%8A%B9%EA%B0%80",
           tags: ["무료배송"]
         }
       ]
@@ -340,6 +340,44 @@ await check("partner feed import dry-run", async () => {
   assert(data.ok === true, "Import dry-run should pass");
   assert(data.valid === 1, `Expected 1 valid row, got ${data.valid}`);
   assert(data.previewDeals?.[0]?.discountRate === 40, "Normalized discount rate mismatch");
+});
+
+await check("partner feed import blocks unsafe links", async () => {
+  const { response, data } = await fetchJson("/api/admin/import", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      source: "smoke_partner",
+      items: [
+        {
+          externalId: "unsafe-001",
+          mall: "스모크몰",
+          title: "커뮤니티 링크 특가",
+          category: "식품",
+          originalPrice: 30000,
+          salePrice: 18000,
+          link: "https://www.ppomppu.co.kr/zboard/view.php?id=ppomppu&no=1"
+        },
+        {
+          externalId: "unsafe-002",
+          mall: "스모크몰",
+          title: "플레이스홀더 링크 특가",
+          category: "식품",
+          originalPrice: 30000,
+          salePrice: 18000,
+          link: "https://example.com/smoke"
+        }
+      ]
+    })
+  });
+
+  assert(response.status === 200, `Expected 200, got ${response.status}`);
+  assert(data.ok === false, "Unsafe import dry-run should fail");
+  assert(data.invalid === 2, `Expected 2 invalid rows, got ${data.invalid}`);
+  assert(
+    data.issues?.some((issue) => issue.field === "link" && /placeholder|커뮤니티/.test(issue.message)),
+    "Expected unsafe link validation issue"
+  );
 });
 
 await check("partner feed import validation", async () => {

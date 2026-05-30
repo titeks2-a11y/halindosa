@@ -198,6 +198,19 @@ async function checkPublicClaimCopy() {
   }
 }
 
+async function checkPartnerFeedSafety() {
+  const feedImport = await text("lib/feedImport.ts");
+  const smoke = await text("scripts/smoke.mjs");
+
+  if (!feedImport.includes("placeholder 또는 커뮤니티 게시글 링크는 운영 피드로 등록할 수 없습니다.")) {
+    fail("partner feed unsafe link guard", "Partner feed import should reject placeholder/community links.");
+  } else if (!smoke.includes("partner feed import blocks unsafe links")) {
+    fail("partner feed unsafe link guard", "Smoke tests should cover unsafe partner feed links.");
+  } else {
+    pass("partner feed unsafe link guard", "Partner feed import rejects placeholder and community links.");
+  }
+}
+
 async function checkUiAccessibility() {
   const dealCard = await text("components/DealCard.tsx");
   const dealTrustBadge = await text("components/DealTrustBadge.tsx");
@@ -451,6 +464,7 @@ await checkRepositorySafety();
 await checkEnvExample();
 await checkPublicContact();
 await checkPublicClaimCopy();
+await checkPartnerFeedSafety();
 await checkUiAccessibility();
 await checkCapacitor();
 await checkAndroid();

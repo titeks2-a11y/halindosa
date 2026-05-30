@@ -32,6 +32,33 @@ function isValidUrl(value: string) {
   }
 }
 
+function isPlaceholderOrCommunityUrl(value: string) {
+  try {
+    const url = new URL(value);
+    const host = url.hostname.toLowerCase();
+    const communityHosts = [
+      "ppomppu.co.kr",
+      "fmkorea.com",
+      "quasarzone.com",
+      "algumon.com",
+      "clien.net",
+      "ruliweb.com",
+      "dcinside.com",
+      "theqoo.net",
+      "instiz.net",
+      "coolenjoy.net"
+    ];
+
+    return (
+      host === "example.com" ||
+      host.endsWith(".example.com") ||
+      communityHosts.some((communityHost) => host === communityHost || host.endsWith(`.${communityHost}`) || host.includes(communityHost))
+    );
+  } catch {
+    return true;
+  }
+}
+
 function normalizeCategory(category?: string): DealCategory {
   return allowedCategories.has(category ?? "") ? (category as DealCategory) : "기타";
 }
@@ -43,7 +70,11 @@ export function validatePartnerFeed(items: PartnerFeedItem[]) {
     if (!item.externalId?.trim()) issues.push({ index, field: "externalId", message: "외부 ID가 필요합니다." });
     if (!item.mall?.trim()) issues.push({ index, field: "mall", message: "쇼핑몰명이 필요합니다." });
     if (!item.title?.trim()) issues.push({ index, field: "title", message: "상품명이 필요합니다." });
-    if (!item.link || !isValidUrl(item.link)) issues.push({ index, field: "link", message: "유효한 URL이 필요합니다." });
+    if (!item.link || !isValidUrl(item.link)) {
+      issues.push({ index, field: "link", message: "유효한 URL이 필요합니다." });
+    } else if (isPlaceholderOrCommunityUrl(item.link)) {
+      issues.push({ index, field: "link", message: "placeholder 또는 커뮤니티 게시글 링크는 운영 피드로 등록할 수 없습니다." });
+    }
     if (!Number.isFinite(item.originalPrice) || Number(item.originalPrice) <= 0) {
       issues.push({ index, field: "originalPrice", message: "정상 원가가 필요합니다." });
     }
@@ -128,7 +159,7 @@ export const samplePartnerFeed: PartnerFeedItem[] = [
     category: "식품",
     originalPrice: 39800,
     salePrice: 24900,
-    link: "https://example.com/partner/rice",
+    link: "https://search.shopping.naver.com/search/all?query=%ED%94%84%EB%A6%AC%EB%AF%B8%EC%97%84%20%EC%A6%89%EC%84%9D%EB%B0%A5%2024%EA%B0%9C%EC%9E%85",
     expiresAt: new Date(Date.now() + 8 * 60 * 60 * 1000).toISOString(),
     tags: ["무료배송", "쿠폰적용"]
   },
@@ -139,7 +170,7 @@ export const samplePartnerFeed: PartnerFeedItem[] = [
     category: "가전",
     originalPrice: 259000,
     salePrice: 159000,
-    link: "https://example.com/partner/vacuum",
+    link: "https://search.shopping.naver.com/search/all?query=%EB%AC%B4%EC%84%A0%20%EC%B2%AD%EC%86%8C%EA%B8%B0%20%EC%A3%BC%EB%A7%90%20%ED%8A%B9%EA%B0%80",
     tags: ["카드할인", "한정수량"]
   }
 ];
