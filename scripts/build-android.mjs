@@ -16,6 +16,7 @@ function run(command, args, env = {}) {
   }
 }
 
+const disableRunId = `${Date.now()}-${process.pid}`;
 const temporarilyDisabled = [
   ["app", "api"],
   ["app", "admin"],
@@ -26,9 +27,10 @@ const temporarilyDisabled = [
 ].map((segments) => {
   const source = join(process.cwd(), ...segments);
   const basename = segments[segments.length - 1];
-  const destination = join(process.cwd(), ...segments.slice(0, -1), `_${basename}.capacitor-disabled`);
+  const legacyDestination = join(process.cwd(), ...segments.slice(0, -1), `_${basename}.capacitor-disabled`);
+  const destination = join(process.cwd(), ...segments.slice(0, -1), `_${basename}.capacitor-disabled-${disableRunId}`);
 
-  return { source, destination };
+  return { source, destination, legacyDestination };
 });
 const moved = [];
 
@@ -36,8 +38,8 @@ try {
   rmSync(join(process.cwd(), ".next"), { force: true, maxRetries: 5, recursive: true, retryDelay: 500 });
 
   for (const entry of temporarilyDisabled) {
-    if (!existsSync(entry.source) && existsSync(entry.destination)) {
-      renameSync(entry.destination, entry.source);
+    if (!existsSync(entry.source) && existsSync(entry.legacyDestination)) {
+      renameSync(entry.legacyDestination, entry.source);
     }
   }
 

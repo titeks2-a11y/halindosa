@@ -1,0 +1,47 @@
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { Bell, Grid3X3, Heart, Home, User } from "lucide-react";
+
+const navItems = [
+  { href: "/", label: "홈", icon: Home },
+  { href: "/categories", label: "카테고리", icon: Grid3X3 },
+  { href: "/notifications", label: "알림", icon: Bell },
+  { href: "/favorites", label: "찜", icon: Heart },
+  { href: "/mypage", label: "마이", icon: User }
+];
+
+function isActive(pathname: string, href: string) {
+  if (href === "/") return pathname === "/";
+  return pathname.startsWith(href);
+}
+
+export function BottomNavigation() {
+  const pathname = usePathname();
+
+  return (
+    <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-slate-200 bg-white/95 px-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] pt-1 shadow-[0_-10px_30px_rgba(15,23,42,0.08)] backdrop-blur lg:hidden">
+      <div className="mx-auto grid h-16 max-w-[480px] grid-cols-5">
+        {navItems.map((item) => {
+          const Icon = item.icon;
+          const active = isActive(pathname, item.href);
+
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              aria-current={active ? "page" : undefined}
+              className={`flex min-h-[56px] flex-col items-center justify-center gap-1 rounded-2xl text-[11px] font-black transition ${
+                active ? "text-dossa-red" : "text-slate-400 active:text-slate-700"
+              }`}
+            >
+              <Icon size={21} fill={active && item.href === "/favorites" ? "currentColor" : "none"} />
+              {item.label}
+            </Link>
+          );
+        })}
+      </div>
+    </nav>
+  );
+}

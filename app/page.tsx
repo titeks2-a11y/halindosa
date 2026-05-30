@@ -3,13 +3,11 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { BellRing, CheckCircle2, Flame, Info, Share2, SlidersHorizontal, Timer, Truck, UserRound } from "lucide-react";
-import { AppView, BottomNav, DesktopNav } from "@/components/BottomNav";
 import { CategoryTabs } from "@/components/CategoryTabs";
 import { CommercialFooter } from "@/components/CommercialFooter";
 import { ConsentSettings } from "@/components/ConsentSettings";
 import { DealCard } from "@/components/DealCard";
 import { FeaturedDealSections } from "@/components/FeaturedDealSections";
-import { Header } from "@/components/Header";
 import { HotSignalSection } from "@/components/HotSignalSection";
 import { LiveDealFeed } from "@/components/LiveDealFeed";
 import { SearchBar } from "@/components/SearchBar";
@@ -25,6 +23,7 @@ import { HotSignal } from "@/types/hotSignal";
 
 const favoriteKey = "halindosa:favorites";
 const recentKey = "halindosa:recent-deals";
+type AppView = "home" | "categories" | "alerts" | "favorites" | "my";
 const toastMessages = [
   "🔥 새로운 역대급 특가가 등록되었습니다!",
   "⚡ 마감임박 상품이 빠르게 소진되고 있어요.",
@@ -611,24 +610,24 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen pb-24 sm:pb-10">
-      <Header
-        updatedAt={updatedAt}
-        isLoading={isLoading}
-        onRefresh={() => fetchDeals("특가 데이터를 새로 불러왔습니다.")}
-      />
-      <section id="deals" className="mx-auto max-w-7xl space-y-5 px-4 py-5 sm:px-6 lg:px-8">
+    <div className="min-h-screen">
+      <section id="deals" className="space-y-4 px-3 py-4 sm:px-4 lg:px-0 lg:py-8">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <p className="text-sm font-black text-dossa-red">실시간 특가 모아보기</p>
-            <h2 className="text-2xl font-black text-slate-950">{viewTitle}</h2>
+            <p className="text-xs font-black text-dossa-red lg:text-sm">실시간 특가 모아보기</p>
+            <h2 className="text-xl font-black text-slate-950 lg:text-3xl">{viewTitle}</h2>
+            <p className="mt-1 text-[11px] font-bold text-slate-400 lg:text-xs">
+              마지막 업데이트 {updatedAt ? new Intl.DateTimeFormat("ko-KR", { hour: "2-digit", minute: "2-digit" }).format(new Date(updatedAt)) : "대기 중"}
+            </p>
           </div>
-          <DesktopNav
-            activeView={activeView}
-            favoriteCount={favorites.length}
-            alertCount={alertDeals.length}
-            onChange={setActiveView}
-          />
+          <button
+            type="button"
+            onClick={() => fetchDeals("특가 데이터를 새로 불러왔습니다.")}
+            disabled={isLoading}
+            className="hidden rounded-2xl bg-dossa-red px-4 py-3 text-sm font-black text-white shadow-sm transition hover:bg-dossa-deep disabled:cursor-wait disabled:opacity-70 lg:inline-flex"
+          >
+            새로고침
+          </button>
         </div>
 
         {activeView === "home" ? (
@@ -693,7 +692,7 @@ export default function Home() {
                     key={deal.id}
                     type="button"
                     onClick={() => openDeal(deal)}
-                    className="flex items-center gap-3 rounded-2xl border border-slate-100 bg-slate-50 p-3 text-left transition hover:border-red-100 hover:bg-red-50"
+                    className="flex w-full min-w-0 items-center gap-3 rounded-2xl border border-slate-100 bg-slate-50 p-3 text-left transition hover:border-red-100 hover:bg-red-50"
                   >
                     <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-dossa-red text-sm font-black text-white">
                       {index + 1}
@@ -708,16 +707,16 @@ export default function Home() {
               </div>
             </section>
 
-            <section className="grid gap-4 lg:grid-cols-[1fr_0.9fr]">
-              <div className="rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+            <section className="grid min-w-0 gap-4 lg:grid-cols-[1fr_0.9fr]">
+              <div className="min-w-0 rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
                 <p className="text-xs font-black text-dossa-red">카테고리별 인기</p>
-                <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <div className="mt-4 grid min-w-0 grid-cols-1 gap-3 sm:grid-cols-2">
                   {categoryHighlights.map((item) => (
                     <button
                       key={item.id}
                       type="button"
                       onClick={() => openCategory(item.id)}
-                      className="rounded-2xl bg-slate-50 p-4 text-left transition hover:bg-red-50"
+                      className="w-full min-w-0 rounded-2xl bg-slate-50 p-4 text-left transition hover:bg-red-50"
                     >
                       <span className="text-xs font-black text-dossa-red">{item.label}</span>
                       <span className="mt-1 block line-clamp-2 text-sm font-black text-slate-950">{item.deal?.title}</span>
@@ -726,7 +725,7 @@ export default function Home() {
                   ))}
                 </div>
               </div>
-              <div className="rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+              <div className="min-w-0 rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
                 <p className="text-xs font-black text-dossa-red">{recentDeals.length ? "최근 본 특가" : "추천 특가"}</p>
                 <div className="mt-4 space-y-2">
                   {(recentDeals.length ? recentDeals : recommendedDeals).slice(0, 6).map((deal) => (
@@ -734,7 +733,7 @@ export default function Home() {
                       key={deal.id}
                       type="button"
                       onClick={() => openDeal(deal)}
-                      className="flex w-full items-center gap-3 rounded-2xl bg-slate-50 p-3 text-left transition hover:bg-red-50"
+                      className="flex w-full min-w-0 items-center gap-3 rounded-2xl bg-slate-50 p-3 text-left transition hover:bg-red-50"
                     >
                       <span className="h-12 w-12 shrink-0 overflow-hidden rounded-2xl bg-red-50">
                         {deal.thumbnail ? (
@@ -1003,13 +1002,7 @@ export default function Home() {
 
       <CommercialFooter />
 
-      <BottomNav
-        activeView={activeView}
-        favoriteCount={favorites.length}
-        alertCount={alertDeals.length}
-        onChange={setActiveView}
-      />
       {toast ? <Toast message={toast} onClose={() => setToast("")} /> : null}
-    </main>
+    </div>
   );
 }

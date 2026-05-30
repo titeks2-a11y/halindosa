@@ -70,8 +70,7 @@ export default function FavoritesPage() {
   };
 
   return (
-    <main className="min-h-screen bg-slate-50 px-4 py-5 pb-12 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-7xl space-y-5">
+    <div className="space-y-5 px-3 py-4 sm:px-4 lg:px-0 lg:py-8">
         <Link href="/" className="inline-flex items-center gap-2 text-sm font-black text-dossa-red">
           <ArrowLeft size={17} />
           할인도사 홈
@@ -114,7 +113,6 @@ export default function FavoritesPage() {
             </Link>
           </div>
         )}
-      </div>
-    </main>
+    </div>
   );
 }
