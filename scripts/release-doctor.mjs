@@ -171,6 +171,23 @@ async function checkPublicContact() {
   }
 }
 
+async function checkUiAccessibility() {
+  const dealCard = await text("components/DealCard.tsx");
+  const requiredSnippets = [
+    "aria-pressed={isFavorite}",
+    "alt={deal.title}",
+    "판매처 이동 전 확인",
+    "상세 정보와 가격 신고 보기"
+  ];
+  const missingSnippets = requiredSnippets.filter((snippet) => !dealCard.includes(snippet));
+
+  if (missingSnippets.length) {
+    fail("deal card accessibility", `Missing snippets: ${missingSnippets.join(", ")}`);
+  } else {
+    pass("deal card accessibility", "Deal images and icon buttons expose product-specific accessible labels.");
+  }
+}
+
 async function checkCapacitor() {
   const config = await text("capacitor.config.ts");
 
@@ -389,6 +406,7 @@ await checkPackage();
 await checkRepositorySafety();
 await checkEnvExample();
 await checkPublicContact();
+await checkUiAccessibility();
 await checkCapacitor();
 await checkAndroid();
 await checkIos();

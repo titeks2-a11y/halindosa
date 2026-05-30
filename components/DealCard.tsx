@@ -19,11 +19,14 @@ export function DealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, onSha
   const LinkTrustIcon = deal.linkStatus === "verified" ? CheckCircle2 : AlertTriangle;
 
   return (
-    <article className="group flex overflow-hidden rounded-[22px] border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:border-red-100 hover:shadow-deal sm:block">
+    <article
+      aria-label={`${deal.mallName} ${deal.title} 특가`}
+      className="group flex overflow-hidden rounded-[22px] border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:border-red-100 hover:shadow-deal sm:block"
+    >
       <div className="relative flex min-h-[150px] w-[38%] shrink-0 items-center justify-center overflow-hidden bg-gradient-to-br from-red-50 via-rose-100 to-red-200 sm:aspect-[16/10] sm:min-h-0 sm:w-full">
         {deal.imageUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={getDealImageSrc(deal.imageUrl)} alt="" className="h-full w-full object-cover transition duration-300 group-hover:scale-105" />
+          <img src={getDealImageSrc(deal.imageUrl)} alt={deal.title} className="h-full w-full object-cover transition duration-300 group-hover:scale-105" />
         ) : (
           <div className="px-6 text-center">
             <ShoppingBag className="mx-auto mb-2 text-dossa-red" size={38} />
@@ -33,7 +36,8 @@ export function DealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, onSha
         )}
         <button
           type="button"
-          aria-label="찜하기"
+          aria-label={`${deal.title} ${isFavorite ? "찜 해제" : "찜하기"}`}
+          aria-pressed={isFavorite}
           onClick={() => onToggleFavorite(deal.id)}
           className={`absolute right-2 top-2 flex h-9 w-9 items-center justify-center rounded-full bg-white/95 shadow-md transition sm:right-3 sm:top-3 sm:h-10 sm:w-10 ${
             isFavorite ? "text-dossa-red" : "text-slate-400 hover:text-dossa-red"
@@ -50,7 +54,7 @@ export function DealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, onSha
           <button
             type="button"
             onClick={() => onShareDeal(deal)}
-            aria-label="특가 공유하기"
+            aria-label={`${deal.title} 공유하기`}
             className="flex h-9 w-9 items-center justify-center rounded-2xl bg-white/95 text-slate-600 shadow-md transition hover:text-dossa-red sm:h-10 sm:w-10"
           >
             <Share2 size={17} />
@@ -59,7 +63,7 @@ export function DealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, onSha
             type="button"
             onClick={() => linkAvailable && onOpenDeal(deal)}
             disabled={!linkAvailable}
-            aria-label={linkAvailable ? "특가 보러가기" : "링크 확인 필요"}
+            aria-label={linkAvailable ? `${deal.title} 판매처 이동 전 확인` : `${deal.title} 링크 확인 필요`}
             className="flex h-9 w-9 items-center justify-center rounded-2xl bg-slate-950 text-white shadow-md transition hover:bg-dossa-red disabled:cursor-not-allowed disabled:bg-slate-300 sm:h-10 sm:w-10"
           >
             <ExternalLink size={17} />
@@ -76,7 +80,7 @@ export function DealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, onSha
             </span>
             <span className="shrink-0 rounded-full bg-slate-100 px-2 py-1 text-slate-600">{deal.category}</span>
           </div>
-          <Link href={`/deals/${deal.id}`} className="block">
+          <Link href={`/deals/${deal.id}`} className="block" aria-label={`${deal.title} 상세 정보 보기`}>
             <h3 className="line-clamp-2 text-[14px] font-black leading-snug text-slate-950 hover:text-dossa-red sm:min-h-[2.75rem] sm:text-base">
               {deal.title}
             </h3>
@@ -132,7 +136,11 @@ export function DealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, onSha
           {getAffiliateDisclosure(deal)}
         </p>
 
-        <Link href={`/deals/${deal.id}`} className="block text-center text-xs font-black text-slate-500 hover:text-dossa-red">
+        <Link
+          href={`/deals/${deal.id}`}
+          className="block text-center text-xs font-black text-slate-500 hover:text-dossa-red"
+          aria-label={`${deal.title} 상세 정보와 가격 신고 보기`}
+        >
           상세 정보와 가격 신고
         </Link>
       </div>
