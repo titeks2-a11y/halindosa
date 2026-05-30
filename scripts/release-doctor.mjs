@@ -1,5 +1,6 @@
 import { existsSync, statSync } from "node:fs";
 import { readFile } from "node:fs/promises";
+import { execFileSync } from "node:child_process";
 import { join } from "node:path";
 
 const root = process.cwd();
@@ -43,6 +44,60 @@ async function checkPackage() {
 
   if (!pkg.dependencies?.["@capacitor/ios"]) fail("Capacitor iOS dependency", "Missing @capacitor/ios.");
   else pass("Capacitor iOS dependency", pkg.dependencies["@capacitor/ios"]);
+}
+
+async function checkRepositorySafety() {
+  const gitignore = await text(".gitignore");
+  const requiredIgnores = [
+    "node_modules/",
+    ".next/",
+    "out/",
+    ".env",
+    ".env*.local",
+    "android/local.properties",
+    "android/keystore.properties",
+    "android/app/google-services.json",
+    "*.jks",
+    "*.keystore",
+    "*.apk",
+    "*.aab",
+    "ios/App/Pods/",
+    "ios/App/build/",
+    "ios/App/App.xcodeproj/xcuserdata/",
+    "GoogleService-Info.plist"
+  ];
+  const missingIgnores = requiredIgnores.filter((entry) => !gitignore.includes(entry));
+
+  if (missingIgnores.length) fail("gitignore release safety", `Missing ignore entries: ${missingIgnores.join(", ")}`);
+  else pass("gitignore release safety", "Sensitive local files and build artifacts are ignored.");
+
+  let trackedFiles = [];
+
+  try {
+    trackedFiles = execFileSync("git", ["ls-files"], { cwd: root, encoding: "utf8" })
+      .split(/\r?\n/)
+      .filter(Boolean);
+  } catch {
+    pass("tracked secret scan", "Git metadata unavailable; skip tracked file scan.");
+    return;
+  }
+
+  const sensitivePatterns = [
+    /(^|\/)\.env(\.|$)/,
+    /(^|\/)keystore\.properties$/,
+    /(^|\/)local\.properties$/,
+    /(^|\/)google-services\.json$/,
+    /(^|\/)GoogleService-Info\.plist$/,
+    /\.(jks|keystore|p12|mobileprovision|apk|aab)$/i,
+    /(^|\/)(node_modules|\.next|out|dist|build)\//
+  ];
+  const allowedSensitiveExamples = new Set([".env.example", "android/keystore.properties.example"]);
+  const trackedSensitive = trackedFiles.filter(
+    (file) => !allowedSensitiveExamples.has(file) && sensitivePatterns.some((pattern) => pattern.test(file))
+  );
+
+  if (trackedSensitive.length) fail("tracked secret scan", `Tracked sensitive/build files: ${trackedSensitive.join(", ")}`);
+  else pass("tracked secret scan", "No tracked env, keystore, service config, or build artifact files found.");
 }
 
 async function checkCapacitor() {
@@ -255,6 +310,7 @@ function checkStoreAssets() {
 }
 
 await checkPackage();
+await checkRepositorySafety();
 await checkCapacitor();
 await checkAndroid();
 await checkIos();
