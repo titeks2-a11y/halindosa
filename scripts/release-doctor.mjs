@@ -227,6 +227,7 @@ async function checkUiAccessibility() {
   const dealCard = await text("components/DealCard.tsx");
   const dealTrustBadge = await text("components/DealTrustBadge.tsx");
   const bottomNav = await text("components/BottomNav.tsx");
+  const bottomNavigation = await text("components/BottomNavigation.tsx");
   const commercialFooter = await text("components/CommercialFooter.tsx");
   const homePage = await text("app/page.tsx");
   const requiredSnippets = [
@@ -258,10 +259,10 @@ async function checkUiAccessibility() {
     pass("public trust badge copy", "Public trust badges use plain labels instead of internal scores.");
   }
 
-  if (!bottomNav.includes("getNavAriaLabel") || !bottomNav.includes('aria-label="주요 메뉴"') || !bottomNav.includes("aria-current")) {
-    fail("bottom navigation accessibility", "Bottom navigation should expose a named menu, active state, and badge-aware button labels.");
+  if (!bottomNav.includes("getNavAriaLabel") || !bottomNavigation.includes("getNavAriaLabel") || !bottomNav.includes('aria-label="주요 메뉴"') || !bottomNavigation.includes('aria-label="주요 메뉴"') || !bottomNav.includes("aria-current") || !bottomNavigation.includes("aria-current")) {
+    fail("bottom navigation accessibility", "Bottom navigation should expose named menus, active state, and explicit button/link labels.");
   } else {
-    pass("bottom navigation accessibility", "Mobile and desktop navigation expose a named menu with active state and badge-aware labels.");
+    pass("bottom navigation accessibility", "Route navigation and in-page navigation expose named menus with active state and explicit labels.");
   }
 
   const requiredFooterSnippets = ['href="/guide"', 'href="/terms"', 'href="/privacy"', "flex-wrap"];
