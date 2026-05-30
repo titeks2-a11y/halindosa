@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ArrowLeft, Heart } from "lucide-react";
 import { DealCard } from "@/components/DealCard";
 import { PurchaseConfirmSheet } from "@/components/PurchaseConfirmSheet";
@@ -13,6 +13,10 @@ import { rememberRecentDealId } from "@/lib/recentDeals";
 import { Deal } from "@/types/deal";
 
 const favoriteKey = "halindosa:favorites";
+
+interface DealsResponse {
+  deals?: Deal[];
+}
 
 async function openExternalDeal(deal: Deal) {
   rememberRecentDealId(deal.id);
@@ -39,6 +43,8 @@ async function openExternalDeal(deal: Deal) {
 export default function FavoritesPage() {
   const [pendingPurchaseDeal, setPendingPurchaseDeal] = useState<Deal | null>(null);
   const [message, setMessage] = useState("");
+  const [catalog, setCatalog] = useState<Deal[]>(mockDeals);
+  const [isCatalogLoading, setIsCatalogLoading] = useState(false);
   const [favorites, setFavorites] = useState<string[]>(() => {
     if (typeof window === "undefined") return [];
     try {
@@ -49,7 +55,36 @@ export default function FavoritesPage() {
     }
   });
 
-  const favoriteDeals = useMemo(() => mockDeals.filter((deal) => favorites.includes(deal.id)), [favorites]);
+  const favoriteDeals = useMemo(() => catalog.filter((deal) => favorites.includes(deal.id)), [catalog, favorites]);
+
+  useEffect(() => {
+    let active = true;
+
+    async function fetchCatalog() {
+      setIsCatalogLoading(true);
+
+      try {
+        const response = await fetch("/api/deals?sort=latest", { cache: "no-store" });
+        const data = (await response.json()) as DealsResponse;
+        if (active && Array.isArray(data.deals) && data.deals.length) {
+          setCatalog(data.deals);
+        }
+      } catch {
+        if (active) {
+          setCatalog(mockDeals);
+        }
+      } finally {
+        if (active) {
+          setIsCatalogLoading(false);
+        }
+      }
+    }
+
+    void fetchCatalog();
+    return () => {
+      active = false;
+    };
+  }, []);
 
   const toggleFavorite = (id: string) => {
     setFavorites((current) => {
@@ -113,6 +148,9 @@ export default function FavoritesPage() {
               <h1 className="text-2xl font-black sm:text-3xl">찜한 특가 {favoriteDeals.length}개</h1>
             </div>
           </div>
+          <p className="mt-4 text-sm font-semibold text-slate-300">
+            {isCatalogLoading ? "최신 특가 목록과 동기화 중입니다." : "현재 노출 중인 특가 목록 기준으로 찜한 상품을 보여줍니다."}
+          </p>
         </section>
 
         {message ? (

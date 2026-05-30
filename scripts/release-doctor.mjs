@@ -249,6 +249,7 @@ async function checkUiAccessibility() {
 async function checkOperationalDataSurfaces() {
   const categoriesPage = await text("app/categories/page.tsx");
   const notificationsPage = await text("app/notifications/page.tsx");
+  const favoritesPage = await text("app/favorites/page.tsx");
   const adminPage = await text("app/admin/page.tsx");
 
   const staticDataImports = [
@@ -258,10 +259,10 @@ async function checkOperationalDataSurfaces() {
 
   if (staticDataImports.length) {
     fail("operational data surfaces", `Pages still bypass Deal repository: ${staticDataImports.map(([file]) => file).join(", ")}`);
-  } else if (!categoriesPage.includes("await getDeals()") || !notificationsPage.includes("await getDeals()")) {
-    fail("operational data surfaces", "Categories and notifications pages should read through Deal repository.");
+  } else if (!categoriesPage.includes("await getDeals()") || !notificationsPage.includes("await getDeals()") || !favoritesPage.includes("/api/deals?sort=latest")) {
+    fail("operational data surfaces", "Categories, notifications, and favorites pages should read through Deal repository/API.");
   } else {
-    pass("operational data surfaces", "Category and notification pages use the Deal repository instead of static mock arrays.");
+    pass("operational data surfaces", "Category, notification, and favorites pages use the Deal repository/API instead of static mock-only arrays.");
   }
 
   const adminRawTerms = ["mock, staging, production", "· score "].filter((term) => adminPage.includes(term));
