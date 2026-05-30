@@ -334,6 +334,9 @@ await check("seo files", async () => {
   assert(sitemap.includes("/deals/d001"), "Sitemap missing deal detail URL");
   assert(robots.includes("User-Agent"), "Robots file missing User-Agent");
   assert(manifest.includes("할인도사"), "Manifest missing app name");
+  assert(manifest.includes("halindosa-icon-192.png"), "Manifest missing 192 icon");
+  assert(manifest.includes("halindosa-icon-512.png"), "Manifest missing 512 icon");
+  assert(manifest.includes("shortcuts"), "Manifest missing app shortcuts");
 });
 
 const failed = checks.filter((result) => !result.ok);
