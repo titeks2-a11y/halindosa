@@ -62,6 +62,8 @@ await check("home page", async () => {
   assert(response.status === 200, `Expected 200, got ${response.status}`);
   assert(text.includes("할인도사"), "Home page missing brand text");
   assert(text.includes("샤오미 86인치") || text.includes("새우깡"), "Home page missing initial deal cards");
+  assert(text.includes("데이터 상태"), "Home page missing data quality summary");
+  assert(text.includes("구매 링크 확인"), "Home page missing verified link count");
 });
 
 await check("home query filters", async () => {

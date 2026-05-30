@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { BellRing, CheckCircle2, Flame, Info, Share2, SlidersHorizontal, Timer, Truck, UserRound } from "lucide-react";
+import { BellRing, CheckCircle2, Flame, Info, Share2, ShieldCheck, SlidersHorizontal, Timer, Truck, UserRound } from "lucide-react";
 import { CategoryTabs } from "@/components/CategoryTabs";
 import { CommercialFooter } from "@/components/CommercialFooter";
 import { ConsentSettings } from "@/components/ConsentSettings";
@@ -19,6 +19,7 @@ import { mockHotSignals } from "@/data/mockHotSignals";
 import { mockDeals } from "@/data/mockDeals";
 import { ConsentState, hasAffiliateConsent, hasAnalyticsConsent, readStoredConsent } from "@/lib/consent";
 import { canOpenDealLink } from "@/lib/affiliate";
+import { getRelativeTime } from "@/lib/format";
 import { buildDealRedirectUrl } from "@/lib/redirectUrl";
 import { readRecentDealIds, rememberRecentDealId } from "@/lib/recentDeals";
 import { Deal, DealSort } from "@/types/deal";
@@ -572,6 +573,25 @@ export default function Home() {
     return { hotCount, endingCount };
   }, [deals]);
 
+  const dataQuality = useMemo(() => {
+    const source = deals.length ? deals : catalog;
+    const verifiedLinkCount = source.filter((deal) => deal.linkStatus === "verified").length;
+    const reviewLinkCount = source.filter((deal) => deal.linkStatus === "needs_review" || deal.linkType === "seller_search").length;
+    const freeShippingCount = source.filter(isFreeShippingDeal).length;
+    const latestPriceCheckedAt = source
+      .map((deal) => new Date(deal.priceCheckedAt).getTime())
+      .filter(Number.isFinite)
+      .sort((a, b) => b - a)[0];
+
+    return {
+      total: source.length,
+      verifiedLinkCount,
+      reviewLinkCount,
+      freeShippingCount,
+      latestPriceCheckedAt: latestPriceCheckedAt ? new Date(latestPriceCheckedAt).toISOString() : ""
+    };
+  }, [catalog, deals]);
+
   const alertDeals = useMemo(
     () => catalog.filter((deal) => deal.isHot || deal.isNew || deal.isEndingSoon).slice(0, 8),
     [catalog]
@@ -740,6 +760,33 @@ export default function Home() {
           >
             새로고침
           </button>
+        </div>
+        <div className="grid gap-2 rounded-[24px] border border-slate-200 bg-white p-3 shadow-sm sm:grid-cols-4 sm:p-4">
+          <div className="flex items-center gap-3 rounded-2xl bg-red-50 px-3 py-3">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-white text-dossa-red">
+              <ShieldCheck size={18} />
+            </span>
+            <div className="min-w-0">
+              <p className="text-[11px] font-black text-dossa-deep">데이터 상태</p>
+              <p className="truncate text-sm font-black text-slate-950">{providerSource}</p>
+            </div>
+          </div>
+          <div className="rounded-2xl bg-slate-50 px-3 py-3">
+            <p className="text-[11px] font-black text-slate-400">구매 링크 확인</p>
+            <p className="mt-1 text-sm font-black text-slate-950">
+              {dataQuality.verifiedLinkCount}/{dataQuality.total}개
+            </p>
+          </div>
+          <div className="rounded-2xl bg-amber-50 px-3 py-3">
+            <p className="text-[11px] font-black text-amber-700">판매처 검색 확인 필요</p>
+            <p className="mt-1 text-sm font-black text-amber-900">{dataQuality.reviewLinkCount}개</p>
+          </div>
+          <div className="rounded-2xl bg-slate-50 px-3 py-3">
+            <p className="text-[11px] font-black text-slate-400">최근 가격 기준</p>
+            <p className="mt-1 truncate text-sm font-black text-slate-950">
+              {dataQuality.latestPriceCheckedAt ? getRelativeTime(dataQuality.latestPriceCheckedAt) : "대기 중"}
+            </p>
+          </div>
         </div>
 
         {activeView === "home" ? (
