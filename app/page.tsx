@@ -67,6 +67,14 @@ function isFreeShippingDeal(deal: Deal) {
   return deal.isFreeShipping || /무료배송|무배|네멤무료|로켓프레시/.test([deal.shipping, ...deal.tags].join(" "));
 }
 
+function getProviderDisplayLabel(source: string) {
+  if (source === "production") return "운영 피드";
+  if (source === "staging") return "검수 피드";
+  if (source === "hybrid") return "혼합 피드";
+  if (source.includes("fallback")) return "기본 특가";
+  return "기본 특가";
+}
+
 function commercialScore(deal: Deal) {
   const expireHours = Math.max(1, (new Date(deal.expireAt).getTime() - Date.now()) / (60 * 60 * 1000));
   return (
@@ -808,7 +816,7 @@ export default function Home() {
                 <ShieldCheck size={18} />
               </span>
               <span className="text-xs font-black text-dossa-deep">데이터 상태</span>
-              <span className="text-xs font-black text-slate-950">{providerSource}</span>
+              <span className="text-xs font-black text-slate-950">{getProviderDisplayLabel(providerSource)}</span>
             </span>
             <span className="inline-flex shrink-0 items-center gap-2 rounded-full bg-slate-50 px-3 py-2 text-xs font-black text-slate-700">
               구매 링크 확인 <b className="text-slate-950">{dataQuality.verifiedLinkCount}/{dataQuality.total}개</b>
@@ -1093,7 +1101,7 @@ export default function Home() {
                 </div>
               </div>
               <p className="mt-3 text-xs font-semibold text-slate-500">
-                {providerSource === "mock" ? "할인도사 기본 특가" : "할인도사 실시간 특가"} · 주요 특가 브리핑은 2분 단위로 갱신됩니다.
+                {providerSource === "production" || providerSource === "hybrid" ? "할인도사 운영 특가" : "할인도사 기본 특가"} · 주요 특가 브리핑은 2분 단위로 갱신됩니다.
                 구매링크 확인 필터를 켜면 판매처 검색 확인이 필요한 특가는 제외됩니다.
               </p>
               {loadError ? (

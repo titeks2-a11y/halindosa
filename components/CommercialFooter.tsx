@@ -11,9 +11,9 @@ export function CommercialFooter() {
               <ShieldCheck size={21} />
             </span>
             <div>
-              <p className="text-sm font-black text-slate-950">상업화 준비 안내</p>
+              <p className="text-sm font-black text-slate-950">구매 전 확인 안내</p>
               <p className="mt-1 text-sm font-semibold leading-6 text-slate-500">
-                현재 데이터는 mock 기반입니다. 실제 제휴 링크, 공식 API, 가격 이력, 광고 고지는 운영 전 연결해야 합니다.
+                할인도사는 특가 정보를 빠르게 정리해 보여줍니다. 최종 가격, 재고, 쿠폰, 배송 조건은 판매처 상세 페이지에서 한 번 더 확인하세요.
               </p>
             </div>
           </div>
