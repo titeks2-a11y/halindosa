@@ -118,6 +118,8 @@ await check("admin dashboard quality cards", async () => {
   assert(text.includes("운영 대시보드"), "Admin dashboard missing title");
   assert(text.includes("구매 링크 확인율"), "Admin dashboard missing verified link rate card");
   assert(text.includes("링크 검토 필요"), "Admin dashboard missing link review count card");
+  assert(text.includes("링크 검수 큐"), "Admin dashboard missing link review queue");
+  assert(text.includes("판매처 확인"), "Admin dashboard missing seller review action");
 });
 
 await check("deals api", async () => {
