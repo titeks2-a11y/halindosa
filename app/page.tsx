@@ -667,7 +667,11 @@ export default function Home() {
                   </div>
                   <div className="min-h-64 bg-red-950/15">
                     {heroDeal.thumbnail ? (
-                      <img src={heroDeal.thumbnail} alt="" className="h-full min-h-64 w-full object-cover" />
+                      <div
+                        aria-label={heroDeal.title}
+                        className="h-full min-h-64 w-full bg-cover bg-center"
+                        style={{ backgroundImage: `url(${heroDeal.thumbnail})` }}
+                      />
                     ) : (
                       <div className="flex h-full min-h-64 items-center justify-center text-7xl font-black text-white/25">SALE</div>
                     )}
@@ -736,7 +740,13 @@ export default function Home() {
                       className="flex w-full items-center gap-3 rounded-2xl bg-slate-50 p-3 text-left transition hover:bg-red-50"
                     >
                       <span className="h-12 w-12 shrink-0 overflow-hidden rounded-2xl bg-red-50">
-                        {deal.thumbnail ? <img src={deal.thumbnail} alt="" className="h-full w-full object-cover" /> : null}
+                        {deal.thumbnail ? (
+                          <span
+                            aria-label={deal.title}
+                            className="block h-full w-full bg-cover bg-center"
+                            style={{ backgroundImage: `url(${deal.thumbnail})` }}
+                          />
+                        ) : null}
                       </span>
                       <span className="min-w-0 flex-1">
                         <span className="block truncate text-sm font-black text-slate-950">{deal.title}</span>
