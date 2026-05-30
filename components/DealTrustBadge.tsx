@@ -23,7 +23,7 @@ export function DealTrustBadge({ deal, compact = false }: { deal: Deal; compact?
           <ShieldCheck size={16} />
           {label}
         </span>
-        <span className="text-xs font-black">{score}/99</span>
+        <span className="text-xs font-black">구매 전 확인</span>
       </div>
       <p className="mt-1 text-xs leading-5 text-emerald-700">
         {source.label} · {source.disclosure}

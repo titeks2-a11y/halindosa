@@ -200,6 +200,7 @@ async function checkPublicClaimCopy() {
 
 async function checkUiAccessibility() {
   const dealCard = await text("components/DealCard.tsx");
+  const dealTrustBadge = await text("components/DealTrustBadge.tsx");
   const homePage = await text("app/page.tsx");
   const requiredSnippets = [
     "aria-pressed={isFavorite}",
@@ -222,6 +223,12 @@ async function checkUiAccessibility() {
     fail("empty state UX", `Missing snippets: ${missingEmptyStateSnippets.join(", ")}`);
   } else {
     pass("empty state UX", "Search and favorites empty states include clear next actions and purchase caution copy.");
+  }
+
+  if (dealTrustBadge.includes("/99")) {
+    fail("public trust badge copy", "DealTrustBadge should not expose internal numeric confidence scores.");
+  } else {
+    pass("public trust badge copy", "Public trust badges use plain labels instead of internal scores.");
   }
 }
 
