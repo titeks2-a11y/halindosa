@@ -24,9 +24,38 @@ export interface LinkReviewQueueItem {
   expireAt: string;
 }
 
+const linkStatusLabels: Record<Deal["linkStatus"], string> = {
+  verified: "구매 페이지 확인",
+  needs_review: "확인 필요",
+  broken: "링크 오류",
+  sold_out: "품절 가능성"
+};
+
+const linkTypeLabels: Record<Deal["linkType"], string> = {
+  direct_purchase: "상품 구매 링크",
+  seller_search: "판매처 검색 링크",
+  affiliate: "제휴 구매 링크",
+  unavailable: "이동 불가"
+};
+
 function percent(part: number, total: number) {
   if (!total) return 0;
   return Math.round((part / total) * 100);
+}
+
+export function getLinkStatusLabel(status: Deal["linkStatus"]) {
+  return linkStatusLabels[status] ?? status;
+}
+
+export function getLinkTypeLabel(type: Deal["linkType"]) {
+  return linkTypeLabels[type] ?? type;
+}
+
+export function getLinkReviewActionLabel(deal: Pick<Deal, "linkStatus" | "linkType">) {
+  if (deal.linkStatus === "broken") return "링크 교체 필요";
+  if (deal.linkStatus === "sold_out") return "노출 종료 검토";
+  if (deal.linkType === "seller_search") return "상품 상세 URL 보강 필요";
+  return "운영 확인 필요";
 }
 
 export function summarizeDealQuality(deals: Deal[]): DealQualitySummary {

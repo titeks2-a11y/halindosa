@@ -4,7 +4,7 @@ import { AdminReportQueue } from "@/components/AdminReportQueue";
 import { getMockBusinessMetrics } from "@/lib/analytics";
 import { canAccessAdmin, getAdminExportHref, isAdminProtectionEnabled } from "@/lib/adminAuth";
 import { getDeals } from "@/lib/dealService";
-import { getLinkReviewQueue } from "@/lib/deals/quality";
+import { getLinkReviewActionLabel, getLinkReviewQueue, getLinkStatusLabel, getLinkTypeLabel } from "@/lib/deals/quality";
 import { listDealSourceProfiles } from "@/lib/deals/trust";
 import { formatPrice } from "@/lib/format";
 import { getReportSummary, listDealReports } from "@/lib/reports";
@@ -210,7 +210,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                       </div>
                       <p className="mt-2 truncate text-sm font-black text-slate-950">{deal.title}</p>
                       <p className="mt-1 text-xs font-bold text-slate-500">
-                        {deal.linkStatus} · {deal.linkType} · 구매 전 최종 가격 확인 필요
+                        {getLinkStatusLabel(deal.linkStatus)} · {getLinkTypeLabel(deal.linkType)} · {getLinkReviewActionLabel(deal)}
                       </p>
                     </div>
                     <div className="flex gap-2">

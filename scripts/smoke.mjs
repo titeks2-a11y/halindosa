@@ -128,6 +128,7 @@ await check("admin dashboard quality cards", async () => {
   assert(text.includes("링크 검수 큐"), "Admin dashboard missing link review queue");
   assert(text.includes("판매처 확인"), "Admin dashboard missing seller review action");
   assert(text.includes("처리 기준"), "Admin dashboard missing report handling guidance");
+  assert(text.includes("상품 상세 URL 보강 필요"), "Admin dashboard missing localized link review action");
 });
 
 await check("deals api", async () => {
