@@ -6,6 +6,7 @@ import { ArrowLeft, ExternalLink, Heart, Share2 } from "lucide-react";
 import { Deal } from "@/types/deal";
 import { buildDealRedirectUrl } from "@/lib/redirectUrl";
 import { canOpenDealLink } from "@/lib/affiliate";
+import { hasAffiliateConsent, hasAnalyticsConsent, readStoredConsent } from "@/lib/consent";
 import { rememberRecentDealId } from "@/lib/recentDeals";
 import { PurchaseConfirmSheet } from "@/components/PurchaseConfirmSheet";
 
@@ -53,7 +54,11 @@ export function DealDetailActions({ deal }: { deal: Deal }) {
   const confirmPurchase = async () => {
     setShowPurchaseConfirm(false);
     rememberRecentDealId(deal.id);
-    const redirectUrl = buildDealRedirectUrl(deal.id, "detail", { analytics: true, affiliate: true });
+    const consent = readStoredConsent();
+    const redirectUrl = buildDealRedirectUrl(deal.id, "detail", {
+      analytics: hasAnalyticsConsent(consent),
+      affiliate: hasAffiliateConsent(consent)
+    });
 
     if (await isNativeRuntime()) {
       const { Browser } = await import("@capacitor/browser");

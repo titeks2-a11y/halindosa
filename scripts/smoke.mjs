@@ -380,6 +380,15 @@ await check("redirect consent guard", async () => {
   assert(!location.includes("sub_id="), `Redirect should not include affiliate sub_id without consent: ${location}`);
 });
 
+await check("detail purchase consent guard", async () => {
+  const response = await fetch(`${baseUrl}/deals/d014`);
+  const text = await response.text();
+  assert(response.status === 200, `Expected 200, got ${response.status}`);
+  assert(text.includes("구매 전 판매처 확인"), "Detail page missing purchase confirm button");
+  assert(!text.includes("affiliate=granted"), "Detail page should not server-render affiliate consent");
+  assert(!text.includes("analytics=granted"), "Detail page should not server-render analytics consent");
+});
+
 await check("seller search redirect fallbacks", async () => {
   const cases = [
     ["d014", "coupang.com"],
