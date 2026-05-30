@@ -65,7 +65,7 @@ export function getPriceInsight(deal: Deal): PriceInsight {
     priceDropFromAverage,
     confidenceScore: Math.round(confidenceScore),
     summary: isLowestPrice
-      ? "최근 7회 관측 기준 최저가 수준입니다."
+      ? "최근 7회 관측 기준 낮은 가격대입니다."
       : "최근 평균 대비 할인 중이며 판매처 최종가 확인이 필요합니다."
   };
 }
