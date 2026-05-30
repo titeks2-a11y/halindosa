@@ -640,6 +640,42 @@ export default function Home() {
     [catalog]
   );
 
+  const activeFilterLabels = useMemo(() => {
+    const labels: string[] = [];
+    const selectedChannel = getDealChannel(category);
+    const selectedMall = mallFilters.find((mall) => mall.id === mallFilter);
+
+    if (query.trim()) labels.push(`검색: ${query.trim()}`);
+    if (category !== "all") labels.push(selectedChannel.label);
+    if (mallFilter !== "all" && selectedMall) labels.push(selectedMall.label);
+    if (freeShippingOnly) labels.push("무료배송");
+    if (hotOnly) labels.push("핫딜");
+    if (endingSoonOnly) labels.push("마감임박");
+    if (sort !== "latest") {
+      const sortLabel: Record<DealSort, string> = {
+        latest: "최신순",
+        discount: "할인율순",
+        price: "낮은 가격순",
+        hot: "핫딜순",
+        endingSoon: "마감임박순"
+      };
+      labels.push(sortLabel[sort]);
+    }
+
+    return labels;
+  }, [category, endingSoonOnly, freeShippingOnly, hotOnly, mallFilter, query, sort]);
+
+  const resetFilters = () => {
+    setQuery("");
+    setCategory("all");
+    setMallFilter("all");
+    setSort("latest");
+    setFreeShippingOnly(false);
+    setHotOnly(false);
+    setEndingSoonOnly(false);
+    showToast("검색 조건을 초기화했습니다.");
+  };
+
   const openCategory = (id: string) => {
     setCategory(id);
     setActiveView("home");
@@ -843,10 +879,10 @@ export default function Home() {
             <FeaturedDealSections
               deals={catalog.length ? catalog : deals}
               favorites={favorites}
-          onToggleFavorite={toggleFavorite}
-          onOpenDeal={openDeal}
-          onShareDeal={shareDeal}
-        />
+              onToggleFavorite={toggleFavorite}
+              onOpenDeal={openDeal}
+              onShareDeal={shareDeal}
+            />
 
             <div id="all-deals" className="h-1" />
             <div className="rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
@@ -909,6 +945,30 @@ export default function Home() {
               </div>
               <div className="mt-3">
                 <CategoryTabs selected={category} onSelect={setCategory} counts={categoryCounts} />
+              </div>
+              <div className="mt-4 flex flex-col gap-3 rounded-2xl bg-slate-50 p-3 sm:flex-row sm:items-center sm:justify-between">
+                <div className="min-w-0">
+                  <p className="text-xs font-black text-slate-400">적용된 조건</p>
+                  <div className="mt-2 flex flex-wrap gap-1.5">
+                    {activeFilterLabels.length ? (
+                      activeFilterLabels.map((label) => (
+                        <span key={label} className="rounded-full bg-white px-3 py-1 text-xs font-black text-slate-700 shadow-sm">
+                          {label}
+                        </span>
+                      ))
+                    ) : (
+                      <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-slate-500 shadow-sm">전체 특가</span>
+                    )}
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={resetFilters}
+                  disabled={!activeFilterLabels.length}
+                  className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-2xl border border-slate-200 bg-white px-4 text-sm font-black text-slate-600 transition hover:border-red-100 hover:text-dossa-red disabled:cursor-not-allowed disabled:opacity-45"
+                >
+                  조건 초기화
+                </button>
               </div>
               <div className="mt-4 grid gap-2 text-sm font-bold text-slate-700 sm:grid-cols-4">
                 <div className="rounded-2xl bg-slate-50 px-4 py-3">

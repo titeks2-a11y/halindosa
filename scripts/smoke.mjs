@@ -70,6 +70,8 @@ await check("home query filters", async () => {
   assert(response.status === 200, `Expected 200, got ${response.status}`);
   assert(text.includes("할인도사"), "Filtered home missing brand text");
   assert(text.includes("새우깡") || text.includes("검색"), "Filtered home missing query result context");
+  assert(text.includes("적용된 조건"), "Filtered home missing active filter summary");
+  assert(text.includes("조건 초기화"), "Filtered home missing filter reset action");
 });
 
 await check("deals api", async () => {
