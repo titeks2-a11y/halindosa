@@ -56,6 +56,7 @@ export async function GET(
       page: from,
       metadata: {
         mall: deal.mall,
+        mallName: deal.mallName,
         category: deal.category,
         source: deal.source,
         affiliateEligible: isAffiliateEligible(deal),

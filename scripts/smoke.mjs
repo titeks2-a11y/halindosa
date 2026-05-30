@@ -238,6 +238,13 @@ await check("redirect consent guard", async () => {
   assert(!location.includes("sub_id="), `Redirect should not include affiliate sub_id without consent: ${location}`);
 });
 
+await check("affiliate status api", async () => {
+  const { response, data } = await fetchJson("/api/affiliate/status");
+  assert(response.status === 200, `Expected 200, got ${response.status}`);
+  assert(data.ok === true, "Affiliate status API ok should be true");
+  assert(data.status?.subId, "Affiliate status missing sub id state");
+});
+
 await check("admin export csv", async () => {
   const response = await fetch(`${baseUrl}/api/admin/export`);
   const text = await response.text();

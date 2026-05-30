@@ -25,6 +25,35 @@
 - 광고 슬롯은 `광고` 또는 `스폰서` 표시
 - 사용자가 동의하지 않은 분석/제휴 추적 파라미터는 붙이지 않음
 
+## 제휴링크 연결 방식
+
+구매 이동은 `/api/redirect/[dealId]`를 통과합니다. 사용자가 마이 설정에서 제휴 성과 측정에 동의한 경우에만 제휴 파라미터 또는 제휴 URL 템플릿이 적용됩니다.
+
+환경 변수:
+
+- `AFFILIATE_SUB_ID`: 공통 sub id 또는 채널 id
+- `DEFAULT_AFFILIATE_URL_TEMPLATE`: 판매처 공통 템플릿
+- `COUPANG_PARTNERS_URL_TEMPLATE`: 쿠팡파트너스 전용 템플릿
+- `AFFILIATE_URL_TEMPLATES`: 판매처별 JSON 템플릿
+
+지원 placeholder:
+
+- `{url}`: 원본 판매처 URL
+- `{encodedUrl}`: URL 인코딩된 원본 판매처 URL
+- `{dealId}`: 할인도사 deal id
+- `{mall}`: 판매처명
+- `{campaign}`: 유입 위치
+- `{subId}`: `AFFILIATE_SUB_ID`
+- `{title}`: 상품명
+
+연결 상태 확인:
+
+```bash
+GET /api/affiliate/status
+```
+
+파트너스 계정에서 발급받은 최종 링크 형식은 각 제휴사의 최신 운영 정책과 광고 고지 의무를 확인한 뒤 템플릿에 입력합니다.
+
 ## V1.0 미구현
 
-AdMob SDK, 결제, 개인화 광고, 회원 기반 리타겟팅은 구현하지 않는다.
+AdMob SDK, 결제, 개인화 광고, 회원 기반 리타겟팅은 구현하지 않는다. 제휴링크는 환경변수 템플릿 기반으로 연결 가능하며, 실제 계정 ID와 승인 링크는 저장소에 커밋하지 않는다.
