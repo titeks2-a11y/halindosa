@@ -14,7 +14,7 @@
 - 보안 헤더, standalone build, Dockerfile, GitHub Actions CI, `npm run audit:commercial` 추가
 - 민감 API에 request id와 in-memory rate limit 적용
 - 분석/제휴 추적 동의 배너와 마이 탭 설정 구현
-- mock 가격 이력, 최근 최저가 여부, 가격 신뢰도 점수 구현
+- mock 가격 이력, 가격 하락 신호, 가격 신뢰도 점수 구현
 - in-memory 신고 큐와 관리자 신고 목록 API 구현
 - 파트너 피드 검증/정규화 dry-run API 구현
 - `DEAL_PROVIDER=hybrid` 기반 네이버 쇼핑 공식 API/파트너 JSON 피드/live fallback 구조 구현
