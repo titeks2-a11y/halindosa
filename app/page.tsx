@@ -10,6 +10,7 @@ import { DealCard } from "@/components/DealCard";
 import { FeaturedDealSections } from "@/components/FeaturedDealSections";
 import { HotSignalSection } from "@/components/HotSignalSection";
 import { LiveDealFeed } from "@/components/LiveDealFeed";
+import { PurchaseConfirmSheet } from "@/components/PurchaseConfirmSheet";
 import { SearchBar } from "@/components/SearchBar";
 import { SortSelect } from "@/components/SortSelect";
 import { Toast } from "@/components/Toast";
@@ -17,7 +18,7 @@ import { dealChannels, dealMatchesChannel, getDealChannel, getProviderCategory }
 import { mockHotSignals } from "@/data/mockHotSignals";
 import { mockDeals } from "@/data/mockDeals";
 import { ConsentState, hasAffiliateConsent, hasAnalyticsConsent, readStoredConsent } from "@/lib/consent";
-import { canOpenDealLink, getDealLinkTrustLabel } from "@/lib/affiliate";
+import { canOpenDealLink } from "@/lib/affiliate";
 import { buildDealRedirectUrl } from "@/lib/redirectUrl";
 import { Deal, DealSort } from "@/types/deal";
 import { HotSignal } from "@/types/hotSignal";
@@ -200,6 +201,7 @@ export default function Home() {
   });
   const [recentDealIds, setRecentDealIds] = useState<string[]>([]);
   const [toast, setToast] = useState("");
+  const [pendingPurchaseDeal, setPendingPurchaseDeal] = useState<Deal | null>(null);
   const [consent, setConsent] = useState<ConsentState | null>(() => {
     if (typeof window === "undefined") return null;
     return readStoredConsent();
@@ -438,16 +440,17 @@ export default function Home() {
     }
   };
 
-  const openDeal = async (deal: Deal) => {
+  const openDeal = (deal: Deal) => {
     if (!canOpenDealLink(deal)) {
       showToast("이 특가는 링크 확인이 필요합니다. 다른 특가를 확인해주세요.");
       return;
     }
 
-    const confirmed = window.confirm(
-      `${deal.mallName} 판매처로 이동합니다.\n\n${getDealLinkTrustLabel(deal)} 상태이며, 실제 가격·쿠폰·재고는 판매처에서 최종 확인해야 합니다.`
-    );
-    if (!confirmed) return;
+    setPendingPurchaseDeal(deal);
+  };
+
+  const confirmOpenDeal = async (deal: Deal) => {
+    setPendingPurchaseDeal(null);
 
     rememberRecentDeal(deal.id);
     void trackEvent("deal_click", deal.id);
@@ -1052,6 +1055,13 @@ export default function Home() {
       </section>
 
       <CommercialFooter />
+
+      <PurchaseConfirmSheet
+        deal={pendingPurchaseDeal}
+        isOpen={Boolean(pendingPurchaseDeal)}
+        onClose={() => setPendingPurchaseDeal(null)}
+        onConfirm={confirmOpenDeal}
+      />
 
       {toast ? <Toast message={toast} onClose={() => setToast("")} /> : null}
     </div>

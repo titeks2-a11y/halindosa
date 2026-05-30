@@ -5,7 +5,8 @@ import { useState } from "react";
 import { ArrowLeft, ExternalLink, Heart, Share2 } from "lucide-react";
 import { Deal } from "@/types/deal";
 import { buildDealRedirectUrl } from "@/lib/redirectUrl";
-import { canOpenDealLink, getDealLinkTrustLabel } from "@/lib/affiliate";
+import { canOpenDealLink } from "@/lib/affiliate";
+import { PurchaseConfirmSheet } from "@/components/PurchaseConfirmSheet";
 
 const favoriteKey = "halindosa:favorites";
 
@@ -19,6 +20,7 @@ async function isNativeRuntime() {
 }
 
 export function DealDetailActions({ deal }: { deal: Deal }) {
+  const [showPurchaseConfirm, setShowPurchaseConfirm] = useState(false);
   const [isFavorite, setIsFavorite] = useState(() => {
     if (typeof window === "undefined") return false;
     try {
@@ -42,14 +44,13 @@ export function DealDetailActions({ deal }: { deal: Deal }) {
     }
   };
 
-  const openPurchase = async () => {
+  const openPurchase = () => {
     if (!canOpenDealLink(deal)) return;
+    setShowPurchaseConfirm(true);
+  };
 
-    const confirmed = window.confirm(
-      `${deal.mallName} 판매처로 이동합니다.\n\n${getDealLinkTrustLabel(deal)} 상태이며, 가격·쿠폰·재고는 판매처에서 최종 확인해야 합니다.`
-    );
-    if (!confirmed) return;
-
+  const confirmPurchase = async () => {
+    setShowPurchaseConfirm(false);
     const redirectUrl = buildDealRedirectUrl(deal.id, "detail", { analytics: true, affiliate: true });
 
     if (await isNativeRuntime()) {
@@ -79,41 +80,53 @@ export function DealDetailActions({ deal }: { deal: Deal }) {
   };
 
   return (
-    <div className="mt-5 grid gap-2 sm:grid-cols-[1fr_auto_auto_auto]">
-      <button
-        type="button"
-        onClick={openPurchase}
-        disabled={!canOpenDealLink(deal)}
-        className="inline-flex items-center justify-center gap-2 rounded-2xl bg-dossa-red px-5 py-3 text-sm font-black text-white transition hover:bg-dossa-deep disabled:cursor-not-allowed disabled:bg-slate-300"
-      >
-        {canOpenDealLink(deal) ? "구매 전 판매처 확인" : "링크 확인 필요"}
-        <ExternalLink size={17} />
-      </button>
-      <button
-        type="button"
-        onClick={toggleFavorite}
-        className={`inline-flex items-center justify-center gap-2 rounded-2xl border px-5 py-3 text-sm font-black transition ${
-          isFavorite ? "border-red-100 bg-red-50 text-dossa-red" : "border-slate-200 bg-white text-slate-700 hover:border-red-100 hover:text-dossa-red"
-        }`}
-      >
-        <Heart size={17} fill={isFavorite ? "currentColor" : "none"} />
-        관심 특가
-      </button>
-      <button
-        type="button"
-        onClick={shareDeal}
-        className="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-black text-slate-700 transition hover:border-red-100 hover:text-dossa-red"
-      >
-        <Share2 size={17} />
-        공유하기
-      </button>
-      <Link
-        href="/"
-        className="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-black text-slate-700 transition hover:border-red-100 hover:text-dossa-red"
-      >
-        <ArrowLeft size={17} />
-        홈으로
-      </Link>
-    </div>
+    <>
+      <div className="mt-5 grid gap-2 sm:grid-cols-[1fr_auto_auto_auto]">
+        <button
+          type="button"
+          onClick={openPurchase}
+          disabled={!canOpenDealLink(deal)}
+          className="inline-flex items-center justify-center gap-2 rounded-2xl bg-dossa-red px-5 py-3 text-sm font-black text-white transition hover:bg-dossa-deep disabled:cursor-not-allowed disabled:bg-slate-300"
+        >
+          {canOpenDealLink(deal) ? "구매 전 판매처 확인" : "링크 확인 필요"}
+          <ExternalLink size={17} />
+        </button>
+        <button
+          type="button"
+          onClick={toggleFavorite}
+          className={`inline-flex items-center justify-center gap-2 rounded-2xl border px-5 py-3 text-sm font-black transition ${
+            isFavorite
+              ? "border-red-100 bg-red-50 text-dossa-red"
+              : "border-slate-200 bg-white text-slate-700 hover:border-red-100 hover:text-dossa-red"
+          }`}
+        >
+          <Heart size={17} fill={isFavorite ? "currentColor" : "none"} />
+          관심 특가
+        </button>
+        <button
+          type="button"
+          onClick={shareDeal}
+          className="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-black text-slate-700 transition hover:border-red-100 hover:text-dossa-red"
+        >
+          <Share2 size={17} />
+          공유하기
+        </button>
+        <Link
+          href="/"
+          className="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-black text-slate-700 transition hover:border-red-100 hover:text-dossa-red"
+        >
+          <ArrowLeft size={17} />
+          홈으로
+        </Link>
+      </div>
+      <PurchaseConfirmSheet
+        deal={deal}
+        isOpen={showPurchaseConfirm}
+        onClose={() => setShowPurchaseConfirm(false)}
+        onConfirm={() => {
+          void confirmPurchase();
+        }}
+      />
+    </>
   );
 }
