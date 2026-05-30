@@ -16,6 +16,8 @@
 - 검색 결과 없음, 로딩, fallback 오류 상태 구현
 - 오늘의 특가 배너, 실시간 인기 TOP10, 카테고리별 인기, 최근 본 특가, 추천 특가 구성
 - 특가 카드와 상세 화면에 검수 신뢰 배지 추가
+- 외부 판매처 이동 전 앱 내부 확인 시트 추가
+- 상세 페이지 진입과 구매 이동 시 최근 본 특가 자동 저장
 
 ### PHASE 2 코드 품질
 
@@ -27,6 +29,7 @@
 - 린트 오류 제거
 - 하단 탭 safe-area 대응
 - Android WebView 외부 링크는 Capacitor Browser 구조 사용
+- 최근 본 특가 localStorage 로직을 공용 유틸로 분리
 
 ### PHASE 3 Play Store 문서
 
@@ -72,7 +75,7 @@
 - `npm run audit:commercial`
 - `npm run qa`
 - `npm run smoke:local`
-- smoke 17개 항목으로 확장: sources API 포함
+- smoke 19개 항목으로 확장: redirect fallback, affiliate status, admin export 포함
 - Play Store 이미지 제작 기준 문서화
 - Play Store 512 아이콘과 기능 그래픽 초안 생성
 
@@ -80,6 +83,7 @@
 
 - Play Store 제출 직전 실기기/스토어 작업만 남음
 - 출시 이미지와 스크린샷 기준 유지
+- 실제 상품별 direct purchase URL 확보 전까지는 검증 링크와 판매처 검색 fallback을 명확히 구분
 
 ## 다음 작업
 
@@ -90,6 +94,7 @@
 5. 개인정보처리방침 실제 URL 배포
 6. 운영 데이터 공급 방식 확정 및 Supabase/API 연결
 7. 제휴/광고 고지 문구 법무 검토
+8. 실제 제휴 피드 도입 후 direct purchase URL 비율을 높이고 `needs_review` 상품 축소
 
 ## 출시 전 남은 작업
 
@@ -106,6 +111,7 @@
 
 - `npm install`에서 moderate 취약점 2개가 보고됨. 강제 수정은 breaking change 가능성이 있어 프레임워크 패치 확인 후 처리
 - 실제 운영 데이터는 공식 API, RSS, 제휴 피드, 허용된 수집 방식만 사용해야 함
+- 현재 일부 상품은 판매처 검색 fallback으로 이동하므로, 출시 전 제휴/공식 피드로 실제 상품 상세 URL을 보강해야 함
 
 ### Low
 
