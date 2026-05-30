@@ -398,6 +398,15 @@ await check("detail purchase consent guard", async () => {
   assert(!text.includes("analytics=granted"), "Detail page should not server-render analytics consent");
 });
 
+await check("favorites page consent guard", async () => {
+  const response = await fetch(`${baseUrl}/favorites`);
+  const text = await response.text();
+  assert(response.status === 200, `Expected 200, got ${response.status}`);
+  assert(text.includes("관심 특가"), "Favorites page missing title");
+  assert(!text.includes("affiliate=granted"), "Favorites page should not server-render affiliate consent");
+  assert(!text.includes("analytics=granted"), "Favorites page should not server-render analytics consent");
+});
+
 await check("seller search redirect fallbacks", async () => {
   const cases = [
     ["d014", "coupang.com"],

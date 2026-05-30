@@ -7,6 +7,7 @@ import { DealCard } from "@/components/DealCard";
 import { PurchaseConfirmSheet } from "@/components/PurchaseConfirmSheet";
 import { mockDeals } from "@/data/mockDeals";
 import { canOpenDealLink } from "@/lib/affiliate";
+import { hasAffiliateConsent, hasAnalyticsConsent, readStoredConsent } from "@/lib/consent";
 import { buildDealRedirectUrl } from "@/lib/redirectUrl";
 import { rememberRecentDealId } from "@/lib/recentDeals";
 import { Deal } from "@/types/deal";
@@ -15,7 +16,11 @@ const favoriteKey = "halindosa:favorites";
 
 async function openExternalDeal(deal: Deal) {
   rememberRecentDealId(deal.id);
-  const redirectUrl = buildDealRedirectUrl(deal.id, "favorites", { analytics: true, affiliate: true });
+  const consent = readStoredConsent();
+  const redirectUrl = buildDealRedirectUrl(deal.id, "favorites", {
+    analytics: hasAnalyticsConsent(consent),
+    affiliate: hasAffiliateConsent(consent)
+  });
 
   try {
     const { Capacitor } = await import("@capacitor/core");
@@ -33,6 +38,7 @@ async function openExternalDeal(deal: Deal) {
 
 export default function FavoritesPage() {
   const [pendingPurchaseDeal, setPendingPurchaseDeal] = useState<Deal | null>(null);
+  const [message, setMessage] = useState("");
   const [favorites, setFavorites] = useState<string[]>(() => {
     if (typeof window === "undefined") return [];
     try {
@@ -49,6 +55,7 @@ export default function FavoritesPage() {
     setFavorites((current) => {
       const next = current.includes(id) ? current.filter((favoriteId) => favoriteId !== id) : [...current, id];
       window.localStorage.setItem(favoriteKey, JSON.stringify(next));
+      setMessage(current.includes(id) ? "찜 목록에서 제거했습니다." : "찜 목록에 저장했습니다.");
       return next;
     });
   };
@@ -65,17 +72,22 @@ export default function FavoritesPage() {
 
       if (nav.share) {
         await nav.share({ title: `할인도사 - ${deal.title}`, text, url: shareUrl });
+        setMessage("특가 공유를 열었습니다.");
         return;
       }
 
       await nav.clipboard?.writeText(`${text}\n${shareUrl}`);
+      setMessage("특가 링크를 복사했습니다.");
     } catch {
-      // Sharing is optional and should not interrupt browsing.
+      setMessage("공유를 취소했습니다.");
     }
   };
 
   const openDeal = (deal: Deal) => {
-    if (!canOpenDealLink(deal)) return;
+    if (!canOpenDealLink(deal)) {
+      setMessage("이 특가는 링크 확인이 필요합니다.");
+      return;
+    }
     setPendingPurchaseDeal(deal);
   };
 
@@ -102,6 +114,12 @@ export default function FavoritesPage() {
             </div>
           </div>
         </section>
+
+        {message ? (
+          <div role="status" aria-live="polite" className="rounded-2xl border border-red-100 bg-red-50 px-4 py-3 text-sm font-black text-dossa-red">
+            {message}
+          </div>
+        ) : null}
 
         {favoriteDeals.length ? (
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
