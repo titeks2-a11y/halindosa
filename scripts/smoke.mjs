@@ -81,6 +81,7 @@ await check("home page", async () => {
   assert(text.includes("aria-pressed="), "Home deal favorite buttons missing pressed state");
   assert(text.includes("판매처 이동 전 확인"), "Home deal open buttons missing accessible purchase label");
   assert(text.includes("네트워크 정상") || text.includes("오프라인 상태"), "Home page missing network status summary");
+  assert(text.includes("전체 쇼핑몰") && text.includes("쿠팡 ("), "Home page missing mall filter counts");
 });
 
 await check("home query filters", async () => {

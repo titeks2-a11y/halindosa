@@ -69,6 +69,19 @@ function isFreeShippingDeal(deal: Deal) {
   return deal.isFreeShipping || /무료배송|무배|네멤무료|로켓프레시/.test([deal.shipping, ...deal.tags].join(" "));
 }
 
+function dealMatchesMallFilter(deal: Deal, mallFilter: string) {
+  if (mallFilter === "all") return true;
+
+  const mall = `${deal.mallName} ${deal.mall}`.toLowerCase();
+  if (mallFilter === "gmarket") return /g마켓|지마켓|gmarket/.test(mall);
+  if (mallFilter === "naver") return /네이버|naver/.test(mall);
+  if (mallFilter === "ssg") return /ssg|쓱|이마트/.test(mall);
+  if (mallFilter === "auction") return /옥션|auction/.test(mall);
+  if (mallFilter === "aliexpress") return /알리|ali/.test(mall);
+  if (mallFilter === "interpark") return /인터파크|interpark/.test(mall);
+  return mall.includes(mallFilter.toLowerCase());
+}
+
 function getProviderDisplayLabel(source: string) {
   if (source === "production") return "운영 피드";
   if (source === "staging") return "검수 피드";
@@ -115,16 +128,7 @@ function filterLocalDeals(
   }
 
   if (mallFilter !== "all") {
-    filtered = filtered.filter((deal) => {
-      const mall = `${deal.mallName} ${deal.mall}`.toLowerCase();
-      if (mallFilter === "gmarket") return /g마켓|지마켓|gmarket/.test(mall);
-      if (mallFilter === "naver") return /네이버|naver/.test(mall);
-      if (mallFilter === "ssg") return /ssg|쓱|이마트/.test(mall);
-      if (mallFilter === "auction") return /옥션|auction/.test(mall);
-      if (mallFilter === "aliexpress") return /알리|ali/.test(mall);
-      if (mallFilter === "interpark") return /인터파크|interpark/.test(mall);
-      return mall.includes(mallFilter.toLowerCase());
-    });
+    filtered = filtered.filter((deal) => dealMatchesMallFilter(deal, mallFilter));
   }
 
   if (freeShippingOnly) {
@@ -708,6 +712,17 @@ export default function Home() {
     [catalog]
   );
 
+  const mallCounts = useMemo(
+    () =>
+      Object.fromEntries(
+        mallFilters.map((mall) => [
+          mall.id,
+          mall.id === "all" ? catalog.length : catalog.filter((deal) => dealMatchesMallFilter(deal, mall.id)).length
+        ])
+      ),
+    [catalog]
+  );
+
   const activeFilterLabels = useMemo(() => {
     const labels: string[] = [];
     const selectedChannel = getDealChannel(category);
@@ -1010,7 +1025,7 @@ export default function Home() {
                   >
                     {mallFilters.map((mall) => (
                       <option key={mall.id} value={mall.id}>
-                        {mall.label}
+                        {mall.id === "all" ? mall.label : `${mall.label} (${mallCounts[mall.id] ?? 0})`}
                       </option>
                     ))}
                   </select>
