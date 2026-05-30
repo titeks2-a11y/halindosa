@@ -226,6 +226,8 @@ async function checkPartnerFeedSafety() {
 async function checkUiAccessibility() {
   const dealCard = await text("components/DealCard.tsx");
   const dealTrustBadge = await text("components/DealTrustBadge.tsx");
+  const bottomNav = await text("components/BottomNav.tsx");
+  const commercialFooter = await text("components/CommercialFooter.tsx");
   const homePage = await text("app/page.tsx");
   const requiredSnippets = [
     "aria-pressed={isFavorite}",
@@ -254,6 +256,20 @@ async function checkUiAccessibility() {
     fail("public trust badge copy", "DealTrustBadge should not expose internal numeric confidence scores.");
   } else {
     pass("public trust badge copy", "Public trust badges use plain labels instead of internal scores.");
+  }
+
+  if (!bottomNav.includes("getNavAriaLabel") || !bottomNav.includes('aria-label="주요 메뉴"') || !bottomNav.includes("aria-current")) {
+    fail("bottom navigation accessibility", "Bottom navigation should expose a named menu, active state, and badge-aware button labels.");
+  } else {
+    pass("bottom navigation accessibility", "Mobile and desktop navigation expose a named menu with active state and badge-aware labels.");
+  }
+
+  const requiredFooterSnippets = ['href="/guide"', 'href="/terms"', 'href="/privacy"', "flex-wrap"];
+  const missingFooterSnippets = requiredFooterSnippets.filter((snippet) => !commercialFooter.includes(snippet));
+  if (missingFooterSnippets.length) {
+    fail("policy footer navigation", `Missing snippets: ${missingFooterSnippets.join(", ")}`);
+  } else {
+    pass("policy footer navigation", "Purchase caution, service guide, terms, and privacy links remain reachable on narrow mobile screens.");
   }
 }
 

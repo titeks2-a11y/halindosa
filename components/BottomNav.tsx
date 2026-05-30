@@ -23,9 +23,15 @@ function getBadgeCount(view: AppView, favoriteCount: number, alertCount: number)
   return 0;
 }
 
+function getNavAriaLabel(label: string, active: boolean, badgeCount: number) {
+  const status = active ? "선택됨" : "이동";
+  const badge = badgeCount > 0 ? `, 새 항목 ${badgeCount}개` : "";
+  return `${label} 탭 ${status}${badge}`;
+}
+
 export function BottomNav({ activeView, favoriteCount, alertCount, onChange }: BottomNavProps) {
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 border-t border-slate-200 bg-white/95 px-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] pt-1 shadow-2xl shadow-slate-300 backdrop-blur sm:hidden">
+    <nav aria-label="주요 메뉴" className="fixed bottom-0 left-0 right-0 z-40 border-t border-slate-200 bg-white/95 px-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] pt-1 shadow-2xl shadow-slate-300 backdrop-blur sm:hidden">
       <div className="mx-auto grid max-w-md grid-cols-5">
         {items.map((item) => {
           const Icon = item.icon;
@@ -41,6 +47,7 @@ export function BottomNav({ activeView, favoriteCount, alertCount, onChange }: B
                 active ? "text-dossa-red" : "text-slate-400 hover:text-slate-700"
               }`}
               aria-current={active ? "page" : undefined}
+              aria-label={getNavAriaLabel(item.label, active, badgeCount)}
             >
               <Icon size={21} fill={active && item.id === "favorites" ? "currentColor" : "none"} />
               {item.label}
@@ -59,7 +66,7 @@ export function BottomNav({ activeView, favoriteCount, alertCount, onChange }: B
 
 export function DesktopNav({ activeView, favoriteCount, alertCount, onChange }: BottomNavProps) {
   return (
-    <div className="hidden gap-2 rounded-2xl border border-slate-200 bg-white p-1 shadow-sm sm:flex">
+    <nav aria-label="주요 메뉴" className="hidden gap-2 rounded-2xl border border-slate-200 bg-white p-1 shadow-sm sm:flex">
       {items.map((item) => {
         const Icon = item.icon;
         const active = activeView === item.id;
@@ -73,6 +80,8 @@ export function DesktopNav({ activeView, favoriteCount, alertCount, onChange }: 
             className={`inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-black transition ${
               active ? "bg-dossa-red text-white" : "text-slate-500 hover:bg-slate-50 hover:text-slate-900"
             }`}
+            aria-current={active ? "page" : undefined}
+            aria-label={getNavAriaLabel(item.label, active, badgeCount)}
           >
             <Icon size={17} fill={active && item.id === "favorites" ? "currentColor" : "none"} />
             {item.label}
@@ -84,6 +93,6 @@ export function DesktopNav({ activeView, favoriteCount, alertCount, onChange }: 
           </button>
         );
       })}
-    </div>
+    </nav>
   );
 }
