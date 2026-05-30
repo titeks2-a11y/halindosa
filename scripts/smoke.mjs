@@ -216,6 +216,9 @@ await check("metrics api", async () => {
   assert(data.metrics?.averageConfidenceScore >= 0, "Metrics missing confidence score");
   assert(data.metrics?.verifiedLinkRate >= 0, "Metrics missing verified link rate");
   assert(data.metrics?.needsReviewLinks >= 0, "Metrics missing link review count");
+  assert(data.linkQuality?.total === data.metrics?.totalDeals, "Metrics missing shared link quality summary");
+  assert(Array.isArray(data.linkReviewQueue), "Metrics missing link review queue");
+  assert(data.linkReviewQueue.length <= 8, "Metrics link review queue should be capped");
 });
 
 await check("sources api", async () => {

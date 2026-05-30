@@ -4,6 +4,7 @@ import { AdminReportQueue } from "@/components/AdminReportQueue";
 import { getMockBusinessMetrics } from "@/lib/analytics";
 import { canAccessAdmin, getAdminExportHref, isAdminProtectionEnabled } from "@/lib/adminAuth";
 import { getDeals } from "@/lib/dealService";
+import { getLinkReviewQueue } from "@/lib/deals/quality";
 import { listDealSourceProfiles } from "@/lib/deals/trust";
 import { formatPrice } from "@/lib/format";
 import { getReportSummary, listDealReports } from "@/lib/reports";
@@ -48,10 +49,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const reportSummary = getReportSummary();
   const recentReports = listDealReports().slice(0, 6);
   const sourceCounts = new Map<string, number>();
-  const linkReviewDeals = deals
-    .filter((deal) => deal.linkStatus !== "verified" || deal.linkType === "seller_search")
-    .sort((a, b) => b.popularityScore - a.popularityScore || new Date(a.expireAt).getTime() - new Date(b.expireAt).getTime())
-    .slice(0, 8);
+  const linkReviewDeals = getLinkReviewQueue(deals, 8);
 
   for (const deal of deals) {
     sourceCounts.set(deal.source, (sourceCounts.get(deal.source) ?? 0) + 1);

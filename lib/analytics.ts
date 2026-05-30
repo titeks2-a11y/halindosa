@@ -1,5 +1,5 @@
 import { findDealById, getDeals } from "@/lib/dealService";
-import { summarizeDealQuality } from "@/lib/deals/quality";
+import { getLinkReviewQueue, summarizeDealQuality } from "@/lib/deals/quality";
 import { getPriceInsight } from "@/lib/priceHistory";
 
 export type AnalyticsEventType = "deal_click" | "favorite_add" | "favorite_remove" | "redirect_click";
@@ -60,6 +60,7 @@ export async function getMockBusinessMetrics() {
   const priceInsights = deals.map(getPriceInsight);
   const lowestPriceDeals = priceInsights.filter((insight) => insight.isLowestPrice).length;
   const linkQuality = summarizeDealQuality(deals);
+  const linkReviewQueue = getLinkReviewQueue(deals, 8);
   const averageConfidenceScore = Math.round(
     priceInsights.reduce((sum, insight) => sum + insight.confidenceScore, 0) / priceInsights.length
   );
@@ -83,6 +84,8 @@ export async function getMockBusinessMetrics() {
       soldOutLinks: linkQuality.soldOutLinks,
       estimatedClickValue: hotDeals.length * 120 + endingSoonDeals.length * 90
     },
-    topDeals
+    topDeals,
+    linkQuality,
+    linkReviewQueue
   };
 }

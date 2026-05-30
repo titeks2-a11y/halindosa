@@ -12,6 +12,18 @@ export interface DealQualitySummary {
   generatedAt: string;
 }
 
+export interface LinkReviewQueueItem {
+  id: string;
+  title: string;
+  mallName: string;
+  category: Deal["category"];
+  linkStatus: Deal["linkStatus"];
+  linkType: Deal["linkType"];
+  linkLabel: string;
+  popularityScore: number;
+  expireAt: string;
+}
+
 function percent(part: number, total: number) {
   if (!total) return 0;
   return Math.round((part / total) * 100);
@@ -36,4 +48,22 @@ export function summarizeDealQuality(deals: Deal[]): DealQualitySummary {
     directPurchaseRate: percent(directPurchaseLinks, total),
     generatedAt: new Date().toISOString()
   };
+}
+
+export function getLinkReviewQueue(deals: Deal[], limit = 8): LinkReviewQueueItem[] {
+  return deals
+    .filter((deal) => deal.linkStatus !== "verified" || deal.linkType === "seller_search")
+    .sort((a, b) => b.popularityScore - a.popularityScore || new Date(a.expireAt).getTime() - new Date(b.expireAt).getTime())
+    .slice(0, limit)
+    .map((deal) => ({
+      id: deal.id,
+      title: deal.title,
+      mallName: deal.mallName,
+      category: deal.category,
+      linkStatus: deal.linkStatus,
+      linkType: deal.linkType,
+      linkLabel: deal.linkLabel,
+      popularityScore: deal.popularityScore,
+      expireAt: deal.expireAt
+    }));
 }
