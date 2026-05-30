@@ -113,6 +113,7 @@ async function checkEnvExample() {
     "NEXT_PUBLIC_SITE_URL",
     "NEXT_PUBLIC_APP_NAME",
     "NEXT_PUBLIC_APP_ENV",
+    "NEXT_PUBLIC_SUPPORT_EMAIL",
     "DEAL_DATA_MODE",
     "DEAL_PROVIDER",
     "DEAL_LIVE_KEYWORDS",
@@ -141,6 +142,32 @@ async function checkEnvExample() {
     fail("env fallback guidance", ".env.example should explain API-key-free fallback behavior.");
   } else {
     pass("env fallback guidance", "External API keys can be left blank for fallback operation.");
+  }
+}
+
+async function checkPublicContact() {
+  const publicFiles = [
+    "app/page.tsx",
+    "app/mypage/page.tsx",
+    "app/privacy/page.tsx",
+    "app/terms/page.tsx",
+    "components/CommercialFooter.tsx",
+    "lib/support.ts"
+  ];
+  const bodies = await Promise.all(publicFiles.map(async (file) => [file, await text(file)]));
+  const filesWithExampleContact = bodies.filter(([, body]) => body.includes("halindosa.example"));
+
+  if (filesWithExampleContact.length) {
+    fail("public contact", `Example support contact still appears in: ${filesWithExampleContact.map(([file]) => file).join(", ")}`);
+  } else {
+    pass("public contact", "No .example support contact is exposed in public app files.");
+  }
+
+  const support = await text("lib/support.ts");
+  if (!support.includes("NEXT_PUBLIC_SUPPORT_EMAIL") || !support.includes("support@halindosa.com")) {
+    fail("support email config", "Support email should be centralized with a production-looking fallback.");
+  } else {
+    pass("support email config", "Support email is centralized and configurable.");
   }
 }
 
@@ -361,6 +388,7 @@ function checkStoreAssets() {
 await checkPackage();
 await checkRepositorySafety();
 await checkEnvExample();
+await checkPublicContact();
 await checkCapacitor();
 await checkAndroid();
 await checkIos();

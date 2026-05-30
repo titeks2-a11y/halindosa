@@ -27,6 +27,7 @@ Vercel Project Settings > Environment Variables에 아래 값을 등록합니다
 NEXT_PUBLIC_SITE_URL=https://halindosa.com
 NEXT_PUBLIC_APP_NAME=할인도사
 NEXT_PUBLIC_APP_ENV=production
+NEXT_PUBLIC_SUPPORT_EMAIL=support@halindosa.com
 DEAL_DATA_MODE=hybrid
 DEAL_PROVIDER=hybrid
 DEAL_LIVE_KEYWORDS=특가 할인,오늘만 특가,쿠폰 할인
@@ -52,6 +53,7 @@ ADMIN_EXPORT_TOKEN=
 - `.env.local`은 Git에 커밋하지 않습니다.
 - API 키가 없는 값은 비워 두면 mock/fallback 구조로 동작합니다.
 - `NEXT_PUBLIC_SITE_URL`은 배포 도메인이 확정되면 반드시 실제 HTTPS 주소로 설정합니다.
+- `NEXT_PUBLIC_SUPPORT_EMAIL`은 Play Store/App Store에 표시할 고객지원 이메일과 동일하게 맞춥니다.
 - `DEAL_DATA_MODE`와 `DEAL_PROVIDER`는 운영 전환 기간에는 같은 값으로 맞춰 둡니다.
 - `TRACKING_SALT`, `ADMIN_EXPORT_TOKEN`은 운영 배포 전에 충분히 긴 랜덤 값으로 교체합니다.
 

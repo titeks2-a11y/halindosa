@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { CheckCircle2, Mail, ShieldCheck, User } from "lucide-react";
 import { LocalDataControls } from "@/components/LocalDataControls";
+import { getSupportMailto, supportEmail } from "@/lib/support";
 
 export default function MyPage() {
   return (
@@ -51,9 +52,9 @@ export default function MyPage() {
             <ShieldCheck size={17} className="text-dossa-red" />
             서비스 안내
           </Link>
-          <a href="mailto:support@halindosa.example" className="flex items-center gap-2 rounded-2xl bg-slate-50 px-4 py-3">
+          <a href={getSupportMailto("할인도사 고객 문의")} className="flex items-center gap-2 rounded-2xl bg-slate-50 px-4 py-3">
             <Mail size={17} className="text-dossa-red" />
-            문의하기
+            문의하기 · {supportEmail}
           </a>
         </div>
         <p className="mt-4 rounded-2xl bg-red-50 px-4 py-3 text-sm font-black text-dossa-red">앱 버전 1.0.0</p>

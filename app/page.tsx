@@ -23,6 +23,7 @@ import { canOpenDealLink } from "@/lib/affiliate";
 import { getRelativeTime } from "@/lib/format";
 import { buildDealRedirectUrl } from "@/lib/redirectUrl";
 import { readRecentDealIds, rememberRecentDealId } from "@/lib/recentDeals";
+import { getSupportMailto, supportEmail } from "@/lib/support";
 import { Deal, DealSort } from "@/types/deal";
 import { HotSignal } from "@/types/hotSignal";
 
@@ -592,7 +593,7 @@ export default function Home() {
   };
 
   const shareApp = async () => {
-    const appUrl = typeof window === "undefined" ? "https://halindosa.example" : window.location.origin;
+    const appUrl = typeof window === "undefined" ? (process.env.NEXT_PUBLIC_SITE_URL || "https://halindosa.com") : window.location.origin;
     const text = "할인도사 - 실시간 할인 특가 정보를 가장 빠르게 찾는 방법";
 
     try {
@@ -1244,7 +1245,9 @@ export default function Home() {
               <div className="mt-5 grid gap-2 text-sm font-black text-slate-600">
                 <Link href="/privacy" className="rounded-2xl bg-slate-50 px-4 py-3 hover:bg-red-50 hover:text-dossa-red">개인정보처리방침</Link>
                 <Link href="/terms" className="rounded-2xl bg-slate-50 px-4 py-3 hover:bg-red-50 hover:text-dossa-red">이용약관</Link>
-                <a href="mailto:support@halindosa.example" className="rounded-2xl bg-slate-50 px-4 py-3 hover:bg-red-50 hover:text-dossa-red">문의하기</a>
+                <a href={getSupportMailto("할인도사 고객 문의")} className="rounded-2xl bg-slate-50 px-4 py-3 hover:bg-red-50 hover:text-dossa-red">
+                  문의하기 · {supportEmail}
+                </a>
                 <button
                   type="button"
                   onClick={shareApp}
