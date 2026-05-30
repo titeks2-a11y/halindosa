@@ -34,6 +34,7 @@
 - `/guide`를 sitemap, SEO 전략, Play Store 등록 문구에 반영
 - `qa`에 로컬 smoke를 포함하고 `qa:release`로 Android/iOS sync까지 검증하는 출시 후보 명령 추가
 - 알림 화면의 미완성 표현을 제거하고 기기 저장 기반 관심 알림 설정 UI를 추가
+- 커뮤니티/placeholder 링크 차단 범위를 확대하고 옥션, 이마트몰, 알리익스프레스 판매처 검색 fallback을 공용 리다이렉트에 반영
 
 ### PHASE 2 코드 품질
 

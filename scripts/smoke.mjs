@@ -35,11 +35,24 @@ function isUnsafeDealUrl(value) {
   try {
     const url = new URL(value);
     const host = url.hostname.toLowerCase();
+    const communityHosts = [
+      "ppomppu.co.kr",
+      "fmkorea.com",
+      "quasarzone.com",
+      "algumon.com",
+      "clien.net",
+      "ruliweb.com",
+      "dcinside.com",
+      "theqoo.net",
+      "instiz.net",
+      "coolenjoy.net"
+    ];
+
     return (
       !["http:", "https:"].includes(url.protocol) ||
       host === "example.com" ||
       host.endsWith(".example.com") ||
-      host.includes("ppomppu.co.kr")
+      communityHosts.some((communityHost) => host === communityHost || host.endsWith(`.${communityHost}`) || host.includes(communityHost))
     );
   } catch {
     return true;
@@ -373,7 +386,10 @@ await check("seller search redirect fallbacks", async () => {
     ["d016", "gmarket.co.kr"],
     ["d015", "11st.co.kr"],
     ["d012", "oliveyoung.co.kr"],
-    ["d020", "musinsa.com"]
+    ["d020", "musinsa.com"],
+    ["d041", "emart.ssg.com"],
+    ["d043", "aliexpress.com"],
+    ["d044", "auction.co.kr"]
   ];
 
   for (const [dealId, expectedHost] of cases) {

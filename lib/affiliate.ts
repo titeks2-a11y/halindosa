@@ -9,7 +9,15 @@ const affiliateMallAllowList = new Set([
   "네이버쇼핑",
   "네이버",
   "SSG닷컴",
+  "옥션",
+  "이마트몰",
+  "롯데온",
+  "마켓컬리",
   "올리브영",
+  "오늘의집",
+  "인터파크",
+  "인터파크투어",
+  "알리익스프레스",
   "하이마트"
 ]);
 
@@ -72,11 +80,26 @@ export function isHttpUrl(value?: string) {
   }
 }
 
+function isKnownCommunityHost(host: string) {
+  return [
+    "ppomppu.co.kr",
+    "fmkorea.com",
+    "quasarzone.com",
+    "algumon.com",
+    "clien.net",
+    "ruliweb.com",
+    "dcinside.com",
+    "theqoo.net",
+    "instiz.net",
+    "coolenjoy.net"
+  ].some((blockedHost) => host === blockedHost || host.endsWith(`.${blockedHost}`) || host.includes(blockedHost));
+}
+
 function isPlaceholderOrCommunityUrl(value?: string) {
   if (!isHttpUrl(value)) return true;
   if (!value) return true;
   const host = new URL(value).hostname.toLowerCase();
-  return host === "example.com" || host.endsWith(".example.com") || host.includes("ppomppu.co.kr");
+  return host === "example.com" || host.endsWith(".example.com") || isKnownCommunityHost(host);
 }
 
 export function buildSellerSearchUrl(deal: Pick<Deal, "mall" | "mallName" | "title">) {
@@ -85,11 +108,14 @@ export function buildSellerSearchUrl(deal: Pick<Deal, "mall" | "mallName" | "tit
 
   if (/쿠팡|coupang/.test(mall)) return `https://www.coupang.com/np/search?q=${query}`;
   if (/g마켓|지마켓|gmarket/.test(mall)) return `https://browse.gmarket.co.kr/search?keyword=${query}`;
+  if (/옥션|auction/.test(mall)) return `https://browse.auction.co.kr/search?keyword=${query}`;
   if (/11번가|11st/.test(mall)) return `https://search.11st.co.kr/Search.tmall?kwd=${query}`;
   if (/올리브영|olive/.test(mall)) return `https://www.oliveyoung.co.kr/store/search/getSearchMain.do?query=${query}`;
   if (/무신사|musinsa/.test(mall)) return `https://www.musinsa.com/search/goods?keyword=${query}`;
   if (/네이버|naver/.test(mall)) return `https://search.shopping.naver.com/search/all?query=${query}`;
   if (/ssg|쓱/.test(mall)) return `https://www.ssg.com/search.ssg?target=all&query=${query}`;
+  if (/이마트/.test(mall)) return `https://emart.ssg.com/search.ssg?target=all&query=${query}`;
+  if (/알리|ali/.test(mall)) return `https://ko.aliexpress.com/w/wholesale-${query}.html`;
   if (/하이마트|himart/.test(mall)) return `https://www.e-himart.co.kr/app/search/totalSearch?query=${query}`;
   if (/롯데온|lotte/.test(mall)) return `https://www.lotteon.com/search/search/search.ecn?render=search&platform=pc&q=${query}`;
   if (/마켓컬리|컬리|kurly/.test(mall)) return `https://www.kurly.com/search?sword=${query}`;

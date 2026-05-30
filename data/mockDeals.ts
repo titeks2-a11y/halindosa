@@ -31,7 +31,24 @@ function isUnsafeOrCommunityLink(link: string) {
   try {
     const url = new URL(link);
     const host = url.hostname.toLowerCase();
-    return host.includes("ppomppu.co.kr") || host === "example.com" || host.endsWith(".example.com");
+    const communityHosts = [
+      "ppomppu.co.kr",
+      "fmkorea.com",
+      "quasarzone.com",
+      "algumon.com",
+      "clien.net",
+      "ruliweb.com",
+      "dcinside.com",
+      "theqoo.net",
+      "instiz.net",
+      "coolenjoy.net"
+    ];
+
+    return (
+      host === "example.com" ||
+      host.endsWith(".example.com") ||
+      communityHosts.some((communityHost) => host === communityHost || host.endsWith(`.${communityHost}`) || host.includes(communityHost))
+    );
   } catch {
     return true;
   }
