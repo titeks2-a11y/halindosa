@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { CheckCircle2, Mail, ShieldCheck, User } from "lucide-react";
 import { LocalDataControls } from "@/components/LocalDataControls";
+import { MypageConsentSettings } from "@/components/MypageConsentSettings";
 import { getSupportMailto, supportEmail } from "@/lib/support";
 
 export default function MyPage() {
@@ -59,6 +60,8 @@ export default function MyPage() {
         </div>
         <p className="mt-4 rounded-2xl bg-red-50 px-4 py-3 text-sm font-black text-dossa-red">앱 버전 1.0.0</p>
       </section>
+
+      <MypageConsentSettings />
 
       <LocalDataControls />
     </div>

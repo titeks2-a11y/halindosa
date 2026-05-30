@@ -104,6 +104,7 @@ await check("mypage data controls", async () => {
   assert(text.includes("서비스 안내"), "Mypage missing service guide link");
   assert(text.includes("support@halindosa.com"), "Mypage missing production support email");
   assert(!text.includes("halindosa.example"), "Mypage still exposes example support email");
+  assert(text.includes("개인정보/추적 설정"), "Mypage missing consent settings panel");
   assert(text.includes("삭제 대상"), "Mypage missing local data deletion scope");
   assert(text.includes("운영 검수용 가격 신고"), "Mypage missing report retention notice");
 });
