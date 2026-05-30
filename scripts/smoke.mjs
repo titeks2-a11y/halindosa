@@ -84,6 +84,16 @@ await check("mypage data controls", async () => {
   assert(text.includes("기기 데이터 관리"), "Mypage missing local data controls");
   assert(text.includes("찜/최근 본 특가 삭제"), "Mypage missing local deal data delete action");
   assert(text.includes("분석/제휴 동의 초기화"), "Mypage missing consent reset action");
+  assert(text.includes("서비스 안내"), "Mypage missing service guide link");
+});
+
+await check("service guide page", async () => {
+  const response = await fetch(`${baseUrl}/guide`);
+  const text = await response.text();
+  assert(response.status === 200, `Expected 200, got ${response.status}`);
+  assert(text.includes("서비스 안내"), "Guide page missing title");
+  assert(text.includes("구매 전 꼭 확인하세요"), "Guide page missing purchase warning");
+  assert(text.includes("외부 판매처 이동 방식"), "Guide page missing redirect explanation");
 });
 
 await check("admin dashboard quality cards", async () => {

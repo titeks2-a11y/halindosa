@@ -154,6 +154,7 @@ async function checkPolicyAndStoreDocs() {
   const requiredFiles = [
     "app/privacy/page.tsx",
     "app/terms/page.tsx",
+    "app/guide/page.tsx",
     "docs/play-store-listing.md",
     "docs/release-checklist.md",
     "docs/privacy-policy-draft.md",

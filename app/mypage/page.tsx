@@ -47,6 +47,10 @@ export default function MyPage() {
             <ShieldCheck size={17} className="text-dossa-red" />
             이용약관
           </Link>
+          <Link href="/guide" className="flex items-center gap-2 rounded-2xl bg-slate-50 px-4 py-3">
+            <ShieldCheck size={17} className="text-dossa-red" />
+            서비스 안내
+          </Link>
           <a href="mailto:support@halindosa.example" className="flex items-center gap-2 rounded-2xl bg-slate-50 px-4 py-3">
             <Mail size={17} className="text-dossa-red" />
             문의하기

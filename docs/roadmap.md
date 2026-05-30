@@ -30,6 +30,7 @@
 - 운영 대시보드에 구매 링크 확인율, 링크 검토 필요 수, 품절/오류 링크 카드 추가
 - Capacitor iOS 플랫폼, App Store 체크리스트, iOS sync/open 스크립트와 release doctor 점검 추가
 - iOS 권한/ATT 미선언 검사와 모바일 터치, 입력 줌, overscroll polish CSS 추가
+- `/guide` 서비스 안내 페이지 추가, 구매 전 확인/외부 판매처 이동/제휴 고지 기준을 마이와 푸터에 연결
 
 ### PHASE 2 코드 품질
 

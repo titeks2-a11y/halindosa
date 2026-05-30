@@ -47,6 +47,13 @@ export default function manifest(): MetadataRoute.Manifest {
         description: "기기에 저장한 관심 특가를 확인합니다.",
         url: "/favorites",
         icons: [{ src: "/halindosa-icon-192.png", sizes: "192x192" }]
+      },
+      {
+        name: "서비스 안내",
+        short_name: "안내",
+        description: "가격, 링크, 제휴 고지 기준을 확인합니다.",
+        url: "/guide",
+        icons: [{ src: "/halindosa-icon-192.png", sizes: "192x192" }]
       }
     ]
   };

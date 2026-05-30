@@ -21,6 +21,9 @@ export function CommercialFooter() {
             <Link className="rounded-full bg-slate-100 px-3 py-2 hover:bg-red-50 hover:text-dossa-red" href="/favorites">
               찜한 특가
             </Link>
+            <Link className="rounded-full bg-slate-100 px-3 py-2 hover:bg-red-50 hover:text-dossa-red" href="/guide">
+              서비스 안내
+            </Link>
             <Link className="rounded-full bg-slate-100 px-3 py-2 hover:bg-red-50 hover:text-dossa-red" href="/terms">
               이용약관
             </Link>
