@@ -43,6 +43,7 @@
 - 마이 화면 기기 데이터 관리에 삭제 범위와 운영 검수용 신고 기록 안내를 추가하고 개인정보처리방침에 반영
 - release doctor에 개인정보처리방침, 이용약관, 서비스 안내, 데이터 보안 가이드 핵심 문구 검사를 추가
 - `.gitignore`에 Android/iOS 민감 파일과 빌드 산출물 보호 범위를 확장하고 release doctor에 추적 민감 파일 검사를 추가
+- `.env.example`과 Vercel 배포 가이드에 `DEAL_DATA_MODE`를 반영하고 release doctor에 환경변수 예시 검사 추가
 
 ### PHASE 2 코드 품질
 

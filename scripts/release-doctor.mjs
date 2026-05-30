@@ -100,6 +100,50 @@ async function checkRepositorySafety() {
   else pass("tracked secret scan", "No tracked env, keystore, service config, or build artifact files found.");
 }
 
+async function checkEnvExample() {
+  const envPath = ".env.example";
+
+  if (!existsSync(join(root, envPath))) {
+    fail("env example", "Missing .env.example.");
+    return;
+  }
+
+  const env = await text(envPath);
+  const requiredKeys = [
+    "NEXT_PUBLIC_SITE_URL",
+    "NEXT_PUBLIC_APP_NAME",
+    "NEXT_PUBLIC_APP_ENV",
+    "DEAL_DATA_MODE",
+    "DEAL_PROVIDER",
+    "DEAL_LIVE_KEYWORDS",
+    "NAVER_CLIENT_ID",
+    "NAVER_CLIENT_SECRET",
+    "DEAL_FEED_URLS",
+    "DEAL_NEWS_RSS_URLS",
+    "DEAL_COMMUNITY_RSS_URLS",
+    "PPOMPPU_HOTDEAL_ENABLE",
+    "NEXT_PUBLIC_SUPABASE_URL",
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY",
+    "AFFILIATE_SUB_ID",
+    "DEFAULT_AFFILIATE_URL_TEMPLATE",
+    "COUPANG_PARTNERS_URL_TEMPLATE",
+    "AFFILIATE_URL_TEMPLATES",
+    "TRACKING_SALT",
+    "ADMIN_EXPORT_TOKEN"
+  ];
+  const missingKeys = requiredKeys.filter((key) => !new RegExp(`^${key}=`, "m").test(env));
+
+  if (missingKeys.length) fail("env example", `Missing keys: ${missingKeys.join(", ")}`);
+  else pass("env example", "Commercial deployment environment keys are documented.");
+
+  if (!env.includes("Leave empty to use mock fallback locally")) {
+    fail("env fallback guidance", ".env.example should explain API-key-free fallback behavior.");
+  } else {
+    pass("env fallback guidance", "External API keys can be left blank for fallback operation.");
+  }
+}
+
 async function checkCapacitor() {
   const config = await text("capacitor.config.ts");
 
@@ -311,6 +355,7 @@ function checkStoreAssets() {
 
 await checkPackage();
 await checkRepositorySafety();
+await checkEnvExample();
 await checkCapacitor();
 await checkAndroid();
 await checkIos();
