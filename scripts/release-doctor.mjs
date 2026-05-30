@@ -293,6 +293,8 @@ async function checkOperationalDataSurfaces() {
 
 async function checkCapacitor() {
   const config = await text("capacitor.config.ts");
+  const nextConfig = await text("next.config.mjs");
+  const androidBuildScript = await text("scripts/build-android.mjs");
 
   if (!config.includes("appId: 'com.halindosa.app'")) fail("capacitor appId", "Expected com.halindosa.app.");
   else pass("capacitor appId", "com.halindosa.app");
@@ -302,6 +304,12 @@ async function checkCapacitor() {
 
   if (!config.includes("webDir: 'out'")) fail("capacitor webDir", "Expected out.");
   else pass("capacitor webDir", "out");
+
+  if (!nextConfig.includes("isCapacitorBuild") || !nextConfig.includes("? {}") || !androidBuildScript.includes("DEAL_DATA_MODE")) {
+    fail("Capacitor export stability", "Capacitor export should avoid unsupported headers and set DEAL_DATA_MODE.");
+  } else {
+    pass("Capacitor export stability", "Capacitor static export avoids unsupported headers and uses runtime data mode.");
+  }
 }
 
 async function checkAndroid() {

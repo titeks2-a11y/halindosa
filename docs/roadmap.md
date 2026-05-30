@@ -64,6 +64,7 @@
 - 찜 페이지도 `/api/deals` 카탈로그와 동기화해 운영 피드 전환 시 저장된 관심 특가 목록이 같은 데이터 기준을 사용하도록 개선
 - `.env.example`의 데이터 공급 모드를 실제 repository 런타임 모드와 일치시키고 release doctor가 잘못된 모드 예시를 잡도록 보강
 - `/api/deals` fallback 응답도 canonical Deal 정규화를 거치고 사용자 화면에 `mock` 표현이 노출되지 않도록 개선
+- Capacitor 정적 export 빌드에서 적용되지 않는 headers 설정을 제외해 Android/iOS 패키징 경고를 줄이고, 빌드 스크립트가 `DEAL_DATA_MODE`를 명시하도록 개선
 
 ### PHASE 2 코드 품질
 

@@ -17,7 +17,7 @@
 - mock 가격 이력, 가격 하락 신호, 가격 신뢰도 점수 구현
 - in-memory 신고 큐와 관리자 신고 목록 API 구현
 - 파트너 피드 검증/정규화 dry-run API 구현
-- `DEAL_PROVIDER=hybrid` 기반 네이버 쇼핑 공식 API/파트너 JSON 피드/live fallback 구조 구현
+- `DEAL_DATA_MODE=hybrid` 기반 네이버 쇼핑 공식 API/파트너 JSON 피드/live fallback 구조 구현
 
 ## 운영 전 필수 결정
 
@@ -41,7 +41,7 @@
 ## 다음 구현 순서
 
 1. Supabase 프로젝트 생성 및 `docs/supabase-schema.sql` 실행
-2. `DEAL_PROVIDER=supabase` 분기 추가
+2. `DEAL_DATA_MODE=production` 경로에 Supabase/API 저장소 provider 연결
 3. `DEAL_FEED_URLS` 또는 네이버 쇼핑 API 결과를 Supabase upsert job으로 저장
 4. 가격 변동 이력과 중복 제거 로직 추가
 5. mock 가격 이력을 실제 `price_snapshots` 테이블 기반으로 교체
@@ -57,7 +57,7 @@
 ## 배포 체크
 
 - `NEXT_PUBLIC_SITE_URL`을 실제 도메인으로 설정
-- 실시간 연동 사용 시 `DEAL_PROVIDER=hybrid`, `NAVER_CLIENT_ID`, `NAVER_CLIENT_SECRET` 또는 `DEAL_FEED_URLS` 설정
+- 실시간 연동 사용 시 `DEAL_DATA_MODE=hybrid`, `NAVER_CLIENT_ID`, `NAVER_CLIENT_SECRET` 또는 `DEAL_FEED_URLS` 설정
 - `ADMIN_EXPORT_TOKEN`, `TRACKING_SALT`는 랜덤 값으로 교체
 - `/api/health` 모니터링 연결
 - `npm run lint`, `npm run build`, 주요 API HTTP 200 확인

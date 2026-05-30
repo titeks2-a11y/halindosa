@@ -52,6 +52,7 @@ try {
 
   run(process.execPath, [join(process.cwd(), "node_modules", "next", "dist", "bin", "next"), "build"], {
     CAPACITOR_BUILD: "true",
+    DEAL_DATA_MODE: process.env.DEAL_DATA_MODE ?? "mock",
     DEAL_PROVIDER: process.env.DEAL_PROVIDER ?? "mock"
   });
 } finally {

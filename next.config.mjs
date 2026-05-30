@@ -31,14 +31,18 @@ const nextConfig = {
     unoptimized: true
   },
   poweredByHeader: false,
-  async headers() {
-    return [
-      {
-        source: "/:path*",
-        headers: securityHeaders
-      }
-    ];
-  }
+  ...(isCapacitorBuild
+    ? {}
+    : {
+        async headers() {
+          return [
+            {
+              source: "/:path*",
+              headers: securityHeaders
+            }
+          ];
+        }
+      })
 };
 
 export default nextConfig;
