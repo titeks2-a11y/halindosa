@@ -127,6 +127,7 @@ await check("admin dashboard quality cards", async () => {
   assert(text.includes("링크 검토 필요"), "Admin dashboard missing link review count card");
   assert(text.includes("링크 검수 큐"), "Admin dashboard missing link review queue");
   assert(text.includes("판매처 확인"), "Admin dashboard missing seller review action");
+  assert(text.includes("처리 기준"), "Admin dashboard missing report handling guidance");
 });
 
 await check("deals api", async () => {
@@ -261,7 +262,7 @@ await check("report page reason prefill", async () => {
   assert(response.status === 200, `Expected 200, got ${response.status}`);
   assert(text.includes("가격 오류 신고"), "Report page missing title");
   assert(text.includes("애플워치 호환 스포츠 밴드"), "Report page missing deal summary");
-  assert(text.includes("품절이에요"), "Report page missing sold out reason option");
+  assert(text.includes("품절"), "Report page missing sold out reason option");
 });
 
 await check("report validation", async () => {

@@ -7,6 +7,21 @@ export type ReportStatus = "open" | "reviewing" | "resolved" | "dismissed";
 const reportReasons = new Set<ReportReason>(["price_changed", "sold_out", "expired", "wrong_info", "other"]);
 const reportStatuses = new Set<ReportStatus>(["open", "reviewing", "resolved", "dismissed"]);
 
+const reportReasonLabels: Record<ReportReason, string> = {
+  price_changed: "가격 다름",
+  sold_out: "품절",
+  expired: "종료됨",
+  wrong_info: "정보 오류",
+  other: "기타"
+};
+
+const reportStatusLabels: Record<ReportStatus, string> = {
+  open: "미처리",
+  reviewing: "검토중",
+  resolved: "해결",
+  dismissed: "기각"
+};
+
 export interface DealReportInput {
   dealId?: string;
   reason?: string;
@@ -124,4 +139,12 @@ export function updateDealReportStatus(reportId: string, status: string) {
   report.status = status as ReportStatus;
   report.updatedAt = new Date().toISOString();
   return report;
+}
+
+export function getReportReasonLabel(reason: ReportReason) {
+  return reportReasonLabels[reason] ?? reason;
+}
+
+export function getReportStatusLabel(status: ReportStatus) {
+  return reportStatusLabels[status] ?? status;
 }

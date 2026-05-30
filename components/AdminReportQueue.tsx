@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { CheckCircle2, Eye, XCircle } from "lucide-react";
-import { DealReport } from "@/lib/reports";
+import { DealReport, getReportReasonLabel, getReportStatusLabel } from "@/lib/reports";
 
 interface ReportSummary {
   total: number;
@@ -30,17 +30,6 @@ const statusActions = [
   { status: "resolved", label: "해결", icon: CheckCircle2 },
   { status: "dismissed", label: "기각", icon: XCircle }
 ];
-
-function statusLabel(status: string) {
-  const labels: Record<string, string> = {
-    open: "미처리",
-    reviewing: "검토중",
-    resolved: "해결",
-    dismissed: "기각"
-  };
-
-  return labels[status] ?? status;
-}
 
 export function AdminReportQueue({ initialReports, initialSummary, token }: AdminReportQueueProps) {
   const [reports, setReports] = useState(initialReports);
@@ -94,6 +83,9 @@ export function AdminReportQueue({ initialReports, initialSummary, token }: Admi
           <p className="mt-1 text-sm font-semibold text-slate-500">
             전체 {summary.total}건 · 미처리 {summary.open}건 · 검토중 {summary.reviewing}건 · 해결 {summary.resolved}건
           </p>
+          <p className="mt-1 text-xs font-bold text-slate-400">
+            처리 기준: 가격/품절 신고는 판매처 확인 후 해결 또는 기각으로 닫고, 실제 결제 문의는 판매처로 안내합니다.
+          </p>
         </div>
         <a
           href={endpoint}
@@ -111,12 +103,20 @@ export function AdminReportQueue({ initialReports, initialSummary, token }: Admi
             <div key={report.id} className="rounded-2xl bg-slate-50 p-4">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <p className="text-sm font-black text-slate-950">{report.title}</p>
-                <span className="rounded-full bg-red-50 px-2.5 py-1 text-xs font-black text-dossa-red">
-                  {statusLabel(report.status)}
+                <span
+                  className={`rounded-full px-2.5 py-1 text-xs font-black ${
+                    report.status === "resolved"
+                      ? "bg-emerald-50 text-emerald-700"
+                      : report.status === "dismissed"
+                        ? "bg-slate-200 text-slate-600"
+                        : "bg-red-50 text-dossa-red"
+                  }`}
+                >
+                  {getReportStatusLabel(report.status)}
                 </span>
               </div>
               <p className="mt-2 text-xs font-bold text-slate-500">
-                {report.mall} · {report.reason} · {new Intl.DateTimeFormat("ko-KR", { dateStyle: "short", timeStyle: "short" }).format(new Date(report.receivedAt))}
+                접수번호 {report.id.slice(0, 8)} · {report.mall} · {getReportReasonLabel(report.reason)} · {new Intl.DateTimeFormat("ko-KR", { dateStyle: "short", timeStyle: "short" }).format(new Date(report.receivedAt))}
               </p>
               {report.message ? <p className="mt-2 text-sm font-semibold text-slate-600">{report.message}</p> : null}
               <div className="mt-3 flex flex-wrap gap-2">
