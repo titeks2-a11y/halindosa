@@ -40,8 +40,9 @@ export default function PrivacyPage() {
         <section>
           <h2 className="text-lg font-black text-slate-950">사용자 권리</h2>
           <p className="mt-2">
-            사용자는 브라우저 저장소 삭제를 통해 찜 데이터를 제거할 수 있습니다. 상업 운영 시 개인정보 열람,
-            정정, 삭제, 처리정지 요청 창구를 제공합니다.
+            사용자는 마이 화면의 기기 데이터 관리에서 찜 목록, 최근 본 특가, 동의 설정을 삭제하거나 초기화할 수
+            있습니다. 브라우저 또는 Android 앱 데이터 삭제를 통해서도 기기 내 저장 정보가 제거됩니다. 상업 운영 시
+            개인정보 열람, 정정, 삭제, 처리정지 요청 창구를 제공합니다.
           </p>
         </section>
         <section>

@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { CheckCircle2, Mail, Share2, ShieldCheck, User } from "lucide-react";
+import { CheckCircle2, Mail, ShieldCheck, User } from "lucide-react";
+import { LocalDataControls } from "@/components/LocalDataControls";
 
 export default function MyPage() {
   return (
@@ -50,13 +51,11 @@ export default function MyPage() {
             <Mail size={17} className="text-dossa-red" />
             문의하기
           </a>
-          <button type="button" className="flex items-center gap-2 rounded-2xl bg-slate-50 px-4 py-3 text-left">
-            <Share2 size={17} className="text-dossa-red" />
-            앱 공유하기
-          </button>
         </div>
         <p className="mt-4 rounded-2xl bg-red-50 px-4 py-3 text-sm font-black text-dossa-red">앱 버전 1.0.0</p>
       </section>
+
+      <LocalDataControls />
     </div>
   );
 }

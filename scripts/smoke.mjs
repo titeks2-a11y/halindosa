@@ -76,6 +76,15 @@ await check("home query filters", async () => {
   assert(text.includes("조건 초기화"), "Filtered home missing filter reset action");
 });
 
+await check("mypage data controls", async () => {
+  const response = await fetch(`${baseUrl}/mypage`);
+  const text = await response.text();
+  assert(response.status === 200, `Expected 200, got ${response.status}`);
+  assert(text.includes("기기 데이터 관리"), "Mypage missing local data controls");
+  assert(text.includes("찜/최근 본 특가 삭제"), "Mypage missing local deal data delete action");
+  assert(text.includes("분석/제휴 동의 초기화"), "Mypage missing consent reset action");
+});
+
 await check("deals api", async () => {
   const { response, data } = await fetchJson("/api/deals?limit=3&sort=discount");
   assert(response.status === 200, `Expected 200, got ${response.status}`);
