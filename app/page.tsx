@@ -189,6 +189,7 @@ export default function Home() {
   const [providerSource, setProviderSource] = useState("mock");
   const [isLoading, setIsLoading] = useState(false);
   const [loadError, setLoadError] = useState("");
+  const [isOffline, setIsOffline] = useState(() => (typeof navigator === "undefined" ? false : !navigator.onLine));
   const [hotSignals, setHotSignals] = useState<HotSignal[]>(mockHotSignals);
   const [isSignalLoading, setIsSignalLoading] = useState(false);
   const [favorites, setFavorites] = useState<string[]>(() => {
@@ -248,6 +249,26 @@ export default function Home() {
     return () => window.clearTimeout(handle);
   }, []);
 
+  useEffect(() => {
+    const updateNetworkState = () => {
+      const offline = !navigator.onLine;
+      setIsOffline(offline);
+      if (offline) {
+        setLoadError("네트워크 연결이 불안정합니다. 저장된 기본 특가를 함께 표시합니다.");
+      }
+    };
+
+    window.addEventListener("online", updateNetworkState);
+    window.addEventListener("offline", updateNetworkState);
+    const handle = window.setTimeout(updateNetworkState, 0);
+
+    return () => {
+      window.clearTimeout(handle);
+      window.removeEventListener("online", updateNetworkState);
+      window.removeEventListener("offline", updateNetworkState);
+    };
+  }, []);
+
   const fetchDeals = useCallback(
     async (toastMessage?: string) => {
       setIsLoading(true);
@@ -267,7 +288,7 @@ export default function Home() {
           return;
         }
 
-        setLoadError("");
+        if (!isOffline) setLoadError("");
         const params = new URLSearchParams({
           category,
           sort,
@@ -310,7 +331,7 @@ export default function Home() {
         setIsLoading(false);
       }
     },
-    [category, endingSoonOnly, freeShippingOnly, hotOnly, mallFilter, query, showToast, sort]
+    [category, endingSoonOnly, freeShippingOnly, hotOnly, isOffline, mallFilter, query, showToast, sort]
   );
 
   useEffect(() => {
@@ -782,11 +803,26 @@ export default function Home() {
             <p className="mt-1 text-sm font-black text-amber-900">{dataQuality.reviewLinkCount}개</p>
           </div>
           <div className="rounded-2xl bg-slate-50 px-3 py-3">
-            <p className="text-[11px] font-black text-slate-400">최근 가격 기준</p>
+            <p className="text-[11px] font-black text-slate-400">네트워크</p>
             <p className="mt-1 truncate text-sm font-black text-slate-950">
-              {dataQuality.latestPriceCheckedAt ? getRelativeTime(dataQuality.latestPriceCheckedAt) : "대기 중"}
+              {isOffline ? "오프라인 모드" : "온라인"}
             </p>
           </div>
+        </div>
+        <div className="rounded-[22px] border border-slate-200 bg-white px-4 py-3 shadow-sm">
+          <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-sm font-black text-slate-950">
+              {isOffline ? "오프라인 상태입니다." : "네트워크 정상 · 최신 특가 확인 가능"}
+            </p>
+            <p className="text-xs font-bold text-slate-500">
+              최근 가격 기준 {dataQuality.latestPriceCheckedAt ? getRelativeTime(dataQuality.latestPriceCheckedAt) : "대기 중"}
+            </p>
+          </div>
+          <p className="mt-1 text-xs font-semibold leading-5 text-slate-500">
+            {isOffline
+              ? "연결이 복구되면 새로고침으로 최신 특가를 다시 불러올 수 있습니다."
+              : "판매처의 최종 가격, 옵션가, 쿠폰 조건은 구매 전 다시 확인하세요."}
+          </p>
         </div>
 
         {activeView === "home" ? (

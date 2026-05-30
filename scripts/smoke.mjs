@@ -64,6 +64,7 @@ await check("home page", async () => {
   assert(text.includes("샤오미 86인치") || text.includes("새우깡"), "Home page missing initial deal cards");
   assert(text.includes("데이터 상태"), "Home page missing data quality summary");
   assert(text.includes("구매 링크 확인"), "Home page missing verified link count");
+  assert(text.includes("네트워크 정상") || text.includes("오프라인 상태"), "Home page missing network status summary");
 });
 
 await check("home query filters", async () => {
