@@ -1,8 +1,10 @@
 import Link from "next/link";
-import { Activity, BadgePercent, Download, Flame, LineChart, LockKeyhole, ShieldCheck, Store, Timer, TrendingDown, WalletCards } from "lucide-react";
+import { Activity, BadgePercent, DatabaseZap, Download, Flame, LineChart, LockKeyhole, ShieldCheck, Store, Timer, TrendingDown, WalletCards } from "lucide-react";
 import { AdminReportQueue } from "@/components/AdminReportQueue";
 import { getMockBusinessMetrics } from "@/lib/analytics";
 import { canAccessAdmin, getAdminExportHref, isAdminProtectionEnabled } from "@/lib/adminAuth";
+import { getDeals } from "@/lib/dealService";
+import { listDealSourceProfiles } from "@/lib/deals/trust";
 import { formatPrice } from "@/lib/format";
 import { getReportSummary, listDealReports } from "@/lib/reports";
 
@@ -42,8 +44,14 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   }
 
   const { metrics, topDeals, updatedAt, source } = await getMockBusinessMetrics();
+  const { deals } = await getDeals();
   const reportSummary = getReportSummary();
   const recentReports = listDealReports().slice(0, 6);
+  const sourceCounts = new Map<string, number>();
+
+  for (const deal of deals) {
+    sourceCounts.set(deal.source, (sourceCounts.get(deal.source) ?? 0) + 1);
+  }
 
   const cards = [
     { label: "전체 특가", value: metrics.totalDeals.toLocaleString("ko-KR"), icon: Store },
@@ -118,6 +126,38 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
             </p>
           </div>
         </div>
+
+        <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <h2 className="text-xl font-black text-slate-950">데이터 공급원 상태</h2>
+              <p className="mt-1 text-sm font-semibold text-slate-500">mock, staging, production 전환을 위한 공급원별 준비 상태입니다.</p>
+            </div>
+            <a href="/api/sources" className="inline-flex items-center gap-2 rounded-2xl bg-slate-950 px-4 py-3 text-sm font-black text-white">
+              <DatabaseZap size={17} />
+              API 확인
+            </a>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+            {listDealSourceProfiles().map((profile) => (
+              <div key={profile.key} className="rounded-2xl bg-slate-50 p-4">
+                <div className="flex items-center justify-between gap-3">
+                  <p className="text-sm font-black text-slate-950">{profile.label}</p>
+                  <span className={`rounded-full px-2.5 py-1 text-xs font-black ${
+                    profile.status === "active" ? "bg-emerald-100 text-emerald-700" : profile.status === "ready" ? "bg-red-50 text-dossa-red" : "bg-slate-200 text-slate-600"
+                  }`}>
+                    {profile.status}
+                  </span>
+                </div>
+                <p className="mt-2 text-sm font-semibold leading-6 text-slate-500">{profile.disclosure}</p>
+                <div className="mt-3 flex items-center justify-between text-xs font-black text-slate-500">
+                  <span>신뢰 기준 {profile.reliability}/99</span>
+                  <span>{(sourceCounts.get(profile.key) ?? 0).toLocaleString("ko-KR")}개</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
 
         <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
           {cards.map((card) => {
