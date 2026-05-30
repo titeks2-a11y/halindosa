@@ -7,6 +7,12 @@
   background: #f8fafc;
 }
 
+html {
+  min-height: 100%;
+  background: #f8fafc;
+  scroll-behavior: smooth;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -25,12 +31,27 @@ body {
     "Noto Sans KR",
     sans-serif;
   -webkit-tap-highlight-color: transparent;
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior-y: none;
 }
 
 button,
 input,
-select {
+select,
+textarea {
   font: inherit;
+}
+
+button,
+a,
+[role="button"] {
+  touch-action: manipulation;
+}
+
+input,
+select,
+textarea {
+  font-size: 16px;
 }
 
 a {

@@ -29,6 +29,7 @@
 - `/api/deals`와 운영 지표에 구매 링크 품질 요약, 확인율, 검토 필요 링크 수 추가
 - 운영 대시보드에 구매 링크 확인율, 링크 검토 필요 수, 품절/오류 링크 카드 추가
 - Capacitor iOS 플랫폼, App Store 체크리스트, iOS sync/open 스크립트와 release doctor 점검 추가
+- iOS 권한/ATT 미선언 검사와 모바일 터치, 입력 줌, overscroll polish CSS 추가
 
 ### PHASE 2 코드 품질
 

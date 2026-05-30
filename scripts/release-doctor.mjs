@@ -135,6 +135,19 @@ async function checkIos() {
 
   if (fileSize(splash) <= 0) fail("iOS splash", "Missing Splash.imageset splash image.");
   else pass("iOS splash", "Splash image asset is present.");
+
+  const restrictedPrivacyKeys = [
+    "NSUserTrackingUsageDescription",
+    "NSCameraUsageDescription",
+    "NSMicrophoneUsageDescription",
+    "NSLocationWhenInUseUsageDescription",
+    "NSLocationAlwaysAndWhenInUseUsageDescription",
+    "NSContactsUsageDescription",
+    "NSPhotoLibraryUsageDescription"
+  ].filter((key) => info.includes(key));
+
+  if (restrictedPrivacyKeys.length) fail("iOS privacy permissions", `Unexpected keys: ${restrictedPrivacyKeys.join(", ")}`);
+  else pass("iOS privacy permissions", "No tracking, camera, microphone, location, contacts, or photo permissions declared.");
 }
 
 async function checkPolicyAndStoreDocs() {

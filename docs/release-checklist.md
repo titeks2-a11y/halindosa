@@ -38,6 +38,8 @@
 - [x] Splash asset 구조 준비
 - [x] `npm run cap:sync:ios` 스크립트 준비
 - [x] `npm run cap:open:ios` 스크립트 준비
+- [x] 불필요한 iOS 권한/ATT 문구 없음
+- [x] 모바일 터치, safe-area, iOS 입력 줌 방지 CSS 적용
 - [ ] Mac/Xcode에서 Signing Team 선택
 - [ ] 실제 iPhone 또는 Simulator에서 실행 확인
 - [ ] Xcode Archive 생성

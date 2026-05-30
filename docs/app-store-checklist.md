@@ -11,6 +11,8 @@
 - [x] Splash asset 구조 생성
 - [x] Next.js 정적 export 결과물을 iOS 프로젝트에 sync 가능
 - [x] 개인정보처리방침, 이용약관 페이지 준비
+- [x] iOS Info.plist에 추적, 카메라, 마이크, 위치, 연락처, 사진 권한 미선언
+- [x] 모바일 터치 지연, iOS 입력 줌, safe-area 기본 대응
 
 ## Mac/Xcode에서 해야 할 작업
 
