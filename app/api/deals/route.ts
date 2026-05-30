@@ -13,7 +13,8 @@ export async function GET(request: Request) {
       limit,
       freeShippingOnly: searchParams.get("freeShippingOnly") === "true",
       hotOnly: searchParams.get("hotOnly") === "true",
-      endingSoonOnly: searchParams.get("endingSoonOnly") === "true"
+      endingSoonOnly: searchParams.get("endingSoonOnly") === "true",
+      mall: searchParams.get("mall")?.trim()
     });
 
     return NextResponse.json({

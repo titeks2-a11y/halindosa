@@ -3,6 +3,40 @@ import { Deal } from "@/types/deal";
 const now = Date.now();
 const hour = 60 * 60 * 1000;
 
+function buildMarketplaceSearchUrl(mall: string, title: string) {
+  const normalizedMall = mall.toLowerCase();
+  const query = encodeURIComponent(title);
+
+  if (/쿠팡|coupang/.test(normalizedMall)) return `https://www.coupang.com/np/search?q=${query}`;
+  if (/네이버|naver/.test(normalizedMall)) return `https://search.shopping.naver.com/search/all?query=${query}`;
+  if (/11번가|11st/.test(normalizedMall)) return `https://search.11st.co.kr/Search.tmall?kwd=${query}`;
+  if (/g마켓|지마켓|gmarket/.test(normalizedMall)) return `https://browse.gmarket.co.kr/search?keyword=${query}`;
+  if (/옥션|auction/.test(normalizedMall)) return `https://browse.auction.co.kr/search?keyword=${query}`;
+  if (/ssg|쓱/.test(normalizedMall)) return `https://www.ssg.com/search.ssg?target=all&query=${query}`;
+  if (/이마트/.test(normalizedMall)) return `https://emart.ssg.com/search.ssg?target=all&query=${query}`;
+  if (/올리브영|olive/.test(normalizedMall)) return `https://www.oliveyoung.co.kr/store/search/getSearchMain.do?query=${query}`;
+  if (/무신사|musinsa/.test(normalizedMall)) return `https://www.musinsa.com/search/goods?keyword=${query}`;
+  if (/알리|ali/.test(normalizedMall)) return `https://ko.aliexpress.com/w/wholesale-${query}.html`;
+  if (/하이마트|himart/.test(normalizedMall)) return `https://www.e-himart.co.kr/app/search/totalSearch?query=${query}`;
+  if (/롯데온|lotte/.test(normalizedMall)) return `https://www.lotteon.com/search/search/search.ecn?render=search&platform=pc&q=${query}`;
+  if (/마켓컬리|컬리|kurly/.test(normalizedMall)) return `https://www.kurly.com/search?sword=${query}`;
+  if (/오늘의집/.test(normalizedMall)) return `https://ohou.se/productions/feed?query=${query}`;
+  if (/인터파크/.test(normalizedMall)) return `https://shopping.interpark.com/search/all?keyword=${query}`;
+  if (/gs25|cu|세븐일레븐|편의점/.test(normalizedMall)) return `https://search.shopping.naver.com/search/all?query=${query}`;
+
+  return `https://search.shopping.naver.com/search/all?query=${query}`;
+}
+
+function isUnsafeOrCommunityLink(link: string) {
+  try {
+    const url = new URL(link);
+    const host = url.hostname.toLowerCase();
+    return host.includes("ppomppu.co.kr") || host === "example.com" || host.endsWith(".example.com");
+  } catch {
+    return true;
+  }
+}
+
 function deal(
   id: string,
   mall: string,
@@ -24,6 +58,10 @@ function deal(
   const notice = "가격, 재고, 쿠폰, 배송 조건은 판매처 사정에 따라 달라질 수 있습니다. 구매 전 판매처 상세 페이지에서 최종 조건을 확인하세요.";
   const expiresAt = new Date(now + expiresInHours * hour).toISOString();
   const createdAt = new Date(now - offsetHours * hour).toISOString();
+  const fallbackUrl = buildMarketplaceSearchUrl(mall, title);
+  const needsReview = isUnsafeOrCommunityLink(link);
+  const purchaseUrl = needsReview ? fallbackUrl : link;
+  const checkedAt = new Date(now - Math.max(5, Math.round(offsetHours * 18)) * 60 * 1000).toISOString();
 
   return {
     id,
@@ -35,7 +73,14 @@ function deal(
     mallName: mall,
     category,
     thumbnail: imageUrl,
-    link,
+    link: purchaseUrl,
+    url: purchaseUrl,
+    purchaseUrl,
+    linkType: needsReview ? "seller_search" : "direct_purchase",
+    linkStatus: needsReview ? "needs_review" : "verified",
+    linkLabel: needsReview ? "판매처 검색으로 확인" : "구매 페이지 확인",
+    verifiedAt: needsReview ? undefined : checkedAt,
+    priceCheckedAt: checkedAt,
     shipping: shippingInfo,
     createdAt,
     expireAt: expiresAt,
@@ -94,6 +139,19 @@ export const mockDeals: Deal[] = [
   deal("d038", "베이비플러스", "기저귀 팬티형 4팩 대용량", "육아", 92000, 38, 7, 30, { isHot: false, isNew: false, isEndingSoon: false }, ["무료배송", "쿠폰적용", "육아"], 77),
   deal("d039", "인터파크", "뮤지컬 평일 공연 R석 타임세일", "여행/티켓", 140000, 50, 3, 11, { isHot: true, isNew: true, isEndingSoon: true }, ["오늘만", "마감임박", "티켓"], 88),
   deal("d040", "올리브영", "클렌징폼 1+1 대용량 기획", "뷰티", 32000, 41, 1, 22, { isHot: false, isNew: true, isEndingSoon: false }, ["쿠폰적용", "인기", "오늘만"], 80)
+  ,
+  deal("d041", "이마트몰", "노브랜드 물티슈 100매 20팩", "편의점/마트", 29900, 31, 1.5, 16, { isHot: true, isNew: true, isEndingSoon: false }, ["마트딜", "생활필수", "무료배송"], 84),
+  deal("d042", "GS25", "편의점 도시락 1+1 모바일 쿠폰", "쿠폰/이벤트", 9000, 50, 0.4, 5, { isHot: true, isNew: true, isEndingSoon: true }, ["0원딜", "쿠폰", "마감임박"], 93),
+  deal("d043", "알리익스프레스", "USB-C 100W 멀티 충전 케이블 3팩", "전자기기", 15900, 62, 3, 36, { isHot: true, isNew: false, isEndingSoon: false }, ["해외직구", "무료배송", "인기"], 82),
+  deal("d044", "옥션", "국내산 냉동 블루베리 1kg", "식품", 18900, 42, 2, 13, { isHot: false, isNew: true, isEndingSoon: true }, ["쿠폰적용", "무료배송", "간편식"], 79),
+  deal("d045", "SSG닷컴", "스타벅스 아메리카노 모바일 교환권", "쿠폰/이벤트", 4500, 100, 0.2, 6, { isHot: true, isNew: true, isEndingSoon: true }, ["0원딜", "쿠폰", "오늘만"], 96),
+  deal("d046", "쿠팡", "탐사수 무라벨 2L 24병", "편의점/마트", 16800, 29, 1, 20, { isHot: false, isNew: true, isEndingSoon: false }, ["무료배송", "생활필수", "로켓배송"], 81),
+  deal("d047", "네이버쇼핑", "주유권 5만원권 카드 청구할인", "쿠폰/이벤트", 50000, 12, 3, 30, { isHot: false, isNew: false, isEndingSoon: false }, ["카드할인", "쿠폰", "생활비절약"], 74),
+  deal("d048", "11번가", "키즈 여름 샌들 2켤레 세트", "육아", 49900, 56, 5, 9, { isHot: true, isNew: false, isEndingSoon: true }, ["마감임박", "무료배송", "키즈"], 86),
+  deal("d049", "G마켓", "캠핑 접이식 웨건 대형", "생활용품", 129000, 47, 6, 26, { isHot: false, isNew: true, isEndingSoon: false }, ["레저", "쿠폰적용", "무료배송"], 77),
+  deal("d050", "올리브영", "멀티비타민 90정 기획세트", "뷰티", 39000, 35, 2, 18, { isHot: false, isNew: true, isEndingSoon: false }, ["헬스", "오늘만", "인기"], 78),
+  deal("d051", "인터파크투어", "오사카 왕복 항공권 타임세일", "여행/티켓", 289000, 41, 1, 12, { isHot: true, isNew: true, isEndingSoon: true }, ["여행", "마감임박", "한정수량"], 90),
+  deal("d052", "오늘의집", "암막 커튼 2장 세트", "생활용품", 79000, 58, 4, 42, { isHot: true, isNew: false, isEndingSoon: false }, ["역대가", "무료배송", "홈스타일링"], 83)
 ];
 
-export const categories = ["전체", "식품", "전자기기", "생활용품", "의류", "육아", "여행/티켓", "뷰티", "가전", "기타"] as const;
+export const categories = ["전체", "식품", "전자기기", "생활용품", "의류", "육아", "여행/티켓", "뷰티", "가전", "편의점/마트", "쿠폰/이벤트", "기타"] as const;

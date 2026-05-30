@@ -5,6 +5,7 @@ import { useState } from "react";
 import { ArrowLeft, ExternalLink, Heart, Share2 } from "lucide-react";
 import { Deal } from "@/types/deal";
 import { buildDealRedirectUrl } from "@/lib/redirectUrl";
+import { canOpenDealLink, getDealLinkTrustLabel } from "@/lib/affiliate";
 
 const favoriteKey = "halindosa:favorites";
 
@@ -42,6 +43,13 @@ export function DealDetailActions({ deal }: { deal: Deal }) {
   };
 
   const openPurchase = async () => {
+    if (!canOpenDealLink(deal)) return;
+
+    const confirmed = window.confirm(
+      `${deal.mallName} 판매처로 이동합니다.\n\n${getDealLinkTrustLabel(deal)} 상태이며, 가격·쿠폰·재고는 판매처에서 최종 확인해야 합니다.`
+    );
+    if (!confirmed) return;
+
     const redirectUrl = buildDealRedirectUrl(deal.id, "detail", { analytics: true, affiliate: true });
 
     if (await isNativeRuntime()) {
@@ -75,9 +83,10 @@ export function DealDetailActions({ deal }: { deal: Deal }) {
       <button
         type="button"
         onClick={openPurchase}
-        className="inline-flex items-center justify-center gap-2 rounded-2xl bg-dossa-red px-5 py-3 text-sm font-black text-white transition hover:bg-dossa-deep"
+        disabled={!canOpenDealLink(deal)}
+        className="inline-flex items-center justify-center gap-2 rounded-2xl bg-dossa-red px-5 py-3 text-sm font-black text-white transition hover:bg-dossa-deep disabled:cursor-not-allowed disabled:bg-slate-300"
       >
-        구매하러 가기
+        {canOpenDealLink(deal) ? "구매 전 판매처 확인" : "링크 확인 필요"}
         <ExternalLink size={17} />
       </button>
       <button

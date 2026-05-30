@@ -1,4 +1,4 @@
-import { Flame, Sparkles, Timer, Truck } from "lucide-react";
+import { BadgePercent, Flame, Sparkles, Timer, Truck, Zap } from "lucide-react";
 import { DealCard } from "@/components/DealCard";
 import { Deal } from "@/types/deal";
 
@@ -13,18 +13,40 @@ interface FeaturedDealSectionsProps {
 const sections = [
   {
     id: "popular",
-    title: "인기 특가",
+    title: "인기 급상승",
     description: "반응이 빠르게 올라오는 핫딜",
     icon: Flame,
     getDeals: (deals: Deal[]) =>
       [...deals].sort((a, b) => Number(b.isHot) - Number(a.isHot) || b.popularityScore - a.popularityScore).slice(0, 4)
   },
   {
+    id: "free-zero",
+    title: "무료/0원딜",
+    description: "쿠폰과 무료배송 조건이 좋은 딜",
+    icon: Zap,
+    getDeals: (deals: Deal[]) =>
+      [...deals]
+        .filter((deal) => deal.isFreeShipping || /0원딜|무료|쿠폰/.test([deal.category, ...deal.tags].join(" ")))
+        .sort((a, b) => b.popularityScore + b.discountRate - (a.popularityScore + a.discountRate))
+        .slice(0, 4)
+  },
+  {
     id: "recommended",
-    title: "오늘의 추천",
+    title: "오늘의 특가",
     description: "할인율과 인기도를 함께 본 추천",
     icon: Sparkles,
     getDeals: (deals: Deal[]) => [...deals].sort((a, b) => b.discountRate + b.popularityScore - (a.discountRate + a.popularityScore)).slice(0, 4)
+  },
+  {
+    id: "lowest-suspect",
+    title: "최저가 의심 상품",
+    description: "역대가 태그와 높은 할인율을 함께 본 상품",
+    icon: BadgePercent,
+    getDeals: (deals: Deal[]) =>
+      [...deals]
+        .filter((deal) => deal.discountRate >= 50 || deal.tags.some((tag) => /역대가|최저가/.test(tag)))
+        .sort((a, b) => b.discountRate - a.discountRate || b.popularityScore - a.popularityScore)
+        .slice(0, 4)
   },
   {
     id: "ending",
@@ -76,7 +98,7 @@ export function FeaturedDealSections({ deals, favorites, onToggleFavorite, onOpe
               </a>
             </div>
 
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4">
               {items.map((deal) => (
                 <DealCard
                   key={`${section.id}-${deal.id}`}

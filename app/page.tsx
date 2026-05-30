@@ -17,6 +17,7 @@ import { dealChannels, dealMatchesChannel, getDealChannel, getProviderCategory }
 import { mockHotSignals } from "@/data/mockHotSignals";
 import { mockDeals } from "@/data/mockDeals";
 import { ConsentState, hasAffiliateConsent, hasAnalyticsConsent, readStoredConsent } from "@/lib/consent";
+import { canOpenDealLink, getDealLinkTrustLabel } from "@/lib/affiliate";
 import { buildDealRedirectUrl } from "@/lib/redirectUrl";
 import { Deal, DealSort } from "@/types/deal";
 import { HotSignal } from "@/types/hotSignal";
@@ -24,6 +25,16 @@ import { HotSignal } from "@/types/hotSignal";
 const favoriteKey = "halindosa:favorites";
 const recentKey = "halindosa:recent-deals";
 type AppView = "home" | "categories" | "alerts" | "favorites" | "my";
+const mallFilters = [
+  { id: "all", label: "전체 쇼핑몰" },
+  { id: "쿠팡", label: "쿠팡" },
+  { id: "naver", label: "네이버" },
+  { id: "gmarket", label: "G마켓" },
+  { id: "11번가", label: "11번가" },
+  { id: "ssg", label: "SSG/이마트" },
+  { id: "올리브영", label: "올리브영" },
+  { id: "무신사", label: "무신사" }
+];
 const toastMessages = [
   "🔥 새로운 역대급 특가가 등록되었습니다!",
   "⚡ 마감임박 상품이 빠르게 소진되고 있어요.",
@@ -66,7 +77,8 @@ function filterLocalDeals(
   sort: DealSort,
   freeShippingOnly = false,
   hotOnly = false,
-  endingSoonOnly = false
+  endingSoonOnly = false,
+  mallFilter = "all"
 ) {
   const searchQuery = query.trim().toLowerCase();
   let filtered = items;
@@ -81,6 +93,16 @@ function filterLocalDeals(
         value.toLowerCase().includes(searchQuery)
       )
     );
+  }
+
+  if (mallFilter !== "all") {
+    filtered = filtered.filter((deal) => {
+      const mall = `${deal.mallName} ${deal.mall}`.toLowerCase();
+      if (mallFilter === "gmarket") return /g마켓|지마켓|gmarket/.test(mall);
+      if (mallFilter === "naver") return /네이버|naver/.test(mall);
+      if (mallFilter === "ssg") return /ssg|쓱|이마트/.test(mall);
+      return mall.includes(mallFilter.toLowerCase());
+    });
   }
 
   if (freeShippingOnly) {
@@ -159,6 +181,7 @@ export default function Home() {
   const [freeShippingOnly, setFreeShippingOnly] = useState(false);
   const [hotOnly, setHotOnly] = useState(false);
   const [endingSoonOnly, setEndingSoonOnly] = useState(false);
+  const [mallFilter, setMallFilter] = useState("all");
   const [updatedAt, setUpdatedAt] = useState("");
   const [providerSource, setProviderSource] = useState("mock");
   const [isLoading, setIsLoading] = useState(false);
@@ -193,7 +216,7 @@ export default function Home() {
 
       try {
         if (await isNativeRuntime()) {
-          const localDeals = filterLocalDeals(mockDeals, category, query, sort, freeShippingOnly, hotOnly, endingSoonOnly);
+          const localDeals = filterLocalDeals(mockDeals, category, query, sort, freeShippingOnly, hotOnly, endingSoonOnly, mallFilter);
           setDeals(localDeals);
           setCatalog(mockDeals);
           setProviderSource("android bundle");
@@ -212,7 +235,8 @@ export default function Home() {
           sort,
           freeShippingOnly: String(freeShippingOnly),
           hotOnly: String(hotOnly),
-          endingSoonOnly: String(endingSoonOnly)
+          endingSoonOnly: String(endingSoonOnly),
+          mall: mallFilter
         });
 
         if (query.trim()) {
@@ -239,7 +263,7 @@ export default function Home() {
         }
       } catch {
         setLoadError("특가 데이터를 불러오지 못했습니다. 기본 저장 데이터를 표시합니다.");
-        setDeals(filterLocalDeals(mockDeals, category, query, sort, freeShippingOnly, hotOnly, endingSoonOnly));
+        setDeals(filterLocalDeals(mockDeals, category, query, sort, freeShippingOnly, hotOnly, endingSoonOnly, mallFilter));
         setCatalog(mockDeals);
         setProviderSource("mock fallback");
         setUpdatedAt(new Date().toISOString());
@@ -248,7 +272,7 @@ export default function Home() {
         setIsLoading(false);
       }
     },
-    [category, endingSoonOnly, freeShippingOnly, hotOnly, query, showToast, sort]
+    [category, endingSoonOnly, freeShippingOnly, hotOnly, mallFilter, query, showToast, sort]
   );
 
   useEffect(() => {
@@ -415,6 +439,16 @@ export default function Home() {
   };
 
   const openDeal = async (deal: Deal) => {
+    if (!canOpenDealLink(deal)) {
+      showToast("이 특가는 링크 확인이 필요합니다. 다른 특가를 확인해주세요.");
+      return;
+    }
+
+    const confirmed = window.confirm(
+      `${deal.mallName} 판매처로 이동합니다.\n\n${getDealLinkTrustLabel(deal)} 상태이며, 실제 가격·쿠폰·재고는 판매처에서 최종 확인해야 합니다.`
+    );
+    if (!confirmed) return;
+
     rememberRecentDeal(deal.id);
     void trackEvent("deal_click", deal.id);
     showToast(`${deal.mallName} 특가 페이지로 이동합니다.`);
@@ -780,6 +814,20 @@ export default function Home() {
               <div className="flex flex-col gap-3 lg:flex-row">
                 <SearchBar value={query} onChange={setQuery} />
                 <SortSelect value={sort} onChange={setSort} />
+                <label className="min-w-[180px] flex-1">
+                  <span className="sr-only">쇼핑몰 필터</span>
+                  <select
+                    value={mallFilter}
+                    onChange={(event) => setMallFilter(event.target.value)}
+                    className="min-h-[54px] w-full rounded-2xl border border-slate-200 bg-white px-4 text-sm font-black text-slate-700 shadow-sm outline-none transition hover:border-red-200 focus:border-red-300 focus:ring-4 focus:ring-red-50"
+                  >
+                    {mallFilters.map((mall) => (
+                      <option key={mall.id} value={mall.id}>
+                        {mall.label}
+                      </option>
+                    ))}
+                  </select>
+                </label>
                 <button
                   type="button"
                   onClick={() => setFreeShippingOnly((value) => !value)}

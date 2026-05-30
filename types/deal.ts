@@ -7,9 +7,13 @@ export type DealCategory =
   | "여행/티켓"
   | "뷰티"
   | "가전"
+  | "편의점/마트"
+  | "쿠폰/이벤트"
   | "기타";
 
 export type DealSort = "latest" | "discount" | "price" | "hot" | "endingSoon";
+export type DealLinkType = "direct_purchase" | "seller_search" | "affiliate" | "unavailable";
+export type DealLinkStatus = "verified" | "needs_review" | "broken" | "sold_out";
 
 export interface Deal {
   id: string;
@@ -24,6 +28,12 @@ export interface Deal {
   link: string;
   url?: string;
   affiliateUrl?: string;
+  purchaseUrl?: string;
+  linkType: DealLinkType;
+  linkStatus: DealLinkStatus;
+  linkLabel: string;
+  verifiedAt?: string;
+  priceCheckedAt: string;
   shipping: string;
   createdAt: string;
   expireAt: string;

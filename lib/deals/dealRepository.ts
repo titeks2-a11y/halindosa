@@ -14,6 +14,7 @@ export interface DealQuery {
   freeShippingOnly?: boolean;
   hotOnly?: boolean;
   endingSoonOnly?: boolean;
+  mall?: string;
 }
 
 export interface DealProviderResult {
@@ -106,6 +107,17 @@ export async function getDeals(query: DealQuery = {}) {
     deals = deals.filter((deal) =>
       [deal.title, deal.mallName, deal.category, deal.source, ...deal.tags].some((value) => value.toLowerCase().includes(searchQuery))
     );
+  }
+
+  if (query.mall && query.mall !== "all") {
+    const mallQuery = query.mall.trim().toLowerCase();
+    deals = deals.filter((deal) => {
+      const mall = `${deal.mallName} ${deal.mall}`.toLowerCase();
+      if (mallQuery === "gmarket") return /g마켓|지마켓|gmarket/.test(mall);
+      if (mallQuery === "naver") return /네이버|naver/.test(mall);
+      if (mallQuery === "ssg") return /ssg|쓱|이마트/.test(mall);
+      return mall.includes(mallQuery);
+    });
   }
 
   if (query.freeShippingOnly) deals = deals.filter((deal) => deal.isFreeShipping);

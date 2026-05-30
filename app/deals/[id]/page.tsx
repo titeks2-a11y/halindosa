@@ -5,7 +5,7 @@ import { AlertTriangle, ArrowLeft, Clock, ShieldCheck, Tag, Truck } from "lucide
 import { DealDetailActions } from "@/components/DealDetailActions";
 import { DealTrustBadge } from "@/components/DealTrustBadge";
 import { mockDeals } from "@/data/mockDeals";
-import { getAffiliateDisclosure } from "@/lib/affiliate";
+import { getAffiliateDisclosure, getDealLinkTrustLabel } from "@/lib/affiliate";
 import { findDealByIdLive, getRelatedDeals } from "@/lib/dealService";
 import { formatPrice, getRelativeTime, getTimeLeft } from "@/lib/format";
 import { getPriceHistory, getPriceInsight } from "@/lib/priceHistory";
@@ -126,6 +126,14 @@ export default async function DealDetailPage({ params }: DealDetailPageProps) {
                 <p className="text-xs text-slate-400">최근 최저가</p>
                 <p className="mt-1">{priceInsight.isLowestPrice ? "예" : "확인 필요"}</p>
               </div>
+              <div className="rounded-2xl bg-slate-50 p-3">
+                <p className="text-xs text-slate-400">가격 기준</p>
+                <p className="mt-1">{getRelativeTime(deal.priceCheckedAt)}</p>
+              </div>
+              <div className="rounded-2xl bg-slate-50 p-3">
+                <p className="text-xs text-slate-400">링크 상태</p>
+                <p className="mt-1">{getDealLinkTrustLabel(deal)}</p>
+              </div>
             </div>
 
             <div className="mt-4 flex flex-wrap gap-2">
@@ -150,7 +158,7 @@ export default async function DealDetailPage({ params }: DealDetailPageProps) {
             </div>
 
             <div className="mt-3 rounded-2xl border border-amber-100 bg-amber-50 px-3 py-3 text-sm font-semibold leading-6 text-amber-800">
-              {deal.notice}
+              {deal.notice} 판매처 이동 전 표시되는 안내를 확인하고, 구매 전 최종 가격과 재고를 다시 확인하세요.
             </div>
 
             <p className="mt-4 rounded-2xl bg-slate-50 px-3 py-2 text-xs font-bold leading-5 text-slate-500">

@@ -61,7 +61,7 @@ function fillTemplate(template: string, deal: Deal, from: string, subId: string)
   return template.replace(/\{(url|encodedUrl|dealId|mall|campaign|subId|title)\}/g, (_, key: string) => replacements[key] ?? "");
 }
 
-function isHttpUrl(value?: string) {
+export function isHttpUrl(value?: string) {
   if (!value) return false;
 
   try {
@@ -100,8 +100,20 @@ export function buildSellerSearchUrl(deal: Pick<Deal, "mall" | "mallName" | "tit
 }
 
 export function resolveDealDestinationUrl(deal: Deal, preferAffiliate = false) {
-  const candidate = preferAffiliate ? (deal.affiliateUrl || deal.url || deal.link) : (deal.url || deal.link);
+  const candidate = preferAffiliate ? (deal.affiliateUrl || deal.purchaseUrl || deal.url || deal.link) : (deal.purchaseUrl || deal.url || deal.link);
   return isPlaceholderOrCommunityUrl(candidate) ? buildSellerSearchUrl(deal) : candidate;
+}
+
+export function getDealLinkTrustLabel(deal: Pick<Deal, "linkStatus" | "linkType" | "linkLabel">) {
+  if (deal.linkStatus === "verified") return deal.linkLabel || "구매 페이지 확인";
+  if (deal.linkStatus === "sold_out") return "품절 가능성";
+  if (deal.linkStatus === "broken") return "링크 확인 필요";
+  if (deal.linkType === "seller_search") return "판매처 검색 확인";
+  return "확인 필요";
+}
+
+export function canOpenDealLink(deal: Pick<Deal, "linkStatus">) {
+  return deal.linkStatus !== "broken" && deal.linkStatus !== "sold_out";
 }
 
 export function isAffiliateEligible(deal: Pick<Deal, "mall" | "mallName">) {

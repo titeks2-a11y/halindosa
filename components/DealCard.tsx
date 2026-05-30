@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { Clock, ExternalLink, Heart, Share2, ShoppingBag, Store, Tag, Truck } from "lucide-react";
-import { getAffiliateDisclosure } from "@/lib/affiliate";
+import { AlertTriangle, CheckCircle2, Clock, ExternalLink, Heart, Share2, ShoppingBag, Store, Tag, Truck } from "lucide-react";
+import { canOpenDealLink, getAffiliateDisclosure, getDealLinkTrustLabel } from "@/lib/affiliate";
 import { getDealImageSrc } from "@/lib/imageSrc";
 import { Deal } from "@/types/deal";
 import { formatPrice, getRelativeTime, getTimeLeft } from "@/lib/format";
@@ -15,6 +15,9 @@ interface DealCardProps {
 }
 
 export function DealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, onShareDeal }: DealCardProps) {
+  const linkAvailable = canOpenDealLink(deal);
+  const LinkTrustIcon = deal.linkStatus === "verified" ? CheckCircle2 : AlertTriangle;
+
   return (
     <article className="group flex overflow-hidden rounded-[22px] border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:border-red-100 hover:shadow-deal sm:block">
       <div className="relative flex min-h-[150px] w-[38%] shrink-0 items-center justify-center overflow-hidden bg-gradient-to-br from-red-50 via-rose-100 to-red-200 sm:aspect-[16/10] sm:min-h-0 sm:w-full">
@@ -54,9 +57,10 @@ export function DealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, onSha
           </button>
           <button
             type="button"
-            onClick={() => onOpenDeal(deal)}
-            aria-label="특가 보러가기"
-            className="flex h-9 w-9 items-center justify-center rounded-2xl bg-slate-950 text-white shadow-md transition hover:bg-dossa-red sm:h-10 sm:w-10"
+            onClick={() => linkAvailable && onOpenDeal(deal)}
+            disabled={!linkAvailable}
+            aria-label={linkAvailable ? "특가 보러가기" : "링크 확인 필요"}
+            className="flex h-9 w-9 items-center justify-center rounded-2xl bg-slate-950 text-white shadow-md transition hover:bg-dossa-red disabled:cursor-not-allowed disabled:bg-slate-300 sm:h-10 sm:w-10"
           >
             <ExternalLink size={17} />
           </button>
@@ -77,6 +81,15 @@ export function DealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, onSha
               {deal.title}
             </h3>
           </Link>
+        </div>
+
+        <div
+          className={`inline-flex max-w-full items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-black ${
+            deal.linkStatus === "verified" ? "bg-emerald-50 text-emerald-700" : "bg-amber-50 text-amber-700"
+          }`}
+        >
+          <LinkTrustIcon size={12} />
+          <span className="truncate">{getDealLinkTrustLabel(deal)}</span>
         </div>
 
         <div className="rounded-2xl bg-slate-50 p-2.5 sm:p-3">
@@ -112,6 +125,7 @@ export function DealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, onSha
             <Clock size={13} />
             {getTimeLeft(deal.expiresAt)}
           </span>
+          <span className="sm:col-span-2">가격 기준 {getRelativeTime(deal.priceCheckedAt)}</span>
         </div>
 
         <p className="hidden line-clamp-2 rounded-2xl bg-white px-0 py-0 text-xs font-bold leading-5 text-slate-500 sm:block">
