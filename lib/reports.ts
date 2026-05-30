@@ -1,4 +1,5 @@
 import { findDealById } from "@/lib/dealService";
+import { maxReportMessageLength } from "@/lib/reportConfig";
 
 export type ReportReason = "price_changed" | "sold_out" | "expired" | "wrong_info" | "other";
 export type ReportStatus = "open" | "reviewing" | "resolved" | "dismissed";
@@ -53,6 +54,14 @@ export function validateDealReport(input: DealReportInput) {
     };
   }
 
+  if ((input.message?.trim().length ?? 0) > maxReportMessageLength) {
+    return {
+      ok: false,
+      status: 400,
+      message: `추가 내용은 ${maxReportMessageLength}자 이내로 입력해주세요.`
+    };
+  }
+
   return {
     ok: true,
     status: 200,
@@ -70,7 +79,7 @@ export function createDealReport(input: Required<Pick<DealReportInput, "dealId" 
     mall: deal?.mall ?? "unknown",
     title: deal?.title ?? "unknown",
     reason: input.reason as ReportReason,
-    message: input.message?.trim() ?? "",
+    message: input.message?.trim().slice(0, maxReportMessageLength) ?? "",
     status: "open" as ReportStatus,
     receivedAt: now,
     updatedAt: now

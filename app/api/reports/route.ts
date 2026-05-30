@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createRequestId, getClientKey, jsonHeaders, rateLimit, rateLimitHeaders } from "@/lib/apiGuards";
+import { maxReportMessageLength } from "@/lib/reportConfig";
 import { createDealReport, DealReportInput, saveDealReport, validateDealReport } from "@/lib/reports";
 
 export async function GET(request: Request) {
@@ -11,6 +12,7 @@ export async function GET(request: Request) {
     ok: true,
     requestId,
     dealId,
+    maxMessageLength: maxReportMessageLength,
     reasons: [
       { value: "price_changed", label: "가격이 달라요" },
       { value: "sold_out", label: "품절이에요" },

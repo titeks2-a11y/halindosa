@@ -21,6 +21,7 @@
 - 카테고리/검색 URL query 진입 시 홈 필터 자동 반영
 - 찜 페이지 판매처 이동도 동일한 앱 내부 확인 시트 사용
 - 홈 검색/필터 영역에 적용 조건 요약과 전체 초기화 UX 추가
+- 오류 신고 폼에 글자 수 제한, 접수번호 안내, 판매처 문의 고지, 접근성 상태 메시지 추가
 
 ### PHASE 2 코드 품질
 
@@ -78,7 +79,7 @@
 - `npm run audit:commercial`
 - `npm run qa`
 - `npm run smoke:local`
-- smoke 21개 항목으로 확장: home query filters, deal link integrity, redirect fallback, affiliate status, admin export 포함
+- smoke 22개 항목으로 확장: report validation, home query filters, deal link integrity, redirect fallback, affiliate status, admin export 포함
 - Play Store 이미지 제작 기준 문서화
 - Play Store 512 아이콘과 기능 그래픽 초안 생성
 - PWA/iOS 홈 화면 설치용 manifest icon, shortcut, apple web app metadata 보강

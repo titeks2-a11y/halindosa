@@ -33,6 +33,10 @@ export default async function ReportsPage({ searchParams }: ReportsPageProps) {
             </div>
           </div>
 
+          <div className="mt-5 rounded-2xl border border-red-100 bg-red-50 p-4 text-sm font-bold leading-6 text-dossa-deep">
+            신고는 할인도사의 가격 정보 품질 개선을 위한 접수입니다. 주문 취소, 환불, 배송 문의는 구매한 판매처 고객센터에서 처리해야 합니다.
+          </div>
+
           {deal ? (
             <div className="mt-5 rounded-2xl bg-slate-50 p-4">
               <p className="text-xs font-black text-dossa-red">{deal.mall}</p>

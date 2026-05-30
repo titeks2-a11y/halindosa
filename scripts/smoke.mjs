@@ -161,6 +161,10 @@ await check("sources api", async () => {
 });
 
 await check("report api", async () => {
+  const reasons = await fetchJson("/api/reports?dealId=d001");
+  assert(reasons.response.status === 200, `Expected 200, got ${reasons.response.status}`);
+  assert(reasons.data.maxMessageLength === 500, "Report API missing message length policy");
+
   const { response, data } = await fetchJson("/api/reports", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -174,6 +178,22 @@ await check("report api", async () => {
   assert(data.ok === true, "Report API ok should be true");
   assert(response.headers.get("x-request-id"), "Report API missing request id");
   assert(response.headers.get("x-ratelimit-remaining"), "Report API missing rate limit header");
+});
+
+await check("report validation", async () => {
+  const { response, data } = await fetchJson("/api/reports", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      dealId: "d001",
+      reason: "price_changed",
+      message: "x".repeat(501)
+    })
+  });
+
+  assert(response.status === 400, `Expected 400, got ${response.status}`);
+  assert(data.ok === false, "Long report message should fail");
+  assert(data.message.includes("500자"), "Long report validation message missing max length");
 });
 
 await check("admin reports api", async () => {
