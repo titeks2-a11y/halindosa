@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { mockDeals } from "@/data/mockDeals";
 import { getDeals, normalizeSort } from "@/lib/dealService";
+import { summarizeDealQuality } from "@/lib/deals/quality";
 
 export async function GET(request: Request) {
   try {
@@ -22,6 +23,7 @@ export async function GET(request: Request) {
       ok: true,
       deals: result.deals,
       count: result.deals.length,
+      quality: summarizeDealQuality(result.deals),
       updatedAt: result.updatedAt,
       source: result.source,
       message: "할인도사 특가 데이터를 성공적으로 불러왔습니다."
@@ -32,6 +34,7 @@ export async function GET(request: Request) {
         ok: false,
         deals: mockDeals,
         count: mockDeals.length,
+        quality: summarizeDealQuality(mockDeals),
         updatedAt: new Date().toISOString(),
         source: "mock",
         message: "특가 데이터를 불러오는 중 문제가 발생해 mock 데이터로 대체했습니다.",

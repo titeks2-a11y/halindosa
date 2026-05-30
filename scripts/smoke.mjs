@@ -92,6 +92,8 @@ await check("deals api", async () => {
   assert(data.ok === true, "Deals API ok should be true");
   assert(data.count === 3, `Expected 3 deals, got ${data.count}`);
   assert(data.deals[0].discountRate >= data.deals[1].discountRate, "Deals are not sorted by discount");
+  assert(data.quality?.total === data.count, "Deals API quality summary should match returned count");
+  assert(data.quality?.verifiedRate >= 0, "Deals API quality summary missing verified rate");
   for (const field of ["mallName", "thumbnail", "shipping", "expireAt", "isFreeShipping"]) {
     assert(field in data.deals[0], `Canonical Deal field missing: ${field}`);
   }
@@ -175,6 +177,8 @@ await check("metrics api", async () => {
   assert(response.status === 200, `Expected 200, got ${response.status}`);
   assert(data.metrics?.totalDeals >= 30, "Metrics should include at least 30 deals");
   assert(data.metrics?.averageConfidenceScore >= 0, "Metrics missing confidence score");
+  assert(data.metrics?.verifiedLinkRate >= 0, "Metrics missing verified link rate");
+  assert(data.metrics?.needsReviewLinks >= 0, "Metrics missing link review count");
 });
 
 await check("sources api", async () => {
