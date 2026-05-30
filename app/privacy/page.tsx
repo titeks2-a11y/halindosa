@@ -44,6 +44,10 @@ export default function PrivacyPage() {
             있습니다. 브라우저 또는 Android 앱 데이터 삭제를 통해서도 기기 내 저장 정보가 제거됩니다. 상업 운영 시
             개인정보 열람, 정정, 삭제, 처리정지 요청 창구를 제공합니다.
           </p>
+          <p className="mt-2">
+            가격 오류, 품절, 링크 오류 신고는 할인 정보 품질 관리를 위해 운영 검수 큐에 접수될 수 있습니다. 신고
+            내용은 주문 취소, 환불, 배송 문의 처리를 위한 정보가 아니며, 판매처 고객센터 업무를 대체하지 않습니다.
+          </p>
         </section>
         <section>
           <h2 className="text-lg font-black text-slate-950">문의</h2>

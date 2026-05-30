@@ -98,6 +98,8 @@ await check("mypage data controls", async () => {
   assert(text.includes("찜/최근 본 특가 삭제"), "Mypage missing local deal data delete action");
   assert(text.includes("분석/제휴 동의 초기화"), "Mypage missing consent reset action");
   assert(text.includes("서비스 안내"), "Mypage missing service guide link");
+  assert(text.includes("삭제 대상"), "Mypage missing local data deletion scope");
+  assert(text.includes("운영 검수용 가격 신고"), "Mypage missing report retention notice");
 });
 
 await check("service guide page", async () => {

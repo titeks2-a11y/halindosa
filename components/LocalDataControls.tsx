@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { RotateCcw, Share2, Trash2 } from "lucide-react";
+import { CheckCircle2, RotateCcw, Share2, ShieldCheck, Trash2 } from "lucide-react";
 import { consentStorageKey } from "@/lib/consent";
 import { recentDealStorageKey } from "@/lib/recentDeals";
 
@@ -55,6 +55,16 @@ export function LocalDataControls() {
       <p className="mt-2 text-xs font-bold leading-5 text-slate-500">
         할인도사는 현재 회원가입 없이 동작하며, 찜과 최근 본 특가는 이 기기에만 저장됩니다.
       </p>
+      <div className="mt-3 grid gap-2 rounded-2xl bg-slate-50 p-3 text-xs font-bold leading-5 text-slate-600">
+        <div className="flex gap-2">
+          <CheckCircle2 size={15} className="mt-0.5 shrink-0 text-dossa-red" />
+          <span>삭제 대상: 찜한 특가, 최근 본 특가, 관심 할인 신호, 분석/제휴 동의 설정</span>
+        </div>
+        <div className="flex gap-2">
+          <ShieldCheck size={15} className="mt-0.5 shrink-0 text-slate-500" />
+          <span>운영 검수용 가격 신고는 품질 관리 기록으로 별도 관리되며, 문의 시 접수번호로 확인합니다.</span>
+        </div>
+      </div>
       <div className="mt-3 grid gap-2 text-sm font-black text-slate-700">
         <button
           type="button"
