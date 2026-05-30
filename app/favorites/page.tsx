@@ -5,23 +5,26 @@ import { useMemo, useState } from "react";
 import { ArrowLeft, Heart } from "lucide-react";
 import { DealCard } from "@/components/DealCard";
 import { mockDeals } from "@/data/mockDeals";
+import { buildDealRedirectUrl } from "@/lib/redirectUrl";
 import { Deal } from "@/types/deal";
 
 const favoriteKey = "halindosa:favorites";
 
 async function openExternalDeal(deal: Deal) {
+  const redirectUrl = buildDealRedirectUrl(deal.id, "favorites", { analytics: true, affiliate: true });
+
   try {
     const { Capacitor } = await import("@capacitor/core");
     if (Capacitor.isNativePlatform()) {
       const { Browser } = await import("@capacitor/browser");
-      await Browser.open({ url: deal.link });
+      await Browser.open({ url: redirectUrl });
       return;
     }
   } catch {
     // Browser fallback below.
   }
 
-  window.open(deal.link, "_blank", "noopener,noreferrer");
+  window.open(redirectUrl, "_blank", "noopener,noreferrer");
 }
 
 export default function FavoritesPage() {

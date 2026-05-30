@@ -19,6 +19,7 @@ import { dealChannels, dealMatchesChannel, getDealChannel, getProviderCategory }
 import { mockHotSignals } from "@/data/mockHotSignals";
 import { mockDeals } from "@/data/mockDeals";
 import { ConsentState, hasAffiliateConsent, hasAnalyticsConsent, readStoredConsent } from "@/lib/consent";
+import { buildDealRedirectUrl } from "@/lib/redirectUrl";
 import { Deal, DealSort } from "@/types/deal";
 import { HotSignal } from "@/types/hotSignal";
 
@@ -172,16 +173,7 @@ export default function Home() {
       return [];
     }
   });
-  const [recentDealIds, setRecentDealIds] = useState<string[]>(() => {
-    if (typeof window === "undefined") return [];
-
-    try {
-      const stored = window.localStorage.getItem(recentKey);
-      return stored ? (JSON.parse(stored) as string[]) : [];
-    } catch {
-      return [];
-    }
-  });
+  const [recentDealIds, setRecentDealIds] = useState<string[]>([]);
   const [toast, setToast] = useState("");
   const [consent, setConsent] = useState<ConsentState | null>(() => {
     if (typeof window === "undefined") return null;
@@ -348,6 +340,19 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
+    const handle = window.setTimeout(() => {
+      try {
+        const stored = window.localStorage.getItem(recentKey);
+        setRecentDealIds(stored ? (JSON.parse(stored) as string[]) : []);
+      } catch {
+        setRecentDealIds([]);
+      }
+    }, 0);
+
+    return () => window.clearTimeout(handle);
+  }, []);
+
+  useEffect(() => {
     const firstDelay = 3000 + Math.random() * 3000;
     let intervalId = 0;
 
@@ -411,26 +416,18 @@ export default function Home() {
     rememberRecentDeal(deal.id);
     void trackEvent("deal_click", deal.id);
     showToast(`${deal.mallName} 특가 페이지로 이동합니다.`);
+    const redirectUrl = buildDealRedirectUrl(deal.id, activeView, {
+      analytics: hasAnalyticsConsent(consent),
+      affiliate: hasAffiliateConsent(consent)
+    });
 
     if (await isNativeRuntime()) {
       const { Browser } = await import("@capacitor/browser");
-      await Browser.open({ url: deal.link });
+      await Browser.open({ url: redirectUrl });
       return;
     }
 
-    const params = new URLSearchParams({
-      from: activeView
-    });
-
-    if (hasAnalyticsConsent(consent)) {
-      params.set("analytics", "granted");
-    }
-
-    if (hasAffiliateConsent(consent)) {
-      params.set("affiliate", "granted");
-    }
-
-    window.open(`/api/redirect/${deal.id}?${params.toString()}`, "_blank", "noopener,noreferrer");
+    window.open(redirectUrl, "_blank", "noopener,noreferrer");
   };
 
   const shareDeal = async (deal: Deal) => {

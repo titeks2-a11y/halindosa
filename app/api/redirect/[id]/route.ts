@@ -4,6 +4,23 @@ import { buildOutboundUrl, isAffiliateEligible } from "@/lib/affiliate";
 import { createRequestId, getClientKey, jsonHeaders, rateLimit, rateLimitHeaders } from "@/lib/apiGuards";
 import { findDealByIdLive } from "@/lib/dealService";
 
+function createRedirectClickLog(input: {
+  requestId: string;
+  dealId: string;
+  source: string;
+  from: string;
+  affiliateGranted: boolean;
+}) {
+  return {
+    clickId: input.requestId,
+    dealId: input.dealId,
+    source: input.source,
+    from: input.from,
+    affiliateGranted: input.affiliateGranted,
+    createdAt: new Date().toISOString()
+  };
+}
+
 export async function GET(
   request: Request,
   context: {
@@ -50,6 +67,13 @@ export async function GET(
   const affiliateGranted = url.searchParams.get("affiliate") === "granted";
 
   if (analyticsGranted) {
+    const redirectLog = createRedirectClickLog({
+      requestId,
+      dealId: deal.id,
+      source: deal.source,
+      from,
+      affiliateGranted
+    });
     const event = createAnalyticsEvent({
       eventType: "redirect_click",
       dealId: deal.id,
@@ -65,7 +89,8 @@ export async function GET(
     });
 
     // Commercial extension point:
-    // Persist event to analytics storage before redirecting in production.
+    // Persist redirectLog and event to analytics storage before redirecting in production.
+    void redirectLog;
     void event;
   }
 

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { ArrowLeft, ExternalLink, Heart, Share2 } from "lucide-react";
 import { Deal } from "@/types/deal";
+import { buildDealRedirectUrl } from "@/lib/redirectUrl";
 
 const favoriteKey = "halindosa:favorites";
 
@@ -41,13 +42,15 @@ export function DealDetailActions({ deal }: { deal: Deal }) {
   };
 
   const openPurchase = async () => {
+    const redirectUrl = buildDealRedirectUrl(deal.id, "detail", { analytics: true, affiliate: true });
+
     if (await isNativeRuntime()) {
       const { Browser } = await import("@capacitor/browser");
-      await Browser.open({ url: deal.link });
+      await Browser.open({ url: redirectUrl });
       return;
     }
 
-    window.open(deal.link, "_blank", "noopener,noreferrer");
+    window.open(redirectUrl, "_blank", "noopener,noreferrer");
   };
 
   const shareDeal = async () => {

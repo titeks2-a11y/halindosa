@@ -12,6 +12,8 @@ export type DealInput = Partial<Deal> & {
   thumbnail?: string;
   imageUrl?: string;
   link: string;
+  url?: string;
+  affiliateUrl?: string;
   shipping?: string;
   shippingInfo?: string;
   createdAt?: string;
@@ -42,6 +44,8 @@ export function normalizeDeal(input: DealInput, source = input.source ?? "mock")
     category: input.category ?? "기타",
     thumbnail,
     link: input.link,
+    url: input.url,
+    affiliateUrl: input.affiliateUrl,
     shipping,
     createdAt,
     expireAt,

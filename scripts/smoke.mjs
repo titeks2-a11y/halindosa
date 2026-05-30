@@ -238,6 +238,25 @@ await check("redirect consent guard", async () => {
   assert(!location.includes("sub_id="), `Redirect should not include affiliate sub_id without consent: ${location}`);
 });
 
+await check("seller search redirect fallbacks", async () => {
+  const cases = [
+    ["d014", "coupang.com"],
+    ["d016", "gmarket.co.kr"],
+    ["d015", "11st.co.kr"],
+    ["d012", "oliveyoung.co.kr"],
+    ["d020", "musinsa.com"]
+  ];
+
+  for (const [dealId, expectedHost] of cases) {
+    const response = await fetch(`${baseUrl}/api/redirect/${dealId}?from=smoke`, {
+      redirect: "manual"
+    });
+    const location = response.headers.get("location") ?? "";
+    assert(response.status === 302, `Expected 302 for ${dealId}, got ${response.status}`);
+    assert(location.includes(expectedHost), `Expected ${dealId} redirect to ${expectedHost}, got ${location}`);
+  }
+});
+
 await check("affiliate status api", async () => {
   const { response, data } = await fetchJson("/api/affiliate/status");
   assert(response.status === 200, `Expected 200, got ${response.status}`);

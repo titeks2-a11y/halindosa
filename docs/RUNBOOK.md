@@ -24,6 +24,7 @@ npm run smoke
 - 신고 큐: `GET /api/admin/reports?token=$ADMIN_EXPORT_TOKEN`
 - 피드 dry-run: `POST /api/admin/import?token=$ADMIN_EXPORT_TOKEN`
 - 리다이렉트: `GET /api/redirect/d001?from=runbook`
+- 제휴/판매처 fallback 상태: `GET /api/affiliate/status`
 - 관리자: `GET /admin?token=$ADMIN_EXPORT_TOKEN`
 - CSV export: `GET /api/admin/export?token=$ADMIN_EXPORT_TOKEN`
 
@@ -48,6 +49,7 @@ SMOKE_BASE_URL=https://example.com npm run smoke
 - 헬스체크/운영 지표 API
 - 신고/트래킹 API
 - 제휴 리다이렉트 URL 파라미터
+- 더미 또는 커뮤니티 링크는 판매처 검색 URL로 fallback
 - CSV export
 - sitemap/robots/manifest
 

@@ -22,6 +22,8 @@ export interface Deal {
   category: DealCategory;
   thumbnail: string;
   link: string;
+  url?: string;
+  affiliateUrl?: string;
   shipping: string;
   createdAt: string;
   expireAt: string;
