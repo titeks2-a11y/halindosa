@@ -44,6 +44,12 @@ await check("deals api", async () => {
   assert(data.ok === true, "Deals API ok should be true");
   assert(data.count === 3, `Expected 3 deals, got ${data.count}`);
   assert(data.deals[0].discountRate >= data.deals[1].discountRate, "Deals are not sorted by discount");
+  for (const field of ["mallName", "thumbnail", "shipping", "expireAt", "isFreeShipping"]) {
+    assert(field in data.deals[0], `Canonical Deal field missing: ${field}`);
+  }
+  for (const field of ["mall", "imageUrl", "shippingInfo", "expiresAt"]) {
+    assert(field in data.deals[0], `Legacy Deal alias missing: ${field}`);
+  }
 });
 
 await check("deals filters api", async () => {
