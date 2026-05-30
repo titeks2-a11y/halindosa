@@ -104,6 +104,7 @@ async function checkPolicyAndStoreDocs() {
     "docs/seo-strategy.md",
     "docs/competitor-analysis.md",
     "docs/analytics-plan.md",
+    "docs/data-source-runbook.md",
     "docs/launch-day-checklist.md",
     "docs/weekly-operation-guide.md",
     "docs/customer-support-guide.md",

@@ -4,6 +4,7 @@ import { getAffiliateDisclosure } from "@/lib/affiliate";
 import { getDealImageSrc } from "@/lib/imageSrc";
 import { Deal } from "@/types/deal";
 import { formatPrice, getRelativeTime, getTimeLeft } from "@/lib/format";
+import { DealTrustBadge } from "@/components/DealTrustBadge";
 
 interface DealCardProps {
   deal: Deal;
@@ -92,9 +93,10 @@ export function DealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, onSha
         </div>
 
         <div className="flex flex-wrap gap-1.5">
+          <DealTrustBadge deal={deal} compact />
           <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-1 text-xs font-bold text-slate-600">
             <Truck size={12} />
-            {deal.shippingInfo}
+            {deal.shipping}
           </span>
           {deal.tags.slice(0, 3).map((tag) => (
             <span key={tag} className="inline-flex items-center gap-1 rounded-full bg-red-50 px-2.5 py-1 text-xs font-bold text-dossa-deep">

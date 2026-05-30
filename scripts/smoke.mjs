@@ -91,6 +91,14 @@ await check("metrics api", async () => {
   assert(data.metrics?.averageConfidenceScore >= 0, "Metrics missing confidence score");
 });
 
+await check("sources api", async () => {
+  const { response, data } = await fetchJson("/api/sources");
+  assert(response.status === 200, `Expected 200, got ${response.status}`);
+  assert(data.ok === true, "Sources API ok should be true");
+  assert(Array.isArray(data.sources) && data.sources.length >= 4, "Sources list is too small");
+  assert(data.sources.some((source) => source.key === "mock"), "Mock source profile missing");
+});
+
 await check("report api", async () => {
   const { response, data } = await fetchJson("/api/reports", {
     method: "POST",
