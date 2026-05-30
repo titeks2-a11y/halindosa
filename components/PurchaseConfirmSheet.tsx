@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { AlertTriangle, CheckCircle2, ExternalLink, ShieldCheck, X } from "lucide-react";
 import { getAffiliateDisclosure, getDealLinkTrustLabel } from "@/lib/affiliate";
 import { formatPrice, getRelativeTime } from "@/lib/format";
@@ -13,13 +14,29 @@ interface PurchaseConfirmSheetProps {
 }
 
 export function PurchaseConfirmSheet({ deal, isOpen, onClose, onConfirm }: PurchaseConfirmSheetProps) {
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen, onClose]);
+
   if (!isOpen || !deal) return null;
 
   const isVerified = deal.linkStatus === "verified";
   const StatusIcon = isVerified ? CheckCircle2 : AlertTriangle;
 
   return (
-    <div className="fixed inset-0 z-[80] flex items-end justify-center bg-slate-950/45 px-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-8 backdrop-blur-sm sm:items-center sm:p-6">
+    <div
+      className="fixed inset-0 z-[80] flex items-end justify-center bg-slate-950/45 px-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-8 backdrop-blur-sm sm:items-center sm:p-6"
+      onMouseDown={(event) => {
+        if (event.target === event.currentTarget) onClose();
+      }}
+    >
       <div
         role="dialog"
         aria-modal="true"
