@@ -344,6 +344,9 @@ await check("commercial launch readiness page", async () => {
   assert(text.includes("다음 우선 조치"), "Commercialization page missing next action queue");
   assert(text.includes("실기기 QA 체크리스트"), "Commercialization page missing device QA checklist reminder");
   assert(text.includes("운영 환경변수 확인"), "Commercialization page missing environment doctor reminder");
+  assert(text.includes("혜택 데이터 품질 요약"), "Commercialization page missing benefit data quality summary");
+  assert(text.includes("무료·쿠폰·포인트") && text.includes("구매 링크 확인") && text.includes("신고/종료 점검"), "Commercialization page missing benefit quality operating cards");
+  assert(text.includes("혜택형 콘텐츠 커버리지"), "Commercialization page missing benefit coverage guide");
 });
 
 await check("deals api", async () => {
@@ -540,6 +543,8 @@ await check("metrics api", async () => {
   assert(data.metrics?.verifiedLinkRate >= 0, "Metrics missing verified link rate");
   assert(data.metrics?.needsReviewLinks >= 0, "Metrics missing link review count");
   assert(data.linkQuality?.total === data.metrics?.totalDeals, "Metrics missing shared link quality summary");
+  assert(data.benefitQuality?.freeBenefitCount >= 0, "Metrics missing free benefit quality summary");
+  assert(data.benefitQuality?.typeBreakdown?.length >= 3, "Metrics missing benefit type breakdown");
   assert(Array.isArray(data.linkReviewQueue), "Metrics missing link review queue");
   assert(data.linkReviewQueue.length <= 8, "Metrics link review queue should be capped");
   if (data.linkReviewQueue.length) {

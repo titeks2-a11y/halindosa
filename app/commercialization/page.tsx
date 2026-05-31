@@ -70,10 +70,11 @@ const readinessItems = [
 ];
 
 export default async function CommercializationPage() {
-  const { metrics, linkQuality, linkReviewQueue, launchReadiness } = await getMockBusinessMetrics();
+  const { metrics, linkQuality, linkReviewQueue, launchReadiness, benefitQuality } = await getMockBusinessMetrics();
   const sources = listDealSourceProfiles();
   const activeSources = sources.filter((source) => source.status !== "planned");
   const topReviewDeals = linkReviewQueue.slice(0, 4);
+  const topBenefitTypes = benefitQuality.typeBreakdown.slice(0, 6);
 
   return (
     <main className="min-h-screen bg-slate-50 px-4 py-8 text-slate-950">
@@ -176,6 +177,73 @@ export default async function CommercializationPage() {
                 ))}
               </ol>
             </div>
+          </div>
+        </section>
+
+        <section className="mt-5 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm" aria-label="혜택 데이터 품질 요약">
+          <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+            <div>
+              <p className="text-sm font-black text-red-600">VER 2.0 운영 지표</p>
+              <h2 className="mt-1 text-2xl font-black text-slate-950">혜택 데이터 품질 요약</h2>
+              <p className="mt-2 max-w-2xl text-sm font-semibold leading-6 text-slate-500">
+                무료, 쿠폰, 포인트, 생활 혜택이 실제 운영 큐에 충분히 들어왔는지 확인합니다. 운영자는 신고와 종료
+                가능성이 있는 혜택을 먼저 점검하고, 구매처 바로 확인 상품을 우선 노출합니다.
+              </p>
+            </div>
+            <div className="rounded-2xl bg-slate-950 px-4 py-3 text-white">
+              <p className="text-xs font-black text-red-100">마지막 확인</p>
+              <p className="mt-1 text-sm font-black">
+                {new Intl.DateTimeFormat("ko-KR", { dateStyle: "medium", timeStyle: "short" }).format(
+                  new Date(benefitQuality.latestCheckedAt)
+                )}
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="rounded-2xl bg-red-50 p-4">
+              <p className="text-xs font-black text-red-700">무료·쿠폰·포인트</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">{benefitQuality.freeBenefitCount}개</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-red-900/70">혜택형 콘텐츠 커버리지</p>
+            </div>
+            <div className="rounded-2xl bg-slate-50 p-4">
+              <p className="text-xs font-black text-slate-500">활성 혜택</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">{benefitQuality.activeCount}개</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-slate-500">종료 전 노출 가능한 항목</p>
+            </div>
+            <div className="rounded-2xl bg-slate-50 p-4">
+              <p className="text-xs font-black text-slate-500">구매 링크 확인</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">
+                {benefitQuality.verifiedCount}/{benefitQuality.total}
+              </p>
+              <p className="mt-1 text-xs font-bold leading-5 text-slate-500">{benefitQuality.verifiedRate}% 확인 기준</p>
+            </div>
+            <div className="rounded-2xl bg-amber-50 p-4">
+              <p className="text-xs font-black text-amber-800">신고/종료 점검</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">{benefitQuality.needsReviewCount}개</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-amber-900/70">
+                신고 누적 {benefitQuality.reportCount}건 포함
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-4 grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+            {topBenefitTypes.map((item) => (
+              <div key={item.type} className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
+                <div className="flex items-center justify-between gap-3">
+                  <p className="text-sm font-black text-slate-950">{item.label}</p>
+                  <span className="rounded-full bg-white px-2.5 py-1 text-xs font-black text-red-600">
+                    {item.count}개
+                  </span>
+                </div>
+                <div className="mt-3 h-2 overflow-hidden rounded-full bg-white">
+                  <div className="h-full rounded-full bg-dossa-red" style={{ width: `${item.verifiedRate}%` }} />
+                </div>
+                <p className="mt-2 text-xs font-bold text-slate-500">
+                  구매처 확인 {item.verified}개 · 확인율 {item.verifiedRate}%
+                </p>
+              </div>
+            ))}
           </div>
         </section>
 

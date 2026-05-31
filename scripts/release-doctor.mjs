@@ -1123,7 +1123,10 @@ async function checkOperationalDataSurfaces() {
     "남은 링크 검수",
     "구매 링크 확인율",
     "출시 준비 단계",
-    "다음 우선 조치"
+    "다음 우선 조치",
+    "혜택 데이터 품질 요약",
+    "무료·쿠폰·포인트",
+    "신고/종료 점검"
   ];
   const missingCommercializationSnippets = commercializationSnippets.filter((snippet) => !commercializationPage.includes(snippet));
   if (missingCommercializationSnippets.length) {

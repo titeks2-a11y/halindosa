@@ -1,6 +1,7 @@
 import { findDealById, getDeals } from "@/lib/dealService";
 import { getLinkReviewQueue, summarizeDealQuality } from "@/lib/deals/quality";
 import { getPriceInsight } from "@/lib/priceHistory";
+import type { Deal, DealBenefitType } from "@/types/deal";
 
 export type AnalyticsEventType = "deal_click" | "favorite_add" | "favorite_remove" | "redirect_click";
 
@@ -84,6 +85,72 @@ function buildLaunchReadiness(linkQuality: ReturnType<typeof summarizeDealQualit
   };
 }
 
+const benefitLabels: Record<DealBenefitType, string> = {
+  discount: "오늘특가",
+  freebie: "무료혜택",
+  coupon: "쿠폰",
+  freeShipping: "무료배송",
+  experience: "체험단",
+  event: "이벤트",
+  point: "포인트",
+  convenienceStore: "편의점",
+  mart: "마트",
+  foodDelivery: "배달/외식"
+};
+
+function summarizeBenefitQuality(deals: Deal[]) {
+  const now = Date.now();
+  const activeDeals = deals.filter((deal) => !deal.isExpired && new Date(deal.expireAt).getTime() > now);
+  const verifiedDeals = deals.filter((deal) => deal.purchaseLinkVerified || deal.linkVerified || deal.isVerified);
+  const freeBenefitDeals = deals.filter((deal) =>
+    ["freebie", "coupon", "freeShipping", "experience", "event", "point", "convenienceStore", "mart", "foodDelivery"].includes(deal.dealType)
+  );
+  const typeCounts = new Map<DealBenefitType, number>();
+  const typeVerifiedCounts = new Map<DealBenefitType, number>();
+
+  for (const deal of deals) {
+    typeCounts.set(deal.dealType, (typeCounts.get(deal.dealType) ?? 0) + 1);
+
+    if (deal.purchaseLinkVerified || deal.linkVerified || deal.isVerified) {
+      typeVerifiedCounts.set(deal.dealType, (typeVerifiedCounts.get(deal.dealType) ?? 0) + 1);
+    }
+  }
+
+  const typeBreakdown = Array.from(typeCounts.entries())
+    .map(([type, count]) => {
+      const verified = typeVerifiedCounts.get(type) ?? 0;
+
+      return {
+        type,
+        label: benefitLabels[type],
+        count,
+        verified,
+        verifiedRate: Math.round((verified / count) * 100)
+      };
+    })
+    .sort((a, b) => b.count - a.count || b.verifiedRate - a.verifiedRate);
+
+  const reportCount = deals.reduce((sum, deal) => sum + deal.reportCount, 0);
+  const checkedAtValues = deals
+    .map((deal) => deal.lastVerifiedAt ?? deal.verifiedAt ?? deal.checkedAt ?? deal.priceCheckedAt)
+    .filter(Boolean)
+    .map((value) => new Date(value).getTime())
+    .filter((value) => Number.isFinite(value));
+  const latestCheckedAt = checkedAtValues.length ? new Date(Math.max(...checkedAtValues)).toISOString() : new Date().toISOString();
+
+  return {
+    total: deals.length,
+    activeCount: activeDeals.length,
+    freeBenefitCount: freeBenefitDeals.length,
+    verifiedCount: verifiedDeals.length,
+    verifiedRate: Math.round((verifiedDeals.length / deals.length) * 100),
+    typeBreakdown,
+    reportCount,
+    needsReviewCount: deals.filter((deal) => !deal.purchaseLinkVerified || deal.reportCount > 0 || deal.isSoldOut || deal.isExpired).length,
+    latestCheckedAt
+  };
+}
+
 export async function getMockBusinessMetrics() {
   const { deals, updatedAt, source } = await getDeals();
   const hotDeals = deals.filter((deal) => deal.isHot);
@@ -98,6 +165,7 @@ export async function getMockBusinessMetrics() {
   const linkQuality = summarizeDealQuality(deals);
   const launchReadiness = buildLaunchReadiness(linkQuality);
   const linkReviewQueue = getLinkReviewQueue(deals, 8);
+  const benefitQuality = summarizeBenefitQuality(deals);
   const averageConfidenceScore = Math.round(
     priceInsights.reduce((sum, insight) => sum + insight.confidenceScore, 0) / priceInsights.length
   );
@@ -123,6 +191,7 @@ export async function getMockBusinessMetrics() {
     },
     topDeals,
     linkQuality,
+    benefitQuality,
     launchReadiness,
     linkReviewQueue
   };
