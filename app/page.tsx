@@ -29,6 +29,7 @@ import { canOpenDealLink } from "@/lib/affiliate";
 import { getLinkQualityScore, isVerifiedPurchaseLink } from "@/lib/deals/quality";
 import { getRelativeTime } from "@/lib/format";
 import { buildDealRedirectUrl, buildNativeSafeDealUrl } from "@/lib/redirectUrl";
+import { buildPublicAppShareUrl, buildPublicDealShareUrl } from "@/lib/shareUrl";
 import {
   clearRecentDealsSynced,
   readLocalFavoriteIds,
@@ -679,7 +680,7 @@ export default function Home() {
   };
 
   const shareDeal = async (deal: Deal) => {
-    const shareUrl = typeof window === "undefined" ? deal.link : `${window.location.origin}/deals/${deal.id}`;
+    const shareUrl = buildPublicDealShareUrl(deal.id);
     const text = `${deal.mallName} ${deal.title} ${deal.discountRate}% 할인`;
 
     try {
@@ -718,7 +719,7 @@ export default function Home() {
   };
 
   const shareApp = async () => {
-    const appUrl = typeof window === "undefined" ? (process.env.NEXT_PUBLIC_SITE_URL || "https://halindosa.com") : window.location.origin;
+    const appUrl = buildPublicAppShareUrl();
     const text = "할인도사 - 실시간 할인 특가 정보를 가장 빠르게 찾는 방법";
 
     try {

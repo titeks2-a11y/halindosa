@@ -13,6 +13,7 @@ import { hasAffiliateConsent, hasAnalyticsConsent, readStoredConsent } from "@/l
 import { getLinkQualityScore, isVerifiedPurchaseLink } from "@/lib/deals/quality";
 import { formatPrice } from "@/lib/format";
 import { buildDealRedirectUrl, buildNativeSafeDealUrl } from "@/lib/redirectUrl";
+import { buildPublicDealShareUrl } from "@/lib/shareUrl";
 import { readLocalFavoriteIds, recordRecentDealView, syncFavoritesWithSupabase, toggleFavoriteSynced } from "@/lib/memberSync";
 import { Deal } from "@/types/deal";
 
@@ -186,7 +187,7 @@ export default function FavoritesPage() {
   };
 
   const shareDeal = async (deal: Deal) => {
-    const shareUrl = `${window.location.origin}/deals/${deal.id}`;
+    const shareUrl = buildPublicDealShareUrl(deal.id);
     const text = `${deal.mall} ${deal.title} ${deal.discountRate}% 할인`;
 
     try {

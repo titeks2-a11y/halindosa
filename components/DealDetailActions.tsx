@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { ArrowLeft, ExternalLink, Heart, Share2 } from "lucide-react";
 import { Deal } from "@/types/deal";
 import { buildDealRedirectUrl, buildNativeSafeDealUrl } from "@/lib/redirectUrl";
+import { buildPublicDealShareUrl } from "@/lib/shareUrl";
 import { canOpenDealLink } from "@/lib/affiliate";
 import { hasAffiliateConsent, hasAnalyticsConsent, readStoredConsent } from "@/lib/consent";
 import { readLocalFavoriteIds, recordRecentDealView, syncFavoritesWithSupabase, toggleFavoriteSynced } from "@/lib/memberSync";
@@ -97,7 +98,7 @@ export function DealDetailActions({ deal }: { deal: Deal }) {
   };
 
   const shareDeal = async () => {
-    const shareUrl = `${window.location.origin}/deals/${deal.id}`;
+    const shareUrl = buildPublicDealShareUrl(deal.id);
     const text = `${deal.mall} ${deal.title} ${deal.discountRate}% 할인`;
     const nav = navigator as Navigator & { share?: (data: ShareData) => Promise<void>; clipboard?: Clipboard };
 

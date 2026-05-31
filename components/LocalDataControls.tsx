@@ -5,6 +5,7 @@ import { CheckCircle2, RotateCcw, Share2, ShieldCheck, Trash2 } from "lucide-rea
 import { consentStorageKey } from "@/lib/consent";
 import { priceAlertStorageKey } from "@/lib/priceAlerts";
 import { recentDealStorageKey } from "@/lib/recentDeals";
+import { buildPublicAppShareUrl } from "@/lib/shareUrl";
 
 const favoriteStorageKey = "halindosa:favorites";
 const signalFavoriteStorageKey = "halindosa:signal-favorites";
@@ -29,7 +30,7 @@ export function LocalDataControls() {
   };
 
   const shareApp = async () => {
-    const appUrl = window.location.origin;
+    const appUrl = buildPublicAppShareUrl();
     const text = "할인도사 - 실시간 할인 특가 정보를 가장 빠르게 찾는 방법";
 
     try {

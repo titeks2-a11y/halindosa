@@ -523,6 +523,8 @@ async function checkUiAccessibility() {
   const searchDiscoveryPanel = await text("components/SearchDiscoveryPanel.tsx");
   const sortSelect = await text("components/SortSelect.tsx");
   const dealDetailActions = await text("components/DealDetailActions.tsx");
+  const localDataControls = await text("components/LocalDataControls.tsx");
+  const shareUrl = await text("lib/shareUrl.ts");
   const topNavigation = await text("components/TopNavigation.tsx");
   const liveDealFeed = await text("components/LiveDealFeed.tsx");
   const hotSignalSection = await text("components/HotSignalSection.tsx");
@@ -734,6 +736,22 @@ async function checkUiAccessibility() {
     fail("detail action feedback", "Deal detail favorite and share actions should expose state, accessible names, and user feedback.");
   } else {
     pass("detail action feedback", "Deal detail favorite and share actions expose state, accessible names, and user feedback.");
+  }
+
+  if (
+    !shareUrl.includes("buildPublicDealShareUrl") ||
+    !shareUrl.includes("buildPublicAppShareUrl") ||
+    !shareUrl.includes("isLocalOrNativeOrigin") ||
+    !shareUrl.includes("NEXT_PUBLIC_SITE_URL") ||
+    !homePage.includes("buildPublicDealShareUrl") ||
+    !homePage.includes("buildPublicAppShareUrl") ||
+    !dealDetailActions.includes("buildPublicDealShareUrl") ||
+    !favoritesPage.includes("buildPublicDealShareUrl") ||
+    !localDataControls.includes("buildPublicAppShareUrl")
+  ) {
+    fail("public share url safety", "Share flows should use public web URLs instead of native/local origins.");
+  } else {
+    pass("public share url safety", "Home, detail, favorites, and app sharing use public web URLs that avoid native/local origins.");
   }
 
   if (
