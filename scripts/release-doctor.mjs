@@ -408,7 +408,8 @@ async function checkPublicClaimCopy() {
     "확장할 수 있습니다",
     "현재 계정 기능을 준비",
     "현재 빠른 로그인 준비",
-    "현재 계정 로그인을 준비"
+    "현재 계정 로그인을 준비",
+    "상업화"
   ];
   const internalFindings = [];
 

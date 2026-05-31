@@ -110,6 +110,7 @@ await check("home page", async () => {
   assert(text.includes("현재 결과"), "Home page missing search result count summary");
   assert(text.includes("최근 기록 관리") && text.includes("찜 목록 보기"), "Home page missing recent deal management actions");
   assert(!text.includes("직접 구매 링크 비율"), "Home page should not expose internal link coverage ratio copy");
+  assert(!text.includes(">상업화<"), "Home page should not expose internal commercialization link in public footer");
   assert(text.includes("aria-pressed="), "Home deal favorite buttons missing pressed state");
   assert(text.includes("판매처 이동 전 확인"), "Home deal open buttons missing accessible purchase label");
   assert(text.includes("네트워크 정상") || text.includes("오프라인 상태"), "Home page missing network status summary");

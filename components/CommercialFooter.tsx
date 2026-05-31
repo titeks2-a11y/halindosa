@@ -33,9 +33,6 @@ export function CommercialFooter() {
             <Link className="rounded-full bg-slate-100 px-3 py-2 hover:bg-red-50 hover:text-dossa-red" href="/privacy">
               개인정보
             </Link>
-            <Link className="rounded-full bg-slate-100 px-3 py-2 hover:bg-red-50 hover:text-dossa-red" href="/commercialization">
-              상업화
-            </Link>
           </div>
         </div>
       </div>
