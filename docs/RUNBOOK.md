@@ -27,6 +27,8 @@ npm run smoke
 - 제휴/판매처 fallback 상태: `GET /api/affiliate/status`
 - 관리자: `GET /admin?token=$ADMIN_EXPORT_TOKEN`
 - CSV export: `GET /api/admin/export?token=$ADMIN_EXPORT_TOKEN`
+  - 링크 검수 작업에 필요한 `linkStatus`, `linkType`, `reviewPriority`, `reviewAction`, `reviewReason`, `purchaseConfidence`, `checkedAt`, `finalPurchaseUrl` 필드를 함께 내보낸다.
+  - 운영자는 CSV를 스프레드시트로 열어 우선 검수 상품부터 실제 상품 상세 URL을 보강하고, 다음 피드 import 전에 원본 데이터의 `productUrl` 또는 `finalPurchaseUrl`에 반영한다.
 
 ## 자동 smoke test
 

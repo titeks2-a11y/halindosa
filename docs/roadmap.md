@@ -97,6 +97,7 @@
 - `qa:release`에 `audit:commercial`을 포함해 스토어 제출 전 high/critical npm 취약점 검사를 자동 출시 게이트로 편입
 - `perf:budget` 스크립트를 추가해 정적 export, JS/CSS chunk, APK/AAB, 스토어 이미지 크기가 출시 예산을 넘으면 실패하도록 자동화
 - `release:evidence` 스크립트와 `docs/release-evidence.md`를 추가해 커밋, 앱 버전, APK/AAB, 스토어 이미지, 남은 수동 확인을 제출 전 증빙으로 보관
+- 관리자 CSV export에 링크 상태, 유형, 검수 우선순위, 보강 액션, 보강 사유, 구매 링크 신뢰도, 확인 시각, 최종 이동 URL을 포함해 운영자가 스프레드시트에서 바로 링크 보강 작업을 진행할 수 있도록 개선
 
 ### PHASE 2 코드 품질
 
@@ -236,3 +237,4 @@
 - release doctor가 `qa:release`의 상업용 보안 감사 포함 여부를 확인하도록 패키지 스크립트 검사를 강화했다.
 - `qa:release`가 `perf:budget`을 실행하도록 연결하고 release doctor가 성능 예산 게이트 포함 여부를 확인한다.
 - release doctor가 릴리즈 증빙 문서와 핵심 항목을 확인하도록 정책/스토어 문서 검사를 확장했다.
+- smoke와 release doctor가 관리자 CSV export의 링크 검수 필드 포함 여부를 확인한다.

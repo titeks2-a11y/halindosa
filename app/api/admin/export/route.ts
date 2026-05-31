@@ -3,6 +3,7 @@ import { createRequestId, getClientKey, rateLimit, rateLimitHeaders } from "@/li
 import { getDeals } from "@/lib/dealService";
 import { toCsv } from "@/lib/csv";
 import { canAccessAdmin } from "@/lib/adminAuth";
+import { getLinkReviewActionLabel, getLinkReviewPriority, getLinkReviewReason, getLinkStatusLabel, getLinkTypeLabel } from "@/lib/deals/quality";
 
 export async function GET(request: Request) {
   const requestId = createRequestId();
@@ -53,6 +54,15 @@ export async function GET(request: Request) {
       isEndingSoon: deal.isEndingSoon,
       popularityScore: deal.popularityScore,
       tags: deal.tags.join("|"),
+      linkStatus: getLinkStatusLabel(deal.linkStatus),
+      linkType: getLinkTypeLabel(deal.linkType),
+      linkLabel: deal.linkLabel,
+      reviewPriority: getLinkReviewPriority(deal),
+      reviewAction: getLinkReviewActionLabel(deal),
+      reviewReason: getLinkReviewReason(deal),
+      purchaseConfidence: deal.purchaseConfidence,
+      checkedAt: deal.checkedAt,
+      finalPurchaseUrl: deal.finalPurchaseUrl,
       source,
       exportedAt: updatedAt
     }))

@@ -647,6 +647,8 @@ await check("admin export csv", async () => {
   assert(response.headers.get("content-type")?.includes("text/csv"), "Export is not CSV");
   assert(response.headers.get("x-request-id"), "Export missing request id");
   assert(text.startsWith("id,mall,title"), "CSV header missing");
+  assert(text.includes("linkStatus") && text.includes("finalPurchaseUrl"), "CSV missing link review fields");
+  assert(text.includes("reviewPriority") && text.includes("reviewReason"), "CSV missing link review workflow fields");
 });
 
 await check("seo files", async () => {

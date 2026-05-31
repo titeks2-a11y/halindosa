@@ -554,6 +554,7 @@ async function checkOperationalDataSurfaces() {
   const accountPanel = await text("components/AccountPanel.tsx");
   const adminPage = await text("app/admin/page.tsx");
   const commercializationPage = await text("app/commercialization/page.tsx");
+  const smoke = await text("scripts/smoke.mjs");
   const redirectUrl = await text("lib/redirectUrl.ts");
   const goRoute = await text("app/go/[id]/route.ts");
   const dealTypes = await text("types/deal.ts");
@@ -613,8 +614,10 @@ async function checkOperationalDataSurfaces() {
 
   if (!quality.includes("getLinkReviewPriority") || !quality.includes("reviewReason") || !adminPage.includes("priorityLabels") || !adminPage.includes("현재 이동 URL")) {
     fail("admin link review workflow", "Admin link review queue should expose priority, reason, confidence, and current destination URL.");
+  } else if (!adminPage.includes("CSV 다운로드") || !smoke.includes("finalPurchaseUrl") || !smoke.includes("reviewPriority")) {
+    fail("admin link review export", "Admin CSV export should include link review status, priority, reason, and destination fields.");
   } else {
-    pass("admin link review workflow", "Admin link review queue exposes priority, reason, confidence, and current destination URL.");
+    pass("admin link review workflow", "Admin link review queue and CSV export expose priority, reason, confidence, and current destination URL.");
   }
 
   const commercializationSnippets = [
