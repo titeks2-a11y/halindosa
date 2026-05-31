@@ -1327,7 +1327,7 @@ export default function Home() {
                 </span>
                 <div>
                   <p className="text-lg font-black text-slate-950">할인도사</p>
-                  <p className="text-sm font-semibold text-slate-500">회원가입 없이 실시간 할인 특가를 확인하는 앱입니다.</p>
+                  <p className="text-sm font-semibold text-slate-500">비회원도 둘러보고, 로그인하면 관심 특가를 이어볼 수 있습니다.</p>
                 </div>
               </div>
               <div className="mt-5 grid grid-cols-3 gap-3">
@@ -1347,7 +1347,7 @@ export default function Home() {
               <div className="mt-5 rounded-2xl bg-slate-50 p-4">
                 <p className="text-sm font-black text-slate-950">공지사항</p>
                 <p className="mt-2 text-sm font-semibold leading-6 text-slate-500">
-                  현재 할인도사는 회원가입 없이 사용할 수 있으며, 관심 특가는 이 기기에만 저장됩니다. 실제 운영 전 공식 API와 제휴 피드를 연결할 예정입니다.
+                  비회원도 모든 특가를 자유롭게 볼 수 있습니다. 로그인하면 찜과 최근 본 상품, 관심 카테고리를 계정 기반으로 동기화할 수 있습니다.
                 </p>
               </div>
             </div>

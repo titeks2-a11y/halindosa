@@ -193,3 +193,5 @@
 - `/auth/callback`, `/onboarding`, `/api/account/delete` guard를 smoke에 추가해 소셜 로그인 진입, 온보딩, 탈퇴 보안 실패 흐름을 자동 확인한다.
 - 회원 데이터 동기화 로직을 `lib/memberSync.ts`로 분리해 Supabase 연결 시 DB 우선, 실패 시 기기 저장 fallback 구조를 유지한다.
 - OAuth redirect URL 생성과 open redirect 방지를 `lib/auth/redirect.ts`로 중앙화하고, Android/iOS 딥링크 설정 문서를 release doctor가 확인하도록 보강했다.
+- 앱 내 안내와 Play Store/App Store/Data Safety 문서에서 과거의 “회원가입 없음/기기 저장만” 문구를 제거하고, 비회원 열람 + 선택 로그인 + 계정 동기화 기준으로 업데이트했다.
+- release doctor를 76개 항목으로 확장해 스토어 문서와 공개 UI에 오래된 계정 모델 문구가 재등장하지 않도록 검사한다.

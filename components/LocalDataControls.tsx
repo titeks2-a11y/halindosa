@@ -53,12 +53,12 @@ export function LocalDataControls() {
     <section className="rounded-[22px] border border-slate-200 bg-white p-4 shadow-sm">
       <h2 className="text-base font-black text-slate-950">기기 데이터 관리</h2>
       <p className="mt-2 text-xs font-bold leading-5 text-slate-500">
-        할인도사는 현재 회원가입 없이 동작하며, 찜과 최근 본 특가는 이 기기에만 저장됩니다.
+        비회원은 이 기기에 찜과 최근 본 특가를 저장하고, 로그인 사용자는 Supabase 계정과 동기화할 수 있습니다.
       </p>
       <div className="mt-3 grid gap-2 rounded-2xl bg-slate-50 p-3 text-xs font-bold leading-5 text-slate-600">
         <div className="flex gap-2">
           <CheckCircle2 size={15} className="mt-0.5 shrink-0 text-dossa-red" />
-          <span>삭제 대상: 찜한 특가, 최근 본 특가, 관심 할인 신호, 분석/제휴 동의 설정</span>
+          <span>삭제 대상: 이 기기에 저장된 찜한 특가, 최근 본 특가, 관심 할인 신호, 분석/제휴 동의 설정</span>
         </div>
         <div className="flex gap-2">
           <ShieldCheck size={15} className="mt-0.5 shrink-0 text-slate-500" />

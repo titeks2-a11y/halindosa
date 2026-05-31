@@ -292,6 +292,41 @@ async function checkPublicClaimCopy() {
   } else {
     pass("public claim copy", "Public UI and listing copy avoids absolute price/availability guarantees.");
   }
+
+  const accountModelFiles = [
+    "app/page.tsx",
+    "app/mypage/page.tsx",
+    "app/guide/page.tsx",
+    "components/LocalDataControls.tsx",
+    "docs/play-store-listing.md",
+    "docs/app-store-checklist.md",
+    "docs/content-rating-guide.md",
+    "docs/data-safety-guide.md",
+    "docs/privacy-policy-draft.md"
+  ];
+  const staleAccountPhrases = [
+    "회원가입 없음",
+    "현재 회원가입 없이",
+    "별도 회원 서버에 저장하지 않습니다",
+    "계정 기능 도입 전",
+    "찜 목록은 기기 내 저장",
+    "회원가입 없이 동작",
+    "이 기기에만 저장됩니다"
+  ];
+  const staleAccountFindings = [];
+
+  for (const file of accountModelFiles) {
+    const body = await text(file);
+    for (const phrase of staleAccountPhrases) {
+      if (body.includes(phrase)) staleAccountFindings.push(`${file}: ${phrase}`);
+    }
+  }
+
+  if (staleAccountFindings.length) {
+    fail("account model copy", `Stale pre-auth copy found: ${staleAccountFindings.join(", ")}`);
+  } else {
+    pass("account model copy", "Store docs and public app copy reflect optional login with account sync.");
+  }
 }
 
 async function checkPartnerFeedSafety() {

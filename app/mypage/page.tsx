@@ -19,7 +19,7 @@ export default function MyPage() {
           </div>
         </div>
         <p className="mt-5 rounded-2xl bg-slate-50 p-4 text-sm font-semibold leading-6 text-slate-600">
-          회원가입 없이 특가를 탐색하고, 관심 특가는 이 기기에만 저장됩니다. 운영 데이터는 공식 API, 제휴 피드, 허용된 RSS처럼 권한이 확인된 소스만 연결하는 기준으로 관리합니다.
+          비회원도 특가를 자유롭게 탐색할 수 있고, 로그인하면 찜한 특가와 최근 본 상품을 계정 기반으로 이어볼 수 있습니다. 운영 데이터는 공식 API, 제휴 피드, 허용된 RSS처럼 권한이 확인된 소스만 연결하는 기준으로 관리합니다.
         </p>
       </section>
 
