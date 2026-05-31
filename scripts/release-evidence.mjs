@@ -1,0 +1,108 @@
+import { existsSync, statSync } from "node:fs";
+import { readFile, writeFile } from "node:fs/promises";
+import { execFileSync } from "node:child_process";
+import { join } from "node:path";
+
+const root = process.cwd();
+const outputPath = join(root, "docs/release-evidence.md");
+
+function run(command, args) {
+  try {
+    return execFileSync(command, args, { cwd: root, encoding: "utf8" }).trim();
+  } catch {
+    return "확인 불가";
+  }
+}
+
+function sizeOf(path) {
+  const fullPath = join(root, path);
+  return existsSync(fullPath) ? statSync(fullPath).size : 0;
+}
+
+function formatBytes(bytes) {
+  if (!bytes) return "없음";
+  if (bytes >= 1024 * 1024) return `${(bytes / (1024 * 1024)).toFixed(2)}MB`;
+  if (bytes < 1024) return `${bytes}B`;
+  return `${Math.round(bytes / 1024)}KB`;
+}
+
+const pkg = JSON.parse(await readFile(join(root, "package.json"), "utf8"));
+const capacitor = await readFile(join(root, "capacitor.config.ts"), "utf8");
+const androidGradle = await readFile(join(root, "android/app/build.gradle"), "utf8");
+const latestCommit = run("git", ["rev-parse", "--short", "HEAD"]);
+const branch = run("git", ["branch", "--show-current"]);
+const status = run("git", ["status", "--short"]) || "clean";
+const generatedAt = new Date().toISOString();
+
+const appId = capacitor.match(/appId:\s*['"]([^'"]+)/)?.[1] ?? "확인 필요";
+const appName = capacitor.match(/appName:\s*['"]([^'"]+)/)?.[1] ?? "확인 필요";
+const webDir = capacitor.match(/webDir:\s*['"]([^'"]+)/)?.[1] ?? "확인 필요";
+const versionCode = androidGradle.match(/versionCode\s+(\d+)/)?.[1] ?? "확인 필요";
+const versionName = androidGradle.match(/versionName\s+["']([^"']+)/)?.[1] ?? "확인 필요";
+
+const artifacts = [
+  ["Debug APK", "android/app/build/outputs/apk/debug/app-debug.apk"],
+  ["Release AAB", "android/app/build/outputs/bundle/release/app-release.aab"],
+  ["Play Store icon", "assets/store/play-store-icon-512.png"],
+  ["Feature graphic", "assets/store/feature-graphic-1024x500.png"],
+  ["iOS App icon", "ios/App/App/Assets.xcassets/AppIcon.appiconset/AppIcon-512@2x.png"],
+  ["iOS privacy manifest", "ios/App/App/PrivacyInfo.xcprivacy"]
+];
+
+const lines = [
+  "# 할인도사 릴리즈 증빙",
+  "",
+  "이 문서는 Play Store/App Store 제출 전 자동 검증 결과와 산출물 위치를 한곳에 남기기 위한 스냅샷입니다.",
+  "",
+  "## 기본 정보",
+  "",
+  `- 생성 시각: ${generatedAt}`,
+  `- Git 브랜치: ${branch}`,
+  `- 최신 커밋: ${latestCommit}`,
+  `- Git 상태: ${status}`,
+  `- 패키지 버전: ${pkg.version}`,
+  `- 앱 이름: ${appName}`,
+  `- 앱 ID / 패키지명: ${appId}`,
+  `- Capacitor webDir: ${webDir}`,
+  `- Android versionCode: ${versionCode}`,
+  `- Android versionName: ${versionName}`,
+  "",
+  "## 산출물",
+  "",
+  "| 항목 | 경로 | 크기 |",
+  "| --- | --- | --- |",
+  ...artifacts.map(([label, path]) => `| ${label} | \`${path}\` | ${formatBytes(sizeOf(path))} |`),
+  "",
+  "## 제출 전 검증 명령",
+  "",
+  "아래 명령은 릴리즈 후보를 확인할 때 사용합니다.",
+  "",
+  "```bash",
+  "npm install",
+  "npm run qa:release",
+  "npm run android:bundle",
+  "npm run release:evidence",
+  "```",
+  "",
+  "## 자동 검증 범위",
+  "",
+  "- lint, smoke, Next.js build, release doctor",
+  "- commercial security audit: high/critical npm 취약점 차단",
+  "- Android 정적 export 및 Capacitor Android sync",
+  "- Capacitor iOS sync",
+  "- performance budget: 정적 export, JS/CSS, APK/AAB, 스토어 이미지 크기 검사",
+  "- Android/iOS 앱 ID, 버전, 아이콘, 스플래시, 권한, 딥링크, 개인정보 manifest 점검",
+  "- 정책 페이지, 스토어 등록 문서, 데이터 보안/콘텐츠 등급/스크린샷 가이드 점검",
+  "",
+  "## 남은 수동 확인",
+  "",
+  "- Android Studio 또는 Play Console에서 signed AAB 업로드",
+  "- macOS/Xcode에서 iOS Archive 및 App Store Connect 업로드",
+  "- 실제 기기에서 홈, 검색, 상세, 찜, 알림, 마이, 외부 브라우저 이동 확인",
+  "- Supabase OAuth Provider와 공개 개인정보처리방침 URL을 운영 값으로 설정",
+  "- 링크 검수 큐 상위 상품의 실제 구매 URL 직접 확인",
+  ""
+];
+
+await writeFile(outputPath, `${lines.join("\n")}\n`, "utf8");
+console.log(`Release evidence written: docs/release-evidence.md`);

@@ -14,6 +14,7 @@
 - [x] `npm run qa`
 - [x] `npm run audit:commercial`
 - [x] `npm run perf:budget`
+- [x] `npm run release:evidence`
 - [x] `npm run qa:release`는 `audit:commercial`, `perf:budget`, Android/iOS sync, release doctor까지 포함
 
 ## Android 설정
@@ -92,6 +93,7 @@
 - Release AAB: `android/app/build/outputs/bundle/release/app-release.aab`
 - Roadmap: `docs/roadmap.md`
 - Store asset guide: `docs/store-assets-guide.md`
+- Release evidence: `docs/release-evidence.md`
 - Play Store icon draft: `assets/store/play-store-icon-512.png`
 - Feature graphic draft: `assets/store/feature-graphic-1024x500.png`
 

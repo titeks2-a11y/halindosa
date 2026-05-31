@@ -36,7 +36,8 @@ async function checkPackage() {
     "android:debug",
     "android:bundle",
     "qa:release",
-    "perf:budget"
+    "perf:budget",
+    "release:evidence"
   ];
   const missing = requiredScripts.filter((script) => !pkg.scripts?.[script]);
 
@@ -812,6 +813,7 @@ async function checkPolicyAndStoreDocs() {
     "docs/analytics-plan.md",
     "docs/data-source-runbook.md",
     "docs/app-store-checklist.md",
+    "docs/release-evidence.md",
     "docs/launch-day-checklist.md",
     "docs/weekly-operation-guide.md",
     "docs/customer-support-guide.md",
@@ -870,6 +872,11 @@ async function checkPolicyAndStoreDocs() {
       name: "account deletion content",
       file: "docs/ACCOUNT_DELETION.md",
       phrases: ["SUPABASE_SERVICE_ROLE_KEY", "user_favorite_deals", "user_recent_deals", "deal_click_logs", "auth.users"]
+    },
+    {
+      name: "release evidence content",
+      file: "docs/release-evidence.md",
+      phrases: ["릴리즈 증빙", "최신 커밋", "Release AAB", "자동 검증 범위", "남은 수동 확인"]
     },
     {
       name: "launch day checklist content",

@@ -96,6 +96,7 @@
 - `/commercialization`에 출시 준비 단계와 다음 우선 조치 큐를 추가해 내부 테스트, 공개 출시, 링크 검수 보강의 판단 기준을 한 화면에서 확인하도록 개선
 - `qa:release`에 `audit:commercial`을 포함해 스토어 제출 전 high/critical npm 취약점 검사를 자동 출시 게이트로 편입
 - `perf:budget` 스크립트를 추가해 정적 export, JS/CSS chunk, APK/AAB, 스토어 이미지 크기가 출시 예산을 넘으면 실패하도록 자동화
+- `release:evidence` 스크립트와 `docs/release-evidence.md`를 추가해 커밋, 앱 버전, APK/AAB, 스토어 이미지, 남은 수동 확인을 제출 전 증빙으로 보관
 
 ### PHASE 2 코드 품질
 
@@ -234,3 +235,4 @@
 - smoke와 release doctor에 상업화 보드의 출시 준비 단계 및 다음 우선 조치 큐 검사를 추가했다.
 - release doctor가 `qa:release`의 상업용 보안 감사 포함 여부를 확인하도록 패키지 스크립트 검사를 강화했다.
 - `qa:release`가 `perf:budget`을 실행하도록 연결하고 release doctor가 성능 예산 게이트 포함 여부를 확인한다.
+- release doctor가 릴리즈 증빙 문서와 핵심 항목을 확인하도록 정책/스토어 문서 검사를 확장했다.
