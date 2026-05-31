@@ -376,6 +376,7 @@ async function checkUiAccessibility() {
   const dealDetailPage = await text("app/deals/[id]/page.tsx");
   const dealTrustBadge = await text("components/DealTrustBadge.tsx");
   const purchaseConfirmSheet = await text("components/PurchaseConfirmSheet.tsx");
+  const priceAlertPanel = await text("components/PriceAlertPanel.tsx");
   const bottomNav = await text("components/BottomNav.tsx");
   const bottomNavigation = await text("components/BottomNavigation.tsx");
   const commercialFooter = await text("components/CommercialFooter.tsx");
@@ -486,6 +487,18 @@ async function checkUiAccessibility() {
     fail("detail action feedback", "Deal detail favorite and share actions should expose state, accessible names, and user feedback.");
   } else {
     pass("detail action feedback", "Deal detail favorite and share actions expose state, accessible names, and user feedback.");
+  }
+
+  if (
+    !dealDetailPage.includes("<PriceAlertPanel") ||
+    !priceAlertPanel.includes("halindosa:price-alerts") ||
+    !priceAlertPanel.includes("실제 푸시 발송은 운영 서버와 FCM 연결 후 활성화") ||
+    !priceAlertPanel.includes('role="status"') ||
+    priceAlertPanel.includes("Notification.requestPermission")
+  ) {
+    fail("price alert readiness", "Deal detail should offer device-saved price alert intent without requesting push permission in V1.");
+  } else {
+    pass("price alert readiness", "Deal detail captures price alert intent locally and keeps real push permission for a later FCM release.");
   }
 
   const requiredFooterSnippets = ['href="/guide"', 'href="/terms"', 'href="/privacy"', "flex-wrap"];

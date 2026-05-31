@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { AlertTriangle, ArrowLeft, Clock, ShieldCheck, Tag, Truck } from "lucide-react";
 import { DealDetailActions } from "@/components/DealDetailActions";
 import { DealTrustBadge } from "@/components/DealTrustBadge";
+import { PriceAlertPanel } from "@/components/PriceAlertPanel";
 import { RecentDealMarker } from "@/components/RecentDealMarker";
 import { mockDeals } from "@/data/mockDeals";
 import { getAffiliateDisclosure, getDealLinkTrustLabel } from "@/lib/affiliate";
@@ -176,6 +177,14 @@ export default async function DealDetailPage({ params }: DealDetailPageProps) {
             </p>
 
             <DealDetailActions deal={deal} />
+            <div className="mt-3">
+              <PriceAlertPanel
+                dealId={deal.id}
+                title={deal.title}
+                salePrice={deal.salePrice}
+                discountRate={deal.discountRate}
+              />
+            </div>
             <div className="mt-2">
               <a
                 href={`/reports?dealId=${deal.id}&reason=wrong_info`}

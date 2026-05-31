@@ -577,6 +577,8 @@ await check("detail purchase consent guard", async () => {
   const text = await response.text();
   assert(response.status === 200, `Expected 200, got ${response.status}`);
   assert(text.includes("구매 전 판매처 확인"), "Detail page missing purchase confirm button");
+  assert(text.includes("가격 알림 신청"), "Detail page missing price alert opt-in panel");
+  assert(text.includes("실제 푸시 발송은 운영 서버와 FCM 연결 후 활성화"), "Detail page should explain push alert readiness");
   assert(!text.includes("affiliate=granted"), "Detail page should not server-render affiliate consent");
   assert(!text.includes("analytics=granted"), "Detail page should not server-render analytics consent");
   assert(!text.includes("신뢰도 "), "Detail page should not expose internal numeric confidence labels");
