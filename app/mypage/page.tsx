@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Bell, CheckCircle2, Heart, Mail, ShieldCheck, ShoppingBag, User } from "lucide-react";
+import { Bell, CheckCircle2, Heart, Mail, ShieldCheck, ShoppingBag, Trash2, User } from "lucide-react";
 import { AccountPanel } from "@/components/AccountPanel";
 import { LocalDataControls } from "@/components/LocalDataControls";
 import { MypageConsentSettings } from "@/components/MypageConsentSettings";
@@ -20,6 +20,28 @@ export default function MyPage() {
     "외부 링크 리다이렉트 구조",
     "앱 아이콘/스플래시 구조"
   ];
+  const settingSummary = [
+    {
+      title: "계정 저장",
+      description: "찜, 최근 본 상품, 관심 카테고리를 계정 또는 기기 저장소로 이어봅니다.",
+      status: "선택 로그인"
+    },
+    {
+      title: "알림 설정",
+      description: "가격 알림 조건과 관심 알림은 앱 안에서 먼저 확인하고 푸시는 별도 동의 후 연결합니다.",
+      status: "기기 저장"
+    },
+    {
+      title: "개인정보/추적",
+      description: "분석과 제휴 추적 동의는 이 화면에서 직접 확인하고 초기화할 수 있습니다.",
+      status: "사용자 선택"
+    },
+    {
+      title: "고객 지원",
+      description: "문의, 가격 오류 신고, 정책 확인, 기기 데이터 삭제 경로를 한 화면에 모았습니다.",
+      status: "상시 가능"
+    }
+  ];
 
   return (
     <div className="space-y-4 px-3 py-4 sm:px-4 lg:px-0 lg:py-8">
@@ -39,6 +61,32 @@ export default function MyPage() {
       </section>
 
       <AccountPanel />
+
+      <section className="rounded-[22px] border border-slate-200 bg-white p-4 shadow-sm">
+        <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-xs font-black text-dossa-red">설정 점검 요약</p>
+            <h2 className="mt-1 text-base font-black text-slate-950">내 데이터와 알림을 한눈에 관리</h2>
+            <p className="mt-1 text-xs font-bold leading-5 text-slate-500">
+              출시형 앱에서 사용자가 직접 확인해야 하는 계정, 알림, 동의, 고객 지원 항목을 정리했습니다.
+            </p>
+          </div>
+          <Link href="/guide" className="rounded-2xl bg-slate-950 px-4 py-3 text-center text-xs font-black text-white">
+            관리 기준 보기
+          </Link>
+        </div>
+        <div className="mt-4 grid gap-2 sm:grid-cols-2">
+          {settingSummary.map((item) => (
+            <div key={item.title} className="rounded-2xl bg-slate-50 p-4">
+              <div className="flex items-center justify-between gap-3">
+                <p className="text-sm font-black text-slate-950">{item.title}</p>
+                <span className="rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-dossa-red shadow-sm">{item.status}</span>
+              </div>
+              <p className="mt-2 text-xs font-bold leading-5 text-slate-500">{item.description}</p>
+            </div>
+          ))}
+        </div>
+      </section>
 
       <section className="rounded-[22px] border border-slate-200 bg-white p-4 shadow-sm">
         <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
@@ -94,6 +142,10 @@ export default function MyPage() {
           <a href={getSupportMailto("할인도사 고객 문의")} className="flex items-center gap-2 rounded-2xl bg-slate-50 px-4 py-3">
             <Mail size={17} className="text-dossa-red" />
             문의하기 · {supportEmail}
+          </a>
+          <a href="/reports?reason=wrong_info" className="flex items-center gap-2 rounded-2xl bg-slate-50 px-4 py-3">
+            <Trash2 size={17} className="text-dossa-red" />
+            가격/품절 정보 신고
           </a>
         </div>
         <p className="mt-4 rounded-2xl bg-red-50 px-4 py-3 text-sm font-black text-dossa-red">

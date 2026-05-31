@@ -128,6 +128,8 @@ await check("mypage data controls", async () => {
   assert(response.status === 200, `Expected 200, got ${response.status}`);
   assert(text.includes("비회원으로 이용 중") || text.includes("로그인하고 관심 특가"), "Mypage missing account auth panel");
   assert(text.includes("계정 활동 요약"), "Mypage missing account activity summary");
+  assert(text.includes("설정 점검 요약"), "Mypage missing settings summary");
+  assert(text.includes("내 데이터와 알림을 한눈에 관리"), "Mypage missing data and notification management summary");
   assert(text.includes("빠른 작업"), "Mypage missing quick actions section");
   assert(text.includes("찜한 특가") && text.includes("알림 센터") && text.includes("카테고리"), "Mypage missing quick action links");
   assert(text.includes("기기 데이터 관리"), "Mypage missing local data controls");
@@ -135,6 +137,7 @@ await check("mypage data controls", async () => {
   assert(text.includes("가격 알림 조건"), "Mypage missing price alert deletion scope");
   assert(text.includes("분석/제휴 동의 초기화"), "Mypage missing consent reset action");
   assert(text.includes("서비스 안내"), "Mypage missing service guide link");
+  assert(text.includes("가격/품절 정보 신고"), "Mypage missing report entry point");
   assert(text.includes("support@halindosa.com"), "Mypage missing production support email");
   assert(!text.includes("halindosa.example"), "Mypage still exposes example support email");
   assert(text.includes("개인정보/추적 설정"), "Mypage missing consent settings panel");

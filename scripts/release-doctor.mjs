@@ -279,12 +279,16 @@ async function checkAuthSurface() {
     pass("auth pages", "Login and signup pages support email/password auth, nickname, and error states.");
   }
 
+  const mypagePage = await text("app/mypage/page.tsx");
+
   if (!accountPanel.includes("favoriteCategories") || !accountPanel.includes("notificationConsent") || !accountPanel.includes("marketingConsent")) {
     fail("member profile settings", "Mypage account panel should support nickname, favorite categories, and consent settings.");
   } else if (!accountPanel.includes("계정 활동 요약") || !accountPanel.includes("accountSummaryCards") || !accountPanel.includes("구매 링크 확인 특가 보기")) {
     fail("member profile settings", "Mypage account panel should summarize saved deals, recent views, categories, and next actions.");
+  } else if (!mypagePage.includes("설정 점검 요약") || !mypagePage.includes("내 데이터와 알림을 한눈에 관리") || !mypagePage.includes("가격/품절 정보 신고")) {
+    fail("member profile settings", "Mypage should summarize account, alert, consent, support, and report management paths.");
   } else {
-    pass("member profile settings", "Mypage account panel prepares member profile, interest categories, consent settings, and activity summary.");
+    pass("member profile settings", "Mypage prepares member profile, interest categories, consent settings, activity summary, and settings hub.");
   }
 
   if (!socialLoginButtons.includes("signInWithOAuth") || !socialLoginButtons.includes("google") || !socialLoginButtons.includes("kakao") || !socialLoginButtons.includes("naver")) {
