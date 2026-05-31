@@ -74,6 +74,7 @@ function isHomeOnlyUrl(url: URL) {
 
 function isSearchOrCategoryUrl(url: URL) {
   if (url.pathname.toLowerCase().includes("/product/")) return false;
+  if (/event|benefit|campaign|coupon|promotion/i.test(`${url.pathname}${url.search}${url.hash}`)) return false;
 
   const value = `${url.hostname}${url.pathname}${url.search}`.toLowerCase();
   return [
@@ -103,7 +104,7 @@ function isKnownProductDetailUrl(url: URL, mallName: string) {
   if (/g마켓|지마켓|gmarket/.test(mall) || hostMatches(host, "gmarket.co.kr")) return host.includes("item.gmarket.co.kr") || /\/item\//.test(path);
   if (/11번가|11st/.test(mall) || hostMatches(host, "11st.co.kr")) return /\/products\/\d+|\/product\/svip\.tmall|prdno=/.test(full);
   if (/옥션|auction/.test(mall) || hostMatches(host, "auction.co.kr")) return host.includes("itempage") || /itemno=|\/item\//.test(full);
-  if (/ssg|쓱|이마트/.test(mall) || hostMatches(host, "ssg.com")) return /itemid=|\/item\/itemview\.ssg|\/goods\//.test(full);
+  if (/ssg|쓱|이마트/.test(mall) || hostMatches(host, "ssg.com")) return /itemid=|\/item\/itemview\.ssg|\/goods\/|\/event/.test(full);
   if (/마켓컬리|컬리|kurly/.test(mall) || hostMatches(host, "kurly.com")) return /\/goods\/\d+/.test(path);
   if (/오늘의집/.test(mall) || hostMatches(host, "ohou.se")) return /\/productions\/\d+|\/goods\/\d+/.test(path);
   if (/무신사|musinsa/.test(mall) || hostMatches(host, "musinsa.com")) return /\/products\/\d+/.test(path);
@@ -116,6 +117,24 @@ function isKnownProductDetailUrl(url: URL, mallName: string) {
   if (/알리|ali/.test(mall) || hostMatches(host, "aliexpress.com")) return /\/item\/\d+\.html|\/i\/\d+\.html/.test(path);
   if (/아마존|amazon/.test(mall) || hostMatches(host, "amazon.com")) return /\/dp\/[a-z0-9]+|\/gp\/product\/[a-z0-9]+/.test(path);
   if (/하이마트|himart/.test(mall) || hostMatches(host, "e-himart.co.kr")) return /\/app\/goods\/goodsdetail|goodsno=|goodscode=/.test(full);
+  if (/네이버페이|naverpay/.test(mall) || hostMatches(host, "pay.naver.com")) return /\/member\/benefit\/event|\/promotion\/event/.test(path);
+  if (/네이버플러스|naverplus/.test(mall) || hostMatches(host, "nid.naver.com")) return /\/membership\/join/.test(path);
+  if (/카카오페이|kakaopay/.test(mall) || hostMatches(host, "kakaopay.com")) return /\/benefits|\/event/.test(path);
+  if (/토스|toss/.test(mall) || hostMatches(host, "toss.im")) return /\/event/.test(path);
+  if (/payco|페이코/.test(mall) || hostMatches(host, "payco.com")) return /\/event/.test(path) || path.includes("event.nhn");
+  if (/t멤버십|tmembership|통신사/.test(mall) || hostMatches(host, "tmembership.co.kr")) return /\/benefit|\/event|\/discount/.test(path);
+  if (/배달의민족|배민|baemin/.test(mall) || hostMatches(host, "baemin.com")) return /\/event/.test(path);
+  if (/아모레몰|amoremall/.test(mall) || hostMatches(host, "amoremall.com")) return /\/event/.test(path);
+  if (/cgv/.test(mall) || hostMatches(host, "cgv.co.kr")) return /\/culture-event\/event/.test(path);
+  if (/cu|bgf/.test(mall) || hostMatches(host, "bgfretail.com")) return /\/event/.test(path);
+  if (/세븐일레븐|7-eleven|7eleven/.test(mall) || hostMatches(host, "7-eleven.co.kr")) return /\/event/.test(path);
+  if (/홈플러스|homeplus/.test(mall) || hostMatches(host, "homeplus.co.kr")) return /\/event/.test(path) || full.includes("event");
+  if (/요기요|yogiyo/.test(mall) || hostMatches(host, "yogiyo.co.kr")) return /\/event/.test(path) || full.includes("event") || (path.includes("/mobile") && url.hash.includes("event"));
+  if (/스타벅스|starbucks/.test(mall) || hostMatches(host, "starbucks.co.kr")) return /\/whats_new\/campaign/.test(path) || /\/event/.test(path);
+  if (/kt멤버십|kt membership|kt/.test(mall) || hostMatches(host, "membership.kt.com")) return /\/benefit|\/event|\/discount/.test(path);
+  if (/u\+|유플러스|uplus/.test(mall) || hostMatches(host, "uplus.co.kr")) return /\/benefit|\/event|membership/.test(full);
+  if (/맘큐|momq/.test(mall) || hostMatches(host, "momq.co.kr")) return /\/event|\/display/.test(path);
+  if (/아이챌린지|i-challenge/.test(mall) || hostMatches(host, "i-challenge.co.kr")) return /\/event/i.test(path);
 
   return !isHomeOnlyUrl(url) && !isSearchOrCategoryUrl(url);
 }

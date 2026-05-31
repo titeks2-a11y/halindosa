@@ -17,3 +17,5 @@ foreach ($connection in $connections) {
 spawnSync("powershell.exe", ["-NoProfile", "-Command", script], {
   stdio: "inherit"
 });
+
+process.exit(0);

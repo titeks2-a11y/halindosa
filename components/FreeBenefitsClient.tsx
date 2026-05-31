@@ -104,6 +104,44 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
     [deals]
   );
 
+  const benefitRoutines = useMemo(
+    () => [
+      {
+        title: "오늘 먼저 받을 혜택",
+        copy: "무료 샘플, 체험단, 초대권처럼 비용 없이 확인할 수 있는 혜택입니다.",
+        count: deals.filter((deal) => deal.dealType === "freebie" || deal.dealType === "experience").length,
+        action: "무료부터 보기",
+        icon: Gift,
+        onClick: () => setActiveType("freebie" as const)
+      },
+      {
+        title: "결제 전 쿠폰 챙기기",
+        copy: "첫 구매, 카드사, 브랜드 공식몰 쿠폰 조건을 구매 전에 확인합니다.",
+        count: deals.filter((deal) => deal.dealType === "coupon" || deal.dealType === "foodDelivery").length,
+        action: "쿠폰 모아보기",
+        icon: Sparkles,
+        onClick: () => setActiveType("coupon" as const)
+      },
+      {
+        title: "앱테크·포인트 적립",
+        copy: "출석체크, 페이 리워드, 멤버십 포인트처럼 생활비를 줄이는 혜택입니다.",
+        count: deals.filter((deal) => deal.dealType === "point").length,
+        action: "포인트 보기",
+        icon: Timer,
+        onClick: () => setActiveType("point" as const)
+      },
+      {
+        title: "장보기·편의점 행사",
+        copy: "편의점 1+1, 마트 무료배송, 장보기 쿠폰을 한 번에 좁혀봅니다.",
+        count: deals.filter((deal) => deal.dealType === "convenienceStore" || deal.dealType === "mart" || deal.isFreeShipping).length,
+        action: "생활 혜택 보기",
+        icon: Truck,
+        onClick: () => setActiveType("convenienceStore" as const)
+      }
+    ],
+    [deals]
+  );
+
   const toggleFavorite = (id: string) => {
     setFavorites((current) => {
       const next = current.includes(id) ? current.filter((item) => item !== id) : [id, ...current];
@@ -175,6 +213,43 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
                 <p className="mt-2 text-sm font-bold text-red-50">구매 전 최종 조건은 판매처에서 확인하세요.</p>
               </div>
             </div>
+          </div>
+        </section>
+
+        <section className="rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5" aria-label="오늘 무료 혜택 루틴">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-black text-dossa-red">오늘 무료 혜택 루틴</p>
+              <h2 className="mt-1 text-2xl font-black tracking-tight text-slate-950">돈 쓰기 전에 이 순서로 챙기세요</h2>
+            </div>
+            <p className="max-w-md text-sm font-bold leading-6 text-slate-500">
+              무료, 쿠폰, 포인트, 장보기 혜택을 먼저 확인하면 같은 소비에서도 체감 절약이 커집니다.
+            </p>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+            {benefitRoutines.map((routine) => {
+              const Icon = routine.icon;
+
+              return (
+                <button
+                  key={routine.title}
+                  type="button"
+                  onClick={routine.onClick}
+                  className="min-h-[166px] rounded-3xl border border-slate-100 bg-slate-50 p-4 text-left transition hover:-translate-y-0.5 hover:border-red-200 hover:bg-red-50"
+                  aria-label={`${routine.title} ${routine.count}개 보기`}
+                >
+                  <span className="flex items-start justify-between gap-3">
+                    <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-dossa-red shadow-sm">
+                      <Icon size={21} />
+                    </span>
+                    <span className="rounded-full bg-white px-2.5 py-1 text-xs font-black text-dossa-red shadow-sm">{routine.count}개</span>
+                  </span>
+                  <span className="mt-4 block text-base font-black text-slate-950">{routine.title}</span>
+                  <span className="mt-1 line-clamp-2 block text-xs font-bold leading-5 text-slate-500">{routine.copy}</span>
+                  <span className="mt-3 inline-flex rounded-full bg-dossa-red px-3 py-1.5 text-xs font-black text-white">{routine.action}</span>
+                </button>
+              );
+            })}
           </div>
         </section>
 

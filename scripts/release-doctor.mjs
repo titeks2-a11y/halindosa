@@ -1095,6 +1095,9 @@ async function checkOperationalDataSurfaces() {
     !freeBenefitsClient.includes("배달/외식") ||
     !freeBenefitsClient.includes("무료 혜택 검색") ||
     !freeBenefitsClient.includes("무료 혜택 정렬") ||
+    !freeBenefitsClient.includes("오늘 무료 혜택 루틴") ||
+    !freeBenefitsClient.includes("돈 쓰기 전에 이 순서로 챙기세요") ||
+    !freeBenefitsClient.includes("결제 전 쿠폰 챙기기") ||
     !freeBenefitsClient.includes("가입 없이 받기") ||
     !freeBenefitsClient.includes("선착순 혜택") ||
     !freeBenefitsClient.includes("배송비:") ||

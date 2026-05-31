@@ -26,6 +26,13 @@ function buildMarketplaceSearchUrl(mall: string, title: string) {
   if (/오늘의집/.test(normalizedMall)) return `https://ohou.se/productions/feed?query=${query}`;
   if (/인터파크/.test(normalizedMall)) return `https://shopping.interpark.com/search/all?keyword=${query}`;
   if (/gs25|cu|세븐일레븐|편의점/.test(normalizedMall)) return `https://search.shopping.naver.com/search/all?query=${query}`;
+  if (/홈플러스|homeplus/.test(normalizedMall)) return `https://front.homeplus.co.kr/search?entry=direct&keyword=${query}`;
+  if (/요기요|yogiyo/.test(normalizedMall)) return `https://www.yogiyo.co.kr/mobile/#/search/${query}`;
+  if (/스타벅스|starbucks/.test(normalizedMall)) return `https://www.starbucks.co.kr/search/search.do?search=${query}`;
+  if (/kt멤버십|kt membership/.test(normalizedMall)) return `https://membership.kt.com/discount/discountList.do`;
+  if (/유플러스|uplus/.test(normalizedMall)) return `https://www.uplus.co.kr/benefit-membership`;
+  if (/맘큐|momq/.test(normalizedMall)) return `https://www.momq.co.kr/search?keyword=${query}`;
+  if (/아이챌린지/.test(normalizedMall)) return `https://www.i-challenge.co.kr/Event/`;
 
   return `https://search.shopping.naver.com/search/all?query=${query}`;
 }
@@ -203,7 +210,19 @@ export const mockDeals: Deal[] = [
   deal("d057", "T멤버십", "T멤버십 커피 무료 사이즈업 쿠폰", "쿠폰/이벤트", 1500, 100, 0.5, 8, { isHot: true, isNew: true, isEndingSoon: true }, ["통신사", "멤버십", "커피", "무료 쿠폰"], 89, "", "https://www.tmembership.co.kr/web/html/main/benefit.html"),
   deal("d058", "배달의민족", "배달앱 첫 주문 5천원 할인 쿠폰", "쿠폰/이벤트", 5000, 100, 0.4, 12, { isHot: true, isNew: true, isEndingSoon: true }, ["배달", "외식", "첫 구매", "쿠폰"], 92, "", "https://www.baemin.com/event/"),
   deal("d059", "아모레몰", "아모레몰 기초케어 무료 샘플 체험단", "뷰티", 9900, 100, 3, 36, { isHot: false, isNew: true, isEndingSoon: false }, ["무료 샘플", "체험단", "배송비 확인", "뷰티"], 78, "", "https://www.amoremall.com/kr/ko/event"),
-  deal("d060", "CGV", "CGV 영화 시사회 무료 초대권 응모", "여행/티켓", 14000, 100, 2, 20, { isHot: true, isNew: true, isEndingSoon: false }, ["무료 초대권", "영화", "이벤트", "선착순"], 85, "", "https://www.cgv.co.kr/culture-event/event/")
+  deal("d060", "CGV", "CGV 영화 시사회 무료 초대권 응모", "여행/티켓", 14000, 100, 2, 20, { isHot: true, isNew: true, isEndingSoon: false }, ["무료 초대권", "영화", "이벤트", "선착순"], 85, "", "https://www.cgv.co.kr/culture-event/event/"),
+  deal("d061", "CU", "CU 커피·음료 1+1 모바일 쿠폰 행사", "편의점/마트", 2400, 50, 0.4, 9, { isHot: true, isNew: true, isEndingSoon: true }, ["편의점", "1+1", "쿠폰", "오늘만"], 92, "", "https://cu.bgfretail.com/event/plus.do?category=event&depth2=1&sf=N"),
+  deal("d062", "세븐일레븐", "세븐일레븐 도시락 2+1 멤버십 행사", "편의점/마트", 5900, 67, 0.6, 14, { isHot: true, isNew: true, isEndingSoon: false }, ["편의점", "2+1", "모바일쿠폰", "생활비절약"], 88, "", "https://www.7-eleven.co.kr/event/eventList.asp"),
+  deal("d063", "홈플러스", "홈플러스 첫 장보기 무료배송 쿠폰팩", "편의점/마트", 4000, 100, 1, 30, { isHot: true, isNew: true, isEndingSoon: false }, ["무료배송", "첫 구매", "쿠폰", "마트"], 87, "", "https://front.homeplus.co.kr/event"),
+  deal("d064", "이마트몰", "이마트몰 쓱배송 장보기 무료배송 이벤트", "편의점/마트", 3000, 100, 1.5, 24, { isHot: true, isNew: true, isEndingSoon: false }, ["무료배송", "마트", "장보기", "쿠폰"], 86, "", "https://emart.ssg.com/event/eventMain.ssg"),
+  deal("d065", "요기요", "요기요 첫 주문 7천원 할인 쿠폰", "쿠폰/이벤트", 7000, 100, 0.7, 10, { isHot: true, isNew: true, isEndingSoon: true }, ["배달", "외식", "첫 구매", "쿠폰"], 93, "", "https://www.yogiyo.co.kr/mobile/#/event/"),
+  deal("d066", "스타벅스", "스타벅스 앱 이벤트 음료 쿠폰 확인", "쿠폰/이벤트", 4500, 100, 2, 40, { isHot: false, isNew: true, isEndingSoon: false }, ["커피", "무료 쿠폰", "이벤트", "앱가입"], 82, "", "https://www.starbucks.co.kr/whats_new/campaign_list.do"),
+  deal("d067", "KT멤버십", "KT멤버십 영화·외식 할인 쿠폰 모음", "쿠폰/이벤트", 8000, 100, 3, 72, { isHot: false, isNew: true, isEndingSoon: false }, ["통신사", "멤버십", "영화", "외식"], 80, "", "https://membership.kt.com/discount/discountList.do"),
+  deal("d068", "유플러스멤버십", "U+멤버십 편의점·카페 할인 혜택", "쿠폰/이벤트", 5000, 100, 3, 60, { isHot: false, isNew: true, isEndingSoon: false }, ["통신사", "멤버십", "편의점", "카페"], 79, "", "https://www.uplus.co.kr/benefit-membership"),
+  deal("d069", "맘큐", "맘큐 육아용품 샘플팩·체험 이벤트", "육아", 9900, 100, 4, 48, { isHot: true, isNew: true, isEndingSoon: false }, ["육아", "무료 샘플", "체험단", "배송비 확인"], 84, "", "https://www.momq.co.kr/display/eventList"),
+  deal("d070", "아이챌린지", "아이챌린지 유아 학습지 무료 체험 키트", "육아", 12000, 100, 4, 96, { isHot: false, isNew: true, isEndingSoon: false }, ["육아", "무료체험", "체험단", "선착순"], 81, "", "https://www.i-challenge.co.kr/Event/"),
+  deal("d071", "카카오페이", "카카오페이 결제 리워드 스탬프 이벤트", "쿠폰/이벤트", 3000, 100, 0.5, 16, { isHot: true, isNew: true, isEndingSoon: true }, ["페이", "포인트", "리워드", "앱테크"], 91, "", "https://www.kakaopay.com/benefits"),
+  deal("d072", "네이버플러스", "네이버플러스 멤버십 무료 체험 혜택", "쿠폰/이벤트", 4900, 100, 1.2, 36, { isHot: true, isNew: true, isEndingSoon: false }, ["무료체험", "멤버십", "포인트", "첫 구매"], 89, "", "https://nid.naver.com/membership/join?m=benefit")
 ];
 
 export const categories = ["전체", "식품", "전자기기", "생활용품", "의류", "육아", "여행/티켓", "뷰티", "가전", "편의점/마트", "쿠폰/이벤트", "기타"] as const;

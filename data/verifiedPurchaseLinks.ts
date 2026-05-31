@@ -368,5 +368,77 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     checkedAt: "2026-06-01T08:30:00.000Z",
     source: "manual_review",
     evidence: "CGV 공식 이벤트 페이지"
+  },
+  d061: {
+    url: "https://cu.bgfretail.com/event/plus.do?category=event&depth2=1&sf=N",
+    checkedAt: "2026-06-01T09:40:00.000Z",
+    source: "manual_review",
+    evidence: "CU 공식 1+1/2+1 행사 페이지"
+  },
+  d062: {
+    url: "https://www.7-eleven.co.kr/event/eventList.asp",
+    checkedAt: "2026-06-01T09:40:00.000Z",
+    source: "manual_review",
+    evidence: "세븐일레븐 공식 이벤트 목록"
+  },
+  d063: {
+    url: "https://front.homeplus.co.kr/event",
+    checkedAt: "2026-06-01T09:40:00.000Z",
+    source: "manual_review",
+    evidence: "홈플러스 공식 이벤트 페이지"
+  },
+  d064: {
+    url: "https://emart.ssg.com/event/eventMain.ssg",
+    checkedAt: "2026-06-01T09:40:00.000Z",
+    source: "manual_review",
+    evidence: "이마트몰 공식 이벤트 메인"
+  },
+  d065: {
+    url: "https://www.yogiyo.co.kr/mobile/#/event/",
+    checkedAt: "2026-06-01T09:40:00.000Z",
+    source: "manual_review",
+    evidence: "요기요 공식 이벤트 페이지"
+  },
+  d066: {
+    url: "https://www.starbucks.co.kr/whats_new/campaign_list.do",
+    checkedAt: "2026-06-01T09:40:00.000Z",
+    source: "manual_review",
+    evidence: "스타벅스 공식 캠페인 목록"
+  },
+  d067: {
+    url: "https://membership.kt.com/discount/discountList.do",
+    checkedAt: "2026-06-01T09:40:00.000Z",
+    source: "manual_review",
+    evidence: "KT멤버십 공식 할인 혜택 목록"
+  },
+  d068: {
+    url: "https://www.uplus.co.kr/benefit-membership",
+    checkedAt: "2026-06-01T09:40:00.000Z",
+    source: "manual_review",
+    evidence: "U+멤버십 공식 혜택 페이지"
+  },
+  d069: {
+    url: "https://www.momq.co.kr/display/eventList",
+    checkedAt: "2026-06-01T09:40:00.000Z",
+    source: "manual_review",
+    evidence: "맘큐 공식 이벤트 목록"
+  },
+  d070: {
+    url: "https://www.i-challenge.co.kr/Event/",
+    checkedAt: "2026-06-01T09:40:00.000Z",
+    source: "manual_review",
+    evidence: "아이챌린지 공식 이벤트 페이지"
+  },
+  d071: {
+    url: "https://www.kakaopay.com/benefits",
+    checkedAt: "2026-06-01T09:40:00.000Z",
+    source: "manual_review",
+    evidence: "카카오페이 공식 혜택 페이지"
+  },
+  d072: {
+    url: "https://nid.naver.com/membership/join?m=benefit",
+    checkedAt: "2026-06-01T09:40:00.000Z",
+    source: "manual_review",
+    evidence: "네이버플러스 멤버십 공식 가입 혜택 페이지"
   }
 };

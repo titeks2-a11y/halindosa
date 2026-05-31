@@ -248,7 +248,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
             <div>
               <h2 className="text-xl font-black text-slate-950">링크 검수 큐</h2>
               <p className="mt-1 text-sm font-semibold text-slate-500">
-                판매처 검색 fallback이 적용된 특가를 우선 보강하면 구매 전환과 심사 신뢰도를 높일 수 있습니다.
+                판매처 검색 fallback이 적용된 특가는 상품 상세 URL 보강 필요 항목으로 관리하고, 운영자가 판매처 확인 후 구매 전환과 심사 신뢰도를 높입니다.
               </p>
             </div>
             <Link href="/?verifiedOnly=true" className="inline-flex items-center gap-2 rounded-2xl bg-slate-950 px-4 py-3 text-sm font-black text-white">
