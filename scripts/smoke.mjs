@@ -229,6 +229,16 @@ await check("support page", async () => {
   assert(text.includes("개인정보처리방침") && text.includes("이용약관") && text.includes("마이 설정"), "Support page missing policy and data management links");
 });
 
+await check("store screenshot preview", async () => {
+  const response = await fetch(`${baseUrl}/store-preview`);
+  const text = await response.text();
+  assert(response.status === 200, `Expected 200, got ${response.status}`);
+  assert(text.includes("스크린샷 촬영 보드"), "Store preview missing title");
+  assert(text.includes("오늘 먼저 볼 특가") && text.includes("검색과 필터") && text.includes("구매 전 상세 확인"), "Store preview missing primary capture scenes");
+  assert(text.includes("관심 특가 저장") && text.includes("마감임박과 무료배송") && text.includes("정책과 설정"), "Store preview missing secondary capture scenes");
+  assert(text.includes("촬영 화면 열기"), "Store preview missing capture links");
+});
+
 await check("not found page", async () => {
   const response = await fetch(`${baseUrl}/missing-launch-page`);
   const text = await response.text();

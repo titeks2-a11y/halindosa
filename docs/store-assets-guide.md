@@ -28,6 +28,8 @@
 ### 휴대전화 스크린샷
 
 - 최소 2장, 권장 6장
+- 촬영 보드: `/store-preview`
+- 자동 점검: `npm run store:screenshots:doctor`
 - 권장 화면:
   1. 홈: 오늘의 추천 특가
   2. 카테고리: 식품/생활용품/디지털 탭
@@ -86,6 +88,7 @@ npm run build
 npm run build:android
 npm run cap:sync
 npm run store:assets:doctor
+npm run store:screenshots:doctor
 npm run release:doctor
 ```
 

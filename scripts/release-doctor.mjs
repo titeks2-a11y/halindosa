@@ -51,13 +51,14 @@ async function checkPackage() {
     "env:doctor",
     "links:report",
     "store:assets:doctor",
+    "store:screenshots:doctor",
     "release:evidence"
   ];
   const missing = requiredScripts.filter((script) => !pkg.scripts?.[script]);
 
   if (missing.length) fail("package scripts", `Missing scripts: ${missing.join(", ")}`);
-  else if (!pkg.scripts?.["qa:release"]?.includes("audit:commercial") || !pkg.scripts?.["qa:release"]?.includes("store:assets:doctor") || !pkg.scripts?.["qa:release"]?.includes("perf:budget")) {
-    fail("package scripts", "qa:release should include commercial security audit, store asset doctor, and performance budget before store submission.");
+  else if (!pkg.scripts?.["qa:release"]?.includes("audit:commercial") || !pkg.scripts?.["qa:release"]?.includes("store:assets:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:doctor") || !pkg.scripts?.["qa:release"]?.includes("perf:budget")) {
+    fail("package scripts", "qa:release should include commercial security audit, store asset doctor, store screenshot doctor, and performance budget before store submission.");
   } else {
     pass("package scripts", "Android, iOS, environment, commercial security, and performance release command flow is available.");
   }
@@ -540,6 +541,8 @@ async function checkUiAccessibility() {
   const notFoundPage = await text("app/not-found.tsx");
   const loadingPage = await text("app/loading.tsx");
   const errorPage = await text("app/error.tsx");
+  const storePreviewPage = await text("app/store-preview/page.tsx");
+  const storeScreenshotScenes = await text("data/storeScreenshotScenes.ts");
   const smoke = await text("scripts/smoke.mjs");
   const requiredSnippets = [
     "aria-pressed={isFavorite}",
@@ -582,6 +585,20 @@ async function checkUiAccessibility() {
     fail("empty state UX", "Global not-found, loading, and error states should be branded, actionable, and covered by smoke tests.");
   } else {
     pass("empty state UX", "Search, favorites, not-found, loading, and error states include branded next actions.");
+  }
+
+  if (
+    !storePreviewPage.includes("스크린샷 촬영 보드") ||
+    !storePreviewPage.includes("index: false") ||
+    !storeScreenshotScenes.includes("오늘 먼저 볼 특가") ||
+    !storeScreenshotScenes.includes("검색과 필터") ||
+    !storeScreenshotScenes.includes("구매 전 상세 확인") ||
+    !storeScreenshotScenes.includes("마감임박과 무료배송") ||
+    !smoke.includes("store screenshot preview")
+  ) {
+    fail("store screenshot preview", "Store screenshot capture board should be noindex, cover six scenes, and be smoke-tested.");
+  } else {
+    pass("store screenshot preview", "Store screenshot capture board covers launch screenshots and is smoke-tested.");
   }
 
   if (
