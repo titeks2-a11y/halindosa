@@ -577,6 +577,7 @@ await check("detail purchase consent guard", async () => {
   assert(text.includes("구매 전 판매처 확인"), "Detail page missing purchase confirm button");
   assert(!text.includes("affiliate=granted"), "Detail page should not server-render affiliate consent");
   assert(!text.includes("analytics=granted"), "Detail page should not server-render analytics consent");
+  assert(!text.includes("신뢰도 "), "Detail page should not expose internal numeric confidence labels");
 });
 
 await check("favorites page consent guard", async () => {

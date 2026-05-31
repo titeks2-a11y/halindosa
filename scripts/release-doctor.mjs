@@ -375,6 +375,7 @@ async function checkUiAccessibility() {
   const dealCard = await text("components/DealCard.tsx");
   const dealDetailPage = await text("app/deals/[id]/page.tsx");
   const dealTrustBadge = await text("components/DealTrustBadge.tsx");
+  const purchaseConfirmSheet = await text("components/PurchaseConfirmSheet.tsx");
   const bottomNav = await text("components/BottomNav.tsx");
   const bottomNavigation = await text("components/BottomNavigation.tsx");
   const commercialFooter = await text("components/CommercialFooter.tsx");
@@ -413,6 +414,12 @@ async function checkUiAccessibility() {
     fail("public trust badge copy", "DealTrustBadge should not expose internal numeric confidence scores.");
   } else {
     pass("public trust badge copy", "Public trust badges use plain labels instead of internal scores.");
+  }
+
+  if (purchaseConfirmSheet.includes("신뢰도 {deal.purchaseConfidence}") || purchaseConfirmSheet.includes("purchaseConfidence}")) {
+    fail("purchase confirmation score copy", "Purchase confirmation should not expose internal numeric confidence scores.");
+  } else {
+    pass("purchase confirmation score copy", "Purchase confirmation uses plain link status labels instead of internal scores.");
   }
 
   if (!bottomNav.includes("getNavAriaLabel") || !bottomNavigation.includes("getNavAriaLabel") || !bottomNav.includes('aria-label="주요 메뉴"') || !bottomNavigation.includes('aria-label="주요 메뉴"') || !bottomNav.includes("aria-current") || !bottomNavigation.includes("aria-current")) {
@@ -796,6 +803,11 @@ async function checkPolicyAndStoreDocs() {
       name: "account deletion content",
       file: "docs/ACCOUNT_DELETION.md",
       phrases: ["SUPABASE_SERVICE_ROLE_KEY", "user_favorite_deals", "user_recent_deals", "deal_click_logs", "auth.users"]
+    },
+    {
+      name: "launch day checklist content",
+      file: "docs/launch-day-checklist.md",
+      phrases: ["제출 24시간 전", "Play Console 제출", "App Store Connect 제출", "출시 당일 운영 순서", "출시 후 72시간"]
     }
   ];
 

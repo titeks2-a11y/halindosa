@@ -86,7 +86,7 @@ export function PurchaseConfirmSheet({ deal, isOpen, onClose, onConfirm }: Purch
                   : "판매처에서 상품명, 가격, 옵션 조건을 한 번 더 확인한 뒤 구매하세요."}
               </p>
               <p className={`mt-2 text-xs font-black ${isVerified ? "text-emerald-800" : "text-amber-900"}`}>
-                {getDealPurchaseConfidenceLabel(deal)} · 신뢰도 {deal.purchaseConfidence} · 링크 확인 {getRelativeTime(deal.checkedAt)}
+                {getDealPurchaseConfidenceLabel(deal)} · 링크 확인 {getRelativeTime(deal.checkedAt)}
               </p>
             </div>
           </div>
