@@ -1439,9 +1439,9 @@ export default function Home() {
               </div>
             </div>
             <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-              <p className="text-lg font-black text-slate-950">상업화 준비 체크</p>
+              <p className="text-lg font-black text-slate-950">서비스 이용 안내</p>
               <div className="mt-4 space-y-3">
-                {["실시간 특가 업데이트 구조", "이벤트 추적 API", "SEO/정책 페이지", "헬스체크 API"].map((item) => (
+                {["구매 전 최종 가격 확인", "찜한 특가와 최근 본 상품 관리", "관심 카테고리와 알림 설정", "개인정보와 이용약관 확인"].map((item) => (
                   <div key={item} className="flex items-center gap-2 text-sm font-bold text-slate-700">
                     <CheckCircle2 size={18} className="text-dossa-red" />
                     {item}

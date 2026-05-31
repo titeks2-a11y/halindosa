@@ -334,6 +334,33 @@ async function checkPublicClaimCopy() {
     pass("public claim copy", "Public UI and listing copy avoids absolute price/availability guarantees.");
   }
 
+  const customerFacingFiles = [
+    "app/page.tsx",
+    "app/mypage/page.tsx",
+    "app/guide/page.tsx",
+    "app/privacy/page.tsx",
+    "app/terms/page.tsx",
+    "components/CommercialFooter.tsx",
+    "components/DealCard.tsx",
+    "components/LiveDealFeed.tsx",
+    "components/FeaturedDealSections.tsx"
+  ];
+  const internalPhrases = ["상업화 준비 체크", "헬스체크 API", "이벤트 추적 API", "SEO/정책 페이지", "실시간 특가 업데이트 구조"];
+  const internalFindings = [];
+
+  for (const file of customerFacingFiles) {
+    const body = await text(file);
+    for (const phrase of internalPhrases) {
+      if (body.includes(phrase)) internalFindings.push(`${file}: ${phrase}`);
+    }
+  }
+
+  if (internalFindings.length) {
+    fail("customer-facing product copy", `Internal/developer copy found in customer-facing surfaces: ${internalFindings.join(", ")}`);
+  } else {
+    pass("customer-facing product copy", "Customer-facing app surfaces avoid internal launch, API, and SEO wording.");
+  }
+
   const accountModelFiles = [
     "app/page.tsx",
     "app/mypage/page.tsx",
