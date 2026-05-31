@@ -38,6 +38,7 @@
 - [x] iOS build number: `1`
 - [x] App Icon asset 구조 준비
 - [x] Splash asset 구조 준비
+- [x] `PrivacyInfo.xcprivacy` 번들 포함: V1 기준 추적 없음, 수집 데이터 없음
 - [x] `npm run cap:sync:ios` 스크립트 준비
 - [x] `npm run cap:open:ios` 스크립트 준비
 - [x] 불필요한 iOS 권한/ATT 문구 없음

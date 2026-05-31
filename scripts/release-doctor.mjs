@@ -463,6 +463,7 @@ async function checkAndroid() {
 async function checkIos() {
   const project = "ios/App/App.xcodeproj/project.pbxproj";
   const plist = "ios/App/App/Info.plist";
+  const privacyManifest = "ios/App/App/PrivacyInfo.xcprivacy";
   const icon = "ios/App/App/Assets.xcassets/AppIcon.appiconset/AppIcon-512@2x.png";
   const splash = "ios/App/App/Assets.xcassets/Splash.imageset/splash-2732x2732.png";
 
@@ -479,6 +480,7 @@ async function checkIos() {
 
   const pbx = await text(project);
   const info = await text(plist);
+  const privacy = existsSync(join(root, privacyManifest)) ? await text(privacyManifest) : "";
 
   if (!pbx.includes("PRODUCT_BUNDLE_IDENTIFIER = com.halindosa.app;")) fail("iOS bundle identifier", "Expected com.halindosa.app.");
   else pass("iOS bundle identifier", "com.halindosa.app");
@@ -510,6 +512,14 @@ async function checkIos() {
 
   if (restrictedPrivacyKeys.length) fail("iOS privacy permissions", `Unexpected keys: ${restrictedPrivacyKeys.join(", ")}`);
   else pass("iOS privacy permissions", "No tracking, camera, microphone, location, contacts, or photo permissions declared.");
+
+  if (!privacy) {
+    fail("iOS privacy manifest", "Missing ios/App/App/PrivacyInfo.xcprivacy.");
+  } else if (!pbx.includes("PrivacyInfo.xcprivacy in Resources") || !privacy.includes("<key>NSPrivacyTracking</key>") || !privacy.includes("<false/>") || !privacy.includes("<key>NSPrivacyCollectedDataTypes</key>")) {
+    fail("iOS privacy manifest", "PrivacyInfo.xcprivacy should be bundled and declare no tracking or collected data for V1.");
+  } else {
+    pass("iOS privacy manifest", "PrivacyInfo.xcprivacy is bundled and declares no tracking or collected data for V1.");
+  }
 }
 
 async function checkPolicyAndStoreDocs() {

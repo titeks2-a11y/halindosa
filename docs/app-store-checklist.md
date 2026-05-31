@@ -12,6 +12,7 @@
 - [x] Next.js 정적 export 결과물을 iOS 프로젝트에 sync 가능
 - [x] 개인정보처리방침, 이용약관 페이지 준비
 - [x] iOS Info.plist에 추적, 카메라, 마이크, 위치, 연락처, 사진 권한 미선언
+- [x] `ios/App/App/PrivacyInfo.xcprivacy` 추가: V1 기준 추적 없음, 수집 데이터 없음
 - [x] 모바일 터치 지연, iOS 입력 줌, safe-area 기본 대응
 
 ## Mac/Xcode에서 해야 할 작업
@@ -50,6 +51,7 @@ Windows에서는 iOS 앱 빌드와 App Store 업로드를 완료할 수 없다. 
 - 찜, 최근 본 특가, 동의 설정은 기기 내 저장
 - 외부 구매 링크는 판매처 또는 제휴 링크로 열릴 수 있음
 - 분석/광고 SDK는 아직 연결하지 않음
+- iOS 번들에는 `PrivacyInfo.xcprivacy`가 포함되어 있으며 V1 기준 `NSPrivacyTracking=false`, 수집 데이터 없음으로 선언함
 
 운영에서 GA4, Firebase Analytics, AdMob, FCM, 제휴 SDK를 연결하면 App Privacy를 다시 작성해야 한다.
 
