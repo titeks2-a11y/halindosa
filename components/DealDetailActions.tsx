@@ -9,6 +9,8 @@ import { canOpenDealLink } from "@/lib/affiliate";
 import { hasAffiliateConsent, hasAnalyticsConsent, readStoredConsent } from "@/lib/consent";
 import { rememberRecentDealId } from "@/lib/recentDeals";
 import { PurchaseConfirmSheet } from "@/components/PurchaseConfirmSheet";
+import { LoginPromptSheet } from "@/components/LoginPromptSheet";
+import { useAuth } from "@/components/AuthProvider";
 
 const favoriteKey = "halindosa:favorites";
 
@@ -22,7 +24,9 @@ async function isNativeRuntime() {
 }
 
 export function DealDetailActions({ deal }: { deal: Deal }) {
+  const { configured: authConfigured, user } = useAuth();
   const [showPurchaseConfirm, setShowPurchaseConfirm] = useState(false);
+  const [showLoginPrompt, setShowLoginPrompt] = useState(false);
   const [message, setMessage] = useState("");
   const [isFavorite, setIsFavorite] = useState(() => {
     if (typeof window === "undefined") return false;
@@ -36,6 +40,12 @@ export function DealDetailActions({ deal }: { deal: Deal }) {
   });
 
   const toggleFavorite = () => {
+    if (authConfigured && !user) {
+      setShowLoginPrompt(true);
+      setMessage("로그인하면 관심 특가를 계정으로 이어볼 수 있습니다.");
+      return;
+    }
+
     try {
       const stored = window.localStorage.getItem(favoriteKey);
       const favorites = stored ? (JSON.parse(stored) as string[]) : [];
@@ -159,6 +169,7 @@ export function DealDetailActions({ deal }: { deal: Deal }) {
           void confirmPurchase();
         }}
       />
+      <LoginPromptSheet isOpen={showLoginPrompt} onClose={() => setShowLoginPrompt(false)} />
     </>
   );
 }

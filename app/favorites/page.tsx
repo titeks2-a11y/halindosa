@@ -4,7 +4,9 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { ArrowLeft, Heart } from "lucide-react";
 import { DealCard } from "@/components/DealCard";
+import { LoginPromptSheet } from "@/components/LoginPromptSheet";
 import { PurchaseConfirmSheet } from "@/components/PurchaseConfirmSheet";
+import { useAuth } from "@/components/AuthProvider";
 import { mockDeals } from "@/data/mockDeals";
 import { canOpenDealLink } from "@/lib/affiliate";
 import { hasAffiliateConsent, hasAnalyticsConsent, readStoredConsent } from "@/lib/consent";
@@ -41,7 +43,9 @@ async function openExternalDeal(deal: Deal) {
 }
 
 export default function FavoritesPage() {
+  const { configured: authConfigured, user } = useAuth();
   const [pendingPurchaseDeal, setPendingPurchaseDeal] = useState<Deal | null>(null);
+  const [showLoginPrompt, setShowLoginPrompt] = useState(false);
   const [message, setMessage] = useState("");
   const [catalog, setCatalog] = useState<Deal[]>(mockDeals);
   const [isCatalogLoading, setIsCatalogLoading] = useState(false);
@@ -87,6 +91,12 @@ export default function FavoritesPage() {
   }, []);
 
   const toggleFavorite = (id: string) => {
+    if (authConfigured && !user) {
+      setShowLoginPrompt(true);
+      setMessage("로그인하면 찜한 특가를 계정으로 이어볼 수 있습니다.");
+      return;
+    }
+
     setFavorites((current) => {
       const next = current.includes(id) ? current.filter((favoriteId) => favoriteId !== id) : [...current, id];
       window.localStorage.setItem(favoriteKey, JSON.stringify(next));
@@ -190,6 +200,7 @@ export default function FavoritesPage() {
           onClose={() => setPendingPurchaseDeal(null)}
           onConfirm={confirmOpenDeal}
         />
+        <LoginPromptSheet isOpen={showLoginPrompt} onClose={() => setShowLoginPrompt(false)} />
     </div>
   );
 }

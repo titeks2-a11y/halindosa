@@ -33,7 +33,15 @@ export default function TermsPage() {
           <h2 className="text-lg font-black text-slate-950">회원 계정</h2>
           <p className="mt-2">
             사용자는 이메일과 비밀번호로 계정을 만들 수 있습니다. 계정 정보는 본인만 사용해야 하며, 관심 카테고리,
-            찜한 특가, 최근 본 상품, 알림 설정은 서비스 편의 기능 제공을 위해 저장될 수 있습니다.
+            찜한 특가, 최근 본 상품, 알림 설정은 서비스 편의 기능 제공을 위해 저장될 수 있습니다. Google, Kakao 등
+            소셜 로그인은 각 인증 제공자의 정책을 함께 따르며, 제공자가 중단되거나 설정이 변경되는 경우 로그인 방식이 바뀔 수 있습니다.
+          </p>
+        </section>
+        <section>
+          <h2 className="text-lg font-black text-slate-950">회원 탈퇴</h2>
+          <p className="mt-2">
+            정식 운영 전에는 고객 문의를 통해 계정 삭제 요청을 접수합니다. 운영 버전에서는 마이페이지에서 회원 탈퇴
+            또는 계정 삭제 요청을 시작할 수 있는 기능을 제공합니다.
           </p>
         </section>
         <section>

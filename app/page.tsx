@@ -10,12 +10,14 @@ import { ConsentSettings } from "@/components/ConsentSettings";
 import { DealCard } from "@/components/DealCard";
 import { FeaturedDealSections } from "@/components/FeaturedDealSections";
 import { HotSignalSection } from "@/components/HotSignalSection";
+import { LoginPromptSheet } from "@/components/LoginPromptSheet";
 import { LiveDealFeed } from "@/components/LiveDealFeed";
 import { NotificationPreferences } from "@/components/NotificationPreferences";
 import { PurchaseConfirmSheet } from "@/components/PurchaseConfirmSheet";
 import { SearchBar } from "@/components/SearchBar";
 import { SortSelect } from "@/components/SortSelect";
 import { Toast } from "@/components/Toast";
+import { useAuth } from "@/components/AuthProvider";
 import { dealChannels, dealMatchesChannel, getDealChannel, getProviderCategory } from "@/data/dealChannels";
 import { mockHotSignals } from "@/data/mockHotSignals";
 import { mockDeals } from "@/data/mockDeals";
@@ -204,6 +206,7 @@ function requestJson<T>(url: string): Promise<T> {
 }
 
 export default function Home() {
+  const { configured: authConfigured, user, nickname } = useAuth();
   const [hasAppliedInitialParams, setHasAppliedInitialParams] = useState(false);
   const [deals, setDeals] = useState<Deal[]>(mockDeals);
   const [catalog, setCatalog] = useState<Deal[]>(mockDeals);
@@ -236,6 +239,7 @@ export default function Home() {
   const [recentDealIds, setRecentDealIds] = useState<string[]>([]);
   const [toast, setToast] = useState("");
   const [pendingPurchaseDeal, setPendingPurchaseDeal] = useState<Deal | null>(null);
+  const [showLoginPrompt, setShowLoginPrompt] = useState(false);
   const [consent, setConsent] = useState<ConsentState | null>(() => {
     if (typeof window === "undefined") return null;
     return readStoredConsent();
@@ -485,6 +489,12 @@ export default function Home() {
   }, [showToast]);
 
   const toggleFavorite = (id: string) => {
+    if (authConfigured && !user) {
+      setShowLoginPrompt(true);
+      showToast("로그인하면 찜한 특가를 계정으로 이어볼 수 있습니다.");
+      return;
+    }
+
     setFavorites((current) => {
       const isRemoving = current.includes(id);
       const next = isRemoving ? current.filter((favoriteId) => favoriteId !== id) : [...current, id];
@@ -680,7 +690,7 @@ export default function Home() {
 
   const topDeals = useMemo(() => {
     const source = catalog.length ? catalog : deals;
-    return [...source].sort((a, b) => commercialScore(b) - commercialScore(a)).slice(0, 10);
+    return [...source].sort((a, b) => (commercialScore(b) + b.clickCount * 0.05) - (commercialScore(a) + a.clickCount * 0.05)).slice(0, 10);
   }, [catalog, deals]);
 
   const recentDeals = useMemo(() => {
@@ -691,6 +701,11 @@ export default function Home() {
   const recommendedDeals = useMemo(() => {
     const source = catalog.length ? catalog : deals;
     return [...source].filter((deal) => deal.isHot || deal.isFreeShipping).sort((a, b) => commercialScore(b) - commercialScore(a)).slice(0, 6);
+  }, [catalog, deals]);
+
+  const memberFavoriteDeals = useMemo(() => {
+    const source = catalog.length ? catalog : deals;
+    return [...source].sort((a, b) => b.likeCount - a.likeCount || commercialScore(b) - commercialScore(a)).slice(0, 6);
   }, [catalog, deals]);
 
   const categoryHighlights = useMemo(
@@ -943,6 +958,43 @@ export default function Home() {
                       <span className="mt-0.5 block truncate text-xs font-bold text-slate-500">{deal.mallName} · {deal.category} · {deal.shipping}</span>
                     </span>
                     <span className="shrink-0 text-base font-black text-dossa-red">{deal.discountRate}%</span>
+                  </button>
+                ))}
+              </div>
+            </section>
+
+            <section className="rounded-[28px] border border-red-100 bg-gradient-to-br from-red-50 via-white to-slate-50 p-4 shadow-sm sm:p-5">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <p className="text-xs font-black text-dossa-red">회원 전용 추천</p>
+                  <h3 className="text-xl font-black text-slate-950">
+                    {user ? `${nickname || "회원"}님이 이어볼 특가` : "로그인하면 찜과 최근 본 특가를 이어볼 수 있어요"}
+                  </h3>
+                  <p className="mt-1 text-sm font-bold leading-6 text-slate-500">
+                    회원들이 많이 찜한 특가와 최근 본 상품을 함께 보여드립니다.
+                  </p>
+                </div>
+                {user ? (
+                  <Link href="/mypage" className="rounded-2xl bg-slate-950 px-4 py-3 text-center text-sm font-black text-white">마이페이지</Link>
+                ) : (
+                  <Link href="/signup" className="rounded-2xl bg-dossa-red px-4 py-3 text-center text-sm font-black text-white">무료로 시작하기</Link>
+                )}
+              </div>
+              <div className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                {memberFavoriteDeals.map((deal) => (
+                  <button
+                    key={deal.id}
+                    type="button"
+                    onClick={() => openDeal(deal)}
+                    className="flex min-w-0 items-center gap-3 rounded-2xl bg-white p-3 text-left shadow-sm transition hover:bg-red-50"
+                  >
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-red-50 text-xs font-black text-dossa-red">
+                      {deal.likeCount}
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block truncate text-sm font-black text-slate-950">{deal.title}</span>
+                      <span className="block truncate text-xs font-bold text-slate-500">{deal.mallName} · 찜 많은 특가</span>
+                    </span>
                   </button>
                 ))}
               </div>
@@ -1321,6 +1373,8 @@ export default function Home() {
         onClose={() => setPendingPurchaseDeal(null)}
         onConfirm={confirmOpenDeal}
       />
+
+      <LoginPromptSheet isOpen={showLoginPrompt} onClose={() => setShowLoginPrompt(false)} />
 
       {toast ? <Toast message={toast} onClose={() => setToast("")} /> : null}
     </div>

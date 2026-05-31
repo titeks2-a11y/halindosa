@@ -112,12 +112,12 @@ function deal(
 }
 
 export const mockDeals: Deal[] = [
-  deal("d001", "롯데온", "샤오미 86인치 4K 120hz 스마트TV", "전자기기", 1201350, 26, 0.1, 18, { isHot: true, isNew: true, isEndingSoon: false }, ["실시간", "핫딜", "무료배송"], 99, "/deal-images/live-707648.jpg", "https://www.ppomppu.co.kr/zboard/view.php?id=ppomppu&page=1&divpage=112&no=707648"),
+  deal("d001", "롯데온", "삼성 86인치 4K 스마트 UHD TV", "전자기기", 1201350, 26, 0.1, 18, { isHot: true, isNew: true, isEndingSoon: false }, ["실시간", "핫딜", "무료배송"], 99, "/deal-images/live-707648.jpg", "https://www.ppomppu.co.kr/zboard/view.php?id=ppomppu&page=1&divpage=112&no=707648"),
   deal("d002", "지마켓", "새우깡 8봉 + 매운새우깡 8봉", "식품", 19160, 25, 0.2, 12, { isHot: true, isNew: true, isEndingSoon: false }, ["실시간", "무료배송", "인기"], 95, "/deal-images/live-707791.jpg", "https://www.ppomppu.co.kr/zboard/view.php?id=ppomppu&page=1&divpage=112&no=707791"),
   deal("d003", "g마켓", "국내산 돌산갓김치 1.5kg", "식품", 11080, 24, 0.3, 10, { isHot: true, isNew: true, isEndingSoon: false }, ["실시간", "무배", "오늘만"], 92, "/deal-images/live-707790.jpg", "https://www.ppomppu.co.kr/zboard/view.php?id=ppomppu&page=1&divpage=112&no=707790"),
   deal("d004", "네이버", "JMW 에이플로 AI 온도 센서 플라즈마 미니 드라이기", "뷰티", 86960, 31, 0.4, 9, { isHot: true, isNew: true, isEndingSoon: false }, ["실시간", "네멤무료", "뷰티"], 91, "/deal-images/live-707788.jpg", "https://www.ppomppu.co.kr/zboard/view.php?id=ppomppu&page=1&divpage=112&no=707788"),
   deal("d005", "굿웨어몰", "베네베딩 여름 냉감 쿨 침대패드", "생활용품", 22740, 30, 0.5, 8, { isHot: true, isNew: true, isEndingSoon: true }, ["실시간", "무료배송", "마감임박"], 90, "/deal-images/live-707787.jpg", "https://www.ppomppu.co.kr/zboard/view.php?id=ppomppu&page=1&divpage=112&no=707787"),
-  deal("d006", "롯데온", "닥터유 제주용암수 2L 18병", "식품", 13940, 29, 0.6, 14, { isHot: true, isNew: true, isEndingSoon: false }, ["실시간", "무료배송", "생활필수"], 89, "/deal-images/live-707786.jpg", "https://www.ppomppu.co.kr/zboard/view.php?id=ppomppu&page=1&divpage=112&no=707786"),
+  deal("d006", "쿠팡", "닥터유 제주용암수 2L 18병", "식품", 13940, 29, 0.6, 14, { isHot: true, isNew: true, isEndingSoon: false }, ["실시간", "무료배송", "생활필수"], 89, "/deal-images/live-707786.jpg", "https://www.ppomppu.co.kr/zboard/view.php?id=ppomppu&page=1&divpage=112&no=707786"),
   deal("d007", "토스", "돼지목살 양념구이 600g X 4팩", "식품", 27500, 28, 0.7, 7, { isHot: true, isNew: true, isEndingSoon: true }, ["실시간", "무료배송", "한정수량"], 88, "/deal-images/live-707785.jpg", "https://www.ppomppu.co.kr/zboard/view.php?id=ppomppu&page=1&divpage=112&no=707785"),
   deal("d008", "롯데온", "아이더 POP ON 폴로 티셔츠", "의류", 42190, 27, 0.8, 20, { isHot: true, isNew: true, isEndingSoon: false }, ["실시간", "무배", "패션"], 87, "/deal-images/live-707784.jpg", "https://www.ppomppu.co.kr/zboard/view.php?id=ppomppu&page=1&divpage=112&no=707784"),
   deal("d009", "지마켓", "신라면+너구리+짜파게티+오징어짬뽕 총 20봉", "식품", 19780, 26, 0.9, 11, { isHot: true, isNew: true, isEndingSoon: false }, ["실시간", "쿠폰적용", "무배"], 86, "/deal-images/live-707783.jpg", "https://www.ppomppu.co.kr/zboard/view.php?id=ppomppu&page=1&divpage=112&no=707783"),
@@ -127,11 +127,11 @@ export const mockDeals: Deal[] = [
   deal("d013", "하이마트", "삼성 55형 4K UHD TV", "가전", 899000, 40, 11, 30, { isHot: true, isNew: false, isEndingSoon: false }, ["카드할인", "역대가"], 89),
   deal("d014", "쿠팡", "애플워치 호환 스포츠 밴드", "전자기기", 19900, 55, 2, 14, { isHot: false, isNew: true, isEndingSoon: false }, ["무료배송", "한정수량"], 76),
   deal("d015", "11번가", "대용량 캡슐세제 80개입", "생활용품", 44900, 43, 13, 7, { isHot: false, isNew: false, isEndingSoon: true }, ["마감임박", "오늘만"], 81),
-  deal("d016", "G마켓", "나이키 러닝화 인기 컬러", "의류", 139000, 48, 9, 26, { isHot: true, isNew: false, isEndingSoon: false }, ["인기", "쿠폰적용"], 87),
+  deal("d016", "G마켓", "농심 신라면 120g X 20봉", "식품", 20510, 48, 9, 26, { isHot: true, isNew: false, isEndingSoon: false }, ["인기", "쿠폰적용"], 87),
   deal("d017", "네이버쇼핑", "로봇청소기 자동먼지비움 모델", "가전", 699000, 33, 4, 50, { isHot: false, isNew: false, isEndingSoon: false }, ["카드할인", "무료배송"], 80),
   deal("d018", "마켓컬리", "무항생제 계란 30구", "식품", 17900, 24, 1, 10, { isHot: false, isNew: true, isEndingSoon: false }, ["오늘만", "무료배송"], 72),
   deal("d019", "오늘의집", "원목 수납장 3단", "생활용품", 219000, 61, 15, 21, { isHot: true, isNew: false, isEndingSoon: false }, ["역대가", "한정수량"], 85),
-  deal("d020", "무신사", "겨울 패딩 숏다운", "의류", 259000, 64, 18, 11, { isHot: true, isNew: false, isEndingSoon: true }, ["마감임박", "인기"], 95),
+  deal("d020", "무신사", "아웃도어 프로덕츠 3PACK 티셔츠", "의류", 79000, 64, 18, 11, { isHot: true, isNew: false, isEndingSoon: true }, ["마감임박", "인기"], 95),
   deal("d021", "인터파크투어", "제주 왕복 항공권 주중 특가", "여행/티켓", 110000, 57, 3, 13, { isHot: false, isNew: true, isEndingSoon: false }, ["오늘만", "쿠폰적용"], 83),
   deal("d022", "올리브영", "속건 헤어드라이어 전문가용", "뷰티", 89000, 41, 12, 32, { isHot: false, isNew: false, isEndingSoon: false }, ["카드할인", "무료배송"], 78),
   deal("d023", "인터파크", "캐리어 24인치 확장형", "기타", 159000, 49, 6, 24, { isHot: true, isNew: false, isEndingSoon: false }, ["역대가", "무료배송"], 84),

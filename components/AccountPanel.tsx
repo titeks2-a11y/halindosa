@@ -1,11 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
-import { Bell, CheckCircle2, Heart, LogOut, Settings, UserRound } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { Bell, CheckCircle2, Clock, Heart, LogOut, Settings, UserRound } from "lucide-react";
 import { useAuth } from "@/components/AuthProvider";
+import { readRecentDealIds, recentDealStorageKey } from "@/lib/recentDeals";
+import { formatPrice } from "@/lib/format";
+import { Deal } from "@/types/deal";
 
 const profileStorageKey = "halindosa:member-preferences";
+const favoriteStorageKey = "halindosa:favorites";
 const categoryOptions = ["식품", "생활용품", "디지털", "패션", "육아", "여행", "뷰티", "쿠폰/이벤트"];
 
 interface MemberPreferences {
@@ -30,11 +34,43 @@ function readPreferences() {
   }
 }
 
+function readFavoriteIds() {
+  if (typeof window === "undefined") return [];
+  try {
+    const stored = window.localStorage.getItem(favoriteStorageKey);
+    return stored ? (JSON.parse(stored) as string[]) : [];
+  } catch {
+    return [];
+  }
+}
+
 export function AccountPanel() {
   const { configured, isLoading, user, nickname, signOut, updateNickname } = useAuth();
   const [draftNickname, setDraftNickname] = useState("");
   const [preferences, setPreferences] = useState<MemberPreferences>(() => readPreferences());
+  const [favoriteIds] = useState<string[]>(() => readFavoriteIds());
+  const [recentIds, setRecentIds] = useState<string[]>(() => (typeof window === "undefined" ? [] : readRecentDealIds()));
+  const [catalog, setCatalog] = useState<Deal[]>([]);
   const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    let active = true;
+    fetch("/api/deals?sort=latest")
+      .then((response) => response.json())
+      .then((data: { deals?: Deal[] }) => {
+        if (active) setCatalog(Array.isArray(data.deals) ? data.deals : []);
+      })
+      .catch(() => {
+        if (active) setCatalog([]);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const favoriteDeals = useMemo(() => catalog.filter((deal) => favoriteIds.includes(deal.id)).slice(0, 4), [catalog, favoriteIds]);
+  const recentDeals = useMemo(() => recentIds.map((id) => catalog.find((deal) => deal.id === id)).filter((deal): deal is Deal => Boolean(deal)).slice(0, 4), [catalog, recentIds]);
 
   const savePreferences = (next: MemberPreferences) => {
     setPreferences(next);
@@ -180,6 +216,62 @@ export function AccountPanel() {
           {message}
         </p>
       ) : null}
+
+      <div className="mt-6 grid gap-4 lg:grid-cols-2">
+        <section className="rounded-3xl bg-red-50 p-4">
+          <div className="flex items-center justify-between gap-3">
+            <p className="inline-flex items-center gap-2 text-sm font-black text-slate-950">
+              <Heart size={17} className="text-dossa-red" />
+              찜한 특가
+            </p>
+            <Link href="/favorites" className="text-xs font-black text-dossa-red">전체 보기</Link>
+          </div>
+          <div className="mt-3 space-y-2">
+            {favoriteDeals.length ? favoriteDeals.map((deal) => (
+              <Link key={deal.id} href={`/deals/${deal.id}`} className="block rounded-2xl bg-white p-3 shadow-sm">
+                <span className="line-clamp-1 text-sm font-black text-slate-950">{deal.title}</span>
+                <span className="mt-1 block text-xs font-bold text-slate-500">{deal.mallName} · {formatPrice(deal.salePrice)}</span>
+              </Link>
+            )) : (
+              <p className="rounded-2xl bg-white p-3 text-sm font-bold leading-6 text-slate-500">
+                아직 찜한 특가가 없습니다. 홈에서 하트 버튼을 눌러 저장해보세요.
+              </p>
+            )}
+          </div>
+        </section>
+
+        <section className="rounded-3xl bg-slate-50 p-4">
+          <div className="flex items-center justify-between gap-3">
+            <p className="inline-flex items-center gap-2 text-sm font-black text-slate-950">
+              <Clock size={17} className="text-dossa-red" />
+              최근 본 상품
+            </p>
+            <button
+              type="button"
+              onClick={() => {
+                window.localStorage.removeItem(recentDealStorageKey);
+                setRecentIds([]);
+                setMessage("최근 본 상품을 비웠습니다.");
+              }}
+              className="text-xs font-black text-slate-500"
+            >
+              비우기
+            </button>
+          </div>
+          <div className="mt-3 space-y-2">
+            {recentDeals.length ? recentDeals.map((deal) => (
+              <Link key={deal.id} href={`/deals/${deal.id}`} className="block rounded-2xl bg-white p-3 shadow-sm">
+                <span className="line-clamp-1 text-sm font-black text-slate-950">{deal.title}</span>
+                <span className="mt-1 block text-xs font-bold text-slate-500">{deal.mallName} · {formatPrice(deal.salePrice)}</span>
+              </Link>
+            )) : (
+              <p className="rounded-2xl bg-white p-3 text-sm font-bold leading-6 text-slate-500">
+                아직 최근 본 상품이 없습니다. 특가 상세 또는 구매 이동을 확인하면 여기에 표시됩니다.
+              </p>
+            )}
+          </div>
+        </section>
+      </div>
     </section>
   );
 }

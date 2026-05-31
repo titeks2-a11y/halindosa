@@ -530,7 +530,7 @@ await check("seller search redirect fallbacks", async () => {
     ["d015", "11st.co.kr"],
     ["d012", "oliveyoung.co.kr"],
     ["d020", "musinsa.com"],
-    ["d041", "emart.ssg.com"],
+    ["d041", "ssg.com"],
     ["d043", "aliexpress.com"],
     ["d044", "auction.co.kr"]
   ];

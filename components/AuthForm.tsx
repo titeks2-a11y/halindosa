@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { ArrowRight, LockKeyhole, Mail, UserRound } from "lucide-react";
 import { normalizeAuthError, validateEmail, validatePassword } from "@/lib/auth/password";
 import { getSupabaseBrowserClient, isSupabaseAuthConfigured } from "@/lib/auth/supabaseClient";
+import { SocialLoginButtons } from "@/components/SocialLoginButtons";
 
 interface AuthFormProps {
   mode: "login" | "signup";
@@ -71,8 +72,8 @@ export function AuthForm({ mode }: AuthFormProps) {
           return;
         }
 
-        setMessage("회원가입이 완료되었습니다. 이메일 확인이 필요한 경우 받은 편지함을 확인해 주세요.");
-        window.setTimeout(() => router.push("/mypage"), 800);
+        setMessage("회원가입이 완료되었습니다. 관심 카테고리를 선택해 주세요.");
+        window.setTimeout(() => router.push("/onboarding"), 800);
         return;
       }
 
@@ -98,7 +99,7 @@ export function AuthForm({ mode }: AuthFormProps) {
           <p className="text-sm font-black text-red-200">할인도사 계정</p>
           <h1 className="mt-2 text-3xl font-black">{title}</h1>
           <p className="mt-3 text-sm font-semibold leading-6 text-slate-300">
-            관심 카테고리, 찜한 특가, 가격 하락 알림을 계정 기반으로 이어갈 수 있게 준비합니다.
+            회원가입하면 관심 특가를 저장하고, 찜한 상품과 가격 하락 알림을 받을 수 있어요.
           </p>
         </div>
       </section>
@@ -108,6 +109,14 @@ export function AuthForm({ mode }: AuthFormProps) {
           Supabase 환경변수가 아직 비어 있습니다. `.env.local`에 `NEXT_PUBLIC_SUPABASE_URL`과 `NEXT_PUBLIC_SUPABASE_ANON_KEY`를 넣으면 실제 인증이 활성화됩니다.
         </div>
       ) : null}
+
+      <SocialLoginButtons mode={mode} />
+
+      <div className="flex items-center gap-3">
+        <span className="h-px flex-1 bg-slate-200" />
+        <span className="text-xs font-black text-slate-400">또는 이메일로 계속</span>
+        <span className="h-px flex-1 bg-slate-200" />
+      </div>
 
       <form onSubmit={submit} className="rounded-[28px] border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
         <div className="space-y-4">
