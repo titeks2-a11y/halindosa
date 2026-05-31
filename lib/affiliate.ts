@@ -18,7 +18,8 @@ const affiliateMallAllowList = new Set([
   "인터파크",
   "인터파크투어",
   "알리익스프레스",
-  "하이마트"
+  "하이마트",
+  "베네베딩"
 ]);
 
 const outboundHostAllowList = [
@@ -41,7 +42,8 @@ const outboundHostAllowList = [
   "gsshop.com",
   "ipraves.co.kr",
   "amante.co.kr",
-  "rexpia.com"
+  "rexpia.com",
+  "benebedding.com"
 ];
 
 type AffiliateTemplateMap = Record<string, string>;

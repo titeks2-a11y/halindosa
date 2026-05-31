@@ -27,6 +27,18 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     source: "manual_review",
     evidence: "G마켓 돌산갓김치 상품 상세"
   },
+  d004: {
+    url: "https://www.coupang.com/vp/products/9536028933?itemId=28441768456&vendorItemId=95392511443",
+    checkedAt: "2026-06-01T00:08:00.000Z",
+    source: "manual_review",
+    evidence: "쿠팡 JMW 에이플로 온도 센서 플라즈마 미니 드라이기 상품 상세"
+  },
+  d005: {
+    url: "https://benebedding.com/product/%EB%B2%A0%EB%84%A4%EB%B2%A0%EB%94%A9-%EC%97%AC%EB%A6%84-%EB%83%89%EA%B0%90-%EC%B9%A8%EB%8C%80-%ED%8C%A8%EB%93%9C/87/category/51/display/1/",
+    checkedAt: "2026-06-01T00:08:00.000Z",
+    source: "manual_review",
+    evidence: "베네베딩 여름 냉감 침대 패드 공식몰 상품 상세"
+  },
   d006: {
     url: "https://www.coupang.com/vp/products/4944747674?itemId=19547724956&vendorItemId=86433745874",
     checkedAt: "2026-05-31T10:20:00.000Z",
@@ -99,6 +111,12 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     source: "manual_review",
     evidence: "마켓컬리 무항생제 계란 상품 상세"
   },
+  d019: {
+    url: "https://store.ohou.se/goods/1306932",
+    checkedAt: "2026-06-01T00:08:00.000Z",
+    source: "manual_review",
+    evidence: "오늘의집 제프리 삼나무 원목 수납장 3단 오픈책장 상품 상세"
+  },
   d020: {
     url: "https://www.musinsa.com/products/1893766",
     checkedAt: "2026-05-31T10:20:00.000Z",
@@ -134,6 +152,12 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     checkedAt: "2026-05-31T11:10:00.000Z",
     source: "manual_review",
     evidence: "GS SHOP 기저귀 딜 상세"
+  },
+  d028: {
+    url: "https://www.coupang.com/vp/products/45447044?itemId=162348092&vendorItemId=3383614966",
+    checkedAt: "2026-06-01T00:08:00.000Z",
+    source: "manual_review",
+    evidence: "쿠팡 워터픽 나노 패밀리팩 구강세정기 상품 상세"
   },
   d029: {
     url: "https://www.ssg.com/item/itemView.ssg?itemId=1000568480807",

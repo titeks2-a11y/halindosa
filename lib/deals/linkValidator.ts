@@ -73,6 +73,8 @@ function isHomeOnlyUrl(url: URL) {
 }
 
 function isSearchOrCategoryUrl(url: URL) {
+  if (url.pathname.toLowerCase().includes("/product/")) return false;
+
   const value = `${url.hostname}${url.pathname}${url.search}`.toLowerCase();
   return [
     "/search",
@@ -103,7 +105,7 @@ function isKnownProductDetailUrl(url: URL, mallName: string) {
   if (/옥션|auction/.test(mall) || hostMatches(host, "auction.co.kr")) return host.includes("itempage") || /itemno=|\/item\//.test(full);
   if (/ssg|쓱|이마트/.test(mall) || hostMatches(host, "ssg.com")) return /itemid=|\/item\/itemview\.ssg|\/goods\//.test(full);
   if (/마켓컬리|컬리|kurly/.test(mall) || hostMatches(host, "kurly.com")) return /\/goods\/\d+/.test(path);
-  if (/오늘의집/.test(mall) || hostMatches(host, "ohou.se")) return /\/productions\/\d+/.test(path);
+  if (/오늘의집/.test(mall) || hostMatches(host, "ohou.se")) return /\/productions\/\d+|\/goods\/\d+/.test(path);
   if (/무신사|musinsa/.test(mall) || hostMatches(host, "musinsa.com")) return /\/products\/\d+/.test(path);
   if (/lf몰|lfmall/.test(mall) || hostMatches(host, "lfmall.co.kr")) return /\/app\/product\/[a-z0-9]+/i.test(path);
   if (/gs shop|gsshop/.test(mall) || hostMatches(host, "gsshop.com")) return /\/deal\/deal\.gs|dealno=/.test(full);

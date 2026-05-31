@@ -77,7 +77,7 @@ function buildLaunchReadiness(linkQuality: ReturnType<typeof summarizeDealQualit
   }
 
   return {
-    phase: linkQuality.verifiedRate >= 65 ? "비공개 테스트 후보" : "운영 보강 필요",
+    phase: linkQuality.verifiedRate >= 75 ? "비공개 테스트 후보" : "운영 보강 필요",
     summary: "스토어 내부 테스트는 가능하지만, 공개 출시 전 링크 검수 보강이 필요합니다.",
     blockers,
     nextActions
