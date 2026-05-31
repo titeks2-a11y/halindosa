@@ -129,6 +129,12 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     source: "manual_review",
     evidence: "무신사 상품 상세 URL 패턴 검증"
   },
+  d021: {
+    url: "https://travel.interpark.com/tna/products/d9e9105d-6144-48f7-9887-0111ba2bebd9",
+    checkedAt: "2026-06-01T05:20:00.000Z",
+    source: "manual_review",
+    evidence: "NOL 인터파크투어 제주투어패스 타임제로 자유이용권 상품 상세"
+  },
   d022: {
     url: "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000188040",
     checkedAt: "2026-06-01T01:10:00.000Z",
@@ -249,6 +255,18 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     source: "manual_review",
     evidence: "SSG 노브랜드 도톰한 물티슈 100매 20개입 상품 상세"
   },
+  d042: {
+    url: "https://gs25.gsretail.com/gscvs/ko/customer-engagement/event/detail/publishing?eventCode=8842722233888&pageNum=1",
+    checkedAt: "2026-06-01T05:20:00.000Z",
+    source: "manual_review",
+    evidence: "GS25 공식 진행중 이벤트 상세 페이지"
+  },
+  d043: {
+    url: "https://www.aliexpress.com/item/1005010151430718.html",
+    checkedAt: "2026-06-01T05:20:00.000Z",
+    source: "manual_review",
+    evidence: "AliExpress 100W 3-in-1 USB-C 케이블 상품 상세 URL 패턴"
+  },
   d044: {
     url: "https://itempage3.auction.co.kr/DetailView.aspx?itemno=F408783307",
     checkedAt: "2026-05-31T10:20:00.000Z",
@@ -267,6 +285,12 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     source: "manual_review",
     evidence: "쿠팡 탐사수 무라벨 상품 상세"
   },
+  d047: {
+    url: "https://card.pay.naver.com/home/promotion/event",
+    checkedAt: "2026-06-01T05:20:00.000Z",
+    source: "manual_review",
+    evidence: "네이버페이 카드 혜택 공식 이벤트 상세 진입"
+  },
   d048: {
     url: "https://www.11st.co.kr/products/1087832770",
     checkedAt: "2026-06-01T02:40:00.000Z",
@@ -284,6 +308,12 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     checkedAt: "2026-05-31T10:20:00.000Z",
     source: "manual_review",
     evidence: "올리브영 멀티비타민 90정 상품 상세"
+  },
+  d051: {
+    url: "https://tour.interpark.com/goods/detail?goodsCd=25031828338",
+    checkedAt: "2026-06-01T05:20:00.000Z",
+    source: "manual_review",
+    evidence: "NOL 인터파크투어 티웨이항공 오사카 그룹항공권 상품 상세"
   },
   d052: {
     url: "https://www.ssg.com/item/itemView.ssg?itemId=1000560995801",

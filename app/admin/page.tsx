@@ -299,7 +299,10 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
             ) : (
               <div className="p-6 text-center">
                 <p className="text-sm font-black text-slate-950">검수 대기 링크가 없습니다.</p>
-                <p className="mt-1 text-sm font-semibold text-slate-500">현재 노출 상품은 모두 확인된 구매 링크로 구성되어 있습니다.</p>
+                <p className="mt-1 text-sm font-semibold text-slate-500">
+                  현재 노출 상품은 모두 확인된 구매 링크로 구성되어 있습니다. 신규 피드 등록 시 상품 상세 URL 보강 필요 항목은 이 큐에 다시 표시됩니다.
+                </p>
+                <p className="mt-2 text-xs font-bold text-slate-400">현재 이동 URL은 신규 검수 항목이 들어오면 함께 표시됩니다.</p>
               </div>
             )}
           </div>

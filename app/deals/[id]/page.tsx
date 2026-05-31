@@ -11,6 +11,7 @@ import { RecentDealMarker } from "@/components/RecentDealMarker";
 import { mockDeals } from "@/data/mockDeals";
 import { getAffiliateDisclosure, getDealLinkTrustLabel } from "@/lib/affiliate";
 import { findDealByIdLive, getRelatedDeals } from "@/lib/dealService";
+import { getBenefitTypeLabel } from "@/lib/deals/benefits";
 import { formatPrice, getRelativeTime, getTimeLeft } from "@/lib/format";
 import { getDealImageSrc } from "@/lib/imageSrc";
 import { getPriceHistory, getPriceInsight } from "@/lib/priceHistory";
@@ -100,6 +101,7 @@ export default async function DealDetailPage({ params }: DealDetailPageProps) {
               {deal.isNew ? <span className="rounded-full bg-slate-950 px-3 py-1 text-xs font-black text-white">NEW</span> : null}
               {deal.isEndingSoon ? <span className="rounded-full bg-amber-400 px-3 py-1 text-xs font-black text-slate-950">마감임박</span> : null}
               <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-600">{deal.category}</span>
+              <span className="rounded-full bg-red-50 px-3 py-1 text-xs font-black text-dossa-red">{getBenefitTypeLabel(deal.dealType)}</span>
             </div>
 
             <h2 className="mt-5 text-2xl font-black leading-tight text-slate-950">{deal.title}</h2>
@@ -163,7 +165,18 @@ export default async function DealDetailPage({ params }: DealDetailPageProps) {
             </div>
 
             <div className="mt-3 rounded-2xl border border-red-100 bg-red-50 px-3 py-3 text-sm font-semibold leading-6 text-dossa-deep">
-              추천 이유: {priceInsight.summary} {deal.isHot ? "인기 반응이 높은 상품입니다." : "가격 조건을 비교해 볼 만한 상품입니다."}
+              혜택 요약: {deal.benefitSummary} 추천 이유: {priceInsight.summary} {deal.isHot ? "인기 반응이 높은 상품입니다." : "가격 조건을 비교해 볼 만한 상품입니다."}
+            </div>
+
+            <div className="mt-3 grid grid-cols-2 gap-3 text-sm font-bold text-slate-600">
+              <div className="rounded-2xl bg-slate-50 p-3">
+                <p className="text-xs text-slate-400">출처</p>
+                <p className="mt-1">{deal.sourceName || deal.mallName}</p>
+              </div>
+              <div className="rounded-2xl bg-slate-50 p-3">
+                <p className="text-xs text-slate-400">검증 상태</p>
+                <p className="mt-1">{deal.isVerified ? "판매처 링크 확인" : "확인 필요"}</p>
+              </div>
             </div>
 
             <div className="mt-3">

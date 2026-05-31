@@ -13,8 +13,9 @@ export interface DealChannel {
 
 export const dealChannels: DealChannel[] = [
   { id: "all", label: "전체", group: "카테고리", type: "all", description: "모든 실시간 특가" },
+  { id: "today", label: "오늘특가", group: "추천", type: "curated", description: "오늘 바로 확인할 할인 혜택" },
   { id: "popular", label: "인기 급상승", group: "추천", type: "curated", description: "반응이 빠르게 올라오는 특가" },
-  { id: "freezero", label: "무료/0원딜", group: "추천", type: "curated", description: "무료배송, 쿠폰, 0원딜 중심" },
+  { id: "freezero", label: "무료혜택", group: "추천", type: "curated", description: "무료 샘플, 0원딜, 무료배송, 쿠폰 중심" },
   { id: "ending", label: "마감임박", group: "추천", type: "curated", description: "마감 시간이 가까운 특가" },
   { id: "lowest", label: "가격 주목", group: "추천", type: "curated", description: "할인율과 반응이 높은 가격 주목 상품" },
   { id: "food", label: "식품", group: "카테고리", type: "category", value: "식품", description: "식품, 간편식, 생필품 특가" },
@@ -61,8 +62,9 @@ export function dealMatchesChannel(deal: Deal, id?: string | null) {
     case "all":
       return true;
     case "curated":
+      if (channel.id === "today") return deal.dealType === "discount" || deal.isHot || /오늘만|타임세일/.test(haystack);
       if (channel.id === "popular") return deal.isHot || deal.popularityScore >= 85;
-      if (channel.id === "freezero") return deal.isFreeShipping || /0원딜|무료|쿠폰/.test(haystack);
+      if (channel.id === "freezero") return ["freebie", "coupon", "freeShipping", "experience", "point"].includes(deal.dealType) || deal.isFreeShipping || /0원딜|무료|쿠폰/.test(haystack);
       if (channel.id === "ending") return deal.isEndingSoon;
       if (channel.id === "lowest") return deal.discountRate >= 50 || /역대가|가격\s*하락|쿠폰/.test(haystack);
       return true;

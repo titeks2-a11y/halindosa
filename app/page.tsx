@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { BellRing, CheckCircle2, Flame, Share2, ShieldCheck, ShoppingBag, SlidersHorizontal, Store, Timer, Truck, UserRound } from "lucide-react";
+import { BenefitDiscoverySections } from "@/components/BenefitDiscoverySections";
 import { CategoryTabs } from "@/components/CategoryTabs";
 import { CommercialFooter } from "@/components/CommercialFooter";
 import { ConsentSettings } from "@/components/ConsentSettings";
@@ -39,7 +40,7 @@ import {
   toggleFavoriteSynced
 } from "@/lib/memberSync";
 import { getSupportMailto, supportEmail } from "@/lib/support";
-import { Deal, DealSort } from "@/types/deal";
+import { Deal, DealBenefitType, DealSort } from "@/types/deal";
 import { HotSignal } from "@/types/hotSignal";
 
 type AppView = "home" | "categories" | "alerts" | "favorites" | "my";
@@ -66,6 +67,15 @@ const priceBands = [
   { id: "over100000", label: "10만원 이상", min: 100000, max: Number.POSITIVE_INFINITY }
 ] as const;
 type PriceBand = (typeof priceBands)[number]["id"];
+const benefitFilters: Array<{ id: "all" | DealBenefitType; label: string }> = [
+  { id: "all", label: "전체 혜택" },
+  { id: "freebie", label: "무료혜택" },
+  { id: "coupon", label: "쿠폰/이벤트" },
+  { id: "freeShipping", label: "무료배송" },
+  { id: "experience", label: "체험/샘플" },
+  { id: "point", label: "포인트" },
+  { id: "discount", label: "오늘특가" }
+];
 const toastMessages = [
   "🔥 새로운 역대급 특가가 등록되었습니다!",
   "⚡ 마감임박 상품이 빠르게 소진되고 있어요.",
@@ -156,7 +166,8 @@ function filterLocalDeals(
   endingSoonOnly = false,
   verifiedOnly = false,
   mallFilter = "all",
-  priceBand: PriceBand = "all"
+  priceBand: PriceBand = "all",
+  benefitFilter: "all" | DealBenefitType = "all"
 ) {
   const searchQuery = query.trim().toLowerCase();
   let filtered = items;
@@ -167,7 +178,7 @@ function filterLocalDeals(
 
   if (searchQuery) {
     filtered = filtered.filter((deal) =>
-      [deal.title, deal.mallName, deal.category, deal.source, ...deal.tags].some((value) =>
+      [deal.title, deal.mallName, deal.category, deal.source, deal.benefitSummary, deal.sourceName ?? "", ...deal.tags].some((value) =>
         value.toLowerCase().includes(searchQuery)
       )
     );
@@ -179,6 +190,10 @@ function filterLocalDeals(
 
   if (priceBand !== "all") {
     filtered = filtered.filter((deal) => dealMatchesPriceBand(deal, priceBand));
+  }
+
+  if (benefitFilter !== "all") {
+    filtered = filtered.filter((deal) => deal.dealType === benefitFilter);
   }
 
   if (freeShippingOnly) {
@@ -268,6 +283,7 @@ export default function Home() {
   const [verifiedOnly, setVerifiedOnly] = useState(false);
   const [mallFilter, setMallFilter] = useState("all");
   const [priceBand, setPriceBand] = useState<PriceBand>("all");
+  const [benefitFilter, setBenefitFilter] = useState<"all" | DealBenefitType>("all");
   const [updatedAt, setUpdatedAt] = useState("");
   const [providerSource, setProviderSource] = useState("mock");
   const [isLoading, setIsLoading] = useState(false);
@@ -302,6 +318,7 @@ export default function Home() {
       const initialHotOnly = params.get("hotOnly");
       const initialEndingSoon = params.get("endingSoon") ?? params.get("endingSoonOnly");
       const initialPriceBand = params.get("priceBand") as PriceBand | null;
+      const initialBenefitType = params.get("dealType") as DealBenefitType | null;
 
       if (initialCategory) {
         setCategory(initialCategory);
@@ -340,6 +357,11 @@ export default function Home() {
 
       if (initialPriceBand && priceBands.some((band) => band.id === initialPriceBand)) {
         setPriceBand(initialPriceBand);
+        setActiveView("home");
+      }
+
+      if (initialBenefitType && benefitFilters.some((filter) => filter.id === initialBenefitType)) {
+        setBenefitFilter(initialBenefitType);
         setActiveView("home");
       }
 
@@ -391,7 +413,7 @@ export default function Home() {
 
       try {
         if (await isNativeRuntime()) {
-          const localDeals = filterLocalDeals(mockDeals, category, query, sort, freeShippingOnly, hotOnly, endingSoonOnly, verifiedOnly, mallFilter, priceBand);
+          const localDeals = filterLocalDeals(mockDeals, category, query, sort, freeShippingOnly, hotOnly, endingSoonOnly, verifiedOnly, mallFilter, priceBand, benefitFilter);
           setDeals(localDeals);
           setCatalog(mockDeals);
           setProviderSource("android bundle");
@@ -413,7 +435,8 @@ export default function Home() {
           endingSoonOnly: String(endingSoonOnly),
           verifiedOnly: String(verifiedOnly),
           mall: mallFilter,
-          priceBand
+          priceBand,
+          dealType: benefitFilter
         });
 
         if (query.trim()) {
@@ -430,6 +453,7 @@ export default function Home() {
             .filter((deal) => !endingSoonOnly || deal.isEndingSoon)
             .filter((deal) => !verifiedOnly || isVerifiedPurchaseLink(deal))
             .filter((deal) => dealMatchesPriceBand(deal, priceBand))
+            .filter((deal) => benefitFilter === "all" || deal.dealType === benefitFilter)
         );
         setUpdatedAt(data.updatedAt);
         setProviderSource(data.source ?? "mock");
@@ -442,7 +466,7 @@ export default function Home() {
         }
       } catch {
         setLoadError("특가 데이터를 불러오지 못했습니다. 기본 저장 데이터를 표시합니다.");
-        setDeals(filterLocalDeals(mockDeals, category, query, sort, freeShippingOnly, hotOnly, endingSoonOnly, verifiedOnly, mallFilter, priceBand));
+        setDeals(filterLocalDeals(mockDeals, category, query, sort, freeShippingOnly, hotOnly, endingSoonOnly, verifiedOnly, mallFilter, priceBand, benefitFilter));
         setCatalog(mockDeals);
         setProviderSource("mock fallback");
         setUpdatedAt(new Date().toISOString());
@@ -451,7 +475,7 @@ export default function Home() {
         setIsLoading(false);
       }
     },
-    [category, endingSoonOnly, freeShippingOnly, hotOnly, isOffline, mallFilter, priceBand, query, showToast, sort, verifiedOnly]
+    [benefitFilter, category, endingSoonOnly, freeShippingOnly, hotOnly, isOffline, mallFilter, priceBand, query, showToast, sort, verifiedOnly]
   );
 
   useEffect(() => {
@@ -915,11 +939,13 @@ export default function Home() {
     const selectedChannel = getDealChannel(category);
     const selectedMall = mallFilters.find((mall) => mall.id === mallFilter);
     const selectedPriceBand = priceBands.find((band) => band.id === priceBand);
+    const selectedBenefit = benefitFilters.find((filter) => filter.id === benefitFilter);
 
     if (query.trim()) labels.push(`검색: ${query.trim()}`);
     if (category !== "all") labels.push(selectedChannel.label);
     if (mallFilter !== "all" && selectedMall) labels.push(selectedMall.label);
     if (priceBand !== "all" && selectedPriceBand) labels.push(selectedPriceBand.label);
+    if (benefitFilter !== "all" && selectedBenefit) labels.push(selectedBenefit.label);
     if (verifiedOnly) labels.push("구매링크 확인");
     if (freeShippingOnly) labels.push("무료배송");
     if (hotOnly) labels.push("핫딜");
@@ -936,13 +962,15 @@ export default function Home() {
     }
 
     return labels;
-  }, [category, endingSoonOnly, freeShippingOnly, hotOnly, mallFilter, priceBand, query, sort, verifiedOnly]);
+  }, [benefitFilter, category, endingSoonOnly, freeShippingOnly, hotOnly, mallFilter, priceBand, query, sort, verifiedOnly]);
 
   const resetFilters = () => {
     setQuery("");
     setCategory("all");
     setMallFilter("all");
     setPriceBand("all");
+    setBenefitFilter("all");
+    setBenefitFilter("all");
     setSort("latest");
     setFreeShippingOnly(false);
     setHotOnly(false);
@@ -989,11 +1017,27 @@ export default function Home() {
     window.setTimeout(() => document.getElementById("all-deals")?.scrollIntoView({ behavior: "smooth", block: "start" }), 0);
   };
 
+  const openBenefitFilter = (type: DealBenefitType) => {
+    setQuery("");
+    setCategory(type === "coupon" ? "coupon" : type === "freeShipping" || type === "freebie" ? "freezero" : "all");
+    setMallFilter("all");
+    setPriceBand("all");
+    setBenefitFilter(type);
+    setFreeShippingOnly(type === "freeShipping");
+    setVerifiedOnly(false);
+    setHotOnly(false);
+    setEndingSoonOnly(false);
+    setSort(type === "freebie" || type === "coupon" ? "hot" : "latest");
+    setActiveView("home");
+    window.setTimeout(() => document.getElementById("all-deals")?.scrollIntoView({ behavior: "smooth", block: "start" }), 0);
+  };
+
   const openQuickDiscovery = (preset: "verified" | "freeShipping" | "endingSoon" | "hot") => {
     setQuery("");
     setCategory("all");
     setMallFilter("all");
     setPriceBand("all");
+    setBenefitFilter(preset === "freeShipping" ? "freeShipping" : "all");
     setVerifiedOnly(preset === "verified");
     setFreeShippingOnly(preset === "freeShipping");
     setEndingSoonOnly(preset === "endingSoon");
@@ -1122,6 +1166,15 @@ export default function Home() {
         </div>
         {activeView === "home" ? (
           <>
+            <BenefitDiscoverySections
+              deals={catalog.length ? catalog : deals}
+              recentDeals={recentDeals}
+              favoriteCount={favorites.length}
+              onSelectBenefit={openBenefitFilter}
+              onSelectCategory={openCategory}
+              onOpenDeal={openDeal}
+            />
+
             <PurchaseLinkOverview
               total={dataQuality.total}
               verifiedLinkCount={dataQuality.verifiedLinkCount}
@@ -1468,6 +1521,21 @@ export default function Home() {
                     {priceBands.map((band) => (
                       <option key={band.id} value={band.id}>
                         {band.id === "all" ? band.label : `${band.label} (${priceBandCounts[band.id] ?? 0})`}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label className="min-w-[170px] flex-1">
+                  <span className="sr-only">혜택 유형 필터</span>
+                  <select
+                    value={benefitFilter}
+                    onChange={(event) => setBenefitFilter(event.target.value as "all" | DealBenefitType)}
+                    aria-label="혜택 유형 필터"
+                    className="min-h-[54px] w-full rounded-2xl border border-slate-200 bg-white px-4 text-sm font-black text-slate-700 shadow-sm outline-none transition hover:border-red-200 focus:border-red-300 focus:ring-4 focus:ring-red-50"
+                  >
+                    {benefitFilters.map((filter) => (
+                      <option key={filter.id} value={filter.id}>
+                        {filter.label}
                       </option>
                     ))}
                   </select>

@@ -502,8 +502,8 @@ async function checkPartnerFeedSafety() {
   const verifiedRate = dealCount ? Math.round((verifiedCount / dealCount) * 100) : 0;
   const linkReport = existsSync(join(root, "docs/link-coverage-report.md")) ? await text("docs/link-coverage-report.md") : "";
 
-  if (verifiedCount < 47 || verifiedRate < 90) {
-    fail("verified purchase link coverage", `Expected at least 47 verified direct product links and 90% coverage, got ${verifiedCount}/${dealCount} (${verifiedRate}%).`);
+  if (verifiedCount < 52 || verifiedRate < 100) {
+    fail("verified purchase link coverage", `Expected all 52 curated deals to have verified direct seller/product links, got ${verifiedCount}/${dealCount} (${verifiedRate}%).`);
   } else if (!smoke.includes("verified direct purchase link coverage")) {
     fail("verified purchase link coverage", "Smoke tests should assert the verified direct purchase link coverage threshold.");
   } else if (!linkReport.includes(`검증된 실제 구매 상세 URL: ${verifiedCount}개`) || !linkReport.includes(`검증 커버리지: ${verifiedRate}%`) || !linkReport.includes("보강 대기 상품")) {
@@ -734,13 +734,26 @@ async function checkUiAccessibility() {
     !homePage.includes('aria-label="쇼핑몰 필터"') ||
     !homePage.includes('aria-label="가격대 필터"') ||
     !homePage.includes("전체 가격대") ||
+    !homePage.includes("혜택 유형 필터") ||
     !homePage.includes("무료배송만 보기") ||
     !homePage.includes("구매링크 확인된 특가만 보기") ||
     !homePage.includes("검색과 필터 조건 초기화")
   ) {
     fail("search filter accessibility", "Home filter controls should expose accessible names and toggle state labels.");
   } else {
-    pass("search filter accessibility", "Search, sort, category, mall, price, and quick filter controls expose accessible names and state.");
+    pass("search filter accessibility", "Search, sort, category, mall, price, benefit type, and quick filter controls expose accessible names and state.");
+  }
+
+  if (
+    !homePage.includes("<BenefitDiscoverySections") ||
+    !homePage.includes("openBenefitFilter") ||
+    !homePage.includes("dealType") ||
+    !smoke.includes("Home page missing V2 benefit-first discovery section") ||
+    !smoke.includes("benefit type filter api")
+  ) {
+    fail("v2 benefit discovery UX", "Home should expose V2 free benefit/coupon discovery and smoke-test the benefit type filter.");
+  } else {
+    pass("v2 benefit discovery UX", "Home exposes free benefit, coupon, mart, and rising benefit discovery with a verified benefit filter.");
   }
 
   if (
@@ -973,7 +986,24 @@ async function checkOperationalDataSurfaces() {
     pass("commercial launch readiness page", "Commercialization page exposes launch readiness metrics, external setup, and remaining link review risk.");
   }
 
-  const requiredCommercialDealFields = ["productUrl", "searchUrl", "originalUrl", "clickCount", "likeCount", "isSoldOut", "updatedAt"];
+  const requiredCommercialDealFields = [
+    "productUrl",
+    "searchUrl",
+    "originalUrl",
+    "clickCount",
+    "likeCount",
+    "isSoldOut",
+    "updatedAt",
+    "dealType",
+    "benefitSummary",
+    "sourceName",
+    "sourceUrl",
+    "reliabilityScore",
+    "isVerified",
+    "isExpired",
+    "savingsAmount",
+    "savingsRate"
+  ];
   const missingCommercialDealFields = requiredCommercialDealFields.filter((field) => !dealTypes.includes(field));
   if (missingCommercialDealFields.length) {
     fail("commercial deal fields", `Missing Deal fields: ${missingCommercialDealFields.join(", ")}`);

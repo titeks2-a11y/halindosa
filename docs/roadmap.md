@@ -142,6 +142,9 @@
 - `/store-preview` 스토어 스크린샷 촬영 보드와 `store:screenshots:doctor`를 추가해 홈, 검색, 상세, 찜, 알림, 마이 화면 캡처 기준을 자동 검증
 - `store:metadata:doctor`를 추가해 Play Store/App Store 등록 문구의 길이, 필수 고지, 카테고리, 금지 표현을 출시 전에 자동 검증
 - `docs/device-qa-record-template.md`와 `device:qa:doctor`를 추가해 Android/iOS 실기기 확인 결과, 구매 링크 샘플, 남은 이슈 기록 누락을 출시 전에 점검
+- 제주 투어패스, GS25 공식 이벤트, AliExpress 케이블, 네이버페이 혜택, 인터파크투어 오사카 항공권 상세 링크를 보강해 큐레이션 52개 전체가 검색 fallback이 아닌 검증 링크로 연결되도록 개선하고 smoke/release doctor 기준을 100%로 상향
+- VER 2.0 혜택 플랫폼 개편으로 `dealType`, `benefitSummary`, `reliabilityScore`, 출처/검증/종료/절약 필드를 Deal 모델에 추가하고 홈 상단을 무료혜택, 쿠폰, 무배, 편의점/마트, 클릭 급상승 중심으로 재구성
+- `docs/v2-benefit-platform-plan.md`를 추가해 무료/쿠폰/이벤트 플랫폼 방향, 데이터 모델, 출시 검증 기준, 다음 운영 과제를 정리
 
 ### PHASE 2 코드 품질
 

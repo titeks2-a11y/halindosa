@@ -101,6 +101,11 @@ await check("home page", async () => {
   assert(text.includes("구매처 바로 확인 상품을 먼저 보여드려요"), "Home page missing customer-facing purchase link explanation");
   assert(text.includes("판매처 확인 단계"), "Home page missing review-needed purchase path explanation");
   assert(text.includes("오늘 바로 볼 할인 지도"), "Home page missing quick discovery guide");
+  assert(text.includes("오늘 놓치면 아쉬운 혜택"), "Home page missing V2 benefit-first discovery section");
+  assert(text.includes("무료로 받을 수 있는 혜택"), "Home page missing free benefit discovery card");
+  assert(text.includes("무료혜택/쿠폰"), "Home page missing free benefit and coupon section");
+  assert(text.includes("편의점/마트"), "Home page missing convenience and mart benefit section");
+  assert(text.includes("혜택 유형 필터"), "Home page missing benefit type filter");
   assert(text.includes("구매처 바로 확인"), "Home page missing verified purchase quick filter");
   assert(text.includes("쇼핑몰별 특가 바로가기"), "Home page missing mall discovery section");
   assert(text.includes("자주 쓰는 판매처만 골라보기"), "Home page missing mall discovery guide copy");
@@ -379,8 +384,8 @@ await check("deal link integrity", async () => {
   const verifiedDirectLinks = data.deals.filter((deal) => deal.linkStatus === "verified" && deal.linkType !== "seller_search");
   const verifiedDirectRate = Math.round((verifiedDirectLinks.length / data.deals.length) * 100);
   assert(
-    verifiedDirectLinks.length >= 47 && verifiedDirectRate >= 90,
-    `verified direct purchase link coverage too low: ${verifiedDirectLinks.length}/${data.deals.length} (${verifiedDirectRate}%)`
+    verifiedDirectLinks.length >= 52 && verifiedDirectRate >= 100,
+    `verified direct seller/product link coverage too low: ${verifiedDirectLinks.length}/${data.deals.length} (${verifiedDirectRate}%)`
   );
 
   for (const deal of data.deals) {
@@ -391,6 +396,13 @@ await check("deal link integrity", async () => {
     assert(typeof deal.linkVerified === "boolean", `${deal.id} linkVerified should be boolean`);
     assert(typeof deal.purchaseLinkVerified === "boolean", `${deal.id} purchaseLinkVerified should be boolean`);
     assert(typeof deal.purchaseConfidence === "number", `${deal.id} purchaseConfidence should be number`);
+    assert(["discount", "freebie", "coupon", "freeShipping", "experience", "event", "point"].includes(deal.dealType), `${deal.id} invalid dealType`);
+    assert(typeof deal.benefitSummary === "string" && deal.benefitSummary.length > 8, `${deal.id} missing benefitSummary`);
+    assert(typeof deal.reliabilityScore === "number" && deal.reliabilityScore >= 0 && deal.reliabilityScore <= 100, `${deal.id} invalid reliabilityScore`);
+    assert(typeof deal.isVerified === "boolean", `${deal.id} isVerified should be boolean`);
+    assert(typeof deal.isExpired === "boolean", `${deal.id} isExpired should be boolean`);
+    assert(typeof deal.savingsAmount === "number", `${deal.id} savingsAmount should be number`);
+    assert(typeof deal.savingsRate === "number", `${deal.id} savingsRate should be number`);
     assert(deal.purchaseConfidence >= 0 && deal.purchaseConfidence <= 100, `${deal.id} purchaseConfidence out of range`);
     assert(deal.finalUrl && !isUnsafeDealUrl(deal.finalUrl), `${deal.id} has unsafe finalUrl: ${deal.finalUrl}`);
     assert(deal.finalPurchaseUrl && !isUnsafeDealUrl(deal.finalPurchaseUrl), `${deal.id} has unsafe finalPurchaseUrl: ${deal.finalPurchaseUrl}`);
@@ -411,11 +423,19 @@ await check("deal link integrity", async () => {
   }
 });
 
+await check("benefit type filter api", async () => {
+  const { response, data } = await fetchJson("/api/deals?dealType=coupon&limit=30");
+  assert(response.status === 200, `Expected 200, got ${response.status}`);
+  assert(data.ok === true, "Benefit filter API ok should be true");
+  assert(data.deals.length > 0, "coupon benefit filter should return deals");
+  assert(data.deals.every((deal) => deal.dealType === "coupon"), "Benefit filter returned a non-coupon deal");
+});
+
 await check("verified direct purchase link coverage", async () => {
   const { response, data } = await fetchJson("/api/deals?verifiedOnly=true&limit=100&sort=hot");
   assert(response.status === 200, `Expected 200, got ${response.status}`);
   assert(data.ok === true, "Verified deals API ok should be true");
-  assert(data.deals.length >= 47, `Expected at least 47 verified direct purchase deals, got ${data.deals.length}`);
+  assert(data.deals.length >= 52, `Expected all 52 curated deals to be verified direct seller/product deals, got ${data.deals.length}`);
   assert(
     data.deals.every((deal) => deal.linkStatus === "verified" && deal.linkVerified && deal.purchaseLinkVerified && deal.finalPurchaseUrl),
     "Verified-only API returned a deal without a reviewed direct product URL"

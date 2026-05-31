@@ -20,6 +20,7 @@ export interface DealQuery {
   endingSoonOnly?: boolean;
   verifiedOnly?: boolean;
   mall?: string;
+  dealType?: string;
 }
 
 export interface DealProviderResult {
@@ -125,7 +126,7 @@ export async function getDeals(query: DealQuery = {}) {
 
   if (searchQuery) {
     deals = deals.filter((deal) =>
-      [deal.title, deal.mallName, deal.category, deal.source, ...deal.tags].some((value) => value.toLowerCase().includes(searchQuery))
+      [deal.title, deal.mallName, deal.category, deal.source, deal.benefitSummary, deal.sourceName ?? "", ...deal.tags].some((value) => value.toLowerCase().includes(searchQuery))
     );
   }
 
@@ -148,6 +149,7 @@ export async function getDeals(query: DealQuery = {}) {
   if (query.hotOnly) deals = deals.filter((deal) => deal.isHot);
   if (query.endingSoonOnly) deals = deals.filter((deal) => deal.isEndingSoon);
   if (query.verifiedOnly) deals = deals.filter(isVerifiedPurchaseLink);
+  if (query.dealType && query.dealType !== "all") deals = deals.filter((deal) => deal.dealType === query.dealType);
 
   const priceBandRange = getPriceBandRange(query.priceBand);
   const minPrice = Number.isFinite(query.minPrice) ? Number(query.minPrice) : priceBandRange?.minPrice;

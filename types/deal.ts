@@ -15,6 +15,7 @@ export type DealSort = "latest" | "discount" | "price" | "hot" | "endingSoon";
 export type DealLinkType = "direct_purchase" | "seller_search" | "affiliate" | "unavailable";
 export type DealLinkStatus = "verified" | "needs_review" | "broken" | "sold_out";
 export type DealPurchaseStatus = "available" | "needs_review" | "sold_out" | "broken";
+export type DealBenefitType = "discount" | "freebie" | "coupon" | "freeShipping" | "experience" | "event" | "point";
 
 export interface Deal {
   id: string;
@@ -47,6 +48,13 @@ export interface Deal {
   sourceName?: string;
   verifiedAt?: string;
   priceCheckedAt: string;
+  dealType: DealBenefitType;
+  benefitSummary: string;
+  reliabilityScore: number;
+  isVerified: boolean;
+  isExpired: boolean;
+  savingsAmount: number;
+  savingsRate: number;
   shipping: string;
   createdAt: string;
   expireAt: string;

@@ -40,6 +40,7 @@ const outboundHostAllowList = [
   "aliexpress.com",
   "lfmall.co.kr",
   "gsshop.com",
+  "gsretail.com",
   "ipraves.co.kr",
   "korailtravel.com",
   "amante.co.kr",

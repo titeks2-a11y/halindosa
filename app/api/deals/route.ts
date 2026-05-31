@@ -22,7 +22,8 @@ export async function GET(request: Request) {
       hotOnly: searchParams.get("hotOnly") === "true",
       endingSoonOnly: searchParams.get("endingSoonOnly") === "true",
       verifiedOnly: searchParams.get("verifiedOnly") === "true",
-      mall: searchParams.get("mall")?.trim()
+      mall: searchParams.get("mall")?.trim(),
+      dealType: searchParams.get("dealType")?.trim()
     });
 
     return NextResponse.json({

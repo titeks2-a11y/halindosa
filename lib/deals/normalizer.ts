@@ -1,5 +1,6 @@
 import { Deal, DealCategory } from "@/types/deal";
 import { buildSellerSearchUrl } from "@/lib/affiliate";
+import { buildBenefitSummary, inferDealBenefitType } from "@/lib/deals/benefits";
 import { validatePurchaseLink } from "@/lib/deals/linkValidator";
 
 export type DealInput = Partial<Deal> & {
@@ -62,6 +63,9 @@ export function normalizeDeal(input: DealInput, source = input.source ?? "mock")
   const linkType = input.linkType ?? linkValidation.linkType;
   const linkVerified = input.linkVerified ?? linkValidation.linkVerified;
   const purchaseConfidence = input.purchaseConfidence ?? linkValidation.purchaseConfidence;
+  const dealType = input.dealType ?? inferDealBenefitType({ title: input.title, category: input.category, tags, shipping, salePrice: input.salePrice, originalPrice: input.originalPrice, discountRate });
+  const isExpired = input.isExpired ?? new Date(expireAt).getTime() <= Date.now();
+  const reliabilityScore = input.reliabilityScore ?? Math.min(100, Math.round(purchaseConfidence + (linkVerified ? 8 : 0) + ((input.popularityScore ?? 0) >= 85 ? 3 : 0)));
 
   return {
     id: input.id,
@@ -92,6 +96,13 @@ export function normalizeDeal(input: DealInput, source = input.source ?? "mock")
     purchaseLinkVerified: input.purchaseLinkVerified ?? linkValidation.purchaseLinkVerified,
     verifiedAt: linkStatus === "verified" ? (input.verifiedAt ?? priceCheckedAt) : undefined,
     priceCheckedAt,
+    dealType,
+    benefitSummary: input.benefitSummary ?? buildBenefitSummary({ title: input.title, category: input.category, tags, shipping, salePrice: input.salePrice, originalPrice: input.originalPrice, discountRate }, dealType),
+    reliabilityScore,
+    isVerified: input.isVerified ?? linkVerified,
+    isExpired,
+    savingsAmount: input.savingsAmount ?? discountAmount,
+    savingsRate: input.savingsRate ?? discountRate,
     shipping,
     createdAt,
     expireAt,

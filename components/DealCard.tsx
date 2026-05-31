@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { AlertTriangle, CheckCircle2, Clock, ExternalLink, Heart, Share2, ShoppingBag, Store, Tag, Truck } from "lucide-react";
 import { canOpenDealLink, getAffiliateDisclosure, getDealLinkTrustLabel } from "@/lib/affiliate";
+import { getBenefitTypeLabel } from "@/lib/deals/benefits";
 import { isVerifiedPurchaseLink } from "@/lib/deals/quality";
 import { getDealPurchaseConfidenceLabel } from "@/lib/deals/linkValidator";
 import { getDealImageSrc } from "@/lib/imageSrc";
@@ -114,6 +115,11 @@ export function DealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, onSha
           {getDealPurchaseConfidenceLabel(deal)} · 링크 확인 {getRelativeTime(deal.checkedAt)}
         </p>
 
+        <div className="rounded-2xl bg-red-50 px-3 py-2">
+          <p className="text-[11px] font-black text-dossa-red">{getBenefitTypeLabel(deal.dealType)}</p>
+          <p className="mt-1 line-clamp-2 text-xs font-bold leading-5 text-slate-700">{deal.benefitSummary}</p>
+        </div>
+
         <div className="rounded-2xl border border-slate-100 bg-white p-2 shadow-[0_8px_24px_rgba(15,23,42,0.04)]" aria-label={`${deal.title} 구매 전 체크`}>
           <p className="mb-1.5 text-[11px] font-black text-slate-500">구매 전 체크</p>
           <div className="grid grid-cols-3 gap-1.5">
@@ -166,13 +172,20 @@ export function DealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, onSha
           {getAffiliateDisclosure(deal)}
         </p>
 
-        <div className="grid grid-cols-[0.85fr_1fr] gap-2 pt-1">
+        <div className="grid grid-cols-[0.75fr_0.75fr_1fr] gap-2 pt-1">
           <Link
             href={`/deals/${deal.id}`}
             className="inline-flex min-h-11 items-center justify-center rounded-2xl border border-slate-200 bg-white px-3 text-xs font-black text-slate-600 transition hover:border-red-100 hover:text-dossa-red"
             aria-label={`${deal.title} 상세 정보와 가격 신고 보기`}
           >
             상세 보기
+          </Link>
+          <Link
+            href={`/support?dealId=${deal.id}`}
+            className="inline-flex min-h-11 items-center justify-center rounded-2xl border border-slate-200 bg-white px-3 text-xs font-black text-slate-600 transition hover:border-red-100 hover:text-dossa-red"
+            aria-label={`${deal.title} 품절 또는 링크 오류 신고하기`}
+          >
+            신고
           </Link>
           <button
             type="button"

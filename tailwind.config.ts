@@ -9,9 +9,9 @@ const config: Config = {
     extend: {
       colors: {
         dossa: {
-          red: "#ef233c",
-          deep: "#b8001f",
-          soft: "#fff1f2"
+          red: "#ff1f2d",
+          deep: "#d90416",
+          soft: "#fff0f1"
         }
       },
       boxShadow: {

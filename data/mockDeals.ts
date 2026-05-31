@@ -1,4 +1,5 @@
 import { Deal } from "@/types/deal";
+import { buildBenefitSummary, inferDealBenefitType } from "@/lib/deals/benefits";
 import { validatePurchaseLink } from "@/lib/deals/linkValidator";
 import { verifiedPurchaseLinks } from "./verifiedPurchaseLinks";
 
@@ -61,6 +62,9 @@ function deal(
     checkedAt
   });
   const purchaseUrl = validation.finalPurchaseUrl;
+  const dealType = inferDealBenefitType({ title, category, tags, shipping: shippingInfo, salePrice, originalPrice, discountRate });
+  const isExpired = new Date(expiresAt).getTime() <= now;
+  const reliabilityScore = Math.min(100, Math.round(validation.purchaseConfidence + (verifiedOverride ? 8 : 0) + (popularityScore >= 85 ? 3 : 0)));
 
   return {
     id,
@@ -90,6 +94,13 @@ function deal(
     purchaseLinkVerified: validation.purchaseLinkVerified,
     verifiedAt: validation.linkVerified ? checkedAt : undefined,
     priceCheckedAt: checkedAt,
+    dealType,
+    benefitSummary: buildBenefitSummary({ title, category, tags, shipping: shippingInfo, salePrice, originalPrice, discountRate }, dealType),
+    reliabilityScore,
+    isVerified: validation.linkVerified,
+    isExpired,
+    savingsAmount: originalPrice - salePrice,
+    savingsRate: discountRate,
     shipping: shippingInfo,
     createdAt,
     expireAt: expiresAt,
@@ -132,7 +143,7 @@ export const mockDeals: Deal[] = [
   deal("d018", "마켓컬리", "무항생제 계란 30구", "식품", 17900, 24, 1, 10, { isHot: false, isNew: true, isEndingSoon: false }, ["오늘만", "무료배송"], 72),
   deal("d019", "오늘의집", "원목 수납장 3단", "생활용품", 219000, 61, 15, 21, { isHot: true, isNew: false, isEndingSoon: false }, ["역대가", "한정수량"], 85),
   deal("d020", "무신사", "아웃도어 프로덕츠 3PACK 티셔츠", "의류", 79000, 64, 18, 11, { isHot: true, isNew: false, isEndingSoon: true }, ["마감임박", "인기"], 95),
-  deal("d021", "인터파크투어", "제주 왕복 항공권 주중 특가", "여행/티켓", 110000, 57, 3, 13, { isHot: false, isNew: true, isEndingSoon: false }, ["오늘만", "쿠폰적용"], 83),
+  deal("d021", "인터파크투어", "[제주] 제주투어패스 타임제로 자유이용권", "여행/티켓", 28000, 36, 3, 13, { isHot: false, isNew: true, isEndingSoon: false }, ["오늘만", "쿠폰적용", "입장권"], 83),
   deal("d022", "올리브영", "JMW BLDC 에어원 드라이어 MC4B03C", "뷰티", 89000, 41, 12, 32, { isHot: false, isNew: false, isEndingSoon: false }, ["카드할인", "무료배송"], 78, "", "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000188040"),
   deal("d023", "아이프라브", "확장형 5휠 밸런스 큐브 캐리어 24인치", "기타", 159000, 49, 6, 24, { isHot: true, isNew: false, isEndingSoon: false }, ["역대가", "무료배송"], 84),
   deal("d024", "SSG닷컴", "프리미엄 생수 2L 24병", "식품", 24900, 10, 5, 17, { isHot: false, isNew: false, isEndingSoon: false }, ["무료배송", "인기"], 69),
