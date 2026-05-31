@@ -114,6 +114,8 @@ async function checkEnvExample() {
   const env = await text(envPath);
   const requiredKeys = [
     "NEXT_PUBLIC_SITE_URL",
+    "NEXT_PUBLIC_AUTH_REDIRECT_URL",
+    "NEXT_PUBLIC_APP_SCHEME",
     "NEXT_PUBLIC_APP_NAME",
     "NEXT_PUBLIC_APP_ENV",
     "NEXT_PUBLIC_SUPPORT_EMAIL",
@@ -189,6 +191,12 @@ async function checkAuthSurface() {
   const authProvider = await text("components/AuthProvider.tsx");
   const authForm = await text("components/AuthForm.tsx");
   const accountPanel = await text("components/AccountPanel.tsx");
+  const socialLoginButtons = await text("components/SocialLoginButtons.tsx");
+  const authRedirect = await text("lib/auth/redirect.ts");
+  const memberSync = await text("lib/memberSync.ts");
+  const accountDeleteRoute = await text("app/api/account/delete/route.ts");
+  const supabaseServer = await text("lib/auth/supabaseServer.ts");
+  const deepLinkHandler = await text("components/AuthDeepLinkHandler.tsx");
   const loginPage = await text("app/login/page.tsx");
   const signupPage = await text("app/signup/page.tsx");
   const supabaseClient = await text("lib/auth/supabaseClient.ts");
@@ -215,18 +223,46 @@ async function checkAuthSurface() {
     pass("member profile settings", "Mypage account panel prepares member profile, interest categories, and consent settings.");
   }
 
+  if (!socialLoginButtons.includes("signInWithOAuth") || !socialLoginButtons.includes("google") || !socialLoginButtons.includes("kakao") || !socialLoginButtons.includes("naver")) {
+    fail("social login buttons", "Login/signup forms should expose Google, Kakao, and Naver-ready OAuth actions.");
+  } else if (!authRedirect.includes("getRuntimeAuthRedirectUrl") || !authRedirect.includes("getSafeNextPath") || !authRedirect.includes("halindosa")) {
+    fail("social login redirect safety", "OAuth redirects should support web/app runtimes and block open redirect next paths.");
+  } else {
+    pass("social login redirect safety", "Social login buttons use safe web/app OAuth redirect URLs.");
+  }
+
+  if (!memberSync.includes("syncFavoritesWithSupabase") || !memberSync.includes("syncRecentDealsWithSupabase") || !memberSync.includes("toggleFavoriteSynced") || !memberSync.includes("savePreferencesSynced")) {
+    fail("member data sync", "Favorites, recent views, and preferences should sync to Supabase with local fallback.");
+  } else {
+    pass("member data sync", "Favorites, recent views, and member preferences sync to Supabase with graceful fallback.");
+  }
+
+  if (!accountPanel.includes("회원 탈퇴") || !supabaseServer.includes("SUPABASE_SERVICE_ROLE_KEY") || !accountDeleteRoute.includes("auth.admin.deleteUser") || !accountDeleteRoute.includes("authorization") || !accountDeleteRoute.includes("deal_click_logs")) {
+    fail("account deletion", "Account deletion should verify the logged-in user, delete member data, anonymize click logs, and delete auth user server-side.");
+  } else {
+    pass("account deletion", "Mypage account deletion uses a server route with service-role-only cleanup and click-log anonymization.");
+  }
+
+  if (!deepLinkHandler.includes("appUrlOpen") || !deepLinkHandler.includes("auth/callback") || !deepLinkHandler.includes("/auth/callback")) {
+    fail("native OAuth deep link handler", "Capacitor app URL opens should route halindosa://auth/callback into /auth/callback.");
+  } else {
+    pass("native OAuth deep link handler", "Capacitor OAuth deep links are bridged into the web callback route.");
+  }
+
   const requiredTables = ["user_profiles", "user_favorite_deals", "user_recent_deals", "deal_click_logs", "price_drop_alerts"];
   const missingTables = requiredTables.filter((table) => !schema.includes(table));
   if (missingTables.length) {
     fail("member database schema", `Missing Supabase tables: ${missingTables.join(", ")}`);
+  } else if (!schema.includes("users manage own favorites") || !schema.includes("users manage own recent deals") || !schema.includes("user_id null") || !schema.includes("favorites as") || !schema.includes("recent_views as")) {
+    fail("member database schema", "Supabase schema should include RLS for own favorites/recent data, deletion anonymization notes, and compatibility views.");
   } else {
     pass("member database schema", "Supabase schema includes profiles, favorites, recent deals, clicks, and price alerts.");
   }
 
-  if (!smoke.includes("auth pages")) {
-    fail("auth smoke coverage", "Smoke tests should cover login and signup pages.");
+  if (!smoke.includes("auth pages") || !smoke.includes("oauth callback") || !smoke.includes("account deletion guard")) {
+    fail("auth smoke coverage", "Smoke tests should cover login/signup pages, onboarding/callback, and account deletion guardrails.");
   } else {
-    pass("auth smoke coverage", "Smoke tests cover login and signup pages.");
+    pass("auth smoke coverage", "Smoke tests cover login/signup pages, onboarding/callback, and account deletion guardrails.");
   }
 }
 
@@ -531,6 +567,12 @@ async function checkAndroid() {
   else if (forbiddenPermissions.length) fail("Android permissions", `Unexpected permissions: ${forbiddenPermissions.join(", ")}`);
   else pass("Android permissions", "Only expected network permission found.");
 
+  if (!manifest.includes('android:scheme="halindosa"') || !manifest.includes('android:host="auth"') || !manifest.includes('android:pathPrefix="/callback"')) {
+    fail("Android auth deep link", "AndroidManifest should register halindosa://auth/callback.");
+  } else {
+    pass("Android auth deep link", "halindosa://auth/callback intent-filter is registered.");
+  }
+
   const iconFiles = [
     "android/app/src/main/res/mipmap-mdpi/ic_launcher.png",
     "android/app/src/main/res/mipmap-hdpi/ic_launcher.png",
@@ -579,6 +621,12 @@ async function checkIos() {
 
   if (!info.includes("<string>할인도사</string>")) fail("iOS display name", "Expected 할인도사.");
   else pass("iOS display name", "할인도사");
+
+  if (!info.includes("CFBundleURLTypes") || !info.includes("<string>halindosa</string>")) {
+    fail("iOS auth deep link", "Info.plist should register halindosa URL scheme.");
+  } else {
+    pass("iOS auth deep link", "halindosa URL scheme is registered.");
+  }
 
   if (fileSize(icon) <= 0) fail("iOS app icon", "Missing AppIcon-512@2x.png.");
   else pass("iOS app icon", "App Store icon asset is present.");
@@ -633,7 +681,10 @@ async function checkPolicyAndStoreDocs() {
     "docs/launch-day-checklist.md",
     "docs/weekly-operation-guide.md",
     "docs/customer-support-guide.md",
-    "docs/v1-1-roadmap.md"
+    "docs/v1-1-roadmap.md",
+    "docs/OAUTH_SETUP.md",
+    "docs/DEEPLINK_AUTH.md",
+    "docs/ACCOUNT_DELETION.md"
   ];
   const missing = requiredFiles.filter((file) => !existsSync(join(root, file)));
 
@@ -665,6 +716,21 @@ async function checkPolicyAndStoreDocs() {
       name: "test plan content",
       file: "docs/test-plan.md",
       phrases: ["자동 검증", "수동 확인", "데이터/링크 신뢰도", "테스트 종료 기준", "링크 검수 큐"]
+    },
+    {
+      name: "oauth setup content",
+      file: "docs/OAUTH_SETUP.md",
+      phrases: ["Google Provider", "Kakao Provider", "Naver Provider", "Redirect URLs", "halindosa://auth/callback"]
+    },
+    {
+      name: "deep link auth content",
+      file: "docs/DEEPLINK_AUTH.md",
+      phrases: ["Android 설정", "iOS 설정", "Supabase에 등록할 Redirect URL", "출시 전 테스트 체크리스트"]
+    },
+    {
+      name: "account deletion content",
+      file: "docs/ACCOUNT_DELETION.md",
+      phrases: ["SUPABASE_SERVICE_ROLE_KEY", "user_favorite_deals", "user_recent_deals", "deal_click_logs", "auth.users"]
     }
   ];
 

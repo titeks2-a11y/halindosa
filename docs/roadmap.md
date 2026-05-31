@@ -186,3 +186,10 @@
 3. 홈/검색/찜/알림/마이 핵심 흐름 안정화
 4. 외부 링크와 제휴 고지 리스크 관리
 5. 실제 운영 데이터 전환 설계
+
+## 최근 진행
+
+- Supabase OAuth, 딥링크, 회원 탈퇴, 찜/최근 본 상품 DB 동기화 구조를 release doctor 75개 항목과 smoke 34개 항목으로 검증하도록 출시 게이트를 확장했다.
+- `/auth/callback`, `/onboarding`, `/api/account/delete` guard를 smoke에 추가해 소셜 로그인 진입, 온보딩, 탈퇴 보안 실패 흐름을 자동 확인한다.
+- 회원 데이터 동기화 로직을 `lib/memberSync.ts`로 분리해 Supabase 연결 시 DB 우선, 실패 시 기기 저장 fallback 구조를 유지한다.
+- OAuth redirect URL 생성과 open redirect 방지를 `lib/auth/redirect.ts`로 중앙화하고, Android/iOS 딥링크 설정 문서를 release doctor가 확인하도록 보강했다.

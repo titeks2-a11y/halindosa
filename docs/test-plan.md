@@ -64,6 +64,11 @@ Play Store 내부 테스트와 비공개 테스트에서 앱이 쇼핑 정보 �
 - [x] 자동 검증: 마이 탭에 앱 소개, 버전, 문의, 정책 링크가 보인다.
 - [x] 자동 검증: 개인정보처리방침 페이지가 열린다.
 - [x] 자동 검증: 이용약관 페이지가 열린다.
+- [x] 자동 검증: 회원 탈퇴 API는 확인 문구 오류와 비로그인 요청을 안전하게 거절한다.
+- [x] 자동 검증: OAuth callback과 온보딩 페이지가 정상 렌더링된다.
+- [ ] 수동 확인: Supabase 실환경에서 Google/Kakao 로그인 후 온보딩으로 이동한다.
+- [ ] 수동 확인: 로그인 사용자의 찜/최근 본 상품이 DB에 저장되고 재로그인 후 유지된다.
+- [ ] 수동 확인: 테스트 계정 회원 탈퇴 후 Supabase Auth와 관련 테이블 데이터가 삭제/익명화된다.
 
 ### Android
 
@@ -71,7 +76,10 @@ Play Store 내부 테스트와 비공개 테스트에서 앱이 쇼핑 정보 �
 - [ ] 수동 확인: 하단 탭바가 안전 영역과 겹치지 않는다.
 - [x] 자동 검증: 앱 아이콘 리소스가 Android density별로 존재한다.
 - [x] 자동 검증: 스플래시 리소스가 존재한다.
+- [x] 자동 검증: Android `halindosa://auth/callback` intent-filter가 존재한다.
+- [x] 자동 검증: iOS `halindosa` URL Scheme이 존재한다.
 - [ ] 수동 확인: 앱 아이콘과 스플래시가 실제 기기에서 깨지지 않는다.
+- [ ] 수동 확인: Android/iOS 실제 기기에서 소셜 로그인 후 앱으로 복귀한다.
 
 ### 데이터/링크 신뢰도
 
@@ -103,7 +111,9 @@ npm run smoke
 ```
 
 `smoke:local`은 개발 서버 실행, 헬스체크 대기, smoke 검증, 서버 종료까지 한 번에 수행합니다.
+현재 smoke는 34개 항목으로 홈/검색/링크/관리자/정책뿐 아니라 OAuth callback, 온보딩, 회원 탈퇴 guard까지 확인합니다.
 `qa`는 lint, 로컬 smoke, Next.js build, release doctor를 포함합니다.
+`release:doctor`는 75개 항목으로 Android/iOS 패키징, OAuth/딥링크, Supabase 회원 데이터 동기화, 정책 문서, 스토어 산출물까지 확인합니다.
 `qa:release`는 `qa`에 Android 정적 빌드와 Android/iOS Capacitor sync까지 더한 출시 후보 검증입니다.
 
 ## 내부 테스트 기준

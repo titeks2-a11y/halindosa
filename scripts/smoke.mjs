@@ -120,6 +120,42 @@ await check("auth pages", async () => {
   assert(signup.response.status === 200, `Expected signup 200, got ${signup.response.status}`);
   assert(login.text.includes("로그인") && login.text.includes("이메일") && login.text.includes("비밀번호"), "Login page missing email/password form");
   assert(signup.text.includes("회원가입") && signup.text.includes("닉네임") && signup.text.includes("영문+숫자 포함 8자 이상"), "Signup page missing nickname/password policy");
+  for (const provider of ["구글", "카카오", "네이버"]) {
+    assert(login.text.includes(provider), `Login page missing ${provider} social login entry`);
+    assert(signup.text.includes(provider), `Signup page missing ${provider} social login entry`);
+  }
+  assert(login.text.includes("관심 특가") || signup.text.includes("관심 특가"), "Auth pages missing conversion copy");
+});
+
+await check("oauth callback and onboarding pages", async () => {
+  const [callback, onboarding] = await Promise.all([
+    fetch(`${baseUrl}/auth/callback?next=https://evil.example`).then(async (response) => ({ response, text: await response.text() })),
+    fetch(`${baseUrl}/onboarding`).then(async (response) => ({ response, text: await response.text() }))
+  ]);
+
+  assert(callback.response.status === 200, `Expected callback 200, got ${callback.response.status}`);
+  assert(callback.text.includes("소셜 로그인"), "OAuth callback page missing title");
+  assert(callback.text.includes("로그인 정보를 확인"), "OAuth callback page missing safe processing copy");
+  assert(onboarding.response.status === 200, `Expected onboarding 200, got ${onboarding.response.status}`);
+  assert(onboarding.text.includes("관심 카테고리") && onboarding.text.includes("무료/체험"), "Onboarding page missing category setup");
+});
+
+await check("account deletion guard", async () => {
+  const badConfirm = await fetchJson("/api/account/delete", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ confirmText: "삭제" })
+  });
+  assert(badConfirm.response.status === 400, `Expected bad confirm 400, got ${badConfirm.response.status}`);
+  assert(badConfirm.data.ok === false, "Bad confirm should fail");
+
+  const noSession = await fetchJson("/api/account/delete", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ confirmText: "탈퇴" })
+  });
+  assert([401, 503].includes(noSession.response.status), `Expected no-session 401/503, got ${noSession.response.status}`);
+  assert(noSession.data.ok === false, "No-session account deletion should fail safely");
 });
 
 await check("service guide page", async () => {
