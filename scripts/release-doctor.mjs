@@ -725,6 +725,18 @@ async function checkOperationalDataSurfaces() {
     pass("price alert data surface", "Saved price alerts are visible in notifications and the in-app alert tab, and included in local/account data deletion controls.");
   }
 
+  if (
+    !notificationsPage.includes("알림 운영 방식") ||
+    !notificationsPage.includes("권한 요청 없이 먼저 쓸 수 있게 준비했습니다") ||
+    !notificationsPage.includes("실제 푸시 알림은 별도 동의") ||
+    !notificationsPage.includes("알림 기준 보기") ||
+    notificationsPage.includes("Notification.requestPermission")
+  ) {
+    fail("notification launch readiness UX", "Notifications page should explain the V1 in-app alert flow without requesting push permission.");
+  } else {
+    pass("notification launch readiness UX", "Notifications page explains the in-app alert flow and keeps real push permission for a later release.");
+  }
+
   const adminRawTerms = ["mock, staging, production", "· score "].filter((term) => adminPage.includes(term));
   if (adminRawTerms.length) {
     fail("admin product copy", `Admin page still exposes raw internal terms: ${adminRawTerms.join(", ")}`);

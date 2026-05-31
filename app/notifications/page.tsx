@@ -23,6 +23,11 @@ export default async function NotificationsPage() {
     { label: "신규", value: newDeals.length, icon: Sparkles, href: "/?sort=latest" },
     { label: "무료배송", value: freeShippingDeals.length, icon: Truck, href: "/?freeShipping=true" }
   ];
+  const readinessSteps = [
+    { title: "앱 안에서 먼저 확인", description: "마감, 인기, 신규, 무료배송 특가를 권한 요청 없이 이 화면에서 정리합니다." },
+    { title: "희망 가격 저장", description: "상세 페이지에서 희망 가격을 저장하면 알림 센터에서 다시 확인할 수 있습니다." },
+    { title: "푸시는 별도 동의 후", description: "실제 푸시 발송은 운영 서버와 FCM 연결 후 사용자가 동의할 때만 켭니다." }
+  ];
 
   return (
     <div className="space-y-4 px-3 py-4 sm:px-4 lg:px-0 lg:py-8">
@@ -58,6 +63,32 @@ export default async function NotificationsPage() {
 
       <NotificationPreferences />
       <PriceAlertList deals={deals} />
+
+      <section className="rounded-[22px] border border-red-100 bg-gradient-to-br from-red-50 via-white to-slate-50 p-4 shadow-sm lg:p-5">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-xs font-black text-dossa-red">알림 운영 방식</p>
+            <h2 className="mt-1 text-base font-black text-slate-950">권한 요청 없이 먼저 쓸 수 있게 준비했습니다</h2>
+            <p className="mt-1 text-sm font-semibold leading-6 text-slate-500">
+              V1에서는 기기 저장 기반으로 관심 조건을 관리하고, 실제 푸시 알림은 별도 동의와 운영 서버 연결 후 활성화합니다.
+            </p>
+          </div>
+          <Link href="/guide" className="rounded-2xl bg-white px-4 py-3 text-center text-xs font-black text-dossa-red shadow-sm">
+            알림 기준 보기
+          </Link>
+        </div>
+        <div className="mt-4 grid gap-2 md:grid-cols-3">
+          {readinessSteps.map((step, index) => (
+            <div key={step.title} className="rounded-2xl bg-white p-4 shadow-sm">
+              <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-red-50 text-sm font-black text-dossa-red">
+                {index + 1}
+              </span>
+              <p className="mt-3 text-sm font-black text-slate-950">{step.title}</p>
+              <p className="mt-1 text-xs font-semibold leading-5 text-slate-500">{step.description}</p>
+            </div>
+          ))}
+        </div>
+      </section>
 
       {alertGroups.map((group) => {
         const Icon = group.icon;

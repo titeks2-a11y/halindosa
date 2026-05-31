@@ -201,6 +201,7 @@ await check("category and notification pages", async () => {
   assert(notificationsText.includes("전체 보기"), "Notifications page missing alert group deep links");
   assert(notificationsText.includes("저장한 가격 알림"), "Notifications page missing saved price alert list");
   assert(notificationsText.includes("실제 푸시 발송은 FCM 연결 후 별도 동의"), "Notifications page missing push readiness copy");
+  assert(notificationsText.includes("알림 운영 방식") && notificationsText.includes("권한 요청 없이 먼저 쓸 수 있게 준비했습니다"), "Notifications page missing push readiness operating guide");
   assert(notificationsText.includes("마감 임박 특가"), "Notifications page missing ending group");
   assert(notificationsText.includes("무료배송 특가"), "Notifications page missing free shipping group");
 });
