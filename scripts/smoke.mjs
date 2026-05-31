@@ -87,6 +87,7 @@ await check("home page", async () => {
   assert(text.includes("판매처 이동 전 확인"), "Home deal open buttons missing accessible purchase label");
   assert(text.includes("네트워크 정상") || text.includes("오프라인 상태"), "Home page missing network status summary");
   assert(text.includes("전체 쇼핑몰") && text.includes("쿠팡 ("), "Home page missing mall filter counts");
+  assert(text.includes("전체 가격대") && text.includes("1만원 미만"), "Home page missing price band filter");
 });
 
 await check("home query filters", async () => {
@@ -283,6 +284,16 @@ await check("deals filters api", async () => {
   assert(auction.response.status === 200, `Expected 200, got ${auction.response.status}`);
   assert(auction.data.deals.length > 0, "Auction mall filter should return at least one deal");
   assert(auction.data.deals.every((deal) => /옥션|auction/i.test(`${deal.mallName} ${deal.mall}`)), "Auction mall filter returned another mall");
+
+  const budget = await fetchJson("/api/deals?priceBand=under10000&limit=20");
+  assert(budget.response.status === 200, `Expected 200, got ${budget.response.status}`);
+  assert(budget.data.deals.length > 0, "Budget price band should return at least one deal");
+  assert(budget.data.deals.every((deal) => deal.salePrice < 10000), "priceBand=under10000 returned a deal over budget");
+
+  const premium = await fetchJson("/api/deals?minPrice=100000&limit=20");
+  assert(premium.response.status === 200, `Expected 200, got ${premium.response.status}`);
+  assert(premium.data.deals.length > 0, "minPrice filter should return at least one deal");
+  assert(premium.data.deals.every((deal) => deal.salePrice >= 100000), "minPrice returned a cheaper deal");
 });
 
 await check("deal link integrity", async () => {

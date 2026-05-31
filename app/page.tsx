@@ -54,6 +54,14 @@ const mallFilters = [
   { id: "무신사", label: "무신사" },
   { id: "하이마트", label: "하이마트" }
 ];
+const priceBands = [
+  { id: "all", label: "전체 가격대", min: 0, max: Number.POSITIVE_INFINITY },
+  { id: "under10000", label: "1만원 미만", min: 0, max: 9999 },
+  { id: "10000-30000", label: "1만~3만원", min: 10000, max: 30000 },
+  { id: "30000-100000", label: "3만~10만원", min: 30000, max: 100000 },
+  { id: "over100000", label: "10만원 이상", min: 100000, max: Number.POSITIVE_INFINITY }
+] as const;
+type PriceBand = (typeof priceBands)[number]["id"];
 const toastMessages = [
   "🔥 새로운 역대급 특가가 등록되었습니다!",
   "⚡ 마감임박 상품이 빠르게 소진되고 있어요.",
@@ -91,6 +99,12 @@ function dealMatchesMallFilter(deal: Deal, mallFilter: string) {
   return mall.includes(mallFilter.toLowerCase());
 }
 
+function dealMatchesPriceBand(deal: Deal, priceBand: PriceBand) {
+  const selectedBand = priceBands.find((band) => band.id === priceBand);
+  if (!selectedBand || selectedBand.id === "all") return true;
+  return deal.salePrice >= selectedBand.min && deal.salePrice <= selectedBand.max;
+}
+
 function getProviderDisplayLabel(source: string) {
   if (source === "production") return "운영 피드";
   if (source === "staging") return "검수 피드";
@@ -120,7 +134,8 @@ function filterLocalDeals(
   hotOnly = false,
   endingSoonOnly = false,
   verifiedOnly = false,
-  mallFilter = "all"
+  mallFilter = "all",
+  priceBand: PriceBand = "all"
 ) {
   const searchQuery = query.trim().toLowerCase();
   let filtered = items;
@@ -139,6 +154,10 @@ function filterLocalDeals(
 
   if (mallFilter !== "all") {
     filtered = filtered.filter((deal) => dealMatchesMallFilter(deal, mallFilter));
+  }
+
+  if (priceBand !== "all") {
+    filtered = filtered.filter((deal) => dealMatchesPriceBand(deal, priceBand));
   }
 
   if (freeShippingOnly) {
@@ -226,6 +245,7 @@ export default function Home() {
   const [endingSoonOnly, setEndingSoonOnly] = useState(false);
   const [verifiedOnly, setVerifiedOnly] = useState(false);
   const [mallFilter, setMallFilter] = useState("all");
+  const [priceBand, setPriceBand] = useState<PriceBand>("all");
   const [updatedAt, setUpdatedAt] = useState("");
   const [providerSource, setProviderSource] = useState("mock");
   const [isLoading, setIsLoading] = useState(false);
@@ -258,6 +278,7 @@ export default function Home() {
       const initialFreeShipping = params.get("freeShipping") ?? params.get("freeShippingOnly");
       const initialHotOnly = params.get("hotOnly");
       const initialEndingSoon = params.get("endingSoon") ?? params.get("endingSoonOnly");
+      const initialPriceBand = params.get("priceBand") as PriceBand | null;
 
       if (initialCategory) {
         setCategory(initialCategory);
@@ -294,6 +315,11 @@ export default function Home() {
         setActiveView("home");
       }
 
+      if (initialPriceBand && priceBands.some((band) => band.id === initialPriceBand)) {
+        setPriceBand(initialPriceBand);
+        setActiveView("home");
+      }
+
       setHasAppliedInitialParams(true);
     }, 0);
 
@@ -326,7 +352,7 @@ export default function Home() {
 
       try {
         if (await isNativeRuntime()) {
-          const localDeals = filterLocalDeals(mockDeals, category, query, sort, freeShippingOnly, hotOnly, endingSoonOnly, verifiedOnly, mallFilter);
+          const localDeals = filterLocalDeals(mockDeals, category, query, sort, freeShippingOnly, hotOnly, endingSoonOnly, verifiedOnly, mallFilter, priceBand);
           setDeals(localDeals);
           setCatalog(mockDeals);
           setProviderSource("android bundle");
@@ -347,7 +373,8 @@ export default function Home() {
           hotOnly: String(hotOnly),
           endingSoonOnly: String(endingSoonOnly),
           verifiedOnly: String(verifiedOnly),
-          mall: mallFilter
+          mall: mallFilter,
+          priceBand
         });
 
         if (query.trim()) {
@@ -363,6 +390,7 @@ export default function Home() {
             .filter((deal) => !hotOnly || deal.isHot)
             .filter((deal) => !endingSoonOnly || deal.isEndingSoon)
             .filter((deal) => !verifiedOnly || isVerifiedPurchaseLink(deal))
+            .filter((deal) => dealMatchesPriceBand(deal, priceBand))
         );
         setUpdatedAt(data.updatedAt);
         setProviderSource(data.source ?? "mock");
@@ -375,7 +403,7 @@ export default function Home() {
         }
       } catch {
         setLoadError("특가 데이터를 불러오지 못했습니다. 기본 저장 데이터를 표시합니다.");
-        setDeals(filterLocalDeals(mockDeals, category, query, sort, freeShippingOnly, hotOnly, endingSoonOnly, verifiedOnly, mallFilter));
+        setDeals(filterLocalDeals(mockDeals, category, query, sort, freeShippingOnly, hotOnly, endingSoonOnly, verifiedOnly, mallFilter, priceBand));
         setCatalog(mockDeals);
         setProviderSource("mock fallback");
         setUpdatedAt(new Date().toISOString());
@@ -384,7 +412,7 @@ export default function Home() {
         setIsLoading(false);
       }
     },
-    [category, endingSoonOnly, freeShippingOnly, hotOnly, isOffline, mallFilter, query, showToast, sort, verifiedOnly]
+    [category, endingSoonOnly, freeShippingOnly, hotOnly, isOffline, mallFilter, priceBand, query, showToast, sort, verifiedOnly]
   );
 
   useEffect(() => {
@@ -783,14 +811,27 @@ export default function Home() {
     [catalog]
   );
 
+  const priceBandCounts = useMemo(
+    () =>
+      Object.fromEntries(
+        priceBands.map((band) => [
+          band.id,
+          band.id === "all" ? catalog.length : catalog.filter((deal) => dealMatchesPriceBand(deal, band.id)).length
+        ])
+      ),
+    [catalog]
+  );
+
   const activeFilterLabels = useMemo(() => {
     const labels: string[] = [];
     const selectedChannel = getDealChannel(category);
     const selectedMall = mallFilters.find((mall) => mall.id === mallFilter);
+    const selectedPriceBand = priceBands.find((band) => band.id === priceBand);
 
     if (query.trim()) labels.push(`검색: ${query.trim()}`);
     if (category !== "all") labels.push(selectedChannel.label);
     if (mallFilter !== "all" && selectedMall) labels.push(selectedMall.label);
+    if (priceBand !== "all" && selectedPriceBand) labels.push(selectedPriceBand.label);
     if (verifiedOnly) labels.push("구매링크 확인");
     if (freeShippingOnly) labels.push("무료배송");
     if (hotOnly) labels.push("핫딜");
@@ -807,12 +848,13 @@ export default function Home() {
     }
 
     return labels;
-  }, [category, endingSoonOnly, freeShippingOnly, hotOnly, mallFilter, query, sort, verifiedOnly]);
+  }, [category, endingSoonOnly, freeShippingOnly, hotOnly, mallFilter, priceBand, query, sort, verifiedOnly]);
 
   const resetFilters = () => {
     setQuery("");
     setCategory("all");
     setMallFilter("all");
+    setPriceBand("all");
     setSort("latest");
     setFreeShippingOnly(false);
     setHotOnly(false);
@@ -831,6 +873,7 @@ export default function Home() {
     setQuery("");
     setCategory("all");
     setMallFilter("all");
+    setPriceBand("all");
     setVerifiedOnly(preset === "verified");
     setFreeShippingOnly(preset === "freeShipping");
     setEndingSoonOnly(preset === "endingSoon");
@@ -1194,6 +1237,21 @@ export default function Home() {
                     ))}
                   </select>
                 </label>
+                <label className="min-w-[170px] flex-1">
+                  <span className="sr-only">가격대 필터</span>
+                  <select
+                    value={priceBand}
+                    onChange={(event) => setPriceBand(event.target.value as PriceBand)}
+                    aria-label="가격대 필터"
+                    className="min-h-[54px] w-full rounded-2xl border border-slate-200 bg-white px-4 text-sm font-black text-slate-700 shadow-sm outline-none transition hover:border-red-200 focus:border-red-300 focus:ring-4 focus:ring-red-50"
+                  >
+                    {priceBands.map((band) => (
+                      <option key={band.id} value={band.id}>
+                        {band.id === "all" ? band.label : `${band.label} (${priceBandCounts[band.id] ?? 0})`}
+                      </option>
+                    ))}
+                  </select>
+                </label>
                 <button
                   type="button"
                   onClick={() => setFreeShippingOnly((value) => !value)}
@@ -1320,7 +1378,7 @@ export default function Home() {
               renderDealGrid(
                 deals,
                 "조건에 맞는 특가가 없습니다.",
-                freeShippingOnly || hotOnly || endingSoonOnly || verifiedOnly
+                freeShippingOnly || hotOnly || endingSoonOnly || verifiedOnly || priceBand !== "all"
                   ? "선택한 필터를 줄이거나 다른 카테고리를 선택해보세요."
                   : "검색어를 줄이거나 다른 카테고리를 선택해보세요.",
                 <button

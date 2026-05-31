@@ -605,13 +605,15 @@ async function checkUiAccessibility() {
     fail("search filter accessibility", "Search, sort, and category controls should expose accessible names and selected state.");
   } else if (
     !homePage.includes('aria-label="쇼핑몰 필터"') ||
+    !homePage.includes('aria-label="가격대 필터"') ||
+    !homePage.includes("전체 가격대") ||
     !homePage.includes("무료배송만 보기") ||
     !homePage.includes("구매링크 확인된 특가만 보기") ||
     !homePage.includes("검색과 필터 조건 초기화")
   ) {
     fail("search filter accessibility", "Home filter controls should expose accessible names and toggle state labels.");
   } else {
-    pass("search filter accessibility", "Search, sort, category, mall, and quick filter controls expose accessible names and state.");
+    pass("search filter accessibility", "Search, sort, category, mall, price, and quick filter controls expose accessible names and state.");
   }
 
   if (
@@ -712,6 +714,12 @@ async function checkOperationalDataSurfaces() {
     fail("api fallback normalization", "Deals API fallback should normalize canonical fields and avoid public mock wording.");
   } else {
     pass("api fallback normalization", "Deals API fallback keeps canonical fields and user-facing fallback copy.");
+  }
+
+  if (!dealsRoute.includes("priceBand") || !dealRepository.includes("getPriceBandRange") || !smoke.includes("priceBand=under10000")) {
+    fail("price filter data path", "Deals API, repository, and smoke tests should support price band filtering.");
+  } else {
+    pass("price filter data path", "Deals API and repository support commercial price band filtering.");
   }
 
   if (!quality.includes("export function isVerifiedPurchaseLink") || !quality.includes("export function getLinkQualityScore")) {

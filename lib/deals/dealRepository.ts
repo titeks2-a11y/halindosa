@@ -12,6 +12,9 @@ export interface DealQuery {
   q?: string;
   sort?: DealSort;
   limit?: number;
+  priceBand?: string;
+  minPrice?: number;
+  maxPrice?: number;
   freeShippingOnly?: boolean;
   hotOnly?: boolean;
   endingSoonOnly?: boolean;
@@ -58,6 +61,21 @@ export function sortDeals(deals: Deal[], sort: DealSort) {
     case "latest":
     default:
       return sorted.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  }
+}
+
+function getPriceBandRange(priceBand?: string) {
+  switch (priceBand) {
+    case "under10000":
+      return { minPrice: 0, maxPrice: 9999 };
+    case "10000-30000":
+      return { minPrice: 10000, maxPrice: 30000 };
+    case "30000-100000":
+      return { minPrice: 30000, maxPrice: 100000 };
+    case "over100000":
+      return { minPrice: 100000, maxPrice: Number.POSITIVE_INFINITY };
+    default:
+      return null;
   }
 }
 
@@ -130,6 +148,12 @@ export async function getDeals(query: DealQuery = {}) {
   if (query.hotOnly) deals = deals.filter((deal) => deal.isHot);
   if (query.endingSoonOnly) deals = deals.filter((deal) => deal.isEndingSoon);
   if (query.verifiedOnly) deals = deals.filter(isVerifiedPurchaseLink);
+
+  const priceBandRange = getPriceBandRange(query.priceBand);
+  const minPrice = Number.isFinite(query.minPrice) ? Number(query.minPrice) : priceBandRange?.minPrice;
+  const maxPrice = Number.isFinite(query.maxPrice) ? Number(query.maxPrice) : priceBandRange?.maxPrice;
+  if (typeof minPrice === "number") deals = deals.filter((deal) => deal.salePrice >= minPrice);
+  if (typeof maxPrice === "number") deals = deals.filter((deal) => deal.salePrice <= maxPrice);
 
   deals = sortDeals(deals, sort);
   if (Number.isFinite(limit) && limit > 0) deals = deals.slice(0, limit);

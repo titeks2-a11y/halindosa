@@ -8,11 +8,16 @@ export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const limit = Number(searchParams.get("limit") ?? 0);
+    const minPrice = Number(searchParams.get("minPrice") ?? Number.NaN);
+    const maxPrice = Number(searchParams.get("maxPrice") ?? Number.NaN);
     const result = await getDeals({
       category: searchParams.get("category")?.trim(),
       q: searchParams.get("q")?.trim(),
       sort: normalizeSort(searchParams.get("sort")),
       limit,
+      priceBand: searchParams.get("priceBand")?.trim(),
+      minPrice,
+      maxPrice,
       freeShippingOnly: searchParams.get("freeShippingOnly") === "true",
       hotOnly: searchParams.get("hotOnly") === "true",
       endingSoonOnly: searchParams.get("endingSoonOnly") === "true",
