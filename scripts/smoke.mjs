@@ -105,6 +105,7 @@ await check("home page", async () => {
   assert(text.includes("무료로 받을 수 있는 혜택"), "Home page missing free benefit discovery card");
   assert(text.includes("무료혜택/쿠폰"), "Home page missing free benefit and coupon section");
   assert(text.includes("0원"), "Home navigation missing free benefit badge");
+  assert(text.includes("오늘 절약 요약") && text.includes("오늘 절약 후보") && text.includes("무료·무배"), "Home page missing daily savings summary");
   assert(text.includes("품질 안내"), "Home page missing deal quality notice");
   assert(text.includes("무료혜택 TOP 5") && text.includes("쿠폰·앱테크 TOP 5"), "Home page missing free coupon top ranking section");
   assert(text.includes("관심 카테고리 추천") && text.includes("비회원도 모두 보고") && text.includes("관심 설정하기"), "Home page missing interest category personalization");

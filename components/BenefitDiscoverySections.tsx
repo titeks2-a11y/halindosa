@@ -49,6 +49,21 @@ function getDailyBenefitRankings(deals: Deal[]) {
   return { freeTop, couponTop };
 }
 
+function getBenefitSummaryStats(deals: Deal[]) {
+  const activeDeals = deals.filter((deal) => !deal.isExpired && !deal.isSoldOut);
+  const freeBenefitCount = activeDeals.filter((deal) => ["freebie", "experience", "freeShipping"].includes(deal.dealType) || deal.isFreeShipping).length;
+  const couponCount = activeDeals.filter((deal) => ["coupon", "point", "foodDelivery", "convenienceStore", "mart"].includes(deal.dealType)).length;
+  const endingSoonCount = activeDeals.filter((deal) => deal.isEndingSoon).length;
+  const expectedSavings = activeDeals.reduce((total, deal) => total + Math.max(0, deal.savingsAmount), 0);
+
+  return {
+    expectedSavings,
+    freeBenefitCount,
+    couponCount,
+    endingSoonCount
+  };
+}
+
 function BenefitTopList({
   title,
   description,
@@ -125,6 +140,7 @@ export function BenefitDiscoverySections({
   const risingDeals = sortByBenefitScore(source).slice(0, 5);
   const martDeals = sortByBenefitScore(source.filter((deal) => deal.category === "편의점/마트" || /마트|gs25|편의점|교환권|1\+1|2\+1/.test([deal.title, ...deal.tags].join(" ").toLowerCase()))).slice(0, 4);
   const { freeTop, couponTop } = getDailyBenefitRankings(source);
+  const summaryStats = getBenefitSummaryStats(source);
 
   return (
     <div className="space-y-4" aria-label="할인도사 VER 2.0 혜택 탐색">
@@ -165,6 +181,21 @@ export function BenefitDiscoverySections({
               </button>
             );
           })}
+        </div>
+
+        <div className="mt-4 grid gap-2 rounded-[24px] border border-red-100 bg-red-50 p-3 sm:grid-cols-4" aria-label="오늘 절약 요약">
+          {[
+            ["오늘 절약 후보", formatPrice(summaryStats.expectedSavings), "표시된 혜택 절약액 합계"],
+            ["무료·무배", `${summaryStats.freeBenefitCount}개`, "비용 부담 낮은 혜택"],
+            ["쿠폰·포인트", `${summaryStats.couponCount}개`, "결제 전 챙길 혜택"],
+            ["마감 임박", `${summaryStats.endingSoonCount}개`, "먼저 확인할 혜택"]
+          ].map(([label, value, helper]) => (
+            <div key={label} className="rounded-2xl bg-white px-3 py-3 shadow-sm">
+              <span className="block text-[11px] font-black text-slate-500">{label}</span>
+              <span className="mt-1 block text-base font-black text-dossa-red">{value}</span>
+              <span className="mt-1 block text-[11px] font-bold leading-4 text-slate-500">{helper}</span>
+            </div>
+          ))}
         </div>
       </section>
 
