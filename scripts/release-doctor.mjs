@@ -515,6 +515,7 @@ async function checkUiAccessibility() {
   const priceAlertList = await text("components/PriceAlertList.tsx");
   const priceAlerts = await text("lib/priceAlerts.ts");
   const homePage = await text("app/page.tsx");
+  const favoritesPage = await text("app/favorites/page.tsx");
   const requiredSnippets = [
     "aria-pressed={isFavorite}",
     "alt={deal.title}",
@@ -544,6 +545,17 @@ async function checkUiAccessibility() {
     fail("empty state UX", `Missing snippets: ${missingEmptyStateSnippets.join(", ")}`);
   } else {
     pass("empty state UX", "Search and favorites empty states include clear next actions and purchase caution copy.");
+  }
+
+  if (
+    !favoritesPage.includes("favoriteFilterOptions") ||
+    !favoritesPage.includes("저장한 특가 빠르게 보기") ||
+    !favoritesPage.includes("구매 링크 확인") ||
+    !favoritesPage.includes("setFavoriteFilter")
+  ) {
+    fail("favorites filter UX", "Favorites page should let users filter saved deals by verified link, urgency, and shipping.");
+  } else {
+    pass("favorites filter UX", "Favorites page supports saved-deal filtering by verified link, urgency, and shipping.");
   }
 
   if (dealTrustBadge.includes("/99")) {

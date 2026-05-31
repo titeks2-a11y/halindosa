@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { ArrowLeft, CheckCircle2, Heart, Sparkles } from "lucide-react";
+import { ArrowLeft, CheckCircle2, Heart, Sparkles, Timer, Truck } from "lucide-react";
 import { DealCard } from "@/components/DealCard";
 import { LoginPromptSheet } from "@/components/LoginPromptSheet";
 import { PurchaseConfirmSheet } from "@/components/PurchaseConfirmSheet";
@@ -19,6 +19,8 @@ import { Deal } from "@/types/deal";
 interface DealsResponse {
   deals?: Deal[];
 }
+
+type FavoriteFilter = "all" | "verified" | "endingSoon" | "freeShipping";
 
 async function openExternalDeal(deal: Deal) {
   await recordRecentDealView(deal.id);
@@ -56,8 +58,29 @@ export default function FavoritesPage() {
   const [catalog, setCatalog] = useState<Deal[]>(mockDeals);
   const [isCatalogLoading, setIsCatalogLoading] = useState(false);
   const [favorites, setFavorites] = useState<string[]>(() => readLocalFavoriteIds());
+  const [favoriteFilter, setFavoriteFilter] = useState<FavoriteFilter>("all");
 
   const favoriteDeals = useMemo(() => catalog.filter((deal) => favorites.includes(deal.id)), [catalog, favorites]);
+  const favoriteStats = useMemo(
+    () => ({
+      verified: favoriteDeals.filter(isVerifiedPurchaseLink).length,
+      endingSoon: favoriteDeals.filter((deal) => deal.isEndingSoon).length,
+      freeShipping: favoriteDeals.filter((deal) => deal.isFreeShipping).length
+    }),
+    [favoriteDeals]
+  );
+  const filteredFavoriteDeals = useMemo(() => {
+    if (favoriteFilter === "verified") return favoriteDeals.filter(isVerifiedPurchaseLink);
+    if (favoriteFilter === "endingSoon") return favoriteDeals.filter((deal) => deal.isEndingSoon);
+    if (favoriteFilter === "freeShipping") return favoriteDeals.filter((deal) => deal.isFreeShipping);
+    return favoriteDeals;
+  }, [favoriteDeals, favoriteFilter]);
+  const favoriteFilterOptions: { id: FavoriteFilter; label: string; count: number; icon: typeof Heart }[] = [
+    { id: "all", label: "전체", count: favoriteDeals.length, icon: Heart },
+    { id: "verified", label: "구매 링크 확인", count: favoriteStats.verified, icon: CheckCircle2 },
+    { id: "endingSoon", label: "마감임박", count: favoriteStats.endingSoon, icon: Timer },
+    { id: "freeShipping", label: "무료배송", count: favoriteStats.freeShipping, icon: Truck }
+  ];
   const recommendedDeals = useMemo(
     () =>
       [...catalog]
@@ -203,18 +226,72 @@ export default function FavoritesPage() {
         ) : null}
 
         {favoriteDeals.length ? (
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
-            {favoriteDeals.map((deal) => (
-              <DealCard
-                key={deal.id}
-                deal={deal}
-                isFavorite={favorites.includes(deal.id)}
-                onToggleFavorite={toggleFavorite}
-                onOpenDeal={openDeal}
-                onShareDeal={shareDeal}
-              />
-            ))}
-          </div>
+          <>
+            <section className="rounded-[24px] border border-slate-200 bg-white p-4 shadow-sm">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <p className="text-sm font-black text-slate-950">저장한 특가 빠르게 보기</p>
+                  <p className="mt-1 text-xs font-bold text-slate-500">구매 전 확인이 쉬운 상품부터 다시 확인하세요.</p>
+                </div>
+                <Link href="/?verifiedOnly=true" className="rounded-2xl bg-red-50 px-4 py-3 text-center text-xs font-black text-dossa-red">
+                  새 특가 더 찾기
+                </Link>
+              </div>
+              <div className="mt-4 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                {favoriteFilterOptions.map((option) => {
+                  const active = favoriteFilter === option.id;
+                  const Icon = option.icon;
+
+                  return (
+                    <button
+                      key={option.id}
+                      type="button"
+                      onClick={() => setFavoriteFilter(option.id)}
+                      aria-pressed={active}
+                      className={`inline-flex min-h-11 shrink-0 items-center gap-2 rounded-2xl border px-4 text-xs font-black transition ${
+                        active
+                          ? "border-dossa-red bg-red-50 text-dossa-red"
+                          : "border-slate-200 bg-white text-slate-600 hover:border-red-100 hover:text-dossa-red"
+                      }`}
+                    >
+                      <Icon size={16} />
+                      {option.label}
+                      <span className={active ? "text-dossa-red" : "text-slate-400"}>{option.count}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </section>
+
+            {filteredFavoriteDeals.length ? (
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+                {filteredFavoriteDeals.map((deal) => (
+                  <DealCard
+                    key={deal.id}
+                    deal={deal}
+                    isFavorite={favorites.includes(deal.id)}
+                    onToggleFavorite={toggleFavorite}
+                    onOpenDeal={openDeal}
+                    onShareDeal={shareDeal}
+                  />
+                ))}
+              </div>
+            ) : (
+              <section className="rounded-3xl border border-dashed border-slate-300 bg-white p-6 text-center shadow-sm">
+                <p className="text-base font-black text-slate-950">이 조건에 맞는 찜한 특가가 없습니다.</p>
+                <p className="mx-auto mt-2 max-w-md text-sm font-semibold leading-6 text-slate-500">
+                  다른 조건을 선택하거나 구매 링크가 확인된 새 특가를 먼저 저장해보세요.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setFavoriteFilter("all")}
+                  className="mt-4 rounded-2xl bg-slate-950 px-5 py-3 text-sm font-black text-white"
+                >
+                  전체 찜 보기
+                </button>
+              </section>
+            )}
+          </>
         ) : (
           <section className="rounded-3xl border border-dashed border-slate-300 bg-white p-5 shadow-sm sm:p-6">
             <div className="mx-auto max-w-2xl text-center">
