@@ -9,6 +9,7 @@ export interface DealQualitySummary {
   soldOutLinks: number;
   verifiedRate: number;
   directPurchaseRate: number;
+  averagePurchaseConfidence: number;
   generatedAt: string;
 }
 
@@ -81,6 +82,9 @@ export function summarizeDealQuality(deals: Deal[]): DealQualitySummary {
   const needsReviewLinks = deals.filter(needsLinkReview).length;
   const brokenLinks = deals.filter((deal) => deal.linkStatus === "broken").length;
   const soldOutLinks = deals.filter((deal) => deal.linkStatus === "sold_out").length;
+  const averagePurchaseConfidence = total
+    ? Math.round(deals.reduce((sum, deal) => sum + (deal.purchaseConfidence ?? 0), 0) / total)
+    : 0;
 
   return {
     total,
@@ -91,6 +95,7 @@ export function summarizeDealQuality(deals: Deal[]): DealQualitySummary {
     soldOutLinks,
     verifiedRate: percent(verifiedLinks, total),
     directPurchaseRate: percent(directPurchaseLinks, total),
+    averagePurchaseConfidence,
     generatedAt: new Date().toISOString()
   };
 }

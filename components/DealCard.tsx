@@ -2,6 +2,7 @@ import Link from "next/link";
 import { AlertTriangle, CheckCircle2, Clock, ExternalLink, Heart, Share2, ShoppingBag, Store, Tag, Truck } from "lucide-react";
 import { canOpenDealLink, getAffiliateDisclosure, getDealLinkTrustLabel } from "@/lib/affiliate";
 import { isVerifiedPurchaseLink } from "@/lib/deals/quality";
+import { getDealPurchaseConfidenceLabel } from "@/lib/deals/linkValidator";
 import { getDealImageSrc } from "@/lib/imageSrc";
 import { Deal } from "@/types/deal";
 import { formatPrice, getRelativeTime, getTimeLeft } from "@/lib/format";
@@ -104,6 +105,9 @@ export function DealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, onSha
           <LinkTrustIcon size={12} />
           <span className="truncate">{getDealLinkTrustLabel(deal)}</span>
         </div>
+        <p className="text-[11px] font-bold text-slate-500">
+          {getDealPurchaseConfidenceLabel(deal)} · 링크 확인 {getRelativeTime(deal.checkedAt)}
+        </p>
 
         <div className="rounded-2xl bg-slate-50 p-2.5 sm:p-3">
           <div className="flex items-start justify-between gap-3">

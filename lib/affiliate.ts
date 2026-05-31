@@ -126,7 +126,9 @@ export function buildSellerSearchUrl(deal: Pick<Deal, "mall" | "mallName" | "tit
 }
 
 export function resolveDealDestinationUrl(deal: Deal, preferAffiliate = false) {
-  const candidate = preferAffiliate ? (deal.affiliateUrl || deal.purchaseUrl || deal.url || deal.link) : (deal.purchaseUrl || deal.url || deal.link);
+  const candidate = preferAffiliate
+    ? (deal.affiliateUrl || deal.finalPurchaseUrl || deal.finalUrl || deal.purchaseUrl || deal.url || deal.link)
+    : (deal.finalPurchaseUrl || deal.finalUrl || deal.purchaseUrl || deal.url || deal.link);
   return isPlaceholderOrCommunityUrl(candidate) ? buildSellerSearchUrl(deal) : candidate;
 }
 

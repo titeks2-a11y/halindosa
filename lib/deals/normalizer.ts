@@ -1,4 +1,6 @@
 import { Deal, DealCategory } from "@/types/deal";
+import { buildSellerSearchUrl } from "@/lib/affiliate";
+import { validatePurchaseLink } from "@/lib/deals/linkValidator";
 
 export type DealInput = Partial<Deal> & {
   id: string;
@@ -15,6 +17,14 @@ export type DealInput = Partial<Deal> & {
   url?: string;
   affiliateUrl?: string;
   purchaseUrl?: string;
+  finalUrl?: string;
+  finalPurchaseUrl?: string;
+  linkVerified?: boolean;
+  purchaseLinkVerified?: boolean;
+  checkedAt?: string;
+  purchaseConfidence?: number;
+  sourceUrl?: string;
+  sourceName?: string;
   shipping?: string;
   shippingInfo?: string;
   createdAt?: string;
@@ -22,35 +32,6 @@ export type DealInput = Partial<Deal> & {
   expiresAt?: string;
   tags?: string[];
 };
-
-function isUnsafeOrCommunityLink(value?: string) {
-  if (!value) return true;
-
-  try {
-    const url = new URL(value);
-    const host = url.hostname.toLowerCase();
-    return host.includes("ppomppu.co.kr") || host === "example.com" || host.endsWith(".example.com");
-  } catch {
-    return true;
-  }
-}
-
-function buildSellerSearchUrl(mallName: string, title: string) {
-  const mall = mallName.toLowerCase();
-  const query = encodeURIComponent(title);
-
-  if (/쿠팡|coupang/.test(mall)) return `https://www.coupang.com/np/search?q=${query}`;
-  if (/g마켓|지마켓|gmarket/.test(mall)) return `https://browse.gmarket.co.kr/search?keyword=${query}`;
-  if (/11번가|11st/.test(mall)) return `https://search.11st.co.kr/Search.tmall?kwd=${query}`;
-  if (/옥션|auction/.test(mall)) return `https://browse.auction.co.kr/search?keyword=${query}`;
-  if (/ssg|쓱|이마트/.test(mall)) return `https://www.ssg.com/search.ssg?target=all&query=${query}`;
-  if (/올리브영|olive/.test(mall)) return `https://www.oliveyoung.co.kr/store/search/getSearchMain.do?query=${query}`;
-  if (/무신사|musinsa/.test(mall)) return `https://www.musinsa.com/search/goods?keyword=${query}`;
-  if (/알리|ali/.test(mall)) return `https://ko.aliexpress.com/w/wholesale-${query}.html`;
-  if (/네이버|naver/.test(mall)) return `https://search.shopping.naver.com/search/all?query=${query}`;
-
-  return `https://search.shopping.naver.com/search/all?query=${query}`;
-}
 
 export function normalizeDeal(input: DealInput, source = input.source ?? "mock"): Deal {
   const mallName = input.mallName ?? input.mall ?? "할인도사";
@@ -63,11 +44,21 @@ export function normalizeDeal(input: DealInput, source = input.source ?? "mock")
   const discountRate = input.discountRate ?? Math.round((discountAmount / Math.max(input.originalPrice, 1)) * 100);
   const isFreeShipping = input.isFreeShipping ?? /무료배송|무배|네멤무료|로켓프레시/.test([shipping, ...tags].join(" "));
   const rawLink = input.purchaseUrl ?? input.url ?? input.link;
-  const needsReview = isUnsafeOrCommunityLink(rawLink);
-  const link = needsReview ? buildSellerSearchUrl(mallName, input.title) : rawLink;
   const priceCheckedAt = input.priceCheckedAt ?? input.verifiedAt ?? createdAt;
-  const linkStatus = input.linkStatus ?? (needsReview ? "needs_review" : "verified");
-  const linkType = input.linkType ?? (needsReview ? "seller_search" : "direct_purchase");
+  const linkValidation = validatePurchaseLink({
+    url: rawLink,
+    fallbackUrl: buildSellerSearchUrl({ mall: mallName, mallName, title: input.title }),
+    mallName,
+    title: input.title,
+    linkStatus: input.linkStatus,
+    linkType: input.linkType,
+    checkedAt: input.checkedAt ?? input.verifiedAt ?? priceCheckedAt
+  });
+  const link = input.finalPurchaseUrl ?? input.finalUrl ?? linkValidation.finalPurchaseUrl;
+  const linkStatus = input.linkStatus ?? linkValidation.linkStatus;
+  const linkType = input.linkType ?? linkValidation.linkType;
+  const linkVerified = input.linkVerified ?? linkValidation.linkVerified;
+  const purchaseConfidence = input.purchaseConfidence ?? linkValidation.purchaseConfidence;
 
   return {
     id: input.id,
@@ -83,9 +74,16 @@ export function normalizeDeal(input: DealInput, source = input.source ?? "mock")
     url: input.url ?? link,
     affiliateUrl: input.affiliateUrl,
     purchaseUrl: input.purchaseUrl ?? link,
+    finalUrl: input.finalUrl ?? linkValidation.finalUrl,
+    finalPurchaseUrl: input.finalPurchaseUrl ?? linkValidation.finalPurchaseUrl,
     linkType,
     linkStatus,
     linkLabel: input.linkLabel ?? (linkStatus === "verified" ? "구매 페이지 확인" : "판매처 검색으로 확인"),
+    linkVerified,
+    checkedAt: input.checkedAt ?? linkValidation.checkedAt,
+    purchaseConfidence,
+    purchaseStatus: linkStatus === "verified" ? "available" : linkStatus,
+    purchaseLinkVerified: input.purchaseLinkVerified ?? linkValidation.purchaseLinkVerified,
     verifiedAt: linkStatus === "verified" ? (input.verifiedAt ?? priceCheckedAt) : undefined,
     priceCheckedAt,
     shipping,
@@ -96,6 +94,8 @@ export function normalizeDeal(input: DealInput, source = input.source ?? "mock")
     isFreeShipping,
     discountAmount,
     source,
+    sourceUrl: input.sourceUrl,
+    sourceName: input.sourceName,
     notice: input.notice ?? "가격, 재고, 쿠폰, 배송 조건은 판매처에서 최종 확인하세요.",
     isNew: input.isNew ?? false,
     isEndingSoon: input.isEndingSoon ?? new Date(expireAt).getTime() - Date.now() < 6 * 60 * 60 * 1000,

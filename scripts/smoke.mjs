@@ -157,8 +157,12 @@ await check("deals api", async () => {
   assert(data.deals[0].discountRate >= data.deals[1].discountRate, "Deals are not sorted by discount");
   assert(data.quality?.total === data.count, "Deals API quality summary should match returned count");
   assert(data.quality?.verifiedRate >= 0, "Deals API quality summary missing verified rate");
+  assert(data.quality?.averagePurchaseConfidence >= 0, "Deals API quality summary missing purchase confidence");
   for (const field of ["mallName", "thumbnail", "shipping", "expireAt", "isFreeShipping"]) {
     assert(field in data.deals[0], `Canonical Deal field missing: ${field}`);
+  }
+  for (const field of ["linkVerified", "finalUrl", "checkedAt", "purchaseConfidence", "purchaseLinkVerified", "finalPurchaseUrl"]) {
+    assert(field in data.deals[0], `Purchase link verification field missing: ${field}`);
   }
   assert(!data.message.includes("mock"), "Deals API should not expose mock wording in success message");
   for (const field of ["mall", "imageUrl", "shippingInfo", "expiresAt"]) {
@@ -207,15 +211,24 @@ await check("deal link integrity", async () => {
     assert(!/티몬|위메프/.test(`${deal.mallName} ${deal.mall}`), `${deal.id} uses excluded mall: ${deal.mallName}`);
     assert(["direct_purchase", "seller_search", "affiliate", "unavailable"].includes(deal.linkType), `${deal.id} invalid linkType`);
     assert(["verified", "needs_review", "broken", "sold_out"].includes(deal.linkStatus), `${deal.id} invalid linkStatus`);
+    assert(typeof deal.linkVerified === "boolean", `${deal.id} linkVerified should be boolean`);
+    assert(typeof deal.purchaseLinkVerified === "boolean", `${deal.id} purchaseLinkVerified should be boolean`);
+    assert(typeof deal.purchaseConfidence === "number", `${deal.id} purchaseConfidence should be number`);
+    assert(deal.purchaseConfidence >= 0 && deal.purchaseConfidence <= 100, `${deal.id} purchaseConfidence out of range`);
+    assert(deal.finalUrl && !isUnsafeDealUrl(deal.finalUrl), `${deal.id} has unsafe finalUrl: ${deal.finalUrl}`);
+    assert(deal.finalPurchaseUrl && !isUnsafeDealUrl(deal.finalPurchaseUrl), `${deal.id} has unsafe finalPurchaseUrl: ${deal.finalPurchaseUrl}`);
     assert(!isUnsafeDealUrl(destination), `${deal.id} has unsafe/community/placeholder destination: ${destination}`);
 
     if (deal.linkStatus === "verified") {
       assert(deal.linkType !== "seller_search", `${deal.id} verified deal should not be seller_search`);
+      assert(deal.linkVerified === true, `${deal.id} verified deal should set linkVerified`);
+      assert(deal.purchaseLinkVerified === true, `${deal.id} verified deal should set purchaseLinkVerified`);
       assert(!isMallHomeOnlyUrl(destination), `${deal.id} verified deal points to mall home: ${destination}`);
     }
 
     if (deal.linkType === "seller_search") {
       assert(deal.linkStatus === "needs_review", `${deal.id} seller_search should be needs_review`);
+      assert(deal.linkVerified === false, `${deal.id} seller_search should not be linkVerified`);
       assert(/검색|확인/.test(deal.linkLabel), `${deal.id} seller_search label should warn about review`);
     }
   }

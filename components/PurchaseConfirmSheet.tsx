@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { AlertTriangle, CheckCircle2, ExternalLink, ShieldCheck, X } from "lucide-react";
 import { getAffiliateDisclosure, getDealLinkTrustLabel } from "@/lib/affiliate";
 import { isVerifiedPurchaseLink } from "@/lib/deals/quality";
+import { getDealPurchaseConfidenceLabel } from "@/lib/deals/linkValidator";
 import { formatPrice, getRelativeTime } from "@/lib/format";
 import { Deal } from "@/types/deal";
 
@@ -83,6 +84,9 @@ export function PurchaseConfirmSheet({ deal, isOpen, onClose, onConfirm }: Purch
                 {isVerified
                   ? "확인된 판매처 링크를 통해 이동합니다. 결제 전 옵션가와 쿠폰 조건은 다시 확인하세요."
                   : "대표 페이지가 아닌 판매처 검색 결과로 이동합니다. 상품명과 가격 조건이 맞는지 직접 확인해야 합니다."}
+              </p>
+              <p className={`mt-2 text-xs font-black ${isVerified ? "text-emerald-800" : "text-amber-900"}`}>
+                {getDealPurchaseConfidenceLabel(deal)} · 신뢰도 {deal.purchaseConfidence} · 링크 확인 {getRelativeTime(deal.checkedAt)}
               </p>
             </div>
           </div>

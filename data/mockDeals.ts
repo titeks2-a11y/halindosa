@@ -1,4 +1,5 @@
 import { Deal } from "@/types/deal";
+import { validatePurchaseLink } from "@/lib/deals/linkValidator";
 
 const now = Date.now();
 const hour = 60 * 60 * 1000;
@@ -27,33 +28,6 @@ function buildMarketplaceSearchUrl(mall: string, title: string) {
   return `https://search.shopping.naver.com/search/all?query=${query}`;
 }
 
-function isUnsafeOrCommunityLink(link: string) {
-  try {
-    const url = new URL(link);
-    const host = url.hostname.toLowerCase();
-    const communityHosts = [
-      "ppomppu.co.kr",
-      "fmkorea.com",
-      "quasarzone.com",
-      "algumon.com",
-      "clien.net",
-      "ruliweb.com",
-      "dcinside.com",
-      "theqoo.net",
-      "instiz.net",
-      "coolenjoy.net"
-    ];
-
-    return (
-      host === "example.com" ||
-      host.endsWith(".example.com") ||
-      communityHosts.some((communityHost) => host === communityHost || host.endsWith(`.${communityHost}`) || host.includes(communityHost))
-    );
-  } catch {
-    return true;
-  }
-}
-
 function deal(
   id: string,
   mall: string,
@@ -76,9 +50,15 @@ function deal(
   const expiresAt = new Date(now + expiresInHours * hour).toISOString();
   const createdAt = new Date(now - offsetHours * hour).toISOString();
   const fallbackUrl = buildMarketplaceSearchUrl(mall, title);
-  const needsReview = isUnsafeOrCommunityLink(link);
-  const purchaseUrl = needsReview ? fallbackUrl : link;
   const checkedAt = new Date(now - Math.max(5, Math.round(offsetHours * 18)) * 60 * 1000).toISOString();
+  const validation = validatePurchaseLink({
+    url: link,
+    fallbackUrl,
+    mallName: mall,
+    title,
+    checkedAt
+  });
+  const purchaseUrl = validation.finalPurchaseUrl;
 
   return {
     id,
@@ -93,10 +73,17 @@ function deal(
     link: purchaseUrl,
     url: purchaseUrl,
     purchaseUrl,
-    linkType: needsReview ? "seller_search" : "direct_purchase",
-    linkStatus: needsReview ? "needs_review" : "verified",
-    linkLabel: needsReview ? "판매처 검색으로 확인" : "구매 페이지 확인",
-    verifiedAt: needsReview ? undefined : checkedAt,
+    finalUrl: validation.finalUrl,
+    finalPurchaseUrl: validation.finalPurchaseUrl,
+    linkType: validation.linkType,
+    linkStatus: validation.linkStatus,
+    linkLabel: validation.linkVerified ? "구매 페이지 검증 완료" : "판매처 검색으로 확인",
+    linkVerified: validation.linkVerified,
+    checkedAt: validation.checkedAt,
+    purchaseConfidence: validation.purchaseConfidence,
+    purchaseStatus: validation.linkStatus === "verified" ? "available" : validation.linkStatus,
+    purchaseLinkVerified: validation.purchaseLinkVerified,
+    verifiedAt: validation.linkVerified ? checkedAt : undefined,
     priceCheckedAt: checkedAt,
     shipping: shippingInfo,
     createdAt,

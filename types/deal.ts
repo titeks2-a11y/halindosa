@@ -14,6 +14,7 @@ export type DealCategory =
 export type DealSort = "latest" | "discount" | "price" | "hot" | "endingSoon";
 export type DealLinkType = "direct_purchase" | "seller_search" | "affiliate" | "unavailable";
 export type DealLinkStatus = "verified" | "needs_review" | "broken" | "sold_out";
+export type DealPurchaseStatus = "available" | "needs_review" | "sold_out" | "broken";
 
 export interface Deal {
   id: string;
@@ -32,6 +33,15 @@ export interface Deal {
   linkType: DealLinkType;
   linkStatus: DealLinkStatus;
   linkLabel: string;
+  linkVerified: boolean;
+  finalUrl: string;
+  checkedAt: string;
+  purchaseConfidence: number;
+  purchaseStatus: DealPurchaseStatus;
+  purchaseLinkVerified: boolean;
+  finalPurchaseUrl: string;
+  sourceUrl?: string;
+  sourceName?: string;
   verifiedAt?: string;
   priceCheckedAt: string;
   shipping: string;

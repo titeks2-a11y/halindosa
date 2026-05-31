@@ -32,10 +32,12 @@ GET /api/metrics
 1. 신규 공급원을 `/api/admin/import` dry-run으로 검증
 2. 필수 필드, URL, 가격, 카테고리, 종료 시각 확인
 3. `Deal` canonical 필드로 정규화
-4. 테스트 서버에서 `DEAL_DATA_MODE=staging`
-5. smoke와 release doctor 통과 확인
-6. 운영 API 또는 DB 저장 경로 연결
-7. `DEAL_DATA_MODE=production`
+4. `lib/deals/linkValidator.ts` 기준으로 상품 상세 URL, 검색 fallback, 커뮤니티 출처를 분리
+5. 커뮤니티 글은 `sourceUrl/sourceName`에 보관하고 실제 구매 링크만 `finalPurchaseUrl`로 저장
+6. 테스트 서버에서 `DEAL_DATA_MODE=staging`
+7. smoke와 release doctor 통과 확인
+8. 운영 API 또는 DB 저장 경로 연결
+9. `DEAL_DATA_MODE=production`
 
 ## 중단 기준
 
@@ -44,3 +46,14 @@ GET /api/metrics
 - 성인/주류/의약품성 상품
 - 출처 권한이 불명확한 크롤링
 - 제휴/광고 고지를 할 수 없는 캠페인
+- 쇼핑몰 메인, 검색 결과, 카테고리 목록만 있는 링크
+- 커뮤니티 게시글만 있고 실제 상품 상세 URL을 추출하지 못한 링크
+
+## 구매 링크 검증 필드
+
+- `linkVerified`: 상품 상세 URL 패턴 통과 여부
+- `finalUrl`: 앱이 최종으로 열 URL
+- `checkedAt`: 링크 정책 기준 확인 시간
+- `purchaseConfidence`: 0~100 사이의 구매 링크 신뢰도
+- `purchaseLinkVerified`: 실제 구매 상세 링크로 인정되는지 여부
+- `finalPurchaseUrl`: 제휴/리다이렉트 처리 전 기준 구매 URL

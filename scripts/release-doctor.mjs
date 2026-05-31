@@ -213,6 +213,9 @@ async function checkPublicClaimCopy() {
 async function checkPartnerFeedSafety() {
   const feedImport = await text("lib/feedImport.ts");
   const smoke = await text("scripts/smoke.mjs");
+  const linkValidator = await text("lib/deals/linkValidator.ts");
+  const normalizer = await text("lib/deals/normalizer.ts");
+  const types = await text("types/deal.ts");
 
   if (!feedImport.includes("placeholder 또는 커뮤니티 게시글 링크는 운영 피드로 등록할 수 없습니다.")) {
     fail("partner feed unsafe link guard", "Partner feed import should reject placeholder/community links.");
@@ -220,6 +223,18 @@ async function checkPartnerFeedSafety() {
     fail("partner feed unsafe link guard", "Smoke tests should cover unsafe partner feed links.");
   } else {
     pass("partner feed unsafe link guard", "Partner feed import rejects placeholder and community links.");
+  }
+
+  const requiredLinkFields = ["linkVerified", "finalUrl", "checkedAt", "purchaseConfidence", "purchaseLinkVerified", "finalPurchaseUrl"];
+  const missingTypeFields = requiredLinkFields.filter((field) => !types.includes(field));
+  const missingSmokeFields = requiredLinkFields.filter((field) => !smoke.includes(field));
+
+  if (!linkValidator.includes("export function validatePurchaseLink") || !linkValidator.includes("export async function probePurchaseLink") || !linkValidator.includes("isKnownProductDetailUrl") || !linkValidator.includes("isSearchOrCategoryUrl")) {
+    fail("purchase link validator", "lib/deals/linkValidator.ts should classify product detail, search/category, home, placeholder, community links, and support optional HTTP probing.");
+  } else if (!normalizer.includes("validatePurchaseLink") || missingTypeFields.length || missingSmokeFields.length) {
+    fail("purchase link validator", `Purchase link fields should be typed, normalized, and smoke-tested. Missing type: ${missingTypeFields.join(", ") || "none"}, smoke: ${missingSmokeFields.join(", ") || "none"}`);
+  } else {
+    pass("purchase link validator", "Deal normalization exposes purchase link verification fields and smoke tests cover them.");
   }
 }
 

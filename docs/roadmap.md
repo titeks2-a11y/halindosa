@@ -72,11 +72,14 @@
 - 상세 페이지의 관심 특가/공유/판매처 확인 액션에 접근성 라벨, 눌림 상태, 성공·취소 피드백을 추가해 반복 사용 UX를 개선
 - 특가 카드, 라이브 피드, 브리핑, 상세 이미지에 프록시 헬퍼와 lazy/eager 로딩, async decoding, referrer 정책을 적용해 이미지 많은 화면의 안정성을 개선
 - iOS `PrivacyInfo.xcprivacy`를 추가하고 Xcode 리소스에 포함해 V1 기준 추적 없음/수집 데이터 없음 상태를 App Store 제출 표면에 명시
+- `lib/deals/linkValidator.ts`와 구매 링크 검증 필드를 추가해 상품 상세 URL, 검색 fallback, 커뮤니티/placeholder 링크를 API와 UI에서 명확히 구분
+- 커뮤니티 출처 본문에서 실제 쇼핑몰 상품 상세 URL만 추출하는 `communityLinkExtractor` 구조를 준비하고 원본 글은 `sourceUrl/sourceName`으로 분리하는 정책을 문서화
 
 ### PHASE 2 코드 품질
 
 - Deal 타입에 배송 정보, 설명, 유의사항 추가
 - Deal canonical 필드 표준화: `mallName`, `thumbnail`, `shipping`, `expireAt`, `isFreeShipping`
+- 구매 링크 검증 필드 표준화: `linkVerified`, `finalUrl`, `checkedAt`, `purchaseConfidence`, `purchaseLinkVerified`, `finalPurchaseUrl`
 - mock/staging/production/hybrid 데이터 provider 레이어 분리
 - `/api/sources` 공급원 상태 API와 관리자 공급원 상태 패널 추가
 - 실시간/파트너 피드 정규화 경로에 Deal 필수 필드 반영
@@ -105,6 +108,7 @@
 - `docs/customer-support-guide.md`
 - `docs/v1-1-roadmap.md`
 - `docs/data-source-runbook.md`
+- `docs/link-policy.md`
 
 ### PHASE 4 Android 출시 준비
 
@@ -150,6 +154,7 @@
 6. 운영 데이터 공급 방식 확정 및 Supabase/API 연결
 7. 제휴/광고 고지 문구 법무 검토
 8. 실제 제휴 피드 도입 후 direct purchase URL 비율을 높이고 `needs_review` 상품 축소
+9. 커뮤니티 출처는 원문 링크만 저장하지 않고 본문 내 실제 쇼핑몰 상품 상세 URL 추출 결과를 우선 저장
 
 ## 출시 전 남은 작업
 
