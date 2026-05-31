@@ -29,6 +29,15 @@ interface BenefitMissionItem {
   icon: typeof Gift;
 }
 
+interface SavingsReceiptItem {
+  label: string;
+  value: string;
+  helper: string;
+  deal?: Deal;
+  type?: DealBenefitType;
+  icon: typeof Gift;
+}
+
 const benefitCards: Array<{
   type: DealBenefitType;
   title: string;
@@ -102,6 +111,49 @@ function getBenefitSummaryStats(deals: Deal[]) {
     couponCount,
     endingSoonCount
   };
+}
+
+function getTodaySavingsReceipt(deals: Deal[]) {
+  const activeDeals = sortByBenefitScore(deals.filter((deal) => !deal.isExpired && !deal.isSoldOut && deal.linkStatus !== "broken"));
+  const freeDeal = activeDeals.find((deal) => ["freebie", "experience"].includes(deal.dealType) || deal.salePrice <= 1000);
+  const couponDeal = activeDeals.find((deal) => ["coupon", "foodDelivery", "point"].includes(deal.dealType));
+  const shippingDeal = activeDeals.find((deal) => deal.isFreeShipping || deal.dealType === "freeShipping");
+  const savingsDeal = [...activeDeals].sort((a, b) => b.savingsAmount - a.savingsAmount || b.discountRate - a.discountRate)[0];
+
+  return [
+    {
+      label: "무료 혜택",
+      value: freeDeal ? freeDeal.claimCta : "무료 탭 열기",
+      helper: freeDeal ? freeDeal.title : "무료 샘플과 체험단을 먼저 확인",
+      deal: freeDeal,
+      type: "freebie",
+      icon: Gift
+    },
+    {
+      label: "쿠폰 절약",
+      value: couponDeal ? couponDeal.couponCondition || getBenefitTypeLabel(couponDeal.dealType) : "쿠폰 찾기",
+      helper: couponDeal ? couponDeal.title : "결제 전 쿠폰과 포인트 확인",
+      deal: couponDeal,
+      type: "coupon",
+      icon: TicketPercent
+    },
+    {
+      label: "배송비 절약",
+      value: shippingDeal ? shippingDeal.shippingFee || shippingDeal.shipping : "무배 보기",
+      helper: shippingDeal ? shippingDeal.title : "무료배송 조건을 먼저 확인",
+      deal: shippingDeal,
+      type: "freeShipping",
+      icon: Truck
+    },
+    {
+      label: "큰 절약 후보",
+      value: savingsDeal ? formatPrice(savingsDeal.savingsAmount) : "추천 보기",
+      helper: savingsDeal ? savingsDeal.title : "절약액이 큰 혜택을 확인",
+      deal: savingsDeal,
+      type: "discount",
+      icon: BadgePercent
+    }
+  ] satisfies SavingsReceiptItem[];
 }
 
 function getDailyClaimPlan(deals: Deal[]) {
@@ -264,6 +316,7 @@ export function BenefitDiscoverySections({
   const summaryStats = getBenefitSummaryStats(source);
   const dailyClaimPlan = getDailyClaimPlan(source);
   const todayBenefitMissions = getTodayBenefitMissions(source);
+  const todaySavingsReceipt = getTodaySavingsReceipt(source);
 
   return (
     <div className="space-y-4" aria-label="할인도사 VER 2.0 혜택 탐색">
@@ -354,6 +407,49 @@ export function BenefitDiscoverySections({
               <span className="mt-1 block text-[11px] font-bold leading-4 text-slate-500">{helper}</span>
             </div>
           ))}
+        </div>
+
+        <div className="mt-4 rounded-[24px] border border-slate-200 bg-white p-3 shadow-sm" aria-label="오늘 절약 영수증">
+          <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-black text-dossa-red">오늘 절약 영수증</p>
+              <h4 className="text-lg font-black text-slate-950">무료, 쿠폰, 배송비, 큰 절약을 한 번에 챙기세요</h4>
+            </div>
+            <p className="text-xs font-bold leading-5 text-slate-500">눌러서 바로 판매처 확인 또는 혜택 필터로 이동합니다.</p>
+          </div>
+          <div className="mt-3 grid gap-2 md:grid-cols-2 xl:grid-cols-4">
+            {todaySavingsReceipt.map((item) => {
+              const Icon = item.icon;
+
+              return (
+                <button
+                  key={item.label}
+                  type="button"
+                  onClick={() => {
+                    if (item.deal) {
+                      onOpenDeal(item.deal);
+                    } else if (item.type) {
+                      onSelectBenefit(item.type);
+                    }
+                  }}
+                  className="min-h-[142px] rounded-3xl border border-slate-100 bg-slate-50 p-3 text-left transition hover:-translate-y-0.5 hover:border-red-200 hover:bg-red-50"
+                  aria-label={`${item.label} ${item.value} 확인`}
+                >
+                  <span className="flex items-start justify-between gap-3">
+                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-white text-dossa-red shadow-sm">
+                      <Icon size={19} />
+                    </span>
+                    <span className="rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-dossa-red shadow-sm">{item.label}</span>
+                  </span>
+                  <span className="mt-3 block line-clamp-1 text-sm font-black text-slate-950">{item.value}</span>
+                  <span className="mt-1 line-clamp-3 block text-xs font-bold leading-5 text-slate-500">{item.helper}</span>
+                </button>
+              );
+            })}
+          </div>
+          <p className="mt-3 rounded-2xl bg-amber-50 px-3 py-2 text-xs font-bold leading-5 text-amber-900">
+            영수증은 예상 절약 흐름을 정리한 안내입니다. 최종 가격, 쿠폰 적용, 배송비는 판매처에서 다시 확인하세요.
+          </p>
         </div>
 
         {todayBenefitMissions.length ? (

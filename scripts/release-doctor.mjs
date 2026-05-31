@@ -867,6 +867,10 @@ async function checkUiAccessibility() {
         !benefitDiscoverySections.includes("getBenefitSummaryStats") ||
         !benefitDiscoverySections.includes("오늘 절약 요약") ||
         !benefitDiscoverySections.includes("오늘 절약 후보") ||
+        !benefitDiscoverySections.includes("getTodaySavingsReceipt") ||
+        !benefitDiscoverySections.includes("오늘 절약 영수증") ||
+        !benefitDiscoverySections.includes("쿠폰 절약") ||
+        !benefitDiscoverySections.includes("배송비 절약") ||
         !benefitDiscoverySections.includes("getDailyClaimPlan") ||
         !benefitDiscoverySections.includes("3분 혜택 루틴") ||
         !benefitDiscoverySections.includes("오늘 받을 수 있는 혜택 루틴") ||
@@ -898,6 +902,7 @@ async function checkUiAccessibility() {
         !smoke.includes("Home page missing free coupon top ranking section") ||
         !smoke.includes("Home page missing fast benefit shortcut rail") ||
         !smoke.includes("Home page missing daily savings summary") ||
+        !smoke.includes("Home page missing daily savings receipt") ||
         !smoke.includes("Home page missing daily claim routine") ||
         !smoke.includes("Home page missing first-visit benefit mission board") ||
         !smoke.includes("Home page missing member favorite benefit section") ||
