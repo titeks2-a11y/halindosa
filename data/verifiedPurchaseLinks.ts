@@ -320,5 +320,53 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     checkedAt: "2026-05-31T11:10:00.000Z",
     source: "manual_review",
     evidence: "SSG 암막 커튼 2장 세트 상품 상세"
+  },
+  d053: {
+    url: "https://new-m.pay.naver.com/member/benefit/event",
+    checkedAt: "2026-06-01T08:30:00.000Z",
+    source: "manual_review",
+    evidence: "네이버페이 혜택 이벤트 공식 진입 페이지"
+  },
+  d054: {
+    url: "https://www.kakaopay.com/benefits",
+    checkedAt: "2026-06-01T08:30:00.000Z",
+    source: "manual_review",
+    evidence: "카카오페이 혜택 공식 페이지"
+  },
+  d055: {
+    url: "https://toss.im/event",
+    checkedAt: "2026-06-01T08:30:00.000Z",
+    source: "manual_review",
+    evidence: "토스 공식 이벤트 목록"
+  },
+  d056: {
+    url: "https://www.payco.com/event.nhn",
+    checkedAt: "2026-06-01T08:30:00.000Z",
+    source: "manual_review",
+    evidence: "PAYCO 공식 이벤트 목록"
+  },
+  d057: {
+    url: "https://www.tmembership.co.kr/web/html/main/benefit.html",
+    checkedAt: "2026-06-01T08:30:00.000Z",
+    source: "manual_review",
+    evidence: "T멤버십 공식 혜택 페이지"
+  },
+  d058: {
+    url: "https://www.baemin.com/event/",
+    checkedAt: "2026-06-01T08:30:00.000Z",
+    source: "manual_review",
+    evidence: "배달의민족 공식 이벤트 페이지"
+  },
+  d059: {
+    url: "https://www.amoremall.com/kr/ko/event",
+    checkedAt: "2026-06-01T08:30:00.000Z",
+    source: "manual_review",
+    evidence: "아모레몰 공식 이벤트 페이지"
+  },
+  d060: {
+    url: "https://www.cgv.co.kr/culture-event/event/",
+    checkedAt: "2026-06-01T08:30:00.000Z",
+    source: "manual_review",
+    evidence: "CGV 공식 이벤트 페이지"
   }
 };

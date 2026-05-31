@@ -502,16 +502,29 @@ async function checkPartnerFeedSafety() {
   const verifiedRate = dealCount ? Math.round((verifiedCount / dealCount) * 100) : 0;
   const linkReport = existsSync(join(root, "docs/link-coverage-report.md")) ? await text("docs/link-coverage-report.md") : "";
 
-  if (verifiedCount < 52 || verifiedRate < 100) {
-    fail("verified purchase link coverage", `Expected all 52 curated deals to have verified direct seller/product links, got ${verifiedCount}/${dealCount} (${verifiedRate}%).`);
-  } else if (!smoke.includes("verified direct purchase link coverage")) {
-    fail("verified purchase link coverage", "Smoke tests should assert the verified direct purchase link coverage threshold.");
+    if (verifiedCount < 60 || verifiedRate < 100) {
+      fail("verified purchase link coverage", `Expected all 60 curated deals to have verified direct seller/product links, got ${verifiedCount}/${dealCount} (${verifiedRate}%).`);
+    } else if (!smoke.includes("verified direct purchase link coverage")) {
+      fail("verified purchase link coverage", "Smoke tests should assert the verified direct purchase link coverage threshold.");
   } else if (!linkReport.includes(`검증된 실제 구매 상세 URL: ${verifiedCount}개`) || !linkReport.includes(`검증 커버리지: ${verifiedRate}%`) || !linkReport.includes("보강 대기 상품")) {
     fail("verified purchase link coverage", "docs/link-coverage-report.md should be refreshed with current verified link coverage and review queue.");
   } else {
-    pass("verified purchase link coverage", `${verifiedCount}/${dealCount} curated deals have manually reviewed product detail URLs (${verifiedRate}%).`);
+      pass("verified purchase link coverage", `${verifiedCount}/${dealCount} curated deals have manually reviewed product detail URLs (${verifiedRate}%).`);
+    }
+
+    const requiredBenefitExamples = ["네이버페이 첫 결제", "토스 출석체크", "T멤버십", "배달앱 첫 주문", "무료 샘플 체험단", "무료 초대권"];
+    const requiredVerifiedBenefitIds = ["d053:", "d054:", "d055:", "d056:", "d057:", "d058:", "d059:", "d060:"];
+    const missingBenefitExamples = [
+      ...requiredBenefitExamples.filter((snippet) => !mockDeals.includes(snippet)),
+      ...requiredVerifiedBenefitIds.filter((snippet) => !verifiedPurchaseLinks.includes(snippet))
+    ];
+
+    if (missingBenefitExamples.length || !smoke.includes('["point", "foodDelivery", "experience"]') || !smoke.includes("benefit filter should return deals")) {
+      fail("benefit data density", `Mock benefits should include verified apptech, pay, membership, delivery, sample, and invitation examples. Missing: ${missingBenefitExamples.join(", ") || "smoke coverage"}`);
+    } else {
+      pass("benefit data density", "Mock benefits include verified apptech, pay, membership, delivery, sample, and invitation examples.");
+    }
   }
-}
 
 async function checkUiAccessibility() {
   const dealCard = await text("components/DealCard.tsx");

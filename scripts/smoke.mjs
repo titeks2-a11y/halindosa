@@ -444,6 +444,13 @@ await check("benefit type filter api", async () => {
   assert(data.ok === true, "Benefit filter API ok should be true");
   assert(data.deals.length > 0, "coupon benefit filter should return deals");
   assert(data.deals.every((deal) => deal.dealType === "coupon"), "Benefit filter returned a non-coupon deal");
+
+  for (const type of ["point", "foodDelivery", "experience"]) {
+    const filtered = await fetchJson(`/api/deals?dealType=${type}&limit=30`);
+    assert(filtered.response.status === 200, `Expected ${type} 200, got ${filtered.response.status}`);
+    assert(filtered.data.deals.length > 0, `${type} benefit filter should return deals`);
+    assert(filtered.data.deals.every((deal) => deal.dealType === type), `${type} benefit filter returned a mismatched deal`);
+  }
 });
 
 await check("free benefits page", async () => {

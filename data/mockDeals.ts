@@ -195,7 +195,15 @@ export const mockDeals: Deal[] = [
   deal("d049", "G마켓", "캠핑 접이식 웨건 대형", "생활용품", 129000, 47, 6, 26, { isHot: false, isNew: true, isEndingSoon: false }, ["레저", "쿠폰적용", "무료배송"], 77),
   deal("d050", "올리브영", "멀티비타민 90정 기획세트", "뷰티", 39000, 35, 2, 18, { isHot: false, isNew: true, isEndingSoon: false }, ["헬스", "오늘만", "인기"], 78),
   deal("d051", "인터파크투어", "오사카 왕복 항공권 타임세일", "여행/티켓", 289000, 41, 1, 12, { isHot: true, isNew: true, isEndingSoon: true }, ["여행", "마감임박", "한정수량"], 90),
-  deal("d052", "SSG닷컴", "암막 커튼 2장 세트 와인 132x160cm", "생활용품", 79000, 58, 4, 42, { isHot: true, isNew: false, isEndingSoon: false }, ["역대가", "무료배송", "홈스타일링"], 83)
+  deal("d052", "SSG닷컴", "암막 커튼 2장 세트 와인 132x160cm", "생활용품", 79000, 58, 4, 42, { isHot: true, isNew: false, isEndingSoon: false }, ["역대가", "무료배송", "홈스타일링"], 83),
+  deal("d053", "네이버페이", "네이버페이 첫 결제 3천 포인트 적립 이벤트", "쿠폰/이벤트", 3000, 100, 0.3, 30, { isHot: true, isNew: true, isEndingSoon: false }, ["포인트", "첫 구매", "앱테크", "페이"], 91, "", "https://new-m.pay.naver.com/member/benefit/event"),
+  deal("d054", "카카오페이", "카카오페이 편의점 결제 2천원 쿠폰", "쿠폰/이벤트", 2000, 100, 0.6, 18, { isHot: true, isNew: true, isEndingSoon: true }, ["쿠폰", "편의점", "페이", "마감임박"], 90, "", "https://www.kakaopay.com/benefits"),
+  deal("d055", "토스", "토스 출석체크 매일 포인트 적립", "쿠폰/이벤트", 1000, 100, 1, 72, { isHot: true, isNew: false, isEndingSoon: false }, ["출석체크", "포인트", "앱테크", "오늘만"], 88, "", "https://toss.im/event"),
+  deal("d056", "PAYCO", "PAYCO 브랜드 공식몰 5천원 할인 쿠폰팩", "쿠폰/이벤트", 5000, 100, 2, 48, { isHot: false, isNew: true, isEndingSoon: false }, ["브랜드 공식몰", "쿠폰", "중복", "페이"], 82, "", "https://www.payco.com/event.nhn"),
+  deal("d057", "T멤버십", "T멤버십 커피 무료 사이즈업 쿠폰", "쿠폰/이벤트", 1500, 100, 0.5, 8, { isHot: true, isNew: true, isEndingSoon: true }, ["통신사", "멤버십", "커피", "무료 쿠폰"], 89, "", "https://www.tmembership.co.kr/web/html/main/benefit.html"),
+  deal("d058", "배달의민족", "배달앱 첫 주문 5천원 할인 쿠폰", "쿠폰/이벤트", 5000, 100, 0.4, 12, { isHot: true, isNew: true, isEndingSoon: true }, ["배달", "외식", "첫 구매", "쿠폰"], 92, "", "https://www.baemin.com/event/"),
+  deal("d059", "아모레몰", "아모레몰 기초케어 무료 샘플 체험단", "뷰티", 9900, 100, 3, 36, { isHot: false, isNew: true, isEndingSoon: false }, ["무료 샘플", "체험단", "배송비 확인", "뷰티"], 78, "", "https://www.amoremall.com/kr/ko/event"),
+  deal("d060", "CGV", "CGV 영화 시사회 무료 초대권 응모", "여행/티켓", 14000, 100, 2, 20, { isHot: true, isNew: true, isEndingSoon: false }, ["무료 초대권", "영화", "이벤트", "선착순"], 85, "", "https://www.cgv.co.kr/culture-event/event/")
 ];
 
 export const categories = ["전체", "식품", "전자기기", "생활용품", "의류", "육아", "여행/티켓", "뷰티", "가전", "편의점/마트", "쿠폰/이벤트", "기타"] as const;
