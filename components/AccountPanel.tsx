@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { AlertTriangle, Bell, CheckCircle2, Clock, Heart, LogOut, Settings, Sparkles, Trash2, UserRound } from "lucide-react";
+import { AlertTriangle, Bell, CheckCircle2, Clock, Heart, History, LogOut, Settings, SlidersHorizontal, Sparkles, Trash2, UserRound } from "lucide-react";
 import { useAuth } from "@/components/AuthProvider";
 import { getSupabaseBrowserClient } from "@/lib/auth/supabaseClient";
 import { formatPrice } from "@/lib/format";
@@ -24,6 +24,72 @@ interface MemberPreferences {
   favoriteCategories: string[];
   marketingConsent: boolean;
   notificationConsent: boolean;
+}
+
+function BenefitSaveRoutine({ mode }: { mode: "local" | "guest" | "member" }) {
+  const isMember = mode === "member";
+  const routineItems = [
+    {
+      href: "/favorites",
+      label: "찜한 혜택 다시 보기",
+      description: isMember ? "계정에 저장한 특가를 이어서 확인합니다." : "비회원도 이 기기에 저장한 혜택을 다시 볼 수 있습니다.",
+      icon: Heart
+    },
+    {
+      href: "/",
+      label: "최근 본 상품 이어보기",
+      description: "방금 본 상품과 무료 혜택을 홈에서 다시 찾기 쉽게 정리합니다.",
+      icon: History
+    },
+    {
+      href: "/onboarding",
+      label: "관심 카테고리 조정",
+      description: "무료/체험, 식품, 생활용품처럼 자주 보는 혜택을 먼저 띄웁니다.",
+      icon: SlidersHorizontal
+    },
+    {
+      href: "/notifications",
+      label: "가격 알림 조건 확인",
+      description: "실제 푸시는 별도 동의 후 연결하고, 지금은 앱 안에서 조건만 관리합니다.",
+      icon: Bell
+    }
+  ];
+
+  return (
+    <div className="mt-4 rounded-3xl border border-red-100 bg-white p-4 shadow-sm">
+      <div className="flex items-start gap-3">
+        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-red-50 text-dossa-red">
+          <Sparkles size={18} />
+        </span>
+        <div className="min-w-0">
+          <p className="text-sm font-black text-slate-950">내 혜택 저장 루틴</p>
+          <p className="mt-1 text-xs font-bold leading-5 text-slate-500">
+            비회원도 기기에 저장하고, 로그인하면 찜·최근 본 상품·관심 카테고리를 계정으로 이어볼 수 있습니다.
+          </p>
+        </div>
+      </div>
+      <div className="mt-3 grid gap-2 sm:grid-cols-2">
+        {routineItems.map((item) => {
+          const Icon = item.icon;
+
+          return (
+            <Link key={item.label} href={item.href} className="flex min-h-20 items-start gap-3 rounded-2xl bg-slate-50 p-3 transition hover:bg-red-50">
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-white text-dossa-red shadow-sm">
+                <Icon size={17} />
+              </span>
+              <span className="min-w-0">
+                <span className="block text-xs font-black text-slate-950">{item.label}</span>
+                <span className="mt-1 block text-[11px] font-bold leading-4 text-slate-500">{item.description}</span>
+              </span>
+            </Link>
+          );
+        })}
+      </div>
+      <p className="mt-3 rounded-2xl bg-red-50 px-3 py-2 text-[11px] font-black leading-4 text-dossa-deep">
+        가입해야만 볼 수 있는 혜택은 없습니다. 저장, 알림, 개인화만 선택적으로 로그인합니다.
+      </p>
+    </div>
+  );
 }
 
 export function AccountPanel() {
@@ -174,6 +240,7 @@ export function AccountPanel() {
             ))}
           </div>
         </div>
+        <BenefitSaveRoutine mode="local" />
       </section>
     );
   }
@@ -208,6 +275,7 @@ export function AccountPanel() {
             ))}
           </div>
         </div>
+        <BenefitSaveRoutine mode="guest" />
       </section>
     );
   }
@@ -278,6 +346,7 @@ export function AccountPanel() {
             구매 링크 확인 특가 보기
           </Link>
         </div>
+        <BenefitSaveRoutine mode="member" />
       </div>
 
       <div className="mt-5">

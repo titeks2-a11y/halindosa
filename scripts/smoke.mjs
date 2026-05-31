@@ -166,6 +166,10 @@ await check("mypage data controls", async () => {
   assert(response.status === 200, `Expected 200, got ${response.status}`);
   assert(text.includes("비회원으로 이용 중") || text.includes("로그인하고 관심 특가"), "Mypage missing account auth panel");
   assert(text.includes("계정 활동 요약"), "Mypage missing account activity summary");
+  assert(text.includes("내 혜택 저장 루틴"), "Mypage missing benefit save routine");
+  assert(text.includes("찜한 혜택 다시 보기") && text.includes("최근 본 상품 이어보기"), "Mypage missing saved and recent benefit routine actions");
+  assert(text.includes("관심 카테고리 조정") && text.includes("가격 알림 조건 확인"), "Mypage missing interest and alert routine actions");
+  assert(text.includes("비회원도 기기에 저장") && text.includes("가입해야만 볼 수 있는 혜택은 없습니다"), "Mypage missing non-member storage guidance");
   assert(text.includes("홈 화면에 할인도사 고정"), "Mypage missing app install guide");
   assert(text.includes("앱으로 설치하기") && text.includes("공유 링크 복사"), "Mypage missing install/share actions");
   assert(text.includes("설정 점검 요약"), "Mypage missing settings summary");

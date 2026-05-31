@@ -293,6 +293,8 @@ async function checkAuthSurface() {
     fail("member profile settings", "Mypage account panel should support nickname, favorite categories, and consent settings.");
   } else if (!accountPanel.includes("계정 활동 요약") || !accountPanel.includes("accountSummaryCards") || !accountPanel.includes("구매 링크 확인 특가 보기")) {
     fail("member profile settings", "Mypage account panel should summarize saved deals, recent views, categories, and next actions.");
+  } else if (!accountPanel.includes("내 혜택 저장 루틴") || !accountPanel.includes("찜한 혜택 다시 보기") || !accountPanel.includes("최근 본 상품 이어보기") || !accountPanel.includes("가입해야만 볼 수 있는 혜택은 없습니다")) {
+    fail("member profile settings", "Mypage should explain optional benefit saving routines for non-members and members.");
   } else if (!mypagePage.includes("설정 점검 요약") || !mypagePage.includes("내 데이터와 알림을 한눈에 관리") || !mypagePage.includes("가격/품절 정보 신고")) {
     fail("member profile settings", "Mypage should summarize account, alert, consent, support, and report management paths.");
   } else {
