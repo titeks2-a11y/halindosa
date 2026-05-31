@@ -511,6 +511,7 @@ async function checkUiAccessibility() {
   const dealDetailPage = await text("app/deals/[id]/page.tsx");
   const dealTrustBadge = await text("components/DealTrustBadge.tsx");
   const purchaseConfirmSheet = await text("components/PurchaseConfirmSheet.tsx");
+  const purchaseLinkOverview = await text("components/PurchaseLinkOverview.tsx");
   const purchaseReadinessSummary = await text("components/PurchaseReadinessSummary.tsx");
   const purchaseSafetyChecklist = await text("components/PurchaseSafetyChecklist.tsx");
   const priceAlertPanel = await text("components/PriceAlertPanel.tsx");
@@ -708,6 +709,19 @@ async function checkUiAccessibility() {
     fail("mall discovery UX", "Home should expose a seller-first discovery surface linked to mall filters.");
   } else {
     pass("mall discovery UX", "Home exposes seller-first discovery cards tied to mall filters.");
+  }
+
+  if (
+    !homePage.includes("<PurchaseLinkOverview") ||
+    !homePage.includes("openReviewNeededDeals") ||
+    !purchaseLinkOverview.includes('aria-label="구매 이동 안내"') ||
+    !purchaseLinkOverview.includes("구매처 바로 확인 상품을 먼저 보여드려요") ||
+    !purchaseLinkOverview.includes("판매처 확인 단계") ||
+    !smoke.includes("Home page missing purchase link overview")
+  ) {
+    fail("purchase link overview UX", "Home should explain verified purchase links and review-needed links in customer-facing copy.");
+  } else {
+    pass("purchase link overview UX", "Home explains verified purchase and seller-confirmation link paths without exposing internal coverage ratios.");
   }
 
   if (

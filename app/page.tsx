@@ -15,6 +15,7 @@ import { LiveDealFeed } from "@/components/LiveDealFeed";
 import { NotificationPreferences } from "@/components/NotificationPreferences";
 import { PriceAlertList } from "@/components/PriceAlertList";
 import { PurchaseConfirmSheet } from "@/components/PurchaseConfirmSheet";
+import { PurchaseLinkOverview } from "@/components/PurchaseLinkOverview";
 import { SearchBar } from "@/components/SearchBar";
 import { SearchDiscoveryPanel } from "@/components/SearchDiscoveryPanel";
 import { SortSelect } from "@/components/SortSelect";
@@ -1001,6 +1002,22 @@ export default function Home() {
     window.setTimeout(() => document.getElementById("all-deals")?.scrollIntoView({ behavior: "smooth", block: "start" }), 0);
   };
 
+  const openReviewNeededDeals = () => {
+    setQuery("");
+    setCategory("all");
+    setMallFilter("all");
+    setPriceBand("all");
+    setVerifiedOnly(false);
+    setFreeShippingOnly(false);
+    setEndingSoonOnly(false);
+    setHotOnly(false);
+    setSort("latest");
+    setDeals(filterLocalDeals(catalog.filter((deal) => !isVerifiedPurchaseLink(deal)), "전체", "", "latest"));
+    setActiveView("home");
+    showToast("판매처 확인 단계 상품을 모았습니다. 이동 전 최종 조건을 확인해주세요.");
+    window.setTimeout(() => document.getElementById("all-deals")?.scrollIntoView({ behavior: "smooth", block: "start" }), 0);
+  };
+
   const viewTitle =
     activeView === "home"
       ? getDealChannel(category).label === "전체"
@@ -1104,6 +1121,15 @@ export default function Home() {
         </div>
         {activeView === "home" ? (
           <>
+            <PurchaseLinkOverview
+              total={dataQuality.total}
+              verifiedLinkCount={dataQuality.verifiedLinkCount}
+              reviewLinkCount={dataQuality.reviewLinkCount}
+              latestPriceCheckedAt={dataQuality.latestPriceCheckedAt}
+              onShowVerified={() => openQuickDiscovery("verified")}
+              onShowReview={openReviewNeededDeals}
+            />
+
             <section className="rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5" aria-label="오늘 바로 볼 할인 지도">
               <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
                 <div>
