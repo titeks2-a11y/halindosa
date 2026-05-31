@@ -107,6 +107,9 @@ function summarizeBenefitQuality(deals: Deal[]) {
   );
   const typeCounts = new Map<DealBenefitType, number>();
   const typeVerifiedCounts = new Map<DealBenefitType, number>();
+  const typeActiveCounts = new Map<DealBenefitType, number>();
+  const typeReviewCounts = new Map<DealBenefitType, number>();
+  const typeReportCounts = new Map<DealBenefitType, number>();
 
   for (const deal of deals) {
     typeCounts.set(deal.dealType, (typeCounts.get(deal.dealType) ?? 0) + 1);
@@ -114,17 +117,31 @@ function summarizeBenefitQuality(deals: Deal[]) {
     if (deal.purchaseLinkVerified || deal.linkVerified || deal.isVerified) {
       typeVerifiedCounts.set(deal.dealType, (typeVerifiedCounts.get(deal.dealType) ?? 0) + 1);
     }
+
+    if (!deal.isExpired && new Date(deal.expireAt).getTime() > now) {
+      typeActiveCounts.set(deal.dealType, (typeActiveCounts.get(deal.dealType) ?? 0) + 1);
+    }
+
+    if (!deal.purchaseLinkVerified || deal.reportCount > 0 || deal.isSoldOut || deal.isExpired) {
+      typeReviewCounts.set(deal.dealType, (typeReviewCounts.get(deal.dealType) ?? 0) + 1);
+    }
+
+    typeReportCounts.set(deal.dealType, (typeReportCounts.get(deal.dealType) ?? 0) + deal.reportCount);
   }
 
   const typeBreakdown = Array.from(typeCounts.entries())
     .map(([type, count]) => {
       const verified = typeVerifiedCounts.get(type) ?? 0;
+      const review = typeReviewCounts.get(type) ?? 0;
 
       return {
         type,
         label: benefitLabels[type],
         count,
         verified,
+        active: typeActiveCounts.get(type) ?? 0,
+        review,
+        reports: typeReportCounts.get(type) ?? 0,
         verifiedRate: Math.round((verified / count) * 100)
       };
     })
@@ -138,6 +155,47 @@ function summarizeBenefitQuality(deals: Deal[]) {
     .filter((value) => Number.isFinite(value));
   const latestCheckedAt = checkedAtValues.length ? new Date(Math.max(...checkedAtValues)).toISOString() : new Date().toISOString();
 
+  const actionQueue = typeBreakdown
+    .map((item) => {
+      const reviewWeight = item.review * 12;
+      const reportWeight = item.reports * 18;
+      const lowCoverageWeight = item.verifiedRate < 90 ? 25 : item.verifiedRate < 100 ? 10 : 0;
+      const activeWeight = item.active === 0 ? 15 : 0;
+      const priorityScore = reviewWeight + reportWeight + lowCoverageWeight + activeWeight;
+      const reason =
+        item.reports > 0
+          ? "신고가 접수된 혜택을 먼저 확인"
+          : item.review > 0
+            ? "종료·품절·링크 보강 대상을 점검"
+            : item.verifiedRate < 100
+              ? "구매처 확인율을 출시 기준까지 보강"
+              : item.active === 0
+                ? "진행 중인 혜택을 새로 확보"
+                : "운영 상태 유지";
+      const action =
+        item.reports > 0
+          ? "신고 내용 확인 후 노출 유지 또는 종료 처리"
+          : item.review > 0
+            ? "링크와 종료일을 재확인하고 필요 시 대체 혜택 등록"
+            : item.verifiedRate < 100
+              ? "실제 신청/구매 상세 URL을 추가 검수"
+              : item.active === 0
+                ? "공식 혜택 피드에서 신규 진행 혜택 보강"
+                : "오늘 노출 기준 그대로 유지";
+
+      const priority = (priorityScore >= 40 ? "high" : priorityScore >= 15 ? "medium" : "low") as "high" | "medium" | "low";
+
+      return {
+        ...item,
+        priorityScore,
+        priority,
+        reason,
+        action
+      };
+    })
+    .sort((a, b) => b.priorityScore - a.priorityScore || b.count - a.count)
+    .slice(0, 5);
+
   return {
     total: deals.length,
     activeCount: activeDeals.length,
@@ -145,6 +203,7 @@ function summarizeBenefitQuality(deals: Deal[]) {
     verifiedCount: verifiedDeals.length,
     verifiedRate: Math.round((verifiedDeals.length / deals.length) * 100),
     typeBreakdown,
+    actionQueue,
     reportCount,
     needsReviewCount: deals.filter((deal) => !deal.purchaseLinkVerified || deal.reportCount > 0 || deal.isSoldOut || deal.isExpired).length,
     latestCheckedAt

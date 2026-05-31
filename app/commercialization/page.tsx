@@ -75,6 +75,7 @@ export default async function CommercializationPage() {
   const activeSources = sources.filter((source) => source.status !== "planned");
   const topReviewDeals = linkReviewQueue.slice(0, 4);
   const topBenefitTypes = benefitQuality.typeBreakdown.slice(0, 6);
+  const benefitActionQueue = benefitQuality.actionQueue.slice(0, 3);
 
   return (
     <main className="min-h-screen bg-slate-50 px-4 py-8 text-slate-950">
@@ -244,6 +245,31 @@ export default async function CommercializationPage() {
                 </p>
               </div>
             ))}
+          </div>
+          <div className="mt-4 rounded-2xl border border-slate-100 bg-slate-50 p-4">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p className="text-xs font-black text-red-600">운영 액션 큐</p>
+                <h3 className="mt-1 text-base font-black text-slate-950">출시 전 먼저 점검할 혜택 유형</h3>
+              </div>
+              <Link href="/admin" className="rounded-2xl bg-slate-950 px-4 py-3 text-sm font-black text-white">
+                운영 대시보드에서 처리
+              </Link>
+            </div>
+            <div className="mt-3 grid gap-3 md:grid-cols-3">
+              {benefitActionQueue.map((item) => (
+                <div key={item.type} className="rounded-2xl bg-white p-4 shadow-sm">
+                  <div className="flex items-center justify-between gap-2">
+                    <p className="text-sm font-black text-slate-950">{item.label}</p>
+                    <span className="rounded-full bg-red-50 px-2.5 py-1 text-xs font-black text-red-600">
+                      {item.review}개 점검
+                    </span>
+                  </div>
+                  <p className="mt-2 text-xs font-bold leading-5 text-slate-500">{item.reason}</p>
+                  <p className="mt-2 text-xs font-black leading-5 text-slate-700">{item.action}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 

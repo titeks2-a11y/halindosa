@@ -323,6 +323,7 @@ await check("admin dashboard quality cards", async () => {
   assert(text.includes("특가 품질 신고 큐"), "Admin dashboard missing deal quality report queue");
   assert(text.includes("VER 2.0 혜택 운영") && text.includes("혜택 데이터 품질 요약"), "Admin dashboard missing benefit quality operation summary");
   assert(text.includes("혜택형 콘텐츠") && text.includes("활성 노출 가능") && text.includes("점검 우선"), "Admin dashboard missing benefit operation cards");
+  assert(text.includes("오늘 혜택 운영 액션 큐") && text.includes("신고·종료·링크 보강"), "Admin dashboard missing benefit operation action queue");
   assert(text.includes("링크 오류") && text.includes("품절") && text.includes("종료"), "Admin dashboard missing report reason priority summary");
   assert(text.includes("우선 검수"), "Admin dashboard missing urgent report priority copy");
   assert(text.includes("상품 상세 URL 보강 필요"), "Admin dashboard missing localized link review action");
@@ -349,6 +350,7 @@ await check("commercial launch readiness page", async () => {
   assert(text.includes("혜택 데이터 품질 요약"), "Commercialization page missing benefit data quality summary");
   assert(text.includes("무료·쿠폰·포인트") && text.includes("구매 링크 확인") && text.includes("신고/종료 점검"), "Commercialization page missing benefit quality operating cards");
   assert(text.includes("혜택형 콘텐츠 커버리지"), "Commercialization page missing benefit coverage guide");
+  assert(text.includes("운영 액션 큐") && text.includes("출시 전 먼저 점검할 혜택 유형"), "Commercialization page missing benefit operation action queue");
 });
 
 await check("deals api", async () => {
@@ -547,6 +549,7 @@ await check("metrics api", async () => {
   assert(data.linkQuality?.total === data.metrics?.totalDeals, "Metrics missing shared link quality summary");
   assert(data.benefitQuality?.freeBenefitCount >= 0, "Metrics missing free benefit quality summary");
   assert(data.benefitQuality?.typeBreakdown?.length >= 3, "Metrics missing benefit type breakdown");
+  assert(data.benefitQuality?.actionQueue?.length >= 1, "Metrics missing benefit operation action queue");
   assert(Array.isArray(data.linkReviewQueue), "Metrics missing link review queue");
   assert(data.linkReviewQueue.length <= 8, "Metrics link review queue should be capped");
   if (data.linkReviewQueue.length) {

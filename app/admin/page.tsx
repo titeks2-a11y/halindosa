@@ -103,6 +103,17 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
     }
   ];
   const benefitTypeBreakdown = benefitQuality.typeBreakdown.slice(0, 8);
+  const benefitActionQueue = benefitQuality.actionQueue;
+  const benefitPriorityLabels = {
+    high: "오늘 처리",
+    medium: "이번 주 보강",
+    low: "유지 관리"
+  };
+  const benefitPriorityClassNames = {
+    high: "bg-red-50 text-dossa-red",
+    medium: "bg-amber-50 text-amber-700",
+    low: "bg-emerald-50 text-emerald-700"
+  };
 
   for (const deal of deals) {
     sourceCounts.set(deal.source, (sourceCounts.get(deal.source) ?? 0) + 1);
@@ -274,6 +285,31 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                 </p>
               </div>
             ))}
+          </div>
+          <div className="mt-4 rounded-2xl border border-red-100 bg-red-50 p-4">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p className="text-xs font-black text-dossa-red">오늘 혜택 운영 액션 큐</p>
+                <h3 className="mt-1 text-base font-black text-slate-950">신고·종료·링크 보강을 우선순위대로 처리합니다.</h3>
+              </div>
+              <span className="rounded-full bg-white px-3 py-1.5 text-xs font-black text-dossa-red">
+                상위 {benefitActionQueue.length}개 유형
+              </span>
+            </div>
+            <div className="mt-3 grid gap-3 lg:grid-cols-5">
+              {benefitActionQueue.map((item) => (
+                <div key={item.type} className="rounded-2xl bg-white p-4 shadow-sm">
+                  <div className="flex items-center justify-between gap-2">
+                    <p className="text-sm font-black text-slate-950">{item.label}</p>
+                    <span className={`rounded-full px-2.5 py-1 text-[11px] font-black ${benefitPriorityClassNames[item.priority]}`}>
+                      {benefitPriorityLabels[item.priority]}
+                    </span>
+                  </div>
+                  <p className="mt-2 text-xs font-bold leading-5 text-slate-500">{item.reason}</p>
+                  <p className="mt-2 text-xs font-black leading-5 text-slate-700">{item.action}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
