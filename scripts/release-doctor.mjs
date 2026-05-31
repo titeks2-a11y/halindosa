@@ -35,15 +35,16 @@ async function checkPackage() {
     "android:doctor",
     "android:debug",
     "android:bundle",
-    "qa:release"
+    "qa:release",
+    "perf:budget"
   ];
   const missing = requiredScripts.filter((script) => !pkg.scripts?.[script]);
 
   if (missing.length) fail("package scripts", `Missing scripts: ${missing.join(", ")}`);
-  else if (!pkg.scripts?.["qa:release"]?.includes("audit:commercial")) {
-    fail("package scripts", "qa:release should include commercial security audit before store submission.");
+  else if (!pkg.scripts?.["qa:release"]?.includes("audit:commercial") || !pkg.scripts?.["qa:release"]?.includes("perf:budget")) {
+    fail("package scripts", "qa:release should include commercial security audit and performance budget before store submission.");
   } else {
-    pass("package scripts", "Android, iOS, and commercial security release command flow is available.");
+    pass("package scripts", "Android, iOS, commercial security, and performance release command flow is available.");
   }
 
   if (!pkg.dependencies?.["@capacitor/ios"]) fail("Capacitor iOS dependency", "Missing @capacitor/ios.");

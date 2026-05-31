@@ -13,7 +13,8 @@
 - [x] `npm run smoke:local`
 - [x] `npm run qa`
 - [x] `npm run audit:commercial`
-- [x] `npm run qa:release`는 `audit:commercial`, Android/iOS sync, release doctor까지 포함
+- [x] `npm run perf:budget`
+- [x] `npm run qa:release`는 `audit:commercial`, `perf:budget`, Android/iOS sync, release doctor까지 포함
 
 ## Android 설정
 

@@ -19,9 +19,10 @@
     "smoke": "node scripts/smoke.mjs",
     "smoke:local": "node scripts/smoke-local.mjs",
     "audit:commercial": "node scripts/audit.mjs",
+    "perf:budget": "node scripts/performance-budget.mjs",
     "release:doctor": "node scripts/release-doctor.mjs",
     "qa": "npm run lint && npm run smoke:local && npm run build && npm run release:doctor",
-    "qa:release": "npm run qa && npm run audit:commercial && npm run build:android && npm run cap:sync && npm run cap:sync:ios && npm run release:doctor",
+    "qa:release": "npm run qa && npm run audit:commercial && npm run build:android && npm run cap:sync && npm run cap:sync:ios && npm run perf:budget && npm run release:doctor",
     "wait:health": "node scripts/wait-for-health.mjs"
   },
   "dependencies": {

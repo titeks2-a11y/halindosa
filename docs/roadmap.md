@@ -95,6 +95,7 @@
 - 상세 화면과 서비스 안내에 공통 `구매 전 10초 체크` 컴포넌트를 추가해 최종 결제 금액, 배송, 취소·반품, 정보 신고 흐름을 한 기준으로 안내
 - `/commercialization`에 출시 준비 단계와 다음 우선 조치 큐를 추가해 내부 테스트, 공개 출시, 링크 검수 보강의 판단 기준을 한 화면에서 확인하도록 개선
 - `qa:release`에 `audit:commercial`을 포함해 스토어 제출 전 high/critical npm 취약점 검사를 자동 출시 게이트로 편입
+- `perf:budget` 스크립트를 추가해 정적 export, JS/CSS chunk, APK/AAB, 스토어 이미지 크기가 출시 예산을 넘으면 실패하도록 자동화
 
 ### PHASE 2 코드 품질
 
@@ -232,3 +233,4 @@
 - smoke와 release doctor에 구매 전 10초 체크리스트 및 상세 화면 정보 신고 CTA 검사를 추가했다.
 - smoke와 release doctor에 상업화 보드의 출시 준비 단계 및 다음 우선 조치 큐 검사를 추가했다.
 - release doctor가 `qa:release`의 상업용 보안 감사 포함 여부를 확인하도록 패키지 스크립트 검사를 강화했다.
+- `qa:release`가 `perf:budget`을 실행하도록 연결하고 release doctor가 성능 예산 게이트 포함 여부를 확인한다.
