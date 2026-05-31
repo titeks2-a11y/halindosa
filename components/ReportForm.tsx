@@ -142,7 +142,7 @@ export function ReportForm({ dealId, disabled, initialReason }: ReportFormProps)
         </div>
       ) : null}
       <p className="rounded-2xl bg-slate-50 p-3 text-xs font-bold leading-5 text-slate-500">
-        신고 내용은 운영 검수 큐에 반영됩니다. 실제 구매 취소, 환불, 배송 문의는 판매처 고객센터에서 처리해야 합니다. 추가 문의가 필요하면 {supportEmail}로 접수번호를 함께 보내주세요.
+        신고 내용은 할인 정보 품질 확인에 반영됩니다. 실제 구매 취소, 환불, 배송 문의는 판매처 고객센터에서 처리해야 합니다. 추가 문의가 필요하면 {supportEmail}로 접수번호를 함께 보내주세요.
       </p>
       <div className="rounded-2xl border border-slate-200 bg-white p-3">
         <p className="text-xs font-black text-slate-900">신고 접수 후 안내</p>

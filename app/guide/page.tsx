@@ -123,7 +123,7 @@ export default function GuidePage() {
           <div>
             <h2 className="text-base font-black text-slate-950">신고와 고객 문의</h2>
             <p className="mt-2 text-sm font-semibold leading-6 text-slate-500">
-              가격 오류, 품절, 링크 오류 신고는 할인 정보 품질 개선을 위한 운영 검수 큐에 접수됩니다. 주문 취소, 환불, 배송 문의는
+              가격 오류, 품절, 링크 오류 신고는 할인 정보 품질 개선을 위한 확인 요청으로 접수됩니다. 주문 취소, 환불, 배송 문의는
               구매한 판매처 고객센터를 통해 처리해야 합니다.
             </p>
             <a href={getSupportMailto("할인도사 서비스 문의")} className="mt-3 inline-flex min-h-11 items-center justify-center rounded-2xl bg-slate-950 px-4 text-sm font-black text-white">

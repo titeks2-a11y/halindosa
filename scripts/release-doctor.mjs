@@ -338,14 +338,33 @@ async function checkPublicClaimCopy() {
     "app/page.tsx",
     "app/mypage/page.tsx",
     "app/guide/page.tsx",
+    "app/favorites/page.tsx",
+    "app/reports/page.tsx",
     "app/privacy/page.tsx",
     "app/terms/page.tsx",
     "components/CommercialFooter.tsx",
     "components/DealCard.tsx",
     "components/LiveDealFeed.tsx",
-    "components/FeaturedDealSections.tsx"
+    "components/FeaturedDealSections.tsx",
+    "components/LocalDataControls.tsx",
+    "components/PurchaseConfirmSheet.tsx",
+    "components/PurchaseSafetyChecklist.tsx",
+    "components/ReportForm.tsx",
+    "components/SocialLoginButtons.tsx"
   ];
-  const internalPhrases = ["상업화 준비 체크", "헬스체크 API", "이벤트 추적 API", "SEO/정책 페이지", "실시간 특가 업데이트 구조"];
+  const internalPhrases = [
+    "상업화 준비 체크",
+    "헬스체크 API",
+    "이벤트 추적 API",
+    "SEO/정책 페이지",
+    "실시간 특가 업데이트 구조",
+    "운영 검수 큐",
+    "운영 검수용",
+    "Supabase 계정",
+    "Naver Developers",
+    "커스텀 OIDC",
+    "dry-run"
+  ];
   const internalFindings = [];
 
   for (const file of customerFacingFiles) {

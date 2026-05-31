@@ -48,7 +48,7 @@ export function SocialLoginButtons({ mode }: SocialLoginButtonsProps) {
     setError("");
 
     if (!provider.enabled) {
-      setError("네이버 로그인은 Supabase 기본 Provider가 아니어서 Naver Developers 또는 커스텀 OIDC 설정 후 활성화할 수 있습니다.");
+      setError("네이버 로그인은 현재 준비 중입니다. 지금은 이메일, 구글, 카카오 로그인 또는 비회원 탐색을 이용해주세요.");
       return;
     }
 

@@ -218,7 +218,7 @@ export default function FavoritesPage() {
               </span>
               <p className="mt-4 text-lg font-black text-slate-900">아직 찜한 특가가 없습니다.</p>
               <p className="mt-2 text-sm font-semibold leading-6 text-slate-500">
-                검수된 구매 링크와 인기 반응이 높은 특가부터 저장해보세요. 로그인하면 기기를 바꿔도 관심 특가를 이어볼 수 있습니다.
+                구매 링크가 확인된 특가와 인기 반응이 높은 상품부터 저장해보세요. 로그인하면 기기를 바꿔도 관심 특가를 이어볼 수 있습니다.
               </p>
               <div className="mt-5 flex flex-wrap justify-center gap-2">
                 <Link

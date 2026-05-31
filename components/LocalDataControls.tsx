@@ -54,7 +54,7 @@ export function LocalDataControls() {
     <section className="rounded-[22px] border border-slate-200 bg-white p-4 shadow-sm">
       <h2 className="text-base font-black text-slate-950">기기 데이터 관리</h2>
       <p className="mt-2 text-xs font-bold leading-5 text-slate-500">
-        비회원은 이 기기에 찜과 최근 본 특가를 저장하고, 로그인 사용자는 Supabase 계정과 동기화할 수 있습니다.
+        비회원은 이 기기에 찜과 최근 본 특가를 저장하고, 로그인 사용자는 계정으로 관심 특가를 이어볼 수 있습니다.
       </p>
       <div className="mt-3 grid gap-2 rounded-2xl bg-slate-50 p-3 text-xs font-bold leading-5 text-slate-600">
         <div className="flex gap-2">
@@ -63,7 +63,7 @@ export function LocalDataControls() {
         </div>
         <div className="flex gap-2">
           <ShieldCheck size={15} className="mt-0.5 shrink-0 text-slate-500" />
-          <span>운영 검수용 가격 신고는 품질 관리 기록으로 별도 관리되며, 문의 시 접수번호로 확인합니다.</span>
+          <span>가격 신고는 할인 정보 품질 확인 기록으로 별도 관리되며, 문의 시 접수번호로 확인합니다.</span>
         </div>
       </div>
       <div className="mt-3 grid gap-2 text-sm font-black text-slate-700">

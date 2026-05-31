@@ -14,7 +14,7 @@ const sourceProfiles: DealSourceProfile[] = [
     label: "할인도사 큐레이션",
     status: "active",
     reliability: 82,
-    disclosure: "출시 전 검수용 기본 특가 데이터"
+    disclosure: "할인도사가 정리한 기본 특가 정보"
   },
   {
     key: "halindosa_live",
@@ -35,7 +35,7 @@ const sourceProfiles: DealSourceProfile[] = [
     label: "스테이징 피드",
     status: "ready",
     reliability: 74,
-    disclosure: "운영 전 dry-run 검증 피드"
+    disclosure: "사전 확인 중인 특가 정보"
   },
   {
     key: "production",
@@ -75,8 +75,8 @@ export function getDealTrustScore(deal: Deal) {
 }
 
 export function getDealTrustLabel(score: number) {
-  if (score >= 90) return "검수 높음";
-  if (score >= 80) return "검수 양호";
+  if (score >= 90) return "정보 확인 높음";
+  if (score >= 80) return "정보 확인 양호";
   if (score >= 70) return "조건 확인";
   return "판매처 확인";
 }

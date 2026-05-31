@@ -30,7 +30,7 @@ export default async function ReportsPage({ searchParams }: ReportsPageProps) {
             </span>
             <div>
               <h1 className="text-2xl font-black text-slate-950">가격 오류 신고</h1>
-              <p className="mt-1 text-sm font-semibold text-slate-500">운영 검수용 신고 접수 화면입니다.</p>
+              <p className="mt-1 text-sm font-semibold text-slate-500">가격, 품절, 링크 정보를 할인도사에 알려주세요.</p>
             </div>
           </div>
 

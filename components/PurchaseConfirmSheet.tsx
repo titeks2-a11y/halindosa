@@ -122,7 +122,7 @@ export function PurchaseConfirmSheet({ deal, isOpen, onClose, onConfirm }: Purch
           >
             <span>
               <span className="block text-sm font-black text-amber-900">가격이나 품절 정보가 다르다면</span>
-              <span className="mt-1 block text-xs font-semibold leading-5 text-amber-800">운영 검수 큐로 바로 신고할 수 있습니다.</span>
+              <span className="mt-1 block text-xs font-semibold leading-5 text-amber-800">할인도사 확인 요청으로 바로 알려주세요.</span>
             </span>
             <AlertTriangle size={19} className="shrink-0 text-amber-700" />
           </Link>

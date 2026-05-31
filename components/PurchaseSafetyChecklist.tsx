@@ -71,7 +71,7 @@ export function PurchaseSafetyChecklist({ deal, compact = false }: PurchaseSafet
         <div className="flex items-start gap-2">
           <AlertTriangle className="mt-0.5 shrink-0" size={17} />
           <p className="text-xs font-bold leading-5">
-            가격, 재고, 쿠폰, 배송 조건이 다르면 구매하지 말고 신고해주세요. 운영 검수 큐에서 우선 확인합니다.
+            가격, 재고, 쿠폰, 배송 조건이 다르면 구매하지 말고 신고해주세요. 할인도사가 우선 확인합니다.
           </p>
         </div>
         {deal ? (
