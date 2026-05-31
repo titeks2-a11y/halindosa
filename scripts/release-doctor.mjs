@@ -227,6 +227,7 @@ async function checkPublicContact() {
   const publicFiles = [
     "app/page.tsx",
     "app/mypage/page.tsx",
+    "app/support/page.tsx",
     "app/privacy/page.tsx",
     "app/terms/page.tsx",
     "components/CommercialFooter.tsx",
@@ -375,6 +376,7 @@ async function checkPublicClaimCopy() {
     "app/page.tsx",
     "app/mypage/page.tsx",
     "app/guide/page.tsx",
+    "app/support/page.tsx",
     "app/favorites/page.tsx",
     "app/reports/page.tsx",
     "app/privacy/page.tsx",
@@ -772,7 +774,7 @@ async function checkUiAccessibility() {
     pass("price alert readiness", "Deal detail and notifications manage price alert intent locally and keep real push permission for a later FCM release.");
   }
 
-  const requiredFooterSnippets = ['href="/guide"', 'href="/terms"', 'href="/privacy"', "flex-wrap"];
+  const requiredFooterSnippets = ['href="/guide"', 'href="/support"', 'href="/terms"', 'href="/privacy"', "flex-wrap"];
   const missingFooterSnippets = requiredFooterSnippets.filter((snippet) => !commercialFooter.includes(snippet));
   if (missingFooterSnippets.length) {
     fail("policy footer navigation", `Missing snippets: ${missingFooterSnippets.join(", ")}`);
@@ -946,10 +948,10 @@ async function checkOperationalDataSurfaces() {
     pass("native purchase navigation", "Native purchase buttons keep web redirect tracking when available and fall back to a safe product URL in static app bundles.");
   }
 
-  if (!sitemap.includes("/commercialization") || !sitemap.includes("/guide") || !sitemap.includes("/privacy")) {
-    fail("launch sitemap coverage", "Sitemap should include public guide, privacy, and commercialization readiness pages.");
+  if (!sitemap.includes("/commercialization") || !sitemap.includes("/guide") || !sitemap.includes("/support") || !sitemap.includes("/privacy")) {
+    fail("launch sitemap coverage", "Sitemap should include public guide, support, privacy, and commercialization readiness pages.");
   } else {
-    pass("launch sitemap coverage", "Sitemap includes service guide, privacy, and commercialization readiness pages.");
+    pass("launch sitemap coverage", "Sitemap includes service guide, support, privacy, and commercialization readiness pages.");
   }
 }
 
@@ -1094,6 +1096,7 @@ async function checkPolicyAndStoreDocs() {
     "app/privacy/page.tsx",
     "app/terms/page.tsx",
     "app/guide/page.tsx",
+    "app/support/page.tsx",
     "docs/play-store-listing.md",
     "docs/release-checklist.md",
     "docs/privacy-policy-draft.md",
@@ -1146,6 +1149,11 @@ async function checkPolicyAndStoreDocs() {
       name: "service guide content",
       file: "app/guide/page.tsx",
       phrases: ["직접 상품을 판매하지 않습니다", "구매 전 꼭 확인하세요", "외부 판매처 이동 방식", "제휴 파라미터", "계정과 데이터 관리", "회원 탈퇴", "신고와 고객 문의"]
+    },
+    {
+      name: "support page content",
+      file: "app/support/page.tsx",
+      phrases: ["고객센터", "가격 또는 품절 신고", "구매 전 확인 기준", "이메일 문의", "자주 묻는 질문", "개인정보처리방침", "이용약관", "마이 설정"]
     },
     {
       name: "data safety guide content",

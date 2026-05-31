@@ -5,11 +5,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://halindosa.com";
   const updatedAt = new Date();
 
-  const staticPages: MetadataRoute.Sitemap = ["/", "/guide", "/terms", "/privacy", "/admin", "/reports", "/commercialization"].map((path) => ({
+  const staticPages: MetadataRoute.Sitemap = ["/", "/guide", "/support", "/terms", "/privacy", "/admin", "/reports", "/commercialization"].map((path) => ({
     url: `${baseUrl}${path}`,
     lastModified: updatedAt,
     changeFrequency: path === "/" ? "hourly" : "monthly",
-    priority: path === "/" ? 1 : path === "/guide" ? 0.6 : path === "/admin" || path === "/commercialization" ? 0.2 : 0.4
+    priority: path === "/" ? 1 : path === "/guide" || path === "/support" ? 0.6 : path === "/admin" || path === "/commercialization" ? 0.2 : 0.4
   }));
 
   const dealPages = mockDeals.map((deal) => ({

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Bell, CheckCircle2, Heart, Mail, ShieldCheck, ShoppingBag, Trash2, User } from "lucide-react";
+import { Bell, CheckCircle2, Heart, LifeBuoy, Mail, ShieldCheck, ShoppingBag, Trash2, User } from "lucide-react";
 import { AccountPanel } from "@/components/AccountPanel";
 import { LocalDataControls } from "@/components/LocalDataControls";
 import { MypageConsentSettings } from "@/components/MypageConsentSettings";
@@ -10,7 +10,8 @@ export default function MyPage() {
     { href: "/favorites", label: "찜한 특가", description: "저장한 관심 특가 확인", icon: Heart },
     { href: "/notifications", label: "알림 센터", description: "마감·인기·무료배송 특가", icon: Bell },
     { href: "/categories", label: "카테고리", description: "원하는 할인 영역 탐색", icon: ShoppingBag },
-    { href: "/guide", label: "서비스 안내", description: "구매 전 확인 기준", icon: ShieldCheck }
+    { href: "/guide", label: "서비스 안내", description: "구매 전 확인 기준", icon: ShieldCheck },
+    { href: "/support", label: "고객센터", description: "문의와 가격 오류 신고", icon: LifeBuoy }
   ];
   const readinessItems = [
     "앱 이름 할인도사 적용",
@@ -138,6 +139,10 @@ export default function MyPage() {
           <Link href="/guide" className="flex items-center gap-2 rounded-2xl bg-slate-50 px-4 py-3">
             <ShieldCheck size={17} className="text-dossa-red" />
             서비스 안내
+          </Link>
+          <Link href="/support" className="flex items-center gap-2 rounded-2xl bg-slate-50 px-4 py-3">
+            <LifeBuoy size={17} className="text-dossa-red" />
+            고객센터
           </Link>
           <a href={getSupportMailto("할인도사 고객 문의")} className="flex items-center gap-2 rounded-2xl bg-slate-50 px-4 py-3">
             <Mail size={17} className="text-dossa-red" />

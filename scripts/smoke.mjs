@@ -213,6 +213,19 @@ await check("service guide page", async () => {
   assert(text.includes("신고와 고객 문의") && text.includes("support@halindosa.com"), "Guide page missing report/support guidance");
 });
 
+await check("support page", async () => {
+  const response = await fetch(`${baseUrl}/support`);
+  const text = await response.text();
+  assert(response.status === 200, `Expected 200, got ${response.status}`);
+  assert(text.includes("고객센터"), "Support page missing title");
+  assert(text.includes("가격 또는 품절 신고"), "Support page missing report entry");
+  assert(text.includes("구매 전 확인 기준"), "Support page missing purchase guidance entry");
+  assert(text.includes("support@halindosa.com"), "Support page missing support email");
+  assert(text.includes("자주 묻는 질문"), "Support page missing FAQ section");
+  assert(text.includes("로그인 없이 사용할 수 있나요"), "Support page missing non-member FAQ");
+  assert(text.includes("개인정보처리방침") && text.includes("이용약관") && text.includes("마이 설정"), "Support page missing policy and data management links");
+});
+
 await check("category and notification pages", async () => {
   const categories = await fetch(`${baseUrl}/categories`);
   const categoriesText = await categories.text();
@@ -728,6 +741,7 @@ await check("seo files", async () => {
 
   assert(sitemap.includes("/deals/d001"), "Sitemap missing deal detail URL");
   assert(sitemap.includes("/guide"), "Sitemap missing service guide URL");
+  assert(sitemap.includes("/support"), "Sitemap missing support URL");
   assert(sitemap.includes("/commercialization"), "Sitemap missing commercialization readiness URL");
   assert(robots.includes("User-Agent"), "Robots file missing User-Agent");
   assert(manifest.includes("할인도사"), "Manifest missing app name");
