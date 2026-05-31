@@ -149,13 +149,25 @@ export function DealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, onSha
           {getAffiliateDisclosure(deal)}
         </p>
 
-        <Link
-          href={`/deals/${deal.id}`}
-          className="block text-center text-xs font-black text-slate-500 hover:text-dossa-red"
-          aria-label={`${deal.title} 상세 정보와 가격 신고 보기`}
-        >
-          상세 정보와 가격 신고
-        </Link>
+        <div className="grid grid-cols-[0.85fr_1fr] gap-2 pt-1">
+          <Link
+            href={`/deals/${deal.id}`}
+            className="inline-flex min-h-11 items-center justify-center rounded-2xl border border-slate-200 bg-white px-3 text-xs font-black text-slate-600 transition hover:border-red-100 hover:text-dossa-red"
+            aria-label={`${deal.title} 상세 정보와 가격 신고 보기`}
+          >
+            상세 보기
+          </Link>
+          <button
+            type="button"
+            onClick={() => linkAvailable && onOpenDeal(deal)}
+            disabled={!linkAvailable}
+            className="inline-flex min-h-11 items-center justify-center gap-1.5 rounded-2xl bg-slate-950 px-3 text-xs font-black text-white transition hover:bg-dossa-red disabled:cursor-not-allowed disabled:bg-slate-300"
+            aria-label={linkAvailable ? `${deal.title} 구매 전 판매처 확인` : `${deal.title} 링크 확인 필요`}
+          >
+            판매처 확인
+            <ExternalLink size={14} />
+          </button>
+        </div>
       </div>
     </article>
   );

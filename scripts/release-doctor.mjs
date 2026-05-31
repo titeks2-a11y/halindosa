@@ -509,7 +509,9 @@ async function checkUiAccessibility() {
     "aria-pressed={isFavorite}",
     "alt={deal.title}",
     "판매처 이동 전 확인",
-    "상세 정보와 가격 신고 보기"
+    "상세 정보와 가격 신고 보기",
+    "상세 보기",
+    "판매처 확인"
   ];
   const missingSnippets = requiredSnippets.filter((snippet) => !dealCard.includes(snippet));
 
@@ -517,6 +519,12 @@ async function checkUiAccessibility() {
     fail("deal card accessibility", `Missing snippets: ${missingSnippets.join(", ")}`);
   } else {
     pass("deal card accessibility", "Deal images and icon buttons expose product-specific accessible labels.");
+  }
+
+  if (!liveDealFeed.includes('href={`/deals/${deal.id}`}') || !dealCard.includes("판매처 확인")) {
+    fail("deal commerce actions", "Deal cards and live rows should expose clear detail and seller confirmation paths.");
+  } else {
+    pass("deal commerce actions", "Deal cards and live rows expose clear detail and seller confirmation paths.");
   }
 
   const requiredEmptyStateSnippets = ["조건 초기화하고 전체 특가 보기", "홈에서 특가 둘러보기", "가격과 재고는 판매처에서 변동"];

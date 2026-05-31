@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Clock, ExternalLink, Heart, Radio, Share2, ShoppingBag, Zap } from "lucide-react";
 import { canOpenDealLink, getDealLinkTrustLabel } from "@/lib/affiliate";
 import { isVerifiedPurchaseLink } from "@/lib/deals/quality";
@@ -53,7 +54,9 @@ function LiveDealRow({ deal, isFavorite, onToggleFavorite, onOpenDeal, onShareDe
           </span>
         </div>
         <div className="min-w-0 sm:hidden">
-          <p className="line-clamp-2 text-base font-black leading-snug text-slate-950">{deal.title}</p>
+          <Link href={`/deals/${deal.id}`} className="line-clamp-2 text-base font-black leading-snug text-slate-950 hover:text-dossa-red">
+            {deal.title}
+          </Link>
           <p className="mt-1 text-xs font-bold text-slate-500">
             {deal.mall} · {deal.category}
           </p>
@@ -77,7 +80,9 @@ function LiveDealRow({ deal, isFavorite, onToggleFavorite, onOpenDeal, onShareDe
             {deal.mall} · {deal.category}
           </span>
         </div>
-        <p className="mt-1 truncate text-base font-black text-slate-950">{deal.title}</p>
+        <Link href={`/deals/${deal.id}`} className="mt-1 block truncate text-base font-black text-slate-950 hover:text-dossa-red">
+          {deal.title}
+        </Link>
         <p className="mt-1 inline-flex items-center gap-1 text-xs font-semibold text-slate-500">
           <Clock size={13} />
           {getRelativeTime(deal.createdAt)} 등록 · {getTimeLeft(deal.expiresAt)}

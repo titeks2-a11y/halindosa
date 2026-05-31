@@ -106,6 +106,7 @@
 - 웹 package 버전을 Android/iOS와 동일한 1.0.0으로 정렬하고 release doctor가 package-lock, Android `versionName`, iOS `MARKETING_VERSION` 불일치를 자동으로 잡도록 보강
 - Capacitor 정적 앱에서 `/go` 서버 라우트를 사용할 수 없을 때 홈, 상세, 찜 판매처 이동이 검증된 외부 상품 URL로 fallback하도록 보강하고 release doctor에 네이티브 구매 이동 검사를 추가
 - 상세 페이지와 상세 API가 같은 ID의 기본 큐레이션 데이터에 먼저 고정되지 않도록 `findDealByIdLive`를 provider 우선 조회로 변경하고 release doctor에 운영 피드 우선 상세 조회 검사를 추가
+- 특가 카드 하단에 `상세 보기`와 `판매처 확인` CTA를 명확히 추가하고 실시간 리스트 상품명을 상세 페이지 링크로 연결해 모바일 커머스 탐색 흐름을 개선
 
 ### PHASE 2 코드 품질
 
@@ -254,3 +255,4 @@
 - 홈 내부 마이 탭의 운영자용 출시/API 문구를 고객용 서비스 이용 안내로 교체하고, release doctor가 공개 UI에 내부 개발 문구가 재노출되지 않도록 검사한다.
 - 신고, 구매 확인, 기기 데이터 관리, 소셜 로그인 오류 화면의 내부 검수/Supabase/개발자 콘솔 표현을 사용자용 안내로 정리하고 release doctor의 공개 UI 문구 검사를 확대한다.
 - 로그인 유도, 계정 패널, 온보딩, 가격 알림 안내에서 `준비 중/확장` 중심 표현을 줄이고 비회원 이용 가능성과 계정 이어보기 혜택 중심의 출시형 문구로 정리한다.
+- smoke와 release doctor에 특가 카드의 명확한 상세/판매처 확인 CTA와 실시간 리스트 상세 링크 검사를 추가했다.
