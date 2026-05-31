@@ -5,6 +5,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { BellRing, CheckCircle2, Flame, Share2, ShieldCheck, ShoppingBag, SlidersHorizontal, Store, Timer, Truck, UserRound } from "lucide-react";
 import { BenefitDiscoverySections } from "@/components/BenefitDiscoverySections";
+import { BenefitPlaybook, BenefitPreset } from "@/components/BenefitPlaybook";
 import { CategoryTabs } from "@/components/CategoryTabs";
 import { CommercialFooter } from "@/components/CommercialFooter";
 import { ConsentSettings } from "@/components/ConsentSettings";
@@ -1035,6 +1036,21 @@ export default function Home() {
     window.setTimeout(() => document.getElementById("all-deals")?.scrollIntoView({ behavior: "smooth", block: "start" }), 0);
   };
 
+  const openBenefitPreset = (preset: BenefitPreset) => {
+    setQuery(preset.query ?? "");
+    setCategory(preset.category ?? "all");
+    setMallFilter("all");
+    setPriceBand("all");
+    setBenefitFilter(preset.dealType ?? "all");
+    setFreeShippingOnly(Boolean(preset.freeShippingOnly));
+    setVerifiedOnly(false);
+    setHotOnly(false);
+    setEndingSoonOnly(false);
+    setSort(preset.sort ?? "latest");
+    setActiveView("home");
+    window.setTimeout(() => document.getElementById("all-deals")?.scrollIntoView({ behavior: "smooth", block: "start" }), 0);
+  };
+
   const openQuickDiscovery = (preset: "verified" | "freeShipping" | "endingSoon" | "hot") => {
     setQuery("");
     setCategory("all");
@@ -1177,6 +1193,8 @@ export default function Home() {
               onSelectCategory={openCategory}
               onOpenDeal={openDeal}
             />
+
+            <BenefitPlaybook deals={catalog.length ? catalog : deals} onApplyPreset={openBenefitPreset} />
 
             <PurchaseLinkOverview
               total={dataQuality.total}

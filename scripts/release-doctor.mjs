@@ -757,17 +757,20 @@ async function checkUiAccessibility() {
     pass("search filter accessibility", "Search, sort, category, mall, price, benefit type, and quick filter controls expose accessible names and state.");
   }
 
-  if (
-    !homePage.includes("<BenefitDiscoverySections") ||
-    !homePage.includes("openBenefitFilter") ||
-    !homePage.includes("dealType") ||
-    !smoke.includes("Home page missing V2 benefit-first discovery section") ||
-    !smoke.includes("benefit type filter api")
-  ) {
-    fail("v2 benefit discovery UX", "Home should expose V2 free benefit/coupon discovery and smoke-test the benefit type filter.");
-  } else {
-    pass("v2 benefit discovery UX", "Home exposes free benefit, coupon, mart, and rising benefit discovery with a verified benefit filter.");
-  }
+    if (
+      !homePage.includes("<BenefitDiscoverySections") ||
+      !homePage.includes("<BenefitPlaybook") ||
+      !homePage.includes("openBenefitFilter") ||
+      !homePage.includes("openBenefitPreset") ||
+      !homePage.includes("dealType") ||
+      !smoke.includes("Home page missing V2 benefit-first discovery section") ||
+      !smoke.includes("Home page missing coupon event apptech playbook") ||
+      !smoke.includes("benefit type filter api")
+    ) {
+      fail("v2 benefit discovery UX", "Home should expose V2 free benefit/coupon discovery and smoke-test the benefit type filter.");
+    } else {
+      pass("v2 benefit discovery UX", "Home exposes free benefit, coupon, apptech, mart, and rising benefit discovery with a verified benefit filter.");
+    }
 
   if (
     !homePage.includes("clearRecentDealsSynced") ||
