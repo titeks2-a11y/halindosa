@@ -551,13 +551,17 @@ async function checkUiAccessibility() {
 
   if (
     !favoritesPage.includes("favoriteFilterOptions") ||
+    !favoritesPage.includes("favoriteSortOptions") ||
     !favoritesPage.includes("저장한 특가 빠르게 보기") ||
+    !favoritesPage.includes("저장 상품 정렬") ||
     !favoritesPage.includes("구매 링크 확인") ||
-    !favoritesPage.includes("setFavoriteFilter")
+    !favoritesPage.includes("setFavoriteFilter") ||
+    !favoritesPage.includes("setFavoriteSort") ||
+    !favoritesPage.includes('aria-label="찜한 특가 정렬 방식"')
   ) {
-    fail("favorites filter UX", "Favorites page should let users filter saved deals by verified link, urgency, and shipping.");
+    fail("favorites filter UX", "Favorites page should let users filter and sort saved deals by verified link, urgency, shipping, discount, deadline, and price.");
   } else {
-    pass("favorites filter UX", "Favorites page supports saved-deal filtering by verified link, urgency, and shipping.");
+    pass("favorites filter UX", "Favorites page supports saved-deal filtering and sorting by verified link, urgency, shipping, discount, deadline, and price.");
   }
 
   if (dealTrustBadge.includes("/99")) {

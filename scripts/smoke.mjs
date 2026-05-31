@@ -1,5 +1,21 @@
 const loopbackHost = ["127", "0", "0", "1"].join(".");
 const baseUrl = process.env.SMOKE_BASE_URL ?? `http://${loopbackHost}:3000`;
+const smokeFetchTimeoutMs = Number(process.env.SMOKE_FETCH_TIMEOUT_MS ?? 30000);
+const nativeFetch = globalThis.fetch.bind(globalThis);
+
+globalThis.fetch = async (input, init = {}) => {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), smokeFetchTimeoutMs);
+
+  try {
+    return await nativeFetch(input, {
+      ...init,
+      signal: init.signal ?? controller.signal
+    });
+  } finally {
+    clearTimeout(timeout);
+  }
+};
 
 const checks = [];
 
@@ -641,6 +657,8 @@ await check("favorites page consent guard", async () => {
   assert(text.includes("관심 특가"), "Favorites page missing title");
   assert(text.includes("구매 링크 확인 특가 보기"), "Favorites empty state missing verified link CTA");
   assert(text.includes("먼저 저장해볼 만한 특가"), "Favorites empty state missing starter recommendations");
+  assert(text.includes("저장 상품 정렬"), "Favorites page missing saved deal sort section");
+  assert(text.includes("할인율 높은순") && text.includes("마감임박순") && text.includes("낮은 가격순"), "Favorites page missing sort options");
   assert(!text.includes("affiliate=granted"), "Favorites page should not server-render affiliate consent");
   assert(!text.includes("analytics=granted"), "Favorites page should not server-render analytics consent");
 });

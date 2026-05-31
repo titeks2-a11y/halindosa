@@ -21,6 +21,7 @@ interface DealsResponse {
 }
 
 type FavoriteFilter = "all" | "verified" | "endingSoon" | "freeShipping";
+type FavoriteSort = "saved" | "discount" | "endingSoon" | "price";
 
 async function openExternalDeal(deal: Deal) {
   await recordRecentDealView(deal.id);
@@ -59,6 +60,7 @@ export default function FavoritesPage() {
   const [isCatalogLoading, setIsCatalogLoading] = useState(false);
   const [favorites, setFavorites] = useState<string[]>(() => readLocalFavoriteIds());
   const [favoriteFilter, setFavoriteFilter] = useState<FavoriteFilter>("all");
+  const [favoriteSort, setFavoriteSort] = useState<FavoriteSort>("saved");
 
   const favoriteDeals = useMemo(() => catalog.filter((deal) => favorites.includes(deal.id)), [catalog, favorites]);
   const favoriteStats = useMemo(
@@ -70,16 +72,38 @@ export default function FavoritesPage() {
     [favoriteDeals]
   );
   const filteredFavoriteDeals = useMemo(() => {
-    if (favoriteFilter === "verified") return favoriteDeals.filter(isVerifiedPurchaseLink);
-    if (favoriteFilter === "endingSoon") return favoriteDeals.filter((deal) => deal.isEndingSoon);
-    if (favoriteFilter === "freeShipping") return favoriteDeals.filter((deal) => deal.isFreeShipping);
-    return favoriteDeals;
-  }, [favoriteDeals, favoriteFilter]);
+    const filtered =
+      favoriteFilter === "verified"
+        ? favoriteDeals.filter(isVerifiedPurchaseLink)
+        : favoriteFilter === "endingSoon"
+          ? favoriteDeals.filter((deal) => deal.isEndingSoon)
+          : favoriteFilter === "freeShipping"
+            ? favoriteDeals.filter((deal) => deal.isFreeShipping)
+            : favoriteDeals;
+
+    switch (favoriteSort) {
+      case "discount":
+        return [...filtered].sort((a, b) => b.discountRate - a.discountRate);
+      case "endingSoon":
+        return [...filtered].sort((a, b) => new Date(a.expireAt).getTime() - new Date(b.expireAt).getTime());
+      case "price":
+        return [...filtered].sort((a, b) => a.salePrice - b.salePrice);
+      case "saved":
+      default:
+        return filtered;
+    }
+  }, [favoriteDeals, favoriteFilter, favoriteSort]);
   const favoriteFilterOptions: { id: FavoriteFilter; label: string; count: number; icon: typeof Heart }[] = [
     { id: "all", label: "전체", count: favoriteDeals.length, icon: Heart },
     { id: "verified", label: "구매 링크 확인", count: favoriteStats.verified, icon: CheckCircle2 },
     { id: "endingSoon", label: "마감임박", count: favoriteStats.endingSoon, icon: Timer },
     { id: "freeShipping", label: "무료배송", count: favoriteStats.freeShipping, icon: Truck }
+  ];
+  const favoriteSortOptions: { id: FavoriteSort; label: string }[] = [
+    { id: "saved", label: "저장순" },
+    { id: "discount", label: "할인율 높은순" },
+    { id: "endingSoon", label: "마감임박순" },
+    { id: "price", label: "낮은 가격순" }
   ];
   const recommendedDeals = useMemo(
     () =>
@@ -261,6 +285,27 @@ export default function FavoritesPage() {
                   );
                 })}
               </div>
+              <div className="mt-4 flex flex-col gap-2 rounded-2xl bg-slate-50 p-3 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <p className="text-xs font-black text-slate-400">저장 상품 정렬</p>
+                  <p className="mt-1 text-xs font-bold text-slate-500">찜한 상품을 할인율, 마감 시간, 가격 기준으로 다시 정리합니다.</p>
+                </div>
+                <label className="sm:min-w-48">
+                  <span className="sr-only">찜한 특가 정렬 방식</span>
+                  <select
+                    value={favoriteSort}
+                    onChange={(event) => setFavoriteSort(event.target.value as FavoriteSort)}
+                    aria-label="찜한 특가 정렬 방식"
+                    className="min-h-12 w-full rounded-2xl border border-slate-200 bg-white px-4 text-sm font-black text-slate-700 shadow-sm outline-none transition focus:border-red-300 focus:ring-4 focus:ring-red-50"
+                  >
+                    {favoriteSortOptions.map((option) => (
+                      <option key={option.id} value={option.id}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              </div>
             </section>
 
             {filteredFavoriteDeals.length ? (
@@ -302,6 +347,9 @@ export default function FavoritesPage() {
               <p className="mt-2 text-sm font-semibold leading-6 text-slate-500">
                 구매 링크가 확인된 특가와 인기 반응이 높은 상품부터 저장해보세요. 로그인하면 기기를 바꿔도 관심 특가를 이어볼 수 있습니다.
               </p>
+              <div className="mx-auto mt-4 max-w-xl rounded-2xl bg-slate-50 px-4 py-3 text-xs font-bold leading-5 text-slate-500">
+                저장 상품 정렬은 찜한 특가가 생기면 사용할 수 있습니다. 저장순, 할인율 높은순, 마감임박순, 낮은 가격순으로 다시 볼 수 있어요.
+              </div>
               <div className="mt-5 flex flex-wrap justify-center gap-2">
                 <Link
                   href="/?verifiedOnly=true"
