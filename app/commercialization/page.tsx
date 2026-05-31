@@ -60,7 +60,7 @@ const readinessItems = [
 ];
 
 export default async function CommercializationPage() {
-  const { metrics, linkQuality, linkReviewQueue } = await getMockBusinessMetrics();
+  const { metrics, linkQuality, linkReviewQueue, launchReadiness } = await getMockBusinessMetrics();
   const sources = listDealSourceProfiles();
   const activeSources = sources.filter((source) => source.status !== "planned");
   const topReviewDeals = linkReviewQueue.slice(0, 4);
@@ -120,6 +120,53 @@ export default async function CommercializationPage() {
             value={formatPrice(metrics.potentialSavings)}
             helper="현재 큐레이션 데이터 기준"
           />
+        </section>
+
+        <section className="mt-5 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm" aria-label="출시 준비 단계">
+          <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+            <div>
+              <p className="text-sm font-black text-red-600">출시 준비 단계</p>
+              <h2 className="mt-1 text-2xl font-black text-slate-950">{launchReadiness.phase}</h2>
+              <p className="mt-2 max-w-2xl text-sm font-semibold leading-6 text-slate-500">{launchReadiness.summary}</p>
+            </div>
+            <Link
+              href="/admin"
+              className="inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-2xl bg-slate-950 px-4 text-sm font-black text-white"
+            >
+              링크 검수 큐 열기
+              <ArrowRight className="h-4 w-4" aria-hidden />
+            </Link>
+          </div>
+          <div className="mt-4 grid gap-3 lg:grid-cols-2">
+            <div className="rounded-2xl bg-amber-50 p-4">
+              <h3 className="text-sm font-black text-amber-900">공개 출시 전 남은 리스크</h3>
+              <div className="mt-3 space-y-2">
+                {launchReadiness.blockers.length ? (
+                  launchReadiness.blockers.map((item) => (
+                    <p key={item} className="flex items-start gap-2 text-sm font-semibold leading-6 text-amber-900">
+                      <AlertTriangle className="mt-1 h-4 w-4 shrink-0" aria-hidden />
+                      {item}
+                    </p>
+                  ))
+                ) : (
+                  <p className="text-sm font-semibold leading-6 text-amber-900">자동 점검 기준의 치명 리스크가 없습니다.</p>
+                )}
+              </div>
+            </div>
+            <div className="rounded-2xl bg-red-50 p-4">
+              <h3 className="text-sm font-black text-red-700">다음 우선 조치</h3>
+              <ol className="mt-3 space-y-2">
+                {launchReadiness.nextActions.map((item, index) => (
+                  <li key={item} className="flex items-start gap-2 text-sm font-semibold leading-6 text-red-900/80">
+                    <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-white text-xs font-black text-red-600">
+                      {index + 1}
+                    </span>
+                    {item}
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </div>
         </section>
 
         <section className="mt-5 grid gap-3 lg:grid-cols-[1.15fr_0.85fr]">

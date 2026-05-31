@@ -48,6 +48,42 @@ export function createAnalyticsEvent(input: AnalyticsEventInput) {
   };
 }
 
+function buildLaunchReadiness(linkQuality: ReturnType<typeof summarizeDealQuality>) {
+  const blockers: string[] = [];
+  const nextActions: string[] = [];
+
+  if (linkQuality.verifiedRate < 80) {
+    blockers.push("직접 구매 링크 확인율 80% 미만");
+    nextActions.push("클릭 상위 상품부터 실제 상품 상세 URL로 보강");
+  }
+
+  if (linkQuality.needsReviewLinks > 0) {
+    blockers.push(`링크 검수 대기 ${linkQuality.needsReviewLinks}개`);
+    nextActions.push("검색 fallback 상품을 운영 링크 검수 큐에서 처리");
+  }
+
+  if (linkQuality.brokenLinks + linkQuality.soldOutLinks > 0) {
+    blockers.push("품절 또는 오류 가능 링크 존재");
+    nextActions.push("품절/오류 링크는 노출 종료 또는 대체 상품으로 교체");
+  }
+
+  if (!blockers.length) {
+    return {
+      phase: "출시 가능 후보",
+      summary: "구매 링크와 품질 검수 기준이 출시 기준을 충족했습니다.",
+      blockers,
+      nextActions: ["스토어 계정에서 signed AAB, 스크린샷, 공개 정책 URL을 최종 확인"]
+    };
+  }
+
+  return {
+    phase: linkQuality.verifiedRate >= 65 ? "비공개 테스트 후보" : "운영 보강 필요",
+    summary: "스토어 내부 테스트는 가능하지만, 공개 출시 전 링크 검수 보강이 필요합니다.",
+    blockers,
+    nextActions
+  };
+}
+
 export async function getMockBusinessMetrics() {
   const { deals, updatedAt, source } = await getDeals();
   const hotDeals = deals.filter((deal) => deal.isHot);
@@ -60,6 +96,7 @@ export async function getMockBusinessMetrics() {
   const priceInsights = deals.map(getPriceInsight);
   const lowestPriceDeals = priceInsights.filter((insight) => insight.isLowestPrice).length;
   const linkQuality = summarizeDealQuality(deals);
+  const launchReadiness = buildLaunchReadiness(linkQuality);
   const linkReviewQueue = getLinkReviewQueue(deals, 8);
   const averageConfidenceScore = Math.round(
     priceInsights.reduce((sum, insight) => sum + insight.confidenceScore, 0) / priceInsights.length
@@ -86,6 +123,7 @@ export async function getMockBusinessMetrics() {
     },
     topDeals,
     linkQuality,
+    launchReadiness,
     linkReviewQueue
   };
 }

@@ -617,7 +617,9 @@ async function checkOperationalDataSurfaces() {
     "실제 운영 전환",
     "Supabase OAuth Provider",
     "남은 링크 검수",
-    "구매 링크 확인율"
+    "구매 링크 확인율",
+    "출시 준비 단계",
+    "다음 우선 조치"
   ];
   const missingCommercializationSnippets = commercializationSnippets.filter((snippet) => !commercializationPage.includes(snippet));
   if (missingCommercializationSnippets.length) {

@@ -224,6 +224,8 @@ await check("commercial launch readiness page", async () => {
   assert(text.includes("Supabase OAuth Provider"), "Commercialization page missing OAuth provider external setup");
   assert(text.includes("남은 링크 검수"), "Commercialization page missing link review risk section");
   assert(text.includes("구매 링크 확인율"), "Commercialization page missing verified link rate metric");
+  assert(text.includes("출시 준비 단계"), "Commercialization page missing launch readiness phase");
+  assert(text.includes("다음 우선 조치"), "Commercialization page missing next action queue");
 });
 
 await check("deals api", async () => {
