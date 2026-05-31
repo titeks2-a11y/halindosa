@@ -49,6 +49,7 @@ async function checkPackage() {
     "qa:release",
     "perf:budget",
     "env:doctor",
+    "links:report",
     "release:evidence"
   ];
   const missing = requiredScripts.filter((script) => !pkg.scripts?.[script]);
@@ -492,11 +493,14 @@ async function checkPartnerFeedSafety() {
   const dealCount = [...mockDeals.matchAll(/deal\("d\d+"/g)].length;
   const verifiedCount = [...verifiedPurchaseLinks.matchAll(/^\s*d\d+:/gm)].length;
   const verifiedRate = dealCount ? Math.round((verifiedCount / dealCount) * 100) : 0;
+  const linkReport = existsSync(join(root, "docs/link-coverage-report.md")) ? await text("docs/link-coverage-report.md") : "";
 
   if (verifiedCount < 43 || verifiedRate < 80) {
     fail("verified purchase link coverage", `Expected at least 43 verified direct product links and 80% coverage, got ${verifiedCount}/${dealCount} (${verifiedRate}%).`);
   } else if (!smoke.includes("verified direct purchase link coverage")) {
     fail("verified purchase link coverage", "Smoke tests should assert the verified direct purchase link coverage threshold.");
+  } else if (!linkReport.includes(`검증된 실제 구매 상세 URL: ${verifiedCount}개`) || !linkReport.includes(`검증 커버리지: ${verifiedRate}%`) || !linkReport.includes("보강 대기 상품")) {
+    fail("verified purchase link coverage", "docs/link-coverage-report.md should be refreshed with current verified link coverage and review queue.");
   } else {
     pass("verified purchase link coverage", `${verifiedCount}/${dealCount} curated deals have manually reviewed product detail URLs (${verifiedRate}%).`);
   }
@@ -1086,6 +1090,7 @@ async function checkPolicyAndStoreDocs() {
     "docs/device-qa-checklist.md",
     "docs/deployment-env-checklist.md",
     "docs/store-submission-packet.md",
+    "docs/link-coverage-report.md",
     "scripts/env-doctor.mjs"
   ];
   const missing = requiredFiles.filter((file) => !existsSync(join(root, file)));
@@ -1168,6 +1173,11 @@ async function checkPolicyAndStoreDocs() {
       name: "store submission packet content",
       file: "docs/store-submission-packet.md",
       phrases: ["Android release AAB", "Play Store 등록 문구", "App Store Connect 입력값", "node scripts/env-doctor.mjs --strict", "docs/device-qa-checklist.md"]
+    },
+    {
+      name: "link coverage report content",
+      file: "docs/link-coverage-report.md",
+      phrases: ["구매 링크 커버리지 보고서", "검증된 실제 구매 상세 URL", "판매처별 현황", "보강 대기 상품", "검색 결과 URL을 실제 구매 상세 링크처럼 꾸미지"]
     }
   ];
 

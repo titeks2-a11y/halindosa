@@ -46,7 +46,8 @@ const artifacts = [
   ["Play Store icon", "assets/store/play-store-icon-512.png"],
   ["Feature graphic", "assets/store/feature-graphic-1024x500.png"],
   ["iOS App icon", "ios/App/App/Assets.xcassets/AppIcon.appiconset/AppIcon-512@2x.png"],
-  ["iOS privacy manifest", "ios/App/App/PrivacyInfo.xcprivacy"]
+  ["iOS privacy manifest", "ios/App/App/PrivacyInfo.xcprivacy"],
+  ["Link coverage report", "docs/link-coverage-report.md"]
 ];
 
 const lines = [
@@ -94,6 +95,7 @@ const lines = [
   "- Capacitor iOS sync",
   "- performance budget: 정적 export, JS/CSS, APK/AAB, 스토어 이미지 크기 검사",
   "- Android/iOS 앱 ID, 버전, 아이콘, 스플래시, 권한, 딥링크, 개인정보 manifest 점검",
+  "- 구매 링크 커버리지 보고서: 검증된 실제 구매 상세 URL과 보강 대기 상품 목록 점검",
   "- 정책 페이지, 스토어 등록 문서, 데이터 보안/콘텐츠 등급/스크린샷 가이드 점검",
   "",
   "## 남은 수동 확인",

@@ -128,6 +128,7 @@
 - 알림 센터에 오늘 먼저 확인할 알림 큐를 추가해 마감임박, 인기, 신규, 무료배송 신호가 겹친 특가를 우선 확인할 수 있도록 개선
 - 마이페이지에 설정 점검 요약을 추가해 계정 저장, 알림 설정, 개인정보/추적, 고객 지원과 신고 경로를 한 화면에서 확인할 수 있도록 개선
 - 관리자 화면에 오늘 처리할 링크 작업 요약을 추가해 구매 링크 보강 우선순위를 우선/보강/대기 단계로 바로 확인할 수 있도록 개선
+- `links:report`와 `docs/link-coverage-report.md`를 추가해 검증된 실제 구매 상세 URL, 판매처별 커버리지, 보강 대기 상품을 출시 전 운영자가 바로 확인할 수 있도록 개선
 
 ### PHASE 2 코드 품질
 
@@ -187,6 +188,7 @@
 - `npm run audit:commercial`
 - `npm run qa`
 - `npm run smoke:local`
+- `npm run links:report`
 - smoke 30개 항목으로 확장: category/notification pages, report validation, home query filters, deal link integrity, partner feed unsafe link guard, redirect fallback, affiliate status, admin export, metrics link review queue 포함
 - Play Store 이미지 제작 기준 문서화
 - Play Store 512 아이콘과 기능 그래픽 초안 생성
