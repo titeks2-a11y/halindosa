@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Bell, Clock, Flame, Sparkles, Truck } from "lucide-react";
 import { NotificationPreferences } from "@/components/NotificationPreferences";
+import { PriceAlertList } from "@/components/PriceAlertList";
 import { getDeals } from "@/lib/dealService";
 import { getRelativeTime, getTimeLeft } from "@/lib/format";
 
@@ -28,6 +29,7 @@ export default async function NotificationsPage() {
       </section>
 
       <NotificationPreferences />
+      <PriceAlertList deals={deals} />
 
       {alertGroups.map((group) => {
         const Icon = group.icon;

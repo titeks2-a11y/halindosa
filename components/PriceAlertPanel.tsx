@@ -4,44 +4,13 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { BellRing, CheckCircle2 } from "lucide-react";
 import { formatPrice } from "@/lib/format";
-
-const priceAlertStorageKey = "halindosa:price-alerts";
-
-interface StoredPriceAlert {
-  dealId: string;
-  title: string;
-  targetPrice: number;
-  createdAt: string;
-}
+import { readStoredPriceAlerts, removeStoredPriceAlert, writeStoredPriceAlerts } from "@/lib/priceAlerts";
 
 interface PriceAlertPanelProps {
   dealId: string;
   title: string;
   salePrice: number;
   discountRate: number;
-}
-
-function readStoredAlerts() {
-  if (typeof window === "undefined") return [];
-
-  try {
-    const stored = window.localStorage.getItem(priceAlertStorageKey);
-    const parsed = stored ? (JSON.parse(stored) as unknown) : [];
-    return Array.isArray(parsed)
-      ? parsed.filter((item): item is StoredPriceAlert => {
-          if (!item || typeof item !== "object") return false;
-          const alert = item as Partial<StoredPriceAlert>;
-          return typeof alert.dealId === "string" && typeof alert.title === "string" && typeof alert.targetPrice === "number";
-        })
-      : [];
-  } catch {
-    return [];
-  }
-}
-
-function writeStoredAlerts(alerts: StoredPriceAlert[]) {
-  if (typeof window === "undefined") return;
-  window.localStorage.setItem(priceAlertStorageKey, JSON.stringify(alerts.slice(0, 50)));
 }
 
 export function PriceAlertPanel({ dealId, title, salePrice, discountRate }: PriceAlertPanelProps) {
@@ -52,7 +21,7 @@ export function PriceAlertPanel({ dealId, title, salePrice, discountRate }: Pric
 
   useEffect(() => {
     const handle = window.setTimeout(() => {
-      const existing = readStoredAlerts().find((alert) => alert.dealId === dealId);
+      const existing = readStoredPriceAlerts().find((alert) => alert.dealId === dealId);
       if (existing) {
         setEnabled(true);
         setTargetPrice(existing.targetPrice);
@@ -63,7 +32,7 @@ export function PriceAlertPanel({ dealId, title, salePrice, discountRate }: Pric
   }, [dealId]);
 
   const saveAlert = () => {
-    const alerts = readStoredAlerts().filter((alert) => alert.dealId !== dealId);
+    const alerts = readStoredPriceAlerts().filter((alert) => alert.dealId !== dealId);
     const next = [
       {
         dealId,
@@ -74,13 +43,13 @@ export function PriceAlertPanel({ dealId, title, salePrice, discountRate }: Pric
       ...alerts
     ];
 
-    writeStoredAlerts(next);
+    writeStoredPriceAlerts(next);
     setEnabled(true);
     setMessage("가격 알림 조건을 이 기기에 저장했습니다.");
   };
 
   const removeAlert = () => {
-    writeStoredAlerts(readStoredAlerts().filter((alert) => alert.dealId !== dealId));
+    removeStoredPriceAlert(dealId);
     setEnabled(false);
     setTargetPrice(suggestedTargetPrice);
     setMessage("가격 알림 조건을 해제했습니다.");

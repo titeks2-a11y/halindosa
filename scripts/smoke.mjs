@@ -102,7 +102,8 @@ await check("mypage data controls", async () => {
   assert(response.status === 200, `Expected 200, got ${response.status}`);
   assert(text.includes("회원 기능 설정 필요") || text.includes("로그인하고 관심 특가"), "Mypage missing account auth panel");
   assert(text.includes("기기 데이터 관리"), "Mypage missing local data controls");
-  assert(text.includes("찜/최근 본 특가 삭제"), "Mypage missing local deal data delete action");
+  assert(text.includes("찜/최근 본 특가/가격 알림 삭제"), "Mypage missing local deal data delete action");
+  assert(text.includes("가격 알림 조건"), "Mypage missing price alert deletion scope");
   assert(text.includes("분석/제휴 동의 초기화"), "Mypage missing consent reset action");
   assert(text.includes("서비스 안내"), "Mypage missing service guide link");
   assert(text.includes("support@halindosa.com"), "Mypage missing production support email");
@@ -181,6 +182,8 @@ await check("category and notification pages", async () => {
   const notificationsText = await notifications.text();
   assert(notifications.status === 200, `Expected notifications 200, got ${notifications.status}`);
   assert(notificationsText.includes("알림 센터"), "Notifications page missing title");
+  assert(notificationsText.includes("저장한 가격 알림"), "Notifications page missing saved price alert list");
+  assert(notificationsText.includes("실제 푸시 발송은 FCM 연결 후 별도 동의"), "Notifications page missing push readiness copy");
   assert(notificationsText.includes("마감 임박 특가"), "Notifications page missing ending group");
   assert(notificationsText.includes("무료배송 특가"), "Notifications page missing free shipping group");
 });

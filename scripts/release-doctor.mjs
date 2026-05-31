@@ -387,6 +387,8 @@ async function checkUiAccessibility() {
   const topNavigation = await text("components/TopNavigation.tsx");
   const liveDealFeed = await text("components/LiveDealFeed.tsx");
   const hotSignalSection = await text("components/HotSignalSection.tsx");
+  const priceAlertList = await text("components/PriceAlertList.tsx");
+  const priceAlerts = await text("lib/priceAlerts.ts");
   const homePage = await text("app/page.tsx");
   const requiredSnippets = [
     "aria-pressed={isFavorite}",
@@ -491,14 +493,20 @@ async function checkUiAccessibility() {
 
   if (
     !dealDetailPage.includes("<PriceAlertPanel") ||
-    !priceAlertPanel.includes("halindosa:price-alerts") ||
+    !priceAlerts.includes("halindosa:price-alerts") ||
+    !priceAlertList.includes("readStoredPriceAlerts") ||
+    !priceAlertList.includes("removeStoredPriceAlert") ||
+    !priceAlertList.includes("저장한 가격 알림") ||
     !priceAlertPanel.includes("실제 푸시 발송은 운영 서버와 FCM 연결 후 활성화") ||
+    !priceAlertList.includes("실제 푸시 발송은 FCM 연결 후 별도 동의") ||
     !priceAlertPanel.includes('role="status"') ||
-    priceAlertPanel.includes("Notification.requestPermission")
+    !priceAlertList.includes('role="status"') ||
+    priceAlertPanel.includes("Notification.requestPermission") ||
+    priceAlertList.includes("Notification.requestPermission")
   ) {
-    fail("price alert readiness", "Deal detail should offer device-saved price alert intent without requesting push permission in V1.");
+    fail("price alert readiness", "Deal detail and notifications should support device-saved price alert intent without requesting push permission in V1.");
   } else {
-    pass("price alert readiness", "Deal detail captures price alert intent locally and keeps real push permission for a later FCM release.");
+    pass("price alert readiness", "Deal detail and notifications manage price alert intent locally and keep real push permission for a later FCM release.");
   }
 
   const requiredFooterSnippets = ['href="/guide"', 'href="/terms"', 'href="/privacy"', "flex-wrap"];
@@ -523,6 +531,7 @@ async function checkOperationalDataSurfaces() {
   const categoriesPage = await text("app/categories/page.tsx");
   const notificationsPage = await text("app/notifications/page.tsx");
   const favoritesPage = await text("app/favorites/page.tsx");
+  const localDataControls = await text("components/LocalDataControls.tsx");
   const adminPage = await text("app/admin/page.tsx");
   const commercializationPage = await text("app/commercialization/page.tsx");
   const redirectUrl = await text("lib/redirectUrl.ts");
@@ -540,6 +549,12 @@ async function checkOperationalDataSurfaces() {
     fail("operational data surfaces", "Categories, notifications, and favorites pages should read through Deal repository/API.");
   } else {
     pass("operational data surfaces", "Category, notification, and favorites pages use the Deal repository/API instead of static mock-only arrays.");
+  }
+
+  if (!notificationsPage.includes("<PriceAlertList") || !localDataControls.includes("priceAlertStorageKey") || !localDataControls.includes("가격 알림 조건")) {
+    fail("price alert data surface", "Notifications and local data controls should expose saved price alerts and deletion scope.");
+  } else {
+    pass("price alert data surface", "Saved price alerts are visible in notifications and included in local data deletion controls.");
   }
 
   const adminRawTerms = ["mock, staging, production", "· score "].filter((term) => adminPage.includes(term));
