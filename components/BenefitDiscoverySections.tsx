@@ -12,6 +12,14 @@ interface BenefitDiscoverySectionsProps {
   onOpenDeal: (deal: Deal) => void;
 }
 
+interface DailyClaimPlanItem {
+  label: string;
+  title: string;
+  helper: string;
+  deal: Deal;
+  icon: typeof Gift;
+}
+
 const benefitCards: Array<{
   type: DealBenefitType;
   title: string;
@@ -62,6 +70,48 @@ function getBenefitSummaryStats(deals: Deal[]) {
     couponCount,
     endingSoonCount
   };
+}
+
+function getDailyClaimPlan(deals: Deal[]) {
+  const activeDeals = sortByBenefitScore(deals.filter((deal) => !deal.isExpired && !deal.isSoldOut && deal.linkStatus !== "broken"));
+  const pickedIds = new Set<string>();
+
+  const pick = (predicate: (deal: Deal) => boolean) => {
+    const deal = activeDeals.find((item) => predicate(item) && !pickedIds.has(item.id));
+    if (deal) pickedIds.add(deal.id);
+    return deal;
+  };
+
+  return [
+    {
+      label: "1분",
+      title: "무료 혜택 받기",
+      helper: "샘플, 체험, 0원 혜택부터 확인",
+      deal: pick((deal) => ["freebie", "experience"].includes(deal.dealType) || deal.salePrice <= 1000),
+      icon: Gift
+    },
+    {
+      label: "2분",
+      title: "쿠폰 조건 챙기기",
+      helper: "결제 전 쓸 수 있는 쿠폰 확인",
+      deal: pick((deal) => ["coupon", "foodDelivery", "convenienceStore"].includes(deal.dealType)),
+      icon: TicketPercent
+    },
+    {
+      label: "3분",
+      title: "포인트 적립하기",
+      helper: "출석체크와 페이 적립 확인",
+      deal: pick((deal) => deal.dealType === "point"),
+      icon: Sparkles
+    },
+    {
+      label: "마감",
+      title: "끝나기 전 확인",
+      helper: "마감 임박 혜택만 빠르게 점검",
+      deal: pick((deal) => deal.isEndingSoon),
+      icon: Clock3
+    }
+  ].filter((item): item is DailyClaimPlanItem => Boolean(item.deal));
 }
 
 function BenefitTopList({
@@ -141,6 +191,7 @@ export function BenefitDiscoverySections({
   const martDeals = sortByBenefitScore(source.filter((deal) => deal.category === "편의점/마트" || /마트|gs25|편의점|교환권|1\+1|2\+1/.test([deal.title, ...deal.tags].join(" ").toLowerCase()))).slice(0, 4);
   const { freeTop, couponTop } = getDailyBenefitRankings(source);
   const summaryStats = getBenefitSummaryStats(source);
+  const dailyClaimPlan = getDailyClaimPlan(source);
 
   return (
     <div className="space-y-4" aria-label="할인도사 VER 2.0 혜택 탐색">
@@ -197,6 +248,43 @@ export function BenefitDiscoverySections({
             </div>
           ))}
         </div>
+
+        {dailyClaimPlan.length ? (
+          <div className="mt-4 rounded-[24px] border border-slate-200 bg-white p-3" aria-label="오늘 받을 수 있는 혜택 루틴">
+            <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p className="text-xs font-black text-dossa-red">3분 혜택 루틴</p>
+                <h4 className="text-lg font-black text-slate-950">앱을 열자마자 이 순서로 받으세요</h4>
+              </div>
+              <p className="text-xs font-bold leading-5 text-slate-500">비회원도 바로 확인 가능 · 저장만 로그인</p>
+            </div>
+            <div className="mt-3 grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
+              {dailyClaimPlan.map((item) => {
+                const Icon = item.icon;
+
+                return (
+                  <button
+                    key={item.title}
+                    type="button"
+                    onClick={() => onOpenDeal(item.deal)}
+                    className="group min-h-[132px] rounded-3xl border border-slate-100 bg-slate-50 p-3 text-left transition hover:-translate-y-0.5 hover:border-red-200 hover:bg-red-50"
+                    aria-label={`${item.title} ${item.deal.title} 바로 확인`}
+                  >
+                    <span className="flex items-start justify-between gap-3">
+                      <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-white text-dossa-red shadow-sm">
+                        <Icon size={19} />
+                      </span>
+                      <span className="rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-dossa-red shadow-sm">{item.label}</span>
+                    </span>
+                    <span className="mt-3 block text-sm font-black text-slate-950">{item.title}</span>
+                    <span className="mt-1 block text-xs font-bold leading-5 text-slate-500">{item.helper}</span>
+                    <span className="mt-2 line-clamp-1 block text-xs font-black text-slate-900 group-hover:text-dossa-red">{item.deal.title}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        ) : null}
       </section>
 
       <section className="grid gap-4 lg:grid-cols-2" aria-label="무료 쿠폰 오늘 TOP 랭킹">
