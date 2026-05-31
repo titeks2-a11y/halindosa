@@ -2,7 +2,7 @@ import Link from "next/link";
 import { AlertTriangle, CheckCircle2, Clock, ExternalLink, Heart, Share2, ShoppingBag, Store, Tag, Truck } from "lucide-react";
 import { canOpenDealLink, getAffiliateDisclosure, getDealLinkTrustLabel } from "@/lib/affiliate";
 import { getBenefitTypeLabel } from "@/lib/deals/benefits";
-import { isVerifiedPurchaseLink } from "@/lib/deals/quality";
+import { getDealQualityNotice, isVerifiedPurchaseLink } from "@/lib/deals/quality";
 import { getDealPurchaseConfidenceLabel } from "@/lib/deals/linkValidator";
 import { getDealImageSrc } from "@/lib/imageSrc";
 import { Deal } from "@/types/deal";
@@ -20,6 +20,7 @@ interface DealCardProps {
 export function DealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, onShareDeal }: DealCardProps) {
   const linkAvailable = canOpenDealLink(deal);
   const linkVerified = isVerifiedPurchaseLink(deal);
+  const qualityNotice = getDealQualityNotice(deal);
   const LinkTrustIcon = linkVerified ? CheckCircle2 : AlertTriangle;
   const purchaseCheckItems = [
     { label: "링크", value: getDealLinkTrustLabel(deal) },
@@ -114,6 +115,11 @@ export function DealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, onSha
         <p className="text-[11px] font-bold text-slate-500">
           {getDealPurchaseConfidenceLabel(deal)} · 링크 확인 {getRelativeTime(deal.checkedAt)}
         </p>
+
+        <div className="rounded-2xl border border-slate-100 bg-slate-50 px-3 py-2" aria-label={`${deal.title} 품질 안내`}>
+          <p className="text-[11px] font-black text-slate-700">품질 안내: {qualityNotice.label}</p>
+          <p className="mt-1 line-clamp-2 text-[11px] font-bold leading-4 text-slate-500">{qualityNotice.description}</p>
+        </div>
 
         <div className="rounded-2xl bg-red-50 px-3 py-2">
           <p className="text-[11px] font-black text-dossa-red">{getBenefitTypeLabel(deal.dealType)}</p>

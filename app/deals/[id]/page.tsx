@@ -13,6 +13,7 @@ import { mockDeals } from "@/data/mockDeals";
 import { getAffiliateDisclosure, getDealLinkTrustLabel } from "@/lib/affiliate";
 import { findDealByIdLive, getRelatedDeals } from "@/lib/dealService";
 import { getBenefitTypeLabel } from "@/lib/deals/benefits";
+import { getDealQualityNotice } from "@/lib/deals/quality";
 import { formatPrice, getRelativeTime, getTimeLeft } from "@/lib/format";
 import { getDealImageSrc } from "@/lib/imageSrc";
 import { getPriceHistory, getPriceInsight } from "@/lib/priceHistory";
@@ -63,6 +64,7 @@ export default async function DealDetailPage({ params }: DealDetailPageProps) {
   const priceHistory = getPriceHistory(deal);
   const priceInsight = getPriceInsight(deal);
   const priceRange = Math.max(1, priceInsight.highestPrice - priceInsight.lowestPrice);
+  const qualityNotice = getDealQualityNotice(deal);
 
   return (
     <main className="min-h-screen bg-slate-50 px-4 py-5 sm:px-6 lg:px-8">
@@ -182,6 +184,13 @@ export default async function DealDetailPage({ params }: DealDetailPageProps) {
 
             <div className="mt-3">
               <DealTrustBadge deal={deal} />
+            </div>
+
+            <div className="mt-3 rounded-2xl border border-slate-200 bg-slate-50 px-3 py-3 text-sm font-semibold leading-6 text-slate-700" aria-label="상품 품질 안내">
+              <p className="text-xs font-black text-slate-500">상품 품질 안내</p>
+              <p className="mt-1 font-black text-slate-950">{qualityNotice.label}</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-slate-500">{qualityNotice.description}</p>
+              <p className="mt-2 text-xs font-bold text-slate-400">신고 누적 {deal.reportCount}건 · 마지막 링크 확인 {getRelativeTime(deal.checkedAt)}</p>
             </div>
 
             <div className="mt-3 rounded-2xl border border-amber-100 bg-amber-50 px-3 py-3 text-sm font-semibold leading-6 text-amber-800">

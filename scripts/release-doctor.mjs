@@ -722,11 +722,14 @@ async function checkUiAccessibility() {
     !purchaseReadinessSummary.includes('aria-label="구매 정보 확인 요약"') ||
     !purchaseReadinessSummary.includes("예정 도메인") ||
     !purchaseReadinessSummary.includes("getLinkStatusLabel") ||
-    !purchaseReadinessSummary.includes("판매처 도메인이 예상과 다르면")
+    !purchaseReadinessSummary.includes("판매처 도메인이 예상과 다르면") ||
+    !dealDetailPage.includes("상품 품질 안내") ||
+    !dealDetailPage.includes("신고 누적") ||
+    !smoke.includes("Detail page missing quality notice summary")
   ) {
-    fail("purchase readiness summary", "Deal detail should summarize price timing, link status, and destination domain before purchase.");
+    fail("purchase readiness summary", "Deal detail should summarize price timing, link status, quality notice, report count, and destination domain before purchase.");
   } else {
-    pass("purchase readiness summary", "Deal detail summarizes price timing, link status, and destination domain before purchase.");
+    pass("purchase readiness summary", "Deal detail summarizes price timing, link status, quality notice, report count, and destination domain before purchase.");
   }
 
   if (
@@ -1018,19 +1021,21 @@ async function checkOperationalDataSurfaces() {
     pass("price filter data path", "Deals API and repository support commercial price band filtering.");
   }
 
-  if (!quality.includes("export function isVerifiedPurchaseLink") || !quality.includes("export function getLinkQualityScore")) {
+  if (!quality.includes("export function isVerifiedPurchaseLink") || !quality.includes("export function getLinkQualityScore") || !quality.includes("export function getDealQualityNotice")) {
     fail("shared link quality rules", "Link verification and scoring should be centralized in lib/deals/quality.ts.");
   } else if (
     !dealRepository.includes("isVerifiedPurchaseLink") ||
     !homePage.includes("isVerifiedPurchaseLink") ||
     !featuredSections.includes("getLinkQualityScore") ||
     !dealCard.includes("isVerifiedPurchaseLink") ||
+    !dealCard.includes("getDealQualityNotice") ||
+    !dealCard.includes("품질 안내") ||
     !liveDealFeed.includes("isVerifiedPurchaseLink") ||
     !purchaseConfirmSheet.includes("isVerifiedPurchaseLink")
   ) {
-    fail("shared link quality rules", "Home, repository, featured sections, cards, live feed, and purchase confirmation should use shared link quality rules.");
+    fail("shared link quality rules", "Home, repository, featured sections, cards, live feed, and purchase confirmation should use shared link quality rules and customer-facing quality notices.");
   } else {
-    pass("shared link quality rules", "Verified purchase filtering, scoring, and trust labels use shared link quality rules.");
+    pass("shared link quality rules", "Verified purchase filtering, scoring, trust labels, and customer-facing quality notices use shared link quality rules.");
   }
 
   if (!dealRepository.includes("export async function findDealByIdLive") || /findDealByIdLive[\s\S]{0,180}findDealById\(id\)[\s\S]{0,80}await getDeals/.test(dealRepository)) {

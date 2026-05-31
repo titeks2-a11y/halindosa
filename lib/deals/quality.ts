@@ -96,6 +96,56 @@ export function getLinkQualityScore(deal: Pick<Deal, "linkStatus" | "linkType">)
   return 0;
 }
 
+export function getDealQualityNotice(
+  deal: Pick<Deal, "linkStatus" | "linkType" | "reportCount" | "isSoldOut" | "isExpired" | "isVerified" | "isEndingSoon">
+) {
+  if (deal.isSoldOut || deal.linkStatus === "sold_out") {
+    return {
+      label: "품절 확인 필요",
+      description: "판매처 재고와 옵션 선택 가능 여부를 먼저 확인하세요.",
+      tone: "warning" as const
+    };
+  }
+
+  if (deal.isExpired) {
+    return {
+      label: "종료 확인 필요",
+      description: "행사나 쿠폰이 종료됐을 수 있어 판매처 조건 확인이 필요합니다.",
+      tone: "warning" as const
+    };
+  }
+
+  if (deal.linkStatus === "broken" || deal.reportCount >= 3) {
+    return {
+      label: "운영 확인 중",
+      description: "신고가 누적되어 링크와 가격 조건을 다시 확인하고 있습니다.",
+      tone: "review" as const
+    };
+  }
+
+  if (deal.isEndingSoon) {
+    return {
+      label: "마감 전 확인",
+      description: "마감이 가까워 가격, 쿠폰, 재고가 빠르게 바뀔 수 있습니다.",
+      tone: "urgent" as const
+    };
+  }
+
+  if (isVerifiedPurchaseLink(deal) && deal.isVerified) {
+    return {
+      label: "판매처 링크 확인",
+      description: "검색 결과가 아닌 판매처 상세 이동을 우선 확인한 혜택입니다.",
+      tone: "verified" as const
+    };
+  }
+
+  return {
+    label: "구매 전 조건 확인",
+    description: "최종 가격, 배송비, 쿠폰 조건은 판매처에서 다시 확인하세요.",
+    tone: "neutral" as const
+  };
+}
+
 export function summarizeDealQuality(deals: Deal[]): DealQualitySummary {
   const total = deals.length;
   const verifiedLinks = deals.filter(isVerifiedPurchaseLink).length;

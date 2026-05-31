@@ -104,6 +104,7 @@ await check("home page", async () => {
   assert(text.includes("오늘 놓치면 아쉬운 혜택"), "Home page missing V2 benefit-first discovery section");
   assert(text.includes("무료로 받을 수 있는 혜택"), "Home page missing free benefit discovery card");
   assert(text.includes("무료혜택/쿠폰"), "Home page missing free benefit and coupon section");
+  assert(text.includes("품질 안내"), "Home page missing deal quality notice");
   assert(text.includes("무료혜택 TOP 5") && text.includes("쿠폰·앱테크 TOP 5"), "Home page missing free coupon top ranking section");
   assert(text.includes("오늘 혜택 체크리스트") && text.includes("앱을 열면 이 순서로 챙기세요"), "Home page missing daily benefit checklist");
   assert(text.includes("무료 혜택 먼저 받기") && text.includes("쿠폰 조건 확인") && text.includes("앱테크 포인트 적립"), "Home page missing checklist benefit actions");
@@ -763,6 +764,7 @@ await check("detail purchase consent guard", async () => {
   assert(text.includes("구매 전 판매처 확인"), "Detail page missing purchase confirm button");
   assert(text.includes("구매 전 10초 체크"), "Detail page missing purchase safety checklist");
   assert(text.includes("구매 정보 확인 요약"), "Detail page missing purchase readiness summary");
+  assert(text.includes("상품 품질 안내") && text.includes("신고 누적"), "Detail page missing quality notice summary");
   assert(text.includes("예정 도메인"), "Detail page missing destination domain summary");
   assert(text.includes("관련 특가도 구매 전 체크"), "Detail page missing commerce-ready related deal section");
   assert(text.includes("같은 카테고리 보기"), "Detail page missing related category navigation");
