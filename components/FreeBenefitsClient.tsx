@@ -28,6 +28,36 @@ const tabs: Array<{ id: "all" | DealBenefitType; label: string }> = [
 
 type BenefitSort = "recommended" | "endingSoon" | "popular" | "savings";
 
+const fiveMinuteChecklist = [
+  {
+    title: "무료·0원 먼저 확인",
+    description: "무료 샘플, 초대권, 체험단처럼 결제 부담이 낮은 혜택부터 봅니다.",
+    preset: "freebie" as const
+  },
+  {
+    title: "결제 전 쿠폰 적용",
+    description: "첫 구매, 카드사, 브랜드 쿠폰 조건과 최소 주문 금액을 확인합니다.",
+    preset: "coupon" as const
+  },
+  {
+    title: "배송비 줄이기",
+    description: "무료배송, 무배 쿠폰, 장보기 조건을 같이 보면 체감 절약이 커집니다.",
+    preset: "freeShipping" as const
+  },
+  {
+    title: "마감 전 다시 확인",
+    description: "선착순, 기간 한정, 종료 예정 혜택은 판매처에서 최종 상태를 확인합니다.",
+    preset: "endingSoon" as const
+  }
+];
+
+const benefitGuardrails = [
+  ["무료 혜택", "배송비, 체험단 조건, 회원가입 필요 여부를 먼저 확인"],
+  ["쿠폰/포인트", "최소 주문 금액, 중복 적용, 적립 예정일을 확인"],
+  ["편의점/마트", "행사 지점, 앱 쿠폰 발급 여부, 재고 변동 가능성 확인"],
+  ["배달/외식", "지역, 시간대, 브랜드별 제외 메뉴와 결제 수단 조건 확인"]
+];
+
 function readFavorites() {
   if (typeof window === "undefined") return [];
 
@@ -221,6 +251,17 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
     setActiveOnly(false);
   };
 
+  const applyChecklistPreset = (preset: (typeof fiveMinuteChecklist)[number]["preset"]) => {
+    setQuery("");
+    setSort(preset === "endingSoon" ? "endingSoon" : "recommended");
+    setEndingSoonOnly(preset === "endingSoon");
+    setFreeShippingOnly(preset === "freeShipping");
+    setNoSignupOnly(false);
+    setFirstComeOnly(preset === "endingSoon");
+    setActiveOnly(true);
+    setActiveType(preset === "endingSoon" || preset === "freeShipping" ? "all" : preset);
+  };
+
   return (
     <main className="min-h-screen bg-slate-50 px-3 pb-24 pt-4 sm:px-5 lg:px-8 lg:pb-12">
       <div className="mx-auto max-w-7xl space-y-5">
@@ -330,6 +371,47 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
               </button>
             ))}
           </div>
+        </section>
+
+        <section className="rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5" aria-label="5분 혜택 체크리스트">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-black text-dossa-red">5분 혜택 체크리스트</p>
+              <h2 className="mt-1 text-2xl font-black tracking-tight text-slate-950">처음 들어온 사용자가 바로 따라할 순서</h2>
+            </div>
+            <p className="max-w-md text-sm font-bold leading-6 text-slate-500">
+              무료 혜택은 조건이 자주 바뀌므로, 받을 수 있는 것부터 좁히고 판매처에서 최종 조건을 확인하는 흐름으로 설계했습니다.
+            </p>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+            {fiveMinuteChecklist.map((step, index) => (
+              <button
+                key={step.title}
+                type="button"
+                onClick={() => applyChecklistPreset(step.preset)}
+                className="rounded-3xl border border-slate-100 bg-slate-50 p-4 text-left transition hover:-translate-y-0.5 hover:border-red-200 hover:bg-red-50"
+                aria-label={`${step.title} 필터 적용`}
+              >
+                <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white text-sm font-black text-dossa-red shadow-sm">
+                  {index + 1}
+                </span>
+                <span className="mt-4 block text-sm font-black text-slate-950">{step.title}</span>
+                <span className="mt-1 block text-xs font-bold leading-5 text-slate-500">{step.description}</span>
+                <span className="mt-3 inline-flex rounded-full bg-white px-3 py-1.5 text-xs font-black text-dossa-red shadow-sm">
+                  조건 적용
+                </span>
+              </button>
+            ))}
+          </div>
+        </section>
+
+        <section className="grid gap-3 md:grid-cols-2 xl:grid-cols-4" aria-label="혜택별 최종 확인 기준">
+          {benefitGuardrails.map(([title, copy]) => (
+            <div key={title} className="rounded-3xl border border-red-100 bg-white p-4 shadow-sm">
+              <p className="text-sm font-black text-slate-950">{title}</p>
+              <p className="mt-2 text-xs font-bold leading-5 text-slate-500">{copy}</p>
+            </div>
+          ))}
         </section>
 
         <section className="rounded-[26px] border border-slate-200 bg-white p-3 shadow-sm">
