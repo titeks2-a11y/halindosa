@@ -639,6 +639,18 @@ async function checkUiAccessibility() {
   }
 
   if (
+    !homePage.includes("mallHighlights") ||
+    !homePage.includes("openMall") ||
+    !homePage.includes("쇼핑몰별 특가 바로가기") ||
+    !homePage.includes("자주 쓰는 판매처만 골라보기") ||
+    !homePage.includes("해당 쇼핑몰 특가만 바로 필터링")
+  ) {
+    fail("mall discovery UX", "Home should expose a seller-first discovery surface linked to mall filters.");
+  } else {
+    pass("mall discovery UX", "Home exposes seller-first discovery cards tied to mall filters.");
+  }
+
+  if (
     !dealDetailActions.includes("aria-pressed={isFavorite}") ||
     !dealDetailActions.includes('role="status"') ||
     !dealDetailActions.includes('aria-live="polite"') ||

@@ -82,6 +82,9 @@ await check("home page", async () => {
   assert(text.includes("가격/재고 변동"), "Home page missing price stock risk guidance");
   assert(text.includes("오늘 바로 볼 할인 지도"), "Home page missing quick discovery guide");
   assert(text.includes("구매처 바로 확인"), "Home page missing verified purchase quick filter");
+  assert(text.includes("쇼핑몰별 특가 바로가기"), "Home page missing mall discovery section");
+  assert(text.includes("자주 쓰는 판매처만 골라보기"), "Home page missing mall discovery guide copy");
+  assert(text.includes("구매처 확인"), "Home page missing mall verified purchase link summary");
   assert(!text.includes("직접 구매 링크 비율"), "Home page should not expose internal link coverage ratio copy");
   assert(text.includes("aria-pressed="), "Home deal favorite buttons missing pressed state");
   assert(text.includes("판매처 이동 전 확인"), "Home deal open buttons missing accessible purchase label");

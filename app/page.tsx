@@ -3,7 +3,7 @@
 import type { ReactNode } from "react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { BellRing, CheckCircle2, Flame, Share2, ShieldCheck, ShoppingBag, SlidersHorizontal, Timer, Truck, UserRound } from "lucide-react";
+import { BellRing, CheckCircle2, Flame, Share2, ShieldCheck, ShoppingBag, SlidersHorizontal, Store, Timer, Truck, UserRound } from "lucide-react";
 import { CategoryTabs } from "@/components/CategoryTabs";
 import { CommercialFooter } from "@/components/CommercialFooter";
 import { ConsentSettings } from "@/components/ConsentSettings";
@@ -789,6 +789,29 @@ export default function Home() {
     [catalog]
   );
 
+  const mallHighlights = useMemo(
+    () =>
+      mallFilters
+        .filter((mall) => mall.id !== "all")
+        .map((mall) => {
+          const mallDeals = catalog.filter((deal) => dealMatchesMallFilter(deal, mall.id));
+          const bestDeal = [...mallDeals].sort((a, b) => commercialScore(b) - commercialScore(a))[0];
+
+          return {
+            ...mall,
+            count: mallDeals.length,
+            verifiedCount: mallDeals.filter(isVerifiedPurchaseLink).length,
+            freeShippingCount: mallDeals.filter(isFreeShippingDeal).length,
+            bestDeal,
+            bestDiscount: mallDeals.reduce((best, deal) => Math.max(best, deal.discountRate), 0)
+          };
+        })
+        .filter((mall) => mall.count > 0)
+        .sort((a, b) => b.verifiedCount - a.verifiedCount || b.count - a.count || b.bestDiscount - a.bestDiscount)
+        .slice(0, 8),
+    [catalog]
+  );
+
   const categoryCounts = useMemo(
     () =>
       Object.fromEntries(
@@ -867,6 +890,14 @@ export default function Home() {
     setCategory(id);
     setActiveView("home");
     window.setTimeout(() => document.getElementById("deals")?.scrollIntoView({ behavior: "smooth" }), 0);
+  };
+
+  const openMall = (id: string) => {
+    setQuery("");
+    setCategory("all");
+    setMallFilter(id);
+    setActiveView("home");
+    window.setTimeout(() => document.getElementById("all-deals")?.scrollIntoView({ behavior: "smooth", block: "start" }), 0);
   };
 
   const openQuickDiscovery = (preset: "verified" | "freeShipping" | "endingSoon" | "hot") => {
@@ -1196,6 +1227,47 @@ export default function Home() {
                     </button>
                   ))}
                 </div>
+              </div>
+            </section>
+
+            <section className="rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5" aria-label="쇼핑몰별 특가 바로가기">
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                  <p className="text-xs font-black text-dossa-red">쇼핑몰별 특가 바로가기</p>
+                  <h3 className="text-xl font-black text-slate-950">자주 쓰는 판매처만 골라보기</h3>
+                  <p className="mt-1 text-sm font-semibold leading-6 text-slate-500">
+                    구매처 확인이 많은 판매처를 먼저 정리했습니다. 클릭하면 해당 쇼핑몰 특가만 바로 필터링됩니다.
+                  </p>
+                </div>
+                <Link href="/categories" className="rounded-2xl bg-slate-950 px-4 py-3 text-center text-sm font-black text-white">
+                  전체 채널 보기
+                </Link>
+              </div>
+              <div className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+                {mallHighlights.map((mall) => (
+                  <button
+                    key={mall.id}
+                    type="button"
+                    onClick={() => openMall(mall.id)}
+                    className="min-h-[154px] rounded-3xl border border-slate-100 bg-slate-50 p-4 text-left transition hover:-translate-y-0.5 hover:border-red-100 hover:bg-red-50"
+                    aria-label={`${mall.label} 쇼핑몰 특가 ${mall.count}개 보기`}
+                  >
+                    <span className="flex items-start justify-between gap-3">
+                      <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-white text-dossa-red shadow-sm">
+                        <Store size={19} />
+                      </span>
+                      <span className="rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-slate-600 shadow-sm">{mall.count}개</span>
+                    </span>
+                    <span className="mt-4 block text-base font-black text-slate-950">{mall.label}</span>
+                    <span className="mt-1 line-clamp-2 block min-h-9 text-xs font-bold leading-5 text-slate-500">
+                      {mall.bestDeal?.title ?? "판매처별 특가를 모아봤습니다."}
+                    </span>
+                    <span className="mt-3 flex flex-wrap gap-1.5 text-[11px] font-black">
+                      <span className="rounded-full bg-emerald-50 px-2 py-1 text-emerald-700">구매처 확인 {mall.verifiedCount}</span>
+                      <span className="rounded-full bg-white px-2 py-1 text-slate-600">무료배송 {mall.freeShippingCount}</span>
+                    </span>
+                  </button>
+                ))}
               </div>
             </section>
 
