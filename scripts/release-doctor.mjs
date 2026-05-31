@@ -773,6 +773,9 @@ async function checkOperationalDataSurfaces() {
 
   if (
     !notificationsPage.includes("알림 운영 방식") ||
+    !notificationsPage.includes("priorityAlerts") ||
+    !notificationsPage.includes("오늘 먼저 확인할 알림") ||
+    !notificationsPage.includes("마감과 인기 반응이 겹친 특가부터 보기") ||
     !notificationsPage.includes("권한 요청 없이 먼저 쓸 수 있게 준비했습니다") ||
     !notificationsPage.includes("실제 푸시 알림은 별도 동의") ||
     !notificationsPage.includes("알림 기준 보기") ||

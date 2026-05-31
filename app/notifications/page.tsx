@@ -11,6 +11,17 @@ export default async function NotificationsPage() {
   const hotDeals = deals.filter((deal) => deal.isHot);
   const newDeals = deals.filter((deal) => deal.isNew);
   const freeShippingDeals = deals.filter((deal) => deal.isFreeShipping);
+  const priorityAlerts = [...deals]
+    .filter((deal) => deal.isEndingSoon || deal.isHot || deal.isNew || deal.isFreeShipping)
+    .sort(
+      (a, b) =>
+        Number(b.isEndingSoon) - Number(a.isEndingSoon) ||
+        Number(b.isHot) - Number(a.isHot) ||
+        Number(b.isFreeShipping) - Number(a.isFreeShipping) ||
+        b.discountRate - a.discountRate ||
+        new Date(a.expireAt).getTime() - new Date(b.expireAt).getTime()
+    )
+    .slice(0, 6);
   const alertGroups = [
     { title: "마감 임박 특가", icon: Clock, items: endingSoonDeals.slice(0, 4), href: "/?endingSoon=true&sort=endingSoon", count: endingSoonDeals.length },
     { title: "오늘의 인기 특가", icon: Flame, items: hotDeals.slice(0, 4), href: "/?hotOnly=true&sort=hot", count: hotDeals.length },
@@ -63,6 +74,37 @@ export default async function NotificationsPage() {
 
       <NotificationPreferences />
       <PriceAlertList deals={deals} />
+
+      <section className="rounded-[22px] border border-slate-200 bg-white p-4 shadow-sm lg:p-5" aria-label="오늘 먼저 확인할 알림">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-xs font-black text-dossa-red">오늘 먼저 확인할 알림</p>
+            <h2 className="mt-1 text-base font-black text-slate-950">마감과 인기 반응이 겹친 특가부터 보기</h2>
+            <p className="mt-1 text-sm font-semibold leading-6 text-slate-500">
+              마감임박, 인기, 신규, 무료배송 신호를 함께 보고 지금 확인할 만한 특가를 먼저 정리했습니다.
+            </p>
+          </div>
+          <Link href="/?hotOnly=true&endingSoon=true&sort=endingSoon" className="rounded-2xl bg-slate-950 px-4 py-3 text-center text-xs font-black text-white">
+            우선 알림 전체 보기
+          </Link>
+        </div>
+        <div className="mt-4 grid gap-2 md:grid-cols-2">
+          {priorityAlerts.map((deal, index) => (
+            <Link key={deal.id} href={`/deals/${deal.id}`} className="flex min-w-0 items-center gap-3 rounded-2xl bg-slate-50 p-3 transition hover:bg-red-50">
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-dossa-red text-xs font-black text-white">
+                {index + 1}
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className="block truncate text-sm font-black text-slate-950">{deal.title}</span>
+                <span className="mt-1 block truncate text-xs font-bold text-slate-500">
+                  {deal.mallName} · {deal.isEndingSoon ? "마감임박" : deal.isHot ? "인기" : deal.isNew ? "신규" : "무료배송"} · {getTimeLeft(deal.expireAt)}
+                </span>
+              </span>
+              <span className="shrink-0 text-sm font-black text-dossa-red">{deal.discountRate}%</span>
+            </Link>
+          ))}
+        </div>
+      </section>
 
       <section className="rounded-[22px] border border-red-100 bg-gradient-to-br from-red-50 via-white to-slate-50 p-4 shadow-sm lg:p-5">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
