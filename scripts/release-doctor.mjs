@@ -607,6 +607,18 @@ async function checkUiAccessibility() {
     pass("purchase readiness summary", "Deal detail summarizes price timing, link status, and destination domain before purchase.");
   }
 
+  if (
+    !dealDetailPage.includes("관련 특가도 구매 전 체크") ||
+    !dealDetailPage.includes("같은 카테고리 보기") ||
+    !dealDetailPage.includes("관련 특가 이미지") ||
+    !dealDetailPage.includes("getTimeLeft(related.expiresAt)") ||
+    !smoke.includes("commerce-ready related deal section")
+  ) {
+    fail("related deal discovery UX", "Deal detail should present related deals with images, timing, category navigation, and purchase-minded copy.");
+  } else {
+    pass("related deal discovery UX", "Deal detail presents related deals with images, timing, category navigation, and purchase-minded copy.");
+  }
+
   if (!bottomNav.includes("getNavAriaLabel") || !bottomNavigation.includes("getNavAriaLabel") || !bottomNav.includes('aria-label="주요 메뉴"') || !bottomNavigation.includes('aria-label="주요 메뉴"') || !bottomNav.includes("aria-current") || !bottomNavigation.includes("aria-current")) {
     fail("bottom navigation accessibility", "Bottom navigation should expose named menus, active state, and explicit button/link labels.");
   } else {

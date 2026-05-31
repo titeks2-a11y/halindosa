@@ -250,16 +250,57 @@ export default async function DealDetailPage({ params }: DealDetailPageProps) {
         </section>
 
         <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-          <div className="flex items-center gap-2">
-            <ShieldCheck size={20} className="text-dossa-red" />
-            <h2 className="text-xl font-black text-slate-950">같이 보면 좋은 특가</h2>
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div className="flex items-center gap-2">
+              <ShieldCheck size={20} className="text-dossa-red" />
+              <div>
+                <p className="text-xs font-black text-dossa-red">관련 특가도 구매 전 체크</p>
+                <h2 className="text-xl font-black text-slate-950">같이 보면 좋은 특가</h2>
+              </div>
+            </div>
+            <Link href={`/?category=${encodeURIComponent(deal.category)}`} className="rounded-2xl bg-slate-950 px-4 py-3 text-center text-sm font-black text-white">
+              같은 카테고리 보기
+            </Link>
           </div>
           <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
             {relatedDeals.map((related) => (
-              <Link key={related.id} href={`/deals/${related.id}`} className="rounded-2xl bg-slate-50 p-4 transition hover:bg-red-50">
-                <p className="text-xs font-black text-dossa-red">{related.mall}</p>
-                <p className="mt-2 line-clamp-2 min-h-10 text-sm font-black text-slate-950">{related.title}</p>
-                <p className="mt-3 text-sm font-black text-dossa-red">{related.discountRate}% · {formatPrice(related.salePrice)}</p>
+              <Link key={related.id} href={`/deals/${related.id}`} className="group overflow-hidden rounded-3xl border border-slate-100 bg-slate-50 transition hover:-translate-y-0.5 hover:border-red-100 hover:bg-red-50">
+                <span className="block aspect-[4/3] overflow-hidden bg-red-50">
+                  {related.thumbnail ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={getDealImageSrc(related.thumbnail)}
+                      alt={`${related.title} 관련 특가 이미지`}
+                      loading="lazy"
+                      decoding="async"
+                      referrerPolicy="no-referrer"
+                      className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+                    />
+                  ) : (
+                    <span className="flex h-full w-full items-center justify-center text-sm font-black text-dossa-red">SALE</span>
+                  )}
+                </span>
+                <span className="block p-4">
+                  <span className="flex items-center justify-between gap-2">
+                    <span className="truncate text-xs font-black text-dossa-red">{related.mall}</span>
+                    <span className="shrink-0 rounded-full bg-white px-2 py-1 text-[11px] font-black text-slate-600">{related.category}</span>
+                  </span>
+                  <span className="mt-2 line-clamp-2 min-h-10 text-sm font-black text-slate-950">{related.title}</span>
+                  <span className="mt-3 flex items-end justify-between gap-2">
+                    <span>
+                      <span className="block text-xs font-bold text-slate-400 line-through">{formatPrice(related.originalPrice)}</span>
+                      <span className="block text-base font-black text-dossa-red">{formatPrice(related.salePrice)}</span>
+                    </span>
+                    <span className="rounded-xl bg-dossa-red px-2.5 py-1.5 text-sm font-black leading-none text-white">{related.discountRate}%</span>
+                  </span>
+                  <span className="mt-3 flex items-center justify-between gap-2 text-[11px] font-bold text-slate-500">
+                    <span className="truncate">{related.shipping}</span>
+                    <span className="shrink-0">{getTimeLeft(related.expiresAt)}</span>
+                  </span>
+                  <span className="mt-3 flex min-h-10 items-center justify-center rounded-2xl bg-white text-xs font-black text-slate-700 shadow-sm transition group-hover:text-dossa-red">
+                    상세 보기
+                  </span>
+                </span>
               </Link>
             ))}
           </div>
