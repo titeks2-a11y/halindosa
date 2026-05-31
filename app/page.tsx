@@ -945,7 +945,7 @@ export default function Home() {
                   <h3 className="mt-1 text-lg font-black text-slate-950 sm:text-2xl">좋은 특가만 빠르게 좁혀보기</h3>
                 </div>
                 <p className="text-xs font-bold leading-5 text-slate-500">
-                  검수 완료 구매 링크 {dataQuality.verifiedLinkCount}개 · 직접 구매 링크 비율 {dataQuality.verifiedLinkRate}%
+                  판매처 이동 확인 특가 {dataQuality.verifiedLinkCount}개 · 구매 전 최종 가격 확인 권장
                 </p>
               </div>
               <div className="mt-4 grid grid-cols-2 gap-2 lg:grid-cols-4">
@@ -953,11 +953,11 @@ export default function Home() {
                   type="button"
                   onClick={() => openQuickDiscovery("verified")}
                   className="min-h-[104px] rounded-3xl border border-emerald-100 bg-emerald-50 p-3 text-left transition hover:-translate-y-0.5 hover:border-emerald-200 hover:bg-emerald-100"
-                  aria-label="검수 완료 구매 링크 특가만 보기"
+                  aria-label="판매처 이동이 확인된 특가만 보기"
                 >
                   <CheckCircle2 size={20} className="text-emerald-700" />
-                  <span className="mt-3 block text-sm font-black text-emerald-900">검수 완료 구매 링크</span>
-                  <span className="mt-1 block text-xs font-bold text-emerald-700">{dataQuality.verifiedLinkCount}개 바로 확인</span>
+                  <span className="mt-3 block text-sm font-black text-emerald-900">구매처 바로 확인</span>
+                  <span className="mt-1 block text-xs font-bold text-emerald-700">{dataQuality.verifiedLinkCount}개 먼저 보기</span>
                 </button>
                 <button
                   type="button"
