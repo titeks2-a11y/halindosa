@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AlertTriangle, ArrowLeft, Clock, ShieldCheck, Tag, Truck } from "lucide-react";
+import { BenefitConditionChecklist } from "@/components/BenefitConditionChecklist";
 import { DealDetailActions } from "@/components/DealDetailActions";
 import { DealReportQuickActions } from "@/components/DealReportQuickActions";
 import { DealTrustBadge } from "@/components/DealTrustBadge";
@@ -222,6 +223,7 @@ export default async function DealDetailPage({ params }: DealDetailPageProps) {
           </div>
         </section>
 
+        <BenefitConditionChecklist deal={deal} />
         <PurchaseSafetyChecklist deal={deal} />
         <PurchaseReadinessSummary deal={deal} />
         <DealReportQuickActions deal={deal} />

@@ -545,6 +545,7 @@ async function checkUiAccessibility() {
   const purchaseLinkOverview = await text("components/PurchaseLinkOverview.tsx");
   const purchaseReadinessSummary = await text("components/PurchaseReadinessSummary.tsx");
   const purchaseSafetyChecklist = await text("components/PurchaseSafetyChecklist.tsx");
+  const benefitConditionChecklist = await text("components/BenefitConditionChecklist.tsx");
   const priceAlertPanel = await text("components/PriceAlertPanel.tsx");
   const adminReportQueue = await text("components/AdminReportQueue.tsx");
   const reportForm = await text("components/ReportForm.tsx");
@@ -731,6 +732,21 @@ async function checkUiAccessibility() {
     fail("purchase safety checklist", "Deal detail and guide should provide a reusable purchase safety checklist with report CTA.");
   } else {
     pass("purchase safety checklist", "Reusable purchase safety checklist guides users through final price, shipping, return, and report checks.");
+  }
+
+  if (
+    !dealDetailPage.includes("<BenefitConditionChecklist") ||
+    !benefitConditionChecklist.includes('aria-label="혜택 조건 확인"') ||
+    !benefitConditionChecklist.includes("선착순 여부") ||
+    !benefitConditionChecklist.includes("회원가입 필요 여부") ||
+    !benefitConditionChecklist.includes("배송비 여부") ||
+    !benefitConditionChecklist.includes("쿠폰 조건") ||
+    !benefitConditionChecklist.includes("혜택 신고") ||
+    !smoke.includes("Detail page missing benefit condition checklist")
+  ) {
+    fail("benefit condition checklist", "Deal detail should explain freebie, coupon, shipping, signup, first-come, and report conditions before users claim a benefit.");
+  } else {
+    pass("benefit condition checklist", "Deal detail explains benefit type, signup, shipping, coupon, first-come, expiry, and report conditions before users claim a benefit.");
   }
 
   if (
