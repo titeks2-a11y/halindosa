@@ -49,7 +49,7 @@ const sections = [
     icon: BadgePercent,
     getDeals: (deals: Deal[]) =>
       [...deals]
-        .filter((deal) => deal.discountRate >= 50 || deal.tags.some((tag) => /역대가|최저가/.test(tag)))
+        .filter((deal) => deal.discountRate >= 50 || deal.tags.some((tag) => /역대가|가격\s*하락|쿠폰/.test(tag)))
         .sort((a, b) => b.discountRate - a.discountRate || sectionScore(b) - sectionScore(a))
         .slice(0, 4)
   },
