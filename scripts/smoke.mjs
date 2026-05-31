@@ -101,6 +101,8 @@ await check("mypage data controls", async () => {
   const text = await response.text();
   assert(response.status === 200, `Expected 200, got ${response.status}`);
   assert(text.includes("회원 기능 설정 필요") || text.includes("로그인하고 관심 특가"), "Mypage missing account auth panel");
+  assert(text.includes("빠른 작업"), "Mypage missing quick actions section");
+  assert(text.includes("찜한 특가") && text.includes("알림 센터") && text.includes("카테고리"), "Mypage missing quick action links");
   assert(text.includes("기기 데이터 관리"), "Mypage missing local data controls");
   assert(text.includes("찜/최근 본 특가/가격 알림 삭제"), "Mypage missing local deal data delete action");
   assert(text.includes("가격 알림 조건"), "Mypage missing price alert deletion scope");

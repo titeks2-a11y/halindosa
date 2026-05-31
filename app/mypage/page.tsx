@@ -1,11 +1,26 @@
 import Link from "next/link";
-import { CheckCircle2, Mail, ShieldCheck, User } from "lucide-react";
+import { Bell, CheckCircle2, Heart, Mail, ShieldCheck, ShoppingBag, User } from "lucide-react";
 import { AccountPanel } from "@/components/AccountPanel";
 import { LocalDataControls } from "@/components/LocalDataControls";
 import { MypageConsentSettings } from "@/components/MypageConsentSettings";
 import { getSupportMailto, supportEmail } from "@/lib/support";
 
 export default function MyPage() {
+  const quickActions = [
+    { href: "/favorites", label: "찜한 특가", description: "저장한 관심 특가 확인", icon: Heart },
+    { href: "/notifications", label: "알림 센터", description: "마감·인기·무료배송 특가", icon: Bell },
+    { href: "/categories", label: "카테고리", description: "원하는 할인 영역 탐색", icon: ShoppingBag },
+    { href: "/guide", label: "서비스 안내", description: "구매 전 확인 기준", icon: ShieldCheck }
+  ];
+  const readinessItems = [
+    "앱 이름 할인도사 적용",
+    "Android 패키지 com.halindosa.app",
+    "개인정보처리방침 준비",
+    "이용약관 준비",
+    "외부 링크 리다이렉트 구조",
+    "앱 아이콘/스플래시 구조"
+  ];
+
   return (
     <div className="space-y-4 px-3 py-4 sm:px-4 lg:px-0 lg:py-8">
       <section className="rounded-[24px] border border-slate-200 bg-white p-5 shadow-sm lg:rounded-[28px] lg:p-7">
@@ -25,15 +40,35 @@ export default function MyPage() {
 
       <AccountPanel />
 
+      <section className="rounded-[22px] border border-slate-200 bg-white p-4 shadow-sm">
+        <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <h2 className="text-base font-black text-slate-950">빠른 작업</h2>
+            <p className="mt-1 text-xs font-bold text-slate-500">자주 쓰는 화면과 정책 안내를 바로 열 수 있습니다.</p>
+          </div>
+          <span className="rounded-full bg-red-50 px-3 py-1 text-xs font-black text-dossa-red">앱 버전 1.0.0</span>
+        </div>
+        <div className="mt-3 grid gap-2 sm:grid-cols-2">
+          {quickActions.map((item) => {
+            const Icon = item.icon;
+
+            return (
+              <Link key={item.href} href={item.href} className="flex items-center gap-3 rounded-2xl bg-slate-50 p-3 transition hover:bg-red-50">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-white text-dossa-red">
+                  <Icon size={18} />
+                </span>
+                <span className="min-w-0">
+                  <span className="block text-sm font-black text-slate-950">{item.label}</span>
+                  <span className="mt-0.5 block truncate text-xs font-bold text-slate-500">{item.description}</span>
+                </span>
+              </Link>
+            );
+          })}
+        </div>
+      </section>
+
       <section className="grid gap-3 sm:grid-cols-2">
-        {[
-          "앱 이름 할인도사 적용",
-          "Android 패키지 com.halindosa.app",
-          "개인정보처리방침 준비",
-          "이용약관 준비",
-          "외부 링크 리다이렉트 구조",
-          "앱 아이콘/스플래시 구조"
-        ].map((item) => (
+        {readinessItems.map((item) => (
           <div key={item} className="flex items-center gap-2 rounded-2xl border border-slate-200 bg-white p-4 text-sm font-black text-slate-700 shadow-sm">
             <CheckCircle2 size={18} className="text-dossa-red" />
             {item}
@@ -61,7 +96,9 @@ export default function MyPage() {
             문의하기 · {supportEmail}
           </a>
         </div>
-        <p className="mt-4 rounded-2xl bg-red-50 px-4 py-3 text-sm font-black text-dossa-red">앱 버전 1.0.0</p>
+        <p className="mt-4 rounded-2xl bg-red-50 px-4 py-3 text-sm font-black text-dossa-red">
+          문의, 정책 확인, 기기 데이터 삭제는 이 화면에서 처리할 수 있습니다.
+        </p>
       </section>
 
       <MypageConsentSettings />
