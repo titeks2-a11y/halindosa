@@ -21,6 +21,7 @@ export function SortSelect({ value, onChange }: SortSelectProps) {
       <select
         value={value}
         onChange={(event) => onChange(event.target.value as DealSort)}
+        aria-label="특가 정렬 방식"
         className="h-full min-h-[54px] w-full appearance-none rounded-2xl border border-slate-200 bg-white py-3 pl-10 pr-8 text-sm font-bold text-slate-700 shadow-sm outline-none transition focus:border-dossa-red focus:ring-4 focus:ring-red-100"
       >
         {sortOptions.map((option) => (

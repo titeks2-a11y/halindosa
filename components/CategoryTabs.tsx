@@ -26,6 +26,8 @@ export function CategoryTabs({ selected, onSelect, counts = {} }: CategoryTabsPr
                     type="button"
                     onClick={() => onSelect(channel.id)}
                     title={channel.description}
+                    aria-pressed={active}
+                    aria-label={`${channel.label} 카테고리 ${active ? "선택됨" : "선택"}${counts[channel.id] !== undefined ? `, 특가 ${counts[channel.id]}개` : ""}`}
                     className={`shrink-0 rounded-full border px-4 py-2 text-sm font-bold transition ${
                       active
                         ? "border-dossa-red bg-dossa-red text-white shadow-md shadow-red-100"

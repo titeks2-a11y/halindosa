@@ -229,6 +229,9 @@ async function checkUiAccessibility() {
   const bottomNav = await text("components/BottomNav.tsx");
   const bottomNavigation = await text("components/BottomNavigation.tsx");
   const commercialFooter = await text("components/CommercialFooter.tsx");
+  const categoryTabs = await text("components/CategoryTabs.tsx");
+  const searchBar = await text("components/SearchBar.tsx");
+  const sortSelect = await text("components/SortSelect.tsx");
   const topNavigation = await text("components/TopNavigation.tsx");
   const liveDealFeed = await text("components/LiveDealFeed.tsx");
   const hotSignalSection = await text("components/HotSignalSection.tsx");
@@ -278,6 +281,24 @@ async function checkUiAccessibility() {
     fail("live card media accessibility", "Live deal and signal cards should expose meaningful image alt text and keyboard activation.");
   } else {
     pass("live card media accessibility", "Live deal and signal cards expose meaningful image alt text and keyboard activation.");
+  }
+
+  if (
+    !searchBar.includes('aria-label="상품명, 쇼핑몰, 카테고리 검색"') ||
+    !sortSelect.includes('aria-label="특가 정렬 방식"') ||
+    !categoryTabs.includes("aria-pressed={active}") ||
+    !categoryTabs.includes("카테고리")
+  ) {
+    fail("search filter accessibility", "Search, sort, and category controls should expose accessible names and selected state.");
+  } else if (
+    !homePage.includes('aria-label="쇼핑몰 필터"') ||
+    !homePage.includes("무료배송만 보기") ||
+    !homePage.includes("구매링크 확인된 특가만 보기") ||
+    !homePage.includes("검색과 필터 조건 초기화")
+  ) {
+    fail("search filter accessibility", "Home filter controls should expose accessible names and toggle state labels.");
+  } else {
+    pass("search filter accessibility", "Search, sort, category, mall, and quick filter controls expose accessible names and state.");
   }
 
   const requiredFooterSnippets = ['href="/guide"', 'href="/terms"', 'href="/privacy"', "flex-wrap"];

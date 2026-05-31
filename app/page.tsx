@@ -1023,6 +1023,7 @@ export default function Home() {
                   <select
                     value={mallFilter}
                     onChange={(event) => setMallFilter(event.target.value)}
+                    aria-label="쇼핑몰 필터"
                     className="min-h-[54px] w-full rounded-2xl border border-slate-200 bg-white px-4 text-sm font-black text-slate-700 shadow-sm outline-none transition hover:border-red-200 focus:border-red-300 focus:ring-4 focus:ring-red-50"
                   >
                     {mallFilters.map((mall) => (
@@ -1041,6 +1042,7 @@ export default function Home() {
                       : "border-slate-200 bg-white text-slate-600 hover:border-red-200 hover:text-dossa-red"
                   }`}
                   aria-pressed={freeShippingOnly}
+                  aria-label={`무료배송만 보기 ${freeShippingOnly ? "켜짐" : "꺼짐"}`}
                 >
                   <Truck size={18} />
                   무료배송만
@@ -1054,6 +1056,7 @@ export default function Home() {
                       : "border-slate-200 bg-white text-slate-600 hover:border-emerald-200 hover:text-emerald-700"
                   }`}
                   aria-pressed={verifiedOnly}
+                  aria-label={`구매링크 확인된 특가만 보기 ${verifiedOnly ? "켜짐" : "꺼짐"}`}
                 >
                   <CheckCircle2 size={18} />
                   구매링크 확인만
@@ -1067,6 +1070,7 @@ export default function Home() {
                       : "border-slate-200 bg-white text-slate-600 hover:border-red-200 hover:text-dossa-red"
                   }`}
                   aria-pressed={hotOnly}
+                  aria-label={`핫딜만 보기 ${hotOnly ? "켜짐" : "꺼짐"}`}
                 >
                   <Flame size={18} />
                   핫딜만
@@ -1080,6 +1084,7 @@ export default function Home() {
                       : "border-slate-200 bg-white text-slate-600 hover:border-amber-200 hover:text-amber-700"
                   }`}
                   aria-pressed={endingSoonOnly}
+                  aria-label={`마감임박 특가만 보기 ${endingSoonOnly ? "켜짐" : "꺼짐"}`}
                 >
                   <Timer size={18} />
                   마감임박만
@@ -1107,6 +1112,7 @@ export default function Home() {
                   type="button"
                   onClick={resetFilters}
                   disabled={!activeFilterLabels.length}
+                  aria-label="검색과 필터 조건 초기화"
                   className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-2xl border border-slate-200 bg-white px-4 text-sm font-black text-slate-600 transition hover:border-red-100 hover:text-dossa-red disabled:cursor-not-allowed disabled:opacity-45"
                 >
                   조건 초기화

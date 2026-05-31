@@ -12,6 +12,7 @@ export function SearchBar({ value, onChange }: SearchBarProps) {
       <input
         value={value}
         onChange={(event) => onChange(event.target.value)}
+        aria-label="상품명, 쇼핑몰, 카테고리 검색"
         placeholder="상품명, 쇼핑몰, 카테고리를 검색해보세요"
         className="h-13 w-full rounded-2xl border border-slate-200 bg-white py-4 pl-12 pr-12 text-base font-semibold text-slate-900 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-dossa-red focus:ring-4 focus:ring-red-100"
       />
