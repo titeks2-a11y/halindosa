@@ -398,6 +398,8 @@ await check("report page reason prefill", async () => {
   assert(text.includes("가격 오류 신고"), "Report page missing title");
   assert(text.includes("애플워치 호환 스포츠 밴드"), "Report page missing deal summary");
   assert(text.includes("품절"), "Report page missing sold out reason option");
+  assert(text.includes("구매 기준 보기") && text.includes("문의하기"), "Report page missing post-submit next actions");
+  assert(text.includes("support@halindosa.com"), "Report page missing support contact");
 });
 
 await check("report validation", async () => {

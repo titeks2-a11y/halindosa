@@ -2,8 +2,10 @@
 
 import type { FormEvent } from "react";
 import { useState } from "react";
+import Link from "next/link";
 import { maxReportMessageLength } from "@/lib/reportConfig";
 import { getReportReasonLabel } from "@/lib/reports";
+import { getSupportMailto, supportEmail } from "@/lib/support";
 
 interface ReportFormProps {
   dealId: string;
@@ -124,11 +126,41 @@ export function ReportForm({ dealId, disabled, initialReason }: ReportFormProps)
         >
           <p>{status}</p>
           {requestId ? <p className="mt-1 text-xs opacity-80">접수번호 {requestId}</p> : null}
+          {isSuccess ? (
+            <div className="mt-3 grid gap-2 sm:grid-cols-3">
+              <Link href={`/deals/${dealId}`} className="rounded-xl bg-white px-3 py-2 text-center text-xs font-black text-emerald-800 shadow-sm">
+                상세로 돌아가기
+              </Link>
+              <Link href="/guide" className="rounded-xl bg-white px-3 py-2 text-center text-xs font-black text-emerald-800 shadow-sm">
+                구매 기준 보기
+              </Link>
+              <a href={getSupportMailto(`신고 접수 문의 ${requestId || dealId}`)} className="rounded-xl bg-white px-3 py-2 text-center text-xs font-black text-emerald-800 shadow-sm">
+                문의하기
+              </a>
+            </div>
+          ) : null}
         </div>
       ) : null}
       <p className="rounded-2xl bg-slate-50 p-3 text-xs font-bold leading-5 text-slate-500">
-        신고 내용은 운영 검수 큐에 반영됩니다. 실제 구매 취소, 환불, 배송 문의는 판매처 고객센터에서 처리해야 합니다.
+        신고 내용은 운영 검수 큐에 반영됩니다. 실제 구매 취소, 환불, 배송 문의는 판매처 고객센터에서 처리해야 합니다. 추가 문의가 필요하면 {supportEmail}로 접수번호를 함께 보내주세요.
       </p>
+      <div className="rounded-2xl border border-slate-200 bg-white p-3">
+        <p className="text-xs font-black text-slate-900">신고 접수 후 안내</p>
+        <p className="mt-1 text-xs font-bold leading-5 text-slate-500">
+          가격 기준과 외부 판매처 이동 원칙을 확인하거나, 접수번호를 포함해 운영팀에 문의할 수 있습니다.
+        </p>
+        <div className="mt-3 grid gap-2 sm:grid-cols-3">
+          <Link href={dealId ? `/deals/${dealId}` : "/"} className="rounded-xl bg-slate-50 px-3 py-2 text-center text-xs font-black text-slate-700">
+            상세로 돌아가기
+          </Link>
+          <Link href="/guide" className="rounded-xl bg-slate-50 px-3 py-2 text-center text-xs font-black text-slate-700">
+            구매 기준 보기
+          </Link>
+          <a href={getSupportMailto(`신고 접수 문의 ${dealId}`)} className="rounded-xl bg-slate-50 px-3 py-2 text-center text-xs font-black text-slate-700">
+            문의하기
+          </a>
+        </div>
+      </div>
     </form>
   );
 }
