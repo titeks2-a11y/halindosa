@@ -48,6 +48,28 @@ function getMinimumOrderLabel(deal: Deal) {
   return `${formatPrice(deal.minimumOrderAmount)} 이상`;
 }
 
+function getPriorityReason(deal: Deal, referenceNow: number) {
+  const hoursLeft = (new Date(deal.expireAt).getTime() - referenceNow) / (60 * 60 * 1000);
+  if (deal.isExpired) return "종료 가능성이 있어 판매처 상태를 먼저 확인하세요.";
+  if (hoursLeft <= 6 || deal.isEndingSoon) return "마감 시간이 가까워 지금 먼저 확인할 혜택입니다.";
+  if (deal.dealType === "freebie" || deal.dealType === "experience") return "비용 부담이 낮은 무료·체험 혜택입니다.";
+  if (deal.dealType === "coupon" || deal.dealType === "foodDelivery") return "결제 전 쿠폰 조건을 먼저 챙기기 좋습니다.";
+  if (deal.dealType === "point") return "출석체크나 페이 적립처럼 매일 반복 확인하기 좋습니다.";
+  if (deal.isFreeShipping) return "배송비를 줄일 수 있어 생활비 절약 체감이 큽니다.";
+  return "반응과 링크 상태가 좋은 혜택입니다.";
+}
+
+function getPriorityScore(deal: Deal, referenceNow: number) {
+  const hoursLeft = Math.max(0, (new Date(deal.expireAt).getTime() - referenceNow) / (60 * 60 * 1000));
+  const urgencyScore = Math.max(0, 36 - hoursLeft) * 2;
+  const benefitScore = deal.dealType === "freebie" || deal.dealType === "experience" ? 22 : deal.dealType === "coupon" || deal.dealType === "point" ? 16 : 8;
+  const trustScore = deal.isVerified ? 12 : 0;
+  const shippingScore = deal.isFreeShipping ? 8 : 0;
+  const engagementScore = Math.min(20, deal.clickCount * 0.18 + deal.likeCount * 0.35);
+
+  return urgencyScore + benefitScore + trustScore + shippingScore + engagementScore + deal.reliabilityScore * 0.08;
+}
+
 export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
   const [referenceNow] = useState(() => Date.now());
   const [activeType, setActiveType] = useState<"all" | DealBenefitType>("all");
@@ -140,6 +162,15 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
       }
     ],
     [deals]
+  );
+
+  const priorityQueue = useMemo(
+    () =>
+      [...deals]
+        .filter((deal) => !deal.isSoldOut && deal.linkStatus !== "broken")
+        .sort((a, b) => getPriorityScore(b, referenceNow) - getPriorityScore(a, referenceNow))
+        .slice(0, 5),
+    [deals, referenceNow]
   );
 
   const toggleFavorite = (id: string) => {
@@ -250,6 +281,43 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
                 </button>
               );
             })}
+          </div>
+        </section>
+
+        <section className="rounded-[28px] border border-red-100 bg-white p-4 shadow-sm sm:p-5" aria-label="오늘 우선 확인 큐">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-black text-dossa-red">오늘 우선 확인 큐</p>
+              <h2 className="mt-1 text-2xl font-black tracking-tight text-slate-950">무료·쿠폰 혜택은 이 순서로 보세요</h2>
+            </div>
+            <p className="max-w-md text-sm font-bold leading-6 text-slate-500">
+              마감 시간, 무료/쿠폰 유형, 링크 확인 상태, 사용자 반응을 함께 보고 오늘 먼저 챙길 혜택을 정리했습니다.
+            </p>
+          </div>
+          <div className="mt-4 grid gap-2">
+            {priorityQueue.map((deal, index) => (
+              <button
+                key={deal.id}
+                type="button"
+                onClick={() => openDeal(deal)}
+                className="group grid min-h-[86px] grid-cols-[auto_1fr_auto] items-center gap-3 rounded-3xl border border-slate-100 bg-slate-50 p-3 text-left transition hover:border-red-200 hover:bg-red-50"
+                aria-label={`${deal.title} 오늘 우선 확인`}
+              >
+                <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-sm font-black text-dossa-red shadow-sm">
+                  {index + 1}
+                </span>
+                <span className="min-w-0">
+                  <span className="block truncate text-sm font-black text-slate-950">{deal.title}</span>
+                  <span className="mt-1 block truncate text-xs font-bold text-slate-500">
+                    {deal.mallName} · {getBenefitTypeLabel(deal.dealType)} · {deal.claimCta}
+                  </span>
+                  <span className="mt-1 line-clamp-2 text-xs font-bold leading-5 text-slate-500">{getPriorityReason(deal, referenceNow)}</span>
+                </span>
+                <span className="hidden shrink-0 rounded-2xl bg-white px-3 py-2 text-xs font-black text-dossa-red shadow-sm sm:inline-flex">
+                  바로 확인
+                </span>
+              </button>
+            ))}
           </div>
         </section>
 
