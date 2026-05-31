@@ -59,7 +59,7 @@ export default function OnboardingPage() {
 
       {configured && !user ? (
         <section className="rounded-3xl border border-amber-100 bg-amber-50 p-4 text-sm font-bold leading-6 text-amber-900">
-          로그인하면 관심 설정과 찜 목록을 계정 기반으로 이어갈 수 있습니다. 먼저 둘러본 뒤 나중에 로그인해도 됩니다.
+          로그인하면 관심 설정과 찜 목록을 계정으로 이어갈 수 있습니다. 먼저 둘러본 뒤 나중에 로그인해도 됩니다.
         </section>
       ) : null}
 

@@ -48,13 +48,13 @@ export function SocialLoginButtons({ mode }: SocialLoginButtonsProps) {
     setError("");
 
     if (!provider.enabled) {
-      setError("네이버 로그인은 현재 준비 중입니다. 지금은 이메일, 구글, 카카오 로그인 또는 비회원 탐색을 이용해주세요.");
+      setError("네이버 로그인은 지금 이용할 수 없습니다. 이메일, 구글, 카카오 로그인 또는 비회원 탐색을 이용해주세요.");
       return;
     }
 
     const client = getSupabaseBrowserClient();
     if (!configured || !client) {
-      setError("현재 빠른 로그인 준비 중입니다. 특가 탐색은 비회원으로 계속 이용할 수 있습니다.");
+      setError("빠른 로그인을 사용할 수 없습니다. 특가 탐색은 비회원으로 계속 이용할 수 있습니다.");
       return;
     }
 

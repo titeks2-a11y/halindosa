@@ -19,7 +19,7 @@ function AuthCallbackContent() {
       const next = getSafeNextPath(searchParams.get("next"));
 
       if (!isSupabaseAuthConfigured()) {
-        setMessage("현재 계정 로그인을 준비 중입니다. 잠시 후 다시 시도해 주세요.");
+        setMessage("계정 로그인을 사용할 수 없습니다. 잠시 후 다시 시도해 주세요.");
         return;
       }
 

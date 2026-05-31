@@ -149,9 +149,9 @@ export function AccountPanel() {
         <div className="flex items-center gap-3">
           <Settings className="text-dossa-red" size={22} />
           <div>
-            <h2 className="text-lg font-black text-slate-950">계정 동기화 준비 중</h2>
+            <h2 className="text-lg font-black text-slate-950">비회원으로 이용 중</h2>
             <p className="mt-1 text-sm font-semibold leading-6 text-dossa-deep">
-              현재 환경에서는 비회원 탐색과 기기 저장 찜 기능을 이용할 수 있습니다. 운영 계정 기능이 활성화되면 찜, 최근 본 상품, 관심 카테고리를 계정으로 이어볼 수 있습니다.
+              모든 특가를 둘러볼 수 있고, 찜과 최근 본 상품은 이 기기에 저장됩니다. 로그인 환경에서는 관심 특가를 계정으로 이어볼 수 있습니다.
             </p>
           </div>
         </div>
@@ -168,7 +168,7 @@ export function AccountPanel() {
           </span>
           <div>
             <h2 className="text-lg font-black text-slate-950">로그인하고 관심 특가를 이어보세요</h2>
-            <p className="mt-1 text-sm font-semibold text-slate-500">찜, 관심 카테고리, 알림 설정을 계정 기반으로 확장할 수 있습니다.</p>
+            <p className="mt-1 text-sm font-semibold text-slate-500">찜, 관심 카테고리, 알림 설정을 계정으로 안전하게 보관할 수 있습니다.</p>
           </div>
         </div>
         <div className="mt-4 grid grid-cols-2 gap-2">

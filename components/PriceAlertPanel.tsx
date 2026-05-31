@@ -109,7 +109,7 @@ export function PriceAlertPanel({ dealId, title, salePrice, discountRate }: Pric
           {discountRate}% 할인 중인 상품입니다. 희망가가 현재가보다 낮으면 가격 추적 후보로 저장됩니다.
         </span>
         <span>
-          로그인하면 향후 찜, 최근 본 상품, 관심 카테고리와 함께 계정 기반 가격 알림으로 확장할 수 있습니다.{" "}
+          로그인하면 찜, 최근 본 상품, 관심 카테고리와 함께 가격 알림 조건을 이어볼 수 있습니다.{" "}
           <Link href="/signup" className="font-black text-dossa-red">
             회원가입
           </Link>

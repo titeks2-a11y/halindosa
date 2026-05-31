@@ -363,7 +363,13 @@ async function checkPublicClaimCopy() {
     "Supabase 계정",
     "Naver Developers",
     "커스텀 OIDC",
-    "dry-run"
+    "dry-run",
+    "운영 계정 기능",
+    "계정 동기화 준비 중",
+    "확장할 수 있습니다",
+    "현재 계정 기능을 준비",
+    "현재 빠른 로그인 준비",
+    "현재 계정 로그인을 준비"
   ];
   const internalFindings = [];
 

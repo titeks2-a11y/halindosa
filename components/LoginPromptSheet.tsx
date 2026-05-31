@@ -24,7 +24,7 @@ export function LoginPromptSheet({ isOpen, onClose }: LoginPromptSheetProps) {
         </div>
         <h2 id="login-prompt-title" className="mt-4 text-2xl font-black text-slate-950">찜하려면 로그인이 필요해요</h2>
         <p className="mt-2 text-sm font-bold leading-6 text-slate-500">
-          로그인하면 찜한 상품, 최근 본 상품, 관심 카테고리를 기기 변경 후에도 이어서 볼 수 있게 확장할 수 있습니다.
+          로그인하면 찜한 상품, 최근 본 상품, 관심 카테고리를 계정으로 이어볼 수 있습니다.
         </p>
         <div className="mt-5 grid grid-cols-2 gap-2">
           <Link href="/login" className="inline-flex items-center justify-center gap-2 rounded-2xl bg-dossa-red px-4 py-3 text-sm font-black text-white">
