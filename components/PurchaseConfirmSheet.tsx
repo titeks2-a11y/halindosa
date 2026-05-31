@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect } from "react";
 import { AlertTriangle, CheckCircle2, ExternalLink, ShieldCheck, X } from "lucide-react";
-import { getAffiliateDisclosure, getDealLinkTrustLabel } from "@/lib/affiliate";
+import { getAffiliateDisclosure, getDealLinkTrustLabel, resolveDealDestinationUrl } from "@/lib/affiliate";
 import { isVerifiedPurchaseLink } from "@/lib/deals/quality";
 import { getDealPurchaseConfidenceLabel } from "@/lib/deals/linkValidator";
 import { formatPrice, getRelativeTime } from "@/lib/format";
@@ -14,6 +14,14 @@ interface PurchaseConfirmSheetProps {
   isOpen: boolean;
   onClose: () => void;
   onConfirm: (deal: Deal) => void;
+}
+
+function getDestinationHost(deal: Deal) {
+  try {
+    return new URL(resolveDealDestinationUrl(deal)).hostname.replace(/^www\./, "");
+  } catch {
+    return deal.mallName;
+  }
 }
 
 export function PurchaseConfirmSheet({ deal, isOpen, onClose, onConfirm }: PurchaseConfirmSheetProps) {
@@ -32,6 +40,7 @@ export function PurchaseConfirmSheet({ deal, isOpen, onClose, onConfirm }: Purch
 
   const isVerified = isVerifiedPurchaseLink(deal);
   const StatusIcon = isVerified ? CheckCircle2 : AlertTriangle;
+  const destinationHost = getDestinationHost(deal);
 
   return (
     <div
@@ -52,6 +61,9 @@ export function PurchaseConfirmSheet({ deal, isOpen, onClose, onConfirm }: Purch
             <h2 className="mt-1 line-clamp-2 text-lg font-black leading-snug text-slate-950">{deal.title}</h2>
             <p className="mt-1 text-xs font-bold text-slate-500">
               {deal.mallName} · 가격 기준 {getRelativeTime(deal.priceCheckedAt)}
+            </p>
+            <p className="mt-2 inline-flex rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-black text-slate-600">
+              이동 예정 판매처: {destinationHost}
             </p>
           </div>
           <button
@@ -99,6 +111,7 @@ export function PurchaseConfirmSheet({ deal, isOpen, onClose, onConfirm }: Purch
             <ul className="mt-3 space-y-1.5 text-xs font-semibold leading-5 text-slate-600">
               <li>판매처의 최종 가격, 배송비, 쿠폰 적용 여부를 확인하세요.</li>
               <li>품절, 옵션가, 카드 할인 조건은 실시간으로 달라질 수 있습니다.</li>
+              <li>판매처 도메인이 예상과 다르면 이동하지 말고 가격/품절 신고를 남겨주세요.</li>
               <li>{getAffiliateDisclosure(deal)}</li>
             </ul>
           </div>

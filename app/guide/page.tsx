@@ -18,6 +18,11 @@ const trustItems = [
     body: "옵션가, 쿠폰, 배송비, 품절 여부는 판매처 사정에 따라 달라질 수 있습니다."
   },
   {
+    icon: ExternalLink,
+    title: "이동 전 판매처 확인",
+    body: "구매 버튼을 누르면 이동 예정 판매처와 링크 상태를 먼저 보여주고, 사용자가 확인한 뒤 외부 브라우저로 이동합니다."
+  },
+  {
     icon: Heart,
     title: "계정 동기화",
     body: "비회원은 기기에 저장하고, 로그인 사용자는 찜과 최근 본 특가를 계정 기반으로 이어볼 수 있습니다."
@@ -60,6 +65,7 @@ export default function GuidePage() {
               <li>판매처 상세 페이지의 최종 가격, 배송비, 쿠폰 적용 조건을 확인하세요.</li>
               <li>옵션 선택에 따라 앱 표시 가격과 실제 결제 가격이 달라질 수 있습니다.</li>
               <li>품절, 마감, 카드 할인 조건은 실시간으로 바뀔 수 있습니다.</li>
+              <li>이동 예정 판매처 도메인이 낯설거나 상품 정보가 다르면 구매하지 말고 신고해주세요.</li>
               <li>주문, 결제, 환불, 배송 문의는 구매한 판매처 정책을 따릅니다.</li>
             </ul>
           </div>
@@ -75,6 +81,9 @@ export default function GuidePage() {
             <h2 className="text-base font-black text-slate-950">외부 판매처 이동 방식</h2>
             <p className="mt-2 text-sm font-semibold leading-6 text-slate-500">
               판매처 이동 버튼은 할인도사 리다이렉트 경로를 거쳐 열립니다. 이 구조는 추후 제휴 링크, 클릭 품질 점검, 잘못된 링크 신고 처리를 위해 사용됩니다.
+            </p>
+            <p className="mt-3 text-sm font-semibold leading-6 text-slate-500">
+              이동 전 확인 창에서 판매처 도메인, 가격 기준 시간, 링크 상태를 안내해 사용자가 외부 사이트 이동 여부를 직접 판단할 수 있게 합니다.
             </p>
             <p className="mt-3 text-sm font-semibold leading-6 text-slate-500">
               일부 링크에는 제휴 파라미터가 포함될 수 있으며, 구매가 발생하면 할인도사가 수수료를 받을 수 있습니다.

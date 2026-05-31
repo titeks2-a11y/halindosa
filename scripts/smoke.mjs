@@ -168,6 +168,7 @@ await check("service guide page", async () => {
   assert(text.includes("서비스 안내"), "Guide page missing title");
   assert(text.includes("구매 전 꼭 확인하세요"), "Guide page missing purchase warning");
   assert(text.includes("외부 판매처 이동 방식"), "Guide page missing redirect explanation");
+  assert(text.includes("이동 전 판매처 확인"), "Guide page missing pre-purchase destination check explanation");
 });
 
 await check("category and notification pages", async () => {
