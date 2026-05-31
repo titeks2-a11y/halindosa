@@ -33,6 +33,9 @@ function run(command, args) {
 
 async function checkPackage() {
   const pkg = JSON.parse(await text("package.json"));
+  const lock = JSON.parse(await text("package-lock.json"));
+  const androidGradle = await text("android/app/build.gradle");
+  const iosProject = await text("ios/App/App.xcodeproj/project.pbxproj");
   const requiredScripts = [
     "build",
     "build:android",
@@ -61,6 +64,22 @@ async function checkPackage() {
 
   if (!pkg.dependencies?.["@supabase/supabase-js"]) fail("Supabase Auth dependency", "Missing @supabase/supabase-js.");
   else pass("Supabase Auth dependency", pkg.dependencies["@supabase/supabase-js"]);
+
+  const versionIssues = [];
+  if (pkg.version !== "1.0.0") versionIssues.push(`package.json version is ${pkg.version}`);
+  if (lock.version !== pkg.version) versionIssues.push(`package-lock root version is ${lock.version}`);
+  if (lock.packages?.[""]?.version !== pkg.version) {
+    versionIssues.push(`package-lock package version is ${lock.packages?.[""]?.version ?? "missing"}`);
+  }
+  if (!androidGradle.includes(`versionName "${pkg.version}"`)) {
+    versionIssues.push(`Android versionName does not match ${pkg.version}`);
+  }
+  if (!iosProject.includes(`MARKETING_VERSION = ${pkg.version};`)) {
+    versionIssues.push(`iOS MARKETING_VERSION does not match ${pkg.version}`);
+  }
+
+  if (versionIssues.length) fail("release version alignment", versionIssues.join("; "));
+  else pass("release version alignment", `Web, lockfile, Android, and iOS versions are aligned at ${pkg.version}.`);
 }
 
 async function checkReleaseEvidenceFreshness() {

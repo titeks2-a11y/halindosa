@@ -102,6 +102,7 @@
 - 홈의 링크 품질 안내를 내부 비율/검수 표현 대신 `구매처 바로 확인`, `판매처 이동 확인 특가`처럼 소비자 친화적인 문구로 조정
 - release doctor가 `docs/release-evidence.md`의 최신 커밋과 현재 Git 커밋 일치 여부를 확인해 제출 전 증빙 스냅샷 누락을 방지하도록 개선
 - 가격/품절 신고 접수 후 상세 복귀, 구매 기준 안내, 문의하기로 이어지는 다음 행동 UX를 추가하고 support contact 노출을 smoke로 검증
+- 웹 package 버전을 Android/iOS와 동일한 1.0.0으로 정렬하고 release doctor가 package-lock, Android `versionName`, iOS `MARKETING_VERSION` 불일치를 자동으로 잡도록 보강
 
 ### PHASE 2 코드 품질
 
