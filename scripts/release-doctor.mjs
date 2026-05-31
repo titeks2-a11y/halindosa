@@ -507,6 +507,7 @@ async function checkUiAccessibility() {
   const commercialFooter = await text("components/CommercialFooter.tsx");
   const categoryTabs = await text("components/CategoryTabs.tsx");
   const searchBar = await text("components/SearchBar.tsx");
+  const searchDiscoveryPanel = await text("components/SearchDiscoveryPanel.tsx");
   const sortSelect = await text("components/SortSelect.tsx");
   const dealDetailActions = await text("components/DealDetailActions.tsx");
   const topNavigation = await text("components/TopNavigation.tsx");
@@ -620,6 +621,11 @@ async function checkUiAccessibility() {
 
   if (
     !searchBar.includes('aria-label="상품명, 쇼핑몰, 카테고리 검색"') ||
+    !searchDiscoveryPanel.includes('aria-label="검색 도우미"') ||
+    !searchDiscoveryPanel.includes("인기 검색어") ||
+    !searchDiscoveryPanel.includes("최근 검색어") ||
+    !homePage.includes("recentSearchStorageKey") ||
+    !homePage.includes("selectSearchKeyword") ||
     !sortSelect.includes('aria-label="특가 정렬 방식"') ||
     !categoryTabs.includes("aria-pressed={active}") ||
     !categoryTabs.includes("카테고리")

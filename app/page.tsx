@@ -16,6 +16,7 @@ import { NotificationPreferences } from "@/components/NotificationPreferences";
 import { PriceAlertList } from "@/components/PriceAlertList";
 import { PurchaseConfirmSheet } from "@/components/PurchaseConfirmSheet";
 import { SearchBar } from "@/components/SearchBar";
+import { SearchDiscoveryPanel } from "@/components/SearchDiscoveryPanel";
 import { SortSelect } from "@/components/SortSelect";
 import { Toast } from "@/components/Toast";
 import { useAuth } from "@/components/AuthProvider";
@@ -69,6 +70,23 @@ const toastMessages = [
   "💳 카드할인 적용 가능한 핫딜을 찾았습니다.",
   "🛒 오늘만 진행되는 쿠폰 특가를 확인해보세요."
 ];
+const recentSearchStorageKey = "halindosa:recent-search-keywords";
+
+function readRecentSearchKeywords() {
+  if (typeof window === "undefined") return [];
+
+  try {
+    const parsed = JSON.parse(window.localStorage.getItem(recentSearchStorageKey) ?? "[]");
+    return Array.isArray(parsed) ? parsed.filter((value): value is string => typeof value === "string").slice(0, 8) : [];
+  } catch {
+    return [];
+  }
+}
+
+function storeRecentSearchKeywords(keywords: string[]) {
+  if (typeof window === "undefined") return;
+  window.localStorage.setItem(recentSearchStorageKey, JSON.stringify(keywords.slice(0, 8)));
+}
 
 async function isNativeRuntime() {
   const localHost = "local" + "host";
@@ -238,6 +256,7 @@ export default function Home() {
   const [catalog, setCatalog] = useState<Deal[]>(mockDeals);
   const [activeView, setActiveView] = useState<AppView>("home");
   const [query, setQuery] = useState("");
+  const [recentSearchKeywords, setRecentSearchKeywords] = useState<string[]>([]);
   const [category, setCategory] = useState("all");
   const [sort, setSort] = useState<DealSort>("latest");
   const [freeShippingOnly, setFreeShippingOnly] = useState(false);
@@ -270,6 +289,7 @@ export default function Home() {
 
   useEffect(() => {
     const handle = window.setTimeout(() => {
+      setRecentSearchKeywords(readRecentSearchKeywords());
       const params = new URLSearchParams(window.location.search);
       const initialCategory = params.get("category");
       const initialMall = params.get("mall");
@@ -325,6 +345,22 @@ export default function Home() {
 
     return () => window.clearTimeout(handle);
   }, []);
+
+  useEffect(() => {
+    if (!hasAppliedInitialParams) return;
+    const normalizedQuery = query.trim();
+    if (normalizedQuery.length < 2) return;
+
+    const handle = window.setTimeout(() => {
+      setRecentSearchKeywords((current) => {
+        const next = [normalizedQuery, ...current.filter((keyword) => keyword !== normalizedQuery)].slice(0, 8);
+        storeRecentSearchKeywords(next);
+        return next;
+      });
+    }, 900);
+
+    return () => window.clearTimeout(handle);
+  }, [hasAppliedInitialParams, query]);
 
   useEffect(() => {
     const updateNetworkState = () => {
@@ -845,6 +881,32 @@ export default function Home() {
     [catalog]
   );
 
+  const popularSearchKeywords = useMemo(() => {
+    const source = catalog.length ? catalog : deals;
+    const keywordScores = new Map<string, number>();
+
+    for (const deal of source) {
+      const baseScore = commercialScore(deal);
+      const candidates = [
+        deal.mallName,
+        deal.category,
+        ...deal.tags.slice(0, 3),
+        ...deal.title.split(/\s+/).filter((word) => word.length >= 2).slice(0, 3)
+      ];
+
+      for (const candidate of candidates) {
+        const keyword = candidate.replace(/[^0-9A-Za-z가-힣ㄱ-ㅎㅏ-ㅣ/+.-]/g, "").trim();
+        if (keyword.length < 2 || /^\d+$/.test(keyword)) continue;
+        keywordScores.set(keyword, (keywordScores.get(keyword) ?? 0) + baseScore);
+      }
+    }
+
+    return Array.from(keywordScores.entries())
+      .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], "ko"))
+      .map(([keyword]) => keyword)
+      .slice(0, 10);
+  }, [catalog, deals]);
+
   const activeFilterLabels = useMemo(() => {
     const labels: string[] = [];
     const selectedChannel = getDealChannel(category);
@@ -884,6 +946,18 @@ export default function Home() {
     setEndingSoonOnly(false);
     setVerifiedOnly(false);
     showToast("검색 조건을 초기화했습니다.");
+  };
+
+  const selectSearchKeyword = (keyword: string) => {
+    setQuery(keyword);
+    setActiveView("home");
+    window.setTimeout(() => document.getElementById("all-deals")?.scrollIntoView({ behavior: "smooth", block: "start" }), 0);
+  };
+
+  const clearRecentSearchKeywords = () => {
+    setRecentSearchKeywords([]);
+    storeRecentSearchKeywords([]);
+    showToast("최근 검색어를 지웠습니다.");
   };
 
   const openCategory = (id: string) => {
@@ -1383,6 +1457,15 @@ export default function Home() {
               </div>
               <div className="mt-3">
                 <CategoryTabs selected={category} onSelect={setCategory} counts={categoryCounts} />
+              </div>
+              <div className="mt-4">
+                <SearchDiscoveryPanel
+                  popularKeywords={popularSearchKeywords}
+                  recentKeywords={recentSearchKeywords}
+                  resultCount={deals.length}
+                  onSelectKeyword={selectSearchKeyword}
+                  onClearRecentKeywords={clearRecentSearchKeywords}
+                />
               </div>
               <div className="mt-4 flex flex-col gap-3 rounded-2xl bg-slate-50 p-3 sm:flex-row sm:items-center sm:justify-between">
                 <div className="min-w-0">
