@@ -2,14 +2,21 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { Bell, CheckCircle2, Clock, Heart, LogOut, Settings, UserRound } from "lucide-react";
+import { AlertTriangle, Bell, CheckCircle2, Clock, Heart, LogOut, Settings, Trash2, UserRound } from "lucide-react";
 import { useAuth } from "@/components/AuthProvider";
-import { readRecentDealIds, recentDealStorageKey } from "@/lib/recentDeals";
+import { getSupabaseBrowserClient } from "@/lib/auth/supabaseClient";
 import { formatPrice } from "@/lib/format";
+import {
+  clearRecentDealsSynced,
+  fetchRemotePreferences,
+  readLocalFavoriteIds,
+  readLocalPreferences,
+  syncFavoritesWithSupabase,
+  syncRecentDealsWithSupabase,
+  savePreferencesSynced
+} from "@/lib/memberSync";
 import { Deal } from "@/types/deal";
 
-const profileStorageKey = "halindosa:member-preferences";
-const favoriteStorageKey = "halindosa:favorites";
 const categoryOptions = ["식품", "생활용품", "디지털", "패션", "육아", "여행", "뷰티", "쿠폰/이벤트"];
 
 interface MemberPreferences {
@@ -18,40 +25,18 @@ interface MemberPreferences {
   notificationConsent: boolean;
 }
 
-const defaultPreferences: MemberPreferences = {
-  favoriteCategories: [],
-  marketingConsent: false,
-  notificationConsent: false
-};
-
-function readPreferences() {
-  if (typeof window === "undefined") return defaultPreferences;
-  try {
-    const stored = window.localStorage.getItem(profileStorageKey);
-    return stored ? { ...defaultPreferences, ...(JSON.parse(stored) as Partial<MemberPreferences>) } : defaultPreferences;
-  } catch {
-    return defaultPreferences;
-  }
-}
-
-function readFavoriteIds() {
-  if (typeof window === "undefined") return [];
-  try {
-    const stored = window.localStorage.getItem(favoriteStorageKey);
-    return stored ? (JSON.parse(stored) as string[]) : [];
-  } catch {
-    return [];
-  }
-}
-
 export function AccountPanel() {
   const { configured, isLoading, user, nickname, signOut, updateNickname } = useAuth();
+  const userId = user?.id;
   const [draftNickname, setDraftNickname] = useState("");
-  const [preferences, setPreferences] = useState<MemberPreferences>(() => readPreferences());
-  const [favoriteIds] = useState<string[]>(() => readFavoriteIds());
-  const [recentIds, setRecentIds] = useState<string[]>(() => (typeof window === "undefined" ? [] : readRecentDealIds()));
+  const [preferences, setPreferences] = useState<MemberPreferences>(() => readLocalPreferences());
+  const [favoriteIds, setFavoriteIds] = useState<string[]>(() => readLocalFavoriteIds());
+  const [recentIds, setRecentIds] = useState<string[]>([]);
   const [catalog, setCatalog] = useState<Deal[]>([]);
   const [message, setMessage] = useState("");
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
+  const [deleteConfirmText, setDeleteConfirmText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     let active = true;
@@ -69,12 +54,37 @@ export function AccountPanel() {
     };
   }, []);
 
+  useEffect(() => {
+    let active = true;
+    Promise.resolve()
+      .then(() => {
+        if (!configured || !userId) {
+          return Promise.all([Promise.resolve(readLocalFavoriteIds()), Promise.resolve([]), Promise.resolve(null)] as const);
+        }
+        return Promise.all([syncFavoritesWithSupabase(), syncRecentDealsWithSupabase(), fetchRemotePreferences()] as const);
+      })
+      .then(([nextFavorites, nextRecent, remotePreferences]) => {
+        if (!active) return;
+        setFavoriteIds(nextFavorites);
+        setRecentIds(nextRecent);
+        if (remotePreferences) setPreferences(remotePreferences);
+      })
+      .catch(() => {
+        if (!active) return;
+        setFavoriteIds(readLocalFavoriteIds());
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [configured, userId]);
+
   const favoriteDeals = useMemo(() => catalog.filter((deal) => favoriteIds.includes(deal.id)).slice(0, 4), [catalog, favoriteIds]);
   const recentDeals = useMemo(() => recentIds.map((id) => catalog.find((deal) => deal.id === id)).filter((deal): deal is Deal => Boolean(deal)).slice(0, 4), [catalog, recentIds]);
 
   const savePreferences = (next: MemberPreferences) => {
     setPreferences(next);
-    window.localStorage.setItem(profileStorageKey, JSON.stringify(next));
+    void savePreferencesSynced(next, user?.email, nickname);
     setMessage("관심 설정을 저장했습니다.");
   };
 
@@ -91,6 +101,40 @@ export function AccountPanel() {
   const saveNickname = async () => {
     const result = await updateNickname(draftNickname || nickname);
     setMessage(result.error ?? "닉네임을 저장했습니다.");
+  };
+
+  const deleteAccount = async () => {
+    if (deleteConfirmText !== "탈퇴") {
+      setMessage("탈퇴를 진행하려면 확인란에 '탈퇴'를 입력해 주세요.");
+      return;
+    }
+
+    setIsDeleting(true);
+    setMessage("");
+
+    try {
+      const client = getSupabaseBrowserClient();
+      const { data: sessionData } = client ? await client.auth.getSession() : { data: { session: null } };
+      const accessToken = sessionData.session?.access_token;
+      const response = await fetch("/api/account/delete", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          ...(accessToken ? { authorization: `Bearer ${accessToken}` } : {})
+        },
+        body: JSON.stringify({ confirmText: deleteConfirmText })
+      });
+      const result = (await response.json()) as { ok?: boolean; message?: string };
+      if (!response.ok || !result.ok) throw new Error(result.message || "회원 탈퇴에 실패했습니다.");
+      await signOut();
+      window.localStorage.removeItem("halindosa:favorites");
+      window.localStorage.removeItem("halindosa:recent-deals");
+      window.localStorage.removeItem("halindosa:member-preferences");
+      window.location.href = "/";
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "회원 탈퇴에 실패했습니다.");
+      setIsDeleting(false);
+    }
   };
 
   if (isLoading) {
@@ -249,9 +293,10 @@ export function AccountPanel() {
             <button
               type="button"
               onClick={() => {
-                window.localStorage.removeItem(recentDealStorageKey);
-                setRecentIds([]);
-                setMessage("최근 본 상품을 비웠습니다.");
+                void clearRecentDealsSynced().then(() => {
+                  setRecentIds([]);
+                  setMessage("최근 본 상품을 비웠습니다.");
+                });
               }}
               className="text-xs font-black text-slate-500"
             >
@@ -272,6 +317,62 @@ export function AccountPanel() {
           </div>
         </section>
       </div>
+
+      <section className="mt-6 rounded-3xl border border-red-100 bg-red-50 p-4">
+        <div className="flex items-start gap-3">
+          <AlertTriangle className="mt-0.5 shrink-0 text-dossa-red" size={20} />
+          <div className="min-w-0 flex-1">
+            <p className="text-sm font-black text-slate-950">회원 탈퇴</p>
+            <p className="mt-1 text-xs font-bold leading-5 text-red-800">
+              탈퇴하면 프로필, 찜, 최근 본 상품, 가격 알림 데이터가 삭제됩니다. 통계용 클릭 로그는 개인을 식별할 수 없도록 익명화됩니다.
+            </p>
+            {!deleteConfirmOpen ? (
+              <button
+                type="button"
+                onClick={() => setDeleteConfirmOpen(true)}
+                className="mt-3 inline-flex items-center gap-2 rounded-2xl border border-red-200 bg-white px-4 py-3 text-xs font-black text-dossa-red"
+              >
+                <Trash2 size={15} />
+                회원 탈퇴 진행
+              </button>
+            ) : (
+              <div className="mt-3 space-y-2">
+                <label className="block text-xs font-black text-red-900" htmlFor="delete-confirm-text">
+                  확인을 위해 “탈퇴”를 입력하세요.
+                </label>
+                <input
+                  id="delete-confirm-text"
+                  value={deleteConfirmText}
+                  onChange={(event) => setDeleteConfirmText(event.target.value)}
+                  className="min-h-12 w-full rounded-2xl border border-red-200 bg-white px-4 text-sm font-bold outline-none focus:ring-4 focus:ring-red-100"
+                  placeholder="탈퇴"
+                />
+                <div className="flex flex-wrap gap-2">
+                  <button
+                    type="button"
+                    onClick={() => void deleteAccount()}
+                    disabled={isDeleting}
+                    className="inline-flex items-center gap-2 rounded-2xl bg-dossa-red px-4 py-3 text-xs font-black text-white disabled:cursor-wait disabled:opacity-70"
+                  >
+                    <Trash2 size={15} />
+                    {isDeleting ? "처리 중" : "탈퇴 확정"}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setDeleteConfirmOpen(false);
+                      setDeleteConfirmText("");
+                    }}
+                    className="rounded-2xl bg-white px-4 py-3 text-xs font-black text-slate-700"
+                  >
+                    취소
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
     </section>
   );
 }

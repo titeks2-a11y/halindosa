@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { AuthDeepLinkHandler } from "@/components/AuthDeepLinkHandler";
 import { AuthProvider } from "@/components/AuthProvider";
 import { BottomNavigation } from "@/components/BottomNavigation";
 import { MobileHeader } from "@/components/MobileHeader";
@@ -7,6 +8,7 @@ import { TopNavigation } from "@/components/TopNavigation";
 export function AppShell({ children }: { children: ReactNode }) {
   return (
     <AuthProvider>
+      <AuthDeepLinkHandler />
       <div className="min-h-screen bg-slate-50">
         <MobileHeader />
         <TopNavigation />

@@ -46,6 +46,8 @@ create table if not exists public.user_profiles (
   updated_at timestamptz not null default now()
 );
 
+comment on table public.user_profiles is '할인도사 회원 프로필과 관심 카테고리/수신 동의 설정. OAuth/이메일 가입 공통 사용.';
+
 create table if not exists public.user_favorite_deals (
   user_id uuid not null references auth.users(id) on delete cascade,
   deal_id text not null,
@@ -53,12 +55,16 @@ create table if not exists public.user_favorite_deals (
   primary key (user_id, deal_id)
 );
 
+comment on table public.user_favorite_deals is '로그인 사용자의 찜한 특가. 앱 localStorage 찜은 로그인 후 이 테이블로 마이그레이션한다.';
+
 create table if not exists public.user_recent_deals (
   user_id uuid not null references auth.users(id) on delete cascade,
   deal_id text not null,
   viewed_at timestamptz not null default now(),
   primary key (user_id, deal_id)
 );
+
+comment on table public.user_recent_deals is '로그인 사용자의 최근 본 상품. 중복 deal_id는 viewed_at 갱신으로 최신순 정렬한다.';
 
 create table if not exists public.deal_click_logs (
   id uuid primary key default gen_random_uuid(),
@@ -69,6 +75,8 @@ create table if not exists public.deal_click_logs (
   created_at timestamptz not null default now()
 );
 
+comment on table public.deal_click_logs is '구매 이동 클릭 로그. 회원 탈퇴 시 user_id는 null로 익명화한다.';
+
 create table if not exists public.price_drop_alerts (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null references auth.users(id) on delete cascade,
@@ -77,6 +85,8 @@ create table if not exists public.price_drop_alerts (
   is_active boolean not null default true,
   created_at timestamptz not null default now()
 );
+
+comment on table public.price_drop_alerts is '가격 하락 알림 준비 테이블. 실제 푸시 권한 요청 전까지 서버 저장 구조만 제공한다.';
 
 create table if not exists public.price_snapshots (
   id uuid primary key default gen_random_uuid(),
@@ -181,3 +191,22 @@ create policy "service writes click logs"
   on public.deal_click_logs for all
   using (auth.role() = 'service_role')
   with check (auth.role() = 'service_role');
+
+create policy "users insert own click logs"
+  on public.deal_click_logs for insert
+  with check (auth.uid() = user_id);
+
+-- 회원 탈퇴 운영 기준:
+-- 1. 클라이언트는 service_role을 절대 보유하지 않는다.
+-- 2. /api/account/delete 서버 라우트가 Authorization Bearer 토큰으로 본인 확인 후 service_role로 아래 순서 처리:
+--    user_favorite_deals 삭제, user_recent_deals 삭제, price_drop_alerts 삭제, user_profiles 삭제,
+--    deal_click_logs.user_id null 익명화, auth.users 삭제.
+-- 3. favorites/recent_views라는 명칭이 필요한 외부 리포트 도구는 아래 호환 View를 사용할 수 있다.
+
+create or replace view public.favorites as
+select user_id, deal_id, created_at
+from public.user_favorite_deals;
+
+create or replace view public.recent_views as
+select user_id, deal_id, viewed_at
+from public.user_recent_deals;

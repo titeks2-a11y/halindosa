@@ -1,4 +1,5 @@
 const defaultSiteUrl = "http://127.0.0.1:3000";
+const defaultAppScheme = "halindosa";
 
 function trimTrailingSlash(value: string) {
   return value.replace(/\/+$/, "");
@@ -38,4 +39,24 @@ export function getAuthRedirectUrl(nextPath = "/") {
   const url = new URL("/auth/callback", getPublicSiteUrl());
   url.searchParams.set("next", safeNext);
   return url.toString();
+}
+
+export function getNativeAuthRedirectUrl(nextPath = "/") {
+  const scheme = (process.env.NEXT_PUBLIC_APP_SCHEME || defaultAppScheme).replace(/:\/?\/?$/, "");
+  const url = new URL(`${scheme}://auth/callback`);
+  url.searchParams.set("next", getSafeNextPath(nextPath));
+  return url.toString();
+}
+
+export async function getRuntimeAuthRedirectUrl(nextPath = "/") {
+  try {
+    const { Capacitor } = await import("@capacitor/core");
+    if (Capacitor.isNativePlatform()) {
+      return getNativeAuthRedirectUrl(nextPath);
+    }
+  } catch {
+    // Web runtime fallback below.
+  }
+
+  return getAuthRedirectUrl(nextPath);
 }

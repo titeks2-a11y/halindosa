@@ -119,7 +119,7 @@ export const mockDeals: Deal[] = [
   deal("d005", "굿웨어몰", "베네베딩 여름 냉감 쿨 침대패드", "생활용품", 22740, 30, 0.5, 8, { isHot: true, isNew: true, isEndingSoon: true }, ["실시간", "무료배송", "마감임박"], 90, "/deal-images/live-707787.jpg", "https://www.ppomppu.co.kr/zboard/view.php?id=ppomppu&page=1&divpage=112&no=707787"),
   deal("d006", "쿠팡", "닥터유 제주용암수 2L 18병", "식품", 13940, 29, 0.6, 14, { isHot: true, isNew: true, isEndingSoon: false }, ["실시간", "무료배송", "생활필수"], 89, "/deal-images/live-707786.jpg", "https://www.ppomppu.co.kr/zboard/view.php?id=ppomppu&page=1&divpage=112&no=707786"),
   deal("d007", "토스", "돼지목살 양념구이 600g X 4팩", "식품", 27500, 28, 0.7, 7, { isHot: true, isNew: true, isEndingSoon: true }, ["실시간", "무료배송", "한정수량"], 88, "/deal-images/live-707785.jpg", "https://www.ppomppu.co.kr/zboard/view.php?id=ppomppu&page=1&divpage=112&no=707785"),
-  deal("d008", "롯데온", "아이더 POP ON 폴로 티셔츠", "의류", 42190, 27, 0.8, 20, { isHot: true, isNew: true, isEndingSoon: false }, ["실시간", "무배", "패션"], 87, "/deal-images/live-707784.jpg", "https://www.ppomppu.co.kr/zboard/view.php?id=ppomppu&page=1&divpage=112&no=707784"),
+  deal("d008", "LF몰", "아이더 POP ON 남성 여름 냉감 폴로 티셔츠", "의류", 42190, 27, 0.8, 20, { isHot: true, isNew: true, isEndingSoon: false }, ["실시간", "무배", "패션"], 87, "/deal-images/live-707784.jpg", "https://www.ppomppu.co.kr/zboard/view.php?id=ppomppu&page=1&divpage=112&no=707784"),
   deal("d009", "지마켓", "신라면+너구리+짜파게티+오징어짬뽕 총 20봉", "식품", 19780, 26, 0.9, 11, { isHot: true, isNew: true, isEndingSoon: false }, ["실시간", "쿠폰적용", "무배"], 86, "/deal-images/live-707783.jpg", "https://www.ppomppu.co.kr/zboard/view.php?id=ppomppu&page=1&divpage=112&no=707783"),
   deal("d010", "G마켓", "알리사 급속 냉각 에어컨 무선 휴대용 선풍기", "가전", 27210, 25, 1, 6, { isHot: true, isNew: true, isEndingSoon: true }, ["실시간", "무료배송", "마감임박"], 85, "/deal-images/live-707782.jpg", "https://www.ppomppu.co.kr/zboard/view.php?id=ppomppu&page=1&divpage=112&no=707782"),
   deal("d011", "SSG닷컴", "프리미엄 한우 불고기 600g", "식품", 53000, 34, 2, 28, { isHot: false, isNew: true, isEndingSoon: false }, ["카드할인", "무료배송"], 79),
@@ -134,22 +134,22 @@ export const mockDeals: Deal[] = [
   deal("d020", "무신사", "아웃도어 프로덕츠 3PACK 티셔츠", "의류", 79000, 64, 18, 11, { isHot: true, isNew: false, isEndingSoon: true }, ["마감임박", "인기"], 95),
   deal("d021", "인터파크투어", "제주 왕복 항공권 주중 특가", "여행/티켓", 110000, 57, 3, 13, { isHot: false, isNew: true, isEndingSoon: false }, ["오늘만", "쿠폰적용"], 83),
   deal("d022", "올리브영", "속건 헤어드라이어 전문가용", "뷰티", 89000, 41, 12, 32, { isHot: false, isNew: false, isEndingSoon: false }, ["카드할인", "무료배송"], 78),
-  deal("d023", "인터파크", "캐리어 24인치 확장형", "기타", 159000, 49, 6, 24, { isHot: true, isNew: false, isEndingSoon: false }, ["역대가", "무료배송"], 84),
+  deal("d023", "아이프라브", "확장형 5휠 밸런스 큐브 캐리어 24인치", "기타", 159000, 49, 6, 24, { isHot: true, isNew: false, isEndingSoon: false }, ["역대가", "무료배송"], 84),
   deal("d024", "SSG닷컴", "프리미엄 생수 2L 24병", "식품", 24900, 10, 5, 17, { isHot: false, isNew: false, isEndingSoon: false }, ["무료배송", "인기"], 69),
   deal("d025", "올리브영", "선크림 1+1 기획", "뷰티", 36000, 45, 2, 4, { isHot: true, isNew: true, isEndingSoon: true }, ["마감임박", "오늘만"], 94),
   deal("d026", "하이마트", "게이밍 노트북 RTX 특가", "전자기기", 1699000, 27, 7, 44, { isHot: true, isNew: false, isEndingSoon: false }, ["카드할인", "한정수량"], 88),
-  deal("d027", "쿠팡", "분유 3단계 4캔 세트", "육아", 128000, 36, 9, 19, { isHot: false, isNew: false, isEndingSoon: false }, ["무료배송", "쿠폰적용"], 73),
+  deal("d027", "GS SHOP", "군 기저귀 프리미엄 팬티 대형 4팩", "육아", 128000, 36, 9, 19, { isHot: false, isNew: false, isEndingSoon: false }, ["무료배송", "쿠폰적용"], 73),
   deal("d028", "네이버쇼핑", "전동칫솔 패밀리팩", "생활용품", 99000, 39, 2, 29, { isHot: false, isNew: true, isEndingSoon: false }, ["카드할인", "인기"], 75),
-  deal("d029", "G마켓", "에어프라이어 7L 대용량", "가전", 149000, 53, 14, 6, { isHot: true, isNew: false, isEndingSoon: true }, ["마감임박", "역대가"], 90),
+  deal("d029", "SSG닷컴", "422 올스텐 에어프라이어 7L 대용량", "가전", 149000, 53, 14, 6, { isHot: true, isNew: false, isEndingSoon: true }, ["마감임박", "역대가"], 90),
   deal("d030", "11번가", "태블릿 10인치 Wi-Fi 모델", "전자기기", 329000, 22, 1, 40, { isHot: false, isNew: true, isEndingSoon: false }, ["카드할인", "무료배송"], 71),
-  deal("d031", "오늘의집", "스탠드 조명 무드등", "생활용품", 59000, 80, 21, 27, { isHot: false, isNew: false, isEndingSoon: false }, ["역대가", "쿠폰적용"], 68),
+  deal("d031", "쿠팡", "원목 수납장 3단 다용도 월넛 유리 거실장", "생활용품", 59000, 80, 21, 27, { isHot: false, isNew: false, isEndingSoon: false }, ["역대가", "쿠폰적용"], 68),
   deal("d032", "SSG닷컴", "명품 향수 50ml", "뷰티", 179000, 26, 3, 15, { isHot: false, isNew: true, isEndingSoon: false }, ["인기", "한정수량"], 76),
   deal("d033", "코레일관광", "부산 주말 KTX 연계 숙박 패키지", "여행/티켓", 189000, 35, 1, 72, { isHot: true, isNew: true, isEndingSoon: false }, ["여행", "쿠폰적용", "한정수량"], 82),
-  deal("d034", "네이버쇼핑", "국산 KF94 마스크 100매", "생활용품", 24900, 44, 2, 36, { isHot: false, isNew: true, isEndingSoon: false }, ["무료배송", "생활필수", "인기"], 78),
+  deal("d034", "G마켓", "국산 황사방역용 KF94 마스크 대형 100매", "생활용품", 24900, 44, 2, 36, { isHot: false, isNew: true, isEndingSoon: false }, ["무료배송", "생활필수", "인기"], 78),
   deal("d035", "쿠팡", "로켓프레시 친환경 토마토 2kg", "식품", 19800, 30, 0.5, 8, { isHot: true, isNew: true, isEndingSoon: true }, ["무료배송", "오늘만", "신선식품"], 91),
   deal("d036", "하이마트", "무선청소기 흡입력 강화 모델", "가전", 329000, 46, 6, 48, { isHot: true, isNew: false, isEndingSoon: false }, ["카드할인", "무료배송", "역대가"], 86),
   deal("d037", "무신사", "여름 기능성 반팔 티셔츠 3팩", "의류", 69000, 52, 4, 18, { isHot: false, isNew: true, isEndingSoon: true }, ["무배", "패션", "마감임박"], 83),
-  deal("d038", "베이비플러스", "기저귀 팬티형 4팩 대용량", "육아", 92000, 38, 7, 30, { isHot: false, isNew: false, isEndingSoon: false }, ["무료배송", "쿠폰적용", "육아"], 77),
+  deal("d038", "GS SHOP", "군 기저귀 프리미엄 팬티 대형 32P 4팩", "육아", 92000, 38, 7, 30, { isHot: false, isNew: false, isEndingSoon: false }, ["무료배송", "쿠폰적용", "육아"], 77),
   deal("d039", "인터파크", "뮤지컬 평일 공연 R석 타임세일", "여행/티켓", 140000, 50, 3, 11, { isHot: true, isNew: true, isEndingSoon: true }, ["오늘만", "마감임박", "티켓"], 88),
   deal("d040", "올리브영", "클렌징폼 1+1 대용량 기획", "뷰티", 32000, 41, 1, 22, { isHot: false, isNew: true, isEndingSoon: false }, ["쿠폰적용", "인기", "오늘만"], 80)
   ,
@@ -164,7 +164,7 @@ export const mockDeals: Deal[] = [
   deal("d049", "G마켓", "캠핑 접이식 웨건 대형", "생활용품", 129000, 47, 6, 26, { isHot: false, isNew: true, isEndingSoon: false }, ["레저", "쿠폰적용", "무료배송"], 77),
   deal("d050", "올리브영", "멀티비타민 90정 기획세트", "뷰티", 39000, 35, 2, 18, { isHot: false, isNew: true, isEndingSoon: false }, ["헬스", "오늘만", "인기"], 78),
   deal("d051", "인터파크투어", "오사카 왕복 항공권 타임세일", "여행/티켓", 289000, 41, 1, 12, { isHot: true, isNew: true, isEndingSoon: true }, ["여행", "마감임박", "한정수량"], 90),
-  deal("d052", "오늘의집", "암막 커튼 2장 세트", "생활용품", 79000, 58, 4, 42, { isHot: true, isNew: false, isEndingSoon: false }, ["역대가", "무료배송", "홈스타일링"], 83)
+  deal("d052", "SSG닷컴", "암막 커튼 2장 세트 와인 132x160cm", "생활용품", 79000, 58, 4, 42, { isHot: true, isNew: false, isEndingSoon: false }, ["역대가", "무료배송", "홈스타일링"], 83)
 ];
 
 export const categories = ["전체", "식품", "전자기기", "생활용품", "의류", "육아", "여행/티켓", "뷰티", "가전", "편의점/마트", "쿠폰/이벤트", "기타"] as const;

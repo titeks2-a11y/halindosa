@@ -105,6 +105,9 @@ function isKnownProductDetailUrl(url: URL, mallName: string) {
   if (/마켓컬리|컬리|kurly/.test(mall) || hostMatches(host, "kurly.com")) return /\/goods\/\d+/.test(path);
   if (/오늘의집/.test(mall) || hostMatches(host, "ohou.se")) return /\/productions\/\d+/.test(path);
   if (/무신사|musinsa/.test(mall) || hostMatches(host, "musinsa.com")) return /\/products\/\d+/.test(path);
+  if (/lf몰|lfmall/.test(mall) || hostMatches(host, "lfmall.co.kr")) return /\/app\/product\/[a-z0-9]+/i.test(path);
+  if (/gs shop|gsshop/.test(mall) || hostMatches(host, "gsshop.com")) return /\/deal\/deal\.gs|dealno=/.test(full);
+  if (/아이프라브|ipraves/.test(mall) || hostMatches(host, "ipraves.co.kr")) return /\/product\//.test(path);
   if (/알리|ali/.test(mall) || hostMatches(host, "aliexpress.com")) return /\/item\/\d+\.html|\/i\/\d+\.html/.test(path);
   if (/아마존|amazon/.test(mall) || hostMatches(host, "amazon.com")) return /\/dp\/[a-z0-9]+|\/gp\/product\/[a-z0-9]+/.test(path);
   if (/하이마트|himart/.test(mall) || hostMatches(host, "e-himart.co.kr")) return /\/app\/goods\/goodsdetail|goodsno=|goodscode=/.test(full);

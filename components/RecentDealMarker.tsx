@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect } from "react";
-import { rememberRecentDealId } from "@/lib/recentDeals";
+import { recordRecentDealView } from "@/lib/memberSync";
 
 export function RecentDealMarker({ dealId }: { dealId: string }) {
   useEffect(() => {
-    rememberRecentDealId(dealId);
+    void recordRecentDealView(dealId);
   }, [dealId]);
 
   return null;

@@ -40,8 +40,8 @@ export default function TermsPage() {
         <section>
           <h2 className="text-lg font-black text-slate-950">회원 탈퇴</h2>
           <p className="mt-2">
-            정식 운영 전에는 고객 문의를 통해 계정 삭제 요청을 접수합니다. 운영 버전에서는 마이페이지에서 회원 탈퇴
-            또는 계정 삭제 요청을 시작할 수 있는 기능을 제공합니다.
+            회원은 마이페이지에서 회원 탈퇴를 요청할 수 있습니다. 탈퇴 시 프로필, 찜, 최근 본 상품, 가격 알림 데이터는 삭제되며,
+            통계 분석을 위한 클릭 로그는 개인을 식별할 수 없도록 익명화됩니다.
           </p>
         </section>
         <section>

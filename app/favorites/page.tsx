@@ -11,17 +11,15 @@ import { mockDeals } from "@/data/mockDeals";
 import { canOpenDealLink } from "@/lib/affiliate";
 import { hasAffiliateConsent, hasAnalyticsConsent, readStoredConsent } from "@/lib/consent";
 import { buildDealRedirectUrl } from "@/lib/redirectUrl";
-import { rememberRecentDealId } from "@/lib/recentDeals";
+import { readLocalFavoriteIds, recordRecentDealView, syncFavoritesWithSupabase, toggleFavoriteSynced } from "@/lib/memberSync";
 import { Deal } from "@/types/deal";
-
-const favoriteKey = "halindosa:favorites";
 
 interface DealsResponse {
   deals?: Deal[];
 }
 
 async function openExternalDeal(deal: Deal) {
-  rememberRecentDealId(deal.id);
+  await recordRecentDealView(deal.id);
   const consent = readStoredConsent();
   const redirectUrl = buildDealRedirectUrl(deal.id, "favorites", {
     analytics: hasAnalyticsConsent(consent),
@@ -44,20 +42,13 @@ async function openExternalDeal(deal: Deal) {
 
 export default function FavoritesPage() {
   const { configured: authConfigured, user } = useAuth();
+  const userId = user?.id;
   const [pendingPurchaseDeal, setPendingPurchaseDeal] = useState<Deal | null>(null);
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
   const [message, setMessage] = useState("");
   const [catalog, setCatalog] = useState<Deal[]>(mockDeals);
   const [isCatalogLoading, setIsCatalogLoading] = useState(false);
-  const [favorites, setFavorites] = useState<string[]>(() => {
-    if (typeof window === "undefined") return [];
-    try {
-      const stored = window.localStorage.getItem(favoriteKey);
-      return stored ? (JSON.parse(stored) as string[]) : [];
-    } catch {
-      return [];
-    }
-  });
+  const [favorites, setFavorites] = useState<string[]>(() => readLocalFavoriteIds());
 
   const favoriteDeals = useMemo(() => catalog.filter((deal) => favorites.includes(deal.id)), [catalog, favorites]);
 
@@ -90,6 +81,23 @@ export default function FavoritesPage() {
     };
   }, []);
 
+  useEffect(() => {
+    let active = true;
+
+    Promise.resolve()
+      .then(() => (authConfigured && userId ? syncFavoritesWithSupabase() : readLocalFavoriteIds()))
+      .then((ids) => {
+        if (active) setFavorites(ids);
+      })
+      .catch(() => {
+        if (active) setFavorites(readLocalFavoriteIds());
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [authConfigured, userId]);
+
   const toggleFavorite = (id: string) => {
     if (authConfigured && !user) {
       setShowLoginPrompt(true);
@@ -98,10 +106,13 @@ export default function FavoritesPage() {
     }
 
     setFavorites((current) => {
-      const next = current.includes(id) ? current.filter((favoriteId) => favoriteId !== id) : [...current, id];
-      window.localStorage.setItem(favoriteKey, JSON.stringify(next));
-      setMessage(current.includes(id) ? "찜 목록에서 제거했습니다." : "찜 목록에 저장했습니다.");
-      return next;
+      const wasFavorite = current.includes(id);
+      const optimistic = wasFavorite ? current.filter((favoriteId) => favoriteId !== id) : [id, ...current];
+      setMessage(wasFavorite ? "찜 목록에서 제거했습니다." : "찜 목록에 저장했습니다.");
+      void toggleFavoriteSynced(id, current)
+        .then((next) => setFavorites(next))
+        .catch(() => setMessage("네트워크가 불안정해 기기 저장소에 우선 반영했습니다."));
+      return optimistic;
     });
   };
 

@@ -26,12 +26,17 @@ import { canOpenDealLink } from "@/lib/affiliate";
 import { getLinkQualityScore, isVerifiedPurchaseLink } from "@/lib/deals/quality";
 import { getRelativeTime } from "@/lib/format";
 import { buildDealRedirectUrl } from "@/lib/redirectUrl";
-import { readRecentDealIds, rememberRecentDealId } from "@/lib/recentDeals";
+import {
+  readLocalFavoriteIds,
+  recordRecentDealView,
+  syncFavoritesWithSupabase,
+  syncRecentDealsWithSupabase,
+  toggleFavoriteSynced
+} from "@/lib/memberSync";
 import { getSupportMailto, supportEmail } from "@/lib/support";
 import { Deal, DealSort } from "@/types/deal";
 import { HotSignal } from "@/types/hotSignal";
 
-const favoriteKey = "halindosa:favorites";
 type AppView = "home" | "categories" | "alerts" | "favorites" | "my";
 const mallFilters = [
   { id: "all", label: "전체 쇼핑몰" },
@@ -207,6 +212,7 @@ function requestJson<T>(url: string): Promise<T> {
 
 export default function Home() {
   const { configured: authConfigured, user, nickname } = useAuth();
+  const userId = user?.id;
   const [hasAppliedInitialParams, setHasAppliedInitialParams] = useState(false);
   const [deals, setDeals] = useState<Deal[]>(mockDeals);
   const [catalog, setCatalog] = useState<Deal[]>(mockDeals);
@@ -226,16 +232,7 @@ export default function Home() {
   const [isOffline, setIsOffline] = useState(false);
   const [hotSignals, setHotSignals] = useState<HotSignal[]>(mockHotSignals);
   const [isSignalLoading, setIsSignalLoading] = useState(false);
-  const [favorites, setFavorites] = useState<string[]>(() => {
-    if (typeof window === "undefined") return [];
-
-    try {
-      const stored = window.localStorage.getItem(favoriteKey);
-      return stored ? (JSON.parse(stored) as string[]) : [];
-    } catch {
-      return [];
-    }
-  });
+  const [favorites, setFavorites] = useState<string[]>(() => readLocalFavoriteIds());
   const [recentDealIds, setRecentDealIds] = useState<string[]>([]);
   const [toast, setToast] = useState("");
   const [pendingPurchaseDeal, setPendingPurchaseDeal] = useState<Deal | null>(null);
@@ -464,12 +461,35 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    const handle = window.setTimeout(() => {
-      setRecentDealIds(readRecentDealIds());
-    }, 0);
+    let active = true;
+    syncRecentDealsWithSupabase()
+      .then((ids) => {
+        if (active) setRecentDealIds(ids);
+      })
+      .catch(() => {
+        if (active) setRecentDealIds([]);
+      });
 
-    return () => window.clearTimeout(handle);
-  }, []);
+    return () => {
+      active = false;
+    };
+  }, [user?.id]);
+
+  useEffect(() => {
+    let active = true;
+    Promise.resolve()
+      .then(() => (authConfigured && userId ? syncFavoritesWithSupabase() : readLocalFavoriteIds()))
+      .then((ids) => {
+        if (active) setFavorites(ids);
+      })
+      .catch(() => {
+        if (active) setFavorites(readLocalFavoriteIds());
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [authConfigured, userId]);
 
   useEffect(() => {
     const firstDelay = 3000 + Math.random() * 3000;
@@ -497,8 +517,10 @@ export default function Home() {
 
     setFavorites((current) => {
       const isRemoving = current.includes(id);
-      const next = isRemoving ? current.filter((favoriteId) => favoriteId !== id) : [...current, id];
-      window.localStorage.setItem(favoriteKey, JSON.stringify(next));
+      const next = isRemoving ? current.filter((favoriteId) => favoriteId !== id) : [id, ...current];
+      void toggleFavoriteSynced(id, current)
+        .then((syncedIds) => setFavorites(syncedIds))
+        .catch(() => showToast("네트워크가 불안정해 기기 저장소에 우선 반영했습니다."));
       void trackEvent(isRemoving ? "favorite_remove" : "favorite_add", id);
       showToast(isRemoving ? "찜 목록에서 제거했습니다." : "찜 목록에 저장했습니다.");
       return next;
@@ -506,15 +528,11 @@ export default function Home() {
   };
 
   const rememberRecentDeal = useCallback((id: string) => {
-    setRecentDealIds((current) => {
-      const fallback = [id, ...current.filter((dealId) => dealId !== id)].slice(0, 20);
-
-      try {
-        return rememberRecentDealId(id);
-      } catch {
-        return fallback;
-      }
-    });
+    void recordRecentDealView(id)
+      .then((ids) => setRecentDealIds(ids))
+      .catch(() => {
+        setRecentDealIds((current) => [id, ...current.filter((dealId) => dealId !== id)].slice(0, 20));
+      });
   }, []);
 
   const trackEvent = async (eventType: "deal_click" | "favorite_add" | "favorite_remove", dealId: string) => {

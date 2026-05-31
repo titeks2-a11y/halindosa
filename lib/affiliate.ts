@@ -21,6 +21,29 @@ const affiliateMallAllowList = new Set([
   "하이마트"
 ]);
 
+const outboundHostAllowList = [
+  "coupang.com",
+  "gmarket.co.kr",
+  "auction.co.kr",
+  "11st.co.kr",
+  "ssg.com",
+  "emart.ssg.com",
+  "naver.com",
+  "oliveyoung.co.kr",
+  "musinsa.com",
+  "kurly.com",
+  "ohou.se",
+  "interpark.com",
+  "lotteon.com",
+  "e-himart.co.kr",
+  "aliexpress.com",
+  "lfmall.co.kr",
+  "gsshop.com",
+  "ipraves.co.kr",
+  "amante.co.kr",
+  "rexpia.com"
+];
+
 type AffiliateTemplateMap = Record<string, string>;
 
 function normalizeMallName(mall: string) {
@@ -102,6 +125,11 @@ function isPlaceholderOrCommunityUrl(value?: string) {
   return host === "example.com" || host.endsWith(".example.com") || isKnownCommunityHost(host);
 }
 
+function isAllowedOutboundHost(value: string) {
+  const host = new URL(value).hostname.toLowerCase();
+  return outboundHostAllowList.some((allowedHost) => host === allowedHost || host.endsWith(`.${allowedHost}`));
+}
+
 export function buildSellerSearchUrl(deal: Pick<Deal, "mall" | "mallName" | "title">) {
   const mall = getDealMall(deal).toLowerCase();
   const query = encodeURIComponent(deal.title);
@@ -129,7 +157,8 @@ export function resolveDealDestinationUrl(deal: Deal, preferAffiliate = false) {
   const candidate = preferAffiliate
     ? (deal.affiliateUrl || deal.finalPurchaseUrl || deal.finalUrl || deal.purchaseUrl || deal.url || deal.link)
     : (deal.finalPurchaseUrl || deal.finalUrl || deal.purchaseUrl || deal.url || deal.link);
-  return isPlaceholderOrCommunityUrl(candidate) ? buildSellerSearchUrl(deal) : candidate;
+  if (isPlaceholderOrCommunityUrl(candidate)) return buildSellerSearchUrl(deal);
+  return isAllowedOutboundHost(candidate) ? candidate : buildSellerSearchUrl(deal);
 }
 
 export function getDealLinkTrustLabel(deal: Pick<Deal, "linkStatus" | "linkType" | "linkLabel">) {

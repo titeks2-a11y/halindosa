@@ -27,6 +27,12 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     source: "manual_review",
     evidence: "쿠팡 오리온 제주용암수 2L 18개 상품 상세"
   },
+  d008: {
+    url: "https://www.lfmall.co.kr/app/product/E3GKXX00844",
+    checkedAt: "2026-05-31T11:10:00.000Z",
+    source: "manual_review",
+    evidence: "LF몰 아이더 POP ON 남성 여름 냉감 폴로 티셔츠 상품 상세"
+  },
   d009: {
     url: "https://item.gmarket.co.kr/Item?goodscode=3768639920",
     checkedAt: "2026-05-31T10:20:00.000Z",
@@ -81,11 +87,35 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     source: "manual_review",
     evidence: "무신사 상품 상세 URL 패턴 검증"
   },
+  d023: {
+    url: "https://ipraves.co.kr/product/5%ED%9C%A0-%EB%B0%B8%EB%9F%B0%EC%8A%A4-%EC%BA%90%EB%A6%AC%EC%96%B4-%ED%81%90%EB%B8%8C%ED%98%95-24%ED%98%95%ED%99%95%EC%9E%A5%EA%B0%80%EB%8A%A5/708/",
+    checkedAt: "2026-05-31T11:10:00.000Z",
+    source: "manual_review",
+    evidence: "아이프라브 24인치 확장형 캐리어 상품 상세"
+  },
   d025: {
     url: "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000163532",
     checkedAt: "2026-05-31T10:20:00.000Z",
     source: "manual_review",
     evidence: "올리브영 선크림 1+1 상품 상세"
+  },
+  d027: {
+    url: "https://m.gsshop.com/deal/deal.gs?dealNo=1081284321",
+    checkedAt: "2026-05-31T11:10:00.000Z",
+    source: "manual_review",
+    evidence: "GS SHOP 기저귀 딜 상세"
+  },
+  d029: {
+    url: "https://www.ssg.com/item/itemView.ssg?itemId=1000568480807",
+    checkedAt: "2026-05-31T11:10:00.000Z",
+    source: "manual_review",
+    evidence: "SSG 7L 대용량 에어프라이어 상품 상세"
+  },
+  d031: {
+    url: "https://www.coupang.com/vp/products/7872977867",
+    checkedAt: "2026-05-31T11:10:00.000Z",
+    source: "manual_review",
+    evidence: "쿠팡 원목 수납장 3단 상품 상세"
   },
   d032: {
     url: "https://www.ssg.com/item/itemView.ssg?itemId=0000009774169",
@@ -93,11 +123,23 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     source: "manual_review",
     evidence: "SSG 향수 50ml 상품 상세"
   },
+  d034: {
+    url: "https://item.gmarket.co.kr/Item?goodscode=2739226248",
+    checkedAt: "2026-05-31T11:10:00.000Z",
+    source: "manual_review",
+    evidence: "G마켓 국산 KF94 마스크 100매 상품 상세"
+  },
   d037: {
     url: "https://www.musinsa.com/products/1893766",
     checkedAt: "2026-05-31T10:20:00.000Z",
     source: "manual_review",
     evidence: "무신사 3팩 티셔츠 상품 상세"
+  },
+  d038: {
+    url: "https://m.gsshop.com/deal/deal.gs?dealNo=1081284321",
+    checkedAt: "2026-05-31T11:10:00.000Z",
+    source: "manual_review",
+    evidence: "GS SHOP 군 기저귀 4팩 상품 상세"
   },
   d041: {
     url: "https://www.ssg.com/item/itemView.ssg?itemId=1000620373892",
@@ -134,5 +176,11 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     checkedAt: "2026-05-31T10:20:00.000Z",
     source: "manual_review",
     evidence: "올리브영 멀티비타민 90정 상품 상세"
+  },
+  d052: {
+    url: "https://www.ssg.com/item/itemView.ssg?itemId=1000560995801",
+    checkedAt: "2026-05-31T11:10:00.000Z",
+    source: "manual_review",
+    evidence: "SSG 암막 커튼 2장 세트 상품 상세"
   }
 };

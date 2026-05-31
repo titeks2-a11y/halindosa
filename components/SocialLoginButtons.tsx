@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Chrome, MessageCircle, Search } from "lucide-react";
-import { getAuthRedirectUrl } from "@/lib/auth/redirect";
+import { getRuntimeAuthRedirectUrl } from "@/lib/auth/redirect";
 import { getSupabaseBrowserClient, isSupabaseAuthConfigured } from "@/lib/auth/supabaseClient";
 import { normalizeAuthError } from "@/lib/auth/password";
 
@@ -64,7 +64,7 @@ export function SocialLoginButtons({ mode }: SocialLoginButtonsProps) {
       const { error: oauthError } = await client.auth.signInWithOAuth({
         provider: provider.id as SupportedProvider,
         options: {
-          redirectTo: getAuthRedirectUrl(mode === "signup" ? provider.nextPath : "/")
+          redirectTo: await getRuntimeAuthRedirectUrl(mode === "signup" ? provider.nextPath : "/")
         }
       });
 

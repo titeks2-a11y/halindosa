@@ -1,18 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ArrowLeft, ExternalLink, Heart, Share2 } from "lucide-react";
 import { Deal } from "@/types/deal";
 import { buildDealRedirectUrl } from "@/lib/redirectUrl";
 import { canOpenDealLink } from "@/lib/affiliate";
 import { hasAffiliateConsent, hasAnalyticsConsent, readStoredConsent } from "@/lib/consent";
-import { rememberRecentDealId } from "@/lib/recentDeals";
+import { readLocalFavoriteIds, recordRecentDealView, syncFavoritesWithSupabase, toggleFavoriteSynced } from "@/lib/memberSync";
 import { PurchaseConfirmSheet } from "@/components/PurchaseConfirmSheet";
 import { LoginPromptSheet } from "@/components/LoginPromptSheet";
 import { useAuth } from "@/components/AuthProvider";
-
-const favoriteKey = "halindosa:favorites";
 
 async function isNativeRuntime() {
   try {
@@ -29,17 +27,25 @@ export function DealDetailActions({ deal }: { deal: Deal }) {
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
   const [message, setMessage] = useState("");
   const [isFavorite, setIsFavorite] = useState(() => {
-    if (typeof window === "undefined") return false;
-    try {
-      const stored = window.localStorage.getItem(favoriteKey);
-      const favorites = stored ? (JSON.parse(stored) as string[]) : [];
-      return favorites.includes(deal.id);
-    } catch {
-      return false;
-    }
+    return readLocalFavoriteIds().includes(deal.id);
   });
 
-  const toggleFavorite = () => {
+  useEffect(() => {
+    let active = true;
+    syncFavoritesWithSupabase()
+      .then((ids) => {
+        if (active) setIsFavorite(ids.includes(deal.id));
+      })
+      .catch(() => {
+        if (active) setIsFavorite(readLocalFavoriteIds().includes(deal.id));
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [deal.id, user?.id]);
+
+  const toggleFavorite = async () => {
     if (authConfigured && !user) {
       setShowLoginPrompt(true);
       setMessage("로그인하면 관심 특가를 계정으로 이어볼 수 있습니다.");
@@ -47,10 +53,7 @@ export function DealDetailActions({ deal }: { deal: Deal }) {
     }
 
     try {
-      const stored = window.localStorage.getItem(favoriteKey);
-      const favorites = stored ? (JSON.parse(stored) as string[]) : [];
-      const next = favorites.includes(deal.id) ? favorites.filter((id) => id !== deal.id) : [...favorites, deal.id];
-      window.localStorage.setItem(favoriteKey, JSON.stringify(next));
+      const next = await toggleFavoriteSynced(deal.id, readLocalFavoriteIds());
       setIsFavorite(next.includes(deal.id));
       setMessage(next.includes(deal.id) ? "관심 특가에 저장했습니다." : "관심 특가에서 제거했습니다.");
     } catch {
@@ -72,7 +75,7 @@ export function DealDetailActions({ deal }: { deal: Deal }) {
 
   const confirmPurchase = async () => {
     setShowPurchaseConfirm(false);
-    rememberRecentDealId(deal.id);
+    await recordRecentDealView(deal.id);
     const consent = readStoredConsent();
     const redirectUrl = buildDealRedirectUrl(deal.id, "detail", {
       analytics: hasAnalyticsConsent(consent),
@@ -127,7 +130,7 @@ export function DealDetailActions({ deal }: { deal: Deal }) {
         </button>
         <button
           type="button"
-          onClick={toggleFavorite}
+          onClick={() => void toggleFavorite()}
           aria-pressed={isFavorite}
           aria-label={`${deal.title} ${isFavorite ? "관심 특가에서 제거" : "관심 특가에 저장"}`}
           className={`inline-flex items-center justify-center gap-2 rounded-2xl border px-5 py-3 text-sm font-black transition ${
