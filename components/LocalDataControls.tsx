@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { CheckCircle2, RotateCcw, Share2, ShieldCheck, Trash2 } from "lucide-react";
+import { benefitCheckInStorageKey } from "@/lib/benefitCheckIn";
 import { consentStorageKey } from "@/lib/consent";
 import { priceAlertStorageKey } from "@/lib/priceAlerts";
 import { recentDealStorageKey } from "@/lib/recentDeals";
@@ -20,8 +21,8 @@ export function LocalDataControls() {
   const [message, setMessage] = useState("");
 
   const clearShoppingData = () => {
-    removeKeys([favoriteStorageKey, signalFavoriteStorageKey, recentDealStorageKey, priceAlertStorageKey]);
-    setMessage("찜 목록, 최근 본 특가, 가격 알림 조건을 이 기기에서 삭제했습니다.");
+    removeKeys([favoriteStorageKey, signalFavoriteStorageKey, recentDealStorageKey, priceAlertStorageKey, benefitCheckInStorageKey]);
+    setMessage("찜 목록, 최근 본 특가, 가격 알림 조건, 혜택 출석 기록을 이 기기에서 삭제했습니다.");
   };
 
   const resetConsent = () => {
@@ -60,7 +61,7 @@ export function LocalDataControls() {
       <div className="mt-3 grid gap-2 rounded-2xl bg-slate-50 p-3 text-xs font-bold leading-5 text-slate-600">
         <div className="flex gap-2">
           <CheckCircle2 size={15} className="mt-0.5 shrink-0 text-dossa-red" />
-          <span>삭제 대상: 이 기기에 저장된 찜한 특가, 최근 본 특가, 가격 알림 조건, 관심 할인 신호, 분석/제휴 동의 설정</span>
+          <span>삭제 대상: 이 기기에 저장된 찜한 특가, 최근 본 특가, 가격 알림 조건, 혜택 출석 기록, 관심 할인 신호, 분석/제휴 동의 설정</span>
         </div>
         <div className="flex gap-2">
           <ShieldCheck size={15} className="mt-0.5 shrink-0 text-slate-500" />
@@ -74,7 +75,7 @@ export function LocalDataControls() {
           className="flex items-center gap-2 rounded-2xl bg-slate-50 px-4 py-3 text-left transition hover:bg-red-50 hover:text-dossa-red"
         >
           <Trash2 size={17} className="text-dossa-red" />
-          찜/최근 본 특가/가격 알림 삭제
+          찜/최근 본 특가/혜택 기록 삭제
         </button>
         <button
           type="button"

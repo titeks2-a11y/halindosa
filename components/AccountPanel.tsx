@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { AlertTriangle, Bell, CheckCircle2, Clock, Heart, History, LogOut, Settings, SlidersHorizontal, Sparkles, Trash2, UserRound } from "lucide-react";
 import { useAuth } from "@/components/AuthProvider";
 import { getSupabaseBrowserClient } from "@/lib/auth/supabaseClient";
+import { benefitMissionLabels, getTodayKey, readBenefitCheckInState } from "@/lib/benefitCheckIn";
 import { formatPrice } from "@/lib/format";
 import { priceAlertStorageKey } from "@/lib/priceAlerts";
 import {
@@ -88,6 +89,61 @@ function BenefitSaveRoutine({ mode }: { mode: "local" | "guest" | "member" }) {
       <p className="mt-3 rounded-2xl bg-red-50 px-3 py-2 text-[11px] font-black leading-4 text-dossa-deep">
         가입해야만 볼 수 있는 혜택은 없습니다. 저장, 알림, 개인화만 선택적으로 로그인합니다.
       </p>
+    </div>
+  );
+}
+
+function BenefitCheckInSummary() {
+  const [checkIn, setCheckIn] = useState(() => readBenefitCheckInState());
+  const todayKey = getTodayKey();
+  const checkedToday = checkIn.lastDate === todayKey;
+  const completedMissions = checkedToday ? checkIn.completedMissions : [];
+  const completionRate = Math.round((completedMissions.length / 4) * 100);
+
+  useEffect(() => {
+    const refresh = () => setCheckIn(readBenefitCheckInState());
+    window.addEventListener("storage", refresh);
+    refresh();
+
+    return () => window.removeEventListener("storage", refresh);
+  }, []);
+
+  return (
+    <div className="mt-4 rounded-3xl border border-red-100 bg-red-50 p-4">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <p className="text-xs font-black text-dossa-red">이번 주 혜택 루틴 기록</p>
+          <h3 className="mt-1 text-base font-black text-slate-950">오늘 챙긴 혜택 {completedMissions.length}/4개</h3>
+          <p className="mt-1 text-xs font-bold leading-5 text-red-900/70">
+            홈에서 체크한 무료·쿠폰·마감·포인트 루틴을 이 기기에서 이어봅니다.
+          </p>
+        </div>
+        <span className="rounded-full bg-white px-3 py-1.5 text-xs font-black text-dossa-red shadow-sm">
+          연속 {checkIn.streak}일
+        </span>
+      </div>
+      <div className="mt-3 h-2 overflow-hidden rounded-full bg-white">
+        <div className="h-full rounded-full bg-dossa-red" style={{ width: `${completionRate}%` }} />
+      </div>
+      <div className="mt-3 flex flex-wrap gap-2">
+        {Object.entries(benefitMissionLabels).map(([id, label]) => {
+          const active = completedMissions.includes(id);
+
+          return (
+            <span key={id} className={`rounded-full px-3 py-1.5 text-[11px] font-black ${active ? "bg-dossa-red text-white" : "bg-white text-slate-500"}`}>
+              {label}
+            </span>
+          );
+        })}
+      </div>
+      <div className="mt-3 grid gap-2 sm:grid-cols-2">
+        <Link href="/?checkin=true" className="rounded-2xl bg-white px-4 py-3 text-center text-xs font-black text-dossa-red shadow-sm">
+          홈에서 오늘 루틴 계속하기
+        </Link>
+        <Link href="/free-benefits" className="rounded-2xl bg-slate-950 px-4 py-3 text-center text-xs font-black text-white">
+          무료 혜택 전용 탭 보기
+        </Link>
+      </div>
     </div>
   );
 }
@@ -241,6 +297,7 @@ export function AccountPanel() {
           </div>
         </div>
         <BenefitSaveRoutine mode="local" />
+        <BenefitCheckInSummary />
       </section>
     );
   }
@@ -276,6 +333,7 @@ export function AccountPanel() {
           </div>
         </div>
         <BenefitSaveRoutine mode="guest" />
+        <BenefitCheckInSummary />
       </section>
     );
   }
@@ -347,6 +405,7 @@ export function AccountPanel() {
           </Link>
         </div>
         <BenefitSaveRoutine mode="member" />
+        <BenefitCheckInSummary />
       </div>
 
       <div className="mt-5">

@@ -170,6 +170,7 @@ await check("mypage data controls", async () => {
   assert(text.includes("내 혜택 저장 루틴"), "Mypage missing benefit save routine");
   assert(text.includes("찜한 혜택 다시 보기") && text.includes("최근 본 상품 이어보기"), "Mypage missing saved and recent benefit routine actions");
   assert(text.includes("관심 카테고리 조정") && text.includes("가격 알림 조건 확인"), "Mypage missing interest and alert routine actions");
+  assert(text.includes("이번 주 혜택 루틴 기록") && text.includes("오늘 챙긴 혜택") && text.includes("홈에서 오늘 루틴 계속하기"), "Mypage missing weekly benefit routine record");
   assert(text.includes("비회원도 기기에 저장") && text.includes("가입해야만 볼 수 있는 혜택은 없습니다"), "Mypage missing non-member storage guidance");
   assert(text.includes("홈 화면에 할인도사 고정"), "Mypage missing app install guide");
   assert(text.includes("앱으로 설치하기") && text.includes("공유 링크 복사"), "Mypage missing install/share actions");
@@ -178,8 +179,8 @@ await check("mypage data controls", async () => {
   assert(text.includes("빠른 작업"), "Mypage missing quick actions section");
   assert(text.includes("찜한 특가") && text.includes("알림 센터") && text.includes("카테고리"), "Mypage missing quick action links");
   assert(text.includes("기기 데이터 관리"), "Mypage missing local data controls");
-  assert(text.includes("찜/최근 본 특가/가격 알림 삭제"), "Mypage missing local deal data delete action");
-  assert(text.includes("가격 알림 조건"), "Mypage missing price alert deletion scope");
+  assert(text.includes("찜/최근 본 특가/혜택 기록 삭제"), "Mypage missing local deal data delete action");
+  assert(text.includes("가격 알림 조건") && text.includes("혜택 출석 기록"), "Mypage missing price alert and check-in deletion scope");
   assert(text.includes("분석/제휴 동의 초기화"), "Mypage missing consent reset action");
   assert(text.includes("서비스 안내"), "Mypage missing service guide link");
   assert(text.includes("가격/품절 정보 신고"), "Mypage missing report entry point");

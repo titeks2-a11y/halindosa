@@ -267,6 +267,7 @@ async function checkAuthSurface() {
   const deepLinkHandler = await text("components/AuthDeepLinkHandler.tsx");
   const recentDealMarker = await text("components/RecentDealMarker.tsx");
   const dealDetailPage = await text("app/deals/[id]/page.tsx");
+  const benefitCheckIn = await text("lib/benefitCheckIn.ts");
   const loginPage = await text("app/login/page.tsx");
   const signupPage = await text("app/signup/page.tsx");
   const supabaseClient = await text("lib/auth/supabaseClient.ts");
@@ -295,6 +296,8 @@ async function checkAuthSurface() {
     fail("member profile settings", "Mypage account panel should summarize saved deals, recent views, categories, and next actions.");
   } else if (!accountPanel.includes("내 혜택 저장 루틴") || !accountPanel.includes("찜한 혜택 다시 보기") || !accountPanel.includes("최근 본 상품 이어보기") || !accountPanel.includes("가입해야만 볼 수 있는 혜택은 없습니다")) {
     fail("member profile settings", "Mypage should explain optional benefit saving routines for non-members and members.");
+  } else if (!accountPanel.includes("이번 주 혜택 루틴 기록") || !accountPanel.includes("홈에서 오늘 루틴 계속하기") || !accountPanel.includes("BenefitCheckInSummary") || !benefitCheckIn.includes("halindosa:benefit-check-in") || !smoke.includes("Mypage missing weekly benefit routine record")) {
+    fail("member profile settings", "Mypage should surface the local daily benefit routine record from the shared check-in store.");
   } else if (!mypagePage.includes("설정 점검 요약") || !mypagePage.includes("내 데이터와 알림을 한눈에 관리") || !mypagePage.includes("가격/품절 정보 신고")) {
     fail("member profile settings", "Mypage should summarize account, alert, consent, support, and report management paths.");
   } else {
@@ -570,6 +573,7 @@ async function checkUiAccessibility() {
   const trueDealSpotlight = await text("components/TrueDealSpotlight.tsx");
   const benefitDiscoverySections = await text("components/BenefitDiscoverySections.tsx");
   const benefitCheckInCard = await text("components/BenefitCheckInCard.tsx");
+  const benefitCheckIn = await text("lib/benefitCheckIn.ts");
   const priceAlertList = await text("components/PriceAlertList.tsx");
   const priceAlerts = await text("lib/priceAlerts.ts");
   const homePage = await text("app/page.tsx");
@@ -862,7 +866,7 @@ async function checkUiAccessibility() {
         !benefitCheckInCard.includes("completedMissions") ||
         !benefitCheckInCard.includes("toggleMission") ||
         !benefitCheckInCard.includes("무료 혜택 전용 탭에서 이번 주 루틴 보기") ||
-        !benefitCheckInCard.includes("halindosa:benefit-check-in") ||
+        !benefitCheckIn.includes("halindosa:benefit-check-in") ||
         !benefitDiscoverySections.includes("무료혜택 TOP 5") ||
         !benefitDiscoverySections.includes("쿠폰·앱테크 TOP 5") ||
         !benefitDiscoverySections.includes("quickBenefitEntries") ||
@@ -1086,11 +1090,13 @@ async function checkOperationalDataSurfaces() {
     !homePage.includes("<PriceAlertList") ||
     !localDataControls.includes("priceAlertStorageKey") ||
     !localDataControls.includes("가격 알림 조건") ||
+    !localDataControls.includes("benefitCheckInStorageKey") ||
+    !localDataControls.includes("혜택 출석 기록") ||
     !accountPanel.includes("priceAlertStorageKey")
   ) {
-    fail("price alert data surface", "Notifications, in-app alert tab, account deletion, and local data controls should expose saved price alerts and deletion scope.");
+    fail("price alert data surface", "Notifications, in-app alert tab, account deletion, and local data controls should expose saved price alerts, benefit check-in records, and deletion scope.");
   } else {
-    pass("price alert data surface", "Saved price alerts are visible in notifications and the in-app alert tab, and included in local/account data deletion controls.");
+    pass("price alert data surface", "Saved price alerts and benefit check-in records are visible in-app and included in local/account data deletion controls.");
   }
 
   if (

@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { BellRing, CalendarCheck2, Gift, Sparkles, Timer } from "lucide-react";
 import type { BenefitPreset } from "@/components/BenefitPlaybook";
+import { getPreviousDateKey, getTodayKey, readBenefitCheckInState, writeBenefitCheckInState } from "@/lib/benefitCheckIn";
 import type { Deal } from "@/types/deal";
 
 interface BenefitCheckInCardProps {
@@ -14,50 +15,8 @@ interface BenefitCheckInCardProps {
   onOpenAlerts: () => void;
 }
 
-interface CheckInState {
-  lastDate: string;
-  streak: number;
-  completedMissions?: string[];
-}
-
-const storageKey = "halindosa:benefit-check-in";
-
-function getTodayKey() {
-  const now = new Date();
-  const month = String(now.getMonth() + 1).padStart(2, "0");
-  const day = String(now.getDate()).padStart(2, "0");
-  return `${now.getFullYear()}-${month}-${day}`;
-}
-
-function getPreviousDateKey(dateKey: string) {
-  const previous = new Date(`${dateKey}T00:00:00`);
-  previous.setDate(previous.getDate() - 1);
-  const month = String(previous.getMonth() + 1).padStart(2, "0");
-  const day = String(previous.getDate()).padStart(2, "0");
-  return `${previous.getFullYear()}-${month}-${day}`;
-}
-
-function readCheckInState(): CheckInState {
-  if (typeof window === "undefined") return { lastDate: "", streak: 0, completedMissions: [] };
-
-  try {
-    const parsed = JSON.parse(window.localStorage.getItem(storageKey) ?? "{}");
-    return {
-      lastDate: typeof parsed.lastDate === "string" ? parsed.lastDate : "",
-      streak: typeof parsed.streak === "number" ? parsed.streak : 0,
-      completedMissions: Array.isArray(parsed.completedMissions) ? parsed.completedMissions.filter((value: unknown): value is string => typeof value === "string") : []
-    };
-  } catch {
-    return { lastDate: "", streak: 0, completedMissions: [] };
-  }
-}
-
-function writeCheckInState(state: CheckInState) {
-  window.localStorage.setItem(storageKey, JSON.stringify(state));
-}
-
 export function BenefitCheckInCard({ deals, favoriteCount, recentCount, onApplyPreset, onOpenAlerts }: BenefitCheckInCardProps) {
-  const [checkIn, setCheckIn] = useState<CheckInState>(() => readCheckInState());
+  const [checkIn, setCheckIn] = useState(() => readBenefitCheckInState());
   const [todayKey] = useState(() => getTodayKey());
   const checkedToday = checkIn.lastDate === todayKey;
   const completedMissions = checkedToday ? checkIn.completedMissions ?? [] : [];
@@ -79,7 +38,7 @@ export function BenefitCheckInCard({ deals, favoriteCount, recentCount, onApplyP
     const nextStreak = checkIn.lastDate === previousDateKey ? checkIn.streak + 1 : 1;
     const nextState = { lastDate: todayKey, streak: nextStreak, completedMissions: [] };
 
-    writeCheckInState(nextState);
+    writeBenefitCheckInState(nextState);
     setCheckIn(nextState);
   };
 
@@ -96,7 +55,7 @@ export function BenefitCheckInCard({ deals, favoriteCount, recentCount, onApplyP
       completedMissions: nextMissions
     };
 
-    writeCheckInState(nextState);
+    writeBenefitCheckInState(nextState);
     setCheckIn(nextState);
   };
 
