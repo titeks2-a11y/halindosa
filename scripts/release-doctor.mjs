@@ -528,6 +528,7 @@ async function checkUiAccessibility() {
   const sortSelect = await text("components/SortSelect.tsx");
   const dealDetailActions = await text("components/DealDetailActions.tsx");
   const localDataControls = await text("components/LocalDataControls.tsx");
+  const appInstallGuide = await text("components/AppInstallGuide.tsx");
   const shareUrl = await text("lib/shareUrl.ts");
   const topNavigation = await text("components/TopNavigation.tsx");
   const liveDealFeed = await text("components/LiveDealFeed.tsx");
@@ -596,6 +597,22 @@ async function checkUiAccessibility() {
     fail("favorites filter UX", "Favorites page should let users filter and sort saved deals by verified link, urgency, shipping, discount, deadline, and price.");
   } else {
     pass("favorites filter UX", "Favorites page supports saved-deal filtering and sorting by verified link, urgency, shipping, discount, deadline, and price.");
+  }
+
+  if (
+    !appInstallGuide.includes("beforeinstallprompt") ||
+    !appInstallGuide.includes("buildPublicAppShareUrl") ||
+    !appInstallGuide.includes("홈 화면에 할인도사 고정") ||
+    !appInstallGuide.includes("앱으로 설치하기") ||
+    !appInstallGuide.includes("공유 링크 복사") ||
+    !appInstallGuide.includes('role="status"') ||
+    !appInstallGuide.includes('aria-live="polite"')
+  ) {
+    fail("app install guide", "Mypage should provide install, home-screen, share, and accessible status guidance.");
+  } else if (!(await text("app/mypage/page.tsx")).includes("<AppInstallGuide />") || !smoke.includes("Mypage missing app install guide")) {
+    fail("app install guide", "Mypage app install guide should be wired into the page and covered by smoke tests.");
+  } else {
+    pass("app install guide", "Mypage offers install/share guidance with public share URLs and accessible feedback.");
   }
 
   if (dealTrustBadge.includes("/99")) {

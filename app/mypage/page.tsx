@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Bell, CheckCircle2, Heart, LifeBuoy, Mail, ShieldCheck, ShoppingBag, Trash2, User } from "lucide-react";
 import { AccountPanel } from "@/components/AccountPanel";
+import { AppInstallGuide } from "@/components/AppInstallGuide";
 import { LocalDataControls } from "@/components/LocalDataControls";
 import { MypageConsentSettings } from "@/components/MypageConsentSettings";
 import { getSupportMailto, supportEmail } from "@/lib/support";
@@ -62,6 +63,8 @@ export default function MyPage() {
       </section>
 
       <AccountPanel />
+
+      <AppInstallGuide />
 
       <section className="rounded-[22px] border border-slate-200 bg-white p-4 shadow-sm">
         <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">

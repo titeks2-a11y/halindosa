@@ -134,6 +134,8 @@ await check("mypage data controls", async () => {
   assert(response.status === 200, `Expected 200, got ${response.status}`);
   assert(text.includes("비회원으로 이용 중") || text.includes("로그인하고 관심 특가"), "Mypage missing account auth panel");
   assert(text.includes("계정 활동 요약"), "Mypage missing account activity summary");
+  assert(text.includes("홈 화면에 할인도사 고정"), "Mypage missing app install guide");
+  assert(text.includes("앱으로 설치하기") && text.includes("공유 링크 복사"), "Mypage missing install/share actions");
   assert(text.includes("설정 점검 요약"), "Mypage missing settings summary");
   assert(text.includes("내 데이터와 알림을 한눈에 관리"), "Mypage missing data and notification management summary");
   assert(text.includes("빠른 작업"), "Mypage missing quick actions section");
