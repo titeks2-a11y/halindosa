@@ -105,6 +105,12 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     source: "manual_review",
     evidence: "G마켓 스타배송 상품 상세 URL 패턴 검증"
   },
+  d017: {
+    url: "https://item.gmarket.co.kr/Item?goodscode=3579809715",
+    checkedAt: "2026-06-01T01:10:00.000Z",
+    source: "manual_review",
+    evidence: "G마켓 아이클레보 올인원 로봇청소기 Ultra 365 Max 상품 상세"
+  },
   d018: {
     url: "https://www.kurly.com/goods/1001058180",
     checkedAt: "2026-05-31T10:00:00.000Z",
@@ -122,6 +128,12 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     checkedAt: "2026-05-31T10:20:00.000Z",
     source: "manual_review",
     evidence: "무신사 상품 상세 URL 패턴 검증"
+  },
+  d022: {
+    url: "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000188040",
+    checkedAt: "2026-06-01T01:10:00.000Z",
+    source: "manual_review",
+    evidence: "올리브영 JMW BLDC 에어원 드라이어 MC4B03C 상품 상세"
   },
   d023: {
     url: "https://ipraves.co.kr/product/5%ED%9C%A0-%EB%B0%B8%EB%9F%B0%EC%8A%A4-%EC%BA%90%EB%A6%AC%EC%96%B4-%ED%81%90%EB%B8%8C%ED%98%95-24%ED%98%95%ED%99%95%EC%9E%A5%EA%B0%80%EB%8A%A5/708/",
@@ -194,6 +206,12 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     checkedAt: "2026-05-31T12:35:00.000Z",
     source: "manual_review",
     evidence: "쿠팡 곰곰 무농약 완숙토마토 2kg 상품 상세"
+  },
+  d036: {
+    url: "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0041365090",
+    checkedAt: "2026-06-01T01:10:00.000Z",
+    source: "manual_review",
+    evidence: "하이마트 허밍 무선청소기 HML-VC2502W 상품 상세"
   },
   d037: {
     url: "https://www.musinsa.com/products/1893766",
