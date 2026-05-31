@@ -268,6 +268,12 @@ await check("deal link integrity", async () => {
   assert(response.status === 200, `Expected 200, got ${response.status}`);
   assert(data.ok === true, "Deals API ok should be true");
   assert(data.deals.length >= 50, `Expected at least 50 deals, got ${data.deals.length}`);
+  const verifiedDirectLinks = data.deals.filter((deal) => deal.linkStatus === "verified" && deal.linkType !== "seller_search");
+  const verifiedDirectRate = Math.round((verifiedDirectLinks.length / data.deals.length) * 100);
+  assert(
+    verifiedDirectLinks.length >= 30 && verifiedDirectRate >= 55,
+    `verified direct purchase link coverage too low: ${verifiedDirectLinks.length}/${data.deals.length} (${verifiedDirectRate}%)`
+  );
 
   for (const deal of data.deals) {
     const destination = deal.purchaseUrl || deal.url || deal.link;
@@ -295,6 +301,17 @@ await check("deal link integrity", async () => {
       assert(/검색|확인/.test(deal.linkLabel), `${deal.id} seller_search label should warn about review`);
     }
   }
+});
+
+await check("verified direct purchase link coverage", async () => {
+  const { response, data } = await fetchJson("/api/deals?verifiedOnly=true&limit=100&sort=hot");
+  assert(response.status === 200, `Expected 200, got ${response.status}`);
+  assert(data.ok === true, "Verified deals API ok should be true");
+  assert(data.deals.length >= 30, `Expected at least 30 verified direct purchase deals, got ${data.deals.length}`);
+  assert(
+    data.deals.every((deal) => deal.linkStatus === "verified" && deal.linkVerified && deal.purchaseLinkVerified && deal.finalPurchaseUrl),
+    "Verified-only API returned a deal without a reviewed direct product URL"
+  );
 });
 
 await check("deal detail api", async () => {

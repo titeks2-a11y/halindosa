@@ -335,6 +335,8 @@ async function checkPartnerFeedSafety() {
   const linkValidator = await text("lib/deals/linkValidator.ts");
   const normalizer = await text("lib/deals/normalizer.ts");
   const types = await text("types/deal.ts");
+  const mockDeals = await text("data/mockDeals.ts");
+  const verifiedPurchaseLinks = await text("data/verifiedPurchaseLinks.ts");
 
   if (!feedImport.includes("placeholder 또는 커뮤니티 게시글 링크는 운영 피드로 등록할 수 없습니다.")) {
     fail("partner feed unsafe link guard", "Partner feed import should reject placeholder/community links.");
@@ -354,6 +356,18 @@ async function checkPartnerFeedSafety() {
     fail("purchase link validator", `Purchase link fields should be typed, normalized, and smoke-tested. Missing type: ${missingTypeFields.join(", ") || "none"}, smoke: ${missingSmokeFields.join(", ") || "none"}`);
   } else {
     pass("purchase link validator", "Deal normalization exposes purchase link verification fields and smoke tests cover them.");
+  }
+
+  const dealCount = [...mockDeals.matchAll(/deal\("d\d+"/g)].length;
+  const verifiedCount = [...verifiedPurchaseLinks.matchAll(/^\s*d\d+:/gm)].length;
+  const verifiedRate = dealCount ? Math.round((verifiedCount / dealCount) * 100) : 0;
+
+  if (verifiedCount < 30 || verifiedRate < 55) {
+    fail("verified purchase link coverage", `Expected at least 30 verified direct product links and 55% coverage, got ${verifiedCount}/${dealCount} (${verifiedRate}%).`);
+  } else if (!smoke.includes("verified direct purchase link coverage")) {
+    fail("verified purchase link coverage", "Smoke tests should assert the verified direct purchase link coverage threshold.");
+  } else {
+    pass("verified purchase link coverage", `${verifiedCount}/${dealCount} curated deals have manually reviewed product detail URLs (${verifiedRate}%).`);
   }
 }
 

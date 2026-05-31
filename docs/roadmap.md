@@ -76,6 +76,7 @@
 - 커뮤니티 출처 본문에서 실제 쇼핑몰 상품 상세 URL만 추출하는 `communityLinkExtractor` 구조를 준비하고 원본 글은 `sourceUrl/sourceName`으로 분리하는 정책을 문서화
 - 관리자 링크 검수 큐에 우선순위, 보강 사유, 구매 링크 신뢰도, 현재 이동 URL을 추가해 실제 운영자가 먼저 처리할 상품을 판단할 수 있도록 개선
 - `/commercialization` 출시 준비 보드를 실제 운영 전환 화면으로 확장해 구매 링크 확인율, 남은 링크 검수, Supabase OAuth Provider 외부 설정, signed AAB/App Store 업로드 잔여 작업을 한 화면에서 확인하도록 개선
+- G마켓 새우깡 묶음, 쿠팡 알리사 냉각 선풍기, 쿠팡 아이패드 A16 상품 상세 URL을 수동 검수 링크 맵에 추가해 검증된 직접 구매 링크를 30개 이상으로 보강
 
 ### PHASE 2 코드 품질
 
@@ -197,3 +198,4 @@
 - 앱 내 안내와 Play Store/App Store/Data Safety 문서에서 과거의 “회원가입 없음/기기 저장만” 문구를 제거하고, 비회원 열람 + 선택 로그인 + 계정 동기화 기준으로 업데이트했다.
 - release doctor를 76개 항목으로 확장해 스토어 문서와 공개 UI에 오래된 계정 모델 문구가 재등장하지 않도록 검사한다.
 - smoke와 release doctor에 `/commercialization` 출시 준비 보드 검증을 추가해 실제 운영 전환, 외부 설정, 남은 링크 검수 안내가 유지되도록 했다.
+- smoke와 release doctor에 검수 완료 상품 상세 URL 보강률 기준을 추가해 30개 이상, 55% 이상 직접 구매 링크 커버리지를 유지하도록 했다.

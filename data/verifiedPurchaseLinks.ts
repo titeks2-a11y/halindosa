@@ -15,6 +15,12 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     source: "manual_review",
     evidence: "롯데ON 삼성 86인치 4K 스마트 UHD TV 상품 상세"
   },
+  d002: {
+    url: "https://item.gmarket.co.kr/Item?goodsCode=4076233103",
+    checkedAt: "2026-05-31T14:20:00.000Z",
+    source: "manual_review",
+    evidence: "G마켓 새우깡 8봉 + 매운새우깡 8봉 상품 상세"
+  },
   d003: {
     url: "https://item.gmarket.co.kr/Item?goodsCode=1645289356",
     checkedAt: "2026-05-31T10:00:00.000Z",
@@ -38,6 +44,12 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     checkedAt: "2026-05-31T10:20:00.000Z",
     source: "manual_review",
     evidence: "G마켓 신라면+너구리+짜파게티+오징어짬뽕 20봉 상품 상세"
+  },
+  d010: {
+    url: "https://www.coupang.com/vp/products/7999681537?itemId=22273718645&vendorItemId=92858534546",
+    checkedAt: "2026-05-31T14:20:00.000Z",
+    source: "manual_review",
+    evidence: "쿠팡 알리사 급속 냉각 에어컨 무선 휴대용선풍기 상품 상세"
   },
   d011: {
     url: "https://www.ssg.com/item/itemView.ssg?itemId=1000377767271",
@@ -110,6 +122,12 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     checkedAt: "2026-05-31T11:10:00.000Z",
     source: "manual_review",
     evidence: "SSG 7L 대용량 에어프라이어 상품 상세"
+  },
+  d030: {
+    url: "https://www.coupang.com/vp/products/8640169010",
+    checkedAt: "2026-05-31T14:20:00.000Z",
+    source: "manual_review",
+    evidence: "쿠팡 Apple 2025 아이패드 A16 11세대 128GB Wi-Fi 상품 상세"
   },
   d031: {
     url: "https://www.coupang.com/vp/products/7872977867",
