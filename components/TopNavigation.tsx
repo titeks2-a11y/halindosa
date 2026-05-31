@@ -7,7 +7,7 @@ import { useAuth } from "@/components/AuthProvider";
 
 const navItems = [
   { href: "/", label: "홈", icon: Home },
-  { href: "/free-benefits", label: "무료혜택", icon: Gift },
+  { href: "/free-benefits", label: "무료혜택", icon: Gift, badge: "0원" },
   { href: "/categories", label: "카테고리", icon: Grid3X3 },
   { href: "/notifications", label: "알림", icon: Bell },
   { href: "/favorites", label: "찜", icon: Heart },
@@ -68,6 +68,11 @@ export function TopNavigation() {
               >
                 <Icon size={17} fill={active && item.href === "/favorites" ? "currentColor" : "none"} />
                 {item.label}
+                {"badge" in item ? (
+                  <span className={`rounded-full px-1.5 py-0.5 text-[10px] font-black leading-none ${active ? "bg-white text-dossa-red" : "bg-red-50 text-dossa-red"}`}>
+                    {item.badge}
+                  </span>
+                ) : null}
               </Link>
             );
           })}

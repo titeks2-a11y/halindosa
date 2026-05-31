@@ -744,10 +744,19 @@ async function checkUiAccessibility() {
     pass("related deal discovery UX", "Deal detail presents related deals with images, timing, category navigation, and purchase-minded copy.");
   }
 
-  if (!bottomNav.includes("getNavAriaLabel") || !bottomNavigation.includes("getNavAriaLabel") || !bottomNav.includes('aria-label="주요 메뉴"') || !bottomNavigation.includes('aria-label="주요 메뉴"') || !bottomNav.includes("aria-current") || !bottomNavigation.includes("aria-current")) {
-    fail("bottom navigation accessibility", "Bottom navigation should expose named menus, active state, and explicit button/link labels.");
+  if (
+    !bottomNav.includes("getNavAriaLabel") ||
+    !bottomNavigation.includes("getNavAriaLabel") ||
+    !bottomNav.includes('aria-label="주요 메뉴"') ||
+    !bottomNavigation.includes('aria-label="주요 메뉴"') ||
+    !bottomNavigation.includes('badge: "0원"') ||
+    !topNavigation.includes('badge: "0원"') ||
+    !bottomNav.includes("aria-current") ||
+    !bottomNavigation.includes("aria-current")
+  ) {
+    fail("bottom navigation accessibility", "Bottom navigation should expose named menus, free benefit badge, active state, and explicit button/link labels.");
   } else {
-    pass("bottom navigation accessibility", "Route navigation and in-page navigation expose named menus with active state and explicit labels.");
+    pass("bottom navigation accessibility", "Route navigation and in-page navigation expose named menus, free benefit badge, active state, and explicit labels.");
   }
 
   if (!topNavigation.includes('aria-label="주요 메뉴"') || !topNavigation.includes('aria-label="상품명, 쇼핑몰, 카테고리 검색"') || !topNavigation.includes('aria-label="특가 정보 새로고침"')) {

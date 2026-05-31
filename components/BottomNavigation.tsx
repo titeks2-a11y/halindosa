@@ -6,7 +6,7 @@ import { Bell, Gift, Grid3X3, Heart, Home, User } from "lucide-react";
 
 const navItems = [
   { href: "/", label: "홈", icon: Home },
-  { href: "/free-benefits", label: "무료", icon: Gift },
+  { href: "/free-benefits", label: "무료", icon: Gift, badge: "0원" },
   { href: "/categories", label: "카테고리", icon: Grid3X3 },
   { href: "/notifications", label: "알림", icon: Bell },
   { href: "/favorites", label: "찜", icon: Heart },
@@ -38,10 +38,15 @@ export function BottomNavigation() {
               href={item.href}
               aria-current={active ? "page" : undefined}
               aria-label={getNavAriaLabel(item.label, active)}
-              className={`flex min-h-[56px] flex-col items-center justify-center gap-1 rounded-2xl text-[11px] font-black transition ${
-                active ? "text-dossa-red" : "text-slate-400 active:text-slate-700"
+              className={`relative flex min-h-[56px] flex-col items-center justify-center gap-1 rounded-2xl text-[11px] font-black transition ${
+                active ? "bg-red-50 text-dossa-red" : "text-slate-400 active:bg-slate-50 active:text-slate-700"
               }`}
             >
+              {"badge" in item ? (
+                <span className="absolute right-2 top-1 rounded-full bg-dossa-red px-1.5 py-0.5 text-[9px] font-black leading-none text-white">
+                  {item.badge}
+                </span>
+              ) : null}
               <Icon size={21} fill={active && item.href === "/favorites" ? "currentColor" : "none"} />
               {item.label}
             </Link>
