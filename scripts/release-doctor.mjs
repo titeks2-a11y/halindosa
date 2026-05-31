@@ -1068,6 +1068,10 @@ async function checkOperationalDataSurfaces() {
     !freeBenefitsClient.includes("가입 없이 받기") ||
     !freeBenefitsClient.includes("선착순 혜택") ||
     !freeBenefitsClient.includes("배송비:") ||
+    !freeBenefitsClient.includes("혜택 조건 요약") ||
+    !freeBenefitsClient.includes("최소금액:") ||
+    !freeBenefitsClient.includes("reason=expired") ||
+    !freeBenefitsClient.includes("deal.claimCta") ||
     !bottomNavigation.includes("/free-benefits") ||
     !topNavigation.includes("/free-benefits") ||
     !smoke.includes("free benefits page")

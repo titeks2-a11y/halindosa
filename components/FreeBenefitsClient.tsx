@@ -2,9 +2,10 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, Gift, Search, Share2, Sparkles, Timer, Truck } from "lucide-react";
+import { ArrowLeft, AlertTriangle, ExternalLink, Gift, Search, Share2, Sparkles, Timer, Truck } from "lucide-react";
 import { DealCard } from "@/components/DealCard";
 import { getBenefitTypeLabel } from "@/lib/deals/benefits";
+import { formatPrice } from "@/lib/format";
 import { buildDealRedirectUrl } from "@/lib/redirectUrl";
 import { buildPublicDealShareUrl } from "@/lib/shareUrl";
 import { Deal, DealBenefitType } from "@/types/deal";
@@ -40,6 +41,11 @@ function readFavorites() {
 
 function writeFavorites(ids: string[]) {
   window.localStorage.setItem("halindosa:favorites", JSON.stringify(ids));
+}
+
+function getMinimumOrderLabel(deal: Deal) {
+  if (!deal.minimumOrderAmount) return "최소 주문 없음";
+  return `${formatPrice(deal.minimumOrderAmount)} 이상`;
 }
 
 export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
@@ -272,12 +278,48 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
           <section className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
             {filteredDeals.map((deal) => (
               <div key={deal.id} className={deal.isExpired ? "opacity-55 grayscale-[0.25]" : ""}>
-                <div className="mb-2 grid grid-cols-2 gap-2 rounded-2xl border border-slate-200 bg-white p-3 text-[11px] font-black text-slate-600 shadow-sm">
-                  <span>선착순: {deal.isFirstComeFirstServed ? "가능성 있음" : "표시 없음"}</span>
-                  <span>회원가입: {deal.requiresSignup ? "필요 가능" : "불필요"}</span>
-                  <span>배송비: {deal.shippingFee}</span>
-                  <span>중복: {deal.isStackable ? "가능성 있음" : "확인 필요"}</span>
-                  {deal.couponCondition ? <span className="col-span-2">조건: {deal.couponCondition}</span> : null}
+                <div className="mb-2 rounded-3xl border border-red-100 bg-white p-3 shadow-sm">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="min-w-0">
+                      <p className="text-[11px] font-black text-dossa-red">혜택 조건 요약</p>
+                      <p className="mt-1 line-clamp-2 text-sm font-black text-slate-950">{deal.benefitSummary}</p>
+                    </div>
+                    <span className="shrink-0 rounded-full bg-red-50 px-2.5 py-1 text-[11px] font-black text-dossa-red">{deal.claimCta}</span>
+                  </div>
+                  <div className="mt-3 grid grid-cols-2 gap-2 text-[11px] font-black text-slate-600">
+                    <span className="rounded-2xl bg-slate-50 px-3 py-2">선착순: {deal.isFirstComeFirstServed ? "가능성 있음" : "표시 없음"}</span>
+                    <span className="rounded-2xl bg-slate-50 px-3 py-2">회원가입: {deal.requiresSignup ? "필요 가능" : "불필요"}</span>
+                    <span className="rounded-2xl bg-slate-50 px-3 py-2">배송비: {deal.shippingFee}</span>
+                    <span className="rounded-2xl bg-slate-50 px-3 py-2">중복: {deal.isStackable ? "가능성 있음" : "확인 필요"}</span>
+                    <span className="rounded-2xl bg-slate-50 px-3 py-2">최소금액: {getMinimumOrderLabel(deal)}</span>
+                    <span className="rounded-2xl bg-slate-50 px-3 py-2">만료: {deal.isEndingSoon ? "마감 임박" : "진행 중"}</span>
+                    {deal.couponCondition ? <span className="col-span-2 rounded-2xl bg-red-50 px-3 py-2 text-dossa-red">조건: {deal.couponCondition}</span> : null}
+                  </div>
+                  <div className="mt-3 grid grid-cols-[1fr_auto_auto] gap-2">
+                    <button
+                      type="button"
+                      onClick={() => openDeal(deal)}
+                      className="inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl bg-dossa-red px-3 text-sm font-black text-white transition hover:bg-dossa-deep"
+                      aria-label={`${deal.title} ${deal.claimCta}`}
+                    >
+                      {deal.claimCta}
+                      <ExternalLink size={15} />
+                    </button>
+                    <Link
+                      href={`/reports?dealId=${deal.id}&reason=expired`}
+                      className="inline-flex min-h-11 items-center justify-center rounded-2xl border border-slate-200 bg-white px-3 text-xs font-black text-slate-600 transition hover:border-red-100 hover:text-dossa-red"
+                      aria-label={`${deal.title} 종료 신고`}
+                    >
+                      종료
+                    </Link>
+                    <Link
+                      href={`/reports?dealId=${deal.id}&reason=link_error`}
+                      className="inline-flex min-h-11 items-center justify-center rounded-2xl border border-slate-200 bg-white px-3 text-xs font-black text-slate-600 transition hover:border-red-100 hover:text-dossa-red"
+                      aria-label={`${deal.title} 링크 오류 신고`}
+                    >
+                      <AlertTriangle size={15} />
+                    </Link>
+                  </div>
                 </div>
                 <DealCard
                   deal={deal}
