@@ -69,6 +69,13 @@ export interface Deal {
   isExpired: boolean;
   savingsAmount: number;
   savingsRate: number;
+  isFirstComeFirstServed: boolean;
+  requiresSignup: boolean;
+  shippingFee: string;
+  couponCondition?: string;
+  minimumOrderAmount?: number;
+  isStackable?: boolean;
+  claimCta: string;
   shipping: string;
   createdAt: string;
   expireAt: string;

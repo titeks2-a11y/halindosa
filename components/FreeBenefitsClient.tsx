@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, Gift, Share2, Sparkles } from "lucide-react";
+import { ArrowLeft, Gift, Search, Share2, Sparkles, Timer, Truck } from "lucide-react";
 import { DealCard } from "@/components/DealCard";
 import { getBenefitTypeLabel } from "@/lib/deals/benefits";
 import { buildDealRedirectUrl } from "@/lib/redirectUrl";
@@ -25,6 +25,8 @@ const tabs: Array<{ id: "all" | DealBenefitType; label: string }> = [
   { id: "foodDelivery", label: "배달/외식" }
 ];
 
+type BenefitSort = "recommended" | "endingSoon" | "popular" | "savings";
+
 function readFavorites() {
   if (typeof window === "undefined") return [];
 
@@ -41,20 +43,49 @@ function writeFavorites(ids: string[]) {
 }
 
 export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
+  const [referenceNow] = useState(() => Date.now());
   const [activeType, setActiveType] = useState<"all" | DealBenefitType>("all");
+  const [query, setQuery] = useState("");
+  const [sort, setSort] = useState<BenefitSort>("recommended");
+  const [endingSoonOnly, setEndingSoonOnly] = useState(false);
+  const [freeShippingOnly, setFreeShippingOnly] = useState(false);
+  const [noSignupOnly, setNoSignupOnly] = useState(false);
+  const [firstComeOnly, setFirstComeOnly] = useState(false);
   const [favorites, setFavorites] = useState<string[]>(() => readFavorites());
   const [message, setMessage] = useState("");
 
   const filteredDeals = useMemo(() => {
-    const source = activeType === "all" ? deals : deals.filter((deal) => deal.dealType === activeType);
-    return [...source].sort(
-      (a, b) =>
-        Number(a.isExpired) - Number(b.isExpired) ||
-        b.reliabilityScore - a.reliabilityScore ||
-        b.clickCount - a.clickCount ||
-        new Date(a.expireAt).getTime() - new Date(b.expireAt).getTime()
-    );
-  }, [activeType, deals]);
+    const searchQuery = query.trim().toLowerCase();
+    let source = activeType === "all" ? deals : deals.filter((deal) => deal.dealType === activeType);
+
+    if (searchQuery) {
+      source = source.filter((deal) =>
+        [
+          deal.title,
+          deal.mallName,
+          deal.category,
+          deal.subCategory ?? "",
+          deal.benefitSummary,
+          deal.couponCondition ?? "",
+          ...deal.tags
+        ].some((value) => value.toLowerCase().includes(searchQuery))
+      );
+    }
+
+    if (endingSoonOnly) source = source.filter((deal) => deal.isEndingSoon || new Date(deal.expireAt).getTime() - referenceNow < 12 * 60 * 60 * 1000);
+    if (freeShippingOnly) source = source.filter((deal) => deal.isFreeShipping || deal.shippingFee === "무료배송");
+    if (noSignupOnly) source = source.filter((deal) => !deal.requiresSignup);
+    if (firstComeOnly) source = source.filter((deal) => deal.isFirstComeFirstServed);
+
+    return [...source].sort((a, b) => {
+      const activeScore = Number(a.isExpired) - Number(b.isExpired);
+      if (activeScore !== 0) return activeScore;
+      if (sort === "endingSoon") return new Date(a.expireAt).getTime() - new Date(b.expireAt).getTime();
+      if (sort === "popular") return b.clickCount - a.clickCount || b.likeCount - a.likeCount;
+      if (sort === "savings") return b.savingsAmount - a.savingsAmount || b.savingsRate - a.savingsRate;
+      return b.reliabilityScore - a.reliabilityScore || b.clickCount - a.clickCount || new Date(a.expireAt).getTime() - new Date(b.expireAt).getTime();
+    });
+  }, [activeType, deals, endingSoonOnly, firstComeOnly, freeShippingOnly, noSignupOnly, query, referenceNow, sort]);
 
   const counts = useMemo(
     () =>
@@ -95,6 +126,16 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
       setMessage("공유를 완료하지 못했습니다.");
       window.setTimeout(() => setMessage(""), 2500);
     }
+  };
+
+  const resetFilters = () => {
+    setQuery("");
+    setActiveType("all");
+    setSort("recommended");
+    setEndingSoonOnly(false);
+    setFreeShippingOnly(false);
+    setNoSignupOnly(false);
+    setFirstComeOnly(false);
   };
 
   return (
@@ -150,6 +191,69 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
           </div>
         </section>
 
+        <section className="rounded-[26px] border border-slate-200 bg-white p-4 shadow-sm" aria-label="무료 혜택 검색과 조건 필터">
+          <div className="grid gap-3 lg:grid-cols-[1fr_210px]">
+            <label className="relative block">
+              <span className="sr-only">무료 혜택 검색</span>
+              <Search className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+              <input
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder="무료 샘플, 쿠폰, 편의점, 포인트를 검색해보세요"
+                className="min-h-[54px] w-full rounded-2xl border border-slate-200 bg-slate-50 pl-11 pr-4 text-base font-bold text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-red-200 focus:bg-white focus:ring-4 focus:ring-red-50"
+              />
+            </label>
+            <label>
+              <span className="sr-only">무료 혜택 정렬</span>
+              <select
+                value={sort}
+                onChange={(event) => setSort(event.target.value as BenefitSort)}
+                aria-label="무료 혜택 정렬"
+                className="min-h-[54px] w-full rounded-2xl border border-slate-200 bg-white px-4 text-sm font-black text-slate-700 outline-none focus:border-red-200 focus:ring-4 focus:ring-red-50"
+              >
+                <option value="recommended">추천순</option>
+                <option value="endingSoon">마감임박순</option>
+                <option value="popular">클릭 많은 순</option>
+                <option value="savings">절약금액순</option>
+              </select>
+            </label>
+          </div>
+          <div className="mt-3 flex gap-2 overflow-x-auto pb-1 hide-scrollbar">
+            {[
+              ["ending", "마감 임박만", endingSoonOnly, () => setEndingSoonOnly((value) => !value), Timer],
+              ["shipping", "배송비 무료", freeShippingOnly, () => setFreeShippingOnly((value) => !value), Truck],
+              ["signup", "가입 없이 받기", noSignupOnly, () => setNoSignupOnly((value) => !value), Gift],
+              ["first", "선착순 혜택", firstComeOnly, () => setFirstComeOnly((value) => !value), Sparkles]
+            ].map(([id, label, active, onClick, Icon]) => {
+              const FilterIcon = Icon as typeof Gift;
+              return (
+                <button
+                  key={String(id)}
+                  type="button"
+                  onClick={onClick as () => void}
+                  aria-pressed={Boolean(active)}
+                  className={`inline-flex min-h-11 shrink-0 items-center gap-2 rounded-2xl border px-4 text-sm font-black transition ${
+                    active ? "border-red-200 bg-red-50 text-dossa-red" : "border-slate-200 bg-white text-slate-600 hover:border-red-100 hover:text-dossa-red"
+                  }`}
+                >
+                  <FilterIcon size={16} />
+                  {String(label)}
+                </button>
+              );
+            })}
+            <button
+              type="button"
+              onClick={resetFilters}
+              className="inline-flex min-h-11 shrink-0 items-center rounded-2xl border border-slate-200 bg-white px-4 text-sm font-black text-slate-500 transition hover:border-red-100 hover:text-dossa-red"
+            >
+              초기화
+            </button>
+          </div>
+          <p className="mt-3 text-xs font-bold text-slate-500">
+            현재 결과 {filteredDeals.length}개 · 조건은 판매처에서 최종 확인해야 하며 종료/품절 가능성이 있습니다.
+          </p>
+        </section>
+
         <section className="grid gap-3 md:grid-cols-3">
           {[
             ["선착순 여부", "마감 시간이 가까운 혜택을 위로 정렬합니다."],
@@ -167,14 +271,22 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
         {filteredDeals.length ? (
           <section className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
             {filteredDeals.map((deal) => (
-              <DealCard
-                key={deal.id}
-                deal={deal}
-                isFavorite={favorites.includes(deal.id)}
-                onToggleFavorite={toggleFavorite}
-                onOpenDeal={openDeal}
-                onShareDeal={shareDeal}
-              />
+              <div key={deal.id} className={deal.isExpired ? "opacity-55 grayscale-[0.25]" : ""}>
+                <div className="mb-2 grid grid-cols-2 gap-2 rounded-2xl border border-slate-200 bg-white p-3 text-[11px] font-black text-slate-600 shadow-sm">
+                  <span>선착순: {deal.isFirstComeFirstServed ? "가능성 있음" : "표시 없음"}</span>
+                  <span>회원가입: {deal.requiresSignup ? "필요 가능" : "불필요"}</span>
+                  <span>배송비: {deal.shippingFee}</span>
+                  <span>중복: {deal.isStackable ? "가능성 있음" : "확인 필요"}</span>
+                  {deal.couponCondition ? <span className="col-span-2">조건: {deal.couponCondition}</span> : null}
+                </div>
+                <DealCard
+                  deal={deal}
+                  isFavorite={favorites.includes(deal.id)}
+                  onToggleFavorite={toggleFavorite}
+                  onOpenDeal={openDeal}
+                  onShareDeal={shareDeal}
+                />
+              </div>
             ))}
           </section>
         ) : (

@@ -24,12 +24,14 @@ VER 2.0의 방향은 단순 특가 링크 모음이 아니라 매일 확인할 �
 - `isExpired`: 종료된 혜택 여부
 - `savingsAmount`, `savingsRate`: 절약 금액과 절약률
 - `viewCount`, `reportCount`: 인기 정렬과 링크 품질 운영을 위한 행동/신고 지표
+- `isFirstComeFirstServed`, `requiresSignup`, `shippingFee`, `couponCondition`, `minimumOrderAmount`, `isStackable`, `claimCta`: 무료 혜택 카드에서 선착순, 회원가입 필요 여부, 배송비, 쿠폰 조건, 중복 가능 여부, 버튼 문구를 표현하기 위한 조건 필드
 
 ## 출시 전 검증 기준
 
 - 큐레이션 52개 상품 전체가 안전한 판매처/상품 상세 링크를 가진다.
 - `/api/deals?dealType=coupon` 같은 혜택 유형 필터가 정상 동작한다.
 - `/free-benefits` 전용 화면에서 무료 샘플, 체험단, 쿠폰, 무료배송, 편의점, 마트, 배달/외식 혜택을 탐색할 수 있다.
+- `/free-benefits` 전용 화면에서 검색, 추천순/마감임박순/클릭 많은 순/절약금액순 정렬, 마감임박/배송비 무료/가입 없이 받기/선착순 조건 필터가 동작한다.
 - 홈 화면에 무료혜택, 쿠폰, 편의점/마트, 클릭 급상승, 마감임박 영역이 노출된다.
 - 비회원도 모든 혜택을 열람할 수 있고, 로그인은 저장/알림/개인화에만 필요하다.
 - 오류 신고와 구매 전 최종 조건 확인 문구가 유지된다.

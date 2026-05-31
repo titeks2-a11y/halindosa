@@ -66,6 +66,12 @@ export function normalizeDeal(input: DealInput, source = input.source ?? "mock")
   const dealType = input.dealType ?? inferDealBenefitType({ title: input.title, category: input.category, tags, shipping, salePrice: input.salePrice, originalPrice: input.originalPrice, discountRate });
   const isExpired = input.isExpired ?? new Date(expireAt).getTime() <= Date.now();
   const reliabilityScore = input.reliabilityScore ?? Math.min(100, Math.round(purchaseConfidence + (linkVerified ? 8 : 0) + ((input.popularityScore ?? 0) >= 85 ? 3 : 0)));
+  const conditionText = [input.title, input.category, ...tags].join(" ");
+  const isFirstComeFirstServed = input.isFirstComeFirstServed ?? /선착순|한정수량|오늘만|마감임박/.test(conditionText);
+  const requiresSignup = input.requiresSignup ?? /첫 구매|신규 가입|체험단|포인트|앱테크|무료체험/.test(conditionText);
+  const shippingFee = input.shippingFee ?? (shipping === "무료배송" ? "무료배송" : dealType === "freebie" || dealType === "experience" ? "배송비 확인" : "판매처 조건부");
+  const couponCondition = input.couponCondition ?? (dealType === "coupon" || dealType === "foodDelivery" || dealType === "point" ? "판매처 쿠폰/결제 조건 확인" : undefined);
+  const minimumOrderAmount = input.minimumOrderAmount ?? (dealType === "coupon" || dealType === "foodDelivery" ? Math.max(0, Math.round(input.salePrice / 1000) * 1000) : undefined);
 
   return {
     id: input.id,
@@ -107,6 +113,13 @@ export function normalizeDeal(input: DealInput, source = input.source ?? "mock")
     isExpired,
     savingsAmount: input.savingsAmount ?? discountAmount,
     savingsRate: input.savingsRate ?? discountRate,
+    isFirstComeFirstServed,
+    requiresSignup,
+    shippingFee,
+    couponCondition,
+    minimumOrderAmount,
+    isStackable: input.isStackable ?? /중복|카드할인|쿠폰적용/.test(conditionText),
+    claimCta: input.claimCta ?? (dealType === "freebie" || dealType === "experience" || dealType === "point" ? "혜택 받기" : dealType === "coupon" || dealType === "foodDelivery" ? "쿠폰 받기" : "판매처 확인"),
     shipping,
     createdAt,
     expireAt,

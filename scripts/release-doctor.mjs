@@ -1011,7 +1011,14 @@ async function checkOperationalDataSurfaces() {
     "verifiedProductUrl",
     "lastVerifiedAt",
     "viewCount",
-    "reportCount"
+    "reportCount",
+    "isFirstComeFirstServed",
+    "requiresSignup",
+    "shippingFee",
+    "couponCondition",
+    "minimumOrderAmount",
+    "isStackable",
+    "claimCta"
   ];
   const missingCommercialDealFields = requiredCommercialDealFields.filter((field) => !dealTypes.includes(field));
   if (missingCommercialDealFields.length) {
@@ -1027,6 +1034,11 @@ async function checkOperationalDataSurfaces() {
     !freeBenefitsClient.includes("체험단") ||
     !freeBenefitsClient.includes("편의점") ||
     !freeBenefitsClient.includes("배달/외식") ||
+    !freeBenefitsClient.includes("무료 혜택 검색") ||
+    !freeBenefitsClient.includes("무료 혜택 정렬") ||
+    !freeBenefitsClient.includes("가입 없이 받기") ||
+    !freeBenefitsClient.includes("선착순 혜택") ||
+    !freeBenefitsClient.includes("배송비:") ||
     !bottomNavigation.includes("/free-benefits") ||
     !topNavigation.includes("/free-benefits") ||
     !smoke.includes("free benefits page")

@@ -406,6 +406,10 @@ await check("deal link integrity", async () => {
     assert(typeof deal.price === "number", `${deal.id} price alias should be number`);
     assert(typeof deal.viewCount === "number", `${deal.id} viewCount should be number`);
     assert(typeof deal.reportCount === "number", `${deal.id} reportCount should be number`);
+    assert(typeof deal.isFirstComeFirstServed === "boolean", `${deal.id} isFirstComeFirstServed should be boolean`);
+    assert(typeof deal.requiresSignup === "boolean", `${deal.id} requiresSignup should be boolean`);
+    assert(typeof deal.shippingFee === "string" && deal.shippingFee.length > 0, `${deal.id} missing shippingFee`);
+    assert(typeof deal.claimCta === "string" && deal.claimCta.length > 0, `${deal.id} missing claimCta`);
     assert(deal.isVerified ? Boolean(deal.verifiedProductUrl || deal.finalPurchaseUrl) : true, `${deal.id} verified deal missing verifiedProductUrl/finalPurchaseUrl`);
     assert(deal.purchaseConfidence >= 0 && deal.purchaseConfidence <= 100, `${deal.id} purchaseConfidence out of range`);
     assert(deal.finalUrl && !isUnsafeDealUrl(deal.finalUrl), `${deal.id} has unsafe finalUrl: ${deal.finalUrl}`);
@@ -442,7 +446,10 @@ await check("free benefits page", async () => {
   assert(text.includes("무료 혜택 전용 탭"), "Free benefits page missing title");
   assert(text.includes("무료 샘플") && text.includes("체험단") && text.includes("무료배송"), "Free benefits page missing free benefit tabs");
   assert(text.includes("편의점") && text.includes("마트") && text.includes("배달/외식"), "Free benefits page missing daily-life benefit tabs");
+  assert(text.includes("무료 혜택 검색") && text.includes("무료 혜택 정렬"), "Free benefits page missing search/sort controls");
+  assert(text.includes("마감 임박만") && text.includes("가입 없이 받기") && text.includes("선착순 혜택"), "Free benefits page missing condition filters");
   assert(text.includes("선착순 여부") && text.includes("회원가입 필요 여부") && text.includes("신고 가능"), "Free benefits page missing benefit condition guidance");
+  assert(text.includes("배송비:") && text.includes("중복:"), "Free benefits page missing benefit condition chips");
   assert(text.includes("판매처 확인") && text.includes("신고"), "Free benefits page missing purchase and report actions");
 });
 

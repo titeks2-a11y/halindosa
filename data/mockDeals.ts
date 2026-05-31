@@ -65,6 +65,13 @@ function deal(
   const dealType = inferDealBenefitType({ title, category, tags, shipping: shippingInfo, salePrice, originalPrice, discountRate });
   const isExpired = new Date(expiresAt).getTime() <= now;
   const reliabilityScore = Math.min(100, Math.round(validation.purchaseConfidence + (verifiedOverride ? 8 : 0) + (popularityScore >= 85 ? 3 : 0)));
+  const text = [title, category, ...tags].join(" ");
+  const isFirstComeFirstServed = /선착순|한정수량|오늘만|마감임박/.test(text);
+  const requiresSignup = /첫 구매|신규 가입|체험단|포인트|앱테크|무료체험/.test(text);
+  const shippingFee = shippingInfo === "무료배송" ? "무료배송" : dealType === "freebie" || dealType === "experience" ? "배송비 확인" : "판매처 조건부";
+  const couponCondition = dealType === "coupon" || dealType === "foodDelivery" || dealType === "point" ? "판매처 쿠폰/결제 조건 확인" : undefined;
+  const minimumOrderAmount = dealType === "coupon" || dealType === "foodDelivery" ? Math.max(0, Math.round(salePrice / 1000) * 1000) : undefined;
+  const claimCta = dealType === "freebie" || dealType === "experience" || dealType === "point" ? "혜택 받기" : dealType === "coupon" || dealType === "foodDelivery" ? "쿠폰 받기" : "판매처 확인";
 
   return {
     id,
@@ -105,6 +112,13 @@ function deal(
     isExpired,
     savingsAmount: originalPrice - salePrice,
     savingsRate: discountRate,
+    isFirstComeFirstServed,
+    requiresSignup,
+    shippingFee,
+    couponCondition,
+    minimumOrderAmount,
+    isStackable: /중복|카드할인|쿠폰적용/.test(text),
+    claimCta,
     shipping: shippingInfo,
     createdAt,
     expireAt: expiresAt,
