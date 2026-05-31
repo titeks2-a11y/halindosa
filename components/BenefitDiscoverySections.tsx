@@ -20,6 +20,15 @@ interface DailyClaimPlanItem {
   icon: typeof Gift;
 }
 
+interface BenefitMissionItem {
+  label: string;
+  title: string;
+  helper: string;
+  metric: string;
+  deal: Deal;
+  icon: typeof Gift;
+}
+
 const benefitCards: Array<{
   type: DealBenefitType;
   title: string;
@@ -137,6 +146,44 @@ function getDailyClaimPlan(deals: Deal[]) {
   ].filter((item): item is DailyClaimPlanItem => Boolean(item.deal));
 }
 
+function getTodayBenefitMissions(deals: Deal[]) {
+  const activeDeals = sortByBenefitScore(deals.filter((deal) => !deal.isExpired && !deal.isSoldOut && deal.linkStatus !== "broken"));
+  const pickedIds = new Set<string>();
+
+  const pick = (predicate: (deal: Deal) => boolean) => {
+    const deal = activeDeals.find((item) => predicate(item) && !pickedIds.has(item.id));
+    if (deal) pickedIds.add(deal.id);
+    return deal;
+  };
+
+  return [
+    {
+      label: "0원부터",
+      title: "돈 쓰기 전 무료 혜택",
+      helper: "무료 샘플, 체험단, 초대권처럼 바로 챙길 수 있는 혜택입니다.",
+      metric: "신청/수령 조건 확인",
+      deal: pick((deal) => ["freebie", "experience"].includes(deal.dealType) || deal.salePrice <= 1000),
+      icon: Gift
+    },
+    {
+      label: "결제 전",
+      title: "쿠폰·포인트 먼저 적용",
+      helper: "구매하기 전에 쿠폰 조건과 포인트 적립을 먼저 확인하세요.",
+      metric: "최소금액·중복 여부 확인",
+      deal: pick((deal) => ["coupon", "point", "foodDelivery"].includes(deal.dealType)),
+      icon: TicketPercent
+    },
+    {
+      label: "마감 체크",
+      title: "오늘 끝날 수 있는 혜택",
+      helper: "가격, 재고, 이벤트 기간이 빠르게 바뀔 수 있어 먼저 보는 묶음입니다.",
+      metric: "마감 전 판매처 확인",
+      deal: pick((deal) => deal.isEndingSoon),
+      icon: Clock3
+    }
+  ].filter((item): item is BenefitMissionItem => Boolean(item.deal));
+}
+
 function BenefitTopList({
   title,
   description,
@@ -216,6 +263,7 @@ export function BenefitDiscoverySections({
   const { freeTop, couponTop } = getDailyBenefitRankings(source);
   const summaryStats = getBenefitSummaryStats(source);
   const dailyClaimPlan = getDailyClaimPlan(source);
+  const todayBenefitMissions = getTodayBenefitMissions(source);
 
   return (
     <div className="space-y-4" aria-label="할인도사 VER 2.0 혜택 탐색">
@@ -307,6 +355,44 @@ export function BenefitDiscoverySections({
             </div>
           ))}
         </div>
+
+        {todayBenefitMissions.length ? (
+          <div className="mt-4 rounded-[24px] border border-slate-200 bg-slate-950 p-3 text-white" aria-label="오늘 혜택 미션 보드">
+            <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p className="text-xs font-black text-red-200">오늘 혜택 미션 보드</p>
+                <h4 className="text-lg font-black">처음 들어왔다면 이 3가지만 먼저 보세요</h4>
+              </div>
+              <p className="text-xs font-bold leading-5 text-slate-300">무료, 쿠폰, 마감 혜택을 실제 카드로 연결합니다.</p>
+            </div>
+            <div className="mt-3 grid gap-2 lg:grid-cols-3">
+              {todayBenefitMissions.map((mission) => {
+                const Icon = mission.icon;
+
+                return (
+                  <button
+                    key={mission.title}
+                    type="button"
+                    onClick={() => onOpenDeal(mission.deal)}
+                    className="min-h-[162px] rounded-3xl bg-white p-3 text-left text-slate-950 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+                    aria-label={`${mission.title} ${mission.deal.title} 확인`}
+                  >
+                    <span className="flex items-start justify-between gap-3">
+                      <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-red-50 text-dossa-red">
+                        <Icon size={19} />
+                      </span>
+                      <span className="rounded-full bg-slate-950 px-2.5 py-1 text-[11px] font-black text-white">{mission.label}</span>
+                    </span>
+                    <span className="mt-3 block text-sm font-black">{mission.title}</span>
+                    <span className="mt-1 block text-xs font-bold leading-5 text-slate-500">{mission.helper}</span>
+                    <span className="mt-2 line-clamp-1 block text-xs font-black text-dossa-red">{mission.deal.title}</span>
+                    <span className="mt-1 block text-[11px] font-bold text-slate-500">{mission.metric}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        ) : null}
 
         {dailyClaimPlan.length ? (
           <div className="mt-4 rounded-[24px] border border-slate-200 bg-white p-3" aria-label="오늘 받을 수 있는 혜택 루틴">

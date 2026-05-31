@@ -848,6 +848,9 @@ async function checkUiAccessibility() {
         !benefitDiscoverySections.includes("getDailyClaimPlan") ||
         !benefitDiscoverySections.includes("3분 혜택 루틴") ||
         !benefitDiscoverySections.includes("오늘 받을 수 있는 혜택 루틴") ||
+        !benefitDiscoverySections.includes("getTodayBenefitMissions") ||
+        !benefitDiscoverySections.includes("오늘 혜택 미션 보드") ||
+        !benefitDiscoverySections.includes("처음 들어왔다면 이 3가지만 먼저 보세요") ||
         !benefitDiscoverySections.includes("sortByFavoriteSignal") ||
         !benefitDiscoverySections.includes("회원들이 많이 찜한 혜택") ||
         !benefitDiscoverySections.includes("내 찜 {favoriteCount}개") ||
@@ -868,6 +871,7 @@ async function checkUiAccessibility() {
         !smoke.includes("Home page missing fast benefit shortcut rail") ||
         !smoke.includes("Home page missing daily savings summary") ||
         !smoke.includes("Home page missing daily claim routine") ||
+        !smoke.includes("Home page missing first-visit benefit mission board") ||
         !smoke.includes("Home page missing member favorite benefit section") ||
         !smoke.includes("Home page missing interest category personalization") ||
         !smoke.includes("Home page missing true deal spotlight") ||
