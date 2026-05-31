@@ -257,6 +257,8 @@ async function checkAuthSurface() {
   const accountDeleteRoute = await text("app/api/account/delete/route.ts");
   const supabaseServer = await text("lib/auth/supabaseServer.ts");
   const deepLinkHandler = await text("components/AuthDeepLinkHandler.tsx");
+  const recentDealMarker = await text("components/RecentDealMarker.tsx");
+  const dealDetailPage = await text("app/deals/[id]/page.tsx");
   const loginPage = await text("app/login/page.tsx");
   const signupPage = await text("app/signup/page.tsx");
   const supabaseClient = await text("lib/auth/supabaseClient.ts");
@@ -295,6 +297,12 @@ async function checkAuthSurface() {
     fail("member data sync", "Favorites, recent views, and preferences should sync to Supabase with local fallback.");
   } else {
     pass("member data sync", "Favorites, recent views, and member preferences sync to Supabase with graceful fallback.");
+  }
+
+  if (!recentDealMarker.includes("recordRecentDealView(dealId)") || !dealDetailPage.includes("<RecentDealMarker dealId={deal.id}")) {
+    fail("recent deal detail marker", "Deal detail views should record recent products with Supabase/local fallback.");
+  } else {
+    pass("recent deal detail marker", "Deal detail views record recent products with Supabase/local fallback.");
   }
 
   if (!accountPanel.includes("회원 탈퇴") || !supabaseServer.includes("SUPABASE_SERVICE_ROLE_KEY") || !accountDeleteRoute.includes("auth.admin.deleteUser") || !accountDeleteRoute.includes("authorization") || !accountDeleteRoute.includes("deal_click_logs")) {
