@@ -1,5 +1,6 @@
 import { Deal } from "@/types/deal";
 import { validatePurchaseLink } from "@/lib/deals/linkValidator";
+import { verifiedPurchaseLinks } from "./verifiedPurchaseLinks";
 
 const now = Date.now();
 const hour = 60 * 60 * 1000;
@@ -50,9 +51,10 @@ function deal(
   const expiresAt = new Date(now + expiresInHours * hour).toISOString();
   const createdAt = new Date(now - offsetHours * hour).toISOString();
   const fallbackUrl = buildMarketplaceSearchUrl(mall, title);
-  const checkedAt = new Date(now - Math.max(5, Math.round(offsetHours * 18)) * 60 * 1000).toISOString();
+  const verifiedOverride = verifiedPurchaseLinks[id];
+  const checkedAt = verifiedOverride?.checkedAt ?? new Date(now - Math.max(5, Math.round(offsetHours * 18)) * 60 * 1000).toISOString();
   const validation = validatePurchaseLink({
-    url: link,
+    url: verifiedOverride?.url ?? link,
     fallbackUrl,
     mallName: mall,
     title,
