@@ -882,6 +882,11 @@ async function checkUiAccessibility() {
       !homePage.includes("dealMatchesInterestCategory") ||
       !homePage.includes("관심 카테고리 추천") ||
       !homePage.includes("비회원도 모두 보고") ||
+      !homePage.includes("quickInterestOptions") ||
+      !homePage.includes("toggleQuickInterest") ||
+      !homePage.includes("홈 빠른 관심 설정") ||
+      !homePage.includes("비회원 기기 저장") ||
+      !homePage.includes("savePreferencesSynced") ||
       !homePage.includes("fetchRemotePreferences") ||
       !homePage.includes("openBenefitFilter") ||
       !homePage.includes("openBenefitPreset") ||
@@ -897,6 +902,7 @@ async function checkUiAccessibility() {
         !smoke.includes("Home page missing first-visit benefit mission board") ||
         !smoke.includes("Home page missing member favorite benefit section") ||
         !smoke.includes("Home page missing interest category personalization") ||
+        !smoke.includes("Home page missing quick interest setup") ||
         !smoke.includes("Home page missing true deal spotlight") ||
       !smoke.includes("Home page missing coupon event apptech playbook") ||
       !smoke.includes("benefit type filter api")

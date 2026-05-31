@@ -41,6 +41,7 @@ import {
   readLocalFavoriteIds,
   readLocalPreferences,
   recordRecentDealView,
+  savePreferencesSynced,
   syncFavoritesWithSupabase,
   syncRecentDealsWithSupabase,
   toggleFavoriteSynced
@@ -111,6 +112,7 @@ function storeRecentSearchKeywords(keywords: string[]) {
 }
 
 const fallbackInterestCategories = ["무료/체험", "쿠폰/이벤트", "생활용품"];
+const quickInterestOptions = ["무료/체험", "쿠폰/이벤트", "식품", "생활용품", "디지털", "육아", "뷰티", "여행"];
 
 function dealMatchesInterestCategory(deal: Deal, interest: string) {
   const searchable = [
@@ -1132,6 +1134,25 @@ export default function Home() {
     window.setTimeout(() => document.getElementById("all-deals")?.scrollIntoView({ behavior: "smooth", block: "start" }), 0);
   };
 
+  const toggleQuickInterest = (interest: string) => {
+    const currentPreferences = readLocalPreferences();
+    const exists = favoriteCategories.includes(interest);
+    const nextCategories = exists
+      ? favoriteCategories.filter((categoryLabel) => categoryLabel !== interest)
+      : [...favoriteCategories, interest];
+    const nextPreferences = {
+      ...currentPreferences,
+      favoriteCategories: nextCategories
+    };
+
+    setFavoriteCategories(nextCategories);
+    void savePreferencesSynced(nextPreferences, user?.email ?? null, nickname ?? undefined).catch(() => {
+      setFavoriteCategories(readLocalPreferences().favoriteCategories);
+      showToast("관심 설정을 이 기기에 저장했습니다.");
+    });
+    showToast(exists ? `${interest} 관심 설정을 해제했습니다.` : `${interest} 관심 혜택을 홈 추천에 반영했습니다.`);
+  };
+
   const openReviewNeededDeals = () => {
     setQuery("");
     setCategory("all");
@@ -1445,6 +1466,34 @@ export default function Home() {
                         {label}
                       </span>
                     ))}
+                  </div>
+                  <div className="mt-4 rounded-3xl border border-red-100 bg-white/80 p-3 shadow-sm" aria-label="홈 빠른 관심 설정">
+                    <div className="flex items-center justify-between gap-3">
+                      <p className="text-xs font-black text-slate-700">홈 빠른 관심 설정</p>
+                      <p className="text-[11px] font-black text-slate-400">비회원 기기 저장</p>
+                    </div>
+                    <div className="mt-2 flex gap-2 overflow-x-auto pb-1 hide-scrollbar">
+                      {quickInterestOptions.map((interest) => {
+                        const active = favoriteCategories.includes(interest);
+
+                        return (
+                          <button
+                            key={interest}
+                            type="button"
+                            onClick={() => toggleQuickInterest(interest)}
+                            aria-pressed={active}
+                            className={`inline-flex min-h-10 shrink-0 items-center rounded-2xl px-3 text-xs font-black transition ${
+                              active ? "bg-dossa-red text-white" : "bg-slate-100 text-slate-600 hover:bg-red-50 hover:text-dossa-red"
+                            }`}
+                          >
+                            {interest}
+                          </button>
+                        );
+                      })}
+                    </div>
+                    <p className="mt-2 text-[11px] font-bold leading-5 text-slate-500">
+                      선택한 관심사는 홈 추천과 알림 후보에 바로 반영됩니다. 로그인하면 계정으로 이어볼 수 있습니다.
+                    </p>
                   </div>
                 </div>
                 {user ? (
