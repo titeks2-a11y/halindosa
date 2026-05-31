@@ -23,6 +23,7 @@ import { SearchBar } from "@/components/SearchBar";
 import { SearchDiscoveryPanel } from "@/components/SearchDiscoveryPanel";
 import { SortSelect } from "@/components/SortSelect";
 import { Toast } from "@/components/Toast";
+import { TrueDealSpotlight } from "@/components/TrueDealSpotlight";
 import { useAuth } from "@/components/AuthProvider";
 import { dealChannels, dealMatchesChannel, getDealChannel, getProviderCategory } from "@/data/dealChannels";
 import { mockHotSignals } from "@/data/mockHotSignals";
@@ -1203,6 +1204,15 @@ export default function Home() {
             />
 
             <BenefitPlaybook deals={catalog.length ? catalog : deals} onApplyPreset={openBenefitPreset} />
+
+            <TrueDealSpotlight
+              deals={catalog.length ? catalog : deals}
+              favorites={favorites}
+              onOpenDeal={openDeal}
+              onToggleFavorite={toggleFavorite}
+              onShareDeal={shareDeal}
+              onShowVerified={() => openQuickDiscovery("verified")}
+            />
 
             <PurchaseLinkOverview
               total={dataQuality.total}

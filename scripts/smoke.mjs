@@ -109,6 +109,8 @@ await check("home page", async () => {
   assert(text.includes("실제 구매 링크로 보기") && text.includes("비회원 전체 열람 · 저장만 로그인"), "Home page missing checklist trust and non-member guidance");
   assert(text.includes("쿠폰·이벤트·앱테크"), "Home page missing coupon event apptech playbook");
   assert(text.includes("쇼핑몰 쿠폰") && text.includes("배달앱 쿠폰") && text.includes("출석체크 포인트"), "Home page missing daily benefit playbook items");
+  assert(text.includes("오늘의 진짜 특가") && text.includes("가격, 혜택, 링크까지 먼저 확인한 추천"), "Home page missing true deal spotlight");
+  assert(text.includes("절약 예상") && text.includes("같이 보면 좋은 특가"), "Home page missing commerce-focused deal spotlight details");
   assert(text.includes("네이버페이·카카오페이·토스·페이코"), "Home page missing pay event discovery copy");
   assert(text.includes("통신사 멤버십"), "Home page missing membership benefit discovery");
   assert(text.includes("편의점/마트"), "Home page missing convenience and mart benefit section");

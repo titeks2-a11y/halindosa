@@ -551,6 +551,7 @@ async function checkUiAccessibility() {
   const topNavigation = await text("components/TopNavigation.tsx");
   const liveDealFeed = await text("components/LiveDealFeed.tsx");
   const hotSignalSection = await text("components/HotSignalSection.tsx");
+  const trueDealSpotlight = await text("components/TrueDealSpotlight.tsx");
   const priceAlertList = await text("components/PriceAlertList.tsx");
   const priceAlerts = await text("lib/priceAlerts.ts");
   const homePage = await text("app/page.tsx");
@@ -795,17 +796,23 @@ async function checkUiAccessibility() {
       !homePage.includes("<BenefitDiscoverySections") ||
       !homePage.includes("<DailyBenefitChecklist") ||
       !homePage.includes("<BenefitPlaybook") ||
+      !homePage.includes("<TrueDealSpotlight") ||
+      !trueDealSpotlight.includes("오늘의 진짜 특가") ||
+      !trueDealSpotlight.includes("scoreDeal") ||
+      !trueDealSpotlight.includes("절약 예상") ||
       !homePage.includes("openBenefitFilter") ||
       !homePage.includes("openBenefitPreset") ||
+      !homePage.includes("onShowVerified") ||
       !homePage.includes("dealType") ||
       !smoke.includes("Home page missing V2 benefit-first discovery section") ||
       !smoke.includes("Home page missing daily benefit checklist") ||
+      !smoke.includes("Home page missing true deal spotlight") ||
       !smoke.includes("Home page missing coupon event apptech playbook") ||
       !smoke.includes("benefit type filter api")
     ) {
       fail("v2 benefit discovery UX", "Home should expose V2 free benefit/coupon discovery and smoke-test the benefit type filter.");
     } else {
-      pass("v2 benefit discovery UX", "Home exposes free benefit, coupon, apptech, daily checklist, mart, and rising benefit discovery with a verified benefit filter.");
+      pass("v2 benefit discovery UX", "Home exposes free benefit, coupon, apptech, daily checklist, true deal spotlight, mart, and rising benefit discovery with a verified benefit filter.");
     }
 
   if (
