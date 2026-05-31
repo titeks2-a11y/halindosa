@@ -110,6 +110,9 @@ export function AdminReportQueue({ initialReports, initialSummary, token }: Admi
           <p className="mt-1 text-xs font-bold text-slate-400">
             처리 기준: 링크 오류, 품절, 종료 신고는 판매처 확인 후 먼저 처리하고 실제 결제 문의는 판매처로 안내합니다.
           </p>
+          <p className="mt-1 text-xs font-bold text-slate-400">
+            목표 처리 시간: 우선 검수 6시간 이내, 일반 검수 영업일 24시간 이내를 기준으로 운영합니다.
+          </p>
         </div>
         <a
           href={endpoint}
@@ -169,6 +172,14 @@ export function AdminReportQueue({ initialReports, initialSummary, token }: Admi
               <p className="mt-2 rounded-2xl bg-white px-3 py-2 text-xs font-bold leading-5 text-slate-600">
                 권장 처리: {report.recommendedAction}
               </p>
+              <div className="mt-2 grid gap-2 sm:grid-cols-2">
+                <p className="rounded-2xl bg-white px-3 py-2 text-xs font-bold leading-5 text-slate-600">
+                  사용자 안내: {report.userExpectation}
+                </p>
+                <p className="rounded-2xl bg-white px-3 py-2 text-xs font-black leading-5 text-dossa-red">
+                  처리 목표: {report.operatorSla} · {report.queueLabel}
+                </p>
+              </div>
               {report.message ? <p className="mt-2 text-sm font-semibold text-slate-600">{report.message}</p> : null}
               <div className="mt-3 flex flex-wrap gap-2">
                 {statusActions.map((action) => {

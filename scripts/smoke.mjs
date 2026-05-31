@@ -532,6 +532,7 @@ await check("report api", async () => {
   const reasons = await fetchJson("/api/reports?dealId=d001");
   assert(reasons.response.status === 200, `Expected 200, got ${reasons.response.status}`);
   assert(reasons.data.maxMessageLength === 500, "Report API missing message length policy");
+  assert(reasons.data.reasons?.some((reason) => reason.plan?.operatorSla && reason.plan?.queueLabel), "Report API missing resolution plan metadata");
 
   const { response, data } = await fetchJson("/api/reports", {
     method: "POST",
@@ -556,6 +557,7 @@ await check("report page reason prefill", async () => {
   assert(text.includes("애플워치 호환 스포츠 밴드"), "Report page missing deal summary");
   assert(text.includes("품절"), "Report page missing sold out reason option");
   assert(text.includes("링크 오류"), "Report page missing link error reason option");
+  assert(text.includes("신고 처리 예상 안내") && text.includes("목표 처리:"), "Report page missing resolution expectation guidance");
   assert(text.includes("구매 기준 보기") && text.includes("문의하기"), "Report page missing post-submit next actions");
   assert(text.includes("support@halindosa.com"), "Report page missing support contact");
 });
@@ -612,6 +614,7 @@ await check("admin report status update", async () => {
   assert(data.report?.status === "reviewing", `Expected reviewing, got ${data.report?.status}`);
   assert(data.report?.priority === "high", `Expected high priority link error report, got ${data.report?.priority}`);
   assert(data.report?.recommendedAction?.includes("링크"), "Link error report missing recommended link action");
+  assert(data.report?.operatorSla?.includes("6시간") && data.report?.queueLabel?.includes("링크"), "Link error report missing SLA and queue label");
 });
 
 await check("partner feed import dry-run", async () => {

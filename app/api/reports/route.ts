@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { createRequestId, getClientKey, jsonHeaders, rateLimit, rateLimitHeaders } from "@/lib/apiGuards";
 import { maxReportMessageLength } from "@/lib/reportConfig";
-import { createDealReport, DealReportInput, saveDealReport, validateDealReport } from "@/lib/reports";
+import { createDealReport, DealReportInput, getReportResolutionPlan, saveDealReport, validateDealReport } from "@/lib/reports";
 
 export async function GET(request: Request) {
   const requestId = createRequestId();
@@ -14,12 +14,12 @@ export async function GET(request: Request) {
     dealId,
     maxMessageLength: maxReportMessageLength,
     reasons: [
-      { value: "price_changed", label: "가격이 달라요" },
-      { value: "sold_out", label: "품절이에요" },
-      { value: "expired", label: "이미 종료됐어요" },
-      { value: "link_error", label: "링크가 이상해요" },
-      { value: "wrong_info", label: "정보가 틀려요" },
-      { value: "other", label: "기타" }
+      { value: "price_changed", label: "가격이 달라요", plan: getReportResolutionPlan("price_changed") },
+      { value: "sold_out", label: "품절이에요", plan: getReportResolutionPlan("sold_out") },
+      { value: "expired", label: "이미 종료됐어요", plan: getReportResolutionPlan("expired") },
+      { value: "link_error", label: "링크가 이상해요", plan: getReportResolutionPlan("link_error") },
+      { value: "wrong_info", label: "정보가 틀려요", plan: getReportResolutionPlan("wrong_info") },
+      { value: "other", label: "기타", plan: getReportResolutionPlan("other") }
     ],
     message: "특가 정보 신고 사유를 불러왔습니다."
   }, { headers: jsonHeaders(requestId) });

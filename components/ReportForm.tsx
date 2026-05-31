@@ -4,7 +4,7 @@ import type { FormEvent } from "react";
 import { useState } from "react";
 import Link from "next/link";
 import { maxReportMessageLength } from "@/lib/reportConfig";
-import { getReportReasonLabel } from "@/lib/reports";
+import { getReportReasonLabel, getReportResolutionPlan } from "@/lib/reports";
 import { getSupportMailto, supportEmail } from "@/lib/support";
 
 interface ReportFormProps {
@@ -36,6 +36,7 @@ export function ReportForm({ dealId, disabled, initialReason }: ReportFormProps)
     wrong_info: "배송비, 쇼핑몰명, 상품 이미지, 링크 정보가 다를 때 선택하세요.",
     other: "위 항목에 없는 내용을 운영팀에 전달할 때 선택하세요."
   };
+  const selectedPlan = getReportResolutionPlan(reason);
 
   const submitReport = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -93,6 +94,16 @@ export function ReportForm({ dealId, disabled, initialReason }: ReportFormProps)
         </select>
         <p className="mt-2 rounded-2xl bg-slate-50 px-3 py-2 text-xs font-bold leading-5 text-slate-500">{reasonHelp[reason]}</p>
       </div>
+
+      <div className="rounded-2xl border border-red-100 bg-red-50 p-4" aria-label="신고 처리 예상 안내">
+        <p className="text-xs font-black text-dossa-red">신고 처리 예상 안내</p>
+        <p className="mt-2 text-sm font-black text-slate-950">{selectedPlan.queueLabel}</p>
+        <p className="mt-1 text-xs font-bold leading-5 text-slate-600">{selectedPlan.userExpectation}</p>
+        <p className="mt-2 inline-flex rounded-full bg-white px-3 py-1 text-xs font-black text-dossa-red shadow-sm">
+          목표 처리: {selectedPlan.operatorSla}
+        </p>
+      </div>
+
       <div>
         <div className="flex items-center justify-between gap-3">
           <label className="text-sm font-black text-slate-700" htmlFor="message">

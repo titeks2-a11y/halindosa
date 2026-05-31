@@ -537,6 +537,9 @@ async function checkUiAccessibility() {
   const purchaseSafetyChecklist = await text("components/PurchaseSafetyChecklist.tsx");
   const priceAlertPanel = await text("components/PriceAlertPanel.tsx");
   const adminReportQueue = await text("components/AdminReportQueue.tsx");
+  const reportForm = await text("components/ReportForm.tsx");
+  const reportsApi = await text("app/api/reports/route.ts");
+  const reportsLib = await text("lib/reports.ts");
   const bottomNav = await text("components/BottomNav.tsx");
   const bottomNavigation = await text("components/BottomNavigation.tsx");
   const commercialFooter = await text("components/CommercialFooter.tsx");
@@ -612,11 +615,18 @@ async function checkUiAccessibility() {
     !adminReportQueue.includes("권장 처리") ||
     !adminReportQueue.includes("링크 오류") ||
     !adminReportQueue.includes("우선 검수") ||
+    !adminReportQueue.includes("목표 처리 시간") ||
+    !adminReportQueue.includes("처리 목표") ||
+    !reportForm.includes("신고 처리 예상 안내") ||
+    !reportForm.includes("목표 처리:") ||
+    !reportsLib.includes("getReportResolutionPlan") ||
+    !reportsApi.includes("plan: getReportResolutionPlan") ||
+    !smoke.includes("Report API missing resolution plan metadata") ||
     !smoke.includes("Admin dashboard missing deal quality report queue")
   ) {
-    fail("admin report priority workflow", "Admin report queue should prioritize link error, sold-out, and expired reports with recommended actions and smoke coverage.");
+    fail("admin report priority workflow", "Admin/report surfaces should expose reason-specific expectations, SLA, recommended actions, and smoke coverage.");
   } else {
-    pass("admin report priority workflow", "Admin report queue prioritizes link error, sold-out, and expired reports with recommended actions.");
+    pass("admin report priority workflow", "Admin/report surfaces prioritize link error, sold-out, and expired reports with expected handling, SLA, and recommended actions.");
   }
 
   const requiredEmptyStateSnippets = ["조건 초기화하고 전체 특가 보기", "홈에서 특가 둘러보기", "가격과 재고는 판매처에서 변동"];
