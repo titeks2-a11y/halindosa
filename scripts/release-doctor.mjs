@@ -774,7 +774,7 @@ async function checkPolicyAndStoreDocs() {
     {
       name: "privacy policy content",
       file: "app/privacy/page.tsx",
-      phrases: ["회원가입 없이", "기기 또는 브라우저 저장소", "분석 및 제휴 추적", "외부 링크", "사용자 권리", "가격 오류"]
+      phrases: ["회원가입 없이", "기기 또는 브라우저 저장소", "분석 및 제휴 추적", "보관 기간", "처리 위탁 및 제3자 제공", "외부 링크", "사용자 권리", "가격 오류"]
     },
     {
       name: "terms content",
@@ -789,7 +789,12 @@ async function checkPolicyAndStoreDocs() {
     {
       name: "data safety guide content",
       file: "docs/data-safety-guide.md",
-      phrases: ["수집하지 않음", "앱 내 결제 없음", "데이터 삭제", "개인정보처리방침 URL"]
+      phrases: ["수집하지 않음", "앱 내 결제 없음", "처리 위탁 및 외부 서비스", "데이터 삭제", "보관 기간", "개인정보처리방침 URL"]
+    },
+    {
+      name: "privacy policy draft content",
+      file: "docs/privacy-policy-draft.md",
+      phrases: ["보관 기간", "처리 위탁 및 제3자 제공", "삭제 방법", "Supabase", "통계용 클릭 로그"]
     },
     {
       name: "test plan content",

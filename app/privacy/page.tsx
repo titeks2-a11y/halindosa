@@ -32,6 +32,22 @@ export default function PrivacyPage() {
           </p>
         </section>
         <section>
+          <h2 className="text-lg font-black text-slate-950">보관 기간</h2>
+          <p className="mt-2">
+            기기 저장 데이터는 사용자가 직접 삭제하거나 앱 데이터를 삭제할 때까지 보관됩니다. 회원 계정 정보와 찜, 최근 본 상품,
+            관심 카테고리, 가격 알림 데이터는 회원 탈퇴 또는 삭제 요청 시 지체 없이 삭제합니다. 서비스 품질 확인을 위한 통계용
+            클릭 로그는 회원 탈퇴 시 사용자 식별자를 제거해 개인을 식별할 수 없는 형태로만 보관할 수 있습니다.
+          </p>
+        </section>
+        <section>
+          <h2 className="text-lg font-black text-slate-950">처리 위탁 및 제3자 제공</h2>
+          <p className="mt-2">
+            이메일/소셜 로그인과 계정 동기화는 Supabase 등 인증 및 데이터 저장 서비스를 통해 처리될 수 있습니다. Google, Kakao 등
+            소셜 로그인 제공자는 각자의 정책에 따라 인증 정보를 처리합니다. 할인도사는 앱 내 결제 정보를 직접 수집하지 않으며,
+            판매처로 이동한 뒤의 결제, 배송, 환불, 개인정보 처리는 해당 판매처 정책을 따릅니다.
+          </p>
+        </section>
+        <section>
           <h2 className="text-lg font-black text-slate-950">외부 링크</h2>
           <p className="mt-2">
             구매 버튼을 누르면 판매처 또는 제휴사 웹사이트로 이동할 수 있습니다. 외부 사이트의 개인정보 처리와
