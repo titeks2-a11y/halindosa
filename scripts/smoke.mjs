@@ -624,6 +624,8 @@ await check("detail purchase consent guard", async () => {
   assert(response.status === 200, `Expected 200, got ${response.status}`);
   assert(text.includes("구매 전 판매처 확인"), "Detail page missing purchase confirm button");
   assert(text.includes("구매 전 10초 체크"), "Detail page missing purchase safety checklist");
+  assert(text.includes("구매 정보 확인 요약"), "Detail page missing purchase readiness summary");
+  assert(text.includes("예정 도메인"), "Detail page missing destination domain summary");
   assert(text.includes("정보 신고"), "Detail page missing safety report CTA");
   assert(text.includes("가격 알림 신청"), "Detail page missing price alert opt-in panel");
   assert(text.includes("실제 푸시 발송은 운영 서버와 FCM 연결 후 활성화"), "Detail page should explain push alert readiness");

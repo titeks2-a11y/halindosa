@@ -500,6 +500,7 @@ async function checkUiAccessibility() {
   const dealDetailPage = await text("app/deals/[id]/page.tsx");
   const dealTrustBadge = await text("components/DealTrustBadge.tsx");
   const purchaseConfirmSheet = await text("components/PurchaseConfirmSheet.tsx");
+  const purchaseReadinessSummary = await text("components/PurchaseReadinessSummary.tsx");
   const purchaseSafetyChecklist = await text("components/PurchaseSafetyChecklist.tsx");
   const priceAlertPanel = await text("components/PriceAlertPanel.tsx");
   const bottomNav = await text("components/BottomNav.tsx");
@@ -581,6 +582,18 @@ async function checkUiAccessibility() {
     fail("purchase safety checklist", "Deal detail and guide should provide a reusable purchase safety checklist with report CTA.");
   } else {
     pass("purchase safety checklist", "Reusable purchase safety checklist guides users through final price, shipping, return, and report checks.");
+  }
+
+  if (
+    !dealDetailPage.includes("<PurchaseReadinessSummary") ||
+    !purchaseReadinessSummary.includes('aria-label="구매 정보 확인 요약"') ||
+    !purchaseReadinessSummary.includes("예정 도메인") ||
+    !purchaseReadinessSummary.includes("getLinkStatusLabel") ||
+    !purchaseReadinessSummary.includes("판매처 도메인이 예상과 다르면")
+  ) {
+    fail("purchase readiness summary", "Deal detail should summarize price timing, link status, and destination domain before purchase.");
+  } else {
+    pass("purchase readiness summary", "Deal detail summarizes price timing, link status, and destination domain before purchase.");
   }
 
   if (!bottomNav.includes("getNavAriaLabel") || !bottomNavigation.includes("getNavAriaLabel") || !bottomNav.includes('aria-label="주요 메뉴"') || !bottomNavigation.includes('aria-label="주요 메뉴"') || !bottomNav.includes("aria-current") || !bottomNavigation.includes("aria-current")) {
