@@ -23,6 +23,7 @@
     "env:doctor": "node scripts/env-doctor.mjs",
     "links:report": "node scripts/link-coverage-report.mjs",
     "store:metadata:doctor": "node scripts/store-metadata-doctor.mjs",
+    "store:assets:generate": "powershell -ExecutionPolicy Bypass -File scripts/generate-brand-assets.ps1",
     "store:assets:doctor": "node scripts/store-assets-doctor.mjs",
     "store:screenshots:doctor": "node scripts/store-screenshots-doctor.mjs",
     "perf:budget": "node scripts/performance-budget.mjs",

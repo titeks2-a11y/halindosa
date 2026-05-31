@@ -52,6 +52,7 @@ async function checkPackage() {
     "env:doctor",
     "links:report",
     "store:metadata:doctor",
+    "store:assets:generate",
     "store:assets:doctor",
     "store:screenshots:doctor",
     "release:evidence"
@@ -1453,7 +1454,7 @@ function checkSigningAndArtifacts() {
 }
 
 function checkStoreAssets() {
-  const sourceAssets = ["assets/store/halindosa-logo-source.jpg"];
+  const sourceAssets = ["assets/store/halindosa-logo-source.jpg", "scripts/generate-brand-assets.ps1"];
   const requiredPngAssets = [
     ["Play Store icon", "assets/store/play-store-icon-512.png", 512, 512],
     ["Play Store feature graphic", "assets/store/feature-graphic-1024x500.png", 1024, 500],
@@ -1463,6 +1464,17 @@ function checkStoreAssets() {
   ];
   const missingSource = sourceAssets.filter((file) => fileSize(file) <= 0);
   const issues = [];
+  const assetGenerator = readFileSync(join(root, "scripts/generate-brand-assets.ps1"), "utf8");
+  const androidColors = readFileSync(join(root, "android/app/src/main/res/values/colors.xml"), "utf8");
+  const androidLauncherBackground = readFileSync(join(root, "android/app/src/main/res/values/ic_launcher_background.xml"), "utf8");
+
+  if (!assetGenerator.includes("#FF173F") || !assetGenerator.includes("feature-graphic-1024x500.png") || !assetGenerator.includes("AppIcon-512@2x.png")) {
+    issues.push("brand asset generator should create bright red store, PWA, Android, and iOS assets");
+  }
+
+  if (!androidColors.includes("#FF173F") || !androidColors.includes("#FF2A4F") || !androidLauncherBackground.includes("#FF173F")) {
+    issues.push("Android icon and splash colors should use the bright V2 red tokens");
+  }
 
   for (const [label, asset, width, height] of requiredPngAssets) {
     const fullPath = join(root, asset);
@@ -1486,7 +1498,7 @@ function checkStoreAssets() {
   }
 
   if (missingSource.length || issues.length) fail("store assets", [...missingSource.map((file) => `Missing source: ${file}`), ...issues].join("; "));
-  else pass("store assets", "Store icon, feature graphic, PWA icons, and iOS icon have launch-ready dimensions.");
+  else pass("store assets", "Store icon, feature graphic, PWA, Android, and iOS assets have launch-ready dimensions and bright red generation support.");
 }
 
 await checkPackage();

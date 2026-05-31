@@ -7,6 +7,7 @@
 - 규격: 512 x 512 PNG
 - 초안 파일: `assets/store/play-store-icon-512.png`
 - 원본 보관: `assets/store/halindosa-logo-source.jpg`
+- VER 2.0 밝은 레드 자동 생성: `npm run store:assets:generate`
 - 배경: 단색 또는 단순 패턴
 - 권장 구성: 할인도사 도사 심볼을 중앙 확대 배치
 - 금지: 작은 글자, 과도한 그림자, 스토어 배지, 가격 문구
@@ -21,6 +22,7 @@
 
 - 규격: 1024 x 500 PNG 또는 JPG
 - 초안 파일: `assets/store/feature-graphic-1024x500.png`
+- VER 2.0 밝은 레드 자동 생성: `npm run store:assets:generate`
 - 문구 예시: `놓치기 쉬운 특가를 한눈에`
 - 화면 구성: 레드 브랜드 배경, 앱 홈 화면 일부, 대표 특가 카드 2~3개
 - 주의: 실제 가격을 넣는 경우 스크린샷 시점 이후 가격 변동 가능성을 고려해 과장 문구를 피한다.
@@ -79,11 +81,13 @@
 ## 교체 절차
 
 1. 최종 원본 이미지를 `assets/store/`에 보관한다.
-2. 앱 아이콘은 Android Studio `Image Asset` 도구로 adaptive icon을 다시 생성한다.
-3. 스플래시 이미지는 `android/app/src/main/res/drawable/splash.png`를 교체한다.
-4. 교체 후 아래 명령을 순서대로 실행한다.
+2. 기본 브랜드 자산은 `npm run store:assets:generate`로 재생성한다.
+3. 최종 심볼 디자인이 확정되면 Android Studio `Image Asset` 도구로 adaptive icon을 다시 확인한다.
+4. 스플래시 이미지는 `android/app/src/main/res/drawable/splash.png`와 iOS `Splash.imageset`을 함께 확인한다.
+5. 교체 후 아래 명령을 순서대로 실행한다.
 
 ```bash
+npm run store:assets:generate
 npm run build
 npm run build:android
 npm run cap:sync
