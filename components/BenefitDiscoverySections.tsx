@@ -37,6 +37,80 @@ function sortByBenefitScore(deals: Deal[]) {
   );
 }
 
+function getDailyBenefitRankings(deals: Deal[]) {
+  const activeDeals = deals.filter((deal) => !deal.isExpired && !deal.isSoldOut);
+  const freeTop = sortByBenefitScore(
+    activeDeals.filter((deal) => ["freebie", "experience", "freeShipping"].includes(deal.dealType) || deal.salePrice <= 1000)
+  ).slice(0, 5);
+  const couponTop = sortByBenefitScore(
+    activeDeals.filter((deal) => ["coupon", "point", "foodDelivery", "convenienceStore", "mart"].includes(deal.dealType))
+  ).slice(0, 5);
+
+  return { freeTop, couponTop };
+}
+
+function BenefitTopList({
+  title,
+  description,
+  deals,
+  accent,
+  onOpenDeal
+}: {
+  title: string;
+  description: string;
+  deals: Deal[];
+  accent: "red" | "slate";
+  onOpenDeal: (deal: Deal) => void;
+}) {
+  const accentClasses =
+    accent === "red"
+      ? {
+          panel: "border-red-100 bg-red-50",
+          badge: "bg-white text-dossa-red",
+          rank: "bg-dossa-red text-white",
+          cta: "text-dossa-red"
+        }
+      : {
+          panel: "border-slate-200 bg-slate-50",
+          badge: "bg-white text-slate-700",
+          rank: "bg-slate-950 text-white",
+          cta: "text-slate-950"
+        };
+
+  return (
+    <div className={`rounded-[28px] border p-4 shadow-sm sm:p-5 ${accentClasses.panel}`}>
+      <div className="flex items-start justify-between gap-3">
+        <div>
+          <p className="text-xs font-black text-dossa-red">오늘 바로 챙길 TOP</p>
+          <h3 className="mt-1 text-xl font-black text-slate-950">{title}</h3>
+          <p className="mt-1 text-sm font-bold leading-6 text-slate-600">{description}</p>
+        </div>
+        <span className={`shrink-0 rounded-full px-3 py-1 text-xs font-black shadow-sm ${accentClasses.badge}`}>{deals.length}개</span>
+      </div>
+      <div className="mt-4 space-y-2">
+        {deals.map((deal, index) => (
+          <button
+            key={deal.id}
+            type="button"
+            onClick={() => onOpenDeal(deal)}
+            className="grid w-full grid-cols-[auto_1fr_auto] items-center gap-3 rounded-2xl bg-white p-3 text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+            aria-label={`${deal.title} 바로 확인`}
+          >
+            <span className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-black ${accentClasses.rank}`}>{index + 1}</span>
+            <span className="min-w-0">
+              <span className="block truncate text-sm font-black text-slate-950">{deal.title}</span>
+              <span className="mt-0.5 block truncate text-xs font-bold text-slate-500">
+                {deal.mallName} · {getBenefitTypeLabel(deal.dealType)} · {getTimeLeft(deal.expireAt)}
+              </span>
+            </span>
+            <span className={`shrink-0 text-xs font-black ${accentClasses.cta}`}>{deal.claimCta}</span>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export function BenefitDiscoverySections({
   deals,
   recentDeals,
@@ -50,6 +124,7 @@ export function BenefitDiscoverySections({
   const urgentDeals = sortByBenefitScore(source.filter((deal) => deal.isEndingSoon && !deal.isExpired)).slice(0, 4);
   const risingDeals = sortByBenefitScore(source).slice(0, 5);
   const martDeals = sortByBenefitScore(source.filter((deal) => deal.category === "편의점/마트" || /마트|gs25|편의점|교환권|1\+1|2\+1/.test([deal.title, ...deal.tags].join(" ").toLowerCase()))).slice(0, 4);
+  const { freeTop, couponTop } = getDailyBenefitRankings(source);
 
   return (
     <div className="space-y-4" aria-label="할인도사 VER 2.0 혜택 탐색">
@@ -91,6 +166,23 @@ export function BenefitDiscoverySections({
             );
           })}
         </div>
+      </section>
+
+      <section className="grid gap-4 lg:grid-cols-2" aria-label="무료 쿠폰 오늘 TOP 랭킹">
+        <BenefitTopList
+          title="무료혜택 TOP 5"
+          description="비용 부담이 적은 무료 샘플, 체험, 무료배송 혜택을 먼저 보여드립니다."
+          deals={freeTop}
+          accent="red"
+          onOpenDeal={onOpenDeal}
+        />
+        <BenefitTopList
+          title="쿠폰·앱테크 TOP 5"
+          description="결제 전 챙기기 좋은 쿠폰, 포인트, 배달·외식 혜택을 모았습니다."
+          deals={couponTop}
+          accent="slate"
+          onOpenDeal={onOpenDeal}
+        />
       </section>
 
       <section className="grid gap-4 lg:grid-cols-[1fr_0.9fr]">

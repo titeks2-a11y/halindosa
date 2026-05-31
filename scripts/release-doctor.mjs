@@ -552,6 +552,7 @@ async function checkUiAccessibility() {
   const liveDealFeed = await text("components/LiveDealFeed.tsx");
   const hotSignalSection = await text("components/HotSignalSection.tsx");
   const trueDealSpotlight = await text("components/TrueDealSpotlight.tsx");
+  const benefitDiscoverySections = await text("components/BenefitDiscoverySections.tsx");
   const priceAlertList = await text("components/PriceAlertList.tsx");
   const priceAlerts = await text("lib/priceAlerts.ts");
   const homePage = await text("app/page.tsx");
@@ -795,9 +796,12 @@ async function checkUiAccessibility() {
     if (
       !homePage.includes("<BenefitDiscoverySections") ||
       !homePage.includes("<DailyBenefitChecklist") ||
-      !homePage.includes("<BenefitPlaybook") ||
-      !homePage.includes("<TrueDealSpotlight") ||
-      !trueDealSpotlight.includes("오늘의 진짜 특가") ||
+        !homePage.includes("<BenefitPlaybook") ||
+        !homePage.includes("<TrueDealSpotlight") ||
+        !benefitDiscoverySections.includes("무료혜택 TOP 5") ||
+        !benefitDiscoverySections.includes("쿠폰·앱테크 TOP 5") ||
+        !benefitDiscoverySections.includes("getDailyBenefitRankings") ||
+        !trueDealSpotlight.includes("오늘의 진짜 특가") ||
       !trueDealSpotlight.includes("scoreDeal") ||
       !trueDealSpotlight.includes("절약 예상") ||
       !homePage.includes("openBenefitFilter") ||
@@ -805,8 +809,9 @@ async function checkUiAccessibility() {
       !homePage.includes("onShowVerified") ||
       !homePage.includes("dealType") ||
       !smoke.includes("Home page missing V2 benefit-first discovery section") ||
-      !smoke.includes("Home page missing daily benefit checklist") ||
-      !smoke.includes("Home page missing true deal spotlight") ||
+        !smoke.includes("Home page missing daily benefit checklist") ||
+        !smoke.includes("Home page missing free coupon top ranking section") ||
+        !smoke.includes("Home page missing true deal spotlight") ||
       !smoke.includes("Home page missing coupon event apptech playbook") ||
       !smoke.includes("benefit type filter api")
     ) {
