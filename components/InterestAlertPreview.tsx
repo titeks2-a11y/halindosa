@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { BellPlus, SlidersHorizontal, Sparkles } from "lucide-react";
+import { BellPlus, Clock3, Gift, SlidersHorizontal, Sparkles, TicketPercent } from "lucide-react";
 import { getBenefitTypeLabel } from "@/lib/deals/benefits";
 import { formatPrice, getTimeLeft } from "@/lib/format";
 import { readLocalPreferences } from "@/lib/memberSync";
@@ -62,6 +62,35 @@ export function InterestAlertPreview({ deals }: InterestAlertPreviewProps) {
       )
       .slice(0, 5);
   }, [deals, interests]);
+  const interestAlertPlan = useMemo(() => {
+    const matchedActiveDeals = [...deals].filter(
+      (deal) => interests.some((interest) => dealMatchesInterest(deal, interest)) && !deal.isExpired && !deal.isSoldOut
+    );
+
+    return [
+      {
+        title: "무료·체험 먼저",
+        description: "관심사와 맞는 무료 샘플, 체험단, 0원 혜택을 먼저 확인합니다.",
+        count: matchedActiveDeals.filter((deal) => deal.dealType === "freebie" || deal.dealType === "experience").length,
+        href: "/free-benefits?dealType=freebie&sort=recommended",
+        icon: Gift
+      },
+      {
+        title: "쿠폰·포인트 챙기기",
+        description: "결제 전 적용 가능한 쿠폰, 포인트, 배달·외식 혜택을 모아봅니다.",
+        count: matchedActiveDeals.filter((deal) => deal.dealType === "coupon" || deal.dealType === "point" || deal.dealType === "foodDelivery").length,
+        href: "/free-benefits?dealType=coupon&sort=popular",
+        icon: TicketPercent
+      },
+      {
+        title: "마감 전 확인",
+        description: "관심 카테고리에서 오늘 놓치기 쉬운 마감 임박 혜택을 먼저 엽니다.",
+        count: matchedActiveDeals.filter((deal) => deal.isEndingSoon).length,
+        href: "/?endingSoon=true&sort=endingSoon",
+        icon: Clock3
+      }
+    ];
+  }, [deals, interests]);
 
   return (
     <section className="rounded-[22px] border border-red-100 bg-gradient-to-br from-red-50 via-white to-slate-50 p-4 shadow-sm lg:p-5" aria-label="관심 카테고리 알림 미리보기">
@@ -98,6 +127,29 @@ export function InterestAlertPreview({ deals }: InterestAlertPreviewProps) {
             >
               {interest}
             </span>
+          );
+        })}
+      </div>
+
+      <div className="mt-4 grid gap-2 md:grid-cols-3" aria-label="관심 알림 실행 카드">
+        {interestAlertPlan.map((item) => {
+          const Icon = item.icon;
+
+          return (
+            <Link
+              key={item.title}
+              href={item.href}
+              className="rounded-2xl border border-red-100 bg-white p-3 shadow-sm transition hover:-translate-y-0.5 hover:bg-red-50"
+            >
+              <span className="flex items-start justify-between gap-3">
+                <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-red-50 text-dossa-red">
+                  <Icon size={18} />
+                </span>
+                <span className="rounded-full bg-slate-950 px-2.5 py-1 text-[11px] font-black text-white">{item.count}개</span>
+              </span>
+              <span className="mt-3 block text-sm font-black text-slate-950">{item.title}</span>
+              <span className="mt-1 block text-xs font-semibold leading-5 text-slate-500">{item.description}</span>
+            </Link>
           );
         })}
       </div>

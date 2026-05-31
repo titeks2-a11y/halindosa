@@ -1092,6 +1092,10 @@ async function checkOperationalDataSurfaces() {
     !interestAlertPreview.includes("관심 카테고리 알림") ||
     !interestAlertPreview.includes("관심 설정하기") ||
     !interestAlertPreview.includes("비회원도 기기에 관심사를 저장") ||
+    !interestAlertPreview.includes("interestAlertPlan") ||
+    !interestAlertPreview.includes("관심 알림 실행 카드") ||
+    !interestAlertPreview.includes("무료·체험 먼저") ||
+    !interestAlertPreview.includes("마감 전 확인") ||
     !notificationsPage.includes("무료 혜택 알림") ||
     !notificationsPage.includes("쿠폰·포인트 알림") ||
     !notificationsPage.includes("비회원도 모두 볼 수 있고") ||
@@ -1099,6 +1103,7 @@ async function checkOperationalDataSurfaces() {
     !notificationsPage.includes("실제 푸시 알림은 별도 동의") ||
     !notificationsPage.includes("알림 기준 보기") ||
     !smoke.includes("Notifications page missing alert action routine") ||
+    !smoke.includes("Notifications page missing interest alert action cards") ||
     notificationsPage.includes("Notification.requestPermission")
   ) {
     fail("notification launch readiness UX", "Notifications page should explain the V1 in-app alert flow without requesting push permission.");
