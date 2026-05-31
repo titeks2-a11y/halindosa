@@ -171,6 +171,8 @@ await check("service guide page", async () => {
   assert(text.includes("구매 전 꼭 확인하세요"), "Guide page missing purchase warning");
   assert(text.includes("외부 판매처 이동 방식"), "Guide page missing redirect explanation");
   assert(text.includes("이동 전 판매처 확인"), "Guide page missing pre-purchase destination check explanation");
+  assert(text.includes("구매 전 10초 체크"), "Guide page missing purchase safety checklist");
+  assert(text.includes("최종 결제 금액") && text.includes("취소·반품"), "Guide page missing safety checklist details");
 });
 
 await check("category and notification pages", async () => {
@@ -587,6 +589,8 @@ await check("detail purchase consent guard", async () => {
   const text = await response.text();
   assert(response.status === 200, `Expected 200, got ${response.status}`);
   assert(text.includes("구매 전 판매처 확인"), "Detail page missing purchase confirm button");
+  assert(text.includes("구매 전 10초 체크"), "Detail page missing purchase safety checklist");
+  assert(text.includes("정보 신고"), "Detail page missing safety report CTA");
   assert(text.includes("가격 알림 신청"), "Detail page missing price alert opt-in panel");
   assert(text.includes("실제 푸시 발송은 운영 서버와 FCM 연결 후 활성화"), "Detail page should explain push alert readiness");
   assert(!text.includes("affiliate=granted"), "Detail page should not server-render affiliate consent");

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { AlertTriangle, ExternalLink, Heart, SearchCheck, ShieldCheck, Store, Timer } from "lucide-react";
+import { PurchaseSafetyChecklist } from "@/components/PurchaseSafetyChecklist";
 
 const trustItems = [
   {
@@ -71,6 +72,8 @@ export default function GuidePage() {
           </div>
         </div>
       </section>
+
+      <PurchaseSafetyChecklist compact />
 
       <section className="rounded-[24px] border border-slate-200 bg-white p-5 shadow-sm">
         <div className="flex items-start gap-3">

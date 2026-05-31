@@ -376,6 +376,7 @@ async function checkUiAccessibility() {
   const dealDetailPage = await text("app/deals/[id]/page.tsx");
   const dealTrustBadge = await text("components/DealTrustBadge.tsx");
   const purchaseConfirmSheet = await text("components/PurchaseConfirmSheet.tsx");
+  const purchaseSafetyChecklist = await text("components/PurchaseSafetyChecklist.tsx");
   const priceAlertPanel = await text("components/PriceAlertPanel.tsx");
   const bottomNav = await text("components/BottomNav.tsx");
   const bottomNavigation = await text("components/BottomNavigation.tsx");
@@ -425,6 +426,16 @@ async function checkUiAccessibility() {
     fail("purchase confirmation destination disclosure", "Purchase confirmation should show the destination host and warn users to stop if the seller domain looks wrong.");
   } else {
     pass("purchase confirmation score copy", "Purchase confirmation uses plain link status labels and shows the destination host before external navigation.");
+  }
+
+  if (
+    !purchaseSafetyChecklist.includes("구매 전 10초 체크") ||
+    !purchaseSafetyChecklist.includes("최종 결제 금액") ||
+    !purchaseSafetyChecklist.includes("정보 신고")
+  ) {
+    fail("purchase safety checklist", "Deal detail and guide should provide a reusable purchase safety checklist with report CTA.");
+  } else {
+    pass("purchase safety checklist", "Reusable purchase safety checklist guides users through final price, shipping, return, and report checks.");
   }
 
   if (!bottomNav.includes("getNavAriaLabel") || !bottomNavigation.includes("getNavAriaLabel") || !bottomNav.includes('aria-label="주요 메뉴"') || !bottomNavigation.includes('aria-label="주요 메뉴"') || !bottomNav.includes("aria-current") || !bottomNavigation.includes("aria-current")) {

@@ -5,6 +5,7 @@ import { AlertTriangle, ArrowLeft, Clock, ShieldCheck, Tag, Truck } from "lucide
 import { DealDetailActions } from "@/components/DealDetailActions";
 import { DealTrustBadge } from "@/components/DealTrustBadge";
 import { PriceAlertPanel } from "@/components/PriceAlertPanel";
+import { PurchaseSafetyChecklist } from "@/components/PurchaseSafetyChecklist";
 import { RecentDealMarker } from "@/components/RecentDealMarker";
 import { mockDeals } from "@/data/mockDeals";
 import { getAffiliateDisclosure, getDealLinkTrustLabel } from "@/lib/affiliate";
@@ -196,6 +197,8 @@ export default async function DealDetailPage({ params }: DealDetailPageProps) {
             </div>
           </div>
         </section>
+
+        <PurchaseSafetyChecklist deal={deal} />
 
         <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
