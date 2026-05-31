@@ -17,6 +17,7 @@ interface BenefitCheckInCardProps {
 interface CheckInState {
   lastDate: string;
   streak: number;
+  completedMissions?: string[];
 }
 
 const storageKey = "halindosa:benefit-check-in";
@@ -37,16 +38,17 @@ function getPreviousDateKey(dateKey: string) {
 }
 
 function readCheckInState(): CheckInState {
-  if (typeof window === "undefined") return { lastDate: "", streak: 0 };
+  if (typeof window === "undefined") return { lastDate: "", streak: 0, completedMissions: [] };
 
   try {
     const parsed = JSON.parse(window.localStorage.getItem(storageKey) ?? "{}");
     return {
       lastDate: typeof parsed.lastDate === "string" ? parsed.lastDate : "",
-      streak: typeof parsed.streak === "number" ? parsed.streak : 0
+      streak: typeof parsed.streak === "number" ? parsed.streak : 0,
+      completedMissions: Array.isArray(parsed.completedMissions) ? parsed.completedMissions.filter((value: unknown): value is string => typeof value === "string") : []
     };
   } catch {
-    return { lastDate: "", streak: 0 };
+    return { lastDate: "", streak: 0, completedMissions: [] };
   }
 }
 
@@ -58,6 +60,7 @@ export function BenefitCheckInCard({ deals, favoriteCount, recentCount, onApplyP
   const [checkIn, setCheckIn] = useState<CheckInState>(() => readCheckInState());
   const [todayKey] = useState(() => getTodayKey());
   const checkedToday = checkIn.lastDate === todayKey;
+  const completedMissions = checkedToday ? checkIn.completedMissions ?? [] : [];
 
   const stats = useMemo(
     () => ({
@@ -74,7 +77,24 @@ export function BenefitCheckInCard({ deals, favoriteCount, recentCount, onApplyP
 
     const previousDateKey = getPreviousDateKey(todayKey);
     const nextStreak = checkIn.lastDate === previousDateKey ? checkIn.streak + 1 : 1;
-    const nextState = { lastDate: todayKey, streak: nextStreak };
+    const nextState = { lastDate: todayKey, streak: nextStreak, completedMissions: [] };
+
+    writeCheckInState(nextState);
+    setCheckIn(nextState);
+  };
+
+  const toggleMission = (missionId: string) => {
+    const previousDateKey = getPreviousDateKey(todayKey);
+    const nextStreak = checkedToday ? checkIn.streak : checkIn.lastDate === previousDateKey ? checkIn.streak + 1 : 1;
+    const currentMissions = checkedToday ? checkIn.completedMissions ?? [] : [];
+    const nextMissions = currentMissions.includes(missionId)
+      ? currentMissions.filter((item) => item !== missionId)
+      : [...currentMissions, missionId];
+    const nextState = {
+      lastDate: todayKey,
+      streak: nextStreak,
+      completedMissions: nextMissions
+    };
 
     writeCheckInState(nextState);
     setCheckIn(nextState);
@@ -105,6 +125,12 @@ export function BenefitCheckInCard({ deals, favoriteCount, recentCount, onApplyP
       icon: BellRing,
       action: onOpenAlerts
     }
+  ];
+  const missionItems = [
+    { id: "free", label: "무료·체험 확인", count: stats.freeBenefits },
+    { id: "coupon", label: "쿠폰 적용 후보", count: stats.coupons },
+    { id: "ending", label: "마감 전 확인", count: stats.endingSoon },
+    { id: "point", label: "포인트 적립", count: stats.points }
   ];
 
   return (
@@ -153,6 +179,39 @@ export function BenefitCheckInCard({ deals, favoriteCount, recentCount, onApplyP
             </div>
             <p className="mt-3 text-xs font-bold leading-5 text-slate-500">
               로그인은 선택 사항입니다. 계정 연결 전에도 출석, 찜, 최근 본 상품은 이 기기에서 이어볼 수 있습니다.
+            </p>
+          </div>
+
+          <div className="rounded-3xl border border-red-100 bg-red-50 p-4">
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <p className="text-xs font-black text-dossa-red">오늘 챙긴 혜택 기록</p>
+                <p className="mt-1 text-sm font-black text-slate-950">{completedMissions.length}/4개 루틴 완료</p>
+              </div>
+              <span className="rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-dossa-red shadow-sm">기기 저장</span>
+            </div>
+            <div className="mt-3 grid gap-2">
+              {missionItems.map((mission) => {
+                const active = completedMissions.includes(mission.id);
+
+                return (
+                  <button
+                    key={mission.id}
+                    type="button"
+                    onClick={() => toggleMission(mission.id)}
+                    aria-pressed={active}
+                    className={`flex min-h-11 items-center justify-between gap-3 rounded-2xl px-3 text-left text-xs font-black transition ${
+                      active ? "bg-dossa-red text-white" : "bg-white text-slate-700 hover:bg-red-100"
+                    }`}
+                  >
+                    <span>{mission.label}</span>
+                    <span className={active ? "text-red-100" : "text-dossa-red"}>{mission.count}개</span>
+                  </button>
+                );
+              })}
+            </div>
+            <p className="mt-3 text-[11px] font-bold leading-4 text-red-900/70">
+              기록은 이 기기에만 저장됩니다. 최종 수령 여부와 결제 조건은 판매처에서 다시 확인하세요.
             </p>
           </div>
 

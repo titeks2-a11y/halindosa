@@ -858,6 +858,9 @@ async function checkUiAccessibility() {
         !homePage.includes("<TrueDealSpotlight") ||
         !benefitCheckInCard.includes("오늘 혜택 출석 체크") ||
         !benefitCheckInCard.includes("비회원도 기기에만 출석 기록을 저장합니다") ||
+        !benefitCheckInCard.includes("오늘 챙긴 혜택 기록") ||
+        !benefitCheckInCard.includes("completedMissions") ||
+        !benefitCheckInCard.includes("toggleMission") ||
         !benefitCheckInCard.includes("무료 혜택 전용 탭에서 이번 주 루틴 보기") ||
         !benefitCheckInCard.includes("halindosa:benefit-check-in") ||
         !benefitDiscoverySections.includes("무료혜택 TOP 5") ||
@@ -901,6 +904,7 @@ async function checkUiAccessibility() {
       !smoke.includes("Home page missing V2 benefit-first discovery section") ||
         !smoke.includes("Home page missing daily benefit checklist") ||
         !smoke.includes("Home page missing benefit check-in card") ||
+        !smoke.includes("Home page missing daily benefit completion record") ||
         !smoke.includes("Home page missing free coupon top ranking section") ||
         !smoke.includes("Home page missing fast benefit shortcut rail") ||
         !smoke.includes("Home page missing daily savings summary") ||
