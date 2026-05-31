@@ -30,6 +30,13 @@ export default function TermsPage() {
           </p>
         </section>
         <section>
+          <h2 className="text-lg font-black text-slate-950">회원 계정</h2>
+          <p className="mt-2">
+            사용자는 이메일과 비밀번호로 계정을 만들 수 있습니다. 계정 정보는 본인만 사용해야 하며, 관심 카테고리,
+            찜한 특가, 최근 본 상품, 알림 설정은 서비스 편의 기능 제공을 위해 저장될 수 있습니다.
+          </p>
+        </section>
+        <section>
           <h2 className="text-lg font-black text-slate-950">제휴 및 광고</h2>
           <p className="mt-2">
             상업 운영 시 일부 링크는 제휴 링크 또는 광고 링크가 될 수 있으며, 이 경우 관련 법령과 플랫폼 정책에

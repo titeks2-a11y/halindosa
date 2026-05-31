@@ -19,6 +19,7 @@ function run(command, args, env = {}) {
 const disableRunId = `${Date.now()}-${process.pid}`;
 const temporarilyDisabled = [
   ["app", "api"],
+  ["app", "go"],
   ["app", "admin"],
   ["app", "reports"],
   ["app", "robots.ts"],

@@ -44,6 +44,9 @@ async function checkPackage() {
 
   if (!pkg.dependencies?.["@capacitor/ios"]) fail("Capacitor iOS dependency", "Missing @capacitor/ios.");
   else pass("Capacitor iOS dependency", pkg.dependencies["@capacitor/ios"]);
+
+  if (!pkg.dependencies?.["@supabase/supabase-js"]) fail("Supabase Auth dependency", "Missing @supabase/supabase-js.");
+  else pass("Supabase Auth dependency", pkg.dependencies["@supabase/supabase-js"]);
 }
 
 async function checkRepositorySafety() {
@@ -179,6 +182,51 @@ async function checkPublicContact() {
     fail("support email config", "Support email should be centralized with a production-looking fallback.");
   } else {
     pass("support email config", "Support email is centralized and configurable.");
+  }
+}
+
+async function checkAuthSurface() {
+  const authProvider = await text("components/AuthProvider.tsx");
+  const authForm = await text("components/AuthForm.tsx");
+  const accountPanel = await text("components/AccountPanel.tsx");
+  const loginPage = await text("app/login/page.tsx");
+  const signupPage = await text("app/signup/page.tsx");
+  const supabaseClient = await text("lib/auth/supabaseClient.ts");
+  const schema = await text("docs/supabase-schema.sql");
+  const smoke = await text("scripts/smoke.mjs");
+
+  if (!supabaseClient.includes("createClient") || !supabaseClient.includes("persistSession") || !authProvider.includes("onAuthStateChange")) {
+    fail("Supabase auth client", "Supabase browser auth should create a persisted client and subscribe to auth state.");
+  } else {
+    pass("Supabase auth client", "Supabase Auth client persists session and exposes auth state.");
+  }
+
+  const requiredAuthCopy = ["signUp", "signInWithPassword", "비밀번호는 8자 이상", "이미 가입된 이메일"];
+  const missingAuthCopy = requiredAuthCopy.filter((snippet) => !authForm.includes(snippet));
+  if (missingAuthCopy.length || !loginPage.includes("AuthForm") || !signupPage.includes("AuthForm")) {
+    fail("auth pages", `Login/signup pages or form missing snippets: ${missingAuthCopy.join(", ") || "page wiring"}`);
+  } else {
+    pass("auth pages", "Login and signup pages support email/password auth, nickname, and error states.");
+  }
+
+  if (!accountPanel.includes("favoriteCategories") || !accountPanel.includes("notificationConsent") || !accountPanel.includes("marketingConsent")) {
+    fail("member profile settings", "Mypage account panel should support nickname, favorite categories, and consent settings.");
+  } else {
+    pass("member profile settings", "Mypage account panel prepares member profile, interest categories, and consent settings.");
+  }
+
+  const requiredTables = ["user_profiles", "user_favorite_deals", "user_recent_deals", "deal_click_logs", "price_drop_alerts"];
+  const missingTables = requiredTables.filter((table) => !schema.includes(table));
+  if (missingTables.length) {
+    fail("member database schema", `Missing Supabase tables: ${missingTables.join(", ")}`);
+  } else {
+    pass("member database schema", "Supabase schema includes profiles, favorites, recent deals, clicks, and price alerts.");
+  }
+
+  if (!smoke.includes("auth pages")) {
+    fail("auth smoke coverage", "Smoke tests should cover login and signup pages.");
+  } else {
+    pass("auth smoke coverage", "Smoke tests cover login and signup pages.");
   }
 }
 
@@ -370,6 +418,9 @@ async function checkOperationalDataSurfaces() {
   const notificationsPage = await text("app/notifications/page.tsx");
   const favoritesPage = await text("app/favorites/page.tsx");
   const adminPage = await text("app/admin/page.tsx");
+  const redirectUrl = await text("lib/redirectUrl.ts");
+  const goRoute = await text("app/go/[id]/route.ts");
+  const dealTypes = await text("types/deal.ts");
 
   const staticDataImports = [
     ["app/categories/page.tsx", categoriesPage],
@@ -416,6 +467,20 @@ async function checkOperationalDataSurfaces() {
     fail("admin link review workflow", "Admin link review queue should expose priority, reason, confidence, and current destination URL.");
   } else {
     pass("admin link review workflow", "Admin link review queue exposes priority, reason, confidence, and current destination URL.");
+  }
+
+  const requiredCommercialDealFields = ["productUrl", "searchUrl", "originalUrl", "clickCount", "likeCount", "isSoldOut", "updatedAt"];
+  const missingCommercialDealFields = requiredCommercialDealFields.filter((field) => !dealTypes.includes(field));
+  if (missingCommercialDealFields.length) {
+    fail("commercial deal fields", `Missing Deal fields: ${missingCommercialDealFields.join(", ")}`);
+  } else {
+    pass("commercial deal fields", "Deal type includes product/search URL split and commercial engagement fields.");
+  }
+
+  if (!redirectUrl.includes("/go/") || !goRoute.includes("recordDealClick") || !goRoute.includes("buildOutboundUrl")) {
+    fail("go redirect route", "Purchase buttons should use /go/[dealId], record clicks, and resolve outbound URL server-side.");
+  } else {
+    pass("go redirect route", "Purchase redirect uses /go/[dealId] with click logging and server-side outbound URL resolution.");
   }
 }
 
@@ -655,6 +720,7 @@ await checkPackage();
 await checkRepositorySafety();
 await checkEnvExample();
 await checkPublicContact();
+await checkAuthSurface();
 await checkPublicClaimCopy();
 await checkPartnerFeedSafety();
 await checkUiAccessibility();

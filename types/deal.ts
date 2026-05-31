@@ -28,6 +28,9 @@ export interface Deal {
   thumbnail: string;
   link: string;
   url?: string;
+  productUrl?: string;
+  searchUrl?: string;
+  originalUrl?: string;
   affiliateUrl?: string;
   purchaseUrl?: string;
   linkType: DealLinkType;
@@ -56,6 +59,10 @@ export interface Deal {
   isNew: boolean;
   isEndingSoon: boolean;
   popularityScore: number;
+  clickCount: number;
+  likeCount: number;
+  isSoldOut: boolean;
+  updatedAt: string;
   mall: string;
   imageUrl: string;
   shippingInfo: string;

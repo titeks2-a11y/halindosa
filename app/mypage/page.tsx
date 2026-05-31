@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { CheckCircle2, Mail, ShieldCheck, User } from "lucide-react";
+import { AccountPanel } from "@/components/AccountPanel";
 import { LocalDataControls } from "@/components/LocalDataControls";
 import { MypageConsentSettings } from "@/components/MypageConsentSettings";
 import { getSupportMailto, supportEmail } from "@/lib/support";
@@ -21,6 +22,8 @@ export default function MyPage() {
           회원가입 없이 특가를 탐색하고, 관심 특가는 이 기기에만 저장됩니다. 운영 데이터는 공식 API, 제휴 피드, 허용된 RSS처럼 권한이 확인된 소스만 연결하는 기준으로 관리합니다.
         </p>
       </section>
+
+      <AccountPanel />
 
       <section className="grid gap-3 sm:grid-cols-2">
         {[

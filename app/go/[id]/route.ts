@@ -1,26 +1,9 @@
 import { NextResponse } from "next/server";
-import { createAnalyticsEvent } from "@/lib/analytics";
 import { buildOutboundUrl, isAffiliateEligible } from "@/lib/affiliate";
+import { createAnalyticsEvent } from "@/lib/analytics";
 import { createRequestId, getClientKey, jsonHeaders, rateLimit, rateLimitHeaders } from "@/lib/apiGuards";
 import { recordDealClick } from "@/lib/clickStore";
 import { findDealByIdLive } from "@/lib/dealService";
-
-function createRedirectClickLog(input: {
-  requestId: string;
-  dealId: string;
-  source: string;
-  from: string;
-  affiliateGranted: boolean;
-}) {
-  return {
-    clickId: input.requestId,
-    dealId: input.dealId,
-    source: input.source,
-    from: input.from,
-    affiliateGranted: input.affiliateGranted,
-    createdAt: new Date().toISOString()
-  };
-}
 
 export async function GET(
   request: Request,
@@ -32,7 +15,7 @@ export async function GET(
 ) {
   const requestId = createRequestId();
   const limit = rateLimit({
-    key: getClientKey(request, "redirect"),
+    key: getClientKey(request, "go"),
     limit: 180,
     windowMs: 60_000
   });
@@ -64,43 +47,33 @@ export async function GET(
 
   const url = new URL(request.url);
   const from = url.searchParams.get("from") ?? "unknown";
-  const analyticsGranted = url.searchParams.get("analytics") === "granted";
   const affiliateGranted = url.searchParams.get("affiliate") === "granted";
-
-  if (analyticsGranted) {
-    const redirectLog = createRedirectClickLog({
-      requestId,
-      dealId: deal.id,
-      source: deal.source,
-      from,
-      affiliateGranted
-    });
-    const event = createAnalyticsEvent({
-      eventType: "redirect_click",
-      dealId: deal.id,
-      page: from,
-      metadata: {
-        mall: deal.mall,
-        mallName: deal.mallName,
-        category: deal.category,
-        source: deal.source,
-        affiliateEligible: isAffiliateEligible(deal),
-        affiliateGranted
-      }
-    });
-
-    // Commercial extension point:
-    // Persist redirectLog and event to analytics storage before redirecting in production.
-    void redirectLog;
-    void event;
-  }
-
+  const analyticsGranted = url.searchParams.get("analytics") === "granted";
   const outboundUrl = buildOutboundUrl(deal, from, affiliateGranted);
+
   recordDealClick({
     dealId: deal.id,
     from,
     finalPurchaseUrl: outboundUrl
   });
+
+  if (analyticsGranted) {
+    const event = createAnalyticsEvent({
+      eventType: "redirect_click",
+      dealId: deal.id,
+      page: from,
+      metadata: {
+        mallName: deal.mallName,
+        category: deal.category,
+        affiliateEligible: isAffiliateEligible(deal),
+        linkVerified: deal.linkVerified,
+        purchaseConfidence: deal.purchaseConfidence
+      }
+    });
+
+    // Persist event to analytics storage in production.
+    void event;
+  }
 
   return NextResponse.redirect(outboundUrl, {
     status: 302,

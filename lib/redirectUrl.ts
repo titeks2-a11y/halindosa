@@ -3,7 +3,7 @@ export function buildDealRedirectUrl(dealId: string, from: string, options: { an
     typeof window !== "undefined" && window.location.protocol.startsWith("http")
       ? window.location.origin
       : process.env.NEXT_PUBLIC_SITE_URL || "";
-  const path = `/api/redirect/${dealId}`;
+  const path = `/go/${dealId}`;
   const params = new URLSearchParams();
 
   params.set("from", from);

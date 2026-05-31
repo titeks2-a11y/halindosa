@@ -83,7 +83,7 @@ export function PurchaseConfirmSheet({ deal, isOpen, onClose, onConfirm }: Purch
               <p className={`mt-1 text-xs font-semibold leading-5 ${isVerified ? "text-emerald-700" : "text-amber-800"}`}>
                 {isVerified
                   ? "확인된 판매처 링크를 통해 이동합니다. 결제 전 옵션가와 쿠폰 조건은 다시 확인하세요."
-                  : "대표 페이지가 아닌 판매처 검색 결과로 이동합니다. 상품명과 가격 조건이 맞는지 직접 확인해야 합니다."}
+                  : "판매처에서 상품명, 가격, 옵션 조건을 한 번 더 확인한 뒤 구매하세요."}
               </p>
               <p className={`mt-2 text-xs font-black ${isVerified ? "text-emerald-800" : "text-amber-900"}`}>
                 {getDealPurchaseConfidenceLabel(deal)} · 신뢰도 {deal.purchaseConfidence} · 링크 확인 {getRelativeTime(deal.checkedAt)}

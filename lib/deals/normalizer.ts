@@ -15,6 +15,9 @@ export type DealInput = Partial<Deal> & {
   imageUrl?: string;
   link: string;
   url?: string;
+  productUrl?: string;
+  searchUrl?: string;
+  originalUrl?: string;
   affiliateUrl?: string;
   purchaseUrl?: string;
   finalUrl?: string;
@@ -43,7 +46,7 @@ export function normalizeDeal(input: DealInput, source = input.source ?? "mock")
   const discountAmount = input.discountAmount ?? Math.max(0, input.originalPrice - input.salePrice);
   const discountRate = input.discountRate ?? Math.round((discountAmount / Math.max(input.originalPrice, 1)) * 100);
   const isFreeShipping = input.isFreeShipping ?? /무료배송|무배|네멤무료|로켓프레시/.test([shipping, ...tags].join(" "));
-  const rawLink = input.purchaseUrl ?? input.url ?? input.link;
+  const rawLink = input.productUrl ?? input.purchaseUrl ?? input.url ?? input.link;
   const priceCheckedAt = input.priceCheckedAt ?? input.verifiedAt ?? createdAt;
   const linkValidation = validatePurchaseLink({
     url: rawLink,
@@ -72,6 +75,9 @@ export function normalizeDeal(input: DealInput, source = input.source ?? "mock")
     thumbnail,
     link,
     url: input.url ?? link,
+    productUrl: input.productUrl ?? (linkValidation.linkVerified ? linkValidation.finalPurchaseUrl : ""),
+    searchUrl: input.searchUrl ?? (!linkValidation.linkVerified ? linkValidation.finalPurchaseUrl : ""),
+    originalUrl: input.originalUrl ?? input.link,
     affiliateUrl: input.affiliateUrl,
     purchaseUrl: input.purchaseUrl ?? link,
     finalUrl: input.finalUrl ?? linkValidation.finalUrl,
@@ -100,6 +106,10 @@ export function normalizeDeal(input: DealInput, source = input.source ?? "mock")
     isNew: input.isNew ?? false,
     isEndingSoon: input.isEndingSoon ?? new Date(expireAt).getTime() - Date.now() < 6 * 60 * 60 * 1000,
     popularityScore: input.popularityScore ?? 0,
+    clickCount: input.clickCount ?? Math.max(0, Math.round((input.popularityScore ?? 0) * 13)),
+    likeCount: input.likeCount ?? Math.max(0, Math.round((input.popularityScore ?? 0) * 3.2)),
+    isSoldOut: input.isSoldOut ?? linkStatus === "sold_out",
+    updatedAt: input.updatedAt ?? priceCheckedAt,
     mall: mallName,
     imageUrl: thumbnail,
     shippingInfo: shipping,

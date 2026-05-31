@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Bell, Grid3X3, Heart, Home, RefreshCw, Search, User } from "lucide-react";
+import { Bell, Grid3X3, Heart, Home, LogIn, RefreshCw, Search, User } from "lucide-react";
+import { useAuth } from "@/components/AuthProvider";
 
 const navItems = [
   { href: "/", label: "홈", icon: Home },
@@ -23,6 +24,7 @@ function getNavAriaLabel(label: string, active: boolean) {
 
 export function TopNavigation() {
   const pathname = usePathname();
+  const { configured, user, nickname } = useAuth();
 
   return (
     <header className="sticky top-0 z-40 hidden border-b border-slate-200/80 bg-white/95 backdrop-blur lg:block">
@@ -69,6 +71,16 @@ export function TopNavigation() {
             );
           })}
         </nav>
+
+        {configured ? (
+          <Link
+            href={user ? "/mypage" : "/login"}
+            className="inline-flex h-11 items-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 text-sm font-black text-slate-700 transition hover:border-red-100 hover:text-dossa-red"
+          >
+            {user ? <User size={17} /> : <LogIn size={17} />}
+            {user ? nickname || "내 계정" : "로그인"}
+          </Link>
+        ) : null}
 
         <button
           type="button"

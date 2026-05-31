@@ -98,6 +98,7 @@ await check("mypage data controls", async () => {
   const response = await fetch(`${baseUrl}/mypage`);
   const text = await response.text();
   assert(response.status === 200, `Expected 200, got ${response.status}`);
+  assert(text.includes("회원 기능 설정 필요") || text.includes("로그인하고 관심 특가"), "Mypage missing account auth panel");
   assert(text.includes("기기 데이터 관리"), "Mypage missing local data controls");
   assert(text.includes("찜/최근 본 특가 삭제"), "Mypage missing local deal data delete action");
   assert(text.includes("분석/제휴 동의 초기화"), "Mypage missing consent reset action");
@@ -107,6 +108,18 @@ await check("mypage data controls", async () => {
   assert(text.includes("개인정보/추적 설정"), "Mypage missing consent settings panel");
   assert(text.includes("삭제 대상"), "Mypage missing local data deletion scope");
   assert(text.includes("운영 검수용 가격 신고"), "Mypage missing report retention notice");
+});
+
+await check("auth pages", async () => {
+  const [login, signup] = await Promise.all([
+    fetch(`${baseUrl}/login`).then(async (response) => ({ response, text: await response.text() })),
+    fetch(`${baseUrl}/signup`).then(async (response) => ({ response, text: await response.text() }))
+  ]);
+
+  assert(login.response.status === 200, `Expected login 200, got ${login.response.status}`);
+  assert(signup.response.status === 200, `Expected signup 200, got ${signup.response.status}`);
+  assert(login.text.includes("로그인") && login.text.includes("이메일") && login.text.includes("비밀번호"), "Login page missing email/password form");
+  assert(signup.text.includes("회원가입") && signup.text.includes("닉네임") && signup.text.includes("영문+숫자 포함 8자 이상"), "Signup page missing nickname/password policy");
 });
 
 await check("service guide page", async () => {
@@ -160,7 +173,7 @@ await check("deals api", async () => {
   assert(data.quality?.total === data.count, "Deals API quality summary should match returned count");
   assert(data.quality?.verifiedRate >= 0, "Deals API quality summary missing verified rate");
   assert(data.quality?.averagePurchaseConfidence >= 0, "Deals API quality summary missing purchase confidence");
-  for (const field of ["mallName", "thumbnail", "shipping", "expireAt", "isFreeShipping"]) {
+  for (const field of ["mallName", "thumbnail", "shipping", "expireAt", "isFreeShipping", "productUrl", "searchUrl", "originalUrl", "clickCount", "likeCount", "isSoldOut", "updatedAt"]) {
     assert(field in data.deals[0], `Canonical Deal field missing: ${field}`);
   }
   for (const field of ["linkVerified", "finalUrl", "checkedAt", "purchaseConfidence", "purchaseLinkVerified", "finalPurchaseUrl"]) {
@@ -480,6 +493,16 @@ await check("redirect consent guard", async () => {
   const location = response.headers.get("location") ?? "";
   assert(response.status === 302, `Expected 302, got ${response.status}`);
   assert(!location.includes("sub_id="), `Redirect should not include affiliate sub_id without consent: ${location}`);
+});
+
+await check("go purchase redirect", async () => {
+  const response = await fetch(`${baseUrl}/go/d014?from=smoke&analytics=granted&affiliate=granted`, {
+    redirect: "manual"
+  });
+  const location = response.headers.get("location") ?? "";
+  assert(response.status === 302, `Expected 302, got ${response.status}`);
+  assert(response.headers.get("x-request-id"), "Go redirect missing request id");
+  assert(location.includes("coupang.com"), `Go redirect should resolve to seller URL, got ${location}`);
 });
 
 await check("detail purchase consent guard", async () => {
