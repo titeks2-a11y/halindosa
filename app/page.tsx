@@ -670,6 +670,7 @@ export default function Home() {
       verifiedLinkCount,
       reviewLinkCount,
       freeShippingCount,
+      verifiedLinkRate: source.length ? Math.round((verifiedLinkCount / source.length) * 100) : 0,
       latestPriceCheckedAt: latestPriceCheckedAt ? new Date(latestPriceCheckedAt).toISOString() : ""
     };
   }, [catalog, deals]);
@@ -903,6 +904,76 @@ export default function Home() {
               : "판매처의 최종 가격, 옵션가, 쿠폰 조건은 구매 전 다시 확인하세요."}
           </p>
         </div>
+        <section className="rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5" aria-label="오늘 바로 볼 할인 지도">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-black text-dossa-red">오늘 바로 볼 할인 지도</p>
+              <h3 className="mt-1 text-lg font-black text-slate-950 sm:text-2xl">좋은 특가만 빠르게 좁혀보기</h3>
+            </div>
+            <p className="text-xs font-bold leading-5 text-slate-500">
+              검수 완료 구매 링크 {dataQuality.verifiedLinkCount}개 · 직접 구매 링크 비율 {dataQuality.verifiedLinkRate}%
+            </p>
+          </div>
+          <div className="mt-4 grid grid-cols-2 gap-2 lg:grid-cols-4">
+            <button
+              type="button"
+              onClick={() => {
+                setVerifiedOnly(true);
+                setActiveView("home");
+                document.getElementById("all-deals")?.scrollIntoView({ behavior: "smooth", block: "start" });
+              }}
+              className="min-h-[104px] rounded-3xl border border-emerald-100 bg-emerald-50 p-3 text-left transition hover:-translate-y-0.5 hover:border-emerald-200 hover:bg-emerald-100"
+              aria-label="검수 완료 구매 링크 특가만 보기"
+            >
+              <CheckCircle2 size={20} className="text-emerald-700" />
+              <span className="mt-3 block text-sm font-black text-emerald-900">검수 완료 구매 링크</span>
+              <span className="mt-1 block text-xs font-bold text-emerald-700">{dataQuality.verifiedLinkCount}개 바로 확인</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setFreeShippingOnly(true);
+                setActiveView("home");
+                document.getElementById("all-deals")?.scrollIntoView({ behavior: "smooth", block: "start" });
+              }}
+              className="min-h-[104px] rounded-3xl border border-red-100 bg-red-50 p-3 text-left transition hover:-translate-y-0.5 hover:border-red-200 hover:bg-red-100"
+              aria-label="무료배송 특가만 보기"
+            >
+              <Truck size={20} className="text-dossa-red" />
+              <span className="mt-3 block text-sm font-black text-slate-950">무료배송 특가</span>
+              <span className="mt-1 block text-xs font-bold text-dossa-red">{dataQuality.freeShippingCount}개 모아보기</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setEndingSoonOnly(true);
+                setActiveView("home");
+                document.getElementById("all-deals")?.scrollIntoView({ behavior: "smooth", block: "start" });
+              }}
+              className="min-h-[104px] rounded-3xl border border-amber-100 bg-amber-50 p-3 text-left transition hover:-translate-y-0.5 hover:border-amber-200 hover:bg-amber-100"
+              aria-label="마감임박 특가만 보기"
+            >
+              <Timer size={20} className="text-amber-700" />
+              <span className="mt-3 block text-sm font-black text-amber-950">마감임박</span>
+              <span className="mt-1 block text-xs font-bold text-amber-700">{stats.endingCount}개 빠른 확인</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setHotOnly(true);
+                setSort("hot");
+                setActiveView("home");
+                document.getElementById("all-deals")?.scrollIntoView({ behavior: "smooth", block: "start" });
+              }}
+              className="min-h-[104px] rounded-3xl border border-slate-200 bg-slate-950 p-3 text-left text-white transition hover:-translate-y-0.5 hover:bg-dossa-red"
+              aria-label="인기 급상승 특가만 보기"
+            >
+              <Flame size={20} className="text-red-200" />
+              <span className="mt-3 block text-sm font-black">인기 급상승</span>
+              <span className="mt-1 block text-xs font-bold text-red-100">{stats.hotCount}개 인기순 보기</span>
+            </button>
+          </div>
+        </section>
 
         {activeView === "home" ? (
           <>
