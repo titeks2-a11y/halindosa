@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { AlertTriangle, Bell, CheckCircle2, Clock, Heart, LogOut, Settings, Trash2, UserRound } from "lucide-react";
+import { AlertTriangle, Bell, CheckCircle2, Clock, Heart, LogOut, Settings, Sparkles, Trash2, UserRound } from "lucide-react";
 import { useAuth } from "@/components/AuthProvider";
 import { getSupabaseBrowserClient } from "@/lib/auth/supabaseClient";
 import { formatPrice } from "@/lib/format";
@@ -82,6 +82,11 @@ export function AccountPanel() {
 
   const favoriteDeals = useMemo(() => catalog.filter((deal) => favoriteIds.includes(deal.id)).slice(0, 4), [catalog, favoriteIds]);
   const recentDeals = useMemo(() => recentIds.map((id) => catalog.find((deal) => deal.id === id)).filter((deal): deal is Deal => Boolean(deal)).slice(0, 4), [catalog, recentIds]);
+  const accountSummaryCards = [
+    { label: "찜한 특가", value: favoriteIds.length, suffix: "개", description: "계정에 저장된 관심 상품" },
+    { label: "최근 본 상품", value: recentIds.length, suffix: "개", description: "다시 확인할 수 있는 탐색 기록" },
+    { label: "관심 카테고리", value: preferences.favoriteCategories.length, suffix: "개", description: "추천에 활용할 선호 영역" }
+  ];
 
   const savePreferences = (next: MemberPreferences) => {
     setPreferences(next);
@@ -155,6 +160,20 @@ export function AccountPanel() {
             </p>
           </div>
         </div>
+        <div className="mt-4 rounded-3xl bg-white p-4 shadow-sm">
+          <p className="text-sm font-black text-slate-950">계정 활동 요약</p>
+          <p className="mt-1 text-xs font-bold leading-5 text-slate-500">
+            찜, 최근 본 상품, 관심 카테고리를 이 기기에 저장합니다. 로그인 환경을 연결하면 같은 정보를 계정으로 이어볼 수 있습니다.
+          </p>
+          <div className="mt-3 grid grid-cols-3 gap-2 text-center">
+            {["찜", "최근본", "관심"].map((label) => (
+              <div key={label} className="rounded-2xl bg-red-50 px-2 py-3">
+                <p className="text-lg font-black text-dossa-red">0</p>
+                <p className="mt-0.5 text-[11px] font-black text-slate-500">{label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
     );
   }
@@ -174,6 +193,20 @@ export function AccountPanel() {
         <div className="mt-4 grid grid-cols-2 gap-2">
           <Link href="/login" className="rounded-2xl bg-dossa-red px-4 py-3 text-center text-sm font-black text-white">로그인</Link>
           <Link href="/signup" className="rounded-2xl bg-slate-950 px-4 py-3 text-center text-sm font-black text-white">회원가입</Link>
+        </div>
+        <div className="mt-4 rounded-3xl bg-slate-50 p-4">
+          <p className="text-sm font-black text-slate-950">계정 활동 요약</p>
+          <p className="mt-1 text-xs font-bold leading-5 text-slate-500">
+            로그인하면 찜, 최근 본 상품, 관심 카테고리를 한 화면에서 이어보고 다른 기기에서도 복원할 수 있습니다.
+          </p>
+          <div className="mt-3 grid grid-cols-3 gap-2 text-center">
+            {["찜", "최근본", "관심"].map((label) => (
+              <div key={label} className="rounded-2xl bg-white px-2 py-3 shadow-sm">
+                <p className="text-lg font-black text-dossa-red">0</p>
+                <p className="mt-0.5 text-[11px] font-black text-slate-500">{label}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
     );
@@ -211,6 +244,40 @@ export function AccountPanel() {
         <button type="button" onClick={() => void saveNickname()} className="rounded-2xl bg-dossa-red px-4 py-3 text-sm font-black text-white">
           닉네임 저장
         </button>
+      </div>
+
+      <div className="mt-5 rounded-3xl border border-red-100 bg-gradient-to-br from-red-50 via-white to-slate-50 p-4">
+        <div className="flex items-start gap-3">
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-white text-dossa-red shadow-sm">
+            <Sparkles size={19} />
+          </span>
+          <div className="min-w-0">
+            <p className="text-sm font-black text-slate-950">계정 활동 요약</p>
+            <p className="mt-1 text-xs font-bold leading-5 text-slate-500">
+              찜, 최근 본 상품, 관심 카테고리를 기준으로 다음에 확인할 특가를 더 빠르게 이어볼 수 있습니다.
+            </p>
+          </div>
+        </div>
+        <div className="mt-4 grid gap-2 sm:grid-cols-3">
+          {accountSummaryCards.map((item) => (
+            <div key={item.label} className="rounded-2xl bg-white p-3 shadow-sm">
+              <p className="text-xs font-black text-slate-400">{item.label}</p>
+              <p className="mt-1 text-2xl font-black text-slate-950">
+                {item.value}
+                <span className="ml-0.5 text-sm text-dossa-red">{item.suffix}</span>
+              </p>
+              <p className="mt-1 text-[11px] font-bold leading-4 text-slate-500">{item.description}</p>
+            </div>
+          ))}
+        </div>
+        <div className="mt-3 grid gap-2 sm:grid-cols-2">
+          <Link href="/favorites" className="rounded-2xl bg-slate-950 px-4 py-3 text-center text-xs font-black text-white transition hover:bg-dossa-red">
+            찜한 특가 이어보기
+          </Link>
+          <Link href="/?verifiedOnly=true" className="rounded-2xl bg-white px-4 py-3 text-center text-xs font-black text-dossa-red shadow-sm transition hover:bg-red-50">
+            구매 링크 확인 특가 보기
+          </Link>
+        </div>
       </div>
 
       <div className="mt-5">

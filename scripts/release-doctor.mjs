@@ -281,8 +281,10 @@ async function checkAuthSurface() {
 
   if (!accountPanel.includes("favoriteCategories") || !accountPanel.includes("notificationConsent") || !accountPanel.includes("marketingConsent")) {
     fail("member profile settings", "Mypage account panel should support nickname, favorite categories, and consent settings.");
+  } else if (!accountPanel.includes("계정 활동 요약") || !accountPanel.includes("accountSummaryCards") || !accountPanel.includes("구매 링크 확인 특가 보기")) {
+    fail("member profile settings", "Mypage account panel should summarize saved deals, recent views, categories, and next actions.");
   } else {
-    pass("member profile settings", "Mypage account panel prepares member profile, interest categories, and consent settings.");
+    pass("member profile settings", "Mypage account panel prepares member profile, interest categories, consent settings, and activity summary.");
   }
 
   if (!socialLoginButtons.includes("signInWithOAuth") || !socialLoginButtons.includes("google") || !socialLoginButtons.includes("kakao") || !socialLoginButtons.includes("naver")) {
