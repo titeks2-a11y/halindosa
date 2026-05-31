@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, AlertTriangle, CalendarDays, ExternalLink, Gift, Search, Share2, Sparkles, Timer, Truck } from "lucide-react";
+import { ArrowLeft, AlertTriangle, CalendarDays, ExternalLink, Gift, Search, Share2, ShieldCheck, Sparkles, Timer, Truck } from "lucide-react";
 import { DealCard } from "@/components/DealCard";
 import { getBenefitTypeLabel } from "@/lib/deals/benefits";
 import { formatPrice } from "@/lib/format";
@@ -270,6 +270,31 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
     [deals]
   );
   const needsFinalCheckCount = deals.length - activeBenefitCount;
+  const sourceOverview = useMemo(
+    () => [
+      {
+        title: "제공처 확인",
+        value: `${new Set(deals.map((deal) => deal.sourceName || deal.mallName)).size}곳`,
+        copy: "혜택 제공처를 상품 카드와 이동 전 화면에서 다시 확인합니다."
+      },
+      {
+        title: "실제 링크 확인",
+        value: `${deals.filter((deal) => deal.linkStatus === "verified" && deal.finalPurchaseUrl).length}개`,
+        copy: "메인/이벤트 홈이 아니라 실제 상품·혜택 상세 이동을 우선 사용합니다."
+      },
+      {
+        title: "조건 요약",
+        value: `${deals.filter((deal) => deal.shippingFee || deal.couponCondition || deal.minimumOrderAmount || deal.requiresSignup).length}개`,
+        copy: "배송비, 쿠폰 조건, 회원가입 필요 여부를 받기 전에 요약합니다."
+      },
+      {
+        title: "신고 가능",
+        value: "상시",
+        copy: "종료, 링크 오류, 가격 변경은 카드에서 바로 신고할 수 있습니다."
+      }
+    ],
+    [deals]
+  );
   const decisionCards = useMemo(
     () => [
       {
@@ -432,6 +457,35 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
           <div className="mt-4 rounded-2xl bg-amber-50 p-3 text-xs font-bold leading-5 text-amber-900">
             무료, 쿠폰, 포인트 혜택은 판매처 사정에 따라 조기 종료될 수 있습니다. 최종 수령 가능 여부와 비용 발생 조건은 판매처 화면에서 다시 확인하세요.
           </div>
+        </section>
+
+        <section className="rounded-[28px] border border-red-100 bg-white p-4 shadow-sm sm:p-5" aria-label="혜택 출처와 조건 점검">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-black text-dossa-red">혜택 출처·조건 점검</p>
+              <h2 className="mt-1 text-2xl font-black tracking-tight text-slate-950">받기 전에 출처와 조건을 먼저 봅니다</h2>
+            </div>
+            <p className="max-w-md text-sm font-bold leading-6 text-slate-500">
+              무료 혜택은 제공처, 회원가입, 배송비, 종료 여부가 자주 바뀝니다. 할인도사는 이동 전 확인할 기준을 카드에 먼저 정리합니다.
+            </p>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+            {sourceOverview.map((item) => (
+              <div key={item.title} className="rounded-3xl bg-slate-50 p-4">
+                <div className="flex items-start justify-between gap-3">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-white text-dossa-red shadow-sm">
+                    <ShieldCheck size={18} />
+                  </span>
+                  <span className="rounded-full bg-white px-2.5 py-1 text-xs font-black text-dossa-red shadow-sm">{item.value}</span>
+                </div>
+                <p className="mt-4 text-sm font-black text-slate-950">{item.title}</p>
+                <p className="mt-1 text-xs font-bold leading-5 text-slate-500">{item.copy}</p>
+              </div>
+            ))}
+          </div>
+          <p className="mt-4 rounded-2xl bg-red-50 px-4 py-3 text-xs font-black leading-5 text-dossa-deep">
+            무료·쿠폰 혜택도 판매처의 최종 조건이 우선입니다. 신청 전 제공처, 마감일, 배송비, 회원가입 필요 여부를 다시 확인하세요.
+          </p>
         </section>
 
         <section className="rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5" aria-label="오늘 무료 혜택 루틴">

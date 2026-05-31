@@ -107,6 +107,8 @@ function deal(
     purchaseUrl,
     finalUrl: validation.finalUrl,
     finalPurchaseUrl: validation.finalPurchaseUrl,
+    sourceName: mall,
+    sourceUrl: validation.finalPurchaseUrl,
     linkType: validation.linkType,
     linkStatus: validation.linkStatus,
     linkLabel: validation.linkVerified ? "구매 페이지 검증 완료" : "판매처 검색으로 확인",
