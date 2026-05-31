@@ -405,6 +405,35 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
           </div>
         </section>
 
+        <section className="rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5" aria-label="수령 전 30초 확인">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-black text-dossa-red">수령 전 30초 확인</p>
+              <h2 className="mt-1 text-2xl font-black tracking-tight text-slate-950">무료 혜택도 조건을 알고 받아야 합니다</h2>
+            </div>
+            <p className="max-w-md text-sm font-bold leading-6 text-slate-500">
+              선착순, 회원가입, 배송비, 최소 주문 금액을 먼저 확인하도록 정리했습니다. 비회원도 전체 혜택을 볼 수 있습니다.
+            </p>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+            {[
+              ["진행 중 혜택", `${activeBenefitCount}개`, "종료·품절·링크 오류 가능성이 낮은 혜택을 우선 표시"],
+              ["가입 없이 받기", `${deals.filter((deal) => !deal.requiresSignup).length}개`, "판매처 회원가입이 필요 없다고 표시된 혜택"],
+              ["선착순 확인", `${deals.filter((deal) => deal.isFirstComeFirstServed).length}개`, "수량이 빨리 끝날 수 있어 먼저 확인할 혜택"],
+              ["배송비 확인", `${deals.filter((deal) => deal.isFreeShipping || deal.shippingFee === "무료배송").length}개`, "무료배송 또는 배송비 부담이 낮은 혜택"]
+            ].map(([title, value, copy]) => (
+              <div key={title} className="rounded-3xl border border-slate-100 bg-slate-50 p-4">
+                <p className="text-xs font-black text-slate-500">{title}</p>
+                <p className="mt-2 text-2xl font-black text-dossa-red">{value}</p>
+                <p className="mt-1 text-xs font-bold leading-5 text-slate-500">{copy}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-4 rounded-2xl bg-amber-50 p-3 text-xs font-bold leading-5 text-amber-900">
+            무료, 쿠폰, 포인트 혜택은 판매처 사정에 따라 조기 종료될 수 있습니다. 최종 수령 가능 여부와 비용 발생 조건은 판매처 화면에서 다시 확인하세요.
+          </div>
+        </section>
+
         <section className="rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5" aria-label="오늘 무료 혜택 루틴">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
             <div>
