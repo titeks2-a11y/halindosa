@@ -138,6 +138,25 @@ export default async function CategoriesPage() {
       icon: PackageCheck
     }
   ];
+  const categoryBenefitMatrix = categories
+    .filter((category) => category.id !== "all" && category.group === "카테고리" && category.count > 0)
+    .map((category) => {
+      const items = activeDeals.filter((deal) => dealMatchesChannel(deal, category.id));
+      const freeCount = items.filter((deal) => ["freebie", "experience", "freeShipping"].includes(deal.dealType) || deal.isFreeShipping).length;
+      const couponCount = items.filter((deal) => ["coupon", "point", "foodDelivery", "convenienceStore", "mart"].includes(deal.dealType)).length;
+      const endingCount = items.filter((deal) => deal.isEndingSoon).length;
+      const savingsTotal = items.reduce((total, deal) => total + Math.max(0, deal.savingsAmount), 0);
+
+      return {
+        ...category,
+        freeCount,
+        couponCount,
+        endingCount,
+        savingsTotal
+      };
+    })
+    .sort((a, b) => b.freeCount + b.couponCount + b.endingCount - (a.freeCount + a.couponCount + a.endingCount) || b.savingsTotal - a.savingsTotal)
+    .slice(0, 6);
 
   return (
     <div className="space-y-4 px-3 py-4 sm:px-4 lg:px-0 lg:py-8">
@@ -282,6 +301,55 @@ export default async function CategoriesPage() {
               </Link>
             );
           })}
+        </div>
+      </section>
+
+      <section className="rounded-[24px] border border-slate-200 bg-white p-4 shadow-sm lg:p-5" aria-label="카테고리별 오늘 혜택 요약">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-xs font-black text-dossa-red">카테고리별 오늘 혜택 요약</p>
+            <h2 className="mt-1 text-base font-black text-slate-950">무료·쿠폰·마감 신호가 많은 영역부터 보세요</h2>
+            <p className="mt-1 text-sm font-semibold leading-6 text-slate-500">
+              카테고리마다 무료 혜택, 쿠폰/포인트, 마감 임박 신호를 비교해 오늘 먼저 볼 영역을 정리했습니다.
+            </p>
+          </div>
+          <Link href="/?dealType=freebie&sort=hot" className="rounded-2xl bg-red-50 px-4 py-3 text-center text-xs font-black text-dossa-red">
+            무료·쿠폰 많은 영역 보기
+          </Link>
+        </div>
+        <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+          {categoryBenefitMatrix.map((category) => (
+            <Link
+              key={category.id}
+              href={`/?category=${category.id}&sort=hot`}
+              className="rounded-[22px] border border-slate-100 bg-slate-50 p-4 transition hover:-translate-y-0.5 hover:border-red-200 hover:bg-red-50"
+            >
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <p className="text-sm font-black text-slate-950">{category.label}</p>
+                  <p className="mt-1 text-xs font-bold leading-5 text-slate-500">{category.description}</p>
+                </div>
+                <span className="shrink-0 rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-dossa-red shadow-sm">
+                  {category.count}개
+                </span>
+              </div>
+              <div className="mt-4 grid grid-cols-3 gap-2 text-center text-[11px] font-black">
+                <span className="rounded-2xl bg-white px-2 py-2 text-dossa-red shadow-sm">
+                  무료·무배
+                  <b className="mt-1 block text-sm">{category.freeCount}</b>
+                </span>
+                <span className="rounded-2xl bg-white px-2 py-2 text-slate-700 shadow-sm">
+                  쿠폰·포인트
+                  <b className="mt-1 block text-sm">{category.couponCount}</b>
+                </span>
+                <span className="rounded-2xl bg-white px-2 py-2 text-amber-700 shadow-sm">
+                  마감
+                  <b className="mt-1 block text-sm">{category.endingCount}</b>
+                </span>
+              </div>
+              <p className="mt-3 text-xs font-black text-dossa-red">예상 절약 후보 {formatPrice(category.savingsTotal)}</p>
+            </Link>
+          ))}
         </div>
       </section>
 
