@@ -411,6 +411,12 @@ async function checkOperationalDataSurfaces() {
   } else {
     pass("shared link quality rules", "Verified purchase filtering, scoring, and trust labels use shared link quality rules.");
   }
+
+  if (!quality.includes("getLinkReviewPriority") || !quality.includes("reviewReason") || !adminPage.includes("priorityLabels") || !adminPage.includes("현재 이동 URL")) {
+    fail("admin link review workflow", "Admin link review queue should expose priority, reason, confidence, and current destination URL.");
+  } else {
+    pass("admin link review workflow", "Admin link review queue exposes priority, reason, confidence, and current destination URL.");
+  }
 }
 
 async function checkCapacitor() {

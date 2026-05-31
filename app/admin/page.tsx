@@ -6,7 +6,7 @@ import { canAccessAdmin, getAdminExportHref, isAdminProtectionEnabled } from "@/
 import { getDeals } from "@/lib/dealService";
 import { getLinkReviewActionLabel, getLinkReviewQueue, getLinkStatusLabel, getLinkTypeLabel } from "@/lib/deals/quality";
 import { listDealSourceProfiles } from "@/lib/deals/trust";
-import { formatPrice } from "@/lib/format";
+import { formatPrice, getRelativeTime } from "@/lib/format";
 import { getReportSummary, listDealReports } from "@/lib/reports";
 
 const checklist = [
@@ -50,6 +50,16 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const recentReports = listDealReports().slice(0, 6);
   const sourceCounts = new Map<string, number>();
   const linkReviewDeals = getLinkReviewQueue(deals, 8);
+  const priorityLabels = {
+    high: "우선",
+    medium: "보강",
+    low: "대기"
+  };
+  const priorityClassNames = {
+    high: "bg-red-50 text-dossa-red",
+    medium: "bg-amber-50 text-amber-700",
+    low: "bg-slate-100 text-slate-600"
+  };
 
   for (const deal of deals) {
     sourceCounts.set(deal.source, (sourceCounts.get(deal.source) ?? 0) + 1);
@@ -205,6 +215,9 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                     <div className="min-w-0">
                       <div className="flex flex-wrap items-center gap-2">
                         <span className="rounded-full bg-red-50 px-2.5 py-1 text-xs font-black text-dossa-red">{deal.linkLabel}</span>
+                        <span className={`rounded-full px-2.5 py-1 text-xs font-black ${priorityClassNames[deal.reviewPriority]}`}>
+                          {priorityLabels[deal.reviewPriority]} 검수
+                        </span>
                         <span className="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-black text-slate-600">{deal.mallName}</span>
                         <span className="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-black text-slate-600">{deal.category}</span>
                       </div>
@@ -212,6 +225,10 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                       <p className="mt-1 text-xs font-bold text-slate-500">
                         {getLinkStatusLabel(deal.linkStatus)} · {getLinkTypeLabel(deal.linkType)} · {getLinkReviewActionLabel(deal)}
                       </p>
+                      <p className="mt-1 text-xs font-semibold text-slate-500">
+                        {deal.reviewReason} · 신뢰도 {deal.purchaseConfidence} · 확인 {getRelativeTime(deal.checkedAt)}
+                      </p>
+                      <p className="mt-1 truncate text-xs font-semibold text-slate-400">현재 이동 URL: {deal.finalPurchaseUrl}</p>
                     </div>
                     <div className="flex gap-2">
                       <Link href={`/deals/${deal.id}`} className="rounded-2xl bg-slate-100 px-3 py-2 text-xs font-black text-slate-700">

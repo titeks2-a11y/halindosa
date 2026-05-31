@@ -74,6 +74,7 @@
 - iOS `PrivacyInfo.xcprivacy`를 추가하고 Xcode 리소스에 포함해 V1 기준 추적 없음/수집 데이터 없음 상태를 App Store 제출 표면에 명시
 - `lib/deals/linkValidator.ts`와 구매 링크 검증 필드를 추가해 상품 상세 URL, 검색 fallback, 커뮤니티/placeholder 링크를 API와 UI에서 명확히 구분
 - 커뮤니티 출처 본문에서 실제 쇼핑몰 상품 상세 URL만 추출하는 `communityLinkExtractor` 구조를 준비하고 원본 글은 `sourceUrl/sourceName`으로 분리하는 정책을 문서화
+- 관리자 링크 검수 큐에 우선순위, 보강 사유, 구매 링크 신뢰도, 현재 이동 URL을 추가해 실제 운영자가 먼저 처리할 상품을 판단할 수 있도록 개선
 
 ### PHASE 2 코드 품질
 

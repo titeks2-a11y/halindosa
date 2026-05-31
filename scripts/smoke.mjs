@@ -145,6 +145,8 @@ await check("admin dashboard quality cards", async () => {
   assert(text.includes("판매처 확인"), "Admin dashboard missing seller review action");
   assert(text.includes("처리 기준"), "Admin dashboard missing report handling guidance");
   assert(text.includes("상품 상세 URL 보강 필요"), "Admin dashboard missing localized link review action");
+  assert(/우선[\s\S]{0,20}검수|보강[\s\S]{0,20}검수|대기[\s\S]{0,20}검수/.test(text), "Admin dashboard missing link review priority labels");
+  assert(text.includes("현재 이동 URL"), "Admin dashboard missing current link review destination");
   assert(!text.includes("mock, staging, production"), "Admin dashboard exposes raw source pipeline copy");
   assert(!text.includes("· score "), "Admin dashboard exposes raw score copy");
 });
@@ -259,6 +261,11 @@ await check("metrics api", async () => {
   assert(data.linkQuality?.total === data.metrics?.totalDeals, "Metrics missing shared link quality summary");
   assert(Array.isArray(data.linkReviewQueue), "Metrics missing link review queue");
   assert(data.linkReviewQueue.length <= 8, "Metrics link review queue should be capped");
+  if (data.linkReviewQueue.length) {
+    assert(data.linkReviewQueue[0].reviewPriority, "Metrics link review queue missing priority");
+    assert(data.linkReviewQueue[0].reviewReason, "Metrics link review queue missing reason");
+    assert(data.linkReviewQueue[0].finalPurchaseUrl, "Metrics link review queue missing final purchase URL");
+  }
 });
 
 await check("sources api", async () => {
