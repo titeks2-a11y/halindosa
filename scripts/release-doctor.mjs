@@ -1122,6 +1122,7 @@ async function checkPolicyAndStoreDocs() {
     "docs/device-qa-checklist.md",
     "docs/deployment-env-checklist.md",
     "docs/store-submission-packet.md",
+    "docs/store-review-notes.md",
     "docs/link-coverage-report.md",
     "scripts/env-doctor.mjs"
   ];
@@ -1204,7 +1205,12 @@ async function checkPolicyAndStoreDocs() {
     {
       name: "store submission packet content",
       file: "docs/store-submission-packet.md",
-      phrases: ["Android release AAB", "Play Store 등록 문구", "App Store Connect 입력값", "node scripts/env-doctor.mjs --strict", "docs/device-qa-checklist.md"]
+      phrases: ["Android release AAB", "Play Store 등록 문구", "App Store Connect 입력값", "node scripts/env-doctor.mjs --strict", "docs/device-qa-checklist.md", "docs/store-review-notes.md"]
+    },
+    {
+      name: "store review notes content",
+      file: "docs/store-review-notes.md",
+      phrases: ["앱 접근 방식", "심사자 확인 경로", "외부 구매 링크 안내", "Google Play 앱 액세스", "App Store Review Notes", "비회원으로 대부분의 기능"]
     },
     {
       name: "link coverage report content",

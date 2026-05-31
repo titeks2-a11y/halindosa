@@ -52,6 +52,7 @@
 - [ ] Xcode Archive 생성
 - [ ] App Store Connect 업로드
 - [ ] `docs/app-store-checklist.md` 기준으로 App Privacy 작성
+- [ ] `docs/store-review-notes.md`의 Review Notes 문구를 실제 앱 접근 방식에 맞춰 입력
 
 ## Play Console
 
@@ -60,6 +61,7 @@
 - [ ] 짧은 설명 입력
 - [ ] 긴 설명 입력
 - [ ] `docs/play-store-listing.md` 내용 검토
+- [ ] `docs/store-review-notes.md` 기준 앱 액세스/심사자 메모 입력
 - [ ] `docs/data-safety-guide.md` 기준으로 데이터 보안 섹션 작성
 - [ ] `docs/content-rating-guide.md` 기준으로 콘텐츠 등급 설문 작성
 - [ ] `docs/test-plan.md` 기준으로 내부 테스트 진행
@@ -98,6 +100,7 @@
 - Store asset guide: `docs/store-assets-guide.md`
 - Release evidence: `docs/release-evidence.md`
 - Store submission packet: `docs/store-submission-packet.md`
+- Store review notes: `docs/store-review-notes.md`
 - Play Store icon draft: `assets/store/play-store-icon-512.png`
 - Feature graphic draft: `assets/store/feature-graphic-1024x500.png`
 
