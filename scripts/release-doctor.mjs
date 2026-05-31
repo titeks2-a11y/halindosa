@@ -721,6 +721,12 @@ async function checkOperationalDataSurfaces() {
     pass("shared link quality rules", "Verified purchase filtering, scoring, and trust labels use shared link quality rules.");
   }
 
+  if (!dealRepository.includes("export async function findDealByIdLive") || /findDealByIdLive[\s\S]{0,180}findDealById\(id\)[\s\S]{0,80}await getDeals/.test(dealRepository)) {
+    fail("live deal detail source", "Live deal detail lookup should query the Deal repository provider before falling back to cached/default data.");
+  } else {
+    pass("live deal detail source", "Deal detail lookup reads provider data first and only falls back to cached/default data when necessary.");
+  }
+
   if (!quality.includes("getLinkReviewPriority") || !quality.includes("reviewReason") || !adminPage.includes("priorityLabels") || !adminPage.includes("현재 이동 URL")) {
     fail("admin link review workflow", "Admin link review queue should expose priority, reason, confidence, and current destination URL.");
   } else if (!adminPage.includes("CSV 다운로드") || !smoke.includes("finalPurchaseUrl") || !smoke.includes("reviewPriority")) {

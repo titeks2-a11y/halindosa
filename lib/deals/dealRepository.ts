@@ -143,11 +143,8 @@ export function findDealById(id: string) {
 }
 
 export async function findDealByIdLive(id: string) {
-  const cached = findDealById(id);
-  if (cached) return cached;
-
   const { deals } = await getDeals();
-  return deals.find((deal) => deal.id === id) ?? null;
+  return deals.find((deal) => deal.id === id) ?? findDealById(id);
 }
 
 export function getRelatedDeals(dealId: string, limit = 4) {
