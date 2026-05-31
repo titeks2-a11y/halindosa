@@ -33,6 +33,12 @@ function buildMarketplaceSearchUrl(mall: string, title: string) {
   if (/유플러스|uplus/.test(normalizedMall)) return `https://www.uplus.co.kr/benefit-membership`;
   if (/맘큐|momq/.test(normalizedMall)) return `https://www.momq.co.kr/search?keyword=${query}`;
   if (/아이챌린지/.test(normalizedMall)) return `https://www.i-challenge.co.kr/Event/`;
+  if (/현대카드|hyundaicard/.test(normalizedMall)) return `https://www.hyundaicard.com/cpc/cr/CPCCR0101_01.hc`;
+  if (/신한카드|shinhancard/.test(normalizedMall)) return `https://www.shinhancard.com/pconts/html/benefit/event/MOBFM220/MOBFM220R01.html`;
+  if (/롯데시네마|lottecinema/.test(normalizedMall)) return `https://www.lottecinema.co.kr/NLCHS/Event`;
+  if (/메가|mega/.test(normalizedMall)) return `https://www.mega-mgccoffee.com/bbs/?bbs_category=3`;
+  if (/카카오톡|선물하기/.test(normalizedMall)) return `https://gift.kakao.com/page/event`;
+  if (/티켓링크|ticketlink/.test(normalizedMall)) return `https://www.ticketlink.co.kr/event`;
 
   return `https://search.shopping.naver.com/search/all?query=${query}`;
 }
@@ -222,7 +228,13 @@ export const mockDeals: Deal[] = [
   deal("d069", "맘큐", "맘큐 육아용품 샘플팩·체험 이벤트", "육아", 9900, 100, 4, 48, { isHot: true, isNew: true, isEndingSoon: false }, ["육아", "무료 샘플", "체험단", "배송비 확인"], 84, "", "https://www.momq.co.kr/display/eventList"),
   deal("d070", "아이챌린지", "아이챌린지 유아 학습지 무료 체험 키트", "육아", 12000, 100, 4, 96, { isHot: false, isNew: true, isEndingSoon: false }, ["육아", "무료체험", "체험단", "선착순"], 81, "", "https://www.i-challenge.co.kr/Event/"),
   deal("d071", "카카오페이", "카카오페이 결제 리워드 스탬프 이벤트", "쿠폰/이벤트", 3000, 100, 0.5, 16, { isHot: true, isNew: true, isEndingSoon: true }, ["페이", "포인트", "리워드", "앱테크"], 91, "", "https://www.kakaopay.com/benefits"),
-  deal("d072", "네이버플러스", "네이버플러스 멤버십 무료 체험 혜택", "쿠폰/이벤트", 4900, 100, 1.2, 36, { isHot: true, isNew: true, isEndingSoon: false }, ["무료체험", "멤버십", "포인트", "첫 구매"], 89, "", "https://nid.naver.com/membership/join?m=benefit")
+  deal("d072", "네이버플러스", "네이버플러스 멤버십 무료 체험 혜택", "쿠폰/이벤트", 4900, 100, 1.2, 36, { isHot: true, isNew: true, isEndingSoon: false }, ["무료체험", "멤버십", "포인트", "첫 구매"], 89, "", "https://nid.naver.com/membership/join?m=benefit"),
+  deal("d073", "현대카드", "현대카드 M포인트 외식·쇼핑 할인 혜택", "쿠폰/이벤트", 10000, 100, 0.8, 26, { isHot: true, isNew: true, isEndingSoon: false }, ["카드사 할인", "포인트", "외식", "쇼핑몰 쿠폰"], 86, "", "https://www.hyundaicard.com/cpc/cr/CPCCR0101_01.hc"),
+  deal("d074", "신한카드", "신한카드 생활비 캐시백 이벤트 모음", "쿠폰/이벤트", 8000, 100, 1.1, 40, { isHot: false, isNew: true, isEndingSoon: false }, ["카드사 할인", "캐시백", "생활비절약", "쿠폰"], 83, "", "https://www.shinhancard.com/pconts/html/benefit/event/MOBFM220/MOBFM220R01.html"),
+  deal("d075", "롯데시네마", "롯데시네마 시사회·영화 할인 이벤트", "여행/티켓", 15000, 100, 0.9, 22, { isHot: true, isNew: true, isEndingSoon: false }, ["무료 초대권", "영화", "시사회", "이벤트"], 84, "", "https://www.lottecinema.co.kr/NLCHS/Event"),
+  deal("d076", "메가MGC커피", "메가MGC커피 앱 쿠폰·음료 이벤트", "쿠폰/이벤트", 2500, 100, 0.4, 12, { isHot: true, isNew: true, isEndingSoon: true }, ["커피", "음료", "무료 쿠폰", "앱가입"], 88, "", "https://www.mega-mgccoffee.com/bbs/?bbs_category=3"),
+  deal("d077", "카카오톡 선물하기", "카카오톡 선물하기 첫 구매 쿠폰 이벤트", "쿠폰/이벤트", 5000, 100, 0.5, 18, { isHot: true, isNew: true, isEndingSoon: true }, ["첫 구매", "친구 초대", "쿠폰", "선물하기"], 90, "", "https://gift.kakao.com/page/event"),
+  deal("d078", "티켓링크", "티켓링크 전시·공연 할인 이벤트", "여행/티켓", 20000, 100, 1.4, 42, { isHot: false, isNew: true, isEndingSoon: false }, ["전시", "공연", "무료 초대권", "티켓"], 82, "", "https://www.ticketlink.co.kr/event")
 ];
 
 export const categories = ["전체", "식품", "전자기기", "생활용품", "의류", "육아", "여행/티켓", "뷰티", "가전", "편의점/마트", "쿠폰/이벤트", "기타"] as const;

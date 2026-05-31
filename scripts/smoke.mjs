@@ -462,6 +462,12 @@ await check("benefit type filter api", async () => {
     assert(filtered.data.deals.length > 0, `${type} benefit filter should return deals`);
     assert(filtered.data.deals.every((deal) => deal.dealType === type), `${type} benefit filter returned a mismatched deal`);
   }
+  const allBenefitData = await fetchJson("/api/deals?limit=100&sort=latest");
+  const benefitText = allBenefitData.data.deals.map((deal) => `${deal.title} ${deal.tags.join(" ")}`).join(" ");
+  assert(
+    benefitText.includes("현대카드 M포인트") && benefitText.includes("카카오톡 선물하기") && benefitText.includes("티켓링크 전시"),
+    "Benefit data missing card, invite, or culture event examples"
+  );
 });
 
 await check("free benefits page", async () => {

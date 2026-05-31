@@ -135,6 +135,12 @@ function isKnownProductDetailUrl(url: URL, mallName: string) {
   if (/u\+|유플러스|uplus/.test(mall) || hostMatches(host, "uplus.co.kr")) return /\/benefit|\/event|membership/.test(full);
   if (/맘큐|momq/.test(mall) || hostMatches(host, "momq.co.kr")) return /\/event|\/display/.test(path);
   if (/아이챌린지|i-challenge/.test(mall) || hostMatches(host, "i-challenge.co.kr")) return /\/event/i.test(path);
+  if (/현대카드|hyundaicard/.test(mall) || hostMatches(host, "hyundaicard.com")) return /event|benefit|cpc|cpu|point|mileage/.test(full);
+  if (/신한카드|shinhancard/.test(mall) || hostMatches(host, "shinhancard.com")) return /event|benefit|pconts/.test(full);
+  if (/롯데시네마|lottecinema/.test(mall) || hostMatches(host, "lottecinema.co.kr")) return /event/.test(full);
+  if (/메가|mega/.test(mall) || hostMatches(host, "mega-mgccoffee.com")) return /event|bbs|campaign/.test(full);
+  if (/카카오톡|선물하기|gift\.kakao/.test(mall) || hostMatches(host, "gift.kakao.com")) return /event|page|promotion/.test(full);
+  if (/티켓링크|ticketlink/.test(mall) || hostMatches(host, "ticketlink.co.kr")) return /event|product|goods/.test(full);
 
   return !isHomeOnlyUrl(url) && !isSearchOrCategoryUrl(url);
 }

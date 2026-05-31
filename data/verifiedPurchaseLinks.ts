@@ -440,5 +440,41 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     checkedAt: "2026-06-01T09:40:00.000Z",
     source: "manual_review",
     evidence: "네이버플러스 멤버십 공식 가입 혜택 페이지"
+  },
+  d073: {
+    url: "https://www.hyundaicard.com/cpc/cr/CPCCR0101_01.hc",
+    checkedAt: "2026-06-01T11:20:00.000Z",
+    source: "manual_review",
+    evidence: "현대카드 공식 혜택/이벤트 페이지"
+  },
+  d074: {
+    url: "https://www.shinhancard.com/pconts/html/benefit/event/MOBFM220/MOBFM220R01.html",
+    checkedAt: "2026-06-01T11:20:00.000Z",
+    source: "manual_review",
+    evidence: "신한카드 공식 이벤트 페이지"
+  },
+  d075: {
+    url: "https://www.lottecinema.co.kr/NLCHS/Event",
+    checkedAt: "2026-06-01T11:20:00.000Z",
+    source: "manual_review",
+    evidence: "롯데시네마 공식 이벤트 페이지"
+  },
+  d076: {
+    url: "https://www.mega-mgccoffee.com/bbs/?bbs_category=3",
+    checkedAt: "2026-06-01T11:20:00.000Z",
+    source: "manual_review",
+    evidence: "메가MGC커피 공식 이벤트/소식 페이지"
+  },
+  d077: {
+    url: "https://gift.kakao.com/page/event",
+    checkedAt: "2026-06-01T11:20:00.000Z",
+    source: "manual_review",
+    evidence: "카카오톡 선물하기 공식 이벤트 페이지"
+  },
+  d078: {
+    url: "https://www.ticketlink.co.kr/event",
+    checkedAt: "2026-06-01T11:20:00.000Z",
+    source: "manual_review",
+    evidence: "티켓링크 공식 이벤트 페이지"
   }
 };

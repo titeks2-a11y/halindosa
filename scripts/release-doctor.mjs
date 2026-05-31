@@ -513,7 +513,17 @@ async function checkPartnerFeedSafety() {
       pass("verified purchase link coverage", `${verifiedCount}/${dealCount} curated deals have manually reviewed product detail URLs (${verifiedRate}%).`);
     }
 
-    const requiredBenefitExamples = ["네이버페이 첫 결제", "토스 출석체크", "T멤버십", "배달앱 첫 주문", "무료 샘플 체험단", "무료 초대권"];
+    const requiredBenefitExamples = [
+      "네이버페이 첫 결제",
+      "토스 출석체크",
+      "T멤버십",
+      "배달앱 첫 주문",
+      "무료 샘플 체험단",
+      "무료 초대권",
+      "현대카드 M포인트",
+      "카카오톡 선물하기",
+      "티켓링크 전시"
+    ];
     const requiredVerifiedBenefitIds = ["d053:", "d054:", "d055:", "d056:", "d057:", "d058:", "d059:", "d060:"];
     const missingBenefitExamples = [
       ...requiredBenefitExamples.filter((snippet) => !mockDeals.includes(snippet)),
