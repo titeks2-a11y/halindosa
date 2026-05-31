@@ -1,4 +1,9 @@
-export function buildDealRedirectUrl(dealId: string, from: string, options: { analytics?: boolean; affiliate?: boolean } = {}) {
+import { isHttpUrl, resolveDealDestinationUrl } from "@/lib/affiliate";
+import type { Deal } from "@/types/deal";
+
+type RedirectOptions = { analytics?: boolean; affiliate?: boolean };
+
+export function buildDealRedirectUrl(dealId: string, from: string, options: RedirectOptions = {}) {
   const baseUrl =
     typeof window !== "undefined" && window.location.protocol.startsWith("http")
       ? window.location.origin
@@ -15,4 +20,14 @@ export function buildDealRedirectUrl(dealId: string, from: string, options: { an
   const url = new URL(path, baseUrl);
   params.forEach((value, key) => url.searchParams.set(key, value));
   return url.toString();
+}
+
+export function buildNativeSafeDealUrl(deal: Deal, from: string, options: RedirectOptions = {}) {
+  const redirectUrl = buildDealRedirectUrl(deal.id, from, options);
+
+  if (isHttpUrl(redirectUrl)) {
+    return redirectUrl;
+  }
+
+  return resolveDealDestinationUrl(deal, Boolean(options.affiliate));
 }

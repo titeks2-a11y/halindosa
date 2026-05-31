@@ -12,7 +12,7 @@ import { canOpenDealLink } from "@/lib/affiliate";
 import { hasAffiliateConsent, hasAnalyticsConsent, readStoredConsent } from "@/lib/consent";
 import { getLinkQualityScore, isVerifiedPurchaseLink } from "@/lib/deals/quality";
 import { formatPrice } from "@/lib/format";
-import { buildDealRedirectUrl } from "@/lib/redirectUrl";
+import { buildDealRedirectUrl, buildNativeSafeDealUrl } from "@/lib/redirectUrl";
 import { readLocalFavoriteIds, recordRecentDealView, syncFavoritesWithSupabase, toggleFavoriteSynced } from "@/lib/memberSync";
 import { Deal } from "@/types/deal";
 
@@ -32,7 +32,12 @@ async function openExternalDeal(deal: Deal) {
     const { Capacitor } = await import("@capacitor/core");
     if (Capacitor.isNativePlatform()) {
       const { Browser } = await import("@capacitor/browser");
-      await Browser.open({ url: redirectUrl });
+      await Browser.open({
+        url: buildNativeSafeDealUrl(deal, "favorites", {
+          analytics: hasAnalyticsConsent(consent),
+          affiliate: hasAffiliateConsent(consent)
+        })
+      });
       return;
     }
   } catch {

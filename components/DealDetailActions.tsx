@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { ArrowLeft, ExternalLink, Heart, Share2 } from "lucide-react";
 import { Deal } from "@/types/deal";
-import { buildDealRedirectUrl } from "@/lib/redirectUrl";
+import { buildDealRedirectUrl, buildNativeSafeDealUrl } from "@/lib/redirectUrl";
 import { canOpenDealLink } from "@/lib/affiliate";
 import { hasAffiliateConsent, hasAnalyticsConsent, readStoredConsent } from "@/lib/consent";
 import { readLocalFavoriteIds, recordRecentDealView, syncFavoritesWithSupabase, toggleFavoriteSynced } from "@/lib/memberSync";
@@ -84,7 +84,12 @@ export function DealDetailActions({ deal }: { deal: Deal }) {
 
     if (await isNativeRuntime()) {
       const { Browser } = await import("@capacitor/browser");
-      await Browser.open({ url: redirectUrl });
+      await Browser.open({
+        url: buildNativeSafeDealUrl(deal, "detail", {
+          analytics: hasAnalyticsConsent(consent),
+          affiliate: hasAffiliateConsent(consent)
+        })
+      });
       return;
     }
 

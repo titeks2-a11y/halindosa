@@ -653,6 +653,7 @@ async function checkOperationalDataSurfaces() {
   const dealCard = await text("components/DealCard.tsx");
   const liveDealFeed = await text("components/LiveDealFeed.tsx");
   const purchaseConfirmSheet = await text("components/PurchaseConfirmSheet.tsx");
+  const dealDetailActions = await text("components/DealDetailActions.tsx");
   const quality = await text("lib/deals/quality.ts");
   const dealRepository = await text("lib/deals/dealRepository.ts");
   const categoriesPage = await text("app/categories/page.tsx");
@@ -757,6 +758,18 @@ async function checkOperationalDataSurfaces() {
     fail("go redirect route", "Purchase buttons should use /go/[dealId], record clicks, and resolve outbound URL server-side.");
   } else {
     pass("go redirect route", "Purchase redirect uses /go/[dealId] with click logging and server-side outbound URL resolution.");
+  }
+
+  if (
+    !redirectUrl.includes("buildNativeSafeDealUrl") ||
+    !redirectUrl.includes("resolveDealDestinationUrl") ||
+    !homePage.includes("buildNativeSafeDealUrl") ||
+    !dealDetailActions.includes("buildNativeSafeDealUrl") ||
+    !favoritesPage.includes("buildNativeSafeDealUrl")
+  ) {
+    fail("native purchase navigation", "Capacitor static builds should fall back to a safe external product URL when /go is unavailable.");
+  } else {
+    pass("native purchase navigation", "Native purchase buttons keep web redirect tracking when available and fall back to a safe product URL in static app bundles.");
   }
 
   if (!sitemap.includes("/commercialization") || !sitemap.includes("/guide") || !sitemap.includes("/privacy")) {

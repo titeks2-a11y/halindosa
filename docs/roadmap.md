@@ -103,6 +103,7 @@
 - release doctor가 `docs/release-evidence.md`의 최신 커밋과 현재 Git 커밋 일치 여부를 확인해 제출 전 증빙 스냅샷 누락을 방지하도록 개선
 - 가격/품절 신고 접수 후 상세 복귀, 구매 기준 안내, 문의하기로 이어지는 다음 행동 UX를 추가하고 support contact 노출을 smoke로 검증
 - 웹 package 버전을 Android/iOS와 동일한 1.0.0으로 정렬하고 release doctor가 package-lock, Android `versionName`, iOS `MARKETING_VERSION` 불일치를 자동으로 잡도록 보강
+- Capacitor 정적 앱에서 `/go` 서버 라우트를 사용할 수 없을 때 홈, 상세, 찜 판매처 이동이 검증된 외부 상품 URL로 fallback하도록 보강하고 release doctor에 네이티브 구매 이동 검사를 추가
 
 ### PHASE 2 코드 품질
 

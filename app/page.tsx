@@ -26,7 +26,7 @@ import { ConsentState, hasAffiliateConsent, hasAnalyticsConsent, readStoredConse
 import { canOpenDealLink } from "@/lib/affiliate";
 import { getLinkQualityScore, isVerifiedPurchaseLink } from "@/lib/deals/quality";
 import { getRelativeTime } from "@/lib/format";
-import { buildDealRedirectUrl } from "@/lib/redirectUrl";
+import { buildDealRedirectUrl, buildNativeSafeDealUrl } from "@/lib/redirectUrl";
 import {
   readLocalFavoriteIds,
   recordRecentDealView,
@@ -600,7 +600,12 @@ export default function Home() {
 
     if (await isNativeRuntime()) {
       const { Browser } = await import("@capacitor/browser");
-      await Browser.open({ url: redirectUrl });
+      await Browser.open({
+        url: buildNativeSafeDealUrl(deal, activeView, {
+          analytics: hasAnalyticsConsent(consent),
+          affiliate: hasAffiliateConsent(consent)
+        })
+      });
       return;
     }
 
