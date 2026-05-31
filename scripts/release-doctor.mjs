@@ -1024,6 +1024,9 @@ async function checkOperationalDataSurfaces() {
     !categoriesPage.includes("앱테크·포인트 적립") ||
     !categoriesPage.includes("추천 탐색") ||
     !categoriesPage.includes("구매 링크 확인이 많은 영역부터 보기") ||
+    !categoriesPage.includes("purposeJourneys") ||
+    !categoriesPage.includes("오늘 목적별 탐색 루틴") ||
+    !categoriesPage.includes("무엇을 아끼고 싶은지부터 고르세요") ||
     !smoke.includes("Categories page missing benefit type quick map")
   ) {
     fail("category discovery UX", "Categories page should group channels and surface verified-link-first and benefit-type discovery.");

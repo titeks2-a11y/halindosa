@@ -60,6 +60,7 @@ const benefitQuickLinks: Array<{
 
 export default async function CategoriesPage() {
   const { deals } = await getDeals();
+  const activeDeals = deals.filter((deal) => !deal.isExpired && !deal.isSoldOut);
   const categories = dealChannels.map((channel) => {
     const items = channel.id === "all" ? deals : deals.filter((deal) => dealMatchesChannel(deal, channel.id));
     const bestDiscount = items.reduce((best, deal) => Math.max(best, deal.discountRate), 0);
@@ -107,6 +108,36 @@ export default async function CategoriesPage() {
       bestDeal
     };
   });
+  const purposeJourneys = [
+    {
+      title: "무료 먼저 받기",
+      description: "무료 샘플, 체험단, 초대권을 먼저 확인",
+      href: "/free-benefits?dealType=freebie&sort=recommended",
+      metric: `${activeDeals.filter((deal) => ["freebie", "experience"].includes(deal.dealType)).length}개 진행 중`,
+      icon: Gift
+    },
+    {
+      title: "결제 전 쿠폰 찾기",
+      description: "첫 구매, 카드, 브랜드 쿠폰 조건 확인",
+      href: "/free-benefits?dealType=coupon&sort=popular",
+      metric: `${activeDeals.filter((deal) => ["coupon", "foodDelivery"].includes(deal.dealType)).length}개 쿠폰`,
+      icon: TicketPercent
+    },
+    {
+      title: "장보기 전 행사 보기",
+      description: "편의점 1+1, 마트 행사, 무료배송 확인",
+      href: "/?category=mart&dealType=mart&sort=hot",
+      metric: `${activeDeals.filter((deal) => ["convenienceStore", "mart", "freeShipping"].includes(deal.dealType) || deal.isFreeShipping).length}개 생활 혜택`,
+      icon: Truck
+    },
+    {
+      title: "마감 전 빠르게 확인",
+      description: "오늘 끝날 수 있는 혜택과 특가 우선 확인",
+      href: "/?endingSoonOnly=true&sort=endingSoon",
+      metric: `${activeDeals.filter((deal) => deal.isEndingSoon).length}개 마감 임박`,
+      icon: PackageCheck
+    }
+  ];
 
   return (
     <div className="space-y-4 px-3 py-4 sm:px-4 lg:px-0 lg:py-8">
@@ -208,6 +239,46 @@ export default async function CategoriesPage() {
                 {item.bestDeal ? (
                   <p className="mt-3 line-clamp-1 text-xs font-black text-slate-900">{item.bestDeal.title}</p>
                 ) : null}
+              </Link>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className="rounded-[24px] border border-red-100 bg-white p-4 shadow-sm lg:p-5" aria-label="오늘 목적별 탐색 루틴">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-xs font-black text-dossa-red">오늘 목적별 탐색 루틴</p>
+            <h2 className="mt-1 text-base font-black text-slate-950">무엇을 아끼고 싶은지부터 고르세요</h2>
+            <p className="mt-1 text-sm font-semibold leading-6 text-slate-500">
+              상품 카테고리를 몰라도 무료, 쿠폰, 장보기, 마감 임박 목적별로 바로 시작할 수 있습니다.
+            </p>
+          </div>
+          <Link href="/free-benefits" className="rounded-2xl bg-slate-950 px-4 py-3 text-center text-xs font-black text-white shadow-sm">
+            무료·쿠폰 전체 보기
+          </Link>
+        </div>
+        <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+          {purposeJourneys.map((journey) => {
+            const Icon = journey.icon;
+
+            return (
+              <Link
+                key={journey.title}
+                href={journey.href}
+                className="min-h-[154px] rounded-3xl border border-slate-100 bg-slate-50 p-4 transition hover:-translate-y-0.5 hover:border-red-200 hover:bg-red-50"
+              >
+                <div className="flex items-start justify-between gap-3">
+                  <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-dossa-red shadow-sm">
+                    <Icon size={20} />
+                  </span>
+                  <span className="rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-dossa-red shadow-sm">
+                    {journey.metric}
+                  </span>
+                </div>
+                <p className="mt-4 text-sm font-black text-slate-950">{journey.title}</p>
+                <p className="mt-1 text-xs font-bold leading-5 text-slate-500">{journey.description}</p>
+                <p className="mt-3 text-xs font-black text-dossa-red">바로 시작하기</p>
               </Link>
             );
           })}
