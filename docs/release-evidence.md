@@ -4,9 +4,9 @@
 
 ## 기본 정보
 
-- 생성 시각: 2026-05-31T20:00:32.345Z
+- 생성 시각: 2026-05-31T20:07:32.665Z
 - Git 브랜치: main
-- 최신 커밋: 921fc9a
+- 최신 커밋: 70e1691
 - Git 상태: clean
 - 패키지 버전: 1.0.0
 - 앱 이름: 할인도사
@@ -21,9 +21,9 @@
 | --- | --- | --- |
 | Debug APK | `android/app/build/outputs/apk/debug/app-debug.apk` | 10.12MB |
 | Release AAB | `android/app/build/outputs/bundle/release/app-release.aab` | 6.20MB |
-| Play Store icon | `assets/store/play-store-icon-512.png` | 279KB |
-| Feature graphic | `assets/store/feature-graphic-1024x500.png` | 103KB |
-| iOS App icon | `ios/App/App/Assets.xcassets/AppIcon.appiconset/AppIcon-512@2x.png` | 108KB |
+| Play Store icon | `assets/store/play-store-icon-512.png` | 26KB |
+| Feature graphic | `assets/store/feature-graphic-1024x500.png` | 47KB |
+| iOS App icon | `ios/App/App/Assets.xcassets/AppIcon.appiconset/AppIcon-512@2x.png` | 61KB |
 | iOS privacy manifest | `ios/App/App/PrivacyInfo.xcprivacy` | 373B |
 | Link coverage report | `docs/link-coverage-report.md` | 3KB |
 
