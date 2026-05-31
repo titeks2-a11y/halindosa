@@ -85,6 +85,7 @@
 npm run build
 npm run build:android
 npm run cap:sync
+npm run store:assets:doctor
 npm run release:doctor
 ```
 
@@ -94,6 +95,7 @@ npm run release:doctor
 - 가격, 할인율, 무료 문구가 오해를 만들지 않는지 확인
 - 앱 아이콘이 작은 크기에서도 도사 심볼로 인식되는지 확인
 - 기능 그래픽에 외부 쇼핑몰 로고를 무단으로 크게 사용하지 않았는지 확인
+- `npm run store:assets:doctor`가 Play Store 아이콘 512 x 512, 기능 그래픽 1024 x 500, PWA 아이콘, iOS App Store 아이콘 치수를 모두 통과하는지 확인
 
 ## App Store 이미지
 

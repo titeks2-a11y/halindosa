@@ -14,6 +14,7 @@
 - [x] `npm run qa`
 - [x] `npm run audit:commercial`
 - [x] `npm run env:doctor`
+- [x] `npm run store:assets:doctor`
 - [x] `npm run perf:budget`
 - [x] `npm run release:evidence`
 - [x] `npm run qa:release`는 `audit:commercial`, `perf:budget`, Android/iOS sync, release doctor까지 포함

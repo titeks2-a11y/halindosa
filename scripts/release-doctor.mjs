@@ -1,4 +1,4 @@
-import { existsSync, statSync } from "node:fs";
+import { existsSync, readFileSync, statSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 import { execFileSync } from "node:child_process";
 import { join } from "node:path";
@@ -50,13 +50,14 @@ async function checkPackage() {
     "perf:budget",
     "env:doctor",
     "links:report",
+    "store:assets:doctor",
     "release:evidence"
   ];
   const missing = requiredScripts.filter((script) => !pkg.scripts?.[script]);
 
   if (missing.length) fail("package scripts", `Missing scripts: ${missing.join(", ")}`);
-  else if (!pkg.scripts?.["qa:release"]?.includes("audit:commercial") || !pkg.scripts?.["qa:release"]?.includes("perf:budget")) {
-    fail("package scripts", "qa:release should include commercial security audit and performance budget before store submission.");
+  else if (!pkg.scripts?.["qa:release"]?.includes("audit:commercial") || !pkg.scripts?.["qa:release"]?.includes("store:assets:doctor") || !pkg.scripts?.["qa:release"]?.includes("perf:budget")) {
+    fail("package scripts", "qa:release should include commercial security audit, store asset doctor, and performance budget before store submission.");
   } else {
     pass("package scripts", "Android, iOS, environment, commercial security, and performance release command flow is available.");
   }
@@ -1265,15 +1266,40 @@ function checkSigningAndArtifacts() {
 }
 
 function checkStoreAssets() {
-  const assets = [
-    "assets/store/halindosa-logo-source.jpg",
-    "assets/store/play-store-icon-512.png",
-    "assets/store/feature-graphic-1024x500.png"
+  const sourceAssets = ["assets/store/halindosa-logo-source.jpg"];
+  const requiredPngAssets = [
+    ["Play Store icon", "assets/store/play-store-icon-512.png", 512, 512],
+    ["Play Store feature graphic", "assets/store/feature-graphic-1024x500.png", 1024, 500],
+    ["PWA 192 icon", "public/halindosa-icon-192.png", 192, 192],
+    ["PWA 512 icon", "public/halindosa-icon-512.png", 512, 512],
+    ["iOS App Store icon", "ios/App/App/Assets.xcassets/AppIcon.appiconset/AppIcon-512@2x.png", 1024, 1024]
   ];
-  const missing = assets.filter((file) => fileSize(file) <= 0);
+  const missingSource = sourceAssets.filter((file) => fileSize(file) <= 0);
+  const issues = [];
 
-  if (missing.length) fail("store assets", `Missing: ${missing.join(", ")}`);
-  else pass("store assets", "Play Store icon source and feature graphic drafts are present.");
+  for (const [label, asset, width, height] of requiredPngAssets) {
+    const fullPath = join(root, asset);
+
+    if (!existsSync(fullPath)) {
+      issues.push(`${label} missing: ${asset}`);
+      continue;
+    }
+
+    try {
+      const buffer = readFileSync(fullPath);
+      const isPng = buffer.subarray(0, 8).toString("hex") === "89504e470d0a1a0a";
+      const actualWidth = isPng ? buffer.readUInt32BE(16) : 0;
+      const actualHeight = isPng ? buffer.readUInt32BE(20) : 0;
+
+      if (!isPng) issues.push(`${label} should be PNG: ${asset}`);
+      else if (actualWidth !== width || actualHeight !== height) issues.push(`${label} expected ${width}x${height}, got ${actualWidth}x${actualHeight}`);
+    } catch (error) {
+      issues.push(`${label} unreadable: ${error instanceof Error ? error.message : String(error)}`);
+    }
+  }
+
+  if (missingSource.length || issues.length) fail("store assets", [...missingSource.map((file) => `Missing source: ${file}`), ...issues].join("; "));
+  else pass("store assets", "Store icon, feature graphic, PWA icons, and iOS icon have launch-ready dimensions.");
 }
 
 await checkPackage();
