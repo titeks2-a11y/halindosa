@@ -976,6 +976,7 @@ async function checkOperationalDataSurfaces() {
   const dealRepository = await text("lib/deals/dealRepository.ts");
   const categoriesPage = await text("app/categories/page.tsx");
   const notificationsPage = await text("app/notifications/page.tsx");
+  const interestAlertPreview = await text("components/InterestAlertPreview.tsx");
   const favoritesPage = await text("app/favorites/page.tsx");
   const localDataControls = await text("components/LocalDataControls.tsx");
   const accountPanel = await text("components/AccountPanel.tsx");
@@ -1021,6 +1022,8 @@ async function checkOperationalDataSurfaces() {
 
   if (
     !notificationsPage.includes("<PriceAlertList") ||
+    !notificationsPage.includes("<InterestAlertPreview") ||
+    !interestAlertPreview.includes("readLocalPreferences") ||
     !homePage.includes("<PriceAlertList") ||
     !localDataControls.includes("priceAlertStorageKey") ||
     !localDataControls.includes("가격 알림 조건") ||
@@ -1037,7 +1040,11 @@ async function checkOperationalDataSurfaces() {
     !notificationsPage.includes("오늘 먼저 확인할 알림") ||
     !notificationsPage.includes("마감과 인기 반응이 겹친 특가부터 보기") ||
     !notificationsPage.includes("dailyAlertQueues") ||
+    !notificationsPage.includes("InterestAlertPreview") ||
     !notificationsPage.includes("오늘 알림 큐") ||
+    !interestAlertPreview.includes("관심 카테고리 알림") ||
+    !interestAlertPreview.includes("관심 설정하기") ||
+    !interestAlertPreview.includes("비회원도 기기에 관심사를 저장") ||
     !notificationsPage.includes("무료 혜택 알림") ||
     !notificationsPage.includes("쿠폰·포인트 알림") ||
     !notificationsPage.includes("비회원도 모두 볼 수 있고") ||

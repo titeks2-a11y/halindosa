@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Bell, Clock, Flame, Gift, Sparkles, TicketPercent, Truck } from "lucide-react";
+import { InterestAlertPreview } from "@/components/InterestAlertPreview";
 import { NotificationPreferences } from "@/components/NotificationPreferences";
 import { PriceAlertList } from "@/components/PriceAlertList";
 import { getDeals } from "@/lib/dealService";
@@ -140,6 +141,7 @@ export default async function NotificationsPage() {
 
       <NotificationPreferences />
       <PriceAlertList deals={deals} />
+      <InterestAlertPreview deals={deals} />
 
       <section className="rounded-[22px] border border-red-100 bg-white p-4 shadow-sm lg:p-5" aria-label="오늘 알림 큐">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
