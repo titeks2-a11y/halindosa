@@ -23,6 +23,14 @@ function fileSize(path) {
   return existsSync(fullPath) ? statSync(fullPath).size : 0;
 }
 
+function run(command, args) {
+  try {
+    return execFileSync(command, args, { cwd: root, encoding: "utf8" }).trim();
+  } catch {
+    return "";
+  }
+}
+
 async function checkPackage() {
   const pkg = JSON.parse(await text("package.json"));
   const requiredScripts = [
@@ -53,6 +61,26 @@ async function checkPackage() {
 
   if (!pkg.dependencies?.["@supabase/supabase-js"]) fail("Supabase Auth dependency", "Missing @supabase/supabase-js.");
   else pass("Supabase Auth dependency", pkg.dependencies["@supabase/supabase-js"]);
+}
+
+async function checkReleaseEvidenceFreshness() {
+  const evidencePath = "docs/release-evidence.md";
+  if (!existsSync(join(root, evidencePath))) {
+    fail("release evidence freshness", "docs/release-evidence.md is missing.");
+    return;
+  }
+
+  const evidence = await text(evidencePath);
+  const currentCommit = run("git", ["rev-parse", "--short", "HEAD"]);
+  const evidenceCommit = evidence.match(/최신 커밋:\s*([a-f0-9]+)/)?.[1] ?? "";
+
+  if (!currentCommit || !evidenceCommit) {
+    fail("release evidence freshness", "Release evidence should include the current short git commit.");
+  } else if (currentCommit !== evidenceCommit) {
+    fail("release evidence freshness", `Release evidence is stale: document has ${evidenceCommit}, current commit is ${currentCommit}. Run npm run release:evidence after final QA.`);
+  } else {
+    pass("release evidence freshness", `Release evidence points at current commit ${currentCommit}.`);
+  }
 }
 
 async function checkRepositorySafety() {
@@ -956,6 +984,7 @@ await checkCapacitor();
 await checkAndroid();
 await checkIos();
 await checkPolicyAndStoreDocs();
+await checkReleaseEvidenceFreshness();
 checkSigningAndArtifacts();
 checkStoreAssets();
 

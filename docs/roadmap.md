@@ -100,6 +100,7 @@
 - 관리자 CSV export에 링크 상태, 유형, 검수 우선순위, 보강 액션, 보강 사유, 구매 링크 신뢰도, 확인 시각, 최종 이동 URL을 포함해 운영자가 스프레드시트에서 바로 링크 보강 작업을 진행할 수 있도록 개선
 - 파트너 피드 import가 `affiliateUrl`, `finalPurchaseUrl`, `productUrl`, `purchaseUrl`, `searchUrl`를 받아 실제 상품 상세 URL 보강값을 우선 정규화하고 검증 링크/검수 필요 링크 수를 응답하도록 개선
 - 홈의 링크 품질 안내를 내부 비율/검수 표현 대신 `구매처 바로 확인`, `판매처 이동 확인 특가`처럼 소비자 친화적인 문구로 조정
+- release doctor가 `docs/release-evidence.md`의 최신 커밋과 현재 Git 커밋 일치 여부를 확인해 제출 전 증빙 스냅샷 누락을 방지하도록 개선
 
 ### PHASE 2 코드 품질
 
@@ -242,3 +243,4 @@
 - smoke와 release doctor가 관리자 CSV export의 링크 검수 필드 포함 여부를 확인한다.
 - smoke와 release doctor가 파트너 피드 import의 canonical 구매 URL 필드와 verified link summary를 확인한다.
 - smoke가 홈 화면에 내부 링크 커버리지 비율 문구가 노출되지 않고 소비자용 구매처 확인 필터가 유지되는지 확인한다.
+- release doctor가 릴리즈 증빙 문서의 커밋 최신성을 확인한다.
