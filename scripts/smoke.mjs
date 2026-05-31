@@ -597,6 +597,8 @@ await check("favorites page consent guard", async () => {
   const text = await response.text();
   assert(response.status === 200, `Expected 200, got ${response.status}`);
   assert(text.includes("관심 특가"), "Favorites page missing title");
+  assert(text.includes("구매 링크 확인 특가 보기"), "Favorites empty state missing verified link CTA");
+  assert(text.includes("먼저 저장해볼 만한 특가"), "Favorites empty state missing starter recommendations");
   assert(!text.includes("affiliate=granted"), "Favorites page should not server-render affiliate consent");
   assert(!text.includes("analytics=granted"), "Favorites page should not server-render analytics consent");
 });
