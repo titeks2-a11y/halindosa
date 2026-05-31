@@ -54,7 +54,7 @@ export function SocialLoginButtons({ mode }: SocialLoginButtonsProps) {
 
     const client = getSupabaseBrowserClient();
     if (!configured || !client) {
-      setError("Supabase 환경변수를 설정하면 소셜 로그인이 활성화됩니다.");
+      setError("현재 빠른 로그인 준비 중입니다. 특가 탐색은 비회원으로 계속 이용할 수 있습니다.");
       return;
     }
 

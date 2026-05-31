@@ -46,7 +46,7 @@ export function AuthForm({ mode }: AuthFormProps) {
 
     const client = getSupabaseBrowserClient();
     if (!client) {
-      setError("Supabase URL과 Anon Key를 설정하면 실제 회원가입/로그인이 활성화됩니다.");
+      setError("현재 계정 기능을 준비 중입니다. 특가 탐색과 찜 기능은 기기 저장으로 먼저 이용할 수 있습니다.");
       return;
     }
 
@@ -106,7 +106,7 @@ export function AuthForm({ mode }: AuthFormProps) {
 
       {!configured ? (
         <div className="rounded-3xl border border-amber-100 bg-amber-50 p-4 text-sm font-bold leading-6 text-amber-900">
-          Supabase 환경변수가 아직 비어 있습니다. `.env.local`에 `NEXT_PUBLIC_SUPABASE_URL`과 `NEXT_PUBLIC_SUPABASE_ANON_KEY`를 넣으면 실제 인증이 활성화됩니다.
+          계정 동기화가 아직 활성화되지 않은 환경입니다. 지금은 비회원으로 특가를 둘러보고, 찜한 상품은 이 기기에 저장할 수 있습니다.
         </div>
       ) : null}
 

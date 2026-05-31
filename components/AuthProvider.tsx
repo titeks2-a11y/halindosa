@@ -64,7 +64,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setSession(null);
     },
     updateNickname: async (nickname: string) => {
-      if (!client) return { error: "Supabase 환경변수가 설정되어 있지 않습니다." };
+      if (!client) return { error: "현재 계정 기능을 준비 중입니다. 잠시 후 다시 시도해 주세요." };
       const cleanNickname = nickname.trim();
       if (cleanNickname.length < 2) return { error: "닉네임은 2자 이상 입력해 주세요." };
       const { error } = await client.auth.updateUser({ data: { nickname: cleanNickname } });

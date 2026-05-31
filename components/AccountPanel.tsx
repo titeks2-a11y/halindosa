@@ -145,13 +145,13 @@ export function AccountPanel() {
 
   if (!configured) {
     return (
-      <section className="rounded-3xl border border-amber-100 bg-amber-50 p-5 shadow-sm">
+      <section className="rounded-3xl border border-red-100 bg-red-50 p-5 shadow-sm">
         <div className="flex items-center gap-3">
-          <Settings className="text-amber-700" size={22} />
+          <Settings className="text-dossa-red" size={22} />
           <div>
-            <h2 className="text-lg font-black text-amber-950">회원 기능 설정 필요</h2>
-            <p className="mt-1 text-sm font-semibold leading-6 text-amber-900">
-              Supabase 환경변수를 연결하면 이메일 회원가입, 로그인 유지, 계정 기반 찜/관심 카테고리 확장이 활성화됩니다.
+            <h2 className="text-lg font-black text-slate-950">계정 동기화 준비 중</h2>
+            <p className="mt-1 text-sm font-semibold leading-6 text-dossa-deep">
+              현재 환경에서는 비회원 탐색과 기기 저장 찜 기능을 이용할 수 있습니다. 운영 계정 기능이 활성화되면 찜, 최근 본 상품, 관심 카테고리를 계정으로 이어볼 수 있습니다.
             </p>
           </div>
         </div>

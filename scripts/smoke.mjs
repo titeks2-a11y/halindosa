@@ -100,7 +100,7 @@ await check("mypage data controls", async () => {
   const response = await fetch(`${baseUrl}/mypage`);
   const text = await response.text();
   assert(response.status === 200, `Expected 200, got ${response.status}`);
-  assert(text.includes("회원 기능 설정 필요") || text.includes("로그인하고 관심 특가"), "Mypage missing account auth panel");
+  assert(text.includes("계정 동기화 준비 중") || text.includes("로그인하고 관심 특가"), "Mypage missing account auth panel");
   assert(text.includes("빠른 작업"), "Mypage missing quick actions section");
   assert(text.includes("찜한 특가") && text.includes("알림 센터") && text.includes("카테고리"), "Mypage missing quick action links");
   assert(text.includes("기기 데이터 관리"), "Mypage missing local data controls");

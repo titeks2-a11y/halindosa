@@ -19,7 +19,7 @@ function AuthCallbackContent() {
       const next = getSafeNextPath(searchParams.get("next"));
 
       if (!isSupabaseAuthConfigured()) {
-        setMessage("Supabase 환경변수를 설정하면 소셜 로그인이 활성화됩니다.");
+        setMessage("현재 계정 로그인을 준비 중입니다. 잠시 후 다시 시도해 주세요.");
         return;
       }
 
