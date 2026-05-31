@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { AlertTriangle, CheckCircle2, Clock, ExternalLink, Heart, Share2, ShoppingBag, Store, Tag, Truck } from "lucide-react";
 import { canOpenDealLink, getAffiliateDisclosure, getDealLinkTrustLabel } from "@/lib/affiliate";
+import { isVerifiedPurchaseLink } from "@/lib/deals/quality";
 import { getDealImageSrc } from "@/lib/imageSrc";
 import { Deal } from "@/types/deal";
 import { formatPrice, getRelativeTime, getTimeLeft } from "@/lib/format";
@@ -16,7 +17,8 @@ interface DealCardProps {
 
 export function DealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, onShareDeal }: DealCardProps) {
   const linkAvailable = canOpenDealLink(deal);
-  const LinkTrustIcon = deal.linkStatus === "verified" ? CheckCircle2 : AlertTriangle;
+  const linkVerified = isVerifiedPurchaseLink(deal);
+  const LinkTrustIcon = linkVerified ? CheckCircle2 : AlertTriangle;
 
   return (
     <article
@@ -89,7 +91,7 @@ export function DealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, onSha
 
         <div
           className={`inline-flex max-w-full items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-black ${
-            deal.linkStatus === "verified" ? "bg-emerald-50 text-emerald-700" : "bg-amber-50 text-amber-700"
+            linkVerified ? "bg-emerald-50 text-emerald-700" : "bg-amber-50 text-amber-700"
           }`}
         >
           <LinkTrustIcon size={12} />

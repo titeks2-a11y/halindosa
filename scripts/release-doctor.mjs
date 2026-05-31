@@ -291,6 +291,13 @@ async function checkUiAccessibility() {
 
 async function checkOperationalDataSurfaces() {
   const dealsRoute = await text("app/api/deals/route.ts");
+  const homePage = await text("app/page.tsx");
+  const featuredSections = await text("components/FeaturedDealSections.tsx");
+  const dealCard = await text("components/DealCard.tsx");
+  const liveDealFeed = await text("components/LiveDealFeed.tsx");
+  const purchaseConfirmSheet = await text("components/PurchaseConfirmSheet.tsx");
+  const quality = await text("lib/deals/quality.ts");
+  const dealRepository = await text("lib/deals/dealRepository.ts");
   const categoriesPage = await text("app/categories/page.tsx");
   const notificationsPage = await text("app/notifications/page.tsx");
   const favoritesPage = await text("app/favorites/page.tsx");
@@ -320,6 +327,21 @@ async function checkOperationalDataSurfaces() {
     fail("api fallback normalization", "Deals API fallback should normalize canonical fields and avoid public mock wording.");
   } else {
     pass("api fallback normalization", "Deals API fallback keeps canonical fields and user-facing fallback copy.");
+  }
+
+  if (!quality.includes("export function isVerifiedPurchaseLink") || !quality.includes("export function getLinkQualityScore")) {
+    fail("shared link quality rules", "Link verification and scoring should be centralized in lib/deals/quality.ts.");
+  } else if (
+    !dealRepository.includes("isVerifiedPurchaseLink") ||
+    !homePage.includes("isVerifiedPurchaseLink") ||
+    !featuredSections.includes("getLinkQualityScore") ||
+    !dealCard.includes("isVerifiedPurchaseLink") ||
+    !liveDealFeed.includes("isVerifiedPurchaseLink") ||
+    !purchaseConfirmSheet.includes("isVerifiedPurchaseLink")
+  ) {
+    fail("shared link quality rules", "Home, repository, featured sections, cards, live feed, and purchase confirmation should use shared link quality rules.");
+  } else {
+    pass("shared link quality rules", "Verified purchase filtering, scoring, and trust labels use shared link quality rules.");
   }
 }
 

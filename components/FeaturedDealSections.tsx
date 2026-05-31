@@ -1,5 +1,6 @@
 import { BadgePercent, Flame, Sparkles, Timer, Truck, Zap } from "lucide-react";
 import { DealCard } from "@/components/DealCard";
+import { getLinkQualityScore } from "@/lib/deals/quality";
 import { Deal } from "@/types/deal";
 
 interface FeaturedDealSectionsProps {
@@ -10,16 +11,8 @@ interface FeaturedDealSectionsProps {
   onShareDeal: (deal: Deal) => void;
 }
 
-function linkQualityScore(deal: Deal) {
-  if (deal.linkStatus === "broken" || deal.linkStatus === "sold_out") return -30;
-  if (deal.linkStatus === "verified" && deal.linkType !== "seller_search") return 18;
-  if (deal.linkType === "direct_purchase" || deal.linkType === "affiliate") return 10;
-  if (deal.linkStatus === "needs_review" || deal.linkType === "seller_search") return -8;
-  return 0;
-}
-
 function sectionScore(deal: Deal) {
-  return linkQualityScore(deal) + deal.popularityScore + deal.discountRate * 0.6 + Number(deal.isHot) * 10 + Number(deal.isFreeShipping) * 6;
+  return getLinkQualityScore(deal) + deal.popularityScore + deal.discountRate * 0.6 + Number(deal.isHot) * 10 + Number(deal.isFreeShipping) * 6;
 }
 
 const sections = [

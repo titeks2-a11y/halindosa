@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect } from "react";
 import { AlertTriangle, CheckCircle2, ExternalLink, ShieldCheck, X } from "lucide-react";
 import { getAffiliateDisclosure, getDealLinkTrustLabel } from "@/lib/affiliate";
+import { isVerifiedPurchaseLink } from "@/lib/deals/quality";
 import { formatPrice, getRelativeTime } from "@/lib/format";
 import { Deal } from "@/types/deal";
 
@@ -28,7 +29,7 @@ export function PurchaseConfirmSheet({ deal, isOpen, onClose, onConfirm }: Purch
 
   if (!isOpen || !deal) return null;
 
-  const isVerified = deal.linkStatus === "verified";
+  const isVerified = isVerifiedPurchaseLink(deal);
   const StatusIcon = isVerified ? CheckCircle2 : AlertTriangle;
 
   return (

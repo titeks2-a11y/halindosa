@@ -1,5 +1,6 @@
 import { Clock, ExternalLink, Heart, Radio, Share2, ShoppingBag, Zap } from "lucide-react";
 import { canOpenDealLink, getDealLinkTrustLabel } from "@/lib/affiliate";
+import { isVerifiedPurchaseLink } from "@/lib/deals/quality";
 import { formatPrice, getRelativeTime, getTimeLeft } from "@/lib/format";
 import { getDealImageSrc } from "@/lib/imageSrc";
 import { Deal } from "@/types/deal";
@@ -21,7 +22,7 @@ interface LiveDealRowProps {
 }
 
 function getLinkTrustClassName(deal: Deal) {
-  if (deal.linkStatus === "verified") return "bg-emerald-50 text-emerald-700";
+  if (isVerifiedPurchaseLink(deal)) return "bg-emerald-50 text-emerald-700";
   if (deal.linkStatus === "broken" || deal.linkStatus === "sold_out") return "bg-slate-100 text-slate-500";
   return "bg-amber-50 text-amber-700";
 }
@@ -125,7 +126,7 @@ export function LiveDealFeed({
   onShareDeal
 }: LiveDealFeedProps) {
   const leadDeals = [...deals]
-    .sort((a, b) => Number(b.linkStatus === "verified") - Number(a.linkStatus === "verified") || Number(b.isHot) - Number(a.isHot))
+    .sort((a, b) => Number(isVerifiedPurchaseLink(b)) - Number(isVerifiedPurchaseLink(a)) || Number(b.isHot) - Number(a.isHot))
     .slice(0, 10);
   const hotCount = leadDeals.filter((deal) => deal.isHot).length;
   const endingCount = leadDeals.filter((deal) => deal.isEndingSoon).length;

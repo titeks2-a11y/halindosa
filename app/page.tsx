@@ -21,6 +21,7 @@ import { mockHotSignals } from "@/data/mockHotSignals";
 import { mockDeals } from "@/data/mockDeals";
 import { ConsentState, hasAffiliateConsent, hasAnalyticsConsent, readStoredConsent } from "@/lib/consent";
 import { canOpenDealLink } from "@/lib/affiliate";
+import { getLinkQualityScore, isVerifiedPurchaseLink } from "@/lib/deals/quality";
 import { getRelativeTime } from "@/lib/format";
 import { buildDealRedirectUrl } from "@/lib/redirectUrl";
 import { readRecentDealIds, rememberRecentDealId } from "@/lib/recentDeals";
@@ -90,18 +91,10 @@ function getProviderDisplayLabel(source: string) {
   return "기본 특가";
 }
 
-function linkQualityScore(deal: Deal) {
-  if (deal.linkStatus === "broken" || deal.linkStatus === "sold_out") return -40;
-  if (deal.linkStatus === "verified" && deal.linkType !== "seller_search") return 28;
-  if (deal.linkType === "direct_purchase" || deal.linkType === "affiliate") return 16;
-  if (deal.linkStatus === "needs_review" || deal.linkType === "seller_search") return -10;
-  return 0;
-}
-
 function commercialScore(deal: Deal) {
   const expireHours = Math.max(1, (new Date(deal.expireAt).getTime() - Date.now()) / (60 * 60 * 1000));
   return (
-    linkQualityScore(deal) +
+    getLinkQualityScore(deal) +
     Number(deal.isHot) * 40 +
     Number(deal.isFreeShipping) * 12 +
     deal.popularityScore +
@@ -153,7 +146,7 @@ function filterLocalDeals(
   }
 
   if (verifiedOnly) {
-    filtered = filtered.filter((deal) => deal.linkStatus === "verified" && deal.linkType !== "seller_search");
+    filtered = filtered.filter(isVerifiedPurchaseLink);
   }
 
   switch (sort) {
@@ -349,7 +342,7 @@ export default function Home() {
             .filter((deal) => !freeShippingOnly || isFreeShippingDeal(deal))
             .filter((deal) => !hotOnly || deal.isHot)
             .filter((deal) => !endingSoonOnly || deal.isEndingSoon)
-            .filter((deal) => !verifiedOnly || (deal.linkStatus === "verified" && deal.linkType !== "seller_search"))
+            .filter((deal) => !verifiedOnly || isVerifiedPurchaseLink(deal))
         );
         setUpdatedAt(data.updatedAt);
         setProviderSource(data.source ?? "mock");
@@ -636,8 +629,8 @@ export default function Home() {
 
   const dataQuality = useMemo(() => {
     const source = deals.length ? deals : catalog;
-    const verifiedLinkCount = source.filter((deal) => deal.linkStatus === "verified").length;
-    const reviewLinkCount = source.filter((deal) => deal.linkStatus === "needs_review" || deal.linkType === "seller_search").length;
+    const verifiedLinkCount = source.filter(isVerifiedPurchaseLink).length;
+    const reviewLinkCount = source.filter((deal) => !isVerifiedPurchaseLink(deal)).length;
     const freeShippingCount = source.filter(isFreeShippingDeal).length;
     const latestPriceCheckedAt = source
       .map((deal) => new Date(deal.priceCheckedAt).getTime())

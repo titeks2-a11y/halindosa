@@ -58,11 +58,27 @@ export function getLinkReviewActionLabel(deal: Pick<Deal, "linkStatus" | "linkTy
   return "운영 확인 필요";
 }
 
+export function isVerifiedPurchaseLink(deal: Pick<Deal, "linkStatus" | "linkType">) {
+  return deal.linkStatus === "verified" && deal.linkType !== "seller_search" && deal.linkType !== "unavailable";
+}
+
+export function needsLinkReview(deal: Pick<Deal, "linkStatus" | "linkType">) {
+  return !isVerifiedPurchaseLink(deal) || deal.linkType === "seller_search";
+}
+
+export function getLinkQualityScore(deal: Pick<Deal, "linkStatus" | "linkType">) {
+  if (deal.linkStatus === "broken" || deal.linkStatus === "sold_out" || deal.linkType === "unavailable") return -40;
+  if (isVerifiedPurchaseLink(deal)) return deal.linkType === "affiliate" ? 30 : 28;
+  if (deal.linkType === "direct_purchase") return 16;
+  if (needsLinkReview(deal)) return -10;
+  return 0;
+}
+
 export function summarizeDealQuality(deals: Deal[]): DealQualitySummary {
   const total = deals.length;
-  const verifiedLinks = deals.filter((deal) => deal.linkStatus === "verified").length;
+  const verifiedLinks = deals.filter(isVerifiedPurchaseLink).length;
   const directPurchaseLinks = deals.filter((deal) => deal.linkType === "direct_purchase" || deal.linkType === "affiliate").length;
-  const needsReviewLinks = deals.filter((deal) => deal.linkStatus === "needs_review" || deal.linkType === "seller_search").length;
+  const needsReviewLinks = deals.filter(needsLinkReview).length;
   const brokenLinks = deals.filter((deal) => deal.linkStatus === "broken").length;
   const soldOutLinks = deals.filter((deal) => deal.linkStatus === "sold_out").length;
 
@@ -81,7 +97,7 @@ export function summarizeDealQuality(deals: Deal[]): DealQualitySummary {
 
 export function getLinkReviewQueue(deals: Deal[], limit = 8): LinkReviewQueueItem[] {
   return deals
-    .filter((deal) => deal.linkStatus !== "verified" || deal.linkType === "seller_search")
+    .filter(needsLinkReview)
     .sort((a, b) => b.popularityScore - a.popularityScore || new Date(a.expireAt).getTime() - new Date(b.expireAt).getTime())
     .slice(0, limit)
     .map((deal) => ({

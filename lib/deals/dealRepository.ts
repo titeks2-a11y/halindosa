@@ -4,6 +4,7 @@ import { normalizeDeals } from "@/lib/deals/normalizer";
 import { fetchMockDeals } from "@/lib/deals/providers/mockProvider";
 import { fetchProductionDeals } from "@/lib/deals/providers/productionProvider";
 import { fetchStagingDeals } from "@/lib/deals/providers/stagingProvider";
+import { isVerifiedPurchaseLink } from "@/lib/deals/quality";
 import { Deal, DealDataMode, DealSort } from "@/types/deal";
 
 export interface DealQuery {
@@ -128,7 +129,7 @@ export async function getDeals(query: DealQuery = {}) {
   if (query.freeShippingOnly) deals = deals.filter((deal) => deal.isFreeShipping);
   if (query.hotOnly) deals = deals.filter((deal) => deal.isHot);
   if (query.endingSoonOnly) deals = deals.filter((deal) => deal.isEndingSoon);
-  if (query.verifiedOnly) deals = deals.filter((deal) => deal.linkStatus === "verified" && deal.linkType !== "seller_search");
+  if (query.verifiedOnly) deals = deals.filter(isVerifiedPurchaseLink);
 
   deals = sortDeals(deals, sort);
   if (Number.isFinite(limit) && limit > 0) deals = deals.slice(0, limit);
