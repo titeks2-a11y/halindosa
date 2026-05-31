@@ -44,7 +44,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
     );
   }
 
-  const { metrics, topDeals, updatedAt, source, benefitQuality } = await getMockBusinessMetrics();
+  const { metrics, topDeals, updatedAt, source, benefitQuality, benefitRetention } = await getMockBusinessMetrics();
   const { deals } = await getDeals();
   const reportSummary = getReportSummary();
   const recentReports = listDealReports().slice(0, 6);
@@ -308,6 +308,70 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                   <p className="mt-2 text-xs font-bold leading-5 text-slate-500">{item.reason}</p>
                   <p className="mt-2 text-xs font-black leading-5 text-slate-700">{item.action}</p>
                 </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-black text-dossa-red">VER 2.0 재방문 운영</p>
+              <h2 className="mt-1 text-xl font-black text-slate-950">매일 재방문 루틴 점검</h2>
+              <p className="mt-1 text-sm font-semibold leading-6 text-slate-500">
+                홈 출석 체크, 무료 혜택 캘린더, 알림 큐가 실제로 매일 볼 만한 콘텐츠를 갖췄는지 운영자가 확인합니다.
+              </p>
+            </div>
+            <Link href="/commercialization" className="rounded-2xl bg-slate-950 px-4 py-3 text-sm font-black text-white">
+              재방문 지표 상세
+            </Link>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-4">
+            <div className="rounded-2xl bg-red-50 p-4">
+              <p className="text-xs font-black text-dossa-red">재방문 점수</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">{benefitRetention.retentionScore}점</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-red-900/70">
+                {benefitRetention.weeklyRoutineReady ? "주간 루틴 준비 완료" : "루틴 보강 필요"}
+              </p>
+            </div>
+            <div className="rounded-2xl bg-slate-50 p-4">
+              <p className="text-xs font-black text-slate-500">활성 루틴</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">{benefitRetention.activeRoutineSlots}/5</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-slate-500">매일 확인할 혜택 슬롯</p>
+            </div>
+            <div className="rounded-2xl bg-slate-50 p-4">
+              <p className="text-xs font-black text-slate-500">확인된 혜택 링크</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">{benefitRetention.verifiedBenefitCount}개</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-slate-500">무료·쿠폰·포인트 중심</p>
+            </div>
+            <div className="rounded-2xl bg-amber-50 p-4">
+              <p className="text-xs font-black text-amber-800">보강 필요 루틴</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">{benefitRetention.weakSlots.length}개</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-amber-900/70">콘텐츠 3개 미만</p>
+            </div>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-5">
+            {benefitRetention.dailyRoutineSlots.map((slot) => (
+              <Link
+                key={slot.key}
+                href={slot.recommendedSurface}
+                className="rounded-2xl border border-slate-100 bg-slate-50 p-4 transition hover:border-red-200 hover:bg-red-50"
+              >
+                <p className="text-sm font-black text-slate-950">{slot.label}</p>
+                <p className="mt-1 text-xs font-bold leading-5 text-slate-500">{slot.target}</p>
+                <p className="mt-3 rounded-full bg-white px-3 py-1.5 text-center text-xs font-black text-dossa-red shadow-sm">
+                  {slot.count}개
+                </p>
+              </Link>
+            ))}
+          </div>
+          <div className="mt-4 rounded-2xl border border-red-100 bg-red-50 p-4">
+            <p className="text-xs font-black text-dossa-red">다음 재방문 개선 액션</p>
+            <div className="mt-2 grid gap-2 md:grid-cols-2">
+              {benefitRetention.nextActions.map((action) => (
+                <p key={action} className="rounded-2xl bg-white px-4 py-3 text-sm font-bold leading-6 text-red-900/75">
+                  {action}
+                </p>
               ))}
             </div>
           </div>

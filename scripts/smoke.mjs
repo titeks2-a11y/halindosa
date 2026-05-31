@@ -333,6 +333,8 @@ await check("admin dashboard quality cards", async () => {
   assert(text.includes("VER 2.0 혜택 운영") && text.includes("혜택 데이터 품질 요약"), "Admin dashboard missing benefit quality operation summary");
   assert(text.includes("혜택형 콘텐츠") && text.includes("활성 노출 가능") && text.includes("점검 우선"), "Admin dashboard missing benefit operation cards");
   assert(text.includes("오늘 혜택 운영 액션 큐") && text.includes("신고·종료·링크 보강"), "Admin dashboard missing benefit operation action queue");
+  assert(text.includes("VER 2.0 재방문 운영") && text.includes("매일 재방문 루틴 점검"), "Admin dashboard missing benefit retention operation summary");
+  assert(text.includes("재방문 점수") && text.includes("다음 재방문 개선 액션"), "Admin dashboard missing retention action queue");
   assert(text.includes("링크 오류") && text.includes("품절") && text.includes("종료"), "Admin dashboard missing report reason priority summary");
   assert(text.includes("우선 검수"), "Admin dashboard missing urgent report priority copy");
   assert(text.includes("상품 상세 URL 보강 필요"), "Admin dashboard missing localized link review action");

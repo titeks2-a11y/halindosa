@@ -1094,11 +1094,15 @@ async function checkOperationalDataSurfaces() {
     !adminPage.includes("점검 우선") ||
     !adminPage.includes("오늘 혜택 운영 액션 큐") ||
     !adminPage.includes("신고·종료·링크 보강") ||
+    !adminPage.includes("VER 2.0 재방문 운영") ||
+    !adminPage.includes("매일 재방문 루틴 점검") ||
+    !adminPage.includes("재방문 점수") ||
+    !adminPage.includes("다음 재방문 개선 액션") ||
     !smoke.includes("Admin dashboard missing benefit quality operation summary")
   ) {
-    fail("admin product copy", "Admin page should expose V2 benefit operation quality summary with smoke coverage.");
+    fail("admin product copy", "Admin page should expose V2 benefit operation quality and retention summaries with smoke coverage.");
   } else {
-    pass("admin product copy", "Admin dashboard avoids raw internal source copy and exposes V2 benefit operation quality.");
+    pass("admin product copy", "Admin dashboard avoids raw internal source copy and exposes V2 benefit operation quality and retention readiness.");
   }
 
   if (
@@ -1107,12 +1111,14 @@ async function checkOperationalDataSurfaces() {
     !analytics.includes("weeklyRoutineReady") ||
     !analytics.includes("retentionScore") ||
     !commercializationPage.includes("benefitRetention") ||
+    !adminPage.includes("benefitRetention") ||
     !smoke.includes("Metrics missing benefit retention score") ||
-    !smoke.includes("Commercialization page missing benefit retention readiness")
+    !smoke.includes("Commercialization page missing benefit retention readiness") ||
+    !smoke.includes("Admin dashboard missing benefit retention operation summary")
   ) {
-    fail("benefit retention metrics", "Metrics and commercialization page should expose daily routine readiness for V2 retention operations.");
+    fail("benefit retention metrics", "Metrics, admin, and commercialization pages should expose daily routine readiness for V2 retention operations.");
   } else {
-    pass("benefit retention metrics", "Metrics and commercialization page expose daily routine readiness for V2 retention operations.");
+    pass("benefit retention metrics", "Metrics, admin, and commercialization pages expose daily routine readiness for V2 retention operations.");
   }
 
   if (!dealsRoute.includes("normalizeDeals(mockDeals") || dealsRoute.includes("mock 데이터로 대체")) {
