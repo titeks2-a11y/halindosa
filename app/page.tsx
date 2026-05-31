@@ -9,6 +9,7 @@ import { BenefitPlaybook, BenefitPreset } from "@/components/BenefitPlaybook";
 import { CategoryTabs } from "@/components/CategoryTabs";
 import { CommercialFooter } from "@/components/CommercialFooter";
 import { ConsentSettings } from "@/components/ConsentSettings";
+import { DailyBenefitChecklist } from "@/components/DailyBenefitChecklist";
 import { DealCard } from "@/components/DealCard";
 import { FeaturedDealSections } from "@/components/FeaturedDealSections";
 import { HotSignalSection } from "@/components/HotSignalSection";
@@ -1192,6 +1193,13 @@ export default function Home() {
               onSelectBenefit={openBenefitFilter}
               onSelectCategory={openCategory}
               onOpenDeal={openDeal}
+            />
+
+            <DailyBenefitChecklist
+              deals={catalog.length ? catalog : deals}
+              onApplyPreset={openBenefitPreset}
+              onShowEndingSoon={() => openQuickDiscovery("endingSoon")}
+              onShowVerified={() => openQuickDiscovery("verified")}
             />
 
             <BenefitPlaybook deals={catalog.length ? catalog : deals} onApplyPreset={openBenefitPreset} />

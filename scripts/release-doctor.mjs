@@ -772,17 +772,19 @@ async function checkUiAccessibility() {
 
     if (
       !homePage.includes("<BenefitDiscoverySections") ||
+      !homePage.includes("<DailyBenefitChecklist") ||
       !homePage.includes("<BenefitPlaybook") ||
       !homePage.includes("openBenefitFilter") ||
       !homePage.includes("openBenefitPreset") ||
       !homePage.includes("dealType") ||
       !smoke.includes("Home page missing V2 benefit-first discovery section") ||
+      !smoke.includes("Home page missing daily benefit checklist") ||
       !smoke.includes("Home page missing coupon event apptech playbook") ||
       !smoke.includes("benefit type filter api")
     ) {
       fail("v2 benefit discovery UX", "Home should expose V2 free benefit/coupon discovery and smoke-test the benefit type filter.");
     } else {
-      pass("v2 benefit discovery UX", "Home exposes free benefit, coupon, apptech, mart, and rising benefit discovery with a verified benefit filter.");
+      pass("v2 benefit discovery UX", "Home exposes free benefit, coupon, apptech, daily checklist, mart, and rising benefit discovery with a verified benefit filter.");
     }
 
   if (
