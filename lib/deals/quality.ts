@@ -30,6 +30,12 @@ export interface LinkReviewQueueItem {
   expireAt: string;
 }
 
+export interface PurchaseTrustChecklistItem {
+  label: string;
+  value: string;
+  tone: "good" | "caution" | "danger" | "neutral";
+}
+
 const linkStatusLabels: Record<Deal["linkStatus"], string> = {
   verified: "구매 페이지 확인",
   needs_review: "확인 필요",
@@ -144,6 +150,38 @@ export function getDealQualityNotice(
     description: "최종 가격, 배송비, 쿠폰 조건은 판매처에서 다시 확인하세요.",
     tone: "neutral" as const
   };
+}
+
+export function getPurchaseTrustChecklist(
+  deal: Pick<Deal, "linkStatus" | "linkType" | "reportCount" | "isSoldOut" | "isExpired" | "isVerified" | "isEndingSoon">
+): PurchaseTrustChecklistItem[] {
+  const linkTone =
+    deal.linkStatus === "broken" || deal.linkType === "unavailable"
+      ? "danger"
+      : isVerifiedPurchaseLink(deal) && deal.isVerified
+        ? "good"
+        : "caution";
+
+  const reportTone = deal.reportCount >= 3 ? "danger" : deal.reportCount > 0 ? "caution" : "good";
+  const deadlineTone = deal.isSoldOut || deal.isExpired ? "danger" : deal.isEndingSoon ? "caution" : "good";
+
+  return [
+    {
+      label: "판매처 링크",
+      value: isVerifiedPurchaseLink(deal) && deal.isVerified ? "상세 이동 우선" : getLinkStatusLabel(deal.linkStatus),
+      tone: linkTone
+    },
+    {
+      label: "신고 상태",
+      value: deal.reportCount > 0 ? `${deal.reportCount}건 확인 중` : "신고 없음",
+      tone: reportTone
+    },
+    {
+      label: "마감 상태",
+      value: deal.isSoldOut ? "품절 가능성" : deal.isExpired ? "종료 확인" : deal.isEndingSoon ? "마감 임박" : "진행 중",
+      tone: deadlineTone
+    }
+  ];
 }
 
 export function summarizeDealQuality(deals: Deal[]): DealQualitySummary {

@@ -769,6 +769,10 @@ await check("detail purchase consent guard", async () => {
   assert(text.includes("구매 전 10초 체크"), "Detail page missing purchase safety checklist");
   assert(text.includes("구매 정보 확인 요약"), "Detail page missing purchase readiness summary");
   assert(text.includes("상품 품질 안내") && text.includes("신고 누적"), "Detail page missing quality notice summary");
+  assert(
+    text.includes("구매 전 신뢰 체크") && text.includes("판매처 링크") && text.includes("신고 상태") && text.includes("마감 상태"),
+    "Detail page missing purchase trust checklist"
+  );
   assert(text.includes("예정 도메인"), "Detail page missing destination domain summary");
   assert(text.includes("관련 특가도 구매 전 체크"), "Detail page missing commerce-ready related deal section");
   assert(text.includes("같은 카테고리 보기"), "Detail page missing related category navigation");

@@ -695,8 +695,10 @@ async function checkUiAccessibility() {
 
   if (dealTrustBadge.includes("/99")) {
     fail("public trust badge copy", "DealTrustBadge should not expose internal numeric confidence scores.");
+  } else if (!dealTrustBadge.includes("getPurchaseTrustChecklist") || !dealTrustBadge.includes("구매 전 신뢰 체크")) {
+    fail("public trust badge copy", "DealTrustBadge should show a customer-facing purchase trust checklist without internal scores.");
   } else {
-    pass("public trust badge copy", "Public trust badges use plain labels instead of internal scores.");
+    pass("public trust badge copy", "Public trust badges use plain labels and purchase trust checklist instead of internal scores.");
   }
 
   if (purchaseConfirmSheet.includes("신뢰도 {deal.purchaseConfidence}") || purchaseConfirmSheet.includes("purchaseConfidence}")) {
@@ -725,11 +727,12 @@ async function checkUiAccessibility() {
     !purchaseReadinessSummary.includes("판매처 도메인이 예상과 다르면") ||
     !dealDetailPage.includes("상품 품질 안내") ||
     !dealDetailPage.includes("신고 누적") ||
-    !smoke.includes("Detail page missing quality notice summary")
+    !smoke.includes("Detail page missing quality notice summary") ||
+    !smoke.includes("Detail page missing purchase trust checklist")
   ) {
-    fail("purchase readiness summary", "Deal detail should summarize price timing, link status, quality notice, report count, and destination domain before purchase.");
+    fail("purchase readiness summary", "Deal detail should summarize price timing, link status, quality notice, report count, trust checklist, and destination domain before purchase.");
   } else {
-    pass("purchase readiness summary", "Deal detail summarizes price timing, link status, quality notice, report count, and destination domain before purchase.");
+    pass("purchase readiness summary", "Deal detail summarizes price timing, link status, quality notice, report count, trust checklist, and destination domain before purchase.");
   }
 
   if (
@@ -1039,7 +1042,7 @@ async function checkOperationalDataSurfaces() {
     pass("price filter data path", "Deals API and repository support commercial price band filtering.");
   }
 
-  if (!quality.includes("export function isVerifiedPurchaseLink") || !quality.includes("export function getLinkQualityScore") || !quality.includes("export function getDealQualityNotice")) {
+  if (!quality.includes("export function isVerifiedPurchaseLink") || !quality.includes("export function getLinkQualityScore") || !quality.includes("export function getDealQualityNotice") || !quality.includes("export function getPurchaseTrustChecklist")) {
     fail("shared link quality rules", "Link verification and scoring should be centralized in lib/deals/quality.ts.");
   } else if (
     !dealRepository.includes("isVerifiedPurchaseLink") ||
