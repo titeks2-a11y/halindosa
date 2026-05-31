@@ -45,6 +45,16 @@ function sortByBenefitScore(deals: Deal[]) {
   );
 }
 
+function sortByFavoriteSignal(deals: Deal[]) {
+  return [...deals].sort(
+    (a, b) =>
+      b.likeCount - a.likeCount ||
+      Number(b.isVerified) - Number(a.isVerified) ||
+      b.reliabilityScore - a.reliabilityScore ||
+      b.savingsAmount - a.savingsAmount
+  );
+}
+
 function getDailyBenefitRankings(deals: Deal[]) {
   const activeDeals = deals.filter((deal) => !deal.isExpired && !deal.isSoldOut);
   const freeTop = sortByBenefitScore(
@@ -188,6 +198,7 @@ export function BenefitDiscoverySections({
   const freeDeals = sortByBenefitScore(source.filter((deal) => ["freebie", "coupon", "freeShipping", "point", "experience", "convenienceStore", "mart", "foodDelivery"].includes(deal.dealType))).slice(0, 6);
   const urgentDeals = sortByBenefitScore(source.filter((deal) => deal.isEndingSoon && !deal.isExpired)).slice(0, 4);
   const risingDeals = sortByBenefitScore(source).slice(0, 5);
+  const favoriteSignalDeals = sortByFavoriteSignal(source.filter((deal) => !deal.isExpired && !deal.isSoldOut)).slice(0, 4);
   const martDeals = sortByBenefitScore(source.filter((deal) => deal.category === "편의점/마트" || /마트|gs25|편의점|교환권|1\+1|2\+1/.test([deal.title, ...deal.tags].join(" ").toLowerCase()))).slice(0, 4);
   const { freeTop, couponTop } = getDailyBenefitRankings(source);
   const summaryStats = getBenefitSummaryStats(source);
@@ -412,6 +423,44 @@ export function BenefitDiscoverySections({
               </button>
             </div>
           ) : null}
+        </div>
+      </section>
+
+      <section className="rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5" aria-label="회원들이 많이 찜한 혜택">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-xs font-black text-dossa-red">인기 찜</p>
+            <h3 className="mt-1 text-xl font-black text-slate-950">회원들이 많이 찜한 혜택</h3>
+            <p className="mt-1 text-sm font-bold leading-6 text-slate-500">
+              비회원도 모두 볼 수 있고, 저장하면 이 기기 또는 계정에서 이어볼 수 있습니다.
+            </p>
+          </div>
+          <span className="rounded-2xl bg-red-50 px-3 py-2 text-xs font-black text-dossa-red">
+            내 찜 {favoriteCount}개
+          </span>
+        </div>
+        <div className="mt-4 grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
+          {favoriteSignalDeals.map((deal) => (
+            <button
+              key={deal.id}
+              type="button"
+              onClick={() => onOpenDeal(deal)}
+              className="min-h-[138px] rounded-3xl border border-slate-100 bg-slate-50 p-3 text-left transition hover:-translate-y-0.5 hover:border-red-200 hover:bg-red-50"
+              aria-label={`${deal.title} 회원들이 많이 찜한 혜택 확인`}
+            >
+              <span className="flex items-start justify-between gap-3">
+                <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-white text-dossa-red shadow-sm">
+                  <Heart size={19} fill="currentColor" />
+                </span>
+                <span className="rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-dossa-red shadow-sm">
+                  찜 {deal.likeCount.toLocaleString("ko-KR")}
+                </span>
+              </span>
+              <span className="mt-3 line-clamp-2 block text-sm font-black leading-5 text-slate-950">{deal.title}</span>
+              <span className="mt-1 block text-xs font-bold text-slate-500">{deal.mallName} · {getBenefitTypeLabel(deal.dealType)}</span>
+              <span className="mt-2 inline-flex rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-slate-700 shadow-sm">{deal.claimCta}</span>
+            </button>
+          ))}
         </div>
       </section>
     </div>

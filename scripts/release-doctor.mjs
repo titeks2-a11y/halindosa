@@ -842,6 +842,9 @@ async function checkUiAccessibility() {
         !benefitDiscoverySections.includes("getDailyClaimPlan") ||
         !benefitDiscoverySections.includes("3분 혜택 루틴") ||
         !benefitDiscoverySections.includes("오늘 받을 수 있는 혜택 루틴") ||
+        !benefitDiscoverySections.includes("sortByFavoriteSignal") ||
+        !benefitDiscoverySections.includes("회원들이 많이 찜한 혜택") ||
+        !benefitDiscoverySections.includes("내 찜 {favoriteCount}개") ||
       !trueDealSpotlight.includes("오늘의 진짜 특가") ||
       !trueDealSpotlight.includes("scoreDeal") ||
       !trueDealSpotlight.includes("절약 예상") ||
@@ -858,6 +861,7 @@ async function checkUiAccessibility() {
         !smoke.includes("Home page missing free coupon top ranking section") ||
         !smoke.includes("Home page missing daily savings summary") ||
         !smoke.includes("Home page missing daily claim routine") ||
+        !smoke.includes("Home page missing member favorite benefit section") ||
         !smoke.includes("Home page missing interest category personalization") ||
         !smoke.includes("Home page missing true deal spotlight") ||
       !smoke.includes("Home page missing coupon event apptech playbook") ||
