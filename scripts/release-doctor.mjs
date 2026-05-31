@@ -1079,7 +1079,8 @@ async function checkPolicyAndStoreDocs() {
     "docs/v1-1-roadmap.md",
     "docs/OAUTH_SETUP.md",
     "docs/DEEPLINK_AUTH.md",
-    "docs/ACCOUNT_DELETION.md"
+    "docs/ACCOUNT_DELETION.md",
+    "docs/device-qa-checklist.md"
   ];
   const missing = requiredFiles.filter((file) => !existsSync(join(root, file)));
 
@@ -1115,7 +1116,7 @@ async function checkPolicyAndStoreDocs() {
     {
       name: "test plan content",
       file: "docs/test-plan.md",
-      phrases: ["자동 검증", "수동 확인", "데이터/링크 신뢰도", "테스트 종료 기준", "링크 검수 큐"]
+      phrases: ["자동 검증", "수동 확인", "데이터/링크 신뢰도", "테스트 종료 기준", "링크 검수 큐", "docs/device-qa-checklist.md"]
     },
     {
       name: "oauth setup content",
@@ -1146,6 +1147,11 @@ async function checkPolicyAndStoreDocs() {
       name: "store screenshot storyboard content",
       file: "docs/store-assets-guide.md",
       phrases: ["스크린샷 스토리보드", "오늘 먼저 볼 특가를 한눈에", "스크린샷 금지 요소", "내부 점수"]
+    },
+    {
+      name: "device qa checklist content",
+      file: "docs/device-qa-checklist.md",
+      phrases: ["Android 기기 확인", "iOS 기기 또는 Simulator 확인", "로그인과 계정 데이터", "구매 링크와 신고", "스토어 제출 직전 판정"]
     }
   ];
 

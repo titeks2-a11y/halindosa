@@ -16,6 +16,8 @@ Play Store 내부 테스트와 비공개 테스트에서 앱이 쇼핑 정보 �
 
 아래 항목 중 `자동 검증` 표기는 `npm run smoke:local`, `npm run qa`, `npm run release:doctor`에서 커버합니다. `수동 확인` 표기는 실제 Android 기기 또는 에뮬레이터에서 최종 확인합니다.
 
+실기기 확인은 `docs/device-qa-checklist.md`를 기준으로 Android, iOS, 로그인, 구매 링크, 신고, 스토어 제출 직전 판정을 한 번에 기록합니다.
+
 ### 홈
 
 - [x] 자동 검증: 앱 실행 시 홈 화면이 바로 표시된다.
@@ -150,10 +152,12 @@ npm run smoke
 - [ ] Play Console pre-launch report 확인
 - [ ] `docs/launch-day-checklist.md` 기준으로 제출 24시간 전, Play Console, App Store Connect, 출시 후 72시간 항목 확인
 - [ ] `docs/store-assets-guide.md`의 스크린샷 스토리보드 기준으로 홈, 검색/필터, 상세, 찜, 알림, 마이 화면 촬영
+- [ ] `docs/device-qa-checklist.md` 기준으로 Android/iOS 실기기 QA 결과 기록
 
 ## 테스트 종료 기준
 
 - 자동 검증 명령이 모두 성공한다.
 - 실제 Android 기기 또는 Emulator에서 홈, 상세, 찜, 알림, 마이, 외부 링크 이동을 1회 이상 확인한다.
+- `docs/device-qa-checklist.md`의 Android, 로그인, 구매 링크 항목에서 치명 이슈가 없어야 한다.
 - 링크 검수 큐의 상위 상품을 확인하고, 직접 구매 URL이 없는 항목은 `판매처 검색 확인` 상태로 유지한다.
 - signed AAB 업로드 전 `docs/release-checklist.md`의 High 항목을 완료한다.

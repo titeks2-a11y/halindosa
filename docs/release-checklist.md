@@ -73,6 +73,7 @@
 
 - [ ] Android Studio Emulator 실행 확인
 - [ ] 실제 기기 설치 확인
+- [ ] `docs/device-qa-checklist.md` 기준으로 Android/iOS 실기기 QA 기록
 - [ ] 홈, 카테고리, 검색, 찜, 알림, 마이 화면 확인
 - [ ] 외부 링크가 외부 브라우저 또는 Custom Tab으로 열리는지 확인
 - [ ] 개인정보처리방침과 이용약관 접근 확인

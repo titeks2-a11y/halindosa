@@ -56,6 +56,11 @@ const readinessItems = [
     status: "외부 설정",
     title: "Signed AAB/App Store 업로드",
     body: "릴리즈 키, 스토어 스크린샷, 공개 개인정보처리방침 URL은 배포 계정에서 최종 확정합니다."
+  },
+  {
+    status: "수동 QA",
+    title: "실기기 QA 체크리스트",
+    body: "docs/device-qa-checklist.md 기준으로 Android/iOS, 로그인, 외부 구매 링크, 신고 흐름을 실제 기기에서 확인합니다."
   }
 ];
 
