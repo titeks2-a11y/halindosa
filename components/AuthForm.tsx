@@ -94,11 +94,11 @@ export function AuthForm({ mode }: AuthFormProps) {
 
   return (
     <div className="space-y-4 px-3 py-4 sm:px-4 lg:px-0 lg:py-8">
-      <section className="overflow-hidden rounded-[28px] bg-slate-950 text-white shadow-xl">
+      <section className="overflow-hidden rounded-[28px] bg-dossa-red text-white shadow-brand">
         <div className="p-5 sm:p-7">
-          <p className="text-sm font-black text-red-200">할인도사 계정</p>
+          <p className="text-sm font-black text-red-50">할인도사 계정</p>
           <h1 className="mt-2 text-3xl font-black">{title}</h1>
-          <p className="mt-3 text-sm font-semibold leading-6 text-slate-300">
+          <p className="mt-3 text-sm font-semibold leading-6 text-red-50">
             회원가입하면 관심 특가를 저장하고, 찜한 상품과 가격 하락 알림을 받을 수 있어요.
           </p>
         </div>

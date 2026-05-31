@@ -91,13 +91,13 @@ export default async function CommercializationPage() {
           </Link>
         </div>
 
-        <section className="mt-5 overflow-hidden rounded-[2rem] bg-slate-950 text-white shadow-xl">
-          <div className="bg-[radial-gradient(circle_at_top_right,rgba(239,68,68,0.38),transparent_34%),linear-gradient(135deg,#0f172a,#111827_54%,#450a0a)] p-6 sm:p-8">
-            <p className="text-sm font-black text-red-200">할인도사 출시 준비 보드</p>
+        <section className="mt-5 overflow-hidden rounded-[2rem] bg-dossa-red text-white shadow-brand">
+          <div className="p-6 sm:p-8">
+            <p className="text-sm font-black text-red-50">할인도사 출시 준비 보드</p>
             <h1 className="mt-3 text-3xl font-black leading-tight sm:text-4xl">
               실제 운영 전환에 필요한 지표와 남은 일을 한 화면에서 점검합니다.
             </h1>
-            <p className="mt-4 max-w-3xl text-sm font-semibold leading-6 text-slate-200">
+            <p className="mt-4 max-w-3xl text-sm font-semibold leading-6 text-red-50">
               현재 앱은 선택 로그인, 구매 링크 검수, 신고, dry-run import, 스토어 정책 문서를 갖춘 출시 후보
               상태입니다. 이 화면은 출시 직전 체크와 외부 설정 작업을 분리해 운영 리스크를 낮추기 위한
               내부용 런치 노트입니다.

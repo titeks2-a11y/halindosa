@@ -559,7 +559,27 @@ async function checkUiAccessibility() {
   const errorPage = await text("app/error.tsx");
   const storePreviewPage = await text("app/store-preview/page.tsx");
   const storeScreenshotScenes = await text("data/storeScreenshotScenes.ts");
+  const tailwindConfig = await text("tailwind.config.ts");
+  const globalsCss = await text("app/globals.css");
+  const authForm = await text("components/AuthForm.tsx");
+  const commercializationPage = await text("app/commercialization/page.tsx");
   const smoke = await text("scripts/smoke.mjs");
+
+  if (
+    !tailwindConfig.includes('red: "#ff173f"') ||
+    !tailwindConfig.includes("bright") ||
+    (!tailwindConfig.includes("shadow:") && !tailwindConfig.includes("brand:")) ||
+    !globalsCss.includes("--brand-red: #ff173f") ||
+    !globalsCss.includes("--brand-red-bright: #ff2a4f") ||
+    !homePage.includes("shadow-brand") ||
+    !commercializationPage.includes("bg-dossa-red") ||
+    !authForm.includes("bg-dossa-red")
+  ) {
+    fail("v2 brand color system", "Brand red should use a bright commercial token across Tailwind, globals, home, auth, and launch readiness surfaces.");
+  } else {
+    pass("v2 brand color system", "Bright red brand tokens are centralized and used across home, auth, and launch readiness surfaces.");
+  }
+
   const requiredSnippets = [
     "aria-pressed={isFavorite}",
     "alt={deal.title}",

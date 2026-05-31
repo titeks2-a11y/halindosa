@@ -4,6 +4,12 @@
 
 :root {
   color-scheme: light;
+  --brand-red: #ff173f;
+  --brand-red-bright: #ff2a4f;
+  --brand-red-deep: #e0002a;
+  --brand-red-ink: #8f001b;
+  --brand-red-soft: #fff1f4;
+  --brand-red-tint: #ffe4ea;
   background: #f8fafc;
 }
 

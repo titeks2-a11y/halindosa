@@ -9,13 +9,17 @@ const config: Config = {
     extend: {
       colors: {
         dossa: {
-          red: "#ff1f2d",
-          deep: "#d90416",
-          soft: "#fff0f1"
+          red: "#ff173f",
+          bright: "#ff2a4f",
+          deep: "#e0002a",
+          ink: "#8f001b",
+          soft: "#fff1f4",
+          tint: "#ffe4ea"
         }
       },
       boxShadow: {
-        deal: "0 14px 34px rgba(15, 23, 42, 0.08)"
+        deal: "0 14px 34px rgba(15, 23, 42, 0.08)",
+        brand: "0 18px 44px rgba(255, 23, 63, 0.18)"
       }
     }
   },

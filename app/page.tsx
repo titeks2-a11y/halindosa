@@ -1273,10 +1273,10 @@ export default function Home() {
             </section>
 
             {heroDeal ? (
-              <section className="overflow-hidden rounded-[30px] bg-dossa-red text-white shadow-deal">
+              <section className="overflow-hidden rounded-[30px] bg-dossa-red text-white shadow-brand">
                 <div className="grid gap-0 md:grid-cols-[1.1fr_0.9fr]">
                   <div className="p-5 sm:p-7">
-                    <p className="text-sm font-black text-red-100">오늘의 특가 배너</p>
+                    <p className="text-sm font-black text-red-50">오늘의 특가 배너</p>
                     <h3 className="mt-2 text-3xl font-black leading-tight sm:text-4xl">{heroDeal.title}</h3>
                     <p className="mt-3 line-clamp-2 text-sm font-semibold leading-6 text-red-50">{heroDeal.description}</p>
                     <div className="mt-5 flex flex-wrap gap-2">
@@ -1301,7 +1301,7 @@ export default function Home() {
                       </button>
                     </div>
                   </div>
-                  <div className="min-h-64 bg-red-950/15">
+                  <div className="min-h-64 bg-white/10">
                     {heroDeal.thumbnail ? (
                       <div
                         aria-label={heroDeal.title}
