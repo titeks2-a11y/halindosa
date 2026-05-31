@@ -227,6 +227,15 @@ await check("support page", async () => {
   assert(text.includes("개인정보처리방침") && text.includes("이용약관") && text.includes("마이 설정"), "Support page missing policy and data management links");
 });
 
+await check("not found page", async () => {
+  const response = await fetch(`${baseUrl}/missing-launch-page`);
+  const text = await response.text();
+  assert(response.status === 404, `Expected 404, got ${response.status}`);
+  assert(text.includes("페이지를 찾을 수 없습니다"), "Not-found page missing user-facing title");
+  assert(text.includes("홈으로 돌아가기"), "Not-found page missing home action");
+  assert(text.includes("고객센터에서 문의하기"), "Not-found page missing support action");
+});
+
 await check("category and notification pages", async () => {
   const categories = await fetch(`${baseUrl}/categories`);
   const categoriesText = await categories.text();

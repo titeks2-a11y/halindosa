@@ -536,6 +536,9 @@ async function checkUiAccessibility() {
   const priceAlerts = await text("lib/priceAlerts.ts");
   const homePage = await text("app/page.tsx");
   const favoritesPage = await text("app/favorites/page.tsx");
+  const notFoundPage = await text("app/not-found.tsx");
+  const loadingPage = await text("app/loading.tsx");
+  const errorPage = await text("app/error.tsx");
   const smoke = await text("scripts/smoke.mjs");
   const requiredSnippets = [
     "aria-pressed={isFavorite}",
@@ -566,8 +569,18 @@ async function checkUiAccessibility() {
 
   if (missingEmptyStateSnippets.length) {
     fail("empty state UX", `Missing snippets: ${missingEmptyStateSnippets.join(", ")}`);
+  } else if (
+    !notFoundPage.includes("페이지를 찾을 수 없습니다") ||
+    !notFoundPage.includes("고객센터에서 문의하기") ||
+    !loadingPage.includes("할인도사 화면을 불러오는 중") ||
+    !loadingPage.includes("animate-pulse") ||
+    !errorPage.includes("일시적으로 화면을 불러오지 못했습니다") ||
+    !errorPage.includes("다시 시도") ||
+    !smoke.includes("not found page")
+  ) {
+    fail("empty state UX", "Global not-found, loading, and error states should be branded, actionable, and covered by smoke tests.");
   } else {
-    pass("empty state UX", "Search and favorites empty states include clear next actions and purchase caution copy.");
+    pass("empty state UX", "Search, favorites, not-found, loading, and error states include branded next actions.");
   }
 
   if (
