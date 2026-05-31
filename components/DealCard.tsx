@@ -27,6 +27,8 @@ export function DealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, onSha
     { label: "가격", value: getRelativeTime(deal.priceCheckedAt) },
     { label: "마감", value: getTimeLeft(deal.expiresAt) }
   ];
+  const sourceLabel = deal.sourceName || deal.mallName;
+  const reportLabel = deal.reportCount > 0 ? `신고 ${deal.reportCount}건 검토` : "신고 없음";
 
   return (
     <article
@@ -115,6 +117,19 @@ export function DealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, onSha
         <p className="text-[11px] font-bold text-slate-500">
           {getDealPurchaseConfidenceLabel(deal)} · 링크 확인 {getRelativeTime(deal.checkedAt)}
         </p>
+
+        <div className="grid grid-cols-2 gap-1.5 rounded-2xl border border-slate-100 bg-white p-2 shadow-[0_8px_24px_rgba(15,23,42,0.04)]" aria-label={`${deal.title} 출처와 신고 상태`}>
+          <div className="min-w-0 rounded-xl bg-slate-50 px-2 py-1.5">
+            <p className="text-[10px] font-black text-slate-400">출처</p>
+            <p className="mt-0.5 truncate text-[11px] font-black text-slate-800">{sourceLabel}</p>
+          </div>
+          <div className="min-w-0 rounded-xl bg-slate-50 px-2 py-1.5">
+            <p className="text-[10px] font-black text-slate-400">신고 상태</p>
+            <p className={`mt-0.5 truncate text-[11px] font-black ${deal.reportCount > 0 ? "text-amber-700" : "text-slate-800"}`}>
+              {reportLabel}
+            </p>
+          </div>
+        </div>
 
         <div className="rounded-2xl border border-slate-100 bg-slate-50 px-3 py-2" aria-label={`${deal.title} 품질 안내`}>
           <p className="text-[11px] font-black text-slate-700">품질 안내: {qualityNotice.label}</p>
