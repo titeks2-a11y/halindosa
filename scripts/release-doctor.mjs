@@ -362,8 +362,8 @@ async function checkPartnerFeedSafety() {
   const verifiedCount = [...verifiedPurchaseLinks.matchAll(/^\s*d\d+:/gm)].length;
   const verifiedRate = dealCount ? Math.round((verifiedCount / dealCount) * 100) : 0;
 
-  if (verifiedCount < 30 || verifiedRate < 55) {
-    fail("verified purchase link coverage", `Expected at least 30 verified direct product links and 55% coverage, got ${verifiedCount}/${dealCount} (${verifiedRate}%).`);
+  if (verifiedCount < 35 || verifiedRate < 65) {
+    fail("verified purchase link coverage", `Expected at least 35 verified direct product links and 65% coverage, got ${verifiedCount}/${dealCount} (${verifiedRate}%).`);
   } else if (!smoke.includes("verified direct purchase link coverage")) {
     fail("verified purchase link coverage", "Smoke tests should assert the verified direct purchase link coverage threshold.");
   } else {

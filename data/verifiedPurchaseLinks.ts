@@ -33,6 +33,12 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     source: "manual_review",
     evidence: "쿠팡 오리온 제주용암수 2L 18개 상품 상세"
   },
+  d007: {
+    url: "https://item.gmarket.co.kr/Item?goodscode=2845354348",
+    checkedAt: "2026-05-31T12:35:00.000Z",
+    source: "manual_review",
+    evidence: "G마켓 칼집 양념 목살 왕구이 600g x 4팩 상품 상세"
+  },
   d008: {
     url: "https://www.lfmall.co.kr/app/product/E3GKXX00844",
     checkedAt: "2026-05-31T11:10:00.000Z",
@@ -105,11 +111,23 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     source: "manual_review",
     evidence: "아이프라브 24인치 확장형 캐리어 상품 상세"
   },
+  d024: {
+    url: "https://www.ssg.com/item/itemView.ssg?itemId=1000038330709",
+    checkedAt: "2026-05-31T12:35:00.000Z",
+    source: "manual_review",
+    evidence: "SSG 풀무원샘물 2L 24병 상품 상세"
+  },
   d025: {
     url: "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000163532",
     checkedAt: "2026-05-31T10:20:00.000Z",
     source: "manual_review",
     evidence: "올리브영 선크림 1+1 상품 상세"
+  },
+  d026: {
+    url: "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0019390089",
+    checkedAt: "2026-05-31T12:35:00.000Z",
+    source: "manual_review",
+    evidence: "하이마트 Lenovo RTX3050Ti 게이밍 노트북 상품 상세"
   },
   d027: {
     url: "https://m.gsshop.com/deal/deal.gs?dealNo=1081284321",
@@ -146,6 +164,12 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     checkedAt: "2026-05-31T11:10:00.000Z",
     source: "manual_review",
     evidence: "G마켓 국산 KF94 마스크 100매 상품 상세"
+  },
+  d035: {
+    url: "https://www.coupang.com/vp/products/9468784918?itemId=28181432958&vendorItemId=95136026489",
+    checkedAt: "2026-05-31T12:35:00.000Z",
+    source: "manual_review",
+    evidence: "쿠팡 곰곰 무농약 완숙토마토 2kg 상품 상세"
   },
   d037: {
     url: "https://www.musinsa.com/products/1893766",
