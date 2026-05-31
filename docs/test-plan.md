@@ -89,6 +89,7 @@ Play Store 내부 테스트와 비공개 테스트에서 앱이 쇼핑 정보 �
 - [x] 자동 검증: 운영 피드 import dry-run은 placeholder 또는 커뮤니티 게시글 링크를 거부한다.
 - [x] 자동 검증: `/api/metrics`는 링크 품질 요약과 링크 검수 큐를 제공한다.
 - [x] 자동 검증: 관리자 화면에는 링크 검수 큐와 판매처 확인 액션이 표시된다.
+- [x] 자동 검증: `/commercialization` 출시 준비 보드는 구매 링크 확인율, 남은 링크 검수, Supabase OAuth Provider 외부 설정, 실제 운영 전환 순서를 표시한다.
 - [ ] 수동 확인: 내부 테스트 전 상위 노출 상품의 실제 구매 URL을 10개 이상 직접 검수한다.
 
 ## 자동 검증
@@ -112,9 +113,9 @@ npm run smoke
 ```
 
 `smoke:local`은 개발 서버 실행, 헬스체크 대기, smoke 검증, 서버 종료까지 한 번에 수행합니다.
-현재 smoke는 34개 항목으로 홈/검색/링크/관리자/정책뿐 아니라 OAuth callback, 온보딩, 회원 탈퇴 guard까지 확인합니다.
+현재 smoke는 35개 항목으로 홈/검색/링크/관리자/상업화 준비/정책뿐 아니라 OAuth callback, 온보딩, 회원 탈퇴 guard까지 확인합니다.
 `qa`는 lint, 로컬 smoke, Next.js build, release doctor를 포함합니다.
-`release:doctor`는 75개 항목으로 Android/iOS 패키징, OAuth/딥링크, Supabase 회원 데이터 동기화, 정책 문서, 스토어 산출물까지 확인합니다.
+`release:doctor`는 77개 항목으로 Android/iOS 패키징, OAuth/딥링크, Supabase 회원 데이터 동기화, 상업화 준비 화면, 정책 문서, 스토어 산출물까지 확인합니다.
 `qa:release`는 `qa`에 Android 정적 빌드와 Android/iOS Capacitor sync까지 더한 출시 후보 검증입니다.
 
 ## 내부 테스트 기준

@@ -489,6 +489,7 @@ async function checkOperationalDataSurfaces() {
   const notificationsPage = await text("app/notifications/page.tsx");
   const favoritesPage = await text("app/favorites/page.tsx");
   const adminPage = await text("app/admin/page.tsx");
+  const commercializationPage = await text("app/commercialization/page.tsx");
   const redirectUrl = await text("lib/redirectUrl.ts");
   const goRoute = await text("app/go/[id]/route.ts");
   const dealTypes = await text("types/deal.ts");
@@ -538,6 +539,21 @@ async function checkOperationalDataSurfaces() {
     fail("admin link review workflow", "Admin link review queue should expose priority, reason, confidence, and current destination URL.");
   } else {
     pass("admin link review workflow", "Admin link review queue exposes priority, reason, confidence, and current destination URL.");
+  }
+
+  const commercializationSnippets = [
+    "할인도사 출시 준비 보드",
+    "출시 직전 체크",
+    "실제 운영 전환",
+    "Supabase OAuth Provider",
+    "남은 링크 검수",
+    "구매 링크 확인율"
+  ];
+  const missingCommercializationSnippets = commercializationSnippets.filter((snippet) => !commercializationPage.includes(snippet));
+  if (missingCommercializationSnippets.length) {
+    fail("commercial launch readiness page", `Missing snippets: ${missingCommercializationSnippets.join(", ")}`);
+  } else {
+    pass("commercial launch readiness page", "Commercialization page exposes launch readiness metrics, external setup, and remaining link review risk.");
   }
 
   const requiredCommercialDealFields = ["productUrl", "searchUrl", "originalUrl", "clickCount", "likeCount", "isSoldOut", "updatedAt"];

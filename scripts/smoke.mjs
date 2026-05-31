@@ -200,6 +200,18 @@ await check("admin dashboard quality cards", async () => {
   assert(!text.includes("· score "), "Admin dashboard exposes raw score copy");
 });
 
+await check("commercial launch readiness page", async () => {
+  const response = await fetch(`${baseUrl}/commercialization`);
+  const text = await response.text();
+  assert(response.status === 200, `Expected 200, got ${response.status}`);
+  assert(text.includes("할인도사 출시 준비 보드"), "Commercialization page missing launch readiness title");
+  assert(text.includes("출시 직전 체크"), "Commercialization page missing release checklist");
+  assert(text.includes("실제 운영 전환"), "Commercialization page missing operating transition guidance");
+  assert(text.includes("Supabase OAuth Provider"), "Commercialization page missing OAuth provider external setup");
+  assert(text.includes("남은 링크 검수"), "Commercialization page missing link review risk section");
+  assert(text.includes("구매 링크 확인율"), "Commercialization page missing verified link rate metric");
+});
+
 await check("deals api", async () => {
   const { response, data } = await fetchJson("/api/deals?limit=3&sort=discount");
   assert(response.status === 200, `Expected 200, got ${response.status}`);
