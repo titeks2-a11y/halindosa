@@ -1207,6 +1207,11 @@ async function checkOperationalDataSurfaces() {
     !freeBenefitsClient.includes("오늘 무료 혜택 루틴") ||
     !freeBenefitsClient.includes("돈 쓰기 전에 이 순서로 챙기세요") ||
     !freeBenefitsClient.includes("오늘 우선 확인 큐") ||
+    !freeBenefitsClient.includes("weeklyBenefitPlan") ||
+    !freeBenefitsClient.includes("이번 주 혜택 캘린더") ||
+    !freeBenefitsClient.includes("매일 들어와서 챙길 이유를 만들었습니다") ||
+    !freeBenefitsClient.includes("출석·포인트 적립") ||
+    !freeBenefitsClient.includes("마트·편의점 행사") ||
     !freeBenefitsClient.includes("fiveMinuteChecklist") ||
     !freeBenefitsClient.includes("5분 혜택 체크리스트") ||
     !freeBenefitsClient.includes("처음 들어온 사용자가 바로 따라할 순서") ||
@@ -1233,13 +1238,14 @@ async function checkOperationalDataSurfaces() {
     !topNavigation.includes("/free-benefits") ||
     !smoke.includes("free benefits page") ||
     !smoke.includes("Free benefits page missing priority benefit queue") ||
+    !smoke.includes("Free benefits page missing weekly benefit calendar") ||
     !smoke.includes("Free benefits page missing guided benefit checklist") ||
     !smoke.includes("Free benefits page missing quick decision rail") ||
     !smoke.includes("Free benefits page missing active-benefit status filter")
   ) {
-    fail("free benefits dedicated page", "Free benefit discovery should have a dedicated page, priority queue, active-benefit filter, navigation entry, and smoke coverage.");
+    fail("free benefits dedicated page", "Free benefit discovery should have a dedicated page, priority queue, weekly routine, active-benefit filter, navigation entry, and smoke coverage.");
   } else {
-    pass("free benefits dedicated page", "Free benefits, coupons, convenience store, mart, delivery, point offers, today's priority queue, and active-benefit filtering have a dedicated navigable page.");
+    pass("free benefits dedicated page", "Free benefits, coupons, convenience store, mart, delivery, point offers, today's priority queue, weekly routine, and active-benefit filtering have a dedicated navigable page.");
   }
 
   if (!redirectUrl.includes("/go/") || !goRoute.includes("recordDealClick") || !goRoute.includes("buildOutboundUrl")) {

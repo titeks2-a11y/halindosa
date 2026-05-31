@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, AlertTriangle, ExternalLink, Gift, Search, Share2, Sparkles, Timer, Truck } from "lucide-react";
+import { ArrowLeft, AlertTriangle, CalendarDays, ExternalLink, Gift, Search, Share2, Sparkles, Timer, Truck } from "lucide-react";
 import { DealCard } from "@/components/DealCard";
 import { getBenefitTypeLabel } from "@/lib/deals/benefits";
 import { formatPrice } from "@/lib/format";
@@ -202,6 +202,67 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
         .filter((deal) => !deal.isSoldOut && deal.linkStatus !== "broken")
         .sort((a, b) => getPriorityScore(b, referenceNow) - getPriorityScore(a, referenceNow))
         .slice(0, 5),
+    [deals, referenceNow]
+  );
+  const weeklyBenefitPlan = useMemo(
+    () => [
+      {
+        day: "월",
+        title: "출석·포인트 적립",
+        copy: "한 주 시작에 앱테크와 페이 적립 혜택을 먼저 챙깁니다.",
+        count: deals.filter((deal) => deal.dealType === "point").length,
+        onClick: () => {
+          setActiveType("point");
+          setSort("recommended");
+          setActiveOnly(true);
+        }
+      },
+      {
+        day: "화",
+        title: "무료 샘플·체험단",
+        copy: "신청형 혜택은 선착순이 많아 초반에 먼저 확인합니다.",
+        count: deals.filter((deal) => deal.dealType === "freebie" || deal.dealType === "experience").length,
+        onClick: () => {
+          setActiveType("freebie");
+          setFirstComeOnly(true);
+          setActiveOnly(true);
+        }
+      },
+      {
+        day: "수",
+        title: "쿠폰·배달 할인",
+        copy: "외식, 배달, 첫 구매 쿠폰 조건을 결제 전에 점검합니다.",
+        count: deals.filter((deal) => deal.dealType === "coupon" || deal.dealType === "foodDelivery").length,
+        onClick: () => {
+          setActiveType("coupon");
+          setSort("popular");
+          setActiveOnly(true);
+        }
+      },
+      {
+        day: "목",
+        title: "마트·편의점 행사",
+        copy: "주말 장보기 전 1+1, 마트 행사, 무배 조건을 모아봅니다.",
+        count: deals.filter((deal) => deal.dealType === "mart" || deal.dealType === "convenienceStore" || deal.isFreeShipping).length,
+        onClick: () => {
+          setActiveType("mart");
+          setFreeShippingOnly(true);
+          setActiveOnly(true);
+        }
+      },
+      {
+        day: "금",
+        title: "마감 전 최종 확인",
+        copy: "주말 전에 끝날 수 있는 혜택을 마감 임박순으로 정리합니다.",
+        count: deals.filter((deal) => deal.isEndingSoon || new Date(deal.expireAt).getTime() - referenceNow < 24 * 60 * 60 * 1000).length,
+        onClick: () => {
+          setActiveType("all");
+          setEndingSoonOnly(true);
+          setFirstComeOnly(true);
+          setSort("endingSoon");
+        }
+      }
+    ],
     [deals, referenceNow]
   );
   const activeBenefitCount = useMemo(
@@ -412,6 +473,44 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
                 </span>
                 <span className="hidden shrink-0 rounded-2xl bg-white px-3 py-2 text-xs font-black text-dossa-red shadow-sm sm:inline-flex">
                   바로 확인
+                </span>
+              </button>
+            ))}
+          </div>
+        </section>
+
+        <section className="rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5" aria-label="이번 주 혜택 캘린더">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-black text-dossa-red">이번 주 혜택 캘린더</p>
+              <h2 className="mt-1 text-2xl font-black tracking-tight text-slate-950">매일 들어와서 챙길 이유를 만들었습니다</h2>
+            </div>
+            <p className="max-w-md text-sm font-bold leading-6 text-slate-500">
+              출석 포인트, 무료 샘플, 쿠폰, 장보기, 마감 혜택을 요일별 루틴으로 나눠 처음 온 사용자도 바로 따라갈 수 있습니다.
+            </p>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-5">
+            {weeklyBenefitPlan.map((item) => (
+              <button
+                key={item.day}
+                type="button"
+                onClick={item.onClick}
+                className="min-h-[168px] rounded-3xl border border-slate-100 bg-slate-50 p-4 text-left transition hover:-translate-y-0.5 hover:border-red-200 hover:bg-red-50"
+                aria-label={`${item.day}요일 ${item.title} ${item.count}개 보기`}
+              >
+                <span className="flex items-start justify-between gap-3">
+                  <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-sm font-black text-dossa-red shadow-sm">
+                    {item.day}
+                  </span>
+                  <span className="inline-flex items-center gap-1 rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-dossa-red shadow-sm">
+                    <CalendarDays size={13} />
+                    {item.count}개
+                  </span>
+                </span>
+                <span className="mt-4 block text-sm font-black text-slate-950">{item.title}</span>
+                <span className="mt-1 line-clamp-3 block text-xs font-bold leading-5 text-slate-500">{item.copy}</span>
+                <span className="mt-3 inline-flex rounded-full bg-white px-3 py-1.5 text-xs font-black text-slate-700 shadow-sm">
+                  루틴 적용
                 </span>
               </button>
             ))}
