@@ -36,7 +36,9 @@ import { buildDealRedirectUrl, buildNativeSafeDealUrl } from "@/lib/redirectUrl"
 import { buildPublicAppShareUrl, buildPublicDealShareUrl } from "@/lib/shareUrl";
 import {
   clearRecentDealsSynced,
+  fetchRemotePreferences,
   readLocalFavoriteIds,
+  readLocalPreferences,
   recordRecentDealView,
   syncFavoritesWithSupabase,
   syncRecentDealsWithSupabase,
@@ -105,6 +107,29 @@ function readRecentSearchKeywords() {
 function storeRecentSearchKeywords(keywords: string[]) {
   if (typeof window === "undefined") return;
   window.localStorage.setItem(recentSearchStorageKey, JSON.stringify(keywords.slice(0, 8)));
+}
+
+const fallbackInterestCategories = ["무료/체험", "쿠폰/이벤트", "생활용품"];
+
+function dealMatchesInterestCategory(deal: Deal, interest: string) {
+  const searchable = [
+    deal.title,
+    deal.description,
+    deal.mallName,
+    deal.category,
+    deal.subCategory ?? "",
+    deal.dealType,
+    deal.benefitSummary ?? "",
+    deal.shipping,
+    ...deal.tags
+  ].join(" ");
+
+  if (interest === "디지털") return /디지털|전자기기|가전|노트북|TV|스마트|충전|이어폰/.test(searchable);
+  if (interest === "패션") return /패션|의류|잡화|신발|무신사|가방|스니커즈/.test(searchable);
+  if (interest === "여행") return /여행|티켓|항공|숙박|호텔|공연|전시|영화/.test(searchable);
+  if (interest === "무료/체험") return ["freebie", "experience", "coupon", "point"].includes(deal.dealType) || /무료|체험|샘플|쿠폰|포인트|0원/.test(searchable);
+
+  return searchable.includes(interest);
 }
 
 async function isNativeRuntime() {
@@ -299,6 +324,7 @@ export default function Home() {
   const [isSignalLoading, setIsSignalLoading] = useState(false);
   const [favorites, setFavorites] = useState<string[]>(() => readLocalFavoriteIds());
   const [recentDealIds, setRecentDealIds] = useState<string[]>([]);
+  const [favoriteCategories, setFavoriteCategories] = useState<string[]>(() => readLocalPreferences().favoriteCategories);
   const [toast, setToast] = useState("");
   const [pendingPurchaseDeal, setPendingPurchaseDeal] = useState<Deal | null>(null);
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
@@ -311,6 +337,30 @@ export default function Home() {
     setToast(message);
     window.setTimeout(() => setToast(""), 4200);
   }, []);
+
+  useEffect(() => {
+    let active = true;
+
+    const hydratePreferences = async () => {
+      const localPreferences = readLocalPreferences();
+      const remotePreferences = authConfigured && userId ? await fetchRemotePreferences() : null;
+      const nextCategories = remotePreferences?.favoriteCategories?.length ? remotePreferences.favoriteCategories : localPreferences.favoriteCategories;
+
+      if (active) {
+        setFavoriteCategories(nextCategories);
+      }
+    };
+
+    hydratePreferences().catch(() => {
+      if (active) {
+        setFavoriteCategories(readLocalPreferences().favoriteCategories);
+      }
+    });
+
+    return () => {
+      active = false;
+    };
+  }, [authConfigured, userId]);
 
   useEffect(() => {
     const handle = window.setTimeout(() => {
@@ -848,6 +898,19 @@ export default function Home() {
     return [...source].sort((a, b) => b.likeCount - a.likeCount || commercialScore(b) - commercialScore(a)).slice(0, 6);
   }, [catalog, deals]);
 
+  const personalizedDeals = useMemo(() => {
+    const source = catalog.length ? catalog : deals;
+    const interests = favoriteCategories.length ? favoriteCategories : fallbackInterestCategories;
+    const matchedDeals = source.filter((deal) => interests.some((interest) => dealMatchesInterestCategory(deal, interest)));
+    const fallbackDeals = memberFavoriteDeals.length ? memberFavoriteDeals : recommendedDeals;
+
+    return [...(matchedDeals.length ? matchedDeals : fallbackDeals)]
+      .sort((a, b) => b.likeCount - a.likeCount || commercialScore(b) - commercialScore(a))
+      .slice(0, 6);
+  }, [catalog, deals, favoriteCategories, memberFavoriteDeals, recommendedDeals]);
+
+  const interestLabels = favoriteCategories.length ? favoriteCategories : fallbackInterestCategories;
+
   const categoryHighlights = useMemo(
     () =>
       ["food", "living", "digital", "fashion", "baby", "travel", "etc"].map((id) => {
@@ -1360,22 +1423,29 @@ export default function Home() {
             <section className="rounded-[28px] border border-red-100 bg-gradient-to-br from-red-50 via-white to-slate-50 p-4 shadow-sm sm:p-5">
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <div>
-                  <p className="text-xs font-black text-dossa-red">회원 전용 추천</p>
+                  <p className="text-xs font-black text-dossa-red">관심 카테고리 추천</p>
                   <h3 className="text-xl font-black text-slate-950">
-                    {user ? `${nickname || "회원"}님이 이어볼 특가` : "로그인하면 찜과 최근 본 특가를 이어볼 수 있어요"}
+                    {user ? `${nickname || "회원"}님이 저장한 관심 기준` : "비회원도 모두 보고, 로그인하면 관심 기준을 저장해요"}
                   </h3>
                   <p className="mt-1 text-sm font-bold leading-6 text-slate-500">
-                    회원들이 많이 찜한 특가와 최근 본 상품을 함께 보여드립니다.
+                    관심 카테고리, 찜 반응, 최근 본 흐름을 함께 반영해 오늘 볼 혜택을 먼저 보여드립니다.
                   </p>
+                  <div className="mt-3 flex flex-wrap gap-1.5">
+                    {interestLabels.slice(0, 6).map((label) => (
+                      <span key={label} className="rounded-full bg-white px-3 py-1 text-xs font-black text-dossa-red shadow-sm">
+                        {label}
+                      </span>
+                    ))}
+                  </div>
                 </div>
                 {user ? (
                   <Link href="/mypage" className="rounded-2xl bg-slate-950 px-4 py-3 text-center text-sm font-black text-white">마이페이지</Link>
                 ) : (
-                  <Link href="/signup" className="rounded-2xl bg-dossa-red px-4 py-3 text-center text-sm font-black text-white">무료로 시작하기</Link>
+                  <Link href="/onboarding" className="rounded-2xl bg-dossa-red px-4 py-3 text-center text-sm font-black text-white">관심 설정하기</Link>
                 )}
               </div>
               <div className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-                {memberFavoriteDeals.map((deal) => (
+                {personalizedDeals.map((deal) => (
                   <button
                     key={deal.id}
                     type="button"
@@ -1383,11 +1453,11 @@ export default function Home() {
                     className="flex min-w-0 items-center gap-3 rounded-2xl bg-white p-3 text-left shadow-sm transition hover:bg-red-50"
                   >
                     <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-red-50 text-xs font-black text-dossa-red">
-                      {deal.likeCount}
+                      {deal.discountRate ? `${deal.discountRate}%` : "혜택"}
                     </span>
                     <span className="min-w-0 flex-1">
                       <span className="block truncate text-sm font-black text-slate-950">{deal.title}</span>
-                      <span className="block truncate text-xs font-bold text-slate-500">{deal.mallName} · 찜 많은 특가</span>
+                      <span className="block truncate text-xs font-bold text-slate-500">{deal.mallName} · {deal.category} · 찜 {deal.likeCount}</span>
                     </span>
                   </button>
                 ))}
