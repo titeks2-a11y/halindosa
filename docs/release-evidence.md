@@ -4,9 +4,9 @@
 
 ## 기본 정보
 
-- 생성 시각: 2026-05-31T20:15:45.393Z
+- 생성 시각: 2026-05-31T20:39:11.885Z
 - Git 브랜치: main
-- 최신 커밋: 9216061
+- 최신 커밋: 61723ac
 - Git 상태: clean
 - 패키지 버전: 1.0.0
 - 앱 이름: 할인도사
@@ -25,7 +25,7 @@
 | Feature graphic | `assets/store/feature-graphic-1024x500.png` | 47KB |
 | iOS App icon | `ios/App/App/Assets.xcassets/AppIcon.appiconset/AppIcon-512@2x.png` | 61KB |
 | iOS privacy manifest | `ios/App/App/PrivacyInfo.xcprivacy` | 373B |
-| Link coverage report | `docs/link-coverage-report.md` | 3KB |
+| Link coverage report | `docs/link-coverage-report.md` | 4KB |
 
 ## 제출 전 검증 명령
 
