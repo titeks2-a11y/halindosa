@@ -838,6 +838,9 @@ async function checkUiAccessibility() {
         !homePage.includes("<TrueDealSpotlight") ||
         !benefitDiscoverySections.includes("무료혜택 TOP 5") ||
         !benefitDiscoverySections.includes("쿠폰·앱테크 TOP 5") ||
+        !benefitDiscoverySections.includes("quickBenefitEntries") ||
+        !benefitDiscoverySections.includes("10초 혜택 바로가기") ||
+        !benefitDiscoverySections.includes("오늘 받을 혜택을 바로 고르세요") ||
         !benefitDiscoverySections.includes("getDailyBenefitRankings") ||
         !benefitDiscoverySections.includes("getBenefitSummaryStats") ||
         !benefitDiscoverySections.includes("오늘 절약 요약") ||
@@ -862,6 +865,7 @@ async function checkUiAccessibility() {
       !smoke.includes("Home page missing V2 benefit-first discovery section") ||
         !smoke.includes("Home page missing daily benefit checklist") ||
         !smoke.includes("Home page missing free coupon top ranking section") ||
+        !smoke.includes("Home page missing fast benefit shortcut rail") ||
         !smoke.includes("Home page missing daily savings summary") ||
         !smoke.includes("Home page missing daily claim routine") ||
         !smoke.includes("Home page missing member favorite benefit section") ||

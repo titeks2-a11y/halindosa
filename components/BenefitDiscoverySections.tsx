@@ -35,6 +35,19 @@ const benefitCards: Array<{
   { type: "foodDelivery", title: "배달/외식 쿠폰", description: "식비 절약 쿠폰", icon: Gift }
 ];
 
+const quickBenefitEntries: Array<{
+  label: string;
+  title: string;
+  helper: string;
+  type: DealBenefitType;
+  icon: typeof Gift;
+}> = [
+  { label: "0원", title: "무료 샘플", helper: "돈 쓰기 전 받을 수 있는 혜택", type: "freebie", icon: Gift },
+  { label: "쿠폰", title: "결제 전 쿠폰", helper: "첫 구매, 카드, 브랜드 쿠폰", type: "coupon", icon: TicketPercent },
+  { label: "적립", title: "앱테크 포인트", helper: "출석체크와 페이 리워드", type: "point", icon: Sparkles },
+  { label: "생활", title: "편의점·마트", helper: "1+1, 2+1, 장보기 행사", type: "convenienceStore", icon: BadgePercent }
+];
+
 function sortByBenefitScore(deals: Deal[]) {
   return [...deals].sort(
     (a, b) =>
@@ -218,6 +231,41 @@ export function BenefitDiscoverySections({
           <div className="grid grid-cols-2 gap-2 text-center text-xs font-black sm:min-w-64">
             <span className="rounded-2xl bg-red-50 px-3 py-2 text-dossa-red">{source.filter((deal) => deal.isVerified).length}개 링크 확인</span>
             <span className="rounded-2xl bg-slate-50 px-3 py-2 text-slate-700">찜 {favoriteCount}개</span>
+          </div>
+        </div>
+
+        <div className="mt-4 rounded-[24px] border border-slate-200 bg-slate-50 p-3" aria-label="10초 혜택 바로가기">
+          <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-black text-dossa-red">10초 혜택 바로가기</p>
+              <h4 className="text-lg font-black text-slate-950">오늘 받을 혜택을 바로 고르세요</h4>
+            </div>
+            <p className="text-xs font-bold leading-5 text-slate-500">무료, 쿠폰, 포인트, 생활 행사로 즉시 좁혀봅니다.</p>
+          </div>
+          <div className="mt-3 grid grid-cols-2 gap-2 lg:grid-cols-4">
+            {quickBenefitEntries.map((entry) => {
+              const Icon = entry.icon;
+              const count = source.filter((deal) => deal.dealType === entry.type).length;
+
+              return (
+                <button
+                  key={entry.title}
+                  type="button"
+                  onClick={() => onSelectBenefit(entry.type)}
+                  className="min-h-[102px] rounded-3xl bg-white p-3 text-left shadow-sm transition hover:-translate-y-0.5 hover:bg-red-50 hover:shadow-md"
+                  aria-label={`${entry.title} ${count}개 바로 보기`}
+                >
+                  <span className="flex items-start justify-between gap-3">
+                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-red-50 text-dossa-red">
+                      <Icon size={19} />
+                    </span>
+                    <span className="rounded-full bg-slate-50 px-2.5 py-1 text-[11px] font-black text-dossa-red">{entry.label}</span>
+                  </span>
+                  <span className="mt-3 block text-sm font-black text-slate-950">{entry.title}</span>
+                  <span className="mt-1 block text-xs font-bold leading-5 text-slate-500">{entry.helper} · {count}개</span>
+                </button>
+              );
+            })}
           </div>
         </div>
 

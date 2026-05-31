@@ -103,6 +103,8 @@ await check("home page", async () => {
   assert(text.includes("판매처 확인 단계"), "Home page missing review-needed purchase path explanation");
   assert(text.includes("오늘 바로 볼 할인 지도"), "Home page missing quick discovery guide");
   assert(text.includes("오늘 놓치면 아쉬운 혜택"), "Home page missing V2 benefit-first discovery section");
+  assert(text.includes("10초 혜택 바로가기") && text.includes("오늘 받을 혜택을 바로 고르세요"), "Home page missing fast benefit shortcut rail");
+  assert(text.includes("무료 샘플") && text.includes("결제 전 쿠폰") && text.includes("앱테크 포인트"), "Home page missing fast benefit shortcut choices");
   assert(text.includes("무료로 받을 수 있는 혜택"), "Home page missing free benefit discovery card");
   assert(text.includes("무료혜택/쿠폰"), "Home page missing free benefit and coupon section");
   assert(text.includes("0원"), "Home navigation missing free benefit badge");
