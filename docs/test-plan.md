@@ -117,6 +117,7 @@ npm run build:android
 npm run cap:sync
 npm run smoke:local
 npm run qa
+npm run audit:commercial
 npm run qa:release
 npm run release:doctor
 ```
@@ -130,8 +131,9 @@ npm run smoke
 `smoke:local`은 개발 서버 실행, 헬스체크 대기, smoke 검증, 서버 종료까지 한 번에 수행합니다.
 현재 smoke는 36개 항목으로 홈/검색/링크/관리자/상업화 준비/정책뿐 아니라 OAuth callback, 온보딩, 회원 탈퇴 guard까지 확인합니다.
 `qa`는 lint, 로컬 smoke, Next.js build, release doctor를 포함합니다.
-`release:doctor`는 83개 항목으로 Android/iOS 패키징, OAuth/딥링크, Supabase 회원 데이터 동기화, 상업화 준비 화면, 상품 상세 링크 35개 이상 및 65% 이상 보강률, 내부 점수 비노출, 출시 당일 체크리스트, 스크린샷 스토리보드, 보관/위탁/삭제 정책 문구, 스토어 산출물까지 확인합니다.
-`qa:release`는 `qa`에 Android 정적 빌드와 Android/iOS Capacitor sync까지 더한 출시 후보 검증입니다.
+`audit:commercial`은 high/critical npm 취약점이 남아 있으면 실패합니다.
+`release:doctor`는 Android/iOS 패키징, OAuth/딥링크, Supabase 회원 데이터 동기화, 상업화 준비 화면, 상품 상세 링크 35개 이상 및 65% 이상 보강률, 내부 점수 비노출, 출시 당일 체크리스트, 스크린샷 스토리보드, 보관/위탁/삭제 정책 문구, 스토어 산출물까지 확인합니다.
+`qa:release`는 `qa`, `audit:commercial`, Android 정적 빌드, Android/iOS Capacitor sync, release doctor를 한 번에 실행하는 출시 후보 검증입니다.
 
 ## 내부 테스트 기준
 
