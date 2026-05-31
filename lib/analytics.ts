@@ -195,6 +195,49 @@ function summarizeBenefitQuality(deals: Deal[]) {
     })
     .sort((a, b) => b.priorityScore - a.priorityScore || b.count - a.count)
     .slice(0, 5);
+  const conditionAudit = typeBreakdown
+    .map((item) => {
+      const scopedDeals = deals.filter((deal) => deal.dealType === item.type);
+      const sourceReady = scopedDeals.filter((deal) => Boolean(deal.sourceName && deal.sourceUrl)).length;
+      const shippingReady = scopedDeals.filter((deal) => Boolean(deal.shippingFee || deal.shipping)).length;
+      const signupReady = scopedDeals.filter((deal) => typeof deal.requiresSignup === "boolean").length;
+      const firstComeReady = scopedDeals.filter((deal) => typeof deal.isFirstComeFirstServed === "boolean").length;
+      const couponReady = scopedDeals.filter((deal) => {
+        if (deal.dealType === "coupon" || deal.dealType === "foodDelivery" || deal.dealType === "point") {
+          return Boolean(deal.couponCondition || deal.minimumOrderAmount || deal.isStackable !== undefined);
+        }
+
+        return true;
+      }).length;
+      const readySignals = sourceReady + shippingReady + signupReady + firstComeReady + couponReady;
+      const totalSignals = Math.max(1, scopedDeals.length * 5);
+      const readinessRate = Math.round((readySignals / totalSignals) * 100);
+      const missingSignals = [
+        sourceReady < scopedDeals.length ? "제공처 URL" : "",
+        shippingReady < scopedDeals.length ? "배송비 조건" : "",
+        signupReady < scopedDeals.length ? "가입 필요 여부" : "",
+        firstComeReady < scopedDeals.length ? "선착순 여부" : "",
+        couponReady < scopedDeals.length ? "쿠폰/최소금액 조건" : ""
+      ].filter(Boolean);
+
+      return {
+        type: item.type,
+        label: item.label,
+        count: scopedDeals.length,
+        readinessRate,
+        sourceReady,
+        shippingReady,
+        signupReady,
+        firstComeReady,
+        couponReady,
+        missingSignals,
+        action: missingSignals.length
+          ? `${item.label} 카드에 ${missingSignals.slice(0, 2).join(", ")} 정보를 보강`
+          : `${item.label} 조건 정보 유지`
+      };
+    })
+    .sort((a, b) => a.readinessRate - b.readinessRate || b.count - a.count)
+    .slice(0, 6);
 
   return {
     total: deals.length,
@@ -204,6 +247,7 @@ function summarizeBenefitQuality(deals: Deal[]) {
     verifiedRate: Math.round((verifiedDeals.length / deals.length) * 100),
     typeBreakdown,
     actionQueue,
+    conditionAudit,
     reportCount,
     needsReviewCount: deals.filter((deal) => !deal.purchaseLinkVerified || deal.reportCount > 0 || deal.isSoldOut || deal.isExpired).length,
     latestCheckedAt

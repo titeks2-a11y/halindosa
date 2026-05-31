@@ -1132,11 +1132,17 @@ async function checkOperationalDataSurfaces() {
     !adminPage.includes("점검 우선") ||
     !adminPage.includes("오늘 혜택 운영 액션 큐") ||
     !adminPage.includes("신고·종료·링크 보강") ||
+    !adminPage.includes("benefitConditionAudit") ||
+    !adminPage.includes("혜택 조건 완성도 점검") ||
+    !adminPage.includes("제공처·배송비·가입·선착순·쿠폰 조건") ||
+    !analytics.includes("conditionAudit") ||
+    !analytics.includes("readinessRate") ||
     !adminPage.includes("VER 2.0 재방문 운영") ||
     !adminPage.includes("매일 재방문 루틴 점검") ||
     !adminPage.includes("재방문 점수") ||
     !adminPage.includes("다음 재방문 개선 액션") ||
-    !smoke.includes("Admin dashboard missing benefit quality operation summary")
+    !smoke.includes("Admin dashboard missing benefit quality operation summary") ||
+    !smoke.includes("Metrics missing benefit condition audit queue")
   ) {
     fail("admin product copy", "Admin page should expose V2 benefit operation quality and retention summaries with smoke coverage.");
   } else {

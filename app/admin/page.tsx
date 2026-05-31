@@ -104,6 +104,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   ];
   const benefitTypeBreakdown = benefitQuality.typeBreakdown.slice(0, 8);
   const benefitActionQueue = benefitQuality.actionQueue;
+  const benefitConditionAudit = benefitQuality.conditionAudit;
   const benefitPriorityLabels = {
     high: "오늘 처리",
     medium: "이번 주 보강",
@@ -307,6 +308,38 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                   </div>
                   <p className="mt-2 text-xs font-bold leading-5 text-slate-500">{item.reason}</p>
                   <p className="mt-2 text-xs font-black leading-5 text-slate-700">{item.action}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="mt-4 rounded-2xl border border-slate-100 bg-slate-50 p-4">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p className="text-xs font-black text-dossa-red">혜택 조건 완성도 점검</p>
+                <h3 className="mt-1 text-base font-black text-slate-950">제공처·배송비·가입·선착순·쿠폰 조건을 빠짐없이 확인합니다.</h3>
+              </div>
+              <span className="rounded-full bg-white px-3 py-1.5 text-xs font-black text-dossa-red shadow-sm">
+                조건 취약 유형 {benefitConditionAudit.filter((item) => item.readinessRate < 100).length}개
+              </span>
+            </div>
+            <div className="mt-3 grid gap-3 lg:grid-cols-3">
+              {benefitConditionAudit.map((item) => (
+                <div key={item.type} className="rounded-2xl bg-white p-4 shadow-sm">
+                  <div className="flex items-center justify-between gap-3">
+                    <p className="text-sm font-black text-slate-950">{item.label}</p>
+                    <span className="rounded-full bg-red-50 px-2.5 py-1 text-xs font-black text-dossa-red">{item.readinessRate}%</span>
+                  </div>
+                  <div className="mt-3 h-2 overflow-hidden rounded-full bg-slate-100">
+                    <div className="h-full rounded-full bg-dossa-red" style={{ width: `${item.readinessRate}%` }} />
+                  </div>
+                  <div className="mt-3 grid grid-cols-2 gap-2 text-[11px] font-black text-slate-600">
+                    <span className="rounded-2xl bg-slate-50 px-2.5 py-2">제공처 {item.sourceReady}/{item.count}</span>
+                    <span className="rounded-2xl bg-slate-50 px-2.5 py-2">배송비 {item.shippingReady}/{item.count}</span>
+                    <span className="rounded-2xl bg-slate-50 px-2.5 py-2">가입 {item.signupReady}/{item.count}</span>
+                    <span className="rounded-2xl bg-slate-50 px-2.5 py-2">선착순 {item.firstComeReady}/{item.count}</span>
+                    <span className="col-span-2 rounded-2xl bg-slate-50 px-2.5 py-2">쿠폰 조건 {item.couponReady}/{item.count}</span>
+                  </div>
+                  <p className="mt-3 text-xs font-bold leading-5 text-slate-500">{item.action}</p>
                 </div>
               ))}
             </div>
