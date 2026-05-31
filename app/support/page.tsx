@@ -4,11 +4,11 @@ import { getSupportMailto, supportEmail } from "@/lib/support";
 
 const supportCards = [
   {
-    title: "가격 또는 품절 신고",
-    description: "표시된 가격, 재고, 쿠폰 조건이 판매처와 다를 때 알려주세요.",
-    href: "/reports?reason=wrong_info",
+    title: "가격·품절·링크 신고",
+    description: "가격, 재고, 쿠폰 조건, 판매처 링크가 다를 때 알려주세요.",
+    href: "/reports?reason=link_error",
     icon: AlertTriangle,
-    label: "정보 신고하기"
+    label: "신고 접수하기"
   },
   {
     title: "구매 전 확인 기준",
@@ -59,7 +59,7 @@ export default function SupportPage() {
           </div>
         </div>
         <p className="mt-5 rounded-2xl bg-slate-50 p-4 text-sm font-semibold leading-6 text-slate-600">
-          할인도사는 판매자가 아니며 상품 결제와 배송을 직접 처리하지 않습니다. 다만 잘못된 가격, 품절, 링크 오류는 빠르게 신고할 수 있게 정리해 특가 정보 품질을 관리합니다.
+        할인도사는 판매자가 아니며 상품 결제와 배송을 직접 처리하지 않습니다. 다만 잘못된 가격, 품절, 종료, 링크 오류는 빠르게 신고할 수 있게 정리해 특가 정보 품질을 관리합니다.
         </p>
       </section>
 

@@ -181,7 +181,7 @@ export function DealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, onSha
             상세 보기
           </Link>
           <Link
-            href={`/support?dealId=${deal.id}`}
+            href={`/reports?dealId=${deal.id}&reason=link_error`}
             className="inline-flex min-h-11 items-center justify-center rounded-2xl border border-slate-200 bg-white px-3 text-xs font-black text-slate-600 transition hover:border-red-100 hover:text-dossa-red"
             aria-label={`${deal.title} 품절 또는 링크 오류 신고하기`}
           >

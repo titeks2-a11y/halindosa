@@ -13,7 +13,7 @@ interface ReportFormProps {
   initialReason?: string;
 }
 
-const reportReasonValues = ["price_changed", "sold_out", "expired", "wrong_info", "other"] as const;
+const reportReasonValues = ["price_changed", "sold_out", "expired", "link_error", "wrong_info", "other"] as const;
 type ReportReasonValue = (typeof reportReasonValues)[number];
 
 function normalizeInitialReason(reason?: string): ReportReasonValue {
@@ -32,6 +32,7 @@ export function ReportForm({ dealId, disabled, initialReason }: ReportFormProps)
     price_changed: "판매처에서 확인한 최종 가격이 앱 표시가와 다를 때 선택하세요.",
     sold_out: "상품이 품절되었거나 옵션 선택이 불가능할 때 선택하세요.",
     expired: "쿠폰, 카드할인, 타임세일이 이미 종료되었을 때 선택하세요.",
+    link_error: "버튼을 눌렀을 때 상품 상세가 열리지 않거나 다른 상품으로 이동할 때 선택하세요.",
     wrong_info: "배송비, 쇼핑몰명, 상품 이미지, 링크 정보가 다를 때 선택하세요.",
     other: "위 항목에 없는 내용을 운영팀에 전달할 때 선택하세요."
   };
@@ -86,6 +87,7 @@ export function ReportForm({ dealId, disabled, initialReason }: ReportFormProps)
           <option value="price_changed">{getReportReasonLabel("price_changed")}</option>
           <option value="sold_out">{getReportReasonLabel("sold_out")}</option>
           <option value="expired">{getReportReasonLabel("expired")}</option>
+          <option value="link_error">{getReportReasonLabel("link_error")}</option>
           <option value="wrong_info">{getReportReasonLabel("wrong_info")}</option>
           <option value="other">{getReportReasonLabel("other")}</option>
         </select>
@@ -108,7 +110,7 @@ export function ReportForm({ dealId, disabled, initialReason }: ReportFormProps)
           rows={4}
           maxLength={maxReportMessageLength}
           className="mt-2 w-full rounded-2xl border border-slate-200 bg-white p-3 text-sm font-semibold text-slate-700 outline-none focus:border-dossa-red focus:ring-4 focus:ring-red-100 disabled:opacity-60"
-          placeholder="판매처에서 확인한 가격, 품절 여부, 쿠폰 조건 등을 적어주세요."
+          placeholder="판매처에서 확인한 가격, 품절 여부, 링크 이동 결과, 쿠폰 조건 등을 적어주세요."
         />
       </div>
       <button

@@ -1282,7 +1282,7 @@ async function checkPolicyAndStoreDocs() {
     {
       name: "support page content",
       file: "app/support/page.tsx",
-      phrases: ["고객센터", "가격 또는 품절 신고", "구매 전 확인 기준", "이메일 문의", "자주 묻는 질문", "개인정보처리방침", "이용약관", "마이 설정"]
+      phrases: ["고객센터", "가격·품절·링크 신고", "구매 전 확인 기준", "이메일 문의", "자주 묻는 질문", "개인정보처리방침", "이용약관", "마이 설정"]
     },
     {
       name: "data safety guide content",

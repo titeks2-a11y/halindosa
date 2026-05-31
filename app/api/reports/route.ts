@@ -17,10 +17,11 @@ export async function GET(request: Request) {
       { value: "price_changed", label: "가격이 달라요" },
       { value: "sold_out", label: "품절이에요" },
       { value: "expired", label: "이미 종료됐어요" },
+      { value: "link_error", label: "링크가 이상해요" },
       { value: "wrong_info", label: "정보가 틀려요" },
       { value: "other", label: "기타" }
     ],
-    message: "가격 오류 신고 사유를 불러왔습니다."
+    message: "특가 정보 신고 사유를 불러왔습니다."
   }, { headers: jsonHeaders(requestId) });
 }
 
@@ -65,7 +66,8 @@ export async function POST(request: Request) {
     }));
 
     // Commercial extension point:
-    // Persist to Supabase, notify Slack/Discord, and attach price snapshot evidence.
+    // Persist to Supabase, attach price/link snapshot evidence, notify the operator queue,
+    // and auto-prioritize link_error/expired/sold_out reports for daily deal quality review.
     return NextResponse.json({
       ok: true,
       requestId,

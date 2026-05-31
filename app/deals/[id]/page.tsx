@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AlertTriangle, ArrowLeft, Clock, ShieldCheck, Tag, Truck } from "lucide-react";
 import { DealDetailActions } from "@/components/DealDetailActions";
+import { DealReportQuickActions } from "@/components/DealReportQuickActions";
 import { DealTrustBadge } from "@/components/DealTrustBadge";
 import { PriceAlertPanel } from "@/components/PriceAlertPanel";
 import { PurchaseReadinessSummary } from "@/components/PurchaseReadinessSummary";
@@ -202,11 +203,11 @@ export default async function DealDetailPage({ params }: DealDetailPageProps) {
             </div>
             <div className="mt-2">
               <a
-                href={`/reports?dealId=${deal.id}&reason=wrong_info`}
+                href={`/reports?dealId=${deal.id}&reason=link_error`}
                 className="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-black text-slate-700 transition hover:border-red-100 hover:text-dossa-red"
               >
                 <AlertTriangle size={17} />
-                가격/품절 신고
+                링크/가격 신고
               </a>
             </div>
           </div>
@@ -214,6 +215,7 @@ export default async function DealDetailPage({ params }: DealDetailPageProps) {
 
         <PurchaseSafetyChecklist deal={deal} />
         <PurchaseReadinessSummary deal={deal} />
+        <DealReportQuickActions deal={deal} />
 
         <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">

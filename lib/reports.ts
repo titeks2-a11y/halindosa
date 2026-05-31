@@ -1,16 +1,17 @@
 import { findDealById } from "@/lib/dealService";
 import { maxReportMessageLength } from "@/lib/reportConfig";
 
-export type ReportReason = "price_changed" | "sold_out" | "expired" | "wrong_info" | "other";
+export type ReportReason = "price_changed" | "sold_out" | "expired" | "link_error" | "wrong_info" | "other";
 export type ReportStatus = "open" | "reviewing" | "resolved" | "dismissed";
 
-const reportReasons = new Set<ReportReason>(["price_changed", "sold_out", "expired", "wrong_info", "other"]);
+const reportReasons = new Set<ReportReason>(["price_changed", "sold_out", "expired", "link_error", "wrong_info", "other"]);
 const reportStatuses = new Set<ReportStatus>(["open", "reviewing", "resolved", "dismissed"]);
 
 const reportReasonLabels: Record<ReportReason, string> = {
   price_changed: "가격 다름",
   sold_out: "품절",
   expired: "종료됨",
+  link_error: "링크 오류",
   wrong_info: "정보 오류",
   other: "기타"
 };

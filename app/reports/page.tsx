@@ -29,13 +29,13 @@ export default async function ReportsPage({ searchParams }: ReportsPageProps) {
               <AlertTriangle size={22} />
             </span>
             <div>
-              <h1 className="text-2xl font-black text-slate-950">가격 오류 신고</h1>
-              <p className="mt-1 text-sm font-semibold text-slate-500">가격, 품절, 링크 정보를 할인도사에 알려주세요.</p>
+              <h1 className="text-2xl font-black text-slate-950">특가 정보 신고</h1>
+              <p className="mt-1 text-sm font-semibold text-slate-500">가격, 품절, 종료, 링크 오류를 할인도사에 알려주세요.</p>
             </div>
           </div>
 
           <div className="mt-5 rounded-2xl border border-red-100 bg-red-50 p-4 text-sm font-bold leading-6 text-dossa-deep">
-            신고는 할인도사의 가격 정보 품질 개선을 위한 접수입니다. 주문 취소, 환불, 배송 문의는 구매한 판매처 고객센터에서 처리해야 합니다.
+            신고는 할인도사의 혜택 정보 품질 개선을 위한 접수입니다. 주문 취소, 환불, 배송 문의는 구매한 판매처 고객센터에서 처리해야 합니다.
           </div>
 
           {deal ? (

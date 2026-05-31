@@ -226,7 +226,7 @@ await check("support page", async () => {
   const text = await response.text();
   assert(response.status === 200, `Expected 200, got ${response.status}`);
   assert(text.includes("고객센터"), "Support page missing title");
-  assert(text.includes("가격 또는 품절 신고"), "Support page missing report entry");
+  assert(text.includes("가격·품절·링크 신고"), "Support page missing report entry");
   assert(text.includes("구매 전 확인 기준"), "Support page missing purchase guidance entry");
   assert(text.includes("support@halindosa.com"), "Support page missing support email");
   assert(text.includes("자주 묻는 질문"), "Support page missing FAQ section");
@@ -528,9 +528,10 @@ await check("report page reason prefill", async () => {
   const response = await fetch(`${baseUrl}/reports?dealId=d014&reason=sold_out`);
   const text = await response.text();
   assert(response.status === 200, `Expected 200, got ${response.status}`);
-  assert(text.includes("가격 오류 신고"), "Report page missing title");
+  assert(text.includes("특가 정보 신고"), "Report page missing title");
   assert(text.includes("애플워치 호환 스포츠 밴드"), "Report page missing deal summary");
   assert(text.includes("품절"), "Report page missing sold out reason option");
+  assert(text.includes("링크 오류"), "Report page missing link error reason option");
   assert(text.includes("구매 기준 보기") && text.includes("문의하기"), "Report page missing post-submit next actions");
   assert(text.includes("support@halindosa.com"), "Report page missing support contact");
 });
@@ -565,7 +566,7 @@ await check("admin report status update", async () => {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       dealId: "d002",
-      reason: "wrong_info",
+      reason: "link_error",
       message: "status update smoke test"
     })
   });
