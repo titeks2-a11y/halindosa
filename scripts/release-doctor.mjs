@@ -1068,8 +1068,16 @@ async function checkOperationalDataSurfaces() {
   const adminRawTerms = ["mock, staging, production", "· score "].filter((term) => adminPage.includes(term));
   if (adminRawTerms.length) {
     fail("admin product copy", `Admin page still exposes raw internal terms: ${adminRawTerms.join(", ")}`);
+  } else if (
+    !adminPage.includes("VER 2.0 혜택 운영") ||
+    !adminPage.includes("혜택 데이터 품질 요약") ||
+    !adminPage.includes("혜택형 콘텐츠") ||
+    !adminPage.includes("점검 우선") ||
+    !smoke.includes("Admin dashboard missing benefit quality operation summary")
+  ) {
+    fail("admin product copy", "Admin page should expose V2 benefit operation quality summary with smoke coverage.");
   } else {
-    pass("admin product copy", "Admin dashboard avoids raw internal source and score copy.");
+    pass("admin product copy", "Admin dashboard avoids raw internal source copy and exposes V2 benefit operation quality.");
   }
 
   if (!dealsRoute.includes("normalizeDeals(mockDeals") || dealsRoute.includes("mock 데이터로 대체")) {

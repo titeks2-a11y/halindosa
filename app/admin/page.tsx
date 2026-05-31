@@ -44,7 +44,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
     );
   }
 
-  const { metrics, topDeals, updatedAt, source } = await getMockBusinessMetrics();
+  const { metrics, topDeals, updatedAt, source, benefitQuality } = await getMockBusinessMetrics();
   const { deals } = await getDeals();
   const reportSummary = getReportSummary();
   const recentReports = listDealReports().slice(0, 6);
@@ -80,6 +80,29 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
       description: "노출 우선순위는 낮지만 출시 전 순차 확인"
     }
   ] as const;
+  const benefitOperationSummary = [
+    {
+      title: "혜택형 콘텐츠",
+      value: `${benefitQuality.freeBenefitCount}개`,
+      description: "무료, 쿠폰, 포인트, 체험단, 생활 혜택 큐"
+    },
+    {
+      title: "활성 노출 가능",
+      value: `${benefitQuality.activeCount}개`,
+      description: "종료 전 상태로 사용자에게 보여줄 수 있는 혜택"
+    },
+    {
+      title: "구매처 확인",
+      value: `${benefitQuality.verifiedCount}/${benefitQuality.total}`,
+      description: "판매처 이동 전 링크 확인이 끝난 항목"
+    },
+    {
+      title: "점검 우선",
+      value: `${benefitQuality.needsReviewCount}개`,
+      description: "신고, 종료, 품절, 링크 보강을 먼저 확인할 항목"
+    }
+  ];
+  const benefitTypeBreakdown = benefitQuality.typeBreakdown.slice(0, 8);
 
   for (const deal of deals) {
     sourceCounts.set(deal.source, (sourceCounts.get(deal.source) ?? 0) + 1);
@@ -210,6 +233,48 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
               </div>
             );
           })}
+        </section>
+
+        <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-black text-dossa-red">VER 2.0 혜택 운영</p>
+              <h2 className="mt-1 text-xl font-black text-slate-950">혜택 데이터 품질 요약</h2>
+              <p className="mt-1 text-sm font-semibold leading-6 text-slate-500">
+                무료·쿠폰·포인트·생활 혜택을 운영자가 매일 점검할 수 있도록 커버리지와 신고/종료 대상을 분리합니다.
+              </p>
+            </div>
+            <Link href="/free-benefits" className="rounded-2xl bg-slate-950 px-4 py-3 text-sm font-black text-white">
+              무료 혜택 화면 확인
+            </Link>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-4">
+            {benefitOperationSummary.map((item) => (
+              <div key={item.title} className="rounded-2xl bg-slate-50 p-4">
+                <p className="text-xs font-black text-slate-500">{item.title}</p>
+                <p className="mt-2 text-2xl font-black text-slate-950">{item.value}</p>
+                <p className="mt-1 text-xs font-bold leading-5 text-slate-500">{item.description}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+            {benefitTypeBreakdown.map((item) => (
+              <div key={item.type} className="rounded-2xl border border-slate-100 bg-white p-4">
+                <div className="flex items-center justify-between gap-3">
+                  <p className="text-sm font-black text-slate-950">{item.label}</p>
+                  <span className="rounded-full bg-red-50 px-2.5 py-1 text-xs font-black text-dossa-red">
+                    {item.count}개
+                  </span>
+                </div>
+                <div className="mt-3 h-2 overflow-hidden rounded-full bg-slate-100">
+                  <div className="h-full rounded-full bg-dossa-red" style={{ width: `${item.verifiedRate}%` }} />
+                </div>
+                <p className="mt-2 text-xs font-bold text-slate-500">
+                  구매처 확인 {item.verified}개 · 확인율 {item.verifiedRate}%
+                </p>
+              </div>
+            ))}
+          </div>
         </section>
 
         <AdminReportQueue initialReports={recentReports} initialSummary={reportSummary} token={token} />

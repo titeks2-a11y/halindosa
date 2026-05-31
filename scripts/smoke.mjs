@@ -321,6 +321,8 @@ await check("admin dashboard quality cards", async () => {
   assert(text.includes("판매처 확인"), "Admin dashboard missing seller review action");
   assert(text.includes("처리 기준"), "Admin dashboard missing report handling guidance");
   assert(text.includes("특가 품질 신고 큐"), "Admin dashboard missing deal quality report queue");
+  assert(text.includes("VER 2.0 혜택 운영") && text.includes("혜택 데이터 품질 요약"), "Admin dashboard missing benefit quality operation summary");
+  assert(text.includes("혜택형 콘텐츠") && text.includes("활성 노출 가능") && text.includes("점검 우선"), "Admin dashboard missing benefit operation cards");
   assert(text.includes("링크 오류") && text.includes("품절") && text.includes("종료"), "Admin dashboard missing report reason priority summary");
   assert(text.includes("우선 검수"), "Admin dashboard missing urgent report priority copy");
   assert(text.includes("상품 상세 URL 보강 필요"), "Admin dashboard missing localized link review action");
