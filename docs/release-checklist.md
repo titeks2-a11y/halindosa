@@ -97,6 +97,7 @@
 - Roadmap: `docs/roadmap.md`
 - Store asset guide: `docs/store-assets-guide.md`
 - Release evidence: `docs/release-evidence.md`
+- Store submission packet: `docs/store-submission-packet.md`
 - Play Store icon draft: `assets/store/play-store-icon-512.png`
 - Feature graphic draft: `assets/store/feature-graphic-1024x500.png`
 

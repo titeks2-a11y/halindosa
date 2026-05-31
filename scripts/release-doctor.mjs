@@ -1083,6 +1083,7 @@ async function checkPolicyAndStoreDocs() {
     "docs/ACCOUNT_DELETION.md",
     "docs/device-qa-checklist.md",
     "docs/deployment-env-checklist.md",
+    "docs/store-submission-packet.md",
     "scripts/env-doctor.mjs"
   ];
   const missing = requiredFiles.filter((file) => !existsSync(join(root, file)));
@@ -1160,6 +1161,11 @@ async function checkPolicyAndStoreDocs() {
       name: "deployment env checklist content",
       file: "docs/deployment-env-checklist.md",
       phrases: ["npm run env:doctor", "node scripts/env-doctor.mjs --strict", "NEXT_PUBLIC_SITE_URL", "SUPABASE_SERVICE_ROLE_KEY", "DEAL_DATA_MODE"]
+    },
+    {
+      name: "store submission packet content",
+      file: "docs/store-submission-packet.md",
+      phrases: ["Android release AAB", "Play Store 등록 문구", "App Store Connect 입력값", "node scripts/env-doctor.mjs --strict", "docs/device-qa-checklist.md"]
     }
   ];
 
