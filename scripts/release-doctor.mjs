@@ -566,6 +566,7 @@ async function checkUiAccessibility() {
   const hotSignalSection = await text("components/HotSignalSection.tsx");
   const trueDealSpotlight = await text("components/TrueDealSpotlight.tsx");
   const benefitDiscoverySections = await text("components/BenefitDiscoverySections.tsx");
+  const benefitCheckInCard = await text("components/BenefitCheckInCard.tsx");
   const priceAlertList = await text("components/PriceAlertList.tsx");
   const priceAlerts = await text("lib/priceAlerts.ts");
   const homePage = await text("app/page.tsx");
@@ -834,8 +835,13 @@ async function checkUiAccessibility() {
     if (
       !homePage.includes("<BenefitDiscoverySections") ||
       !homePage.includes("<DailyBenefitChecklist") ||
+      !homePage.includes("<BenefitCheckInCard") ||
         !homePage.includes("<BenefitPlaybook") ||
         !homePage.includes("<TrueDealSpotlight") ||
+        !benefitCheckInCard.includes("오늘 혜택 출석 체크") ||
+        !benefitCheckInCard.includes("비회원도 기기에만 출석 기록을 저장합니다") ||
+        !benefitCheckInCard.includes("무료 혜택 전용 탭에서 이번 주 루틴 보기") ||
+        !benefitCheckInCard.includes("halindosa:benefit-check-in") ||
         !benefitDiscoverySections.includes("무료혜택 TOP 5") ||
         !benefitDiscoverySections.includes("쿠폰·앱테크 TOP 5") ||
         !benefitDiscoverySections.includes("quickBenefitEntries") ||
@@ -867,6 +873,7 @@ async function checkUiAccessibility() {
       !homePage.includes("dealType") ||
       !smoke.includes("Home page missing V2 benefit-first discovery section") ||
         !smoke.includes("Home page missing daily benefit checklist") ||
+        !smoke.includes("Home page missing benefit check-in card") ||
         !smoke.includes("Home page missing free coupon top ranking section") ||
         !smoke.includes("Home page missing fast benefit shortcut rail") ||
         !smoke.includes("Home page missing daily savings summary") ||

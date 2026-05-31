@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { BellRing, CheckCircle2, Flame, Share2, ShieldCheck, ShoppingBag, SlidersHorizontal, Store, Timer, Truck, UserRound } from "lucide-react";
+import { BenefitCheckInCard } from "@/components/BenefitCheckInCard";
 import { BenefitDiscoverySections } from "@/components/BenefitDiscoverySections";
 import { BenefitPlaybook, BenefitPreset } from "@/components/BenefitPlaybook";
 import { CategoryTabs } from "@/components/CategoryTabs";
@@ -1264,6 +1265,14 @@ export default function Home() {
               onApplyPreset={openBenefitPreset}
               onShowEndingSoon={() => openQuickDiscovery("endingSoon")}
               onShowVerified={() => openQuickDiscovery("verified")}
+            />
+
+            <BenefitCheckInCard
+              deals={catalog.length ? catalog : deals}
+              favoriteCount={favorites.length}
+              recentCount={recentDeals.length}
+              onApplyPreset={openBenefitPreset}
+              onOpenAlerts={() => setActiveView("alerts")}
             />
 
             <BenefitPlaybook deals={catalog.length ? catalog : deals} onApplyPreset={openBenefitPreset} />
