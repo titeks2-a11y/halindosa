@@ -225,6 +225,18 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     source: "manual_review",
     evidence: "GS SHOP 군 기저귀 4팩 상품 상세"
   },
+  d039: {
+    url: "https://tickets.interpark.com/contents/notice/detail/13198",
+    checkedAt: "2026-06-01T02:40:00.000Z",
+    source: "manual_review",
+    evidence: "NOL 인터파크 뮤지컬 태권 날아올라 공연 상세 및 할인정보"
+  },
+  d040: {
+    url: "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000211588",
+    checkedAt: "2026-06-01T02:40:00.000Z",
+    source: "manual_review",
+    evidence: "올리브영 아이보들 CCP 크림 1+1 기획 상품 상세"
+  },
   d041: {
     url: "https://www.ssg.com/item/itemView.ssg?itemId=1000620373892",
     checkedAt: "2026-05-31T10:20:00.000Z",
@@ -248,6 +260,12 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     checkedAt: "2026-05-31T10:00:00.000Z",
     source: "manual_review",
     evidence: "쿠팡 탐사수 무라벨 상품 상세"
+  },
+  d048: {
+    url: "https://www.11st.co.kr/products/1087832770",
+    checkedAt: "2026-06-01T02:40:00.000Z",
+    source: "manual_review",
+    evidence: "11번가 메듀즈 키즈 아쿠아샌들 젤리슈즈 상품 상세"
   },
   d049: {
     url: "https://item.gmarket.co.kr/Item?goodscode=2723551094",

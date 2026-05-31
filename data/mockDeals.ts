@@ -150,8 +150,8 @@ export const mockDeals: Deal[] = [
   deal("d036", "하이마트", "허밍 무선청소기 HML-VC2502W 물걸레 세트", "가전", 329000, 46, 6, 48, { isHot: true, isNew: false, isEndingSoon: false }, ["카드할인", "무료배송", "역대가"], 86, "", "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0041365090"),
   deal("d037", "무신사", "여름 기능성 반팔 티셔츠 3팩", "의류", 69000, 52, 4, 18, { isHot: false, isNew: true, isEndingSoon: true }, ["무배", "패션", "마감임박"], 83),
   deal("d038", "GS SHOP", "군 기저귀 프리미엄 팬티 대형 32P 4팩", "육아", 92000, 38, 7, 30, { isHot: false, isNew: false, isEndingSoon: false }, ["무료배송", "쿠폰적용", "육아"], 77),
-  deal("d039", "인터파크", "뮤지컬 평일 공연 R석 타임세일", "여행/티켓", 140000, 50, 3, 11, { isHot: true, isNew: true, isEndingSoon: true }, ["오늘만", "마감임박", "티켓"], 88),
-  deal("d040", "올리브영", "클렌징폼 1+1 대용량 기획", "뷰티", 32000, 41, 1, 22, { isHot: false, isNew: true, isEndingSoon: false }, ["쿠폰적용", "인기", "오늘만"], 80)
+  deal("d039", "인터파크", "뮤지컬 태권 날아올라 R석 타임세일", "여행/티켓", 66000, 40, 3, 11, { isHot: true, isNew: true, isEndingSoon: true }, ["오늘만", "마감임박", "티켓"], 88),
+  deal("d040", "올리브영", "아이보들 CCP 크림 1+1 기획", "뷰티", 30000, 19, 1, 22, { isHot: false, isNew: true, isEndingSoon: false }, ["쿠폰적용", "인기", "오늘만"], 80)
   ,
   deal("d041", "이마트몰", "노브랜드 물티슈 100매 20팩", "편의점/마트", 29900, 31, 1.5, 16, { isHot: true, isNew: true, isEndingSoon: false }, ["마트딜", "생활필수", "무료배송"], 84),
   deal("d042", "GS25", "편의점 도시락 1+1 모바일 쿠폰", "쿠폰/이벤트", 9000, 50, 0.4, 5, { isHot: true, isNew: true, isEndingSoon: true }, ["0원딜", "쿠폰", "마감임박"], 93),
@@ -160,7 +160,7 @@ export const mockDeals: Deal[] = [
   deal("d045", "SSG닷컴", "스타벅스 아메리카노 모바일 교환권", "쿠폰/이벤트", 4500, 100, 0.2, 6, { isHot: true, isNew: true, isEndingSoon: true }, ["0원딜", "쿠폰", "오늘만"], 96),
   deal("d046", "쿠팡", "탐사수 무라벨 2L 24병", "편의점/마트", 16800, 29, 1, 20, { isHot: false, isNew: true, isEndingSoon: false }, ["무료배송", "생활필수", "로켓배송"], 81, "", "https://www.coupang.com/vp/products/5625704601?vendorItemId=79548063314"),
   deal("d047", "네이버쇼핑", "주유권 5만원권 카드 청구할인", "쿠폰/이벤트", 50000, 12, 3, 30, { isHot: false, isNew: false, isEndingSoon: false }, ["카드할인", "쿠폰", "생활비절약"], 74),
-  deal("d048", "11번가", "키즈 여름 샌들 2켤레 세트", "육아", 49900, 56, 5, 9, { isHot: true, isNew: false, isEndingSoon: true }, ["마감임박", "무료배송", "키즈"], 86),
+  deal("d048", "11번가", "메듀즈 키즈 아쿠아샌들 젤리슈즈", "육아", 49900, 56, 5, 9, { isHot: true, isNew: false, isEndingSoon: true }, ["마감임박", "무료배송", "키즈"], 86),
   deal("d049", "G마켓", "캠핑 접이식 웨건 대형", "생활용품", 129000, 47, 6, 26, { isHot: false, isNew: true, isEndingSoon: false }, ["레저", "쿠폰적용", "무료배송"], 77),
   deal("d050", "올리브영", "멀티비타민 90정 기획세트", "뷰티", 39000, 35, 2, 18, { isHot: false, isNew: true, isEndingSoon: false }, ["헬스", "오늘만", "인기"], 78),
   deal("d051", "인터파크투어", "오사카 왕복 항공권 타임세일", "여행/티켓", 289000, 41, 1, 12, { isHot: true, isNew: true, isEndingSoon: true }, ["여행", "마감임박", "한정수량"], 90),
