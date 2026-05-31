@@ -192,6 +192,8 @@ await check("category and notification pages", async () => {
   assert(categoriesText.includes("개 특가"), "Categories page missing deal counts");
   assert(categoriesText.includes("구매 링크 확인"), "Categories page missing purchase link quality count");
   assert(categoriesText.includes("대표 특가"), "Categories page missing representative deal summary");
+  assert(categoriesText.includes("추천 탐색") && categoriesText.includes("카테고리 묶음"), "Categories page missing grouped discovery sections");
+  assert(categoriesText.includes("구매 링크 확인이 많은 영역부터 보기"), "Categories page missing verified-first discovery guide");
 
   const notifications = await fetch(`${baseUrl}/notifications`);
   const notificationsText = await notifications.text();

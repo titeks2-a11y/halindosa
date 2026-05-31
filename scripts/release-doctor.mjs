@@ -714,6 +714,17 @@ async function checkOperationalDataSurfaces() {
   }
 
   if (
+    !categoriesPage.includes("featuredCategories") ||
+    !categoriesPage.includes("categoryGroups") ||
+    !categoriesPage.includes("추천 탐색") ||
+    !categoriesPage.includes("구매 링크 확인이 많은 영역부터 보기")
+  ) {
+    fail("category discovery UX", "Categories page should group channels and surface verified-link-first discovery.");
+  } else {
+    pass("category discovery UX", "Categories page groups channels and surfaces verified-link-first discovery.");
+  }
+
+  if (
     !notificationsPage.includes("<PriceAlertList") ||
     !homePage.includes("<PriceAlertList") ||
     !localDataControls.includes("priceAlertStorageKey") ||
