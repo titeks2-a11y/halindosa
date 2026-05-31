@@ -269,6 +269,7 @@ await check("commercial launch readiness page", async () => {
   assert(text.includes("출시 준비 단계"), "Commercialization page missing launch readiness phase");
   assert(text.includes("다음 우선 조치"), "Commercialization page missing next action queue");
   assert(text.includes("실기기 QA 체크리스트"), "Commercialization page missing device QA checklist reminder");
+  assert(text.includes("운영 환경변수 확인"), "Commercialization page missing environment doctor reminder");
 });
 
 await check("deals api", async () => {

@@ -122,6 +122,7 @@ npm run cap:sync
 npm run smoke:local
 npm run qa
 npm run audit:commercial
+npm run env:doctor
 npm run perf:budget
 npm run release:evidence
 npm run qa:release
@@ -138,6 +139,7 @@ npm run smoke
 현재 smoke는 36개 항목으로 홈/검색/링크/관리자/상업화 준비/정책뿐 아니라 OAuth callback, 온보딩, 회원 탈퇴 guard까지 확인합니다.
 `qa`는 lint, 로컬 smoke, Next.js build, release doctor를 포함합니다.
 `audit:commercial`은 high/critical npm 취약점이 남아 있으면 실패합니다.
+`env:doctor`는 공개 URL, OAuth redirect, Supabase, 데이터 공급, 운영 토큰 환경변수의 누락과 placeholder 값을 점검합니다.
 `perf:budget`은 정적 export, JS/CSS, APK/AAB, 스토어 이미지가 출시 예산을 넘으면 실패합니다.
 `release:evidence`는 커밋, 앱 버전, APK/AAB, 스토어 이미지, 남은 수동 확인을 `docs/release-evidence.md`에 기록합니다.
 `release:doctor`는 Android/iOS 패키징, OAuth/딥링크, Supabase 회원 데이터 동기화, 상업화 준비 화면, 상품 상세 링크 43개 이상 및 80% 이상 보강률, 내부 점수 비노출, 출시 증빙 최신 커밋 일치 여부, 출시 당일 체크리스트, 스크린샷 스토리보드, 보관/위탁/삭제 정책 문구, 스토어 산출물까지 확인합니다.

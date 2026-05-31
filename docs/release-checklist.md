@@ -13,6 +13,7 @@
 - [x] `npm run smoke:local`
 - [x] `npm run qa`
 - [x] `npm run audit:commercial`
+- [x] `npm run env:doctor`
 - [x] `npm run perf:budget`
 - [x] `npm run release:evidence`
 - [x] `npm run qa:release`는 `audit:commercial`, `perf:budget`, Android/iOS sync, release doctor까지 포함
@@ -87,6 +88,7 @@
 - [ ] 제휴/광고 고지 문구 법무 검토
 - [ ] 고객 문의 이메일 준비
 - [ ] 개인정보처리방침 실제 도메인 배포
+- [ ] `docs/deployment-env-checklist.md` 기준 운영 환경변수 strict 점검
 
 ## 현재 확인된 산출물
 

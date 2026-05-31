@@ -19,6 +19,7 @@
     "smoke": "node scripts/smoke.mjs",
     "smoke:local": "node scripts/smoke-local.mjs",
     "audit:commercial": "node scripts/audit.mjs",
+    "env:doctor": "node scripts/env-doctor.mjs",
     "perf:budget": "node scripts/performance-budget.mjs",
     "release:evidence": "node scripts/release-evidence.mjs",
     "release:doctor": "node scripts/release-doctor.mjs",

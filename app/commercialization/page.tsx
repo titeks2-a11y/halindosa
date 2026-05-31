@@ -61,6 +61,11 @@ const readinessItems = [
     status: "수동 QA",
     title: "실기기 QA 체크리스트",
     body: "docs/device-qa-checklist.md 기준으로 Android/iOS, 로그인, 외부 구매 링크, 신고 흐름을 실제 기기에서 확인합니다."
+  },
+  {
+    status: "환경 점검",
+    title: "운영 환경변수 확인",
+    body: "npm run env:doctor로 공개 URL, OAuth redirect, Supabase, 데이터 공급, 운영 토큰 누락을 점검합니다."
   }
 ];
 

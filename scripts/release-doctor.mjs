@@ -48,6 +48,7 @@ async function checkPackage() {
     "android:bundle",
     "qa:release",
     "perf:budget",
+    "env:doctor",
     "release:evidence"
   ];
   const missing = requiredScripts.filter((script) => !pkg.scripts?.[script]);
@@ -56,7 +57,7 @@ async function checkPackage() {
   else if (!pkg.scripts?.["qa:release"]?.includes("audit:commercial") || !pkg.scripts?.["qa:release"]?.includes("perf:budget")) {
     fail("package scripts", "qa:release should include commercial security audit and performance budget before store submission.");
   } else {
-    pass("package scripts", "Android, iOS, commercial security, and performance release command flow is available.");
+    pass("package scripts", "Android, iOS, environment, commercial security, and performance release command flow is available.");
   }
 
   if (!pkg.dependencies?.["@capacitor/ios"]) fail("Capacitor iOS dependency", "Missing @capacitor/ios.");
@@ -1080,7 +1081,9 @@ async function checkPolicyAndStoreDocs() {
     "docs/OAUTH_SETUP.md",
     "docs/DEEPLINK_AUTH.md",
     "docs/ACCOUNT_DELETION.md",
-    "docs/device-qa-checklist.md"
+    "docs/device-qa-checklist.md",
+    "docs/deployment-env-checklist.md",
+    "scripts/env-doctor.mjs"
   ];
   const missing = requiredFiles.filter((file) => !existsSync(join(root, file)));
 
@@ -1152,6 +1155,11 @@ async function checkPolicyAndStoreDocs() {
       name: "device qa checklist content",
       file: "docs/device-qa-checklist.md",
       phrases: ["Android 기기 확인", "iOS 기기 또는 Simulator 확인", "로그인과 계정 데이터", "구매 링크와 신고", "스토어 제출 직전 판정"]
+    },
+    {
+      name: "deployment env checklist content",
+      file: "docs/deployment-env-checklist.md",
+      phrases: ["npm run env:doctor", "node scripts/env-doctor.mjs --strict", "NEXT_PUBLIC_SITE_URL", "SUPABASE_SERVICE_ROLE_KEY", "DEAL_DATA_MODE"]
     }
   ];
 
