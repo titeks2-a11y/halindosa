@@ -14,10 +14,11 @@
 - [x] `npm run qa`
 - [x] `npm run audit:commercial`
 - [x] `npm run env:doctor`
+- [x] `npm run store:metadata:doctor`
 - [x] `npm run store:assets:doctor`
 - [x] `npm run perf:budget`
 - [x] `npm run release:evidence`
-- [x] `npm run qa:release`는 `audit:commercial`, `perf:budget`, Android/iOS sync, release doctor까지 포함
+- [x] `npm run qa:release`는 `audit:commercial`, 스토어 메타데이터/이미지/스크린샷 점검, `perf:budget`, Android/iOS sync, release doctor까지 포함
 
 ## Android 설정
 
@@ -62,6 +63,7 @@
 - [ ] 짧은 설명 입력
 - [ ] 긴 설명 입력
 - [ ] `docs/play-store-listing.md` 내용 검토
+- [ ] `npm run store:metadata:doctor`로 앱 이름, 짧은 설명, 긴 설명, 금지 표현 점검
 - [ ] `docs/store-review-notes.md` 기준 앱 액세스/심사자 메모 입력
 - [ ] `docs/data-safety-guide.md` 기준으로 데이터 보안 섹션 작성
 - [ ] `docs/content-rating-guide.md` 기준으로 콘텐츠 등급 설문 작성

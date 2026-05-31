@@ -50,6 +50,7 @@ async function checkPackage() {
     "perf:budget",
     "env:doctor",
     "links:report",
+    "store:metadata:doctor",
     "store:assets:doctor",
     "store:screenshots:doctor",
     "release:evidence"
@@ -57,8 +58,8 @@ async function checkPackage() {
   const missing = requiredScripts.filter((script) => !pkg.scripts?.[script]);
 
   if (missing.length) fail("package scripts", `Missing scripts: ${missing.join(", ")}`);
-  else if (!pkg.scripts?.["qa:release"]?.includes("audit:commercial") || !pkg.scripts?.["qa:release"]?.includes("store:assets:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:doctor") || !pkg.scripts?.["qa:release"]?.includes("perf:budget")) {
-    fail("package scripts", "qa:release should include commercial security audit, store asset doctor, store screenshot doctor, and performance budget before store submission.");
+  else if (!pkg.scripts?.["qa:release"]?.includes("audit:commercial") || !pkg.scripts?.["qa:release"]?.includes("store:metadata:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:assets:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:doctor") || !pkg.scripts?.["qa:release"]?.includes("perf:budget")) {
+    fail("package scripts", "qa:release should include commercial security audit, store metadata doctor, store asset doctor, store screenshot doctor, and performance budget before store submission.");
   } else {
     pass("package scripts", "Android, iOS, environment, commercial security, and performance release command flow is available.");
   }
@@ -1184,6 +1185,11 @@ async function checkPolicyAndStoreDocs() {
   else pass("policy and store docs", "Required policy/listing drafts are present.");
 
   const requiredContent = [
+    {
+      name: "store metadata guard",
+      file: "scripts/store-metadata-doctor.mjs",
+      phrases: ["Play Store short description should be 1-80 characters", "Risky store metadata phrases", "App Store checklist should include bundle id"]
+    },
     {
       name: "privacy policy content",
       file: "app/privacy/page.tsx",

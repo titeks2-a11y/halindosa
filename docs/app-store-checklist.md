@@ -33,6 +33,7 @@ Windows에서는 iOS 앱 빌드와 App Store 업로드를 완료할 수 없다. 
 ## App Store Connect 등록정보
 
 - 앱 이름: 할인도사
+- Bundle ID: `com.halindosa.app`
 - 부제: 실시간 할인 특가 정보를 가장 빠르게 찾는 방법
 - 기본 카테고리: Shopping
 - 보조 카테고리: Lifestyle

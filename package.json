@@ -21,13 +21,14 @@
     "audit:commercial": "node scripts/audit.mjs",
     "env:doctor": "node scripts/env-doctor.mjs",
     "links:report": "node scripts/link-coverage-report.mjs",
+    "store:metadata:doctor": "node scripts/store-metadata-doctor.mjs",
     "store:assets:doctor": "node scripts/store-assets-doctor.mjs",
     "store:screenshots:doctor": "node scripts/store-screenshots-doctor.mjs",
     "perf:budget": "node scripts/performance-budget.mjs",
     "release:evidence": "node scripts/release-evidence.mjs",
     "release:doctor": "node scripts/release-doctor.mjs",
     "qa": "npm run lint && npm run smoke:local && npm run build && npm run release:doctor",
-    "qa:release": "npm run qa && npm run audit:commercial && npm run build:android && npm run cap:sync && npm run cap:sync:ios && npm run store:assets:doctor && npm run store:screenshots:doctor && npm run perf:budget && npm run release:doctor",
+    "qa:release": "npm run qa && npm run audit:commercial && npm run build:android && npm run cap:sync && npm run cap:sync:ios && npm run store:metadata:doctor && npm run store:assets:doctor && npm run store:screenshots:doctor && npm run perf:budget && npm run release:doctor",
     "wait:health": "node scripts/wait-for-health.mjs"
   },
   "dependencies": {

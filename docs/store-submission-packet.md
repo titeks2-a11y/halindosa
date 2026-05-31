@@ -31,6 +31,7 @@
 npm install
 npm run env:doctor
 node scripts/env-doctor.mjs --strict
+npm run store:metadata:doctor
 npm run qa:release
 npm run android:bundle
 npm run release:evidence
