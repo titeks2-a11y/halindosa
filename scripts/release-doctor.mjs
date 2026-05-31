@@ -522,6 +522,7 @@ async function checkUiAccessibility() {
   const priceAlerts = await text("lib/priceAlerts.ts");
   const homePage = await text("app/page.tsx");
   const favoritesPage = await text("app/favorites/page.tsx");
+  const smoke = await text("scripts/smoke.mjs");
   const requiredSnippets = [
     "aria-pressed={isFavorite}",
     "alt={deal.title}",
@@ -665,6 +666,17 @@ async function checkUiAccessibility() {
     fail("search filter accessibility", "Home filter controls should expose accessible names and toggle state labels.");
   } else {
     pass("search filter accessibility", "Search, sort, category, mall, price, and quick filter controls expose accessible names and state.");
+  }
+
+  if (
+    !homePage.includes("clearRecentDealsSynced") ||
+    !homePage.includes("최근 기록 관리") ||
+    !homePage.includes("기록 비우기") ||
+    !smoke.includes("recent deal management actions")
+  ) {
+    fail("recent deal management UX", "Home should let returning users continue, clear, and manage recently viewed deals.");
+  } else {
+    pass("recent deal management UX", "Home lets returning users continue, clear, and manage recently viewed deals.");
   }
 
   if (

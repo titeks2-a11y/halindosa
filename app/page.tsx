@@ -29,6 +29,7 @@ import { getLinkQualityScore, isVerifiedPurchaseLink } from "@/lib/deals/quality
 import { getRelativeTime } from "@/lib/format";
 import { buildDealRedirectUrl, buildNativeSafeDealUrl } from "@/lib/redirectUrl";
 import {
+  clearRecentDealsSynced,
   readLocalFavoriteIds,
   recordRecentDealView,
   syncFavoritesWithSupabase,
@@ -960,6 +961,18 @@ export default function Home() {
     showToast("최근 검색어를 지웠습니다.");
   };
 
+  const clearRecentDeals = () => {
+    void clearRecentDealsSynced()
+      .then(() => {
+        setRecentDealIds([]);
+        showToast("최근 본 특가를 비웠습니다.");
+      })
+      .catch(() => {
+        setRecentDealIds([]);
+        showToast("이 기기의 최근 본 특가를 비웠습니다.");
+      });
+  };
+
   const openCategory = (id: string) => {
     setCategory(id);
     setActiveView("home");
@@ -1276,7 +1289,33 @@ export default function Home() {
                 </div>
               </div>
               <div className="min-w-0 rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
-                <p className="text-xs font-black text-dossa-red">{recentDeals.length ? "최근 본 특가" : "추천 특가"}</p>
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="text-xs font-black text-dossa-red">{recentDeals.length ? "최근 본 특가" : "추천 특가"}</p>
+                    <h3 className="mt-1 text-lg font-black text-slate-950">
+                      {recentDeals.length ? "방금 보던 상품 이어보기" : "처음 보는 분을 위한 추천"}
+                    </h3>
+                    <p className="mt-1 text-xs font-bold leading-5 text-slate-500">
+                      {recentDeals.length
+                        ? "최근 확인한 특가를 다시 열고, 필요 없으면 기록을 바로 비울 수 있습니다."
+                        : "상세를 열거나 판매처를 확인하면 최근 본 특가가 여기에 쌓입니다."}
+                    </p>
+                  </div>
+                  {recentDeals.length ? (
+                    <button
+                      type="button"
+                      onClick={clearRecentDeals}
+                      className="shrink-0 rounded-2xl border border-slate-200 bg-white px-3 py-2 text-xs font-black text-slate-500 transition hover:border-red-100 hover:text-dossa-red"
+                      aria-label="최근 본 특가 모두 비우기"
+                    >
+                      기록 비우기
+                    </button>
+                  ) : (
+                    <Link href="/?verifiedOnly=true" className="shrink-0 rounded-2xl bg-red-50 px-3 py-2 text-xs font-black text-dossa-red">
+                      구매처 확인
+                    </Link>
+                  )}
+                </div>
                 <div className="mt-4 space-y-2">
                   {(recentDeals.length ? recentDeals : recommendedDeals).slice(0, 6).map((deal) => (
                     <button
@@ -1300,6 +1339,14 @@ export default function Home() {
                       </span>
                     </button>
                   ))}
+                </div>
+                <div className="mt-3 grid grid-cols-2 gap-2">
+                  <Link href="/favorites" className="rounded-2xl bg-slate-50 px-3 py-2.5 text-center text-xs font-black text-slate-600 transition hover:bg-red-50 hover:text-dossa-red">
+                    찜 목록 보기
+                  </Link>
+                  <Link href="/mypage" className="rounded-2xl bg-slate-50 px-3 py-2.5 text-center text-xs font-black text-slate-600 transition hover:bg-red-50 hover:text-dossa-red">
+                    최근 기록 관리
+                  </Link>
                 </div>
               </div>
             </section>
