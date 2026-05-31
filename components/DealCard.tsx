@@ -20,6 +20,11 @@ export function DealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, onSha
   const linkAvailable = canOpenDealLink(deal);
   const linkVerified = isVerifiedPurchaseLink(deal);
   const LinkTrustIcon = linkVerified ? CheckCircle2 : AlertTriangle;
+  const purchaseCheckItems = [
+    { label: "링크", value: getDealLinkTrustLabel(deal) },
+    { label: "가격", value: getRelativeTime(deal.priceCheckedAt) },
+    { label: "마감", value: getTimeLeft(deal.expiresAt) }
+  ];
 
   return (
     <article
@@ -108,6 +113,18 @@ export function DealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, onSha
         <p className="text-[11px] font-bold text-slate-500">
           {getDealPurchaseConfidenceLabel(deal)} · 링크 확인 {getRelativeTime(deal.checkedAt)}
         </p>
+
+        <div className="rounded-2xl border border-slate-100 bg-white p-2 shadow-[0_8px_24px_rgba(15,23,42,0.04)]" aria-label={`${deal.title} 구매 전 체크`}>
+          <p className="mb-1.5 text-[11px] font-black text-slate-500">구매 전 체크</p>
+          <div className="grid grid-cols-3 gap-1.5">
+            {purchaseCheckItems.map((item) => (
+              <div key={item.label} className="min-w-0 rounded-xl bg-slate-50 px-2 py-1.5">
+                <p className="text-[10px] font-black text-slate-400">{item.label}</p>
+                <p className="mt-0.5 truncate text-[11px] font-black text-slate-800">{item.value}</p>
+              </div>
+            ))}
+          </div>
+        </div>
 
         <div className="rounded-2xl bg-slate-50 p-2.5 sm:p-3">
           <div className="flex items-start justify-between gap-3">

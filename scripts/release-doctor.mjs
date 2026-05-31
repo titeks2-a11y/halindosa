@@ -528,7 +528,9 @@ async function checkUiAccessibility() {
     "판매처 이동 전 확인",
     "상세 정보와 가격 신고 보기",
     "상세 보기",
-    "판매처 확인"
+    "판매처 확인",
+    "구매 전 체크",
+    "purchaseCheckItems"
   ];
   const missingSnippets = requiredSnippets.filter((snippet) => !dealCard.includes(snippet));
 
