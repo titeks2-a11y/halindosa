@@ -1036,6 +1036,11 @@ async function checkOperationalDataSurfaces() {
     !notificationsPage.includes("priorityAlerts") ||
     !notificationsPage.includes("오늘 먼저 확인할 알림") ||
     !notificationsPage.includes("마감과 인기 반응이 겹친 특가부터 보기") ||
+    !notificationsPage.includes("dailyAlertQueues") ||
+    !notificationsPage.includes("오늘 알림 큐") ||
+    !notificationsPage.includes("무료 혜택 알림") ||
+    !notificationsPage.includes("쿠폰·포인트 알림") ||
+    !notificationsPage.includes("비회원도 모두 볼 수 있고") ||
     !notificationsPage.includes("권한 요청 없이 먼저 쓸 수 있게 준비했습니다") ||
     !notificationsPage.includes("실제 푸시 알림은 별도 동의") ||
     !notificationsPage.includes("알림 기준 보기") ||

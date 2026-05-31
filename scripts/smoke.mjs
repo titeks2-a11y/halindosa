@@ -294,6 +294,9 @@ await check("category and notification pages", async () => {
   assert(notificationsText.includes("저장한 가격 알림"), "Notifications page missing saved price alert list");
   assert(notificationsText.includes("실제 푸시 발송은 FCM 연결 후 별도 동의"), "Notifications page missing push readiness copy");
   assert(notificationsText.includes("알림 운영 방식") && notificationsText.includes("권한 요청 없이 먼저 쓸 수 있게 준비했습니다"), "Notifications page missing push readiness operating guide");
+  assert(notificationsText.includes("오늘 알림 큐"), "Notifications page missing daily benefit alert queue");
+  assert(notificationsText.includes("무료 혜택 알림") && notificationsText.includes("쿠폰·포인트 알림"), "Notifications page missing free benefit and coupon alert queues");
+  assert(notificationsText.includes("비회원도 모두 볼 수 있고"), "Notifications page missing non-member alert access copy");
   assert(notificationsText.includes("오늘 먼저 확인할 알림"), "Notifications page missing priority alert queue");
   assert(notificationsText.includes("마감과 인기 반응이 겹친 특가부터 보기"), "Notifications page missing priority alert guide copy");
   assert(notificationsText.includes("마감 임박 특가"), "Notifications page missing ending group");

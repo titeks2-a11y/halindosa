@@ -1,9 +1,35 @@
 import Link from "next/link";
-import { Bell, Clock, Flame, Sparkles, Truck } from "lucide-react";
+import { Bell, Clock, Flame, Gift, Sparkles, TicketPercent, Truck } from "lucide-react";
 import { NotificationPreferences } from "@/components/NotificationPreferences";
 import { PriceAlertList } from "@/components/PriceAlertList";
 import { getDeals } from "@/lib/dealService";
+import { getBenefitTypeLabel } from "@/lib/deals/benefits";
 import { getRelativeTime, getTimeLeft } from "@/lib/format";
+import { Deal, DealBenefitType } from "@/types/deal";
+
+function scoreAlertDeal(deal: Deal) {
+  return (
+    deal.likeCount * 3 +
+    deal.clickCount * 2 +
+    deal.popularityScore +
+    deal.discountRate +
+    Number(deal.isEndingSoon) * 45 +
+    Number(deal.isHot) * 30 +
+    Number(deal.isFreeShipping) * 18 +
+    Number(deal.purchaseLinkVerified) * 12
+  );
+}
+
+function selectBenefitQueue(deals: Deal[], types: DealBenefitType[], limit = 4) {
+  return [...deals]
+    .filter((deal) => types.includes(deal.dealType) && !deal.isExpired && !deal.isSoldOut)
+    .sort(
+      (a, b) =>
+        scoreAlertDeal(b) - scoreAlertDeal(a) ||
+        new Date(a.expireAt).getTime() - new Date(b.expireAt).getTime()
+    )
+    .slice(0, limit);
+}
 
 export default async function NotificationsPage() {
   const { deals } = await getDeals();
@@ -11,6 +37,16 @@ export default async function NotificationsPage() {
   const hotDeals = deals.filter((deal) => deal.isHot);
   const newDeals = deals.filter((deal) => deal.isNew);
   const freeShippingDeals = deals.filter((deal) => deal.isFreeShipping);
+  const freeBenefitDeals = selectBenefitQueue(deals, ["freebie", "experience"]);
+  const couponPointDeals = selectBenefitQueue(deals, ["coupon", "point", "foodDelivery"]);
+  const endingBenefitDeals = [...deals]
+    .filter((deal) => deal.isEndingSoon && !deal.isExpired && !deal.isSoldOut)
+    .sort((a, b) => new Date(a.expireAt).getTime() - new Date(b.expireAt).getTime() || scoreAlertDeal(b) - scoreAlertDeal(a))
+    .slice(0, 4);
+  const savedSignalDeals = [...deals]
+    .filter((deal) => !deal.isExpired && !deal.isSoldOut)
+    .sort((a, b) => b.likeCount - a.likeCount || scoreAlertDeal(b) - scoreAlertDeal(a))
+    .slice(0, 4);
   const priorityAlerts = [...deals]
     .filter((deal) => deal.isEndingSoon || deal.isHot || deal.isNew || deal.isFreeShipping)
     .sort(
@@ -38,6 +74,36 @@ export default async function NotificationsPage() {
     { title: "앱 안에서 먼저 확인", description: "마감, 인기, 신규, 무료배송 특가를 권한 요청 없이 이 화면에서 정리합니다." },
     { title: "희망 가격 저장", description: "상세 페이지에서 희망 가격을 저장하면 알림 센터에서 다시 확인할 수 있습니다." },
     { title: "푸시는 별도 동의 후", description: "실제 푸시 발송은 운영 서버와 FCM 연결 후 사용자가 동의할 때만 켭니다." }
+  ];
+  const dailyAlertQueues = [
+    {
+      title: "무료 혜택 알림",
+      description: "0원, 샘플, 체험단처럼 비용 부담이 낮은 혜택",
+      icon: Gift,
+      href: "/free-benefits?dealType=freebie&sort=recommended",
+      items: freeBenefitDeals
+    },
+    {
+      title: "쿠폰·포인트 알림",
+      description: "첫 구매 쿠폰, 앱테크, 배달·외식 할인",
+      icon: TicketPercent,
+      href: "/free-benefits?dealType=coupon&sort=popular",
+      items: couponPointDeals
+    },
+    {
+      title: "마감 임박 알림",
+      description: "오늘 먼저 확인해야 할 종료 예정 혜택",
+      icon: Clock,
+      href: "/?endingSoon=true&sort=endingSoon",
+      items: endingBenefitDeals
+    },
+    {
+      title: "찜 반응 알림",
+      description: "회원들이 많이 저장한 인기 혜택",
+      icon: Flame,
+      href: "/favorites",
+      items: savedSignalDeals
+    }
   ];
 
   return (
@@ -74,6 +140,66 @@ export default async function NotificationsPage() {
 
       <NotificationPreferences />
       <PriceAlertList deals={deals} />
+
+      <section className="rounded-[22px] border border-red-100 bg-white p-4 shadow-sm lg:p-5" aria-label="오늘 알림 큐">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-xs font-black text-dossa-red">오늘 알림 큐</p>
+            <h2 className="mt-1 text-base font-black text-slate-950">무료 혜택, 쿠폰, 마감 알림을 한 번에 확인</h2>
+            <p className="mt-1 text-sm font-semibold leading-6 text-slate-500">
+              비회원도 모두 볼 수 있고, 저장한 조건과 알림 선택값만 기기 또는 계정에 보관합니다.
+            </p>
+          </div>
+          <Link href="/free-benefits" className="rounded-2xl bg-dossa-red px-4 py-3 text-center text-xs font-black text-white">
+            무료 혜택 탭 열기
+          </Link>
+        </div>
+        <div className="mt-4 grid gap-3 lg:grid-cols-2">
+          {dailyAlertQueues.map((queue) => {
+            const Icon = queue.icon;
+
+            return (
+              <div key={queue.title} className="rounded-2xl border border-slate-100 bg-slate-50 p-3">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex min-w-0 items-start gap-2">
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-white text-dossa-red shadow-sm">
+                      <Icon size={18} />
+                    </span>
+                    <div className="min-w-0">
+                      <h3 className="truncate text-sm font-black text-slate-950">{queue.title}</h3>
+                      <p className="mt-1 line-clamp-2 text-xs font-semibold leading-5 text-slate-500">{queue.description}</p>
+                    </div>
+                  </div>
+                  <Link href={queue.href} className="shrink-0 rounded-full bg-white px-3 py-2 text-[11px] font-black text-dossa-red shadow-sm">
+                    보기
+                  </Link>
+                </div>
+                <div className="mt-3 space-y-2">
+                  {queue.items.length ? (
+                    queue.items.map((deal) => (
+                      <Link key={deal.id} href={`/deals/${deal.id}`} className="block rounded-2xl bg-white p-3 transition hover:bg-red-50">
+                        <span className="flex items-center justify-between gap-2">
+                          <span className="min-w-0 truncate text-sm font-black text-slate-950">{deal.title}</span>
+                          <span className="shrink-0 rounded-full bg-red-50 px-2.5 py-1 text-[11px] font-black text-dossa-red">
+                            {getBenefitTypeLabel(deal.dealType)}
+                          </span>
+                        </span>
+                        <span className="mt-1 block truncate text-xs font-bold text-slate-500">
+                          {deal.mallName} · {deal.benefitSummary} · {getTimeLeft(deal.expireAt)}
+                        </span>
+                      </Link>
+                    ))
+                  ) : (
+                    <p className="rounded-2xl border border-dashed border-slate-200 bg-white p-4 text-center text-xs font-bold text-slate-500">
+                      지금 표시할 알림 후보가 없습니다.
+                    </p>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </section>
 
       <section className="rounded-[22px] border border-slate-200 bg-white p-4 shadow-sm lg:p-5" aria-label="오늘 먼저 확인할 알림">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
