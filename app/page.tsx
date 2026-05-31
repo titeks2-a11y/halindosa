@@ -255,6 +255,9 @@ export default function Home() {
       const initialMall = params.get("mall");
       const initialSort = params.get("sort") as DealSort | null;
       const initialQuery = params.get("q");
+      const initialFreeShipping = params.get("freeShipping") ?? params.get("freeShippingOnly");
+      const initialHotOnly = params.get("hotOnly");
+      const initialEndingSoon = params.get("endingSoon") ?? params.get("endingSoonOnly");
 
       if (initialCategory) {
         setCategory(initialCategory);
@@ -273,6 +276,21 @@ export default function Home() {
 
       if (initialQuery) {
         setQuery(initialQuery);
+        setActiveView("home");
+      }
+
+      if (initialFreeShipping === "true") {
+        setFreeShippingOnly(true);
+        setActiveView("home");
+      }
+
+      if (initialHotOnly === "true") {
+        setHotOnly(true);
+        setActiveView("home");
+      }
+
+      if (initialEndingSoon === "true") {
+        setEndingSoonOnly(true);
         setActiveView("home");
       }
 
