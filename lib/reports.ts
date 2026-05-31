@@ -3,6 +3,7 @@ import { maxReportMessageLength } from "@/lib/reportConfig";
 
 export type ReportReason = "price_changed" | "sold_out" | "expired" | "link_error" | "wrong_info" | "other";
 export type ReportStatus = "open" | "reviewing" | "resolved" | "dismissed";
+export type ReportPriority = "high" | "medium" | "low";
 
 const reportReasons = new Set<ReportReason>(["price_changed", "sold_out", "expired", "link_error", "wrong_info", "other"]);
 const reportStatuses = new Set<ReportStatus>(["open", "reviewing", "resolved", "dismissed"]);
@@ -23,6 +24,30 @@ const reportStatusLabels: Record<ReportStatus, string> = {
   dismissed: "기각"
 };
 
+const reportPriorityLabels: Record<ReportPriority, string> = {
+  high: "우선 검수",
+  medium: "일반 검수",
+  low: "참고"
+};
+
+const reportPriorityByReason: Record<ReportReason, ReportPriority> = {
+  price_changed: "medium",
+  sold_out: "high",
+  expired: "high",
+  link_error: "high",
+  wrong_info: "medium",
+  other: "low"
+};
+
+const reportActionByReason: Record<ReportReason, string> = {
+  price_changed: "판매처 최종가와 쿠폰 조건을 확인하고 표시 가격을 갱신하세요.",
+  sold_out: "판매처 재고와 옵션 선택 가능 여부를 확인하고 품절이면 노출을 낮추세요.",
+  expired: "행사 종료 여부를 확인하고 종료된 혜택은 하단 이동 또는 비노출 처리하세요.",
+  link_error: "현재 이동 URL이 실제 상품 상세로 열리는지 확인하고 broken이면 링크를 교체하세요.",
+  wrong_info: "쇼핑몰명, 배송비, 이미지, 태그, 혜택 조건을 판매처 기준으로 다시 확인하세요.",
+  other: "사용자 메모를 읽고 필요한 경우 고객센터 답변 또는 운영 메모로 남기세요."
+};
+
 export interface DealReportInput {
   dealId?: string;
   reason?: string;
@@ -37,6 +62,8 @@ export interface DealReport {
   reason: ReportReason;
   message: string;
   status: ReportStatus;
+  priority: ReportPriority;
+  recommendedAction: string;
   receivedAt: string;
   updatedAt: string;
 }
@@ -97,6 +124,8 @@ export function createDealReport(input: Required<Pick<DealReportInput, "dealId" 
     reason: input.reason as ReportReason,
     message: input.message?.trim().slice(0, maxReportMessageLength) ?? "",
     status: "open" as ReportStatus,
+    priority: getReportPriority(input.reason as ReportReason),
+    recommendedAction: getReportRecommendedAction(input.reason as ReportReason),
     receivedAt: now,
     updatedAt: now
   } satisfies DealReport;
@@ -148,4 +177,16 @@ export function getReportReasonLabel(reason: ReportReason) {
 
 export function getReportStatusLabel(status: ReportStatus) {
   return reportStatusLabels[status] ?? status;
+}
+
+export function getReportPriority(reason: ReportReason) {
+  return reportPriorityByReason[reason] ?? "low";
+}
+
+export function getReportPriorityLabel(priority: ReportPriority) {
+  return reportPriorityLabels[priority] ?? priority;
+}
+
+export function getReportRecommendedAction(reason: ReportReason) {
+  return reportActionByReason[reason] ?? reportActionByReason.other;
 }

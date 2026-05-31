@@ -292,6 +292,9 @@ await check("admin dashboard quality cards", async () => {
   assert(text.includes("링크 검수 큐"), "Admin dashboard missing link review queue");
   assert(text.includes("판매처 확인"), "Admin dashboard missing seller review action");
   assert(text.includes("처리 기준"), "Admin dashboard missing report handling guidance");
+  assert(text.includes("특가 품질 신고 큐"), "Admin dashboard missing deal quality report queue");
+  assert(text.includes("링크 오류") && text.includes("품절") && text.includes("종료"), "Admin dashboard missing report reason priority summary");
+  assert(text.includes("우선 검수"), "Admin dashboard missing urgent report priority copy");
   assert(text.includes("상품 상세 URL 보강 필요"), "Admin dashboard missing localized link review action");
   assert(/우선[\s\S]{0,20}검수|보강[\s\S]{0,20}검수|대기[\s\S]{0,20}검수/.test(text), "Admin dashboard missing link review priority labels");
   assert(text.includes("현재 이동 URL"), "Admin dashboard missing current link review destination");
@@ -558,6 +561,7 @@ await check("admin reports api", async () => {
   assert(data.ok === true, "Admin reports API ok should be true");
   assert(data.summary?.total >= 1, "Admin reports summary should include submitted report");
   assert(Array.isArray(data.reports), "Admin reports list missing");
+  assert(data.reports.some((report) => report.priority && report.recommendedAction), "Admin reports missing priority action fields");
 });
 
 await check("admin report status update", async () => {
@@ -585,6 +589,8 @@ await check("admin report status update", async () => {
   assert(response.status === 200, `Expected 200, got ${response.status}`);
   assert(data.ok === true, "Report status update should be ok");
   assert(data.report?.status === "reviewing", `Expected reviewing, got ${data.report?.status}`);
+  assert(data.report?.priority === "high", `Expected high priority link error report, got ${data.report?.priority}`);
+  assert(data.report?.recommendedAction?.includes("링크"), "Link error report missing recommended link action");
 });
 
 await check("partner feed import dry-run", async () => {

@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { CheckCircle2, Eye, XCircle } from "lucide-react";
-import { DealReport, getReportReasonLabel, getReportStatusLabel } from "@/lib/reports";
+import { AlertTriangle, CheckCircle2, Eye, Link2Off, PackageX, XCircle } from "lucide-react";
+import { DealReport, getReportPriorityLabel, getReportReasonLabel, getReportStatusLabel } from "@/lib/reports";
 
 interface ReportSummary {
   total: number;
@@ -31,6 +31,12 @@ const statusActions = [
   { status: "dismissed", label: "기각", icon: XCircle }
 ];
 
+const priorityClassNames = {
+  high: "bg-red-50 text-dossa-red",
+  medium: "bg-amber-50 text-amber-700",
+  low: "bg-slate-100 text-slate-600"
+};
+
 export function AdminReportQueue({ initialReports, initialSummary, token }: AdminReportQueueProps) {
   const [reports, setReports] = useState(initialReports);
   const [summary, setSummary] = useState(initialSummary);
@@ -38,6 +44,24 @@ export function AdminReportQueue({ initialReports, initialSummary, token }: Admi
   const [isLoading, setIsLoading] = useState(false);
 
   const endpoint = `/api/admin/reports${token ? `?token=${encodeURIComponent(token)}` : ""}`;
+  const urgentReports = reports.filter((report) => report.status !== "resolved" && report.status !== "dismissed" && report.priority === "high");
+  const reasonSummary = [
+    {
+      label: "링크 오류",
+      count: reports.filter((report) => report.reason === "link_error" && report.status !== "resolved" && report.status !== "dismissed").length,
+      icon: Link2Off
+    },
+    {
+      label: "품절",
+      count: reports.filter((report) => report.reason === "sold_out" && report.status !== "resolved" && report.status !== "dismissed").length,
+      icon: PackageX
+    },
+    {
+      label: "종료",
+      count: reports.filter((report) => report.reason === "expired" && report.status !== "resolved" && report.status !== "dismissed").length,
+      icon: AlertTriangle
+    }
+  ];
 
   const refreshReports = async () => {
     const response = await fetch(endpoint, { cache: "no-store" });
@@ -79,12 +103,12 @@ export function AdminReportQueue({ initialReports, initialSummary, token }: Admi
     <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h2 className="text-xl font-black text-slate-950">가격 오류 신고 큐</h2>
+          <h2 className="text-xl font-black text-slate-950">특가 품질 신고 큐</h2>
           <p className="mt-1 text-sm font-semibold text-slate-500">
-            전체 {summary.total}건 · 미처리 {summary.open}건 · 검토중 {summary.reviewing}건 · 해결 {summary.resolved}건
+            전체 {summary.total}건 · 미처리 {summary.open}건 · 우선 검수 {urgentReports.length}건 · 검토중 {summary.reviewing}건 · 해결 {summary.resolved}건
           </p>
           <p className="mt-1 text-xs font-bold text-slate-400">
-            처리 기준: 가격/품절 신고는 판매처 확인 후 해결 또는 기각으로 닫고, 실제 결제 문의는 판매처로 안내합니다.
+            처리 기준: 링크 오류, 품절, 종료 신고는 판매처 확인 후 먼저 처리하고 실제 결제 문의는 판매처로 안내합니다.
           </p>
         </div>
         <a
@@ -97,26 +121,53 @@ export function AdminReportQueue({ initialReports, initialSummary, token }: Admi
 
       {message ? <p className="mt-4 rounded-2xl bg-red-50 p-3 text-sm font-bold text-dossa-deep">{message}</p> : null}
 
+      <div className="mt-4 grid gap-2 sm:grid-cols-3">
+        {reasonSummary.map((item) => {
+          const Icon = item.icon;
+
+          return (
+            <div key={item.label} className="rounded-2xl border border-slate-100 bg-slate-50 p-3">
+              <div className="flex items-center justify-between gap-3">
+                <span className="inline-flex items-center gap-2 text-sm font-black text-slate-700">
+                  <Icon size={16} className="text-dossa-red" />
+                  {item.label}
+                </span>
+                <span className="text-lg font-black text-slate-950">{item.count}건</span>
+              </div>
+              <p className="mt-1 text-xs font-bold text-slate-500">판매처 확인 후 노출 상태를 조정합니다.</p>
+            </div>
+          );
+        })}
+      </div>
+
       {reports.length ? (
         <div className="mt-4 grid gap-3 lg:grid-cols-2">
           {reports.map((report) => (
-            <div key={report.id} className="rounded-2xl bg-slate-50 p-4">
+            <div key={report.id} className={`rounded-2xl p-4 ${report.priority === "high" ? "border border-red-100 bg-red-50/60" : "bg-slate-50"}`}>
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <p className="text-sm font-black text-slate-950">{report.title}</p>
-                <span
-                  className={`rounded-full px-2.5 py-1 text-xs font-black ${
-                    report.status === "resolved"
-                      ? "bg-emerald-50 text-emerald-700"
-                      : report.status === "dismissed"
-                        ? "bg-slate-200 text-slate-600"
-                        : "bg-red-50 text-dossa-red"
-                  }`}
-                >
-                  {getReportStatusLabel(report.status)}
+                <span className="flex flex-wrap gap-1.5">
+                  <span className={`rounded-full px-2.5 py-1 text-xs font-black ${priorityClassNames[report.priority]}`}>
+                    {getReportPriorityLabel(report.priority)}
+                  </span>
+                  <span
+                    className={`rounded-full px-2.5 py-1 text-xs font-black ${
+                      report.status === "resolved"
+                        ? "bg-emerald-50 text-emerald-700"
+                        : report.status === "dismissed"
+                          ? "bg-slate-200 text-slate-600"
+                          : "bg-white text-dossa-red"
+                    }`}
+                  >
+                    {getReportStatusLabel(report.status)}
+                  </span>
                 </span>
               </div>
               <p className="mt-2 text-xs font-bold text-slate-500">
                 접수번호 {report.id.slice(0, 8)} · {report.mall} · {getReportReasonLabel(report.reason)} · {new Intl.DateTimeFormat("ko-KR", { dateStyle: "short", timeStyle: "short" }).format(new Date(report.receivedAt))}
+              </p>
+              <p className="mt-2 rounded-2xl bg-white px-3 py-2 text-xs font-bold leading-5 text-slate-600">
+                권장 처리: {report.recommendedAction}
               </p>
               {report.message ? <p className="mt-2 text-sm font-semibold text-slate-600">{report.message}</p> : null}
               <div className="mt-3 flex flex-wrap gap-2">
