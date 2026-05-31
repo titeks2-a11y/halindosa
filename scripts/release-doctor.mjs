@@ -1054,6 +1054,9 @@ async function checkOperationalDataSurfaces() {
     !notificationsPage.includes("오늘 먼저 확인할 알림") ||
     !notificationsPage.includes("마감과 인기 반응이 겹친 특가부터 보기") ||
     !notificationsPage.includes("dailyAlertQueues") ||
+    !notificationsPage.includes("alertActionSteps") ||
+    !notificationsPage.includes("오늘 알림 실행 순서") ||
+    !notificationsPage.includes("앱을 열면 이 순서로 혜택을 확인하세요") ||
     !notificationsPage.includes("InterestAlertPreview") ||
     !notificationsPage.includes("오늘 알림 큐") ||
     !interestAlertPreview.includes("관심 카테고리 알림") ||
@@ -1065,6 +1068,7 @@ async function checkOperationalDataSurfaces() {
     !notificationsPage.includes("권한 요청 없이 먼저 쓸 수 있게 준비했습니다") ||
     !notificationsPage.includes("실제 푸시 알림은 별도 동의") ||
     !notificationsPage.includes("알림 기준 보기") ||
+    !smoke.includes("Notifications page missing alert action routine") ||
     notificationsPage.includes("Notification.requestPermission")
   ) {
     fail("notification launch readiness UX", "Notifications page should explain the V1 in-app alert flow without requesting push permission.");

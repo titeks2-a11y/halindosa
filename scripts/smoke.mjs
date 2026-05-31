@@ -302,6 +302,8 @@ await check("category and notification pages", async () => {
   assert(notificationsText.includes("관심 카테고리 알림"), "Notifications page missing interest category alert preview");
   assert(notificationsText.includes("관심 설정하기"), "Notifications page missing interest settings link");
   assert(notificationsText.includes("실제 푸시 발송은 FCM 연결 후 별도 동의"), "Notifications page missing push readiness copy");
+  assert(notificationsText.includes("오늘 알림 실행 순서") && notificationsText.includes("앱을 열면 이 순서로 혜택을 확인하세요"), "Notifications page missing alert action routine");
+  assert(notificationsText.includes("무료 혜택 먼저 확인") && notificationsText.includes("쿠폰·포인트 챙기기") && notificationsText.includes("마감 임박 놓치지 않기"), "Notifications page missing alert action steps");
   assert(notificationsText.includes("알림 운영 방식") && notificationsText.includes("권한 요청 없이 먼저 쓸 수 있게 준비했습니다"), "Notifications page missing push readiness operating guide");
   assert(notificationsText.includes("오늘 알림 큐"), "Notifications page missing daily benefit alert queue");
   assert(notificationsText.includes("무료 혜택 알림") && notificationsText.includes("쿠폰·포인트 알림"), "Notifications page missing free benefit and coupon alert queues");

@@ -106,6 +106,36 @@ export default async function NotificationsPage() {
       items: savedSignalDeals
     }
   ];
+  const alertActionSteps = [
+    {
+      title: "무료 혜택 먼저 확인",
+      description: "0원, 샘플, 체험단처럼 놓쳐도 아쉬운 혜택을 가장 먼저 봅니다.",
+      href: "/free-benefits?dealType=freebie&sort=recommended",
+      count: freeBenefitDeals.length,
+      icon: Gift
+    },
+    {
+      title: "쿠폰·포인트 챙기기",
+      description: "결제 전 쿠폰과 앱테크 포인트를 확인해 같은 구매에서도 절약합니다.",
+      href: "/free-benefits?dealType=coupon&sort=popular",
+      count: couponPointDeals.length,
+      icon: TicketPercent
+    },
+    {
+      title: "마감 임박 놓치지 않기",
+      description: "오늘 끝날 수 있는 혜택과 특가를 먼저 열어 최종 조건을 확인합니다.",
+      href: "/?endingSoon=true&sort=endingSoon",
+      count: endingBenefitDeals.length,
+      icon: Clock
+    },
+    {
+      title: "찜 반응 많은 혜택 보기",
+      description: "회원들이 많이 저장한 혜택을 보고 내 찜이나 가격 알림으로 이어갑니다.",
+      href: "/favorites",
+      count: savedSignalDeals.length,
+      icon: Flame
+    }
+  ];
 
   return (
     <div className="space-y-4 px-3 py-4 sm:px-4 lg:px-0 lg:py-8">
@@ -142,6 +172,45 @@ export default async function NotificationsPage() {
       <NotificationPreferences />
       <PriceAlertList deals={deals} />
       <InterestAlertPreview deals={deals} />
+
+      <section className="rounded-[22px] border border-slate-200 bg-white p-4 shadow-sm lg:p-5" aria-label="오늘 알림 실행 순서">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-xs font-black text-dossa-red">오늘 알림 실행 순서</p>
+            <h2 className="mt-1 text-base font-black text-slate-950">앱을 열면 이 순서로 혜택을 확인하세요</h2>
+            <p className="mt-1 text-sm font-semibold leading-6 text-slate-500">
+              푸시 권한을 켜기 전에도 무료, 쿠폰, 마감, 찜 반응 알림을 앱 안에서 먼저 확인할 수 있습니다.
+            </p>
+          </div>
+          <Link href="/free-benefits" className="rounded-2xl bg-slate-950 px-4 py-3 text-center text-xs font-black text-white">
+            혜택 알림 시작
+          </Link>
+        </div>
+        <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+          {alertActionSteps.map((step, index) => {
+            const Icon = step.icon;
+
+            return (
+              <Link
+                key={step.title}
+                href={step.href}
+                className="min-h-[152px] rounded-3xl border border-slate-100 bg-slate-50 p-4 transition hover:-translate-y-0.5 hover:border-red-200 hover:bg-red-50"
+              >
+                <div className="flex items-start justify-between gap-3">
+                  <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-dossa-red shadow-sm">
+                    <Icon size={20} />
+                  </span>
+                  <span className="rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-dossa-red shadow-sm">
+                    {index + 1}단계 · {step.count}개
+                  </span>
+                </div>
+                <p className="mt-4 text-sm font-black text-slate-950">{step.title}</p>
+                <p className="mt-1 text-xs font-semibold leading-5 text-slate-500">{step.description}</p>
+              </Link>
+            );
+          })}
+        </div>
+      </section>
 
       <section className="rounded-[22px] border border-red-100 bg-white p-4 shadow-sm lg:p-5" aria-label="오늘 알림 큐">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
