@@ -4,10 +4,10 @@
 
 ## 기본 정보
 
-- 생성 시각: 2026-05-31T17:21:24.785Z
+- 생성 시각: 2026-05-31T17:26:42.525Z
 - Git 브랜치: main
-- 최신 커밋: fab74ee
-- Git 상태: clean
+- 최신 커밋: c4a4577
+- Git 상태: M docs/link-coverage-report.md
 - 패키지 버전: 1.0.0
 - 앱 이름: 할인도사
 - 앱 ID / 패키지명: com.halindosa.app
@@ -25,6 +25,7 @@
 | Feature graphic | `assets/store/feature-graphic-1024x500.png` | 103KB |
 | iOS App icon | `ios/App/App/Assets.xcassets/AppIcon.appiconset/AppIcon-512@2x.png` | 108KB |
 | iOS privacy manifest | `ios/App/App/PrivacyInfo.xcprivacy` | 373B |
+| Link coverage report | `docs/link-coverage-report.md` | 4KB |
 
 ## 제출 전 검증 명령
 
@@ -47,6 +48,7 @@ npm run release:evidence
 - Capacitor iOS sync
 - performance budget: 정적 export, JS/CSS, APK/AAB, 스토어 이미지 크기 검사
 - Android/iOS 앱 ID, 버전, 아이콘, 스플래시, 권한, 딥링크, 개인정보 manifest 점검
+- 구매 링크 커버리지 보고서: 검증된 실제 구매 상세 URL과 보강 대기 상품 목록 점검
 - 정책 페이지, 스토어 등록 문서, 데이터 보안/콘텐츠 등급/스크린샷 가이드 점검
 
 ## 남은 수동 확인
