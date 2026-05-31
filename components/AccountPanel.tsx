@@ -6,6 +6,7 @@ import { AlertTriangle, Bell, CheckCircle2, Clock, Heart, LogOut, Settings, Tras
 import { useAuth } from "@/components/AuthProvider";
 import { getSupabaseBrowserClient } from "@/lib/auth/supabaseClient";
 import { formatPrice } from "@/lib/format";
+import { priceAlertStorageKey } from "@/lib/priceAlerts";
 import {
   clearRecentDealsSynced,
   fetchRemotePreferences,
@@ -130,6 +131,7 @@ export function AccountPanel() {
       window.localStorage.removeItem("halindosa:favorites");
       window.localStorage.removeItem("halindosa:recent-deals");
       window.localStorage.removeItem("halindosa:member-preferences");
+      window.localStorage.removeItem(priceAlertStorageKey);
       window.location.href = "/";
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "회원 탈퇴에 실패했습니다.");

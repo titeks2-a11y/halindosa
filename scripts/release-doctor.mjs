@@ -532,6 +532,7 @@ async function checkOperationalDataSurfaces() {
   const notificationsPage = await text("app/notifications/page.tsx");
   const favoritesPage = await text("app/favorites/page.tsx");
   const localDataControls = await text("components/LocalDataControls.tsx");
+  const accountPanel = await text("components/AccountPanel.tsx");
   const adminPage = await text("app/admin/page.tsx");
   const commercializationPage = await text("app/commercialization/page.tsx");
   const redirectUrl = await text("lib/redirectUrl.ts");
@@ -551,10 +552,16 @@ async function checkOperationalDataSurfaces() {
     pass("operational data surfaces", "Category, notification, and favorites pages use the Deal repository/API instead of static mock-only arrays.");
   }
 
-  if (!notificationsPage.includes("<PriceAlertList") || !localDataControls.includes("priceAlertStorageKey") || !localDataControls.includes("가격 알림 조건")) {
-    fail("price alert data surface", "Notifications and local data controls should expose saved price alerts and deletion scope.");
+  if (
+    !notificationsPage.includes("<PriceAlertList") ||
+    !homePage.includes("<PriceAlertList") ||
+    !localDataControls.includes("priceAlertStorageKey") ||
+    !localDataControls.includes("가격 알림 조건") ||
+    !accountPanel.includes("priceAlertStorageKey")
+  ) {
+    fail("price alert data surface", "Notifications, in-app alert tab, account deletion, and local data controls should expose saved price alerts and deletion scope.");
   } else {
-    pass("price alert data surface", "Saved price alerts are visible in notifications and included in local data deletion controls.");
+    pass("price alert data surface", "Saved price alerts are visible in notifications and the in-app alert tab, and included in local/account data deletion controls.");
   }
 
   const adminRawTerms = ["mock, staging, production", "· score "].filter((term) => adminPage.includes(term));

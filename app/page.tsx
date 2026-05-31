@@ -13,6 +13,7 @@ import { HotSignalSection } from "@/components/HotSignalSection";
 import { LoginPromptSheet } from "@/components/LoginPromptSheet";
 import { LiveDealFeed } from "@/components/LiveDealFeed";
 import { NotificationPreferences } from "@/components/NotificationPreferences";
+import { PriceAlertList } from "@/components/PriceAlertList";
 import { PurchaseConfirmSheet } from "@/components/PurchaseConfirmSheet";
 import { SearchBar } from "@/components/SearchBar";
 import { SortSelect } from "@/components/SortSelect";
@@ -1360,6 +1361,7 @@ export default function Home() {
             </div>
             <aside className="space-y-3">
               <NotificationPreferences />
+              <PriceAlertList deals={catalog.length ? catalog : deals} />
               <div className="mt-4 grid gap-2 text-sm font-bold text-slate-600">
                 <div className="rounded-2xl bg-red-50 px-4 py-3">마감 임박 {alertDeals.filter((deal) => deal.isEndingSoon).length}개</div>
                 <div className="rounded-2xl bg-slate-50 px-4 py-3">오늘의 인기 {alertDeals.filter((deal) => deal.isHot).length}개</div>
