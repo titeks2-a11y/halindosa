@@ -830,7 +830,7 @@ async function checkOperationalDataSurfaces() {
     pass("live deal detail source", "Deal detail lookup reads provider data first and only falls back to cached/default data when necessary.");
   }
 
-  if (!quality.includes("getLinkReviewPriority") || !quality.includes("reviewReason") || !adminPage.includes("priorityLabels") || !adminPage.includes("현재 이동 URL")) {
+  if (!quality.includes("getLinkReviewPriority") || !quality.includes("reviewReason") || !adminPage.includes("priorityLabels") || !adminPage.includes("linkReviewSummary") || !adminPage.includes("오늘 처리할 링크 작업") || !adminPage.includes("현재 이동 URL")) {
     fail("admin link review workflow", "Admin link review queue should expose priority, reason, confidence, and current destination URL.");
   } else if (!adminPage.includes("CSV 다운로드") || !smoke.includes("finalPurchaseUrl") || !smoke.includes("reviewPriority")) {
     fail("admin link review export", "Admin CSV export should include link review status, priority, reason, and destination fields.");

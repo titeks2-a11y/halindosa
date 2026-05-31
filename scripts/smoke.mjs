@@ -242,6 +242,8 @@ await check("admin dashboard quality cards", async () => {
   assert(text.includes("운영 대시보드"), "Admin dashboard missing title");
   assert(text.includes("구매 링크 확인율"), "Admin dashboard missing verified link rate card");
   assert(text.includes("링크 검토 필요"), "Admin dashboard missing link review count card");
+  assert(text.includes("오늘 처리할 링크 작업"), "Admin dashboard missing link review action summary");
+  assert(text.includes("구매 링크 보강 우선순위"), "Admin dashboard missing link review priority summary");
   assert(text.includes("링크 검수 큐"), "Admin dashboard missing link review queue");
   assert(text.includes("판매처 확인"), "Admin dashboard missing seller review action");
   assert(text.includes("처리 기준"), "Admin dashboard missing report handling guidance");

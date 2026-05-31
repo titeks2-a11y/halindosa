@@ -60,6 +60,26 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
     medium: "bg-amber-50 text-amber-700",
     low: "bg-slate-100 text-slate-600"
   };
+  const linkReviewSummary = [
+    {
+      priority: "high",
+      title: "오늘 먼저 처리",
+      count: linkReviewDeals.filter((deal) => deal.reviewPriority === "high").length,
+      description: "인기·마감 상품 또는 오류/품절 가능성이 있어 우선 확인"
+    },
+    {
+      priority: "medium",
+      title: "상품 URL 보강",
+      count: linkReviewDeals.filter((deal) => deal.reviewPriority === "medium").length,
+      description: "판매처 검색 이동 상품을 실제 상품 상세 URL로 보강"
+    },
+    {
+      priority: "low",
+      title: "대기 검수",
+      count: linkReviewDeals.filter((deal) => deal.reviewPriority === "low").length,
+      description: "노출 우선순위는 낮지만 출시 전 순차 확인"
+    }
+  ] as const;
 
   for (const deal of deals) {
     sourceCounts.set(deal.source, (sourceCounts.get(deal.source) ?? 0) + 1);
@@ -193,6 +213,35 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
         </section>
 
         <AdminReportQueue initialReports={recentReports} initialSummary={reportSummary} token={token} />
+
+        <section className="rounded-3xl border border-red-100 bg-gradient-to-br from-red-50 via-white to-slate-50 p-5 shadow-sm">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-black text-dossa-red">오늘 처리할 링크 작업</p>
+              <h2 className="mt-1 text-xl font-black text-slate-950">구매 링크 보강 우선순위</h2>
+              <p className="mt-1 text-sm font-semibold leading-6 text-slate-500">
+                링크 검수 큐를 운영자가 바로 처리할 수 있도록 우선, 보강, 대기 단계로 나눠 보여줍니다.
+              </p>
+            </div>
+            <a href={getAdminExportHref(token)} className="rounded-2xl bg-white px-4 py-3 text-center text-sm font-black text-dossa-red shadow-sm">
+              검수 CSV 받기
+            </a>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-3">
+            {linkReviewSummary.map((item) => (
+              <div key={item.priority} className="rounded-2xl bg-white p-4 shadow-sm">
+                <div className="flex items-center justify-between gap-3">
+                  <p className="text-sm font-black text-slate-950">{item.title}</p>
+                  <span className={`rounded-full px-2.5 py-1 text-xs font-black ${priorityClassNames[item.priority]}`}>
+                    {priorityLabels[item.priority]} 검수
+                  </span>
+                </div>
+                <p className="mt-2 text-3xl font-black text-slate-950">{item.count}개</p>
+                <p className="mt-1 text-xs font-bold leading-5 text-slate-500">{item.description}</p>
+              </div>
+            ))}
+          </div>
+        </section>
 
         <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
