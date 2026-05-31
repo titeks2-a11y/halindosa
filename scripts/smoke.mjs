@@ -464,7 +464,8 @@ await check("partner feed import dry-run", async () => {
           category: "식품",
           originalPrice: 30000,
           salePrice: 18000,
-          link: "https://search.shopping.naver.com/search/all?query=%EC%8A%A4%EB%AA%A8%ED%81%AC%20%ED%85%8C%EC%8A%A4%ED%8A%B8%20%ED%8A%B9%EA%B0%80",
+          productUrl: "https://item.gmarket.co.kr/Item?goodsCode=4076233103",
+          searchUrl: "https://search.shopping.naver.com/search/all?query=%EC%8A%A4%EB%AA%A8%ED%81%AC%20%ED%85%8C%EC%8A%A4%ED%8A%B8%20%ED%8A%B9%EA%B0%80",
           tags: ["무료배송"]
         }
       ]
@@ -475,6 +476,8 @@ await check("partner feed import dry-run", async () => {
   assert(data.ok === true, "Import dry-run should pass");
   assert(data.valid === 1, `Expected 1 valid row, got ${data.valid}`);
   assert(data.previewDeals?.[0]?.discountRate === 40, "Normalized discount rate mismatch");
+  assert(data.previewDeals?.[0]?.linkVerified === true, "Partner productUrl should normalize as a verified purchase link");
+  assert(data.linkSummary?.verified === 1, "Import link summary should count verified product links");
 });
 
 await check("partner feed import blocks unsafe links", async () => {

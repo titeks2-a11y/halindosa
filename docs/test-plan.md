@@ -99,6 +99,7 @@ Play Store 내부 테스트와 비공개 테스트에서 앱이 쇼핑 정보 �
 - [x] 자동 검증: 판매처 검색 fallback은 `needs_review` 상태와 안내 문구를 함께 표시한다.
 - [x] 자동 검증: 검수 완료된 실제 상품 상세 링크가 35개 이상이고 전체 특가의 65% 이상을 유지한다.
 - [x] 자동 검증: 운영 피드 import dry-run은 placeholder 또는 커뮤니티 게시글 링크를 거부한다.
+- [x] 자동 검증: 운영 피드 import dry-run은 `productUrl`/`finalPurchaseUrl` 같은 canonical 구매 URL 필드를 실제 상품 링크로 정규화하고 검증 링크 수를 응답한다.
 - [x] 자동 검증: `/api/metrics`는 링크 품질 요약과 링크 검수 큐를 제공한다.
 - [x] 자동 검증: 관리자 화면에는 링크 검수 큐와 판매처 확인 액션이 표시된다.
 - [x] 자동 검증: 관리자 CSV export에는 링크 상태, 검수 우선순위, 보강 사유, 최종 이동 URL이 포함된다.
