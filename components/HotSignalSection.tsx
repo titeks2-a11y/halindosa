@@ -67,10 +67,10 @@ export function HotSignalSection({ signals, isLoading, onOpenSignal }: HotSignal
     <div className={`${sizeClass} relative shrink-0 overflow-hidden rounded-2xl bg-gradient-to-br from-red-50 to-rose-100 text-dossa-red`}>
       {signal.imageUrl ? (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={getDealImageSrc(signal.imageUrl)} alt="" className="h-full w-full object-cover" />
+        <img src={getDealImageSrc(signal.imageUrl)} alt={`${signal.title} 할인 정보 이미지`} className="h-full w-full object-cover" />
       ) : (
         <div className="flex h-full w-full items-center justify-center">
-          <ShoppingBag size={24} />
+          <ShoppingBag size={24} aria-hidden="true" />
         </div>
       )}
     </div>
@@ -171,8 +171,12 @@ export function HotSignalSection({ signals, isLoading, onOpenSignal }: HotSignal
               tabIndex={0}
               onClick={() => onOpenSignal(leadSignal)}
               onKeyDown={(event) => {
-                if (event.key === "Enter") onOpenSignal(leadSignal);
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
+                  onOpenSignal(leadSignal);
+                }
               }}
+              aria-label={`${leadSignal.title} 할인 정보 자세히 보기`}
               className="relative grid min-h-72 gap-4 rounded-3xl bg-slate-950 p-4 pb-16 pr-16 text-left text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-900 sm:grid-cols-[180px_1fr] sm:p-5 sm:pb-16 sm:pr-20"
             >
               {renderImage(leadSignal, "h-32 w-full sm:h-full sm:w-[180px]")}
@@ -214,8 +218,12 @@ export function HotSignalSection({ signals, isLoading, onOpenSignal }: HotSignal
                 tabIndex={0}
                 onClick={() => onOpenSignal(signal)}
                 onKeyDown={(event) => {
-                  if (event.key === "Enter") onOpenSignal(signal);
+                  if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    onOpenSignal(signal);
+                  }
                 }}
+                aria-label={`${signal.title} 할인 정보 자세히 보기`}
                 className="relative grid min-h-40 grid-cols-[72px_1fr] gap-3 rounded-2xl border border-slate-100 bg-slate-50 p-3 pb-14 pr-16 text-left transition hover:-translate-y-0.5 hover:border-red-100 hover:bg-red-50"
               >
                 {renderImage(signal, "h-[72px] w-[72px]")}

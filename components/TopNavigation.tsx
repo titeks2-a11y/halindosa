@@ -17,6 +17,10 @@ function isActive(pathname: string, href: string) {
   return pathname.startsWith(href);
 }
 
+function getNavAriaLabel(label: string, active: boolean) {
+  return `${label} 탭 ${active ? "선택됨" : "이동"}`;
+}
+
 export function TopNavigation() {
   const pathname = usePathname();
 
@@ -38,12 +42,13 @@ export function TopNavigation() {
           <Search className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
           <input
             name="q"
+            aria-label="상품명, 쇼핑몰, 카테고리 검색"
             placeholder="상품명, 쇼핑몰, 카테고리 검색"
             className="h-12 w-full rounded-2xl border border-slate-200 bg-slate-50 pl-11 pr-4 text-sm font-bold outline-none transition focus:border-red-200 focus:bg-white focus:ring-4 focus:ring-red-50"
           />
         </form>
 
-        <nav className="flex items-center gap-1 rounded-2xl border border-slate-200 bg-white p-1 shadow-sm">
+        <nav aria-label="주요 메뉴" className="flex items-center gap-1 rounded-2xl border border-slate-200 bg-white p-1 shadow-sm">
           {navItems.map((item) => {
             const Icon = item.icon;
             const active = isActive(pathname, item.href);
@@ -53,6 +58,7 @@ export function TopNavigation() {
                 key={item.href}
                 href={item.href}
                 aria-current={active ? "page" : undefined}
+                aria-label={getNavAriaLabel(item.label, active)}
                 className={`inline-flex h-10 items-center gap-2 rounded-xl px-3 text-sm font-black transition ${
                   active ? "bg-dossa-red text-white" : "text-slate-500 hover:bg-slate-50 hover:text-slate-950"
                 }`}
@@ -67,6 +73,7 @@ export function TopNavigation() {
         <button
           type="button"
           onClick={() => window.location.reload()}
+          aria-label="특가 정보 새로고침"
           className="inline-flex h-11 items-center gap-2 rounded-2xl bg-slate-950 px-4 text-sm font-black text-white transition hover:bg-dossa-deep"
         >
           <RefreshCw size={17} />

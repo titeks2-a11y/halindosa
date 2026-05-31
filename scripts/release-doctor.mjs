@@ -229,6 +229,9 @@ async function checkUiAccessibility() {
   const bottomNav = await text("components/BottomNav.tsx");
   const bottomNavigation = await text("components/BottomNavigation.tsx");
   const commercialFooter = await text("components/CommercialFooter.tsx");
+  const topNavigation = await text("components/TopNavigation.tsx");
+  const liveDealFeed = await text("components/LiveDealFeed.tsx");
+  const hotSignalSection = await text("components/HotSignalSection.tsx");
   const homePage = await text("app/page.tsx");
   const requiredSnippets = [
     "aria-pressed={isFavorite}",
@@ -263,6 +266,18 @@ async function checkUiAccessibility() {
     fail("bottom navigation accessibility", "Bottom navigation should expose named menus, active state, and explicit button/link labels.");
   } else {
     pass("bottom navigation accessibility", "Route navigation and in-page navigation expose named menus with active state and explicit labels.");
+  }
+
+  if (!topNavigation.includes('aria-label="주요 메뉴"') || !topNavigation.includes('aria-label="상품명, 쇼핑몰, 카테고리 검색"') || !topNavigation.includes('aria-label="특가 정보 새로고침"')) {
+    fail("top navigation accessibility", "Desktop top navigation should name the menu, search box, and refresh button.");
+  } else {
+    pass("top navigation accessibility", "Desktop top navigation names the menu, search box, and refresh button.");
+  }
+
+  if (!liveDealFeed.includes('alt={`${deal.title} 상품 이미지`}') || !hotSignalSection.includes('alt={`${signal.title} 할인 정보 이미지`}') || !hotSignalSection.includes("event.preventDefault()")) {
+    fail("live card media accessibility", "Live deal and signal cards should expose meaningful image alt text and keyboard activation.");
+  } else {
+    pass("live card media accessibility", "Live deal and signal cards expose meaningful image alt text and keyboard activation.");
   }
 
   const requiredFooterSnippets = ['href="/guide"', 'href="/terms"', 'href="/privacy"', "flex-wrap"];
