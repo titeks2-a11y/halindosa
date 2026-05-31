@@ -225,6 +225,7 @@ async function checkPartnerFeedSafety() {
 
 async function checkUiAccessibility() {
   const dealCard = await text("components/DealCard.tsx");
+  const dealDetailPage = await text("app/deals/[id]/page.tsx");
   const dealTrustBadge = await text("components/DealTrustBadge.tsx");
   const bottomNav = await text("components/BottomNav.tsx");
   const bottomNavigation = await text("components/BottomNavigation.tsx");
@@ -282,6 +283,24 @@ async function checkUiAccessibility() {
     fail("live card media accessibility", "Live deal and signal cards should expose meaningful image alt text and keyboard activation.");
   } else {
     pass("live card media accessibility", "Live deal and signal cards expose meaningful image alt text and keyboard activation.");
+  }
+
+  const imageSurfaces = [
+    ["DealCard", dealCard],
+    ["LiveDealFeed", liveDealFeed],
+    ["HotSignalSection", hotSignalSection],
+    ["DealDetailPage", dealDetailPage]
+  ];
+  const imagePerformanceMissing = imageSurfaces
+    .filter(([, body]) => !body.includes("getDealImageSrc(") || !body.includes('decoding="async"') || !body.includes('referrerPolicy="no-referrer"'))
+    .map(([name]) => name);
+
+  if (imagePerformanceMissing.length) {
+    fail("deal image loading hints", `Missing image proxy/loading hints: ${imagePerformanceMissing.join(", ")}`);
+  } else if (!dealCard.includes('loading="lazy"') || !liveDealFeed.includes('loading="lazy"') || !hotSignalSection.includes('loading="lazy"') || !dealDetailPage.includes('loading="eager"')) {
+    fail("deal image loading hints", "List images should lazy-load and detail hero image should eagerly load.");
+  } else {
+    pass("deal image loading hints", "Deal list, live feed, signal, and detail images use proxy helpers and browser loading hints.");
   }
 
   if (

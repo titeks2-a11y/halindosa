@@ -67,7 +67,14 @@ export function HotSignalSection({ signals, isLoading, onOpenSignal }: HotSignal
     <div className={`${sizeClass} relative shrink-0 overflow-hidden rounded-2xl bg-gradient-to-br from-red-50 to-rose-100 text-dossa-red`}>
       {signal.imageUrl ? (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={getDealImageSrc(signal.imageUrl)} alt={`${signal.title} 할인 정보 이미지`} className="h-full w-full object-cover" />
+        <img
+          src={getDealImageSrc(signal.imageUrl)}
+          alt={`${signal.title} 할인 정보 이미지`}
+          loading="lazy"
+          decoding="async"
+          referrerPolicy="no-referrer"
+          className="h-full w-full object-cover"
+        />
       ) : (
         <div className="flex h-full w-full items-center justify-center">
           <ShoppingBag size={24} aria-hidden="true" />

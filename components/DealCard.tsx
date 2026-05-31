@@ -28,7 +28,14 @@ export function DealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, onSha
       <div className="relative flex min-h-[150px] w-[38%] shrink-0 items-center justify-center overflow-hidden bg-gradient-to-br from-red-50 via-rose-100 to-red-200 sm:aspect-[16/10] sm:min-h-0 sm:w-full">
         {deal.imageUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={getDealImageSrc(deal.imageUrl)} alt={deal.title} className="h-full w-full object-cover transition duration-300 group-hover:scale-105" />
+          <img
+            src={getDealImageSrc(deal.imageUrl)}
+            alt={deal.title}
+            loading="lazy"
+            decoding="async"
+            referrerPolicy="no-referrer"
+            className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+          />
         ) : (
           <div className="px-6 text-center">
             <ShoppingBag className="mx-auto mb-2 text-dossa-red" size={38} />

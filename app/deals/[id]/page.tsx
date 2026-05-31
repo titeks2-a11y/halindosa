@@ -9,6 +9,7 @@ import { mockDeals } from "@/data/mockDeals";
 import { getAffiliateDisclosure, getDealLinkTrustLabel } from "@/lib/affiliate";
 import { findDealByIdLive, getRelatedDeals } from "@/lib/dealService";
 import { formatPrice, getRelativeTime, getTimeLeft } from "@/lib/format";
+import { getDealImageSrc } from "@/lib/imageSrc";
 import { getPriceHistory, getPriceInsight } from "@/lib/priceHistory";
 
 interface DealDetailPageProps {
@@ -72,7 +73,14 @@ export default async function DealDetailPage({ params }: DealDetailPageProps) {
             <div className="flex aspect-[16/10] items-center justify-center bg-gradient-to-br from-red-50 via-rose-100 to-red-200 text-center">
               {deal.imageUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={deal.imageUrl} alt={deal.title} className="h-full w-full object-cover" />
+                <img
+                  src={getDealImageSrc(deal.imageUrl)}
+                  alt={deal.title}
+                  loading="eager"
+                  decoding="async"
+                  referrerPolicy="no-referrer"
+                  className="h-full w-full object-cover"
+                />
               ) : (
                 <div className="p-8">
                   <p className="text-sm font-black text-dossa-deep">{deal.mall}</p>

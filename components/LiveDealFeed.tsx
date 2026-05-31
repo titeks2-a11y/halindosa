@@ -37,7 +37,14 @@ function LiveDealRow({ deal, isFavorite, onToggleFavorite, onOpenDeal, onShareDe
         <div className="relative flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-br from-red-50 to-rose-100 text-dossa-red">
           {deal.imageUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={getDealImageSrc(deal.imageUrl)} alt={`${deal.title} 상품 이미지`} className="h-full w-full object-cover" />
+            <img
+              src={getDealImageSrc(deal.imageUrl)}
+              alt={`${deal.title} 상품 이미지`}
+              loading="lazy"
+              decoding="async"
+              referrerPolicy="no-referrer"
+              className="h-full w-full object-cover"
+            />
           ) : (
             <ShoppingBag size={24} aria-hidden="true" />
           )}
