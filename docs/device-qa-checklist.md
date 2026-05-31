@@ -1,6 +1,7 @@
 # 할인도사 실기기 QA 체크리스트
 
 이 문서는 Play Store 내부 테스트와 App Store TestFlight 제출 전에 실제 기기에서 확인할 항목을 한 장으로 정리한 체크리스트입니다. 자동 검증이 통과해도 아래 항목은 Android Emulator, 실제 Android 기기, 가능하면 iPhone Simulator 또는 실제 iPhone에서 직접 확인합니다.
+확인 결과는 `docs/device-qa-record-template.md`에 기준 커밋과 기기별 결과로 남깁니다.
 
 ## 준비
 

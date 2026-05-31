@@ -141,6 +141,7 @@
 - 코레일관광 부산 KTX 연계 숙박 패키지 공식 상품 상세 URL을 보강하고 구매 링크 검증 게이트를 47개 이상, 90% 이상으로 상향
 - `/store-preview` 스토어 스크린샷 촬영 보드와 `store:screenshots:doctor`를 추가해 홈, 검색, 상세, 찜, 알림, 마이 화면 캡처 기준을 자동 검증
 - `store:metadata:doctor`를 추가해 Play Store/App Store 등록 문구의 길이, 필수 고지, 카테고리, 금지 표현을 출시 전에 자동 검증
+- `docs/device-qa-record-template.md`와 `device:qa:doctor`를 추가해 Android/iOS 실기기 확인 결과, 구매 링크 샘플, 남은 이슈 기록 누락을 출시 전에 점검
 
 ### PHASE 2 코드 품질
 

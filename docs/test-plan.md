@@ -17,6 +17,7 @@ Play Store 내부 테스트와 비공개 테스트에서 앱이 쇼핑 정보 �
 아래 항목 중 `자동 검증` 표기는 `npm run smoke:local`, `npm run qa`, `npm run release:doctor`에서 커버합니다. `수동 확인` 표기는 실제 Android 기기 또는 에뮬레이터에서 최종 확인합니다.
 
 실기기 확인은 `docs/device-qa-checklist.md`를 기준으로 Android, iOS, 로그인, 구매 링크, 신고, 스토어 제출 직전 판정을 한 번에 기록합니다.
+실제 확인 결과는 `docs/device-qa-record-template.md`에 기준 커밋, 기기, 구매 링크 샘플, 남은 이슈까지 남깁니다.
 
 ### 홈
 
@@ -122,6 +123,7 @@ npm run cap:sync
 npm run smoke:local
 npm run qa
 npm run audit:commercial
+npm run device:qa:doctor
 npm run env:doctor
 npm run perf:budget
 npm run release:evidence
@@ -136,7 +138,7 @@ npm run smoke
 ```
 
 `smoke:local`은 개발 서버 실행, 헬스체크 대기, smoke 검증, 서버 종료까지 한 번에 수행합니다.
-현재 smoke는 36개 항목으로 홈/검색/링크/관리자/상업화 준비/정책뿐 아니라 OAuth callback, 온보딩, 회원 탈퇴 guard까지 확인합니다.
+현재 smoke는 39개 항목으로 홈/검색/링크/관리자/상업화 준비/정책뿐 아니라 OAuth callback, 온보딩, 회원 탈퇴 guard까지 확인합니다.
 `qa`는 lint, 로컬 smoke, Next.js build, release doctor를 포함합니다.
 `audit:commercial`은 high/critical npm 취약점이 남아 있으면 실패합니다.
 `env:doctor`는 공개 URL, OAuth redirect, Supabase, 데이터 공급, 운영 토큰 환경변수의 누락과 placeholder 값을 점검합니다.

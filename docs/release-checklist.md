@@ -13,12 +13,13 @@
 - [x] `npm run smoke:local`
 - [x] `npm run qa`
 - [x] `npm run audit:commercial`
+- [x] `npm run device:qa:doctor`
 - [x] `npm run env:doctor`
 - [x] `npm run store:metadata:doctor`
 - [x] `npm run store:assets:doctor`
 - [x] `npm run perf:budget`
 - [x] `npm run release:evidence`
-- [x] `npm run qa:release`는 `audit:commercial`, 스토어 메타데이터/이미지/스크린샷 점검, `perf:budget`, Android/iOS sync, release doctor까지 포함
+- [x] `npm run qa:release`는 `audit:commercial`, 실기기 QA 기록 양식 점검, 스토어 메타데이터/이미지/스크린샷 점검, `perf:budget`, Android/iOS sync, release doctor까지 포함
 
 ## Android 설정
 
@@ -80,6 +81,7 @@
 - [ ] Android Studio Emulator 실행 확인
 - [ ] 실제 기기 설치 확인
 - [ ] `docs/device-qa-checklist.md` 기준으로 Android/iOS 실기기 QA 기록
+- [ ] `docs/device-qa-record-template.md`에 기준 커밋, 테스트 기기, 구매 링크 샘플 10개, 남은 이슈 기록
 - [ ] 홈, 카테고리, 검색, 찜, 알림, 마이 화면 확인
 - [ ] 외부 링크가 외부 브라우저 또는 Custom Tab으로 열리는지 확인
 - [ ] 개인정보처리방침과 이용약관 접근 확인

@@ -48,6 +48,7 @@ async function checkPackage() {
     "android:bundle",
     "qa:release",
     "perf:budget",
+    "device:qa:doctor",
     "env:doctor",
     "links:report",
     "store:metadata:doctor",
@@ -58,8 +59,8 @@ async function checkPackage() {
   const missing = requiredScripts.filter((script) => !pkg.scripts?.[script]);
 
   if (missing.length) fail("package scripts", `Missing scripts: ${missing.join(", ")}`);
-  else if (!pkg.scripts?.["qa:release"]?.includes("audit:commercial") || !pkg.scripts?.["qa:release"]?.includes("store:metadata:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:assets:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:doctor") || !pkg.scripts?.["qa:release"]?.includes("perf:budget")) {
-    fail("package scripts", "qa:release should include commercial security audit, store metadata doctor, store asset doctor, store screenshot doctor, and performance budget before store submission.");
+  else if (!pkg.scripts?.["qa:release"]?.includes("audit:commercial") || !pkg.scripts?.["qa:release"]?.includes("device:qa:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:metadata:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:assets:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:doctor") || !pkg.scripts?.["qa:release"]?.includes("perf:budget")) {
+    fail("package scripts", "qa:release should include commercial security audit, device QA doctor, store metadata doctor, store asset doctor, store screenshot doctor, and performance budget before store submission.");
   } else {
     pass("package scripts", "Android, iOS, environment, commercial security, and performance release command flow is available.");
   }
@@ -1173,6 +1174,7 @@ async function checkPolicyAndStoreDocs() {
     "docs/DEEPLINK_AUTH.md",
     "docs/ACCOUNT_DELETION.md",
     "docs/device-qa-checklist.md",
+    "docs/device-qa-record-template.md",
     "docs/deployment-env-checklist.md",
     "docs/store-submission-packet.md",
     "docs/store-review-notes.md",
@@ -1189,6 +1191,11 @@ async function checkPolicyAndStoreDocs() {
       name: "store metadata guard",
       file: "scripts/store-metadata-doctor.mjs",
       phrases: ["Play Store short description should be 1-80 characters", "Risky store metadata phrases", "App Store checklist should include bundle id"]
+    },
+    {
+      name: "device qa record guard",
+      file: "scripts/device-qa-doctor.mjs",
+      phrases: ["device QA", "Record template should capture commit", "docs/device-qa-record-template.md"]
     },
     {
       name: "privacy policy content",
@@ -1258,7 +1265,12 @@ async function checkPolicyAndStoreDocs() {
     {
       name: "device qa checklist content",
       file: "docs/device-qa-checklist.md",
-      phrases: ["Android 기기 확인", "iOS 기기 또는 Simulator 확인", "로그인과 계정 데이터", "구매 링크와 신고", "스토어 제출 직전 판정"]
+      phrases: ["Android 기기 확인", "iOS 기기 또는 Simulator 확인", "로그인과 계정 데이터", "구매 링크와 신고", "스토어 제출 직전 판정", "docs/device-qa-record-template.md"]
+    },
+    {
+      name: "device qa record template content",
+      file: "docs/device-qa-record-template.md",
+      phrases: ["테스트 개요", "Android 기기 기록", "iOS 기기 기록", "구매 링크 샘플 검수", "남은 Critical Issue"]
     },
     {
       name: "deployment env checklist content",
