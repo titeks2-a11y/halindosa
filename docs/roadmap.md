@@ -79,6 +79,7 @@
 - G마켓 새우깡 묶음, 쿠팡 알리사 냉각 선풍기, 쿠팡 아이패드 A16 상품 상세 URL을 수동 검수 링크 맵에 추가해 검증된 직접 구매 링크를 30개 이상으로 보강
 - 판매처 이동 확인 모달에서 내부 숫자 신뢰도 표시를 제거하고 사용자에게는 검증 상태와 링크 확인 시점만 보여주도록 정리
 - `docs/launch-day-checklist.md`를 제출 24시간 전, Play Console, App Store Connect, 출시 당일 운영, 출시 후 72시간 기준으로 확장
+- `/commercialization` 출시 준비 페이지를 sitemap에 포함하고 스토어 스크린샷 스토리보드를 추가해 배포/스토어 제출 표면을 정리
 
 ### PHASE 2 코드 품질
 
@@ -202,3 +203,4 @@
 - smoke와 release doctor에 `/commercialization` 출시 준비 보드 검증을 추가해 실제 운영 전환, 외부 설정, 남은 링크 검수 안내가 유지되도록 했다.
 - smoke와 release doctor에 검수 완료 상품 상세 URL 보강률 기준을 추가해 30개 이상, 55% 이상 직접 구매 링크 커버리지를 유지하도록 했다.
 - release doctor에 구매 이동 확인 모달의 내부 숫자 점수 비노출과 출시 당일 체크리스트 핵심 항목 검사를 추가했다.
+- smoke와 release doctor에 `/commercialization` sitemap 포함 여부와 스크린샷 스토리보드 문서 검사를 추가했다.

@@ -92,6 +92,7 @@ Play Store 내부 테스트와 비공개 테스트에서 앱이 쇼핑 정보 �
 - [x] 자동 검증: 관리자 화면에는 링크 검수 큐와 판매처 확인 액션이 표시된다.
 - [x] 자동 검증: `/commercialization` 출시 준비 보드는 구매 링크 확인율, 남은 링크 검수, Supabase OAuth Provider 외부 설정, 실제 운영 전환 순서를 표시한다.
 - [x] 자동 검증: 구매 이동 확인과 상세 화면은 내부 숫자 신뢰도 점수를 사용자에게 노출하지 않는다.
+- [x] 자동 검증: sitemap에는 서비스 안내, 개인정보처리방침, 상업화 준비 페이지가 포함된다.
 - [ ] 수동 확인: 내부 테스트 전 상위 노출 상품의 실제 구매 URL을 10개 이상 직접 검수한다.
 
 ## 자동 검증
@@ -117,7 +118,7 @@ npm run smoke
 `smoke:local`은 개발 서버 실행, 헬스체크 대기, smoke 검증, 서버 종료까지 한 번에 수행합니다.
 현재 smoke는 36개 항목으로 홈/검색/링크/관리자/상업화 준비/정책뿐 아니라 OAuth callback, 온보딩, 회원 탈퇴 guard까지 확인합니다.
 `qa`는 lint, 로컬 smoke, Next.js build, release doctor를 포함합니다.
-`release:doctor`는 80개 항목으로 Android/iOS 패키징, OAuth/딥링크, Supabase 회원 데이터 동기화, 상업화 준비 화면, 상품 상세 링크 보강률, 내부 점수 비노출, 출시 당일 체크리스트, 정책 문서, 스토어 산출물까지 확인합니다.
+`release:doctor`는 82개 항목으로 Android/iOS 패키징, OAuth/딥링크, Supabase 회원 데이터 동기화, 상업화 준비 화면, 상품 상세 링크 보강률, 내부 점수 비노출, 출시 당일 체크리스트, 스크린샷 스토리보드, 정책 문서, 스토어 산출물까지 확인합니다.
 `qa:release`는 `qa`에 Android 정적 빌드와 Android/iOS Capacitor sync까지 더한 출시 후보 검증입니다.
 
 ## 내부 테스트 기준
@@ -128,6 +129,7 @@ npm run smoke
 - [ ] 앱 삭제 후 재설치 확인
 - [ ] Play Console pre-launch report 확인
 - [ ] `docs/launch-day-checklist.md` 기준으로 제출 24시간 전, Play Console, App Store Connect, 출시 후 72시간 항목 확인
+- [ ] `docs/store-assets-guide.md`의 스크린샷 스토리보드 기준으로 홈, 검색/필터, 상세, 찜, 알림, 마이 화면 촬영
 
 ## 테스트 종료 기준
 

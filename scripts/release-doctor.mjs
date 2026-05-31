@@ -500,6 +500,7 @@ async function checkUiAccessibility() {
 async function checkOperationalDataSurfaces() {
   const dealsRoute = await text("app/api/deals/route.ts");
   const homePage = await text("app/page.tsx");
+  const sitemap = await text("app/sitemap.ts");
   const featuredSections = await text("components/FeaturedDealSections.tsx");
   const dealCard = await text("components/DealCard.tsx");
   const liveDealFeed = await text("components/LiveDealFeed.tsx");
@@ -589,6 +590,12 @@ async function checkOperationalDataSurfaces() {
     fail("go redirect route", "Purchase buttons should use /go/[dealId], record clicks, and resolve outbound URL server-side.");
   } else {
     pass("go redirect route", "Purchase redirect uses /go/[dealId] with click logging and server-side outbound URL resolution.");
+  }
+
+  if (!sitemap.includes("/commercialization") || !sitemap.includes("/guide") || !sitemap.includes("/privacy")) {
+    fail("launch sitemap coverage", "Sitemap should include public guide, privacy, and commercialization readiness pages.");
+  } else {
+    pass("launch sitemap coverage", "Sitemap includes service guide, privacy, and commercialization readiness pages.");
   }
 }
 
@@ -808,6 +815,11 @@ async function checkPolicyAndStoreDocs() {
       name: "launch day checklist content",
       file: "docs/launch-day-checklist.md",
       phrases: ["제출 24시간 전", "Play Console 제출", "App Store Connect 제출", "출시 당일 운영 순서", "출시 후 72시간"]
+    },
+    {
+      name: "store screenshot storyboard content",
+      file: "docs/store-assets-guide.md",
+      phrases: ["스크린샷 스토리보드", "오늘 먼저 볼 특가를 한눈에", "스크린샷 금지 요소", "내부 점수"]
     }
   ];
 
