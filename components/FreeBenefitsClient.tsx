@@ -209,6 +209,51 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
     [deals]
   );
   const needsFinalCheckCount = deals.length - activeBenefitCount;
+  const decisionCards = useMemo(
+    () => [
+      {
+        title: "지금 받을 수 있는 혜택",
+        copy: "종료, 품절, 링크 오류 가능성이 낮은 진행 중 혜택만 먼저 봅니다.",
+        count: activeBenefitCount,
+        icon: ExternalLink,
+        onClick: () => {
+          setActiveOnly(true);
+          setEndingSoonOnly(false);
+        }
+      },
+      {
+        title: "가입 없이 받기",
+        copy: "회원가입이 필요 없다고 표시된 무료·쿠폰 혜택으로 좁혀봅니다.",
+        count: deals.filter((deal) => !deal.requiresSignup).length,
+        icon: Gift,
+        onClick: () => {
+          setNoSignupOnly(true);
+          setActiveOnly(true);
+        }
+      },
+      {
+        title: "선착순 먼저",
+        copy: "수량이 빨리 끝날 수 있는 혜택을 먼저 확인합니다.",
+        count: deals.filter((deal) => deal.isFirstComeFirstServed).length,
+        icon: Timer,
+        onClick: () => {
+          setFirstComeOnly(true);
+          setSort("endingSoon");
+        }
+      },
+      {
+        title: "배송비 부담 낮추기",
+        copy: "무료배송 또는 배송비 조건이 낮은 혜택을 먼저 봅니다.",
+        count: deals.filter((deal) => deal.isFreeShipping || deal.shippingFee === "무료배송").length,
+        icon: Truck,
+        onClick: () => {
+          setFreeShippingOnly(true);
+          setActiveOnly(true);
+        }
+      }
+    ],
+    [activeBenefitCount, deals]
+  );
 
   const toggleFavorite = (id: string) => {
     setFavorites((current) => {
@@ -495,6 +540,42 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
           <p className="mt-3 text-xs font-bold text-slate-500">
             현재 결과 {filteredDeals.length}개 · 조건은 판매처에서 최종 확인해야 하며 종료/품절 가능성이 있습니다.
           </p>
+        </section>
+
+        <section className="rounded-[28px] border border-red-100 bg-red-50 p-4 shadow-sm sm:p-5" aria-label="무료 혜택 빠른 판단">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-black text-dossa-red">무료 혜택 빠른 판단</p>
+              <h2 className="mt-1 text-xl font-black tracking-tight text-slate-950">받기 전에 가장 중요한 조건만 먼저 고르세요</h2>
+            </div>
+            <p className="max-w-md text-sm font-bold leading-6 text-red-900/70">
+              진행 여부, 회원가입 필요, 선착순, 배송비를 기준으로 바로 좁힙니다.
+            </p>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+            {decisionCards.map((card) => {
+              const Icon = card.icon;
+
+              return (
+                <button
+                  key={card.title}
+                  type="button"
+                  onClick={card.onClick}
+                  className="min-h-[152px] rounded-3xl bg-white p-4 text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+                  aria-label={`${card.title} ${card.count}개 조건 적용`}
+                >
+                  <span className="flex items-start justify-between gap-3">
+                    <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-red-50 text-dossa-red">
+                      <Icon size={20} />
+                    </span>
+                    <span className="rounded-full bg-slate-950 px-2.5 py-1 text-xs font-black text-white">{card.count}개</span>
+                  </span>
+                  <span className="mt-4 block text-sm font-black text-slate-950">{card.title}</span>
+                  <span className="mt-1 line-clamp-2 block text-xs font-bold leading-5 text-slate-500">{card.copy}</span>
+                </button>
+              );
+            })}
+          </div>
         </section>
 
         <section className="grid gap-3 md:grid-cols-3">

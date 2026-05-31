@@ -1206,6 +1206,9 @@ async function checkOperationalDataSurfaces() {
     !freeBenefitsClient.includes("applyChecklistPreset") ||
     !freeBenefitsClient.includes("benefitGuardrails") ||
     !freeBenefitsClient.includes("혜택별 최종 확인 기준") ||
+    !freeBenefitsClient.includes("decisionCards") ||
+    !freeBenefitsClient.includes("무료 혜택 빠른 판단") ||
+    !freeBenefitsClient.includes("받기 전에 가장 중요한 조건만 먼저 고르세요") ||
     !freeBenefitsClient.includes("getPriorityScore") ||
     !freeBenefitsClient.includes("getPriorityReason") ||
     !freeBenefitsClient.includes("결제 전 쿠폰 챙기기") ||
@@ -1224,6 +1227,7 @@ async function checkOperationalDataSurfaces() {
     !smoke.includes("free benefits page") ||
     !smoke.includes("Free benefits page missing priority benefit queue") ||
     !smoke.includes("Free benefits page missing guided benefit checklist") ||
+    !smoke.includes("Free benefits page missing quick decision rail") ||
     !smoke.includes("Free benefits page missing active-benefit status filter")
   ) {
     fail("free benefits dedicated page", "Free benefit discovery should have a dedicated page, priority queue, active-benefit filter, navigation entry, and smoke coverage.");
