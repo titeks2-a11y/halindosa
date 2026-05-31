@@ -4,10 +4,10 @@
 
 ## 기본 정보
 
-- 생성 시각: 2026-05-31T21:00:26.161Z
+- 생성 시각: 2026-05-31T21:05:36.580Z
 - Git 브랜치: main
-- 최신 커밋: 6bf8e73
-- Git 상태: M docs/release-evidence.md
+- 최신 커밋: 2e473f6
+- Git 상태: clean
 - 패키지 버전: 1.0.0
 - 앱 이름: 할인도사
 - 앱 ID / 패키지명: com.halindosa.app
