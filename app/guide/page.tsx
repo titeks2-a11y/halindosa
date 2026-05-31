@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { AlertTriangle, ExternalLink, Heart, SearchCheck, ShieldCheck, Store, Timer } from "lucide-react";
+import { AlertTriangle, ExternalLink, Heart, Mail, SearchCheck, ShieldCheck, Store, Timer, UserCheck } from "lucide-react";
 import { PurchaseSafetyChecklist } from "@/components/PurchaseSafetyChecklist";
+import { getSupportMailto, supportEmail } from "@/lib/support";
 
 const trustItems = [
   {
@@ -78,6 +79,25 @@ export default function GuidePage() {
       <section className="rounded-[24px] border border-slate-200 bg-white p-5 shadow-sm">
         <div className="flex items-start gap-3">
           <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-red-50 text-dossa-red">
+            <UserCheck size={21} />
+          </span>
+          <div>
+            <h2 className="text-base font-black text-slate-950">계정과 데이터 관리</h2>
+            <p className="mt-2 text-sm font-semibold leading-6 text-slate-500">
+              로그인은 선택 사항입니다. 비회원은 기기 저장 방식으로 찜과 최근 본 특가를 사용할 수 있고, 로그인 사용자는 마이페이지에서
+              닉네임, 관심 카테고리, 알림·마케팅 동의, 찜한 특가, 최근 본 상품을 계정 기준으로 관리할 수 있습니다.
+            </p>
+            <p className="mt-3 text-sm font-semibold leading-6 text-slate-500">
+              기기 저장 데이터는 마이페이지의 기기 데이터 관리에서 삭제할 수 있습니다. 회원 탈퇴를 요청하면 프로필, 찜, 최근 본 상품,
+              가격 알림 데이터가 삭제되고 통계용 클릭 로그는 개인을 식별할 수 없도록 처리됩니다.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="rounded-[24px] border border-slate-200 bg-white p-5 shadow-sm">
+        <div className="flex items-start gap-3">
+          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-red-50 text-dossa-red">
             <Store size={21} />
           </span>
           <div>
@@ -91,6 +111,24 @@ export default function GuidePage() {
             <p className="mt-3 text-sm font-semibold leading-6 text-slate-500">
               일부 링크에는 제휴 파라미터가 포함될 수 있으며, 구매가 발생하면 할인도사가 수수료를 받을 수 있습니다.
             </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="rounded-[24px] border border-slate-200 bg-white p-5 shadow-sm">
+        <div className="flex items-start gap-3">
+          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-red-50 text-dossa-red">
+            <Mail size={21} />
+          </span>
+          <div>
+            <h2 className="text-base font-black text-slate-950">신고와 고객 문의</h2>
+            <p className="mt-2 text-sm font-semibold leading-6 text-slate-500">
+              가격 오류, 품절, 링크 오류 신고는 할인 정보 품질 개선을 위한 운영 검수 큐에 접수됩니다. 주문 취소, 환불, 배송 문의는
+              구매한 판매처 고객센터를 통해 처리해야 합니다.
+            </p>
+            <a href={getSupportMailto("할인도사 서비스 문의")} className="mt-3 inline-flex min-h-11 items-center justify-center rounded-2xl bg-slate-950 px-4 text-sm font-black text-white">
+              문의하기 · {supportEmail}
+            </a>
           </div>
         </div>
       </section>

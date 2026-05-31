@@ -881,7 +881,7 @@ async function checkPolicyAndStoreDocs() {
     {
       name: "service guide content",
       file: "app/guide/page.tsx",
-      phrases: ["직접 상품을 판매하지 않습니다", "구매 전 꼭 확인하세요", "외부 판매처 이동 방식", "제휴 파라미터"]
+      phrases: ["직접 상품을 판매하지 않습니다", "구매 전 꼭 확인하세요", "외부 판매처 이동 방식", "제휴 파라미터", "계정과 데이터 관리", "회원 탈퇴", "신고와 고객 문의"]
     },
     {
       name: "data safety guide content",

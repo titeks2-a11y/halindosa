@@ -174,6 +174,9 @@ await check("service guide page", async () => {
   assert(text.includes("이동 전 판매처 확인"), "Guide page missing pre-purchase destination check explanation");
   assert(text.includes("구매 전 10초 체크"), "Guide page missing purchase safety checklist");
   assert(text.includes("최종 결제 금액") && text.includes("취소·반품"), "Guide page missing safety checklist details");
+  assert(text.includes("계정과 데이터 관리"), "Guide page missing account and data management guidance");
+  assert(text.includes("회원 탈퇴") && text.includes("가격 알림 데이터"), "Guide page missing account deletion data scope");
+  assert(text.includes("신고와 고객 문의") && text.includes("support@halindosa.com"), "Guide page missing report/support guidance");
 });
 
 await check("category and notification pages", async () => {
