@@ -1000,6 +1000,7 @@ async function checkOperationalDataSurfaces() {
   const accountPanel = await text("components/AccountPanel.tsx");
   const adminPage = await text("app/admin/page.tsx");
   const commercializationPage = await text("app/commercialization/page.tsx");
+  const analytics = await text("lib/analytics.ts");
   const smoke = await text("scripts/smoke.mjs");
   const redirectUrl = await text("lib/redirectUrl.ts");
   const goRoute = await text("app/go/[id]/route.ts");
@@ -1100,6 +1101,20 @@ async function checkOperationalDataSurfaces() {
     pass("admin product copy", "Admin dashboard avoids raw internal source copy and exposes V2 benefit operation quality.");
   }
 
+  if (
+    !analytics.includes("buildBenefitRetentionPlan") ||
+    !analytics.includes("dailyRoutineSlots") ||
+    !analytics.includes("weeklyRoutineReady") ||
+    !analytics.includes("retentionScore") ||
+    !commercializationPage.includes("benefitRetention") ||
+    !smoke.includes("Metrics missing benefit retention score") ||
+    !smoke.includes("Commercialization page missing benefit retention readiness")
+  ) {
+    fail("benefit retention metrics", "Metrics and commercialization page should expose daily routine readiness for V2 retention operations.");
+  } else {
+    pass("benefit retention metrics", "Metrics and commercialization page expose daily routine readiness for V2 retention operations.");
+  }
+
   if (!dealsRoute.includes("normalizeDeals(mockDeals") || dealsRoute.includes("mock 데이터로 대체")) {
     fail("api fallback normalization", "Deals API fallback should normalize canonical fields and avoid public mock wording.");
   } else {
@@ -1156,13 +1171,16 @@ async function checkOperationalDataSurfaces() {
     "무료·쿠폰·포인트",
     "신고/종료 점검",
     "운영 액션 큐",
-    "출시 전 먼저 점검할 혜택 유형"
+    "출시 전 먼저 점검할 혜택 유형",
+    "매일 재방문 루틴 준비도",
+    "재방문 점수",
+    "다음 재방문 개선 액션"
   ];
   const missingCommercializationSnippets = commercializationSnippets.filter((snippet) => !commercializationPage.includes(snippet));
   if (missingCommercializationSnippets.length) {
     fail("commercial launch readiness page", `Missing snippets: ${missingCommercializationSnippets.join(", ")}`);
   } else {
-    pass("commercial launch readiness page", "Commercialization page exposes launch readiness metrics, external setup, and remaining link review risk.");
+    pass("commercial launch readiness page", "Commercialization page exposes launch readiness metrics, retention readiness, external setup, and remaining link review risk.");
   }
 
   const requiredCommercialDealFields = [

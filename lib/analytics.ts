@@ -210,6 +210,77 @@ function summarizeBenefitQuality(deals: Deal[]) {
   };
 }
 
+function buildBenefitRetentionPlan(deals: Deal[], benefitQuality: ReturnType<typeof summarizeBenefitQuality>) {
+  const now = Date.now();
+  const endingSoonCount = deals.filter((deal) => deal.isEndingSoon || new Date(deal.expireAt).getTime() - now < 24 * 60 * 60 * 1000).length;
+  const verifiedBenefitCount = deals.filter(
+    (deal) =>
+      (deal.purchaseLinkVerified || deal.linkVerified || deal.isVerified) &&
+      ["freebie", "coupon", "freeShipping", "experience", "point", "convenienceStore", "mart", "foodDelivery"].includes(deal.dealType)
+  ).length;
+  const dailyRoutineSlots = [
+    {
+      key: "free-first",
+      label: "무료·체험 먼저",
+      target: "무료 샘플, 체험단, 0원 혜택",
+      count: deals.filter((deal) => deal.dealType === "freebie" || deal.dealType === "experience").length,
+      recommendedSurface: "/free-benefits?dealType=freebie&sort=recommended"
+    },
+    {
+      key: "coupon-before-pay",
+      label: "결제 전 쿠폰",
+      target: "쇼핑몰, 배달, 카드, 브랜드 쿠폰",
+      count: deals.filter((deal) => deal.dealType === "coupon" || deal.dealType === "foodDelivery").length,
+      recommendedSurface: "/free-benefits?dealType=coupon&sort=popular"
+    },
+    {
+      key: "point-apptech",
+      label: "출석·포인트",
+      target: "앱테크, 페이 적립, 멤버십 포인트",
+      count: deals.filter((deal) => deal.dealType === "point").length,
+      recommendedSurface: "/free-benefits?dealType=point&sort=latest"
+    },
+    {
+      key: "mart-convenience",
+      label: "마트·편의점",
+      target: "1+1, 2+1, 장보기, 무료배송",
+      count: deals.filter((deal) => deal.dealType === "mart" || deal.dealType === "convenienceStore" || deal.isFreeShipping).length,
+      recommendedSurface: "/free-benefits?dealType=mart&freeShippingOnly=true"
+    },
+    {
+      key: "ending-check",
+      label: "마감 전 확인",
+      target: "마감임박, 선착순, 종료 예정 혜택",
+      count: endingSoonCount,
+      recommendedSurface: "/?endingSoon=true&sort=endingSoon"
+    }
+  ];
+  const activeRoutineSlots = dailyRoutineSlots.filter((slot) => slot.count > 0).length;
+  const weakSlots = dailyRoutineSlots.filter((slot) => slot.count < 3);
+  const retentionScore = Math.min(
+    100,
+    Math.round(
+      activeRoutineSlots * 14 +
+        Math.min(20, verifiedBenefitCount * 0.6) +
+        Math.min(15, benefitQuality.activeCount * 0.2) +
+        Math.min(10, endingSoonCount * 0.8)
+    )
+  );
+
+  return {
+    dailyRoutineSlots,
+    activeRoutineSlots,
+    weeklyRoutineReady: activeRoutineSlots >= 5 && retentionScore >= 80,
+    verifiedBenefitCount,
+    endingSoonCount,
+    retentionScore,
+    weakSlots,
+    nextActions: weakSlots.length
+      ? weakSlots.map((slot) => `${slot.label} 영역에 공식 혜택 3개 이상 보강`)
+      : ["홈 출석 체크, 무료 혜택 캘린더, 알림 큐를 유지하며 실제 클릭 데이터를 확인"]
+  };
+}
+
 export async function getMockBusinessMetrics() {
   const { deals, updatedAt, source } = await getDeals();
   const hotDeals = deals.filter((deal) => deal.isHot);
@@ -225,6 +296,7 @@ export async function getMockBusinessMetrics() {
   const launchReadiness = buildLaunchReadiness(linkQuality);
   const linkReviewQueue = getLinkReviewQueue(deals, 8);
   const benefitQuality = summarizeBenefitQuality(deals);
+  const benefitRetention = buildBenefitRetentionPlan(deals, benefitQuality);
   const averageConfidenceScore = Math.round(
     priceInsights.reduce((sum, insight) => sum + insight.confidenceScore, 0) / priceInsights.length
   );
@@ -251,6 +323,7 @@ export async function getMockBusinessMetrics() {
     topDeals,
     linkQuality,
     benefitQuality,
+    benefitRetention,
     launchReadiness,
     linkReviewQueue
   };

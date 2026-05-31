@@ -360,6 +360,8 @@ await check("commercial launch readiness page", async () => {
   assert(text.includes("무료·쿠폰·포인트") && text.includes("구매 링크 확인") && text.includes("신고/종료 점검"), "Commercialization page missing benefit quality operating cards");
   assert(text.includes("혜택형 콘텐츠 커버리지"), "Commercialization page missing benefit coverage guide");
   assert(text.includes("운영 액션 큐") && text.includes("출시 전 먼저 점검할 혜택 유형"), "Commercialization page missing benefit operation action queue");
+  assert(text.includes("매일 재방문 루틴 준비도") && text.includes("재방문 점수"), "Commercialization page missing benefit retention readiness");
+  assert(text.includes("무료·쿠폰·포인트·마트·마감") && text.includes("다음 재방문 개선 액션"), "Commercialization page missing retention operation actions");
 });
 
 await check("deals api", async () => {
@@ -563,6 +565,9 @@ await check("metrics api", async () => {
   assert(data.benefitQuality?.freeBenefitCount >= 0, "Metrics missing free benefit quality summary");
   assert(data.benefitQuality?.typeBreakdown?.length >= 3, "Metrics missing benefit type breakdown");
   assert(data.benefitQuality?.actionQueue?.length >= 1, "Metrics missing benefit operation action queue");
+  assert(data.benefitRetention?.retentionScore >= 0, "Metrics missing benefit retention score");
+  assert(data.benefitRetention?.dailyRoutineSlots?.length === 5, "Metrics missing daily routine slots");
+  assert(typeof data.benefitRetention?.weeklyRoutineReady === "boolean", "Metrics missing weekly routine readiness");
   assert(Array.isArray(data.linkReviewQueue), "Metrics missing link review queue");
   assert(data.linkReviewQueue.length <= 8, "Metrics link review queue should be capped");
   if (data.linkReviewQueue.length) {
