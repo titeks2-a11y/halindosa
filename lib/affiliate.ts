@@ -41,6 +41,7 @@ const outboundHostAllowList = [
   "lfmall.co.kr",
   "gsshop.com",
   "ipraves.co.kr",
+  "korailtravel.com",
   "amante.co.kr",
   "rexpia.com",
   "benebedding.com"
@@ -151,6 +152,7 @@ export function buildSellerSearchUrl(deal: Pick<Deal, "mall" | "mallName" | "tit
   if (/마켓컬리|컬리|kurly/.test(mall)) return `https://www.kurly.com/search?sword=${query}`;
   if (/오늘의집/.test(mall)) return `https://ohou.se/productions/feed?query=${query}`;
   if (/인터파크/.test(mall)) return `https://shopping.interpark.com/search/all?keyword=${query}`;
+  if (/코레일관광|korailtravel/.test(mall)) return `https://www.korailtravel.com/web/goods_view/index.asp`;
 
   return `https://search.shopping.naver.com/search/all?query=${query}`;
 }

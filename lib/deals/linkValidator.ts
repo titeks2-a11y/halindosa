@@ -110,6 +110,7 @@ function isKnownProductDetailUrl(url: URL, mallName: string) {
   if (/lf몰|lfmall/.test(mall) || hostMatches(host, "lfmall.co.kr")) return /\/app\/product\/[a-z0-9]+/i.test(path);
   if (/gs shop|gsshop/.test(mall) || hostMatches(host, "gsshop.com")) return /\/deal\/deal\.gs|dealno=/.test(full);
   if (/아이프라브|ipraves/.test(mall) || hostMatches(host, "ipraves.co.kr")) return /\/product\//.test(path);
+  if (/코레일관광|korailtravel/.test(mall) || hostMatches(host, "korailtravel.com")) return path.includes("/web/goods_view/index.asp") && url.searchParams.has("goodsNum");
   if (/알리|ali/.test(mall) || hostMatches(host, "aliexpress.com")) return /\/item\/\d+\.html|\/i\/\d+\.html/.test(path);
   if (/아마존|amazon/.test(mall) || hostMatches(host, "amazon.com")) return /\/dp\/[a-z0-9]+|\/gp\/product\/[a-z0-9]+/.test(path);
   if (/하이마트|himart/.test(mall) || hostMatches(host, "e-himart.co.kr")) return /\/app\/goods\/goodsdetail|goodsno=|goodscode=/.test(full);

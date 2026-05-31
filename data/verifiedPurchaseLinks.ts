@@ -195,6 +195,12 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     source: "manual_review",
     evidence: "SSG 향수 50ml 상품 상세"
   },
+  d033: {
+    url: "https://www.korailtravel.com/web/goods_view/index.asp?goodsNum=15936&page_nm=goods_day&strApart=&strBpart=&strCpart=",
+    checkedAt: "2026-06-01T03:30:00.000Z",
+    source: "manual_review",
+    evidence: "코레일관광 KTX 타고 떠나는 부산명소 탐방 1박2일 공식 상품 상세"
+  },
   d034: {
     url: "https://item.gmarket.co.kr/Item?goodscode=2739226248",
     checkedAt: "2026-05-31T11:10:00.000Z",
