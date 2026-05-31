@@ -1006,12 +1006,17 @@ async function checkOperationalDataSurfaces() {
   if (
     !categoriesPage.includes("featuredCategories") ||
     !categoriesPage.includes("categoryGroups") ||
+    !categoriesPage.includes("benefitQuickLinks") ||
+    !categoriesPage.includes("생활 혜택 빠른 지도") ||
+    !categoriesPage.includes("무료 샘플·0원 혜택") ||
+    !categoriesPage.includes("앱테크·포인트 적립") ||
     !categoriesPage.includes("추천 탐색") ||
-    !categoriesPage.includes("구매 링크 확인이 많은 영역부터 보기")
+    !categoriesPage.includes("구매 링크 확인이 많은 영역부터 보기") ||
+    !smoke.includes("Categories page missing benefit type quick map")
   ) {
-    fail("category discovery UX", "Categories page should group channels and surface verified-link-first discovery.");
+    fail("category discovery UX", "Categories page should group channels and surface verified-link-first and benefit-type discovery.");
   } else {
-    pass("category discovery UX", "Categories page groups channels and surfaces verified-link-first discovery.");
+    pass("category discovery UX", "Categories page groups channels and surfaces verified-link-first and benefit-type discovery.");
   }
 
   if (

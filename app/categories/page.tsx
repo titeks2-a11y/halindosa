@@ -1,9 +1,62 @@
 import Link from "next/link";
-import { CheckCircle2, Grid3X3, PackageCheck, Tag, Truck } from "lucide-react";
+import { CheckCircle2, Gift, Grid3X3, PackageCheck, Sparkles, Tag, TicketPercent, Truck } from "lucide-react";
 import { dealChannels, dealMatchesChannel } from "@/data/dealChannels";
 import { getDeals } from "@/lib/dealService";
+import { getBenefitTypeLabel } from "@/lib/deals/benefits";
 import { getLinkQualityScore, isVerifiedPurchaseLink } from "@/lib/deals/quality";
 import { formatPrice } from "@/lib/format";
+import type { DealBenefitType } from "@/types/deal";
+
+const benefitQuickLinks: Array<{
+  type: DealBenefitType;
+  title: string;
+  description: string;
+  href: string;
+  icon: typeof Gift;
+}> = [
+  {
+    type: "freebie",
+    title: "무료 샘플·0원 혜택",
+    description: "비용 부담 없이 먼저 받을 혜택",
+    href: "/?dealType=freebie&q=무료&sort=hot",
+    icon: Gift
+  },
+  {
+    type: "coupon",
+    title: "쿠폰·첫 구매 혜택",
+    description: "결제 전 챙길 쇼핑몰·브랜드 쿠폰",
+    href: "/?dealType=coupon&q=쿠폰&sort=hot",
+    icon: TicketPercent
+  },
+  {
+    type: "point",
+    title: "앱테크·포인트 적립",
+    description: "출석체크, 페이, 친구 초대 포인트",
+    href: "/?dealType=point&q=포인트&sort=latest",
+    icon: Sparkles
+  },
+  {
+    type: "freeShipping",
+    title: "무료배송·무배",
+    description: "배송비를 줄이는 생활비 혜택",
+    href: "/?dealType=freeShipping&freeShippingOnly=true&sort=latest",
+    icon: Truck
+  },
+  {
+    type: "convenienceStore",
+    title: "편의점 1+1 / 2+1",
+    description: "커피, 음료, 도시락 행사",
+    href: "/?dealType=convenienceStore&category=mart&q=편의점",
+    icon: TicketPercent
+  },
+  {
+    type: "foodDelivery",
+    title: "배달·외식 쿠폰",
+    description: "첫 주문, 커피, 외식 쿠폰",
+    href: "/?dealType=foodDelivery&q=배달",
+    icon: Gift
+  }
+];
 
 export default async function CategoriesPage() {
   const { deals } = await getDeals();
@@ -37,6 +90,23 @@ export default async function CategoriesPage() {
     group,
     items: categories.filter((category) => category.group === group)
   }));
+  const benefitHighlights = benefitQuickLinks.map((item) => {
+    const items = deals.filter((deal) => deal.dealType === item.type || (item.type === "freeShipping" && deal.isFreeShipping));
+    const bestDeal = [...items].sort(
+      (a, b) =>
+        getLinkQualityScore(b) - getLinkQualityScore(a) ||
+        b.likeCount - a.likeCount ||
+        b.clickCount - a.clickCount ||
+        b.savingsAmount - a.savingsAmount
+    )[0];
+
+    return {
+      ...item,
+      count: items.length,
+      verifiedCount: items.filter(isVerifiedPurchaseLink).length,
+      bestDeal
+    };
+  });
 
   return (
     <div className="space-y-4 px-3 py-4 sm:px-4 lg:px-0 lg:py-8">
@@ -95,6 +165,52 @@ export default async function CategoriesPage() {
               <p className="mt-2 text-xs font-black text-dossa-red">최대 {category.bestDiscount}% · {category.count}개</p>
             </Link>
           ))}
+        </div>
+      </section>
+
+      <section className="rounded-[24px] border border-slate-200 bg-white p-4 shadow-sm lg:p-5" aria-label="생활 혜택 빠른 지도">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-xs font-black text-dossa-red">생활 혜택 빠른 지도</p>
+            <h2 className="mt-1 text-base font-black text-slate-950">무료, 쿠폰, 포인트를 유형별로 바로 보기</h2>
+            <p className="mt-1 text-sm font-semibold leading-6 text-slate-500">
+              상품 카테고리보다 먼저 혜택 목적을 고르면 오늘 받을 무료 혜택과 결제 전 쿠폰을 빠르게 좁힐 수 있습니다.
+            </p>
+          </div>
+          <Link href="/free-benefits" className="rounded-2xl bg-dossa-red px-4 py-3 text-center text-xs font-black text-white shadow-sm">
+            무료 혜택 전용 탭
+          </Link>
+        </div>
+        <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+          {benefitHighlights.map((item) => {
+            const Icon = item.icon;
+
+            return (
+              <Link
+                key={item.type}
+                href={item.href}
+                className="rounded-[22px] border border-slate-100 bg-slate-50 p-4 transition hover:-translate-y-0.5 hover:border-red-200 hover:bg-red-50"
+              >
+                <div className="flex items-start justify-between gap-3">
+                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-white text-dossa-red shadow-sm">
+                    <Icon size={19} />
+                  </span>
+                  <span className="rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-dossa-red shadow-sm">
+                    {item.count}개
+                  </span>
+                </div>
+                <p className="mt-3 text-sm font-black text-slate-950">{item.title}</p>
+                <p className="mt-1 text-xs font-bold leading-5 text-slate-500">{item.description}</p>
+                <div className="mt-3 flex flex-wrap gap-1.5 text-[11px] font-black">
+                  <span className="rounded-full bg-white px-2 py-1 text-slate-600 shadow-sm">{getBenefitTypeLabel(item.type)}</span>
+                  <span className="rounded-full bg-emerald-50 px-2 py-1 text-emerald-700">구매 링크 확인 {item.verifiedCount}</span>
+                </div>
+                {item.bestDeal ? (
+                  <p className="mt-3 line-clamp-1 text-xs font-black text-slate-900">{item.bestDeal.title}</p>
+                ) : null}
+              </Link>
+            );
+          })}
         </div>
       </section>
 

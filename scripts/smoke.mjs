@@ -280,6 +280,10 @@ await check("category and notification pages", async () => {
   assert(categoriesText.includes("대표 특가"), "Categories page missing representative deal summary");
   assert(categoriesText.includes("추천 탐색") && categoriesText.includes("카테고리 묶음"), "Categories page missing grouped discovery sections");
   assert(categoriesText.includes("구매 링크 확인이 많은 영역부터 보기"), "Categories page missing verified-first discovery guide");
+  assert(
+    categoriesText.includes("생활 혜택 빠른 지도") && categoriesText.includes("무료 샘플·0원 혜택") && categoriesText.includes("앱테크·포인트 적립"),
+    "Categories page missing benefit type quick map"
+  );
 
   const notifications = await fetch(`${baseUrl}/notifications`);
   const notificationsText = await notifications.text();
