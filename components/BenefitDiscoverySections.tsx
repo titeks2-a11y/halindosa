@@ -21,7 +21,10 @@ const benefitCards: Array<{
   { type: "freebie", title: "무료로 받을 수 있는 혜택", description: "0원딜, 무료 샘플, 교환권", icon: Gift },
   { type: "coupon", title: "쿠폰과 이벤트", description: "1+1, 2+1, 카드 혜택", icon: TicketPercent },
   { type: "freeShipping", title: "무료배송/무배 특가", description: "생활비 체감 절약", icon: Truck },
-  { type: "point", title: "포인트 적립", description: "앱테크와 페이 혜택", icon: Sparkles }
+  { type: "point", title: "포인트 적립", description: "앱테크와 페이 혜택", icon: Sparkles },
+  { type: "convenienceStore", title: "편의점 1+1 / 2+1", description: "간식, 도시락, 쿠폰 행사", icon: TicketPercent },
+  { type: "mart", title: "마트 행사", description: "장보기 전 확인", icon: BadgePercent },
+  { type: "foodDelivery", title: "배달/외식 쿠폰", description: "식비 절약 쿠폰", icon: Gift }
 ];
 
 function sortByBenefitScore(deals: Deal[]) {
@@ -43,7 +46,7 @@ export function BenefitDiscoverySections({
   onOpenDeal
 }: BenefitDiscoverySectionsProps) {
   const source = deals.length ? deals : [];
-  const freeDeals = sortByBenefitScore(source.filter((deal) => ["freebie", "coupon", "freeShipping", "point", "experience"].includes(deal.dealType))).slice(0, 6);
+  const freeDeals = sortByBenefitScore(source.filter((deal) => ["freebie", "coupon", "freeShipping", "point", "experience", "convenienceStore", "mart", "foodDelivery"].includes(deal.dealType))).slice(0, 6);
   const urgentDeals = sortByBenefitScore(source.filter((deal) => deal.isEndingSoon && !deal.isExpired)).slice(0, 4);
   const risingDeals = sortByBenefitScore(source).slice(0, 5);
   const martDeals = sortByBenefitScore(source.filter((deal) => deal.category === "편의점/마트" || /마트|gs25|편의점|교환권|1\+1|2\+1/.test([deal.title, ...deal.tags].join(" ").toLowerCase()))).slice(0, 4);
@@ -65,7 +68,7 @@ export function BenefitDiscoverySections({
           </div>
         </div>
 
-        <div className="mt-4 grid grid-cols-2 gap-2 lg:grid-cols-4">
+        <div className="mt-4 grid grid-cols-2 gap-2 lg:grid-cols-4 xl:grid-cols-7">
           {benefitCards.map((card) => {
             const Icon = card.icon;
             const count = source.filter((deal) => deal.dealType === card.type).length;

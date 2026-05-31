@@ -145,6 +145,7 @@
 - 제주 투어패스, GS25 공식 이벤트, AliExpress 케이블, 네이버페이 혜택, 인터파크투어 오사카 항공권 상세 링크를 보강해 큐레이션 52개 전체가 검색 fallback이 아닌 검증 링크로 연결되도록 개선하고 smoke/release doctor 기준을 100%로 상향
 - VER 2.0 혜택 플랫폼 개편으로 `dealType`, `benefitSummary`, `reliabilityScore`, 출처/검증/종료/절약 필드를 Deal 모델에 추가하고 홈 상단을 무료혜택, 쿠폰, 무배, 편의점/마트, 클릭 급상승 중심으로 재구성
 - `docs/v2-benefit-platform-plan.md`를 추가해 무료/쿠폰/이벤트 플랫폼 방향, 데이터 모델, 출시 검증 기준, 다음 운영 과제를 정리
+- `/free-benefits` 전용 화면과 상·하단 내비게이션 진입점을 추가하고 Deal 모델을 편의점, 마트, 배달/외식, 세부 카테고리, 검증 상품 URL, 조회/신고 지표까지 확장
 
 ### PHASE 2 코드 품질
 

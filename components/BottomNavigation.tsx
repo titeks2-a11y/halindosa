@@ -2,10 +2,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Bell, Grid3X3, Heart, Home, User } from "lucide-react";
+import { Bell, Gift, Grid3X3, Heart, Home, User } from "lucide-react";
 
 const navItems = [
   { href: "/", label: "홈", icon: Home },
+  { href: "/free-benefits", label: "무료", icon: Gift },
   { href: "/categories", label: "카테고리", icon: Grid3X3 },
   { href: "/notifications", label: "알림", icon: Bell },
   { href: "/favorites", label: "찜", icon: Heart },
@@ -26,7 +27,7 @@ export function BottomNavigation() {
 
   return (
     <nav aria-label="주요 메뉴" className="fixed bottom-0 left-0 right-0 z-50 border-t border-slate-200 bg-white/95 px-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] pt-1 shadow-[0_-10px_30px_rgba(15,23,42,0.08)] backdrop-blur lg:hidden">
-      <div className="mx-auto grid h-16 max-w-[480px] grid-cols-5">
+      <div className="mx-auto grid h-16 max-w-[520px] grid-cols-6">
         {navItems.map((item) => {
           const Icon = item.icon;
           const active = isActive(pathname, item.href);

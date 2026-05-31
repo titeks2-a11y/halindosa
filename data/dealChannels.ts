@@ -64,7 +64,7 @@ export function dealMatchesChannel(deal: Deal, id?: string | null) {
     case "curated":
       if (channel.id === "today") return deal.dealType === "discount" || deal.isHot || /오늘만|타임세일/.test(haystack);
       if (channel.id === "popular") return deal.isHot || deal.popularityScore >= 85;
-      if (channel.id === "freezero") return ["freebie", "coupon", "freeShipping", "experience", "point"].includes(deal.dealType) || deal.isFreeShipping || /0원딜|무료|쿠폰/.test(haystack);
+      if (channel.id === "freezero") return ["freebie", "coupon", "freeShipping", "experience", "point", "convenienceStore", "mart", "foodDelivery"].includes(deal.dealType) || deal.isFreeShipping || /0원딜|무료|쿠폰/.test(haystack);
       if (channel.id === "ending") return deal.isEndingSoon;
       if (channel.id === "lowest") return deal.discountRate >= 50 || /역대가|가격\s*하락|쿠폰/.test(haystack);
       return true;

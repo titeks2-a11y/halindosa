@@ -396,13 +396,17 @@ await check("deal link integrity", async () => {
     assert(typeof deal.linkVerified === "boolean", `${deal.id} linkVerified should be boolean`);
     assert(typeof deal.purchaseLinkVerified === "boolean", `${deal.id} purchaseLinkVerified should be boolean`);
     assert(typeof deal.purchaseConfidence === "number", `${deal.id} purchaseConfidence should be number`);
-    assert(["discount", "freebie", "coupon", "freeShipping", "experience", "event", "point"].includes(deal.dealType), `${deal.id} invalid dealType`);
+    assert(["discount", "freebie", "coupon", "freeShipping", "experience", "event", "point", "convenienceStore", "mart", "foodDelivery"].includes(deal.dealType), `${deal.id} invalid dealType`);
     assert(typeof deal.benefitSummary === "string" && deal.benefitSummary.length > 8, `${deal.id} missing benefitSummary`);
     assert(typeof deal.reliabilityScore === "number" && deal.reliabilityScore >= 0 && deal.reliabilityScore <= 100, `${deal.id} invalid reliabilityScore`);
     assert(typeof deal.isVerified === "boolean", `${deal.id} isVerified should be boolean`);
     assert(typeof deal.isExpired === "boolean", `${deal.id} isExpired should be boolean`);
     assert(typeof deal.savingsAmount === "number", `${deal.id} savingsAmount should be number`);
     assert(typeof deal.savingsRate === "number", `${deal.id} savingsRate should be number`);
+    assert(typeof deal.price === "number", `${deal.id} price alias should be number`);
+    assert(typeof deal.viewCount === "number", `${deal.id} viewCount should be number`);
+    assert(typeof deal.reportCount === "number", `${deal.id} reportCount should be number`);
+    assert(deal.isVerified ? Boolean(deal.verifiedProductUrl || deal.finalPurchaseUrl) : true, `${deal.id} verified deal missing verifiedProductUrl/finalPurchaseUrl`);
     assert(deal.purchaseConfidence >= 0 && deal.purchaseConfidence <= 100, `${deal.id} purchaseConfidence out of range`);
     assert(deal.finalUrl && !isUnsafeDealUrl(deal.finalUrl), `${deal.id} has unsafe finalUrl: ${deal.finalUrl}`);
     assert(deal.finalPurchaseUrl && !isUnsafeDealUrl(deal.finalPurchaseUrl), `${deal.id} has unsafe finalPurchaseUrl: ${deal.finalPurchaseUrl}`);
@@ -429,6 +433,17 @@ await check("benefit type filter api", async () => {
   assert(data.ok === true, "Benefit filter API ok should be true");
   assert(data.deals.length > 0, "coupon benefit filter should return deals");
   assert(data.deals.every((deal) => deal.dealType === "coupon"), "Benefit filter returned a non-coupon deal");
+});
+
+await check("free benefits page", async () => {
+  const response = await fetch(`${baseUrl}/free-benefits`);
+  const text = await response.text();
+  assert(response.status === 200, `Expected 200, got ${response.status}`);
+  assert(text.includes("무료 혜택 전용 탭"), "Free benefits page missing title");
+  assert(text.includes("무료 샘플") && text.includes("체험단") && text.includes("무료배송"), "Free benefits page missing free benefit tabs");
+  assert(text.includes("편의점") && text.includes("마트") && text.includes("배달/외식"), "Free benefits page missing daily-life benefit tabs");
+  assert(text.includes("선착순 여부") && text.includes("회원가입 필요 여부") && text.includes("신고 가능"), "Free benefits page missing benefit condition guidance");
+  assert(text.includes("판매처 확인") && text.includes("신고"), "Free benefits page missing purchase and report actions");
 });
 
 await check("verified direct purchase link coverage", async () => {

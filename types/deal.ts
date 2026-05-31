@@ -15,21 +15,34 @@ export type DealSort = "latest" | "discount" | "price" | "hot" | "endingSoon";
 export type DealLinkType = "direct_purchase" | "seller_search" | "affiliate" | "unavailable";
 export type DealLinkStatus = "verified" | "needs_review" | "broken" | "sold_out";
 export type DealPurchaseStatus = "available" | "needs_review" | "sold_out" | "broken";
-export type DealBenefitType = "discount" | "freebie" | "coupon" | "freeShipping" | "experience" | "event" | "point";
+export type DealBenefitType =
+  | "discount"
+  | "freebie"
+  | "coupon"
+  | "freeShipping"
+  | "experience"
+  | "event"
+  | "point"
+  | "convenienceStore"
+  | "mart"
+  | "foodDelivery";
 
 export interface Deal {
   id: string;
   title: string;
   description: string;
+  price: number;
   originalPrice: number;
   salePrice: number;
   discountRate: number;
+  subCategory?: string;
   mallName: string;
   category: DealCategory;
   thumbnail: string;
   link: string;
   url?: string;
   productUrl?: string;
+  verifiedProductUrl?: string;
   searchUrl?: string;
   originalUrl?: string;
   affiliateUrl?: string;
@@ -47,6 +60,7 @@ export interface Deal {
   sourceUrl?: string;
   sourceName?: string;
   verifiedAt?: string;
+  lastVerifiedAt?: string;
   priceCheckedAt: string;
   dealType: DealBenefitType;
   benefitSummary: string;
@@ -69,6 +83,8 @@ export interface Deal {
   popularityScore: number;
   clickCount: number;
   likeCount: number;
+  viewCount: number;
+  reportCount: number;
   isSoldOut: boolean;
   updatedAt: string;
   mall: string;

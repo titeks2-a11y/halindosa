@@ -2,11 +2,12 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Bell, Grid3X3, Heart, Home, LogIn, RefreshCw, Search, User } from "lucide-react";
+import { Bell, Gift, Grid3X3, Heart, Home, LogIn, RefreshCw, Search, User } from "lucide-react";
 import { useAuth } from "@/components/AuthProvider";
 
 const navItems = [
   { href: "/", label: "홈", icon: Home },
+  { href: "/free-benefits", label: "무료혜택", icon: Gift },
   { href: "/categories", label: "카테고리", icon: Grid3X3 },
   { href: "/notifications", label: "알림", icon: Bell },
   { href: "/favorites", label: "찜", icon: Heart },

@@ -15,17 +15,21 @@ VER 2.0의 방향은 단순 특가 링크 모음이 아니라 매일 확인할 �
 ## 데이터 모델 추가 필드
 
 - `dealType`: `discount`, `freebie`, `coupon`, `freeShipping`, `experience`, `event`, `point`
+- 확장 `dealType`: `convenienceStore`, `mart`, `foodDelivery`
 - `benefitSummary`: 사용자가 바로 이해할 수 있는 혜택 요약
 - `sourceName`, `sourceUrl`: 출처와 최종 확인 위치
+- `subCategory`, `verifiedProductUrl`, `lastVerifiedAt`: 운영자가 실제 상세 링크와 세부 분류를 관리하기 위한 필드
 - `reliabilityScore`: 링크 검증, 인기 반응, 수동 검수 여부를 반영한 내부 신뢰도
 - `isVerified`: 판매처/상품 상세 링크 확인 여부
 - `isExpired`: 종료된 혜택 여부
 - `savingsAmount`, `savingsRate`: 절약 금액과 절약률
+- `viewCount`, `reportCount`: 인기 정렬과 링크 품질 운영을 위한 행동/신고 지표
 
 ## 출시 전 검증 기준
 
 - 큐레이션 52개 상품 전체가 안전한 판매처/상품 상세 링크를 가진다.
 - `/api/deals?dealType=coupon` 같은 혜택 유형 필터가 정상 동작한다.
+- `/free-benefits` 전용 화면에서 무료 샘플, 체험단, 쿠폰, 무료배송, 편의점, 마트, 배달/외식 혜택을 탐색할 수 있다.
 - 홈 화면에 무료혜택, 쿠폰, 편의점/마트, 클릭 급상승, 마감임박 영역이 노출된다.
 - 비회원도 모든 혜택을 열람할 수 있고, 로그인은 저장/알림/개인화에만 필요하다.
 - 오류 신고와 구매 전 최종 조건 확인 문구가 유지된다.

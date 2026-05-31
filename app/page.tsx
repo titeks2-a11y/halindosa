@@ -74,6 +74,9 @@ const benefitFilters: Array<{ id: "all" | DealBenefitType; label: string }> = [
   { id: "freeShipping", label: "무료배송" },
   { id: "experience", label: "체험/샘플" },
   { id: "point", label: "포인트" },
+  { id: "convenienceStore", label: "편의점" },
+  { id: "mart", label: "마트" },
+  { id: "foodDelivery", label: "배달/외식" },
   { id: "discount", label: "오늘특가" }
 ];
 const toastMessages = [
@@ -1186,14 +1189,19 @@ export default function Home() {
 
             <section className="rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5" aria-label="오늘 바로 볼 할인 지도">
               <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-                <div>
-                  <p className="text-xs font-black text-dossa-red">오늘 바로 볼 할인 지도</p>
-                  <h3 className="mt-1 text-lg font-black text-slate-950 sm:text-2xl">좋은 특가만 빠르게 좁혀보기</h3>
-                </div>
+              <div>
+                <p className="text-xs font-black text-dossa-red">오늘 바로 볼 할인 지도</p>
+                <h3 className="mt-1 text-lg font-black text-slate-950 sm:text-2xl">좋은 특가만 빠르게 좁혀보기</h3>
+              </div>
+              <div className="flex flex-col gap-2 sm:items-end">
                 <p className="text-xs font-bold leading-5 text-slate-500">
                   판매처 이동 확인 특가 {dataQuality.verifiedLinkCount}개 · 구매 전 최종 가격 확인 권장
                 </p>
+                <Link href="/free-benefits" className="rounded-2xl bg-dossa-red px-4 py-2 text-center text-xs font-black text-white">
+                  무료 혜택 전용 탭
+                </Link>
               </div>
+            </div>
               <div className="mt-4 grid grid-cols-2 gap-2 lg:grid-cols-4">
                 <button
                   type="button"

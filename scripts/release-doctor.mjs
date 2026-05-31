@@ -869,6 +869,10 @@ async function checkOperationalDataSurfaces() {
   const redirectUrl = await text("lib/redirectUrl.ts");
   const goRoute = await text("app/go/[id]/route.ts");
   const dealTypes = await text("types/deal.ts");
+  const freeBenefitsPage = await text("app/free-benefits/page.tsx");
+  const freeBenefitsClient = await text("components/FreeBenefitsClient.tsx");
+  const bottomNavigation = await text("components/BottomNavigation.tsx");
+  const topNavigation = await text("components/TopNavigation.tsx");
 
   const staticDataImports = [
     ["app/categories/page.tsx", categoriesPage],
@@ -1002,13 +1006,34 @@ async function checkOperationalDataSurfaces() {
     "isVerified",
     "isExpired",
     "savingsAmount",
-    "savingsRate"
+    "savingsRate",
+    "subCategory",
+    "verifiedProductUrl",
+    "lastVerifiedAt",
+    "viewCount",
+    "reportCount"
   ];
   const missingCommercialDealFields = requiredCommercialDealFields.filter((field) => !dealTypes.includes(field));
   if (missingCommercialDealFields.length) {
     fail("commercial deal fields", `Missing Deal fields: ${missingCommercialDealFields.join(", ")}`);
   } else {
     pass("commercial deal fields", "Deal type includes product/search URL split and commercial engagement fields.");
+  }
+
+  if (
+    !freeBenefitsPage.includes("FreeBenefitsClient") ||
+    !freeBenefitsClient.includes("무료 혜택 전용 탭") ||
+    !freeBenefitsClient.includes("무료 샘플") ||
+    !freeBenefitsClient.includes("체험단") ||
+    !freeBenefitsClient.includes("편의점") ||
+    !freeBenefitsClient.includes("배달/외식") ||
+    !bottomNavigation.includes("/free-benefits") ||
+    !topNavigation.includes("/free-benefits") ||
+    !smoke.includes("free benefits page")
+  ) {
+    fail("free benefits dedicated page", "Free benefit discovery should have a dedicated page, navigation entry, and smoke coverage.");
+  } else {
+    pass("free benefits dedicated page", "Free benefits, coupons, convenience store, mart, delivery, and point offers have a dedicated navigable page.");
   }
 
   if (!redirectUrl.includes("/go/") || !goRoute.includes("recordDealClick") || !goRoute.includes("buildOutboundUrl")) {
