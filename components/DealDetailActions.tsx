@@ -23,6 +23,7 @@ async function isNativeRuntime() {
 
 export function DealDetailActions({ deal }: { deal: Deal }) {
   const [showPurchaseConfirm, setShowPurchaseConfirm] = useState(false);
+  const [message, setMessage] = useState("");
   const [isFavorite, setIsFavorite] = useState(() => {
     if (typeof window === "undefined") return false;
     try {
@@ -41,13 +42,21 @@ export function DealDetailActions({ deal }: { deal: Deal }) {
       const next = favorites.includes(deal.id) ? favorites.filter((id) => id !== deal.id) : [...favorites, deal.id];
       window.localStorage.setItem(favoriteKey, JSON.stringify(next));
       setIsFavorite(next.includes(deal.id));
+      setMessage(next.includes(deal.id) ? "관심 특가에 저장했습니다." : "관심 특가에서 제거했습니다.");
     } catch {
-      setIsFavorite((value) => !value);
+      setIsFavorite((value) => {
+        const next = !value;
+        setMessage(next ? "관심 특가에 저장했습니다." : "관심 특가에서 제거했습니다.");
+        return next;
+      });
     }
   };
 
   const openPurchase = () => {
-    if (!canOpenDealLink(deal)) return;
+    if (!canOpenDealLink(deal)) {
+      setMessage("이 특가는 링크 확인이 필요합니다.");
+      return;
+    }
     setShowPurchaseConfirm(true);
   };
 
@@ -77,12 +86,19 @@ export function DealDetailActions({ deal }: { deal: Deal }) {
     try {
       if (nav.share) {
         await nav.share({ title: `할인도사 - ${deal.title}`, text, url: shareUrl });
+        setMessage("특가 공유를 열었습니다.");
         return;
       }
 
-      await nav.clipboard?.writeText(`${text}\n${shareUrl}`);
+      if (nav.clipboard) {
+        await nav.clipboard.writeText(`${text}\n${shareUrl}`);
+        setMessage("특가 링크를 복사했습니다.");
+        return;
+      }
+
+      setMessage("공유 기능을 사용할 수 없습니다.");
     } catch {
-      // Sharing is optional.
+      setMessage("공유를 취소했습니다.");
     }
   };
 
@@ -93,6 +109,7 @@ export function DealDetailActions({ deal }: { deal: Deal }) {
           type="button"
           onClick={openPurchase}
           disabled={!canOpenDealLink(deal)}
+          aria-label={canOpenDealLink(deal) ? `${deal.title} 구매 전 판매처 확인` : `${deal.title} 링크 확인 필요`}
           className="inline-flex items-center justify-center gap-2 rounded-2xl bg-dossa-red px-5 py-3 text-sm font-black text-white transition hover:bg-dossa-deep disabled:cursor-not-allowed disabled:bg-slate-300"
         >
           {canOpenDealLink(deal) ? "구매 전 판매처 확인" : "링크 확인 필요"}
@@ -101,6 +118,8 @@ export function DealDetailActions({ deal }: { deal: Deal }) {
         <button
           type="button"
           onClick={toggleFavorite}
+          aria-pressed={isFavorite}
+          aria-label={`${deal.title} ${isFavorite ? "관심 특가에서 제거" : "관심 특가에 저장"}`}
           className={`inline-flex items-center justify-center gap-2 rounded-2xl border px-5 py-3 text-sm font-black transition ${
             isFavorite
               ? "border-red-100 bg-red-50 text-dossa-red"
@@ -113,6 +132,7 @@ export function DealDetailActions({ deal }: { deal: Deal }) {
         <button
           type="button"
           onClick={shareDeal}
+          aria-label={`${deal.title} 공유하기`}
           className="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-black text-slate-700 transition hover:border-red-100 hover:text-dossa-red"
         >
           <Share2 size={17} />
@@ -126,6 +146,11 @@ export function DealDetailActions({ deal }: { deal: Deal }) {
           홈으로
         </Link>
       </div>
+      {message ? (
+        <p role="status" aria-live="polite" className="mt-3 rounded-2xl bg-red-50 px-4 py-3 text-sm font-black text-dossa-red">
+          {message}
+        </p>
+      ) : null}
       <PurchaseConfirmSheet
         deal={deal}
         isOpen={showPurchaseConfirm}

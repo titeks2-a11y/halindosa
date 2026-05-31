@@ -232,6 +232,7 @@ async function checkUiAccessibility() {
   const categoryTabs = await text("components/CategoryTabs.tsx");
   const searchBar = await text("components/SearchBar.tsx");
   const sortSelect = await text("components/SortSelect.tsx");
+  const dealDetailActions = await text("components/DealDetailActions.tsx");
   const topNavigation = await text("components/TopNavigation.tsx");
   const liveDealFeed = await text("components/LiveDealFeed.tsx");
   const hotSignalSection = await text("components/HotSignalSection.tsx");
@@ -299,6 +300,18 @@ async function checkUiAccessibility() {
     fail("search filter accessibility", "Home filter controls should expose accessible names and toggle state labels.");
   } else {
     pass("search filter accessibility", "Search, sort, category, mall, and quick filter controls expose accessible names and state.");
+  }
+
+  if (
+    !dealDetailActions.includes("aria-pressed={isFavorite}") ||
+    !dealDetailActions.includes('role="status"') ||
+    !dealDetailActions.includes('aria-live="polite"') ||
+    !dealDetailActions.includes("특가 링크를 복사했습니다.") ||
+    !dealDetailActions.includes("공유 기능을 사용할 수 없습니다.")
+  ) {
+    fail("detail action feedback", "Deal detail favorite and share actions should expose state, accessible names, and user feedback.");
+  } else {
+    pass("detail action feedback", "Deal detail favorite and share actions expose state, accessible names, and user feedback.");
   }
 
   const requiredFooterSnippets = ['href="/guide"', 'href="/terms"', 'href="/privacy"', "flex-wrap"];
