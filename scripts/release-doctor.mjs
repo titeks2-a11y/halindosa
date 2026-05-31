@@ -1144,6 +1144,9 @@ async function checkOperationalDataSurfaces() {
     !freeBenefitsClient.includes("결제 전 쿠폰 챙기기") ||
     !freeBenefitsClient.includes("가입 없이 받기") ||
     !freeBenefitsClient.includes("선착순 혜택") ||
+    !freeBenefitsClient.includes("진행 중만 보기") ||
+    !freeBenefitsClient.includes("activeBenefitCount") ||
+    !freeBenefitsClient.includes("종료·품절 가능 혜택") ||
     !freeBenefitsClient.includes("배송비:") ||
     !freeBenefitsClient.includes("혜택 조건 요약") ||
     !freeBenefitsClient.includes("최소금액:") ||
@@ -1152,11 +1155,12 @@ async function checkOperationalDataSurfaces() {
     !bottomNavigation.includes("/free-benefits") ||
     !topNavigation.includes("/free-benefits") ||
     !smoke.includes("free benefits page") ||
-    !smoke.includes("Free benefits page missing priority benefit queue")
+    !smoke.includes("Free benefits page missing priority benefit queue") ||
+    !smoke.includes("Free benefits page missing active-benefit status filter")
   ) {
-    fail("free benefits dedicated page", "Free benefit discovery should have a dedicated page, priority queue, navigation entry, and smoke coverage.");
+    fail("free benefits dedicated page", "Free benefit discovery should have a dedicated page, priority queue, active-benefit filter, navigation entry, and smoke coverage.");
   } else {
-    pass("free benefits dedicated page", "Free benefits, coupons, convenience store, mart, delivery, point offers, and today's priority queue have a dedicated navigable page.");
+    pass("free benefits dedicated page", "Free benefits, coupons, convenience store, mart, delivery, point offers, today's priority queue, and active-benefit filtering have a dedicated navigable page.");
   }
 
   if (!redirectUrl.includes("/go/") || !goRoute.includes("recordDealClick") || !goRoute.includes("buildOutboundUrl")) {

@@ -79,6 +79,7 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
   const [freeShippingOnly, setFreeShippingOnly] = useState(false);
   const [noSignupOnly, setNoSignupOnly] = useState(false);
   const [firstComeOnly, setFirstComeOnly] = useState(false);
+  const [activeOnly, setActiveOnly] = useState(false);
   const [favorites, setFavorites] = useState<string[]>(() => readFavorites());
   const [message, setMessage] = useState("");
 
@@ -104,6 +105,7 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
     if (freeShippingOnly) source = source.filter((deal) => deal.isFreeShipping || deal.shippingFee === "무료배송");
     if (noSignupOnly) source = source.filter((deal) => !deal.requiresSignup);
     if (firstComeOnly) source = source.filter((deal) => deal.isFirstComeFirstServed);
+    if (activeOnly) source = source.filter((deal) => !deal.isExpired && !deal.isSoldOut && deal.linkStatus !== "broken");
 
     return [...source].sort((a, b) => {
       const activeScore = Number(a.isExpired) - Number(b.isExpired);
@@ -113,7 +115,7 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
       if (sort === "savings") return b.savingsAmount - a.savingsAmount || b.savingsRate - a.savingsRate;
       return b.reliabilityScore - a.reliabilityScore || b.clickCount - a.clickCount || new Date(a.expireAt).getTime() - new Date(b.expireAt).getTime();
     });
-  }, [activeType, deals, endingSoonOnly, firstComeOnly, freeShippingOnly, noSignupOnly, query, referenceNow, sort]);
+  }, [activeOnly, activeType, deals, endingSoonOnly, firstComeOnly, freeShippingOnly, noSignupOnly, query, referenceNow, sort]);
 
   const counts = useMemo(
     () =>
@@ -172,6 +174,11 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
         .slice(0, 5),
     [deals, referenceNow]
   );
+  const activeBenefitCount = useMemo(
+    () => deals.filter((deal) => !deal.isExpired && !deal.isSoldOut && deal.linkStatus !== "broken").length,
+    [deals]
+  );
+  const needsFinalCheckCount = deals.length - activeBenefitCount;
 
   const toggleFavorite = (id: string) => {
     setFavorites((current) => {
@@ -211,6 +218,7 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
     setFreeShippingOnly(false);
     setNoSignupOnly(false);
     setFirstComeOnly(false);
+    setActiveOnly(false);
   };
 
   return (
@@ -233,9 +241,12 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
               </p>
               <div className="mt-5 grid grid-cols-3 gap-2 text-center text-xs font-black sm:max-w-lg">
                 <span className="rounded-2xl bg-red-50 px-3 py-3 text-dossa-red">전체 {deals.length}개</span>
-                <span className="rounded-2xl bg-slate-50 px-3 py-3 text-slate-700">링크 확인 {deals.filter((deal) => deal.isVerified).length}개</span>
+                <span className="rounded-2xl bg-slate-50 px-3 py-3 text-slate-700">바로 확인 {activeBenefitCount}개</span>
                 <span className="rounded-2xl bg-slate-50 px-3 py-3 text-slate-700">마감임박 {deals.filter((deal) => deal.isEndingSoon).length}개</span>
               </div>
+              <p className="mt-3 text-xs font-bold leading-5 text-slate-500">
+                종료·품절 가능 혜택 {needsFinalCheckCount}개는 자동으로 뒤쪽에 배치되며, 처음 보는 사용자는 진행 중만 보기로 안전하게 좁혀볼 수 있습니다.
+              </p>
             </div>
             <div className="flex min-h-64 items-center justify-center bg-dossa-red p-8 text-white">
               <div className="text-center">
@@ -372,7 +383,8 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
               ["ending", "마감 임박만", endingSoonOnly, () => setEndingSoonOnly((value) => !value), Timer],
               ["shipping", "배송비 무료", freeShippingOnly, () => setFreeShippingOnly((value) => !value), Truck],
               ["signup", "가입 없이 받기", noSignupOnly, () => setNoSignupOnly((value) => !value), Gift],
-              ["first", "선착순 혜택", firstComeOnly, () => setFirstComeOnly((value) => !value), Sparkles]
+              ["first", "선착순 혜택", firstComeOnly, () => setFirstComeOnly((value) => !value), Sparkles],
+              ["active", "진행 중만 보기", activeOnly, () => setActiveOnly((value) => !value), ExternalLink]
             ].map(([id, label, active, onClick, Icon]) => {
               const FilterIcon = Icon as typeof Gift;
               return (
