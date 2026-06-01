@@ -8,7 +8,8 @@ import { getSupabaseBrowserClient } from "@/lib/auth/supabaseClient";
 import { benefitMissionLabels, getTodayKey, readBenefitCheckInState } from "@/lib/benefitCheckIn";
 import { readClaimedBenefits } from "@/lib/claimedBenefits";
 import { formatPrice } from "@/lib/format";
-import { priceAlertStorageKey } from "@/lib/priceAlerts";
+import { priceAlertStorageKey, readStoredPriceAlerts } from "@/lib/priceAlerts";
+import { readRecentDealIds } from "@/lib/recentDeals";
 import {
   clearRecentDealsSynced,
   fetchRemotePreferences,
@@ -94,6 +95,98 @@ function BenefitSaveRoutine({ mode }: { mode: "local" | "guest" | "member" }) {
   );
 }
 
+function AccountCarryoverPlan({
+  mode,
+  favoriteCount,
+  recentCount,
+  categoryCount,
+  priceAlertCount
+}: {
+  mode: "local" | "guest" | "member";
+  favoriteCount: number;
+  recentCount: number;
+  categoryCount: number;
+  priceAlertCount: number;
+}) {
+  const isMember = mode === "member";
+  const accountCarryoverPlan = [
+    {
+      label: "찜한 혜택",
+      value: favoriteCount,
+      suffix: "개",
+      description: "다시 확인할 관심 특가",
+      icon: Heart
+    },
+    {
+      label: "최근 본 상품",
+      value: recentCount,
+      suffix: "개",
+      description: "방금 본 혜택 기록",
+      icon: History
+    },
+    {
+      label: "관심 카테고리",
+      value: categoryCount,
+      suffix: "개",
+      description: "추천에 반영할 관심사",
+      icon: SlidersHorizontal
+    },
+    {
+      label: "가격 알림 조건",
+      value: priceAlertCount,
+      suffix: "개",
+      description: "앱 안에 저장한 목표가",
+      icon: Bell
+    }
+  ];
+
+  return (
+    <div className="mt-4 rounded-3xl border border-slate-200 bg-white p-4 shadow-sm">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <p className="text-xs font-black text-dossa-red">비회원 저장을 계정으로 이어보기</p>
+          <h3 className="mt-1 text-base font-black text-slate-950">저장한 기록만 로그인하면 이어집니다</h3>
+          <p className="mt-1 text-xs font-bold leading-5 text-slate-500">
+            모든 혜택은 그대로 볼 수 있고, 찜·최근 본 상품·관심 카테고리·가격 알림 조건만 선택적으로 계정에 보관합니다.
+          </p>
+        </div>
+        <span className="w-fit rounded-full bg-red-50 px-3 py-1.5 text-[11px] font-black text-dossa-red">
+          {isMember ? "계정 이어보기 사용 중" : "비회원 전체 열람 유지"}
+        </span>
+      </div>
+      <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
+        {accountCarryoverPlan.map((item) => {
+          const Icon = item.icon;
+
+          return (
+            <div key={item.label} className="rounded-2xl bg-slate-50 p-3">
+              <div className="flex items-center justify-between gap-2">
+                <span className="flex h-8 w-8 items-center justify-center rounded-2xl bg-white text-dossa-red shadow-sm">
+                  <Icon size={15} />
+                </span>
+                <span className="text-lg font-black text-slate-950">
+                  {item.value}
+                  <span className="ml-0.5 text-xs text-dossa-red">{item.suffix}</span>
+                </span>
+              </div>
+              <p className="mt-2 text-xs font-black text-slate-950">{item.label}</p>
+              <p className="mt-1 text-[11px] font-bold leading-4 text-slate-500">{item.description}</p>
+            </div>
+          );
+        })}
+      </div>
+      <div className="mt-3 grid gap-2 sm:grid-cols-2">
+        <Link href={isMember ? "/notifications" : "/login"} className="rounded-2xl bg-dossa-red px-4 py-3 text-center text-xs font-black text-white">
+          {isMember ? "알림 조건 이어보기" : "로그인하고 기록 이어보기"}
+        </Link>
+        <Link href="/guide" className="rounded-2xl bg-slate-100 px-4 py-3 text-center text-xs font-black text-slate-700">
+          저장 기준 확인
+        </Link>
+      </div>
+    </div>
+  );
+}
+
 function BenefitCheckInSummary() {
   const [checkIn, setCheckIn] = useState(() => readBenefitCheckInState());
   const [claimedBenefits, setClaimedBenefits] = useState(() => readClaimedBenefits());
@@ -175,7 +268,8 @@ export function AccountPanel() {
   const [draftNickname, setDraftNickname] = useState("");
   const [preferences, setPreferences] = useState<MemberPreferences>(() => readLocalPreferences());
   const [favoriteIds, setFavoriteIds] = useState<string[]>(() => readLocalFavoriteIds());
-  const [recentIds, setRecentIds] = useState<string[]>([]);
+  const [recentIds, setRecentIds] = useState<string[]>(() => readRecentDealIds());
+  const [priceAlertCount, setPriceAlertCount] = useState(() => readStoredPriceAlerts().length);
   const [catalog, setCatalog] = useState<Deal[]>([]);
   const [message, setMessage] = useState("");
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
@@ -203,7 +297,7 @@ export function AccountPanel() {
     Promise.resolve()
       .then(() => {
         if (!configured || !userId) {
-          return Promise.all([Promise.resolve(readLocalFavoriteIds()), Promise.resolve([]), Promise.resolve(null)] as const);
+          return Promise.all([Promise.resolve(readLocalFavoriteIds()), Promise.resolve(readRecentDealIds()), Promise.resolve(null)] as const);
         }
         return Promise.all([syncFavoritesWithSupabase(), syncRecentDealsWithSupabase(), fetchRemotePreferences()] as const);
       })
@@ -211,11 +305,14 @@ export function AccountPanel() {
         if (!active) return;
         setFavoriteIds(nextFavorites);
         setRecentIds(nextRecent);
+        setPriceAlertCount(readStoredPriceAlerts().length);
         if (remotePreferences) setPreferences(remotePreferences);
       })
       .catch(() => {
         if (!active) return;
         setFavoriteIds(readLocalFavoriteIds());
+        setRecentIds(readRecentDealIds());
+        setPriceAlertCount(readStoredPriceAlerts().length);
       });
 
     return () => {
@@ -317,6 +414,13 @@ export function AccountPanel() {
             ))}
           </div>
         </div>
+        <AccountCarryoverPlan
+          mode="local"
+          favoriteCount={favoriteIds.length}
+          recentCount={recentIds.length}
+          categoryCount={preferences.favoriteCategories.length}
+          priceAlertCount={priceAlertCount}
+        />
         <BenefitSaveRoutine mode="local" />
         <BenefitCheckInSummary />
       </section>
@@ -353,6 +457,13 @@ export function AccountPanel() {
             ))}
           </div>
         </div>
+        <AccountCarryoverPlan
+          mode="guest"
+          favoriteCount={favoriteIds.length}
+          recentCount={recentIds.length}
+          categoryCount={preferences.favoriteCategories.length}
+          priceAlertCount={priceAlertCount}
+        />
         <BenefitSaveRoutine mode="guest" />
         <BenefitCheckInSummary />
       </section>
@@ -425,6 +536,13 @@ export function AccountPanel() {
             구매 링크 확인 특가 보기
           </Link>
         </div>
+        <AccountCarryoverPlan
+          mode="member"
+          favoriteCount={favoriteIds.length}
+          recentCount={recentIds.length}
+          categoryCount={preferences.favoriteCategories.length}
+          priceAlertCount={priceAlertCount}
+        />
         <BenefitSaveRoutine mode="member" />
         <BenefitCheckInSummary />
       </div>
