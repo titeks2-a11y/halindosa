@@ -221,6 +221,18 @@ function dealMatchesPriceBand(deal: Deal, priceBand: PriceBand) {
   return deal.salePrice >= selectedBand.min && deal.salePrice <= selectedBand.max;
 }
 
+function getCategoryFilterId(categoryName: string) {
+  if (categoryName === "식품") return "food";
+  if (categoryName === "생활용품") return "living";
+  if (categoryName === "전자기기" || categoryName === "가전") return "digital";
+  if (categoryName === "의류" || categoryName === "뷰티") return "fashion";
+  if (categoryName === "육아") return "baby";
+  if (categoryName === "여행/티켓") return "travel";
+  if (categoryName === "편의점/마트") return "mart";
+  if (categoryName === "쿠폰/이벤트") return "coupon";
+  return "etc";
+}
+
 function getProviderDisplayLabel(source: string) {
   if (source === "production") return "운영 피드";
   if (source === "staging") return "검수 피드";
@@ -1409,6 +1421,42 @@ export default function Home() {
     ],
     [activeFilterLabels.length, deals]
   );
+  const searchResultGroups = useMemo(() => {
+    const normalizedQuery = query.trim();
+    const source = catalog.length ? catalog : deals;
+    const matchedDeals = normalizedQuery ? source.filter((deal) => dealMatchesSearch(deal, normalizedQuery)) : source;
+    const countBy = <T extends string>(items: T[]) => {
+      const counts = new Map<T, number>();
+      for (const item of items) {
+        counts.set(item, (counts.get(item) ?? 0) + 1);
+      }
+      return Array.from(counts.entries())
+        .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], "ko"))
+        .slice(0, 5)
+        .map(([id, count]) => ({ id, count }));
+    };
+
+    const malls = countBy(matchedDeals.map((deal) => deal.mallName)).map((item) => ({
+      ...item,
+      label: item.id
+    }));
+    const categories = countBy(matchedDeals.map((deal) => deal.category)).map((item) => ({
+      id: getCategoryFilterId(item.id),
+      label: item.id,
+      count: item.count
+    }));
+    const benefits = countBy(matchedDeals.map((deal) => deal.dealType)).map((item) => ({
+      ...item,
+      label: benefitFilters.find((filter) => filter.id === item.id)?.label ?? item.id
+    }));
+
+    return {
+      queryMatchedCount: matchedDeals.length,
+      malls,
+      categories,
+      benefits
+    };
+  }, [catalog, deals, query]);
   const filterActionQueue = useMemo(() => {
     const usedIds = new Set<string>();
     const findDeal = (predicate: (deal: Deal) => boolean) => {
@@ -2639,6 +2687,90 @@ export default function Home() {
                   onSelectKeyword={selectSearchKeyword}
                   onClearRecentKeywords={clearRecentSearchKeywords}
                 />
+              </div>
+              <div className="mt-4 rounded-[24px] border border-red-100 bg-white p-4 shadow-sm" aria-label="검색 결과 빠른 분류">
+                <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+                  <div>
+                    <p className="text-xs font-black text-dossa-red">검색 결과 빠른 분류</p>
+                    <h3 className="mt-1 text-base font-black text-slate-950">
+                      {query.trim()
+                        ? `"${query.trim()}" 관련 상품 ${searchResultGroups.queryMatchedCount}개를 더 빠르게 좁힙니다`
+                        : `전체 상품 ${searchResultGroups.queryMatchedCount}개를 쇼핑몰과 혜택별로 빠르게 봅니다`}
+                    </h3>
+                  </div>
+                  <p className="text-xs font-bold leading-5 text-slate-500">쇼핑몰, 카테고리, 혜택 유형을 바로 눌러 결과를 줄일 수 있습니다.</p>
+                </div>
+                <div className="mt-4 grid gap-3 lg:grid-cols-3">
+                  <div className="rounded-2xl bg-slate-50 p-3">
+                    <p className="mb-2 text-xs font-black text-slate-700">많이 나온 쇼핑몰</p>
+                    <div className="flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                      {searchResultGroups.malls.map((item) => (
+                        <button
+                          key={item.id}
+                          type="button"
+                          onClick={() => setMallFilter(item.id)}
+                          className={`inline-flex min-h-10 shrink-0 items-center gap-1.5 rounded-2xl border px-3 text-xs font-black transition ${
+                            mallFilter === item.id
+                              ? "border-transparent bg-slate-950 text-white"
+                              : "border-slate-200 bg-white text-slate-700 hover:border-red-200 hover:text-dossa-red"
+                          }`}
+                          aria-pressed={mallFilter === item.id}
+                        >
+                          {item.label}
+                          <span className={`rounded-full px-2 py-0.5 text-[10px] ${mallFilter === item.id ? "bg-white/15 text-white" : "bg-slate-100 text-slate-500"}`}>
+                            {item.count}
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="rounded-2xl bg-slate-50 p-3">
+                    <p className="mb-2 text-xs font-black text-slate-700">가까운 카테고리</p>
+                    <div className="flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                      {searchResultGroups.categories.map((item) => (
+                        <button
+                          key={`${item.id}-${item.label}`}
+                          type="button"
+                          onClick={() => setCategory(item.id)}
+                          className={`inline-flex min-h-10 shrink-0 items-center gap-1.5 rounded-2xl border px-3 text-xs font-black transition ${
+                            category === item.id
+                              ? "border-transparent bg-slate-950 text-white"
+                              : "border-slate-200 bg-white text-slate-700 hover:border-red-200 hover:text-dossa-red"
+                          }`}
+                          aria-pressed={category === item.id}
+                        >
+                          {item.label}
+                          <span className={`rounded-full px-2 py-0.5 text-[10px] ${category === item.id ? "bg-white/15 text-white" : "bg-slate-100 text-slate-500"}`}>
+                            {item.count}
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="rounded-2xl bg-slate-50 p-3">
+                    <p className="mb-2 text-xs font-black text-slate-700">혜택 유형</p>
+                    <div className="flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                      {searchResultGroups.benefits.map((item) => (
+                        <button
+                          key={item.id}
+                          type="button"
+                          onClick={() => setBenefitFilter((current) => (current === item.id ? "all" : item.id))}
+                          className={`inline-flex min-h-10 shrink-0 items-center gap-1.5 rounded-2xl border px-3 text-xs font-black transition ${
+                            benefitFilter === item.id
+                              ? "border-transparent bg-slate-950 text-white"
+                              : "border-slate-200 bg-white text-slate-700 hover:border-red-200 hover:text-dossa-red"
+                          }`}
+                          aria-pressed={benefitFilter === item.id}
+                        >
+                          {item.label}
+                          <span className={`rounded-full px-2 py-0.5 text-[10px] ${benefitFilter === item.id ? "bg-white/15 text-white" : "bg-slate-100 text-slate-500"}`}>
+                            {item.count}
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
               </div>
               <div className="mt-4 rounded-2xl border border-red-100 bg-red-50 p-3" aria-label="혜택 목적 빠른 필터">
                 <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">

@@ -113,7 +113,7 @@ function getPriorityScore(deal: Deal, referenceNow: number) {
 }
 
 export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
-  const [referenceNow] = useState(() => Date.now());
+  const [referenceNow, setReferenceNow] = useState(0);
   const [activeType, setActiveType] = useState<"all" | DealBenefitType>("all");
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState<BenefitSort>("recommended");
@@ -139,6 +139,7 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
     };
 
     const frame = window.requestAnimationFrame(() => {
+      setReferenceNow(Date.now());
       refreshLocalState();
       setVisitStreak(markBenefitVisit());
     });
