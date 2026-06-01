@@ -934,6 +934,13 @@ async function checkUiAccessibility() {
         !benefitDiscoverySections.includes("getTodayBenefitMissions") ||
         !benefitDiscoverySections.includes("오늘 혜택 미션 보드") ||
         !benefitDiscoverySections.includes("처음 들어왔다면 이 3가지만 먼저 보세요") ||
+        !benefitDiscoverySections.includes("getDailyActionQueue") ||
+        !benefitDiscoverySections.includes("오늘 바로 실행할 혜택 액션 큐") ||
+        !benefitDiscoverySections.includes("무료 수령, 쿠폰 적용, 생활 혜택, 마감 확인 순서로 봅니다") ||
+        !benefitDiscoverySections.includes("무료 혜택 받기") ||
+        !benefitDiscoverySections.includes("쿠폰 조건 보기") ||
+        !benefitDiscoverySections.includes("생활 혜택 보기") ||
+        !benefitDiscoverySections.includes("마감 혜택 확인") ||
         !benefitDiscoverySections.includes("sortByFavoriteSignal") ||
         !benefitDiscoverySections.includes("회원들이 많이 찜한 혜택") ||
         !benefitDiscoverySections.includes("내 찜 {favoriteCount}개") ||
@@ -964,6 +971,7 @@ async function checkUiAccessibility() {
         !smoke.includes("Home page missing daily savings receipt") ||
         !smoke.includes("Home page missing daily claim routine") ||
         !smoke.includes("Home page missing first-visit benefit mission board") ||
+        !smoke.includes("Home page missing daily benefit action queue") ||
         !smoke.includes("Home page missing member favorite benefit section") ||
         !smoke.includes("Home page missing interest category personalization") ||
         !smoke.includes("Home page missing quick interest setup") ||

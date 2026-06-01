@@ -29,6 +29,16 @@ interface BenefitMissionItem {
   icon: typeof Gift;
 }
 
+interface DailyActionQueueItem {
+  label: string;
+  title: string;
+  helper: string;
+  actionLabel: string;
+  checklist: string;
+  deal: Deal;
+  icon: typeof Gift;
+}
+
 interface SavingsReceiptItem {
   label: string;
   value: string;
@@ -236,6 +246,56 @@ function getTodayBenefitMissions(deals: Deal[]) {
   ].filter((item): item is BenefitMissionItem => Boolean(item.deal));
 }
 
+function getDailyActionQueue(deals: Deal[]) {
+  const activeDeals = sortByBenefitScore(deals.filter((deal) => !deal.isExpired && !deal.isSoldOut && deal.linkStatus !== "broken"));
+  const pickedIds = new Set<string>();
+
+  const pick = (predicate: (deal: Deal) => boolean) => {
+    const deal = activeDeals.find((item) => predicate(item) && !pickedIds.has(item.id));
+    if (deal) pickedIds.add(deal.id);
+    return deal;
+  };
+
+  return [
+    {
+      label: "무료 먼저",
+      title: "돈 쓰기 전 받을 것",
+      helper: "샘플, 체험, 0원 혜택을 먼저 열어 실제 수령 조건을 확인합니다.",
+      actionLabel: "무료 혜택 받기",
+      checklist: "가입 필요 · 배송비 · 선착순 확인",
+      deal: pick((deal) => ["freebie", "experience"].includes(deal.dealType) || deal.salePrice <= 1000),
+      icon: Gift
+    },
+    {
+      label: "결제 전",
+      title: "쿠폰·포인트 적용",
+      helper: "구매하기 전에 적용 가능한 쿠폰, 페이 적립, 배달/외식 혜택을 먼저 봅니다.",
+      actionLabel: "쿠폰 조건 보기",
+      checklist: "최소금액 · 중복 가능 · 만료일 확인",
+      deal: pick((deal) => ["coupon", "point", "foodDelivery"].includes(deal.dealType)),
+      icon: TicketPercent
+    },
+    {
+      label: "생활비",
+      title: "장보기·편의점 행사",
+      helper: "편의점 1+1, 마트 행사, 무료배송 조건처럼 오늘 바로 체감되는 혜택입니다.",
+      actionLabel: "생활 혜택 보기",
+      checklist: "지점/앱 조건 · 배송비 · 행사 기간 확인",
+      deal: pick((deal) => ["convenienceStore", "mart", "freeShipping"].includes(deal.dealType) || deal.category === "편의점/마트"),
+      icon: BadgePercent
+    },
+    {
+      label: "마감 전",
+      title: "오늘 끝날 혜택 점검",
+      helper: "종료 시간이 가까운 혜택을 먼저 열어 가격과 재고를 마지막으로 확인합니다.",
+      actionLabel: "마감 혜택 확인",
+      checklist: "가격 변동 · 품절 · 링크 오류 신고 가능",
+      deal: pick((deal) => deal.isEndingSoon),
+      icon: Clock3
+    }
+  ].filter((item): item is DailyActionQueueItem => Boolean(item.deal));
+}
+
 function BenefitTopList({
   title,
   description,
@@ -317,6 +377,7 @@ export function BenefitDiscoverySections({
   const dailyClaimPlan = getDailyClaimPlan(source);
   const todayBenefitMissions = getTodayBenefitMissions(source);
   const todaySavingsReceipt = getTodaySavingsReceipt(source);
+  const dailyActionQueue = getDailyActionQueue(source);
 
   return (
     <div className="space-y-4" aria-label="할인도사 VER 2.0 혜택 탐색">
@@ -483,6 +544,45 @@ export function BenefitDiscoverySections({
                     <span className="mt-1 block text-xs font-bold leading-5 text-slate-500">{mission.helper}</span>
                     <span className="mt-2 line-clamp-1 block text-xs font-black text-dossa-red">{mission.deal.title}</span>
                     <span className="mt-1 block text-[11px] font-bold text-slate-500">{mission.metric}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        ) : null}
+
+        {dailyActionQueue.length ? (
+          <div className="mt-4 rounded-[24px] border border-red-100 bg-white p-3 shadow-sm" aria-label="오늘 바로 실행할 혜택 액션 큐">
+            <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p className="text-xs font-black text-dossa-red">오늘 바로 실행할 혜택 액션 큐</p>
+                <h4 className="text-lg font-black text-slate-950">무료 수령, 쿠폰 적용, 생활 혜택, 마감 확인 순서로 봅니다</h4>
+              </div>
+              <p className="text-xs font-bold leading-5 text-slate-500">비회원도 열람 가능 · 저장과 알림만 로그인으로 이어집니다.</p>
+            </div>
+            <div className="mt-3 grid gap-2 md:grid-cols-2 xl:grid-cols-4">
+              {dailyActionQueue.map((item) => {
+                const Icon = item.icon;
+
+                return (
+                  <button
+                    key={item.title}
+                    type="button"
+                    onClick={() => onOpenDeal(item.deal)}
+                    className="min-h-[176px] rounded-3xl border border-slate-100 bg-slate-50 p-3 text-left transition hover:-translate-y-0.5 hover:border-red-200 hover:bg-red-50"
+                    aria-label={`${item.title} ${item.deal.title} 확인`}
+                  >
+                    <span className="flex items-start justify-between gap-3">
+                      <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-white text-dossa-red shadow-sm">
+                        <Icon size={19} />
+                      </span>
+                      <span className="rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-dossa-red shadow-sm">{item.label}</span>
+                    </span>
+                    <span className="mt-3 block text-sm font-black text-slate-950">{item.title}</span>
+                    <span className="mt-1 block text-xs font-bold leading-5 text-slate-500">{item.helper}</span>
+                    <span className="mt-2 line-clamp-1 block text-xs font-black text-dossa-red">{item.deal.title}</span>
+                    <span className="mt-2 inline-flex rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-slate-700 shadow-sm">{item.actionLabel}</span>
+                    <span className="mt-2 block text-[11px] font-bold leading-4 text-slate-500">{item.checklist}</span>
                   </button>
                 );
               })}
