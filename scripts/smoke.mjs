@@ -450,6 +450,9 @@ await check("admin dashboard quality cards", async () => {
   assert(text.includes("오늘 운영 체크인") && text.includes("무료·쿠폰·링크·재방문 루틴을 먼저 점검합니다"), "Admin dashboard missing daily operations check-in");
   assert(text.includes("무료 혜택 보강") && text.includes("링크 검수") && text.includes("신고·종료 정리") && text.includes("재방문 루틴"), "Admin dashboard missing daily operations check-in cards");
   assert(text.includes("운영 피드 전환 준비도") && text.includes("공식 API·제휴 피드로 바꿀 때 볼 품질 기준"), "Admin dashboard missing source readiness operation board");
+  assert(text.includes("파트너 피드 사전 검수 리포트") && text.includes("ready / needs_fix 행을 먼저 분리합니다"), "Admin dashboard missing partner feed validation report board");
+  assert(text.includes("readyRate") && text.includes("운영 반영 전 목표는 100%"), "Admin dashboard missing partner feed ready rate summary");
+  assert(text.includes("feed:validate --report") && text.includes("feed:production:doctor"), "Admin dashboard missing feed validation command guidance");
   assert(text.includes("오늘 혜택 운영 액션 큐") && text.includes("신고·종료·링크 보강"), "Admin dashboard missing benefit operation action queue");
   assert(text.includes("혜택 조건 완성도 점검") && text.includes("제공처·배송비·가입·선착순·쿠폰 조건"), "Admin dashboard missing benefit condition audit");
   assert(text.includes("조건 취약 유형") && text.includes("쿠폰 조건"), "Admin dashboard missing condition readiness details");
@@ -891,6 +894,15 @@ await check("partner feed import dry-run", async () => {
   assert(data.previewDeals?.[0]?.discountRate === 40, "Normalized discount rate mismatch");
   assert(data.previewDeals?.[0]?.linkVerified === true, "Partner productUrl should normalize as a verified purchase link");
   assert(data.linkSummary?.verified === 1, "Import link summary should count verified product links");
+});
+
+await check("partner feed sample validation api", async () => {
+  const { response, data } = await fetchJson("/api/admin/import");
+  assert(response.status === 200, `Expected 200, got ${response.status}`);
+  assert(data.ok === true, "Sample feed API should be ok");
+  assert(Array.isArray(data.sampleFeed) && data.sampleFeed.length >= 2, "Sample feed API missing sample feed rows");
+  assert(data.sampleValidation?.ok === true, "Sample feed validation should pass");
+  assert(data.sampleValidation?.linkSummary?.verified >= 1, "Sample feed validation missing verified link summary");
 });
 
 await check("partner feed import blocks unsafe links", async () => {

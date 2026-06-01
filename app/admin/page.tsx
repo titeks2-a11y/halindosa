@@ -6,6 +6,7 @@ import { canAccessAdmin, getAdminExportHref, isAdminProtectionEnabled } from "@/
 import { getDeals } from "@/lib/dealService";
 import { getLinkReviewActionLabel, getLinkReviewQueue, getLinkStatusLabel, getLinkTypeLabel } from "@/lib/deals/quality";
 import { getDealSourceReadiness, listDealSourceProfiles } from "@/lib/deals/trust";
+import { dryRunPartnerFeedImport, samplePartnerFeed } from "@/lib/feedImport";
 import { formatPrice, getRelativeTime } from "@/lib/format";
 import { getReportSummary, listDealReports } from "@/lib/reports";
 
@@ -48,6 +49,8 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const { deals } = await getDeals();
   const reportSummary = getReportSummary();
   const recentReports = listDealReports().slice(0, 6);
+  const sampleFeedValidation = dryRunPartnerFeedImport(samplePartnerFeed, "sample_partner_feed");
+  const sampleFeedReadyRate = sampleFeedValidation.received ? Math.round((sampleFeedValidation.valid / sampleFeedValidation.received) * 100) : 0;
   const sourceCounts = new Map<string, number>();
   const linkReviewDeals = getLinkReviewQueue(deals, 8);
   const sourceReadiness = getDealSourceReadiness(deals);
@@ -224,6 +227,61 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
             </p>
           </div>
         </div>
+
+        <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm" aria-label="파트너 피드 사전 검수 리포트">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-black text-dossa-red">파트너 피드 사전 검수 리포트</p>
+              <h2 className="mt-1 text-xl font-black text-slate-950">운영 연결 전 ready / needs_fix 행을 먼저 분리합니다</h2>
+              <p className="mt-1 text-sm font-semibold leading-6 text-slate-500">
+                `feed:validate --report`와 같은 기준으로 필수값, 가격, 실제 상세 URL, 커뮤니티/검색 fallback 여부를 확인합니다.
+              </p>
+            </div>
+            <a
+              href={`/api/admin/import${token ? `?token=${encodeURIComponent(token)}` : ""}`}
+              className="inline-flex items-center gap-2 rounded-2xl bg-slate-950 px-4 py-3 text-sm font-black text-white"
+            >
+              <DatabaseZap size={17} />
+              샘플 검증 API
+            </a>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-4">
+            <div className="rounded-2xl bg-red-50 p-4">
+              <p className="text-xs font-black text-dossa-red">readyRate</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">{sampleFeedReadyRate}%</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-red-900/70">운영 반영 전 목표는 100%</p>
+            </div>
+            <div className="rounded-2xl bg-slate-50 p-4">
+              <p className="text-xs font-black text-slate-500">ready</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">{sampleFeedValidation.valid}행</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-slate-500">즉시 dry-run 통과 가능</p>
+            </div>
+            <div className="rounded-2xl bg-slate-50 p-4">
+              <p className="text-xs font-black text-slate-500">needs_fix</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">{sampleFeedValidation.invalid}행</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-slate-500">상세 URL·가격·필수값 보강 필요</p>
+            </div>
+            <div className="rounded-2xl bg-slate-50 p-4">
+              <p className="text-xs font-black text-slate-500">검증 링크</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">{sampleFeedValidation.linkSummary.verified}개</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-slate-500">검색 결과가 아닌 상세 URL 기준</p>
+            </div>
+          </div>
+          <div className="mt-4 rounded-2xl border border-red-100 bg-red-50 p-4">
+            <p className="text-sm font-black text-slate-950">운영 반영 순서</p>
+            <div className="mt-3 grid gap-2 md:grid-cols-3">
+              {[
+                "feed:validate --report로 needs_fix 행을 먼저 제거",
+                "invalid=0, readyRate=100 상태에서 production 피드 연결",
+                "feed:production:doctor와 release:doctor 통과 후 노출"
+              ].map((item) => (
+                <p key={item} className="rounded-2xl bg-white px-4 py-3 text-xs font-black leading-5 text-red-900/75">
+                  {item}
+                </p>
+              ))}
+            </div>
+          </div>
+        </section>
 
         <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">

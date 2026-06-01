@@ -1394,6 +1394,10 @@ async function checkOperationalDataSurfaces() {
     !sourcesRoute.includes("blockedSources") ||
     !adminPage.includes("운영 피드 전환 준비도") ||
     !adminPage.includes("공식 API·제휴 피드로 바꿀 때 볼 품질 기준") ||
+    !adminPage.includes("파트너 피드 사전 검수 리포트") ||
+    !adminPage.includes("ready / needs_fix 행을 먼저 분리합니다") ||
+    !adminPage.includes("feed:validate --report") ||
+    !adminPage.includes("운영 반영 전 목표는 100%") ||
     !dataSourceRunbook.includes("Production JSON Feed") ||
     !dataSourceRunbook.includes("DEAL_PRODUCTION_FEED_URLS") ||
     !dataSourceRunbook.includes("npm run feed:validate") ||
@@ -1414,7 +1418,9 @@ async function checkOperationalDataSurfaces() {
     !productionFeedDoctor.includes("blocked-community") ||
     !productionFeedDoctor.includes("Production feed doctor passed") ||
     !smoke.includes("Sources API missing source readiness summary") ||
-    !smoke.includes("Sources API missing configured production feed count")
+    !smoke.includes("Sources API missing configured production feed count") ||
+    !smoke.includes("Admin dashboard missing partner feed validation report board") ||
+    !smoke.includes("partner feed sample validation api")
   ) {
     fail("source readiness operation", "Sources API, production provider, docs, production feed doctor, and admin dashboard should expose source readiness, safe production JSON feed loading, allowed source policy, blocked source policy, and verified link quality for production feed transition.");
   } else {

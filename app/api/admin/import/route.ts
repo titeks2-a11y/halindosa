@@ -24,6 +24,7 @@ export async function GET(request: Request) {
       ok: true,
       requestId,
       sampleFeed: samplePartnerFeed,
+      sampleValidation: dryRunPartnerFeedImport(samplePartnerFeed, "sample_partner_feed"),
       message: "파트너 피드 dry-run 샘플입니다."
     },
     { headers: { "X-Request-Id": requestId } }
