@@ -1,4 +1,4 @@
-import { BadgePercent, Clock3, Gift, Heart, Sparkles, TicketPercent, TrendingUp, Truck } from "lucide-react";
+import { AlertTriangle, BadgePercent, Clock3, Gift, Heart, Sparkles, TicketPercent, TrendingUp, Truck } from "lucide-react";
 import { getBenefitTypeLabel } from "@/lib/deals/benefits";
 import { Deal, DealBenefitType } from "@/types/deal";
 import { formatPrice, getTimeLeft } from "@/lib/format";
@@ -121,6 +121,37 @@ function getBenefitSummaryStats(deals: Deal[]) {
     couponCount,
     endingSoonCount
   };
+}
+
+function getHomeBenefitRiskReview(deals: Deal[]) {
+  const activeDeals = deals.filter((deal) => !deal.isExpired && !deal.isSoldOut);
+
+  return [
+    {
+      title: "숨은 비용 먼저 보기",
+      value: `${activeDeals.filter((deal) => !deal.isFreeShipping && deal.shippingFee !== "무료배송" && deal.salePrice > 0).length}개`,
+      helper: "무료처럼 보여도 배송비, 옵션가, 최소 주문 금액이 붙을 수 있는 혜택",
+      type: "freeShipping" as DealBenefitType
+    },
+    {
+      title: "가입 조건 있는 혜택",
+      value: `${activeDeals.filter((deal) => deal.requiresSignup).length}개`,
+      helper: "판매처 회원가입, 앱 설치, 신규 가입 조건을 먼저 확인할 혜택",
+      type: "coupon" as DealBenefitType
+    },
+    {
+      title: "선착순·마감 주의",
+      value: `${activeDeals.filter((deal) => deal.isFirstComeFirstServed || deal.isEndingSoon).length}개`,
+      helper: "수량 제한, 마감 시간, 조기 종료 가능성이 있는 혜택",
+      type: "event" as DealBenefitType
+    },
+    {
+      title: "신고 상태 확인",
+      value: `${activeDeals.filter((deal) => deal.reportCount > 0 || deal.linkStatus !== "verified").length}개`,
+      helper: "신고 누적, 링크 확인 필요, 판매처 상태 재확인이 필요한 혜택",
+      type: "discount" as DealBenefitType
+    }
+  ];
 }
 
 function getTodaySavingsReceipt(deals: Deal[]) {
@@ -378,6 +409,7 @@ export function BenefitDiscoverySections({
   const todayBenefitMissions = getTodayBenefitMissions(source);
   const todaySavingsReceipt = getTodaySavingsReceipt(source);
   const dailyActionQueue = getDailyActionQueue(source);
+  const homeBenefitRiskReview = getHomeBenefitRiskReview(source);
 
   return (
     <div className="space-y-4" aria-label="할인도사 VER 2.0 혜택 탐색">
@@ -505,6 +537,39 @@ export function BenefitDiscoverySections({
               <span className="mt-1 block text-[11px] font-bold leading-4 text-slate-500">{helper}</span>
             </div>
           ))}
+        </div>
+
+        <div className="mt-4 rounded-[24px] border border-amber-100 bg-white p-3 shadow-sm" aria-label="홈 혜택 헛걸음 방지">
+          <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-black text-dossa-red">홈 혜택 헛걸음 방지</p>
+              <h4 className="text-lg font-black text-slate-950">누르기 전 놓치기 쉬운 조건을 먼저 봅니다</h4>
+            </div>
+            <p className="text-xs font-bold leading-5 text-slate-500">배송비, 가입, 선착순, 신고 신호를 첫 화면에서 바로 점검합니다.</p>
+          </div>
+          <div className="mt-3 grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
+            {homeBenefitRiskReview.map((item) => (
+              <button
+                key={item.title}
+                type="button"
+                onClick={() => onSelectBenefit(item.type)}
+                className="min-h-[132px] rounded-3xl border border-slate-100 bg-slate-50 p-3 text-left transition hover:-translate-y-0.5 hover:border-amber-200 hover:bg-amber-50"
+                aria-label={`${item.title} ${item.value} 점검`}
+              >
+                <span className="flex items-start justify-between gap-3">
+                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-white text-amber-700 shadow-sm">
+                    <AlertTriangle size={18} />
+                  </span>
+                  <span className="rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-amber-700 shadow-sm">{item.value}</span>
+                </span>
+                <span className="mt-3 block text-sm font-black text-slate-950">{item.title}</span>
+                <span className="mt-1 line-clamp-2 block text-xs font-bold leading-5 text-slate-500">{item.helper}</span>
+              </button>
+            ))}
+          </div>
+          <p className="mt-3 rounded-2xl bg-amber-50 px-3 py-2 text-xs font-bold leading-5 text-amber-900">
+            조건 점검은 혜택을 숨기지 않고 사용자가 먼저 판단하도록 돕는 안내입니다. 비회원도 전체 혜택을 계속 볼 수 있습니다.
+          </p>
         </div>
 
         <div className="mt-4 rounded-[24px] border border-slate-200 bg-white p-3 shadow-sm" aria-label="오늘 절약 영수증">

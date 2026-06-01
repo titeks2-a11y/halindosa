@@ -927,6 +927,11 @@ async function checkUiAccessibility() {
         !benefitDiscoverySections.includes("getBenefitSummaryStats") ||
         !benefitDiscoverySections.includes("오늘 절약 요약") ||
         !benefitDiscoverySections.includes("오늘 절약 후보") ||
+        !benefitDiscoverySections.includes("getHomeBenefitRiskReview") ||
+        !benefitDiscoverySections.includes("홈 혜택 헛걸음 방지") ||
+        !benefitDiscoverySections.includes("누르기 전 놓치기 쉬운 조건을 먼저 봅니다") ||
+        !benefitDiscoverySections.includes("숨은 비용 먼저 보기") ||
+        !smoke.includes("Home page missing benefit risk review rail") ||
         !benefitDiscoverySections.includes("getTodaySavingsReceipt") ||
         !benefitDiscoverySections.includes("오늘 절약 영수증") ||
         !benefitDiscoverySections.includes("쿠폰 절약") ||
