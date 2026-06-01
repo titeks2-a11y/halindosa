@@ -496,6 +496,8 @@ await check("commercial launch readiness page", async () => {
   assert(text.includes("구매 링크 확인율"), "Commercialization page missing verified link rate metric");
   assert(text.includes("출시 준비 단계"), "Commercialization page missing launch readiness phase");
   assert(text.includes("다음 우선 조치"), "Commercialization page missing next action queue");
+  assert(text.includes("오늘 혜택 큐 운영 준비도") && text.includes("홈, 알림 센터, 향후 푸시가 같은"), "Commercialization page missing daily benefit queue readiness");
+  assert(text.includes("비회원 열람 큐") && text.includes("API 응답 확인"), "Commercialization page missing daily benefit queue metrics");
   assert(text.includes("실기기 QA 체크리스트"), "Commercialization page missing device QA checklist reminder");
   assert(text.includes("운영 환경변수 확인"), "Commercialization page missing environment doctor reminder");
   assert(text.includes("혜택 데이터 품질 요약"), "Commercialization page missing benefit data quality summary");

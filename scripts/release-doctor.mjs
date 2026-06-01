@@ -1531,6 +1531,10 @@ async function checkOperationalDataSurfaces() {
     "구매 링크 확인율",
     "출시 준비 단계",
     "다음 우선 조치",
+    "오늘 혜택 큐 운영 준비도",
+    "홈, 알림 센터, 향후 푸시가 같은",
+    "비회원 열람 큐",
+    "API 응답 확인",
     "혜택 데이터 품질 요약",
     "무료·쿠폰·포인트",
     "신고/종료 점검",
@@ -1541,10 +1545,14 @@ async function checkOperationalDataSurfaces() {
     "다음 재방문 개선 액션"
   ];
   const missingCommercializationSnippets = commercializationSnippets.filter((snippet) => !commercializationPage.includes(snippet));
-  if (missingCommercializationSnippets.length) {
+  if (
+    missingCommercializationSnippets.length ||
+    !commercializationPage.includes("buildTodayBenefitQueue") ||
+    !smoke.includes("Commercialization page missing daily benefit queue readiness")
+  ) {
     fail("commercial launch readiness page", `Missing snippets: ${missingCommercializationSnippets.join(", ")}`);
   } else {
-    pass("commercial launch readiness page", "Commercialization page exposes launch readiness metrics, retention readiness, external setup, and remaining link review risk.");
+    pass("commercial launch readiness page", "Commercialization page exposes launch readiness metrics, daily benefit queue readiness, retention readiness, external setup, and remaining link review risk.");
   }
 
   const requiredCommercialDealFields = [

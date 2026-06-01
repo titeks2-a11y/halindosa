@@ -12,6 +12,8 @@ import {
   ShieldCheck
 } from "lucide-react";
 import { getMockBusinessMetrics } from "@/lib/analytics";
+import { getDeals } from "@/lib/dealService";
+import { buildTodayBenefitQueue } from "@/lib/deals/todayBenefitQueue";
 import { listDealSourceProfiles } from "@/lib/deals/trust";
 import { formatPrice } from "@/lib/format";
 
@@ -71,6 +73,8 @@ const readinessItems = [
 
 export default async function CommercializationPage() {
   const { metrics, linkQuality, linkReviewQueue, launchReadiness, benefitQuality, benefitRetention } = await getMockBusinessMetrics();
+  const { deals } = await getDeals();
+  const todayBenefitQueue = buildTodayBenefitQueue(deals, 3);
   const sources = listDealSourceProfiles();
   const activeSources = sources.filter((source) => source.status !== "planned");
   const topReviewDeals = linkReviewQueue.slice(0, 4);
@@ -132,6 +136,67 @@ export default async function CommercializationPage() {
             value={formatPrice(metrics.potentialSavings)}
             helper="현재 큐레이션 데이터 기준"
           />
+        </section>
+
+        <section className="mt-5 rounded-3xl border border-red-100 bg-white p-5 shadow-sm" aria-label="오늘 혜택 큐 운영 준비도">
+          <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+            <div>
+              <p className="text-sm font-black text-red-600">VER 2.0 데일리 큐</p>
+              <h2 className="mt-1 text-2xl font-black text-slate-950">오늘 혜택 큐 운영 준비도</h2>
+              <p className="mt-2 max-w-2xl text-sm font-semibold leading-6 text-slate-500">
+                홈, 알림 센터, 향후 푸시가 같은 `오늘 혜택 큐` 기준을 사용합니다. 비회원은 모든 혜택을 볼 수 있고,
+                찜 동기화와 가격 알림 저장만 선택 로그인으로 이어집니다.
+              </p>
+            </div>
+            <Link
+              href="/api/benefits/today?limit=3"
+              className="inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-2xl bg-red-50 px-4 text-sm font-black text-red-600"
+            >
+              API 응답 확인
+              <ExternalLink className="h-4 w-4" aria-hidden />
+            </Link>
+          </div>
+          <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="rounded-2xl bg-red-50 p-4">
+              <p className="text-xs font-black text-red-700">비회원 열람 큐</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">{todayBenefitQueue.summary.activeDeals}개</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-red-900/70">진행 중인 혜택 후보</p>
+            </div>
+            <div className="rounded-2xl bg-slate-50 p-4">
+              <p className="text-xs font-black text-slate-500">무료 혜택</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">{todayBenefitQueue.summary.freeBenefitDeals}개</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-slate-500">샘플, 체험, 무배 중심</p>
+            </div>
+            <div className="rounded-2xl bg-slate-50 p-4">
+              <p className="text-xs font-black text-slate-500">쿠폰·배달</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">{todayBenefitQueue.summary.couponDeals}개</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-slate-500">결제 전 확인 후보</p>
+            </div>
+            <div className="rounded-2xl bg-slate-50 p-4">
+              <p className="text-xs font-black text-slate-500">구매처 확인</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">{todayBenefitQueue.summary.verifiedPurchaseDeals}개</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-slate-500">상세 이동 검수 기준</p>
+            </div>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+            {todayBenefitQueue.sections.map((section) => (
+              <div key={section.key} className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
+                <div className="flex items-center justify-between gap-3">
+                  <p className="text-sm font-black text-slate-950">{section.title}</p>
+                  <span className="rounded-full bg-white px-2.5 py-1 text-xs font-black text-red-600 shadow-sm">
+                    {section.count}개
+                  </span>
+                </div>
+                <p className="mt-2 line-clamp-2 text-xs font-bold leading-5 text-slate-500">{section.description}</p>
+                <p className="mt-3 rounded-2xl bg-white px-3 py-2 text-xs font-black text-slate-700 shadow-sm">
+                  대표 노출 {section.items.length ? section.items[0].title : "보강 필요"}
+                </p>
+              </div>
+            ))}
+          </div>
+          <p className="mt-4 rounded-2xl bg-amber-50 px-4 py-3 text-xs font-bold leading-5 text-amber-900">
+            {todayBenefitQueue.notice} 로그인은 {todayBenefitQueue.loginRequiredFor.join(", ")}에만 필요합니다.
+          </p>
         </section>
 
         <section className="mt-5 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm" aria-label="출시 준비 단계">
