@@ -41,6 +41,7 @@ import { buildPersonalizedBenefitQueue } from "@/lib/deals/personalizedBenefitQu
 import { getLinkQualityScore, isVerifiedPurchaseLink } from "@/lib/deals/quality";
 import { dealMatchesSearch } from "@/lib/deals/search";
 import { formatPrice, getRelativeTime } from "@/lib/format";
+import { getDealImageSrc } from "@/lib/imageSrc";
 import { buildDealRedirectUrl, buildNativeSafeDealUrl } from "@/lib/redirectUrl";
 import { buildPublicAppShareUrl, buildPublicDealShareUrl } from "@/lib/shareUrl";
 import {
@@ -1200,6 +1201,17 @@ export default function Home() {
     return [...source].sort((a, b) => (commercialScore(b) + b.clickCount * 0.05) - (commercialScore(a) + a.clickCount * 0.05)).slice(0, 10);
   }, [catalog, deals]);
 
+  const instantDealRail = useMemo(() => {
+    const source = deals.length ? deals : catalog;
+    const railScore = (deal: Deal) =>
+      Number(deal.isHot) * 70 + deal.discountRate + deal.likeCount * 0.08 + deal.clickCount * 0.03;
+
+    return [...source]
+      .filter((deal) => isVerifiedPurchaseLink(deal) && !deal.isExpired && !deal.isSoldOut)
+      .sort((a, b) => railScore(b) - railScore(a))
+      .slice(0, 8);
+  }, [catalog, deals]);
+
   const recentDeals = useMemo(() => {
     const source = catalog.length ? catalog : deals;
     return recentDealIds.map((id) => source.find((deal) => deal.id === id)).filter((deal): deal is Deal => Boolean(deal)).slice(0, 6);
@@ -1978,6 +1990,83 @@ export default function Home() {
               <p className="text-xs font-bold text-slate-500">
                 상품 이동은 모두 새 탭에서 직접 구매 링크로 열립니다.
               </p>
+            </div>
+          </section>
+        ) : null}
+        {activeView === "home" && instantDealRail.length ? (
+          <section className="rounded-[28px] border border-slate-200 bg-white p-3 shadow-sm sm:p-4" aria-label="오늘 바로 볼 특가">
+            <div className="flex items-center justify-between gap-3">
+              <div>
+                <p className="text-xs font-black text-dossa-red">오늘 바로 볼 특가</p>
+                <h3 className="mt-1 text-lg font-black text-slate-950 sm:text-xl">검색 결과에서 먼저 확인할 상품</h3>
+              </div>
+              <p className="hidden text-xs font-bold text-slate-500 sm:block">상품 상세도 새 탭으로 열립니다.</p>
+            </div>
+            <div className="mt-3 flex gap-3 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              {instantDealRail.map((deal) => (
+                <article
+                  key={deal.id}
+                  className="group relative flex w-[168px] shrink-0 flex-col overflow-hidden rounded-3xl border border-slate-100 bg-slate-50 shadow-sm transition hover:-translate-y-0.5 hover:border-red-100 hover:bg-white sm:w-[190px]"
+                >
+                  <Link
+                    href={`/deals/${deal.id}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block"
+                    aria-label={`${deal.title} 상세 정보 새 탭으로 보기`}
+                  >
+                    <span className="relative block aspect-square overflow-hidden bg-red-50">
+                      {deal.thumbnail ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={getDealImageSrc(deal.thumbnail)}
+                          alt={`${deal.title} 상품 이미지`}
+                          loading="lazy"
+                          decoding="async"
+                          referrerPolicy="no-referrer"
+                          className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+                        />
+                      ) : (
+                        <span className="flex h-full w-full items-center justify-center text-sm font-black text-dossa-red">SALE</span>
+                      )}
+                      <span className="absolute left-2 top-2 rounded-full bg-dossa-red px-2 py-1 text-xs font-black text-white">{deal.discountRate}%</span>
+                      {deal.isFreeShipping ? (
+                        <span className="absolute bottom-2 left-2 rounded-full bg-white px-2 py-1 text-[11px] font-black text-dossa-red shadow-sm">무료배송</span>
+                      ) : null}
+                    </span>
+                    <span className="block space-y-1.5 p-3">
+                      <span className="flex items-center justify-between gap-2 text-[11px] font-black">
+                        <span className="truncate text-dossa-red">{deal.mallName}</span>
+                        <span className="shrink-0 text-slate-400">{getRelativeTime(deal.priceCheckedAt)}</span>
+                      </span>
+                      <span className="line-clamp-2 min-h-10 text-sm font-black leading-5 text-slate-950">{deal.title}</span>
+                      <span className="block text-[11px] font-bold text-slate-400 line-through">{formatPrice(deal.originalPrice)}</span>
+                      <span className="block text-lg font-black text-dossa-red">{formatPrice(deal.salePrice)}</span>
+                    </span>
+                  </Link>
+                  <div className="mt-auto grid grid-cols-2 gap-1 px-3 pb-3">
+                    <button
+                      type="button"
+                      onClick={() => toggleFavorite(deal.id)}
+                      className={`min-h-10 rounded-2xl border text-xs font-black transition ${
+                        favorites.includes(deal.id) ? "border-red-100 bg-red-50 text-dossa-red" : "border-slate-200 bg-white text-slate-600 hover:text-dossa-red"
+                      }`}
+                      aria-label={`${deal.title} ${favorites.includes(deal.id) ? "찜 해제" : "찜하기"}`}
+                      aria-pressed={favorites.includes(deal.id)}
+                    >
+                      찜
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => openDeal(deal)}
+                      className="min-h-10 rounded-2xl bg-slate-950 text-xs font-black text-white transition hover:bg-dossa-red"
+                      aria-label={`${deal.title} 판매처 새 탭으로 확인`}
+                    >
+                      구매
+                    </button>
+                  </div>
+                </article>
+              ))}
             </div>
           </section>
         ) : null}

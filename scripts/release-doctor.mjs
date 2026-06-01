@@ -656,6 +656,8 @@ async function checkSearchAndPurchaseFlow() {
     homePage.includes('getElementById("all-deals")') ||
     homePage.includes('href="#all-deals"') ||
     !homePage.includes("빠른 상품 검색") ||
+    !homePage.includes("오늘 바로 볼 특가") ||
+    !homePage.includes("instantDealRail") ||
     !homePage.includes("상품 이동은 모두 새 탭") ||
     !homePage.includes("카테고리 바로가기") ||
     !homePage.includes("quickCategoryShortcuts")
