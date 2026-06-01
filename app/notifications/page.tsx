@@ -167,6 +167,40 @@ export default async function NotificationsPage() {
       signal: "기기 저장"
     }
   ];
+  const alertTimeSlots = [
+    {
+      time: "아침 9시",
+      title: "무료·포인트 먼저",
+      description: "출석체크, 포인트 적립, 무료 샘플처럼 하루 초반에 열어볼수록 유리한 혜택입니다.",
+      href: "/free-benefits?dealType=point&sort=recommended",
+      count: deals.filter((deal) => ["point", "freebie", "experience"].includes(deal.dealType) && !deal.isExpired && !deal.isSoldOut).length,
+      checkpoint: "가입/배송비 확인"
+    },
+    {
+      time: "점심 12시",
+      title: "쿠폰·외식 혜택",
+      description: "배달, 외식, 첫 구매 쿠폰처럼 결제 직전에 조건을 확인하면 체감 절약이 커집니다.",
+      href: "/free-benefits?dealType=coupon&sort=popular",
+      count: couponPointDeals.length,
+      checkpoint: "최소 주문 확인"
+    },
+    {
+      time: "퇴근 전 18시",
+      title: "마트·편의점 행사",
+      description: "장보기 전 편의점 1+1, 마트 행사, 무료배송 조건을 한 번에 다시 봅니다.",
+      href: "/free-benefits?dealType=mart&sort=popular",
+      count: deals.filter((deal) => ["mart", "convenienceStore", "freeShipping"].includes(deal.dealType) && !deal.isExpired && !deal.isSoldOut).length,
+      checkpoint: "행사 지점 확인"
+    },
+    {
+      time: "마감 전 22시",
+      title: "오늘 끝날 수 있는 혜택",
+      description: "마감임박, 선착순, 품절 가능성이 있는 혜택을 판매처에서 최종 확인합니다.",
+      href: "/?endingSoon=true&sort=endingSoon",
+      count: endingBenefitDeals.length,
+      checkpoint: "종료/품절 확인"
+    }
+  ];
 
   return (
     <div className="space-y-4 px-3 py-4 sm:px-4 lg:px-0 lg:py-8">
@@ -204,6 +238,43 @@ export default async function NotificationsPage() {
       <PriceAlertList deals={deals} />
       <ClaimedBenefitAlertSummary deals={deals} />
       <InterestAlertPreview deals={deals} />
+
+      <section className="rounded-[22px] border border-red-100 bg-white p-4 shadow-sm lg:p-5" aria-label="오늘 알림 시간표">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-xs font-black text-dossa-red">오늘 알림 시간표</p>
+            <h2 className="mt-1 text-base font-black text-slate-950">푸시 없이도 하루 세 번 열어볼 이유를 만듭니다</h2>
+            <p className="mt-1 text-sm font-semibold leading-6 text-slate-500">
+              실제 푸시 권한을 요청하기 전에는 시간대별 확인 루틴을 앱 안에서 먼저 제공합니다.
+            </p>
+          </div>
+          <Link href="/free-benefits" className="rounded-2xl bg-dossa-red px-4 py-3 text-center text-xs font-black text-white">
+            오늘 루틴 시작
+          </Link>
+        </div>
+        <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+          {alertTimeSlots.map((slot) => (
+            <Link
+              key={slot.time}
+              href={slot.href}
+              className="min-h-[160px] rounded-3xl border border-slate-100 bg-slate-50 p-4 transition hover:-translate-y-0.5 hover:border-red-200 hover:bg-red-50"
+            >
+              <span className="flex items-start justify-between gap-3">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-dossa-red shadow-sm">
+                  <Clock size={13} />
+                  {slot.time}
+                </span>
+                <span className="rounded-full bg-slate-950 px-2.5 py-1 text-[11px] font-black text-white">{slot.count}개</span>
+              </span>
+              <span className="mt-4 block text-sm font-black text-slate-950">{slot.title}</span>
+              <span className="mt-1 line-clamp-3 block text-xs font-semibold leading-5 text-slate-500">{slot.description}</span>
+              <span className="mt-3 inline-flex rounded-full bg-white px-3 py-1.5 text-xs font-black text-slate-700 shadow-sm">
+                {slot.checkpoint}
+              </span>
+            </Link>
+          ))}
+        </div>
+      </section>
 
       <section className="rounded-[22px] border border-red-100 bg-white p-4 shadow-sm lg:p-5" aria-label="비회원 알림 조건 요약">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">

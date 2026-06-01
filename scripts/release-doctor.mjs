@@ -1202,6 +1202,11 @@ async function checkOperationalDataSurfaces() {
     !notificationsPage.includes("오늘 알림 실행 순서") ||
     !notificationsPage.includes("앱을 열면 이 순서로 혜택을 확인하세요") ||
     !notificationsPage.includes("InterestAlertPreview") ||
+    !notificationsPage.includes("alertTimeSlots") ||
+    !notificationsPage.includes("오늘 알림 시간표") ||
+    !notificationsPage.includes("푸시 없이도 하루 세 번 열어볼 이유를 만듭니다") ||
+    !notificationsPage.includes("아침 9시") ||
+    !notificationsPage.includes("마감 전 22시") ||
     !notificationsPage.includes("오늘 알림 큐") ||
     !interestAlertPreview.includes("관심 카테고리 알림") ||
     !interestAlertPreview.includes("관심 설정하기") ||
@@ -1218,6 +1223,7 @@ async function checkOperationalDataSurfaces() {
     !notificationsPage.includes("알림 기준 보기") ||
     !smoke.includes("Notifications page missing non-member alert condition board") ||
     !smoke.includes("Notifications page missing alert action routine") ||
+    !smoke.includes("Notifications page missing alert time routine") ||
     !smoke.includes("Notifications page missing interest alert action cards") ||
     notificationsPage.includes("Notification.requestPermission")
   ) {
