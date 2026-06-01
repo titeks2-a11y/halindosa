@@ -73,7 +73,7 @@ const readinessItems = [
 ];
 
 export default async function CommercializationPage() {
-  const { metrics, linkQuality, linkReviewQueue, launchReadiness, benefitQuality, benefitRetention } = await getMockBusinessMetrics();
+  const { metrics, linkQuality, linkReviewQueue, launchReadiness, benefitQuality, benefitRetention, personalizationReadiness } = await getMockBusinessMetrics();
   const { deals } = await getDeals();
   const todayBenefitQueue = buildTodayBenefitQueue(deals, 3);
   const weeklyBenefitCalendar = buildWeeklyBenefitCalendar(deals);
@@ -433,6 +433,48 @@ export default async function CommercializationPage() {
             <p className="text-xs font-black text-red-700">다음 재방문 개선 액션</p>
             <ul className="mt-2 space-y-1">
               {benefitRetention.nextActions.map((action) => (
+                <li key={action} className="text-sm font-semibold leading-6 text-red-900/75">
+                  {action}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        <section className="mt-5 rounded-3xl border border-red-100 bg-white p-5 shadow-sm" aria-label="개인화 추천 출시 준비도">
+          <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+            <div>
+              <p className="text-sm font-black text-red-600">VER 2.0 개인화 지표</p>
+              <h2 className="mt-1 text-2xl font-black text-slate-950">개인화 추천 출시 준비도</h2>
+              <p className="mt-2 max-w-2xl text-sm font-semibold leading-6 text-slate-500">
+                홈, 알림, 무료혜택 탭에서 같은 개인화 추천 큐를 쓰기 때문에 관심사별 추천 후보와 실제 링크 준비도를 출시 전 확인합니다.
+              </p>
+            </div>
+            <div className="rounded-2xl bg-slate-950 px-4 py-3 text-white">
+              <p className="text-xs font-black text-red-100">개인화 준비도</p>
+              <p className="mt-1 text-2xl font-black">{personalizationReadiness.averageReadyRate}%</p>
+            </div>
+          </div>
+          <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="rounded-2xl bg-red-50 p-4">
+              <p className="text-xs font-black text-red-700">준비된 관심군</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">{personalizationReadiness.readyInterestGroups}/{personalizationReadiness.totalInterestGroups}</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-red-900/70">
+                {personalizationReadiness.ready ? "출시 후보" : "보강 필요"}
+              </p>
+            </div>
+            {personalizationReadiness.queues.slice(0, 3).map((queue) => (
+              <div key={queue.key} className="rounded-2xl bg-slate-50 p-4">
+                <p className="text-xs font-black text-slate-500">{queue.label}</p>
+                <p className="mt-2 text-2xl font-black text-slate-950">{queue.readyRate}%</p>
+                <p className="mt-1 text-xs font-bold leading-5 text-slate-500">추천 {queue.recommendedDeals}개 · 링크 {queue.verifiedCount}개</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-4 rounded-2xl bg-red-50 p-4">
+            <p className="text-xs font-black text-red-700">다음 개인화 개선 액션</p>
+            <ul className="mt-2 space-y-1">
+              {personalizationReadiness.nextActions.map((action) => (
                 <li key={action} className="text-sm font-semibold leading-6 text-red-900/75">
                   {action}
                 </li>

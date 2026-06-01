@@ -482,6 +482,8 @@ await check("admin dashboard quality cards", async () => {
   assert(text.includes("수령 안내") && text.includes("링크·신고") && text.includes("마감 신호"), "Admin dashboard missing benefit condition operation details");
   assert(text.includes("VER 2.0 재방문 운영") && text.includes("매일 재방문 루틴 점검"), "Admin dashboard missing benefit retention operation summary");
   assert(text.includes("재방문 점수") && text.includes("다음 재방문 개선 액션"), "Admin dashboard missing retention action queue");
+  assert(text.includes("VER 2.0 개인화 추천 운영") && text.includes("개인화 준비율"), "Admin dashboard missing personalization readiness operation summary");
+  assert(text.includes("개인화 추천 개선 액션"), "Admin dashboard missing personalization action queue");
   assert(text.includes("링크 오류") && text.includes("품절") && text.includes("종료"), "Admin dashboard missing report reason priority summary");
   assert(text.includes("우선 검수"), "Admin dashboard missing urgent report priority copy");
   assert(text.includes("상품 상세 URL 보강 필요"), "Admin dashboard missing localized link review action");
@@ -515,6 +517,8 @@ await check("commercial launch readiness page", async () => {
   assert(text.includes("운영 액션 큐") && text.includes("출시 전 먼저 점검할 혜택 유형"), "Commercialization page missing benefit operation action queue");
   assert(text.includes("매일 재방문 루틴 준비도") && text.includes("재방문 점수"), "Commercialization page missing benefit retention readiness");
   assert(text.includes("무료·쿠폰·포인트·마트·마감") && text.includes("다음 재방문 개선 액션"), "Commercialization page missing retention operation actions");
+  assert(text.includes("개인화 추천 출시 준비도") && text.includes("홈, 알림, 무료혜택 탭에서 같은 개인화 추천 큐"), "Commercialization page missing personalization readiness");
+  assert(text.includes("다음 개인화 개선 액션"), "Commercialization page missing personalization operation actions");
 });
 
 await check("deals api", async () => {
@@ -883,6 +887,8 @@ await check("metrics api", async () => {
   assert(data.benefitRetention?.retentionScore >= 0, "Metrics missing benefit retention score");
   assert(data.benefitRetention?.dailyRoutineSlots?.length === 5, "Metrics missing daily routine slots");
   assert(typeof data.benefitRetention?.weeklyRoutineReady === "boolean", "Metrics missing weekly routine readiness");
+  assert(data.personalizationReadiness?.averageReadyRate >= 0, "Metrics missing personalization readiness rate");
+  assert(data.personalizationReadiness?.queues?.length >= 4, "Metrics missing personalization readiness queues");
   assert(Array.isArray(data.linkReviewQueue), "Metrics missing link review queue");
   assert(data.linkReviewQueue.length <= 8, "Metrics link review queue should be capped");
   if (data.linkReviewQueue.length) {

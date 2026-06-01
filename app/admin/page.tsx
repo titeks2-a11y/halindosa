@@ -48,7 +48,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
     );
   }
 
-  const { metrics, topDeals, updatedAt, source, benefitQuality, benefitRetention } = await getMockBusinessMetrics();
+  const { metrics, topDeals, updatedAt, source, benefitQuality, benefitRetention, personalizationReadiness } = await getMockBusinessMetrics();
   const { deals } = await getDeals();
   const reportSummary = getReportSummary();
   const recentReports = listDealReports().slice(0, 6);
@@ -681,6 +681,75 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
             <p className="text-xs font-black text-dossa-red">다음 재방문 개선 액션</p>
             <div className="mt-2 grid gap-2 md:grid-cols-2">
               {benefitRetention.nextActions.map((action) => (
+                <p key={action} className="rounded-2xl bg-white px-4 py-3 text-sm font-bold leading-6 text-red-900/75">
+                  {action}
+                </p>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="rounded-3xl border border-red-100 bg-white p-5 shadow-sm">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-black text-dossa-red">VER 2.0 개인화 추천 운영</p>
+              <h2 className="mt-1 text-xl font-black text-slate-950">홈·알림·무료혜택 추천 큐 준비도</h2>
+              <p className="mt-1 text-sm font-semibold leading-6 text-slate-500">
+                비회원 관심사, 최근 본 상품, 찜한 혜택을 같은 기준으로 묶어 홈·알림·무료혜택 화면의 추천 후보를 점검합니다.
+              </p>
+            </div>
+            <Link href="/api/benefits/personalized" className="rounded-2xl bg-slate-950 px-4 py-3 text-sm font-black text-white">
+              개인화 API 보기
+            </Link>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-4">
+            <div className="rounded-2xl bg-red-50 p-4">
+              <p className="text-xs font-black text-dossa-red">개인화 준비율</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">{personalizationReadiness.averageReadyRate}%</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-red-900/70">
+                {personalizationReadiness.ready ? "출시 후보" : "보강 필요"}
+              </p>
+            </div>
+            <div className="rounded-2xl bg-slate-50 p-4">
+              <p className="text-xs font-black text-slate-500">준비 관심군</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">
+                {personalizationReadiness.readyInterestGroups}/{personalizationReadiness.totalInterestGroups}
+              </p>
+              <p className="mt-1 text-xs font-bold leading-5 text-slate-500">추천 기준별 큐</p>
+            </div>
+            <div className="rounded-2xl bg-slate-50 p-4">
+              <p className="text-xs font-black text-slate-500">추천 후보</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">
+                {personalizationReadiness.queues.reduce((sum, queue) => sum + queue.recommendedDeals, 0)}개
+              </p>
+              <p className="mt-1 text-xs font-bold leading-5 text-slate-500">관심사별 합산</p>
+            </div>
+            <div className="rounded-2xl bg-amber-50 p-4">
+              <p className="text-xs font-black text-amber-800">보강 필요 큐</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">{personalizationReadiness.weakQueues.length}개</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-amber-900/70">링크·무료 혜택 비중 확인</p>
+            </div>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-4">
+            {personalizationReadiness.queues.map((queue) => (
+              <div key={queue.key} className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
+                <div className="flex items-center justify-between gap-2">
+                  <p className="text-sm font-black text-slate-950">{queue.label}</p>
+                  <span className="rounded-full bg-white px-2.5 py-1 text-xs font-black text-dossa-red shadow-sm">
+                    {queue.readyRate}%
+                  </span>
+                </div>
+                <p className="mt-2 text-xs font-bold leading-5 text-slate-500">
+                  추천 {queue.recommendedDeals}개 · 관심 일치 {queue.interestMatchedDeals}개 · 링크 확인 {queue.verifiedCount}개
+                </p>
+                <p className="mt-3 line-clamp-2 text-xs font-semibold leading-5 text-slate-400">{queue.sampleDeal || queue.action}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-4 rounded-2xl border border-red-100 bg-red-50 p-4">
+            <p className="text-xs font-black text-dossa-red">개인화 추천 개선 액션</p>
+            <div className="mt-2 grid gap-2 md:grid-cols-2">
+              {personalizationReadiness.nextActions.map((action) => (
                 <p key={action} className="rounded-2xl bg-white px-4 py-3 text-sm font-bold leading-6 text-red-900/75">
                   {action}
                 </p>

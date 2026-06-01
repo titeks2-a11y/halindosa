@@ -1400,15 +1400,25 @@ async function checkOperationalDataSurfaces() {
     !analytics.includes("dailyRoutineSlots") ||
     !analytics.includes("weeklyRoutineReady") ||
     !analytics.includes("retentionScore") ||
+    !analytics.includes("buildPersonalizationReadiness") ||
+    !analytics.includes("personalizationReadiness") ||
+    !analytics.includes("buildPersonalizedBenefitQueue") ||
     !commercializationPage.includes("benefitRetention") ||
+    !commercializationPage.includes("개인화 추천 출시 준비도") ||
+    !commercializationPage.includes("다음 개인화 개선 액션") ||
     !adminPage.includes("benefitRetention") ||
+    !adminPage.includes("VER 2.0 개인화 추천 운영") ||
+    !adminPage.includes("개인화 추천 개선 액션") ||
     !smoke.includes("Metrics missing benefit retention score") ||
+    !smoke.includes("Metrics missing personalization readiness rate") ||
     !smoke.includes("Commercialization page missing benefit retention readiness") ||
-    !smoke.includes("Admin dashboard missing benefit retention operation summary")
+    !smoke.includes("Commercialization page missing personalization readiness") ||
+    !smoke.includes("Admin dashboard missing benefit retention operation summary") ||
+    !smoke.includes("Admin dashboard missing personalization readiness operation summary")
   ) {
-    fail("benefit retention metrics", "Metrics, admin, and commercialization pages should expose daily routine readiness for V2 retention operations.");
+    fail("benefit retention metrics", "Metrics, admin, and commercialization pages should expose daily routine and personalization readiness for V2 retention operations.");
   } else {
-    pass("benefit retention metrics", "Metrics, admin, and commercialization pages expose daily routine readiness for V2 retention operations.");
+    pass("benefit retention metrics", "Metrics, admin, and commercialization pages expose daily routine and personalization readiness for V2 retention operations.");
   }
 
   if (

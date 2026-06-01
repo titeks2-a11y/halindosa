@@ -1,4 +1,5 @@
 import { findDealById, getDeals } from "@/lib/dealService";
+import { buildPersonalizedBenefitQueue } from "@/lib/deals/personalizedBenefitQueue";
 import { getLinkReviewQueue, summarizeDealQuality } from "@/lib/deals/quality";
 import { getPriceInsight } from "@/lib/priceHistory";
 import type { Deal, DealBenefitType } from "@/types/deal";
@@ -378,6 +379,54 @@ function buildBenefitRetentionPlan(deals: Deal[], benefitQuality: ReturnType<typ
   };
 }
 
+function buildPersonalizationReadiness(deals: Deal[]) {
+  const interestGroups = [
+    { key: "free-coupon", label: "무료·쿠폰 관심", interests: ["무료/체험", "쿠폰/이벤트"] },
+    { key: "living-food", label: "생활·식품 관심", interests: ["생활용품", "식품"] },
+    { key: "digital-family", label: "디지털·육아 관심", interests: ["디지털", "육아"] },
+    { key: "travel-beauty", label: "여행·뷰티 관심", interests: ["여행", "뷰티"] }
+  ];
+  const queues = interestGroups.map((group) => {
+    const queue = buildPersonalizedBenefitQueue(deals, {
+      interests: group.interests,
+      limit: 6
+    });
+    const verifiedCount = queue.items.filter((item) => item.purchaseLinkVerified).length;
+    const freeOrCouponCount = queue.items.filter((item) => ["freebie", "coupon", "experience", "point", "foodDelivery"].includes(item.dealType)).length;
+    const readyRate = queue.items.length ? Math.round(((verifiedCount + freeOrCouponCount) / (queue.items.length * 2)) * 100) : 0;
+
+    return {
+      ...group,
+      recommendedDeals: queue.items.length,
+      interestMatchedDeals: queue.summary.interestMatchedDeals,
+      verifiedCount,
+      freeOrCouponCount,
+      readyRate,
+      sampleDeal: queue.items[0]?.title ?? "",
+      action:
+        queue.items.length < 4
+          ? `${group.label} 추천 후보를 4개 이상 확보`
+          : readyRate < 80
+            ? `${group.label} 추천의 실제 링크와 무료·쿠폰 혜택 비중 보강`
+            : `${group.label} 추천 큐 유지`
+    };
+  });
+  const averageReadyRate = Math.round(queues.reduce((sum, queue) => sum + queue.readyRate, 0) / queues.length);
+  const weakQueues = queues.filter((queue) => queue.recommendedDeals < 4 || queue.readyRate < 80);
+
+  return {
+    averageReadyRate,
+    ready: averageReadyRate >= 80 && weakQueues.length === 0,
+    totalInterestGroups: queues.length,
+    readyInterestGroups: queues.length - weakQueues.length,
+    queues,
+    weakQueues,
+    nextActions: weakQueues.length
+      ? weakQueues.map((queue) => queue.action)
+      : ["홈, 알림, 무료혜택 개인화 큐를 같은 기준으로 유지하고 실제 클릭/찜 데이터를 확인"]
+  };
+}
+
 export async function getMockBusinessMetrics() {
   const { deals, updatedAt, source } = await getDeals();
   const hotDeals = deals.filter((deal) => deal.isHot);
@@ -394,6 +443,7 @@ export async function getMockBusinessMetrics() {
   const linkReviewQueue = getLinkReviewQueue(deals, 8);
   const benefitQuality = summarizeBenefitQuality(deals);
   const benefitRetention = buildBenefitRetentionPlan(deals, benefitQuality);
+  const personalizationReadiness = buildPersonalizationReadiness(deals);
   const averageConfidenceScore = Math.round(
     priceInsights.reduce((sum, insight) => sum + insight.confidenceScore, 0) / priceInsights.length
   );
@@ -421,6 +471,7 @@ export async function getMockBusinessMetrics() {
     linkQuality,
     benefitQuality,
     benefitRetention,
+    personalizationReadiness,
     launchReadiness,
     linkReviewQueue
   };
