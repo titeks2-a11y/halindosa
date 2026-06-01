@@ -548,5 +548,65 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     checkedAt: "2026-06-01T22:45:00.000Z",
     source: "manual_review",
     evidence: "하이마트 HDMI 케이블 10종 HIMCAB-H1.8 상품 상세"
+  },
+  d091: {
+    url: "https://www.coupang.com/vp/products/27613130",
+    checkedAt: "2026-06-02T00:20:00.000Z",
+    source: "manual_review",
+    evidence: "쿠팡 탐사수 1L 12개입 생수 상품 상세"
+  },
+  d092: {
+    url: "https://item.gmarket.co.kr/Item?goodscode=4208551428",
+    checkedAt: "2026-06-02T00:20:00.000Z",
+    source: "manual_review",
+    evidence: "G마켓 CJ비비고 왕교자 1.05kg X 2 + 새우왕교자 상품 상세"
+  },
+  d093: {
+    url: "https://www.ssg.com/item/itemView.ssg?itemId=1000005089075",
+    checkedAt: "2026-06-02T00:20:00.000Z",
+    source: "manual_review",
+    evidence: "SSG 오뚜기 진라면 매운맛 120g x 40봉 상품 상세"
+  },
+  d094: {
+    url: "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000246774",
+    checkedAt: "2026-06-02T00:20:00.000Z",
+    source: "manual_review",
+    evidence: "올리브영 라운드랩 1025 독도 토너 더블 기획 상품 상세"
+  },
+  d095: {
+    url: "https://www.kurly.com/goods/5006227",
+    checkedAt: "2026-06-02T00:20:00.000Z",
+    source: "manual_review",
+    evidence: "마켓컬리 Better me 오리지널 닭가슴살 600g 상품 상세"
+  },
+  d096: {
+    url: "https://item.gmarket.co.kr/Item?goodscode=2066504211",
+    checkedAt: "2026-06-02T00:20:00.000Z",
+    source: "manual_review",
+    evidence: "G마켓 국산 개별 절전형 멀티탭 모음 상품 상세"
+  },
+  d097: {
+    url: "https://item.gmarket.co.kr/Item?goodscode=2953970256",
+    checkedAt: "2026-06-02T00:20:00.000Z",
+    source: "manual_review",
+    evidence: "G마켓 CJ 스팸 클래식 200g x 10개 상품 상세"
+  },
+  d098: {
+    url: "https://item.gmarket.co.kr/Item?goodscode=2809510617",
+    checkedAt: "2026-06-02T00:20:00.000Z",
+    source: "manual_review",
+    evidence: "G마켓 리챔 오리지널 200g 10캔 상품 상세"
+  },
+  d099: {
+    url: "https://www.ssg.com/item/itemView.ssg?itemId=1000601459551",
+    checkedAt: "2026-06-02T00:20:00.000Z",
+    source: "manual_review",
+    evidence: "SSG 피코크 떡갈비 450g x 3팩 상품 상세"
+  },
+  d100: {
+    url: "https://www.coupang.com/vp/products/6499690442?itemId=18173261121&vendorItemId=85322534161",
+    checkedAt: "2026-06-02T00:20:00.000Z",
+    source: "manual_review",
+    evidence: "쿠팡 트리오 항균 주방세제 3kg 2개 상품 상세"
   }
 };

@@ -293,7 +293,17 @@ export const mockDeals: Deal[] = [
   deal("d087", "G마켓", "맥심 모카골드 리필커피 오리지날 500g", "식품", 21900, 15, 2.4, 26, { isHot: false, isNew: true, isEndingSoon: false }, ["커피", "쿠폰적용", "생활필수"], 77, "", "https://item.gmarket.co.kr/Item?goodscode=1503733317"),
   deal("d088", "쿠팡", "샤오미 미밴드 9 스마트밴드", "전자기기", 59900, 20, 1.6, 44, { isHot: true, isNew: true, isEndingSoon: false }, ["디지털", "무료배송", "인기"], 85, "", "https://www.coupang.com/vp/products/8263119298"),
   deal("d089", "G마켓", "홈매트 리퀴드 홈솔루션 훈증기 + 리필 2입 3개", "생활용품", 21000, 18, 5, 30, { isHot: false, isNew: true, isEndingSoon: false }, ["생활필수", "여름용품", "쿠폰적용"], 76, "", "https://item.gmarket.co.kr/Item?goodscode=2439050806"),
-  deal("d090", "하이마트", "HDMI 케이블 10종 HIMCAB-H1.8 1.8m", "전자기기", 9900, 25, 3.2, 60, { isHot: false, isNew: true, isEndingSoon: false }, ["디지털", "소모품", "오늘만"], 72, "", "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0000066953")
+  deal("d090", "하이마트", "HDMI 케이블 10종 HIMCAB-H1.8 1.8m", "전자기기", 9900, 25, 3.2, 60, { isHot: false, isNew: true, isEndingSoon: false }, ["디지털", "소모품", "오늘만"], 72, "", "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0000066953"),
+  deal("d091", "쿠팡", "탐사수 1L 12개입 생수", "식품", 9960, 29, 0.5, 18, { isHot: true, isNew: true, isEndingSoon: false }, ["로켓배송", "생활필수", "무료배송"], 86, "", "https://www.coupang.com/vp/products/27613130"),
+  deal("d092", "G마켓", "CJ비비고 왕교자 1.05kg X 2 + 새우왕교자 315g X 2", "식품", 30000, 12, 1.1, 26, { isHot: true, isNew: true, isEndingSoon: false }, ["간편식", "쿠폰적용", "인기"], 83, "", "https://item.gmarket.co.kr/Item?goodscode=4208551428"),
+  deal("d093", "SSG닷컴", "오뚜기 진라면 매운맛 120g x 40봉", "식품", 30000, 18, 1.4, 30, { isHot: false, isNew: true, isEndingSoon: false }, ["라면", "장보기", "카드할인"], 78, "", "https://www.ssg.com/item/itemView.ssg?itemId=1000005089075"),
+  deal("d094", "올리브영", "라운드랩 1025 독도 토너 300ml 더블 기획", "뷰티", 41000, 31, 0.8, 22, { isHot: true, isNew: true, isEndingSoon: false }, ["올영픽", "오늘드림", "쿠폰적용"], 88, "https://image.oliveyoung.co.kr/cfimages/cf-goods/uploads/images/thumbnails/10/0000/0024/A00000024677411ko.jpg?l=ko", "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000246774"),
+  deal("d095", "마켓컬리", "Better me 오리지널 닭가슴살 600g", "식품", 14800, 12, 2.1, 20, { isHot: false, isNew: true, isEndingSoon: false }, ["샛별배송", "식단관리", "단백질"], 75, "", "https://www.kurly.com/goods/5006227"),
+  deal("d096", "G마켓", "국산 개별 절전형 멀티탭 2구~6구 모음", "생활용품", 26000, 69, 2.6, 28, { isHot: true, isNew: true, isEndingSoon: false }, ["생활필수", "쿠폰적용", "오늘출발"], 84, "", "https://item.gmarket.co.kr/Item?goodscode=2066504211"),
+  deal("d097", "G마켓", "CJ 스팸 클래식 200g x 10개", "식품", 33800, 15, 1.7, 24, { isHot: false, isNew: true, isEndingSoon: false }, ["통조림", "쿠폰적용", "장보기"], 80, "", "https://item.gmarket.co.kr/Item?goodscode=2953970256"),
+  deal("d098", "G마켓", "리챔 오리지널 200g 10캔", "식품", 34400, 28, 0.9, 16, { isHot: true, isNew: true, isEndingSoon: true }, ["통조림", "중복쿠폰", "마감임박"], 87, "", "https://item.gmarket.co.kr/Item?goodscode=2809510617"),
+  deal("d099", "SSG닷컴", "피코크 떡갈비 450g x 3팩", "식품", 24000, 24, 3.1, 34, { isHot: false, isNew: true, isEndingSoon: false }, ["냉동식품", "간편식", "장보기"], 77, "", "https://www.ssg.com/item/itemView.ssg?itemId=1000601459551"),
+  deal("d100", "쿠팡", "트리오 항균 주방세제 3kg 2개", "생활용품", 13500, 23, 2.4, 32, { isHot: false, isNew: true, isEndingSoon: false }, ["생활필수", "주방세제", "무료배송"], 79, "", "https://www.coupang.com/vp/products/6499690442?itemId=18173261121&vendorItemId=85322534161")
 ];
 
 export const categories = ["전체", "식품", "전자기기", "생활용품", "의류", "육아", "여행/티켓", "뷰티", "가전", "편의점/마트", "쿠폰/이벤트", "기타"] as const;
