@@ -601,6 +601,7 @@ async function checkSearchAndPurchaseFlow() {
   const smoke = await text("scripts/smoke.mjs");
   const verifyLinks = await text("scripts/verify-product-links.mjs");
   const catalogDoctor = await text("scripts/catalog-quality-doctor.mjs");
+  const searchQualityDoctor = await text("scripts/search-quality-doctor.mjs");
   const purchaseNavigationDoctor = await text("scripts/purchase-navigation-doctor.mjs");
   const homeUrlStateDoctor = await text("scripts/home-url-state-doctor.mjs");
   const packageJson = await text("package.json");
@@ -613,11 +614,18 @@ async function checkSearchAndPurchaseFlow() {
     !search.includes("dealMatchesSearch") ||
     !repository.includes("dealMatchesSearch") ||
     !homePage.includes("window.history.replaceState") ||
-    !smoke.includes("Spaced Korean search should match compact product names")
+    !smoke.includes("Spaced Korean search should match compact product names") ||
+    !search.includes("searchAliasesSource") ||
+    !searchQualityDoctor.includes("Search quality doctor passed") ||
+    !searchQualityDoctor.includes("생필품") ||
+    !searchQualityDoctor.includes("무배") ||
+    !searchQualityDoctor.includes("앱테크") ||
+    !packageJson.includes("search:doctor") ||
+    !packageJson.includes("npm run catalog:doctor && npm run search:doctor")
   ) {
-    fail("search purchase discovery", "Search should normalize Korean spacing, share logic between API/home, persist query params, and be smoke-tested.");
+    fail("search purchase discovery", "Search should normalize Korean spacing, share logic between API/home, persist query params, support daily Korean synonym searches, and be smoke-tested.");
   } else {
-    pass("search purchase discovery", "Search normalizes Korean spacing, mall/brand/tag text, URL state, and smoke coverage.");
+    pass("search purchase discovery", "Search normalizes Korean spacing, mall/brand/tag text, daily synonym terms, URL state, and smoke coverage.");
   }
 
   if (

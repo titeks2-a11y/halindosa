@@ -25,6 +25,7 @@ npm run dev
 ```bash
 npm run verify:links
 npm run catalog:doctor
+npm run search:doctor
 npm run purchase:navigation:doctor
 npm run home:url-state:doctor
 npm run lint
@@ -35,7 +36,7 @@ npm run cap:sync
 npm run release:doctor
 ```
 
-`npm run qa`는 `lint`, `verify:links`, `catalog:doctor`, `purchase:navigation:doctor`, `home:url-state:doctor`, `smoke:local`, `build`, `release:doctor`를 순서대로 실행합니다.
+`npm run qa`는 `lint`, `verify:links`, `catalog:doctor`, `search:doctor`, `purchase:navigation:doctor`, `home:url-state:doctor`, `smoke:local`, `build`, `release:doctor`를 순서대로 실행합니다.
 
 ## 검색 동작 방식
 
@@ -44,6 +45,14 @@ npm run release:doctor
 생활형 검색어는 동의어로 확장합니다. 예를 들어 `생필품`은 생활용품/생활필수/물티슈/세제/생수 계열을 함께 찾고, `무배`는 무료배송/로켓배송/네멤무료 표현을 함께 찾습니다. 이 동의어 검색은 홈과 API가 같은 기준으로 적용하며 `npm run smoke:local`에서 재검증합니다.
 
 검색어가 입력되면 홈 화면은 `검색 결과 빠른 분류`를 보여줍니다. 사용자는 결과에서 많이 나온 쇼핑몰, 가까운 카테고리, 혜택 유형을 가로 칩으로 바로 눌러 추가 필터를 적용할 수 있습니다.
+
+검색 동의어 품질 검증:
+
+```bash
+npm run search:doctor
+```
+
+`search:doctor`는 `생필품`, `무배`, `0원`, `가전제품`, `편의점`, `앱테크`, `육아템` 같은 짧은 생활형 검색어가 실제 상품 DB에 충분히 연결되는지 확인합니다.
 
 예시:
 
