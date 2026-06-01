@@ -132,6 +132,12 @@ await check("home page", async () => {
   assert(text.includes("무료 혜택 받기") && text.includes("쿠폰 조건 보기") && text.includes("생활 혜택 보기") && text.includes("마감 혜택 확인"), "Home page missing daily benefit action queue buttons");
   assert(text.includes("품질 안내"), "Home page missing deal quality notice");
   assert(text.includes("무료혜택 TOP 5") && text.includes("쿠폰·앱테크 TOP 5"), "Home page missing free coupon top ranking section");
+  assert(
+    text.includes("오늘 눌러둘 적립 혜택") &&
+      text.includes("포인트 루틴 보기") &&
+      text.includes("앱테크 적립 혜택 확인"),
+    "Home page missing apptech reward routine rail"
+  );
   assert(text.includes("회원들이 많이 찜한 혜택") && text.includes("인기 찜") && text.includes("내 찜"), "Home page missing member favorite benefit section");
   assert(text.includes("관심 카테고리 추천") && text.includes("비회원도 모두 보고") && text.includes("관심 설정하기"), "Home page missing interest category personalization");
   assert(text.includes("홈 빠른 관심 설정") && text.includes("비회원 기기 저장") && text.includes("관심사는 홈 추천과 알림 후보에 바로 반영"), "Home page missing quick interest setup");

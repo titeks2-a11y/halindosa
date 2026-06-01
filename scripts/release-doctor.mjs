@@ -936,6 +936,10 @@ async function checkUiAccessibility() {
         !homePage.includes("재방문 루틴 더 저장") ||
         !benefitDiscoverySections.includes("무료혜택 TOP 5") ||
         !benefitDiscoverySections.includes("쿠폰·앱테크 TOP 5") ||
+        !benefitDiscoverySections.includes("appTechHomeDeals") ||
+        !benefitDiscoverySections.includes("오늘 눌러둘 적립 혜택") ||
+        !benefitDiscoverySections.includes("포인트 루틴 보기") ||
+        !benefitDiscoverySections.includes("앱테크 적립 혜택 확인") ||
         !benefitDiscoverySections.includes("오늘 혜택 1분 시작") ||
         !benefitDiscoverySections.includes("앱을 열자마자 무료, 쿠폰, 생활비, 마감 순서로 바로 갑니다") ||
         !smoke.includes("Home page missing one-minute benefit start rail") ||
@@ -995,6 +999,7 @@ async function checkUiAccessibility() {
         !smoke.includes("Home page missing claimed benefit summary") ||
         !smoke.includes("Home page missing return reservation summary") ||
         !smoke.includes("Home page missing free coupon top ranking section") ||
+        !smoke.includes("Home page missing apptech reward routine rail") ||
         !smoke.includes("Home page missing fast benefit shortcut rail") ||
         !smoke.includes("Home page missing daily savings summary") ||
         !smoke.includes("Home page missing daily savings receipt") ||

@@ -403,6 +403,14 @@ export function BenefitDiscoverySections({
   const risingDeals = sortByBenefitScore(source).slice(0, 5);
   const favoriteSignalDeals = sortByFavoriteSignal(source.filter((deal) => !deal.isExpired && !deal.isSoldOut)).slice(0, 4);
   const martDeals = sortByBenefitScore(source.filter((deal) => deal.category === "편의점/마트" || /마트|gs25|편의점|교환권|1\+1|2\+1/.test([deal.title, ...deal.tags].join(" ").toLowerCase()))).slice(0, 4);
+  const appTechHomeDeals = sortByBenefitScore(
+    source.filter(
+      (deal) =>
+        !deal.isExpired &&
+        !deal.isSoldOut &&
+        (deal.dealType === "point" || /출석|포인트|적립|페이|멤버십|리워드|카드/.test(`${deal.title} ${deal.tags.join(" ")} ${deal.benefitSummary}`))
+    )
+  ).slice(0, 4);
   const { freeTop, couponTop } = getDailyBenefitRankings(source);
   const summaryStats = getBenefitSummaryStats(source);
   const dailyClaimPlan = getDailyClaimPlan(source);
@@ -746,6 +754,55 @@ export function BenefitDiscoverySections({
           onOpenDeal={onOpenDeal}
         />
       </section>
+
+      {appTechHomeDeals.length ? (
+        <section className="rounded-[28px] border border-red-100 bg-white p-4 shadow-sm sm:p-5" aria-label="홈 앱테크 페이 멤버십 루틴">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-black text-dossa-red">앱테크·페이·멤버십</p>
+              <h3 className="mt-1 text-xl font-black text-slate-950">오늘 눌러둘 적립 혜택</h3>
+              <p className="mt-1 text-sm font-bold leading-6 text-slate-500">
+                출석체크, 페이 리워드, 통신사 멤버십처럼 매일 확인할수록 놓칠 가능성이 줄어드는 혜택입니다.
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => onSelectBenefit("point")}
+              className="inline-flex min-h-11 items-center justify-center rounded-2xl bg-dossa-red px-4 text-sm font-black text-white"
+            >
+              포인트 루틴 보기
+            </button>
+          </div>
+          <div className="mt-4 grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
+            {appTechHomeDeals.map((deal) => (
+              <button
+                key={deal.id}
+                type="button"
+                onClick={() => onOpenDeal(deal)}
+                className="min-h-[154px] rounded-3xl border border-slate-100 bg-slate-50 p-3 text-left transition hover:-translate-y-0.5 hover:border-red-200 hover:bg-red-50"
+                aria-label={`${deal.title} 앱테크 적립 혜택 확인`}
+              >
+                <span className="flex items-start justify-between gap-3">
+                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-white text-dossa-red shadow-sm">
+                    <Sparkles size={19} />
+                  </span>
+                  <span className="rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-dossa-red shadow-sm">
+                    {deal.requiresSignup ? "가입 조건" : "간편 확인"}
+                  </span>
+                </span>
+                <span className="mt-3 line-clamp-2 block text-sm font-black leading-5 text-slate-950">{deal.title}</span>
+                <span className="mt-1 line-clamp-2 block text-xs font-bold leading-5 text-slate-500">{deal.mallName} · {deal.benefitSummary}</span>
+                <span className="mt-2 inline-flex rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-slate-700 shadow-sm">
+                  예상 적립 {formatPrice(deal.savingsAmount)}
+                </span>
+              </button>
+            ))}
+          </div>
+          <p className="mt-3 rounded-2xl bg-red-50 px-3 py-2 text-xs font-bold leading-5 text-dossa-deep">
+            적립 예정일, 결제수단, 신규/기존 회원 조건은 제공처 화면에서 최종 확인하세요. 비회원도 전체 혜택을 볼 수 있습니다.
+          </p>
+        </section>
+      ) : null}
 
       <section className="grid gap-4 lg:grid-cols-[1fr_0.9fr]">
         <div className="rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
