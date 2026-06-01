@@ -1510,6 +1510,8 @@ async function checkOperationalDataSurfaces() {
     !freeBenefitsClient.includes("배송비:") ||
     !freeBenefitsClient.includes("혜택 조건 요약") ||
     !freeBenefitsClient.includes("최소금액:") ||
+    !freeBenefitsClient.includes("혜택 공유") ||
+    !freeBenefitsClient.includes("shareDeal(deal)") ||
     !freeBenefitsClient.includes("reason=expired") ||
     !freeBenefitsClient.includes("deal.claimCta") ||
     !bottomNavigation.includes("/free-benefits") ||
@@ -1530,6 +1532,7 @@ async function checkOperationalDataSurfaces() {
     !smoke.includes("Free benefits page missing claimed benefit follow-up plan") ||
     !smoke.includes("Free benefits page missing next visit benefit plan") ||
     !smoke.includes("Free benefits page missing local return reservation board") ||
+    !smoke.includes("Free benefits page missing top-level share action") ||
     !smoke.includes("Free benefits page missing active-benefit status filter")
   ) {
     fail("free benefits dedicated page", "Free benefit discovery should have a dedicated page, claimed-benefit tracking, priority queue, weekly routine, active-benefit filter, navigation entry, and smoke coverage.");
