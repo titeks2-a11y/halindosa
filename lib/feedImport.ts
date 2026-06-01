@@ -41,6 +41,17 @@ export interface FeedImportIssue {
   message: string;
 }
 
+export interface FeedImportRowSummary {
+  index: number;
+  externalId: string;
+  mall: string;
+  title: string;
+  status: "ready" | "needs_fix";
+  primaryUrlField: string;
+  issueCount: number;
+  issues: FeedImportIssue[];
+}
+
 const allowedCategories = new Set<string>(categories.filter((category) => category !== "전체"));
 const allowedBenefitTypes = new Set<DealBenefitType>([
   "discount",
@@ -54,6 +65,21 @@ const allowedBenefitTypes = new Set<DealBenefitType>([
   "mart",
   "foodDelivery"
 ]);
+const productDetailPatterns = [
+  /coupang\.com\/vp\/products\/\d+/i,
+  /coupang\.com\/products\/\d+/i,
+  /item\.gmarket\.co\.kr\/Item\?/i,
+  /11st\.co\.kr\/products\/\d+/i,
+  /ssg\.com\/item\/itemView\.ssg/i,
+  /auction\.co\.kr\/item\/detailview\.aspx/i,
+  /oliveyoung\.co\.kr\/store\/goods\/getGoodsDetail\.do/i,
+  /kurly\.com\/goods\/\d+/i,
+  /musinsa\.com\/products\/\d+/i,
+  /ohou\.se\/productions\/\d+/i,
+  /aliexpress\.[^/]+\/item\/\d+\.html/i,
+  /smartstore\.naver\.com\/[^/]+\/products\/\d+/i,
+  /e-himart\.co\.kr\/app\/goods\/goodsDetail/i
+];
 
 function isValidUrl(value: string) {
   try {
@@ -91,6 +117,33 @@ function isPlaceholderOrCommunityUrl(value: string) {
   }
 }
 
+function isSearchOrHomeOnlyUrl(value: string) {
+  try {
+    const url = new URL(value);
+    const path = url.pathname.replace(/\/+$/, "");
+    const query = url.search.toLowerCase();
+    const target = `${url.hostname}${url.pathname}`.toLowerCase();
+
+    return (
+      path === "" ||
+      path === "/" ||
+      path === "/main" ||
+      path === "/index" ||
+      /\/search|\/np\/search|\/search\/all|browse\.gmarket\.co\.kr\/search|search\.11st\.co\.kr/i.test(target) ||
+      query.includes("query=") ||
+      query.includes("keyword=") ||
+      query.includes("kwd=") ||
+      query.includes("sword=")
+    );
+  } catch {
+    return true;
+  }
+}
+
+function looksLikeProductDetailUrl(value: string) {
+  return productDetailPatterns.some((pattern) => pattern.test(value));
+}
+
 function normalizeCategory(category?: string): DealCategory {
   return allowedCategories.has(category ?? "") ? (category as DealCategory) : "기타";
 }
@@ -116,23 +169,47 @@ function validateUrlField(issues: FeedImportIssue[], item: PartnerFeedItem, inde
     issues.push({ index, field: String(field), message: "유효한 http/https URL이 필요합니다." });
   } else if (isPlaceholderOrCommunityUrl(value)) {
     issues.push({ index, field: String(field), message: "placeholder 또는 커뮤니티 게시글 링크는 운영 피드로 등록할 수 없습니다." });
+  } else if (field !== "sourceUrl" && field !== "searchUrl" && isSearchOrHomeOnlyUrl(value)) {
+    issues.push({ index, field: String(field), message: "검색 결과나 쇼핑몰 메인이 아니라 실제 상품/혜택 상세 URL이 필요합니다." });
   }
 }
 
 export function validatePartnerFeed(items: PartnerFeedItem[]) {
   const issues: FeedImportIssue[] = [];
+  const seenExternalIds = new Map<string, number>();
+  const seenMallTitlePairs = new Map<string, number>();
 
   items.forEach((item, index) => {
     const primaryUrl = getPrimaryPurchaseUrl(item);
+    const externalId = item.externalId?.trim() ?? "";
+    const mall = item.mall?.trim() ?? "";
+    const title = item.title?.trim() ?? "";
+    const duplicateExternalIndex = externalId ? seenExternalIds.get(externalId) : undefined;
+    const titleKey = `${mall}|${title}`.normalize("NFKC").toLowerCase().replace(/\s+/g, "");
+    const duplicateTitleIndex = mall && title ? seenMallTitlePairs.get(titleKey) : undefined;
 
-    if (!item.externalId?.trim()) issues.push({ index, field: "externalId", message: "외부 ID가 필요합니다." });
-    if (!item.mall?.trim()) issues.push({ index, field: "mall", message: "쇼핑몰명이 필요합니다." });
-    if (!item.title?.trim()) issues.push({ index, field: "title", message: "상품명이 필요합니다." });
+    if (!externalId) issues.push({ index, field: "externalId", message: "외부 ID가 필요합니다." });
+    if (duplicateExternalIndex !== undefined) {
+      issues.push({ index, field: "externalId", message: `중복 외부 ID입니다. 먼저 나온 행: ${duplicateExternalIndex + 1}` });
+    }
+    if (externalId && duplicateExternalIndex === undefined) seenExternalIds.set(externalId, index);
+
+    if (!mall) issues.push({ index, field: "mall", message: "쇼핑몰명이 필요합니다." });
+    if (!title) issues.push({ index, field: "title", message: "상품명이 필요합니다." });
+    if (duplicateTitleIndex !== undefined) {
+      issues.push({ index, field: "title", message: `같은 판매처의 중복 상품명입니다. 먼저 나온 행: ${duplicateTitleIndex + 1}` });
+    }
+    if (mall && title && duplicateTitleIndex === undefined) seenMallTitlePairs.set(titleKey, index);
+
     if (item.dealType && !allowedBenefitTypes.has(item.dealType)) {
       issues.push({ index, field: "dealType", message: "지원하는 혜택 유형이 아닙니다." });
     }
     if (!primaryUrl) {
-      issues.push({ index, field: "productUrl", message: "구매 상세 URL 또는 검색 fallback URL이 필요합니다." });
+      issues.push({ index, field: "productUrl", message: "실제 상품/혜택 상세 URL이 필요합니다." });
+    } else if (isValidUrl(primaryUrl) && isSearchOrHomeOnlyUrl(primaryUrl)) {
+      issues.push({ index, field: "productUrl", message: "검색 결과 fallback은 운영 노출 전에 실제 상품/혜택 상세 URL로 보강해야 합니다." });
+    } else if (isValidUrl(primaryUrl) && !looksLikeProductDetailUrl(primaryUrl)) {
+      issues.push({ index, field: "productUrl", message: "상세 URL 패턴이 확인되지 않아 운영 반영 전 수동 검수가 필요합니다." });
     }
     (["affiliateUrl", "finalPurchaseUrl", "productUrl", "purchaseUrl", "link", "originalUrl", "searchUrl", "sourceUrl"] as const).forEach((field) => {
       validateUrlField(issues, item, index, field);
@@ -173,6 +250,26 @@ export function validatePartnerFeed(items: PartnerFeedItem[]) {
   });
 
   return issues;
+}
+
+function buildRowSummary(items: PartnerFeedItem[], issues: FeedImportIssue[]): FeedImportRowSummary[] {
+  return items.map((item, index) => {
+    const rowIssues = issues.filter((issue) => issue.index === index);
+    const primaryField = (["affiliateUrl", "finalPurchaseUrl", "productUrl", "purchaseUrl", "link", "originalUrl", "searchUrl"] as const).find(
+      (field) => typeof item[field] === "string" && item[field]?.trim()
+    );
+
+    return {
+      index,
+      externalId: item.externalId?.trim() ?? "",
+      mall: item.mall?.trim() ?? "",
+      title: item.title?.trim() ?? "",
+      status: rowIssues.length ? "needs_fix" : "ready",
+      primaryUrlField: primaryField ?? "",
+      issueCount: rowIssues.length,
+      issues: rowIssues
+    };
+  });
 }
 
 export function normalizePartnerFeed(items: PartnerFeedItem[], source = "partner_feed") {
@@ -266,6 +363,7 @@ export function dryRunPartnerFeedImport(items: PartnerFeedItem[], source = "part
     valid: validItems.length,
     invalid: items.length - validItems.length,
     issues,
+    rows: buildRowSummary(items, issues),
     linkSummary: {
       verified,
       needsReview: normalizedDeals.length - verified

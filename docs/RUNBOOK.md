@@ -32,6 +32,7 @@ npm run smoke
 - 피드 dry-run import: `POST /api/admin/import?token=$ADMIN_EXPORT_TOKEN`
   - 신규/보강 피드는 `affiliateUrl` → `finalPurchaseUrl` → `productUrl` → `purchaseUrl` → `link` → `originalUrl` → `searchUrl` 순서로 실제 구매 이동 URL을 판정한다.
   - `linkSummary.verified`와 `linkSummary.needsReview`를 확인해 출시 전 실제 상품 상세 URL 비율을 관리한다.
+  - 검색 결과 fallback, 쇼핑몰 메인, 커뮤니티/placeholder URL, 중복 externalId, 같은 판매처의 중복 상품명은 `rows[].status = "needs_fix"`로 돌려준다. 운영 반영 전 모든 행이 `ready`인지 확인한다.
 
 ## 자동 smoke test
 

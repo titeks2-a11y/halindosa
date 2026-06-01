@@ -132,7 +132,7 @@ npm run search:doctor
 npm run verify:links
 ```
 
-운영 피드는 `npm run feed:validate`와 `/api/admin/import` dry-run을 통과한 뒤 연결합니다.
+운영 피드는 `npm run feed:validate`와 `/api/admin/import` dry-run을 통과한 뒤 연결합니다. 두 검증 모두 구매 이동 후보가 검색 결과 URL뿐인 행, 커뮤니티/placeholder 링크, 중복 externalId, 같은 판매처의 중복 상품명을 `needs_fix`로 분리합니다. 운영 반영 전 `rows[].status`가 모두 `ready`인지 확인하세요.
 
 상품 DB 품질 검증:
 

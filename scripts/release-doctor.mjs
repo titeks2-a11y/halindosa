@@ -523,6 +523,11 @@ async function checkPartnerFeedSafety() {
     !feedImport.includes("sourceUrl") ||
     !feedImport.includes("benefitSummary") ||
     !feedImport.includes("conditionReadyRate") ||
+    !feedImport.includes("isSearchOrHomeOnlyUrl") ||
+    !feedImport.includes("looksLikeProductDetailUrl") ||
+    !feedImport.includes("중복 외부 ID") ||
+    !feedImport.includes("검색 결과 fallback은 운영 노출 전에 실제 상품/혜택 상세 URL로 보강해야 합니다.") ||
+    !feedImport.includes("rows: buildRowSummary") ||
     !feedImport.includes("eligibilityChecklist") ||
     !feedImport.includes("claimSteps") ||
     !feedImport.includes("partner-008") ||
@@ -535,6 +540,9 @@ async function checkPartnerFeedSafety() {
     !mockDeals.includes("isCommunitySource") ||
     !smoke.includes("Partner productUrl should normalize as a verified purchase link") ||
     !smoke.includes("Import benefit condition summary should be ready") ||
+    !smoke.includes("Expected search fallback validation issue") ||
+    !smoke.includes("Expected duplicate feed row validation issue") ||
+    !smoke.includes("Import dry-run should expose needs_fix row summaries") ||
     !smoke.includes("Sample feed API missing V2 benefit sample feed rows") ||
     !smoke.includes("should separate community source URL from final purchase URL")
   ) {

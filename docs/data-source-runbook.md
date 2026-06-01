@@ -86,6 +86,8 @@ GET /api/metrics
 - 관리자 dry-run은 `conditionReadyRate`로 출처, 가입/선착순, 배송비, 수령 전 체크리스트, 수령 단계, 주의 문구가 운영 노출 기준을 충족하는지 함께 보여준다.
 - 기본 샘플 피드는 무료배송, 실구매 특가, 무료 쿠폰, 배달 쿠폰, 출석 포인트, 편의점 행사, 마트 행사, 체험단을 포함한다. 운영 피드도 최소 이 정도 혜택 폭을 갖춘 뒤 노출한다.
 - 커뮤니티 글, placeholder, 검색 결과만 있는 링크는 운영 피드로 등록하지 않는다.
+- `/api/admin/import` dry-run은 CLI 검증과 같은 노출 안전 정책을 적용한다. 구매 후보가 `searchUrl`뿐인 행, 쇼핑몰 메인, 커뮤니티/placeholder URL, 중복 externalId, 같은 판매처의 중복 상품명은 `needs_fix` 행으로 반환한다.
+- 운영자는 dry-run 응답의 `rows[].status`, `issues[].field`, `linkSummary`, `benefitSummary.conditionReadyRate`를 함께 보고, `readyRate=100`과 `invalid=0`이 될 때만 실제 공급원에 연결한다.
 - 피드는 `validatePartnerFeed`와 `normalizePartnerFeed` 검증 경로를 거쳐 유효한 상품만 `production` 데이터로 노출한다.
 - 실패하거나 유효 상품이 없으면 기존 mock fallback이 유지된다.
 

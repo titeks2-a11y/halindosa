@@ -1256,6 +1256,7 @@ await check("partner feed import dry-run", async () => {
   assert(data.previewDeals?.[0]?.linkVerified === true, "Partner productUrl should normalize as a verified purchase link");
   assert(data.linkSummary?.verified === 1, "Import link summary should count verified product links");
   assert(data.benefitSummary?.conditionReadyRate === 100, "Import benefit condition summary should be ready");
+  assert(data.rows?.[0]?.status === "ready", "Import dry-run should expose ready row summary");
 });
 
 await check("partner feed sample validation api", async () => {
@@ -1296,6 +1297,33 @@ await check("partner feed import blocks unsafe links", async () => {
           originalPrice: 30000,
           salePrice: 18000,
           link: "https://example.com/smoke"
+        },
+        {
+          externalId: "unsafe-003",
+          mall: "스모크몰",
+          title: "검색 결과 링크 특가",
+          category: "식품",
+          originalPrice: 30000,
+          salePrice: 18000,
+          productUrl: "https://search.shopping.naver.com/search/all?query=%EA%B2%80%EC%83%89%EB%A7%81%ED%81%AC"
+        },
+        {
+          externalId: "unsafe-004",
+          mall: "스모크몰",
+          title: "중복 상품명 특가",
+          category: "식품",
+          originalPrice: 30000,
+          salePrice: 18000,
+          productUrl: "https://item.gmarket.co.kr/Item?goodsCode=4076233103"
+        },
+        {
+          externalId: "unsafe-004",
+          mall: "스모크몰",
+          title: "중복 상품명 특가",
+          category: "식품",
+          originalPrice: 30000,
+          salePrice: 18000,
+          productUrl: "https://item.gmarket.co.kr/Item?goodsCode=4076233103"
         }
       ]
     })
@@ -1303,11 +1331,20 @@ await check("partner feed import blocks unsafe links", async () => {
 
   assert(response.status === 200, `Expected 200, got ${response.status}`);
   assert(data.ok === false, "Unsafe import dry-run should fail");
-  assert(data.invalid === 2, `Expected 2 invalid rows, got ${data.invalid}`);
+  assert(data.invalid === 5, `Expected 5 invalid rows, got ${data.invalid}`);
   assert(
     data.issues?.some((issue) => issue.field === "link" && /placeholder|커뮤니티/.test(issue.message)),
     "Expected unsafe link validation issue"
   );
+  assert(
+    data.issues?.some((issue) => /검색 결과 fallback|검색 결과나 쇼핑몰 메인/.test(issue.message)),
+    "Expected search fallback validation issue"
+  );
+  assert(
+    data.issues?.some((issue) => /중복 외부 ID|중복 상품명/.test(issue.message)),
+    "Expected duplicate feed row validation issue"
+  );
+  assert(data.rows?.some((row) => row.status === "needs_fix" && row.issueCount > 0), "Import dry-run should expose needs_fix row summaries");
 });
 
 await check("partner feed import validation", async () => {
