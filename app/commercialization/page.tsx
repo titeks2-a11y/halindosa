@@ -73,7 +73,16 @@ const readinessItems = [
 ];
 
 export default async function CommercializationPage() {
-  const { metrics, linkQuality, linkReviewQueue, launchReadiness, benefitQuality, benefitRetention, personalizationReadiness } = await getMockBusinessMetrics();
+  const {
+    metrics,
+    linkQuality,
+    linkReviewQueue,
+    launchReadiness,
+    benefitQuality,
+    benefitRetention,
+    personalizationReadiness,
+    operationalEnvReadiness
+  } = await getMockBusinessMetrics();
   const { deals } = await getDeals();
   const todayBenefitQueue = buildTodayBenefitQueue(deals, 3);
   const weeklyBenefitCalendar = buildWeeklyBenefitCalendar(deals);
@@ -480,6 +489,52 @@ export default async function CommercializationPage() {
                 </li>
               ))}
             </ul>
+          </div>
+        </section>
+
+        <section className="mt-5 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm" aria-label="운영 환경 설정 준비도">
+          <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+            <div>
+              <p className="text-sm font-black text-red-600">배포 환경 점검</p>
+              <h2 className="mt-1 text-2xl font-black text-slate-950">운영 환경 설정 준비도</h2>
+              <p className="mt-2 max-w-2xl text-sm font-semibold leading-6 text-slate-500">
+                공개 URL, Supabase Auth, 데이터 공급, 관리자 토큰, 제휴 템플릿이 실제 배포 환경에 들어갈 준비가 됐는지
+                코드에 비밀값을 노출하지 않고 상태만 확인합니다.
+              </p>
+            </div>
+            <div className="rounded-2xl bg-slate-950 px-4 py-3 text-white">
+              <p className="text-xs font-black text-red-100">환경 준비율</p>
+              <p className="mt-1 text-2xl font-black">{operationalEnvReadiness.readyRate}%</p>
+            </div>
+          </div>
+          <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+            {operationalEnvReadiness.groups.map((group) => (
+              <div key={group.key} className={`rounded-2xl p-4 ${group.ready ? "bg-slate-50" : "bg-amber-50"}`}>
+                <div className="flex items-center justify-between gap-2">
+                  <p className={`text-xs font-black ${group.ready ? "text-slate-500" : "text-amber-800"}`}>{group.label}</p>
+                  <span className="rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-red-600 shadow-sm">
+                    {group.readyRate}%
+                  </span>
+                </div>
+                <p className="mt-2 text-sm font-black text-slate-950">
+                  {group.configuredRequired}/{group.requiredCount} 필수
+                </p>
+                <p className="mt-1 line-clamp-2 text-xs font-semibold leading-5 text-slate-500">{group.description}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-4 rounded-2xl bg-red-50 p-4">
+            <p className="text-xs font-black text-red-700">운영 환경 다음 액션</p>
+            <ul className="mt-2 space-y-1">
+              {operationalEnvReadiness.nextActions.map((action) => (
+                <li key={action} className="text-sm font-semibold leading-6 text-red-900/75">
+                  {action}
+                </li>
+              ))}
+            </ul>
+            <p className="mt-3 text-xs font-bold leading-5 text-red-900/60">
+              배포 직전에는 `npm run env:doctor -- --strict`를 운영 환경변수가 주입된 터미널에서 실행하세요.
+            </p>
           </div>
         </section>
 

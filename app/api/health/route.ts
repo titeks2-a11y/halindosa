@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getDeals } from "@/lib/dealService";
 import { buildPersonalizationReadiness } from "@/lib/analytics";
+import { getOperationalEnvReadiness } from "@/lib/operations/envReadiness";
 
 export async function GET() {
   const startedAt = Date.now();
@@ -22,6 +23,7 @@ export async function GET() {
         Boolean(deal.claimWarning)
     );
     const personalizationReadiness = buildPersonalizationReadiness(result.deals);
+    const operationalEnvReadiness = getOperationalEnvReadiness();
     const verifiedLinkRate = totalDeals ? Math.round((verifiedLinkDeals.length / totalDeals) * 100) : 0;
     const claimGuideRate = totalDeals ? Math.round((claimGuideReadyDeals.length / totalDeals) * 100) : 0;
     const operationalStatus =
@@ -40,6 +42,9 @@ export async function GET() {
         personalizationReadyRate: personalizationReadiness.averageReadyRate,
         personalizationQueuesReady: personalizationReadiness.readyInterestGroups,
         personalizationWeakQueues: personalizationReadiness.weakQueues.length,
+        operationalEnvReadyRate: operationalEnvReadiness.readyRate,
+        operationalEnvReadyGroups: operationalEnvReadiness.readyGroups,
+        operationalEnvBlockingGroups: operationalEnvReadiness.blockingGroups.length,
         activeDeals: activeDeals.length,
         freeBenefitDeals: freeBenefitDeals.length
       },

@@ -1,6 +1,7 @@
 import { findDealById, getDeals } from "@/lib/dealService";
 import { buildPersonalizedBenefitQueue } from "@/lib/deals/personalizedBenefitQueue";
 import { getLinkReviewQueue, summarizeDealQuality } from "@/lib/deals/quality";
+import { getOperationalEnvReadiness } from "@/lib/operations/envReadiness";
 import { getPriceInsight } from "@/lib/priceHistory";
 import type { Deal, DealBenefitType } from "@/types/deal";
 
@@ -444,6 +445,7 @@ export async function getMockBusinessMetrics() {
   const benefitQuality = summarizeBenefitQuality(deals);
   const benefitRetention = buildBenefitRetentionPlan(deals, benefitQuality);
   const personalizationReadiness = buildPersonalizationReadiness(deals);
+  const operationalEnvReadiness = getOperationalEnvReadiness();
   const averageConfidenceScore = Math.round(
     priceInsights.reduce((sum, insight) => sum + insight.confidenceScore, 0) / priceInsights.length
   );
@@ -472,6 +474,7 @@ export async function getMockBusinessMetrics() {
     benefitQuality,
     benefitRetention,
     personalizationReadiness,
+    operationalEnvReadiness,
     launchReadiness,
     linkReviewQueue
   };

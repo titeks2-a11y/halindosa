@@ -519,6 +519,8 @@ await check("commercial launch readiness page", async () => {
   assert(text.includes("무료·쿠폰·포인트·마트·마감") && text.includes("다음 재방문 개선 액션"), "Commercialization page missing retention operation actions");
   assert(text.includes("개인화 추천 출시 준비도") && text.includes("홈, 알림, 무료혜택 탭에서 같은 개인화 추천 큐"), "Commercialization page missing personalization readiness");
   assert(text.includes("다음 개인화 개선 액션"), "Commercialization page missing personalization operation actions");
+  assert(text.includes("운영 환경 설정 준비도") && text.includes("공개 URL, Supabase Auth, 데이터 공급"), "Commercialization page missing operational env readiness");
+  assert(text.includes("운영 환경 다음 액션") && text.includes("npm run env:doctor -- --strict"), "Commercialization page missing env doctor action guidance");
 });
 
 await check("deals api", async () => {
@@ -784,6 +786,8 @@ await check("health api", async () => {
   assert(data.checks?.freeBenefitDeals >= 10, "Health API missing free benefit readiness count");
   assert(data.checks?.personalizationReadyRate >= 0, "Health API missing personalization readiness rate");
   assert(data.checks?.personalizationQueuesReady >= 0, "Health API missing personalization ready queue count");
+  assert(data.checks?.operationalEnvReadyRate >= 0, "Health API missing operational env readiness rate");
+  assert(data.checks?.operationalEnvReadyGroups >= 0, "Health API missing operational env ready group count");
 });
 
 await check("today benefits api", async () => {
@@ -891,6 +895,8 @@ await check("metrics api", async () => {
   assert(typeof data.benefitRetention?.weeklyRoutineReady === "boolean", "Metrics missing weekly routine readiness");
   assert(data.personalizationReadiness?.averageReadyRate >= 0, "Metrics missing personalization readiness rate");
   assert(data.personalizationReadiness?.queues?.length >= 4, "Metrics missing personalization readiness queues");
+  assert(data.operationalEnvReadiness?.readyRate >= 0, "Metrics missing operational env readiness rate");
+  assert(data.operationalEnvReadiness?.groups?.length >= 5, "Metrics missing operational env readiness groups");
   assert(Array.isArray(data.linkReviewQueue), "Metrics missing link review queue");
   assert(data.linkReviewQueue.length <= 8, "Metrics link review queue should be capped");
   if (data.linkReviewQueue.length) {
