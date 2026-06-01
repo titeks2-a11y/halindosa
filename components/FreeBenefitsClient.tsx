@@ -722,6 +722,15 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
     ],
     [deals]
   );
+  const appTechRewardDeals = useMemo(
+    () =>
+      deals
+        .filter((deal) => deal.dealType === "point" || /출석|포인트|적립|페이|멤버십|리워드|카드/.test(`${deal.title} ${deal.tags.join(" ")} ${deal.benefitSummary}`))
+        .filter((deal) => !deal.isSoldOut && deal.linkStatus !== "broken")
+        .sort((a, b) => Number(b.isHot) - Number(a.isHot) || b.reliabilityScore - a.reliabilityScore || b.clickCount - a.clickCount)
+        .slice(0, 6),
+    [deals]
+  );
   const cultureInviteDeals = useMemo(
     () =>
       deals
@@ -1003,6 +1012,74 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
           </div>
           <p className="mt-4 rounded-2xl bg-slate-50 px-4 py-3 text-xs font-bold leading-5 text-slate-500">
             바로 받기 전에 쿠폰 조건, 최소 주문 금액, 중복 가능 여부, 만료일을 판매처 화면에서 다시 확인하세요.
+          </p>
+        </section>
+
+        <section className="rounded-[28px] border border-red-100 bg-white p-4 shadow-sm sm:p-5" aria-label="앱테크 페이 멤버십 적립 루틴">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-black text-dossa-red">앱테크·페이·멤버십</p>
+              <h2 className="mt-1 text-2xl font-black tracking-tight text-slate-950">매일 눌러 챙길 적립 혜택을 따로 모았습니다</h2>
+            </div>
+            <p className="max-w-md text-sm font-bold leading-6 text-slate-500">
+              출석체크, 첫 결제 포인트, 페이 리워드, 통신사 멤버십은 금액보다 조건과 반복성이 중요합니다. 오늘 받을 수 있는 적립 루틴만 먼저 확인하세요.
+            </p>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+            {appTechRewardDeals.map((deal) => (
+              <article key={deal.id} className="flex min-h-[214px] flex-col rounded-3xl border border-slate-100 bg-slate-50 p-4">
+                <div className="flex items-start justify-between gap-3">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-dossa-red shadow-sm">
+                    <Sparkles size={13} />
+                    적립 루틴
+                  </span>
+                  <span className="rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-slate-500 shadow-sm">
+                    {deal.requiresSignup ? "가입 조건 확인" : "바로 확인"}
+                  </span>
+                </div>
+                <h3 className="mt-4 line-clamp-2 text-sm font-black leading-snug text-slate-950">{deal.title}</h3>
+                <p className="mt-2 line-clamp-2 text-xs font-bold leading-5 text-slate-500">{deal.benefitSummary}</p>
+                <div className="mt-3 grid grid-cols-2 gap-2 text-[11px] font-black text-slate-600">
+                  <span className="rounded-2xl bg-white px-3 py-2">제공처: {deal.mallName}</span>
+                  <span className="rounded-2xl bg-white px-3 py-2">조건: {deal.couponCondition ?? (deal.requiresSignup ? "가입 필요 가능" : "간편 확인")}</span>
+                  <span className="rounded-2xl bg-white px-3 py-2">만료: {new Date(deal.expireAt).toLocaleDateString("ko-KR", { month: "short", day: "numeric" })}</span>
+                  <span className="rounded-2xl bg-white px-3 py-2">적립: {formatPrice(deal.savingsAmount)}</span>
+                </div>
+                <div className="mt-auto grid grid-cols-[1fr_auto_auto] gap-2 pt-4">
+                  <button
+                    type="button"
+                    onClick={() => openDeal(deal)}
+                    className="inline-flex min-h-10 items-center justify-center gap-1.5 rounded-2xl bg-dossa-red px-3 text-xs font-black text-white"
+                    aria-label={`${deal.title} 앱테크 혜택 바로 받기`}
+                  >
+                    바로 받기
+                    <ExternalLink size={14} />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => toggleFavorite(deal.id)}
+                    aria-pressed={favorites.includes(deal.id)}
+                    className={`inline-flex min-h-10 items-center justify-center rounded-2xl px-3 text-xs font-black ${
+                      favorites.includes(deal.id) ? "bg-red-50 text-dossa-red ring-1 ring-red-100" : "bg-white text-slate-600 shadow-sm"
+                    }`}
+                    aria-label={`${deal.title} 앱테크 혜택 찜 ${favorites.includes(deal.id) ? "해제" : "추가"}`}
+                  >
+                    <Heart size={14} fill={favorites.includes(deal.id) ? "currentColor" : "none"} />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => shareDeal(deal)}
+                    className="inline-flex min-h-10 items-center justify-center rounded-2xl bg-white px-3 text-xs font-black text-slate-600 shadow-sm"
+                    aria-label={`${deal.title} 앱테크 혜택 공유`}
+                  >
+                    <Share2 size={14} />
+                  </button>
+                </div>
+              </article>
+            ))}
+          </div>
+          <p className="mt-4 rounded-2xl bg-red-50 px-4 py-3 text-xs font-bold leading-5 text-dossa-deep">
+            포인트와 멤버십 혜택은 적립 예정일, 결제수단, 신규/기존 회원 조건이 다를 수 있습니다. 받기 전 제공처 화면에서 조건을 다시 확인하세요.
           </p>
         </section>
 

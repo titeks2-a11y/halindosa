@@ -632,6 +632,13 @@ await check("free benefits page", async () => {
     "Free benefits page missing coupon event condition board"
   );
   assert(
+    text.includes("앱테크·페이·멤버십") &&
+      text.includes("매일 눌러 챙길 적립 혜택을 따로 모았습니다") &&
+      text.includes("적립 루틴") &&
+      text.includes("앱테크 혜택 바로 받기"),
+    "Free benefits page missing apptech reward routine rail"
+  );
+  assert(
     text.includes("문화 무료 초대권") &&
       text.includes("영화·전시·공연 혜택도 놓치지 않게 모았습니다") &&
       text.includes("무료 초대권") &&

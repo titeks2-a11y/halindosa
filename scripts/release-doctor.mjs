@@ -1464,6 +1464,10 @@ async function checkOperationalDataSurfaces() {
     !freeBenefitsClient.includes("중복 가능 여부") ||
     !freeBenefitsClient.includes("배달앱 쿠폰") ||
     !freeBenefitsClient.includes("페이·카드·포인트") ||
+    !freeBenefitsClient.includes("appTechRewardDeals") ||
+    !freeBenefitsClient.includes("앱테크·페이·멤버십") ||
+    !freeBenefitsClient.includes("매일 눌러 챙길 적립 혜택을 따로 모았습니다") ||
+    !freeBenefitsClient.includes("앱테크 혜택 바로 받기") ||
     !freeBenefitsClient.includes("cultureInviteDeals") ||
     !freeBenefitsClient.includes("문화 무료 초대권") ||
     !freeBenefitsClient.includes("영화·전시·공연 혜택도 놓치지 않게 모았습니다") ||
@@ -1550,6 +1554,7 @@ async function checkOperationalDataSurfaces() {
     !smoke.includes("Free benefits page missing filtered readiness summary") ||
     !smoke.includes("Free benefits page missing wasted-visit prevention review") ||
     !smoke.includes("Free benefits page missing coupon event condition board") ||
+    !smoke.includes("Free benefits page missing apptech reward routine rail") ||
     !smoke.includes("Free benefits page missing culture invitation benefit rail") ||
     !smoke.includes("Free benefits page missing priority benefit queue") ||
     !smoke.includes("Free benefits page missing weekly benefit calendar") ||
