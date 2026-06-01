@@ -323,7 +323,12 @@ export const mockDeals: Deal[] = [
   deal("d117", "메가MGC커피", "메가MGC커피 앱 가입 무료 사이즈업 쿠폰", "쿠폰/이벤트", 1000, 100, 0.4, 12, { isHot: true, isNew: true, isEndingSoon: true }, ["무료", "커피", "앱가입", "오늘만"], 87, "", "https://www.mega-mgccoffee.com/bbs/?bbs_category=3"),
   deal("d118", "G마켓", "제주 삼다수 2L 24병 생수", "식품", 25920, 18, 0.8, 26, { isHot: true, isNew: true, isEndingSoon: false }, ["생수", "생활필수", "무료배송", "장보기"], 85, "", "https://item.gmarket.co.kr/Item?goodscode=2910475736"),
   deal("d119", "11번가", "종근당건강 락토핏 생유산균 골드 50포 2통", "뷰티", 39900, 22, 1.6, 32, { isHot: false, isNew: true, isEndingSoon: false }, ["헬스", "건강", "쿠폰적용", "무료배송"], 78, "", "https://www.11st.co.kr/products/7947620012"),
-  deal("d120", "G마켓", "제주 삼다수 2L 12병 한정수량 특가", "식품", 14800, 24, 0.9, 10, { isHot: true, isNew: true, isEndingSoon: true }, ["생수", "마감임박", "생활필수", "무료배송"], 88, "", "https://item.gmarket.co.kr/Item?goodsCode=4285817639")
+  deal("d120", "G마켓", "제주 삼다수 2L 12병 한정수량 특가", "식품", 14800, 24, 0.9, 10, { isHot: true, isNew: true, isEndingSoon: true }, ["생수", "마감임박", "생활필수", "무료배송"], 88, "", "https://item.gmarket.co.kr/Item?goodsCode=4285817639"),
+  deal("d121", "쿠팡", "코멧 홈 물걸레 청소포 대형 리필 30매 10개", "생활용품", 18900, 20, 0.7, 28, { isHot: false, isNew: true, isEndingSoon: false }, ["청소용품", "생활필수", "로켓배송"], 77, "", "https://www.coupang.com/vp/products/4739246363"),
+  deal("d122", "G마켓", "오뚜기 맛있는 오뚜기밥 210g 24개", "식품", 28900, 12, 1.1, 30, { isHot: false, isNew: true, isEndingSoon: false }, ["즉석밥", "간편식", "쿠폰적용"], 78, "", "https://item.gmarket.co.kr/Item?goodsCode=4412121040"),
+  deal("d123", "11번가", "크리넥스 3겹 클린케어 30M 30롤 3팩", "생활용품", 69900, 18, 1.6, 34, { isHot: false, isNew: true, isEndingSoon: false }, ["화장지", "생활필수", "무료배송"], 79, "", "https://www.11st.co.kr/products/3008342629"),
+  deal("d124", "올리브영", "닥터지 레드 블레미쉬 클리어 수딩 크림 70ml 기획", "뷰티", 36000, 29, 0.9, 24, { isHot: true, isNew: true, isEndingSoon: false }, ["수분진정", "오늘드림", "쿠폰적용"], 84, "https://image.oliveyoung.co.kr/cfimages/cf-goods/uploads/images/thumbnails/10/0000/0023/A00000023006301ko.jpg?l=ko", "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000230063"),
+  deal("d125", "SSG닷컴", "노브랜드 김자반 60g", "편의점/마트", 2980, 10, 1.4, 42, { isHot: false, isNew: true, isEndingSoon: false }, ["노브랜드", "장보기", "쓱배송"], 72, "", "https://www.ssg.com/item/itemView.ssg?itemId=1000032939693")
 ];
 
 export const categories = ["전체", "식품", "전자기기", "생활용품", "의류", "육아", "여행/티켓", "뷰티", "가전", "편의점/마트", "쿠폰/이벤트", "기타"] as const;

@@ -166,6 +166,21 @@ const requiredSearches = [
     query: "멀티탭",
     expected: /멀티탭|절전형|콘센트|생활용품|디지털/,
     minMatches: 1
+  },
+  {
+    query: "화장지",
+    expected: /화장지|휴지|두루마리|생활필수|생활용품/,
+    minMatches: 1
+  },
+  {
+    query: "청소포",
+    expected: /청소포|물걸레|청소용품|생활필수|생활용품/,
+    minMatches: 1
+  },
+  {
+    query: "김자반",
+    expected: /김자반|노브랜드|장보기|식품|마트/,
+    minMatches: 1
   }
 ];
 
@@ -248,7 +263,7 @@ function dealMatchesSearchText(searchText, query) {
 const deals = extractDeals();
 const issues = [];
 
-if (!Array.isArray(searchAliases) || searchAliases.length < 32) {
+if (!Array.isArray(searchAliases) || searchAliases.length < 35) {
   issues.push("생활형 검색 alias 목록이 부족합니다.");
 }
 

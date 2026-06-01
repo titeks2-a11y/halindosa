@@ -728,5 +728,35 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     checkedAt: "2026-06-02T04:10:00.000Z",
     source: "manual_review",
     evidence: "G마켓 제주삼다수 2L 12병 한정수량 특가 상품 상세"
+  },
+  d121: {
+    url: "https://www.coupang.com/vp/products/4739246363",
+    checkedAt: "2026-06-02T05:20:00.000Z",
+    source: "manual_review",
+    evidence: "쿠팡 코멧 홈 물걸레 청소포 대형 리필 30매 상품 상세"
+  },
+  d122: {
+    url: "https://item.gmarket.co.kr/Item?goodsCode=4412121040",
+    checkedAt: "2026-06-02T05:20:00.000Z",
+    source: "manual_review",
+    evidence: "G마켓 오뚜기 맛있는 오뚜기밥 210g 24개입 상품 상세"
+  },
+  d123: {
+    url: "https://www.11st.co.kr/products/3008342629",
+    checkedAt: "2026-06-02T05:20:00.000Z",
+    source: "manual_review",
+    evidence: "11번가 크리넥스 3겹 클린케어 30M 30롤 3팩 상품 상세"
+  },
+  d124: {
+    url: "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000230063",
+    checkedAt: "2026-06-02T05:20:00.000Z",
+    source: "manual_review",
+    evidence: "올리브영 닥터지 레드 블레미쉬 클리어 수딩 크림 70ml 기획 상품 상세"
+  },
+  d125: {
+    url: "https://www.ssg.com/item/itemView.ssg?itemId=1000032939693",
+    checkedAt: "2026-06-02T05:20:00.000Z",
+    source: "manual_review",
+    evidence: "SSG닷컴 노브랜드 김자반 60g 상품 상세"
   }
 };
