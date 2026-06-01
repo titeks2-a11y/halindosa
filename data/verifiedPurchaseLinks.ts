@@ -668,5 +668,47 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     checkedAt: "2026-06-02T01:10:00.000Z",
     source: "manual_review",
     evidence: "쿠팡 모나미 153 볼펜 1.0mm Red 60개 상품 상세"
+  },
+  d111: {
+    url: "https://item.gmarket.co.kr/Item?goodscode=3560262554",
+    checkedAt: "2026-06-02T02:30:00.000Z",
+    source: "manual_review",
+    evidence: "G마켓 지오다노 코튼 크루넥 반팔 티셔츠 3팩 상품 상세"
+  },
+  d112: {
+    url: "https://www.musinsa.com/products/4011120",
+    checkedAt: "2026-06-02T02:30:00.000Z",
+    source: "manual_review",
+    evidence: "무신사 커버낫 쿨 코튼 그래픽 티셔츠 상품 상세"
+  },
+  d113: {
+    url: "https://www.coupang.com/vp/products/186524064",
+    checkedAt: "2026-06-02T02:30:00.000Z",
+    source: "manual_review",
+    evidence: "쿠팡 코멧 자동 장우산 2개 세트 상품 상세"
+  },
+  d114: {
+    url: "https://item.gmarket.co.kr/Item?goodscode=2667091230",
+    checkedAt: "2026-06-02T02:30:00.000Z",
+    source: "manual_review",
+    evidence: "G마켓 듀라셀 코인 리튬 건전지 CR2032 10개 상품 상세"
+  },
+  d115: {
+    url: "https://www.bhc.co.kr/event/ingList.asp",
+    checkedAt: "2026-06-02T02:30:00.000Z",
+    source: "manual_review",
+    evidence: "BHC 앱 첫 주문 할인 쿠폰 공식 이벤트 혜택 페이지"
+  },
+  d116: {
+    url: "https://www.musinsa.com/app/campaign/index/benefit",
+    checkedAt: "2026-06-02T02:30:00.000Z",
+    source: "manual_review",
+    evidence: "무신사 신규 가입 웰컴 0원 쿠폰팩 공식 혜택 캠페인"
+  },
+  d117: {
+    url: "https://www.mega-mgccoffee.com/bbs/?bbs_category=3",
+    checkedAt: "2026-06-02T02:30:00.000Z",
+    source: "manual_review",
+    evidence: "메가MGC커피 앱 가입 무료 사이즈업 쿠폰 공식 이벤트 소식"
   }
 };

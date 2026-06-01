@@ -313,7 +313,14 @@ export const mockDeals: Deal[] = [
   deal("d107", "G마켓", "벡셀 알카라인 건전지 AA 20개 + AAA 20개", "전자기기", 21390, 15, 2.4, 36, { isHot: false, isNew: true, isEndingSoon: false }, ["건전지", "무료배송", "생활필수"], 77, "", "https://item.gmarket.co.kr/Item?goodsCode=4261528217"),
   deal("d108", "G마켓", "행복이온 포기김치 10kg", "식품", 63900, 6, 2.8, 42, { isHot: false, isNew: true, isEndingSoon: false }, ["김치", "무료배송", "장보기"], 73, "", "https://item.gmarket.co.kr/Item?goodscode=4236933731"),
   deal("d109", "G마켓", "2080 클래식 치약 170g x 5개", "생활용품", 12600, 10, 3.1, 32, { isHot: false, isNew: true, isEndingSoon: false }, ["치약", "쿠폰적용", "생활필수"], 71, "", "https://item.gmarket.co.kr/Item?goodscode=2745012476"),
-  deal("d110", "쿠팡", "모나미 153 볼펜 1.0mm Red 60개", "기타", 21000, 14, 3.6, 48, { isHot: false, isNew: true, isEndingSoon: false }, ["문구", "대용량", "로켓배송"], 70, "", "https://www.coupang.com/vp/products/9358422?itemId=19687297735&vendorItemId=90791761130")
+  deal("d110", "쿠팡", "모나미 153 볼펜 1.0mm Red 60개", "기타", 21000, 14, 3.6, 48, { isHot: false, isNew: true, isEndingSoon: false }, ["문구", "대용량", "로켓배송"], 70, "", "https://www.coupang.com/vp/products/9358422?itemId=19687297735&vendorItemId=90791761130"),
+  deal("d111", "G마켓", "지오다노 코튼 크루넥 반팔 티셔츠 3팩", "의류", 39900, 33, 1.2, 30, { isHot: true, isNew: true, isEndingSoon: false }, ["패션", "무료배송", "오늘출발"], 82, "", "https://item.gmarket.co.kr/Item?goodscode=3560262554"),
+  deal("d112", "무신사", "커버낫 쿨 코튼 그래픽 티셔츠", "의류", 49000, 31, 1.8, 28, { isHot: false, isNew: true, isEndingSoon: false }, ["패션", "브랜드", "무배"], 78, "", "https://www.musinsa.com/products/4011120"),
+  deal("d113", "쿠팡", "코멧 자동 장우산 2개 세트", "기타", 15900, 28, 0.9, 26, { isHot: false, isNew: true, isEndingSoon: false }, ["우산", "로켓배송", "생활필수"], 76, "", "https://www.coupang.com/vp/products/186524064"),
+  deal("d114", "G마켓", "듀라셀 코인 리튬 건전지 CR2032 10개", "기타", 9900, 24, 1.4, 32, { isHot: false, isNew: true, isEndingSoon: false }, ["건전지", "소모품", "무료배송"], 74, "", "https://item.gmarket.co.kr/Item?goodscode=2667091230"),
+  deal("d115", "BHC", "BHC 앱 치킨 첫 주문 5천원 할인 쿠폰", "쿠폰/이벤트", 5000, 100, 0.5, 14, { isHot: true, isNew: true, isEndingSoon: true }, ["배달", "외식", "첫 구매", "쿠폰"], 91, "", "https://www.bhc.co.kr/event/ingList.asp"),
+  deal("d116", "무신사", "무신사 신규 가입 웰컴 0원 쿠폰팩", "쿠폰/이벤트", 1000, 100, 0.6, 24, { isHot: true, isNew: true, isEndingSoon: false }, ["0원", "무료", "신규 가입", "쿠폰"], 88, "", "https://www.musinsa.com/app/campaign/index/benefit"),
+  deal("d117", "메가MGC커피", "메가MGC커피 앱 가입 무료 사이즈업 쿠폰", "쿠폰/이벤트", 1000, 100, 0.4, 12, { isHot: true, isNew: true, isEndingSoon: true }, ["무료", "커피", "앱가입", "오늘만"], 87, "", "https://www.mega-mgccoffee.com/bbs/?bbs_category=3")
 ];
 
 export const categories = ["전체", "식품", "전자기기", "생활용품", "의류", "육아", "여행/티켓", "뷰티", "가전", "편의점/마트", "쿠폰/이벤트", "기타"] as const;

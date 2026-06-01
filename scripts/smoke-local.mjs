@@ -1,17 +1,15 @@
 import { spawn, spawnSync } from "node:child_process";
+import { join } from "node:path";
+import { dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 
+const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const loopbackHost = ["127", "0", "0", "1"].join(".");
 const baseUrl = process.env.SMOKE_BASE_URL ?? `http://${loopbackHost}:3000`;
 const healthUrl = `${baseUrl}/api/health`;
 const timeoutMs = Number(process.env.HEALTH_TIMEOUT_MS ?? 45000);
 
-function commandParts(command) {
-  if (process.platform === "win32") return ["cmd.exe", ["/d", "/s", "/c", command]];
-  return ["sh", ["-c", command]];
-}
-
-function run(command, options = {}) {
-  const [file, args] = commandParts(command);
+function run(file, args, options = {}) {
   const result = spawnSync(file, args, {
     stdio: "inherit",
     ...options
@@ -60,10 +58,10 @@ function stopProcessTree(child) {
   child.kill("SIGTERM");
 }
 
-run("npm run stop:dev");
+run(process.execPath, ["scripts/stop-dev-server.mjs"]);
 
-const [devFile, devArgs] = commandParts(`npm run dev -- --hostname ${loopbackHost} --port 3000`);
-const devServer = spawn(devFile, devArgs, {
+const nextBin = join(root, "node_modules", "next", "dist", "bin", "next");
+const devServer = spawn(process.execPath, [nextBin, "dev", "--hostname", loopbackHost, "--port", "3000"], {
   stdio: "inherit",
   env: {
     ...process.env,
@@ -73,7 +71,7 @@ const devServer = spawn(devFile, devArgs, {
 
 try {
   await waitForHealth();
-  run("npm run smoke", {
+  run(process.execPath, ["scripts/smoke.mjs"], {
     env: {
       ...process.env,
       SMOKE_BASE_URL: baseUrl

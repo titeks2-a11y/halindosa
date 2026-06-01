@@ -107,7 +107,7 @@ function isKnownProductDetailUrl(url: URL, mallName: string) {
   if (/ssg|쓱|이마트/.test(mall) || hostMatches(host, "ssg.com")) return /itemid=|\/item\/itemview\.ssg|\/goods\/|\/event/.test(full);
   if (/마켓컬리|컬리|kurly/.test(mall) || hostMatches(host, "kurly.com")) return /\/goods\/\d+/.test(path);
   if (/오늘의집/.test(mall) || hostMatches(host, "ohou.se")) return /\/productions\/\d+|\/goods\/\d+/.test(path);
-  if (/무신사|musinsa/.test(mall) || hostMatches(host, "musinsa.com")) return /\/products\/\d+/.test(path);
+  if (/무신사|musinsa/.test(mall) || hostMatches(host, "musinsa.com")) return /\/products\/\d+/.test(path) || /\/app\/campaign|\/campaign|benefit/.test(full);
   if (/lf몰|lfmall/.test(mall) || hostMatches(host, "lfmall.co.kr")) return /\/app\/product\/[a-z0-9]+/i.test(path);
   if (/gs shop|gsshop/.test(mall) || hostMatches(host, "gsshop.com")) return /\/deal\/deal\.gs|dealno=/.test(full);
   if (/gs25|gs리테일/.test(mall) || hostMatches(host, "gsretail.com")) return /\/customer-engagement\/event\/detail\/publishing/.test(path) && url.searchParams.has("eventCode");
@@ -124,6 +124,7 @@ function isKnownProductDetailUrl(url: URL, mallName: string) {
   if (/payco|페이코/.test(mall) || hostMatches(host, "payco.com")) return /\/event/.test(path) || path.includes("event.nhn");
   if (/t멤버십|tmembership|통신사/.test(mall) || hostMatches(host, "tmembership.co.kr")) return /\/benefit|\/event|\/discount/.test(path);
   if (/배달의민족|배민|baemin/.test(mall) || hostMatches(host, "baemin.com")) return /\/event/.test(path);
+  if (/bhc/.test(mall) || hostMatches(host, "bhc.co.kr")) return /\/event|coupon|promotion/.test(full);
   if (/아모레몰|amoremall/.test(mall) || hostMatches(host, "amoremall.com")) return /\/event/.test(path);
   if (/cgv/.test(mall) || hostMatches(host, "cgv.co.kr")) return /\/culture-event\/event/.test(path);
   if (/cu|bgf/.test(mall) || hostMatches(host, "bgfretail.com")) return /\/event/.test(path);

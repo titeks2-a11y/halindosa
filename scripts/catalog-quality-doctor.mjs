@@ -6,14 +6,16 @@ const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const mockDeals = readFileSync(join(root, "data/mockDeals.ts"), "utf8");
 const verifiedPurchaseLinks = readFileSync(join(root, "data/verifiedPurchaseLinks.ts"), "utf8");
 
-const requiredCategories = ["식품", "전자기기", "생활용품", "의류", "육아", "여행/티켓", "뷰티", "가전", "편의점/마트", "쿠폰/이벤트"];
+const requiredCategories = ["식품", "전자기기", "생활용품", "의류", "육아", "여행/티켓", "뷰티", "가전", "편의점/마트", "쿠폰/이벤트", "기타"];
 const requiredDealTypes = ["discount", "freebie", "coupon", "freeShipping", "experience", "point", "convenienceStore", "mart", "foodDelivery"];
 const minimums = {
-  totalDeals: 110,
+  totalDeals: 117,
   verifiedCoverageRate: 100,
   mallCount: 18,
-  categoryCount: 10,
-  benefitHeavyDeals: 28
+  categoryCount: 11,
+  benefitHeavyDeals: 70,
+  dealsPerRequiredCategory: 5,
+  dealsPerRequiredType: 5
 };
 
 function extractDeals() {
@@ -82,10 +84,16 @@ if (benefitHeavyDeals < minimums.benefitHeavyDeals) issues.push(`무료/쿠폰/�
 
 for (const category of requiredCategories) {
   if (!categories.has(category)) issues.push(`필수 카테고리가 없습니다: ${category}`);
+  if ((categories.get(category) ?? 0) < minimums.dealsPerRequiredCategory) {
+    issues.push(`필수 카테고리 상품 수가 부족합니다: ${category} ${(categories.get(category) ?? 0)}/${minimums.dealsPerRequiredCategory}`);
+  }
 }
 
 for (const dealType of requiredDealTypes) {
   if (!dealTypes.has(dealType)) issues.push(`필수 혜택 유형 후보가 없습니다: ${dealType}`);
+  if ((dealTypes.get(dealType) ?? 0) < minimums.dealsPerRequiredType) {
+    issues.push(`필수 혜택 유형 상품 수가 부족합니다: ${dealType} ${(dealTypes.get(dealType) ?? 0)}/${minimums.dealsPerRequiredType}`);
+  }
 }
 
 if (issues.length) {
@@ -100,4 +108,6 @@ console.log(`- Verified purchase coverage: ${verifiedCount}/${deals.length} (${c
 console.log(`- Malls: ${malls.size}`);
 console.log(`- Categories: ${categories.size}`);
 console.log(`- Benefit-heavy deals: ${benefitHeavyDeals}`);
+console.log(`- Minimum per required category: ${minimums.dealsPerRequiredCategory}`);
+console.log(`- Minimum per required deal type: ${minimums.dealsPerRequiredType}`);
 console.log(`- Deal types: ${[...dealTypes.keys()].sort().join(", ")}`);
