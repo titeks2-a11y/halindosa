@@ -800,7 +800,14 @@ async function checkUiAccessibility() {
     pass("admin report priority workflow", "Admin/report surfaces prioritize link error, sold-out, and expired reports with expected handling, SLA, and recommended actions.");
   }
 
-  const requiredEmptyStateSnippets = ["조건 초기화하고 전체 특가 보기", "홈에서 특가 둘러보기", "가격과 재고는 판매처에서 변동"];
+  const requiredEmptyStateSnippets = [
+    "조건 초기화하고 전체 특가 보기",
+    "홈에서 특가 둘러보기",
+    "가격과 재고는 판매처에서 변동",
+    "검색 결과 없음 복구",
+    "바로 다시 찾아볼 검색어",
+    "먼저 볼 만한 검증 특가"
+  ];
   const missingEmptyStateSnippets = requiredEmptyStateSnippets.filter((snippet) => !homePage.includes(snippet));
 
   if (missingEmptyStateSnippets.length) {
@@ -812,7 +819,8 @@ async function checkUiAccessibility() {
     !loadingPage.includes("animate-pulse") ||
     !errorPage.includes("일시적으로 화면을 불러오지 못했습니다") ||
     !errorPage.includes("다시 시도") ||
-    !smoke.includes("not found page")
+    !smoke.includes("not found page") ||
+    !smoke.includes("home empty search recovery")
   ) {
     fail("empty state UX", "Global not-found, loading, and error states should be branded, actionable, and covered by smoke tests.");
   } else {

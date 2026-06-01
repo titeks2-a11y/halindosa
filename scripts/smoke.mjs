@@ -1,7 +1,10 @@
+import { readFileSync } from "node:fs";
+
 const loopbackHost = ["127", "0", "0", "1"].join(".");
 const baseUrl = process.env.SMOKE_BASE_URL ?? `http://${loopbackHost}:3000`;
 const smokeFetchTimeoutMs = Number(process.env.SMOKE_FETCH_TIMEOUT_MS ?? 30000);
 const nativeFetch = globalThis.fetch.bind(globalThis);
+const homePageSource = readFileSync(new URL("../app/page.tsx", import.meta.url), "utf8");
 
 globalThis.fetch = async (input, init = {}) => {
   const controller = new AbortController();
@@ -247,6 +250,17 @@ await check("home query filters", async () => {
   assert(text.includes("검색 결과 빠른 분류") && text.includes("많이 나온 쇼핑몰") && text.includes("가까운 카테고리"), "Filtered home missing search result grouping shortcuts");
   assert(text.includes("판매처 집중") && text.includes("카테고리 집중") && text.includes("안전 이동"), "Filtered home missing result decision cards");
   assert(text.includes("조건 초기화"), "Filtered home missing filter reset action");
+});
+
+await check("home empty search recovery", async () => {
+  const result = await fetchJson(`/api/deals?q=${encodeURIComponent("zzznomatch987")}&verifiedOnly=true&limit=20`);
+  assert(result.response.status === 200, `Expected 200, got ${result.response.status}`);
+  assert(result.data.deals.length === 0, "Impossible search query should return no API deals");
+  assert(homePageSource.includes("조건에 맞는 특가가 없습니다."), "Home source missing empty result title");
+  assert(homePageSource.includes("검색 결과 없음 복구"), "Home source missing recovery region");
+  assert(homePageSource.includes("바로 다시 찾아볼 검색어"), "Home source missing recovery keyword suggestions");
+  assert(homePageSource.includes("먼저 볼 만한 검증 특가"), "Home source missing verified deal recovery suggestions");
+  assert(homePageSource.includes("검색 결과 대신 실제 구매 링크가 확인된 상품"), "Home source missing verified-link recovery copy");
 });
 
 await check("mypage data controls", async () => {
