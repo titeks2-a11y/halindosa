@@ -3133,7 +3133,21 @@ export default function Home() {
               </div>
             </details>
 
-            <div className="rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+            <details className="group overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-sm" aria-label="상세 필터와 결과 분석 접기">
+              <summary className="flex cursor-pointer list-none flex-col gap-3 px-4 py-4 outline-none transition hover:bg-slate-50 focus-visible:ring-4 focus-visible:ring-red-100 sm:flex-row sm:items-center sm:justify-between sm:px-5 [&::-webkit-details-marker]:hidden">
+                <span>
+                  <span className="block text-xs font-black text-dossa-red">상세 필터와 결과 분석</span>
+                  <span className="mt-1 block text-lg font-black text-slate-950">상품 목록을 먼저 보고, 더 좁힐 때 펼치세요</span>
+                  <span className="mt-1 block text-xs font-bold leading-5 text-slate-500">
+                    쇼핑몰·가격대·혜택 목적·결과 해석 카드는 접어서 보관하고, 상품 목록 앞 빠른 좁히기는 계속 노출합니다.
+                  </span>
+                </span>
+                <span className="inline-flex min-h-10 shrink-0 items-center justify-center rounded-2xl bg-slate-950 px-4 text-xs font-black text-white transition group-open:bg-dossa-red">
+                  <span className="group-open:hidden">필터 더보기</span>
+                  <span className="hidden group-open:inline">접기</span>
+                </span>
+              </summary>
+              <div className="space-y-4 p-4 pt-0 sm:p-5 sm:pt-0">
               <div className="flex flex-col gap-3 lg:flex-row">
                 <SearchBar value={query} onChange={setQuery} />
                 <SortSelect value={sort} onChange={setSort} />
@@ -3540,7 +3554,8 @@ export default function Home() {
               {loadError ? (
                 <p className="mt-3 rounded-2xl bg-amber-50 px-4 py-3 text-xs font-black text-amber-700">{loadError}</p>
               ) : null}
-            </div>
+              </div>
+            </details>
 
             {deals.length ? (
               <section className="rounded-[24px] border border-slate-200 bg-white p-3 shadow-sm" aria-label="현재 결과 빠른 좁히기">
