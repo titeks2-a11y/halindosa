@@ -130,6 +130,9 @@ await check("home page", async () => {
   assert(text.includes("돈 쓰기 전 무료 혜택") && text.includes("쿠폰·포인트 먼저 적용") && text.includes("오늘 끝날 수 있는 혜택"), "Home page missing daily benefit mission actions");
   assert(text.includes("오늘 바로 실행할 혜택 액션 큐") && text.includes("무료 수령, 쿠폰 적용, 생활 혜택, 마감 확인 순서로 봅니다"), "Home page missing daily benefit action queue");
   assert(text.includes("무료 혜택 받기") && text.includes("쿠폰 조건 보기") && text.includes("생활 혜택 보기") && text.includes("마감 혜택 확인"), "Home page missing daily benefit action queue buttons");
+  assert(text.includes("첫 화면 혜택 우선순위 큐") && text.includes("오늘 받을 혜택 큐"), "Home page missing first-screen benefit priority queue");
+  assert(text.includes("스크롤 전에 먼저 고를 5가지") && text.includes("무료, 쿠폰, 무배, 마감, 실제 구매처 이동"), "Home page missing compressed benefit queue guidance");
+  assert(text.includes("무료 혜택 먼저") && text.includes("쿠폰·포인트 적용") && text.includes("배송비 줄이기") && text.includes("구매처 바로 이동"), "Home page missing compressed benefit queue actions");
   assert(text.includes("품질 안내"), "Home page missing deal quality notice");
   assert(text.includes("무료혜택 TOP 5") && text.includes("쿠폰·앱테크 TOP 5"), "Home page missing free coupon top ranking section");
   assert(

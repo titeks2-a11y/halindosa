@@ -985,6 +985,15 @@ async function checkUiAccessibility() {
         !benefitDiscoverySections.includes("쿠폰 조건 보기") ||
         !benefitDiscoverySections.includes("생활 혜택 보기") ||
         !benefitDiscoverySections.includes("마감 혜택 확인") ||
+        !homePage.includes("todayBenefitQueue") ||
+        !homePage.includes('aria-label="첫 화면 혜택 우선순위 큐"') ||
+        !homePage.includes("오늘 받을 혜택 큐") ||
+        !homePage.includes("스크롤 전에 먼저 고를 5가지") ||
+        !homePage.includes("무료, 쿠폰, 무배, 마감, 실제 구매처 이동을 한 화면에서 빠르게 좁힙니다") ||
+        !homePage.includes("무료 혜택 먼저") ||
+        !homePage.includes("쿠폰·포인트 적용") ||
+        !homePage.includes("배송비 줄이기") ||
+        !homePage.includes("구매처 바로 이동") ||
         !benefitDiscoverySections.includes("sortByFavoriteSignal") ||
         !benefitDiscoverySections.includes("회원들이 많이 찜한 혜택") ||
         !benefitDiscoverySections.includes("내 찜 {favoriteCount}개") ||
@@ -1019,6 +1028,9 @@ async function checkUiAccessibility() {
         !smoke.includes("Home page missing daily claim routine") ||
         !smoke.includes("Home page missing first-visit benefit mission board") ||
         !smoke.includes("Home page missing daily benefit action queue") ||
+        !smoke.includes("Home page missing first-screen benefit priority queue") ||
+        !smoke.includes("Home page missing compressed benefit queue guidance") ||
+        !smoke.includes("Home page missing compressed benefit queue actions") ||
         !smoke.includes("Home page missing member favorite benefit section") ||
         !smoke.includes("Home page missing interest category personalization") ||
         !smoke.includes("Home page missing quick interest setup") ||

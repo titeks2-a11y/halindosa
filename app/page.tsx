@@ -1327,6 +1327,60 @@ export default function Home() {
     ],
     [activeFilterLabels.length, deals]
   );
+
+  const todayBenefitQueue = useMemo(() => {
+    const source = catalog.length ? catalog : deals;
+    const byScore = (items: Deal[]) => [...items].sort((a, b) => commercialScore(b) - commercialScore(a));
+    const freeItems = byScore(source.filter((deal) => ["freebie", "experience"].includes(deal.dealType) || deal.salePrice === 0));
+    const couponItems = byScore(source.filter((deal) => ["coupon", "point", "event"].includes(deal.dealType)));
+    const shippingItems = byScore(source.filter(isFreeShippingDeal));
+    const endingItems = byScore(source.filter((deal) => deal.isEndingSoon && !deal.isExpired));
+    const verifiedItems = byScore(source.filter(isVerifiedPurchaseLink));
+
+    return [
+      {
+        id: "freebie",
+        title: "무료 혜택 먼저",
+        label: "무료/체험",
+        copy: "돈 쓰기 전 받을 수 있는 샘플, 체험, 무료 쿠폰",
+        count: freeItems.length,
+        deal: freeItems[0] ?? null
+      },
+      {
+        id: "coupon",
+        title: "쿠폰·포인트 적용",
+        label: "쿠폰",
+        copy: "구매 전 바로 눌러볼 쿠폰과 적립 혜택",
+        count: couponItems.length,
+        deal: couponItems[0] ?? null
+      },
+      {
+        id: "freeShipping",
+        title: "배송비 줄이기",
+        label: "무배",
+        copy: "무료배송 또는 배송비 부담이 낮은 혜택",
+        count: shippingItems.length,
+        deal: shippingItems[0] ?? null
+      },
+      {
+        id: "endingSoon",
+        title: "마감 전 확인",
+        label: "마감",
+        copy: "오늘 끝날 수 있는 선착순, 기간 한정 혜택",
+        count: endingItems.length,
+        deal: endingItems[0] ?? null
+      },
+      {
+        id: "verified",
+        title: "구매처 바로 이동",
+        label: "링크",
+        copy: "검색 페이지보다 실제 상세 이동을 우선 확인",
+        count: verifiedItems.length,
+        deal: verifiedItems[0] ?? null
+      }
+    ];
+  }, [catalog, deals]);
+
   const searchPurposeCards = useMemo(() => {
     const source = catalog.length ? catalog : deals;
 
@@ -1571,6 +1625,52 @@ export default function Home() {
         </div>
         {activeView === "home" ? (
           <>
+            <section className="overflow-hidden rounded-[28px] border border-red-100 bg-white shadow-sm" aria-label="첫 화면 혜택 우선순위 큐">
+              <div className="border-b border-red-100 bg-red-50 px-4 py-4 sm:px-5">
+                <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+                  <div>
+                    <p className="text-xs font-black text-dossa-red">오늘 받을 혜택 큐</p>
+                    <h3 className="mt-1 text-xl font-black text-slate-950 sm:text-2xl">스크롤 전에 먼저 고를 5가지</h3>
+                    <p className="mt-1 text-sm font-bold leading-6 text-slate-600">
+                      무료, 쿠폰, 무배, 마감, 실제 구매처 이동을 한 화면에서 빠르게 좁힙니다.
+                    </p>
+                  </div>
+                  <Link href="/free-benefits" className="inline-flex min-h-11 items-center justify-center rounded-2xl bg-dossa-red px-4 text-sm font-black text-white shadow-sm">
+                    무료 혜택 전용 보기
+                  </Link>
+                </div>
+              </div>
+              <div className="grid gap-2 p-3 sm:grid-cols-2 lg:grid-cols-5">
+                {todayBenefitQueue.map((item) => (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => {
+                      if (item.id === "endingSoon") {
+                        openQuickDiscovery("endingSoon");
+                        return;
+                      }
+                      if (item.id === "verified") {
+                        openQuickDiscovery("verified");
+                        return;
+                      }
+                      openBenefitFilter(item.id as DealBenefitType);
+                    }}
+                    className="min-h-[142px] rounded-3xl border border-slate-100 bg-slate-50 p-3 text-left transition hover:-translate-y-0.5 hover:border-red-200 hover:bg-white hover:shadow-sm"
+                  >
+                    <span className="inline-flex items-center gap-2 rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-dossa-red shadow-sm">
+                      {item.label} {item.count}개
+                    </span>
+                    <span className="mt-3 block text-base font-black leading-5 text-slate-950">{item.title}</span>
+                    <span className="mt-1 block text-xs font-semibold leading-5 text-slate-500">{item.copy}</span>
+                    <span className="mt-3 block min-h-10 rounded-2xl bg-white px-3 py-2 text-xs font-black leading-5 text-slate-700">
+                      {item.deal ? item.deal.title : "조건에 맞는 혜택을 준비 중입니다"}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </section>
+
             <BenefitDiscoverySections
               deals={catalog.length ? catalog : deals}
               recentDeals={recentDeals}
