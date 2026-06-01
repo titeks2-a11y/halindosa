@@ -1156,6 +1156,11 @@ async function checkOperationalDataSurfaces() {
     !notificationsPage.includes("마감과 인기 반응이 겹친 특가부터 보기") ||
     !notificationsPage.includes("dailyAlertQueues") ||
     !notificationsPage.includes("alertActionSteps") ||
+    !notificationsPage.includes("alertConditionBoard") ||
+    !notificationsPage.includes("비회원 알림 조건 요약") ||
+    !notificationsPage.includes("가입 없이도 오늘 볼 알림 조건을 먼저 고릅니다") ||
+    !notificationsPage.includes("무료·체험 조건") ||
+    !notificationsPage.includes("찜·가격 알림 조건") ||
     !notificationsPage.includes("오늘 알림 실행 순서") ||
     !notificationsPage.includes("앱을 열면 이 순서로 혜택을 확인하세요") ||
     !notificationsPage.includes("InterestAlertPreview") ||
@@ -1173,6 +1178,7 @@ async function checkOperationalDataSurfaces() {
     !notificationsPage.includes("권한 요청 없이 먼저 쓸 수 있게 준비했습니다") ||
     !notificationsPage.includes("실제 푸시 알림은 별도 동의") ||
     !notificationsPage.includes("알림 기준 보기") ||
+    !smoke.includes("Notifications page missing non-member alert condition board") ||
     !smoke.includes("Notifications page missing alert action routine") ||
     !smoke.includes("Notifications page missing interest alert action cards") ||
     notificationsPage.includes("Notification.requestPermission")

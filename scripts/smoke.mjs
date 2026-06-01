@@ -332,6 +332,13 @@ await check("category and notification pages", async () => {
   assert(notificationsText.includes("관심 알림 실행 카드"), "Notifications page missing interest alert action cards");
   assert(notificationsText.includes("무료·체험 먼저") && notificationsText.includes("쿠폰·포인트 챙기기") && notificationsText.includes("마감 전 확인"), "Notifications page missing personalized alert action steps");
   assert(notificationsText.includes("실제 푸시 발송은 FCM 연결 후 별도 동의"), "Notifications page missing push readiness copy");
+  assert(
+    notificationsText.includes("비회원 알림 조건 요약") &&
+      notificationsText.includes("가입 없이도 오늘 볼 알림 조건을 먼저 고릅니다") &&
+      notificationsText.includes("무료·체험 조건") &&
+      notificationsText.includes("찜·가격 알림 조건"),
+    "Notifications page missing non-member alert condition board"
+  );
   assert(notificationsText.includes("오늘 알림 실행 순서") && notificationsText.includes("앱을 열면 이 순서로 혜택을 확인하세요"), "Notifications page missing alert action routine");
   assert(notificationsText.includes("무료 혜택 먼저 확인") && notificationsText.includes("쿠폰·포인트 챙기기") && notificationsText.includes("마감 임박 놓치지 않기"), "Notifications page missing alert action steps");
   assert(notificationsText.includes("알림 운영 방식") && notificationsText.includes("권한 요청 없이 먼저 쓸 수 있게 준비했습니다"), "Notifications page missing push readiness operating guide");

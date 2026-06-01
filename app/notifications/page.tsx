@@ -137,6 +137,36 @@ export default async function NotificationsPage() {
       icon: Flame
     }
   ];
+  const alertConditionBoard = [
+    {
+      title: "무료·체험 조건",
+      description: "배송비, 회원가입, 선착순 신호가 있는 무료 혜택을 먼저 확인합니다.",
+      href: "/free-benefits?dealType=freebie&sort=recommended",
+      count: deals.filter((deal) => ["freebie", "experience"].includes(deal.dealType) && !deal.isExpired && !deal.isSoldOut).length,
+      signal: "무료 혜택"
+    },
+    {
+      title: "쿠폰·포인트 조건",
+      description: "최소 주문 금액, 중복 가능 여부, 결제수단 조건이 있는 혜택을 모읍니다.",
+      href: "/free-benefits?dealType=coupon&sort=savings",
+      count: deals.filter((deal) => ["coupon", "point", "foodDelivery"].includes(deal.dealType) && !deal.isExpired && !deal.isSoldOut).length,
+      signal: "쿠폰 조건"
+    },
+    {
+      title: "마감·선착순 조건",
+      description: "마감 시간이 가깝거나 선착순 가능성이 있는 혜택을 우선 표시합니다.",
+      href: "/?endingSoon=true&sort=endingSoon",
+      count: deals.filter((deal) => (deal.isEndingSoon || deal.isFirstComeFirstServed) && !deal.isExpired && !deal.isSoldOut).length,
+      signal: "마감 신호"
+    },
+    {
+      title: "찜·가격 알림 조건",
+      description: "찜한 상품과 희망 가격은 로그인 없이도 이 기기에 먼저 저장할 수 있습니다.",
+      href: "/favorites",
+      count: savedSignalDeals.length,
+      signal: "기기 저장"
+    }
+  ];
 
   return (
     <div className="space-y-4 px-3 py-4 sm:px-4 lg:px-0 lg:py-8">
@@ -174,6 +204,37 @@ export default async function NotificationsPage() {
       <PriceAlertList deals={deals} />
       <ClaimedBenefitAlertSummary deals={deals} />
       <InterestAlertPreview deals={deals} />
+
+      <section className="rounded-[22px] border border-red-100 bg-white p-4 shadow-sm lg:p-5" aria-label="비회원 알림 조건 요약">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-xs font-black text-dossa-red">비회원 알림 조건 요약</p>
+            <h2 className="mt-1 text-base font-black text-slate-950">가입 없이도 오늘 볼 알림 조건을 먼저 고릅니다</h2>
+            <p className="mt-1 text-sm font-semibold leading-6 text-slate-500">
+              무료 혜택, 쿠폰, 마감, 찜·가격 알림을 권한 요청 없이 앱 안에서 정리하고 저장 기능만 선택적으로 로그인으로 이어갑니다.
+            </p>
+          </div>
+          <Link href="/mypage" className="rounded-2xl bg-red-50 px-4 py-3 text-center text-xs font-black text-dossa-red">
+            관심 조건 관리
+          </Link>
+        </div>
+        <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+          {alertConditionBoard.map((item) => (
+            <Link
+              key={item.title}
+              href={item.href}
+              className="min-h-[148px] rounded-3xl border border-slate-100 bg-slate-50 p-4 transition hover:-translate-y-0.5 hover:border-red-200 hover:bg-red-50"
+            >
+              <span className="flex items-start justify-between gap-3">
+                <span className="rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-dossa-red shadow-sm">{item.signal}</span>
+                <span className="rounded-full bg-slate-950 px-2.5 py-1 text-[11px] font-black text-white">{item.count}개</span>
+              </span>
+              <span className="mt-4 block text-sm font-black text-slate-950">{item.title}</span>
+              <span className="mt-1 line-clamp-3 block text-xs font-semibold leading-5 text-slate-500">{item.description}</span>
+            </Link>
+          ))}
+        </div>
+      </section>
 
       <section className="rounded-[22px] border border-slate-200 bg-white p-4 shadow-sm lg:p-5" aria-label="오늘 알림 실행 순서">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
