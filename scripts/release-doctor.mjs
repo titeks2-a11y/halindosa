@@ -590,6 +590,7 @@ async function checkUiAccessibility() {
   const hotSignalSection = await text("components/HotSignalSection.tsx");
   const trueDealSpotlight = await text("components/TrueDealSpotlight.tsx");
   const benefitDiscoverySections = await text("components/BenefitDiscoverySections.tsx");
+  const benefitDecisionGuide = await text("lib/deals/benefitDecisionGuide.ts");
   const benefitCheckInCard = await text("components/BenefitCheckInCard.tsx");
   const benefitCheckIn = await text("lib/benefitCheckIn.ts");
   const priceAlertList = await text("components/PriceAlertList.tsx");
@@ -995,11 +996,12 @@ async function checkUiAccessibility() {
         !homePage.includes("배송비 줄이기") ||
         !homePage.includes("구매처 바로 이동") ||
         !homePage.includes("firstVisitDecisionGuide") ||
+        !homePage.includes("buildBenefitDecisionGuide") ||
         !homePage.includes('aria-label="첫 방문 혜택 판단 가이드"') ||
         !homePage.includes("오늘 먼저 챙길 혜택 판단표") ||
         !homePage.includes("무료로 받을 것, 결제 전 적용할 것, 오늘 끝날 것, 바로 이동할 상품") ||
-        !homePage.includes("돈 안 쓰고 받을 것") ||
-        !homePage.includes("구매처가 확인된 것") ||
+        !benefitDecisionGuide.includes("돈 안 쓰고 받을 것") ||
+        !benefitDecisionGuide.includes("구매처가 확인된 것") ||
         !benefitDiscoverySections.includes("sortByFavoriteSignal") ||
         !benefitDiscoverySections.includes("회원들이 많이 찜한 혜택") ||
         !benefitDiscoverySections.includes("내 찜 {favoriteCount}개") ||
@@ -1173,8 +1175,10 @@ async function checkOperationalDataSurfaces() {
   const weeklyCalendarRoute = await text("app/api/benefits/calendar/route.ts");
   const dailyBriefingRoute = await text("app/api/benefits/briefing/route.ts");
   const dailyRoutineRoute = await text("app/api/benefits/routine/route.ts");
+  const benefitDecisionGuideRoute = await text("app/api/benefits/decision-guide/route.ts");
   const personalizedBenefitsRoute = await text("app/api/benefits/personalized/route.ts");
   const todayBenefitQueue = await text("lib/deals/todayBenefitQueue.ts");
+  const benefitDecisionGuide = await text("lib/deals/benefitDecisionGuide.ts");
   const weeklyBenefitCalendar = await text("lib/deals/weeklyBenefitCalendar.ts");
   const dailyBenefitBriefing = await text("lib/deals/dailyBenefitBriefing.ts");
   const dailyRoutinePlan = await text("lib/deals/dailyRoutinePlan.ts");
@@ -1476,6 +1480,8 @@ async function checkOperationalDataSurfaces() {
     !weeklyCalendarRoute.includes("buildWeeklyBenefitCalendar") ||
     !dailyBriefingRoute.includes("buildDailyBenefitBriefing") ||
     !dailyRoutineRoute.includes("buildDailyRoutinePlan") ||
+    !benefitDecisionGuideRoute.includes("buildBenefitDecisionGuide") ||
+    !benefitDecisionGuideRoute.includes("audience: \"guest\"") ||
     !personalizedBenefitsRoute.includes("buildPersonalizedBenefitQueue") ||
     !weeklyBenefitCalendar.includes("operationNote") ||
     !weeklyBenefitCalendar.includes("recommendedSurface") ||
@@ -1485,11 +1491,16 @@ async function checkOperationalDataSurfaces() {
     !dailyRoutinePlan.includes("buildTodayBenefitQueue") ||
     !dailyRoutinePlan.includes("오늘 3분 혜택 루틴") ||
     !dailyRoutinePlan.includes("audience: \"guest\"") ||
+    !benefitDecisionGuide.includes("돈 안 쓰고 받을 것") ||
+    !benefitDecisionGuide.includes("결제 전 적용할 것") ||
+    !benefitDecisionGuide.includes("오늘 놓치기 쉬운 것") ||
+    !benefitDecisionGuide.includes("구매처가 확인된 것") ||
     !personalizedBenefitQueue.includes("dealMatchesPersonalInterest") ||
     !personalizedBenefitQueue.includes("audience: \"guest\"") ||
     !personalizedBenefitQueue.includes("personalizedSignals") ||
     !homePage.includes("buildDailyBenefitBriefing") ||
     !homePage.includes("buildDailyRoutinePlan") ||
+    !homePage.includes("buildBenefitDecisionGuide") ||
     !homePage.includes("buildPersonalizedBenefitQueue") ||
     !homePage.includes("오늘 혜택 브리핑") ||
     !homePage.includes("브리핑 API 보기") ||
@@ -1502,11 +1513,13 @@ async function checkOperationalDataSurfaces() {
     !smoke.includes("weekly benefit calendar api") ||
     !smoke.includes("daily benefit briefing api") ||
     !smoke.includes("daily benefit routine api") ||
+    !smoke.includes("benefit decision guide api") ||
     !smoke.includes("personalized benefits api") ||
     !smoke.includes("Today benefits API should keep guest access") ||
     !smoke.includes("Weekly benefit calendar should keep guest access") ||
     !smoke.includes("Daily benefit briefing should keep guest access") ||
     !smoke.includes("Daily benefit routine should keep guest access") ||
+    !smoke.includes("Benefit decision guide should keep guest access") ||
     !smoke.includes("Personalized benefits should keep guest access") ||
     !smoke.includes("Home page missing daily benefit briefing") ||
     !smoke.includes("Home page missing daily routine API and step summary") ||

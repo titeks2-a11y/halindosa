@@ -34,6 +34,7 @@ import { canOpenDealLink } from "@/lib/affiliate";
 import { readBenefitReturnReservations } from "@/lib/benefitReturnReservations";
 import { readBenefitVisitStreak } from "@/lib/benefitVisitStreak";
 import { claimedBenefitUpdatedEvent, readClaimedBenefits } from "@/lib/claimedBenefits";
+import { buildBenefitDecisionGuide } from "@/lib/deals/benefitDecisionGuide";
 import { buildDailyBenefitBriefing } from "@/lib/deals/dailyBenefitBriefing";
 import { buildDailyRoutinePlan } from "@/lib/deals/dailyRoutinePlan";
 import { buildPersonalizedBenefitQueue } from "@/lib/deals/personalizedBenefitQueue";
@@ -1401,42 +1402,7 @@ export default function Home() {
   }, [catalog, deals]);
   const firstVisitDecisionGuide = useMemo(() => {
     const source = catalog.length ? catalog : deals;
-    const activeDeals = source.filter((deal) => !deal.isExpired);
-    const freeCount = activeDeals.filter((deal) => ["freebie", "experience"].includes(deal.dealType) || deal.salePrice === 0).length;
-    const couponCount = activeDeals.filter((deal) => ["coupon", "point", "event", "foodDelivery"].includes(deal.dealType)).length;
-    const urgentCount = activeDeals.filter((deal) => deal.isEndingSoon).length;
-    const verifiedCount = activeDeals.filter(isVerifiedPurchaseLink).length;
-
-    return [
-      {
-        id: "free",
-        title: "돈 안 쓰고 받을 것",
-        value: `${freeCount}개`,
-        copy: "샘플, 체험, 무료 쿠폰처럼 결제 전에 먼저 챙길 혜택입니다.",
-        action: "무료 혜택 보기"
-      },
-      {
-        id: "coupon",
-        title: "결제 전 적용할 것",
-        value: `${couponCount}개`,
-        copy: "쿠폰, 포인트, 외식 혜택처럼 최종 결제 전에 확인하면 좋은 항목입니다.",
-        action: "쿠폰 조건 보기"
-      },
-      {
-        id: "endingSoon",
-        title: "오늘 놓치기 쉬운 것",
-        value: `${urgentCount}개`,
-        copy: "선착순, 기간 한정, 마감 임박 신호가 있는 혜택을 먼저 모았습니다.",
-        action: "마감 혜택 보기"
-      },
-      {
-        id: "verified",
-        title: "구매처가 확인된 것",
-        value: `${verifiedCount}개`,
-        copy: "검색 결과보다 상품·이벤트 상세로 바로 이동 가능한 혜택입니다.",
-        action: "바로 이동 상품 보기"
-      }
-    ];
+    return buildBenefitDecisionGuide(source);
   }, [catalog, deals]);
   const dailyBenefitBriefing = useMemo(() => buildDailyBenefitBriefing(catalog.length ? catalog : deals, new Date(), 3), [catalog, deals]);
   const dailyRoutinePlan = useMemo(() => buildDailyRoutinePlan(catalog.length ? catalog : deals, 2), [catalog, deals]);

@@ -858,6 +858,20 @@ await check("daily benefit routine api", async () => {
   assert(String(data.routine.notice ?? "").includes("선택 로그인"), "Daily benefit routine missing optional login notice");
 });
 
+await check("benefit decision guide api", async () => {
+  const { response, data } = await fetchJson("/api/benefits/decision-guide");
+  assert(response.status === 200, `Expected 200, got ${response.status}`);
+  assert(data.ok === true, "Benefit decision guide API ok should be true");
+  assert(data.audience === "guest", "Benefit decision guide should keep guest access");
+  assert(Array.isArray(data.items) && data.items.length === 4, "Benefit decision guide should return four decision cards");
+  assert(data.items.some((item) => item.id === "free" && item.title.includes("돈 안 쓰고")), "Benefit decision guide missing free decision card");
+  assert(data.items.some((item) => item.id === "coupon" && item.title.includes("결제 전")), "Benefit decision guide missing coupon decision card");
+  assert(data.items.some((item) => item.id === "endingSoon" && item.title.includes("놓치기")), "Benefit decision guide missing urgent decision card");
+  assert(data.items.some((item) => item.id === "verified" && item.title.includes("구매처")), "Benefit decision guide missing verified decision card");
+  assert(data.items.every((item) => typeof item.href === "string" && item.href.length > 1), "Benefit decision guide cards should include action hrefs");
+  assert(String(data.notice ?? "").includes("비회원도 모든 혜택"), "Benefit decision guide missing non-member access notice");
+});
+
 await check("personalized benefits api", async () => {
   const { response, data } = await fetchJson("/api/benefits/personalized?interest=%EB%AC%B4%EB%A3%8C%2F%EC%B2%B4%ED%97%98&interest=%EC%BF%A0%ED%8F%B0%2F%EC%9D%B4%EB%B2%A4%ED%8A%B8&favoriteId=d001&recentId=d014&limit=4");
   assert(response.status === 200, `Expected 200, got ${response.status}`);
