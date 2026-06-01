@@ -398,6 +398,60 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
     ],
     [deals]
   );
+  const couponEventBoard = useMemo(
+    () => [
+      {
+        title: "쇼핑몰 쿠폰",
+        copy: "첫 구매, 브랜드 공식몰, 장바구니 쿠폰을 결제 전에 확인합니다.",
+        count: deals.filter((deal) => deal.dealType === "coupon" && !/배달|외식|카드|페이|포인트/.test(`${deal.title} ${deal.tags.join(" ")}`)).length,
+        terms: ["최소 주문 금액", "중복 가능 여부", "쿠폰 조건"],
+        action: "쇼핑 쿠폰 보기",
+        onClick: () => {
+          setActiveType("coupon");
+          setSort("savings");
+          setActiveOnly(true);
+        }
+      },
+      {
+        title: "배달앱 쿠폰",
+        copy: "첫 주문, 브랜드 외식, 배달앱 할인처럼 시간대와 지역 조건을 확인합니다.",
+        count: deals.filter((deal) => deal.dealType === "foodDelivery").length,
+        terms: ["최소 주문 금액", "지역/시간 조건", "결제수단"],
+        action: "배달 쿠폰 보기",
+        onClick: () => {
+          setActiveType("foodDelivery");
+          setSort("popular");
+          setActiveOnly(true);
+        }
+      },
+      {
+        title: "페이·카드·포인트",
+        copy: "네이버페이, 카카오페이, 토스, 카드사 이벤트와 적립 조건을 모아봅니다.",
+        count: deals.filter((deal) => deal.dealType === "point" || /카드|페이|토스|포인트|적립/.test(`${deal.title} ${deal.tags.join(" ")}`)).length,
+        terms: ["적립 예정일", "대상 결제수단", "회원가입 필요"],
+        action: "포인트 보기",
+        onClick: () => {
+          setActiveType("point");
+          setSort("recommended");
+          setActiveOnly(true);
+        }
+      },
+      {
+        title: "편의점·마트 행사",
+        copy: "1+1, 2+1, 장보기 쿠폰, 무배 조건처럼 생활비 절약 혜택을 확인합니다.",
+        count: deals.filter((deal) => deal.dealType === "convenienceStore" || deal.dealType === "mart" || deal.isFreeShipping).length,
+        terms: ["행사 지점", "무료배송 조건", "재고 변동"],
+        action: "생활 행사 보기",
+        onClick: () => {
+          setActiveType("convenienceStore");
+          setFreeShippingOnly(false);
+          setSort("popular");
+          setActiveOnly(true);
+        }
+      }
+    ],
+    [deals]
+  );
 
   const toggleFavorite = (id: string) => {
     setFavorites((current) => {
@@ -566,6 +620,49 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
           </div>
           <p className="mt-4 rounded-2xl bg-red-50 px-4 py-3 text-xs font-black leading-5 text-dossa-deep">
             준비물 체크는 판매처 최종 조건을 대신하지 않습니다. 이동 후 실제 신청 화면의 비용, 기간, 재고, 쿠폰 적용 조건을 다시 확인하세요.
+          </p>
+        </section>
+
+        <section className="rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5" aria-label="쿠폰 이벤트 조건 보드">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-black text-dossa-red">쿠폰·이벤트 조건 보드</p>
+              <h2 className="mt-1 text-2xl font-black tracking-tight text-slate-950">결제 전에 조건이 있는 혜택을 먼저 정리합니다</h2>
+            </div>
+            <p className="max-w-md text-sm font-bold leading-6 text-slate-500">
+              쇼핑몰 쿠폰, 배달앱 쿠폰, 카드사·페이 이벤트, 편의점·마트 행사는 최소 주문 금액과 중복 가능 여부가 핵심입니다.
+            </p>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+            {couponEventBoard.map((item) => (
+              <button
+                key={item.title}
+                type="button"
+                onClick={item.onClick}
+                className="min-h-[190px] rounded-3xl border border-slate-100 bg-slate-50 p-4 text-left transition hover:-translate-y-0.5 hover:border-red-200 hover:bg-red-50"
+                aria-label={`${item.title} ${item.count}개 보기`}
+              >
+                <span className="flex items-start justify-between gap-3">
+                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-white text-dossa-red shadow-sm">
+                    <Sparkles size={18} />
+                  </span>
+                  <span className="rounded-full bg-white px-2.5 py-1 text-xs font-black text-dossa-red shadow-sm">{item.count}개</span>
+                </span>
+                <span className="mt-4 block text-sm font-black text-slate-950">{item.title}</span>
+                <span className="mt-1 line-clamp-2 block text-xs font-bold leading-5 text-slate-500">{item.copy}</span>
+                <span className="mt-3 flex flex-wrap gap-1.5">
+                  {item.terms.map((term) => (
+                    <span key={term} className="rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-slate-600 shadow-sm">
+                      {term}
+                    </span>
+                  ))}
+                </span>
+                <span className="mt-3 inline-flex rounded-full bg-dossa-red px-3 py-1.5 text-xs font-black text-white">{item.action}</span>
+              </button>
+            ))}
+          </div>
+          <p className="mt-4 rounded-2xl bg-slate-50 px-4 py-3 text-xs font-bold leading-5 text-slate-500">
+            바로 받기 전에 쿠폰 조건, 최소 주문 금액, 중복 가능 여부, 만료일을 판매처 화면에서 다시 확인하세요.
           </p>
         </section>
 

@@ -540,6 +540,14 @@ await check("free benefits page", async () => {
   assert(text.includes("수령 전 30초 확인") && text.includes("무료 혜택도 조건을 알고 받아야 합니다"), "Free benefits page missing pre-claim condition summary");
   assert(text.includes("혜택 준비물 체크") && text.includes("받기 전 필요한 조건만 먼저 정리합니다"), "Free benefits page missing benefit readiness checklist");
   assert(text.includes("회원가입 없이 받을 혜택") && text.includes("배송비 부담 없는 혜택") && text.includes("쿠폰 조건 확인 필요"), "Free benefits page missing readiness filter actions");
+  assert(
+    text.includes("쿠폰·이벤트 조건 보드") &&
+      text.includes("최소 주문 금액") &&
+      text.includes("중복 가능 여부") &&
+      text.includes("배달앱 쿠폰") &&
+      text.includes("페이·카드·포인트"),
+    "Free benefits page missing coupon event condition board"
+  );
   assert(text.includes("내가 챙긴 혜택 기록") && text.includes("오늘 실제로 챙긴 혜택을 남겨보세요") && text.includes("챙김"), "Free benefits page missing claimed benefit tracking");
   assert(text.includes("진행 중 혜택") && text.includes("가입 없이 받기") && text.includes("선착순 확인") && text.includes("배송비 확인"), "Free benefits page missing condition summary cards");
   assert(text.includes("혜택 출처·조건 점검") && text.includes("받기 전에 출처와 조건을 먼저 봅니다"), "Free benefits page missing source and condition trust summary");
