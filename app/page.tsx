@@ -1399,6 +1399,45 @@ export default function Home() {
       }
     ];
   }, [catalog, deals]);
+  const firstVisitDecisionGuide = useMemo(() => {
+    const source = catalog.length ? catalog : deals;
+    const activeDeals = source.filter((deal) => !deal.isExpired);
+    const freeCount = activeDeals.filter((deal) => ["freebie", "experience"].includes(deal.dealType) || deal.salePrice === 0).length;
+    const couponCount = activeDeals.filter((deal) => ["coupon", "point", "event", "foodDelivery"].includes(deal.dealType)).length;
+    const urgentCount = activeDeals.filter((deal) => deal.isEndingSoon).length;
+    const verifiedCount = activeDeals.filter(isVerifiedPurchaseLink).length;
+
+    return [
+      {
+        id: "free",
+        title: "돈 안 쓰고 받을 것",
+        value: `${freeCount}개`,
+        copy: "샘플, 체험, 무료 쿠폰처럼 결제 전에 먼저 챙길 혜택입니다.",
+        action: "무료 혜택 보기"
+      },
+      {
+        id: "coupon",
+        title: "결제 전 적용할 것",
+        value: `${couponCount}개`,
+        copy: "쿠폰, 포인트, 외식 혜택처럼 최종 결제 전에 확인하면 좋은 항목입니다.",
+        action: "쿠폰 조건 보기"
+      },
+      {
+        id: "endingSoon",
+        title: "오늘 놓치기 쉬운 것",
+        value: `${urgentCount}개`,
+        copy: "선착순, 기간 한정, 마감 임박 신호가 있는 혜택을 먼저 모았습니다.",
+        action: "마감 혜택 보기"
+      },
+      {
+        id: "verified",
+        title: "구매처가 확인된 것",
+        value: `${verifiedCount}개`,
+        copy: "검색 결과보다 상품·이벤트 상세로 바로 이동 가능한 혜택입니다.",
+        action: "바로 이동 상품 보기"
+      }
+    ];
+  }, [catalog, deals]);
   const dailyBenefitBriefing = useMemo(() => buildDailyBenefitBriefing(catalog.length ? catalog : deals, new Date(), 3), [catalog, deals]);
   const dailyRoutinePlan = useMemo(() => buildDailyRoutinePlan(catalog.length ? catalog : deals, 2), [catalog, deals]);
 
@@ -1686,6 +1725,54 @@ export default function Home() {
                     <span className="mt-1 block text-xs font-semibold leading-5 text-slate-500">{item.copy}</span>
                     <span className="mt-3 block min-h-10 rounded-2xl bg-white px-3 py-2 text-xs font-black leading-5 text-slate-700">
                       {item.deal ? item.deal.title : "조건에 맞는 혜택을 준비 중입니다"}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </section>
+
+            <section className="rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5" aria-label="첫 방문 혜택 판단 가이드">
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                  <p className="text-xs font-black text-dossa-red">처음 왔다면 이 순서</p>
+                  <h3 className="mt-1 text-xl font-black text-slate-950 sm:text-2xl">오늘 먼저 챙길 혜택 판단표</h3>
+                  <p className="mt-1 text-sm font-bold leading-6 text-slate-500">
+                    무료로 받을 것, 결제 전 적용할 것, 오늘 끝날 것, 바로 이동할 상품만 먼저 압축했습니다.
+                  </p>
+                </div>
+                <p className="rounded-2xl bg-red-50 px-3 py-2 text-xs font-black text-dossa-red">
+                  비회원도 전체 열람 가능
+                </p>
+              </div>
+              <div className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+                {firstVisitDecisionGuide.map((item) => (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => {
+                      if (item.id === "free") {
+                        openBenefitFilter("freebie");
+                        return;
+                      }
+                      if (item.id === "coupon") {
+                        openBenefitFilter("coupon");
+                        return;
+                      }
+                      if (item.id === "endingSoon") {
+                        openQuickDiscovery("endingSoon");
+                        return;
+                      }
+                      openQuickDiscovery("verified");
+                    }}
+                    className="group min-h-[156px] rounded-3xl border border-slate-100 bg-slate-50 p-4 text-left transition hover:-translate-y-0.5 hover:border-red-200 hover:bg-white hover:shadow-sm"
+                  >
+                    <span className="inline-flex items-center rounded-full bg-white px-2.5 py-1 text-xs font-black text-dossa-red shadow-sm">
+                      {item.value}
+                    </span>
+                    <span className="mt-3 block text-base font-black leading-5 text-slate-950">{item.title}</span>
+                    <span className="mt-2 block text-xs font-bold leading-5 text-slate-500">{item.copy}</span>
+                    <span className="mt-3 inline-flex min-h-9 items-center rounded-2xl bg-slate-950 px-3 text-xs font-black text-white transition group-hover:bg-dossa-red">
+                      {item.action}
                     </span>
                   </button>
                 ))}

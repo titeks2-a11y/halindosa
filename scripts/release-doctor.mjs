@@ -994,6 +994,12 @@ async function checkUiAccessibility() {
         !homePage.includes("쿠폰·포인트 적용") ||
         !homePage.includes("배송비 줄이기") ||
         !homePage.includes("구매처 바로 이동") ||
+        !homePage.includes("firstVisitDecisionGuide") ||
+        !homePage.includes('aria-label="첫 방문 혜택 판단 가이드"') ||
+        !homePage.includes("오늘 먼저 챙길 혜택 판단표") ||
+        !homePage.includes("무료로 받을 것, 결제 전 적용할 것, 오늘 끝날 것, 바로 이동할 상품") ||
+        !homePage.includes("돈 안 쓰고 받을 것") ||
+        !homePage.includes("구매처가 확인된 것") ||
         !benefitDiscoverySections.includes("sortByFavoriteSignal") ||
         !benefitDiscoverySections.includes("회원들이 많이 찜한 혜택") ||
         !benefitDiscoverySections.includes("내 찜 {favoriteCount}개") ||
@@ -1031,6 +1037,8 @@ async function checkUiAccessibility() {
         !smoke.includes("Home page missing first-screen benefit priority queue") ||
         !smoke.includes("Home page missing compressed benefit queue guidance") ||
         !smoke.includes("Home page missing compressed benefit queue actions") ||
+        !smoke.includes("Home page missing first-visit benefit decision guide") ||
+        !smoke.includes("Home page missing first-visit decision guide cards") ||
         !smoke.includes("Home page missing member favorite benefit section") ||
         !smoke.includes("Home page missing interest category personalization") ||
         !smoke.includes("Home page missing quick interest setup") ||

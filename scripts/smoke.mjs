@@ -133,6 +133,9 @@ await check("home page", async () => {
   assert(text.includes("첫 화면 혜택 우선순위 큐") && text.includes("오늘 받을 혜택 큐"), "Home page missing first-screen benefit priority queue");
   assert(text.includes("스크롤 전에 먼저 고를 5가지") && text.includes("무료, 쿠폰, 무배, 마감, 실제 구매처 이동"), "Home page missing compressed benefit queue guidance");
   assert(text.includes("무료 혜택 먼저") && text.includes("쿠폰·포인트 적용") && text.includes("배송비 줄이기") && text.includes("구매처 바로 이동"), "Home page missing compressed benefit queue actions");
+  assert(text.includes("첫 방문 혜택 판단 가이드") && text.includes("오늘 먼저 챙길 혜택 판단표"), "Home page missing first-visit benefit decision guide");
+  assert(text.includes("돈 안 쓰고 받을 것") && text.includes("결제 전 적용할 것") && text.includes("오늘 놓치기 쉬운 것") && text.includes("구매처가 확인된 것"), "Home page missing first-visit decision guide cards");
+  assert(text.includes("무료로 받을 것, 결제 전 적용할 것, 오늘 끝날 것, 바로 이동할 상품"), "Home page missing first-visit decision guide copy");
   assert(text.includes("오늘 혜택 브리핑") && text.includes("이번 주 혜택 캘린더에서 오늘 먼저 챙길 루틴"), "Home page missing daily benefit briefing");
   assert(text.includes("브리핑 API 보기") && text.includes("오늘 대표 큐") && text.includes("가입 없이 전체 혜택 확인"), "Home page missing daily briefing actions");
   assert(text.includes("루틴 API 보기") && text.includes("오늘 3분 혜택 루틴") && text.includes("실행") && text.includes("단계"), "Home page missing daily routine API and step summary");
