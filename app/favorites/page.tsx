@@ -21,8 +21,24 @@ interface DealsResponse {
   deals?: Deal[];
 }
 
-type FavoriteFilter = "all" | "verified" | "endingSoon" | "freeShipping";
+type FavoriteFilter = "all" | "benefits" | "verified" | "endingSoon" | "freeShipping";
 type FavoriteSort = "saved" | "discount" | "endingSoon" | "price";
+
+const savedBenefitTypes = new Set([
+  "freebie",
+  "coupon",
+  "freeShipping",
+  "experience",
+  "event",
+  "point",
+  "convenienceStore",
+  "mart",
+  "foodDelivery"
+]);
+
+function isSavedBenefitDeal(deal: Deal) {
+  return savedBenefitTypes.has(deal.dealType ?? "") || deal.category === "쿠폰/이벤트" || deal.tags.some((tag) => /무료|쿠폰|체험|포인트|1\+1|2\+1/.test(tag));
+}
 
 async function openExternalDeal(deal: Deal) {
   await recordRecentDealView(deal.id);
@@ -66,6 +82,7 @@ export default function FavoritesPage() {
   const favoriteDeals = useMemo(() => catalog.filter((deal) => favorites.includes(deal.id)), [catalog, favorites]);
   const favoriteStats = useMemo(
     () => ({
+      benefits: favoriteDeals.filter(isSavedBenefitDeal).length,
       verified: favoriteDeals.filter(isVerifiedPurchaseLink).length,
       endingSoon: favoriteDeals.filter((deal) => deal.isEndingSoon).length,
       freeShipping: favoriteDeals.filter((deal) => deal.isFreeShipping).length
@@ -76,6 +93,8 @@ export default function FavoritesPage() {
     const filtered =
       favoriteFilter === "verified"
         ? favoriteDeals.filter(isVerifiedPurchaseLink)
+        : favoriteFilter === "benefits"
+          ? favoriteDeals.filter(isSavedBenefitDeal)
         : favoriteFilter === "endingSoon"
           ? favoriteDeals.filter((deal) => deal.isEndingSoon)
           : favoriteFilter === "freeShipping"
@@ -96,6 +115,7 @@ export default function FavoritesPage() {
   }, [favoriteDeals, favoriteFilter, favoriteSort]);
   const favoriteFilterOptions: { id: FavoriteFilter; label: string; count: number; icon: typeof Heart }[] = [
     { id: "all", label: "전체", count: favoriteDeals.length, icon: Heart },
+    { id: "benefits", label: "무료·쿠폰 혜택", count: favoriteStats.benefits, icon: Sparkles },
     { id: "verified", label: "구매 링크 확인", count: favoriteStats.verified, icon: CheckCircle2 },
     { id: "endingSoon", label: "마감임박", count: favoriteStats.endingSoon, icon: Timer },
     { id: "freeShipping", label: "무료배송", count: favoriteStats.freeShipping, icon: Truck }
@@ -307,6 +327,17 @@ export default function FavoritesPage() {
                   </select>
                 </label>
               </div>
+              <div className="mt-4 flex flex-col gap-3 rounded-2xl border border-red-100 bg-red-50 p-3 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <p className="text-xs font-black text-dossa-red">무료혜택 저장함</p>
+                  <p className="mt-1 text-xs font-bold leading-5 text-red-700">
+                    무료혜택 탭에서 찜한 샘플, 쿠폰, 앱테크도 여기서 다시 확인합니다.
+                  </p>
+                </div>
+                <Link href="/free-benefits" className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-2xl bg-white px-4 text-xs font-black text-dossa-red shadow-sm">
+                  무료혜택 더 저장
+                </Link>
+              </div>
             </section>
 
             {filteredFavoriteDeals.length ? (
@@ -351,6 +382,9 @@ export default function FavoritesPage() {
               <div className="mx-auto mt-4 max-w-xl rounded-2xl bg-slate-50 px-4 py-3 text-xs font-bold leading-5 text-slate-500">
                 저장 상품 정렬은 찜한 특가가 생기면 사용할 수 있습니다. 저장순, 할인율 높은순, 마감임박순, 낮은 가격순으로 다시 볼 수 있어요.
               </div>
+              <div className="mx-auto mt-3 max-w-xl rounded-2xl border border-red-100 bg-red-50 px-4 py-3 text-xs font-bold leading-5 text-red-700">
+                무료·쿠폰 혜택도 찜하면 이 화면에서 다시 확인할 수 있습니다.
+              </div>
               <div className="mt-5 flex flex-wrap justify-center gap-2">
                 <Link
                   href="/?verifiedOnly=true"
@@ -367,6 +401,12 @@ export default function FavoritesPage() {
                     로그인하고 찜 동기화
                   </Link>
                 ) : null}
+                <Link
+                  href="/free-benefits"
+                  className="inline-flex min-h-12 items-center justify-center rounded-2xl bg-white px-5 text-sm font-black text-dossa-red ring-1 ring-red-100 transition hover:bg-red-50"
+                >
+                  무료혜택 더 저장
+                </Link>
               </div>
             </div>
 

@@ -979,6 +979,7 @@ await check("favorites page consent guard", async () => {
   assert(text.includes("구매 링크 확인 특가 보기"), "Favorites empty state missing verified link CTA");
   assert(text.includes("먼저 저장해볼 만한 특가"), "Favorites empty state missing starter recommendations");
   assert(text.includes("저장 상품 정렬"), "Favorites page missing saved deal sort section");
+  assert(text.includes("무료·쿠폰 혜택") && text.includes("무료혜택 더 저장"), "Favorites page missing saved free benefit filter");
   assert(text.includes("할인율 높은순") && text.includes("마감임박순") && text.includes("낮은 가격순"), "Favorites page missing sort options");
   assert(!text.includes("affiliate=granted"), "Favorites page should not server-render affiliate consent");
   assert(!text.includes("analytics=granted"), "Favorites page should not server-render analytics consent");

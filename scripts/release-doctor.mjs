@@ -709,8 +709,11 @@ async function checkUiAccessibility() {
   if (
     !favoritesPage.includes("favoriteFilterOptions") ||
     !favoritesPage.includes("favoriteSortOptions") ||
+    !favoritesPage.includes("isSavedBenefitDeal") ||
     !favoritesPage.includes("저장한 특가 빠르게 보기") ||
     !favoritesPage.includes("저장 상품 정렬") ||
+    !favoritesPage.includes("무료·쿠폰 혜택") ||
+    !favoritesPage.includes("무료혜택 더 저장") ||
     !favoritesPage.includes("구매 링크 확인") ||
     !favoritesPage.includes("setFavoriteFilter") ||
     !favoritesPage.includes("setFavoriteSort") ||
