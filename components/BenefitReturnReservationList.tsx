@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { CalendarDays, Clock, Gift, TicketPercent } from "lucide-react";
 import { BenefitReturnReservation, readBenefitReturnReservations, writeBenefitReturnReservations } from "@/lib/benefitReturnReservations";
@@ -36,6 +36,43 @@ export function BenefitReturnReservationList() {
   const [reservations, setReservations] = useState<BenefitReturnReservation[]>(() => readBenefitReturnReservations());
 
   const visibleReservations = useMemo(() => reservations.slice(0, 5), [reservations]);
+  const todayRoutineSummary = useMemo(
+    () => [
+      {
+        label: "저장된 루틴",
+        value: `${reservations.length}개`,
+        copy: reservations.length ? "오늘 이어볼 순서가 준비됐습니다." : "아직 저장 전입니다."
+      },
+      {
+        label: "아침 확인",
+        value: reservations.some((item) => item.id === "morning-free") ? "예약됨" : "추천",
+        copy: "무료 샘플, 체험단, 포인트를 먼저 봅니다."
+      },
+      {
+        label: "저녁 확인",
+        value: reservations.some((item) => item.id === "evening-coupon") ? "예약됨" : "추천",
+        copy: "쿠폰, 배달, 마트 혜택을 결제 전에 봅니다."
+      },
+      {
+        label: "마감 확인",
+        value: reservations.some((item) => item.id === "deadline-check") ? "예약됨" : "추천",
+        copy: "오늘 끝날 수 있는 혜택을 마지막으로 확인합니다."
+      }
+    ],
+    [reservations]
+  );
+
+  useEffect(() => {
+    const refreshReservations = () => setReservations(readBenefitReturnReservations());
+    refreshReservations();
+    window.addEventListener("storage", refreshReservations);
+    window.addEventListener("focus", refreshReservations);
+
+    return () => {
+      window.removeEventListener("storage", refreshReservations);
+      window.removeEventListener("focus", refreshReservations);
+    };
+  }, []);
 
   const removeReservation = (id: string) => {
     setReservations((current) => {
@@ -58,6 +95,18 @@ export function BenefitReturnReservationList() {
         <Link href="/free-benefits" className="rounded-2xl bg-red-50 px-4 py-3 text-center text-xs font-black text-dossa-red">
           재방문 루틴 추가
         </Link>
+      </div>
+
+      <div className="mt-4 grid gap-2 sm:grid-cols-2 xl:grid-cols-4" aria-label="오늘 이어볼 재방문 루틴 요약">
+        {todayRoutineSummary.map((item) => (
+          <div key={item.label} className="rounded-2xl bg-red-50 px-3 py-3">
+            <div className="flex items-center justify-between gap-2">
+              <p className="text-[11px] font-black text-dossa-red">{item.label}</p>
+              <span className="rounded-full bg-white px-2 py-1 text-[10px] font-black text-dossa-red shadow-sm">{item.value}</span>
+            </div>
+            <p className="mt-2 text-xs font-bold leading-5 text-red-900/70">{item.copy}</p>
+          </div>
+        ))}
       </div>
 
       {visibleReservations.length ? (

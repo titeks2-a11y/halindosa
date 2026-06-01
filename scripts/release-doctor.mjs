@@ -1196,6 +1196,8 @@ async function checkOperationalDataSurfaces() {
     !benefitReturnReservationList.includes("readBenefitReturnReservations") ||
     !benefitReturnReservationList.includes("저장한 재방문 혜택 알림") ||
     !benefitReturnReservationList.includes("기기에 저장한 무료·쿠폰·마감 루틴을 이어봅니다") ||
+    !benefitReturnReservationList.includes("오늘 이어볼 재방문 루틴 요약") ||
+    !benefitReturnReservationList.includes("window.addEventListener(\"focus\"") ||
     !benefitReturnReservationList.includes("재방문 루틴 추가") ||
     !notificationsPage.includes("<InterestAlertPreview") ||
     !interestAlertPreview.includes("readLocalPreferences") ||
@@ -1223,6 +1225,7 @@ async function checkOperationalDataSurfaces() {
     !smoke.includes("Notifications page missing claimed benefit alert summary") ||
     !smoke.includes("Notifications page missing claimed benefit next alert queue") ||
     !smoke.includes("Notifications page missing saved benefit return reservation list") ||
+    !smoke.includes("Notifications page missing return reservation routine summary") ||
     !notificationsPage.includes("오늘 먼저 확인할 알림") ||
     !notificationsPage.includes("마감과 인기 반응이 겹친 특가부터 보기") ||
     !notificationsPage.includes("dailyAlertQueues") ||
