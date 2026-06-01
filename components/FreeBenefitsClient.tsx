@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, AlertTriangle, CalendarDays, CheckCircle2, ExternalLink, Gift, Search, Share2, ShieldCheck, Sparkles, Timer, Truck } from "lucide-react";
 import { DealCard } from "@/components/DealCard";
+import { readBenefitReturnReservations, writeBenefitReturnReservations } from "@/lib/benefitReturnReservations";
 import { readClaimedBenefits, toggleClaimedBenefit } from "@/lib/claimedBenefits";
 import { getBenefitTypeLabel } from "@/lib/deals/benefits";
 import { formatPrice } from "@/lib/format";
@@ -28,12 +29,6 @@ const tabs: Array<{ id: "all" | DealBenefitType; label: string }> = [
 ];
 
 type BenefitSort = "recommended" | "endingSoon" | "popular" | "savings";
-type BenefitReturnReservation = {
-  id: string;
-  title: string;
-  slot: string;
-  createdAt: string;
-};
 
 const fiveMinuteChecklist = [
   {
@@ -78,29 +73,6 @@ function readFavorites() {
 
 function writeFavorites(ids: string[]) {
   window.localStorage.setItem("halindosa:favorites", JSON.stringify(ids));
-}
-
-function readBenefitReturnReservations(): BenefitReturnReservation[] {
-  if (typeof window === "undefined") return [];
-
-  try {
-    const parsed = JSON.parse(window.localStorage.getItem("halindosa:benefit-return-reservations") ?? "[]");
-    return Array.isArray(parsed)
-      ? parsed.filter(
-          (value): value is BenefitReturnReservation =>
-            typeof value?.id === "string" &&
-            typeof value?.title === "string" &&
-            typeof value?.slot === "string" &&
-            typeof value?.createdAt === "string"
-        )
-      : [];
-  } catch {
-    return [];
-  }
-}
-
-function writeBenefitReturnReservations(items: BenefitReturnReservation[]) {
-  window.localStorage.setItem("halindosa:benefit-return-reservations", JSON.stringify(items));
 }
 
 function getMinimumOrderLabel(deal: Deal) {
