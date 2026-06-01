@@ -40,7 +40,7 @@ import { buildDailyRoutinePlan } from "@/lib/deals/dailyRoutinePlan";
 import { buildPersonalizedBenefitQueue } from "@/lib/deals/personalizedBenefitQueue";
 import { getLinkQualityScore, isVerifiedPurchaseLink } from "@/lib/deals/quality";
 import { dealMatchesSearch } from "@/lib/deals/search";
-import { formatPrice, getRelativeTime } from "@/lib/format";
+import { formatPrice, getRelativeTime, getTimeLeft } from "@/lib/format";
 import { getDealImageSrc } from "@/lib/imageSrc";
 import { buildDealRedirectUrl, buildNativeSafeDealUrl } from "@/lib/redirectUrl";
 import { buildPublicAppShareUrl, buildPublicDealShareUrl } from "@/lib/shareUrl";
@@ -1520,6 +1520,44 @@ export default function Home() {
       }
     ];
   }, [deals, freeShippingOnly, hotOnly, sort, verifiedOnly]);
+
+  const listComparisonCards = useMemo(() => {
+    const availableDeals = deals.filter((deal) => !deal.isExpired && !deal.isSoldOut);
+    const pickLowestPrice = availableDeals.reduce<Deal | null>((best, deal) => (!best || deal.salePrice < best.salePrice ? deal : best), null);
+    const pickTopDiscount = availableDeals.reduce<Deal | null>((best, deal) => (!best || deal.discountRate > best.discountRate ? deal : best), null);
+    const pickBigSavings = availableDeals.reduce<Deal | null>((best, deal) => (!best || deal.discountAmount > best.discountAmount ? deal : best), null);
+    const pickEndingSoon = availableDeals.reduce<Deal | null>((best, deal) => {
+      if (!best) return deal;
+      return new Date(deal.expireAt).getTime() < new Date(best.expireAt).getTime() ? deal : best;
+    }, null);
+
+    return [
+      {
+        label: "가장 낮은 가격",
+        value: pickLowestPrice ? formatPrice(pickLowestPrice.salePrice) : "-",
+        helper: pickLowestPrice ? `${pickLowestPrice.mallName} · ${pickLowestPrice.shipping}` : "조건을 넓히면 비교 후보가 늘어납니다.",
+        deal: pickLowestPrice
+      },
+      {
+        label: "할인율 최고",
+        value: pickTopDiscount ? `${pickTopDiscount.discountRate}% 할인` : "0% 할인",
+        helper: pickTopDiscount ? `${pickTopDiscount.mallName} · ${formatPrice(pickTopDiscount.salePrice)}` : "할인율 높은 상품이 없습니다.",
+        deal: pickTopDiscount
+      },
+      {
+        label: "절약액 큼",
+        value: pickBigSavings ? `${formatPrice(pickBigSavings.discountAmount)} 아낌` : "-",
+        helper: pickBigSavings ? `${pickBigSavings.mallName} · 정상가 대비` : "원가 정보가 있는 상품을 우선 비교합니다.",
+        deal: pickBigSavings
+      },
+      {
+        label: "마감 먼저",
+        value: pickEndingSoon ? getTimeLeft(pickEndingSoon.expiresAt ?? pickEndingSoon.expireAt) : "-",
+        helper: pickEndingSoon ? `${pickEndingSoon.mallName} · 구매 전 종료 시간을 확인하세요.` : "진행 중인 후보가 없습니다.",
+        deal: pickEndingSoon
+      }
+    ];
+  }, [deals]);
 
   const searchResultGroups = useMemo(() => {
     const normalizedQuery = query.trim();
@@ -3240,6 +3278,40 @@ export default function Home() {
                       <span className="block text-[11px] font-black">{item.label}</span>
                       <strong className="mt-1 block text-lg font-black text-slate-950">{item.value}</strong>
                       <small className="mt-1 block text-[11px] font-bold leading-4 text-slate-500">{item.helper}</small>
+                    </button>
+                  ))}
+                </div>
+              </section>
+            ) : null}
+
+            {deals.length ? (
+              <section className="rounded-[24px] border border-red-100 bg-gradient-to-br from-red-50 via-white to-white p-3 shadow-sm" aria-label="현재 목록 가격 비교">
+                <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+                  <div>
+                    <p className="text-xs font-black text-dossa-red">현재 목록 가격 비교</p>
+                    <h3 className="mt-1 text-base font-black text-slate-950">가격으로 먼저 고를 4가지 후보</h3>
+                  </div>
+                  <p className="text-xs font-bold leading-5 text-slate-500">가격은 판매처에서 변동될 수 있어 구매 전 최종 조건을 다시 확인하세요.</p>
+                </div>
+                <div className="mt-3 grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
+                  {listComparisonCards.map((item) => (
+                    <button
+                      key={item.label}
+                      type="button"
+                      onClick={() => item.deal && openDeal(item.deal)}
+                      disabled={!item.deal}
+                      className="min-h-[132px] rounded-3xl border border-white bg-white p-3 text-left shadow-sm transition hover:-translate-y-0.5 hover:border-red-100 hover:shadow-md disabled:cursor-not-allowed disabled:opacity-50"
+                      aria-label={item.deal ? `${item.label} ${item.deal.title} 판매처 확인` : `${item.label} 후보 없음`}
+                    >
+                      <span className="inline-flex rounded-full bg-red-50 px-2.5 py-1 text-[11px] font-black text-dossa-red">{item.label}</span>
+                      <strong className="mt-3 block truncate text-lg font-black text-slate-950">{item.value}</strong>
+                      <span className="mt-1 line-clamp-2 block text-xs font-bold leading-5 text-slate-500">{item.helper}</span>
+                      {item.deal ? (
+                        <span className="mt-3 flex items-center justify-between gap-2">
+                          <span className="min-w-0 truncate text-[11px] font-black text-slate-600">{item.deal.title}</span>
+                          <span className="shrink-0 rounded-full bg-slate-950 px-2.5 py-1 text-[11px] font-black text-white">보기</span>
+                        </span>
+                      ) : null}
                     </button>
                   ))}
                 </div>

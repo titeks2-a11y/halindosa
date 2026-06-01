@@ -1058,15 +1058,21 @@ async function checkUiAccessibility() {
     !homePage.includes('aria-label="상품 목록 빠른 스캔"') ||
     !homePage.includes("낮은 가격 후보") ||
     !homePage.includes("할인율 최고") ||
+    !homePage.includes("listComparisonCards") ||
+    !homePage.includes('aria-label="현재 목록 가격 비교"') ||
+    !homePage.includes("가격으로 먼저 고를 4가지 후보") ||
+    !homePage.includes("절약액 큼") ||
+    !homePage.includes("마감 먼저") ||
     !packageJson.includes("home:list-scan:doctor") ||
     !smoke.includes("Home page missing purpose quick benefit filters") ||
     !smoke.includes("Home page missing filter outcome summary") ||
     !smoke.includes("Home page missing filter action queue") ||
-    !smoke.includes("Home page missing product list scan shortcuts")
+    !smoke.includes("Home page missing product list scan shortcuts") ||
+    !smoke.includes("Home page missing product list price comparison shortcuts")
   ) {
-    fail("search filter accessibility", "Home filters should summarize result decision cards, purpose presets, result quality, purchase link readiness, deadline, shipping outcomes, next action queue, and list scan shortcuts.");
+    fail("search filter accessibility", "Home filters should summarize result decision cards, purpose presets, result quality, purchase link readiness, deadline, shipping outcomes, next action queue, list scan shortcuts, and price comparison shortcuts.");
   } else {
-    pass("search filter accessibility", "Search, sort, category, mall, price, benefit type, result decision cards, purpose quick filters, outcome summary, next action queue, and list scan shortcut controls expose accessible names and state.");
+    pass("search filter accessibility", "Search, sort, category, mall, price, benefit type, result decision cards, purpose quick filters, outcome summary, next action queue, list scan, and price comparison shortcut controls expose accessible names and state.");
   }
 
     if (
