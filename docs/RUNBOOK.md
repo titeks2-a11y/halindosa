@@ -92,6 +92,7 @@ SMOKE_BASE_URL=https://example.com npm run smoke
 - `npm run catalog:report`는 `docs/catalog-quality-report.md`를 갱신한다. 상품을 대량 추가한 뒤 이 보고서에서 카테고리 5개 미만 영역, 혜택 유형 5개 미만 영역, 판매처/도메인 쏠림을 확인한다.
 - 신규 상품을 많이 추가한 뒤 `catalog:doctor`가 실패하면 상품 수만 늘린 것이 아니라 카테고리/혜택/판매처 균형이 무너진 것이므로 운영 피드를 다시 조정한다.
 - `npm run purchase:navigation:doctor`는 홈, 상세, 찜, 무료혜택 화면의 구매 CTA가 `/go/[dealId]`를 거쳐 웹 새 탭 또는 Capacitor Browser로 열리는지 검사한다.
+- `npm run smoke:local`은 `/api/deals?limit=150`으로 전체 120개 이상 상품의 링크 상태, 새 탭 이동 대상, 검증 구매 URL, 신규 seed 리다이렉트 호스트를 함께 확인한다.
 - `npm run detail:navigation:doctor`는 상품 카드, 최근 본 상품, 찜/알림/무료혜택 등 고객이 누르는 특가 상세 링크가 현재 화면을 빼앗지 않고 새 탭으로 열리며 `noopener noreferrer`를 유지하는지 검사한다.
 - `npm run home:url-state:doctor`는 홈 검색어, 카테고리, 쇼핑몰, 정렬, 무료배송, 핫딜, 마감임박, 구매링크 확인, 가격대, 혜택 유형 필터가 URL에 저장되고 새로고침 후 복원되는지 검사한다.
 - `npm run home:list-scan:doctor`는 상품 목록 빠른 스캔 버튼이 구매처 확인, 무료배송, 핫딜, 낮은 가격, 할인율 정렬 상태와 연결되어 있는지 검사한다. `npm run smoke:local`과 `release:doctor`는 `현재 목록 가격 비교` 문구와 절약액/마감 후보 UI도 함께 확인한다.

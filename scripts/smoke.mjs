@@ -682,14 +682,14 @@ await check("deals filters api", async () => {
 });
 
 await check("deal link integrity", async () => {
-  const { response, data } = await fetchJson("/api/deals?limit=100&sort=latest");
+  const { response, data } = await fetchJson("/api/deals?limit=150&sort=latest");
   assert(response.status === 200, `Expected 200, got ${response.status}`);
   assert(data.ok === true, "Deals API ok should be true");
-  assert(data.deals.length >= 90, `Expected at least 90 deals, got ${data.deals.length}`);
+  assert(data.deals.length >= 120, `Expected at least 120 deals, got ${data.deals.length}`);
   const verifiedDirectLinks = data.deals.filter((deal) => deal.linkStatus === "verified" && deal.linkType !== "seller_search");
   const verifiedDirectRate = Math.round((verifiedDirectLinks.length / data.deals.length) * 100);
   assert(
-    verifiedDirectLinks.length >= 90 && verifiedDirectRate >= 100,
+    verifiedDirectLinks.length >= 120 && verifiedDirectRate >= 100,
     `verified direct seller/product link coverage too low: ${verifiedDirectLinks.length}/${data.deals.length} (${verifiedDirectRate}%)`
   );
 
@@ -865,10 +865,10 @@ await check("free benefits page", async () => {
 });
 
 await check("verified direct purchase link coverage", async () => {
-  const { response, data } = await fetchJson("/api/deals?verifiedOnly=true&limit=100&sort=hot");
+  const { response, data } = await fetchJson("/api/deals?verifiedOnly=true&limit=150&sort=hot");
   assert(response.status === 200, `Expected 200, got ${response.status}`);
   assert(data.ok === true, "Verified deals API ok should be true");
-  assert(data.deals.length >= 90, `Expected all 90 curated deals to be verified direct seller/product deals, got ${data.deals.length}`);
+  assert(data.deals.length >= 120, `Expected all 120 curated deals to be verified direct seller/product deals, got ${data.deals.length}`);
   assert(
     data.deals.every((deal) => deal.linkStatus === "verified" && deal.linkVerified && deal.purchaseLinkVerified && deal.finalPurchaseUrl),
     "Verified-only API returned a deal without a reviewed direct product URL"
@@ -1373,7 +1373,10 @@ await check("seller search redirect fallbacks", async () => {
     ["d020", "musinsa.com"],
     ["d041", "ssg.com"],
     ["d043", "aliexpress.com"],
-    ["d044", "auction.co.kr"]
+    ["d044", "auction.co.kr"],
+    ["d118", "gmarket.co.kr"],
+    ["d119", "11st.co.kr"],
+    ["d120", "gmarket.co.kr"]
   ];
 
   for (const [dealId, expectedHost] of cases) {
