@@ -22,6 +22,7 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 .dev-server*.log
+.codex-dev-server*.log
 
 # OS and editor files
 .DS_Store
