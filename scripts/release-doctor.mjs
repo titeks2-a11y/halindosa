@@ -1570,12 +1570,19 @@ async function checkOperationalDataSurfaces() {
     !dataSourceRunbook.includes("npm run feed:validate") ||
     !dataSourceRunbook.includes("--report") ||
     !dataSourceRunbook.includes("readyRate=100") ||
+    !dataSourceRunbook.includes("dealType") ||
+    !dataSourceRunbook.includes("benefitSummary") ||
+    !dataSourceRunbook.includes("sourceName") ||
     !partnerFeedValidator.includes("DEAL_PRODUCTION_FEED_URLS") ||
     !partnerFeedValidator.includes("writeReport") ||
     !partnerFeedValidator.includes("readyRate") ||
     !partnerFeedValidator.includes("needs_fix") ||
     !partnerFeedValidator.includes("커뮤니티 원문 또는 placeholder") ||
     !partnerFeedValidator.includes("실제 상품/혜택 상세 URL") ||
+    !partnerFeedValidator.includes("allowedDealTypes") ||
+    !partnerFeedValidator.includes("혜택 유형 dealType") ||
+    !partnerFeedValidator.includes("사용자가 바로 이해할 혜택 요약") ||
+    !partnerFeedValidator.includes("혜택/특가 마감 시간") ||
     !partnerFeedValidator.includes("Partner feed validation passed") ||
     !dataSourceRunbook.includes("npm run feed:production:doctor") ||
     !productionFeedDoctor.includes("DEAL_DATA_MODE") ||

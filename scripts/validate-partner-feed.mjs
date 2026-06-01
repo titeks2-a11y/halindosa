@@ -28,27 +28,68 @@ const detailUrlPatterns = [
   /smartstore\.naver\.com\/[^/]+\/products\/\d+/i
 ];
 
+const allowedDealTypes = new Set([
+  "discount",
+  "freebie",
+  "coupon",
+  "freeShipping",
+  "experience",
+  "event",
+  "point",
+  "convenienceStore",
+  "mart",
+  "foodDelivery"
+]);
+
 const sampleItems = [
   {
     externalId: "validator-001",
     mall: "쿠팡",
     title: "무선 청소기 운영 피드 샘플",
+    description: "제휴 피드 검수용 가전 특가 샘플입니다.",
     category: "가전",
+    dealType: "discount",
+    benefitSummary: "주말 한정 무료배송 특가",
     originalPrice: 259000,
     salePrice: 159000,
     productUrl: "https://www.coupang.com/vp/products/7999681537",
     searchUrl: "https://www.coupang.com/np/search?q=%EB%AC%B4%EC%84%A0%20%EC%B2%AD%EC%86%8C%EA%B8%B0",
+    sourceName: "쿠팡",
+    sourceUrl: "https://www.coupang.com/vp/products/7999681537",
+    expiresAt: new Date(Date.now() + 36 * 60 * 60 * 1000).toISOString(),
     tags: ["무료배송"]
   },
   {
     externalId: "validator-002",
     mall: "G마켓",
     title: "즉석밥 24개입 운영 피드 샘플",
+    description: "제휴 피드 검수용 식품 쿠폰 샘플입니다.",
     category: "식품",
+    dealType: "coupon",
+    benefitSummary: "쿠폰 적용 시 즉석밥 묶음 할인",
     originalPrice: 39800,
     salePrice: 24900,
     productUrl: "https://item.gmarket.co.kr/Item?goodsCode=4076233103",
+    sourceName: "G마켓",
+    sourceUrl: "https://item.gmarket.co.kr/Item?goodsCode=4076233103",
+    expiresAt: new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString(),
     tags: ["쿠폰적용"]
+  },
+  {
+    externalId: "validator-003",
+    mall: "공식 이벤트",
+    title: "커피 무료 쿠폰 운영 피드 샘플",
+    description: "무료 쿠폰 혜택도 상품과 같은 품질 기준으로 검수합니다.",
+    category: "쿠폰/이벤트",
+    dealType: "freebie",
+    benefitSummary: "앱 가입 후 커피 무료 쿠폰",
+    originalPrice: 4500,
+    salePrice: 1,
+    productUrl: "https://smartstore.naver.com/halindosa/products/1234567890",
+    sourceName: "브랜드 공식몰",
+    sourceUrl: "https://smartstore.naver.com/halindosa/products/1234567890",
+    expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
+    tags: ["무료쿠폰", "선착순"]
   }
 ];
 
@@ -185,15 +226,35 @@ function validateItem(item, index) {
   const title = String(item.title ?? "").trim();
   const originalPrice = Number(item.originalPrice);
   const salePrice = Number(item.salePrice ?? item.price);
+  const dealType = String(item.dealType ?? "").trim();
+  const benefitSummary = String(item.benefitSummary ?? "").trim();
+  const expiresAt = String(item.expiresAt ?? item.expireAt ?? "").trim();
+  const sourceName = String(item.sourceName ?? item.source ?? "").trim();
+  const sourceUrl = String(item.sourceUrl ?? "").trim();
   const primary = getPrimaryUrl(item);
 
   if (!externalId) issues.push(issue(index, "externalId", "외부 ID가 필요합니다."));
   if (!mall) issues.push(issue(index, "mall", "쇼핑몰명 또는 제공처명이 필요합니다."));
   if (!title) issues.push(issue(index, "title", "상품명 또는 혜택명이 필요합니다."));
+  if (!dealType) issues.push(issue(index, "dealType", "혜택 유형 dealType이 필요합니다."));
+  if (dealType && !allowedDealTypes.has(dealType)) {
+    issues.push(issue(index, "dealType", `허용된 혜택 유형만 사용할 수 있습니다: ${Array.from(allowedDealTypes).join(", ")}`));
+  }
+  if (!benefitSummary) issues.push(issue(index, "benefitSummary", "사용자가 바로 이해할 혜택 요약이 필요합니다."));
+  if (!sourceName) issues.push(issue(index, "sourceName", "출처명 또는 제공처명이 필요합니다."));
+  if (!expiresAt) {
+    issues.push(issue(index, "expiresAt", "혜택/특가 마감 시간이 필요합니다."));
+  } else if (Number.isNaN(new Date(expiresAt).getTime())) {
+    issues.push(issue(index, "expiresAt", "마감 시간은 ISO 날짜 문자열이어야 합니다."));
+  }
+  if (sourceUrl && !isValidHttpUrl(sourceUrl)) issues.push(issue(index, "sourceUrl", "출처 URL은 http/https만 허용합니다."));
   if (!Number.isFinite(originalPrice) || originalPrice <= 0) issues.push(issue(index, "originalPrice", "정상 원가가 필요합니다."));
   if (!Number.isFinite(salePrice) || salePrice <= 0) issues.push(issue(index, "salePrice", "정상 할인가가 필요합니다."));
   if (Number.isFinite(originalPrice) && Number.isFinite(salePrice) && salePrice > originalPrice) {
     issues.push(issue(index, "salePrice", "할인가가 원가보다 높을 수 없습니다."));
+  }
+  if (["freebie", "experience", "coupon", "point", "foodDelivery", "convenienceStore", "mart"].includes(dealType) && !benefitSummary) {
+    issues.push(issue(index, "benefitSummary", "무료/쿠폰/생활 혜택은 조건을 알 수 있는 혜택 요약이 필수입니다."));
   }
 
   if (!primary.value) {
