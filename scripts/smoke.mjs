@@ -305,6 +305,13 @@ await check("category and notification pages", async () => {
   );
   assert(categoriesText.includes("오늘 목적별 탐색 루틴") && categoriesText.includes("무엇을 아끼고 싶은지부터 고르세요"), "Categories page missing purpose-based discovery routine");
   assert(categoriesText.includes("무료 먼저 받기") && categoriesText.includes("결제 전 쿠폰 찾기") && categoriesText.includes("장보기 전 행사 보기"), "Categories page missing purpose journey cards");
+  assert(
+    categoriesText.includes("혜택 유형별 비교표") &&
+      categoriesText.includes("무료·쿠폰·포인트를 비교해서 고르세요") &&
+      categoriesText.includes("활성 혜택") &&
+      categoriesText.includes("마감 신호"),
+    "Categories page missing benefit comparison matrix"
+  );
   assert(categoriesText.includes("카테고리별 오늘 혜택 요약") && categoriesText.includes("무료·쿠폰·마감 신호가 많은 영역부터 보세요"), "Categories page missing category benefit summary");
   assert(categoriesText.includes("무료·무배") && categoriesText.includes("쿠폰·포인트") && categoriesText.includes("예상 절약 후보"), "Categories page missing category benefit matrix metrics");
 

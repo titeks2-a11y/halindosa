@@ -58,6 +58,50 @@ const benefitQuickLinks: Array<{
   }
 ];
 
+const benefitComparisonConfig: Array<{
+  type: DealBenefitType;
+  title: string;
+  shortLabel: string;
+  href: string;
+}> = [
+  {
+    type: "freebie",
+    title: "무료 샘플·체험",
+    shortLabel: "무료",
+    href: "/free-benefits?dealType=freebie&sort=recommended"
+  },
+  {
+    type: "coupon",
+    title: "쿠폰·첫 구매",
+    shortLabel: "쿠폰",
+    href: "/free-benefits?dealType=coupon&sort=savings"
+  },
+  {
+    type: "point",
+    title: "앱테크·포인트",
+    shortLabel: "포인트",
+    href: "/free-benefits?dealType=point&sort=popular"
+  },
+  {
+    type: "freeShipping",
+    title: "무료배송·무배",
+    shortLabel: "무배",
+    href: "/?dealType=freeShipping&freeShippingOnly=true&sort=hot"
+  },
+  {
+    type: "convenienceStore",
+    title: "편의점 1+1",
+    shortLabel: "편의점",
+    href: "/?dealType=convenienceStore&category=mart&sort=latest"
+  },
+  {
+    type: "foodDelivery",
+    title: "배달·외식 쿠폰",
+    shortLabel: "외식",
+    href: "/free-benefits?dealType=foodDelivery&sort=popular"
+  }
+];
+
 export default async function CategoriesPage() {
   const { deals } = await getDeals();
   const activeDeals = deals.filter((deal) => !deal.isExpired && !deal.isSoldOut);
@@ -105,6 +149,25 @@ export default async function CategoriesPage() {
       ...item,
       count: items.length,
       verifiedCount: items.filter(isVerifiedPurchaseLink).length,
+      bestDeal
+    };
+  });
+  const benefitComparisonRows = benefitComparisonConfig.map((item) => {
+    const items = activeDeals.filter((deal) => deal.dealType === item.type || (item.type === "freeShipping" && deal.isFreeShipping));
+    const bestDeal = [...items].sort(
+      (a, b) =>
+        getLinkQualityScore(b) - getLinkQualityScore(a) ||
+        Number(b.isEndingSoon) - Number(a.isEndingSoon) ||
+        b.savingsAmount - a.savingsAmount ||
+        b.discountRate - a.discountRate
+    )[0];
+
+    return {
+      ...item,
+      count: items.length,
+      verifiedCount: items.filter(isVerifiedPurchaseLink).length,
+      endingCount: items.filter((deal) => deal.isEndingSoon).length,
+      savingsTotal: items.reduce((total, deal) => total + Math.max(0, deal.savingsAmount), 0),
       bestDeal
     };
   });
@@ -261,6 +324,54 @@ export default async function CategoriesPage() {
               </Link>
             );
           })}
+        </div>
+      </section>
+
+      <section className="rounded-[24px] border border-slate-200 bg-white p-4 shadow-sm lg:p-5" aria-label="혜택 유형별 비교표">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-xs font-black text-dossa-red">혜택 유형별 비교표</p>
+            <h2 className="mt-1 text-base font-black text-slate-950">무료·쿠폰·포인트를 비교해서 고르세요</h2>
+            <p className="mt-1 text-sm font-semibold leading-6 text-slate-500">
+              활성 혜택, 구매 링크 확인, 마감 신호를 한 줄로 비교해 오늘 먼저 챙길 혜택을 빠르게 고를 수 있습니다.
+            </p>
+          </div>
+          <Link href="/free-benefits?sort=recommended" className="rounded-2xl bg-slate-950 px-4 py-3 text-center text-xs font-black text-white shadow-sm">
+            혜택 전체 비교
+          </Link>
+        </div>
+        <div className="mt-4 overflow-hidden rounded-[22px] border border-slate-100">
+          {benefitComparisonRows.map((row) => (
+            <Link
+              key={row.type}
+              href={row.href}
+              className="grid gap-3 border-b border-slate-100 bg-slate-50 p-4 transition last:border-b-0 hover:bg-red-50 md:grid-cols-[1.1fr_0.8fr_0.8fr_0.8fr_1.6fr]"
+            >
+              <div>
+                <p className="text-sm font-black text-slate-950">{row.title}</p>
+                <p className="mt-1 text-xs font-bold text-slate-500">{getBenefitTypeLabel(row.type)}</p>
+              </div>
+              <div className="rounded-2xl bg-white px-3 py-2 text-xs font-black text-slate-700 shadow-sm">
+                활성 혜택
+                <b className="mt-1 block text-base text-dossa-red">{row.count}</b>
+              </div>
+              <div className="rounded-2xl bg-white px-3 py-2 text-xs font-black text-slate-700 shadow-sm">
+                구매 링크 확인
+                <b className="mt-1 block text-base text-emerald-700">{row.verifiedCount}</b>
+              </div>
+              <div className="rounded-2xl bg-white px-3 py-2 text-xs font-black text-slate-700 shadow-sm">
+                마감 신호
+                <b className="mt-1 block text-base text-amber-700">{row.endingCount}</b>
+              </div>
+              <div className="rounded-2xl bg-white px-3 py-2 text-xs font-black text-slate-700 shadow-sm">
+                대표 혜택
+                <p className="mt-1 line-clamp-1 text-sm font-black text-slate-950">
+                  {row.bestDeal ? row.bestDeal.title : `${row.shortLabel} 혜택 준비 중`}
+                </p>
+                <p className="mt-1 text-[11px] font-black text-dossa-red">예상 절약 {formatPrice(row.savingsTotal)}</p>
+              </div>
+            </Link>
+          ))}
         </div>
       </section>
 
