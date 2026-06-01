@@ -50,6 +50,7 @@ async function checkPackage() {
     "perf:budget",
     "device:qa:doctor",
     "env:doctor",
+    "feed:validate",
     "feed:production:doctor",
     "links:report",
     "store:metadata:doctor",
@@ -61,8 +62,8 @@ async function checkPackage() {
   const missing = requiredScripts.filter((script) => !pkg.scripts?.[script]);
 
   if (missing.length) fail("package scripts", `Missing scripts: ${missing.join(", ")}`);
-  else if (!pkg.scripts?.["qa:release"]?.includes("audit:commercial") || !pkg.scripts?.["qa:release"]?.includes("device:qa:doctor") || !pkg.scripts?.["qa:release"]?.includes("feed:production:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:metadata:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:assets:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:doctor") || !pkg.scripts?.["qa:release"]?.includes("perf:budget")) {
-    fail("package scripts", "qa:release should include commercial security audit, device QA doctor, production feed doctor, store metadata doctor, store asset doctor, store screenshot doctor, and performance budget before store submission.");
+  else if (!pkg.scripts?.["qa:release"]?.includes("audit:commercial") || !pkg.scripts?.["qa:release"]?.includes("device:qa:doctor") || !pkg.scripts?.["qa:release"]?.includes("feed:validate") || !pkg.scripts?.["qa:release"]?.includes("feed:production:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:metadata:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:assets:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:doctor") || !pkg.scripts?.["qa:release"]?.includes("perf:budget")) {
+    fail("package scripts", "qa:release should include commercial security audit, device QA doctor, partner feed validator, production feed doctor, store metadata doctor, store asset doctor, store screenshot doctor, and performance budget before store submission.");
   } else {
     pass("package scripts", "Android, iOS, environment, commercial security, and performance release command flow is available.");
   }
@@ -1152,6 +1153,7 @@ async function checkOperationalDataSurfaces() {
   const sourcesRoute = await text("app/api/sources/route.ts");
   const productionProvider = await text("lib/deals/providers/productionProvider.ts");
   const dataSourceRunbook = await text("docs/data-source-runbook.md");
+  const partnerFeedValidator = await text("scripts/validate-partner-feed.mjs");
   const productionFeedDoctor = await text("scripts/production-feed-doctor.mjs");
 
   const staticDataImports = [
@@ -1394,6 +1396,11 @@ async function checkOperationalDataSurfaces() {
     !adminPage.includes("공식 API·제휴 피드로 바꿀 때 볼 품질 기준") ||
     !dataSourceRunbook.includes("Production JSON Feed") ||
     !dataSourceRunbook.includes("DEAL_PRODUCTION_FEED_URLS") ||
+    !dataSourceRunbook.includes("npm run feed:validate") ||
+    !partnerFeedValidator.includes("DEAL_PRODUCTION_FEED_URLS") ||
+    !partnerFeedValidator.includes("커뮤니티 원문 또는 placeholder") ||
+    !partnerFeedValidator.includes("실제 상품/혜택 상세 URL") ||
+    !partnerFeedValidator.includes("Partner feed validation passed") ||
     !dataSourceRunbook.includes("npm run feed:production:doctor") ||
     !productionFeedDoctor.includes("DEAL_DATA_MODE") ||
     !productionFeedDoctor.includes("DEAL_PRODUCTION_FEED_URLS") ||

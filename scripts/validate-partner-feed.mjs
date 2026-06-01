@@ -1,0 +1,279 @@
+import { readFile } from "node:fs/promises";
+
+const communityHosts = [
+  "ppomppu.co.kr",
+  "fmkorea.com",
+  "quasarzone.com",
+  "algumon.com",
+  "clien.net",
+  "ruliweb.com",
+  "dcinside.com",
+  "theqoo.net",
+  "instiz.net",
+  "coolenjoy.net"
+];
+
+const detailUrlPatterns = [
+  /coupang\.com\/vp\/products\/\d+/i,
+  /item\.gmarket\.co\.kr\/Item\?/i,
+  /11st\.co\.kr\/products\//i,
+  /ssg\.com\/item\/itemView\.ssg/i,
+  /auction\.co\.kr\/item\/detailview\.aspx/i,
+  /oliveyoung\.co\.kr\/store\/goods\/getGoodsDetail\.do/i,
+  /kurly\.com\/goods\//i,
+  /musinsa\.com\/products\//i,
+  /ohou\.se\/productions\//i,
+  /aliexpress\.[^/]+\/item\//i,
+  /smartstore\.naver\.com\/[^/]+\/products\/\d+/i
+];
+
+const sampleItems = [
+  {
+    externalId: "validator-001",
+    mall: "쿠팡",
+    title: "무선 청소기 운영 피드 샘플",
+    category: "가전",
+    originalPrice: 259000,
+    salePrice: 159000,
+    productUrl: "https://www.coupang.com/vp/products/7999681537",
+    searchUrl: "https://www.coupang.com/np/search?q=%EB%AC%B4%EC%84%A0%20%EC%B2%AD%EC%86%8C%EA%B8%B0",
+    tags: ["무료배송"]
+  },
+  {
+    externalId: "validator-002",
+    mall: "G마켓",
+    title: "즉석밥 24개입 운영 피드 샘플",
+    category: "식품",
+    originalPrice: 39800,
+    salePrice: 24900,
+    productUrl: "https://item.gmarket.co.kr/Item?goodsCode=4076233103",
+    tags: ["쿠폰적용"]
+  }
+];
+
+function parseArgs(argv) {
+  const args = { files: [], urls: [] };
+
+  for (let index = 0; index < argv.length; index += 1) {
+    const value = argv[index];
+    const next = argv[index + 1];
+
+    if (value === "--file" && next) {
+      args.files.push(next);
+      index += 1;
+    } else if (value === "--url" && next) {
+      args.urls.push(next);
+      index += 1;
+    } else if (/^https?:\/\//i.test(value)) {
+      args.urls.push(value);
+    } else if (value && !value.startsWith("--")) {
+      args.files.push(value);
+    }
+  }
+
+  return args;
+}
+
+function getFeedItems(payload) {
+  if (Array.isArray(payload)) return payload;
+  if (payload && typeof payload === "object" && Array.isArray(payload.deals)) return payload.deals;
+  if (payload && typeof payload === "object" && Array.isArray(payload.items)) return payload.items;
+  return [];
+}
+
+async function loadJsonFromFile(file) {
+  const body = await readFile(file, "utf8");
+  return JSON.parse(body);
+}
+
+async function loadJsonFromUrl(url) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 5000);
+
+  try {
+    const response = await fetch(url, {
+      headers: { Accept: "application/json" },
+      cache: "no-store",
+      signal: controller.signal
+    });
+
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    return await response.json();
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
+function getPrimaryUrl(item) {
+  const fields = ["affiliateUrl", "finalPurchaseUrl", "productUrl", "purchaseUrl", "originalUrl", "link", "searchUrl"];
+  const field = fields.find((key) => typeof item[key] === "string" && item[key].trim());
+  return field ? { field, value: item[field].trim() } : { field: "", value: "" };
+}
+
+function isValidHttpUrl(value) {
+  try {
+    const url = new URL(value);
+    return url.protocol === "http:" || url.protocol === "https:";
+  } catch {
+    return false;
+  }
+}
+
+function hostMatches(host, expected) {
+  return host === expected || host.endsWith(`.${expected}`) || host.includes(expected);
+}
+
+function isCommunityOrPlaceholder(value) {
+  try {
+    const url = new URL(value);
+    const host = url.hostname.toLowerCase();
+    return (
+      host === "example.com" ||
+      host.endsWith(".example.com") ||
+      communityHosts.some((communityHost) => hostMatches(host, communityHost))
+    );
+  } catch {
+    return true;
+  }
+}
+
+function isSearchOrHomeOnly(value) {
+  try {
+    const url = new URL(value);
+    const path = url.pathname.replace(/\/+$/, "");
+    const query = url.search.toLowerCase();
+
+    return (
+      path === "" ||
+      path === "/" ||
+      path === "/main" ||
+      path === "/index" ||
+      /\/search|\/np\/search|\/search\/all|browse\.gmarket\.co\.kr\/search/i.test(`${url.hostname}${url.pathname}`) ||
+      query.includes("query=") ||
+      query.includes("keyword=")
+    );
+  } catch {
+    return true;
+  }
+}
+
+function looksLikeProductDetail(value) {
+  return detailUrlPatterns.some((pattern) => pattern.test(value));
+}
+
+function issue(index, field, message) {
+  return { index, field, message };
+}
+
+function validateItem(item, index) {
+  const issues = [];
+  const externalId = String(item.externalId ?? item.id ?? "").trim();
+  const mall = String(item.mall ?? item.mallName ?? "").trim();
+  const title = String(item.title ?? "").trim();
+  const originalPrice = Number(item.originalPrice);
+  const salePrice = Number(item.salePrice ?? item.price);
+  const primary = getPrimaryUrl(item);
+
+  if (!externalId) issues.push(issue(index, "externalId", "외부 ID가 필요합니다."));
+  if (!mall) issues.push(issue(index, "mall", "쇼핑몰명 또는 제공처명이 필요합니다."));
+  if (!title) issues.push(issue(index, "title", "상품명 또는 혜택명이 필요합니다."));
+  if (!Number.isFinite(originalPrice) || originalPrice <= 0) issues.push(issue(index, "originalPrice", "정상 원가가 필요합니다."));
+  if (!Number.isFinite(salePrice) || salePrice <= 0) issues.push(issue(index, "salePrice", "정상 할인가가 필요합니다."));
+  if (Number.isFinite(originalPrice) && Number.isFinite(salePrice) && salePrice > originalPrice) {
+    issues.push(issue(index, "salePrice", "할인가가 원가보다 높을 수 없습니다."));
+  }
+
+  if (!primary.value) {
+    issues.push(issue(index, "productUrl", "실제 상품/혜택 상세 URL이 필요합니다."));
+  } else if (!isValidHttpUrl(primary.value)) {
+    issues.push(issue(index, primary.field, "http/https URL만 허용합니다."));
+  } else if (isCommunityOrPlaceholder(primary.value)) {
+    issues.push(issue(index, primary.field, "커뮤니티 원문 또는 placeholder 링크는 운영 피드에 사용할 수 없습니다."));
+  } else if (primary.field === "searchUrl" || isSearchOrHomeOnly(primary.value)) {
+    issues.push(issue(index, primary.field, "검색 결과나 쇼핑몰 메인이 아니라 실제 상품/혜택 상세 URL이 필요합니다."));
+  } else if (!looksLikeProductDetail(primary.value)) {
+    issues.push(issue(index, primary.field, "상세 URL 패턴이 확인되지 않아 운영 반영 전 수동 검수가 필요합니다."));
+  }
+
+  for (const field of ["affiliateUrl", "finalPurchaseUrl", "productUrl", "purchaseUrl", "originalUrl", "link", "searchUrl", "sourceUrl"]) {
+    const value = item[field];
+    if (typeof value !== "string" || !value.trim()) continue;
+    if (!isValidHttpUrl(value)) issues.push(issue(index, field, "http/https URL만 허용합니다."));
+    if (isCommunityOrPlaceholder(value) && field !== "sourceUrl") {
+      issues.push(issue(index, field, "커뮤니티 원문 또는 placeholder 링크는 구매 이동 URL로 사용할 수 없습니다."));
+    }
+  }
+
+  return issues;
+}
+
+function validateFeed(items, source) {
+  const issues = items.flatMap((item, index) => validateItem(item, index));
+  const invalidIndexes = new Set(issues.map((item) => item.index));
+  const valid = items.length - invalidIndexes.size;
+
+  return {
+    source,
+    received: items.length,
+    valid,
+    invalid: invalidIndexes.size,
+    issues
+  };
+}
+
+function printResult(result) {
+  console.log(`\n[${result.source}] received=${result.received} valid=${result.valid} invalid=${result.invalid}`);
+
+  for (const item of result.issues.slice(0, 30)) {
+    console.log(`- row ${item.index + 1} ${item.field}: ${item.message}`);
+  }
+
+  if (result.issues.length > 30) {
+    console.log(`- ...and ${result.issues.length - 30} more issues`);
+  }
+}
+
+async function main() {
+  const args = parseArgs(process.argv.slice(2));
+  const envUrls = (process.env.DEAL_PRODUCTION_FEED_URLS ?? process.env.DEAL_PARTNER_FEED_URLS ?? "")
+    .split(",")
+    .map((url) => url.trim())
+    .filter(Boolean);
+  const targets = [
+    ...args.files.map((value) => ({ type: "file", value })),
+    ...args.urls.map((value) => ({ type: "url", value })),
+    ...(!args.files.length && !args.urls.length ? envUrls.map((value) => ({ type: "url", value })) : [])
+  ];
+
+  if (!targets.length) {
+    const result = validateFeed(sampleItems, "built-in sample");
+    printResult(result);
+    console.log("\nPartner feed validator passed with the built-in sample. Pass --file, --url, or DEAL_PRODUCTION_FEED_URLS to validate an operating feed.");
+    return;
+  }
+
+  const results = [];
+
+  for (const target of targets) {
+    const payload = target.type === "file" ? await loadJsonFromFile(target.value) : await loadJsonFromUrl(target.value);
+    const items = getFeedItems(payload);
+    results.push(validateFeed(items, `${target.type}:${target.value}`));
+  }
+
+  for (const result of results) printResult(result);
+
+  const totalInvalid = results.reduce((sum, result) => sum + result.invalid, 0);
+  const totalValid = results.reduce((sum, result) => sum + result.valid, 0);
+
+  if (totalInvalid > 0 || totalValid === 0) {
+    console.error(`\nPartner feed validation failed: valid=${totalValid}, invalid=${totalInvalid}`);
+    process.exit(1);
+  }
+
+  console.log(`\nPartner feed validation passed: valid=${totalValid}, invalid=${totalInvalid}`);
+}
+
+main().catch((error) => {
+  console.error(error instanceof Error ? error.message : String(error));
+  process.exit(1);
+});
