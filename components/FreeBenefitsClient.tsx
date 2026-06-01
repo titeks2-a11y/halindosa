@@ -7,7 +7,7 @@ import { BenefitSavingsDiary } from "@/components/BenefitSavingsDiary";
 import { DealCard } from "@/components/DealCard";
 import { readBenefitReturnReservations, writeBenefitReturnReservations } from "@/lib/benefitReturnReservations";
 import { markBenefitVisit, readBenefitVisitStreak } from "@/lib/benefitVisitStreak";
-import { readClaimedBenefits, toggleClaimedBenefit } from "@/lib/claimedBenefits";
+import { claimedBenefitUpdatedEvent, readClaimedBenefits, toggleClaimedBenefit } from "@/lib/claimedBenefits";
 import { getBenefitTypeLabel } from "@/lib/deals/benefits";
 import { buildPersonalizedBenefitQueue } from "@/lib/deals/personalizedBenefitQueue";
 import { buildWeeklyBenefitCalendar, WeeklyBenefitPreset } from "@/lib/deals/weeklyBenefitCalendar";
@@ -34,6 +34,8 @@ const tabs: Array<{ id: "all" | DealBenefitType; label: string }> = [
 ];
 
 type BenefitSort = "recommended" | "endingSoon" | "popular" | "savings";
+
+const emptyVisitStreak: ReturnType<typeof readBenefitVisitStreak> = { currentStreak: 0, totalVisits: 0, lastVisitedDate: "", visitedDates: [] };
 
 const fiveMinuteChecklist = [
   {
@@ -117,20 +119,36 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
   const [noSignupOnly, setNoSignupOnly] = useState(false);
   const [firstComeOnly, setFirstComeOnly] = useState(false);
   const [activeOnly, setActiveOnly] = useState(false);
-  const [favorites, setFavorites] = useState<string[]>(() => readFavorites());
-  const [claimedBenefits, setClaimedBenefits] = useState(() => readClaimedBenefits());
-  const [benefitReturnReservations, setBenefitReturnReservations] = useState(() => readBenefitReturnReservations());
-  const [visitStreak, setVisitStreak] = useState(() => readBenefitVisitStreak());
-  const [favoriteCategories, setFavoriteCategories] = useState<string[]>(() => (typeof window === "undefined" ? [] : readLocalPreferences().favoriteCategories));
+  const [favorites, setFavorites] = useState<string[]>([]);
+  const [claimedBenefits, setClaimedBenefits] = useState<ReturnType<typeof readClaimedBenefits>>([]);
+  const [benefitReturnReservations, setBenefitReturnReservations] = useState<ReturnType<typeof readBenefitReturnReservations>>([]);
+  const [visitStreak, setVisitStreak] = useState(emptyVisitStreak);
+  const [favoriteCategories, setFavoriteCategories] = useState<string[]>([]);
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    const frame = window.requestAnimationFrame(() => {
-      setVisitStreak(markBenefitVisit());
+    const refreshLocalState = () => {
+      setFavorites(readFavorites());
+      setClaimedBenefits(readClaimedBenefits());
+      setBenefitReturnReservations(readBenefitReturnReservations());
       setFavoriteCategories(readLocalPreferences().favoriteCategories);
+    };
+
+    const frame = window.requestAnimationFrame(() => {
+      refreshLocalState();
+      setVisitStreak(markBenefitVisit());
     });
 
-    return () => window.cancelAnimationFrame(frame);
+    window.addEventListener("storage", refreshLocalState);
+    window.addEventListener(claimedBenefitUpdatedEvent, refreshLocalState);
+    window.addEventListener("focus", refreshLocalState);
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener("storage", refreshLocalState);
+      window.removeEventListener(claimedBenefitUpdatedEvent, refreshLocalState);
+      window.removeEventListener("focus", refreshLocalState);
+    };
   }, []);
 
   const filteredDeals = useMemo(() => {

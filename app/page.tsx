@@ -33,7 +33,7 @@ import { ConsentState, hasAffiliateConsent, hasAnalyticsConsent, readStoredConse
 import { canOpenDealLink } from "@/lib/affiliate";
 import { readBenefitReturnReservations } from "@/lib/benefitReturnReservations";
 import { readBenefitVisitStreak } from "@/lib/benefitVisitStreak";
-import { readClaimedBenefits } from "@/lib/claimedBenefits";
+import { claimedBenefitUpdatedEvent, readClaimedBenefits } from "@/lib/claimedBenefits";
 import { buildDailyBenefitBriefing } from "@/lib/deals/dailyBenefitBriefing";
 import { buildDailyRoutinePlan } from "@/lib/deals/dailyRoutinePlan";
 import { buildPersonalizedBenefitQueue } from "@/lib/deals/personalizedBenefitQueue";
@@ -350,9 +350,9 @@ function requestJson<T>(url: string): Promise<T> {
 }
 
 function ClaimedBenefitHomeSummary({ deals, favorites }: { deals: Deal[]; favorites: string[] }) {
-  const [claimedBenefits, setClaimedBenefits] = useState(() => readClaimedBenefits());
-  const [returnReservations, setReturnReservations] = useState(() => readBenefitReturnReservations());
-  const [visitStreak, setVisitStreak] = useState(() => readBenefitVisitStreak());
+  const [claimedBenefits, setClaimedBenefits] = useState<ReturnType<typeof readClaimedBenefits>>([]);
+  const [returnReservations, setReturnReservations] = useState<ReturnType<typeof readBenefitReturnReservations>>([]);
+  const [visitStreak, setVisitStreak] = useState<ReturnType<typeof readBenefitVisitStreak>>({ currentStreak: 0, totalVisits: 0, lastVisitedDate: "", visitedDates: [] });
   const claimedIds = useMemo(() => new Set(claimedBenefits.map((record) => record.dealId)), [claimedBenefits]);
   const todayKey = new Date().toISOString().slice(0, 10);
   const claimedToday = claimedBenefits.filter((record) => record.claimedAt.slice(0, 10) === todayKey);
@@ -401,9 +401,11 @@ function ClaimedBenefitHomeSummary({ deals, favorites }: { deals: Deal[]; favori
     refresh();
     window.addEventListener("storage", refresh);
     window.addEventListener("focus", refresh);
+    window.addEventListener(claimedBenefitUpdatedEvent, refresh);
     return () => {
       window.removeEventListener("storage", refresh);
       window.removeEventListener("focus", refresh);
+      window.removeEventListener(claimedBenefitUpdatedEvent, refresh);
     };
   }, []);
 

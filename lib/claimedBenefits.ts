@@ -8,6 +8,7 @@ export interface ClaimedBenefitRecord {
 }
 
 export const claimedBenefitStorageKey = "halindosa:claimed-benefits";
+export const claimedBenefitUpdatedEvent = "halindosa:claimed-benefits-updated";
 
 function sanitizeClaimRecord(value: unknown): ClaimedBenefitRecord | null {
   if (!value || typeof value !== "object") return null;
@@ -38,6 +39,7 @@ export function readClaimedBenefits(): ClaimedBenefitRecord[] {
 
 export function writeClaimedBenefits(records: ClaimedBenefitRecord[]) {
   window.localStorage.setItem(claimedBenefitStorageKey, JSON.stringify(records.slice(0, 50)));
+  window.dispatchEvent(new CustomEvent(claimedBenefitUpdatedEvent));
 }
 
 export function toggleClaimedBenefit(record: ClaimedBenefitRecord) {

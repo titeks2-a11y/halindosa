@@ -1838,6 +1838,11 @@ async function checkOperationalDataSurfaces() {
     !freeBenefitsClient.includes("claimedBenefitIds") ||
     !claimedBenefits.includes("toggleClaimedBenefit") ||
     !claimedBenefits.includes("halindosa:claimed-benefits") ||
+    !claimedBenefits.includes("claimedBenefitUpdatedEvent") ||
+    !benefitSavingsDiary.includes("claimedBenefitUpdatedEvent") ||
+    !claimedBenefitAlertSummary.includes("claimedBenefitUpdatedEvent") ||
+    !accountPanel.includes("claimedBenefitUpdatedEvent") ||
+    !homePage.includes("claimedBenefitUpdatedEvent") ||
     !freeBenefitsClient.includes("BenefitSavingsDiary") ||
     !accountPanel.includes("BenefitSavingsDiary") ||
     !benefitSavingsDiary.includes("절약 다이어리") ||

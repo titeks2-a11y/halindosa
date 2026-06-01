@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { Bell, CheckCircle2, Clock3, Gift, Sparkles, TicketPercent } from "lucide-react";
-import { readClaimedBenefits } from "@/lib/claimedBenefits";
+import { claimedBenefitUpdatedEvent, readClaimedBenefits } from "@/lib/claimedBenefits";
 import { formatPrice } from "@/lib/format";
 import type { Deal } from "@/types/deal";
 
@@ -12,14 +12,18 @@ interface ClaimedBenefitAlertSummaryProps {
 }
 
 export function ClaimedBenefitAlertSummary({ deals }: ClaimedBenefitAlertSummaryProps) {
-  const [claimedBenefits, setClaimedBenefits] = useState(() => readClaimedBenefits());
+  const [claimedBenefits, setClaimedBenefits] = useState<ReturnType<typeof readClaimedBenefits>>([]);
 
   useEffect(() => {
     const refresh = () => setClaimedBenefits(readClaimedBenefits());
     window.addEventListener("storage", refresh);
+    window.addEventListener(claimedBenefitUpdatedEvent, refresh);
     refresh();
 
-    return () => window.removeEventListener("storage", refresh);
+    return () => {
+      window.removeEventListener("storage", refresh);
+      window.removeEventListener(claimedBenefitUpdatedEvent, refresh);
+    };
   }, []);
 
   const claimedIds = useMemo(() => new Set(claimedBenefits.map((record) => record.dealId)), [claimedBenefits]);

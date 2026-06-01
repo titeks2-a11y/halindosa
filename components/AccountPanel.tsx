@@ -9,7 +9,7 @@ import { getSupabaseBrowserClient } from "@/lib/auth/supabaseClient";
 import { benefitMissionLabels, getTodayKey, readBenefitCheckInState } from "@/lib/benefitCheckIn";
 import { readBenefitReturnReservations } from "@/lib/benefitReturnReservations";
 import { benefitVisitStreakStorageKey, readBenefitVisitStreak } from "@/lib/benefitVisitStreak";
-import { readClaimedBenefits } from "@/lib/claimedBenefits";
+import { claimedBenefitUpdatedEvent, readClaimedBenefits } from "@/lib/claimedBenefits";
 import { formatPrice } from "@/lib/format";
 import { priceAlertStorageKey, readStoredPriceAlerts } from "@/lib/priceAlerts";
 import { readRecentDealIds } from "@/lib/recentDeals";
@@ -200,9 +200,9 @@ function AccountCarryoverPlan({
 }
 
 function BenefitCheckInSummary() {
-  const [checkIn, setCheckIn] = useState(() => readBenefitCheckInState());
-  const [visitStreak, setVisitStreak] = useState(() => readBenefitVisitStreak());
-  const [claimedBenefits, setClaimedBenefits] = useState(() => readClaimedBenefits());
+  const [checkIn, setCheckIn] = useState<ReturnType<typeof readBenefitCheckInState>>({ lastDate: "", streak: 0, completedMissions: [] });
+  const [visitStreak, setVisitStreak] = useState<ReturnType<typeof readBenefitVisitStreak>>({ currentStreak: 0, totalVisits: 0, lastVisitedDate: "", visitedDates: [] });
+  const [claimedBenefits, setClaimedBenefits] = useState<ReturnType<typeof readClaimedBenefits>>([]);
   const todayKey = getTodayKey();
   const checkedToday = checkIn.lastDate === todayKey;
   const completedMissions = checkedToday ? checkIn.completedMissions : [];
@@ -217,9 +217,13 @@ function BenefitCheckInSummary() {
       setClaimedBenefits(readClaimedBenefits());
     };
     window.addEventListener("storage", refresh);
+    window.addEventListener(claimedBenefitUpdatedEvent, refresh);
     refresh();
 
-    return () => window.removeEventListener("storage", refresh);
+    return () => {
+      window.removeEventListener("storage", refresh);
+      window.removeEventListener(claimedBenefitUpdatedEvent, refresh);
+    };
   }, []);
 
   return (

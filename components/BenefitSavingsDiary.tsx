@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { CheckCircle2, NotebookTabs, PiggyBank } from "lucide-react";
-import { readClaimedBenefits } from "@/lib/claimedBenefits";
+import { claimedBenefitUpdatedEvent, readClaimedBenefits } from "@/lib/claimedBenefits";
 import { formatPrice, getRelativeTime } from "@/lib/format";
 import { buildSavingsDiarySummary } from "@/lib/savingsDiary";
 import type { Deal } from "@/types/deal";
@@ -14,7 +14,7 @@ interface BenefitSavingsDiaryProps {
 }
 
 export function BenefitSavingsDiary({ deals = [], compact = false }: BenefitSavingsDiaryProps) {
-  const [records, setRecords] = useState(() => readClaimedBenefits());
+  const [records, setRecords] = useState<ReturnType<typeof readClaimedBenefits>>([]);
 
   useEffect(() => {
     const refresh = () => setRecords(readClaimedBenefits());
@@ -22,9 +22,11 @@ export function BenefitSavingsDiary({ deals = [], compact = false }: BenefitSavi
     refresh();
     window.addEventListener("storage", refresh);
     window.addEventListener("focus", refresh);
+    window.addEventListener(claimedBenefitUpdatedEvent, refresh);
     return () => {
       window.removeEventListener("storage", refresh);
       window.removeEventListener("focus", refresh);
+      window.removeEventListener(claimedBenefitUpdatedEvent, refresh);
     };
   }, []);
 
