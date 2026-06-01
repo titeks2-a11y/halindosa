@@ -1588,6 +1588,12 @@ async function checkOperationalDataSurfaces() {
     !freeBenefitsClient.includes("문화 혜택 바로 확인") ||
     !freeBenefitsClient.includes("문화 초대권 종료 신고") ||
     !freeBenefitsClient.includes("문화 초대권 링크 오류 신고") ||
+    !freeBenefitsClient.includes("zeroCostStarterPack") ||
+    !freeBenefitsClient.includes("0원 혜택 스타터팩") ||
+    !freeBenefitsClient.includes("처음 왔다면 이 혜택부터 확인하세요") ||
+    !freeBenefitsClient.includes("무료 혜택만 보기") ||
+    !freeBenefitsClient.includes("0원 혜택 바로 받기") ||
+    !freeBenefitsClient.includes("스타터팩은 결제 부담이 낮은 혜택") ||
     !freeBenefitsClient.includes("오늘 무료 혜택 루틴") ||
     !freeBenefitsClient.includes("돈 쓰기 전에 이 순서로 챙기세요") ||
     !freeBenefitsClient.includes("오늘 우선 확인 큐") ||
@@ -1677,6 +1683,8 @@ async function checkOperationalDataSurfaces() {
     !smoke.includes("Free benefits page missing coupon event condition board") ||
     !smoke.includes("Free benefits page missing apptech reward routine rail") ||
     !smoke.includes("Free benefits page missing culture invitation benefit rail") ||
+    !smoke.includes("Free benefits page missing zero-cost starter pack") ||
+    !smoke.includes("Free benefits page missing zero-cost starter pack actions") ||
     !smoke.includes("Free benefits page missing priority benefit queue") ||
     !smoke.includes("Free benefits page missing weekly routine progress") ||
     !smoke.includes("Free benefits page missing weekly benefit calendar") ||

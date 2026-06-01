@@ -231,6 +231,17 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
         .slice(0, 5),
     [deals, referenceNow]
   );
+  const zeroCostStarterPack = useMemo(
+    () =>
+      [...deals]
+        .filter((deal) => {
+          const zeroCostLike = deal.salePrice === 0 || deal.dealType === "freebie" || deal.dealType === "experience" || /무료|0원|샘플|체험|초대권/.test(`${deal.title} ${deal.tags.join(" ")} ${deal.benefitSummary}`);
+          return zeroCostLike && !deal.isExpired && !deal.isSoldOut && deal.linkStatus !== "broken";
+        })
+        .sort((a, b) => Number(b.isFirstComeFirstServed) - Number(a.isFirstComeFirstServed) || getPriorityScore(b, referenceNow) - getPriorityScore(a, referenceNow))
+        .slice(0, 3),
+    [deals, referenceNow]
+  );
   const weeklyBenefitPlan = useMemo(
     () => [
       {
@@ -932,6 +943,85 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
               </div>
             </div>
           </div>
+        </section>
+
+        <section className="rounded-[28px] border border-red-100 bg-white p-4 shadow-sm sm:p-5" aria-label="0원 혜택 스타터팩">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-black text-dossa-red">0원 혜택 스타터팩</p>
+              <h2 className="mt-1 text-2xl font-black tracking-tight text-slate-950">처음 왔다면 이 혜택부터 확인하세요</h2>
+              <p className="mt-2 max-w-2xl text-sm font-bold leading-6 text-slate-500">
+                무료 샘플, 체험단, 초대권처럼 비용 부담이 낮고 진행 중인 혜택만 골라 먼저 보여드립니다.
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                setActiveType("freebie");
+                setActiveOnly(true);
+                setSort("recommended");
+              }}
+              className="inline-flex min-h-11 items-center justify-center rounded-2xl bg-dossa-red px-4 text-sm font-black text-white"
+            >
+              무료 혜택만 보기
+            </button>
+          </div>
+          <div className="mt-4 grid gap-3 lg:grid-cols-3">
+            {zeroCostStarterPack.map((deal) => {
+              const claimed = claimedBenefitIds.has(deal.id);
+
+              return (
+                <article key={deal.id} className="rounded-3xl border border-slate-100 bg-slate-50 p-4">
+                  <div className="flex items-start justify-between gap-3">
+                    <span className="rounded-full bg-white px-2.5 py-1 text-xs font-black text-dossa-red shadow-sm">{getBenefitTypeLabel(deal.dealType)}</span>
+                    <span className="rounded-full bg-red-50 px-2.5 py-1 text-xs font-black text-dossa-red">{deal.claimCta}</span>
+                  </div>
+                  <h3 className="mt-3 line-clamp-2 text-base font-black leading-6 text-slate-950">{deal.title}</h3>
+                  <p className="mt-2 line-clamp-2 text-xs font-bold leading-5 text-slate-500">{deal.benefitSummary}</p>
+                  <dl className="mt-3 grid grid-cols-2 gap-2 text-xs font-bold text-slate-500">
+                    <div className="rounded-2xl bg-white p-2">
+                      <dt>조건</dt>
+                      <dd className="mt-1 font-black text-slate-950">{deal.requiresSignup ? "가입 필요" : "가입 없이 확인"}</dd>
+                    </div>
+                    <div className="rounded-2xl bg-white p-2">
+                      <dt>마감</dt>
+                      <dd className="mt-1 font-black text-slate-950">{deal.isEndingSoon ? "마감임박" : "진행 중"}</dd>
+                    </div>
+                  </dl>
+                  <div className="mt-3 grid grid-cols-3 gap-2">
+                    <button
+                      type="button"
+                      onClick={() => openDeal(deal)}
+                      className="col-span-2 rounded-2xl bg-dossa-red px-3 py-2.5 text-xs font-black text-white"
+                      aria-label={`${deal.title} 0원 혜택 바로 받기`}
+                    >
+                      바로 받기
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => toggleClaimed(deal)}
+                      className={`rounded-2xl px-3 py-2.5 text-xs font-black ${claimed ? "bg-slate-950 text-white" : "bg-white text-dossa-red"}`}
+                      aria-pressed={claimed}
+                      aria-label={`${deal.title} 챙김 기록 ${claimed ? "해제" : "추가"}`}
+                    >
+                      {claimed ? "챙김" : "기록"}
+                    </button>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => shareDeal(deal)}
+                    className="mt-2 inline-flex w-full items-center justify-center gap-1.5 rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-xs font-black text-slate-600"
+                  >
+                    <Share2 size={14} />
+                    공유하기
+                  </button>
+                </article>
+              );
+            })}
+          </div>
+          <p className="mt-4 rounded-2xl bg-slate-50 px-4 py-3 text-xs font-bold leading-5 text-slate-500">
+            스타터팩은 결제 부담이 낮은 혜택을 먼저 보여주는 탐색 보조 기능입니다. 실제 수령 가능 여부와 배송비, 회원 조건은 판매처 화면에서 다시 확인하세요.
+          </p>
         </section>
 
         <section className="rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5" aria-label="수령 전 30초 확인">
