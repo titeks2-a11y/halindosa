@@ -1267,6 +1267,20 @@ export default function Home() {
       ),
     [catalog]
   );
+  const quickCategoryShortcuts = useMemo(
+    () =>
+      ["all", "freezero", "today", "food", "living", "digital", "fashion", "baby", "mart", "coupon", "travel"]
+        .map((id) => {
+          const channel = getDealChannel(id);
+          return {
+            id,
+            label: channel.label,
+            count: categoryCounts[id] ?? 0
+          };
+        })
+        .filter((item) => item.id === "all" || item.count > 0),
+    [categoryCounts]
+  );
 
   const mallCounts = useMemo(
     () =>
@@ -1718,7 +1732,7 @@ export default function Home() {
                 >
                   {mallFilters.map((mall) => (
                     <option key={mall.id} value={mall.id}>
-                      {mall.label}
+                      {mall.id === "all" ? mall.label : `${mall.label} ${mallCounts[mall.id] ?? 0}개`}
                     </option>
                   ))}
                 </select>
@@ -1755,6 +1769,32 @@ export default function Home() {
                   {item.label}
                 </button>
               ))}
+            </div>
+            <div className="mt-3" aria-label="카테고리 바로가기">
+              <div className="mb-2 flex items-center justify-between gap-2">
+                <p className="text-xs font-black text-slate-700">카테고리 바로가기</p>
+                <p className="text-[11px] font-bold text-slate-400">원하는 분야만 빠르게 보기</p>
+              </div>
+              <div className="flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                {quickCategoryShortcuts.map((item) => (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => openCategory(item.id)}
+                    className={`inline-flex min-h-10 shrink-0 items-center gap-2 rounded-2xl border px-3 text-xs font-black transition ${
+                      category === item.id
+                        ? "border-transparent bg-slate-950 text-white shadow-sm"
+                        : "border-slate-200 bg-white text-slate-700 hover:border-red-200 hover:bg-red-50 hover:text-dossa-red"
+                    }`}
+                    aria-pressed={category === item.id}
+                  >
+                    {item.label}
+                    <span className={`rounded-full px-2 py-0.5 text-[10px] ${category === item.id ? "bg-white/15 text-white" : "bg-slate-100 text-slate-500"}`}>
+                      {item.count}
+                    </span>
+                  </button>
+                ))}
+              </div>
             </div>
             <div className="mt-3 flex flex-col gap-2 rounded-2xl bg-slate-50 px-3 py-3 sm:flex-row sm:items-center sm:justify-between">
               <p className="text-sm font-black text-slate-950">

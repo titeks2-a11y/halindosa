@@ -64,6 +64,7 @@ SMOKE_BASE_URL=https://example.com npm run smoke
 - 상품명, 브랜드, 쇼핑몰명, 카테고리, 혜택 유형, 태그, 혜택 요약을 함께 검색한다.
 - 한글 띄어쓰기 차이는 정규화한다. 예: `애플 워치`는 `애플워치` 상품과 매칭되어야 한다.
 - 홈 상단의 `빠른 상품 검색` 패널과 하단 상세 필터는 같은 검색 상태를 공유한다.
+- 홈 상단의 `카테고리 바로가기` 칩은 `dealChannels`와 `categoryCounts`를 기반으로 하며, 상품 수가 없는 세부 카테고리는 첫 화면 노출에서 제외한다.
 - 홈 화면 검색 상태는 URL query parameter로 유지된다. 배포 후 `/?q=애플%20워치`처럼 직접 진입해도 같은 결과가 나와야 한다.
 - 탐색 버튼은 내부 `#all-deals` 앵커나 `scrollIntoView`를 쓰지 않고 필터 상태만 바꾼다. 화면 이동은 사용자가 직접 스크롤하도록 두어 상품 카드 클릭 중 갑작스러운 점프가 없어야 한다.
 - `npm run verify:links`는 `data/mockDeals.ts`의 전체 상품 ID와 `data/verifiedPurchaseLinks.ts`의 실제 구매 URL 매핑을 비교한다.
