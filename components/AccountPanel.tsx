@@ -2,10 +2,11 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { AlertTriangle, Bell, CheckCircle2, Clock, Heart, History, LogOut, Settings, SlidersHorizontal, Sparkles, Trash2, UserRound } from "lucide-react";
+import { AlertTriangle, Bell, CalendarDays, CheckCircle2, Clock, Heart, History, LogOut, Settings, SlidersHorizontal, Sparkles, Trash2, UserRound } from "lucide-react";
 import { useAuth } from "@/components/AuthProvider";
 import { getSupabaseBrowserClient } from "@/lib/auth/supabaseClient";
 import { benefitMissionLabels, getTodayKey, readBenefitCheckInState } from "@/lib/benefitCheckIn";
+import { readBenefitReturnReservations } from "@/lib/benefitReturnReservations";
 import { readClaimedBenefits } from "@/lib/claimedBenefits";
 import { formatPrice } from "@/lib/format";
 import { priceAlertStorageKey, readStoredPriceAlerts } from "@/lib/priceAlerts";
@@ -100,13 +101,15 @@ function AccountCarryoverPlan({
   favoriteCount,
   recentCount,
   categoryCount,
-  priceAlertCount
+  priceAlertCount,
+  returnReservationCount
 }: {
   mode: "local" | "guest" | "member";
   favoriteCount: number;
   recentCount: number;
   categoryCount: number;
   priceAlertCount: number;
+  returnReservationCount: number;
 }) {
   const isMember = mode === "member";
   const accountCarryoverPlan = [
@@ -137,6 +140,13 @@ function AccountCarryoverPlan({
       suffix: "개",
       description: "앱 안에 저장한 목표가",
       icon: Bell
+    },
+    {
+      label: "재방문 예약",
+      value: returnReservationCount,
+      suffix: "개",
+      description: "무료·쿠폰·마감 루틴",
+      icon: CalendarDays
     }
   ];
 
@@ -147,7 +157,7 @@ function AccountCarryoverPlan({
           <p className="text-xs font-black text-dossa-red">비회원 저장을 계정으로 이어보기</p>
           <h3 className="mt-1 text-base font-black text-slate-950">저장한 기록만 로그인하면 이어집니다</h3>
           <p className="mt-1 text-xs font-bold leading-5 text-slate-500">
-            모든 혜택은 그대로 볼 수 있고, 찜·최근 본 상품·관심 카테고리·가격 알림 조건만 선택적으로 계정에 보관합니다.
+            모든 혜택은 그대로 볼 수 있고, 찜·최근 본 상품·관심 카테고리·가격 알림 조건·재방문 예약만 선택적으로 계정에 보관합니다.
           </p>
         </div>
         <span className="w-fit rounded-full bg-red-50 px-3 py-1.5 text-[11px] font-black text-dossa-red">
@@ -177,7 +187,7 @@ function AccountCarryoverPlan({
       </div>
       <div className="mt-3 grid gap-2 sm:grid-cols-2">
         <Link href={isMember ? "/notifications" : "/login"} className="rounded-2xl bg-dossa-red px-4 py-3 text-center text-xs font-black text-white">
-          {isMember ? "알림 조건 이어보기" : "로그인하고 기록 이어보기"}
+          {isMember ? "알림·재방문 예약 이어보기" : "로그인하고 기록 이어보기"}
         </Link>
         <Link href="/guide" className="rounded-2xl bg-slate-100 px-4 py-3 text-center text-xs font-black text-slate-700">
           저장 기준 확인
@@ -270,6 +280,7 @@ export function AccountPanel() {
   const [favoriteIds, setFavoriteIds] = useState<string[]>(() => readLocalFavoriteIds());
   const [recentIds, setRecentIds] = useState<string[]>(() => readRecentDealIds());
   const [priceAlertCount, setPriceAlertCount] = useState(() => readStoredPriceAlerts().length);
+  const [returnReservationCount, setReturnReservationCount] = useState(() => readBenefitReturnReservations().length);
   const [catalog, setCatalog] = useState<Deal[]>([]);
   const [message, setMessage] = useState("");
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
@@ -306,6 +317,7 @@ export function AccountPanel() {
         setFavoriteIds(nextFavorites);
         setRecentIds(nextRecent);
         setPriceAlertCount(readStoredPriceAlerts().length);
+        setReturnReservationCount(readBenefitReturnReservations().length);
         if (remotePreferences) setPreferences(remotePreferences);
       })
       .catch(() => {
@@ -313,6 +325,7 @@ export function AccountPanel() {
         setFavoriteIds(readLocalFavoriteIds());
         setRecentIds(readRecentDealIds());
         setPriceAlertCount(readStoredPriceAlerts().length);
+        setReturnReservationCount(readBenefitReturnReservations().length);
       });
 
     return () => {
@@ -325,7 +338,8 @@ export function AccountPanel() {
   const accountSummaryCards = [
     { label: "찜한 특가", value: favoriteIds.length, suffix: "개", description: "계정에 저장된 관심 상품" },
     { label: "최근 본 상품", value: recentIds.length, suffix: "개", description: "다시 확인할 수 있는 탐색 기록" },
-    { label: "관심 카테고리", value: preferences.favoriteCategories.length, suffix: "개", description: "추천에 활용할 선호 영역" }
+    { label: "관심 카테고리", value: preferences.favoriteCategories.length, suffix: "개", description: "추천에 활용할 선호 영역" },
+    { label: "재방문 예약", value: returnReservationCount, suffix: "개", description: "무료·쿠폰·마감 루틴" }
   ];
 
   const savePreferences = (next: MemberPreferences) => {
@@ -403,10 +417,10 @@ export function AccountPanel() {
         <div className="mt-4 rounded-3xl bg-white p-4 shadow-sm">
           <p className="text-sm font-black text-slate-950">계정 활동 요약</p>
           <p className="mt-1 text-xs font-bold leading-5 text-slate-500">
-            찜, 최근 본 상품, 관심 카테고리를 이 기기에 저장합니다. 로그인 환경을 연결하면 같은 정보를 계정으로 이어볼 수 있습니다.
+            찜, 최근 본 상품, 관심 카테고리, 재방문 예약을 이 기기에 저장합니다. 로그인 환경을 연결하면 같은 정보를 계정으로 이어볼 수 있습니다.
           </p>
-          <div className="mt-3 grid grid-cols-3 gap-2 text-center">
-            {["찜", "최근본", "관심"].map((label) => (
+          <div className="mt-3 grid grid-cols-4 gap-2 text-center">
+            {["찜", "최근본", "관심", "예약"].map((label) => (
               <div key={label} className="rounded-2xl bg-red-50 px-2 py-3">
                 <p className="text-lg font-black text-dossa-red">0</p>
                 <p className="mt-0.5 text-[11px] font-black text-slate-500">{label}</p>
@@ -420,6 +434,7 @@ export function AccountPanel() {
           recentCount={recentIds.length}
           categoryCount={preferences.favoriteCategories.length}
           priceAlertCount={priceAlertCount}
+          returnReservationCount={returnReservationCount}
         />
         <BenefitSaveRoutine mode="local" />
         <BenefitCheckInSummary />
@@ -446,10 +461,10 @@ export function AccountPanel() {
         <div className="mt-4 rounded-3xl bg-slate-50 p-4">
           <p className="text-sm font-black text-slate-950">계정 활동 요약</p>
           <p className="mt-1 text-xs font-bold leading-5 text-slate-500">
-            로그인하면 찜, 최근 본 상품, 관심 카테고리를 한 화면에서 이어보고 다른 기기에서도 복원할 수 있습니다.
+            로그인하면 찜, 최근 본 상품, 관심 카테고리, 재방문 예약을 한 화면에서 이어보고 다른 기기에서도 복원할 수 있습니다.
           </p>
-          <div className="mt-3 grid grid-cols-3 gap-2 text-center">
-            {["찜", "최근본", "관심"].map((label) => (
+          <div className="mt-3 grid grid-cols-4 gap-2 text-center">
+            {["찜", "최근본", "관심", "예약"].map((label) => (
               <div key={label} className="rounded-2xl bg-white px-2 py-3 shadow-sm">
                 <p className="text-lg font-black text-dossa-red">0</p>
                 <p className="mt-0.5 text-[11px] font-black text-slate-500">{label}</p>
@@ -463,6 +478,7 @@ export function AccountPanel() {
           recentCount={recentIds.length}
           categoryCount={preferences.favoriteCategories.length}
           priceAlertCount={priceAlertCount}
+          returnReservationCount={returnReservationCount}
         />
         <BenefitSaveRoutine mode="guest" />
         <BenefitCheckInSummary />
@@ -512,11 +528,11 @@ export function AccountPanel() {
           <div className="min-w-0">
             <p className="text-sm font-black text-slate-950">계정 활동 요약</p>
             <p className="mt-1 text-xs font-bold leading-5 text-slate-500">
-              찜, 최근 본 상품, 관심 카테고리를 기준으로 다음에 확인할 특가를 더 빠르게 이어볼 수 있습니다.
+              찜, 최근 본 상품, 관심 카테고리, 재방문 예약을 기준으로 다음에 확인할 혜택을 더 빠르게 이어볼 수 있습니다.
             </p>
           </div>
         </div>
-        <div className="mt-4 grid gap-2 sm:grid-cols-3">
+        <div className="mt-4 grid gap-2 sm:grid-cols-4">
           {accountSummaryCards.map((item) => (
             <div key={item.label} className="rounded-2xl bg-white p-3 shadow-sm">
               <p className="text-xs font-black text-slate-400">{item.label}</p>
@@ -542,6 +558,7 @@ export function AccountPanel() {
           recentCount={recentIds.length}
           categoryCount={preferences.favoriteCategories.length}
           priceAlertCount={priceAlertCount}
+          returnReservationCount={returnReservationCount}
         />
         <BenefitSaveRoutine mode="member" />
         <BenefitCheckInSummary />

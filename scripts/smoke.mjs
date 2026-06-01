@@ -189,7 +189,7 @@ await check("mypage data controls", async () => {
   assert(text.includes("계정 활동 요약"), "Mypage missing account activity summary");
   assert(text.includes("비회원 저장을 계정으로 이어보기"), "Mypage missing account carryover plan");
   assert(text.includes("모든 혜택은 그대로 볼 수 있고") && text.includes("저장한 기록만 로그인하면 이어집니다"), "Mypage missing optional account carryover copy");
-  assert(text.includes("찜한 혜택") && text.includes("가격 알림 조건"), "Mypage missing carryover saved benefit and alert metrics");
+  assert(text.includes("찜한 혜택") && text.includes("가격 알림 조건") && text.includes("재방문 예약"), "Mypage missing carryover saved benefit, alert, and return reservation metrics");
   assert(text.includes("내 혜택 저장 루틴"), "Mypage missing benefit save routine");
   assert(text.includes("찜한 혜택 다시 보기") && text.includes("최근 본 상품 이어보기"), "Mypage missing saved and recent benefit routine actions");
   assert(text.includes("관심 카테고리 조정") && text.includes("가격 알림 조건 확인"), "Mypage missing interest and alert routine actions");

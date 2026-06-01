@@ -295,7 +295,15 @@ async function checkAuthSurface() {
     fail("member profile settings", "Mypage account panel should support nickname, favorite categories, and consent settings.");
   } else if (!accountPanel.includes("계정 활동 요약") || !accountPanel.includes("accountSummaryCards") || !accountPanel.includes("구매 링크 확인 특가 보기")) {
     fail("member profile settings", "Mypage account panel should summarize saved deals, recent views, categories, and next actions.");
-  } else if (!accountPanel.includes("AccountCarryoverPlan") || !accountPanel.includes("accountCarryoverPlan") || !accountPanel.includes("비회원 저장을 계정으로 이어보기") || !accountPanel.includes("저장한 기록만 로그인하면 이어집니다") || !smoke.includes("Mypage missing account carryover plan")) {
+  } else if (
+    !accountPanel.includes("AccountCarryoverPlan") ||
+    !accountPanel.includes("accountCarryoverPlan") ||
+    !accountPanel.includes("비회원 저장을 계정으로 이어보기") ||
+    !accountPanel.includes("저장한 기록만 로그인하면 이어집니다") ||
+    !accountPanel.includes("readBenefitReturnReservations") ||
+    !accountPanel.includes("재방문 예약") ||
+    !smoke.includes("Mypage missing account carryover plan")
+  ) {
     fail("member profile settings", "Mypage should make local-to-account carryover clear without gating non-member browsing.");
   } else if (!accountPanel.includes("내 혜택 저장 루틴") || !accountPanel.includes("찜한 혜택 다시 보기") || !accountPanel.includes("최근 본 상품 이어보기") || !accountPanel.includes("가입해야만 볼 수 있는 혜택은 없습니다")) {
     fail("member profile settings", "Mypage should explain optional benefit saving routines for non-members and members.");
