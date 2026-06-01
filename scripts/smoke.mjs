@@ -651,6 +651,34 @@ await check("deals filters api", async () => {
   assert(premium.response.status === 200, `Expected 200, got ${premium.response.status}`);
   assert(premium.data.deals.length > 0, "minPrice filter should return at least one deal");
   assert(premium.data.deals.every((deal) => deal.salePrice >= 100000), "minPrice returned a cheaper deal");
+
+  const combinedWater = await fetchJson("/api/deals?q=생수&verifiedOnly=true&freeShippingOnly=true&sort=price&limit=20");
+  assert(combinedWater.response.status === 200, `Expected 200, got ${combinedWater.response.status}`);
+  assert(combinedWater.data.deals.length > 0, "Combined 생수 + verified + free shipping search should return deals");
+  assert(
+    combinedWater.data.deals.every((deal) => deal.linkStatus === "verified" && deal.linkType !== "seller_search"),
+    "Combined verified search returned a link that still needs review"
+  );
+  assert(combinedWater.data.deals.every((deal) => deal.isFreeShipping), "Combined free shipping search returned a paid-shipping deal");
+  assert(
+    combinedWater.data.deals.every((deal, index, list) => index === 0 || list[index - 1].salePrice <= deal.salePrice),
+    "Combined price sort should return ascending sale prices"
+  );
+
+  const combinedGmarket = await fetchJson("/api/deals?q=지마켓&mall=gmarket&sort=discount&limit=20");
+  assert(combinedGmarket.response.status === 200, `Expected 200, got ${combinedGmarket.response.status}`);
+  assert(combinedGmarket.data.deals.length > 0, "Combined 지마켓 + mall filter search should return deals");
+  assert(combinedGmarket.data.deals.every((deal) => /g마켓|지마켓|gmarket/i.test(`${deal.mallName} ${deal.mall}`)), "Combined mall filter returned another mall");
+  assert(
+    combinedGmarket.data.deals.every((deal, index, list) => index === 0 || list[index - 1].discountRate >= deal.discountRate),
+    "Combined discount sort should return descending discount rates"
+  );
+
+  const combinedBudgetLiving = await fetchJson("/api/deals?category=living&q=물티슈&priceBand=under10000&verifiedOnly=true&limit=20");
+  assert(combinedBudgetLiving.response.status === 200, `Expected 200, got ${combinedBudgetLiving.response.status}`);
+  assert(combinedBudgetLiving.data.deals.length > 0, "Combined living + 물티슈 + budget search should return deals");
+  assert(combinedBudgetLiving.data.deals.every((deal) => deal.salePrice < 10000), "Combined budget search returned a deal over budget");
+  assert(combinedBudgetLiving.data.deals.every((deal) => deal.linkStatus === "verified"), "Combined budget search returned an unverified deal");
 });
 
 await check("deal link integrity", async () => {
