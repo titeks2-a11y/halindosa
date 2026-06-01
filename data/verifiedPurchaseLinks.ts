@@ -710,5 +710,23 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     checkedAt: "2026-06-02T02:30:00.000Z",
     source: "manual_review",
     evidence: "메가MGC커피 앱 가입 무료 사이즈업 쿠폰 공식 이벤트 소식"
+  },
+  d118: {
+    url: "https://item.gmarket.co.kr/Item?goodscode=2910475736",
+    checkedAt: "2026-06-02T04:10:00.000Z",
+    source: "manual_review",
+    evidence: "G마켓 제주 삼다수 2L 24병 생수 상품 상세"
+  },
+  d119: {
+    url: "https://www.11st.co.kr/products/7947620012",
+    checkedAt: "2026-06-02T04:10:00.000Z",
+    source: "manual_review",
+    evidence: "11번가 종근당건강 락토핏 생유산균 골드 50포 상품 상세"
+  },
+  d120: {
+    url: "https://item.gmarket.co.kr/Item?goodsCode=4285817639",
+    checkedAt: "2026-06-02T04:10:00.000Z",
+    source: "manual_review",
+    evidence: "G마켓 제주삼다수 2L 12병 한정수량 특가 상품 상세"
   }
 };

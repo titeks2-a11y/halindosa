@@ -320,7 +320,10 @@ export const mockDeals: Deal[] = [
   deal("d114", "G마켓", "듀라셀 코인 리튬 건전지 CR2032 10개", "기타", 9900, 24, 1.4, 32, { isHot: false, isNew: true, isEndingSoon: false }, ["건전지", "소모품", "무료배송"], 74, "", "https://item.gmarket.co.kr/Item?goodscode=2667091230"),
   deal("d115", "BHC", "BHC 앱 치킨 첫 주문 5천원 할인 쿠폰", "쿠폰/이벤트", 5000, 100, 0.5, 14, { isHot: true, isNew: true, isEndingSoon: true }, ["배달", "외식", "첫 구매", "쿠폰"], 91, "", "https://www.bhc.co.kr/event/ingList.asp"),
   deal("d116", "무신사", "무신사 신규 가입 웰컴 0원 쿠폰팩", "쿠폰/이벤트", 1000, 100, 0.6, 24, { isHot: true, isNew: true, isEndingSoon: false }, ["0원", "무료", "신규 가입", "쿠폰"], 88, "", "https://www.musinsa.com/app/campaign/index/benefit"),
-  deal("d117", "메가MGC커피", "메가MGC커피 앱 가입 무료 사이즈업 쿠폰", "쿠폰/이벤트", 1000, 100, 0.4, 12, { isHot: true, isNew: true, isEndingSoon: true }, ["무료", "커피", "앱가입", "오늘만"], 87, "", "https://www.mega-mgccoffee.com/bbs/?bbs_category=3")
+  deal("d117", "메가MGC커피", "메가MGC커피 앱 가입 무료 사이즈업 쿠폰", "쿠폰/이벤트", 1000, 100, 0.4, 12, { isHot: true, isNew: true, isEndingSoon: true }, ["무료", "커피", "앱가입", "오늘만"], 87, "", "https://www.mega-mgccoffee.com/bbs/?bbs_category=3"),
+  deal("d118", "G마켓", "제주 삼다수 2L 24병 생수", "식품", 25920, 18, 0.8, 26, { isHot: true, isNew: true, isEndingSoon: false }, ["생수", "생활필수", "무료배송", "장보기"], 85, "", "https://item.gmarket.co.kr/Item?goodscode=2910475736"),
+  deal("d119", "11번가", "종근당건강 락토핏 생유산균 골드 50포 2통", "뷰티", 39900, 22, 1.6, 32, { isHot: false, isNew: true, isEndingSoon: false }, ["헬스", "건강", "쿠폰적용", "무료배송"], 78, "", "https://www.11st.co.kr/products/7947620012"),
+  deal("d120", "G마켓", "제주 삼다수 2L 12병 한정수량 특가", "식품", 14800, 24, 0.9, 10, { isHot: true, isNew: true, isEndingSoon: true }, ["생수", "마감임박", "생활필수", "무료배송"], 88, "", "https://item.gmarket.co.kr/Item?goodsCode=4285817639")
 ];
 
 export const categories = ["전체", "식품", "전자기기", "생활용품", "의류", "육아", "여행/티켓", "뷰티", "가전", "편의점/마트", "쿠폰/이벤트", "기타"] as const;
