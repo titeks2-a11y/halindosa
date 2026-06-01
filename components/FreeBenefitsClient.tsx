@@ -978,6 +978,14 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
                   </div>
                   <h3 className="mt-3 line-clamp-2 text-base font-black leading-6 text-slate-950">{deal.title}</h3>
                   <p className="mt-2 line-clamp-2 text-xs font-bold leading-5 text-slate-500">{deal.benefitSummary}</p>
+                  <div className="mt-3 rounded-2xl bg-white p-3" aria-label={`${deal.title} 스타터팩 수령 체크`}>
+                    <p className="text-[11px] font-black text-dossa-red">수령 전 체크</p>
+                    <ul className="mt-2 space-y-1 text-[11px] font-bold leading-4 text-slate-600">
+                      {deal.eligibilityChecklist.slice(0, 2).map((item) => (
+                        <li key={item}>· {item}</li>
+                      ))}
+                    </ul>
+                  </div>
                   <dl className="mt-3 grid grid-cols-2 gap-2 text-xs font-bold text-slate-500">
                     <div className="rounded-2xl bg-white p-2">
                       <dt>조건</dt>
@@ -1940,7 +1948,18 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
                     <span className="rounded-2xl bg-slate-50 px-3 py-2">중복: {deal.isStackable ? "가능성 있음" : "확인 필요"}</span>
                     <span className="rounded-2xl bg-slate-50 px-3 py-2">최소금액: {getMinimumOrderLabel(deal)}</span>
                     <span className="rounded-2xl bg-slate-50 px-3 py-2">만료: {deal.isEndingSoon ? "마감 임박" : "진행 중"}</span>
-                    {deal.couponCondition ? <span className="col-span-2 rounded-2xl bg-red-50 px-3 py-2 text-dossa-red">조건: {deal.couponCondition}</span> : null}
+                  {deal.couponCondition ? <span className="col-span-2 rounded-2xl bg-red-50 px-3 py-2 text-dossa-red">조건: {deal.couponCondition}</span> : null}
+                  </div>
+                  <div className="mt-3 rounded-2xl border border-slate-100 bg-slate-50 p-3" aria-label={`${deal.title} 구조화된 혜택 수령 단계`}>
+                    <p className="text-[11px] font-black text-dossa-red">혜택 수령 단계</p>
+                    <ol className="mt-2 grid gap-1 text-[11px] font-bold leading-4 text-slate-600 sm:grid-cols-3">
+                      {deal.claimSteps.map((step, index) => (
+                        <li key={step} className="rounded-xl bg-white px-2 py-1">
+                          {index + 1}. {step}
+                        </li>
+                      ))}
+                    </ol>
+                    <p className="mt-2 text-[11px] font-bold leading-4 text-amber-800">{deal.claimWarning}</p>
                   </div>
                   <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-[1fr_auto_auto_auto_auto_auto_auto]">
                     <button

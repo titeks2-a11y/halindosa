@@ -1,6 +1,7 @@
 import { Deal, DealCategory } from "@/types/deal";
 import { buildSellerSearchUrl } from "@/lib/affiliate";
 import { buildBenefitSummary, inferDealBenefitType } from "@/lib/deals/benefits";
+import { buildBenefitClaimGuide } from "@/lib/deals/claimGuide";
 import { validatePurchaseLink } from "@/lib/deals/linkValidator";
 
 export type DealInput = Partial<Deal> & {
@@ -72,6 +73,18 @@ export function normalizeDeal(input: DealInput, source = input.source ?? "mock")
   const shippingFee = input.shippingFee ?? (shipping === "무료배송" ? "무료배송" : dealType === "freebie" || dealType === "experience" ? "배송비 확인" : "판매처 조건부");
   const couponCondition = input.couponCondition ?? (dealType === "coupon" || dealType === "foodDelivery" || dealType === "point" ? "판매처 쿠폰/결제 조건 확인" : undefined);
   const minimumOrderAmount = input.minimumOrderAmount ?? (dealType === "coupon" || dealType === "foodDelivery" ? Math.max(0, Math.round(input.salePrice / 1000) * 1000) : undefined);
+  const claimGuide = buildBenefitClaimGuide({
+    title: input.title,
+    dealType,
+    requiresSignup,
+    isFirstComeFirstServed,
+    isFreeShipping,
+    isEndingSoon: input.isEndingSoon ?? new Date(expireAt).getTime() - Date.now() < 6 * 60 * 60 * 1000,
+    shippingFee,
+    couponCondition,
+    minimumOrderAmount,
+    isStackable: input.isStackable ?? /중복|카드할인|쿠폰적용/.test(conditionText)
+  });
 
   return {
     id: input.id,
@@ -120,6 +133,9 @@ export function normalizeDeal(input: DealInput, source = input.source ?? "mock")
     minimumOrderAmount,
     isStackable: input.isStackable ?? /중복|카드할인|쿠폰적용/.test(conditionText),
     claimCta: input.claimCta ?? (dealType === "freebie" || dealType === "experience" || dealType === "point" ? "혜택 받기" : dealType === "coupon" || dealType === "foodDelivery" ? "쿠폰 받기" : "판매처 확인"),
+    eligibilityChecklist: input.eligibilityChecklist ?? claimGuide.eligibilityChecklist,
+    claimSteps: input.claimSteps ?? claimGuide.claimSteps,
+    claimWarning: input.claimWarning ?? claimGuide.claimWarning,
     shipping,
     createdAt,
     expireAt,

@@ -1,5 +1,6 @@
 import { Deal } from "@/types/deal";
 import { buildBenefitSummary, inferDealBenefitType } from "@/lib/deals/benefits";
+import { buildBenefitClaimGuide } from "@/lib/deals/claimGuide";
 import { validatePurchaseLink } from "@/lib/deals/linkValidator";
 import { verifiedPurchaseLinks } from "./verifiedPurchaseLinks";
 
@@ -85,6 +86,18 @@ function deal(
   const couponCondition = dealType === "coupon" || dealType === "foodDelivery" || dealType === "point" ? "판매처 쿠폰/결제 조건 확인" : undefined;
   const minimumOrderAmount = dealType === "coupon" || dealType === "foodDelivery" ? Math.max(0, Math.round(salePrice / 1000) * 1000) : undefined;
   const claimCta = dealType === "freebie" || dealType === "experience" || dealType === "point" ? "혜택 받기" : dealType === "coupon" || dealType === "foodDelivery" ? "쿠폰 받기" : "판매처 확인";
+  const claimGuide = buildBenefitClaimGuide({
+    title,
+    dealType,
+    requiresSignup,
+    isFirstComeFirstServed,
+    isFreeShipping: shippingInfo === "무료배송",
+    isEndingSoon: flags.isEndingSoon,
+    shippingFee,
+    couponCondition,
+    minimumOrderAmount,
+    isStackable: /중복|카드할인|쿠폰적용/.test(text)
+  });
 
   return {
     id,
@@ -134,6 +147,9 @@ function deal(
     minimumOrderAmount,
     isStackable: /중복|카드할인|쿠폰적용/.test(text),
     claimCta,
+    eligibilityChecklist: claimGuide.eligibilityChecklist,
+    claimSteps: claimGuide.claimSteps,
+    claimWarning: claimGuide.claimWarning,
     shipping: shippingInfo,
     createdAt,
     expireAt: expiresAt,

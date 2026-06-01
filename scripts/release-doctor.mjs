@@ -1162,6 +1162,9 @@ async function checkOperationalDataSurfaces() {
   const redirectUrl = await text("lib/redirectUrl.ts");
   const goRoute = await text("app/go/[id]/route.ts");
   const dealTypes = await text("types/deal.ts");
+  const normalizer = await text("lib/deals/normalizer.ts");
+  const mockDeals = await text("data/mockDeals.ts");
+  const claimGuide = await text("lib/deals/claimGuide.ts");
   const freeBenefitsPage = await text("app/free-benefits/page.tsx");
   const freeBenefitsClient = await text("components/FreeBenefitsClient.tsx");
   const benefitVisitStreak = await text("lib/benefitVisitStreak.ts");
@@ -1529,13 +1532,29 @@ async function checkOperationalDataSurfaces() {
     "couponCondition",
     "minimumOrderAmount",
     "isStackable",
-    "claimCta"
+    "claimCta",
+    "eligibilityChecklist",
+    "claimSteps",
+    "claimWarning"
   ];
   const missingCommercialDealFields = requiredCommercialDealFields.filter((field) => !dealTypes.includes(field));
   if (missingCommercialDealFields.length) {
     fail("commercial deal fields", `Missing Deal fields: ${missingCommercialDealFields.join(", ")}`);
   } else {
     pass("commercial deal fields", "Deal type includes product/search URL split and commercial engagement fields.");
+  }
+
+  if (
+    !claimGuide.includes("buildBenefitClaimGuide") ||
+    !normalizer.includes("buildBenefitClaimGuide") ||
+    !mockDeals.includes("buildBenefitClaimGuide") ||
+    !smoke.includes("missing eligibilityChecklist") ||
+    !smoke.includes("missing claimSteps") ||
+    !smoke.includes("missing claimWarning")
+  ) {
+    fail("structured benefit claim guide", "Deals should include structured eligibility checklist, claim steps, and warning text from a shared claim guide.");
+  } else {
+    pass("structured benefit claim guide", "Deals expose structured eligibility checklist, claim steps, and warning text for benefit claim UX.");
   }
 
   if (
@@ -1594,6 +1613,11 @@ async function checkOperationalDataSurfaces() {
     !freeBenefitsClient.includes("무료 혜택만 보기") ||
     !freeBenefitsClient.includes("0원 혜택 바로 받기") ||
     !freeBenefitsClient.includes("스타터팩은 결제 부담이 낮은 혜택") ||
+    !freeBenefitsClient.includes("수령 전 체크") ||
+    !freeBenefitsClient.includes("deal.eligibilityChecklist") ||
+    !freeBenefitsClient.includes("혜택 수령 단계") ||
+    !freeBenefitsClient.includes("deal.claimSteps") ||
+    !freeBenefitsClient.includes("deal.claimWarning") ||
     !freeBenefitsClient.includes("오늘 무료 혜택 루틴") ||
     !freeBenefitsClient.includes("돈 쓰기 전에 이 순서로 챙기세요") ||
     !freeBenefitsClient.includes("오늘 우선 확인 큐") ||
@@ -1685,6 +1709,7 @@ async function checkOperationalDataSurfaces() {
     !smoke.includes("Free benefits page missing culture invitation benefit rail") ||
     !smoke.includes("Free benefits page missing zero-cost starter pack") ||
     !smoke.includes("Free benefits page missing zero-cost starter pack actions") ||
+    !smoke.includes("Free benefits page missing structured benefit claim guide") ||
     !smoke.includes("Free benefits page missing priority benefit queue") ||
     !smoke.includes("Free benefits page missing weekly routine progress") ||
     !smoke.includes("Free benefits page missing weekly benefit calendar") ||

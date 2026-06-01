@@ -76,6 +76,9 @@ export interface Deal {
   minimumOrderAmount?: number;
   isStackable?: boolean;
   claimCta: string;
+  eligibilityChecklist: string[];
+  claimSteps: string[];
+  claimWarning: string;
   shipping: string;
   createdAt: string;
   expireAt: string;
