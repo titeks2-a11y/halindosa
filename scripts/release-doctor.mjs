@@ -1158,6 +1158,7 @@ async function checkOperationalDataSurfaces() {
   const adminPage = await text("app/admin/page.tsx");
   const commercializationPage = await text("app/commercialization/page.tsx");
   const analytics = await text("lib/analytics.ts");
+  const healthRoute = await text("app/api/health/route.ts");
   const smoke = await text("scripts/smoke.mjs");
   const redirectUrl = await text("lib/redirectUrl.ts");
   const goRoute = await text("app/go/[id]/route.ts");
@@ -1384,6 +1385,19 @@ async function checkOperationalDataSurfaces() {
     fail("benefit retention metrics", "Metrics, admin, and commercialization pages should expose daily routine readiness for V2 retention operations.");
   } else {
     pass("benefit retention metrics", "Metrics, admin, and commercialization pages expose daily routine readiness for V2 retention operations.");
+  }
+
+  if (
+    !healthRoute.includes("operationalStatus") ||
+    !healthRoute.includes("verifiedLinkRate") ||
+    !healthRoute.includes("claimGuideRate") ||
+    !healthRoute.includes("freeBenefitDeals") ||
+    !smoke.includes("Health API missing V2 operational readiness") ||
+    !smoke.includes("Health API claim guide rate is below launch threshold")
+  ) {
+    fail("operational health checks", "Health API should expose V2 link, free benefit, and claim-guide readiness with smoke coverage.");
+  } else {
+    pass("operational health checks", "Health API exposes V2 link, free benefit, and claim-guide readiness with smoke coverage.");
   }
 
   if (!dealsRoute.includes("normalizeDeals(mockDeals") || dealsRoute.includes("mock 데이터로 대체")) {

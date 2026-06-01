@@ -756,6 +756,10 @@ await check("health api", async () => {
   const { response, data } = await fetchJson("/api/health");
   assert(response.status === 200, `Expected 200, got ${response.status}`);
   assert(data.status === "healthy", `Expected healthy, got ${data.status}`);
+  assert(data.checks?.operationalStatus === "ready", "Health API missing V2 operational readiness");
+  assert(data.checks?.verifiedLinkRate >= 90, "Health API verified link rate is below launch threshold");
+  assert(data.checks?.claimGuideRate >= 95, "Health API claim guide rate is below launch threshold");
+  assert(data.checks?.freeBenefitDeals >= 10, "Health API missing free benefit readiness count");
 });
 
 await check("metrics api", async () => {

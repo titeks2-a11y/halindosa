@@ -5,15 +5,38 @@ export async function GET() {
   const startedAt = Date.now();
 
   try {
-    const result = await getDeals({ limit: 1 });
+    const result = await getDeals();
+    const totalDeals = result.deals.length;
+    const activeDeals = result.deals.filter((deal) => !deal.isExpired && !deal.isSoldOut && deal.linkStatus !== "broken");
+    const verifiedLinkDeals = result.deals.filter((deal) => deal.purchaseLinkVerified || deal.linkVerified || deal.isVerified);
+    const freeBenefitDeals = result.deals.filter((deal) =>
+      ["freebie", "coupon", "freeShipping", "experience", "event", "point", "convenienceStore", "mart", "foodDelivery"].includes(deal.dealType)
+    );
+    const claimGuideReadyDeals = result.deals.filter(
+      (deal) =>
+        Array.isArray(deal.eligibilityChecklist) &&
+        deal.eligibilityChecklist.length >= 4 &&
+        Array.isArray(deal.claimSteps) &&
+        deal.claimSteps.length >= 3 &&
+        Boolean(deal.claimWarning)
+    );
+    const verifiedLinkRate = totalDeals ? Math.round((verifiedLinkDeals.length / totalDeals) * 100) : 0;
+    const claimGuideRate = totalDeals ? Math.round((claimGuideReadyDeals.length / totalDeals) * 100) : 0;
+    const operationalStatus =
+      totalDeals >= 30 && verifiedLinkRate >= 90 && freeBenefitDeals.length >= 10 && claimGuideRate >= 95 ? "ready" : "needs_review";
 
     return NextResponse.json({
       ok: true,
       status: "healthy",
       service: "halindosa",
       checks: {
-        dealsProvider: result.deals.length >= 1 ? "ok" : "empty",
-        source: result.source
+        dealsProvider: totalDeals >= 1 ? "ok" : "empty",
+        source: result.source,
+        operationalStatus,
+        verifiedLinkRate,
+        claimGuideRate,
+        activeDeals: activeDeals.length,
+        freeBenefitDeals: freeBenefitDeals.length
       },
       latencyMs: Date.now() - startedAt,
       checkedAt: new Date().toISOString()
