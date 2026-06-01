@@ -201,6 +201,51 @@ export default async function CategoriesPage() {
       icon: PackageCheck
     }
   ];
+  const purposeRecommendationQueue = [
+    {
+      title: "지금 무료로 받을 것",
+      copy: "샘플, 체험단, 0원 혜택처럼 지출 전에 먼저 확인할 목적입니다.",
+      href: "/free-benefits?dealType=freebie&sort=recommended",
+      items: activeDeals.filter((deal) => ["freebie", "experience"].includes(deal.dealType)),
+      checklist: ["회원가입 필요", "배송비", "선착순"]
+    },
+    {
+      title: "결제 전 적용할 것",
+      copy: "쿠폰, 포인트, 배달/외식 혜택처럼 구매 직전에 확인할 목적입니다.",
+      href: "/free-benefits?dealType=coupon&sort=savings",
+      items: activeDeals.filter((deal) => ["coupon", "point", "foodDelivery"].includes(deal.dealType)),
+      checklist: ["최소 주문", "중복 가능", "결제수단"]
+    },
+    {
+      title: "생활비 줄일 것",
+      copy: "편의점, 마트, 무료배송처럼 매일 체감되는 장보기 목적입니다.",
+      href: "/?category=mart&sort=hot",
+      items: activeDeals.filter((deal) => ["convenienceStore", "mart", "freeShipping"].includes(deal.dealType) || deal.isFreeShipping),
+      checklist: ["행사 지점", "무료배송", "재고 변동"]
+    },
+    {
+      title: "오늘 놓치면 아쉬운 것",
+      copy: "마감 임박, 선착순, 인기 반응이 겹친 혜택을 먼저 확인합니다.",
+      href: "/?endingSoon=true&sort=endingSoon",
+      items: activeDeals.filter((deal) => deal.isEndingSoon || deal.isFirstComeFirstServed),
+      checklist: ["마감 시간", "품절 가능", "가격 확인"]
+    }
+  ].map((item) => {
+    const bestDeal = [...item.items].sort(
+      (a, b) =>
+        getLinkQualityScore(b) - getLinkQualityScore(a) ||
+        Number(b.isEndingSoon) - Number(a.isEndingSoon) ||
+        b.likeCount - a.likeCount ||
+        b.savingsAmount - a.savingsAmount
+    )[0];
+
+    return {
+      ...item,
+      bestDeal,
+      verifiedCount: item.items.filter(isVerifiedPurchaseLink).length,
+      savingsTotal: item.items.reduce((total, deal) => total + Math.max(0, deal.savingsAmount), 0)
+    };
+  });
   const categoryBenefitMatrix = categories
     .filter((category) => category.id !== "all" && category.group === "카테고리" && category.count > 0)
     .map((category) => {
@@ -412,6 +457,51 @@ export default async function CategoriesPage() {
               </Link>
             );
           })}
+        </div>
+      </section>
+
+      <section className="rounded-[24px] border border-slate-200 bg-white p-4 shadow-sm lg:p-5" aria-label="혜택 목적별 추천 큐">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-xs font-black text-dossa-red">혜택 목적별 추천 큐</p>
+            <h2 className="mt-1 text-base font-black text-slate-950">오늘 아낄 목적에 맞춰 대표 혜택부터 봅니다</h2>
+            <p className="mt-1 text-sm font-semibold leading-6 text-slate-500">
+              무료 수령, 결제 전 쿠폰, 생활비 절약, 마감 전 확인을 대표 혜택과 조건 체크리스트로 묶었습니다.
+            </p>
+          </div>
+          <Link href="/free-benefits" className="rounded-2xl bg-dossa-red px-4 py-3 text-center text-xs font-black text-white shadow-sm">
+            목적별 혜택 시작
+          </Link>
+        </div>
+        <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+          {purposeRecommendationQueue.map((item) => (
+            <Link
+              key={item.title}
+              href={item.href}
+              className="min-h-[220px] rounded-3xl border border-slate-100 bg-slate-50 p-4 transition hover:-translate-y-0.5 hover:border-red-200 hover:bg-red-50"
+            >
+              <span className="flex items-start justify-between gap-3">
+                <span className="rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-dossa-red shadow-sm">{item.items.length}개 혜택</span>
+                <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-[11px] font-black text-emerald-700">링크 확인 {item.verifiedCount}</span>
+              </span>
+              <p className="mt-4 text-sm font-black text-slate-950">{item.title}</p>
+              <p className="mt-1 line-clamp-2 text-xs font-semibold leading-5 text-slate-500">{item.copy}</p>
+              <div className="mt-3 flex flex-wrap gap-1.5">
+                {item.checklist.map((label) => (
+                  <span key={label} className="rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-slate-600 shadow-sm">
+                    {label}
+                  </span>
+                ))}
+              </div>
+              <div className="mt-4 rounded-2xl bg-white p-3 shadow-sm">
+                <p className="text-[11px] font-black text-dossa-red">대표 혜택</p>
+                <p className="mt-1 line-clamp-2 min-h-9 text-sm font-black leading-snug text-slate-950">
+                  {item.bestDeal ? item.bestDeal.title : "조건에 맞는 혜택 준비 중"}
+                </p>
+                <p className="mt-2 text-[11px] font-black text-slate-500">예상 절약 {formatPrice(item.savingsTotal)}</p>
+              </div>
+            </Link>
+          ))}
         </div>
       </section>
 

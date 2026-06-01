@@ -1131,6 +1131,13 @@ async function checkOperationalDataSurfaces() {
     !categoriesPage.includes("purposeJourneys") ||
     !categoriesPage.includes("오늘 목적별 탐색 루틴") ||
     !categoriesPage.includes("무엇을 아끼고 싶은지부터 고르세요") ||
+    !categoriesPage.includes("purposeRecommendationQueue") ||
+    !categoriesPage.includes("혜택 목적별 추천 큐") ||
+    !categoriesPage.includes("오늘 아낄 목적에 맞춰 대표 혜택부터 봅니다") ||
+    !categoriesPage.includes("지금 무료로 받을 것") ||
+    !categoriesPage.includes("결제 전 적용할 것") ||
+    !categoriesPage.includes("생활비 줄일 것") ||
+    !categoriesPage.includes("오늘 놓치면 아쉬운 것") ||
     !categoriesPage.includes("benefitComparisonRows") ||
     !categoriesPage.includes("혜택 유형별 비교표") ||
     !categoriesPage.includes("무료·쿠폰·포인트를 비교해서 고르세요") ||
@@ -1140,6 +1147,7 @@ async function checkOperationalDataSurfaces() {
     !categoriesPage.includes("카테고리별 오늘 혜택 요약") ||
     !categoriesPage.includes("무료·쿠폰·마감 신호가 많은 영역부터 보세요") ||
     !categoriesPage.includes("예상 절약 후보") ||
+    !smoke.includes("Categories page missing purpose recommendation queue") ||
     !smoke.includes("Categories page missing benefit comparison matrix") ||
     !smoke.includes("Categories page missing benefit type quick map")
   ) {

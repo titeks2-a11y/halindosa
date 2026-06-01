@@ -320,6 +320,18 @@ await check("category and notification pages", async () => {
   assert(categoriesText.includes("오늘 목적별 탐색 루틴") && categoriesText.includes("무엇을 아끼고 싶은지부터 고르세요"), "Categories page missing purpose-based discovery routine");
   assert(categoriesText.includes("무료 먼저 받기") && categoriesText.includes("결제 전 쿠폰 찾기") && categoriesText.includes("장보기 전 행사 보기"), "Categories page missing purpose journey cards");
   assert(
+    categoriesText.includes("혜택 목적별 추천 큐") &&
+      categoriesText.includes("오늘 아낄 목적에 맞춰 대표 혜택부터 봅니다"),
+    "Categories page missing purpose recommendation queue"
+  );
+  assert(
+    categoriesText.includes("지금 무료로 받을 것") &&
+      categoriesText.includes("결제 전 적용할 것") &&
+      categoriesText.includes("생활비 줄일 것") &&
+      categoriesText.includes("오늘 놓치면 아쉬운 것"),
+    "Categories page missing purpose recommendation cards"
+  );
+  assert(
     categoriesText.includes("혜택 유형별 비교표") &&
       categoriesText.includes("무료·쿠폰·포인트를 비교해서 고르세요") &&
       categoriesText.includes("활성 혜택") &&
