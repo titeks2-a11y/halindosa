@@ -1016,6 +1016,11 @@ async function checkUiAccessibility() {
 
   if (
     !searchBar.includes('aria-label="상품명, 쇼핑몰, 카테고리 검색"') ||
+    !searchBar.includes('type="search"') ||
+    !searchBar.includes('enterKeyHint="search"') ||
+    !searchBar.includes('role="status"') ||
+    !searchBar.includes('aria-live="polite"') ||
+    !searchBar.includes("검색어 빠른 초기화 지원") ||
     !searchBar.includes('aria-label="추천 검색어"') ||
     !searchBar.includes("onSelectSuggestion") ||
     !searchDiscoveryPanel.includes('aria-label="검색 도우미"') ||
