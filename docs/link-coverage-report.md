@@ -4,17 +4,18 @@
 
 ## 스냅샷
 
-- 생성 시각: 2026-06-01T14:04:18.454Z
+- 생성 시각: 2026-06-01T14:29:02.764Z
 - Git 브랜치: main
-- 기준 커밋: 52f8edf
+- 기준 커밋: c8de7a2
 - 전체 큐레이션 상품: 90개
 - 검증된 실제 구매 상세 URL: 90개
 - 판매처 검색 확인 단계: 0개
 - 검증 커버리지: 100%
+- 검증 링크 도메인 수: 47개
 
 ## 출시 판단
 
-- 현재 자동 출시 게이트 기준인 80% 이상 검증 커버리지를 충족합니다.
+- 현재 자동 출시 게이트 기준인 100% 검증 커버리지를 충족합니다.
 - 남은 상품은 앱에서 구매 전 판매처 확인 안내를 유지하고, 운영 링크 검수 큐에서 우선순위에 따라 보강합니다.
 - 새 파트너 피드를 넣을 때는 `affiliateUrl` 또는 `productUrl`에 상품 상세 URL을 우선 저장하고, `searchUrl`은 마지막 fallback으로만 사용합니다.
 
@@ -86,6 +87,64 @@
 | 편의점/마트 | 6 | 6 | 0 | 100% |
 | 의류 | 4 | 4 | 0 | 100% |
 | 기타 | 1 | 1 | 0 | 100% |
+
+## 검증 링크 도메인별 현황
+
+| 도메인 | 검증 링크 |
+| --- | ---: |
+| coupang.com | 11 |
+| item.gmarket.co.kr | 11 |
+| ssg.com | 8 |
+| e-himart.co.kr | 5 |
+| oliveyoung.co.kr | 5 |
+| 11st.co.kr | 4 |
+| musinsa.com | 3 |
+| kakaopay.com | 2 |
+| kurly.com | 2 |
+| m.gsshop.com | 2 |
+| 7-eleven.co.kr | 1 |
+| aliexpress.com | 1 |
+| amoremall.com | 1 |
+| baemin.com | 1 |
+| benebedding.com | 1 |
+| card.pay.naver.com | 1 |
+| cgv.co.kr | 1 |
+| cu.bgfretail.com | 1 |
+| emart.ssg.com | 1 |
+| front.homeplus.co.kr | 1 |
+| gift.kakao.com | 1 |
+| gs25.gsretail.com | 1 |
+| hyundaicard.com | 1 |
+| i-challenge.co.kr | 1 |
+| ipraves.co.kr | 1 |
+| itempage3.auction.co.kr | 1 |
+| korailtravel.com | 1 |
+| lfmall.co.kr | 1 |
+| lottecinema.co.kr | 1 |
+| lotteon.com | 1 |
+| mega-mgccoffee.com | 1 |
+| membership.kt.com | 1 |
+| momq.co.kr | 1 |
+| new-m.pay.naver.com | 1 |
+| nid.naver.com | 1 |
+| payco.com | 1 |
+| shinhancard.com | 1 |
+| starbucks.co.kr | 1 |
+| store.ohou.se | 1 |
+| ticketlink.co.kr | 1 |
+| tickets.interpark.com | 1 |
+| tmembership.co.kr | 1 |
+| toss.im | 1 |
+| tour.interpark.com | 1 |
+| travel.interpark.com | 1 |
+| uplus.co.kr | 1 |
+| yogiyo.co.kr | 1 |
+
+## 검수 출처별 현황
+
+| 검수 출처 | 검증 링크 |
+| --- | ---: |
+| manual_review | 90 |
 
 ## 보강 대기 상품
 

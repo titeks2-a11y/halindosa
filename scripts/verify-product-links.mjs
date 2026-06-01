@@ -33,6 +33,11 @@ const searchPatterns = [
   "/category",
   "/categories"
 ];
+const allowedSources = new Set(["manual_review", "partner_feed", "official_api"]);
+const minimums = {
+  distinctHosts: 18,
+  evidenceLength: 12
+};
 
 function isBlockedHost(host) {
   return blockedHosts.some((candidate) => host === candidate || host.endsWith(`.${candidate}`));
@@ -52,11 +57,18 @@ function isSearchLike(url) {
 
 function parseVerifiedEntries() {
   const entries = [];
-  const pattern = /^\s*(d\d+):\s*\{\s*url:\s*"([^"]+)"/gm;
+  const pattern = /^\s*(d\d+):\s*\{(?<body>[\s\S]*?)^\s*\},?/gm;
   let match;
 
   while ((match = pattern.exec(verifiedLinks))) {
-    entries.push({ id: match[1], url: match[2] });
+    const body = match.groups?.body ?? "";
+    entries.push({
+      id: match[1],
+      url: body.match(/url:\s*"([^"]+)"/)?.[1] ?? "",
+      checkedAt: body.match(/checkedAt:\s*"([^"]+)"/)?.[1] ?? "",
+      source: body.match(/source:\s*"([^"]+)"/)?.[1] ?? "",
+      evidence: body.match(/evidence:\s*"([^"]+)"/)?.[1] ?? ""
+    });
   }
 
   return entries;
@@ -65,18 +77,34 @@ function parseVerifiedEntries() {
 const dealIds = [...mockDeals.matchAll(/deal\("(d\d+)"/g)].map((match) => match[1]);
 const entries = parseVerifiedEntries();
 const entryMap = new Map(entries.map((entry) => [entry.id, entry.url]));
+const metadataMap = new Map(entries.map((entry) => [entry.id, entry]));
 const issues = [];
+const hosts = new Set();
 
 for (const id of dealIds) {
   const urlValue = entryMap.get(id);
+  const metadata = metadataMap.get(id);
   if (!urlValue) {
     issues.push(`${id}: verifiedPurchaseLinks.ts에 실제 구매 상세 URL이 없습니다.`);
     continue;
   }
 
+  if (!metadata?.checkedAt || Number.isNaN(Date.parse(metadata.checkedAt))) {
+    issues.push(`${id}: checkedAt 검수 시각이 없거나 ISO 날짜가 아닙니다.`);
+  }
+
+  if (!allowedSources.has(metadata?.source)) {
+    issues.push(`${id}: source는 manual_review, partner_feed, official_api 중 하나여야 합니다. ${metadata?.source ?? "(없음)"}`);
+  }
+
+  if (!metadata?.evidence || metadata.evidence.trim().length < minimums.evidenceLength) {
+    issues.push(`${id}: evidence 검수 근거가 부족합니다.`);
+  }
+
   try {
     const url = new URL(urlValue);
     const host = url.hostname.replace(/^www\./, "").toLowerCase();
+    hosts.add(host);
 
     if (url.protocol !== "https:" && url.protocol !== "http:") {
       issues.push(`${id}: http/https가 아닌 URL입니다. ${urlValue}`);
@@ -103,6 +131,10 @@ if (extraEntries.length) {
   issues.push(`사용하지 않는 검증 링크 ID가 있습니다: ${extraEntries.map((entry) => entry.id).join(", ")}`);
 }
 
+if (hosts.size < minimums.distinctHosts) {
+  issues.push(`검증 링크 판매처 도메인이 부족합니다: ${hosts.size}/${minimums.distinctHosts}`);
+}
+
 if (issues.length) {
   console.error("Product link verification failed.");
   for (const issue of issues) console.error(`- ${issue}`);
@@ -111,3 +143,4 @@ if (issues.length) {
 
 const coverageRate = dealIds.length ? Math.round((entries.length / dealIds.length) * 100) : 0;
 console.log(`Product link verification passed: ${entries.length}/${dealIds.length} verified purchase URLs (${coverageRate}%).`);
+console.log(`- Distinct purchase hosts: ${hosts.size}`);

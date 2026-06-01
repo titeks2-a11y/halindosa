@@ -634,6 +634,9 @@ async function checkSearchAndPurchaseFlow() {
     !verifyLinks.includes("Product link verification passed") ||
     !verifyLinks.includes("검색/카테고리 링크입니다") ||
     !verifyLinks.includes("커뮤니티 또는 placeholder") ||
+    !verifyLinks.includes("allowedSources") ||
+    !verifyLinks.includes("evidence 검수 근거") ||
+    !verifyLinks.includes("Distinct purchase hosts") ||
     !catalogDoctor.includes("minimums") ||
     !catalogDoctor.includes("requiredCategories") ||
     !catalogDoctor.includes("requiredDealTypes") ||

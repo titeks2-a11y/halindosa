@@ -69,6 +69,7 @@ npm run search:doctor
 ## 상품 데이터 추가 기준
 
 신규 상품은 검색 결과나 대표몰 메인 링크가 아니라 실제 상품/혜택 상세 페이지를 `verifiedPurchaseLinks.ts` 또는 운영 피드의 `productUrl`, `finalPurchaseUrl`, `affiliateUrl`에 등록해야 합니다.
+검증 링크에는 `checkedAt`, `source`, `evidence`를 함께 남겨야 하며 `npm run verify:links`는 URL 형태뿐 아니라 검수 근거와 구매 도메인 다양성까지 확인합니다.
 
 필수 기준:
 

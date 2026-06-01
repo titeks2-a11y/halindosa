@@ -102,6 +102,18 @@ npm run feed:production:doctor
 `--report`를 함께 쓰면 `ready`, `needs_fix`, 행 번호, 외부 ID, 판매처, 제목, 문제 필드, 수정 안내를 JSON으로 남긴다. 운영 연결 전에는 이 리포트에서 `invalid=0`, `readyRate=100`을 만든 뒤 production 피드로 전환한다.
 `feed:production:doctor`는 임시 JSON 피드와 Next.js 서버를 띄운 뒤 `DEAL_DATA_MODE=production`, `DEAL_PRODUCTION_FEED_URLS=<fixture>` 조건에서 `/api/deals`가 `production` 데이터를 반환하는지 확인한다. 동시에 커뮤니티 원문 단독 링크가 운영 상품으로 노출되지 않는지, `/api/sources`가 설정된 운영 피드 수를 보고하는지 검증한다.
 
+## 신규 상품 등록 기준
+
+신규 상품이나 혜택은 아래 기준을 모두 만족해야 홈/카테고리/찜 목록에 노출한다.
+
+1. `productUrl`, `finalPurchaseUrl`, `affiliateUrl` 중 하나에 실제 상품·혜택 상세 URL을 넣는다.
+2. 검색 결과, 쇼핑몰 메인, 커뮤니티 원문, 블로그/뉴스 URL은 `finalPurchaseUrl`로 쓰지 않는다.
+3. 커뮤니티나 뉴스에서 발견한 정보는 `sourceUrl`에만 남기고, 구매 이동은 판매처 상세 URL로 분리한다.
+4. `checkedAt`은 ISO 시각으로 기록하고, `source`는 `manual_review`, `partner_feed`, `official_api` 중 하나로 남긴다.
+5. `evidence`에는 운영자가 다시 확인할 수 있는 상품명/판매처/검수 근거를 짧게 적는다.
+6. `npm run verify:links`와 `npm run links:report`를 실행해 검증 링크 100%, 도메인 다양성, 보강 대기 상품 0개를 확인한다.
+7. 무료/쿠폰/포인트 혜택도 상품과 동일하게 실제 수령·신청 상세 URL을 연결한다.
+
 ## 중단 기준
 
 - 가격이 원가보다 높거나 0원 이하

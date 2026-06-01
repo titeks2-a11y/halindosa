@@ -74,6 +74,7 @@ SMOKE_BASE_URL=https://example.com npm run smoke
 - 홈 화면 검색 상태는 URL query parameter로 유지된다. 배포 후 `/?q=애플%20워치`처럼 직접 진입해도 같은 결과가 나와야 한다.
 - 탐색 버튼은 내부 `#all-deals` 앵커나 `scrollIntoView`를 쓰지 않고 필터 상태만 바꾼다. 화면 이동은 사용자가 직접 스크롤하도록 두어 상품 카드 클릭 중 갑작스러운 점프가 없어야 한다.
 - `npm run verify:links`는 `data/mockDeals.ts`의 전체 상품 ID와 `data/verifiedPurchaseLinks.ts`의 실제 구매 URL 매핑을 비교한다.
+- 검증 링크는 URL뿐 아니라 `checkedAt`, `source`, `evidence`, 도메인 다양성까지 검사한다. 상품을 추가할 때 검수 근거가 없으면 QA에서 실패해야 한다.
 - 검증 스크립트는 커뮤니티, placeholder, 쇼핑몰 메인, 검색/카테고리 URL을 실패로 처리한다.
 - `npm run catalog:doctor`는 전체 상품 수 90개 이상, 판매처 수, 필수 카테고리, 혜택 유형, 검증 구매 링크 커버리지를 함께 검사한다.
 - 신규 상품을 많이 추가한 뒤 `catalog:doctor`가 실패하면 상품 수만 늘린 것이 아니라 카테고리/혜택/판매처 균형이 무너진 것이므로 운영 피드를 다시 조정한다.
