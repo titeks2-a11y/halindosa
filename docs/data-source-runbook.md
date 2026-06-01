@@ -80,6 +80,7 @@ GET /api/metrics
 
 - 각 URL은 5초 timeout 안에 JSON으로 응답해야 한다.
 - `externalId/id`, `mall/mallName`, `title`, `dealType`, `benefitSummary`, `sourceName`, `sourceUrl`, `expiresAt`, `originalPrice`, `salePrice`, `productUrl/finalPurchaseUrl/affiliateUrl`이 필요하다.
+- 커뮤니티에서 발견한 혜택은 원문을 `sourceUrl`로만 보관하고, `finalPurchaseUrl`에는 실제 상품·혜택 상세 URL을 저장한다. 두 값이 같아지면 구매 이동 품질 검수 실패로 본다.
 - `dealType`은 `discount`, `freebie`, `coupon`, `freeShipping`, `experience`, `event`, `point`, `convenienceStore`, `mart`, `foodDelivery` 중 하나여야 한다.
 - 무료 혜택, 쿠폰, 포인트, 배달/외식, 편의점/마트 행사는 사용자가 조건을 바로 이해할 수 있도록 `benefitSummary`, `couponCondition`, `minimumOrderAmount`, `isFirstComeFirstServed`, `requiresSignup`, `shippingFee`, `eligibilityChecklist`, `claimSteps`, `claimWarning`을 채운다.
 - 관리자 dry-run은 `conditionReadyRate`로 출처, 가입/선착순, 배송비, 수령 전 체크리스트, 수령 단계, 주의 문구가 운영 노출 기준을 충족하는지 함께 보여준다.

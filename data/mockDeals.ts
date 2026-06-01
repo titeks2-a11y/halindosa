@@ -44,6 +44,33 @@ function buildMarketplaceSearchUrl(mall: string, title: string) {
   return `https://search.shopping.naver.com/search/all?query=${query}`;
 }
 
+function getHost(value: string) {
+  try {
+    return new URL(value).hostname.replace(/^www\./, "").toLowerCase();
+  } catch {
+    return "";
+  }
+}
+
+function isCommunitySource(value: string) {
+  const host = getHost(value);
+
+  return [
+    "ppomppu.co.kr",
+    "fmkorea.com",
+    "quasarzone.com",
+    "algumon.com",
+    "clien.net",
+    "ruliweb.com"
+  ].some((domain) => host === domain || host.endsWith(`.${domain}`));
+}
+
+function isUsableSourceUrl(value: string) {
+  const host = getHost(value);
+
+  return Boolean(value && host && !host.includes("example.com"));
+}
+
 function deal(
   id: string,
   mall: string,
@@ -66,6 +93,7 @@ function deal(
   const expiresAt = new Date(now + expiresInHours * hour).toISOString();
   const createdAt = new Date(now - offsetHours * hour).toISOString();
   const fallbackUrl = buildMarketplaceSearchUrl(mall, title);
+  const rawSourceUrl = isUsableSourceUrl(link) ? link : fallbackUrl;
   const verifiedOverride = verifiedPurchaseLinks[id];
   const checkedAt = verifiedOverride?.checkedAt ?? new Date(now - Math.max(5, Math.round(offsetHours * 18)) * 60 * 1000).toISOString();
   const validation = validatePurchaseLink({
@@ -120,8 +148,8 @@ function deal(
     purchaseUrl,
     finalUrl: validation.finalUrl,
     finalPurchaseUrl: validation.finalPurchaseUrl,
-    sourceName: mall,
-    sourceUrl: validation.finalPurchaseUrl,
+    sourceName: isCommunitySource(rawSourceUrl) ? "할인도사 원문 확인" : mall,
+    sourceUrl: rawSourceUrl,
     linkType: validation.linkType,
     linkStatus: validation.linkStatus,
     linkLabel: validation.linkVerified ? "구매 페이지 검증 완료" : "판매처 검색으로 확인",

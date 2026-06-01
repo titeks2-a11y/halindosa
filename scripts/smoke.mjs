@@ -651,6 +651,11 @@ await check("deal link integrity", async () => {
     assert(deal.finalPurchaseUrl && !isUnsafeDealUrl(deal.finalPurchaseUrl), `${deal.id} has unsafe finalPurchaseUrl: ${deal.finalPurchaseUrl}`);
     assert(!isUnsafeDealUrl(destination), `${deal.id} has unsafe/community/placeholder destination: ${destination}`);
 
+    if (deal.sourceUrl && /ppomppu\.co\.kr|fmkorea\.com|quasarzone\.com|algumon\.com|clien\.net|ruliweb\.com/.test(deal.sourceUrl)) {
+      assert(deal.finalPurchaseUrl !== deal.sourceUrl, `${deal.id} should separate community source URL from final purchase URL`);
+      assert(!isUnsafeDealUrl(deal.finalPurchaseUrl), `${deal.id} community-sourced deal should still redirect to a safe purchase URL`);
+    }
+
     if (deal.linkStatus === "verified") {
       assert(deal.linkType !== "seller_search", `${deal.id} verified deal should not be seller_search`);
       assert(deal.linkVerified === true, `${deal.id} verified deal should set linkVerified`);

@@ -530,9 +530,12 @@ async function checkPartnerFeedSafety() {
     !feedImport.includes("mart") ||
     !partnerFeedValidator.includes("수령 전 체크리스트는 3개 이상 필요합니다.") ||
     !partnerFeedValidator.includes("회원가입 필요 여부를 true/false") ||
+    !mockDeals.includes("rawSourceUrl") ||
+    !mockDeals.includes("isCommunitySource") ||
     !smoke.includes("Partner productUrl should normalize as a verified purchase link") ||
     !smoke.includes("Import benefit condition summary should be ready") ||
-    !smoke.includes("Sample feed API missing V2 benefit sample feed rows")
+    !smoke.includes("Sample feed API missing V2 benefit sample feed rows") ||
+    !smoke.includes("should separate community source URL from final purchase URL")
   ) {
     fail("partner feed purchase link fields", "Partner feed import should accept canonical purchase URL, source, benefit type, and claim-condition fields with readiness reporting.");
   } else {
