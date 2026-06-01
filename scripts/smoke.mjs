@@ -616,6 +616,8 @@ await check("free benefits page", async () => {
   assert(text.includes("아직 안 챙긴 무료 혜택") && text.includes("결제 전 다시 볼 쿠폰") && text.includes("마감 전 놓치기 쉬운 혜택"), "Free benefits page missing claimed benefit follow-up cards");
   assert(text.includes("내일 다시 볼 혜택 예약") && text.includes("오늘 챙긴 뒤 다음 방문 순서를 남깁니다"), "Free benefits page missing next visit benefit plan");
   assert(text.includes("내일 아침 먼저 볼 혜택") && text.includes("퇴근 전 확인할 쿠폰") && text.includes("마감 전 재확인"), "Free benefits page missing next visit routine cards");
+  assert(text.includes("내 혜택 재방문 예약함") && text.includes("비회원도 기기에만 다음 방문 루틴을 저장합니다"), "Free benefits page missing local return reservation board");
+  assert(text.includes("아침 무료 혜택") && text.includes("저녁 쿠폰 점검") && text.includes("저장된 재방문 루틴"), "Free benefits page missing return reservation actions");
   assert(text.includes("진행 중 혜택") && text.includes("가입 없이 받기") && text.includes("선착순 확인") && text.includes("배송비 확인"), "Free benefits page missing condition summary cards");
   assert(text.includes("혜택 출처·조건 점검") && text.includes("받기 전에 출처와 조건을 먼저 봅니다"), "Free benefits page missing source and condition trust summary");
   assert(text.includes("제공처 확인") && text.includes("실제 링크 확인") && text.includes("조건 요약") && text.includes("신고 가능"), "Free benefits page missing source condition operating cards");

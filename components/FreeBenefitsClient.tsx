@@ -28,6 +28,12 @@ const tabs: Array<{ id: "all" | DealBenefitType; label: string }> = [
 ];
 
 type BenefitSort = "recommended" | "endingSoon" | "popular" | "savings";
+type BenefitReturnReservation = {
+  id: string;
+  title: string;
+  slot: string;
+  createdAt: string;
+};
 
 const fiveMinuteChecklist = [
   {
@@ -74,6 +80,29 @@ function writeFavorites(ids: string[]) {
   window.localStorage.setItem("halindosa:favorites", JSON.stringify(ids));
 }
 
+function readBenefitReturnReservations(): BenefitReturnReservation[] {
+  if (typeof window === "undefined") return [];
+
+  try {
+    const parsed = JSON.parse(window.localStorage.getItem("halindosa:benefit-return-reservations") ?? "[]");
+    return Array.isArray(parsed)
+      ? parsed.filter(
+          (value): value is BenefitReturnReservation =>
+            typeof value?.id === "string" &&
+            typeof value?.title === "string" &&
+            typeof value?.slot === "string" &&
+            typeof value?.createdAt === "string"
+        )
+      : [];
+  } catch {
+    return [];
+  }
+}
+
+function writeBenefitReturnReservations(items: BenefitReturnReservation[]) {
+  window.localStorage.setItem("halindosa:benefit-return-reservations", JSON.stringify(items));
+}
+
 function getMinimumOrderLabel(deal: Deal) {
   if (!deal.minimumOrderAmount) return "최소 주문 없음";
   return `${formatPrice(deal.minimumOrderAmount)} 이상`;
@@ -113,6 +142,7 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
   const [activeOnly, setActiveOnly] = useState(false);
   const [favorites, setFavorites] = useState<string[]>(() => readFavorites());
   const [claimedBenefits, setClaimedBenefits] = useState(() => readClaimedBenefits());
+  const [benefitReturnReservations, setBenefitReturnReservations] = useState(() => readBenefitReturnReservations());
   const [message, setMessage] = useState("");
 
   const filteredDeals = useMemo(() => {
@@ -411,6 +441,51 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
     ],
     [deals]
   );
+  const benefitReturnPlan = useMemo(
+    () => [
+      {
+        id: "morning-free",
+        title: "아침 무료 혜택",
+        slot: "내일 오전",
+        copy: "무료 샘플, 체험단, 초대권처럼 선착순 가능성이 있는 혜택을 아침에 먼저 확인합니다.",
+        count: deals.filter((deal) => deal.dealType === "freebie" || deal.dealType === "experience").length,
+        action: "무료 루틴 저장",
+        onClick: () => {
+          setActiveType("freebie");
+          setActiveOnly(true);
+          setSort("recommended");
+        }
+      },
+      {
+        id: "evening-coupon",
+        title: "저녁 쿠폰 점검",
+        slot: "퇴근 전",
+        copy: "배달, 외식, 편의점, 마트 쿠폰처럼 결제 직전에 다시 봐야 할 혜택입니다.",
+        count: deals.filter((deal) => ["coupon", "foodDelivery", "convenienceStore", "mart"].includes(deal.dealType)).length,
+        action: "쿠폰 루틴 저장",
+        onClick: () => {
+          setActiveType("coupon");
+          setActiveOnly(true);
+          setSort("popular");
+        }
+      },
+      {
+        id: "deadline-check",
+        title: "마감 전 확인",
+        slot: "마감 전",
+        copy: "오늘 끝날 수 있거나 선착순인 혜택을 다음 방문 때 바로 마감순으로 이어봅니다.",
+        count: deals.filter((deal) => deal.isEndingSoon || deal.isFirstComeFirstServed).length,
+        action: "마감 루틴 저장",
+        onClick: () => {
+          setActiveType("all");
+          setEndingSoonOnly(true);
+          setFirstComeOnly(true);
+          setSort("endingSoon");
+        }
+      }
+    ],
+    [deals]
+  );
   const claimedFollowUpPlan = useMemo(
     () => [
       {
@@ -668,6 +743,21 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
     setClaimedBenefits(next);
     setMessage(wasClaimed ? "챙긴 혜택 기록을 해제했습니다." : "오늘 챙긴 혜택으로 기록했습니다.");
     window.setTimeout(() => setMessage(""), 2500);
+  };
+
+  const toggleReturnReservation = (item: (typeof benefitReturnPlan)[number]) => {
+    item.onClick();
+    setBenefitReturnReservations((current) => {
+      const exists = current.some((record) => record.id === item.id);
+      const next = exists
+        ? current.filter((record) => record.id !== item.id)
+        : [{ id: item.id, title: item.title, slot: item.slot, createdAt: new Date().toISOString() }, ...current].slice(0, 5);
+
+      writeBenefitReturnReservations(next);
+      setMessage(exists ? "재방문 루틴 저장을 해제했습니다." : "내 혜택 재방문 예약함에 저장했습니다.");
+      window.setTimeout(() => setMessage(""), 2500);
+      return next;
+    });
   };
 
   const resetFilters = () => {
@@ -946,6 +1036,60 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
           </div>
           <p className="mt-4 rounded-2xl bg-red-50 px-4 py-3 text-xs font-black leading-5 text-dossa-deep">
             찜과 알림 저장은 선택 로그인으로 이어지고, 비회원은 이 화면의 루틴을 그대로 열람할 수 있습니다.
+          </p>
+        </section>
+
+        <section className="rounded-[28px] border border-red-100 bg-white p-4 shadow-sm sm:p-5" aria-label="내 혜택 재방문 예약함">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-black text-dossa-red">내 혜택 재방문 예약함</p>
+              <h2 className="mt-1 text-2xl font-black tracking-tight text-slate-950">비회원도 기기에만 다음 방문 루틴을 저장합니다</h2>
+            </div>
+            <p className="max-w-md text-sm font-bold leading-6 text-slate-500">
+              실제 푸시 권한 요청 없이 무료, 쿠폰, 마감 확인 순서를 이 기기에만 남깁니다. 저장한 루틴은 다음 방문 때 바로 이어볼 수 있습니다.
+            </p>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-3">
+            {benefitReturnPlan.map((item) => {
+              const saved = benefitReturnReservations.some((record) => record.id === item.id);
+
+              return (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => toggleReturnReservation(item)}
+                  aria-pressed={saved}
+                  className={`min-h-[184px] rounded-3xl border p-4 text-left transition hover:-translate-y-0.5 ${
+                    saved ? "border-red-200 bg-red-50" : "border-slate-100 bg-slate-50 hover:border-red-200 hover:bg-red-50"
+                  }`}
+                  aria-label={`${item.title} ${saved ? "재방문 예약 해제" : "재방문 예약 저장"}`}
+                >
+                  <span className="flex items-start justify-between gap-3">
+                    <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-dossa-red shadow-sm">
+                      <CalendarDays size={20} />
+                    </span>
+                    <span className="rounded-full bg-white px-2.5 py-1 text-xs font-black text-dossa-red shadow-sm">{item.count}개</span>
+                  </span>
+                  <span className="mt-4 block text-sm font-black text-slate-950">{item.title}</span>
+                  <span className="mt-1 block text-xs font-black text-dossa-red">{item.slot}</span>
+                  <span className="mt-1 line-clamp-2 block text-xs font-bold leading-5 text-slate-500">{item.copy}</span>
+                  <span className={`mt-3 inline-flex rounded-full px-3 py-1.5 text-xs font-black ${saved ? "bg-slate-950 text-white" : "bg-dossa-red text-white"}`}>
+                    {saved ? "예약됨" : item.action}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+          <div className="mt-4 rounded-2xl bg-slate-50 p-4">
+            <p className="text-xs font-black text-dossa-red">저장된 재방문 루틴 {benefitReturnReservations.length}개</p>
+            <p className="mt-1 text-xs font-bold leading-5 text-slate-500">
+              {benefitReturnReservations.length
+                ? benefitReturnReservations.map((record) => `${record.slot} ${record.title}`).join(" · ")
+                : "아직 저장된 루틴이 없습니다. 아침 무료 혜택, 저녁 쿠폰 점검, 마감 전 확인 중 하나를 저장해보세요."}
+            </p>
+          </div>
+          <p className="mt-4 rounded-2xl bg-red-50 px-4 py-3 text-xs font-bold leading-5 text-dossa-deep">
+            재방문 예약은 알림 발송이 아니라 이 기기 안의 탐색 루틴 저장입니다. 실제 푸시 알림은 향후 별도 동의 후 연결합니다.
           </p>
         </section>
 
