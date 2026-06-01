@@ -111,6 +111,31 @@ const requiredSearches = [
     query: "무료커피",
     expected: /커피|무료커피|커피무료|무료 쿠폰|메가MGC커피|스타벅스|사이즈업/,
     minMatches: 4
+  },
+  {
+    query: "라면",
+    expected: /라면|신라면|진라면|너구리|짜파게티|오징어짬뽕/,
+    minMatches: 3
+  },
+  {
+    query: "햇반",
+    expected: /햇반|즉석밥|간편식|컵밥/,
+    minMatches: 1
+  },
+  {
+    query: "세제",
+    expected: /세제|주방세제|섬유유연제|세탁세제|대용량/,
+    minMatches: 4
+  },
+  {
+    query: "선크림",
+    expected: /선크림|선블록|자외선차단|썬크림/,
+    minMatches: 1
+  },
+  {
+    query: "유산균",
+    expected: /유산균|락토핏|프로바이오틱스|건강식품|영양제/,
+    minMatches: 1
   }
 ];
 
@@ -193,7 +218,7 @@ function dealMatchesSearchText(searchText, query) {
 const deals = extractDeals();
 const issues = [];
 
-if (!Array.isArray(searchAliases) || searchAliases.length < 21) {
+if (!Array.isArray(searchAliases) || searchAliases.length < 26) {
   issues.push("생활형 검색 alias 목록이 부족합니다.");
 }
 

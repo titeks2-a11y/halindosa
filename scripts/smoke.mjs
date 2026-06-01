@@ -191,6 +191,7 @@ await check("home page", async () => {
   assert(text.includes("인기 검색어") && text.includes("최근 검색어"), "Home page missing popular/recent search keyword sections");
   assert(text.includes("추천 검색어"), "Home page missing inline guided search suggestions");
   assert(text.includes("로켓") && text.includes("배달쿠폰") && text.includes("커피쿠폰"), "Home page missing high-intent lifestyle search suggestions");
+  assert(text.includes("라면") && text.includes("햇반"), "Home page missing high-intent grocery search suggestions");
   assert(text.includes("많은 판매처") && text.includes("최대 할인") && text.includes("낮은 현재가") && text.includes("마감 임박"), "Home page missing compact search result snapshot");
   assert(text.includes("검색 결과 추천 판단") && text.includes("먼저 볼 기준"), "Home page missing search decision guide");
   assert(text.includes("현재 결과"), "Home page missing search result count summary");
@@ -613,6 +614,25 @@ await check("deals filters api", async () => {
     freeShippingSynonymSearch.data.deals.some((deal) => /무료배송|무배|로켓배송|로켓프레시|네멤무료/.test([deal.shippingInfo, deal.shipping, ...deal.tags].join(" "))),
     "Free-shipping synonym search should match free shipping language"
   );
+
+  const productIntentSearches = [
+    ["라면", /라면|신라면|진라면|너구리|짜파게티|식품/],
+    ["햇반", /햇반|즉석밥|간편식|식품/],
+    ["세제", /세제|주방세제|섬유유연제|생활필수|생활용품/],
+    ["선크림", /선크림|뷰티|올리브영/],
+    ["유산균", /유산균|락토핏|프로바이오틱스|건강식품|영양제/]
+  ];
+
+  for (const [keyword, expectedPattern] of productIntentSearches) {
+    const result = await fetchJson(`/api/deals?q=${encodeURIComponent(keyword)}&verifiedOnly=true&limit=20`);
+    assert(result.response.status === 200, `Expected 200 for ${keyword}, got ${result.response.status}`);
+    assert(result.data.deals.length > 0, `${keyword} verified product-intent search should return deals`);
+    assert(
+      result.data.deals.some((deal) => expectedPattern.test(`${deal.title} ${deal.category} ${deal.tags.join(" ")}`)),
+      `${keyword} product-intent search should match relevant product text`
+    );
+    assert(result.data.deals.every((deal) => deal.linkStatus === "verified"), `${keyword} product-intent search returned an unverified deal`);
+  }
 
   const hot = await fetchJson("/api/deals?hotOnly=true&limit=5");
   assert(hot.response.status === 200, `Expected 200, got ${hot.response.status}`);
