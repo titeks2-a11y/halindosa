@@ -25,6 +25,7 @@ npm run dev
 ```bash
 npm run verify:links
 npm run catalog:doctor
+npm run purchase:navigation:doctor
 npm run lint
 npm run smoke:local
 npm run build
@@ -33,7 +34,7 @@ npm run cap:sync
 npm run release:doctor
 ```
 
-`npm run qa`는 `lint`, `verify:links`, `catalog:doctor`, `smoke:local`, `build`, `release:doctor`를 순서대로 실행합니다.
+`npm run qa`는 `lint`, `verify:links`, `catalog:doctor`, `purchase:navigation:doctor`, `smoke:local`, `build`, `release:doctor`를 순서대로 실행합니다.
 
 ## 검색 동작 방식
 
@@ -71,6 +72,14 @@ npm run catalog:doctor
 ```
 
 `catalog:doctor`는 전체 상품 수, 필수 카테고리, 판매처 다양성, 무료/쿠폰/이벤트성 혜택 수, 검증 구매 링크 커버리지를 함께 검사합니다. 상품 수를 늘릴 때는 이 게이트를 통과해야 홈 탐색 품질이 유지됩니다.
+
+구매 이동 검증:
+
+```bash
+npm run purchase:navigation:doctor
+```
+
+홈, 상세, 찜, 무료혜택 화면의 구매 CTA가 `/go/[dealId]` 추적 경로를 거쳐 웹에서는 새 탭으로, Android/iOS에서는 Capacitor Browser로 열리는지 검사합니다.
 
 구매 이동 정책:
 

@@ -15,7 +15,7 @@ import { buildPersonalizedBenefitQueue } from "@/lib/deals/personalizedBenefitQu
 import { buildWeeklyBenefitCalendar, WeeklyBenefitPreset } from "@/lib/deals/weeklyBenefitCalendar";
 import { formatPrice } from "@/lib/format";
 import { readLocalPreferences } from "@/lib/memberSync";
-import { buildDealRedirectUrl } from "@/lib/redirectUrl";
+import { buildDealRedirectUrl, buildNativeSafeDealUrl } from "@/lib/redirectUrl";
 import { buildPublicDealShareUrl } from "@/lib/shareUrl";
 import { Deal, DealBenefitType } from "@/types/deal";
 
@@ -853,8 +853,21 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
     });
   };
 
-  const openDeal = (deal: Deal) => {
-    window.open(buildDealRedirectUrl(deal.id, "free-benefits"), "_blank", "noopener,noreferrer");
+  const openDeal = async (deal: Deal) => {
+    const redirectUrl = buildDealRedirectUrl(deal.id, "free-benefits");
+
+    try {
+      const { Capacitor } = await import("@capacitor/core");
+      if (Capacitor.isNativePlatform()) {
+        const { Browser } = await import("@capacitor/browser");
+        await Browser.open({ url: buildNativeSafeDealUrl(deal, "free-benefits") });
+        return;
+      }
+    } catch {
+      // Browser fallback below keeps free-benefit claims usable in web builds.
+    }
+
+    window.open(redirectUrl, "_blank", "noopener,noreferrer");
   };
 
   const shareDeal = async (deal: Deal) => {

@@ -601,6 +601,7 @@ async function checkSearchAndPurchaseFlow() {
   const smoke = await text("scripts/smoke.mjs");
   const verifyLinks = await text("scripts/verify-product-links.mjs");
   const catalogDoctor = await text("scripts/catalog-quality-doctor.mjs");
+  const purchaseNavigationDoctor = await text("scripts/purchase-navigation-doctor.mjs");
   const packageJson = await text("package.json");
   const featured = await text("components/FeaturedDealSections.tsx");
   const liveFeed = await text("components/LiveDealFeed.tsx");
@@ -625,7 +626,11 @@ async function checkSearchAndPurchaseFlow() {
     !catalogDoctor.includes("minimums") ||
     !catalogDoctor.includes("requiredCategories") ||
     !catalogDoctor.includes("requiredDealTypes") ||
+    !purchaseNavigationDoctor.includes("window.open(redirectUrl") ||
+    !purchaseNavigationDoctor.includes("buildNativeSafeDealUrl") ||
+    !purchaseNavigationDoctor.includes("Browser.open") ||
     !packageJson.includes("catalog:doctor") ||
+    !packageJson.includes("purchase:navigation:doctor") ||
     !packageJson.includes("npm run verify:links && npm run catalog:doctor") ||
     featured.includes('href="#all-deals"') ||
     liveFeed.includes('href="#all-deals"') ||
