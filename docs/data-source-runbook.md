@@ -71,6 +71,14 @@ GET /api/metrics
 - 피드는 `validatePartnerFeed`와 `normalizePartnerFeed` 검증 경로를 거쳐 유효한 상품만 `production` 데이터로 노출한다.
 - 실패하거나 유효 상품이 없으면 기존 mock fallback이 유지된다.
 
+운영 피드 연결 전 로컬 fixture로 실제 provider 경로를 검증한다:
+
+```bash
+npm run feed:production:doctor
+```
+
+이 명령은 임시 JSON 피드와 Next.js 서버를 띄운 뒤 `DEAL_DATA_MODE=production`, `DEAL_PRODUCTION_FEED_URLS=<fixture>` 조건에서 `/api/deals`가 `production` 데이터를 반환하는지 확인한다. 동시에 커뮤니티 원문 단독 링크가 운영 상품으로 노출되지 않는지, `/api/sources`가 설정된 운영 피드 수를 보고하는지 검증한다.
+
 ## 중단 기준
 
 - 가격이 원가보다 높거나 0원 이하

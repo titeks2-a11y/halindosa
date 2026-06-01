@@ -50,6 +50,7 @@ async function checkPackage() {
     "perf:budget",
     "device:qa:doctor",
     "env:doctor",
+    "feed:production:doctor",
     "links:report",
     "store:metadata:doctor",
     "store:assets:generate",
@@ -60,8 +61,8 @@ async function checkPackage() {
   const missing = requiredScripts.filter((script) => !pkg.scripts?.[script]);
 
   if (missing.length) fail("package scripts", `Missing scripts: ${missing.join(", ")}`);
-  else if (!pkg.scripts?.["qa:release"]?.includes("audit:commercial") || !pkg.scripts?.["qa:release"]?.includes("device:qa:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:metadata:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:assets:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:doctor") || !pkg.scripts?.["qa:release"]?.includes("perf:budget")) {
-    fail("package scripts", "qa:release should include commercial security audit, device QA doctor, store metadata doctor, store asset doctor, store screenshot doctor, and performance budget before store submission.");
+  else if (!pkg.scripts?.["qa:release"]?.includes("audit:commercial") || !pkg.scripts?.["qa:release"]?.includes("device:qa:doctor") || !pkg.scripts?.["qa:release"]?.includes("feed:production:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:metadata:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:assets:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:doctor") || !pkg.scripts?.["qa:release"]?.includes("perf:budget")) {
+    fail("package scripts", "qa:release should include commercial security audit, device QA doctor, production feed doctor, store metadata doctor, store asset doctor, store screenshot doctor, and performance budget before store submission.");
   } else {
     pass("package scripts", "Android, iOS, environment, commercial security, and performance release command flow is available.");
   }
@@ -1151,6 +1152,7 @@ async function checkOperationalDataSurfaces() {
   const sourcesRoute = await text("app/api/sources/route.ts");
   const productionProvider = await text("lib/deals/providers/productionProvider.ts");
   const dataSourceRunbook = await text("docs/data-source-runbook.md");
+  const productionFeedDoctor = await text("scripts/production-feed-doctor.mjs");
 
   const staticDataImports = [
     ["app/categories/page.tsx", categoriesPage],
@@ -1392,12 +1394,19 @@ async function checkOperationalDataSurfaces() {
     !adminPage.includes("공식 API·제휴 피드로 바꿀 때 볼 품질 기준") ||
     !dataSourceRunbook.includes("Production JSON Feed") ||
     !dataSourceRunbook.includes("DEAL_PRODUCTION_FEED_URLS") ||
+    !dataSourceRunbook.includes("npm run feed:production:doctor") ||
+    !productionFeedDoctor.includes("DEAL_DATA_MODE") ||
+    !productionFeedDoctor.includes("DEAL_PRODUCTION_FEED_URLS") ||
+    !productionFeedDoctor.includes("source === \"production\"") ||
+    !productionFeedDoctor.includes("configuredProductionFeeds") ||
+    !productionFeedDoctor.includes("blocked-community") ||
+    !productionFeedDoctor.includes("Production feed doctor passed") ||
     !smoke.includes("Sources API missing source readiness summary") ||
     !smoke.includes("Sources API missing configured production feed count")
   ) {
-    fail("source readiness operation", "Sources API, production provider, docs, and admin dashboard should expose source readiness, safe production JSON feed loading, allowed source policy, blocked source policy, and verified link quality for production feed transition.");
+    fail("source readiness operation", "Sources API, production provider, docs, production feed doctor, and admin dashboard should expose source readiness, safe production JSON feed loading, allowed source policy, blocked source policy, and verified link quality for production feed transition.");
   } else {
-    pass("source readiness operation", "Sources API, production provider, docs, and admin dashboard expose source readiness and safe production JSON feed policy for official API, RSS, and partner feed transition.");
+    pass("source readiness operation", "Sources API, production provider, docs, production feed doctor, and admin dashboard expose source readiness and safe production JSON feed policy for official API, RSS, and partner feed transition.");
   }
 
   if (!dealRepository.includes("export async function findDealByIdLive") || /findDealByIdLive[\s\S]{0,180}findDealById\(id\)[\s\S]{0,80}await getDeals/.test(dealRepository)) {
