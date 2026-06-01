@@ -317,6 +317,53 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
     ],
     [filteredDeals]
   );
+  const filteredRiskReview = useMemo(
+    () => [
+      {
+        title: "숨은 비용 확인",
+        value: `${filteredDeals.filter((deal) => !deal.isFreeShipping && deal.shippingFee !== "무료배송" && deal.salePrice > 0).length}개`,
+        copy: "무료처럼 보여도 배송비, 옵션가, 최소 주문 금액이 붙을 수 있는 혜택입니다.",
+        action: "배송비 보기",
+        onClick: () => {
+          setFreeShippingOnly(false);
+          setActiveOnly(true);
+          setSort("savings");
+        }
+      },
+      {
+        title: "가입 조건 확인",
+        value: `${filteredDeals.filter((deal) => deal.requiresSignup).length}개`,
+        copy: "판매처 회원가입, 앱 설치, 신규 가입 조건이 붙을 수 있어 먼저 확인합니다.",
+        action: "가입 없는 혜택",
+        onClick: () => {
+          setNoSignupOnly(true);
+          setActiveOnly(true);
+        }
+      },
+      {
+        title: "선착순·마감 위험",
+        value: `${filteredDeals.filter((deal) => deal.isFirstComeFirstServed || deal.isEndingSoon || deal.isExpired).length}개`,
+        copy: "마감 시간, 수량 제한, 종료 가능성을 기준으로 빨리 봐야 할 혜택입니다.",
+        action: "마감순 보기",
+        onClick: () => {
+          setEndingSoonOnly(true);
+          setFirstComeOnly(true);
+          setSort("endingSoon");
+        }
+      },
+      {
+        title: "신고 전 확인",
+        value: `${filteredDeals.filter((deal) => deal.reportCount > 0 || deal.linkStatus !== "verified" || deal.isSoldOut).length}개`,
+        copy: "신고 누적, 링크 확인 필요, 품절 가능성이 있어 판매처 상태를 다시 봅니다.",
+        action: "진행 중만",
+        onClick: () => {
+          setActiveOnly(true);
+          setSort("recommended");
+        }
+      }
+    ],
+    [filteredDeals]
+  );
   const claimedBenefitIds = useMemo(() => new Set(claimedBenefits.map((record) => record.dealId)), [claimedBenefits]);
   const claimedTodayCount = useMemo(() => {
     const today = new Date().toISOString().slice(0, 10);
@@ -1234,6 +1281,42 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
               );
             })}
           </div>
+        </section>
+
+        <section className="rounded-[28px] border border-amber-100 bg-white p-4 shadow-sm sm:p-5" aria-label="혜택 헛걸음 방지 점검">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-black text-dossa-red">혜택 헛걸음 방지 점검</p>
+              <h2 className="mt-1 text-xl font-black tracking-tight text-slate-950">현재 결과에서 놓치기 쉬운 조건을 먼저 봅니다</h2>
+            </div>
+            <p className="max-w-md text-sm font-bold leading-6 text-slate-500">
+              무료·쿠폰 혜택은 배송비, 회원가입, 선착순, 신고 상태 때문에 체감 가치가 달라질 수 있습니다.
+            </p>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+            {filteredRiskReview.map((item) => (
+              <button
+                key={item.title}
+                type="button"
+                onClick={item.onClick}
+                className="min-h-[156px] rounded-3xl border border-slate-100 bg-slate-50 p-4 text-left transition hover:-translate-y-0.5 hover:border-amber-200 hover:bg-amber-50"
+                aria-label={`${item.title} ${item.value} 점검`}
+              >
+                <span className="flex items-start justify-between gap-3">
+                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-white text-amber-700 shadow-sm">
+                    <AlertTriangle size={18} />
+                  </span>
+                  <span className="rounded-full bg-white px-2.5 py-1 text-xs font-black text-amber-700 shadow-sm">{item.value}</span>
+                </span>
+                <span className="mt-4 block text-sm font-black text-slate-950">{item.title}</span>
+                <span className="mt-1 line-clamp-2 block text-xs font-bold leading-5 text-slate-500">{item.copy}</span>
+                <span className="mt-3 inline-flex rounded-full bg-slate-950 px-3 py-1.5 text-xs font-black text-white">{item.action}</span>
+              </button>
+            ))}
+          </div>
+          <p className="mt-4 rounded-2xl bg-amber-50 px-4 py-3 text-xs font-bold leading-5 text-amber-900">
+            이 점검은 혜택을 숨기지 않고 먼저 주의할 조건을 알려주는 안내입니다. 비회원도 전체 혜택을 열람할 수 있고, 최종 조건은 판매처 화면에서 확인하세요.
+          </p>
         </section>
 
         <section className="grid gap-3 md:grid-cols-3">
