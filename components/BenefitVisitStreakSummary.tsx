@@ -6,7 +6,12 @@ import { CalendarDays, Gift } from "lucide-react";
 import { readBenefitVisitStreak } from "@/lib/benefitVisitStreak";
 
 export function BenefitVisitStreakSummary() {
-  const [visitStreak, setVisitStreak] = useState(() => readBenefitVisitStreak());
+  const [visitStreak, setVisitStreak] = useState<ReturnType<typeof readBenefitVisitStreak>>({
+    currentStreak: 0,
+    totalVisits: 0,
+    lastVisitedDate: "",
+    visitedDates: []
+  });
 
   useEffect(() => {
     const refresh = () => setVisitStreak(readBenefitVisitStreak());

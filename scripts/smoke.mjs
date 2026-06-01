@@ -230,6 +230,8 @@ await check("mypage data controls", async () => {
   assert(text.includes("내 혜택 저장 루틴"), "Mypage missing benefit save routine");
   assert(text.includes("찜한 혜택 다시 보기") && text.includes("최근 본 상품 이어보기"), "Mypage missing saved and recent benefit routine actions");
   assert(text.includes("관심 카테고리 조정") && text.includes("가격 알림 조건 확인"), "Mypage missing interest and alert routine actions");
+  assert(text.includes("마이 혜택 수령 난이도") && text.includes("오늘 먼저 챙길 혜택을 쉬운 순서로 정리"), "Mypage missing account claim effort board");
+  assert(text.includes("간편 수령") && text.includes("조건 확인") && text.includes("마감 주의"), "Mypage missing account claim effort categories");
   assert(text.includes("이번 주 혜택 루틴 기록") && text.includes("오늘 챙긴 혜택") && text.includes("홈에서 오늘 루틴 계속하기"), "Mypage missing weekly benefit routine record");
   assert(text.includes("오늘 챙김") && text.includes("누적 혜택") && text.includes("절약 후보"), "Mypage missing claimed benefit record summary");
   assert(text.includes("절약 다이어리") && text.includes("다음 절약 행동"), "Mypage missing savings diary");

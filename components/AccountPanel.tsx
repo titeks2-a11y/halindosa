@@ -32,6 +32,93 @@ interface MemberPreferences {
   notificationConsent: boolean;
 }
 
+function getAccountClaimEffort(deal: Deal) {
+  const expiresAt = new Date(deal.expireAt || deal.expiresAt);
+  const hoursLeft = Number.isFinite(expiresAt.getTime()) ? (expiresAt.getTime() - Date.now()) / (1000 * 60 * 60) : Number.POSITIVE_INFINITY;
+  if (hoursLeft <= 24 || deal.isEndingSoon || deal.isFirstComeFirstServed) return "deadline";
+  if (deal.requiresSignup || deal.couponCondition || deal.minimumOrderAmount || deal.dealType === "coupon") return "condition";
+  return "easy";
+}
+
+function AccountClaimEffortBoard({ deals }: { deals: Deal[] }) {
+  const activeDeals = deals.filter((deal) => !deal.isExpired && !deal.isSoldOut);
+  const claimEffortGroups = [
+    {
+      key: "easy",
+      label: "간편 수령",
+      description: "가입·조건 확인이 적어 바로 열어볼 후보",
+      icon: CheckCircle2,
+      href: "/free-benefits?effort=easy"
+    },
+    {
+      key: "condition",
+      label: "조건 확인",
+      description: "쿠폰, 최소금액, 가입 조건을 먼저 볼 후보",
+      icon: SlidersHorizontal,
+      href: "/free-benefits?effort=condition"
+    },
+    {
+      key: "deadline",
+      label: "마감 주의",
+      description: "선착순·마감 임박이라 오늘 먼저 볼 후보",
+      icon: Clock,
+      href: "/free-benefits?effort=deadline"
+    }
+  ].map((group) => {
+    const matchedDeals = activeDeals.filter((deal) => getAccountClaimEffort(deal) === group.key);
+
+    return {
+      ...group,
+      count: matchedDeals.length,
+      sample: matchedDeals[0]
+    };
+  });
+
+  return (
+    <div className="mt-4 rounded-3xl border border-red-100 bg-white p-4 shadow-sm">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <p className="text-xs font-black text-dossa-red">마이 혜택 수령 난이도</p>
+          <h3 className="mt-1 text-base font-black text-slate-950">오늘 먼저 챙길 혜택을 쉬운 순서로 정리</h3>
+          <p className="mt-1 text-xs font-bold leading-5 text-slate-500">
+            비회원도 그대로 볼 수 있고, 로그인은 찜·알림·관심 저장을 이어가기 위한 선택 기능입니다.
+          </p>
+        </div>
+        <Link href="/free-benefits" className="w-fit rounded-2xl bg-slate-950 px-4 py-3 text-xs font-black text-white">
+          무료 혜택 보기
+        </Link>
+      </div>
+      <div className="mt-3 grid gap-2 sm:grid-cols-3">
+        {claimEffortGroups.map((group) => {
+          const Icon = group.icon;
+
+          return (
+            <Link key={group.key} href={group.href} className="rounded-2xl bg-slate-50 p-3 transition hover:bg-red-50">
+              <div className="flex items-center justify-between gap-2">
+                <span className="flex h-9 w-9 items-center justify-center rounded-2xl bg-white text-dossa-red shadow-sm">
+                  <Icon size={17} />
+                </span>
+                <span className="text-lg font-black text-slate-950">
+                  {group.count}
+                  <span className="ml-0.5 text-xs text-dossa-red">개</span>
+                </span>
+              </div>
+              <p className="mt-2 text-xs font-black text-slate-950">{group.label}</p>
+              <p className="mt-1 text-[11px] font-bold leading-4 text-slate-500">{group.description}</p>
+              <p className="mt-2 line-clamp-1 text-[11px] font-black text-dossa-red">
+                {group.sample ? group.sample.title : "추천 혜택 준비 중"}
+              </p>
+            </Link>
+          );
+        })}
+      </div>
+      <p className="mt-3 rounded-2xl bg-red-50 px-3 py-2 text-[11px] font-black leading-4 text-dossa-deep">
+        구매 전에는 최종 가격, 배송비, 쿠폰 조건, 마감 여부를 판매처에서 다시 확인하세요.
+      </p>
+    </div>
+  );
+}
+
 function BenefitSaveRoutine({ mode }: { mode: "local" | "guest" | "member" }) {
   const isMember = mode === "member";
   const routineItems = [
@@ -458,6 +545,7 @@ export function AccountPanel() {
           returnReservationCount={returnReservationCount}
         />
         <BenefitSaveRoutine mode="local" />
+        <AccountClaimEffortBoard deals={catalog} />
         <BenefitCheckInSummary />
         <div className="mt-4">
           <BenefitSavingsDiary deals={catalog} compact />
@@ -505,6 +593,7 @@ export function AccountPanel() {
           returnReservationCount={returnReservationCount}
         />
         <BenefitSaveRoutine mode="guest" />
+        <AccountClaimEffortBoard deals={catalog} />
         <BenefitCheckInSummary />
         <div className="mt-4">
           <BenefitSavingsDiary deals={catalog} compact />
@@ -588,6 +677,7 @@ export function AccountPanel() {
           returnReservationCount={returnReservationCount}
         />
         <BenefitSaveRoutine mode="member" />
+        <AccountClaimEffortBoard deals={catalog} />
         <BenefitCheckInSummary />
         <div className="mt-4">
           <BenefitSavingsDiary deals={catalog} compact />

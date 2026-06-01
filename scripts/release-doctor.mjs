@@ -311,6 +311,17 @@ async function checkAuthSurface() {
     fail("member profile settings", "Mypage should make local-to-account carryover clear without gating non-member browsing.");
   } else if (!accountPanel.includes("내 혜택 저장 루틴") || !accountPanel.includes("찜한 혜택 다시 보기") || !accountPanel.includes("최근 본 상품 이어보기") || !accountPanel.includes("가입해야만 볼 수 있는 혜택은 없습니다")) {
     fail("member profile settings", "Mypage should explain optional benefit saving routines for non-members and members.");
+  } else if (
+    !accountPanel.includes("AccountClaimEffortBoard") ||
+    !accountPanel.includes("getAccountClaimEffort") ||
+    !accountPanel.includes("마이 혜택 수령 난이도") ||
+    !accountPanel.includes("오늘 먼저 챙길 혜택을 쉬운 순서로 정리") ||
+    !accountPanel.includes("간편 수령") ||
+    !accountPanel.includes("조건 확인") ||
+    !accountPanel.includes("마감 주의") ||
+    !smoke.includes("Mypage missing account claim effort board")
+  ) {
+    fail("member profile settings", "Mypage should connect account saving value to claim-effort guidance without gating non-member browsing.");
   } else if (!accountPanel.includes("이번 주 혜택 루틴 기록") || !accountPanel.includes("홈에서 오늘 루틴 계속하기") || !accountPanel.includes("BenefitCheckInSummary") || !benefitCheckIn.includes("halindosa:benefit-check-in") || !smoke.includes("Mypage missing weekly benefit routine record")) {
     fail("member profile settings", "Mypage should surface the local daily benefit routine record from the shared check-in store.");
   } else if (!accountPanel.includes("readClaimedBenefits") || !accountPanel.includes("오늘 챙김") || !accountPanel.includes("누적 혜택") || !claimedBenefits.includes("halindosa:claimed-benefits") || !smoke.includes("Mypage missing claimed benefit record summary")) {
