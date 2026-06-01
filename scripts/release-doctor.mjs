@@ -1785,6 +1785,9 @@ async function checkOperationalDataSurfaces() {
     !freeBenefitsClient.includes("내일 볼 루틴 예약") ||
     !freeBenefitsClient.includes("내가 챙긴 혜택 기록") ||
     !freeBenefitsClient.includes("오늘 실제로 챙긴 혜택을 남겨보세요") ||
+    !freeBenefitsClient.includes("buildPersonalizedBenefitQueue") ||
+    !freeBenefitsClient.includes("무료혜택 개인화 이어보기") ||
+    !freeBenefitsClient.includes("개인화 API 보기") ||
     !freeBenefitsClient.includes("claimedFollowUpPlan") ||
     !freeBenefitsClient.includes("챙긴 혜택 다음 방문 이어보기") ||
     !freeBenefitsClient.includes("오늘 기록을 기준으로 내일 볼 혜택을 정리합니다") ||
@@ -1844,6 +1847,7 @@ async function checkOperationalDataSurfaces() {
     !smoke.includes("Free benefits page missing quick decision rail") ||
     !smoke.includes("Free benefits page missing source and condition trust summary") ||
     !smoke.includes("Free benefits page missing claimed benefit tracking") ||
+    !smoke.includes("Free benefits page missing personalized follow-up queue") ||
     !smoke.includes("Free benefits page missing claimed benefit follow-up plan") ||
     !smoke.includes("Free benefits page missing next visit benefit plan") ||
     !smoke.includes("Free benefits page missing local return reservation board") ||

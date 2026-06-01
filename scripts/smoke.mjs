@@ -708,6 +708,7 @@ await check("free benefits page", async () => {
     "Free benefits page missing culture invitation benefit rail"
   );
   assert(text.includes("내가 챙긴 혜택 기록") && text.includes("오늘 실제로 챙긴 혜택을 남겨보세요") && text.includes("챙김"), "Free benefits page missing claimed benefit tracking");
+  assert(text.includes("무료혜택 개인화 이어보기") && text.includes("관심사와 찜 기록으로 다음 혜택") && text.includes("개인화 API 보기"), "Free benefits page missing personalized follow-up queue");
   assert(text.includes("챙긴 혜택 다음 방문 이어보기") && text.includes("오늘 기록을 기준으로 내일 볼 혜택을 정리합니다"), "Free benefits page missing claimed benefit follow-up plan");
   assert(text.includes("아직 안 챙긴 무료 혜택") && text.includes("결제 전 다시 볼 쿠폰") && text.includes("마감 전 놓치기 쉬운 혜택"), "Free benefits page missing claimed benefit follow-up cards");
   assert(text.includes("내일 다시 볼 혜택 예약") && text.includes("오늘 챙긴 뒤 다음 방문 순서를 남깁니다"), "Free benefits page missing next visit benefit plan");
