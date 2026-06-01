@@ -7,6 +7,7 @@ import { canAccessAdmin, getAdminExportHref, isAdminProtectionEnabled } from "@/
 import { getDeals } from "@/lib/dealService";
 import { getLinkReviewActionLabel, getLinkReviewQueue, getLinkStatusLabel, getLinkTypeLabel } from "@/lib/deals/quality";
 import { getDealSourceReadiness, listDealSourceProfiles } from "@/lib/deals/trust";
+import { buildTodayBenefitQueue } from "@/lib/deals/todayBenefitQueue";
 import { dryRunPartnerFeedImport, samplePartnerFeed } from "@/lib/feedImport";
 import { formatPrice, getRelativeTime } from "@/lib/format";
 import { getReportSummary, listDealReports } from "@/lib/reports";
@@ -55,6 +56,8 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const sampleFeedReadyRate = sampleFeedValidation.received ? Math.round((sampleFeedValidation.valid / sampleFeedValidation.received) * 100) : 0;
   const sourceCounts = new Map<string, number>();
   const linkReviewDeals = getLinkReviewQueue(deals, 8);
+  const todayBenefitQueue = buildTodayBenefitQueue(deals, 4);
+  const dailyQueueExportCount = new Set(todayBenefitQueue.sections.flatMap((section) => section.items.map((item) => item.id))).size;
   const sourceReadiness = getDealSourceReadiness(deals);
   const priorityLabels = {
     high: "우선",
@@ -191,7 +194,9 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
         <div className="flex flex-col gap-3 rounded-3xl border border-slate-200 bg-white p-4 shadow-sm sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="text-sm font-black text-slate-950">운영 데이터 내보내기</p>
-            <p className="mt-1 text-sm font-semibold text-slate-500">상위 정렬 기준의 특가 데이터를 CSV로 확인합니다.</p>
+            <p className="mt-1 text-sm font-semibold text-slate-500">
+              상위 정렬 기준의 특가 데이터를 CSV로 확인합니다. 오늘 혜택 큐 섹션, 노출 순위, 운영 액션 후보도 함께 내려받습니다.
+            </p>
           </div>
           <a
             href={getAdminExportHref(token)}
@@ -201,6 +206,33 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
             CSV 다운로드
           </a>
         </div>
+
+        <section className="rounded-3xl border border-red-100 bg-white p-5 shadow-sm">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-black text-dossa-red">오늘 혜택 큐 CSV 준비</p>
+              <h2 className="mt-1 text-xl font-black text-slate-950">운영자가 바로 검수할 노출 후보</h2>
+              <p className="mt-1 text-sm font-semibold leading-6 text-slate-500">
+                CSV 내보내기에 `dailyQueueSections`, `dailyQueueRank`, `dailyQueueAction`을 포함해 무료·쿠폰·앱테크·마감 혜택을 매일 보강할 수 있게 했습니다.
+              </p>
+            </div>
+            <div className="rounded-2xl bg-red-50 px-4 py-3 text-center">
+              <p className="text-xs font-black text-dossa-red">내보내기 후보</p>
+              <p className="mt-1 text-2xl font-black text-slate-950">{dailyQueueExportCount}개</p>
+            </div>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-3">
+            {todayBenefitQueue.sections.slice(0, 6).map((section) => (
+              <div key={section.key} className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
+                <p className="text-sm font-black text-slate-950">{section.title}</p>
+                <p className="mt-1 text-xs font-bold leading-5 text-slate-500">{section.description}</p>
+                <p className="mt-3 rounded-full bg-white px-3 py-1.5 text-center text-xs font-black text-dossa-red shadow-sm">
+                  CSV 후보 {section.items.length}개
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
 
         <div className="grid gap-3 lg:grid-cols-2">
           <div className="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm">

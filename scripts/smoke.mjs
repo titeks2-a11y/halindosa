@@ -1163,6 +1163,10 @@ await check("admin export csv", async () => {
   assert(text.startsWith("id,mall,title"), "CSV header missing");
   assert(text.includes("linkStatus") && text.includes("finalPurchaseUrl"), "CSV missing link review fields");
   assert(text.includes("reviewPriority") && text.includes("reviewReason"), "CSV missing link review workflow fields");
+  assert(
+    text.includes("dailyQueueSections") && text.includes("dailyQueueRank") && text.includes("dailyQueueAction"),
+    "CSV missing daily benefit queue export fields"
+  );
 });
 
 await check("seo files", async () => {
