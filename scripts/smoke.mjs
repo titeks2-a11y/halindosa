@@ -893,6 +893,19 @@ await check("benefit decision guide api", async () => {
   assert(String(data.notice ?? "").includes("비회원도 모든 혜택"), "Benefit decision guide missing non-member access notice");
 });
 
+await check("benefit claim effort api", async () => {
+  const { response, data } = await fetchJson("/api/benefits/claim-effort");
+  assert(response.status === 200, `Expected 200, got ${response.status}`);
+  assert(data.ok === true, "Benefit claim effort API ok should be true");
+  assert(data.audience === "guest", "Benefit claim effort should keep guest access");
+  assert(data.totalActiveBenefits > 0, "Benefit claim effort should expose active benefit count");
+  assert(Array.isArray(data.groups) && data.groups.length === 3, "Benefit claim effort should return three effort groups");
+  assert(data.groups.some((group) => group.effort === "easy" && group.label === "간편 수령"), "Benefit claim effort missing easy group");
+  assert(data.groups.some((group) => group.effort === "condition" && group.label === "조건 확인"), "Benefit claim effort missing condition group");
+  assert(data.groups.some((group) => group.effort === "deadline" && group.label === "마감 주의"), "Benefit claim effort missing deadline group");
+  assert(String(data.notice ?? "").includes("비회원도 모든 혜택"), "Benefit claim effort missing non-member access notice");
+});
+
 await check("personalized benefits api", async () => {
   const { response, data } = await fetchJson("/api/benefits/personalized?interest=%EB%AC%B4%EB%A3%8C%2F%EC%B2%B4%ED%97%98&interest=%EC%BF%A0%ED%8F%B0%2F%EC%9D%B4%EB%B2%A4%ED%8A%B8&favoriteId=d001&recentId=d014&limit=4");
   assert(response.status === 200, `Expected 200, got ${response.status}`);

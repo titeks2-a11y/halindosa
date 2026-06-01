@@ -10,6 +10,7 @@ import { markBenefitVisit, readBenefitVisitStreak } from "@/lib/benefitVisitStre
 import { claimedBenefitUpdatedEvent, readClaimedBenefits, toggleClaimedBenefit } from "@/lib/claimedBenefits";
 import { getBenefitTypeLabel } from "@/lib/deals/benefits";
 import { buildBenefitDecisionGuide } from "@/lib/deals/benefitDecisionGuide";
+import { getClaimEffort, getClaimEffortLabel } from "@/lib/deals/claimEffort";
 import { buildPersonalizedBenefitQueue } from "@/lib/deals/personalizedBenefitQueue";
 import { buildWeeklyBenefitCalendar, WeeklyBenefitPreset } from "@/lib/deals/weeklyBenefitCalendar";
 import { formatPrice } from "@/lib/format";
@@ -109,19 +110,6 @@ function getPriorityScore(deal: Deal, referenceNow: number) {
   const engagementScore = Math.min(20, deal.clickCount * 0.18 + deal.likeCount * 0.35);
 
   return urgencyScore + benefitScore + trustScore + shippingScore + engagementScore + deal.reliabilityScore * 0.08;
-}
-
-function getClaimEffort(deal: Deal, referenceNow: number): Exclude<ClaimEffortFilter, "all"> {
-  const hoursLeft = (new Date(deal.expireAt).getTime() - referenceNow) / (60 * 60 * 1000);
-  if (deal.isEndingSoon || deal.isFirstComeFirstServed || hoursLeft <= 12) return "deadline";
-  if (deal.requiresSignup || deal.couponCondition || deal.minimumOrderAmount || (!deal.isFreeShipping && deal.shippingFee !== "무료배송" && deal.salePrice > 0)) return "condition";
-  return "easy";
-}
-
-function getClaimEffortLabel(effort: Exclude<ClaimEffortFilter, "all">) {
-  if (effort === "easy") return "간편 수령";
-  if (effort === "condition") return "조건 확인";
-  return "마감 주의";
 }
 
 export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {

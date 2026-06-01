@@ -10,6 +10,7 @@ import { benefitMissionLabels, getTodayKey, readBenefitCheckInState } from "@/li
 import { benefitReturnReservationUpdatedEvent, readBenefitReturnReservations } from "@/lib/benefitReturnReservations";
 import { benefitVisitStreakStorageKey, readBenefitVisitStreak } from "@/lib/benefitVisitStreak";
 import { claimedBenefitUpdatedEvent, readClaimedBenefits } from "@/lib/claimedBenefits";
+import { buildClaimEffortSummary, getClaimEffort } from "@/lib/deals/claimEffort";
 import { formatPrice } from "@/lib/format";
 import { priceAlertStorageKey, readStoredPriceAlerts } from "@/lib/priceAlerts";
 import { readRecentDealIds } from "@/lib/recentDeals";
@@ -32,16 +33,8 @@ interface MemberPreferences {
   notificationConsent: boolean;
 }
 
-function getAccountClaimEffort(deal: Deal) {
-  const expiresAt = new Date(deal.expireAt || deal.expiresAt);
-  const hoursLeft = Number.isFinite(expiresAt.getTime()) ? (expiresAt.getTime() - Date.now()) / (1000 * 60 * 60) : Number.POSITIVE_INFINITY;
-  if (hoursLeft <= 24 || deal.isEndingSoon || deal.isFirstComeFirstServed) return "deadline";
-  if (deal.requiresSignup || deal.couponCondition || deal.minimumOrderAmount || deal.dealType === "coupon") return "condition";
-  return "easy";
-}
-
 function AccountClaimEffortBoard({ deals }: { deals: Deal[] }) {
-  const activeDeals = deals.filter((deal) => !deal.isExpired && !deal.isSoldOut);
+  const claimEffortSummary = buildClaimEffortSummary(deals);
   const claimEffortGroups = [
     {
       key: "easy",
@@ -65,12 +58,13 @@ function AccountClaimEffortBoard({ deals }: { deals: Deal[] }) {
       href: "/free-benefits?effort=deadline"
     }
   ].map((group) => {
-    const matchedDeals = activeDeals.filter((deal) => getAccountClaimEffort(deal) === group.key);
+    const summaryGroup = claimEffortSummary.groups.find((item) => item.effort === group.key);
+    const sampleDeal = deals.find((deal) => getClaimEffort(deal) === group.key && !deal.isExpired && !deal.isSoldOut);
 
     return {
       ...group,
-      count: matchedDeals.length,
-      sample: matchedDeals[0]
+      count: summaryGroup?.count ?? 0,
+      sample: sampleDeal
     };
   });
 
@@ -383,11 +377,11 @@ export function AccountPanel() {
   const { configured, isLoading, user, nickname, signOut, updateNickname } = useAuth();
   const userId = user?.id;
   const [draftNickname, setDraftNickname] = useState("");
-  const [preferences, setPreferences] = useState<MemberPreferences>(() => readLocalPreferences());
-  const [favoriteIds, setFavoriteIds] = useState<string[]>(() => readLocalFavoriteIds());
-  const [recentIds, setRecentIds] = useState<string[]>(() => readRecentDealIds());
-  const [priceAlertCount, setPriceAlertCount] = useState(() => readStoredPriceAlerts().length);
-  const [returnReservationCount, setReturnReservationCount] = useState(() => readBenefitReturnReservations().length);
+  const [preferences, setPreferences] = useState<MemberPreferences>({ favoriteCategories: [], marketingConsent: false, notificationConsent: false });
+  const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
+  const [recentIds, setRecentIds] = useState<string[]>([]);
+  const [priceAlertCount, setPriceAlertCount] = useState(0);
+  const [returnReservationCount, setReturnReservationCount] = useState(0);
   const [catalog, setCatalog] = useState<Deal[]>([]);
   const [message, setMessage] = useState("");
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
@@ -425,7 +419,7 @@ export function AccountPanel() {
         setRecentIds(nextRecent);
         setPriceAlertCount(readStoredPriceAlerts().length);
         setReturnReservationCount(readBenefitReturnReservations().length);
-        if (remotePreferences) setPreferences(remotePreferences);
+        setPreferences(remotePreferences ?? readLocalPreferences());
       })
       .catch(() => {
         if (!active) return;
@@ -433,6 +427,7 @@ export function AccountPanel() {
         setRecentIds(readRecentDealIds());
         setPriceAlertCount(readStoredPriceAlerts().length);
         setReturnReservationCount(readBenefitReturnReservations().length);
+        setPreferences(readLocalPreferences());
       });
 
     return () => {
