@@ -7,6 +7,7 @@ const runbook = fs.readFileSync("docs/RUNBOOK.md", "utf8");
 
 const requiredSnippets = [
   "dealScanBarItems",
+  "listRefinementChips",
   "deals.filter(isVerifiedPurchaseLink).length",
   "deals.filter(isFreeShippingDeal).length",
   "deals.filter((deal) => deal.isHot).length",
@@ -15,8 +16,10 @@ const requiredSnippets = [
   "setHotOnly((current) => !current)",
   'setSort("price")',
   'setSort("discount")',
+  'aria-label="현재 결과 빠른 좁히기"',
   'aria-label="상품 목록 빠른 스캔"',
   'aria-pressed={item.active}',
+  "목록 안에서 많이 나온 기준",
   "낮은 가격 후보",
   "할인율 최고"
 ];
@@ -52,5 +55,5 @@ if (issues.length) {
 }
 
 console.log("Home list scan doctor passed.");
-console.log("- Product list scan shortcuts are wired to verified, free shipping, hot, price, and discount states.");
+console.log("- Current result refinement chips and product list scan shortcuts are wired to visible filter/sort states.");
 console.log("- Smoke and runbook coverage are present.");

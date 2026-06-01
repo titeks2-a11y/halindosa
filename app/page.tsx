@@ -1627,6 +1627,101 @@ export default function Home() {
     ];
   }, [deals]);
 
+  const listRefinementChips = useMemo(() => {
+    const countBy = <T extends string>(items: T[]) => {
+      const counts = new Map<T, number>();
+      for (const item of items) counts.set(item, (counts.get(item) ?? 0) + 1);
+
+      return Array.from(counts.entries())
+        .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], "ko"))
+        .map(([id, count]) => ({ id, count }));
+    };
+
+    const mallChips = countBy(deals.map((deal) => deal.mallName))
+      .filter((item) => item.id !== mallFilter)
+      .slice(0, 3)
+      .map((item) => ({
+        id: `mall-${item.id}`,
+        label: item.id,
+        value: `${item.count}개`,
+        helper: "쇼핑몰로 좁히기",
+        active: false,
+        action: () => {
+          setMallFilter(item.id);
+          showToast(`${item.id} 특가만 모아봅니다.`);
+        }
+      }));
+
+    const categoryChips = countBy(deals.map((deal) => deal.category))
+      .map((item) => ({ ...item, filterId: getCategoryFilterId(item.id) }))
+      .filter((item) => item.filterId !== category)
+      .slice(0, 3)
+      .map((item) => ({
+        id: `category-${item.filterId}-${item.id}`,
+        label: item.id,
+        value: `${item.count}개`,
+        helper: "카테고리로 좁히기",
+        active: false,
+        action: () => {
+          setCategory(item.filterId);
+          showToast(`${item.id} 카테고리만 봅니다.`);
+        }
+      }));
+
+    const benefitChips = countBy(deals.map((deal) => deal.dealType))
+      .filter((item) => item.id !== benefitFilter)
+      .slice(0, 3)
+      .map((item) => ({
+        id: `benefit-${item.id}`,
+        label: benefitFilters.find((filter) => filter.id === item.id)?.label ?? item.id,
+        value: `${item.count}개`,
+        helper: "혜택 유형으로 좁히기",
+        active: false,
+        action: () => {
+          setBenefitFilter(item.id);
+          showToast(`${benefitFilters.find((filter) => filter.id === item.id)?.label ?? item.id} 혜택만 봅니다.`);
+        }
+      }));
+
+    const utilityChips = [
+      {
+        id: "verified",
+        label: "구매처 확인",
+        value: `${deals.filter(isVerifiedPurchaseLink).length}개`,
+        helper: "실제 상세 이동 우선",
+        active: verifiedOnly,
+        action: () => {
+          setVerifiedOnly((current) => !current);
+          showToast(verifiedOnly ? "구매처 확인 필터를 해제했습니다." : "구매처 확인된 특가만 봅니다.");
+        }
+      },
+      {
+        id: "free-shipping",
+        label: "무료배송",
+        value: `${deals.filter(isFreeShippingDeal).length}개`,
+        helper: "배송비 부담 낮음",
+        active: freeShippingOnly,
+        action: () => {
+          setFreeShippingOnly((current) => !current);
+          showToast(freeShippingOnly ? "무료배송 필터를 해제했습니다." : "무료배송 특가만 봅니다.");
+        }
+      },
+      {
+        id: "ending-soon",
+        label: "마감임박",
+        value: `${deals.filter((deal) => deal.isEndingSoon || deal.isExpired).length}개`,
+        helper: "오늘 먼저 확인",
+        active: endingSoonOnly,
+        action: () => {
+          setEndingSoonOnly((current) => !current);
+          showToast(endingSoonOnly ? "마감임박 필터를 해제했습니다." : "마감임박 특가만 봅니다.");
+        }
+      }
+    ].filter((item) => item.active || !item.value.startsWith("0"));
+
+    return [...utilityChips, ...mallChips, ...categoryChips, ...benefitChips].slice(0, 10);
+  }, [benefitFilter, category, deals, endingSoonOnly, freeShippingOnly, mallFilter, showToast, verifiedOnly]);
+
   const searchResultGroups = useMemo(() => {
     const normalizedQuery = query.trim();
     const source = catalog.length ? catalog : deals;
@@ -3377,6 +3472,42 @@ export default function Home() {
                 <p className="mt-3 rounded-2xl bg-amber-50 px-4 py-3 text-xs font-black text-amber-700">{loadError}</p>
               ) : null}
             </div>
+
+            {deals.length ? (
+              <section className="rounded-[24px] border border-slate-200 bg-white p-3 shadow-sm" aria-label="현재 결과 빠른 좁히기">
+                <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+                  <div>
+                    <p className="text-xs font-black text-dossa-red">현재 결과 빠른 좁히기</p>
+                    <h3 className="mt-1 text-base font-black text-slate-950">목록 안에서 많이 나온 기준만 바로 선택</h3>
+                  </div>
+                  <p className="text-xs font-bold leading-5 text-slate-500">쇼핑몰, 카테고리, 혜택 조건을 상품 목록 앞에서 다시 좁힙니다.</p>
+                </div>
+                <div className="mt-3 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                  {listRefinementChips.map((item) => (
+                    <button
+                      key={item.id}
+                      type="button"
+                      onClick={item.action}
+                      aria-pressed={item.active}
+                      aria-label={`${item.label} ${item.helper} ${item.value}`}
+                      className={`min-w-[132px] rounded-2xl border px-3 py-2.5 text-left transition hover:-translate-y-0.5 hover:shadow-sm ${
+                        item.active
+                          ? "border-dossa-red bg-red-50 text-dossa-red"
+                          : "border-slate-200 bg-white text-slate-700 hover:border-red-100"
+                      }`}
+                    >
+                      <span className="flex items-center justify-between gap-2">
+                        <span className="min-w-0 truncate text-xs font-black">{item.label}</span>
+                        <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-black ${item.active ? "bg-white text-dossa-red" : "bg-slate-100 text-slate-500"}`}>
+                          {item.value}
+                        </span>
+                      </span>
+                      <span className="mt-1 block truncate text-[11px] font-bold text-slate-500">{item.helper}</span>
+                    </button>
+                  ))}
+                </div>
+              </section>
+            ) : null}
 
             {deals.length ? (
               <section className="rounded-[24px] border border-slate-200 bg-white p-3 shadow-sm" aria-label="상품 목록 빠른 스캔">
