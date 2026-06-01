@@ -115,7 +115,7 @@ export function ClaimedBenefitAlertSummary({ deals }: ClaimedBenefitAlertSummary
           <div className="mt-3 space-y-2">
             {claimedBenefits.slice(0, 3).length ? (
               claimedBenefits.slice(0, 3).map((record) => (
-                <Link key={record.dealId} href={`/deals/${record.dealId}`} className="block rounded-2xl bg-slate-50 p-3 transition hover:bg-red-50">
+                <Link key={record.dealId} href={`/deals/${record.dealId}`} className="block rounded-2xl bg-slate-50 p-3 transition hover:bg-red-50" target="_blank" rel="noopener noreferrer">
                   <span className="block truncate text-sm font-black text-slate-950">{record.title}</span>
                   <span className="mt-1 block truncate text-xs font-bold text-slate-500">{record.mallName} · {record.benefitSummary}</span>
                 </Link>
@@ -135,7 +135,7 @@ export function ClaimedBenefitAlertSummary({ deals }: ClaimedBenefitAlertSummary
           </div>
           <div className="mt-3 space-y-2">
             {nextBenefits.map((deal) => (
-              <Link key={deal.id} href={`/deals/${deal.id}`} className="block rounded-2xl bg-slate-50 p-3 transition hover:bg-red-50">
+              <Link key={deal.id} href={`/deals/${deal.id}`} className="block rounded-2xl bg-slate-50 p-3 transition hover:bg-red-50" target="_blank" rel="noopener noreferrer">
                 <span className="block truncate text-sm font-black text-slate-950">{deal.title}</span>
                 <span className="mt-1 block truncate text-xs font-bold text-slate-500">{deal.mallName} · {deal.benefitSummary}</span>
               </Link>

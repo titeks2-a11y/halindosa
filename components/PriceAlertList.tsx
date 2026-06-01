@@ -54,7 +54,7 @@ export function PriceAlertList({ deals }: PriceAlertListProps) {
 
             return (
               <div key={alert.dealId} className="flex items-center gap-3 rounded-2xl bg-slate-50 p-3">
-                <Link href={`/deals/${alert.dealId}`} className="min-w-0 flex-1">
+                <Link href={`/deals/${alert.dealId}`} className="min-w-0 flex-1" target="_blank" rel="noopener noreferrer">
                   <span className="block truncate text-sm font-black text-slate-950">{deal?.title ?? alert.title}</span>
                   <span className="mt-1 block text-xs font-bold text-slate-500">
                     희망가 {formatPrice(alert.targetPrice)}

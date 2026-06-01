@@ -740,7 +740,7 @@ export function AccountPanel() {
           </div>
           <div className="mt-3 space-y-2">
             {favoriteDeals.length ? favoriteDeals.map((deal) => (
-              <Link key={deal.id} href={`/deals/${deal.id}`} className="block rounded-2xl bg-white p-3 shadow-sm">
+              <Link key={deal.id} href={`/deals/${deal.id}`} className="block rounded-2xl bg-white p-3 shadow-sm" target="_blank" rel="noopener noreferrer">
                 <span className="line-clamp-1 text-sm font-black text-slate-950">{deal.title}</span>
                 <span className="mt-1 block text-xs font-bold text-slate-500">{deal.mallName} · {formatPrice(deal.salePrice)}</span>
               </Link>
@@ -773,7 +773,7 @@ export function AccountPanel() {
           </div>
           <div className="mt-3 space-y-2">
             {recentDeals.length ? recentDeals.map((deal) => (
-              <Link key={deal.id} href={`/deals/${deal.id}`} className="block rounded-2xl bg-white p-3 shadow-sm">
+              <Link key={deal.id} href={`/deals/${deal.id}`} className="block rounded-2xl bg-white p-3 shadow-sm" target="_blank" rel="noopener noreferrer">
                 <span className="line-clamp-1 text-sm font-black text-slate-950">{deal.title}</span>
                 <span className="mt-1 block text-xs font-bold text-slate-500">{deal.mallName} · {formatPrice(deal.salePrice)}</span>
               </Link>

@@ -290,7 +290,7 @@ export default async function DealDetailPage({ params }: DealDetailPageProps) {
           </div>
           <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
             {relatedDeals.map((related) => (
-              <Link key={related.id} href={`/deals/${related.id}`} className="group overflow-hidden rounded-3xl border border-slate-100 bg-slate-50 transition hover:-translate-y-0.5 hover:border-red-100 hover:bg-red-50">
+              <Link key={related.id} href={`/deals/${related.id}`} className="group overflow-hidden rounded-3xl border border-slate-100 bg-slate-50 transition hover:-translate-y-0.5 hover:border-red-100 hover:bg-red-50" target="_blank" rel="noopener noreferrer">
                 <span className="block aspect-[4/3] overflow-hidden bg-red-50">
                   {related.thumbnail ? (
                     // eslint-disable-next-line @next/next/no-img-element

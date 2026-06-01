@@ -418,7 +418,7 @@ export default function FavoritesPage() {
                 </div>
                 <div className="mt-3 grid gap-2 md:grid-cols-3">
                   {recommendedDeals.map((deal) => (
-                    <Link key={deal.id} href={`/deals/${deal.id}`} className="rounded-2xl bg-white p-3 shadow-sm transition hover:bg-red-50">
+                    <Link key={deal.id} href={`/deals/${deal.id}`} className="rounded-2xl bg-white p-3 shadow-sm transition hover:bg-red-50" target="_blank" rel="noopener noreferrer">
                       <span className="inline-flex rounded-full bg-emerald-50 px-2.5 py-1 text-[11px] font-black text-emerald-700">
                         {isVerifiedPurchaseLink(deal) ? "구매 링크 확인" : "판매처 확인 필요"}
                       </span>

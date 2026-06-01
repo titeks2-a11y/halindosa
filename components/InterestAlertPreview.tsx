@@ -194,7 +194,7 @@ export function InterestAlertPreview({ deals }: InterestAlertPreviewProps) {
       <div className="mt-4 grid gap-2">
         {matchedDeals.length ? (
           matchedDeals.map((deal) => (
-            <Link key={deal.id} href={`/deals/${deal.id}`} className="flex items-center gap-3 rounded-2xl bg-white p-3 shadow-sm transition hover:bg-red-50">
+            <Link key={deal.id} href={`/deals/${deal.id}`} className="flex items-center gap-3 rounded-2xl bg-white p-3 shadow-sm transition hover:bg-red-50" target="_blank" rel="noopener noreferrer">
               <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-red-50 text-dossa-red">
                 <Sparkles size={17} />
               </span>

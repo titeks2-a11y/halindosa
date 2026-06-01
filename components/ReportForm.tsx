@@ -141,7 +141,7 @@ export function ReportForm({ dealId, disabled, initialReason }: ReportFormProps)
           {requestId ? <p className="mt-1 text-xs opacity-80">접수번호 {requestId}</p> : null}
           {isSuccess ? (
             <div className="mt-3 grid gap-2 sm:grid-cols-3">
-              <Link href={`/deals/${dealId}`} className="rounded-xl bg-white px-3 py-2 text-center text-xs font-black text-emerald-800 shadow-sm">
+              <Link href={`/deals/${dealId}`} className="rounded-xl bg-white px-3 py-2 text-center text-xs font-black text-emerald-800 shadow-sm" target="_blank" rel="noopener noreferrer">
                 상세로 돌아가기
               </Link>
               <Link href="/guide" className="rounded-xl bg-white px-3 py-2 text-center text-xs font-black text-emerald-800 shadow-sm">

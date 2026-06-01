@@ -576,7 +576,7 @@ export default async function NotificationsPage() {
                 <div className="mt-3 space-y-2">
                   {queue.items.length ? (
                     queue.items.map((deal) => (
-                      <Link key={deal.id} href={`/deals/${deal.id}`} className="block rounded-2xl bg-white p-3 transition hover:bg-red-50">
+                      <Link key={deal.id} href={`/deals/${deal.id}`} className="block rounded-2xl bg-white p-3 transition hover:bg-red-50" target="_blank" rel="noopener noreferrer">
                         <span className="flex items-center justify-between gap-2">
                           <span className="min-w-0 truncate text-sm font-black text-slate-950">{deal.title}</span>
                           <span className="shrink-0 rounded-full bg-red-50 px-2.5 py-1 text-[11px] font-black text-dossa-red">
@@ -615,7 +615,7 @@ export default async function NotificationsPage() {
         </div>
         <div className="mt-4 grid gap-2 md:grid-cols-2">
           {priorityAlerts.map((deal, index) => (
-            <Link key={deal.id} href={`/deals/${deal.id}`} className="flex min-w-0 items-center gap-3 rounded-2xl bg-slate-50 p-3 transition hover:bg-red-50">
+            <Link key={deal.id} href={`/deals/${deal.id}`} className="flex min-w-0 items-center gap-3 rounded-2xl bg-slate-50 p-3 transition hover:bg-red-50" target="_blank" rel="noopener noreferrer">
               <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-dossa-red text-xs font-black text-white">
                 {index + 1}
               </span>
@@ -675,7 +675,7 @@ export default async function NotificationsPage() {
             <div className="mt-3 space-y-2">
               {group.items.length ? (
                 group.items.map((deal) => (
-                  <Link key={deal.id} href={`/deals/${deal.id}`} className="flex items-center gap-3 rounded-2xl bg-slate-50 p-3 transition hover:bg-red-50">
+                  <Link key={deal.id} href={`/deals/${deal.id}`} className="flex items-center gap-3 rounded-2xl bg-slate-50 p-3 transition hover:bg-red-50" target="_blank" rel="noopener noreferrer">
                     <span className="min-w-0 flex-1">
                       <span className="block truncate text-sm font-black text-slate-950">{deal.title}</span>
                       <span className="mt-1 block truncate text-xs font-bold text-slate-500">

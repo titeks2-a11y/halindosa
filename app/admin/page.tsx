@@ -928,7 +928,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                       <p className="mt-1 truncate text-xs font-semibold text-slate-400">현재 이동 URL: {deal.finalPurchaseUrl}</p>
                     </div>
                     <div className="flex gap-2">
-                      <Link href={`/deals/${deal.id}`} className="rounded-2xl bg-slate-100 px-3 py-2 text-xs font-black text-slate-700">
+                      <Link href={`/deals/${deal.id}`} className="rounded-2xl bg-slate-100 px-3 py-2 text-xs font-black text-slate-700" target="_blank" rel="noopener noreferrer">
                         상세 검수
                       </Link>
                       <a

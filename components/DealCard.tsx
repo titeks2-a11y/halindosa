@@ -122,7 +122,7 @@ export function DealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, onSha
             </span>
             <span className="shrink-0 rounded-full bg-slate-100 px-2 py-1 text-slate-600">{deal.category}</span>
           </div>
-          <Link href={`/deals/${deal.id}`} className="block" aria-label={`${deal.title} 상세 정보 보기`}>
+          <Link href={`/deals/${deal.id}`} className="block" aria-label={`${deal.title} 상세 정보 보기`} target="_blank" rel="noopener noreferrer">
             <h3 className="line-clamp-2 text-[14px] font-black leading-snug text-slate-950 hover:text-dossa-red sm:min-h-[2.75rem] sm:text-base">
               {deal.title}
             </h3>
@@ -258,7 +258,7 @@ export function DealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, onSha
             href={`/deals/${deal.id}`}
             className="inline-flex min-h-11 items-center justify-center rounded-2xl border border-slate-200 bg-white px-3 text-xs font-black text-slate-600 transition hover:border-red-100 hover:text-dossa-red"
             aria-label={`${deal.title} 상세 정보와 가격 신고 보기`}
-          >
+           target="_blank" rel="noopener noreferrer">
             상세 보기
           </Link>
           <Link

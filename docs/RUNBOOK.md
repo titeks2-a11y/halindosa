@@ -76,9 +76,10 @@ SMOKE_BASE_URL=https://example.com npm run smoke
 - `npm run catalog:doctor`는 전체 상품 수, 판매처 수, 필수 카테고리, 혜택 유형, 검증 구매 링크 커버리지를 함께 검사한다.
 - 신규 상품을 많이 추가한 뒤 `catalog:doctor`가 실패하면 상품 수만 늘린 것이 아니라 카테고리/혜택/판매처 균형이 무너진 것이므로 운영 피드를 다시 조정한다.
 - `npm run purchase:navigation:doctor`는 홈, 상세, 찜, 무료혜택 화면의 구매 CTA가 `/go/[dealId]`를 거쳐 웹 새 탭 또는 Capacitor Browser로 열리는지 검사한다.
+- `npm run detail:navigation:doctor`는 상품 카드, 최근 본 상품, 찜/알림/무료혜택 등 고객이 누르는 특가 상세 링크가 현재 화면을 빼앗지 않고 새 탭으로 열리며 `noopener noreferrer`를 유지하는지 검사한다.
 - `npm run home:url-state:doctor`는 홈 검색어, 카테고리, 쇼핑몰, 정렬, 무료배송, 핫딜, 마감임박, 구매링크 확인, 가격대, 혜택 유형 필터가 URL에 저장되고 새로고침 후 복원되는지 검사한다.
 - 구매 이동 버튼은 `/go/[dealId]` 또는 `/api/redirect/[id]` 추적 경로를 거쳐 새 탭/외부 브라우저로 열린다.
-- 내부 화면 이동용 링크는 `Link`를 사용하고, 상품 구매 이동은 `window.open(..., "_blank", "noopener,noreferrer")` 또는 Capacitor Browser를 사용한다.
+- 내부 정책/설정 화면 이동용 링크는 `Link`를 사용하고, 상품 상세 링크는 새 탭 `Link`, 상품 구매 이동은 `window.open(..., "_blank", "noopener,noreferrer")` 또는 Capacitor Browser를 사용한다.
 
 ## 보안/배포 가드레일
 

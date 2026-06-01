@@ -565,7 +565,7 @@ function ClaimedBenefitHomeSummary({ deals, favorites }: { deals: Deal[]; favori
                 key={deal.id}
                 href={`/deals/${deal.id}`}
                 className="flex items-center justify-between gap-3 rounded-2xl bg-white px-3 py-3 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
-              >
+               target="_blank" rel="noopener noreferrer">
                 <span className="min-w-0">
                   <span className="line-clamp-1 text-sm font-black text-slate-950">{deal.title}</span>
                   <span className="mt-1 block text-[11px] font-bold text-slate-500">{deal.benefitSummary || deal.mallName}</span>

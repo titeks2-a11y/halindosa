@@ -1444,7 +1444,7 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
           <div className="mt-4 grid gap-2 md:grid-cols-3">
             {recentClaimedBenefits.length ? (
               recentClaimedBenefits.map((record) => (
-                <Link key={record.dealId} href={`/deals/${record.dealId}`} className="rounded-2xl bg-white p-3 shadow-sm transition hover:bg-red-100">
+                <Link key={record.dealId} href={`/deals/${record.dealId}`} className="rounded-2xl bg-white p-3 shadow-sm transition hover:bg-red-100" target="_blank" rel="noopener noreferrer">
                   <span className="block truncate text-sm font-black text-slate-950">{record.title}</span>
                   <span className="mt-1 block truncate text-xs font-bold text-slate-500">{record.mallName} · {record.benefitSummary}</span>
                 </Link>

@@ -74,7 +74,7 @@ export function BenefitSavingsDiary({ deals = [], compact = false }: BenefitSavi
           <div className="mt-3 space-y-2">
             {summary.recentRecords.length ? (
               summary.recentRecords.map((record) => (
-                <Link key={`${record.dealId}-${record.claimedAt}`} href={`/deals/${record.dealId}`} className="block rounded-2xl bg-white px-3 py-2 transition hover:bg-red-50">
+                <Link key={`${record.dealId}-${record.claimedAt}`} href={`/deals/${record.dealId}`} className="block rounded-2xl bg-white px-3 py-2 transition hover:bg-red-50" target="_blank" rel="noopener noreferrer">
                   <span className="block truncate text-xs font-black text-slate-950">{record.title}</span>
                   <span className="mt-1 block truncate text-[11px] font-bold text-slate-500">
                     {record.mallName} · {getRelativeTime(record.claimedAt)} · {formatPrice(record.savingsAmount)}

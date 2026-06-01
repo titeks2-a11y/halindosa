@@ -54,7 +54,7 @@ function LiveDealRow({ deal, isFavorite, onToggleFavorite, onOpenDeal, onShareDe
           </span>
         </div>
         <div className="min-w-0 sm:hidden">
-          <Link href={`/deals/${deal.id}`} className="line-clamp-2 text-base font-black leading-snug text-slate-950 hover:text-dossa-red">
+          <Link href={`/deals/${deal.id}`} className="line-clamp-2 text-base font-black leading-snug text-slate-950 hover:text-dossa-red" target="_blank" rel="noopener noreferrer">
             {deal.title}
           </Link>
           <p className="mt-1 text-xs font-bold text-slate-500">
@@ -80,7 +80,7 @@ function LiveDealRow({ deal, isFavorite, onToggleFavorite, onOpenDeal, onShareDe
             {deal.mall} · {deal.category}
           </span>
         </div>
-        <Link href={`/deals/${deal.id}`} className="mt-1 block truncate text-base font-black text-slate-950 hover:text-dossa-red">
+        <Link href={`/deals/${deal.id}`} className="mt-1 block truncate text-base font-black text-slate-950 hover:text-dossa-red" target="_blank" rel="noopener noreferrer">
           {deal.title}
         </Link>
         <p className="mt-1 inline-flex items-center gap-1 text-xs font-semibold text-slate-500">
