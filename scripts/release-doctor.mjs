@@ -1840,6 +1840,10 @@ async function checkOperationalDataSurfaces() {
     !partnerFeedDryRunPanel.includes("/api/admin/import") ||
     !partnerFeedDryRunPanel.includes("needs_fix") ||
     !partnerFeedDryRunPanel.includes("invalid=0") ||
+    !partnerFeedDryRunPanel.includes("행별 검수 결과") ||
+    !partnerFeedDryRunPanel.includes("수정 필요 필드") ||
+    !partnerFeedDryRunPanel.includes("result?.rows") ||
+    !partnerFeedDryRunPanel.includes("primaryUrlField") ||
     !dataSourceRunbook.includes("Production JSON Feed") ||
     !dataSourceRunbook.includes("DEAL_PRODUCTION_FEED_URLS") ||
     !dataSourceRunbook.includes("npm run feed:validate") ||
@@ -1870,6 +1874,7 @@ async function checkOperationalDataSurfaces() {
     !smoke.includes("Sources API missing configured production feed count") ||
     !smoke.includes("Admin dashboard missing partner feed validation report board") ||
     !smoke.includes("Admin dashboard missing paste-in feed dry-run panel") ||
+    !smoke.includes("Admin dashboard missing row-level feed dry-run review summary") ||
     !smoke.includes("partner feed sample validation api")
   ) {
     fail("source readiness operation", "Sources API, production provider, docs, production feed doctor, and admin dashboard should expose source readiness, safe production JSON feed loading, allowed source policy, blocked source policy, and verified link quality for production feed transition.");

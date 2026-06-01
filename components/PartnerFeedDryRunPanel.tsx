@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { AlertCircle, CheckCircle2, ClipboardCheck, Loader2 } from "lucide-react";
+import { AlertCircle, CheckCircle2, ClipboardCheck, Loader2, XCircle } from "lucide-react";
 
 interface FeedIssue {
   index: number;
@@ -19,6 +19,17 @@ interface FeedPreviewDeal {
   finalPurchaseUrl?: string;
 }
 
+interface FeedDryRunRow {
+  index: number;
+  externalId: string;
+  mall: string;
+  title: string;
+  status: "ready" | "needs_fix";
+  primaryUrlField: string;
+  issueCount: number;
+  issues: FeedIssue[];
+}
+
 interface FeedDryRunResult {
   ok: boolean;
   received: number;
@@ -34,6 +45,7 @@ interface FeedDryRunResult {
     conditionNeedsReview: number;
     conditionReadyRate: number;
   };
+  rows?: FeedDryRunRow[];
   previewDeals?: FeedPreviewDeal[];
   message?: string;
 }
@@ -55,6 +67,9 @@ export function PartnerFeedDryRunPanel({ token, initialJson }: PartnerFeedDryRun
   const [isSubmitting, setIsSubmitting] = useState(false);
   const endpoint = useMemo(() => `/api/admin/import${token ? `?token=${encodeURIComponent(token)}` : ""}`, [token]);
   const readyRate = getReadyRate(result);
+  const dryRunRows = result?.rows ?? [];
+  const readyRows = dryRunRows.filter((row) => row.status === "ready");
+  const needsFixRows = dryRunRows.filter((row) => row.status === "needs_fix");
 
   async function handleDryRun() {
     setError("");
@@ -185,6 +200,73 @@ export function PartnerFeedDryRunPanel({ token, initialJson }: PartnerFeedDryRun
                 invalid=0 상태입니다. production 피드 연결 전 `feed:production:doctor`와 `release:doctor`를 이어서 실행하세요.
               </p>
             ) : null}
+          </div>
+
+          <div className="rounded-2xl border border-slate-100 bg-white p-4">
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <p className="text-sm font-black text-slate-950">행별 검수 결과</p>
+                <p className="mt-1 text-xs font-bold leading-5 text-slate-500">
+                  ready 행은 바로 반영 후보, needs_fix 행은 수정 필요 필드와 사유를 먼저 고칩니다.
+                </p>
+              </div>
+              <span className="shrink-0 rounded-full bg-slate-100 px-2.5 py-1 text-xs font-black text-slate-600">
+                rows[].status
+              </span>
+            </div>
+
+            <div className="mt-3 grid grid-cols-2 gap-2">
+              <div className="rounded-2xl bg-emerald-50 p-3">
+                <div className="flex items-center gap-2 text-xs font-black text-emerald-700">
+                  <CheckCircle2 size={15} />
+                  ready 행
+                </div>
+                <p className="mt-2 text-2xl font-black text-emerald-800">{readyRows.length}</p>
+              </div>
+              <div className="rounded-2xl bg-red-50 p-3">
+                <div className="flex items-center gap-2 text-xs font-black text-dossa-red">
+                  <XCircle size={15} />
+                  needs_fix 행
+                </div>
+                <p className="mt-2 text-2xl font-black text-dossa-red">{needsFixRows.length}</p>
+              </div>
+            </div>
+
+            {needsFixRows.length ? (
+              <div className="mt-3 max-h-64 space-y-2 overflow-auto">
+                {needsFixRows.slice(0, 6).map((row) => (
+                  <div key={`${row.index}-${row.externalId}`} className="rounded-2xl border border-red-100 bg-red-50 p-3">
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="min-w-0">
+                        <p className="truncate text-sm font-black text-red-950">
+                          row {row.index + 1} · {row.mall || "판매처 미입력"}
+                        </p>
+                        <p className="mt-1 truncate text-xs font-bold text-red-900/70">{row.title || row.externalId || "상품명 미입력"}</p>
+                      </div>
+                      <span className="shrink-0 rounded-full bg-white px-2.5 py-1 text-xs font-black text-dossa-red">
+                        {row.issueCount}개
+                      </span>
+                    </div>
+                    <p className="mt-2 text-xs font-black text-red-900">수정 필요 필드 · {row.primaryUrlField || "필수값"}</p>
+                    <div className="mt-2 space-y-1.5">
+                      {row.issues.slice(0, 3).map((issue, index) => (
+                        <p key={`${row.index}-${issue.field}-${index}`} className="rounded-xl bg-white px-2.5 py-2 text-xs font-bold leading-5 text-red-900/75">
+                          {issue.field}: {issue.message}
+                        </p>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : dryRunRows.length ? (
+              <div className="mt-3 rounded-2xl bg-emerald-50 px-3 py-2 text-xs font-black leading-5 text-emerald-700">
+                모든 행이 ready 상태입니다. 운영 반영 전에는 링크 샘플을 한 번 더 클릭해 최종 가격과 종료 여부를 확인하세요.
+              </div>
+            ) : (
+              <div className="mt-3 rounded-2xl bg-slate-50 px-3 py-2 text-xs font-bold leading-5 text-slate-500">
+                dry-run 실행 후 행별 상태가 표시됩니다.
+              </div>
+            )}
           </div>
 
           {result?.previewDeals?.length ? (

@@ -541,6 +541,8 @@ await check("admin dashboard quality cards", async () => {
   assert(text.includes("feed:validate --report") && text.includes("feed:production:doctor"), "Admin dashboard missing feed validation command guidance");
   assert(text.includes("운영 피드 붙여넣기 검증") && text.includes("JSON을 붙여넣고 노출 가능 여부를 바로 확인합니다"), "Admin dashboard missing paste-in feed dry-run panel");
   assert(text.includes("dry-run 검증 실행") && text.includes("샘플 복원"), "Admin dashboard missing paste-in feed dry-run actions");
+  assert(text.includes("행별 검수 결과") && text.includes("ready 행") && text.includes("needs_fix 행"), "Admin dashboard missing row-level feed dry-run review summary");
+  assert(text.includes("수정 필요 필드") && text.includes("rows[].status"), "Admin dashboard missing row-level feed dry-run issue guidance");
   assert(text.includes("오늘 혜택 운영 액션 큐") && text.includes("신고·종료·링크 보강"), "Admin dashboard missing benefit operation action queue");
   assert(text.includes("혜택 조건 완성도 점검") && text.includes("제공처·배송비·가입·선착순·쿠폰 조건"), "Admin dashboard missing benefit condition audit");
   assert(text.includes("조건 취약 유형") && text.includes("쿠폰 조건"), "Admin dashboard missing condition readiness details");
