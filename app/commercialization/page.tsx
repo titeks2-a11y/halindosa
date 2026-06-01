@@ -93,6 +93,7 @@ export default async function CommercializationPage() {
   const topReviewDeals = linkReviewQueue.slice(0, 4);
   const topBenefitTypes = benefitQuality.typeBreakdown.slice(0, 6);
   const benefitActionQueue = benefitQuality.actionQueue.slice(0, 3);
+  const claimEffortLaunchQueue = benefitQuality.claimEffortOperationQueue;
   const launchDecisionActions: Record<BenefitDecisionGuideId, string> = {
     free: "무료 샘플, 체험, 초대권 수가 충분한지 확인하고 배송비/가입 조건을 보강",
     coupon: "쿠폰 조건, 최소 주문 금액, 중복 가능 여부를 스토어 심사 전 재확인",
@@ -251,6 +252,45 @@ export default async function CommercializationPage() {
           </div>
           <p className="mt-4 rounded-2xl bg-amber-50 px-4 py-3 text-xs font-bold leading-5 text-amber-900">
             판단표 기준은 공개 화면과 운영 화면을 동시에 보호합니다. 어느 한 축의 혜택 수가 부족하면 스토어 제출 전 공식/제휴 피드에서 해당 유형을 먼저 보강하세요.
+          </p>
+        </section>
+
+        <section className="mt-5 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm" aria-label="수령 난이도 출시 점검">
+          <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+            <div>
+              <p className="text-sm font-black text-red-600">수령 난이도 출시 점검</p>
+              <h2 className="mt-1 text-2xl font-black text-slate-950">간편 수령, 조건 확인, 마감 주의 균형을 확인합니다</h2>
+              <p className="mt-2 max-w-2xl text-sm font-semibold leading-6 text-slate-500">
+                비회원이 처음 들어왔을 때 바로 받을 혜택, 조건을 확인할 혜택, 빨리 눌러야 할 혜택이 모두 보여야 매일 다시 들어올 이유가 생깁니다.
+              </p>
+            </div>
+            <Link
+              href="/api/benefits/claim-effort"
+              className="inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-2xl bg-slate-950 px-4 text-sm font-black text-white"
+            >
+              수령 난이도 API 확인
+              <ExternalLink className="h-4 w-4" aria-hidden />
+            </Link>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-3">
+            {claimEffortLaunchQueue.map((item) => (
+              <div key={item.effort} className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <p className="text-sm font-black text-slate-950">{item.label}</p>
+                    <p className="mt-1 text-xs font-bold leading-5 text-slate-500">{item.description}</p>
+                  </div>
+                  <span className="rounded-full bg-white px-2.5 py-1 text-xs font-black text-red-600 shadow-sm">{item.count}개</span>
+                </div>
+                <p className="mt-3 rounded-2xl bg-white px-3 py-2 text-xs font-black leading-5 text-slate-700 shadow-sm">
+                  {item.action}
+                </p>
+                <p className="mt-3 line-clamp-2 text-xs font-bold leading-5 text-slate-500">대표 후보 {item.sampleTitle}</p>
+              </div>
+            ))}
+          </div>
+          <p className="mt-4 rounded-2xl bg-red-50 px-4 py-3 text-xs font-bold leading-5 text-red-900/75">
+            출시 전에는 간편 수령 혜택이 첫 화면에 충분히 있어야 하고, 조건 확인/마감 주의 혜택은 카드와 상세에서 비용·가입·마감 정보를 먼저 보여야 합니다.
           </p>
         </section>
 

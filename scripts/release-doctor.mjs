@@ -1759,10 +1759,15 @@ async function checkOperationalDataSurfaces() {
     missingCommercializationSnippets.length ||
     !commercializationPage.includes("buildBenefitDecisionGuide") ||
     !commercializationPage.includes("launchDecisionActions") ||
+    !commercializationPage.includes("claimEffortLaunchQueue") ||
+    !commercializationPage.includes("수령 난이도 출시 점검") ||
+    !commercializationPage.includes("간편 수령, 조건 확인, 마감 주의 균형") ||
+    !commercializationPage.includes("수령 난이도 API 확인") ||
     !commercializationPage.includes("buildTodayBenefitQueue") ||
     !commercializationPage.includes("buildWeeklyBenefitCalendar") ||
     !smoke.includes("Commercialization page missing launch benefit decision readiness") ||
     !smoke.includes("Commercialization page missing launch decision action axes") ||
+    !smoke.includes("Commercialization page missing claim effort launch readiness") ||
     !smoke.includes("Commercialization page missing daily benefit queue readiness") ||
     !smoke.includes("Commercialization page missing weekly benefit calendar readiness")
   ) {

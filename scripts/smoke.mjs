@@ -529,6 +529,8 @@ await check("commercial launch readiness page", async () => {
   assert(text.includes("출시 전 혜택 판단표 준비도") && text.includes("고객이 먼저 누르는 4가지 혜택 축"), "Commercialization page missing launch benefit decision readiness");
   assert(text.includes("무료 수령") && text.includes("결제 전 쿠폰") && text.includes("마감 혜택") && text.includes("구매처 확인 상품"), "Commercialization page missing launch decision action axes");
   assert(text.includes("판단표 API 확인"), "Commercialization page missing decision guide API link");
+  assert(text.includes("수령 난이도 출시 점검") && text.includes("간편 수령, 조건 확인, 마감 주의 균형"), "Commercialization page missing claim effort launch readiness");
+  assert(text.includes("수령 난이도 API 확인") && text.includes("대표 후보"), "Commercialization page missing claim effort API and sample candidate");
   assert(text.includes("주간 재방문 혜택 캘린더") && text.includes("포인트, 무료 샘플, 쿠폰, 장보기"), "Commercialization page missing weekly benefit calendar readiness");
   assert(text.includes("캘린더 API 확인") && text.includes("가입 없는 혜택"), "Commercialization page missing weekly calendar API action");
   assert(text.includes("실기기 QA 체크리스트"), "Commercialization page missing device QA checklist reminder");
