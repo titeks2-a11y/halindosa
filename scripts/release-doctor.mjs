@@ -600,6 +600,8 @@ async function checkSearchAndPurchaseFlow() {
   const homePage = await text("app/page.tsx");
   const smoke = await text("scripts/smoke.mjs");
   const verifyLinks = await text("scripts/verify-product-links.mjs");
+  const catalogDoctor = await text("scripts/catalog-quality-doctor.mjs");
+  const packageJson = await text("package.json");
   const featured = await text("components/FeaturedDealSections.tsx");
   const liveFeed = await text("components/LiveDealFeed.tsx");
 
@@ -620,6 +622,11 @@ async function checkSearchAndPurchaseFlow() {
     !verifyLinks.includes("Product link verification passed") ||
     !verifyLinks.includes("검색/카테고리 링크입니다") ||
     !verifyLinks.includes("커뮤니티 또는 placeholder") ||
+    !catalogDoctor.includes("minimums") ||
+    !catalogDoctor.includes("requiredCategories") ||
+    !catalogDoctor.includes("requiredDealTypes") ||
+    !packageJson.includes("catalog:doctor") ||
+    !packageJson.includes("npm run verify:links && npm run catalog:doctor") ||
     featured.includes('href="#all-deals"') ||
     liveFeed.includes('href="#all-deals"') ||
     homePage.includes("scrollIntoView") ||
@@ -630,9 +637,9 @@ async function checkSearchAndPurchaseFlow() {
     !homePage.includes("카테고리 바로가기") ||
     !homePage.includes("quickCategoryShortcuts")
   ) {
-    fail("purchase link new-tab guard", "Verified product link script, top quick search, and scroll-free purchase discovery links should be present.");
+    fail("purchase link new-tab guard", "Verified product link script, catalog quality doctor, top quick search, and scroll-free purchase discovery links should be present.");
   } else {
-    pass("purchase link new-tab guard", "Verified product link script is present, top search is visible, and product discovery CTAs avoid hash-scroll links.");
+    pass("purchase link new-tab guard", "Verified product link and catalog quality scripts are present, top search is visible, and product discovery CTAs avoid hash-scroll links.");
   }
 }
 
