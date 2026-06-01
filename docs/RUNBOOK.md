@@ -100,11 +100,13 @@ SMOKE_BASE_URL=https://example.com npm run smoke
 - `npm run purchase:navigation:doctor`는 홈, 상세, 찜, 무료혜택 화면의 구매 CTA가 `/go/[dealId]`를 거쳐 웹 새 탭 또는 Capacitor Browser로 열리는지 검사한다.
 - `npm run smoke:local`은 `/api/deals?limit=150`으로 전체 125개 이상 상품의 링크 상태, 새 탭 이동 대상, 검증 구매 URL, 신규 seed 리다이렉트 호스트를 함께 확인한다.
 - `npm run detail:navigation:doctor`는 상품 카드, 최근 본 상품, 찜/알림/무료혜택 등 고객이 누르는 특가 상세 링크가 현재 화면을 빼앗지 않고 새 탭으로 열리며 `noopener noreferrer`를 유지하는지 검사한다.
+- `npm run navigation:doctor`는 `app`과 `components` 전체에서 `href="#"`, `javascript:void`, `target="_blank"`의 `rel` 누락, `/deals/[id]` 상세 링크의 현재 탭 이동, `/go/[dealId]` 구매 링크의 새 탭 정책 누락을 한 번 더 검사한다.
 - `npm run home:url-state:doctor`는 홈 검색어, 카테고리, 쇼핑몰, 정렬, 무료배송, 핫딜, 마감임박, 구매링크 확인, 가격대, 혜택 유형 필터가 URL에 저장되고 새로고침 후 복원되는지 검사한다.
 - `npm run search:doctor`는 라면, 햇반, 계란, 우유, 닭가슴살, 마스크, 충전케이블, 멀티탭, 화장지, 청소포, 김자반처럼 구매 의도가 뚜렷한 검색어가 넓은 카테고리 단어로 과도하게 확장되지 않고 제품명/브랜드/태그 중심으로 매칭되는지 검사한다.
 - `npm run home:list-scan:doctor`는 상품 목록 빠른 스캔 버튼이 구매처 확인, 무료배송, 핫딜, 낮은 가격, 할인율 정렬 상태와 연결되어 있는지 검사한다. `홈 탐색 바로가기`, `deal-list` 앵커, `현재 목록 가격 비교` 문구와 절약액/마감 후보 UI도 함께 확인한다.
 - 구매 이동 버튼은 `/go/[dealId]` 또는 `/api/redirect/[id]` 추적 경로를 거쳐 새 탭/외부 브라우저로 열린다.
 - 내부 정책/설정 화면 이동용 링크는 `Link`를 사용하고, 상품 상세 링크는 새 탭 `Link`, 상품 구매 이동은 `window.open(..., "_blank", "noopener,noreferrer")` 또는 Capacitor Browser를 사용한다.
+- 새 관리자/운영 화면에 외부 확인 링크를 추가할 때도 `target="_blank"`와 `rel="noopener noreferrer"`를 함께 넣어야 하며, 빈 링크나 hash placeholder는 출시 UI에 남기지 않는다.
 
 ## 보안/배포 가드레일
 

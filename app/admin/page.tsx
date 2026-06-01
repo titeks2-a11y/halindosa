@@ -934,7 +934,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                       <a
                         href={`/api/redirect/${deal.id}?from=admin-link-review`}
                         target="_blank"
-                        rel="noreferrer"
+                        rel="noopener noreferrer"
                         className="inline-flex items-center gap-1 rounded-2xl bg-dossa-red px-3 py-2 text-xs font-black text-white"
                       >
                         판매처 확인

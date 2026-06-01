@@ -43,6 +43,7 @@ npm run catalog:report
 npm run search:doctor
 npm run purchase:navigation:doctor
 npm run detail:navigation:doctor
+npm run navigation:doctor
 npm run home:url-state:doctor
 npm run home:list-scan:doctor
 npm run lint
@@ -53,7 +54,7 @@ npm run cap:sync
 npm run release:doctor
 ```
 
-`npm run qa`는 `lint`, `verify:links`, `catalog:doctor`, `search:doctor`, `purchase:navigation:doctor`, `detail:navigation:doctor`, `home:url-state:doctor`, `home:list-scan:doctor`, `smoke:local`, `build`, `release:doctor`를 순서대로 실행합니다.
+`npm run qa`는 `lint`, `verify:links`, `catalog:doctor`, `search:doctor`, `purchase:navigation:doctor`, `detail:navigation:doctor`, `navigation:doctor`, `home:url-state:doctor`, `home:list-scan:doctor`, `smoke:local`, `build`, `release:doctor`를 순서대로 실행합니다.
 
 ## 검색 동작 방식
 
@@ -159,6 +160,14 @@ npm run detail:navigation:doctor
 
 상품 카드, 최근 본 상품, 찜/알림/무료혜택 등 고객이 누르는 `/deals/[id]` 상세 링크가 현재 화면을 빼앗지 않고 새 탭으로 열리며 `noopener noreferrer`를 유지하는지 검사합니다.
 
+전역 네비게이션 정책 검증:
+
+```bash
+npm run navigation:doctor
+```
+
+`app`과 `components`의 모든 TSX 화면을 훑어 `href="#"`, `javascript:void`, `target="_blank"`의 `rel` 누락, `/deals/[id]` 상세 링크의 현재 탭 이동, `/go/[dealId]` 구매 링크의 새 탭 정책 누락을 차단합니다. 새 화면이나 관리자 링크를 추가할 때도 이 검사를 통과해야 합니다.
+
 검색/필터 URL 상태 검증:
 
 ```bash
@@ -171,4 +180,5 @@ npm run home:url-state:doctor
 
 - 상품 카드의 구매 CTA는 `/go/[dealId]` 추적 경로를 거친 뒤 새 탭 또는 앱 외부 브라우저로 열립니다.
 - `href="#"`, `javascript:void`, 쇼핑몰 검색 결과, 커뮤니티 글 URL은 노출 상품 링크로 등록하지 않습니다.
+- `target="_blank"`를 쓰는 링크는 항상 `rel="noopener noreferrer"`를 함께 둡니다.
 - `npm run release:doctor`는 홈 화면에 자동 스크롤 기반 탐색이 다시 들어오지 않았는지 함께 검사합니다.
