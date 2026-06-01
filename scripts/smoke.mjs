@@ -584,6 +584,22 @@ await check("deals filters api", async () => {
   assert(brandMallSearch.response.status === 200, `Expected 200, got ${brandMallSearch.response.status}`);
   assert(brandMallSearch.data.deals.some((deal) => /쿠팡/.test(deal.mallName) || /로켓/.test(`${deal.title} ${deal.tags.join(" ")}`)), "Search should match mall, brand, and tag text");
 
+  const dailyGoodsSearch = await fetchJson(`/api/deals?q=${encodeURIComponent("생필품")}&limit=20`);
+  assert(dailyGoodsSearch.response.status === 200, `Expected 200, got ${dailyGoodsSearch.response.status}`);
+  assert(dailyGoodsSearch.data.deals.length > 0, "Daily goods synonym search should return deals");
+  assert(
+    dailyGoodsSearch.data.deals.some((deal) => /생활용품|생활필수|물티슈|세제|마스크|생수|장보기/.test(`${deal.title} ${deal.category} ${deal.tags.join(" ")}`)),
+    "Daily goods synonym search should match living essentials"
+  );
+
+  const freeShippingSynonymSearch = await fetchJson(`/api/deals?q=${encodeURIComponent("무배")}&limit=20`);
+  assert(freeShippingSynonymSearch.response.status === 200, `Expected 200, got ${freeShippingSynonymSearch.response.status}`);
+  assert(freeShippingSynonymSearch.data.deals.length > 0, "Free-shipping synonym search should return deals");
+  assert(
+    freeShippingSynonymSearch.data.deals.some((deal) => /무료배송|무배|로켓배송|로켓프레시|네멤무료/.test([deal.shippingInfo, deal.shipping, ...deal.tags].join(" "))),
+    "Free-shipping synonym search should match free shipping language"
+  );
+
   const hot = await fetchJson("/api/deals?hotOnly=true&limit=5");
   assert(hot.response.status === 200, `Expected 200, got ${hot.response.status}`);
   assert(hot.data.deals.every((deal) => deal.isHot), "hotOnly returned a non-hot deal");
