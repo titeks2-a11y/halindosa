@@ -709,6 +709,15 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
     ],
     [deals]
   );
+  const cultureInviteDeals = useMemo(
+    () =>
+      deals
+        .filter((deal) => /영화|시사회|전시|공연|초대권|티켓/.test(`${deal.title} ${deal.tags.join(" ")} ${deal.benefitSummary}`))
+        .filter((deal) => !deal.isSoldOut && deal.linkStatus !== "broken")
+        .sort((a, b) => Number(b.isEndingSoon) - Number(a.isEndingSoon) || b.reliabilityScore - a.reliabilityScore || b.clickCount - a.clickCount)
+        .slice(0, 4),
+    [deals]
+  );
 
   const toggleFavorite = (id: string) => {
     setFavorites((current) => {
@@ -981,6 +990,80 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
           </div>
           <p className="mt-4 rounded-2xl bg-slate-50 px-4 py-3 text-xs font-bold leading-5 text-slate-500">
             바로 받기 전에 쿠폰 조건, 최소 주문 금액, 중복 가능 여부, 만료일을 판매처 화면에서 다시 확인하세요.
+          </p>
+        </section>
+
+        <section className="rounded-[28px] border border-red-100 bg-white p-4 shadow-sm sm:p-5" aria-label="문화 무료 초대권">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-black text-dossa-red">문화 무료 초대권</p>
+              <h2 className="mt-1 text-2xl font-black tracking-tight text-slate-950">영화·전시·공연 혜택도 놓치지 않게 모았습니다</h2>
+            </div>
+            <p className="max-w-md text-sm font-bold leading-6 text-slate-500">
+              시사회, 전시, 공연, 티켓 이벤트는 응모 기간과 당첨 조건이 짧습니다. 무료 초대권과 문화 할인 혜택을 먼저 확인하세요.
+            </p>
+          </div>
+          {cultureInviteDeals.length ? (
+            <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+              {cultureInviteDeals.map((deal) => (
+                <article key={deal.id} className="flex min-h-[210px] flex-col rounded-3xl border border-slate-100 bg-slate-50 p-4">
+                  <div className="flex items-start justify-between gap-3">
+                    <span className="rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-dossa-red shadow-sm">
+                      {deal.dealType === "freebie" || deal.salePrice <= 1000 ? "무료 초대권" : "문화 할인"}
+                    </span>
+                    <span className="rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-slate-500 shadow-sm">
+                      {deal.isEndingSoon ? "마감임박" : "진행 중"}
+                    </span>
+                  </div>
+                  <h3 className="mt-4 line-clamp-2 text-sm font-black leading-snug text-slate-950">{deal.title}</h3>
+                  <p className="mt-2 line-clamp-2 text-xs font-bold leading-5 text-slate-500">{deal.benefitSummary}</p>
+                  <div className="mt-3 grid grid-cols-2 gap-2 text-[11px] font-black text-slate-600">
+                    <span className="rounded-2xl bg-white px-3 py-2">제공처: {deal.mallName}</span>
+                    <span className="rounded-2xl bg-white px-3 py-2">선착순: {deal.isFirstComeFirstServed ? "확인" : "응모형"}</span>
+                    <span className="rounded-2xl bg-white px-3 py-2">회원가입: {deal.requiresSignup ? "필요 가능" : "불필요"}</span>
+                    <span className="rounded-2xl bg-white px-3 py-2">링크: {deal.linkStatus === "verified" ? "확인됨" : "확인 필요"}</span>
+                  </div>
+                  <div className="mt-auto grid grid-cols-[1fr_auto_auto] gap-2 pt-4">
+                    <button
+                      type="button"
+                      onClick={() => openDeal(deal)}
+                      className="inline-flex min-h-10 items-center justify-center gap-1.5 rounded-2xl bg-dossa-red px-3 text-xs font-black text-white"
+                      aria-label={`${deal.title} 문화 혜택 바로 확인`}
+                    >
+                      바로 받기
+                      <ExternalLink size={14} />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => toggleFavorite(deal.id)}
+                      aria-pressed={favorites.includes(deal.id)}
+                      className={`inline-flex min-h-10 items-center justify-center rounded-2xl px-3 text-xs font-black ${
+                        favorites.includes(deal.id) ? "bg-red-50 text-dossa-red ring-1 ring-red-100" : "bg-white text-slate-600 shadow-sm"
+                      }`}
+                      aria-label={`${deal.title} 문화 혜택 찜 ${favorites.includes(deal.id) ? "해제" : "추가"}`}
+                    >
+                      <Heart size={14} fill={favorites.includes(deal.id) ? "currentColor" : "none"} />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => shareDeal(deal)}
+                      className="inline-flex min-h-10 items-center justify-center rounded-2xl bg-white px-3 text-xs font-black text-slate-600 shadow-sm"
+                      aria-label={`${deal.title} 문화 혜택 공유`}
+                    >
+                      <Share2 size={14} />
+                    </button>
+                  </div>
+                </article>
+              ))}
+            </div>
+          ) : (
+            <div className="mt-4 rounded-3xl border border-dashed border-slate-300 bg-slate-50 p-6 text-center">
+              <p className="text-sm font-black text-slate-950">현재 노출 가능한 문화 초대권이 없습니다.</p>
+              <p className="mt-2 text-xs font-bold text-slate-500">새 시사회, 전시, 공연 혜택이 확인되면 이 영역에 먼저 표시합니다.</p>
+            </div>
+          )}
+          <p className="mt-4 rounded-2xl bg-red-50 px-4 py-3 text-xs font-bold leading-5 text-dossa-deep">
+            문화 초대권은 응모형 혜택이 많아 당첨 여부, 좌석, 관람일, 동반 가능 조건을 제공처에서 반드시 확인하세요.
           </p>
         </section>
 
