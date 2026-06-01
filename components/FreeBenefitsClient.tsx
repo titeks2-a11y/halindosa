@@ -1053,6 +1053,22 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
                       <Share2 size={14} />
                     </button>
                   </div>
+                  <div className="mt-2 grid grid-cols-2 gap-2">
+                    <Link
+                      href={`/reports?dealId=${deal.id}&reason=expired`}
+                      className="inline-flex min-h-9 items-center justify-center rounded-2xl border border-slate-200 bg-white px-3 text-[11px] font-black text-slate-600"
+                      aria-label={`${deal.title} 문화 초대권 종료 신고`}
+                    >
+                      종료 신고
+                    </Link>
+                    <Link
+                      href={`/reports?dealId=${deal.id}&reason=link_error`}
+                      className="inline-flex min-h-9 items-center justify-center rounded-2xl border border-red-100 bg-white px-3 text-[11px] font-black text-dossa-red"
+                      aria-label={`${deal.title} 문화 초대권 링크 오류 신고`}
+                    >
+                      링크 오류 신고
+                    </Link>
+                  </div>
                 </article>
               ))}
             </div>

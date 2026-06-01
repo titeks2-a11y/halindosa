@@ -1466,6 +1466,8 @@ async function checkOperationalDataSurfaces() {
     !freeBenefitsClient.includes("문화 무료 초대권") ||
     !freeBenefitsClient.includes("영화·전시·공연 혜택도 놓치지 않게 모았습니다") ||
     !freeBenefitsClient.includes("문화 혜택 바로 확인") ||
+    !freeBenefitsClient.includes("문화 초대권 종료 신고") ||
+    !freeBenefitsClient.includes("문화 초대권 링크 오류 신고") ||
     !freeBenefitsClient.includes("오늘 무료 혜택 루틴") ||
     !freeBenefitsClient.includes("돈 쓰기 전에 이 순서로 챙기세요") ||
     !freeBenefitsClient.includes("오늘 우선 확인 큐") ||

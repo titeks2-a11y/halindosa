@@ -634,7 +634,9 @@ await check("free benefits page", async () => {
     text.includes("문화 무료 초대권") &&
       text.includes("영화·전시·공연 혜택도 놓치지 않게 모았습니다") &&
       text.includes("무료 초대권") &&
-      text.includes("문화 혜택 바로 확인"),
+      text.includes("문화 혜택 바로 확인") &&
+      text.includes("문화 초대권 종료 신고") &&
+      text.includes("문화 초대권 링크 오류 신고"),
     "Free benefits page missing culture invitation benefit rail"
   );
   assert(text.includes("내가 챙긴 혜택 기록") && text.includes("오늘 실제로 챙긴 혜택을 남겨보세요") && text.includes("챙김"), "Free benefits page missing claimed benefit tracking");
