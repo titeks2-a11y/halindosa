@@ -1413,6 +1413,12 @@ async function checkOperationalDataSurfaces() {
     !freeBenefitsClient.includes("받기 전에 출처와 조건을 먼저 봅니다") ||
     !freeBenefitsClient.includes("내가 챙긴 혜택 기록") ||
     !freeBenefitsClient.includes("오늘 실제로 챙긴 혜택을 남겨보세요") ||
+    !freeBenefitsClient.includes("claimedFollowUpPlan") ||
+    !freeBenefitsClient.includes("챙긴 혜택 다음 방문 이어보기") ||
+    !freeBenefitsClient.includes("오늘 기록을 기준으로 내일 볼 혜택을 정리합니다") ||
+    !freeBenefitsClient.includes("아직 안 챙긴 무료 혜택") ||
+    !freeBenefitsClient.includes("결제 전 다시 볼 쿠폰") ||
+    !freeBenefitsClient.includes("마감 전 놓치기 쉬운 혜택") ||
     !freeBenefitsClient.includes("nextVisitPlan") ||
     !freeBenefitsClient.includes("내일 다시 볼 혜택 예약") ||
     !freeBenefitsClient.includes("오늘 챙긴 뒤 다음 방문 순서를 남깁니다") ||
@@ -1443,6 +1449,7 @@ async function checkOperationalDataSurfaces() {
     !smoke.includes("Free benefits page missing quick decision rail") ||
     !smoke.includes("Free benefits page missing source and condition trust summary") ||
     !smoke.includes("Free benefits page missing claimed benefit tracking") ||
+    !smoke.includes("Free benefits page missing claimed benefit follow-up plan") ||
     !smoke.includes("Free benefits page missing next visit benefit plan") ||
     !smoke.includes("Free benefits page missing active-benefit status filter")
   ) {

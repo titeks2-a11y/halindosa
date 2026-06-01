@@ -318,6 +318,45 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
     ],
     [deals]
   );
+  const claimedFollowUpPlan = useMemo(
+    () => [
+      {
+        title: "아직 안 챙긴 무료 혜택",
+        value: `${deals.filter((deal) => (deal.dealType === "freebie" || deal.dealType === "experience") && !claimedBenefitIds.has(deal.id)).length}개`,
+        copy: "오늘 기록에 없는 샘플, 체험단, 0원 혜택을 먼저 이어봅니다.",
+        action: "무료 남은 것 보기",
+        onClick: () => {
+          setActiveType("freebie");
+          setActiveOnly(true);
+          setSort("recommended");
+        }
+      },
+      {
+        title: "결제 전 다시 볼 쿠폰",
+        value: `${deals.filter((deal) => ["coupon", "foodDelivery", "point"].includes(deal.dealType) && !claimedBenefitIds.has(deal.id)).length}개`,
+        copy: "쿠폰, 포인트, 배달 혜택은 다음 결제 전에 다시 확인하기 좋습니다.",
+        action: "쿠폰 이어보기",
+        onClick: () => {
+          setActiveType("coupon");
+          setActiveOnly(true);
+          setSort("popular");
+        }
+      },
+      {
+        title: "마감 전 놓치기 쉬운 혜택",
+        value: `${deals.filter((deal) => (deal.isEndingSoon || new Date(deal.expireAt).getTime() - referenceNow < 24 * 60 * 60 * 1000) && !claimedBenefitIds.has(deal.id)).length}개`,
+        copy: "선착순, 기간 한정, 종료 가능 혜택을 다음 방문 때 먼저 엽니다.",
+        action: "마감 전 확인",
+        onClick: () => {
+          setActiveType("all");
+          setEndingSoonOnly(true);
+          setFirstComeOnly(true);
+          setSort("endingSoon");
+        }
+      }
+    ],
+    [claimedBenefitIds, deals, referenceNow]
+  );
   const sourceOverview = useMemo(
     () => [
       {
@@ -743,6 +782,42 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
               </p>
             )}
           </div>
+        </section>
+
+        <section className="rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5" aria-label="챙긴 혜택 다음 방문 이어보기">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-black text-dossa-red">챙긴 혜택 다음 방문 이어보기</p>
+              <h2 className="mt-1 text-2xl font-black tracking-tight text-slate-950">오늘 기록을 기준으로 내일 볼 혜택을 정리합니다</h2>
+            </div>
+            <p className="max-w-md text-sm font-bold leading-6 text-slate-500">
+              챙김 기록은 이 기기에 저장됩니다. 가입하지 않아도 다음 방문 때 무료, 쿠폰, 마감 혜택을 이어볼 수 있습니다.
+            </p>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-3">
+            {claimedFollowUpPlan.map((item) => (
+              <button
+                key={item.title}
+                type="button"
+                onClick={item.onClick}
+                className="min-h-[164px] rounded-3xl border border-slate-100 bg-slate-50 p-4 text-left transition hover:-translate-y-0.5 hover:border-red-200 hover:bg-red-50"
+                aria-label={`${item.title} ${item.value} 이어보기`}
+              >
+                <span className="flex items-start justify-between gap-3">
+                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-white text-dossa-red shadow-sm">
+                    <CheckCircle2 size={18} />
+                  </span>
+                  <span className="rounded-full bg-white px-2.5 py-1 text-xs font-black text-dossa-red shadow-sm">{item.value}</span>
+                </span>
+                <span className="mt-4 block text-sm font-black text-slate-950">{item.title}</span>
+                <span className="mt-1 line-clamp-2 block text-xs font-bold leading-5 text-slate-500">{item.copy}</span>
+                <span className="mt-3 inline-flex rounded-full bg-slate-950 px-3 py-1.5 text-xs font-black text-white">{item.action}</span>
+              </button>
+            ))}
+          </div>
+          <p className="mt-4 rounded-2xl bg-red-50 px-4 py-3 text-xs font-bold leading-5 text-dossa-deep">
+            오늘 챙긴 혜택이 없어도 무료 혜택, 쿠폰, 마감 임박 순서로 바로 이어볼 수 있습니다.
+          </p>
         </section>
 
         <section className="rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5" aria-label="내일 다시 볼 혜택 예약">
