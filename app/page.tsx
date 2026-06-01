@@ -302,13 +302,37 @@ function requestJson<T>(url: string): Promise<T> {
   });
 }
 
-function ClaimedBenefitHomeSummary({ deals }: { deals: Deal[] }) {
+function ClaimedBenefitHomeSummary({ deals, favorites }: { deals: Deal[]; favorites: string[] }) {
   const [claimedBenefits, setClaimedBenefits] = useState(() => readClaimedBenefits());
   const [returnReservations, setReturnReservations] = useState(() => readBenefitReturnReservations());
   const claimedIds = useMemo(() => new Set(claimedBenefits.map((record) => record.dealId)), [claimedBenefits]);
   const todayKey = new Date().toISOString().slice(0, 10);
   const claimedToday = claimedBenefits.filter((record) => record.claimedAt.slice(0, 10) === todayKey);
   const savingsCandidate = claimedBenefits.reduce((total, record) => total + Math.max(0, record.savingsAmount), 0);
+  const savedBenefitCount = useMemo(() => deals.filter((deal) => favorites.includes(deal.id)).length, [deals, favorites]);
+  const missionSteps = useMemo(
+    () => [
+      {
+        title: "무료 혜택 1개 챙기기",
+        status: claimedToday.length > 0 ? "완료" : "시작",
+        done: claimedToday.length > 0,
+        href: "/free-benefits?mission=free"
+      },
+      {
+        title: "쿠폰 1개 저장하기",
+        status: savedBenefitCount > 0 ? "저장됨" : "저장 전",
+        done: savedBenefitCount > 0,
+        href: "/free-benefits?mission=coupon"
+      },
+      {
+        title: "내일 볼 루틴 예약",
+        status: returnReservations.length > 0 ? "예약됨" : "예약 전",
+        done: returnReservations.length > 0,
+        href: "/free-benefits?mission=return"
+      }
+    ],
+    [claimedToday.length, returnReservations.length, savedBenefitCount]
+  );
   const nextBenefits = useMemo(
     () =>
       deals
@@ -362,6 +386,33 @@ function ClaimedBenefitHomeSummary({ deals }: { deals: Deal[] }) {
             <div className="rounded-2xl bg-white p-3">
               <p className="text-[11px] font-black text-slate-400">절약 후보</p>
               <p className="mt-1 text-lg font-black text-dossa-red">{formatPrice(savingsCandidate)}</p>
+            </div>
+          </div>
+          <div className="mt-3 rounded-2xl border border-red-100 bg-white p-3">
+            <div className="flex items-center justify-between gap-3">
+              <div>
+                <p className="text-[11px] font-black text-dossa-red">홈 오늘 혜택 미션</p>
+                <p className="mt-1 text-xs font-bold leading-5 text-slate-500">
+                  무료 혜택 탭의 세 가지 미션을 홈에서 바로 이어봅니다.
+                </p>
+              </div>
+              <span className="shrink-0 rounded-full bg-red-50 px-2.5 py-1 text-[11px] font-black text-dossa-red">
+                {missionSteps.filter((mission) => mission.done).length}/3
+              </span>
+            </div>
+            <div className="mt-3 grid gap-2 sm:grid-cols-3">
+              {missionSteps.map((mission) => (
+                <Link
+                  key={mission.title}
+                  href={mission.href}
+                  className={`rounded-2xl px-3 py-2 transition hover:-translate-y-0.5 ${
+                    mission.done ? "bg-slate-950 text-white" : "bg-red-50 text-dossa-red hover:bg-red-100"
+                  }`}
+                >
+                  <span className="block text-[11px] font-black">{mission.status}</span>
+                  <span className="mt-1 block line-clamp-1 text-xs font-black">{mission.title}</span>
+                </Link>
+              ))}
             </div>
           </div>
           {claimedBenefits.length ? (
@@ -1467,7 +1518,7 @@ export default function Home() {
               onOpenAlerts={() => setActiveView("alerts")}
             />
 
-            <ClaimedBenefitHomeSummary deals={catalog.length ? catalog : deals} />
+            <ClaimedBenefitHomeSummary deals={catalog.length ? catalog : deals} favorites={favorites} />
 
             <BenefitPlaybook deals={catalog.length ? catalog : deals} onApplyPreset={openBenefitPreset} />
 

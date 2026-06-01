@@ -925,7 +925,12 @@ async function checkUiAccessibility() {
         !homePage.includes("ClaimedBenefitHomeSummary") ||
         !homePage.includes("readClaimedBenefits") ||
         !homePage.includes("readBenefitReturnReservations") ||
+        !homePage.includes("missionSteps") ||
         !homePage.includes("오늘 챙긴 혜택 요약") ||
+        !homePage.includes("홈 오늘 혜택 미션") ||
+        !homePage.includes("무료 혜택 1개 챙기기") ||
+        !homePage.includes("쿠폰 1개 저장하기") ||
+        !homePage.includes("내일 볼 루틴 예약") ||
         !homePage.includes("아직 챙길 만한 무료 혜택") ||
         !homePage.includes("홈 재방문 예약 요약") ||
         !homePage.includes("재방문 루틴 더 저장") ||
@@ -956,6 +961,7 @@ async function checkUiAccessibility() {
         !benefitDiscoverySections.includes("getTodayBenefitMissions") ||
         !benefitDiscoverySections.includes("오늘 혜택 미션 보드") ||
         !benefitDiscoverySections.includes("처음 들어왔다면 이 3가지만 먼저 보세요") ||
+        !smoke.includes("Home page missing linked daily benefit mission progress") ||
         !benefitDiscoverySections.includes("getDailyActionQueue") ||
         !benefitDiscoverySections.includes("오늘 바로 실행할 혜택 액션 큐") ||
         !benefitDiscoverySections.includes("무료 수령, 쿠폰 적용, 생활 혜택, 마감 확인 순서로 봅니다") ||

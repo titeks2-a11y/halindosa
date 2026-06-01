@@ -143,6 +143,13 @@ await check("home page", async () => {
   assert(text.includes("오늘 챙긴 혜택 기록") && text.includes("루틴 완료") && text.includes("기기 저장"), "Home page missing daily benefit completion record");
   assert(text.includes("비회원도 기기에만 출석 기록을 저장합니다") && text.includes("무료 혜택 전용 탭에서 이번 주 루틴 보기"), "Home page missing non-member check-in guidance");
   assert(text.includes("오늘 챙긴 혜택 요약") && text.includes("아직 챙길 만한 무료 혜택") && text.includes("무료 혜택 더 챙기기"), "Home page missing claimed benefit summary");
+  assert(
+    text.includes("홈 오늘 혜택 미션") &&
+      text.includes("무료 혜택 1개 챙기기") &&
+      text.includes("쿠폰 1개 저장하기") &&
+      text.includes("내일 볼 루틴 예약"),
+    "Home page missing linked daily benefit mission progress"
+  );
   assert(text.includes("홈 재방문 예약 요약") && text.includes("재방문 루틴 더 저장") && text.includes("알림에서 이어보기"), "Home page missing return reservation summary");
   assert(text.includes("쿠폰·이벤트·앱테크"), "Home page missing coupon event apptech playbook");
   assert(text.includes("쇼핑몰 쿠폰") && text.includes("배달앱 쿠폰") && text.includes("출석체크 포인트"), "Home page missing daily benefit playbook items");
