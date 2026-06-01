@@ -1414,6 +1414,23 @@ export default function Home() {
       }
     ];
   }, [deals]);
+  const quickResultPicks = useMemo(
+    () =>
+      [...deals]
+        .sort(
+          (a, b) =>
+            Number(isVerifiedPurchaseLink(b)) * 120 -
+              Number(isVerifiedPurchaseLink(a)) * 120 +
+              commercialScore(b) -
+              commercialScore(a) +
+              b.likeCount * 0.4 -
+              a.likeCount * 0.4 +
+              b.clickCount * 0.08 -
+              a.clickCount * 0.08
+        )
+        .slice(0, 3),
+    [deals]
+  );
 
   const todayBenefitQueue = useMemo(() => {
     const source = catalog.length ? catalog : deals;
@@ -2587,6 +2604,53 @@ export default function Home() {
                     </div>
                   ))}
                 </div>
+                {quickResultPicks.length ? (
+                  <div className="mt-3 rounded-2xl border border-red-100 bg-red-50 p-3" aria-label="현재 조건 빠른 추천">
+                    <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+                      <div>
+                        <p className="text-xs font-black text-dossa-red">현재 조건 빠른 추천</p>
+                        <p className="mt-1 text-sm font-black text-slate-950">목록을 길게 보기 전 먼저 확인할 3개</p>
+                      </div>
+                      <p className="text-xs font-bold leading-5 text-dossa-deep">구매처 확인, 반응, 배송, 마감 기준을 함께 반영했습니다.</p>
+                    </div>
+                    <div className="mt-3 grid gap-2 lg:grid-cols-3">
+                      {quickResultPicks.map((deal, index) => (
+                        <article key={deal.id} className="rounded-3xl bg-white p-3 shadow-sm">
+                          <div className="flex items-start justify-between gap-3">
+                            <div className="min-w-0">
+                              <p className="text-[11px] font-black text-dossa-red">추천 {index + 1}</p>
+                              <h4 className="mt-1 line-clamp-2 text-sm font-black leading-5 text-slate-950">{deal.title}</h4>
+                            </div>
+                            <span className="shrink-0 rounded-2xl bg-slate-950 px-2.5 py-1 text-[11px] font-black text-white">
+                              {deal.discountRate}%
+                            </span>
+                          </div>
+                          <div className="mt-3 flex flex-wrap gap-1.5">
+                            <span className="rounded-full bg-red-50 px-2.5 py-1 text-[11px] font-black text-dossa-red">{deal.mallName}</span>
+                            <span className="rounded-full bg-slate-50 px-2.5 py-1 text-[11px] font-black text-slate-600">{deal.shipping}</span>
+                            {isVerifiedPurchaseLink(deal) ? (
+                              <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-[11px] font-black text-emerald-700">구매처 확인</span>
+                            ) : null}
+                          </div>
+                          <div className="mt-3 flex items-end justify-between gap-3">
+                            <div className="min-w-0">
+                              <p className="text-[11px] font-bold text-slate-400 line-through">{formatPrice(deal.originalPrice)}</p>
+                              <p className="truncate text-lg font-black text-slate-950">{formatPrice(deal.salePrice)}</p>
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => openDeal(deal)}
+                              className="inline-flex min-h-10 shrink-0 items-center justify-center rounded-2xl bg-dossa-red px-3 text-xs font-black text-white shadow-sm transition hover:bg-slate-950"
+                              aria-label={`${deal.title} 현재 조건 추천 판매처 확인`}
+                            >
+                              바로 확인
+                            </button>
+                          </div>
+                        </article>
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
                 <div className="mt-3 rounded-2xl bg-slate-50 p-3" aria-label="현재 결과 바로 실행 큐">
                   <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
                     <div>
