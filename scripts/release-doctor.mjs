@@ -1672,6 +1672,13 @@ async function checkOperationalDataSurfaces() {
     "홈, 알림 센터, 향후 푸시가 같은",
     "비회원 열람 큐",
     "API 응답 확인",
+    "출시 전 혜택 판단표 준비도",
+    "고객이 먼저 누르는 4가지 혜택 축",
+    "무료 수령",
+    "결제 전 쿠폰",
+    "마감 혜택",
+    "구매처 확인 상품",
+    "판단표 API 확인",
     "혜택 데이터 품질 요약",
     "무료·쿠폰·포인트",
     "신고/종료 점검",
@@ -1688,8 +1695,12 @@ async function checkOperationalDataSurfaces() {
   const missingCommercializationSnippets = commercializationSnippets.filter((snippet) => !commercializationPage.includes(snippet));
   if (
     missingCommercializationSnippets.length ||
+    !commercializationPage.includes("buildBenefitDecisionGuide") ||
+    !commercializationPage.includes("launchDecisionActions") ||
     !commercializationPage.includes("buildTodayBenefitQueue") ||
     !commercializationPage.includes("buildWeeklyBenefitCalendar") ||
+    !smoke.includes("Commercialization page missing launch benefit decision readiness") ||
+    !smoke.includes("Commercialization page missing launch decision action axes") ||
     !smoke.includes("Commercialization page missing daily benefit queue readiness") ||
     !smoke.includes("Commercialization page missing weekly benefit calendar readiness")
   ) {

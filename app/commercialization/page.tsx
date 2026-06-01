@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { getMockBusinessMetrics } from "@/lib/analytics";
 import { getDeals } from "@/lib/dealService";
+import { buildBenefitDecisionGuide, type BenefitDecisionGuideId } from "@/lib/deals/benefitDecisionGuide";
 import { buildTodayBenefitQueue } from "@/lib/deals/todayBenefitQueue";
 import { buildWeeklyBenefitCalendar } from "@/lib/deals/weeklyBenefitCalendar";
 import { listDealSourceProfiles } from "@/lib/deals/trust";
@@ -85,12 +86,19 @@ export default async function CommercializationPage() {
   } = await getMockBusinessMetrics();
   const { deals } = await getDeals();
   const todayBenefitQueue = buildTodayBenefitQueue(deals, 3);
+  const benefitDecisionGuide = buildBenefitDecisionGuide(deals);
   const weeklyBenefitCalendar = buildWeeklyBenefitCalendar(deals);
   const sources = listDealSourceProfiles();
   const activeSources = sources.filter((source) => source.status !== "planned");
   const topReviewDeals = linkReviewQueue.slice(0, 4);
   const topBenefitTypes = benefitQuality.typeBreakdown.slice(0, 6);
   const benefitActionQueue = benefitQuality.actionQueue.slice(0, 3);
+  const launchDecisionActions: Record<BenefitDecisionGuideId, string> = {
+    free: "무료 샘플, 체험, 초대권 수가 충분한지 확인하고 배송비/가입 조건을 보강",
+    coupon: "쿠폰 조건, 최소 주문 금액, 중복 가능 여부를 스토어 심사 전 재확인",
+    endingSoon: "마감 임박 혜택의 종료 시간, 품절 신고, 선착순 문구를 우선 점검",
+    verified: "실제 상품·혜택 상세 URL 연결 상태를 유지하고 검색 fallback 재등장 방지"
+  };
 
   return (
     <main className="min-h-screen bg-slate-50 px-4 py-8 text-slate-950">
@@ -207,6 +215,42 @@ export default async function CommercializationPage() {
           </div>
           <p className="mt-4 rounded-2xl bg-amber-50 px-4 py-3 text-xs font-bold leading-5 text-amber-900">
             {todayBenefitQueue.notice} 로그인은 {todayBenefitQueue.loginRequiredFor.join(", ")}에만 필요합니다.
+          </p>
+        </section>
+
+        <section className="mt-5 rounded-3xl border border-red-100 bg-white p-5 shadow-sm" aria-label="출시 전 혜택 판단표 준비도">
+          <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+            <div>
+              <p className="text-sm font-black text-red-600">출시 전 혜택 판단표 준비도</p>
+              <h2 className="mt-1 text-2xl font-black text-slate-950">고객이 먼저 누르는 4가지 혜택 축을 점검합니다</h2>
+              <p className="mt-2 max-w-2xl text-sm font-semibold leading-6 text-slate-500">
+                홈, 알림, 무료혜택, 운영 대시보드가 같은 판단표를 사용합니다. 출시 전에는 무료 수령, 결제 전 쿠폰, 마감 혜택, 구매처 확인 상품이 모두 충분히 채워져야 합니다.
+              </p>
+            </div>
+            <Link
+              href="/api/benefits/decision-guide"
+              className="inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-2xl bg-red-50 px-4 text-sm font-black text-red-600"
+            >
+              판단표 API 확인
+              <ExternalLink className="h-4 w-4" aria-hidden />
+            </Link>
+          </div>
+          <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {benefitDecisionGuide.map((item) => (
+              <div key={item.id} className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
+                <div className="flex items-start justify-between gap-3">
+                  <p className="text-sm font-black text-slate-950">{item.title}</p>
+                  <span className="rounded-full bg-white px-2.5 py-1 text-xs font-black text-red-600 shadow-sm">{item.value}</span>
+                </div>
+                <p className="mt-2 line-clamp-2 text-xs font-bold leading-5 text-slate-500">{item.copy}</p>
+                <p className="mt-3 rounded-2xl bg-white px-3 py-2 text-xs font-black leading-5 text-slate-700 shadow-sm">
+                  {launchDecisionActions[item.id]}
+                </p>
+              </div>
+            ))}
+          </div>
+          <p className="mt-4 rounded-2xl bg-amber-50 px-4 py-3 text-xs font-bold leading-5 text-amber-900">
+            판단표 기준은 공개 화면과 운영 화면을 동시에 보호합니다. 어느 한 축의 혜택 수가 부족하면 스토어 제출 전 공식/제휴 피드에서 해당 유형을 먼저 보강하세요.
           </p>
         </section>
 
