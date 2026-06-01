@@ -372,6 +372,45 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
     return claimedBenefits.filter((record) => record.claimedAt.slice(0, 10) === today).length;
   }, [claimedBenefits]);
   const claimedSavings = useMemo(() => claimedBenefits.reduce((total, record) => total + record.savingsAmount, 0), [claimedBenefits]);
+  const savedBenefitCount = useMemo(() => deals.filter((deal) => favorites.includes(deal.id)).length, [deals, favorites]);
+  const dailyMissionCards = useMemo(
+    () => [
+      {
+        title: "무료 혜택 1개 챙기기",
+        copy: "무료 샘플, 체험단, 초대권처럼 비용 부담이 낮은 혜택을 오늘 하나 확인합니다.",
+        done: claimedTodayCount > 0,
+        status: claimedTodayCount > 0 ? "완료" : "시작",
+        onClick: () => {
+          setActiveType("freebie");
+          setActiveOnly(true);
+          setSort("recommended");
+        }
+      },
+      {
+        title: "쿠폰 1개 저장하기",
+        copy: "결제 전 다시 쓸 수 있는 쿠폰, 포인트, 배달 혜택을 찜으로 남깁니다.",
+        done: savedBenefitCount > 0,
+        status: savedBenefitCount > 0 ? "저장됨" : "저장 전",
+        onClick: () => {
+          setActiveType("coupon");
+          setSort("popular");
+          setActiveOnly(true);
+        }
+      },
+      {
+        title: "내일 볼 루틴 예약",
+        copy: "아침 무료 혜택, 저녁 쿠폰 점검, 마감 전 확인 중 하나를 기기에 저장합니다.",
+        done: benefitReturnReservations.length > 0,
+        status: benefitReturnReservations.length > 0 ? "예약됨" : "예약 전",
+        onClick: () => {
+          setActiveType("all");
+          setEndingSoonOnly(true);
+          setSort("endingSoon");
+        }
+      }
+    ],
+    [benefitReturnReservations.length, claimedTodayCount, savedBenefitCount]
+  );
   const recentClaimedBenefits = claimedBenefits.slice(0, 3);
   const needsFinalCheckCount = deals.length - activeBenefitCount;
   const nextVisitPlan = useMemo(
@@ -818,6 +857,52 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
           <div className="mt-4 rounded-2xl bg-amber-50 p-3 text-xs font-bold leading-5 text-amber-900">
             무료, 쿠폰, 포인트 혜택은 판매처 사정에 따라 조기 종료될 수 있습니다. 최종 수령 가능 여부와 비용 발생 조건은 판매처 화면에서 다시 확인하세요.
           </div>
+        </section>
+
+        <section className="rounded-[28px] border border-red-100 bg-white p-4 shadow-sm sm:p-5" aria-label="오늘 혜택 미션">
+          <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
+            <div>
+              <p className="text-xs font-black text-dossa-red">오늘 혜택 미션</p>
+              <h2 className="mt-1 text-2xl font-black tracking-tight text-slate-950">하루에 세 가지만 챙기면 충분합니다</h2>
+              <p className="mt-2 max-w-2xl text-sm font-bold leading-6 text-slate-500">
+                비회원도 무료 혜택을 보고, 챙김 기록과 재방문 루틴을 기기에 남길 수 있습니다. 로그인은 찜 동기화와 개인화 저장이 필요할 때만 선택하세요.
+              </p>
+            </div>
+            <div className="rounded-2xl bg-red-50 px-4 py-3 text-sm font-black text-dossa-red">
+              완료 {dailyMissionCards.filter((mission) => mission.done).length}/3
+            </div>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-3">
+            {dailyMissionCards.map((mission, index) => (
+              <button
+                key={mission.title}
+                type="button"
+                onClick={mission.onClick}
+                aria-pressed={mission.done}
+                className={`min-h-[178px] rounded-3xl border p-4 text-left transition hover:-translate-y-0.5 ${
+                  mission.done ? "border-red-200 bg-red-50" : "border-slate-100 bg-slate-50 hover:border-red-200 hover:bg-red-50"
+                }`}
+                aria-label={`${mission.title} ${mission.status}`}
+              >
+                <span className="flex items-start justify-between gap-3">
+                  <span className={`inline-flex h-11 w-11 items-center justify-center rounded-2xl text-sm font-black shadow-sm ${mission.done ? "bg-dossa-red text-white" : "bg-white text-dossa-red"}`}>
+                    {mission.done ? <CheckCircle2 size={20} /> : index + 1}
+                  </span>
+                  <span className={`rounded-full px-2.5 py-1 text-xs font-black shadow-sm ${mission.done ? "bg-slate-950 text-white" : "bg-white text-dossa-red"}`}>
+                    {mission.status}
+                  </span>
+                </span>
+                <span className="mt-4 block text-sm font-black text-slate-950">{mission.title}</span>
+                <span className="mt-1 line-clamp-3 block text-xs font-bold leading-5 text-slate-500">{mission.copy}</span>
+                <span className="mt-3 inline-flex rounded-full bg-white px-3 py-1.5 text-xs font-black text-dossa-red shadow-sm">
+                  {mission.done ? "다시 보기" : "바로 시작"}
+                </span>
+              </button>
+            ))}
+          </div>
+          <p className="mt-4 rounded-2xl bg-slate-50 px-4 py-3 text-xs font-bold leading-5 text-slate-500">
+            오늘 혜택 미션은 알림 권한 없이 화면 안에서만 동작합니다. 실제 신청 여부와 최종 가격은 판매처에서 확인하세요.
+          </p>
         </section>
 
         <section className="rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5" aria-label="혜택 준비물 체크">

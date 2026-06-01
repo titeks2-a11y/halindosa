@@ -1484,6 +1484,12 @@ async function checkOperationalDataSurfaces() {
     !freeBenefitsClient.includes("sourceOverview") ||
     !freeBenefitsClient.includes("혜택 출처·조건 점검") ||
     !freeBenefitsClient.includes("받기 전에 출처와 조건을 먼저 봅니다") ||
+    !freeBenefitsClient.includes("dailyMissionCards") ||
+    !freeBenefitsClient.includes("오늘 혜택 미션") ||
+    !freeBenefitsClient.includes("하루에 세 가지만 챙기면 충분합니다") ||
+    !freeBenefitsClient.includes("무료 혜택 1개 챙기기") ||
+    !freeBenefitsClient.includes("쿠폰 1개 저장하기") ||
+    !freeBenefitsClient.includes("내일 볼 루틴 예약") ||
     !freeBenefitsClient.includes("내가 챙긴 혜택 기록") ||
     !freeBenefitsClient.includes("오늘 실제로 챙긴 혜택을 남겨보세요") ||
     !freeBenefitsClient.includes("claimedFollowUpPlan") ||
@@ -1523,6 +1529,7 @@ async function checkOperationalDataSurfaces() {
     !topNavigation.includes("/free-benefits") ||
     !smoke.includes("free benefits page") ||
     !smoke.includes("Free benefits page missing pre-claim condition summary") ||
+    !smoke.includes("Free benefits page missing daily benefit mission") ||
     !smoke.includes("Free benefits page missing benefit readiness checklist") ||
     !smoke.includes("Free benefits page missing readiness filter actions") ||
     !smoke.includes("Free benefits page missing filtered readiness summary") ||

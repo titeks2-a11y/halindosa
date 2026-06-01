@@ -597,6 +597,14 @@ await check("free benefits page", async () => {
   const text = await response.text();
   assert(response.status === 200, `Expected 200, got ${response.status}`);
   assert(text.includes("무료 혜택 전용 탭"), "Free benefits page missing title");
+  assert(
+    text.includes("오늘 혜택 미션") &&
+      text.includes("하루에 세 가지만 챙기면 충분합니다") &&
+      text.includes("무료 혜택 1개 챙기기") &&
+      text.includes("쿠폰 1개 저장하기") &&
+      text.includes("내일 볼 루틴 예약"),
+    "Free benefits page missing daily benefit mission"
+  );
   assert(text.includes("수령 전 30초 확인") && text.includes("무료 혜택도 조건을 알고 받아야 합니다"), "Free benefits page missing pre-claim condition summary");
   assert(text.includes("혜택 준비물 체크") && text.includes("받기 전 필요한 조건만 먼저 정리합니다"), "Free benefits page missing benefit readiness checklist");
   assert(text.includes("회원가입 없이 받을 혜택") && text.includes("배송비 부담 없는 혜택") && text.includes("쿠폰 조건 확인 필요"), "Free benefits page missing readiness filter actions");
