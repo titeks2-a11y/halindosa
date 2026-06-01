@@ -192,6 +192,8 @@ async function checkEnvExample() {
     "NAVER_CLIENT_ID",
     "NAVER_CLIENT_SECRET",
     "DEAL_FEED_URLS",
+    "DEAL_PRODUCTION_FEED_URLS",
+    "DEAL_PARTNER_FEED_URLS",
     "DEAL_NEWS_RSS_URLS",
     "DEAL_COMMUNITY_RSS_URLS",
     "PPOMPPU_HOTDEAL_ENABLE",
@@ -1147,6 +1149,8 @@ async function checkOperationalDataSurfaces() {
   const topNavigation = await text("components/TopNavigation.tsx");
   const trust = await text("lib/deals/trust.ts");
   const sourcesRoute = await text("app/api/sources/route.ts");
+  const productionProvider = await text("lib/deals/providers/productionProvider.ts");
+  const dataSourceRunbook = await text("docs/data-source-runbook.md");
 
   const staticDataImports = [
     ["app/categories/page.tsx", categoriesPage],
@@ -1375,16 +1379,25 @@ async function checkOperationalDataSurfaces() {
     !trust.includes("export function getDealSourceReadiness") ||
     !trust.includes("verifiedRate") ||
     !trust.includes("conditionReadyCount") ||
+    !productionProvider.includes("getConfiguredProductionFeedUrls") ||
+    !productionProvider.includes("DEAL_PRODUCTION_FEED_URLS") ||
+    !productionProvider.includes("validatePartnerFeed") ||
+    !productionProvider.includes("normalizePartnerFeed") ||
+    !productionProvider.includes("AbortController") ||
     !sourcesRoute.includes("operationPolicy") ||
+    !sourcesRoute.includes("configuredProductionFeeds") ||
     !sourcesRoute.includes("allowedSources") ||
     !sourcesRoute.includes("blockedSources") ||
     !adminPage.includes("운영 피드 전환 준비도") ||
     !adminPage.includes("공식 API·제휴 피드로 바꿀 때 볼 품질 기준") ||
-    !smoke.includes("Sources API missing source readiness summary")
+    !dataSourceRunbook.includes("Production JSON Feed") ||
+    !dataSourceRunbook.includes("DEAL_PRODUCTION_FEED_URLS") ||
+    !smoke.includes("Sources API missing source readiness summary") ||
+    !smoke.includes("Sources API missing configured production feed count")
   ) {
-    fail("source readiness operation", "Sources API and admin dashboard should expose source readiness, allowed source policy, blocked source policy, and verified link quality for production feed transition.");
+    fail("source readiness operation", "Sources API, production provider, docs, and admin dashboard should expose source readiness, safe production JSON feed loading, allowed source policy, blocked source policy, and verified link quality for production feed transition.");
   } else {
-    pass("source readiness operation", "Sources API and admin dashboard expose source readiness and safe operating policy for official API, RSS, and partner feed transition.");
+    pass("source readiness operation", "Sources API, production provider, docs, and admin dashboard expose source readiness and safe production JSON feed policy for official API, RSS, and partner feed transition.");
   }
 
   if (!dealRepository.includes("export async function findDealByIdLive") || /findDealByIdLive[\s\S]{0,180}findDealById\(id\)[\s\S]{0,80}await getDeals/.test(dealRepository)) {

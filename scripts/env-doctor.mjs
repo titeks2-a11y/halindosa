@@ -37,7 +37,7 @@ const checks = [
   {
     group: "deal data",
     required: ["DEAL_DATA_MODE"],
-    optional: ["DEAL_PROVIDER", "DEAL_FEED_URLS", "DEAL_NEWS_RSS_URLS", "DEAL_COMMUNITY_RSS_URLS", "NAVER_CLIENT_ID", "NAVER_CLIENT_SECRET"]
+    optional: ["DEAL_PROVIDER", "DEAL_FEED_URLS", "DEAL_PRODUCTION_FEED_URLS", "DEAL_PARTNER_FEED_URLS", "DEAL_NEWS_RSS_URLS", "DEAL_COMMUNITY_RSS_URLS", "NAVER_CLIENT_ID", "NAVER_CLIENT_SECRET"]
   },
   {
     group: "operations",

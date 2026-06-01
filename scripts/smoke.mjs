@@ -768,6 +768,8 @@ await check("sources api", async () => {
   assert(data.readiness.some((source) => source.key === "mock" && typeof source.verifiedRate === "number" && source.nextAction), "Sources API missing mock readiness quality fields");
   assert(data.operationPolicy?.allowedSources?.includes("공식 API"), "Sources API missing allowed source policy");
   assert(data.operationPolicy?.blockedSources?.some((value) => value.includes("검색 결과")), "Sources API missing blocked source policy");
+  assert(typeof data.operationPolicy?.configuredProductionFeeds === "number", "Sources API missing configured production feed count");
+  assert(data.operationPolicy?.nextStep?.includes("DEAL_PRODUCTION_FEED_URLS") || data.operationPolicy?.nextStep?.includes("dry-run"), "Sources API missing production feed next step");
 });
 
 await check("report api", async () => {

@@ -15,6 +15,7 @@ V1.0은 mock 데이터를 기본으로 사용하지만, 운영 전환 시 공식
 
 ```bash
 DEAL_DATA_MODE=mock
+DEAL_PRODUCTION_FEED_URLS=https://partner.example/deals.json
 ```
 
 ## 상태 확인
@@ -25,7 +26,7 @@ GET /api/health
 GET /api/metrics
 ```
 
-`/api/sources`는 공급원별 상태, 신뢰도, 현재 deal 수를 반환한다.
+`/api/sources`는 공급원별 상태, 신뢰도, 현재 deal 수, 운영 피드 전환 준비도, 허용/차단 데이터 정책을 반환한다.
 
 ## 운영 전환 순서
 
@@ -36,8 +37,39 @@ GET /api/metrics
 5. 커뮤니티 글은 `sourceUrl/sourceName`에 보관하고 실제 구매 링크만 `finalPurchaseUrl`로 저장
 6. 테스트 서버에서 `DEAL_DATA_MODE=staging`
 7. smoke와 release doctor 통과 확인
-8. 운영 API 또는 DB 저장 경로 연결
+8. 운영 API, DB 저장 경로, 또는 `DEAL_PRODUCTION_FEED_URLS` 파트너 JSON 피드 연결
 9. `DEAL_DATA_MODE=production`
+
+## Production JSON Feed
+
+`DEAL_DATA_MODE=production` 또는 `hybrid`에서 `DEAL_PRODUCTION_FEED_URLS`를 설정하면 서버가 허용된 공식/제휴 JSON 피드를 읽는다.
+
+지원 형태:
+
+```json
+[
+  {
+    "id": "partner-001",
+    "mallName": "공식몰",
+    "title": "상품명",
+    "originalPrice": 39800,
+    "salePrice": 24900,
+    "productUrl": "https://...",
+    "expiresAt": "2026-06-02T12:00:00.000Z",
+    "tags": ["무료배송", "쿠폰"]
+  }
+]
+```
+
+또는 `{ "deals": [...] }`, `{ "items": [...] }`를 사용할 수 있다.
+
+처리 기준:
+
+- 각 URL은 5초 timeout 안에 JSON으로 응답해야 한다.
+- `externalId/id`, `mall/mallName`, `title`, `originalPrice`, `salePrice`, `productUrl/finalPurchaseUrl/affiliateUrl`이 필요하다.
+- 커뮤니티 글, placeholder, 검색 결과만 있는 링크는 운영 피드로 등록하지 않는다.
+- 피드는 `validatePartnerFeed`와 `normalizePartnerFeed` 검증 경로를 거쳐 유효한 상품만 `production` 데이터로 노출한다.
+- 실패하거나 유효 상품이 없으면 기존 mock fallback이 유지된다.
 
 ## 중단 기준
 
