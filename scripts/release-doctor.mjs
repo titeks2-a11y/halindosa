@@ -1068,6 +1068,8 @@ async function checkUiAccessibility() {
     !homePage.includes("할인율 최고") ||
     !homePage.includes("listComparisonCards") ||
     !homePage.includes('aria-label="현재 목록 가격 비교"') ||
+    !homePage.includes('aria-label="심화 혜택 탐색 접기"') ||
+    !homePage.includes("상품 목록을 먼저 보고, 필요할 때 혜택 분석을 펼치세요") ||
     !homePage.includes("가격으로 먼저 고를 4가지 후보") ||
     !homePage.includes("절약액 큼") ||
     !homePage.includes("마감 먼저") ||

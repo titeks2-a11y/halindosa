@@ -2529,7 +2529,22 @@ export default function Home() {
         ) : null}
         {activeView === "home" ? (
           <>
-            <section className="overflow-hidden rounded-[28px] border border-red-100 bg-white shadow-sm" aria-label="첫 화면 혜택 우선순위 큐">
+            <details className="group overflow-hidden rounded-[28px] border border-red-100 bg-white shadow-sm" aria-label="심화 혜택 탐색 접기">
+              <summary className="flex cursor-pointer list-none flex-col gap-3 bg-gradient-to-r from-red-50 via-white to-orange-50 px-4 py-4 outline-none transition hover:bg-red-50 focus-visible:ring-4 focus-visible:ring-red-100 sm:flex-row sm:items-center sm:justify-between sm:px-5 [&::-webkit-details-marker]:hidden">
+                <span>
+                  <span className="block text-xs font-black text-dossa-red">심화 혜택 탐색</span>
+                  <span className="mt-1 block text-lg font-black text-slate-950 sm:text-xl">상품 목록을 먼저 보고, 필요할 때 혜택 분석을 펼치세요</span>
+                  <span className="mt-1 block text-xs font-bold leading-5 text-slate-500">
+                    무료혜택 큐, 오늘 브리핑, 개인화 추천, 쇼핑몰별 탐색을 접어 첫 화면을 더 짧게 유지합니다.
+                  </span>
+                </span>
+                <span className="inline-flex min-h-10 shrink-0 items-center justify-center rounded-2xl bg-slate-950 px-4 text-xs font-black text-white transition group-open:bg-dossa-red">
+                  <span className="group-open:hidden">펼쳐보기</span>
+                  <span className="hidden group-open:inline">접기</span>
+                </span>
+              </summary>
+              <div className="space-y-4 p-3 sm:p-4">
+                <section className="overflow-hidden rounded-[28px] border border-red-100 bg-white shadow-sm" aria-label="첫 화면 혜택 우선순위 큐">
               <div className="border-b border-red-100 bg-red-50 px-4 py-4 sm:px-5">
                 <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
                   <div>
@@ -3115,6 +3130,8 @@ export default function Home() {
               onOpenDeal={openDeal}
               onShareDeal={shareDeal}
             />
+              </div>
+            </details>
 
             <div className="rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
               <div className="flex flex-col gap-3 lg:flex-row">
