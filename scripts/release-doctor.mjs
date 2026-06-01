@@ -560,8 +560,8 @@ async function checkPartnerFeedSafety() {
   const verifiedRate = dealCount ? Math.round((verifiedCount / dealCount) * 100) : 0;
   const linkReport = existsSync(join(root, "docs/link-coverage-report.md")) ? await text("docs/link-coverage-report.md") : "";
 
-    if (verifiedCount < 60 || verifiedRate < 100) {
-      fail("verified purchase link coverage", `Expected all 60 curated deals to have verified direct seller/product links, got ${verifiedCount}/${dealCount} (${verifiedRate}%).`);
+    if (verifiedCount < 90 || verifiedRate < 100) {
+      fail("verified purchase link coverage", `Expected all 90 curated deals to have verified direct seller/product links, got ${verifiedCount}/${dealCount} (${verifiedRate}%).`);
     } else if (!smoke.includes("verified direct purchase link coverage")) {
       fail("verified purchase link coverage", "Smoke tests should assert the verified direct purchase link coverage threshold.");
   } else if (!linkReport.includes(`검증된 실제 구매 상세 URL: ${verifiedCount}개`) || !linkReport.includes(`검증 커버리지: ${verifiedRate}%`) || !linkReport.includes("보강 대기 상품")) {

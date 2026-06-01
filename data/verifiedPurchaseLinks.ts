@@ -476,5 +476,77 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     checkedAt: "2026-06-01T11:20:00.000Z",
     source: "manual_review",
     evidence: "티켓링크 공식 이벤트 페이지"
+  },
+  d079: {
+    url: "https://www.coupang.com/vp/products/8943433269",
+    checkedAt: "2026-06-01T22:45:00.000Z",
+    source: "manual_review",
+    evidence: "쿠팡 탐사 고평량 종이컵 디자인 380ml 상품 상세"
+  },
+  d080: {
+    url: "https://item.gmarket.co.kr/Item?goodscode=920731222",
+    checkedAt: "2026-06-01T22:45:00.000Z",
+    source: "manual_review",
+    evidence: "G마켓 CJ 햇반 즉석밥 210g 24개 상품 상세"
+  },
+  d081: {
+    url: "https://www.11st.co.kr/products/2463145821",
+    checkedAt: "2026-06-01T22:45:00.000Z",
+    source: "manual_review",
+    evidence: "11번가 베이직 무향 엠보싱 물티슈 캡형 100매 20팩 상품 상세"
+  },
+  d082: {
+    url: "https://www.kurly.com/goods/5070677",
+    checkedAt: "2026-06-01T22:45:00.000Z",
+    source: "manual_review",
+    evidence: "마켓컬리 My Basic 매일 좋은 1A 우유 900mL 상품 상세"
+  },
+  d083: {
+    url: "https://www.ssg.com/item/dealItemView.ssg?itemId=1000035319272",
+    checkedAt: "2026-06-01T22:45:00.000Z",
+    source: "manual_review",
+    evidence: "SSG 다우니 대용량 섬유유연제 모음 딜 상세"
+  },
+  d084: {
+    url: "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0023645183",
+    checkedAt: "2026-06-01T22:45:00.000Z",
+    source: "manual_review",
+    evidence: "하이마트 LG 오브제 칸 스탠드에어컨 상품 상세"
+  },
+  d085: {
+    url: "https://www.11st.co.kr/products/2635032094",
+    checkedAt: "2026-06-01T22:45:00.000Z",
+    source: "manual_review",
+    evidence: "11번가 하기스 매직컴포트 팬티형 기저귀 5단계 상품 상세"
+  },
+  d086: {
+    url: "https://www.musinsa.com/products/6092416",
+    checkedAt: "2026-06-01T22:45:00.000Z",
+    source: "manual_review",
+    evidence: "무신사 빈폴 멘 Essential 피케 칼라넥 반소매 티셔츠 상품 상세"
+  },
+  d087: {
+    url: "https://item.gmarket.co.kr/Item?goodscode=1503733317",
+    checkedAt: "2026-06-01T22:45:00.000Z",
+    source: "manual_review",
+    evidence: "G마켓 맥심 모카골드 리필커피 상품 상세"
+  },
+  d088: {
+    url: "https://www.coupang.com/vp/products/8263119298",
+    checkedAt: "2026-06-01T22:45:00.000Z",
+    source: "manual_review",
+    evidence: "쿠팡 샤오미 미밴드 9 스마트밴드 상품 상세"
+  },
+  d089: {
+    url: "https://item.gmarket.co.kr/Item?goodscode=2439050806",
+    checkedAt: "2026-06-01T22:45:00.000Z",
+    source: "manual_review",
+    evidence: "G마켓 홈매트 리퀴드 홈솔루션 훈증기 리필 상품 상세"
+  },
+  d090: {
+    url: "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0000066953",
+    checkedAt: "2026-06-01T22:45:00.000Z",
+    source: "manual_review",
+    evidence: "하이마트 HDMI 케이블 10종 HIMCAB-H1.8 상품 상세"
   }
 };

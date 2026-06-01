@@ -281,7 +281,19 @@ export const mockDeals: Deal[] = [
   deal("d075", "롯데시네마", "롯데시네마 시사회·영화 할인 이벤트", "여행/티켓", 15000, 100, 0.9, 22, { isHot: true, isNew: true, isEndingSoon: false }, ["무료 초대권", "영화", "시사회", "이벤트"], 84, "", "https://www.lottecinema.co.kr/NLCHS/Event"),
   deal("d076", "메가MGC커피", "메가MGC커피 앱 쿠폰·음료 이벤트", "쿠폰/이벤트", 2500, 100, 0.4, 12, { isHot: true, isNew: true, isEndingSoon: true }, ["커피", "음료", "무료 쿠폰", "앱가입"], 88, "", "https://www.mega-mgccoffee.com/bbs/?bbs_category=3"),
   deal("d077", "카카오톡 선물하기", "카카오톡 선물하기 첫 구매 쿠폰 이벤트", "쿠폰/이벤트", 5000, 100, 0.5, 18, { isHot: true, isNew: true, isEndingSoon: true }, ["첫 구매", "친구 초대", "쿠폰", "선물하기"], 90, "", "https://gift.kakao.com/page/event"),
-  deal("d078", "티켓링크", "티켓링크 전시·공연 할인 이벤트", "여행/티켓", 20000, 100, 1.4, 42, { isHot: false, isNew: true, isEndingSoon: false }, ["전시", "공연", "무료 초대권", "티켓"], 82, "", "https://www.ticketlink.co.kr/event")
+  deal("d078", "티켓링크", "티켓링크 전시·공연 할인 이벤트", "여행/티켓", 20000, 100, 1.4, 42, { isHot: false, isNew: true, isEndingSoon: false }, ["전시", "공연", "무료 초대권", "티켓"], 82, "", "https://www.ticketlink.co.kr/event"),
+  deal("d079", "쿠팡", "탐사 고평량 종이컵 디자인 380ml 100개입", "생활용품", 9400, 31, 0.7, 30, { isHot: true, isNew: true, isEndingSoon: false }, ["로켓배송", "생활필수", "무료배송"], 87, "", "https://www.coupang.com/vp/products/8943433269"),
+  deal("d080", "G마켓", "CJ 햇반 즉석밥 210g 24개", "식품", 30900, 14, 1.8, 28, { isHot: true, isNew: true, isEndingSoon: false }, ["간편식", "쿠폰적용", "무료배송"], 84, "", "https://item.gmarket.co.kr/Item?goodscode=920731222"),
+  deal("d081", "11번가", "베이직 무향 엠보싱 물티슈 캡형 100매 20팩", "생활용품", 18900, 25, 2.2, 24, { isHot: false, isNew: true, isEndingSoon: false }, ["생활필수", "무배", "인기"], 80, "", "https://www.11st.co.kr/products/2463145821"),
+  deal("d082", "마켓컬리", "My Basic 매일 좋은 1A 우유 900mL", "식품", 2550, 10, 0.9, 8, { isHot: false, isNew: true, isEndingSoon: true }, ["신선식품", "샛별배송", "오늘만"], 76, "", "https://www.kurly.com/goods/5070677"),
+  deal("d083", "SSG닷컴", "다우니 대용량 섬유유연제 2.8L / 8.5L 모음", "생활용품", 35900, 5, 3.5, 50, { isHot: false, isNew: true, isEndingSoon: false }, ["세제", "생활필수", "쿠폰적용"], 75, "", "https://www.ssg.com/item/dealItemView.ssg?itemId=1000035319272"),
+  deal("d084", "하이마트", "LG 오브제 칸 스탠드에어컨 FQ18EK1HA1M", "가전", 499000, 28, 4.2, 72, { isHot: true, isNew: false, isEndingSoon: false }, ["가전", "설치상품", "카드할인"], 82, "", "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0023645183"),
+  deal("d085", "11번가", "하기스 매직컴포트 팬티형 기저귀 5단계 42매", "육아", 29900, 18, 1.3, 32, { isHot: false, isNew: true, isEndingSoon: false }, ["육아", "기저귀", "쿠폰적용"], 78, "", "https://www.11st.co.kr/products/2635032094"),
+  deal("d086", "무신사", "빈폴 멘 Essential 피케 칼라넥 반소매 티셔츠", "의류", 89000, 20, 2.7, 36, { isHot: false, isNew: true, isEndingSoon: false }, ["패션", "무료배송", "브랜드"], 79, "", "https://www.musinsa.com/products/6092416"),
+  deal("d087", "G마켓", "맥심 모카골드 리필커피 오리지날 500g", "식품", 21900, 15, 2.4, 26, { isHot: false, isNew: true, isEndingSoon: false }, ["커피", "쿠폰적용", "생활필수"], 77, "", "https://item.gmarket.co.kr/Item?goodscode=1503733317"),
+  deal("d088", "쿠팡", "샤오미 미밴드 9 스마트밴드", "전자기기", 59900, 20, 1.6, 44, { isHot: true, isNew: true, isEndingSoon: false }, ["디지털", "무료배송", "인기"], 85, "", "https://www.coupang.com/vp/products/8263119298"),
+  deal("d089", "G마켓", "홈매트 리퀴드 홈솔루션 훈증기 + 리필 2입 3개", "생활용품", 21000, 18, 5, 30, { isHot: false, isNew: true, isEndingSoon: false }, ["생활필수", "여름용품", "쿠폰적용"], 76, "", "https://item.gmarket.co.kr/Item?goodscode=2439050806"),
+  deal("d090", "하이마트", "HDMI 케이블 10종 HIMCAB-H1.8 1.8m", "전자기기", 9900, 25, 3.2, 60, { isHot: false, isNew: true, isEndingSoon: false }, ["디지털", "소모품", "오늘만"], 72, "", "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0000066953")
 ];
 
 export const categories = ["전체", "식품", "전자기기", "생활용품", "의류", "육아", "여행/티켓", "뷰티", "가전", "편의점/마트", "쿠폰/이벤트", "기타"] as const;

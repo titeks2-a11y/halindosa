@@ -9,11 +9,11 @@ const verifiedPurchaseLinks = readFileSync(join(root, "data/verifiedPurchaseLink
 const requiredCategories = ["식품", "전자기기", "생활용품", "의류", "육아", "여행/티켓", "뷰티", "가전", "편의점/마트", "쿠폰/이벤트"];
 const requiredDealTypes = ["discount", "freebie", "coupon", "freeShipping", "experience", "point", "convenienceStore", "mart", "foodDelivery"];
 const minimums = {
-  totalDeals: 75,
+  totalDeals: 90,
   verifiedCoverageRate: 100,
   mallCount: 18,
   categoryCount: 10,
-  benefitHeavyDeals: 20
+  benefitHeavyDeals: 24
 };
 
 function extractDeals() {
