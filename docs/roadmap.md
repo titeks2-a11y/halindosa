@@ -410,3 +410,4 @@
 - 카테고리 화면의 생활 혜택 빠른 지도와 목적별 탐색 루틴에 `문화 초대권·무료 관람`, `앱테크 적립 루틴`, `매일 적립할 것`, `무료 관람할 것`을 추가해 문화 혜택과 적립 혜택을 상품 카테고리 없이 바로 고를 수 있게 개선했다.
 - `npm run feed:production:doctor`를 추가해 운영 JSON 피드 URL을 설정했을 때 실제 `production` 데이터가 `/api/deals`와 `/api/sources`까지 연결되는지 로컬 fixture로 검증하도록 했다.
 - `npm run feed:validate`를 추가해 파트너 피드 파일/URL을 운영 연결 전에 필수 필드, 가격, 상세 URL, 커뮤니티/검색 fallback 기준으로 검수할 수 있게 했다.
+- `feed:validate --report` 옵션을 추가해 운영 피드 검수 결과를 ready/needs_fix 행 단위 JSON 리포트로 남기고 수정 우선순위를 확인할 수 있게 했다.

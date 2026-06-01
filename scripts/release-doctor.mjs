@@ -1397,7 +1397,12 @@ async function checkOperationalDataSurfaces() {
     !dataSourceRunbook.includes("Production JSON Feed") ||
     !dataSourceRunbook.includes("DEAL_PRODUCTION_FEED_URLS") ||
     !dataSourceRunbook.includes("npm run feed:validate") ||
+    !dataSourceRunbook.includes("--report") ||
+    !dataSourceRunbook.includes("readyRate=100") ||
     !partnerFeedValidator.includes("DEAL_PRODUCTION_FEED_URLS") ||
+    !partnerFeedValidator.includes("writeReport") ||
+    !partnerFeedValidator.includes("readyRate") ||
+    !partnerFeedValidator.includes("needs_fix") ||
     !partnerFeedValidator.includes("커뮤니티 원문 또는 placeholder") ||
     !partnerFeedValidator.includes("실제 상품/혜택 상세 URL") ||
     !partnerFeedValidator.includes("Partner feed validation passed") ||

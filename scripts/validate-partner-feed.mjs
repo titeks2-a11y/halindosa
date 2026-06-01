@@ -1,4 +1,5 @@
-import { readFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { dirname } from "node:path";
 
 const communityHosts = [
   "ppomppu.co.kr",
@@ -52,7 +53,7 @@ const sampleItems = [
 ];
 
 function parseArgs(argv) {
-  const args = { files: [], urls: [] };
+  const args = { files: [], urls: [], reportPath: "" };
 
   for (let index = 0; index < argv.length; index += 1) {
     const value = argv[index];
@@ -63,6 +64,9 @@ function parseArgs(argv) {
       index += 1;
     } else if (value === "--url" && next) {
       args.urls.push(next);
+      index += 1;
+    } else if (value === "--report" && next) {
+      args.reportPath = next;
       index += 1;
     } else if (/^https?:\/\//i.test(value)) {
       args.urls.push(value);
@@ -108,6 +112,15 @@ function getPrimaryUrl(item) {
   const fields = ["affiliateUrl", "finalPurchaseUrl", "productUrl", "purchaseUrl", "originalUrl", "link", "searchUrl"];
   const field = fields.find((key) => typeof item[key] === "string" && item[key].trim());
   return field ? { field, value: item[field].trim() } : { field: "", value: "" };
+}
+
+function getItemIdentity(item, index) {
+  return {
+    row: index + 1,
+    externalId: String(item.externalId ?? item.id ?? "").trim(),
+    mall: String(item.mall ?? item.mallName ?? "").trim(),
+    title: String(item.title ?? "").trim()
+  };
 }
 
 function isValidHttpUrl(value) {
@@ -161,8 +174,8 @@ function looksLikeProductDetail(value) {
   return detailUrlPatterns.some((pattern) => pattern.test(value));
 }
 
-function issue(index, field, message) {
-  return { index, field, message };
+function issue(index, field, message, severity = "error") {
+  return { index, field, message, severity };
 }
 
 function validateItem(item, index) {
@@ -211,13 +224,29 @@ function validateFeed(items, source) {
   const issues = items.flatMap((item, index) => validateItem(item, index));
   const invalidIndexes = new Set(issues.map((item) => item.index));
   const valid = items.length - invalidIndexes.size;
+  const rows = items.map((item, index) => {
+    const rowIssues = issues.filter((issueItem) => issueItem.index === index);
+    const primary = getPrimaryUrl(item);
+
+    return {
+      ...getItemIdentity(item, index),
+      status: rowIssues.length ? "needs_fix" : "ready",
+      primaryUrlField: primary.field || null,
+      primaryUrl: primary.value || null,
+      issueCount: rowIssues.length,
+      issues: rowIssues.map(({ field, message, severity }) => ({ field, message, severity }))
+    };
+  });
 
   return {
     source,
     received: items.length,
     valid,
     invalid: invalidIndexes.size,
-    issues
+    readyRate: items.length ? Math.round((valid / items.length) * 100) : 0,
+    issues,
+    rows,
+    generatedAt: new Date().toISOString()
   };
 }
 
@@ -231,6 +260,41 @@ function printResult(result) {
   if (result.issues.length > 30) {
     console.log(`- ...and ${result.issues.length - 30} more issues`);
   }
+}
+
+function buildReport(results) {
+  const totals = results.reduce(
+    (acc, result) => ({
+      received: acc.received + result.received,
+      valid: acc.valid + result.valid,
+      invalid: acc.invalid + result.invalid,
+      issues: acc.issues + result.issues.length
+    }),
+    { received: 0, valid: 0, invalid: 0, issues: 0 }
+  );
+
+  return {
+    ok: totals.invalid === 0 && totals.valid > 0,
+    generatedAt: new Date().toISOString(),
+    totals: {
+      ...totals,
+      readyRate: totals.received ? Math.round((totals.valid / totals.received) * 100) : 0
+    },
+    policy: {
+      allowed: ["공식 API", "제휴 피드", "브랜드 공식몰", "실제 상품/혜택 상세 URL"],
+      blocked: ["커뮤니티 원문 단독 링크", "placeholder URL", "쇼핑몰 메인", "검색 결과 fallback", "http/https가 아닌 URL"],
+      nextAction: totals.invalid
+        ? "needs_fix 행의 productUrl/finalPurchaseUrl/affiliateUrl을 실제 상세 URL로 보강한 뒤 다시 검증하세요."
+        : "운영 피드 연결 전 production feed doctor와 release doctor를 이어서 실행하세요."
+    },
+    results
+  };
+}
+
+async function writeReport(reportPath, report) {
+  await mkdir(dirname(reportPath), { recursive: true });
+  await writeFile(reportPath, `${JSON.stringify(report, null, 2)}\n`, "utf8");
+  console.log(`\nPartner feed validation report written: ${reportPath}`);
 }
 
 async function main() {
@@ -248,6 +312,7 @@ async function main() {
   if (!targets.length) {
     const result = validateFeed(sampleItems, "built-in sample");
     printResult(result);
+    if (args.reportPath) await writeReport(args.reportPath, buildReport([result]));
     console.log("\nPartner feed validator passed with the built-in sample. Pass --file, --url, or DEAL_PRODUCTION_FEED_URLS to validate an operating feed.");
     return;
   }
@@ -261,6 +326,7 @@ async function main() {
   }
 
   for (const result of results) printResult(result);
+  if (args.reportPath) await writeReport(args.reportPath, buildReport(results));
 
   const totalInvalid = results.reduce((sum, result) => sum + result.invalid, 0);
   const totalValid = results.reduce((sum, result) => sum + result.valid, 0);
