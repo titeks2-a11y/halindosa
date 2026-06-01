@@ -1510,6 +1510,8 @@ async function checkOperationalDataSurfaces() {
     !freeBenefitsClient.includes("배송비:") ||
     !freeBenefitsClient.includes("혜택 조건 요약") ||
     !freeBenefitsClient.includes("최소금액:") ||
+    !freeBenefitsClient.includes("혜택 찜") ||
+    !freeBenefitsClient.includes("toggleFavorite(deal.id)") ||
     !freeBenefitsClient.includes("혜택 공유") ||
     !freeBenefitsClient.includes("shareDeal(deal)") ||
     !freeBenefitsClient.includes("reason=expired") ||
@@ -1532,6 +1534,7 @@ async function checkOperationalDataSurfaces() {
     !smoke.includes("Free benefits page missing claimed benefit follow-up plan") ||
     !smoke.includes("Free benefits page missing next visit benefit plan") ||
     !smoke.includes("Free benefits page missing local return reservation board") ||
+    !smoke.includes("Free benefits page missing top-level favorite action") ||
     !smoke.includes("Free benefits page missing top-level share action") ||
     !smoke.includes("Free benefits page missing active-benefit status filter")
   ) {

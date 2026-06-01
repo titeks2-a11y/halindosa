@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, AlertTriangle, CalendarDays, CheckCircle2, ExternalLink, Gift, Search, Share2, ShieldCheck, Sparkles, Timer, Truck } from "lucide-react";
+import { ArrowLeft, AlertTriangle, CalendarDays, CheckCircle2, ExternalLink, Gift, Heart, Search, Share2, ShieldCheck, Sparkles, Timer, Truck } from "lucide-react";
 import { DealCard } from "@/components/DealCard";
 import { readBenefitReturnReservations, writeBenefitReturnReservations } from "@/lib/benefitReturnReservations";
 import { readClaimedBenefits, toggleClaimedBenefit } from "@/lib/claimedBenefits";
@@ -1470,15 +1470,27 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
                     <span className="rounded-2xl bg-slate-50 px-3 py-2">만료: {deal.isEndingSoon ? "마감 임박" : "진행 중"}</span>
                     {deal.couponCondition ? <span className="col-span-2 rounded-2xl bg-red-50 px-3 py-2 text-dossa-red">조건: {deal.couponCondition}</span> : null}
                   </div>
-                  <div className="mt-3 grid grid-cols-[1fr_auto_auto_auto_auto] gap-2">
+                  <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-[1fr_auto_auto_auto_auto_auto]">
                     <button
                       type="button"
                       onClick={() => openDeal(deal)}
-                      className="inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl bg-dossa-red px-3 text-sm font-black text-white transition hover:bg-dossa-deep"
+                      className="col-span-2 inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl bg-dossa-red px-3 text-sm font-black text-white transition hover:bg-dossa-deep sm:col-span-1"
                       aria-label={`${deal.title} ${deal.claimCta}`}
                     >
                       {deal.claimCta}
                       <ExternalLink size={15} />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => toggleFavorite(deal.id)}
+                      aria-pressed={favorites.includes(deal.id)}
+                      className={`inline-flex min-h-11 items-center justify-center gap-1.5 rounded-2xl px-3 text-xs font-black transition ${
+                        favorites.includes(deal.id) ? "bg-red-50 text-dossa-red ring-1 ring-red-100" : "border border-slate-200 bg-white text-slate-600 hover:border-red-100 hover:text-dossa-red"
+                      }`}
+                      aria-label={`${deal.title} 혜택 찜 ${favorites.includes(deal.id) ? "해제" : "추가"}`}
+                    >
+                      <Heart size={15} fill={favorites.includes(deal.id) ? "currentColor" : "none"} />
+                      찜
                     </button>
                     <button
                       type="button"
