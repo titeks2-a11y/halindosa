@@ -131,6 +131,7 @@ function deal(
     id,
     title,
     description,
+    brand: mall,
     price: salePrice,
     originalPrice,
     salePrice,

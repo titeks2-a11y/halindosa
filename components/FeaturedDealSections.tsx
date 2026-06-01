@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { BadgePercent, Flame, Sparkles, Timer, Truck, Zap } from "lucide-react";
 import { DealCard } from "@/components/DealCard";
 import { getLinkQualityScore } from "@/lib/deals/quality";
@@ -98,9 +99,9 @@ export function FeaturedDealSections({ deals, favorites, onToggleFavorite, onOpe
                 </div>
                 <p className="mt-1 text-sm font-semibold text-slate-500">{section.description}</p>
               </div>
-              <a href="#all-deals" className="shrink-0 text-sm font-black text-dossa-red">
+              <Link href="/?verifiedOnly=true&sort=hot" className="shrink-0 text-sm font-black text-dossa-red">
                 전체보기
-              </a>
+              </Link>
             </div>
 
             <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4">

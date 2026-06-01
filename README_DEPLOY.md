@@ -116,6 +116,7 @@ DNS 반영 후 확인:
 ## 6. 배포 후 체크리스트
 
 - 홈 페이지가 정상 표시되는지 확인
+- `/?q=애플%20워치`처럼 검색 query 진입 시 결과가 유지되는지 확인
 - `/categories`, `/notifications`, `/favorites`, `/mypage` 이동 확인
 - `/privacy`, `/terms` 정책 페이지 확인
 - `/api/health` 응답 확인
@@ -125,6 +126,21 @@ DNS 반영 후 확인:
 - 모바일 화면에서 하단 탭바 확인
 - PC 화면에서 상단 네비게이션 확인
 - Vercel Environment Variables가 production에 반영되었는지 확인
+- `npm run verify:links`로 커뮤니티/검색/대표몰 링크가 상품 DB에 섞이지 않았는지 확인
+
+## 6-1. 상품 DB와 링크 검증
+
+신규 상품이나 운영 피드를 추가할 때는 실제 구매/신청 상세 URL만 노출합니다.
+
+```bash
+npm run verify:links
+npm run feed:validate -- --file ./partner-feed.json
+```
+
+- `sourceUrl`: 원문 출처 또는 공식/제휴 피드 출처
+- `finalPurchaseUrl`: 사용자가 새 탭/외부 브라우저로 이동할 실제 상품·혜택 상세 URL
+- 검색 결과, 커뮤니티 글, 블로그, 뉴스, 쇼핑몰 메인 URL은 노출 상품으로 등록하지 않습니다.
+- 검증 실패 상품은 운영 피드 dry-run에서 `needs_fix`로 남기고 UI 노출 전에 보강합니다.
 
 ## 7. 남은 외부 작업
 

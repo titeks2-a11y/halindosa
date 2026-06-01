@@ -90,6 +90,7 @@ export function normalizeDeal(input: DealInput, source = input.source ?? "mock")
     id: input.id,
     title: input.title,
     description: input.description ?? `${mallName}에서 확인된 ${input.title} 특가입니다.`,
+    brand: input.brand,
     price: input.price ?? input.salePrice,
     originalPrice: input.originalPrice,
     salePrice: input.salePrice,

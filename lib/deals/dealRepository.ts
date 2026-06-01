@@ -5,6 +5,7 @@ import { fetchMockDeals } from "@/lib/deals/providers/mockProvider";
 import { fetchProductionDeals } from "@/lib/deals/providers/productionProvider";
 import { fetchStagingDeals } from "@/lib/deals/providers/stagingProvider";
 import { isVerifiedPurchaseLink } from "@/lib/deals/quality";
+import { dealMatchesSearch } from "@/lib/deals/search";
 import { Deal, DealDataMode, DealSort } from "@/types/deal";
 
 export interface DealQuery {
@@ -115,7 +116,6 @@ async function fetchProviderDeals(query: Pick<DealQuery, "category" | "q"> = {})
 
 export async function getDeals(query: DealQuery = {}) {
   const provider = await fetchProviderDeals(query);
-  const searchQuery = query.q?.trim().toLowerCase();
   const sort = normalizeSort(query.sort);
   const limit = query.limit ?? 0;
   let deals = provider.deals;
@@ -124,10 +124,8 @@ export async function getDeals(query: DealQuery = {}) {
     deals = deals.filter((deal) => dealMatchesChannel(deal, query.category));
   }
 
-  if (searchQuery) {
-    deals = deals.filter((deal) =>
-      [deal.title, deal.mallName, deal.category, deal.source, deal.benefitSummary, deal.sourceName ?? "", ...deal.tags].some((value) => value.toLowerCase().includes(searchQuery))
-    );
+  if (query.q?.trim()) {
+    deals = deals.filter((deal) => dealMatchesSearch(deal, query.q));
   }
 
   if (query.mall && query.mall !== "all") {

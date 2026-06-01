@@ -569,6 +569,14 @@ await check("deals api", async () => {
 });
 
 await check("deals filters api", async () => {
+  const spacedKoreanSearch = await fetchJson(`/api/deals?q=${encodeURIComponent("애플 워치")}&limit=10`);
+  assert(spacedKoreanSearch.response.status === 200, `Expected 200, got ${spacedKoreanSearch.response.status}`);
+  assert(spacedKoreanSearch.data.deals.some((deal) => /애플워치|애플 워치/.test(deal.title)), "Spaced Korean search should match compact product names");
+
+  const brandMallSearch = await fetchJson(`/api/deals?q=${encodeURIComponent("쿠팡 로켓")}&limit=20`);
+  assert(brandMallSearch.response.status === 200, `Expected 200, got ${brandMallSearch.response.status}`);
+  assert(brandMallSearch.data.deals.some((deal) => /쿠팡/.test(deal.mallName) || /로켓/.test(`${deal.title} ${deal.tags.join(" ")}`)), "Search should match mall, brand, and tag text");
+
   const hot = await fetchJson("/api/deals?hotOnly=true&limit=5");
   assert(hot.response.status === 200, `Expected 200, got ${hot.response.status}`);
   assert(hot.data.deals.every((deal) => deal.isHot), "hotOnly returned a non-hot deal");

@@ -39,6 +39,7 @@ import { buildDailyBenefitBriefing } from "@/lib/deals/dailyBenefitBriefing";
 import { buildDailyRoutinePlan } from "@/lib/deals/dailyRoutinePlan";
 import { buildPersonalizedBenefitQueue } from "@/lib/deals/personalizedBenefitQueue";
 import { getLinkQualityScore, isVerifiedPurchaseLink } from "@/lib/deals/quality";
+import { dealMatchesSearch } from "@/lib/deals/search";
 import { formatPrice, getRelativeTime } from "@/lib/format";
 import { buildDealRedirectUrl, buildNativeSafeDealUrl } from "@/lib/redirectUrl";
 import { buildPublicAppShareUrl, buildPublicDealShareUrl } from "@/lib/shareUrl";
@@ -253,19 +254,14 @@ function filterLocalDeals(
   priceBand: PriceBand = "all",
   benefitFilter: "all" | DealBenefitType = "all"
 ) {
-  const searchQuery = query.trim().toLowerCase();
   let filtered = items;
 
   if (category && category !== "전체" && category !== "all") {
     filtered = filtered.filter((deal) => dealMatchesChannel(deal, category));
   }
 
-  if (searchQuery) {
-    filtered = filtered.filter((deal) =>
-      [deal.title, deal.mallName, deal.category, deal.source, deal.benefitSummary, deal.sourceName ?? "", ...deal.tags].some((value) =>
-        value.toLowerCase().includes(searchQuery)
-      )
-    );
+  if (query.trim()) {
+    filtered = filtered.filter((deal) => dealMatchesSearch(deal, query));
   }
 
   if (mallFilter !== "all") {
@@ -719,6 +715,32 @@ export default function Home() {
 
     return () => window.clearTimeout(handle);
   }, [hasAppliedInitialParams, query]);
+
+  useEffect(() => {
+    if (!hasAppliedInitialParams || typeof window === "undefined") return;
+
+    const handle = window.setTimeout(() => {
+      const params = new URLSearchParams();
+
+      if (category !== "all") params.set("category", category);
+      if (query.trim()) params.set("q", query.trim());
+      if (sort !== "latest") params.set("sort", sort);
+      if (freeShippingOnly) params.set("freeShippingOnly", "true");
+      if (hotOnly) params.set("hotOnly", "true");
+      if (endingSoonOnly) params.set("endingSoonOnly", "true");
+      if (verifiedOnly) params.set("verifiedOnly", "true");
+      if (mallFilter !== "all") params.set("mall", mallFilter);
+      if (priceBand !== "all") params.set("priceBand", priceBand);
+      if (benefitFilter !== "all") params.set("dealType", benefitFilter);
+
+      const nextUrl = `${window.location.pathname}${params.toString() ? `?${params.toString()}` : ""}`;
+      if (`${window.location.pathname}${window.location.search}` !== nextUrl) {
+        window.history.replaceState(null, "", nextUrl);
+      }
+    }, 250);
+
+    return () => window.clearTimeout(handle);
+  }, [benefitFilter, category, endingSoonOnly, freeShippingOnly, hasAppliedInitialParams, hotOnly, mallFilter, priceBand, query, sort, verifiedOnly]);
 
   useEffect(() => {
     const updateNetworkState = () => {

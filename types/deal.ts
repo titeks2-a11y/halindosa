@@ -31,6 +31,7 @@ export interface Deal {
   id: string;
   title: string;
   description: string;
+  brand?: string;
   price: number;
   originalPrice: number;
   salePrice: number;

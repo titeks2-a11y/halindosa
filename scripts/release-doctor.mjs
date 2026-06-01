@@ -52,6 +52,7 @@ async function checkPackage() {
     "env:doctor",
     "feed:validate",
     "feed:production:doctor",
+    "verify:links",
     "links:report",
     "store:metadata:doctor",
     "store:assets:generate",
@@ -62,7 +63,7 @@ async function checkPackage() {
   const missing = requiredScripts.filter((script) => !pkg.scripts?.[script]);
 
   if (missing.length) fail("package scripts", `Missing scripts: ${missing.join(", ")}`);
-  else if (!pkg.scripts?.["qa:release"]?.includes("audit:commercial") || !pkg.scripts?.["qa:release"]?.includes("device:qa:doctor") || !pkg.scripts?.["qa:release"]?.includes("feed:validate") || !pkg.scripts?.["qa:release"]?.includes("feed:production:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:metadata:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:assets:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:doctor") || !pkg.scripts?.["qa:release"]?.includes("perf:budget")) {
+  else if (!pkg.scripts?.qa?.includes("verify:links") || !pkg.scripts?.["qa:release"]?.includes("audit:commercial") || !pkg.scripts?.["qa:release"]?.includes("device:qa:doctor") || !pkg.scripts?.["qa:release"]?.includes("feed:validate") || !pkg.scripts?.["qa:release"]?.includes("feed:production:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:metadata:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:assets:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:doctor") || !pkg.scripts?.["qa:release"]?.includes("perf:budget")) {
     fail("package scripts", "qa:release should include commercial security audit, device QA doctor, partner feed validator, production feed doctor, store metadata doctor, store asset doctor, store screenshot doctor, and performance budget before store submission.");
   } else {
     pass("package scripts", "Android, iOS, environment, commercial security, and performance release command flow is available.");
@@ -590,8 +591,43 @@ async function checkPartnerFeedSafety() {
       fail("benefit data density", `Mock benefits should include verified apptech, pay, membership, delivery, sample, and invitation examples. Missing: ${missingBenefitExamples.join(", ") || "smoke coverage"}`);
     } else {
       pass("benefit data density", "Mock benefits include verified apptech, pay, membership, delivery, sample, and invitation examples.");
-    }
   }
+}
+
+async function checkSearchAndPurchaseFlow() {
+  const search = await text("lib/deals/search.ts");
+  const repository = await text("lib/deals/dealRepository.ts");
+  const homePage = await text("app/page.tsx");
+  const smoke = await text("scripts/smoke.mjs");
+  const verifyLinks = await text("scripts/verify-product-links.mjs");
+  const featured = await text("components/FeaturedDealSections.tsx");
+  const liveFeed = await text("components/LiveDealFeed.tsx");
+
+  if (
+    !search.includes("normalizeSearchText") ||
+    !search.includes("compactSearchText") ||
+    !search.includes("dealMatchesSearch") ||
+    !repository.includes("dealMatchesSearch") ||
+    !homePage.includes("window.history.replaceState") ||
+    !smoke.includes("Spaced Korean search should match compact product names")
+  ) {
+    fail("search purchase discovery", "Search should normalize Korean spacing, share logic between API/home, persist query params, and be smoke-tested.");
+  } else {
+    pass("search purchase discovery", "Search normalizes Korean spacing, mall/brand/tag text, URL state, and smoke coverage.");
+  }
+
+  if (
+    !verifyLinks.includes("Product link verification passed") ||
+    !verifyLinks.includes("검색/카테고리 링크입니다") ||
+    !verifyLinks.includes("커뮤니티 또는 placeholder") ||
+    featured.includes('href="#all-deals"') ||
+    liveFeed.includes('href="#all-deals"')
+  ) {
+    fail("purchase link new-tab guard", "Verified product link script and hash-free purchase discovery links should be present.");
+  } else {
+    pass("purchase link new-tab guard", "Verified product link script is present and product discovery CTAs avoid hash-scroll links.");
+  }
+}
 
 async function checkUiAccessibility() {
   const dealCard = await text("components/DealCard.tsx");
@@ -2468,6 +2504,7 @@ await checkPublicContact();
 await checkAuthSurface();
 await checkPublicClaimCopy();
 await checkPartnerFeedSafety();
+await checkSearchAndPurchaseFlow();
 await checkUiAccessibility();
 await checkOperationalDataSurfaces();
 await checkCapacitor();

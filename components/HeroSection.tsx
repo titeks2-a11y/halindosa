@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ArrowRight, BadgePercent, Radio, ScanSearch, Zap } from "lucide-react";
 
 export function HeroSection() {
@@ -54,20 +55,20 @@ export function HeroSection() {
               </div>
             </div>
             <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
-              <a
-                href="#live-signals"
+              <Link
+                href="/?sort=hot"
                 className="inline-flex items-center justify-center gap-2 rounded-2xl bg-white px-5 py-3 text-base font-black text-slate-950 shadow-lg transition hover:translate-y-[-1px]"
               >
                 실시간 신호 보기
                 <ArrowRight size={18} />
-              </a>
-              <a
-                href="#all-deals"
+              </Link>
+              <Link
+                href="/?verifiedOnly=true&sort=hot"
                 className="inline-flex items-center justify-center gap-2 rounded-2xl bg-dossa-red px-5 py-3 text-base font-black text-white transition hover:bg-red-700"
               >
                 특가 목록 보기
                 <Zap size={18} />
-              </a>
+              </Link>
             </div>
           </div>
         </div>
