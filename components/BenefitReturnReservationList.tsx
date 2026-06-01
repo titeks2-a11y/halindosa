@@ -3,7 +3,12 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { CalendarDays, Clock, Gift, TicketPercent } from "lucide-react";
-import { BenefitReturnReservation, readBenefitReturnReservations, writeBenefitReturnReservations } from "@/lib/benefitReturnReservations";
+import {
+  BenefitReturnReservation,
+  benefitReturnReservationUpdatedEvent,
+  readBenefitReturnReservations,
+  writeBenefitReturnReservations
+} from "@/lib/benefitReturnReservations";
 
 const reservationLinks: Record<string, { href: string; label: string }> = {
   "morning-free": { href: "/free-benefits?dealType=freebie&sort=recommended", label: "무료 혜택 열기" },
@@ -66,10 +71,12 @@ export function BenefitReturnReservationList() {
     const refreshReservations = () => setReservations(readBenefitReturnReservations());
     refreshReservations();
     window.addEventListener("storage", refreshReservations);
+    window.addEventListener(benefitReturnReservationUpdatedEvent, refreshReservations);
     window.addEventListener("focus", refreshReservations);
 
     return () => {
       window.removeEventListener("storage", refreshReservations);
+      window.removeEventListener(benefitReturnReservationUpdatedEvent, refreshReservations);
       window.removeEventListener("focus", refreshReservations);
     };
   }, []);

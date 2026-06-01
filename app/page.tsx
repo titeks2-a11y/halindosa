@@ -31,7 +31,7 @@ import { mockHotSignals } from "@/data/mockHotSignals";
 import { mockDeals } from "@/data/mockDeals";
 import { ConsentState, hasAffiliateConsent, hasAnalyticsConsent, readStoredConsent } from "@/lib/consent";
 import { canOpenDealLink } from "@/lib/affiliate";
-import { readBenefitReturnReservations } from "@/lib/benefitReturnReservations";
+import { benefitReturnReservationUpdatedEvent, readBenefitReturnReservations } from "@/lib/benefitReturnReservations";
 import { readBenefitVisitStreak } from "@/lib/benefitVisitStreak";
 import { claimedBenefitUpdatedEvent, readClaimedBenefits } from "@/lib/claimedBenefits";
 import { buildBenefitDecisionGuide } from "@/lib/deals/benefitDecisionGuide";
@@ -403,10 +403,12 @@ function ClaimedBenefitHomeSummary({ deals, favorites }: { deals: Deal[]; favori
     window.addEventListener("storage", refresh);
     window.addEventListener("focus", refresh);
     window.addEventListener(claimedBenefitUpdatedEvent, refresh);
+    window.addEventListener(benefitReturnReservationUpdatedEvent, refresh);
     return () => {
       window.removeEventListener("storage", refresh);
       window.removeEventListener("focus", refresh);
       window.removeEventListener(claimedBenefitUpdatedEvent, refresh);
+      window.removeEventListener(benefitReturnReservationUpdatedEvent, refresh);
     };
   }, []);
 

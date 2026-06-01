@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ArrowLeft, AlertTriangle, CalendarDays, CheckCircle2, ExternalLink, Gift, Heart, Search, Share2, ShieldCheck, Sparkles, Timer, Truck } from "lucide-react";
 import { BenefitSavingsDiary } from "@/components/BenefitSavingsDiary";
 import { DealCard } from "@/components/DealCard";
-import { readBenefitReturnReservations, writeBenefitReturnReservations } from "@/lib/benefitReturnReservations";
+import { benefitReturnReservationUpdatedEvent, readBenefitReturnReservations, writeBenefitReturnReservations } from "@/lib/benefitReturnReservations";
 import { markBenefitVisit, readBenefitVisitStreak } from "@/lib/benefitVisitStreak";
 import { claimedBenefitUpdatedEvent, readClaimedBenefits, toggleClaimedBenefit } from "@/lib/claimedBenefits";
 import { getBenefitTypeLabel } from "@/lib/deals/benefits";
@@ -142,12 +142,14 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
 
     window.addEventListener("storage", refreshLocalState);
     window.addEventListener(claimedBenefitUpdatedEvent, refreshLocalState);
+    window.addEventListener(benefitReturnReservationUpdatedEvent, refreshLocalState);
     window.addEventListener("focus", refreshLocalState);
 
     return () => {
       window.cancelAnimationFrame(frame);
       window.removeEventListener("storage", refreshLocalState);
       window.removeEventListener(claimedBenefitUpdatedEvent, refreshLocalState);
+      window.removeEventListener(benefitReturnReservationUpdatedEvent, refreshLocalState);
       window.removeEventListener("focus", refreshLocalState);
     };
   }, []);

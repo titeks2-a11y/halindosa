@@ -6,6 +6,7 @@ export type BenefitReturnReservation = {
 };
 
 export const benefitReturnReservationStorageKey = "halindosa:benefit-return-reservations";
+export const benefitReturnReservationUpdatedEvent = "halindosa:benefit-return-reservations-updated";
 
 export function readBenefitReturnReservations(): BenefitReturnReservation[] {
   if (typeof window === "undefined") return [];
@@ -29,4 +30,5 @@ export function readBenefitReturnReservations(): BenefitReturnReservation[] {
 export function writeBenefitReturnReservations(items: BenefitReturnReservation[]) {
   if (typeof window === "undefined") return;
   window.localStorage.setItem(benefitReturnReservationStorageKey, JSON.stringify(items));
+  window.dispatchEvent(new CustomEvent(benefitReturnReservationUpdatedEvent));
 }

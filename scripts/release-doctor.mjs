@@ -1161,6 +1161,7 @@ async function checkOperationalDataSurfaces() {
   const benefitVisitStreakSummary = await text("components/BenefitVisitStreakSummary.tsx");
   const claimedBenefitAlertSummary = await text("components/ClaimedBenefitAlertSummary.tsx");
   const benefitReturnReservationList = await text("components/BenefitReturnReservationList.tsx");
+  const benefitReturnReservations = await text("lib/benefitReturnReservations.ts");
   const favoritesPage = await text("app/favorites/page.tsx");
   const localDataControls = await text("components/LocalDataControls.tsx");
   const accountPanel = await text("components/AccountPanel.tsx");
@@ -1282,7 +1283,10 @@ async function checkOperationalDataSurfaces() {
     !claimedBenefitAlertSummary.includes("쿠폰·포인트 재확인") ||
     !claimedBenefitAlertSummary.includes("마감 전 확인 알림") ||
     !notificationsPage.includes("<BenefitReturnReservationList") ||
+    !benefitReturnReservations.includes("benefitReturnReservationUpdatedEvent") ||
+    !benefitReturnReservations.includes("window.dispatchEvent") ||
     !benefitReturnReservationList.includes("readBenefitReturnReservations") ||
+    !benefitReturnReservationList.includes("benefitReturnReservationUpdatedEvent") ||
     !benefitReturnReservationList.includes("저장한 재방문 혜택 알림") ||
     !benefitReturnReservationList.includes("기기에 저장한 무료·쿠폰·마감 루틴을 이어봅니다") ||
     !benefitReturnReservationList.includes("오늘 이어볼 재방문 루틴 요약") ||
@@ -1304,11 +1308,14 @@ async function checkOperationalDataSurfaces() {
     !localDataControls.includes("챙긴 혜택 기록") ||
     !localDataControls.includes("benefitReturnReservationStorageKey") ||
     !localDataControls.includes("재방문 예약") ||
-    !accountPanel.includes("priceAlertStorageKey")
+    !accountPanel.includes("priceAlertStorageKey") ||
+    !accountPanel.includes("benefitReturnReservationUpdatedEvent") ||
+    !homePage.includes("benefitReturnReservationUpdatedEvent") ||
+    !freeBenefitsClient.includes("benefitReturnReservationUpdatedEvent")
   ) {
-    fail("price alert data surface", "Notifications, in-app alert tab, account deletion, and local data controls should expose saved price alerts, benefit check-in records, claimed benefit records, and deletion scope.");
+    fail("price alert data surface", "Notifications, in-app alert tab, account deletion, and local data controls should expose saved price alerts, benefit check-in records, claimed benefit records, return reservations, live same-tab refresh events, and deletion scope.");
   } else {
-    pass("price alert data surface", "Saved price alerts, benefit check-in records, and claimed benefit records are visible in-app and included in local/account data deletion controls.");
+    pass("price alert data surface", "Saved price alerts, benefit check-in records, claimed benefit records, and return reservations are visible in-app, refresh across same-tab events, and are included in local/account data deletion controls.");
   }
 
   if (

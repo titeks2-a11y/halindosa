@@ -7,7 +7,7 @@ import { useAuth } from "@/components/AuthProvider";
 import { BenefitSavingsDiary } from "@/components/BenefitSavingsDiary";
 import { getSupabaseBrowserClient } from "@/lib/auth/supabaseClient";
 import { benefitMissionLabels, getTodayKey, readBenefitCheckInState } from "@/lib/benefitCheckIn";
-import { readBenefitReturnReservations } from "@/lib/benefitReturnReservations";
+import { benefitReturnReservationUpdatedEvent, readBenefitReturnReservations } from "@/lib/benefitReturnReservations";
 import { benefitVisitStreakStorageKey, readBenefitVisitStreak } from "@/lib/benefitVisitStreak";
 import { claimedBenefitUpdatedEvent, readClaimedBenefits } from "@/lib/claimedBenefits";
 import { formatPrice } from "@/lib/format";
@@ -218,11 +218,13 @@ function BenefitCheckInSummary() {
     };
     window.addEventListener("storage", refresh);
     window.addEventListener(claimedBenefitUpdatedEvent, refresh);
+    window.addEventListener(benefitReturnReservationUpdatedEvent, refresh);
     refresh();
 
     return () => {
       window.removeEventListener("storage", refresh);
       window.removeEventListener(claimedBenefitUpdatedEvent, refresh);
+      window.removeEventListener(benefitReturnReservationUpdatedEvent, refresh);
     };
   }, []);
 
