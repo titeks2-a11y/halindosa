@@ -1000,6 +1000,8 @@ async function checkUiAccessibility() {
     !quickDealCard.includes("timeLeft") ||
     !quickDealCard.includes("링크 확인") ||
     !quickDealCard.includes("가격 요약") ||
+    !quickDealCard.includes("압축 가격 카드") ||
+    !quickDealCard.includes("aspect-[4/3]") ||
     !quickDealCard.includes("% 할인") ||
     !quickDealCard.includes("아낌") ||
     !smoke.includes("Home page missing quick deal card purchase snapshot") ||
