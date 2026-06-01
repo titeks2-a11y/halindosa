@@ -36,6 +36,7 @@ import { readBenefitVisitStreak } from "@/lib/benefitVisitStreak";
 import { readClaimedBenefits } from "@/lib/claimedBenefits";
 import { buildDailyBenefitBriefing } from "@/lib/deals/dailyBenefitBriefing";
 import { buildDailyRoutinePlan } from "@/lib/deals/dailyRoutinePlan";
+import { buildPersonalizedBenefitQueue } from "@/lib/deals/personalizedBenefitQueue";
 import { getLinkQualityScore, isVerifiedPurchaseLink } from "@/lib/deals/quality";
 import { formatPrice, getRelativeTime } from "@/lib/format";
 import { buildDealRedirectUrl, buildNativeSafeDealUrl } from "@/lib/redirectUrl";
@@ -1181,6 +1182,20 @@ export default function Home() {
   }, [catalog, deals, favoriteCategories, memberFavoriteDeals, recommendedDeals]);
 
   const interestLabels = favoriteCategories.length ? favoriteCategories : fallbackInterestCategories;
+  const personalizedBenefitQueue = useMemo(
+    () =>
+      buildPersonalizedBenefitQueue(catalog.length ? catalog : deals, {
+        interests: interestLabels,
+        favoriteIds: favorites,
+        recentIds: recentDealIds,
+        limit: 4
+      }),
+    [catalog, deals, favorites, interestLabels, recentDealIds]
+  );
+  const personalizedApiHref = `/api/benefits/personalized?limit=4${interestLabels
+    .slice(0, 4)
+    .map((interest) => `&interest=${encodeURIComponent(interest)}`)
+    .join("")}`;
 
   const categoryHighlights = useMemo(
     () =>
@@ -1984,6 +1999,27 @@ export default function Home() {
                 ) : (
                   <Link href="/onboarding" className="rounded-2xl bg-dossa-red px-4 py-3 text-center text-sm font-black text-white">관심 설정하기</Link>
                 )}
+              </div>
+              <div className="mt-4 rounded-3xl border border-red-100 bg-white/85 p-3 shadow-sm" aria-label="개인화 혜택 추천 API">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                  <div>
+                    <p className="text-xs font-black text-dossa-red">개인화 혜택 추천 API</p>
+                    <p className="mt-1 text-xs font-bold leading-5 text-slate-500">
+                      관심사 {personalizedBenefitQueue.summary.interestMatchedDeals}개 후보와 최근/찜 흐름 {personalizedBenefitQueue.summary.continuityDeals}개를 합쳐 추천합니다.
+                    </p>
+                  </div>
+                  <Link href={personalizedApiHref} className="rounded-2xl bg-slate-950 px-4 py-2.5 text-center text-xs font-black text-white">
+                    추천 API 보기
+                  </Link>
+                </div>
+                <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                  {personalizedBenefitQueue.items.slice(0, 2).map((item) => (
+                    <Link key={item.id} href={item.detailUrl} className="rounded-2xl bg-red-50 px-3 py-2 transition hover:bg-red-100">
+                      <span className="block line-clamp-1 text-xs font-black text-slate-950">{item.title}</span>
+                      <span className="mt-1 block text-[11px] font-bold leading-5 text-red-900/70">{item.reason}</span>
+                    </Link>
+                  ))}
+                </div>
               </div>
               <div className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
                 {personalizedDeals.map((deal) => (

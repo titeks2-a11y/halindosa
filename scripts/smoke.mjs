@@ -147,6 +147,7 @@ await check("home page", async () => {
   assert(text.includes("회원들이 많이 찜한 혜택") && text.includes("인기 찜") && text.includes("내 찜"), "Home page missing member favorite benefit section");
   assert(text.includes("관심 카테고리 추천") && text.includes("비회원도 모두 보고") && text.includes("관심 설정하기"), "Home page missing interest category personalization");
   assert(text.includes("홈 빠른 관심 설정") && text.includes("비회원 기기 저장") && text.includes("관심사는 홈 추천과 알림 후보에 바로 반영"), "Home page missing quick interest setup");
+  assert(text.includes("개인화 혜택 추천 API") && text.includes("추천 API 보기") && text.includes("최근/찜 흐름"), "Home page missing reusable personalized benefit API card");
   assert(text.includes("오늘 혜택 체크리스트") && text.includes("앱을 열면 이 순서로 챙기세요"), "Home page missing daily benefit checklist");
   assert(text.includes("무료 혜택 먼저 받기") && text.includes("쿠폰 조건 확인") && text.includes("앱테크 포인트 적립"), "Home page missing checklist benefit actions");
   assert(text.includes("실제 구매 링크로 보기") && text.includes("비회원 전체 열람 · 저장만 로그인"), "Home page missing checklist trust and non-member guidance");
@@ -838,6 +839,18 @@ await check("daily benefit routine api", async () => {
   assert(data.routine.steps.some((step) => step.id === "free" && step.href.includes("/free-benefits")), "Daily benefit routine missing free mission");
   assert(data.routine.steps.every((step) => step.items.length <= 2 && step.primaryAction && step.doneSignal), "Daily benefit routine should respect limit and expose action metadata");
   assert(String(data.routine.notice ?? "").includes("선택 로그인"), "Daily benefit routine missing optional login notice");
+});
+
+await check("personalized benefits api", async () => {
+  const { response, data } = await fetchJson("/api/benefits/personalized?interest=%EB%AC%B4%EB%A3%8C%2F%EC%B2%B4%ED%97%98&interest=%EC%BF%A0%ED%8F%B0%2F%EC%9D%B4%EB%B2%A4%ED%8A%B8&favoriteId=d001&recentId=d014&limit=4");
+  assert(response.status === 200, `Expected 200, got ${response.status}`);
+  assert(data.ok === true, "Personalized benefits API ok should be true");
+  assert(data.recommendations?.audience === "guest", "Personalized benefits should keep guest access");
+  assert(data.recommendations?.interests?.includes("무료/체험"), "Personalized benefits missing interest input");
+  assert(data.recommendations?.summary?.recommendedDeals <= 4, "Personalized benefits should respect limit");
+  assert(Array.isArray(data.recommendations?.items) && data.recommendations.items.length > 0, "Personalized benefits missing recommendation items");
+  assert(data.recommendations.items.every((item) => item.redirectUrl?.startsWith("/go/") && item.reason && item.personalizedSignals), "Personalized benefits items missing redirect, reason, or signals");
+  assert(String(data.recommendations.notice ?? "").includes("선택 로그인"), "Personalized benefits missing optional login notice");
 });
 
 await check("metrics api", async () => {

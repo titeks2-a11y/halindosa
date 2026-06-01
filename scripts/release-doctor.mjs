@@ -1165,10 +1165,12 @@ async function checkOperationalDataSurfaces() {
   const weeklyCalendarRoute = await text("app/api/benefits/calendar/route.ts");
   const dailyBriefingRoute = await text("app/api/benefits/briefing/route.ts");
   const dailyRoutineRoute = await text("app/api/benefits/routine/route.ts");
+  const personalizedBenefitsRoute = await text("app/api/benefits/personalized/route.ts");
   const todayBenefitQueue = await text("lib/deals/todayBenefitQueue.ts");
   const weeklyBenefitCalendar = await text("lib/deals/weeklyBenefitCalendar.ts");
   const dailyBenefitBriefing = await text("lib/deals/dailyBenefitBriefing.ts");
   const dailyRoutinePlan = await text("lib/deals/dailyRoutinePlan.ts");
+  const personalizedBenefitQueue = await text("lib/deals/personalizedBenefitQueue.ts");
   const smoke = await text("scripts/smoke.mjs");
   const redirectUrl = await text("lib/redirectUrl.ts");
   const goRoute = await text("app/go/[id]/route.ts");
@@ -1434,6 +1436,7 @@ async function checkOperationalDataSurfaces() {
     !weeklyCalendarRoute.includes("buildWeeklyBenefitCalendar") ||
     !dailyBriefingRoute.includes("buildDailyBenefitBriefing") ||
     !dailyRoutineRoute.includes("buildDailyRoutinePlan") ||
+    !personalizedBenefitsRoute.includes("buildPersonalizedBenefitQueue") ||
     !weeklyBenefitCalendar.includes("operationNote") ||
     !weeklyBenefitCalendar.includes("recommendedSurface") ||
     !dailyBenefitBriefing.includes("buildTodayBenefitQueue") ||
@@ -1442,11 +1445,16 @@ async function checkOperationalDataSurfaces() {
     !dailyRoutinePlan.includes("buildTodayBenefitQueue") ||
     !dailyRoutinePlan.includes("오늘 3분 혜택 루틴") ||
     !dailyRoutinePlan.includes("audience: \"guest\"") ||
+    !personalizedBenefitQueue.includes("dealMatchesPersonalInterest") ||
+    !personalizedBenefitQueue.includes("audience: \"guest\"") ||
+    !personalizedBenefitQueue.includes("personalizedSignals") ||
     !homePage.includes("buildDailyBenefitBriefing") ||
     !homePage.includes("buildDailyRoutinePlan") ||
+    !homePage.includes("buildPersonalizedBenefitQueue") ||
     !homePage.includes("오늘 혜택 브리핑") ||
     !homePage.includes("브리핑 API 보기") ||
     !homePage.includes("루틴 API 보기") ||
+    !homePage.includes("개인화 혜택 추천 API") ||
     !freeBenefitsClient.includes("buildWeeklyBenefitCalendar") ||
     !freeBenefitsPage.includes("getDeals") ||
     !smoke.includes("today benefits api") ||
@@ -1454,18 +1462,21 @@ async function checkOperationalDataSurfaces() {
     !smoke.includes("weekly benefit calendar api") ||
     !smoke.includes("daily benefit briefing api") ||
     !smoke.includes("daily benefit routine api") ||
+    !smoke.includes("personalized benefits api") ||
     !smoke.includes("Today benefits API should keep guest access") ||
     !smoke.includes("Weekly benefit calendar should keep guest access") ||
     !smoke.includes("Daily benefit briefing should keep guest access") ||
     !smoke.includes("Daily benefit routine should keep guest access") ||
+    !smoke.includes("Personalized benefits should keep guest access") ||
     !smoke.includes("Home page missing daily benefit briefing") ||
     !smoke.includes("Home page missing daily routine API and step summary") ||
+    !smoke.includes("Home page missing reusable personalized benefit API card") ||
     !smoke.includes("Today benefits API missing optional login boundary") ||
     !smoke.includes("Admin daily queue missing operation actions")
   ) {
-    fail("today benefits api", "Daily benefit API, weekly calendar API, daily briefing API, daily routine API, and protected admin operation queue should expose guest-accessible free, coupon, apptech, and verified purchase routines with smoke coverage.");
+    fail("today benefits api", "Daily benefit API, weekly calendar API, daily briefing API, daily routine API, personalized benefit API, and protected admin operation queue should expose guest-accessible free, coupon, apptech, and verified purchase routines with smoke coverage.");
   } else {
-    pass("today benefits api", "Daily benefit API, weekly calendar API, daily briefing API, daily routine API, and protected admin operation queue expose guest-accessible free, coupon, apptech, and verified purchase routines with smoke coverage.");
+    pass("today benefits api", "Daily benefit API, weekly calendar API, daily briefing API, daily routine API, personalized benefit API, and protected admin operation queue expose guest-accessible free, coupon, apptech, and verified purchase routines with smoke coverage.");
   }
 
   if (!dealsRoute.includes("normalizeDeals(mockDeals") || dealsRoute.includes("mock 데이터로 대체")) {
