@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { BellPlus, Clock3, Gift, SlidersHorizontal, Sparkles, TicketPercent } from "lucide-react";
 import { getBenefitTypeLabel } from "@/lib/deals/benefits";
+import { buildPersonalizedBenefitQueue } from "@/lib/deals/personalizedBenefitQueue";
 import { formatPrice, getTimeLeft } from "@/lib/format";
 import { readLocalPreferences } from "@/lib/memberSync";
 import { Deal } from "@/types/deal";
@@ -52,7 +53,26 @@ export function InterestAlertPreview({ deals }: InterestAlertPreviewProps) {
     return () => window.clearTimeout(handle);
   }, []);
 
+  const personalizedQueue = useMemo(
+    () =>
+      buildPersonalizedBenefitQueue(deals, {
+        interests,
+        limit: 5
+      }),
+    [deals, interests]
+  );
+  const personalizedApiHref = `/api/benefits/personalized?limit=5${interests
+    .slice(0, 5)
+    .map((interest) => `&interest=${encodeURIComponent(interest)}`)
+    .join("")}`;
+
   const matchedDeals = useMemo(() => {
+    const queueDeals = personalizedQueue.items
+      .map((item) => deals.find((deal) => deal.id === item.id))
+      .filter((deal): deal is Deal => Boolean(deal));
+
+    if (queueDeals.length) return queueDeals;
+
     return [...deals]
       .filter((deal) => interests.some((interest) => dealMatchesInterest(deal, interest)) && !deal.isExpired && !deal.isSoldOut)
       .sort(
@@ -61,7 +81,7 @@ export function InterestAlertPreview({ deals }: InterestAlertPreviewProps) {
           new Date(a.expireAt).getTime() - new Date(b.expireAt).getTime()
       )
       .slice(0, 5);
-  }, [deals, interests]);
+  }, [deals, interests, personalizedQueue.items]);
   const interestAlertPlan = useMemo(() => {
     const matchedActiveDeals = [...deals].filter(
       (deal) => interests.some((interest) => dealMatchesInterest(deal, interest)) && !deal.isExpired && !deal.isSoldOut
@@ -113,6 +133,23 @@ export function InterestAlertPreview({ deals }: InterestAlertPreviewProps) {
           <SlidersHorizontal size={15} />
           관심 설정하기
         </Link>
+      </div>
+
+      <div className="mt-4 rounded-3xl border border-red-100 bg-white/85 p-3 shadow-sm" aria-label="알림 개인화 추천 API">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="text-xs font-black text-dossa-red">알림 개인화 추천 API</p>
+            <p className="mt-1 text-xs font-bold leading-5 text-slate-500">
+              관심사 {personalizedQueue.summary.interestMatchedDeals}개 후보를 오늘 알림 큐와 같은 기준으로 정리합니다.
+            </p>
+          </div>
+          <Link href={personalizedApiHref} className="rounded-2xl bg-slate-950 px-4 py-2.5 text-center text-xs font-black text-white">
+            개인화 API 보기
+          </Link>
+        </div>
+        <p className="mt-2 text-[11px] font-bold leading-5 text-slate-500">
+          {personalizedQueue.notice}
+        </p>
       </div>
 
       <div className="mt-4 flex gap-2 overflow-x-auto pb-1">
