@@ -213,12 +213,13 @@ await check("home page", async () => {
 });
 
 await check("home query filters", async () => {
-  const response = await fetch(`${baseUrl}/?category=식품&sort=discount&q=새우깡`);
+  const response = await fetch(`${baseUrl}/?category=식품&sort=discount&q=새우깡&verifiedOnly=true`);
   const text = await response.text();
   assert(response.status === 200, `Expected 200, got ${response.status}`);
   assert(text.includes("할인도사"), "Filtered home missing brand text");
   assert(text.includes("새우깡") || text.includes("검색"), "Filtered home missing query result context");
   assert(text.includes("적용된 조건"), "Filtered home missing active filter summary");
+  assert(text.includes("구매링크 확인"), "Filtered home missing restored verifiedOnly filter label");
   assert(text.includes("조건별 결과 요약"), "Filtered home missing active filter outcome summary");
   assert(text.includes("조건 초기화"), "Filtered home missing filter reset action");
 });

@@ -646,6 +646,7 @@ export default function Home() {
       const initialFreeShipping = params.get("freeShipping") ?? params.get("freeShippingOnly");
       const initialHotOnly = params.get("hotOnly");
       const initialEndingSoon = params.get("endingSoon") ?? params.get("endingSoonOnly");
+      const initialVerifiedOnly = params.get("verified") ?? params.get("verifiedOnly");
       const initialPriceBand = params.get("priceBand") as PriceBand | null;
       const initialBenefitType = params.get("dealType") as DealBenefitType | null;
 
@@ -681,6 +682,11 @@ export default function Home() {
 
       if (initialEndingSoon === "true") {
         setEndingSoonOnly(true);
+        setActiveView("home");
+      }
+
+      if (initialVerifiedOnly === "true") {
+        setVerifiedOnly(true);
         setActiveView("home");
       }
 
