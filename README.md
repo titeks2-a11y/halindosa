@@ -34,6 +34,17 @@ npm install
 npm run dev
 ```
 
+고급 하네스 검증:
+
+```bash
+npm run test:ui
+npm run test:seo
+npm run test:perf
+npm run harness
+```
+
+`npm run harness`는 lint, build, 링크 검증, 검색 검증, UI 규칙, SEO 규칙, 성능 예산, release doctor를 순서대로 실행하고 [docs/HARNESS_REPORT.md](docs/HARNESS_REPORT.md)에 결과를 남깁니다.
+
 검증:
 
 ```bash

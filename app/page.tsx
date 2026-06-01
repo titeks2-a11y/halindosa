@@ -60,6 +60,7 @@ import { Deal, DealBenefitType, DealSort } from "@/types/deal";
 import { HotSignal } from "@/types/hotSignal";
 
 type AppView = "home" | "categories" | "alerts" | "favorites" | "my";
+const INITIAL_HOME_DEAL_LIMIT = 12;
 const mallFilters = [
   { id: "all", label: "전체 쇼핑몰" },
   { id: "쿠팡", label: "쿠팡" },
@@ -3281,7 +3282,7 @@ export default function Home() {
             <HotSignalSection signals={hotSignals} isLoading={isSignalLoading} onOpenSignal={openHotSignal} />
 
             <LiveDealFeed
-              deals={deals}
+              deals={deals.slice(0, INITIAL_HOME_DEAL_LIMIT)}
               favorites={favorites}
               onToggleFavorite={toggleFavorite}
               onOpenDeal={openDeal}
@@ -3289,7 +3290,7 @@ export default function Home() {
             />
 
             <FeaturedDealSections
-              deals={catalog.length ? catalog : deals}
+              deals={(catalog.length ? catalog : deals).slice(0, INITIAL_HOME_DEAL_LIMIT)}
               favorites={favorites}
               onToggleFavorite={toggleFavorite}
               onOpenDeal={openDeal}

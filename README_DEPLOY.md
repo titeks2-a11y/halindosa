@@ -13,6 +13,14 @@ npm run cap:sync
 npm run release:doctor
 ```
 
+상용 출시 후보는 아래 하네스까지 통과해야 합니다.
+
+```bash
+npm run harness
+```
+
+하네스 결과는 `docs/HARNESS_REPORT.md`, 정적 성능 예산 결과는 `docs/PERFORMANCE_REPORT.md`에 기록됩니다.
+
 로컬 개발 서버는 아래 명령으로 실행합니다.
 
 ```bash

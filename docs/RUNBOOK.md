@@ -61,6 +61,31 @@ SMOKE_BASE_URL=https://example.com npm run smoke
 - CSV export
 - sitemap/robots/manifest
 
+## 고급 Harness Loop
+
+출시 후보 또는 큰 UI/데이터 변경 후에는 아래 명령을 실행합니다.
+
+```bash
+npm run harness
+```
+
+하네스는 다음 순서로 실행합니다.
+
+1. lint
+2. build
+3. verified purchase link 검사
+4. 검색 alias 품질 검사
+5. UI 규칙 검사
+6. SEO metadata/structured data 검사
+7. 정적 성능 예산 검사
+8. release doctor
+
+결과는 `docs/HARNESS_REPORT.md`에 남습니다. 성능 예산은 `docs/PERFORMANCE_REPORT.md`에 별도로 기록됩니다.
+
+UI 규칙은 하단 탭 4개 유지, 무료혜택/알림/찜 단독 탭 제거, 금지 href 차단, 구매 링크 새 탭 정책, 검증 링크 기본 노출, 마이페이지 개발 문구 제거, 모바일 compact home 구조를 확인합니다.
+
+SEO 규칙은 root metadata, Open Graph, canonical, manifest, sitemap, robots, 상품 상세 metadata, Product JSON-LD 구조화 데이터를 확인합니다.
+
 ## 검색/링크 검증 운영
 
 - 검색 로직은 `lib/deals/search.ts`의 `dealMatchesSearch`를 기준으로 한다.

@@ -66,9 +66,36 @@ export default async function DealDetailPage({ params }: DealDetailPageProps) {
   const priceInsight = getPriceInsight(deal);
   const priceRange = Math.max(1, priceInsight.highestPrice - priceInsight.lowestPrice);
   const qualityNotice = getDealQualityNotice(deal);
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: deal.title,
+    image: deal.imageUrl ? [getDealImageSrc(deal.imageUrl)] : undefined,
+    description: deal.description,
+    brand: deal.brand ? { "@type": "Brand", name: deal.brand } : undefined,
+    category: deal.category,
+    offers: {
+      "@type": "Offer",
+      url: deal.finalPurchaseUrl,
+      priceCurrency: "KRW",
+      price: deal.salePrice,
+      availability: deal.isSoldOut || deal.isExpired ? "https://schema.org/OutOfStock" : "https://schema.org/InStock",
+      seller: {
+        "@type": "Organization",
+        name: deal.mallName
+      },
+      validThrough: deal.expireAt
+    }
+  };
 
   return (
     <main className="min-h-screen bg-slate-50 px-4 py-5 sm:px-6 lg:px-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(structuredData).replace(/</g, "\\u003c")
+        }}
+      />
       <RecentDealMarker dealId={deal.id} />
       <div className="mx-auto max-w-6xl space-y-5">
         <Link href="/" className="inline-flex items-center gap-2 text-sm font-black text-dossa-red">

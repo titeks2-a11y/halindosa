@@ -6,6 +6,14 @@
 
 ## 완료 작업
 
+### PHASE Harness Hardening
+
+- `codex/harness-24h-commercial-hardening` 브랜치에서 상용 출시용 자동 하네스 루프를 추가
+- `npm run test:ui`, `npm run test:seo`, `npm run test:perf`, `npm run harness`를 추가해 UI 규칙, SEO, 정적 성능 예산, 전체 QA 루프를 자동화
+- 상품 상세 페이지에 Product JSON-LD 구조화 데이터를 추가해 검색 노출 확장 준비
+- 홈의 초기 상품 피드 렌더 수를 `INITIAL_HOME_DEAL_LIMIT = 12` 기준으로 제한해 모바일 첫 화면 렌더 부담을 낮춤
+- [docs/HARNESS_AUDIT.md](HARNESS_AUDIT.md), [docs/HARNESS_REPORT.md](HARNESS_REPORT.md), [docs/PERFORMANCE_REPORT.md](PERFORMANCE_REPORT.md), [docs/PR_DRAFT.md](PR_DRAFT.md) 기반으로 자동 개선/검증 보고 흐름을 준비
+
 ### PHASE 1 UI/UX
 
 - 주요 내비게이션을 `홈`, `인기`, `카테고리`, `마이` 4개로 축소하고, 독립 `무료혜택`/`알림`/`찜` 탭은 사용자 기본 동선에서 제거해 첫 사용자가 앱 구조를 더 빨리 이해하도록 정리

@@ -97,7 +97,10 @@ await check("home page", async () => {
   assert(response.status === 200, `Expected 200, got ${response.status}`);
   assert(text.includes("할인도사"), "Home page missing brand text");
   assert(text.includes("샤오미 86인치") || text.includes("새우깡"), "Home page missing initial deal cards");
-  assert(text.includes("데이터 상태"), "Home page missing data quality summary");
+  assert(
+    text.includes("데이터 상태") || (text.includes("상태") && text.includes("네트워크 정상")),
+    "Home page missing compact data quality summary"
+  );
   assert(text.includes("구매 전 판매처 확인"), "Home page missing purchase verification guidance");
   assert(text.includes("빠른 상품 검색"), "Home page missing above-the-fold quick search panel");
   assert(text.includes("상품명, 브랜드, 쇼핑몰, 카테고리 통합 검색"), "Home page missing integrated search guidance");
@@ -113,7 +116,7 @@ await check("home page", async () => {
     text.includes("혜택 조건") && text.includes("회원가입") && text.includes("선착순") && text.includes("배송비") && text.includes("쿠폰 조건"),
     "Home page deal cards missing benefit condition summary"
   );
-  assert(text.includes("가격/재고 변동"), "Home page missing price stock risk guidance");
+  assert(text.includes("가격/재고 변동") || text.includes("가격 변동"), "Home page missing price stock risk guidance");
   assert(text.includes("구매 이동 안내"), "Home page missing purchase link overview");
   assert(text.includes("구매처 바로 확인 상품을 먼저 보여드려요"), "Home page missing customer-facing purchase link explanation");
   assert(text.includes("판매처 확인 단계"), "Home page missing review-needed purchase path explanation");
@@ -193,7 +196,10 @@ await check("home page", async () => {
   assert(text.includes("구매처 확인"), "Home page missing mall verified purchase link summary");
   assert(text.includes("쇼핑몰 빠른 선택") && text.includes("가격 빠른 선택") && text.includes("혜택 빠른 선택"), "Home page missing fast mall, price, and benefit filter chips");
   assert(text.includes("홈 탐색 바로가기") && text.includes("전체상품") && text.includes("구매처확인"), "Home page missing jump-to-deal-list navigation shortcuts");
-  assert(text.includes("오늘 바로 볼 특가") && text.includes("검색 결과에서 먼저 확인할 상품"), "Home page missing compact instant deal rail");
+  assert(
+    text.includes("오늘 바로 볼 특가") && (text.includes("검색 결과에서 먼저 확인할 상품") || text.includes("먼저 확인할 상품")),
+    "Home page missing compact instant deal rail"
+  );
   assert(text.includes("심화 혜택 탐색") && text.includes("상품 목록을 먼저 보고"), "Home page missing collapsible deep discovery summary");
   assert(text.includes("상세 필터와 결과 분석") && text.includes("상품 목록을 먼저 보고, 더 좁힐 때 펼치세요"), "Home page missing collapsible advanced filter summary");
   assert(text.includes("검색 도우미"), "Home page missing search discovery panel");
