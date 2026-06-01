@@ -750,6 +750,20 @@ async function checkUiAccessibility() {
   }
 
   if (
+    !dealCard.includes("benefitConditionItems") ||
+    !dealCard.includes("혜택 조건") ||
+    !dealCard.includes("회원가입") ||
+    !dealCard.includes("선착순") ||
+    !dealCard.includes("배송비") ||
+    !dealCard.includes("쿠폰 조건") ||
+    !smoke.includes("Home page deal cards missing benefit condition summary")
+  ) {
+    fail("deal card benefit condition summary", "Deal cards should expose signup, first-come, shipping, and coupon conditions before users open a detail page.");
+  } else {
+    pass("deal card benefit condition summary", "Deal cards expose signup, first-come, shipping, and coupon conditions before users open a detail page.");
+  }
+
+  if (
     !dealDetailPage.includes("<BenefitConditionChecklist") ||
     !benefitConditionChecklist.includes('aria-label="혜택 조건 확인"') ||
     !benefitConditionChecklist.includes("선착순 여부") ||

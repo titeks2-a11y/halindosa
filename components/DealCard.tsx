@@ -27,6 +27,24 @@ export function DealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, onSha
     { label: "가격", value: getRelativeTime(deal.priceCheckedAt) },
     { label: "마감", value: getTimeLeft(deal.expiresAt) }
   ];
+  const benefitConditionItems = [
+    {
+      label: "회원가입",
+      value: deal.requiresSignup ? "필요 가능" : "불필요"
+    },
+    {
+      label: "선착순",
+      value: deal.isFirstComeFirstServed ? "먼저 확인" : "표시 없음"
+    },
+    {
+      label: "배송비",
+      value: deal.shippingFee || deal.shipping
+    },
+    {
+      label: "쿠폰 조건",
+      value: deal.couponCondition || (deal.minimumOrderAmount ? `${formatPrice(deal.minimumOrderAmount)} 이상` : "별도 없음")
+    }
+  ];
   const sourceLabel = deal.sourceName || deal.mallName;
   const reportLabel = deal.reportCount > 0 ? `신고 ${deal.reportCount}건 검토` : "신고 없음";
 
@@ -139,6 +157,18 @@ export function DealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, onSha
         <div className="rounded-2xl bg-red-50 px-3 py-2">
           <p className="text-[11px] font-black text-dossa-red">{getBenefitTypeLabel(deal.dealType)}</p>
           <p className="mt-1 line-clamp-2 text-xs font-bold leading-5 text-slate-700">{deal.benefitSummary}</p>
+        </div>
+
+        <div className="rounded-2xl border border-red-100 bg-white p-2" aria-label={`${deal.title} 혜택 조건 요약`}>
+          <p className="mb-1.5 text-[11px] font-black text-dossa-red">혜택 조건</p>
+          <div className="grid grid-cols-2 gap-1.5">
+            {benefitConditionItems.map((item) => (
+              <div key={item.label} className="min-w-0 rounded-xl bg-red-50/70 px-2 py-1.5">
+                <p className="text-[10px] font-black text-red-400">{item.label}</p>
+                <p className="mt-0.5 truncate text-[11px] font-black text-dossa-deep">{item.value}</p>
+              </div>
+            ))}
+          </div>
         </div>
 
         <div className="rounded-2xl border border-slate-100 bg-white p-2 shadow-[0_8px_24px_rgba(15,23,42,0.04)]" aria-label={`${deal.title} 구매 전 체크`}>

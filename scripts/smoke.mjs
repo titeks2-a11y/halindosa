@@ -97,6 +97,10 @@ await check("home page", async () => {
   assert(text.includes("상세 보기"), "Home page deal cards missing visible detail CTA");
   assert(text.includes("구매 전 체크"), "Home page deal cards missing compact purchase check summary");
   assert(text.includes("출처") && text.includes("신고 상태"), "Home page deal cards missing source and report status summary");
+  assert(
+    text.includes("혜택 조건") && text.includes("회원가입") && text.includes("선착순") && text.includes("배송비") && text.includes("쿠폰 조건"),
+    "Home page deal cards missing benefit condition summary"
+  );
   assert(text.includes("가격/재고 변동"), "Home page missing price stock risk guidance");
   assert(text.includes("구매 이동 안내"), "Home page missing purchase link overview");
   assert(text.includes("구매처 바로 확인 상품을 먼저 보여드려요"), "Home page missing customer-facing purchase link explanation");
