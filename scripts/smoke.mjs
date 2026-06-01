@@ -207,6 +207,7 @@ await check("home page", async () => {
   assert(text.includes("현재 조건으로 볼 혜택") && text.includes("마감 전 확인") && text.includes("배송비 부담 낮음"), "Home page missing filter outcome cards");
   assert(text.includes("현재 조건 빠른 추천") && text.includes("목록을 길게 보기 전 먼저 확인할 3개"), "Home page missing quick result picks");
   assert(text.includes("현재 결과 바로 실행 큐") && text.includes("지금 조건에서 먼저 눌러볼 혜택") && text.includes("가장 안전한 이동"), "Home page missing filter action queue");
+  assert(text.includes("상품 목록 빠른 스캔") && text.includes("낮은 가격 후보") && text.includes("할인율 최고"), "Home page missing product list scan shortcuts");
   assert(text.includes("최근 기록 관리") && text.includes("찜 목록 보기"), "Home page missing recent deal management actions");
   assert(!text.includes("직접 구매 링크 비율"), "Home page should not expose internal link coverage ratio copy");
   assert(!text.includes(">상업화<"), "Home page should not expose internal commercialization link in public footer");

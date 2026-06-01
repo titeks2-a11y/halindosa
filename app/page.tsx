@@ -1475,6 +1475,52 @@ export default function Home() {
     ];
   }, [deals]);
 
+  const dealScanBarItems = useMemo(() => {
+    const verifiedCount = deals.filter(isVerifiedPurchaseLink).length;
+    const freeShippingCount = deals.filter(isFreeShippingDeal).length;
+    const hotCount = deals.filter((deal) => deal.isHot).length;
+    const lowestDeal = deals.reduce<Deal | null>((best, deal) => (!best || deal.salePrice < best.salePrice ? deal : best), null);
+    const topDiscountDeal = deals.reduce<Deal | null>((best, deal) => (!best || deal.discountRate > best.discountRate ? deal : best), null);
+
+    return [
+      {
+        label: "구매처 확인",
+        value: `${verifiedCount}개`,
+        helper: "검색 결과 대신 상세 이동",
+        action: () => setVerifiedOnly((current) => !current),
+        active: verifiedOnly
+      },
+      {
+        label: "무료배송",
+        value: `${freeShippingCount}개`,
+        helper: "배송비 부담 낮춤",
+        action: () => setFreeShippingOnly((current) => !current),
+        active: freeShippingOnly
+      },
+      {
+        label: "핫딜",
+        value: `${hotCount}개`,
+        helper: "반응 좋은 상품",
+        action: () => setHotOnly((current) => !current),
+        active: hotOnly
+      },
+      {
+        label: "낮은 가격 후보",
+        value: lowestDeal ? formatPrice(lowestDeal.salePrice) : "-",
+        helper: lowestDeal?.mallName ?? "결과 없음",
+        action: () => setSort("price"),
+        active: sort === "price"
+      },
+      {
+        label: "할인율 최고",
+        value: topDiscountDeal ? `${topDiscountDeal.discountRate}%` : "0%",
+        helper: topDiscountDeal?.mallName ?? "결과 없음",
+        action: () => setSort("discount"),
+        active: sort === "discount"
+      }
+    ];
+  }, [deals, freeShippingOnly, hotOnly, sort, verifiedOnly]);
+
   const searchResultGroups = useMemo(() => {
     const normalizedQuery = query.trim();
     const source = catalog.length ? catalog : deals;
@@ -3092,6 +3138,38 @@ export default function Home() {
                 <p className="mt-3 rounded-2xl bg-amber-50 px-4 py-3 text-xs font-black text-amber-700">{loadError}</p>
               ) : null}
             </div>
+
+            {deals.length ? (
+              <section className="rounded-[24px] border border-slate-200 bg-white p-3 shadow-sm" aria-label="상품 목록 빠른 스캔">
+                <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+                  <div>
+                    <p className="text-xs font-black text-dossa-red">상품 목록 빠른 스캔</p>
+                    <h3 className="mt-1 text-base font-black text-slate-950">지금 목록에서 먼저 비교할 기준</h3>
+                  </div>
+                  <p className="text-xs font-bold leading-5 text-slate-500">누르면 같은 목록에서 조건이나 정렬이 바로 바뀝니다.</p>
+                </div>
+                <div className="mt-3 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                  {dealScanBarItems.map((item) => (
+                    <button
+                      key={item.label}
+                      type="button"
+                      onClick={item.action}
+                      aria-pressed={item.active}
+                      aria-label={`${item.label} 빠른 스캔 적용`}
+                      className={`min-w-[148px] rounded-2xl border px-3 py-3 text-left transition hover:-translate-y-0.5 hover:shadow-sm ${
+                        item.active
+                          ? "border-dossa-red bg-red-50 text-dossa-red"
+                          : "border-slate-200 bg-white text-slate-700 hover:border-red-100"
+                      }`}
+                    >
+                      <span className="block text-[11px] font-black">{item.label}</span>
+                      <strong className="mt-1 block text-lg font-black text-slate-950">{item.value}</strong>
+                      <small className="mt-1 block text-[11px] font-bold leading-4 text-slate-500">{item.helper}</small>
+                    </button>
+                  ))}
+                </div>
+              </section>
+            ) : null}
 
             {isLoading && !deals.length ? (
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">

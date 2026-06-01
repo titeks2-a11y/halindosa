@@ -1035,13 +1035,18 @@ async function checkUiAccessibility() {
     !homePage.includes("filterActionQueue") ||
     !homePage.includes('aria-label="현재 결과 바로 실행 큐"') ||
     !homePage.includes("지금 조건에서 먼저 눌러볼 혜택을 골랐습니다") ||
+    !homePage.includes("dealScanBarItems") ||
+    !homePage.includes('aria-label="상품 목록 빠른 스캔"') ||
+    !homePage.includes("낮은 가격 후보") ||
+    !homePage.includes("할인율 최고") ||
     !smoke.includes("Home page missing purpose quick benefit filters") ||
     !smoke.includes("Home page missing filter outcome summary") ||
-    !smoke.includes("Home page missing filter action queue")
+    !smoke.includes("Home page missing filter action queue") ||
+    !smoke.includes("Home page missing product list scan shortcuts")
   ) {
-    fail("search filter accessibility", "Home filters should summarize purpose presets, result quality, purchase link readiness, deadline, shipping outcomes, and next action queue.");
+    fail("search filter accessibility", "Home filters should summarize purpose presets, result quality, purchase link readiness, deadline, shipping outcomes, next action queue, and list scan shortcuts.");
   } else {
-    pass("search filter accessibility", "Search, sort, category, mall, price, benefit type, purpose quick filters, outcome summary, and next action queue controls expose accessible names and state.");
+    pass("search filter accessibility", "Search, sort, category, mall, price, benefit type, purpose quick filters, outcome summary, next action queue, and list scan shortcut controls expose accessible names and state.");
   }
 
     if (
