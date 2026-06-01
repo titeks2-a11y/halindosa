@@ -31,6 +31,7 @@ import { mockHotSignals } from "@/data/mockHotSignals";
 import { mockDeals } from "@/data/mockDeals";
 import { ConsentState, hasAffiliateConsent, hasAnalyticsConsent, readStoredConsent } from "@/lib/consent";
 import { canOpenDealLink } from "@/lib/affiliate";
+import { readBenefitReturnReservations } from "@/lib/benefitReturnReservations";
 import { readClaimedBenefits } from "@/lib/claimedBenefits";
 import { getLinkQualityScore, isVerifiedPurchaseLink } from "@/lib/deals/quality";
 import { formatPrice, getRelativeTime } from "@/lib/format";
@@ -303,6 +304,7 @@ function requestJson<T>(url: string): Promise<T> {
 
 function ClaimedBenefitHomeSummary({ deals }: { deals: Deal[] }) {
   const [claimedBenefits, setClaimedBenefits] = useState(() => readClaimedBenefits());
+  const [returnReservations, setReturnReservations] = useState(() => readBenefitReturnReservations());
   const claimedIds = useMemo(() => new Set(claimedBenefits.map((record) => record.dealId)), [claimedBenefits]);
   const todayKey = new Date().toISOString().slice(0, 10);
   const claimedToday = claimedBenefits.filter((record) => record.claimedAt.slice(0, 10) === todayKey);
@@ -319,7 +321,10 @@ function ClaimedBenefitHomeSummary({ deals }: { deals: Deal[] }) {
   );
 
   useEffect(() => {
-    const refresh = () => setClaimedBenefits(readClaimedBenefits());
+    const refresh = () => {
+      setClaimedBenefits(readClaimedBenefits());
+      setReturnReservations(readBenefitReturnReservations());
+    };
     refresh();
     window.addEventListener("storage", refresh);
     window.addEventListener("focus", refresh);
@@ -375,6 +380,38 @@ function ClaimedBenefitHomeSummary({ deals }: { deals: Deal[] }) {
               아직 챙긴 기록이 없습니다. 무료 혜택 전용 탭에서 받을 만한 혜택을 먼저 표시해두세요.
             </p>
           )}
+          <div className="mt-3 rounded-2xl border border-red-100 bg-white p-3">
+            <div className="flex items-center justify-between gap-3">
+              <div>
+                <p className="text-[11px] font-black text-dossa-red">홈 재방문 예약 요약</p>
+                <p className="mt-1 text-xs font-bold leading-5 text-slate-500">
+                  무료 혜택 탭에서 저장한 아침 무료 혜택, 저녁 쿠폰 점검, 마감 전 확인 루틴을 홈에서도 이어봅니다.
+                </p>
+              </div>
+              <span className="shrink-0 rounded-full bg-red-50 px-2.5 py-1 text-[11px] font-black text-dossa-red">
+                {returnReservations.length}개
+              </span>
+            </div>
+            <div className="mt-3 grid gap-2 sm:grid-cols-2">
+              {(returnReservations.length ? returnReservations.slice(0, 2) : [
+                { id: "free-morning", slot: "아침", title: "무료 혜택 먼저 확인" },
+                { id: "coupon-evening", slot: "저녁", title: "쿠폰·포인트 다시 보기" }
+              ]).map((item) => (
+                <div key={item.id} className="rounded-2xl bg-red-50 px-3 py-2">
+                  <p className="text-[11px] font-black text-dossa-red">{item.slot}</p>
+                  <p className="mt-1 line-clamp-1 text-xs font-black text-slate-950">{item.title}</p>
+                </div>
+              ))}
+            </div>
+            <div className="mt-3 grid gap-2 sm:grid-cols-2">
+              <Link href="/free-benefits" className="rounded-2xl bg-dossa-red px-3 py-2 text-center text-xs font-black text-white">
+                재방문 루틴 더 저장
+              </Link>
+              <Link href="/notifications" className="rounded-2xl bg-slate-950 px-3 py-2 text-center text-xs font-black text-white">
+                알림에서 이어보기
+              </Link>
+            </div>
+          </div>
         </div>
         <div className="flex-1 rounded-3xl border border-slate-200 bg-slate-50 p-4">
           <div className="flex items-center justify-between gap-3">

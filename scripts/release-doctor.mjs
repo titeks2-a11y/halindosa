@@ -921,8 +921,11 @@ async function checkUiAccessibility() {
         !benefitCheckIn.includes("halindosa:benefit-check-in") ||
         !homePage.includes("ClaimedBenefitHomeSummary") ||
         !homePage.includes("readClaimedBenefits") ||
+        !homePage.includes("readBenefitReturnReservations") ||
         !homePage.includes("오늘 챙긴 혜택 요약") ||
         !homePage.includes("아직 챙길 만한 무료 혜택") ||
+        !homePage.includes("홈 재방문 예약 요약") ||
+        !homePage.includes("재방문 루틴 더 저장") ||
         !benefitDiscoverySections.includes("무료혜택 TOP 5") ||
         !benefitDiscoverySections.includes("쿠폰·앱테크 TOP 5") ||
         !benefitDiscoverySections.includes("오늘 혜택 1분 시작") ||
@@ -981,6 +984,7 @@ async function checkUiAccessibility() {
         !smoke.includes("Home page missing benefit check-in card") ||
         !smoke.includes("Home page missing daily benefit completion record") ||
         !smoke.includes("Home page missing claimed benefit summary") ||
+        !smoke.includes("Home page missing return reservation summary") ||
         !smoke.includes("Home page missing free coupon top ranking section") ||
         !smoke.includes("Home page missing fast benefit shortcut rail") ||
         !smoke.includes("Home page missing daily savings summary") ||
