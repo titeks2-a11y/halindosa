@@ -7,6 +7,7 @@ import { useAuth } from "@/components/AuthProvider";
 import { getSupabaseBrowserClient } from "@/lib/auth/supabaseClient";
 import { benefitMissionLabels, getTodayKey, readBenefitCheckInState } from "@/lib/benefitCheckIn";
 import { readBenefitReturnReservations } from "@/lib/benefitReturnReservations";
+import { benefitVisitStreakStorageKey, readBenefitVisitStreak } from "@/lib/benefitVisitStreak";
 import { readClaimedBenefits } from "@/lib/claimedBenefits";
 import { formatPrice } from "@/lib/format";
 import { priceAlertStorageKey, readStoredPriceAlerts } from "@/lib/priceAlerts";
@@ -199,6 +200,7 @@ function AccountCarryoverPlan({
 
 function BenefitCheckInSummary() {
   const [checkIn, setCheckIn] = useState(() => readBenefitCheckInState());
+  const [visitStreak, setVisitStreak] = useState(() => readBenefitVisitStreak());
   const [claimedBenefits, setClaimedBenefits] = useState(() => readClaimedBenefits());
   const todayKey = getTodayKey();
   const checkedToday = checkIn.lastDate === todayKey;
@@ -210,6 +212,7 @@ function BenefitCheckInSummary() {
   useEffect(() => {
     const refresh = () => {
       setCheckIn(readBenefitCheckInState());
+      setVisitStreak(readBenefitVisitStreak());
       setClaimedBenefits(readClaimedBenefits());
     };
     window.addEventListener("storage", refresh);
@@ -248,6 +251,16 @@ function BenefitCheckInSummary() {
           <b className="block text-base">{formatPrice(claimedSavings)}</b>
           절약 후보
         </span>
+      </div>
+      <div className="mt-3 grid gap-2 sm:grid-cols-2">
+        <div className="rounded-2xl bg-white px-3 py-3 text-xs font-black text-slate-700 shadow-sm">
+          <span className="block text-[11px] text-slate-400">무료 혜택 방문 기록</span>
+          <span className="mt-1 block text-base text-slate-950">연속 {visitStreak.currentStreak}일 · 누적 {visitStreak.totalVisits}회</span>
+        </div>
+        <Link href="/free-benefits" className="rounded-2xl bg-white px-3 py-3 text-xs font-black text-dossa-red shadow-sm">
+          무료 혜택 방문 루틴 이어보기
+          <span className="mt-1 block text-[11px] text-red-900/60">무료 1개 챙기고 내일 볼 루틴 예약</span>
+        </Link>
       </div>
       <div className="mt-3 flex flex-wrap gap-2">
         {Object.entries(benefitMissionLabels).map(([id, label]) => {
@@ -391,6 +404,7 @@ export function AccountPanel() {
       window.localStorage.removeItem("halindosa:recent-deals");
       window.localStorage.removeItem("halindosa:member-preferences");
       window.localStorage.removeItem(priceAlertStorageKey);
+      window.localStorage.removeItem(benefitVisitStreakStorageKey);
       window.location.href = "/";
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "회원 탈퇴에 실패했습니다.");

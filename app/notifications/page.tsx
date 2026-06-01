@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Bell, Clock, Flame, Gift, Sparkles, TicketPercent, Truck } from "lucide-react";
 import { BenefitReturnReservationList } from "@/components/BenefitReturnReservationList";
+import { BenefitVisitStreakSummary } from "@/components/BenefitVisitStreakSummary";
 import { ClaimedBenefitAlertSummary } from "@/components/ClaimedBenefitAlertSummary";
 import { InterestAlertPreview } from "@/components/InterestAlertPreview";
 import { NotificationPreferences } from "@/components/NotificationPreferences";
@@ -237,6 +238,7 @@ export default async function NotificationsPage() {
 
       <NotificationPreferences />
       <PriceAlertList deals={deals} />
+      <BenefitVisitStreakSummary />
       <ClaimedBenefitAlertSummary deals={deals} />
       <BenefitReturnReservationList />
       <InterestAlertPreview deals={deals} />

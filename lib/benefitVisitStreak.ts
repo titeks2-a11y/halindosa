@@ -5,7 +5,7 @@ export interface BenefitVisitStreak {
   visitedDates: string[];
 }
 
-const storageKey = "halindosa:benefit-visit-streak";
+export const benefitVisitStreakStorageKey = "halindosa:benefit-visit-streak";
 
 function toDateKey(date = new Date()) {
   const year = date.getFullYear();
@@ -26,7 +26,7 @@ export function readBenefitVisitStreak(): BenefitVisitStreak {
   }
 
   try {
-    const parsed = JSON.parse(window.localStorage.getItem(storageKey) ?? "{}") as Record<string, unknown>;
+    const parsed = JSON.parse(window.localStorage.getItem(benefitVisitStreakStorageKey) ?? "{}") as Record<string, unknown>;
     const visitedDates = Array.isArray(parsed.visitedDates)
       ? parsed.visitedDates.filter((value: unknown): value is string => typeof value === "string")
       : [];
@@ -58,11 +58,11 @@ export function markBenefitVisit(date = new Date()): BenefitVisitStreak {
     visitedDates: [today, ...current.visitedDates.filter((visitedDate) => visitedDate !== today)].slice(0, 30)
   };
 
-  window.localStorage.setItem(storageKey, JSON.stringify(next));
+  window.localStorage.setItem(benefitVisitStreakStorageKey, JSON.stringify(next));
   return next;
 }
 
 export function clearBenefitVisitStreak() {
   if (typeof window === "undefined") return;
-  window.localStorage.removeItem(storageKey);
+  window.localStorage.removeItem(benefitVisitStreakStorageKey);
 }

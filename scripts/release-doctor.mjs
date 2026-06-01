@@ -1132,6 +1132,7 @@ async function checkOperationalDataSurfaces() {
   const categoriesPage = await text("app/categories/page.tsx");
   const notificationsPage = await text("app/notifications/page.tsx");
   const interestAlertPreview = await text("components/InterestAlertPreview.tsx");
+  const benefitVisitStreakSummary = await text("components/BenefitVisitStreakSummary.tsx");
   const claimedBenefitAlertSummary = await text("components/ClaimedBenefitAlertSummary.tsx");
   const benefitReturnReservationList = await text("components/BenefitReturnReservationList.tsx");
   const favoritesPage = await text("app/favorites/page.tsx");
@@ -1220,6 +1221,10 @@ async function checkOperationalDataSurfaces() {
 
   if (
     !notificationsPage.includes("<PriceAlertList") ||
+    !notificationsPage.includes("<BenefitVisitStreakSummary") ||
+    !benefitVisitStreakSummary.includes("readBenefitVisitStreak") ||
+    !benefitVisitStreakSummary.includes("무료 혜택 방문 알림 요약") ||
+    !benefitVisitStreakSummary.includes("무료 혜택을 다시 확인할 타이밍입니다") ||
     !notificationsPage.includes("<ClaimedBenefitAlertSummary") ||
     !claimedBenefitAlertSummary.includes("readClaimedBenefits") ||
     !claimedBenefitAlertSummary.includes("챙긴 혜택 알림 요약") ||
@@ -1243,6 +1248,10 @@ async function checkOperationalDataSurfaces() {
     !localDataControls.includes("가격 알림 조건") ||
     !localDataControls.includes("benefitCheckInStorageKey") ||
     !localDataControls.includes("혜택 출석 기록") ||
+    !localDataControls.includes("benefitVisitStreakStorageKey") ||
+    !localDataControls.includes("무료 혜택 방문 기록") ||
+    !accountPanel.includes("readBenefitVisitStreak") ||
+    !accountPanel.includes("무료 혜택 방문 루틴 이어보기") ||
     !localDataControls.includes("claimedBenefitStorageKey") ||
     !localDataControls.includes("챙긴 혜택 기록") ||
     !localDataControls.includes("benefitReturnReservationStorageKey") ||
@@ -1259,6 +1268,7 @@ async function checkOperationalDataSurfaces() {
     !notificationsPage.includes("priorityAlerts") ||
     !notificationsPage.includes("ClaimedBenefitAlertSummary") ||
     !claimedBenefitAlertSummary.includes("무료 혜택 더 챙기기") ||
+    !smoke.includes("Notifications page missing free benefit visit alert summary") ||
     !smoke.includes("Notifications page missing claimed benefit alert summary") ||
     !smoke.includes("Notifications page missing claimed benefit next alert queue") ||
     !smoke.includes("Notifications page missing saved benefit return reservation list") ||

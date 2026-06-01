@@ -228,7 +228,8 @@ await check("mypage data controls", async () => {
   assert(text.includes("찜한 특가") && text.includes("알림 센터") && text.includes("카테고리"), "Mypage missing quick action links");
   assert(text.includes("기기 데이터 관리"), "Mypage missing local data controls");
   assert(text.includes("찜/최근 본 특가/혜택 기록 삭제"), "Mypage missing local deal data delete action");
-  assert(text.includes("가격 알림 조건") && text.includes("혜택 출석 기록") && text.includes("챙긴 혜택 기록") && text.includes("재방문 예약"), "Mypage missing price alert, check-in, claimed benefit, and return reservation deletion scope");
+  assert(text.includes("무료 혜택 방문 기록") && text.includes("무료 혜택 방문 루틴 이어보기"), "Mypage missing free benefit visit streak summary");
+  assert(text.includes("가격 알림 조건") && text.includes("혜택 출석 기록") && text.includes("무료 혜택 방문 기록") && text.includes("챙긴 혜택 기록") && text.includes("재방문 예약"), "Mypage missing price alert, check-in, visit streak, claimed benefit, and return reservation deletion scope");
   assert(text.includes("분석/제휴 동의 초기화"), "Mypage missing consent reset action");
   assert(text.includes("서비스 안내"), "Mypage missing service guide link");
   assert(text.includes("가격/품절 정보 신고"), "Mypage missing report entry point");
@@ -395,6 +396,8 @@ await check("category and notification pages", async () => {
   assert(notificationsText.includes("마감임박") && notificationsText.includes("인기") && notificationsText.includes("신규") && notificationsText.includes("무료배송"), "Notifications page missing alert summary chips");
   assert(notificationsText.includes("전체 보기"), "Notifications page missing alert group deep links");
   assert(notificationsText.includes("저장한 가격 알림"), "Notifications page missing saved price alert list");
+  assert(notificationsText.includes("무료 혜택 방문 알림 요약") && notificationsText.includes("무료 혜택을 다시 확인할 타이밍입니다"), "Notifications page missing free benefit visit alert summary");
+  assert(notificationsText.includes("연속 확인") && notificationsText.includes("누적 방문") && notificationsText.includes("무료 혜택 이어보기"), "Notifications page missing free benefit visit alert cards");
   assert(notificationsText.includes("챙긴 혜택 알림 요약") && notificationsText.includes("아직 챙길 만한 혜택"), "Notifications page missing claimed benefit alert summary");
   assert(notificationsText.includes("챙긴 혜택 다음 알림 후보") && notificationsText.includes("무료 혜택 다시 알림"), "Notifications page missing claimed benefit next alert queue");
   assert(notificationsText.includes("쿠폰·포인트 재확인") && notificationsText.includes("마감 전 확인 알림"), "Notifications page missing claimed benefit next alert cards");
