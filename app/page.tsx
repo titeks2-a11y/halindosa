@@ -657,7 +657,7 @@ export default function Home() {
 
   const showToast = useCallback((message: string) => {
     setToast(message);
-    window.setTimeout(() => setToast(""), 4200);
+    window.setTimeout(() => setToast(""), 2200);
   }, []);
 
   useEffect(() => {
@@ -2207,8 +2207,8 @@ export default function Home() {
 
   return (
     <div className="min-h-screen">
-      <section id="deals" className="space-y-4 px-3 py-4 sm:px-4 lg:px-0 lg:py-8">
-        <div className="flex flex-wrap items-center justify-between gap-3">
+      <section id="deals" className="space-y-2 px-2 py-2 sm:space-y-4 sm:px-4 sm:py-4 lg:px-0 lg:py-8">
+        <div className="hidden flex-wrap items-center justify-between gap-3 lg:flex">
           <div>
             <p className="text-xs font-black text-dossa-red lg:text-sm">실시간 특가 모아보기</p>
             <h2 className="text-xl font-black text-slate-950 lg:text-3xl">{viewTitle}</h2>
@@ -2225,27 +2225,27 @@ export default function Home() {
             새로고침
           </button>
         </div>
-        <div className="rounded-[22px] border border-slate-200 bg-white px-3 py-3 shadow-sm">
-          <div className="flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            <span className="inline-flex shrink-0 items-center gap-2 rounded-full bg-red-50 px-3 py-2">
-              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white text-dossa-red">
-                <ShieldCheck size={18} />
+        <div className="rounded-2xl border border-slate-200 bg-white px-2 py-2 shadow-sm sm:rounded-[22px] sm:px-3 sm:py-3">
+          <div className="flex gap-1.5 overflow-x-auto [scrollbar-width:none] sm:gap-2 sm:pb-1 [&::-webkit-scrollbar]:hidden">
+            <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-red-50 px-2.5 py-1.5 sm:gap-2 sm:px-3 sm:py-2">
+              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-white text-dossa-red sm:h-7 sm:w-7">
+                <ShieldCheck size={14} className="sm:h-[18px] sm:w-[18px]" />
               </span>
-              <span className="text-xs font-black text-dossa-deep">데이터 상태</span>
-              <span className="text-xs font-black text-slate-950">{getProviderDisplayLabel(providerSource)}</span>
+              <span className="text-[11px] font-black text-dossa-deep sm:text-xs">상태</span>
+              <span className="text-[11px] font-black text-slate-950 sm:text-xs">{getProviderDisplayLabel(providerSource)}</span>
             </span>
-            <span className="inline-flex shrink-0 items-center gap-2 rounded-full bg-slate-50 px-3 py-2 text-xs font-black text-slate-700">
-              구매 전 판매처 확인 <b className="text-slate-950">권장</b>
+            <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-slate-50 px-2.5 py-1.5 text-[11px] font-black text-slate-700 sm:gap-2 sm:px-3 sm:py-2 sm:text-xs">
+              {deals.length}개 특가
             </span>
-            <span className="inline-flex shrink-0 items-center gap-2 rounded-full bg-amber-50 px-3 py-2 text-xs font-black text-amber-800">
-              가격/재고 변동 <b>안내</b>
+            <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-amber-50 px-2.5 py-1.5 text-[11px] font-black text-amber-800 sm:gap-2 sm:px-3 sm:py-2 sm:text-xs">
+              가격 변동
             </span>
-            <span className="inline-flex shrink-0 items-center gap-2 rounded-full bg-slate-50 px-3 py-2 text-xs font-black text-slate-700">
-              네트워크 <b className="text-slate-950">{isOffline ? "오프라인 모드" : "온라인"}</b>
+            <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-slate-50 px-2.5 py-1.5 text-[11px] font-black text-slate-700 sm:gap-2 sm:px-3 sm:py-2 sm:text-xs">
+              <b className="text-slate-950">{isOffline ? "오프라인" : "네트워크 정상"}</b>
             </span>
           </div>
         </div>
-        <div className="rounded-[22px] border border-slate-200 bg-white px-4 py-3 shadow-sm">
+        <div className="hidden rounded-[22px] border border-slate-200 bg-white px-4 py-3 shadow-sm sm:block">
           <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
             <p className="text-sm font-black text-slate-950">
               {isOffline ? "오프라인 상태입니다." : "네트워크 정상 · 최신 특가 확인 가능"}
@@ -2261,15 +2261,15 @@ export default function Home() {
           </p>
         </div>
         {activeView === "home" ? (
-          <section className="rounded-[28px] border border-red-100 bg-white p-3 shadow-sm sm:p-4" aria-label="빠른 상품 검색">
-            <div className="mb-3 flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+          <section className="rounded-2xl border border-red-100 bg-white p-2 shadow-sm sm:rounded-[28px] sm:p-4" aria-label="빠른 상품 검색">
+            <div className="mb-2 hidden flex-col gap-1 sm:mb-3 sm:flex sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <p className="text-xs font-black text-dossa-red">빠른 상품 검색</p>
                 <h3 className="text-lg font-black text-slate-950 sm:text-xl">찾고 싶은 특가를 바로 좁혀보세요</h3>
               </div>
               <p className="text-xs font-bold text-slate-500">검색, 쇼핑몰, 정렬, 핵심 필터를 한 번에 적용합니다.</p>
             </div>
-            <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
+            <div className="flex flex-col gap-2 sm:gap-3 lg:flex-row lg:items-center">
               <div className="min-w-0 flex-1">
                 <SearchBar
                   value={query}
@@ -2279,7 +2279,7 @@ export default function Home() {
                   onSelectSuggestion={selectSearchKeyword}
                 />
               </div>
-              <div className="grid grid-cols-2 gap-2 sm:flex sm:items-center">
+              <div className="hidden grid-cols-2 gap-2 sm:grid lg:flex lg:items-center">
                 <SortSelect value={sort} onChange={setSort} />
                 <select
                   aria-label="쇼핑몰 필터"
@@ -2303,7 +2303,7 @@ export default function Home() {
                 </button>
               </div>
             </div>
-            <div className="mt-3 grid grid-cols-2 gap-2 lg:grid-cols-4" aria-label="검색 결과 핵심 요약">
+            <div className="mt-3 hidden grid-cols-2 gap-2 sm:grid lg:grid-cols-4" aria-label="검색 결과 핵심 요약">
               {searchResultSnapshot.map((item) => (
                 <div key={item.label} className="rounded-2xl border border-slate-100 bg-slate-50 px-3 py-3">
                   <p className="text-[11px] font-black text-slate-400">{item.label}</p>
@@ -2312,7 +2312,7 @@ export default function Home() {
                 </div>
               ))}
             </div>
-            <div className="mt-3 flex flex-col gap-3 rounded-2xl border border-red-100 bg-red-50 px-3 py-3 sm:flex-row sm:items-center sm:justify-between" aria-label="검색 결과 추천 판단">
+            <div className="mt-3 hidden flex-col gap-3 rounded-2xl border border-red-100 bg-red-50 px-3 py-3 sm:flex sm:flex-row sm:items-center sm:justify-between" aria-label="검색 결과 추천 판단">
               <div className="min-w-0">
                 <p className="text-[11px] font-black text-dossa-red">{searchDecisionGuide.label}</p>
                 <p className="mt-1 text-sm font-black text-slate-950 sm:text-base">{searchDecisionGuide.title}</p>
@@ -2327,20 +2327,20 @@ export default function Home() {
                 {searchDecisionGuide.actionLabel}
               </button>
             </div>
-            <div className="mt-3 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <div className="mt-2 flex gap-1.5 overflow-x-auto pb-1 [scrollbar-width:none] sm:mt-3 sm:gap-2 [&::-webkit-scrollbar]:hidden">
               {[
+                { label: "최신순", active: sort === "latest", onClick: () => setSort("latest"), icon: <Timer size={16} /> },
                 { label: "오늘특가", active: hotOnly, onClick: () => openQuickDiscovery("hot"), icon: <Flame size={16} /> },
                 { label: "무료배송", active: freeShippingOnly, onClick: () => openQuickDiscovery("freeShipping"), icon: <Truck size={16} /> },
                 { label: "마감임박", active: endingSoonOnly, onClick: () => openQuickDiscovery("endingSoon"), icon: <Timer size={16} /> },
                 { label: "직접구매", active: verifiedOnly, onClick: () => openQuickDiscovery("verified"), icon: <ShieldCheck size={16} /> },
-                { label: "쿠폰", active: benefitFilter === "coupon", onClick: () => openBenefitFilter("coupon"), icon: <CheckCircle2 size={16} /> },
-                { label: "무료혜택", active: benefitFilter === "freebie", onClick: () => openBenefitFilter("freebie"), icon: <ShoppingBag size={16} /> }
+                { label: "쿠폰", active: benefitFilter === "coupon", onClick: () => openBenefitFilter("coupon"), icon: <CheckCircle2 size={16} /> }
               ].map((item) => (
                 <button
                   key={item.label}
                   type="button"
                   onClick={item.onClick}
-                  className={`inline-flex min-h-11 shrink-0 items-center gap-2 rounded-2xl border px-3 text-sm font-black transition ${
+                  className={`inline-flex min-h-9 shrink-0 items-center gap-1.5 rounded-full border px-3 text-xs font-black transition sm:min-h-11 sm:gap-2 sm:rounded-2xl sm:text-sm ${
                     item.active
                       ? "border-transparent bg-gradient-to-r from-[#ff2b2b] to-[#ff6a3d] text-white shadow-sm"
                       : "border-slate-200 bg-slate-50 text-slate-700 hover:border-red-200 hover:bg-red-50 hover:text-dossa-red"
@@ -2351,7 +2351,16 @@ export default function Home() {
                 </button>
               ))}
             </div>
-            <div className="mt-3 grid gap-3 xl:grid-cols-3" aria-label="쇼핑몰 가격 혜택 빠른 필터">
+            {activeFilterLabels.length ? (
+              <button
+                type="button"
+                onClick={resetFilters}
+                className="mt-1 inline-flex min-h-8 items-center rounded-full px-2 text-[11px] font-black text-dossa-red sm:hidden"
+              >
+                필터 초기화
+              </button>
+            ) : null}
+            <div className="mt-3 hidden gap-3 sm:grid xl:grid-cols-3" aria-label="쇼핑몰 가격 혜택 빠른 필터">
               <div className="rounded-2xl bg-slate-50 px-3 py-3">
                 <div className="mb-2 flex items-center justify-between gap-2">
                   <p className="text-xs font-black text-slate-700">쇼핑몰 빠른 선택</p>
@@ -2434,18 +2443,18 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <div className="mt-3" aria-label="카테고리 바로가기">
+            <div className="mt-2 sm:mt-3" aria-label="카테고리 바로가기">
               <div className="mb-2 flex items-center justify-between gap-2">
-                <p className="text-xs font-black text-slate-700">카테고리 바로가기</p>
-                <p className="text-[11px] font-bold text-slate-400">원하는 분야만 빠르게 보기</p>
+                <p className="sr-only sm:not-sr-only sm:text-xs sm:font-black sm:text-slate-700">카테고리 바로가기</p>
+                <p className="hidden text-[11px] font-bold text-slate-400 sm:block">원하는 분야만 빠르게 보기</p>
               </div>
-              <div className="flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              <div className="flex gap-1.5 overflow-x-auto pb-1 [scrollbar-width:none] sm:gap-2 [&::-webkit-scrollbar]:hidden">
                 {quickCategoryShortcuts.map((item) => (
                   <button
                     key={item.id}
                     type="button"
                     onClick={() => openCategory(item.id)}
-                    className={`inline-flex min-h-10 shrink-0 items-center gap-2 rounded-2xl border px-3 text-xs font-black transition ${
+                    className={`inline-flex min-h-8 shrink-0 items-center gap-1.5 rounded-full border px-2.5 text-[11px] font-black transition sm:min-h-10 sm:gap-2 sm:rounded-2xl sm:px-3 sm:text-xs ${
                       category === item.id
                         ? "border-transparent bg-slate-950 text-white shadow-sm"
                         : "border-slate-200 bg-white text-slate-700 hover:border-red-200 hover:bg-red-50 hover:text-dossa-red"
@@ -2460,7 +2469,7 @@ export default function Home() {
                 ))}
               </div>
             </div>
-            <div className="mt-3 flex flex-col gap-2 rounded-2xl bg-slate-50 px-3 py-3 sm:flex-row sm:items-center sm:justify-between">
+            <div className="mt-3 hidden flex-col gap-2 rounded-2xl bg-slate-50 px-3 py-3 sm:flex sm:flex-row sm:items-center sm:justify-between">
               <p className="text-sm font-black text-slate-950">
                 현재 결과 {deals.length}개
                 <span className="ml-2 text-xs font-bold text-slate-500">
@@ -2471,7 +2480,7 @@ export default function Home() {
                 상품 이동은 모두 새 탭에서 직접 구매 링크로 열립니다.
               </p>
             </div>
-            <div className="mt-3 rounded-2xl border border-slate-200 bg-white p-3" aria-label="홈 탐색 바로가기">
+            <div className="mt-3 hidden rounded-2xl border border-slate-200 bg-white p-3 sm:block" aria-label="홈 탐색 바로가기">
               <div className="flex items-center justify-between gap-3">
                 <div>
                   <p className="text-xs font-black text-dossa-red">홈 탐색 바로가기</p>
@@ -2509,19 +2518,19 @@ export default function Home() {
           </section>
         ) : null}
         {activeView === "home" && instantDealRail.length ? (
-          <section className="rounded-[28px] border border-slate-200 bg-white p-3 shadow-sm sm:p-4" aria-label="오늘 바로 볼 특가">
-            <div className="flex items-center justify-between gap-3">
+          <section className="rounded-2xl border border-slate-200 bg-white p-2 shadow-sm sm:rounded-[28px] sm:p-4" aria-label="오늘 바로 볼 특가">
+            <div className="flex items-center justify-between gap-2 sm:gap-3">
               <div>
                 <p className="text-xs font-black text-dossa-red">오늘 바로 볼 특가</p>
-                <h3 className="mt-1 text-lg font-black text-slate-950 sm:text-xl">검색 결과에서 먼저 확인할 상품</h3>
+                <h3 className="text-base font-black text-slate-950 sm:mt-1 sm:text-xl">먼저 확인할 상품</h3>
               </div>
               <p className="hidden text-xs font-bold text-slate-500 sm:block">상품 상세도 새 탭으로 열립니다.</p>
             </div>
-            <div className="mt-3 flex gap-3 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <div className="mt-2 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] sm:mt-3 sm:gap-3 [&::-webkit-scrollbar]:hidden">
               {instantDealRail.map((deal) => (
                 <article
                   key={deal.id}
-                  className="group relative flex w-[168px] shrink-0 flex-col overflow-hidden rounded-3xl border border-slate-100 bg-slate-50 shadow-sm transition hover:-translate-y-0.5 hover:border-red-100 hover:bg-white sm:w-[190px]"
+                  className="group relative flex w-[138px] shrink-0 flex-col overflow-hidden rounded-2xl border border-slate-100 bg-slate-50 shadow-sm transition hover:-translate-y-0.5 hover:border-red-100 hover:bg-white sm:w-[190px] sm:rounded-3xl"
                 >
                   <Link
                     href={`/deals/${deal.id}`}
@@ -2530,7 +2539,7 @@ export default function Home() {
                     className="block"
                     aria-label={`${deal.title} 상세 정보 새 탭으로 보기`}
                   >
-                    <span className="relative block aspect-square overflow-hidden bg-red-50">
+                    <span className="relative block aspect-[4/3] overflow-hidden bg-red-50 sm:aspect-square">
                       {deal.thumbnail ? (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img
@@ -2544,26 +2553,26 @@ export default function Home() {
                       ) : (
                         <span className="flex h-full w-full items-center justify-center text-sm font-black text-dossa-red">SALE</span>
                       )}
-                      <span className="absolute left-2 top-2 rounded-full bg-dossa-red px-2 py-1 text-xs font-black text-white">{deal.discountRate}%</span>
+                      <span className="absolute left-1.5 top-1.5 rounded-full bg-dossa-red px-2 py-0.5 text-[11px] font-black text-white sm:left-2 sm:top-2 sm:py-1 sm:text-xs">{deal.discountRate}%</span>
                       {deal.isFreeShipping ? (
-                        <span className="absolute bottom-2 left-2 rounded-full bg-white px-2 py-1 text-[11px] font-black text-dossa-red shadow-sm">무료배송</span>
+                        <span className="absolute bottom-1.5 left-1.5 rounded-full bg-white px-2 py-0.5 text-[10px] font-black text-dossa-red shadow-sm sm:bottom-2 sm:left-2 sm:py-1 sm:text-[11px]">무배</span>
                       ) : null}
                     </span>
-                    <span className="block space-y-1.5 p-3">
+                    <span className="block space-y-1 p-2 sm:space-y-1.5 sm:p-3">
                       <span className="flex items-center justify-between gap-2 text-[11px] font-black">
                         <span className="truncate text-dossa-red">{deal.mallName}</span>
-                        <span className="shrink-0 text-slate-400">{getRelativeTime(deal.priceCheckedAt)}</span>
+                        <span className="hidden shrink-0 text-slate-400 sm:inline">{getRelativeTime(deal.priceCheckedAt)}</span>
                       </span>
-                      <span className="line-clamp-2 min-h-10 text-sm font-black leading-5 text-slate-950">{deal.title}</span>
-                      <span className="block text-[11px] font-bold text-slate-400 line-through">{formatPrice(deal.originalPrice)}</span>
-                      <span className="block text-lg font-black text-dossa-red">{formatPrice(deal.salePrice)}</span>
+                      <span className="line-clamp-2 min-h-8 text-xs font-black leading-4 text-slate-950 sm:min-h-10 sm:text-sm sm:leading-5">{deal.title}</span>
+                      <span className="hidden text-[11px] font-bold text-slate-400 line-through sm:block">{formatPrice(deal.originalPrice)}</span>
+                      <span className="block text-[15px] font-black text-dossa-red sm:text-lg">{formatPrice(deal.salePrice)}</span>
                     </span>
                   </Link>
-                  <div className="mt-auto grid grid-cols-2 gap-1 px-3 pb-3">
+                  <div className="mt-auto grid grid-cols-2 gap-1 px-2 pb-2 sm:px-3 sm:pb-3">
                     <button
                       type="button"
                       onClick={() => toggleFavorite(deal.id)}
-                      className={`min-h-10 rounded-2xl border text-xs font-black transition ${
+                      className={`min-h-8 rounded-xl border text-[11px] font-black transition sm:min-h-10 sm:rounded-2xl sm:text-xs ${
                         favorites.includes(deal.id) ? "border-red-100 bg-red-50 text-dossa-red" : "border-slate-200 bg-white text-slate-600 hover:text-dossa-red"
                       }`}
                       aria-label={`${deal.title} ${favorites.includes(deal.id) ? "찜 해제" : "찜하기"}`}
@@ -2574,7 +2583,7 @@ export default function Home() {
                     <button
                       type="button"
                       onClick={() => openDeal(deal)}
-                      className="min-h-10 rounded-2xl bg-slate-950 text-xs font-black text-white transition hover:bg-dossa-red"
+                      className="min-h-8 rounded-xl bg-slate-950 text-[11px] font-black text-white transition hover:bg-dossa-red sm:min-h-10 sm:rounded-2xl sm:text-xs"
                       aria-label={`${deal.title} 판매처 새 탭으로 확인`}
                     >
                       구매
@@ -2586,14 +2595,14 @@ export default function Home() {
           </section>
         ) : null}
         {activeView === "home" ? (
-          <section className="grid gap-4 lg:grid-cols-[1fr_0.9fr]" aria-label="홈 핵심 특가 요약">
-            <div className="rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+          <section className="grid gap-2 sm:gap-4 lg:grid-cols-[1fr_0.9fr]" aria-label="홈 핵심 특가 요약">
+            <div className="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm sm:rounded-[28px] sm:p-5">
               <div className="flex items-center justify-between gap-3">
                 <div>
                   <p className="text-xs font-black text-dossa-red">인기 특가</p>
-                  <h2 className="mt-1 text-lg font-black text-slate-950 sm:text-xl">지금 많이 확인하는 상품</h2>
+                  <h2 className="text-base font-black text-slate-950 sm:mt-1 sm:text-xl">지금 많이 확인하는 상품</h2>
                 </div>
-                <Link href="/popular" className="rounded-2xl bg-slate-950 px-3 py-2 text-xs font-black text-white">
+                <Link href="/popular" className="rounded-xl bg-slate-950 px-3 py-2 text-[11px] font-black text-white sm:rounded-2xl sm:text-xs">
                   전체 보기
                 </Link>
               </div>
@@ -2604,49 +2613,49 @@ export default function Home() {
                     href={`/go/${deal.id}?source=home_popular`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex min-w-0 items-center gap-3 rounded-2xl border border-slate-100 bg-slate-50 p-3 transition hover:border-red-100 hover:bg-red-50"
+                    className="flex min-w-0 items-center gap-2 rounded-xl border border-slate-100 bg-slate-50 p-2 transition hover:border-red-100 hover:bg-red-50 sm:gap-3 sm:rounded-2xl sm:p-3"
                     aria-label={`${deal.title} 판매처 새 탭으로 열기`}
                   >
-                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-dossa-red text-sm font-black text-white">{index + 1}</span>
+                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-dossa-red text-xs font-black text-white sm:h-8 sm:w-8 sm:text-sm">{index + 1}</span>
                     <span className="min-w-0 flex-1">
-                      <span className="block truncate text-sm font-black text-slate-950">{deal.title}</span>
-                      <span className="mt-0.5 block truncate text-xs font-bold text-slate-500">{deal.mallName} · {deal.shipping} · 가격 기준 {getRelativeTime(deal.priceCheckedAt)}</span>
+                      <span className="block truncate text-xs font-black text-slate-950 sm:text-sm">{deal.title}</span>
+                      <span className="mt-0.5 block truncate text-[11px] font-bold text-slate-500 sm:text-xs">{deal.mallName} · {deal.shipping}</span>
                     </span>
-                    <span className="shrink-0 text-base font-black text-dossa-red">{deal.discountRate}%</span>
+                    <span className="shrink-0 text-sm font-black text-dossa-red sm:text-base">{deal.discountRate}%</span>
                   </a>
                 ))}
               </div>
             </div>
 
-            <div className="rounded-[28px] border border-amber-100 bg-white p-4 shadow-sm sm:p-5">
+            <div className="rounded-2xl border border-amber-100 bg-white p-3 shadow-sm sm:rounded-[28px] sm:p-5">
               <div className="flex items-center justify-between gap-3">
                 <div>
                   <p className="text-xs font-black text-amber-700">마감 임박</p>
-                  <h2 className="mt-1 text-lg font-black text-slate-950 sm:text-xl">오늘 먼저 확인할 특가</h2>
+                  <h2 className="text-base font-black text-slate-950 sm:mt-1 sm:text-xl">오늘 먼저 확인할 특가</h2>
                 </div>
-                <button type="button" onClick={() => openQuickDiscovery("endingSoon")} className="rounded-2xl bg-amber-50 px-3 py-2 text-xs font-black text-amber-800">
+                <button type="button" onClick={() => openQuickDiscovery("endingSoon")} className="rounded-xl bg-amber-50 px-3 py-2 text-[11px] font-black text-amber-800 sm:rounded-2xl sm:text-xs">
                   마감순
                 </button>
               </div>
-              <div className="mt-4 space-y-2">
+              <div className="mt-3 space-y-1.5 sm:mt-4 sm:space-y-2">
                 {(endingSoonDeals.length ? endingSoonDeals : topDeals.slice(0, 4)).slice(0, 4).map((deal) => (
                   <a
                     key={deal.id}
                     href={`/go/${deal.id}?source=home_ending`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex min-w-0 items-center gap-3 rounded-2xl bg-slate-50 p-3 transition hover:bg-amber-50"
+                    className="flex min-w-0 items-center gap-2 rounded-xl bg-slate-50 p-2 transition hover:bg-amber-50 sm:gap-3 sm:rounded-2xl sm:p-3"
                     aria-label={`${deal.title} 판매처 새 탭으로 열기`}
                   >
-                    <span className="h-12 w-12 shrink-0 overflow-hidden rounded-2xl bg-red-50">
+                    <span className="h-10 w-10 shrink-0 overflow-hidden rounded-xl bg-red-50 sm:h-12 sm:w-12 sm:rounded-2xl">
                       {deal.thumbnail ? (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img src={getDealImageSrc(deal.thumbnail)} alt="" loading="lazy" decoding="async" referrerPolicy="no-referrer" className="h-full w-full object-cover" />
                       ) : null}
                     </span>
                     <span className="min-w-0 flex-1">
-                      <span className="block truncate text-sm font-black text-slate-950">{deal.title}</span>
-                      <span className="mt-0.5 block truncate text-xs font-bold text-slate-500">{deal.mallName} · {getTimeLeft(deal.expireAt)}</span>
+                      <span className="block truncate text-xs font-black text-slate-950 sm:text-sm">{deal.title}</span>
+                      <span className="mt-0.5 block truncate text-[11px] font-bold text-slate-500 sm:text-xs">{deal.mallName} · {getTimeLeft(deal.expireAt)}</span>
                     </span>
                     <ExternalLink size={16} className="shrink-0 text-slate-400" />
                   </a>
@@ -2657,7 +2666,7 @@ export default function Home() {
         ) : null}
 
         {activeView === "home" && categoryHighlights.length ? (
-          <section className="rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5" aria-label="카테고리 바로가기">
+          <section className="hidden rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm sm:block sm:p-5" aria-label="카테고리 바로가기">
             <div className="flex items-center justify-between gap-3">
               <div>
                 <p className="text-xs font-black text-dossa-red">카테고리</p>
@@ -3289,7 +3298,7 @@ export default function Home() {
               </div>
             </details>
 
-            <details className="group overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-sm" aria-label="상세 필터와 결과 분석 접기">
+            <details className="group hidden overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-sm sm:block" aria-label="상세 필터와 결과 분석 접기">
               <summary className="flex cursor-pointer list-none flex-col gap-3 px-4 py-4 outline-none transition hover:bg-slate-50 focus-visible:ring-4 focus-visible:ring-red-100 sm:flex-row sm:items-center sm:justify-between sm:px-5 [&::-webkit-details-marker]:hidden">
                 <span>
                   <span className="block text-xs font-black text-dossa-red">상세 필터와 결과 분석</span>

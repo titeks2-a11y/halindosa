@@ -12,7 +12,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       <div className="min-h-screen bg-slate-50">
         <MobileHeader />
         <TopNavigation />
-        <main className="mx-auto min-h-screen max-w-[480px] pb-[calc(5.75rem+env(safe-area-inset-bottom))] lg:max-w-7xl lg:px-8 lg:pb-12">
+        <main className="mx-auto min-h-screen max-w-[480px] pb-[calc(5rem+env(safe-area-inset-bottom))] lg:max-w-7xl lg:px-8 lg:pb-12">
           {children}
         </main>
         <BottomNavigation />
