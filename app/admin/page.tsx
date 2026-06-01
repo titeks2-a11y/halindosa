@@ -105,6 +105,33 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const benefitTypeBreakdown = benefitQuality.typeBreakdown.slice(0, 8);
   const benefitActionQueue = benefitQuality.actionQueue;
   const benefitConditionAudit = benefitQuality.conditionAudit;
+  const urgentBenefitActions = benefitActionQueue.filter((item) => item.priority === "high").length;
+  const dailyOperationCheckIn = [
+    {
+      title: "무료 혜택 보강",
+      value: `${benefitQuality.freeBenefitCount}개`,
+      description: "무료 샘플, 쿠폰, 포인트, 체험 혜택이 매일 볼 만큼 충분한지 확인",
+      href: "/free-benefits"
+    },
+    {
+      title: "링크 검수",
+      value: `${metrics.needsReviewLinks}개`,
+      description: "검색 이동이나 확인 필요 링크를 실제 상품/혜택 상세 URL로 보강",
+      href: getAdminExportHref(token)
+    },
+    {
+      title: "신고·종료 정리",
+      value: `${reportSummary.open + urgentBenefitActions}건`,
+      description: "사용자 신고, 종료 임박, 품절 가능성이 있는 혜택을 먼저 정리",
+      href: "#report-queue"
+    },
+    {
+      title: "재방문 루틴",
+      value: `${benefitRetention.activeRoutineSlots}/5`,
+      description: "무료·쿠폰·포인트·마트·마감 혜택 슬롯이 매일 갱신되는지 확인",
+      href: "/notifications"
+    }
+  ];
   const benefitPriorityLabels = {
     high: "오늘 처리",
     medium: "이번 주 보강",
@@ -245,6 +272,38 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
               </div>
             );
           })}
+        </section>
+
+        <section className="rounded-3xl border border-red-100 bg-white p-5 shadow-sm">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-black text-dossa-red">오늘 운영 체크인</p>
+              <h2 className="mt-1 text-xl font-black text-slate-950">무료·쿠폰·링크·재방문 루틴을 먼저 점검합니다</h2>
+              <p className="mt-1 text-sm font-semibold leading-6 text-slate-500">
+                운영자가 매일 같은 순서로 확인할 수 있도록 혜택 보강, 링크 검수, 신고 처리, 재방문 콘텐츠를 하나의 보드로 묶었습니다.
+              </p>
+            </div>
+            <Link href="/commercialization" className="rounded-2xl bg-slate-950 px-4 py-3 text-sm font-black text-white">
+              운영 기준 보기
+            </Link>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+            {dailyOperationCheckIn.map((item) => (
+              <Link
+                key={item.title}
+                href={item.href}
+                className="rounded-2xl border border-slate-100 bg-slate-50 p-4 transition hover:border-red-200 hover:bg-red-50"
+              >
+                <div className="flex items-center justify-between gap-3">
+                  <p className="text-sm font-black text-slate-950">{item.title}</p>
+                  <span className="rounded-full bg-white px-2.5 py-1 text-xs font-black text-dossa-red shadow-sm">
+                    {item.value}
+                  </span>
+                </div>
+                <p className="mt-3 text-xs font-bold leading-5 text-slate-500">{item.description}</p>
+              </Link>
+            ))}
+          </div>
         </section>
 
         <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
@@ -410,7 +469,9 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
           </div>
         </section>
 
-        <AdminReportQueue initialReports={recentReports} initialSummary={reportSummary} token={token} />
+        <div id="report-queue">
+          <AdminReportQueue initialReports={recentReports} initialSummary={reportSummary} token={token} />
+        </div>
 
         <section className="rounded-3xl border border-red-100 bg-gradient-to-br from-red-50 via-white to-slate-50 p-5 shadow-sm">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">

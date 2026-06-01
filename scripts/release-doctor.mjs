@@ -1243,6 +1243,10 @@ async function checkOperationalDataSurfaces() {
     !adminPage.includes("혜택 데이터 품질 요약") ||
     !adminPage.includes("혜택형 콘텐츠") ||
     !adminPage.includes("점검 우선") ||
+    !adminPage.includes("dailyOperationCheckIn") ||
+    !adminPage.includes("오늘 운영 체크인") ||
+    !adminPage.includes("무료·쿠폰·링크·재방문 루틴을 먼저 점검합니다") ||
+    !smoke.includes("Admin dashboard missing daily operations check-in") ||
     !adminPage.includes("오늘 혜택 운영 액션 큐") ||
     !adminPage.includes("신고·종료·링크 보강") ||
     !adminPage.includes("benefitConditionAudit") ||
