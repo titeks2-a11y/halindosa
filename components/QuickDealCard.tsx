@@ -95,11 +95,21 @@ export function QuickDealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, 
           </span>
         </div>
 
-        <div className="rounded-2xl bg-slate-50 px-3 py-2">
-          <p className="text-[11px] font-bold text-slate-400 line-through">{formatPrice(deal.originalPrice)}</p>
-          <div className="mt-0.5 flex items-end justify-between gap-2">
-            <strong className="min-w-0 truncate text-lg font-black text-slate-950 sm:text-xl">{formatPrice(deal.salePrice)}</strong>
-            <span className="shrink-0 text-xs font-black text-dossa-red">{formatPrice(deal.discountAmount)} 절약</span>
+        <div
+          className="rounded-2xl border border-red-50 bg-gradient-to-br from-red-50 via-white to-white px-3 py-2.5"
+          aria-label={`${deal.title} 가격 요약`}
+        >
+          <div className="flex items-center justify-between gap-2">
+            <span className="inline-flex shrink-0 rounded-full bg-dossa-red px-2 py-1 text-[11px] font-black text-white shadow-sm">
+              {deal.discountRate}% 할인
+            </span>
+            <span className="min-w-0 truncate text-[11px] font-bold text-slate-400 line-through">{formatPrice(deal.originalPrice)}</span>
+          </div>
+          <div className="mt-1 flex items-end justify-between gap-2">
+            <strong className="min-w-0 truncate text-xl font-black text-slate-950 sm:text-2xl">{formatPrice(deal.salePrice)}</strong>
+            <span className="shrink-0 rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-dossa-red shadow-sm">
+              {formatPrice(deal.discountAmount)} 아낌
+            </span>
           </div>
         </div>
 

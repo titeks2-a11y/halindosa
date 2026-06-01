@@ -995,9 +995,13 @@ async function checkUiAccessibility() {
     !quickDealCard.includes("checkedAt") ||
     !quickDealCard.includes("timeLeft") ||
     !quickDealCard.includes("링크 확인") ||
-    !smoke.includes("Home page missing quick deal card purchase snapshot")
+    !quickDealCard.includes("가격 요약") ||
+    !quickDealCard.includes("% 할인") ||
+    !quickDealCard.includes("아낌") ||
+    !smoke.includes("Home page missing quick deal card purchase snapshot") ||
+    !smoke.includes("Home page missing quick deal card price summary")
   ) {
-    fail("deal image loading hints", "Quick deal cards should expose a compact purchase snapshot with link status, checked time, and deadline.");
+    fail("deal image loading hints", "Quick deal cards should expose compact purchase and price summaries with link status, checked time, deadline, discount rate, and savings.");
   } else if (!dealCard.includes('loading="lazy"') || !liveDealFeed.includes('loading="lazy"') || !hotSignalSection.includes('loading="lazy"') || !dealDetailPage.includes('loading="eager"')) {
     fail("deal image loading hints", "List images should lazy-load and detail hero image should eagerly load.");
   } else {
