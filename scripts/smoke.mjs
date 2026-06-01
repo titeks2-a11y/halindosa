@@ -474,6 +474,8 @@ await check("admin dashboard quality cards", async () => {
   assert(text.includes("혜택형 콘텐츠") && text.includes("활성 노출 가능") && text.includes("점검 우선"), "Admin dashboard missing benefit operation cards");
   assert(text.includes("오늘 운영 체크인") && text.includes("무료·쿠폰·링크·재방문 루틴을 먼저 점검합니다"), "Admin dashboard missing daily operations check-in");
   assert(text.includes("무료 혜택 보강") && text.includes("링크 검수") && text.includes("신고·종료 정리") && text.includes("재방문 루틴"), "Admin dashboard missing daily operations check-in cards");
+  assert(text.includes("운영 혜택 판단표") && text.includes("고객이 오늘 먼저 보는 4가지 기준을 운영 큐로 점검합니다"), "Admin dashboard missing shared benefit decision operation board");
+  assert(text.includes("무료 수령") && text.includes("결제 전 쿠폰") && text.includes("마감 혜택") && text.includes("구매처 확인 상품"), "Admin dashboard missing decision guide operation actions");
   assert(text.includes("주간 혜택 편성 캘린더") && text.includes("요일별로 채워야 할 재방문 루틴"), "Admin dashboard missing weekly benefit calendar operation board");
   assert(text.includes("주간 캘린더 JSON 보기") && text.includes("실구매 특가 재확인"), "Admin dashboard missing weekly calendar API/action guidance");
   assert(text.includes("운영 피드 전환 준비도") && text.includes("공식 API·제휴 피드로 바꿀 때 볼 품질 기준"), "Admin dashboard missing source readiness operation board");

@@ -1388,6 +1388,13 @@ async function checkOperationalDataSurfaces() {
     !adminPage.includes("오늘 운영 체크인") ||
     !adminPage.includes("무료·쿠폰·링크·재방문 루틴을 먼저 점검합니다") ||
     !smoke.includes("Admin dashboard missing daily operations check-in") ||
+    !adminPage.includes("buildBenefitDecisionGuide") ||
+    !adminPage.includes("운영 혜택 판단표") ||
+    !adminPage.includes("고객이 오늘 먼저 보는 4가지 기준을 운영 큐로 점검합니다") ||
+    !adminPage.includes("decisionGuideOperationActions") ||
+    !adminPage.includes("판단표 API 보기") ||
+    !smoke.includes("Admin dashboard missing shared benefit decision operation board") ||
+    !smoke.includes("Admin dashboard missing decision guide operation actions") ||
     !adminPage.includes("오늘 혜택 운영 액션 큐") ||
     !adminPage.includes("신고·종료·링크 보강") ||
     !adminPage.includes("benefitConditionAudit") ||

@@ -5,6 +5,7 @@ import { PartnerFeedDryRunPanel } from "@/components/PartnerFeedDryRunPanel";
 import { getMockBusinessMetrics } from "@/lib/analytics";
 import { canAccessAdmin, getAdminExportHref, isAdminProtectionEnabled } from "@/lib/adminAuth";
 import { getDeals } from "@/lib/dealService";
+import { buildBenefitDecisionGuide } from "@/lib/deals/benefitDecisionGuide";
 import { getLinkReviewActionLabel, getLinkReviewQueue, getLinkStatusLabel, getLinkTypeLabel } from "@/lib/deals/quality";
 import { getDealSourceReadiness, listDealSourceProfiles } from "@/lib/deals/trust";
 import { buildTodayBenefitQueue } from "@/lib/deals/todayBenefitQueue";
@@ -58,6 +59,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const sourceCounts = new Map<string, number>();
   const linkReviewDeals = getLinkReviewQueue(deals, 8);
   const todayBenefitQueue = buildTodayBenefitQueue(deals, 4);
+  const benefitDecisionGuide = buildBenefitDecisionGuide(deals);
   const weeklyBenefitCalendar = buildWeeklyBenefitCalendar(deals);
   const dailyQueueExportCount = new Set(todayBenefitQueue.sections.flatMap((section) => section.items.map((item) => item.id))).size;
   const dailyQueueApiHref = isAdminProtectionEnabled()
@@ -147,6 +149,12 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
       href: "/notifications"
     }
   ];
+  const decisionGuideOperationActions = {
+    free: "무료 샘플, 체험단, 초대권의 수령 조건과 배송비를 먼저 보강",
+    coupon: "최소 주문 금액, 중복 가능 여부, 결제수단 조건을 최신화",
+    endingSoon: "마감 시간, 선착순 여부, 종료 신고를 우선 정리",
+    verified: "검색 fallback 없이 상품·혜택 상세 URL을 검수"
+  };
   const benefitPriorityLabels = {
     high: "오늘 처리",
     medium: "이번 주 보강",
@@ -494,6 +502,38 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
               </Link>
             ))}
           </div>
+        </section>
+
+        <section className="rounded-3xl border border-red-100 bg-white p-5 shadow-sm" aria-label="운영 혜택 판단표">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-black text-dossa-red">운영 혜택 판단표</p>
+              <h2 className="mt-1 text-xl font-black text-slate-950">고객이 오늘 먼저 보는 4가지 기준을 운영 큐로 점검합니다</h2>
+              <p className="mt-1 text-sm font-semibold leading-6 text-slate-500">
+                홈, 알림, 무료혜택 탭에 노출되는 공통 판단표와 같은 기준으로 무료·쿠폰·마감·구매처 확인 영역의 보강 필요 지점을 확인합니다.
+              </p>
+            </div>
+            <Link href="/api/benefits/decision-guide" className="rounded-2xl bg-red-50 px-4 py-3 text-sm font-black text-dossa-red">
+              판단표 API 보기
+            </Link>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+            {benefitDecisionGuide.map((item) => (
+              <div key={item.id} className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
+                <div className="flex items-start justify-between gap-3">
+                  <p className="text-sm font-black text-slate-950">{item.title}</p>
+                  <span className="rounded-full bg-white px-2.5 py-1 text-xs font-black text-dossa-red shadow-sm">{item.value}</span>
+                </div>
+                <p className="mt-2 text-xs font-bold leading-5 text-slate-500">{item.copy}</p>
+                <p className="mt-3 rounded-2xl bg-white px-3 py-2 text-xs font-black leading-5 text-slate-700 shadow-sm">
+                  {decisionGuideOperationActions[item.id]}
+                </p>
+              </div>
+            ))}
+          </div>
+          <p className="mt-4 rounded-2xl bg-red-50 px-4 py-3 text-xs font-bold leading-5 text-dossa-deep">
+            운영자는 이 판단표 기준으로 오늘의 무료 수령, 결제 전 쿠폰, 마감 혜택, 구매처 확인 상품을 매일 보강합니다.
+          </p>
         </section>
 
         <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
