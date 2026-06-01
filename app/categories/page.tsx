@@ -55,6 +55,13 @@ const benefitQuickLinks: Array<{
     description: "첫 주문, 커피, 외식 쿠폰",
     href: "/?dealType=foodDelivery&q=배달",
     icon: Gift
+  },
+  {
+    type: "experience",
+    title: "문화 초대권·무료 관람",
+    description: "영화 시사회, 전시, 공연 초대권",
+    href: "/free-benefits?q=초대권&sort=endingSoon",
+    icon: TicketPercent
   }
 ];
 
@@ -99,6 +106,12 @@ const benefitComparisonConfig: Array<{
     title: "배달·외식 쿠폰",
     shortLabel: "외식",
     href: "/free-benefits?dealType=foodDelivery&sort=popular"
+  },
+  {
+    type: "experience",
+    title: "문화 초대권",
+    shortLabel: "문화",
+    href: "/free-benefits?q=초대권&sort=endingSoon"
   }
 ];
 
@@ -187,6 +200,20 @@ export default async function CategoriesPage() {
       icon: TicketPercent
     },
     {
+      title: "앱테크 적립 루틴",
+      description: "출석체크, 페이 리워드, 멤버십 적립 확인",
+      href: "/free-benefits?dealType=point&sort=popular",
+      metric: `${activeDeals.filter((deal) => deal.dealType === "point" || /페이|포인트|멤버십|적립|출석/.test(`${deal.title} ${deal.tags.join(" ")}`)).length}개 적립`,
+      icon: Sparkles
+    },
+    {
+      title: "문화 초대권 보기",
+      description: "영화 시사회, 전시, 공연 혜택 확인",
+      href: "/free-benefits?q=초대권&sort=endingSoon",
+      metric: `${activeDeals.filter((deal) => /영화|시사회|전시|공연|초대권|티켓/.test(`${deal.title} ${deal.tags.join(" ")} ${deal.benefitSummary}`)).length}개 문화 혜택`,
+      icon: TicketPercent
+    },
+    {
       title: "장보기 전 행사 보기",
       description: "편의점 1+1, 마트 행사, 무료배송 확인",
       href: "/?category=mart&dealType=mart&sort=hot",
@@ -215,6 +242,20 @@ export default async function CategoriesPage() {
       href: "/free-benefits?dealType=coupon&sort=savings",
       items: activeDeals.filter((deal) => ["coupon", "point", "foodDelivery"].includes(deal.dealType)),
       checklist: ["최소 주문", "중복 가능", "결제수단"]
+    },
+    {
+      title: "매일 적립할 것",
+      copy: "출석체크, 페이 리워드, 멤버십 포인트처럼 반복 확인할 목적입니다.",
+      href: "/free-benefits?dealType=point&sort=popular",
+      items: activeDeals.filter((deal) => deal.dealType === "point" || /페이|포인트|멤버십|적립|출석/.test(`${deal.title} ${deal.tags.join(" ")} ${deal.benefitSummary}`)),
+      checklist: ["적립 예정일", "결제수단", "가입 조건"]
+    },
+    {
+      title: "무료 관람할 것",
+      copy: "영화 시사회, 전시, 공연 초대권처럼 빨리 마감되는 문화 혜택입니다.",
+      href: "/free-benefits?q=초대권&sort=endingSoon",
+      items: activeDeals.filter((deal) => /영화|시사회|전시|공연|초대권|티켓/.test(`${deal.title} ${deal.tags.join(" ")} ${deal.benefitSummary}`)),
+      checklist: ["응모 기간", "동반 가능", "관람일"]
     },
     {
       title: "생활비 줄일 것",

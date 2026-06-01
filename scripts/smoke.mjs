@@ -339,6 +339,12 @@ await check("category and notification pages", async () => {
     categoriesText.includes("생활 혜택 빠른 지도") && categoriesText.includes("무료 샘플·0원 혜택") && categoriesText.includes("앱테크·포인트 적립"),
     "Categories page missing benefit type quick map"
   );
+  assert(
+    categoriesText.includes("문화 초대권·무료 관람") &&
+      categoriesText.includes("문화 초대권 보기") &&
+      categoriesText.includes("앱테크 적립 루틴"),
+    "Categories page missing culture and apptech benefit journeys"
+  );
   assert(categoriesText.includes("오늘 목적별 탐색 루틴") && categoriesText.includes("무엇을 아끼고 싶은지부터 고르세요"), "Categories page missing purpose-based discovery routine");
   assert(categoriesText.includes("무료 먼저 받기") && categoriesText.includes("결제 전 쿠폰 찾기") && categoriesText.includes("장보기 전 행사 보기"), "Categories page missing purpose journey cards");
   assert(
@@ -354,10 +360,11 @@ await check("category and notification pages", async () => {
     "Categories page missing purpose recommendation cards"
   );
   assert(
-    categoriesText.includes("혜택 유형별 비교표") &&
+      categoriesText.includes("혜택 유형별 비교표") &&
       categoriesText.includes("무료·쿠폰·포인트를 비교해서 고르세요") &&
       categoriesText.includes("활성 혜택") &&
-      categoriesText.includes("마감 신호"),
+      categoriesText.includes("마감 신호") &&
+      categoriesText.includes("문화 초대권"),
     "Categories page missing benefit comparison matrix"
   );
   assert(categoriesText.includes("카테고리별 오늘 혜택 요약") && categoriesText.includes("무료·쿠폰·마감 신호가 많은 영역부터 보세요"), "Categories page missing category benefit summary");

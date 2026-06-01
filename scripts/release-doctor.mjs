@@ -1161,16 +1161,21 @@ async function checkOperationalDataSurfaces() {
     !categoriesPage.includes("생활 혜택 빠른 지도") ||
     !categoriesPage.includes("무료 샘플·0원 혜택") ||
     !categoriesPage.includes("앱테크·포인트 적립") ||
+    !categoriesPage.includes("문화 초대권·무료 관람") ||
     !categoriesPage.includes("추천 탐색") ||
     !categoriesPage.includes("구매 링크 확인이 많은 영역부터 보기") ||
     !categoriesPage.includes("purposeJourneys") ||
     !categoriesPage.includes("오늘 목적별 탐색 루틴") ||
     !categoriesPage.includes("무엇을 아끼고 싶은지부터 고르세요") ||
+    !categoriesPage.includes("앱테크 적립 루틴") ||
+    !categoriesPage.includes("문화 초대권 보기") ||
     !categoriesPage.includes("purposeRecommendationQueue") ||
     !categoriesPage.includes("혜택 목적별 추천 큐") ||
     !categoriesPage.includes("오늘 아낄 목적에 맞춰 대표 혜택부터 봅니다") ||
     !categoriesPage.includes("지금 무료로 받을 것") ||
     !categoriesPage.includes("결제 전 적용할 것") ||
+    !categoriesPage.includes("매일 적립할 것") ||
+    !categoriesPage.includes("무료 관람할 것") ||
     !categoriesPage.includes("생활비 줄일 것") ||
     !categoriesPage.includes("오늘 놓치면 아쉬운 것") ||
     !categoriesPage.includes("benefitComparisonRows") ||
@@ -1188,6 +1193,7 @@ async function checkOperationalDataSurfaces() {
     !smoke.includes("Categories page missing purpose recommendation queue") ||
     !smoke.includes("Categories page missing benefit comparison matrix") ||
     !smoke.includes("Categories page missing benefit type quick map") ||
+    !smoke.includes("Categories page missing culture and apptech benefit journeys") ||
     !smoke.includes("Categories page missing category condition risk map")
   ) {
     fail("category discovery UX", "Categories page should group channels and surface verified-link-first and benefit-type discovery.");
