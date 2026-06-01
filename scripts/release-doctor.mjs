@@ -1155,6 +1155,7 @@ async function checkOperationalDataSurfaces() {
   const dataSourceRunbook = await text("docs/data-source-runbook.md");
   const partnerFeedValidator = await text("scripts/validate-partner-feed.mjs");
   const productionFeedDoctor = await text("scripts/production-feed-doctor.mjs");
+  const partnerFeedDryRunPanel = await text("components/PartnerFeedDryRunPanel.tsx");
 
   const staticDataImports = [
     ["app/categories/page.tsx", categoriesPage],
@@ -1398,6 +1399,12 @@ async function checkOperationalDataSurfaces() {
     !adminPage.includes("ready / needs_fix 행을 먼저 분리합니다") ||
     !adminPage.includes("feed:validate --report") ||
     !adminPage.includes("운영 반영 전 목표는 100%") ||
+    !adminPage.includes("PartnerFeedDryRunPanel") ||
+    !partnerFeedDryRunPanel.includes("운영 피드 붙여넣기 검증") ||
+    !partnerFeedDryRunPanel.includes("dry-run 검증 실행") ||
+    !partnerFeedDryRunPanel.includes("/api/admin/import") ||
+    !partnerFeedDryRunPanel.includes("needs_fix") ||
+    !partnerFeedDryRunPanel.includes("invalid=0") ||
     !dataSourceRunbook.includes("Production JSON Feed") ||
     !dataSourceRunbook.includes("DEAL_PRODUCTION_FEED_URLS") ||
     !dataSourceRunbook.includes("npm run feed:validate") ||
@@ -1420,6 +1427,7 @@ async function checkOperationalDataSurfaces() {
     !smoke.includes("Sources API missing source readiness summary") ||
     !smoke.includes("Sources API missing configured production feed count") ||
     !smoke.includes("Admin dashboard missing partner feed validation report board") ||
+    !smoke.includes("Admin dashboard missing paste-in feed dry-run panel") ||
     !smoke.includes("partner feed sample validation api")
   ) {
     fail("source readiness operation", "Sources API, production provider, docs, production feed doctor, and admin dashboard should expose source readiness, safe production JSON feed loading, allowed source policy, blocked source policy, and verified link quality for production feed transition.");

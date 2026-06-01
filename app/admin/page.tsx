@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Activity, BadgePercent, DatabaseZap, Download, ExternalLink, Flame, LineChart, LockKeyhole, ShieldCheck, Store, Timer, TrendingDown, WalletCards } from "lucide-react";
 import { AdminReportQueue } from "@/components/AdminReportQueue";
+import { PartnerFeedDryRunPanel } from "@/components/PartnerFeedDryRunPanel";
 import { getMockBusinessMetrics } from "@/lib/analytics";
 import { canAccessAdmin, getAdminExportHref, isAdminProtectionEnabled } from "@/lib/adminAuth";
 import { getDeals } from "@/lib/dealService";
@@ -50,6 +51,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const reportSummary = getReportSummary();
   const recentReports = listDealReports().slice(0, 6);
   const sampleFeedValidation = dryRunPartnerFeedImport(samplePartnerFeed, "sample_partner_feed");
+  const sampleFeedJson = JSON.stringify({ items: samplePartnerFeed }, null, 2);
   const sampleFeedReadyRate = sampleFeedValidation.received ? Math.round((sampleFeedValidation.valid / sampleFeedValidation.received) * 100) : 0;
   const sourceCounts = new Map<string, number>();
   const linkReviewDeals = getLinkReviewQueue(deals, 8);
@@ -282,6 +284,8 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
             </div>
           </div>
         </section>
+
+        <PartnerFeedDryRunPanel token={token} initialJson={sampleFeedJson} />
 
         <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
