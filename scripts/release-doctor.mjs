@@ -1559,6 +1559,10 @@ async function checkOperationalDataSurfaces() {
     !freeBenefitsClient.includes("오늘 무료 혜택 루틴") ||
     !freeBenefitsClient.includes("돈 쓰기 전에 이 순서로 챙기세요") ||
     !freeBenefitsClient.includes("오늘 우선 확인 큐") ||
+    !freeBenefitsClient.includes("weeklyRoutineProgress") ||
+    !freeBenefitsClient.includes("이번 주 혜택 루틴 진행률") ||
+    !freeBenefitsClient.includes("챙김, 찜, 재방문 예약을 한눈에 이어갑니다") ||
+    !freeBenefitsClient.includes("루틴 완료") ||
     !freeBenefitsClient.includes("weeklyBenefitPlan") ||
     !freeBenefitsClient.includes("이번 주 혜택 캘린더") ||
     !freeBenefitsClient.includes("매일 들어와서 챙길 이유를 만들었습니다") ||
@@ -1639,6 +1643,7 @@ async function checkOperationalDataSurfaces() {
     !smoke.includes("Free benefits page missing apptech reward routine rail") ||
     !smoke.includes("Free benefits page missing culture invitation benefit rail") ||
     !smoke.includes("Free benefits page missing priority benefit queue") ||
+    !smoke.includes("Free benefits page missing weekly routine progress") ||
     !smoke.includes("Free benefits page missing weekly benefit calendar") ||
     !smoke.includes("Free benefits page missing guided benefit checklist") ||
     !smoke.includes("Free benefits page missing quick decision rail") ||

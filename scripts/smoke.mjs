@@ -689,6 +689,8 @@ await check("free benefits page", async () => {
   assert(text.includes("오늘 무료 혜택 루틴") && text.includes("돈 쓰기 전에 이 순서로 챙기세요"), "Free benefits page missing daily benefit routine");
   assert(text.includes("오늘 먼저 받을 혜택") && text.includes("결제 전 쿠폰 챙기기") && text.includes("앱테크·포인트 적립"), "Free benefits page missing routine action cards");
   assert(text.includes("오늘 우선 확인 큐") && text.includes("무료·쿠폰 혜택은 이 순서로 보세요"), "Free benefits page missing priority benefit queue");
+  assert(text.includes("이번 주 혜택 루틴 진행률") && text.includes("챙김, 찜, 재방문 예약을 한눈에 이어갑니다"), "Free benefits page missing weekly routine progress");
+  assert(text.includes("루틴 완료") && text.includes("오늘 챙김 기록") && text.includes("재방문 예약"), "Free benefits page missing weekly routine progress cards");
   assert(text.includes("이번 주 혜택 캘린더") && text.includes("매일 들어와서 챙길 이유를 만들었습니다"), "Free benefits page missing weekly benefit calendar");
   assert(text.includes("출석·포인트 적립") && text.includes("무료 샘플·체험단") && text.includes("마트·편의점 행사"), "Free benefits page missing weekly benefit routine actions");
   assert(text.includes("5분 혜택 체크리스트") && text.includes("처음 들어온 사용자가 바로 따라할 순서"), "Free benefits page missing guided benefit checklist");

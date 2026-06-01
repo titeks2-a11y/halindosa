@@ -424,6 +424,40 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
     ],
     [benefitReturnReservations.length, claimedTodayCount, savedBenefitCount]
   );
+  const weeklyRoutineProgress = useMemo(
+    () => [
+      {
+        title: "오늘 챙김 기록",
+        value: `${claimedTodayCount}개`,
+        state: claimedTodayCount > 0 ? "완료" : "시작 전",
+        copy: "무료·쿠폰 혜택을 실제로 확인했다면 챙김으로 남깁니다.",
+        done: claimedTodayCount > 0
+      },
+      {
+        title: "찜한 혜택",
+        value: `${savedBenefitCount}개`,
+        state: savedBenefitCount > 0 ? "저장됨" : "저장 전",
+        copy: "나중에 다시 볼 쿠폰과 무료 혜택을 기기에 저장합니다.",
+        done: savedBenefitCount > 0
+      },
+      {
+        title: "재방문 예약",
+        value: `${benefitReturnReservations.length}개`,
+        state: benefitReturnReservations.length > 0 ? "예약됨" : "예약 전",
+        copy: "내일 아침, 저녁 쿠폰, 마감 전 확인 루틴을 남깁니다.",
+        done: benefitReturnReservations.length > 0
+      },
+      {
+        title: "진행 중 혜택",
+        value: `${activeBenefitCount}개`,
+        state: activeBenefitCount > 0 ? "확인 가능" : "점검 필요",
+        copy: "종료·품절·링크 오류 가능성이 낮은 혜택만 먼저 봅니다.",
+        done: activeBenefitCount > 0
+      }
+    ],
+    [activeBenefitCount, benefitReturnReservations.length, claimedTodayCount, savedBenefitCount]
+  );
+  const weeklyRoutineDoneCount = weeklyRoutineProgress.filter((item) => item.done).length;
   const recentClaimedBenefits = claimedBenefits.slice(0, 3);
   const needsFinalCheckCount = deals.length - activeBenefitCount;
   const nextVisitPlan = useMemo(
@@ -1440,6 +1474,41 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
               </button>
             ))}
           </div>
+        </section>
+
+        <section className="rounded-[28px] border border-red-100 bg-white p-4 shadow-sm sm:p-5" aria-label="이번 주 혜택 루틴 진행률">
+          <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
+            <div>
+              <p className="text-xs font-black text-dossa-red">이번 주 혜택 루틴 진행률</p>
+              <h2 className="mt-1 text-2xl font-black tracking-tight text-slate-950">챙김, 찜, 재방문 예약을 한눈에 이어갑니다</h2>
+              <p className="mt-2 max-w-2xl text-sm font-bold leading-6 text-slate-500">
+                비회원도 기기에만 기록을 남기고, 로그인하면 찜과 관심 설정을 계정으로 이어갈 수 있습니다.
+              </p>
+            </div>
+            <div className="rounded-2xl bg-red-50 px-4 py-3 text-sm font-black text-dossa-red">
+              루틴 완료 {weeklyRoutineDoneCount}/{weeklyRoutineProgress.length}
+            </div>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+            {weeklyRoutineProgress.map((item) => (
+              <div
+                key={item.title}
+                className={`min-h-[144px] rounded-3xl border p-4 ${
+                  item.done ? "border-red-200 bg-red-50" : "border-slate-100 bg-slate-50"
+                }`}
+              >
+                <div className="flex items-start justify-between gap-3">
+                  <span className="rounded-full bg-white px-2.5 py-1 text-xs font-black text-dossa-red shadow-sm">{item.state}</span>
+                  <span className="rounded-full bg-slate-950 px-2.5 py-1 text-xs font-black text-white">{item.value}</span>
+                </div>
+                <p className="mt-4 text-sm font-black text-slate-950">{item.title}</p>
+                <p className="mt-1 text-xs font-bold leading-5 text-slate-500">{item.copy}</p>
+              </div>
+            ))}
+          </div>
+          <p className="mt-4 rounded-2xl bg-slate-50 px-4 py-3 text-xs font-bold leading-5 text-slate-500">
+            루틴 진행률은 기기 저장 기준입니다. 실제 혜택 신청 여부와 지급 조건은 판매처에서 최종 확인하세요.
+          </p>
         </section>
 
         <section className="rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5" aria-label="이번 주 혜택 캘린더">
