@@ -204,7 +204,7 @@ await check("mypage data controls", async () => {
   assert(text.includes("찜한 특가") && text.includes("알림 센터") && text.includes("카테고리"), "Mypage missing quick action links");
   assert(text.includes("기기 데이터 관리"), "Mypage missing local data controls");
   assert(text.includes("찜/최근 본 특가/혜택 기록 삭제"), "Mypage missing local deal data delete action");
-  assert(text.includes("가격 알림 조건") && text.includes("혜택 출석 기록") && text.includes("챙긴 혜택 기록"), "Mypage missing price alert, check-in, and claimed benefit deletion scope");
+  assert(text.includes("가격 알림 조건") && text.includes("혜택 출석 기록") && text.includes("챙긴 혜택 기록") && text.includes("재방문 예약"), "Mypage missing price alert, check-in, claimed benefit, and return reservation deletion scope");
   assert(text.includes("분석/제휴 동의 초기화"), "Mypage missing consent reset action");
   assert(text.includes("서비스 안내"), "Mypage missing service guide link");
   assert(text.includes("가격/품절 정보 신고"), "Mypage missing report entry point");

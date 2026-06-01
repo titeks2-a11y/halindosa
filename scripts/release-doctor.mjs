@@ -1194,6 +1194,8 @@ async function checkOperationalDataSurfaces() {
     !localDataControls.includes("혜택 출석 기록") ||
     !localDataControls.includes("claimedBenefitStorageKey") ||
     !localDataControls.includes("챙긴 혜택 기록") ||
+    !localDataControls.includes("benefitReturnReservationStorageKey") ||
+    !localDataControls.includes("재방문 예약") ||
     !accountPanel.includes("priceAlertStorageKey")
   ) {
     fail("price alert data surface", "Notifications, in-app alert tab, account deletion, and local data controls should expose saved price alerts, benefit check-in records, claimed benefit records, and deletion scope.");
