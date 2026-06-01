@@ -189,6 +189,7 @@ await check("home page", async () => {
   assert(text.includes("오늘 바로 볼 특가") && text.includes("검색 결과에서 먼저 확인할 상품"), "Home page missing compact instant deal rail");
   assert(text.includes("검색 도우미"), "Home page missing search discovery panel");
   assert(text.includes("인기 검색어") && text.includes("최근 검색어"), "Home page missing popular/recent search keyword sections");
+  assert(text.includes("추천 검색어"), "Home page missing inline guided search suggestions");
   assert(text.includes("현재 결과"), "Home page missing search result count summary");
   assert(text.includes("구매하기"), "Home page missing compact commerce purchase buttons");
   assert(

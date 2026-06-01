@@ -996,10 +996,13 @@ async function checkUiAccessibility() {
 
   if (
     !searchBar.includes('aria-label="상품명, 쇼핑몰, 카테고리 검색"') ||
+    !searchBar.includes('aria-label="추천 검색어"') ||
+    !searchBar.includes("onSelectSuggestion") ||
     !searchDiscoveryPanel.includes('aria-label="검색 도우미"') ||
     !searchDiscoveryPanel.includes("인기 검색어") ||
     !searchDiscoveryPanel.includes("최근 검색어") ||
     !homePage.includes("recentSearchStorageKey") ||
+    !homePage.includes("quickSearchSuggestions") ||
     !homePage.includes("selectSearchKeyword") ||
     !sortSelect.includes('aria-label="특가 정렬 방식"') ||
     !categoryTabs.includes("aria-pressed={active}") ||

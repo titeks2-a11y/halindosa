@@ -1378,6 +1378,11 @@ export default function Home() {
       .slice(0, 10);
   }, [catalog, deals]);
 
+  const quickSearchSuggestions = useMemo(() => {
+    const merged = [...recentSearchKeywords, ...popularSearchKeywords];
+    return Array.from(new Set(merged)).slice(0, 8);
+  }, [popularSearchKeywords, recentSearchKeywords]);
+
   const activeFilterLabels = useMemo(() => {
     const labels: string[] = [];
     const selectedChannel = getDealChannel(category);
@@ -1821,7 +1826,13 @@ export default function Home() {
             </div>
             <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
               <div className="min-w-0 flex-1">
-                <SearchBar value={query} onChange={setQuery} />
+                <SearchBar
+                  value={query}
+                  onChange={setQuery}
+                  suggestions={quickSearchSuggestions}
+                  resultCount={deals.length}
+                  onSelectSuggestion={selectSearchKeyword}
+                />
               </div>
               <div className="grid grid-cols-2 gap-2 sm:flex sm:items-center">
                 <SortSelect value={sort} onChange={setSort} />
