@@ -228,6 +228,7 @@ await check("home query filters", async () => {
   assert(text.includes("구매링크 확인"), "Filtered home missing restored verifiedOnly filter label");
   assert(text.includes("조건별 결과 요약"), "Filtered home missing active filter outcome summary");
   assert(text.includes("검색 결과 빠른 분류") && text.includes("많이 나온 쇼핑몰") && text.includes("가까운 카테고리"), "Filtered home missing search result grouping shortcuts");
+  assert(text.includes("판매처 집중") && text.includes("카테고리 집중") && text.includes("안전 이동"), "Filtered home missing result decision cards");
   assert(text.includes("조건 초기화"), "Filtered home missing filter reset action");
 });
 

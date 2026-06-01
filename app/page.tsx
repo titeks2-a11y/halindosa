@@ -1557,6 +1557,57 @@ export default function Home() {
       benefits
     };
   }, [catalog, deals, query]);
+
+  const resultInsightCards = useMemo(() => {
+    const topMall = searchResultGroups.malls[0] ?? null;
+    const topCategory = searchResultGroups.categories[0] ?? null;
+    const topBenefit = searchResultGroups.benefits[0] ?? null;
+    const firstVerifiedDeal = deals.find(isVerifiedPurchaseLink) ?? null;
+
+    return [
+      {
+        id: "mall",
+        label: "판매처 집중",
+        title: topMall ? `${topMall.label} ${topMall.count}개` : "판매처 대기",
+        copy: topMall ? "가장 많이 나온 판매처만 먼저 볼 수 있습니다." : "검색 결과가 생기면 판매처를 추천합니다.",
+        actionLabel: "판매처로 좁히기",
+        active: Boolean(topMall && mallFilter === topMall.id),
+        disabled: !topMall,
+        action: () => topMall && setMallFilter(topMall.id)
+      },
+      {
+        id: "category",
+        label: "카테고리 집중",
+        title: topCategory ? `${topCategory.label} ${topCategory.count}개` : "카테고리 대기",
+        copy: topCategory ? "가장 가까운 카테고리 결과를 먼저 모읍니다." : "검색 결과가 생기면 카테고리를 추천합니다.",
+        actionLabel: "카테고리로 좁히기",
+        active: Boolean(topCategory && category === topCategory.id),
+        disabled: !topCategory,
+        action: () => topCategory && setCategory(topCategory.id)
+      },
+      {
+        id: "benefit",
+        label: "혜택 유형",
+        title: topBenefit ? `${topBenefit.label} ${topBenefit.count}개` : "혜택 대기",
+        copy: topBenefit ? "무료, 쿠폰, 무배 같은 혜택 성격으로 다시 정리합니다." : "검색 결과가 생기면 혜택 유형을 추천합니다.",
+        actionLabel: "혜택으로 좁히기",
+        active: Boolean(topBenefit && benefitFilter === topBenefit.id),
+        disabled: !topBenefit,
+        action: () => topBenefit && setBenefitFilter(topBenefit.id)
+      },
+      {
+        id: "verified",
+        label: "안전 이동",
+        title: firstVerifiedDeal ? "구매처 확인 결과 우선" : "구매처 확인 대기",
+        copy: firstVerifiedDeal ? `${firstVerifiedDeal.mallName} 등 상세 이동 가능한 결과를 먼저 봅니다.` : "구매처 확인된 결과가 생기면 먼저 보여줍니다.",
+        actionLabel: "구매처 확인만 보기",
+        active: verifiedOnly,
+        disabled: !firstVerifiedDeal,
+        action: () => setVerifiedOnly((current) => !current)
+      }
+    ];
+  }, [benefitFilter, category, deals, mallFilter, searchResultGroups.benefits, searchResultGroups.categories, searchResultGroups.malls, verifiedOnly]);
+
   const filterActionQueue = useMemo(() => {
     const usedIds = new Set<string>();
     const findDeal = (predicate: (deal: Deal) => boolean) => {
@@ -2962,6 +3013,30 @@ export default function Home() {
                       ))}
                     </div>
                   </div>
+                </div>
+                <div className="mt-3 grid gap-2 sm:grid-cols-2 xl:grid-cols-4" aria-label="결과 바로 판단 카드">
+                  {resultInsightCards.map((item) => (
+                    <button
+                      key={item.id}
+                      type="button"
+                      onClick={item.action}
+                      disabled={item.disabled}
+                      aria-pressed={item.active}
+                      aria-label={`${item.title} ${item.actionLabel}`}
+                      className={`min-h-[128px] rounded-3xl border p-3 text-left transition ${
+                        item.active
+                          ? "border-dossa-red bg-red-50 text-dossa-red"
+                          : "border-slate-100 bg-slate-50 text-slate-700 hover:-translate-y-0.5 hover:border-red-100 hover:bg-white hover:shadow-sm"
+                      } disabled:cursor-not-allowed disabled:opacity-50`}
+                    >
+                      <span className="inline-flex rounded-full bg-white px-2.5 py-1 text-[11px] font-black shadow-sm">{item.label}</span>
+                      <span className="mt-3 block text-sm font-black leading-5 text-slate-950">{item.title}</span>
+                      <span className="mt-1 block line-clamp-2 text-xs font-bold leading-5 text-slate-500">{item.copy}</span>
+                      <span className={`mt-3 inline-flex rounded-2xl px-3 py-2 text-[11px] font-black ${item.active ? "bg-dossa-red text-white" : "bg-slate-950 text-white"}`}>
+                        {item.actionLabel}
+                      </span>
+                    </button>
+                  ))}
                 </div>
               </div>
               <div className="mt-4 rounded-2xl border border-red-100 bg-red-50 p-3" aria-label="혜택 목적 빠른 필터">

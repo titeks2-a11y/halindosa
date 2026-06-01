@@ -1024,6 +1024,11 @@ async function checkUiAccessibility() {
     fail("search filter accessibility", "Home filter controls should expose accessible names and toggle state labels.");
   } else if (
     !homePage.includes("filterOutcomeCards") ||
+    !homePage.includes("resultInsightCards") ||
+    !homePage.includes('aria-label="결과 바로 판단 카드"') ||
+    !homePage.includes("판매처 집중") ||
+    !homePage.includes("카테고리 집중") ||
+    !homePage.includes("안전 이동") ||
     !homePage.includes("searchPurposePresets") ||
     !homePage.includes('aria-label="혜택 목적 빠른 필터"') ||
     !homePage.includes("무료, 쿠폰, 앱테크, 문화 초대권을 한 번에 좁힙니다") ||
@@ -1046,9 +1051,9 @@ async function checkUiAccessibility() {
     !smoke.includes("Home page missing filter action queue") ||
     !smoke.includes("Home page missing product list scan shortcuts")
   ) {
-    fail("search filter accessibility", "Home filters should summarize purpose presets, result quality, purchase link readiness, deadline, shipping outcomes, next action queue, and list scan shortcuts.");
+    fail("search filter accessibility", "Home filters should summarize result decision cards, purpose presets, result quality, purchase link readiness, deadline, shipping outcomes, next action queue, and list scan shortcuts.");
   } else {
-    pass("search filter accessibility", "Search, sort, category, mall, price, benefit type, purpose quick filters, outcome summary, next action queue, and list scan shortcut controls expose accessible names and state.");
+    pass("search filter accessibility", "Search, sort, category, mall, price, benefit type, result decision cards, purpose quick filters, outcome summary, next action queue, and list scan shortcut controls expose accessible names and state.");
   }
 
     if (
