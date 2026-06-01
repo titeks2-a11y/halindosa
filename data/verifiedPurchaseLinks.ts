@@ -818,5 +818,35 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     checkedAt: "2026-06-02T07:10:00.000Z",
     source: "manual_review",
     evidence: "G마켓 농심 순한너구리 120g 20개 상품 상세"
+  },
+  d136: {
+    url: "https://www.coupang.com/vp/products/5594587350",
+    checkedAt: "2026-06-02T07:45:00.000Z",
+    source: "manual_review",
+    evidence: "쿠팡 코카콜라 제로콜라/스프라이트 제로 355ml 24캔 상품 상세"
+  },
+  d137: {
+    url: "https://www.11st.co.kr/products/9087281979",
+    checkedAt: "2026-06-02T07:45:00.000Z",
+    source: "manual_review",
+    evidence: "11번가 페브리즈 섬유탈취제 다우니 실내건조 370ml 3개 상품 상세"
+  },
+  d138: {
+    url: "https://www.ssg.com/item/itemView.ssg?itemId=1000588225854",
+    checkedAt: "2026-06-02T07:45:00.000Z",
+    source: "manual_review",
+    evidence: "SSG닷컴 햇반 현미쌀밥 210g 36입 상품 상세"
+  },
+  d139: {
+    url: "https://www.coupang.com/vp/products/7430740821?vendorItemId=70327608949",
+    checkedAt: "2026-06-02T07:45:00.000Z",
+    source: "manual_review",
+    evidence: "쿠팡 닥터유 주머니쏙 단백질바 34g 12개 상품 상세"
+  },
+  d140: {
+    url: "https://item.gmarket.co.kr/Item?goodscode=3534198074",
+    checkedAt: "2026-06-02T07:45:00.000Z",
+    source: "manual_review",
+    evidence: "G마켓 농심 새우깡 90g 20개 상품 상세"
   }
 };

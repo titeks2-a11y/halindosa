@@ -202,6 +202,26 @@ const requiredSearches = [
     query: "가글",
     expected: /가글|리스테린|마우스워시|구강청결|생활필수/,
     minMatches: 1
+  },
+  {
+    query: "콜라",
+    expected: /콜라|제로콜라|탄산음료|음료|간식/,
+    minMatches: 1
+  },
+  {
+    query: "탈취제",
+    expected: /탈취제|페브리즈|섬유탈취제|생활필수|세탁/,
+    minMatches: 1
+  },
+  {
+    query: "단백질바",
+    expected: /단백질바|프로틴바|닥터유|간식|헬스/,
+    minMatches: 1
+  },
+  {
+    query: "새우깡",
+    expected: /새우깡|과자|스낵|간식|식품/,
+    minMatches: 1
   }
 ];
 
@@ -291,7 +311,7 @@ const deals = extractDeals();
 const highIntentKeywords = extractHighIntentKeywords();
 const issues = [];
 
-if (!Array.isArray(searchAliases) || searchAliases.length < 39) {
+if (!Array.isArray(searchAliases) || searchAliases.length < 43) {
   issues.push("생활형 검색 alias 목록이 부족합니다.");
 }
 

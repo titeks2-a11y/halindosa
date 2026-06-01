@@ -338,7 +338,12 @@ export const mockDeals: Deal[] = [
   deal("d132", "G마켓", "팔도 비빔면 130g 20개", "식품", 23900, 8, 1.2, 20, { isHot: false, isNew: true, isEndingSoon: false }, ["라면", "비빔면", "쿠폰적용", "장보기"], 76, "", "https://item.gmarket.co.kr/Item?goodscode=2571643785"),
   deal("d133", "11번가", "크리넥스 3겹 순수소프트 쿠션 화장지 25m 30롤 2팩", "생활용품", 69900, 20, 1.4, 26, { isHot: false, isNew: true, isEndingSoon: false }, ["화장지", "휴지", "무료배송", "생활필수"], 78, "", "https://www.11st.co.kr/products/9039746479"),
   deal("d134", "SSG닷컴", "종가 알찬 포기김치 3.1kg", "식품", 27900, 15, 1.1, 24, { isHot: false, isNew: true, isEndingSoon: false }, ["김치", "장보기", "쓱배송", "신선식품"], 77, "", "https://www.ssg.com/item/itemView.ssg?itemId=1000625953830"),
-  deal("d135", "G마켓", "농심 순한너구리 120g 20개", "식품", 24700, 25, 1.8, 34, { isHot: false, isNew: true, isEndingSoon: false }, ["라면", "너구리", "쿠폰적용", "무료배송"], 76, "", "https://item.gmarket.co.kr/Item?goodscode=3055540533")
+  deal("d135", "G마켓", "농심 순한너구리 120g 20개", "식품", 24700, 25, 1.8, 34, { isHot: false, isNew: true, isEndingSoon: false }, ["라면", "너구리", "쿠폰적용", "무료배송"], 76, "", "https://item.gmarket.co.kr/Item?goodscode=3055540533"),
+  deal("d136", "쿠팡", "코카콜라 제로콜라/스프라이트 제로 355ml 24캔", "식품", 26500, 10, 1.3, 28, { isHot: true, isNew: true, isEndingSoon: false }, ["탄산음료", "제로콜라", "무료배송", "간식"], 82, "", "https://www.coupang.com/vp/products/5594587350"),
+  deal("d137", "11번가", "페브리즈 섬유탈취제 다우니 실내건조 370ml 3개", "생활용품", 22000, 18, 1.7, 32, { isHot: false, isNew: true, isEndingSoon: false }, ["탈취제", "생활필수", "세탁", "쿠폰적용"], 76, "", "https://www.11st.co.kr/products/9087281979"),
+  deal("d138", "SSG닷컴", "햇반 현미쌀밥 210g 36입", "식품", 59940, 10, 2.4, 36, { isHot: false, isNew: true, isEndingSoon: false }, ["햇반", "즉석밥", "장보기", "쓱배송"], 78, "", "https://www.ssg.com/item/itemView.ssg?itemId=1000588225854"),
+  deal("d139", "쿠팡", "닥터유 주머니쏙 단백질바 34g 12개", "식품", 12240, 5, 0.6, 18, { isHot: false, isNew: true, isEndingSoon: false }, ["단백질바", "간식", "무료배송", "헬스"], 75, "", "https://www.coupang.com/vp/products/7430740821?vendorItemId=70327608949"),
+  deal("d140", "G마켓", "농심 새우깡 90g 20개", "식품", 28000, 4, 1.2, 24, { isHot: false, isNew: true, isEndingSoon: false }, ["새우깡", "과자", "간식", "쿠폰적용"], 74, "", "https://item.gmarket.co.kr/Item?goodscode=3534198074")
 ];
 
 export const categories = ["전체", "식품", "전자기기", "생활용품", "의류", "육아", "여행/티켓", "뷰티", "가전", "편의점/마트", "쿠폰/이벤트", "기타"] as const;

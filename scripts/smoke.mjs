@@ -658,7 +658,11 @@ await check("deals filters api", async () => {
     ["김치", /김치|포기김치|장보기|신선식품|식품/],
     ["키친타월", /키친타월|키친타올|주방용품|생활필수|생활용품/],
     ["참치", /참치|참치캔|통조림|장보기|식품/],
-    ["가글", /가글|리스테린|마우스워시|구강청결|생활필수/]
+    ["가글", /가글|리스테린|마우스워시|구강청결|생활필수/],
+    ["콜라", /콜라|제로콜라|탄산음료|음료|간식/],
+    ["탈취제", /탈취제|페브리즈|섬유탈취제|생활필수|세탁/],
+    ["단백질바", /단백질바|프로틴바|닥터유|간식|헬스/],
+    ["새우깡", /새우깡|과자|스낵|간식|식품/]
   ];
 
   for (const [keyword, expectedPattern] of productIntentSearches) {
@@ -743,11 +747,11 @@ await check("deal link integrity", async () => {
   const { response, data } = await fetchJson("/api/deals?limit=150&sort=latest");
   assert(response.status === 200, `Expected 200, got ${response.status}`);
   assert(data.ok === true, "Deals API ok should be true");
-  assert(data.deals.length >= 135, `Expected at least 135 deals, got ${data.deals.length}`);
+  assert(data.deals.length >= 140, `Expected at least 140 deals, got ${data.deals.length}`);
   const verifiedDirectLinks = data.deals.filter((deal) => deal.linkStatus === "verified" && deal.linkType !== "seller_search");
   const verifiedDirectRate = Math.round((verifiedDirectLinks.length / data.deals.length) * 100);
   assert(
-    verifiedDirectLinks.length >= 135 && verifiedDirectRate >= 100,
+    verifiedDirectLinks.length >= 140 && verifiedDirectRate >= 100,
     `verified direct seller/product link coverage too low: ${verifiedDirectLinks.length}/${data.deals.length} (${verifiedDirectRate}%)`
   );
 
@@ -926,7 +930,7 @@ await check("verified direct purchase link coverage", async () => {
   const { response, data } = await fetchJson("/api/deals?verifiedOnly=true&limit=150&sort=hot");
   assert(response.status === 200, `Expected 200, got ${response.status}`);
   assert(data.ok === true, "Verified deals API ok should be true");
-  assert(data.deals.length >= 135, `Expected all 135 curated deals to be verified direct seller/product deals, got ${data.deals.length}`);
+  assert(data.deals.length >= 140, `Expected all 140 curated deals to be verified direct seller/product deals, got ${data.deals.length}`);
   assert(
     data.deals.every((deal) => deal.linkStatus === "verified" && deal.linkVerified && deal.purchaseLinkVerified && deal.finalPurchaseUrl),
     "Verified-only API returned a deal without a reviewed direct product URL"
@@ -1449,7 +1453,12 @@ await check("seller search redirect fallbacks", async () => {
     ["d132", "gmarket.co.kr"],
     ["d133", "11st.co.kr"],
     ["d134", "ssg.com"],
-    ["d135", "gmarket.co.kr"]
+    ["d135", "gmarket.co.kr"],
+    ["d136", "coupang.com"],
+    ["d137", "11st.co.kr"],
+    ["d138", "ssg.com"],
+    ["d139", "coupang.com"],
+    ["d140", "gmarket.co.kr"]
   ];
 
   for (const [dealId, expectedHost] of cases) {
