@@ -303,7 +303,17 @@ export const mockDeals: Deal[] = [
   deal("d097", "G마켓", "CJ 스팸 클래식 200g x 10개", "식품", 33800, 15, 1.7, 24, { isHot: false, isNew: true, isEndingSoon: false }, ["통조림", "쿠폰적용", "장보기"], 80, "", "https://item.gmarket.co.kr/Item?goodscode=2953970256"),
   deal("d098", "G마켓", "리챔 오리지널 200g 10캔", "식품", 34400, 28, 0.9, 16, { isHot: true, isNew: true, isEndingSoon: true }, ["통조림", "중복쿠폰", "마감임박"], 87, "", "https://item.gmarket.co.kr/Item?goodscode=2809510617"),
   deal("d099", "SSG닷컴", "피코크 떡갈비 450g x 3팩", "식품", 24000, 24, 3.1, 34, { isHot: false, isNew: true, isEndingSoon: false }, ["냉동식품", "간편식", "장보기"], 77, "", "https://www.ssg.com/item/itemView.ssg?itemId=1000601459551"),
-  deal("d100", "쿠팡", "트리오 항균 주방세제 3kg 2개", "생활용품", 13500, 23, 2.4, 32, { isHot: false, isNew: true, isEndingSoon: false }, ["생활필수", "주방세제", "무료배송"], 79, "", "https://www.coupang.com/vp/products/6499690442?itemId=18173261121&vendorItemId=85322534161")
+  deal("d100", "쿠팡", "트리오 항균 주방세제 3kg 2개", "생활용품", 13500, 23, 2.4, 32, { isHot: false, isNew: true, isEndingSoon: false }, ["생활필수", "주방세제", "무료배송"], 79, "", "https://www.coupang.com/vp/products/6499690442?itemId=18173261121&vendorItemId=85322534161"),
+  deal("d101", "G마켓", "T 담은정 국산 포기김치 10kg", "식품", 42200, 28, 0.7, 18, { isHot: true, isNew: true, isEndingSoon: false }, ["김치", "쿠폰적용", "무료배송"], 84, "", "https://item.gmarket.co.kr/Item?goodsCode=4476089680"),
+  deal("d102", "11번가", "피죤 섬유유연제 핑크로즈 3100ml 4개", "생활용품", 24000, 13, 1.4, 30, { isHot: false, isNew: true, isEndingSoon: false }, ["생활필수", "세제", "인기"], 78, "", "https://www.11st.co.kr/products/880122427"),
+  deal("d103", "G마켓", "2080 퓨어 마운틴 솔트 치약 핑크 120g 12개", "생활용품", 25000, 34, 0.9, 24, { isHot: true, isNew: true, isEndingSoon: false }, ["생활필수", "쿠폰적용", "오늘출발"], 86, "", "https://item.gmarket.co.kr/Item?goodscode=1771516558"),
+  deal("d104", "쿠팡", "습기타파 대용량 제습제 280g 24개", "생활용품", 22900, 20, 1.1, 26, { isHot: false, isNew: true, isEndingSoon: false }, ["장마대비", "생활필수", "무료배송"], 80, "", "https://www.coupang.com/vp/products/8874782036?itemId=25896029282&vendorItemId=92904466881"),
+  deal("d105", "쿠팡", "모나미 153 볼펜 0.5mm 블랙 12자루", "기타", 4800, 25, 2.2, 40, { isHot: false, isNew: true, isEndingSoon: false }, ["문구", "로켓배송", "생활필수"], 72, "", "https://www.coupang.com/vp/products/6133165754"),
+  deal("d106", "G마켓", "듀라셀 알카라인 건전지 AA 20개입", "전자기기", 22500, 21, 1.8, 28, { isHot: false, isNew: true, isEndingSoon: false }, ["건전지", "쿠폰적용", "오늘출발"], 79, "", "https://item.gmarket.co.kr/Item?goodscode=2763212387"),
+  deal("d107", "G마켓", "벡셀 알카라인 건전지 AA 20개 + AAA 20개", "전자기기", 21390, 15, 2.4, 36, { isHot: false, isNew: true, isEndingSoon: false }, ["건전지", "무료배송", "생활필수"], 77, "", "https://item.gmarket.co.kr/Item?goodsCode=4261528217"),
+  deal("d108", "G마켓", "행복이온 포기김치 10kg", "식품", 63900, 6, 2.8, 42, { isHot: false, isNew: true, isEndingSoon: false }, ["김치", "무료배송", "장보기"], 73, "", "https://item.gmarket.co.kr/Item?goodscode=4236933731"),
+  deal("d109", "G마켓", "2080 클래식 치약 170g x 5개", "생활용품", 12600, 10, 3.1, 32, { isHot: false, isNew: true, isEndingSoon: false }, ["치약", "쿠폰적용", "생활필수"], 71, "", "https://item.gmarket.co.kr/Item?goodscode=2745012476"),
+  deal("d110", "쿠팡", "모나미 153 볼펜 1.0mm Red 60개", "기타", 21000, 14, 3.6, 48, { isHot: false, isNew: true, isEndingSoon: false }, ["문구", "대용량", "로켓배송"], 70, "", "https://www.coupang.com/vp/products/9358422?itemId=19687297735&vendorItemId=90791761130")
 ];
 
 export const categories = ["전체", "식품", "전자기기", "생활용품", "의류", "육아", "여행/티켓", "뷰티", "가전", "편의점/마트", "쿠폰/이벤트", "기타"] as const;

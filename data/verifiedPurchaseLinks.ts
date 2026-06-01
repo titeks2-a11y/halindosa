@@ -608,5 +608,65 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     checkedAt: "2026-06-02T00:20:00.000Z",
     source: "manual_review",
     evidence: "쿠팡 트리오 항균 주방세제 3kg 2개 상품 상세"
+  },
+  d101: {
+    url: "https://item.gmarket.co.kr/Item?goodsCode=4476089680",
+    checkedAt: "2026-06-02T01:10:00.000Z",
+    source: "manual_review",
+    evidence: "G마켓 T 담은정 국산 포기김치 10kg 상품 상세"
+  },
+  d102: {
+    url: "https://www.11st.co.kr/products/880122427",
+    checkedAt: "2026-06-02T01:10:00.000Z",
+    source: "manual_review",
+    evidence: "11번가 피죤 섬유유연제 3100ml 4개 상품 상세"
+  },
+  d103: {
+    url: "https://item.gmarket.co.kr/Item?goodscode=1771516558",
+    checkedAt: "2026-06-02T01:10:00.000Z",
+    source: "manual_review",
+    evidence: "G마켓 2080 퓨어 마운틴 솔트 치약 120g 12개 상품 상세"
+  },
+  d104: {
+    url: "https://www.coupang.com/vp/products/8874782036?itemId=25896029282&vendorItemId=92904466881",
+    checkedAt: "2026-06-02T01:10:00.000Z",
+    source: "manual_review",
+    evidence: "쿠팡 습기타파 대용량 제습제 280g 24개 상품 상세"
+  },
+  d105: {
+    url: "https://www.coupang.com/vp/products/6133165754",
+    checkedAt: "2026-06-02T01:10:00.000Z",
+    source: "manual_review",
+    evidence: "쿠팡 모나미 153 볼펜 12자루 상품 상세"
+  },
+  d106: {
+    url: "https://item.gmarket.co.kr/Item?goodscode=2763212387",
+    checkedAt: "2026-06-02T01:10:00.000Z",
+    source: "manual_review",
+    evidence: "G마켓 듀라셀 알카라인 건전지 AA 20개입 상품 상세"
+  },
+  d107: {
+    url: "https://item.gmarket.co.kr/Item?goodsCode=4261528217",
+    checkedAt: "2026-06-02T01:10:00.000Z",
+    source: "manual_review",
+    evidence: "G마켓 벡셀 건전지 AA 20개 AAA 20개 상품 상세"
+  },
+  d108: {
+    url: "https://item.gmarket.co.kr/Item?goodscode=4236933731",
+    checkedAt: "2026-06-02T01:10:00.000Z",
+    source: "manual_review",
+    evidence: "G마켓 행복이온 포기김치 10kg 상품 상세"
+  },
+  d109: {
+    url: "https://item.gmarket.co.kr/Item?goodscode=2745012476",
+    checkedAt: "2026-06-02T01:10:00.000Z",
+    source: "manual_review",
+    evidence: "G마켓 2080 클래식 치약 170g x 5개 상품 상세"
+  },
+  d110: {
+    url: "https://www.coupang.com/vp/products/9358422?itemId=19687297735&vendorItemId=90791761130",
+    checkedAt: "2026-06-02T01:10:00.000Z",
+    source: "manual_review",
+    evidence: "쿠팡 모나미 153 볼펜 1.0mm Red 60개 상품 상세"
   }
 };
