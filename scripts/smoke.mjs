@@ -348,6 +348,14 @@ await check("category and notification pages", async () => {
   );
   assert(categoriesText.includes("카테고리별 오늘 혜택 요약") && categoriesText.includes("무료·쿠폰·마감 신호가 많은 영역부터 보세요"), "Categories page missing category benefit summary");
   assert(categoriesText.includes("무료·무배") && categoriesText.includes("쿠폰·포인트") && categoriesText.includes("예상 절약 후보"), "Categories page missing category benefit matrix metrics");
+  assert(
+    categoriesText.includes("카테고리 조건 점검 지도") && categoriesText.includes("숨은 비용·가입·마감 신호를 카테고리별로 봅니다"),
+    "Categories page missing category condition risk map"
+  );
+  assert(
+    categoriesText.includes("숨은 비용") && categoriesText.includes("가입 조건") && categoriesText.includes("선착순·마감") && categoriesText.includes("신고/확인"),
+    "Categories page missing category condition risk metrics"
+  );
 
   const notifications = await fetch(`${baseUrl}/notifications`);
   const notificationsText = await notifications.text();

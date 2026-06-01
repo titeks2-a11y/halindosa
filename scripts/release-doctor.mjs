@@ -1155,9 +1155,13 @@ async function checkOperationalDataSurfaces() {
     !categoriesPage.includes("카테고리별 오늘 혜택 요약") ||
     !categoriesPage.includes("무료·쿠폰·마감 신호가 많은 영역부터 보세요") ||
     !categoriesPage.includes("예상 절약 후보") ||
+    !categoriesPage.includes("categoryRiskMap") ||
+    !categoriesPage.includes("카테고리 조건 점검 지도") ||
+    !categoriesPage.includes("숨은 비용·가입·마감 신호를 카테고리별로 봅니다") ||
     !smoke.includes("Categories page missing purpose recommendation queue") ||
     !smoke.includes("Categories page missing benefit comparison matrix") ||
-    !smoke.includes("Categories page missing benefit type quick map")
+    !smoke.includes("Categories page missing benefit type quick map") ||
+    !smoke.includes("Categories page missing category condition risk map")
   ) {
     fail("category discovery UX", "Categories page should group channels and surface verified-link-first and benefit-type discovery.");
   } else {

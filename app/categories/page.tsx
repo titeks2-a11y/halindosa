@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CheckCircle2, Gift, Grid3X3, PackageCheck, Sparkles, Tag, TicketPercent, Truck } from "lucide-react";
+import { AlertTriangle, CheckCircle2, Gift, Grid3X3, PackageCheck, Sparkles, Tag, TicketPercent, Truck } from "lucide-react";
 import { dealChannels, dealMatchesChannel } from "@/data/dealChannels";
 import { getDeals } from "@/lib/dealService";
 import { getBenefitTypeLabel } from "@/lib/deals/benefits";
@@ -264,6 +264,34 @@ export default async function CategoriesPage() {
       };
     })
     .sort((a, b) => b.freeCount + b.couponCount + b.endingCount - (a.freeCount + a.couponCount + a.endingCount) || b.savingsTotal - a.savingsTotal)
+    .slice(0, 6);
+  const categoryRiskMap = categories
+    .filter((category) => category.id !== "all" && category.group === "카테고리" && category.count > 0)
+    .map((category) => {
+      const items = activeDeals.filter((deal) => dealMatchesChannel(deal, category.id));
+      const hiddenCostCount = items.filter((deal) => !deal.isFreeShipping && deal.shippingFee !== "무료배송" && deal.salePrice > 0).length;
+      const signupCount = items.filter((deal) => deal.requiresSignup).length;
+      const urgencyCount = items.filter((deal) => deal.isFirstComeFirstServed || deal.isEndingSoon).length;
+      const reviewCount = items.filter((deal) => deal.reportCount > 0 || deal.linkStatus !== "verified" || deal.isSoldOut).length;
+      const bestDeal = [...items].sort(
+        (a, b) =>
+          Number(b.isEndingSoon) - Number(a.isEndingSoon) ||
+          b.reportCount - a.reportCount ||
+          b.clickCount - a.clickCount ||
+          b.savingsAmount - a.savingsAmount
+      )[0];
+
+      return {
+        ...category,
+        hiddenCostCount,
+        signupCount,
+        urgencyCount,
+        reviewCount,
+        totalRisk: hiddenCostCount + signupCount + urgencyCount + reviewCount,
+        bestDeal
+      };
+    })
+    .sort((a, b) => b.totalRisk - a.totalRisk || b.count - a.count)
     .slice(0, 6);
 
   return (
@@ -549,6 +577,65 @@ export default async function CategoriesPage() {
                 </span>
               </div>
               <p className="mt-3 text-xs font-black text-dossa-red">예상 절약 후보 {formatPrice(category.savingsTotal)}</p>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <section className="rounded-[24px] border border-amber-100 bg-white p-4 shadow-sm lg:p-5" aria-label="카테고리 조건 점검 지도">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-xs font-black text-dossa-red">카테고리 조건 점검 지도</p>
+            <h2 className="mt-1 text-base font-black text-slate-950">숨은 비용·가입·마감 신호를 카테고리별로 봅니다</h2>
+            <p className="mt-1 text-sm font-semibold leading-6 text-slate-500">
+              무료·쿠폰 혜택도 카테고리마다 조건이 다릅니다. 이동 전에 배송비, 가입 조건, 선착순, 신고 상태를 먼저 확인하세요.
+            </p>
+          </div>
+          <Link href="/free-benefits?activeOnly=true" className="rounded-2xl bg-amber-50 px-4 py-3 text-center text-xs font-black text-amber-800">
+            진행 중 혜택 점검
+          </Link>
+        </div>
+        <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+          {categoryRiskMap.map((category) => (
+            <Link
+              key={category.id}
+              href={`/?category=${category.id}&sort=hot`}
+              className="rounded-[22px] border border-slate-100 bg-slate-50 p-4 transition hover:-translate-y-0.5 hover:border-amber-200 hover:bg-amber-50"
+            >
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <p className="text-sm font-black text-slate-950">{category.label}</p>
+                  <p className="mt-1 line-clamp-2 text-xs font-bold leading-5 text-slate-500">{category.description}</p>
+                </div>
+                <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-amber-700 shadow-sm">
+                  <AlertTriangle size={12} />
+                  점검 {category.totalRisk}
+                </span>
+              </div>
+              <div className="mt-4 grid grid-cols-2 gap-2 text-[11px] font-black">
+                <span className="rounded-2xl bg-white px-2.5 py-2 text-slate-700 shadow-sm">
+                  숨은 비용
+                  <b className="mt-1 block text-sm text-amber-700">{category.hiddenCostCount}</b>
+                </span>
+                <span className="rounded-2xl bg-white px-2.5 py-2 text-slate-700 shadow-sm">
+                  가입 조건
+                  <b className="mt-1 block text-sm text-dossa-red">{category.signupCount}</b>
+                </span>
+                <span className="rounded-2xl bg-white px-2.5 py-2 text-slate-700 shadow-sm">
+                  선착순·마감
+                  <b className="mt-1 block text-sm text-orange-700">{category.urgencyCount}</b>
+                </span>
+                <span className="rounded-2xl bg-white px-2.5 py-2 text-slate-700 shadow-sm">
+                  신고/확인
+                  <b className="mt-1 block text-sm text-slate-900">{category.reviewCount}</b>
+                </span>
+              </div>
+              <div className="mt-4 rounded-2xl bg-white p-3 shadow-sm">
+                <p className="text-[11px] font-black text-dossa-red">먼저 확인할 대표 혜택</p>
+                <p className="mt-1 line-clamp-2 min-h-9 text-sm font-black leading-snug text-slate-950">
+                  {category.bestDeal ? category.bestDeal.title : "조건 점검할 혜택 준비 중"}
+                </p>
+              </div>
             </Link>
           ))}
         </div>
