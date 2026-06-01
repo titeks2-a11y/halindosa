@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const mockDeals = readFileSync(join(root, "data/mockDeals.ts"), "utf8");
+const homePage = readFileSync(join(root, "app/page.tsx"), "utf8");
 const searchAliases = JSON.parse(readFileSync(join(root, "data/searchAliases.json"), "utf8"));
 
 const requiredSearches = [
@@ -244,6 +245,12 @@ function extractDeals() {
   return deals;
 }
 
+function extractHighIntentKeywords() {
+  const match = homePage.match(/const highIntentSearchKeywords = \[(?<body>[\s\S]*?)\];/);
+  const body = match?.groups?.body ?? "";
+  return [...body.matchAll(/"([^"]+)"/g)].map((keywordMatch) => keywordMatch[1]);
+}
+
 function dealMatchesSearchText(searchText, query) {
   const normalizedQuery = normalizeSearchText(query);
   if (!normalizedQuery) return true;
@@ -261,10 +268,52 @@ function dealMatchesSearchText(searchText, query) {
 }
 
 const deals = extractDeals();
+const highIntentKeywords = extractHighIntentKeywords();
 const issues = [];
 
 if (!Array.isArray(searchAliases) || searchAliases.length < 35) {
   issues.push("생활형 검색 alias 목록이 부족합니다.");
+}
+
+if (highIntentKeywords.length < 24) {
+  issues.push(`홈 추천 검색어가 부족합니다. ${highIntentKeywords.length}/24`);
+}
+
+const highIntentSet = new Set();
+for (const keyword of highIntentKeywords) {
+  const normalizedKeyword = normalizeSearchText(keyword);
+  if (highIntentSet.has(normalizedKeyword)) {
+    issues.push(`홈 추천 검색어가 중복됩니다: ${keyword}`);
+  }
+  highIntentSet.add(normalizedKeyword);
+}
+
+for (const [index, alias] of searchAliases.entries()) {
+  if (!Array.isArray(alias.keys) || alias.keys.length < 2) {
+    issues.push(`searchAliases.json ${index + 1}번째 항목의 keys가 부족합니다.`);
+  }
+
+  if (!Array.isArray(alias.terms) || alias.terms.length < 3) {
+    issues.push(`searchAliases.json ${index + 1}번째 항목의 terms가 부족합니다.`);
+  }
+
+  const duplicateKeys = alias.keys.filter((key, keyIndex) => alias.keys.indexOf(key) !== keyIndex);
+  if (duplicateKeys.length) {
+    issues.push(`searchAliases.json ${index + 1}번째 항목에 중복 key가 있습니다: ${duplicateKeys.join(", ")}`);
+  }
+}
+
+for (const keyword of highIntentKeywords) {
+  const hasAlias = searchAliases.some((alias) => alias.keys.some((key) => compactSearchText(key) === compactSearchText(keyword)));
+  const hasRequiredSearch = requiredSearches.some((item) => compactSearchText(item.query) === compactSearchText(keyword));
+
+  if (!hasAlias) {
+    issues.push(`${keyword}: 홈 추천 검색어가 searchAliases.json key와 연결되지 않았습니다.`);
+  }
+
+  if (!hasRequiredSearch) {
+    issues.push(`${keyword}: 홈 추천 검색어가 search:doctor 필수 검색 검증에 포함되지 않았습니다.`);
+  }
 }
 
 for (const item of requiredSearches) {
@@ -293,6 +342,7 @@ if (issues.length) {
 }
 
 console.log("Search quality doctor passed.");
+console.log(`- High-intent home keywords: ${highIntentKeywords.length}`);
 for (const item of requiredSearches) {
   const count = deals.filter((deal) => dealMatchesSearchText([deal.title, deal.mall, deal.category, ...deal.tags].join(" "), item.query)).length;
   console.log(`- ${item.query}: ${count} deals`);
