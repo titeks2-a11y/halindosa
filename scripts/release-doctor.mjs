@@ -917,6 +917,9 @@ async function checkUiAccessibility() {
         !homePage.includes("아직 챙길 만한 무료 혜택") ||
         !benefitDiscoverySections.includes("무료혜택 TOP 5") ||
         !benefitDiscoverySections.includes("쿠폰·앱테크 TOP 5") ||
+        !benefitDiscoverySections.includes("오늘 혜택 1분 시작") ||
+        !benefitDiscoverySections.includes("앱을 열자마자 무료, 쿠폰, 생활비, 마감 순서로 바로 갑니다") ||
+        !smoke.includes("Home page missing one-minute benefit start rail") ||
         !benefitDiscoverySections.includes("quickBenefitEntries") ||
         !benefitDiscoverySections.includes("10초 혜택 바로가기") ||
         !benefitDiscoverySections.includes("오늘 받을 혜택을 바로 고르세요") ||

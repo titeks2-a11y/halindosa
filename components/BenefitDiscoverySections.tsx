@@ -396,6 +396,43 @@ export function BenefitDiscoverySections({
           </div>
         </div>
 
+        {dailyActionQueue.length ? (
+          <div className="mt-4 rounded-[24px] border border-red-100 bg-dossa-red p-3 text-white shadow-sm" aria-label="오늘 혜택 1분 시작">
+            <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p className="text-xs font-black text-red-100">오늘 혜택 1분 시작</p>
+                <h4 className="text-lg font-black">앱을 열자마자 무료, 쿠폰, 생활비, 마감 순서로 바로 갑니다</h4>
+              </div>
+              <p className="text-xs font-bold leading-5 text-red-50">첫 화면에서 가장 체감이 큰 혜택만 먼저 압축했습니다.</p>
+            </div>
+            <div className="mt-3 grid gap-2 md:grid-cols-2 xl:grid-cols-4">
+              {dailyActionQueue.map((item) => {
+                const Icon = item.icon;
+
+                return (
+                  <button
+                    key={`quick-${item.title}`}
+                    type="button"
+                    onClick={() => onOpenDeal(item.deal)}
+                    className="min-h-[126px] rounded-3xl bg-white p-3 text-left text-slate-950 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+                    aria-label={`${item.label} ${item.deal.title} 빠르게 확인`}
+                  >
+                    <span className="flex items-start justify-between gap-3">
+                      <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-red-50 text-dossa-red">
+                        <Icon size={19} />
+                      </span>
+                      <span className="rounded-full bg-red-50 px-2.5 py-1 text-[11px] font-black text-dossa-red">{item.label}</span>
+                    </span>
+                    <span className="mt-3 block text-sm font-black">{item.actionLabel}</span>
+                    <span className="mt-1 line-clamp-2 block text-xs font-bold leading-5 text-slate-500">{item.deal.title}</span>
+                    <span className="mt-2 block truncate text-[11px] font-black text-dossa-red">{item.checklist}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        ) : null}
+
         <div className="mt-4 rounded-[24px] border border-slate-200 bg-slate-50 p-3" aria-label="10초 혜택 바로가기">
           <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
             <div>
