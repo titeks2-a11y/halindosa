@@ -602,6 +602,7 @@ async function checkSearchAndPurchaseFlow() {
   const verifyLinks = await text("scripts/verify-product-links.mjs");
   const catalogDoctor = await text("scripts/catalog-quality-doctor.mjs");
   const purchaseNavigationDoctor = await text("scripts/purchase-navigation-doctor.mjs");
+  const homeUrlStateDoctor = await text("scripts/home-url-state-doctor.mjs");
   const packageJson = await text("package.json");
   const featured = await text("components/FeaturedDealSections.tsx");
   const liveFeed = await text("components/LiveDealFeed.tsx");
@@ -629,8 +630,12 @@ async function checkSearchAndPurchaseFlow() {
     !purchaseNavigationDoctor.includes("window.open(redirectUrl") ||
     !purchaseNavigationDoctor.includes("buildNativeSafeDealUrl") ||
     !purchaseNavigationDoctor.includes("Browser.open") ||
+    !homeUrlStateDoctor.includes("requiredUrlState") ||
+    !homeUrlStateDoctor.includes("verifiedOnly") ||
+    !homeUrlStateDoctor.includes("window.history.replaceState") ||
     !packageJson.includes("catalog:doctor") ||
     !packageJson.includes("purchase:navigation:doctor") ||
+    !packageJson.includes("home:url-state:doctor") ||
     !packageJson.includes("npm run verify:links && npm run catalog:doctor") ||
     featured.includes('href="#all-deals"') ||
     liveFeed.includes('href="#all-deals"') ||
@@ -642,9 +647,9 @@ async function checkSearchAndPurchaseFlow() {
     !homePage.includes("카테고리 바로가기") ||
     !homePage.includes("quickCategoryShortcuts")
   ) {
-    fail("purchase link new-tab guard", "Verified product link script, catalog quality doctor, top quick search, and scroll-free purchase discovery links should be present.");
+    fail("purchase link new-tab guard", "Verified product link script, catalog quality doctor, URL state doctor, top quick search, and scroll-free purchase discovery links should be present.");
   } else {
-    pass("purchase link new-tab guard", "Verified product link and catalog quality scripts are present, top search is visible, and product discovery CTAs avoid hash-scroll links.");
+    pass("purchase link new-tab guard", "Verified product link, catalog quality, purchase navigation, and URL state scripts are present; top search is visible and product discovery CTAs avoid hash-scroll links.");
   }
 }
 

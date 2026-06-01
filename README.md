@@ -26,6 +26,7 @@ npm run dev
 npm run verify:links
 npm run catalog:doctor
 npm run purchase:navigation:doctor
+npm run home:url-state:doctor
 npm run lint
 npm run smoke:local
 npm run build
@@ -34,7 +35,7 @@ npm run cap:sync
 npm run release:doctor
 ```
 
-`npm run qa`는 `lint`, `verify:links`, `catalog:doctor`, `purchase:navigation:doctor`, `smoke:local`, `build`, `release:doctor`를 순서대로 실행합니다.
+`npm run qa`는 `lint`, `verify:links`, `catalog:doctor`, `purchase:navigation:doctor`, `home:url-state:doctor`, `smoke:local`, `build`, `release:doctor`를 순서대로 실행합니다.
 
 ## 검색 동작 방식
 
@@ -80,6 +81,14 @@ npm run purchase:navigation:doctor
 ```
 
 홈, 상세, 찜, 무료혜택 화면의 구매 CTA가 `/go/[dealId]` 추적 경로를 거쳐 웹에서는 새 탭으로, Android/iOS에서는 Capacitor Browser로 열리는지 검사합니다.
+
+검색/필터 URL 상태 검증:
+
+```bash
+npm run home:url-state:doctor
+```
+
+홈의 검색어, 카테고리, 쇼핑몰, 정렬, 무료배송, 핫딜, 마감임박, 구매링크 확인, 가격대, 혜택 유형 필터가 URL에 저장되고 새로고침 후 복원되는지 코드 기준으로 검사합니다.
 
 구매 이동 정책:
 
