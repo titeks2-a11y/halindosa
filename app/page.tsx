@@ -1384,22 +1384,22 @@ export default function Home() {
     return Array.from(new Set(merged)).slice(0, 8);
   }, [popularSearchKeywords, recentSearchKeywords]);
 
-  const activeFilterLabels = useMemo(() => {
-    const labels: string[] = [];
+  const activeFilterChips = useMemo(() => {
+    const chips: Array<{ id: string; label: string }> = [];
     const selectedChannel = getDealChannel(category);
     const selectedMall = mallFilters.find((mall) => mall.id === mallFilter);
     const selectedPriceBand = priceBands.find((band) => band.id === priceBand);
     const selectedBenefit = benefitFilters.find((filter) => filter.id === benefitFilter);
 
-    if (query.trim()) labels.push(`검색: ${query.trim()}`);
-    if (category !== "all") labels.push(selectedChannel.label);
-    if (mallFilter !== "all" && selectedMall) labels.push(selectedMall.label);
-    if (priceBand !== "all" && selectedPriceBand) labels.push(selectedPriceBand.label);
-    if (benefitFilter !== "all" && selectedBenefit) labels.push(selectedBenefit.label);
-    if (verifiedOnly) labels.push("구매링크 확인");
-    if (freeShippingOnly) labels.push("무료배송");
-    if (hotOnly) labels.push("핫딜");
-    if (endingSoonOnly) labels.push("마감임박");
+    if (query.trim()) chips.push({ id: "query", label: `검색: ${query.trim()}` });
+    if (category !== "all") chips.push({ id: "category", label: selectedChannel.label });
+    if (mallFilter !== "all" && selectedMall) chips.push({ id: "mall", label: selectedMall.label });
+    if (priceBand !== "all" && selectedPriceBand) chips.push({ id: "price", label: selectedPriceBand.label });
+    if (benefitFilter !== "all" && selectedBenefit) chips.push({ id: "benefit", label: selectedBenefit.label });
+    if (verifiedOnly) chips.push({ id: "verified", label: "구매링크 확인" });
+    if (freeShippingOnly) chips.push({ id: "freeShipping", label: "무료배송" });
+    if (hotOnly) chips.push({ id: "hot", label: "핫딜" });
+    if (endingSoonOnly) chips.push({ id: "endingSoon", label: "마감임박" });
     if (sort !== "latest") {
       const sortLabel: Record<DealSort, string> = {
         latest: "최신순",
@@ -1408,11 +1408,12 @@ export default function Home() {
         hot: "핫딜순",
         endingSoon: "마감임박순"
       };
-      labels.push(sortLabel[sort]);
+      chips.push({ id: "sort", label: sortLabel[sort] });
     }
 
-    return labels;
+    return chips;
   }, [benefitFilter, category, endingSoonOnly, freeShippingOnly, hotOnly, mallFilter, priceBand, query, sort, verifiedOnly]);
+  const activeFilterLabels = useMemo(() => activeFilterChips.map((chip) => chip.label), [activeFilterChips]);
 
   const filterOutcomeCards = useMemo(
     () => [
@@ -1840,6 +1841,20 @@ export default function Home() {
     setEndingSoonOnly(false);
     setVerifiedOnly(false);
     showToast("검색 조건을 초기화했습니다.");
+  };
+
+  const removeActiveFilter = (id: string) => {
+    if (id === "query") setQuery("");
+    if (id === "category") setCategory("all");
+    if (id === "mall") setMallFilter("all");
+    if (id === "price") setPriceBand("all");
+    if (id === "benefit") setBenefitFilter("all");
+    if (id === "verified") setVerifiedOnly(false);
+    if (id === "freeShipping") setFreeShippingOnly(false);
+    if (id === "hot") setHotOnly(false);
+    if (id === "endingSoon") setEndingSoonOnly(false);
+    if (id === "sort") setSort("latest");
+    showToast("선택한 조건을 해제했습니다.");
   };
 
   const selectSearchKeyword = (keyword: string) => {
@@ -3210,12 +3225,20 @@ export default function Home() {
               <div className="mt-4 flex flex-col gap-3 rounded-2xl bg-slate-50 p-3 sm:flex-row sm:items-center sm:justify-between">
                 <div className="min-w-0">
                   <p className="text-xs font-black text-slate-400">적용된 조건</p>
+                  <p className="mt-1 text-[11px] font-bold text-slate-400">조건 칩을 누르면 조건 개별 해제</p>
                   <div className="mt-2 flex flex-wrap gap-1.5">
                     {activeFilterLabels.length ? (
-                      activeFilterLabels.map((label) => (
-                        <span key={label} className="rounded-full bg-white px-3 py-1 text-xs font-black text-slate-700 shadow-sm">
-                          {label}
-                        </span>
+                      activeFilterChips.map((chip) => (
+                        <button
+                          key={`${chip.id}-${chip.label}`}
+                          type="button"
+                          onClick={() => removeActiveFilter(chip.id)}
+                          className="inline-flex min-h-8 items-center gap-1.5 rounded-full bg-white px-3 py-1 text-xs font-black text-slate-700 shadow-sm transition hover:bg-red-50 hover:text-dossa-red"
+                          aria-label={`${chip.label} 조건 개별 해제`}
+                        >
+                          {chip.label}
+                          <span className="text-[11px] text-slate-400" aria-hidden="true">x</span>
+                        </button>
                       ))
                     ) : (
                       <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-slate-500 shadow-sm">전체 특가</span>

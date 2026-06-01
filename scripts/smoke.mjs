@@ -230,6 +230,7 @@ await check("home query filters", async () => {
   assert(text.includes("할인도사"), "Filtered home missing brand text");
   assert(text.includes("새우깡") || text.includes("검색"), "Filtered home missing query result context");
   assert(text.includes("적용된 조건"), "Filtered home missing active filter summary");
+  assert(text.includes("조건 개별 해제"), "Filtered home missing removable active filter chips");
   assert(text.includes("구매링크 확인"), "Filtered home missing restored verifiedOnly filter label");
   assert(text.includes("조건별 결과 요약"), "Filtered home missing active filter outcome summary");
   assert(text.includes("검색 결과 빠른 분류") && text.includes("많이 나온 쇼핑몰") && text.includes("가까운 카테고리"), "Filtered home missing search result grouping shortcuts");
