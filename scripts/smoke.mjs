@@ -644,6 +644,8 @@ await check("report page reason prefill", async () => {
   assert(text.includes("품절"), "Report page missing sold out reason option");
   assert(text.includes("링크 오류"), "Report page missing link error reason option");
   assert(text.includes("신고 처리 예상 안내") && text.includes("목표 처리:"), "Report page missing resolution expectation guidance");
+  assert(text.includes("신고 처리 흐름") && text.includes("링크와 종료 정보는 우선 확인합니다"), "Report page missing public report workflow summary");
+  assert(text.includes("링크 교체") && text.includes("종료 혜택 정리") && text.includes("가격 기준 재확인"), "Report page missing report workflow action cards");
   assert(text.includes("구매 기준 보기") && text.includes("문의하기"), "Report page missing post-submit next actions");
   assert(text.includes("support@halindosa.com"), "Report page missing support contact");
 });

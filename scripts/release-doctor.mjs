@@ -556,6 +556,7 @@ async function checkUiAccessibility() {
   const benefitConditionChecklist = await text("components/BenefitConditionChecklist.tsx");
   const priceAlertPanel = await text("components/PriceAlertPanel.tsx");
   const adminReportQueue = await text("components/AdminReportQueue.tsx");
+  const reportsPage = await text("app/reports/page.tsx");
   const reportForm = await text("components/ReportForm.tsx");
   const reportsApi = await text("app/api/reports/route.ts");
   const reportsLib = await text("lib/reports.ts");
@@ -643,9 +644,14 @@ async function checkUiAccessibility() {
     !adminReportQueue.includes("처리 목표") ||
     !reportForm.includes("신고 처리 예상 안내") ||
     !reportForm.includes("목표 처리:") ||
+    !reportsPage.includes("신고 처리 흐름") ||
+    !reportsPage.includes("링크와 종료 정보는 우선 확인합니다") ||
+    !reportsPage.includes("reportFlowCards") ||
+    !reportsPage.includes("getReportResolutionPlan") ||
     !reportsLib.includes("getReportResolutionPlan") ||
     !reportsApi.includes("plan: getReportResolutionPlan") ||
     !smoke.includes("Report API missing resolution plan metadata") ||
+    !smoke.includes("Report page missing public report workflow summary") ||
     !smoke.includes("Admin dashboard missing deal quality report queue")
   ) {
     fail("admin report priority workflow", "Admin/report surfaces should expose reason-specific expectations, SLA, recommended actions, and smoke coverage.");
