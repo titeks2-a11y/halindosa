@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getDeals } from "@/lib/dealService";
 import { buildPersonalizationReadiness } from "@/lib/analytics";
+import { buildClaimEffortSummary } from "@/lib/deals/claimEffort";
 import { getOperationalEnvReadiness } from "@/lib/operations/envReadiness";
 
 export async function GET() {
@@ -23,6 +24,10 @@ export async function GET() {
         Boolean(deal.claimWarning)
     );
     const personalizationReadiness = buildPersonalizationReadiness(result.deals);
+    const claimEffortSummary = buildClaimEffortSummary(result.deals);
+    const claimEffortCounts = Object.fromEntries(
+      claimEffortSummary.groups.map((group) => [group.effort, group.count])
+    );
     const operationalEnvReadiness = getOperationalEnvReadiness();
     const verifiedLinkRate = totalDeals ? Math.round((verifiedLinkDeals.length / totalDeals) * 100) : 0;
     const claimGuideRate = totalDeals ? Math.round((claimGuideReadyDeals.length / totalDeals) * 100) : 0;
@@ -39,6 +44,10 @@ export async function GET() {
         operationalStatus,
         verifiedLinkRate,
         claimGuideRate,
+        claimEffortReady: claimEffortSummary.groups.every((group) => group.count >= 1),
+        claimEffortEasyCount: claimEffortCounts.easy ?? 0,
+        claimEffortConditionCount: claimEffortCounts.condition ?? 0,
+        claimEffortDeadlineCount: claimEffortCounts.deadline ?? 0,
         personalizationReadyRate: personalizationReadiness.averageReadyRate,
         personalizationQueuesReady: personalizationReadiness.readyInterestGroups,
         personalizationWeakQueues: personalizationReadiness.weakQueues.length,

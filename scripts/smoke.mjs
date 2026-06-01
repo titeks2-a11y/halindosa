@@ -813,6 +813,10 @@ await check("health api", async () => {
   assert(data.checks?.operationalStatus === "ready", "Health API missing V2 operational readiness");
   assert(data.checks?.verifiedLinkRate >= 90, "Health API verified link rate is below launch threshold");
   assert(data.checks?.claimGuideRate >= 95, "Health API claim guide rate is below launch threshold");
+  assert(data.checks?.claimEffortReady === true, "Health API missing claim effort readiness");
+  assert(data.checks?.claimEffortEasyCount >= 1, "Health API missing easy claim effort count");
+  assert(data.checks?.claimEffortConditionCount >= 1, "Health API missing condition claim effort count");
+  assert(data.checks?.claimEffortDeadlineCount >= 1, "Health API missing deadline claim effort count");
   assert(data.checks?.freeBenefitDeals >= 10, "Health API missing free benefit readiness count");
   assert(data.checks?.personalizationReadyRate >= 0, "Health API missing personalization readiness rate");
   assert(data.checks?.personalizationQueuesReady >= 0, "Health API missing personalization ready queue count");

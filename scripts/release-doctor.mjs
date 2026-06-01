@@ -1504,6 +1504,9 @@ async function checkOperationalDataSurfaces() {
     !healthRoute.includes("operationalStatus") ||
     !healthRoute.includes("verifiedLinkRate") ||
     !healthRoute.includes("claimGuideRate") ||
+    !healthRoute.includes("buildClaimEffortSummary") ||
+    !healthRoute.includes("claimEffortReady") ||
+    !healthRoute.includes("claimEffortEasyCount") ||
     !healthRoute.includes("freeBenefitDeals") ||
     !healthRoute.includes("buildPersonalizationReadiness") ||
     !healthRoute.includes("personalizationReadyRate") ||
@@ -1518,6 +1521,7 @@ async function checkOperationalDataSurfaces() {
     !commercializationPage.includes("운영 환경 다음 액션") ||
     !smoke.includes("Health API missing V2 operational readiness") ||
     !smoke.includes("Health API claim guide rate is below launch threshold") ||
+    !smoke.includes("Health API missing claim effort readiness") ||
     !smoke.includes("Health API missing personalization readiness rate") ||
     !smoke.includes("Health API missing operational env readiness rate") ||
     !smoke.includes("Metrics missing operational env readiness rate") ||
