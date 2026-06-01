@@ -314,6 +314,7 @@ await check("category and notification pages", async () => {
   assert(notificationsText.includes("마감임박") && notificationsText.includes("인기") && notificationsText.includes("신규") && notificationsText.includes("무료배송"), "Notifications page missing alert summary chips");
   assert(notificationsText.includes("전체 보기"), "Notifications page missing alert group deep links");
   assert(notificationsText.includes("저장한 가격 알림"), "Notifications page missing saved price alert list");
+  assert(notificationsText.includes("챙긴 혜택 알림 요약") && notificationsText.includes("아직 챙길 만한 혜택"), "Notifications page missing claimed benefit alert summary");
   assert(notificationsText.includes("관심 카테고리 알림"), "Notifications page missing interest category alert preview");
   assert(notificationsText.includes("관심 설정하기"), "Notifications page missing interest settings link");
   assert(notificationsText.includes("관심 알림 실행 카드"), "Notifications page missing interest alert action cards");

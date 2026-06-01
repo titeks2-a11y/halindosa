@@ -1035,6 +1035,7 @@ async function checkOperationalDataSurfaces() {
   const categoriesPage = await text("app/categories/page.tsx");
   const notificationsPage = await text("app/notifications/page.tsx");
   const interestAlertPreview = await text("components/InterestAlertPreview.tsx");
+  const claimedBenefitAlertSummary = await text("components/ClaimedBenefitAlertSummary.tsx");
   const favoritesPage = await text("app/favorites/page.tsx");
   const localDataControls = await text("components/LocalDataControls.tsx");
   const accountPanel = await text("components/AccountPanel.tsx");
@@ -1089,6 +1090,10 @@ async function checkOperationalDataSurfaces() {
 
   if (
     !notificationsPage.includes("<PriceAlertList") ||
+    !notificationsPage.includes("<ClaimedBenefitAlertSummary") ||
+    !claimedBenefitAlertSummary.includes("readClaimedBenefits") ||
+    !claimedBenefitAlertSummary.includes("챙긴 혜택 알림 요약") ||
+    !claimedBenefitAlertSummary.includes("아직 챙길 만한 혜택") ||
     !notificationsPage.includes("<InterestAlertPreview") ||
     !interestAlertPreview.includes("readLocalPreferences") ||
     !homePage.includes("<PriceAlertList") ||
@@ -1108,6 +1113,9 @@ async function checkOperationalDataSurfaces() {
   if (
     !notificationsPage.includes("알림 운영 방식") ||
     !notificationsPage.includes("priorityAlerts") ||
+    !notificationsPage.includes("ClaimedBenefitAlertSummary") ||
+    !claimedBenefitAlertSummary.includes("무료 혜택 더 챙기기") ||
+    !smoke.includes("Notifications page missing claimed benefit alert summary") ||
     !notificationsPage.includes("오늘 먼저 확인할 알림") ||
     !notificationsPage.includes("마감과 인기 반응이 겹친 특가부터 보기") ||
     !notificationsPage.includes("dailyAlertQueues") ||
