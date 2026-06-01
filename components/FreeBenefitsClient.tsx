@@ -1,10 +1,11 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, AlertTriangle, CalendarDays, CheckCircle2, ExternalLink, Gift, Heart, Search, Share2, ShieldCheck, Sparkles, Timer, Truck } from "lucide-react";
 import { DealCard } from "@/components/DealCard";
 import { readBenefitReturnReservations, writeBenefitReturnReservations } from "@/lib/benefitReturnReservations";
+import { markBenefitVisit, readBenefitVisitStreak } from "@/lib/benefitVisitStreak";
 import { readClaimedBenefits, toggleClaimedBenefit } from "@/lib/claimedBenefits";
 import { getBenefitTypeLabel } from "@/lib/deals/benefits";
 import { formatPrice } from "@/lib/format";
@@ -115,7 +116,16 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
   const [favorites, setFavorites] = useState<string[]>(() => readFavorites());
   const [claimedBenefits, setClaimedBenefits] = useState(() => readClaimedBenefits());
   const [benefitReturnReservations, setBenefitReturnReservations] = useState(() => readBenefitReturnReservations());
+  const [visitStreak, setVisitStreak] = useState(() => readBenefitVisitStreak());
   const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    const frame = window.requestAnimationFrame(() => {
+      setVisitStreak(markBenefitVisit());
+    });
+
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
 
   const filteredDeals = useMemo(() => {
     const searchQuery = query.trim().toLowerCase();
@@ -890,6 +900,35 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
                 <Gift className="mx-auto" size={58} />
                 <p className="mt-4 text-2xl font-black">무료·쿠폰·포인트</p>
                 <p className="mt-2 text-sm font-bold text-red-50">구매 전 최종 조건은 판매처에서 확인하세요.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="rounded-[28px] border border-red-100 bg-white p-4 shadow-sm sm:p-5" aria-label="무료 혜택 출석 기록">
+          <div className="grid gap-3 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+            <div>
+              <p className="text-xs font-black text-dossa-red">무료 혜택 출석 기록</p>
+              <h2 className="mt-1 text-2xl font-black tracking-tight text-slate-950">오늘도 혜택을 확인한 기록을 기기에 남겼습니다</h2>
+              <p className="mt-2 text-sm font-bold leading-6 text-slate-500">
+                회원가입 없이도 이 기기 안에서 방문 흐름을 이어봅니다. 계정 저장은 찜, 관심 카테고리, 가격 알림을 이어가고 싶을 때만 선택하면 됩니다.
+              </p>
+            </div>
+            <div className="grid gap-2 sm:grid-cols-3">
+              <div className="rounded-3xl bg-red-50 p-4">
+                <p className="text-xs font-black text-dossa-red">연속 확인</p>
+                <p className="mt-2 text-3xl font-black text-slate-950">{visitStreak.currentStreak}일</p>
+                <p className="mt-1 text-xs font-bold text-slate-500">무료·쿠폰 루틴</p>
+              </div>
+              <div className="rounded-3xl bg-slate-50 p-4">
+                <p className="text-xs font-black text-slate-500">누적 방문</p>
+                <p className="mt-2 text-3xl font-black text-slate-950">{visitStreak.totalVisits}회</p>
+                <p className="mt-1 text-xs font-bold text-slate-500">이 기기 기준</p>
+              </div>
+              <div className="rounded-3xl bg-slate-950 p-4 text-white">
+                <p className="text-xs font-black text-red-100">다음 행동</p>
+                <p className="mt-2 text-sm font-black leading-5">무료 1개 챙기고 내일 볼 루틴 예약</p>
+                <p className="mt-2 text-xs font-bold text-slate-300">알림 권한 요청 없이 화면 안에서만 기록</p>
               </div>
             </div>
           </div>

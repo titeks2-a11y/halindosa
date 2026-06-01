@@ -1147,6 +1147,7 @@ async function checkOperationalDataSurfaces() {
   const dealTypes = await text("types/deal.ts");
   const freeBenefitsPage = await text("app/free-benefits/page.tsx");
   const freeBenefitsClient = await text("components/FreeBenefitsClient.tsx");
+  const benefitVisitStreak = await text("lib/benefitVisitStreak.ts");
   const bottomNavigation = await text("components/BottomNavigation.tsx");
   const topNavigation = await text("components/TopNavigation.tsx");
   const trust = await text("lib/deals/trust.ts");
@@ -1550,6 +1551,11 @@ async function checkOperationalDataSurfaces() {
     !freeBenefitsClient.includes("앱테크·페이·멤버십") ||
     !freeBenefitsClient.includes("매일 눌러 챙길 적립 혜택을 따로 모았습니다") ||
     !freeBenefitsClient.includes("앱테크 혜택 바로 받기") ||
+    !freeBenefitsClient.includes("markBenefitVisit") ||
+    !freeBenefitsClient.includes("무료 혜택 출석 기록") ||
+    !freeBenefitsClient.includes("오늘도 혜택을 확인한 기록을 기기에 남겼습니다") ||
+    !benefitVisitStreak.includes("halindosa:benefit-visit-streak") ||
+    !benefitVisitStreak.includes("currentStreak") ||
     !freeBenefitsClient.includes("cultureInviteDeals") ||
     !freeBenefitsClient.includes("문화 무료 초대권") ||
     !freeBenefitsClient.includes("영화·전시·공연 혜택도 놓치지 않게 모았습니다") ||
@@ -1634,6 +1640,7 @@ async function checkOperationalDataSurfaces() {
     !bottomNavigation.includes("/free-benefits") ||
     !topNavigation.includes("/free-benefits") ||
     !smoke.includes("free benefits page") ||
+    !smoke.includes("Free benefits page missing visit streak record") ||
     !smoke.includes("Free benefits page missing pre-claim condition summary") ||
     !smoke.includes("Free benefits page missing culture invitation quick filter") ||
     !smoke.includes("Free benefits page missing daily benefit mission") ||

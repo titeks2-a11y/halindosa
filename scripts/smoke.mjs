@@ -633,6 +633,8 @@ await check("free benefits page", async () => {
   const text = await response.text();
   assert(response.status === 200, `Expected 200, got ${response.status}`);
   assert(text.includes("무료 혜택 전용 탭"), "Free benefits page missing title");
+  assert(text.includes("무료 혜택 출석 기록") && text.includes("오늘도 혜택을 확인한 기록을 기기에 남겼습니다"), "Free benefits page missing visit streak record");
+  assert(text.includes("연속 확인") && text.includes("누적 방문") && text.includes("무료 1개 챙기고 내일 볼 루틴 예약"), "Free benefits page missing visit streak cards");
   assert(
     text.includes("오늘 혜택 미션") &&
       text.includes("하루에 세 가지만 챙기면 충분합니다") &&
