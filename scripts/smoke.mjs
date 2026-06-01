@@ -133,6 +133,8 @@ await check("home page", async () => {
   assert(text.includes("첫 화면 혜택 우선순위 큐") && text.includes("오늘 받을 혜택 큐"), "Home page missing first-screen benefit priority queue");
   assert(text.includes("스크롤 전에 먼저 고를 5가지") && text.includes("무료, 쿠폰, 무배, 마감, 실제 구매처 이동"), "Home page missing compressed benefit queue guidance");
   assert(text.includes("무료 혜택 먼저") && text.includes("쿠폰·포인트 적용") && text.includes("배송비 줄이기") && text.includes("구매처 바로 이동"), "Home page missing compressed benefit queue actions");
+  assert(text.includes("오늘 혜택 브리핑") && text.includes("이번 주 혜택 캘린더에서 오늘 먼저 챙길 루틴"), "Home page missing daily benefit briefing");
+  assert(text.includes("브리핑 API 보기") && text.includes("오늘 대표 큐") && text.includes("가입 없이 전체 혜택 확인"), "Home page missing daily briefing actions");
   assert(text.includes("품질 안내"), "Home page missing deal quality notice");
   assert(text.includes("무료혜택 TOP 5") && text.includes("쿠폰·앱테크 TOP 5"), "Home page missing free coupon top ranking section");
   assert(
@@ -812,6 +814,16 @@ await check("weekly benefit calendar api", async () => {
   assert(Array.isArray(data.calendar) && data.calendar.length === 7, "Weekly benefit calendar should include seven days");
   assert(data.calendar.some((item) => item.day === "월" && item.title.includes("출석")), "Weekly benefit calendar missing Monday routine");
   assert(data.calendar.every((item) => item.operationNote && item.preset && item.recommendedSurface), "Weekly benefit calendar missing operation metadata");
+});
+
+await check("daily benefit briefing api", async () => {
+  const { response, data } = await fetchJson("/api/benefits/briefing?limit=3");
+  assert(response.status === 200, `Expected 200, got ${response.status}`);
+  assert(data.ok === true, "Daily benefit briefing API ok should be true");
+  assert(data.briefing?.audience === "guest", "Daily benefit briefing should keep guest access");
+  assert(data.briefing?.todayCalendar?.operationNote, "Daily benefit briefing missing today calendar operation note");
+  assert(data.briefing?.primarySection?.items?.length <= 3, "Daily benefit briefing should respect limit");
+  assert(data.briefing?.quickActions?.some((action) => action.href === "/free-benefits"), "Daily benefit briefing missing free benefit action");
 });
 
 await check("metrics api", async () => {

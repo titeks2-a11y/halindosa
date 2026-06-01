@@ -34,6 +34,7 @@ import { canOpenDealLink } from "@/lib/affiliate";
 import { readBenefitReturnReservations } from "@/lib/benefitReturnReservations";
 import { readBenefitVisitStreak } from "@/lib/benefitVisitStreak";
 import { readClaimedBenefits } from "@/lib/claimedBenefits";
+import { buildDailyBenefitBriefing } from "@/lib/deals/dailyBenefitBriefing";
 import { getLinkQualityScore, isVerifiedPurchaseLink } from "@/lib/deals/quality";
 import { formatPrice, getRelativeTime } from "@/lib/format";
 import { buildDealRedirectUrl, buildNativeSafeDealUrl } from "@/lib/redirectUrl";
@@ -1380,6 +1381,7 @@ export default function Home() {
       }
     ];
   }, [catalog, deals]);
+  const dailyBenefitBriefing = useMemo(() => buildDailyBenefitBriefing(catalog.length ? catalog : deals, new Date(), 3), [catalog, deals]);
 
   const searchPurposeCards = useMemo(() => {
     const source = catalog.length ? catalog : deals;
@@ -1668,6 +1670,59 @@ export default function Home() {
                     </span>
                   </button>
                 ))}
+              </div>
+            </section>
+
+            <section className="rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5" aria-label="오늘 혜택 브리핑">
+              <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+                <div>
+                  <p className="text-xs font-black text-dossa-red">오늘 혜택 브리핑</p>
+                  <h3 className="mt-1 text-xl font-black text-slate-950 sm:text-2xl">{dailyBenefitBriefing.headline}</h3>
+                  <p className="mt-1 max-w-2xl text-sm font-bold leading-6 text-slate-500">
+                    이번 주 혜택 캘린더에서 오늘 먼저 챙길 루틴을 골랐습니다. 비회원도 전체 혜택을 볼 수 있고, 저장 기능만 선택 로그인으로 이어집니다.
+                  </p>
+                </div>
+                <Link href="/api/benefits/briefing?limit=3" className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-2xl bg-slate-950 px-4 text-sm font-black text-white">
+                  브리핑 API 보기
+                </Link>
+              </div>
+              <div className="mt-4 grid gap-3 lg:grid-cols-[1.2fr_1fr]">
+                <div className="rounded-3xl bg-red-50 p-4">
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <p className="text-sm font-black text-slate-950">{dailyBenefitBriefing.todayCalendar.title}</p>
+                      <p className="mt-1 text-xs font-bold leading-5 text-red-900/70">{dailyBenefitBriefing.todayCalendar.copy}</p>
+                    </div>
+                    <span className="shrink-0 rounded-full bg-white px-2.5 py-1 text-xs font-black text-dossa-red shadow-sm">
+                      {dailyBenefitBriefing.todayLabel}요일
+                    </span>
+                  </div>
+                  <p className="mt-3 rounded-2xl bg-white px-3 py-2 text-xs font-bold leading-5 text-slate-600 shadow-sm">
+                    {dailyBenefitBriefing.todayCalendar.operationNote}
+                  </p>
+                  <div className="mt-3 grid gap-2 sm:grid-cols-3">
+                    {dailyBenefitBriefing.quickActions.map((action) => (
+                      <Link key={action.label} href={action.href} className="rounded-2xl bg-white px-3 py-2 text-xs font-black text-slate-950 shadow-sm">
+                        {action.label}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+                <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-1">
+                  <div className="rounded-3xl border border-slate-100 bg-slate-50 p-4">
+                    <p className="text-xs font-black text-dossa-red">오늘 대표 큐</p>
+                    <p className="mt-1 text-sm font-black text-slate-950">{dailyBenefitBriefing.primarySection.title}</p>
+                    <p className="mt-1 line-clamp-2 text-xs font-bold leading-5 text-slate-500">{dailyBenefitBriefing.primarySection.description}</p>
+                    <p className="mt-3 rounded-full bg-white px-3 py-1.5 text-center text-xs font-black text-dossa-red shadow-sm">
+                      후보 {dailyBenefitBriefing.primarySection.items.length}개
+                    </p>
+                  </div>
+                  <div className="rounded-3xl border border-slate-100 bg-slate-50 p-4">
+                    <p className="text-xs font-black text-dossa-red">비회원 열람</p>
+                    <p className="mt-1 text-sm font-black text-slate-950">가입 없이 전체 혜택 확인</p>
+                    <p className="mt-1 text-xs font-bold leading-5 text-slate-500">{dailyBenefitBriefing.notice}</p>
+                  </div>
+                </div>
               </div>
             </section>
 
