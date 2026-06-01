@@ -139,6 +139,7 @@ await check("home page", async () => {
   assert(text.includes("오늘 혜택 브리핑") && text.includes("이번 주 혜택 캘린더에서 오늘 먼저 챙길 루틴"), "Home page missing daily benefit briefing");
   assert(text.includes("브리핑 API 보기") && text.includes("오늘 대표 큐") && text.includes("가입 없이 전체 혜택 확인"), "Home page missing daily briefing actions");
   assert(text.includes("루틴 API 보기") && text.includes("오늘 3분 혜택 루틴") && text.includes("실행") && text.includes("단계"), "Home page missing daily routine API and step summary");
+  assert(text.includes("1<!-- -->단계") && text.includes("무료 혜택 보기") && text.includes("5<!-- -->단계") && text.includes("검증 링크 보기") && text.includes("실제 구매처 확인 특가"), "Home page missing full five-step daily benefit routine");
   assert(text.includes("품질 안내"), "Home page missing deal quality notice");
   assert(text.includes("무료혜택 TOP 5") && text.includes("쿠폰·앱테크 TOP 5"), "Home page missing free coupon top ranking section");
   assert(

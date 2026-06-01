@@ -1536,6 +1536,7 @@ async function checkOperationalDataSurfaces() {
     !smoke.includes("Personalized benefits should keep guest access") ||
     !smoke.includes("Home page missing daily benefit briefing") ||
     !smoke.includes("Home page missing daily routine API and step summary") ||
+    !smoke.includes("Home page missing full five-step daily benefit routine") ||
     !smoke.includes("Home page missing reusable personalized benefit API card") ||
     !smoke.includes("Today benefits API missing optional login boundary") ||
     !smoke.includes("Admin daily queue missing operation actions")

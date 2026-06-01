@@ -1811,10 +1811,12 @@ export default function Home() {
                     실행 {dailyRoutinePlan.summary.actionableSteps}단계
                   </span>
                 </div>
-                <div className="mt-3 grid gap-2 sm:grid-cols-3">
-                  {dailyRoutinePlan.steps.slice(0, 3).map((step) => (
+                <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-5">
+                  {dailyRoutinePlan.steps.map((step, index) => (
                     <Link key={step.id} href={step.href} className="rounded-2xl bg-slate-50 px-3 py-2 transition hover:bg-red-50">
-                      <span className="block text-[11px] font-black text-dossa-red">{step.primaryAction}</span>
+                      <span className="block text-[11px] font-black text-dossa-red">
+                        {index + 1}단계 · {step.primaryAction}
+                      </span>
                       <span className="mt-1 block line-clamp-1 text-xs font-black text-slate-950">{step.title}</span>
                       <span className="mt-1 block text-[11px] font-bold text-slate-500">{step.count}개 · {step.doneSignal}</span>
                     </Link>
