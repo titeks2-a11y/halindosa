@@ -35,6 +35,7 @@ npm run search:doctor
 npm run purchase:navigation:doctor
 npm run detail:navigation:doctor
 npm run home:url-state:doctor
+npm run home:list-scan:doctor
 npm run lint
 npm run smoke:local
 npm run build
@@ -43,7 +44,7 @@ npm run cap:sync
 npm run release:doctor
 ```
 
-`npm run qa`는 `lint`, `verify:links`, `catalog:doctor`, `search:doctor`, `purchase:navigation:doctor`, `detail:navigation:doctor`, `home:url-state:doctor`, `smoke:local`, `build`, `release:doctor`를 순서대로 실행합니다.
+`npm run qa`는 `lint`, `verify:links`, `catalog:doctor`, `search:doctor`, `purchase:navigation:doctor`, `detail:navigation:doctor`, `home:url-state:doctor`, `home:list-scan:doctor`, `smoke:local`, `build`, `release:doctor`를 순서대로 실행합니다.
 
 ## 검색 동작 방식
 

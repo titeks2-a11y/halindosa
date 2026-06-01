@@ -723,6 +723,7 @@ async function checkUiAccessibility() {
   const authForm = await text("components/AuthForm.tsx");
   const commercializationPage = await text("app/commercialization/page.tsx");
   const smoke = await text("scripts/smoke.mjs");
+  const packageJson = await text("package.json");
 
   if (
     !tailwindConfig.includes('red: "#ff173f"') ||
@@ -1039,6 +1040,7 @@ async function checkUiAccessibility() {
     !homePage.includes('aria-label="상품 목록 빠른 스캔"') ||
     !homePage.includes("낮은 가격 후보") ||
     !homePage.includes("할인율 최고") ||
+    !packageJson.includes("home:list-scan:doctor") ||
     !smoke.includes("Home page missing purpose quick benefit filters") ||
     !smoke.includes("Home page missing filter outcome summary") ||
     !smoke.includes("Home page missing filter action queue") ||

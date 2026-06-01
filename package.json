@@ -28,6 +28,7 @@
     "search:doctor": "node scripts/search-quality-doctor.mjs",
     "purchase:navigation:doctor": "node scripts/purchase-navigation-doctor.mjs",
     "home:url-state:doctor": "node scripts/home-url-state-doctor.mjs",
+    "home:list-scan:doctor": "node scripts/home-list-scan-doctor.mjs",
     "links:report": "node scripts/link-coverage-report.mjs",
     "store:metadata:doctor": "node scripts/store-metadata-doctor.mjs",
     "store:assets:generate": "powershell -ExecutionPolicy Bypass -File scripts/generate-brand-assets.ps1",
@@ -36,7 +37,7 @@
     "perf:budget": "node scripts/performance-budget.mjs",
     "release:evidence": "node scripts/release-evidence.mjs",
     "release:doctor": "node scripts/release-doctor.mjs",
-    "qa": "npm run lint && npm run verify:links && npm run catalog:doctor && npm run search:doctor && npm run purchase:navigation:doctor && npm run detail:navigation:doctor && npm run home:url-state:doctor && npm run smoke:local && npm run build && npm run release:doctor",
+    "qa": "npm run lint && npm run verify:links && npm run catalog:doctor && npm run search:doctor && npm run purchase:navigation:doctor && npm run detail:navigation:doctor && npm run home:url-state:doctor && npm run home:list-scan:doctor && npm run smoke:local && npm run build && npm run release:doctor",
     "qa:release": "npm run qa && npm run audit:commercial && npm run device:qa:doctor && npm run feed:validate && npm run feed:production:doctor && npm run build:android && npm run cap:sync && npm run cap:sync:ios && npm run store:metadata:doctor && npm run store:assets:doctor && npm run store:screenshots:doctor && npm run perf:budget && npm run release:doctor",
     "wait:health": "node scripts/wait-for-health.mjs",
     "detail:navigation:doctor": "node scripts/detail-navigation-doctor.mjs"
