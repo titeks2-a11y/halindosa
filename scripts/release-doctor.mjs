@@ -677,6 +677,7 @@ async function checkSearchAndPurchaseFlow() {
 
 async function checkUiAccessibility() {
   const dealCard = await text("components/DealCard.tsx");
+  const quickDealCard = await text("components/QuickDealCard.tsx");
   const dealDetailPage = await text("app/deals/[id]/page.tsx");
   const dealTrustBadge = await text("components/DealTrustBadge.tsx");
   const purchaseConfirmSheet = await text("components/PurchaseConfirmSheet.tsx");
@@ -989,10 +990,18 @@ async function checkUiAccessibility() {
 
   if (imagePerformanceMissing.length) {
     fail("deal image loading hints", `Missing image proxy/loading hints: ${imagePerformanceMissing.join(", ")}`);
+  } else if (
+    !quickDealCard.includes("구매 전 한눈에") ||
+    !quickDealCard.includes("checkedAt") ||
+    !quickDealCard.includes("timeLeft") ||
+    !quickDealCard.includes("링크 확인") ||
+    !smoke.includes("Home page missing quick deal card purchase snapshot")
+  ) {
+    fail("deal image loading hints", "Quick deal cards should expose a compact purchase snapshot with link status, checked time, and deadline.");
   } else if (!dealCard.includes('loading="lazy"') || !liveDealFeed.includes('loading="lazy"') || !hotSignalSection.includes('loading="lazy"') || !dealDetailPage.includes('loading="eager"')) {
     fail("deal image loading hints", "List images should lazy-load and detail hero image should eagerly load.");
   } else {
-    pass("deal image loading hints", "Deal list, live feed, signal, and detail images use proxy helpers and browser loading hints.");
+    pass("deal image loading hints", "Deal list, live feed, signal, and detail images use proxy helpers and browser loading hints, while quick cards expose compact purchase snapshots.");
   }
 
   if (

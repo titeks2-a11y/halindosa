@@ -193,6 +193,7 @@ await check("home page", async () => {
   assert(text.includes("많은 판매처") && text.includes("최대 할인") && text.includes("낮은 현재가") && text.includes("마감 임박"), "Home page missing compact search result snapshot");
   assert(text.includes("현재 결과"), "Home page missing search result count summary");
   assert(text.includes("구매하기"), "Home page missing compact commerce purchase buttons");
+  assert(text.includes("구매 전 한눈에") && text.includes("링크 확인"), "Home page missing quick deal card purchase snapshot");
   assert(
     text.includes("혜택 목적 빠른 필터") &&
       text.includes("무료, 쿠폰, 앱테크, 문화 초대권을 한 번에 좁힙니다") &&

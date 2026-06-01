@@ -17,6 +17,8 @@ interface QuickDealCardProps {
 export function QuickDealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, onShareDeal }: QuickDealCardProps) {
   const linkAvailable = canOpenDealLink(deal);
   const verified = isVerifiedPurchaseLink(deal);
+  const checkedAt = getRelativeTime(deal.priceCheckedAt);
+  const timeLeft = getTimeLeft(deal.expiresAt);
 
   return (
     <article
@@ -56,7 +58,7 @@ export function QuickDealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, 
       <div className="space-y-2.5 p-3">
         <div className="flex items-center justify-between gap-2 text-[11px] font-black">
           <span className="min-w-0 truncate text-dossa-red">{deal.mallName}</span>
-          <span className="shrink-0 text-slate-400">{getRelativeTime(deal.priceCheckedAt)}</span>
+          <span className="shrink-0 text-slate-400">{checkedAt}</span>
         </div>
 
         <Link href={`/deals/${deal.id}`} target="_blank" rel="noopener noreferrer" className="block" aria-label={`${deal.title} 상세 정보 새 탭으로 보기`}>
@@ -64,6 +66,17 @@ export function QuickDealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, 
             {deal.title}
           </h3>
         </Link>
+
+        <div className="rounded-2xl border border-slate-100 bg-white p-2 shadow-[0_8px_22px_rgba(15,23,42,0.035)]" aria-label={`${deal.title} 구매 전 한눈에`}>
+          <p className="mb-1.5 text-[11px] font-black text-slate-500">구매 전 한눈에</p>
+          <div className="grid grid-cols-3 gap-1.5 text-center text-[10px] font-black">
+            <span className={verified ? "rounded-xl bg-emerald-50 px-1.5 py-1.5 text-emerald-700" : "rounded-xl bg-amber-50 px-1.5 py-1.5 text-amber-700"}>
+              {verified ? "링크 확인" : "확인 필요"}
+            </span>
+            <span className="rounded-xl bg-slate-50 px-1.5 py-1.5 text-slate-600">{checkedAt}</span>
+            <span className="rounded-xl bg-slate-50 px-1.5 py-1.5 text-slate-600">{timeLeft}</span>
+          </div>
+        </div>
 
         <div className="flex flex-wrap gap-1.5">
           {verified ? (
@@ -78,7 +91,7 @@ export function QuickDealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, 
           </span>
           <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2 py-1 text-[11px] font-black text-slate-600">
             <Clock size={12} />
-            {getTimeLeft(deal.expiresAt)}
+            {timeLeft}
           </span>
         </div>
 
