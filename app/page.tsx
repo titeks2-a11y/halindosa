@@ -1476,6 +1476,72 @@ export default function Home() {
     ];
   }, [deals]);
 
+  const searchDecisionGuide = useMemo(() => {
+    const verifiedCount = deals.filter(isVerifiedPurchaseLink).length;
+    const freeShippingCount = deals.filter(isFreeShippingDeal).length;
+    const endingSoonCount = deals.filter((deal) => deal.isEndingSoon || deal.isExpired).length;
+    const hotCount = deals.filter((deal) => deal.isHot).length;
+    const averageDiscount = deals.length ? Math.round(deals.reduce((sum, deal) => sum + deal.discountRate, 0) / deals.length) : 0;
+
+    if (!deals.length) {
+      return {
+        label: "결과 없음",
+        title: "조건을 조금 넓혀보세요",
+        copy: "검색어를 줄이거나 쇼핑몰, 가격대, 혜택 필터를 초기화하면 다시 찾을 수 있습니다.",
+        actionLabel: "조건 초기화",
+        action: "reset" as const
+      };
+    }
+
+    if (verifiedCount && verifiedCount < deals.length) {
+      return {
+        label: "먼저 볼 기준",
+        title: `구매처 확인 ${verifiedCount}개부터 보세요`,
+        copy: "검색 결과나 대표몰이 아니라 실제 상품·혜택 상세로 이동 가능한 항목을 먼저 추립니다.",
+        actionLabel: "구매처 확인만 보기",
+        action: "verified" as const
+      };
+    }
+
+    if (endingSoonCount >= Math.max(2, Math.ceil(deals.length * 0.2))) {
+      return {
+        label: "먼저 볼 기준",
+        title: `마감 임박 ${endingSoonCount}개를 먼저 확인하세요`,
+        copy: "시간 제한, 선착순, 쿠폰 종료 가능성이 있는 항목부터 놓치지 않게 정렬합니다.",
+        actionLabel: "마감 임박 보기",
+        action: "endingSoon" as const
+      };
+    }
+
+    if (freeShippingCount >= Math.max(2, Math.ceil(deals.length * 0.25))) {
+      return {
+        label: "먼저 볼 기준",
+        title: `무료배송 ${freeShippingCount}개로 배송비를 줄이세요`,
+        copy: "실제 결제 전 배송비 조건을 함께 확인하기 좋은 결과입니다.",
+        actionLabel: "무료배송 보기",
+        action: "freeShipping" as const
+      };
+    }
+
+    if (hotCount >= Math.max(2, Math.ceil(deals.length * 0.2))) {
+      return {
+        label: "먼저 볼 기준",
+        title: `반응 좋은 핫딜 ${hotCount}개를 먼저 보세요`,
+        copy: "클릭, 찜, 인기 신호가 높은 후보부터 빠르게 비교합니다.",
+        actionLabel: "핫딜 보기",
+        action: "hot" as const
+      };
+    }
+
+    return {
+      label: "먼저 볼 기준",
+      title: `평균 할인율 ${averageDiscount}% 결과입니다`,
+      copy: "가격 낮은순이나 할인율 높은순으로 바꾸면 비교 기준이 더 또렷해집니다.",
+      actionLabel: "할인율순 보기",
+      action: "discount" as const
+    };
+  }, [deals]);
+
   const dealScanBarItems = useMemo(() => {
     const verifiedCount = deals.filter(isVerifiedPurchaseLink).length;
     const freeShippingCount = deals.filter(isFreeShippingDeal).length;
@@ -1853,6 +1919,27 @@ export default function Home() {
     setActiveView("home");
   };
 
+  const applySearchDecisionGuide = () => {
+    if (searchDecisionGuide.action === "reset") {
+      resetFilters();
+      return;
+    }
+
+    if (searchDecisionGuide.action === "verified") {
+      setVerifiedOnly(true);
+      setActiveView("home");
+      return;
+    }
+
+    if (searchDecisionGuide.action === "discount") {
+      setSort("discount");
+      setActiveView("home");
+      return;
+    }
+
+    openQuickDiscovery(searchDecisionGuide.action);
+  };
+
   const toggleQuickInterest = (interest: string) => {
     const currentPreferences = readLocalPreferences();
     const exists = favoriteCategories.includes(interest);
@@ -2039,6 +2126,21 @@ export default function Home() {
                   <p className="mt-1 line-clamp-1 text-[11px] font-bold text-slate-500">{item.helper}</p>
                 </div>
               ))}
+            </div>
+            <div className="mt-3 flex flex-col gap-3 rounded-2xl border border-red-100 bg-red-50 px-3 py-3 sm:flex-row sm:items-center sm:justify-between" aria-label="검색 결과 추천 판단">
+              <div className="min-w-0">
+                <p className="text-[11px] font-black text-dossa-red">{searchDecisionGuide.label}</p>
+                <p className="mt-1 text-sm font-black text-slate-950 sm:text-base">{searchDecisionGuide.title}</p>
+                <p className="mt-1 line-clamp-2 text-xs font-bold leading-5 text-dossa-deep">{searchDecisionGuide.copy}</p>
+              </div>
+              <button
+                type="button"
+                onClick={applySearchDecisionGuide}
+                className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-2xl bg-dossa-red px-4 text-sm font-black text-white shadow-sm transition hover:bg-slate-950"
+                aria-label={`${searchDecisionGuide.title} ${searchDecisionGuide.actionLabel}`}
+              >
+                {searchDecisionGuide.actionLabel}
+              </button>
             </div>
             <div className="mt-3 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {[

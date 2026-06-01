@@ -192,6 +192,7 @@ await check("home page", async () => {
   assert(text.includes("추천 검색어"), "Home page missing inline guided search suggestions");
   assert(text.includes("로켓") && text.includes("배달쿠폰") && text.includes("커피쿠폰"), "Home page missing high-intent lifestyle search suggestions");
   assert(text.includes("많은 판매처") && text.includes("최대 할인") && text.includes("낮은 현재가") && text.includes("마감 임박"), "Home page missing compact search result snapshot");
+  assert(text.includes("검색 결과 추천 판단") && text.includes("먼저 볼 기준"), "Home page missing search decision guide");
   assert(text.includes("현재 결과"), "Home page missing search result count summary");
   assert(text.includes("구매하기"), "Home page missing compact commerce purchase buttons");
   assert(text.includes("구매 전 한눈에") && text.includes("링크 확인"), "Home page missing quick deal card purchase snapshot");
