@@ -1072,6 +1072,8 @@ async function checkUiAccessibility() {
     !homePage.includes("상품 목록을 먼저 보고, 필요할 때 혜택 분석을 펼치세요") ||
     !homePage.includes('aria-label="상세 필터와 결과 분석 접기"') ||
     !homePage.includes("상품 목록을 먼저 보고, 더 좁힐 때 펼치세요") ||
+    !homePage.includes('aria-label="상품 목록 적용 조건 빠른 해제"') ||
+    !homePage.includes("조건을 눌러 바로 해제하고 같은 목록에서 다시 비교합니다.") ||
     !homePage.includes("가격으로 먼저 고를 4가지 후보") ||
     !homePage.includes("절약액 큼") ||
     !homePage.includes("마감 먼저") ||

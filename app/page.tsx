@@ -3557,6 +3557,44 @@ export default function Home() {
               </div>
             </details>
 
+            <section className="rounded-[24px] border border-red-100 bg-white p-3 shadow-sm" aria-label="상품 목록 적용 조건 빠른 해제">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div className="min-w-0">
+                  <p className="text-xs font-black text-dossa-red">상품 목록 적용 조건</p>
+                  <p className="mt-1 text-xs font-bold text-slate-500">
+                    {activeFilterLabels.length ? "조건을 눌러 바로 해제하고 같은 목록에서 다시 비교합니다." : "전체 특가를 보고 있습니다. 필요하면 아래 빠른 좁히기로 바로 필터링하세요."}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={resetFilters}
+                  disabled={!activeFilterLabels.length}
+                  className="inline-flex min-h-10 shrink-0 items-center justify-center rounded-2xl border border-slate-200 bg-white px-4 text-xs font-black text-slate-600 transition hover:border-red-100 hover:bg-red-50 hover:text-dossa-red disabled:cursor-not-allowed disabled:opacity-45"
+                  aria-label="상품 목록 적용 조건 전체 초기화"
+                >
+                  전체 초기화
+                </button>
+              </div>
+              <div className="mt-3 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                {activeFilterChips.length ? (
+                  activeFilterChips.map((chip) => (
+                    <button
+                      key={`list-${chip.id}-${chip.label}`}
+                      type="button"
+                      onClick={() => removeActiveFilter(chip.id)}
+                      className="inline-flex min-h-9 shrink-0 items-center gap-1.5 rounded-full bg-red-50 px-3 py-1 text-xs font-black text-dossa-red transition hover:bg-dossa-red hover:text-white"
+                      aria-label={`${chip.label} 조건 상품 목록에서 해제`}
+                    >
+                      {chip.label}
+                      <span aria-hidden="true">x</span>
+                    </button>
+                  ))
+                ) : (
+                  <span className="inline-flex min-h-9 shrink-0 items-center rounded-full bg-slate-50 px-3 py-1 text-xs font-black text-slate-500">전체 특가</span>
+                )}
+              </div>
+            </section>
+
             {deals.length ? (
               <section className="rounded-[24px] border border-slate-200 bg-white p-3 shadow-sm" aria-label="현재 결과 빠른 좁히기">
                 <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
