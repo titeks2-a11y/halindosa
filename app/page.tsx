@@ -1486,7 +1486,6 @@ export default function Home() {
   const selectSearchKeyword = (keyword: string) => {
     setQuery(keyword);
     setActiveView("home");
-    window.setTimeout(() => document.getElementById("all-deals")?.scrollIntoView({ behavior: "smooth", block: "start" }), 0);
   };
 
   const clearRecentSearchKeywords = () => {
@@ -1510,7 +1509,6 @@ export default function Home() {
   const openCategory = (id: string) => {
     setCategory(id);
     setActiveView("home");
-    window.setTimeout(() => document.getElementById("deals")?.scrollIntoView({ behavior: "smooth" }), 0);
   };
 
   const openMall = (id: string) => {
@@ -1518,7 +1516,6 @@ export default function Home() {
     setCategory("all");
     setMallFilter(id);
     setActiveView("home");
-    window.setTimeout(() => document.getElementById("all-deals")?.scrollIntoView({ behavior: "smooth", block: "start" }), 0);
   };
 
   const openBenefitFilter = (type: DealBenefitType) => {
@@ -1533,7 +1530,6 @@ export default function Home() {
     setEndingSoonOnly(false);
     setSort(type === "freebie" || type === "coupon" ? "hot" : "latest");
     setActiveView("home");
-    window.setTimeout(() => document.getElementById("all-deals")?.scrollIntoView({ behavior: "smooth", block: "start" }), 0);
   };
 
   const openBenefitPreset = (preset: BenefitPreset) => {
@@ -1548,7 +1544,6 @@ export default function Home() {
     setEndingSoonOnly(Boolean(preset.endingSoonOnly));
     setSort(preset.sort ?? "latest");
     setActiveView("home");
-    window.setTimeout(() => document.getElementById("all-deals")?.scrollIntoView({ behavior: "smooth", block: "start" }), 0);
   };
 
   const openQuickDiscovery = (preset: "verified" | "freeShipping" | "endingSoon" | "hot") => {
@@ -1563,7 +1558,6 @@ export default function Home() {
     setHotOnly(preset === "hot");
     setSort(preset === "endingSoon" ? "endingSoon" : preset === "hot" ? "hot" : "latest");
     setActiveView("home");
-    window.setTimeout(() => document.getElementById("all-deals")?.scrollIntoView({ behavior: "smooth", block: "start" }), 0);
   };
 
   const toggleQuickInterest = (interest: string) => {
@@ -1598,7 +1592,6 @@ export default function Home() {
     setDeals(filterLocalDeals(catalog.filter((deal) => !isVerifiedPurchaseLink(deal)), "전체", "", "latest"));
     setActiveView("home");
     showToast("판매처 확인 단계 상품을 모았습니다. 이동 전 최종 조건을 확인해주세요.");
-    window.setTimeout(() => document.getElementById("all-deals")?.scrollIntoView({ behavior: "smooth", block: "start" }), 0);
   };
 
   const viewTitle =
@@ -1702,6 +1695,73 @@ export default function Home() {
               : "판매처의 최종 가격, 옵션가, 쿠폰 조건은 구매 전 다시 확인하세요."}
           </p>
         </div>
+        {activeView === "home" ? (
+          <section className="rounded-[28px] border border-red-100 bg-white p-3 shadow-sm sm:p-4" aria-label="빠른 상품 검색">
+            <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
+              <div className="min-w-0 flex-1">
+                <SearchBar value={query} onChange={setQuery} />
+              </div>
+              <div className="grid grid-cols-2 gap-2 sm:flex sm:items-center">
+                <SortSelect value={sort} onChange={setSort} />
+                <select
+                  aria-label="쇼핑몰 필터"
+                  value={mallFilter}
+                  onChange={(event) => setMallFilter(event.target.value)}
+                  className="min-h-12 rounded-2xl border border-slate-200 bg-white px-3 text-sm font-black text-slate-800 outline-none transition focus:border-dossa-red focus:ring-4 focus:ring-red-100"
+                >
+                  {mallFilters.map((mall) => (
+                    <option key={mall.id} value={mall.id}>
+                      {mall.label}
+                    </option>
+                  ))}
+                </select>
+                <button
+                  type="button"
+                  onClick={resetFilters}
+                  disabled={!activeFilterLabels.length}
+                  className="min-h-12 rounded-2xl border border-slate-200 bg-white px-4 text-sm font-black text-slate-700 transition hover:border-red-200 hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-45 sm:w-auto"
+                >
+                  초기화
+                </button>
+              </div>
+            </div>
+            <div className="mt-3 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              {[
+                { label: "오늘특가", active: hotOnly, onClick: () => openQuickDiscovery("hot"), icon: <Flame size={16} /> },
+                { label: "무료배송", active: freeShippingOnly, onClick: () => openQuickDiscovery("freeShipping"), icon: <Truck size={16} /> },
+                { label: "마감임박", active: endingSoonOnly, onClick: () => openQuickDiscovery("endingSoon"), icon: <Timer size={16} /> },
+                { label: "직접구매", active: verifiedOnly, onClick: () => openQuickDiscovery("verified"), icon: <ShieldCheck size={16} /> },
+                { label: "쿠폰", active: benefitFilter === "coupon", onClick: () => openBenefitFilter("coupon"), icon: <CheckCircle2 size={16} /> },
+                { label: "무료혜택", active: benefitFilter === "freebie", onClick: () => openBenefitFilter("freebie"), icon: <ShoppingBag size={16} /> }
+              ].map((item) => (
+                <button
+                  key={item.label}
+                  type="button"
+                  onClick={item.onClick}
+                  className={`inline-flex min-h-11 shrink-0 items-center gap-2 rounded-2xl border px-3 text-sm font-black transition ${
+                    item.active
+                      ? "border-transparent bg-gradient-to-r from-[#ff2b2b] to-[#ff6a3d] text-white shadow-sm"
+                      : "border-slate-200 bg-slate-50 text-slate-700 hover:border-red-200 hover:bg-red-50 hover:text-dossa-red"
+                  }`}
+                >
+                  {item.icon}
+                  {item.label}
+                </button>
+              ))}
+            </div>
+            <div className="mt-3 flex flex-col gap-2 rounded-2xl bg-slate-50 px-3 py-3 sm:flex-row sm:items-center sm:justify-between">
+              <p className="text-sm font-black text-slate-950">
+                현재 결과 {deals.length}개
+                <span className="ml-2 text-xs font-bold text-slate-500">
+                  {query ? `"${query}" 검색 중` : "상품명, 브랜드, 쇼핑몰, 카테고리 통합 검색"}
+                </span>
+              </p>
+              <p className="text-xs font-bold text-slate-500">
+                상품 이동은 모두 새 탭에서 직접 구매 링크로 열립니다.
+              </p>
+            </div>
+          </section>
+        ) : null}
         {activeView === "home" ? (
           <>
             <section className="overflow-hidden rounded-[28px] border border-red-100 bg-white shadow-sm" aria-label="첫 화면 혜택 우선순위 큐">
@@ -2291,7 +2351,6 @@ export default function Home() {
               onShareDeal={shareDeal}
             />
 
-            <div id="all-deals" className="h-1" />
             <div className="rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
               <div className="flex flex-col gap-3 lg:flex-row">
                 <SearchBar value={query} onChange={setQuery} />

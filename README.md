@@ -5,6 +5,7 @@
 ## 핵심 기능
 
 - 상품명, 브랜드, 쇼핑몰, 카테고리, 태그, 혜택 요약 통합 검색
+- 홈 상단 빠른 상품 검색 패널과 URL query 기반 검색 상태 유지
 - 카테고리, 쇼핑몰, 혜택 유형, 가격대, 무료배송, 핫딜, 마감임박 필터
 - 검증된 실제 구매/신청 상세 URL 기반 `/go/[dealId]` 새 탭 이동
 - 찜, 최근 본 상품, 관심 카테고리, 가격 알림 준비 구조
@@ -34,7 +35,7 @@ npm run release:doctor
 
 ## 검색 동작 방식
 
-검색은 `lib/deals/search.ts`의 `dealMatchesSearch`를 웹 화면과 `/api/deals`가 함께 사용합니다. 한글 띄어쓰기 차이, 부분 검색, 브랜드/쇼핑몰/카테고리/태그/혜택 요약을 같은 기준으로 매칭하며, 홈 검색 상태는 URL query parameter로 유지됩니다.
+검색은 `lib/deals/search.ts`의 `dealMatchesSearch`를 웹 화면과 `/api/deals`가 함께 사용합니다. 한글 띄어쓰기 차이, 부분 검색, 브랜드/쇼핑몰/카테고리/태그/혜택 요약을 같은 기준으로 매칭하며, 홈 상단의 빠른 상품 검색 패널과 상세 필터 영역이 같은 상태를 공유합니다. 홈 검색 상태는 URL query parameter로 유지되며, 내부 `#` 앵커나 자동 스크롤 이동 없이 현재 화면에서 결과만 갱신합니다.
 
 예시:
 
@@ -60,3 +61,9 @@ npm run verify:links
 ```
 
 운영 피드는 `npm run feed:validate`와 `/api/admin/import` dry-run을 통과한 뒤 연결합니다.
+
+구매 이동 정책:
+
+- 상품 카드의 구매 CTA는 `/go/[dealId]` 추적 경로를 거친 뒤 새 탭 또는 앱 외부 브라우저로 열립니다.
+- `href="#"`, `javascript:void`, 쇼핑몰 검색 결과, 커뮤니티 글 URL은 노출 상품 링크로 등록하지 않습니다.
+- `npm run release:doctor`는 홈 화면에 자동 스크롤 기반 탐색이 다시 들어오지 않았는지 함께 검사합니다.

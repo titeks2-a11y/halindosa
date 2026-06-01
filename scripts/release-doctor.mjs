@@ -621,11 +621,16 @@ async function checkSearchAndPurchaseFlow() {
     !verifyLinks.includes("검색/카테고리 링크입니다") ||
     !verifyLinks.includes("커뮤니티 또는 placeholder") ||
     featured.includes('href="#all-deals"') ||
-    liveFeed.includes('href="#all-deals"')
+    liveFeed.includes('href="#all-deals"') ||
+    homePage.includes("scrollIntoView") ||
+    homePage.includes('getElementById("all-deals")') ||
+    homePage.includes('href="#all-deals"') ||
+    !homePage.includes("빠른 상품 검색") ||
+    !homePage.includes("상품 이동은 모두 새 탭")
   ) {
-    fail("purchase link new-tab guard", "Verified product link script and hash-free purchase discovery links should be present.");
+    fail("purchase link new-tab guard", "Verified product link script, top quick search, and scroll-free purchase discovery links should be present.");
   } else {
-    pass("purchase link new-tab guard", "Verified product link script is present and product discovery CTAs avoid hash-scroll links.");
+    pass("purchase link new-tab guard", "Verified product link script is present, top search is visible, and product discovery CTAs avoid hash-scroll links.");
   }
 }
 

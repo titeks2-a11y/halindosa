@@ -93,6 +93,9 @@ await check("home page", async () => {
   assert(text.includes("샤오미 86인치") || text.includes("새우깡"), "Home page missing initial deal cards");
   assert(text.includes("데이터 상태"), "Home page missing data quality summary");
   assert(text.includes("구매 전 판매처 확인"), "Home page missing purchase verification guidance");
+  assert(text.includes("빠른 상품 검색"), "Home page missing above-the-fold quick search panel");
+  assert(text.includes("상품명, 브랜드, 쇼핑몰, 카테고리 통합 검색"), "Home page missing integrated search guidance");
+  assert(text.includes("상품 이동은 모두 새 탭"), "Home page missing new-tab purchase movement guidance");
   assert(text.includes("판매처 확인"), "Home page deal cards missing visible seller confirmation CTA");
   assert(text.includes("상세 보기"), "Home page deal cards missing visible detail CTA");
   assert(text.includes("구매 전 체크"), "Home page deal cards missing compact purchase check summary");
