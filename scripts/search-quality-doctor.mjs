@@ -182,6 +182,21 @@ const requiredSearches = [
     query: "김자반",
     expected: /김자반|노브랜드|장보기|식품|마트/,
     minMatches: 1
+  },
+  {
+    query: "키친타월",
+    expected: /키친타월|키친타올|주방용품|생활필수|생활용품/,
+    minMatches: 1
+  },
+  {
+    query: "참치",
+    expected: /참치|참치캔|통조림|장보기|식품/,
+    minMatches: 1
+  },
+  {
+    query: "가글",
+    expected: /가글|리스테린|마우스워시|구강청결|생활필수/,
+    minMatches: 1
   }
 ];
 
@@ -271,7 +286,7 @@ const deals = extractDeals();
 const highIntentKeywords = extractHighIntentKeywords();
 const issues = [];
 
-if (!Array.isArray(searchAliases) || searchAliases.length < 35) {
+if (!Array.isArray(searchAliases) || searchAliases.length < 38) {
   issues.push("생활형 검색 alias 목록이 부족합니다.");
 }
 

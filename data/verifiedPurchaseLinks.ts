@@ -758,5 +758,35 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     checkedAt: "2026-06-02T05:20:00.000Z",
     source: "manual_review",
     evidence: "SSG닷컴 노브랜드 김자반 60g 상품 상세"
+  },
+  d126: {
+    url: "https://www.coupang.com/vp/products/169280610?itemId=18366710784&vendorItemId=85510322367",
+    checkedAt: "2026-06-02T06:30:00.000Z",
+    source: "manual_review",
+    evidence: "쿠팡 코멧 깨끗한 천연펄프 키친타월 150매 16개 상품 상세"
+  },
+  d127: {
+    url: "https://item.gmarket.co.kr/Item?goodscode=2349292374",
+    checkedAt: "2026-06-02T06:30:00.000Z",
+    source: "manual_review",
+    evidence: "G마켓 동원 EPA참치 150g x 10캔 상품 상세"
+  },
+  d128: {
+    url: "https://www.11st.co.kr/products/8716931635",
+    checkedAt: "2026-06-02T06:30:00.000Z",
+    source: "manual_review",
+    evidence: "11번가 리스테린 쿨민트 마우스워시 750ml 2개 상품 상세"
+  },
+  d129: {
+    url: "https://www.ssg.com/item/itemView.ssg?itemId=2097001847275",
+    checkedAt: "2026-06-02T06:30:00.000Z",
+    source: "manual_review",
+    evidence: "SSG닷컴 리벤스 오리지널 소프트 저자극 물티슈 캡형 100매 10팩 상품 상세"
+  },
+  d130: {
+    url: "https://www.coupang.com/vp/products/8286305822",
+    checkedAt: "2026-06-02T06:30:00.000Z",
+    source: "manual_review",
+    evidence: "쿠팡 국산 세이프크린 KF94 대형 마스크 100매 상품 상세"
   }
 };

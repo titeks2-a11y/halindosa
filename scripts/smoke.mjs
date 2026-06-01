@@ -201,6 +201,7 @@ await check("home page", async () => {
   assert(text.includes("라면") && text.includes("햇반"), "Home page missing high-intent grocery search suggestions");
   assert(text.includes("계란") && text.includes("우유") && text.includes("충전케이블"), "Home page missing practical grocery/electronics search suggestions");
   assert(text.includes("화장지") && text.includes("청소포") && text.includes("김자반"), "Home page missing newly expanded catalog search suggestions");
+  assert(text.includes("키친타월") && text.includes("참치") && text.includes("가글"), "Home page missing practical household and grocery search suggestions");
   assert(text.includes("많은 판매처") && text.includes("최대 할인") && text.includes("낮은 현재가") && text.includes("마감 임박"), "Home page missing compact search result snapshot");
   assert(text.includes("검색 결과 추천 판단") && text.includes("먼저 볼 기준"), "Home page missing search decision guide");
   assert(text.includes("현재 결과"), "Home page missing search result count summary");
@@ -653,7 +654,10 @@ await check("deals filters api", async () => {
     ["멀티탭", /멀티탭|절전형|콘센트|생활용품|디지털/],
     ["화장지", /화장지|휴지|두루마리|생활필수|생활용품/],
     ["청소포", /청소포|물걸레|청소용품|생활필수|생활용품/],
-    ["김자반", /김자반|노브랜드|장보기|식품|마트/]
+    ["김자반", /김자반|노브랜드|장보기|식품|마트/],
+    ["키친타월", /키친타월|키친타올|주방용품|생활필수|생활용품/],
+    ["참치", /참치|참치캔|통조림|장보기|식품/],
+    ["가글", /가글|리스테린|마우스워시|구강청결|생활필수/]
   ];
 
   for (const [keyword, expectedPattern] of productIntentSearches) {
@@ -738,11 +742,11 @@ await check("deal link integrity", async () => {
   const { response, data } = await fetchJson("/api/deals?limit=150&sort=latest");
   assert(response.status === 200, `Expected 200, got ${response.status}`);
   assert(data.ok === true, "Deals API ok should be true");
-  assert(data.deals.length >= 125, `Expected at least 125 deals, got ${data.deals.length}`);
+  assert(data.deals.length >= 130, `Expected at least 130 deals, got ${data.deals.length}`);
   const verifiedDirectLinks = data.deals.filter((deal) => deal.linkStatus === "verified" && deal.linkType !== "seller_search");
   const verifiedDirectRate = Math.round((verifiedDirectLinks.length / data.deals.length) * 100);
   assert(
-    verifiedDirectLinks.length >= 125 && verifiedDirectRate >= 100,
+    verifiedDirectLinks.length >= 130 && verifiedDirectRate >= 100,
     `verified direct seller/product link coverage too low: ${verifiedDirectLinks.length}/${data.deals.length} (${verifiedDirectRate}%)`
   );
 
@@ -921,7 +925,7 @@ await check("verified direct purchase link coverage", async () => {
   const { response, data } = await fetchJson("/api/deals?verifiedOnly=true&limit=150&sort=hot");
   assert(response.status === 200, `Expected 200, got ${response.status}`);
   assert(data.ok === true, "Verified deals API ok should be true");
-  assert(data.deals.length >= 125, `Expected all 125 curated deals to be verified direct seller/product deals, got ${data.deals.length}`);
+  assert(data.deals.length >= 130, `Expected all 130 curated deals to be verified direct seller/product deals, got ${data.deals.length}`);
   assert(
     data.deals.every((deal) => deal.linkStatus === "verified" && deal.linkVerified && deal.purchaseLinkVerified && deal.finalPurchaseUrl),
     "Verified-only API returned a deal without a reviewed direct product URL"
@@ -1434,7 +1438,12 @@ await check("seller search redirect fallbacks", async () => {
     ["d122", "gmarket.co.kr"],
     ["d123", "11st.co.kr"],
     ["d124", "oliveyoung.co.kr"],
-    ["d125", "ssg.com"]
+    ["d125", "ssg.com"],
+    ["d126", "coupang.com"],
+    ["d127", "gmarket.co.kr"],
+    ["d128", "11st.co.kr"],
+    ["d129", "ssg.com"],
+    ["d130", "coupang.com"]
   ];
 
   for (const [dealId, expectedHost] of cases) {
