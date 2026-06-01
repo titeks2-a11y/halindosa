@@ -854,6 +854,8 @@ await check("detail purchase consent guard", async () => {
   assert(text.includes("회원가입 필요 여부"), "Detail page missing signup benefit condition");
   assert(text.includes("배송비 여부"), "Detail page missing shipping fee benefit condition");
   assert(text.includes("쿠폰 조건"), "Detail page missing coupon benefit condition");
+  assert(text.includes("혜택 받기 전 3단계") && text.includes("조건 확인부터 신고까지 한 흐름으로 봅니다"), "Detail page missing benefit claim flow steps");
+  assert(text.includes("조건 먼저 보기") && text.includes("판매처에서 최종 확인") && text.includes("다르면 바로 신고"), "Detail page missing benefit claim flow actions");
   assert(text.includes("혜택 신고"), "Detail page missing benefit report condition");
   assert(text.includes("구매 전 10초 체크"), "Detail page missing purchase safety checklist");
   assert(text.includes("구매 정보 확인 요약"), "Detail page missing purchase readiness summary");

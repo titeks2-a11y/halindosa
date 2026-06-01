@@ -756,8 +756,13 @@ async function checkUiAccessibility() {
     !benefitConditionChecklist.includes("회원가입 필요 여부") ||
     !benefitConditionChecklist.includes("배송비 여부") ||
     !benefitConditionChecklist.includes("쿠폰 조건") ||
+    !benefitConditionChecklist.includes("claimFlowSteps") ||
+    !benefitConditionChecklist.includes("혜택 받기 전 3단계") ||
+    !benefitConditionChecklist.includes("조건 확인부터 신고까지 한 흐름으로 봅니다") ||
+    !benefitConditionChecklist.includes("판매처에서 최종 확인") ||
     !benefitConditionChecklist.includes("혜택 신고") ||
-    !smoke.includes("Detail page missing benefit condition checklist")
+    !smoke.includes("Detail page missing benefit condition checklist") ||
+    !smoke.includes("Detail page missing benefit claim flow steps")
   ) {
     fail("benefit condition checklist", "Deal detail should explain freebie, coupon, shipping, signup, first-come, and report conditions before users claim a benefit.");
   } else {

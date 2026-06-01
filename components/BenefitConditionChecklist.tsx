@@ -65,6 +65,23 @@ export function BenefitConditionChecklist({ deal }: BenefitConditionChecklistPro
       tone: deal.reportCount > 0 ? "border-amber-100 bg-amber-50 text-amber-900" : "border-emerald-100 bg-emerald-50 text-emerald-900"
     }
   ];
+  const claimFlowSteps = [
+    {
+      title: "조건 먼저 보기",
+      body: `${signupLabel} · ${shippingLabel}`,
+      tone: "bg-white"
+    },
+    {
+      title: "판매처에서 최종 확인",
+      body: `${deal.claimCta || "판매처 확인"} 전 가격, 배송비, 쿠폰 적용 여부 확인`,
+      tone: "bg-white"
+    },
+    {
+      title: "다르면 바로 신고",
+      body: "종료, 품절, 링크 오류는 운영 점검 우선순위에 반영",
+      tone: "bg-white"
+    }
+  ];
 
   return (
     <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm" aria-label="혜택 조건 확인">
@@ -96,6 +113,29 @@ export function BenefitConditionChecklist({ deal }: BenefitConditionChecklistPro
             </div>
           );
         })}
+      </div>
+
+      <div className="mt-4 rounded-2xl border border-red-100 bg-red-50 p-3" aria-label="혜택 받기 전 3단계">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="text-xs font-black text-dossa-red">혜택 받기 전 3단계</p>
+            <p className="mt-1 text-sm font-black text-slate-950">조건 확인부터 신고까지 한 흐름으로 봅니다</p>
+          </div>
+          <span className="w-fit rounded-full bg-white px-3 py-1 text-xs font-black text-dossa-red shadow-sm">
+            비회원도 전체 확인 가능
+          </span>
+        </div>
+        <div className="mt-3 grid gap-2 md:grid-cols-3">
+          {claimFlowSteps.map((step, index) => (
+            <div key={step.title} className={`rounded-2xl p-3 shadow-sm ${step.tone}`}>
+              <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-dossa-red text-xs font-black text-white">
+                {index + 1}
+              </span>
+              <p className="mt-2 text-xs font-black text-slate-950">{step.title}</p>
+              <p className="mt-1 text-[11px] font-bold leading-5 text-slate-500">{step.body}</p>
+            </div>
+          ))}
+        </div>
       </div>
 
       <div className="mt-4 flex flex-col gap-2 rounded-2xl bg-slate-50 p-3 sm:flex-row sm:items-center sm:justify-between">
