@@ -1339,6 +1339,10 @@ async function checkOperationalDataSurfaces() {
     !notificationsPage.includes("아침 9시") ||
     !notificationsPage.includes("마감 전 22시") ||
     !notificationsPage.includes("buildTodayBenefitQueue") ||
+    !notificationsPage.includes("buildBenefitDecisionGuide") ||
+    !notificationsPage.includes("알림 혜택 판단표") ||
+    !notificationsPage.includes("오늘 먼저 열어볼 알림을 4가지로 좁혔습니다") ||
+    !notificationsPage.includes("판단표 API 보기") ||
     !notificationsPage.includes("API 기준 오늘 혜택 큐") ||
     !notificationsPage.includes("비회원 기준 혜택 큐") ||
     !notificationsPage.includes("오늘 알림 큐") ||
@@ -1359,6 +1363,8 @@ async function checkOperationalDataSurfaces() {
     !notificationsPage.includes("알림 기준 보기") ||
     !smoke.includes("Notifications page missing non-member alert condition board") ||
     !smoke.includes("Notifications page missing shared today benefit API queue") ||
+    !smoke.includes("Notifications page missing shared benefit decision guide") ||
+    !smoke.includes("Notifications page missing decision guide API action") ||
     !smoke.includes("Notifications page missing alert action routine") ||
     !smoke.includes("Notifications page missing alert time routine") ||
     !smoke.includes("Notifications page missing interest alert action cards") ||

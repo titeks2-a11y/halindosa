@@ -8,6 +8,7 @@ import { NotificationPreferences } from "@/components/NotificationPreferences";
 import { PriceAlertList } from "@/components/PriceAlertList";
 import { getDeals } from "@/lib/dealService";
 import { getBenefitTypeLabel } from "@/lib/deals/benefits";
+import { buildBenefitDecisionGuide } from "@/lib/deals/benefitDecisionGuide";
 import { buildTodayBenefitQueue, DailyBenefitSectionKey } from "@/lib/deals/todayBenefitQueue";
 import { getRelativeTime, getTimeLeft } from "@/lib/format";
 import { Deal, DealBenefitType } from "@/types/deal";
@@ -43,6 +44,7 @@ export default async function NotificationsPage() {
   const newDeals = deals.filter((deal) => deal.isNew);
   const freeShippingDeals = deals.filter((deal) => deal.isFreeShipping);
   const todayBenefitQueue = buildTodayBenefitQueue(deals, 3);
+  const benefitDecisionGuide = buildBenefitDecisionGuide(deals);
   const freeBenefitDeals = selectBenefitQueue(deals, ["freebie", "experience"]);
   const couponPointDeals = selectBenefitQueue(deals, ["coupon", "point", "foodDelivery"]);
   const endingBenefitDeals = [...deals]
@@ -83,6 +85,12 @@ export default async function NotificationsPage() {
     "mart-convenience": Truck,
     "ending-soon": Clock,
     "verified-purchase": Flame
+  };
+  const decisionGuideIcons = {
+    free: Gift,
+    coupon: TicketPercent,
+    endingSoon: Clock,
+    verified: Flame
   };
   const readinessSteps = [
     { title: "앱 안에서 먼저 확인", description: "마감, 인기, 신규, 무료배송 특가를 권한 요청 없이 이 화면에서 정리합니다." },
@@ -252,6 +260,51 @@ export default async function NotificationsPage() {
       <ClaimedBenefitAlertSummary deals={deals} />
       <BenefitReturnReservationList />
       <InterestAlertPreview deals={deals} />
+
+      <section className="rounded-[22px] border border-red-100 bg-white p-4 shadow-sm lg:p-5" aria-label="알림 혜택 판단표">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-xs font-black text-dossa-red">알림 혜택 판단표</p>
+            <h2 className="mt-1 text-base font-black text-slate-950">오늘 먼저 열어볼 알림을 4가지로 좁혔습니다</h2>
+            <p className="mt-1 text-sm font-semibold leading-6 text-slate-500">
+              홈과 같은 기준으로 무료 수령, 결제 전 쿠폰, 마감 혜택, 구매처 확인 상품을 권한 요청 없이 바로 고릅니다.
+            </p>
+          </div>
+          <Link href="/api/benefits/decision-guide" className="rounded-2xl bg-red-50 px-4 py-3 text-center text-xs font-black text-dossa-red">
+            판단표 API 보기
+          </Link>
+        </div>
+        <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+          {benefitDecisionGuide.map((item) => {
+            const Icon = decisionGuideIcons[item.id];
+
+            return (
+              <Link
+                key={item.id}
+                href={item.href}
+                className="min-h-[156px] rounded-3xl border border-slate-100 bg-slate-50 p-4 transition hover:-translate-y-0.5 hover:border-red-200 hover:bg-red-50"
+              >
+                <span className="flex items-start justify-between gap-3">
+                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-white text-dossa-red shadow-sm">
+                    <Icon size={18} />
+                  </span>
+                  <span className="rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-dossa-red shadow-sm">
+                    {item.value}
+                  </span>
+                </span>
+                <span className="mt-4 block text-sm font-black text-slate-950">{item.title}</span>
+                <span className="mt-1 line-clamp-3 block text-xs font-semibold leading-5 text-slate-500">{item.copy}</span>
+                <span className="mt-3 inline-flex rounded-full bg-slate-950 px-3 py-1.5 text-xs font-black text-white">
+                  {item.action}
+                </span>
+              </Link>
+            );
+          })}
+        </div>
+        <p className="mt-4 rounded-2xl bg-red-50 px-4 py-3 text-xs font-bold leading-5 text-dossa-deep">
+          비회원도 모든 알림 후보를 볼 수 있습니다. 찜 동기화, 가격 알림 저장, 관심 카테고리 계정 저장만 선택 로그인이 필요합니다.
+        </p>
+      </section>
 
       <section className="rounded-[22px] border border-red-100 bg-white p-4 shadow-sm lg:p-5" aria-label="API 기준 오늘 혜택 큐">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">

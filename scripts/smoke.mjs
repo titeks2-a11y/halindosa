@@ -421,6 +421,9 @@ await check("category and notification pages", async () => {
   assert(notificationsText.includes("알림 개인화 추천 API") && notificationsText.includes("개인화 API 보기"), "Notifications page missing reusable personalized recommendation API card");
   assert(notificationsText.includes("관심 알림 실행 카드"), "Notifications page missing interest alert action cards");
   assert(notificationsText.includes("무료·체험 먼저") && notificationsText.includes("쿠폰·포인트 챙기기") && notificationsText.includes("마감 전 확인"), "Notifications page missing personalized alert action steps");
+  assert(notificationsText.includes("알림 혜택 판단표") && notificationsText.includes("오늘 먼저 열어볼 알림을 4가지로 좁혔습니다"), "Notifications page missing shared benefit decision guide");
+  assert(notificationsText.includes("판단표 API 보기") && notificationsText.includes("무료 수령, 결제 전 쿠폰, 마감 혜택, 구매처 확인 상품"), "Notifications page missing decision guide API action");
+  assert(notificationsText.includes("돈 안 쓰고 받을 것") && notificationsText.includes("구매처가 확인된 것"), "Notifications page missing decision guide cards");
   assert(notificationsText.includes("실제 푸시 발송은 FCM 연결 후 별도 동의"), "Notifications page missing push readiness copy");
   assert(
     notificationsText.includes("오늘 알림 시간표") &&
