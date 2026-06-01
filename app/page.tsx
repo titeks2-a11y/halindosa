@@ -35,6 +35,7 @@ import { readBenefitReturnReservations } from "@/lib/benefitReturnReservations";
 import { readBenefitVisitStreak } from "@/lib/benefitVisitStreak";
 import { readClaimedBenefits } from "@/lib/claimedBenefits";
 import { buildDailyBenefitBriefing } from "@/lib/deals/dailyBenefitBriefing";
+import { buildDailyRoutinePlan } from "@/lib/deals/dailyRoutinePlan";
 import { getLinkQualityScore, isVerifiedPurchaseLink } from "@/lib/deals/quality";
 import { formatPrice, getRelativeTime } from "@/lib/format";
 import { buildDealRedirectUrl, buildNativeSafeDealUrl } from "@/lib/redirectUrl";
@@ -1382,6 +1383,7 @@ export default function Home() {
     ];
   }, [catalog, deals]);
   const dailyBenefitBriefing = useMemo(() => buildDailyBenefitBriefing(catalog.length ? catalog : deals, new Date(), 3), [catalog, deals]);
+  const dailyRoutinePlan = useMemo(() => buildDailyRoutinePlan(catalog.length ? catalog : deals, 2), [catalog, deals]);
 
   const searchPurposeCards = useMemo(() => {
     const source = catalog.length ? catalog : deals;
@@ -1682,9 +1684,14 @@ export default function Home() {
                     이번 주 혜택 캘린더에서 오늘 먼저 챙길 루틴을 골랐습니다. 비회원도 전체 혜택을 볼 수 있고, 저장 기능만 선택 로그인으로 이어집니다.
                   </p>
                 </div>
-                <Link href="/api/benefits/briefing?limit=3" className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-2xl bg-slate-950 px-4 text-sm font-black text-white">
-                  브리핑 API 보기
-                </Link>
+                <div className="grid shrink-0 gap-2 sm:grid-cols-2 lg:grid-cols-1">
+                  <Link href="/api/benefits/briefing?limit=3" className="inline-flex min-h-11 items-center justify-center rounded-2xl bg-slate-950 px-4 text-sm font-black text-white">
+                    브리핑 API 보기
+                  </Link>
+                  <Link href="/api/benefits/routine?limit=2" className="inline-flex min-h-11 items-center justify-center rounded-2xl bg-red-50 px-4 text-sm font-black text-dossa-red">
+                    루틴 API 보기
+                  </Link>
+                </div>
               </div>
               <div className="mt-4 grid gap-3 lg:grid-cols-[1.2fr_1fr]">
                 <div className="rounded-3xl bg-red-50 p-4">
@@ -1722,6 +1729,26 @@ export default function Home() {
                     <p className="mt-1 text-sm font-black text-slate-950">가입 없이 전체 혜택 확인</p>
                     <p className="mt-1 text-xs font-bold leading-5 text-slate-500">{dailyBenefitBriefing.notice}</p>
                   </div>
+                </div>
+              </div>
+              <div className="mt-3 rounded-3xl border border-red-100 bg-white p-4">
+                <div className="flex items-center justify-between gap-3">
+                  <div>
+                    <p className="text-xs font-black text-dossa-red">{dailyRoutinePlan.title}</p>
+                    <p className="mt-1 text-xs font-bold leading-5 text-slate-500">{dailyRoutinePlan.description}</p>
+                  </div>
+                  <span className="shrink-0 rounded-full bg-red-50 px-2.5 py-1 text-[11px] font-black text-dossa-red">
+                    실행 {dailyRoutinePlan.summary.actionableSteps}단계
+                  </span>
+                </div>
+                <div className="mt-3 grid gap-2 sm:grid-cols-3">
+                  {dailyRoutinePlan.steps.slice(0, 3).map((step) => (
+                    <Link key={step.id} href={step.href} className="rounded-2xl bg-slate-50 px-3 py-2 transition hover:bg-red-50">
+                      <span className="block text-[11px] font-black text-dossa-red">{step.primaryAction}</span>
+                      <span className="mt-1 block line-clamp-1 text-xs font-black text-slate-950">{step.title}</span>
+                      <span className="mt-1 block text-[11px] font-bold text-slate-500">{step.count}개 · {step.doneSignal}</span>
+                    </Link>
+                  ))}
                 </div>
               </div>
             </section>

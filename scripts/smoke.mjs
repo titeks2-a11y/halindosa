@@ -135,6 +135,7 @@ await check("home page", async () => {
   assert(text.includes("무료 혜택 먼저") && text.includes("쿠폰·포인트 적용") && text.includes("배송비 줄이기") && text.includes("구매처 바로 이동"), "Home page missing compressed benefit queue actions");
   assert(text.includes("오늘 혜택 브리핑") && text.includes("이번 주 혜택 캘린더에서 오늘 먼저 챙길 루틴"), "Home page missing daily benefit briefing");
   assert(text.includes("브리핑 API 보기") && text.includes("오늘 대표 큐") && text.includes("가입 없이 전체 혜택 확인"), "Home page missing daily briefing actions");
+  assert(text.includes("루틴 API 보기") && text.includes("오늘 3분 혜택 루틴") && text.includes("실행") && text.includes("단계"), "Home page missing daily routine API and step summary");
   assert(text.includes("품질 안내"), "Home page missing deal quality notice");
   assert(text.includes("무료혜택 TOP 5") && text.includes("쿠폰·앱테크 TOP 5"), "Home page missing free coupon top ranking section");
   assert(
@@ -824,6 +825,19 @@ await check("daily benefit briefing api", async () => {
   assert(data.briefing?.todayCalendar?.operationNote, "Daily benefit briefing missing today calendar operation note");
   assert(data.briefing?.primarySection?.items?.length <= 3, "Daily benefit briefing should respect limit");
   assert(data.briefing?.quickActions?.some((action) => action.href === "/free-benefits"), "Daily benefit briefing missing free benefit action");
+});
+
+await check("daily benefit routine api", async () => {
+  const { response, data } = await fetchJson("/api/benefits/routine?limit=2");
+  assert(response.status === 200, `Expected 200, got ${response.status}`);
+  assert(data.ok === true, "Daily benefit routine API ok should be true");
+  assert(data.routine?.audience === "guest", "Daily benefit routine should keep guest access");
+  assert(data.routine?.title === "오늘 3분 혜택 루틴", "Daily benefit routine missing title");
+  assert(data.routine?.summary?.actionableSteps >= 3, "Daily benefit routine should expose actionable steps");
+  assert(Array.isArray(data.routine?.steps) && data.routine.steps.length === 5, "Daily benefit routine should include five steps");
+  assert(data.routine.steps.some((step) => step.id === "free" && step.href.includes("/free-benefits")), "Daily benefit routine missing free mission");
+  assert(data.routine.steps.every((step) => step.items.length <= 2 && step.primaryAction && step.doneSignal), "Daily benefit routine should respect limit and expose action metadata");
+  assert(String(data.routine.notice ?? "").includes("선택 로그인"), "Daily benefit routine missing optional login notice");
 });
 
 await check("metrics api", async () => {
