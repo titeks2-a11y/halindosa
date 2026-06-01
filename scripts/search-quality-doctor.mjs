@@ -136,6 +136,36 @@ const requiredSearches = [
     query: "유산균",
     expected: /유산균|락토핏|프로바이오틱스|건강식품|영양제/,
     minMatches: 1
+  },
+  {
+    query: "계란",
+    expected: /계란|달걀|무항생제|특란|식품/,
+    minMatches: 1
+  },
+  {
+    query: "우유",
+    expected: /우유|멸균우유|신선식품|로켓프레시|식품/,
+    minMatches: 1
+  },
+  {
+    query: "닭가슴살",
+    expected: /닭가슴살|단백질|냉동|간편식|식품/,
+    minMatches: 1
+  },
+  {
+    query: "마스크",
+    expected: /마스크|KF94|황사방역|생활필수|생활용품/i,
+    minMatches: 1
+  },
+  {
+    query: "충전케이블",
+    expected: /USB-C|충전 케이블|100W|케이블|디지털/i,
+    minMatches: 1
+  },
+  {
+    query: "멀티탭",
+    expected: /멀티탭|절전형|콘센트|생활용품|디지털/,
+    minMatches: 1
   }
 ];
 
@@ -218,7 +248,7 @@ function dealMatchesSearchText(searchText, query) {
 const deals = extractDeals();
 const issues = [];
 
-if (!Array.isArray(searchAliases) || searchAliases.length < 26) {
+if (!Array.isArray(searchAliases) || searchAliases.length < 32) {
   issues.push("생활형 검색 alias 목록이 부족합니다.");
 }
 

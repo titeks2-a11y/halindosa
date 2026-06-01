@@ -196,6 +196,7 @@ await check("home page", async () => {
   assert(text.includes("검색어 빠른 초기화 지원"), "Home page missing fast search reset accessibility hint");
   assert(text.includes("로켓") && text.includes("배달쿠폰") && text.includes("커피쿠폰"), "Home page missing high-intent lifestyle search suggestions");
   assert(text.includes("라면") && text.includes("햇반"), "Home page missing high-intent grocery search suggestions");
+  assert(text.includes("계란") && text.includes("우유") && text.includes("충전케이블"), "Home page missing practical grocery/electronics search suggestions");
   assert(text.includes("많은 판매처") && text.includes("최대 할인") && text.includes("낮은 현재가") && text.includes("마감 임박"), "Home page missing compact search result snapshot");
   assert(text.includes("검색 결과 추천 판단") && text.includes("먼저 볼 기준"), "Home page missing search decision guide");
   assert(text.includes("현재 결과"), "Home page missing search result count summary");
@@ -628,7 +629,13 @@ await check("deals filters api", async () => {
     ["햇반", /햇반|즉석밥|간편식|식품/],
     ["세제", /세제|주방세제|섬유유연제|생활필수|생활용품/],
     ["선크림", /선크림|뷰티|올리브영/],
-    ["유산균", /유산균|락토핏|프로바이오틱스|건강식품|영양제/]
+    ["유산균", /유산균|락토핏|프로바이오틱스|건강식품|영양제/],
+    ["계란", /계란|달걀|무항생제|특란|식품/],
+    ["우유", /우유|멸균우유|신선식품|로켓프레시|식품/],
+    ["닭가슴살", /닭가슴살|단백질|냉동|간편식|식품/],
+    ["마스크", /마스크|KF94|황사방역|생활필수|생활용품/i],
+    ["충전케이블", /USB-C|충전 케이블|100W|케이블|디지털/i],
+    ["멀티탭", /멀티탭|절전형|콘센트|생활용품|디지털/]
   ];
 
   for (const [keyword, expectedPattern] of productIntentSearches) {

@@ -9,7 +9,7 @@ interface SearchBarProps {
 }
 
 export function SearchBar({ value, onChange, suggestions = [], resultCount, onSelectSuggestion }: SearchBarProps) {
-  const uniqueSuggestions = suggestions.filter((keyword, index) => keyword && suggestions.indexOf(keyword) === index).slice(0, 8);
+  const uniqueSuggestions = suggestions.filter((keyword, index) => keyword && suggestions.indexOf(keyword) === index).slice(0, 24);
 
   return (
     <div className="flex-1">
