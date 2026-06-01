@@ -146,7 +146,7 @@ const toastMessages = [
   "🛒 오늘만 진행되는 쿠폰 특가를 확인해보세요."
 ];
 const recentSearchStorageKey = "halindosa:recent-search-keywords";
-const highIntentSearchKeywords = ["로켓", "지마켓", "배달쿠폰", "커피쿠폰", "영화무료", "생수", "물티슈", "기저귀"];
+const highIntentSearchKeywords = ["로켓", "지마켓", "배달쿠폰", "치킨쿠폰", "커피쿠폰", "무료커피", "영화무료", "패션", "우산", "생수", "물티슈", "기저귀"];
 
 function readRecentSearchKeywords() {
   if (typeof window === "undefined") return [];

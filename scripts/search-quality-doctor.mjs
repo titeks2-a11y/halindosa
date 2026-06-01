@@ -91,6 +91,26 @@ const requiredSearches = [
     query: "치약",
     expected: /치약|샴푸|생활필수|생활용품|오늘출발/,
     minMatches: 3
+  },
+  {
+    query: "패션",
+    expected: /의류|패션|티셔츠|반팔|브랜드|무신사/,
+    minMatches: 5
+  },
+  {
+    query: "우산",
+    expected: /우산|장우산|장마|비오는날/,
+    minMatches: 1
+  },
+  {
+    query: "치킨쿠폰",
+    expected: /치킨|BHC|외식할인|치킨쿠폰/,
+    minMatches: 1
+  },
+  {
+    query: "무료커피",
+    expected: /커피|무료커피|커피무료|무료 쿠폰|메가MGC커피|스타벅스|사이즈업/,
+    minMatches: 4
   }
 ];
 
@@ -116,7 +136,7 @@ function getTokenAlternatives(token) {
     const keyMatched = alias.keys.some((key) => {
       const normalizedKey = normalizeSearchText(key);
       const compactKey = compactSearchText(normalizedKey);
-      return normalizedToken === normalizedKey || compactToken === compactKey || compactToken.includes(compactKey);
+      return normalizedToken === normalizedKey || compactToken === compactKey;
     });
 
     if (keyMatched) {
@@ -173,7 +193,7 @@ function dealMatchesSearchText(searchText, query) {
 const deals = extractDeals();
 const issues = [];
 
-if (!Array.isArray(searchAliases) || searchAliases.length < 17) {
+if (!Array.isArray(searchAliases) || searchAliases.length < 21) {
   issues.push("생활형 검색 alias 목록이 부족합니다.");
 }
 

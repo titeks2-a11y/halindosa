@@ -25,7 +25,7 @@ function getTokenAlternatives(token: string) {
     const keyMatched = alias.keys.some((key) => {
       const normalizedKey = normalizeSearchText(key);
       const compactKey = compactSearchText(normalizedKey);
-      return normalizedToken === normalizedKey || compactToken === compactKey || compactToken.includes(compactKey);
+      return normalizedToken === normalizedKey || compactToken === compactKey;
     });
 
     if (keyMatched) {
