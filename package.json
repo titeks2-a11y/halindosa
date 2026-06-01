@@ -25,6 +25,7 @@
     "feed:production:doctor": "node scripts/production-feed-doctor.mjs",
     "verify:links": "node scripts/verify-product-links.mjs",
     "catalog:doctor": "node scripts/catalog-quality-doctor.mjs",
+    "catalog:report": "node scripts/catalog-quality-report.mjs",
     "search:doctor": "node scripts/search-quality-doctor.mjs",
     "purchase:navigation:doctor": "node scripts/purchase-navigation-doctor.mjs",
     "home:url-state:doctor": "node scripts/home-url-state-doctor.mjs",

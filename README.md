@@ -35,6 +35,7 @@ npm run dev
 ```bash
 npm run verify:links
 npm run catalog:doctor
+npm run catalog:report
 npm run search:doctor
 npm run purchase:navigation:doctor
 npm run detail:navigation:doctor
@@ -115,6 +116,8 @@ npm run catalog:doctor
 ```
 
 `catalog:doctor`는 전체 상품 수 110개 이상, 필수 카테고리, 판매처 다양성, 무료/쿠폰/이벤트성 혜택 수, 검증 구매 링크 커버리지를 함께 검사합니다. 상품 수를 늘릴 때는 이 게이트를 통과해야 홈 탐색 품질이 유지됩니다.
+
+`npm run catalog:report`는 [docs/catalog-quality-report.md](docs/catalog-quality-report.md)에 카테고리, 혜택 유형, 판매처, 구매 도메인, 할인율/절약액 상위 상품, 다음 보강 우선순위를 기록합니다. 새 상품을 대량 추가하기 전후에 실행하면 특정 카테고리나 판매처 쏠림을 바로 확인할 수 있습니다.
 
 구매 이동 검증:
 

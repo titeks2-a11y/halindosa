@@ -644,6 +644,7 @@ async function checkSearchAndPurchaseFlow() {
     !catalogDoctor.includes("minimums") ||
     !catalogDoctor.includes("requiredCategories") ||
     !catalogDoctor.includes("requiredDealTypes") ||
+    !packageJson.includes("catalog:report") ||
     !purchaseNavigationDoctor.includes("window.open(redirectUrl") ||
     !purchaseNavigationDoctor.includes("buildNativeSafeDealUrl") ||
     !purchaseNavigationDoctor.includes("Browser.open") ||
@@ -2498,6 +2499,11 @@ async function checkPolicyAndStoreDocs() {
       name: "link coverage report content",
       file: "docs/link-coverage-report.md",
       phrases: ["구매 링크 커버리지 보고서", "검증된 실제 구매 상세 URL", "판매처별 현황", "보강 대기 상품", "검색 결과 URL을 실제 구매 상세 링크처럼 꾸미지"]
+    },
+    {
+      name: "catalog quality report content",
+      file: "docs/catalog-quality-report.md",
+      phrases: ["상품 DB 품질 보고서", "카테고리 분포", "혜택 유형 분포", "판매처 상위 20개", "다음 상품 보강 우선순위"]
     }
   ];
 

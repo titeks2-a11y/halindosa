@@ -84,6 +84,7 @@ SMOKE_BASE_URL=https://example.com npm run smoke
 - 검증 스크립트는 커뮤니티, placeholder, 쇼핑몰 메인, 검색/카테고리 URL을 실패로 처리한다.
 - 검증 스크립트는 상품 상세 URL과 공식 혜택/이벤트 URL을 분리해 집계한다. 상품 상세 신호가 없는 공식 이벤트성 혜택은 evidence에 공식 이벤트, 쿠폰, 초대권, 멤버십 등 검수 근거가 있어야 통과한다.
 - `npm run catalog:doctor`는 전체 상품 수 90개 이상, 판매처 수, 필수 카테고리, 혜택 유형, 검증 구매 링크 커버리지를 함께 검사한다.
+- `npm run catalog:report`는 `docs/catalog-quality-report.md`를 갱신한다. 상품을 대량 추가한 뒤 이 보고서에서 카테고리 5개 미만 영역, 혜택 유형 5개 미만 영역, 판매처/도메인 쏠림을 확인한다.
 - 신규 상품을 많이 추가한 뒤 `catalog:doctor`가 실패하면 상품 수만 늘린 것이 아니라 카테고리/혜택/판매처 균형이 무너진 것이므로 운영 피드를 다시 조정한다.
 - `npm run purchase:navigation:doctor`는 홈, 상세, 찜, 무료혜택 화면의 구매 CTA가 `/go/[dealId]`를 거쳐 웹 새 탭 또는 Capacitor Browser로 열리는지 검사한다.
 - `npm run detail:navigation:doctor`는 상품 카드, 최근 본 상품, 찜/알림/무료혜택 등 고객이 누르는 특가 상세 링크가 현재 화면을 빼앗지 않고 새 탭으로 열리며 `noopener noreferrer`를 유지하는지 검사한다.
