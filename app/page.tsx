@@ -1349,6 +1349,35 @@ export default function Home() {
     ],
     [activeFilterLabels.length, deals]
   );
+  const filterActionQueue = useMemo(() => {
+    const usedIds = new Set<string>();
+    const findDeal = (predicate: (deal: Deal) => boolean) => {
+      const found = deals.find((deal) => !usedIds.has(deal.id) && predicate(deal));
+      if (found) usedIds.add(found.id);
+      return found ?? null;
+    };
+
+    return [
+      {
+        label: "가장 안전한 이동",
+        title: "구매처가 확인된 혜택부터 보기",
+        helper: "검색 결과가 아닌 상세 이동 링크가 확인된 결과입니다.",
+        deal: findDeal((deal) => isVerifiedPurchaseLink(deal))
+      },
+      {
+        label: "돈 쓰기 전",
+        title: "무료·쿠폰 혜택 먼저 챙기기",
+        helper: "결제 전에 적용하거나 받을 수 있는 혜택을 먼저 봅니다.",
+        deal: findDeal((deal) => ["freebie", "experience", "coupon", "point", "foodDelivery"].includes(deal.dealType))
+      },
+      {
+        label: "오늘 확인",
+        title: "마감 전 놓치기 쉬운 혜택",
+        helper: "선착순, 기간 한정, 종료 가능성이 있는 결과입니다.",
+        deal: findDeal((deal) => deal.isEndingSoon || deal.isExpired)
+      }
+    ];
+  }, [deals]);
 
   const todayBenefitQueue = useMemo(() => {
     const source = catalog.length ? catalog : deals;
@@ -2429,6 +2458,39 @@ export default function Home() {
                       <p className="mt-1 line-clamp-2 text-[11px] font-bold leading-4 text-slate-500">{item.copy}</p>
                     </div>
                   ))}
+                </div>
+                <div className="mt-3 rounded-2xl bg-slate-50 p-3" aria-label="현재 결과 바로 실행 큐">
+                  <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+                    <div>
+                      <p className="text-xs font-black text-dossa-red">현재 결과 바로 실행 큐</p>
+                      <p className="mt-1 text-sm font-black text-slate-950">지금 조건에서 먼저 눌러볼 혜택을 골랐습니다</p>
+                    </div>
+                    <p className="text-xs font-bold leading-5 text-slate-500">비회원도 열람 가능 · 저장과 알림만 선택 로그인</p>
+                  </div>
+                  <div className="mt-3 grid gap-2 lg:grid-cols-3">
+                    {filterActionQueue.map((item) => (
+                      <button
+                        key={item.title}
+                        type="button"
+                        onClick={() => (item.deal ? openDeal(item.deal) : resetFilters())}
+                        className="min-h-[128px] rounded-3xl bg-white p-3 text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+                        aria-label={item.deal ? `${item.deal.title} 먼저 보기` : `${item.title} 조건 초기화`}
+                      >
+                        <span className="inline-flex rounded-full bg-red-50 px-2.5 py-1 text-[11px] font-black text-dossa-red">
+                          {item.label}
+                        </span>
+                        <span className="mt-3 block text-sm font-black leading-5 text-slate-950">
+                          {item.deal ? item.deal.title : item.title}
+                        </span>
+                        <span className="mt-1 block line-clamp-2 text-xs font-bold leading-5 text-slate-500">
+                          {item.deal ? `${item.deal.mallName} · ${item.deal.benefitSummary}` : item.helper}
+                        </span>
+                        <span className="mt-3 inline-flex rounded-2xl bg-slate-950 px-3 py-2 text-[11px] font-black text-white">
+                          {item.deal ? `${formatPrice(item.deal.salePrice)} 확인` : "전체 조건으로 다시 보기"}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
               <div className="mt-4 grid gap-2 text-sm font-bold text-slate-700 sm:grid-cols-4">

@@ -911,12 +911,16 @@ async function checkUiAccessibility() {
     !homePage.includes("현재 조건으로 볼 혜택") ||
     !homePage.includes("마감 전 확인") ||
     !homePage.includes("배송비 부담 낮음") ||
+    !homePage.includes("filterActionQueue") ||
+    !homePage.includes('aria-label="현재 결과 바로 실행 큐"') ||
+    !homePage.includes("지금 조건에서 먼저 눌러볼 혜택을 골랐습니다") ||
     !smoke.includes("Home page missing purpose quick benefit filters") ||
-    !smoke.includes("Home page missing filter outcome summary")
+    !smoke.includes("Home page missing filter outcome summary") ||
+    !smoke.includes("Home page missing filter action queue")
   ) {
-    fail("search filter accessibility", "Home filters should summarize purpose presets, result quality, purchase link readiness, deadline, and shipping outcomes.");
+    fail("search filter accessibility", "Home filters should summarize purpose presets, result quality, purchase link readiness, deadline, shipping outcomes, and next action queue.");
   } else {
-    pass("search filter accessibility", "Search, sort, category, mall, price, benefit type, purpose quick filters, and outcome summary controls expose accessible names and state.");
+    pass("search filter accessibility", "Search, sort, category, mall, price, benefit type, purpose quick filters, outcome summary, and next action queue controls expose accessible names and state.");
   }
 
     if (
