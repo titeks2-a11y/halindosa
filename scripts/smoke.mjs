@@ -227,6 +227,7 @@ await check("mypage data controls", async () => {
   assert(text.includes("관심 카테고리 조정") && text.includes("가격 알림 조건 확인"), "Mypage missing interest and alert routine actions");
   assert(text.includes("이번 주 혜택 루틴 기록") && text.includes("오늘 챙긴 혜택") && text.includes("홈에서 오늘 루틴 계속하기"), "Mypage missing weekly benefit routine record");
   assert(text.includes("오늘 챙김") && text.includes("누적 혜택") && text.includes("절약 후보"), "Mypage missing claimed benefit record summary");
+  assert(text.includes("절약 다이어리") && text.includes("다음 절약 행동"), "Mypage missing savings diary");
   assert(text.includes("비회원도 기기에 저장") && text.includes("가입해야만 볼 수 있는 혜택은 없습니다"), "Mypage missing non-member storage guidance");
   assert(text.includes("홈 화면에 할인도사 고정"), "Mypage missing app install guide");
   assert(text.includes("앱으로 설치하기") && text.includes("공유 링크 복사"), "Mypage missing install/share actions");
@@ -714,6 +715,7 @@ await check("free benefits page", async () => {
     "Free benefits page missing culture invitation benefit rail"
   );
   assert(text.includes("내가 챙긴 혜택 기록") && text.includes("오늘 실제로 챙긴 혜택을 남겨보세요") && text.includes("챙김"), "Free benefits page missing claimed benefit tracking");
+  assert(text.includes("절약 다이어리") && text.includes("다음 절약 행동"), "Free benefits page missing savings diary");
   assert(text.includes("무료혜택 개인화 이어보기") && text.includes("관심사와 찜 기록으로 다음 혜택") && text.includes("개인화 API 보기"), "Free benefits page missing personalized follow-up queue");
   assert(text.includes("챙긴 혜택 다음 방문 이어보기") && text.includes("오늘 기록을 기준으로 내일 볼 혜택을 정리합니다"), "Free benefits page missing claimed benefit follow-up plan");
   assert(text.includes("아직 안 챙긴 무료 혜택") && text.includes("결제 전 다시 볼 쿠폰") && text.includes("마감 전 놓치기 쉬운 혜택"), "Free benefits page missing claimed benefit follow-up cards");

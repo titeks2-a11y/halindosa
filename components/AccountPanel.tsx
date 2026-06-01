@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { AlertTriangle, Bell, CalendarDays, CheckCircle2, Clock, Heart, History, LogOut, Settings, SlidersHorizontal, Sparkles, Trash2, UserRound } from "lucide-react";
 import { useAuth } from "@/components/AuthProvider";
+import { BenefitSavingsDiary } from "@/components/BenefitSavingsDiary";
 import { getSupabaseBrowserClient } from "@/lib/auth/supabaseClient";
 import { benefitMissionLabels, getTodayKey, readBenefitCheckInState } from "@/lib/benefitCheckIn";
 import { readBenefitReturnReservations } from "@/lib/benefitReturnReservations";
@@ -452,6 +453,9 @@ export function AccountPanel() {
         />
         <BenefitSaveRoutine mode="local" />
         <BenefitCheckInSummary />
+        <div className="mt-4">
+          <BenefitSavingsDiary deals={catalog} compact />
+        </div>
       </section>
     );
   }
@@ -496,6 +500,9 @@ export function AccountPanel() {
         />
         <BenefitSaveRoutine mode="guest" />
         <BenefitCheckInSummary />
+        <div className="mt-4">
+          <BenefitSavingsDiary deals={catalog} compact />
+        </div>
       </section>
     );
   }
@@ -576,6 +583,9 @@ export function AccountPanel() {
         />
         <BenefitSaveRoutine mode="member" />
         <BenefitCheckInSummary />
+        <div className="mt-4">
+          <BenefitSavingsDiary deals={catalog} compact />
+        </div>
       </div>
 
       <div className="mt-5">

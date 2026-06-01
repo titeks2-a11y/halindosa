@@ -1181,6 +1181,8 @@ async function checkOperationalDataSurfaces() {
   const claimGuide = await text("lib/deals/claimGuide.ts");
   const freeBenefitsPage = await text("app/free-benefits/page.tsx");
   const freeBenefitsClient = await text("components/FreeBenefitsClient.tsx");
+  const benefitSavingsDiary = await text("components/BenefitSavingsDiary.tsx");
+  const savingsDiary = await text("lib/savingsDiary.ts");
   const benefitVisitStreak = await text("lib/benefitVisitStreak.ts");
   const bottomNavigation = await text("components/BottomNavigation.tsx");
   const topNavigation = await text("components/TopNavigation.tsx");
@@ -1836,6 +1838,11 @@ async function checkOperationalDataSurfaces() {
     !freeBenefitsClient.includes("claimedBenefitIds") ||
     !claimedBenefits.includes("toggleClaimedBenefit") ||
     !claimedBenefits.includes("halindosa:claimed-benefits") ||
+    !freeBenefitsClient.includes("BenefitSavingsDiary") ||
+    !accountPanel.includes("BenefitSavingsDiary") ||
+    !benefitSavingsDiary.includes("절약 다이어리") ||
+    !benefitSavingsDiary.includes("다음 절약 행동") ||
+    !savingsDiary.includes("buildSavingsDiarySummary") ||
     !freeBenefitsClient.includes("제공처 확인") ||
     !freeBenefitsClient.includes("실제 링크 확인") ||
     !freeBenefitsClient.includes("배송비:") ||
@@ -1873,6 +1880,8 @@ async function checkOperationalDataSurfaces() {
     !smoke.includes("Free benefits page missing quick decision rail") ||
     !smoke.includes("Free benefits page missing source and condition trust summary") ||
     !smoke.includes("Free benefits page missing claimed benefit tracking") ||
+    !smoke.includes("Free benefits page missing savings diary") ||
+    !smoke.includes("Mypage missing savings diary") ||
     !smoke.includes("Free benefits page missing personalized follow-up queue") ||
     !smoke.includes("Free benefits page missing claimed benefit follow-up plan") ||
     !smoke.includes("Free benefits page missing next visit benefit plan") ||

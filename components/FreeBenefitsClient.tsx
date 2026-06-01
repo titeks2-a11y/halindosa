@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, AlertTriangle, CalendarDays, CheckCircle2, ExternalLink, Gift, Heart, Search, Share2, ShieldCheck, Sparkles, Timer, Truck } from "lucide-react";
+import { BenefitSavingsDiary } from "@/components/BenefitSavingsDiary";
 import { DealCard } from "@/components/DealCard";
 import { readBenefitReturnReservations, writeBenefitReturnReservations } from "@/lib/benefitReturnReservations";
 import { markBenefitVisit, readBenefitVisitStreak } from "@/lib/benefitVisitStreak";
@@ -1355,6 +1356,8 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
             )}
           </div>
         </section>
+
+        <BenefitSavingsDiary deals={deals} />
 
         <section className="rounded-[28px] border border-red-100 bg-white p-4 shadow-sm sm:p-5" aria-label="무료혜택 개인화 이어보기">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
