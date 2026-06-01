@@ -47,6 +47,11 @@ export function DealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, onSha
   ];
   const sourceLabel = deal.sourceName || deal.mallName;
   const reportLabel = deal.reportCount > 0 ? `신고 ${deal.reportCount}건 검토` : "신고 없음";
+  const reportReviewItems = [
+    deal.linkStatus === "verified" ? "실제 링크 확인" : "판매처 확인 필요",
+    deal.reportCount > 0 ? "신고 우선 검토" : "신고 낮음",
+    deal.isExpired || deal.isSoldOut ? "종료 가능" : "진행 확인"
+  ];
 
   return (
     <article
@@ -152,6 +157,25 @@ export function DealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, onSha
         <div className="rounded-2xl border border-slate-100 bg-slate-50 px-3 py-2" aria-label={`${deal.title} 품질 안내`}>
           <p className="text-[11px] font-black text-slate-700">품질 안내: {qualityNotice.label}</p>
           <p className="mt-1 line-clamp-2 text-[11px] font-bold leading-4 text-slate-500">{qualityNotice.description}</p>
+        </div>
+
+        <div className="rounded-2xl border border-amber-100 bg-amber-50 px-3 py-2" aria-label={`${deal.title} 신고 처리 기준`}>
+          <div className="flex items-center justify-between gap-2">
+            <p className="text-[11px] font-black text-amber-900">신고 처리 기준</p>
+            <Link href={`/reports?dealId=${deal.id}&reason=wrong_info`} className="shrink-0 text-[11px] font-black text-amber-800 underline-offset-2 hover:underline">
+              바로 신고
+            </Link>
+          </div>
+          <div className="mt-1.5 flex flex-wrap gap-1">
+            {reportReviewItems.map((item) => (
+              <span key={item} className="rounded-full bg-white px-2 py-1 text-[10px] font-black text-amber-800 shadow-sm">
+                {item}
+              </span>
+            ))}
+          </div>
+          <p className="mt-1.5 line-clamp-2 text-[11px] font-bold leading-4 text-amber-900/75">
+            링크 오류, 품절, 종료 신고는 운영 점검 큐에 반영하고 구매 전 최종 조건은 판매처에서 확인합니다.
+          </p>
         </div>
 
         <div className="rounded-2xl bg-red-50 px-3 py-2">

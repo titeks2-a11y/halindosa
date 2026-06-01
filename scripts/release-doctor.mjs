@@ -621,6 +621,10 @@ async function checkUiAccessibility() {
     "출처와 신고 상태",
     "sourceLabel",
     "reportLabel",
+    "reportReviewItems",
+    "신고 처리 기준",
+    "운영 점검 큐",
+    "바로 신고",
     "purchaseCheckItems"
   ];
   const missingSnippets = requiredSnippets.filter((snippet) => !dealCard.includes(snippet));
