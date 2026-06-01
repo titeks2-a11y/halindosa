@@ -1869,6 +1869,14 @@ async function checkOperationalDataSurfaces() {
     !freeBenefitsClient.includes("결제 전 쿠폰 챙기기") ||
     !freeBenefitsClient.includes("가입 없이 받기") ||
     !freeBenefitsClient.includes("선착순 혜택") ||
+    !freeBenefitsClient.includes("ClaimEffortFilter") ||
+    !freeBenefitsClient.includes("getClaimEffort") ||
+    !freeBenefitsClient.includes("claimEffortSummary") ||
+    !freeBenefitsClient.includes("무료 혜택 수령 난이도") ||
+    !freeBenefitsClient.includes("헛걸음 줄이도록 받기 쉬운 순서로 고릅니다") ||
+    !freeBenefitsClient.includes("간편 수령") ||
+    !freeBenefitsClient.includes("조건 확인") ||
+    !freeBenefitsClient.includes("마감 주의") ||
     !freeBenefitsClient.includes("진행 중만 보기") ||
     !freeBenefitsClient.includes("activeBenefitCount") ||
     !freeBenefitsClient.includes("종료·품절 가능 혜택") ||
@@ -1966,11 +1974,13 @@ async function checkOperationalDataSurfaces() {
     !smoke.includes("Free benefits page missing top-level favorite action") ||
     !smoke.includes("Free benefits page missing top-level share action") ||
     !smoke.includes("Free benefits page missing sold-out and link-error report actions") ||
+    !smoke.includes("Free benefits page missing claim effort filter") ||
+    !smoke.includes("Free benefits page missing claim effort cards") ||
     !smoke.includes("Free benefits page missing active-benefit status filter")
   ) {
-    fail("free benefits dedicated page", "Free benefit discovery should have a dedicated page, claimed-benefit tracking, priority queue, weekly routine, active-benefit filter, navigation entry, and smoke coverage.");
+    fail("free benefits dedicated page", "Free benefit discovery should have a dedicated page, claimed-benefit tracking, priority queue, weekly routine, claim-effort filters, active-benefit filter, navigation entry, and smoke coverage.");
   } else {
-    pass("free benefits dedicated page", "Free benefits, coupons, convenience store, mart, delivery, point offers, claimed-benefit tracking, today's priority queue, weekly routine, and active-benefit filtering have a dedicated navigable page.");
+    pass("free benefits dedicated page", "Free benefits, coupons, convenience store, mart, delivery, point offers, claimed-benefit tracking, today's priority queue, weekly routine, claim-effort filtering, and active-benefit filtering have a dedicated navigable page.");
   }
 
   if (!redirectUrl.includes("/go/") || !goRoute.includes("recordDealClick") || !goRoute.includes("buildOutboundUrl")) {

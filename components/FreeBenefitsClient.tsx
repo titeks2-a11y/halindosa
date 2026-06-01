@@ -35,6 +35,7 @@ const tabs: Array<{ id: "all" | DealBenefitType; label: string }> = [
 ];
 
 type BenefitSort = "recommended" | "endingSoon" | "popular" | "savings";
+type ClaimEffortFilter = "all" | "easy" | "condition" | "deadline";
 
 const emptyVisitStreak: ReturnType<typeof readBenefitVisitStreak> = { currentStreak: 0, totalVisits: 0, lastVisitedDate: "", visitedDates: [] };
 
@@ -110,6 +111,19 @@ function getPriorityScore(deal: Deal, referenceNow: number) {
   return urgencyScore + benefitScore + trustScore + shippingScore + engagementScore + deal.reliabilityScore * 0.08;
 }
 
+function getClaimEffort(deal: Deal, referenceNow: number): Exclude<ClaimEffortFilter, "all"> {
+  const hoursLeft = (new Date(deal.expireAt).getTime() - referenceNow) / (60 * 60 * 1000);
+  if (deal.isEndingSoon || deal.isFirstComeFirstServed || hoursLeft <= 12) return "deadline";
+  if (deal.requiresSignup || deal.couponCondition || deal.minimumOrderAmount || (!deal.isFreeShipping && deal.shippingFee !== "무료배송" && deal.salePrice > 0)) return "condition";
+  return "easy";
+}
+
+function getClaimEffortLabel(effort: Exclude<ClaimEffortFilter, "all">) {
+  if (effort === "easy") return "간편 수령";
+  if (effort === "condition") return "조건 확인";
+  return "마감 주의";
+}
+
 export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
   const [referenceNow] = useState(() => Date.now());
   const [activeType, setActiveType] = useState<"all" | DealBenefitType>("all");
@@ -120,6 +134,7 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
   const [noSignupOnly, setNoSignupOnly] = useState(false);
   const [firstComeOnly, setFirstComeOnly] = useState(false);
   const [activeOnly, setActiveOnly] = useState(false);
+  const [claimEffortFilter, setClaimEffortFilter] = useState<ClaimEffortFilter>("all");
   const [favorites, setFavorites] = useState<string[]>([]);
   const [claimedBenefits, setClaimedBenefits] = useState<ReturnType<typeof readClaimedBenefits>>([]);
   const [benefitReturnReservations, setBenefitReturnReservations] = useState<ReturnType<typeof readBenefitReturnReservations>>([]);
@@ -177,6 +192,7 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
     if (noSignupOnly) source = source.filter((deal) => !deal.requiresSignup);
     if (firstComeOnly) source = source.filter((deal) => deal.isFirstComeFirstServed);
     if (activeOnly) source = source.filter((deal) => !deal.isExpired && !deal.isSoldOut && deal.linkStatus !== "broken");
+    if (claimEffortFilter !== "all") source = source.filter((deal) => getClaimEffort(deal, referenceNow) === claimEffortFilter);
 
     return [...source].sort((a, b) => {
       const activeScore = Number(a.isExpired) - Number(b.isExpired);
@@ -186,7 +202,7 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
       if (sort === "savings") return b.savingsAmount - a.savingsAmount || b.savingsRate - a.savingsRate;
       return b.reliabilityScore - a.reliabilityScore || b.clickCount - a.clickCount || new Date(a.expireAt).getTime() - new Date(b.expireAt).getTime();
     });
-  }, [activeOnly, activeType, deals, endingSoonOnly, firstComeOnly, freeShippingOnly, noSignupOnly, query, referenceNow, sort]);
+  }, [activeOnly, activeType, claimEffortFilter, deals, endingSoonOnly, firstComeOnly, freeShippingOnly, noSignupOnly, query, referenceNow, sort]);
 
   const counts = useMemo(
     () =>
@@ -451,6 +467,32 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
   const weeklyRoutineDoneCount = weeklyRoutineProgress.filter((item) => item.done).length;
   const recentClaimedBenefits = claimedBenefits.slice(0, 3);
   const needsFinalCheckCount = deals.length - activeBenefitCount;
+  const claimEffortSummary = useMemo(
+    () => [
+      {
+        id: "easy" as const,
+        title: "간편 수령",
+        value: deals.filter((deal) => getClaimEffort(deal, referenceNow) === "easy").length,
+        copy: "가입, 배송비, 쿠폰 조건 부담이 낮아 먼저 눌러볼 혜택입니다.",
+        action: "간편 혜택만"
+      },
+      {
+        id: "condition" as const,
+        title: "조건 확인",
+        value: deals.filter((deal) => getClaimEffort(deal, referenceNow) === "condition").length,
+        copy: "회원가입, 최소 주문, 쿠폰 조건, 배송비를 확인해야 하는 혜택입니다.",
+        action: "조건 있는 혜택"
+      },
+      {
+        id: "deadline" as const,
+        title: "마감 주의",
+        value: deals.filter((deal) => getClaimEffort(deal, referenceNow) === "deadline").length,
+        copy: "선착순, 마감 임박, 종료 가능성이 있어 빨리 확인할 혜택입니다.",
+        action: "마감 먼저"
+      }
+    ],
+    [deals, referenceNow]
+  );
   const nextVisitPlan = useMemo(
     () => [
       {
@@ -883,6 +925,7 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
     setNoSignupOnly(false);
     setFirstComeOnly(false);
     setActiveOnly(false);
+    setClaimEffortFilter("all");
   };
 
   const applyWeeklyBenefitPreset = (preset: WeeklyBenefitPreset) => {
@@ -1878,6 +1921,51 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
           </p>
         </section>
 
+        <section className="rounded-[28px] border border-red-100 bg-white p-4 shadow-sm sm:p-5" aria-label="무료 혜택 수령 난이도">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-black text-dossa-red">무료 혜택 수령 난이도</p>
+              <h2 className="mt-1 text-xl font-black tracking-tight text-slate-950">헛걸음 줄이도록 받기 쉬운 순서로 고릅니다</h2>
+            </div>
+            <p className="max-w-md text-sm font-bold leading-6 text-slate-500">
+              무료처럼 보여도 가입, 배송비, 최소 주문, 선착순 조건이 다를 수 있어 수령 전 난이도를 먼저 나눴습니다.
+            </p>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-3">
+            {claimEffortSummary.map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => {
+                  setClaimEffortFilter((current) => (current === item.id ? "all" : item.id));
+                  setActiveOnly(true);
+                  if (item.id === "deadline") {
+                    setSort("endingSoon");
+                    setEndingSoonOnly(true);
+                  }
+                }}
+                aria-pressed={claimEffortFilter === item.id}
+                className={`min-h-[158px] rounded-3xl border p-4 text-left transition hover:-translate-y-0.5 ${
+                  claimEffortFilter === item.id ? "border-red-200 bg-red-50" : "border-slate-100 bg-slate-50 hover:border-red-200 hover:bg-red-50"
+                }`}
+                aria-label={`${item.title} ${item.value}개 보기`}
+              >
+                <span className="flex items-start justify-between gap-3">
+                  <span className={`rounded-full px-2.5 py-1 text-xs font-black shadow-sm ${claimEffortFilter === item.id ? "bg-dossa-red text-white" : "bg-white text-dossa-red"}`}>
+                    {claimEffortFilter === item.id ? "적용 중" : item.action}
+                  </span>
+                  <span className="rounded-full bg-slate-950 px-2.5 py-1 text-xs font-black text-white">{item.value}개</span>
+                </span>
+                <span className="mt-4 block text-sm font-black text-slate-950">{item.title}</span>
+                <span className="mt-1 line-clamp-3 block text-xs font-bold leading-5 text-slate-500">{item.copy}</span>
+              </button>
+            ))}
+          </div>
+          <p className="mt-4 rounded-2xl bg-red-50 px-4 py-3 text-xs font-bold leading-5 text-dossa-deep">
+            난이도는 할인도사 내부 안내 기준입니다. 실제 수령 가능 여부, 배송비, 쿠폰 적용, 재고와 기간은 판매처 화면에서 최종 확인하세요.
+          </p>
+        </section>
+
         <section className="rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5" aria-label="현재 결과 혜택 판단 요약">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
             <div>
@@ -2045,7 +2133,7 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
                       <p className="text-[11px] font-black text-dossa-red">혜택 조건 요약</p>
                       <p className="mt-1 line-clamp-2 text-sm font-black text-slate-950">{deal.benefitSummary}</p>
                     </div>
-                    <span className="shrink-0 rounded-full bg-red-50 px-2.5 py-1 text-[11px] font-black text-dossa-red">{deal.claimCta}</span>
+                    <span className="shrink-0 rounded-full bg-red-50 px-2.5 py-1 text-[11px] font-black text-dossa-red">{getClaimEffortLabel(getClaimEffort(deal, referenceNow))}</span>
                   </div>
                   <div className="mt-3 grid grid-cols-2 gap-2 text-[11px] font-black text-slate-600">
                     <span className="rounded-2xl bg-slate-50 px-3 py-2">선착순: {deal.isFirstComeFirstServed ? "가능성 있음" : "표시 없음"}</span>

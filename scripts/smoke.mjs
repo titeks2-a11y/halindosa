@@ -760,6 +760,8 @@ await check("free benefits page", async () => {
   assert(text.includes("편의점") && text.includes("마트") && text.includes("배달/외식"), "Free benefits page missing daily-life benefit tabs");
   assert(text.includes("무료 혜택 검색") && text.includes("무료 혜택 정렬"), "Free benefits page missing search/sort controls");
   assert(text.includes("마감 임박만") && text.includes("가입 없이 받기") && text.includes("선착순 혜택"), "Free benefits page missing condition filters");
+  assert(text.includes("무료 혜택 수령 난이도") && text.includes("헛걸음 줄이도록 받기 쉬운 순서로 고릅니다"), "Free benefits page missing claim effort filter");
+  assert(text.includes("간편 수령") && text.includes("조건 확인") && text.includes("마감 주의"), "Free benefits page missing claim effort cards");
   assert(text.includes("진행 중만 보기") && text.includes("바로 확인") && text.includes("종료·품절 가능 혜택"), "Free benefits page missing active-benefit status filter");
   assert(text.includes("선착순 여부") && text.includes("회원가입 필요 여부") && text.includes("신고 가능"), "Free benefits page missing benefit condition guidance");
   assert(text.includes("배송비:") && text.includes("중복:"), "Free benefits page missing benefit condition chips");
