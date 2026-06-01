@@ -58,6 +58,9 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const linkReviewDeals = getLinkReviewQueue(deals, 8);
   const todayBenefitQueue = buildTodayBenefitQueue(deals, 4);
   const dailyQueueExportCount = new Set(todayBenefitQueue.sections.flatMap((section) => section.items.map((item) => item.id))).size;
+  const dailyQueueApiHref = isAdminProtectionEnabled()
+    ? `/api/admin/daily-queue?limit=4&token=${encodeURIComponent(token ?? "")}`
+    : "/api/admin/daily-queue?limit=4";
   const sourceReadiness = getDealSourceReadiness(deals);
   const priorityLabels = {
     high: "우선",
@@ -220,6 +223,17 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
               <p className="text-xs font-black text-dossa-red">내보내기 후보</p>
               <p className="mt-1 text-2xl font-black text-slate-950">{dailyQueueExportCount}개</p>
             </div>
+          </div>
+          <div className="mt-4 flex flex-col gap-3 rounded-2xl border border-red-100 bg-red-50 p-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="text-sm font-black text-slate-950">오늘 혜택 운영 API</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-red-900/70">
+                백오피스, 노션 자동화, 향후 푸시 편성 작업에서 같은 큐를 JSON으로 재사용합니다.
+              </p>
+            </div>
+            <a href={dailyQueueApiHref} className="rounded-2xl bg-white px-4 py-3 text-center text-sm font-black text-dossa-red shadow-sm">
+              운영 큐 JSON 보기
+            </a>
           </div>
           <div className="mt-4 grid gap-3 md:grid-cols-3">
             {todayBenefitQueue.sections.slice(0, 6).map((section) => (

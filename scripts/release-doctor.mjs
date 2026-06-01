@@ -1157,6 +1157,7 @@ async function checkOperationalDataSurfaces() {
   const claimedBenefits = await text("lib/claimedBenefits.ts");
   const adminPage = await text("app/admin/page.tsx");
   const adminExportRoute = await text("app/api/admin/export/route.ts");
+  const adminDailyQueueRoute = await text("app/api/admin/daily-queue/route.ts");
   const commercializationPage = await text("app/commercialization/page.tsx");
   const analytics = await text("lib/analytics.ts");
   const healthRoute = await text("app/api/health/route.ts");
@@ -1416,13 +1417,19 @@ async function checkOperationalDataSurfaces() {
     !todayBenefitQueue.includes("audience: \"guest\"") ||
     !todayBenefitQueue.includes("loginRequiredFor") ||
     !todayBenefitQueue.includes("redirectUrl: `/go/${deal.id}`") ||
+    !adminDailyQueueRoute.includes("buildTodayBenefitQueue") ||
+    !adminDailyQueueRoute.includes("operationAction") ||
+    !adminDailyQueueRoute.includes("canAccessAdmin") ||
+    !adminPage.includes("운영 큐 JSON 보기") ||
     !smoke.includes("today benefits api") ||
+    !smoke.includes("admin daily benefit queue api") ||
     !smoke.includes("Today benefits API should keep guest access") ||
-    !smoke.includes("Today benefits API missing optional login boundary")
+    !smoke.includes("Today benefits API missing optional login boundary") ||
+    !smoke.includes("Admin daily queue missing operation actions")
   ) {
-    fail("today benefits api", "Daily benefit API should expose guest-accessible free, coupon, apptech, and verified purchase sections with smoke coverage.");
+    fail("today benefits api", "Daily benefit API and protected admin operation queue should expose guest-accessible free, coupon, apptech, and verified purchase sections with smoke coverage.");
   } else {
-    pass("today benefits api", "Daily benefit API exposes guest-accessible free, coupon, apptech, and verified purchase sections with smoke coverage.");
+    pass("today benefits api", "Daily benefit API and protected admin operation queue expose guest-accessible free, coupon, apptech, and verified purchase sections with smoke coverage.");
   }
 
   if (!dealsRoute.includes("normalizeDeals(mockDeals") || dealsRoute.includes("mock 데이터로 대체")) {

@@ -790,6 +790,16 @@ await check("today benefits api", async () => {
   assert(String(data.notice ?? "").includes("판매처"), "Today benefits API missing purchase condition notice");
 });
 
+await check("admin daily benefit queue api", async () => {
+  const { response, data } = await fetchJson("/api/admin/daily-queue?limit=3");
+  assert(response.status === 200, `Expected 200, got ${response.status}`);
+  assert(data.ok === true, "Admin daily queue API ok should be true");
+  assert(data.audience === "guest", "Admin daily queue should keep guest-facing source audience");
+  assert(Array.isArray(data.sections) && data.sections.length >= 5, "Admin daily queue missing sections");
+  assert(data.sections.every((section) => section.operationAction), "Admin daily queue missing operation actions");
+  assert(data.summary?.verifiedPurchaseDeals > 0, "Admin daily queue missing verified purchase summary");
+});
+
 await check("metrics api", async () => {
   const { response, data } = await fetchJson("/api/metrics");
   assert(response.status === 200, `Expected 200, got ${response.status}`);
