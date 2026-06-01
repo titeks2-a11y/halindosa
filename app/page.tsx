@@ -3,7 +3,7 @@
 import type { ReactNode } from "react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { BellRing, CheckCircle2, Flame, Share2, ShieldCheck, ShoppingBag, SlidersHorizontal, Store, Timer, Truck, UserRound } from "lucide-react";
+import { BellRing, CheckCircle2, ExternalLink, Flame, Share2, ShieldCheck, ShoppingBag, SlidersHorizontal, Store, Timer, Truck, UserRound } from "lucide-react";
 import { BenefitCheckInCard } from "@/components/BenefitCheckInCard";
 import { BenefitDiscoverySections } from "@/components/BenefitDiscoverySections";
 import { BenefitPlaybook, BenefitPreset } from "@/components/BenefitPlaybook";
@@ -633,7 +633,7 @@ export default function Home() {
   const [freeShippingOnly, setFreeShippingOnly] = useState(false);
   const [hotOnly, setHotOnly] = useState(false);
   const [endingSoonOnly, setEndingSoonOnly] = useState(false);
-  const [verifiedOnly, setVerifiedOnly] = useState(false);
+  const [verifiedOnly, setVerifiedOnly] = useState(true);
   const [mallFilter, setMallFilter] = useState("all");
   const [priceBand, setPriceBand] = useState<PriceBand>("all");
   const [benefitFilter, setBenefitFilter] = useState<"all" | DealBenefitType>("all");
@@ -1227,18 +1227,28 @@ export default function Home() {
     [catalog]
   );
 
-  const heroDeal = useMemo(() => {
+  const publicDealSource = useMemo(() => {
     const source = catalog.length ? catalog : deals;
-    return [...source].sort((a, b) => commercialScore(b) - commercialScore(a))[0] ?? null;
+    return source.filter((deal) => isVerifiedPurchaseLink(deal) && deal.purchaseLinkVerified && deal.linkStatus === "verified" && Boolean(deal.finalPurchaseUrl));
   }, [catalog, deals]);
+
+  const heroDeal = useMemo(() => {
+    return [...publicDealSource].sort((a, b) => commercialScore(b) - commercialScore(a))[0] ?? null;
+  }, [publicDealSource]);
 
   const topDeals = useMemo(() => {
-    const source = catalog.length ? catalog : deals;
-    return [...source].sort((a, b) => (commercialScore(b) + b.clickCount * 0.05) - (commercialScore(a) + a.clickCount * 0.05)).slice(0, 10);
-  }, [catalog, deals]);
+    return [...publicDealSource].sort((a, b) => (commercialScore(b) + b.clickCount * 0.05) - (commercialScore(a) + a.clickCount * 0.05)).slice(0, 10);
+  }, [publicDealSource]);
+
+  const endingSoonDeals = useMemo(() => {
+    return [...publicDealSource]
+      .filter((deal) => deal.isEndingSoon && !deal.isExpired && !deal.isSoldOut)
+      .sort((a, b) => new Date(a.expireAt).getTime() - new Date(b.expireAt).getTime())
+      .slice(0, 8);
+  }, [publicDealSource]);
 
   const instantDealRail = useMemo(() => {
-    const source = deals.length ? deals : catalog;
+    const source = deals.length ? deals : publicDealSource;
     const railScore = (deal: Deal) =>
       Number(deal.isHot) * 70 + deal.discountRate + deal.likeCount * 0.08 + deal.clickCount * 0.03;
 
@@ -1246,22 +1256,22 @@ export default function Home() {
       .filter((deal) => isVerifiedPurchaseLink(deal) && !deal.isExpired && !deal.isSoldOut)
       .sort((a, b) => railScore(b) - railScore(a))
       .slice(0, 8);
-  }, [catalog, deals]);
+  }, [deals, publicDealSource]);
 
   const recentDeals = useMemo(() => {
-    const source = catalog.length ? catalog : deals;
+    const source = publicDealSource.length ? publicDealSource : deals;
     return recentDealIds.map((id) => source.find((deal) => deal.id === id)).filter((deal): deal is Deal => Boolean(deal)).slice(0, 6);
-  }, [catalog, deals, recentDealIds]);
+  }, [deals, publicDealSource, recentDealIds]);
 
   const recommendedDeals = useMemo(() => {
-    const source = catalog.length ? catalog : deals;
+    const source = publicDealSource.length ? publicDealSource : deals;
     return [...source].filter((deal) => deal.isHot || deal.isFreeShipping).sort((a, b) => commercialScore(b) - commercialScore(a)).slice(0, 6);
-  }, [catalog, deals]);
+  }, [deals, publicDealSource]);
 
   const memberFavoriteDeals = useMemo(() => {
-    const source = catalog.length ? catalog : deals;
+    const source = publicDealSource.length ? publicDealSource : deals;
     return [...source].sort((a, b) => b.likeCount - a.likeCount || commercialScore(b) - commercialScore(a)).slice(0, 6);
-  }, [catalog, deals]);
+  }, [deals, publicDealSource]);
 
   const personalizedDeals = useMemo(() => {
     const source = catalog.length ? catalog : deals;
@@ -1294,10 +1304,10 @@ export default function Home() {
     () =>
       ["food", "living", "digital", "fashion", "baby", "travel", "etc"].map((id) => {
         const channel = getDealChannel(id);
-        const items = catalog.filter((deal) => dealMatchesChannel(deal, id)).sort((a, b) => commercialScore(b) - commercialScore(a));
+        const items = publicDealSource.filter((deal) => dealMatchesChannel(deal, id)).sort((a, b) => commercialScore(b) - commercialScore(a));
         return { id, label: channel.label, deal: items[0] };
       }).filter((item) => item.deal),
-    [catalog]
+    [publicDealSource]
   );
 
   const mallHighlights = useMemo(
@@ -2576,8 +2586,106 @@ export default function Home() {
           </section>
         ) : null}
         {activeView === "home" ? (
+          <section className="grid gap-4 lg:grid-cols-[1fr_0.9fr]" aria-label="홈 핵심 특가 요약">
+            <div className="rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+              <div className="flex items-center justify-between gap-3">
+                <div>
+                  <p className="text-xs font-black text-dossa-red">인기 특가</p>
+                  <h2 className="mt-1 text-lg font-black text-slate-950 sm:text-xl">지금 많이 확인하는 상품</h2>
+                </div>
+                <Link href="/popular" className="rounded-2xl bg-slate-950 px-3 py-2 text-xs font-black text-white">
+                  전체 보기
+                </Link>
+              </div>
+              <div className="mt-4 grid gap-2">
+                {topDeals.slice(0, 6).map((deal, index) => (
+                  <a
+                    key={deal.id}
+                    href={`/go/${deal.id}?source=home_popular`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex min-w-0 items-center gap-3 rounded-2xl border border-slate-100 bg-slate-50 p-3 transition hover:border-red-100 hover:bg-red-50"
+                    aria-label={`${deal.title} 판매처 새 탭으로 열기`}
+                  >
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-dossa-red text-sm font-black text-white">{index + 1}</span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block truncate text-sm font-black text-slate-950">{deal.title}</span>
+                      <span className="mt-0.5 block truncate text-xs font-bold text-slate-500">{deal.mallName} · {deal.shipping} · 가격 기준 {getRelativeTime(deal.priceCheckedAt)}</span>
+                    </span>
+                    <span className="shrink-0 text-base font-black text-dossa-red">{deal.discountRate}%</span>
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            <div className="rounded-[28px] border border-amber-100 bg-white p-4 shadow-sm sm:p-5">
+              <div className="flex items-center justify-between gap-3">
+                <div>
+                  <p className="text-xs font-black text-amber-700">마감 임박</p>
+                  <h2 className="mt-1 text-lg font-black text-slate-950 sm:text-xl">오늘 먼저 확인할 특가</h2>
+                </div>
+                <button type="button" onClick={() => openQuickDiscovery("endingSoon")} className="rounded-2xl bg-amber-50 px-3 py-2 text-xs font-black text-amber-800">
+                  마감순
+                </button>
+              </div>
+              <div className="mt-4 space-y-2">
+                {(endingSoonDeals.length ? endingSoonDeals : topDeals.slice(0, 4)).slice(0, 4).map((deal) => (
+                  <a
+                    key={deal.id}
+                    href={`/go/${deal.id}?source=home_ending`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex min-w-0 items-center gap-3 rounded-2xl bg-slate-50 p-3 transition hover:bg-amber-50"
+                    aria-label={`${deal.title} 판매처 새 탭으로 열기`}
+                  >
+                    <span className="h-12 w-12 shrink-0 overflow-hidden rounded-2xl bg-red-50">
+                      {deal.thumbnail ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img src={getDealImageSrc(deal.thumbnail)} alt="" loading="lazy" decoding="async" referrerPolicy="no-referrer" className="h-full w-full object-cover" />
+                      ) : null}
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block truncate text-sm font-black text-slate-950">{deal.title}</span>
+                      <span className="mt-0.5 block truncate text-xs font-bold text-slate-500">{deal.mallName} · {getTimeLeft(deal.expireAt)}</span>
+                    </span>
+                    <ExternalLink size={16} className="shrink-0 text-slate-400" />
+                  </a>
+                ))}
+              </div>
+            </div>
+          </section>
+        ) : null}
+
+        {activeView === "home" && categoryHighlights.length ? (
+          <section className="rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5" aria-label="카테고리 바로가기">
+            <div className="flex items-center justify-between gap-3">
+              <div>
+                <p className="text-xs font-black text-dossa-red">카테고리</p>
+                <h2 className="mt-1 text-lg font-black text-slate-950 sm:text-xl">원하는 분야만 빠르게 보기</h2>
+              </div>
+              <Link href="/categories" className="rounded-2xl bg-slate-950 px-3 py-2 text-xs font-black text-white">
+                전체 카테고리
+              </Link>
+            </div>
+            <div className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+              {categoryHighlights.slice(0, 8).map((item) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => openCategory(item.id)}
+                  className="min-h-[116px] rounded-2xl border border-slate-100 bg-slate-50 p-3 text-left transition hover:border-red-100 hover:bg-red-50"
+                >
+                  <span className="text-xs font-black text-dossa-red">{item.label}</span>
+                  <span className="mt-2 block line-clamp-2 text-sm font-black leading-5 text-slate-950">{item.deal?.title}</span>
+                  <span className="mt-2 block truncate text-xs font-bold text-slate-500">{item.deal?.mallName} · {item.deal?.discountRate}%</span>
+                </button>
+              ))}
+            </div>
+          </section>
+        ) : null}
+        {activeView === "home" ? (
           <>
-            <details className="group overflow-hidden rounded-[28px] border border-red-100 bg-white shadow-sm" aria-label="심화 혜택 탐색 접기">
+            <details className="hidden overflow-hidden rounded-[28px] border border-red-100 bg-white shadow-sm" aria-label="심화 혜택 탐색 접기">
               <summary className="flex cursor-pointer list-none flex-col gap-3 bg-gradient-to-r from-red-50 via-white to-orange-50 px-4 py-4 outline-none transition hover:bg-red-50 focus-visible:ring-4 focus-visible:ring-red-100 sm:flex-row sm:items-center sm:justify-between sm:px-5 [&::-webkit-details-marker]:hidden">
                 <span>
                   <span className="block text-xs font-black text-dossa-red">심화 혜택 탐색</span>

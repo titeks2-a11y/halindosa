@@ -5,6 +5,9 @@ const baseUrl = process.env.SMOKE_BASE_URL ?? `http://${loopbackHost}:3000`;
 const smokeFetchTimeoutMs = Number(process.env.SMOKE_FETCH_TIMEOUT_MS ?? 30000);
 const nativeFetch = globalThis.fetch.bind(globalThis);
 const homePageSource = readFileSync(new URL("../app/page.tsx", import.meta.url), "utf8");
+const bottomNavigationSource = readFileSync(new URL("../components/BottomNavigation.tsx", import.meta.url), "utf8");
+const topNavigationSource = readFileSync(new URL("../components/TopNavigation.tsx", import.meta.url), "utf8");
+const mypageSource = readFileSync(new URL("../app/mypage/page.tsx", import.meta.url), "utf8");
 
 globalThis.fetch = async (input, init = {}) => {
   const controller = new AbortController();
@@ -239,6 +242,16 @@ await check("home page", async () => {
   assert(text.includes("전체 가격대") && text.includes("1만원 미만"), "Home page missing price band filter");
 });
 
+await check("customer navigation simplification", async () => {
+  assert(bottomNavigationSource.includes("grid-cols-4"), "Bottom navigation should have exactly four tabs");
+  assert(bottomNavigationSource.includes('href: "/popular"') && topNavigationSource.includes('href: "/popular"'), "Popular tab should be wired in top and bottom navigation");
+  assert(!bottomNavigationSource.includes('href: "/free-benefits"'), "Bottom navigation should not expose free-benefits as a standalone tab");
+  assert(!bottomNavigationSource.includes('href: "/notifications"'), "Bottom navigation should not expose notifications before push is complete");
+  assert(!bottomNavigationSource.includes('href: "/favorites"'), "Bottom navigation should not expose favorites as a standalone tab");
+  assert(!topNavigationSource.includes('href: "/free-benefits"') && !topNavigationSource.includes("무료혜택"), "Top navigation should not expose free-benefits as a standalone tab");
+  assert(!mypageSource.includes("Android 패키지") && !mypageSource.includes("앱 버전") && !mypageSource.includes("개인정보처리방침 준비"), "Mypage should not expose developer release checklist wording");
+});
+
 await check("home query filters", async () => {
   const response = await fetch(`${baseUrl}/?category=식품&sort=discount&q=새우깡&verifiedOnly=true`);
   const text = await response.text();
@@ -288,7 +301,7 @@ await check("mypage data controls", async () => {
   assert(text.includes("설정 점검 요약"), "Mypage missing settings summary");
   assert(text.includes("내 데이터와 알림을 한눈에 관리"), "Mypage missing data and notification management summary");
   assert(text.includes("빠른 작업"), "Mypage missing quick actions section");
-  assert(text.includes("찜한 특가") && text.includes("알림 센터") && text.includes("카테고리"), "Mypage missing quick action links");
+  assert(text.includes("내 찜") && text.includes("가격 알림") && text.includes("카테고리"), "Mypage missing simplified quick action links");
   assert(text.includes("기기 데이터 관리"), "Mypage missing local data controls");
   assert(text.includes("찜/최근 본 특가/혜택 기록 삭제"), "Mypage missing local deal data delete action");
   assert(text.includes("무료 혜택 방문 기록") && text.includes("무료 혜택 방문 루틴 이어보기"), "Mypage missing free benefit visit streak summary");
@@ -543,6 +556,7 @@ await check("admin dashboard quality cards", async () => {
   assert(text.includes("dry-run 검증 실행") && text.includes("샘플 복원"), "Admin dashboard missing paste-in feed dry-run actions");
   assert(text.includes("행별 검수 결과") && text.includes("ready 행") && text.includes("needs_fix 행"), "Admin dashboard missing row-level feed dry-run review summary");
   assert(text.includes("수정 필요 필드") && text.includes("rows[].status"), "Admin dashboard missing row-level feed dry-run issue guidance");
+  assert(text.includes("ready JSON 내보내기") && text.includes("needs_fix 리포트 내보내기"), "Admin dashboard missing feed dry-run export actions");
   assert(text.includes("오늘 혜택 운영 액션 큐") && text.includes("신고·종료·링크 보강"), "Admin dashboard missing benefit operation action queue");
   assert(text.includes("혜택 조건 완성도 점검") && text.includes("제공처·배송비·가입·선착순·쿠폰 조건"), "Admin dashboard missing benefit condition audit");
   assert(text.includes("조건 취약 유형") && text.includes("쿠폰 조건"), "Admin dashboard missing condition readiness details");
@@ -1259,6 +1273,8 @@ await check("partner feed import dry-run", async () => {
   assert(data.linkSummary?.verified === 1, "Import link summary should count verified product links");
   assert(data.benefitSummary?.conditionReadyRate === 100, "Import benefit condition summary should be ready");
   assert(data.rows?.[0]?.status === "ready", "Import dry-run should expose ready row summary");
+  assert(data.readyItems?.length === 1, "Import dry-run should expose ready items for production feed handoff");
+  assert(data.readyRate === 100, "Import dry-run should expose readyRate");
 });
 
 await check("partner feed sample validation api", async () => {
@@ -1347,6 +1363,8 @@ await check("partner feed import blocks unsafe links", async () => {
     "Expected duplicate feed row validation issue"
   );
   assert(data.rows?.some((row) => row.status === "needs_fix" && row.issueCount > 0), "Import dry-run should expose needs_fix row summaries");
+  assert(data.needsFixItems?.length === 5, "Import dry-run should expose needs_fix items for operator repair");
+  assert(data.fixReport?.nextAction?.includes("needs_fix"), "Import dry-run should expose fix report next action");
 });
 
 await check("partner feed import validation", async () => {

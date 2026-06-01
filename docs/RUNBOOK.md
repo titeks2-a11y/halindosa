@@ -34,6 +34,7 @@ npm run smoke
   - `linkSummary.verified`와 `linkSummary.needsReview`를 확인해 출시 전 실제 상품 상세 URL 비율을 관리한다.
   - 검색 결과 fallback, 쇼핑몰 메인, 커뮤니티/placeholder URL, 중복 externalId, 같은 판매처의 중복 상품명은 `rows[].status = "needs_fix"`로 돌려준다. 운영 반영 전 모든 행이 `ready`인지 확인한다.
   - 관리자 화면의 붙여넣기 dry-run 패널은 `행별 검수 결과`, `ready 행`, `needs_fix 행`, `수정 필요 필드`를 함께 표시한다. `needs_fix` 행은 `primaryUrlField`와 사유를 먼저 고친 뒤 다시 dry-run을 실행한다.
+  - dry-run 통과 행은 `readyItems`로, 수정 필요 행은 `fixReport.rows`로 내려온다. 관리자 화면의 `ready JSON 내보내기`와 `needs_fix 리포트 내보내기`를 사용해 바로 운영 피드 후보와 보강 리포트를 분리 저장한다.
 
 ## 자동 smoke test
 

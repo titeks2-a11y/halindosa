@@ -2,15 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Bell, Gift, Grid3X3, Heart, Home, LogIn, RefreshCw, Search, User } from "lucide-react";
+import { Flame, Grid3X3, Home, LogIn, RefreshCw, Search, User } from "lucide-react";
 import { useAuth } from "@/components/AuthProvider";
 
 const navItems = [
   { href: "/", label: "홈", icon: Home },
-  { href: "/free-benefits", label: "무료혜택", icon: Gift, badge: "0원" },
+  { href: "/popular", label: "인기", icon: Flame },
   { href: "/categories", label: "카테고리", icon: Grid3X3 },
-  { href: "/notifications", label: "알림", icon: Bell },
-  { href: "/favorites", label: "찜", icon: Heart },
   { href: "/mypage", label: "마이", icon: User }
 ];
 
@@ -37,7 +35,7 @@ export function TopNavigation() {
           </span>
           <span className="min-w-0">
             <span className="block text-xl font-black text-slate-950">할인도사</span>
-            <span className="block text-xs font-bold text-slate-500">실시간 할인 특가 정보를 가장 빠르게 찾는 방법</span>
+            <span className="block text-xs font-bold text-slate-500">검증된 할인 특가를 빠르게 찾는 방법</span>
           </span>
         </Link>
 
@@ -66,13 +64,8 @@ export function TopNavigation() {
                   active ? "bg-dossa-red text-white" : "text-slate-500 hover:bg-slate-50 hover:text-slate-950"
                 }`}
               >
-                <Icon size={17} fill={active && item.href === "/favorites" ? "currentColor" : "none"} />
+                <Icon size={17} />
                 {item.label}
-                {"badge" in item ? (
-                  <span className={`rounded-full px-1.5 py-0.5 text-[10px] font-black leading-none ${active ? "bg-white text-dossa-red" : "bg-red-50 text-dossa-red"}`}>
-                    {item.badge}
-                  </span>
-                ) : null}
               </Link>
             );
           })}

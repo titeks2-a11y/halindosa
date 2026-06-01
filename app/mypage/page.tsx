@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Bell, CheckCircle2, Heart, LifeBuoy, Mail, ShieldCheck, ShoppingBag, Trash2, User } from "lucide-react";
+import { Bell, Heart, History, LifeBuoy, Mail, ShieldCheck, ShoppingBag, Trash2, User } from "lucide-react";
 import { AccountPanel } from "@/components/AccountPanel";
 import { AppInstallGuide } from "@/components/AppInstallGuide";
 import { LocalDataControls } from "@/components/LocalDataControls";
@@ -8,19 +8,13 @@ import { getSupportMailto, supportEmail } from "@/lib/support";
 
 export default function MyPage() {
   const quickActions = [
-    { href: "/favorites", label: "찜한 특가", description: "저장한 관심 특가 확인", icon: Heart },
-    { href: "/notifications", label: "알림 센터", description: "마감·인기·무료배송 특가", icon: Bell },
+    { href: "/favorites", label: "내 찜", description: "저장한 관심 특가 확인", icon: Heart },
+    { href: "/?verifiedOnly=true", label: "최근 본 상품", description: "방금 확인한 특가 이어보기", icon: History },
+    { href: "/notifications", label: "가격 알림", description: "관심 가격과 마감 조건 확인", icon: Bell },
     { href: "/categories", label: "카테고리", description: "원하는 할인 영역 탐색", icon: ShoppingBag },
-    { href: "/guide", label: "서비스 안내", description: "구매 전 확인 기준", icon: ShieldCheck },
-    { href: "/support", label: "고객센터", description: "문의와 가격 오류 신고", icon: LifeBuoy }
-  ];
-  const readinessItems = [
-    "앱 이름 할인도사 적용",
-    "Android 패키지 com.halindosa.app",
-    "개인정보처리방침 준비",
-    "이용약관 준비",
-    "외부 링크 리다이렉트 구조",
-    "앱 아이콘/스플래시 구조"
+    { href: "/support", label: "문의하기", description: "가격 오류와 품절 신고", icon: LifeBuoy },
+    { href: "/privacy", label: "개인정보처리방침", description: "데이터 보관과 동의 기준", icon: ShieldCheck },
+    { href: "/terms", label: "이용약관", description: "서비스 이용 기준 확인", icon: ShieldCheck }
   ];
   const settingSummary = [
     {
@@ -54,11 +48,11 @@ export default function MyPage() {
           </span>
           <div>
             <p className="text-xl font-black text-slate-950">할인도사</p>
-            <p className="text-sm font-bold text-slate-500">실시간 할인 특가 정보를 가장 빠르게 찾는 방법</p>
+            <p className="text-sm font-bold text-slate-500">검증된 할인 특가를 빠르게 찾는 방법</p>
           </div>
         </div>
         <p className="mt-5 rounded-2xl bg-slate-50 p-4 text-sm font-semibold leading-6 text-slate-600">
-          비회원도 특가를 자유롭게 탐색할 수 있고, 로그인하면 찜한 특가와 최근 본 상품을 계정 기반으로 이어볼 수 있습니다. 운영 데이터는 공식 API, 제휴 피드, 허용된 RSS처럼 권한이 확인된 소스만 연결하는 기준으로 관리합니다.
+          비회원도 특가를 자유롭게 탐색할 수 있고, 로그인하면 찜한 특가와 최근 본 상품, 가격 알림 조건을 계정 기반으로 이어볼 수 있습니다. 구매 전 최종 가격과 재고는 판매처에서 한 번 더 확인해 주세요.
         </p>
       </section>
 
@@ -98,7 +92,6 @@ export default function MyPage() {
             <h2 className="text-base font-black text-slate-950">빠른 작업</h2>
             <p className="mt-1 text-xs font-bold text-slate-500">자주 쓰는 화면과 정책 안내를 바로 열 수 있습니다.</p>
           </div>
-          <span className="rounded-full bg-red-50 px-3 py-1 text-xs font-black text-dossa-red">앱 버전 1.0.0</span>
         </div>
         <div className="mt-3 grid gap-2 sm:grid-cols-2">
           {quickActions.map((item) => {
@@ -117,15 +110,6 @@ export default function MyPage() {
             );
           })}
         </div>
-      </section>
-
-      <section className="grid gap-3 sm:grid-cols-2">
-        {readinessItems.map((item) => (
-          <div key={item} className="flex items-center gap-2 rounded-2xl border border-slate-200 bg-white p-4 text-sm font-black text-slate-700 shadow-sm">
-            <CheckCircle2 size={18} className="text-dossa-red" />
-            {item}
-          </div>
-        ))}
       </section>
 
       <section className="rounded-[22px] border border-slate-200 bg-white p-4 shadow-sm">

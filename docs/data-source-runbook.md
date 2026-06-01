@@ -101,7 +101,7 @@ npm run feed:production:doctor
 ```
 
 `feed:validate`는 운영자가 실제 파일 또는 URL을 연결하기 전에 상세 URL, 가격, 필수 필드, 커뮤니티/placeholder 링크, 검색 결과 fallback 여부를 검수한다.
-`--report`를 함께 쓰면 `ready`, `needs_fix`, 행 번호, 외부 ID, 판매처, 제목, 문제 필드, 수정 안내를 JSON으로 남긴다. 운영 연결 전에는 이 리포트에서 `invalid=0`, `readyRate=100`을 만든 뒤 production 피드로 전환한다.
+`--report`를 함께 쓰면 `ready`, `needs_fix`, 행 번호, 외부 ID, 판매처, 제목, 문제 필드, 수정 안내를 JSON으로 남긴다. `/api/admin/import` dry-run 응답도 `readyItems`와 `fixReport.rows`를 함께 내려주므로, 관리자 화면에서 ready JSON과 needs_fix 리포트를 나눠 저장할 수 있다. 운영 연결 전에는 이 리포트에서 `invalid=0`, `readyRate=100`을 만든 뒤 production 피드로 전환한다.
 `feed:production:doctor`는 임시 JSON 피드와 Next.js 서버를 띄운 뒤 `DEAL_DATA_MODE=production`, `DEAL_PRODUCTION_FEED_URLS=<fixture>` 조건에서 `/api/deals`가 `production` 데이터를 반환하는지 확인한다. 동시에 커뮤니티 원문 단독 링크가 운영 상품으로 노출되지 않는지, `/api/sources`가 설정된 운영 피드 수를 보고하는지 검증한다.
 
 ## 신규 상품 등록 기준

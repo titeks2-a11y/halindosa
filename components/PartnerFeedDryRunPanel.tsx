@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { AlertCircle, CheckCircle2, ClipboardCheck, Loader2, XCircle } from "lucide-react";
+import { AlertCircle, CheckCircle2, ClipboardCheck, Download, Loader2, XCircle } from "lucide-react";
 
 interface FeedIssue {
   index: number;
@@ -30,12 +30,34 @@ interface FeedDryRunRow {
   issues: FeedIssue[];
 }
 
+interface FeedDryRunReadyItem {
+  externalId?: string;
+  mall?: string;
+  title?: string;
+  [key: string]: unknown;
+}
+
+interface FeedDryRunFixReport {
+  source: string;
+  generatedAt: string;
+  nextAction: string;
+  rows: Array<{
+    row: FeedDryRunRow;
+    item: FeedDryRunReadyItem;
+  }>;
+}
+
 interface FeedDryRunResult {
   ok: boolean;
+  source?: string;
   received: number;
   valid: number;
   invalid: number;
   issues: FeedIssue[];
+  readyRate?: number;
+  readyItems?: FeedDryRunReadyItem[];
+  needsFixItems?: FeedDryRunFixReport["rows"];
+  fixReport?: FeedDryRunFixReport;
   linkSummary?: {
     verified: number;
     needsReview: number;
@@ -57,7 +79,19 @@ interface PartnerFeedDryRunPanelProps {
 
 function getReadyRate(result: FeedDryRunResult | null) {
   if (!result?.received) return 0;
-  return Math.round((result.valid / result.received) * 100);
+  return result.readyRate ?? Math.round((result.valid / result.received) * 100);
+}
+
+function downloadJson(filename: string, payload: unknown) {
+  const blob = new Blob([`${JSON.stringify(payload, null, 2)}\n`], { type: "application/json;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
 }
 
 export function PartnerFeedDryRunPanel({ token, initialJson }: PartnerFeedDryRunPanelProps) {
@@ -213,6 +247,35 @@ export function PartnerFeedDryRunPanel({ token, initialJson }: PartnerFeedDryRun
               <span className="shrink-0 rounded-full bg-slate-100 px-2.5 py-1 text-xs font-black text-slate-600">
                 rows[].status
               </span>
+            </div>
+
+            <div className="mt-3 grid gap-2 sm:grid-cols-2">
+              <button
+                type="button"
+                onClick={() =>
+                  result
+                    ? downloadJson("halindosa-ready-feed-items.json", {
+                        source: result.source ?? "partner_feed",
+                        generatedAt: new Date().toISOString(),
+                        readyItems: result.readyItems ?? []
+                      })
+                    : undefined
+                }
+                disabled={!result?.readyItems?.length}
+                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl bg-slate-950 px-3 py-2 text-xs font-black text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                <Download size={15} />
+                ready JSON 내보내기
+              </button>
+              <button
+                type="button"
+                onClick={() => (result ? downloadJson("halindosa-needs-fix-report.json", result.fixReport ?? { rows: [] }) : undefined)}
+                disabled={!result?.needsFixItems?.length}
+                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl bg-red-50 px-3 py-2 text-xs font-black text-dossa-red transition hover:bg-red-100 disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                <Download size={15} />
+                needs_fix 리포트 내보내기
+              </button>
             </div>
 
             <div className="mt-3 grid grid-cols-2 gap-2">

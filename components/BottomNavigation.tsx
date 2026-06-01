@@ -2,14 +2,12 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Bell, Gift, Grid3X3, Heart, Home, User } from "lucide-react";
+import { Flame, Grid3X3, Home, User } from "lucide-react";
 
 const navItems = [
   { href: "/", label: "홈", icon: Home },
-  { href: "/free-benefits", label: "무료", icon: Gift, badge: "0원" },
+  { href: "/popular", label: "인기", icon: Flame },
   { href: "/categories", label: "카테고리", icon: Grid3X3 },
-  { href: "/notifications", label: "알림", icon: Bell },
-  { href: "/favorites", label: "찜", icon: Heart },
   { href: "/mypage", label: "마이", icon: User }
 ];
 
@@ -27,7 +25,7 @@ export function BottomNavigation() {
 
   return (
     <nav aria-label="주요 메뉴" className="fixed bottom-0 left-0 right-0 z-50 border-t border-slate-200 bg-white/95 px-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] pt-1 shadow-[0_-10px_30px_rgba(15,23,42,0.08)] backdrop-blur lg:hidden">
-      <div className="mx-auto grid h-16 max-w-[520px] grid-cols-6">
+      <div className="mx-auto grid h-16 max-w-[520px] grid-cols-4">
         {navItems.map((item) => {
           const Icon = item.icon;
           const active = isActive(pathname, item.href);
@@ -42,12 +40,7 @@ export function BottomNavigation() {
                 active ? "bg-red-50 text-dossa-red" : "text-slate-400 active:bg-slate-50 active:text-slate-700"
               }`}
             >
-              {"badge" in item ? (
-                <span className="absolute right-2 top-1 rounded-full bg-dossa-red px-1.5 py-0.5 text-[9px] font-black leading-none text-white">
-                  {item.badge}
-                </span>
-              ) : null}
-              <Icon size={21} fill={active && item.href === "/favorites" ? "currentColor" : "none"} />
+              <Icon size={21} />
               {item.label}
             </Link>
           );

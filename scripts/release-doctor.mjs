@@ -527,7 +527,9 @@ async function checkPartnerFeedSafety() {
     !feedImport.includes("looksLikeProductDetailUrl") ||
     !feedImport.includes("중복 외부 ID") ||
     !feedImport.includes("검색 결과 fallback은 운영 노출 전에 실제 상품/혜택 상세 URL로 보강해야 합니다.") ||
-    !feedImport.includes("rows: buildRowSummary") ||
+    !feedImport.includes("rows,") ||
+    !feedImport.includes("readyItems") ||
+    !feedImport.includes("fixReport") ||
     !feedImport.includes("eligibilityChecklist") ||
     !feedImport.includes("claimSteps") ||
     !feedImport.includes("partner-008") ||
@@ -543,6 +545,8 @@ async function checkPartnerFeedSafety() {
     !smoke.includes("Expected search fallback validation issue") ||
     !smoke.includes("Expected duplicate feed row validation issue") ||
     !smoke.includes("Import dry-run should expose needs_fix row summaries") ||
+    !smoke.includes("Import dry-run should expose ready items for production feed handoff") ||
+    !smoke.includes("Import dry-run should expose needs_fix items for operator repair") ||
     !smoke.includes("Sample feed API missing V2 benefit sample feed rows") ||
     !smoke.includes("should separate community source URL from final purchase URL")
   ) {
@@ -976,14 +980,14 @@ async function checkUiAccessibility() {
     !bottomNavigation.includes("getNavAriaLabel") ||
     !bottomNav.includes('aria-label="주요 메뉴"') ||
     !bottomNavigation.includes('aria-label="주요 메뉴"') ||
-    !bottomNavigation.includes('badge: "0원"') ||
-    !topNavigation.includes('badge: "0원"') ||
+    !bottomNavigation.includes("grid-cols-4") ||
+    !bottomNavigation.includes("/popular") ||
     !bottomNav.includes("aria-current") ||
     !bottomNavigation.includes("aria-current")
   ) {
-    fail("bottom navigation accessibility", "Bottom navigation should expose named menus, free benefit badge, active state, and explicit button/link labels.");
+    fail("bottom navigation accessibility", "Bottom navigation should expose four named menus, active state, and explicit button/link labels.");
   } else {
-    pass("bottom navigation accessibility", "Route navigation and in-page navigation expose named menus, free benefit badge, active state, and explicit labels.");
+    pass("bottom navigation accessibility", "Route navigation and in-page navigation expose the simplified primary menus, active state, and explicit labels.");
   }
 
   if (!topNavigation.includes('aria-label="주요 메뉴"') || !topNavigation.includes('aria-label="상품명, 쇼핑몰, 카테고리 검색"') || !topNavigation.includes('aria-label="특가 정보 새로고침"')) {
@@ -1390,8 +1394,6 @@ async function checkOperationalDataSurfaces() {
   const benefitSavingsDiary = await text("components/BenefitSavingsDiary.tsx");
   const savingsDiary = await text("lib/savingsDiary.ts");
   const benefitVisitStreak = await text("lib/benefitVisitStreak.ts");
-  const bottomNavigation = await text("components/BottomNavigation.tsx");
-  const topNavigation = await text("components/TopNavigation.tsx");
   const trust = await text("lib/deals/trust.ts");
   const sourcesRoute = await text("app/api/sources/route.ts");
   const productionProvider = await text("lib/deals/providers/productionProvider.ts");
@@ -1399,6 +1401,7 @@ async function checkOperationalDataSurfaces() {
   const partnerFeedValidator = await text("scripts/validate-partner-feed.mjs");
   const productionFeedDoctor = await text("scripts/production-feed-doctor.mjs");
   const partnerFeedDryRunPanel = await text("components/PartnerFeedDryRunPanel.tsx");
+  const feedImport = await text("lib/feedImport.ts");
 
   const staticDataImports = [
     ["app/categories/page.tsx", categoriesPage],
@@ -1844,6 +1847,10 @@ async function checkOperationalDataSurfaces() {
     !partnerFeedDryRunPanel.includes("수정 필요 필드") ||
     !partnerFeedDryRunPanel.includes("result?.rows") ||
     !partnerFeedDryRunPanel.includes("primaryUrlField") ||
+    !partnerFeedDryRunPanel.includes("ready JSON 내보내기") ||
+    !partnerFeedDryRunPanel.includes("needs_fix 리포트 내보내기") ||
+    !feedImport.includes("readyItems") ||
+    !feedImport.includes("fixReport") ||
     !dataSourceRunbook.includes("Production JSON Feed") ||
     !dataSourceRunbook.includes("DEAL_PRODUCTION_FEED_URLS") ||
     !dataSourceRunbook.includes("npm run feed:validate") ||
@@ -1875,6 +1882,7 @@ async function checkOperationalDataSurfaces() {
     !smoke.includes("Admin dashboard missing partner feed validation report board") ||
     !smoke.includes("Admin dashboard missing paste-in feed dry-run panel") ||
     !smoke.includes("Admin dashboard missing row-level feed dry-run review summary") ||
+    !smoke.includes("Admin dashboard missing feed dry-run export actions") ||
     !smoke.includes("partner feed sample validation api")
   ) {
     fail("source readiness operation", "Sources API, production provider, docs, production feed doctor, and admin dashboard should expose source readiness, safe production JSON feed loading, allowed source policy, blocked source policy, and verified link quality for production feed transition.");
@@ -2178,8 +2186,6 @@ async function checkOperationalDataSurfaces() {
     !freeBenefitsClient.includes("reason=sold_out") ||
     !freeBenefitsClient.includes("품절 신고") ||
     !freeBenefitsClient.includes("deal.claimCta") ||
-    !bottomNavigation.includes("/free-benefits") ||
-    !topNavigation.includes("/free-benefits") ||
     !smoke.includes("free benefits page") ||
     !smoke.includes("Free benefits page missing visit streak record") ||
     !smoke.includes("Free benefits page missing pre-claim condition summary") ||
@@ -2217,9 +2223,9 @@ async function checkOperationalDataSurfaces() {
     !smoke.includes("Free benefits page missing claim effort cards") ||
     !smoke.includes("Free benefits page missing active-benefit status filter")
   ) {
-    fail("free benefits dedicated page", "Free benefit discovery should have a dedicated page, claimed-benefit tracking, priority queue, weekly routine, claim-effort filters, active-benefit filter, navigation entry, and smoke coverage.");
+    fail("free benefits dedicated page", "Free benefit discovery should have an available page, claimed-benefit tracking, priority queue, weekly routine, claim-effort filters, active-benefit filter, and smoke coverage.");
   } else {
-    pass("free benefits dedicated page", "Free benefits, coupons, convenience store, mart, delivery, point offers, claimed-benefit tracking, today's priority queue, weekly routine, claim-effort filtering, and active-benefit filtering have a dedicated navigable page.");
+    pass("free benefits dedicated page", "Free benefits, coupons, convenience store, mart, delivery, point offers, claimed-benefit tracking, today's priority queue, weekly routine, claim-effort filtering, and active-benefit filtering remain available without occupying primary navigation.");
   }
 
   if (!redirectUrl.includes("/go/") || !goRoute.includes("recordDealClick") || !goRoute.includes("buildOutboundUrl")) {
@@ -2576,6 +2582,43 @@ function checkSigningAndArtifacts() {
   else pass("debug APK", `${apk} (${fileSize(apk)} bytes)`);
 }
 
+async function checkCustomerNavigationSimplification() {
+  const bottomNav = await text("components/BottomNavigation.tsx");
+  const topNav = await text("components/TopNavigation.tsx");
+  const mypage = await text("app/mypage/page.tsx");
+  const popularPage = await text("app/popular/page.tsx");
+  const dealsRoute = await text("app/api/deals/route.ts");
+  const issues = [];
+
+  if (!bottomNav.includes("grid-cols-4")) issues.push("bottom navigation should use four tabs");
+  for (const phrase of ['href: "/free-benefits"', 'href: "/notifications"', 'href: "/favorites"', "badge:"]) {
+    if (bottomNav.includes(phrase)) issues.push(`bottom navigation still exposes ${phrase}`);
+  }
+
+  for (const required of ['href: "/"', 'href: "/popular"', 'href: "/categories"', 'href: "/mypage"']) {
+    if (!bottomNav.includes(required) || !topNav.includes(required)) issues.push(`top/bottom navigation missing ${required}`);
+  }
+
+  for (const phrase of ['href: "/free-benefits"', 'href: "/notifications"', 'href: "/favorites"', "무료혜택", "badge:"]) {
+    if (topNav.includes(phrase)) issues.push(`top navigation still exposes ${phrase}`);
+  }
+
+  const blockedMypagePhrases = ["Android 패키지", "개인정보처리방침 준비", "이용약관 준비", "앱 아이콘/스플래시", "앱 버전"];
+  const mypageFindings = blockedMypagePhrases.filter((phrase) => mypage.includes(phrase));
+  if (mypageFindings.length) issues.push(`mypage still has developer/release wording: ${mypageFindings.join(", ")}`);
+
+  if (!popularPage.includes('target="_blank"') || !popularPage.includes('rel="noopener noreferrer"') || !popularPage.includes("/go/${deal.id}")) {
+    issues.push("popular page purchase links should open /go/[id] in a new tab with noopener");
+  }
+
+  if (!dealsRoute.includes('verifiedOnly: searchParams.get("verifiedOnly") !== "false"')) {
+    issues.push("/api/deals should default customer results to verified links unless explicitly disabled");
+  }
+
+  if (issues.length) fail("customer navigation simplification", issues.join("; "));
+  else pass("customer navigation simplification", "Customer navigation is reduced to home/popular/categories/my and default deal API favors verified purchase links.");
+}
+
 function checkStoreAssets() {
   const sourceAssets = ["assets/store/halindosa-logo-source.jpg", "scripts/generate-brand-assets.ps1"];
   const requiredPngAssets = [
@@ -2639,6 +2682,7 @@ await checkAndroid();
 await checkIos();
 await checkPolicyAndStoreDocs();
 await checkReleaseEvidenceFreshness();
+await checkCustomerNavigationSimplification();
 checkSigningAndArtifacts();
 checkStoreAssets();
 

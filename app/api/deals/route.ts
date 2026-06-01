@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { mockDeals } from "@/data/mockDeals";
 import { getDeals, normalizeSort } from "@/lib/dealService";
 import { normalizeDeals } from "@/lib/deals/normalizer";
-import { summarizeDealQuality } from "@/lib/deals/quality";
+import { isVerifiedPurchaseLink, summarizeDealQuality } from "@/lib/deals/quality";
 
 export async function GET(request: Request) {
   try {
@@ -21,7 +21,7 @@ export async function GET(request: Request) {
       freeShippingOnly: searchParams.get("freeShippingOnly") === "true",
       hotOnly: searchParams.get("hotOnly") === "true",
       endingSoonOnly: searchParams.get("endingSoonOnly") === "true",
-      verifiedOnly: searchParams.get("verifiedOnly") === "true",
+      verifiedOnly: searchParams.get("verifiedOnly") !== "false",
       mall: searchParams.get("mall")?.trim(),
       dealType: searchParams.get("dealType")?.trim()
     });
@@ -36,7 +36,7 @@ export async function GET(request: Request) {
       message: "할인도사 특가 데이터를 성공적으로 불러왔습니다."
     });
   } catch (error) {
-    const fallbackDeals = normalizeDeals(mockDeals, "mock");
+    const fallbackDeals = normalizeDeals(mockDeals, "mock").filter((deal) => isVerifiedPurchaseLink(deal) && deal.purchaseLinkVerified && deal.linkStatus === "verified" && Boolean(deal.finalPurchaseUrl));
 
     return NextResponse.json(
       {

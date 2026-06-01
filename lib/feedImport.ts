@@ -52,6 +52,11 @@ export interface FeedImportRowSummary {
   issues: FeedImportIssue[];
 }
 
+export interface FeedImportFixReportRow {
+  row: FeedImportRowSummary;
+  item: PartnerFeedItem;
+}
+
 const allowedCategories = new Set<string>(categories.filter((category) => category !== "전체"));
 const allowedBenefitTypes = new Set<DealBenefitType>([
   "discount",
@@ -342,6 +347,13 @@ export function dryRunPartnerFeedImport(items: PartnerFeedItem[], source = "part
   );
   const validItems = items.filter((_, index) => validIndexes.has(index));
   const normalizedDeals = normalizePartnerFeed(validItems, source);
+  const rows = buildRowSummary(items, issues);
+  const needsFixItems = rows
+    .filter((row) => row.status === "needs_fix")
+    .map((row) => ({
+      row,
+      item: items[row.index]
+    }));
   const verified = normalizedDeals.filter((deal) => deal.linkVerified).length;
   const conditionReady = normalizedDeals.filter(
     (deal) =>
@@ -362,8 +374,19 @@ export function dryRunPartnerFeedImport(items: PartnerFeedItem[], source = "part
     received: items.length,
     valid: validItems.length,
     invalid: items.length - validItems.length,
+    readyRate: items.length ? Math.round((validItems.length / items.length) * 100) : 0,
     issues,
-    rows: buildRowSummary(items, issues),
+    rows,
+    readyItems: validItems,
+    needsFixItems,
+    fixReport: {
+      source,
+      generatedAt: new Date().toISOString(),
+      nextAction: needsFixItems.length
+        ? "needs_fix 행의 productUrl/finalPurchaseUrl/affiliateUrl과 필수 조건을 보강한 뒤 다시 dry-run을 실행하세요."
+        : "모든 행이 ready입니다. production feed doctor와 release doctor를 이어서 실행하세요.",
+      rows: needsFixItems
+    },
     linkSummary: {
       verified,
       needsReview: normalizedDeals.length - verified
