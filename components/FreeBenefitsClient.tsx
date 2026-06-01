@@ -2,8 +2,9 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, AlertTriangle, CalendarDays, ExternalLink, Gift, Search, Share2, ShieldCheck, Sparkles, Timer, Truck } from "lucide-react";
+import { ArrowLeft, AlertTriangle, CalendarDays, CheckCircle2, ExternalLink, Gift, Search, Share2, ShieldCheck, Sparkles, Timer, Truck } from "lucide-react";
 import { DealCard } from "@/components/DealCard";
+import { readClaimedBenefits, toggleClaimedBenefit } from "@/lib/claimedBenefits";
 import { getBenefitTypeLabel } from "@/lib/deals/benefits";
 import { formatPrice } from "@/lib/format";
 import { buildDealRedirectUrl } from "@/lib/redirectUrl";
@@ -111,6 +112,7 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
   const [firstComeOnly, setFirstComeOnly] = useState(false);
   const [activeOnly, setActiveOnly] = useState(false);
   const [favorites, setFavorites] = useState<string[]>(() => readFavorites());
+  const [claimedBenefits, setClaimedBenefits] = useState(() => readClaimedBenefits());
   const [message, setMessage] = useState("");
 
   const filteredDeals = useMemo(() => {
@@ -269,6 +271,13 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
     () => deals.filter((deal) => !deal.isExpired && !deal.isSoldOut && deal.linkStatus !== "broken").length,
     [deals]
   );
+  const claimedBenefitIds = useMemo(() => new Set(claimedBenefits.map((record) => record.dealId)), [claimedBenefits]);
+  const claimedTodayCount = useMemo(() => {
+    const today = new Date().toISOString().slice(0, 10);
+    return claimedBenefits.filter((record) => record.claimedAt.slice(0, 10) === today).length;
+  }, [claimedBenefits]);
+  const claimedSavings = useMemo(() => claimedBenefits.reduce((total, record) => total + record.savingsAmount, 0), [claimedBenefits]);
+  const recentClaimedBenefits = claimedBenefits.slice(0, 3);
   const needsFinalCheckCount = deals.length - activeBenefitCount;
   const sourceOverview = useMemo(
     () => [
@@ -371,6 +380,22 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
     }
   };
 
+  const toggleClaimed = (deal: Deal) => {
+    const next = toggleClaimedBenefit({
+      dealId: deal.id,
+      title: deal.title,
+      mallName: deal.mallName,
+      benefitSummary: deal.benefitSummary,
+      savingsAmount: deal.savingsAmount,
+      claimedAt: new Date().toISOString()
+    });
+    const wasClaimed = claimedBenefitIds.has(deal.id);
+
+    setClaimedBenefits(next);
+    setMessage(wasClaimed ? "챙긴 혜택 기록을 해제했습니다." : "오늘 챙긴 혜택으로 기록했습니다.");
+    window.setTimeout(() => setMessage(""), 2500);
+  };
+
   const resetFilters = () => {
     setQuery("");
     setActiveType("all");
@@ -456,6 +481,46 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
           </div>
           <div className="mt-4 rounded-2xl bg-amber-50 p-3 text-xs font-bold leading-5 text-amber-900">
             무료, 쿠폰, 포인트 혜택은 판매처 사정에 따라 조기 종료될 수 있습니다. 최종 수령 가능 여부와 비용 발생 조건은 판매처 화면에서 다시 확인하세요.
+          </div>
+        </section>
+
+        <section className="rounded-[28px] border border-red-100 bg-red-50 p-4 shadow-sm sm:p-5" aria-label="내가 챙긴 무료 혜택 기록">
+          <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+            <div>
+              <p className="text-xs font-black text-dossa-red">내가 챙긴 혜택 기록</p>
+              <h2 className="mt-1 text-2xl font-black tracking-tight text-slate-950">오늘 실제로 챙긴 혜택을 남겨보세요</h2>
+              <p className="mt-2 max-w-2xl text-sm font-bold leading-6 text-red-900/70">
+                비회원도 이 기기에만 기록됩니다. 무료 샘플, 쿠폰, 포인트를 확인한 뒤 `챙김`으로 남기면 다음 방문 때 이어볼 수 있습니다.
+              </p>
+            </div>
+            <div className="grid grid-cols-3 gap-2 text-center text-xs font-black">
+              <span className="rounded-2xl bg-white px-3 py-3 text-dossa-red shadow-sm">
+                <b className="block text-xl">{claimedTodayCount}</b>
+                오늘 챙김
+              </span>
+              <span className="rounded-2xl bg-white px-3 py-3 text-slate-700 shadow-sm">
+                <b className="block text-xl">{claimedBenefits.length}</b>
+                누적 기록
+              </span>
+              <span className="rounded-2xl bg-white px-3 py-3 text-slate-700 shadow-sm">
+                <b className="block text-xl">{formatPrice(claimedSavings)}</b>
+                절약 후보
+              </span>
+            </div>
+          </div>
+          <div className="mt-4 grid gap-2 md:grid-cols-3">
+            {recentClaimedBenefits.length ? (
+              recentClaimedBenefits.map((record) => (
+                <Link key={record.dealId} href={`/deals/${record.dealId}`} className="rounded-2xl bg-white p-3 shadow-sm transition hover:bg-red-100">
+                  <span className="block truncate text-sm font-black text-slate-950">{record.title}</span>
+                  <span className="mt-1 block truncate text-xs font-bold text-slate-500">{record.mallName} · {record.benefitSummary}</span>
+                </Link>
+              ))
+            ) : (
+              <p className="rounded-2xl border border-dashed border-red-200 bg-white p-4 text-center text-sm font-bold text-red-900/70 md:col-span-3">
+                아직 챙긴 혜택 기록이 없습니다. 아래 카드에서 받을 만한 혜택을 확인하고 `챙김`을 눌러보세요.
+              </p>
+            )}
           </div>
         </section>
 
@@ -795,7 +860,7 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
                     <span className="rounded-2xl bg-slate-50 px-3 py-2">만료: {deal.isEndingSoon ? "마감 임박" : "진행 중"}</span>
                     {deal.couponCondition ? <span className="col-span-2 rounded-2xl bg-red-50 px-3 py-2 text-dossa-red">조건: {deal.couponCondition}</span> : null}
                   </div>
-                  <div className="mt-3 grid grid-cols-[1fr_auto_auto] gap-2">
+                  <div className="mt-3 grid grid-cols-[1fr_auto_auto_auto] gap-2">
                     <button
                       type="button"
                       onClick={() => openDeal(deal)}
@@ -804,6 +869,18 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
                     >
                       {deal.claimCta}
                       <ExternalLink size={15} />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => toggleClaimed(deal)}
+                      aria-pressed={claimedBenefitIds.has(deal.id)}
+                      className={`inline-flex min-h-11 items-center justify-center gap-1.5 rounded-2xl px-3 text-xs font-black transition ${
+                        claimedBenefitIds.has(deal.id) ? "bg-slate-950 text-white" : "border border-slate-200 bg-white text-slate-600 hover:border-red-100 hover:text-dossa-red"
+                      }`}
+                      aria-label={`${deal.title} 챙긴 혜택 기록 ${claimedBenefitIds.has(deal.id) ? "해제" : "추가"}`}
+                    >
+                      <CheckCircle2 size={15} />
+                      챙김
                     </button>
                     <Link
                       href={`/reports?dealId=${deal.id}&reason=expired`}

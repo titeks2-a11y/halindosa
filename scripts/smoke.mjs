@@ -171,6 +171,7 @@ await check("mypage data controls", async () => {
   assert(text.includes("찜한 혜택 다시 보기") && text.includes("최근 본 상품 이어보기"), "Mypage missing saved and recent benefit routine actions");
   assert(text.includes("관심 카테고리 조정") && text.includes("가격 알림 조건 확인"), "Mypage missing interest and alert routine actions");
   assert(text.includes("이번 주 혜택 루틴 기록") && text.includes("오늘 챙긴 혜택") && text.includes("홈에서 오늘 루틴 계속하기"), "Mypage missing weekly benefit routine record");
+  assert(text.includes("오늘 챙김") && text.includes("누적 혜택") && text.includes("절약 후보"), "Mypage missing claimed benefit record summary");
   assert(text.includes("비회원도 기기에 저장") && text.includes("가입해야만 볼 수 있는 혜택은 없습니다"), "Mypage missing non-member storage guidance");
   assert(text.includes("홈 화면에 할인도사 고정"), "Mypage missing app install guide");
   assert(text.includes("앱으로 설치하기") && text.includes("공유 링크 복사"), "Mypage missing install/share actions");
@@ -180,7 +181,7 @@ await check("mypage data controls", async () => {
   assert(text.includes("찜한 특가") && text.includes("알림 센터") && text.includes("카테고리"), "Mypage missing quick action links");
   assert(text.includes("기기 데이터 관리"), "Mypage missing local data controls");
   assert(text.includes("찜/최근 본 특가/혜택 기록 삭제"), "Mypage missing local deal data delete action");
-  assert(text.includes("가격 알림 조건") && text.includes("혜택 출석 기록"), "Mypage missing price alert and check-in deletion scope");
+  assert(text.includes("가격 알림 조건") && text.includes("혜택 출석 기록") && text.includes("챙긴 혜택 기록"), "Mypage missing price alert, check-in, and claimed benefit deletion scope");
   assert(text.includes("분석/제휴 동의 초기화"), "Mypage missing consent reset action");
   assert(text.includes("서비스 안내"), "Mypage missing service guide link");
   assert(text.includes("가격/품절 정보 신고"), "Mypage missing report entry point");
@@ -524,6 +525,7 @@ await check("free benefits page", async () => {
   assert(response.status === 200, `Expected 200, got ${response.status}`);
   assert(text.includes("무료 혜택 전용 탭"), "Free benefits page missing title");
   assert(text.includes("수령 전 30초 확인") && text.includes("무료 혜택도 조건을 알고 받아야 합니다"), "Free benefits page missing pre-claim condition summary");
+  assert(text.includes("내가 챙긴 혜택 기록") && text.includes("오늘 실제로 챙긴 혜택을 남겨보세요") && text.includes("챙김"), "Free benefits page missing claimed benefit tracking");
   assert(text.includes("진행 중 혜택") && text.includes("가입 없이 받기") && text.includes("선착순 확인") && text.includes("배송비 확인"), "Free benefits page missing condition summary cards");
   assert(text.includes("혜택 출처·조건 점검") && text.includes("받기 전에 출처와 조건을 먼저 봅니다"), "Free benefits page missing source and condition trust summary");
   assert(text.includes("제공처 확인") && text.includes("실제 링크 확인") && text.includes("조건 요약") && text.includes("신고 가능"), "Free benefits page missing source condition operating cards");

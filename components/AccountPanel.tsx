@@ -6,6 +6,7 @@ import { AlertTriangle, Bell, CheckCircle2, Clock, Heart, History, LogOut, Setti
 import { useAuth } from "@/components/AuthProvider";
 import { getSupabaseBrowserClient } from "@/lib/auth/supabaseClient";
 import { benefitMissionLabels, getTodayKey, readBenefitCheckInState } from "@/lib/benefitCheckIn";
+import { readClaimedBenefits } from "@/lib/claimedBenefits";
 import { formatPrice } from "@/lib/format";
 import { priceAlertStorageKey } from "@/lib/priceAlerts";
 import {
@@ -95,13 +96,19 @@ function BenefitSaveRoutine({ mode }: { mode: "local" | "guest" | "member" }) {
 
 function BenefitCheckInSummary() {
   const [checkIn, setCheckIn] = useState(() => readBenefitCheckInState());
+  const [claimedBenefits, setClaimedBenefits] = useState(() => readClaimedBenefits());
   const todayKey = getTodayKey();
   const checkedToday = checkIn.lastDate === todayKey;
   const completedMissions = checkedToday ? checkIn.completedMissions : [];
   const completionRate = Math.round((completedMissions.length / 4) * 100);
+  const claimedTodayCount = claimedBenefits.filter((record) => record.claimedAt.slice(0, 10) === todayKey).length;
+  const claimedSavings = claimedBenefits.reduce((total, record) => total + record.savingsAmount, 0);
 
   useEffect(() => {
-    const refresh = () => setCheckIn(readBenefitCheckInState());
+    const refresh = () => {
+      setCheckIn(readBenefitCheckInState());
+      setClaimedBenefits(readClaimedBenefits());
+    };
     window.addEventListener("storage", refresh);
     refresh();
 
@@ -124,6 +131,20 @@ function BenefitCheckInSummary() {
       </div>
       <div className="mt-3 h-2 overflow-hidden rounded-full bg-white">
         <div className="h-full rounded-full bg-dossa-red" style={{ width: `${completionRate}%` }} />
+      </div>
+      <div className="mt-3 grid grid-cols-3 gap-2 text-center text-[11px] font-black">
+        <span className="rounded-2xl bg-white px-2 py-2 text-dossa-red shadow-sm">
+          <b className="block text-base">{claimedTodayCount}</b>
+          오늘 챙김
+        </span>
+        <span className="rounded-2xl bg-white px-2 py-2 text-slate-600 shadow-sm">
+          <b className="block text-base">{claimedBenefits.length}</b>
+          누적 혜택
+        </span>
+        <span className="rounded-2xl bg-white px-2 py-2 text-slate-600 shadow-sm">
+          <b className="block text-base">{formatPrice(claimedSavings)}</b>
+          절약 후보
+        </span>
       </div>
       <div className="mt-3 flex flex-wrap gap-2">
         {Object.entries(benefitMissionLabels).map(([id, label]) => {

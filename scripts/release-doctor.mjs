@@ -268,6 +268,7 @@ async function checkAuthSurface() {
   const recentDealMarker = await text("components/RecentDealMarker.tsx");
   const dealDetailPage = await text("app/deals/[id]/page.tsx");
   const benefitCheckIn = await text("lib/benefitCheckIn.ts");
+  const claimedBenefits = await text("lib/claimedBenefits.ts");
   const loginPage = await text("app/login/page.tsx");
   const signupPage = await text("app/signup/page.tsx");
   const supabaseClient = await text("lib/auth/supabaseClient.ts");
@@ -298,6 +299,8 @@ async function checkAuthSurface() {
     fail("member profile settings", "Mypage should explain optional benefit saving routines for non-members and members.");
   } else if (!accountPanel.includes("이번 주 혜택 루틴 기록") || !accountPanel.includes("홈에서 오늘 루틴 계속하기") || !accountPanel.includes("BenefitCheckInSummary") || !benefitCheckIn.includes("halindosa:benefit-check-in") || !smoke.includes("Mypage missing weekly benefit routine record")) {
     fail("member profile settings", "Mypage should surface the local daily benefit routine record from the shared check-in store.");
+  } else if (!accountPanel.includes("readClaimedBenefits") || !accountPanel.includes("오늘 챙김") || !accountPanel.includes("누적 혜택") || !claimedBenefits.includes("halindosa:claimed-benefits") || !smoke.includes("Mypage missing claimed benefit record summary")) {
+    fail("member profile settings", "Mypage should summarize locally claimed benefit records for non-member retention.");
   } else if (!mypagePage.includes("설정 점검 요약") || !mypagePage.includes("내 데이터와 알림을 한눈에 관리") || !mypagePage.includes("가격/품절 정보 신고")) {
     fail("member profile settings", "Mypage should summarize account, alert, consent, support, and report management paths.");
   } else {
@@ -1035,6 +1038,7 @@ async function checkOperationalDataSurfaces() {
   const favoritesPage = await text("app/favorites/page.tsx");
   const localDataControls = await text("components/LocalDataControls.tsx");
   const accountPanel = await text("components/AccountPanel.tsx");
+  const claimedBenefits = await text("lib/claimedBenefits.ts");
   const adminPage = await text("app/admin/page.tsx");
   const commercializationPage = await text("app/commercialization/page.tsx");
   const analytics = await text("lib/analytics.ts");
@@ -1092,11 +1096,13 @@ async function checkOperationalDataSurfaces() {
     !localDataControls.includes("가격 알림 조건") ||
     !localDataControls.includes("benefitCheckInStorageKey") ||
     !localDataControls.includes("혜택 출석 기록") ||
+    !localDataControls.includes("claimedBenefitStorageKey") ||
+    !localDataControls.includes("챙긴 혜택 기록") ||
     !accountPanel.includes("priceAlertStorageKey")
   ) {
-    fail("price alert data surface", "Notifications, in-app alert tab, account deletion, and local data controls should expose saved price alerts, benefit check-in records, and deletion scope.");
+    fail("price alert data surface", "Notifications, in-app alert tab, account deletion, and local data controls should expose saved price alerts, benefit check-in records, claimed benefit records, and deletion scope.");
   } else {
-    pass("price alert data surface", "Saved price alerts and benefit check-in records are visible in-app and included in local/account data deletion controls.");
+    pass("price alert data surface", "Saved price alerts, benefit check-in records, and claimed benefit records are visible in-app and included in local/account data deletion controls.");
   }
 
   if (
@@ -1320,6 +1326,12 @@ async function checkOperationalDataSurfaces() {
     !freeBenefitsClient.includes("sourceOverview") ||
     !freeBenefitsClient.includes("혜택 출처·조건 점검") ||
     !freeBenefitsClient.includes("받기 전에 출처와 조건을 먼저 봅니다") ||
+    !freeBenefitsClient.includes("내가 챙긴 혜택 기록") ||
+    !freeBenefitsClient.includes("오늘 실제로 챙긴 혜택을 남겨보세요") ||
+    !freeBenefitsClient.includes("toggleClaimed") ||
+    !freeBenefitsClient.includes("claimedBenefitIds") ||
+    !claimedBenefits.includes("toggleClaimedBenefit") ||
+    !claimedBenefits.includes("halindosa:claimed-benefits") ||
     !freeBenefitsClient.includes("제공처 확인") ||
     !freeBenefitsClient.includes("실제 링크 확인") ||
     !freeBenefitsClient.includes("배송비:") ||
@@ -1336,11 +1348,12 @@ async function checkOperationalDataSurfaces() {
     !smoke.includes("Free benefits page missing guided benefit checklist") ||
     !smoke.includes("Free benefits page missing quick decision rail") ||
     !smoke.includes("Free benefits page missing source and condition trust summary") ||
+    !smoke.includes("Free benefits page missing claimed benefit tracking") ||
     !smoke.includes("Free benefits page missing active-benefit status filter")
   ) {
-    fail("free benefits dedicated page", "Free benefit discovery should have a dedicated page, priority queue, weekly routine, active-benefit filter, navigation entry, and smoke coverage.");
+    fail("free benefits dedicated page", "Free benefit discovery should have a dedicated page, claimed-benefit tracking, priority queue, weekly routine, active-benefit filter, navigation entry, and smoke coverage.");
   } else {
-    pass("free benefits dedicated page", "Free benefits, coupons, convenience store, mart, delivery, point offers, today's priority queue, weekly routine, and active-benefit filtering have a dedicated navigable page.");
+    pass("free benefits dedicated page", "Free benefits, coupons, convenience store, mart, delivery, point offers, claimed-benefit tracking, today's priority queue, weekly routine, and active-benefit filtering have a dedicated navigable page.");
   }
 
   if (!redirectUrl.includes("/go/") || !goRoute.includes("recordDealClick") || !goRoute.includes("buildOutboundUrl")) {
