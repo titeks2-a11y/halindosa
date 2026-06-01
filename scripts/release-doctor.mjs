@@ -1426,12 +1426,16 @@ async function checkOperationalDataSurfaces() {
     !healthRoute.includes("verifiedLinkRate") ||
     !healthRoute.includes("claimGuideRate") ||
     !healthRoute.includes("freeBenefitDeals") ||
+    !healthRoute.includes("buildPersonalizationReadiness") ||
+    !healthRoute.includes("personalizationReadyRate") ||
+    !healthRoute.includes("personalizationQueuesReady") ||
     !smoke.includes("Health API missing V2 operational readiness") ||
-    !smoke.includes("Health API claim guide rate is below launch threshold")
+    !smoke.includes("Health API claim guide rate is below launch threshold") ||
+    !smoke.includes("Health API missing personalization readiness rate")
   ) {
-    fail("operational health checks", "Health API should expose V2 link, free benefit, and claim-guide readiness with smoke coverage.");
+    fail("operational health checks", "Health API should expose V2 link, free benefit, claim-guide, and personalization readiness with smoke coverage.");
   } else {
-    pass("operational health checks", "Health API exposes V2 link, free benefit, and claim-guide readiness with smoke coverage.");
+    pass("operational health checks", "Health API exposes V2 link, free benefit, claim-guide, and personalization readiness with smoke coverage.");
   }
 
   if (

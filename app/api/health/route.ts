@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getDeals } from "@/lib/dealService";
+import { buildPersonalizationReadiness } from "@/lib/analytics";
 
 export async function GET() {
   const startedAt = Date.now();
@@ -20,6 +21,7 @@ export async function GET() {
         deal.claimSteps.length >= 3 &&
         Boolean(deal.claimWarning)
     );
+    const personalizationReadiness = buildPersonalizationReadiness(result.deals);
     const verifiedLinkRate = totalDeals ? Math.round((verifiedLinkDeals.length / totalDeals) * 100) : 0;
     const claimGuideRate = totalDeals ? Math.round((claimGuideReadyDeals.length / totalDeals) * 100) : 0;
     const operationalStatus =
@@ -35,6 +37,9 @@ export async function GET() {
         operationalStatus,
         verifiedLinkRate,
         claimGuideRate,
+        personalizationReadyRate: personalizationReadiness.averageReadyRate,
+        personalizationQueuesReady: personalizationReadiness.readyInterestGroups,
+        personalizationWeakQueues: personalizationReadiness.weakQueues.length,
         activeDeals: activeDeals.length,
         freeBenefitDeals: freeBenefitDeals.length
       },

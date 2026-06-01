@@ -379,7 +379,7 @@ function buildBenefitRetentionPlan(deals: Deal[], benefitQuality: ReturnType<typ
   };
 }
 
-function buildPersonalizationReadiness(deals: Deal[]) {
+export function buildPersonalizationReadiness(deals: Deal[]) {
   const interestGroups = [
     { key: "free-coupon", label: "무료·쿠폰 관심", interests: ["무료/체험", "쿠폰/이벤트"] },
     { key: "living-food", label: "생활·식품 관심", interests: ["생활용품", "식품"] },

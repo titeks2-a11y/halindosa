@@ -782,6 +782,8 @@ await check("health api", async () => {
   assert(data.checks?.verifiedLinkRate >= 90, "Health API verified link rate is below launch threshold");
   assert(data.checks?.claimGuideRate >= 95, "Health API claim guide rate is below launch threshold");
   assert(data.checks?.freeBenefitDeals >= 10, "Health API missing free benefit readiness count");
+  assert(data.checks?.personalizationReadyRate >= 0, "Health API missing personalization readiness rate");
+  assert(data.checks?.personalizationQueuesReady >= 0, "Health API missing personalization ready queue count");
 });
 
 await check("today benefits api", async () => {
