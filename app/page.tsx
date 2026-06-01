@@ -32,6 +32,7 @@ import { mockDeals } from "@/data/mockDeals";
 import { ConsentState, hasAffiliateConsent, hasAnalyticsConsent, readStoredConsent } from "@/lib/consent";
 import { canOpenDealLink } from "@/lib/affiliate";
 import { readBenefitReturnReservations } from "@/lib/benefitReturnReservations";
+import { readBenefitVisitStreak } from "@/lib/benefitVisitStreak";
 import { readClaimedBenefits } from "@/lib/claimedBenefits";
 import { getLinkQualityScore, isVerifiedPurchaseLink } from "@/lib/deals/quality";
 import { formatPrice, getRelativeTime } from "@/lib/format";
@@ -348,6 +349,7 @@ function requestJson<T>(url: string): Promise<T> {
 function ClaimedBenefitHomeSummary({ deals, favorites }: { deals: Deal[]; favorites: string[] }) {
   const [claimedBenefits, setClaimedBenefits] = useState(() => readClaimedBenefits());
   const [returnReservations, setReturnReservations] = useState(() => readBenefitReturnReservations());
+  const [visitStreak, setVisitStreak] = useState(() => readBenefitVisitStreak());
   const claimedIds = useMemo(() => new Set(claimedBenefits.map((record) => record.dealId)), [claimedBenefits]);
   const todayKey = new Date().toISOString().slice(0, 10);
   const claimedToday = claimedBenefits.filter((record) => record.claimedAt.slice(0, 10) === todayKey);
@@ -391,6 +393,7 @@ function ClaimedBenefitHomeSummary({ deals, favorites }: { deals: Deal[]; favori
     const refresh = () => {
       setClaimedBenefits(readClaimedBenefits());
       setReturnReservations(readBenefitReturnReservations());
+      setVisitStreak(readBenefitVisitStreak());
     };
     refresh();
     window.addEventListener("storage", refresh);
@@ -503,6 +506,29 @@ function ClaimedBenefitHomeSummary({ deals, favorites }: { deals: Deal[]; favori
               </Link>
               <Link href="/notifications" className="rounded-2xl bg-slate-950 px-3 py-2 text-center text-xs font-black text-white">
                 알림에서 이어보기
+              </Link>
+            </div>
+          </div>
+          <div className="mt-3 rounded-2xl border border-red-100 bg-white p-3">
+            <div className="flex items-center justify-between gap-3">
+              <div>
+                <p className="text-[11px] font-black text-dossa-red">홈 무료 혜택 방문 요약</p>
+                <p className="mt-1 text-xs font-bold leading-5 text-slate-500">
+                  무료혜택 탭을 열어본 흐름을 홈에서도 이어봅니다. 비회원도 이 기기에만 기록됩니다.
+                </p>
+              </div>
+              <span className="shrink-0 rounded-full bg-red-50 px-2.5 py-1 text-[11px] font-black text-dossa-red">
+                연속 {visitStreak.currentStreak}일
+              </span>
+            </div>
+            <div className="mt-3 grid grid-cols-2 gap-2">
+              <div className="rounded-2xl bg-red-50 px-3 py-2">
+                <p className="text-[11px] font-black text-dossa-red">누적 방문</p>
+                <p className="mt-1 text-sm font-black text-slate-950">{visitStreak.totalVisits}회</p>
+              </div>
+              <Link href="/free-benefits" className="rounded-2xl bg-slate-950 px-3 py-2 text-xs font-black text-white">
+                무료 혜택 방문 루틴 계속하기
+                <span className="mt-1 block text-[11px] text-slate-300">무료 1개 챙기고 쿠폰 점검</span>
               </Link>
             </div>
           </div>

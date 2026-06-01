@@ -934,8 +934,11 @@ async function checkUiAccessibility() {
         !homePage.includes("ClaimedBenefitHomeSummary") ||
         !homePage.includes("readClaimedBenefits") ||
         !homePage.includes("readBenefitReturnReservations") ||
+        !homePage.includes("readBenefitVisitStreak") ||
         !homePage.includes("missionSteps") ||
         !homePage.includes("오늘 챙긴 혜택 요약") ||
+        !homePage.includes("홈 무료 혜택 방문 요약") ||
+        !homePage.includes("무료 혜택 방문 루틴 계속하기") ||
         !homePage.includes("홈 오늘 혜택 미션") ||
         !homePage.includes("무료 혜택 1개 챙기기") ||
         !homePage.includes("쿠폰 1개 저장하기") ||
@@ -1006,6 +1009,7 @@ async function checkUiAccessibility() {
         !smoke.includes("Home page missing benefit check-in card") ||
         !smoke.includes("Home page missing daily benefit completion record") ||
         !smoke.includes("Home page missing claimed benefit summary") ||
+        !smoke.includes("Home page missing free benefit visit streak summary") ||
         !smoke.includes("Home page missing return reservation summary") ||
         !smoke.includes("Home page missing free coupon top ranking section") ||
         !smoke.includes("Home page missing apptech reward routine rail") ||
