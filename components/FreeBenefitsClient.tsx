@@ -271,6 +271,52 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
     () => deals.filter((deal) => !deal.isExpired && !deal.isSoldOut && deal.linkStatus !== "broken").length,
     [deals]
   );
+  const filteredReadinessSummary = useMemo(
+    () => [
+      {
+        title: "바로 받을 가능성",
+        value: `${filteredDeals.filter((deal) => !deal.requiresSignup && !deal.isExpired && !deal.isSoldOut).length}개`,
+        copy: "가입 없이 받기, 진행 중 상태를 우선 봅니다.",
+        action: "가입 없이",
+        onClick: () => {
+          setNoSignupOnly(true);
+          setActiveOnly(true);
+        }
+      },
+      {
+        title: "추가 비용 낮음",
+        value: `${filteredDeals.filter((deal) => deal.isFreeShipping || deal.shippingFee === "무료배송" || deal.salePrice <= 1000).length}개`,
+        copy: "무료배송, 0원, 배송비 부담이 낮은 혜택입니다.",
+        action: "무배/0원",
+        onClick: () => {
+          setFreeShippingOnly(true);
+          setActiveOnly(true);
+        }
+      },
+      {
+        title: "오늘 먼저 확인",
+        value: `${filteredDeals.filter((deal) => deal.isEndingSoon || deal.isFirstComeFirstServed).length}개`,
+        copy: "마감 임박, 선착순 가능성이 있는 혜택입니다.",
+        action: "마감순",
+        onClick: () => {
+          setEndingSoonOnly(true);
+          setFirstComeOnly(true);
+          setSort("endingSoon");
+        }
+      },
+      {
+        title: "실제 링크 확인",
+        value: `${filteredDeals.filter((deal) => deal.linkStatus === "verified" && deal.finalPurchaseUrl).length}개`,
+        copy: "신청/구매 상세로 바로 이동 가능한 혜택입니다.",
+        action: "신뢰 링크",
+        onClick: () => {
+          setActiveOnly(true);
+          setSort("recommended");
+        }
+      }
+    ],
+    [filteredDeals]
+  );
   const claimedBenefitIds = useMemo(() => new Set(claimedBenefits.map((record) => record.dealId)), [claimedBenefits]);
   const claimedTodayCount = useMemo(() => {
     const today = new Date().toISOString().slice(0, 10);
@@ -1118,6 +1164,39 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
           </div>
           <p className="mt-3 text-xs font-bold text-slate-500">
             현재 결과 {filteredDeals.length}개 · 조건은 판매처에서 최종 확인해야 하며 종료/품절 가능성이 있습니다.
+          </p>
+        </section>
+
+        <section className="rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5" aria-label="현재 결과 혜택 판단 요약">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-black text-dossa-red">현재 결과 혜택 판단 요약</p>
+              <h2 className="mt-1 text-xl font-black tracking-tight text-slate-950">검색 결과를 받기 쉬운 조건부터 다시 정리합니다</h2>
+            </div>
+            <p className="max-w-md text-sm font-bold leading-6 text-slate-500">
+              무료 혜택은 가입, 배송비, 선착순, 실제 링크 여부가 중요합니다. 지금 보이는 결과 기준으로 바로 좁혀보세요.
+            </p>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+            {filteredReadinessSummary.map((item) => (
+              <button
+                key={item.title}
+                type="button"
+                onClick={item.onClick}
+                className="min-h-[148px] rounded-3xl border border-slate-100 bg-slate-50 p-4 text-left transition hover:-translate-y-0.5 hover:border-red-200 hover:bg-red-50"
+                aria-label={`${item.title} ${item.value} 조건 적용`}
+              >
+                <span className="flex items-start justify-between gap-3">
+                  <span className="rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-dossa-red shadow-sm">{item.action}</span>
+                  <span className="rounded-full bg-slate-950 px-2.5 py-1 text-xs font-black text-white">{item.value}</span>
+                </span>
+                <span className="mt-4 block text-sm font-black text-slate-950">{item.title}</span>
+                <span className="mt-1 line-clamp-2 block text-xs font-bold leading-5 text-slate-500">{item.copy}</span>
+              </button>
+            ))}
+          </div>
+          <p className="mt-4 rounded-2xl bg-amber-50 px-4 py-3 text-xs font-bold leading-5 text-amber-900">
+            이 요약은 현재 필터 결과를 빠르게 고르는 도구입니다. 최종 신청 가능 여부, 배송비, 쿠폰 적용은 판매처 화면에서 다시 확인하세요.
           </p>
         </section>
 

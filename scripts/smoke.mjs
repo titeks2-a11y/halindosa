@@ -585,6 +585,13 @@ await check("free benefits page", async () => {
   assert(text.includes("혜택 준비물 체크") && text.includes("받기 전 필요한 조건만 먼저 정리합니다"), "Free benefits page missing benefit readiness checklist");
   assert(text.includes("회원가입 없이 받을 혜택") && text.includes("배송비 부담 없는 혜택") && text.includes("쿠폰 조건 확인 필요"), "Free benefits page missing readiness filter actions");
   assert(
+    text.includes("현재 결과 혜택 판단 요약") &&
+      text.includes("검색 결과를 받기 쉬운 조건부터 다시 정리합니다") &&
+      text.includes("바로 받을 가능성") &&
+      text.includes("실제 링크 확인"),
+    "Free benefits page missing filtered readiness summary"
+  );
+  assert(
     text.includes("쿠폰·이벤트 조건 보드") &&
       text.includes("최소 주문 금액") &&
       text.includes("중복 가능 여부") &&
