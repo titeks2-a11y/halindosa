@@ -334,6 +334,44 @@ export default async function CategoriesPage() {
     })
     .sort((a, b) => b.totalRisk - a.totalRisk || b.count - a.count)
     .slice(0, 6);
+  const categoryClaimEffortMap = categories
+    .filter((category) => category.id !== "all" && category.group === "카테고리" && category.count > 0)
+    .map((category) => {
+      const items = activeDeals.filter((deal) => dealMatchesChannel(deal, category.id));
+      const easyCount = items.filter(
+        (deal) =>
+          !deal.requiresSignup &&
+          !deal.isFirstComeFirstServed &&
+          !deal.isEndingSoon &&
+          (deal.salePrice <= 1000 || deal.isFreeShipping || deal.shippingFee === "무료배송" || ["freebie", "experience", "freeShipping"].includes(deal.dealType))
+      ).length;
+      const conditionCount = items.filter(
+        (deal) =>
+          deal.requiresSignup ||
+          Boolean(deal.couponCondition) ||
+          Boolean(deal.minimumOrderAmount) ||
+          (!deal.isFreeShipping && deal.shippingFee !== "무료배송" && deal.salePrice > 0)
+      ).length;
+      const deadlineCount = items.filter((deal) => deal.isFirstComeFirstServed || deal.isEndingSoon).length;
+      const bestDeal = [...items].sort(
+        (a, b) =>
+          Number(!b.requiresSignup) - Number(!a.requiresSignup) ||
+          Number(b.isFreeShipping) - Number(a.isFreeShipping) ||
+          getLinkQualityScore(b) - getLinkQualityScore(a) ||
+          b.savingsAmount - a.savingsAmount
+      )[0];
+
+      return {
+        ...category,
+        easyCount,
+        conditionCount,
+        deadlineCount,
+        bestDeal,
+        effortScore: easyCount * 2 + category.verifiedCount - conditionCount - deadlineCount
+      };
+    })
+    .sort((a, b) => b.effortScore - a.effortScore || b.count - a.count)
+    .slice(0, 6);
 
   return (
     <div className="space-y-4 px-3 py-4 sm:px-4 lg:px-0 lg:py-8">
@@ -618,6 +656,61 @@ export default async function CategoriesPage() {
                 </span>
               </div>
               <p className="mt-3 text-xs font-black text-dossa-red">예상 절약 후보 {formatPrice(category.savingsTotal)}</p>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <section className="rounded-[24px] border border-red-100 bg-white p-4 shadow-sm lg:p-5" aria-label="카테고리별 수령 난이도">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-xs font-black text-dossa-red">카테고리별 수령 난이도</p>
+            <h2 className="mt-1 text-base font-black text-slate-950">처음이라면 받기 쉬운 영역부터 시작하세요</h2>
+            <p className="mt-1 text-sm font-semibold leading-6 text-slate-500">
+              가입, 배송비, 쿠폰 조건, 선착순 신호를 카테고리별로 나눠 무료·쿠폰 혜택의 헛걸음을 줄입니다.
+            </p>
+          </div>
+          <Link href="/free-benefits?activeOnly=true" className="rounded-2xl bg-dossa-red px-4 py-3 text-center text-xs font-black text-white">
+            받기 쉬운 혜택 보기
+          </Link>
+        </div>
+        <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+          {categoryClaimEffortMap.map((category) => (
+            <Link
+              key={category.id}
+              href={`/?category=${category.id}&verifiedOnly=true`}
+              className="rounded-[22px] border border-slate-100 bg-slate-50 p-4 transition hover:-translate-y-0.5 hover:border-red-200 hover:bg-red-50"
+            >
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <p className="text-sm font-black text-slate-950">{category.label}</p>
+                  <p className="mt-1 line-clamp-2 text-xs font-bold leading-5 text-slate-500">{category.description}</p>
+                </div>
+                <span className="shrink-0 rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-dossa-red shadow-sm">
+                  링크 확인 {category.verifiedCount}
+                </span>
+              </div>
+              <div className="mt-4 grid grid-cols-3 gap-2 text-center text-[11px] font-black">
+                <span className="rounded-2xl bg-white px-2 py-2 text-emerald-700 shadow-sm">
+                  간편 수령
+                  <b className="mt-1 block text-sm">{category.easyCount}</b>
+                </span>
+                <span className="rounded-2xl bg-white px-2 py-2 text-slate-700 shadow-sm">
+                  조건 확인
+                  <b className="mt-1 block text-sm">{category.conditionCount}</b>
+                </span>
+                <span className="rounded-2xl bg-white px-2 py-2 text-amber-700 shadow-sm">
+                  마감 주의
+                  <b className="mt-1 block text-sm">{category.deadlineCount}</b>
+                </span>
+              </div>
+              <div className="mt-4 rounded-2xl bg-white p-3 shadow-sm">
+                <p className="text-[11px] font-black text-dossa-red">받기 쉬운 대표 혜택</p>
+                <p className="mt-1 line-clamp-2 min-h-9 text-sm font-black leading-snug text-slate-950">
+                  {category.bestDeal ? category.bestDeal.title : "조건에 맞는 혜택 준비 중"}
+                </p>
+                <p className="mt-2 text-[11px] font-black text-slate-500">무료처럼 보여도 판매처 조건은 최종 확인</p>
+              </div>
             </Link>
           ))}
         </div>

@@ -1257,6 +1257,12 @@ async function checkOperationalDataSurfaces() {
     !categoriesPage.includes("카테고리별 오늘 혜택 요약") ||
     !categoriesPage.includes("무료·쿠폰·마감 신호가 많은 영역부터 보세요") ||
     !categoriesPage.includes("예상 절약 후보") ||
+    !categoriesPage.includes("categoryClaimEffortMap") ||
+    !categoriesPage.includes("카테고리별 수령 난이도") ||
+    !categoriesPage.includes("처음이라면 받기 쉬운 영역부터 시작하세요") ||
+    !categoriesPage.includes("간편 수령") ||
+    !categoriesPage.includes("조건 확인") ||
+    !categoriesPage.includes("마감 주의") ||
     !categoriesPage.includes("categoryRiskMap") ||
     !categoriesPage.includes("카테고리 조건 점검 지도") ||
     !categoriesPage.includes("숨은 비용·가입·마감 신호를 카테고리별로 봅니다") ||
@@ -1264,11 +1270,13 @@ async function checkOperationalDataSurfaces() {
     !smoke.includes("Categories page missing benefit comparison matrix") ||
     !smoke.includes("Categories page missing benefit type quick map") ||
     !smoke.includes("Categories page missing culture and apptech benefit journeys") ||
+    !smoke.includes("Categories page missing category claim effort map") ||
+    !smoke.includes("Categories page missing category claim effort metrics") ||
     !smoke.includes("Categories page missing category condition risk map")
   ) {
-    fail("category discovery UX", "Categories page should group channels and surface verified-link-first and benefit-type discovery.");
+    fail("category discovery UX", "Categories page should group channels and surface verified-link-first, benefit-type, and claim-effort discovery.");
   } else {
-    pass("category discovery UX", "Categories page groups channels and surfaces verified-link-first and benefit-type discovery.");
+    pass("category discovery UX", "Categories page groups channels and surfaces verified-link-first, benefit-type, and claim-effort discovery.");
   }
 
   if (
