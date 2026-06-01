@@ -1309,6 +1309,24 @@ export default function Home() {
       ),
     [catalog]
   );
+  const quickMallFilterChips = useMemo(
+    () =>
+      mallFilters
+        .filter((mall) => mall.id !== "all" && (mallCounts[mall.id] ?? 0) > 0)
+        .slice(0, 7),
+    [mallCounts]
+  );
+  const quickPriceFilterChips = useMemo(
+    () => priceBands.filter((band) => band.id !== "all" && (priceBandCounts[band.id] ?? 0) > 0),
+    [priceBandCounts]
+  );
+  const quickBenefitFilterChips = useMemo(
+    () =>
+      benefitFilters.filter((filter) =>
+        ["discount", "freebie", "coupon", "freeShipping", "point", "foodDelivery"].includes(filter.id)
+      ),
+    []
+  );
 
   const popularSearchKeywords = useMemo(() => {
     const source = catalog.length ? catalog : deals;
@@ -1792,6 +1810,89 @@ export default function Home() {
                   {item.label}
                 </button>
               ))}
+            </div>
+            <div className="mt-3 grid gap-3 xl:grid-cols-3" aria-label="쇼핑몰 가격 혜택 빠른 필터">
+              <div className="rounded-2xl bg-slate-50 px-3 py-3">
+                <div className="mb-2 flex items-center justify-between gap-2">
+                  <p className="text-xs font-black text-slate-700">쇼핑몰 빠른 선택</p>
+                  <p className="text-[11px] font-bold text-slate-400">자주 쓰는 판매처</p>
+                </div>
+                <div className="flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                  {quickMallFilterChips.map((mall) => (
+                    <button
+                      key={mall.id}
+                      type="button"
+                      onClick={() => setMallFilter((current) => (current === mall.id ? "all" : mall.id))}
+                      className={`inline-flex min-h-10 shrink-0 items-center gap-1.5 rounded-2xl border px-3 text-xs font-black transition ${
+                        mallFilter === mall.id
+                          ? "border-transparent bg-slate-950 text-white shadow-sm"
+                          : "border-slate-200 bg-white text-slate-700 hover:border-red-200 hover:bg-red-50 hover:text-dossa-red"
+                      }`}
+                      aria-pressed={mallFilter === mall.id}
+                      aria-label={`${mall.label} 쇼핑몰 필터 적용`}
+                    >
+                      {mall.label}
+                      <span className={`rounded-full px-2 py-0.5 text-[10px] ${mallFilter === mall.id ? "bg-white/15 text-white" : "bg-slate-100 text-slate-500"}`}>
+                        {mallCounts[mall.id] ?? 0}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div className="rounded-2xl bg-slate-50 px-3 py-3">
+                <div className="mb-2 flex items-center justify-between gap-2">
+                  <p className="text-xs font-black text-slate-700">가격 빠른 선택</p>
+                  <p className="text-[11px] font-bold text-slate-400">예산별 보기</p>
+                </div>
+                <div className="flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                  {quickPriceFilterChips.map((band) => (
+                    <button
+                      key={band.id}
+                      type="button"
+                      onClick={() => setPriceBand((current) => (current === band.id ? "all" : band.id))}
+                      className={`inline-flex min-h-10 shrink-0 items-center gap-1.5 rounded-2xl border px-3 text-xs font-black transition ${
+                        priceBand === band.id
+                          ? "border-transparent bg-slate-950 text-white shadow-sm"
+                          : "border-slate-200 bg-white text-slate-700 hover:border-red-200 hover:bg-red-50 hover:text-dossa-red"
+                      }`}
+                      aria-pressed={priceBand === band.id}
+                      aria-label={`${band.label} 가격대 필터 적용`}
+                    >
+                      {band.label}
+                      <span className={`rounded-full px-2 py-0.5 text-[10px] ${priceBand === band.id ? "bg-white/15 text-white" : "bg-slate-100 text-slate-500"}`}>
+                        {priceBandCounts[band.id] ?? 0}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div className="rounded-2xl bg-slate-50 px-3 py-3">
+                <div className="mb-2 flex items-center justify-between gap-2">
+                  <p className="text-xs font-black text-slate-700">혜택 빠른 선택</p>
+                  <p className="text-[11px] font-bold text-slate-400">무료·쿠폰·포인트</p>
+                </div>
+                <div className="flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                  {quickBenefitFilterChips.map((filter) => (
+                    <button
+                      key={filter.id}
+                      type="button"
+                      onClick={() => {
+                        setBenefitFilter((current) => (current === filter.id ? "all" : filter.id));
+                        setFreeShippingOnly((current) => (filter.id === "freeShipping" ? !current : false));
+                      }}
+                      className={`inline-flex min-h-10 shrink-0 items-center rounded-2xl border px-3 text-xs font-black transition ${
+                        benefitFilter === filter.id
+                          ? "border-transparent bg-slate-950 text-white shadow-sm"
+                          : "border-slate-200 bg-white text-slate-700 hover:border-red-200 hover:bg-red-50 hover:text-dossa-red"
+                      }`}
+                      aria-pressed={benefitFilter === filter.id}
+                      aria-label={`${filter.label} 혜택 유형 필터 적용`}
+                    >
+                      {filter.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>
             <div className="mt-3" aria-label="카테고리 바로가기">
               <div className="mb-2 flex items-center justify-between gap-2">
