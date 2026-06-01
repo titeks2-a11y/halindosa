@@ -394,7 +394,7 @@ async function checkPublicClaimCopy() {
     "lib/priceHistory.ts",
     "docs/play-store-listing.md"
   ];
-  const blockedPhrases = ["무조건 최저가", "100% 실시간 보장", "공식 판매처 보장", "수익 보장", "최저가 의심 상품", "최근 최저가", "최저가 수준"];
+  const blockedPhrases = ["무조건 최저가", "100% 실시간 보장", "공식 판매처 보장", "수익 보장", "최저가 의심 상품", "최근 최저가", "최저가 수준", "최저 현재가"];
   const absolutePriceClaim = "최저가";
   const findings = [];
 

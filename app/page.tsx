@@ -1463,7 +1463,7 @@ export default function Home() {
         helper: "할인율 높은순으로 바로 비교"
       },
       {
-        label: "최저 현재가",
+        label: "낮은 현재가",
         value: Number.isFinite(lowestPrice) ? formatPrice(lowestPrice) : "-",
         helper: "가격 낮은순과 함께 확인"
       },
