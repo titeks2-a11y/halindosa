@@ -1,4 +1,5 @@
 import { findDealById, getDeals } from "@/lib/dealService";
+import { buildClaimEffortSummary } from "@/lib/deals/claimEffort";
 import { buildPersonalizedBenefitQueue } from "@/lib/deals/personalizedBenefitQueue";
 import { getLinkReviewQueue, summarizeDealQuality } from "@/lib/deals/quality";
 import { getOperationalEnvReadiness } from "@/lib/operations/envReadiness";
@@ -292,6 +293,33 @@ function summarizeBenefitQuality(deals: Deal[]) {
     })
     .sort((a, b) => b.priorityScore - a.priorityScore || b.needsVerificationCount - a.needsVerificationCount || b.count - a.count)
     .slice(0, 6);
+  const claimEffortSummary = buildClaimEffortSummary(deals, now);
+  const claimEffortOperationQueue = claimEffortSummary.groups.map((group) => {
+    const sample = group.items[0];
+    const priority =
+      group.effort === "deadline"
+        ? "high"
+        : group.effort === "condition"
+          ? "medium"
+          : "low";
+    const action =
+      group.effort === "easy"
+        ? "비회원도 바로 받을 수 있는 혜택을 홈 상단과 무료 혜택 탭에 먼저 노출"
+        : group.effort === "condition"
+          ? "가입, 배송비, 최소 주문, 쿠폰 조건을 카드와 상세에 빠짐없이 표시"
+          : "마감 시간, 선착순 여부, 종료 신고 상태를 확인하고 대체 혜택을 준비";
+
+    return {
+      effort: group.effort,
+      label: group.label,
+      description: group.description,
+      count: group.count,
+      priority,
+      action,
+      sampleTitle: sample?.title ?? "노출 후보 없음",
+      recommendedSurface: group.href
+    };
+  });
 
   return {
     total: deals.length,
@@ -303,6 +331,8 @@ function summarizeBenefitQuality(deals: Deal[]) {
     actionQueue,
     conditionAudit,
     conditionOperationQueue,
+    claimEffortSummary,
+    claimEffortOperationQueue,
     reportCount,
     needsReviewCount: deals.filter((deal) => !deal.purchaseLinkVerified || deal.reportCount > 0 || deal.isSoldOut || deal.isExpired).length,
     latestCheckedAt

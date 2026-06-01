@@ -484,6 +484,8 @@ await check("admin dashboard quality cards", async () => {
   assert(text.includes("무료 혜택 보강") && text.includes("링크 검수") && text.includes("신고·종료 정리") && text.includes("재방문 루틴"), "Admin dashboard missing daily operations check-in cards");
   assert(text.includes("운영 혜택 판단표") && text.includes("고객이 오늘 먼저 보는 4가지 기준을 운영 큐로 점검합니다"), "Admin dashboard missing shared benefit decision operation board");
   assert(text.includes("무료 수령") && text.includes("결제 전 쿠폰") && text.includes("마감 혜택") && text.includes("구매처 확인 상품"), "Admin dashboard missing decision guide operation actions");
+  assert(text.includes("수령 난이도 운영 큐") && text.includes("비회원 기준으로 먼저 받을 혜택"), "Admin dashboard missing claim effort operation queue");
+  assert(text.includes("수령 난이도 API 보기") && text.includes("간편 수령") && text.includes("조건 확인") && text.includes("마감 주의"), "Admin dashboard missing claim effort operation cards");
   assert(text.includes("주간 혜택 편성 캘린더") && text.includes("요일별로 채워야 할 재방문 루틴"), "Admin dashboard missing weekly benefit calendar operation board");
   assert(text.includes("주간 캘린더 JSON 보기") && text.includes("실구매 특가 재확인"), "Admin dashboard missing weekly calendar API/action guidance");
   assert(text.includes("운영 피드 전환 준비도") && text.includes("공식 API·제휴 피드로 바꿀 때 볼 품질 기준"), "Admin dashboard missing source readiness operation board");
@@ -942,6 +944,12 @@ await check("metrics api", async () => {
         typeof item.needsVerificationCount === "number"
     ),
     "Benefit condition operation queue missing priority counts and action"
+  );
+  assert(data.benefitQuality?.claimEffortSummary?.groups?.length === 3, "Metrics missing claim effort summary");
+  assert(data.benefitQuality?.claimEffortOperationQueue?.length === 3, "Metrics missing claim effort operation queue");
+  assert(
+    data.benefitQuality.claimEffortOperationQueue.every((item) => item.effort && item.label && item.action && typeof item.count === "number"),
+    "Claim effort operation queue missing label, action, or count"
   );
   assert(data.benefitRetention?.retentionScore >= 0, "Metrics missing benefit retention score");
   assert(data.benefitRetention?.dailyRoutineSlots?.length === 5, "Metrics missing daily routine slots");

@@ -1437,6 +1437,15 @@ async function checkOperationalDataSurfaces() {
     !adminPage.includes("판단표 API 보기") ||
     !smoke.includes("Admin dashboard missing shared benefit decision operation board") ||
     !smoke.includes("Admin dashboard missing decision guide operation actions") ||
+    !adminPage.includes("buildClaimEffortSummary") ||
+    !adminPage.includes("claimEffortOperationQueue") ||
+    !adminPage.includes("수령 난이도 운영 큐") ||
+    !adminPage.includes("비회원 기준으로 먼저 받을 혜택부터 점검합니다") ||
+    !adminPage.includes("수령 난이도 API 보기") ||
+    !analytics.includes("claimEffortSummary") ||
+    !analytics.includes("claimEffortOperationQueue") ||
+    !smoke.includes("Admin dashboard missing claim effort operation queue") ||
+    !smoke.includes("Metrics missing claim effort operation queue") ||
     !adminPage.includes("오늘 혜택 운영 액션 큐") ||
     !adminPage.includes("신고·종료·링크 보강") ||
     !adminPage.includes("benefitConditionAudit") ||

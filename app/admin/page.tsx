@@ -6,6 +6,7 @@ import { getMockBusinessMetrics } from "@/lib/analytics";
 import { canAccessAdmin, getAdminExportHref, isAdminProtectionEnabled } from "@/lib/adminAuth";
 import { getDeals } from "@/lib/dealService";
 import { buildBenefitDecisionGuide } from "@/lib/deals/benefitDecisionGuide";
+import { buildClaimEffortSummary } from "@/lib/deals/claimEffort";
 import { getLinkReviewActionLabel, getLinkReviewQueue, getLinkStatusLabel, getLinkTypeLabel } from "@/lib/deals/quality";
 import { getDealSourceReadiness, listDealSourceProfiles } from "@/lib/deals/trust";
 import { buildTodayBenefitQueue } from "@/lib/deals/todayBenefitQueue";
@@ -60,6 +61,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const linkReviewDeals = getLinkReviewQueue(deals, 8);
   const todayBenefitQueue = buildTodayBenefitQueue(deals, 4);
   const benefitDecisionGuide = buildBenefitDecisionGuide(deals);
+  const claimEffortSummary = buildClaimEffortSummary(deals);
   const weeklyBenefitCalendar = buildWeeklyBenefitCalendar(deals);
   const dailyQueueExportCount = new Set(todayBenefitQueue.sections.flatMap((section) => section.items.map((item) => item.id))).size;
   const dailyQueueApiHref = isAdminProtectionEnabled()
@@ -155,6 +157,21 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
     endingSoon: "마감 시간, 선착순 여부, 종료 신고를 우선 정리",
     verified: "검색 fallback 없이 상품·혜택 상세 URL을 검수"
   };
+  const claimEffortOperationQueue = claimEffortSummary.groups.map((group) => {
+    const sample = group.items[0];
+    const operationAction =
+      group.effort === "easy"
+        ? "앱 첫 화면과 무료혜택 탭에 우선 노출"
+        : group.effort === "condition"
+          ? "가입·배송비·쿠폰 조건을 카드와 상세에 보강"
+          : "마감·선착순·종료 신고를 당일 점검";
+
+    return {
+      ...group,
+      sampleTitle: sample?.title ?? "노출 후보 없음",
+      operationAction
+    };
+  });
   const benefitPriorityLabels = {
     high: "오늘 처리",
     medium: "이번 주 보강",
@@ -534,6 +551,44 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
           <p className="mt-4 rounded-2xl bg-red-50 px-4 py-3 text-xs font-bold leading-5 text-dossa-deep">
             운영자는 이 판단표 기준으로 오늘의 무료 수령, 결제 전 쿠폰, 마감 혜택, 구매처 확인 상품을 매일 보강합니다.
           </p>
+        </section>
+
+        <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm" aria-label="수령 난이도 운영 큐">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-black text-dossa-red">수령 난이도 운영 큐</p>
+              <h2 className="mt-1 text-xl font-black text-slate-950">비회원 기준으로 먼저 받을 혜택부터 점검합니다</h2>
+              <p className="mt-1 text-sm font-semibold leading-6 text-slate-500">
+                마이페이지, 무료혜택 화면, 알림 화면과 같은 기준으로 간편 수령, 조건 확인, 마감 주의 혜택을 운영자가 매일 정리합니다.
+              </p>
+            </div>
+            <Link href="/api/benefits/claim-effort" className="rounded-2xl bg-slate-950 px-4 py-3 text-sm font-black text-white">
+              수령 난이도 API 보기
+            </Link>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-3">
+            {claimEffortOperationQueue.map((item) => (
+              <Link
+                key={item.effort}
+                href={item.href}
+                className="rounded-2xl border border-slate-100 bg-slate-50 p-4 transition hover:border-red-200 hover:bg-red-50"
+              >
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <p className="text-sm font-black text-slate-950">{item.label}</p>
+                    <p className="mt-1 text-xs font-bold leading-5 text-slate-500">{item.description}</p>
+                  </div>
+                  <span className="rounded-full bg-white px-2.5 py-1 text-xs font-black text-dossa-red shadow-sm">
+                    {item.count}개
+                  </span>
+                </div>
+                <p className="mt-3 rounded-2xl bg-white px-3 py-2 text-xs font-black leading-5 text-slate-700 shadow-sm">
+                  {item.operationAction}
+                </p>
+                <p className="mt-3 line-clamp-2 text-xs font-bold leading-5 text-slate-500">대표 후보: {item.sampleTitle}</p>
+              </Link>
+            ))}
+          </div>
         </section>
 
         <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
