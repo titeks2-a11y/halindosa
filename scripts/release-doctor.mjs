@@ -1154,6 +1154,11 @@ async function checkOperationalDataSurfaces() {
     !claimedBenefitAlertSummary.includes("readClaimedBenefits") ||
     !claimedBenefitAlertSummary.includes("챙긴 혜택 알림 요약") ||
     !claimedBenefitAlertSummary.includes("아직 챙길 만한 혜택") ||
+    !claimedBenefitAlertSummary.includes("nextAlertQueue") ||
+    !claimedBenefitAlertSummary.includes("챙긴 혜택 다음 알림 후보") ||
+    !claimedBenefitAlertSummary.includes("무료 혜택 다시 알림") ||
+    !claimedBenefitAlertSummary.includes("쿠폰·포인트 재확인") ||
+    !claimedBenefitAlertSummary.includes("마감 전 확인 알림") ||
     !notificationsPage.includes("<InterestAlertPreview") ||
     !interestAlertPreview.includes("readLocalPreferences") ||
     !homePage.includes("<PriceAlertList") ||
@@ -1176,6 +1181,7 @@ async function checkOperationalDataSurfaces() {
     !notificationsPage.includes("ClaimedBenefitAlertSummary") ||
     !claimedBenefitAlertSummary.includes("무료 혜택 더 챙기기") ||
     !smoke.includes("Notifications page missing claimed benefit alert summary") ||
+    !smoke.includes("Notifications page missing claimed benefit next alert queue") ||
     !notificationsPage.includes("오늘 먼저 확인할 알림") ||
     !notificationsPage.includes("마감과 인기 반응이 겹친 특가부터 보기") ||
     !notificationsPage.includes("dailyAlertQueues") ||
