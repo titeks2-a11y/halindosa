@@ -14,6 +14,7 @@ import {
 import { getMockBusinessMetrics } from "@/lib/analytics";
 import { getDeals } from "@/lib/dealService";
 import { buildTodayBenefitQueue } from "@/lib/deals/todayBenefitQueue";
+import { buildWeeklyBenefitCalendar } from "@/lib/deals/weeklyBenefitCalendar";
 import { listDealSourceProfiles } from "@/lib/deals/trust";
 import { formatPrice } from "@/lib/format";
 
@@ -75,6 +76,7 @@ export default async function CommercializationPage() {
   const { metrics, linkQuality, linkReviewQueue, launchReadiness, benefitQuality, benefitRetention } = await getMockBusinessMetrics();
   const { deals } = await getDeals();
   const todayBenefitQueue = buildTodayBenefitQueue(deals, 3);
+  const weeklyBenefitCalendar = buildWeeklyBenefitCalendar(deals);
   const sources = listDealSourceProfiles();
   const activeSources = sources.filter((source) => source.status !== "planned");
   const topReviewDeals = linkReviewQueue.slice(0, 4);
@@ -196,6 +198,43 @@ export default async function CommercializationPage() {
           </div>
           <p className="mt-4 rounded-2xl bg-amber-50 px-4 py-3 text-xs font-bold leading-5 text-amber-900">
             {todayBenefitQueue.notice} 로그인은 {todayBenefitQueue.loginRequiredFor.join(", ")}에만 필요합니다.
+          </p>
+        </section>
+
+        <section className="mt-5 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm" aria-label="주간 재방문 혜택 캘린더">
+          <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+            <div>
+              <p className="text-sm font-black text-red-600">VER 2.0 주간 루틴</p>
+              <h2 className="mt-1 text-2xl font-black text-slate-950">주간 재방문 혜택 캘린더</h2>
+              <p className="mt-2 max-w-2xl text-sm font-semibold leading-6 text-slate-500">
+                비회원도 볼 수 있는 주간 혜택 루틴입니다. 포인트, 무료 샘플, 쿠폰, 장보기, 마감, 실구매 특가, 가입 없는 혜택을 요일별로 편성해 매일 들어올 이유를 만듭니다.
+              </p>
+            </div>
+            <Link
+              href="/api/benefits/calendar"
+              className="inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-2xl bg-slate-950 px-4 text-sm font-black text-white"
+            >
+              캘린더 API 확인
+              <ExternalLink className="h-4 w-4" aria-hidden />
+            </Link>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-7">
+            {weeklyBenefitCalendar.map((item) => (
+              <div key={item.day} className="rounded-2xl bg-slate-50 p-4">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-white text-sm font-black text-red-600 shadow-sm">
+                    {item.day}
+                  </span>
+                  <span className="rounded-full bg-white px-2.5 py-1 text-xs font-black text-red-600">{item.count}개</span>
+                </div>
+                <p className="mt-3 text-sm font-black leading-5 text-slate-950">{item.title}</p>
+                <p className="mt-1 line-clamp-2 text-xs font-bold leading-5 text-slate-500">{item.copy}</p>
+                <p className="mt-3 line-clamp-3 text-[11px] font-bold leading-4 text-slate-500">{item.operationNote}</p>
+              </div>
+            ))}
+          </div>
+          <p className="mt-4 rounded-2xl bg-red-50 px-4 py-3 text-xs font-bold leading-5 text-red-900/75">
+            주간 캘린더는 회원가입 장벽 없이 공개하고, 찜·가격 알림·관심 카테고리 저장만 선택 로그인으로 연결합니다.
           </p>
         </section>
 

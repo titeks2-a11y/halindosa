@@ -8,6 +8,7 @@ import { getDeals } from "@/lib/dealService";
 import { getLinkReviewActionLabel, getLinkReviewQueue, getLinkStatusLabel, getLinkTypeLabel } from "@/lib/deals/quality";
 import { getDealSourceReadiness, listDealSourceProfiles } from "@/lib/deals/trust";
 import { buildTodayBenefitQueue } from "@/lib/deals/todayBenefitQueue";
+import { buildWeeklyBenefitCalendar } from "@/lib/deals/weeklyBenefitCalendar";
 import { dryRunPartnerFeedImport, samplePartnerFeed } from "@/lib/feedImport";
 import { formatPrice, getRelativeTime } from "@/lib/format";
 import { getReportSummary, listDealReports } from "@/lib/reports";
@@ -57,6 +58,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const sourceCounts = new Map<string, number>();
   const linkReviewDeals = getLinkReviewQueue(deals, 8);
   const todayBenefitQueue = buildTodayBenefitQueue(deals, 4);
+  const weeklyBenefitCalendar = buildWeeklyBenefitCalendar(deals);
   const dailyQueueExportCount = new Set(todayBenefitQueue.sections.flatMap((section) => section.items.map((item) => item.id))).size;
   const dailyQueueApiHref = isAdminProtectionEnabled()
     ? `/api/admin/daily-queue?limit=4&token=${encodeURIComponent(token ?? "")}`
@@ -242,6 +244,38 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                 <p className="mt-1 text-xs font-bold leading-5 text-slate-500">{section.description}</p>
                 <p className="mt-3 rounded-full bg-white px-3 py-1.5 text-center text-xs font-black text-dossa-red shadow-sm">
                   CSV 후보 {section.items.length}개
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm" aria-label="주간 혜택 편성 캘린더">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-black text-dossa-red">주간 혜택 편성 캘린더</p>
+              <h2 className="mt-1 text-xl font-black text-slate-950">요일별로 채워야 할 재방문 루틴</h2>
+              <p className="mt-1 text-sm font-semibold leading-6 text-slate-500">
+                무료·쿠폰·앱테크·마트·마감·실구매·비회원 혜택을 요일별 운영 슬롯으로 나눠 매일 들어올 이유를 유지합니다.
+              </p>
+            </div>
+            <a href="/api/benefits/calendar" className="rounded-2xl bg-slate-950 px-4 py-3 text-center text-sm font-black text-white">
+              주간 캘린더 JSON 보기
+            </a>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-7">
+            {weeklyBenefitCalendar.map((item) => (
+              <div key={item.day} className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
+                <div className="flex items-start justify-between gap-2">
+                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-white text-sm font-black text-dossa-red shadow-sm">
+                    {item.day}
+                  </span>
+                  <span className="rounded-full bg-white px-2.5 py-1 text-xs font-black text-dossa-red shadow-sm">{item.count}개</span>
+                </div>
+                <p className="mt-3 text-sm font-black leading-5 text-slate-950">{item.title}</p>
+                <p className="mt-1 line-clamp-2 text-xs font-bold leading-5 text-slate-500">{item.copy}</p>
+                <p className="mt-3 line-clamp-3 rounded-2xl bg-white px-3 py-2 text-[11px] font-bold leading-4 text-slate-500 shadow-sm">
+                  {item.operationNote}
                 </p>
               </div>
             ))}

@@ -1372,6 +1372,10 @@ async function checkOperationalDataSurfaces() {
     !adminPage.includes("매일 재방문 루틴 점검") ||
     !adminPage.includes("재방문 점수") ||
     !adminPage.includes("다음 재방문 개선 액션") ||
+    !adminPage.includes("buildWeeklyBenefitCalendar") ||
+    !adminPage.includes("주간 혜택 편성 캘린더") ||
+    !adminPage.includes("요일별로 채워야 할 재방문 루틴") ||
+    !smoke.includes("Admin dashboard missing weekly benefit calendar operation board") ||
     !smoke.includes("Admin dashboard missing benefit quality operation summary") ||
     !smoke.includes("Metrics missing benefit condition audit queue") ||
     !smoke.includes("Metrics missing benefit condition operation queue")
@@ -1568,13 +1572,19 @@ async function checkOperationalDataSurfaces() {
     "출시 전 먼저 점검할 혜택 유형",
     "매일 재방문 루틴 준비도",
     "재방문 점수",
-    "다음 재방문 개선 액션"
+    "다음 재방문 개선 액션",
+    "주간 재방문 혜택 캘린더",
+    "포인트, 무료 샘플, 쿠폰, 장보기",
+    "캘린더 API 확인",
+    "가입 없는 혜택"
   ];
   const missingCommercializationSnippets = commercializationSnippets.filter((snippet) => !commercializationPage.includes(snippet));
   if (
     missingCommercializationSnippets.length ||
     !commercializationPage.includes("buildTodayBenefitQueue") ||
-    !smoke.includes("Commercialization page missing daily benefit queue readiness")
+    !commercializationPage.includes("buildWeeklyBenefitCalendar") ||
+    !smoke.includes("Commercialization page missing daily benefit queue readiness") ||
+    !smoke.includes("Commercialization page missing weekly benefit calendar readiness")
   ) {
     fail("commercial launch readiness page", `Missing snippets: ${missingCommercializationSnippets.join(", ")}`);
   } else {

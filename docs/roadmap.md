@@ -24,6 +24,7 @@
 - 관리자 CSV 내보내기에 `dailyQueueSections`, `dailyQueueRank`, `dailyQueueAction`을 추가해 오늘 혜택 큐 노출 후보를 운영자가 바로 검수하고 보강할 수 있도록 개선
 - `/api/admin/daily-queue`를 추가해 보호된 관리자 JSON API로 오늘 혜택 큐와 섹션별 운영 액션을 백오피스/자동화가 재사용할 수 있도록 개선
 - 주간 혜택 캘린더를 `lib/deals/weeklyBenefitCalendar.ts`로 분리하고 `/api/benefits/calendar`를 추가해 비회원도 볼 수 있는 요일별 무료·쿠폰·앱테크·마트·마감 루틴을 홈/무료혜택/운영 자동화에서 재사용할 수 있도록 개선
+- 관리자 대시보드와 `/commercialization` 보드에 주간 혜택 캘린더 운영 슬롯을 연결해 요일별 무료·쿠폰·앱테크·마트·마감·실구매·비회원 혜택 편성 상태를 출시 전 점검하도록 개선
 - 검색 결과 없음, 로딩, fallback 오류 상태 구현
 - 오늘의 특가 배너, 실시간 인기 TOP10, 카테고리별 인기, 최근 본 특가, 추천 특가 구성
 - 특가 카드와 상세 화면에 검수 신뢰 배지 추가

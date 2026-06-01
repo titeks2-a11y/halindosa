@@ -462,6 +462,8 @@ await check("admin dashboard quality cards", async () => {
   assert(text.includes("혜택형 콘텐츠") && text.includes("활성 노출 가능") && text.includes("점검 우선"), "Admin dashboard missing benefit operation cards");
   assert(text.includes("오늘 운영 체크인") && text.includes("무료·쿠폰·링크·재방문 루틴을 먼저 점검합니다"), "Admin dashboard missing daily operations check-in");
   assert(text.includes("무료 혜택 보강") && text.includes("링크 검수") && text.includes("신고·종료 정리") && text.includes("재방문 루틴"), "Admin dashboard missing daily operations check-in cards");
+  assert(text.includes("주간 혜택 편성 캘린더") && text.includes("요일별로 채워야 할 재방문 루틴"), "Admin dashboard missing weekly benefit calendar operation board");
+  assert(text.includes("주간 캘린더 JSON 보기") && text.includes("실구매 특가 재확인"), "Admin dashboard missing weekly calendar API/action guidance");
   assert(text.includes("운영 피드 전환 준비도") && text.includes("공식 API·제휴 피드로 바꿀 때 볼 품질 기준"), "Admin dashboard missing source readiness operation board");
   assert(text.includes("파트너 피드 사전 검수 리포트") && text.includes("ready / needs_fix 행을 먼저 분리합니다"), "Admin dashboard missing partner feed validation report board");
   assert(text.includes("readyRate") && text.includes("운영 반영 전 목표는 100%"), "Admin dashboard missing partner feed ready rate summary");
@@ -498,6 +500,8 @@ await check("commercial launch readiness page", async () => {
   assert(text.includes("다음 우선 조치"), "Commercialization page missing next action queue");
   assert(text.includes("오늘 혜택 큐 운영 준비도") && text.includes("홈, 알림 센터, 향후 푸시가 같은"), "Commercialization page missing daily benefit queue readiness");
   assert(text.includes("비회원 열람 큐") && text.includes("API 응답 확인"), "Commercialization page missing daily benefit queue metrics");
+  assert(text.includes("주간 재방문 혜택 캘린더") && text.includes("포인트, 무료 샘플, 쿠폰, 장보기"), "Commercialization page missing weekly benefit calendar readiness");
+  assert(text.includes("캘린더 API 확인") && text.includes("가입 없는 혜택"), "Commercialization page missing weekly calendar API action");
   assert(text.includes("실기기 QA 체크리스트"), "Commercialization page missing device QA checklist reminder");
   assert(text.includes("운영 환경변수 확인"), "Commercialization page missing environment doctor reminder");
   assert(text.includes("혜택 데이터 품질 요약"), "Commercialization page missing benefit data quality summary");
