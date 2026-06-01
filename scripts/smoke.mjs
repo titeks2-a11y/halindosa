@@ -449,6 +449,8 @@ await check("category and notification pages", async () => {
       notificationsText.includes("찜·가격 알림 조건"),
     "Notifications page missing non-member alert condition board"
   );
+  assert(notificationsText.includes("알림 수령 난이도") && notificationsText.includes("지금 열어볼 알림을 받기 쉬운 순서로 정리했습니다"), "Notifications page missing alert claim effort board");
+  assert(notificationsText.includes("간편 수령 알림") && notificationsText.includes("조건 확인 알림") && notificationsText.includes("마감 주의 알림"), "Notifications page missing alert claim effort cards");
   assert(notificationsText.includes("오늘 알림 실행 순서") && notificationsText.includes("앱을 열면 이 순서로 혜택을 확인하세요"), "Notifications page missing alert action routine");
   assert(notificationsText.includes("무료 혜택 먼저 확인") && notificationsText.includes("쿠폰·포인트 챙기기") && notificationsText.includes("마감 임박 놓치지 않기"), "Notifications page missing alert action steps");
   assert(notificationsText.includes("알림 운영 방식") && notificationsText.includes("권한 요청 없이 먼저 쓸 수 있게 준비했습니다"), "Notifications page missing push readiness operating guide");

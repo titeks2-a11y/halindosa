@@ -37,6 +37,13 @@ function selectBenefitQueue(deals: Deal[], types: DealBenefitType[], limit = 4) 
     .slice(0, limit);
 }
 
+function getAlertClaimEffort(deal: Deal) {
+  const hoursLeft = (new Date(deal.expireAt).getTime() - Date.now()) / (60 * 60 * 1000);
+  if (deal.isEndingSoon || deal.isFirstComeFirstServed || hoursLeft <= 12) return "deadline";
+  if (deal.requiresSignup || deal.couponCondition || deal.minimumOrderAmount || (!deal.isFreeShipping && deal.shippingFee !== "무료배송" && deal.salePrice > 0)) return "condition";
+  return "easy";
+}
+
 export default async function NotificationsPage() {
   const { deals } = await getDeals();
   const endingSoonDeals = deals.filter((deal) => deal.isEndingSoon);
@@ -221,6 +228,32 @@ export default async function NotificationsPage() {
       checkpoint: "종료/품절 확인"
     }
   ];
+  const alertClaimEffortQueues = [
+    {
+      id: "easy",
+      title: "간편 수령 알림",
+      description: "가입, 배송비, 쿠폰 조건 부담이 낮아 바로 열어볼 혜택입니다.",
+      href: "/free-benefits?activeOnly=true",
+      items: deals.filter((deal) => getAlertClaimEffort(deal) === "easy" && !deal.isExpired && !deal.isSoldOut)
+    },
+    {
+      id: "condition",
+      title: "조건 확인 알림",
+      description: "회원가입, 최소 주문, 쿠폰 조건, 배송비를 확인해야 하는 혜택입니다.",
+      href: "/free-benefits?activeOnly=true",
+      items: deals.filter((deal) => getAlertClaimEffort(deal) === "condition" && !deal.isExpired && !deal.isSoldOut)
+    },
+    {
+      id: "deadline",
+      title: "마감 주의 알림",
+      description: "선착순, 마감 임박, 종료 가능성이 있어 빨리 확인할 혜택입니다.",
+      href: "/?endingSoon=true&sort=endingSoon",
+      items: deals.filter((deal) => getAlertClaimEffort(deal) === "deadline" && !deal.isExpired && !deal.isSoldOut)
+    }
+  ].map((queue) => ({
+    ...queue,
+    topDeal: [...queue.items].sort((a, b) => scoreAlertDeal(b) - scoreAlertDeal(a))[0]
+  }));
 
   return (
     <div className="space-y-4 px-3 py-4 sm:px-4 lg:px-0 lg:py-8">
@@ -424,6 +457,48 @@ export default async function NotificationsPage() {
             </Link>
           ))}
         </div>
+      </section>
+
+      <section className="rounded-[22px] border border-red-100 bg-white p-4 shadow-sm lg:p-5" aria-label="알림 수령 난이도">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-xs font-black text-dossa-red">알림 수령 난이도</p>
+            <h2 className="mt-1 text-base font-black text-slate-950">지금 열어볼 알림을 받기 쉬운 순서로 정리했습니다</h2>
+            <p className="mt-1 text-sm font-semibold leading-6 text-slate-500">
+              무료 혜택과 쿠폰은 가입, 배송비, 최소 주문, 선착순 조건에 따라 체감 가치가 달라집니다. 알림도 먼저 난이도별로 고르세요.
+            </p>
+          </div>
+          <Link href="/free-benefits" className="rounded-2xl bg-dossa-red px-4 py-3 text-center text-xs font-black text-white">
+            무료혜택에서 이어보기
+          </Link>
+        </div>
+        <div className="mt-4 grid gap-3 md:grid-cols-3">
+          {alertClaimEffortQueues.map((queue) => (
+            <Link
+              key={queue.id}
+              href={queue.href}
+              className="min-h-[178px] rounded-3xl border border-slate-100 bg-slate-50 p-4 transition hover:-translate-y-0.5 hover:border-red-200 hover:bg-red-50"
+            >
+              <span className="flex items-start justify-between gap-3">
+                <span className="rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-dossa-red shadow-sm">{queue.title}</span>
+                <span className="rounded-full bg-slate-950 px-2.5 py-1 text-[11px] font-black text-white">{queue.items.length}개</span>
+              </span>
+              <span className="mt-4 block text-sm font-black text-slate-950">{queue.description}</span>
+              <span className="mt-3 block rounded-2xl bg-white p-3 shadow-sm">
+                <span className="block text-[11px] font-black text-dossa-red">대표 알림</span>
+                <span className="mt-1 line-clamp-2 block min-h-9 text-sm font-black leading-snug text-slate-950">
+                  {queue.topDeal ? queue.topDeal.title : "조건에 맞는 알림 후보 준비 중"}
+                </span>
+                <span className="mt-1 block truncate text-[11px] font-bold text-slate-500">
+                  {queue.topDeal ? `${queue.topDeal.mallName} · ${queue.topDeal.benefitSummary}` : "판매처 조건을 확인한 혜택부터 노출합니다."}
+                </span>
+              </span>
+            </Link>
+          ))}
+        </div>
+        <p className="mt-4 rounded-2xl bg-red-50 px-4 py-3 text-xs font-bold leading-5 text-dossa-deep">
+          난이도는 알림 후보를 고르는 보조 기준입니다. 실제 수령 가능 여부, 배송비, 쿠폰 적용, 재고와 기간은 판매처에서 최종 확인하세요.
+        </p>
       </section>
 
       <section className="rounded-[22px] border border-slate-200 bg-white p-4 shadow-sm lg:p-5" aria-label="오늘 알림 실행 순서">

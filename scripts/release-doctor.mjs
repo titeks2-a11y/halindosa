@@ -1349,6 +1349,13 @@ async function checkOperationalDataSurfaces() {
     !notificationsPage.includes("가입 없이도 오늘 볼 알림 조건을 먼저 고릅니다") ||
     !notificationsPage.includes("무료·체험 조건") ||
     !notificationsPage.includes("찜·가격 알림 조건") ||
+    !notificationsPage.includes("getAlertClaimEffort") ||
+    !notificationsPage.includes("alertClaimEffortQueues") ||
+    !notificationsPage.includes("알림 수령 난이도") ||
+    !notificationsPage.includes("지금 열어볼 알림을 받기 쉬운 순서로 정리했습니다") ||
+    !notificationsPage.includes("간편 수령 알림") ||
+    !notificationsPage.includes("조건 확인 알림") ||
+    !notificationsPage.includes("마감 주의 알림") ||
     !notificationsPage.includes("오늘 알림 실행 순서") ||
     !notificationsPage.includes("앱을 열면 이 순서로 혜택을 확인하세요") ||
     !notificationsPage.includes("InterestAlertPreview") ||
@@ -1381,6 +1388,8 @@ async function checkOperationalDataSurfaces() {
     !notificationsPage.includes("실제 푸시 알림은 별도 동의") ||
     !notificationsPage.includes("알림 기준 보기") ||
     !smoke.includes("Notifications page missing non-member alert condition board") ||
+    !smoke.includes("Notifications page missing alert claim effort board") ||
+    !smoke.includes("Notifications page missing alert claim effort cards") ||
     !smoke.includes("Notifications page missing shared today benefit API queue") ||
     !smoke.includes("Notifications page missing shared benefit decision guide") ||
     !smoke.includes("Notifications page missing decision guide API action") ||
