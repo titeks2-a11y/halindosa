@@ -55,6 +55,49 @@ function isSearchLike(url) {
   return searchPatterns.some((pattern) => value.includes(pattern));
 }
 
+function hasProductDetailSignal(url) {
+  const value = `${url.hostname}${url.pathname}${url.search}`.toLowerCase();
+
+  return [
+    /\/vp\/products\/\d+/,
+    /\/products\/\d+/,
+    /\/product\//,
+    /\/p\/product\//,
+    /\/goods\/\d+/,
+    /\/goods\/detail/,
+    /\/item\/itemview\.ssg/,
+    /\/item\?/,
+    /\/item\//,
+    /detailview\.aspx/,
+    /itemid=/,
+    /goodsno=/,
+    /goodscode=/,
+    /goodscode=/,
+    /goodsnum=/,
+    /dealno=/,
+    /prdno=/,
+    /\/deal\/deal\.gs/,
+    /\/dp\/[a-z0-9]+/,
+    /\/gp\/product\/[a-z0-9]+/,
+    /\/item\/\d+\.html/,
+    /\/i\/\d+\.html/,
+    /\/app\/product\/[a-z0-9]+/,
+    /\/app\/goods\/goodsdetail/,
+    /\/web\/goods_view\/index\.asp/,
+    /\/tna\/products\/[a-z0-9-]+/,
+    /\/contents\/notice\/detail\/\d+/
+  ].some((pattern) => pattern.test(value));
+}
+
+function hasClaimOrBenefitSignal(url, evidence) {
+  const value = `${url.hostname}${url.pathname}${url.search}${url.hash}`.toLowerCase();
+  const evidenceValue = evidence.toLowerCase();
+  const urlLooksLikeBenefit = /event|benefit|campaign|coupon|promotion|membership|discount|culture-event|whats_new|page\/event|plus\.do|bbs_category=3|\/cpc\/cr\//.test(value);
+  const evidenceLooksLikeBenefit = /이벤트|행사|혜택|쿠폰|초대권|시사회|멤버십|포인트|무료|응모|할인|할인정보|캠페인|소식|공식/.test(evidenceValue);
+
+  return urlLooksLikeBenefit && evidenceLooksLikeBenefit;
+}
+
 function parseVerifiedEntries() {
   const entries = [];
   const pattern = /^\s*(d\d+):\s*\{(?<body>[\s\S]*?)^\s*\},?/gm;
@@ -80,6 +123,8 @@ const entryMap = new Map(entries.map((entry) => [entry.id, entry.url]));
 const metadataMap = new Map(entries.map((entry) => [entry.id, entry]));
 const issues = [];
 const hosts = new Set();
+let productDetailCount = 0;
+let claimBenefitCount = 0;
 
 for (const id of dealIds) {
   const urlValue = entryMap.get(id);
@@ -121,6 +166,16 @@ for (const id of dealIds) {
     if (isSearchLike(url)) {
       issues.push(`${id}: 검색/카테고리 링크입니다. ${urlValue}`);
     }
+
+    const productDetailLike = hasProductDetailSignal(url);
+    const claimBenefitLike = hasClaimOrBenefitSignal(url, metadata?.evidence ?? "");
+
+    if (productDetailLike) productDetailCount += 1;
+    if (!productDetailLike && claimBenefitLike) claimBenefitCount += 1;
+
+    if (!productDetailLike && !claimBenefitLike) {
+      issues.push(`${id}: 상품 상세 또는 혜택 신청 페이지로 보기 어려운 URL입니다. ${urlValue}`);
+    }
   } catch {
     issues.push(`${id}: 올바른 URL이 아닙니다. ${urlValue}`);
   }
@@ -144,3 +199,5 @@ if (issues.length) {
 const coverageRate = dealIds.length ? Math.round((entries.length / dealIds.length) * 100) : 0;
 console.log(`Product link verification passed: ${entries.length}/${dealIds.length} verified purchase URLs (${coverageRate}%).`);
 console.log(`- Distinct purchase hosts: ${hosts.size}`);
+console.log(`- Product detail URLs: ${productDetailCount}`);
+console.log(`- Official benefit/event URLs: ${claimBenefitCount}`);

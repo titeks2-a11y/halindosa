@@ -637,6 +637,10 @@ async function checkSearchAndPurchaseFlow() {
     !verifyLinks.includes("allowedSources") ||
     !verifyLinks.includes("evidence 검수 근거") ||
     !verifyLinks.includes("Distinct purchase hosts") ||
+    !verifyLinks.includes("hasProductDetailSignal") ||
+    !verifyLinks.includes("hasClaimOrBenefitSignal") ||
+    !verifyLinks.includes("Product detail URLs") ||
+    !verifyLinks.includes("Official benefit/event URLs") ||
     !catalogDoctor.includes("minimums") ||
     !catalogDoctor.includes("requiredCategories") ||
     !catalogDoctor.includes("requiredDealTypes") ||

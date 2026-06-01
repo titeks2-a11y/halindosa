@@ -18,6 +18,7 @@
 - 카테고리, 쇼핑몰, 혜택 유형, 가격대, 무료배송, 핫딜, 마감임박 필터
 - 검증된 실제 구매/신청 상세 URL 기반 `/go/[dealId]` 새 탭 이동
 - 실제 상품/혜택 상세 URL로 검수된 큐레이션 상품 110개와 100% 구매 링크 커버리지
+- 링크 검증은 상품 상세 URL과 공식 혜택/이벤트 URL을 구분해 대표몰, 검색 결과, 커뮤니티 링크를 차단
 - 찜, 최근 본 상품, 관심 카테고리, 가격 알림 준비 구조
 - 무료 혜택 전용 페이지와 신고/종료/링크 오류 접수
 - Android/iOS Capacitor 패키징 준비
@@ -90,7 +91,7 @@ npm run search:doctor
 ## 상품 데이터 추가 기준
 
 신규 상품은 검색 결과나 대표몰 메인 링크가 아니라 실제 상품/혜택 상세 페이지를 `verifiedPurchaseLinks.ts` 또는 운영 피드의 `productUrl`, `finalPurchaseUrl`, `affiliateUrl`에 등록해야 합니다.
-검증 링크에는 `checkedAt`, `source`, `evidence`를 함께 남겨야 하며 `npm run verify:links`는 URL 형태뿐 아니라 검수 근거와 구매 도메인 다양성까지 확인합니다.
+검증 링크에는 `checkedAt`, `source`, `evidence`를 함께 남겨야 하며 `npm run verify:links`는 URL 형태뿐 아니라 검수 근거와 구매 도메인 다양성까지 확인합니다. 검증 통과 URL은 상품 상세 URL 또는 공식 혜택/이벤트 URL 신호가 있어야 하며, 현재 기준은 상품 상세 URL 82개와 공식 혜택/이벤트 URL 28개를 구분해 출력합니다.
 
 필수 기준:
 
