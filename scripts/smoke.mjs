@@ -465,6 +465,8 @@ await check("admin dashboard quality cards", async () => {
   assert(text.includes("오늘 혜택 운영 액션 큐") && text.includes("신고·종료·링크 보강"), "Admin dashboard missing benefit operation action queue");
   assert(text.includes("혜택 조건 완성도 점검") && text.includes("제공처·배송비·가입·선착순·쿠폰 조건"), "Admin dashboard missing benefit condition audit");
   assert(text.includes("조건 취약 유형") && text.includes("쿠폰 조건"), "Admin dashboard missing condition readiness details");
+  assert(text.includes("혜택 조건 보강 우선순위") && text.includes("수령 단계, 조건 체크"), "Admin dashboard missing benefit condition operation queue");
+  assert(text.includes("수령 안내") && text.includes("링크·신고") && text.includes("마감 신호"), "Admin dashboard missing benefit condition operation details");
   assert(text.includes("VER 2.0 재방문 운영") && text.includes("매일 재방문 루틴 점검"), "Admin dashboard missing benefit retention operation summary");
   assert(text.includes("재방문 점수") && text.includes("다음 재방문 개선 액션"), "Admin dashboard missing retention action queue");
   assert(text.includes("링크 오류") && text.includes("품절") && text.includes("종료"), "Admin dashboard missing report reason priority summary");
@@ -769,6 +771,18 @@ await check("metrics api", async () => {
   assert(data.benefitQuality?.actionQueue?.length >= 1, "Metrics missing benefit operation action queue");
   assert(data.benefitQuality?.conditionAudit?.length >= 1, "Metrics missing benefit condition audit queue");
   assert(data.benefitQuality.conditionAudit.every((item) => typeof item.readinessRate === "number" && item.action), "Benefit condition audit missing readiness and action");
+  assert(data.benefitQuality?.conditionOperationQueue?.length >= 1, "Metrics missing benefit condition operation queue");
+  assert(
+    data.benefitQuality.conditionOperationQueue.every(
+      (item) =>
+        item.priority &&
+        item.action &&
+        typeof item.readyCount === "number" &&
+        typeof item.missingClaimGuideCount === "number" &&
+        typeof item.needsVerificationCount === "number"
+    ),
+    "Benefit condition operation queue missing priority counts and action"
+  );
   assert(data.benefitRetention?.retentionScore >= 0, "Metrics missing benefit retention score");
   assert(data.benefitRetention?.dailyRoutineSlots?.length === 5, "Metrics missing daily routine slots");
   assert(typeof data.benefitRetention?.weeklyRoutineReady === "boolean", "Metrics missing weekly routine readiness");

@@ -111,6 +111,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const benefitTypeBreakdown = benefitQuality.typeBreakdown.slice(0, 8);
   const benefitActionQueue = benefitQuality.actionQueue;
   const benefitConditionAudit = benefitQuality.conditionAudit;
+  const benefitConditionOperationQueue = benefitQuality.conditionOperationQueue;
   const urgentBenefitActions = benefitActionQueue.filter((item) => item.priority === "high").length;
   const dailyOperationCheckIn = [
     {
@@ -508,6 +509,36 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                     <span className="col-span-2 rounded-2xl bg-slate-50 px-2.5 py-2">쿠폰 조건 {item.couponReady}/{item.count}</span>
                   </div>
                   <p className="mt-3 text-xs font-bold leading-5 text-slate-500">{item.action}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="mt-4 rounded-2xl border border-red-100 bg-red-50 p-4">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p className="text-xs font-black text-dossa-red">혜택 조건 보강 우선순위</p>
+                <h3 className="mt-1 text-base font-black text-slate-950">수령 단계, 조건 체크, 종료·신고 상태를 기준으로 오늘 먼저 볼 유형입니다.</h3>
+              </div>
+              <span className="rounded-full bg-white px-3 py-1.5 text-xs font-black text-dossa-red shadow-sm">
+                보강 큐 {benefitConditionOperationQueue.length}개
+              </span>
+            </div>
+            <div className="mt-3 grid gap-3 lg:grid-cols-3">
+              {benefitConditionOperationQueue.map((item) => (
+                <div key={item.type} className="rounded-2xl bg-white p-4 shadow-sm">
+                  <div className="flex items-center justify-between gap-3">
+                    <p className="text-sm font-black text-slate-950">{item.label}</p>
+                    <span className={`rounded-full px-2.5 py-1 text-[11px] font-black ${benefitPriorityClassNames[item.priority]}`}>
+                      {benefitPriorityLabels[item.priority]}
+                    </span>
+                  </div>
+                  <p className="mt-2 text-xs font-bold leading-5 text-slate-500">{item.action}</p>
+                  <div className="mt-3 grid grid-cols-2 gap-2 text-[11px] font-black text-slate-600">
+                    <span className="rounded-2xl bg-slate-50 px-2.5 py-2">준비됨 {item.readyCount}/{item.count}</span>
+                    <span className="rounded-2xl bg-slate-50 px-2.5 py-2">수령 안내 {item.missingClaimGuideCount}개</span>
+                    <span className="rounded-2xl bg-slate-50 px-2.5 py-2">링크·신고 {item.needsVerificationCount}개</span>
+                    <span className="rounded-2xl bg-slate-50 px-2.5 py-2">마감 신호 {item.endingSoonCount}개</span>
+                  </div>
                 </div>
               ))}
             </div>

@@ -238,6 +238,58 @@ function summarizeBenefitQuality(deals: Deal[]) {
     })
     .sort((a, b) => a.readinessRate - b.readinessRate || b.count - a.count)
     .slice(0, 6);
+  const conditionOperationQueue = typeBreakdown
+    .map((item) => {
+      const scopedDeals = deals.filter((deal) => deal.dealType === item.type);
+      const missingClaimGuideCount = scopedDeals.filter(
+        (deal) =>
+          !Array.isArray(deal.eligibilityChecklist) ||
+          deal.eligibilityChecklist.length < 4 ||
+          !Array.isArray(deal.claimSteps) ||
+          deal.claimSteps.length < 3 ||
+          !deal.claimWarning
+      ).length;
+      const needsVerificationCount = scopedDeals.filter(
+        (deal) =>
+          !deal.purchaseLinkVerified ||
+          deal.linkStatus !== "verified" ||
+          !deal.sourceUrl ||
+          deal.reportCount > 0 ||
+          deal.isExpired ||
+          deal.isSoldOut
+      ).length;
+      const endingSoonCount = scopedDeals.filter((deal) => deal.isEndingSoon || new Date(deal.expireAt).getTime() - now < 24 * 60 * 60 * 1000).length;
+      const readyCount = scopedDeals.length - Math.max(missingClaimGuideCount, needsVerificationCount);
+      const supplyGapCount = Math.max(0, 3 - scopedDeals.length);
+      const priorityScore = missingClaimGuideCount * 18 + needsVerificationCount * 16 + endingSoonCount * 6 + supplyGapCount * 12;
+      const priority = (priorityScore >= 36 ? "high" : priorityScore >= 12 ? "medium" : "low") as "high" | "medium" | "low";
+      const action =
+        missingClaimGuideCount > 0
+          ? "수령 전 체크와 신청 단계를 먼저 보강"
+          : needsVerificationCount > 0
+            ? "종료·신고·링크 상태를 재확인"
+            : supplyGapCount > 0
+              ? "공식 혜택 3개 이상 확보"
+              : endingSoonCount > 0
+                ? "마감 전 대체 혜택을 함께 준비"
+                : "현재 조건과 링크 상태 유지";
+
+      return {
+        type: item.type,
+        label: item.label,
+        count: scopedDeals.length,
+        readyCount: Math.max(0, readyCount),
+        missingClaimGuideCount,
+        needsVerificationCount,
+        endingSoonCount,
+        supplyGapCount,
+        priority,
+        priorityScore,
+        action
+      };
+    })
+    .sort((a, b) => b.priorityScore - a.priorityScore || b.needsVerificationCount - a.needsVerificationCount || b.count - a.count)
+    .slice(0, 6);
 
   return {
     total: deals.length,
@@ -248,6 +300,7 @@ function summarizeBenefitQuality(deals: Deal[]) {
     typeBreakdown,
     actionQueue,
     conditionAudit,
+    conditionOperationQueue,
     reportCount,
     needsReviewCount: deals.filter((deal) => !deal.purchaseLinkVerified || deal.reportCount > 0 || deal.isSoldOut || deal.isExpired).length,
     latestCheckedAt

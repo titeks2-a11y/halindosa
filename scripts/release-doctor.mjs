@@ -1353,16 +1353,21 @@ async function checkOperationalDataSurfaces() {
     !adminPage.includes("제공처·배송비·가입·선착순·쿠폰 조건") ||
     !analytics.includes("conditionAudit") ||
     !analytics.includes("readinessRate") ||
+    !analytics.includes("conditionOperationQueue") ||
+    !analytics.includes("missingClaimGuideCount") ||
+    !adminPage.includes("혜택 조건 보강 우선순위") ||
+    !adminPage.includes("수령 단계, 조건 체크") ||
     !adminPage.includes("VER 2.0 재방문 운영") ||
     !adminPage.includes("매일 재방문 루틴 점검") ||
     !adminPage.includes("재방문 점수") ||
     !adminPage.includes("다음 재방문 개선 액션") ||
     !smoke.includes("Admin dashboard missing benefit quality operation summary") ||
-    !smoke.includes("Metrics missing benefit condition audit queue")
+    !smoke.includes("Metrics missing benefit condition audit queue") ||
+    !smoke.includes("Metrics missing benefit condition operation queue")
   ) {
-    fail("admin product copy", "Admin page should expose V2 benefit operation quality and retention summaries with smoke coverage.");
+    fail("admin product copy", "Admin page should expose V2 benefit operation quality, condition operation, and retention summaries with smoke coverage.");
   } else {
-    pass("admin product copy", "Admin dashboard avoids raw internal source copy and exposes V2 benefit operation quality and retention readiness.");
+    pass("admin product copy", "Admin dashboard avoids raw internal source copy and exposes V2 benefit operation quality, condition operation, and retention readiness.");
   }
 
   if (
