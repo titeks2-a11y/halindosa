@@ -129,19 +129,29 @@ export function DealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, onSha
           </Link>
         </div>
 
-        <div
-          className={`inline-flex max-w-full items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-black ${
-            linkVerified ? "bg-emerald-50 text-emerald-700" : "bg-amber-50 text-amber-700"
-          }`}
-        >
-          <LinkTrustIcon size={12} />
-          <span className="truncate">{getDealLinkTrustLabel(deal)}</span>
+        <div className="flex flex-wrap items-center gap-1.5">
+          <div
+            className={`inline-flex max-w-full items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-black ${
+              linkVerified ? "bg-emerald-50 text-emerald-700" : "bg-amber-50 text-amber-700"
+            }`}
+          >
+            <LinkTrustIcon size={12} />
+            <span className="truncate">{getDealLinkTrustLabel(deal)}</span>
+          </div>
+          <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-black text-slate-600">
+            <Truck size={12} />
+            {deal.shipping}
+          </span>
+          <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-black text-slate-600">
+            <Clock size={12} />
+            {getTimeLeft(deal.expiresAt)}
+          </span>
         </div>
         <p className="text-[11px] font-bold text-slate-500">
-          {getDealPurchaseConfidenceLabel(deal)} · 링크 확인 {getRelativeTime(deal.checkedAt)}
+          {getDealPurchaseConfidenceLabel(deal)} · 가격 기준 {getRelativeTime(deal.priceCheckedAt)}
         </p>
 
-        <div className="grid grid-cols-2 gap-1.5 rounded-2xl border border-slate-100 bg-white p-2 shadow-[0_8px_24px_rgba(15,23,42,0.04)]" aria-label={`${deal.title} 출처와 신고 상태`}>
+        <div className="hidden grid-cols-2 gap-1.5 rounded-2xl border border-slate-100 bg-white p-2 shadow-[0_8px_24px_rgba(15,23,42,0.04)] sm:grid" aria-label={`${deal.title} 출처와 신고 상태`}>
           <div className="min-w-0 rounded-xl bg-slate-50 px-2 py-1.5">
             <p className="text-[10px] font-black text-slate-400">출처</p>
             <p className="mt-0.5 truncate text-[11px] font-black text-slate-800">{sourceLabel}</p>
@@ -154,12 +164,12 @@ export function DealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, onSha
           </div>
         </div>
 
-        <div className="rounded-2xl border border-slate-100 bg-slate-50 px-3 py-2" aria-label={`${deal.title} 품질 안내`}>
+        <div className="hidden rounded-2xl border border-slate-100 bg-slate-50 px-3 py-2 sm:block" aria-label={`${deal.title} 품질 안내`}>
           <p className="text-[11px] font-black text-slate-700">품질 안내: {qualityNotice.label}</p>
           <p className="mt-1 line-clamp-2 text-[11px] font-bold leading-4 text-slate-500">{qualityNotice.description}</p>
         </div>
 
-        <div className="rounded-2xl border border-amber-100 bg-amber-50 px-3 py-2" aria-label={`${deal.title} 신고 처리 기준`}>
+        <div className="hidden rounded-2xl border border-amber-100 bg-amber-50 px-3 py-2 lg:block" aria-label={`${deal.title} 신고 처리 기준`}>
           <div className="flex items-center justify-between gap-2">
             <p className="text-[11px] font-black text-amber-900">신고 처리 기준</p>
             <Link href={`/reports?dealId=${deal.id}&reason=wrong_info`} className="shrink-0 text-[11px] font-black text-amber-800 underline-offset-2 hover:underline">
@@ -183,7 +193,7 @@ export function DealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, onSha
           <p className="mt-1 line-clamp-2 text-xs font-bold leading-5 text-slate-700">{deal.benefitSummary}</p>
         </div>
 
-        <div className="rounded-2xl border border-red-100 bg-white p-2" aria-label={`${deal.title} 혜택 조건 요약`}>
+        <div className="hidden rounded-2xl border border-red-100 bg-white p-2 xl:block" aria-label={`${deal.title} 혜택 조건 요약`}>
           <p className="mb-1.5 text-[11px] font-black text-dossa-red">혜택 조건</p>
           <div className="grid grid-cols-2 gap-1.5">
             {benefitConditionItems.map((item) => (
@@ -195,7 +205,7 @@ export function DealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, onSha
           </div>
         </div>
 
-        <div className="rounded-2xl border border-slate-100 bg-white p-2 shadow-[0_8px_24px_rgba(15,23,42,0.04)]" aria-label={`${deal.title} 구매 전 체크`}>
+        <div className="hidden rounded-2xl border border-slate-100 bg-white p-2 shadow-[0_8px_24px_rgba(15,23,42,0.04)] lg:block" aria-label={`${deal.title} 구매 전 체크`}>
           <p className="mb-1.5 text-[11px] font-black text-slate-500">구매 전 체크</p>
           <div className="grid grid-cols-3 gap-1.5">
             {purchaseCheckItems.map((item) => (
@@ -220,12 +230,8 @@ export function DealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, onSha
           <p className="mt-1 text-xs font-black text-dossa-red sm:mt-2">{formatPrice(deal.discountAmount)} 절약</p>
         </div>
 
-        <div className="hidden flex-wrap gap-1.5 sm:flex">
+        <div className="hidden flex-wrap gap-1.5 md:flex">
           <DealTrustBadge deal={deal} compact />
-          <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-1 text-xs font-bold text-slate-600">
-            <Truck size={12} />
-            {deal.shipping}
-          </span>
           {deal.tags.slice(0, 3).map((tag) => (
             <span key={tag} className="inline-flex items-center gap-1 rounded-full bg-red-50 px-2.5 py-1 text-xs font-bold text-dossa-deep">
               <Tag size={12} />
