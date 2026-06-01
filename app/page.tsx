@@ -88,6 +88,49 @@ const benefitFilters: Array<{ id: "all" | DealBenefitType; label: string }> = [
   { id: "foodDelivery", label: "배달/외식" },
   { id: "discount", label: "오늘특가" }
 ];
+const searchPurposePresets: Array<{
+  title: string;
+  label: string;
+  copy: string;
+  preset: BenefitPreset;
+  match: (deal: Deal) => boolean;
+}> = [
+  {
+    title: "무료·0원 먼저",
+    label: "무료",
+    copy: "샘플, 체험단, 초대권처럼 비용 부담 낮은 혜택",
+    preset: { dealType: "freebie", query: "무료", sort: "hot" },
+    match: (deal) => ["freebie", "experience"].includes(deal.dealType) || deal.salePrice <= 1000 || /무료|0원|샘플|체험|초대권/.test(`${deal.title} ${deal.tags.join(" ")}`)
+  },
+  {
+    title: "쿠폰 조건 확인",
+    label: "쿠폰",
+    copy: "첫 구매, 카드, 브랜드, 배달 쿠폰을 결제 전 확인",
+    preset: { dealType: "coupon", query: "쿠폰", sort: "hot" },
+    match: (deal) => ["coupon", "foodDelivery"].includes(deal.dealType) || /쿠폰|카드|첫 구매|배달|외식/.test(`${deal.title} ${deal.tags.join(" ")}`)
+  },
+  {
+    title: "앱테크 적립",
+    label: "적립",
+    copy: "출석체크, 페이, 멤버십 포인트 루틴",
+    preset: { dealType: "point", query: "포인트", sort: "latest" },
+    match: (deal) => deal.dealType === "point" || /출석|포인트|적립|페이|멤버십|리워드/.test(`${deal.title} ${deal.tags.join(" ")}`)
+  },
+  {
+    title: "문화 초대권",
+    label: "문화",
+    copy: "영화 시사회, 전시, 공연, 티켓 혜택",
+    preset: { dealType: "experience", query: "초대권", sort: "endingSoon" },
+    match: (deal) => /영화|시사회|전시|공연|초대권|티켓/.test(`${deal.title} ${deal.tags.join(" ")} ${deal.benefitSummary}`)
+  },
+  {
+    title: "검증 링크만",
+    label: "신뢰",
+    copy: "검색/메인이 아닌 실제 상세 이동 우선",
+    preset: { verifiedOnly: true, sort: "hot" },
+    match: (deal) => isVerifiedPurchaseLink(deal)
+  }
+];
 const toastMessages = [
   "🔥 새로운 역대급 특가가 등록되었습니다!",
   "⚡ 마감임박 상품이 빠르게 소진되고 있어요.",
@@ -1258,6 +1301,14 @@ export default function Home() {
     ],
     [activeFilterLabels.length, deals]
   );
+  const searchPurposeCards = useMemo(() => {
+    const source = catalog.length ? catalog : deals;
+
+    return searchPurposePresets.map((item) => ({
+      ...item,
+      count: source.filter(item.match).length
+    }));
+  }, [catalog, deals]);
 
   const resetFilters = () => {
     setQuery("");
@@ -1333,9 +1384,9 @@ export default function Home() {
     setPriceBand("all");
     setBenefitFilter(preset.dealType ?? "all");
     setFreeShippingOnly(Boolean(preset.freeShippingOnly));
-    setVerifiedOnly(false);
+    setVerifiedOnly(Boolean(preset.verifiedOnly));
     setHotOnly(false);
-    setEndingSoonOnly(false);
+    setEndingSoonOnly(Boolean(preset.endingSoonOnly));
     setSort(preset.sort ?? "latest");
     setActiveView("home");
     window.setTimeout(() => document.getElementById("all-deals")?.scrollIntoView({ behavior: "smooth", block: "start" }), 0);
@@ -2004,6 +2055,33 @@ export default function Home() {
                   onSelectKeyword={selectSearchKeyword}
                   onClearRecentKeywords={clearRecentSearchKeywords}
                 />
+              </div>
+              <div className="mt-4 rounded-2xl border border-red-100 bg-red-50 p-3" aria-label="혜택 목적 빠른 필터">
+                <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+                  <div>
+                    <p className="text-xs font-black text-dossa-red">혜택 목적 빠른 필터</p>
+                    <p className="mt-1 text-sm font-black text-slate-950">무료, 쿠폰, 앱테크, 문화 초대권을 한 번에 좁힙니다</p>
+                  </div>
+                  <p className="text-xs font-bold leading-5 text-dossa-deep">비회원도 모든 결과를 보고, 저장만 로그인으로 이어집니다.</p>
+                </div>
+                <div className="mt-3 grid gap-2 sm:grid-cols-2 xl:grid-cols-5">
+                  {searchPurposeCards.map((item) => (
+                    <button
+                      key={item.title}
+                      type="button"
+                      onClick={() => openBenefitPreset(item.preset)}
+                      className="min-h-[112px] rounded-3xl bg-white p-3 text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+                      aria-label={`${item.title} 빠른 필터 ${item.count}개 적용`}
+                    >
+                      <span className="flex items-start justify-between gap-3">
+                        <span className="rounded-full bg-red-50 px-2.5 py-1 text-[11px] font-black text-dossa-red">{item.label}</span>
+                        <span className="rounded-full bg-slate-50 px-2.5 py-1 text-[11px] font-black text-slate-600">{item.count}개</span>
+                      </span>
+                      <span className="mt-3 block text-sm font-black text-slate-950">{item.title}</span>
+                      <span className="mt-1 line-clamp-2 block text-xs font-bold leading-5 text-slate-500">{item.copy}</span>
+                    </button>
+                  ))}
+                </div>
               </div>
               <div className="mt-4 flex flex-col gap-3 rounded-2xl bg-slate-50 p-3 sm:flex-row sm:items-center sm:justify-between">
                 <div className="min-w-0">

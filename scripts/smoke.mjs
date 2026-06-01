@@ -172,6 +172,16 @@ await check("home page", async () => {
   assert(text.includes("검색 도우미"), "Home page missing search discovery panel");
   assert(text.includes("인기 검색어") && text.includes("최근 검색어"), "Home page missing popular/recent search keyword sections");
   assert(text.includes("현재 결과"), "Home page missing search result count summary");
+  assert(
+    text.includes("혜택 목적 빠른 필터") &&
+      text.includes("무료, 쿠폰, 앱테크, 문화 초대권을 한 번에 좁힙니다") &&
+      text.includes("무료·0원 먼저") &&
+      text.includes("쿠폰 조건 확인") &&
+      text.includes("앱테크 적립") &&
+      text.includes("문화 초대권") &&
+      text.includes("검증 링크만"),
+    "Home page missing purpose quick benefit filters"
+  );
   assert(text.includes("조건별 결과 요약") && text.includes("현재 필터가 보여주는 혜택을 먼저 해석합니다"), "Home page missing filter outcome summary");
   assert(text.includes("현재 조건으로 볼 혜택") && text.includes("마감 전 확인") && text.includes("배송비 부담 낮음"), "Home page missing filter outcome cards");
   assert(text.includes("최근 기록 관리") && text.includes("찜 목록 보기"), "Home page missing recent deal management actions");

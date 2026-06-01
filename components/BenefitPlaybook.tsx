@@ -6,6 +6,8 @@ export interface BenefitPreset {
   dealType?: DealBenefitType;
   category?: string;
   freeShippingOnly?: boolean;
+  verifiedOnly?: boolean;
+  endingSoonOnly?: boolean;
   sort?: "latest" | "discount" | "price" | "hot" | "endingSoon";
 }
 
