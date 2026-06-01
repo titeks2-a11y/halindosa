@@ -608,6 +608,7 @@ async function checkSearchAndPurchaseFlow() {
   const packageJson = await text("package.json");
   const featured = await text("components/FeaturedDealSections.tsx");
   const liveFeed = await text("components/LiveDealFeed.tsx");
+  const quickDealCard = await text("components/QuickDealCard.tsx");
 
   if (
     !search.includes("normalizeSearchText") ||
@@ -658,6 +659,9 @@ async function checkSearchAndPurchaseFlow() {
     !homePage.includes("빠른 상품 검색") ||
     !homePage.includes("오늘 바로 볼 특가") ||
     !homePage.includes("instantDealRail") ||
+    !homePage.includes("QuickDealCard") ||
+    !quickDealCard.includes("구매하기") ||
+    !quickDealCard.includes('target="_blank"') ||
     !homePage.includes("상품 이동은 모두 새 탭") ||
     !homePage.includes("카테고리 바로가기") ||
     !homePage.includes("quickCategoryShortcuts")

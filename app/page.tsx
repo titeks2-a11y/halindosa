@@ -11,7 +11,6 @@ import { CategoryTabs } from "@/components/CategoryTabs";
 import { CommercialFooter } from "@/components/CommercialFooter";
 import { ConsentSettings } from "@/components/ConsentSettings";
 import { DailyBenefitChecklist } from "@/components/DailyBenefitChecklist";
-import { DealCard } from "@/components/DealCard";
 import { FeaturedDealSections } from "@/components/FeaturedDealSections";
 import { HotSignalSection } from "@/components/HotSignalSection";
 import { LoginPromptSheet } from "@/components/LoginPromptSheet";
@@ -20,6 +19,7 @@ import { NotificationPreferences } from "@/components/NotificationPreferences";
 import { PriceAlertList } from "@/components/PriceAlertList";
 import { PurchaseConfirmSheet } from "@/components/PurchaseConfirmSheet";
 import { PurchaseLinkOverview } from "@/components/PurchaseLinkOverview";
+import { QuickDealCard } from "@/components/QuickDealCard";
 import { SearchBar } from "@/components/SearchBar";
 import { SearchDiscoveryPanel } from "@/components/SearchDiscoveryPanel";
 import { SortSelect } from "@/components/SortSelect";
@@ -1740,9 +1740,9 @@ export default function Home() {
     }
 
     return (
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+      <div className="grid grid-cols-1 gap-3 min-[430px]:grid-cols-2 md:gap-4 xl:grid-cols-3 2xl:grid-cols-4">
         {items.map((deal) => (
-          <DealCard
+          <QuickDealCard
             key={deal.id}
             deal={deal}
             isFavorite={favorites.includes(deal.id)}

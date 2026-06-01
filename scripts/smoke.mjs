@@ -190,6 +190,7 @@ await check("home page", async () => {
   assert(text.includes("검색 도우미"), "Home page missing search discovery panel");
   assert(text.includes("인기 검색어") && text.includes("최근 검색어"), "Home page missing popular/recent search keyword sections");
   assert(text.includes("현재 결과"), "Home page missing search result count summary");
+  assert(text.includes("구매하기"), "Home page missing compact commerce purchase buttons");
   assert(
     text.includes("혜택 목적 빠른 필터") &&
       text.includes("무료, 쿠폰, 앱테크, 문화 초대권을 한 번에 좁힙니다") &&
