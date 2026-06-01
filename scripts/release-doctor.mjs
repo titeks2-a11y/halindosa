@@ -1440,6 +1440,8 @@ async function checkOperationalDataSurfaces() {
     !freeBenefitsClient.includes("무료 혜택 정렬") ||
     !freeBenefitsClient.includes("수령 전 30초 확인") ||
     !freeBenefitsClient.includes("무료 혜택도 조건을 알고 받아야 합니다") ||
+    !freeBenefitsClient.includes("문화 초대권 찾기") ||
+    !freeBenefitsClient.includes("초대권 보기") ||
     !freeBenefitsClient.includes("배송비 확인") ||
     !freeBenefitsClient.includes("benefitReadinessPlan") ||
     !freeBenefitsClient.includes("혜택 준비물 체크") ||
@@ -1541,6 +1543,7 @@ async function checkOperationalDataSurfaces() {
     !topNavigation.includes("/free-benefits") ||
     !smoke.includes("free benefits page") ||
     !smoke.includes("Free benefits page missing pre-claim condition summary") ||
+    !smoke.includes("Free benefits page missing culture invitation quick filter") ||
     !smoke.includes("Free benefits page missing daily benefit mission") ||
     !smoke.includes("Free benefits page missing benefit readiness checklist") ||
     !smoke.includes("Free benefits page missing readiness filter actions") ||

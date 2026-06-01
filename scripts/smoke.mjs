@@ -613,6 +613,7 @@ await check("free benefits page", async () => {
     "Free benefits page missing daily benefit mission"
   );
   assert(text.includes("수령 전 30초 확인") && text.includes("무료 혜택도 조건을 알고 받아야 합니다"), "Free benefits page missing pre-claim condition summary");
+  assert(text.includes("문화 초대권 찾기") && text.includes("초대권 보기"), "Free benefits page missing culture invitation quick filter");
   assert(text.includes("혜택 준비물 체크") && text.includes("받기 전 필요한 조건만 먼저 정리합니다"), "Free benefits page missing benefit readiness checklist");
   assert(text.includes("회원가입 없이 받을 혜택") && text.includes("배송비 부담 없는 혜택") && text.includes("쿠폰 조건 확인 필요"), "Free benefits page missing readiness filter actions");
   assert(

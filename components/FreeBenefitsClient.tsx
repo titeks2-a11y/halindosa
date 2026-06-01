@@ -195,6 +195,19 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
         action: "생활 혜택 보기",
         icon: Truck,
         onClick: () => setActiveType("convenienceStore" as const)
+      },
+      {
+        title: "문화 초대권 찾기",
+        copy: "영화 시사회, 전시, 공연, 티켓 초대권처럼 빨리 마감되는 문화 혜택만 바로 좁혀봅니다.",
+        count: deals.filter((deal) => /영화|시사회|전시|공연|초대권|티켓/.test(`${deal.title} ${deal.tags.join(" ")} ${deal.benefitSummary}`)).length,
+        action: "초대권 보기",
+        icon: CalendarDays,
+        onClick: () => {
+          setActiveType("all");
+          setQuery("초대권");
+          setActiveOnly(true);
+          setSort("endingSoon");
+        }
       }
     ],
     [deals]
