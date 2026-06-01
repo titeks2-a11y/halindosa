@@ -279,6 +279,45 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
   const claimedSavings = useMemo(() => claimedBenefits.reduce((total, record) => total + record.savingsAmount, 0), [claimedBenefits]);
   const recentClaimedBenefits = claimedBenefits.slice(0, 3);
   const needsFinalCheckCount = deals.length - activeBenefitCount;
+  const nextVisitPlan = useMemo(
+    () => [
+      {
+        title: "내일 아침 먼저 볼 혜택",
+        copy: "출석체크, 포인트 적립, 무료 샘플처럼 매일 열어볼수록 놓칠 가능성이 줄어드는 혜택입니다.",
+        count: deals.filter((deal) => deal.dealType === "point" || deal.dealType === "freebie" || deal.dealType === "experience").length,
+        action: "아침 루틴 보기",
+        onClick: () => {
+          setActiveType("point");
+          setActiveOnly(true);
+          setSort("recommended");
+        }
+      },
+      {
+        title: "퇴근 전 확인할 쿠폰",
+        copy: "배달, 외식, 편의점, 마트 쿠폰처럼 시간대와 지점 조건을 다시 확인해야 하는 혜택입니다.",
+        count: deals.filter((deal) => deal.dealType === "foodDelivery" || deal.dealType === "coupon" || deal.dealType === "convenienceStore" || deal.dealType === "mart").length,
+        action: "저녁 쿠폰 보기",
+        onClick: () => {
+          setActiveType("coupon");
+          setSort("popular");
+          setActiveOnly(true);
+        }
+      },
+      {
+        title: "마감 전 재확인",
+        copy: "선착순, 기간 한정, 종료 가능 혜택은 다음 방문 때도 판매처 상태를 다시 보는 흐름으로 관리합니다.",
+        count: deals.filter((deal) => deal.isEndingSoon || deal.isFirstComeFirstServed || deal.isExpired).length,
+        action: "마감순 보기",
+        onClick: () => {
+          setActiveType("all");
+          setEndingSoonOnly(true);
+          setFirstComeOnly(true);
+          setSort("endingSoon");
+        }
+      }
+    ],
+    [deals]
+  );
   const sourceOverview = useMemo(
     () => [
       {
@@ -704,6 +743,42 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
               </p>
             )}
           </div>
+        </section>
+
+        <section className="rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5" aria-label="내일 다시 볼 혜택 예약">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-black text-dossa-red">내일 다시 볼 혜택 예약</p>
+              <h2 className="mt-1 text-2xl font-black tracking-tight text-slate-950">오늘 챙긴 뒤 다음 방문 순서를 남깁니다</h2>
+            </div>
+            <p className="max-w-md text-sm font-bold leading-6 text-slate-500">
+              회원가입을 강요하지 않고, 무료·쿠폰·마감 혜택을 다음 방문에도 이어볼 수 있도록 루틴을 제안합니다.
+            </p>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-3">
+            {nextVisitPlan.map((item) => (
+              <button
+                key={item.title}
+                type="button"
+                onClick={item.onClick}
+                className="min-h-[170px] rounded-3xl border border-slate-100 bg-slate-50 p-4 text-left transition hover:-translate-y-0.5 hover:border-red-200 hover:bg-red-50"
+                aria-label={`${item.title} ${item.count}개 보기`}
+              >
+                <span className="flex items-start justify-between gap-3">
+                  <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-dossa-red shadow-sm">
+                    <CalendarDays size={20} />
+                  </span>
+                  <span className="rounded-full bg-white px-2.5 py-1 text-xs font-black text-dossa-red shadow-sm">{item.count}개</span>
+                </span>
+                <span className="mt-4 block text-sm font-black text-slate-950">{item.title}</span>
+                <span className="mt-1 line-clamp-3 block text-xs font-bold leading-5 text-slate-500">{item.copy}</span>
+                <span className="mt-3 inline-flex rounded-full bg-dossa-red px-3 py-1.5 text-xs font-black text-white">{item.action}</span>
+              </button>
+            ))}
+          </div>
+          <p className="mt-4 rounded-2xl bg-red-50 px-4 py-3 text-xs font-black leading-5 text-dossa-deep">
+            찜과 알림 저장은 선택 로그인으로 이어지고, 비회원은 이 화면의 루틴을 그대로 열람할 수 있습니다.
+          </p>
         </section>
 
         <section className="rounded-[28px] border border-red-100 bg-white p-4 shadow-sm sm:p-5" aria-label="혜택 출처와 조건 점검">

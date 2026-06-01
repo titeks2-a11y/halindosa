@@ -1391,6 +1391,12 @@ async function checkOperationalDataSurfaces() {
     !freeBenefitsClient.includes("받기 전에 출처와 조건을 먼저 봅니다") ||
     !freeBenefitsClient.includes("내가 챙긴 혜택 기록") ||
     !freeBenefitsClient.includes("오늘 실제로 챙긴 혜택을 남겨보세요") ||
+    !freeBenefitsClient.includes("nextVisitPlan") ||
+    !freeBenefitsClient.includes("내일 다시 볼 혜택 예약") ||
+    !freeBenefitsClient.includes("오늘 챙긴 뒤 다음 방문 순서를 남깁니다") ||
+    !freeBenefitsClient.includes("내일 아침 먼저 볼 혜택") ||
+    !freeBenefitsClient.includes("퇴근 전 확인할 쿠폰") ||
+    !freeBenefitsClient.includes("마감 전 재확인") ||
     !freeBenefitsClient.includes("toggleClaimed") ||
     !freeBenefitsClient.includes("claimedBenefitIds") ||
     !claimedBenefits.includes("toggleClaimedBenefit") ||
@@ -1415,6 +1421,7 @@ async function checkOperationalDataSurfaces() {
     !smoke.includes("Free benefits page missing quick decision rail") ||
     !smoke.includes("Free benefits page missing source and condition trust summary") ||
     !smoke.includes("Free benefits page missing claimed benefit tracking") ||
+    !smoke.includes("Free benefits page missing next visit benefit plan") ||
     !smoke.includes("Free benefits page missing active-benefit status filter")
   ) {
     fail("free benefits dedicated page", "Free benefit discovery should have a dedicated page, claimed-benefit tracking, priority queue, weekly routine, active-benefit filter, navigation entry, and smoke coverage.");
