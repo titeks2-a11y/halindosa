@@ -762,6 +762,25 @@ await check("health api", async () => {
   assert(data.checks?.freeBenefitDeals >= 10, "Health API missing free benefit readiness count");
 });
 
+await check("today benefits api", async () => {
+  const { response, data } = await fetchJson("/api/benefits/today?limit=4");
+  assert(response.status === 200, `Expected 200, got ${response.status}`);
+  assert(data.ok === true, "Today benefits API ok should be true");
+  assert(data.audience === "guest", "Today benefits API should keep guest access");
+  assert(data.summary?.freeBenefitDeals >= 1, "Today benefits API missing free benefit summary");
+  assert(data.summary?.verifiedPurchaseDeals >= 1, "Today benefits API missing verified purchase summary");
+  assert(Array.isArray(data.sections) && data.sections.length >= 6, "Today benefits API should include daily sections");
+  assert(data.sections.some((section) => section.key === "free-first"), "Today benefits API missing free-first section");
+  assert(data.sections.some((section) => section.key === "coupon-before-pay"), "Today benefits API missing coupon-before-pay section");
+  assert(data.sections.some((section) => section.key === "apptech-point"), "Today benefits API missing apptech-point section");
+  assert(data.sections.every((section) => section.items.length <= 4), "Today benefits API should respect limit");
+  assert(
+    data.sections.flatMap((section) => section.items).every((item) => item.redirectUrl?.startsWith("/go/") && Array.isArray(item.claimSteps)),
+    "Today benefits API items should include redirect and claim steps"
+  );
+  assert(String(data.notice ?? "").includes("판매처"), "Today benefits API missing purchase condition notice");
+});
+
 await check("metrics api", async () => {
   const { response, data } = await fetchJson("/api/metrics");
   assert(response.status === 200, `Expected 200, got ${response.status}`);

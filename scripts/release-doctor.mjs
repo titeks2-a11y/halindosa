@@ -1159,6 +1159,7 @@ async function checkOperationalDataSurfaces() {
   const commercializationPage = await text("app/commercialization/page.tsx");
   const analytics = await text("lib/analytics.ts");
   const healthRoute = await text("app/api/health/route.ts");
+  const todayBenefitsRoute = await text("app/api/benefits/today/route.ts");
   const smoke = await text("scripts/smoke.mjs");
   const redirectUrl = await text("lib/redirectUrl.ts");
   const goRoute = await text("app/go/[id]/route.ts");
@@ -1398,6 +1399,22 @@ async function checkOperationalDataSurfaces() {
     fail("operational health checks", "Health API should expose V2 link, free benefit, and claim-guide readiness with smoke coverage.");
   } else {
     pass("operational health checks", "Health API exposes V2 link, free benefit, and claim-guide readiness with smoke coverage.");
+  }
+
+  if (
+    !todayBenefitsRoute.includes("free-first") ||
+    !todayBenefitsRoute.includes("coupon-before-pay") ||
+    !todayBenefitsRoute.includes("apptech-point") ||
+    !todayBenefitsRoute.includes("verified-purchase") ||
+    !todayBenefitsRoute.includes("audience: \"guest\"") ||
+    !todayBenefitsRoute.includes("loginRequiredFor") ||
+    !todayBenefitsRoute.includes("redirectUrl: `/go/${deal.id}`") ||
+    !smoke.includes("today benefits api") ||
+    !smoke.includes("Today benefits API should keep guest access")
+  ) {
+    fail("today benefits api", "Daily benefit API should expose guest-accessible free, coupon, apptech, and verified purchase sections with smoke coverage.");
+  } else {
+    pass("today benefits api", "Daily benefit API exposes guest-accessible free, coupon, apptech, and verified purchase sections with smoke coverage.");
   }
 
   if (!dealsRoute.includes("normalizeDeals(mockDeals") || dealsRoute.includes("mock 데이터로 대체")) {
