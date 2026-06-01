@@ -788,5 +788,35 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     checkedAt: "2026-06-02T06:30:00.000Z",
     source: "manual_review",
     evidence: "쿠팡 국산 세이프크린 KF94 대형 마스크 100매 상품 상세"
+  },
+  d131: {
+    url: "https://www.coupang.com/vp/products/7689270513?itemId=20877904748&vendorItemId=87945140914",
+    checkedAt: "2026-06-02T07:10:00.000Z",
+    source: "manual_review",
+    evidence: "쿠팡 탐사 샘물 2L 24개 상품 상세"
+  },
+  d132: {
+    url: "https://item.gmarket.co.kr/Item?goodscode=2571643785",
+    checkedAt: "2026-06-02T07:10:00.000Z",
+    source: "manual_review",
+    evidence: "G마켓 팔도 비빔면 130g 20개 상품 상세"
+  },
+  d133: {
+    url: "https://www.11st.co.kr/products/9039746479",
+    checkedAt: "2026-06-02T07:10:00.000Z",
+    source: "manual_review",
+    evidence: "11번가 크리넥스 3겹 순수소프트 쿠션 화장지 25m 30롤 2팩 상품 상세"
+  },
+  d134: {
+    url: "https://www.ssg.com/item/itemView.ssg?itemId=1000625953830",
+    checkedAt: "2026-06-02T07:10:00.000Z",
+    source: "manual_review",
+    evidence: "SSG닷컴 종가 알찬 포기김치 3.1kg 상품 상세"
+  },
+  d135: {
+    url: "https://item.gmarket.co.kr/Item?goodscode=3055540533",
+    checkedAt: "2026-06-02T07:10:00.000Z",
+    source: "manual_review",
+    evidence: "G마켓 농심 순한너구리 120g 20개 상품 상세"
   }
 };

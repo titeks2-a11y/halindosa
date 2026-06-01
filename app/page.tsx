@@ -158,6 +158,7 @@ const highIntentSearchKeywords = [
   "화장지",
   "청소포",
   "김자반",
+  "김치",
   "키친타월",
   "참치",
   "가글",

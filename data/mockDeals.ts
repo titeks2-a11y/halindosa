@@ -333,7 +333,12 @@ export const mockDeals: Deal[] = [
   deal("d127", "G마켓", "동원 EPA참치 150g x 10캔", "식품", 36990, 5, 1.2, 34, { isHot: false, isNew: true, isEndingSoon: false }, ["참치", "통조림", "쿠폰적용"], 73, "", "https://item.gmarket.co.kr/Item?goodscode=2349292374"),
   deal("d128", "11번가", "리스테린 쿨민트 마우스워시 750ml 2개", "생활용품", 33980, 10, 1.5, 28, { isHot: false, isNew: true, isEndingSoon: false }, ["가글", "구강청결", "생활필수"], 74, "", "https://www.11st.co.kr/products/8716931635"),
   deal("d129", "SSG닷컴", "리벤스 오리지널 소프트 저자극 물티슈 캡형 100매 10팩", "생활용품", 7900, 15, 0.9, 24, { isHot: true, isNew: true, isEndingSoon: false }, ["물티슈", "장보기", "쓱배송"], 82, "", "https://www.ssg.com/item/itemView.ssg?itemId=2097001847275"),
-  deal("d130", "쿠팡", "국산 세이프크린 KF94 대형 마스크 100매", "생활용품", 21000, 24, 0.8, 22, { isHot: true, isNew: true, isEndingSoon: false }, ["마스크", "KF94", "무료배송"], 83, "", "https://www.coupang.com/vp/products/8286305822")
+  deal("d130", "쿠팡", "국산 세이프크린 KF94 대형 마스크 100매", "생활용품", 21000, 24, 0.8, 22, { isHot: true, isNew: true, isEndingSoon: false }, ["마스크", "KF94", "무료배송"], 83, "", "https://www.coupang.com/vp/products/8286305822"),
+  deal("d131", "쿠팡", "탐사 샘물 2L 24개", "식품", 14400, 18, 0.5, 18, { isHot: true, isNew: true, isEndingSoon: false }, ["생수", "생활필수", "로켓배송", "무료배송"], 86, "", "https://www.coupang.com/vp/products/7689270513?itemId=20877904748&vendorItemId=87945140914"),
+  deal("d132", "G마켓", "팔도 비빔면 130g 20개", "식품", 23900, 8, 1.2, 20, { isHot: false, isNew: true, isEndingSoon: false }, ["라면", "비빔면", "쿠폰적용", "장보기"], 76, "", "https://item.gmarket.co.kr/Item?goodscode=2571643785"),
+  deal("d133", "11번가", "크리넥스 3겹 순수소프트 쿠션 화장지 25m 30롤 2팩", "생활용품", 69900, 20, 1.4, 26, { isHot: false, isNew: true, isEndingSoon: false }, ["화장지", "휴지", "무료배송", "생활필수"], 78, "", "https://www.11st.co.kr/products/9039746479"),
+  deal("d134", "SSG닷컴", "종가 알찬 포기김치 3.1kg", "식품", 27900, 15, 1.1, 24, { isHot: false, isNew: true, isEndingSoon: false }, ["김치", "장보기", "쓱배송", "신선식품"], 77, "", "https://www.ssg.com/item/itemView.ssg?itemId=1000625953830"),
+  deal("d135", "G마켓", "농심 순한너구리 120g 20개", "식품", 24700, 25, 1.8, 34, { isHot: false, isNew: true, isEndingSoon: false }, ["라면", "너구리", "쿠폰적용", "무료배송"], 76, "", "https://item.gmarket.co.kr/Item?goodscode=3055540533")
 ];
 
 export const categories = ["전체", "식품", "전자기기", "생활용품", "의류", "육아", "여행/티켓", "뷰티", "가전", "편의점/마트", "쿠폰/이벤트", "기타"] as const;

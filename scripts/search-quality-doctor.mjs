@@ -184,6 +184,11 @@ const requiredSearches = [
     minMatches: 1
   },
   {
+    query: "김치",
+    expected: /김치|포기김치|장보기|신선식품|식품/,
+    minMatches: 3
+  },
+  {
     query: "키친타월",
     expected: /키친타월|키친타올|주방용품|생활필수|생활용품/,
     minMatches: 1
@@ -286,7 +291,7 @@ const deals = extractDeals();
 const highIntentKeywords = extractHighIntentKeywords();
 const issues = [];
 
-if (!Array.isArray(searchAliases) || searchAliases.length < 38) {
+if (!Array.isArray(searchAliases) || searchAliases.length < 39) {
   issues.push("생활형 검색 alias 목록이 부족합니다.");
 }
 
