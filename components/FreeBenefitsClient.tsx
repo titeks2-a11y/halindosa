@@ -9,6 +9,7 @@ import { readBenefitReturnReservations, writeBenefitReturnReservations } from "@
 import { markBenefitVisit, readBenefitVisitStreak } from "@/lib/benefitVisitStreak";
 import { claimedBenefitUpdatedEvent, readClaimedBenefits, toggleClaimedBenefit } from "@/lib/claimedBenefits";
 import { getBenefitTypeLabel } from "@/lib/deals/benefits";
+import { buildBenefitDecisionGuide } from "@/lib/deals/benefitDecisionGuide";
 import { buildPersonalizedBenefitQueue } from "@/lib/deals/personalizedBenefitQueue";
 import { buildWeeklyBenefitCalendar, WeeklyBenefitPreset } from "@/lib/deals/weeklyBenefitCalendar";
 import { formatPrice } from "@/lib/format";
@@ -654,6 +655,40 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
     ],
     [activeBenefitCount, deals]
   );
+  const sharedBenefitDecisionGuide = useMemo(() => buildBenefitDecisionGuide(deals), [deals]);
+  const applySharedDecisionGuide = (id: (typeof sharedBenefitDecisionGuide)[number]["id"]) => {
+    setQuery("");
+    setActiveOnly(true);
+
+    if (id === "free") {
+      setActiveType("freebie");
+      setSort("recommended");
+      setEndingSoonOnly(false);
+      setFreeShippingOnly(false);
+      return;
+    }
+
+    if (id === "coupon") {
+      setActiveType("coupon");
+      setSort("popular");
+      setEndingSoonOnly(false);
+      setFreeShippingOnly(false);
+      return;
+    }
+
+    if (id === "endingSoon") {
+      setActiveType("all");
+      setSort("endingSoon");
+      setEndingSoonOnly(true);
+      setFreeShippingOnly(false);
+      return;
+    }
+
+    setActiveType("all");
+    setSort("recommended");
+    setEndingSoonOnly(false);
+    setFreeShippingOnly(false);
+  };
   const benefitReadinessPlan = useMemo(
     () => [
       {
@@ -1871,6 +1906,44 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
           </div>
           <p className="mt-4 rounded-2xl bg-amber-50 px-4 py-3 text-xs font-bold leading-5 text-amber-900">
             이 요약은 현재 필터 결과를 빠르게 고르는 도구입니다. 최종 신청 가능 여부, 배송비, 쿠폰 적용은 판매처 화면에서 다시 확인하세요.
+          </p>
+        </section>
+
+        <section className="rounded-[28px] border border-red-100 bg-white p-4 shadow-sm sm:p-5" aria-label="무료혜택 공통 판단표">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-black text-dossa-red">무료혜택 공통 판단표</p>
+              <h2 className="mt-1 text-xl font-black tracking-tight text-slate-950">홈·알림과 같은 기준으로 오늘 받을 혜택을 고릅니다</h2>
+            </div>
+            <Link href="/api/benefits/decision-guide" className="rounded-2xl bg-red-50 px-4 py-3 text-center text-xs font-black text-dossa-red">
+              판단표 API 보기
+            </Link>
+          </div>
+          <p className="mt-2 max-w-3xl text-sm font-bold leading-6 text-slate-500">
+            무료로 받을 것, 결제 전 적용할 것, 오늘 끝날 것, 바로 이동할 상품을 같은 기준으로 정리해 앱 어디서든 이어볼 수 있게 했습니다.
+          </p>
+          <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+            {sharedBenefitDecisionGuide.map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => applySharedDecisionGuide(item.id)}
+                className="min-h-[156px] rounded-3xl border border-slate-100 bg-slate-50 p-4 text-left transition hover:-translate-y-0.5 hover:border-red-200 hover:bg-red-50"
+                aria-label={`${item.title} ${item.value} 조건 적용`}
+              >
+                <span className="flex items-start justify-between gap-3">
+                  <span className="rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-dossa-red shadow-sm">
+                    {item.action}
+                  </span>
+                  <span className="rounded-full bg-slate-950 px-2.5 py-1 text-xs font-black text-white">{item.value}</span>
+                </span>
+                <span className="mt-4 block text-sm font-black text-slate-950">{item.title}</span>
+                <span className="mt-1 line-clamp-3 block text-xs font-bold leading-5 text-slate-500">{item.copy}</span>
+              </button>
+            ))}
+          </div>
+          <p className="mt-4 rounded-2xl bg-red-50 px-4 py-3 text-xs font-bold leading-5 text-dossa-deep">
+            비회원도 모든 혜택을 볼 수 있습니다. 찜, 가격 알림, 관심 카테고리 저장만 선택 로그인이 필요합니다.
           </p>
         </section>
 

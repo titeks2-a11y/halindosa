@@ -742,6 +742,9 @@ await check("free benefits page", async () => {
   assert(text.includes("5분 혜택 체크리스트") && text.includes("처음 들어온 사용자가 바로 따라할 순서"), "Free benefits page missing guided benefit checklist");
   assert(text.includes("무료·0원 먼저 확인") && text.includes("결제 전 쿠폰 적용") && text.includes("배송비 줄이기"), "Free benefits page missing checklist preset actions");
   assert(text.includes("혜택별 최종 확인 기준") && text.includes("쿠폰/포인트"), "Free benefits page missing benefit guardrail guide");
+  assert(text.includes("무료혜택 공통 판단표") && text.includes("홈·알림과 같은 기준으로 오늘 받을 혜택을 고릅니다"), "Free benefits page missing shared benefit decision guide");
+  assert(text.includes("판단표 API 보기") && text.includes("무료로 받을 것, 결제 전 적용할 것, 오늘 끝날 것, 바로 이동할 상품"), "Free benefits page missing shared decision guide API action");
+  assert(text.includes("돈 안 쓰고 받을 것") && text.includes("구매처가 확인된 것"), "Free benefits page missing shared decision guide cards");
   assert(text.includes("무료 혜택 빠른 판단") && text.includes("받기 전에 가장 중요한 조건만 먼저 고르세요"), "Free benefits page missing quick decision rail");
   assert(text.includes("지금 받을 수 있는 혜택") && text.includes("배송비 부담 낮추기"), "Free benefits page missing condition decision cards");
   assert(text.includes("혜택 헛걸음 방지 점검") && text.includes("현재 결과에서 놓치기 쉬운 조건을 먼저 봅니다"), "Free benefits page missing wasted-visit prevention review");

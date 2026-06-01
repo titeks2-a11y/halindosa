@@ -1825,6 +1825,12 @@ async function checkOperationalDataSurfaces() {
     !freeBenefitsClient.includes("applyChecklistPreset") ||
     !freeBenefitsClient.includes("benefitGuardrails") ||
     !freeBenefitsClient.includes("혜택별 최종 확인 기준") ||
+    !freeBenefitsClient.includes("buildBenefitDecisionGuide") ||
+    !freeBenefitsClient.includes("sharedBenefitDecisionGuide") ||
+    !freeBenefitsClient.includes("무료혜택 공통 판단표") ||
+    !freeBenefitsClient.includes("홈·알림과 같은 기준으로 오늘 받을 혜택을 고릅니다") ||
+    !freeBenefitsClient.includes("applySharedDecisionGuide") ||
+    !freeBenefitsClient.includes("판단표 API 보기") ||
     !freeBenefitsClient.includes("decisionCards") ||
     !freeBenefitsClient.includes("무료 혜택 빠른 판단") ||
     !freeBenefitsClient.includes("받기 전에 가장 중요한 조건만 먼저 고르세요") ||
@@ -1916,6 +1922,8 @@ async function checkOperationalDataSurfaces() {
     !smoke.includes("Free benefits page missing weekly routine progress") ||
     !smoke.includes("Free benefits page missing weekly benefit calendar") ||
     !smoke.includes("Free benefits page missing guided benefit checklist") ||
+    !smoke.includes("Free benefits page missing shared benefit decision guide") ||
+    !smoke.includes("Free benefits page missing shared decision guide API action") ||
     !smoke.includes("Free benefits page missing quick decision rail") ||
     !smoke.includes("Free benefits page missing source and condition trust summary") ||
     !smoke.includes("Free benefits page missing claimed benefit tracking") ||
