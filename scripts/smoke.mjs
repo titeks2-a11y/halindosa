@@ -709,6 +709,7 @@ await check("free benefits page", async () => {
   assert(text.includes("배송비:") && text.includes("중복:"), "Free benefits page missing benefit condition chips");
   assert(text.includes("혜택 조건 요약") && text.includes("최소금액:") && text.includes("만료:"), "Free benefits page missing actionable benefit condition summary");
   assert(text.includes("혜택 받기") && text.includes("쿠폰 받기") && text.includes("종료"), "Free benefits page missing claim and report actions");
+  assert(text.includes("품절 신고") && text.includes("링크 오류 신고"), "Free benefits page missing sold-out and link-error report actions");
   assert(text.includes("혜택 찜"), "Free benefits page missing top-level favorite action");
   assert(text.includes("혜택 공유"), "Free benefits page missing top-level share action");
   assert(text.includes("판매처 확인") && text.includes("신고"), "Free benefits page missing purchase and report actions");

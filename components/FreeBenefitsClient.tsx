@@ -1813,7 +1813,7 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
                     <span className="rounded-2xl bg-slate-50 px-3 py-2">만료: {deal.isEndingSoon ? "마감 임박" : "진행 중"}</span>
                     {deal.couponCondition ? <span className="col-span-2 rounded-2xl bg-red-50 px-3 py-2 text-dossa-red">조건: {deal.couponCondition}</span> : null}
                   </div>
-                  <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-[1fr_auto_auto_auto_auto_auto]">
+                  <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-[1fr_auto_auto_auto_auto_auto_auto]">
                     <button
                       type="button"
                       onClick={() => openDeal(deal)}
@@ -1861,6 +1861,13 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
                       aria-label={`${deal.title} 종료 신고`}
                     >
                       종료
+                    </Link>
+                    <Link
+                      href={`/reports?dealId=${deal.id}&reason=sold_out`}
+                      className="inline-flex min-h-11 items-center justify-center rounded-2xl border border-slate-200 bg-white px-3 text-xs font-black text-slate-600 transition hover:border-red-100 hover:text-dossa-red"
+                      aria-label={`${deal.title} 품절 신고`}
+                    >
+                      품절
                     </Link>
                     <Link
                       href={`/reports?dealId=${deal.id}&reason=link_error`}
