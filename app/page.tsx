@@ -1697,6 +1697,13 @@ export default function Home() {
         </div>
         {activeView === "home" ? (
           <section className="rounded-[28px] border border-red-100 bg-white p-3 shadow-sm sm:p-4" aria-label="빠른 상품 검색">
+            <div className="mb-3 flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p className="text-xs font-black text-dossa-red">빠른 상품 검색</p>
+                <h3 className="text-lg font-black text-slate-950 sm:text-xl">찾고 싶은 특가를 바로 좁혀보세요</h3>
+              </div>
+              <p className="text-xs font-bold text-slate-500">검색, 쇼핑몰, 정렬, 핵심 필터를 한 번에 적용합니다.</p>
+            </div>
             <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
               <div className="min-w-0 flex-1">
                 <SearchBar value={query} onChange={setQuery} />
