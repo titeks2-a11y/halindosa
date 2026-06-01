@@ -41,6 +41,56 @@ const requiredSearches = [
     query: "육아템",
     expected: /육아|키즈|기저귀|유아|샘플팩|체험/,
     minMatches: 3
+  },
+  {
+    query: "로켓",
+    expected: /쿠팡|로켓배송|로켓프레시|무료배송/,
+    minMatches: 6
+  },
+  {
+    query: "지마켓",
+    expected: /지마켓|G마켓|g마켓|쿠폰적용|오늘출발/,
+    minMatches: 12
+  },
+  {
+    query: "알리",
+    expected: /알리익스프레스|해외직구|무료배송|전자기기/,
+    minMatches: 1
+  },
+  {
+    query: "배달쿠폰",
+    expected: /배달|외식|요기요|쿠폰|첫 구매/,
+    minMatches: 3
+  },
+  {
+    query: "커피쿠폰",
+    expected: /커피|음료|스타벅스|메가MGC커피|무료 쿠폰|모바일 교환권/,
+    minMatches: 4
+  },
+  {
+    query: "영화무료",
+    expected: /영화|시사회|초대권|여행\/티켓|이벤트/,
+    minMatches: 4
+  },
+  {
+    query: "생수",
+    expected: /생수|탐사수|제주용암수|생활필수|무료배송/,
+    minMatches: 5
+  },
+  {
+    query: "물티슈",
+    expected: /물티슈|생활필수|생활용품|마트딜|무배/,
+    minMatches: 4
+  },
+  {
+    query: "기저귀",
+    expected: /기저귀|육아|키즈|팬티|쿠폰적용/,
+    minMatches: 4
+  },
+  {
+    query: "치약",
+    expected: /치약|샴푸|생활필수|생활용품|오늘출발/,
+    minMatches: 3
   }
 ];
 
@@ -123,7 +173,7 @@ function dealMatchesSearchText(searchText, query) {
 const deals = extractDeals();
 const issues = [];
 
-if (!Array.isArray(searchAliases) || searchAliases.length < 7) {
+if (!Array.isArray(searchAliases) || searchAliases.length < 17) {
   issues.push("생활형 검색 alias 목록이 부족합니다.");
 }
 

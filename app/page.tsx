@@ -146,6 +146,7 @@ const toastMessages = [
   "🛒 오늘만 진행되는 쿠폰 특가를 확인해보세요."
 ];
 const recentSearchStorageKey = "halindosa:recent-search-keywords";
+const highIntentSearchKeywords = ["로켓", "지마켓", "배달쿠폰", "커피쿠폰", "영화무료", "생수", "물티슈", "기저귀"];
 
 function readRecentSearchKeywords() {
   if (typeof window === "undefined") return [];
@@ -1379,7 +1380,7 @@ export default function Home() {
   }, [catalog, deals]);
 
   const quickSearchSuggestions = useMemo(() => {
-    const merged = [...recentSearchKeywords, ...popularSearchKeywords];
+    const merged = [...recentSearchKeywords, ...highIntentSearchKeywords, ...popularSearchKeywords];
     return Array.from(new Set(merged)).slice(0, 8);
   }, [popularSearchKeywords, recentSearchKeywords]);
 
