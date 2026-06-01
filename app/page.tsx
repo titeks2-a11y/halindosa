@@ -1438,6 +1438,43 @@ export default function Home() {
     ],
     [activeFilterLabels.length, deals]
   );
+
+  const searchResultSnapshot = useMemo(() => {
+    const activeDeals = deals;
+    const mallCounts = new Map<string, number>();
+    for (const deal of activeDeals) {
+      mallCounts.set(deal.mallName, (mallCounts.get(deal.mallName) ?? 0) + 1);
+    }
+
+    const topMall = Array.from(mallCounts.entries()).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], "ko"))[0];
+    const bestDiscount = activeDeals.reduce((best, deal) => Math.max(best, deal.discountRate), 0);
+    const lowestPrice = activeDeals.reduce((best, deal) => Math.min(best, deal.salePrice), Number.POSITIVE_INFINITY);
+    const endingSoonCount = activeDeals.filter((deal) => deal.isEndingSoon || deal.isExpired).length;
+
+    return [
+      {
+        label: "많은 판매처",
+        value: topMall ? topMall[0] : "대기 중",
+        helper: topMall ? `${topMall[1]}개 혜택` : "검색 결과 없음"
+      },
+      {
+        label: "최대 할인",
+        value: activeDeals.length ? `${bestDiscount}%` : "0%",
+        helper: "할인율 높은순으로 바로 비교"
+      },
+      {
+        label: "최저 현재가",
+        value: Number.isFinite(lowestPrice) ? formatPrice(lowestPrice) : "-",
+        helper: "가격 낮은순과 함께 확인"
+      },
+      {
+        label: "마감 임박",
+        value: `${endingSoonCount}개`,
+        helper: endingSoonCount ? "오늘 먼저 확인할 후보" : "여유 있는 혜택 위주"
+      }
+    ];
+  }, [deals]);
+
   const searchResultGroups = useMemo(() => {
     const normalizedQuery = query.trim();
     const source = catalog.length ? catalog : deals;
@@ -1857,6 +1894,15 @@ export default function Home() {
                   초기화
                 </button>
               </div>
+            </div>
+            <div className="mt-3 grid grid-cols-2 gap-2 lg:grid-cols-4" aria-label="검색 결과 핵심 요약">
+              {searchResultSnapshot.map((item) => (
+                <div key={item.label} className="rounded-2xl border border-slate-100 bg-slate-50 px-3 py-3">
+                  <p className="text-[11px] font-black text-slate-400">{item.label}</p>
+                  <p className="mt-1 truncate text-sm font-black text-slate-950 sm:text-base">{item.value}</p>
+                  <p className="mt-1 line-clamp-1 text-[11px] font-bold text-slate-500">{item.helper}</p>
+                </div>
+              ))}
             </div>
             <div className="mt-3 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {[

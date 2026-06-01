@@ -1003,6 +1003,8 @@ async function checkUiAccessibility() {
     !searchDiscoveryPanel.includes("최근 검색어") ||
     !homePage.includes("recentSearchStorageKey") ||
     !homePage.includes("quickSearchSuggestions") ||
+    !homePage.includes("searchResultSnapshot") ||
+    !homePage.includes('aria-label="검색 결과 핵심 요약"') ||
     !homePage.includes("selectSearchKeyword") ||
     !sortSelect.includes('aria-label="특가 정렬 방식"') ||
     !categoryTabs.includes("aria-pressed={active}") ||
