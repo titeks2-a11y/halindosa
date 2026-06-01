@@ -449,6 +449,7 @@ await check("admin dashboard quality cards", async () => {
   assert(text.includes("혜택형 콘텐츠") && text.includes("활성 노출 가능") && text.includes("점검 우선"), "Admin dashboard missing benefit operation cards");
   assert(text.includes("오늘 운영 체크인") && text.includes("무료·쿠폰·링크·재방문 루틴을 먼저 점검합니다"), "Admin dashboard missing daily operations check-in");
   assert(text.includes("무료 혜택 보강") && text.includes("링크 검수") && text.includes("신고·종료 정리") && text.includes("재방문 루틴"), "Admin dashboard missing daily operations check-in cards");
+  assert(text.includes("운영 피드 전환 준비도") && text.includes("공식 API·제휴 피드로 바꿀 때 볼 품질 기준"), "Admin dashboard missing source readiness operation board");
   assert(text.includes("오늘 혜택 운영 액션 큐") && text.includes("신고·종료·링크 보강"), "Admin dashboard missing benefit operation action queue");
   assert(text.includes("혜택 조건 완성도 점검") && text.includes("제공처·배송비·가입·선착순·쿠폰 조건"), "Admin dashboard missing benefit condition audit");
   assert(text.includes("조건 취약 유형") && text.includes("쿠폰 조건"), "Admin dashboard missing condition readiness details");
@@ -763,6 +764,10 @@ await check("sources api", async () => {
   assert(data.ok === true, "Sources API ok should be true");
   assert(Array.isArray(data.sources) && data.sources.length >= 4, "Sources list is too small");
   assert(data.sources.some((source) => source.key === "mock"), "Mock source profile missing");
+  assert(Array.isArray(data.readiness) && data.readiness.length >= 4, "Sources API missing source readiness summary");
+  assert(data.readiness.some((source) => source.key === "mock" && typeof source.verifiedRate === "number" && source.nextAction), "Sources API missing mock readiness quality fields");
+  assert(data.operationPolicy?.allowedSources?.includes("공식 API"), "Sources API missing allowed source policy");
+  assert(data.operationPolicy?.blockedSources?.some((value) => value.includes("검색 결과")), "Sources API missing blocked source policy");
 });
 
 await check("report api", async () => {

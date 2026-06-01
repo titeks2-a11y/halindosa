@@ -8,6 +8,20 @@ export interface DealSourceProfile {
   disclosure: string;
 }
 
+export interface DealSourceReadiness {
+  key: string;
+  label: string;
+  status: DealSourceProfile["status"];
+  dealCount: number;
+  verifiedCount: number;
+  verifiedRate: number;
+  benefitCount: number;
+  conditionReadyCount: number;
+  reportCount: number;
+  readinessLabel: string;
+  nextAction: string;
+}
+
 const sourceProfiles: DealSourceProfile[] = [
   {
     key: "mock",
@@ -79,4 +93,48 @@ export function getDealTrustLabel(score: number) {
   if (score >= 80) return "정보 확인 양호";
   if (score >= 70) return "조건 확인";
   return "판매처 확인";
+}
+
+function getReadinessLabel(rate: number, dealCount: number) {
+  if (!dealCount) return "연결 대기";
+  if (rate >= 90) return "운영 노출 가능";
+  if (rate >= 70) return "검수 후 노출";
+  return "보강 필요";
+}
+
+function getNextSourceAction(rate: number, dealCount: number, reportCount: number) {
+  if (!dealCount) return "공식 API, RSS, 제휴 피드 연결 후 dry-run 검증";
+  if (reportCount > 0) return "사용자 신고가 있는 링크와 종료 여부 우선 확인";
+  if (rate < 70) return "검색 fallback을 실제 상품·혜택 상세 URL로 보강";
+  if (rate < 90) return "무료/쿠폰 조건과 만료일을 운영 검수 큐에서 확인";
+  return "현재 기준 유지, 신규 피드만 샘플 검수 후 반영";
+}
+
+export function getDealSourceReadiness(deals: Deal[]): DealSourceReadiness[] {
+  return sourceProfiles.map((profile) => {
+    const scopedDeals = deals.filter((deal) => deal.source === profile.key);
+    const verifiedCount = scopedDeals.filter((deal) => deal.linkStatus === "verified" && Boolean(deal.finalPurchaseUrl)).length;
+    const benefitCount = scopedDeals.filter((deal) =>
+      ["freebie", "coupon", "freeShipping", "experience", "point", "convenienceStore", "mart", "foodDelivery"].includes(deal.dealType)
+    ).length;
+    const conditionReadyCount = scopedDeals.filter((deal) =>
+      Boolean(deal.benefitSummary && deal.shippingFee && (deal.couponCondition || deal.minimumOrderAmount || deal.claimCta))
+    ).length;
+    const reportCount = scopedDeals.reduce((total, deal) => total + deal.reportCount, 0);
+    const verifiedRate = scopedDeals.length ? Math.round((verifiedCount / scopedDeals.length) * 100) : 0;
+
+    return {
+      key: profile.key,
+      label: profile.label,
+      status: profile.status,
+      dealCount: scopedDeals.length,
+      verifiedCount,
+      verifiedRate,
+      benefitCount,
+      conditionReadyCount,
+      reportCount,
+      readinessLabel: getReadinessLabel(verifiedRate, scopedDeals.length),
+      nextAction: getNextSourceAction(verifiedRate, scopedDeals.length, reportCount)
+    };
+  });
 }

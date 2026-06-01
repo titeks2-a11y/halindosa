@@ -5,7 +5,7 @@ import { getMockBusinessMetrics } from "@/lib/analytics";
 import { canAccessAdmin, getAdminExportHref, isAdminProtectionEnabled } from "@/lib/adminAuth";
 import { getDeals } from "@/lib/dealService";
 import { getLinkReviewActionLabel, getLinkReviewQueue, getLinkStatusLabel, getLinkTypeLabel } from "@/lib/deals/quality";
-import { listDealSourceProfiles } from "@/lib/deals/trust";
+import { getDealSourceReadiness, listDealSourceProfiles } from "@/lib/deals/trust";
 import { formatPrice, getRelativeTime } from "@/lib/format";
 import { getReportSummary, listDealReports } from "@/lib/reports";
 
@@ -50,6 +50,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const recentReports = listDealReports().slice(0, 6);
   const sourceCounts = new Map<string, number>();
   const linkReviewDeals = getLinkReviewQueue(deals, 8);
+  const sourceReadiness = getDealSourceReadiness(deals);
   const priorityLabels = {
     high: "우선",
     medium: "보강",
@@ -251,6 +252,52 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                   <span>신뢰 기준 {profile.reliability}/99</span>
                   <span>{(sourceCounts.get(profile.key) ?? 0).toLocaleString("ko-KR")}개</span>
                 </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="rounded-3xl border border-red-100 bg-white p-5 shadow-sm" aria-label="운영 피드 전환 준비도">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-black text-dossa-red">운영 피드 전환 준비도</p>
+              <h2 className="mt-1 text-xl font-black text-slate-950">공식 API·제휴 피드로 바꿀 때 볼 품질 기준</h2>
+              <p className="mt-1 text-sm font-semibold leading-6 text-slate-500">
+                공급원별 실제 링크 확인율, 무료·쿠폰 혜택 수, 조건 요약 완성도, 신고 누적을 함께 보고 노출 가능 여부를 판단합니다.
+              </p>
+            </div>
+            <a href="/api/sources" className="inline-flex items-center gap-2 rounded-2xl bg-dossa-red px-4 py-3 text-sm font-black text-white">
+              <DatabaseZap size={17} />
+              공급원 API
+            </a>
+          </div>
+          <div className="mt-4 grid gap-3 lg:grid-cols-2">
+            {sourceReadiness.map((item) => (
+              <div key={item.key} className="rounded-3xl border border-slate-100 bg-slate-50 p-4">
+                <div className="flex flex-wrap items-start justify-between gap-3">
+                  <div>
+                    <p className="text-sm font-black text-slate-950">{item.label}</p>
+                    <p className="mt-1 text-xs font-bold text-slate-500">{item.nextAction}</p>
+                  </div>
+                  <span className={`rounded-full px-2.5 py-1 text-xs font-black ${
+                    item.readinessLabel === "운영 노출 가능"
+                      ? "bg-emerald-100 text-emerald-700"
+                      : item.readinessLabel === "검수 후 노출"
+                        ? "bg-amber-100 text-amber-700"
+                        : "bg-red-50 text-dossa-red"
+                  }`}>
+                    {item.readinessLabel}
+                  </span>
+                </div>
+                <div className="mt-4 grid grid-cols-2 gap-2 text-xs font-black text-slate-600 sm:grid-cols-4">
+                  <span className="rounded-2xl bg-white px-3 py-2">노출 {item.dealCount}개</span>
+                  <span className="rounded-2xl bg-white px-3 py-2">링크 {item.verifiedRate}%</span>
+                  <span className="rounded-2xl bg-white px-3 py-2">혜택 {item.benefitCount}개</span>
+                  <span className="rounded-2xl bg-white px-3 py-2">조건 {item.conditionReadyCount}개</span>
+                </div>
+                <p className="mt-3 rounded-2xl bg-white px-3 py-2 text-xs font-bold leading-5 text-slate-500">
+                  신고 누적 {item.reportCount}건 · 검색 결과를 실제 상세 링크처럼 표시하지 않고, 검증된 상품·혜택 상세 URL만 운영 노출 기준에 반영합니다.
+                </p>
               </div>
             ))}
           </div>

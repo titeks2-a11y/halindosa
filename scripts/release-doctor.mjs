@@ -1145,6 +1145,8 @@ async function checkOperationalDataSurfaces() {
   const freeBenefitsClient = await text("components/FreeBenefitsClient.tsx");
   const bottomNavigation = await text("components/BottomNavigation.tsx");
   const topNavigation = await text("components/TopNavigation.tsx");
+  const trust = await text("lib/deals/trust.ts");
+  const sourcesRoute = await text("app/api/sources/route.ts");
 
   const staticDataImports = [
     ["app/categories/page.tsx", categoriesPage],
@@ -1367,6 +1369,22 @@ async function checkOperationalDataSurfaces() {
     fail("shared link quality rules", "Home, repository, featured sections, cards, live feed, and purchase confirmation should use shared link quality rules and customer-facing quality notices.");
   } else {
     pass("shared link quality rules", "Verified purchase filtering, scoring, trust labels, and customer-facing quality notices use shared link quality rules.");
+  }
+
+  if (
+    !trust.includes("export function getDealSourceReadiness") ||
+    !trust.includes("verifiedRate") ||
+    !trust.includes("conditionReadyCount") ||
+    !sourcesRoute.includes("operationPolicy") ||
+    !sourcesRoute.includes("allowedSources") ||
+    !sourcesRoute.includes("blockedSources") ||
+    !adminPage.includes("운영 피드 전환 준비도") ||
+    !adminPage.includes("공식 API·제휴 피드로 바꿀 때 볼 품질 기준") ||
+    !smoke.includes("Sources API missing source readiness summary")
+  ) {
+    fail("source readiness operation", "Sources API and admin dashboard should expose source readiness, allowed source policy, blocked source policy, and verified link quality for production feed transition.");
+  } else {
+    pass("source readiness operation", "Sources API and admin dashboard expose source readiness and safe operating policy for official API, RSS, and partner feed transition.");
   }
 
   if (!dealRepository.includes("export async function findDealByIdLive") || /findDealByIdLive[\s\S]{0,180}findDealById\(id\)[\s\S]{0,80}await getDeals/.test(dealRepository)) {
