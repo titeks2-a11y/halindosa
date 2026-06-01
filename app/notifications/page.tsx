@@ -8,6 +8,7 @@ import { NotificationPreferences } from "@/components/NotificationPreferences";
 import { PriceAlertList } from "@/components/PriceAlertList";
 import { getDeals } from "@/lib/dealService";
 import { getBenefitTypeLabel } from "@/lib/deals/benefits";
+import { buildTodayBenefitQueue, DailyBenefitSectionKey } from "@/lib/deals/todayBenefitQueue";
 import { getRelativeTime, getTimeLeft } from "@/lib/format";
 import { Deal, DealBenefitType } from "@/types/deal";
 
@@ -41,6 +42,7 @@ export default async function NotificationsPage() {
   const hotDeals = deals.filter((deal) => deal.isHot);
   const newDeals = deals.filter((deal) => deal.isNew);
   const freeShippingDeals = deals.filter((deal) => deal.isFreeShipping);
+  const todayBenefitQueue = buildTodayBenefitQueue(deals, 3);
   const freeBenefitDeals = selectBenefitQueue(deals, ["freebie", "experience"]);
   const couponPointDeals = selectBenefitQueue(deals, ["coupon", "point", "foodDelivery"]);
   const endingBenefitDeals = [...deals]
@@ -74,6 +76,14 @@ export default async function NotificationsPage() {
     { label: "신규", value: newDeals.length, icon: Sparkles, href: "/?sort=latest" },
     { label: "무료배송", value: freeShippingDeals.length, icon: Truck, href: "/?freeShipping=true" }
   ];
+  const todayQueueIcons: Record<DailyBenefitSectionKey, typeof Gift> = {
+    "free-first": Gift,
+    "coupon-before-pay": TicketPercent,
+    "apptech-point": Sparkles,
+    "mart-convenience": Truck,
+    "ending-soon": Clock,
+    "verified-purchase": Flame
+  };
   const readinessSteps = [
     { title: "앱 안에서 먼저 확인", description: "마감, 인기, 신규, 무료배송 특가를 권한 요청 없이 이 화면에서 정리합니다." },
     { title: "희망 가격 저장", description: "상세 페이지에서 희망 가격을 저장하면 알림 센터에서 다시 확인할 수 있습니다." },
@@ -242,6 +252,58 @@ export default async function NotificationsPage() {
       <ClaimedBenefitAlertSummary deals={deals} />
       <BenefitReturnReservationList />
       <InterestAlertPreview deals={deals} />
+
+      <section className="rounded-[22px] border border-red-100 bg-white p-4 shadow-sm lg:p-5" aria-label="API 기준 오늘 혜택 큐">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-xs font-black text-dossa-red">API 기준 오늘 혜택 큐</p>
+            <h2 className="mt-1 text-base font-black text-slate-950">홈, 알림, 향후 푸시가 같은 혜택 기준을 사용합니다</h2>
+            <p className="mt-1 text-sm font-semibold leading-6 text-slate-500">
+              비회원 기준 혜택 큐로 무료, 쿠폰, 앱테크, 생활 혜택, 마감, 검증 구매처를 한 번에 정리합니다.
+            </p>
+          </div>
+          <Link href="/api/benefits/today?limit=3" className="rounded-2xl bg-red-50 px-4 py-3 text-center text-xs font-black text-dossa-red">
+            API 응답 확인
+          </Link>
+        </div>
+        <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+          {todayBenefitQueue.sections.map((section) => {
+            const Icon = todayQueueIcons[section.key];
+            const firstItem = section.items[0];
+
+            return (
+              <div key={section.key} className="rounded-3xl border border-slate-100 bg-slate-50 p-4">
+                <div className="flex items-start justify-between gap-3">
+                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-white text-dossa-red shadow-sm">
+                    <Icon size={18} />
+                  </span>
+                  <span className="rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-dossa-red shadow-sm">
+                    {section.count}개
+                  </span>
+                </div>
+                <p className="mt-4 text-sm font-black text-slate-950">{section.title}</p>
+                <p className="mt-1 line-clamp-2 text-xs font-semibold leading-5 text-slate-500">{section.description}</p>
+                {firstItem ? (
+                  <Link
+                    href={firstItem.detailUrl}
+                    className="mt-3 block rounded-2xl bg-white p-3 text-xs font-bold leading-5 text-slate-600 shadow-sm transition hover:bg-red-50"
+                  >
+                    <span className="block truncate font-black text-slate-950">{firstItem.title}</span>
+                    <span className="mt-1 block truncate">{firstItem.mallName} · {firstItem.benefitSummary}</span>
+                  </Link>
+                ) : (
+                  <p className="mt-3 rounded-2xl border border-dashed border-slate-200 bg-white p-3 text-xs font-bold text-slate-500">
+                    현재 노출 가능한 혜택이 없습니다.
+                  </p>
+                )}
+              </div>
+            );
+          })}
+        </div>
+        <p className="mt-4 rounded-2xl bg-red-50 px-4 py-3 text-xs font-bold leading-5 text-dossa-deep">
+          {todayBenefitQueue.notice} 찜 동기화, 가격 알림 저장, 관심 카테고리 개인화만 선택 로그인이 필요합니다.
+        </p>
+      </section>
 
       <section className="rounded-[22px] border border-red-100 bg-white p-4 shadow-sm lg:p-5" aria-label="오늘 알림 시간표">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">

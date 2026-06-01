@@ -421,6 +421,12 @@ await check("category and notification pages", async () => {
     "Notifications page missing alert time routine"
   );
   assert(
+    notificationsText.includes("API 기준 오늘 혜택 큐") &&
+      notificationsText.includes("비회원 기준 혜택 큐") &&
+      notificationsText.includes("API 응답 확인"),
+    "Notifications page missing shared today benefit API queue"
+  );
+  assert(
     notificationsText.includes("비회원 알림 조건 요약") &&
       notificationsText.includes("가입 없이도 오늘 볼 알림 조건을 먼저 고릅니다") &&
       notificationsText.includes("무료·체험 조건") &&
@@ -774,6 +780,7 @@ await check("today benefits api", async () => {
   assert(data.sections.some((section) => section.key === "coupon-before-pay"), "Today benefits API missing coupon-before-pay section");
   assert(data.sections.some((section) => section.key === "apptech-point"), "Today benefits API missing apptech-point section");
   assert(data.sections.every((section) => section.items.length <= 4), "Today benefits API should respect limit");
+  assert(data.loginRequiredFor?.includes("찜 동기화"), "Today benefits API missing optional login boundary");
   assert(
     data.sections.flatMap((section) => section.items).every((item) => item.redirectUrl?.startsWith("/go/") && Array.isArray(item.claimSteps)),
     "Today benefits API items should include redirect and claim steps"

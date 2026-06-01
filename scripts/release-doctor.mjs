@@ -1160,6 +1160,7 @@ async function checkOperationalDataSurfaces() {
   const analytics = await text("lib/analytics.ts");
   const healthRoute = await text("app/api/health/route.ts");
   const todayBenefitsRoute = await text("app/api/benefits/today/route.ts");
+  const todayBenefitQueue = await text("lib/deals/todayBenefitQueue.ts");
   const smoke = await text("scripts/smoke.mjs");
   const redirectUrl = await text("lib/redirectUrl.ts");
   const goRoute = await text("app/go/[id]/route.ts");
@@ -1311,6 +1312,9 @@ async function checkOperationalDataSurfaces() {
     !notificationsPage.includes("푸시 없이도 하루 세 번 열어볼 이유를 만듭니다") ||
     !notificationsPage.includes("아침 9시") ||
     !notificationsPage.includes("마감 전 22시") ||
+    !notificationsPage.includes("buildTodayBenefitQueue") ||
+    !notificationsPage.includes("API 기준 오늘 혜택 큐") ||
+    !notificationsPage.includes("비회원 기준 혜택 큐") ||
     !notificationsPage.includes("오늘 알림 큐") ||
     !interestAlertPreview.includes("관심 카테고리 알림") ||
     !interestAlertPreview.includes("관심 설정하기") ||
@@ -1326,6 +1330,7 @@ async function checkOperationalDataSurfaces() {
     !notificationsPage.includes("실제 푸시 알림은 별도 동의") ||
     !notificationsPage.includes("알림 기준 보기") ||
     !smoke.includes("Notifications page missing non-member alert condition board") ||
+    !smoke.includes("Notifications page missing shared today benefit API queue") ||
     !smoke.includes("Notifications page missing alert action routine") ||
     !smoke.includes("Notifications page missing alert time routine") ||
     !smoke.includes("Notifications page missing interest alert action cards") ||
@@ -1402,15 +1407,17 @@ async function checkOperationalDataSurfaces() {
   }
 
   if (
-    !todayBenefitsRoute.includes("free-first") ||
-    !todayBenefitsRoute.includes("coupon-before-pay") ||
-    !todayBenefitsRoute.includes("apptech-point") ||
-    !todayBenefitsRoute.includes("verified-purchase") ||
-    !todayBenefitsRoute.includes("audience: \"guest\"") ||
-    !todayBenefitsRoute.includes("loginRequiredFor") ||
-    !todayBenefitsRoute.includes("redirectUrl: `/go/${deal.id}`") ||
+    !todayBenefitsRoute.includes("buildTodayBenefitQueue") ||
+    !todayBenefitQueue.includes("free-first") ||
+    !todayBenefitQueue.includes("coupon-before-pay") ||
+    !todayBenefitQueue.includes("apptech-point") ||
+    !todayBenefitQueue.includes("verified-purchase") ||
+    !todayBenefitQueue.includes("audience: \"guest\"") ||
+    !todayBenefitQueue.includes("loginRequiredFor") ||
+    !todayBenefitQueue.includes("redirectUrl: `/go/${deal.id}`") ||
     !smoke.includes("today benefits api") ||
-    !smoke.includes("Today benefits API should keep guest access")
+    !smoke.includes("Today benefits API should keep guest access") ||
+    !smoke.includes("Today benefits API missing optional login boundary")
   ) {
     fail("today benefits api", "Daily benefit API should expose guest-accessible free, coupon, apptech, and verified purchase sections with smoke coverage.");
   } else {
