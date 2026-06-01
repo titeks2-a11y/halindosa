@@ -884,8 +884,18 @@ async function checkUiAccessibility() {
     !homePage.includes("검색과 필터 조건 초기화")
   ) {
     fail("search filter accessibility", "Home filter controls should expose accessible names and toggle state labels.");
+  } else if (
+    !homePage.includes("filterOutcomeCards") ||
+    !homePage.includes('aria-label="조건별 결과 요약"') ||
+    !homePage.includes("현재 필터가 보여주는 혜택을 먼저 해석합니다") ||
+    !homePage.includes("현재 조건으로 볼 혜택") ||
+    !homePage.includes("마감 전 확인") ||
+    !homePage.includes("배송비 부담 낮음") ||
+    !smoke.includes("Home page missing filter outcome summary")
+  ) {
+    fail("search filter accessibility", "Home filters should summarize result quality, purchase link readiness, deadline, and shipping outcomes.");
   } else {
-    pass("search filter accessibility", "Search, sort, category, mall, price, benefit type, and quick filter controls expose accessible names and state.");
+    pass("search filter accessibility", "Search, sort, category, mall, price, benefit type, quick filter, and outcome summary controls expose accessible names and state.");
   }
 
     if (

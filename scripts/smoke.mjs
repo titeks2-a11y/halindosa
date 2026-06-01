@@ -148,6 +148,8 @@ await check("home page", async () => {
   assert(text.includes("검색 도우미"), "Home page missing search discovery panel");
   assert(text.includes("인기 검색어") && text.includes("최근 검색어"), "Home page missing popular/recent search keyword sections");
   assert(text.includes("현재 결과"), "Home page missing search result count summary");
+  assert(text.includes("조건별 결과 요약") && text.includes("현재 필터가 보여주는 혜택을 먼저 해석합니다"), "Home page missing filter outcome summary");
+  assert(text.includes("현재 조건으로 볼 혜택") && text.includes("마감 전 확인") && text.includes("배송비 부담 낮음"), "Home page missing filter outcome cards");
   assert(text.includes("최근 기록 관리") && text.includes("찜 목록 보기"), "Home page missing recent deal management actions");
   assert(!text.includes("직접 구매 링크 비율"), "Home page should not expose internal link coverage ratio copy");
   assert(!text.includes(">상업화<"), "Home page should not expose internal commercialization link in public footer");
@@ -165,6 +167,7 @@ await check("home query filters", async () => {
   assert(text.includes("할인도사"), "Filtered home missing brand text");
   assert(text.includes("새우깡") || text.includes("검색"), "Filtered home missing query result context");
   assert(text.includes("적용된 조건"), "Filtered home missing active filter summary");
+  assert(text.includes("조건별 결과 요약"), "Filtered home missing active filter outcome summary");
   assert(text.includes("조건 초기화"), "Filtered home missing filter reset action");
 });
 

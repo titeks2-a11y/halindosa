@@ -1145,12 +1145,37 @@ export default function Home() {
     return labels;
   }, [benefitFilter, category, endingSoonOnly, freeShippingOnly, hotOnly, mallFilter, priceBand, query, sort, verifiedOnly]);
 
+  const filterOutcomeCards = useMemo(
+    () => [
+      {
+        title: "현재 조건으로 볼 혜택",
+        value: `${deals.length}개`,
+        copy: activeFilterLabels.length ? "선택한 조건에 맞는 상품과 무료 혜택입니다." : "전체 혜택을 넓게 보고 있습니다."
+      },
+      {
+        title: "구매처 바로 확인",
+        value: `${deals.filter(isVerifiedPurchaseLink).length}개`,
+        copy: "검색 결과가 아닌 실제 상품·혜택 상세 이동을 우선 표시합니다."
+      },
+      {
+        title: "마감 전 확인",
+        value: `${deals.filter((deal) => deal.isEndingSoon || deal.isExpired).length}개`,
+        copy: "시간 제한, 선착순, 종료 가능성이 있는 혜택입니다."
+      },
+      {
+        title: "배송비 부담 낮음",
+        value: `${deals.filter(isFreeShippingDeal).length}개`,
+        copy: "무료배송 또는 배송비 조건이 좋은 혜택입니다."
+      }
+    ],
+    [activeFilterLabels.length, deals]
+  );
+
   const resetFilters = () => {
     setQuery("");
     setCategory("all");
     setMallFilter("all");
     setPriceBand("all");
-    setBenefitFilter("all");
     setBenefitFilter("all");
     setSort("latest");
     setFreeShippingOnly(false);
@@ -1916,6 +1941,26 @@ export default function Home() {
                 >
                   조건 초기화
                 </button>
+              </div>
+              <div className="mt-3 rounded-2xl border border-slate-100 bg-white p-3 shadow-[0_10px_30px_rgba(15,23,42,0.04)]" aria-label="조건별 결과 요약">
+                <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+                  <div>
+                    <p className="text-xs font-black text-dossa-red">조건별 결과 요약</p>
+                    <p className="mt-1 text-sm font-black text-slate-950">현재 필터가 보여주는 혜택을 먼저 해석합니다</p>
+                  </div>
+                  <p className="text-xs font-bold leading-5 text-slate-500">
+                    조건을 좁힐수록 실제 구매 링크, 마감, 배송비 상태를 함께 확인하세요.
+                  </p>
+                </div>
+                <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+                  {filterOutcomeCards.map((item) => (
+                    <div key={item.title} className="rounded-2xl bg-slate-50 px-3 py-3">
+                      <p className="text-[11px] font-black text-slate-500">{item.title}</p>
+                      <p className="mt-1 text-xl font-black text-slate-950">{item.value}</p>
+                      <p className="mt-1 line-clamp-2 text-[11px] font-bold leading-4 text-slate-500">{item.copy}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
               <div className="mt-4 grid gap-2 text-sm font-bold text-slate-700 sm:grid-cols-4">
                 <div className="rounded-2xl bg-slate-50 px-4 py-3">
