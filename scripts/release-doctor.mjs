@@ -509,6 +509,7 @@ async function checkPartnerFeedSafety() {
   const types = await text("types/deal.ts");
   const mockDeals = await text("data/mockDeals.ts");
   const verifiedPurchaseLinks = await text("data/verifiedPurchaseLinks.ts");
+  const partnerFeedValidator = await text("scripts/validate-partner-feed.mjs");
 
   if (!feedImport.includes("placeholder 또는 커뮤니티 게시글 링크는 운영 피드로 등록할 수 없습니다.")) {
     fail("partner feed unsafe link guard", "Partner feed import should reject placeholder/community links.");
@@ -523,8 +524,15 @@ async function checkPartnerFeedSafety() {
     !feedImport.includes("conditionReadyRate") ||
     !feedImport.includes("eligibilityChecklist") ||
     !feedImport.includes("claimSteps") ||
+    !feedImport.includes("partner-008") ||
+    !feedImport.includes("foodDelivery") ||
+    !feedImport.includes("convenienceStore") ||
+    !feedImport.includes("mart") ||
+    !partnerFeedValidator.includes("수령 전 체크리스트는 3개 이상 필요합니다.") ||
+    !partnerFeedValidator.includes("회원가입 필요 여부를 true/false") ||
     !smoke.includes("Partner productUrl should normalize as a verified purchase link") ||
-    !smoke.includes("Import benefit condition summary should be ready")
+    !smoke.includes("Import benefit condition summary should be ready") ||
+    !smoke.includes("Sample feed API missing V2 benefit sample feed rows")
   ) {
     fail("partner feed purchase link fields", "Partner feed import should accept canonical purchase URL, source, benefit type, and claim-condition fields with readiness reporting.");
   } else {

@@ -1122,7 +1122,11 @@ await check("partner feed sample validation api", async () => {
   const { response, data } = await fetchJson("/api/admin/import");
   assert(response.status === 200, `Expected 200, got ${response.status}`);
   assert(data.ok === true, "Sample feed API should be ok");
-  assert(Array.isArray(data.sampleFeed) && data.sampleFeed.length >= 2, "Sample feed API missing sample feed rows");
+  assert(Array.isArray(data.sampleFeed) && data.sampleFeed.length >= 8, "Sample feed API missing V2 benefit sample feed rows");
+  const sampleDealTypes = new Set(data.sampleFeed.map((item) => item.dealType));
+  ["freeShipping", "discount", "freebie", "foodDelivery", "point", "convenienceStore", "mart", "experience"].forEach((dealType) => {
+    assert(sampleDealTypes.has(dealType), `Sample feed missing ${dealType} benefit type`);
+  });
   assert(data.sampleValidation?.ok === true, "Sample feed validation should pass");
   assert(data.sampleValidation?.linkSummary?.verified >= 1, "Sample feed validation missing verified link summary");
   assert(data.sampleValidation?.benefitSummary?.conditionReadyRate === 100, "Sample feed validation missing benefit condition readiness");

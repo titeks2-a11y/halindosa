@@ -57,6 +57,12 @@ const sampleItems = [
     sourceName: "쿠팡",
     sourceUrl: "https://www.coupang.com/vp/products/7999681537",
     expiresAt: new Date(Date.now() + 36 * 60 * 60 * 1000).toISOString(),
+    isFirstComeFirstServed: true,
+    requiresSignup: false,
+    shippingFee: "무료배송",
+    eligibilityChecklist: ["판매처 상품 상세 확인", "배송 조건 확인", "최종 가격 확인"],
+    claimSteps: ["상품 상세 이동", "조건 확인", "결제 전 가격 확인"],
+    claimWarning: "판매처 조건은 변경될 수 있습니다.",
     tags: ["무료배송"]
   },
   {
@@ -73,6 +79,14 @@ const sampleItems = [
     sourceName: "G마켓",
     sourceUrl: "https://item.gmarket.co.kr/Item?goodsCode=4076233103",
     expiresAt: new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString(),
+    isFirstComeFirstServed: false,
+    requiresSignup: false,
+    shippingFee: "판매처 조건부",
+    couponCondition: "판매처 쿠폰 적용",
+    minimumOrderAmount: 0,
+    eligibilityChecklist: ["쿠폰 적용 가능 여부 확인", "배송비 조건 확인", "최종 가격 확인"],
+    claimSteps: ["상품 상세 이동", "쿠폰 받기", "결제 전 적용 확인"],
+    claimWarning: "쿠폰 조건은 판매처 정책에 따라 달라질 수 있습니다.",
     tags: ["쿠폰적용"]
   },
   {
@@ -89,6 +103,12 @@ const sampleItems = [
     sourceName: "브랜드 공식몰",
     sourceUrl: "https://smartstore.naver.com/halindosa/products/1234567890",
     expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
+    isFirstComeFirstServed: true,
+    requiresSignup: true,
+    shippingFee: "배송 없음",
+    eligibilityChecklist: ["신규 가입 대상 확인", "쿠폰 재고 확인", "사용 가능 매장 확인"],
+    claimSteps: ["이벤트 상세 이동", "가입 후 쿠폰 받기", "유효기간 확인"],
+    claimWarning: "선착순 쿠폰은 조기 소진될 수 있습니다.",
     tags: ["무료쿠폰", "선착순"]
   }
 ];
@@ -247,7 +267,26 @@ function validateItem(item, index) {
   } else if (Number.isNaN(new Date(expiresAt).getTime())) {
     issues.push(issue(index, "expiresAt", "마감 시간은 ISO 날짜 문자열이어야 합니다."));
   }
-  if (sourceUrl && !isValidHttpUrl(sourceUrl)) issues.push(issue(index, "sourceUrl", "출처 URL은 http/https만 허용합니다."));
+  if (!sourceUrl) {
+    issues.push(issue(index, "sourceUrl", "출처 URL이 필요합니다."));
+  } else if (!isValidHttpUrl(sourceUrl)) {
+    issues.push(issue(index, "sourceUrl", "출처 URL은 http/https만 허용합니다."));
+  }
+  if (!Array.isArray(item.eligibilityChecklist) || item.eligibilityChecklist.length < 3) {
+    issues.push(issue(index, "eligibilityChecklist", "수령 전 체크리스트는 3개 이상 필요합니다."));
+  }
+  if (!Array.isArray(item.claimSteps) || item.claimSteps.length < 2) {
+    issues.push(issue(index, "claimSteps", "수령 단계는 2개 이상 필요합니다."));
+  }
+  if (!String(item.claimWarning ?? "").trim()) {
+    issues.push(issue(index, "claimWarning", "가격/재고/조건 변동 안내가 필요합니다."));
+  }
+  if (typeof item.requiresSignup !== "boolean") {
+    issues.push(issue(index, "requiresSignup", "회원가입 필요 여부를 true/false로 표시해야 합니다."));
+  }
+  if (typeof item.isFirstComeFirstServed !== "boolean") {
+    issues.push(issue(index, "isFirstComeFirstServed", "선착순 여부를 true/false로 표시해야 합니다."));
+  }
   if (!Number.isFinite(originalPrice) || originalPrice <= 0) issues.push(issue(index, "originalPrice", "정상 원가가 필요합니다."));
   if (!Number.isFinite(salePrice) || salePrice <= 0) issues.push(issue(index, "salePrice", "정상 할인가가 필요합니다."));
   if (Number.isFinite(originalPrice) && Number.isFinite(salePrice) && salePrice > originalPrice) {
