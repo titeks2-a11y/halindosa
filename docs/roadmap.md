@@ -29,6 +29,7 @@
 - 빠른 검색 패널에 `카테고리 바로가기` 칩과 카테고리별 상품 수, 쇼핑몰별 상품 수를 추가해 모바일 첫 화면에서 원하는 분야를 바로 좁히도록 개선
 - 홈 탐색 핸들러의 `scrollIntoView` 호출을 제거하고 release doctor가 내부 앵커/자동 스크롤 재도입을 차단하도록 보강
 - `catalog:doctor`를 QA에 추가해 상품 DB 확장 시 전체 상품 수, 판매처 다양성, 필수 카테고리, 혜택 유형, 검증 구매 링크 커버리지를 함께 지키도록 품질 게이트를 강화
+- `catalog:doctor`가 상품 ID 순번, 중복 ID, 같은 판매처 중복 상품명, 정상가/할인가/할인율 범위, 태그 수까지 검사하도록 보강해 DB 확대 과정의 기본 위생을 자동화
 - `purchase:navigation:doctor`를 QA에 추가해 홈, 상세, 찜, 무료혜택 구매 CTA가 `/go/[dealId]` 추적 경로와 웹 새 탭/Capacitor Browser 이동 규칙을 유지하도록 검증 강화
 - 상품 카드, 최근 본 상품, 찜/알림/무료혜택의 특가 상세 링크를 새 탭으로 통일하고 `detail:navigation:doctor`를 QA에 추가해 상품 탐색 중 현재 화면이 갑자기 바뀌지 않도록 검증 강화
 - `navigation:doctor`를 QA에 추가해 전체 앱/컴포넌트의 placeholder/hash 링크, `javascript:void`, 새 탭 `rel` 누락, 상세/구매 링크 새 탭 정책 누락을 전역으로 차단
