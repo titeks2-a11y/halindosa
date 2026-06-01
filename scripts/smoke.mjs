@@ -186,6 +186,7 @@ await check("home page", async () => {
   assert(text.includes("자주 쓰는 판매처만 골라보기"), "Home page missing mall discovery guide copy");
   assert(text.includes("구매처 확인"), "Home page missing mall verified purchase link summary");
   assert(text.includes("쇼핑몰 빠른 선택") && text.includes("가격 빠른 선택") && text.includes("혜택 빠른 선택"), "Home page missing fast mall, price, and benefit filter chips");
+  assert(text.includes("홈 탐색 바로가기") && text.includes("전체상품") && text.includes("구매처확인"), "Home page missing jump-to-deal-list navigation shortcuts");
   assert(text.includes("오늘 바로 볼 특가") && text.includes("검색 결과에서 먼저 확인할 상품"), "Home page missing compact instant deal rail");
   assert(text.includes("검색 도우미"), "Home page missing search discovery panel");
   assert(text.includes("인기 검색어") && text.includes("최근 검색어"), "Home page missing popular/recent search keyword sections");

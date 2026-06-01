@@ -1938,6 +1938,23 @@ export default function Home() {
     showToast("검색 조건을 초기화했습니다.");
   };
 
+  const scrollToDealList = () => {
+    if (typeof window === "undefined") return;
+    window.setTimeout(() => {
+      document.getElementById("deal-list")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 80);
+  };
+
+  const openQuickDiscoveryAndScroll = (preset: "verified" | "freeShipping" | "endingSoon" | "hot") => {
+    openQuickDiscovery(preset);
+    scrollToDealList();
+  };
+
+  const resetFiltersAndScroll = () => {
+    resetFilters();
+    scrollToDealList();
+  };
+
   const removeActiveFilter = (id: string) => {
     if (id === "query") setQuery("");
     if (id === "category") setCategory("all");
@@ -2395,6 +2412,41 @@ export default function Home() {
               <p className="text-xs font-bold text-slate-500">
                 상품 이동은 모두 새 탭에서 직접 구매 링크로 열립니다.
               </p>
+            </div>
+            <div className="mt-3 rounded-2xl border border-slate-200 bg-white p-3" aria-label="홈 탐색 바로가기">
+              <div className="flex items-center justify-between gap-3">
+                <div>
+                  <p className="text-xs font-black text-dossa-red">홈 탐색 바로가기</p>
+                  <p className="mt-0.5 text-xs font-bold text-slate-500">첫 화면에서 원하는 목록으로 바로 내려갑니다.</p>
+                </div>
+                <span className="hidden rounded-full bg-red-50 px-3 py-1 text-[11px] font-black text-dossa-red sm:inline-flex">
+                  새 탭 구매 이동 유지
+                </span>
+              </div>
+              <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-5">
+                {[
+                  { label: "전체상품", helper: `${catalog.length || deals.length}개`, action: resetFiltersAndScroll, active: !activeFilterLabels.length },
+                  { label: "오늘인기", helper: `${stats.hotCount}개`, action: () => openQuickDiscoveryAndScroll("hot"), active: hotOnly },
+                  { label: "무료배송", helper: `${dataQuality.freeShippingCount}개`, action: () => openQuickDiscoveryAndScroll("freeShipping"), active: freeShippingOnly },
+                  { label: "마감임박", helper: `${stats.endingCount}개`, action: () => openQuickDiscoveryAndScroll("endingSoon"), active: endingSoonOnly },
+                  { label: "구매처확인", helper: `${dataQuality.verifiedLinkCount}개`, action: () => openQuickDiscoveryAndScroll("verified"), active: verifiedOnly }
+                ].map((item) => (
+                  <button
+                    key={item.label}
+                    type="button"
+                    onClick={item.action}
+                    aria-pressed={item.active}
+                    className={`min-h-14 rounded-2xl border px-3 py-2 text-left transition hover:-translate-y-0.5 hover:shadow-sm ${
+                      item.active
+                        ? "border-transparent bg-gradient-to-r from-[#ff2b2b] to-[#ff6a3d] text-white"
+                        : "border-slate-200 bg-slate-50 text-slate-800 hover:border-red-100 hover:bg-red-50 hover:text-dossa-red"
+                    }`}
+                  >
+                    <span className="block text-sm font-black">{item.label}</span>
+                    <span className={`mt-0.5 block text-[11px] font-bold ${item.active ? "text-white/80" : "text-slate-500"}`}>{item.helper}</span>
+                  </button>
+                ))}
+              </div>
             </div>
           </section>
         ) : null}
@@ -3510,7 +3562,7 @@ export default function Home() {
             ) : null}
 
             {deals.length ? (
-              <section className="rounded-[24px] border border-slate-200 bg-white p-3 shadow-sm" aria-label="상품 목록 빠른 스캔">
+              <section id="deal-list" className="scroll-mt-24 rounded-[24px] border border-slate-200 bg-white p-3 shadow-sm" aria-label="상품 목록 빠른 스캔">
                 <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
                   <div>
                     <p className="text-xs font-black text-dossa-red">상품 목록 빠른 스캔</p>

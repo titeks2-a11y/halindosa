@@ -18,8 +18,13 @@ const requiredSnippets = [
   'setSort("discount")',
   'aria-label="현재 결과 빠른 좁히기"',
   'aria-label="상품 목록 빠른 스캔"',
+  'aria-label="홈 탐색 바로가기"',
+  'id="deal-list"',
+  "scrollToDealList",
   'aria-pressed={item.active}',
   "목록 안에서 많이 나온 기준",
+  "전체상품",
+  "구매처확인",
   "낮은 가격 후보",
   "할인율 최고"
 ];
@@ -44,7 +49,7 @@ if (!packageJson.includes("npm run home:list-scan:doctor")) {
   issues.push("qa script should run home:list-scan:doctor");
 }
 
-if (!runbook.includes("상품 목록 빠른 스캔")) {
+if (!runbook.includes("상품 목록 빠른 스캔") || !runbook.includes("홈 탐색 바로가기")) {
   issues.push("RUNBOOK should document product list scan operation");
 }
 

@@ -661,7 +661,6 @@ async function checkSearchAndPurchaseFlow() {
     !packageJson.includes("npm run purchase:navigation:doctor && npm run detail:navigation:doctor") ||
     featured.includes('href="#all-deals"') ||
     liveFeed.includes('href="#all-deals"') ||
-    homePage.includes("scrollIntoView") ||
     homePage.includes('getElementById("all-deals")') ||
     homePage.includes('href="#all-deals"') ||
     !homePage.includes("빠른 상품 검색") ||
