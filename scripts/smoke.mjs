@@ -800,6 +800,16 @@ await check("admin daily benefit queue api", async () => {
   assert(data.summary?.verifiedPurchaseDeals > 0, "Admin daily queue missing verified purchase summary");
 });
 
+await check("weekly benefit calendar api", async () => {
+  const { response, data } = await fetchJson("/api/benefits/calendar");
+  assert(response.status === 200, `Expected 200, got ${response.status}`);
+  assert(data.ok === true, "Weekly benefit calendar API ok should be true");
+  assert(data.audience === "guest", "Weekly benefit calendar should keep guest access");
+  assert(Array.isArray(data.calendar) && data.calendar.length === 7, "Weekly benefit calendar should include seven days");
+  assert(data.calendar.some((item) => item.day === "월" && item.title.includes("출석")), "Weekly benefit calendar missing Monday routine");
+  assert(data.calendar.every((item) => item.operationNote && item.preset && item.recommendedSurface), "Weekly benefit calendar missing operation metadata");
+});
+
 await check("metrics api", async () => {
   const { response, data } = await fetchJson("/api/metrics");
   assert(response.status === 200, `Expected 200, got ${response.status}`);

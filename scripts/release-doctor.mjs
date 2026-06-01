@@ -1162,7 +1162,9 @@ async function checkOperationalDataSurfaces() {
   const analytics = await text("lib/analytics.ts");
   const healthRoute = await text("app/api/health/route.ts");
   const todayBenefitsRoute = await text("app/api/benefits/today/route.ts");
+  const weeklyCalendarRoute = await text("app/api/benefits/calendar/route.ts");
   const todayBenefitQueue = await text("lib/deals/todayBenefitQueue.ts");
+  const weeklyBenefitCalendar = await text("lib/deals/weeklyBenefitCalendar.ts");
   const smoke = await text("scripts/smoke.mjs");
   const redirectUrl = await text("lib/redirectUrl.ts");
   const goRoute = await text("app/go/[id]/route.ts");
@@ -1421,15 +1423,22 @@ async function checkOperationalDataSurfaces() {
     !adminDailyQueueRoute.includes("operationAction") ||
     !adminDailyQueueRoute.includes("canAccessAdmin") ||
     !adminPage.includes("운영 큐 JSON 보기") ||
+    !weeklyCalendarRoute.includes("buildWeeklyBenefitCalendar") ||
+    !weeklyBenefitCalendar.includes("operationNote") ||
+    !weeklyBenefitCalendar.includes("recommendedSurface") ||
+    !freeBenefitsClient.includes("buildWeeklyBenefitCalendar") ||
+    !freeBenefitsPage.includes("getDeals") ||
     !smoke.includes("today benefits api") ||
     !smoke.includes("admin daily benefit queue api") ||
+    !smoke.includes("weekly benefit calendar api") ||
     !smoke.includes("Today benefits API should keep guest access") ||
+    !smoke.includes("Weekly benefit calendar should keep guest access") ||
     !smoke.includes("Today benefits API missing optional login boundary") ||
     !smoke.includes("Admin daily queue missing operation actions")
   ) {
-    fail("today benefits api", "Daily benefit API and protected admin operation queue should expose guest-accessible free, coupon, apptech, and verified purchase sections with smoke coverage.");
+    fail("today benefits api", "Daily benefit API, weekly calendar API, and protected admin operation queue should expose guest-accessible free, coupon, apptech, and verified purchase routines with smoke coverage.");
   } else {
-    pass("today benefits api", "Daily benefit API and protected admin operation queue expose guest-accessible free, coupon, apptech, and verified purchase sections with smoke coverage.");
+    pass("today benefits api", "Daily benefit API, weekly calendar API, and protected admin operation queue expose guest-accessible free, coupon, apptech, and verified purchase routines with smoke coverage.");
   }
 
   if (!dealsRoute.includes("normalizeDeals(mockDeals") || dealsRoute.includes("mock 데이터로 대체")) {
@@ -1693,11 +1702,13 @@ async function checkOperationalDataSurfaces() {
     !freeBenefitsClient.includes("이번 주 혜택 루틴 진행률") ||
     !freeBenefitsClient.includes("챙김, 찜, 재방문 예약을 한눈에 이어갑니다") ||
     !freeBenefitsClient.includes("루틴 완료") ||
-    !freeBenefitsClient.includes("weeklyBenefitPlan") ||
+    (!freeBenefitsClient.includes("weeklyBenefitPlan") || !freeBenefitsClient.includes("buildWeeklyBenefitCalendar")) ||
     !freeBenefitsClient.includes("이번 주 혜택 캘린더") ||
     !freeBenefitsClient.includes("매일 들어와서 챙길 이유를 만들었습니다") ||
-    !freeBenefitsClient.includes("출석·포인트 적립") ||
-    !freeBenefitsClient.includes("마트·편의점 행사") ||
+    !weeklyBenefitCalendar.includes("출석·포인트 적립") ||
+    !weeklyBenefitCalendar.includes("마트·편의점 행사") ||
+    !weeklyBenefitCalendar.includes("토") ||
+    !weeklyBenefitCalendar.includes("일") ||
     !freeBenefitsClient.includes("fiveMinuteChecklist") ||
     !freeBenefitsClient.includes("5분 혜택 체크리스트") ||
     !freeBenefitsClient.includes("처음 들어온 사용자가 바로 따라할 순서") ||

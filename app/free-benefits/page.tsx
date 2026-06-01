@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { FreeBenefitsClient } from "@/components/FreeBenefitsClient";
-import { mockDeals } from "@/data/mockDeals";
+import { getDeals } from "@/lib/dealService";
 import { Deal } from "@/types/deal";
 
 export const metadata: Metadata = {
@@ -10,8 +10,9 @@ export const metadata: Metadata = {
 
 const benefitTypes = new Set(["freebie", "coupon", "freeShipping", "experience", "point", "convenienceStore", "mart", "foodDelivery"]);
 
-export default function FreeBenefitsPage() {
-  const freeBenefitDeals = mockDeals.filter((deal: Deal) => benefitTypes.has(deal.dealType) || deal.isFreeShipping);
+export default async function FreeBenefitsPage() {
+  const { deals } = await getDeals({ sort: "hot" });
+  const freeBenefitDeals = deals.filter((deal: Deal) => benefitTypes.has(deal.dealType) || deal.isFreeShipping);
 
   return <FreeBenefitsClient deals={freeBenefitDeals} />;
 }

@@ -8,6 +8,7 @@ import { readBenefitReturnReservations, writeBenefitReturnReservations } from "@
 import { markBenefitVisit, readBenefitVisitStreak } from "@/lib/benefitVisitStreak";
 import { readClaimedBenefits, toggleClaimedBenefit } from "@/lib/claimedBenefits";
 import { getBenefitTypeLabel } from "@/lib/deals/benefits";
+import { buildWeeklyBenefitCalendar, WeeklyBenefitPreset } from "@/lib/deals/weeklyBenefitCalendar";
 import { formatPrice } from "@/lib/format";
 import { buildDealRedirectUrl } from "@/lib/redirectUrl";
 import { buildPublicDealShareUrl } from "@/lib/shareUrl";
@@ -243,64 +244,7 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
     [deals, referenceNow]
   );
   const weeklyBenefitPlan = useMemo(
-    () => [
-      {
-        day: "월",
-        title: "출석·포인트 적립",
-        copy: "한 주 시작에 앱테크와 페이 적립 혜택을 먼저 챙깁니다.",
-        count: deals.filter((deal) => deal.dealType === "point").length,
-        onClick: () => {
-          setActiveType("point");
-          setSort("recommended");
-          setActiveOnly(true);
-        }
-      },
-      {
-        day: "화",
-        title: "무료 샘플·체험단",
-        copy: "신청형 혜택은 선착순이 많아 초반에 먼저 확인합니다.",
-        count: deals.filter((deal) => deal.dealType === "freebie" || deal.dealType === "experience").length,
-        onClick: () => {
-          setActiveType("freebie");
-          setFirstComeOnly(true);
-          setActiveOnly(true);
-        }
-      },
-      {
-        day: "수",
-        title: "쿠폰·배달 할인",
-        copy: "외식, 배달, 첫 구매 쿠폰 조건을 결제 전에 점검합니다.",
-        count: deals.filter((deal) => deal.dealType === "coupon" || deal.dealType === "foodDelivery").length,
-        onClick: () => {
-          setActiveType("coupon");
-          setSort("popular");
-          setActiveOnly(true);
-        }
-      },
-      {
-        day: "목",
-        title: "마트·편의점 행사",
-        copy: "주말 장보기 전 1+1, 마트 행사, 무배 조건을 모아봅니다.",
-        count: deals.filter((deal) => deal.dealType === "mart" || deal.dealType === "convenienceStore" || deal.isFreeShipping).length,
-        onClick: () => {
-          setActiveType("mart");
-          setFreeShippingOnly(true);
-          setActiveOnly(true);
-        }
-      },
-      {
-        day: "금",
-        title: "마감 전 최종 확인",
-        copy: "주말 전에 끝날 수 있는 혜택을 마감 임박순으로 정리합니다.",
-        count: deals.filter((deal) => deal.isEndingSoon || new Date(deal.expireAt).getTime() - referenceNow < 24 * 60 * 60 * 1000).length,
-        onClick: () => {
-          setActiveType("all");
-          setEndingSoonOnly(true);
-          setFirstComeOnly(true);
-          setSort("endingSoon");
-        }
-      }
-    ],
+    () => buildWeeklyBenefitCalendar(deals, referenceNow),
     [deals, referenceNow]
   );
   const activeBenefitCount = useMemo(
@@ -866,6 +810,17 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
     setNoSignupOnly(false);
     setFirstComeOnly(false);
     setActiveOnly(false);
+  };
+
+  const applyWeeklyBenefitPreset = (preset: WeeklyBenefitPreset) => {
+    setQuery(preset.query ?? "");
+    setActiveType(preset.activeType);
+    setSort(preset.sort);
+    setEndingSoonOnly(Boolean(preset.endingSoonOnly));
+    setFreeShippingOnly(Boolean(preset.freeShippingOnly));
+    setNoSignupOnly(Boolean(preset.noSignupOnly));
+    setFirstComeOnly(Boolean(preset.firstComeOnly));
+    setActiveOnly(Boolean(preset.activeOnly));
   };
 
   const applyChecklistPreset = (preset: (typeof fiveMinuteChecklist)[number]["preset"]) => {
@@ -1663,7 +1618,7 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
               <button
                 key={item.day}
                 type="button"
-                onClick={item.onClick}
+                onClick={() => applyWeeklyBenefitPreset(item.preset)}
                 className="min-h-[168px] rounded-3xl border border-slate-100 bg-slate-50 p-4 text-left transition hover:-translate-y-0.5 hover:border-red-200 hover:bg-red-50"
                 aria-label={`${item.day}요일 ${item.title} ${item.count}개 보기`}
               >
@@ -1678,6 +1633,7 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
                 </span>
                 <span className="mt-4 block text-sm font-black text-slate-950">{item.title}</span>
                 <span className="mt-1 line-clamp-3 block text-xs font-bold leading-5 text-slate-500">{item.copy}</span>
+                <span className="mt-2 line-clamp-2 block text-[11px] font-bold leading-4 text-slate-400">{item.operationNote}</span>
                 <span className="mt-3 inline-flex rounded-full bg-white px-3 py-1.5 text-xs font-black text-slate-700 shadow-sm">
                   루틴 적용
                 </span>
