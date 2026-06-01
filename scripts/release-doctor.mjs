@@ -1311,6 +1311,11 @@ async function checkOperationalDataSurfaces() {
     !freeBenefitsClient.includes("수령 전 30초 확인") ||
     !freeBenefitsClient.includes("무료 혜택도 조건을 알고 받아야 합니다") ||
     !freeBenefitsClient.includes("배송비 확인") ||
+    !freeBenefitsClient.includes("benefitReadinessPlan") ||
+    !freeBenefitsClient.includes("혜택 준비물 체크") ||
+    !freeBenefitsClient.includes("받기 전 필요한 조건만 먼저 정리합니다") ||
+    !freeBenefitsClient.includes("회원가입 없이 받을 혜택") ||
+    !freeBenefitsClient.includes("쿠폰 조건 확인 필요") ||
     !freeBenefitsClient.includes("오늘 무료 혜택 루틴") ||
     !freeBenefitsClient.includes("돈 쓰기 전에 이 순서로 챙기세요") ||
     !freeBenefitsClient.includes("오늘 우선 확인 큐") ||
@@ -1356,6 +1361,8 @@ async function checkOperationalDataSurfaces() {
     !topNavigation.includes("/free-benefits") ||
     !smoke.includes("free benefits page") ||
     !smoke.includes("Free benefits page missing pre-claim condition summary") ||
+    !smoke.includes("Free benefits page missing benefit readiness checklist") ||
+    !smoke.includes("Free benefits page missing readiness filter actions") ||
     !smoke.includes("Free benefits page missing priority benefit queue") ||
     !smoke.includes("Free benefits page missing weekly benefit calendar") ||
     !smoke.includes("Free benefits page missing guided benefit checklist") ||

@@ -349,6 +349,55 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
     ],
     [activeBenefitCount, deals]
   );
+  const benefitReadinessPlan = useMemo(
+    () => [
+      {
+        title: "회원가입 없이 받을 혜택",
+        value: deals.filter((deal) => !deal.requiresSignup).length,
+        copy: "계정 생성 없이 받을 가능성이 높은 혜택을 먼저 확인합니다.",
+        action: "가입 없이 보기",
+        onClick: () => {
+          setNoSignupOnly(true);
+          setActiveOnly(true);
+          setSort("recommended");
+        }
+      },
+      {
+        title: "배송비 부담 없는 혜택",
+        value: deals.filter((deal) => deal.isFreeShipping || deal.shippingFee === "무료배송").length,
+        copy: "무료처럼 보여도 배송비가 붙는 혜택을 걸러 체감 비용을 낮춥니다.",
+        action: "무배만 보기",
+        onClick: () => {
+          setFreeShippingOnly(true);
+          setActiveOnly(true);
+          setSort("recommended");
+        }
+      },
+      {
+        title: "선착순 먼저 챙길 혜택",
+        value: deals.filter((deal) => deal.isFirstComeFirstServed).length,
+        copy: "수량 제한이나 조기 종료 가능성이 높은 혜택을 마감순으로 정리합니다.",
+        action: "선착순 보기",
+        onClick: () => {
+          setFirstComeOnly(true);
+          setEndingSoonOnly(true);
+          setSort("endingSoon");
+        }
+      },
+      {
+        title: "쿠폰 조건 확인 필요",
+        value: deals.filter((deal) => deal.couponCondition || deal.minimumOrderAmount || deal.isStackable).length,
+        copy: "최소 주문 금액, 중복 적용, 결제수단 조건을 확인해야 하는 혜택입니다.",
+        action: "쿠폰 조건 보기",
+        onClick: () => {
+          setActiveType("coupon");
+          setSort("savings");
+          setActiveOnly(true);
+        }
+      }
+    ],
+    [deals]
+  );
 
   const toggleFavorite = (id: string) => {
     setFavorites((current) => {
@@ -482,6 +531,42 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
           <div className="mt-4 rounded-2xl bg-amber-50 p-3 text-xs font-bold leading-5 text-amber-900">
             무료, 쿠폰, 포인트 혜택은 판매처 사정에 따라 조기 종료될 수 있습니다. 최종 수령 가능 여부와 비용 발생 조건은 판매처 화면에서 다시 확인하세요.
           </div>
+        </section>
+
+        <section className="rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5" aria-label="혜택 준비물 체크">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-black text-dossa-red">혜택 준비물 체크</p>
+              <h2 className="mt-1 text-2xl font-black tracking-tight text-slate-950">받기 전 필요한 조건만 먼저 정리합니다</h2>
+            </div>
+            <p className="max-w-md text-sm font-bold leading-6 text-slate-500">
+              무료 혜택은 회원가입, 배송비, 선착순, 쿠폰 조건에서 체감 만족도가 갈립니다. 필요한 준비물별로 바로 좁혀보세요.
+            </p>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+            {benefitReadinessPlan.map((item) => (
+              <button
+                key={item.title}
+                type="button"
+                onClick={item.onClick}
+                className="min-h-[164px] rounded-3xl border border-slate-100 bg-slate-50 p-4 text-left transition hover:-translate-y-0.5 hover:border-red-200 hover:bg-red-50"
+                aria-label={`${item.title} ${item.value}개 필터 적용`}
+              >
+                <span className="flex items-start justify-between gap-3">
+                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-white text-dossa-red shadow-sm">
+                    <CheckCircle2 size={18} />
+                  </span>
+                  <span className="rounded-full bg-white px-2.5 py-1 text-xs font-black text-dossa-red shadow-sm">{item.value}개</span>
+                </span>
+                <span className="mt-4 block text-sm font-black text-slate-950">{item.title}</span>
+                <span className="mt-1 line-clamp-2 block text-xs font-bold leading-5 text-slate-500">{item.copy}</span>
+                <span className="mt-3 inline-flex rounded-full bg-dossa-red px-3 py-1.5 text-xs font-black text-white">{item.action}</span>
+              </button>
+            ))}
+          </div>
+          <p className="mt-4 rounded-2xl bg-red-50 px-4 py-3 text-xs font-black leading-5 text-dossa-deep">
+            준비물 체크는 판매처 최종 조건을 대신하지 않습니다. 이동 후 실제 신청 화면의 비용, 기간, 재고, 쿠폰 적용 조건을 다시 확인하세요.
+          </p>
         </section>
 
         <section className="rounded-[28px] border border-red-100 bg-red-50 p-4 shadow-sm sm:p-5" aria-label="내가 챙긴 무료 혜택 기록">
