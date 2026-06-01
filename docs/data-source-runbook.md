@@ -60,6 +60,14 @@ GET /api/metrics
     "productUrl": "https://...",
     "sourceName": "브랜드 공식몰",
     "sourceUrl": "https://...",
+    "requiresSignup": false,
+    "isFirstComeFirstServed": true,
+    "shippingFee": "무료배송",
+    "couponCondition": "판매처 쿠폰 적용",
+    "minimumOrderAmount": 0,
+    "eligibilityChecklist": ["판매처 상품 상세 확인", "쿠폰/배송 조건 확인", "최종 가격 확인"],
+    "claimSteps": ["상품 상세 이동", "조건 확인", "결제 전 가격 확인"],
+    "claimWarning": "가격, 재고, 쿠폰 조건은 판매처에서 변경될 수 있습니다.",
     "expiresAt": "2026-06-02T12:00:00.000Z",
     "tags": ["무료배송", "쿠폰"]
   }
@@ -71,9 +79,10 @@ GET /api/metrics
 처리 기준:
 
 - 각 URL은 5초 timeout 안에 JSON으로 응답해야 한다.
-- `externalId/id`, `mall/mallName`, `title`, `dealType`, `benefitSummary`, `sourceName`, `expiresAt`, `originalPrice`, `salePrice`, `productUrl/finalPurchaseUrl/affiliateUrl`이 필요하다.
+- `externalId/id`, `mall/mallName`, `title`, `dealType`, `benefitSummary`, `sourceName`, `sourceUrl`, `expiresAt`, `originalPrice`, `salePrice`, `productUrl/finalPurchaseUrl/affiliateUrl`이 필요하다.
 - `dealType`은 `discount`, `freebie`, `coupon`, `freeShipping`, `experience`, `event`, `point`, `convenienceStore`, `mart`, `foodDelivery` 중 하나여야 한다.
-- 무료 혜택, 쿠폰, 포인트, 배달/외식, 편의점/마트 행사는 사용자가 조건을 바로 이해할 수 있도록 `benefitSummary`, `couponCondition`, `minimumOrderAmount`, `isFirstComeFirstServed`, `requiresSignup`, `shippingFee`를 가능한 한 채운다.
+- 무료 혜택, 쿠폰, 포인트, 배달/외식, 편의점/마트 행사는 사용자가 조건을 바로 이해할 수 있도록 `benefitSummary`, `couponCondition`, `minimumOrderAmount`, `isFirstComeFirstServed`, `requiresSignup`, `shippingFee`, `eligibilityChecklist`, `claimSteps`, `claimWarning`을 채운다.
+- 관리자 dry-run은 `conditionReadyRate`로 출처, 가입/선착순, 배송비, 수령 전 체크리스트, 수령 단계, 주의 문구가 운영 노출 기준을 충족하는지 함께 보여준다.
 - 커뮤니티 글, placeholder, 검색 결과만 있는 링크는 운영 피드로 등록하지 않는다.
 - 피드는 `validatePartnerFeed`와 `normalizePartnerFeed` 검증 경로를 거쳐 유효한 상품만 `production` 데이터로 노출한다.
 - 실패하거나 유효 상품이 없으면 기존 mock fallback이 유지된다.

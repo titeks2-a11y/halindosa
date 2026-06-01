@@ -353,7 +353,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
               샘플 검증 API
             </a>
           </div>
-          <div className="mt-4 grid gap-3 md:grid-cols-4">
+          <div className="mt-4 grid gap-3 md:grid-cols-5">
             <div className="rounded-2xl bg-red-50 p-4">
               <p className="text-xs font-black text-dossa-red">readyRate</p>
               <p className="mt-2 text-2xl font-black text-slate-950">{sampleFeedReadyRate}%</p>
@@ -373,6 +373,11 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
               <p className="text-xs font-black text-slate-500">검증 링크</p>
               <p className="mt-2 text-2xl font-black text-slate-950">{sampleFeedValidation.linkSummary.verified}개</p>
               <p className="mt-1 text-xs font-bold leading-5 text-slate-500">검색 결과가 아닌 상세 URL 기준</p>
+            </div>
+            <div className="rounded-2xl bg-slate-50 p-4">
+              <p className="text-xs font-black text-slate-500">혜택 조건</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">{sampleFeedValidation.benefitSummary.conditionReadyRate}%</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-slate-500">출처·가입·수령 단계 기준</p>
             </div>
           </div>
           <div className="mt-4 rounded-2xl border border-red-100 bg-red-50 p-4">

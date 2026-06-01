@@ -1092,8 +1092,17 @@ await check("partner feed import dry-run", async () => {
           category: "식품",
           originalPrice: 30000,
           salePrice: 18000,
+          sourceName: "스모크몰 공식 피드",
+          sourceUrl: "https://item.gmarket.co.kr/Item?goodsCode=4076233103",
+          dealType: "freeShipping",
+          benefitSummary: "무료배송 smoke 테스트 특가",
           productUrl: "https://item.gmarket.co.kr/Item?goodsCode=4076233103",
           searchUrl: "https://search.shopping.naver.com/search/all?query=%EC%8A%A4%EB%AA%A8%ED%81%AC%20%ED%85%8C%EC%8A%A4%ED%8A%B8%20%ED%8A%B9%EA%B0%80",
+          isFirstComeFirstServed: false,
+          requiresSignup: false,
+          eligibilityChecklist: ["판매처 확인", "배송 조건 확인", "최종 가격 확인"],
+          claimSteps: ["상품 상세 이동", "결제 전 조건 확인"],
+          claimWarning: "판매처 조건은 바뀔 수 있습니다.",
           tags: ["무료배송"]
         }
       ]
@@ -1106,6 +1115,7 @@ await check("partner feed import dry-run", async () => {
   assert(data.previewDeals?.[0]?.discountRate === 40, "Normalized discount rate mismatch");
   assert(data.previewDeals?.[0]?.linkVerified === true, "Partner productUrl should normalize as a verified purchase link");
   assert(data.linkSummary?.verified === 1, "Import link summary should count verified product links");
+  assert(data.benefitSummary?.conditionReadyRate === 100, "Import benefit condition summary should be ready");
 });
 
 await check("partner feed sample validation api", async () => {
@@ -1115,6 +1125,7 @@ await check("partner feed sample validation api", async () => {
   assert(Array.isArray(data.sampleFeed) && data.sampleFeed.length >= 2, "Sample feed API missing sample feed rows");
   assert(data.sampleValidation?.ok === true, "Sample feed validation should pass");
   assert(data.sampleValidation?.linkSummary?.verified >= 1, "Sample feed validation missing verified link summary");
+  assert(data.sampleValidation?.benefitSummary?.conditionReadyRate === 100, "Sample feed validation missing benefit condition readiness");
 });
 
 await check("partner feed import blocks unsafe links", async () => {

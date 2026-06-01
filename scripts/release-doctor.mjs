@@ -514,10 +514,21 @@ async function checkPartnerFeedSafety() {
     fail("partner feed unsafe link guard", "Partner feed import should reject placeholder/community links.");
   } else if (!smoke.includes("partner feed import blocks unsafe links")) {
     fail("partner feed unsafe link guard", "Smoke tests should cover unsafe partner feed links.");
-  } else if (!feedImport.includes("getPrimaryPurchaseUrl") || !feedImport.includes("finalPurchaseUrl") || !feedImport.includes("linkSummary") || !smoke.includes("Partner productUrl should normalize as a verified purchase link")) {
-    fail("partner feed purchase link fields", "Partner feed import should accept canonical purchase URL fields and report verified link coverage.");
+  } else if (
+    !feedImport.includes("getPrimaryPurchaseUrl") ||
+    !feedImport.includes("finalPurchaseUrl") ||
+    !feedImport.includes("sourceName") ||
+    !feedImport.includes("sourceUrl") ||
+    !feedImport.includes("benefitSummary") ||
+    !feedImport.includes("conditionReadyRate") ||
+    !feedImport.includes("eligibilityChecklist") ||
+    !feedImport.includes("claimSteps") ||
+    !smoke.includes("Partner productUrl should normalize as a verified purchase link") ||
+    !smoke.includes("Import benefit condition summary should be ready")
+  ) {
+    fail("partner feed purchase link fields", "Partner feed import should accept canonical purchase URL, source, benefit type, and claim-condition fields with readiness reporting.");
   } else {
-    pass("partner feed unsafe link guard", "Partner feed import rejects unsafe links and accepts canonical product URL fields.");
+    pass("partner feed unsafe link guard", "Partner feed import rejects unsafe links and accepts canonical product URL, source, and benefit condition fields.");
   }
 
   const requiredLinkFields = ["linkVerified", "finalUrl", "checkedAt", "purchaseConfidence", "purchaseLinkVerified", "finalPurchaseUrl"];
