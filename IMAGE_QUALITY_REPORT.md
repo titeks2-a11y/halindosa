@@ -1,6 +1,6 @@
 # 할인도사 Image Quality Report
 
-Generated: 2026-06-02T12:53:26.401Z
+Generated: 2026-06-02T13:36:40.393Z
 Status: PASS
 
 ## Summary
@@ -13,8 +13,9 @@ Status: PASS
 | 명시 이미지 커버리지 | 9% |
 | 카테고리 fallback 적용 | 예 |
 | 실제 렌더링 이미지 커버리지 | 100% |
-| 로컬 이미지 수 | 10 |
+| 로컬 이미지 수 | 20 |
 | 원격 이미지 수 | 3 |
+| fallback 카테고리 수 | 11 |
 
 ## Image Policy
 
@@ -24,6 +25,16 @@ Status: PASS
 
 ## Local Images
 
+- /deal-images/category-appliance.svg
+- /deal-images/category-baby.svg
+- /deal-images/category-beauty.svg
+- /deal-images/category-coupon.svg
+- /deal-images/category-digital.svg
+- /deal-images/category-etc.svg
+- /deal-images/category-fashion.svg
+- /deal-images/category-food.svg
+- /deal-images/category-living.svg
+- /deal-images/category-travel.svg
 - /deal-images/live-707648.jpg
 - /deal-images/live-707782.jpg
 - /deal-images/live-707783.jpg
@@ -34,6 +45,20 @@ Status: PASS
 - /deal-images/live-707788.jpg
 - /deal-images/live-707790.jpg
 - /deal-images/live-707791.jpg
+
+## Fallback By Category
+
+- 식품: 30
+- 생활용품: 25
+- 쿠폰/이벤트: 22
+- 전자기기: 8
+- 뷰티: 7
+- 여행/티켓: 7
+- 편의점/마트: 7
+- 육아: 6
+- 가전: 5
+- 기타: 5
+- 의류: 5
 
 ## Issues
 

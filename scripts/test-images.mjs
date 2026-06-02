@@ -16,20 +16,30 @@ const remoteImages = new Set();
 const dealLines = mockDeals.split(/\r?\n/).filter((line) => /deal\("d\d+"/.test(line));
 let dealsWithoutExplicitImage = 0;
 const hasCategoryFallback = /categoryFallbackImages/.test(mockDeals) && /displayImageUrl\s*=/.test(mockDeals);
+const fallbackCategoryCounts = new Map();
+const categoryFallbackAssets = [...mockDeals.matchAll(/"[^"]+":\s*"(?<asset>\/deal-images\/category-[^"]+\.svg)"/g)].map((match) => match.groups?.asset).filter(Boolean);
 
 for (const line of dealLines) {
   const quotedValues = [...line.matchAll(/"([^"]*)"/g)].map((match) => match[1]);
+  const category = quotedValues[3] ?? "기타";
   const imageCandidates = quotedValues.filter((value) => {
     const lower = value.toLowerCase();
     return value.startsWith("/deal-images/") || value.startsWith("/images/") || /^https?:\/\//.test(value) && /\.(png|jpe?g|webp|avif)(?:[?#].*)?$/.test(lower);
   });
 
-  if (!imageCandidates.length) dealsWithoutExplicitImage += 1;
+  if (!imageCandidates.length) {
+    dealsWithoutExplicitImage += 1;
+    fallbackCategoryCounts.set(category, (fallbackCategoryCounts.get(category) ?? 0) + 1);
+  }
 
   for (const image of imageCandidates) {
     if (image.startsWith("/")) localImages.add(image);
     if (/^https?:\/\//.test(image)) remoteImages.add(image);
   }
+}
+
+for (const image of categoryFallbackAssets) {
+  localImages.add(image);
 }
 
 for (const image of localImages) {
@@ -80,6 +90,7 @@ Status: ${issues.length ? "FAIL" : "PASS"}
 | 실제 렌더링 이미지 커버리지 | ${effectiveImageRate}% |
 | 로컬 이미지 수 | ${localImages.size} |
 | 원격 이미지 수 | ${remoteImages.size} |
+| fallback 카테고리 수 | ${fallbackCategoryCounts.size} |
 
 ## Image Policy
 
@@ -90,6 +101,10 @@ Status: ${issues.length ? "FAIL" : "PASS"}
 ## Local Images
 
 ${localImages.size ? [...localImages].sort().map((image) => `- ${image}`).join("\n") : "- 로컬 상품 이미지 없음"}
+
+## Fallback By Category
+
+${fallbackCategoryCounts.size ? [...fallbackCategoryCounts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).map(([category, count]) => `- ${category}: ${count}`).join("\n") : "- fallback 상품 없음"}
 
 ## Issues
 

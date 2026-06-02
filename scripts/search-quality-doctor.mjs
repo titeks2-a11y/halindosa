@@ -311,8 +311,8 @@ const deals = extractDeals();
 const highIntentKeywords = extractHighIntentKeywords();
 const issues = [];
 
-if (!Array.isArray(searchAliases) || searchAliases.length < 43) {
-  issues.push("생활형 검색 alias 목록이 부족합니다.");
+if (!Array.isArray(searchAliases) || searchAliases.length < 100) {
+  issues.push(`생활형 검색 alias 목록이 부족합니다. ${searchAliases.length}/100`);
 }
 
 if (highIntentKeywords.length < 24) {
@@ -385,7 +385,8 @@ Status: FAIL
 
 ## Summary
 
-- 테스트 키워드 수: ${requiredSearches.length}
+- 테스트 키워드 수: ${requiredSearches.length + searchAliases.length}
+- 필수 통과 키워드 수: ${requiredSearches.length}
 - 홈 추천 검색어 수: ${highIntentKeywords.length}
 - 검색 alias 수: ${searchAliases.length}
 
@@ -404,6 +405,15 @@ const searchRows = requiredSearches.map((item) => {
   const count = deals.filter((deal) => dealMatchesSearchText([deal.title, deal.mall, deal.category, ...deal.tags].join(" "), item.query)).length;
   return { query: item.query, count, minimum: item.minMatches };
 });
+const aliasRows = searchAliases.map((alias) => {
+  const query = alias.keys[0] ?? "";
+  const count = deals.filter((deal) => dealMatchesSearchText([deal.title, deal.mall, deal.category, ...deal.tags].join(" "), query)).length;
+  return { query, count, terms: alias.terms.length };
+});
+const noResultAliasRows = aliasRows.filter((row) => row.count === 0);
+const recentSearchImplemented = homePage.includes("recentSearchStorageKey") && homePage.includes("storeRecentSearchKeywords");
+const noResultStateImplemented = homePage.includes("검색 결과 없음") || homePage.includes("조건에 맞는 특가");
+const activeOnlyPolicy = homePage.includes("verifiedOnly") && mockDeals.includes("isExpired");
 
 writeFileSync(
   join(root, "SEARCH_REPORT.md"),
@@ -414,21 +424,38 @@ Status: PASS
 
 ## Summary
 
-- 테스트 키워드 수: ${requiredSearches.length}
+- 테스트 키워드 수: ${requiredSearches.length + aliasRows.length}
+- 필수 통과 키워드 수: ${requiredSearches.length}
+- 전체 alias 탐색 키워드 수: ${aliasRows.length}
 - 홈 추천 검색어 수: ${highIntentKeywords.length}
 - 검색 alias 수: ${searchAliases.length}
 - 검색 범위: 상품명, 브랜드/쇼핑몰, 카테고리, 태그, 혜택 요약, 생활형 유사어, 띄어쓰기 차이
 - 미노출 정책: 검증 링크 실패 상품은 기본 목록과 검색 기본 노출에서 제외한다.
+- 결과 없음 화면: ${noResultStateImplemented ? "구현됨" : "확인 필요"}
+- 최근 검색어 저장: ${recentSearchImplemented ? "localStorage 기반 구현됨" : "확인 필요"}
+- active 상품 노출 정책: ${activeOnlyPolicy ? "검증/만료 상태 기반 필터 유지" : "확인 필요"}
 
-## Keyword Results
+## Required Keyword Results
 
 | Query | Matches | Minimum |
 | --- | ---: | ---: |
 ${searchRows.map((row) => `| ${row.query} | ${row.count} | ${row.minimum} |`).join("\n")}
+
+## Alias Coverage Snapshot
+
+| Query | Matches | Alias Terms |
+| --- | ---: | ---: |
+${aliasRows.map((row) => `| ${row.query} | ${row.count} | ${row.terms} |`).join("\n")}
+
+## No-Result Alias Queries
+
+${noResultAliasRows.length ? noResultAliasRows.map((row) => `- ${row.query}`).join("\n") : "- 없음"}
 `,
   "utf8"
 );
 
 console.log("Search quality doctor passed.");
+console.log(`- Search test keywords: ${requiredSearches.length + aliasRows.length}`);
 console.log(`- High-intent home keywords: ${highIntentKeywords.length}`);
+console.log(`- Search aliases: ${searchAliases.length}`);
 for (const row of searchRows) console.log(`- ${row.query}: ${row.count} deals`);
