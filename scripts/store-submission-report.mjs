@@ -57,6 +57,10 @@ const artifacts = [
 const verificationReports = [
   ["Commercial audit", "docs/AUDIT_REPORT.md"],
   ["Environment doctor", "docs/ENV_DOCTOR_REPORT.md"],
+  ["Public URL submission", "docs/PUBLIC_URL_REPORT.md"],
+  ["Store metadata QA", "docs/STORE_METADATA_REPORT.md"],
+  ["Store asset QA", "docs/STORE_ASSETS_REPORT.md"],
+  ["Store screenshot QA", "docs/STORE_SCREENSHOTS_REPORT.md"],
   ["Device QA readiness", "docs/DEVICE_QA_REPORT.md"],
   ["Harness", "docs/HARNESS_REPORT.md"],
   ["Mobile UX", "MOBILE_UX_REPORT.md"],

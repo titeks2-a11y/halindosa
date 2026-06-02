@@ -45,6 +45,10 @@ This report is a non-secret handoff snapshot for Play Console and App Store Conn
 | --- | --- | --- |
 | Commercial audit | `docs/AUDIT_REPORT.md` | PASS evidence present |
 | Environment doctor | `docs/ENV_DOCTOR_REPORT.md` | PASS evidence present |
+| Public URL submission | `docs/PUBLIC_URL_REPORT.md` | present, review manually |
+| Store metadata QA | `docs/STORE_METADATA_REPORT.md` | PASS evidence present |
+| Store asset QA | `docs/STORE_ASSETS_REPORT.md` | PASS evidence present |
+| Store screenshot QA | `docs/STORE_SCREENSHOTS_REPORT.md` | present, review manually |
 | Device QA readiness | `docs/DEVICE_QA_REPORT.md` | present, review manually |
 | Harness | `docs/HARNESS_REPORT.md` | PASS evidence present |
 | Mobile UX | `MOBILE_UX_REPORT.md` | PASS evidence present |

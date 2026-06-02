@@ -2866,12 +2866,12 @@ async function checkPolicyAndStoreDocs() {
     {
       name: "store submission packet content",
       file: "docs/store-submission-packet.md",
-      phrases: ["Android release AAB", "Play Store 등록 문구", "App Store Connect 입력값", "스토어 제출 준비 리포트", "docs/STORE_SUBMISSION_REPORT.md", "npm run store:submission:report", "node scripts/env-doctor.mjs --strict", "npm run env:doctor:production", "npm run test:env", "npm run public:url:doctor", "docs/device-qa-checklist.md", "docs/store-review-notes.md", "실제 구매 링크 또는 공식 혜택 상세 URL", "테스트 계정: 필요 없음", "Demo Account: 필요 없음", "Play Console 복사 입력 블록", "App Store Connect 복사 입력 블록", "https://halindosa.com/privacy", "https://halindosa.com/support"]
+      phrases: ["Android release AAB", "Play Store 등록 문구", "App Store Connect 입력값", "공개 URL 제출 리포트", "스토어 메타데이터 QA 리포트", "스토어 이미지 QA 리포트", "스토어 스크린샷 QA 리포트", "스토어 제출 준비 리포트", "docs/PUBLIC_URL_REPORT.md", "docs/STORE_METADATA_REPORT.md", "docs/STORE_ASSETS_REPORT.md", "docs/STORE_SCREENSHOTS_REPORT.md", "docs/STORE_SUBMISSION_REPORT.md", "npm run store:submission:report", "npm run store:assets:doctor", "npm run store:screenshots:doctor", "node scripts/env-doctor.mjs --strict", "npm run env:doctor:production", "npm run test:env", "npm run public:url:doctor", "docs/device-qa-checklist.md", "docs/store-review-notes.md", "실제 구매 링크 또는 공식 혜택 상세 URL", "테스트 계정: 필요 없음", "Demo Account: 필요 없음", "Play Console 복사 입력 블록", "App Store Connect 복사 입력 블록", "https://halindosa.com/privacy", "https://halindosa.com/support"]
     },
     {
       name: "store submission readiness report content",
       file: "docs/STORE_SUBMISSION_REPORT.md",
-      phrases: ["Signing And Upload Readiness", "Link Coverage Snapshot", "final Play upload still needs private signing confirmation", "Direct product or official benefit links", "Manual Work That Must Not Be Faked", "Sensitive Data Rule"]
+      phrases: ["Signing And Upload Readiness", "Link Coverage Snapshot", "Public URL submission", "Store metadata QA", "Store asset QA", "Store screenshot QA", "final Play upload still needs private signing confirmation", "Direct product or official benefit links", "Manual Work That Must Not Be Faked", "Sensitive Data Rule"]
     },
     {
       name: "store review notes content",

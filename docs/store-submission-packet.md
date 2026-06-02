@@ -25,6 +25,10 @@
 - 스토어 스크린샷 스토리보드: `docs/store-assets-guide.md`
 - 실기기 QA 기록 양식: `docs/device-qa-record-template.md`
 - 릴리즈 증빙: `docs/release-evidence.md`
+- 공개 URL 제출 리포트: `docs/PUBLIC_URL_REPORT.md`
+- 스토어 메타데이터 QA 리포트: `docs/STORE_METADATA_REPORT.md`
+- 스토어 이미지 QA 리포트: `docs/STORE_ASSETS_REPORT.md`
+- 스토어 스크린샷 QA 리포트: `docs/STORE_SCREENSHOTS_REPORT.md`
 - 스토어 제출 준비 리포트: `docs/STORE_SUBMISSION_REPORT.md`
 
 ## 제출 전 명령
@@ -37,7 +41,10 @@ npm run env:doctor:production
 npm run test:env
 npm run public:url:doctor
 npm run device:qa:doctor
+npm run device:qa:report
 npm run store:metadata:doctor
+npm run store:assets:doctor
+npm run store:screenshots:doctor
 npm run store:submission:report
 npm run qa:release
 npm run android:bundle
