@@ -137,6 +137,8 @@ async function checkCiWorkflow() {
     "docs/AUDIT_REPORT.md",
     "ENV_DOCTOR_REPORT.md",
     "docs/ENV_DOCTOR_REPORT.md",
+    "PUBLIC_URL_REPORT.md",
+    "docs/PUBLIC_URL_REPORT.md",
     "DEVICE_QA_REPORT.md",
     "docs/DEVICE_QA_REPORT.md",
     "STORE_SUBMISSION_REPORT.md",
@@ -144,7 +146,7 @@ async function checkCiWorkflow() {
     "docs/release-evidence.md"
   ];
   const missingWorkflowSnippets = requiredWorkflowSnippets.filter((snippet) => !workflow.includes(snippet));
-  const requiredRunbookSnippets = ["codex/**", "AUDIT_REPORT.md", "npm run test:env", "ENV_DOCTOR_REPORT.md", "npm run device:qa:report", "DEVICE_QA_REPORT.md", "npm run store:submission:report", "STORE_SUBMISSION_REPORT.md", "npm run public:url:doctor", "npm run harness", "npm run release:doctor", "halindosa-verification-reports"];
+  const requiredRunbookSnippets = ["codex/**", "AUDIT_REPORT.md", "npm run test:env", "ENV_DOCTOR_REPORT.md", "PUBLIC_URL_REPORT.md", "npm run device:qa:report", "DEVICE_QA_REPORT.md", "npm run store:submission:report", "STORE_SUBMISSION_REPORT.md", "npm run public:url:doctor", "npm run harness", "npm run release:doctor", "halindosa-verification-reports"];
   const missingRunbookSnippets = requiredRunbookSnippets.filter((snippet) => !runbook.includes(snippet));
 
   if (missingWorkflowSnippets.length || missingRunbookSnippets.length) {
@@ -2800,7 +2802,7 @@ async function checkPolicyAndStoreDocs() {
     {
       name: "release evidence content",
       file: "docs/release-evidence.md",
-      phrases: ["릴리즈 증빙", "최신 커밋", "Release AAB", "Commercial audit report", "Environment doctor report", "Device QA readiness report", "Store submission readiness report", "Harness report", "npm run harness", "npm run env:doctor:production", "npm run test:env", "npm run public:url:doctor", "Android signing doctor", "device QA doctor", "자동 검증 범위", "남은 수동 확인", "공개 개인정보처리방침/고객지원 URL"]
+      phrases: ["릴리즈 증빙", "최신 커밋", "Release AAB", "Commercial audit report", "Environment doctor report", "Public URL submission report", "Device QA readiness report", "Store submission readiness report", "Harness report", "npm run harness", "npm run env:doctor:production", "npm run test:env", "npm run public:url:doctor", "Android signing doctor", "device QA doctor", "자동 검증 범위", "남은 수동 확인", "공개 개인정보처리방침/고객지원 URL"]
     },
     {
       name: "release checklist content",
@@ -2831,6 +2833,11 @@ async function checkPolicyAndStoreDocs() {
       name: "deployment env checklist content",
       file: "docs/deployment-env-checklist.md",
       phrases: ["npm run env:doctor", "node scripts/env-doctor.mjs --strict", "npm run env:doctor:production", "npm run test:env", "NEXT_PUBLIC_SITE_URL", "SUPABASE_SERVICE_ROLE_KEY", "DEAL_DATA_MODE", "npm run public:url:doctor", "공개 개인정보처리방침 URL"]
+    },
+    {
+      name: "public url submission report content",
+      file: "docs/PUBLIC_URL_REPORT.md",
+      phrases: ["Public URL Submission Report", "Expected Production URLs", "Privacy policy", "Customer support", "sitemap.xml", "robots.txt", "Pending manual check", "Manual Work That Must Not Be Faked"]
     },
     {
       name: "store submission packet content",

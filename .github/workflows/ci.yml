@@ -56,6 +56,7 @@ jobs:
             AUDIT_REPORT.md
             EXTERNAL_LINK_REPORT.md
             ENV_DOCTOR_REPORT.md
+            PUBLIC_URL_REPORT.md
             DEVICE_QA_REPORT.md
             STORE_SUBMISSION_REPORT.md
             IMAGE_OPERATIONS_REPORT.md
@@ -68,6 +69,7 @@ jobs:
             docs/HARNESS_REPORT.md
             docs/AUDIT_REPORT.md
             docs/ENV_DOCTOR_REPORT.md
+            docs/PUBLIC_URL_REPORT.md
             docs/DEVICE_QA_REPORT.md
             docs/STORE_SUBMISSION_REPORT.md
             docs/PERFORMANCE_REPORT.md

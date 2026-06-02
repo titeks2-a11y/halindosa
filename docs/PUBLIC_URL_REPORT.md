@@ -1,0 +1,30 @@
+# Public URL Submission Report
+
+This report records the non-secret public URL surfaces that must be reachable before Play Console and App Store Connect submission.
+
+## Expected Production URLs
+
+| Surface | URL | Repository status | External-network status |
+| --- | --- | --- | --- |
+| Privacy policy | `https://halindosa.com/privacy` | Present in app, sitemap, and store packet | Pending manual check |
+| Customer support | `https://halindosa.com/support` | Present in app, sitemap, and store packet | Pending manual check |
+| Terms | `https://halindosa.com/terms` | Present in app and sitemap | Pending manual check |
+| Service guide | `https://halindosa.com/guide` | Present in app and sitemap | Pending manual check |
+| Sitemap | `https://halindosa.com/sitemap.xml` | Covered by smoke and SEO checks | Pending manual check |
+| Robots | `https://halindosa.com/robots.txt` | Covered by smoke and SEO checks | Pending manual check |
+
+## Automated Guardrails
+
+- `metadataBase`, sitemap, and robots derive from `NEXT_PUBLIC_SITE_URL`.
+- Store submission copy uses production-looking privacy and support URL placeholders, not localhost or example domains.
+- `/privacy` includes the policy title, user rights, and inquiry guidance.
+- `/support` links to privacy and terms pages.
+- `.env.example` documents `NEXT_PUBLIC_SITE_URL` and `NEXT_PUBLIC_AUTH_REDIRECT_URL`.
+- SEO and smoke checks cover sitemap and robots surfaces.
+
+## Manual Work That Must Not Be Faked
+
+- Deploy the public domain before entering URLs in Play Console or App Store Connect.
+- Confirm `/privacy`, `/support`, `/terms`, `/guide`, `/sitemap.xml`, and `/robots.txt` from an external network.
+- Replace the placeholder domain with the real production domain if `halindosa.com` is not the final domain.
+- Keep any DNS provider credentials, Vercel tokens, Supabase keys, and store-console credentials out of this repository.
