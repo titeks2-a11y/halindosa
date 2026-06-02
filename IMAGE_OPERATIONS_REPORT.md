@@ -1,6 +1,6 @@
 # 할인도사 Image Operations Report
 
-Generated: 2026-06-02T17:10:36.343Z
+Generated: 2026-06-02T17:52:40.849Z
 Status: PASS
 
 ## Checks
@@ -15,6 +15,7 @@ Status: PASS
 | verified purchase image resolver | PASS | 검증된 구매 상세 URL에서 공식 상품 이미지 URL을 파생하고 category fallback보다 먼저 적용해야 합니다. |
 | minimum explicit image gate | PASS | 명시 실상품 이미지 커버리지는 현재 달성한 25% 이상 기준을 자동 검사해야 합니다. |
 | image backlog report | PASS | 이미지 품질 리포트는 fallback 상품별 보강 후보와 검색 URL을 남겨야 합니다. |
+| full image backlog export | PASS | 전체 이미지 보강 큐는 CSV/JSON/문서 리포트로 생성되고 QA 흐름에 연결되어야 합니다. |
 | admin image operations queue | PASS | 관리자 화면에서 카테고리별/상품별 이미지 보강 대상을 바로 볼 수 있어야 합니다. |
 | public copy safety | PASS | 운영 화면 문구는 내부 개발 티를 줄이고 실제 운영 액션 중심이어야 합니다. |
 | qa wiring | PASS | 이미지 운영 큐 회귀 검사가 qa 또는 하네스에서 실행되어야 합니다. |

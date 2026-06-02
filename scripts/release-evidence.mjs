@@ -57,6 +57,8 @@ const artifacts = [
   ["Store submission packet QA report", "docs/STORE_PACKET_REPORT.md"],
   ["Store screenshot QA report", "docs/STORE_SCREENSHOTS_REPORT.md"],
   ["Harness report", "docs/HARNESS_REPORT.md"],
+  ["Image backlog report", "docs/IMAGE_BACKLOG_REPORT.md"],
+  ["Image backlog CSV", "IMAGE_BACKLOG.csv"],
   ["Link coverage report", "docs/link-coverage-report.md"]
 ];
 
@@ -96,6 +98,7 @@ const lines = [
   "npm run public:url:doctor",
   "npm run device:qa:doctor",
   "npm run android:signing:doctor",
+  "npm run image:backlog:report",
   "npm run harness",
   "npm run qa:release",
   "npm run android:bundle",

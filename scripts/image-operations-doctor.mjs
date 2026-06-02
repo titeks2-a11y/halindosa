@@ -11,7 +11,9 @@ const imageResolver = readFileSync(join(root, "lib", "deals", "imageResolver.ts"
 const mockDeals = readFileSync(join(root, "data", "mockDeals.ts"), "utf8");
 const partnerFeedValidator = readFileSync(join(root, "scripts", "validate-partner-feed.mjs"), "utf8");
 const imageTest = readFileSync(join(root, "scripts", "test-images.mjs"), "utf8");
+const imageBacklogReportScript = readFileSync(join(root, "scripts", "image-backlog-report.mjs"), "utf8");
 const imageQualityReport = readFileSync(join(root, "IMAGE_QUALITY_REPORT.md"), "utf8");
+const imageBacklogReport = readFileSync(join(root, "docs", "IMAGE_BACKLOG_REPORT.md"), "utf8");
 const smoke = readFileSync(join(root, "scripts", "smoke.mjs"), "utf8");
 const packageJson = JSON.parse(readFileSync(join(root, "package.json"), "utf8"));
 
@@ -95,6 +97,20 @@ const checks = [
       imageQualityReport.includes("## Image Backlog") &&
       imageQualityReport.includes("이미지 후보 검색"),
     message: "이미지 품질 리포트는 fallback 상품별 보강 후보와 검색 URL을 남겨야 합니다."
+  },
+  {
+    name: "full image backlog export",
+    ok:
+      packageJson.scripts?.["image:backlog:report"] === "node scripts/image-backlog-report.mjs" &&
+      packageJson.scripts?.qa?.includes("image:backlog:report") &&
+      imageBacklogReportScript.includes("IMAGE_BACKLOG.csv") &&
+      imageBacklogReportScript.includes("IMAGE_BACKLOG.json") &&
+      imageBacklogReportScript.includes("docs/IMAGE_BACKLOG_REPORT.md") &&
+      imageBacklogReport.includes("Image Backlog Report") &&
+      imageBacklogReport.includes("Backlog By Category") &&
+      imageBacklogReport.includes("Root CSV") &&
+      imageBacklogReport.includes("Root JSON"),
+    message: "전체 이미지 보강 큐는 CSV/JSON/문서 리포트로 생성되고 QA 흐름에 연결되어야 합니다."
   },
   {
     name: "admin image operations queue",

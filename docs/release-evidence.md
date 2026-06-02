@@ -4,10 +4,19 @@
 
 ## 기본 정보
 
-- 생성 시각: 2026-06-02T17:49:08.047Z
+- 생성 시각: 2026-06-02T17:52:47.970Z
 - Git 브랜치: codex/12h-product-ux-growth-hardening
-- 최신 커밋: 9094827
-- Git 상태: ?? DEV_SERVER_LOG.txt
+- 최신 커밋: ae48b87
+- Git 상태: M IMAGE_OPERATIONS_REPORT.md
+ M docs/RUNBOOK.md
+ M package.json
+ M scripts/image-operations-doctor.mjs
+ M scripts/release-doctor.mjs
+ M scripts/release-evidence.mjs
+?? IMAGE_BACKLOG.csv
+?? IMAGE_BACKLOG.json
+?? docs/IMAGE_BACKLOG_REPORT.md
+?? scripts/image-backlog-report.mjs
 - 패키지 버전: 1.0.0
 - 앱 이름: 할인도사
 - 앱 ID / 패키지명: com.halindosa.app
@@ -35,6 +44,8 @@
 | Store submission packet QA report | `docs/STORE_PACKET_REPORT.md` | 3KB |
 | Store screenshot QA report | `docs/STORE_SCREENSHOTS_REPORT.md` | 2KB |
 | Harness report | `docs/HARNESS_REPORT.md` | 20KB |
+| Image backlog report | `docs/IMAGE_BACKLOG_REPORT.md` | 15KB |
+| Image backlog CSV | `IMAGE_BACKLOG.csv` | 46KB |
 | Link coverage report | `docs/link-coverage-report.md` | 7KB |
 
 ## 제출 전 검증 명령
@@ -49,6 +60,7 @@ npm run test:env
 npm run public:url:doctor
 npm run device:qa:doctor
 npm run android:signing:doctor
+npm run image:backlog:report
 npm run harness
 npm run qa:release
 npm run android:bundle

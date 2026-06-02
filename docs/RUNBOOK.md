@@ -35,6 +35,7 @@ npm run smoke
   - 카테고리 fallback은 화면 안정용이며 운영 ready 이미지로 보지 않는다. 신규 파트너 피드는 `imageUrl` 없이 dry-run을 통과할 수 없다.
   - `npm run test:images`는 명시 실상품 이미지 커버리지 25% 미만이면 실패한다. 신규 상품을 많이 추가할 때는 이미지 없는 상품만 늘려 이 기준을 떨어뜨리지 않는다.
   - `IMAGE_QUALITY_REPORT.md`의 `Image Backlog`는 fallback 상품별 판매처, 카테고리, 이미지 후보 검색 URL을 남긴다. 출시 직전에는 이 표의 상위 상품부터 실상품 이미지를 보강한다.
+  - `npm run image:backlog:report`는 전체 fallback 이미지 보강 큐를 `IMAGE_BACKLOG.csv`, `IMAGE_BACKLOG.json`, `docs/IMAGE_BACKLOG_REPORT.md`로 생성한다. CSV는 운영자가 스프레드시트에서 전체 101개 보강 대기 상품을 처리할 때 사용한다.
 - 피드 dry-run import: `POST /api/admin/import?token=$ADMIN_EXPORT_TOKEN`
   - 신규/보강 피드는 `affiliateUrl` → `finalPurchaseUrl` → `productUrl` → `purchaseUrl` → `link` → `originalUrl` → `searchUrl` 순서로 실제 구매 이동 URL을 판정한다.
   - `linkSummary.verified`와 `linkSummary.needsReview`를 확인해 출시 전 실제 상품 상세 URL 비율을 관리한다.
@@ -81,7 +82,7 @@ npm run harness
 2. build
 3. verified purchase link 검사
 4. 외부 링크 새 탭/보안 검사
-5. 상품 이미지와 이미지 운영 큐 검사
+5. 상품 이미지, 전체 이미지 backlog, 이미지 운영 큐 검사
 6. 검색 alias 품질 검사
 7. UI 규칙 검사
 8. 모바일 UX compact first-screen 검사

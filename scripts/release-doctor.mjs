@@ -987,6 +987,7 @@ async function checkUiAccessibility() {
   const authForm = await text("components/AuthForm.tsx");
   const commercializationPage = await text("app/commercialization/page.tsx");
   const imageQualityReport = await text("IMAGE_QUALITY_REPORT.md");
+  const imageBacklogReport = await text("docs/IMAGE_BACKLOG_REPORT.md");
   const mobileUxReport = await text("MOBILE_UX_REPORT.md");
   const imageTest = await text("scripts/test-images.mjs");
   const imageOperationsDoctor = await text("scripts/image-operations-doctor.mjs");
@@ -1289,16 +1290,22 @@ async function checkUiAccessibility() {
 
   if (
     !packageJson.includes('"test:images"') ||
+    !packageJson.includes('"image:backlog:report"') ||
     !packageJson.includes('"image:operations:doctor"') ||
     !packageJson.includes("npm run test:images") ||
+    !packageJson.includes("npm run image:backlog:report") ||
     !packageJson.includes("npm run image:operations:doctor") ||
     !imageTest.includes("minimumExplicitImageRate = 25") ||
     !imageTest.includes("fallbackDealBacklog") ||
     !imageOperationsDoctor.includes("minimum explicit image gate") ||
     !imageOperationsDoctor.includes("image backlog report") ||
+    !imageOperationsDoctor.includes("full image backlog export") ||
     !imageQualityReport.includes("| 명시 이미지 최소 기준 | 25% |") ||
     !imageQualityReport.includes("## Image Backlog") ||
     !imageQualityReport.includes("이미지 후보 검색") ||
+    !imageBacklogReport.includes("Image Backlog Report") ||
+    !imageBacklogReport.includes("Backlog By Category") ||
+    !imageBacklogReport.includes("Root CSV") ||
     !harnessReport.includes("Image quality passed: 39/140 deals have explicit images.")
   ) {
     fail("deal image quality coverage gate", "Release QA should enforce the 25% explicit product image floor, record current coverage evidence, and keep an actionable fallback image backlog.");
@@ -2815,7 +2822,7 @@ async function checkPolicyAndStoreDocs() {
     {
       name: "release evidence content",
       file: "docs/release-evidence.md",
-      phrases: ["릴리즈 증빙", "최신 커밋", "Release AAB", "Commercial audit report", "Environment doctor report", "Public URL submission report", "Store metadata QA report", "Store asset QA report", "Store submission packet QA report", "Store screenshot QA report", "Device QA readiness report", "Store submission readiness report", "Harness report", "npm run harness", "npm run env:doctor:production", "npm run test:env", "npm run public:url:doctor", "Android signing doctor", "device QA doctor", "자동 검증 범위", "남은 수동 확인", "공개 개인정보처리방침/고객지원 URL"]
+      phrases: ["릴리즈 증빙", "최신 커밋", "Release AAB", "Commercial audit report", "Environment doctor report", "Public URL submission report", "Store metadata QA report", "Store asset QA report", "Store submission packet QA report", "Store screenshot QA report", "Device QA readiness report", "Store submission readiness report", "Harness report", "Image backlog report", "Image backlog CSV", "npm run image:backlog:report", "npm run harness", "npm run env:doctor:production", "npm run test:env", "npm run public:url:doctor", "Android signing doctor", "device QA doctor", "자동 검증 범위", "남은 수동 확인", "공개 개인정보처리방침/고객지원 URL"]
     },
     {
       name: "release checklist content",
