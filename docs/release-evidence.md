@@ -4,13 +4,14 @@
 
 ## 기본 정보
 
-- 생성 시각: 2026-06-02T19:02:27.968Z
+- 생성 시각: 2026-06-02T19:05:32.716Z
 - Git 브랜치: codex/12h-product-ux-growth-hardening
-- 최신 커밋: ae760ab
+- 최신 커밋: 515003a
 - Git 상태: M KNOWN_ISSUES.md
- M STORE_HANDOFF_REPORT.md
+ M STORE_MANUAL_CHECKLIST.json
+ M STORE_MANUAL_CHECKLIST.md
  M docs/KNOWN_ISSUES.md
- M docs/STORE_HANDOFF_REPORT.md
+ M docs/STORE_MANUAL_CHECKLIST.md
 - 패키지 버전: 1.0.0
 - 앱 이름: 할인도사
 - 앱 ID / 패키지명: com.halindosa.app
@@ -47,8 +48,8 @@
 | Release notes JSON | `RELEASE_NOTES.json` | 4KB |
 | Support playbook | `docs/SUPPORT_PLAYBOOK.md` | 5KB |
 | Support playbook JSON | `SUPPORT_PLAYBOOK.json` | 5KB |
-| Known issues report | `docs/KNOWN_ISSUES.md` | 2KB |
-| Known issues report root copy | `KNOWN_ISSUES.md` | 2KB |
+| Known issues report | `docs/KNOWN_ISSUES.md` | 3KB |
+| Known issues report root copy | `KNOWN_ISSUES.md` | 3KB |
 | Store screenshot QA report | `docs/STORE_SCREENSHOTS_REPORT.md` | 3KB |
 | Store screenshot manifest | `docs/STORE_SCREENSHOT_MANIFEST.md` | 4KB |
 | Store screenshot manifest JSON | `STORE_SCREENSHOT_MANIFEST.json` | 5KB |
