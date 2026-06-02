@@ -56,6 +56,7 @@ const reports = [
   fileStatus("docs/STORE_PACKET_REPORT.md"),
   fileStatus("docs/STORE_CONSOLE_FIELDS.md"),
   fileStatus("docs/STORE_MANUAL_CHECKLIST.md"),
+  fileStatus("docs/RELEASE_NOTES.md"),
   fileStatus("docs/STORE_METADATA_REPORT.md"),
   fileStatus("docs/STORE_ASSETS_REPORT.md"),
   fileStatus("docs/STORE_SCREENSHOT_MANIFEST.md"),
@@ -81,6 +82,7 @@ const commandSequence = [
   "npm run store:manual:checklist",
   "npm run store:manual:doctor",
   "npm run release:doctor",
+  "npm run release:notes",
   "npm run qa:release"
 ];
 
@@ -135,6 +137,7 @@ const markdown = [
   `- Store screenshot scenes: ${Array.isArray(screenshotManifest.scenes) ? screenshotManifest.scenes.length : "unknown"}`,
   `- Store screenshot viewports: ${Array.isArray(screenshotManifest.viewports) ? screenshotManifest.viewports.length : "unknown"}`,
   "- Store console fields: `docs/STORE_CONSOLE_FIELDS.md` / `STORE_CONSOLE_FIELDS.json`",
+  "- Release notes: `docs/RELEASE_NOTES.md` / `RELEASE_NOTES.json`",
   "",
   "## Command Sequence",
   "",

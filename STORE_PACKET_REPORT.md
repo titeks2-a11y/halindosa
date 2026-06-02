@@ -25,6 +25,7 @@ This report verifies that the store submission packet points to the expected non
 | `docs/STORE_HANDOFF_REPORT.md` | present | referenced |
 | `docs/STORE_CONSOLE_FIELDS.md` | present | referenced |
 | `docs/STORE_MANUAL_CHECKLIST.md` | present | referenced |
+| `docs/RELEASE_NOTES.md` | present | referenced |
 | `android/app/build/outputs/apk/debug/app-debug.apk` | present | referenced |
 | `android/app/build/outputs/bundle/release/app-release.aab` | present | referenced |
 | `assets/store/play-store-icon-512.png` | present | referenced |
@@ -34,6 +35,8 @@ This report verifies that the store submission packet points to the expected non
 | `STORE_CONSOLE_FIELDS.json` | present | referenced |
 | `STORE_MANUAL_CHECKLIST.md` | present | referenced |
 | `STORE_MANUAL_CHECKLIST.json` | present | referenced |
+| `RELEASE_NOTES.md` | present | referenced |
+| `RELEASE_NOTES.json` | present | referenced |
 | `ios/App/App/PrivacyInfo.xcprivacy` | present | referenced |
 
 ## Command References
@@ -57,6 +60,7 @@ This report verifies that the store submission packet points to the expected non
 | `npm run store:manual:checklist` | referenced |
 | `npm run store:manual:doctor` | referenced |
 | `npm run store:handoff:report` | referenced |
+| `npm run release:notes` | referenced |
 | `npm run android:bundle` | referenced |
 | `npm run release:evidence` | referenced |
 | `npm run release:doctor` | referenced |

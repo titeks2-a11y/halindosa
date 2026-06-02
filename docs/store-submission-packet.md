@@ -37,6 +37,7 @@
 - 스토어 콘솔 입력 필드 매니페스트: `docs/STORE_CONSOLE_FIELDS.md`, `STORE_CONSOLE_FIELDS.json`
 - 수동 제출 체크리스트: `docs/STORE_MANUAL_CHECKLIST.md`, `STORE_MANUAL_CHECKLIST.md`, `STORE_MANUAL_CHECKLIST.json`
 - 스토어 출시 인수인계 리포트: `docs/STORE_HANDOFF_REPORT.md`, `STORE_HANDOFF_REPORT.md`
+- 릴리즈 노트: `docs/RELEASE_NOTES.md`, `RELEASE_NOTES.md`, `RELEASE_NOTES.json`
 
 ## 제출 전 명령
 
@@ -60,6 +61,7 @@ npm run store:console:fields
 npm run store:manual:checklist
 npm run store:manual:doctor
 npm run store:handoff:report
+npm run release:notes
 npm run qa:release
 npm run android:bundle
 npm run release:evidence

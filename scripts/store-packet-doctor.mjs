@@ -24,6 +24,7 @@ const requiredFiles = [
   "docs/STORE_HANDOFF_REPORT.md",
   "docs/STORE_CONSOLE_FIELDS.md",
   "docs/STORE_MANUAL_CHECKLIST.md",
+  "docs/RELEASE_NOTES.md",
   "android/app/build/outputs/apk/debug/app-debug.apk",
   "android/app/build/outputs/bundle/release/app-release.aab",
   "assets/store/play-store-icon-512.png",
@@ -33,6 +34,8 @@ const requiredFiles = [
   "STORE_CONSOLE_FIELDS.json",
   "STORE_MANUAL_CHECKLIST.md",
   "STORE_MANUAL_CHECKLIST.json",
+  "RELEASE_NOTES.md",
+  "RELEASE_NOTES.json",
   "ios/App/App/PrivacyInfo.xcprivacy"
 ];
 
@@ -54,6 +57,7 @@ const requiredCommands = [
   "npm run store:manual:checklist",
   "npm run store:manual:doctor",
   "npm run store:handoff:report",
+  "npm run release:notes",
   "npm run android:bundle",
   "npm run release:evidence",
   "npm run release:doctor"

@@ -63,6 +63,9 @@ jobs:
       - name: Store launch handoff report
         run: npm run store:handoff:report
 
+      - name: Release notes
+        run: npm run release:notes
+
       - name: Store screenshot capture manifest
         run: npm run store:screenshots:manifest
 
@@ -97,6 +100,8 @@ jobs:
             STORE_MANUAL_CHECKLIST.json
             STORE_MANUAL_CHECKLIST.md
             STORE_HANDOFF_REPORT.md
+            RELEASE_NOTES.json
+            RELEASE_NOTES.md
             STORE_SCREENSHOTS_REPORT.md
             STORE_SCREENSHOT_MANIFEST.json
             IMAGE_OPERATIONS_REPORT.md
@@ -119,6 +124,7 @@ jobs:
             docs/STORE_CONSOLE_FIELDS.md
             docs/STORE_MANUAL_CHECKLIST.md
             docs/STORE_HANDOFF_REPORT.md
+            docs/RELEASE_NOTES.md
             docs/STORE_SCREENSHOTS_REPORT.md
             docs/STORE_SCREENSHOT_MANIFEST.md
             docs/PERFORMANCE_REPORT.md
