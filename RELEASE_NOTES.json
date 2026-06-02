@@ -1,8 +1,8 @@
 {
   "generatedBy": "npm run release:notes",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "813fc54",
-  "workingTree": "M DEVICE_QA_REPORT.md\n M KNOWN_ISSUES.md\n M PUBLIC_URL_REPORT.md\n M RELEASE_NOTES.json\n M RELEASE_NOTES.md\n M STORE_CONSOLE_FIELDS.json\n M STORE_HANDOFF_REPORT.md\n M STORE_MANUAL_CHECKLIST.json\n M STORE_MANUAL_CHECKLIST.md\n M STORE_SCREENSHOTS_REPORT.md\n M STORE_SUBMISSION_REPORT.md\n M SUPPORT_PLAYBOOK.json\n M SUPPORT_PLAYBOOK.md\n M docs/DEVICE_QA_REPORT.md\n M docs/KNOWN_ISSUES.md\n M docs/PUBLIC_URL_REPORT.md\n M docs/RELEASE_NOTES.md\n M docs/STORE_CONSOLE_FIELDS.md\n M docs/STORE_HANDOFF_REPORT.md\n M docs/STORE_MANUAL_CHECKLIST.md\n M docs/STORE_SCREENSHOTS_REPORT.md\n M docs/STORE_SUBMISSION_REPORT.md\n M docs/SUPPORT_PLAYBOOK.md",
+  "commit": "ad3e265",
+  "workingTree": "M DEVICE_QA_REPORT.md;  M KNOWN_ISSUES.md;  M PUBLIC_URL_REPORT.md;  M RELEASE_NOTES.json;  M RELEASE_NOTES.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_HANDOFF_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M SUPPORT_PLAYBOOK.json;  M SUPPORT_PLAYBOOK.md;  M docs/DEVICE_QA_REPORT.md;  M docs/KNOWN_ISSUES.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/RELEASE_NOTES.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_HANDOFF_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md;  M docs/SUPPORT_PLAYBOOK.md;  M docs/release-evidence.md",
   "version": "1.0.0",
   "appName": "할인도사",
   "packageName": "com.halindosa.app",
@@ -34,27 +34,27 @@
     {
       "path": "docs/release-evidence.md",
       "status": "present",
-      "bytes": 6308
+      "bytes": 6330
     },
     {
       "path": "docs/STORE_CONSOLE_FIELDS.md",
       "status": "present",
-      "bytes": 3941
+      "bytes": 3896
     },
     {
       "path": "docs/STORE_MANUAL_CHECKLIST.md",
       "status": "present",
-      "bytes": 4572
+      "bytes": 4615
     },
     {
       "path": "docs/STORE_HANDOFF_REPORT.md",
       "status": "present",
-      "bytes": 4667
+      "bytes": 4721
     },
     {
       "path": "docs/STORE_SUBMISSION_REPORT.md",
       "status": "present",
-      "bytes": 5031
+      "bytes": 5003
     },
     {
       "path": "docs/DEVICE_QA_MANIFEST.md",
@@ -73,14 +73,14 @@
     }
   ],
   "recentCommits": [
+    "ad3e265 chore: keep generated report status snapshots single-line",
+    "2f88db7 docs: refresh release evidence",
     "813fc54 test: enforce launch operations report freshness",
     "5320216 docs: refresh release evidence",
     "2607304 test: enforce store submission report freshness",
     "d3c0d71 docs: refresh release evidence",
     "8889444 test: enforce public url report freshness",
-    "747874d docs: refresh release evidence",
-    "3694aae test: enforce store screenshot report freshness",
-    "c6c55ec docs: refresh release evidence"
+    "747874d docs: refresh release evidence"
   ],
   "manualWorkThatMustNotBeFaked": [
     "Do not claim Play Console or App Store Connect submission has passed from this file.",
