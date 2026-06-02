@@ -13,6 +13,14 @@
 | Android 빌드 | debug APK / signed AAB / internal test |
 | iOS 빌드 | Simulator / TestFlight / Archive |
 | 사용한 체크리스트 | `docs/device-qa-checklist.md` |
+| 자동 모바일 UX 리포트 | `npm run test:mobile-ux` / `MOBILE_UX_REPORT.md` PASS |
+| 테스트 계정 | 이메일 / Google / Kakao / Naver OAuth Provider별 결과만 기록 |
+
+## 기록 보안 원칙
+
+- 주문번호, 배송지 주소, 결제 정보, 비밀번호, 인증 코드, `.env`, keystore, Supabase service-role key는 이 문서에 기록하지 않습니다.
+- OAuth Provider 설정값은 Provider 이름, Redirect URL 통과 여부, 오류 메시지 요약만 기록합니다.
+- 실제 사용자 계정 대신 출시 전 테스트 계정만 사용하고, 스크린샷에는 이메일과 개인 식별 정보를 가립니다.
 
 ## Android 기기 기록
 
@@ -22,12 +30,26 @@
 | 실제 Android 기기 1 |  | APK / AAB / Play internal | 미확인 | 미확인 | 미확인 | 미확인 | 미확인 | 대기 |
 | 실제 Android 기기 2 |  | APK / AAB / Play internal | 미확인 | 미확인 | 미확인 | 미확인 | 미확인 | 대기 |
 
+### Android 핵심 관찰
+
+- 하단 탭바와 safe area:
+- 외부 브라우저 또는 Custom Tab:
+- 공유 시트:
+- 가격 변동 가능 안내 표시:
+
 ## iOS 기기 기록
 
 | 기기 | OS 버전 | 설치 경로 | 홈/탭 | 상세/외부링크 | 찜/최근본 | 로그인/OAuth | 정책/권한 | 결과 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | iPhone Simulator |  | Xcode Run | 미확인 | 미확인 | 미확인 | 미확인 | 미확인 | 대기 |
 | 실제 iPhone |  | TestFlight / Xcode Run | 미확인 | 미확인 | 미확인 | 미확인 | 미확인 | 대기 |
+
+### iOS 핵심 관찰
+
+- safe area:
+- Safari View 또는 외부 브라우저:
+- 공유 시트:
+- OAuth Provider 복귀:
 
 ## 구매 링크 샘플 검수
 

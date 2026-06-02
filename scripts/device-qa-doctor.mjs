@@ -44,7 +44,35 @@ const requiredManualChecks = [
   "halindosa://auth/callback",
   "상위 노출 상품 10개",
   "커뮤니티 글, placeholder",
-  "Play Console 개인정보처리방침 URL"
+  "Play Console 개인정보처리방침 URL",
+  "MOBILE_UX_REPORT.md",
+  "하단 탭바",
+  "가격 변동 가능 안내"
+];
+const requiredRecordFields = [
+  "기준 Git 커밋",
+  "앱 버전",
+  "Android 빌드",
+  "iOS 빌드",
+  "상품 ID",
+  "실제 열린 도메인",
+  "남은 Critical Issue",
+  "테스트 계정",
+  "OAuth Provider",
+  "공유 시트",
+  "safe area",
+  "외부 브라우저",
+  "Play Console pre-launch report",
+  "App Store Connect processing"
+];
+const sensitiveDataWarnings = [
+  "주문번호",
+  "주소",
+  "결제 정보",
+  "비밀번호",
+  "인증 코드",
+  ".env",
+  "keystore"
 ];
 
 const missingChecklist = requiredChecklistSections.filter((section) => !checklist.includes(`## ${section}`));
@@ -56,8 +84,18 @@ if (missingRecord.length) fail(`Record template missing sections: ${missingRecor
 const missingManualChecks = requiredManualChecks.filter((snippet) => !checklist.includes(snippet));
 if (missingManualChecks.length) fail(`Checklist missing manual checks: ${missingManualChecks.join(", ")}`);
 
-if (!record.includes("기준 Git 커밋") || !record.includes("상품 ID") || !record.includes("실제 열린 도메인") || !record.includes("남은 Critical Issue")) {
-  fail("Record template should capture commit, product link samples, actual domains, and critical issue status.");
+const missingRecordFields = requiredRecordFields.filter((snippet) => !record.includes(snippet));
+if (missingRecordFields.length) {
+  fail(`Record template should capture launch-critical device evidence. Missing: ${missingRecordFields.join(", ")}`);
+}
+
+const missingSensitiveWarnings = sensitiveDataWarnings.filter((snippet) => !record.includes(snippet));
+if (missingSensitiveWarnings.length) {
+  fail(`Record template should warn against storing sensitive user/release data. Missing: ${missingSensitiveWarnings.join(", ")}`);
+}
+
+if (!checklist.includes("npm run test:mobile-ux") || !checklist.includes("MOBILE_UX_REPORT.md")) {
+  fail("Checklist should connect manual mobile checks to the automated mobile UX gate.");
 }
 
 if (!testPlan.includes("docs/device-qa-record-template.md")) {

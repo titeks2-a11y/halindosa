@@ -2682,7 +2682,7 @@ async function checkPolicyAndStoreDocs() {
     {
       name: "device qa record guard",
       file: "scripts/device-qa-doctor.mjs",
-      phrases: ["device QA", "Record template should capture commit", "docs/device-qa-record-template.md"]
+      phrases: ["device QA", "launch-critical device evidence", "sensitive user/release data", "docs/device-qa-record-template.md"]
     },
     {
       name: "privacy policy content",
@@ -2762,12 +2762,12 @@ async function checkPolicyAndStoreDocs() {
     {
       name: "device qa checklist content",
       file: "docs/device-qa-checklist.md",
-      phrases: ["Android 기기 확인", "iOS 기기 또는 Simulator 확인", "로그인과 계정 데이터", "구매 링크와 신고", "스토어 제출 직전 판정", "docs/device-qa-record-template.md"]
+      phrases: ["Android 기기 확인", "iOS 기기 또는 Simulator 확인", "로그인과 계정 데이터", "구매 링크와 신고", "스토어 제출 직전 판정", "docs/device-qa-record-template.md", "npm run test:mobile-ux", "MOBILE_UX_REPORT.md"]
     },
     {
       name: "device qa record template content",
       file: "docs/device-qa-record-template.md",
-      phrases: ["테스트 개요", "Android 기기 기록", "iOS 기기 기록", "구매 링크 샘플 검수", "남은 Critical Issue"]
+      phrases: ["테스트 개요", "Android 기기 기록", "iOS 기기 기록", "구매 링크 샘플 검수", "남은 Critical Issue", "기록 보안 원칙", "주문번호", "keystore"]
     },
     {
       name: "deployment env checklist content",
