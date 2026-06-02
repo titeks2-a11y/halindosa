@@ -53,6 +53,7 @@ async function checkPackage() {
     "device:qa:doctor",
     "env:doctor",
     "env:doctor:production",
+    "test:env",
     "feed:validate",
     "feed:production:doctor",
     "verify:links",
@@ -68,7 +69,7 @@ async function checkPackage() {
   const missing = requiredScripts.filter((script) => !pkg.scripts?.[script]);
 
   if (missing.length) fail("package scripts", `Missing scripts: ${missing.join(", ")}`);
-  else if (!pkg.scripts?.qa?.includes("verify:links") || !pkg.scripts?.qa?.includes("test:mobile-ux") || !harness.includes("test:mobile-ux") || !pkg.scripts?.["env:doctor:production"]?.includes("--production") || !pkg.scripts?.["qa:release"]?.includes("audit:commercial") || !pkg.scripts?.["qa:release"]?.includes("device:qa:doctor") || !pkg.scripts?.["qa:release"]?.includes("android:signing:doctor") || !pkg.scripts?.["qa:release"]?.includes("public:url:doctor") || !pkg.scripts?.["qa:release"]?.includes("feed:validate") || !pkg.scripts?.["qa:release"]?.includes("feed:production:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:metadata:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:assets:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:doctor") || !pkg.scripts?.["qa:release"]?.includes("perf:budget")) {
+  else if (!pkg.scripts?.qa?.includes("verify:links") || !pkg.scripts?.qa?.includes("test:mobile-ux") || !harness.includes("test:mobile-ux") || !pkg.scripts?.["env:doctor:production"]?.includes("--production") || !pkg.scripts?.["qa:release"]?.includes("audit:commercial") || !pkg.scripts?.["qa:release"]?.includes("test:env") || !pkg.scripts?.["qa:release"]?.includes("device:qa:doctor") || !pkg.scripts?.["qa:release"]?.includes("android:signing:doctor") || !pkg.scripts?.["qa:release"]?.includes("public:url:doctor") || !pkg.scripts?.["qa:release"]?.includes("feed:validate") || !pkg.scripts?.["qa:release"]?.includes("feed:production:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:metadata:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:assets:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:doctor") || !pkg.scripts?.["qa:release"]?.includes("perf:budget")) {
     fail("package scripts", "qa, harness, and qa:release should include mobile UX, commercial security audit, device QA doctor, Android signing doctor, public URL doctor, partner feed validator, production feed doctor, store metadata doctor, store asset doctor, store screenshot doctor, and performance budget before store submission.");
   } else {
     pass("package scripts", "Android, iOS, environment, mobile UX, commercial security, and performance release command flow is available.");
@@ -349,6 +350,7 @@ async function checkEnvExample() {
   }
 
   const envDoctor = await text("scripts/env-doctor.mjs");
+  const envDoctorTest = await text("scripts/test-env-doctor.mjs");
   if (
     !envDoctor.includes("isValidPublicUrl") ||
     !envDoctor.includes("--production") ||
@@ -362,6 +364,17 @@ async function checkEnvExample() {
     fail("env doctor format validation", "Environment doctor should validate HTTPS/public URLs, /auth/callback redirect path, app scheme, and support email format.");
   } else {
     pass("env doctor format validation", "Environment doctor validates HTTPS/public URLs, /auth/callback redirect path, app scheme, and support email format.");
+  }
+
+  if (
+    !envDoctorTest.includes("production rejects localhost site url") ||
+    !envDoctorTest.includes("production rejects mismatched auth callback origin") ||
+    !envDoctorTest.includes("production rejects unsafe app scheme") ||
+    !envDoctorTest.includes("Environment doctor tests passed")
+  ) {
+    fail("env doctor regression tests", "Environment doctor tests should cover localhost, callback origin mismatch, unsafe app scheme, and success output.");
+  } else {
+    pass("env doctor regression tests", "Environment doctor tests cover production URL, callback origin, and app scheme regressions.");
   }
 
   const dataModeMatch = env.match(/^DEAL_DATA_MODE=(.+)$/m);
@@ -2757,17 +2770,17 @@ async function checkPolicyAndStoreDocs() {
     {
       name: "release evidence content",
       file: "docs/release-evidence.md",
-      phrases: ["릴리즈 증빙", "최신 커밋", "Release AAB", "Harness report", "npm run harness", "npm run env:doctor:production", "npm run public:url:doctor", "Android signing doctor", "device QA doctor", "자동 검증 범위", "남은 수동 확인", "공개 개인정보처리방침/고객지원 URL"]
+      phrases: ["릴리즈 증빙", "최신 커밋", "Release AAB", "Harness report", "npm run harness", "npm run env:doctor:production", "npm run test:env", "npm run public:url:doctor", "Android signing doctor", "device QA doctor", "자동 검증 범위", "남은 수동 확인", "공개 개인정보처리방침/고객지원 URL"]
     },
     {
       name: "release checklist content",
       file: "docs/release-checklist.md",
-      phrases: ["npm run env:doctor:production", "npm run public:url:doctor", "public URL doctor", "공개 개인정보처리방침/고객지원 URL", "/privacy", "/support", "/sitemap.xml", "/robots.txt", "signed AAB"]
+      phrases: ["npm run env:doctor:production", "npm run test:env", "npm run public:url:doctor", "public URL doctor", "공개 개인정보처리방침/고객지원 URL", "/privacy", "/support", "/sitemap.xml", "/robots.txt", "signed AAB"]
     },
     {
       name: "launch day checklist content",
       file: "docs/launch-day-checklist.md",
-      phrases: ["제출 24시간 전", "npm run env:doctor:production", "npm run public:url:doctor", "개인정보처리방침/고객지원 공개 URL", "/sitemap.xml", "고객지원 공개 URL", "Play Console 제출", "App Store Connect 제출", "출시 당일 운영 순서", "출시 후 72시간"]
+      phrases: ["제출 24시간 전", "npm run test:env", "npm run env:doctor:production", "npm run public:url:doctor", "개인정보처리방침/고객지원 공개 URL", "/sitemap.xml", "고객지원 공개 URL", "Play Console 제출", "App Store Connect 제출", "출시 당일 운영 순서", "출시 후 72시간"]
     },
     {
       name: "store screenshot storyboard content",
@@ -2787,7 +2800,7 @@ async function checkPolicyAndStoreDocs() {
     {
       name: "deployment env checklist content",
       file: "docs/deployment-env-checklist.md",
-      phrases: ["npm run env:doctor", "node scripts/env-doctor.mjs --strict", "npm run env:doctor:production", "NEXT_PUBLIC_SITE_URL", "SUPABASE_SERVICE_ROLE_KEY", "DEAL_DATA_MODE", "npm run public:url:doctor", "공개 개인정보처리방침 URL"]
+      phrases: ["npm run env:doctor", "node scripts/env-doctor.mjs --strict", "npm run env:doctor:production", "npm run test:env", "NEXT_PUBLIC_SITE_URL", "SUPABASE_SERVICE_ROLE_KEY", "DEAL_DATA_MODE", "npm run public:url:doctor", "공개 개인정보처리방침 URL"]
     },
     {
       name: "store submission packet content",

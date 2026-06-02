@@ -4,6 +4,7 @@
 
 - [ ] `npm run qa:release` 성공 결과 보관
 - [ ] `npm run release:doctor` 성공 결과 보관
+- [ ] `npm run test:env` 성공 결과 보관
 - [ ] `npm run env:doctor:production` 성공 결과 보관
 - [ ] `npm run public:url:doctor` 성공 결과 보관
 - [ ] `/commercialization` 출시 준비 보드에서 구매 링크 확인율과 남은 링크 검수 수 확인

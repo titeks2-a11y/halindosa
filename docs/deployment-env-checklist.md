@@ -8,11 +8,13 @@
 npm run env:doctor
 node scripts/env-doctor.mjs --strict
 npm run env:doctor:production
+npm run test:env
 ```
 
 - `npm run env:doctor`: 현재 환경과 `.env.local`, `.env.production`, `.env`, `.env.example`을 읽어 누락/placeholder 값을 보여줍니다.
 - `--strict`: 운영 필수 값이 비어 있거나 placeholder면 실패 코드로 종료합니다. URL 형식, `/auth/callback` 경로, 앱 스킴, 고객지원 이메일 형식도 함께 확인하므로 배포 직전 CI나 로컬 최종 점검에 사용합니다.
 - `npm run env:doctor:production`: 스토어 제출 직전 공개 배포 환경 전용입니다. `localhost`와 `127.0.0.1`을 허용하지 않고, `NEXT_PUBLIC_SITE_URL`과 `NEXT_PUBLIC_AUTH_REDIRECT_URL`의 origin이 같은지 확인합니다.
+- `npm run test:env`: production env doctor가 공개 HTTPS URL은 통과시키고, localhost, OAuth origin 불일치, 위험한 앱 스킴은 실패시키는지 회귀 테스트합니다.
 
 ## 필수 공개 환경변수
 
@@ -61,6 +63,7 @@ Google, Kakao, Naver Provider 설정은 `docs/OAUTH_SETUP.md`와 `docs/DEEPLINK_
 - [ ] `npm run env:doctor` 결과에서 운영 필수 값이 모두 `OK`
 - [ ] `node scripts/env-doctor.mjs --strict` 성공
 - [ ] `npm run env:doctor:production` 성공
+- [ ] `npm run test:env` 성공
 - [ ] Supabase OAuth Provider Redirect URL과 앱 딥링크 테스트 완료
 - [ ] `npm run public:url:doctor`로 `/privacy`, `/support`, sitemap, robots, 스토어 제출 URL 문구 일관성 확인
 - [ ] 공개 개인정보처리방침 URL이 Play Console/App Store Connect에 입력됨

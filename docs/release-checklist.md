@@ -17,12 +17,13 @@
 - [x] `npm run device:qa:doctor`
 - [x] `npm run env:doctor`
 - [ ] `npm run env:doctor:production`은 공개 운영 환경변수 입력 후 실행
+- [x] `npm run test:env`
 - [x] `npm run public:url:doctor`
 - [x] `npm run store:metadata:doctor`
 - [x] `npm run store:assets:doctor`
 - [x] `npm run perf:budget`
 - [x] `npm run release:evidence`
-- [x] `npm run qa:release`는 `audit:commercial`, 실기기 QA 기록 양식 점검, Android signing doctor, public URL doctor, 스토어 메타데이터/이미지/스크린샷 점검, `perf:budget`, Android/iOS sync, release doctor까지 포함
+- [x] `npm run qa:release`는 `audit:commercial`, env doctor 회귀 테스트, 실기기 QA 기록 양식 점검, Android signing doctor, public URL doctor, 스토어 메타데이터/이미지/스크린샷 점검, `perf:budget`, Android/iOS sync, release doctor까지 포함
 
 ## Android 설정
 
@@ -102,6 +103,7 @@
 - [ ] 공개 도메인에서 `/privacy`, `/support`, `/sitemap.xml`, `/robots.txt` 접근 확인
 - [ ] `docs/deployment-env-checklist.md` 기준 운영 환경변수 strict 점검
 - [ ] `npm run env:doctor:production`으로 공개 HTTPS URL, 동일 origin OAuth callback, 운영 Supabase 값 확인
+- [ ] `npm run test:env`로 localhost/OAuth origin 불일치/위험한 앱 스킴 차단 회귀 테스트 확인
 
 ## 현재 확인된 산출물
 
