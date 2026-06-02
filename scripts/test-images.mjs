@@ -21,6 +21,7 @@ const dealLines = mockDeals.split(/\r?\n/).filter((line) => /deal\("d\d+"/.test(
 let dealsWithoutExplicitImage = 0;
 const hasCategoryFallback = /categoryFallbackImages/.test(mockDeals) && /displayImageUrl\s*=/.test(mockDeals);
 const fallbackCategoryCounts = new Map();
+const fallbackDealBacklog = [];
 const categoryFallbackAssets = [...mockDeals.matchAll(/"[^"]+":\s*"(?<asset>\/deal-images\/category-[^"]+\.svg)"/g)].map((match) => match.groups?.asset).filter(Boolean);
 const verifiedUrlsById = new Map(
   [...verifiedPurchaseLinks.matchAll(/(d\d+):\s*\{[\s\S]*?url:\s*"([^"]+)"/g)].map((match) => [match[1], match[2]])
@@ -58,6 +59,8 @@ function deriveProductImageUrl(value) {
 for (const line of dealLines) {
   const quotedValues = [...line.matchAll(/"([^"]*)"/g)].map((match) => match[1]);
   const id = quotedValues[0] ?? "";
+  const mall = quotedValues[1] ?? "";
+  const title = quotedValues[2] ?? "";
   const category = quotedValues[3] ?? "기타";
   const imageCandidates = quotedValues.filter((value) => {
     const lower = value.toLowerCase();
@@ -72,6 +75,13 @@ for (const line of dealLines) {
   if (!imageCandidates.length) {
     dealsWithoutExplicitImage += 1;
     fallbackCategoryCounts.set(category, (fallbackCategoryCounts.get(category) ?? 0) + 1);
+    fallbackDealBacklog.push({
+      id,
+      mall,
+      title,
+      category,
+      imageSearchUrl: `https://search.shopping.naver.com/search/all?query=${encodeURIComponent(`${mall} ${title} 상품 이미지`)}`
+    });
   }
 
   for (const image of imageCandidates) {
@@ -164,6 +174,14 @@ ${localImages.size ? [...localImages].sort().map((image) => `- ${image}`).join("
 ## Fallback By Category
 
 ${fallbackCategoryCounts.size ? [...fallbackCategoryCounts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).map(([category, count]) => `- ${category}: ${count}`).join("\n") : "- fallback 상품 없음"}
+
+## Image Backlog
+
+운영자는 아래 상품부터 판매처 상세 페이지 또는 공식 제휴 피드의 대표 이미지를 확인해 \`imageUrl\` 또는 \`thumbnail\`에 보강합니다. 카테고리 fallback은 화면 안정장치이며, 신규 운영 피드 ready 조건으로 보지 않습니다.
+
+| ID | 판매처 | 카테고리 | 상품명 | 이미지 후보 검색 |
+| --- | --- | --- | --- | --- |
+${fallbackDealBacklog.length ? fallbackDealBacklog.slice(0, 20).map((deal) => `| ${deal.id} | ${deal.mall} | ${deal.category} | ${deal.title.replace(/\|/g, "/")} | [검색](${deal.imageSearchUrl}) |`).join("\n") : "| - | - | - | fallback 상품 없음 | - |"}
 
 ## Issues
 

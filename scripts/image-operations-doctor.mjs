@@ -11,6 +11,7 @@ const imageResolver = readFileSync(join(root, "lib", "deals", "imageResolver.ts"
 const mockDeals = readFileSync(join(root, "data", "mockDeals.ts"), "utf8");
 const partnerFeedValidator = readFileSync(join(root, "scripts", "validate-partner-feed.mjs"), "utf8");
 const imageTest = readFileSync(join(root, "scripts", "test-images.mjs"), "utf8");
+const imageQualityReport = readFileSync(join(root, "IMAGE_QUALITY_REPORT.md"), "utf8");
 const smoke = readFileSync(join(root, "scripts", "smoke.mjs"), "utf8");
 const packageJson = JSON.parse(readFileSync(join(root, "package.json"), "utf8"));
 
@@ -86,6 +87,16 @@ const checks = [
     message: "명시 실상품 이미지 커버리지는 현재 달성한 25% 이상 기준을 자동 검사해야 합니다."
   },
   {
+    name: "image backlog report",
+    ok:
+      imageTest.includes("fallbackDealBacklog") &&
+      imageTest.includes("Image Backlog") &&
+      imageTest.includes("imageSearchUrl") &&
+      imageQualityReport.includes("## Image Backlog") &&
+      imageQualityReport.includes("이미지 후보 검색"),
+    message: "이미지 품질 리포트는 fallback 상품별 보강 후보와 검색 URL을 남겨야 합니다."
+  },
+  {
     name: "admin image operations queue",
     ok:
       adminPage.includes("상품 이미지 보강 큐") &&
@@ -134,6 +145,7 @@ ${checks.map((check) => `| ${check.name} | ${check.ok ? "PASS" : "FAIL"} | ${che
 - 상품 이미지는 카테고리 fallback으로 화면 깨짐을 막되, 운영 품질 지표에서는 실상품 이미지와 fallback 이미지를 분리합니다.
 - 운영자는 관리자 화면에서 카테고리별 보강 우선순위와 클릭 상위 보강 후보를 확인합니다.
 - 운영자는 /api/admin/image-queue JSON 또는 CSV로 이미지 보강 후보를 내려받습니다.
+- 운영자는 IMAGE_QUALITY_REPORT.md의 Image Backlog에서 fallback 상품별 이미지 후보 검색 URL을 확인합니다.
 - 신규 파트너 피드 또는 공식 API 연결 시 imageUrl/thumbnail 보강을 링크 검수 다음 우선순위로 처리합니다.
 `;
 

@@ -1229,13 +1229,17 @@ async function checkUiAccessibility() {
     !packageJson.includes("npm run test:images") ||
     !packageJson.includes("npm run image:operations:doctor") ||
     !imageTest.includes("minimumExplicitImageRate = 25") ||
+    !imageTest.includes("fallbackDealBacklog") ||
     !imageOperationsDoctor.includes("minimum explicit image gate") ||
+    !imageOperationsDoctor.includes("image backlog report") ||
     !imageQualityReport.includes("| 명시 이미지 최소 기준 | 25% |") ||
+    !imageQualityReport.includes("## Image Backlog") ||
+    !imageQualityReport.includes("이미지 후보 검색") ||
     !harnessReport.includes("Image quality passed: 39/140 deals have explicit images.")
   ) {
-    fail("deal image quality coverage gate", "Release QA should enforce the 25% explicit product image floor and record the current 39/140 coverage evidence.");
+    fail("deal image quality coverage gate", "Release QA should enforce the 25% explicit product image floor, record current coverage evidence, and keep an actionable fallback image backlog.");
   } else {
-    pass("deal image quality coverage gate", "QA, image operations doctor, and release evidence enforce the 25% explicit product image floor with 39/140 current coverage.");
+    pass("deal image quality coverage gate", "QA, image operations doctor, and release evidence enforce the 25% explicit product image floor with 39/140 current coverage and an actionable fallback image backlog.");
   }
 
   if (
