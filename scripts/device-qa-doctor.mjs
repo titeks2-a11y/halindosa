@@ -57,6 +57,9 @@ const requiredManualChecks = [
   "Play Console 개인정보처리방침 URL",
   "MOBILE_UX_REPORT.md",
   "하단 탭바",
+  "오늘 바로 볼 특가",
+  "옆으로 넘기기",
+  "오른쪽 fade",
   "가격 변동 가능 안내"
 ];
 const requiredRecordFields = [
@@ -71,6 +74,8 @@ const requiredRecordFields = [
   "OAuth Provider",
   "공유 시트",
   "safe area",
+  "오늘 바로 볼 특가 가로 레일",
+  "옆으로 넘기기",
   "외부 브라우저",
   "Play Console pre-launch report",
   "App Store Connect processing"
@@ -116,6 +121,7 @@ const requiredManifestScriptSnippets = [
   "Manual Check Matrix",
   "Purchase Link Samples",
   "Manual Work That Must Not Be Faked",
+  "Home deal rail touch scroll and fade cue",
   "android/app/build/outputs/apk/debug/app-debug.apk",
   "android/app/build/outputs/bundle/release/app-release.aab",
   "STORE_SCREENSHOT_MANIFEST.json",
@@ -153,6 +159,7 @@ const requiredManifestMdSnippets = [
   "Build And Evidence",
   "Required Device Targets",
   "Manual Check Matrix",
+  "Home deal rail touch scroll and fade cue",
   "Purchase Link Samples",
   "Sensitive Data Rule",
   "Manual Work That Must Not Be Faked",

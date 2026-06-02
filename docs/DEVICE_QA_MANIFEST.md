@@ -9,7 +9,7 @@ This manifest turns the launch-device checklist into concrete targets, commands,
 | Item | Value |
 | --- | --- |
 | Branch | `codex/12h-product-ux-growth-hardening` |
-| Commit | `ce10d4e` |
+| Commit | `c1e8577` |
 | App version | `1.0.0` |
 | Record template | `docs/device-qa-record-template.md` |
 | Checklist | `docs/device-qa-checklist.md` |
@@ -20,8 +20,8 @@ This manifest turns the launch-device checklist into concrete targets, commands,
 | --- | --- | ---: |
 | `android/app/build/outputs/apk/debug/app-debug.apk` | present | 10610182 |
 | `android/app/build/outputs/bundle/release/app-release.aab` | present | 6500073 |
-| `MOBILE_UX_REPORT.md` | present | 2118 |
-| `docs/release-evidence.md` | present | 5280 |
+| `MOBILE_UX_REPORT.md` | present | 2858 |
+| `docs/release-evidence.md` | present | 6389 |
 | `STORE_SCREENSHOT_MANIFEST.json` | present | 4818 |
 | `docs/STORE_SCREENSHOT_MANIFEST.md` | present | 4408 |
 
@@ -46,6 +46,7 @@ This manifest turns the launch-device checklist into concrete targets, commands,
 | Area | Android Emulator | Real Android | iOS Simulator/TestFlight |
 | --- | --- | --- | --- |
 | Safe area and bottom tabs | Required | Required | Required |
+| Home deal rail touch scroll and fade cue | Required | Required | Required |
 | Purchase link opens external browser | Required | Required | Required |
 | Native share sheet | Required | Required | Required |
 | Favorites and recent persistence | Required | Required | Required |

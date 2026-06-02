@@ -129,6 +129,7 @@ const manifest = {
   deviceTargets,
   requiredManualAreas: [
     "Android safe area",
+    "Home deal rail touch scroll and fade cue",
     "Purchase link external browser",
     "Share sheet",
     "Favorites and recent persistence",
@@ -181,6 +182,7 @@ ${deviceTargets.map((target) => `| ${target.label} | ${target.installPath} | ${t
 | Area | Android Emulator | Real Android | iOS Simulator/TestFlight |
 | --- | --- | --- | --- |
 | Safe area and bottom tabs | Required | Required | Required |
+| Home deal rail touch scroll and fade cue | Required | Required | Required |
 | Purchase link opens external browser | Required | Required | Required |
 | Native share sheet | Required | Required | Required |
 | Favorites and recent persistence | Required | Required | Required |

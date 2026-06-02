@@ -8,6 +8,7 @@
 - 최신 커밋 기준으로 `npm run qa:release`와 `npm run release:doctor`가 통과했는지 확인
 - `npm run device:qa:manifest`를 실행하고 `docs/DEVICE_QA_MANIFEST.md`의 기기 대상, 빌드 산출물, 구매 링크 샘플을 이번 QA 범위로 사용
 - 모바일 첫 화면 회귀는 `npm run test:mobile-ux`와 `MOBILE_UX_REPORT.md` 10개 게이트가 통과했는지 확인
+- 홈 `오늘 바로 볼 특가` 가로 레일은 `옆으로 넘기기` 안내, 오른쪽 fade, 카드 단위 스냅이 실제 터치 스크롤에서도 자연스러운지 확인
 - Android는 Android Studio에서 `android` 폴더를 열고 Gradle Sync 완료
 - iOS는 macOS/Xcode 환경에서 `ios/App` 프로젝트를 열고 Signing Team 선택
 - 테스트 계정 이메일, Google/Kakao/Naver OAuth 테스트 계정, Supabase 프로젝트 URL 준비
@@ -18,6 +19,7 @@
 - [ ] 앱 설치 후 첫 실행에서 스플래시와 홈 화면이 자연스럽게 이어진다.
 - [ ] 하단 탭바가 제스처 영역, 내비게이션 바, safe area와 겹치지 않는다.
 - [ ] 홈의 오늘 볼 특가, 구매 전 체크, 쇼핑몰 필터, 최근 본 특가 영역이 작은 화면에서 잘리지 않는다.
+- [ ] 홈 `오늘 바로 볼 특가` 가로 레일이 옆으로 자연스럽게 넘어가고, 오른쪽 fade와 `옆으로 넘기기` 안내가 상품 CTA를 가리지 않는다.
 - [ ] 상품 카드의 가격 변동 가능 안내, 쇼핑몰명, 업데이트 시간이 작은 화면에서도 읽힌다.
 - [ ] 상품 상세에서 구매 전 판매처 확인 버튼을 누르면 외부 브라우저 또는 Custom Tab이 열린다.
 - [ ] 뒤로가기 버튼으로 외부 브라우저에서 앱으로 돌아왔을 때 홈/상세 상태가 어색하게 초기화되지 않는다.
