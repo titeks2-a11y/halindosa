@@ -1,8 +1,8 @@
 {
   "generatedBy": "npm run store:manual:checklist",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "e3b90f3",
-  "workingTree": "M DEVICE_QA_REPORT.md;  M STORE_PACKET_REPORT.md;  M STORE_SCREENSHOTS_REPORT.md;  M docs/DEVICE_QA_REPORT.md;  M docs/STORE_PACKET_REPORT.md;  M docs/STORE_SCREENSHOTS_REPORT.md",
+  "commit": "aa8d097",
+  "workingTree": "M DEVICE_QA_REPORT.md;  M STORE_PACKET_REPORT.md;  M docs/DEVICE_QA_REPORT.md;  M docs/STORE_PACKET_REPORT.md;  M docs/STORE_SCREENSHOTS_REPORT.md",
   "appName": "할인도사",
   "version": "1.0.0",
   "packageName": "com.halindosa.app",
@@ -101,17 +101,17 @@
     {
       "path": "docs/STORE_CONSOLE_FIELDS.md",
       "status": "present",
-      "bytes": 3896
+      "bytes": 3873
     },
     {
       "path": "docs/STORE_HANDOFF_REPORT.md",
       "status": "present",
-      "bytes": 4721
+      "bytes": 4746
     },
     {
       "path": "docs/STORE_SUBMISSION_REPORT.md",
       "status": "present",
-      "bytes": 5003
+      "bytes": 4835
     },
     {
       "path": "docs/DEVICE_QA_MANIFEST.md",
@@ -126,12 +126,12 @@
     {
       "path": "docs/PUBLIC_URL_REPORT.md",
       "status": "present",
-      "bytes": 2637
+      "bytes": 2456
     },
     {
       "path": "docs/release-evidence.md",
       "status": "present",
-      "bytes": 6330
+      "bytes": 6179
     }
   ],
   "manualWorkThatMustNotBeFaked": [

@@ -4,9 +4,9 @@
 
 ## 기본 정보
 
-- 생성 시각: 2026-06-02T19:31:32.660Z
+- 생성 시각: 2026-06-02T19:34:58.935Z
 - Git 브랜치: codex/12h-product-ux-growth-hardening
-- 최신 커밋: e3b90f3
+- 최신 커밋: aa8d097
 - Git 상태: M DEVICE_QA_REPORT.md;  M KNOWN_ISSUES.md;  M PUBLIC_URL_REPORT.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_PACKET_REPORT.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M docs/DEVICE_QA_REPORT.md;  M docs/KNOWN_ISSUES.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_PACKET_REPORT.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md
 - 패키지 버전: 1.0.0
 - 앱 이름: 할인도사
@@ -32,7 +32,7 @@
 | Store asset QA report | `docs/STORE_ASSETS_REPORT.md` | 1KB |
 | Device QA execution manifest | `docs/DEVICE_QA_MANIFEST.md` | 4KB |
 | Device QA execution manifest JSON | `DEVICE_QA_MANIFEST.json` | 6KB |
-| Device QA readiness report | `docs/DEVICE_QA_REPORT.md` | 4KB |
+| Device QA readiness report | `docs/DEVICE_QA_REPORT.md` | 3KB |
 | Store submission readiness report | `docs/STORE_SUBMISSION_REPORT.md` | 5KB |
 | Store submission packet QA report | `docs/STORE_PACKET_REPORT.md` | 5KB |
 | Store console fields manifest | `docs/STORE_CONSOLE_FIELDS.md` | 4KB |
@@ -40,7 +40,7 @@
 | Store manual submission checklist | `docs/STORE_MANUAL_CHECKLIST.md` | 4KB |
 | Store manual submission checklist JSON | `STORE_MANUAL_CHECKLIST.json` | 5KB |
 | Store launch handoff report | `docs/STORE_HANDOFF_REPORT.md` | 5KB |
-| Release notes | `docs/RELEASE_NOTES.md` | 5KB |
+| Release notes | `docs/RELEASE_NOTES.md` | 4KB |
 | Release notes JSON | `RELEASE_NOTES.json` | 5KB |
 | Support playbook | `docs/SUPPORT_PLAYBOOK.md` | 6KB |
 | Support playbook JSON | `SUPPORT_PLAYBOOK.json` | 5KB |
