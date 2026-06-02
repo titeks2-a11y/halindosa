@@ -32,6 +32,9 @@
 npm install
 npm run env:doctor
 node scripts/env-doctor.mjs --strict
+npm run env:doctor:production
+npm run test:env
+npm run public:url:doctor
 npm run device:qa:doctor
 npm run store:metadata:doctor
 npm run qa:release

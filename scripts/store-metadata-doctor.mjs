@@ -71,6 +71,9 @@ try {
   assert(packet.includes("com.halindosa.app"), "Submission packet should include package/bundle id.");
   assert(packet.includes("Play Console 복사 입력 블록"), "Submission packet should include Play Console copy-paste blocks.");
   assert(packet.includes("App Store Connect 복사 입력 블록"), "Submission packet should include App Store Connect copy-paste blocks.");
+  assert(packet.includes("npm run env:doctor:production"), "Submission packet should include production env doctor before store submission.");
+  assert(packet.includes("npm run test:env"), "Submission packet should include env doctor regression tests before store submission.");
+  assert(packet.includes("npm run public:url:doctor"), "Submission packet should include public URL doctor before store submission.");
   assert(packet.includes("https://halindosa.com/privacy") && packet.includes("https://halindosa.com/support"), "Submission packet should include production privacy/support URL placeholders.");
   assert(packet.includes("테스트 계정은 필요하지 않습니다") && packet.includes("No demo account is required"), "Submission packet should include no-demo-account reviewer copy.");
   assert(packet.includes("직접 상품을 판매하거나 결제를 처리하지 않습니다"), "Submission packet should include external seller/payment review copy.");
