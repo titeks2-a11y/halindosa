@@ -1,7 +1,7 @@
 {
   "generatedBy": "npm run store:manual:checklist",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "dfb4ac4",
+  "commit": "3694aae",
   "workingTree": "clean",
   "appName": "할인도사",
   "version": "1.0.0",
@@ -106,7 +106,7 @@
     {
       "path": "docs/STORE_HANDOFF_REPORT.md",
       "status": "present",
-      "bytes": 4304
+      "bytes": 4347
     },
     {
       "path": "docs/STORE_SUBMISSION_REPORT.md",
@@ -131,7 +131,7 @@
     {
       "path": "docs/release-evidence.md",
       "status": "present",
-      "bytes": 5809
+      "bytes": 5919
     }
   ],
   "manualWorkThatMustNotBeFaked": [
