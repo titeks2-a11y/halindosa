@@ -13,6 +13,7 @@ const files = {
   detail: read("components/DealDetailActions.tsx"),
   favorites: read("app/favorites/page.tsx"),
   freeBenefits: read("components/FreeBenefitsClient.tsx"),
+  quickDealCard: read("components/QuickDealCard.tsx"),
   redirectUrl: read("lib/redirectUrl.ts"),
   goRoute: read("app/go/[id]/route.ts"),
   redirectRoute: read("app/api/redirect/[id]/route.ts")
@@ -44,6 +45,9 @@ for (const [name, body] of Object.entries({
 
 requireSnippet("redirectUrl", files.redirectUrl, "const path = `/go/${dealId}`", "redirect URL builder must route purchases through /go/[dealId].");
 requireSnippet("redirectUrl", files.redirectUrl, "resolveDealDestinationUrl", "native fallback must resolve the safe final purchase destination.");
+requireSnippet("quickDealCard", files.quickDealCard, "onClick={() => linkAvailable && onOpenDeal(deal)}", "quick deal purchase CTA must delegate to the tracked purchase opener instead of using direct href navigation.");
+requireSnippet("quickDealCard", files.quickDealCard, "disabled={!linkAvailable}", "quick deal purchase CTA must disable unsafe or unavailable purchase links.");
+requireSnippet("quickDealCard", files.quickDealCard, "판매처 이동 전 확인", "quick deal purchase CTA should describe the seller-confirmation step to assistive technologies.");
 requireSnippet("goRoute", files.goRoute, "recordDealClick", "/go/[id] must record deal clicks.");
 requireSnippet("goRoute", files.goRoute, "buildOutboundUrl", "/go/[id] must resolve outbound purchase URLs server-side.");
 requireSnippet("redirectRoute", files.redirectRoute, "302", "legacy redirect route should still return 302 for valid purchase links.");
@@ -56,5 +60,6 @@ if (issues.length) {
 
 console.log("Purchase navigation doctor passed.");
 console.log("- Home, detail, favorites, and free-benefits purchase actions use /go tracking.");
+console.log("- Quick deal card purchase CTA delegates to tracked purchase opening and disables unavailable links.");
 console.log("- Web purchase actions open _blank with noopener,noreferrer.");
 console.log("- Native purchase actions use Capacitor Browser with buildNativeSafeDealUrl.");

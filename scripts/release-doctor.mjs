@@ -1051,6 +1051,9 @@ async function checkSearchAndPurchaseFlow() {
     !purchaseNavigationDoctor.includes("window.open(redirectUrl") ||
     !purchaseNavigationDoctor.includes("buildNativeSafeDealUrl") ||
     !purchaseNavigationDoctor.includes("Browser.open") ||
+    !purchaseNavigationDoctor.includes("quickDealCard") ||
+    !purchaseNavigationDoctor.includes("disabled={!linkAvailable}") ||
+    !purchaseNavigationDoctor.includes("판매처 이동 전 확인") ||
     !detailNavigationDoctor.includes("Detail navigation doctor passed") ||
     !detailNavigationDoctor.includes('target="_blank"') ||
     !detailNavigationDoctor.includes('rel="noopener noreferrer"') ||
