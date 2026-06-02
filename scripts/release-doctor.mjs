@@ -99,10 +99,15 @@ async function checkPackage() {
   if (versionIssues.length) fail("release version alignment", versionIssues.join("; "));
   else pass("release version alignment", `Web, lockfile, Android, and iOS versions are aligned at ${pkg.version}.`);
 
-  if (!audit.includes("total > 0") || !audit.includes("All npm audit vulnerabilities must be resolved before commercial deployment.")) {
-    fail("commercial audit zero-vulnerability gate", "audit:commercial should fail when any npm audit vulnerability remains.");
+  if (
+    !audit.includes("total > 0") ||
+    !audit.includes("All npm audit vulnerabilities must be resolved before commercial deployment.") ||
+    !audit.includes("AUDIT_REPORT.md") ||
+    !audit.includes("docs")
+  ) {
+    fail("commercial audit zero-vulnerability gate", "audit:commercial should fail when any npm audit vulnerability remains and write non-secret audit reports.");
   } else {
-    pass("commercial audit zero-vulnerability gate", "audit:commercial requires npm audit total vulnerabilities to be 0.");
+    pass("commercial audit zero-vulnerability gate", "audit:commercial requires npm audit total vulnerabilities to be 0 and writes non-secret audit reports.");
   }
 }
 
@@ -126,6 +131,8 @@ async function checkCiWorkflow() {
     "npm run release:doctor",
     "actions/upload-artifact@v4",
     "halindosa-verification-reports",
+    "AUDIT_REPORT.md",
+    "docs/AUDIT_REPORT.md",
     "ENV_DOCTOR_REPORT.md",
     "docs/ENV_DOCTOR_REPORT.md",
     "DEVICE_QA_REPORT.md",
@@ -133,7 +140,7 @@ async function checkCiWorkflow() {
     "docs/release-evidence.md"
   ];
   const missingWorkflowSnippets = requiredWorkflowSnippets.filter((snippet) => !workflow.includes(snippet));
-  const requiredRunbookSnippets = ["codex/**", "npm run test:env", "ENV_DOCTOR_REPORT.md", "npm run device:qa:report", "DEVICE_QA_REPORT.md", "npm run public:url:doctor", "npm run harness", "npm run release:doctor", "halindosa-verification-reports"];
+  const requiredRunbookSnippets = ["codex/**", "AUDIT_REPORT.md", "npm run test:env", "ENV_DOCTOR_REPORT.md", "npm run device:qa:report", "DEVICE_QA_REPORT.md", "npm run public:url:doctor", "npm run harness", "npm run release:doctor", "halindosa-verification-reports"];
   const missingRunbookSnippets = requiredRunbookSnippets.filter((snippet) => !runbook.includes(snippet));
 
   if (missingWorkflowSnippets.length || missingRunbookSnippets.length) {

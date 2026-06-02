@@ -1,4 +1,6 @@
 import { spawnSync } from "node:child_process";
+import { mkdirSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
 
 const result =
   process.platform === "win32"
@@ -12,11 +14,32 @@ if (!output) {
   process.exit(1);
 }
 
-const report = JSON.parse(output);
-const vulnerabilities = report.metadata?.vulnerabilities ?? {};
+const auditJson = JSON.parse(output);
+const vulnerabilities = auditJson.metadata?.vulnerabilities ?? {};
 const high = vulnerabilities.high ?? 0;
 const critical = vulnerabilities.critical ?? 0;
 const total = vulnerabilities.total ?? 0;
+const auditReport = [
+  "# Commercial Audit Report",
+  "",
+  "This report records the non-secret npm audit summary used before commercial deployment.",
+  "",
+  "| Severity | Count |",
+  "| --- | ---: |",
+  `| critical | ${critical} |`,
+  `| high | ${high} |`,
+  `| moderate | ${vulnerabilities.moderate ?? 0} |`,
+  `| low | ${vulnerabilities.low ?? 0} |`,
+  `| info | ${vulnerabilities.info ?? 0} |`,
+  `| total | ${total} |`,
+  "",
+  total === 0 ? "Status: PASS - no npm audit vulnerabilities remain." : "Status: FAIL - resolve npm audit vulnerabilities before commercial deployment.",
+  ""
+].join("\n");
+
+writeFileSync(join(process.cwd(), "AUDIT_REPORT.md"), auditReport, "utf8");
+mkdirSync(join(process.cwd(), "docs"), { recursive: true });
+writeFileSync(join(process.cwd(), "docs", "AUDIT_REPORT.md"), auditReport, "utf8");
 
 console.log(`Audit summary: total=${total}, high=${high}, critical=${critical}`);
 

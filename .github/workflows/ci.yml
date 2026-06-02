@@ -50,6 +50,7 @@ jobs:
           if-no-files-found: ignore
           path: |
             HARNESS_REPORT.md
+            AUDIT_REPORT.md
             EXTERNAL_LINK_REPORT.md
             ENV_DOCTOR_REPORT.md
             DEVICE_QA_REPORT.md
@@ -61,6 +62,7 @@ jobs:
             PERFORMANCE_REPORT.md
             SEARCH_REPORT.md
             docs/HARNESS_REPORT.md
+            docs/AUDIT_REPORT.md
             docs/ENV_DOCTOR_REPORT.md
             docs/DEVICE_QA_REPORT.md
             docs/PERFORMANCE_REPORT.md

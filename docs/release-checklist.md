@@ -114,6 +114,7 @@
 - Roadmap: `docs/roadmap.md`
 - Store asset guide: `docs/store-assets-guide.md`
 - Release evidence: `docs/release-evidence.md`
+- Commercial audit report: `docs/AUDIT_REPORT.md`
 - Device QA readiness report: `docs/DEVICE_QA_REPORT.md`
 - Store submission packet: `docs/store-submission-packet.md`
 - Store review notes: `docs/store-review-notes.md`
