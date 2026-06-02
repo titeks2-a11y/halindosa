@@ -20,11 +20,13 @@ This report verifies that the store submission packet points to the expected non
 | `docs/STORE_METADATA_REPORT.md` | present | referenced |
 | `docs/STORE_ASSETS_REPORT.md` | present | referenced |
 | `docs/STORE_SCREENSHOTS_REPORT.md` | present | referenced |
+| `docs/STORE_SCREENSHOT_MANIFEST.md` | present | referenced |
 | `docs/STORE_SUBMISSION_REPORT.md` | present | referenced |
 | `android/app/build/outputs/apk/debug/app-debug.apk` | present | referenced |
 | `android/app/build/outputs/bundle/release/app-release.aab` | present | referenced |
 | `assets/store/play-store-icon-512.png` | present | referenced |
 | `assets/store/feature-graphic-1024x500.png` | present | referenced |
+| `STORE_SCREENSHOT_MANIFEST.json` | present | referenced |
 | `ios/App/App/PrivacyInfo.xcprivacy` | present | referenced |
 
 ## Command References
@@ -40,6 +42,7 @@ This report verifies that the store submission packet points to the expected non
 | `npm run device:qa:report` | referenced |
 | `npm run store:metadata:doctor` | referenced |
 | `npm run store:assets:doctor` | referenced |
+| `npm run store:screenshots:manifest` | referenced |
 | `npm run store:screenshots:doctor` | referenced |
 | `npm run store:submission:report` | referenced |
 | `npm run qa:release` | referenced |

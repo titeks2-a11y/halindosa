@@ -1,0 +1,143 @@
+{
+  "generatedBy": "npm run store:screenshots:manifest",
+  "previewBoard": "/store-preview",
+  "destinationDirectory": "assets/store/screenshots",
+  "requiredScenes": 6,
+  "viewports": [
+    {
+      "platform": "Play Store phone",
+      "width": 1080,
+      "height": 1920,
+      "note": "Android Emulator 또는 실제 기기에서 세로 화면으로 촬영"
+    },
+    {
+      "platform": "App Store iPhone 6.7",
+      "width": 1290,
+      "height": 2796,
+      "note": "iPhone 15 Pro Max 계열 Simulator 또는 실제 기기 기준"
+    }
+  ],
+  "scenes": [
+    {
+      "order": 1,
+      "id": "home",
+      "title": "오늘 먼저 볼 특가",
+      "route": "/",
+      "caption": "검증된 구매처와 인기 특가를 첫 화면에서 빠르게 확인",
+      "focus": [
+        "오늘의 특가",
+        "인기 TOP10",
+        "구매 전 확인 안내"
+      ],
+      "checklist": [
+        "내부 점수 노출 없음",
+        "과장된 가격 보장 표현 없음",
+        "첫 카드 이미지가 잘리지 않음"
+      ],
+      "playFileName": "01-home-play-1080x1920.png",
+      "appStoreFileName": "01-home-appstore-1290x2796.png"
+    },
+    {
+      "order": 2,
+      "id": "search",
+      "title": "검색과 필터",
+      "route": "/?q=%EC%83%88%EC%9A%B0%EA%B9%A1&sort=discount&verifiedOnly=true",
+      "caption": "원하는 상품, 판매처, 조건을 바로 좁혀보는 탐색 화면",
+      "focus": [
+        "검색창",
+        "정렬",
+        "구매처 확인 필터"
+      ],
+      "checklist": [
+        "검색어가 자연스럽게 보임",
+        "필터 칩 줄바꿈 깨짐 없음",
+        "결과 없음 상태가 아님"
+      ],
+      "playFileName": "02-search-play-1080x1920.png",
+      "appStoreFileName": "02-search-appstore-1290x2796.png"
+    },
+    {
+      "order": 3,
+      "id": "detail",
+      "title": "구매 전 상세 확인",
+      "route": "/deals/d014",
+      "caption": "가격 기준 시점, 배송, 유의사항, 판매처 이동 전 확인",
+      "focus": [
+        "상품 이미지",
+        "가격 정보",
+        "구매 전 10초 체크"
+      ],
+      "checklist": [
+        "판매처 이동 버튼이 보임",
+        "개인정보나 결제 화면 없음",
+        "예정 도메인 안내가 보임"
+      ],
+      "playFileName": "03-detail-play-1080x1920.png",
+      "appStoreFileName": "03-detail-appstore-1290x2796.png"
+    },
+    {
+      "order": 4,
+      "id": "favorites",
+      "title": "관심 특가 저장",
+      "route": "/favorites",
+      "caption": "찜한 특가를 다시 비교하고 정렬하는 화면",
+      "focus": [
+        "찜 목록",
+        "저장 상품 정렬",
+        "구매 링크 확인 특가"
+      ],
+      "checklist": [
+        "빈 상태도 어색하지 않음",
+        "로그인 강제처럼 보이지 않음",
+        "하단 탭이 잘리지 않음"
+      ],
+      "playFileName": "04-favorites-play-1080x1920.png",
+      "appStoreFileName": "04-favorites-appstore-1290x2796.png"
+    },
+    {
+      "order": 5,
+      "id": "notifications",
+      "title": "마감임박과 무료배송",
+      "route": "/notifications",
+      "caption": "권한 요청 전에도 앱 안에서 확인 가능한 알림 센터",
+      "focus": [
+        "마감임박",
+        "신규 특가",
+        "무료배송 알림"
+      ],
+      "checklist": [
+        "실제 푸시 발송처럼 오해되지 않음",
+        "알림 카드 간격 안정",
+        "권한 요청 버튼 없음"
+      ],
+      "playFileName": "05-notifications-play-1080x1920.png",
+      "appStoreFileName": "05-notifications-appstore-1290x2796.png"
+    },
+    {
+      "order": 6,
+      "id": "mypage",
+      "title": "정책과 설정",
+      "route": "/mypage",
+      "caption": "계정, 기기 데이터, 정책, 고객센터를 한곳에서 관리",
+      "focus": [
+        "앱 설치 안내",
+        "개인정보처리방침",
+        "고객센터"
+      ],
+      "checklist": [
+        "지원 이메일 노출",
+        "정책 링크 노출",
+        "홈 화면 추가/공유 안내 노출"
+      ],
+      "playFileName": "06-mypage-play-1080x1920.png",
+      "appStoreFileName": "06-mypage-appstore-1290x2796.png"
+    }
+  ],
+  "safetyChecklist": [
+    "외부 판매처 결제, 장바구니, 주문, 주소, 결제 화면을 포함하지 않는다.",
+    "실제 사용자 이메일, 프로필, 비밀번호, OAuth secret, .env, keystore, admin token을 포함하지 않는다.",
+    "무조건, 100%, 최저가 보장, 공식 판매처 보장 같은 심사 리스크 문구를 포함하지 않는다.",
+    "하단 탭, safe area, 검색 chip, 가격, CTA가 잘리지 않는지 확인한다.",
+    "Play/App Store 등록 문구와 스크린샷 문구가 서로 모순되지 않는지 확인한다."
+  ]
+}

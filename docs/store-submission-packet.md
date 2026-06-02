@@ -29,6 +29,7 @@
 - 스토어 메타데이터 QA 리포트: `docs/STORE_METADATA_REPORT.md`
 - 스토어 이미지 QA 리포트: `docs/STORE_ASSETS_REPORT.md`
 - 스토어 스크린샷 QA 리포트: `docs/STORE_SCREENSHOTS_REPORT.md`
+- 스토어 스크린샷 촬영 매니페스트: `docs/STORE_SCREENSHOT_MANIFEST.md`, `STORE_SCREENSHOT_MANIFEST.json`
 - 스토어 제출 준비 리포트: `docs/STORE_SUBMISSION_REPORT.md`
 - 스토어 제출 패킷 QA 리포트: `docs/STORE_PACKET_REPORT.md`
 
@@ -45,6 +46,7 @@ npm run device:qa:doctor
 npm run device:qa:report
 npm run store:metadata:doctor
 npm run store:assets:doctor
+npm run store:screenshots:manifest
 npm run store:screenshots:doctor
 npm run store:submission:report
 npm run store:packet:doctor

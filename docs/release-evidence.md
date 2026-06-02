@@ -4,10 +4,25 @@
 
 ## 기본 정보
 
-- 생성 시각: 2026-06-02T17:54:34.452Z
+- 생성 시각: 2026-06-02T18:01:14.116Z
 - Git 브랜치: codex/12h-product-ux-growth-hardening
-- 최신 커밋: cc95afa
-- Git 상태: clean
+- 최신 커밋: 8efd003
+- Git 상태: M .github/workflows/ci.yml
+ M STORE_PACKET_REPORT.md
+ M STORE_SCREENSHOTS_REPORT.md
+ M docs/RUNBOOK.md
+ M docs/STORE_PACKET_REPORT.md
+ M docs/STORE_SCREENSHOTS_REPORT.md
+ M docs/store-assets-guide.md
+ M docs/store-submission-packet.md
+ M package.json
+ M scripts/release-doctor.mjs
+ M scripts/release-evidence.mjs
+ M scripts/store-packet-doctor.mjs
+ M scripts/store-screenshots-doctor.mjs
+?? STORE_SCREENSHOT_MANIFEST.json
+?? docs/STORE_SCREENSHOT_MANIFEST.md
+?? scripts/store-screenshot-manifest.mjs
 - 패키지 버전: 1.0.0
 - 앱 이름: 할인도사
 - 앱 ID / 패키지명: com.halindosa.app
@@ -33,7 +48,9 @@
 | Device QA readiness report | `docs/DEVICE_QA_REPORT.md` | 3KB |
 | Store submission readiness report | `docs/STORE_SUBMISSION_REPORT.md` | 5KB |
 | Store submission packet QA report | `docs/STORE_PACKET_REPORT.md` | 3KB |
-| Store screenshot QA report | `docs/STORE_SCREENSHOTS_REPORT.md` | 2KB |
+| Store screenshot QA report | `docs/STORE_SCREENSHOTS_REPORT.md` | 3KB |
+| Store screenshot manifest | `docs/STORE_SCREENSHOT_MANIFEST.md` | 4KB |
+| Store screenshot manifest JSON | `STORE_SCREENSHOT_MANIFEST.json` | 5KB |
 | Harness report | `docs/HARNESS_REPORT.md` | 20KB |
 | Image backlog report | `docs/IMAGE_BACKLOG_REPORT.md` | 15KB |
 | Image backlog CSV | `IMAGE_BACKLOG.csv` | 46KB |
@@ -52,6 +69,7 @@ npm run public:url:doctor
 npm run device:qa:doctor
 npm run android:signing:doctor
 npm run image:backlog:report
+npm run store:screenshots:manifest
 npm run harness
 npm run qa:release
 npm run android:bundle

@@ -5,6 +5,9 @@ const root = process.cwd();
 const scenePath = join(root, "data/storeScreenshotScenes.ts");
 const pagePath = join(root, "app/store-preview/page.tsx");
 const guidePath = join(root, "docs/store-assets-guide.md");
+const manifestScriptPath = join(root, "scripts/store-screenshot-manifest.mjs");
+const manifestJsonPath = join(root, "STORE_SCREENSHOT_MANIFEST.json");
+const manifestDocPath = join(root, "docs/STORE_SCREENSHOT_MANIFEST.md");
 
 const requiredSceneIds = ["home", "search", "detail", "favorites", "notifications", "mypage"];
 const requiredCopy = [
@@ -29,6 +32,9 @@ function readRequired(path, label) {
 const sceneSource = readRequired(scenePath, "data/storeScreenshotScenes.ts");
 const pageSource = readRequired(pagePath, "app/store-preview/page.tsx");
 const guideSource = readRequired(guidePath, "docs/store-assets-guide.md");
+const manifestScript = readRequired(manifestScriptPath, "scripts/store-screenshot-manifest.mjs");
+const manifestJson = readRequired(manifestJsonPath, "STORE_SCREENSHOT_MANIFEST.json");
+const manifestDoc = readRequired(manifestDocPath, "docs/STORE_SCREENSHOT_MANIFEST.md");
 
 const missingSceneIds = requiredSceneIds.filter((id) => !sceneSource.includes(`id: "${id}"`));
 if (missingSceneIds.length) fail(`Missing scene ids: ${missingSceneIds.join(", ")}`);
@@ -42,6 +48,21 @@ if (!pageSource.includes("index: false") || !pageSource.includes("스크린샷 �
 
 if (!guideSource.includes("/store-preview") || !guideSource.includes("npm run store:screenshots:doctor")) {
   fail("Store asset guide should reference the capture board and screenshot doctor command.");
+}
+
+if (
+  !manifestScript.includes("STORE_SCREENSHOT_MANIFEST.json") ||
+  !manifestScript.includes("STORE_SCREENSHOT_MANIFEST.md") ||
+  !manifestScript.includes("1080") ||
+  !manifestScript.includes("1290") ||
+  !manifestJson.includes('"destinationDirectory": "assets/store/screenshots"') ||
+  !manifestJson.includes('"playFileName"') ||
+  !manifestJson.includes('"appStoreFileName"') ||
+  !manifestDoc.includes("Store Screenshot Capture Manifest") ||
+  !manifestDoc.includes("Required Viewports") ||
+  !manifestDoc.includes("Manual Work That Must Not Be Faked")
+) {
+  fail("Store screenshot manifest should include concrete file names, viewport targets, destination directory, and honest manual work copy.");
 }
 
 const sceneRows = requiredSceneIds.map((id) => {
@@ -62,6 +83,7 @@ const report = [
   "- Preview route: `/store-preview`",
   "- Preview page is expected to be `noindex`.",
   "- Run `npm run store:screenshots:doctor` after editing screenshot scenes or store asset guidance.",
+  "- Run `npm run store:screenshots:manifest` to refresh concrete screenshot file names and viewport targets.",
   "",
   "## Required Scenes",
   "",
@@ -81,6 +103,7 @@ const report = [
   "",
   "- Capture actual device or emulator screenshots after the final release build.",
   "- Review every uploaded screenshot in Play Console and App Store Connect before submission.",
+  "- Keep `STORE_SCREENSHOT_MANIFEST.json` and `docs/STORE_SCREENSHOT_MANIFEST.md` in sync with the final screenshot scenes.",
   "- Re-run `npm run store:metadata:doctor`, `npm run store:assets:doctor`, and `npm run release:doctor` after replacing screenshot files or listing copy.",
   ""
 ].join("\n");

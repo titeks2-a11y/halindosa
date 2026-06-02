@@ -7,6 +7,7 @@ This report records the non-secret screenshot storyboard and capture readiness f
 - Preview route: `/store-preview`
 - Preview page is expected to be `noindex`.
 - Run `npm run store:screenshots:doctor` after editing screenshot scenes or store asset guidance.
+- Run `npm run store:screenshots:manifest` to refresh concrete screenshot file names and viewport targets.
 
 ## Required Scenes
 
@@ -31,4 +32,5 @@ This report records the non-secret screenshot storyboard and capture readiness f
 
 - Capture actual device or emulator screenshots after the final release build.
 - Review every uploaded screenshot in Play Console and App Store Connect before submission.
+- Keep `STORE_SCREENSHOT_MANIFEST.json` and `docs/STORE_SCREENSHOT_MANIFEST.md` in sync with the final screenshot scenes.
 - Re-run `npm run store:metadata:doctor`, `npm run store:assets:doctor`, and `npm run release:doctor` after replacing screenshot files or listing copy.

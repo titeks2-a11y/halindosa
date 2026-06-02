@@ -31,6 +31,8 @@
 
 - 최소 2장, 권장 6장
 - 촬영 보드: `/store-preview`
+- 촬영 매니페스트: `docs/STORE_SCREENSHOT_MANIFEST.md`, `STORE_SCREENSHOT_MANIFEST.json`
+- 파일명/해상도 생성: `npm run store:screenshots:manifest`
 - 자동 점검: `npm run store:screenshots:doctor`
 - 권장 화면:
   1. 홈: 오늘의 추천 특가
@@ -92,6 +94,7 @@ npm run build
 npm run build:android
 npm run cap:sync
 npm run store:assets:doctor
+npm run store:screenshots:manifest
 npm run store:screenshots:doctor
 npm run release:doctor
 ```
