@@ -14,6 +14,7 @@
 - [x] `npm run smoke:local`
 - [x] `npm run qa`
 - [x] `npm run audit:commercial`
+- [x] `npm run device:qa:manifest`
 - [x] `npm run device:qa:doctor`
 - [x] `npm run device:qa:report`
 - [x] `npm run env:doctor`
@@ -86,6 +87,7 @@
 
 - [ ] Android Studio Emulator 실행 확인
 - [ ] 실제 기기 설치 확인
+- [ ] `docs/DEVICE_QA_MANIFEST.md`와 `DEVICE_QA_MANIFEST.json`의 대상 기기, 빌드 산출물, 구매 링크 샘플을 이번 실기기 QA 범위로 사용
 - [ ] `DEVICE_QA_REPORT.md`와 `docs/DEVICE_QA_REPORT.md`에서 APK/AAB, 기준 커밋, 남은 수동 확인 항목 확인
 - [ ] `docs/device-qa-checklist.md` 기준으로 Android/iOS 실기기 QA 기록
 - [ ] `docs/device-qa-record-template.md`에 기준 커밋, 테스트 기기, 구매 링크 샘플 10개, 남은 이슈 기록

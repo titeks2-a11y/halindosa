@@ -1,0 +1,206 @@
+{
+  "generatedBy": "npm run device:qa:manifest",
+  "checklist": "docs/device-qa-checklist.md",
+  "recordTemplate": "docs/device-qa-record-template.md",
+  "branch": "codex/12h-product-ux-growth-hardening",
+  "commit": "8fd9e54",
+  "version": "1.0.0",
+  "buildAndEvidence": [
+    {
+      "path": "android/app/build/outputs/apk/debug/app-debug.apk",
+      "status": "present",
+      "bytes": 10610182
+    },
+    {
+      "path": "android/app/build/outputs/bundle/release/app-release.aab",
+      "status": "present",
+      "bytes": 6500073
+    },
+    {
+      "path": "MOBILE_UX_REPORT.md",
+      "status": "present",
+      "bytes": 2118
+    },
+    {
+      "path": "docs/release-evidence.md",
+      "status": "present",
+      "bytes": 4615
+    },
+    {
+      "path": "STORE_SCREENSHOT_MANIFEST.json",
+      "status": "present",
+      "bytes": 4818
+    },
+    {
+      "path": "docs/STORE_SCREENSHOT_MANIFEST.md",
+      "status": "present",
+      "bytes": 4408
+    }
+  ],
+  "deviceTargets": [
+    {
+      "id": "android-emulator",
+      "label": "Android Emulator",
+      "installPath": "APK / AAB / Play internal",
+      "requiredChecks": [
+        "home_safe_area",
+        "purchase_link",
+        "share_sheet",
+        "favorites_recent",
+        "policy_links"
+      ]
+    },
+    {
+      "id": "android-real-device",
+      "label": "실제 Android 기기",
+      "installPath": "APK / AAB / Play internal",
+      "requiredChecks": [
+        "home_safe_area",
+        "purchase_link",
+        "share_sheet",
+        "favorites_recent",
+        "oauth_callback",
+        "offline_recovery"
+      ]
+    },
+    {
+      "id": "ios-simulator",
+      "label": "iPhone Simulator 또는 실제 iPhone",
+      "installPath": "Xcode Run / TestFlight",
+      "requiredChecks": [
+        "ios_safe_area",
+        "safari_or_browser",
+        "share_sheet",
+        "oauth_deeplink",
+        "privacy_manifest"
+      ]
+    }
+  ],
+  "requiredManualAreas": [
+    "Android safe area",
+    "Purchase link external browser",
+    "Share sheet",
+    "Favorites and recent persistence",
+    "OAuth callback",
+    "iOS safe area and sharing",
+    "Public privacy URL",
+    "Top purchase links"
+  ],
+  "purchaseLinkSamples": [
+    {
+      "order": 1,
+      "id": "d001",
+      "mall": "롯데온",
+      "title": "삼성 86인치 4K 스마트 UHD TV",
+      "expectedHost": "lotteon.com",
+      "expectedType": "product_detail",
+      "appRoute": "/deals/d001",
+      "redirectRoute": "/go/d001?source=device_qa"
+    },
+    {
+      "order": 2,
+      "id": "d002",
+      "mall": "지마켓",
+      "title": "새우깡 8봉 + 매운새우깡 8봉",
+      "expectedHost": "item.gmarket.co.kr",
+      "expectedType": "product_detail",
+      "appRoute": "/deals/d002",
+      "redirectRoute": "/go/d002?source=device_qa"
+    },
+    {
+      "order": 3,
+      "id": "d003",
+      "mall": "g마켓",
+      "title": "국내산 돌산갓김치 1.5kg",
+      "expectedHost": "item.gmarket.co.kr",
+      "expectedType": "product_detail",
+      "appRoute": "/deals/d003",
+      "redirectRoute": "/go/d003?source=device_qa"
+    },
+    {
+      "order": 4,
+      "id": "d004",
+      "mall": "쿠팡",
+      "title": "JMW 에이플로 온도 센서 플라즈마 미니 드라이기",
+      "expectedHost": "coupang.com",
+      "expectedType": "product_detail",
+      "appRoute": "/deals/d004",
+      "redirectRoute": "/go/d004?source=device_qa"
+    },
+    {
+      "order": 5,
+      "id": "d005",
+      "mall": "베네베딩",
+      "title": "베네베딩 여름 냉감 침대 패드",
+      "expectedHost": "benebedding.com",
+      "expectedType": "product_detail",
+      "appRoute": "/deals/d005",
+      "redirectRoute": "/go/d005?source=device_qa"
+    },
+    {
+      "order": 6,
+      "id": "d006",
+      "mall": "쿠팡",
+      "title": "닥터유 제주용암수 2L 18병",
+      "expectedHost": "coupang.com",
+      "expectedType": "product_detail",
+      "appRoute": "/deals/d006",
+      "redirectRoute": "/go/d006?source=device_qa"
+    },
+    {
+      "order": 7,
+      "id": "d007",
+      "mall": "토스",
+      "title": "돼지목살 양념구이 600g X 4팩",
+      "expectedHost": "item.gmarket.co.kr",
+      "expectedType": "product_detail",
+      "appRoute": "/deals/d007",
+      "redirectRoute": "/go/d007?source=device_qa"
+    },
+    {
+      "order": 8,
+      "id": "d008",
+      "mall": "LF몰",
+      "title": "아이더 POP ON 남성 여름 냉감 폴로 티셔츠",
+      "expectedHost": "lfmall.co.kr",
+      "expectedType": "product_detail",
+      "appRoute": "/deals/d008",
+      "redirectRoute": "/go/d008?source=device_qa"
+    },
+    {
+      "order": 9,
+      "id": "d009",
+      "mall": "지마켓",
+      "title": "신라면+너구리+짜파게티+오징어짬뽕 총 20봉",
+      "expectedHost": "item.gmarket.co.kr",
+      "expectedType": "product_detail",
+      "appRoute": "/deals/d009",
+      "redirectRoute": "/go/d009?source=device_qa"
+    },
+    {
+      "order": 10,
+      "id": "d010",
+      "mall": "쿠팡",
+      "title": "알리사 급속 냉각 에어컨 무선 휴대용 선풍기",
+      "expectedHost": "coupang.com",
+      "expectedType": "product_detail",
+      "appRoute": "/deals/d010",
+      "redirectRoute": "/go/d010?source=device_qa"
+    }
+  ],
+  "requiredCommands": [
+    "npm run qa:release",
+    "npm run release:doctor",
+    "npm run device:qa:doctor",
+    "npm run device:qa:report",
+    "npm run test:mobile-ux"
+  ],
+  "manualEvidenceRules": [
+    "실제 기기 결과를 통과로 꾸미지 않고 확인한 항목만 기록",
+    "주문번호, 주소, 결제 정보, 비밀번호, 인증 코드, .env, keystore, service-role key 기록 금지",
+    "OAuth는 Provider 이름, redirect 통과 여부, 오류 요약만 기록",
+    "구매 링크 샘플은 앱 UI에서 열고 실제 열린 도메인을 기록",
+    "남은 Critical Issue가 있으면 출시 가능으로 판정하지 않음"
+  ],
+  "sensitiveDataRule": "Do not record order numbers, addresses, payment data, passwords, auth codes, .env values, service-role keys, or keystore passwords."
+}

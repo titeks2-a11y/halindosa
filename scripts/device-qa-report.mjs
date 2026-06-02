@@ -76,6 +76,7 @@ const report = [
   "- Working tree: use `git status --short` before final device QA",
   `- Debug APK: ${fileStatus("android/app/build/outputs/apk/debug/app-debug.apk")}`,
   `- Release AAB: ${fileStatus("android/app/build/outputs/bundle/release/app-release.aab")}`,
+  `- Device QA manifest: ${fileStatus("DEVICE_QA_MANIFEST.json")} / ${fileStatus("docs/DEVICE_QA_MANIFEST.md")}`,
   `- Mobile UX report: ${fileStatus("MOBILE_UX_REPORT.md")}`,
   `- Release evidence: ${fileStatus("docs/release-evidence.md")}`,
   "",
@@ -106,7 +107,7 @@ const report = [
   "",
   "## Next Step",
   "",
-  "Copy the current commit into `docs/device-qa-record-template.md`, run the manual device checklist, and keep any issues in the issue table until they are resolved.",
+  "Use `DEVICE_QA_MANIFEST.json` and `docs/DEVICE_QA_MANIFEST.md` to pick target devices and purchase-link samples, then copy the current commit into `docs/device-qa-record-template.md`, run the manual device checklist, and keep any issues in the issue table until they are resolved.",
   ""
 ].join("\n");
 

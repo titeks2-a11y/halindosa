@@ -39,6 +39,9 @@ jobs:
       - name: Store asset readiness report
         run: npm run store:assets:doctor
 
+      - name: Device QA execution manifest
+        run: npm run device:qa:manifest
+
       - name: Device QA readiness report
         run: npm run device:qa:report
 
@@ -74,6 +77,7 @@ jobs:
             PUBLIC_URL_REPORT.md
             STORE_METADATA_REPORT.md
             STORE_ASSETS_REPORT.md
+            DEVICE_QA_MANIFEST.json
             DEVICE_QA_REPORT.md
             STORE_SUBMISSION_REPORT.md
             STORE_PACKET_REPORT.md
@@ -92,6 +96,7 @@ jobs:
             docs/PUBLIC_URL_REPORT.md
             docs/STORE_METADATA_REPORT.md
             docs/STORE_ASSETS_REPORT.md
+            docs/DEVICE_QA_MANIFEST.md
             docs/DEVICE_QA_REPORT.md
             docs/STORE_SUBMISSION_REPORT.md
             docs/STORE_PACKET_REPORT.md

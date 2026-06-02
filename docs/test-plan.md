@@ -18,6 +18,7 @@ Play Store 내부 테스트와 비공개 테스트에서 앱이 쇼핑 정보 �
 
 실기기 확인은 `docs/device-qa-checklist.md`를 기준으로 Android, iOS, 로그인, 구매 링크, 신고, 스토어 제출 직전 판정을 한 번에 기록합니다.
 실제 확인 결과는 `docs/device-qa-record-template.md`에 기준 커밋, 기기, 구매 링크 샘플, 남은 이슈까지 남깁니다.
+실행 대상 기기, 빌드 산출물, 상위 구매 링크 샘플은 `npm run device:qa:manifest`로 만든 `docs/DEVICE_QA_MANIFEST.md`와 `DEVICE_QA_MANIFEST.json`을 기준으로 정합니다.
 
 ### 홈
 
@@ -124,6 +125,7 @@ npm run test:mobile-ux
 npm run smoke:local
 npm run qa
 npm run audit:commercial
+npm run device:qa:manifest
 npm run device:qa:doctor
 npm run env:doctor
 npm run perf:budget

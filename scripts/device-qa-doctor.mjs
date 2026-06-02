@@ -4,9 +4,13 @@ import { join } from "node:path";
 const root = process.cwd();
 const checklistPath = join(root, "docs/device-qa-checklist.md");
 const recordPath = join(root, "docs/device-qa-record-template.md");
+const manifestScriptPath = join(root, "scripts/device-qa-manifest.mjs");
+const manifestJsonPath = join(root, "DEVICE_QA_MANIFEST.json");
+const manifestMdPath = join(root, "docs/DEVICE_QA_MANIFEST.md");
 const reportScriptPath = join(root, "scripts/device-qa-report.mjs");
 const testPlanPath = join(root, "docs/test-plan.md");
 const releaseChecklistPath = join(root, "docs/release-checklist.md");
+const packagePath = join(root, "package.json");
 
 function fail(message) {
   console.error(`FAIL device QA: ${message}`);
@@ -20,9 +24,13 @@ function read(path, label) {
 
 const checklist = read(checklistPath, "docs/device-qa-checklist.md");
 const record = read(recordPath, "docs/device-qa-record-template.md");
+const manifestScript = read(manifestScriptPath, "scripts/device-qa-manifest.mjs");
+const manifestJsonText = read(manifestJsonPath, "DEVICE_QA_MANIFEST.json");
+const manifestMd = read(manifestMdPath, "docs/DEVICE_QA_MANIFEST.md");
 const reportScript = read(reportScriptPath, "scripts/device-qa-report.mjs");
 const testPlan = read(testPlanPath, "docs/test-plan.md");
 const releaseChecklist = read(releaseChecklistPath, "docs/release-checklist.md");
+const pkg = JSON.parse(read(packagePath, "package.json"));
 
 const requiredChecklistSections = [
   "Android 기기 확인",
@@ -100,9 +108,71 @@ if (!checklist.includes("npm run test:mobile-ux") || !checklist.includes("MOBILE
   fail("Checklist should connect manual mobile checks to the automated mobile UX gate.");
 }
 
+const requiredManifestScriptSnippets = [
+  "DEVICE_QA_MANIFEST.json",
+  "DEVICE_QA_MANIFEST.md",
+  "Build And Evidence",
+  "Required Device Targets",
+  "Manual Check Matrix",
+  "Purchase Link Samples",
+  "Manual Work That Must Not Be Faked",
+  "android/app/build/outputs/apk/debug/app-debug.apk",
+  "android/app/build/outputs/bundle/release/app-release.aab",
+  "STORE_SCREENSHOT_MANIFEST.json",
+  "docs/STORE_SCREENSHOT_MANIFEST.md"
+];
+const missingManifestScriptSnippets = requiredManifestScriptSnippets.filter((snippet) => !manifestScript.includes(snippet));
+if (missingManifestScriptSnippets.length) {
+  fail(`Device QA manifest generator should preserve launch evidence and manual-check scope. Missing: ${missingManifestScriptSnippets.join(", ")}`);
+}
+
+let manifestJson;
+try {
+  manifestJson = JSON.parse(manifestJsonText);
+} catch {
+  fail("DEVICE_QA_MANIFEST.json should be valid JSON.");
+}
+
+const requiredManifestJsonFields = [
+  "generatedBy",
+  "checklist",
+  "recordTemplate",
+  "buildAndEvidence",
+  "deviceTargets",
+  "requiredManualAreas",
+  "purchaseLinkSamples",
+  "sensitiveDataRule"
+];
+const missingManifestJsonFields = requiredManifestJsonFields.filter((field) => !(field in manifestJson));
+if (missingManifestJsonFields.length) {
+  fail(`DEVICE_QA_MANIFEST.json missing fields: ${missingManifestJsonFields.join(", ")}`);
+}
+
+const requiredManifestMdSnippets = [
+  "Device QA Execution Manifest",
+  "Build And Evidence",
+  "Required Device Targets",
+  "Manual Check Matrix",
+  "Purchase Link Samples",
+  "Sensitive Data Rule",
+  "Manual Work That Must Not Be Faked",
+  "docs/device-qa-record-template.md",
+  "docs/device-qa-checklist.md"
+];
+const missingManifestMdSnippets = requiredManifestMdSnippets.filter((snippet) => !manifestMd.includes(snippet));
+if (missingManifestMdSnippets.length) {
+  fail(`docs/DEVICE_QA_MANIFEST.md missing launch-critical sections: ${missingManifestMdSnippets.join(", ")}`);
+}
+
+if (!pkg.scripts?.["device:qa:manifest"] || !pkg.scripts?.["qa:release"]?.includes("device:qa:manifest")) {
+  fail("package.json should expose device:qa:manifest and include it in qa:release.");
+}
+
 const requiredReportSnippets = [
   "DEVICE_QA_REPORT.md",
   "docs",
+  "DEVICE_QA_MANIFEST.json",
+  "docs/DEVICE_QA_MANIFEST.md",
   "Pending manual check",
   "android/app/build/outputs/apk/debug/app-debug.apk",
   "android/app/build/outputs/bundle/release/app-release.aab",

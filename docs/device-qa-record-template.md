@@ -13,6 +13,7 @@
 | Android 빌드 | debug APK / signed AAB / internal test |
 | iOS 빌드 | Simulator / TestFlight / Archive |
 | 사용한 체크리스트 | `docs/device-qa-checklist.md` |
+| 실기기 QA 매니페스트 | `docs/DEVICE_QA_MANIFEST.md` / `DEVICE_QA_MANIFEST.json` |
 | 자동 모바일 UX 리포트 | `npm run test:mobile-ux` / `MOBILE_UX_REPORT.md` PASS |
 | 테스트 계정 | 이메일 / Google / Kakao / Naver OAuth Provider별 결과만 기록 |
 
@@ -72,6 +73,7 @@
 
 - [ ] `npm run qa:release` 통과
 - [ ] `npm run release:doctor` 통과
+- [ ] `npm run device:qa:manifest` 통과
 - [ ] `npm run store:metadata:doctor` 통과
 - [ ] `npm run store:assets:doctor` 통과
 - [ ] `npm run store:screenshots:doctor` 통과

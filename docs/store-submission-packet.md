@@ -23,7 +23,9 @@
 - 콘텐츠 등급 답변 가이드: `docs/content-rating-guide.md`
 - 스토어 심사 메모: `docs/store-review-notes.md`
 - 스토어 스크린샷 스토리보드: `docs/store-assets-guide.md`
+- 실기기 QA 체크리스트: `docs/device-qa-checklist.md`
 - 실기기 QA 기록 양식: `docs/device-qa-record-template.md`
+- 실기기 QA 실행 매니페스트: `docs/DEVICE_QA_MANIFEST.md`, `DEVICE_QA_MANIFEST.json`
 - 릴리즈 증빙: `docs/release-evidence.md`
 - 공개 URL 제출 리포트: `docs/PUBLIC_URL_REPORT.md`
 - 스토어 메타데이터 QA 리포트: `docs/STORE_METADATA_REPORT.md`
@@ -42,6 +44,7 @@ node scripts/env-doctor.mjs --strict
 npm run env:doctor:production
 npm run test:env
 npm run public:url:doctor
+npm run device:qa:manifest
 npm run device:qa:doctor
 npm run device:qa:report
 npm run store:metadata:doctor
@@ -131,7 +134,7 @@ https://halindosa.com/privacy
 
 ## 최종 수동 확인
 
-- [ ] `docs/device-qa-checklist.md` 기준 Android/iOS 실기기 QA 완료
+- [ ] `docs/DEVICE_QA_MANIFEST.md`의 대상 기기, 빌드 산출물, 구매 링크 샘플 기준으로 Android/iOS 실기기 QA 완료
 - [ ] `docs/store-review-notes.md` 기준 심사자 메모, 비회원 접근, 외부 구매 링크, 데이터 처리 안내 입력
 - [ ] OAuth Provider와 `halindosa://auth/callback` 딥링크 복귀 확인
 - [ ] 상위 노출 상품 10개 이상의 실제 구매 링크 또는 공식 혜택 상세 URL 확인

@@ -6,6 +6,7 @@
 ## 준비
 
 - 최신 커밋 기준으로 `npm run qa:release`와 `npm run release:doctor`가 통과했는지 확인
+- `npm run device:qa:manifest`를 실행하고 `docs/DEVICE_QA_MANIFEST.md`의 기기 대상, 빌드 산출물, 구매 링크 샘플을 이번 QA 범위로 사용
 - 모바일 첫 화면 회귀는 `npm run test:mobile-ux`와 `MOBILE_UX_REPORT.md` 10개 게이트가 통과했는지 확인
 - Android는 Android Studio에서 `android` 폴더를 열고 Gradle Sync 완료
 - iOS는 macOS/Xcode 환경에서 `ios/App` 프로젝트를 열고 Signing Team 선택

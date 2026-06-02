@@ -4,10 +4,27 @@
 
 ## 기본 정보
 
-- 생성 시각: 2026-06-02T18:01:49.772Z
+- 생성 시각: 2026-06-02T18:09:35.448Z
 - Git 브랜치: codex/12h-product-ux-growth-hardening
-- 최신 커밋: 1626c02
-- Git 상태: clean
+- 최신 커밋: 8fd9e54
+- Git 상태: M .github/workflows/ci.yml
+ M DEVICE_QA_REPORT.md
+ M docs/DEVICE_QA_REPORT.md
+ M docs/RUNBOOK.md
+ M docs/device-qa-checklist.md
+ M docs/device-qa-record-template.md
+ M docs/release-checklist.md
+ M docs/roadmap.md
+ M docs/store-submission-packet.md
+ M docs/test-plan.md
+ M package.json
+ M scripts/device-qa-doctor.mjs
+ M scripts/device-qa-report.mjs
+ M scripts/release-doctor.mjs
+ M scripts/release-evidence.mjs
+?? DEVICE_QA_MANIFEST.json
+?? docs/DEVICE_QA_MANIFEST.md
+?? scripts/device-qa-manifest.mjs
 - 패키지 버전: 1.0.0
 - 앱 이름: 할인도사
 - 앱 ID / 패키지명: com.halindosa.app
@@ -30,7 +47,9 @@
 | Public URL submission report | `docs/PUBLIC_URL_REPORT.md` | 2KB |
 | Store metadata QA report | `docs/STORE_METADATA_REPORT.md` | 2KB |
 | Store asset QA report | `docs/STORE_ASSETS_REPORT.md` | 1KB |
-| Device QA readiness report | `docs/DEVICE_QA_REPORT.md` | 3KB |
+| Device QA execution manifest | `docs/DEVICE_QA_MANIFEST.md` | 4KB |
+| Device QA execution manifest JSON | `DEVICE_QA_MANIFEST.json` | 6KB |
+| Device QA readiness report | `docs/DEVICE_QA_REPORT.md` | 4KB |
 | Store submission readiness report | `docs/STORE_SUBMISSION_REPORT.md` | 5KB |
 | Store submission packet QA report | `docs/STORE_PACKET_REPORT.md` | 3KB |
 | Store screenshot QA report | `docs/STORE_SCREENSHOTS_REPORT.md` | 3KB |
@@ -51,6 +70,7 @@ npm run env:doctor
 npm run env:doctor:production
 npm run test:env
 npm run public:url:doctor
+npm run device:qa:manifest
 npm run device:qa:doctor
 npm run android:signing:doctor
 npm run image:backlog:report

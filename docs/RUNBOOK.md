@@ -97,6 +97,8 @@ UI 규칙은 하단 탭 4개 유지, 무료혜택/알림/찜 단독 탭 제거, 
 
 모바일 UX 규칙은 하단 safe-area padding, compact 검색창, 홈 검색 중복 방지, 카테고리 가로 칩, 쇼핑몰/가격/혜택 compact filter rail, compact 상품 카드, 하단 탭을 가리지 않는 토스트 위치를 확인합니다. release doctor는 `test:mobile-ux`가 `qa`와 harness에 계속 포함되어 있고 `MOBILE_UX_REPORT.md`가 10개 게이트를 담는지 검사합니다.
 
+실기기 QA는 `npm run device:qa:manifest`로 `DEVICE_QA_MANIFEST.json`과 `docs/DEVICE_QA_MANIFEST.md`를 먼저 생성한 뒤 진행합니다. 이 매니페스트는 APK/AAB, 모바일 UX 리포트, 스토어 스크린샷 매니페스트, 대상 기기, 구매 링크 샘플을 한 번에 묶고, 실제 기기 확인 결과는 `docs/device-qa-record-template.md`에만 기록합니다.
+
 SEO 규칙은 root metadata, Open Graph, canonical, manifest, sitemap, robots, 상품 상세 metadata, Product JSON-LD 구조화 데이터를 확인합니다.
 
 ## 검색/링크 검증 운영

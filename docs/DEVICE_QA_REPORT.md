@@ -10,6 +10,7 @@ Use it with `docs/device-qa-record-template.md` after testing Android Emulator, 
 - Working tree: use `git status --short` before final device QA
 - Debug APK: present
 - Release AAB: present
+- Device QA manifest: present / present
 - Mobile UX report: present
 - Release evidence: present
 
@@ -49,4 +50,4 @@ Do not write order numbers, addresses, payment data, passwords, auth codes, `.en
 
 ## Next Step
 
-Copy the current commit into `docs/device-qa-record-template.md`, run the manual device checklist, and keep any issues in the issue table until they are resolved.
+Use `DEVICE_QA_MANIFEST.json` and `docs/DEVICE_QA_MANIFEST.md` to pick target devices and purchase-link samples, then copy the current commit into `docs/device-qa-record-template.md`, run the manual device checklist, and keep any issues in the issue table until they are resolved.
