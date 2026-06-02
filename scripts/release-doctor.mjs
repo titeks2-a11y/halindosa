@@ -106,19 +106,22 @@ async function checkCiWorkflow() {
     "npm ci",
     "npm run audit:commercial",
     "npm run harness",
-    "npm run release:doctor"
+    "npm run release:doctor",
+    "actions/upload-artifact@v4",
+    "halindosa-verification-reports",
+    "docs/release-evidence.md"
   ];
   const missingWorkflowSnippets = requiredWorkflowSnippets.filter((snippet) => !workflow.includes(snippet));
-  const requiredRunbookSnippets = ["codex/**", "npm run harness", "npm run release:doctor"];
+  const requiredRunbookSnippets = ["codex/**", "npm run harness", "npm run release:doctor", "halindosa-verification-reports"];
   const missingRunbookSnippets = requiredRunbookSnippets.filter((snippet) => !runbook.includes(snippet));
 
   if (missingWorkflowSnippets.length || missingRunbookSnippets.length) {
     fail(
       "github ci workflow",
-      `CI should run commercial audit, harness, and release doctor on main/codex branches. Missing workflow: ${missingWorkflowSnippets.join(", ") || "none"}; runbook: ${missingRunbookSnippets.join(", ") || "none"}`
+      `CI should run commercial audit, harness, release doctor, and upload verification reports on main/codex branches. Missing workflow: ${missingWorkflowSnippets.join(", ") || "none"}; runbook: ${missingRunbookSnippets.join(", ") || "none"}`
     );
   } else {
-    pass("github ci workflow", "GitHub Actions runs commercial audit, harness, and release doctor on main and codex branches.");
+    pass("github ci workflow", "GitHub Actions runs commercial audit, harness, release doctor, and uploads verification reports on main and codex branches.");
   }
 }
 
