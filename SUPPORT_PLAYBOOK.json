@@ -1,8 +1,8 @@
 {
   "generatedBy": "npm run support:playbook",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "b8b3eea",
-  "workingTree": "M .github/workflows/ci.yml\n M docs/RUNBOOK.md\n M docs/customer-support-guide.md\n M docs/roadmap.md\n M docs/store-submission-packet.md\n M package.json\n M scripts/release-doctor.mjs\n M scripts/release-evidence.mjs\n M scripts/store-handoff-report.mjs\n M scripts/store-packet-doctor.mjs\n?? scripts/support-playbook.mjs",
+  "commit": "ff24c4e",
+  "workingTree": "clean",
   "appName": "할인도사",
   "supportScope": "앱 품질, 링크/가격 신고, 개인정보/계정 안내, 스토어 제출 운영 문의",
   "categories": [
