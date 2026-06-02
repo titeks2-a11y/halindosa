@@ -11,6 +11,7 @@ const steps = [
   ["verify:links", ["run", "verify:links"]],
   ["test:external-links", ["run", "test:external-links"]],
   ["test:images", ["run", "test:images"]],
+  ["image:operations:doctor", ["run", "image:operations:doctor"]],
   ["test:search", ["run", "test:search"]],
   ["test:ui", ["run", "test:ui"]],
   ["test:mobile-ux", ["run", "test:mobile-ux"]],
