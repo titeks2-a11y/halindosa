@@ -1,8 +1,8 @@
 {
   "generatedBy": "npm run release:notes",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "dbfd42a",
-  "workingTree": "M .github/workflows/ci.yml\n M docs/RUNBOOK.md\n M docs/roadmap.md\n M docs/store-submission-packet.md\n M package.json\n M scripts/release-doctor.mjs\n M scripts/release-evidence.mjs\n M scripts/store-handoff-report.mjs\n M scripts/store-packet-doctor.mjs\n?? scripts/release-notes.mjs",
+  "commit": "aef6230",
+  "workingTree": "clean",
   "version": "1.0.0",
   "appName": "할인도사",
   "packageName": "com.halindosa.app",
@@ -34,7 +34,7 @@
     {
       "path": "docs/release-evidence.md",
       "status": "present",
-      "bytes": 5280
+      "bytes": 5404
     },
     {
       "path": "docs/STORE_CONSOLE_FIELDS.md",
@@ -49,7 +49,7 @@
     {
       "path": "docs/STORE_HANDOFF_REPORT.md",
       "status": "present",
-      "bytes": 4254
+      "bytes": 4059
     },
     {
       "path": "docs/STORE_SUBMISSION_REPORT.md",
@@ -73,14 +73,14 @@
     }
   ],
   "recentCommits": [
+    "aef6230 docs: add release notes generation",
     "dbfd42a docs: refresh release evidence",
     "0cb7e79 docs: add store submission blocker workflow",
     "0f04d42 docs: refresh release evidence",
     "2a99726 test: add manual store checklist doctor",
     "03757f7 docs: refresh release evidence",
     "ca4975c docs: add manual store submission checklist",
-    "1b20cd5 docs: refresh release evidence",
-    "9c8d7d5 docs: add store console field manifest"
+    "1b20cd5 docs: refresh release evidence"
   ],
   "manualWorkThatMustNotBeFaked": [
     "Do not claim Play Console or App Store Connect submission has passed from this file.",
