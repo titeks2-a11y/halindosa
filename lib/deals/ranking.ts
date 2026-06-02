@@ -1,11 +1,10 @@
 import { Deal } from "@/types/deal";
 import { getLinkQualityScore } from "@/lib/deals/quality";
-
-const categoryFallbackPattern = /\/deal-images\/category-[a-z-]+\.svg$/;
+import { isRealDealImageUrl } from "@/lib/deals/imageResolver";
 
 export function hasRealDealImage(deal: Pick<Deal, "imageUrl" | "thumbnail">) {
   const image = deal.imageUrl || deal.thumbnail || "";
-  return Boolean(image && !categoryFallbackPattern.test(image));
+  return isRealDealImageUrl(image);
 }
 
 export function getDealImageQualityScore(deal: Pick<Deal, "imageUrl" | "thumbnail">) {

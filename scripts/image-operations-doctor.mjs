@@ -7,6 +7,8 @@ const adminPage = readFileSync(join(root, "app", "admin", "page.tsx"), "utf8");
 const metricsRoute = readFileSync(join(root, "app", "api", "metrics", "route.ts"), "utf8");
 const imageQueueRoute = readFileSync(join(root, "app", "api", "admin", "image-queue", "route.ts"), "utf8");
 const feedImport = readFileSync(join(root, "lib", "feedImport.ts"), "utf8");
+const imageResolver = readFileSync(join(root, "lib", "deals", "imageResolver.ts"), "utf8");
+const mockDeals = readFileSync(join(root, "data", "mockDeals.ts"), "utf8");
 const partnerFeedValidator = readFileSync(join(root, "scripts", "validate-partner-feed.mjs"), "utf8");
 const smoke = readFileSync(join(root, "scripts", "smoke.mjs"), "utf8");
 const packageJson = JSON.parse(readFileSync(join(root, "package.json"), "utf8"));
@@ -51,6 +53,15 @@ const checks = [
       partnerFeedValidator.includes("imageUrl") &&
       partnerFeedValidator.includes("이미지 URL은 http/https만 허용합니다"),
     message: "파트너/운영 피드는 imageUrl을 필수 운영 품질 항목으로 검증해야 합니다."
+  },
+  {
+    name: "verified purchase image resolver",
+    ok:
+      imageResolver.includes("deriveProductImageUrlFromPurchaseUrl") &&
+      imageResolver.includes("gdimg.gmarket.co.kr") &&
+      imageResolver.includes("isRealDealImageUrl") &&
+      mockDeals.includes("deriveProductImageUrlFromPurchaseUrl(validation.finalPurchaseUrl)"),
+    message: "검증된 구매 상세 URL에서 공식 상품 이미지 URL을 파생하고 category fallback보다 먼저 적용해야 합니다."
   },
   {
     name: "admin image operations queue",

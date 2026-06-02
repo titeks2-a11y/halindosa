@@ -1,6 +1,6 @@
 # 할인도사 Mobile UX Regression Report
 
-Generated: 2026-06-02T14:54:32.005Z
+Generated: 2026-06-02T15:01:50.319Z
 Status: PASS
 
 ## Static Mobile Gates

@@ -3,6 +3,7 @@ import { join } from "node:path";
 
 const root = process.cwd();
 const mockDeals = readFileSync(join(root, "data", "mockDeals.ts"), "utf8");
+const verifiedPurchaseLinks = readFileSync(join(root, "data", "verifiedPurchaseLinks.ts"), "utf8");
 const ranking = readFileSync(join(root, "lib", "deals", "ranking.ts"), "utf8");
 const homePage = readFileSync(join(root, "app", "page.tsx"), "utf8");
 const components = [
@@ -20,14 +21,52 @@ let dealsWithoutExplicitImage = 0;
 const hasCategoryFallback = /categoryFallbackImages/.test(mockDeals) && /displayImageUrl\s*=/.test(mockDeals);
 const fallbackCategoryCounts = new Map();
 const categoryFallbackAssets = [...mockDeals.matchAll(/"[^"]+":\s*"(?<asset>\/deal-images\/category-[^"]+\.svg)"/g)].map((match) => match.groups?.asset).filter(Boolean);
+const verifiedUrlsById = new Map(
+  [...verifiedPurchaseLinks.matchAll(/(d\d+):\s*\{[\s\S]*?url:\s*"([^"]+)"/g)].map((match) => [match[1], match[2]])
+);
+
+function getCaseInsensitiveParam(url, name) {
+  const target = name.toLowerCase();
+
+  for (const [key, value] of url.searchParams.entries()) {
+    if (key.toLowerCase() === target) return value;
+  }
+
+  return "";
+}
+
+function deriveProductImageUrl(value) {
+  if (!value) return "";
+
+  try {
+    const url = new URL(value);
+    const host = url.hostname.replace(/^www\./, "").toLowerCase();
+
+    if (host === "item.gmarket.co.kr" || host.endsWith(".gmarket.co.kr")) {
+      const goodsCode = getCaseInsensitiveParam(url, "goodsCode") || getCaseInsensitiveParam(url, "goodscode");
+
+      if (/^\d{5,}$/.test(goodsCode)) return `https://gdimg.gmarket.co.kr/${goodsCode}/still/600`;
+    }
+  } catch {
+    return "";
+  }
+
+  return "";
+}
 
 for (const line of dealLines) {
   const quotedValues = [...line.matchAll(/"([^"]*)"/g)].map((match) => match[1]);
+  const id = quotedValues[0] ?? "";
   const category = quotedValues[3] ?? "기타";
   const imageCandidates = quotedValues.filter((value) => {
     const lower = value.toLowerCase();
     return value.startsWith("/deal-images/") || value.startsWith("/images/") || /^https?:\/\//.test(value) && /\.(png|jpe?g|webp|avif)(?:[?#].*)?$/.test(lower);
   });
+  const derivedImage = deriveProductImageUrl(verifiedUrlsById.get(id) ?? quotedValues.find((value) => /^https?:\/\//.test(value)));
+
+  if (derivedImage && !imageCandidates.includes(derivedImage)) {
+    imageCandidates.push(derivedImage);
+  }
 
   if (!imageCandidates.length) {
     dealsWithoutExplicitImage += 1;
@@ -75,8 +114,8 @@ if (!hasCategoryFallback && explicitImageRate < 70) {
   warnings.push(`명시 이미지 커버리지가 낮습니다: ${explicitImageRate}%. 이미지 없는 상품은 카드 fallback이 사용됩니다.`);
 }
 
-if (!ranking.includes("getDealImageQualityScore") || !ranking.includes("hasRealDealImage") || !ranking.includes("categoryFallbackPattern")) {
-  issues.push("상품 랭킹이 실상품 이미지와 카테고리 fallback 이미지를 구분해야 합니다.");
+if (!ranking.includes("getDealImageQualityScore") || !ranking.includes("hasRealDealImage") || !ranking.includes("isRealDealImageUrl")) {
+  issues.push("상품 랭킹이 공용 이미지 판별 유틸로 실상품 이미지와 카테고리 fallback 이미지를 구분해야 합니다.");
 }
 
 if (!homePage.includes("getCommercialDealScore(deal)")) {
@@ -107,6 +146,7 @@ Status: ${issues.length ? "FAIL" : "PASS"}
 - 상품 이미지는 고정 비율 컨테이너 안에서 object-cover로 렌더링합니다.
 - 로컬 개발에서 일부 커뮤니티 CDN 이미지는 /api/image 프록시를 거칩니다.
 - 이미지가 없는 상품은 카테고리별 할인도사 브랜드 썸네일을 자동 적용하되, 실제 운영 데이터에서는 상품 이미지 보강을 우선합니다.
+- G마켓 검증 구매 상세 URL은 상품 코드 기반 공식 이미지 CDN URL을 자동 파생해 category fallback보다 먼저 사용합니다.
 - 홈 상단 랭킹은 실상품 이미지 보유 상품에 가산점을 주고 카테고리 fallback 상품의 상단 쏠림을 줄입니다.
 
 ## Local Images

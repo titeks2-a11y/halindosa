@@ -1,6 +1,7 @@
 import { Deal } from "@/types/deal";
 import { buildBenefitSummary, inferDealBenefitType } from "@/lib/deals/benefits";
 import { buildBenefitClaimGuide } from "@/lib/deals/claimGuide";
+import { deriveProductImageUrlFromPurchaseUrl } from "@/lib/deals/imageResolver";
 import { validatePurchaseLink } from "@/lib/deals/linkValidator";
 import { verifiedPurchaseLinks } from "./verifiedPurchaseLinks";
 
@@ -140,7 +141,8 @@ function deal(
     minimumOrderAmount,
     isStackable: /중복|카드할인|쿠폰적용/.test(text)
   });
-  const displayImageUrl = imageUrl || categoryFallbackImages[category] || categoryFallbackImages["기타"];
+  const derivedProductImageUrl = deriveProductImageUrlFromPurchaseUrl(validation.finalPurchaseUrl);
+  const displayImageUrl = imageUrl || derivedProductImageUrl || categoryFallbackImages[category] || categoryFallbackImages["기타"];
 
   return {
     id,
