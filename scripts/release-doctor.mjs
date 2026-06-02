@@ -322,7 +322,7 @@ async function checkReleaseEvidenceFreshness() {
     fail("release evidence freshness", "Release evidence should include the current short git commit.");
   } else if (status) {
     pass("release evidence freshness", `Working tree has pending changes; clean release candidates must refresh evidence after the final commit. Current document points at ${evidenceCommit}.`);
-  } else if (/refresh release evidence/i.test(currentSubject) && evidenceCommit === parentCommit) {
+  } else if (/refresh .*release evidence/i.test(currentSubject) && evidenceCommit === parentCommit) {
     pass("release evidence freshness", `Release evidence snapshot was refreshed for parent release commit ${parentCommit}.`);
   } else if (currentCommit !== evidenceCommit) {
     fail("release evidence freshness", `Release evidence is stale: document has ${evidenceCommit}, current commit is ${currentCommit}. Run npm run release:evidence after final QA.`);
