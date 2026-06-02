@@ -10,6 +10,7 @@ const feedImport = readFileSync(join(root, "lib", "feedImport.ts"), "utf8");
 const imageResolver = readFileSync(join(root, "lib", "deals", "imageResolver.ts"), "utf8");
 const mockDeals = readFileSync(join(root, "data", "mockDeals.ts"), "utf8");
 const partnerFeedValidator = readFileSync(join(root, "scripts", "validate-partner-feed.mjs"), "utf8");
+const imageTest = readFileSync(join(root, "scripts", "test-images.mjs"), "utf8");
 const smoke = readFileSync(join(root, "scripts", "smoke.mjs"), "utf8");
 const packageJson = JSON.parse(readFileSync(join(root, "package.json"), "utf8"));
 
@@ -75,6 +76,14 @@ const checks = [
       imageResolver.includes("isRealDealImageUrl") &&
       mockDeals.includes("deriveProductImageUrlFromPurchaseUrl(validation.finalPurchaseUrl)"),
     message: "검증된 구매 상세 URL에서 공식 상품 이미지 URL을 파생하고 category fallback보다 먼저 적용해야 합니다."
+  },
+  {
+    name: "minimum explicit image gate",
+    ok:
+      imageTest.includes("minimumExplicitImageRate = 25") &&
+      imageTest.includes("명시 이미지 커버리지가 운영 기준보다 낮습니다") &&
+      imageTest.includes("명시 이미지 최소 기준"),
+    message: "명시 실상품 이미지 커버리지는 현재 달성한 25% 이상 기준을 자동 검사해야 합니다."
   },
   {
     name: "admin image operations queue",

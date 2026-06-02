@@ -1,6 +1,6 @@
 # 할인도사 External Link Safety Report
 
-Generated: 2026-06-02T15:06:10.164Z
+Generated: 2026-06-02T15:11:01.529Z
 Status: PASS
 
 ## Summary

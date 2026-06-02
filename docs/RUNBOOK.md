@@ -33,6 +33,7 @@ npm run smoke
   - JSON과 CSV 모두 `currentImageUrl`, `sourceName`, `sourceUrl`, `finalPurchaseUrl`, `imageSearchUrl`, `imageField`, `imageSourceHint`를 제공한다.
   - 운영자는 `finalPurchaseUrl`에서 판매처 대표 이미지를 확인하고, 필요하면 `imageSearchUrl`로 후보 이미지를 찾은 뒤 원본 피드의 `imageUrl` 필드에 반영한다.
   - 카테고리 fallback은 화면 안정용이며 운영 ready 이미지로 보지 않는다. 신규 파트너 피드는 `imageUrl` 없이 dry-run을 통과할 수 없다.
+  - `npm run test:images`는 명시 실상품 이미지 커버리지 25% 미만이면 실패한다. 신규 상품을 많이 추가할 때는 이미지 없는 상품만 늘려 이 기준을 떨어뜨리지 않는다.
 - 피드 dry-run import: `POST /api/admin/import?token=$ADMIN_EXPORT_TOKEN`
   - 신규/보강 피드는 `affiliateUrl` → `finalPurchaseUrl` → `productUrl` → `purchaseUrl` → `link` → `originalUrl` → `searchUrl` 순서로 실제 구매 이동 URL을 판정한다.
   - `linkSummary.verified`와 `linkSummary.needsReview`를 확인해 출시 전 실제 상품 상세 URL 비율을 관리한다.

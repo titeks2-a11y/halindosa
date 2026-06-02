@@ -14,6 +14,7 @@ const components = [
 
 const issues = [];
 const warnings = [];
+const minimumExplicitImageRate = 25;
 const localImages = new Set();
 const remoteImages = new Set();
 const dealLines = mockDeals.split(/\r?\n/).filter((line) => /deal\("d\d+"/.test(line));
@@ -114,6 +115,12 @@ if (!hasCategoryFallback && explicitImageRate < 70) {
   warnings.push(`명시 이미지 커버리지가 낮습니다: ${explicitImageRate}%. 이미지 없는 상품은 카드 fallback이 사용됩니다.`);
 }
 
+if (explicitImageRate < minimumExplicitImageRate) {
+  issues.push(
+    `명시 이미지 커버리지가 운영 기준보다 낮습니다: ${explicitImageRate}%. 최소 ${minimumExplicitImageRate}% 이상을 유지해야 합니다.`
+  );
+}
+
 if (!ranking.includes("getDealImageQualityScore") || !ranking.includes("hasRealDealImage") || !ranking.includes("isRealDealImageUrl")) {
   issues.push("상품 랭킹이 공용 이미지 판별 유틸로 실상품 이미지와 카테고리 fallback 이미지를 구분해야 합니다.");
 }
@@ -135,6 +142,7 @@ Status: ${issues.length ? "FAIL" : "PASS"}
 | 명시 이미지 상품 수 | ${dealLines.length - dealsWithoutExplicitImage} |
 | 이미지 없는 상품 수 | ${dealsWithoutExplicitImage} |
 | 명시 이미지 커버리지 | ${explicitImageRate}% |
+| 명시 이미지 최소 기준 | ${minimumExplicitImageRate}% |
 | 카테고리 fallback 적용 | ${hasCategoryFallback ? "예" : "아니오"} |
 | 실제 렌더링 이미지 커버리지 | ${effectiveImageRate}% |
 | 로컬 이미지 수 | ${localImages.size} |
