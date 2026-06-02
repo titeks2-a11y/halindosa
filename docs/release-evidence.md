@@ -4,9 +4,9 @@
 
 ## 기본 정보
 
-- 생성 시각: 2026-06-02T16:35:39.917Z
+- 생성 시각: 2026-06-02T16:38:10.058Z
 - Git 브랜치: codex/12h-product-ux-growth-hardening
-- 최신 커밋: b0276ea
+- 최신 커밋: 8ce2c58
 - Git 상태: clean
 - 패키지 버전: 1.0.0
 - 앱 이름: 할인도사
@@ -35,6 +35,9 @@
 ```bash
 npm install
 npm run env:doctor
+npm run public:url:doctor
+npm run device:qa:doctor
+npm run android:signing:doctor
 npm run harness
 npm run qa:release
 npm run android:bundle
@@ -46,7 +49,10 @@ npm run release:evidence
 - harness: lint, build, 링크/이미지/검색/UI/모바일/SEO/성능/smoke/release doctor 종합 검증
 - lint, smoke, Next.js build, release doctor
 - environment doctor: 공개 URL, OAuth redirect, Supabase, 운영 토큰, 데이터 모드 점검
+- public URL doctor: /privacy, /support, sitemap, robots, 스토어 제출 URL 문구 일관성 점검
 - commercial security audit: high/critical npm 취약점 차단
+- device QA doctor: 실제 기기 기록 템플릿, 구매 링크 샘플, 남은 Critical Issue 기록 기준 점검
+- Android signing doctor: 로컬 keystore 미커밋, signing config 예시, release AAB 서명 준비 기준 점검
 - Android 정적 export 및 Capacitor Android sync
 - Capacitor iOS sync
 - performance budget: 정적 export, JS/CSS, APK/AAB, 스토어 이미지 크기 검사
@@ -60,6 +66,8 @@ npm run release:evidence
 - macOS/Xcode에서 iOS Archive 및 App Store Connect 업로드
 - docs/device-qa-checklist.md 기준 실제 기기에서 홈, 검색, 상세, 찜, 알림, 마이, 외부 브라우저 이동 확인
 - docs/deployment-env-checklist.md 기준 운영 환경변수 strict 점검
-- Supabase OAuth Provider와 공개 개인정보처리방침 URL을 운영 값으로 설정
+- Supabase OAuth Provider와 공개 개인정보처리방침/고객지원 URL을 운영 값으로 설정
+- 공개 도메인에서 /privacy, /support, /sitemap.xml, /robots.txt 외부 네트워크 접근 확인
+- Android release keystore를 로컬 파일 또는 Android Studio signing wizard로 설정하고 signed AAB 생성
 - 링크 검수 큐 상위 상품의 실제 구매 URL 직접 확인
 
