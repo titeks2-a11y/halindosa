@@ -79,15 +79,21 @@ npm run harness
 1. lint
 2. build
 3. verified purchase link 검사
-4. 검색 alias 품질 검사
-5. UI 규칙 검사
-6. SEO metadata/structured data 검사
-7. 정적 성능 예산 검사
-8. release doctor
+4. 외부 링크 새 탭/보안 검사
+5. 상품 이미지와 이미지 운영 큐 검사
+6. 검색 alias 품질 검사
+7. UI 규칙 검사
+8. 모바일 UX compact first-screen 검사
+9. SEO metadata/structured data 검사
+10. 정적 성능 예산 검사
+11. 로컬 smoke
+12. release doctor
 
-결과는 `docs/HARNESS_REPORT.md`에 남습니다. 성능 예산은 `docs/PERFORMANCE_REPORT.md`에 별도로 기록됩니다.
+결과는 `docs/HARNESS_REPORT.md`에 남습니다. 모바일 UX 결과는 `MOBILE_UX_REPORT.md`, 성능 예산은 `docs/PERFORMANCE_REPORT.md`에 별도로 기록됩니다.
 
-UI 규칙은 하단 탭 4개 유지, 무료혜택/알림/찜 단독 탭 제거, 금지 href 차단, 구매 링크 새 탭 정책, 검증 링크 기본 노출, 마이페이지 개발 문구 제거, 모바일 compact home 구조를 확인합니다.
+UI 규칙은 하단 탭 4개 유지, 무료혜택/알림/찜 단독 탭 제거, 금지 href 차단, 구매 링크 새 탭 정책, 검증 링크 기본 노출, 마이페이지 개발 문구 제거를 확인합니다.
+
+모바일 UX 규칙은 하단 safe-area padding, compact 검색창, 홈 검색 중복 방지, 카테고리 가로 칩, 쇼핑몰/가격/혜택 compact filter rail, compact 상품 카드, 하단 탭을 가리지 않는 토스트 위치를 확인합니다. release doctor는 `test:mobile-ux`가 `qa`와 harness에 계속 포함되어 있고 `MOBILE_UX_REPORT.md`가 10개 게이트를 담는지 검사합니다.
 
 SEO 규칙은 root metadata, Open Graph, canonical, manifest, sitemap, robots, 상품 상세 metadata, Product JSON-LD 구조화 데이터를 확인합니다.
 

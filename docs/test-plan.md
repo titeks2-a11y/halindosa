@@ -120,6 +120,7 @@ npm run lint
 npm run build
 npm run build:android
 npm run cap:sync
+npm run test:mobile-ux
 npm run smoke:local
 npm run qa
 npm run audit:commercial
@@ -139,12 +140,13 @@ npm run smoke
 
 `smoke:local`은 개발 서버 실행, 헬스체크 대기, smoke 검증, 서버 종료까지 한 번에 수행합니다.
 현재 smoke는 39개 항목으로 홈/검색/링크/관리자/상업화 준비/정책뿐 아니라 OAuth callback, 온보딩, 회원 탈퇴 guard까지 확인합니다.
-`qa`는 lint, 로컬 smoke, Next.js build, release doctor를 포함합니다.
+`qa`는 lint, 링크/이미지/검색/UI/모바일 UX/SEO/성능/구매 이동/전역 navigation/home URL/list scan doctor, 로컬 smoke, Next.js build, release doctor를 포함합니다.
 `audit:commercial`은 high/critical npm 취약점이 남아 있으면 실패합니다.
 `env:doctor`는 공개 URL, OAuth redirect, Supabase, 데이터 공급, 운영 토큰 환경변수의 누락과 placeholder 값을 점검합니다.
 `perf:budget`은 정적 export, JS/CSS, APK/AAB, 스토어 이미지가 출시 예산을 넘으면 실패합니다.
 `release:evidence`는 커밋, 앱 버전, APK/AAB, 스토어 이미지, 남은 수동 확인을 `docs/release-evidence.md`에 기록합니다.
-`release:doctor`는 Android/iOS 패키징, OAuth/딥링크, Supabase 회원 데이터 동기화, 상업화 준비 화면, 상품/공식 혜택 상세 링크 140개 및 100% 보강률, 내부 점수 비노출, 출시 증빙 최신 커밋 일치 여부, 출시 당일 체크리스트, 스크린샷 스토리보드, 보관/위탁/삭제 정책 문구, 스토어 산출물까지 확인합니다.
+`test:mobile-ux`는 360~430px 모바일 기준으로 safe-area, compact 검색, 홈 검색 중복 방지, 카테고리/필터 가로 칩, compact 카드, 하단 탭을 가리지 않는 토스트를 10개 게이트로 확인하고 `MOBILE_UX_REPORT.md`를 갱신합니다.
+`release:doctor`는 Android/iOS 패키징, OAuth/딥링크, Supabase 회원 데이터 동기화, 상업화 준비 화면, 상품/공식 혜택 상세 링크 140개 및 100% 보강률, 내부 점수 비노출, 모바일 UX 게이트/보고서 연결, 출시 증빙 최신 커밋 일치 여부, 출시 당일 체크리스트, 스크린샷 스토리보드, 보관/위탁/삭제 정책 문구, 스토어 산출물까지 확인합니다.
 `qa:release`는 `qa`, `audit:commercial`, Android 정적 빌드, Android/iOS Capacitor sync, `perf:budget`, release doctor를 한 번에 실행하는 출시 후보 검증입니다.
 
 ## 내부 테스트 기준

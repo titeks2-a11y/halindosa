@@ -43,7 +43,7 @@ npm run test:perf
 npm run harness
 ```
 
-`npm run harness`는 lint, build, 링크 검증, 검색 검증, UI 규칙, SEO 규칙, 성능 예산, release doctor를 순서대로 실행하고 [docs/HARNESS_REPORT.md](docs/HARNESS_REPORT.md)에 결과를 남깁니다.
+`npm run harness`는 lint, build, 링크/이미지/검색/UI/모바일 UX/SEO/성능/smoke/release doctor를 순서대로 실행하고 [docs/HARNESS_REPORT.md](docs/HARNESS_REPORT.md)에 결과를 남깁니다.
 
 검증:
 
@@ -52,6 +52,13 @@ npm run verify:links
 npm run catalog:doctor
 npm run catalog:report
 npm run search:doctor
+npm run test:external-links
+npm run test:images
+npm run image:operations:doctor
+npm run test:ui
+npm run test:mobile-ux
+npm run test:seo
+npm run test:perf
 npm run purchase:navigation:doctor
 npm run detail:navigation:doctor
 npm run navigation:doctor
@@ -65,7 +72,7 @@ npm run cap:sync
 npm run release:doctor
 ```
 
-`npm run qa`는 `lint`, `verify:links`, `catalog:doctor`, `search:doctor`, `purchase:navigation:doctor`, `detail:navigation:doctor`, `navigation:doctor`, `home:url-state:doctor`, `home:list-scan:doctor`, `smoke:local`, `build`, `release:doctor`를 순서대로 실행합니다.
+`npm run qa`는 `lint`, `verify:links`, 외부 링크/이미지/이미지 운영 doctor, `catalog:doctor`, `search:doctor`, UI/모바일 UX/SEO/성능 doctor, 구매·상세·전역 navigation doctor, 홈 URL/list scan doctor, `smoke:local`, `build`, `release:doctor`를 순서대로 실행합니다.
 
 ## 검색 동작 방식
 
@@ -192,4 +199,5 @@ npm run home:url-state:doctor
 - 상품 카드의 구매 CTA는 `/go/[dealId]` 추적 경로를 거친 뒤 새 탭 또는 앱 외부 브라우저로 열립니다.
 - `href="#"`, `javascript:void`, 쇼핑몰 검색 결과, 커뮤니티 글 URL은 노출 상품 링크로 등록하지 않습니다.
 - `target="_blank"`를 쓰는 링크는 항상 `rel="noopener noreferrer"`를 함께 둡니다.
-- `npm run release:doctor`는 홈 화면에 자동 스크롤 기반 탐색이 다시 들어오지 않았는지 함께 검사합니다.
+- `npm run test:mobile-ux`는 홈 검색창 중복, 카테고리/필터 가로 칩, 하단 탭 safe-area, compact 카드, 토스트 위치를 10개 게이트로 검사하고 `MOBILE_UX_REPORT.md`를 갱신합니다.
+- `npm run release:doctor`는 홈 화면에 자동 스크롤 기반 탐색이 다시 들어오지 않았는지, 모바일 UX 게이트와 보고서가 QA/harness에 계속 묶여 있는지 함께 검사합니다.
