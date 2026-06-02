@@ -1,8 +1,8 @@
 {
   "generatedBy": "npm run store:manual:checklist",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "1b20cd5",
-  "workingTree": "M .github/workflows/ci.yml\n M docs/RUNBOOK.md\n M docs/roadmap.md\n M docs/store-submission-packet.md\n M package.json\n M scripts/release-doctor.mjs\n M scripts/release-evidence.mjs\n M scripts/store-handoff-report.mjs\n M scripts/store-packet-doctor.mjs\n?? scripts/store-manual-checklist.mjs",
+  "commit": "ca4975c",
+  "workingTree": "clean",
   "appName": "할인도사",
   "version": "1.0.0",
   "packageName": "com.halindosa.app",
@@ -106,7 +106,7 @@
     {
       "path": "docs/STORE_HANDOFF_REPORT.md",
       "status": "present",
-      "bytes": 3845
+      "bytes": 4346
     },
     {
       "path": "docs/STORE_SUBMISSION_REPORT.md",
@@ -131,7 +131,7 @@
     {
       "path": "docs/release-evidence.md",
       "status": "present",
-      "bytes": 5115
+      "bytes": 5684
     }
   ],
   "manualWorkThatMustNotBeFaked": [
