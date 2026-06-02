@@ -44,6 +44,19 @@ const checks = [
     message: "관리자 이미지 큐는 보호된 JSON/CSV API로 제공되어야 합니다."
   },
   {
+    name: "image sourcing operation fields",
+    ok:
+      analytics.includes("imageSearchUrl") &&
+      analytics.includes("currentImageUrl") &&
+      analytics.includes("imageSourceHint") &&
+      imageQueueRoute.includes("imageSearchUrl") &&
+      imageQueueRoute.includes("currentImageUrl") &&
+      adminPage.includes("이미지 후보 검색") &&
+      smoke.includes("imageSearchUrl") &&
+      smoke.includes("currentImageUrl"),
+    message: "이미지 보강 큐는 현재 이미지, 출처, 보강 검색 URL, 저장 필드를 운영자가 바로 볼 수 있게 제공해야 합니다."
+  },
+  {
     name: "partner feed image gate",
     ok:
       feedImport.includes("validateImageUrl") &&

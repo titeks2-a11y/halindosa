@@ -29,6 +29,10 @@ npm run smoke
 - CSV export: `GET /api/admin/export?token=$ADMIN_EXPORT_TOKEN`
   - 링크 검수 작업에 필요한 `linkStatus`, `linkType`, `reviewPriority`, `reviewAction`, `reviewReason`, `purchaseConfidence`, `checkedAt`, `finalPurchaseUrl` 필드를 함께 내보낸다.
   - 운영자는 CSV를 스프레드시트로 열어 우선 검수 상품부터 실제 상품 상세 URL을 보강하고, 다음 피드 import 전에 원본 데이터의 `productUrl` 또는 `finalPurchaseUrl`에 반영한다.
+- 이미지 보강 큐: `GET /api/admin/image-queue?token=$ADMIN_EXPORT_TOKEN`
+  - JSON과 CSV 모두 `currentImageUrl`, `sourceName`, `sourceUrl`, `finalPurchaseUrl`, `imageSearchUrl`, `imageField`, `imageSourceHint`를 제공한다.
+  - 운영자는 `finalPurchaseUrl`에서 판매처 대표 이미지를 확인하고, 필요하면 `imageSearchUrl`로 후보 이미지를 찾은 뒤 원본 피드의 `imageUrl` 필드에 반영한다.
+  - 카테고리 fallback은 화면 안정용이며 운영 ready 이미지로 보지 않는다. 신규 파트너 피드는 `imageUrl` 없이 dry-run을 통과할 수 없다.
 - 피드 dry-run import: `POST /api/admin/import?token=$ADMIN_EXPORT_TOKEN`
   - 신규/보강 피드는 `affiliateUrl` → `finalPurchaseUrl` → `productUrl` → `purchaseUrl` → `link` → `originalUrl` → `searchUrl` 순서로 실제 구매 이동 URL을 판정한다.
   - `linkSummary.verified`와 `linkSummary.needsReview`를 확인해 출시 전 실제 상품 상세 URL 비율을 관리한다.

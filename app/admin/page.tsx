@@ -573,6 +573,27 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                       <span className="shrink-0 rounded-full bg-red-50 px-2.5 py-1 text-[11px] font-black text-dossa-red">#{deal.id}</span>
                     </div>
                     <p className="mt-2 text-xs font-bold leading-5 text-red-900/70">{deal.action}</p>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      <a
+                        href={deal.finalPurchaseUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="rounded-full bg-slate-950 px-3 py-1.5 text-[11px] font-black text-white"
+                      >
+                        판매처 확인
+                      </a>
+                      <a
+                        href={deal.imageSearchUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="rounded-full bg-red-50 px-3 py-1.5 text-[11px] font-black text-dossa-red"
+                      >
+                        이미지 후보 검색
+                      </a>
+                    </div>
+                    <p className="mt-2 line-clamp-2 text-[11px] font-bold leading-4 text-slate-400">
+                      저장 필드: {deal.imageField} · 출처: {deal.sourceName}
+                    </p>
                   </div>
                 ))}
               </div>

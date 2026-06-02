@@ -416,6 +416,9 @@ export function buildImageQualityReadiness(deals: Deal[]) {
   const fallbackDeals = deals.filter((deal) => !hasRealDealImage(deal));
   const byCategory = new Map<string, { category: string; total: number; real: number; fallback: number; samples: Deal[] }>();
 
+  const buildImageSearchUrl = (deal: Deal) =>
+    `https://search.shopping.naver.com/search/all?query=${encodeURIComponent(`${deal.mallName} ${deal.title} 상품 이미지`)}`;
+
   for (const deal of deals) {
     const current = byCategory.get(deal.category) ?? {
       category: deal.category,
@@ -459,7 +462,13 @@ export function buildImageQualityReadiness(deals: Deal[]) {
       category: deal.category,
       mallName: deal.mallName,
       popularityScore: deal.popularityScore,
+      currentImageUrl: deal.thumbnail || deal.imageUrl,
+      sourceName: deal.sourceName ?? deal.mallName,
+      sourceUrl: deal.sourceUrl ?? deal.finalPurchaseUrl,
       finalPurchaseUrl: deal.finalPurchaseUrl,
+      imageSearchUrl: buildImageSearchUrl(deal),
+      imageField: "imageUrl",
+      imageSourceHint: "판매처 상세의 대표 상품 이미지 또는 제휴/공식 피드 imageUrl",
       action: "판매처 상세 페이지의 상품 이미지를 imageUrl/thumbnail에 보강"
     }));
 

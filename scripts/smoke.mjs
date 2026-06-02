@@ -1026,6 +1026,10 @@ await check("admin image queue api", async () => {
   assert(Array.isArray(data.imageQuality?.categoryQueue) && data.imageQuality.categoryQueue.length >= 1, "Admin image queue missing category queue");
   assert(Array.isArray(data.imageQuality?.priorityDeals) && data.imageQuality.priorityDeals.length >= 1, "Admin image queue missing priority deals");
   assert(data.imageQuality.priorityDeals.every((deal) => deal.id && deal.title && deal.finalPurchaseUrl && deal.action), "Admin image priority deals missing operation fields");
+  assert(
+    data.imageQuality.priorityDeals.every((deal) => deal.currentImageUrl && deal.imageField === "imageUrl" && deal.imageSearchUrl && deal.sourceUrl),
+    "Admin image priority deals missing image sourcing fields"
+  );
 });
 
 await check("weekly benefit calendar api", async () => {
@@ -1583,6 +1587,7 @@ await check("admin image queue csv", async () => {
   assert(response.headers.get("x-request-id"), "Image queue export missing request id");
   assert(text.startsWith("rank,id,title"), "Image queue CSV header missing");
   assert(text.includes("finalPurchaseUrl") && text.includes("action"), "Image queue CSV missing operation fields");
+  assert(text.includes("imageSearchUrl") && text.includes("currentImageUrl"), "Image queue CSV missing image sourcing fields");
 });
 
 await check("seo files", async () => {
