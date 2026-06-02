@@ -26,6 +26,23 @@ Use it with `docs/device-qa-record-template.md` after testing Android Emulator, 
 | Store privacy URL | Public privacy URL opens without localhost or private network | Pending manual check |
 | Top purchase links | At least 10 visible deals open product or official benefit details | Pending manual check |
 
+## Purchase Link Sample Set
+
+Open these sample deals on Android and iOS through the app UI, not by copying raw URLs. Record the actual destination domain and result in `docs/device-qa-record-template.md`.
+
+| # | Deal ID | Deal | Expected domain | Link type | Status | Seller |
+| ---: | --- | --- | --- | --- | --- | --- |
+| 1 | d001 | 삼성 86인치 4K 스마트 UHD TV | lotteon.com | 상세 | Pending manual check | 롯데온 |
+| 2 | d002 | 새우깡 8봉 + 매운새우깡 8봉 | item.gmarket.co.kr | 상세 | Pending manual check | 지마켓 |
+| 3 | d003 | 국내산 돌산갓김치 1.5kg | item.gmarket.co.kr | 상세 | Pending manual check | g마켓 |
+| 4 | d004 | JMW 에이플로 온도 센서 플라즈마 미니 드라이기 | coupang.com | 상세 | Pending manual check | 쿠팡 |
+| 5 | d005 | 베네베딩 여름 냉감 침대 패드 | benebedding.com | 상세 | Pending manual check | 베네베딩 |
+| 6 | d006 | 닥터유 제주용암수 2L 18병 | coupang.com | 상세 | Pending manual check | 쿠팡 |
+| 7 | d007 | 돼지목살 양념구이 600g X 4팩 | item.gmarket.co.kr | 상세 | Pending manual check | 토스 |
+| 8 | d008 | 아이더 POP ON 남성 여름 냉감 폴로 티셔츠 | lfmall.co.kr | 상세 | Pending manual check | LF몰 |
+| 9 | d009 | 신라면+너구리+짜파게티+오징어짬뽕 총 20봉 | item.gmarket.co.kr | 상세 | Pending manual check | 지마켓 |
+| 10 | d010 | 알리사 급속 냉각 에어컨 무선 휴대용 선풍기 | coupang.com | 상세 | Pending manual check | 쿠팡 |
+
 ## Sensitive Data Rule
 
 Do not write order numbers, addresses, payment data, passwords, auth codes, `.env` values, service-role keys, or keystore passwords into QA records.

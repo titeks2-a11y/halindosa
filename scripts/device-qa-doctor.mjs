@@ -106,6 +106,9 @@ const requiredReportSnippets = [
   "Pending manual check",
   "android/app/build/outputs/apk/debug/app-debug.apk",
   "android/app/build/outputs/bundle/release/app-release.aab",
+  "Purchase Link Sample Set",
+  "loadPurchaseLinkSamples",
+  "Expected domain",
   "Do not write order numbers"
 ];
 const missingReportSnippets = requiredReportSnippets.filter((snippet) => !reportScript.includes(snippet));

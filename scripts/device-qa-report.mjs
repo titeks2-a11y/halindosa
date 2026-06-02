@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, statSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
 const root = process.cwd();
@@ -9,6 +9,59 @@ function fileStatus(relativePath) {
   const bytes = statSync(absolutePath).size;
   return bytes > 0 ? "present" : "empty";
 }
+
+function readIfPresent(relativePath) {
+  const absolutePath = join(root, relativePath);
+  if (!existsSync(absolutePath)) return "";
+  return readFileSync(absolutePath, "utf8");
+}
+
+function hostFromUrl(value) {
+  try {
+    return new URL(value).hostname.replace(/^www\./, "");
+  } catch {
+    return "";
+  }
+}
+
+function loadPurchaseLinkSamples(limit = 10) {
+  const dealsText = readIfPresent("data/mockDeals.ts");
+  const verifiedText = readIfPresent("data/verifiedPurchaseLinks.ts");
+  const verified = new Map();
+  const verifiedPattern = /\n\s*(d\d+):\s*\{\s*url:\s*"([^"]+)"/g;
+  let verifiedMatch;
+
+  while ((verifiedMatch = verifiedPattern.exec(verifiedText))) {
+    verified.set(verifiedMatch[1], verifiedMatch[2]);
+  }
+
+  const samples = [];
+  const dealPattern = /deal\("([^"]+)",\s*"([^"]+)",\s*"([^"]+)"/g;
+  let dealMatch;
+
+  while ((dealMatch = dealPattern.exec(dealsText)) && samples.length < limit) {
+    const [, id, mall, title] = dealMatch;
+    const url = verified.get(id);
+    if (!url) continue;
+    samples.push({
+      id,
+      mall,
+      title,
+      host: hostFromUrl(url),
+      url
+    });
+  }
+
+  return samples;
+}
+
+const purchaseLinkSamples = loadPurchaseLinkSamples();
+const sampleRows = purchaseLinkSamples.length
+  ? purchaseLinkSamples.map((sample, index) => {
+      const type = /event|benefit|coupon|membership|discount|campaign/i.test(sample.url) ? "공식혜택" : "상세";
+      return `| ${index + 1} | ${sample.id} | ${sample.title} | ${sample.host} | ${type} | Pending manual check | ${sample.mall} |`;
+    })
+  : ["| 1 | sample required | Run `npm run verify:links` first |  | 상세 / 공식혜택 | Pending manual check |  |"];
 
 const report = [
   "# Device QA Readiness Report",
@@ -38,6 +91,14 @@ const report = [
   "| iOS safe area and share sheet | Simulator or TestFlight confirms layout and sharing | Pending manual check |",
   "| Store privacy URL | Public privacy URL opens without localhost or private network | Pending manual check |",
   "| Top purchase links | At least 10 visible deals open product or official benefit details | Pending manual check |",
+  "",
+  "## Purchase Link Sample Set",
+  "",
+  "Open these sample deals on Android and iOS through the app UI, not by copying raw URLs. Record the actual destination domain and result in `docs/device-qa-record-template.md`.",
+  "",
+  "| # | Deal ID | Deal | Expected domain | Link type | Status | Seller |",
+  "| ---: | --- | --- | --- | --- | --- | --- |",
+  ...sampleRows,
   "",
   "## Sensitive Data Rule",
   "",
