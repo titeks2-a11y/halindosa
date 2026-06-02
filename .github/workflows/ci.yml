@@ -51,6 +51,9 @@ jobs:
       - name: Store packet readiness report
         run: npm run store:packet:doctor
 
+      - name: Store console field manifest
+        run: npm run store:console:fields
+
       - name: Store launch handoff report
         run: npm run store:handoff:report
 
@@ -84,6 +87,7 @@ jobs:
             DEVICE_QA_REPORT.md
             STORE_SUBMISSION_REPORT.md
             STORE_PACKET_REPORT.md
+            STORE_CONSOLE_FIELDS.json
             STORE_HANDOFF_REPORT.md
             STORE_SCREENSHOTS_REPORT.md
             STORE_SCREENSHOT_MANIFEST.json
@@ -104,6 +108,7 @@ jobs:
             docs/DEVICE_QA_REPORT.md
             docs/STORE_SUBMISSION_REPORT.md
             docs/STORE_PACKET_REPORT.md
+            docs/STORE_CONSOLE_FIELDS.md
             docs/STORE_HANDOFF_REPORT.md
             docs/STORE_SCREENSHOTS_REPORT.md
             docs/STORE_SCREENSHOT_MANIFEST.md

@@ -1,0 +1,41 @@
+{
+  "generatedBy": "npm run store:console:fields",
+  "branch": "codex/12h-product-ux-growth-hardening",
+  "commit": "07c9b33",
+  "workingTree": "M .github/workflows/ci.yml\n M STORE_HANDOFF_REPORT.md\n M STORE_PACKET_REPORT.md\n M docs/RUNBOOK.md\n M docs/STORE_HANDOFF_REPORT.md\n M docs/STORE_PACKET_REPORT.md\n M docs/release-evidence.md\n M docs/roadmap.md\n M docs/store-submission-packet.md\n M package.json\n M scripts/release-doctor.mjs\n M scripts/release-evidence.mjs\n M scripts/store-handoff-report.mjs\n M scripts/store-packet-doctor.mjs\n?? STORE_CONSOLE_FIELDS.json\n?? docs/STORE_CONSOLE_FIELDS.md\n?? scripts/store-console-fields.mjs",
+  "playConsole": {
+    "appName": "할인도사",
+    "packageName": "com.halindosa.app",
+    "category": "Shopping",
+    "shortDescription": "실시간 할인 특가와 무료 혜택을 빠르게 확인하는 특가 알림 앱",
+    "longDescriptionSource": "docs/play-store-listing.md",
+    "privacyPolicyUrl": "https://halindosa.com/privacy",
+    "supportUrl": "https://halindosa.com/support",
+    "appAccess": "비회원으로 대부분의 기능을 사용할 수 있습니다. 로그인은 찜한 특가와 관심 카테고리를 계정으로 이어보기 위한 선택 기능입니다. 심사자는 별도 계정 없이 홈, 검색, 카테고리, 상세, 찜, 알림, 마이 화면을 확인할 수 있습니다.\n\n테스트 계정은 필요하지 않습니다. Play Console 앱 액세스 항목에는 “앱의 주요 기능은 로그인 없이 검토 가능하며, 로그인은 선택 기능입니다”라고 입력합니다. 심사자가 로그인을 시도하지 않아도 구매 이동 전 확인 화면과 개인정보처리방침, 이용약관, 서비스 안내를 확인할 수 있습니다.",
+    "reviewerNotesSource": "docs/store-review-notes.md",
+    "dataSafetySource": "docs/data-safety-guide.md",
+    "contentRatingSource": "docs/content-rating-guide.md",
+    "screenshotSource": "docs/STORE_SCREENSHOT_MANIFEST.md"
+  },
+  "appStoreConnect": {
+    "appName": "할인도사",
+    "bundleId": "com.halindosa.app",
+    "sku": "halindosa-ios-1",
+    "subtitle": "실시간 할인 특가 정보를 가장 빠르게 찾는 방법",
+    "primaryCategory": "Shopping",
+    "secondaryCategory": "Lifestyle",
+    "price": "Free",
+    "privacyPolicyUrl": "https://halindosa.com/privacy",
+    "supportUrl": "https://halindosa.com/support",
+    "reviewNotes": "The app can be reviewed without a required account. Login is optional and only used to sync saved deals, recent views, and preferred categories. The app does not sell products or process payments directly. Purchase buttons show a confirmation sheet first, then open an external seller page in the browser. The app does not request camera, microphone, location, contacts, photo library, or tracking permissions in V1.\n\nNo demo account is required. If social login providers are not enabled in the review environment, reviewers can still access the core app as a guest: Home, Search, Categories, Deal Detail, Favorites local state, Notifications overview, My Page, Privacy Policy, Terms, and external seller confirmation.",
+    "demoAccount": "No demo account is required",
+    "appPrivacySource": "docs/app-store-checklist.md",
+    "screenshotSource": "docs/STORE_SCREENSHOT_MANIFEST.md"
+  },
+  "manualWorkThatMustNotBeFaked": [
+    "Do not claim Play Console or App Store Connect submission has passed until each console shows the uploaded build and review status.",
+    "Do not paste localhost, 127.0.0.1, example.com, private tester credentials, or secrets into public store fields.",
+    "Re-check the privacy and support URLs from an external network before final submission."
+  ],
+  "sensitiveDataRule": "Never record keystore passwords, OAuth client secrets, service-role keys, .env values, tester passwords, order numbers, addresses, or payment data in store console fields."
+}

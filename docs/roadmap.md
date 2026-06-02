@@ -13,6 +13,7 @@
 - GitHub Actions와 `qa:release`, `release:doctor`, `release:evidence`에 스토어 제출 패킷 QA를 연결해 Play/App Store 제출 문서가 누락되면 CI와 출시 doctor에서 함께 잡히도록 보강
 - `device:qa:manifest`를 추가해 Android/iOS 실기기 QA 대상, APK/AAB 산출물, 스토어 스크린샷 매니페스트, 구매 링크 샘플, 민감정보 기록 금지 원칙을 `DEVICE_QA_MANIFEST.json`과 `docs/DEVICE_QA_MANIFEST.md`로 생성하고 CI, `qa:release`, `device:qa:doctor`, `release:doctor`, `release:evidence`에 연결
 - `store:handoff:report`를 추가해 제출 담당자가 볼 최종 인수인계 리포트에 바이너리/스토어 이미지, 검증 리포트, 구매 링크 준비도, 실기기/스크린샷 범위, 남은 외부 콘솔 작업, 민감정보 금지 원칙을 묶고 CI, `qa:release`, `store:packet:doctor`, `release:doctor`, `release:evidence`에 연결
+- `store:console:fields`를 추가해 Play Console/App Store Connect 입력 필드, 심사자 복사 문구, 공개 URL, 데이터 보안/콘텐츠 등급 문서 연결을 `STORE_CONSOLE_FIELDS.json`과 `docs/STORE_CONSOLE_FIELDS.md`로 생성하고 제출 패킷, handoff, CI, `qa:release`, `release:doctor`, `release:evidence`에 연결
 - 375px 모바일 브라우저에서 홈 첫 화면을 직접 확인해 compact 검색, 상태 배지, 가로 필터, 카테고리 rail, `오늘 바로 볼 특가`, `/go/[dealId]` 새 탭 링크, 하단 탭 safe-area 노출이 실제 렌더링에서도 유지되는지 점검
 - `image:backlog:report`를 추가해 전체 이미지 보강 대기 상품을 `IMAGE_BACKLOG.csv`, `IMAGE_BACKLOG.json`, `docs/IMAGE_BACKLOG_REPORT.md`로 생성하고, `qa`, `image:operations:doctor`, `release:doctor`, `release:evidence`가 해당 운영 큐를 함께 확인하도록 보강
 - `codex/24h-commercial-autopilot-hardening` 브랜치에서 직접 구매/공식 혜택 링크, 외부 새 탭 이동, 이미지 fallback, 생활형 검색 품질을 별도 하네스로 분리
