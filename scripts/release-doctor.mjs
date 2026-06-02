@@ -128,6 +128,7 @@ async function checkCiWorkflow() {
     "npm run test:env",
     "npm run public:url:doctor",
     "npm run store:metadata:doctor",
+    "npm run store:assets:doctor",
     "npm run device:qa:report",
     "npm run store:submission:report",
     "npm run store:screenshots:doctor",
@@ -143,6 +144,8 @@ async function checkCiWorkflow() {
     "docs/PUBLIC_URL_REPORT.md",
     "STORE_METADATA_REPORT.md",
     "docs/STORE_METADATA_REPORT.md",
+    "STORE_ASSETS_REPORT.md",
+    "docs/STORE_ASSETS_REPORT.md",
     "DEVICE_QA_REPORT.md",
     "docs/DEVICE_QA_REPORT.md",
     "STORE_SUBMISSION_REPORT.md",
@@ -152,7 +155,7 @@ async function checkCiWorkflow() {
     "docs/release-evidence.md"
   ];
   const missingWorkflowSnippets = requiredWorkflowSnippets.filter((snippet) => !workflow.includes(snippet));
-  const requiredRunbookSnippets = ["codex/**", "AUDIT_REPORT.md", "npm run test:env", "ENV_DOCTOR_REPORT.md", "PUBLIC_URL_REPORT.md", "npm run store:metadata:doctor", "STORE_METADATA_REPORT.md", "npm run store:screenshots:doctor", "STORE_SCREENSHOTS_REPORT.md", "npm run device:qa:report", "DEVICE_QA_REPORT.md", "npm run store:submission:report", "STORE_SUBMISSION_REPORT.md", "npm run public:url:doctor", "npm run harness", "npm run release:doctor", "halindosa-verification-reports"];
+  const requiredRunbookSnippets = ["codex/**", "AUDIT_REPORT.md", "npm run test:env", "ENV_DOCTOR_REPORT.md", "PUBLIC_URL_REPORT.md", "npm run store:metadata:doctor", "STORE_METADATA_REPORT.md", "npm run store:assets:doctor", "STORE_ASSETS_REPORT.md", "npm run store:screenshots:doctor", "STORE_SCREENSHOTS_REPORT.md", "npm run device:qa:report", "DEVICE_QA_REPORT.md", "npm run store:submission:report", "STORE_SUBMISSION_REPORT.md", "npm run public:url:doctor", "npm run harness", "npm run release:doctor", "halindosa-verification-reports"];
   const missingRunbookSnippets = requiredRunbookSnippets.filter((snippet) => !runbook.includes(snippet));
 
   if (missingWorkflowSnippets.length || missingRunbookSnippets.length) {
@@ -2808,7 +2811,7 @@ async function checkPolicyAndStoreDocs() {
     {
       name: "release evidence content",
       file: "docs/release-evidence.md",
-      phrases: ["릴리즈 증빙", "최신 커밋", "Release AAB", "Commercial audit report", "Environment doctor report", "Public URL submission report", "Store metadata QA report", "Store screenshot QA report", "Device QA readiness report", "Store submission readiness report", "Harness report", "npm run harness", "npm run env:doctor:production", "npm run test:env", "npm run public:url:doctor", "Android signing doctor", "device QA doctor", "자동 검증 범위", "남은 수동 확인", "공개 개인정보처리방침/고객지원 URL"]
+      phrases: ["릴리즈 증빙", "최신 커밋", "Release AAB", "Commercial audit report", "Environment doctor report", "Public URL submission report", "Store metadata QA report", "Store asset QA report", "Store screenshot QA report", "Device QA readiness report", "Store submission readiness report", "Harness report", "npm run harness", "npm run env:doctor:production", "npm run test:env", "npm run public:url:doctor", "Android signing doctor", "device QA doctor", "자동 검증 범위", "남은 수동 확인", "공개 개인정보처리방침/고객지원 URL"]
     },
     {
       name: "release checklist content",
@@ -2824,6 +2827,11 @@ async function checkPolicyAndStoreDocs() {
       name: "store screenshot storyboard content",
       file: "docs/store-assets-guide.md",
       phrases: ["스크린샷 스토리보드", "오늘 먼저 볼 특가를 한눈에", "스크린샷 금지 요소", "내부 점수"]
+    },
+    {
+      name: "store asset qa report content",
+      file: "docs/STORE_ASSETS_REPORT.md",
+      phrases: ["Store Asset QA Report", "Asset Dimension Checks", "Play Store icon", "Play Store feature graphic", "iOS App Store icon", "Manual Work That Must Not Be Faked"]
     },
     {
       name: "store screenshot qa report content",

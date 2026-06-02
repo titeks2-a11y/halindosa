@@ -1,4 +1,4 @@
-import { existsSync, readFileSync, statSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
 const root = process.cwd();
@@ -61,6 +61,7 @@ function formatBytes(bytes) {
 }
 
 let failed = false;
+const reportRows = [];
 
 for (const asset of requiredAssets) {
   const fullPath = join(root, asset.path);
@@ -68,6 +69,7 @@ for (const asset of requiredAssets) {
   if (!existsSync(fullPath)) {
     failed = true;
     console.error(`FAIL ${asset.label}: missing ${asset.path}`);
+    reportRows.push(`| ${asset.label} | \`${asset.path}\` | missing | ${asset.width}x${asset.height} | missing | FAIL |`);
     continue;
   }
 
@@ -80,21 +82,49 @@ for (const asset of requiredAssets) {
     if (!dimensionOk) {
       failed = true;
       console.error(`FAIL ${asset.label}: expected ${asset.width}x${asset.height}, got ${dimensions.width}x${dimensions.height}`);
+      reportRows.push(`| ${asset.label} | \`${asset.path}\` | ${dimensions.width}x${dimensions.height} | ${asset.width}x${asset.height} | ${formatBytes(size)} | FAIL |`);
       continue;
     }
 
     if (!sizeOk) {
       failed = true;
       console.error(`FAIL ${asset.label}: ${formatBytes(size)} exceeds ${formatBytes(asset.maxBytes)}`);
+      reportRows.push(`| ${asset.label} | \`${asset.path}\` | ${dimensions.width}x${dimensions.height} | ${asset.width}x${asset.height} | ${formatBytes(size)} | FAIL |`);
       continue;
     }
 
     console.log(`PASS ${asset.label}: ${dimensions.width}x${dimensions.height}, ${formatBytes(size)}`);
+    reportRows.push(`| ${asset.label} | \`${asset.path}\` | ${dimensions.width}x${dimensions.height} | ${asset.width}x${asset.height} | ${formatBytes(size)} | PASS |`);
   } catch (error) {
     failed = true;
     console.error(`FAIL ${asset.label}: ${error instanceof Error ? error.message : String(error)}`);
+    reportRows.push(`| ${asset.label} | \`${asset.path}\` | unreadable | ${asset.width}x${asset.height} | unknown | FAIL |`);
   }
 }
+
+const report = [
+  "# Store Asset QA Report",
+  "",
+  "This report records non-secret Play Store, PWA, and iOS app icon asset readiness.",
+  "",
+  "## Asset Dimension Checks",
+  "",
+  "| Asset | Path | Actual dimensions | Required dimensions | Size | Status |",
+  "| --- | --- | --- | --- | ---: | --- |",
+  ...reportRows,
+  "",
+  "## Manual Work That Must Not Be Faked",
+  "",
+  "- Review the final icon at small sizes in Play Console and App Store Connect before submission.",
+  "- Confirm the feature graphic does not include unauthorized third-party logos, personal data, or guarantee language.",
+  "- Regenerate brand assets with `npm run store:assets:generate` only after confirming the source artwork is approved.",
+  "- Do not commit store-console credentials, signing secrets, or unpublished partner branding approvals.",
+  ""
+].join("\n");
+
+mkdirSync(join(root, "docs"), { recursive: true });
+writeFileSync(join(root, "STORE_ASSETS_REPORT.md"), report, "utf8");
+writeFileSync(join(root, "docs", "STORE_ASSETS_REPORT.md"), report, "utf8");
 
 if (failed) {
   console.error("Store asset doctor failed.");

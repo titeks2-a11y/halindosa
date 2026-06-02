@@ -51,6 +51,7 @@ const artifacts = [
   ["Environment doctor report", "docs/ENV_DOCTOR_REPORT.md"],
   ["Public URL submission report", "docs/PUBLIC_URL_REPORT.md"],
   ["Store metadata QA report", "docs/STORE_METADATA_REPORT.md"],
+  ["Store asset QA report", "docs/STORE_ASSETS_REPORT.md"],
   ["Device QA readiness report", "docs/DEVICE_QA_REPORT.md"],
   ["Store submission readiness report", "docs/STORE_SUBMISSION_REPORT.md"],
   ["Store screenshot QA report", "docs/STORE_SCREENSHOTS_REPORT.md"],

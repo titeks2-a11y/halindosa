@@ -36,6 +36,9 @@ jobs:
       - name: Store metadata readiness report
         run: npm run store:metadata:doctor
 
+      - name: Store asset readiness report
+        run: npm run store:assets:doctor
+
       - name: Device QA readiness report
         run: npm run device:qa:report
 
@@ -64,6 +67,7 @@ jobs:
             ENV_DOCTOR_REPORT.md
             PUBLIC_URL_REPORT.md
             STORE_METADATA_REPORT.md
+            STORE_ASSETS_REPORT.md
             DEVICE_QA_REPORT.md
             STORE_SUBMISSION_REPORT.md
             STORE_SCREENSHOTS_REPORT.md
@@ -79,6 +83,7 @@ jobs:
             docs/ENV_DOCTOR_REPORT.md
             docs/PUBLIC_URL_REPORT.md
             docs/STORE_METADATA_REPORT.md
+            docs/STORE_ASSETS_REPORT.md
             docs/DEVICE_QA_REPORT.md
             docs/STORE_SUBMISSION_REPORT.md
             docs/STORE_SCREENSHOTS_REPORT.md
