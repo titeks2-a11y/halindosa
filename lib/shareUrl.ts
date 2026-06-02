@@ -19,7 +19,7 @@ function isLocalOrNativeOrigin(origin: string) {
 export function getPublicShareBaseUrl() {
   const configured = process.env.NEXT_PUBLIC_SITE_URL?.trim();
 
-  if (configured && /^https?:\/\//.test(configured)) {
+  if (configured && /^https?:\/\//.test(configured) && !isLocalOrNativeOrigin(configured)) {
     return trimTrailingSlash(configured);
   }
 

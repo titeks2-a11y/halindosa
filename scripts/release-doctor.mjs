@@ -1763,6 +1763,7 @@ async function checkUiAccessibility() {
     !shareUrl.includes("buildPublicDealShareUrl") ||
     !shareUrl.includes("buildPublicAppShareUrl") ||
     !shareUrl.includes("isLocalOrNativeOrigin") ||
+    !shareUrl.includes("!isLocalOrNativeOrigin(configured)") ||
     !shareUrl.includes("NEXT_PUBLIC_SITE_URL") ||
     !homePage.includes("buildPublicDealShareUrl") ||
     !homePage.includes("buildPublicAppShareUrl") ||
