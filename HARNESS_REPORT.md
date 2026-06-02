@@ -1,25 +1,25 @@
 # 할인도사 Harness Report
 
-Started: 2026-06-02T15:51:42.432Z
-Finished: 2026-06-02T15:52:57.187Z
+Started: 2026-06-02T16:17:14.538Z
+Finished: 2026-06-02T16:18:32.191Z
 Status: PASS
 
 ## Summary
 
 | Step | Result | Duration |
 | --- | --- | ---: |
-| lint | PASS | 13.2s |
-| build | PASS | 20.9s |
+| lint | PASS | 14.2s |
+| build | PASS | 22.7s |
 | verify:links | PASS | 0.6s |
 | test:external-links | PASS | 0.6s |
-| test:images | PASS | 0.5s |
-| image:operations:doctor | PASS | 0.5s |
-| test:search | PASS | 7.6s |
+| test:images | PASS | 0.6s |
+| image:operations:doctor | PASS | 0.6s |
+| test:search | PASS | 7.7s |
 | test:ui | PASS | 0.6s |
 | test:mobile-ux | PASS | 0.6s |
 | test:seo | PASS | 0.5s |
-| test:perf | PASS | 0.5s |
-| smoke:local | PASS | 27.4s |
+| test:perf | PASS | 0.6s |
+| smoke:local | PASS | 27.2s |
 | release:doctor | PASS | 1.3s |
 
 ## Step Output
@@ -40,15 +40,15 @@ Status: PASS
 ▲ Next.js 16.2.6 (Turbopack)
 
   Creating an optimized production build ...
-✓ Compiled successfully in 4.1s
+✓ Compiled successfully in 4.2s
   Running TypeScript ...
-  Finished TypeScript in 8.3s ...
+  Finished TypeScript in 8.9s ...
   Collecting page data using 23 workers ...
   Generating static pages using 23 workers (0/186) ...
   Generating static pages using 23 workers (46/186) 
   Generating static pages using 23 workers (92/186) 
   Generating static pages using 23 workers (139/186) 
-✓ Generating static pages using 23 workers (186/186) in 1420ms
+✓ Generating static pages using 23 workers (186/186) in 1425ms
   Finalizing page optimization ...
 
 Route (app)
@@ -231,11 +231,14 @@ UI rules passed: 7/7
 PASS mobile shell width and safe area - 모바일 기본 폭과 하단 탭 겹침 방지 padding이 유지됩니다.
 PASS bottom nav compactness - 하단 탭은 4개 탭, 56px rail, 48px 이상 터치 영역을 유지합니다.
 PASS compact search - 검색창은 짧은 placeholder, 40px 모바일 높이, 결과 수, 추천 검색어를 유지합니다.
+PASS single home search entry - 모바일 홈에는 빠른 검색 1개만 보이고, 하위 화면 헤더 검색과 데스크톱 상세 검색은 compact/hidden 기준을 유지합니다.
 PASS home first screen budget - 초기 렌더 12개 제한과 상세 필터 접힘 구조가 유지됩니다.
+PASS category rail compactness - 핵심 카테고리는 모바일 가로 칩으로 유지되고 선택 상태를 스크린리더에 전달합니다.
+PASS filter rail consolidation - 쇼핑몰, 가격대, 혜택 필터가 큰 섹션 대신 compact chip rail로 유지됩니다.
 PASS quick card scanability - compact 카드가 이미지 비율, 2줄 제목, 터치 CTA, 직접 링크/혜택 신호를 유지합니다.
 PASS live row compact actions - 라이브 행은 작은 썸네일, 오른쪽 action cluster, 2줄 제목을 유지합니다.
 PASS toast does not cover bottom nav - 토스트는 모바일 상단에 떠 하단 탭과 상품 CTA를 가리지 않습니다.
-Mobile UX checks passed: 7/7
+Mobile UX checks passed: 10/10
 ```
 
 ### test:seo
@@ -272,116 +275,115 @@ Performance report written: C:\Users\titek\Documents\Codex\2026-05-29\goal-codex
 ### smoke:local
 
 ```text
- 200 in 7ms (next.js: 1687µs, application-code: 5ms)
- POST /api/admin/import 200 in 44ms (next.js: 38ms, application-code: 6ms)
- GET /api/admin/import 200 in 6ms (next.js: 1605µs, application-code: 5ms)
- POST /api/admin/import 200 in 6ms (next.js: 1644µs, application-code: 4ms)
- POST /api/admin/import 200 in 6ms (next.js: 1721µs, application-code: 4ms)
- POST /api/track 200 in 47ms (next.js: 41ms, application-code: 6ms)
- GET /api/redirect/d014?from=smoke&analytics=granted&affiliate=granted 302 in 736ms (next.js: 725ms, application-code: 11ms)
- GET /api/redirect/d014?from=smoke 302 in 26ms (next.js: 18ms, application-code: 8ms)
- GET /go/d014?from=smoke&analytics=granted&affiliate=granted 302 in 783ms (next.js: 770ms, application-code: 13ms)
- GET /deals/d014 200 in 3.1s (next.js: 545ms, generate-params: 494ms, application-code: 2.6s)
- GET /favorites 200 in 527ms (next.js: 447ms, application-code: 80ms)
- GET /api/redirect/d014?from=smoke 302 in 26ms (next.js: 17ms, application-code: 8ms)
- GET /api/redirect/d016?from=smoke 302 in 9ms (next.js: 1850µs, application-code: 8ms)
- GET /api/redirect/d015?from=smoke 302 in 9ms (next.js: 1840µs, application-code: 8ms)
- GET /api/redirect/d012?from=smoke 302 in 10ms (next.js: 1670µs, application-code: 8ms)
- GET /api/redirect/d020?from=smoke 302 in 10ms (next.js: 2ms, application-code: 8ms)
- GET /api/redirect/d041?from=smoke 302 in 10ms (next.js: 1946µs, application-code: 8ms)
- GET /api/redirect/d043?from=smoke 302 in 9ms (next.js: 1655µs, application-code: 8ms)
- GET /api/redirect/d044?from=smoke 302 in 9ms (next.js: 1908µs, application-code: 8ms)
+orts 200 in 6ms (next.js: 1541µs, application-code: 5ms)
+ POST /api/admin/import 200 in 42ms (next.js: 36ms, application-code: 6ms)
+ GET /api/admin/import 200 in 6ms (next.js: 1708µs, application-code: 5ms)
+ POST /api/admin/import 200 in 6ms (next.js: 1727µs, application-code: 4ms)
+ POST /api/admin/import 200 in 5ms (next.js: 1507µs, application-code: 4ms)
+ POST /api/track 200 in 45ms (next.js: 40ms, application-code: 5ms)
+ GET /api/redirect/d014?from=smoke&analytics=granted&affiliate=granted 302 in 744ms (next.js: 732ms, application-code: 12ms)
+ GET /api/redirect/d014?from=smoke 302 in 27ms (next.js: 18ms, application-code: 9ms)
+ GET /go/d014?from=smoke&analytics=granted&affiliate=granted 302 in 764ms (next.js: 754ms, application-code: 10ms)
+ GET /deals/d014 200 in 3.1s (next.js: 543ms, generate-params: 494ms, application-code: 2.6s)
+ GET /favorites 200 in 503ms (next.js: 421ms, application-code: 83ms)
+ GET /api/redirect/d014?from=smoke 302 in 26ms (next.js: 17ms, application-code: 9ms)
+ GET /api/redirect/d016?from=smoke 302 in 10ms (next.js: 2ms, application-code: 8ms)
+ GET /api/redirect/d015?from=smoke 302 in 11ms (next.js: 1992µs, application-code: 9ms)
+ GET /api/redirect/d012?from=smoke 302 in 9ms (next.js: 1691µs, application-code: 8ms)
+ GET /api/redirect/d020?from=smoke 302 in 9ms (next.js: 1819µs, application-code: 8ms)
+ GET /api/redirect/d041?from=smoke 302 in 10ms (next.js: 2ms, application-code: 8ms)
+ GET /api/redirect/d043?from=smoke 302 in 10ms (next.js: 1717µs, application-code: 8ms)
+ GET /api/redirect/d044?from=smoke 302 in 11ms (next.js: 2ms, application-code: 9ms)
  GET /api/redirect/d118?from=smoke 302 in 11ms (next.js: 2ms, application-code: 8ms)
- GET /api/redirect/d119?from=smoke 302 in 10ms (next.js: 1759µs, application-code: 8ms)
- GET /api/redirect/d120?from=smoke 302 in 10ms (next.js: 1945µs, application-code: 8ms)
- GET /api/redirect/d121?from=smoke 302 in 10ms (next.js: 1794µs, application-code: 8ms)
- GET /api/redirect/d122?from=smoke 302 in 10ms (next.js: 1900µs, application-code: 8ms)
+ GET /api/redirect/d119?from=smoke 302 in 10ms (next.js: 1835µs, application-code: 8ms)
+ GET /api/redirect/d120?from=smoke 302 in 10ms (next.js: 1800µs, application-code: 8ms)
+ GET /api/redirect/d121?from=smoke 302 in 10ms (next.js: 1822µs, application-code: 8ms)
+ GET /api/redirect/d122?from=smoke 302 in 10ms (next.js: 1852µs, application-code: 8ms)
  GET /api/redirect/d123?from=smoke 302 in 10ms (next.js: 2ms, application-code: 8ms)
- GET /api/redirect/d124?from=smoke 302 in 10ms (next.js: 2ms, application-code: 8ms)
- GET /api/redirect/d125?from=smoke 302 in 14ms (next.js: 6ms, application-code: 8ms)
- GET /api/redirect/d126?from=smoke 302 in 9ms (next.js: 1791µs, application-code: 8ms)
- GET /api/redirect/d127?from=smoke 302 in 11ms (next.js: 1973µs, application-code: 9ms)
- GET /api/redirect/d128?from=smoke 302 in 9ms (next.js: 1712µs, application-code: 8ms)
- GET /api/redirect/d129?from=smoke 302 in 9ms (next.js: 1803µs, application-code: 8ms)
- GET /api/redirect/d130?from=smoke 302 in 10ms (next.js: 1758µs, application-code: 8ms)
- GET /api/redirect/d131?from=smoke 302 in 9ms (next.js: 1634µs, application-code: 8ms)
- GET /api/redirect/d132?from=smoke 302 in 10ms (next.js: 1783µs, application-code: 8ms)
- GET /api/redirect/d133?from=smoke 302 in 10ms (next.js: 1605µs, application-code: 8ms)
- GET /api/redirect/d134?from=smoke 302 in 10ms (next.js: 1852µs, application-code: 8ms)
- GET /api/redirect/d135?from=smoke 302 in 9ms (next.js: 1677µs, application-code: 8ms)
- GET /api/redirect/d136?from=smoke 302 in 10ms (next.js: 1835µs, application-code: 8ms)
- GET /api/redirect/d137?from=smoke 302 in 9ms (next.js: 1681µs, application-code: 8ms)
- GET /api/redirect/d138?from=smoke 302 in 9ms (next.js: 1897µs, application-code: 8ms)
- GET /api/redirect/d139?from=smoke 302 in 9ms (next.js: 1680µs, application-code: 8ms)
- GET /api/redirect/d140?from=smoke 302 in 11ms (next.js: 1780µs, application-code: 9ms)
- GET /api/affiliate/status 200 in 102ms (next.js: 98ms, application-code: 4ms)
- GET /api/admin/export 200 in 112ms (next.js: 99ms, application-code: 13ms)
- GET /api/admin/image-queue?format=csv 200 in 10ms (next.js: 1977µs, application-code: 8ms)
- GET /robots.txt 200 in 121ms (next.js: 117ms, application-code: 4ms)
- GET /sitemap.xml 200 in 162ms (next.js: 158ms, application-code: 5ms)
- GET /manifest.webmanifest 200 in 195ms (next.js: 190ms, application-code: 4ms)
-PASS home page (1815ms)
+ GET /api/redirect/d124?from=smoke 302 in 10ms (next.js: 1689µs, application-code: 8ms)
+ GET /api/redirect/d125?from=smoke 302 in 10ms (next.js: 1825µs, application-code: 8ms)
+ GET /api/redirect/d126?from=smoke 302 in 10ms (next.js: 1736µs, application-code: 8ms)
+ GET /api/redirect/d127?from=smoke 302 in 10ms (next.js: 1745µs, application-code: 8ms)
+ GET /api/redirect/d128?from=smoke 302 in 10ms (next.js: 1916µs, application-code: 8ms)
+ GET /api/redirect/d129?from=smoke 302 in 10ms (next.js: 2ms, application-code: 8ms)
+ GET /api/redirect/d130?from=smoke 302 in 10ms (next.js: 1794µs, application-code: 8ms)
+ GET /api/redirect/d131?from=smoke 302 in 10ms (next.js: 1781µs, application-code: 8ms)
+ GET /api/redirect/d132?from=smoke 302 in 9ms (next.js: 1748µs, application-code: 7ms)
+ GET /api/redirect/d133?from=smoke 302 in 9ms (next.js: 1774µs, application-code: 8ms)
+ GET /api/redirect/d134?from=smoke 302 in 10ms (next.js: 1652µs, application-code: 8ms)
+ GET /api/redirect/d135?from=smoke 302 in 9ms (next.js: 1775µs, application-code: 8ms)
+ GET /api/redirect/d136?from=smoke 302 in 9ms (next.js: 1777µs, application-code: 8ms)
+ GET /api/redirect/d137?from=smoke 302 in 10ms (next.js: 2ms, application-code: 8ms)
+ GET /api/redirect/d138?from=smoke 302 in 9ms (next.js: 1537µs, application-code: 7ms)
+ GET /api/redirect/d139?from=smoke 302 in 9ms (next.js: 1662µs, application-code: 8ms)
+ GET /api/redirect/d140?from=smoke 302 in 9ms (next.js: 1633µs, application-code: 7ms)
+ GET /api/affiliate/status 200 in 100ms (next.js: 96ms, application-code: 4ms)
+ GET /api/admin/export 200 in 117ms (next.js: 104ms, application-code: 13ms)
+ GET /api/admin/image-queue?format=csv 200 in 11ms (next.js: 3ms, application-code: 8ms)
+ GET /manifest.webmanifest 200 in 121ms (next.js: 117ms, application-code: 4ms)
+ GET /robots.txt 200 in 158ms (next.js: 154ms, application-code: 4ms)
+ GET /sitemap.xml 200 in 198ms (next.js: 194ms, application-code: 5ms)
+PASS home page (1102ms)
 PASS customer navigation simplification (0ms)
-PASS home query filters (288ms)
+PASS home query filters (325ms)
 PASS home empty search recovery (85ms)
-PASS mypage data controls (201ms)
-PASS auth pages (203ms)
-PASS oauth callback and onboarding pages (193ms)
-PASS account deletion guard (72ms)
-PASS service guide page (178ms)
-PASS support page (118ms)
-PASS store screenshot preview (144ms)
-PASS not found page (97ms)
-PASS category and notification pages (3388ms)
-PASS admin dashboard quality cards (3881ms)
-PASS commercial launch readiness page (2431ms)
-PASS deals api (13ms)
-PASS deals filters api (1580ms)
-PASS deal link integrity (21ms)
-PASS benefit type filter api (58ms)
-PASS free benefits page (901ms)
-PASS verified direct purchase link coverage (22ms)
-PASS deal detail api (746ms)
-PASS health api (24ms)
-PASS today benefits api (44ms)
-PASS admin daily benefit queue api (46ms)
-PASS admin image queue api (43ms)
-PASS weekly benefit calendar api (41ms)
+PASS mypage data controls (206ms)
+PASS auth pages (194ms)
+PASS oauth callback and onboarding pages (200ms)
+PASS account deletion guard (70ms)
+PASS service guide page (175ms)
+PASS support page (111ms)
+PASS store screenshot preview (148ms)
+PASS not found page (101ms)
+PASS category and notification pages (3384ms)
+PASS admin dashboard quality cards (3899ms)
+PASS commercial launch readiness page (2427ms)
+PASS deals api (12ms)
+PASS deals filters api (1609ms)
+PASS deal link integrity (20ms)
+PASS benefit type filter api (56ms)
+PASS free benefits page (895ms)
+PASS verified direct purchase link coverage (17ms)
+PASS deal detail api (750ms)
+PASS health api (18ms)
+PASS today benefits api (51ms)
+PASS admin daily benefit queue api (43ms)
+PASS admin image queue api (42ms)
+PASS weekly benefit calendar api (39ms)
 PASS daily benefit briefing api (41ms)
-PASS daily benefit routine api (43ms)
-PASS benefit decision guide api (43ms)
-PASS benefit claim effort api (42ms)
-PASS personalized benefits api (48ms)
-PASS metrics api (58ms)
-PASS sources api (42ms)
-PASS report api (45ms)
-PASS report page reason prefill (346ms)
-PASS report validation (7ms)
+PASS daily benefit routine api (42ms)
+PASS benefit decision guide api (40ms)
+PASS benefit claim effort api (40ms)
+PASS personalized benefits api (43ms)
+PASS metrics api (53ms)
+PASS sources api (48ms)
+PASS report api (48ms)
+PASS report page reason prefill (359ms)
+PASS report validation (6ms)
 PASS admin reports api (46ms)
-PASS admin report status update (16ms)
-PASS partner feed import dry-run (46ms)
+PASS admin report status update (15ms)
+PASS partner feed import dry-run (43ms)
 PASS partner feed sample validation api (8ms)
-PASS partner feed import blocks unsafe links (8ms)
+PASS partner feed import blocks unsafe links (7ms)
 PASS partner feed import validation (7ms)
-PASS track api (48ms)
-PASS redirect api (739ms)
-PASS redirect consent guard (40ms)
-PASS go purchase redirect (787ms)
-PASS detail purchase consent guard (3131ms)
-PASS favorites page consent guard (529ms)
-PASS seller search redirect fallbacks (434ms)
-PASS affiliate status api (104ms)
-PASS admin export csv (119ms)
-PASS admin image queue csv (12ms)
-PASS seo files (198ms)
+PASS track api (47ms)
+PASS redirect api (747ms)
+PASS redirect consent guard (30ms)
+PASS go purchase redirect (777ms)
+PASS detail purchase consent guard (3146ms)
+PASS favorites page consent guard (505ms)
+PASS seller search redirect fallbacks (430ms)
+PASS affiliate status api (102ms)
+PASS admin export csv (118ms)
+PASS admin image queue csv (13ms)
+PASS seo files (208ms)
 Smoke test passed: 54/54
 ```
 
 ### release:doctor
 
 ```text
-e filtering, scoring, trust labels, and customer-facing quality notices use shared link quality rules.
-PASS source readiness operation - Sources API, production provider, docs, production feed doctor, and admin dashboard expose source readiness and safe production JSON feed policy for official API, RSS, and partner feed transition.
+ provider, docs, production feed doctor, and admin dashboard expose source readiness and safe production JSON feed policy for official API, RSS, and partner feed transition.
 PASS live deal detail source - Deal detail lookup reads provider data first and only falls back to cached/default data when necessary.
 PASS admin link review workflow - Admin link review queue and CSV export expose priority, reason, confidence, current destination URL, and daily benefit queue operation fields.
 PASS commercial launch readiness page - Commercialization page exposes launch readiness metrics, daily benefit queue readiness, retention readiness, external setup, and remaining link review risk.
@@ -423,6 +425,8 @@ PASS support page content - app/support/page.tsx includes launch-critical policy
 PASS data safety guide content - docs/data-safety-guide.md includes launch-critical policy copy.
 PASS privacy policy draft content - docs/privacy-policy-draft.md includes launch-critical policy copy.
 PASS test plan content - docs/test-plan.md includes launch-critical policy copy.
+PASS readme qa guidance - README.md includes launch-critical policy copy.
+PASS runbook harness guidance - docs/RUNBOOK.md includes launch-critical policy copy.
 PASS oauth setup content - docs/OAUTH_SETUP.md includes launch-critical policy copy.
 PASS deep link auth content - docs/DEEPLINK_AUTH.md includes launch-critical policy copy.
 PASS account deletion content - docs/ACCOUNT_DELETION.md includes launch-critical policy copy.
@@ -436,14 +440,14 @@ PASS store submission packet content - docs/store-submission-packet.md includes 
 PASS store review notes content - docs/store-review-notes.md includes launch-critical policy copy.
 PASS link coverage report content - docs/link-coverage-report.md includes launch-critical policy copy.
 PASS catalog quality report content - docs/catalog-quality-report.md includes launch-critical policy copy.
-PASS release evidence freshness - Working tree has pending changes; clean release candidates must refresh evidence after the final commit. Current document points at a498cbf.
+PASS release evidence freshness - Working tree has pending changes; clean release candidates must refresh evidence after the final commit. Current document points at 96eddd8.
 PASS customer navigation simplification - Customer navigation is reduced to home/popular/categories/my and default deal API favors verified purchase links.
 PASS keystore example - Example signing config is present.
 PASS release keystore - Not committed. Create android/keystore.properties locally or use Android Studio signing wizard.
 PASS release AAB - android/app/build/outputs/bundle/release/app-release.aab (6500073 bytes)
 PASS debug APK - android/app/build/outputs/apk/debug/app-debug.apk (10610182 bytes)
 PASS store assets - Store icon, feature graphic, PWA, Android, and iOS assets have launch-ready dimensions and bright red generation support.
-Release doctor passed: 136/136
+Release doctor passed: 142/142
 ```
 
 
