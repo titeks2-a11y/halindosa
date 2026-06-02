@@ -1,6 +1,6 @@
 # 할인도사 Image Operations Report
 
-Generated: 2026-06-02T17:52:40.849Z
+Generated: npm run image:operations:doctor
 Status: PASS
 
 ## Checks

@@ -147,7 +147,7 @@ const checks = [
 const failed = checks.filter((check) => !check.ok);
 const report = `# 할인도사 Image Operations Report
 
-Generated: ${new Date().toISOString()}
+Generated: npm run image:operations:doctor
 Status: ${failed.length ? "FAIL" : "PASS"}
 
 ## Checks
