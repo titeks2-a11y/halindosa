@@ -16,6 +16,7 @@ Branch: `codex/12h-product-ux-growth-hardening`
 - Quick deal card에 무료혜택/쿠폰/이벤트/직접 링크 신호 강화
 - 이미지 품질 리포트에 카테고리별 fallback 분포 추가
 - 홈 상단 랭킹에 실상품 이미지 가산점과 카테고리 fallback 쏠림 완화 신호 추가
+- Playwright 도입 전 단계의 모바일 UX 정적 회귀 테스트 `test:mobile-ux` 추가
 - 브랜드/모바일/SEO/Play Store 준비 문서 추가
 - `npm run harness`, `npm run qa`, `npm run build:android`, `npm run cap:sync` 통과
 
@@ -103,6 +104,7 @@ Branch: `codex/12h-product-ux-growth-hardening`
 | `npm run cap:sync` | PASS |
 | `npm run test:search` | PASS |
 | `npm run test:images` | PASS |
+| `npm run test:mobile-ux` | PASS |
 | `npm run test:external-links` | PASS |
 | `npm run test:seo` | PASS |
 | `npm run test:perf` | PASS |
@@ -114,6 +116,7 @@ Branch: `codex/12h-product-ux-growth-hardening`
 - `data/searchAliases.json`
 - `scripts/search-quality-doctor.mjs`
 - `scripts/test-images.mjs`
+- `scripts/test-mobile-ux.mjs`
 - `lib/deals/ranking.ts`
 - `SEARCH_REPORT.md`
 - `IMAGE_QUALITY_REPORT.md`
@@ -134,6 +137,6 @@ Branch: `codex/12h-product-ux-growth-hardening`
 ## 남은 문제
 
 - 배포 URL 기준 Lighthouse 실측 필요
-- Playwright 스크린샷 회귀 테스트는 아직 자동화되지 않았고, 기존 정적 UI/smoke 하네스로 대체 중
+- Playwright 스크린샷 회귀 테스트는 아직 자동화되지 않았고, `test:mobile-ux` 정적 모바일 회귀 테스트와 기존 UI/smoke 하네스로 대체 중
 - 실제 상품 이미지 보강 필요. 현재 실상품 이미지 13개, fallback 127개
 - signed AAB 생성과 Play Console 제출은 사용자가 Android Studio/Play Console에서 최종 진행해야 함

@@ -1,33 +1,22 @@
-# 할인도사 Mobile UX Report
+# 할인도사 Mobile UX Regression Report
 
-Generated: 2026-06-02
+Generated: 2026-06-02T14:26:29.389Z
+Status: PASS
 
-## Current Mobile Structure
+## Static Mobile Gates
 
-1. 브랜드/상단 상태
-2. compact 검색
-3. 추천 검색어/최근 검색어
-4. compact 필터 chip
-5. 검증 링크 상품 리스트
-6. 하단 탭 `홈`, `인기`, `카테고리`, `마이`
+| Check | Result | Detail |
+| --- | --- | --- |
+| mobile shell width and safe area | PASS | 모바일 기본 폭과 하단 탭 겹침 방지 padding이 유지됩니다. |
+| bottom nav compactness | PASS | 하단 탭은 4개 탭, 56px rail, 48px 이상 터치 영역을 유지합니다. |
+| compact search | PASS | 검색창은 짧은 placeholder, 40px 모바일 높이, 결과 수, 추천 검색어를 유지합니다. |
+| home first screen budget | PASS | 초기 렌더 12개 제한과 상세 필터 접힘 구조가 유지됩니다. |
+| quick card scanability | PASS | compact 카드가 이미지 비율, 2줄 제목, 터치 CTA, 직접 링크/혜택 신호를 유지합니다. |
+| live row compact actions | PASS | 라이브 행은 작은 썸네일, 오른쪽 action cluster, 2줄 제목을 유지합니다. |
+| toast does not cover bottom nav | PASS | 토스트는 모바일 상단에 떠 하단 탭과 상품 CTA를 가리지 않습니다. |
 
-## Improvements Preserved
+## Scope
 
-- 하단 탭 safe-area padding 유지
-- 초기 홈 상품 렌더 제한 `INITIAL_HOME_DEAL_LIMIT = 12` 유지
-- 상품 카드는 이미지, 쇼핑몰, 상품명, 할인/가격, 배송, 마감, 찜, 공유, 구매 CTA 중심으로 압축
-- 상세 필터와 긴 분석 영역은 접힘/반응형 숨김 구조로 유지
-- 구매 이동은 앱 화면을 덮지 않고 확인 시트 후 새 탭/외부 브라우저로 이동
-
-## UX Guardrails
-
-- 중복 검색창을 만들지 않는다.
-- 첫 화면을 긴 설명 카드로 채우지 않는다.
-- CTA는 손가락으로 누르기 쉬운 크기를 유지한다.
-- 상품이 없는 검색 결과는 빈 상태와 추천 액션을 제공한다.
-
-## Remaining Manual QA
-
-- 실제 Android 기기에서 하단 탭과 구매 확인 시트가 겹치지 않는지 확인
-- iOS Safari/WebView에서 safe-area inset 반영 확인
-- 배포 URL 기준 390x844, 430x932, 768x1024 화면 스크린샷 회귀 확인
+- 360~430px 모바일 화면에서 첫 화면 정보 밀도를 유지하기 위한 정적 회귀 테스트입니다.
+- 실제 Playwright 스크린샷을 대체하지는 않지만, 하단 탭 겹침, 과한 검색 영역, 긴 카드, CTA 터치 영역, 토스트 위치 회귀를 빠르게 잡습니다.
+- Playwright 도입 전까지 `npm run test:mobile-ux`와 `npm run harness`가 모바일 UX 안전망 역할을 합니다.
