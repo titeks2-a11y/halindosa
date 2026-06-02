@@ -466,6 +466,48 @@ async function checkPublicClaimCopy() {
     pass("customer-facing product copy", "Customer-facing app surfaces avoid internal launch, API, and SEO wording.");
   }
 
+  const purchaseTrustCopyFiles = [
+    "README_DEPLOY.md",
+    "app/guide/page.tsx",
+    "app/page.tsx",
+    "data/mockDeals.ts",
+    "docs/RUNBOOK.md",
+    "docs/app-store-checklist.md",
+    "docs/device-qa-checklist.md",
+    "docs/device-qa-record-template.md",
+    "docs/launch-day-checklist.md",
+    "docs/link-coverage-report.md",
+    "docs/store-submission-packet.md",
+    "docs/test-plan.md",
+    "lib/affiliate.ts",
+    "lib/deals/normalizer.ts",
+    "lib/deals/quality.ts"
+  ];
+  const outdatedPurchaseTrustPhrases = [
+    "판매처 검색 확인",
+    "판매처 검색으로 확인",
+    "판매처 검색 링크",
+    "허용된 fallback",
+    "검색 fallback 상품 1개",
+    "상품 상세 링크 43개",
+    "80% 이상 보강률",
+    "검수 완료된 실제 상품 상세 링크가 43"
+  ];
+  const outdatedPurchaseTrustFindings = [];
+
+  for (const file of purchaseTrustCopyFiles) {
+    const body = await text(file);
+    for (const phrase of outdatedPurchaseTrustPhrases) {
+      if (body.includes(phrase)) outdatedPurchaseTrustFindings.push(`${file}: ${phrase}`);
+    }
+  }
+
+  if (outdatedPurchaseTrustFindings.length) {
+    fail("purchase trust copy regression guard", `Outdated purchase trust copy found: ${outdatedPurchaseTrustFindings.join(", ")}`);
+  } else {
+    pass("purchase trust copy regression guard", "Customer and launch docs use verified product/official benefit URL copy instead of search-fallback wording.");
+  }
+
   const accountModelFiles = [
     "app/page.tsx",
     "app/mypage/page.tsx",

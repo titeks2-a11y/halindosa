@@ -99,7 +99,7 @@ function deal(
   tags: string[],
   popularityScore: number,
   imageUrl = "",
-  link = `https://example.com/deals/${id}`
+  link = ""
 ): Deal {
   const salePrice = Math.round((originalPrice * (100 - discountRate)) / 100 / 10) * 10;
   const shippingInfo = tags.some((tag) => /무료배송|무배|네멤무료/.test(tag)) ? "무료배송" : "판매처 조건부 배송";

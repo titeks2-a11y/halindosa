@@ -70,7 +70,7 @@ npm run release:doctor
 - [ ] `docs/device-qa-checklist.md` 기준 Android/iOS 실기기 QA 완료
 - [ ] `docs/store-review-notes.md` 기준 심사자 메모, 비회원 접근, 외부 구매 링크, 데이터 처리 안내 입력
 - [ ] OAuth Provider와 `halindosa://auth/callback` 딥링크 복귀 확인
-- [ ] 상위 노출 상품 10개 이상의 실제 구매 링크 또는 허용된 fallback 확인
+- [ ] 상위 노출 상품 10개 이상의 실제 구매 링크 또는 공식 혜택 상세 URL 확인
 - [ ] signed AAB 업로드 후 Play Console pre-launch report 확인
 - [ ] Xcode Archive 업로드 후 App Store Connect processing 확인
 - [ ] 공개 개인정보처리방침 URL이 외부 네트워크에서 열리는지 확인
