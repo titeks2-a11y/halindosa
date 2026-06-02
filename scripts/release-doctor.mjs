@@ -580,6 +580,8 @@ async function checkPartnerFeedSafety() {
     !feedImport.includes("conditionReadyRate") ||
     !feedImport.includes("isSearchOrHomeOnlyUrl") ||
     !feedImport.includes("looksLikeProductDetailUrl") ||
+    !feedImport.includes("looksLikeOfficialBenefitDetailUrl") ||
+    !feedImport.includes("blog.naver.com") ||
     !feedImport.includes("중복 외부 ID") ||
     !feedImport.includes("검색 결과 fallback은 운영 노출 전에 실제 상품/혜택 상세 URL로 보강해야 합니다.") ||
     !feedImport.includes("rows,") ||
@@ -593,6 +595,8 @@ async function checkPartnerFeedSafety() {
     !feedImport.includes("mart") ||
     !partnerFeedValidator.includes("수령 전 체크리스트는 3개 이상 필요합니다.") ||
     !partnerFeedValidator.includes("회원가입 필요 여부를 true/false") ||
+    !partnerFeedValidator.includes("블로그/뉴스 원문 단독 링크") ||
+    !partnerFeedValidator.includes("looksLikeOfficialBenefitDetail") ||
     !mockDeals.includes("rawSourceUrl") ||
     !mockDeals.includes("isCommunitySource") ||
     !smoke.includes("Partner productUrl should normalize as a verified purchase link") ||

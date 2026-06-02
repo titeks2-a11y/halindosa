@@ -11,7 +11,14 @@ const communityHosts = [
   "dcinside.com",
   "theqoo.net",
   "instiz.net",
-  "coolenjoy.net"
+  "coolenjoy.net",
+  "blog.naver.com",
+  "m.blog.naver.com",
+  "blog.daum.net",
+  "tistory.com",
+  "news.naver.com",
+  "media.naver.com",
+  "news.daum.net"
 ];
 
 const detailUrlPatterns = [
@@ -26,6 +33,21 @@ const detailUrlPatterns = [
   /ohou\.se\/productions\//i,
   /aliexpress\.[^/]+\/item\//i,
   /smartstore\.naver\.com\/[^/]+\/products\/\d+/i
+];
+
+const officialBenefitPatterns = [
+  /\/event/i,
+  /\/events/i,
+  /\/benefit/i,
+  /\/benefits/i,
+  /\/coupon/i,
+  /\/promotion/i,
+  /\/campaign/i,
+  /\/membership/i,
+  /\/member\/benefit/i,
+  /\/culture-event\/event/i,
+  /\/customer-engagement\/event\/detail/i,
+  /\/whats_new\/campaign/i
 ];
 
 const allowedDealTypes = new Set([
@@ -238,6 +260,22 @@ function looksLikeProductDetail(value) {
   return detailUrlPatterns.some((pattern) => pattern.test(value));
 }
 
+function looksLikeOfficialBenefitDetail(value, item) {
+  const dealType = String(item.dealType ?? "").trim();
+  const benefitSummary = String(item.benefitSummary ?? "").trim();
+  const sourceName = String(item.sourceName ?? item.source ?? "").trim();
+  const claimText = [
+    benefitSummary,
+    sourceName,
+    ...(Array.isArray(item.eligibilityChecklist) ? item.eligibilityChecklist : []),
+    ...(Array.isArray(item.claimSteps) ? item.claimSteps : [])
+  ].join(" ");
+  const hasBenefitType = ["freebie", "coupon", "freeShipping", "experience", "event", "point", "convenienceStore", "mart", "foodDelivery"].includes(dealType);
+  const hasBenefitCopy = /무료|쿠폰|혜택|포인트|멤버십|행사|이벤트|체험|샘플|응모|적립|할인|1\+1|2\+1|배달/.test(claimText);
+
+  return hasBenefitType && hasBenefitCopy && officialBenefitPatterns.some((pattern) => pattern.test(value));
+}
+
 function issue(index, field, message, severity = "error") {
   return { index, field, message, severity };
 }
@@ -315,8 +353,8 @@ function validateItem(item, index) {
     issues.push(issue(index, primary.field, "커뮤니티 원문 또는 placeholder 링크는 운영 피드에 사용할 수 없습니다."));
   } else if (primary.field === "searchUrl" || isSearchOrHomeOnly(primary.value)) {
     issues.push(issue(index, primary.field, "검색 결과나 쇼핑몰 메인이 아니라 실제 상품/혜택 상세 URL이 필요합니다."));
-  } else if (!looksLikeProductDetail(primary.value)) {
-    issues.push(issue(index, primary.field, "상세 URL 패턴이 확인되지 않아 운영 반영 전 수동 검수가 필요합니다."));
+  } else if (!looksLikeProductDetail(primary.value) && !looksLikeOfficialBenefitDetail(primary.value, item)) {
+    issues.push(issue(index, primary.field, "상품 상세 또는 공식 혜택 상세 URL 패턴이 확인되지 않아 운영 반영 전 수동 검수가 필요합니다."));
   }
 
   for (const field of ["affiliateUrl", "finalPurchaseUrl", "productUrl", "purchaseUrl", "originalUrl", "link", "searchUrl", "sourceUrl"]) {
@@ -393,7 +431,7 @@ function buildReport(results) {
     },
     policy: {
       allowed: ["공식 API", "제휴 피드", "브랜드 공식몰", "실제 상품/혜택 상세 URL"],
-      blocked: ["커뮤니티 원문 단독 링크", "placeholder URL", "쇼핑몰 메인", "검색 결과 fallback", "http/https가 아닌 URL"],
+      blocked: ["커뮤니티 원문 단독 링크", "블로그/뉴스 원문 단독 링크", "placeholder URL", "쇼핑몰 메인", "검색 결과 fallback", "http/https가 아닌 URL"],
       nextAction: totals.invalid
         ? "needs_fix 행의 productUrl/finalPurchaseUrl/affiliateUrl을 실제 상세 URL로 보강한 뒤 다시 검증하세요."
         : "운영 피드 연결 전 production feed doctor와 release doctor를 이어서 실행하세요."

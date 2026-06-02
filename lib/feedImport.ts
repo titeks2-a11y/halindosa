@@ -109,7 +109,14 @@ function isPlaceholderOrCommunityUrl(value: string) {
       "dcinside.com",
       "theqoo.net",
       "instiz.net",
-      "coolenjoy.net"
+      "coolenjoy.net",
+      "blog.naver.com",
+      "m.blog.naver.com",
+      "blog.daum.net",
+      "tistory.com",
+      "news.naver.com",
+      "media.naver.com",
+      "news.daum.net"
     ];
 
     return (
@@ -147,6 +154,22 @@ function isSearchOrHomeOnlyUrl(value: string) {
 
 function looksLikeProductDetailUrl(value: string) {
   return productDetailPatterns.some((pattern) => pattern.test(value));
+}
+
+function looksLikeOfficialBenefitDetailUrl(value: string, item: PartnerFeedItem) {
+  const benefitTypes: DealBenefitType[] = ["freebie", "coupon", "freeShipping", "experience", "event", "point", "convenienceStore", "mart", "foodDelivery"];
+  const claimText = [
+    item.benefitSummary,
+    item.sourceName,
+    ...(Array.isArray(item.eligibilityChecklist) ? item.eligibilityChecklist : []),
+    ...(Array.isArray(item.claimSteps) ? item.claimSteps : [])
+  ].join(" ");
+
+  return (
+    Boolean(item.dealType && benefitTypes.includes(item.dealType)) &&
+    /무료|쿠폰|혜택|포인트|멤버십|행사|이벤트|체험|샘플|응모|적립|할인|1\+1|2\+1|배달/.test(claimText) &&
+    /\/event|\/events|\/benefit|\/benefits|\/coupon|\/promotion|\/campaign|\/membership|\/member\/benefit|\/culture-event\/event|\/customer-engagement\/event\/detail|\/whats_new\/campaign/i.test(value)
+  );
 }
 
 function normalizeCategory(category?: string): DealCategory {
@@ -228,8 +251,8 @@ export function validatePartnerFeed(items: PartnerFeedItem[]) {
       issues.push({ index, field: "productUrl", message: "실제 상품/혜택 상세 URL이 필요합니다." });
     } else if (isValidUrl(primaryUrl) && isSearchOrHomeOnlyUrl(primaryUrl)) {
       issues.push({ index, field: "productUrl", message: "검색 결과 fallback은 운영 노출 전에 실제 상품/혜택 상세 URL로 보강해야 합니다." });
-    } else if (isValidUrl(primaryUrl) && !looksLikeProductDetailUrl(primaryUrl)) {
-      issues.push({ index, field: "productUrl", message: "상세 URL 패턴이 확인되지 않아 운영 반영 전 수동 검수가 필요합니다." });
+    } else if (isValidUrl(primaryUrl) && !looksLikeProductDetailUrl(primaryUrl) && !looksLikeOfficialBenefitDetailUrl(primaryUrl, item)) {
+      issues.push({ index, field: "productUrl", message: "상품 상세 또는 공식 혜택 상세 URL 패턴이 확인되지 않아 운영 반영 전 수동 검수가 필요합니다." });
     }
     (["affiliateUrl", "finalPurchaseUrl", "productUrl", "purchaseUrl", "link", "originalUrl", "searchUrl", "sourceUrl"] as const).forEach((field) => {
       validateUrlField(issues, item, index, field);
