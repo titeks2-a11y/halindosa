@@ -335,6 +335,51 @@ async function checkReleaseEvidenceFreshness() {
   }
 }
 
+async function checkGeneratedReportFreshness() {
+  const reports = [
+    {
+      name: "store manual checklist freshness",
+      file: "docs/STORE_MANUAL_CHECKLIST.md",
+      command: "npm run store:manual:checklist",
+      pattern: /Commit:\s*`?([a-f0-9]+)`?/
+    },
+    {
+      name: "known issues freshness",
+      file: "docs/KNOWN_ISSUES.md",
+      command: "npm run known:issues",
+      pattern: /Commit:\s*`?([a-f0-9]+)`?/
+    }
+  ];
+
+  const currentCommit = run("git", ["rev-parse", "--short", "HEAD"]);
+  const parentCommit = run("git", ["rev-parse", "--short", "HEAD~1"]);
+  const currentSubject = run("git", ["log", "-1", "--pretty=%s"]);
+  const status = run("git", ["status", "--short"]);
+  const isRefreshCommit = /refresh .*release evidence/i.test(currentSubject);
+
+  for (const report of reports) {
+    if (!existsSync(join(root, report.file))) {
+      fail(report.name, `${report.file} is missing.`);
+      continue;
+    }
+
+    const body = await text(report.file);
+    const reportCommit = body.match(report.pattern)?.[1] ?? "";
+
+    if (!currentCommit || !reportCommit) {
+      fail(report.name, `${report.file} should include a short git commit. Run ${report.command}.`);
+    } else if (status) {
+      pass(report.name, `Working tree has pending changes; clean release candidates must refresh ${report.file} after the final commit. Current document points at ${reportCommit}.`);
+    } else if (isRefreshCommit && reportCommit === parentCommit) {
+      pass(report.name, `${report.file} snapshot was refreshed for parent release commit ${parentCommit}.`);
+    } else if (currentCommit !== reportCommit) {
+      fail(report.name, `${report.file} is stale: document has ${reportCommit}, current commit is ${currentCommit}. Run ${report.command} after final QA.`);
+    } else {
+      pass(report.name, `${report.file} points at current commit ${currentCommit}.`);
+    }
+  }
+}
+
 async function checkRepositorySafety() {
   const gitignore = await text(".gitignore");
   const requiredIgnores = [
@@ -3155,6 +3200,7 @@ await checkAndroid();
 await checkIos();
 await checkPolicyAndStoreDocs();
 await checkReleaseEvidenceFreshness();
+await checkGeneratedReportFreshness();
 await checkCustomerNavigationSimplification();
 checkSigningAndArtifacts();
 checkStoreAssets();
