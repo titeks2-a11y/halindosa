@@ -51,6 +51,7 @@ npm run release:doctor
 - 앱 액세스: 비회원 열람 가능, 선택 로그인 제공
 - 고객 지원: 공개 배포 도메인의 `/support`
 - 심사자 메모: `docs/store-review-notes.md`의 Google Play 앱 액세스/데이터 보안 답변 초안 참고
+- 테스트 계정: 필요 없음. 앱 액세스 항목에는 “주요 기능은 비회원으로 검토 가능하며 로그인은 선택 기능”이라고 입력
 - 데이터 보안: `docs/data-safety-guide.md` 기준으로 실제 운영 여부에 맞춰 입력
 - 콘텐츠 등급: `docs/content-rating-guide.md` 기준으로 입력
 
@@ -63,6 +64,7 @@ npm run release:doctor
 - Support URL: 공개 배포 도메인의 `/support`
 - Sign in requirement: 비회원 열람 가능, 선택 로그인 제공
 - Review Notes: `docs/store-review-notes.md`의 App Store Review Notes 문구를 실제 제출 화면에 맞춰 붙여넣기
+- Demo Account: 필요 없음. Review Notes에 “No demo account is required”와 비회원 확인 경로를 함께 입력
 - App Privacy: V1 기준 개인정보 판매 없음, 추적 없음. Supabase Auth 운영 시 계정 식별자와 사용자 콘텐츠 저장 여부를 실제 값으로 입력
 
 ## 최종 수동 확인

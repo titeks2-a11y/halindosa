@@ -7,6 +7,8 @@
 - 할인도사는 회원가입 없이 홈, 카테고리, 검색, 상세, 찜, 알림, 마이 화면을 둘러볼 수 있습니다.
 - 로그인은 선택 기능입니다. 사용자가 원하면 이메일 또는 소셜 로그인을 통해 찜한 특가, 최근 본 상품, 관심 카테고리를 계정 기준으로 이어볼 수 있습니다.
 - 심사용 테스트 계정이 없어도 주요 화면과 특가 탐색, 판매처 이동 전 확인 화면을 검토할 수 있습니다.
+- 테스트 계정은 필요하지 않습니다. OAuth Provider가 심사 환경에서 아직 켜져 있지 않아도 비회원 경로로 홈, 검색, 상세, 외부 판매처 이동 전 확인, 정책 페이지를 모두 확인할 수 있습니다.
+- 로그인 실패나 Provider 미설정은 앱 접근 차단 사유가 아니며, 찜 동기화와 관심 카테고리 저장 같은 선택 기능에서만 로그인 안내가 표시됩니다.
 
 ## 심사자 확인 경로
 
@@ -39,6 +41,8 @@
 
 비회원으로 대부분의 기능을 사용할 수 있습니다. 로그인은 찜한 특가와 관심 카테고리를 계정으로 이어보기 위한 선택 기능입니다. 심사자는 별도 계정 없이 홈, 검색, 카테고리, 상세, 찜, 알림, 마이 화면을 확인할 수 있습니다.
 
+테스트 계정은 필요하지 않습니다. Play Console 앱 액세스 항목에는 “앱의 주요 기능은 로그인 없이 검토 가능하며, 로그인은 선택 기능입니다”라고 입력합니다. 심사자가 로그인을 시도하지 않아도 구매 이동 전 확인 화면과 개인정보처리방침, 이용약관, 서비스 안내를 확인할 수 있습니다.
+
 ### Google Play 데이터 보안
 
 V1은 앱 내 결제를 제공하지 않고, 위치/카메라/마이크/연락처/사진 권한을 요청하지 않습니다. 선택 로그인 사용 시 이메일 계정 식별자와 사용자가 저장한 찜/최근 본 상품/관심 카테고리 데이터가 Supabase에 저장될 수 있습니다. 비회원 데이터는 기기 저장소에 보관되며 마이 화면에서 삭제할 수 있습니다.
@@ -46,6 +50,8 @@ V1은 앱 내 결제를 제공하지 않고, 위치/카메라/마이크/연락�
 ### App Store Review Notes
 
 The app can be reviewed without a required account. Login is optional and only used to sync saved deals, recent views, and preferred categories. The app does not sell products or process payments directly. Purchase buttons show a confirmation sheet first, then open an external seller page in the browser. The app does not request camera, microphone, location, contacts, photo library, or tracking permissions in V1.
+
+No demo account is required. If social login providers are not enabled in the review environment, reviewers can still access the core app as a guest: Home, Search, Categories, Deal Detail, Favorites local state, Notifications overview, My Page, Privacy Policy, Terms, and external seller confirmation.
 
 ## 제출 전 확인
 
