@@ -1,4 +1,4 @@
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
 const root = process.cwd();
@@ -43,5 +43,50 @@ if (!pageSource.includes("index: false") || !pageSource.includes("스크린샷 �
 if (!guideSource.includes("/store-preview") || !guideSource.includes("npm run store:screenshots:doctor")) {
   fail("Store asset guide should reference the capture board and screenshot doctor command.");
 }
+
+const sceneRows = requiredSceneIds.map((id) => {
+  const sceneBlock = sceneSource.match(new RegExp(`id: "${id}"[\\s\\S]*?(?=\\n  \\{|\\n\\];)`))?.[0] ?? "";
+  const title = sceneBlock.match(/title:\s*"([^"]+)"/)?.[1] ?? id;
+  const route = sceneBlock.match(/route:\s*"([^"]+)"/)?.[1] ?? "/";
+  const caption = sceneBlock.match(/caption:\s*"([^"]+)"/)?.[1] ?? "";
+  return `| ${id} | ${title} | \`${route}\` | ${caption} | Pending manual capture |`;
+});
+
+const report = [
+  "# Store Screenshot QA Report",
+  "",
+  "This report records the non-secret screenshot storyboard and capture readiness for Play Console and App Store Connect.",
+  "",
+  "## Screenshot Capture Board",
+  "",
+  "- Preview route: `/store-preview`",
+  "- Preview page is expected to be `noindex`.",
+  "- Run `npm run store:screenshots:doctor` after editing screenshot scenes or store asset guidance.",
+  "",
+  "## Required Scenes",
+  "",
+  "| Scene ID | Title | Route | Caption | Capture status |",
+  "| --- | --- | --- | --- | --- |",
+  ...sceneRows,
+  "",
+  "## Screenshot Safety Checklist",
+  "",
+  "- Do not include external seller checkout, cart, order, address, or payment screens.",
+  "- Do not include real user email, profile information, tester passwords, OAuth secrets, `.env` values, keystore files, or admin tokens.",
+  "- Avoid guarantee language such as `무조건`, `100%`, `최저가 보장`, `공식 판매처 보장`, or revenue claims.",
+  "- Confirm bottom navigation, safe area, search chips, price text, and primary CTA buttons are not cropped on mobile.",
+  "- Confirm screenshots match the current app copy and the final Play/App Store descriptions.",
+  "",
+  "## Manual Work That Must Not Be Faked",
+  "",
+  "- Capture actual device or emulator screenshots after the final release build.",
+  "- Review every uploaded screenshot in Play Console and App Store Connect before submission.",
+  "- Re-run `npm run store:metadata:doctor`, `npm run store:assets:doctor`, and `npm run release:doctor` after replacing screenshot files or listing copy.",
+  ""
+].join("\n");
+
+mkdirSync(join(root, "docs"), { recursive: true });
+writeFileSync(join(root, "STORE_SCREENSHOTS_REPORT.md"), report, "utf8");
+writeFileSync(join(root, "docs", "STORE_SCREENSHOTS_REPORT.md"), report, "utf8");
 
 console.log(`PASS store screenshots: ${requiredSceneIds.length} scenes, noindex preview board, and guide wiring are present.`);

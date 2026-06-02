@@ -1,0 +1,34 @@
+# Store Screenshot QA Report
+
+This report records the non-secret screenshot storyboard and capture readiness for Play Console and App Store Connect.
+
+## Screenshot Capture Board
+
+- Preview route: `/store-preview`
+- Preview page is expected to be `noindex`.
+- Run `npm run store:screenshots:doctor` after editing screenshot scenes or store asset guidance.
+
+## Required Scenes
+
+| Scene ID | Title | Route | Caption | Capture status |
+| --- | --- | --- | --- | --- |
+| home | 오늘 먼저 볼 특가 | `/` | 검증된 구매처와 인기 특가를 첫 화면에서 빠르게 확인 | Pending manual capture |
+| search | 검색과 필터 | `/?q=%EC%83%88%EC%9A%B0%EA%B9%A1&sort=discount&verifiedOnly=true` | 원하는 상품, 판매처, 조건을 바로 좁혀보는 탐색 화면 | Pending manual capture |
+| detail | 구매 전 상세 확인 | `/deals/d014` | 가격 기준 시점, 배송, 유의사항, 판매처 이동 전 확인 | Pending manual capture |
+| favorites | 관심 특가 저장 | `/favorites` | 찜한 특가를 다시 비교하고 정렬하는 화면 | Pending manual capture |
+| notifications | 마감임박과 무료배송 | `/notifications` | 권한 요청 전에도 앱 안에서 확인 가능한 알림 센터 | Pending manual capture |
+| mypage | 정책과 설정 | `/mypage` | 계정, 기기 데이터, 정책, 고객센터를 한곳에서 관리 | Pending manual capture |
+
+## Screenshot Safety Checklist
+
+- Do not include external seller checkout, cart, order, address, or payment screens.
+- Do not include real user email, profile information, tester passwords, OAuth secrets, `.env` values, keystore files, or admin tokens.
+- Avoid guarantee language such as `무조건`, `100%`, `최저가 보장`, `공식 판매처 보장`, or revenue claims.
+- Confirm bottom navigation, safe area, search chips, price text, and primary CTA buttons are not cropped on mobile.
+- Confirm screenshots match the current app copy and the final Play/App Store descriptions.
+
+## Manual Work That Must Not Be Faked
+
+- Capture actual device or emulator screenshots after the final release build.
+- Review every uploaded screenshot in Play Console and App Store Connect before submission.
+- Re-run `npm run store:metadata:doctor`, `npm run store:assets:doctor`, and `npm run release:doctor` after replacing screenshot files or listing copy.

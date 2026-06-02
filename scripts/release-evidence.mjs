@@ -53,6 +53,7 @@ const artifacts = [
   ["Store metadata QA report", "docs/STORE_METADATA_REPORT.md"],
   ["Device QA readiness report", "docs/DEVICE_QA_REPORT.md"],
   ["Store submission readiness report", "docs/STORE_SUBMISSION_REPORT.md"],
+  ["Store screenshot QA report", "docs/STORE_SCREENSHOTS_REPORT.md"],
   ["Harness report", "docs/HARNESS_REPORT.md"],
   ["Link coverage report", "docs/link-coverage-report.md"]
 ];

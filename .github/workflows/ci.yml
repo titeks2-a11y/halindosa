@@ -42,6 +42,9 @@ jobs:
       - name: Store submission readiness report
         run: npm run store:submission:report
 
+      - name: Store screenshot readiness report
+        run: npm run store:screenshots:doctor
+
       - name: Launch harness
         run: npm run harness
 
@@ -63,6 +66,7 @@ jobs:
             STORE_METADATA_REPORT.md
             DEVICE_QA_REPORT.md
             STORE_SUBMISSION_REPORT.md
+            STORE_SCREENSHOTS_REPORT.md
             IMAGE_OPERATIONS_REPORT.md
             IMAGE_QUALITY_REPORT.md
             LINK_VERIFICATION_REPORT.md
@@ -77,6 +81,7 @@ jobs:
             docs/STORE_METADATA_REPORT.md
             docs/DEVICE_QA_REPORT.md
             docs/STORE_SUBMISSION_REPORT.md
+            docs/STORE_SCREENSHOTS_REPORT.md
             docs/PERFORMANCE_REPORT.md
             docs/release-evidence.md
             docs/link-coverage-report.md
