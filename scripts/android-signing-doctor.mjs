@@ -46,8 +46,8 @@ const requiredGradleSnippets = [
   "keyAlias keystoreProperties['keyAlias']",
   "keyPassword keystoreProperties['keyPassword']",
   "signingConfig signingConfigs.release",
-  "versionCode 1",
-  'versionName "1.0.0"'
+  "versionCode 2",
+  'versionName "1.0.1"'
 ];
 const missingGradle = requiredGradleSnippets.filter((snippet) => !buildGradle.includes(snippet));
 if (missingGradle.length) fail(`android/app/build.gradle signing setup is incomplete. Missing: ${missingGradle.join(", ")}`);

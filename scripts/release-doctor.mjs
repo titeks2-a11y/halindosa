@@ -95,7 +95,7 @@ async function checkPackage() {
   else pass("Supabase Auth dependency", pkg.dependencies["@supabase/supabase-js"]);
 
   const versionIssues = [];
-  if (pkg.version !== "1.0.0") versionIssues.push(`package.json version is ${pkg.version}`);
+  if (pkg.version !== "1.0.1") versionIssues.push(`package.json version is ${pkg.version}`);
   if (lock.version !== pkg.version) versionIssues.push(`package-lock root version is ${lock.version}`);
   if (lock.packages?.[""]?.version !== pkg.version) {
     versionIssues.push(`package-lock package version is ${lock.packages?.[""]?.version ?? "missing"}`);
@@ -2746,11 +2746,11 @@ async function checkAndroid() {
   if (!gradle.includes('applicationId "com.halindosa.app"')) fail("Android applicationId", "Expected com.halindosa.app.");
   else pass("Android applicationId", "com.halindosa.app");
 
-  if (!gradle.includes("versionCode 1")) fail("Android versionCode", "Expected versionCode 1.");
-  else pass("Android versionCode", "1");
+  if (!gradle.includes("versionCode 2")) fail("Android versionCode", "Expected versionCode 2.");
+  else pass("Android versionCode", "2");
 
-  if (!gradle.includes('versionName "1.0.0"')) fail("Android versionName", "Expected versionName 1.0.0.");
-  else pass("Android versionName", "1.0.0");
+  if (!gradle.includes('versionName "1.0.1"')) fail("Android versionName", "Expected versionName 1.0.1.");
+  else pass("Android versionName", "1.0.1");
 
   if (!strings.includes("<string name=\"app_name\">할인도사</string>")) fail("Android app label", "Expected 할인도사 app_name.");
   else pass("Android app label", "할인도사");
@@ -2810,11 +2810,11 @@ async function checkIos() {
   if (!pbx.includes("PRODUCT_BUNDLE_IDENTIFIER = com.halindosa.app;")) fail("iOS bundle identifier", "Expected com.halindosa.app.");
   else pass("iOS bundle identifier", "com.halindosa.app");
 
-  if (!pbx.includes("CURRENT_PROJECT_VERSION = 1;")) fail("iOS build number", "Expected CURRENT_PROJECT_VERSION 1.");
-  else pass("iOS build number", "1");
+  if (!pbx.includes("CURRENT_PROJECT_VERSION = 2;")) fail("iOS build number", "Expected CURRENT_PROJECT_VERSION 2.");
+  else pass("iOS build number", "2");
 
-  if (!pbx.includes("MARKETING_VERSION = 1.0.0;")) fail("iOS version", "Expected MARKETING_VERSION 1.0.0.");
-  else pass("iOS version", "1.0.0");
+  if (!pbx.includes("MARKETING_VERSION = 1.0.1;")) fail("iOS version", "Expected MARKETING_VERSION 1.0.1.");
+  else pass("iOS version", "1.0.1");
 
   if (!info.includes("<string>할인도사</string>")) fail("iOS display name", "Expected 할인도사.");
   else pass("iOS display name", "할인도사");
