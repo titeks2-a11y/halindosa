@@ -103,7 +103,7 @@ if (includesAll(toast, ["top-[calc(0.75rem+env(safe-area-inset-top))]", "max-w-s
 const failed = checks.filter((check) => !check.ok);
 const report = `# 할인도사 Mobile UX Regression Report
 
-Generated: ${new Date().toISOString()}
+Generated: npm run test:mobile-ux
 Status: ${failed.length ? "FAIL" : "PASS"}
 
 ## Static Mobile Gates
