@@ -643,6 +643,7 @@ export default function Home() {
   const [activeView, setActiveView] = useState<AppView>("home");
   const [query, setQuery] = useState("");
   const [visibleDealCount, setVisibleDealCount] = useState(INITIAL_HOME_DEAL_LIMIT);
+  const [showDeepBenefitSections, setShowDeepBenefitSections] = useState(false);
   const [recentSearchKeywords, setRecentSearchKeywords] = useState<string[]>([]);
   const [category, setCategory] = useState("all");
   const [sort, setSort] = useState<DealSort>("latest");
@@ -2738,7 +2739,28 @@ export default function Home() {
         ) : null}
         {activeView === "home" ? (
           <>
-            <details className="hidden overflow-hidden rounded-[28px] border border-red-100 bg-white shadow-sm" aria-label="심화 혜택 탐색 접기">
+            {!showDeepBenefitSections ? (
+              <section className="rounded-[24px] border border-red-100 bg-white p-3 shadow-sm sm:p-4" aria-label="심화 혜택 탐색 열기">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="min-w-0">
+                    <p className="text-xs font-black text-dossa-red">심화 혜택 탐색</p>
+                    <h3 className="mt-1 text-base font-black text-slate-950 sm:text-lg">상품 목록을 먼저 보고, 필요할 때 혜택 루틴을 펼치세요</h3>
+                    <p className="mt-1 line-clamp-2 text-xs font-bold leading-5 text-slate-500">
+                      무료혜택 큐, 오늘 브리핑, 개인화 추천, 쇼핑몰별 탐색은 첫 화면을 가볍게 유지하기 위해 필요할 때만 불러옵니다.
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setShowDeepBenefitSections(true)}
+                    className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-2xl bg-slate-950 px-4 text-sm font-black text-white transition hover:bg-dossa-red"
+                    aria-label="심화 혜택 루틴 더보기"
+                  >
+                    혜택 루틴 더보기
+                  </button>
+                </div>
+              </section>
+            ) : (
+            <details open className="group overflow-hidden rounded-[28px] border border-red-100 bg-white shadow-sm" aria-label="심화 혜택 탐색 접기">
               <summary className="flex cursor-pointer list-none flex-col gap-3 bg-gradient-to-r from-red-50 via-white to-orange-50 px-4 py-4 outline-none transition hover:bg-red-50 focus-visible:ring-4 focus-visible:ring-red-100 sm:flex-row sm:items-center sm:justify-between sm:px-5 [&::-webkit-details-marker]:hidden">
                 <span>
                   <span className="block text-xs font-black text-dossa-red">심화 혜택 탐색</span>
@@ -3341,6 +3363,7 @@ export default function Home() {
             />
               </div>
             </details>
+            )}
 
             <details className="group hidden overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-sm sm:block" aria-label="상세 필터와 결과 분석 접기">
               <summary className="flex cursor-pointer list-none flex-col gap-3 px-4 py-4 outline-none transition hover:bg-slate-50 focus-visible:ring-4 focus-visible:ring-red-100 sm:flex-row sm:items-center sm:justify-between sm:px-5 [&::-webkit-details-marker]:hidden">
