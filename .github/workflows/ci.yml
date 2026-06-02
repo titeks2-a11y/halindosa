@@ -57,6 +57,9 @@ jobs:
       - name: Store manual submission checklist
         run: npm run store:manual:checklist
 
+      - name: Store manual submission checklist doctor
+        run: npm run store:manual:doctor
+
       - name: Store launch handoff report
         run: npm run store:handoff:report
 

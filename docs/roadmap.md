@@ -15,6 +15,7 @@
 - `store:handoff:report`를 추가해 제출 담당자가 볼 최종 인수인계 리포트에 바이너리/스토어 이미지, 검증 리포트, 구매 링크 준비도, 실기기/스크린샷 범위, 남은 외부 콘솔 작업, 민감정보 금지 원칙을 묶고 CI, `qa:release`, `store:packet:doctor`, `release:doctor`, `release:evidence`에 연결
 - `store:console:fields`를 추가해 Play Console/App Store Connect 입력 필드, 심사자 복사 문구, 공개 URL, 데이터 보안/콘텐츠 등급 문서 연결을 `STORE_CONSOLE_FIELDS.json`과 `docs/STORE_CONSOLE_FIELDS.md`로 생성하고 제출 패킷, handoff, CI, `qa:release`, `release:doctor`, `release:evidence`에 연결
 - `store:manual:checklist`를 추가해 signed AAB 업로드, 공개 정책 URL 확인, 실기기 QA, 스크린샷 업로드, OAuth 콘솔 설정처럼 자동으로 완료했다고 말하면 안 되는 수동 작업을 `STORE_MANUAL_CHECKLIST.json`, `STORE_MANUAL_CHECKLIST.md`, `docs/STORE_MANUAL_CHECKLIST.md`로 분리하고 CI, `qa:release`, `store:packet:doctor`, `release:doctor`, `release:evidence`에 연결
+- `store:manual:doctor`를 추가해 수동 제출 체크리스트의 critical 항목, 증빙 요구, 민감정보 금지, localhost/example 차단, 외부 콘솔 완료 허위 주장 차단 기준을 검사하고 CI, `qa:release`, `store:packet:doctor`, `release:doctor`, `release:evidence`에 연결
 - 375px 모바일 브라우저에서 홈 첫 화면을 직접 확인해 compact 검색, 상태 배지, 가로 필터, 카테고리 rail, `오늘 바로 볼 특가`, `/go/[dealId]` 새 탭 링크, 하단 탭 safe-area 노출이 실제 렌더링에서도 유지되는지 점검
 - `image:backlog:report`를 추가해 전체 이미지 보강 대기 상품을 `IMAGE_BACKLOG.csv`, `IMAGE_BACKLOG.json`, `docs/IMAGE_BACKLOG_REPORT.md`로 생성하고, `qa`, `image:operations:doctor`, `release:doctor`, `release:evidence`가 해당 운영 큐를 함께 확인하도록 보강
 - `codex/24h-commercial-autopilot-hardening` 브랜치에서 직접 구매/공식 혜택 링크, 외부 새 탭 이동, 이미지 fallback, 생활형 검색 품질을 별도 하네스로 분리

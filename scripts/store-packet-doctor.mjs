@@ -52,6 +52,7 @@ const requiredCommands = [
   "npm run qa:release",
   "npm run store:console:fields",
   "npm run store:manual:checklist",
+  "npm run store:manual:doctor",
   "npm run store:handoff:report",
   "npm run android:bundle",
   "npm run release:evidence",

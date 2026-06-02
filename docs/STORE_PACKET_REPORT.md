@@ -55,6 +55,7 @@ This report verifies that the store submission packet points to the expected non
 | `npm run qa:release` | referenced |
 | `npm run store:console:fields` | referenced |
 | `npm run store:manual:checklist` | referenced |
+| `npm run store:manual:doctor` | referenced |
 | `npm run store:handoff:report` | referenced |
 | `npm run android:bundle` | referenced |
 | `npm run release:evidence` | referenced |

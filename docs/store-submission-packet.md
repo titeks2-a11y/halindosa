@@ -58,6 +58,7 @@ npm run store:submission:report
 npm run store:packet:doctor
 npm run store:console:fields
 npm run store:manual:checklist
+npm run store:manual:doctor
 npm run store:handoff:report
 npm run qa:release
 npm run android:bundle

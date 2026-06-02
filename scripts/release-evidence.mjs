@@ -112,6 +112,7 @@ const lines = [
   "npm run store:screenshots:manifest",
   "npm run store:console:fields",
   "npm run store:manual:checklist",
+  "npm run store:manual:doctor",
   "npm run store:handoff:report",
   "npm run harness",
   "npm run qa:release",

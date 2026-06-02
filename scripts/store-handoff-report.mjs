@@ -79,6 +79,7 @@ const commandSequence = [
   "npm run device:qa:manifest",
   "npm run device:qa:doctor",
   "npm run store:manual:checklist",
+  "npm run store:manual:doctor",
   "npm run release:doctor",
   "npm run qa:release"
 ];
