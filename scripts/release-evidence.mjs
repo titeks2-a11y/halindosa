@@ -47,6 +47,9 @@ const artifacts = [
   ["Feature graphic", "assets/store/feature-graphic-1024x500.png"],
   ["iOS App icon", "ios/App/App/Assets.xcassets/AppIcon.appiconset/AppIcon-512@2x.png"],
   ["iOS privacy manifest", "ios/App/App/PrivacyInfo.xcprivacy"],
+  ["Commercial audit report", "docs/AUDIT_REPORT.md"],
+  ["Environment doctor report", "docs/ENV_DOCTOR_REPORT.md"],
+  ["Device QA readiness report", "docs/DEVICE_QA_REPORT.md"],
   ["Harness report", "docs/HARNESS_REPORT.md"],
   ["Link coverage report", "docs/link-coverage-report.md"]
 ];
