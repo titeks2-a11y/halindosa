@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="480" viewBox="0 0 640 480" role="img" aria-label="Deal placeholder">
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f8fafc"/><stop offset="1" stop-color="#ff4d4f"/></linearGradient></defs>
+  <rect width="640" height="480" fill="url(#g)"/>
+  <rect x="160" y="135" width="320" height="250" rx="48" fill="#fff"/>
+  <path d="M230 250h240M230 310h150" stroke="#0f172a" stroke-width="24" stroke-linecap="round"/>
+  <circle cx="455" cy="160" r="58" fill="#ff2b2b"/>
+  <path d="M440 160h35M457 142v35" stroke="#fff" stroke-width="16" stroke-linecap="round"/>
+</svg>

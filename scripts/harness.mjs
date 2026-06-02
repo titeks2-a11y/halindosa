@@ -9,10 +9,13 @@ const steps = [
   ["lint", ["run", "lint"]],
   ["build", ["run", "build"]],
   ["verify:links", ["run", "verify:links"]],
+  ["test:external-links", ["run", "test:external-links"]],
+  ["test:images", ["run", "test:images"]],
   ["test:search", ["run", "test:search"]],
   ["test:ui", ["run", "test:ui"]],
   ["test:seo", ["run", "test:seo"]],
   ["test:perf", ["run", "test:perf"]],
+  ["smoke:local", ["run", "smoke:local"]],
   ["release:doctor", ["run", "release:doctor"]]
 ];
 
@@ -79,11 +82,14 @@ ${result.output.slice(-6000) || "(no output)"}
 
 - 검증된 구매 링크만 기본 노출합니다.
 - 구매 이동은 내부 /go 라우트를 거쳐 새 탭으로 열리게 유지합니다.
+- 외부 링크는 opener 접근을 막고, 앱 화면을 덮지 않도록 새 탭/외부 브라우저 정책을 검사합니다.
+- 상품 이미지는 고정 비율, lazy loading, fallback 정책을 검사합니다.
 - 하단 탭은 홈, 인기, 카테고리, 마이 4개만 유지합니다.
 - 모바일 첫 화면은 검색, compact 필터, 핵심 특가 리스트를 우선합니다.
 `;
 
   writeFileSync(join(root, "docs", "HARNESS_REPORT.md"), report, "utf8");
+  writeFileSync(join(root, "HARNESS_REPORT.md"), report, "utf8");
 }
 
 for (const [name, args] of steps) {

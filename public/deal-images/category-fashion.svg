@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="480" viewBox="0 0 640 480" role="img" aria-label="Fashion deal placeholder">
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff7ed"/><stop offset="1" stop-color="#ff4d4f"/></linearGradient></defs>
+  <rect width="640" height="480" fill="url(#g)"/>
+  <path d="M230 130h240l45 95-75 35-25-45v230H245V215l-25 45-75-35 45-95h40Z" fill="#fff"/>
+  <path d="M275 130c8 38 82 38 90 0" stroke="#ff2b2b" stroke-width="20" stroke-linecap="round" fill="none"/>
+  <path d="M265 290h145" stroke="#0f172a" stroke-width="22" stroke-linecap="round"/>
+</svg>

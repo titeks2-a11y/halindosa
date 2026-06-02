@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="480" viewBox="0 0 640 480" role="img" aria-label="Travel deal placeholder">
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ecfeff"/><stop offset="1" stop-color="#ff4d4f"/></linearGradient></defs>
+  <rect width="640" height="480" fill="url(#g)"/>
+  <path d="M120 280 520 145l-90 230-95-95-115 100-45-45 105-120-160 65Z" fill="#fff"/>
+  <path d="M335 280 520 145" stroke="#ff2b2b" stroke-width="18" stroke-linecap="round"/>
+  <circle cx="490" cy="110" r="46" fill="#ff6a3d"/>
+</svg>

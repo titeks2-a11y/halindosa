@@ -37,6 +37,9 @@
     "store:assets:doctor": "node scripts/store-assets-doctor.mjs",
     "store:screenshots:doctor": "node scripts/store-screenshots-doctor.mjs",
     "perf:budget": "node scripts/performance-budget.mjs",
+    "test:links": "node scripts/verify-product-links.mjs",
+    "test:images": "node scripts/test-images.mjs",
+    "test:external-links": "node scripts/test-external-links.mjs",
     "test:search": "node scripts/search-quality-doctor.mjs",
     "test:ui": "node scripts/test-ui-rules.mjs",
     "test:seo": "node scripts/test-seo.mjs",
@@ -44,7 +47,7 @@
     "harness": "node scripts/harness.mjs",
     "release:evidence": "node scripts/release-evidence.mjs",
     "release:doctor": "node scripts/release-doctor.mjs",
-    "qa": "npm run lint && npm run verify:links && npm run catalog:doctor && npm run search:doctor && npm run test:ui && npm run test:seo && npm run test:perf && npm run purchase:navigation:doctor && npm run detail:navigation:doctor && npm run navigation:doctor && npm run home:url-state:doctor && npm run home:list-scan:doctor && npm run smoke:local && npm run build && npm run release:doctor",
+    "qa": "npm run lint && npm run verify:links && npm run test:external-links && npm run test:images && npm run catalog:doctor && npm run search:doctor && npm run test:ui && npm run test:seo && npm run test:perf && npm run purchase:navigation:doctor && npm run detail:navigation:doctor && npm run navigation:doctor && npm run home:url-state:doctor && npm run home:list-scan:doctor && npm run smoke:local && npm run build && npm run release:doctor",
     "qa:release": "npm run qa && npm run audit:commercial && npm run device:qa:doctor && npm run feed:validate && npm run feed:production:doctor && npm run build:android && npm run cap:sync && npm run cap:sync:ios && npm run store:metadata:doctor && npm run store:assets:doctor && npm run store:screenshots:doctor && npm run perf:budget && npm run release:doctor",
     "wait:health": "node scripts/wait-for-health.mjs",
     "detail:navigation:doctor": "node scripts/detail-navigation-doctor.mjs"

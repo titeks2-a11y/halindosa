@@ -3,6 +3,7 @@ import { join } from "node:path";
 
 const root = process.cwd();
 const reportPath = join(root, "docs", "PERFORMANCE_REPORT.md");
+const rootReportPath = join(root, "PERFORMANCE_REPORT.md");
 const checks = [];
 
 function read(path) {
@@ -81,6 +82,7 @@ ${checks.map((check) => `| ${check.name} | ${check.ok ? "PASS" : "FAIL"} | ${che
 
 mkdirSync(join(root, "docs"), { recursive: true });
 writeFileSync(reportPath, report, "utf8");
+writeFileSync(rootReportPath, report, "utf8");
 
 for (const check of checks) {
   const prefix = check.ok ? "PASS" : "FAIL";

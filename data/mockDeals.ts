@@ -71,6 +71,20 @@ function isUsableSourceUrl(value: string) {
   return Boolean(value && host && !host.includes("example.com"));
 }
 
+const categoryFallbackImages: Record<Deal["category"], string> = {
+  "식품": "/deal-images/category-food.svg",
+  "전자기기": "/deal-images/category-digital.svg",
+  "생활용품": "/deal-images/category-living.svg",
+  "의류": "/deal-images/category-fashion.svg",
+  "육아": "/deal-images/category-baby.svg",
+  "여행/티켓": "/deal-images/category-travel.svg",
+  "뷰티": "/deal-images/category-beauty.svg",
+  "가전": "/deal-images/category-appliance.svg",
+  "편의점/마트": "/deal-images/category-coupon.svg",
+  "쿠폰/이벤트": "/deal-images/category-coupon.svg",
+  "기타": "/deal-images/category-etc.svg"
+};
+
 function deal(
   id: string,
   mall: string,
@@ -126,6 +140,7 @@ function deal(
     minimumOrderAmount,
     isStackable: /중복|카드할인|쿠폰적용/.test(text)
   });
+  const displayImageUrl = imageUrl || categoryFallbackImages[category] || categoryFallbackImages["기타"];
 
   return {
     id,
@@ -139,7 +154,7 @@ function deal(
     mallName: mall,
     subCategory: tags[0],
     category,
-    thumbnail: imageUrl,
+    thumbnail: displayImageUrl,
     link: purchaseUrl,
     url: purchaseUrl,
     productUrl: validation.linkVerified ? validation.finalPurchaseUrl : "",
@@ -196,7 +211,7 @@ function deal(
     isSoldOut: false,
     updatedAt: checkedAt,
     mall,
-    imageUrl,
+    imageUrl: displayImageUrl,
     shippingInfo,
     expiresAt
   };

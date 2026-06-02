@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -376,14 +376,59 @@ for (const item of requiredSearches) {
 }
 
 if (issues.length) {
+  writeFileSync(
+    join(root, "SEARCH_REPORT.md"),
+    `# 할인도사 Search Report
+
+Generated: ${new Date().toISOString()}
+Status: FAIL
+
+## Summary
+
+- 테스트 키워드 수: ${requiredSearches.length}
+- 홈 추천 검색어 수: ${highIntentKeywords.length}
+- 검색 alias 수: ${searchAliases.length}
+
+## Issues
+
+${issues.map((issue) => `- ${issue}`).join("\n")}
+`,
+    "utf8"
+  );
   console.error("Search quality doctor failed.");
   for (const issue of issues) console.error(`- ${issue}`);
   process.exit(1);
 }
 
+const searchRows = requiredSearches.map((item) => {
+  const count = deals.filter((deal) => dealMatchesSearchText([deal.title, deal.mall, deal.category, ...deal.tags].join(" "), item.query)).length;
+  return { query: item.query, count, minimum: item.minMatches };
+});
+
+writeFileSync(
+  join(root, "SEARCH_REPORT.md"),
+  `# 할인도사 Search Report
+
+Generated: ${new Date().toISOString()}
+Status: PASS
+
+## Summary
+
+- 테스트 키워드 수: ${requiredSearches.length}
+- 홈 추천 검색어 수: ${highIntentKeywords.length}
+- 검색 alias 수: ${searchAliases.length}
+- 검색 범위: 상품명, 브랜드/쇼핑몰, 카테고리, 태그, 혜택 요약, 생활형 유사어, 띄어쓰기 차이
+- 미노출 정책: 검증 링크 실패 상품은 기본 목록과 검색 기본 노출에서 제외한다.
+
+## Keyword Results
+
+| Query | Matches | Minimum |
+| --- | ---: | ---: |
+${searchRows.map((row) => `| ${row.query} | ${row.count} | ${row.minimum} |`).join("\n")}
+`,
+  "utf8"
+);
+
 console.log("Search quality doctor passed.");
 console.log(`- High-intent home keywords: ${highIntentKeywords.length}`);
-for (const item of requiredSearches) {
-  const count = deals.filter((deal) => dealMatchesSearchText([deal.title, deal.mall, deal.category, ...deal.tags].join(" "), item.query)).length;
-  console.log(`- ${item.query}: ${count} deals`);
-}
+for (const row of searchRows) console.log(`- ${row.query}: ${row.count} deals`);

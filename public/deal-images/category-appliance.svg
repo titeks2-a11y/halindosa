@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="480" viewBox="0 0 640 480" role="img" aria-label="Appliance deal placeholder">
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f1f5f9"/><stop offset="1" stop-color="#ff6a3d"/></linearGradient></defs>
+  <rect width="640" height="480" fill="url(#g)"/>
+  <rect x="205" y="95" width="230" height="320" rx="36" fill="#fff"/>
+  <circle cx="320" cy="255" r="82" fill="#0f172a"/>
+  <circle cx="320" cy="255" r="50" fill="#ff2b2b"/>
+  <path d="M255 150h130" stroke="#ff6a3d" stroke-width="18" stroke-linecap="round"/>
+</svg>

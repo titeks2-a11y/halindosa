@@ -6,6 +6,15 @@
 
 ## 완료 작업
 
+### PHASE 24H Commercial Autopilot Hardening
+
+- `codex/24h-commercial-autopilot-hardening` 브랜치에서 직접 구매/공식 혜택 링크, 외부 새 탭 이동, 이미지 fallback, 생활형 검색 품질을 별도 하네스로 분리
+- `npm run test:links`, `npm run test:external-links`, `npm run test:images`를 추가해 검색/홈/커뮤니티 링크 차단, `/go` 새 탭 정책, `window.open`/Capacitor Browser 안전 이동, 상품 이미지 렌더링 품질을 자동 검사
+- 링크 검증 결과를 [LINK_VERIFICATION_REPORT.md](../LINK_VERIFICATION_REPORT.md), [LINK_VERIFICATION_RESULT.json](../LINK_VERIFICATION_RESULT.json)으로 저장해 전체 상품 수, 직접 링크 통과 수, 상품 상세/공식 혜택 URL 수, 도메인 분포를 운영자가 바로 확인하도록 개선
+- 검색 품질 결과를 [SEARCH_REPORT.md](../SEARCH_REPORT.md), 이미지 품질 결과를 [IMAGE_QUALITY_REPORT.md](../IMAGE_QUALITY_REPORT.md), 외부 링크 안전 결과를 [EXTERNAL_LINK_REPORT.md](../EXTERNAL_LINK_REPORT.md)로 남겨 반복 QA의 증거를 강화
+- 이미지가 없는 상품에 카테고리별 할인도사 브랜드 SVG 썸네일을 자동 배정해 모바일 상품 카드의 실제 렌더링 이미지 커버리지를 100%로 유지
+- [24H_START_AUDIT.md](../24H_START_AUDIT.md), [HARNESS_AUDIT.md](../HARNESS_AUDIT.md), [KNOWN_ISSUES.md](../KNOWN_ISSUES.md)를 추가해 이번 장기 hardening의 시작 상태, 검사 범위, 남은 운영 리스크를 문서화
+
 ### PHASE Harness Hardening
 
 - `codex/harness-24h-commercial-hardening` 브랜치에서 상용 출시용 자동 하네스 루프를 추가
