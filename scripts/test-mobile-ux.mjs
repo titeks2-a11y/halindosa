@@ -20,6 +20,10 @@ function includesAll(source, values) {
   return values.every((value) => source.includes(value));
 }
 
+function countMatches(source, pattern) {
+  return [...source.matchAll(pattern)].length;
+}
+
 const appShell = read("components/AppShell.tsx");
 const bottomNavigation = read("components/BottomNavigation.tsx");
 const searchBar = read("components/SearchBar.tsx");
@@ -27,6 +31,8 @@ const quickDealCard = read("components/QuickDealCard.tsx");
 const liveDealFeed = read("components/LiveDealFeed.tsx");
 const toast = read("components/Toast.tsx");
 const homePage = read("app/page.tsx");
+const mobileHeader = read("components/MobileHeader.tsx");
+const categoryTabs = read("components/CategoryTabs.tsx");
 
 if (includesAll(appShell, ["max-w-[480px]", "pb-[calc(5rem+env(safe-area-inset-bottom))]", "lg:max-w-7xl"])) {
   pass("mobile shell width and safe area", "모바일 기본 폭과 하단 탭 겹침 방지 padding이 유지됩니다.");
@@ -46,10 +52,34 @@ if (includesAll(searchBar, ['placeholder="상품명·쇼핑몰 검색"', "h-10",
   fail("compact search", "검색창 compact 모바일 기준 또는 결과/추천 검색어 표시가 부족합니다.");
 }
 
+if (
+  countMatches(homePage, /<SearchBar\b/g) <= 2 &&
+  includesAll(mobileHeader, ['const showHeaderSearch = pathname !== "/"', 'placeholder="상품명·쇼핑몰 검색"', "h-9"])
+) {
+  pass("single home search entry", "모바일 홈에는 빠른 검색 1개만 보이고, 하위 화면 헤더 검색과 데스크톱 상세 검색은 compact/hidden 기준을 유지합니다.");
+} else {
+  fail("single home search entry", "홈 검색창이 중복되었거나 하위 화면 보조 검색 compact 기준이 깨졌습니다.");
+}
+
 if (includesAll(homePage, ["INITIAL_HOME_DEAL_LIMIT = 12", "상세 필터와 결과 분석 접기", "group hidden overflow-hidden", "먼저 확인할 상품"])) {
   pass("home first screen budget", "초기 렌더 12개 제한과 상세 필터 접힘 구조가 유지됩니다.");
 } else {
   fail("home first screen budget", "홈 첫 화면 budget 또는 상세 필터 접힘 구조가 깨졌습니다.");
+}
+
+if (
+  includesAll(homePage, ["quickCategoryShortcuts", "무료혜택", "오늘특가", "무료배송", "쿠폰"]) &&
+  includesAll(categoryTabs, ["overflow-x-auto", "shrink-0", "aria-pressed"])
+) {
+  pass("category rail compactness", "핵심 카테고리는 모바일 가로 칩으로 유지되고 선택 상태를 스크린리더에 전달합니다.");
+} else {
+  fail("category rail compactness", "모바일 카테고리 칩 또는 접근성 상태가 부족합니다.");
+}
+
+if (includesAll(homePage, ["quickMallFilterChips", "quickPriceFilterChips", "quickBenefitFilterChips", "전체 초기화"])) {
+  pass("filter rail consolidation", "쇼핑몰, 가격대, 혜택 필터가 큰 섹션 대신 compact chip rail로 유지됩니다.");
+} else {
+  fail("filter rail consolidation", "필터가 다시 큰 세로 섹션으로 분리될 위험이 있습니다.");
 }
 
 if (includesAll(quickDealCard, ["aspect-[4/3]", "line-clamp-2", "min-h-10", "직접 링크 확인", "primaryCta"])) {
@@ -86,6 +116,7 @@ ${checks.map((check) => `| ${check.name} | ${check.ok ? "PASS" : "FAIL"} | ${che
 
 - 360~430px 모바일 화면에서 첫 화면 정보 밀도를 유지하기 위한 정적 회귀 테스트입니다.
 - 실제 Playwright 스크린샷을 대체하지는 않지만, 하단 탭 겹침, 과한 검색 영역, 긴 카드, CTA 터치 영역, 토스트 위치 회귀를 빠르게 잡습니다.
+- 홈 검색창 중복, 카테고리 칩 rail, 필터 chip rail, 하위 화면 보조 검색 compact 기준도 함께 검사합니다.
 - Playwright 도입 전까지 \`npm run test:mobile-ux\`와 \`npm run harness\`가 모바일 UX 안전망 역할을 합니다.
 `;
 
