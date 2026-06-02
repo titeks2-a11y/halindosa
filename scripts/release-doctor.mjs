@@ -36,6 +36,7 @@ async function checkPackage() {
   const lock = JSON.parse(await text("package-lock.json"));
   const androidGradle = await text("android/app/build.gradle");
   const iosProject = await text("ios/App/App.xcodeproj/project.pbxproj");
+  const harness = await text("scripts/harness.mjs");
   const requiredScripts = [
     "build",
     "build:android",
@@ -53,6 +54,7 @@ async function checkPackage() {
     "feed:validate",
     "feed:production:doctor",
     "verify:links",
+    "test:mobile-ux",
     "links:report",
     "store:metadata:doctor",
     "store:assets:generate",
@@ -63,10 +65,10 @@ async function checkPackage() {
   const missing = requiredScripts.filter((script) => !pkg.scripts?.[script]);
 
   if (missing.length) fail("package scripts", `Missing scripts: ${missing.join(", ")}`);
-  else if (!pkg.scripts?.qa?.includes("verify:links") || !pkg.scripts?.["qa:release"]?.includes("audit:commercial") || !pkg.scripts?.["qa:release"]?.includes("device:qa:doctor") || !pkg.scripts?.["qa:release"]?.includes("feed:validate") || !pkg.scripts?.["qa:release"]?.includes("feed:production:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:metadata:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:assets:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:doctor") || !pkg.scripts?.["qa:release"]?.includes("perf:budget")) {
-    fail("package scripts", "qa:release should include commercial security audit, device QA doctor, partner feed validator, production feed doctor, store metadata doctor, store asset doctor, store screenshot doctor, and performance budget before store submission.");
+  else if (!pkg.scripts?.qa?.includes("verify:links") || !pkg.scripts?.qa?.includes("test:mobile-ux") || !harness.includes("test:mobile-ux") || !pkg.scripts?.["qa:release"]?.includes("audit:commercial") || !pkg.scripts?.["qa:release"]?.includes("device:qa:doctor") || !pkg.scripts?.["qa:release"]?.includes("feed:validate") || !pkg.scripts?.["qa:release"]?.includes("feed:production:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:metadata:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:assets:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:doctor") || !pkg.scripts?.["qa:release"]?.includes("perf:budget")) {
+    fail("package scripts", "qa, harness, and qa:release should include mobile UX, commercial security audit, device QA doctor, partner feed validator, production feed doctor, store metadata doctor, store asset doctor, store screenshot doctor, and performance budget before store submission.");
   } else {
-    pass("package scripts", "Android, iOS, environment, commercial security, and performance release command flow is available.");
+    pass("package scripts", "Android, iOS, environment, mobile UX, commercial security, and performance release command flow is available.");
   }
 
   if (!pkg.dependencies?.["@capacitor/ios"]) fail("Capacitor iOS dependency", "Missing @capacitor/ios.");
