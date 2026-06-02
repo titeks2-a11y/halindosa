@@ -164,6 +164,7 @@ SEO 규칙은 root metadata, Open Graph, canonical, manifest, sitemap, robots, �
 - `.github/pull_request_template.md`는 출시 안전 체크리스트입니다. PR 작성자는 harness, release doctor, `npm run store:manual:doctor`, 실제 상품/공식 혜택 상세 URL, 민감정보 미커밋, 비회원 접근, OAuth/정책 문서 영향, 모바일 하단 탭 겹침 여부, `docs/STORE_CONSOLE_FIELDS.md`/`docs/STORE_MANUAL_CHECKLIST.md`/`docs/STORE_HANDOFF_REPORT.md` 갱신 여부를 확인합니다.
 - `.github/ISSUE_TEMPLATE`에는 특가/혜택 링크·가격 신고, 앱 버그 신고, 스토어 제출 Blocker 템플릿이 있습니다. 상품 ID, 판매처, 열린 URL/도메인, 재현 경로, Play Console/App Store Connect 제출 단계, 관련 store checklist 항목을 받되 주문번호, 주소, 결제 정보, 비밀번호, 인증 코드, OAuth client secret, Supabase service-role key, `.env`, keystore 같은 민감정보는 이슈에 남기지 않도록 안내합니다.
 - `npm run release:notes`는 사용자용 변경점, 운영자 주의사항, 검증 산출물, 최근 커밋을 `RELEASE_NOTES.json`, `RELEASE_NOTES.md`, `docs/RELEASE_NOTES.md`에 민감정보 없이 기록합니다. 이 문서는 스토어 제출 성공을 증명하지 않으며, Play/App Store 업로드와 실기기 QA는 별도 증빙이 있어야 합니다.
+- `npm run support:playbook`은 가격 불일치, 품절, 링크 오류, 혜택 종료, 개인정보/계정, 스토어 제출 문의에 대한 응대 매크로와 SLA를 `SUPPORT_PLAYBOOK.json`, `SUPPORT_PLAYBOOK.md`, `docs/SUPPORT_PLAYBOOK.md`에 민감정보 없이 기록합니다. 고객지원 이슈에는 주문번호, 주소, 결제 정보, OAuth client secret, Supabase service-role key, keystore, `.env` 값을 남기지 않습니다.
 - `SECURITY.md`는 취약점, 키 노출, 인증 우회, open redirect, 관리자 토큰/keystore 노출을 공개 이슈가 아닌 GitHub Security Advisory 또는 배포 인수인계용 비공개 채널로 접수하도록 안내합니다.
 
 Docker 로컬 검증 예시:

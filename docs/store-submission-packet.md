@@ -38,6 +38,7 @@
 - 수동 제출 체크리스트: `docs/STORE_MANUAL_CHECKLIST.md`, `STORE_MANUAL_CHECKLIST.md`, `STORE_MANUAL_CHECKLIST.json`
 - 스토어 출시 인수인계 리포트: `docs/STORE_HANDOFF_REPORT.md`, `STORE_HANDOFF_REPORT.md`
 - 릴리즈 노트: `docs/RELEASE_NOTES.md`, `RELEASE_NOTES.md`, `RELEASE_NOTES.json`
+- 고객지원 플레이북: `docs/SUPPORT_PLAYBOOK.md`, `SUPPORT_PLAYBOOK.md`, `SUPPORT_PLAYBOOK.json`
 
 ## 제출 전 명령
 
@@ -62,6 +63,7 @@ npm run store:manual:checklist
 npm run store:manual:doctor
 npm run store:handoff:report
 npm run release:notes
+npm run support:playbook
 npm run qa:release
 npm run android:bundle
 npm run release:evidence

@@ -75,12 +75,13 @@ async function checkPackage() {
     "store:screenshots:doctor",
     "public:url:doctor",
     "release:evidence",
-    "release:notes"
+    "release:notes",
+    "support:playbook"
   ];
   const missing = requiredScripts.filter((script) => !pkg.scripts?.[script]);
 
   if (missing.length) fail("package scripts", `Missing scripts: ${missing.join(", ")}`);
-  else if (!pkg.scripts?.qa?.includes("verify:links") || !pkg.scripts?.qa?.includes("test:mobile-ux") || !harness.includes("test:mobile-ux") || !pkg.scripts?.["env:doctor:production"]?.includes("--production") || !pkg.scripts?.["qa:release"]?.includes("audit:commercial") || !pkg.scripts?.["qa:release"]?.includes("test:env") || !pkg.scripts?.["qa:release"]?.includes("device:qa:manifest") || !pkg.scripts?.["qa:release"]?.includes("device:qa:doctor") || !pkg.scripts?.["qa:release"]?.includes("device:qa:report") || !pkg.scripts?.["qa:release"]?.includes("android:signing:doctor") || !pkg.scripts?.["qa:release"]?.includes("public:url:doctor") || !pkg.scripts?.["qa:release"]?.includes("feed:validate") || !pkg.scripts?.["qa:release"]?.includes("feed:production:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:metadata:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:submission:report") || !pkg.scripts?.["qa:release"]?.includes("store:packet:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:console:fields") || !pkg.scripts?.["qa:release"]?.includes("store:manual:checklist") || !pkg.scripts?.["qa:release"]?.includes("store:manual:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:handoff:report") || !pkg.scripts?.["qa:release"]?.includes("release:notes") || !pkg.scripts?.["qa:release"]?.includes("store:assets:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:manifest") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:doctor") || !pkg.scripts?.["qa:release"]?.includes("perf:budget")) {
+  else if (!pkg.scripts?.qa?.includes("verify:links") || !pkg.scripts?.qa?.includes("test:mobile-ux") || !harness.includes("test:mobile-ux") || !pkg.scripts?.["env:doctor:production"]?.includes("--production") || !pkg.scripts?.["qa:release"]?.includes("audit:commercial") || !pkg.scripts?.["qa:release"]?.includes("test:env") || !pkg.scripts?.["qa:release"]?.includes("device:qa:manifest") || !pkg.scripts?.["qa:release"]?.includes("device:qa:doctor") || !pkg.scripts?.["qa:release"]?.includes("device:qa:report") || !pkg.scripts?.["qa:release"]?.includes("android:signing:doctor") || !pkg.scripts?.["qa:release"]?.includes("public:url:doctor") || !pkg.scripts?.["qa:release"]?.includes("feed:validate") || !pkg.scripts?.["qa:release"]?.includes("feed:production:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:metadata:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:submission:report") || !pkg.scripts?.["qa:release"]?.includes("store:packet:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:console:fields") || !pkg.scripts?.["qa:release"]?.includes("store:manual:checklist") || !pkg.scripts?.["qa:release"]?.includes("store:manual:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:handoff:report") || !pkg.scripts?.["qa:release"]?.includes("release:notes") || !pkg.scripts?.["qa:release"]?.includes("support:playbook") || !pkg.scripts?.["qa:release"]?.includes("store:assets:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:manifest") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:doctor") || !pkg.scripts?.["qa:release"]?.includes("perf:budget")) {
     fail("package scripts", "qa, harness, and qa:release should include mobile UX, commercial security audit, device QA manifest/doctor/report, Android signing doctor, public URL doctor, partner feed validator, production feed doctor, store metadata doctor, store submission/packet/console/handoff reports, store asset doctor, store screenshot manifest/doctor, and performance budget before store submission.");
   } else {
     pass("package scripts", "Android, iOS, environment, mobile UX, commercial security, and performance release command flow is available.");
@@ -146,6 +147,7 @@ async function checkCiWorkflow() {
     "npm run store:manual:doctor",
     "npm run store:handoff:report",
     "npm run release:notes",
+    "npm run support:playbook",
     "npm run store:screenshots:manifest",
     "npm run store:screenshots:doctor",
     "npm run harness",
@@ -180,6 +182,9 @@ async function checkCiWorkflow() {
     "RELEASE_NOTES.json",
     "RELEASE_NOTES.md",
     "docs/RELEASE_NOTES.md",
+    "SUPPORT_PLAYBOOK.json",
+    "SUPPORT_PLAYBOOK.md",
+    "docs/SUPPORT_PLAYBOOK.md",
     "STORE_SCREENSHOTS_REPORT.md",
     "docs/STORE_SCREENSHOTS_REPORT.md",
     "STORE_SCREENSHOT_MANIFEST.json",
@@ -187,7 +192,7 @@ async function checkCiWorkflow() {
     "docs/release-evidence.md"
   ];
   const missingWorkflowSnippets = requiredWorkflowSnippets.filter((snippet) => !workflow.includes(snippet));
-  const requiredRunbookSnippets = ["codex/**", "AUDIT_REPORT.md", "npm run test:env", "ENV_DOCTOR_REPORT.md", "PUBLIC_URL_REPORT.md", "npm run store:metadata:doctor", "STORE_METADATA_REPORT.md", "npm run store:assets:doctor", "STORE_ASSETS_REPORT.md", "npm run store:packet:doctor", "STORE_PACKET_REPORT.md", "npm run store:console:fields", "STORE_CONSOLE_FIELDS", "npm run store:manual:checklist", "STORE_MANUAL_CHECKLIST", "npm run store:manual:doctor", "npm run store:handoff:report", "STORE_HANDOFF_REPORT.md", "npm run release:notes", "RELEASE_NOTES", "npm run store:screenshots:manifest", "STORE_SCREENSHOT_MANIFEST", "npm run store:screenshots:doctor", "STORE_SCREENSHOTS_REPORT.md", "npm run device:qa:manifest", "DEVICE_QA_MANIFEST", "npm run device:qa:report", "DEVICE_QA_REPORT.md", "npm run store:submission:report", "STORE_SUBMISSION_REPORT.md", "npm run public:url:doctor", "npm run harness", "npm run release:doctor", "halindosa-verification-reports"];
+  const requiredRunbookSnippets = ["codex/**", "AUDIT_REPORT.md", "npm run test:env", "ENV_DOCTOR_REPORT.md", "PUBLIC_URL_REPORT.md", "npm run store:metadata:doctor", "STORE_METADATA_REPORT.md", "npm run store:assets:doctor", "STORE_ASSETS_REPORT.md", "npm run store:packet:doctor", "STORE_PACKET_REPORT.md", "npm run store:console:fields", "STORE_CONSOLE_FIELDS", "npm run store:manual:checklist", "STORE_MANUAL_CHECKLIST", "npm run store:manual:doctor", "npm run store:handoff:report", "STORE_HANDOFF_REPORT.md", "npm run release:notes", "RELEASE_NOTES", "npm run support:playbook", "SUPPORT_PLAYBOOK", "npm run store:screenshots:manifest", "STORE_SCREENSHOT_MANIFEST", "npm run store:screenshots:doctor", "STORE_SCREENSHOTS_REPORT.md", "npm run device:qa:manifest", "DEVICE_QA_MANIFEST", "npm run device:qa:report", "DEVICE_QA_REPORT.md", "npm run store:submission:report", "STORE_SUBMISSION_REPORT.md", "npm run public:url:doctor", "npm run harness", "npm run release:doctor", "halindosa-verification-reports"];
   const missingRunbookSnippets = requiredRunbookSnippets.filter((snippet) => !runbook.includes(snippet));
 
   if (missingWorkflowSnippets.length || missingRunbookSnippets.length) {
@@ -2858,7 +2863,7 @@ async function checkPolicyAndStoreDocs() {
     {
       name: "release evidence content",
       file: "docs/release-evidence.md",
-      phrases: ["릴리즈 증빙", "최신 커밋", "Release AAB", "Commercial audit report", "Environment doctor report", "Public URL submission report", "Store metadata QA report", "Store asset QA report", "Store submission packet QA report", "Store console fields manifest", "Store manual submission checklist", "Store launch handoff report", "Release notes", "Store screenshot QA report", "Store screenshot manifest", "Device QA execution manifest", "Device QA readiness report", "Store submission readiness report", "Harness report", "Image backlog report", "Image backlog CSV", "npm run image:backlog:report", "npm run store:screenshots:manifest", "npm run store:console:fields", "npm run store:manual:checklist", "npm run store:manual:doctor", "npm run store:handoff:report", "npm run release:notes", "npm run device:qa:manifest", "npm run harness", "npm run env:doctor:production", "npm run test:env", "npm run public:url:doctor", "Android signing doctor", "device QA doctor", "자동 검증 범위", "남은 수동 확인", "공개 개인정보처리방침/고객지원 URL"]
+      phrases: ["릴리즈 증빙", "최신 커밋", "Release AAB", "Commercial audit report", "Environment doctor report", "Public URL submission report", "Store metadata QA report", "Store asset QA report", "Store submission packet QA report", "Store console fields manifest", "Store manual submission checklist", "Store launch handoff report", "Release notes", "Support playbook", "Store screenshot QA report", "Store screenshot manifest", "Device QA execution manifest", "Device QA readiness report", "Store submission readiness report", "Harness report", "Image backlog report", "Image backlog CSV", "npm run image:backlog:report", "npm run store:screenshots:manifest", "npm run store:console:fields", "npm run store:manual:checklist", "npm run store:manual:doctor", "npm run store:handoff:report", "npm run release:notes", "npm run support:playbook", "npm run device:qa:manifest", "npm run harness", "npm run env:doctor:production", "npm run test:env", "npm run public:url:doctor", "Android signing doctor", "device QA doctor", "자동 검증 범위", "남은 수동 확인", "공개 개인정보처리방침/고객지원 URL"]
     },
     {
       name: "release checklist content",
@@ -2946,6 +2951,11 @@ async function checkPolicyAndStoreDocs() {
       phrases: ["할인도사 Release Notes", "User-Facing Release Notes", "Launch Candidate Highlights", "Link And Data Readiness Snapshot", "Operator Notes", "Verification Artifacts", "Manual Work That Must Not Be Faked", "직접 결제하지 않고 외부 판매처", "실제 상품 상세 URL 또는 공식 혜택 상세 URL", "Do not claim Play Console or App Store Connect submission has passed"]
     },
     {
+      name: "support playbook content",
+      file: "docs/SUPPORT_PLAYBOOK.md",
+      phrases: ["할인도사 Support Playbook", "Triage Table", "User Reply Macros", "가격이 다름", "품절 또는 옵션 선택 불가", "링크 오류 또는 다른 상품으로 이동", "개인정보/계정/삭제 문의", "스토어 심사/제출 문의", "Escalation Rules", "Sensitive Data Rule", "OAuth client secrets", "keystore passwords"]
+    },
+    {
       name: "store packet qa report content",
       file: "docs/STORE_PACKET_REPORT.md",
       phrases: ["Store Submission Packet QA Report", "File References", "Command References", "Reviewer Copy Checks", "Manual Work That Must Not Be Faked"]
@@ -2969,6 +2979,11 @@ async function checkPolicyAndStoreDocs() {
       name: "catalog quality report content",
       file: "docs/catalog-quality-report.md",
       phrases: ["상품 DB 품질 보고서", "카테고리 분포", "혜택 유형 분포", "판매처 상위 20개", "다음 상품 보강 우선순위"]
+    },
+    {
+      name: "customer support guide content",
+      file: "docs/customer-support-guide.md",
+      phrases: ["가격이 다름", "품절 또는 링크 오류", "개인정보/정책 문의", "스토어 심사/제출 문의", "docs/SUPPORT_PLAYBOOK.md", "SUPPORT_PLAYBOOK.json", "OAuth client secret", "Supabase service-role key", "store-submission-blocker", "docs/STORE_MANUAL_CHECKLIST.md"]
     }
   ];
 

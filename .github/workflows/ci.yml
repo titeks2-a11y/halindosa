@@ -66,6 +66,9 @@ jobs:
       - name: Release notes
         run: npm run release:notes
 
+      - name: Support playbook
+        run: npm run support:playbook
+
       - name: Store screenshot capture manifest
         run: npm run store:screenshots:manifest
 
@@ -102,6 +105,8 @@ jobs:
             STORE_HANDOFF_REPORT.md
             RELEASE_NOTES.json
             RELEASE_NOTES.md
+            SUPPORT_PLAYBOOK.json
+            SUPPORT_PLAYBOOK.md
             STORE_SCREENSHOTS_REPORT.md
             STORE_SCREENSHOT_MANIFEST.json
             IMAGE_OPERATIONS_REPORT.md
@@ -125,6 +130,7 @@ jobs:
             docs/STORE_MANUAL_CHECKLIST.md
             docs/STORE_HANDOFF_REPORT.md
             docs/RELEASE_NOTES.md
+            docs/SUPPORT_PLAYBOOK.md
             docs/STORE_SCREENSHOTS_REPORT.md
             docs/STORE_SCREENSHOT_MANIFEST.md
             docs/PERFORMANCE_REPORT.md
