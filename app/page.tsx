@@ -3728,7 +3728,7 @@ export default function Home() {
               </div>
               <p className="mt-3 text-xs font-semibold text-slate-500">
                 {providerSource === "production" || providerSource === "hybrid" ? "할인도사 운영 특가" : "할인도사 기본 특가"} · 주요 특가 브리핑은 2분 단위로 갱신됩니다.
-                구매링크 확인 필터를 켜면 판매처 검색 확인이 필요한 특가는 제외됩니다.
+                구매링크 확인 필터를 켜면 링크 확인이 필요한 특가는 제외됩니다.
               </p>
               {loadError ? (
                 <p className="mt-3 rounded-2xl bg-amber-50 px-4 py-3 text-xs font-black text-amber-700">{loadError}</p>

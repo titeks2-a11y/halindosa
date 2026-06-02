@@ -118,7 +118,7 @@ const lines = [
   `- 기준 커밋: ${commit}`,
   `- 전체 큐레이션 상품: ${total}개`,
   `- 검증된 실제 구매 상세 URL: ${verified}개`,
-  `- 판매처 검색 확인 단계: ${needsReview}개`,
+  `- 링크 확인 필요 단계: ${needsReview}개`,
   `- 검증 커버리지: ${rate}%`,
   `- 검증 링크 도메인 수: ${new Set(verifiedEntries.map((entry) => entry.host)).size}개`,
   "",

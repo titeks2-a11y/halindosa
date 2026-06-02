@@ -170,7 +170,7 @@ export function getDealLinkTrustLabel(deal: Pick<Deal, "linkStatus" | "linkType"
   if (deal.linkStatus === "verified") return deal.linkLabel || "구매 페이지 확인";
   if (deal.linkStatus === "sold_out") return "품절 가능성";
   if (deal.linkStatus === "broken") return "링크 확인 필요";
-  if (deal.linkType === "seller_search") return "판매처 검색 확인";
+  if (deal.linkType === "seller_search") return "링크 확인 필요";
   return "확인 필요";
 }
 

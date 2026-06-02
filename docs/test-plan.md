@@ -99,8 +99,8 @@ Play Store 내부 테스트와 비공개 테스트에서 앱이 쇼핑 정보 �
 ### 데이터/링크 신뢰도
 
 - [x] 자동 검증: 커뮤니티/placeholder 링크는 직접 구매 링크로 노출하지 않는다.
-- [x] 자동 검증: 판매처 검색 fallback은 `needs_review` 상태와 안내 문구를 함께 표시한다.
-- [x] 자동 검증: 검수 완료된 실제 상품 상세 링크가 43개 이상이고 전체 특가의 80% 이상을 유지한다.
+- [x] 자동 검증: 검색 결과 fallback은 기본 상품 목록에 노출하지 않고 `needs_review` 상태로 운영 보강한다.
+- [x] 자동 검증: 검수 완료된 실제 상품/공식 혜택 상세 링크가 140개이며 전체 큐레이션의 100%를 유지한다.
 - [x] 자동 검증: 운영 피드 import dry-run은 placeholder 또는 커뮤니티 게시글 링크를 거부한다.
 - [x] 자동 검증: 운영 피드 import dry-run은 `productUrl`/`finalPurchaseUrl` 같은 canonical 구매 URL 필드를 실제 상품 링크로 정규화하고 검증 링크 수를 응답한다.
 - [x] 자동 검증: `/api/metrics`는 링크 품질 요약과 링크 검수 큐를 제공한다.
@@ -144,7 +144,7 @@ npm run smoke
 `env:doctor`는 공개 URL, OAuth redirect, Supabase, 데이터 공급, 운영 토큰 환경변수의 누락과 placeholder 값을 점검합니다.
 `perf:budget`은 정적 export, JS/CSS, APK/AAB, 스토어 이미지가 출시 예산을 넘으면 실패합니다.
 `release:evidence`는 커밋, 앱 버전, APK/AAB, 스토어 이미지, 남은 수동 확인을 `docs/release-evidence.md`에 기록합니다.
-`release:doctor`는 Android/iOS 패키징, OAuth/딥링크, Supabase 회원 데이터 동기화, 상업화 준비 화면, 상품 상세 링크 43개 이상 및 80% 이상 보강률, 내부 점수 비노출, 출시 증빙 최신 커밋 일치 여부, 출시 당일 체크리스트, 스크린샷 스토리보드, 보관/위탁/삭제 정책 문구, 스토어 산출물까지 확인합니다.
+`release:doctor`는 Android/iOS 패키징, OAuth/딥링크, Supabase 회원 데이터 동기화, 상업화 준비 화면, 상품/공식 혜택 상세 링크 140개 및 100% 보강률, 내부 점수 비노출, 출시 증빙 최신 커밋 일치 여부, 출시 당일 체크리스트, 스크린샷 스토리보드, 보관/위탁/삭제 정책 문구, 스토어 산출물까지 확인합니다.
 `qa:release`는 `qa`, `audit:commercial`, Android 정적 빌드, Android/iOS Capacitor sync, `perf:budget`, release doctor를 한 번에 실행하는 출시 후보 검증입니다.
 
 ## 내부 테스트 기준
@@ -163,5 +163,5 @@ npm run smoke
 - 자동 검증 명령이 모두 성공한다.
 - 실제 Android 기기 또는 Emulator에서 홈, 상세, 찜, 알림, 마이, 외부 링크 이동을 1회 이상 확인한다.
 - `docs/device-qa-checklist.md`의 Android, 로그인, 구매 링크 항목에서 치명 이슈가 없어야 한다.
-- 링크 검수 큐의 상위 상품을 확인하고, 직접 구매 URL이 없는 항목은 `판매처 검색 확인` 상태로 유지한다.
+- 링크 검수 큐의 상위 상품을 확인하고, 직접 구매 URL이 없는 항목은 기본 상품 목록 노출 전 공식 상세 URL로 보강한다.
 - signed AAB 업로드 전 `docs/release-checklist.md`의 High 항목을 완료한다.

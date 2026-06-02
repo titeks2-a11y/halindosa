@@ -130,7 +130,7 @@ DNS 반영 후 확인:
 - `/privacy`, `/terms` 정책 페이지 확인
 - `/api/health` 응답 확인
 - `/api/deals` 응답 확인
-- `/api/redirect/[id]`가 판매처 검색/상세 페이지로 이동하는지 확인
+- `/api/redirect/[id]`가 검증된 상품 상세 또는 공식 혜택 상세 페이지로 이동하는지 확인
 - `sitemap.xml`, `robots.txt`, `manifest.webmanifest` 확인
 - 모바일 화면에서 하단 탭바 확인
 - PC 화면에서 상단 네비게이션 확인

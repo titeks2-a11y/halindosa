@@ -64,7 +64,7 @@ function buildLaunchReadiness(linkQuality: ReturnType<typeof summarizeDealQualit
 
   if (linkQuality.needsReviewLinks > 0) {
     blockers.push(`링크 검수 대기 ${linkQuality.needsReviewLinks}개`);
-    nextActions.push("검색 fallback 상품을 운영 링크 검수 큐에서 처리");
+    nextActions.push("링크 확인 필요 상품을 운영 링크 검수 큐에서 처리");
   }
 
   if (linkQuality.brokenLinks + linkQuality.soldOutLinks > 0) {

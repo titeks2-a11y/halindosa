@@ -7,7 +7,7 @@ const trustItems = [
   {
     icon: SearchCheck,
     title: "구매 링크 상태",
-    body: "구매 페이지 확인, 판매처 검색 확인, 링크 확인 필요처럼 상태를 나눠 표시합니다."
+    body: "구매 페이지 확인, 공식 혜택 상세, 링크 확인 필요처럼 상태를 나눠 표시합니다."
   },
   {
     icon: Timer,

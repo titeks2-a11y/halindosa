@@ -111,7 +111,7 @@ export function normalizeDeal(input: DealInput, source = input.source ?? "mock")
     finalPurchaseUrl: input.finalPurchaseUrl ?? linkValidation.finalPurchaseUrl,
     linkType,
     linkStatus,
-    linkLabel: input.linkLabel ?? (linkStatus === "verified" ? "구매 페이지 확인" : "판매처 검색으로 확인"),
+    linkLabel: input.linkLabel ?? (linkStatus === "verified" ? "구매 페이지 확인" : "링크 확인 필요"),
     linkVerified,
     checkedAt: input.checkedAt ?? linkValidation.checkedAt,
     purchaseConfidence,

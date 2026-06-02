@@ -45,7 +45,7 @@ const linkStatusLabels: Record<Deal["linkStatus"], string> = {
 
 const linkTypeLabels: Record<Deal["linkType"], string> = {
   direct_purchase: "상품 구매 링크",
-  seller_search: "판매처 검색 링크",
+  seller_search: "링크 확인 필요",
   affiliate: "제휴 구매 링크",
   unavailable: "이동 불가"
 };

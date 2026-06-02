@@ -170,7 +170,7 @@ function deal(
     sourceUrl: rawSourceUrl,
     linkType: validation.linkType,
     linkStatus: validation.linkStatus,
-    linkLabel: validation.linkVerified ? "구매 페이지 검증 완료" : "판매처 검색으로 확인",
+    linkLabel: validation.linkVerified ? "구매 페이지 검증 완료" : "링크 확인 필요",
     linkVerified: validation.linkVerified,
     checkedAt: validation.checkedAt,
     purchaseConfidence: validation.purchaseConfidence,

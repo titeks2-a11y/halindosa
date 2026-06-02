@@ -105,7 +105,7 @@ function getReadinessLabel(rate: number, dealCount: number) {
 function getNextSourceAction(rate: number, dealCount: number, reportCount: number) {
   if (!dealCount) return "공식 API, RSS, 제휴 피드 연결 후 dry-run 검증";
   if (reportCount > 0) return "사용자 신고가 있는 링크와 종료 여부 우선 확인";
-  if (rate < 70) return "검색 fallback을 실제 상품·혜택 상세 URL로 보강";
+  if (rate < 70) return "상품·혜택 상세 URL 보강";
   if (rate < 90) return "무료/쿠폰 조건과 만료일을 운영 검수 큐에서 확인";
   return "현재 기준 유지, 신규 피드만 샘플 검수 후 반영";
 }

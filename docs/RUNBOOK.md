@@ -62,7 +62,7 @@ SMOKE_BASE_URL=https://example.com npm run smoke
 - 헬스체크/운영 지표 API
 - 신고/트래킹 API
 - 제휴 리다이렉트 URL 파라미터
-- 더미 또는 커뮤니티 링크는 판매처 검색 URL로 fallback
+- 더미 또는 커뮤니티 링크는 운영 노출 전 차단하고 링크 검수 큐에서 공식 상세 URL로 보강
 - CSV export
 - sitemap/robots/manifest
 

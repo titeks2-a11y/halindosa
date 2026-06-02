@@ -231,7 +231,7 @@ export function getDealPurchaseConfidenceLabel(deal: Pick<Deal, "linkVerified" |
   if (deal.linkStatus === "broken") return "링크 오류";
   if (deal.linkVerified && deal.purchaseConfidence >= 80) return "구매 링크 검증 완료";
   if (deal.purchaseConfidence >= 50) return "운영 확인 필요";
-  return "판매처 검색 확인";
+  return "링크 확인 필요";
 }
 
 export async function probePurchaseLink(url: string, timeoutMs = 3500): Promise<LinkProbeResult> {
