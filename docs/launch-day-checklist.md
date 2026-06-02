@@ -4,9 +4,11 @@
 
 - [ ] `npm run qa:release` 성공 결과 보관
 - [ ] `npm run release:doctor` 성공 결과 보관
+- [ ] `npm run public:url:doctor` 성공 결과 보관
 - [ ] `/commercialization` 출시 준비 보드에서 구매 링크 확인율과 남은 링크 검수 수 확인
 - [ ] 링크 검수 큐 상위 상품 10개 직접 판매처 이동 확인
-- [ ] 개인정보처리방침 공개 URL이 브라우저와 앱 WebView에서 열리는지 확인
+- [ ] 개인정보처리방침/고객지원 공개 URL이 브라우저와 앱 WebView에서 열리는지 확인
+- [ ] 공개 도메인에서 `/privacy`, `/support`, `/sitemap.xml`, `/robots.txt`가 외부 네트워크로 열리는지 확인
 - [ ] Supabase OAuth Provider의 Google/Kakao Redirect URL 확인
 - [ ] 고객 문의 이메일 수신 테스트
 
@@ -14,6 +16,7 @@
 
 - [ ] signed AAB 업로드
 - [ ] 개인정보처리방침 공개 URL 입력
+- [ ] 고객지원 공개 URL 또는 지원 이메일 입력
 - [ ] 스크린샷 6장 업로드
 - [ ] 기능 그래픽 업로드
 - [ ] 데이터 보안 섹션 제출

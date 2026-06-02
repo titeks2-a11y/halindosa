@@ -23,6 +23,8 @@ const envExample = read(".env.example");
 const storePacket = read("docs/store-submission-packet.md");
 const storeReviewNotes = read("docs/store-review-notes.md");
 const deploymentChecklist = read("docs/deployment-env-checklist.md");
+const releaseChecklist = read("docs/release-checklist.md");
+const launchDayChecklist = read("docs/launch-day-checklist.md");
 const privacyPage = read("app/privacy/page.tsx");
 const supportPage = read("app/support/page.tsx");
 const supportConfig = read("lib/support.ts");
@@ -68,6 +70,28 @@ const requiredEnvCopy = [
 ];
 const missingEnvCopy = requiredEnvCopy.filter((snippet) => !deploymentChecklist.includes(snippet));
 if (missingEnvCopy.length) fail(`Deployment env checklist should guide public URL setup. Missing: ${missingEnvCopy.join(", ")}`);
+
+const requiredReleaseCopy = [
+  "npm run public:url:doctor",
+  "공개 개인정보처리방침/고객지원 URL",
+  "/privacy",
+  "/support",
+  "/sitemap.xml",
+  "/robots.txt"
+];
+const missingReleaseCopy = requiredReleaseCopy.filter((snippet) => !releaseChecklist.includes(snippet));
+if (missingReleaseCopy.length) fail(`Release checklist should include public submission URL checks. Missing: ${missingReleaseCopy.join(", ")}`);
+
+const requiredLaunchCopy = [
+  "npm run public:url:doctor",
+  "개인정보처리방침/고객지원 공개 URL",
+  "/privacy",
+  "/support",
+  "/sitemap.xml",
+  "/robots.txt"
+];
+const missingLaunchCopy = requiredLaunchCopy.filter((snippet) => !launchDayChecklist.includes(snippet));
+if (missingLaunchCopy.length) fail(`Launch day checklist should include public URL verification. Missing: ${missingLaunchCopy.join(", ")}`);
 
 if (!/^NEXT_PUBLIC_SITE_URL=/m.test(envExample) || !/^NEXT_PUBLIC_AUTH_REDIRECT_URL=/m.test(envExample)) {
   fail(".env.example should expose public site and auth redirect keys.");

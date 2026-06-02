@@ -2756,9 +2756,14 @@ async function checkPolicyAndStoreDocs() {
       phrases: ["릴리즈 증빙", "최신 커밋", "Release AAB", "Harness report", "npm run harness", "npm run public:url:doctor", "Android signing doctor", "device QA doctor", "자동 검증 범위", "남은 수동 확인", "공개 개인정보처리방침/고객지원 URL"]
     },
     {
+      name: "release checklist content",
+      file: "docs/release-checklist.md",
+      phrases: ["npm run public:url:doctor", "public URL doctor", "공개 개인정보처리방침/고객지원 URL", "/privacy", "/support", "/sitemap.xml", "/robots.txt", "signed AAB"]
+    },
+    {
       name: "launch day checklist content",
       file: "docs/launch-day-checklist.md",
-      phrases: ["제출 24시간 전", "Play Console 제출", "App Store Connect 제출", "출시 당일 운영 순서", "출시 후 72시간"]
+      phrases: ["제출 24시간 전", "npm run public:url:doctor", "개인정보처리방침/고객지원 공개 URL", "/sitemap.xml", "고객지원 공개 URL", "Play Console 제출", "App Store Connect 제출", "출시 당일 운영 순서", "출시 후 72시간"]
     },
     {
       name: "store screenshot storyboard content",

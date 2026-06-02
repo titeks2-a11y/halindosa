@@ -16,11 +16,12 @@
 - [x] `npm run audit:commercial`
 - [x] `npm run device:qa:doctor`
 - [x] `npm run env:doctor`
+- [x] `npm run public:url:doctor`
 - [x] `npm run store:metadata:doctor`
 - [x] `npm run store:assets:doctor`
 - [x] `npm run perf:budget`
 - [x] `npm run release:evidence`
-- [x] `npm run qa:release`는 `audit:commercial`, 실기기 QA 기록 양식 점검, Android signing doctor, 스토어 메타데이터/이미지/스크린샷 점검, `perf:budget`, Android/iOS sync, release doctor까지 포함
+- [x] `npm run qa:release`는 `audit:commercial`, 실기기 QA 기록 양식 점검, Android signing doctor, public URL doctor, 스토어 메타데이터/이미지/스크린샷 점검, `perf:budget`, Android/iOS sync, release doctor까지 포함
 
 ## Android 설정
 
@@ -74,6 +75,7 @@
 - [ ] 기능 그래픽 업로드
 - [ ] `docs/store-assets-guide.md` 기준으로 이미지 문구 검수
 - [ ] 개인정보처리방침 URL 입력
+- [ ] `npm run public:url:doctor` 통과 후 공개 개인정보처리방침/고객지원 URL 입력
 - [ ] 테스트 트랙 생성
 - [ ] 내부 테스트 업로드
 
@@ -96,6 +98,7 @@
 - [ ] 제휴/광고 고지 문구 법무 검토
 - [ ] 고객 문의 이메일 준비
 - [ ] 개인정보처리방침 실제 도메인 배포
+- [ ] 공개 도메인에서 `/privacy`, `/support`, `/sitemap.xml`, `/robots.txt` 접근 확인
 - [ ] `docs/deployment-env-checklist.md` 기준 운영 환경변수 strict 점검
 
 ## 현재 확인된 산출물
