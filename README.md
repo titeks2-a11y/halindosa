@@ -199,5 +199,5 @@ npm run home:url-state:doctor
 - 상품 카드의 구매 CTA는 `/go/[dealId]` 추적 경로를 거친 뒤 새 탭 또는 앱 외부 브라우저로 열립니다.
 - `href="#"`, `javascript:void`, 쇼핑몰 검색 결과, 커뮤니티 글 URL은 노출 상품 링크로 등록하지 않습니다.
 - `target="_blank"`를 쓰는 링크는 항상 `rel="noopener noreferrer"`를 함께 둡니다.
-- `npm run test:mobile-ux`는 홈 검색창 중복, 카테고리/필터 가로 칩, 하단 탭 safe-area, compact 카드, 토스트 위치를 10개 게이트로 검사하고 `MOBILE_UX_REPORT.md`를 갱신합니다.
+- `npm run test:mobile-ux`는 홈 검색창 중복, 카테고리/필터 가로 칩, 하단 탭 safe-area, compact 카드, 토스트 위치와 `오늘 바로 볼 특가` 레일의 스냅, 오른쪽 fade, `옆으로 넘기기` 신호를 10개 게이트로 검사하고 `MOBILE_UX_REPORT.md`를 갱신합니다.
 - `npm run release:doctor`는 홈 화면에 자동 스크롤 기반 탐색이 다시 들어오지 않았는지, 모바일 UX 게이트와 보고서가 QA/harness에 계속 묶여 있는지 함께 검사합니다.

@@ -2944,12 +2944,12 @@ async function checkPolicyAndStoreDocs() {
     {
       name: "readme qa guidance",
       file: "README.md",
-      phrases: ["모바일 UX", "test:mobile-ux", "MOBILE_UX_REPORT.md", "외부 링크/이미지/이미지 운영 doctor", "release:doctor"]
+      phrases: ["모바일 UX", "test:mobile-ux", "MOBILE_UX_REPORT.md", "외부 링크/이미지/이미지 운영 doctor", "release:doctor", "오늘 바로 볼 특가", "오른쪽 fade", "옆으로 넘기기"]
     },
     {
       name: "runbook harness guidance",
       file: "docs/RUNBOOK.md",
-      phrases: ["모바일 UX compact first-screen 검사", "MOBILE_UX_REPORT.md", "test:mobile-ux", "qa", "harness"]
+      phrases: ["모바일 UX compact first-screen 검사", "MOBILE_UX_REPORT.md", "test:mobile-ux", "qa", "harness", "오늘 바로 볼 특가", "오른쪽 fade", "옆으로 넘기기"]
     },
     {
       name: "oauth setup content",
