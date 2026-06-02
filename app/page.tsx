@@ -62,6 +62,7 @@ import { HotSignal } from "@/types/hotSignal";
 
 type AppView = "home" | "categories" | "alerts" | "favorites" | "my";
 const INITIAL_HOME_DEAL_LIMIT = 12;
+const HOME_DEAL_LOAD_STEP = 12;
 const mallFilters = [
   { id: "all", label: "전체 쇼핑몰" },
   { id: "쿠팡", label: "쿠팡" },
@@ -641,6 +642,7 @@ export default function Home() {
   const [catalog, setCatalog] = useState<Deal[]>(mockDeals);
   const [activeView, setActiveView] = useState<AppView>("home");
   const [query, setQuery] = useState("");
+  const [visibleDealCount, setVisibleDealCount] = useState(INITIAL_HOME_DEAL_LIMIT);
   const [recentSearchKeywords, setRecentSearchKeywords] = useState<string[]>([]);
   const [category, setCategory] = useState("all");
   const [sort, setSort] = useState<DealSort>("latest");
@@ -810,6 +812,14 @@ export default function Home() {
 
     return () => window.clearTimeout(handle);
   }, [benefitFilter, category, endingSoonOnly, freeShippingOnly, hasAppliedInitialParams, hotOnly, mallFilter, priceBand, query, sort, verifiedOnly]);
+
+  useEffect(() => {
+    const handle = window.setTimeout(() => {
+      setVisibleDealCount(INITIAL_HOME_DEAL_LIMIT);
+    }, 0);
+
+    return () => window.clearTimeout(handle);
+  }, [activeView, benefitFilter, category, endingSoonOnly, freeShippingOnly, hotOnly, mallFilter, priceBand, query, sort, verifiedOnly]);
 
   useEffect(() => {
     const updateNetworkState = () => {
@@ -2203,18 +2213,38 @@ export default function Home() {
       );
     }
 
+    const visibleItems = items.slice(0, visibleDealCount);
+    const remainingCount = Math.max(items.length - visibleItems.length, 0);
+
     return (
-      <div className="grid grid-cols-1 gap-3 min-[430px]:grid-cols-2 md:gap-4 xl:grid-cols-3 2xl:grid-cols-4">
-        {items.map((deal) => (
-          <QuickDealCard
-            key={deal.id}
-            deal={deal}
-            isFavorite={favorites.includes(deal.id)}
-            onToggleFavorite={toggleFavorite}
-            onOpenDeal={openDeal}
-            onShareDeal={shareDeal}
-          />
-        ))}
+      <div className="space-y-3">
+        <div className="grid grid-cols-1 gap-3 min-[430px]:grid-cols-2 md:gap-4 xl:grid-cols-3 2xl:grid-cols-4">
+          {visibleItems.map((deal) => (
+            <QuickDealCard
+              key={deal.id}
+              deal={deal}
+              isFavorite={favorites.includes(deal.id)}
+              onToggleFavorite={toggleFavorite}
+              onOpenDeal={openDeal}
+              onShareDeal={shareDeal}
+            />
+          ))}
+        </div>
+        {remainingCount ? (
+          <div className="rounded-[24px] border border-slate-200 bg-white p-3 text-center shadow-sm" aria-label="상품 목록 더보기">
+            <p className="text-xs font-bold text-slate-500">
+              {items.length.toLocaleString("ko-KR")}개 중 {visibleItems.length.toLocaleString("ko-KR")}개를 먼저 보여드립니다.
+            </p>
+            <button
+              type="button"
+              onClick={() => setVisibleDealCount((count) => Math.min(count + HOME_DEAL_LOAD_STEP, items.length))}
+              className="mt-2 inline-flex min-h-11 items-center justify-center rounded-2xl bg-slate-950 px-5 text-sm font-black text-white transition hover:bg-dossa-red"
+              aria-label={`상품 ${Math.min(HOME_DEAL_LOAD_STEP, remainingCount)}개 더 보기`}
+            >
+              특가 더보기 {Math.min(HOME_DEAL_LOAD_STEP, remainingCount).toLocaleString("ko-KR")}개
+            </button>
+          </div>
+        ) : null}
       </div>
     );
   };

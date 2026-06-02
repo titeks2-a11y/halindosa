@@ -61,10 +61,10 @@ if (
   fail("single home search entry", "홈 검색창이 중복되었거나 하위 화면 보조 검색 compact 기준이 깨졌습니다.");
 }
 
-if (includesAll(homePage, ["INITIAL_HOME_DEAL_LIMIT = 12", "상세 필터와 결과 분석 접기", "group hidden overflow-hidden", "먼저 확인할 상품"])) {
-  pass("home first screen budget", "초기 렌더 12개 제한과 상세 필터 접힘 구조가 유지됩니다.");
+if (includesAll(homePage, ["INITIAL_HOME_DEAL_LIMIT = 12", "HOME_DEAL_LOAD_STEP = 12", "visibleItems = items.slice(0, visibleDealCount)", "특가 더보기", "상세 필터와 결과 분석 접기", "group hidden overflow-hidden", "먼저 확인할 상품"])) {
+  pass("home first screen budget", "초기 렌더 12개 제한, 더보기 확장, 상세 필터 접힘 구조가 유지됩니다.");
 } else {
-  fail("home first screen budget", "홈 첫 화면 budget 또는 상세 필터 접힘 구조가 깨졌습니다.");
+  fail("home first screen budget", "홈 첫 화면 budget, 더보기 확장, 상세 필터 접힘 구조가 깨졌습니다.");
 }
 
 if (
@@ -117,6 +117,7 @@ ${checks.map((check) => `| ${check.name} | ${check.ok ? "PASS" : "FAIL"} | ${che
 - 360~430px 모바일 화면에서 첫 화면 정보 밀도를 유지하기 위한 정적 회귀 테스트입니다.
 - 실제 Playwright 스크린샷을 대체하지는 않지만, 하단 탭 겹침, 과한 검색 영역, 긴 카드, CTA 터치 영역, 토스트 위치 회귀를 빠르게 잡습니다.
 - 홈 검색창 중복, 카테고리 칩 rail, 필터 chip rail, 하위 화면 보조 검색 compact 기준도 함께 검사합니다.
+- 상품 그리드는 모바일 초기 DOM을 줄이기 위해 12개 먼저 렌더링하고, 더보기로 12개씩 확장하는 구조를 검사합니다.
 - Playwright 도입 전까지 \`npm run test:mobile-ux\`와 \`npm run harness\`가 모바일 UX 안전망 역할을 합니다.
 `;
 
