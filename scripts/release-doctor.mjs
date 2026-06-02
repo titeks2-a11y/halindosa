@@ -92,6 +92,36 @@ async function checkPackage() {
   else pass("release version alignment", `Web, lockfile, Android, and iOS versions are aligned at ${pkg.version}.`);
 }
 
+async function checkCiWorkflow() {
+  const path = ".github/workflows/ci.yml";
+  if (!existsSync(join(root, path))) {
+    fail("github ci workflow", "Missing .github/workflows/ci.yml.");
+    return;
+  }
+
+  const workflow = await text(path);
+  const runbook = await text("docs/RUNBOOK.md");
+  const requiredWorkflowSnippets = [
+    'branches: ["main", "codex/**"]',
+    "npm ci",
+    "npm run audit:commercial",
+    "npm run harness",
+    "npm run release:doctor"
+  ];
+  const missingWorkflowSnippets = requiredWorkflowSnippets.filter((snippet) => !workflow.includes(snippet));
+  const requiredRunbookSnippets = ["codex/**", "npm run harness", "npm run release:doctor"];
+  const missingRunbookSnippets = requiredRunbookSnippets.filter((snippet) => !runbook.includes(snippet));
+
+  if (missingWorkflowSnippets.length || missingRunbookSnippets.length) {
+    fail(
+      "github ci workflow",
+      `CI should run commercial audit, harness, and release doctor on main/codex branches. Missing workflow: ${missingWorkflowSnippets.join(", ") || "none"}; runbook: ${missingRunbookSnippets.join(", ") || "none"}`
+    );
+  } else {
+    pass("github ci workflow", "GitHub Actions runs commercial audit, harness, and release doctor on main and codex branches.");
+  }
+}
+
 async function checkReleaseEvidenceFreshness() {
   const evidencePath = "docs/release-evidence.md";
   if (!existsSync(join(root, evidencePath))) {
@@ -2758,6 +2788,7 @@ function checkStoreAssets() {
 }
 
 await checkPackage();
+await checkCiWorkflow();
 await checkRepositorySafety();
 await checkEnvExample();
 await checkPublicContact();

@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: ["main"]
+    branches: ["main", "codex/**"]
   pull_request:
     branches: ["main"]
   workflow_dispatch:
@@ -10,7 +10,7 @@ on:
 jobs:
   verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 25
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -24,19 +24,11 @@ jobs:
       - name: Install
         run: npm ci
 
-      - name: Lint
-        run: npm run lint
-
-      - name: Build
-        run: npm run build
-
       - name: Commercial audit
         run: npm run audit:commercial
 
-      - name: Start app
-        run: |
-          npm run start -- --hostname 127.0.0.1 --port 3000 &
-          npm run wait:health
+      - name: Launch harness
+        run: npm run harness
 
-      - name: Smoke test
-        run: npm run smoke
+      - name: Release doctor
+        run: npm run release:doctor

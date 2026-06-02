@@ -2,21 +2,21 @@
 
 ## 현재 상태
 
-- Next.js App Router, TypeScript, Tailwind CSS 기반 MVP
-- mock 특가 32개, 검색/카테고리/정렬/찜/토스트 지원
+- Next.js App Router, TypeScript, Tailwind CSS, Capacitor 기반 V2 상업 출시 후보
+- 큐레이션 특가/혜택 140개와 실제 상품 상세 또는 공식 혜택 상세 URL 100% 검증 상태 유지
 - `/api/deals`, `/api/health`, `/api/track`, `/api/metrics`, `/api/redirect/[id]` 구현
 - `/admin` 운영 대시보드, `/terms`, `/privacy`, `robots.txt`, `sitemap.xml`, manifest 구현
 - `ADMIN_EXPORT_TOKEN` 기반 관리자/export 보호 구조 구현
 - 제휴 가능 쇼핑몰에는 redirect 단계에서 `sub_id`, `utm_*` 파라미터 부착
 - `/deals/[id]` SEO 상세 페이지와 `/api/deals/[id]` 상세 API 구현
 - `/reports`, `/api/reports` 가격/품절 오류 신고 흐름 구현
-- `npm run smoke`로 핵심 API, SEO 파일, redirect, export 자동 검증
+- `npm run harness`와 `npm run release:doctor`로 lint, build, 링크/이미지/검색/모바일/SEO/성능, smoke, 출시 문서/패키징 gate 자동 검증
 - 보안 헤더, standalone build, Dockerfile, GitHub Actions CI, `npm run audit:commercial` 추가
 - 민감 API에 request id와 in-memory rate limit 적용
 - 분석/제휴 추적 동의 배너와 마이 탭 설정 구현
-- mock 가격 이력, 가격 하락 신호, 가격 신뢰도 점수 구현
+- 가격 이력, 가격 하락 신호, 구매 전 확인 문구, 링크 품질 안내 구현
 - in-memory 신고 큐와 관리자 신고 목록 API 구현
-- 파트너 피드 검증/정규화 dry-run API 구현
+- 파트너 피드 검증/정규화 dry-run API 구현. 검색 결과, 대표몰, 커뮤니티/블로그/뉴스 원문 단독 링크는 `needs_fix`로 차단
 - `DEAL_DATA_MODE=hybrid` 기반 네이버 쇼핑 공식 API/파트너 JSON 피드/live fallback 구조 구현
 
 ## 운영 전 필수 결정
@@ -48,7 +48,7 @@
 6. in-memory 신고 큐를 `deal_reports` 테이블 저장으로 교체하고 관리자 알림 추가
 7. 관리자 인증, CSV export 보호, 운영 로그 저장
 8. 실제 약관/개인정보/광고 고지 법무 검토
-9. 배포 파이프라인에서 `npm run lint`, `npm run build`, `npm run smoke` 자동 실행
+9. 배포 파이프라인에서 `npm run audit:commercial`, `npm run harness`, `npm run release:doctor` 자동 실행
 10. Docker image 또는 Vercel/Cloud Run 등 실제 호스팅 배포 연결
 11. rate limit 저장소를 Redis/Upstash 등 공유 저장소로 교체
 12. 실제 CMP 또는 쿠키 동의 플랫폼 도입 검토

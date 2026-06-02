@@ -149,7 +149,7 @@ SEO 규칙은 root metadata, Open Graph, canonical, manifest, sitemap, robots, �
 - 현재 rate limit는 in-memory 방식입니다. 다중 인스턴스 운영 시 Redis, Upstash, Supabase Edge Function 등 공유 저장소로 교체해야 합니다.
 - 분석/제휴 추적은 브라우저 localStorage의 `halindosa:consent` 설정을 기준으로 클라이언트에서 제어합니다.
 - `Dockerfile`은 standalone output을 사용해 production image를 만듭니다.
-- `.github/workflows/ci.yml`은 install, lint, build, commercial audit, health wait, smoke test를 실행합니다.
+- `.github/workflows/ci.yml`은 `main`과 `codex/**` 브랜치에서 install, commercial audit, `npm run harness`, `npm run release:doctor`를 실행합니다. `harness` 안에는 lint, build, 링크/이미지/검색/모바일/SEO/성능, 로컬 smoke, release doctor가 포함됩니다.
 
 Docker 로컬 검증 예시:
 
