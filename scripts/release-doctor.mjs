@@ -923,6 +923,7 @@ async function checkUiAccessibility() {
   const authForm = await text("components/AuthForm.tsx");
   const commercializationPage = await text("app/commercialization/page.tsx");
   const imageQualityReport = await text("IMAGE_QUALITY_REPORT.md");
+  const mobileUxReport = await text("MOBILE_UX_REPORT.md");
   const imageTest = await text("scripts/test-images.mjs");
   const imageOperationsDoctor = await text("scripts/image-operations-doctor.mjs");
   const harnessReport = await text("HARNESS_REPORT.md");
@@ -1239,13 +1240,36 @@ async function checkUiAccessibility() {
 
   if (
     !harnessScript.includes('["release:doctor", ["run", "release:doctor"]]') ||
+    !harnessScript.includes('["test:mobile-ux", ["run", "test:mobile-ux"]]') ||
     !harnessScript.includes('writeFileSync(join(root, "docs", "HARNESS_REPORT.md")') ||
     !harnessScript.includes('writeFileSync(join(root, "HARNESS_REPORT.md")') ||
     !harnessReport.includes("Image quality passed: 39/140 deals have explicit images.")
   ) {
-    fail("harness release gate coverage", "Harness should execute release:doctor, write root/docs reports, and preserve image-quality evidence.");
+    fail("harness release gate coverage", "Harness should execute mobile UX, release:doctor, write root/docs reports, and preserve image-quality evidence.");
   } else {
-    pass("harness release gate coverage", "Harness executes release:doctor, writes root/docs reports, and preserves image-quality evidence.");
+    pass("harness release gate coverage", "Harness executes mobile UX, release:doctor, writes root/docs reports, and preserves image-quality evidence.");
+  }
+
+  const mobileUxReportRequired = [
+    "Generated: npm run test:mobile-ux",
+    "Status: PASS",
+    "mobile shell width and safe area",
+    "bottom nav compactness",
+    "compact search",
+    "single home search entry",
+    "home first screen budget",
+    "category rail compactness",
+    "filter rail consolidation",
+    "quick card scanability",
+    "live row compact actions",
+    "toast does not cover bottom nav"
+  ];
+  const mobileUxMissing = mobileUxReportRequired.filter((phrase) => !mobileUxReport.includes(phrase));
+
+  if (mobileUxMissing.length || mobileUxReport.includes("Generated: 2026-")) {
+    fail("mobile ux report coverage", `Mobile UX report should be stable and include all compact mobile gates. Missing: ${mobileUxMissing.join(", ") || "none"}`);
+  } else {
+    pass("mobile ux report coverage", "Mobile UX report records the stable 10-gate compact first-screen regression suite.");
   }
 
   if (
