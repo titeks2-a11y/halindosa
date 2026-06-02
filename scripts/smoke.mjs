@@ -1016,6 +1016,18 @@ await check("admin daily benefit queue api", async () => {
   assert(data.summary?.verifiedPurchaseDeals > 0, "Admin daily queue missing verified purchase summary");
 });
 
+await check("admin image queue api", async () => {
+  const { response, data } = await fetchJson("/api/admin/image-queue");
+  assert(response.status === 200, `Expected 200, got ${response.status}`);
+  assert(data.ok === true, "Admin image queue API ok should be true");
+  assert(data.imageQuality?.total >= 100, "Admin image queue missing total catalog count");
+  assert(data.imageQuality?.fallbackImageCount >= 1, "Admin image queue should expose fallback image count");
+  assert(data.imageQuality?.realImageRate >= 0, "Admin image queue missing real image rate");
+  assert(Array.isArray(data.imageQuality?.categoryQueue) && data.imageQuality.categoryQueue.length >= 1, "Admin image queue missing category queue");
+  assert(Array.isArray(data.imageQuality?.priorityDeals) && data.imageQuality.priorityDeals.length >= 1, "Admin image queue missing priority deals");
+  assert(data.imageQuality.priorityDeals.every((deal) => deal.id && deal.title && deal.finalPurchaseUrl && deal.action), "Admin image priority deals missing operation fields");
+});
+
 await check("weekly benefit calendar api", async () => {
   const { response, data } = await fetchJson("/api/benefits/calendar");
   assert(response.status === 200, `Expected 200, got ${response.status}`);
@@ -1095,6 +1107,10 @@ await check("metrics api", async () => {
   assert(data.metrics?.averageConfidenceScore >= 0, "Metrics missing confidence score");
   assert(data.metrics?.verifiedLinkRate >= 0, "Metrics missing verified link rate");
   assert(data.metrics?.needsReviewLinks >= 0, "Metrics missing link review count");
+  assert(data.metrics?.realImageRate >= 0, "Metrics missing real image rate");
+  assert(data.metrics?.fallbackImageCount >= 0, "Metrics missing fallback image count");
+  assert(data.imageQuality?.priorityDeals?.length >= 1, "Metrics missing image quality priority deals");
+  assert(data.imageQuality?.categoryQueue?.length >= 1, "Metrics missing image quality category queue");
   assert(data.linkQuality?.total === data.metrics?.totalDeals, "Metrics missing shared link quality summary");
   assert(data.benefitQuality?.freeBenefitCount >= 0, "Metrics missing free benefit quality summary");
   assert(data.benefitQuality?.typeBreakdown?.length >= 3, "Metrics missing benefit type breakdown");
@@ -1554,6 +1570,16 @@ await check("admin export csv", async () => {
     text.includes("dailyQueueSections") && text.includes("dailyQueueRank") && text.includes("dailyQueueAction"),
     "CSV missing daily benefit queue export fields"
   );
+});
+
+await check("admin image queue csv", async () => {
+  const response = await fetch(`${baseUrl}/api/admin/image-queue?format=csv`);
+  const text = await response.text();
+  assert(response.status === 200, `Expected 200, got ${response.status}`);
+  assert(response.headers.get("content-type")?.includes("text/csv"), "Image queue export is not CSV");
+  assert(response.headers.get("x-request-id"), "Image queue export missing request id");
+  assert(text.startsWith("rank,id,title"), "Image queue CSV header missing");
+  assert(text.includes("finalPurchaseUrl") && text.includes("action"), "Image queue CSV missing operation fields");
 });
 
 await check("seo files", async () => {

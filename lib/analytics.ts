@@ -411,7 +411,7 @@ function buildBenefitRetentionPlan(deals: Deal[], benefitQuality: ReturnType<typ
   };
 }
 
-function buildImageQualityReadiness(deals: Deal[]) {
+export function buildImageQualityReadiness(deals: Deal[]) {
   const realImageDeals = deals.filter(hasRealDealImage);
   const fallbackDeals = deals.filter((deal) => !hasRealDealImage(deal));
   const byCategory = new Map<string, { category: string; total: number; real: number; fallback: number; samples: Deal[] }>();

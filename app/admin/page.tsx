@@ -67,6 +67,12 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const dailyQueueApiHref = isAdminProtectionEnabled()
     ? `/api/admin/daily-queue?limit=4&token=${encodeURIComponent(token ?? "")}`
     : "/api/admin/daily-queue?limit=4";
+  const imageQueueApiHref = isAdminProtectionEnabled()
+    ? `/api/admin/image-queue?token=${encodeURIComponent(token ?? "")}`
+    : "/api/admin/image-queue";
+  const imageQueueCsvHref = isAdminProtectionEnabled()
+    ? `/api/admin/image-queue?format=csv&token=${encodeURIComponent(token ?? "")}`
+    : "/api/admin/image-queue?format=csv";
   const sourceReadiness = getDealSourceReadiness(deals);
   const priorityLabels = {
     high: "우선",
@@ -504,6 +510,14 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
               <p className="mt-1 text-sm font-semibold leading-6 text-slate-500">
                 카테고리 fallback 이미지는 앱 깨짐을 막는 안전장치입니다. 공개 운영 전에는 클릭 상위 상품부터 실제 판매처 이미지를 보강하세요.
               </p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                <a href={imageQueueApiHref} className="rounded-2xl bg-slate-950 px-4 py-2.5 text-xs font-black text-white">
+                  이미지 큐 JSON
+                </a>
+                <a href={imageQueueCsvHref} className="rounded-2xl bg-red-50 px-4 py-2.5 text-xs font-black text-dossa-red">
+                  이미지 큐 CSV
+                </a>
+              </div>
             </div>
             <div className="grid grid-cols-3 gap-2 text-center">
               <div className="rounded-2xl bg-red-50 px-3 py-3">
