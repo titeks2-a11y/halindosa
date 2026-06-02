@@ -48,7 +48,26 @@ const checks = [
 
 const placeholders = new Set(["", "replace-before-production", "replace-with-random-secret", "support@halindosa.com"]);
 const allowedDataModes = new Set(["mock", "staging", "production", "hybrid"]);
+const urlKeys = new Set(["NEXT_PUBLIC_SITE_URL", "NEXT_PUBLIC_AUTH_REDIRECT_URL", "NEXT_PUBLIC_SUPABASE_URL"]);
+const emailKeys = new Set(["NEXT_PUBLIC_SUPPORT_EMAIL"]);
 const rows = [];
+
+function isValidHttpsUrl(value) {
+  try {
+    const url = new URL(value);
+    return url.protocol === "https:" || url.hostname === "localhost" || url.hostname === "127.0.0.1";
+  } catch {
+    return false;
+  }
+}
+
+function isValidEmail(value) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+}
+
+function isValidAppScheme(value) {
+  return /^[a-z][a-z0-9.+-]*$/i.test(value) && !["http", "https", "javascript", "data", "file"].includes(value.toLowerCase());
+}
 
 function statusFor(key) {
   const value = combinedEnv[key] ?? "";
@@ -56,10 +75,28 @@ function statusFor(key) {
   return { key, value, configured };
 }
 
+function validateKey(key, status) {
+  if (key === "DEAL_DATA_MODE") return allowedDataModes.has(status.value);
+  if (!status.configured) return false;
+  if (urlKeys.has(key)) {
+    if (!isValidHttpsUrl(status.value)) return false;
+    if (key === "NEXT_PUBLIC_AUTH_REDIRECT_URL") {
+      try {
+        return new URL(status.value).pathname === "/auth/callback";
+      } catch {
+        return false;
+      }
+    }
+  }
+  if (emailKeys.has(key)) return isValidEmail(status.value);
+  if (key === "NEXT_PUBLIC_APP_SCHEME") return isValidAppScheme(status.value);
+  return true;
+}
+
 for (const check of checks) {
   for (const key of check.required) {
     const status = statusFor(key);
-    const valid = key === "DEAL_DATA_MODE" ? allowedDataModes.has(status.value) : status.configured;
+    const valid = validateKey(key, status);
     rows.push({ group: check.group, key, level: "required", ok: valid, value: status.value });
   }
 
@@ -90,6 +127,7 @@ if (missingRequired.length) {
   for (const row of missingRequired) console.log(`- ${row.key} (${row.group})`);
   console.log("");
   console.log("Fill these in Vercel, Supabase, Android/iOS build environments, or a local .env.local before production testing.");
+  console.log("URL values must be https in production, auth redirect must end with /auth/callback, and support email must be a real mailbox.");
 }
 
 if (strict && missingRequired.length) {

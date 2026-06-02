@@ -221,6 +221,19 @@ async function checkEnvExample() {
     pass("env fallback guidance", "External API keys can be left blank for fallback operation.");
   }
 
+  const envDoctor = await text("scripts/env-doctor.mjs");
+  if (
+    !envDoctor.includes("isValidHttpsUrl") ||
+    !envDoctor.includes('pathname === "/auth/callback"') ||
+    !envDoctor.includes("isValidAppScheme") ||
+    !envDoctor.includes("isValidEmail") ||
+    !envDoctor.includes("URL values must be https in production")
+  ) {
+    fail("env doctor format validation", "Environment doctor should validate HTTPS/public URLs, /auth/callback redirect path, app scheme, and support email format.");
+  } else {
+    pass("env doctor format validation", "Environment doctor validates HTTPS/public URLs, /auth/callback redirect path, app scheme, and support email format.");
+  }
+
   const dataModeMatch = env.match(/^DEAL_DATA_MODE=(.+)$/m);
   const providerMatch = env.match(/^DEAL_PROVIDER=(.+)$/m);
   const supportedModes = ["mock", "staging", "production", "hybrid"];

@@ -10,7 +10,7 @@ node scripts/env-doctor.mjs --strict
 ```
 
 - `npm run env:doctor`: 현재 환경과 `.env.local`, `.env.production`, `.env`, `.env.example`을 읽어 누락/placeholder 값을 보여줍니다.
-- `--strict`: 운영 필수 값이 비어 있거나 placeholder면 실패 코드로 종료합니다. 배포 직전 CI나 로컬 최종 점검에 사용합니다.
+- `--strict`: 운영 필수 값이 비어 있거나 placeholder면 실패 코드로 종료합니다. URL 형식, `/auth/callback` 경로, 앱 스킴, 고객지원 이메일 형식도 함께 확인하므로 배포 직전 CI나 로컬 최종 점검에 사용합니다.
 
 ## 필수 공개 환경변수
 
@@ -18,6 +18,8 @@ node scripts/env-doctor.mjs --strict
 - `NEXT_PUBLIC_AUTH_REDIRECT_URL`: OAuth 완료 후 돌아올 URL. 예: `https://halindosa.com/auth/callback`
 - `NEXT_PUBLIC_APP_SCHEME`: 앱 딥링크 스킴. 기본값 `halindosa`
 - `NEXT_PUBLIC_SUPPORT_EMAIL`: 스토어와 앱에 표시할 실제 고객지원 이메일
+
+운영 배포에서는 공개 URL을 `https://`로 입력합니다. 로컬 개발 중에는 `localhost`와 `127.0.0.1`만 예외로 허용됩니다. `NEXT_PUBLIC_AUTH_REDIRECT_URL`은 반드시 `/auth/callback` 경로로 끝나야 합니다.
 
 ## Supabase Auth
 
