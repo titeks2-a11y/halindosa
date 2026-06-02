@@ -206,12 +206,16 @@ async function checkCiWorkflow() {
     "npm run test:env",
     "npm run public:url:doctor",
     "npm run release:doctor",
+    "npm run store:manual:doctor",
     "실제 상품 상세 URL 또는 공식 혜택 상세 URL",
     "검색 결과, 대표몰, 커뮤니티/블로그/뉴스 원문 단독 링크",
     "개인정보, 환경변수, keystore",
     "비회원 사용자가 홈, 검색, 카테고리",
     "docs/OAUTH_SETUP.md",
-    "모바일 390px"
+    "모바일 390px",
+    "docs/STORE_CONSOLE_FIELDS.md",
+    "docs/STORE_MANUAL_CHECKLIST.md",
+    "docs/STORE_HANDOFF_REPORT.md"
   ];
   const missingPrSnippets = requiredPrSnippets.filter((snippet) => !prTemplate.includes(snippet));
 
@@ -226,6 +230,7 @@ async function checkCiWorkflow() {
   const issueTemplateFiles = [
     ".github/ISSUE_TEMPLATE/deal-link-report.md",
     ".github/ISSUE_TEMPLATE/app-bug-report.md",
+    ".github/ISSUE_TEMPLATE/store-submission-blocker.md",
     ".github/ISSUE_TEMPLATE/config.yml"
   ];
   const missingIssueTemplates = issueTemplateFiles.filter((file) => !existsSync(join(root, file)));
@@ -236,13 +241,16 @@ async function checkCiWorkflow() {
 
   const dealIssue = await text(".github/ISSUE_TEMPLATE/deal-link-report.md");
   const appIssue = await text(".github/ISSUE_TEMPLATE/app-bug-report.md");
+  const storeIssue = await text(".github/ISSUE_TEMPLATE/store-submission-blocker.md");
   const issueConfig = await text(".github/ISSUE_TEMPLATE/config.yml");
   const requiredDealIssueSnippets = ["가격이 다름", "품절 또는 옵션 선택 불가", "링크 오류", "할인도사 상품 ID", "판매처에서 확인한 가격/혜택", "개인정보 주의"];
   const requiredAppIssueSnippets = ["재현 순서", "플랫폼: Web / Android / iOS", "외부 판매처 이동", "GitHub Actions artifact", "개인정보 주의"];
+  const requiredStoreIssueSnippets = ["스토어 제출 Blocker", "Play Console signed AAB 업로드", "App Store Connect Archive 업로드", "docs/STORE_MANUAL_CHECKLIST.md", "docs/STORE_CONSOLE_FIELDS.md", "docs/STORE_HANDOFF_REPORT.md", "OAuth/Supabase Provider 설정", "민감정보 주의", "keystore 비밀번호", "OAuth client secret"];
   const requiredIssueConfigSnippets = ["blank_issues_enabled: false", "https://github.com/titeks2-a11y/halindosa/issues/new/choose"];
   const missingIssueSnippets = [
     ...requiredDealIssueSnippets.filter((snippet) => !dealIssue.includes(snippet)).map((snippet) => `deal:${snippet}`),
     ...requiredAppIssueSnippets.filter((snippet) => !appIssue.includes(snippet)).map((snippet) => `app:${snippet}`),
+    ...requiredStoreIssueSnippets.filter((snippet) => !storeIssue.includes(snippet)).map((snippet) => `store:${snippet}`),
     ...requiredIssueConfigSnippets.filter((snippet) => !issueConfig.includes(snippet)).map((snippet) => `config:${snippet}`)
   ];
 

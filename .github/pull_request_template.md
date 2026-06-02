@@ -9,6 +9,7 @@
 - [ ] `npm run harness` 통과 또는 실패 원인과 보완 계획 기록
 - [ ] `npm run test:env` 통과
 - [ ] `npm run public:url:doctor` 통과
+- [ ] `npm run store:manual:doctor` 통과
 - [ ] `npm run release:doctor` 통과
 - [ ] 상품/혜택 링크는 실제 상품 상세 URL 또는 공식 혜택 상세 URL만 사용
 - [ ] 검색 결과, 대표몰, 커뮤니티/블로그/뉴스 원문 단독 링크를 구매 링크로 노출하지 않음
@@ -18,11 +19,13 @@
 - [ ] 로그인/소셜 로그인 변경 시 `docs/OAUTH_SETUP.md`, `docs/DEEPLINK_AUTH.md`, 개인정보처리방침/이용약관 영향 확인
 - [ ] Play Store/App Store 문구에 과장된 최저가/가격 보장 표현을 추가하지 않음
 - [ ] 모바일 390px 폭에서 하단 탭바가 콘텐츠를 가리지 않음
+- [ ] Store 제출 영향이 있으면 `docs/STORE_CONSOLE_FIELDS.md`, `docs/STORE_MANUAL_CHECKLIST.md`, `docs/STORE_HANDOFF_REPORT.md`를 갱신하거나 영향 없음으로 기록
 
 ## Verification Evidence
 
 - Harness report artifact 또는 `docs/HARNESS_REPORT.md`:
 - Release evidence:
+- Store manual checklist, if release-facing:
 - Device QA record, if release-facing:
 - Link coverage report, if deal data changed:
 
