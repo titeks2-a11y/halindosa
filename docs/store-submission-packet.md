@@ -35,6 +35,7 @@
 - 스토어 제출 준비 리포트: `docs/STORE_SUBMISSION_REPORT.md`
 - 스토어 제출 패킷 QA 리포트: `docs/STORE_PACKET_REPORT.md`
 - 스토어 콘솔 입력 필드 매니페스트: `docs/STORE_CONSOLE_FIELDS.md`, `STORE_CONSOLE_FIELDS.json`
+- 수동 제출 체크리스트: `docs/STORE_MANUAL_CHECKLIST.md`, `STORE_MANUAL_CHECKLIST.md`, `STORE_MANUAL_CHECKLIST.json`
 - 스토어 출시 인수인계 리포트: `docs/STORE_HANDOFF_REPORT.md`, `STORE_HANDOFF_REPORT.md`
 
 ## 제출 전 명령
@@ -56,6 +57,7 @@ npm run store:screenshots:doctor
 npm run store:submission:report
 npm run store:packet:doctor
 npm run store:console:fields
+npm run store:manual:checklist
 npm run store:handoff:report
 npm run qa:release
 npm run android:bundle

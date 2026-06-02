@@ -1,0 +1,142 @@
+{
+  "generatedBy": "npm run store:manual:checklist",
+  "branch": "codex/12h-product-ux-growth-hardening",
+  "commit": "1b20cd5",
+  "workingTree": "M .github/workflows/ci.yml\n M docs/RUNBOOK.md\n M docs/roadmap.md\n M docs/store-submission-packet.md\n M package.json\n M scripts/release-doctor.mjs\n M scripts/release-evidence.mjs\n M scripts/store-handoff-report.mjs\n M scripts/store-packet-doctor.mjs\n?? scripts/store-manual-checklist.mjs",
+  "appName": "할인도사",
+  "version": "1.0.0",
+  "packageName": "com.halindosa.app",
+  "manualItems": [
+    {
+      "id": "play-signed-aab-upload",
+      "owner": "사용자 / Play Console",
+      "priority": "critical",
+      "title": "Play Console에 signed AAB 업로드",
+      "proof": "Play Console 내부 테스트 또는 프로덕션 트랙에 업로드된 signed AAB와 처리 완료 상태",
+      "blockingReason": "비공개 keystore와 Play Console 세션이 필요해 자동 완료 처리 금지",
+      "sourceDocs": [
+        "docs/release-checklist.md",
+        "docs/STORE_SUBMISSION_REPORT.md"
+      ]
+    },
+    {
+      "id": "public-privacy-support-urls",
+      "owner": "사용자 / 배포 환경",
+      "priority": "critical",
+      "title": "공개 개인정보처리방침과 고객지원 URL 외부 접속 확인",
+      "proof": "외부 네트워크에서 https://halindosa.com/privacy, https://halindosa.com/support 접속 성공",
+      "blockingReason": "실제 도메인/DNS/배포 상태는 로컬 저장소가 증명할 수 없음",
+      "sourceDocs": [
+        "docs/PUBLIC_URL_REPORT.md",
+        "docs/deployment-env-checklist.md"
+      ]
+    },
+    {
+      "id": "device-qa-record",
+      "owner": "사용자 / QA",
+      "priority": "high",
+      "title": "Android/iOS 실기기 QA 기록 작성",
+      "proof": "docs/device-qa-record-template.md 기준으로 기기명, 빌드, 구매 링크 샘플, 남은 이슈 기록",
+      "blockingReason": "실제 기기 화면, 외부 브라우저, 공유 시트, safe-area는 수동 확인 필요",
+      "sourceDocs": [
+        "docs/DEVICE_QA_MANIFEST.md",
+        "docs/device-qa-checklist.md"
+      ]
+    },
+    {
+      "id": "store-screenshots-upload",
+      "owner": "사용자 / Play Console / App Store Connect",
+      "priority": "high",
+      "title": "스토어 스크린샷 촬영 및 콘솔 업로드",
+      "proof": "docs/STORE_SCREENSHOT_MANIFEST.md의 장면별 스크린샷이 각 스토어 콘솔에 업로드됨",
+      "blockingReason": "콘솔 업로드 상태와 실제 기기 캡처 결과는 저장소 자동 검증 범위 밖",
+      "sourceDocs": [
+        "docs/STORE_SCREENSHOT_MANIFEST.md",
+        "docs/STORE_SCREENSHOTS_REPORT.md"
+      ]
+    },
+    {
+      "id": "oauth-provider-production-config",
+      "owner": "사용자 / Supabase / OAuth Console",
+      "priority": "high",
+      "title": "Google/Kakao/Naver OAuth Provider 운영 Redirect URL 설정",
+      "proof": "Supabase Auth Provider와 각 개발자 콘솔에 운영 URL 및 halindosa://auth/callback 등록",
+      "blockingReason": "OAuth client secret과 콘솔 권한은 민감정보이므로 저장소에 기록 금지",
+      "sourceDocs": [
+        "docs/OAUTH_SETUP.md",
+        "docs/DEEPLINK_AUTH.md"
+      ]
+    },
+    {
+      "id": "play-data-safety-content-rating",
+      "owner": "사용자 / Play Console",
+      "priority": "medium",
+      "title": "Play Console Data Safety와 Content Rating 입력",
+      "proof": "Play Console 데이터 보안 및 콘텐츠 등급 설문 저장 완료",
+      "blockingReason": "콘솔 설문 저장 상태는 로컬 파일만으로 증명할 수 없음",
+      "sourceDocs": [
+        "docs/data-safety-guide.md",
+        "docs/content-rating-guide.md"
+      ]
+    },
+    {
+      "id": "app-store-privacy-review-notes",
+      "owner": "사용자 / App Store Connect",
+      "priority": "medium",
+      "title": "App Store Privacy와 Review Notes 입력",
+      "proof": "App Store Connect App Privacy 및 Review Notes 저장 완료",
+      "blockingReason": "Apple 계정 세션과 콘솔 저장 상태는 자동 완료 처리 금지",
+      "sourceDocs": [
+        "docs/app-store-checklist.md",
+        "docs/store-review-notes.md"
+      ]
+    }
+  ],
+  "evidenceFiles": [
+    {
+      "path": "android/app/build/outputs/bundle/release/app-release.aab",
+      "status": "present",
+      "bytes": 6500073
+    },
+    {
+      "path": "docs/STORE_CONSOLE_FIELDS.md",
+      "status": "present",
+      "bytes": 3491
+    },
+    {
+      "path": "docs/STORE_HANDOFF_REPORT.md",
+      "status": "present",
+      "bytes": 3845
+    },
+    {
+      "path": "docs/STORE_SUBMISSION_REPORT.md",
+      "status": "present",
+      "bytes": 4675
+    },
+    {
+      "path": "docs/DEVICE_QA_MANIFEST.md",
+      "status": "present",
+      "bytes": 4545
+    },
+    {
+      "path": "docs/STORE_SCREENSHOT_MANIFEST.md",
+      "status": "present",
+      "bytes": 4408
+    },
+    {
+      "path": "docs/PUBLIC_URL_REPORT.md",
+      "status": "present",
+      "bytes": 1891
+    },
+    {
+      "path": "docs/release-evidence.md",
+      "status": "present",
+      "bytes": 5115
+    }
+  ],
+  "manualWorkThatMustNotBeFaked": [
+    "Do not mark Play Console or App Store Connect upload complete until each console shows the uploaded build and review state.",
+    "Do not record keystore passwords, OAuth client secrets, .env values, tester passwords, order numbers, addresses, or payment data.",
+    "Do not replace missing public URLs with localhost, 127.0.0.1, example.com, or private preview URLs for store submission."
+  ]
+}
