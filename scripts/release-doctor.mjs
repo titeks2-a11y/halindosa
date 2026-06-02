@@ -2623,7 +2623,7 @@ async function checkPolicyAndStoreDocs() {
     {
       name: "link coverage report content",
       file: "docs/link-coverage-report.md",
-      phrases: ["구매 링크 커버리지 보고서", "검증된 실제 구매 상세 URL", "판매처별 현황", "보강 대기 상품", "기본 큐레이션에는 보강 대기 상품이 없으며", "검색 결과 URL을 실제 구매 상세 링크처럼 꾸미지"]
+      phrases: ["구매 링크 커버리지 보고서", "검증된 실제 구매 상세 URL", "판매처별 현황", "보강 대기 상품", "신규 상품 URL 검수 체크리스트", "실패 사유별 조치", "기본 큐레이션에는 보강 대기 상품이 없으며", "검색 결과 URL을 실제 구매 상세 링크처럼 꾸미지"]
     },
     {
       name: "catalog quality report content",

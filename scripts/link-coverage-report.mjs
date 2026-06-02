@@ -105,6 +105,22 @@ const reviewRows = needsReviewDeals.map((deal, index) => {
   const priority = index < 5 ? "P1" : index < 10 ? "P2" : "P3";
   return `| ${priority} | ${deal.id} | ${deal.mall} | ${deal.category} | ${deal.title} | 실제 상품 상세 URL 수동 확인 |`;
 });
+const validationChecklist = [
+  ["상품 상세 URL", "`/products/`, `/vp/products/`, `/goods/`, `/item/`, `goodsNo`, `itemId`처럼 상품 또는 혜택 상세 신호가 있어야 합니다."],
+  ["공식 혜택 URL", "무료 샘플, 쿠폰, 멤버십, 포인트 혜택은 판매처 또는 브랜드의 공식 이벤트/혜택 상세 URL만 허용합니다."],
+  ["검색 URL", "`/search`, `keyword=`, `query=`, 카테고리/목록 URL은 검증 링크로 계산하지 않습니다."],
+  ["커뮤니티/블로그", "뽐뿌, 에펨코리아, 알구몬, 블로그, 뉴스 원문은 출처 참고용일 수 있지만 구매 이동 URL로 등록하지 않습니다."],
+  ["대표몰 메인", "쇼핑몰 홈, 앱 메인, 카테고리 메인은 사용자가 다시 찾아야 하므로 기본 상품 목록에 노출하지 않습니다."],
+  ["이미지/가격", "상품 이미지, 현재가, 정상가, 혜택 조건, 종료일이 함께 확인된 항목을 우선 노출합니다."]
+];
+const fixGuideRows = [
+  ["missing_direct_link", "`data/verifiedPurchaseLinks.ts`에 해당 ID의 `url`, `checkedAt`, `source`, `evidence`를 추가합니다."],
+  ["search_result_url", "판매처에서 실제 상품 상세 또는 공식 혜택 상세 URL을 찾아 `url`을 교체합니다. 검색 URL은 `searchUrl` fallback에만 둡니다."],
+  ["redirect_to_home", "대표몰 메인이 아닌 상품/혜택 상세 페이지를 찾아 교체하고, 확인 근거를 `evidence`에 남깁니다."],
+  ["community_source", "커뮤니티 글은 내부 참고로만 쓰고 판매처 공식 URL 또는 상품 상세 URL로 바꿉니다."],
+  ["broken_url", "http/https URL 형식, 인코딩, 리다이렉트, 품절/종료 여부를 확인한 뒤 정상 URL로 교체합니다."],
+  ["manual_review_needed", "상품 상세 신호나 혜택 신청 신호가 부족하므로 운영자가 직접 페이지 성격을 확인하고 근거를 보강합니다."]
+].map((row) => `| ${row[0]} | ${row[1]} |`);
 
 const lines = [
   "# 할인도사 구매 링크 커버리지 보고서",
@@ -161,6 +177,18 @@ const lines = [
   needsReviewDeals.length
     ? "| 우선순위 | ID | 판매처 | 카테고리 | 상품명 | 다음 작업 |\n| --- | --- | --- | --- | --- | --- |\n" + reviewRows.join("\n")
     : "보강 대기 상품이 없습니다.",
+  "",
+  "## 신규 상품 URL 검수 체크리스트",
+  "",
+  "| 항목 | 기준 |",
+  "| --- | --- |",
+  ...validationChecklist.map((row) => `| ${row[0]} | ${row[1]} |`),
+  "",
+  "## 실패 사유별 조치",
+  "",
+  "| 실패 사유 | 운영 조치 |",
+  "| --- | --- |",
+  ...fixGuideRows,
   "",
   "## 운영 원칙",
   "",
