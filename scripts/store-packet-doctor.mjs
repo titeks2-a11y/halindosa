@@ -21,11 +21,13 @@ const requiredFiles = [
   "docs/STORE_SCREENSHOTS_REPORT.md",
   "docs/STORE_SCREENSHOT_MANIFEST.md",
   "docs/STORE_SUBMISSION_REPORT.md",
+  "docs/STORE_HANDOFF_REPORT.md",
   "android/app/build/outputs/apk/debug/app-debug.apk",
   "android/app/build/outputs/bundle/release/app-release.aab",
   "assets/store/play-store-icon-512.png",
   "assets/store/feature-graphic-1024x500.png",
   "STORE_SCREENSHOT_MANIFEST.json",
+  "STORE_HANDOFF_REPORT.md",
   "ios/App/App/PrivacyInfo.xcprivacy"
 ];
 
@@ -43,6 +45,7 @@ const requiredCommands = [
   "npm run store:screenshots:doctor",
   "npm run store:submission:report",
   "npm run qa:release",
+  "npm run store:handoff:report",
   "npm run android:bundle",
   "npm run release:evidence",
   "npm run release:doctor"
