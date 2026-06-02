@@ -4,9 +4,9 @@
 
 ## 기본 정보
 
-- 생성 시각: 2026-06-02T17:04:00.330Z
+- 생성 시각: 2026-06-02T17:09:19.939Z
 - Git 브랜치: codex/12h-product-ux-growth-hardening
-- 최신 커밋: 9e81ca7
+- 최신 커밋: d1a27cb
 - Git 상태: clean
 - 패키지 버전: 1.0.0
 - 앱 이름: 할인도사
@@ -54,7 +54,7 @@ npm run release:evidence
 - production environment doctor: 공개 HTTPS URL, 동일 origin OAuth callback, 운영 Supabase/토큰 placeholder 차단
 - env doctor regression: localhost, OAuth callback origin 불일치, 위험한 앱 스킴 차단 검증
 - public URL doctor: /privacy, /support, sitemap, robots, 스토어 제출 URL 문구 일관성 점검
-- commercial security audit: high/critical npm 취약점 차단
+- commercial security audit: npm audit 취약점 0건 기준 차단
 - device QA doctor: 실제 기기 기록 템플릿, 구매 링크 샘플, 남은 Critical Issue 기록 기준 점검
 - Android signing doctor: 로컬 keystore 미커밋, signing config 예시, release AAB 서명 준비 기준 점검
 - Android 정적 export 및 Capacitor Android sync
