@@ -85,6 +85,20 @@ const requiredCopy = [
 
 const blockedCopy = ["localhost", "127.0.0.1", "example.com", "YOUR-VERCEL-DOMAIN"];
 
+const mirroredReports = [
+  ["PUBLIC_URL_REPORT.md", "docs/PUBLIC_URL_REPORT.md"],
+  ["STORE_METADATA_REPORT.md", "docs/STORE_METADATA_REPORT.md"],
+  ["STORE_ASSETS_REPORT.md", "docs/STORE_ASSETS_REPORT.md"],
+  ["STORE_SCREENSHOTS_REPORT.md", "docs/STORE_SCREENSHOTS_REPORT.md"],
+  ["STORE_SUBMISSION_REPORT.md", "docs/STORE_SUBMISSION_REPORT.md"],
+  ["STORE_HANDOFF_REPORT.md", "docs/STORE_HANDOFF_REPORT.md"],
+  ["STORE_MANUAL_CHECKLIST.md", "docs/STORE_MANUAL_CHECKLIST.md"],
+  ["RELEASE_NOTES.md", "docs/RELEASE_NOTES.md"],
+  ["SUPPORT_PLAYBOOK.md", "docs/SUPPORT_PLAYBOOK.md"],
+  ["KNOWN_ISSUES.md", "docs/KNOWN_ISSUES.md"],
+  ["STORE_PACKET_REPORT.md", "docs/STORE_PACKET_REPORT.md"]
+];
+
 function fail(message) {
   console.error(`FAIL store packet: ${message}`);
   process.exit(1);
@@ -106,15 +120,28 @@ const missingExistingFiles = requiredFiles.filter((file) => !exists(file));
 const missingCommands = requiredCommands.filter((command) => !packet.includes(command));
 const missingCopy = requiredCopy.filter((copy) => !packet.includes(copy));
 const blocked = blockedCopy.filter((copy) => packet.includes(copy));
+const mismatchedMirrors = mirroredReports.filter(([rootPath, docsPath]) => {
+  if (!exists(rootPath) || !exists(docsPath)) return false;
+  return read(rootPath) !== read(docsPath);
+});
 
 if (missingFileReferences.length) fail(`Packet missing file references: ${missingFileReferences.join(", ")}`);
 if (missingExistingFiles.length) fail(`Referenced files are missing: ${missingExistingFiles.join(", ")}`);
 if (missingCommands.length) fail(`Packet missing commands: ${missingCommands.join(", ")}`);
 if (missingCopy.length) fail(`Packet missing store copy: ${missingCopy.join(", ")}`);
 if (blocked.length) fail(`Packet should not include local/example origins: ${blocked.join(", ")}`);
+if (mismatchedMirrors.length) {
+  fail(`Root/docs mirrored reports differ: ${mismatchedMirrors.map(([rootPath, docsPath]) => `${rootPath} != ${docsPath}`).join(", ")}`);
+}
 
 const rows = requiredFiles.map((file) => `| \`${file}\` | ${exists(file) ? "present" : "missing"} | ${packet.includes(file) ? "referenced" : "missing reference"} |`);
 const commandRows = requiredCommands.map((command) => `| \`${command}\` | ${packet.includes(command) ? "referenced" : "missing"} |`);
+const mirrorRows = mirroredReports.map(([rootPath, docsPath]) => {
+  const rootExists = exists(rootPath);
+  const docsExists = exists(docsPath);
+  const same = rootExists && docsExists && read(rootPath) === read(docsPath);
+  return `| \`${rootPath}\` | \`${docsPath}\` | ${rootExists && docsExists ? "present" : "missing"} | ${same ? "same" : "review"} |`;
+});
 
 const report = [
   "# Store Submission Packet QA Report",
@@ -133,12 +160,19 @@ const report = [
   "| --- | --- |",
   ...commandRows,
   "",
+  "## Mirrored Report Consistency",
+  "",
+  "| Root report | Docs report | Status | Content |",
+  "| --- | --- | --- | --- |",
+  ...mirrorRows,
+  "",
   "## Reviewer Copy Checks",
   "",
   "- Guest access and no-demo-account copy: PASS",
   "- External seller/payment handling copy: PASS",
   "- Public privacy/support URL placeholders: PASS",
   "- Signed AAB and store processing manual checks: PASS",
+  "- Root/docs mirrored report consistency: PASS",
   "- Localhost/example domain scan: PASS",
   "",
   "## Manual Work That Must Not Be Faked",

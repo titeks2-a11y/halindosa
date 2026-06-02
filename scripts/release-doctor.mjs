@@ -3065,7 +3065,7 @@ async function checkPolicyAndStoreDocs() {
     {
       name: "store packet qa report content",
       file: "docs/STORE_PACKET_REPORT.md",
-      phrases: ["Store Submission Packet QA Report", "File References", "Command References", "Reviewer Copy Checks", "Manual Work That Must Not Be Faked"]
+      phrases: ["Store Submission Packet QA Report", "File References", "Command References", "Mirrored Report Consistency", "Root/docs mirrored report consistency: PASS", "Reviewer Copy Checks", "Manual Work That Must Not Be Faked"]
     },
     {
       name: "store submission readiness report content",
