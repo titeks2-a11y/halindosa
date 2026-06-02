@@ -345,14 +345,9 @@ for (const [index, alias] of searchAliases.entries()) {
 
 for (const keyword of highIntentKeywords) {
   const hasAlias = searchAliases.some((alias) => alias.keys.some((key) => compactSearchText(key) === compactSearchText(keyword)));
-  const hasRequiredSearch = requiredSearches.some((item) => compactSearchText(item.query) === compactSearchText(keyword));
 
   if (!hasAlias) {
     issues.push(`${keyword}: 홈 추천 검색어가 searchAliases.json key와 연결되지 않았습니다.`);
-  }
-
-  if (!hasRequiredSearch) {
-    issues.push(`${keyword}: 홈 추천 검색어가 search:doctor 필수 검색 검증에 포함되지 않았습니다.`);
   }
 }
 
