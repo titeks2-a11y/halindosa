@@ -4,9 +4,9 @@
 
 ## 기본 정보
 
-- 생성 시각: 2026-06-02T15:40:26.697Z
+- 생성 시각: 2026-06-02T15:43:12.716Z
 - Git 브랜치: codex/12h-product-ux-growth-hardening
-- 최신 커밋: fdeac7e
+- 최신 커밋: 7825077
 - Git 상태: clean
 - 패키지 버전: 1.0.0
 - 앱 이름: 할인도사
@@ -26,7 +26,7 @@
 | iOS App icon | `ios/App/App/Assets.xcassets/AppIcon.appiconset/AppIcon-512@2x.png` | 61KB |
 | iOS privacy manifest | `ios/App/App/PrivacyInfo.xcprivacy` | 373B |
 | Harness report | `docs/HARNESS_REPORT.md` | 20KB |
-| Link coverage report | `docs/link-coverage-report.md` | 5KB |
+| Link coverage report | `docs/link-coverage-report.md` | 7KB |
 
 ## 제출 전 검증 명령
 
