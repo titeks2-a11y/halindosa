@@ -2572,11 +2572,14 @@ export default function Home() {
               </div>
               <p className="hidden text-xs font-bold text-slate-500 sm:block">상품 상세도 새 탭으로 열립니다.</p>
             </div>
-            <div className="mt-2 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] sm:mt-3 sm:gap-3 [&::-webkit-scrollbar]:hidden">
+            <div
+              className="mt-2 flex snap-x snap-mandatory gap-2 overflow-x-auto scroll-px-2 pb-1 [scrollbar-width:none] sm:mt-3 sm:gap-3 sm:scroll-px-3 [&::-webkit-scrollbar]:hidden"
+              aria-label="오늘 바로 볼 특가 가로 목록"
+            >
               {instantDealRail.map((deal) => (
                 <article
                   key={deal.id}
-                  className="group relative flex w-[138px] shrink-0 flex-col overflow-hidden rounded-2xl border border-slate-100 bg-slate-50 shadow-sm transition hover:-translate-y-0.5 hover:border-red-100 hover:bg-white sm:w-[190px] sm:rounded-3xl"
+                  className="group relative flex w-[138px] shrink-0 snap-start flex-col overflow-hidden rounded-2xl border border-slate-100 bg-slate-50 shadow-sm transition hover:-translate-y-0.5 hover:border-red-100 hover:bg-white sm:w-[190px] sm:rounded-3xl"
                 >
                   <Link
                     href={`/deals/${deal.id}`}

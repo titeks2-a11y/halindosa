@@ -61,10 +61,10 @@ if (
   fail("single home search entry", "홈 검색창이 중복되었거나 하위 화면 보조 검색 compact 기준이 깨졌습니다.");
 }
 
-if (includesAll(homePage, ["INITIAL_HOME_DEAL_LIMIT = 12", "HOME_DEAL_LOAD_STEP = 12", "visibleItems = items.slice(0, visibleDealCount)", "특가 더보기", "showDeepBenefitSections", "혜택 루틴 더보기", "showAdvancedFilterPanel", "상세 필터와 결과 분석 열기", "상세 필터와 결과 분석 접기", "먼저 확인할 상품"])) {
-  pass("home first screen budget", "초기 렌더 12개 제한, 더보기 확장, 심화 혜택/상세 필터 지연 렌더링 구조가 유지됩니다.");
+if (includesAll(homePage, ["INITIAL_HOME_DEAL_LIMIT = 12", "HOME_DEAL_LOAD_STEP = 12", "visibleItems = items.slice(0, visibleDealCount)", "특가 더보기", "showDeepBenefitSections", "혜택 루틴 더보기", "showAdvancedFilterPanel", "상세 필터와 결과 분석 열기", "상세 필터와 결과 분석 접기", "먼저 확인할 상품", "snap-x snap-mandatory", "오늘 바로 볼 특가 가로 목록"])) {
+  pass("home first screen budget", "초기 렌더 12개 제한, 더보기 확장, 심화 혜택/상세 필터 지연 렌더링, 상단 특가 스냅 레일 구조가 유지됩니다.");
 } else {
-  fail("home first screen budget", "홈 첫 화면 budget, 더보기 확장, 심화 혜택/상세 필터 지연 렌더링 구조가 깨졌습니다.");
+  fail("home first screen budget", "홈 첫 화면 budget, 더보기 확장, 심화 혜택/상세 필터 지연 렌더링, 상단 특가 스냅 레일 구조가 깨졌습니다.");
 }
 
 if (
@@ -120,6 +120,7 @@ ${checks.map((check) => `| ${check.name} | ${check.ok ? "PASS" : "FAIL"} | ${che
 - 상품 그리드는 모바일 초기 DOM을 줄이기 위해 12개 먼저 렌더링하고, 더보기로 12개씩 확장하는 구조를 검사합니다.
 - 심화 혜택 루틴은 첫 화면 인터랙티브 요소 수를 줄이기 위해 사용자가 더보기를 누른 뒤 렌더링하는 구조를 검사합니다.
 - 데스크톱 상세 필터와 결과 분석 패널도 기본 DOM에 올리지 않고 사용자가 펼친 뒤 렌더링하는 구조를 검사합니다.
+- 상단 "오늘 바로 볼 특가" 레일은 손가락 스크롤이 어중간하게 멈추지 않도록 snap-x/snap-start 구조를 검사합니다.
 - Playwright 도입 전까지 \`npm run test:mobile-ux\`와 \`npm run harness\`가 모바일 UX 안전망 역할을 합니다.
 `;
 
