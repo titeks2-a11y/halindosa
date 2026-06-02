@@ -2570,76 +2570,84 @@ export default function Home() {
                 <p className="text-xs font-black text-dossa-red">오늘 바로 볼 특가</p>
                 <h3 className="text-base font-black text-slate-950 sm:mt-1 sm:text-xl">먼저 확인할 상품</h3>
               </div>
-              <p className="hidden text-xs font-bold text-slate-500 sm:block">상품 상세도 새 탭으로 열립니다.</p>
+              <p className="rounded-full bg-slate-50 px-2.5 py-1 text-[11px] font-black text-slate-500 sm:bg-transparent sm:px-0 sm:text-xs sm:font-bold">
+                옆으로 넘기기
+              </p>
             </div>
-            <div
-              className="mt-2 flex snap-x snap-mandatory gap-2 overflow-x-auto scroll-px-2 pb-1 [scrollbar-width:none] sm:mt-3 sm:gap-3 sm:scroll-px-3 [&::-webkit-scrollbar]:hidden"
-              aria-label="오늘 바로 볼 특가 가로 목록"
-            >
-              {instantDealRail.map((deal) => (
-                <article
-                  key={deal.id}
-                  className="group relative flex w-[138px] shrink-0 snap-start flex-col overflow-hidden rounded-2xl border border-slate-100 bg-slate-50 shadow-sm transition hover:-translate-y-0.5 hover:border-red-100 hover:bg-white sm:w-[190px] sm:rounded-3xl"
-                >
-                  <Link
-                    href={`/deals/${deal.id}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block"
-                    aria-label={`${deal.title} 상세 정보 새 탭으로 보기`}
+            <div className="relative">
+              <div
+                className="mt-2 flex snap-x snap-mandatory gap-2 overflow-x-auto scroll-px-2 pb-1 pr-8 [scrollbar-width:none] sm:mt-3 sm:gap-3 sm:scroll-px-3 sm:pr-10 [&::-webkit-scrollbar]:hidden"
+                aria-label="오늘 바로 볼 특가 가로 목록"
+              >
+                {instantDealRail.map((deal) => (
+                  <article
+                    key={deal.id}
+                    className="group relative flex w-[138px] shrink-0 snap-start flex-col overflow-hidden rounded-2xl border border-slate-100 bg-slate-50 shadow-sm transition hover:-translate-y-0.5 hover:border-red-100 hover:bg-white sm:w-[190px] sm:rounded-3xl"
                   >
-                    <span className="relative block aspect-[4/3] overflow-hidden bg-red-50 sm:aspect-square">
-                      {deal.thumbnail ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img
-                          src={getDealImageSrc(deal.thumbnail)}
-                          alt={`${deal.title} 상품 이미지`}
-                          loading="lazy"
-                          decoding="async"
-                          referrerPolicy="no-referrer"
-                          className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
-                        />
-                      ) : (
-                        <span className="flex h-full w-full items-center justify-center text-sm font-black text-dossa-red">SALE</span>
-                      )}
-                      <span className="absolute left-1.5 top-1.5 rounded-full bg-dossa-red px-2 py-0.5 text-[11px] font-black text-white sm:left-2 sm:top-2 sm:py-1 sm:text-xs">{deal.discountRate}%</span>
-                      {deal.isFreeShipping ? (
-                        <span className="absolute bottom-1.5 left-1.5 rounded-full bg-white px-2 py-0.5 text-[10px] font-black text-dossa-red shadow-sm sm:bottom-2 sm:left-2 sm:py-1 sm:text-[11px]">무배</span>
-                      ) : null}
-                    </span>
-                    <span className="block space-y-1 p-2 sm:space-y-1.5 sm:p-3">
-                      <span className="flex items-center justify-between gap-2 text-[11px] font-black">
-                        <span className="truncate text-dossa-red">{deal.mallName}</span>
-                        <span className="hidden shrink-0 text-slate-400 sm:inline">{getRelativeTime(deal.priceCheckedAt)}</span>
+                    <Link
+                      href={`/deals/${deal.id}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block"
+                      aria-label={`${deal.title} 상세 정보 새 탭으로 보기`}
+                    >
+                      <span className="relative block aspect-[4/3] overflow-hidden bg-red-50 sm:aspect-square">
+                        {deal.thumbnail ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img
+                            src={getDealImageSrc(deal.thumbnail)}
+                            alt={`${deal.title} 상품 이미지`}
+                            loading="lazy"
+                            decoding="async"
+                            referrerPolicy="no-referrer"
+                            className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+                          />
+                        ) : (
+                          <span className="flex h-full w-full items-center justify-center text-sm font-black text-dossa-red">SALE</span>
+                        )}
+                        <span className="absolute left-1.5 top-1.5 rounded-full bg-dossa-red px-2 py-0.5 text-[11px] font-black text-white sm:left-2 sm:top-2 sm:py-1 sm:text-xs">{deal.discountRate}%</span>
+                        {deal.isFreeShipping ? (
+                          <span className="absolute bottom-1.5 left-1.5 rounded-full bg-white px-2 py-0.5 text-[10px] font-black text-dossa-red shadow-sm sm:bottom-2 sm:left-2 sm:py-1 sm:text-[11px]">무배</span>
+                        ) : null}
                       </span>
-                      <span className="line-clamp-2 min-h-8 text-xs font-black leading-4 text-slate-950 sm:min-h-10 sm:text-sm sm:leading-5">{deal.title}</span>
-                      <span className="hidden text-[11px] font-bold text-slate-400 line-through sm:block">{formatPrice(deal.originalPrice)}</span>
-                      <span className="block text-[15px] font-black text-dossa-red sm:text-lg">{formatPrice(deal.salePrice)}</span>
-                    </span>
-                  </Link>
-                  <div className="mt-auto grid grid-cols-2 gap-1 px-2 pb-2 sm:px-3 sm:pb-3">
-                    <button
-                      type="button"
-                      onClick={() => toggleFavorite(deal.id)}
-                      className={`min-h-8 rounded-xl border text-[11px] font-black transition sm:min-h-10 sm:rounded-2xl sm:text-xs ${
-                        favorites.includes(deal.id) ? "border-red-100 bg-red-50 text-dossa-red" : "border-slate-200 bg-white text-slate-600 hover:text-dossa-red"
-                      }`}
-                      aria-label={`${deal.title} ${favorites.includes(deal.id) ? "찜 해제" : "찜하기"}`}
-                      aria-pressed={favorites.includes(deal.id)}
-                    >
-                      찜
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => openDeal(deal)}
-                      className="min-h-8 rounded-xl bg-slate-950 text-[11px] font-black text-white transition hover:bg-dossa-red sm:min-h-10 sm:rounded-2xl sm:text-xs"
-                      aria-label={`${deal.title} 판매처 새 탭으로 확인`}
-                    >
-                      구매
-                    </button>
-                  </div>
-                </article>
-              ))}
+                      <span className="block space-y-1 p-2 sm:space-y-1.5 sm:p-3">
+                        <span className="flex items-center justify-between gap-2 text-[11px] font-black">
+                          <span className="truncate text-dossa-red">{deal.mallName}</span>
+                          <span className="hidden shrink-0 text-slate-400 sm:inline">{getRelativeTime(deal.priceCheckedAt)}</span>
+                        </span>
+                        <span className="line-clamp-2 min-h-8 text-xs font-black leading-4 text-slate-950 sm:min-h-10 sm:text-sm sm:leading-5">{deal.title}</span>
+                        <span className="hidden text-[11px] font-bold text-slate-400 line-through sm:block">{formatPrice(deal.originalPrice)}</span>
+                        <span className="block text-[15px] font-black text-dossa-red sm:text-lg">{formatPrice(deal.salePrice)}</span>
+                      </span>
+                    </Link>
+                    <div className="mt-auto grid grid-cols-2 gap-1 px-2 pb-2 sm:px-3 sm:pb-3">
+                      <button
+                        type="button"
+                        onClick={() => toggleFavorite(deal.id)}
+                        className={`min-h-8 rounded-xl border text-[11px] font-black transition sm:min-h-10 sm:rounded-2xl sm:text-xs ${
+                          favorites.includes(deal.id) ? "border-red-100 bg-red-50 text-dossa-red" : "border-slate-200 bg-white text-slate-600 hover:text-dossa-red"
+                        }`}
+                        aria-label={`${deal.title} ${favorites.includes(deal.id) ? "찜 해제" : "찜하기"}`}
+                        aria-pressed={favorites.includes(deal.id)}
+                      >
+                        찜
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => openDeal(deal)}
+                        className="min-h-8 rounded-xl bg-slate-950 text-[11px] font-black text-white transition hover:bg-dossa-red sm:min-h-10 sm:rounded-2xl sm:text-xs"
+                        aria-label={`${deal.title} 판매처 새 탭으로 확인`}
+                      >
+                        구매
+                      </button>
+                    </div>
+                  </article>
+                ))}
+              </div>
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute bottom-1 right-0 top-2 w-10 rounded-r-2xl bg-gradient-to-l from-white via-white/90 to-transparent sm:top-3 sm:w-12"
+              />
             </div>
           </section>
         ) : null}

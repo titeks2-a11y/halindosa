@@ -15,6 +15,7 @@
 - 기본 화면에서 보이지 않던 심화 혜택 루틴/브리핑/개인화/쇼핑몰 탐색 묶음을 `혜택 루틴 더보기` 클릭 후 렌더링하도록 바꿔 375px 모바일 실제 화면의 초기 인터랙티브 요소를 버튼 527개/링크 206개에서 버튼 224개/링크 60개로 줄이고, `test:mobile-ux`가 지연 렌더링 구조를 회귀 방지하도록 보강
 - 데스크톱용 상세 필터/결과 분석 패널도 `필터 더보기` 클릭 후 렌더링하도록 바꿔 375px 모바일 실제 화면의 초기 인터랙티브 요소를 버튼 224개에서 153개로 추가 절감하고, 검색 결과 분석 패널이 초기 DOM에 섞이지 않도록 `test:mobile-ux` 회귀 기준을 강화
 - 상단 `오늘 바로 볼 특가` 가로 레일에 `snap-x`/`snap-start`와 명시적 aria label을 추가해 모바일 손가락 스크롤이 카드 단위로 안정적으로 멈추도록 개선하고, `test:mobile-ux`가 스냅 레일 회귀를 잡도록 보강
+- 같은 가로 레일에 `옆으로 넘기기` 안내와 오른쪽 fade edge를 추가해 375px 첫 화면에서 사용자가 더 많은 특가를 좌우로 탐색할 수 있음을 즉시 알아차리도록 개선하고, 모바일 UX 회귀 테스트에 스크롤 신호 기준을 추가
 - `device:qa:manifest`를 추가해 Android/iOS 실기기 QA 대상, APK/AAB 산출물, 스토어 스크린샷 매니페스트, 구매 링크 샘플, 민감정보 기록 금지 원칙을 `DEVICE_QA_MANIFEST.json`과 `docs/DEVICE_QA_MANIFEST.md`로 생성하고 CI, `qa:release`, `device:qa:doctor`, `release:doctor`, `release:evidence`에 연결
 - `store:handoff:report`를 추가해 제출 담당자가 볼 최종 인수인계 리포트에 바이너리/스토어 이미지, 검증 리포트, 구매 링크 준비도, 실기기/스크린샷 범위, 남은 외부 콘솔 작업, 민감정보 금지 원칙을 묶고 CI, `qa:release`, `store:packet:doctor`, `release:doctor`, `release:evidence`에 연결
 - `store:console:fields`를 추가해 Play Console/App Store Connect 입력 필드, 심사자 복사 문구, 공개 URL, 데이터 보안/콘텐츠 등급 문서 연결을 `STORE_CONSOLE_FIELDS.json`과 `docs/STORE_CONSOLE_FIELDS.md`로 생성하고 제출 패킷, handoff, CI, `qa:release`, `release:doctor`, `release:evidence`에 연결
