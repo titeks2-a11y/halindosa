@@ -47,6 +47,7 @@ async function checkPackage() {
     "android:doctor",
     "android:debug",
     "android:bundle",
+    "android:signing:doctor",
     "qa:release",
     "perf:budget",
     "device:qa:doctor",
@@ -65,8 +66,8 @@ async function checkPackage() {
   const missing = requiredScripts.filter((script) => !pkg.scripts?.[script]);
 
   if (missing.length) fail("package scripts", `Missing scripts: ${missing.join(", ")}`);
-  else if (!pkg.scripts?.qa?.includes("verify:links") || !pkg.scripts?.qa?.includes("test:mobile-ux") || !harness.includes("test:mobile-ux") || !pkg.scripts?.["qa:release"]?.includes("audit:commercial") || !pkg.scripts?.["qa:release"]?.includes("device:qa:doctor") || !pkg.scripts?.["qa:release"]?.includes("feed:validate") || !pkg.scripts?.["qa:release"]?.includes("feed:production:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:metadata:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:assets:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:doctor") || !pkg.scripts?.["qa:release"]?.includes("perf:budget")) {
-    fail("package scripts", "qa, harness, and qa:release should include mobile UX, commercial security audit, device QA doctor, partner feed validator, production feed doctor, store metadata doctor, store asset doctor, store screenshot doctor, and performance budget before store submission.");
+  else if (!pkg.scripts?.qa?.includes("verify:links") || !pkg.scripts?.qa?.includes("test:mobile-ux") || !harness.includes("test:mobile-ux") || !pkg.scripts?.["qa:release"]?.includes("audit:commercial") || !pkg.scripts?.["qa:release"]?.includes("device:qa:doctor") || !pkg.scripts?.["qa:release"]?.includes("android:signing:doctor") || !pkg.scripts?.["qa:release"]?.includes("feed:validate") || !pkg.scripts?.["qa:release"]?.includes("feed:production:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:metadata:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:assets:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:doctor") || !pkg.scripts?.["qa:release"]?.includes("perf:budget")) {
+    fail("package scripts", "qa, harness, and qa:release should include mobile UX, commercial security audit, device QA doctor, Android signing doctor, partner feed validator, production feed doctor, store metadata doctor, store asset doctor, store screenshot doctor, and performance budget before store submission.");
   } else {
     pass("package scripts", "Android, iOS, environment, mobile UX, commercial security, and performance release command flow is available.");
   }
@@ -2819,9 +2820,30 @@ function checkSigningAndArtifacts() {
   const keystore = "android/keystore.properties";
   const aab = "android/app/build/outputs/bundle/release/app-release.aab";
   const apk = "android/app/build/outputs/apk/debug/app-debug.apk";
+  const signingDoctor = "scripts/android-signing-doctor.mjs";
 
   if (!existsSync(join(root, keystoreExample))) fail("keystore example", "Missing android/keystore.properties.example.");
   else pass("keystore example", "Example signing config is present.");
+
+  if (!existsSync(join(root, signingDoctor))) {
+    fail("Android signing doctor", "Missing scripts/android-signing-doctor.mjs.");
+  } else {
+    const signingDoctorBody = readFileSync(join(root, signingDoctor), "utf8");
+    const requiredSigningDoctorSnippets = [
+      "android/app/build.gradle signing setup is incomplete",
+      "Tracked signing secret files found",
+      "android/keystore.properties.example",
+      "signingConfig signingConfigs.release",
+      "storePassword=CHANGE_ME"
+    ];
+    const missingSigningDoctorSnippets = requiredSigningDoctorSnippets.filter((snippet) => !signingDoctorBody.includes(snippet));
+
+    if (missingSigningDoctorSnippets.length) {
+      fail("Android signing doctor", `Signing doctor should guard Gradle signing, examples, and tracked secrets. Missing: ${missingSigningDoctorSnippets.join(", ")}`);
+    } else {
+      pass("Android signing doctor", "Signing doctor guards Gradle release signing, local secret ignores, example file, docs, and tracked signing secrets.");
+    }
+  }
 
   if (!existsSync(join(root, keystore))) {
     pass("release keystore", "Not committed. Create android/keystore.properties locally or use Android Studio signing wizard.");

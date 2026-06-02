@@ -16,6 +16,7 @@ npm run build
 npm run build:android
 npm run cap:sync
 npm run android:doctor
+npm run android:signing:doctor
 npm run android:debug
 npm run release:doctor
 npm run cap:open
@@ -23,6 +24,7 @@ npm run cap:open
 
 `android:doctor`, `android:debug`, `android:bundle`은 Windows에서 Android Studio 내장 JDK를 자동 탐지합니다.
 기본 탐지 경로는 `C:\Program Files\Android\Android Studio\jbr`이며, 다른 위치에 설치했다면 `JAVA_HOME` 또는 `STUDIO_JDK`를 설정하세요.
+`android:signing:doctor`는 실제 비밀번호를 읽거나 만들지 않고 release signing 구조, 예시 파일, `.gitignore`, 민감정보 미커밋 상태를 점검합니다.
 
 ## Android Studio 작업
 
@@ -36,6 +38,7 @@ npm run cap:open
 
 ```bash
 npm run android:bundle
+npm run android:signing:doctor
 npm run release:doctor
 ```
 

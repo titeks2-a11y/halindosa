@@ -14,6 +14,7 @@
     "android:doctor": "node scripts/android-gradle.mjs doctor",
     "android:debug": "node scripts/android-gradle.mjs assembleDebug",
     "android:bundle": "node scripts/android-gradle.mjs bundleRelease",
+    "android:signing:doctor": "node scripts/android-signing-doctor.mjs",
     "start": "next start",
     "lint": "eslint .",
     "smoke": "node scripts/smoke.mjs",
@@ -50,7 +51,7 @@
     "release:evidence": "node scripts/release-evidence.mjs",
     "release:doctor": "node scripts/release-doctor.mjs",
     "qa": "npm run lint && npm run verify:links && npm run test:external-links && npm run test:images && npm run image:operations:doctor && npm run catalog:doctor && npm run search:doctor && npm run test:ui && npm run test:mobile-ux && npm run test:seo && npm run test:perf && npm run purchase:navigation:doctor && npm run detail:navigation:doctor && npm run navigation:doctor && npm run home:url-state:doctor && npm run home:list-scan:doctor && npm run smoke:local && npm run build && npm run release:doctor",
-    "qa:release": "npm run qa && npm run audit:commercial && npm run device:qa:doctor && npm run feed:validate && npm run feed:production:doctor && npm run build:android && npm run cap:sync && npm run cap:sync:ios && npm run store:metadata:doctor && npm run store:assets:doctor && npm run store:screenshots:doctor && npm run perf:budget && npm run release:doctor",
+    "qa:release": "npm run qa && npm run audit:commercial && npm run device:qa:doctor && npm run android:signing:doctor && npm run feed:validate && npm run feed:production:doctor && npm run build:android && npm run cap:sync && npm run cap:sync:ios && npm run store:metadata:doctor && npm run store:assets:doctor && npm run store:screenshots:doctor && npm run perf:budget && npm run release:doctor",
     "wait:health": "node scripts/wait-for-health.mjs",
     "detail:navigation:doctor": "node scripts/detail-navigation-doctor.mjs"
   },

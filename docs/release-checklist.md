@@ -7,6 +7,7 @@
 - [x] `npm run build:android`
 - [x] `npm run cap:sync`
 - [x] `npm run android:doctor`
+- [x] `npm run android:signing:doctor`
 - [x] `npm run android:debug`
 - [x] `npm run android:bundle`
 - [x] `npm run release:doctor`
@@ -19,7 +20,7 @@
 - [x] `npm run store:assets:doctor`
 - [x] `npm run perf:budget`
 - [x] `npm run release:evidence`
-- [x] `npm run qa:release`는 `audit:commercial`, 실기기 QA 기록 양식 점검, 스토어 메타데이터/이미지/스크린샷 점검, `perf:budget`, Android/iOS sync, release doctor까지 포함
+- [x] `npm run qa:release`는 `audit:commercial`, 실기기 QA 기록 양식 점검, Android signing doctor, 스토어 메타데이터/이미지/스크린샷 점검, `perf:budget`, Android/iOS sync, release doctor까지 포함
 
 ## Android 설정
 
