@@ -2781,7 +2781,7 @@ async function checkPolicyAndStoreDocs() {
     {
       name: "store submission packet content",
       file: "docs/store-submission-packet.md",
-      phrases: ["Android release AAB", "Play Store 등록 문구", "App Store Connect 입력값", "node scripts/env-doctor.mjs --strict", "docs/device-qa-checklist.md", "docs/store-review-notes.md", "실제 구매 링크 또는 공식 혜택 상세 URL", "테스트 계정: 필요 없음", "Demo Account: 필요 없음"]
+      phrases: ["Android release AAB", "Play Store 등록 문구", "App Store Connect 입력값", "node scripts/env-doctor.mjs --strict", "docs/device-qa-checklist.md", "docs/store-review-notes.md", "실제 구매 링크 또는 공식 혜택 상세 URL", "테스트 계정: 필요 없음", "Demo Account: 필요 없음", "Play Console 복사 입력 블록", "App Store Connect 복사 입력 블록", "https://halindosa.com/privacy", "https://halindosa.com/support"]
     },
     {
       name: "store review notes content",

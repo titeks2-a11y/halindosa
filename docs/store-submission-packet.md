@@ -55,6 +55,32 @@ npm run release:doctor
 - 데이터 보안: `docs/data-safety-guide.md` 기준으로 실제 운영 여부에 맞춰 입력
 - 콘텐츠 등급: `docs/content-rating-guide.md` 기준으로 입력
 
+### Play Console 복사 입력 블록
+
+앱 액세스:
+
+```text
+할인도사는 비회원으로 홈, 검색, 카테고리, 상세, 찜, 알림, 마이 화면을 확인할 수 있습니다. 로그인은 찜한 특가, 최근 본 상품, 관심 카테고리를 계정으로 이어보기 위한 선택 기능입니다. 테스트 계정은 필요하지 않습니다.
+```
+
+심사자 메모:
+
+```text
+앱은 직접 상품을 판매하거나 결제를 처리하지 않습니다. 상품의 구매, 결제, 배송, 환불은 외부 판매처에서 처리됩니다. 상품 카드 또는 상세 화면의 구매 버튼을 누르면 이동 예정 도메인과 가격 확인 안내가 먼저 표시되고, 사용자가 확인하면 외부 브라우저 또는 판매처 페이지로 이동합니다.
+```
+
+개인정보처리방침 URL:
+
+```text
+https://halindosa.com/privacy
+```
+
+고객 지원 URL:
+
+```text
+https://halindosa.com/support
+```
+
 ## App Store Connect 입력값
 
 - 앱 이름: 할인도사
@@ -66,6 +92,26 @@ npm run release:doctor
 - Review Notes: `docs/store-review-notes.md`의 App Store Review Notes 문구를 실제 제출 화면에 맞춰 붙여넣기
 - Demo Account: 필요 없음. Review Notes에 “No demo account is required”와 비회원 확인 경로를 함께 입력
 - App Privacy: V1 기준 개인정보 판매 없음, 추적 없음. Supabase Auth 운영 시 계정 식별자와 사용자 콘텐츠 저장 여부를 실제 값으로 입력
+
+### App Store Connect 복사 입력 블록
+
+Review Notes:
+
+```text
+The app can be reviewed without a required account. Login is optional and only used to sync saved deals, recent views, and preferred categories. The app does not sell products or process payments directly. Purchase buttons show a confirmation sheet first, then open an external seller page in the browser. No demo account is required.
+```
+
+Support URL:
+
+```text
+https://halindosa.com/support
+```
+
+Privacy Policy URL:
+
+```text
+https://halindosa.com/privacy
+```
 
 ## 최종 수동 확인
 

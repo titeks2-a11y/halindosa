@@ -69,6 +69,11 @@ try {
   assert(packet.includes("개인정보처리방침 URL: 공개 배포 도메인의 `/privacy`"), "Submission packet should point privacy URL to /privacy.");
   assert(packet.includes("고객 지원: 공개 배포 도메인의 `/support`"), "Submission packet should point support URL to /support.");
   assert(packet.includes("com.halindosa.app"), "Submission packet should include package/bundle id.");
+  assert(packet.includes("Play Console 복사 입력 블록"), "Submission packet should include Play Console copy-paste blocks.");
+  assert(packet.includes("App Store Connect 복사 입력 블록"), "Submission packet should include App Store Connect copy-paste blocks.");
+  assert(packet.includes("https://halindosa.com/privacy") && packet.includes("https://halindosa.com/support"), "Submission packet should include production privacy/support URL placeholders.");
+  assert(packet.includes("테스트 계정은 필요하지 않습니다") && packet.includes("No demo account is required"), "Submission packet should include no-demo-account reviewer copy.");
+  assert(packet.includes("직접 상품을 판매하거나 결제를 처리하지 않습니다"), "Submission packet should include external seller/payment review copy.");
 
   assert(appStoreInfo.includes("앱 이름: 할인도사"), "App Store checklist should include app name.");
   assert(appStoreInfo.includes("Bundle Identifier: `com.halindosa.app`") || appStoreInfo.includes("Bundle ID: `com.halindosa.app`"), "App Store checklist should include bundle id.");
