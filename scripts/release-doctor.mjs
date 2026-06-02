@@ -2664,6 +2664,8 @@ async function checkPolicyAndStoreDocs() {
     "docs/store-submission-packet.md",
     "docs/store-review-notes.md",
     "docs/link-coverage-report.md",
+    "README.md",
+    "docs/RUNBOOK.md",
     "scripts/env-doctor.mjs"
   ];
   const missing = requiredFiles.filter((file) => !existsSync(join(root, file)));
@@ -2715,7 +2717,17 @@ async function checkPolicyAndStoreDocs() {
     {
       name: "test plan content",
       file: "docs/test-plan.md",
-      phrases: ["자동 검증", "수동 확인", "데이터/링크 신뢰도", "테스트 종료 기준", "링크 검수 큐", "docs/device-qa-checklist.md"]
+      phrases: ["자동 검증", "수동 확인", "데이터/링크 신뢰도", "테스트 종료 기준", "링크 검수 큐", "docs/device-qa-checklist.md", "test:mobile-ux", "MOBILE_UX_REPORT.md"]
+    },
+    {
+      name: "readme qa guidance",
+      file: "README.md",
+      phrases: ["모바일 UX", "test:mobile-ux", "MOBILE_UX_REPORT.md", "외부 링크/이미지/이미지 운영 doctor", "release:doctor"]
+    },
+    {
+      name: "runbook harness guidance",
+      file: "docs/RUNBOOK.md",
+      phrases: ["모바일 UX compact first-screen 검사", "MOBILE_UX_REPORT.md", "test:mobile-ux", "qa", "harness"]
     },
     {
       name: "oauth setup content",
