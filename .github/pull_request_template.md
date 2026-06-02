@@ -7,6 +7,8 @@
 ## Release Safety Checklist
 
 - [ ] `npm run harness` 통과 또는 실패 원인과 보완 계획 기록
+- [ ] `npm run test:env` 통과
+- [ ] `npm run public:url:doctor` 통과
 - [ ] `npm run release:doctor` 통과
 - [ ] 상품/혜택 링크는 실제 상품 상세 URL 또는 공식 혜택 상세 URL만 사용
 - [ ] 검색 결과, 대표몰, 커뮤니티/블로그/뉴스 원문 단독 링크를 구매 링크로 노출하지 않음

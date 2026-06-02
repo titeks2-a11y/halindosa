@@ -141,6 +141,8 @@ async function checkCiWorkflow() {
   const prTemplate = await text(prTemplatePath);
   const requiredPrSnippets = [
     "npm run harness",
+    "npm run test:env",
+    "npm run public:url:doctor",
     "npm run release:doctor",
     "실제 상품 상세 URL 또는 공식 혜택 상세 URL",
     "검색 결과, 대표몰, 커뮤니티/블로그/뉴스 원문 단독 링크",
