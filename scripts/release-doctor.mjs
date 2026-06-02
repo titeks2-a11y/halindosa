@@ -739,6 +739,10 @@ async function checkUiAccessibility() {
   const globalsCss = await text("app/globals.css");
   const authForm = await text("components/AuthForm.tsx");
   const commercializationPage = await text("app/commercialization/page.tsx");
+  const imageQualityReport = await text("IMAGE_QUALITY_REPORT.md");
+  const imageTest = await text("scripts/test-images.mjs");
+  const imageOperationsDoctor = await text("scripts/image-operations-doctor.mjs");
+  const harnessReport = await text("HARNESS_REPORT.md");
   const smoke = await text("scripts/smoke.mjs");
   const packageJson = await text("package.json");
 
@@ -1032,6 +1036,21 @@ async function checkUiAccessibility() {
     fail("deal image loading hints", "List images should lazy-load and detail hero image should eagerly load.");
   } else {
     pass("deal image loading hints", "Deal list, live feed, signal, and detail images use proxy helpers and browser loading hints, while quick cards expose compact purchase snapshots.");
+  }
+
+  if (
+    !packageJson.includes('"test:images"') ||
+    !packageJson.includes('"image:operations:doctor"') ||
+    !packageJson.includes("npm run test:images") ||
+    !packageJson.includes("npm run image:operations:doctor") ||
+    !imageTest.includes("minimumExplicitImageRate = 25") ||
+    !imageOperationsDoctor.includes("minimum explicit image gate") ||
+    !imageQualityReport.includes("| 명시 이미지 최소 기준 | 25% |") ||
+    !harnessReport.includes("Image quality passed: 39/140 deals have explicit images.")
+  ) {
+    fail("deal image quality coverage gate", "Release QA should enforce the 25% explicit product image floor and record the current 39/140 coverage evidence.");
+  } else {
+    pass("deal image quality coverage gate", "QA, image operations doctor, and release evidence enforce the 25% explicit product image floor with 39/140 current coverage.");
   }
 
   if (
