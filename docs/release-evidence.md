@@ -4,19 +4,10 @@
 
 ## 기본 정보
 
-- 생성 시각: 2026-06-02T17:22:51.820Z
+- 생성 시각: 2026-06-02T17:23:02.232Z
 - Git 브랜치: codex/12h-product-ux-growth-hardening
-- 최신 커밋: be7688c
-- Git 상태: M .github/workflows/ci.yml
- M docs/RUNBOOK.md
- M docs/release-checklist.md
- M docs/store-submission-packet.md
- M package.json
- M scripts/release-doctor.mjs
- M scripts/release-evidence.mjs
-?? STORE_SUBMISSION_REPORT.md
-?? docs/STORE_SUBMISSION_REPORT.md
-?? scripts/store-submission-report.mjs
+- 최신 커밋: 944e27f
+- Git 상태: clean
 - 패키지 버전: 1.0.0
 - 앱 이름: 할인도사
 - 앱 ID / 패키지명: com.halindosa.app
