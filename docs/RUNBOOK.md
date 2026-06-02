@@ -150,7 +150,7 @@ SEO 규칙은 root metadata, Open Graph, canonical, manifest, sitemap, robots, �
 
 ## 보안/배포 가드레일
 
-- `npm run audit:commercial`은 high/critical 취약점이 있으면 실패합니다.
+- `npm run audit:commercial`은 npm audit 취약점이 1건이라도 남아 있으면 실패합니다.
 - `next.config.mjs`에는 웹 배포용 기본 보안 헤더와 `output: "standalone"`이 설정되어 있습니다. Capacitor 정적 export 빌드에서는 적용되지 않는 headers 설정을 자동 제외합니다.
 - 신고/트래킹/리다이렉트/export API는 `X-Request-Id`, `X-RateLimit-*` 헤더를 반환합니다.
 - 현재 rate limit는 in-memory 방식입니다. 다중 인스턴스 운영 시 Redis, Upstash, Supabase Edge Function 등 공유 저장소로 교체해야 합니다.

@@ -195,7 +195,7 @@
 - 마이페이지에 빠른 작업 메뉴를 추가해 찜, 알림 센터, 카테고리, 서비스 안내로 바로 이동할 수 있게 하고 정책/문의/데이터 관리 접근성을 개선
 - 상세 화면과 서비스 안내에 공통 `구매 전 10초 체크` 컴포넌트를 추가해 최종 결제 금액, 배송, 취소·반품, 정보 신고 흐름을 한 기준으로 안내
 - `/commercialization`에 출시 준비 단계와 다음 우선 조치 큐를 추가해 내부 테스트, 공개 출시, 링크 검수 보강의 판단 기준을 한 화면에서 확인하도록 개선
-- `qa:release`에 `audit:commercial`을 포함해 스토어 제출 전 high/critical npm 취약점 검사를 자동 출시 게이트로 편입
+- `qa:release`에 `audit:commercial`을 포함해 스토어 제출 전 npm audit 취약점 0건 검사를 자동 출시 게이트로 편입
 - `perf:budget` 스크립트를 추가해 정적 export, JS/CSS chunk, APK/AAB, 스토어 이미지 크기가 출시 예산을 넘으면 실패하도록 자동화
 - `release:evidence` 스크립트와 `docs/release-evidence.md`를 추가해 커밋, 앱 버전, APK/AAB, 스토어 이미지, 남은 수동 확인을 제출 전 증빙으로 보관
 - 관리자 CSV export에 링크 상태, 유형, 검수 우선순위, 보강 액션, 보강 사유, 구매 링크 신뢰도, 확인 시각, 최종 이동 URL을 포함해 운영자가 스프레드시트에서 바로 링크 보강 작업을 진행할 수 있도록 개선
@@ -435,7 +435,6 @@
 
 ### Medium
 
-- `npm install`에서 moderate 취약점 2개가 보고됨. 강제 수정은 breaking change 가능성이 있어 프레임워크 패치 확인 후 처리
 - 실제 운영 데이터는 공식 API, RSS, 제휴 피드, 허용된 수집 방식만 사용해야 함
 - 신규 운영 데이터는 검색 fallback을 기본 상품 목록에 노출하지 않고, 직접 구매/공식 혜택 URL과 실상품 이미지를 함께 확보해야 함
 
@@ -454,6 +453,7 @@
 
 ## 최근 진행
 
+- Next 내부 PostCSS 취약점 감사 항목을 안전한 `postcss@8.5.15` override로 해소하고, `npm audit --omit=dev`, `npm run audit:commercial`, `npm run build`, `npm run lint`, `npm run release:doctor` 통과를 확인했다.
 - Supabase OAuth, 딥링크, 회원 탈퇴, 찜/최근 본 상품 DB 동기화 구조를 release doctor 75개 항목과 smoke 34개 항목으로 검증하도록 출시 게이트를 확장했다.
 - `/auth/callback`, `/onboarding`, `/api/account/delete` guard를 smoke에 추가해 소셜 로그인 진입, 온보딩, 탈퇴 보안 실패 흐름을 자동 확인한다.
 - 회원 데이터 동기화 로직을 `lib/memberSync.ts`로 분리해 Supabase 연결 시 DB 우선, 실패 시 기기 저장 fallback 구조를 유지한다.

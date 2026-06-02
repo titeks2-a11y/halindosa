@@ -37,6 +37,7 @@ async function checkPackage() {
   const androidGradle = await text("android/app/build.gradle");
   const iosProject = await text("ios/App/App.xcodeproj/project.pbxproj");
   const harness = await text("scripts/harness.mjs");
+  const audit = await text("scripts/audit.mjs");
   const requiredScripts = [
     "build",
     "build:android",
@@ -97,6 +98,12 @@ async function checkPackage() {
 
   if (versionIssues.length) fail("release version alignment", versionIssues.join("; "));
   else pass("release version alignment", `Web, lockfile, Android, and iOS versions are aligned at ${pkg.version}.`);
+
+  if (!audit.includes("total > 0") || !audit.includes("All npm audit vulnerabilities must be resolved before commercial deployment.")) {
+    fail("commercial audit zero-vulnerability gate", "audit:commercial should fail when any npm audit vulnerability remains.");
+  } else {
+    pass("commercial audit zero-vulnerability gate", "audit:commercial requires npm audit total vulnerabilities to be 0.");
+  }
 }
 
 async function checkCiWorkflow() {

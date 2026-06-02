@@ -101,7 +101,7 @@ const lines = [
   "- production environment doctor: 공개 HTTPS URL, 동일 origin OAuth callback, 운영 Supabase/토큰 placeholder 차단",
   "- env doctor regression: localhost, OAuth callback origin 불일치, 위험한 앱 스킴 차단 검증",
   "- public URL doctor: /privacy, /support, sitemap, robots, 스토어 제출 URL 문구 일관성 점검",
-  "- commercial security audit: high/critical npm 취약점 차단",
+  "- commercial security audit: npm audit 취약점 0건 기준 차단",
   "- device QA doctor: 실제 기기 기록 템플릿, 구매 링크 샘플, 남은 Critical Issue 기록 기준 점검",
   "- Android signing doctor: 로컬 keystore 미커밋, signing config 예시, release AAB 서명 준비 기준 점검",
   "- Android 정적 export 및 Capacitor Android sync",

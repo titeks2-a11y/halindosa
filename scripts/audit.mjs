@@ -20,11 +20,7 @@ const total = vulnerabilities.total ?? 0;
 
 console.log(`Audit summary: total=${total}, high=${high}, critical=${critical}`);
 
-if (high > 0 || critical > 0) {
-  console.error("High or critical vulnerabilities must be resolved before commercial deployment.");
+if (total > 0) {
+  console.error("All npm audit vulnerabilities must be resolved before commercial deployment.");
   process.exit(1);
-}
-
-if ((vulnerabilities.moderate ?? 0) > 0) {
-  console.warn("Moderate vulnerabilities remain. Track framework patches before production launch.");
 }

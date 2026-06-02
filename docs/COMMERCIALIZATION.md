@@ -62,5 +62,5 @@
 - `/api/health` 모니터링 연결
 - `npm run lint`, `npm run build`, 주요 API HTTP 200 확인
 - 개발 서버 또는 배포 URL에 대해 `npm run smoke` 통과
-- `npm run audit:commercial`에서 high/critical 0개 확인
+- `npm run audit:commercial`에서 npm audit 취약점 0개 확인
 - `npm audit` 결과 확인 후 배포

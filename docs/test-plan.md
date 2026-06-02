@@ -141,7 +141,7 @@ npm run smoke
 `smoke:local`은 개발 서버 실행, 헬스체크 대기, smoke 검증, 서버 종료까지 한 번에 수행합니다.
 현재 smoke는 39개 항목으로 홈/검색/링크/관리자/상업화 준비/정책뿐 아니라 OAuth callback, 온보딩, 회원 탈퇴 guard까지 확인합니다.
 `qa`는 lint, 링크/이미지/검색/UI/모바일 UX/SEO/성능/구매 이동/전역 navigation/home URL/list scan doctor, 로컬 smoke, Next.js build, release doctor를 포함합니다.
-`audit:commercial`은 high/critical npm 취약점이 남아 있으면 실패합니다.
+`audit:commercial`은 npm audit 취약점이 1건이라도 남아 있으면 실패합니다.
 `env:doctor`는 공개 URL, OAuth redirect, Supabase, 데이터 공급, 운영 토큰 환경변수의 누락과 placeholder 값을 점검합니다.
 `perf:budget`은 정적 export, JS/CSS, APK/AAB, 스토어 이미지가 출시 예산을 넘으면 실패합니다.
 `release:evidence`는 커밋, 앱 버전, APK/AAB, 스토어 이미지, 남은 수동 확인을 `docs/release-evidence.md`에 기록합니다.
