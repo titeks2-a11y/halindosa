@@ -2,6 +2,7 @@ import { findDealById, getDeals } from "@/lib/dealService";
 import { buildClaimEffortSummary } from "@/lib/deals/claimEffort";
 import { buildPersonalizedBenefitQueue } from "@/lib/deals/personalizedBenefitQueue";
 import { getLinkReviewQueue, summarizeDealQuality } from "@/lib/deals/quality";
+import { hasRealDealImage } from "@/lib/deals/ranking";
 import { getOperationalEnvReadiness } from "@/lib/operations/envReadiness";
 import { getPriceInsight } from "@/lib/priceHistory";
 import type { Deal, DealBenefitType } from "@/types/deal";
@@ -410,6 +411,79 @@ function buildBenefitRetentionPlan(deals: Deal[], benefitQuality: ReturnType<typ
   };
 }
 
+function buildImageQualityReadiness(deals: Deal[]) {
+  const realImageDeals = deals.filter(hasRealDealImage);
+  const fallbackDeals = deals.filter((deal) => !hasRealDealImage(deal));
+  const byCategory = new Map<string, { category: string; total: number; real: number; fallback: number; samples: Deal[] }>();
+
+  for (const deal of deals) {
+    const current = byCategory.get(deal.category) ?? {
+      category: deal.category,
+      total: 0,
+      real: 0,
+      fallback: 0,
+      samples: []
+    };
+
+    current.total += 1;
+    if (hasRealDealImage(deal)) current.real += 1;
+    else {
+      current.fallback += 1;
+      if (current.samples.length < 3) current.samples.push(deal);
+    }
+    byCategory.set(deal.category, current);
+  }
+
+  const categoryQueue = Array.from(byCategory.values())
+    .map((item) => ({
+      category: item.category,
+      total: item.total,
+      real: item.real,
+      fallback: item.fallback,
+      realRate: Math.round((item.real / item.total) * 100),
+      sampleTitles: item.samples.map((deal) => deal.title),
+      action:
+        item.fallback > 0
+          ? `${item.category} 대표 상품 ${Math.min(item.fallback, 3)}개부터 실제 상품 이미지를 보강`
+          : `${item.category} 이미지 품질 유지`
+    }))
+    .sort((a, b) => b.fallback - a.fallback || a.realRate - b.realRate || b.total - a.total);
+
+  const priorityDeals = fallbackDeals
+    .slice()
+    .sort((a, b) => b.popularityScore - a.popularityScore || b.discountRate - a.discountRate)
+    .slice(0, 8)
+    .map((deal) => ({
+      id: deal.id,
+      title: deal.title,
+      category: deal.category,
+      mallName: deal.mallName,
+      popularityScore: deal.popularityScore,
+      finalPurchaseUrl: deal.finalPurchaseUrl,
+      action: "판매처 상세 페이지의 상품 이미지를 imageUrl/thumbnail에 보강"
+    }));
+
+  const realImageRate = deals.length ? Math.round((realImageDeals.length / deals.length) * 100) : 0;
+
+  return {
+    total: deals.length,
+    realImageCount: realImageDeals.length,
+    fallbackImageCount: fallbackDeals.length,
+    realImageRate,
+    renderImageRate: deals.length ? 100 : 0,
+    categoryQueue: categoryQueue.slice(0, 8),
+    priorityDeals,
+    status: realImageRate >= 60 ? "launch-polish" : realImageRate >= 25 ? "needs-catalog-work" : "needs-image-sourcing",
+    nextActions: fallbackDeals.length
+      ? [
+          "클릭 상위 fallback 상품부터 판매처 제공 이미지를 보강",
+          "파트너 피드 import 시 imageUrl/thumbnail 필드를 필수 운영 항목으로 관리",
+          "카테고리 fallback은 임시 렌더링 안정장치로만 유지"
+        ]
+      : ["실상품 이미지 커버리지를 유지하고 신규 피드 등록 시 이미지 URL을 검수"]
+  };
+}
+
 export function buildPersonalizationReadiness(deals: Deal[]) {
   const interestGroups = [
     { key: "free-coupon", label: "무료·쿠폰 관심", interests: ["무료/체험", "쿠폰/이벤트"] },
@@ -475,6 +549,7 @@ export async function getMockBusinessMetrics() {
   const benefitQuality = summarizeBenefitQuality(deals);
   const benefitRetention = buildBenefitRetentionPlan(deals, benefitQuality);
   const personalizationReadiness = buildPersonalizationReadiness(deals);
+  const imageQuality = buildImageQualityReadiness(deals);
   const operationalEnvReadiness = getOperationalEnvReadiness();
   const averageConfidenceScore = Math.round(
     priceInsights.reduce((sum, insight) => sum + insight.confidenceScore, 0) / priceInsights.length
@@ -497,6 +572,8 @@ export async function getMockBusinessMetrics() {
       needsReviewLinks: linkQuality.needsReviewLinks,
       brokenLinks: linkQuality.brokenLinks,
       soldOutLinks: linkQuality.soldOutLinks,
+      realImageRate: imageQuality.realImageRate,
+      fallbackImageCount: imageQuality.fallbackImageCount,
       estimatedClickValue: hotDeals.length * 120 + endingSoonDeals.length * 90
     },
     topDeals,
@@ -504,6 +581,7 @@ export async function getMockBusinessMetrics() {
     benefitQuality,
     benefitRetention,
     personalizationReadiness,
+    imageQuality,
     operationalEnvReadiness,
     launchReadiness,
     linkReviewQueue

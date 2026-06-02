@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Activity, BadgePercent, DatabaseZap, Download, ExternalLink, Flame, LineChart, LockKeyhole, ShieldCheck, Store, Timer, TrendingDown, WalletCards } from "lucide-react";
+import { Activity, BadgePercent, DatabaseZap, Download, ExternalLink, Flame, ImageIcon, LineChart, LockKeyhole, ShieldCheck, Store, Timer, TrendingDown, WalletCards } from "lucide-react";
 import { AdminReportQueue } from "@/components/AdminReportQueue";
 import { PartnerFeedDryRunPanel } from "@/components/PartnerFeedDryRunPanel";
 import { getMockBusinessMetrics } from "@/lib/analytics";
@@ -50,7 +50,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
     );
   }
 
-  const { metrics, topDeals, updatedAt, source, benefitQuality, benefitRetention, personalizationReadiness } = await getMockBusinessMetrics();
+  const { metrics, topDeals, updatedAt, source, benefitQuality, benefitRetention, personalizationReadiness, imageQuality } = await getMockBusinessMetrics();
   const { deals } = await getDeals();
   const reportSummary = getReportSummary();
   const recentReports = listDealReports().slice(0, 6);
@@ -197,7 +197,9 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
     { label: "가격 주목 상품", value: metrics.lowestPriceDeals.toLocaleString("ko-KR"), icon: TrendingDown },
     { label: "평균 신뢰도", value: `${metrics.averageConfidenceScore}점`, icon: ShieldCheck },
     { label: "구매 링크 확인율", value: `${metrics.verifiedLinkRate}%`, icon: ShieldCheck },
+    { label: "실상품 이미지", value: `${metrics.realImageRate}%`, icon: ImageIcon },
     { label: "링크 검토 필요", value: metrics.needsReviewLinks.toLocaleString("ko-KR"), icon: Activity },
+    { label: "이미지 보강 필요", value: metrics.fallbackImageCount.toLocaleString("ko-KR"), icon: ImageIcon },
     { label: "품절/오류 링크", value: (metrics.soldOutLinks + metrics.brokenLinks).toLocaleString("ko-KR"), icon: Activity },
     { label: "미처리 신고", value: reportSummary.open.toLocaleString("ko-KR"), icon: Activity }
   ];
@@ -492,6 +494,76 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
               </div>
             );
           })}
+        </section>
+
+        <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm" aria-label="상품 이미지 보강 큐">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-black text-dossa-red">상품 이미지 보강 큐</p>
+              <h2 className="mt-1 text-xl font-black text-slate-950">실상품 이미지 커버리지를 운영 품질 지표로 관리합니다</h2>
+              <p className="mt-1 text-sm font-semibold leading-6 text-slate-500">
+                카테고리 fallback 이미지는 앱 깨짐을 막는 안전장치입니다. 공개 운영 전에는 클릭 상위 상품부터 실제 판매처 이미지를 보강하세요.
+              </p>
+            </div>
+            <div className="grid grid-cols-3 gap-2 text-center">
+              <div className="rounded-2xl bg-red-50 px-3 py-3">
+                <p className="text-[11px] font-black text-dossa-red">실상품</p>
+                <p className="mt-1 text-lg font-black text-slate-950">{imageQuality.realImageCount}개</p>
+              </div>
+              <div className="rounded-2xl bg-slate-50 px-3 py-3">
+                <p className="text-[11px] font-black text-slate-500">보강 필요</p>
+                <p className="mt-1 text-lg font-black text-slate-950">{imageQuality.fallbackImageCount}개</p>
+              </div>
+              <div className="rounded-2xl bg-emerald-50 px-3 py-3">
+                <p className="text-[11px] font-black text-emerald-700">렌더링</p>
+                <p className="mt-1 text-lg font-black text-slate-950">{imageQuality.renderImageRate}%</p>
+              </div>
+            </div>
+          </div>
+          <div className="mt-4 grid gap-3 lg:grid-cols-[1.1fr_0.9fr]">
+            <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
+              <div className="flex items-center justify-between gap-3">
+                <p className="text-sm font-black text-slate-950">카테고리별 우선순위</p>
+                <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-slate-500">{imageQuality.status}</span>
+              </div>
+              <div className="mt-3 space-y-2">
+                {imageQuality.categoryQueue.slice(0, 5).map((item) => (
+                  <div key={item.category} className="rounded-2xl bg-white p-3">
+                    <div className="flex items-center justify-between gap-3 text-sm font-black text-slate-950">
+                      <span>{item.category}</span>
+                      <span className="text-dossa-red">{item.fallback}개 보강</span>
+                    </div>
+                    <div className="mt-2 h-2 overflow-hidden rounded-full bg-slate-100">
+                      <div className="h-full rounded-full bg-dossa-red" style={{ width: `${item.realRate}%` }} />
+                    </div>
+                    <p className="mt-2 text-xs font-bold leading-5 text-slate-500">{item.action}</p>
+                    {item.sampleTitles.length ? (
+                      <p className="mt-1 truncate text-xs font-semibold text-slate-400">예: {item.sampleTitles.join(", ")}</p>
+                    ) : null}
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="rounded-2xl border border-red-100 bg-red-50 p-4">
+              <p className="text-sm font-black text-slate-950">클릭 상위 보강 후보</p>
+              <div className="mt-3 space-y-2">
+                {imageQuality.priorityDeals.slice(0, 5).map((deal) => (
+                  <div key={deal.id} className="rounded-2xl bg-white p-3">
+                    <div className="flex items-start justify-between gap-3">
+                      <div>
+                        <p className="line-clamp-2 text-sm font-black text-slate-950">{deal.title}</p>
+                        <p className="mt-1 text-xs font-bold text-slate-500">
+                          {deal.mallName} · {deal.category}
+                        </p>
+                      </div>
+                      <span className="shrink-0 rounded-full bg-red-50 px-2.5 py-1 text-[11px] font-black text-dossa-red">#{deal.id}</span>
+                    </div>
+                    <p className="mt-2 text-xs font-bold leading-5 text-red-900/70">{deal.action}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </section>
 
         <section className="rounded-3xl border border-red-100 bg-white p-5 shadow-sm">
