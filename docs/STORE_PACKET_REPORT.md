@@ -72,12 +72,29 @@ This report verifies that the store submission packet points to the expected non
 | `npm run release:evidence` | referenced |
 | `npm run release:doctor` | referenced |
 
+## Mirrored Report Consistency
+
+| Root report | Docs report | Status | Content |
+| --- | --- | --- | --- |
+| `PUBLIC_URL_REPORT.md` | `docs/PUBLIC_URL_REPORT.md` | present | same |
+| `STORE_METADATA_REPORT.md` | `docs/STORE_METADATA_REPORT.md` | present | same |
+| `STORE_ASSETS_REPORT.md` | `docs/STORE_ASSETS_REPORT.md` | present | same |
+| `STORE_SCREENSHOTS_REPORT.md` | `docs/STORE_SCREENSHOTS_REPORT.md` | present | same |
+| `STORE_SUBMISSION_REPORT.md` | `docs/STORE_SUBMISSION_REPORT.md` | present | same |
+| `STORE_HANDOFF_REPORT.md` | `docs/STORE_HANDOFF_REPORT.md` | present | same |
+| `STORE_MANUAL_CHECKLIST.md` | `docs/STORE_MANUAL_CHECKLIST.md` | present | same |
+| `RELEASE_NOTES.md` | `docs/RELEASE_NOTES.md` | present | same |
+| `SUPPORT_PLAYBOOK.md` | `docs/SUPPORT_PLAYBOOK.md` | present | same |
+| `KNOWN_ISSUES.md` | `docs/KNOWN_ISSUES.md` | present | same |
+| `STORE_PACKET_REPORT.md` | `docs/STORE_PACKET_REPORT.md` | present | same |
+
 ## Reviewer Copy Checks
 
 - Guest access and no-demo-account copy: PASS
 - External seller/payment handling copy: PASS
 - Public privacy/support URL placeholders: PASS
 - Signed AAB and store processing manual checks: PASS
+- Root/docs mirrored report consistency: PASS
 - Localhost/example domain scan: PASS
 
 ## Manual Work That Must Not Be Faked
