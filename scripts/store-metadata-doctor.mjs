@@ -1,4 +1,4 @@
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
 const root = process.cwd();
@@ -55,11 +55,14 @@ try {
   const shortDescription = section(play, "짧은 설명");
   const longDescription = section(play, "긴 설명");
   const appStoreInfo = section(appStore, "App Store Connect 등록정보");
+  const appNameLength = charLength(appName);
+  const shortDescriptionLength = charLength(shortDescription);
+  const longDescriptionLength = charLength(longDescription);
 
   assert(appName === "할인도사", `Play Store app name should be 할인도사, got ${appName || "empty"}.`);
-  assert(charLength(appName) <= 30, "Play Store app name should be 30 characters or fewer.");
-  assert(shortDescription && charLength(shortDescription) <= 80, `Play Store short description should be 1-80 characters, got ${charLength(shortDescription)}.`);
-  assert(longDescription && charLength(longDescription) <= 4000, `Play Store long description should be 1-4000 characters, got ${charLength(longDescription)}.`);
+  assert(appNameLength <= 30, "Play Store app name should be 30 characters or fewer.");
+  assert(shortDescription && shortDescriptionLength <= 80, `Play Store short description should be 1-80 characters, got ${shortDescriptionLength}.`);
+  assert(longDescription && longDescriptionLength <= 4000, `Play Store long description should be 1-4000 characters, got ${longDescriptionLength}.`);
   assert(longDescription.includes("직접 결제나 배송을 처리하지 않으며"), "Long description should explain that purchases happen at external sellers.");
   assert(longDescription.includes("가격, 쿠폰, 재고, 배송 조건은 판매처에서 최종 확인"), "Long description should include final seller-condition confirmation guidance.");
   assert(play.includes("개인정보처리방침 URL: 필요"), "Play Store listing should mention privacy policy URL requirement.");
@@ -90,7 +93,52 @@ try {
   assert(dataSafety.includes("전화번호") && dataSafety.includes("결제 정보") && dataSafety.includes("위치 정보"), "Data safety guide should cover sensitive data non-collection answers.");
   assert(contentRating.includes("도박") && contentRating.includes("사용자 생성 콘텐츠"), "Content rating guide should cover rating questionnaire answers.");
 
-  console.log(`PASS store metadata: app name ${charLength(appName)} chars, short description ${charLength(shortDescription)} chars, long description ${charLength(longDescription)} chars.`);
+  const report = [
+    "# Store Metadata QA Report",
+    "",
+    "This report records non-secret Play Console and App Store Connect metadata checks.",
+    "",
+    "## Length Checks",
+    "",
+    "| Field | Limit | Current | Status |",
+    "| --- | ---: | ---: | --- |",
+    `| Play app name | 30 | ${appNameLength} | PASS |`,
+    `| Play short description | 80 | ${shortDescriptionLength} | PASS |`,
+    `| Play long description | 4000 | ${longDescriptionLength} | PASS |`,
+    "",
+    "## Required Review Copy",
+    "",
+    "| Topic | Status | Evidence |",
+    "| --- | --- | --- |",
+    "| App access | PASS | Guest review is documented and demo account is not required |",
+    "| External seller/payment handling | PASS | Copy says the app does not sell products or process payments directly |",
+    "| Final price/stock confirmation | PASS | Copy tells users to confirm seller conditions before purchase |",
+    "| Privacy policy URL requirement | PASS | Play listing and submission packet mention the public privacy URL |",
+    "| Developer contact requirement | PASS | Play listing mentions developer contact email |",
+    "| App Store category | PASS | Shopping category and optional login are documented |",
+    "| Data safety | PASS | Sensitive data non-collection answers are covered |",
+    "| Content rating | PASS | Gambling and user-generated content answers are covered |",
+    "",
+    "## Risky Phrase Scan",
+    "",
+    blockedPhrases.length
+      ? blockedPhrases.map((phrase) => `- ${phrase}: not present`).join("\n")
+      : "- No blocked phrases configured.",
+    "",
+    "## Manual Work That Must Not Be Faked",
+    "",
+    "- Paste the final short and long descriptions into Play Console and App Store Connect exactly after reviewing current screenshots.",
+    "- Confirm the public privacy/support URLs are reachable before store submission.",
+    "- Re-run this doctor after any change to listing copy, review notes, data safety, or content rating documents.",
+    "- Do not paste store-console credentials, tester passwords, OAuth secrets, or support mailbox passwords into repository documents.",
+    ""
+  ].join("\n");
+
+  mkdirSync(join(root, "docs"), { recursive: true });
+  writeFileSync(join(root, "STORE_METADATA_REPORT.md"), report, "utf8");
+  writeFileSync(join(root, "docs", "STORE_METADATA_REPORT.md"), report, "utf8");
+
+  console.log(`PASS store metadata: app name ${appNameLength} chars, short description ${shortDescriptionLength} chars, long description ${longDescriptionLength} chars.`);
 } catch (error) {
   console.error(`FAIL store metadata: ${error instanceof Error ? error.message : String(error)}`);
   process.exit(1);

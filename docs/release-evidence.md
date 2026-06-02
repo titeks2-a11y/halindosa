@@ -4,10 +4,16 @@
 
 ## 기본 정보
 
-- 생성 시각: 2026-06-02T17:30:24.619Z
+- 생성 시각: 2026-06-02T17:32:32.226Z
 - Git 브랜치: codex/12h-product-ux-growth-hardening
-- 최신 커밋: def495d
-- Git 상태: clean
+- 최신 커밋: 1aa9000
+- Git 상태: M .github/workflows/ci.yml
+ M docs/RUNBOOK.md
+ M scripts/release-doctor.mjs
+ M scripts/release-evidence.mjs
+ M scripts/store-metadata-doctor.mjs
+?? STORE_METADATA_REPORT.md
+?? docs/STORE_METADATA_REPORT.md
 - 패키지 버전: 1.0.0
 - 앱 이름: 할인도사
 - 앱 ID / 패키지명: com.halindosa.app
@@ -28,6 +34,7 @@
 | Commercial audit report | `docs/AUDIT_REPORT.md` | 291B |
 | Environment doctor report | `docs/ENV_DOCTOR_REPORT.md` | 581B |
 | Public URL submission report | `docs/PUBLIC_URL_REPORT.md` | 2KB |
+| Store metadata QA report | `docs/STORE_METADATA_REPORT.md` | 2KB |
 | Device QA readiness report | `docs/DEVICE_QA_REPORT.md` | 3KB |
 | Store submission readiness report | `docs/STORE_SUBMISSION_REPORT.md` | 4KB |
 | Harness report | `docs/HARNESS_REPORT.md` | 20KB |
