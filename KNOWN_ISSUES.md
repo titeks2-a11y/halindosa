@@ -1,18 +1,9 @@
 # 할인도사 Known Issues
 
-Generated: 2026-06-02T19:01:43.293Z
+Generated: 2026-06-02T19:02:27.918Z
 Branch: codex/12h-product-ux-growth-hardening
-Commit: e4903bb
-Working tree: M .github/workflows/ci.yml
- M docs/RUNBOOK.md
- M docs/roadmap.md
- M docs/store-submission-packet.md
- M package.json
- M scripts/release-doctor.mjs
- M scripts/release-evidence.mjs
- M scripts/store-handoff-report.mjs
- M scripts/store-packet-doctor.mjs
-?? scripts/known-issues-report.mjs
+Commit: ae760ab
+Working tree: clean
 
 ## Critical
 
