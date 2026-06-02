@@ -4,9 +4,9 @@
 
 ## 기본 정보
 
-- 생성 시각: 2026-06-02T16:40:44.717Z
+- 생성 시각: 2026-06-02T16:45:46.598Z
 - Git 브랜치: codex/12h-product-ux-growth-hardening
-- 최신 커밋: 1bb7f24
+- 최신 커밋: a9d24f2
 - Git 상태: clean
 - 패키지 버전: 1.0.0
 - 앱 이름: 할인도사
@@ -35,6 +35,7 @@
 ```bash
 npm install
 npm run env:doctor
+npm run env:doctor:production
 npm run public:url:doctor
 npm run device:qa:doctor
 npm run android:signing:doctor
@@ -49,6 +50,7 @@ npm run release:evidence
 - harness: lint, build, 링크/이미지/검색/UI/모바일/SEO/성능/smoke/release doctor 종합 검증
 - lint, smoke, Next.js build, release doctor
 - environment doctor: 공개 URL, OAuth redirect, Supabase, 운영 토큰, 데이터 모드 점검
+- production environment doctor: 공개 HTTPS URL, 동일 origin OAuth callback, 운영 Supabase/토큰 placeholder 차단
 - public URL doctor: /privacy, /support, sitemap, robots, 스토어 제출 URL 문구 일관성 점검
 - commercial security audit: high/critical npm 취약점 차단
 - device QA doctor: 실제 기기 기록 템플릿, 구매 링크 샘플, 남은 Critical Issue 기록 기준 점검
