@@ -1481,7 +1481,10 @@ async function checkUiAccessibility() {
     "filter rail consolidation",
     "quick card scanability",
     "live row compact actions",
-    "toast does not cover bottom nav"
+    "toast does not cover bottom nav",
+    "상단 \"오늘 바로 볼 특가\" 레일",
+    "snap-x/snap-start",
+    "오른쪽 fade/넘기기 신호"
   ];
   const mobileUxMissing = mobileUxReportRequired.filter((phrase) => !mobileUxReport.includes(phrase));
 
