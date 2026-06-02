@@ -22,9 +22,31 @@ function reportStatus(relativePath, expectedText = "PASS") {
   return text.includes(expectedText) ? "PASS evidence present" : "present, review manually";
 }
 
+function loadJson(relativePath) {
+  const fullPath = join(root, relativePath);
+  if (!existsSync(fullPath)) return null;
+  try {
+    return JSON.parse(readFileSync(fullPath, "utf8"));
+  } catch {
+    return null;
+  }
+}
+
 const pkg = JSON.parse(await readFile(join(root, "package.json"), "utf8"));
+const linkResult = loadJson("LINK_VERIFICATION_RESULT.json");
+const linkSummary = linkResult
+  ? [
+      `- Curated visible deals: ${linkResult.visibleDeals ?? "unknown"}`,
+      `- Direct product or official benefit links: ${linkResult.passedDirectLinks ?? "unknown"}/${linkResult.verificationTargets ?? "unknown"}`,
+      `- Product detail URLs: ${linkResult.productDetailUrls ?? "unknown"}`,
+      `- Official benefit URLs: ${linkResult.officialBenefitUrls ?? "unknown"}`,
+      `- Search/category/community URLs exposed: ${(linkResult.searchOrCategorySuspected ?? 0) + (linkResult.communitySuspected ?? 0)}`,
+      `- Manual link review needed: ${linkResult.manualReviewNeeded ?? "unknown"}`
+    ]
+  : ["- Link verification JSON is missing. Run `npm run links:report` before final submission review."];
+
 const artifacts = [
-  ["Android release AAB", "android/app/build/outputs/bundle/release/app-release.aab", "Upload signed AAB generated from Android Studio or local keystore"],
+  ["Android release AAB", "android/app/build/outputs/bundle/release/app-release.aab", "Build artifact only; final Play upload still needs private signing confirmation"],
   ["Android debug APK", "android/app/build/outputs/apk/debug/app-debug.apk", "Internal install smoke only"],
   ["Play Store icon", "assets/store/play-store-icon-512.png", "Play Console listing"],
   ["Feature graphic", "assets/store/feature-graphic-1024x500.png", "Play Console listing"],
@@ -87,6 +109,17 @@ const lines = [
     const status = fileStatus(path);
     return `| ${label} | \`${path}\` | ${status.exists ? "present" : "missing"} | ${status.size} | ${use} |`;
   }),
+  "",
+  "## Signing And Upload Readiness",
+  "",
+  "- Android release signing is intentionally not certified by this repository report because keystore files and passwords must stay outside Git.",
+  "- Run `npm run android:signing:doctor` locally before upload, then create the final signed AAB with Android Studio or a private `android/keystore.properties` file.",
+  "- Treat `android/app/build/outputs/bundle/release/app-release.aab` as a build artifact until the private keystore signing step is confirmed.",
+  "- Do not commit `android/keystore.properties`, `.jks`, `.keystore`, `.p12`, passwords, or Play Console upload credentials.",
+  "",
+  "## Link Coverage Snapshot",
+  "",
+  ...linkSummary,
   "",
   "## Verification Reports",
   "",

@@ -16,12 +16,28 @@ This report is a non-secret handoff snapshot for Play Console and App Store Conn
 
 | Item | Path | Status | Size | Use |
 | --- | --- | --- | ---: | --- |
-| Android release AAB | `android/app/build/outputs/bundle/release/app-release.aab` | present | 6.20MB | Upload signed AAB generated from Android Studio or local keystore |
+| Android release AAB | `android/app/build/outputs/bundle/release/app-release.aab` | present | 6.20MB | Build artifact only; final Play upload still needs private signing confirmation |
 | Android debug APK | `android/app/build/outputs/apk/debug/app-debug.apk` | present | 10.12MB | Internal install smoke only |
 | Play Store icon | `assets/store/play-store-icon-512.png` | present | 26KB | Play Console listing |
 | Feature graphic | `assets/store/feature-graphic-1024x500.png` | present | 47KB | Play Console listing |
 | iOS app icon | `ios/App/App/Assets.xcassets/AppIcon.appiconset/AppIcon-512@2x.png` | present | 61KB | Xcode archive check |
 | iOS privacy manifest | `ios/App/App/PrivacyInfo.xcprivacy` | present | 373B | App Store privacy review |
+
+## Signing And Upload Readiness
+
+- Android release signing is intentionally not certified by this repository report because keystore files and passwords must stay outside Git.
+- Run `npm run android:signing:doctor` locally before upload, then create the final signed AAB with Android Studio or a private `android/keystore.properties` file.
+- Treat `android/app/build/outputs/bundle/release/app-release.aab` as a build artifact until the private keystore signing step is confirmed.
+- Do not commit `android/keystore.properties`, `.jks`, `.keystore`, `.p12`, passwords, or Play Console upload credentials.
+
+## Link Coverage Snapshot
+
+- Curated visible deals: 140
+- Direct product or official benefit links: 140/140
+- Product detail URLs: 109
+- Official benefit URLs: 31
+- Search/category/community URLs exposed: 0
+- Manual link review needed: 0
 
 ## Verification Reports
 

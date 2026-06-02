@@ -2838,6 +2838,11 @@ async function checkPolicyAndStoreDocs() {
       phrases: ["Android release AAB", "Play Store 등록 문구", "App Store Connect 입력값", "스토어 제출 준비 리포트", "docs/STORE_SUBMISSION_REPORT.md", "npm run store:submission:report", "node scripts/env-doctor.mjs --strict", "npm run env:doctor:production", "npm run test:env", "npm run public:url:doctor", "docs/device-qa-checklist.md", "docs/store-review-notes.md", "실제 구매 링크 또는 공식 혜택 상세 URL", "테스트 계정: 필요 없음", "Demo Account: 필요 없음", "Play Console 복사 입력 블록", "App Store Connect 복사 입력 블록", "https://halindosa.com/privacy", "https://halindosa.com/support"]
     },
     {
+      name: "store submission readiness report content",
+      file: "docs/STORE_SUBMISSION_REPORT.md",
+      phrases: ["Signing And Upload Readiness", "Link Coverage Snapshot", "final Play upload still needs private signing confirmation", "Direct product or official benefit links", "Manual Work That Must Not Be Faked", "Sensitive Data Rule"]
+    },
+    {
       name: "store review notes content",
       file: "docs/store-review-notes.md",
       phrases: ["앱 접근 방식", "심사자 확인 경로", "외부 구매 링크 안내", "Google Play 앱 액세스", "App Store Review Notes", "비회원으로 대부분의 기능", "테스트 계정은 필요하지 않습니다", "No demo account is required"]
