@@ -4,12 +4,10 @@
 
 ## 기본 정보
 
-- 생성 시각: 2026-06-02T18:35:52.078Z
+- 생성 시각: 2026-06-02T18:38:51.389Z
 - Git 브랜치: codex/12h-product-ux-growth-hardening
-- 최신 커밋: 2a99726
-- Git 상태: M STORE_MANUAL_CHECKLIST.json
- M STORE_MANUAL_CHECKLIST.md
- M docs/STORE_MANUAL_CHECKLIST.md
+- 최신 커밋: 0cb7e79
+- Git 상태: clean
 - 패키지 버전: 1.0.0
 - 앱 이름: 할인도사
 - 앱 ID / 패키지명: com.halindosa.app
