@@ -123,6 +123,33 @@ async function checkCiWorkflow() {
   } else {
     pass("github ci workflow", "GitHub Actions runs commercial audit, harness, release doctor, and uploads verification reports on main and codex branches.");
   }
+
+  const prTemplatePath = ".github/pull_request_template.md";
+  if (!existsSync(join(root, prTemplatePath))) {
+    fail("github pr template", "Missing .github/pull_request_template.md.");
+    return;
+  }
+
+  const prTemplate = await text(prTemplatePath);
+  const requiredPrSnippets = [
+    "npm run harness",
+    "npm run release:doctor",
+    "실제 상품 상세 URL 또는 공식 혜택 상세 URL",
+    "검색 결과, 대표몰, 커뮤니티/블로그/뉴스 원문 단독 링크",
+    "개인정보, 환경변수, keystore",
+    "비회원 사용자가 홈, 검색, 카테고리",
+    "docs/OAUTH_SETUP.md",
+    "모바일 390px"
+  ];
+  const missingPrSnippets = requiredPrSnippets.filter((snippet) => !prTemplate.includes(snippet));
+
+  if (missingPrSnippets.length) {
+    fail("github pr template", `PR template should preserve launch safety checks. Missing: ${missingPrSnippets.join(", ")}`);
+  } else if (!runbook.includes(".github/pull_request_template.md")) {
+    fail("github pr template", "RUNBOOK should reference the PR launch safety checklist.");
+  } else {
+    pass("github pr template", "PR template covers launch safety, verified links, guest access, secrets, OAuth/policy impact, and mobile layout checks.");
+  }
 }
 
 async function checkReleaseEvidenceFreshness() {
