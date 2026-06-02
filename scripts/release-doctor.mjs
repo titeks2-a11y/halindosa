@@ -2939,7 +2939,7 @@ async function checkPolicyAndStoreDocs() {
     {
       name: "test plan content",
       file: "docs/test-plan.md",
-      phrases: ["자동 검증", "수동 확인", "데이터/링크 신뢰도", "테스트 종료 기준", "링크 검수 큐", "docs/device-qa-checklist.md", "test:mobile-ux", "MOBILE_UX_REPORT.md"]
+      phrases: ["자동 검증", "수동 확인", "데이터/링크 신뢰도", "테스트 종료 기준", "링크 검수 큐", "docs/device-qa-checklist.md", "test:mobile-ux", "MOBILE_UX_REPORT.md", "오늘 바로 볼 특가", "오른쪽 fade", "옆으로 넘기기"]
     },
     {
       name: "readme qa guidance",
@@ -2974,7 +2974,7 @@ async function checkPolicyAndStoreDocs() {
     {
       name: "release checklist content",
       file: "docs/release-checklist.md",
-      phrases: ["npm run env:doctor:production", "npm run test:env", "npm run public:url:doctor", "public URL doctor", "공개 개인정보처리방침/고객지원 URL", "/privacy", "/support", "/sitemap.xml", "/robots.txt", "signed AAB"]
+      phrases: ["npm run env:doctor:production", "npm run test:env", "npm run public:url:doctor", "public URL doctor", "공개 개인정보처리방침/고객지원 URL", "/privacy", "/support", "/sitemap.xml", "/robots.txt", "signed AAB", "오늘 바로 볼 특가", "오른쪽 fade", "옆으로 넘기기"]
     },
     {
       name: "launch day checklist content",
@@ -3014,12 +3014,12 @@ async function checkPolicyAndStoreDocs() {
     {
       name: "device qa checklist content",
       file: "docs/device-qa-checklist.md",
-      phrases: ["Android 기기 확인", "iOS 기기 또는 Simulator 확인", "로그인과 계정 데이터", "구매 링크와 신고", "스토어 제출 직전 판정", "docs/device-qa-record-template.md", "npm run device:qa:manifest", "docs/DEVICE_QA_MANIFEST.md", "npm run test:mobile-ux", "MOBILE_UX_REPORT.md"]
+      phrases: ["Android 기기 확인", "iOS 기기 또는 Simulator 확인", "로그인과 계정 데이터", "구매 링크와 신고", "스토어 제출 직전 판정", "docs/device-qa-record-template.md", "npm run device:qa:manifest", "docs/DEVICE_QA_MANIFEST.md", "npm run test:mobile-ux", "MOBILE_UX_REPORT.md", "오늘 바로 볼 특가", "오른쪽 fade", "옆으로 넘기기"]
     },
     {
       name: "device qa record template content",
       file: "docs/device-qa-record-template.md",
-      phrases: ["테스트 개요", "Android 기기 기록", "iOS 기기 기록", "구매 링크 샘플 검수", "남은 Critical Issue", "기록 보안 원칙", "실기기 QA 매니페스트", "npm run device:qa:manifest", "주문번호", "keystore"]
+      phrases: ["테스트 개요", "Android 기기 기록", "iOS 기기 기록", "구매 링크 샘플 검수", "남은 Critical Issue", "기록 보안 원칙", "실기기 QA 매니페스트", "npm run device:qa:manifest", "주문번호", "keystore", "오늘 바로 볼 특가 가로 레일", "오른쪽 fade", "옆으로 넘기기"]
     },
     {
       name: "deployment env checklist content",
