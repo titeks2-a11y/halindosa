@@ -4,9 +4,9 @@
 
 ## 기본 정보
 
-- 생성 시각: 2026-06-01T18:59:59.497Z
-- Git 브랜치: main
-- 최신 커밋: a1da85e
+- 생성 시각: 2026-06-02T12:56:06.634Z
+- Git 브랜치: codex/24h-commercial-autopilot-hardening
+- 최신 커밋: 9b8c289
 - Git 상태: clean
 - 패키지 버전: 1.0.0
 - 앱 이름: 할인도사
