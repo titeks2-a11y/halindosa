@@ -644,6 +644,7 @@ export default function Home() {
   const [query, setQuery] = useState("");
   const [visibleDealCount, setVisibleDealCount] = useState(INITIAL_HOME_DEAL_LIMIT);
   const [showDeepBenefitSections, setShowDeepBenefitSections] = useState(false);
+  const [showAdvancedFilterPanel, setShowAdvancedFilterPanel] = useState(false);
   const [recentSearchKeywords, setRecentSearchKeywords] = useState<string[]>([]);
   const [category, setCategory] = useState("all");
   const [sort, setSort] = useState<DealSort>("latest");
@@ -3365,7 +3366,28 @@ export default function Home() {
             </details>
             )}
 
-            <details className="group hidden overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-sm sm:block" aria-label="상세 필터와 결과 분석 접기">
+            {!showAdvancedFilterPanel ? (
+              <section className="hidden rounded-[24px] border border-slate-200 bg-white p-4 shadow-sm sm:block" aria-label="상세 필터와 결과 분석 열기">
+                <div className="flex items-center justify-between gap-4">
+                  <div className="min-w-0">
+                    <p className="text-xs font-black text-dossa-red">상세 필터와 결과 분석</p>
+                    <h3 className="mt-1 text-lg font-black text-slate-950">상품 목록을 먼저 보고, 더 좁힐 때 펼치세요</h3>
+                    <p className="mt-1 text-xs font-bold leading-5 text-slate-500">
+                      쇼핑몰·가격대·혜택 목적·결과 해석 카드는 필요할 때만 렌더링해 모바일 앱 반응성을 유지합니다.
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setShowAdvancedFilterPanel(true)}
+                    className="inline-flex min-h-10 shrink-0 items-center justify-center rounded-2xl bg-slate-950 px-4 text-xs font-black text-white transition hover:bg-dossa-red"
+                    aria-label="상세 필터와 결과 분석 펼치기"
+                  >
+                    필터 더보기
+                  </button>
+                </div>
+              </section>
+            ) : (
+            <details open className="group hidden overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-sm sm:block" aria-label="상세 필터와 결과 분석 접기">
               <summary className="flex cursor-pointer list-none flex-col gap-3 px-4 py-4 outline-none transition hover:bg-slate-50 focus-visible:ring-4 focus-visible:ring-red-100 sm:flex-row sm:items-center sm:justify-between sm:px-5 [&::-webkit-details-marker]:hidden">
                 <span>
                   <span className="block text-xs font-black text-dossa-red">상세 필터와 결과 분석</span>
@@ -3788,6 +3810,7 @@ export default function Home() {
               ) : null}
               </div>
             </details>
+            )}
 
             <section className="rounded-[24px] border border-red-100 bg-white p-3 shadow-sm" aria-label="상품 목록 적용 조건 빠른 해제">
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
