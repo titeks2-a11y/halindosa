@@ -1,8 +1,8 @@
 {
   "generatedBy": "npm run store:console:fields",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "2607304",
-  "workingTree": "M STORE_CONSOLE_FIELDS.json\n M STORE_SCREENSHOTS_REPORT.md\n M STORE_SUBMISSION_REPORT.md\n M docs/PUBLIC_URL_REPORT.md\n M docs/STORE_CONSOLE_FIELDS.md\n M docs/STORE_SCREENSHOTS_REPORT.md\n M docs/STORE_SUBMISSION_REPORT.md",
+  "commit": "813fc54",
+  "workingTree": "M DEVICE_QA_REPORT.md\n M KNOWN_ISSUES.md\n M RELEASE_NOTES.json\n M RELEASE_NOTES.md\n M STORE_HANDOFF_REPORT.md\n M STORE_MANUAL_CHECKLIST.json\n M STORE_MANUAL_CHECKLIST.md\n M STORE_SCREENSHOTS_REPORT.md\n M SUPPORT_PLAYBOOK.json\n M SUPPORT_PLAYBOOK.md\n M docs/DEVICE_QA_REPORT.md\n M docs/KNOWN_ISSUES.md\n M docs/RELEASE_NOTES.md\n M docs/STORE_HANDOFF_REPORT.md\n M docs/STORE_MANUAL_CHECKLIST.md\n M docs/STORE_SCREENSHOTS_REPORT.md\n M docs/SUPPORT_PLAYBOOK.md",
   "playConsole": {
     "appName": "할인도사",
     "packageName": "com.halindosa.app",

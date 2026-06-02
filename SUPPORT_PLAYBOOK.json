@@ -1,8 +1,8 @@
 {
   "generatedBy": "npm run support:playbook",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "debf9f9",
-  "workingTree": "clean",
+  "commit": "813fc54",
+  "workingTree": "M DEVICE_QA_REPORT.md\n M KNOWN_ISSUES.md\n M PUBLIC_URL_REPORT.md\n M RELEASE_NOTES.json\n M RELEASE_NOTES.md\n M STORE_CONSOLE_FIELDS.json\n M STORE_HANDOFF_REPORT.md\n M STORE_MANUAL_CHECKLIST.json\n M STORE_MANUAL_CHECKLIST.md\n M STORE_SCREENSHOTS_REPORT.md\n M STORE_SUBMISSION_REPORT.md\n M SUPPORT_PLAYBOOK.json\n M SUPPORT_PLAYBOOK.md\n M docs/DEVICE_QA_REPORT.md\n M docs/KNOWN_ISSUES.md\n M docs/PUBLIC_URL_REPORT.md\n M docs/RELEASE_NOTES.md\n M docs/STORE_CONSOLE_FIELDS.md\n M docs/STORE_HANDOFF_REPORT.md\n M docs/STORE_MANUAL_CHECKLIST.md\n M docs/STORE_SCREENSHOTS_REPORT.md\n M docs/STORE_SUBMISSION_REPORT.md\n M docs/SUPPORT_PLAYBOOK.md",
   "appName": "할인도사",
   "supportScope": "앱 품질, 링크/가격 신고, 개인정보/계정 안내, 스토어 제출 운영 문의",
   "categories": [

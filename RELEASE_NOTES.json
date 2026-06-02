@@ -1,8 +1,8 @@
 {
   "generatedBy": "npm run release:notes",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "aef6230",
-  "workingTree": "clean",
+  "commit": "813fc54",
+  "workingTree": "M DEVICE_QA_REPORT.md\n M KNOWN_ISSUES.md\n M PUBLIC_URL_REPORT.md\n M RELEASE_NOTES.json\n M RELEASE_NOTES.md\n M STORE_CONSOLE_FIELDS.json\n M STORE_HANDOFF_REPORT.md\n M STORE_MANUAL_CHECKLIST.json\n M STORE_MANUAL_CHECKLIST.md\n M STORE_SCREENSHOTS_REPORT.md\n M STORE_SUBMISSION_REPORT.md\n M SUPPORT_PLAYBOOK.json\n M SUPPORT_PLAYBOOK.md\n M docs/DEVICE_QA_REPORT.md\n M docs/KNOWN_ISSUES.md\n M docs/PUBLIC_URL_REPORT.md\n M docs/RELEASE_NOTES.md\n M docs/STORE_CONSOLE_FIELDS.md\n M docs/STORE_HANDOFF_REPORT.md\n M docs/STORE_MANUAL_CHECKLIST.md\n M docs/STORE_SCREENSHOTS_REPORT.md\n M docs/STORE_SUBMISSION_REPORT.md\n M docs/SUPPORT_PLAYBOOK.md",
   "version": "1.0.0",
   "appName": "할인도사",
   "packageName": "com.halindosa.app",
@@ -34,27 +34,27 @@
     {
       "path": "docs/release-evidence.md",
       "status": "present",
-      "bytes": 5404
+      "bytes": 6308
     },
     {
       "path": "docs/STORE_CONSOLE_FIELDS.md",
       "status": "present",
-      "bytes": 3491
+      "bytes": 3941
     },
     {
       "path": "docs/STORE_MANUAL_CHECKLIST.md",
       "status": "present",
-      "bytes": 4377
+      "bytes": 4572
     },
     {
       "path": "docs/STORE_HANDOFF_REPORT.md",
       "status": "present",
-      "bytes": 4059
+      "bytes": 4667
     },
     {
       "path": "docs/STORE_SUBMISSION_REPORT.md",
       "status": "present",
-      "bytes": 4675
+      "bytes": 5031
     },
     {
       "path": "docs/DEVICE_QA_MANIFEST.md",
@@ -73,14 +73,14 @@
     }
   ],
   "recentCommits": [
-    "aef6230 docs: add release notes generation",
-    "dbfd42a docs: refresh release evidence",
-    "0cb7e79 docs: add store submission blocker workflow",
-    "0f04d42 docs: refresh release evidence",
-    "2a99726 test: add manual store checklist doctor",
-    "03757f7 docs: refresh release evidence",
-    "ca4975c docs: add manual store submission checklist",
-    "1b20cd5 docs: refresh release evidence"
+    "813fc54 test: enforce launch operations report freshness",
+    "5320216 docs: refresh release evidence",
+    "2607304 test: enforce store submission report freshness",
+    "d3c0d71 docs: refresh release evidence",
+    "8889444 test: enforce public url report freshness",
+    "747874d docs: refresh release evidence",
+    "3694aae test: enforce store screenshot report freshness",
+    "c6c55ec docs: refresh release evidence"
   ],
   "manualWorkThatMustNotBeFaked": [
     "Do not claim Play Console or App Store Connect submission has passed from this file.",
