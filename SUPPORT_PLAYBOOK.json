@@ -1,7 +1,7 @@
 {
   "generatedBy": "npm run support:playbook",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "ff24c4e",
+  "commit": "debf9f9",
   "workingTree": "clean",
   "appName": "할인도사",
   "supportScope": "앱 품질, 링크/가격 신고, 개인정보/계정 안내, 스토어 제출 운영 문의",
