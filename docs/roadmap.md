@@ -19,6 +19,7 @@
 - PR 템플릿과 GitHub 이슈 템플릿에 `store:manual:doctor`, 스토어 콘솔 필드, 수동 제출 체크리스트, 출시 인수인계 리포트, 스토어 제출 Blocker 기록을 연결해 Play/App Store 제출 중 막힌 항목도 민감정보 없이 추적하도록 개선
 - `release:notes`를 추가해 사용자용 변경점, 운영자 주의사항, 링크/데이터 준비도, 검증 산출물, 최근 커밋을 `RELEASE_NOTES.json`, `RELEASE_NOTES.md`, `docs/RELEASE_NOTES.md`로 생성하고 CI, `qa:release`, `release:doctor`, `release:evidence`에 연결
 - `support:playbook`을 추가해 가격 불일치, 품절, 링크 오류, 혜택 종료, 개인정보/계정, 스토어 제출 문의 응대 매크로와 SLA를 `SUPPORT_PLAYBOOK.json`, `SUPPORT_PLAYBOOK.md`, `docs/SUPPORT_PLAYBOOK.md`로 생성하고 CI, `qa:release`, `release:doctor`, `release:evidence`, 제출 패킷에 연결
+- `known:issues`를 추가해 자동 검증 기준 Critical 상태, 링크 커버리지, 이미지 fallback backlog, 공개 URL/실기기 수동 확인 리스크를 `KNOWN_ISSUES.md`와 `docs/KNOWN_ISSUES.md`로 생성하고 CI, `qa:release`, `release:doctor`, `release:evidence`, 제출 패킷에 연결
 - 375px 모바일 브라우저에서 홈 첫 화면을 직접 확인해 compact 검색, 상태 배지, 가로 필터, 카테고리 rail, `오늘 바로 볼 특가`, `/go/[dealId]` 새 탭 링크, 하단 탭 safe-area 노출이 실제 렌더링에서도 유지되는지 점검
 - `image:backlog:report`를 추가해 전체 이미지 보강 대기 상품을 `IMAGE_BACKLOG.csv`, `IMAGE_BACKLOG.json`, `docs/IMAGE_BACKLOG_REPORT.md`로 생성하고, `qa`, `image:operations:doctor`, `release:doctor`, `release:evidence`가 해당 운영 큐를 함께 확인하도록 보강
 - `codex/24h-commercial-autopilot-hardening` 브랜치에서 직접 구매/공식 혜택 링크, 외부 새 탭 이동, 이미지 fallback, 생활형 검색 품질을 별도 하네스로 분리

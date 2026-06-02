@@ -4,10 +4,19 @@
 
 ## 기본 정보
 
-- 생성 시각: 2026-06-02T18:55:32.222Z
+- 생성 시각: 2026-06-02T19:01:43.293Z
 - Git 브랜치: codex/12h-product-ux-growth-hardening
-- 최신 커밋: debf9f9
-- Git 상태: clean
+- 최신 커밋: e4903bb
+- Git 상태: M .github/workflows/ci.yml
+ M docs/RUNBOOK.md
+ M docs/roadmap.md
+ M docs/store-submission-packet.md
+ M package.json
+ M scripts/release-doctor.mjs
+ M scripts/release-evidence.mjs
+ M scripts/store-handoff-report.mjs
+ M scripts/store-packet-doctor.mjs
+?? scripts/known-issues-report.mjs
 - 패키지 버전: 1.0.0
 - 앱 이름: 할인도사
 - 앱 ID / 패키지명: com.halindosa.app
@@ -44,6 +53,8 @@
 | Release notes JSON | `RELEASE_NOTES.json` | 4KB |
 | Support playbook | `docs/SUPPORT_PLAYBOOK.md` | 5KB |
 | Support playbook JSON | `SUPPORT_PLAYBOOK.json` | 5KB |
+| Known issues report | `docs/KNOWN_ISSUES.md` | 3KB |
+| Known issues report root copy | `KNOWN_ISSUES.md` | 3KB |
 | Store screenshot QA report | `docs/STORE_SCREENSHOTS_REPORT.md` | 3KB |
 | Store screenshot manifest | `docs/STORE_SCREENSHOT_MANIFEST.md` | 4KB |
 | Store screenshot manifest JSON | `STORE_SCREENSHOT_MANIFEST.json` | 5KB |
@@ -73,6 +84,7 @@ npm run store:manual:doctor
 npm run store:handoff:report
 npm run release:notes
 npm run support:playbook
+npm run known:issues
 npm run harness
 npm run qa:release
 npm run android:bundle

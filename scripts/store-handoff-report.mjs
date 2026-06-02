@@ -58,6 +58,7 @@ const reports = [
   fileStatus("docs/STORE_MANUAL_CHECKLIST.md"),
   fileStatus("docs/RELEASE_NOTES.md"),
   fileStatus("docs/SUPPORT_PLAYBOOK.md"),
+  fileStatus("docs/KNOWN_ISSUES.md"),
   fileStatus("docs/STORE_METADATA_REPORT.md"),
   fileStatus("docs/STORE_ASSETS_REPORT.md"),
   fileStatus("docs/STORE_SCREENSHOT_MANIFEST.md"),
@@ -85,6 +86,7 @@ const commandSequence = [
   "npm run release:doctor",
   "npm run release:notes",
   "npm run support:playbook",
+  "npm run known:issues",
   "npm run qa:release"
 ];
 
