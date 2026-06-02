@@ -4,16 +4,18 @@
 
 ## 기본 정보
 
-- 생성 시각: 2026-06-02T19:12:56.946Z
+- 생성 시각: 2026-06-02T19:16:49.558Z
 - Git 브랜치: codex/12h-product-ux-growth-hardening
-- 최신 커밋: 3694aae
+- 최신 커밋: 8889444
 - Git 상태: M DEVICE_QA_REPORT.md
  M KNOWN_ISSUES.md
+ M PUBLIC_URL_REPORT.md
  M STORE_MANUAL_CHECKLIST.json
  M STORE_MANUAL_CHECKLIST.md
  M STORE_SCREENSHOTS_REPORT.md
  M docs/DEVICE_QA_REPORT.md
  M docs/KNOWN_ISSUES.md
+ M docs/PUBLIC_URL_REPORT.md
  M docs/STORE_MANUAL_CHECKLIST.md
  M docs/STORE_SCREENSHOTS_REPORT.md
 - 패키지 버전: 1.0.0
