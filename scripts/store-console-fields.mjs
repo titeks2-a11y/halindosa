@@ -34,7 +34,7 @@ const playListing = readIfPresent("docs/play-store-listing.md");
 const storeReviewNotes = readIfPresent("docs/store-review-notes.md");
 const branch = run("git", ["branch", "--show-current"]);
 const commit = run("git", ["rev-parse", "--short", "HEAD"]);
-const status = run("git", ["status", "--short"]) || "clean";
+const status = (run("git", ["status", "--short"]) || "clean").replace(/\r?\n/g, "; ");
 const appAccessCopy =
   storeReviewNotes.match(/### Google Play 앱 액세스\s*\n([\s\S]*?)(?=\n### |$)/)?.[1]?.trim() ??
   "비회원으로 대부분의 기능을 사용할 수 있습니다. 로그인은 찜한 특가와 관심 카테고리를 계정으로 이어보기 위한 선택 기능입니다. 테스트 계정은 필요하지 않습니다.";

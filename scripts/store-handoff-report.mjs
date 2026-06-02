@@ -39,7 +39,7 @@ const deviceManifest = readJson("DEVICE_QA_MANIFEST.json") ?? {};
 const screenshotManifest = readJson("STORE_SCREENSHOT_MANIFEST.json") ?? {};
 const branch = run("git", ["branch", "--show-current"]);
 const commit = run("git", ["rev-parse", "--short", "HEAD"]);
-const status = run("git", ["status", "--short"]) || "clean";
+const status = (run("git", ["status", "--short"]) || "clean").replace(/\r?\n/g, "; ");
 
 const artifacts = [
   fileStatus("android/app/build/outputs/bundle/release/app-release.aab"),

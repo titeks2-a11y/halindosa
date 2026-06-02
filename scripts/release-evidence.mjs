@@ -31,7 +31,7 @@ const capacitor = await readFile(join(root, "capacitor.config.ts"), "utf8");
 const androidGradle = await readFile(join(root, "android/app/build.gradle"), "utf8");
 const latestCommit = run("git", ["rev-parse", "--short", "HEAD"]);
 const branch = run("git", ["branch", "--show-current"]);
-const status = run("git", ["status", "--short"]) || "clean";
+const status = (run("git", ["status", "--short"]) || "clean").replace(/\r?\n/g, "; ");
 const generatedAt = new Date().toISOString();
 
 const appId = capacitor.match(/appId:\s*['"]([^'"]+)/)?.[1] ?? "확인 필요";

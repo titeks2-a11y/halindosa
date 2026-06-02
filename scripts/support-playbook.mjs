@@ -15,7 +15,7 @@ function run(command, args) {
 
 const branch = run("git", ["branch", "--show-current"]);
 const commit = run("git", ["rev-parse", "--short", "HEAD"]);
-const status = run("git", ["status", "--short"]) || "clean";
+const status = (run("git", ["status", "--short"]) || "clean").replace(/\r?\n/g, "; ");
 
 const categories = [
   {

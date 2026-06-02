@@ -33,7 +33,7 @@ const pkg = readJson("package.json") ?? {};
 const linkResult = readJson("LINK_VERIFICATION_RESULT.json") ?? {};
 const branch = run("git", ["branch", "--show-current"]);
 const commit = run("git", ["rev-parse", "--short", "HEAD"]);
-const status = run("git", ["status", "--short"]) || "clean";
+const status = (run("git", ["status", "--short"]) || "clean").replace(/\r?\n/g, "; ");
 const recentCommits = run("git", ["log", "--oneline", "-8"])
   .split(/\r?\n/)
   .filter(Boolean);
