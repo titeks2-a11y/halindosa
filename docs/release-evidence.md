@@ -4,9 +4,9 @@
 
 ## 기본 정보
 
-- 생성 시각: 2026-06-02T17:37:59.959Z
+- 생성 시각: 2026-06-02T17:39:41.369Z
 - Git 브랜치: codex/12h-product-ux-growth-hardening
-- 최신 커밋: 30e52ce
+- 최신 커밋: c2b28ed
 - Git 상태: clean
 - 패키지 버전: 1.0.0
 - 앱 이름: 할인도사
@@ -31,7 +31,7 @@
 | Store metadata QA report | `docs/STORE_METADATA_REPORT.md` | 2KB |
 | Store asset QA report | `docs/STORE_ASSETS_REPORT.md` | 1KB |
 | Device QA readiness report | `docs/DEVICE_QA_REPORT.md` | 3KB |
-| Store submission readiness report | `docs/STORE_SUBMISSION_REPORT.md` | 4KB |
+| Store submission readiness report | `docs/STORE_SUBMISSION_REPORT.md` | 5KB |
 | Store screenshot QA report | `docs/STORE_SCREENSHOTS_REPORT.md` | 2KB |
 | Harness report | `docs/HARNESS_REPORT.md` | 20KB |
 | Link coverage report | `docs/link-coverage-report.md` | 7KB |
