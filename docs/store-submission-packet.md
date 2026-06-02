@@ -30,6 +30,7 @@
 - 스토어 이미지 QA 리포트: `docs/STORE_ASSETS_REPORT.md`
 - 스토어 스크린샷 QA 리포트: `docs/STORE_SCREENSHOTS_REPORT.md`
 - 스토어 제출 준비 리포트: `docs/STORE_SUBMISSION_REPORT.md`
+- 스토어 제출 패킷 QA 리포트: `docs/STORE_PACKET_REPORT.md`
 
 ## 제출 전 명령
 
@@ -46,6 +47,7 @@ npm run store:metadata:doctor
 npm run store:assets:doctor
 npm run store:screenshots:doctor
 npm run store:submission:report
+npm run store:packet:doctor
 npm run qa:release
 npm run android:bundle
 npm run release:evidence

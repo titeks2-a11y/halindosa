@@ -45,6 +45,9 @@ jobs:
       - name: Store submission readiness report
         run: npm run store:submission:report
 
+      - name: Store packet readiness report
+        run: npm run store:packet:doctor
+
       - name: Store screenshot readiness report
         run: npm run store:screenshots:doctor
 
@@ -70,6 +73,7 @@ jobs:
             STORE_ASSETS_REPORT.md
             DEVICE_QA_REPORT.md
             STORE_SUBMISSION_REPORT.md
+            STORE_PACKET_REPORT.md
             STORE_SCREENSHOTS_REPORT.md
             IMAGE_OPERATIONS_REPORT.md
             IMAGE_QUALITY_REPORT.md
@@ -86,6 +90,7 @@ jobs:
             docs/STORE_ASSETS_REPORT.md
             docs/DEVICE_QA_REPORT.md
             docs/STORE_SUBMISSION_REPORT.md
+            docs/STORE_PACKET_REPORT.md
             docs/STORE_SCREENSHOTS_REPORT.md
             docs/PERFORMANCE_REPORT.md
             docs/release-evidence.md
