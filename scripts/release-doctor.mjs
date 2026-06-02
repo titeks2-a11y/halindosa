@@ -117,10 +117,12 @@ async function checkCiWorkflow() {
     "npm run release:doctor",
     "actions/upload-artifact@v4",
     "halindosa-verification-reports",
+    "ENV_DOCTOR_REPORT.md",
+    "docs/ENV_DOCTOR_REPORT.md",
     "docs/release-evidence.md"
   ];
   const missingWorkflowSnippets = requiredWorkflowSnippets.filter((snippet) => !workflow.includes(snippet));
-  const requiredRunbookSnippets = ["codex/**", "npm run test:env", "npm run public:url:doctor", "npm run harness", "npm run release:doctor", "halindosa-verification-reports"];
+  const requiredRunbookSnippets = ["codex/**", "npm run test:env", "ENV_DOCTOR_REPORT.md", "npm run public:url:doctor", "npm run harness", "npm run release:doctor", "halindosa-verification-reports"];
   const missingRunbookSnippets = requiredRunbookSnippets.filter((snippet) => !runbook.includes(snippet));
 
   if (missingWorkflowSnippets.length || missingRunbookSnippets.length) {
@@ -374,11 +376,13 @@ async function checkEnvExample() {
     !envDoctorTest.includes("production rejects localhost site url") ||
     !envDoctorTest.includes("production rejects mismatched auth callback origin") ||
     !envDoctorTest.includes("production rejects unsafe app scheme") ||
-    !envDoctorTest.includes("Environment doctor tests passed")
+    !envDoctorTest.includes("Environment doctor tests passed") ||
+    !envDoctorTest.includes("ENV_DOCTOR_REPORT.md") ||
+    !envDoctorTest.includes("docs")
   ) {
-    fail("env doctor regression tests", "Environment doctor tests should cover localhost, callback origin mismatch, unsafe app scheme, and success output.");
+    fail("env doctor regression tests", "Environment doctor tests should cover localhost, callback origin mismatch, unsafe app scheme, success output, and non-secret report generation.");
   } else {
-    pass("env doctor regression tests", "Environment doctor tests cover production URL, callback origin, and app scheme regressions.");
+    pass("env doctor regression tests", "Environment doctor tests cover production URL, callback origin, app scheme regressions, and report generation.");
   }
 
   const dataModeMatch = env.match(/^DEAL_DATA_MODE=(.+)$/m);

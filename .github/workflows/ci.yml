@@ -48,6 +48,7 @@ jobs:
           path: |
             HARNESS_REPORT.md
             EXTERNAL_LINK_REPORT.md
+            ENV_DOCTOR_REPORT.md
             IMAGE_OPERATIONS_REPORT.md
             IMAGE_QUALITY_REPORT.md
             LINK_VERIFICATION_REPORT.md
@@ -56,6 +57,7 @@ jobs:
             PERFORMANCE_REPORT.md
             SEARCH_REPORT.md
             docs/HARNESS_REPORT.md
+            docs/ENV_DOCTOR_REPORT.md
             docs/PERFORMANCE_REPORT.md
             docs/release-evidence.md
             docs/link-coverage-report.md

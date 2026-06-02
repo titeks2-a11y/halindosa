@@ -1,4 +1,9 @@
 import { execFileSync } from "node:child_process";
+import { writeFileSync } from "node:fs";
+import { join } from "node:path";
+
+const root = process.cwd();
+const results = [];
 
 const baseEnv = {
   ...process.env,
@@ -62,6 +67,7 @@ function runCase(testCase) {
     if (!output.includes(testCase.expected)) {
       throw new Error(`expected output to include "${testCase.expected}".\n${output}`);
     }
+    results.push({ name: testCase.name, status: "PASS", expectation: testCase.shouldPass ? "passes" : "fails" });
     console.log(`PASS env doctor test: ${testCase.name}`);
   } catch (error) {
     const output = `${error.stdout ?? ""}${error.stderr ?? ""}`;
@@ -71,10 +77,28 @@ function runCase(testCase) {
     if (!output.includes(testCase.expected)) {
       throw new Error(`expected failure output to include "${testCase.expected}".\n${output}`);
     }
+    results.push({ name: testCase.name, status: "PASS", expectation: testCase.shouldPass ? "passes" : "fails" });
     console.log(`PASS env doctor test: ${testCase.name}`);
   }
 }
 
 for (const testCase of cases) runCase(testCase);
+
+const report = [
+  "# Environment Doctor Report",
+  "",
+  "This report records non-secret regression checks for the production environment doctor.",
+  "It intentionally stores only scenario names and pass/fail outcomes, not environment variable values.",
+  "",
+  "| Scenario | Expected Command Result | Status |",
+  "| --- | --- | --- |",
+  ...results.map((result) => `| ${result.name} | ${result.expectation} | ${result.status} |`),
+  "",
+  `Environment doctor tests passed: ${results.length}/${cases.length}`,
+  ""
+].join("\n");
+
+writeFileSync(join(root, "ENV_DOCTOR_REPORT.md"), report, "utf8");
+writeFileSync(join(root, "docs", "ENV_DOCTOR_REPORT.md"), report, "utf8");
 
 console.log(`Environment doctor tests passed: ${cases.length}/${cases.length}`);
