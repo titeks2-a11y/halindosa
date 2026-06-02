@@ -15,6 +15,7 @@ Branch: `codex/12h-product-ux-growth-hardening`
 - 홈 추천 검색어 34개에서 54개로 확장
 - Quick deal card에 무료혜택/쿠폰/이벤트/직접 링크 신호 강화
 - 이미지 품질 리포트에 카테고리별 fallback 분포 추가
+- 홈 상단 랭킹에 실상품 이미지 가산점과 카테고리 fallback 쏠림 완화 신호 추가
 - 브랜드/모바일/SEO/Play Store 준비 문서 추가
 - `npm run harness`, `npm run qa`, `npm run build:android`, `npm run cap:sync` 통과
 
@@ -53,7 +54,7 @@ Branch: `codex/12h-product-ux-growth-hardening`
 | 실제 렌더링 이미지 커버리지 | 100% |
 | fallback 카테고리 수 | 11 |
 
-개선 내용: fallback 이미지를 카테고리별로 자동 적용하고, 이미지 리포트가 카테고리별 fallback 수까지 기록한다.
+개선 내용: fallback 이미지를 카테고리별로 자동 적용하고, 이미지 리포트가 카테고리별 fallback 수까지 기록한다. 또한 홈 상단 랭킹에 실상품 이미지 가산점과 fallback 완화 신호를 넣어 같은 조건이면 실제 이미지 상품이 더 자연스럽게 우선 노출된다.
 
 ## 검색 기능 결과
 
@@ -113,6 +114,7 @@ Branch: `codex/12h-product-ux-growth-hardening`
 - `data/searchAliases.json`
 - `scripts/search-quality-doctor.mjs`
 - `scripts/test-images.mjs`
+- `lib/deals/ranking.ts`
 - `SEARCH_REPORT.md`
 - `IMAGE_QUALITY_REPORT.md`
 - `HARNESS_REPORT.md`

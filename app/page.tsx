@@ -38,7 +38,8 @@ import { buildBenefitDecisionGuide } from "@/lib/deals/benefitDecisionGuide";
 import { buildDailyBenefitBriefing } from "@/lib/deals/dailyBenefitBriefing";
 import { buildDailyRoutinePlan } from "@/lib/deals/dailyRoutinePlan";
 import { buildPersonalizedBenefitQueue } from "@/lib/deals/personalizedBenefitQueue";
-import { getLinkQualityScore, isVerifiedPurchaseLink } from "@/lib/deals/quality";
+import { isVerifiedPurchaseLink } from "@/lib/deals/quality";
+import { getCommercialDealScore } from "@/lib/deals/ranking";
 import { dealMatchesSearch } from "@/lib/deals/search";
 import { formatPrice, getRelativeTime, getTimeLeft } from "@/lib/format";
 import { getDealImageSrc } from "@/lib/imageSrc";
@@ -300,15 +301,7 @@ function getProviderDisplayLabel(source: string) {
 }
 
 function commercialScore(deal: Deal) {
-  const expireHours = Math.max(1, (new Date(deal.expireAt).getTime() - Date.now()) / (60 * 60 * 1000));
-  return (
-    getLinkQualityScore(deal) +
-    Number(deal.isHot) * 40 +
-    Number(deal.isFreeShipping) * 12 +
-    deal.popularityScore +
-    deal.discountRate * 0.8 +
-    Math.max(0, 24 - expireHours)
-  );
+  return getCommercialDealScore(deal);
 }
 
 function filterLocalDeals(
