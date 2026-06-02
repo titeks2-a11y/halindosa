@@ -36,6 +36,9 @@ jobs:
       - name: Device QA readiness report
         run: npm run device:qa:report
 
+      - name: Store submission readiness report
+        run: npm run store:submission:report
+
       - name: Launch harness
         run: npm run harness
 
@@ -54,6 +57,7 @@ jobs:
             EXTERNAL_LINK_REPORT.md
             ENV_DOCTOR_REPORT.md
             DEVICE_QA_REPORT.md
+            STORE_SUBMISSION_REPORT.md
             IMAGE_OPERATIONS_REPORT.md
             IMAGE_QUALITY_REPORT.md
             LINK_VERIFICATION_REPORT.md
@@ -65,6 +69,7 @@ jobs:
             docs/AUDIT_REPORT.md
             docs/ENV_DOCTOR_REPORT.md
             docs/DEVICE_QA_REPORT.md
+            docs/STORE_SUBMISSION_REPORT.md
             docs/PERFORMANCE_REPORT.md
             docs/release-evidence.md
             docs/link-coverage-report.md

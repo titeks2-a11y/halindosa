@@ -117,6 +117,7 @@
 - Commercial audit report: `docs/AUDIT_REPORT.md`
 - Device QA readiness report: `docs/DEVICE_QA_REPORT.md`
 - Store submission packet: `docs/store-submission-packet.md`
+- Store submission readiness report: `docs/STORE_SUBMISSION_REPORT.md`
 - Store review notes: `docs/store-review-notes.md`
 - Play Store icon draft: `assets/store/play-store-icon-512.png`
 - Feature graphic draft: `assets/store/feature-graphic-1024x500.png`

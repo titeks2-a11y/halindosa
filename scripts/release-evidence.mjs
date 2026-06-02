@@ -50,6 +50,7 @@ const artifacts = [
   ["Commercial audit report", "docs/AUDIT_REPORT.md"],
   ["Environment doctor report", "docs/ENV_DOCTOR_REPORT.md"],
   ["Device QA readiness report", "docs/DEVICE_QA_REPORT.md"],
+  ["Store submission readiness report", "docs/STORE_SUBMISSION_REPORT.md"],
   ["Harness report", "docs/HARNESS_REPORT.md"],
   ["Link coverage report", "docs/link-coverage-report.md"]
 ];
