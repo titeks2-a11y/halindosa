@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 할인도사 고객센터 안내
+    url: https://github.com/titeks2-a11y/halindosa/issues/new/choose
+    about: 주문, 환불, 배송 문의는 판매처로 안내하고 앱 품질 이슈만 GitHub에 남깁니다.

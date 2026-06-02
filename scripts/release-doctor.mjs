@@ -150,6 +150,37 @@ async function checkCiWorkflow() {
   } else {
     pass("github pr template", "PR template covers launch safety, verified links, guest access, secrets, OAuth/policy impact, and mobile layout checks.");
   }
+
+  const issueTemplateFiles = [
+    ".github/ISSUE_TEMPLATE/deal-link-report.md",
+    ".github/ISSUE_TEMPLATE/app-bug-report.md",
+    ".github/ISSUE_TEMPLATE/config.yml"
+  ];
+  const missingIssueTemplates = issueTemplateFiles.filter((file) => !existsSync(join(root, file)));
+  if (missingIssueTemplates.length) {
+    fail("github issue templates", `Missing issue templates: ${missingIssueTemplates.join(", ")}`);
+    return;
+  }
+
+  const dealIssue = await text(".github/ISSUE_TEMPLATE/deal-link-report.md");
+  const appIssue = await text(".github/ISSUE_TEMPLATE/app-bug-report.md");
+  const issueConfig = await text(".github/ISSUE_TEMPLATE/config.yml");
+  const requiredDealIssueSnippets = ["가격이 다름", "품절 또는 옵션 선택 불가", "링크 오류", "할인도사 상품 ID", "판매처에서 확인한 가격/혜택", "개인정보 주의"];
+  const requiredAppIssueSnippets = ["재현 순서", "플랫폼: Web / Android / iOS", "외부 판매처 이동", "GitHub Actions artifact", "개인정보 주의"];
+  const requiredIssueConfigSnippets = ["blank_issues_enabled: false", "https://github.com/titeks2-a11y/halindosa/issues/new/choose"];
+  const missingIssueSnippets = [
+    ...requiredDealIssueSnippets.filter((snippet) => !dealIssue.includes(snippet)).map((snippet) => `deal:${snippet}`),
+    ...requiredAppIssueSnippets.filter((snippet) => !appIssue.includes(snippet)).map((snippet) => `app:${snippet}`),
+    ...requiredIssueConfigSnippets.filter((snippet) => !issueConfig.includes(snippet)).map((snippet) => `config:${snippet}`)
+  ];
+
+  if (missingIssueSnippets.length) {
+    fail("github issue templates", `Issue templates should capture link/price reports, app bugs, evidence, and privacy cautions. Missing: ${missingIssueSnippets.join(", ")}`);
+  } else if (!runbook.includes(".github/ISSUE_TEMPLATE")) {
+    fail("github issue templates", "RUNBOOK should reference the GitHub issue templates.");
+  } else {
+    pass("github issue templates", "Issue templates capture deal link/price reports, app bugs, reproduction evidence, and privacy cautions.");
+  }
 }
 
 async function checkReleaseEvidenceFreshness() {
