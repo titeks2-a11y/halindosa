@@ -1,8 +1,8 @@
 {
   "generatedBy": "npm run store:manual:checklist",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "a05bd00",
-  "workingTree": "M docs/roadmap.md",
+  "commit": "f9770fa",
+  "workingTree": "clean",
   "appName": "할인도사",
   "version": "1.0.0",
   "packageName": "com.halindosa.app",
