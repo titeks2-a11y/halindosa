@@ -546,3 +546,7 @@
 - `/api/admin/import` dry-run 검증을 CLI `feed:validate` 수준으로 보강해 검색 결과 fallback 단독 행, 쇼핑몰 메인, 커뮤니티/placeholder URL, 중복 externalId, 같은 판매처 중복 상품명을 운영 노출 전 `needs_fix`로 차단하도록 개선했다.
 - 관리자 피드 붙여넣기 dry-run 화면에 `행별 검수 결과`, `ready 행`, `needs_fix 행`, `수정 필요 필드` 표시를 추가해 운영자가 JSON 피드 반영 전 고쳐야 할 행과 필드를 UI에서 바로 확인할 수 있게 개선했다.
 - `/api/admin/import` dry-run 응답에 `readyItems`, `readyRate`, `fixReport`를 추가하고 관리자 화면에 `ready JSON 내보내기`, `needs_fix 리포트 내보내기`를 연결해 운영자가 노출 가능 피드와 보강 대상 피드를 분리 저장할 수 있게 개선했다.
+- `test:mobile-ux`를 10개 게이트로 확장해 하단 safe-area, compact 검색, 홈 검색 중복 방지, 카테고리/필터 가로 칩, compact 카드, 하단 탭을 가리지 않는 토스트 위치를 자동 검사하도록 강화했다.
+- `MOBILE_UX_REPORT.md`가 매 실행마다 timestamp만 바뀌지 않도록 안정화하고, release doctor가 보고서의 10개 모바일 UX 게이트와 PASS 상태를 직접 확인하도록 보강했다.
+- release doctor가 `test:mobile-ux`가 `qa`와 `harness`에 계속 포함되어 있는지 검사하도록 확장해 모바일 첫 화면 회귀가 출시 체인에서 빠지지 않게 했다.
+- `README.md`, `docs/RUNBOOK.md`, `docs/test-plan.md`의 QA/harness 설명을 실제 검증 체인과 맞춰 모바일 UX, 이미지, 외부 링크, 성능, smoke, release doctor 범위를 명확히 문서화했다.
