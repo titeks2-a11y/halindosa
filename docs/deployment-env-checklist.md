@@ -59,6 +59,7 @@ Google, Kakao, Naver Provider 설정은 `docs/OAUTH_SETUP.md`와 `docs/DEEPLINK_
 - [ ] `npm run env:doctor` 결과에서 운영 필수 값이 모두 `OK`
 - [ ] `node scripts/env-doctor.mjs --strict` 성공
 - [ ] Supabase OAuth Provider Redirect URL과 앱 딥링크 테스트 완료
+- [ ] `npm run public:url:doctor`로 `/privacy`, `/support`, sitemap, robots, 스토어 제출 URL 문구 일관성 확인
 - [ ] 공개 개인정보처리방침 URL이 Play Console/App Store Connect에 입력됨
 - [ ] `docs/device-qa-checklist.md` 기준 실기기 QA 완료
 - [ ] `npm run qa:release`와 `npm run release:doctor` 성공
