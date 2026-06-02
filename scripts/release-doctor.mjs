@@ -2570,7 +2570,7 @@ async function checkPolicyAndStoreDocs() {
     {
       name: "release evidence content",
       file: "docs/release-evidence.md",
-      phrases: ["릴리즈 증빙", "최신 커밋", "Release AAB", "자동 검증 범위", "남은 수동 확인"]
+      phrases: ["릴리즈 증빙", "최신 커밋", "Release AAB", "Harness report", "npm run harness", "자동 검증 범위", "남은 수동 확인"]
     },
     {
       name: "launch day checklist content",

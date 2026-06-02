@@ -47,6 +47,7 @@ const artifacts = [
   ["Feature graphic", "assets/store/feature-graphic-1024x500.png"],
   ["iOS App icon", "ios/App/App/Assets.xcassets/AppIcon.appiconset/AppIcon-512@2x.png"],
   ["iOS privacy manifest", "ios/App/App/PrivacyInfo.xcprivacy"],
+  ["Harness report", "docs/HARNESS_REPORT.md"],
   ["Link coverage report", "docs/link-coverage-report.md"]
 ];
 
@@ -81,6 +82,7 @@ const lines = [
   "```bash",
   "npm install",
   "npm run env:doctor",
+  "npm run harness",
   "npm run qa:release",
   "npm run android:bundle",
   "npm run release:evidence",
@@ -88,6 +90,7 @@ const lines = [
   "",
   "## 자동 검증 범위",
   "",
+  "- harness: lint, build, 링크/이미지/검색/UI/모바일/SEO/성능/smoke/release doctor 종합 검증",
   "- lint, smoke, Next.js build, release doctor",
   "- environment doctor: 공개 URL, OAuth redirect, Supabase, 운영 토큰, 데이터 모드 점검",
   "- commercial security audit: high/critical npm 취약점 차단",
