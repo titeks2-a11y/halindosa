@@ -1,7 +1,7 @@
 {
   "generatedBy": "npm run release:notes",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "2a8f211",
+  "commit": "78dcc98",
   "workingTree": "M DEVICE_QA_REPORT.md;  M KNOWN_ISSUES.md;  M PUBLIC_URL_REPORT.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_HANDOFF_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M docs/DEVICE_QA_REPORT.md;  M docs/KNOWN_ISSUES.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_HANDOFF_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md",
   "version": "1.0.0",
   "appName": "할인도사",
@@ -73,14 +73,14 @@
     }
   ],
   "recentCommits": [
+    "78dcc98 test: enforce mobile rail scroll cue evidence",
+    "0d05bf6 docs: refresh release evidence",
     "2a8f211 feat: add mobile deal rail scroll cues",
     "0f9f69a docs: refresh release evidence",
     "f9770fa feat: improve mobile deal rail snapping",
     "564ca34 docs: refresh release evidence",
     "a05bd00 feat: defer advanced filter analysis panel",
-    "f61939c docs: refresh release evidence",
-    "e1d8a7e feat: defer deep home benefit sections",
-    "4944bbf docs: refresh release evidence"
+    "f61939c docs: refresh release evidence"
   ],
   "manualWorkThatMustNotBeFaked": [
     "Do not claim Play Console or App Store Connect submission has passed from this file.",
