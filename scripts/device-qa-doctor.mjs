@@ -4,6 +4,7 @@ import { join } from "node:path";
 const root = process.cwd();
 const checklistPath = join(root, "docs/device-qa-checklist.md");
 const recordPath = join(root, "docs/device-qa-record-template.md");
+const reportScriptPath = join(root, "scripts/device-qa-report.mjs");
 const testPlanPath = join(root, "docs/test-plan.md");
 const releaseChecklistPath = join(root, "docs/release-checklist.md");
 
@@ -19,6 +20,7 @@ function read(path, label) {
 
 const checklist = read(checklistPath, "docs/device-qa-checklist.md");
 const record = read(recordPath, "docs/device-qa-record-template.md");
+const reportScript = read(reportScriptPath, "scripts/device-qa-report.mjs");
 const testPlan = read(testPlanPath, "docs/test-plan.md");
 const releaseChecklist = read(releaseChecklistPath, "docs/release-checklist.md");
 
@@ -96,6 +98,19 @@ if (missingSensitiveWarnings.length) {
 
 if (!checklist.includes("npm run test:mobile-ux") || !checklist.includes("MOBILE_UX_REPORT.md")) {
   fail("Checklist should connect manual mobile checks to the automated mobile UX gate.");
+}
+
+const requiredReportSnippets = [
+  "DEVICE_QA_REPORT.md",
+  "docs",
+  "Pending manual check",
+  "android/app/build/outputs/apk/debug/app-debug.apk",
+  "android/app/build/outputs/bundle/release/app-release.aab",
+  "Do not write order numbers"
+];
+const missingReportSnippets = requiredReportSnippets.filter((snippet) => !reportScript.includes(snippet));
+if (missingReportSnippets.length) {
+  fail(`Device QA report generator should preserve honest manual-check evidence. Missing: ${missingReportSnippets.join(", ")}`);
 }
 
 if (!testPlan.includes("docs/device-qa-record-template.md")) {
