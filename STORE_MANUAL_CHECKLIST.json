@@ -1,8 +1,8 @@
 {
   "generatedBy": "npm run store:manual:checklist",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "78dcc98",
-  "workingTree": "clean",
+  "commit": "0af8afa",
+  "workingTree": "M DEVICE_QA_MANIFEST.json;  M docs/DEVICE_QA_MANIFEST.md",
   "appName": "할인도사",
   "version": "1.0.0",
   "packageName": "com.halindosa.app",
@@ -116,7 +116,7 @@
     {
       "path": "docs/DEVICE_QA_MANIFEST.md",
       "status": "present",
-      "bytes": 4545
+      "bytes": 4623
     },
     {
       "path": "docs/STORE_SCREENSHOT_MANIFEST.md",

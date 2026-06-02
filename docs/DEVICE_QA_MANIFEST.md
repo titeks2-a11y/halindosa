@@ -9,7 +9,7 @@ This manifest turns the launch-device checklist into concrete targets, commands,
 | Item | Value |
 | --- | --- |
 | Branch | `codex/12h-product-ux-growth-hardening` |
-| Commit | `c1e8577` |
+| Commit | `0af8afa` |
 | App version | `1.0.0` |
 | Record template | `docs/device-qa-record-template.md` |
 | Checklist | `docs/device-qa-checklist.md` |
