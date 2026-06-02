@@ -16,6 +16,7 @@
 - [x] `npm run audit:commercial`
 - [x] `npm run device:qa:doctor`
 - [x] `npm run env:doctor`
+- [ ] `npm run env:doctor:production`은 공개 운영 환경변수 입력 후 실행
 - [x] `npm run public:url:doctor`
 - [x] `npm run store:metadata:doctor`
 - [x] `npm run store:assets:doctor`
@@ -100,6 +101,7 @@
 - [ ] 개인정보처리방침 실제 도메인 배포
 - [ ] 공개 도메인에서 `/privacy`, `/support`, `/sitemap.xml`, `/robots.txt` 접근 확인
 - [ ] `docs/deployment-env-checklist.md` 기준 운영 환경변수 strict 점검
+- [ ] `npm run env:doctor:production`으로 공개 HTTPS URL, 동일 origin OAuth callback, 운영 Supabase 값 확인
 
 ## 현재 확인된 산출물
 

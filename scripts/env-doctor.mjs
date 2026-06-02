@@ -3,6 +3,7 @@ import { join } from "node:path";
 
 const root = process.cwd();
 const strict = process.argv.includes("--strict");
+const production = process.argv.includes("--production");
 const envFiles = [".env.local", ".env.production", ".env"].filter((file) => existsSync(join(root, file)));
 
 function parseEnvFile(file) {
@@ -52,9 +53,10 @@ const urlKeys = new Set(["NEXT_PUBLIC_SITE_URL", "NEXT_PUBLIC_AUTH_REDIRECT_URL"
 const emailKeys = new Set(["NEXT_PUBLIC_SUPPORT_EMAIL"]);
 const rows = [];
 
-function isValidHttpsUrl(value) {
+function isValidPublicUrl(value) {
   try {
     const url = new URL(value);
+    if (production) return url.protocol === "https:" && !["localhost", "127.0.0.1"].includes(url.hostname);
     return url.protocol === "https:" || url.hostname === "localhost" || url.hostname === "127.0.0.1";
   } catch {
     return false;
@@ -79,10 +81,16 @@ function validateKey(key, status) {
   if (key === "DEAL_DATA_MODE") return allowedDataModes.has(status.value);
   if (!status.configured) return false;
   if (urlKeys.has(key)) {
-    if (!isValidHttpsUrl(status.value)) return false;
+    if (!isValidPublicUrl(status.value)) return false;
     if (key === "NEXT_PUBLIC_AUTH_REDIRECT_URL") {
       try {
-        return new URL(status.value).pathname === "/auth/callback";
+        const redirectUrl = new URL(status.value);
+        if (redirectUrl.pathname !== "/auth/callback") return false;
+        if (production) {
+          const siteUrl = new URL(combinedEnv.NEXT_PUBLIC_SITE_URL ?? "");
+          return redirectUrl.origin === siteUrl.origin;
+        }
+        return true;
       } catch {
         return false;
       }
@@ -112,6 +120,7 @@ const totalRequired = rows.filter((row) => row.level === "required").length;
 
 console.log(`Halindosa environment doctor`);
 console.log(`Loaded env files: ${envFiles.length ? envFiles.join(", ") : "none; using process env and .env.example defaults"}`);
+console.log(`Mode: ${production ? "production strict public URL check" : "local-compatible check"}`);
 console.log(`Required production keys configured: ${configuredRequired}/${totalRequired}`);
 console.log("");
 
@@ -128,6 +137,7 @@ if (missingRequired.length) {
   console.log("");
   console.log("Fill these in Vercel, Supabase, Android/iOS build environments, or a local .env.local before production testing.");
   console.log("URL values must be https in production, auth redirect must end with /auth/callback, and support email must be a real mailbox.");
+  console.log("For store submission, run: node scripts/env-doctor.mjs --strict --production");
 }
 
 if (strict && missingRequired.length) {
