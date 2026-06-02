@@ -4,9 +4,9 @@
 
 ## 기본 정보
 
-- 생성 시각: 2026-06-02T17:25:25.738Z
+- 생성 시각: 2026-06-02T17:27:28.465Z
 - Git 브랜치: codex/12h-product-ux-growth-hardening
-- 최신 커밋: 0ce0742
+- 최신 커밋: f9f192a
 - Git 상태: clean
 - 패키지 버전: 1.0.0
 - 앱 이름: 할인도사
@@ -27,7 +27,7 @@
 | iOS privacy manifest | `ios/App/App/PrivacyInfo.xcprivacy` | 373B |
 | Commercial audit report | `docs/AUDIT_REPORT.md` | 291B |
 | Environment doctor report | `docs/ENV_DOCTOR_REPORT.md` | 581B |
-| Device QA readiness report | `docs/DEVICE_QA_REPORT.md` | 2KB |
+| Device QA readiness report | `docs/DEVICE_QA_REPORT.md` | 3KB |
 | Store submission readiness report | `docs/STORE_SUBMISSION_REPORT.md` | 4KB |
 | Harness report | `docs/HARNESS_REPORT.md` | 20KB |
 | Link coverage report | `docs/link-coverage-report.md` | 7KB |
