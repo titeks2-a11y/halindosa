@@ -52,6 +52,7 @@ const sampleItems = [
     benefitSummary: "주말 한정 무료배송 특가",
     originalPrice: 259000,
     salePrice: 159000,
+    imageUrl: "https://thumbnail.coupangcdn.com/thumbnails/remote/492x492ex/image/retail/images/2024/01/01/10/0/product.jpg",
     productUrl: "https://www.coupang.com/vp/products/7999681537",
     searchUrl: "https://www.coupang.com/np/search?q=%EB%AC%B4%EC%84%A0%20%EC%B2%AD%EC%86%8C%EA%B8%B0",
     sourceName: "쿠팡",
@@ -75,6 +76,7 @@ const sampleItems = [
     benefitSummary: "쿠폰 적용 시 즉석밥 묶음 할인",
     originalPrice: 39800,
     salePrice: 24900,
+    imageUrl: "https://gdimg.gmarket.co.kr/4076233103/still/600",
     productUrl: "https://item.gmarket.co.kr/Item?goodsCode=4076233103",
     sourceName: "G마켓",
     sourceUrl: "https://item.gmarket.co.kr/Item?goodsCode=4076233103",
@@ -99,6 +101,7 @@ const sampleItems = [
     benefitSummary: "앱 가입 후 커피 무료 쿠폰",
     originalPrice: 4500,
     salePrice: 1,
+    imageUrl: "https://shopping-phinf.pstatic.net/main_1234567/1234567890.20260602120000.jpg",
     productUrl: "https://smartstore.naver.com/halindosa/products/1234567890",
     sourceName: "브랜드 공식몰",
     sourceUrl: "https://smartstore.naver.com/halindosa/products/1234567890",
@@ -251,6 +254,7 @@ function validateItem(item, index) {
   const expiresAt = String(item.expiresAt ?? item.expireAt ?? "").trim();
   const sourceName = String(item.sourceName ?? item.source ?? "").trim();
   const sourceUrl = String(item.sourceUrl ?? "").trim();
+  const imageUrl = String(item.imageUrl ?? item.thumbnail ?? "").trim();
   const primary = getPrimaryUrl(item);
 
   if (!externalId) issues.push(issue(index, "externalId", "외부 ID가 필요합니다."));
@@ -262,6 +266,13 @@ function validateItem(item, index) {
   }
   if (!benefitSummary) issues.push(issue(index, "benefitSummary", "사용자가 바로 이해할 혜택 요약이 필요합니다."));
   if (!sourceName) issues.push(issue(index, "sourceName", "출처명 또는 제공처명이 필요합니다."));
+  if (!imageUrl) {
+    issues.push(issue(index, "imageUrl", "실상품 이미지 URL이 필요합니다. 카테고리 fallback은 운영 노출 전 임시 보조 수단입니다."));
+  } else if (!isValidHttpUrl(imageUrl)) {
+    issues.push(issue(index, "imageUrl", "이미지 URL은 http/https만 허용합니다."));
+  } else if (isCommunityOrPlaceholder(imageUrl)) {
+    issues.push(issue(index, "imageUrl", "커뮤니티 또는 placeholder 이미지는 운영 피드 이미지로 사용할 수 없습니다."));
+  }
   if (!expiresAt) {
     issues.push(issue(index, "expiresAt", "혜택/특가 마감 시간이 필요합니다."));
   } else if (Number.isNaN(new Date(expiresAt).getTime())) {

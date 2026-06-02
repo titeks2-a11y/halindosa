@@ -1270,6 +1270,7 @@ await check("partner feed import dry-run", async () => {
           category: "식품",
           originalPrice: 30000,
           salePrice: 18000,
+          imageUrl: "https://gdimg.gmarket.co.kr/4076233103/still/600",
           sourceName: "스모크몰 공식 피드",
           sourceUrl: "https://item.gmarket.co.kr/Item?goodsCode=4076233103",
           dealType: "freeShipping",
@@ -1294,6 +1295,7 @@ await check("partner feed import dry-run", async () => {
   assert(data.previewDeals?.[0]?.linkVerified === true, "Partner productUrl should normalize as a verified purchase link");
   assert(data.linkSummary?.verified === 1, "Import link summary should count verified product links");
   assert(data.benefitSummary?.conditionReadyRate === 100, "Import benefit condition summary should be ready");
+  assert(data.imageSummary?.imageReadyRate === 100, "Import image summary should be ready");
   assert(data.rows?.[0]?.status === "ready", "Import dry-run should expose ready row summary");
   assert(data.readyItems?.length === 1, "Import dry-run should expose ready items for production feed handoff");
   assert(data.readyRate === 100, "Import dry-run should expose readyRate");
@@ -1311,6 +1313,7 @@ await check("partner feed sample validation api", async () => {
   assert(data.sampleValidation?.ok === true, "Sample feed validation should pass");
   assert(data.sampleValidation?.linkSummary?.verified >= 1, "Sample feed validation missing verified link summary");
   assert(data.sampleValidation?.benefitSummary?.conditionReadyRate === 100, "Sample feed validation missing benefit condition readiness");
+  assert(data.sampleValidation?.imageSummary?.imageReadyRate === 100, "Sample feed validation missing image readiness");
 });
 
 await check("partner feed import blocks unsafe links", async () => {

@@ -15,6 +15,7 @@ const feedItems = [
     benefitSummary: "주말 한정 무료배송 특가",
     originalPrice: 259000,
     salePrice: 159000,
+    imageUrl: "https://thumbnail.coupangcdn.com/thumbnails/remote/492x492ex/image/retail/images/2024/01/01/10/0/product.jpg",
     productUrl: "https://www.coupang.com/vp/products/7999681537",
     searchUrl: "https://www.coupang.com/np/search?q=%EB%AC%B4%EC%84%A0%20%EC%B2%AD%EC%86%8C%EA%B8%B0",
     sourceName: "쿠팡",
@@ -33,11 +34,14 @@ const feedItems = [
     benefitSummary: "쿠폰 적용 시 즉석밥 묶음 할인",
     originalPrice: 39800,
     salePrice: 24900,
+    imageUrl: "https://gdimg.gmarket.co.kr/4076233103/still/600",
     productUrl: "https://item.gmarket.co.kr/Item?goodsCode=4076233103",
     searchUrl: "https://browse.gmarket.co.kr/search?keyword=%EC%A6%89%EC%84%9D%EB%B0%A5%2024%EA%B0%9C%EC%9E%85",
     sourceName: "G마켓",
     sourceUrl: "https://item.gmarket.co.kr/Item?goodsCode=4076233103",
     shipping: "무료배송",
+    couponCondition: "판매처 쿠폰 적용",
+    minimumOrderAmount: 0,
     expiresAt: new Date(Date.now() + 20 * 60 * 60 * 1000).toISOString(),
     tags: ["무료배송", "쿠폰적용"]
   },
@@ -51,6 +55,7 @@ const feedItems = [
     benefitSummary: "커뮤니티 원문만 있어 차단되어야 하는 항목",
     originalPrice: 50000,
     salePrice: 30000,
+    imageUrl: "https://www.ppomppu.co.kr/images/noimage.png",
     productUrl: "https://www.ppomppu.co.kr/zboard/view.php?id=ppomppu&no=1",
     sourceName: "뽐뿌",
     sourceUrl: "https://www.ppomppu.co.kr/zboard/view.php?id=ppomppu&no=1",
@@ -189,6 +194,7 @@ async function main() {
       assert(["http:", "https:"].includes(url.protocol), `${deal.id} has unsafe URL protocol.`);
       assert(!url.hostname.includes("ppomppu.co.kr"), `${deal.id} should not point to a community-only URL.`);
       assert(deal.linkVerified === true || deal.linkStatus === "verified", `${deal.id} should be marked as verified.`);
+      assert(/^https?:\/\//.test(deal.thumbnail || deal.imageUrl || ""), `${deal.id} should include a real feed image URL.`);
     }
 
     const sourcesData = await fetchJson(`${baseUrl}/api/sources`);

@@ -42,8 +42,21 @@ function toPartnerFeedItem(raw: unknown): PartnerFeedItem | null {
     finalPurchaseUrl: typeof item.finalPurchaseUrl === "string" ? item.finalPurchaseUrl : undefined,
     searchUrl: typeof item.searchUrl === "string" ? item.searchUrl : undefined,
     originalUrl: typeof item.originalUrl === "string" ? item.originalUrl : undefined,
+    sourceName: typeof item.sourceName === "string" ? item.sourceName : typeof item.source === "string" ? item.source : undefined,
+    sourceUrl: typeof item.sourceUrl === "string" ? item.sourceUrl : undefined,
+    dealType: typeof item.dealType === "string" ? item.dealType as PartnerFeedItem["dealType"] : undefined,
+    benefitSummary: typeof item.benefitSummary === "string" ? item.benefitSummary : undefined,
     shipping: typeof item.shipping === "string" ? item.shipping : typeof item.shippingInfo === "string" ? item.shippingInfo : undefined,
+    shippingFee: typeof item.shippingFee === "string" ? item.shippingFee : undefined,
     expiresAt: typeof item.expiresAt === "string" ? item.expiresAt : typeof item.expireAt === "string" ? item.expireAt : undefined,
+    isFirstComeFirstServed: typeof item.isFirstComeFirstServed === "boolean" ? item.isFirstComeFirstServed : undefined,
+    requiresSignup: typeof item.requiresSignup === "boolean" ? item.requiresSignup : undefined,
+    couponCondition: typeof item.couponCondition === "string" ? item.couponCondition : undefined,
+    minimumOrderAmount: typeof item.minimumOrderAmount === "number" ? item.minimumOrderAmount : undefined,
+    isStackable: typeof item.isStackable === "boolean" ? item.isStackable : undefined,
+    eligibilityChecklist: Array.isArray(item.eligibilityChecklist) ? item.eligibilityChecklist.filter((value): value is string => typeof value === "string") : undefined,
+    claimSteps: Array.isArray(item.claimSteps) ? item.claimSteps.filter((value): value is string => typeof value === "string") : undefined,
+    claimWarning: typeof item.claimWarning === "string" ? item.claimWarning : undefined,
     tags: Array.isArray(item.tags) ? item.tags.filter((tag): tag is string => typeof tag === "string") : undefined
   };
 }

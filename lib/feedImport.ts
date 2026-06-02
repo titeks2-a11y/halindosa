@@ -179,6 +179,21 @@ function validateUrlField(issues: FeedImportIssue[], item: PartnerFeedItem, inde
   }
 }
 
+function validateImageUrl(issues: FeedImportIssue[], item: PartnerFeedItem, index: number) {
+  const value = item.imageUrl?.trim() ?? "";
+
+  if (!value) {
+    issues.push({ index, field: "imageUrl", message: "실상품 이미지 URL이 필요합니다. 카테고리 fallback은 운영 노출 전 임시 보조 수단입니다." });
+    return;
+  }
+
+  if (!isValidUrl(value)) {
+    issues.push({ index, field: "imageUrl", message: "이미지 URL은 유효한 http/https URL이어야 합니다." });
+  } else if (isPlaceholderOrCommunityUrl(value)) {
+    issues.push({ index, field: "imageUrl", message: "placeholder 또는 커뮤니티 이미지 URL은 운영 피드 이미지로 사용할 수 없습니다." });
+  }
+}
+
 export function validatePartnerFeed(items: PartnerFeedItem[]) {
   const issues: FeedImportIssue[] = [];
   const seenExternalIds = new Map<string, number>();
@@ -219,6 +234,7 @@ export function validatePartnerFeed(items: PartnerFeedItem[]) {
     (["affiliateUrl", "finalPurchaseUrl", "productUrl", "purchaseUrl", "link", "originalUrl", "searchUrl", "sourceUrl"] as const).forEach((field) => {
       validateUrlField(issues, item, index, field);
     });
+    validateImageUrl(issues, item, index);
     if (!item.sourceName?.trim()) {
       issues.push({ index, field: "sourceName", message: "운영 출처명이 필요합니다." });
     }
@@ -367,6 +383,7 @@ export function dryRunPartnerFeedImport(items: PartnerFeedItem[], source = "part
       deal.claimSteps.length >= 2 &&
       Boolean(deal.claimWarning)
   ).length;
+  const imageReady = normalizedDeals.filter((deal) => Boolean(deal.thumbnail && /^https?:\/\//.test(deal.thumbnail))).length;
 
   return {
     ok: issues.length === 0,
@@ -396,6 +413,11 @@ export function dryRunPartnerFeedImport(items: PartnerFeedItem[], source = "part
       conditionNeedsReview: normalizedDeals.length - conditionReady,
       conditionReadyRate: normalizedDeals.length ? Math.round((conditionReady / normalizedDeals.length) * 100) : 0
     },
+    imageSummary: {
+      imageReady,
+      imageNeedsReview: normalizedDeals.length - imageReady,
+      imageReadyRate: normalizedDeals.length ? Math.round((imageReady / normalizedDeals.length) * 100) : 0
+    },
     previewDeals: normalizedDeals.slice(0, 10)
   };
 }
@@ -408,6 +430,7 @@ export const samplePartnerFeed: PartnerFeedItem[] = [
     category: "식품",
     originalPrice: 39800,
     salePrice: 24900,
+    imageUrl: "https://gdimg.gmarket.co.kr/4076233103/still/600",
     sourceName: "파트너몰 공식 피드",
     sourceUrl: "https://item.gmarket.co.kr/Item?goodsCode=4076233103",
     dealType: "freeShipping",
@@ -429,6 +452,7 @@ export const samplePartnerFeed: PartnerFeedItem[] = [
     category: "가전",
     originalPrice: 259000,
     salePrice: 159000,
+    imageUrl: "https://thumbnail.coupangcdn.com/thumbnails/remote/492x492ex/image/retail/images/2024/01/01/10/0/product.jpg",
     sourceName: "파트너몰 공식 피드",
     sourceUrl: "https://www.coupang.com/vp/products/7999681537",
     dealType: "discount",
@@ -449,6 +473,7 @@ export const samplePartnerFeed: PartnerFeedItem[] = [
     category: "쿠폰/이벤트",
     originalPrice: 4500,
     salePrice: 1,
+    imageUrl: "https://shopping-phinf.pstatic.net/main_1234567/1234567890.20260602120000.jpg",
     sourceName: "브랜드 공식 이벤트",
     sourceUrl: "https://smartstore.naver.com/halindosa/products/1234567890",
     dealType: "freebie",
@@ -470,6 +495,7 @@ export const samplePartnerFeed: PartnerFeedItem[] = [
     category: "쿠폰/이벤트",
     originalPrice: 20000,
     salePrice: 15000,
+    imageUrl: "https://shopping-phinf.pstatic.net/main_1234567/1234567891.20260602120000.jpg",
     sourceName: "배달앱 공식 쿠폰",
     sourceUrl: "https://smartstore.naver.com/halindosa/products/1234567891",
     dealType: "foodDelivery",
@@ -494,6 +520,7 @@ export const samplePartnerFeed: PartnerFeedItem[] = [
     category: "쿠폰/이벤트",
     originalPrice: 1000,
     salePrice: 1,
+    imageUrl: "https://shopping-phinf.pstatic.net/main_1234567/1234567892.20260602120000.jpg",
     sourceName: "포인트 앱 공식 이벤트",
     sourceUrl: "https://smartstore.naver.com/halindosa/products/1234567892",
     dealType: "point",
@@ -518,6 +545,7 @@ export const samplePartnerFeed: PartnerFeedItem[] = [
     category: "편의점/마트",
     originalPrice: 11000,
     salePrice: 5500,
+    imageUrl: "https://shopping-phinf.pstatic.net/main_1234567/1234567893.20260602120000.jpg",
     sourceName: "편의점 행사 피드",
     sourceUrl: "https://smartstore.naver.com/halindosa/products/1234567893",
     dealType: "convenienceStore",
@@ -539,6 +567,7 @@ export const samplePartnerFeed: PartnerFeedItem[] = [
     category: "편의점/마트",
     originalPrice: 18000,
     salePrice: 9900,
+    imageUrl: "https://shopping-phinf.pstatic.net/main_1234567/1234567894.20260602120000.jpg",
     sourceName: "마트 공식 행사",
     sourceUrl: "https://smartstore.naver.com/halindosa/products/1234567894",
     dealType: "mart",
@@ -560,6 +589,7 @@ export const samplePartnerFeed: PartnerFeedItem[] = [
     category: "육아",
     originalPrice: 29900,
     salePrice: 1,
+    imageUrl: "https://shopping-phinf.pstatic.net/main_1234567/1234567895.20260602120000.jpg",
     sourceName: "브랜드 체험단 공식 모집",
     sourceUrl: "https://smartstore.naver.com/halindosa/products/1234567895",
     dealType: "experience",

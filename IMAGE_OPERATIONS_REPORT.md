@@ -1,6 +1,6 @@
 # 할인도사 Image Operations Report
 
-Generated: 2026-06-02T14:43:46.553Z
+Generated: 2026-06-02T14:54:23.162Z
 Status: PASS
 
 ## Checks
@@ -10,6 +10,7 @@ Status: PASS
 | image quality readiness model | PASS | 운영 지표 레이어가 실상품 이미지와 fallback 이미지를 구분하고 보강 큐를 계산해야 합니다. |
 | metrics api exposure | PASS | /api/metrics 응답 경로에 이미지 품질 지표가 포함되어야 합니다. |
 | admin image queue api | PASS | 관리자 이미지 큐는 보호된 JSON/CSV API로 제공되어야 합니다. |
+| partner feed image gate | PASS | 파트너/운영 피드는 imageUrl을 필수 운영 품질 항목으로 검증해야 합니다. |
 | admin image operations queue | PASS | 관리자 화면에서 카테고리별/상품별 이미지 보강 대상을 바로 볼 수 있어야 합니다. |
 | public copy safety | PASS | 운영 화면 문구는 내부 개발 티를 줄이고 실제 운영 액션 중심이어야 합니다. |
 | qa wiring | PASS | 이미지 운영 큐 회귀 검사가 qa 또는 하네스에서 실행되어야 합니다. |

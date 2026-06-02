@@ -6,6 +6,8 @@ const analytics = readFileSync(join(root, "lib", "analytics.ts"), "utf8");
 const adminPage = readFileSync(join(root, "app", "admin", "page.tsx"), "utf8");
 const metricsRoute = readFileSync(join(root, "app", "api", "metrics", "route.ts"), "utf8");
 const imageQueueRoute = readFileSync(join(root, "app", "api", "admin", "image-queue", "route.ts"), "utf8");
+const feedImport = readFileSync(join(root, "lib", "feedImport.ts"), "utf8");
+const partnerFeedValidator = readFileSync(join(root, "scripts", "validate-partner-feed.mjs"), "utf8");
 const smoke = readFileSync(join(root, "scripts", "smoke.mjs"), "utf8");
 const packageJson = JSON.parse(readFileSync(join(root, "package.json"), "utf8"));
 
@@ -38,6 +40,17 @@ const checks = [
       imageQueueRoute.includes("rateLimit") &&
       imageQueueRoute.includes("priorityDeals"),
     message: "관리자 이미지 큐는 보호된 JSON/CSV API로 제공되어야 합니다."
+  },
+  {
+    name: "partner feed image gate",
+    ok:
+      feedImport.includes("validateImageUrl") &&
+      feedImport.includes("imageSummary") &&
+      feedImport.includes("imageReadyRate") &&
+      feedImport.includes("실상품 이미지 URL이 필요합니다") &&
+      partnerFeedValidator.includes("imageUrl") &&
+      partnerFeedValidator.includes("이미지 URL은 http/https만 허용합니다"),
+    message: "파트너/운영 피드는 imageUrl을 필수 운영 품질 항목으로 검증해야 합니다."
   },
   {
     name: "admin image operations queue",

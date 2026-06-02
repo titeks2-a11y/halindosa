@@ -67,6 +67,11 @@ interface FeedDryRunResult {
     conditionNeedsReview: number;
     conditionReadyRate: number;
   };
+  imageSummary?: {
+    imageReady: number;
+    imageNeedsReview: number;
+    imageReadyRate: number;
+  };
   rows?: FeedDryRunRow[];
   previewDeals?: FeedPreviewDeal[];
   message?: string;
@@ -206,7 +211,8 @@ export function PartnerFeedDryRunPanel({ token, initialJson }: PartnerFeedDryRun
               { label: "ready", value: `${result?.valid ?? 0}행`, description: "즉시 반영 후보" },
               { label: "needs_fix", value: `${result?.invalid ?? 0}행`, description: "수정 필요" },
               { label: "검증 링크", value: `${result?.linkSummary?.verified ?? 0}개`, description: "상세 URL 통과" },
-              { label: "혜택 조건", value: `${result?.benefitSummary?.conditionReadyRate ?? 0}%`, description: "출처·조건·수령 단계" }
+              { label: "혜택 조건", value: `${result?.benefitSummary?.conditionReadyRate ?? 0}%`, description: "출처·조건·수령 단계" },
+              { label: "실상품 이미지", value: `${result?.imageSummary?.imageReadyRate ?? 0}%`, description: "imageUrl 준비율" }
             ].map((item) => (
               <div key={item.label} className="rounded-2xl bg-slate-50 p-4">
                 <p className="text-xs font-black text-slate-500">{item.label}</p>

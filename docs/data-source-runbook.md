@@ -57,6 +57,7 @@ GET /api/metrics
     "benefitSummary": "쿠폰 적용 시 1만원 절약",
     "originalPrice": 39800,
     "salePrice": 24900,
+    "imageUrl": "https://cdn.partner.example/products/partner-001.jpg",
     "productUrl": "https://...",
     "sourceName": "브랜드 공식몰",
     "sourceUrl": "https://...",
@@ -79,11 +80,12 @@ GET /api/metrics
 처리 기준:
 
 - 각 URL은 5초 timeout 안에 JSON으로 응답해야 한다.
-- `externalId/id`, `mall/mallName`, `title`, `dealType`, `benefitSummary`, `sourceName`, `sourceUrl`, `expiresAt`, `originalPrice`, `salePrice`, `productUrl/finalPurchaseUrl/affiliateUrl`이 필요하다.
+- `externalId/id`, `mall/mallName`, `title`, `dealType`, `benefitSummary`, `sourceName`, `sourceUrl`, `expiresAt`, `originalPrice`, `salePrice`, `imageUrl`, `productUrl/finalPurchaseUrl/affiliateUrl`이 필요하다.
 - 커뮤니티에서 발견한 혜택은 원문을 `sourceUrl`로만 보관하고, `finalPurchaseUrl`에는 실제 상품·혜택 상세 URL을 저장한다. 두 값이 같아지면 구매 이동 품질 검수 실패로 본다.
 - `dealType`은 `discount`, `freebie`, `coupon`, `freeShipping`, `experience`, `event`, `point`, `convenienceStore`, `mart`, `foodDelivery` 중 하나여야 한다.
 - 무료 혜택, 쿠폰, 포인트, 배달/외식, 편의점/마트 행사는 사용자가 조건을 바로 이해할 수 있도록 `benefitSummary`, `couponCondition`, `minimumOrderAmount`, `isFirstComeFirstServed`, `requiresSignup`, `shippingFee`, `eligibilityChecklist`, `claimSteps`, `claimWarning`을 채운다.
-- 관리자 dry-run은 `conditionReadyRate`로 출처, 가입/선착순, 배송비, 수령 전 체크리스트, 수령 단계, 주의 문구가 운영 노출 기준을 충족하는지 함께 보여준다.
+- 관리자 dry-run은 `conditionReadyRate`로 출처, 가입/선착순, 배송비, 수령 전 체크리스트, 수령 단계, 주의 문구가 운영 노출 기준을 충족하는지 함께 보여주고, `imageSummary.imageReadyRate`로 실상품 이미지 준비율을 함께 보여준다.
+- `imageUrl`은 판매처/제휴사/공식 피드가 제공하는 실상품 이미지 URL이어야 한다. 카테고리 fallback은 화면 깨짐 방지용 임시 안전장치이며 운영 피드 ready 조건으로 보지 않는다.
 - 기본 샘플 피드는 무료배송, 실구매 특가, 무료 쿠폰, 배달 쿠폰, 출석 포인트, 편의점 행사, 마트 행사, 체험단을 포함한다. 운영 피드도 최소 이 정도 혜택 폭을 갖춘 뒤 노출한다.
 - 커뮤니티 글, placeholder, 검색 결과만 있는 링크는 운영 피드로 등록하지 않는다.
 - `/api/admin/import` dry-run은 CLI 검증과 같은 노출 안전 정책을 적용한다. 구매 후보가 `searchUrl`뿐인 행, 쇼핑몰 메인, 커뮤니티/placeholder URL, 중복 externalId, 같은 판매처의 중복 상품명은 `needs_fix` 행으로 반환한다.
