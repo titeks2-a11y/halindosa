@@ -378,6 +378,24 @@ async function checkGeneratedReportFreshness() {
       file: "docs/STORE_CONSOLE_FIELDS.md",
       command: "npm run store:console:fields",
       pattern: /Commit:\s*`?([a-f0-9]+)`?/
+    },
+    {
+      name: "store handoff report freshness",
+      file: "docs/STORE_HANDOFF_REPORT.md",
+      command: "npm run store:handoff:report",
+      pattern: /Commit:\s*`?([a-f0-9]+)`?/
+    },
+    {
+      name: "release notes freshness",
+      file: "docs/RELEASE_NOTES.md",
+      command: "npm run release:notes",
+      pattern: /Commit:\s*`?([a-f0-9]+)`?/
+    },
+    {
+      name: "support playbook freshness",
+      file: "docs/SUPPORT_PLAYBOOK.md",
+      command: "npm run support:playbook",
+      pattern: /Commit:\s*`?([a-f0-9]+)`?/
     }
   ];
 
