@@ -183,6 +183,37 @@ async function checkCiWorkflow() {
   }
 }
 
+async function checkSecurityPolicy() {
+  const path = "SECURITY.md";
+  if (!existsSync(join(root, path))) {
+    fail("security policy", "Missing SECURITY.md.");
+    return;
+  }
+
+  const policy = await text(path);
+  const runbook = await text("docs/RUNBOOK.md");
+  const requiredSnippets = [
+    "Do not open a public issue",
+    "GitHub Security Advisory",
+    "security/advisories/new",
+    "Supabase service-role keys",
+    "ADMIN_EXPORT_TOKEN",
+    "keystore",
+    "Open redirect",
+    "npm run harness",
+    "npm run release:doctor"
+  ];
+  const missing = requiredSnippets.filter((snippet) => !policy.includes(snippet));
+
+  if (missing.length) {
+    fail("security policy", `SECURITY.md should document private vulnerability reporting, secret handling, redirect risk, and release verification. Missing: ${missing.join(", ")}`);
+  } else if (!runbook.includes("SECURITY.md") || !runbook.includes("GitHub Security Advisory")) {
+    fail("security policy", "RUNBOOK should reference SECURITY.md and private vulnerability reporting.");
+  } else {
+    pass("security policy", "SECURITY.md documents private vulnerability reporting, secret handling, redirect risk, and release verification.");
+  }
+}
+
 async function checkReleaseEvidenceFreshness() {
   const evidencePath = "docs/release-evidence.md";
   if (!existsSync(join(root, evidencePath))) {
@@ -2850,6 +2881,7 @@ function checkStoreAssets() {
 
 await checkPackage();
 await checkCiWorkflow();
+await checkSecurityPolicy();
 await checkRepositorySafety();
 await checkEnvExample();
 await checkPublicContact();

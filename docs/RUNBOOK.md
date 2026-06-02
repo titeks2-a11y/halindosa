@@ -152,6 +152,7 @@ SEO 규칙은 root metadata, Open Graph, canonical, manifest, sitemap, robots, �
 - `.github/workflows/ci.yml`은 `main`과 `codex/**` 브랜치에서 install, commercial audit, `npm run harness`, `npm run release:doctor`를 실행합니다. `harness` 안에는 lint, build, 링크/이미지/검색/모바일/SEO/성능, 로컬 smoke, release doctor가 포함됩니다. CI는 성공/실패와 관계없이 `halindosa-verification-reports` artifact로 harness, 링크, 이미지, 모바일 UX, 성능, 검색, 출시 증빙 리포트를 업로드합니다.
 - `.github/pull_request_template.md`는 출시 안전 체크리스트입니다. PR 작성자는 harness, release doctor, 실제 상품/공식 혜택 상세 URL, 민감정보 미커밋, 비회원 접근, OAuth/정책 문서 영향, 모바일 하단 탭 겹침 여부를 확인합니다.
 - `.github/ISSUE_TEMPLATE`에는 특가/혜택 링크·가격 신고와 앱 버그 신고 템플릿이 있습니다. 상품 ID, 판매처, 열린 URL/도메인, 재현 경로를 받되 주문번호, 주소, 결제 정보, 비밀번호, 인증 코드, `.env`, keystore 같은 민감정보는 이슈에 남기지 않도록 안내합니다.
+- `SECURITY.md`는 취약점, 키 노출, 인증 우회, open redirect, 관리자 토큰/keystore 노출을 공개 이슈가 아닌 GitHub Security Advisory 또는 배포 인수인계용 비공개 채널로 접수하도록 안내합니다.
 
 Docker 로컬 검증 예시:
 
