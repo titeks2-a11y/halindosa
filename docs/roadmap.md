@@ -8,6 +8,10 @@
 
 ### PHASE 24H Commercial Autopilot Hardening
 
+- `store:packet:doctor`를 추가해 스토어 제출 패킷이 필수 정책 문서, QA 리포트, APK/AAB, 스토어 이미지, iOS privacy manifest, 제출 명령, 심사자 복사 문구를 모두 가리키는지 자동 검증하도록 개선
+- `STORE_PACKET_REPORT.md`와 `docs/STORE_PACKET_REPORT.md`를 생성해 스토어 제출 패킷의 파일 참조, 명령 참조, 심사자 문구, 수동 작업 범위를 민감정보 없이 기록
+- GitHub Actions와 `qa:release`, `release:doctor`, `release:evidence`에 스토어 제출 패킷 QA를 연결해 Play/App Store 제출 문서가 누락되면 CI와 출시 doctor에서 함께 잡히도록 보강
+- 375px 모바일 브라우저에서 홈 첫 화면을 직접 확인해 compact 검색, 상태 배지, 가로 필터, 카테고리 rail, `오늘 바로 볼 특가`, `/go/[dealId]` 새 탭 링크, 하단 탭 safe-area 노출이 실제 렌더링에서도 유지되는지 점검
 - `codex/24h-commercial-autopilot-hardening` 브랜치에서 직접 구매/공식 혜택 링크, 외부 새 탭 이동, 이미지 fallback, 생활형 검색 품질을 별도 하네스로 분리
 - `npm run test:links`, `npm run test:external-links`, `npm run test:images`를 추가해 검색/홈/커뮤니티 링크 차단, `/go` 새 탭 정책, `window.open`/Capacitor Browser 안전 이동, 상품 이미지 렌더링 품질을 자동 검사
 - 링크 검증 결과를 [LINK_VERIFICATION_REPORT.md](../LINK_VERIFICATION_REPORT.md), [LINK_VERIFICATION_RESULT.json](../LINK_VERIFICATION_RESULT.json)으로 저장해 전체 상품 수, 직접 링크 통과 수, 상품 상세/공식 혜택 URL 수, 도메인 분포를 운영자가 바로 확인하도록 개선
