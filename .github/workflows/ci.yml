@@ -27,6 +27,12 @@ jobs:
       - name: Commercial audit
         run: npm run audit:commercial
 
+      - name: Environment doctor regression
+        run: npm run test:env
+
+      - name: Public URL readiness
+        run: npm run public:url:doctor
+
       - name: Launch harness
         run: npm run harness
 
