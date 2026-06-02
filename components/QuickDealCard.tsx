@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { CheckCircle2, Clock, ExternalLink, Heart, Share2, ShoppingBag, Truck } from "lucide-react";
 import { canOpenDealLink } from "@/lib/affiliate";
+import { getBenefitTypeLabel } from "@/lib/deals/benefits";
 import { isVerifiedPurchaseLink } from "@/lib/deals/quality";
 import { getDealImageSrc } from "@/lib/imageSrc";
 import { formatPrice, getRelativeTime, getTimeLeft } from "@/lib/format";
@@ -19,6 +20,10 @@ export function QuickDealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, 
   const verified = isVerifiedPurchaseLink(deal);
   const checkedAt = getRelativeTime(deal.priceCheckedAt);
   const timeLeft = getTimeLeft(deal.expiresAt);
+  const benefitLabel = getBenefitTypeLabel(deal.dealType);
+  const isBenefitFocused = ["freebie", "coupon", "experience", "event", "point", "foodDelivery", "convenienceStore", "mart"].includes(deal.dealType);
+  const primaryBadge = isBenefitFocused ? benefitLabel : `${deal.discountRate}%`;
+  const primaryCta = deal.claimCta || (isBenefitFocused ? "혜택 받기" : "구매하기");
 
   return (
     <article
@@ -43,8 +48,12 @@ export function QuickDealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, 
               <span className="mt-2 line-clamp-2 text-sm font-black">{deal.title}</span>
             </span>
           )}
-          <span className="absolute left-2 top-2 rounded-full bg-dossa-red px-2.5 py-1 text-[11px] font-black text-white shadow-sm">
-            {deal.discountRate}%
+          <span
+            className={`absolute left-2 top-2 max-w-[74%] truncate rounded-full px-2.5 py-1 text-[11px] font-black text-white shadow-sm ${
+              isBenefitFocused ? "bg-slate-950" : "bg-dossa-red"
+            }`}
+          >
+            {primaryBadge}
           </span>
           {deal.isHot ? (
             <span className="absolute bottom-2 left-2 rounded-full bg-slate-950 px-2.5 py-1 text-[11px] font-black text-white shadow-sm">HOT</span>
@@ -74,7 +83,7 @@ export function QuickDealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, 
           </div>
           <div className="grid grid-cols-3 gap-1 text-center text-[10px] font-black">
             <span className={verified ? "rounded-xl bg-emerald-50 px-1.5 py-1.5 text-emerald-700" : "rounded-xl bg-amber-50 px-1.5 py-1.5 text-amber-700"}>
-              {verified ? "링크 확인" : "확인 필요"}
+              {verified ? "직접링크" : "확인 필요"}
             </span>
             <span className="rounded-xl bg-white px-1.5 py-1.5 text-slate-600">{deal.shipping}</span>
             <span className="rounded-xl bg-white px-1.5 py-1.5 text-slate-600">{timeLeft}</span>
@@ -85,7 +94,12 @@ export function QuickDealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, 
           {verified ? (
             <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-black text-emerald-700">
               <CheckCircle2 size={12} />
-              구매처 확인
+              직접 링크 확인
+            </span>
+          ) : null}
+          {isBenefitFocused ? (
+            <span className="inline-flex items-center gap-1 rounded-full bg-red-50 px-2 py-0.5 text-[10px] font-black text-dossa-red">
+              {benefitLabel}
             </span>
           ) : null}
           <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-black text-slate-600">
@@ -105,7 +119,7 @@ export function QuickDealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, 
           <p className="sr-only">압축 가격 카드</p>
           <div className="flex items-center justify-between gap-2">
             <span className="inline-flex shrink-0 rounded-full bg-dossa-red px-2 py-1 text-[11px] font-black text-white shadow-sm">
-              {deal.discountRate}% 할인
+              {isBenefitFocused ? benefitLabel : `${deal.discountRate}% 할인`}
             </span>
             <span className="min-w-0 truncate text-[11px] font-bold text-slate-400 line-through">{formatPrice(deal.originalPrice)}</span>
           </div>
@@ -144,7 +158,7 @@ export function QuickDealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, 
             className="inline-flex min-h-10 items-center justify-center gap-1.5 rounded-2xl bg-slate-950 px-3 text-xs font-black text-white transition hover:bg-dossa-red disabled:cursor-not-allowed disabled:bg-slate-300"
             aria-label={linkAvailable ? `${deal.title} 판매처 이동 전 확인` : `${deal.title} 링크 확인 필요`}
           >
-            구매하기
+            <span className="truncate">{primaryCta}</span>
             <ExternalLink size={14} />
           </button>
         </div>
