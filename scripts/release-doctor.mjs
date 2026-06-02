@@ -785,6 +785,7 @@ async function checkUiAccessibility() {
   const imageTest = await text("scripts/test-images.mjs");
   const imageOperationsDoctor = await text("scripts/image-operations-doctor.mjs");
   const harnessReport = await text("HARNESS_REPORT.md");
+  const harnessScript = await text("scripts/harness.mjs");
   const smoke = await text("scripts/smoke.mjs");
   const packageJson = await text("package.json");
 
@@ -1093,6 +1094,17 @@ async function checkUiAccessibility() {
     fail("deal image quality coverage gate", "Release QA should enforce the 25% explicit product image floor and record the current 39/140 coverage evidence.");
   } else {
     pass("deal image quality coverage gate", "QA, image operations doctor, and release evidence enforce the 25% explicit product image floor with 39/140 current coverage.");
+  }
+
+  if (
+    !harnessScript.includes('["release:doctor", ["run", "release:doctor"]]') ||
+    !harnessScript.includes('writeFileSync(join(root, "docs", "HARNESS_REPORT.md")') ||
+    !harnessScript.includes('writeFileSync(join(root, "HARNESS_REPORT.md")') ||
+    !harnessReport.includes("Image quality passed: 39/140 deals have explicit images.")
+  ) {
+    fail("harness release gate coverage", "Harness should execute release:doctor, write root/docs reports, and preserve image-quality evidence.");
+  } else {
+    pass("harness release gate coverage", "Harness executes release:doctor, writes root/docs reports, and preserves image-quality evidence.");
   }
 
   if (
