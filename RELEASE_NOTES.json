@@ -1,7 +1,7 @@
 {
   "generatedBy": "npm run release:notes",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "35c5f37",
+  "commit": "4d4e3ee",
   "workingTree": "M DEVICE_QA_REPORT.md;  M KNOWN_ISSUES.md;  M PUBLIC_URL_REPORT.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_HANDOFF_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M docs/DEVICE_QA_REPORT.md;  M docs/KNOWN_ISSUES.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_HANDOFF_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md;  M docs/release-evidence.md",
   "version": "1.0.1",
   "appName": "할인도사",
@@ -73,14 +73,14 @@
     }
   ],
   "recentCommits": [
+    "4d4e3ee test: enforce official source readiness gates",
+    "866e9b9 feat: expand official benefit source catalog",
+    "5d3a6e5 docs: record clean release doctor after source probe hardening",
+    "98e961e docs: refresh release evidence after source probe hardening",
     "35c5f37 fix: stabilize official source live probes",
     "49b3ded docs: record clean release doctor after evidence refresh",
     "f919112 docs: refresh release evidence after himart source replacement",
-    "6405265 fix: replace stale himart official source",
-    "3b6a242 docs: refresh release evidence after source live admin panel",
-    "f5e5ba0 feat: surface official source live readiness in admin",
-    "79827a0 docs: refresh release evidence after source classification refinement",
-    "2d41e5a fix: refine official source live classification"
+    "6405265 fix: replace stale himart official source"
   ],
   "manualWorkThatMustNotBeFaked": [
     "Do not claim Play Console or App Store Connect submission has passed from this file.",
