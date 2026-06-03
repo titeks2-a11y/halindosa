@@ -4,9 +4,9 @@
 
 ## 기본 정보
 
-- 생성 시각: 2026-06-03T16:42:30.857Z
+- 생성 시각: 2026-06-03T16:50:46.343Z
 - Git 브랜치: codex/12h-product-ux-growth-hardening
-- 최신 커밋: d2238f3
+- 최신 커밋: 98fed2f
 - Git 상태: M DEVICE_QA_REPORT.md;  M KNOWN_ISSUES.md;  M PUBLIC_URL_REPORT.md;  M RELEASE_NOTES.json;  M RELEASE_NOTES.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_HANDOFF_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_PACKET_REPORT.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M SUPPORT_PLAYBOOK.json;  M SUPPORT_PLAYBOOK.md;  M docs/DEVICE_QA_REPORT.md;  M docs/KNOWN_ISSUES.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/RELEASE_NOTES.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_HANDOFF_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_PACKET_REPORT.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md;  M docs/SUPPORT_PLAYBOOK.md
 - 패키지 버전: 1.0.1
 - 앱 이름: 할인도사
@@ -51,7 +51,7 @@
 | Store screenshot manifest JSON | `STORE_SCREENSHOT_MANIFEST.json` | 5KB |
 | Harness report | `docs/HARNESS_REPORT.md` | 20KB |
 | Operational health readiness report | `docs/HEALTH_READINESS_REPORT.md` | 4KB |
-| Operational health readiness JSON | `reports/health-readiness.json` | 7KB |
+| Operational health readiness JSON | `reports/health-readiness.json` | 8KB |
 | Image backlog report | `docs/IMAGE_BACKLOG_REPORT.md` | 18KB |
 | Image backlog CSV | `IMAGE_BACKLOG.csv` | 53KB |
 | Link coverage report | `docs/link-coverage-report.md` | 7KB |
