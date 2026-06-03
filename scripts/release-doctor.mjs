@@ -60,6 +60,7 @@ async function checkPackage() {
     "feed:validate",
     "feed:production:doctor",
     "verify:links",
+    "verify:links:live",
     "verify:products",
     "exposure:doctor",
     "refresh:deals",
@@ -2461,6 +2462,7 @@ async function checkOperationalDataSurfaces() {
 
   const linkPolicy = JSON.parse(await text("data/linkQualityPolicy.json"));
   const verifyLinksScript = await text("scripts/verify-product-links.mjs");
+  const verifyLinksLiveScript = await text("scripts/verify-product-links-live.mjs");
   const verifyProductsScript = await text("scripts/verify-products.mjs");
   const exposureDoctorScript = await text("scripts/exposure-policy-doctor.mjs");
   const refreshDealsScript = await text("scripts/refresh-deals.mjs");
@@ -2491,6 +2493,9 @@ async function checkOperationalDataSurfaces() {
   }
   if (!linkReport.httpStatusSummary || !("http404" in linkReport.httpStatusSummary) || !("robotsBlocked" in linkReport.httpStatusSummary)) {
     linkPolicyIssues.push("link-validation report should record HTTP/redirect summary");
+  }
+  if (!verifyLinksLiveScript.includes("DEAL_LINK_LIVE_PROBE") || !verifyLinksLiveScript.includes("--strict") || !verifyLinksLiveScript.includes("--body")) {
+    linkPolicyIssues.push("verify:links:live should expose optional live probe, strict mode, and body probe controls");
   }
   if (productReport.policy?.source !== "data/linkQualityPolicy.json") linkPolicyIssues.push("product-quality report should record policy source");
   if (!exposureReport.ok || exposureReport.summary?.badExposedItems !== 0 || exposureReport.summary?.searchLinksExposed !== 0 || exposureReport.summary?.soldOutExposed !== 0) {

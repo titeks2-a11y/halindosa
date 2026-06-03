@@ -27,6 +27,7 @@
     "feed:validate": "node scripts/validate-partner-feed.mjs",
     "feed:production:doctor": "node scripts/production-feed-doctor.mjs",
     "verify:links": "node scripts/verify-product-links.mjs",
+    "verify:links:live": "node scripts/verify-product-links-live.mjs",
     "verify:products": "node scripts/verify-products.mjs",
     "exposure:doctor": "node scripts/exposure-policy-doctor.mjs",
     "refresh:deals": "node scripts/refresh-deals.mjs",

@@ -173,7 +173,10 @@ npm run search:doctor
 npm run verify:links
 npm run verify:products
 npm run exposure:doctor
+npm run verify:links:live -- --dry-run
 ```
+
+`verify:links:live`는 실제 HTTP HEAD/GET으로 redirect, 404/410/5xx, timeout, 접근 차단 신호를 확인하는 선택 운영 명령입니다. 기본 실행은 실패를 리포트에 남기되 출시 QA를 과도하게 흔들지 않도록 non-strict이며, 출시 직전 강하게 막고 싶을 때는 `npm run verify:links:live -- --strict`, 품절/판매종료 문구까지 확인하려면 `npm run verify:links:live -- --body`를 사용합니다.
 
 운영 피드는 `npm run feed:validate`와 `/api/admin/import` dry-run을 통과한 뒤 연결합니다. 두 검증 모두 구매 이동 후보가 검색 결과 URL뿐인 행, 커뮤니티/placeholder 링크, 중복 externalId, 같은 판매처의 중복 상품명을 `needs_fix`로 분리합니다. 운영 반영 전 `rows[].status`가 모두 `ready`인지 확인하세요.
 
