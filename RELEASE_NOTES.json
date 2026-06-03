@@ -1,7 +1,7 @@
 {
   "generatedBy": "npm run release:notes",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "02a7c20",
+  "commit": "d65aca2",
   "workingTree": "M DEVICE_QA_REPORT.md;  M KNOWN_ISSUES.md;  M PUBLIC_URL_REPORT.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_HANDOFF_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M docs/DEVICE_QA_REPORT.md;  M docs/KNOWN_ISSUES.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_HANDOFF_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md;  M docs/release-evidence.md",
   "version": "1.0.1",
   "appName": "할인도사",
@@ -73,14 +73,14 @@
     }
   ],
   "recentCommits": [
+    "d65aca2 feat: expand official news benefit seed coverage",
+    "ee7fe2e docs: refresh release evidence",
     "02a7c20 feat: support official benefit rss feeds",
     "2f2fe69 docs: refresh release evidence",
     "98fed2f feat: include cron refresh in health readiness",
     "06b1b68 docs: refresh release evidence",
     "d2238f3 feat: expose cron refresh operations status",
-    "8e1839f docs: refresh release evidence",
-    "a4631d6 feat: add protected cron refresh endpoint",
-    "2cbf9b8 docs: refresh release evidence"
+    "8e1839f docs: refresh release evidence"
   ],
   "manualWorkThatMustNotBeFaked": [
     "Do not claim Play Console or App Store Connect submission has passed from this file.",
