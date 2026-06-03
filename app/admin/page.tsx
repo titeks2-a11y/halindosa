@@ -405,6 +405,38 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
               </p>
             </div>
           </div>
+          <div className="mt-4 rounded-2xl border border-emerald-100 bg-white p-4">
+            <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p className="text-sm font-black text-slate-950">상품별 노출 감사 샘플</p>
+                <p className="mt-1 text-xs font-bold leading-5 text-slate-500">
+                  전체 행은 CSV로 내려받고, 화면에서는 대표 노출 후보의 최종 도메인과 검증 상태를 빠르게 확인합니다.
+                </p>
+              </div>
+              <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-black text-emerald-700">
+                {exposurePolicy.auditedItems.length.toLocaleString("ko-KR")}개 행
+              </span>
+            </div>
+            <div className="mt-3 grid gap-2 md:grid-cols-2">
+              {(exposurePolicy.auditedItems.length ? exposurePolicy.auditedItems.slice(0, 6) : []).map((item) => (
+                <div key={item.id} className="rounded-2xl bg-slate-50 p-3">
+                  <div className="flex items-center justify-between gap-2">
+                    <p className="truncate text-xs font-black text-slate-950">{item.id}</p>
+                    <span className="shrink-0 rounded-full bg-white px-2 py-0.5 text-[10px] font-black text-emerald-700">
+                      {item.validationStatus}
+                    </span>
+                  </div>
+                  <p className="mt-1 truncate text-xs font-bold text-slate-600">{item.host || item.finalUrl}</p>
+                  <p className="mt-2 text-[11px] font-bold leading-5 text-slate-500">
+                    {item.linkType} · {item.availability} · 우선순위 {item.priorityScore} · {item.lastCheckedAt ? getRelativeTime(item.lastCheckedAt) : "확인 시각 없음"}
+                  </p>
+                </div>
+              ))}
+              {!exposurePolicy.auditedItems.length ? (
+                <p className="rounded-2xl bg-amber-50 p-3 text-xs font-black text-amber-700">상품별 감사 행 없음. `npm run exposure:doctor`를 실행하세요.</p>
+              ) : null}
+            </div>
+          </div>
         </section>
 
         <AdminHealthReadinessPanel report={healthReadiness} apiHref={healthReadinessApiHref} />

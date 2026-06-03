@@ -576,7 +576,15 @@ await check("admin dashboard quality cards", async () => {
   assert(text.includes("dry-run으로만 검증") && text.includes("실제 발송 확인"), "Admin dashboard missing safe push send controls");
   assert(text.includes("구매 링크 확인율"), "Admin dashboard missing verified link rate card");
   assert(text.includes("품질 CSV"), "Admin dashboard missing deal quality CSV export action");
-  assert(text.includes("노출 정책 감사") && text.includes("문제 노출") && text.includes("노출 감사 JSON") && text.includes("노출 감사 CSV"), "Admin dashboard missing exposure policy audit panel");
+  assert(
+    text.includes("노출 정책 감사") &&
+      text.includes("문제 노출") &&
+      text.includes("노출 감사 JSON") &&
+      text.includes("노출 감사 CSV") &&
+      text.includes("상품별 노출 감사 샘플") &&
+      text.includes("전체 행은 CSV로 내려받고"),
+    "Admin dashboard missing exposure policy audit panel"
+  );
   assert(text.includes("링크 검토 필요"), "Admin dashboard missing link review count card");
   assert(text.includes("오늘 처리할 링크 작업"), "Admin dashboard missing link review action summary");
   assert(text.includes("구매 링크 보강 우선순위"), "Admin dashboard missing link review priority summary");

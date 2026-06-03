@@ -3588,6 +3588,7 @@ function checkRefreshDealPipeline() {
     exposureReport.auditedItems.length < 140 ||
     !adminPage.includes("노출 정책 감사") ||
     !adminPage.includes("노출 감사 CSV") ||
+    !adminPage.includes("상품별 노출 감사 샘플") ||
     !adminPage.includes("reports/exposure-policy.json") ||
     !smoke.includes("admin exposure policy api") ||
     !smoke.includes("admin exposure policy csv") ||
