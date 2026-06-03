@@ -1,7 +1,7 @@
 {
   "generatedBy": "npm run release:notes",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "6dc3dbf",
+  "commit": "fe8e408",
   "workingTree": "M DEVICE_QA_REPORT.md;  M KNOWN_ISSUES.md;  M PUBLIC_URL_REPORT.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_HANDOFF_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M docs/DEVICE_QA_REPORT.md;  M docs/KNOWN_ISSUES.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_HANDOFF_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md",
   "version": "1.0.1",
   "appName": "할인도사",
@@ -73,14 +73,14 @@
     }
   ],
   "recentCommits": [
+    "fe8e408 feat: add official benefit health readiness checks",
+    "3d881e6 docs: refresh release evidence",
     "6dc3dbf feat: add official benefit feed contract gate",
     "9a14232 docs: refresh release evidence",
     "35fbdb8 feat: expand official benefit coverage gates",
     "ecf804d docs: refresh release evidence",
     "9b35773 feat: personalize alert queue with saved activity",
-    "f9eab63 docs: refresh release evidence",
-    "2477a4b feat: add local notification category preferences",
-    "436c417 docs: refresh release evidence"
+    "f9eab63 docs: refresh release evidence"
   ],
   "manualWorkThatMustNotBeFaked": [
     "Do not claim Play Console or App Store Connect submission has passed from this file.",
