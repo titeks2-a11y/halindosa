@@ -24,6 +24,7 @@ import { buildNotificationCampaigns, buildOfficialBenefitNotificationCampaigns, 
 import { buildPushSubscriptionReadiness } from "@/lib/pushReadiness";
 import { getPushReadiness } from "@/lib/pushNotifications";
 import { getReportSummary, listDealReports } from "@/lib/reports";
+import { getExposurePolicyReport } from "@/lib/operations/exposurePolicy";
 import { getHealthReadinessReport } from "@/lib/operations/healthReadiness";
 
 const checklist = [
@@ -81,6 +82,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const refreshReport = getRefreshDealsReport();
   const newsOperations = getNewsOperationsReport();
   const healthReadiness = getHealthReadinessReport();
+  const exposurePolicy = getExposurePolicyReport();
   const newsResult = getVisibleNewsDeals({ limit: 20 });
   const newsDeals = newsResult.deals;
   const newsCategoryCounts = Array.from(
@@ -115,6 +117,9 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const healthReadinessApiHref = isAdminProtectionEnabled()
     ? `/api/admin/health-readiness?token=${encodeURIComponent(token ?? "")}`
     : "/api/admin/health-readiness";
+  const exposurePolicyApiHref = isAdminProtectionEnabled()
+    ? `/api/admin/exposure-policy?token=${encodeURIComponent(token ?? "")}`
+    : "/api/admin/exposure-policy";
   const pushSendApiHref = isAdminProtectionEnabled()
     ? `/api/admin/push/send?token=${encodeURIComponent(token ?? "")}`
     : "/api/admin/push/send";
@@ -318,6 +323,77 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
         </div>
 
         <AdminDealQualityPanel token={token} initialReport={refreshReport} />
+
+        <section className="rounded-3xl border border-emerald-100 bg-white p-5 shadow-sm" aria-label="노출 정책 감사">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-black text-emerald-700">노출 정책 감사</p>
+              <h2 className="mt-1 text-xl font-black text-slate-950">사용자에게 보이는 링크만 한 번 더 검증</h2>
+              <p className="mt-1 text-sm font-semibold leading-6 text-slate-500">
+                `reports/exposure-policy.json` 기준으로 검색 링크, 품절/종료 링크, 실패 링크가 노출 목록에 섞였는지 점검합니다.
+              </p>
+            </div>
+            <a
+              href={exposurePolicyApiHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-4 py-3 text-sm font-black text-white"
+            >
+              <ShieldCheck size={17} aria-hidden="true" />
+              노출 감사 JSON
+            </a>
+          </div>
+          <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              ["감사 상품", exposurePolicy.summary.auditedItems, "전체 노출 후보"],
+              ["노출 가능", exposurePolicy.summary.exposedItems, "정책 통과"],
+              ["문제 노출", exposurePolicy.summary.badExposedItems, "즉시 0 유지"],
+              ["검색/품절 노출", exposurePolicy.summary.searchLinksExposed + exposurePolicy.summary.soldOutExposed, "차단 대상"]
+            ].map(([label, value, description]) => (
+              <div key={label} className="rounded-2xl bg-emerald-50 p-4">
+                <p className="text-xs font-black text-emerald-700">{label}</p>
+                <p className="mt-2 text-2xl font-black text-slate-950">{Number(value).toLocaleString("ko-KR")}</p>
+                <p className="mt-1 text-xs font-bold text-emerald-900/70">{description}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-4 grid gap-3 lg:grid-cols-[0.8fr_1.2fr]">
+            <div className="rounded-2xl border border-emerald-100 bg-emerald-50 p-4">
+              <div className="flex items-center justify-between gap-2">
+                <p className="text-sm font-black text-slate-950">출시 판정</p>
+                <span className={`rounded-full px-2.5 py-1 text-[11px] font-black ${exposurePolicy.ok ? "bg-white text-emerald-700" : "bg-white text-dossa-red"}`}>
+                  {exposurePolicy.ok ? "통과" : "점검 필요"}
+                </span>
+              </div>
+              <p className="mt-2 text-xs font-bold leading-5 text-emerald-900/75">
+                평균 우선순위 {exposurePolicy.summary.averagePriorityScore}점 · 숨김 후보 {exposurePolicy.summary.hiddenItems}개 · 실패 노출 {exposurePolicy.summary.failedExposed}개
+              </p>
+              <p className="mt-2 text-xs font-bold leading-5 text-emerald-900/75">
+                생성 시각 {exposurePolicy.generatedAt ? getRelativeTime(exposurePolicy.generatedAt) : "리포트 없음"}
+              </p>
+            </div>
+            <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
+              <p className="text-sm font-black text-slate-950">노출 차단 정책</p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                <span className="rounded-full bg-white px-3 py-1.5 text-xs font-black text-slate-700 shadow-sm">
+                  availability={exposurePolicy.exposurePolicy?.availability ?? "active"}
+                </span>
+                <span className="rounded-full bg-white px-3 py-1.5 text-xs font-black text-slate-700 shadow-sm">
+                  validation={exposurePolicy.exposurePolicy?.validationStatus ?? "passed"}
+                </span>
+                <span className="rounded-full bg-white px-3 py-1.5 text-xs font-black text-slate-700 shadow-sm">
+                  search/seller_search/unavailable 차단
+                </span>
+                <span className="rounded-full bg-white px-3 py-1.5 text-xs font-black text-slate-700 shadow-sm">
+                  finalUrl 필수
+                </span>
+              </div>
+              <p className="mt-3 text-xs font-bold leading-5 text-slate-500">
+                문제가 생기면 `npm run verify:links`, `npm run verify:products`, `npm run exposure:doctor` 순서로 원인을 먼저 확인합니다.
+              </p>
+            </div>
+          </div>
+        </section>
 
         <AdminHealthReadinessPanel report={healthReadiness} apiHref={healthReadinessApiHref} />
 

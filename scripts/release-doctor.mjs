@@ -3505,13 +3505,16 @@ function checkRefreshDealPipeline() {
   const refreshPath = join(root, "reports/refresh-deals.json");
   const snapshotPath = join(root, "data/refreshedDeals.json");
   const adminRoutePath = "app/api/admin/deal-quality/route.ts";
+  const exposureRoutePath = "app/api/admin/exposure-policy/route.ts";
   const adminPanelPath = "components/AdminDealQualityPanel.tsx";
   const providerTypes = readFileSync(join(root, "lib/deals/providers/types.ts"), "utf8");
   const providerRegistry = readFileSync(join(root, "lib/deals/providers/providerRegistry.ts"), "utf8");
   const dealRepository = readFileSync(join(root, "lib/deals/dealRepository.ts"), "utf8");
   const refreshScript = readFileSync(join(root, "scripts/refresh-deals.mjs"), "utf8");
   const adminRoute = existsSync(join(root, adminRoutePath)) ? readFileSync(join(root, adminRoutePath), "utf8") : "";
+  const exposureRoute = existsSync(join(root, exposureRoutePath)) ? readFileSync(join(root, exposureRoutePath), "utf8") : "";
   const adminPanel = existsSync(join(root, adminPanelPath)) ? readFileSync(join(root, adminPanelPath), "utf8") : "";
+  const adminPage = readFileSync(join(root, "app/admin/page.tsx"), "utf8");
   const smoke = readFileSync(join(root, "scripts/smoke.mjs"), "utf8");
   const issues = [];
 
@@ -3533,6 +3536,9 @@ function checkRefreshDealPipeline() {
   if (!existsSync(snapshotPath)) issues.push("data/refreshedDeals.json missing");
   if (!existsSync(join(root, adminRoutePath)) || !existsSync(join(root, adminPanelPath))) {
     issues.push("admin deal quality API/panel missing");
+  }
+  if (!existsSync(join(root, exposureRoutePath))) {
+    issues.push("admin exposure policy API missing");
   }
 
   for (const phrase of ["fetchDeals", "normalizeDeal", "validateDeal", "dedupeDeal"]) {
@@ -3568,6 +3574,16 @@ function checkRefreshDealPipeline() {
     !smoke.includes("Deal quality CSV missing provider")
   ) {
     issues.push("admin deal quality API/panel should export provider stats, failure reasons, manual hidden ids, and link validation as CSV");
+  }
+
+  if (
+    !exposureRoute.includes("getExposurePolicyReport") ||
+    !adminPage.includes("노출 정책 감사") ||
+    !adminPage.includes("reports/exposure-policy.json") ||
+    !smoke.includes("admin exposure policy api") ||
+    !smoke.includes("badExposedItems === 0")
+  ) {
+    issues.push("admin exposure policy API/page should surface product-level exposure audit and smoke-test zero bad exposed links");
   }
 
   if (issues.length) fail("deal refresh pipeline", issues.join("; "));
