@@ -542,7 +542,9 @@ async function checkEnvExample() {
     "COUPANG_PARTNERS_URL_TEMPLATE",
     "AFFILIATE_URL_TEMPLATES",
     "TRACKING_SALT",
-    "ADMIN_EXPORT_TOKEN"
+    "ADMIN_EXPORT_TOKEN",
+    "CRON_SECRET",
+    "CRON_REFRESH_TIMEOUT_MS"
   ];
   const missingKeys = requiredKeys.filter((key) => !new RegExp(`^${key}=`, "m").test(env));
 
@@ -3899,6 +3901,47 @@ function checkHealthReadinessReport() {
   else pass("operational health readiness", "Health readiness report proves product links, official benefits, category coverage, provider risk, freshness, and refresh:all status are launch-ready.");
 }
 
+function checkCronRefreshPipeline() {
+  const issues = [];
+  const routePath = join(root, "app/api/cron/refresh/route.ts");
+  const route = existsSync(routePath) ? readFileSync(routePath, "utf8") : "";
+  const vercelConfig = existsSync(join(root, "vercel.json")) ? JSON.parse(readFileSync(join(root, "vercel.json"), "utf8")) : {};
+  const envExample = existsSync(join(root, ".env.example")) ? readFileSync(join(root, ".env.example"), "utf8") : "";
+  const smokeScript = existsSync(join(root, "scripts/smoke.mjs")) ? readFileSync(join(root, "scripts/smoke.mjs"), "utf8") : "";
+  const runbook = existsSync(join(root, "docs/RUNBOOK.md")) ? readFileSync(join(root, "docs/RUNBOOK.md"), "utf8") : "";
+  const roadmap = existsSync(join(root, "docs/roadmap.md")) ? readFileSync(join(root, "docs/roadmap.md"), "utf8") : "";
+
+  if (!route) {
+    issues.push("cron refresh route is missing");
+  } else {
+    for (const phrase of ["CRON_SECRET", "canRunCronRefresh", "spawnSync", "scripts/refresh-all.mjs", "dry_run", "rateLimit", "reports/cron-refresh.json"]) {
+      if (!route.includes(phrase)) issues.push(`cron refresh route missing ${phrase}`);
+    }
+  }
+
+  const cron = Array.isArray(vercelConfig.crons) ? vercelConfig.crons.find((item) => item.path === "/api/cron/refresh") : null;
+  if (!cron || cron.schedule !== "0 */6 * * *") {
+    issues.push("vercel.json should schedule /api/cron/refresh every 6 hours");
+  }
+
+  for (const key of ["CRON_SECRET", "CRON_REFRESH_TIMEOUT_MS"]) {
+    if (!envExample.includes(`${key}=`)) issues.push(`env example missing ${key}`);
+  }
+
+  if (!smokeScript.includes("cron refresh api guard") || !smokeScript.includes("/api/cron/refresh?dryRun=true") || !smokeScript.includes("Expected cron refresh without token to be 401")) {
+    issues.push("smoke should verify cron refresh auth guard and dry-run response");
+  }
+  if (!runbook.includes("/api/cron/refresh") || !runbook.includes("CRON_SECRET") || !runbook.includes("reports/cron-refresh.json")) {
+    issues.push("RUNBOOK should document protected cron refresh operation");
+  }
+  if (!roadmap.includes("cron refresh") && !roadmap.includes("Cron refresh")) {
+    issues.push("roadmap should document cron refresh automation");
+  }
+
+  if (issues.length) fail("cron refresh automation", issues.join("; "));
+  else pass("cron refresh automation", "Protected 6-hour cron refresh endpoint, Vercel schedule, dry-run smoke guard, env keys, and runbook guidance are wired.");
+}
+
 await checkPackage();
 await checkCiWorkflow();
 await checkSecurityPolicy();
@@ -3920,6 +3963,7 @@ await checkGeneratedReportFreshness();
 await checkCustomerNavigationSimplification();
 checkRefreshDealPipeline();
 checkNewsDealPipeline();
+checkCronRefreshPipeline();
 checkHealthReadinessReport();
 checkSigningAndArtifacts();
 checkStoreAssets();

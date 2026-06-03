@@ -28,6 +28,7 @@
 - `/api/admin/news-operations?format=csv`와 관리자 `Provider 위험도 CSV` 버튼을 추가해 provider 위험도, 숨김/종료/공식 링크 누락, 실패 사유 TOP10, 최근 수집 로그를 운영자가 스프레드시트로 바로 검토할 수 있게 했다.
 - 공식 혜택 운영 리포트에 `공식 피드 전환 준비도`를 추가해 `news`, `event_news`, `official_event`, `public_coupon` provider별 seed fallback/공식 feed 연결 상태, 필요한 환경변수, 허용 소스, 다음 운영 액션을 `/api/admin/news-operations`, `/admin`, CSV, smoke, release doctor에서 함께 검증하도록 했다.
 - `/api/sources`, `/api/health`, `/api/metrics`에도 공식 혜택 feed 전환 준비도와 권장 환경변수 큐를 노출해 관리자 화면 밖에서도 seed fallback과 공식 feed 연결 상태를 모니터링할 수 있게 했다.
+- 보호된 `/api/cron/refresh`와 `vercel.json` 6시간 cron refresh를 추가해 `refresh:all` 파이프라인을 배포 환경에서 정기 실행할 수 있게 하고, `CRON_SECRET`, dry-run smoke, `reports/cron-refresh.json`, release doctor로 공개 호출/무단 실행 회귀를 막았다.
 - `/api/admin/deal-quality?format=csv`와 관리자 `품질 CSV` 버튼을 추가해 상품 provider 수집 상태, 실패 사유, 수동 숨김 ID, live probe, link validation 요약을 운영자가 스프레드시트로 바로 검수할 수 있게 했다.
 - `health:readiness` 리포트에도 공식 혜택 provider 위험도와 `danger=0` 게이트를 추가해 출시 증거 JSON, 운영 헬스 문서, 관리자 헬스 패널, release doctor가 같은 provider risk 기준을 보도록 정리했다.
 - 알림 캠페인 운영 큐를 검증 상품 캠페인과 공식 혜택 캠페인으로 분리하고, 공식 뉴스/이벤트 혜택도 `benefitIds`, `sourceNames`, `official_benefit` 구분값을 가진 푸시 후보 큐로 편성해 무료·쿠폰·카드·멤버십·문화·공공 혜택을 운영자가 바로 검토할 수 있게 했다.

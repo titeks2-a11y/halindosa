@@ -52,6 +52,8 @@ Google, Kakao, Naver Provider 설정은 `docs/OAUTH_SETUP.md`와 `docs/DEEPLINK_
 ## 운영/제휴
 
 - `ADMIN_EXPORT_TOKEN`: `/admin`, CSV export, 운영 import 보호용 토큰
+- `CRON_SECRET`: Vercel Cron 또는 운영 스케줄러가 `/api/cron/refresh`를 호출할 때 쓰는 랜덤 비밀값
+- `CRON_REFRESH_TIMEOUT_MS`: `refresh:all` cron 실행 제한 시간. 기본 55000ms
 - `TRACKING_SALT`: 클릭 로그 request id 생성용 랜덤 문자열
 - `AFFILIATE_SUB_ID`: 승인된 제휴 추적 sub id
 - `DEFAULT_AFFILIATE_URL_TEMPLATE`, `COUPANG_PARTNERS_URL_TEMPLATE`, `AFFILIATE_URL_TEMPLATES`: 제휴 승인 후에만 입력

@@ -28,6 +28,11 @@ npm run smoke
 - 공급원 상태: `GET /api/sources`
   - 상품 feed readiness와 `officialBenefitProviderReadiness`를 함께 확인해 상품 특가와 공식 혜택 feed 전환 준비도를 같은 화면에서 판단한다.
   - `officialBenefitFeedTransitionReadiness`는 provider별 `seed_fallback`/`external_feed` 모드, 필요한 env key, 허용 소스, 다음 액션을 반환한다. 외부 feed URL을 붙인 뒤 이 값과 `/admin`의 `공식 피드 전환 준비도`가 함께 갱신되는지 확인한다.
+- 자동 refresh cron: `GET /api/cron/refresh`
+  - Vercel Cron은 `vercel.json` 기준 6시간마다 `/api/cron/refresh`를 호출한다.
+  - 운영 환경에는 `CRON_SECRET`을 반드시 설정한다. 호출은 `Authorization: Bearer $CRON_SECRET`, `x-cron-secret`, 또는 관리자 `token` 중 하나가 맞아야 실행된다.
+  - 로컬 점검은 `GET /api/cron/refresh?dryRun=true&token=local-admin`으로 현재 `reports/refresh-all.json` 상태를 확인한다.
+  - 실제 실행은 `node scripts/refresh-all.mjs`를 호출하고 `reports/refresh-all.json`, `reports/cron-refresh.json`에 결과를 남긴다. 실패하면 JSON은 500으로 반환되며 `stderrTail`과 단계별 로그를 먼저 확인한다.
 - 상세 API: `GET /api/deals/d001`
 - 가격 이력: 상세 API의 `priceHistory`, `priceInsight` 필드 확인
 - 신고 API: `POST /api/reports`

@@ -766,6 +766,19 @@ await check("admin health readiness api", async () => {
   assert(Array.isArray(data.report?.checks) && data.report.checks.every((check) => check.ok), "Admin health readiness checks should all pass");
 });
 
+await check("cron refresh api guard", async () => {
+  const denied = await fetchJson("/api/cron/refresh?dryRun=true");
+  assert(denied.response.status === 401, `Expected cron refresh without token to be 401, got ${denied.response.status}`);
+
+  const { response, data } = await fetchJson("/api/cron/refresh?dryRun=true&token=local-admin");
+  assert(response.status === 200, `Expected cron refresh dry-run 200, got ${response.status}`);
+  assert(data.ok === true, "Cron refresh dry-run should be ok");
+  assert(data.mode === "dry_run", "Cron refresh dry-run should not execute refresh scripts");
+  assert(data.command === "node scripts/refresh-all.mjs", "Cron refresh dry-run missing refresh command");
+  assert(data.refreshAll?.productDealsCount >= 140, "Cron refresh dry-run missing latest refresh-all product count");
+  assert(data.refreshAll?.newsDealsCount >= 25, "Cron refresh dry-run missing latest refresh-all news count");
+});
+
 await check("admin exposure policy api", async () => {
   const { response, data } = await fetchJson("/api/admin/exposure-policy");
   assert(response.status === 200, `Expected 200, got ${response.status}`);
