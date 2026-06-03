@@ -69,6 +69,7 @@ npm run smoke
   - `data/newsFeed.sample.json`을 복제해 `items`, `deals`, `newsDeals`, `events`, `coupons`, `benefits` 중 하나로 배열을 반환한다.
   - 사용자에게 열리는 `finalUrl`은 공식 이벤트, 공식 쿠폰, 공식 구매 또는 공식 혜택 안내 페이지여야 하며, 뉴스 기사/검색 결과/커뮤니티 글은 `sourceUrl`로만 남긴다.
   - 운영자가 feed URL을 `.env`의 `DEAL_NEWS_FEED_URLS`, `DEAL_EVENT_NEWS_FEED_URLS`, `OFFICIAL_EVENT_FEED_URLS`, `PUBLIC_COUPON_FEED_URLS`에 넣은 뒤 `npm run news:feed:doctor && npm run refresh:news && npm run verify:news && npm run refresh:all`을 실행한다.
+  - `npm run feed:transition:report`는 `reports/feed-transition.json`과 `docs/FEED_TRANSITION_REPORT.md`를 생성한다. 운영자는 이 파일로 provider별 `seed fallback`/`공식 feed 연결`, 우선 env key, launch-blocking 여부를 확인하고 다음 feed 연결 순서를 정한다.
   - 검증 실패, 종료, 비공식 URL, 검색 URL은 `reports/news-deals.json`의 hidden/failed 큐로만 남고 사용자 화면에는 노출하지 않는다.
   - 공식 혜택 운영 리포트는 6시간마다 갱신을 권장하고, 24시간 이상 갱신되지 않으면 출시 전 갱신 필요 상태로 본다.
   - `/admin`의 `뉴스 수집 현황`과 `공식 혜택 수동 운영` 패널에서 `Provider 위험도`, `신선도 운영`, `다음 refresh 권장`, `다음 운영 액션`을 확인한다.
