@@ -1,8 +1,8 @@
 {
   "generatedBy": "npm run store:manual:checklist",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "576588a",
-  "workingTree": "clean",
+  "commit": "9b02c26",
+  "workingTree": "M EXTERNAL_LINK_REPORT.md;  M IMAGE_QUALITY_REPORT.md;  M LINK_VERIFICATION_REPORT.md;  M LINK_VERIFICATION_RESULT.json;  M PERFORMANCE_REPORT.md;  M SEARCH_REPORT.md;  M data/refreshedDeals.json;  M data/refreshedNewsDeals.json;  M docs/PERFORMANCE_REPORT.md;  M reports/link-validation.json;  M reports/news-deals.json;  M reports/product-quality.json;  M reports/refresh-deals.json;  M reports/release-doctor.json",
   "appName": "할인도사",
   "version": "1.0.1",
   "packageName": "com.halindosa.app",
