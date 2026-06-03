@@ -1,4 +1,10 @@
 import { Deal } from "@/types/deal";
+import {
+  isPolicyBlockedHost,
+  isPolicyHomeOnlyUrl,
+  isPolicyPlaceholderHost,
+  isPolicySearchLikeUrl
+} from "@/lib/deals/linkQualityPolicy";
 
 export interface DealQualitySummary {
   total: number;
@@ -34,6 +40,15 @@ export interface PurchaseTrustChecklistItem {
   label: string;
   value: string;
   tone: "good" | "caution" | "danger" | "neutral";
+}
+
+export interface DealExposureDecision {
+  canExpose: boolean;
+  availability: Deal["availability"];
+  validationStatus: Deal["validationStatus"];
+  hasDestination: boolean;
+  destinationUrl: string;
+  issues: string[];
 }
 
 const linkStatusLabels: Record<Deal["linkStatus"], string> = {
@@ -136,19 +151,58 @@ export function resolveDealValidationStatus(deal: VisibilityInput): Deal["valida
   return "needs_review";
 }
 
-export function shouldHideDeal(deal: VisibilityInput) {
+function parseHttpDestination(value: string) {
+  try {
+    const url = new URL(value);
+    if (url.protocol !== "https:" && url.protocol !== "http:") return null;
+    return url;
+  } catch {
+    return null;
+  }
+}
+
+export function getDealExposureDecision(deal: VisibilityInput): DealExposureDecision {
   const availability = resolveDealAvailability(deal);
   const validationStatus = resolveDealValidationStatus(deal);
-  const hasDestination = Boolean(deal.finalPurchaseUrl || deal.finalUrl);
+  const destinationKnown = "finalPurchaseUrl" in deal || "finalUrl" in deal;
+  const destinationUrl = `${deal.finalPurchaseUrl || deal.finalUrl || ""}`.trim();
+  const hasDestination = destinationKnown ? Boolean(destinationUrl) : true;
+  const issues: string[] = [];
 
-  return (
-    deal.isHidden === true ||
-    availability !== "active" ||
-    validationStatus !== "passed" ||
-    deal.linkStatus !== "verified" ||
-    hiddenLinkTypes.has(deal.linkType) ||
-    !hasDestination
-  );
+  if (deal.isHidden === true) issues.push("manual_hidden");
+  if (availability !== "active") issues.push(`availability_${availability}`);
+  if (validationStatus !== "passed") issues.push(`validation_${validationStatus}`);
+  if (deal.linkStatus !== "verified") issues.push(`link_status_${deal.linkStatus}`);
+  if (hiddenLinkTypes.has(deal.linkType)) issues.push(`link_type_${deal.linkType}`);
+  if (!hasDestination) issues.push("missing_final_url");
+
+  if (destinationKnown && destinationUrl) {
+    const parsedUrl = parseHttpDestination(destinationUrl);
+
+    if (!parsedUrl) {
+      issues.push("unsafe_protocol_or_invalid_url");
+    } else {
+      const host = parsedUrl.hostname.replace(/^www\./, "").toLowerCase();
+
+      if (isPolicyBlockedHost(host)) issues.push("blocked_or_community_host");
+      if (isPolicyPlaceholderHost(host)) issues.push("placeholder_host");
+      if (isPolicyHomeOnlyUrl(parsedUrl)) issues.push("home_or_landing_url");
+      if (isPolicySearchLikeUrl(parsedUrl)) issues.push("search_or_category_url");
+    }
+  }
+
+  return {
+    canExpose: issues.length === 0,
+    availability,
+    validationStatus,
+    hasDestination,
+    destinationUrl,
+    issues
+  };
+}
+
+export function shouldHideDeal(deal: VisibilityInput) {
+  return !getDealExposureDecision(deal).canExpose;
 }
 
 export function getDealPriorityScore(deal: VisibilityInput) {
@@ -174,18 +228,7 @@ export function getDealPriorityScore(deal: VisibilityInput) {
 }
 
 export function isVerifiedPurchaseLink(deal: VisibilityInput) {
-  const validationStatus = resolveDealValidationStatus(deal);
-  const availability = resolveDealAvailability(deal);
-  const hasDestination = "finalPurchaseUrl" in deal || "finalUrl" in deal ? Boolean(deal.finalPurchaseUrl || deal.finalUrl) : true;
-
-  return (
-    deal.linkStatus === "verified" &&
-    !hiddenLinkTypes.has(deal.linkType) &&
-    validationStatus === "passed" &&
-    availability === "active" &&
-    deal.isHidden !== true &&
-    hasDestination
-  );
+  return getDealExposureDecision(deal).canExpose;
 }
 
 export function isPubliclyVisibleDeal(deal: VisibilityInput) {

@@ -4,9 +4,9 @@
 
 ## 스냅샷
 
-- 생성 시각: 2026-06-02T15:42:35.585Z
+- 생성 시각: 2026-06-03T17:38:54.263Z
 - Git 브랜치: codex/12h-product-ux-growth-hardening
-- 기준 커밋: 90a599e
+- 기준 커밋: 4326416
 - 전체 큐레이션 상품: 140개
 - 검증된 실제 구매 상세 URL: 140개
 - 링크 확인 필요 단계: 0개
@@ -105,15 +105,16 @@
 | m.gsshop.com | 2 |
 | mega-mgccoffee.com | 2 |
 | 7-eleven.co.kr | 1 |
+| academy.baemin.com | 1 |
 | aliexpress.com | 1 |
 | amoremall.com | 1 |
-| baemin.com | 1 |
 | benebedding.com | 1 |
 | bhc.co.kr | 1 |
 | card.pay.naver.com | 1 |
 | cgv.co.kr | 1 |
 | cu.bgfretail.com | 1 |
 | emart.ssg.com | 1 |
+| events.payco.com | 1 |
 | front.homeplus.co.kr | 1 |
 | gift.kakao.com | 1 |
 | gs25.gsretail.com | 1 |
@@ -129,7 +130,6 @@
 | momq.co.kr | 1 |
 | new-m.pay.naver.com | 1 |
 | nid.naver.com | 1 |
-| payco.com | 1 |
 | shinhancard.com | 1 |
 | starbucks.co.kr | 1 |
 | store.ohou.se | 1 |

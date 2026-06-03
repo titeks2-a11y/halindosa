@@ -2505,6 +2505,15 @@ async function checkOperationalDataSurfaces() {
     linkPolicyIssues.push("verify:links:live should expose optional live probe, strict mode, and body probe controls");
   }
   if (productReport.policy?.source !== "data/linkQualityPolicy.json") linkPolicyIssues.push("product-quality report should record policy source");
+  if (
+    !quality.includes("getDealExposureDecision") ||
+    !quality.includes("isPolicySearchLikeUrl") ||
+    !quality.includes("isPolicyHomeOnlyUrl") ||
+    !quality.includes("isPolicyBlockedHost") ||
+    !quality.includes("missing_final_url")
+  ) {
+    linkPolicyIssues.push("shared quality rules should block unsafe final URLs before exposure");
+  }
   if (!exposureReport.ok || exposureReport.summary?.badExposedItems !== 0 || exposureReport.summary?.searchLinksExposed !== 0 || exposureReport.summary?.soldOutExposed !== 0) {
     linkPolicyIssues.push("exposure-policy report should prove zero bad/search/sold-out exposed items");
   }

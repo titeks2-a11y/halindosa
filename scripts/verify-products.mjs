@@ -69,6 +69,7 @@ for (const field of requiredTypeFields) {
 }
 
 for (const phrase of [
+  "getDealExposureDecision",
   "isPubliclyVisibleDeal",
   "shouldHideDeal",
   "resolveDealAvailability",
@@ -77,6 +78,12 @@ for (const phrase of [
 ]) {
   if (!quality.includes(`export function ${phrase}`)) {
     issues.push(`품질 유틸 ${phrase}가 없습니다.`);
+  }
+}
+
+for (const phrase of ["isPolicySearchLikeUrl", "isPolicyHomeOnlyUrl", "isPolicyBlockedHost", "missing_final_url"]) {
+  if (!quality.includes(phrase)) {
+    issues.push(`품질 유틸이 URL 노출 정책 ${phrase}를 확인하지 않습니다.`);
   }
 }
 
@@ -98,11 +105,11 @@ if (!repository.includes("deals.filter(isPubliclyVisibleDeal)")) {
   issues.push("public getDeals 결과가 isPubliclyVisibleDeal로 필터링되지 않습니다.");
 }
 
-if (!repository.includes("availability === \"active\"") && !quality.includes("availability === \"active\"")) {
+if (!repository.includes("availability === \"active\"") && !quality.includes("availability !== \"active\"")) {
   issues.push("노출 정책에 availability=active 조건이 없습니다.");
 }
 
-if (!quality.includes("validationStatus === \"passed\"") || !quality.includes("deal.isHidden !== true")) {
+if (!quality.includes("validationStatus !== \"passed\"") || !quality.includes("deal.isHidden === true")) {
   issues.push("노출 정책에 validationStatus=passed 및 isHidden=false 조건이 없습니다.");
 }
 

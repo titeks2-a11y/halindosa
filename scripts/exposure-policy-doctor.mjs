@@ -87,6 +87,16 @@ if (!dealRepository.includes("deals.filter(isPubliclyVisibleDeal)") || !qualityR
   issues.push("deal repository should filter public results through shared isPubliclyVisibleDeal policy.");
 }
 
+if (
+  !qualityRules.includes("getDealExposureDecision") ||
+  !qualityRules.includes("isPolicySearchLikeUrl") ||
+  !qualityRules.includes("isPolicyHomeOnlyUrl") ||
+  !qualityRules.includes("isPolicyBlockedHost") ||
+  !qualityRules.includes("missing_final_url")
+) {
+  issues.push("shared quality rules should block unsafe final URLs, search/category URLs, home/landing URLs, and blocked hosts before public exposure.");
+}
+
 if (!goRoute.includes("canOpenDealLink") || !redirectRoute.includes("canOpenDealLink")) {
   issues.push("go/redirect routes should block unsafe links through canOpenDealLink.");
 }
