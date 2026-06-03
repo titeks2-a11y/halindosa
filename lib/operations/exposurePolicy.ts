@@ -36,6 +36,14 @@ export interface ExposurePolicyLiveProbeSummary {
   }>;
 }
 
+export interface ExposurePolicyLiveProbeReviewSummary {
+  status: string;
+  hardFailureCount: number;
+  accessProtectedCount: number;
+  sellerUnavailableSignals: number;
+  interpretation: string;
+}
+
 export interface ExposurePolicyReport {
   ok: boolean;
   generatedAt: string;
@@ -51,7 +59,9 @@ export interface ExposurePolicyReport {
     finalUrlRequired: boolean;
   } | null;
   liveProbe: ExposurePolicyLiveProbeSummary;
+  liveProbeReviewSummary: ExposurePolicyLiveProbeReviewSummary;
   liveProbeFailureReasonCounts: Record<string, number>;
+  liveProbeHostFailureCounts: Record<string, number>;
   auditedItems: Array<{
     id: string;
     source: string;
@@ -132,7 +142,15 @@ const fallbackReport: ExposurePolicyReport = {
     unavailableText: 0,
     failures: []
   },
+  liveProbeReviewSummary: {
+    status: "missing_report",
+    hardFailureCount: 0,
+    accessProtectedCount: 0,
+    sellerUnavailableSignals: 0,
+    interpretation: "Run npm run verify:links:live and npm run exposure:doctor to generate a live probe review summary."
+  },
   liveProbeFailureReasonCounts: {},
+  liveProbeHostFailureCounts: {},
   auditedItems: [],
   badExposedItems: [],
   hiddenItems: [],
@@ -274,6 +292,30 @@ export function buildExposurePolicyCsv(report: ExposurePolicyReport) {
 
   const liveProbeRows = [
     {
+      key: "hard_failure_count",
+      label: "강한 실패 신호",
+      count: report.liveProbeReviewSummary.hardFailureCount,
+      status: report.liveProbeReviewSummary.hardFailureCount > 0 ? "block" : "pass",
+      reason: "404/410/5xx/timeout/품절 본문",
+      action: report.liveProbeReviewSummary.hardFailureCount > 0 ? "URL 숨김 또는 공식 상세 URL 보강" : "현 상태 유지"
+    },
+    {
+      key: "access_protected_count",
+      label: "접근 보호 신호",
+      count: report.liveProbeReviewSummary.accessProtectedCount,
+      status: report.liveProbeReviewSummary.accessProtectedCount > 0 ? "access_limited" : "pass",
+      reason: "403/robots/access 보호",
+      action: report.liveProbeReviewSummary.accessProtectedCount > 0 ? "공식 API/제휴 피드 또는 실기기 수동 확인으로 보완" : "현 상태 유지"
+    },
+    {
+      key: "seller_unavailable_signals",
+      label: "품절 본문 신호",
+      count: report.liveProbeReviewSummary.sellerUnavailableSignals,
+      status: report.liveProbeReviewSummary.sellerUnavailableSignals > 0 ? "block" : "pass",
+      reason: report.liveProbeReviewSummary.interpretation,
+      action: report.liveProbeReviewSummary.sellerUnavailableSignals > 0 ? "availability=sold_out 처리" : "현 상태 유지"
+    },
+    {
       key: "enabled",
       label: "라이브 HTTP 검증",
       count: report.liveProbe.enabled ? 1 : 0,
@@ -352,6 +394,22 @@ export function buildExposurePolicyCsv(report: ExposurePolicyReport) {
     liveProbeEnabled: report.liveProbe.enabled
   }));
 
+  const liveProbeHostRows = Object.entries(report.liveProbeHostFailureCounts).slice(0, 20).map(([host, count]) => ({
+    section: "live_probe_host",
+    key: host,
+    label: host,
+    status: "review",
+    count,
+    reason: "live probe 실패가 몰린 판매처",
+    action: "판매처 공식 API/제휴 피드 또는 실기기 확인 우선순위로 관리",
+    linkType: "",
+    availability: "",
+    validationStatus: "",
+    finalUrl: "",
+    generatedAt: report.generatedAt,
+    liveProbeEnabled: report.liveProbe.enabled
+  }));
+
   const auditedRows = (report.auditedItems.length ? report.auditedItems : [{
     id: "none",
     source: "",
@@ -402,5 +460,5 @@ export function buildExposurePolicyCsv(report: ExposurePolicyReport) {
     liveProbeReason: item.liveProbeReason
   }));
 
-  return toCsv([...summaryRows, ...countRows, ...issueRows, ...badRows, ...hiddenRows, ...liveProbeRows, ...liveProbeReasonRows, ...auditedRows]);
+  return toCsv([...summaryRows, ...countRows, ...issueRows, ...badRows, ...hiddenRows, ...liveProbeRows, ...liveProbeReasonRows, ...liveProbeHostRows, ...auditedRows]);
 }

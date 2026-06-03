@@ -3670,17 +3670,24 @@ function checkRefreshDealPipeline() {
     exposureReport.auditedItems.length < 140 ||
     !exposureReport.liveProbe ||
     typeof exposureReport.liveProbe.enabled !== "boolean" ||
+    !exposureReport.liveProbeReviewSummary ||
+    (exposureReport.liveProbeReviewSummary.hardFailureCount ?? 1) !== 0 ||
     !exposureReport.liveProbeFailureReasonCounts ||
+    !exposureReport.liveProbeHostFailureCounts ||
     !adminPage.includes("노출 정책 감사") ||
     !adminPage.includes("노출 감사 CSV") ||
     !adminPage.includes("상품별 노출 감사 샘플") ||
     !adminPage.includes("라이브 HTTP 검증") ||
+    !adminPage.includes("강한 실패 신호") ||
+    !adminPage.includes("접근 보호 신호") ||
     !adminPage.includes("라이브 실패 사유 분포") ||
     !adminPage.includes("reports/exposure-policy.json") ||
     !smoke.includes("admin exposure policy api") ||
     !smoke.includes("admin exposure policy csv") ||
     !smoke.includes("product-level audited rows") ||
     !smoke.includes("live probe summary") ||
+    !smoke.includes("hard live probe failures") ||
+    !smoke.includes("live probe host failure counts") ||
     !smoke.includes("live probe failure reason counts") ||
     !smoke.includes("badExposedItems === 0")
   ) {

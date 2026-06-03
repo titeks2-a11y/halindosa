@@ -52,6 +52,15 @@ const liveProbeFailureReasonCounts = (linkReport?.liveProbe?.failures ?? []).red
   acc[reason] = (acc[reason] ?? 0) + 1;
   return acc;
 }, {});
+const liveProbeReviewSummary = linkReport?.liveProbeReviewSummary ?? {
+  status: linkReport?.liveProbe?.enabled ? "legacy_live_probe_report" : "disabled",
+  hardFailureCount: 0,
+  accessProtectedCount: linkReport?.liveProbe?.robotsBlocked ?? 0,
+  sellerUnavailableSignals: linkReport?.liveProbe?.unavailableText ?? 0,
+  interpretation: "Run npm run verify:links:live to refresh the live probe review summary."
+};
+const liveProbeReasonCounts = linkReport?.liveProbeReasonCounts ?? liveProbeFailureReasonCounts;
+const liveProbeHostFailureCounts = linkReport?.liveProbeHostFailureCounts ?? {};
 
 if (!linkReport) issues.push("reports/link-validation.json is missing.");
 if (!productReport) issues.push("reports/product-quality.json is missing.");
@@ -69,6 +78,10 @@ if ((linkReport?.exposedSoldOutLinks ?? 0) !== 0 || badExposedItems.some((item) 
 
 if ((linkReport?.failedCount ?? 0) !== 0 || (productReport?.failedProducts ?? 0) !== 0 || badExposedItems.length) {
   issues.push("failed link validation items are exposed or product quality failed.");
+}
+
+if ((liveProbeReviewSummary.hardFailureCount ?? 0) > 0 || (liveProbeReviewSummary.sellerUnavailableSignals ?? 0) > 0) {
+  issues.push("live probe hard failure or seller unavailable signals remain.");
 }
 
 if ((linkReport?.homeOrMainSuspected ?? 0) !== 0 || (linkReport?.communitySuspected ?? 0) !== 0) {
@@ -136,7 +149,9 @@ const report = {
     unavailableText: 0,
     failures: []
   },
-  liveProbeFailureReasonCounts,
+  liveProbeReviewSummary,
+  liveProbeFailureReasonCounts: liveProbeReasonCounts,
+  liveProbeHostFailureCounts,
   auditedItems: auditedItems.map((item) => ({
     id: item.id,
     source: item.source,

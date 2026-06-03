@@ -260,6 +260,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const hiddenDeals = deals.filter((deal) => deal.isHidden);
   const failedDeals = deals.filter((deal) => deal.validationStatus === "failed" || deal.availability !== "active");
   const liveProbeFailureReasons = Object.entries(exposurePolicy.liveProbeFailureReasonCounts).sort((a, b) => b[1] - a[1]).slice(0, 4);
+  const liveProbeFailedHosts = Object.entries(exposurePolicy.liveProbeHostFailureCounts).sort((a, b) => b[1] - a[1]).slice(0, 5);
   const todayNewDeals = deals.filter((deal) => new Date(deal.createdAt).getTime() >= todayStart.getTime());
   const topPopularityDeals = [...deals]
     .sort((a, b) => b.clickCount + b.popularityScore - (a.clickCount + a.popularityScore))
@@ -392,6 +393,9 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
               <p className="mt-2 text-xs font-bold leading-5 text-emerald-900/75">
                 라이브 HTTP 검증 {exposurePolicy.liveProbe.enabled ? `${exposurePolicy.liveProbe.checked}개 검사 · 실패 ${exposurePolicy.liveProbe.failed}개` : "미실행"} · timeout {exposurePolicy.liveProbe.timeoutMs}ms
               </p>
+              <p className="mt-2 text-xs font-bold leading-5 text-emerald-900/75">
+                강한 실패 신호 {exposurePolicy.liveProbeReviewSummary.hardFailureCount}개 · 품절 본문 {exposurePolicy.liveProbeReviewSummary.sellerUnavailableSignals}개
+              </p>
             </div>
             <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
               <p className="text-sm font-black text-slate-950">노출 차단 정책</p>
@@ -414,11 +418,12 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
               </p>
             </div>
           </div>
-          <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+          <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-6">
             {[
               ["라이브 모드", exposurePolicy.liveProbe.enabled ? "실행" : "정적", exposurePolicy.liveProbe.enabled ? "실제 HTTP/redirect 확인" : "정책 기반 검증"],
               ["검사/통과", `${exposurePolicy.liveProbe.checked}/${exposurePolicy.liveProbe.passed}`, "live probe 결과"],
-              ["실패", exposurePolicy.liveProbe.failed, "404/410/5xx/timeout"],
+              ["강한 실패 신호", exposurePolicy.liveProbeReviewSummary.hardFailureCount, "404/410/5xx/timeout/품절"],
+              ["접근 보호 신호", exposurePolicy.liveProbeReviewSummary.accessProtectedCount, "403/robots/access"],
               ["리다이렉트", exposurePolicy.liveProbe.redirected, `최종 URL 변경 ${exposurePolicy.liveProbe.finalUrlChanged}`],
               ["품절 문구", exposurePolicy.liveProbe.unavailableText, "본문 감지"]
             ].map(([label, value, description]) => (
@@ -433,13 +438,20 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
             <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
               <p className="text-sm font-black text-slate-950">라이브 실패 사유 분포</p>
               <p className="text-xs font-bold text-amber-800">
-                403/429/robots 계열은 쇼핑몰 보호 정책 신호이며, 검색/품절 노출 실패와 별도로 관리합니다.
+                {exposurePolicy.liveProbeReviewSummary.interpretation}
               </p>
             </div>
             <div className="mt-3 flex flex-wrap gap-2">
               {(liveProbeFailureReasons.length ? liveProbeFailureReasons : [["none", 0]]).map(([reason, count]) => (
                 <span key={reason} className="rounded-full bg-white px-3 py-1.5 text-xs font-black text-amber-800 shadow-sm">
                   {reason === "none" ? "실패 사유 없음" : reason} {Number(count).toLocaleString("ko-KR")}
+                </span>
+              ))}
+            </div>
+            <div className="mt-3 flex flex-wrap gap-2 border-t border-amber-100 pt-3">
+              {(liveProbeFailedHosts.length ? liveProbeFailedHosts : [["none", 0]]).map(([host, count]) => (
+                <span key={host} className="rounded-full bg-white px-3 py-1.5 text-xs font-black text-amber-800 shadow-sm">
+                  {host === "none" ? "실패 판매처 없음" : host} {Number(count).toLocaleString("ko-KR")}
                 </span>
               ))}
             </div>
