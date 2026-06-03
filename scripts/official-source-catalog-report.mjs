@@ -154,6 +154,7 @@ const configuredSourceCount = catalogRows.filter((source) => source.configuredFe
 
 if (catalogRows.length < 16) issues.push(`catalog should include at least 16 official source candidates, got ${catalogRows.length}.`);
 if (missingCategories.length) issues.push(`missing category coverage: ${missingCategories.join(", ")}`);
+if (thinCategories.length) issues.push(`thin category coverage: ${thinCategories.join(", ")}`);
 if (missingProviders.length) issues.push(`missing provider coverage: ${missingProviders.join(", ")}`);
 if (highPriorityCount < 6) issues.push(`catalog should include at least 6 high-priority source candidates, got ${highPriorityCount}.`);
 

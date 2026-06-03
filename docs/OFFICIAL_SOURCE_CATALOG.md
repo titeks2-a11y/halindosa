@@ -2,10 +2,10 @@
 
 이 문서는 할인도사에 연결할 수 있는 공식 이벤트, 공공 혜택, 제휴 JSON/RSS 후보를 정리합니다. 무단 크롤링 후보가 아니라 운영자가 승인 feed 또는 공식 페이지 매핑으로 전환할 때 쓰는 출발점입니다.
 
-- 생성 시각: 2026-06-03T18:28:29.026Z
+- 생성 시각: 2026-06-03T18:34:37.212Z
 - 상태: PASS
-- 후보 소스: 20개
-- 고우선순위 후보: 7개
+- 후보 소스: 21개
+- 고우선순위 후보: 8개
 - 현재 env feed 연결 후보: 0개
 - 공식 혜택 노출: 30개
 - feed 전환 상태: seed_launch_ready
@@ -19,7 +19,7 @@
 | 디지털/가전 | 2 | 충분 |
 | 패션/뷰티 | 2 | 충분 |
 | 외식/배달 | 3 | 충분 |
-| 여행/숙박 | 1 | 보강 |
+| 여행/숙박 | 2 | 충분 |
 | 영화/문화 | 4 | 충분 |
 | 카드/멤버십 | 4 | 충분 |
 | 무료혜택 | 4 | 충분 |
@@ -31,7 +31,7 @@
 | --- | ---: | --- |
 | news | 1 | 포함 |
 | event_news | 2 | 포함 |
-| official_event | 13 | 포함 |
+| official_event | 14 | 포함 |
 | public_coupon | 4 | 포함 |
 
 ## 후보 목록
@@ -54,6 +54,7 @@
 | bccard-events | official_event | 카드/멤버십 | medium | https://www.bccard.com/app/card/EventActn.do?menuId=64 | OFFICIAL_EVENT_FEED_URLS, DEAL_EVENT_FEED_URLS |
 | tworld-membership | official_event | 카드/멤버십, 외식/배달 | medium | https://www.tworld.co.kr/poc/html/product/TS3.7.1T.2.html | OFFICIAL_EVENT_FEED_URLS, DEAL_EVENT_NEWS_FEED_URLS |
 | koreanair-promotion | event_news | 여행/숙박 | medium | https://www.koreanair.com/promotion/list | DEAL_EVENT_NEWS_FEED_URLS, OFFICIAL_EVENT_FEED_URLS |
+| jejuair-events | official_event | 여행/숙박 | high | https://www.jejuair.net/ko/event/event.do | OFFICIAL_EVENT_FEED_URLS, DEAL_EVENT_NEWS_FEED_URLS |
 | samsung-shop-event | official_event | 디지털/가전 | medium | https://www.samsung.com/sec/shop/event/ | OFFICIAL_EVENT_FEED_URLS, DEAL_EVENT_FEED_URLS |
 | himart-events | official_event | 디지털/가전 | medium | https://www.e-himart.co.kr/app/event/eventList | OFFICIAL_EVENT_FEED_URLS, DEAL_EVENT_FEED_URLS |
 | hmall-official-events | news | 패션/뷰티, 식품/생필품 | medium | https://www.hyundaihmall.com/front/evntSect.do | DEAL_NEWS_FEED_URLS, DEAL_EVENT_NEWS_FEED_URLS |

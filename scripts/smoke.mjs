@@ -1449,7 +1449,7 @@ await check("sources api", async () => {
   assert(Array.isArray(data.officialSourceCatalog?.missingCategories) && data.officialSourceCatalog.missingCategories.length === 0, "Sources API official source catalog has missing categories");
   assert(data.officialSourceCatalog?.providerCoverage?.official_event >= 1, "Sources API official source catalog missing official_event provider");
   assert(data.officialSourceCatalog?.providerCoverage?.public_coupon >= 1, "Sources API official source catalog missing public_coupon provider");
-  assert(Array.isArray(data.officialSourceCatalog?.thinCategories), "Sources API official source catalog missing thin category guidance");
+  assert(Array.isArray(data.officialSourceCatalog?.thinCategories) && data.officialSourceCatalog.thinCategories.length === 0, "Sources API official source catalog has thin categories");
   assert(Array.isArray(data.officialSourceCatalog?.sources) && data.officialSourceCatalog.sources.length >= 16, "Sources API missing official source catalog rows");
   assert(
     data.officialSourceCatalog.sources.some((source) => source.officialUrl?.startsWith("https://") && source.allowedUse && source.blockedUse),

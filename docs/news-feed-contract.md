@@ -63,7 +63,7 @@ RSS/Atom feed도 사용할 수 있다. RSS/Atom은 `<item>` 또는 `<entry>` 단
 
 - 후보 URL은 공식 이벤트, 공식 쿠폰, 공식 구매, 공식 공공혜택 안내 페이지여야 한다.
 - 검색 결과, 커뮤니티 원문, 쇼핑몰 메인, placeholder 도메인은 후보로 등록하지 않는다.
-- 필수 10개 혜택 카테고리와 `news`, `event_news`, `official_event`, `public_coupon` provider가 모두 채워져야 release doctor를 통과한다.
+- 필수 10개 혜택 카테고리는 카테고리별 최소 2개 후보를 갖고, `news`, `event_news`, `official_event`, `public_coupon` provider가 모두 채워져야 release doctor를 통과한다.
 
 ## 허용 카테고리
 

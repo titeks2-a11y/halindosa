@@ -1,8 +1,8 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-03T18:28:29.026Z",
-  "catalogCount": 20,
-  "highPriorityCount": 7,
+  "generatedAt": "2026-06-03T18:34:37.212Z",
+  "catalogCount": 21,
+  "highPriorityCount": 8,
   "configuredSourceCount": 0,
   "configuredEnvKeys": {
     "DEAL_EVENT_FEED_URLS": 0,
@@ -17,26 +17,24 @@
     "디지털/가전": 2,
     "패션/뷰티": 2,
     "외식/배달": 3,
-    "여행/숙박": 1,
+    "여행/숙박": 2,
     "영화/문화": 4,
     "카드/멤버십": 4,
     "무료혜택": 4,
     "정부/공공혜택": 2
   },
   "missingCategories": [],
-  "thinCategories": [
-    "여행/숙박"
-  ],
+  "thinCategories": [],
   "providerCoverage": {
     "news": 1,
     "event_news": 2,
-    "official_event": 13,
+    "official_event": 14,
     "public_coupon": 4
   },
   "missingProviders": [],
   "sourceTypes": {
     "official_benefit_page": 1,
-    "official_event_page": 16,
+    "official_event_page": 17,
     "official_purchase_page": 1,
     "public_official_page": 2
   },
@@ -485,6 +483,33 @@
       "blockedUse": "항공권 검색 결과, 커뮤니티 후기",
       "notes": "항공권은 최종 요금 변동 가능성을 안내한다.",
       "host": "koreanair.com",
+      "configuredFeedUrls": 0,
+      "searchLike": false,
+      "blockedHost": false,
+      "homeLike": false,
+      "ok": true,
+      "issues": []
+    },
+    {
+      "id": "jejuair-events",
+      "label": "제주항공 공식 진행 이벤트",
+      "provider": "official_event",
+      "category": [
+        "여행/숙박"
+      ],
+      "sourceType": "official_event_page",
+      "officialUrl": "https://www.jejuair.net/ko/event/event.do",
+      "preferredEnvKeys": [
+        "OFFICIAL_EVENT_FEED_URLS",
+        "DEAL_EVENT_NEWS_FEED_URLS"
+      ],
+      "integrationMethod": "official_page_or_partner_json_feed",
+      "priority": "high",
+      "refreshCadenceHours": 6,
+      "allowedUse": "제주항공 공식 진행 이벤트, 항공권 특가, 쿠폰, 여행 제휴 혜택",
+      "blockedUse": "항공권 검색 결과, 메타검색 결과, 커뮤니티 후기, 종료 이벤트",
+      "notes": "진행 중 이벤트만 후보로 저장하고 종료된 이벤트는 refresh:news에서 숨김 처리한다.",
+      "host": "jejuair.net",
       "configuredFeedUrls": 0,
       "searchLike": false,
       "blockedHost": false,

@@ -2610,6 +2610,7 @@ async function checkOperationalDataSurfaces() {
     (officialSourceCatalogReport.catalogCount ?? 0) < 16 ||
     (officialSourceCatalogReport.highPriorityCount ?? 0) < 6 ||
     (officialSourceCatalogReport.missingCategories ?? []).length > 0 ||
+    (officialSourceCatalogReport.thinCategories ?? []).length > 0 ||
     (officialSourceCatalogReport.missingProviders ?? []).length > 0 ||
     !adminPage.includes("운영 피드 전환 준비도") ||
     !adminPage.includes("공식 API·제휴 피드로 바꿀 때 볼 품질 기준") ||
