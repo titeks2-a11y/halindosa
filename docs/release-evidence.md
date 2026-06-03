@@ -4,9 +4,9 @@
 
 ## 기본 정보
 
-- 생성 시각: 2026-06-03T21:09:25.096Z
+- 생성 시각: 2026-06-03T21:19:56.932Z
 - Git 브랜치: codex/12h-product-ux-growth-hardening
-- 최신 커밋: 6405265
+- 최신 커밋: 35c5f37
 - Git 상태: clean
 - 패키지 버전: 1.0.1
 - 앱 이름: 할인도사
@@ -59,7 +59,7 @@
 | Link quality regression JSON | `reports/link-quality-regression.json` | 5KB |
 | Official source live check report | `docs/OFFICIAL_SOURCE_LIVE_CHECK.md` | 5KB |
 | Official source live check JSON | `reports/official-source-live-check.json` | 16KB |
-| Official source live check CSV | `reports/official-source-live-check.csv` | 7KB |
+| Official source live check CSV | `reports/official-source-live-check.csv` | 8KB |
 | Image backlog report | `docs/IMAGE_BACKLOG_REPORT.md` | 25KB |
 | Image backlog CSV | `IMAGE_BACKLOG.csv` | 53KB |
 | Image backlog next batch CSV | `IMAGE_BACKLOG_NEXT_BATCH.csv` | 12KB |
