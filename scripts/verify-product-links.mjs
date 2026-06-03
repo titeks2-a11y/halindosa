@@ -546,3 +546,26 @@ console.log(`Product link verification passed: ${entries.length}/${dealIds.lengt
 console.log(`- Distinct purchase hosts: ${hosts.size}`);
 console.log(`- Product detail URLs: ${productDetailCount}`);
 console.log(`- Official benefit/event URLs: ${claimBenefitCount}`);
+
+if (liveProbe.enabled) {
+  const reasonCounts = liveProbe.failures.reduce((counts, failure) => {
+    counts.set(failure.reason, (counts.get(failure.reason) ?? 0) + 1);
+    return counts;
+  }, new Map());
+  const reasonSummary = [...reasonCounts.entries()]
+    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+    .map(([reason, count]) => `${reason}:${count}`)
+    .join(", ");
+
+  console.log(
+    `- Live probe: checked ${liveProbe.checked}, passed ${liveProbe.passed}, failed ${liveProbe.failed}, redirected ${liveProbe.redirected}`
+  );
+  console.log(
+    `- Live probe signals: 404 ${liveProbe.http404}, 410 ${liveProbe.http410}, 5xx ${liveProbe.http5xx}, timeout ${liveProbe.timeout}, robots/access ${liveProbe.robotsBlocked}, sold-out text ${liveProbe.unavailableText}`
+  );
+  console.log(`- Live probe failure reasons: ${reasonSummary || "none"}`);
+
+  if (!liveProbe.strict && liveProbe.failed) {
+    console.log("- Live probe is non-strict: seller access protections are recorded for review without hiding otherwise valid purchase links.");
+  }
+}

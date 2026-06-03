@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-03T15:28:51.981Z",
+  "generatedAt": "2026-06-03T15:42:46.455Z",
   "totalDeals": 140,
   "verificationTargets": 140,
   "passedDirectLinks": 140,
@@ -31,8 +31,8 @@
     "http404": 0,
     "http410": 0,
     "http5xx": 0,
-    "timeout": 1,
-    "robotsBlocked": 60,
+    "timeout": 0,
+    "robotsBlocked": 61,
     "unavailableText": 0,
     "failures": [
       {
@@ -139,13 +139,6 @@
         "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000163532",
         "status": 403,
         "reason": "robots_or_access_blocked"
-      },
-      {
-        "id": "d027",
-        "url": "https://m.gsshop.com/deal/deal.gs?dealNo=1081284321",
-        "finalUrl": "https://m.gsshop.com/deal/deal.gs?dealNo=1081284321",
-        "status": 0,
-        "reason": "timeout"
       },
       {
         "id": "d028",
@@ -328,6 +321,13 @@
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000005089075",
         "status": 429,
         "reason": "http_429"
+      },
+      {
+        "id": "d094",
+        "url": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000246774",
+        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000246774",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
       },
       {
         "id": "d096",
@@ -582,8 +582,8 @@
     "http404": 0,
     "http410": 0,
     "http5xx": 0,
-    "timeout": 1,
-    "robotsBlocked": 60,
+    "timeout": 0,
+    "robotsBlocked": 61,
     "unavailableText": 0
   },
   "policy": {
@@ -1410,13 +1410,10 @@
         "productDetailUrl": true,
         "officialBenefitUrl": false,
         "unavailableText": false,
-        "liveProbeOk": false
+        "liveProbeOk": true
       },
       "liveProbe": {
-        "ok": false,
-        "status": 0,
-        "reason": "timeout",
-        "finalUrl": "https://m.gsshop.com/deal/deal.gs?dealNo=1081284321"
+        "ok": true
       }
     },
     {
@@ -3355,7 +3352,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-02T00:20:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "oliveyoung.co.kr",
       "evidence": "올리브영 라운드랩 1025 독도 토너 더블 기획 상품 상세",
@@ -3367,10 +3364,13 @@
         "productDetailUrl": true,
         "officialBenefitUrl": false,
         "unavailableText": false,
-        "liveProbeOk": true
+        "liveProbeOk": false
       },
       "liveProbe": {
-        "ok": true
+        "ok": false,
+        "status": 403,
+        "reason": "robots_or_access_blocked",
+        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000246774"
       }
     },
     {
