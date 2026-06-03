@@ -1444,6 +1444,12 @@ await check("sources api", async () => {
   assert(typeof data.officialBenefitFeedTransitionReadiness?.readinessRate === "number", "Sources API missing official benefit feed transition readiness rate");
   assert(Array.isArray(data.officialBenefitFeedTransitionReadiness?.providers) && data.officialBenefitFeedTransitionReadiness.providers.length >= 4, "Sources API missing official benefit feed transition providers");
   assert(Array.isArray(data.officialBenefitFeedTransitionReadiness?.recommendedNextEnvKeys), "Sources API missing official benefit feed env guidance");
+  assert(data.officialSourceCatalog?.totalSources >= 16, "Sources API missing official source catalog summary");
+  assert(data.officialSourceCatalog?.highPrioritySources >= 6, "Sources API missing high-priority official source candidates");
+  assert(Array.isArray(data.officialSourceCatalog?.missingCategories) && data.officialSourceCatalog.missingCategories.length === 0, "Sources API official source catalog has missing categories");
+  assert(data.officialSourceCatalog?.providerCoverage?.official_event >= 1, "Sources API official source catalog missing official_event provider");
+  assert(data.officialSourceCatalog?.providerCoverage?.public_coupon >= 1, "Sources API official source catalog missing public_coupon provider");
+  assert(data.officialSourceCatalog?.reportCommand === "npm run source:catalog:report", "Sources API missing source catalog report command");
   assert(typeof data.operationPolicy?.configuredOfficialBenefitFeeds === "number", "Sources API missing configured official benefit feed count");
   assert(typeof data.operationPolicy?.officialBenefitSeedOnlyProviders === "number", "Sources API missing seed-only official benefit provider count");
   assert(data.operationPolicy?.nextStep?.includes("DEAL_PRODUCTION_FEED_URLS") || data.operationPolicy?.nextStep?.includes("dry-run"), "Sources API missing production feed next step");

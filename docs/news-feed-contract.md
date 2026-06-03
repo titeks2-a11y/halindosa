@@ -57,6 +57,14 @@ RSS/Atom feed도 사용할 수 있다. RSS/Atom은 `<item>` 또는 `<entry>` 단
 
 운영 RSS가 일반 뉴스 RSS처럼 기사 링크만 제공한다면 `sourceUrl`로만 보관하고, 앱 노출용 `finalUrl`은 공식 이벤트/쿠폰/구매 페이지로 별도 매핑해야 한다. 매핑되지 않은 기사 원문은 기본 노출에서 제외된다.
 
+## 공식 소스 카탈로그
+
+운영자가 새 feed를 연결하기 전에는 `npm run source:catalog:report`를 먼저 실행한다. 이 명령은 `data/officialSourceCatalog.json`의 공식 이벤트·공공 혜택·쿠폰 후보를 검증하고 `reports/official-source-catalog.json`, `docs/OFFICIAL_SOURCE_CATALOG.md`를 생성한다.
+
+- 후보 URL은 공식 이벤트, 공식 쿠폰, 공식 구매, 공식 공공혜택 안내 페이지여야 한다.
+- 검색 결과, 커뮤니티 원문, 쇼핑몰 메인, placeholder 도메인은 후보로 등록하지 않는다.
+- 필수 10개 혜택 카테고리와 `news`, `event_news`, `official_event`, `public_coupon` provider가 모두 채워져야 release doctor를 통과한다.
+
 ## 허용 카테고리
 
 - 식품/생필품

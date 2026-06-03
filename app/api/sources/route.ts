@@ -3,6 +3,54 @@ import { getDeals } from "@/lib/dealService";
 import { getNewsOperationsReport } from "@/lib/deals/newsOperations";
 import { getConfiguredProductionFeedUrls } from "@/lib/deals/providers/productionProvider";
 import { getDealSourceReadiness, listDealSourceProfiles } from "@/lib/deals/trust";
+import officialSourceCatalog from "@/data/officialSourceCatalog.json";
+
+const requiredOfficialBenefitCategories = [
+  "식품/생필품",
+  "마트/편의점",
+  "디지털/가전",
+  "패션/뷰티",
+  "외식/배달",
+  "여행/숙박",
+  "영화/문화",
+  "카드/멤버십",
+  "무료혜택",
+  "정부/공공혜택"
+];
+
+function getOfficialSourceCatalogSummary() {
+  const providerCounts = new Map<string, number>();
+  const categoryCounts = new Map(requiredOfficialBenefitCategories.map((category) => [category, 0]));
+  const configuredEnvKeys = new Set<string>();
+
+  for (const source of officialSourceCatalog) {
+    providerCounts.set(source.provider, (providerCounts.get(source.provider) ?? 0) + 1);
+    for (const category of source.category) {
+      if (categoryCounts.has(category)) {
+        categoryCounts.set(category, (categoryCounts.get(category) ?? 0) + 1);
+      }
+    }
+    for (const key of source.preferredEnvKeys) {
+      if ((process.env[key] ?? "").trim()) configuredEnvKeys.add(key);
+    }
+  }
+
+  const missingCategories = requiredOfficialBenefitCategories.filter((category) => Number(categoryCounts.get(category) ?? 0) === 0);
+
+  return {
+    totalSources: officialSourceCatalog.length,
+    highPrioritySources: officialSourceCatalog.filter((source) => source.priority === "high").length,
+    configuredEnvKeys: Array.from(configuredEnvKeys).sort(),
+    configuredEnvKeyCount: configuredEnvKeys.size,
+    categoryCoverage: Object.fromEntries(Array.from(categoryCounts.entries())),
+    missingCategories,
+    providerCoverage: Object.fromEntries(Array.from(providerCounts.entries()).sort(([a], [b]) => a.localeCompare(b))),
+    nextAction: configuredEnvKeys.size
+      ? "연결된 공식 feed를 refresh:news와 verify:news로 검증하세요."
+      : "OFFICIAL_EVENT_FEED_URLS와 PUBLIC_COUPON_FEED_URLS부터 승인 JSON/RSS feed를 연결하세요.",
+    reportCommand: "npm run source:catalog:report"
+  };
+}
 
 export async function GET() {
   const { deals, source, updatedAt } = await getDeals();
@@ -75,6 +123,7 @@ export async function GET() {
         issueCount: provider.issueCount
       }))
     },
+    officialSourceCatalog: getOfficialSourceCatalogSummary(),
     operationPolicy: {
       configuredProductionFeeds,
       configuredOfficialBenefitFeeds: officialBenefitFeedTransition.configuredFeedUrls,

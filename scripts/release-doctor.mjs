@@ -69,6 +69,7 @@ async function checkPackage() {
     "refresh:all",
     "health:readiness",
     "push:readiness:report",
+    "source:catalog:report",
     "test:mobile-ux",
     "links:report",
     "store:metadata:doctor",
@@ -91,7 +92,7 @@ async function checkPackage() {
   const missing = requiredScripts.filter((script) => !pkg.scripts?.[script]);
 
   if (missing.length) fail("package scripts", `Missing scripts: ${missing.join(", ")}`);
-  else if (!pkg.scripts?.qa?.includes("verify:links") || !pkg.scripts?.qa?.includes("verify:links:live") || !pkg.scripts?.qa?.includes("verify:products") || !pkg.scripts?.qa?.includes("exposure:doctor") || !pkg.scripts?.qa?.includes("refresh:deals") || !pkg.scripts?.qa?.includes("refresh:news") || !pkg.scripts?.qa?.includes("verify:news") || !pkg.scripts?.qa?.includes("refresh:all") || !pkg.scripts?.qa?.includes("health:readiness") || !pkg.scripts?.qa?.includes("push:readiness:report") || !pkg.scripts?.["refresh:all"]?.includes("refresh-all.mjs") || !pkg.scripts?.["health:readiness"]?.includes("health-readiness-report.mjs") || !pkg.scripts?.["push:readiness:report"]?.includes("push-readiness-report.mjs") || !harness.includes("test:mobile-ux") || !pkg.scripts?.qa?.includes("test:mobile-ux") || !pkg.scripts?.["env:doctor:production"]?.includes("--production") || !pkg.scripts?.["qa:release"]?.includes("health:readiness") || !pkg.scripts?.["qa:release"]?.includes("audit:commercial") || !pkg.scripts?.["qa:release"]?.includes("test:env") || !pkg.scripts?.["qa:release"]?.includes("device:qa:manifest") || !pkg.scripts?.["qa:release"]?.includes("device:qa:doctor") || !pkg.scripts?.["qa:release"]?.includes("device:qa:report") || !pkg.scripts?.["qa:release"]?.includes("android:signing:doctor") || !pkg.scripts?.["qa:release"]?.includes("public:url:doctor") || !pkg.scripts?.["qa:release"]?.includes("feed:validate") || !pkg.scripts?.["qa:release"]?.includes("feed:production:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:metadata:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:submission:report") || !pkg.scripts?.["qa:release"]?.includes("store:packet:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:console:fields") || !pkg.scripts?.["qa:release"]?.includes("store:manual:checklist") || !pkg.scripts?.["qa:release"]?.includes("store:manual:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:handoff:report") || !pkg.scripts?.["qa:release"]?.includes("release:notes") || !pkg.scripts?.["qa:release"]?.includes("support:playbook") || !pkg.scripts?.["qa:release"]?.includes("known:issues") || !pkg.scripts?.["qa:release"]?.includes("store:assets:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:manifest") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:doctor") || !pkg.scripts?.["qa:release"]?.includes("perf:budget")) {
+  else if (!pkg.scripts?.qa?.includes("verify:links") || !pkg.scripts?.qa?.includes("verify:links:live") || !pkg.scripts?.qa?.includes("verify:products") || !pkg.scripts?.qa?.includes("exposure:doctor") || !pkg.scripts?.qa?.includes("refresh:deals") || !pkg.scripts?.qa?.includes("refresh:news") || !pkg.scripts?.qa?.includes("verify:news") || !pkg.scripts?.qa?.includes("refresh:all") || !pkg.scripts?.qa?.includes("health:readiness") || !pkg.scripts?.qa?.includes("push:readiness:report") || !pkg.scripts?.qa?.includes("source:catalog:report") || !pkg.scripts?.["refresh:all"]?.includes("refresh-all.mjs") || !pkg.scripts?.["health:readiness"]?.includes("health-readiness-report.mjs") || !pkg.scripts?.["push:readiness:report"]?.includes("push-readiness-report.mjs") || !pkg.scripts?.["source:catalog:report"]?.includes("official-source-catalog-report.mjs") || !harness.includes("test:mobile-ux") || !pkg.scripts?.qa?.includes("test:mobile-ux") || !pkg.scripts?.["env:doctor:production"]?.includes("--production") || !pkg.scripts?.["qa:release"]?.includes("health:readiness") || !pkg.scripts?.["qa:release"]?.includes("audit:commercial") || !pkg.scripts?.["qa:release"]?.includes("test:env") || !pkg.scripts?.["qa:release"]?.includes("device:qa:manifest") || !pkg.scripts?.["qa:release"]?.includes("device:qa:doctor") || !pkg.scripts?.["qa:release"]?.includes("device:qa:report") || !pkg.scripts?.["qa:release"]?.includes("android:signing:doctor") || !pkg.scripts?.["qa:release"]?.includes("public:url:doctor") || !pkg.scripts?.["qa:release"]?.includes("feed:validate") || !pkg.scripts?.["qa:release"]?.includes("feed:production:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:metadata:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:submission:report") || !pkg.scripts?.["qa:release"]?.includes("store:packet:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:console:fields") || !pkg.scripts?.["qa:release"]?.includes("store:manual:checklist") || !pkg.scripts?.["qa:release"]?.includes("store:manual:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:handoff:report") || !pkg.scripts?.["qa:release"]?.includes("release:notes") || !pkg.scripts?.["qa:release"]?.includes("support:playbook") || !pkg.scripts?.["qa:release"]?.includes("known:issues") || !pkg.scripts?.["qa:release"]?.includes("store:assets:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:manifest") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:doctor") || !pkg.scripts?.["qa:release"]?.includes("perf:budget")) {
     fail("package scripts", "qa, harness, and qa:release should include refresh:all, health readiness, mobile UX, commercial security audit, device QA manifest/doctor/report, Android signing doctor, public URL doctor, partner feed validator, production feed doctor, store metadata doctor, store submission/packet/console/handoff reports, store asset doctor, store screenshot manifest/doctor, and performance budget before store submission.");
   } else {
     pass("package scripts", "Android, iOS, environment, mobile UX, commercial security, and performance release command flow is available.");
@@ -1932,6 +1933,13 @@ async function checkOperationalDataSurfaces() {
   const productionFeedDoctor = await text("scripts/production-feed-doctor.mjs");
   const partnerFeedDryRunPanel = await text("components/PartnerFeedDryRunPanel.tsx");
   const feedImport = await text("lib/feedImport.ts");
+  const officialSourceCatalogReportScript = await text("scripts/official-source-catalog-report.mjs");
+  const officialSourceCatalogDoc = existsSync(join(root, "docs/OFFICIAL_SOURCE_CATALOG.md"))
+    ? readFileSync(join(root, "docs/OFFICIAL_SOURCE_CATALOG.md"), "utf8")
+    : "";
+  const officialSourceCatalogReport = existsSync(join(root, "reports/official-source-catalog.json"))
+    ? JSON.parse(readFileSync(join(root, "reports/official-source-catalog.json"), "utf8"))
+    : {};
   const notificationCampaigns = await text("lib/notificationCampaigns.ts");
   const pushReadiness = await text("lib/pushReadiness.ts");
   const pushNotifications = await text("lib/pushNotifications.ts");
@@ -2585,6 +2593,20 @@ async function checkOperationalDataSurfaces() {
     !sourcesRoute.includes("getNewsOperationsReport") ||
     !sourcesRoute.includes("officialBenefitProviderReadiness") ||
     !sourcesRoute.includes("officialBenefitProviderRiskOk") ||
+    !sourcesRoute.includes("officialSourceCatalog") ||
+    !sourcesRoute.includes("getOfficialSourceCatalogSummary") ||
+    !officialSourceCatalogReportScript.includes("data/officialSourceCatalog.json") ||
+    !officialSourceCatalogReportScript.includes("requiredCategories") ||
+    !officialSourceCatalogReportScript.includes("requiredProviders") ||
+    !officialSourceCatalogReportScript.includes("blocked_or_placeholder_host") ||
+    !officialSourceCatalogReportScript.includes("search_or_result_url") ||
+    !officialSourceCatalogReportScript.includes("home_or_landing_url") ||
+    !officialSourceCatalogDoc.includes("공식 소스 카탈로그") ||
+    officialSourceCatalogReport.ok !== true ||
+    (officialSourceCatalogReport.catalogCount ?? 0) < 16 ||
+    (officialSourceCatalogReport.highPriorityCount ?? 0) < 6 ||
+    (officialSourceCatalogReport.missingCategories ?? []).length > 0 ||
+    (officialSourceCatalogReport.missingProviders ?? []).length > 0 ||
     !adminPage.includes("운영 피드 전환 준비도") ||
     !adminPage.includes("공식 API·제휴 피드로 바꿀 때 볼 품질 기준") ||
     !adminPage.includes("파트너 피드 사전 검수 리포트") ||
@@ -2644,9 +2666,9 @@ async function checkOperationalDataSurfaces() {
     !smoke.includes("Admin dashboard missing feed dry-run export actions") ||
     !smoke.includes("partner feed sample validation api")
   ) {
-    fail("source readiness operation", "Sources API, production provider, docs, production feed doctor, and admin dashboard should expose source readiness, official benefit provider readiness, safe production JSON feed loading, allowed source policy, blocked source policy, and verified link quality for production feed transition.");
+    fail("source readiness operation", "Sources API, official source catalog, production provider, docs, production feed doctor, and admin dashboard should expose source readiness, official benefit provider readiness, safe production JSON feed loading, allowed source policy, blocked source policy, and verified link quality for production feed transition.");
   } else {
-    pass("source readiness operation", "Sources API, production provider, docs, production feed doctor, and admin dashboard expose source readiness, official benefit provider readiness, and safe production JSON feed policy for official API, RSS, and partner feed transition.");
+    pass("source readiness operation", "Sources API, official source catalog, production provider, docs, production feed doctor, and admin dashboard expose source readiness, official benefit provider readiness, and safe production JSON feed policy for official API, RSS, and partner feed transition.");
   }
 
   if (!dealRepository.includes("export async function findDealByIdLive") || /findDealByIdLive[\s\S]{0,180}findDealById\(id\)[\s\S]{0,80}await getDeals/.test(dealRepository)) {

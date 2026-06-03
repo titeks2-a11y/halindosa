@@ -1,0 +1,606 @@
+{
+  "ok": true,
+  "generatedAt": "2026-06-03T18:23:02.081Z",
+  "catalogCount": 20,
+  "highPriorityCount": 7,
+  "configuredSourceCount": 0,
+  "configuredEnvKeys": {
+    "DEAL_EVENT_FEED_URLS": 0,
+    "DEAL_EVENT_NEWS_FEED_URLS": 0,
+    "DEAL_NEWS_FEED_URLS": 0,
+    "OFFICIAL_EVENT_FEED_URLS": 0,
+    "PUBLIC_COUPON_FEED_URLS": 0
+  },
+  "categoryCoverage": {
+    "식품/생필품": 4,
+    "마트/편의점": 5,
+    "디지털/가전": 2,
+    "패션/뷰티": 2,
+    "외식/배달": 3,
+    "여행/숙박": 1,
+    "영화/문화": 4,
+    "카드/멤버십": 4,
+    "무료혜택": 4,
+    "정부/공공혜택": 2
+  },
+  "missingCategories": [],
+  "thinCategories": [
+    "여행/숙박"
+  ],
+  "providerCoverage": {
+    "news": 1,
+    "event_news": 2,
+    "official_event": 13,
+    "public_coupon": 4
+  },
+  "missingProviders": [],
+  "sourceTypes": {
+    "official_benefit_page": 1,
+    "official_event_page": 16,
+    "official_purchase_page": 1,
+    "public_official_page": 2
+  },
+  "feedTransitionStatus": "seed_launch_ready",
+  "officialBenefitsVisible": 30,
+  "officialBenefitsHidden": 0,
+  "officialBenefitsExpired": 0,
+  "officialBenefitsFailed": 0,
+  "nextActions": [
+    "OFFICIAL_EVENT_FEED_URLS와 PUBLIC_COUPON_FEED_URLS부터 승인 JSON/RSS feed를 연결해 seed 의존도를 줄입니다.",
+    "새 후보를 추가할 때는 공식 URL, 허용 사용 범위, 차단 사용 범위, env key를 함께 기록합니다.",
+    "사용자 finalUrl은 검색 결과, 커뮤니티 원문, 쇼핑몰 메인이 아니라 공식 이벤트·혜택·구매 상세 페이지여야 합니다."
+  ],
+  "sources": [
+    {
+      "id": "gs25-event-goods",
+      "label": "GS25 행사상품과 카드 할인",
+      "provider": "official_event",
+      "category": [
+        "마트/편의점",
+        "무료혜택"
+      ],
+      "sourceType": "official_event_page",
+      "officialUrl": "https://gs25.gsretail.com/gscvs/ko/products/event-goods",
+      "preferredEnvKeys": [
+        "OFFICIAL_EVENT_FEED_URLS",
+        "DEAL_EVENT_FEED_URLS"
+      ],
+      "integrationMethod": "official_page_or_partner_json_feed",
+      "priority": "high",
+      "refreshCadenceHours": 6,
+      "allowedUse": "GS25 공식 행사/1+1/2+1/카드 할인 혜택을 공식 상세 또는 승인 feed로만 노출",
+      "blockedUse": "커뮤니티 원문, 검색 결과, 비공식 캡처 이미지 단독 노출",
+      "notes": "finalUrl은 GS25 공식 행사상품 또는 이벤트 상세 페이지여야 한다.",
+      "host": "gs25.gsretail.com",
+      "configuredFeedUrls": 0,
+      "searchLike": false,
+      "blockedHost": false,
+      "homeLike": false,
+      "ok": true,
+      "issues": []
+    },
+    {
+      "id": "cu-plus-event",
+      "label": "CU 편의점 1+1·2+1 행사",
+      "provider": "official_event",
+      "category": [
+        "마트/편의점"
+      ],
+      "sourceType": "official_event_page",
+      "officialUrl": "https://cu.bgfretail.com/event/plus.do?category=event&depth2=1",
+      "preferredEnvKeys": [
+        "OFFICIAL_EVENT_FEED_URLS",
+        "DEAL_EVENT_FEED_URLS"
+      ],
+      "integrationMethod": "official_page_or_partner_json_feed",
+      "priority": "high",
+      "refreshCadenceHours": 6,
+      "allowedUse": "CU 공식 행사 페이지의 상품 행사 정보",
+      "blockedUse": "비공식 블로그, 커뮤니티 캡처, 검색 결과",
+      "notes": "혜택 기간과 행사 유형이 확인되는 항목만 앱 카드로 변환한다.",
+      "host": "cu.bgfretail.com",
+      "configuredFeedUrls": 0,
+      "searchLike": false,
+      "blockedHost": false,
+      "homeLike": false,
+      "ok": true,
+      "issues": []
+    },
+    {
+      "id": "ssg-event-main",
+      "label": "SSG닷컴 공식 장보기 행사",
+      "provider": "official_event",
+      "category": [
+        "식품/생필품",
+        "마트/편의점"
+      ],
+      "sourceType": "official_event_page",
+      "officialUrl": "https://www.ssg.com/event/eventMain.ssg",
+      "preferredEnvKeys": [
+        "OFFICIAL_EVENT_FEED_URLS",
+        "DEAL_EVENT_FEED_URLS"
+      ],
+      "integrationMethod": "official_page_or_partner_json_feed",
+      "priority": "high",
+      "refreshCadenceHours": 6,
+      "allowedUse": "SSG 공식 행사/쿠폰/장보기 이벤트",
+      "blockedUse": "검색 결과, 쇼핑몰 메인만 있는 링크",
+      "notes": "상품 상세가 아닌 공식 행사 페이지는 benefit 카드로만 노출한다.",
+      "host": "ssg.com",
+      "configuredFeedUrls": 0,
+      "searchLike": false,
+      "blockedHost": false,
+      "homeLike": false,
+      "ok": true,
+      "issues": []
+    },
+    {
+      "id": "emart-event-main",
+      "label": "이마트몰 공식 행사",
+      "provider": "official_event",
+      "category": [
+        "식품/생필품",
+        "마트/편의점"
+      ],
+      "sourceType": "official_event_page",
+      "officialUrl": "https://emart.ssg.com/event/eventMain.ssg",
+      "preferredEnvKeys": [
+        "OFFICIAL_EVENT_FEED_URLS",
+        "DEAL_EVENT_FEED_URLS"
+      ],
+      "integrationMethod": "official_page_or_partner_json_feed",
+      "priority": "medium",
+      "refreshCadenceHours": 6,
+      "allowedUse": "이마트몰 공식 쿠폰/행사 페이지",
+      "blockedUse": "검색 결과, 비공식 최저가 글",
+      "notes": "장보기 혜택은 종료일과 적용 조건을 함께 저장한다.",
+      "host": "emart.ssg.com",
+      "configuredFeedUrls": 0,
+      "searchLike": false,
+      "blockedHost": false,
+      "homeLike": false,
+      "ok": true,
+      "issues": []
+    },
+    {
+      "id": "homeplus-event",
+      "label": "홈플러스 공식 이벤트",
+      "provider": "official_event",
+      "category": [
+        "식품/생필품",
+        "마트/편의점"
+      ],
+      "sourceType": "official_event_page",
+      "officialUrl": "https://front.homeplus.co.kr/event",
+      "preferredEnvKeys": [
+        "OFFICIAL_EVENT_FEED_URLS",
+        "DEAL_EVENT_FEED_URLS"
+      ],
+      "integrationMethod": "official_page_or_partner_json_feed",
+      "priority": "medium",
+      "refreshCadenceHours": 6,
+      "allowedUse": "홈플러스 공식 장보기 행사/쿠폰",
+      "blockedUse": "검색 결과, 커뮤니티 원문 단독 링크",
+      "notes": "공식 이벤트 페이지가 아닌 상품 검색 URL은 노출하지 않는다.",
+      "host": "front.homeplus.co.kr",
+      "configuredFeedUrls": 0,
+      "searchLike": false,
+      "blockedHost": false,
+      "homeLike": false,
+      "ok": true,
+      "issues": []
+    },
+    {
+      "id": "yogiyo-event",
+      "label": "요기요 배달 쿠폰 이벤트",
+      "provider": "event_news",
+      "category": [
+        "외식/배달"
+      ],
+      "sourceType": "official_event_page",
+      "officialUrl": "https://www.yogiyo.co.kr/mobile/#/event/",
+      "preferredEnvKeys": [
+        "DEAL_EVENT_NEWS_FEED_URLS",
+        "OFFICIAL_EVENT_FEED_URLS"
+      ],
+      "integrationMethod": "official_event_page_mapping",
+      "priority": "high",
+      "refreshCadenceHours": 6,
+      "allowedUse": "요기요 공식 이벤트/쿠폰 페이지",
+      "blockedUse": "커뮤니티 할인코드 글, 블로그 캡처",
+      "notes": "쿠폰 조건과 최소 주문 금액이 명확한 항목만 노출한다.",
+      "host": "yogiyo.co.kr",
+      "configuredFeedUrls": 0,
+      "searchLike": false,
+      "blockedHost": false,
+      "homeLike": false,
+      "ok": true,
+      "issues": []
+    },
+    {
+      "id": "bhc-ecoupon",
+      "label": "BHC 공식 e쿠폰",
+      "provider": "official_event",
+      "category": [
+        "외식/배달"
+      ],
+      "sourceType": "official_purchase_page",
+      "officialUrl": "https://www.bhc.co.kr/eCoupon/purchase",
+      "preferredEnvKeys": [
+        "OFFICIAL_EVENT_FEED_URLS",
+        "DEAL_EVENT_FEED_URLS"
+      ],
+      "integrationMethod": "official_page_or_partner_json_feed",
+      "priority": "medium",
+      "refreshCadenceHours": 12,
+      "allowedUse": "BHC 공식 e쿠폰 구매 또는 이벤트 페이지",
+      "blockedUse": "비공식 쿠폰 거래 글",
+      "notes": "가격/구매 가능 여부는 판매처 최종 확인 문구와 함께 제공한다.",
+      "host": "bhc.co.kr",
+      "configuredFeedUrls": 0,
+      "searchLike": false,
+      "blockedHost": false,
+      "homeLike": false,
+      "ok": true,
+      "issues": []
+    },
+    {
+      "id": "cgv-events",
+      "label": "CGV 공식 문화 이벤트",
+      "provider": "public_coupon",
+      "category": [
+        "영화/문화",
+        "무료혜택"
+      ],
+      "sourceType": "official_event_page",
+      "officialUrl": "https://www.cgv.co.kr/culture-event/event/defaultNew.aspx",
+      "preferredEnvKeys": [
+        "PUBLIC_COUPON_FEED_URLS",
+        "OFFICIAL_EVENT_FEED_URLS"
+      ],
+      "integrationMethod": "official_page_or_partner_json_feed",
+      "priority": "medium",
+      "refreshCadenceHours": 12,
+      "allowedUse": "CGV 공식 이벤트/초대권/할인 혜택",
+      "blockedUse": "뉴스 기사 원문만 있는 링크",
+      "notes": "응모형 혜택은 선착순/추첨 여부를 benefitSummary에 기록한다.",
+      "host": "cgv.co.kr",
+      "configuredFeedUrls": 0,
+      "searchLike": false,
+      "blockedHost": false,
+      "homeLike": false,
+      "ok": true,
+      "issues": []
+    },
+    {
+      "id": "lottecinema-events",
+      "label": "롯데시네마 공식 이벤트",
+      "provider": "public_coupon",
+      "category": [
+        "영화/문화"
+      ],
+      "sourceType": "official_event_page",
+      "officialUrl": "https://www.lottecinema.co.kr/NLCHS/Event",
+      "preferredEnvKeys": [
+        "PUBLIC_COUPON_FEED_URLS",
+        "OFFICIAL_EVENT_FEED_URLS"
+      ],
+      "integrationMethod": "official_page_or_partner_json_feed",
+      "priority": "medium",
+      "refreshCadenceHours": 12,
+      "allowedUse": "롯데시네마 공식 이벤트/할인/쿠폰",
+      "blockedUse": "블로그, 커뮤니티, 뉴스 원문 단독 링크",
+      "notes": "기간 종료 이벤트는 refresh:news에서 숨김 처리한다.",
+      "host": "lottecinema.co.kr",
+      "configuredFeedUrls": 0,
+      "searchLike": false,
+      "blockedHost": false,
+      "homeLike": false,
+      "ok": true,
+      "issues": []
+    },
+    {
+      "id": "culture-day",
+      "label": "문화가 있는 날 공식 혜택",
+      "provider": "public_coupon",
+      "category": [
+        "영화/문화",
+        "정부/공공혜택",
+        "무료혜택"
+      ],
+      "sourceType": "public_official_page",
+      "officialUrl": "https://www.culture.go.kr/wday/main/main.do",
+      "preferredEnvKeys": [
+        "PUBLIC_COUPON_FEED_URLS",
+        "DEAL_NEWS_FEED_URLS"
+      ],
+      "integrationMethod": "official_public_feed_or_page",
+      "priority": "high",
+      "refreshCadenceHours": 12,
+      "allowedUse": "공식 문화 포털의 문화 할인/무료 프로그램",
+      "blockedUse": "행사 소개 기사만 있는 링크",
+      "notes": "공공 혜택은 공식 기관 URL을 finalUrl로 유지한다.",
+      "host": "culture.go.kr",
+      "configuredFeedUrls": 0,
+      "searchLike": false,
+      "blockedHost": false,
+      "homeLike": false,
+      "ok": true,
+      "issues": []
+    },
+    {
+      "id": "mnuri-benefit",
+      "label": "문화누리카드 공식 사용 혜택",
+      "provider": "public_coupon",
+      "category": [
+        "정부/공공혜택",
+        "영화/문화"
+      ],
+      "sourceType": "public_official_page",
+      "officialUrl": "https://www.mnuri.kr/main/main.do",
+      "preferredEnvKeys": [
+        "PUBLIC_COUPON_FEED_URLS"
+      ],
+      "integrationMethod": "official_public_feed_or_page",
+      "priority": "high",
+      "refreshCadenceHours": 24,
+      "allowedUse": "문화누리카드 공식 가맹점/혜택 안내",
+      "blockedUse": "개인 블로그 후기, 검색 결과",
+      "notes": "공공혜택은 자격 조건을 claimWarning에 명확히 기록한다.",
+      "host": "mnuri.kr",
+      "configuredFeedUrls": 0,
+      "searchLike": false,
+      "blockedHost": false,
+      "homeLike": false,
+      "ok": true,
+      "issues": []
+    },
+    {
+      "id": "naverpay-benefit",
+      "label": "네이버페이 공식 이벤트 혜택",
+      "provider": "official_event",
+      "category": [
+        "카드/멤버십",
+        "무료혜택"
+      ],
+      "sourceType": "official_event_page",
+      "officialUrl": "https://new-m.pay.naver.com/pcpay/eventbenefit",
+      "preferredEnvKeys": [
+        "OFFICIAL_EVENT_FEED_URLS",
+        "PUBLIC_COUPON_FEED_URLS"
+      ],
+      "integrationMethod": "official_page_or_partner_json_feed",
+      "priority": "high",
+      "refreshCadenceHours": 6,
+      "allowedUse": "네이버페이 공식 포인트/쿠폰/결제 혜택",
+      "blockedUse": "비공식 이벤트 요약글",
+      "notes": "포인트 적립 조건과 대상 사용자를 명시한다.",
+      "host": "new-m.pay.naver.com",
+      "configuredFeedUrls": 0,
+      "searchLike": false,
+      "blockedHost": false,
+      "homeLike": false,
+      "ok": true,
+      "issues": []
+    },
+    {
+      "id": "kbcard-events",
+      "label": "KB국민카드 공식 이벤트",
+      "provider": "official_event",
+      "category": [
+        "카드/멤버십"
+      ],
+      "sourceType": "official_event_page",
+      "officialUrl": "https://card.kbcard.com/BON/DVIEW/HBBMCXCRVNEC0001",
+      "preferredEnvKeys": [
+        "OFFICIAL_EVENT_FEED_URLS",
+        "DEAL_EVENT_FEED_URLS"
+      ],
+      "integrationMethod": "official_page_or_partner_json_feed",
+      "priority": "medium",
+      "refreshCadenceHours": 12,
+      "allowedUse": "KB국민카드 공식 이벤트/청구할인/캐시백",
+      "blockedUse": "카드 할인 커뮤니티 글 단독 링크",
+      "notes": "카드 혜택은 카드명, 결제 조건, 한도를 요약한다.",
+      "host": "card.kbcard.com",
+      "configuredFeedUrls": 0,
+      "searchLike": false,
+      "blockedHost": false,
+      "homeLike": false,
+      "ok": true,
+      "issues": []
+    },
+    {
+      "id": "bccard-events",
+      "label": "BC카드 공식 이벤트",
+      "provider": "official_event",
+      "category": [
+        "카드/멤버십"
+      ],
+      "sourceType": "official_event_page",
+      "officialUrl": "https://www.bccard.com/app/card/EventActn.do?menuId=64",
+      "preferredEnvKeys": [
+        "OFFICIAL_EVENT_FEED_URLS",
+        "DEAL_EVENT_FEED_URLS"
+      ],
+      "integrationMethod": "official_page_or_partner_json_feed",
+      "priority": "medium",
+      "refreshCadenceHours": 12,
+      "allowedUse": "BC카드 공식 이벤트/청구할인/캐시백",
+      "blockedUse": "뉴스 기사 원문 단독 노출",
+      "notes": "이벤트 종료 여부와 대상 카드 조건을 함께 저장한다.",
+      "host": "bccard.com",
+      "configuredFeedUrls": 0,
+      "searchLike": false,
+      "blockedHost": false,
+      "homeLike": false,
+      "ok": true,
+      "issues": []
+    },
+    {
+      "id": "tworld-membership",
+      "label": "T월드 멤버십 할인",
+      "provider": "official_event",
+      "category": [
+        "카드/멤버십",
+        "외식/배달"
+      ],
+      "sourceType": "official_benefit_page",
+      "officialUrl": "https://www.tworld.co.kr/poc/html/product/TS3.7.1T.2.html",
+      "preferredEnvKeys": [
+        "OFFICIAL_EVENT_FEED_URLS",
+        "DEAL_EVENT_NEWS_FEED_URLS"
+      ],
+      "integrationMethod": "official_page_or_partner_json_feed",
+      "priority": "medium",
+      "refreshCadenceHours": 12,
+      "allowedUse": "T월드 공식 멤버십 할인 안내",
+      "blockedUse": "비공식 멤버십 정리글",
+      "notes": "멤버십 혜택은 등급/월 횟수/사용처 조건을 요약한다.",
+      "host": "tworld.co.kr",
+      "configuredFeedUrls": 0,
+      "searchLike": false,
+      "blockedHost": false,
+      "homeLike": false,
+      "ok": true,
+      "issues": []
+    },
+    {
+      "id": "koreanair-promotion",
+      "label": "대한항공 공식 프로모션",
+      "provider": "event_news",
+      "category": [
+        "여행/숙박"
+      ],
+      "sourceType": "official_event_page",
+      "officialUrl": "https://www.koreanair.com/promotion/list",
+      "preferredEnvKeys": [
+        "DEAL_EVENT_NEWS_FEED_URLS",
+        "OFFICIAL_EVENT_FEED_URLS"
+      ],
+      "integrationMethod": "official_page_or_partner_json_feed",
+      "priority": "medium",
+      "refreshCadenceHours": 12,
+      "allowedUse": "대한항공 공식 항공권/마일리지 프로모션",
+      "blockedUse": "항공권 검색 결과, 커뮤니티 후기",
+      "notes": "항공권은 최종 요금 변동 가능성을 안내한다.",
+      "host": "koreanair.com",
+      "configuredFeedUrls": 0,
+      "searchLike": false,
+      "blockedHost": false,
+      "homeLike": false,
+      "ok": true,
+      "issues": []
+    },
+    {
+      "id": "samsung-shop-event",
+      "label": "삼성닷컴 공식 이벤트",
+      "provider": "official_event",
+      "category": [
+        "디지털/가전"
+      ],
+      "sourceType": "official_event_page",
+      "officialUrl": "https://www.samsung.com/sec/shop/event/",
+      "preferredEnvKeys": [
+        "OFFICIAL_EVENT_FEED_URLS",
+        "DEAL_EVENT_FEED_URLS"
+      ],
+      "integrationMethod": "official_page_or_partner_json_feed",
+      "priority": "medium",
+      "refreshCadenceHours": 12,
+      "allowedUse": "삼성닷컴 공식 가전/모바일 이벤트",
+      "blockedUse": "가격비교 검색 결과",
+      "notes": "공식몰 이벤트는 상품 상세와 행사 페이지를 구분해 저장한다.",
+      "host": "samsung.com",
+      "configuredFeedUrls": 0,
+      "searchLike": false,
+      "blockedHost": false,
+      "homeLike": false,
+      "ok": true,
+      "issues": []
+    },
+    {
+      "id": "himart-events",
+      "label": "하이마트 공식 디지털 행사",
+      "provider": "official_event",
+      "category": [
+        "디지털/가전"
+      ],
+      "sourceType": "official_event_page",
+      "officialUrl": "https://www.e-himart.co.kr/app/event/eventList",
+      "preferredEnvKeys": [
+        "OFFICIAL_EVENT_FEED_URLS",
+        "DEAL_EVENT_FEED_URLS"
+      ],
+      "integrationMethod": "official_page_or_partner_json_feed",
+      "priority": "medium",
+      "refreshCadenceHours": 12,
+      "allowedUse": "하이마트 공식 이벤트/쿠폰/카드 할인",
+      "blockedUse": "검색 결과와 커뮤니티 링크",
+      "notes": "디지털/가전 특가는 카드 혜택과 실결제 조건을 분리한다.",
+      "host": "e-himart.co.kr",
+      "configuredFeedUrls": 0,
+      "searchLike": false,
+      "blockedHost": false,
+      "homeLike": false,
+      "ok": true,
+      "issues": []
+    },
+    {
+      "id": "hmall-official-events",
+      "label": "현대Hmall 공식 쇼핑 기획전",
+      "provider": "news",
+      "category": [
+        "패션/뷰티",
+        "식품/생필품"
+      ],
+      "sourceType": "official_event_page",
+      "officialUrl": "https://www.hyundaihmall.com/front/evntSect.do",
+      "preferredEnvKeys": [
+        "DEAL_NEWS_FEED_URLS",
+        "DEAL_EVENT_NEWS_FEED_URLS"
+      ],
+      "integrationMethod": "approved_news_or_partner_json_feed",
+      "priority": "medium",
+      "refreshCadenceHours": 12,
+      "allowedUse": "현대Hmall 공식 기획전/쿠폰/브랜드 행사",
+      "blockedUse": "기사 원문만 있는 링크, 검색 결과",
+      "notes": "뉴스형 provider는 sourceUrl로 출처를 남기고 finalUrl은 공식 기획전으로 매핑한다.",
+      "host": "hyundaihmall.com",
+      "configuredFeedUrls": 0,
+      "searchLike": false,
+      "blockedHost": false,
+      "homeLike": false,
+      "ok": true,
+      "issues": []
+    },
+    {
+      "id": "musinsa-fashion-festa",
+      "label": "무신사 공식 패션 페스타",
+      "provider": "official_event",
+      "category": [
+        "패션/뷰티"
+      ],
+      "sourceType": "official_event_page",
+      "officialUrl": "https://www.musinsa.com/campaign/fashionfesta_1",
+      "preferredEnvKeys": [
+        "OFFICIAL_EVENT_FEED_URLS",
+        "DEAL_EVENT_FEED_URLS"
+      ],
+      "integrationMethod": "official_page_or_partner_json_feed",
+      "priority": "medium",
+      "refreshCadenceHours": 12,
+      "allowedUse": "무신사 공식 캠페인/쿠폰/브랜드 행사",
+      "blockedUse": "검색 결과, 커뮤니티 행사 요약글",
+      "notes": "패션 혜택은 공식 캠페인 URL과 쿠폰 조건이 확인될 때만 노출한다.",
+      "host": "musinsa.com",
+      "configuredFeedUrls": 0,
+      "searchLike": false,
+      "blockedHost": false,
+      "homeLike": false,
+      "ok": true,
+      "issues": []
+    }
+  ],
+  "issues": []
+}
