@@ -3377,6 +3377,10 @@ function checkNewsDealPipeline() {
   const refreshAllScript = existsSync(join(root, "scripts/refresh-all.mjs")) ? readFileSync(join(root, "scripts/refresh-all.mjs"), "utf8") : "";
   const homePage = readFileSync(join(root, "app/page.tsx"), "utf8");
   const adminPage = readFileSync(join(root, "app/admin/page.tsx"), "utf8");
+  const adminNewsOperationsPanel = existsSync(join(root, "components/AdminNewsOperationsPanel.tsx"))
+    ? readFileSync(join(root, "components/AdminNewsOperationsPanel.tsx"), "utf8")
+    : "";
+  const newsOperations = existsSync(join(root, "lib/deals/newsOperations.ts")) ? readFileSync(join(root, "lib/deals/newsOperations.ts"), "utf8") : "";
 
   for (const key of ["DEAL_NEWS_FEED_URLS", "DEAL_EVENT_NEWS_FEED_URLS", "OFFICIAL_EVENT_FEED_URLS", "PUBLIC_COUPON_FEED_URLS"]) {
     if (!envExample.includes(key)) issues.push(`env example missing ${key}`);
@@ -3405,6 +3409,17 @@ function checkNewsDealPipeline() {
 
   if (!adminPage.includes("뉴스 수집 현황") || !adminPage.includes("운영 리포트 API 보기") || !adminPage.includes("Provider별 성공/실패") || !adminPage.includes("최근 20개 수집 로그") || !adminPage.includes("수동 숨김/복구/재검증 구조") || !adminPage.includes("캠페인 API 보기")) {
     issues.push("admin should expose news collection status, provider logs, manual actions, and notification campaign operation links");
+  }
+  if (
+    !adminPage.includes("AdminNewsOperationsPanel") ||
+    !adminNewsOperationsPanel.includes("공식 혜택 수동 운영") ||
+    !adminNewsOperationsPanel.includes("runAction") ||
+    !adminNewsOperationsPanel.includes("action: NewsOperationAction") ||
+    !adminNewsOperationsPanel.includes("수동 숨김") ||
+    !adminNewsOperationsPanel.includes("재검증 기록") ||
+    !newsOperations.includes("visibleDeals")
+  ) {
+    issues.push("admin should provide executable hide/restore/revalidate controls for official benefit operations");
   }
 
   if (existsSync(join(root, "reports/news-deals.json"))) {

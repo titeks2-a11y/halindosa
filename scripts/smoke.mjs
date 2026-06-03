@@ -543,6 +543,13 @@ await check("admin dashboard quality cards", async () => {
   assert(text.includes("뉴스 수집 현황") && text.includes("공식 이벤트·무료 혜택 feed 후보"), "Admin dashboard missing news collection status");
   assert(text.includes("Provider별 성공/실패") && text.includes("검증 실패 TOP10") && text.includes("최근 20개 수집 로그"), "Admin dashboard missing news provider/log operation panels");
   assert(text.includes("숨김/종료/공식 링크 없음 큐") && text.includes("수동 숨김/복구/재검증 구조"), "Admin dashboard missing news hide/restore/revalidate operation panels");
+  assert(
+    text.includes("공식 혜택 수동 운영") &&
+      text.includes("숨김, 복구, 링크 재검증을 화면에서 바로 실행") &&
+      text.includes("수동 숨김") &&
+      text.includes("재검증 기록"),
+    "Admin dashboard missing executable news operation controls"
+  );
   assert(text.includes("운영 리포트 API 보기"), "Admin dashboard missing news operation report API link");
   assert(text.includes("알림 캠페인 운영 큐") && text.includes("오늘 발송 후보와 FCM 준비 상태"), "Admin dashboard missing notification campaign queue");
   assert(text.includes("구매 링크 확인율"), "Admin dashboard missing verified link rate card");
@@ -663,6 +670,7 @@ await check("admin news operations api", async () => {
   assert(response.status === 200, `Expected 200, got ${response.status}`);
   assert(data.ok === true, "Admin news operations API ok should be true");
   assert(data.report?.visibleCount >= 6, "Admin news operations report missing visible official benefits");
+  assert(Array.isArray(data.report?.visibleDeals) && data.report.visibleDeals.length >= 6, "Admin news operations report missing visible deal operation candidates");
   assert(Array.isArray(data.report?.providerStats) && data.report.providerStats.length >= 4, "Admin news operations report missing provider stats");
   assert(Array.isArray(data.report?.recentLogs) && data.report.recentLogs.length >= 6, "Admin news operations report missing recent logs");
   assert(Array.isArray(data.report?.manualActions) && data.report.manualActions.length >= 3, "Admin news operations report missing manual actions");

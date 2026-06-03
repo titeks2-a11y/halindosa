@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Activity, BadgePercent, DatabaseZap, Download, ExternalLink, Flame, ImageIcon, LineChart, LockKeyhole, ShieldCheck, Store, Timer, TrendingDown, WalletCards } from "lucide-react";
 import { AdminReportQueue } from "@/components/AdminReportQueue";
 import { AdminDealQualityPanel } from "@/components/AdminDealQualityPanel";
+import { AdminNewsOperationsPanel } from "@/components/AdminNewsOperationsPanel";
 import { PartnerFeedDryRunPanel } from "@/components/PartnerFeedDryRunPanel";
 import { getMockBusinessMetrics } from "@/lib/analytics";
 import { canAccessAdmin, getAdminExportHref, isAdminProtectionEnabled } from "@/lib/adminAuth";
@@ -434,6 +435,9 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                 API: POST {newsOperationsApiHref} · action=hide/restore/revalidate, id, reason. 로컬에서는 override 파일, 운영에서는 Supabase admin_actions로 확장합니다.
               </p>
             </div>
+          </div>
+          <div className="mt-4">
+            <AdminNewsOperationsPanel apiHref={newsOperationsApiHref} initialReport={newsOperations} />
           </div>
         </section>
 

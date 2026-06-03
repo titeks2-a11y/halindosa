@@ -121,6 +121,19 @@ export function getNewsOperationsReport() {
     failedCount: (report.failedCount ?? hiddenByReport.length) + manualHiddenDeals.length,
     providerStats,
     failureReasonTop10,
+    visibleDeals: visibleDeals
+      .map((deal) => ({
+        id: deal.id,
+        title: deal.title,
+        merchant: deal.merchant,
+        category: deal.category,
+        benefitType: deal.benefitType,
+        sourceName: deal.sourceName,
+        finalUrl: deal.finalUrl,
+        validationStatus: deal.validationStatus,
+        lastCheckedAt: deal.lastCheckedAt
+      }))
+      .slice(0, 20),
     hiddenDeals: [...manualHiddenDeals, ...hiddenByReport].slice(0, 20),
     expiredDeals: report.expiredDeals ?? [],
     officialMissingDeals: report.officialMissingDeals ?? [],
