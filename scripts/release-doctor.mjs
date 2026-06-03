@@ -1959,6 +1959,8 @@ async function checkOperationalDataSurfaces() {
     ? JSON.parse(readFileSync(join(root, "reports/official-source-live-check.json"), "utf8"))
     : {};
   const sourceOnboardingPlanScript = await text("scripts/source-onboarding-plan.mjs");
+  const sourceOnboardingPlanReadiness = await text("lib/operations/sourceOnboardingPlan.ts");
+  const adminSourceOnboardingRoute = await text("app/api/admin/source-onboarding/route.ts");
   const sourceOnboardingPlanDoc = existsSync(join(root, "docs/SOURCE_ONBOARDING_PLAN.md"))
     ? readFileSync(join(root, "docs/SOURCE_ONBOARDING_PLAN.md"), "utf8")
     : "";
@@ -2773,6 +2775,10 @@ async function checkOperationalDataSurfaces() {
     !officialSourceLiveDoctorScript.includes("waf_or_permission_guarded") ||
     !sourceOnboardingPlanScript.includes("reports/source-onboarding-plan.csv") ||
     !sourceOnboardingPlanScript.includes("공식 API, RSS, 제휴 feed") ||
+    !sourceOnboardingPlanReadiness.includes("getOfficialSourceOnboardingPlan") ||
+    !adminSourceOnboardingRoute.includes("canAccessAdmin") ||
+    !adminSourceOnboardingRoute.includes("format === \"csv\"") ||
+    !adminSourceOnboardingRoute.includes("source-onboarding-plan.csv") ||
     !officialSourceLiveReadiness.includes("getOfficialSourceLiveReport") ||
     !adminSourceLiveRoute.includes("canAccessAdmin") ||
     !adminSourceLiveRoute.includes("format === \"csv\"") ||
@@ -2780,8 +2786,13 @@ async function checkOperationalDataSurfaces() {
     !adminPage.includes("공식 소스 live 접근성") ||
     !adminPage.includes("protected/guarded 소스") ||
     !adminPage.includes("/api/admin/source-live") ||
+    !adminPage.includes("공식 소스 온보딩 우선순위") ||
+    !adminPage.includes("다음 연결 우선순위 TOP 10") ||
+    !adminPage.includes("/api/admin/source-onboarding") ||
     !smoke.includes("admin source live readiness api") ||
     !smoke.includes("Admin source live report should use non-strict live readiness mode") ||
+    !smoke.includes("admin source onboarding plan api") ||
+    !smoke.includes("Admin source onboarding plan should pass") ||
     !officialSourceLiveDoc.includes("공식 소스 라이브 접근성 점검") ||
     !officialSourceLiveDoc.includes("무단 크롤링을 수행하지 않으며") ||
     officialSourceLiveReport.ok !== true ||

@@ -28,6 +28,7 @@ import { getCronRefreshOperationsReport } from "@/lib/operations/cronRefresh";
 import { getExposurePolicyReport } from "@/lib/operations/exposurePolicy";
 import { getHealthReadinessReport } from "@/lib/operations/healthReadiness";
 import { getOfficialSourceLiveReport } from "@/lib/operations/sourceLiveReadiness";
+import { getOfficialSourceOnboardingPlan } from "@/lib/operations/sourceOnboardingPlan";
 
 const checklist = [
   { title: "제휴 고지", description: "광고/제휴 링크 여부를 상품 상세 및 이동 전 플로우에 명확히 표시" },
@@ -85,6 +86,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const newsOperations = getNewsOperationsReport();
   const healthReadiness = getHealthReadinessReport();
   const sourceLiveReport = getOfficialSourceLiveReport();
+  const sourceOnboardingPlan = getOfficialSourceOnboardingPlan();
   const cronRefresh = getCronRefreshOperationsReport();
   const exposurePolicy = getExposurePolicyReport();
   const newsResult = getVisibleNewsDeals({ limit: 20 });
@@ -136,6 +138,12 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const sourceLiveCsvHref = isAdminProtectionEnabled()
     ? `/api/admin/source-live?format=csv&token=${encodeURIComponent(token ?? "")}`
     : "/api/admin/source-live?format=csv";
+  const sourceOnboardingApiHref = isAdminProtectionEnabled()
+    ? `/api/admin/source-onboarding?token=${encodeURIComponent(token ?? "")}`
+    : "/api/admin/source-onboarding";
+  const sourceOnboardingCsvHref = isAdminProtectionEnabled()
+    ? `/api/admin/source-onboarding?format=csv&token=${encodeURIComponent(token ?? "")}`
+    : "/api/admin/source-onboarding?format=csv";
   const pushSendApiHref = isAdminProtectionEnabled()
     ? `/api/admin/push/send?token=${encodeURIComponent(token ?? "")}`
     : "/api/admin/push/send";
@@ -144,6 +152,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
     : "/api/admin/push-readiness";
   const sourceReadiness = getDealSourceReadiness(deals);
   const sourceLiveRiskRows = sourceLiveReport.sources.filter((item) => item.status !== "reachable").slice(0, 5);
+  const sourceOnboardingTopQueue = sourceOnboardingPlan.queue.slice(0, 8);
   const priorityLabels = {
     high: "우선",
     medium: "보강",
@@ -1343,6 +1352,119 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                 모든 공식 소스 후보가 접근 가능 상태입니다.
               </p>
             )}
+          </div>
+        </section>
+
+        <section className="rounded-3xl border border-amber-100 bg-white p-5 shadow-sm" aria-label="공식 소스 온보딩 우선순위">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-black text-amber-700">공식 소스 온보딩 우선순위</p>
+              <h2 className="mt-1 text-xl font-black text-slate-950">다음 연결 우선순위 TOP 10</h2>
+              <p className="mt-1 text-sm font-semibold leading-6 text-slate-500">
+                접근 가능한 공식 페이지는 승인 feed 연결 후보로, 보호 페이지는 API·제휴 담당자 확인 대상으로 분리합니다.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <a href={sourceOnboardingApiHref} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-2xl bg-slate-950 px-4 py-3 text-sm font-black text-white">
+                <DatabaseZap size={17} />
+                온보딩 JSON
+              </a>
+              <a href={sourceOnboardingCsvHref} className="inline-flex items-center gap-2 rounded-2xl border border-amber-100 bg-white px-4 py-3 text-sm font-black text-amber-700">
+                <Download size={17} />
+                온보딩 CSV
+              </a>
+            </div>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-5">
+            <div className="rounded-2xl bg-amber-50 p-4">
+              <p className="text-xs font-black text-amber-800">공식 후보</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">{sourceOnboardingPlan.totalSources}개</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-amber-900/70">운영 연결 대상</p>
+            </div>
+            <div className="rounded-2xl bg-emerald-50 p-4">
+              <p className="text-xs font-black text-emerald-700">feed 연결 후보</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">{sourceOnboardingPlan.statusCounts.connect_official_feed ?? 0}개</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-emerald-900/70">공식 RSS/API 우선</p>
+            </div>
+            <div className="rounded-2xl bg-slate-50 p-4">
+              <p className="text-xs font-black text-slate-500">제휴 확인</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">{sourceOnboardingPlan.statusCounts.request_partner_or_api ?? 0}개</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-slate-500">보호 페이지 수집 금지</p>
+            </div>
+            <div className="rounded-2xl bg-slate-50 p-4">
+              <p className="text-xs font-black text-slate-500">설정 완료 feed</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">{sourceOnboardingPlan.configuredFeedSources}개</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-slate-500">env 연결 기준</p>
+            </div>
+            <div className="rounded-2xl bg-red-50 p-4">
+              <p className="text-xs font-black text-dossa-red">차단 이슈</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">{sourceOnboardingPlan.blockedLiveIssues}개</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-red-900/70">출시 전 0 유지</p>
+            </div>
+          </div>
+          <div className="mt-4 grid gap-3 xl:grid-cols-[1.1fr_0.9fr]">
+            <div className="rounded-2xl border border-amber-100 bg-amber-50 p-4">
+              <div className="flex items-center justify-between gap-2">
+                <p className="text-sm font-black text-slate-950">연결 우선 큐</p>
+                <span className="rounded-full bg-white px-3 py-1.5 text-xs font-black text-amber-700 shadow-sm">
+                  {sourceOnboardingPlan.ok ? "리포트 정상" : "리포트 생성 필요"}
+                </span>
+              </div>
+              <div className="mt-3 space-y-2">
+                {(sourceOnboardingTopQueue.length ? sourceOnboardingTopQueue : [{
+                  rank: 0,
+                  id: "missing",
+                  label: "온보딩 리포트 없음",
+                  provider: "system",
+                  category: ["운영"],
+                  priority: "high",
+                  sourceType: "report",
+                  officialUrl: "/admin",
+                  liveStatus: "missing",
+                  httpStatus: 0,
+                  configuredFeedUrls: 0,
+                  recommendedEnvKeys: ["source:onboarding:plan"],
+                  onboardingStatus: "connect_official_feed",
+                  score: 0,
+                  reasons: ["missing report"],
+                  nextAction: "npm run source:onboarding:plan 실행",
+                  guardrail: "공식 소스만 연결"
+                }]).map((item) => (
+                  <div key={item.id} className="rounded-2xl bg-white p-3 shadow-sm">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="rounded-full bg-slate-950 px-2.5 py-1 text-[11px] font-black text-white">#{item.rank}</span>
+                      <span className={`rounded-full px-2.5 py-1 text-[11px] font-black ${item.onboardingStatus === "connect_official_feed" ? "bg-emerald-50 text-emerald-700" : "bg-amber-100 text-amber-800"}`}>
+                        {item.onboardingStatus === "connect_official_feed" ? "feed 연결" : "제휴 확인"}
+                      </span>
+                      <span className="rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-black text-slate-600">{item.provider}</span>
+                    </div>
+                    <p className="mt-2 text-sm font-black text-slate-950">{item.label}</p>
+                    <p className="mt-1 text-xs font-bold leading-5 text-slate-500">{item.nextAction}</p>
+                    <p className="mt-2 line-clamp-1 text-[11px] font-black text-amber-700">
+                      {item.recommendedEnvKeys.join(", ")}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
+              <p className="text-sm font-black text-slate-950">운영 가드레일</p>
+              <div className="mt-3 space-y-2">
+                {(sourceOnboardingPlan.guardrails.length ? sourceOnboardingPlan.guardrails : ["공식 API, RSS, 제휴 feed, 담당자 승인 JSON만 운영 feed로 연결합니다."]).map((guardrail) => (
+                  <p key={guardrail} className="rounded-2xl bg-white px-3 py-2 text-xs font-bold leading-5 text-slate-600 shadow-sm">
+                    {guardrail}
+                  </p>
+                ))}
+              </div>
+              <div className="mt-3 rounded-2xl bg-white px-3 py-2 text-xs font-bold leading-5 text-slate-600 shadow-sm">
+                <p>
+                  <b className="text-slate-950">생성 시각:</b> {formatAdminDateTime(sourceOnboardingPlan.generatedAt)}
+                </p>
+                <p className="mt-1">
+                  <b className="text-slate-950">재생성:</b> npm run source:catalog:report && npm run source:live:doctor && npm run source:onboarding:plan
+                </p>
+              </div>
+            </div>
           </div>
         </section>
 
