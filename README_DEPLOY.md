@@ -158,6 +158,8 @@ npm run news:feed:doctor
 npm run refresh:news
 npm run verify:news
 npm run refresh:all
+npm run verify:links:live
+npm run verify:products
 npm run exposure:doctor
 npm run health:readiness
 npm run feed:validate -- --file ./partner-feed.json

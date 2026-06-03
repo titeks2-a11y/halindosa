@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-03T17:57:41.048Z",
+  "generatedAt": "2026-06-03T18:05:22.567Z",
   "totalChecks": 182,
   "passedChecks": 182,
   "failedChecks": 0,
@@ -423,7 +423,7 @@
     {
       "name": "link validation policy system",
       "ok": true,
-      "detail": "Runtime validators, provider intake, refresh pipeline, QA scripts, and reports share the link quality policy with zero exposed search or sold-out links."
+      "detail": "Runtime validators, provider intake, refresh pipeline, QA scripts, non-strict live probes, and reports share the link quality policy with zero exposed search or sold-out links."
     },
     {
       "name": "official benefit outbound allowlist",

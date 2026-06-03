@@ -188,9 +188,9 @@ SEO 규칙은 root metadata, Open Graph, canonical, manifest, sitemap, robots, �
   - 검증 스크립트는 커뮤니티, placeholder, 쇼핑몰 메인, 검색/카테고리 URL을 실패로 처리한다.
   - 검증 스크립트는 상품 상세 URL과 공식 혜택/이벤트 URL을 분리해 집계한다. 상품 상세 신호가 없는 공식 이벤트성 혜택은 evidence에 공식 이벤트, 쿠폰, 초대권, 멤버십 등 검수 근거가 있어야 통과한다.
   - `reports/link-validation.json`은 `policy.source`, `httpStatusSummary`, 검색 링크 수, 품절/종료 신호 수, hidden 처리 수와 상품별 `auditedItems`를 기록한다. Play Store 제출 전에는 검색 링크 0건, 품절/종료 노출 0건, `visibleDeals=140` 이상을 확인한다.
-  - 운영자가 실제 HTTP 상태까지 확인해야 하는 날에는 `npm run verify:links:live`를 실행한다. 이 명령은 Windows에서도 동일하게 live probe 환경을 켜고 redirect, 404, 410, 5xx, timeout, 접근 차단 신호를 `reports/link-validation.json`에 기록한다. `--strict`는 live probe 실패를 릴리즈 차단으로 보고, `--body`는 작은 응답 본문에서 품절/판매종료 문구까지 확인한다.
+  - `npm run qa`는 non-strict `npm run verify:links:live`를 포함해 Windows에서도 동일하게 redirect, 404, 410, 5xx, timeout, 접근 차단 신호를 `reports/link-validation.json`에 기록한다. `--strict`는 live probe 실패를 릴리즈 차단으로 보고, `--body`는 작은 응답 본문에서 품절/판매종료 문구까지 확인한다.
   - `403`, `429`, `robots_or_access_blocked`는 쇼핑몰의 자동 접근 보호 정책일 수 있으므로, 그 자체만으로 상품을 품절/종료 처리하지 않는다. 대신 `/admin`의 `라이브 실패 사유 분포`와 `reports/exposure-policy.json.liveProbeFailureReasonCounts`에서 사유를 확인하고, 검색 링크·대표몰 이동·품절 문구·404/410이 함께 있을 때만 숨김 또는 URL 보강 대상으로 본다.
-  - 라이브 검증 후에는 `npm run exposure:doctor`를 다시 실행해 `reports/exposure-policy.json`과 `/api/admin/exposure-policy`에 live probe 요약, 실패 사유 분포, 상품별 감사 행이 함께 반영되도록 한다.
+  - 라이브 검증 후에는 `npm run verify:products && npm run exposure:doctor`를 다시 실행해 `reports/product-quality.json`, `reports/exposure-policy.json`, `/api/admin/exposure-policy`에 live probe 요약, 실패 사유 분포, 상품별 감사 행이 함께 반영되도록 한다.
   - `reports/product-quality.json`은 같은 정책의 `exposurePolicy`를 기록하고 `/api/deals` 노출 조건과 리포트 조건이 어긋나면 `verify:products`에서 실패한다.
   - `npm run exposure:doctor`는 `reports/exposure-policy.json`을 생성한다. 운영자는 여기서 `badExposedItems=0`, `searchLinksExposed=0`, `soldOutExposed=0`을 확인한 뒤 신규 피드 반영 또는 스토어 제출을 진행한다.
 - `npm run catalog:doctor`는 전체 상품 수 140개 이상, 판매처 수, 필수 카테고리별 최소 5개, 필수 혜택 유형별 최소 5개, 검증 구매 링크 커버리지를 함께 검사한다. 상품 ID 순번, 중복 ID, 같은 판매처의 중복 상품명, 정상가/할인가/할인율 범위, 태그 2개 이상도 함께 확인한다.
