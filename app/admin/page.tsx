@@ -383,6 +383,9 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
               <p className="mt-2 text-xs font-bold leading-5 text-emerald-900/75">
                 생성 시각 {exposurePolicy.generatedAt ? getRelativeTime(exposurePolicy.generatedAt) : "리포트 없음"}
               </p>
+              <p className="mt-2 text-xs font-bold leading-5 text-emerald-900/75">
+                라이브 HTTP 검증 {exposurePolicy.liveProbe.enabled ? `${exposurePolicy.liveProbe.checked}개 검사 · 실패 ${exposurePolicy.liveProbe.failed}개` : "미실행"} · timeout {exposurePolicy.liveProbe.timeoutMs}ms
+              </p>
             </div>
             <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
               <p className="text-sm font-black text-slate-950">노출 차단 정책</p>
@@ -401,9 +404,24 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                 </span>
               </div>
               <p className="mt-3 text-xs font-bold leading-5 text-slate-500">
-                문제가 생기면 `npm run verify:links`, `npm run verify:products`, `npm run exposure:doctor` 순서로 원인을 먼저 확인합니다.
+                문제가 생기면 `npm run verify:links`, `npm run verify:links:live`, `npm run verify:products`, `npm run exposure:doctor` 순서로 원인을 먼저 확인합니다.
               </p>
             </div>
+          </div>
+          <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+            {[
+              ["라이브 모드", exposurePolicy.liveProbe.enabled ? "실행" : "정적", exposurePolicy.liveProbe.enabled ? "실제 HTTP/redirect 확인" : "정책 기반 검증"],
+              ["검사/통과", `${exposurePolicy.liveProbe.checked}/${exposurePolicy.liveProbe.passed}`, "live probe 결과"],
+              ["실패", exposurePolicy.liveProbe.failed, "404/410/5xx/timeout"],
+              ["리다이렉트", exposurePolicy.liveProbe.redirected, `최종 URL 변경 ${exposurePolicy.liveProbe.finalUrlChanged}`],
+              ["품절 문구", exposurePolicy.liveProbe.unavailableText, "본문 감지"]
+            ].map(([label, value, description]) => (
+              <div key={label} className="rounded-2xl border border-emerald-100 bg-white p-3">
+                <p className="text-[11px] font-black text-emerald-700">{label}</p>
+                <p className="mt-1 text-lg font-black text-slate-950">{typeof value === "number" ? value.toLocaleString("ko-KR") : value}</p>
+                <p className="mt-1 text-[11px] font-bold text-slate-500">{description}</p>
+              </div>
+            ))}
           </div>
           <div className="mt-4 rounded-2xl border border-emerald-100 bg-white p-4">
             <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">

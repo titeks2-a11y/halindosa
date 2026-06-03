@@ -13,6 +13,29 @@ export interface ExposurePolicySummary {
   averagePriorityScore: number;
 }
 
+export interface ExposurePolicyLiveProbeSummary {
+  enabled: boolean;
+  strict: boolean;
+  bodyProbe: boolean;
+  timeoutMs: number;
+  checked: number;
+  passed: number;
+  failed: number;
+  redirected: number;
+  finalUrlChanged: number;
+  http404: number;
+  http410: number;
+  http5xx: number;
+  timeout: number;
+  robotsBlocked: number;
+  unavailableText: number;
+  failures: Array<{
+    id?: string;
+    reason?: string;
+    finalUrl?: string;
+  }>;
+}
+
 export interface ExposurePolicyReport {
   ok: boolean;
   generatedAt: string;
@@ -27,6 +50,7 @@ export interface ExposurePolicyReport {
     blockedLinkTypes: string[];
     finalUrlRequired: boolean;
   } | null;
+  liveProbe: ExposurePolicyLiveProbeSummary;
   auditedItems: Array<{
     id: string;
     source: string;
@@ -89,6 +113,24 @@ const fallbackReport: ExposurePolicyReport = {
   availabilityCounts: {},
   validationStatusCounts: {},
   exposurePolicy: null,
+  liveProbe: {
+    enabled: false,
+    strict: false,
+    bodyProbe: false,
+    timeoutMs: 0,
+    checked: 0,
+    passed: 0,
+    failed: 0,
+    redirected: 0,
+    finalUrlChanged: 0,
+    http404: 0,
+    http410: 0,
+    http5xx: 0,
+    timeout: 0,
+    robotsBlocked: 0,
+    unavailableText: 0,
+    failures: []
+  },
   auditedItems: [],
   badExposedItems: [],
   hiddenItems: [],
@@ -228,6 +270,66 @@ export function buildExposurePolicyCsv(report: ExposurePolicyReport) {
     generatedAt: report.generatedAt
   }));
 
+  const liveProbeRows = [
+    {
+      key: "enabled",
+      label: "라이브 HTTP 검증",
+      count: report.liveProbe.enabled ? 1 : 0,
+      status: report.liveProbe.enabled ? "live" : "static",
+      reason: report.liveProbe.enabled ? "redirect/status/body probe enabled" : "정적 URL 정책 검증 모드",
+      action: report.liveProbe.enabled ? "실패 항목 우선 보강" : "운영 전 npm run verify:links:live 실행"
+    },
+    {
+      key: "checked",
+      label: "실시간 검사 수",
+      count: report.liveProbe.checked,
+      status: report.liveProbe.failed > 0 ? "review" : "pass",
+      reason: `pass ${report.liveProbe.passed} / fail ${report.liveProbe.failed}`,
+      action: report.liveProbe.failed > 0 ? "liveProbe failures 확인" : "현 상태 유지"
+    },
+    {
+      key: "redirected",
+      label: "리다이렉트 감지",
+      count: report.liveProbe.redirected,
+      status: report.liveProbe.finalUrlChanged > 0 ? "review" : "pass",
+      reason: `final URL changed ${report.liveProbe.finalUrlChanged}`,
+      action: report.liveProbe.finalUrlChanged > 0 ? "최종 도착 URL을 finalUrl로 반영 검토" : "현 상태 유지"
+    },
+    {
+      key: "http_failures",
+      label: "HTTP 실패 신호",
+      count: report.liveProbe.http404 + report.liveProbe.http410 + report.liveProbe.http5xx + report.liveProbe.timeout + report.liveProbe.robotsBlocked,
+      status: report.liveProbe.http404 + report.liveProbe.http410 + report.liveProbe.http5xx + report.liveProbe.timeout + report.liveProbe.robotsBlocked > 0 ? "review" : "pass",
+      reason: `404 ${report.liveProbe.http404}, 410 ${report.liveProbe.http410}, 5xx ${report.liveProbe.http5xx}, timeout ${report.liveProbe.timeout}, robots ${report.liveProbe.robotsBlocked}`,
+      action: "실패 URL은 숨김 또는 판매처 상세 URL 보강"
+    },
+    {
+      key: "unavailable_text",
+      label: "품절/종료 문구",
+      count: report.liveProbe.unavailableText,
+      status: report.liveProbe.unavailableText > 0 ? "block" : "pass",
+      reason: "본문 품절, 판매종료, 이벤트종료 문구 감지",
+      action: report.liveProbe.unavailableText > 0 ? "availability=sold_out 처리" : "현 상태 유지"
+    }
+  ].map((item) => ({
+    section: "live_probe",
+    key: item.key,
+    label: item.label,
+    status: item.status,
+    count: item.count,
+    reason: item.reason,
+    action: item.action,
+    linkType: "",
+    availability: "",
+    validationStatus: "",
+    finalUrl: "",
+    generatedAt: report.generatedAt,
+    liveProbeEnabled: report.liveProbe.enabled,
+    liveProbeStrict: report.liveProbe.strict,
+    liveProbeBodyProbe: report.liveProbe.bodyProbe,
+    liveProbeTimeoutMs: report.liveProbe.timeoutMs
+  }));
+
   const auditedRows = (report.auditedItems.length ? report.auditedItems : [{
     id: "none",
     source: "",
@@ -278,5 +380,5 @@ export function buildExposurePolicyCsv(report: ExposurePolicyReport) {
     liveProbeReason: item.liveProbeReason
   }));
 
-  return toCsv([...summaryRows, ...countRows, ...issueRows, ...badRows, ...hiddenRows, ...auditedRows]);
+  return toCsv([...summaryRows, ...countRows, ...issueRows, ...badRows, ...hiddenRows, ...liveProbeRows, ...auditedRows]);
 }

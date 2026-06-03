@@ -3591,13 +3591,17 @@ function checkRefreshDealPipeline() {
     !exposureDoctorScript.includes("auditedItems: auditedItems.map") ||
     !exposureReport.auditedItems ||
     exposureReport.auditedItems.length < 140 ||
+    !exposureReport.liveProbe ||
+    typeof exposureReport.liveProbe.enabled !== "boolean" ||
     !adminPage.includes("노출 정책 감사") ||
     !adminPage.includes("노출 감사 CSV") ||
     !adminPage.includes("상품별 노출 감사 샘플") ||
+    !adminPage.includes("라이브 HTTP 검증") ||
     !adminPage.includes("reports/exposure-policy.json") ||
     !smoke.includes("admin exposure policy api") ||
     !smoke.includes("admin exposure policy csv") ||
     !smoke.includes("product-level audited rows") ||
+    !smoke.includes("live probe summary") ||
     !smoke.includes("badExposedItems === 0")
   ) {
     issues.push("admin exposure policy API/page should surface product-level exposure audit rows, CSV export, and smoke-test zero bad exposed links");

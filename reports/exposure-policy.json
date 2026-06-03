@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-03T15:00:41.516Z",
+  "generatedAt": "2026-06-03T15:24:37.706Z",
   "summary": {
     "auditedItems": 140,
     "exposedItems": 140,
@@ -30,6 +30,24 @@
       "unavailable"
     ],
     "finalUrlRequired": true
+  },
+  "liveProbe": {
+    "enabled": false,
+    "strict": false,
+    "bodyProbe": false,
+    "timeoutMs": 3500,
+    "checked": 0,
+    "passed": 0,
+    "failed": 0,
+    "redirected": 0,
+    "finalUrlChanged": 0,
+    "http404": 0,
+    "http410": 0,
+    "http5xx": 0,
+    "timeout": 0,
+    "robotsBlocked": 0,
+    "unavailableText": 0,
+    "failures": []
   },
   "auditedItems": [
     {
@@ -3116,9 +3134,9 @@
   "badExposedItems": [],
   "hiddenItems": [],
   "sourceReports": {
-    "linkValidationGeneratedAt": "2026-06-03T14:56:09.481Z",
-    "productQualityGeneratedAt": "2026-06-03T14:56:09.582Z",
-    "refreshAllGeneratedAt": "2026-06-03T14:56:09.038Z"
+    "linkValidationGeneratedAt": "2026-06-03T15:24:37.038Z",
+    "productQualityGeneratedAt": "2026-06-03T15:24:37.132Z",
+    "refreshAllGeneratedAt": "2026-06-03T15:24:36.583Z"
   },
   "issues": []
 }
