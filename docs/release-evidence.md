@@ -4,23 +4,23 @@
 
 ## 기본 정보
 
-- 생성 시각: 2026-06-02T20:27:27.253Z
+- 생성 시각: 2026-06-03T09:18:46.928Z
 - Git 브랜치: codex/12h-product-ux-growth-hardening
-- 최신 커밋: df3a0c7
-- Git 상태: M DEVICE_QA_REPORT.md;  M KNOWN_ISSUES.md;  M PUBLIC_URL_REPORT.md;  M RELEASE_NOTES.json;  M RELEASE_NOTES.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_HANDOFF_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_PACKET_REPORT.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M SUPPORT_PLAYBOOK.json;  M SUPPORT_PLAYBOOK.md;  M docs/DEVICE_QA_REPORT.md;  M docs/KNOWN_ISSUES.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/RELEASE_NOTES.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_HANDOFF_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_PACKET_REPORT.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md;  M docs/SUPPORT_PLAYBOOK.md
-- 패키지 버전: 1.0.0
+- 최신 커밋: 56151b0
+- Git 상태: clean
+- 패키지 버전: 1.0.1
 - 앱 이름: 할인도사
 - 앱 ID / 패키지명: com.halindosa.app
 - Capacitor webDir: out
-- Android versionCode: 1
-- Android versionName: 1.0.0
+- Android versionCode: 2
+- Android versionName: 1.0.1
 
 ## 산출물
 
 | 항목 | 경로 | 크기 |
 | --- | --- | --- |
 | Debug APK | `android/app/build/outputs/apk/debug/app-debug.apk` | 10.12MB |
-| Release AAB | `android/app/build/outputs/bundle/release/app-release.aab` | 6.20MB |
+| Release AAB | `android/app/build/outputs/bundle/release/app-release.aab` | 13.58MB |
 | Play Store icon | `assets/store/play-store-icon-512.png` | 26KB |
 | Feature graphic | `assets/store/feature-graphic-1024x500.png` | 47KB |
 | iOS App icon | `ios/App/App/Assets.xcassets/AppIcon.appiconset/AppIcon-512@2x.png` | 61KB |
