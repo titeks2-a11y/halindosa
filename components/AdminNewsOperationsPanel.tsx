@@ -35,6 +35,7 @@ interface NewsOperationsReport {
     category: string;
     action: string;
     count: number;
+    minimumCount?: number;
     status: string;
     sampleTitle?: string;
   }>;
@@ -99,7 +100,7 @@ export function AdminNewsOperationsPanel({ apiHref, initialReport }: AdminNewsOp
   const hiddenDeals = useMemo(() => report.hiddenDeals?.slice(0, 8) ?? [], [report.hiddenDeals]);
   const categoryCoverage = useMemo(() => report.categoryCoverage ?? [], [report.categoryCoverage]);
   const refreshSteps = useMemo(() => report.refreshAll?.steps?.slice(0, 6) ?? [], [report.refreshAll?.steps]);
-  const gapCount = categoryCoverage.filter((item) => item.status === "gap").length;
+  const issueCount = categoryCoverage.filter((item) => item.status === "gap" || item.status === "thin").length;
 
   const runAction = async (action: NewsOperationAction, deal: NewsOperationDeal) => {
     const id = getDealId(deal);
@@ -169,17 +170,17 @@ export function AdminNewsOperationsPanel({ apiHref, initialReport }: AdminNewsOp
         <div className="rounded-2xl border border-slate-100 bg-slate-50 p-3">
           <div className="flex items-center justify-between gap-2">
             <p className="text-sm font-black text-slate-950">필수 혜택 카테고리 커버리지</p>
-            <span className={`rounded-full px-2.5 py-1 text-[11px] font-black ${gapCount ? "bg-amber-50 text-amber-700" : "bg-emerald-50 text-emerald-700"}`}>
-              {gapCount ? `${gapCount}개 보강` : "전체 충족"}
+            <span className={`rounded-full px-2.5 py-1 text-[11px] font-black ${issueCount ? "bg-amber-50 text-amber-700" : "bg-emerald-50 text-emerald-700"}`}>
+              {issueCount ? `${issueCount}개 보강` : "전체 충족"}
             </span>
           </div>
           <div className="mt-3 grid grid-cols-2 gap-2 md:grid-cols-5">
             {categoryCoverage.map((item) => (
-              <div key={item.category} className={`rounded-2xl p-3 ${item.status === "gap" ? "bg-amber-50" : "bg-white"}`}>
+              <div key={item.category} className={`rounded-2xl p-3 ${item.status === "gap" ? "bg-red-50" : item.status === "thin" ? "bg-amber-50" : "bg-white"}`}>
                 <div className="flex items-center justify-between gap-2">
                   <p className="truncate text-[11px] font-black text-slate-800">{item.category}</p>
-                  <span className={`rounded-full px-2 py-0.5 text-[10px] font-black ${item.status === "gap" ? "bg-white text-amber-700" : "bg-emerald-50 text-emerald-700"}`}>
-                    {item.count}개
+                  <span className={`rounded-full px-2 py-0.5 text-[10px] font-black ${item.status === "gap" ? "bg-white text-brand-red" : item.status === "thin" ? "bg-white text-amber-700" : "bg-emerald-50 text-emerald-700"}`}>
+                    {item.count}/{item.minimumCount ?? 2}
                   </span>
                 </div>
                 <p className="mt-2 line-clamp-2 text-[11px] font-bold leading-4 text-slate-500">

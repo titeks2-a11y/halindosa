@@ -3533,10 +3533,15 @@ function checkNewsDealPipeline() {
     !adminNewsOperationsPanel.includes("수동 숨김") ||
     !adminNewsOperationsPanel.includes("재검증 기록") ||
     !adminNewsOperationsPanel.includes("필수 혜택 카테고리 커버리지") ||
+    !adminNewsOperationsPanel.includes("issueCount") ||
+    !adminNewsOperationsPanel.includes("thin") ||
     !adminNewsOperationsPanel.includes("refresh:all 운영 상태") ||
     !newsOperations.includes("categoryCoverage") ||
     !newsOperations.includes("operationalRisks") ||
     !newsOperations.includes("requiredNewsCategories") ||
+    !newsOperations.includes("minimumCategoryDealCount") ||
+    !verifyScript.includes("minimumCategoryDealCount") ||
+    !verifyScript.includes("thinCategories") ||
     !newsOperations.includes("durationMs")
   ) {
     issues.push("admin should provide executable hide/restore/revalidate controls plus category coverage, refresh status, and risk summaries for official benefit operations");
@@ -3545,11 +3550,13 @@ function checkNewsDealPipeline() {
   if (existsSync(join(root, "reports/news-deals.json"))) {
     const report = JSON.parse(readFileSync(join(root, "reports/news-deals.json"), "utf8"));
     if (report.ok !== true) issues.push("news-deals report should pass");
-    if ((report.visibleCount ?? 0) < 15) issues.push("news-deals report should include at least 15 visible official benefits across daily benefit categories");
-    const requiredNewsCategories = ["식품/생필품", "마트/편의점", "외식/배달", "패션/뷰티", "디지털/가전", "카드/멤버십", "영화/문화", "무료혜택"];
+    if ((report.visibleCount ?? 0) < 25) issues.push("news-deals report should include at least 25 visible official benefits across daily benefit categories");
+    const requiredNewsCategories = ["식품/생필품", "마트/편의점", "디지털/가전", "패션/뷰티", "외식/배달", "여행/숙박", "영화/문화", "카드/멤버십", "무료혜택", "정부/공공혜택"];
     const categoryCounts = report.categoryCounts ?? {};
     const missingCategories = requiredNewsCategories.filter((category) => !categoryCounts[category]);
+    const thinCategories = requiredNewsCategories.filter((category) => Number(categoryCounts[category] ?? 0) > 0 && Number(categoryCounts[category] ?? 0) < 2);
     if (missingCategories.length) issues.push(`news-deals report missing required categories: ${missingCategories.join(", ")}`);
+    if (thinCategories.length) issues.push(`news-deals report thin required categories: ${thinCategories.join(", ")}`);
     if (!Array.isArray(report.providerStats) || report.providerStats.length < 4) issues.push("news-deals report should include provider stats");
     if (!Array.isArray(report.recentLogs) || report.recentLogs.length < 5) issues.push("news-deals report should include recent collection logs");
     if (!Array.isArray(report.manualActions) || report.manualActions.length < 3) issues.push("news-deals report should include manual hide/restore/revalidate actions");
@@ -3561,7 +3568,7 @@ function checkNewsDealPipeline() {
   if (existsSync(join(root, "reports/refresh-all.json"))) {
     const report = JSON.parse(readFileSync(join(root, "reports/refresh-all.json"), "utf8"));
     if (report.ok !== true) issues.push("refresh-all report should pass");
-    if ((report.newsDealsCount ?? 0) < 15) issues.push("refresh-all should include expanded official news/event benefits");
+    if ((report.newsDealsCount ?? 0) < 25) issues.push("refresh-all should include expanded official news/event benefits");
     if ((report.productDealsCount ?? 0) < 140) issues.push("refresh-all should preserve 140 verified product deals");
     if (!Array.isArray(report.providerStats?.news) || report.providerStats.news.length < 4) issues.push("refresh-all should preserve news provider stats");
   }

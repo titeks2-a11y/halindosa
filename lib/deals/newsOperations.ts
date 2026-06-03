@@ -73,17 +73,18 @@ const newsDealsReportPath = join(process.cwd(), "reports", "news-deals.json");
 const refreshAllReportPath = join(process.cwd(), "reports", "refresh-all.json");
 
 const requiredNewsCategories = [
-  { category: "식품/생필품", action: "생활 장보기 공식 행사 1개 이상 유지" },
+  { category: "식품/생필품", action: "생활 장보기 공식 행사 2개 이상 유지" },
   { category: "마트/편의점", action: "편의점 1+1, 마트 쿠폰, 장보기 행사 확인" },
-  { category: "디지털/가전", action: "공식몰 기획전 또는 카드 혜택 보강" },
+  { category: "디지털/가전", action: "공식몰 기획전 또는 카드 혜택 2개 이상 유지" },
   { category: "패션/뷰티", action: "브랜드 공식 쿠폰, 뷰티 체험 혜택 확인" },
-  { category: "외식/배달", action: "배달앱, 프랜차이즈 공식 쿠폰 확인" },
-  { category: "여행/숙박", action: "항공, 숙박, 교통 프로모션 공식 페이지 확인" },
+  { category: "외식/배달", action: "배달앱, 프랜차이즈 공식 쿠폰 2개 이상 유지" },
+  { category: "여행/숙박", action: "항공, 숙박, 교통 프로모션 공식 페이지 2개 이상 유지" },
   { category: "영화/문화", action: "영화관, 전시, 문화의날 혜택 확인" },
   { category: "카드/멤버십", action: "카드사, 통신사, 간편결제 할인 조건 확인" },
-  { category: "무료혜택", action: "무료 체험, 무료 쿠폰, 샘플 수령 조건 확인" },
-  { category: "정부/공공혜택", action: "공공 쿠폰, 문화/복지 혜택 공식 페이지 확인" }
+  { category: "무료혜택", action: "무료 체험, 무료 쿠폰, 샘플 수령 조건 2개 이상 유지" },
+  { category: "정부/공공혜택", action: "공공 쿠폰, 문화/복지 혜택 2개 이상 유지" }
 ];
+const minimumCategoryDealCount = 2;
 
 function readJson<T>(fullPath: string, fallback: T): T {
   if (!existsSync(fullPath)) return fallback;
@@ -139,7 +140,8 @@ export function getNewsOperationsReport() {
     return {
       ...item,
       count,
-      status: count > 0 ? "ready" : "gap",
+      minimumCount: minimumCategoryDealCount,
+      status: count >= minimumCategoryDealCount ? "ready" : count > 0 ? "thin" : "gap",
       sampleTitle: sample?.title ?? ""
     };
   });
@@ -151,6 +153,7 @@ export function getNewsOperationsReport() {
   const isStale = !Number.isFinite(staleGeneratedAt) || Date.now() - staleGeneratedAt > 24 * 60 * 60 * 1000;
   const operationalRisks = [
     ...(categoryCoverage.some((item) => item.status === "gap") ? ["카테고리 공백이 있어 공식 혜택 seed 또는 feed 보강 필요"] : []),
+    ...(categoryCoverage.some((item) => item.status === "thin") ? ["공식 혜택 2건 미만 카테고리가 있어 운영 피드 추가 확인 필요"] : []),
     ...((report.hiddenCount ?? 0) > 0 ? ["숨김 처리된 공식 혜택이 있어 복구/종료 판단 필요"] : []),
     ...((report.expiredCount ?? 0) > 0 ? ["종료된 혜택이 있어 사용자 노출 제외 상태 확인 필요"] : []),
     ...((report.officialMissingCount ?? 0) > 0 ? ["공식 finalUrl이 없는 혜택 후보가 있어 노출 제외 상태 확인 필요"] : []),

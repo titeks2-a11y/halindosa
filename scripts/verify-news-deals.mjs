@@ -15,19 +15,24 @@ const summary = summarizeNewsDeals(validated, generatedAt, snapshot?.providerSta
 const searchLikeVisible = validated.filter((deal) => !deal.isHidden && /search|query=|keyword=|msearch|result/i.test(deal.finalUrl));
 const nonOfficialVisible = validated.filter((deal) => !deal.isHidden && deal.hiddenReason.includes("not_approved_official_url"));
 const expiredVisible = validated.filter((deal) => !deal.isHidden && Date.parse(deal.endDate) < now);
-const visibleCategories = new Set(validated.filter((deal) => !deal.isHidden && deal.validationStatus === "passed").map((deal) => deal.category));
-const requiredCategories = ["식품/생필품", "마트/편의점", "외식/배달", "패션/뷰티", "디지털/가전", "카드/멤버십", "영화/문화", "무료혜택"];
-const missingCategories = requiredCategories.filter((category) => !visibleCategories.has(category));
+const visibleCategoryCounts = validated
+  .filter((deal) => !deal.isHidden && deal.validationStatus === "passed")
+  .reduce((map, deal) => map.set(deal.category, (map.get(deal.category) ?? 0) + 1), new Map());
+const requiredCategories = ["식품/생필품", "마트/편의점", "디지털/가전", "패션/뷰티", "외식/배달", "여행/숙박", "영화/문화", "카드/멤버십", "무료혜택", "정부/공공혜택"];
+const minimumCategoryDealCount = 2;
+const missingCategories = requiredCategories.filter((category) => !visibleCategoryCounts.has(category));
+const thinCategories = requiredCategories.filter((category) => (visibleCategoryCounts.get(category) ?? 0) > 0 && (visibleCategoryCounts.get(category) ?? 0) < minimumCategoryDealCount);
 const newsRedirectRouteSource = existsSync(join(root, "app/go/news/[id]/route.ts"))
   ? readFileSync(join(root, "app/go/news/[id]/route.ts"), "utf8")
   : "";
 const ok =
-  summary.visibleCount >= 15 &&
+  summary.visibleCount >= 25 &&
   summary.hiddenCount === 0 &&
   searchLikeVisible.length === 0 &&
   nonOfficialVisible.length === 0 &&
   expiredVisible.length === 0 &&
   missingCategories.length === 0 &&
+  thinCategories.length === 0 &&
   existsSync(join(root, "app/go/news/[id]/route.ts"));
 
 const report = {
@@ -39,8 +44,10 @@ const report = {
     nonOfficialExposure: nonOfficialVisible.length,
     expiredExposure: expiredVisible.length,
     hiddenExposure: summary.hiddenCount,
-    visibleCategoryCoverage: visibleCategories.size,
+    visibleCategoryCoverage: visibleCategoryCounts.size,
+    minimumCategoryDealCount,
     missingCategories,
+    thinCategories,
     newsRedirectRoute: existsSync(join(root, "app/go/news/[id]/route.ts")),
     newsRedirectRouteUsesPolicy: typeof newsRedirectRouteSource === "string"
       ? newsRedirectRouteSource.includes("resolveNewsDealDestinationUrl")

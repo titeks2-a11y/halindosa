@@ -661,10 +661,10 @@ await check("deals api", async () => {
 });
 
 await check("news deals api", async () => {
-  const { response, data } = await fetchJson("/api/news-deals?limit=6");
+  const { response, data } = await fetchJson("/api/news-deals?limit=25");
   assert(response.status === 200, `Expected 200, got ${response.status}`);
   assert(data.ok === true, "News deals API ok should be true");
-  assert(data.count >= 6, `Expected at least 6 official news/event benefits, got ${data.count}`);
+  assert(data.count >= 25, `Expected at least 25 official news/event benefits, got ${data.count}`);
   assert(data.deals.every((deal) => deal.validationStatus === "passed" && deal.isHidden === false), "News deals API returned hidden or unverified items");
   assert(data.deals.every((deal) => /^https?:\/\//.test(deal.finalUrl)), "News deals API returned invalid finalUrl");
   assert(data.deals.every((deal) => !/search|query=|keyword=|msearch|result/i.test(deal.finalUrl)), "News deals API returned a search/result URL");
@@ -672,8 +672,12 @@ await check("news deals api", async () => {
   assert(data.deals.some((deal) => deal.category === "영화/문화" || deal.category === "정부/공공혜택"), "News deals API missing culture/public official benefits");
   const full = await fetchJson("/api/news-deals");
   const categories = new Set(full.data.deals.map((deal) => deal.category));
-  for (const category of ["식품/생필품", "외식/배달", "패션/뷰티", "디지털/가전", "카드/멤버십", "무료혜택"]) {
+  for (const category of ["식품/생필품", "마트/편의점", "디지털/가전", "패션/뷰티", "외식/배달", "여행/숙박", "영화/문화", "카드/멤버십", "무료혜택", "정부/공공혜택"]) {
     assert(categories.has(category), `News deals API missing expanded official benefit category: ${category}`);
+  }
+  const categoryCounts = full.data.deals.reduce((map, deal) => map.set(deal.category, (map.get(deal.category) ?? 0) + 1), new Map());
+  for (const category of categories) {
+    assert(categoryCounts.get(category) >= 2, `News deals API should keep at least 2 official benefits for category: ${category}`);
   }
 });
 
@@ -681,15 +685,15 @@ await check("admin news operations api", async () => {
   const { response, data } = await fetchJson("/api/admin/news-operations");
   assert(response.status === 200, `Expected 200, got ${response.status}`);
   assert(data.ok === true, "Admin news operations API ok should be true");
-  assert(data.report?.visibleCount >= 6, "Admin news operations report missing visible official benefits");
+  assert(data.report?.visibleCount >= 25, "Admin news operations report missing launch-ready visible official benefits");
   assert(Array.isArray(data.report?.visibleDeals) && data.report.visibleDeals.length >= 6, "Admin news operations report missing visible deal operation candidates");
   assert(Array.isArray(data.report?.providerStats) && data.report.providerStats.length >= 4, "Admin news operations report missing provider stats");
   assert(Array.isArray(data.report?.recentLogs) && data.report.recentLogs.length >= 6, "Admin news operations report missing recent logs");
   assert(Array.isArray(data.report?.manualActions) && data.report.manualActions.length >= 3, "Admin news operations report missing manual actions");
   assert(data.report?.refreshAll?.productDealsCount >= 140, "Admin news operations report missing refresh:all product count");
-  assert(data.report?.refreshAll?.newsDealsCount >= 6, "Admin news operations report missing refresh:all news count");
+  assert(data.report?.refreshAll?.newsDealsCount >= 25, "Admin news operations report missing refresh:all news count");
   assert(Array.isArray(data.report?.categoryCoverage) && data.report.categoryCoverage.length >= 10, "Admin news operations report missing required category coverage");
-  assert(data.report.categoryCoverage.every((item) => item.category && typeof item.count === "number" && item.action), "Admin news operations category coverage missing operation fields");
+  assert(data.report.categoryCoverage.every((item) => item.category && typeof item.count === "number" && item.count >= 2 && item.minimumCount >= 2 && item.action), "Admin news operations category coverage missing operation fields or minimum counts");
   assert(Array.isArray(data.report?.operationalRisks) && data.report.operationalRisks.length >= 1, "Admin news operations report missing operational risk summary");
   assert(Array.isArray(data.report?.refreshAll?.steps) && data.report.refreshAll.steps.length >= 5, "Admin news operations report missing refresh:all step status");
 });
