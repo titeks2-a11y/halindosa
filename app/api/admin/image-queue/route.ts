@@ -58,6 +58,10 @@ export async function GET(request: Request) {
         sourceName: deal.sourceName,
         sourceUrl: deal.sourceUrl,
         action: deal.action,
+        launchTargetRate: imageQuality.sourcingPlan.launchTargetRate,
+        gapToLaunchTarget: imageQuality.sourcingPlan.gapToLaunchTarget,
+        weeklySourcingTarget: imageQuality.sourcingPlan.weeklySourcingTarget,
+        operationCadence: imageQuality.sourcingPlan.operationCadence,
         finalPurchaseUrl: deal.finalPurchaseUrl,
         source,
         exportedAt: updatedAt

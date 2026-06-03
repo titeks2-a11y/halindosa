@@ -1501,6 +1501,7 @@ async function checkUiAccessibility() {
     !imageOperationsDoctor.includes("minimum explicit image gate") ||
     !imageOperationsDoctor.includes("image backlog report") ||
     !imageOperationsDoctor.includes("full image backlog export") ||
+    !imageOperationsDoctor.includes("image sourcing execution plan") ||
     !imageQualityReport.includes("| 명시 이미지 최소 기준 | 25% |") ||
     !imageQualityReport.includes("## Image Backlog") ||
     !imageQualityReport.includes("이미지 후보 검색") ||
@@ -1511,7 +1512,7 @@ async function checkUiAccessibility() {
   ) {
     fail("deal image quality coverage gate", "Release QA should enforce the 25% explicit product image floor, record current coverage evidence, and keep an actionable fallback image backlog.");
   } else {
-    pass("deal image quality coverage gate", "QA, image operations doctor, and release evidence enforce the 25% explicit product image floor with 39/140 current coverage and an actionable fallback image backlog.");
+    pass("deal image quality coverage gate", "QA, image operations doctor, and release evidence enforce the 25% explicit product image floor with 39/140 current coverage, an actionable fallback image backlog, and a 60% launch sourcing plan.");
   }
 
   if (

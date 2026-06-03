@@ -71,6 +71,7 @@
 - 검증된 G마켓 구매 상세 URL에서 공식 상품 이미지 CDN URL을 자동 파생해 실상품 이미지 커버리지를 13/140에서 39/140으로 높이고, 이미지 운영 doctor가 이 파생 규칙을 회귀 방지하도록 보강
 - 관리자 이미지 보강 큐와 CSV에 현재 이미지, 출처 URL, 판매처 URL, 이미지 후보 검색 URL, 저장 필드, 출처 힌트를 추가해 운영자가 fallback 상품을 실제 상품 이미지로 교체하는 흐름을 바로 실행하도록 개선
 - `npm run test:images`에 명시 실상품 이미지 최소 기준 25%를 추가해 신규 상품 확장 중 이미지 커버리지가 다시 낮아지지 않도록 품질 게이트를 상향
+- 관리자 이미지 큐에 공개 운영 목표 60%, 목표까지 남은 보강 수, 주간 보강 목표, 판매처별 피드 보강 우선순위를 추가해 이미지 품질을 단순 리포트가 아닌 운영 실행 큐로 관리
 - [24H_START_AUDIT.md](../24H_START_AUDIT.md), [HARNESS_AUDIT.md](../HARNESS_AUDIT.md), [KNOWN_ISSUES.md](../KNOWN_ISSUES.md)를 추가해 이번 장기 hardening의 시작 상태, 검사 범위, 남은 운영 리스크를 문서화
 
 ### PHASE Harness Hardening

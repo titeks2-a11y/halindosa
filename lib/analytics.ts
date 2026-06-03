@@ -415,6 +415,7 @@ export function buildImageQualityReadiness(deals: Deal[]) {
   const realImageDeals = deals.filter(hasRealDealImage);
   const fallbackDeals = deals.filter((deal) => !hasRealDealImage(deal));
   const byCategory = new Map<string, { category: string; total: number; real: number; fallback: number; samples: Deal[] }>();
+  const byMall = new Map<string, { mallName: string; total: number; fallback: number; priorityScore: number; samples: Deal[] }>();
 
   const buildImageSearchUrl = (deal: Deal) =>
     `https://search.shopping.naver.com/search/all?query=${encodeURIComponent(`${deal.mallName} ${deal.title} 상품 이미지`)}`;
@@ -435,6 +436,22 @@ export function buildImageQualityReadiness(deals: Deal[]) {
       if (current.samples.length < 3) current.samples.push(deal);
     }
     byCategory.set(deal.category, current);
+
+    const mallItem = byMall.get(deal.mallName) ?? {
+      mallName: deal.mallName,
+      total: 0,
+      fallback: 0,
+      priorityScore: 0,
+      samples: []
+    };
+
+    mallItem.total += 1;
+    if (!hasRealDealImage(deal)) {
+      mallItem.fallback += 1;
+      mallItem.priorityScore += Math.round((deal.popularityScore ?? 0) / 2) + deal.discountRate + (deal.isHot ? 12 : 0);
+      if (mallItem.samples.length < 3) mallItem.samples.push(deal);
+    }
+    byMall.set(deal.mallName, mallItem);
   }
 
   const categoryQueue = Array.from(byCategory.values())
@@ -452,9 +469,11 @@ export function buildImageQualityReadiness(deals: Deal[]) {
     }))
     .sort((a, b) => b.fallback - a.fallback || a.realRate - b.realRate || b.total - a.total);
 
-  const priorityDeals = fallbackDeals
+  const sortedFallbackDeals = fallbackDeals
     .slice()
-    .sort((a, b) => b.popularityScore - a.popularityScore || b.discountRate - a.discountRate)
+    .sort((a, b) => b.popularityScore - a.popularityScore || b.discountRate - a.discountRate);
+
+  const priorityDeals = sortedFallbackDeals
     .slice(0, 8)
     .map((deal) => ({
       id: deal.id,
@@ -473,6 +492,41 @@ export function buildImageQualityReadiness(deals: Deal[]) {
     }));
 
   const realImageRate = deals.length ? Math.round((realImageDeals.length / deals.length) * 100) : 0;
+  const launchTargetRate = 60;
+  const targetRealImageCount = Math.ceil(deals.length * (launchTargetRate / 100));
+  const gapToLaunchTarget = Math.max(0, targetRealImageCount - realImageDeals.length);
+  const weeklySourcingTarget = Math.min(24, gapToLaunchTarget);
+  const nextBatchDeals = sortedFallbackDeals.slice(0, weeklySourcingTarget || Math.min(8, sortedFallbackDeals.length));
+  const mallQueue = Array.from(byMall.values())
+    .filter((item) => item.fallback > 0)
+    .map((item) => ({
+      mallName: item.mallName,
+      total: item.total,
+      fallback: item.fallback,
+      fallbackRate: Math.round((item.fallback / item.total) * 100),
+      priorityScore: item.priorityScore,
+      sampleTitles: item.samples.map((deal) => deal.title),
+      action:
+        item.fallback >= 8
+          ? `${item.mallName} 제휴/운영 피드에서 imageUrl 일괄 보강 요청`
+          : `${item.mallName} 클릭 상위 상품부터 판매처 대표 이미지를 수동 보강`,
+      feedContractHint: "상품 상세 URL, 대표 이미지 URL, 이미지 사용 권한, 최신 가격 기준 시각을 함께 확인"
+    }))
+    .sort((a, b) => b.priorityScore - a.priorityScore || b.fallback - a.fallback)
+    .slice(0, 8);
+  const sourcingPlan = {
+    launchTargetRate,
+    targetRealImageCount,
+    gapToLaunchTarget,
+    weeklySourcingTarget,
+    nextBatchCount: nextBatchDeals.length,
+    riskLevel: gapToLaunchTarget > 45 ? "high" : gapToLaunchTarget > 20 ? "medium" : "low",
+    nextBatchIds: nextBatchDeals.map((deal) => deal.id),
+    operationCadence: gapToLaunchTarget
+      ? `매주 클릭 상위 fallback 상품 ${weeklySourcingTarget}개를 판매처/제휴 피드 이미지로 보강`
+      : "신규 피드 등록 시 imageUrl 누락을 차단하고 현재 커버리지를 유지",
+    feedRequirement: "운영 피드는 imageUrl 또는 thumbnail 없이 ready 상태로 승격하지 않습니다."
+  };
 
   return {
     total: deals.length,
@@ -481,7 +535,9 @@ export function buildImageQualityReadiness(deals: Deal[]) {
     realImageRate,
     renderImageRate: deals.length ? 100 : 0,
     categoryQueue: categoryQueue.slice(0, 8),
+    mallQueue,
     priorityDeals,
+    sourcingPlan,
     status: realImageRate >= 60 ? "launch-polish" : realImageRate >= 25 ? "needs-catalog-work" : "needs-image-sourcing",
     nextActions: fallbackDeals.length
       ? [

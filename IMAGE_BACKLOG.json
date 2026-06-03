@@ -3,6 +3,10 @@
   "explicitImageCount": 39,
   "fallbackImageCount": 101,
   "explicitImageRate": 28,
+  "launchTargetRate": 60,
+  "targetExplicitImageCount": 84,
+  "gapToLaunchTarget": 45,
+  "weeklySourcingTarget": 24,
   "categorySummary": [
     [
       "쿠폰/이벤트",

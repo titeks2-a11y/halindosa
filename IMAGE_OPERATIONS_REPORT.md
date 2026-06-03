@@ -17,6 +17,7 @@ Status: PASS
 | image backlog report | PASS | 이미지 품질 리포트는 fallback 상품별 보강 후보와 검색 URL을 남겨야 합니다. |
 | full image backlog export | PASS | 전체 이미지 보강 큐는 CSV/JSON/문서 리포트로 생성되고 QA 흐름에 연결되어야 합니다. |
 | admin image operations queue | PASS | 관리자 화면에서 카테고리별/상품별 이미지 보강 대상을 바로 볼 수 있어야 합니다. |
+| image sourcing execution plan | PASS | 이미지 보강 큐는 공개 운영 목표, 보강 갭, 주간 처리 목표를 API와 관리자 화면에 노출해야 합니다. |
 | public copy safety | PASS | 운영 화면 문구는 내부 개발 티를 줄이고 실제 운영 액션 중심이어야 합니다. |
 | qa wiring | PASS | 이미지 운영 큐 회귀 검사가 qa 또는 하네스에서 실행되어야 합니다. |
 
@@ -24,6 +25,7 @@ Status: PASS
 
 - 상품 이미지는 카테고리 fallback으로 화면 깨짐을 막되, 운영 품질 지표에서는 실상품 이미지와 fallback 이미지를 분리합니다.
 - 운영자는 관리자 화면에서 카테고리별 보강 우선순위와 클릭 상위 보강 후보를 확인합니다.
+- 공개 운영 목표는 명시 실상품 이미지 60% 이상이며, 관리자 큐는 목표까지 남은 보강 수와 주간 처리 배치를 제공합니다.
 - 운영자는 /api/admin/image-queue JSON 또는 CSV로 이미지 보강 후보를 내려받습니다.
 - 운영자는 IMAGE_QUALITY_REPORT.md의 Image Backlog에서 fallback 상품별 이미지 후보 검색 URL을 확인합니다.
 - 신규 파트너 피드 또는 공식 API 연결 시 imageUrl/thumbnail 보강을 링크 검수 다음 우선순위로 처리합니다.

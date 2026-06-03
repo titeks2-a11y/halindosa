@@ -603,6 +603,8 @@ await check("admin dashboard quality cards", async () => {
   assert(text.includes("상품 상세 URL 보강 필요"), "Admin dashboard missing localized link review action");
   assert(/우선[\s\S]{0,20}검수|보강[\s\S]{0,20}검수|대기[\s\S]{0,20}검수/.test(text), "Admin dashboard missing link review priority labels");
   assert(text.includes("현재 이동 URL"), "Admin dashboard missing current link review destination");
+  assert(text.includes("이미지 보강 실행 계획") && text.includes("주간 보강 목표"), "Admin dashboard missing image sourcing execution plan");
+  assert(text.includes("판매처별 피드 보강 우선순위") && text.includes("제휴/운영 피드 imageUrl 필드 확보"), "Admin dashboard missing mall-level image feed operation queue");
   assert(!text.includes("mock, staging, production"), "Admin dashboard exposes raw source pipeline copy");
   assert(!text.includes("· score "), "Admin dashboard exposes raw score copy");
 });
@@ -1151,6 +1153,10 @@ await check("admin image queue api", async () => {
   assert(data.imageQuality?.fallbackImageCount >= 1, "Admin image queue should expose fallback image count");
   assert(data.imageQuality?.realImageRate >= 0, "Admin image queue missing real image rate");
   assert(Array.isArray(data.imageQuality?.categoryQueue) && data.imageQuality.categoryQueue.length >= 1, "Admin image queue missing category queue");
+  assert(Array.isArray(data.imageQuality?.mallQueue) && data.imageQuality.mallQueue.length >= 1, "Admin image queue missing mall feed queue");
+  assert(data.imageQuality?.sourcingPlan?.launchTargetRate === 60, "Admin image queue missing 60% launch image target");
+  assert(data.imageQuality.sourcingPlan.gapToLaunchTarget >= 0, "Admin image queue missing image launch gap");
+  assert(data.imageQuality.sourcingPlan.weeklySourcingTarget >= 0, "Admin image queue missing weekly image sourcing target");
   assert(Array.isArray(data.imageQuality?.priorityDeals) && data.imageQuality.priorityDeals.length >= 1, "Admin image queue missing priority deals");
   assert(data.imageQuality.priorityDeals.every((deal) => deal.id && deal.title && deal.finalPurchaseUrl && deal.action), "Admin image priority deals missing operation fields");
   assert(

@@ -916,7 +916,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                 </a>
               </div>
             </div>
-            <div className="grid grid-cols-3 gap-2 text-center">
+            <div className="grid grid-cols-2 gap-2 text-center sm:grid-cols-4">
               <div className="rounded-2xl bg-red-50 px-3 py-3">
                 <p className="text-[11px] font-black text-dossa-red">실상품</p>
                 <p className="mt-1 text-lg font-black text-slate-950">{imageQuality.realImageCount}개</p>
@@ -929,9 +929,29 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                 <p className="text-[11px] font-black text-emerald-700">렌더링</p>
                 <p className="mt-1 text-lg font-black text-slate-950">{imageQuality.renderImageRate}%</p>
               </div>
+              <div className="rounded-2xl bg-amber-50 px-3 py-3">
+                <p className="text-[11px] font-black text-amber-700">60% 목표까지</p>
+                <p className="mt-1 text-lg font-black text-slate-950">{imageQuality.sourcingPlan.gapToLaunchTarget}개</p>
+              </div>
             </div>
           </div>
-          <div className="mt-4 grid gap-3 lg:grid-cols-[1.1fr_0.9fr]">
+          <div className="mt-4 rounded-2xl border border-amber-100 bg-amber-50/70 p-4">
+            <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+              <div>
+                <p className="text-sm font-black text-slate-950">이미지 보강 실행 계획</p>
+                <p className="mt-1 text-xs font-bold leading-5 text-amber-800">
+                  {imageQuality.sourcingPlan.operationCadence} · {imageQuality.sourcingPlan.feedRequirement}
+                </p>
+              </div>
+              <span className="w-fit rounded-full bg-white px-3 py-1 text-xs font-black text-amber-700">
+                주간 보강 목표 {imageQuality.sourcingPlan.weeklySourcingTarget}개
+              </span>
+            </div>
+            <p className="mt-2 text-xs font-bold leading-5 text-slate-500">
+              다음 배치 ID: {imageQuality.sourcingPlan.nextBatchIds.length ? imageQuality.sourcingPlan.nextBatchIds.join(", ") : "보강 대기 없음"}
+            </p>
+          </div>
+          <div className="mt-4 grid gap-3 xl:grid-cols-[1fr_1fr_0.95fr]">
             <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
               <div className="flex items-center justify-between gap-3">
                 <p className="text-sm font-black text-slate-950">카테고리별 우선순위</p>
@@ -951,6 +971,24 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                     {item.sampleTitles.length ? (
                       <p className="mt-1 truncate text-xs font-semibold text-slate-400">예: {item.sampleTitles.join(", ")}</p>
                     ) : null}
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="rounded-2xl border border-slate-100 bg-white p-4">
+              <p className="text-sm font-black text-slate-950">판매처별 피드 보강 우선순위</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-slate-500">
+                보강 수량이 많은 판매처는 수동 작업보다 제휴/운영 피드 imageUrl 필드 확보를 우선합니다.
+              </p>
+              <div className="mt-3 space-y-2">
+                {imageQuality.mallQueue.slice(0, 5).map((item) => (
+                  <div key={item.mallName} className="rounded-2xl border border-slate-100 bg-slate-50 p-3">
+                    <div className="flex items-center justify-between gap-3 text-sm font-black text-slate-950">
+                      <span>{item.mallName}</span>
+                      <span className="text-dossa-red">{item.fallback}개</span>
+                    </div>
+                    <p className="mt-1 text-xs font-bold leading-5 text-slate-500">{item.action}</p>
+                    <p className="mt-1 line-clamp-1 text-[11px] font-semibold text-slate-400">예: {item.sampleTitles.join(", ")}</p>
                   </div>
                 ))}
               </div>
