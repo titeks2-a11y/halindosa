@@ -4,9 +4,9 @@
 
 ## 기본 정보
 
-- 생성 시각: 2026-06-03T11:41:27.178Z
+- 생성 시각: 2026-06-03T11:53:50.952Z
 - Git 브랜치: codex/12h-product-ux-growth-hardening
-- 최신 커밋: fe8e408
+- 최신 커밋: 2298dc6
 - Git 상태: M DEVICE_QA_REPORT.md;  M KNOWN_ISSUES.md;  M PUBLIC_URL_REPORT.md;  M RELEASE_NOTES.json;  M RELEASE_NOTES.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_HANDOFF_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_PACKET_REPORT.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M SUPPORT_PLAYBOOK.json;  M SUPPORT_PLAYBOOK.md;  M docs/DEVICE_QA_REPORT.md;  M docs/KNOWN_ISSUES.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/RELEASE_NOTES.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_HANDOFF_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_PACKET_REPORT.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md;  M docs/SUPPORT_PLAYBOOK.md
 - 패키지 버전: 1.0.1
 - 앱 이름: 할인도사
@@ -50,6 +50,8 @@
 | Store screenshot manifest | `docs/STORE_SCREENSHOT_MANIFEST.md` | 4KB |
 | Store screenshot manifest JSON | `STORE_SCREENSHOT_MANIFEST.json` | 5KB |
 | Harness report | `docs/HARNESS_REPORT.md` | 20KB |
+| Operational health readiness report | `docs/HEALTH_READINESS_REPORT.md` | 2KB |
+| Operational health readiness JSON | `reports/health-readiness.json` | 4KB |
 | Image backlog report | `docs/IMAGE_BACKLOG_REPORT.md` | 15KB |
 | Image backlog CSV | `IMAGE_BACKLOG.csv` | 46KB |
 | Link coverage report | `docs/link-coverage-report.md` | 7KB |
@@ -73,6 +75,7 @@ npm run store:console:fields
 npm run store:manual:checklist
 npm run store:manual:doctor
 npm run store:handoff:report
+npm run health:readiness
 npm run release:notes
 npm run support:playbook
 npm run known:issues
@@ -96,6 +99,7 @@ npm run release:evidence
 - Android 정적 export 및 Capacitor Android sync
 - Capacitor iOS sync
 - performance budget: 정적 export, JS/CSS, APK/AAB, 스토어 이미지 크기 검사
+- operational health readiness: 상품 링크, 공식 혜택 카테고리, refresh:all, 24시간 신선도 기준 점검
 - Android/iOS 앱 ID, 버전, 아이콘, 스플래시, 권한, 딥링크, 개인정보 manifest 점검
 - 구매 링크 커버리지 보고서: 검증된 실제 구매 상세 URL과 보강 대기 상품 목록 점검
 - 정책 페이지, 스토어 등록 문서, 데이터 보안/콘텐츠 등급/스크린샷 가이드 점검
