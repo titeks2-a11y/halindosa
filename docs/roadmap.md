@@ -26,6 +26,7 @@
 - Supabase 운영 스키마에 `deal_validation_logs`, `provider_runs`, `admin_actions`, `push_subscriptions`를 추가하고 deals visibility/validation 컬럼과 RLS 정책을 보강했다.
 - 관리자 대시보드에 출시 운영 핵심 지표, 오늘 신규, 노출 가능, 숨김, 실패/종료, Provider 수집량, 인기 TOP20, 찜 TOP20, Push readiness API 연결을 추가했다.
 - `/api/admin/push/send`와 `lib/pushNotifications.ts`를 추가해 FCM 환경변수가 설정되면 실제 발송 요청을 처리하고, 설정 전에는 dry-run/readiness로 안전하게 검증하도록 구조화했다.
+- `/admin`에 `FCM 테스트 발송 dry-run` 패널을 추가해 검증 상품/공식 혜택 캠페인 payload를 테스트 토큰으로 검증하고, 실제 발송은 FCM 설정과 명시적 확인 체크가 있을 때만 가능하도록 운영 안전장치를 마련했다.
 
 ### PHASE 24H Commercial Autopilot Hardening
 

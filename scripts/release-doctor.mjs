@@ -1907,7 +1907,10 @@ async function checkOperationalDataSurfaces() {
   const partnerFeedDryRunPanel = await text("components/PartnerFeedDryRunPanel.tsx");
   const feedImport = await text("lib/feedImport.ts");
   const notificationCampaigns = await text("lib/notificationCampaigns.ts");
+  const pushNotifications = await text("lib/pushNotifications.ts");
   const adminNotificationCampaignsRoute = await text("app/api/admin/notification-campaigns/route.ts");
+  const adminPushDryRunPanel = await text("components/AdminPushDryRunPanel.tsx");
+  const adminPushSendRoute = await text("app/api/admin/push/send/route.ts");
 
   const staticDataImports = [
     ["app/categories/page.tsx", categoriesPage],
@@ -2178,6 +2181,29 @@ async function checkOperationalDataSurfaces() {
     fail("official benefit notification campaign queue", "Official news/event benefits should feed a separate notification campaign queue with API, admin UI, and smoke coverage.");
   } else {
     pass("official benefit notification campaign queue", "Official news/event benefits feed a separate notification campaign queue with product campaigns preserved.");
+  }
+
+  if (
+    !adminPage.includes("<AdminPushDryRunPanel") ||
+    !adminPage.includes("pushSendApiHref") ||
+    !adminPushDryRunPanel.includes("FCM 테스트 발송 dry-run") ||
+    !adminPushDryRunPanel.includes("dry-run으로만 검증") ||
+    !adminPushDryRunPanel.includes("실제 발송 확인") ||
+    !adminPushDryRunPanel.includes("confirmLiveSend") ||
+    !adminPushDryRunPanel.includes("push.configured && confirmLiveSend") ||
+    !adminPushDryRunPanel.includes("tokens.length") ||
+    !adminPushSendRoute.includes("campaignId") ||
+    !adminPushSendRoute.includes("benefitId") ||
+    !adminPushSendRoute.includes("sourceKind") ||
+    !pushNotifications.includes("PushAlertType") ||
+    !pushNotifications.includes("campaignId: input.campaignId") ||
+    !pushNotifications.includes("sourceKind: input.sourceKind") ||
+    !smoke.includes("admin push dry-run api") ||
+    !smoke.includes("Admin dashboard missing push dry-run panel")
+  ) {
+    fail("admin push dry-run operation", "Admin should expose a safe FCM dry-run panel and preserve campaign/benefit payload fields.");
+  } else {
+    pass("admin push dry-run operation", "Admin exposes safe FCM dry-run controls with campaign and official benefit payload fields.");
   }
 
   if (

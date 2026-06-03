@@ -3,6 +3,7 @@ import { Activity, BadgePercent, DatabaseZap, Download, ExternalLink, Flame, Ima
 import { AdminReportQueue } from "@/components/AdminReportQueue";
 import { AdminDealQualityPanel } from "@/components/AdminDealQualityPanel";
 import { AdminNewsOperationsPanel } from "@/components/AdminNewsOperationsPanel";
+import { AdminPushDryRunPanel } from "@/components/AdminPushDryRunPanel";
 import { PartnerFeedDryRunPanel } from "@/components/PartnerFeedDryRunPanel";
 import { getMockBusinessMetrics } from "@/lib/analytics";
 import { canAccessAdmin, getAdminExportHref, isAdminProtectionEnabled } from "@/lib/adminAuth";
@@ -90,6 +91,9 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const newsOperationsApiHref = isAdminProtectionEnabled()
     ? `/api/admin/news-operations?token=${encodeURIComponent(token ?? "")}`
     : "/api/admin/news-operations";
+  const pushSendApiHref = isAdminProtectionEnabled()
+    ? `/api/admin/push/send?token=${encodeURIComponent(token ?? "")}`
+    : "/api/admin/push/send";
   const sourceReadiness = getDealSourceReadiness(deals);
   const priorityLabels = {
     high: "우선",
@@ -627,6 +631,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
           <p className="mt-4 rounded-2xl bg-brand-warm px-4 py-3 text-xs font-bold leading-5 text-slate-600">
             {notificationCampaignSummary.nextAction} 실제 푸시 권한 요청은 사용자 동의와 FCM 환경변수 설정 후에만 활성화합니다.
           </p>
+          <AdminPushDryRunPanel apiHref={pushSendApiHref} push={pushReadiness} campaigns={notificationCampaigns} />
         </section>
 
         <section className="rounded-3xl border border-red-100 bg-white p-5 shadow-sm">

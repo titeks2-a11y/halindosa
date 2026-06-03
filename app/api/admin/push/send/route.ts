@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { canAccessAdmin } from "@/lib/adminAuth";
 import { createRequestId, getClientKey, rateLimit, rateLimitHeaders } from "@/lib/apiGuards";
-import { getPushReadiness, sendPushNotification } from "@/lib/pushNotifications";
+import { getPushReadiness, type PushAlertType, sendPushNotification } from "@/lib/pushNotifications";
 
 export async function GET(request: Request) {
   const requestId = createRequestId();
@@ -45,7 +45,10 @@ export async function POST(request: Request) {
     body?: string;
     tokens?: string[];
     dealId?: string;
-    alertType?: "deal" | "freebie" | "price_drop" | "ending_soon" | "interest_category";
+    benefitId?: string;
+    campaignId?: string;
+    sourceKind?: "product_deal" | "official_benefit";
+    alertType?: PushAlertType;
     dryRun?: boolean;
   };
 
@@ -58,6 +61,9 @@ export async function POST(request: Request) {
     body: body.body.trim(),
     tokens: Array.isArray(body.tokens) ? body.tokens : [],
     dealId: body.dealId,
+    benefitId: body.benefitId,
+    campaignId: body.campaignId,
+    sourceKind: body.sourceKind,
     alertType: body.alertType,
     dryRun: body.dryRun
   });

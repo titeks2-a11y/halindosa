@@ -554,6 +554,8 @@ await check("admin dashboard quality cards", async () => {
   assert(text.includes("알림 캠페인 운영 큐") && text.includes("오늘 발송 후보와 FCM 준비 상태"), "Admin dashboard missing notification campaign queue");
   assert(text.includes("검증 상품 캠페인") && text.includes("공식 혜택 캠페인"), "Admin dashboard missing split notification campaign queues");
   assert(text.includes("공식 이벤트/공공/쿠폰 페이지가 검증된 혜택만 푸시 후보로 편성합니다"), "Admin dashboard missing official benefit campaign trust copy");
+  assert(text.includes("FCM 테스트 발송 dry-run") && text.includes("운영 토큰으로 발송 후보를 안전하게 점검"), "Admin dashboard missing push dry-run panel");
+  assert(text.includes("dry-run으로만 검증") && text.includes("실제 발송 확인"), "Admin dashboard missing safe push send controls");
   assert(text.includes("구매 링크 확인율"), "Admin dashboard missing verified link rate card");
   assert(text.includes("링크 검토 필요"), "Admin dashboard missing link review count card");
   assert(text.includes("오늘 처리할 링크 작업"), "Admin dashboard missing link review action summary");
@@ -691,6 +693,31 @@ await check("admin notification campaigns api", async () => {
   assert(data.officialBenefitCampaigns.some((campaign) => campaign.benefitIds.length > 0), "Official benefit campaigns should include benefit ids");
   assert(data.queueRows.some((row) => row.source_kind === "official_benefit" && row.benefit_id), "Push queue rows should include official benefit rows");
   assert(data.queueRows.some((row) => row.source_kind === "product_deal" && row.deal_id), "Push queue rows should preserve product deal rows");
+});
+
+await check("admin push dry-run api", async () => {
+  const { response, data } = await fetchJson("/api/admin/push/send", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      title: "할인도사 dry-run",
+      body: "공식 혜택 알림 후보를 dry-run으로 검증합니다.",
+      tokens: ["test-token-1", "test-token-2", "test-token-1"],
+      campaignId: "smoke-official-benefit",
+      benefitId: "news-smoke",
+      sourceKind: "official_benefit",
+      alertType: "free_event",
+      dryRun: true
+    })
+  });
+
+  assert(response.status === 200, `Expected 200, got ${response.status}`);
+  assert(data.ok === true, "Admin push dry-run API ok should be true");
+  assert(data.result?.attempted === 2, "Admin push dry-run should normalize duplicate tokens");
+  assert(data.result?.sent === 0 && data.result?.failed === 0, "Admin push dry-run should not send or fail real pushes");
+  assert(data.result?.message.includes("dry-run"), "Admin push dry-run should return dry-run message");
 });
 
 await check("deals filters api", async () => {

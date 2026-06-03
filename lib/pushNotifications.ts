@@ -1,9 +1,21 @@
+export type PushAlertType =
+  | "deal"
+  | "deal_registered"
+  | "freebie"
+  | "free_event"
+  | "price_drop"
+  | "ending_soon"
+  | "interest_category";
+
 export interface PushSendInput {
   title: string;
   body: string;
   tokens: string[];
   dealId?: string;
-  alertType?: "deal" | "freebie" | "price_drop" | "ending_soon" | "interest_category";
+  benefitId?: string;
+  campaignId?: string;
+  sourceKind?: "product_deal" | "official_benefit";
+  alertType?: PushAlertType;
   dryRun?: boolean;
 }
 
@@ -83,7 +95,10 @@ export async function sendPushNotification(input: PushSendInput): Promise<PushSe
       },
       data: {
         dealId: input.dealId ?? "",
+        benefitId: input.benefitId ?? "",
+        campaignId: input.campaignId ?? "",
         alertType: input.alertType ?? "deal",
+        sourceKind: input.sourceKind ?? "product_deal",
         source: "halindosa"
       }
     })
