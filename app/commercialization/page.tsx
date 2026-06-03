@@ -82,7 +82,8 @@ export default async function CommercializationPage() {
     benefitQuality,
     benefitRetention,
     personalizationReadiness,
-    operationalEnvReadiness
+    operationalEnvReadiness,
+    officialBenefitProviderRisk
   } = await getMockBusinessMetrics();
   const { deals } = await getDeals();
   const todayBenefitQueue = buildTodayBenefitQueue(deals, 3);
@@ -573,6 +574,46 @@ export default async function CommercializationPage() {
                 </li>
               ))}
             </ul>
+          </div>
+        </section>
+
+        <section className="mt-5 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm" aria-label="공식 혜택 Provider 위험도">
+          <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+            <div>
+              <p className="text-sm font-black text-red-600">공식 혜택 feed 전환</p>
+              <h2 className="mt-1 text-2xl font-black text-slate-950">Provider 위험도 운영 준비도</h2>
+              <p className="mt-2 max-w-2xl text-sm font-semibold leading-6 text-slate-500">
+                seed/fallback 운영, 수집 공백, 공식 링크 누락, 검증 실패를 분리해 실제 feed 연결 전 보강 우선순위를 정합니다.
+              </p>
+            </div>
+            <div className="rounded-2xl bg-slate-950 px-4 py-3 text-white">
+              <p className="text-xs font-black text-red-100">즉시 점검 provider</p>
+              <p className="mt-1 text-2xl font-black">{officialBenefitProviderRisk.summary.danger}개</p>
+            </div>
+          </div>
+          <div className="mt-4 grid gap-3 sm:grid-cols-3">
+            <div className="rounded-2xl bg-emerald-50 p-4">
+              <p className="text-xs font-black text-emerald-700">정상</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">{officialBenefitProviderRisk.summary.healthy}개</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-emerald-900/70">feed 연결 및 검증 정상</p>
+            </div>
+            <div className="rounded-2xl bg-amber-50 p-4">
+              <p className="text-xs font-black text-amber-700">관찰</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">{officialBenefitProviderRisk.summary.watch}개</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-amber-900/70">seed 운영 또는 수집 대기</p>
+            </div>
+            <div className="rounded-2xl bg-red-50 p-4">
+              <p className="text-xs font-black text-red-700">점검</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">{officialBenefitProviderRisk.summary.danger}개</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-red-900/70">공식 링크 누락/실패 발생 시 출시 전 차단</p>
+            </div>
+          </div>
+          <div className="mt-4 grid gap-2 md:grid-cols-2">
+            {(officialBenefitProviderRisk.nextActions.length ? officialBenefitProviderRisk.nextActions : [{ provider: "provider", severity: "healthy", label: "정상", action: "현재 provider 위험도에서 즉시 처리할 항목이 없습니다." }]).map((action) => (
+              <p key={`${action.provider}-${action.label}`} className="rounded-2xl bg-slate-50 px-4 py-3 text-sm font-bold leading-6 text-slate-600">
+                <b className="text-slate-950">{action.provider}</b> · {action.label}: {action.action}
+              </p>
+            ))}
           </div>
         </section>
 

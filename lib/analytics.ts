@@ -1,5 +1,6 @@
 import { findDealById, getDeals } from "@/lib/dealService";
 import { buildClaimEffortSummary } from "@/lib/deals/claimEffort";
+import { getNewsOperationsReport } from "@/lib/deals/newsOperations";
 import { buildPersonalizedBenefitQueue } from "@/lib/deals/personalizedBenefitQueue";
 import { getLinkReviewQueue, summarizeDealQuality } from "@/lib/deals/quality";
 import { hasRealDealImage } from "@/lib/deals/ranking";
@@ -655,6 +656,20 @@ export async function getMockBusinessMetrics() {
   const personalizationReadiness = buildPersonalizationReadiness(deals);
   const imageQuality = buildImageQualityReadiness(deals);
   const operationalEnvReadiness = getOperationalEnvReadiness();
+  const newsOperations = getNewsOperationsReport();
+  const officialBenefitProviderRisk = {
+    summary: newsOperations.providerRiskSummary,
+    providers: newsOperations.providerRisks,
+    nextActions: newsOperations.providerRisks
+      .filter((risk) => risk.severity !== "healthy")
+      .slice(0, 4)
+      .map((risk) => ({
+        provider: risk.provider,
+        severity: risk.severity,
+        label: risk.label,
+        action: risk.action
+      }))
+  };
   const averageConfidenceScore = Math.round(
     priceInsights.reduce((sum, insight) => sum + insight.confidenceScore, 0) / priceInsights.length
   );
@@ -687,6 +702,7 @@ export async function getMockBusinessMetrics() {
     personalizationReadiness,
     imageQuality,
     operationalEnvReadiness,
+    officialBenefitProviderRisk,
     launchReadiness,
     linkReviewQueue
   };
