@@ -756,10 +756,10 @@ await check("admin source live readiness api", async () => {
   assert(response.status === 200, `Expected source live 200, got ${response.status}`);
   assert(data.ok === true, "Admin source live API ok should be true");
   assert(data.report?.mode === "non_strict_live_readiness", "Admin source live report should use non-strict live readiness mode");
-  assert(data.report?.totalSources >= 16, "Admin source live report missing official source candidates");
+  assert(data.report?.totalSources >= 25, "Admin source live report missing official source candidates");
   assert(data.report?.reachableCount >= 1, "Admin source live report should include reachable official sources");
   assert(typeof data.report?.guardedCount === "number", "Admin source live report missing guarded count");
-  assert(Array.isArray(data.report?.sources) && data.report.sources.length >= 16, "Admin source live report missing source rows");
+  assert(Array.isArray(data.report?.sources) && data.report.sources.length >= 25, "Admin source live report missing source rows");
   assert(data.report.sources.every((source) => source.id && source.status && source.operatorAction), "Admin source live rows missing operation fields");
 });
 
@@ -1477,13 +1477,13 @@ await check("sources api", async () => {
   assert(typeof data.officialBenefitFeedTransitionReadiness?.readinessRate === "number", "Sources API missing official benefit feed transition readiness rate");
   assert(Array.isArray(data.officialBenefitFeedTransitionReadiness?.providers) && data.officialBenefitFeedTransitionReadiness.providers.length >= 4, "Sources API missing official benefit feed transition providers");
   assert(Array.isArray(data.officialBenefitFeedTransitionReadiness?.recommendedNextEnvKeys), "Sources API missing official benefit feed env guidance");
-  assert(data.officialSourceCatalog?.totalSources >= 16, "Sources API missing official source catalog summary");
-  assert(data.officialSourceCatalog?.highPrioritySources >= 6, "Sources API missing high-priority official source candidates");
+  assert(data.officialSourceCatalog?.totalSources >= 25, "Sources API missing official source catalog summary");
+  assert(data.officialSourceCatalog?.highPrioritySources >= 8, "Sources API missing high-priority official source candidates");
   assert(Array.isArray(data.officialSourceCatalog?.missingCategories) && data.officialSourceCatalog.missingCategories.length === 0, "Sources API official source catalog has missing categories");
   assert(data.officialSourceCatalog?.providerCoverage?.official_event >= 1, "Sources API official source catalog missing official_event provider");
   assert(data.officialSourceCatalog?.providerCoverage?.public_coupon >= 1, "Sources API official source catalog missing public_coupon provider");
   assert(Array.isArray(data.officialSourceCatalog?.thinCategories) && data.officialSourceCatalog.thinCategories.length === 0, "Sources API official source catalog has thin categories");
-  assert(Array.isArray(data.officialSourceCatalog?.sources) && data.officialSourceCatalog.sources.length >= 16, "Sources API missing official source catalog rows");
+  assert(Array.isArray(data.officialSourceCatalog?.sources) && data.officialSourceCatalog.sources.length >= 25, "Sources API missing official source catalog rows");
   assert(
     data.officialSourceCatalog.sources.some((source) => source.officialUrl?.startsWith("https://") && source.allowedUse && source.blockedUse),
     "Sources API official source catalog rows should include official URL and usage policy"

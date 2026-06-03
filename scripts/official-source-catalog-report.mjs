@@ -197,11 +197,11 @@ const missingProviders = [...providerCounts.entries()].filter(([, count]) => cou
 const highPriorityCount = catalogRows.filter((source) => source.priority === "high").length;
 const configuredSourceCount = catalogRows.filter((source) => source.configuredFeedUrls > 0).length;
 
-if (catalogRows.length < 16) issues.push(`catalog should include at least 16 official source candidates, got ${catalogRows.length}.`);
+if (catalogRows.length < 25) issues.push(`catalog should include at least 25 official source candidates, got ${catalogRows.length}.`);
 if (missingCategories.length) issues.push(`missing category coverage: ${missingCategories.join(", ")}`);
 if (thinCategories.length) issues.push(`thin category coverage: ${thinCategories.join(", ")}`);
 if (missingProviders.length) issues.push(`missing provider coverage: ${missingProviders.join(", ")}`);
-if (highPriorityCount < 6) issues.push(`catalog should include at least 6 high-priority source candidates, got ${highPriorityCount}.`);
+if (highPriorityCount < 8) issues.push(`catalog should include at least 8 high-priority source candidates, got ${highPriorityCount}.`);
 
 const nextActions = [
   configuredSourceCount

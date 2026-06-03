@@ -86,9 +86,11 @@ npm run release:doctor
 
 `npm run source:live:doctor`는 `data/officialSourceCatalog.json`의 공식 소스 후보 URL을 non-strict로 점검해 `reports/official-source-live-check.json`, `reports/official-source-live-check.csv`, [docs/OFFICIAL_SOURCE_LIVE_CHECK.md](docs/OFFICIAL_SOURCE_LIVE_CHECK.md)를 생성합니다. 이 점검은 무단 크롤링이 아니라 접근 가능, WAF/권한 보호, 404/410 교체 필요 상태를 운영자가 보는 리포트이며 사용자 노출 데이터를 자동 변경하지 않습니다.
 
+`npm run source:onboarding:plan`은 공식 소스 카탈로그와 live 점검 결과를 합쳐 `reports/source-onboarding-plan.json`, `reports/source-onboarding-plan.csv`, [docs/SOURCE_ONBOARDING_PLAN.md](docs/SOURCE_ONBOARDING_PLAN.md)를 생성합니다. 운영자는 이 파일에서 공식 API/RSS/제휴 feed를 어느 소스부터 연결할지, guarded 소스는 어떤 담당자 확인이 필요한지 우선순위로 확인합니다.
+
 `npm run health:readiness`는 `reports/health-readiness.json`과 [docs/HEALTH_READINESS_REPORT.md](docs/HEALTH_READINESS_REPORT.md)를 생성해 상품 140개 이상, 검증 링크 99% 이상, 검색/품절 노출 0개, 공식 혜택 25개 이상, 필수 공식 혜택 카테고리별 2건 이상, `refresh:all` 성공, 24시간 이내 신선도를 함께 점검합니다.
 
-`npm run qa`는 `lint`, `verify:links`, `verify:products`, `link:policy:regression`, 상품/뉴스 refresh, `verify:news`, `news:feed:doctor`, `refresh:all`, non-strict `verify:links:live`, `exposure:doctor`, `health:readiness`, 공식 소스 카탈로그/라이브 접근성 리포트, 외부 링크/이미지/이미지 운영 doctor, `catalog:doctor`, `search:doctor`, UI/모바일 UX/SEO/성능 doctor, 구매·상세·전역 navigation doctor, 홈 URL/list scan doctor, `smoke:local`, `build`, `release:doctor`를 순서대로 실행합니다.
+`npm run qa`는 `lint`, `verify:links`, `verify:products`, `link:policy:regression`, 상품/뉴스 refresh, `verify:news`, `news:feed:doctor`, `refresh:all`, non-strict `verify:links:live`, `exposure:doctor`, `health:readiness`, 공식 소스 카탈로그/라이브 접근성/온보딩 우선순위 리포트, 외부 링크/이미지/이미지 운영 doctor, `catalog:doctor`, `search:doctor`, UI/모바일 UX/SEO/성능 doctor, 구매·상세·전역 navigation doctor, 홈 URL/list scan doctor, `smoke:local`, `build`, `release:doctor`를 순서대로 실행합니다.
 
 ## 공식 혜택 Feed 운영
 
@@ -108,6 +110,8 @@ npm run health:readiness
 서버를 띄우지 않는 운영 점검에서는 `npm run source:catalog:report`로 같은 목적의 `reports/official-source-catalog.csv` 파일을 생성할 수 있습니다.
 
 공식 feed를 붙이기 전에는 `npm run source:live:doctor`로 후보 URL의 현재 접근 상태를 확인합니다. `reachable`은 승인 feed 또는 공식 페이지 매핑 후보로 유지하고, `guarded`는 브라우저 자동 수집 대상이 아니라 공식 API/RSS/제휴 feed 담당자 확인 대상으로 분류합니다. `stale_or_removed`는 카탈로그 URL을 교체하기 전까지 신규 혜택 source로 사용하지 않습니다.
+
+공식 feed 연결 순서는 `npm run source:onboarding:plan`으로 정합니다. 이 리포트는 high priority, live 접근성, 카테고리 보강 필요성, feed 설정 여부를 합산해 TOP10 연결 후보와 guarded 소스의 담당자 확인 액션을 CSV와 문서로 남깁니다.
 
 ## 검색 동작 방식
 
