@@ -2716,8 +2716,17 @@ async function checkOperationalDataSurfaces() {
     !smoke.includes("Sources API missing configured production feed count") ||
     !smoke.includes("Sources API missing official benefit provider readiness details") ||
     !smoke.includes("Sources API missing official benefit feed transition providers") ||
+    !smoke.includes("sources csv export") ||
+    !smoke.includes("Sources CSV missing source catalog rows") ||
+    !smoke.includes("Sources CSV missing feed transition rows") ||
     !sourcesRoute.includes("officialBenefitFeedTransitionReadiness") ||
     !sourcesRoute.includes("configuredOfficialBenefitFeeds") ||
+    !sourcesRoute.includes("buildSourcesCsv") ||
+    !sourcesRoute.includes("text/csv") ||
+    !sourcesRoute.includes("source_catalog") ||
+    !sourcesRoute.includes("feed_transition") ||
+    !adminPage.includes("/api/sources?format=csv") ||
+    !dataSourceRunbook.includes("/api/sources?format=csv") ||
     !smoke.includes("Sources API found danger official benefit provider risk") ||
     !smoke.includes("Admin dashboard missing partner feed validation report board") ||
     !smoke.includes("Admin dashboard missing paste-in feed dry-run panel") ||

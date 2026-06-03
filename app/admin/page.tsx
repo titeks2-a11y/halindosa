@@ -1222,10 +1222,16 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
               <h2 className="text-xl font-black text-slate-950">데이터 공급원 상태</h2>
               <p className="mt-1 text-sm font-semibold text-slate-500">기본 큐레이션, 검수 피드, 운영 피드 전환을 위한 공급원별 준비 상태입니다.</p>
             </div>
-            <a href="/api/sources" className="inline-flex items-center gap-2 rounded-2xl bg-slate-950 px-4 py-3 text-sm font-black text-white">
-              <DatabaseZap size={17} />
-              API 확인
-            </a>
+            <div className="flex flex-wrap gap-2">
+              <a href="/api/sources" className="inline-flex items-center gap-2 rounded-2xl bg-slate-950 px-4 py-3 text-sm font-black text-white">
+                <DatabaseZap size={17} />
+                API 확인
+              </a>
+              <a href="/api/sources?format=csv" className="inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-black text-slate-700">
+                <DatabaseZap size={17} />
+                CSV 다운로드
+              </a>
+            </div>
           </div>
           <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
             {listDealSourceProfiles().map((profile) => (
@@ -1257,10 +1263,16 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                 공급원별 실제 링크 확인율, 무료·쿠폰 혜택 수, 조건 요약 완성도, 신고 누적을 함께 보고 노출 가능 여부를 판단합니다.
               </p>
             </div>
-            <a href="/api/sources" className="inline-flex items-center gap-2 rounded-2xl bg-dossa-red px-4 py-3 text-sm font-black text-white">
-              <DatabaseZap size={17} />
-              공급원 API
-            </a>
+            <div className="flex flex-wrap gap-2">
+              <a href="/api/sources" className="inline-flex items-center gap-2 rounded-2xl bg-dossa-red px-4 py-3 text-sm font-black text-white">
+                <DatabaseZap size={17} />
+                공급원 API
+              </a>
+              <a href="/api/sources?format=csv" className="inline-flex items-center gap-2 rounded-2xl border border-red-100 bg-white px-4 py-3 text-sm font-black text-dossa-red">
+                <DatabaseZap size={17} />
+                전환 CSV
+              </a>
+            </div>
           </div>
           <div className="mt-4 grid gap-3 lg:grid-cols-2">
             {sourceReadiness.map((item) => (

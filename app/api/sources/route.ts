@@ -18,6 +18,156 @@ const requiredOfficialBenefitCategories = [
   "정부/공공혜택"
 ];
 
+type SourcesPayload = {
+  ok: boolean;
+  activeMode: string;
+  currentSource: string;
+  updatedAt: string;
+  sources: unknown[];
+  readiness: unknown[];
+  officialBenefitProviderReadiness: {
+    summary: unknown;
+    providers: unknown[];
+    nextActions: unknown[];
+  };
+  officialBenefitFeedTransitionReadiness: {
+    status: string;
+    label: string;
+    readinessRate: number;
+    configuredProviders: number;
+    seedOnlyProviders: number;
+    totalProviders: number;
+    configuredFeedUrls: number;
+    recommendedNextEnvKeys: string[];
+    operatorAction: string;
+    guardrails: string[];
+    providers: Array<{
+      provider: string;
+      label: string;
+      mode: string;
+      modeLabel: string;
+      configured: boolean;
+      feedUrls: number;
+      envKeys: string[];
+      acceptedSources: string;
+      nextAction: string;
+      priority: string;
+      visibleCount: number;
+      issueCount: number;
+    }>;
+  };
+  officialSourceCatalog: ReturnType<typeof getOfficialSourceCatalogSummary>;
+  operationPolicy: unknown;
+  message: string;
+};
+
+function toList(value: unknown) {
+  if (Array.isArray(value)) return value.map(String).filter(Boolean).join(" | ");
+  if (value == null) return "";
+  return String(value);
+}
+
+function getHost(value: unknown) {
+  if (typeof value !== "string") return "";
+
+  try {
+    return new URL(value).hostname.replace(/^www\./, "");
+  } catch {
+    return "";
+  }
+}
+
+function csvEscape(value: unknown) {
+  const text = toList(value);
+  if (/[",\n\r]/.test(text)) return `"${text.replace(/"/g, '""')}"`;
+  return text;
+}
+
+function buildCsv(rows: Array<Record<string, unknown>>) {
+  const headers = [
+    "section",
+    "id",
+    "label",
+    "provider",
+    "category",
+    "sourceType",
+    "priority",
+    "officialUrl",
+    "host",
+    "refreshCadenceHours",
+    "preferredEnvKeys",
+    "configuredFeedUrls",
+    "allowedUse",
+    "blockedUse",
+    "status",
+    "mode",
+    "modeLabel",
+    "visibleCount",
+    "issueCount",
+    "readinessRate",
+    "nextAction",
+    "operatorAction"
+  ];
+
+  return [
+    headers.join(","),
+    ...rows.map((row) => headers.map((header) => csvEscape(row[header])).join(","))
+  ].join("\n");
+}
+
+function buildSourcesCsv(payload: SourcesPayload) {
+  const catalogRows = payload.officialSourceCatalog.sources.map((source) => ({
+    section: "source_catalog",
+    id: source.id,
+    label: source.label,
+    provider: source.provider,
+    category: source.category,
+    sourceType: source.sourceType,
+    priority: source.priority,
+    officialUrl: source.officialUrl,
+    host: getHost(source.officialUrl),
+    refreshCadenceHours: source.refreshCadenceHours,
+    preferredEnvKeys: source.preferredEnvKeys,
+    configuredFeedUrls: source.configuredFeedUrls,
+    allowedUse: source.allowedUse,
+    blockedUse: source.blockedUse,
+    nextAction:
+      source.configuredFeedUrls > 0
+        ? "연결된 공식 feed를 refresh:news와 verify:news로 검증"
+        : `${source.preferredEnvKeys.join(" 또는 ")}에 승인 feed URL 연결`
+  }));
+
+  const transitionRows = payload.officialBenefitFeedTransitionReadiness.providers.map((provider) => ({
+    section: "feed_transition",
+    id: provider.provider,
+    label: provider.label,
+    provider: provider.provider,
+    priority: provider.priority,
+    configuredFeedUrls: provider.feedUrls,
+    preferredEnvKeys: provider.envKeys,
+    allowedUse: provider.acceptedSources,
+    status: payload.officialBenefitFeedTransitionReadiness.status,
+    mode: provider.mode,
+    modeLabel: provider.modeLabel,
+    visibleCount: provider.visibleCount,
+    issueCount: provider.issueCount,
+    readinessRate: payload.officialBenefitFeedTransitionReadiness.readinessRate,
+    nextAction: provider.nextAction,
+    operatorAction: payload.officialBenefitFeedTransitionReadiness.operatorAction
+  }));
+
+  const nextActionRows = payload.officialSourceCatalog.nextActions.map((action, index) => ({
+    section: "next_action",
+    id: `next_${index + 1}`,
+    label: action,
+    status: payload.officialBenefitFeedTransitionReadiness.status,
+    readinessRate: payload.officialBenefitFeedTransitionReadiness.readinessRate,
+    operatorAction: payload.officialBenefitFeedTransitionReadiness.operatorAction
+  }));
+
+  return buildCsv([...catalogRows, ...transitionRows, ...nextActionRows]);
+}
+
 function getOfficialSourceCatalogSummary() {
   const providerCounts = new Map<string, number>();
   const categoryCounts = new Map(requiredOfficialBenefitCategories.map((category) => [category, 0]));
@@ -40,6 +190,14 @@ function getOfficialSourceCatalogSummary() {
     const count = Number(categoryCounts.get(category) ?? 0);
     return count > 0 && count < 2;
   });
+  const nextAction = configuredEnvKeys.size
+    ? "연결된 공식 feed를 refresh:news와 verify:news로 검증하세요."
+    : "OFFICIAL_EVENT_FEED_URLS와 PUBLIC_COUPON_FEED_URLS부터 승인 JSON/RSS feed를 연결하세요.";
+  const nextActions = [
+    nextAction,
+    "CSV를 스프레드시트로 열어 우선순위 high 후보부터 공식 feed 연결 여부를 결정하세요.",
+    "새 후보를 추가할 때는 공식 URL, 허용 사용 범위, 차단 사용 범위, env key를 함께 기록하세요."
+  ];
 
   return {
     totalSources: officialSourceCatalog.length,
@@ -57,6 +215,7 @@ function getOfficialSourceCatalogSummary() {
       category: source.category,
       sourceType: source.sourceType,
       officialUrl: source.officialUrl,
+      host: getHost(source.officialUrl),
       preferredEnvKeys: source.preferredEnvKeys,
       priority: source.priority,
       refreshCadenceHours: source.refreshCadenceHours,
@@ -71,14 +230,13 @@ function getOfficialSourceCatalogSummary() {
       blockedUse: source.blockedUse,
       notes: source.notes
     })),
-    nextAction: configuredEnvKeys.size
-      ? "연결된 공식 feed를 refresh:news와 verify:news로 검증하세요."
-      : "OFFICIAL_EVENT_FEED_URLS와 PUBLIC_COUPON_FEED_URLS부터 승인 JSON/RSS feed를 연결하세요.",
+    nextAction,
+    nextActions,
     reportCommand: "npm run source:catalog:report"
   };
 }
 
-export async function GET() {
+async function buildSourcesPayload(): Promise<SourcesPayload> {
   const { deals, source, updatedAt } = await getDeals();
   const profiles = listDealSourceProfiles();
   const readiness = getDealSourceReadiness(deals);
@@ -91,7 +249,7 @@ export async function GET() {
     counts.set(deal.source, (counts.get(deal.source) ?? 0) + 1);
   }
 
-  return NextResponse.json({
+  return {
     ok: true,
     activeMode: process.env.DEAL_DATA_MODE ?? process.env.DEAL_PROVIDER ?? "mock",
     currentSource: source,
@@ -162,5 +320,22 @@ export async function GET() {
         : `${officialBenefitFeedTransition.operatorAction} 상품 피드는 DEAL_PRODUCTION_FEED_URLS에 공식 API, RSS 변환 JSON, 제휴 피드 URL을 연결한 뒤 dry-run 검증을 실행하세요.`
     },
     message: "할인도사 데이터 공급원 상태를 불러왔습니다."
-  });
+  };
+}
+
+export async function GET(request: Request) {
+  const payload = await buildSourcesPayload();
+  const format = new URL(request.url).searchParams.get("format")?.toLowerCase();
+
+  if (format === "csv") {
+    return new NextResponse(`\uFEFF${buildSourcesCsv(payload)}\n`, {
+      headers: {
+        "Content-Type": "text/csv; charset=utf-8",
+        "Content-Disposition": `attachment; filename="halindosa-source-readiness-${payload.updatedAt.slice(0, 10)}.csv"`,
+        "Cache-Control": "no-store"
+      }
+    });
+  }
+
+  return NextResponse.json(payload);
 }

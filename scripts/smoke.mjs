@@ -1472,6 +1472,19 @@ await check("sources api", async () => {
   assert(data.operationPolicy?.nextStep?.includes("DEAL_PRODUCTION_FEED_URLS") || data.operationPolicy?.nextStep?.includes("dry-run"), "Sources API missing production feed next step");
 });
 
+await check("sources csv export", async () => {
+  const response = await fetch(`${baseUrl}/api/sources?format=csv`);
+  const csv = await response.text();
+  assert(response.status === 200, `Expected 200, got ${response.status}`);
+  assert(response.headers.get("content-type")?.includes("text/csv"), "Sources CSV should return text/csv");
+  assert(csv.includes("source_catalog"), "Sources CSV missing source catalog rows");
+  assert(csv.includes("feed_transition"), "Sources CSV missing feed transition rows");
+  assert(csv.includes("next_action"), "Sources CSV missing operator next action rows");
+  assert(csv.includes("officialUrl"), "Sources CSV missing official URL column");
+  assert(csv.includes("preferredEnvKeys"), "Sources CSV missing env key column");
+  assert(csv.includes("OFFICIAL_EVENT_FEED_URLS") || csv.includes("PUBLIC_COUPON_FEED_URLS"), "Sources CSV missing official feed env guidance");
+});
+
 await check("report api", async () => {
   const reasons = await fetchJson("/api/reports?dealId=d001");
   assert(reasons.response.status === 200, `Expected 200, got ${reasons.response.status}`);

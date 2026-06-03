@@ -98,6 +98,8 @@ npm run health:readiness
 
 `data/newsFeed.sample.json`은 운영자가 새 feed를 만들 때 복제할 수 있는 안전한 샘플입니다. `DEAL_NEWS_FEED_URLS`, `DEAL_EVENT_NEWS_FEED_URLS`, `OFFICIAL_EVENT_FEED_URLS`, `PUBLIC_COUPON_FEED_URLS`에 연결한 feed도 같은 계약과 링크 차단 기준을 통과해야 사용자 화면에 노출됩니다.
 
+공식 소스 후보와 feed 전환 작업표는 `GET /api/sources`에서 JSON으로 확인하고, 스프레드시트 검토가 필요하면 `GET /api/sources?format=csv`를 내려받습니다. CSV는 공식 URL, provider, 카테고리, 우선 연결 env key, 현재 feed URL 수, 다음 운영 액션을 `source_catalog`, `feed_transition`, `next_action` 행으로 정리합니다.
+
 ## 검색 동작 방식
 
 검색은 `lib/deals/search.ts`의 `dealMatchesSearch`를 웹 화면과 `/api/deals`가 함께 사용합니다. 한글 띄어쓰기 차이, 부분 검색, 브랜드/쇼핑몰/카테고리/태그/혜택 요약을 같은 기준으로 매칭하며, 홈 상단의 빠른 상품 검색 패널과 상세 필터 영역이 같은 상태를 공유합니다. 홈 검색 상태는 URL query parameter로 유지되며, 내부 `#` 앵커나 자동 스크롤 이동 없이 현재 화면에서 결과만 갱신합니다.
