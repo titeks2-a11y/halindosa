@@ -72,6 +72,7 @@
 - non-strict live probe에서 timeout/request_failed는 `transientNetworkCount`로 분리해 404/410/5xx/품절 본문 같은 확정 실패와 구분하고, 네트워크 일시 오류 때문에 정상 구매 상세 링크가 과도하게 숨겨지지 않도록 운영 재확인 큐로 남기게 했다.
 - `npm run qa`에 non-strict `verify:links:live`와 후속 `verify:products`를 포함하고, release doctor가 live probe 전체 검사와 HTTP 지표를 필수 출시 증거로 확인하도록 상향했다.
 - `/go`와 `/api/redirect` 외부 이동 allowlist에 공식 혜택 도메인을 보강해 검증된 카드/멤버십/문화/편의점/외식/공식 이벤트 링크가 410으로 막히지 않고 새 탭 이동 검증을 통과하도록 개선했다.
+- `scripts/image-url-utils.mjs`를 추가해 QA 이미지 테스트와 이미지 backlog 리포트가 런타임의 G마켓 공식 CDN 이미지 파생 정책과 같은 기준을 보도록 정리하고, `image:operations:doctor`가 이 공용 유틸 사용을 회귀 방지하도록 보강했다.
 
 ### PHASE 24H Commercial Autopilot Hardening
 

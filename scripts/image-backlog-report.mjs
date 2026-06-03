@@ -1,5 +1,6 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
+import { deriveProductImageUrlFromPurchaseUrl } from "./image-url-utils.mjs";
 
 const root = process.cwd();
 const docsDir = join(root, "docs");
@@ -13,35 +14,6 @@ const verifiedUrlsById = new Map(
   [...verifiedPurchaseLinks.matchAll(/(d\d+):\s*\{[\s\S]*?url:\s*"([^"]+)"/g)].map((match) => [match[1], match[2]])
 );
 
-function getCaseInsensitiveParam(url, name) {
-  const target = name.toLowerCase();
-
-  for (const [key, value] of url.searchParams.entries()) {
-    if (key.toLowerCase() === target) return value;
-  }
-
-  return "";
-}
-
-function deriveProductImageUrl(value) {
-  if (!value) return "";
-
-  try {
-    const url = new URL(value);
-    const host = url.hostname.replace(/^www\./, "").toLowerCase();
-
-    if (host === "item.gmarket.co.kr" || host.endsWith(".gmarket.co.kr")) {
-      const goodsCode = getCaseInsensitiveParam(url, "goodsCode") || getCaseInsensitiveParam(url, "goodscode");
-
-      if (/^\d{5,}$/.test(goodsCode)) return `https://gdimg.gmarket.co.kr/${goodsCode}/still/600`;
-    }
-  } catch {
-    return "";
-  }
-
-  return "";
-}
-
 function hasExplicitImage(id, quotedValues) {
   const imageCandidates = quotedValues.filter((value) => {
     const lower = value.toLowerCase();
@@ -52,7 +24,7 @@ function hasExplicitImage(id, quotedValues) {
       (/^https?:\/\//.test(value) && /\.(png|jpe?g|webp|avif)(?:[?#].*)?$/.test(lower))
     );
   });
-  const derivedImage = deriveProductImageUrl(verifiedUrlsById.get(id) ?? quotedValues.find((value) => /^https?:\/\//.test(value)));
+  const derivedImage = deriveProductImageUrlFromPurchaseUrl(verifiedUrlsById.get(id) ?? quotedValues.find((value) => /^https?:\/\//.test(value)));
 
   return Boolean(imageCandidates.length || derivedImage);
 }

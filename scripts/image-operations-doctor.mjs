@@ -8,6 +8,7 @@ const metricsRoute = readFileSync(join(root, "app", "api", "metrics", "route.ts"
 const imageQueueRoute = readFileSync(join(root, "app", "api", "admin", "image-queue", "route.ts"), "utf8");
 const feedImport = readFileSync(join(root, "lib", "feedImport.ts"), "utf8");
 const imageResolver = readFileSync(join(root, "lib", "deals", "imageResolver.ts"), "utf8");
+const imageUrlUtils = readFileSync(join(root, "scripts", "image-url-utils.mjs"), "utf8");
 const imageSourcingPolicy = readFileSync(join(root, "lib", "deals", "imageSourcingPolicy.ts"), "utf8");
 const mockDeals = readFileSync(join(root, "data", "mockDeals.ts"), "utf8");
 const partnerFeedValidator = readFileSync(join(root, "scripts", "validate-partner-feed.mjs"), "utf8");
@@ -105,6 +106,10 @@ const checks = [
       imageResolver.includes("deriveProductImageUrlFromPurchaseUrl") &&
       imageResolver.includes("gdimg.gmarket.co.kr") &&
       imageResolver.includes("isRealDealImageUrl") &&
+      imageUrlUtils.includes("deriveProductImageUrlFromPurchaseUrl") &&
+      imageUrlUtils.includes("gdimg.gmarket.co.kr") &&
+      imageTest.includes("image-url-utils.mjs") &&
+      imageBacklogReportScript.includes("image-url-utils.mjs") &&
       mockDeals.includes("deriveProductImageUrlFromPurchaseUrl(validation.finalPurchaseUrl)"),
     message: "검증된 구매 상세 URL에서 공식 상품 이미지 URL을 파생하고 category fallback보다 먼저 적용해야 합니다."
   },

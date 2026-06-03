@@ -1,5 +1,6 @@
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
+import { deriveProductImageUrlFromPurchaseUrl } from "./image-url-utils.mjs";
 
 const root = process.cwd();
 const mockDeals = readFileSync(join(root, "data", "mockDeals.ts"), "utf8");
@@ -27,35 +28,6 @@ const verifiedUrlsById = new Map(
   [...verifiedPurchaseLinks.matchAll(/(d\d+):\s*\{[\s\S]*?url:\s*"([^"]+)"/g)].map((match) => [match[1], match[2]])
 );
 
-function getCaseInsensitiveParam(url, name) {
-  const target = name.toLowerCase();
-
-  for (const [key, value] of url.searchParams.entries()) {
-    if (key.toLowerCase() === target) return value;
-  }
-
-  return "";
-}
-
-function deriveProductImageUrl(value) {
-  if (!value) return "";
-
-  try {
-    const url = new URL(value);
-    const host = url.hostname.replace(/^www\./, "").toLowerCase();
-
-    if (host === "item.gmarket.co.kr" || host.endsWith(".gmarket.co.kr")) {
-      const goodsCode = getCaseInsensitiveParam(url, "goodsCode") || getCaseInsensitiveParam(url, "goodscode");
-
-      if (/^\d{5,}$/.test(goodsCode)) return `https://gdimg.gmarket.co.kr/${goodsCode}/still/600`;
-    }
-  } catch {
-    return "";
-  }
-
-  return "";
-}
-
 for (const line of dealLines) {
   const quotedValues = [...line.matchAll(/"([^"]*)"/g)].map((match) => match[1]);
   const id = quotedValues[0] ?? "";
@@ -66,7 +38,7 @@ for (const line of dealLines) {
     const lower = value.toLowerCase();
     return value.startsWith("/deal-images/") || value.startsWith("/images/") || /^https?:\/\//.test(value) && /\.(png|jpe?g|webp|avif)(?:[?#].*)?$/.test(lower);
   });
-  const derivedImage = deriveProductImageUrl(verifiedUrlsById.get(id) ?? quotedValues.find((value) => /^https?:\/\//.test(value)));
+  const derivedImage = deriveProductImageUrlFromPurchaseUrl(verifiedUrlsById.get(id) ?? quotedValues.find((value) => /^https?:\/\//.test(value)));
 
   if (derivedImage && !imageCandidates.includes(derivedImage)) {
     imageCandidates.push(derivedImage);
