@@ -550,6 +550,7 @@ await check("admin dashboard quality cards", async () => {
       text.includes("재검증 기록"),
     "Admin dashboard missing executable news operation controls"
   );
+  assert(text.includes("필수 혜택 카테고리 커버리지") && text.includes("refresh:all 운영 상태") && text.includes("오늘 운영 리스크"), "Admin dashboard missing official benefit coverage and refresh operation summary");
   assert(text.includes("운영 리포트 API 보기"), "Admin dashboard missing news operation report API link");
   assert(text.includes("알림 캠페인 운영 큐") && text.includes("오늘 발송 후보와 FCM 준비 상태"), "Admin dashboard missing notification campaign queue");
   assert(text.includes("검증 상품 캠페인") && text.includes("공식 혜택 캠페인"), "Admin dashboard missing split notification campaign queues");
@@ -685,6 +686,10 @@ await check("admin news operations api", async () => {
   assert(Array.isArray(data.report?.manualActions) && data.report.manualActions.length >= 3, "Admin news operations report missing manual actions");
   assert(data.report?.refreshAll?.productDealsCount >= 140, "Admin news operations report missing refresh:all product count");
   assert(data.report?.refreshAll?.newsDealsCount >= 6, "Admin news operations report missing refresh:all news count");
+  assert(Array.isArray(data.report?.categoryCoverage) && data.report.categoryCoverage.length >= 10, "Admin news operations report missing required category coverage");
+  assert(data.report.categoryCoverage.every((item) => item.category && typeof item.count === "number" && item.action), "Admin news operations category coverage missing operation fields");
+  assert(Array.isArray(data.report?.operationalRisks) && data.report.operationalRisks.length >= 1, "Admin news operations report missing operational risk summary");
+  assert(Array.isArray(data.report?.refreshAll?.steps) && data.report.refreshAll.steps.length >= 5, "Admin news operations report missing refresh:all step status");
 });
 
 await check("admin notification campaigns api", async () => {

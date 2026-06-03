@@ -3510,9 +3510,14 @@ function checkNewsDealPipeline() {
     !adminNewsOperationsPanel.includes("action: NewsOperationAction") ||
     !adminNewsOperationsPanel.includes("수동 숨김") ||
     !adminNewsOperationsPanel.includes("재검증 기록") ||
-    !newsOperations.includes("visibleDeals")
+    !adminNewsOperationsPanel.includes("필수 혜택 카테고리 커버리지") ||
+    !adminNewsOperationsPanel.includes("refresh:all 운영 상태") ||
+    !newsOperations.includes("categoryCoverage") ||
+    !newsOperations.includes("operationalRisks") ||
+    !newsOperations.includes("requiredNewsCategories") ||
+    !newsOperations.includes("durationMs")
   ) {
-    issues.push("admin should provide executable hide/restore/revalidate controls for official benefit operations");
+    issues.push("admin should provide executable hide/restore/revalidate controls plus category coverage, refresh status, and risk summaries for official benefit operations");
   }
 
   if (existsSync(join(root, "reports/news-deals.json"))) {

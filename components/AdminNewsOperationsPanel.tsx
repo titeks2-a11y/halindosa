@@ -31,8 +31,33 @@ interface NewsOperationsReport {
   visibleCount: number;
   hiddenCount: number;
   failedCount: number;
+  categoryCoverage?: Array<{
+    category: string;
+    action: string;
+    count: number;
+    status: string;
+    sampleTitle?: string;
+  }>;
+  operationalRisks?: string[];
   visibleDeals: NewsOperationDeal[];
   hiddenDeals: NewsOperationDeal[];
+  refreshAll?: {
+    ok: boolean;
+    generatedAt: string;
+    productDealsCount: number;
+    newsDealsCount: number;
+    hiddenCount: number;
+    expiredCount: number;
+    failedCount: number;
+    steps: Array<{
+      name: string;
+      ok: boolean;
+      status: number;
+      startedAt: string;
+      finishedAt: string;
+      durationMs?: number;
+    }>;
+  };
   overrides: {
     hiddenCount: number;
     recentAudit: NewsOperationAuditLog[];
@@ -60,6 +85,11 @@ function getStatusCopy(action: NewsOperationAction, id: string) {
   return `${id} 혜택의 링크 재검증 요청을 기록했습니다.`;
 }
 
+function formatDuration(durationMs = 0) {
+  if (durationMs < 1000) return `${durationMs}ms`;
+  return `${(durationMs / 1000).toFixed(1)}초`;
+}
+
 export function AdminNewsOperationsPanel({ apiHref, initialReport }: AdminNewsOperationsPanelProps) {
   const [report, setReport] = useState(initialReport);
   const [reason, setReason] = useState("manual_admin_review");
@@ -67,6 +97,9 @@ export function AdminNewsOperationsPanel({ apiHref, initialReport }: AdminNewsOp
   const [message, setMessage] = useState("");
   const visibleDeals = useMemo(() => report.visibleDeals?.slice(0, 8) ?? [], [report.visibleDeals]);
   const hiddenDeals = useMemo(() => report.hiddenDeals?.slice(0, 8) ?? [], [report.hiddenDeals]);
+  const categoryCoverage = useMemo(() => report.categoryCoverage ?? [], [report.categoryCoverage]);
+  const refreshSteps = useMemo(() => report.refreshAll?.steps?.slice(0, 6) ?? [], [report.refreshAll?.steps]);
+  const gapCount = categoryCoverage.filter((item) => item.status === "gap").length;
 
   const runAction = async (action: NewsOperationAction, deal: NewsOperationDeal) => {
     const id = getDealId(deal);
@@ -129,6 +162,76 @@ export function AdminNewsOperationsPanel({ apiHref, initialReport }: AdminNewsOp
             실패
             <b className="mt-0.5 block text-base">{report.failedCount}</b>
           </span>
+        </div>
+      </div>
+
+      <div className="mt-4 grid gap-3 xl:grid-cols-[1.15fr_0.85fr]">
+        <div className="rounded-2xl border border-slate-100 bg-slate-50 p-3">
+          <div className="flex items-center justify-between gap-2">
+            <p className="text-sm font-black text-slate-950">필수 혜택 카테고리 커버리지</p>
+            <span className={`rounded-full px-2.5 py-1 text-[11px] font-black ${gapCount ? "bg-amber-50 text-amber-700" : "bg-emerald-50 text-emerald-700"}`}>
+              {gapCount ? `${gapCount}개 보강` : "전체 충족"}
+            </span>
+          </div>
+          <div className="mt-3 grid grid-cols-2 gap-2 md:grid-cols-5">
+            {categoryCoverage.map((item) => (
+              <div key={item.category} className={`rounded-2xl p-3 ${item.status === "gap" ? "bg-amber-50" : "bg-white"}`}>
+                <div className="flex items-center justify-between gap-2">
+                  <p className="truncate text-[11px] font-black text-slate-800">{item.category}</p>
+                  <span className={`rounded-full px-2 py-0.5 text-[10px] font-black ${item.status === "gap" ? "bg-white text-amber-700" : "bg-emerald-50 text-emerald-700"}`}>
+                    {item.count}개
+                  </span>
+                </div>
+                <p className="mt-2 line-clamp-2 text-[11px] font-bold leading-4 text-slate-500">
+                  {item.sampleTitle || item.action}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="rounded-2xl border border-slate-100 bg-white p-3">
+          <div className="flex items-center justify-between gap-2">
+            <p className="text-sm font-black text-slate-950">refresh:all 운영 상태</p>
+            <span className={`rounded-full px-2.5 py-1 text-[11px] font-black ${report.refreshAll?.ok ? "bg-emerald-50 text-emerald-700" : "bg-red-50 text-brand-red"}`}>
+              {report.refreshAll?.ok ? "정상" : "확인 필요"}
+            </span>
+          </div>
+          <div className="mt-3 grid grid-cols-3 gap-2 text-center text-[11px] font-black">
+            <span className="rounded-2xl bg-slate-50 px-2 py-2 text-slate-600">
+              상품
+              <b className="block text-sm text-slate-950">{report.refreshAll?.productDealsCount ?? 0}</b>
+            </span>
+            <span className="rounded-2xl bg-slate-50 px-2 py-2 text-slate-600">
+              뉴스
+              <b className="block text-sm text-slate-950">{report.refreshAll?.newsDealsCount ?? 0}</b>
+            </span>
+            <span className="rounded-2xl bg-slate-50 px-2 py-2 text-slate-600">
+              실패
+              <b className="block text-sm text-slate-950">{report.refreshAll?.failedCount ?? 0}</b>
+            </span>
+          </div>
+          <div className="mt-3 space-y-1.5">
+            {refreshSteps.map((step) => (
+              <div key={`${step.name}-${step.startedAt}`} className="flex items-center justify-between gap-2 rounded-2xl bg-slate-50 px-3 py-2">
+                <span className="truncate text-[11px] font-black text-slate-700">{step.name}</span>
+                <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-black ${step.ok ? "bg-emerald-50 text-emerald-700" : "bg-red-50 text-brand-red"}`}>
+                  {step.ok ? "PASS" : `FAIL ${step.status}`} · {formatDuration(step.durationMs)}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-4 rounded-2xl bg-brand-warm p-3">
+        <p className="text-xs font-black text-slate-950">오늘 운영 리스크</p>
+        <div className="mt-2 grid gap-2 md:grid-cols-2">
+          {(report.operationalRisks ?? []).map((risk) => (
+            <p key={risk} className="rounded-2xl bg-white px-3 py-2 text-xs font-bold leading-5 text-slate-600 shadow-sm">
+              {risk}
+            </p>
+          ))}
         </div>
       </div>
 

@@ -72,6 +72,19 @@ const refreshedNewsDealsPath = join(process.cwd(), "data", "refreshedNewsDeals.j
 const newsDealsReportPath = join(process.cwd(), "reports", "news-deals.json");
 const refreshAllReportPath = join(process.cwd(), "reports", "refresh-all.json");
 
+const requiredNewsCategories = [
+  { category: "식품/생필품", action: "생활 장보기 공식 행사 1개 이상 유지" },
+  { category: "마트/편의점", action: "편의점 1+1, 마트 쿠폰, 장보기 행사 확인" },
+  { category: "디지털/가전", action: "공식몰 기획전 또는 카드 혜택 보강" },
+  { category: "패션/뷰티", action: "브랜드 공식 쿠폰, 뷰티 체험 혜택 확인" },
+  { category: "외식/배달", action: "배달앱, 프랜차이즈 공식 쿠폰 확인" },
+  { category: "여행/숙박", action: "항공, 숙박, 교통 프로모션 공식 페이지 확인" },
+  { category: "영화/문화", action: "영화관, 전시, 문화의날 혜택 확인" },
+  { category: "카드/멤버십", action: "카드사, 통신사, 간편결제 할인 조건 확인" },
+  { category: "무료혜택", action: "무료 체험, 무료 쿠폰, 샘플 수령 조건 확인" },
+  { category: "정부/공공혜택", action: "공공 쿠폰, 문화/복지 혜택 공식 페이지 확인" }
+];
+
 function readJson<T>(fullPath: string, fallback: T): T {
   if (!existsSync(fullPath)) return fallback;
 
@@ -84,6 +97,13 @@ function readJson<T>(fullPath: string, fallback: T): T {
 
 function sortLatestLogs(logs: NonNullable<NewsDealsReport["recentLogs"]>) {
   return [...logs].sort((a, b) => Date.parse(b.checkedAt) - Date.parse(a.checkedAt)).slice(0, 20);
+}
+
+function getDurationMs(startedAt?: string, finishedAt?: string) {
+  const started = Date.parse(startedAt ?? "");
+  const finished = Date.parse(finishedAt ?? "");
+  if (!Number.isFinite(started) || !Number.isFinite(finished)) return 0;
+  return Math.max(0, finished - started);
 }
 
 export function getNewsOperationsReport() {
@@ -108,6 +128,36 @@ export function getNewsOperationsReport() {
         .sort((a, b) => b[1] - a[1])
         .slice(0, 10)
         .map(([reason, count]) => ({ reason, count }));
+  const visibleCategoryCounts = visibleDeals.reduce((map, deal) => {
+    map.set(deal.category, (map.get(deal.category) ?? 0) + 1);
+    return map;
+  }, new Map<string, number>());
+  const categoryCoverage = requiredNewsCategories.map((item) => {
+    const count = visibleCategoryCounts.get(item.category) ?? 0;
+    const sample = visibleDeals.find((deal) => deal.category === item.category);
+
+    return {
+      ...item,
+      count,
+      status: count > 0 ? "ready" : "gap",
+      sampleTitle: sample?.title ?? ""
+    };
+  });
+  const refreshSteps = (refreshAll.steps ?? []).map((step) => ({
+    ...step,
+    durationMs: getDurationMs(step.startedAt, step.finishedAt)
+  }));
+  const staleGeneratedAt = Date.parse(report.generatedAt ?? snapshot.generatedAt ?? "");
+  const isStale = !Number.isFinite(staleGeneratedAt) || Date.now() - staleGeneratedAt > 24 * 60 * 60 * 1000;
+  const operationalRisks = [
+    ...(categoryCoverage.some((item) => item.status === "gap") ? ["카테고리 공백이 있어 공식 혜택 seed 또는 feed 보강 필요"] : []),
+    ...((report.hiddenCount ?? 0) > 0 ? ["숨김 처리된 공식 혜택이 있어 복구/종료 판단 필요"] : []),
+    ...((report.expiredCount ?? 0) > 0 ? ["종료된 혜택이 있어 사용자 노출 제외 상태 확인 필요"] : []),
+    ...((report.officialMissingCount ?? 0) > 0 ? ["공식 finalUrl이 없는 혜택 후보가 있어 노출 제외 상태 확인 필요"] : []),
+    ...((report.failedCount ?? 0) > 0 ? ["검증 실패 공식 혜택이 있어 실패 사유 TOP10 확인 필요"] : []),
+    ...(refreshAll.ok === false ? ["refresh:all 마지막 실행이 실패하여 파이프라인 로그 확인 필요"] : []),
+    ...(isStale ? ["뉴스 혜택 리포트가 24시간 이상 갱신되지 않아 refresh:all 실행 필요"] : [])
+  ];
 
   return {
     ok: report.ok !== false && refreshAll.ok !== false,
@@ -119,6 +169,8 @@ export function getNewsOperationsReport() {
     expiredCount: report.expiredCount ?? 0,
     officialMissingCount: report.officialMissingCount ?? 0,
     failedCount: (report.failedCount ?? hiddenByReport.length) + manualHiddenDeals.length,
+    categoryCoverage,
+    operationalRisks: operationalRisks.length ? operationalRisks : ["공식 혜택 노출 기준, 카테고리 커버리지, refresh:all 상태가 정상입니다."],
     providerStats,
     failureReasonTop10,
     visibleDeals: visibleDeals
@@ -155,7 +207,7 @@ export function getNewsOperationsReport() {
       hiddenCount: refreshAll.hiddenCount ?? 0,
       expiredCount: refreshAll.expiredCount ?? 0,
       failedCount: refreshAll.failedCount ?? 0,
-      steps: refreshAll.steps ?? []
+      steps: refreshSteps
     }
   };
 }
