@@ -1,7 +1,7 @@
 {
   "generatedBy": "npm run release:notes",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "d5c4882",
+  "commit": "76a0306",
   "workingTree": "M DEVICE_QA_REPORT.md;  M KNOWN_ISSUES.md;  M PUBLIC_URL_REPORT.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_HANDOFF_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M docs/DEVICE_QA_REPORT.md;  M docs/KNOWN_ISSUES.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_HANDOFF_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md;  M docs/release-evidence.md",
   "version": "1.0.1",
   "appName": "할인도사",
@@ -73,14 +73,14 @@
     }
   ],
   "recentCommits": [
+    "76a0306 feat: sync admin deal overrides with Supabase",
+    "ad07f39 docs: refresh release evidence after admin override persistence",
     "d5c4882 feat: persist admin deal operation overrides",
     "cdd4375 feat: enforce admin manual deal hiding",
     "869a426 docs: refresh release evidence after image QA hardening",
     "fcc7866 chore: share product image resolver for QA",
     "93f2fc0 docs: refresh release evidence after link audit hardening",
-    "ce997af chore: strengthen link audit reporting",
-    "80237b2 docs: record clean release doctor after protected smoke hardening",
-    "012cb15 docs: refresh release evidence after protected smoke hardening"
+    "ce997af chore: strengthen link audit reporting"
   ],
   "manualWorkThatMustNotBeFaked": [
     "Do not claim Play Console or App Store Connect submission has passed from this file.",
