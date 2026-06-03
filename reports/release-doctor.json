@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-03T21:33:27.244Z",
+  "generatedAt": "2026-06-03T21:36:23.075Z",
   "totalChecks": 182,
   "passedChecks": 182,
   "failedChecks": 0,
@@ -803,62 +803,62 @@
     {
       "name": "release evidence freshness",
       "ok": true,
-      "detail": "Working tree has pending changes; clean release candidates must refresh evidence after the final commit. Current document points at 4d4e3ee."
+      "detail": "Working tree has pending changes; clean release candidates must refresh evidence after the final commit. Current document points at b9a7f0d."
     },
     {
       "name": "store manual checklist freshness",
       "ok": true,
-      "detail": "Working tree has pending changes; clean release candidates must refresh docs/STORE_MANUAL_CHECKLIST.md after the final commit. Current document points at 4d4e3ee."
+      "detail": "Working tree has pending changes; clean release candidates must refresh docs/STORE_MANUAL_CHECKLIST.md after the final commit. Current document points at b9a7f0d."
     },
     {
       "name": "device qa report freshness",
       "ok": true,
-      "detail": "Working tree has pending changes; clean release candidates must refresh docs/DEVICE_QA_REPORT.md after the final commit. Current document points at 4d4e3ee."
+      "detail": "Working tree has pending changes; clean release candidates must refresh docs/DEVICE_QA_REPORT.md after the final commit. Current document points at b9a7f0d."
     },
     {
       "name": "store screenshots report freshness",
       "ok": true,
-      "detail": "Working tree has pending changes; clean release candidates must refresh docs/STORE_SCREENSHOTS_REPORT.md after the final commit. Current document points at 4d4e3ee."
+      "detail": "Working tree has pending changes; clean release candidates must refresh docs/STORE_SCREENSHOTS_REPORT.md after the final commit. Current document points at b9a7f0d."
     },
     {
       "name": "known issues freshness",
       "ok": true,
-      "detail": "Working tree has pending changes; clean release candidates must refresh docs/KNOWN_ISSUES.md after the final commit. Current document points at 4d4e3ee."
+      "detail": "Working tree has pending changes; clean release candidates must refresh docs/KNOWN_ISSUES.md after the final commit. Current document points at b9a7f0d."
     },
     {
       "name": "public url report freshness",
       "ok": true,
-      "detail": "Working tree has pending changes; clean release candidates must refresh docs/PUBLIC_URL_REPORT.md after the final commit. Current document points at 4d4e3ee."
+      "detail": "Working tree has pending changes; clean release candidates must refresh docs/PUBLIC_URL_REPORT.md after the final commit. Current document points at b9a7f0d."
     },
     {
       "name": "store submission report freshness",
       "ok": true,
-      "detail": "Working tree has pending changes; clean release candidates must refresh docs/STORE_SUBMISSION_REPORT.md after the final commit. Current document points at 4d4e3ee."
+      "detail": "Working tree has pending changes; clean release candidates must refresh docs/STORE_SUBMISSION_REPORT.md after the final commit. Current document points at b9a7f0d."
     },
     {
       "name": "store console fields freshness",
       "ok": true,
-      "detail": "Working tree has pending changes; clean release candidates must refresh docs/STORE_CONSOLE_FIELDS.md after the final commit. Current document points at 4d4e3ee."
+      "detail": "Working tree has pending changes; clean release candidates must refresh docs/STORE_CONSOLE_FIELDS.md after the final commit. Current document points at b9a7f0d."
     },
     {
       "name": "store handoff report freshness",
       "ok": true,
-      "detail": "Working tree has pending changes; clean release candidates must refresh docs/STORE_HANDOFF_REPORT.md after the final commit. Current document points at 4d4e3ee."
+      "detail": "Working tree has pending changes; clean release candidates must refresh docs/STORE_HANDOFF_REPORT.md after the final commit. Current document points at b9a7f0d."
     },
     {
       "name": "release notes freshness",
       "ok": true,
-      "detail": "Working tree has pending changes; clean release candidates must refresh docs/RELEASE_NOTES.md after the final commit. Current document points at 4d4e3ee."
+      "detail": "Working tree has pending changes; clean release candidates must refresh docs/RELEASE_NOTES.md after the final commit. Current document points at b9a7f0d."
     },
     {
       "name": "support playbook freshness",
       "ok": true,
-      "detail": "Working tree has pending changes; clean release candidates must refresh docs/SUPPORT_PLAYBOOK.md after the final commit. Current document points at 4d4e3ee."
+      "detail": "Working tree has pending changes; clean release candidates must refresh docs/SUPPORT_PLAYBOOK.md after the final commit. Current document points at b9a7f0d."
     },
     {
       "name": "store packet report freshness",
       "ok": true,
-      "detail": "Working tree has pending changes; clean release candidates must refresh docs/STORE_PACKET_REPORT.md after the final commit. Current document points at 4d4e3ee."
+      "detail": "Working tree has pending changes; clean release candidates must refresh docs/STORE_PACKET_REPORT.md after the final commit. Current document points at b9a7f0d."
     },
     {
       "name": "customer navigation simplification",
