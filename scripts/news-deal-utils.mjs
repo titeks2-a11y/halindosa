@@ -27,7 +27,17 @@ const approvedHosts = [
   "www.hyundaihmall.com",
   "www.bccard.com",
   "card.kbcard.com",
-  "www.shinhancard.com"
+  "www.shinhancard.com",
+  "new-m.pay.naver.com",
+  "pay.naver.com",
+  "www.yogiyo.co.kr",
+  "www.musinsa.com",
+  "www.lotteon.com",
+  "www.oliveyoung.co.kr",
+  "www.e-himart.co.kr",
+  "point.pay.naver.com",
+  "www.samsung.com",
+  "www.mnuri.kr"
 ];
 
 const blockedHosts = [

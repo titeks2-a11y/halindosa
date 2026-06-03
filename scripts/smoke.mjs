@@ -667,6 +667,11 @@ await check("news deals api", async () => {
   assert(data.deals.every((deal) => !/search|query=|keyword=|msearch|result/i.test(deal.finalUrl)), "News deals API returned a search/result URL");
   assert(data.deals.some((deal) => deal.category === "마트/편의점"), "News deals API missing mart/convenience official benefits");
   assert(data.deals.some((deal) => deal.category === "영화/문화" || deal.category === "정부/공공혜택"), "News deals API missing culture/public official benefits");
+  const full = await fetchJson("/api/news-deals");
+  const categories = new Set(full.data.deals.map((deal) => deal.category));
+  for (const category of ["식품/생필품", "외식/배달", "패션/뷰티", "디지털/가전", "카드/멤버십", "무료혜택"]) {
+    assert(categories.has(category), `News deals API missing expanded official benefit category: ${category}`);
+  }
 });
 
 await check("admin news operations api", async () => {
@@ -1552,6 +1557,25 @@ await check("go purchase redirect", async () => {
   assert(response.status === 302, `Expected 302, got ${response.status}`);
   assert(response.headers.get("x-request-id"), "Go redirect missing request id");
   assert(location.includes("coupang.com"), `Go redirect should resolve to seller URL, got ${location}`);
+});
+
+await check("go official news redirect", async () => {
+  const cases = [
+    ["news-homeplus-official-event", "homeplus.co.kr"],
+    ["news-yogiyo-official-event", "yogiyo.co.kr"],
+    ["news-samsung-shop-official-event", "samsung.com"],
+    ["news-mnuri-official-benefit", "mnuri.kr"]
+  ];
+
+  for (const [dealId, expectedHost] of cases) {
+    const response = await fetch(`${baseUrl}/go/news/${dealId}?from=smoke-news`, {
+      redirect: "manual"
+    });
+    const location = response.headers.get("location") ?? "";
+    assert(response.status === 302, `Expected 302 for ${dealId}, got ${response.status}`);
+    assert(response.headers.get("x-request-id"), `News go redirect missing request id for ${dealId}`);
+    assert(location.includes(expectedHost), `Expected ${dealId} official redirect to ${expectedHost}, got ${location}`);
+  }
 });
 
 await check("detail purchase consent guard", async () => {

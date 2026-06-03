@@ -3439,6 +3439,7 @@ function checkNewsDealPipeline() {
     "lib/deals/providers/publicCouponProvider.ts",
     "lib/deals/newsOperations.ts",
     "lib/deals/newsOverrides.ts",
+    "lib/deals/newsLinkPolicy.ts",
     "scripts/refresh-news-deals.mjs",
     "scripts/verify-news-deals.mjs",
     "scripts/refresh-all.mjs",
@@ -3447,6 +3448,7 @@ function checkNewsDealPipeline() {
     "reports/news-deals.json",
     "reports/refresh-all.json",
     "app/api/news-deals/route.ts",
+    "app/go/news/[id]/route.ts",
     "app/api/admin/news-operations/route.ts",
     "components/RealtimeNewsDealsSection.tsx"
   ];
@@ -3466,6 +3468,9 @@ function checkNewsDealPipeline() {
     ? readFileSync(join(root, "components/AdminNewsOperationsPanel.tsx"), "utf8")
     : "";
   const newsOperations = existsSync(join(root, "lib/deals/newsOperations.ts")) ? readFileSync(join(root, "lib/deals/newsOperations.ts"), "utf8") : "";
+  const realtimeNewsSection = existsSync(join(root, "components/RealtimeNewsDealsSection.tsx")) ? readFileSync(join(root, "components/RealtimeNewsDealsSection.tsx"), "utf8") : "";
+  const newsRedirectRoute = existsSync(join(root, "app/go/news/[id]/route.ts")) ? readFileSync(join(root, "app/go/news/[id]/route.ts"), "utf8") : "";
+  const newsLinkPolicy = existsSync(join(root, "lib/deals/newsLinkPolicy.ts")) ? readFileSync(join(root, "lib/deals/newsLinkPolicy.ts"), "utf8") : "";
 
   for (const key of ["DEAL_NEWS_FEED_URLS", "DEAL_EVENT_NEWS_FEED_URLS", "OFFICIAL_EVENT_FEED_URLS", "PUBLIC_COUPON_FEED_URLS"]) {
     if (!envExample.includes(key)) issues.push(`env example missing ${key}`);
@@ -3487,6 +3492,9 @@ function checkNewsDealPipeline() {
 
   if (!homePage.includes("RealtimeNewsDealsSection") || !homePage.includes("/api/news-deals?limit=6")) {
     issues.push("home should show verified realtime discount news section from /api/news-deals");
+  }
+  if (!realtimeNewsSection.includes("/go/news/") || !newsRedirectRoute.includes("resolveNewsDealDestinationUrl") || !newsRedirectRoute.includes("recordDealClick") || !newsLinkPolicy.includes("approvedNewsHosts")) {
+    issues.push("official news benefit clicks should pass through /go/news/[id] with link policy and click logging");
   }
   if (!homePage.includes("recentNewsBenefitIds") || !homePage.includes("재방문 혜택 큐") || !homePage.includes("관심 카테고리 공식 혜택")) {
     issues.push("home should keep recent official benefit and interest news return queues");
@@ -3510,7 +3518,11 @@ function checkNewsDealPipeline() {
   if (existsSync(join(root, "reports/news-deals.json"))) {
     const report = JSON.parse(readFileSync(join(root, "reports/news-deals.json"), "utf8"));
     if (report.ok !== true) issues.push("news-deals report should pass");
-    if ((report.visibleCount ?? 0) < 5) issues.push("news-deals report should include at least 5 visible official benefits");
+    if ((report.visibleCount ?? 0) < 15) issues.push("news-deals report should include at least 15 visible official benefits across daily benefit categories");
+    const requiredNewsCategories = ["식품/생필품", "마트/편의점", "외식/배달", "패션/뷰티", "디지털/가전", "카드/멤버십", "영화/문화", "무료혜택"];
+    const categoryCounts = report.categoryCounts ?? {};
+    const missingCategories = requiredNewsCategories.filter((category) => !categoryCounts[category]);
+    if (missingCategories.length) issues.push(`news-deals report missing required categories: ${missingCategories.join(", ")}`);
     if (!Array.isArray(report.providerStats) || report.providerStats.length < 4) issues.push("news-deals report should include provider stats");
     if (!Array.isArray(report.recentLogs) || report.recentLogs.length < 5) issues.push("news-deals report should include recent collection logs");
     if (!Array.isArray(report.manualActions) || report.manualActions.length < 3) issues.push("news-deals report should include manual hide/restore/revalidate actions");
@@ -3522,7 +3534,7 @@ function checkNewsDealPipeline() {
   if (existsSync(join(root, "reports/refresh-all.json"))) {
     const report = JSON.parse(readFileSync(join(root, "reports/refresh-all.json"), "utf8"));
     if (report.ok !== true) issues.push("refresh-all report should pass");
-    if ((report.newsDealsCount ?? 0) < 5) issues.push("refresh-all should include official news/event benefits");
+    if ((report.newsDealsCount ?? 0) < 15) issues.push("refresh-all should include expanded official news/event benefits");
     if ((report.productDealsCount ?? 0) < 140) issues.push("refresh-all should preserve 140 verified product deals");
     if (!Array.isArray(report.providerStats?.news) || report.providerStats.news.length < 4) issues.push("refresh-all should preserve news provider stats");
   }

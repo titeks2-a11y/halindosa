@@ -79,7 +79,7 @@ export function RealtimeNewsDealsSection({
             <div className="mt-3 flex items-center justify-between gap-2">
               <p className="min-w-0 truncate text-[11px] font-black text-slate-500">{deal.sourceName}</p>
               <Link
-                href={deal.finalUrl}
+                href={`/go/news/${encodeURIComponent(deal.id)}?from=home-news`}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => {

@@ -49,3 +49,9 @@ export function getVisibleNewsDeals(options: { limit?: number; category?: string
     source: snapshot?.source ?? "seed"
   };
 }
+
+export function findVisibleNewsDealById(id: string) {
+  const { deals } = getVisibleNewsDeals();
+
+  return deals.find((deal) => deal.id === id) ?? null;
+}
