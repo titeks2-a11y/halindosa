@@ -3344,6 +3344,8 @@ function checkNewsDealPipeline() {
     "lib/deals/providers/eventNewsProvider.ts",
     "lib/deals/providers/officialEventProvider.ts",
     "lib/deals/providers/publicCouponProvider.ts",
+    "lib/deals/newsOperations.ts",
+    "lib/deals/newsOverrides.ts",
     "scripts/refresh-news-deals.mjs",
     "scripts/verify-news-deals.mjs",
     "scripts/refresh-all.mjs",
@@ -3352,6 +3354,7 @@ function checkNewsDealPipeline() {
     "reports/news-deals.json",
     "reports/refresh-all.json",
     "app/api/news-deals/route.ts",
+    "app/api/admin/news-operations/route.ts",
     "components/RealtimeNewsDealsSection.tsx"
   ];
   const issues = [];
@@ -3389,14 +3392,17 @@ function checkNewsDealPipeline() {
     issues.push("home should show verified realtime discount news section from /api/news-deals");
   }
 
-  if (!adminPage.includes("뉴스 수집 현황") || !adminPage.includes("/api/news-deals?limit=20") || !adminPage.includes("캠페인 API 보기")) {
-    issues.push("admin should expose news collection status and notification campaign operation links");
+  if (!adminPage.includes("뉴스 수집 현황") || !adminPage.includes("운영 리포트 API 보기") || !adminPage.includes("Provider별 성공/실패") || !adminPage.includes("최근 20개 수집 로그") || !adminPage.includes("수동 숨김/복구/재검증 구조") || !adminPage.includes("캠페인 API 보기")) {
+    issues.push("admin should expose news collection status, provider logs, manual actions, and notification campaign operation links");
   }
 
   if (existsSync(join(root, "reports/news-deals.json"))) {
     const report = JSON.parse(readFileSync(join(root, "reports/news-deals.json"), "utf8"));
     if (report.ok !== true) issues.push("news-deals report should pass");
     if ((report.visibleCount ?? 0) < 5) issues.push("news-deals report should include at least 5 visible official benefits");
+    if (!Array.isArray(report.providerStats) || report.providerStats.length < 4) issues.push("news-deals report should include provider stats");
+    if (!Array.isArray(report.recentLogs) || report.recentLogs.length < 5) issues.push("news-deals report should include recent collection logs");
+    if (!Array.isArray(report.manualActions) || report.manualActions.length < 3) issues.push("news-deals report should include manual hide/restore/revalidate actions");
     if ((report.hiddenCount ?? 0) !== 0 || (report.expiredCount ?? 0) !== 0 || (report.officialMissingCount ?? 0) !== 0) {
       issues.push("news-deals report should expose zero hidden, expired, or non-official links");
     }
@@ -3407,6 +3413,7 @@ function checkNewsDealPipeline() {
     if (report.ok !== true) issues.push("refresh-all report should pass");
     if ((report.newsDealsCount ?? 0) < 5) issues.push("refresh-all should include official news/event benefits");
     if ((report.productDealsCount ?? 0) < 140) issues.push("refresh-all should preserve 140 verified product deals");
+    if (!Array.isArray(report.providerStats?.news) || report.providerStats.news.length < 4) issues.push("refresh-all should preserve news provider stats");
   }
 
   if (issues.length) fail("news and official event pipeline", issues.join("; "));

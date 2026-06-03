@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-03T08:26:29.875Z",
+  "generatedAt": "2026-06-03T08:39:08.033Z",
   "productDealsCount": 140,
   "newsDealsCount": 10,
   "insertedCount": 10,
@@ -89,10 +89,71 @@
         "failedCount": 0
       }
     ],
-    "news": []
+    "news": [
+      {
+        "provider": "news",
+        "source": "approved_news_feed",
+        "configured": false,
+        "feedUrls": 0,
+        "fetchedCount": 0,
+        "errorCount": 0,
+        "errors": [],
+        "normalizedCount": 0,
+        "visibleCount": 0,
+        "hiddenCount": 0,
+        "failedCount": 0,
+        "expiredCount": 0,
+        "officialMissingCount": 0
+      },
+      {
+        "provider": "event_news",
+        "source": "official_event_news_feed",
+        "configured": false,
+        "feedUrls": 0,
+        "fetchedCount": 3,
+        "errorCount": 0,
+        "errors": [],
+        "normalizedCount": 3,
+        "visibleCount": 3,
+        "hiddenCount": 0,
+        "failedCount": 0,
+        "expiredCount": 0,
+        "officialMissingCount": 0
+      },
+      {
+        "provider": "official_event",
+        "source": "official_event_page_feed",
+        "configured": false,
+        "feedUrls": 0,
+        "fetchedCount": 6,
+        "errorCount": 0,
+        "errors": [],
+        "normalizedCount": 6,
+        "visibleCount": 6,
+        "hiddenCount": 0,
+        "failedCount": 0,
+        "expiredCount": 0,
+        "officialMissingCount": 0
+      },
+      {
+        "provider": "public_coupon",
+        "source": "public_coupon_and_culture_benefit_feed",
+        "configured": false,
+        "feedUrls": 0,
+        "fetchedCount": 1,
+        "errorCount": 0,
+        "errors": [],
+        "normalizedCount": 1,
+        "visibleCount": 1,
+        "hiddenCount": 0,
+        "failedCount": 0,
+        "expiredCount": 0,
+        "officialMissingCount": 0
+      }
+    ]
   },
   "linkQuality": {
-    "generatedAt": "2026-06-03T08:26:30.311Z",
+    "generatedAt": "2026-06-03T08:39:08.496Z",
     "totalDeals": 140,
     "verificationTargets": 140,
     "passedDirectLinks": 140,
@@ -194,7 +255,7 @@
     "issues": []
   },
   "productQuality": {
-    "generatedAt": "2026-06-03T08:26:30.404Z",
+    "generatedAt": "2026-06-03T08:39:08.597Z",
     "totalProducts": 140,
     "passedProducts": 140,
     "failedProducts": 0,
@@ -216,7 +277,7 @@
   },
   "newsQuality": {
     "ok": true,
-    "generatedAt": "2026-06-03T08:26:30.483Z",
+    "generatedAt": "2026-06-03T08:39:08.681Z",
     "totalCount": 10,
     "visibleCount": 10,
     "hiddenCount": 0,
@@ -230,8 +291,70 @@
       "카드/멤버십": 2,
       "여행/숙박": 1
     },
-    "providerStats": [],
+    "providerStats": [
+      {
+        "provider": "news",
+        "source": "approved_news_feed",
+        "configured": false,
+        "feedUrls": 0,
+        "fetchedCount": 0,
+        "errorCount": 0,
+        "errors": [],
+        "normalizedCount": 0,
+        "visibleCount": 0,
+        "hiddenCount": 0,
+        "failedCount": 0,
+        "expiredCount": 0,
+        "officialMissingCount": 0
+      },
+      {
+        "provider": "event_news",
+        "source": "official_event_news_feed",
+        "configured": false,
+        "feedUrls": 0,
+        "fetchedCount": 3,
+        "errorCount": 0,
+        "errors": [],
+        "normalizedCount": 3,
+        "visibleCount": 3,
+        "hiddenCount": 0,
+        "failedCount": 0,
+        "expiredCount": 0,
+        "officialMissingCount": 0
+      },
+      {
+        "provider": "official_event",
+        "source": "official_event_page_feed",
+        "configured": false,
+        "feedUrls": 0,
+        "fetchedCount": 6,
+        "errorCount": 0,
+        "errors": [],
+        "normalizedCount": 6,
+        "visibleCount": 6,
+        "hiddenCount": 0,
+        "failedCount": 0,
+        "expiredCount": 0,
+        "officialMissingCount": 0
+      },
+      {
+        "provider": "public_coupon",
+        "source": "public_coupon_and_culture_benefit_feed",
+        "configured": false,
+        "feedUrls": 0,
+        "fetchedCount": 1,
+        "errorCount": 0,
+        "errors": [],
+        "normalizedCount": 1,
+        "visibleCount": 1,
+        "hiddenCount": 0,
+        "failedCount": 0,
+        "expiredCount": 0,
+        "officialMissingCount": 0
+      }
+    ],
     "failureReasons": {},
+    "failureReasonTop10": [],
     "visibleDealIds": [
       "news-gs25-drinking-festa-2026",
       "news-gs25-card-june-2026",
@@ -245,6 +368,117 @@
       "news-koreanair-promotion"
     ],
     "hiddenDeals": [],
+    "expiredDeals": [],
+    "officialMissingDeals": [],
+    "recentLogs": [
+      {
+        "dealId": "news-gs25-drinking-festa-2026",
+        "provider": "official_event",
+        "title": "GS25 드링킹 페스타 1+1·다량 구매 행사",
+        "status": "visible",
+        "reason": "passed",
+        "finalUrl": "https://gs25.gsretail.com/gscvs/ko/customer-engagement/event/detail/publishing?eventCode=8842885844512&pageNum=1&uiel=Mobile",
+        "checkedAt": "2026-06-03T08:39:08.681Z"
+      },
+      {
+        "dealId": "news-gs25-card-june-2026",
+        "provider": "official_event",
+        "title": "GS25 6월 신용카드 현장 할인 혜택",
+        "status": "visible",
+        "reason": "passed",
+        "finalUrl": "https://gs25.gsretail.com/gscvs/ko/customer-engagement/event/detail/publishing?eventCode=8842885778976&pageNum=1",
+        "checkedAt": "2026-06-03T08:39:08.681Z"
+      },
+      {
+        "dealId": "news-gs25-event-goods",
+        "provider": "official_event",
+        "title": "GS25 행사상품 공식 목록",
+        "status": "visible",
+        "reason": "passed",
+        "finalUrl": "https://gs25.gsretail.com/gscvs/ko/products/event-goods",
+        "checkedAt": "2026-06-03T08:39:08.681Z"
+      },
+      {
+        "dealId": "news-culture-day-programs-2026",
+        "provider": "event_news",
+        "title": "이번 주 문화가 있는 날 프로그램",
+        "status": "visible",
+        "reason": "passed",
+        "finalUrl": "https://www.culture.go.kr/wday/main/main.do",
+        "checkedAt": "2026-06-03T08:39:08.681Z"
+      },
+      {
+        "dealId": "news-culture-day-weekly-2026",
+        "provider": "public_coupon",
+        "title": "문화가 있는 날 매주 수요일 문화 혜택",
+        "status": "visible",
+        "reason": "passed",
+        "finalUrl": "https://www.culture.go.kr/local/wday/cltrDay.do",
+        "checkedAt": "2026-06-03T08:39:08.681Z"
+      },
+      {
+        "dealId": "news-cgv-official-events",
+        "provider": "event_news",
+        "title": "CGV 공식 이벤트·쿠폰 혜택",
+        "status": "visible",
+        "reason": "passed",
+        "finalUrl": "https://www.cgv.co.kr/culture-event/event/defaultNew.aspx",
+        "checkedAt": "2026-06-03T08:39:08.681Z"
+      },
+      {
+        "dealId": "news-lottecinema-official-events",
+        "provider": "event_news",
+        "title": "롯데시네마 공식 이벤트 혜택",
+        "status": "visible",
+        "reason": "passed",
+        "finalUrl": "https://www.lottecinema.co.kr/NLCHS/Event",
+        "checkedAt": "2026-06-03T08:39:08.681Z"
+      },
+      {
+        "dealId": "news-tworld-membership-upgrade",
+        "provider": "official_event",
+        "title": "T 멤버십 장기고객 등급 업그레이드 혜택",
+        "status": "visible",
+        "reason": "passed",
+        "finalUrl": "https://www.tworld.co.kr/poc/html/product/TS3.7.1T.2.html",
+        "checkedAt": "2026-06-03T08:39:08.681Z"
+      },
+      {
+        "dealId": "news-tworld-longterm-discount",
+        "provider": "official_event",
+        "title": "T world 장기고객 요금할인 안내",
+        "status": "visible",
+        "reason": "passed",
+        "finalUrl": "https://www.tworld.co.kr/poc/html/product/TS3.3.1T.8.html",
+        "checkedAt": "2026-06-03T08:39:08.681Z"
+      },
+      {
+        "dealId": "news-koreanair-promotion",
+        "provider": "official_event",
+        "title": "대한항공 공식 항공권 프로모션",
+        "status": "visible",
+        "reason": "passed",
+        "finalUrl": "https://www.koreanair.com/promotion/list",
+        "checkedAt": "2026-06-03T08:39:08.681Z"
+      }
+    ],
+    "manualActions": [
+      {
+        "action": "hide",
+        "label": "수동 숨김",
+        "description": "공식 링크 오류, 종료, 조건 불명확 항목을 즉시 사용자 노출에서 제외"
+      },
+      {
+        "action": "restore",
+        "label": "수동 복구",
+        "description": "공식 링크와 기간을 재확인한 뒤 노출 후보로 복구"
+      },
+      {
+        "action": "revalidate",
+        "label": "링크 재검증",
+        "description": "refresh:all 또는 운영 DB provider run으로 링크 상태를 재확인"
+      }
+    ],
     "gates": {
       "hasVisibleNewsDeals": true,
       "searchLinkExposure": 0,
@@ -259,8 +493,8 @@
       "command": "C:\\Program Files\\nodejs\\node.exe scripts/refresh-deals.mjs",
       "ok": true,
       "status": 0,
-      "startedAt": "2026-06-03T08:26:29.877Z",
-      "finishedAt": "2026-06-03T08:26:30.157Z",
+      "startedAt": "2026-06-03T08:39:08.034Z",
+      "finishedAt": "2026-06-03T08:39:08.326Z",
       "stdout": "PASS link-validation\nProduct link verification passed: 140/140 verified purchase URLs (100%).\n- Distinct purchase hosts: 48\n- Product detail URLs: 109\n- Official benefit/event URLs: 31\nPASS product-quality\nProduct quality verification passed.\n- Total products: 140\n- Visible products: 140\n- Hidden products: 0\n- Search links exposed: 0\nDeal refresh pipeline completed.\n- fetchedCount: 140\n- normalizedCount: 140\n- insertedCount: 0\n- updatedCount: 136\n- hiddenCount: 0\n- failedCount: 0\n- reports/refresh-deals.json\n- data/refreshedDeals.json",
       "stderr": ""
     },
@@ -269,8 +503,8 @@
       "command": "C:\\Program Files\\nodejs\\node.exe scripts/refresh-news-deals.mjs",
       "ok": true,
       "status": 0,
-      "startedAt": "2026-06-03T08:26:30.157Z",
-      "finishedAt": "2026-06-03T08:26:30.240Z",
+      "startedAt": "2026-06-03T08:39:08.326Z",
+      "finishedAt": "2026-06-03T08:39:08.416Z",
       "stdout": "News/event deal refresh completed.\n- collectedCount: 10\n- normalizedCount: 10\n- visibleCount: 10\n- hiddenCount: 0\n- failedCount: 0\n- data/refreshedNewsDeals.json\n- reports/news-deals.json",
       "stderr": ""
     },
@@ -279,8 +513,8 @@
       "command": "C:\\Program Files\\nodejs\\node.exe scripts/verify-product-links.mjs",
       "ok": true,
       "status": 0,
-      "startedAt": "2026-06-03T08:26:30.240Z",
-      "finishedAt": "2026-06-03T08:26:30.333Z",
+      "startedAt": "2026-06-03T08:39:08.416Z",
+      "finishedAt": "2026-06-03T08:39:08.520Z",
       "stdout": "Product link verification passed: 140/140 verified purchase URLs (100%).\n- Distinct purchase hosts: 48\n- Product detail URLs: 109\n- Official benefit/event URLs: 31",
       "stderr": ""
     },
@@ -289,8 +523,8 @@
       "command": "C:\\Program Files\\nodejs\\node.exe scripts/verify-products.mjs",
       "ok": true,
       "status": 0,
-      "startedAt": "2026-06-03T08:26:30.333Z",
-      "finishedAt": "2026-06-03T08:26:30.415Z",
+      "startedAt": "2026-06-03T08:39:08.520Z",
+      "finishedAt": "2026-06-03T08:39:08.609Z",
       "stdout": "Product quality verification passed.\n- Total products: 140\n- Visible products: 140\n- Hidden products: 0\n- Search links exposed: 0",
       "stderr": ""
     },
@@ -299,8 +533,8 @@
       "command": "C:\\Program Files\\nodejs\\node.exe scripts/verify-news-deals.mjs",
       "ok": true,
       "status": 0,
-      "startedAt": "2026-06-03T08:26:30.415Z",
-      "finishedAt": "2026-06-03T08:26:30.495Z",
+      "startedAt": "2026-06-03T08:39:08.609Z",
+      "finishedAt": "2026-06-03T08:39:08.695Z",
       "stdout": "PASS news deals verified: 10/10 official benefit links",
       "stderr": ""
     }

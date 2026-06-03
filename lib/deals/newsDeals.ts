@@ -1,12 +1,16 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import seedNewsDeals from "@/data/newsDeals.seed.json";
+import { applyNewsDealOverrides } from "@/lib/deals/newsOverrides";
 import type { NewsDeal } from "@/types/newsDeal";
 
 interface NewsDealSnapshot {
   generatedAt?: string;
   source?: string;
+  allDeals?: NewsDeal[];
   deals?: NewsDeal[];
+  hiddenDeals?: NewsDeal[];
+  providerStats?: unknown[];
 }
 
 function readSnapshot(): NewsDealSnapshot | null {
@@ -28,7 +32,7 @@ export function getVisibleNewsDeals(options: { limit?: number; category?: string
   const snapshot = readSnapshot();
   const sourceDeals = snapshot?.deals?.length ? snapshot.deals : (seedNewsDeals as NewsDeal[]);
   const now = Date.now();
-  const filtered = sourceDeals
+  const filtered = applyNewsDealOverrides(sourceDeals)
     .filter(isVisibleNewsDeal)
     .filter((deal) => {
       const endsAt = Date.parse(deal.endDate);

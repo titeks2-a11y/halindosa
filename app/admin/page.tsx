@@ -9,6 +9,7 @@ import { getDeals } from "@/lib/dealService";
 import { buildBenefitDecisionGuide } from "@/lib/deals/benefitDecisionGuide";
 import { buildClaimEffortSummary } from "@/lib/deals/claimEffort";
 import { getVisibleNewsDeals } from "@/lib/deals/newsDeals";
+import { getNewsOperationsReport } from "@/lib/deals/newsOperations";
 import { getLinkReviewActionLabel, getLinkReviewQueue, getLinkStatusLabel, getLinkTypeLabel } from "@/lib/deals/quality";
 import { getRefreshDealsReport } from "@/lib/deals/refreshReport";
 import { getDealSourceReadiness, listDealSourceProfiles } from "@/lib/deals/trust";
@@ -59,6 +60,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const { deals } = await getDeals();
   const reportSummary = getReportSummary();
   const refreshReport = getRefreshDealsReport();
+  const newsOperations = getNewsOperationsReport();
   const newsResult = getVisibleNewsDeals({ limit: 20 });
   const newsDeals = newsResult.deals;
   const newsCategoryCounts = Array.from(
@@ -84,6 +86,9 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const imageQueueCsvHref = isAdminProtectionEnabled()
     ? `/api/admin/image-queue?format=csv&token=${encodeURIComponent(token ?? "")}`
     : "/api/admin/image-queue?format=csv";
+  const newsOperationsApiHref = isAdminProtectionEnabled()
+    ? `/api/admin/news-operations?token=${encodeURIComponent(token ?? "")}`
+    : "/api/admin/news-operations";
   const sourceReadiness = getDealSourceReadiness(deals);
   const priorityLabels = {
     high: "우선",
@@ -289,21 +294,22 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
               </p>
             </div>
             <a
-              href="/api/news-deals?limit=20"
+              href={newsOperationsApiHref}
               target="_blank"
               rel="noopener noreferrer"
               className="rounded-2xl bg-brand-red px-4 py-3 text-center text-sm font-black text-white"
             >
-              뉴스 혜택 API 보기
+              운영 리포트 API 보기
             </a>
           </div>
-          <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
+          <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-6">
             {[
-              ["노출 뉴스혜택", newsDeals.length],
+              ["노출 뉴스혜택", newsOperations.visibleCount],
               ["카테고리", newsCategoryCounts.length],
               ["공식 링크", newsDeals.filter((deal) => deal.validationStatus === "passed").length],
-              ["숨김", 0],
-              ["마감/실패", 0]
+              ["숨김", newsOperations.hiddenCount],
+              ["종료", newsOperations.expiredCount],
+              ["실패", newsOperations.failedCount]
             ].map(([label, value]) => (
               <div key={label} className="rounded-2xl bg-brand-warm p-4">
                 <p className="text-xs font-black text-slate-500">{label}</p>
@@ -336,9 +342,97 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                 >
                   <p className="line-clamp-2 text-sm font-black text-slate-950">{deal.title}</p>
                   <p className="mt-1 line-clamp-2 text-xs font-bold leading-5 text-slate-500">{deal.summary}</p>
-                  <p className="mt-3 text-[11px] font-black text-brand-red">{deal.sourceName} · {deal.confidenceScore}점</p>
+                  <p className="mt-3 text-[11px] font-black text-brand-red">{deal.sourceName} · 공식 링크 확인</p>
                 </a>
               ))}
+            </div>
+          </div>
+          <div className="mt-4 grid gap-3 xl:grid-cols-3">
+            <div className="rounded-2xl border border-slate-100 bg-white p-4">
+              <div className="flex items-center justify-between gap-2">
+                <p className="text-sm font-black text-slate-950">Provider별 성공/실패</p>
+                <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-[11px] font-black text-emerald-700">
+                  refresh:all {newsOperations.refreshAll.ok ? "정상" : "점검"}
+                </span>
+              </div>
+              <div className="mt-3 space-y-2">
+                {newsOperations.providerStats.map((provider) => (
+                  <div key={provider.provider} className="rounded-2xl bg-slate-50 px-3 py-2">
+                    <div className="flex items-center justify-between gap-2">
+                      <p className="text-xs font-black text-slate-800">{provider.provider}</p>
+                      <p className="text-[11px] font-black text-slate-500">{provider.configured ? "feed 연결" : "seed/fallback"}</p>
+                    </div>
+                    <p className="mt-1 text-[11px] font-bold text-slate-500">
+                      수집 {provider.fetchedCount ?? 0} · 정규화 {provider.normalizedCount ?? 0} · 노출 {provider.visibleCount ?? 0} · 숨김 {provider.hiddenCount ?? 0} · 오류 {provider.errorCount ?? 0}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="rounded-2xl border border-slate-100 bg-white p-4">
+              <p className="text-sm font-black text-slate-950">검증 실패 TOP10</p>
+              <div className="mt-3 space-y-2">
+                {newsOperations.failureReasonTop10.length ? (
+                  newsOperations.failureReasonTop10.map((item) => (
+                    <div key={item.reason} className="flex items-center justify-between gap-2 rounded-2xl bg-amber-50 px-3 py-2">
+                      <p className="truncate text-xs font-black text-amber-800">{item.reason}</p>
+                      <p className="text-xs font-black text-amber-700">{item.count}</p>
+                    </div>
+                  ))
+                ) : (
+                  <p className="rounded-2xl bg-emerald-50 px-3 py-3 text-xs font-black text-emerald-700">현재 실패 사유 없음</p>
+                )}
+              </div>
+              <p className="mt-3 text-[11px] font-bold leading-5 text-slate-500">
+                공식 링크 없음 {newsOperations.officialMissingCount}건 · 기간 종료 {newsOperations.expiredCount}건 · 수동 숨김 {newsOperations.overrides.hiddenCount}건
+              </p>
+            </div>
+            <div className="rounded-2xl border border-slate-100 bg-white p-4">
+              <p className="text-sm font-black text-slate-950">최근 20개 수집 로그</p>
+              <div className="mt-3 max-h-64 space-y-2 overflow-y-auto pr-1">
+                {newsOperations.recentLogs.slice(0, 20).map((log) => (
+                  <div key={`${log.dealId}-${log.checkedAt}`} className="rounded-2xl bg-slate-50 px-3 py-2">
+                    <div className="flex items-center justify-between gap-2">
+                      <p className="truncate text-xs font-black text-slate-800">{log.title}</p>
+                      <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-black ${log.status === "visible" ? "bg-emerald-50 text-emerald-700" : "bg-red-50 text-dossa-red"}`}>
+                        {log.status === "visible" ? "노출" : "숨김"}
+                      </span>
+                    </div>
+                    <p className="mt-1 truncate text-[11px] font-bold text-slate-500">{log.provider} · {log.reason}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+          <div className="mt-4 grid gap-3 lg:grid-cols-[1fr_1fr]">
+            <div className="rounded-2xl border border-dashed border-slate-200 bg-slate-50 p-4">
+              <p className="text-sm font-black text-slate-950">숨김/종료/공식 링크 없음 큐</p>
+              <div className="mt-3 space-y-2">
+                {newsOperations.hiddenDeals.length ? (
+                  newsOperations.hiddenDeals.slice(0, 8).map((deal) => (
+                    <div key={String(deal.id)} className="rounded-2xl bg-white px-3 py-2">
+                      <p className="line-clamp-1 text-xs font-black text-slate-800">{deal.title}</p>
+                      <p className="mt-1 truncate text-[11px] font-bold text-dossa-red">{deal.hiddenReason}</p>
+                    </div>
+                  ))
+                ) : (
+                  <p className="rounded-2xl bg-white px-3 py-3 text-xs font-black text-emerald-700">숨김 처리된 공식 혜택 없음</p>
+                )}
+              </div>
+            </div>
+            <div className="rounded-2xl border border-dashed border-slate-200 bg-slate-50 p-4">
+              <p className="text-sm font-black text-slate-950">수동 숨김/복구/재검증 구조</p>
+              <div className="mt-3 grid gap-2 sm:grid-cols-3">
+                {newsOperations.manualActions.map((action) => (
+                  <div key={action.action} className="rounded-2xl bg-white p-3">
+                    <p className="text-xs font-black text-slate-950">{action.label}</p>
+                    <p className="mt-1 text-[11px] font-bold leading-5 text-slate-500">{action.description}</p>
+                  </div>
+                ))}
+              </div>
+              <p className="mt-3 text-[11px] font-bold leading-5 text-slate-500">
+                API: POST {newsOperationsApiHref} · action=hide/restore/revalidate, id, reason. 로컬에서는 override 파일, 운영에서는 Supabase admin_actions로 확장합니다.
+              </p>
             </div>
           </div>
         </section>

@@ -5,12 +5,13 @@ import { dataDir, dedupeNewsDeals, normalizeNewsDeal, readJson, summarizeNewsDea
 const now = Date.now();
 const generatedAt = new Date(now).toISOString();
 const snapshotPath = join(dataDir, "refreshedNewsDeals.json");
-const source = existsSync(snapshotPath)
-  ? readJson("data/refreshedNewsDeals.json", { deals: [] }).deals
-  : readJson("data/newsDeals.seed.json", []);
+const snapshot = existsSync(snapshotPath)
+  ? readJson("data/refreshedNewsDeals.json", { deals: [], allDeals: [], providerStats: [] })
+  : null;
+const source = snapshot ? (snapshot.allDeals?.length ? snapshot.allDeals : snapshot.deals) : readJson("data/newsDeals.seed.json", []);
 const normalized = source.map((item) => normalizeNewsDeal(item, generatedAt));
 const validated = dedupeNewsDeals(normalized.map((deal) => validateNewsDeal(deal, now)));
-const summary = summarizeNewsDeals(validated, generatedAt);
+const summary = summarizeNewsDeals(validated, generatedAt, snapshot?.providerStats ?? []);
 const searchLikeVisible = validated.filter((deal) => !deal.isHidden && /search|query=|keyword=|msearch|result/i.test(deal.finalUrl));
 const nonOfficialVisible = validated.filter((deal) => !deal.isHidden && deal.hiddenReason.includes("not_approved_official_url"));
 const expiredVisible = validated.filter((deal) => !deal.isHidden && Date.parse(deal.endDate) < now);

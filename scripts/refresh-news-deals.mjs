@@ -73,6 +73,7 @@ const snapshot = {
   generatedAt,
   schemaVersion: 1,
   source: "official_event_seed_and_approved_feeds",
+  allDeals: validated,
   deals: visibleDeals,
   hiddenDeals: summary.hiddenDeals,
   providerStats

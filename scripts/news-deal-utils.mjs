@@ -230,6 +230,57 @@ export function summarizeNewsDeals(deals, generatedAt = new Date().toISOString()
     }
   }
 
+  const providerNames = new Set([...providerStats.map((stat) => stat.provider), ...deals.map((deal) => deal.provider)]);
+  const enrichedProviderStats = Array.from(providerNames).map((provider) => {
+    const stat = providerStats.find((item) => item.provider === provider) ?? {
+      provider,
+      source: "runtime_news_snapshot",
+      configured: false,
+      feedUrls: 0,
+      fetchedCount: 0,
+      errorCount: 0,
+      errors: []
+    };
+    const providerDeals = deals.filter((deal) => deal.provider === provider);
+
+    return {
+      ...stat,
+      normalizedCount: providerDeals.length,
+      visibleCount: providerDeals.filter((deal) => !deal.isHidden && deal.validationStatus === "passed").length,
+      hiddenCount: providerDeals.filter((deal) => deal.isHidden || deal.validationStatus !== "passed").length,
+      failedCount: providerDeals.filter((deal) => deal.validationStatus === "failed").length,
+      expiredCount: providerDeals.filter((deal) => deal.hiddenReason.includes("expired_event")).length,
+      officialMissingCount: providerDeals.filter((deal) => deal.hiddenReason.includes("not_approved_official_url")).length
+    };
+  });
+  const compactDeal = (deal) => ({
+    id: deal.id,
+    provider: deal.provider,
+    title: deal.title,
+    sourceName: deal.sourceName,
+    finalUrl: deal.finalUrl,
+    validationStatus: deal.validationStatus,
+    hiddenReason: deal.hiddenReason,
+    lastCheckedAt: deal.lastCheckedAt,
+    officialHost: deal.officialHost
+  });
+  const failureReasonTop10 = Object.entries(failureReasons)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 10)
+    .map(([reason, count]) => ({ reason, count }));
+  const recentLogs = [...deals]
+    .sort((a, b) => Date.parse(b.lastCheckedAt) - Date.parse(a.lastCheckedAt))
+    .slice(0, 20)
+    .map((deal) => ({
+      dealId: deal.id,
+      provider: deal.provider,
+      title: deal.title,
+      status: deal.validationStatus === "passed" && !deal.isHidden ? "visible" : "hidden",
+      reason: deal.hiddenReason || "passed",
+      finalUrl: deal.finalUrl,
+      checkedAt: deal.lastCheckedAt
+    }));
+
   return {
     ok: hidden.length === 0,
     generatedAt,
@@ -242,15 +293,19 @@ export function summarizeNewsDeals(deals, generatedAt = new Date().toISOString()
     categoryCounts: Object.fromEntries(
       visible.reduce((map, deal) => map.set(deal.category, (map.get(deal.category) ?? 0) + 1), new Map())
     ),
-    providerStats,
+    providerStats: enrichedProviderStats,
     failureReasons,
+    failureReasonTop10,
     visibleDealIds: visible.map((deal) => deal.id),
-    hiddenDeals: hidden.map((deal) => ({
-      id: deal.id,
-      title: deal.title,
-      finalUrl: deal.finalUrl,
-      hiddenReason: deal.hiddenReason
-    }))
+    hiddenDeals: hidden.map(compactDeal),
+    expiredDeals: expired.map(compactDeal),
+    officialMissingDeals: officialMissing.map(compactDeal),
+    recentLogs,
+    manualActions: [
+      { action: "hide", label: "수동 숨김", description: "공식 링크 오류, 종료, 조건 불명확 항목을 즉시 사용자 노출에서 제외" },
+      { action: "restore", label: "수동 복구", description: "공식 링크와 기간을 재확인한 뒤 노출 후보로 복구" },
+      { action: "revalidate", label: "링크 재검증", description: "refresh:all 또는 운영 DB provider run으로 링크 상태를 재확인" }
+    ]
   };
 }
 
