@@ -671,6 +671,14 @@ async function checkAuthSurface() {
   } else if (!accountPanel.includes("내 혜택 저장 루틴") || !accountPanel.includes("찜한 혜택 다시 보기") || !accountPanel.includes("최근 본 상품 이어보기") || !accountPanel.includes("가입해야만 볼 수 있는 혜택은 없습니다")) {
     fail("member profile settings", "Mypage should explain optional benefit saving routines for non-members and members.");
   } else if (
+    !accountPanel.includes("RecentOfficialBenefitsPanel") ||
+    !accountPanel.includes("readRecentNewsBenefitIds") ||
+    !accountPanel.includes("마이 최근 본 공식 혜택") ||
+    !accountPanel.includes("공식 이벤트와 쿠폰 혜택도 다시 이어봅니다") ||
+    !smoke.includes("Mypage missing recent official benefit panel")
+  ) {
+    fail("member profile settings", "Mypage should let users continue official event/coupon benefits with local fallback.");
+  } else if (
     !accountPanel.includes("AccountClaimEffortBoard") ||
     !accountPanel.includes("buildClaimEffortSummary") ||
     !accountPanel.includes("getClaimEffort") ||
@@ -3390,6 +3398,9 @@ function checkNewsDealPipeline() {
 
   if (!homePage.includes("RealtimeNewsDealsSection") || !homePage.includes("/api/news-deals?limit=6")) {
     issues.push("home should show verified realtime discount news section from /api/news-deals");
+  }
+  if (!homePage.includes("recentNewsBenefitIds") || !homePage.includes("재방문 혜택 큐") || !homePage.includes("관심 카테고리 공식 혜택")) {
+    issues.push("home should keep recent official benefit and interest news return queues");
   }
 
   if (!adminPage.includes("뉴스 수집 현황") || !adminPage.includes("운영 리포트 API 보기") || !adminPage.includes("Provider별 성공/실패") || !adminPage.includes("최근 20개 수집 로그") || !adminPage.includes("수동 숨김/복구/재검증 구조") || !adminPage.includes("캠페인 API 보기")) {

@@ -11,6 +11,7 @@
 - 공식 이벤트/보도자료/승인된 feed 기반 `NewsDeal` 모델을 추가하고, 검색 결과·커뮤니티 원문·종료 이벤트는 사용자 노출에서 제외하는 뉴스형 혜택 파이프라인을 구축했다.
 - `newsProvider`, `eventNewsProvider`, `officialEventProvider`, `publicCouponProvider`와 `refresh:news`, `verify:news`, `refresh:all` 명령을 추가해 상품 특가와 공식 할인뉴스를 같은 QA 흐름에서 갱신·검증하도록 연결했다.
 - 홈 화면에 `오늘의 실시간 할인뉴스` 섹션을 추가해 GS25, 문화가 있는 날, 영화관, 통신사, 항공 특가처럼 공식 혜택 페이지가 검증된 정보만 새 탭으로 이동하도록 노출했다.
+- 공식 뉴스/이벤트 혜택도 `halindosa:recent-news-benefits` localStorage 기록으로 저장하고, 홈 `재방문 혜택 큐`와 마이페이지 `마이 최근 본 공식 혜택`에서 최근 본 공식 혜택과 관심 카테고리 기반 혜택을 이어볼 수 있게 했다.
 - 관리자 화면에 뉴스 수집 현황과 알림 캠페인 운영 큐를 추가해 무료혜택, 카드·멤버십, 영화·문화, 마트·편의점, 정부·공공혜택을 향후 FCM 발송 후보로 운영할 수 있게 했다.
 - `reports/news-deals.json`과 `reports/refresh-all.json`을 생성해 공식 혜택 10/10 통과, 숨김/종료/비공식 링크 0건, 상품 링크 140/140 통과 상태를 출시 게이트 증거로 남겼다.
 - 뉴스 운영 리포트에 provider별 성공/실패, 최근 20개 수집 로그, 실패 사유 TOP10, 숨김/종료/공식 링크 없음 큐, 수동 숨김/복구/재검증 액션을 추가하고 `/api/admin/news-operations`와 `/admin`에 연결했다.

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { CalendarClock, ExternalLink, ShieldCheck, TicketPercent } from "lucide-react";
 import { getRelativeTime, getTimeLeft } from "@/lib/format";
+import { rememberRecentNewsBenefitId } from "@/lib/recentNewsBenefits";
 import type { NewsDeal } from "@/types/newsDeal";
 
 const benefitLabels: Record<NewsDeal["benefitType"], string> = {
@@ -16,7 +17,15 @@ const benefitLabels: Record<NewsDeal["benefitType"], string> = {
   public: "공공혜택"
 };
 
-export function RealtimeNewsDealsSection({ deals, updatedAt }: { deals: NewsDeal[]; updatedAt: string }) {
+export function RealtimeNewsDealsSection({
+  deals,
+  updatedAt,
+  onOpenNewsDeal
+}: {
+  deals: NewsDeal[];
+  updatedAt: string;
+  onOpenNewsDeal?: (deal: NewsDeal) => void;
+}) {
   if (!deals.length) {
     return (
       <section className="rounded-2xl border border-dashed border-slate-200 bg-white p-4 shadow-sm" aria-label="오늘의 실시간 할인뉴스">
@@ -73,6 +82,10 @@ export function RealtimeNewsDealsSection({ deals, updatedAt }: { deals: NewsDeal
                 href={deal.finalUrl}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => {
+                  rememberRecentNewsBenefitId(deal.id);
+                  onOpenNewsDeal?.(deal);
+                }}
                 className="inline-flex min-h-9 shrink-0 items-center gap-1.5 rounded-full bg-brand-red px-3 text-xs font-black text-white transition hover:bg-brand-coral"
                 aria-label={`${deal.title} 공식 페이지 새 탭으로 열기`}
               >

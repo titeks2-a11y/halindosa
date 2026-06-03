@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { AlertTriangle, Bell, CalendarDays, CheckCircle2, Clock, Heart, History, LogOut, Settings, SlidersHorizontal, Sparkles, Trash2, UserRound } from "lucide-react";
+import { AlertTriangle, Bell, CalendarDays, CheckCircle2, Clock, ExternalLink, Heart, History, LogOut, Settings, SlidersHorizontal, Sparkles, Trash2, UserRound } from "lucide-react";
 import { useAuth } from "@/components/AuthProvider";
 import { BenefitSavingsDiary } from "@/components/BenefitSavingsDiary";
 import { getSupabaseBrowserClient } from "@/lib/auth/supabaseClient";
@@ -15,6 +15,12 @@ import { formatPrice } from "@/lib/format";
 import { priceAlertStorageKey, readStoredPriceAlerts } from "@/lib/priceAlerts";
 import { readRecentDealIds } from "@/lib/recentDeals";
 import {
+  clearRecentNewsBenefitIds,
+  readRecentNewsBenefitIds,
+  recentNewsBenefitUpdatedEvent,
+  rememberRecentNewsBenefitId
+} from "@/lib/recentNewsBenefits";
+import {
   clearRecentDealsSynced,
   fetchRemotePreferences,
   readLocalFavoriteIds,
@@ -24,6 +30,7 @@ import {
   savePreferencesSynced
 } from "@/lib/memberSync";
 import { Deal } from "@/types/deal";
+import type { NewsDeal } from "@/types/newsDeal";
 
 const categoryOptions = ["식품", "생활용품", "디지털", "패션", "육아", "여행", "뷰티", "쿠폰/이벤트"];
 
@@ -175,6 +182,68 @@ function BenefitSaveRoutine({ mode }: { mode: "local" | "guest" | "member" }) {
       <p className="mt-3 rounded-2xl bg-red-50 px-3 py-2 text-[11px] font-black leading-4 text-dossa-deep">
         가입해야만 볼 수 있는 혜택은 없습니다. 저장, 알림, 개인화만 선택적으로 로그인합니다.
       </p>
+    </div>
+  );
+}
+
+function RecentOfficialBenefitsPanel({
+  deals,
+  recentIds,
+  onClear
+}: {
+  deals: NewsDeal[];
+  recentIds: string[];
+  onClear: () => void;
+}) {
+  const recentBenefits = recentIds
+    .map((id) => deals.find((deal) => deal.id === id))
+    .filter((deal): deal is NewsDeal => Boolean(deal))
+    .slice(0, 4);
+  const fallbackBenefits = deals.slice(0, 4);
+  const items = recentBenefits.length ? recentBenefits : fallbackBenefits;
+
+  return (
+    <div className="mt-4 rounded-3xl border border-slate-200 bg-white p-4 shadow-sm">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <p className="text-xs font-black text-dossa-red">마이 최근 본 공식 혜택</p>
+          <h3 className="mt-1 text-base font-black text-slate-950">공식 이벤트와 쿠폰 혜택도 다시 이어봅니다</h3>
+          <p className="mt-1 text-xs font-bold leading-5 text-slate-500">
+            상품 특가와 별도로 공식 이벤트, 카드/멤버십, 문화, 공공 혜택을 이 기기에 저장합니다.
+          </p>
+        </div>
+        {recentBenefits.length ? (
+          <button type="button" onClick={onClear} className="w-fit rounded-2xl bg-slate-100 px-4 py-3 text-xs font-black text-slate-600 hover:bg-red-50 hover:text-dossa-red">
+            공식 혜택 기록 비우기
+          </button>
+        ) : (
+          <span className="w-fit rounded-full bg-red-50 px-3 py-1.5 text-[11px] font-black text-dossa-red">추천 먼저 보기</span>
+        )}
+      </div>
+      <div className="mt-3 grid gap-2 sm:grid-cols-2">
+        {items.length ? items.map((deal) => (
+          <a
+            key={deal.id}
+            href={deal.finalUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => rememberRecentNewsBenefitId(deal.id)}
+            className="flex min-h-20 items-start justify-between gap-3 rounded-2xl bg-slate-50 p-3 transition hover:bg-red-50"
+            aria-label={`${deal.title} 공식 혜택 새 탭으로 열기`}
+          >
+            <span className="min-w-0">
+              <span className="inline-flex rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-dossa-red shadow-sm">{deal.category}</span>
+              <span className="mt-2 line-clamp-2 block text-xs font-black leading-5 text-slate-950">{deal.title}</span>
+              <span className="mt-1 block truncate text-[11px] font-bold text-slate-500">{deal.sourceName} · 공식 페이지</span>
+            </span>
+            <ExternalLink size={16} className="mt-1 shrink-0 text-dossa-red" />
+          </a>
+        )) : (
+          <p className="rounded-2xl bg-slate-50 p-3 text-sm font-bold leading-6 text-slate-500">
+            공식 링크가 검증된 혜택이 준비되면 여기에 표시됩니다.
+          </p>
+        )}
+      </div>
     </div>
   );
 }
@@ -383,6 +452,8 @@ export function AccountPanel() {
   const [priceAlertCount, setPriceAlertCount] = useState(0);
   const [returnReservationCount, setReturnReservationCount] = useState(0);
   const [catalog, setCatalog] = useState<Deal[]>([]);
+  const [newsDeals, setNewsDeals] = useState<NewsDeal[]>([]);
+  const [recentNewsBenefitIds, setRecentNewsBenefitIds] = useState<string[]>([]);
   const [message, setMessage] = useState("");
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
   const [deleteConfirmText, setDeleteConfirmText] = useState("");
@@ -401,6 +472,37 @@ export function AccountPanel() {
 
     return () => {
       active = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    let active = true;
+    fetch("/api/news-deals?limit=10")
+      .then((response) => response.json())
+      .then((data: { deals?: NewsDeal[] }) => {
+        if (active) setNewsDeals(Array.isArray(data.deals) ? data.deals : []);
+      })
+      .catch(() => {
+        if (active) setNewsDeals([]);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    const refreshRecentNewsBenefits = () => {
+      setRecentNewsBenefitIds(readRecentNewsBenefitIds());
+    };
+
+    refreshRecentNewsBenefits();
+    window.addEventListener("storage", refreshRecentNewsBenefits);
+    window.addEventListener(recentNewsBenefitUpdatedEvent, refreshRecentNewsBenefits);
+
+    return () => {
+      window.removeEventListener("storage", refreshRecentNewsBenefits);
+      window.removeEventListener(recentNewsBenefitUpdatedEvent, refreshRecentNewsBenefits);
     };
   }, []);
 
@@ -448,6 +550,12 @@ export function AccountPanel() {
     setPreferences(next);
     void savePreferencesSynced(next, user?.email, nickname);
     setMessage("관심 설정을 저장했습니다.");
+  };
+
+  const clearRecentOfficialBenefits = () => {
+    clearRecentNewsBenefitIds();
+    setRecentNewsBenefitIds([]);
+    setMessage("최근 본 공식 혜택을 비웠습니다.");
   };
 
   const toggleCategory = (category: string) => {
@@ -539,6 +647,7 @@ export function AccountPanel() {
           priceAlertCount={priceAlertCount}
           returnReservationCount={returnReservationCount}
         />
+        <RecentOfficialBenefitsPanel deals={newsDeals} recentIds={recentNewsBenefitIds} onClear={clearRecentOfficialBenefits} />
         <BenefitSaveRoutine mode="local" />
         <AccountClaimEffortBoard deals={catalog} />
         <BenefitCheckInSummary />
@@ -587,6 +696,7 @@ export function AccountPanel() {
           priceAlertCount={priceAlertCount}
           returnReservationCount={returnReservationCount}
         />
+        <RecentOfficialBenefitsPanel deals={newsDeals} recentIds={recentNewsBenefitIds} onClear={clearRecentOfficialBenefits} />
         <BenefitSaveRoutine mode="guest" />
         <AccountClaimEffortBoard deals={catalog} />
         <BenefitCheckInSummary />
@@ -671,6 +781,7 @@ export function AccountPanel() {
           priceAlertCount={priceAlertCount}
           returnReservationCount={returnReservationCount}
         />
+        <RecentOfficialBenefitsPanel deals={newsDeals} recentIds={recentNewsBenefitIds} onClear={clearRecentOfficialBenefits} />
         <BenefitSaveRoutine mode="member" />
         <AccountClaimEffortBoard deals={catalog} />
         <BenefitCheckInSummary />

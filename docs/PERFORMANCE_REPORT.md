@@ -1,12 +1,12 @@
 # 할인도사 Performance Report
 
-Updated: 2026-06-03T08:44:05.424Z
+Updated: 2026-06-03T09:02:31.040Z
 
 ## Static Performance Budget
 
 | Check | Result | Detail |
 | --- | --- | --- |
-| home section budget | PASS | 홈 section 정적 개수 21개로 관리 중입니다. |
+| home section budget | PASS | 홈 section 정적 개수 22개로 관리 중입니다. |
 | image lazy loading | PASS | 이미지 4개 중 lazy 처리 4개. |
 | mobile safe area | PASS | 하단 탭바 겹침 방지를 위한 safe-area padding이 있습니다. |
 | initial render cap | PASS | 초기 상품 렌더 수 제한 코드가 있습니다. |
