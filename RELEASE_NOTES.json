@@ -1,7 +1,7 @@
 {
   "generatedBy": "npm run release:notes",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "8063289",
+  "commit": "47145c1",
   "workingTree": "M DEVICE_QA_REPORT.md;  M KNOWN_ISSUES.md;  M PUBLIC_URL_REPORT.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_HANDOFF_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M docs/DEVICE_QA_REPORT.md;  M docs/KNOWN_ISSUES.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_HANDOFF_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md",
   "version": "1.0.1",
   "appName": "할인도사",
@@ -73,14 +73,14 @@
     }
   ],
   "recentCommits": [
+    "47145c1 feat: expand official benefit news quality gates",
+    "f0d9522 docs: refresh release evidence",
     "8063289 feat: harden verified purchase link quality gates",
     "bbb8627 docs: refresh release evidence",
     "a523514 feat: add admin push dry run controls",
     "c1eeaef docs: refresh release evidence",
     "2fc2bad feat: add official benefit notification campaigns",
-    "7a1ba6a docs: refresh release evidence",
-    "b6c1071 docs: refresh release evidence",
-    "56151b0 feat: add admin news operation controls"
+    "7a1ba6a docs: refresh release evidence"
   ],
   "manualWorkThatMustNotBeFaked": [
     "Do not claim Play Console or App Store Connect submission has passed from this file.",
