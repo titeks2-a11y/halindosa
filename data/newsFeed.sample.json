@@ -1,0 +1,44 @@
+{
+  "items": [
+    {
+      "id": "sample-official-convenience-benefit",
+      "title": "GS25 공식 행사상품 샘플 피드",
+      "summary": "편의점 공식 행사 페이지에서 확인 가능한 1+1, 2+1, 카드 할인 혜택 샘플입니다.",
+      "merchant": "GS25",
+      "category": "마트/편의점",
+      "benefitType": "coupon",
+      "discountRate": 0,
+      "price": 0,
+      "originalPrice": 0,
+      "couponAmount": 0,
+      "startDate": "2026-06-01",
+      "endDate": "2026-12-31",
+      "sourceName": "GS25 공식 이벤트",
+      "sourceUrl": "https://gs25.gsretail.com/gscvs/ko/products/event-goods",
+      "finalUrl": "https://gs25.gsretail.com/gscvs/ko/products/event-goods",
+      "imageUrl": "",
+      "confidenceScore": 86,
+      "tags": ["공식행사", "편의점", "쿠폰"]
+    },
+    {
+      "id": "sample-official-culture-benefit",
+      "title": "문화가 있는 날 공식 문화 혜택 샘플 피드",
+      "summary": "공식 문화 포털에서 확인 가능한 영화, 전시, 공연 할인 및 무료 문화 혜택 샘플입니다.",
+      "merchant": "문화가 있는 날",
+      "category": "영화/문화",
+      "benefitType": "culture",
+      "discountRate": 0,
+      "price": 0,
+      "originalPrice": 0,
+      "couponAmount": 0,
+      "startDate": "2026-06-01",
+      "endDate": "2026-12-31",
+      "sourceName": "문화가 있는 날",
+      "sourceUrl": "https://www.culture.go.kr/wday/main/main.do",
+      "finalUrl": "https://www.culture.go.kr/wday/main/main.do",
+      "imageUrl": "",
+      "confidenceScore": 88,
+      "tags": ["공식혜택", "문화", "무료혜택"]
+    }
+  ]
+}

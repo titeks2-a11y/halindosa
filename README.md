@@ -49,6 +49,10 @@ npm run harness
 
 ```bash
 npm run verify:links
+npm run refresh:news
+npm run verify:news
+npm run news:feed:doctor
+npm run refresh:all
 npm run catalog:doctor
 npm run catalog:report
 npm run search:doctor
@@ -72,7 +76,20 @@ npm run cap:sync
 npm run release:doctor
 ```
 
-`npm run qa`는 `lint`, `verify:links`, 외부 링크/이미지/이미지 운영 doctor, `catalog:doctor`, `search:doctor`, UI/모바일 UX/SEO/성능 doctor, 구매·상세·전역 navigation doctor, 홈 URL/list scan doctor, `smoke:local`, `build`, `release:doctor`를 순서대로 실행합니다.
+`npm run qa`는 `lint`, `verify:links`, 상품/뉴스 refresh, `verify:news`, `news:feed:doctor`, 외부 링크/이미지/이미지 운영 doctor, `catalog:doctor`, `search:doctor`, UI/모바일 UX/SEO/성능 doctor, 구매·상세·전역 navigation doctor, 홈 URL/list scan doctor, `smoke:local`, `build`, `release:doctor`를 순서대로 실행합니다.
+
+## 공식 혜택 Feed 운영
+
+할인 뉴스, 공식 이벤트, 무료 쿠폰, 카드/멤버십/문화 혜택은 검색 결과나 커뮤니티 원문을 사용자 이동 링크로 쓰지 않습니다. 운영 feed는 `docs/news-feed-contract.md`의 JSON 계약을 따라야 하며, `finalUrl`은 공식 이벤트, 공식 쿠폰, 공식 구매 또는 공식 혜택 안내 페이지여야 합니다.
+
+```bash
+npm run news:feed:doctor
+npm run refresh:news
+npm run verify:news
+npm run refresh:all
+```
+
+`data/newsFeed.sample.json`은 운영자가 새 feed를 만들 때 복제할 수 있는 안전한 샘플입니다. `DEAL_NEWS_FEED_URLS`, `DEAL_EVENT_NEWS_FEED_URLS`, `OFFICIAL_EVENT_FEED_URLS`, `PUBLIC_COUPON_FEED_URLS`에 연결한 feed도 같은 계약과 링크 차단 기준을 통과해야 사용자 화면에 노출됩니다.
 
 ## 검색 동작 방식
 

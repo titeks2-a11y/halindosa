@@ -15,6 +15,8 @@ npm run smoke
 
 - 메인: `GET /`
 - 특가 API: `GET /api/deals?limit=3`
+- 공식 혜택 API: `GET /api/news-deals?limit=10`
+- 공식 혜택 운영 API: `GET /api/admin/news-operations?token=$ADMIN_EXPORT_TOKEN`
 - 실시간 특가 API: `GET /api/deals?q=노트북%20특가&sort=latest`
 - 헬스체크: `GET /api/health`
 - 운영 지표: `GET /api/metrics`
@@ -39,6 +41,12 @@ npm run smoke
   - `npm run test:images`는 명시 실상품 이미지 커버리지 25% 미만이면 실패한다. 신규 상품을 많이 추가할 때는 이미지 없는 상품만 늘려 이 기준을 떨어뜨리지 않는다.
   - `IMAGE_QUALITY_REPORT.md`의 `Image Backlog`는 fallback 상품별 판매처, 카테고리, 이미지 후보 검색 URL을 남긴다. 출시 직전에는 이 표의 상위 상품부터 실상품 이미지를 보강한다.
   - `npm run image:backlog:report`는 전체 fallback 이미지 보강 큐를 `IMAGE_BACKLOG.csv`, `IMAGE_BACKLOG.json`, `docs/IMAGE_BACKLOG_REPORT.md`로 생성한다. CSV는 운영자가 스프레드시트에서 전체 101개 보강 대기 상품을 처리할 때 사용한다.
+- 공식 혜택 feed 운영:
+  - 새 공식 뉴스/이벤트/쿠폰 feed는 `docs/news-feed-contract.md`의 JSON 계약을 따라야 한다.
+  - `data/newsFeed.sample.json`을 복제해 `items`, `deals`, `newsDeals`, `events`, `coupons`, `benefits` 중 하나로 배열을 반환한다.
+  - 사용자에게 열리는 `finalUrl`은 공식 이벤트, 공식 쿠폰, 공식 구매 또는 공식 혜택 안내 페이지여야 하며, 뉴스 기사/검색 결과/커뮤니티 글은 `sourceUrl`로만 남긴다.
+  - 운영자가 feed URL을 `.env`의 `DEAL_NEWS_FEED_URLS`, `DEAL_EVENT_NEWS_FEED_URLS`, `OFFICIAL_EVENT_FEED_URLS`, `PUBLIC_COUPON_FEED_URLS`에 넣은 뒤 `npm run news:feed:doctor && npm run refresh:news && npm run verify:news && npm run refresh:all`을 실행한다.
+  - 검증 실패, 종료, 비공식 URL, 검색 URL은 `reports/news-deals.json`의 hidden/failed 큐로만 남고 사용자 화면에는 노출하지 않는다.
 - 피드 dry-run import: `POST /api/admin/import?token=$ADMIN_EXPORT_TOKEN`
   - 신규/보강 피드는 `affiliateUrl` → `finalPurchaseUrl` → `productUrl` → `purchaseUrl` → `link` → `originalUrl` → `searchUrl` 순서로 실제 구매 이동 URL을 판정한다.
   - `linkSummary.verified`와 `linkSummary.needsReview`를 확인해 출시 전 실제 상품 상세 URL 비율을 관리한다.

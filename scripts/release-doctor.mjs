@@ -3464,10 +3464,13 @@ function checkNewsDealPipeline() {
     "lib/deals/newsLinkPolicy.ts",
     "scripts/refresh-news-deals.mjs",
     "scripts/verify-news-deals.mjs",
+    "scripts/news-feed-contract-doctor.mjs",
     "scripts/refresh-all.mjs",
     "data/newsDeals.seed.json",
+    "data/newsFeed.sample.json",
     "data/refreshedNewsDeals.json",
     "reports/news-deals.json",
+    "docs/news-feed-contract.md",
     "reports/refresh-all.json",
     "app/api/news-deals/route.ts",
     "app/go/news/[id]/route.ts",
@@ -3482,8 +3485,14 @@ function checkNewsDealPipeline() {
   const packageJson = JSON.parse(readFileSync(join(root, "package.json"), "utf8"));
   const refreshScript = existsSync(join(root, "scripts/refresh-news-deals.mjs")) ? readFileSync(join(root, "scripts/refresh-news-deals.mjs"), "utf8") : "";
   const verifyScript = existsSync(join(root, "scripts/verify-news-deals.mjs")) ? readFileSync(join(root, "scripts/verify-news-deals.mjs"), "utf8") : "";
+  const feedDoctorScript = existsSync(join(root, "scripts/news-feed-contract-doctor.mjs")) ? readFileSync(join(root, "scripts/news-feed-contract-doctor.mjs"), "utf8") : "";
   const newsUtils = existsSync(join(root, "scripts/news-deal-utils.mjs")) ? readFileSync(join(root, "scripts/news-deal-utils.mjs"), "utf8") : "";
   const refreshAllScript = existsSync(join(root, "scripts/refresh-all.mjs")) ? readFileSync(join(root, "scripts/refresh-all.mjs"), "utf8") : "";
+  const newsProvider = existsSync(join(root, "lib/deals/providers/newsProvider.ts")) ? readFileSync(join(root, "lib/deals/providers/newsProvider.ts"), "utf8") : "";
+  const eventNewsProvider = existsSync(join(root, "lib/deals/providers/eventNewsProvider.ts")) ? readFileSync(join(root, "lib/deals/providers/eventNewsProvider.ts"), "utf8") : "";
+  const officialEventProvider = existsSync(join(root, "lib/deals/providers/officialEventProvider.ts")) ? readFileSync(join(root, "lib/deals/providers/officialEventProvider.ts"), "utf8") : "";
+  const publicCouponProvider = existsSync(join(root, "lib/deals/providers/publicCouponProvider.ts")) ? readFileSync(join(root, "lib/deals/providers/publicCouponProvider.ts"), "utf8") : "";
+  const newsFeedContract = existsSync(join(root, "docs/news-feed-contract.md")) ? readFileSync(join(root, "docs/news-feed-contract.md"), "utf8") : "";
   const homePage = readFileSync(join(root, "app/page.tsx"), "utf8");
   const adminPage = readFileSync(join(root, "app/admin/page.tsx"), "utf8");
   const adminNewsOperationsPanel = existsSync(join(root, "components/AdminNewsOperationsPanel.tsx"))
@@ -3494,12 +3503,15 @@ function checkNewsDealPipeline() {
   const newsRedirectRoute = existsSync(join(root, "app/go/news/[id]/route.ts")) ? readFileSync(join(root, "app/go/news/[id]/route.ts"), "utf8") : "";
   const newsLinkPolicy = existsSync(join(root, "lib/deals/newsLinkPolicy.ts")) ? readFileSync(join(root, "lib/deals/newsLinkPolicy.ts"), "utf8") : "";
 
-  for (const key of ["DEAL_NEWS_FEED_URLS", "DEAL_EVENT_NEWS_FEED_URLS", "OFFICIAL_EVENT_FEED_URLS", "PUBLIC_COUPON_FEED_URLS"]) {
+  for (const key of ["DEAL_NEWS_FEED_URLS", "DEAL_NEWS_RSS_URLS", "DEAL_EVENT_NEWS_FEED_URLS", "OFFICIAL_EVENT_FEED_URLS", "DEAL_EVENT_FEED_URLS", "PUBLIC_COUPON_FEED_URLS"]) {
     if (!envExample.includes(key)) issues.push(`env example missing ${key}`);
   }
 
-  if (!packageJson.scripts?.["refresh:news"] || !packageJson.scripts?.["verify:news"] || !packageJson.scripts?.["refresh:all"]) {
-    issues.push("package scripts should expose refresh:news, verify:news, and refresh:all");
+  if (!packageJson.scripts?.["refresh:news"] || !packageJson.scripts?.["verify:news"] || !packageJson.scripts?.["news:feed:doctor"] || !packageJson.scripts?.["refresh:all"]) {
+    issues.push("package scripts should expose refresh:news, verify:news, news:feed:doctor, and refresh:all");
+  }
+  if (!String(packageJson.scripts?.qa ?? "").includes("news:feed:doctor")) {
+    issues.push("qa should include news:feed:doctor");
   }
 
   for (const phrase of ["not_approved_official_url", "search_or_result_url", "expired_event", "official_event_seed_and_approved_feeds"]) {
@@ -3510,6 +3522,22 @@ function checkNewsDealPipeline() {
 
   for (const step of ["refresh-deals.mjs", "refresh-news-deals.mjs", "verify-product-links.mjs", "verify-products.mjs", "verify-news-deals.mjs"]) {
     if (!refreshAllScript.includes(step)) issues.push(`refresh:all missing ${step}`);
+  }
+  if (
+    !newsProvider.includes("createJsonFeedNewsProvider") ||
+    !newsProvider.includes("fetchJsonNewsFeed") ||
+    !newsProvider.includes("AbortController") ||
+    !eventNewsProvider.includes("DEAL_EVENT_NEWS_FEED_URLS") ||
+    !officialEventProvider.includes("OFFICIAL_EVENT_FEED_URLS") ||
+    !officialEventProvider.includes("DEAL_EVENT_FEED_URLS") ||
+    !publicCouponProvider.includes("PUBLIC_COUPON_FEED_URLS") ||
+    !feedDoctorScript.includes("data/newsFeed.sample.json") ||
+    !feedDoctorScript.includes("validateNewsDeal")
+  ) {
+    issues.push("official benefit providers should support seed fallback plus approved JSON feed ingestion with a contract doctor");
+  }
+  for (const phrase of ["공식 혜택 Feed 계약", "검색 결과 URL", "커뮤니티", "finalUrl", "npm run refresh:news"]) {
+    if (!newsFeedContract.includes(phrase)) issues.push(`news feed contract docs missing ${phrase}`);
   }
 
   if (!homePage.includes("RealtimeNewsDealsSection") || !homePage.includes("/api/news-deals?limit=6")) {

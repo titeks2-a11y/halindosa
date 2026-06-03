@@ -1,3 +1,8 @@
-import { createSeedNewsProvider } from "@/lib/deals/providers/newsProvider";
+import { createJsonFeedNewsProvider } from "@/lib/deals/providers/newsProvider";
 
-export const PublicCouponProvider = createSeedNewsProvider("public_coupon", "public_coupon_and_culture_benefit_feed");
+export const PublicCouponProvider = createJsonFeedNewsProvider({
+  name: "public_coupon",
+  source: "public_coupon_and_culture_benefit_feed",
+  envKeys: ["PUBLIC_COUPON_FEED_URLS"],
+  includeSeed: true
+});

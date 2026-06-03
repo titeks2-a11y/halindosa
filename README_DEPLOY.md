@@ -7,6 +7,7 @@
 ```bash
 npm install
 npm run lint
+npm run news:feed:doctor
 npm run build
 npm run build:android
 npm run cap:sync
@@ -44,6 +45,10 @@ NAVER_CLIENT_SECRET=
 DEAL_FEED_URLS=
 DEAL_NEWS_RSS_URLS=
 DEAL_COMMUNITY_RSS_URLS=
+DEAL_NEWS_FEED_URLS=
+DEAL_EVENT_NEWS_FEED_URLS=
+OFFICIAL_EVENT_FEED_URLS=
+PUBLIC_COUPON_FEED_URLS=
 PPOMPPU_HOTDEAL_ENABLE=false
 PPOMPPU_HOTDEAL_RSS_URL=
 NEXT_PUBLIC_SUPABASE_URL=
@@ -63,6 +68,7 @@ ADMIN_EXPORT_TOKEN=
 - `NEXT_PUBLIC_SITE_URL`은 배포 도메인이 확정되면 반드시 실제 HTTPS 주소로 설정합니다.
 - `NEXT_PUBLIC_SUPPORT_EMAIL`은 Play Store/App Store에 표시할 고객지원 이메일과 동일하게 맞춥니다.
 - `DEAL_DATA_MODE`와 `DEAL_PROVIDER`는 운영 전환 기간에는 같은 값으로 맞춰 둡니다.
+- 공식 혜택 feed는 `docs/news-feed-contract.md`를 통과하는 JSON만 연결합니다. 뉴스 기사/검색 결과/커뮤니티 원문은 사용자 이동 `finalUrl`로 쓰지 않습니다.
 - `TRACKING_SALT`, `ADMIN_EXPORT_TOKEN`은 운영 배포 전에 충분히 긴 랜덤 값으로 교체합니다.
 
 ## 3. GitHub Push
@@ -130,6 +136,7 @@ DNS 반영 후 확인:
 - `/privacy`, `/terms` 정책 페이지 확인
 - `/api/health` 응답 확인
 - `/api/deals` 응답 확인
+- `/api/news-deals` 응답 확인
 - `/api/redirect/[id]`가 검증된 상품 상세 또는 공식 혜택 상세 페이지로 이동하는지 확인
 - `sitemap.xml`, `robots.txt`, `manifest.webmanifest` 확인
 - 모바일 화면에서 하단 탭바 확인
@@ -143,11 +150,15 @@ DNS 반영 후 확인:
 
 ```bash
 npm run verify:links
+npm run news:feed:doctor
+npm run refresh:news
+npm run verify:news
 npm run feed:validate -- --file ./partner-feed.json
 ```
 
 - `sourceUrl`: 원문 출처 또는 공식/제휴 피드 출처
 - `finalPurchaseUrl`: 사용자가 새 탭/외부 브라우저로 이동할 실제 상품·혜택 상세 URL
+- 공식 혜택 feed는 `data/newsFeed.sample.json` 형식을 따르고, `finalUrl`은 공식 이벤트/쿠폰/혜택 안내 페이지여야 합니다.
 - 검색 결과, 커뮤니티 글, 블로그, 뉴스, 쇼핑몰 메인 URL은 노출 상품으로 등록하지 않습니다.
 - 검증 실패 상품은 운영 피드 dry-run에서 `needs_fix`로 남기고 UI 노출 전에 보강합니다.
 

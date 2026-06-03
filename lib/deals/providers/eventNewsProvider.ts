@@ -1,3 +1,8 @@
-import { createSeedNewsProvider } from "@/lib/deals/providers/newsProvider";
+import { createJsonFeedNewsProvider } from "@/lib/deals/providers/newsProvider";
 
-export const EventNewsProvider = createSeedNewsProvider("event_news", "official_event_news_feed");
+export const EventNewsProvider = createJsonFeedNewsProvider({
+  name: "event_news",
+  source: "official_event_news_feed",
+  envKeys: ["DEAL_EVENT_NEWS_FEED_URLS"],
+  includeSeed: true
+});
