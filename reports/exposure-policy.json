@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-03T15:42:56.768Z",
+  "generatedAt": "2026-06-03T15:48:14.689Z",
   "summary": {
     "auditedItems": 140,
     "exposedItems": 140,
@@ -37,10 +37,10 @@
     "bodyProbe": false,
     "timeoutMs": 2500,
     "checked": 140,
-    "passed": 63,
-    "failed": 77,
-    "redirected": 12,
-    "finalUrlChanged": 12,
+    "passed": 62,
+    "failed": 78,
+    "redirected": 11,
+    "finalUrlChanged": 11,
     "http404": 0,
     "http410": 0,
     "http5xx": 0,
@@ -276,6 +276,13 @@
         "id": "d073",
         "url": "https://www.hyundaicard.com/cpc/cr/CPCCR0101_01.hc",
         "finalUrl": "https://www.hyundaicard.com/cpc/cr/CPCCR0101_01.hc",
+        "status": 0,
+        "reason": "request_failed"
+      },
+      {
+        "id": "d074",
+        "url": "https://www.shinhancard.com/pconts/html/benefit/event/MOBFM220/MOBFM220R01.html",
+        "finalUrl": "https://www.shinhancard.com/pconts/html/benefit/event/MOBFM220/MOBFM220R01.html",
         "status": 0,
         "reason": "request_failed"
       },
@@ -592,7 +599,7 @@
   "liveProbeFailureReasonCounts": {
     "robots_or_access_blocked": 61,
     "http_429": 13,
-    "request_failed": 3
+    "request_failed": 4
   },
   "auditedItems": [
     {
@@ -2220,8 +2227,8 @@
       "productDetailUrl": false,
       "officialBenefitUrl": true,
       "unavailableText": false,
-      "liveProbeOk": true,
-      "liveProbeReason": ""
+      "liveProbeOk": false,
+      "liveProbeReason": "request_failed"
     },
     {
       "id": "d075",
@@ -3679,9 +3686,9 @@
   "badExposedItems": [],
   "hiddenItems": [],
   "sourceReports": {
-    "linkValidationGeneratedAt": "2026-06-03T15:42:46.455Z",
-    "productQualityGeneratedAt": "2026-06-03T15:24:37.132Z",
-    "refreshAllGeneratedAt": "2026-06-03T15:24:36.583Z"
+    "linkValidationGeneratedAt": "2026-06-03T15:48:14.131Z",
+    "productQualityGeneratedAt": "2026-06-03T15:45:14.646Z",
+    "refreshAllGeneratedAt": "2026-06-03T15:45:14.096Z"
   },
   "issues": []
 }
