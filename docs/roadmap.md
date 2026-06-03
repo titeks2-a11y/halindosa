@@ -49,6 +49,7 @@
 - 링크 검증 리포트에 `policy.source`, `httpStatusSummary`, live probe redirect/404/410/5xx/timeout/robots 차단 지표를 명시해 검색 링크 0건, 품절/종료 노출 0건, 숨김 처리 수를 출시 증거로 추적하도록 보강했다.
 - 링크 검증 리포트에 상품별 `auditedItems`를 추가하고 `npm run exposure:doctor`/`reports/exposure-policy.json`을 QA에 연결해 사용자 노출 목록 기준으로 검색 링크, 품절/종료 링크, 실패 링크 0건을 별도 출시 게이트로 검증하도록 보강했다.
 - `/api/admin/exposure-policy?format=csv`와 관리자 `노출 감사 CSV` 버튼을 추가하고, `reports/exposure-policy.json`에도 140개 상품별 감사 행을 저장해 운영자가 최종 URL, 링크 타입, 판매 가능 상태, 검증 근거, 우선순위 점수를 스프레드시트로 점검할 수 있게 했다.
+- `npm run verify:links:live`로 140개 URL의 실제 HTTP/redirect probe를 수행하고, `reports/exposure-policy.json.liveProbeFailureReasonCounts`, CSV `live_probe_reason` 행, `/admin`의 `라이브 실패 사유 분포`로 403/429/robots 접근 차단과 실제 검색/품절 실패를 구분해 운영하도록 보강했다.
 - `/go`와 `/api/redirect` 외부 이동 allowlist에 공식 혜택 도메인을 보강해 검증된 카드/멤버십/문화/편의점/외식/공식 이벤트 링크가 410으로 막히지 않고 새 탭 이동 검증을 통과하도록 개선했다.
 
 ### PHASE 24H Commercial Autopilot Hardening
