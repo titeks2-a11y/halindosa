@@ -58,6 +58,21 @@ export interface HealthReadinessReport {
       officialMissingCount: number;
       errorCount: number;
     }>;
+    providerRisks: Array<{
+      provider: string;
+      source: string;
+      severity: "healthy" | "watch" | "danger";
+      label: string;
+      reason: string;
+      visibleCount: number;
+      issueCount: number;
+      failureRate: number;
+    }>;
+    providerRiskSummary: {
+      healthy: number;
+      watch: number;
+      danger: number;
+    };
   };
   refreshAll: {
     ok: boolean;
@@ -116,7 +131,13 @@ const fallbackReport: HealthReadinessReport = {
     categoryCounts: {},
     configuredProviders: [],
     activeProviders: [],
-    providerStats: []
+    providerStats: [],
+    providerRisks: [],
+    providerRiskSummary: {
+      healthy: 0,
+      watch: 0,
+      danger: 0
+    }
   },
   refreshAll: {
     ok: false,

@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-03T13:31:41.800Z",
+  "generatedAt": "2026-06-03T13:44:48.721Z",
   "score": 100,
   "thresholds": {
     "productDealsCount": 140,
@@ -31,7 +31,7 @@
     "expiredCount": 0,
     "officialMissingCount": 0,
     "failedCount": 0,
-    "freshnessHours": 0,
+    "freshnessHours": 0.2,
     "readyCategories": 10,
     "requiredCategories": 10,
     "minimumCategoryDealCount": 2,
@@ -109,7 +109,54 @@
         "officialMissingCount": 0,
         "errorCount": 0
       }
-    ]
+    ],
+    "providerRisks": [
+      {
+        "provider": "news",
+        "source": "approved_news_feed",
+        "severity": "watch",
+        "label": "수집 대기",
+        "reason": "노출 가능한 공식 혜택이 아직 없습니다.",
+        "visibleCount": 0,
+        "issueCount": 0,
+        "failureRate": 0
+      },
+      {
+        "provider": "event_news",
+        "source": "official_event_news_feed",
+        "severity": "watch",
+        "label": "seed 운영",
+        "reason": "승인된 seed/fallback으로 운영 중입니다.",
+        "visibleCount": 5,
+        "issueCount": 0,
+        "failureRate": 0
+      },
+      {
+        "provider": "official_event",
+        "source": "official_event_page_feed",
+        "severity": "watch",
+        "label": "seed 운영",
+        "reason": "승인된 seed/fallback으로 운영 중입니다.",
+        "visibleCount": 16,
+        "issueCount": 0,
+        "failureRate": 0
+      },
+      {
+        "provider": "public_coupon",
+        "source": "public_coupon_and_culture_benefit_feed",
+        "severity": "watch",
+        "label": "seed 운영",
+        "reason": "승인된 seed/fallback으로 운영 중입니다.",
+        "visibleCount": 5,
+        "issueCount": 0,
+        "failureRate": 0
+      }
+    ],
+    "providerRiskSummary": {
+      "healthy": 0,
+      "watch": 4,
+      "danger": 0
+    }
   },
   "refreshAll": {
     "ok": true,
@@ -197,7 +244,7 @@
     {
       "name": "official benefit freshness",
       "ok": true,
-      "detail": "Official benefit report freshness is 0h."
+      "detail": "Official benefit report freshness is 0.2h."
     },
     {
       "name": "refresh all pipeline",
@@ -208,6 +255,11 @@
       "name": "provider stats coverage",
       "ok": true,
       "detail": "Product providers=6, news providers=4."
+    },
+    {
+      "name": "provider risk gate",
+      "ok": true,
+      "detail": "Official benefit providers danger=0, watch=4."
     }
   ]
 }

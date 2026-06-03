@@ -3739,7 +3739,7 @@ function checkHealthReadinessReport() {
   if (!String(packageJson.scripts?.["qa:release"] ?? "").includes("health:readiness")) {
     issues.push("qa:release should include health:readiness before release submission reports");
   }
-  for (const phrase of ["productVerificationRate", "official benefit category coverage", "refresh all pipeline", "reports/health-readiness.json", "docs/HEALTH_READINESS_REPORT.md"]) {
+  for (const phrase of ["productVerificationRate", "official benefit category coverage", "provider risk gate", "refresh all pipeline", "reports/health-readiness.json", "docs/HEALTH_READINESS_REPORT.md"]) {
     if (!healthScript.includes(phrase)) issues.push(`health readiness script missing ${phrase}`);
   }
   if (!healthApiRoute.includes("getHealthReadinessReport") || !healthApiRoute.includes("canAccessAdmin") || !healthApiRoute.includes("admin-health-readiness")) {
@@ -3748,7 +3748,7 @@ function checkHealthReadinessReport() {
   if (!adminPage.includes("AdminHealthReadinessPanel") || !adminPage.includes("healthReadinessApiHref") || !adminPage.includes("/api/admin/health-readiness")) {
     issues.push("admin page should expose health readiness panel and API link");
   }
-  for (const phrase of ["운영 헬스 리포트", "검증 상품·공식 혜택 출시 게이트", "공식 혜택 카테고리 커버리지", "refresh:all"]) {
+  for (const phrase of ["운영 헬스 리포트", "검증 상품·공식 혜택 출시 게이트", "공식 혜택 카테고리 커버리지", "공식 혜택 Provider 위험도", "refresh:all"]) {
     if (!adminHealthPanel.includes(phrase)) issues.push(`admin health readiness panel missing ${phrase}`);
   }
   if (!smokeScript.includes("admin health readiness api") || !smokeScript.includes("/api/admin/health-readiness") || !smokeScript.includes("운영 헬스 리포트")) {
@@ -3763,8 +3763,8 @@ function checkHealthReadinessReport() {
   if (!roadmap.includes("운영 헬스 리포트") || !roadmap.includes("health:readiness")) {
     issues.push("roadmap should document the operational health readiness gate");
   }
-  if (!docsReport.includes("운영 헬스 리포트") || !docsReport.includes("검색 링크 노출") || !docsReport.includes("카테고리 커버리지") || !docsReport.includes("공식 혜택 Provider 상태")) {
-    issues.push("docs/HEALTH_READINESS_REPORT.md should summarize search exposure, category coverage, and official benefit provider status");
+  if (!docsReport.includes("운영 헬스 리포트") || !docsReport.includes("검색 링크 노출") || !docsReport.includes("카테고리 커버리지") || !docsReport.includes("공식 혜택 Provider 상태") || !docsReport.includes("공식 혜택 Provider 위험도")) {
+    issues.push("docs/HEALTH_READINESS_REPORT.md should summarize search exposure, category coverage, official benefit provider status, and provider risk");
   }
 
   if (report.ok !== true) issues.push("health readiness report should pass");
@@ -3780,6 +3780,12 @@ function checkHealthReadinessReport() {
   if (!Array.isArray(report.officialBenefits?.providerStats) || report.officialBenefits.providerStats.length < 4) {
     issues.push("health readiness should expose official benefit provider stats");
   }
+  if (!Array.isArray(report.officialBenefits?.providerRisks) || report.officialBenefits.providerRisks.length < 4) {
+    issues.push("health readiness should expose official benefit provider risks");
+  }
+  if ((report.officialBenefits?.providerRiskSummary?.danger ?? 999) !== 0) {
+    issues.push("health readiness should show zero danger official benefit providers");
+  }
   if ((report.officialBenefits?.readyCategories ?? 0) < (report.officialBenefits?.requiredCategories ?? 10)) {
     issues.push("health readiness should show all official benefit categories ready");
   }
@@ -3792,7 +3798,7 @@ function checkHealthReadinessReport() {
   }
 
   if (issues.length) fail("operational health readiness", issues.join("; "));
-  else pass("operational health readiness", "Health readiness report proves product links, official benefits, category coverage, freshness, and refresh:all status are launch-ready.");
+  else pass("operational health readiness", "Health readiness report proves product links, official benefits, category coverage, provider risk, freshness, and refresh:all status are launch-ready.");
 }
 
 await checkPackage();

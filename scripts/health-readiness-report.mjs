@@ -95,6 +95,34 @@ const providerStats = {
 const configuredProductProviders = providerStats.product.filter((stat) => stat.configured).map((stat) => stat.provider);
 const configuredNewsProviders = providerStats.news.filter((stat) => stat.configured).map((stat) => stat.provider);
 const activeNewsProviders = providerStats.news.map((stat) => stat.provider).filter(Boolean);
+function buildProviderRisk(stat) {
+  const visibleCount = Number(stat.visibleCount ?? 0);
+  const fetchedCount = Number(stat.fetchedCount ?? 0);
+  const normalizedCount = Number(stat.normalizedCount ?? 0);
+  const hiddenCount = Number(stat.hiddenCount ?? 0);
+  const failedCount = Number(stat.failedCount ?? 0);
+  const expiredCount = Number(stat.expiredCount ?? 0);
+  const officialMissingCount = Number(stat.officialMissingCount ?? 0);
+  const errorCount = Number(stat.errorCount ?? 0);
+  const issueCount = hiddenCount + failedCount + expiredCount + officialMissingCount + errorCount;
+  const totalCount = Math.max(fetchedCount, normalizedCount, visibleCount + issueCount, 1);
+  const failureRate = Math.round((issueCount / totalCount) * 1000) / 10;
+  const source = stat.source ?? (stat.configured ? "configured_feed" : "seed_fallback");
+
+  if (failedCount > 0 || errorCount > 0 || officialMissingCount > 0) {
+    return { provider: stat.provider, source, severity: "danger", label: "즉시 점검", reason: `실패 ${failedCount} · 오류 ${errorCount} · 공식 링크 누락 ${officialMissingCount}`, visibleCount, issueCount, failureRate };
+  }
+  if (expiredCount > 0 || hiddenCount > 0) {
+    return { provider: stat.provider, source, severity: "watch", label: "정리 필요", reason: `숨김 ${hiddenCount} · 종료 ${expiredCount}`, visibleCount, issueCount, failureRate };
+  }
+  if (visibleCount === 0) {
+    return { provider: stat.provider, source, severity: "watch", label: "수집 대기", reason: "노출 가능한 공식 혜택이 아직 없습니다.", visibleCount, issueCount, failureRate };
+  }
+  if (!stat.configured) {
+    return { provider: stat.provider, source, severity: "watch", label: "seed 운영", reason: "승인된 seed/fallback으로 운영 중입니다.", visibleCount, issueCount, failureRate };
+  }
+  return { provider: stat.provider, source, severity: "healthy", label: "정상", reason: "공식 feed 연결 및 검증 상태가 정상입니다.", visibleCount, issueCount, failureRate };
+}
 const officialBenefitProviderStats = providerStats.news.map((stat) => ({
   provider: stat.provider,
   source: stat.source ?? (stat.configured ? "configured_feed" : "seed_fallback"),
@@ -108,6 +136,12 @@ const officialBenefitProviderStats = providerStats.news.map((stat) => ({
   officialMissingCount: Number(stat.officialMissingCount ?? 0),
   errorCount: Number(stat.errorCount ?? 0)
 }));
+const officialBenefitProviderRisks = providerStats.news.map(buildProviderRisk);
+const officialBenefitProviderRiskSummary = {
+  healthy: officialBenefitProviderRisks.filter((risk) => risk.severity === "healthy").length,
+  watch: officialBenefitProviderRisks.filter((risk) => risk.severity === "watch").length,
+  danger: officialBenefitProviderRisks.filter((risk) => risk.severity === "danger").length
+};
 
 const checks = [
   productDealsCount >= 140
@@ -142,7 +176,10 @@ const checks = [
     : fail("refresh all pipeline", `refresh:all failed or missing. Failed steps: ${failedRefreshSteps.join(", ") || "unknown"}.`),
   providerStats.product.length >= 4 && providerStats.news.length >= 4
     ? pass("provider stats coverage", `Product providers=${providerStats.product.length}, news providers=${providerStats.news.length}.`)
-    : fail("provider stats coverage", `Product providers=${providerStats.product.length}, news providers=${providerStats.news.length}.`)
+    : fail("provider stats coverage", `Product providers=${providerStats.product.length}, news providers=${providerStats.news.length}.`),
+  officialBenefitProviderRiskSummary.danger === 0
+    ? pass("provider risk gate", `Official benefit providers danger=${officialBenefitProviderRiskSummary.danger}, watch=${officialBenefitProviderRiskSummary.watch}.`)
+    : fail("provider risk gate", `Official benefit providers danger=${officialBenefitProviderRiskSummary.danger}.`)
 ];
 
 const failures = checks.filter((check) => !check.ok);
@@ -185,7 +222,9 @@ const report = {
     categoryCounts,
     configuredProviders: configuredNewsProviders,
     activeProviders: activeNewsProviders,
-    providerStats: officialBenefitProviderStats
+    providerStats: officialBenefitProviderStats,
+    providerRisks: officialBenefitProviderRisks,
+    providerRiskSummary: officialBenefitProviderRiskSummary
   },
   refreshAll: {
     ok: refreshAll.ok === true,
@@ -228,6 +267,7 @@ const docsLines = [
   `- 공식 혜택: ${newsVisibleCount}개`,
   `- 공식 혜택 카테고리 커버리지: ${readyNewsCategories.length}/${requiredNewsCategories.length}`,
   `- 공식 혜택 Provider: ${activeNewsProviders.length}개 (feed 연결 ${configuredNewsProviders.length}개)`,
+  `- 공식 혜택 Provider 위험도: 정상 ${officialBenefitProviderRiskSummary.healthy}개 · 관찰 ${officialBenefitProviderRiskSummary.watch}개 · 즉시 점검 ${officialBenefitProviderRiskSummary.danger}개`,
   `- 공식 혜택 리포트 신선도: ${formatValue(newsFreshnessHours)}시간`,
   `- refresh:all 상태: ${refreshAll.ok === true ? "PASS" : "FAIL"}`,
   "",
@@ -251,6 +291,14 @@ const docsLines = [
           `| ${stat.provider} | ${stat.source} | ${stat.configured ? "yes" : "seed/fallback"} | ${stat.fetchedCount} | ${stat.normalizedCount} | ${stat.visibleCount} | ${stat.hiddenCount} | ${stat.failedCount} |`
       )
     : ["| 없음 | - | - | 0 | 0 | 0 | 0 | 0 |"]),
+  "",
+  "## 공식 혜택 Provider 위험도",
+  "",
+  "| Provider | 위험도 | Source | 노출 | 이슈 | 실패율 | 사유 |",
+  "| --- | --- | --- | ---: | ---: | ---: | --- |",
+  ...(officialBenefitProviderRisks.length
+    ? officialBenefitProviderRisks.map((risk) => `| ${risk.provider} | ${risk.label} | ${risk.source} | ${risk.visibleCount} | ${risk.issueCount} | ${risk.failureRate}% | ${risk.reason} |`)
+    : ["| 없음 | 리포트 없음 | - | 0 | 0 | 0% | provider risk 리포트가 없습니다. |"]),
   "",
   "## 게이트",
   "",

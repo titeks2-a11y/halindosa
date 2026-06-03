@@ -2,7 +2,7 @@
 
 이 문서는 상품 링크, 공식 혜택, refresh 파이프라인이 실제 출시 운영 기준을 만족하는지 요약합니다.
 
-- 생성 시각: 2026-06-03T13:31:41.800Z
+- 생성 시각: 2026-06-03T13:44:48.721Z
 - 운영 준비 점수: 100/100
 - 상태: PASS
 
@@ -15,7 +15,8 @@
 - 공식 혜택: 26개
 - 공식 혜택 카테고리 커버리지: 10/10
 - 공식 혜택 Provider: 4개 (feed 연결 0개)
-- 공식 혜택 리포트 신선도: 0시간
+- 공식 혜택 Provider 위험도: 정상 0개 · 관찰 4개 · 즉시 점검 0개
+- 공식 혜택 리포트 신선도: 0.2시간
 - refresh:all 상태: PASS
 
 ## 카테고리 커버리지
@@ -42,6 +43,15 @@
 | official_event | official_event_page_feed | seed/fallback | 16 | 16 | 16 | 0 | 0 |
 | public_coupon | public_coupon_and_culture_benefit_feed | seed/fallback | 5 | 5 | 5 | 0 | 0 |
 
+## 공식 혜택 Provider 위험도
+
+| Provider | 위험도 | Source | 노출 | 이슈 | 실패율 | 사유 |
+| --- | --- | --- | ---: | ---: | ---: | --- |
+| news | 수집 대기 | approved_news_feed | 0 | 0 | 0% | 노출 가능한 공식 혜택이 아직 없습니다. |
+| event_news | seed 운영 | official_event_news_feed | 5 | 0 | 0% | 승인된 seed/fallback으로 운영 중입니다. |
+| official_event | seed 운영 | official_event_page_feed | 16 | 0 | 0% | 승인된 seed/fallback으로 운영 중입니다. |
+| public_coupon | seed 운영 | public_coupon_and_culture_benefit_feed | 5 | 0 | 0% | 승인된 seed/fallback으로 운영 중입니다. |
+
 ## 게이트
 
 | 게이트 | 상태 | 상세 |
@@ -54,9 +64,10 @@
 | official benefit count floor | PASS | 26 official benefit deals are visible. |
 | official benefit category coverage | PASS | All 10 required categories have at least 2 visible benefits. |
 | official benefit hidden/failed queue | PASS | No hidden, expired, non-official, or failed official benefit links are exposed. |
-| official benefit freshness | PASS | Official benefit report freshness is 0h. |
+| official benefit freshness | PASS | Official benefit report freshness is 0.2h. |
 | refresh all pipeline | PASS | refresh:all completed successfully. |
 | provider stats coverage | PASS | Product providers=6, news providers=4. |
+| provider risk gate | PASS | Official benefit providers danger=0, watch=4. |
 
 ## 운영 조치
 

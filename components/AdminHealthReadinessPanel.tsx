@@ -12,6 +12,12 @@ function formatFreshness(hours: number) {
   return `${hours}시간 전`;
 }
 
+function getProviderRiskClassName(severity?: string) {
+  if (severity === "healthy") return "bg-emerald-50 text-emerald-700";
+  if (severity === "watch") return "bg-amber-50 text-amber-700";
+  return "bg-red-50 text-dossa-red";
+}
+
 function formatDate(value: string) {
   if (!value) return "생성 전";
   const date = new Date(value);
@@ -27,6 +33,7 @@ export function AdminHealthReadinessPanel({ report, apiHref }: AdminHealthReadin
   const failedChecks = report.checks.filter((check) => !check.ok);
   const categoryCounts = Object.entries(report.officialBenefits.categoryCounts).sort((a, b) => b[1] - a[1]);
   const officialProviderStats = report.officialBenefits.providerStats;
+  const officialProviderRisks = report.officialBenefits.providerRisks;
   const healthCards = [
     {
       label: "운영 준비 점수",
@@ -153,6 +160,29 @@ export function AdminHealthReadinessPanel({ report, apiHref }: AdminHealthReadin
                   <p className="mt-1 truncate text-[11px] font-bold text-slate-500">{provider.source}</p>
                   <p className="mt-1 text-[11px] font-bold text-slate-500">
                     수집 {provider.fetchedCount} · 노출 {provider.visibleCount} · 실패 {provider.failedCount}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="mt-3 rounded-2xl bg-white p-3">
+            <div className="flex items-center justify-between gap-2">
+              <p className="text-xs font-black text-slate-950">공식 혜택 Provider 위험도</p>
+              <span className="rounded-full bg-slate-50 px-2.5 py-1 text-[11px] font-black text-slate-600">
+                정상 {report.officialBenefits.providerRiskSummary.healthy} · 관찰 {report.officialBenefits.providerRiskSummary.watch} · 점검 {report.officialBenefits.providerRiskSummary.danger}
+              </span>
+            </div>
+            <div className="mt-2 grid gap-2 md:grid-cols-2">
+              {(officialProviderRisks.length ? officialProviderRisks : [{ provider: "없음", source: "-", severity: "danger" as const, label: "리포트 없음", reason: "provider risk 리포트가 없습니다.", visibleCount: 0, issueCount: 0, failureRate: 0 }]).map((risk) => (
+                <div key={`${risk.provider}-${risk.label}`} className="rounded-2xl bg-slate-50 px-3 py-2">
+                  <div className="flex items-center justify-between gap-2">
+                    <p className="truncate text-xs font-black text-slate-800">{risk.provider}</p>
+                    <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-black ${getProviderRiskClassName(risk.severity)}`}>
+                      {risk.label}
+                    </span>
+                  </div>
+                  <p className="mt-1 text-[11px] font-bold leading-5 text-slate-500">
+                    노출 {risk.visibleCount} · 이슈 {risk.issueCount} · 실패율 {risk.failureRate}% · {risk.reason}
                   </p>
                 </div>
               ))}
