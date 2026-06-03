@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-06-03T16:20:13.043Z",
-  "totalChecks": 181,
-  "passedChecks": 181,
+  "generatedAt": "2026-06-03T16:33:53.971Z",
+  "totalChecks": 182,
+  "passedChecks": 182,
   "failedChecks": 0,
   "ok": true,
   "checks": [
@@ -803,62 +803,62 @@
     {
       "name": "release evidence freshness",
       "ok": true,
-      "detail": "Release evidence snapshot was refreshed for parent release commit a5609a5."
+      "detail": "Release evidence snapshot was refreshed for parent release commit a4631d6."
     },
     {
       "name": "store manual checklist freshness",
       "ok": true,
-      "detail": "docs/STORE_MANUAL_CHECKLIST.md snapshot was refreshed for parent release commit a5609a5."
+      "detail": "docs/STORE_MANUAL_CHECKLIST.md snapshot was refreshed for parent release commit a4631d6."
     },
     {
       "name": "device qa report freshness",
       "ok": true,
-      "detail": "docs/DEVICE_QA_REPORT.md snapshot was refreshed for parent release commit a5609a5."
+      "detail": "docs/DEVICE_QA_REPORT.md snapshot was refreshed for parent release commit a4631d6."
     },
     {
       "name": "store screenshots report freshness",
       "ok": true,
-      "detail": "docs/STORE_SCREENSHOTS_REPORT.md snapshot was refreshed for parent release commit a5609a5."
+      "detail": "docs/STORE_SCREENSHOTS_REPORT.md snapshot was refreshed for parent release commit a4631d6."
     },
     {
       "name": "known issues freshness",
       "ok": true,
-      "detail": "docs/KNOWN_ISSUES.md snapshot was refreshed for parent release commit a5609a5."
+      "detail": "docs/KNOWN_ISSUES.md snapshot was refreshed for parent release commit a4631d6."
     },
     {
       "name": "public url report freshness",
       "ok": true,
-      "detail": "docs/PUBLIC_URL_REPORT.md snapshot was refreshed for parent release commit a5609a5."
+      "detail": "docs/PUBLIC_URL_REPORT.md snapshot was refreshed for parent release commit a4631d6."
     },
     {
       "name": "store submission report freshness",
       "ok": true,
-      "detail": "docs/STORE_SUBMISSION_REPORT.md snapshot was refreshed for parent release commit a5609a5."
+      "detail": "docs/STORE_SUBMISSION_REPORT.md snapshot was refreshed for parent release commit a4631d6."
     },
     {
       "name": "store console fields freshness",
       "ok": true,
-      "detail": "docs/STORE_CONSOLE_FIELDS.md snapshot was refreshed for parent release commit a5609a5."
+      "detail": "docs/STORE_CONSOLE_FIELDS.md snapshot was refreshed for parent release commit a4631d6."
     },
     {
       "name": "store handoff report freshness",
       "ok": true,
-      "detail": "docs/STORE_HANDOFF_REPORT.md snapshot was refreshed for parent release commit a5609a5."
+      "detail": "docs/STORE_HANDOFF_REPORT.md snapshot was refreshed for parent release commit a4631d6."
     },
     {
       "name": "release notes freshness",
       "ok": true,
-      "detail": "docs/RELEASE_NOTES.md snapshot was refreshed for parent release commit a5609a5."
+      "detail": "docs/RELEASE_NOTES.md snapshot was refreshed for parent release commit a4631d6."
     },
     {
       "name": "support playbook freshness",
       "ok": true,
-      "detail": "docs/SUPPORT_PLAYBOOK.md snapshot was refreshed for parent release commit a5609a5."
+      "detail": "docs/SUPPORT_PLAYBOOK.md snapshot was refreshed for parent release commit a4631d6."
     },
     {
       "name": "store packet report freshness",
       "ok": true,
-      "detail": "docs/STORE_PACKET_REPORT.md snapshot was refreshed for parent release commit a5609a5."
+      "detail": "docs/STORE_PACKET_REPORT.md snapshot was refreshed for parent release commit a4631d6."
     },
     {
       "name": "customer navigation simplification",
@@ -874,6 +874,11 @@
       "name": "news and official event pipeline",
       "ok": true,
       "detail": "Approved news, official event, public coupon, refresh:news, verify:news, refresh:all, home section, admin status surfaces, and provider-risk CSV export are wired."
+    },
+    {
+      "name": "cron refresh automation",
+      "ok": true,
+      "detail": "Protected 6-hour cron refresh endpoint, Vercel schedule, dry-run smoke guard, env keys, and runbook guidance are wired."
     },
     {
       "name": "operational health readiness",
