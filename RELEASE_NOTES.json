@@ -1,7 +1,7 @@
 {
   "generatedBy": "npm run release:notes",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "fa7ad89",
+  "commit": "2d41e5a",
   "workingTree": "M DEVICE_QA_REPORT.md;  M KNOWN_ISSUES.md;  M PUBLIC_URL_REPORT.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_HANDOFF_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M docs/DEVICE_QA_REPORT.md;  M docs/KNOWN_ISSUES.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_HANDOFF_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md;  M docs/release-evidence.md",
   "version": "1.0.1",
   "appName": "할인도사",
@@ -73,14 +73,14 @@
     }
   ],
   "recentCommits": [
+    "2d41e5a fix: refine official source live classification",
+    "4f8698c docs: refresh release evidence after source live doctor",
     "fa7ad89 feat: add official source live readiness doctor",
     "e3ea26e docs: refresh release evidence after image sourcing batch exports",
     "5e354ca feat: add image sourcing batch exports",
     "1493334 docs: refresh release evidence after source catalog csv report",
     "bcf5adb feat: add offline source catalog csv report",
-    "27e55c0 docs: refresh release evidence after final source csv pass",
-    "30317c3 docs: refresh release evidence after source csv export",
-    "a451537 feat: add source readiness csv export"
+    "27e55c0 docs: refresh release evidence after final source csv pass"
   ],
   "manualWorkThatMustNotBeFaked": [
     "Do not claim Play Console or App Store Connect submission has passed from this file.",

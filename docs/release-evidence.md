@@ -4,9 +4,9 @@
 
 ## 기본 정보
 
-- 생성 시각: 2026-06-03T20:52:06.959Z
+- 생성 시각: 2026-06-03T20:56:08.790Z
 - Git 브랜치: codex/12h-product-ux-growth-hardening
-- 최신 커밋: fa7ad89
+- 최신 커밋: 2d41e5a
 - Git 상태: clean
 - 패키지 버전: 1.0.1
 - 앱 이름: 할인도사
@@ -27,7 +27,7 @@
 | iOS privacy manifest | `ios/App/App/PrivacyInfo.xcprivacy` | 373B |
 | Commercial audit report | `docs/AUDIT_REPORT.md` | 291B |
 | Environment doctor report | `docs/ENV_DOCTOR_REPORT.md` | 581B |
-| Public URL submission report | `docs/PUBLIC_URL_REPORT.md` | 3KB |
+| Public URL submission report | `docs/PUBLIC_URL_REPORT.md` | 2KB |
 | Store metadata QA report | `docs/STORE_METADATA_REPORT.md` | 2KB |
 | Store asset QA report | `docs/STORE_ASSETS_REPORT.md` | 1KB |
 | Device QA execution manifest | `docs/DEVICE_QA_MANIFEST.md` | 5KB |
@@ -37,8 +37,8 @@
 | Store submission packet QA report | `docs/STORE_PACKET_REPORT.md` | 6KB |
 | Store console fields manifest | `docs/STORE_CONSOLE_FIELDS.md` | 4KB |
 | Store console fields manifest JSON | `STORE_CONSOLE_FIELDS.json` | 4KB |
-| Store manual submission checklist | `docs/STORE_MANUAL_CHECKLIST.md` | 5KB |
-| Store manual submission checklist JSON | `STORE_MANUAL_CHECKLIST.json` | 6KB |
+| Store manual submission checklist | `docs/STORE_MANUAL_CHECKLIST.md` | 4KB |
+| Store manual submission checklist JSON | `STORE_MANUAL_CHECKLIST.json` | 5KB |
 | Store launch handoff report | `docs/STORE_HANDOFF_REPORT.md` | 5KB |
 | Release notes | `docs/RELEASE_NOTES.md` | 5KB |
 | Release notes JSON | `RELEASE_NOTES.json` | 5KB |
