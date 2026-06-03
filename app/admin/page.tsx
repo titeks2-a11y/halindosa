@@ -1056,6 +1056,40 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
               다음 배치 ID: {imageQuality.sourcingPlan.nextBatchIds.length ? imageQuality.sourcingPlan.nextBatchIds.join(", ") : "보강 대기 없음"}
             </p>
           </div>
+          <div className="mt-4 rounded-2xl border border-slate-100 bg-slate-50 p-4">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <p className="text-sm font-black text-slate-950">주간 보강 배치 상세</p>
+                <p className="mt-1 text-xs font-bold leading-5 text-slate-500">
+                  클릭, 인기, 무료배송, 할인율, 무료/쿠폰 혜택 신호를 기준으로 이번 주 먼저 보강할 이미지 후보입니다.
+                </p>
+              </div>
+              <span className="w-fit rounded-full bg-white px-3 py-1 text-xs font-black text-slate-600">
+                {imageQuality.nextBatchDeals.length}개 후보
+              </span>
+            </div>
+            <div className="mt-3 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              {imageQuality.nextBatchDeals.slice(0, 10).map((deal) => (
+                <a
+                  key={deal.id}
+                  href={deal.imageSearchUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="min-w-[230px] rounded-2xl bg-white px-3 py-2 shadow-sm transition hover:bg-red-50"
+                >
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="text-[11px] font-black text-dossa-red">#{deal.rank} {deal.id}</span>
+                    <span className={`rounded-full px-2 py-0.5 text-[10px] font-black ${deal.sourcingPriority === "high" ? "bg-red-50 text-dossa-red" : deal.sourcingPriority === "medium" ? "bg-amber-50 text-amber-700" : "bg-emerald-50 text-emerald-700"}`}>
+                      {deal.sourcingPriority}
+                    </span>
+                  </div>
+                  <p className="mt-2 line-clamp-2 text-xs font-black text-slate-950">{deal.title}</p>
+                  <p className="mt-1 text-[11px] font-bold text-slate-500">{deal.mallName} · {deal.category}</p>
+                  <p className="mt-1 line-clamp-2 text-[11px] font-bold leading-4 text-slate-400">우선순위 사유: {deal.priorityReason}</p>
+                </a>
+              ))}
+            </div>
+          </div>
           <div className="mt-4 grid gap-3 xl:grid-cols-[1fr_1fr_0.95fr]">
             <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
               <div className="flex items-center justify-between gap-3">
@@ -1113,6 +1147,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                       <span className="shrink-0 rounded-full bg-red-50 px-2.5 py-1 text-[11px] font-black text-dossa-red">#{deal.id}</span>
                     </div>
                     <p className="mt-2 text-xs font-bold leading-5 text-red-900/70">{deal.action}</p>
+                    <p className="mt-1 text-[11px] font-black leading-4 text-dossa-red">우선순위 사유: {deal.priorityReason}</p>
                     <div className="mt-3 flex flex-wrap gap-2">
                       <a
                         href={deal.finalPurchaseUrl}

@@ -26,6 +26,7 @@ const checks = [
       analytics.includes("fallbackImageCount") &&
       analytics.includes("categoryQueue") &&
       analytics.includes("priorityDeals") &&
+      analytics.includes("nextBatchDeals") &&
       analytics.includes("sourcingPlan") &&
       analytics.includes("mallQueue"),
     message: "운영 지표 레이어가 실상품 이미지와 fallback 이미지를 구분하고 보강 큐를 계산해야 합니다."
@@ -57,9 +58,14 @@ const checks = [
       analytics.includes("imageSourceHint") &&
       imageQueueRoute.includes("imageSearchUrl") &&
       imageQueueRoute.includes("currentImageUrl") &&
+      imageQueueRoute.includes("priorityReason") &&
+      imageQueueRoute.includes("sourcingPriority") &&
       adminPage.includes("이미지 후보 검색") &&
+      adminPage.includes("우선순위 사유") &&
       smoke.includes("imageSearchUrl") &&
-      smoke.includes("currentImageUrl"),
+      smoke.includes("currentImageUrl") &&
+      smoke.includes("priorityReason") &&
+      smoke.includes("sourcingPriority"),
     message: "이미지 보강 큐는 현재 이미지, 출처, 보강 검색 URL, 저장 필드를 운영자가 바로 볼 수 있게 제공해야 합니다."
   },
   {
@@ -110,6 +116,8 @@ const checks = [
       imageBacklogReportScript.includes("docs/IMAGE_BACKLOG_REPORT.md") &&
       imageBacklogReport.includes("Image Backlog Report") &&
       imageBacklogReport.includes("Backlog By Category") &&
+      imageBacklogReport.includes("주간 보강 배치 후보") &&
+      imageBacklogReport.includes("운영 사유") &&
       imageBacklogReport.includes("Root CSV") &&
       imageBacklogReport.includes("Root JSON"),
     message: "전체 이미지 보강 큐는 CSV/JSON/문서 리포트로 생성되고 QA 흐름에 연결되어야 합니다."
@@ -124,11 +132,13 @@ const checks = [
       adminPage.includes("카테고리별 우선순위") &&
       adminPage.includes("클릭 상위 보강 후보") &&
       adminPage.includes("이미지 보강 실행 계획") &&
+      adminPage.includes("주간 보강 배치 상세") &&
       adminPage.includes("판매처별 피드 보강 우선순위") &&
       adminPage.includes("imageQuality.categoryQueue") &&
       adminPage.includes("imageQuality.mallQueue") &&
       adminPage.includes("imageQuality.sourcingPlan") &&
-      adminPage.includes("imageQuality.priorityDeals"),
+      adminPage.includes("imageQuality.priorityDeals") &&
+      adminPage.includes("imageQuality.nextBatchDeals"),
     message: "관리자 화면에서 카테고리별/상품별 이미지 보강 대상을 바로 볼 수 있어야 합니다."
   },
   {
@@ -138,9 +148,13 @@ const checks = [
       analytics.includes("gapToLaunchTarget") &&
       analytics.includes("weeklySourcingTarget") &&
       analytics.includes("feedRequirement") &&
+      analytics.includes("priorityReason") &&
+      analytics.includes("sourcingPriority") &&
       imageQueueRoute.includes("launchTargetRate") &&
       imageQueueRoute.includes("weeklySourcingTarget") &&
+      imageQueueRoute.includes("priorityReason") &&
       smoke.includes("Admin image queue missing 60% launch image target") &&
+      smoke.includes("Admin image queue missing weekly image sourcing batch details") &&
       smoke.includes("Admin dashboard missing image sourcing execution plan"),
     message: "이미지 보강 큐는 공개 운영 목표, 보강 갭, 주간 처리 목표를 API와 관리자 화면에 노출해야 합니다."
   },

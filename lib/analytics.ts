@@ -473,6 +473,30 @@ export function buildImageQualityReadiness(deals: Deal[]) {
     .slice()
     .sort((a, b) => b.popularityScore - a.popularityScore || b.discountRate - a.discountRate);
 
+  const getImagePriorityScore = (deal: Deal) =>
+    Math.round((deal.popularityScore ?? 0) / 2) +
+    deal.discountRate +
+    (deal.isHot ? 12 : 0) +
+    (deal.isFreeShipping ? 8 : 0) +
+    (["freebie", "coupon", "point", "experience"].includes(deal.dealType ?? "") ? 8 : 0);
+  const getSourcingPriority = (deal: Deal) => {
+    const score = getImagePriorityScore(deal);
+
+    if (score >= 95) return "high";
+    if (score >= 70) return "medium";
+    return "low";
+  };
+  const getImagePriorityReason = (deal: Deal) => {
+    const reasons = [
+      (deal.popularityScore ?? 0) >= 85 ? "클릭/관심 반응 높은 상품" : "",
+      deal.isHot ? "인기 특가 노출 후보" : "",
+      deal.isFreeShipping ? "무료배송 신호가 강한 상품" : "",
+      deal.discountRate >= 40 ? "할인율 강조 상품" : "",
+      ["freebie", "coupon", "point", "experience"].includes(deal.dealType ?? "") ? "무료/쿠폰/포인트 혜택 상품" : ""
+    ].filter(Boolean);
+
+    return reasons.slice(0, 2).join(" · ") || "카테고리 대표 fallback 상품";
+  };
   const priorityDeals = sortedFallbackDeals
     .slice(0, 8)
     .map((deal) => ({
@@ -488,6 +512,8 @@ export function buildImageQualityReadiness(deals: Deal[]) {
       imageSearchUrl: buildImageSearchUrl(deal),
       imageField: "imageUrl",
       imageSourceHint: "판매처 상세의 대표 상품 이미지 또는 제휴/공식 피드 imageUrl",
+      sourcingPriority: getSourcingPriority(deal),
+      priorityReason: getImagePriorityReason(deal),
       action: "판매처 상세 페이지의 상품 이미지를 imageUrl/thumbnail에 보강"
     }));
 
@@ -497,6 +523,18 @@ export function buildImageQualityReadiness(deals: Deal[]) {
   const gapToLaunchTarget = Math.max(0, targetRealImageCount - realImageDeals.length);
   const weeklySourcingTarget = Math.min(24, gapToLaunchTarget);
   const nextBatchDeals = sortedFallbackDeals.slice(0, weeklySourcingTarget || Math.min(8, sortedFallbackDeals.length));
+  const nextBatchOperationDeals = nextBatchDeals.slice(0, 24).map((deal, index) => ({
+    rank: index + 1,
+    id: deal.id,
+    title: deal.title,
+    category: deal.category,
+    mallName: deal.mallName,
+    finalPurchaseUrl: deal.finalPurchaseUrl,
+    imageSearchUrl: buildImageSearchUrl(deal),
+    sourcingPriority: getSourcingPriority(deal),
+    priorityReason: getImagePriorityReason(deal),
+    action: "이번 주 이미지 보강 배치"
+  }));
   const mallQueue = Array.from(byMall.values())
     .filter((item) => item.fallback > 0)
     .map((item) => ({
@@ -537,6 +575,7 @@ export function buildImageQualityReadiness(deals: Deal[]) {
     categoryQueue: categoryQueue.slice(0, 8),
     mallQueue,
     priorityDeals,
+    nextBatchDeals: nextBatchOperationDeals,
     sourcingPlan,
     status: realImageRate >= 60 ? "launch-polish" : realImageRate >= 25 ? "needs-catalog-work" : "needs-image-sourcing",
     nextActions: fallbackDeals.length

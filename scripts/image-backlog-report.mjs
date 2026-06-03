@@ -69,6 +69,18 @@ const fallbackDeals = [];
 const categoryCounts = new Map();
 const mallCounts = new Map();
 
+function getSourcingPriority(rank) {
+  if (rank <= 12) return "high";
+  if (rank <= 24) return "medium";
+  return "low";
+}
+
+function getPriorityReason(rank, category) {
+  if (rank <= 12) return "주간 보강 배치 상위 후보";
+  if (["식품", "생활용품", "무료/이벤트"].includes(category)) return "재방문 빈도가 높은 생활형 카테고리";
+  return "60% 출시 이미지 목표 달성을 위한 fallback 보강 후보";
+}
+
 for (const line of dealLines) {
   const quotedValues = [...line.matchAll(/"([^"]*)"/g)].map((match) => match[1]);
   const id = quotedValues[0] ?? "";
@@ -80,8 +92,9 @@ for (const line of dealLines) {
   if (hasExplicitImage(id, quotedValues)) continue;
 
   const imageSearchUrl = `https://search.shopping.naver.com/search/all?query=${encodeURIComponent(`${mallName} ${title} 상품 이미지`)}`;
+  const rank = fallbackDeals.length + 1;
   const item = {
-    rank: fallbackDeals.length + 1,
+    rank,
     id,
     mallName,
     category,
@@ -89,6 +102,8 @@ for (const line of dealLines) {
     purchaseUrl,
     imageField: "imageUrl",
     imageSourceHint: "판매처 상세 페이지 또는 공식 제휴 피드 대표 이미지",
+    sourcingPriority: getSourcingPriority(rank),
+    priorityReason: getPriorityReason(rank, category),
     imageSearchUrl
   };
 
@@ -115,6 +130,8 @@ const csvHeader = [
   "purchaseUrl",
   "imageField",
   "imageSourceHint",
+  "sourcingPriority",
+  "priorityReason",
   "imageSearchUrl"
 ];
 const csvRows = [
@@ -138,6 +155,7 @@ Status: ${fallbackDeals.length ? "ACTION_NEEDED" : "CLEAR"}
 | 공개 운영 목표 커버리지 | ${launchTargetRate}% |
 | 목표까지 추가 보강 | ${gapToLaunchTarget} |
 | 주간 보강 목표 | ${weeklySourcingTarget} |
+| 주간 보강 배치 후보 | ${fallbackDeals.slice(0, weeklySourcingTarget).length} |
 
 ## Operation Policy
 
@@ -159,9 +177,9 @@ ${mallSummary.length ? mallSummary.slice(0, 20).map(([mall, count]) => `- ${mall
 
 ## Priority Backlog
 
-| Rank | ID | 판매처 | 카테고리 | 상품명 | 이미지 후보 검색 |
-| ---: | --- | --- | --- | --- | --- |
-${fallbackDeals.length ? fallbackDeals.slice(0, 40).map((deal) => `| ${deal.rank} | ${deal.id} | ${deal.mallName} | ${deal.category} | ${deal.title.replace(/\|/g, "/")} | [검색](${deal.imageSearchUrl}) |`).join("\n") : "| - | - | - | - | 보강 대기 상품 없음 | - |"}
+| Rank | ID | 판매처 | 카테고리 | 상품명 | 우선순위 | 운영 사유 | 이미지 후보 검색 |
+| ---: | --- | --- | --- | --- | --- | --- | --- |
+${fallbackDeals.length ? fallbackDeals.slice(0, 40).map((deal) => `| ${deal.rank} | ${deal.id} | ${deal.mallName} | ${deal.category} | ${deal.title.replace(/\|/g, "/")} | ${deal.sourcingPriority} | ${deal.priorityReason} | [검색](${deal.imageSearchUrl}) |`).join("\n") : "| - | - | - | - | 보강 대기 상품 없음 | - | - | - |"}
 
 ## Generated Files
 
@@ -171,7 +189,7 @@ ${fallbackDeals.length ? fallbackDeals.slice(0, 40).map((deal) => `| ${deal.rank
 `;
 
 writeFileSync(join(root, "IMAGE_BACKLOG.csv"), `${csvRows.join("\n")}\n`, "utf8");
-writeFileSync(join(root, "IMAGE_BACKLOG.json"), `${JSON.stringify({ total: dealLines.length, explicitImageCount, fallbackImageCount: fallbackDeals.length, explicitImageRate, launchTargetRate, targetExplicitImageCount, gapToLaunchTarget, weeklySourcingTarget, categorySummary, mallSummary, fallbackDeals }, null, 2)}\n`, "utf8");
+writeFileSync(join(root, "IMAGE_BACKLOG.json"), `${JSON.stringify({ total: dealLines.length, explicitImageCount, fallbackImageCount: fallbackDeals.length, explicitImageRate, launchTargetRate, targetExplicitImageCount, gapToLaunchTarget, weeklySourcingTarget, nextBatchDeals: fallbackDeals.slice(0, weeklySourcingTarget), categorySummary, mallSummary, fallbackDeals }, null, 2)}\n`, "utf8");
 writeFileSync(join(docsDir, "IMAGE_BACKLOG_REPORT.md"), markdown, "utf8");
 
 console.log(`Image backlog report written: ${fallbackDeals.length}/${dealLines.length} deals need explicit product images.`);

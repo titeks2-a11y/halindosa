@@ -57,6 +57,8 @@ export async function GET(request: Request) {
         imageSearchUrl: deal.imageSearchUrl,
         sourceName: deal.sourceName,
         sourceUrl: deal.sourceUrl,
+        sourcingPriority: deal.sourcingPriority,
+        priorityReason: deal.priorityReason,
         action: deal.action,
         launchTargetRate: imageQuality.sourcingPlan.launchTargetRate,
         gapToLaunchTarget: imageQuality.sourcingPlan.gapToLaunchTarget,
