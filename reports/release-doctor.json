@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-03T13:34:54.221Z",
+  "generatedAt": "2026-06-03T13:40:55.977Z",
   "totalChecks": 181,
   "passedChecks": 181,
   "failedChecks": 0,
@@ -398,7 +398,7 @@
     {
       "name": "operational health checks",
       "ok": true,
-      "detail": "Health API exposes V2 link, free benefit, claim-guide, personalization, official benefit feed freshness, and deployment environment readiness with smoke coverage."
+      "detail": "Health API exposes V2 link, free benefit, claim-guide, personalization, official benefit feed freshness, provider risk, and deployment environment readiness with smoke coverage."
     },
     {
       "name": "today benefits api",
@@ -803,62 +803,62 @@
     {
       "name": "release evidence freshness",
       "ok": true,
-      "detail": "Release evidence snapshot was refreshed for parent release commit c89be45."
+      "detail": "Release evidence snapshot was refreshed for parent release commit 83fa669."
     },
     {
       "name": "store manual checklist freshness",
       "ok": true,
-      "detail": "docs/STORE_MANUAL_CHECKLIST.md snapshot was refreshed for parent release commit c89be45."
+      "detail": "docs/STORE_MANUAL_CHECKLIST.md snapshot was refreshed for parent release commit 83fa669."
     },
     {
       "name": "device qa report freshness",
       "ok": true,
-      "detail": "docs/DEVICE_QA_REPORT.md snapshot was refreshed for parent release commit c89be45."
+      "detail": "docs/DEVICE_QA_REPORT.md snapshot was refreshed for parent release commit 83fa669."
     },
     {
       "name": "store screenshots report freshness",
       "ok": true,
-      "detail": "docs/STORE_SCREENSHOTS_REPORT.md snapshot was refreshed for parent release commit c89be45."
+      "detail": "docs/STORE_SCREENSHOTS_REPORT.md snapshot was refreshed for parent release commit 83fa669."
     },
     {
       "name": "known issues freshness",
       "ok": true,
-      "detail": "docs/KNOWN_ISSUES.md snapshot was refreshed for parent release commit c89be45."
+      "detail": "docs/KNOWN_ISSUES.md snapshot was refreshed for parent release commit 83fa669."
     },
     {
       "name": "public url report freshness",
       "ok": true,
-      "detail": "docs/PUBLIC_URL_REPORT.md snapshot was refreshed for parent release commit c89be45."
+      "detail": "docs/PUBLIC_URL_REPORT.md snapshot was refreshed for parent release commit 83fa669."
     },
     {
       "name": "store submission report freshness",
       "ok": true,
-      "detail": "docs/STORE_SUBMISSION_REPORT.md snapshot was refreshed for parent release commit c89be45."
+      "detail": "docs/STORE_SUBMISSION_REPORT.md snapshot was refreshed for parent release commit 83fa669."
     },
     {
       "name": "store console fields freshness",
       "ok": true,
-      "detail": "docs/STORE_CONSOLE_FIELDS.md snapshot was refreshed for parent release commit c89be45."
+      "detail": "docs/STORE_CONSOLE_FIELDS.md snapshot was refreshed for parent release commit 83fa669."
     },
     {
       "name": "store handoff report freshness",
       "ok": true,
-      "detail": "docs/STORE_HANDOFF_REPORT.md snapshot was refreshed for parent release commit c89be45."
+      "detail": "docs/STORE_HANDOFF_REPORT.md snapshot was refreshed for parent release commit 83fa669."
     },
     {
       "name": "release notes freshness",
       "ok": true,
-      "detail": "docs/RELEASE_NOTES.md snapshot was refreshed for parent release commit c89be45."
+      "detail": "docs/RELEASE_NOTES.md snapshot was refreshed for parent release commit 83fa669."
     },
     {
       "name": "support playbook freshness",
       "ok": true,
-      "detail": "docs/SUPPORT_PLAYBOOK.md snapshot was refreshed for parent release commit c89be45."
+      "detail": "docs/SUPPORT_PLAYBOOK.md snapshot was refreshed for parent release commit 83fa669."
     },
     {
       "name": "store packet report freshness",
       "ok": true,
-      "detail": "docs/STORE_PACKET_REPORT.md snapshot was refreshed for parent release commit c89be45."
+      "detail": "docs/STORE_PACKET_REPORT.md snapshot was refreshed for parent release commit 83fa669."
     },
     {
       "name": "customer navigation simplification",
