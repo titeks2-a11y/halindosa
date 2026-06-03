@@ -36,6 +36,10 @@ function getOfficialSourceCatalogSummary() {
   }
 
   const missingCategories = requiredOfficialBenefitCategories.filter((category) => Number(categoryCounts.get(category) ?? 0) === 0);
+  const thinCategories = requiredOfficialBenefitCategories.filter((category) => {
+    const count = Number(categoryCounts.get(category) ?? 0);
+    return count > 0 && count < 2;
+  });
 
   return {
     totalSources: officialSourceCatalog.length,
@@ -44,7 +48,29 @@ function getOfficialSourceCatalogSummary() {
     configuredEnvKeyCount: configuredEnvKeys.size,
     categoryCoverage: Object.fromEntries(Array.from(categoryCounts.entries())),
     missingCategories,
+    thinCategories,
     providerCoverage: Object.fromEntries(Array.from(providerCounts.entries()).sort(([a], [b]) => a.localeCompare(b))),
+    sources: officialSourceCatalog.map((source) => ({
+      id: source.id,
+      label: source.label,
+      provider: source.provider,
+      category: source.category,
+      sourceType: source.sourceType,
+      officialUrl: source.officialUrl,
+      preferredEnvKeys: source.preferredEnvKeys,
+      priority: source.priority,
+      refreshCadenceHours: source.refreshCadenceHours,
+      configuredFeedUrls: source.preferredEnvKeys.reduce((sum, key) => {
+        const count = (process.env[key] ?? "")
+          .split(",")
+          .map((value) => value.trim())
+          .filter(Boolean).length;
+        return sum + count;
+      }, 0),
+      allowedUse: source.allowedUse,
+      blockedUse: source.blockedUse,
+      notes: source.notes
+    })),
     nextAction: configuredEnvKeys.size
       ? "연결된 공식 feed를 refresh:news와 verify:news로 검증하세요."
       : "OFFICIAL_EVENT_FEED_URLS와 PUBLIC_COUPON_FEED_URLS부터 승인 JSON/RSS feed를 연결하세요.",

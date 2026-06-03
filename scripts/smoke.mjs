@@ -1449,6 +1449,12 @@ await check("sources api", async () => {
   assert(Array.isArray(data.officialSourceCatalog?.missingCategories) && data.officialSourceCatalog.missingCategories.length === 0, "Sources API official source catalog has missing categories");
   assert(data.officialSourceCatalog?.providerCoverage?.official_event >= 1, "Sources API official source catalog missing official_event provider");
   assert(data.officialSourceCatalog?.providerCoverage?.public_coupon >= 1, "Sources API official source catalog missing public_coupon provider");
+  assert(Array.isArray(data.officialSourceCatalog?.thinCategories), "Sources API official source catalog missing thin category guidance");
+  assert(Array.isArray(data.officialSourceCatalog?.sources) && data.officialSourceCatalog.sources.length >= 16, "Sources API missing official source catalog rows");
+  assert(
+    data.officialSourceCatalog.sources.some((source) => source.officialUrl?.startsWith("https://") && source.allowedUse && source.blockedUse),
+    "Sources API official source catalog rows should include official URL and usage policy"
+  );
   assert(data.officialSourceCatalog?.reportCommand === "npm run source:catalog:report", "Sources API missing source catalog report command");
   assert(typeof data.operationPolicy?.configuredOfficialBenefitFeeds === "number", "Sources API missing configured official benefit feed count");
   assert(typeof data.operationPolicy?.officialBenefitSeedOnlyProviders === "number", "Sources API missing seed-only official benefit provider count");

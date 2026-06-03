@@ -2595,6 +2595,10 @@ async function checkOperationalDataSurfaces() {
     !sourcesRoute.includes("officialBenefitProviderRiskOk") ||
     !sourcesRoute.includes("officialSourceCatalog") ||
     !sourcesRoute.includes("getOfficialSourceCatalogSummary") ||
+    !sourcesRoute.includes("thinCategories") ||
+    !sourcesRoute.includes("allowedUse") ||
+    !sourcesRoute.includes("blockedUse") ||
+    !sourcesRoute.includes("configuredFeedUrls") ||
     !officialSourceCatalogReportScript.includes("data/officialSourceCatalog.json") ||
     !officialSourceCatalogReportScript.includes("requiredCategories") ||
     !officialSourceCatalogReportScript.includes("requiredProviders") ||
