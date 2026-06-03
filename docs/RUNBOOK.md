@@ -69,6 +69,7 @@ npm run smoke
   - 이미지 큐 JSON/CSV는 `sourcingPriority`, `priorityReason`, `nextBatchDeals`를 포함한다. 운영자는 주간 배치 상위 후보부터 판매처 상세 페이지 또는 제휴 피드 대표 이미지로 `imageUrl`을 보강한다.
 - 공식 혜택 feed 운영:
   - 새 공식 뉴스/이벤트/쿠폰 feed는 `docs/news-feed-contract.md`의 JSON 계약을 따라야 한다.
+  - feed URL은 쉼표, 세미콜론, 줄바꿈 또는 JSON 배열로 입력할 수 있고, URL query 안의 쉼표는 그대로 유지된다. 긴 운영 URL은 줄바꿈이나 JSON 배열 형식을 권장한다.
   - `data/newsFeed.sample.json`을 복제해 `items`, `deals`, `newsDeals`, `events`, `coupons`, `benefits` 중 하나로 배열을 반환한다.
   - 사용자에게 열리는 `finalUrl`은 공식 이벤트, 공식 쿠폰, 공식 구매 또는 공식 혜택 안내 페이지여야 하며, 뉴스 기사/검색 결과/커뮤니티 글은 `sourceUrl`로만 남긴다.
   - 운영자가 feed URL을 `.env`의 `DEAL_NEWS_FEED_URLS`, `DEAL_EVENT_NEWS_FEED_URLS`, `OFFICIAL_EVENT_FEED_URLS`, `PUBLIC_COUPON_FEED_URLS`에 넣은 뒤 `npm run news:feed:doctor && npm run test:news-feed-errors && npm run refresh:news && npm run verify:news && npm run refresh:all`을 실행한다.

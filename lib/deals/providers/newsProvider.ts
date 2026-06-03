@@ -1,4 +1,5 @@
 import seedNewsDeals from "@/data/newsDeals.seed.json";
+import { getEnvFeedUrls } from "@/lib/deals/feedUrls";
 import type { NewsDeal } from "@/types/newsDeal";
 
 export interface NewsDealProviderContext {
@@ -22,10 +23,7 @@ interface JsonFeedNewsProviderOptions {
 }
 
 export function getNewsProviderFeedUrls(...keys: string[]) {
-  return keys
-    .flatMap((key) => (process.env[key] ?? "").split(","))
-    .map((url) => url.trim())
-    .filter(Boolean);
+  return getEnvFeedUrls(...keys);
 }
 
 function seedByProvider(provider: NewsDeal["provider"]) {

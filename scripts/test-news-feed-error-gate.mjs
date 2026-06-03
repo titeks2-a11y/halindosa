@@ -2,6 +2,7 @@ import { existsSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { createServer } from "node:http";
 import { spawn } from "node:child_process";
 import { join } from "node:path";
+import { parseFeedUrlList } from "./feed-url-utils.mjs";
 
 const root = process.cwd();
 const managedFiles = ["data/refreshedNewsDeals.json", "reports/news-deals.json"];
@@ -79,16 +80,30 @@ function assert(condition, message, result) {
   throw new Error(`${message}${details ? `\n${details}` : ""}`);
 }
 
+function assertFeedUrlParser() {
+  const parsed = parseFeedUrlList("https://feed.example/a.json?tags=mart,coupon, https://feed.example/b.rss");
+  assert(parsed.length === 2, "feed URL parser should split comma-delimited URLs only at URL boundaries");
+  assert(parsed[0] === "https://feed.example/a.json?tags=mart,coupon", "feed URL parser should preserve commas inside query values");
+  assert(parsed[1] === "https://feed.example/b.rss", "feed URL parser should keep the second comma-delimited URL");
+
+  const jsonArray = parseFeedUrlList("[\"https://feed.example/a.json\",\"https://feed.example/b.json\"]");
+  assert(jsonArray.length === 2, "feed URL parser should support JSON array env values");
+
+  const dataUrl = parseFeedUrlList("data:application/json;base64,eyJpdGVtcyI6W119");
+  assert(dataUrl.length === 1 && dataUrl[0].includes("base64,"), "feed URL parser should preserve data URL payload commas");
+}
+
 function startFeedServer(sampleRaw) {
   const invalidPayload = "not-a-halindosa-feed";
   const server = createServer((request, response) => {
-    if (request.url === "/valid.json") {
+    const pathname = new URL(request.url ?? "/", "http://127.0.0.1").pathname;
+    if (pathname === "/valid.json") {
       response.writeHead(200, { "Content-Type": "application/json; charset=utf-8" });
       response.end(sampleRaw);
       return;
     }
 
-    if (request.url === "/broken.txt") {
+    if (pathname === "/broken.txt") {
       response.writeHead(200, { "Content-Type": "text/plain; charset=utf-8" });
       response.end(invalidPayload);
       return;
@@ -120,10 +135,11 @@ const backups = Object.fromEntries(managedFiles.map((path) => [path, backupFile(
 let feedServer = null;
 
 try {
+  assertFeedUrlParser();
   const sampleRaw = readFileSync(join(root, "data/newsFeed.sample.json"), "utf8");
   feedServer = await startFeedServer(sampleRaw);
 
-  const validEnv = buildEnv({ DEAL_NEWS_FEED_URLS: feedServer.validFeedUrl });
+  const validEnv = buildEnv({ DEAL_NEWS_FEED_URLS: `${feedServer.validFeedUrl}?tags=mart,coupon` });
   const validRefresh = await runNode("scripts/refresh-news-deals.mjs", validEnv);
   assert(validRefresh.status === 0, "configured valid DEAL_NEWS_FEED_URLS should refresh successfully", validRefresh);
 

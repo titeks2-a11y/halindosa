@@ -1,4 +1,5 @@
 import { DealInput } from "@/lib/deals/normalizer";
+import { getEnvFeedUrls } from "@/lib/deals/feedUrls";
 import {
   hasPolicyProductDetailSignal,
   isPolicyBlockedHost,
@@ -31,10 +32,7 @@ export function hasRequiredEnv(keys: string[]) {
 }
 
 export function getProviderFeedUrls(...keys: string[]) {
-  return keys
-    .flatMap((key) => (process.env[key] ?? "").split(","))
-    .map((url) => url.trim())
-    .filter(Boolean);
+  return getEnvFeedUrls(...keys);
 }
 
 function getFeedItems(payload: unknown): unknown[] {

@@ -1,5 +1,6 @@
 import { existsSync } from "node:fs";
 import { join } from "node:path";
+import { getEnvFeedUrls } from "./feed-url-utils.mjs";
 import {
   dataDir,
   dedupeNewsDeals,
@@ -16,10 +17,7 @@ const now = Date.now();
 const generatedAt = new Date(now).toISOString();
 
 function envUrls(...keys) {
-  return keys
-    .flatMap((key) => (process.env[key] ?? "").split(","))
-    .map((url) => url.trim())
-    .filter(Boolean);
+  return getEnvFeedUrls(...keys);
 }
 
 const providerSpecs = [

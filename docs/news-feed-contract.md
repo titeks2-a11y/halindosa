@@ -4,7 +4,7 @@
 
 ## 연결 위치
 
-운영 feed URL은 쉼표로 구분해 `.env`에 입력한다.
+운영 feed URL은 쉼표, 세미콜론, 줄바꿈 또는 JSON 배열로 `.env`에 입력한다. URL query 안의 쉼표는 분리하지 않으므로 `https://feed.example/a.json?tags=mart,coupon, https://feed.example/b.rss`처럼 써도 첫 번째 URL의 `tags=mart,coupon` 값은 유지된다. 운영에서는 긴 URL이 많으면 JSON 배열이나 줄바꿈을 권장한다.
 
 - `DEAL_NEWS_FEED_URLS`: 공식 보도자료 또는 승인된 혜택 JSON feed
 - `DEAL_NEWS_RSS_URLS`: 공식 보도자료 또는 승인된 혜택 RSS/Atom feed

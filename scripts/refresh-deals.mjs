@@ -2,6 +2,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { getEnvFeedUrls } from "./feed-url-utils.mjs";
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const reportsDir = join(root, "reports");
@@ -50,10 +51,7 @@ function runStep(name, args) {
 }
 
 function splitEnvUrls(...keys) {
-  return keys
-    .flatMap((key) => (process.env[key] ?? "").split(","))
-    .map((url) => url.trim())
-    .filter(Boolean);
+  return getEnvFeedUrls(...keys);
 }
 
 function cleanText(value) {

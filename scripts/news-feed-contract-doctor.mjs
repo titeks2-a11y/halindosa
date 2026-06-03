@@ -21,6 +21,8 @@ function requireFile(path, label) {
 }
 
 const provider = requireFile("lib/deals/providers/newsProvider.ts", "news provider");
+const feedUrlParser = requireFile("lib/deals/feedUrls.ts", "feed URL parser");
+const scriptFeedUrlParser = requireFile("scripts/feed-url-utils.mjs", "script feed URL parser");
 const eventProvider = requireFile("lib/deals/providers/eventNewsProvider.ts", "event news provider");
 const officialProvider = requireFile("lib/deals/providers/officialEventProvider.ts", "official event provider");
 const couponProvider = requireFile("lib/deals/providers/publicCouponProvider.ts", "public coupon provider");
@@ -34,6 +36,15 @@ const sampleRssRaw = requireFile("data/newsFeed.sample.rss.xml", "sample RSS fee
 
 for (const phrase of ["createJsonFeedNewsProvider", "fetchJsonNewsFeed", "fetchNewsFeed", "parseNewsFeedXmlItems", "AbortController", "redirect: \"follow\"", "User-Agent"]) {
   if (!provider.includes(phrase)) issues.push(`news provider missing ${phrase}`);
+}
+
+for (const [label, content] of [
+  ["lib feed URL parser", feedUrlParser],
+  ["script feed URL parser", scriptFeedUrlParser]
+]) {
+  for (const phrase of ["parseFeedUrlList", "JSON.parse", "https?:\\/\\/", "data:", "[;,](?="]) {
+    if (!content.includes(phrase)) issues.push(`${label} missing ${phrase}`);
+  }
 }
 
 const envKeys = [
@@ -72,7 +83,7 @@ for (const phrase of ["searchLinkExposure", "nonOfficialExposure", "expiredExpos
   if (!verifyScript.includes(phrase)) issues.push(`verify-news-deals missing ${phrase}`);
 }
 
-for (const phrase of ["DEAL_NEWS_FEED_URLS", "not-a-halindosa-feed", "/broken.txt", "configuredFeedErrors", "refresh-news-deals.mjs", "verify-news-deals.mjs"]) {
+for (const phrase of ["DEAL_NEWS_FEED_URLS", "not-a-halindosa-feed", "/broken.txt", "tags=mart,coupon", "base64,", "configuredFeedErrors", "refresh-news-deals.mjs", "verify-news-deals.mjs"]) {
   if (!configuredFeedErrorTest.includes(phrase)) issues.push(`configured feed error regression missing ${phrase}`);
 }
 

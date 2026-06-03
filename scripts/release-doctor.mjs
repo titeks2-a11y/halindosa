@@ -3702,6 +3702,7 @@ function checkRefreshDealPipeline() {
 function checkNewsDealPipeline() {
   const requiredFiles = [
     "lib/deals/providers/newsProvider.ts",
+    "lib/deals/feedUrls.ts",
     "lib/deals/providers/eventNewsProvider.ts",
     "lib/deals/providers/officialEventProvider.ts",
     "lib/deals/providers/publicCouponProvider.ts",
@@ -3712,6 +3713,7 @@ function checkNewsDealPipeline() {
     "scripts/verify-news-deals.mjs",
     "scripts/news-feed-contract-doctor.mjs",
     "scripts/test-news-feed-error-gate.mjs",
+    "scripts/feed-url-utils.mjs",
     "scripts/refresh-all.mjs",
     "data/newsDeals.seed.json",
     "data/newsFeed.sample.json",
@@ -3735,6 +3737,8 @@ function checkNewsDealPipeline() {
   const verifyScript = existsSync(join(root, "scripts/verify-news-deals.mjs")) ? readFileSync(join(root, "scripts/verify-news-deals.mjs"), "utf8") : "";
   const feedDoctorScript = existsSync(join(root, "scripts/news-feed-contract-doctor.mjs")) ? readFileSync(join(root, "scripts/news-feed-contract-doctor.mjs"), "utf8") : "";
   const configuredFeedErrorTest = existsSync(join(root, "scripts/test-news-feed-error-gate.mjs")) ? readFileSync(join(root, "scripts/test-news-feed-error-gate.mjs"), "utf8") : "";
+  const feedUrlParser = existsSync(join(root, "lib/deals/feedUrls.ts")) ? readFileSync(join(root, "lib/deals/feedUrls.ts"), "utf8") : "";
+  const scriptFeedUrlParser = existsSync(join(root, "scripts/feed-url-utils.mjs")) ? readFileSync(join(root, "scripts/feed-url-utils.mjs"), "utf8") : "";
   const newsUtils = existsSync(join(root, "scripts/news-deal-utils.mjs")) ? readFileSync(join(root, "scripts/news-deal-utils.mjs"), "utf8") : "";
   const refreshAllScript = existsSync(join(root, "scripts/refresh-all.mjs")) ? readFileSync(join(root, "scripts/refresh-all.mjs"), "utf8") : "";
   const newsProvider = existsSync(join(root, "lib/deals/providers/newsProvider.ts")) ? readFileSync(join(root, "lib/deals/providers/newsProvider.ts"), "utf8") : "";
@@ -3790,8 +3794,16 @@ function checkNewsDealPipeline() {
     !feedDoctorScript.includes("data/newsFeed.sample.rss.xml") ||
     !feedDoctorScript.includes("parseNewsFeedXmlItems") ||
     !feedDoctorScript.includes("validateNewsDeal") ||
+    !feedUrlParser.includes("parseFeedUrlList") ||
+    !feedUrlParser.includes("JSON.parse") ||
+    !feedUrlParser.includes("[;,](?=") ||
+    !scriptFeedUrlParser.includes("parseFeedUrlList") ||
+    !scriptFeedUrlParser.includes("JSON.parse") ||
+    !scriptFeedUrlParser.includes("[;,](?=") ||
     !configuredFeedErrorTest.includes("not-a-halindosa-feed") ||
     !configuredFeedErrorTest.includes("/broken.txt") ||
+    !configuredFeedErrorTest.includes("tags=mart,coupon") ||
+    !configuredFeedErrorTest.includes("base64,") ||
     !configuredFeedErrorTest.includes("configuredFeedErrors") ||
     !configuredFeedErrorTest.includes("DEAL_NEWS_FEED_URLS") ||
     !configuredFeedErrorTest.includes("verify-news-deals.mjs")
