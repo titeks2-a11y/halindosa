@@ -78,6 +78,7 @@ const artifacts = [
   ["Push readiness JSON", "reports/push-readiness.json"],
   ["Push delivery policy report", "docs/PUSH_DELIVERY_POLICY.md"],
   ["Push delivery policy JSON", "reports/push-delivery-policy.json"],
+  ["Link quality regression JSON", "reports/link-quality-regression.json"],
   ["Image backlog report", "docs/IMAGE_BACKLOG_REPORT.md"],
   ["Image backlog CSV", "IMAGE_BACKLOG.csv"],
   ["Link coverage report", "docs/link-coverage-report.md"]

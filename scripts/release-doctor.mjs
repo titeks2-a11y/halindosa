@@ -62,6 +62,7 @@ async function checkPackage() {
     "verify:links",
     "verify:links:live",
     "verify:products",
+    "link:policy:regression",
     "exposure:doctor",
     "refresh:deals",
     "refresh:news",
@@ -94,7 +95,7 @@ async function checkPackage() {
   const missing = requiredScripts.filter((script) => !pkg.scripts?.[script]);
 
   if (missing.length) fail("package scripts", `Missing scripts: ${missing.join(", ")}`);
-  else if (!pkg.scripts?.qa?.includes("verify:links") || !pkg.scripts?.qa?.includes("verify:links:live") || !pkg.scripts?.qa?.includes("verify:products") || !pkg.scripts?.qa?.includes("exposure:doctor") || !pkg.scripts?.qa?.includes("refresh:deals") || !pkg.scripts?.qa?.includes("refresh:news") || !pkg.scripts?.qa?.includes("verify:news") || !pkg.scripts?.qa?.includes("test:news-feed-errors") || !pkg.scripts?.qa?.includes("refresh:all") || !pkg.scripts?.qa?.includes("health:readiness") || !pkg.scripts?.qa?.includes("push:readiness:report") || !pkg.scripts?.qa?.includes("push:delivery:doctor") || !pkg.scripts?.qa?.includes("source:catalog:report") || !pkg.scripts?.["refresh:all"]?.includes("refresh-all.mjs") || !pkg.scripts?.["health:readiness"]?.includes("health-readiness-report.mjs") || !pkg.scripts?.["push:readiness:report"]?.includes("push-readiness-report.mjs") || !pkg.scripts?.["push:delivery:doctor"]?.includes("push-delivery-policy-doctor.mjs") || !pkg.scripts?.["source:catalog:report"]?.includes("official-source-catalog-report.mjs") || !harness.includes("test:mobile-ux") || !pkg.scripts?.qa?.includes("test:mobile-ux") || !pkg.scripts?.["env:doctor:production"]?.includes("--production") || !pkg.scripts?.["qa:release"]?.includes("health:readiness") || !pkg.scripts?.["qa:release"]?.includes("audit:commercial") || !pkg.scripts?.["qa:release"]?.includes("test:env") || !pkg.scripts?.["qa:release"]?.includes("device:qa:manifest") || !pkg.scripts?.["qa:release"]?.includes("device:qa:doctor") || !pkg.scripts?.["qa:release"]?.includes("device:qa:report") || !pkg.scripts?.["qa:release"]?.includes("android:signing:doctor") || !pkg.scripts?.["qa:release"]?.includes("public:url:doctor") || !pkg.scripts?.["qa:release"]?.includes("feed:validate") || !pkg.scripts?.["qa:release"]?.includes("feed:production:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:metadata:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:submission:report") || !pkg.scripts?.["qa:release"]?.includes("store:packet:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:console:fields") || !pkg.scripts?.["qa:release"]?.includes("store:manual:checklist") || !pkg.scripts?.["qa:release"]?.includes("store:manual:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:handoff:report") || !pkg.scripts?.["qa:release"]?.includes("release:notes") || !pkg.scripts?.["qa:release"]?.includes("support:playbook") || !pkg.scripts?.["qa:release"]?.includes("known:issues") || !pkg.scripts?.["qa:release"]?.includes("store:assets:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:manifest") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:doctor") || !pkg.scripts?.["qa:release"]?.includes("perf:budget")) {
+  else if (!pkg.scripts?.qa?.includes("verify:links") || !pkg.scripts?.qa?.includes("verify:links:live") || !pkg.scripts?.qa?.includes("verify:products") || !pkg.scripts?.qa?.includes("link:policy:regression") || !pkg.scripts?.qa?.includes("exposure:doctor") || !pkg.scripts?.qa?.includes("refresh:deals") || !pkg.scripts?.qa?.includes("refresh:news") || !pkg.scripts?.qa?.includes("verify:news") || !pkg.scripts?.qa?.includes("test:news-feed-errors") || !pkg.scripts?.qa?.includes("refresh:all") || !pkg.scripts?.qa?.includes("health:readiness") || !pkg.scripts?.qa?.includes("push:readiness:report") || !pkg.scripts?.qa?.includes("push:delivery:doctor") || !pkg.scripts?.qa?.includes("source:catalog:report") || !pkg.scripts?.["link:policy:regression"]?.includes("link-quality-regression.mjs") || !pkg.scripts?.["refresh:all"]?.includes("refresh-all.mjs") || !pkg.scripts?.["health:readiness"]?.includes("health-readiness-report.mjs") || !pkg.scripts?.["push:readiness:report"]?.includes("push-readiness-report.mjs") || !pkg.scripts?.["push:delivery:doctor"]?.includes("push-delivery-policy-doctor.mjs") || !pkg.scripts?.["source:catalog:report"]?.includes("official-source-catalog-report.mjs") || !harness.includes("test:mobile-ux") || !pkg.scripts?.qa?.includes("test:mobile-ux") || !pkg.scripts?.["env:doctor:production"]?.includes("--production") || !pkg.scripts?.["qa:release"]?.includes("health:readiness") || !pkg.scripts?.["qa:release"]?.includes("audit:commercial") || !pkg.scripts?.["qa:release"]?.includes("test:env") || !pkg.scripts?.["qa:release"]?.includes("device:qa:manifest") || !pkg.scripts?.["qa:release"]?.includes("device:qa:doctor") || !pkg.scripts?.["qa:release"]?.includes("device:qa:report") || !pkg.scripts?.["qa:release"]?.includes("android:signing:doctor") || !pkg.scripts?.["qa:release"]?.includes("public:url:doctor") || !pkg.scripts?.["qa:release"]?.includes("feed:validate") || !pkg.scripts?.["qa:release"]?.includes("feed:production:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:metadata:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:submission:report") || !pkg.scripts?.["qa:release"]?.includes("store:packet:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:console:fields") || !pkg.scripts?.["qa:release"]?.includes("store:manual:checklist") || !pkg.scripts?.["qa:release"]?.includes("store:manual:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:handoff:report") || !pkg.scripts?.["qa:release"]?.includes("release:notes") || !pkg.scripts?.["qa:release"]?.includes("support:playbook") || !pkg.scripts?.["qa:release"]?.includes("known:issues") || !pkg.scripts?.["qa:release"]?.includes("store:assets:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:manifest") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:doctor") || !pkg.scripts?.["qa:release"]?.includes("perf:budget")) {
     fail("package scripts", "qa, harness, and qa:release should include refresh:all, health readiness, mobile UX, commercial security audit, device QA manifest/doctor/report, Android signing doctor, public URL doctor, partner feed validator, production feed doctor, store metadata doctor, store submission/packet/console/handoff reports, store asset doctor, store screenshot manifest/doctor, and performance budget before store submission.");
   } else {
     pass("package scripts", "Android, iOS, environment, mobile UX, commercial security, and performance release command flow is available.");
@@ -2514,10 +2515,12 @@ async function checkOperationalDataSurfaces() {
   const verifyLinksScript = await text("scripts/verify-product-links.mjs");
   const verifyLinksLiveScript = await text("scripts/verify-product-links-live.mjs");
   const verifyProductsScript = await text("scripts/verify-products.mjs");
+  const linkQualityRegressionScript = await text("scripts/link-quality-regression.mjs");
   const exposureDoctorScript = await text("scripts/exposure-policy-doctor.mjs");
   const refreshDealsScript = await text("scripts/refresh-deals.mjs");
   const linkReport = JSON.parse(await text("reports/link-validation.json"));
   const productReport = JSON.parse(await text("reports/product-quality.json"));
+  const linkRegressionReport = JSON.parse(await text("reports/link-quality-regression.json"));
   const exposureReport = JSON.parse(await text("reports/exposure-policy.json"));
   const linkPolicyIssues = [];
 
@@ -2530,6 +2533,7 @@ async function checkOperationalDataSurfaces() {
     ["provider types", providerTypes],
     ["verify links", verifyLinksScript],
     ["verify products", verifyProductsScript],
+    ["link quality regression", linkQualityRegressionScript],
     ["refresh deals", refreshDealsScript],
     ["exposure doctor", exposureDoctorScript]
   ]) {
@@ -2568,6 +2572,20 @@ async function checkOperationalDataSurfaces() {
     linkPolicyIssues.push("verify:links:live should expose optional live probe, strict mode, and body probe controls");
   }
   if (productReport.policy?.source !== "data/linkQualityPolicy.json") linkPolicyIssues.push("product-quality report should record policy source");
+  if (!linkQualityRegressionScript.includes("coupang search blocked") || !linkQualityRegressionScript.includes("sold out evidence blocked") || !linkQualityRegressionScript.includes("official benefit allowed")) {
+    linkPolicyIssues.push("link quality regression should cover search, sold-out, community, unsafe, and official benefit samples");
+  }
+  if (linkRegressionReport.ok !== true) linkPolicyIssues.push("link-quality-regression report should pass");
+  if (
+    (linkRegressionReport.summary?.exposedSearchLinks ?? 1) !== 0 ||
+    (linkRegressionReport.summary?.exposedSoldOutLinks ?? 1) !== 0 ||
+    (linkRegressionReport.summary?.badExposedItems ?? 1) !== 0
+  ) {
+    linkPolicyIssues.push("link-quality-regression report should prove zero exposed search, sold-out, and bad exposed items");
+  }
+  if ((linkRegressionReport.summary?.samplePassed ?? 0) < 8) {
+    linkPolicyIssues.push("link-quality-regression should pass all bad/good URL samples");
+  }
   if (
     !quality.includes("getDealExposureDecision") ||
     !quality.includes("isPolicySearchLikeUrl") ||
