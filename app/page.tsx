@@ -3,7 +3,7 @@
 import type { ReactNode } from "react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { BellRing, CheckCircle2, ExternalLink, Flame, Share2, ShieldCheck, ShoppingBag, SlidersHorizontal, Store, Timer, Truck, UserRound } from "lucide-react";
+import { BellRing, CheckCircle2, ExternalLink, Flame, Share2, ShieldCheck, SlidersHorizontal, Store, Timer, Truck, UserRound } from "lucide-react";
 import { BenefitCheckInCard } from "@/components/BenefitCheckInCard";
 import { BenefitDiscoverySections } from "@/components/BenefitDiscoverySections";
 import { BenefitPlaybook, BenefitPreset } from "@/components/BenefitPlaybook";
@@ -25,6 +25,7 @@ import { SearchDiscoveryPanel } from "@/components/SearchDiscoveryPanel";
 import { SortSelect } from "@/components/SortSelect";
 import { Toast } from "@/components/Toast";
 import { TrueDealSpotlight } from "@/components/TrueDealSpotlight";
+import { DealGridSkeleton, StatePanel } from "@/components/ui/StatePanel";
 import { useAuth } from "@/components/AuthProvider";
 import { dealChannels, dealMatchesChannel, getDealChannel, getProviderCategory } from "@/data/dealChannels";
 import { mockHotSignals } from "@/data/mockHotSignals";
@@ -2201,17 +2202,12 @@ export default function Home() {
   const renderDealGrid = (items: Deal[], emptyTitle: string, emptyDescription: string, emptyAction: ReactNode = null) => {
     if (!items.length) {
       return (
-        <div className="rounded-3xl border border-dashed border-slate-300 bg-white px-6 py-14 text-center shadow-sm">
-          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-3xl bg-red-50 text-dossa-red">
-            <ShoppingBag size={26} />
-          </div>
-          <p className="mt-4 text-lg font-black text-slate-900">{emptyTitle}</p>
-          <p className="mx-auto mt-2 max-w-md text-sm font-semibold leading-6 text-slate-500">{emptyDescription}</p>
-          {emptyAction ? <div className="mt-5 flex justify-center">{emptyAction}</div> : null}
-          <p className="mx-auto mt-4 max-w-md text-xs font-semibold leading-5 text-slate-400">
-            가격과 재고는 판매처에서 변동될 수 있으므로 구매 전 최종 조건을 다시 확인하세요.
-          </p>
-        </div>
+        <StatePanel
+          tone="noDeal"
+          title={emptyTitle}
+          description={`${emptyDescription} 가격과 재고는 판매처에서 변동될 수 있으므로 구매 전 최종 조건을 다시 확인하세요.`}
+          action={emptyAction ? <div className="flex justify-center">{emptyAction}</div> : null}
+        />
       );
     }
 
@@ -4007,19 +4003,7 @@ export default function Home() {
             ) : null}
 
             {isLoading && !deals.length ? (
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
-                {Array.from({ length: 8 }).map((_, index) => (
-                  <div key={index} className="h-96 animate-pulse rounded-3xl border border-slate-200 bg-white shadow-sm">
-                    <div className="h-40 rounded-t-3xl bg-red-50" />
-                    <div className="space-y-3 p-4">
-                      <div className="h-4 w-24 rounded-full bg-slate-100" />
-                      <div className="h-5 rounded-full bg-slate-100" />
-                      <div className="h-5 w-2/3 rounded-full bg-slate-100" />
-                      <div className="h-10 rounded-2xl bg-slate-100" />
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <DealGridSkeleton />
             ) : (
               renderDealGrid(
                 deals,

@@ -6,8 +6,11 @@ const root = process.cwd();
 const MB = 1024 * 1024;
 
 const budgets = {
-  outTotal: 30 * MB,
-  largestHtml: 1.2 * MB,
+  // Raw static export includes prerendered HTML/RSC payload for the offline Android bundle.
+  // Keep the Play Store-facing AAB budget strict while allowing the uncompressed export to
+  // reflect the current 140 verified deal seed and policy/store pages.
+  outTotal: 70 * MB,
+  largestHtml: 4 * MB,
   largestJs: 500 * 1024,
   largestCss: 300 * 1024,
   debugApk: 25 * MB,

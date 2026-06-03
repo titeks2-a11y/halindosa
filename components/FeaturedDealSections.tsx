@@ -80,7 +80,7 @@ const sections = [
 
 export function FeaturedDealSections({ deals, favorites, onToggleFavorite, onOpenDeal, onShareDeal }: FeaturedDealSectionsProps) {
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       {sections.map((section) => {
         const Icon = section.icon;
         const items = section.getDeals(deals);
@@ -92,7 +92,7 @@ export function FeaturedDealSections({ deals, favorites, onToggleFavorite, onOpe
             <div className="flex items-end justify-between gap-3">
               <div className="min-w-0">
                 <div className="flex items-center gap-2">
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-red-50 text-dossa-red">
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-orange-50 text-dossa-red">
                     <Icon size={18} />
                   </span>
                   <h3 className="text-xl font-black text-slate-950">{section.title}</h3>

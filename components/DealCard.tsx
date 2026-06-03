@@ -56,9 +56,9 @@ export function DealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, onSha
   return (
     <article
       aria-label={`${deal.mallName} ${deal.title} 특가`}
-      className="group flex overflow-hidden rounded-[22px] border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:border-red-100 hover:shadow-deal sm:block"
+      className="group flex overflow-hidden rounded-[22px] border border-brand-line bg-brand-surface shadow-lift transition hover:-translate-y-1 hover:border-red-100 hover:shadow-commerce sm:block"
     >
-      <div className="relative flex min-h-[150px] w-[38%] shrink-0 items-center justify-center overflow-hidden bg-gradient-to-br from-red-50 via-rose-100 to-red-200 sm:aspect-[16/10] sm:min-h-0 sm:w-full">
+      <div className="relative flex min-h-[150px] w-[38%] shrink-0 items-center justify-center overflow-hidden bg-gradient-to-br from-brand-warm via-white to-orange-50 sm:aspect-[16/10] sm:min-h-0 sm:w-full">
         {deal.imageUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -88,8 +88,8 @@ export function DealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, onSha
           <Heart size={20} fill={isFavorite ? "currentColor" : "none"} />
         </button>
         <div className="absolute left-2 top-2 flex flex-wrap gap-1 sm:left-3 sm:top-3 sm:gap-1.5">
-          {deal.isHot ? <span className="rounded-full bg-dossa-red px-2.5 py-1 text-xs font-black text-white">핫딜</span> : null}
-          {deal.isNew ? <span className="hidden rounded-full bg-slate-950 px-2.5 py-1 text-xs font-black text-white sm:inline-flex">신규</span> : null}
+          {deal.isHot ? <span className="rounded-full commerce-gradient px-2.5 py-1 text-xs font-black text-white">핫딜</span> : null}
+          {deal.isNew ? <span className="hidden rounded-full bg-brand-navy px-2.5 py-1 text-xs font-black text-white sm:inline-flex">신규</span> : null}
           {deal.isEndingSoon ? <span className="hidden rounded-full bg-amber-400 px-2.5 py-1 text-xs font-black text-slate-950 sm:inline-flex">마감임박</span> : null}
         </div>
         <div className="absolute bottom-2 right-2 flex gap-1.5 sm:bottom-3 sm:right-3 sm:gap-2">
@@ -106,7 +106,7 @@ export function DealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, onSha
             onClick={() => linkAvailable && onOpenDeal(deal)}
             disabled={!linkAvailable}
             aria-label={linkAvailable ? `${deal.title} 판매처 이동 전 확인` : `${deal.title} 링크 확인 필요`}
-            className="flex h-9 w-9 items-center justify-center rounded-2xl bg-slate-950 text-white shadow-md transition hover:bg-dossa-red disabled:cursor-not-allowed disabled:bg-slate-300 sm:h-10 sm:w-10"
+            className="flex h-9 w-9 items-center justify-center rounded-2xl bg-brand-navy text-white shadow-md transition hover:bg-dossa-red disabled:cursor-not-allowed disabled:bg-slate-300 sm:h-10 sm:w-10"
           >
             <ExternalLink size={17} />
           </button>
@@ -188,7 +188,7 @@ export function DealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, onSha
           </p>
         </div>
 
-        <div className="rounded-2xl bg-red-50 px-3 py-2">
+        <div className="rounded-2xl bg-orange-50 px-3 py-2">
           <p className="text-[11px] font-black text-dossa-red">{getBenefitTypeLabel(deal.dealType)}</p>
           <p className="mt-1 line-clamp-2 text-xs font-bold leading-5 text-slate-700">{deal.benefitSummary}</p>
         </div>
@@ -217,13 +217,13 @@ export function DealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, onSha
           </div>
         </div>
 
-        <div className="rounded-2xl bg-slate-50 p-2.5 sm:p-3">
+        <div className="rounded-2xl border border-brand-line bg-white/80 p-2.5 sm:p-3">
           <div className="flex items-start justify-between gap-3">
             <div className="min-w-0">
               <p className="text-xs font-semibold text-slate-400 line-through">{formatPrice(deal.originalPrice)}</p>
               <strong className="mt-0.5 block truncate text-lg font-black text-slate-950 sm:text-2xl">{formatPrice(deal.salePrice)}</strong>
             </div>
-            <span className="shrink-0 rounded-xl bg-dossa-red px-2 py-1.5 text-sm font-black leading-none text-white sm:rounded-2xl sm:px-3 sm:py-2 sm:text-xl">
+            <span className="shrink-0 rounded-xl commerce-gradient px-2 py-1.5 text-sm font-black leading-none text-white sm:rounded-2xl sm:px-3 sm:py-2 sm:text-xl">
               {deal.discountRate}%
             </span>
           </div>
@@ -272,7 +272,7 @@ export function DealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, onSha
             type="button"
             onClick={() => linkAvailable && onOpenDeal(deal)}
             disabled={!linkAvailable}
-            className="inline-flex min-h-11 items-center justify-center gap-1.5 rounded-2xl bg-slate-950 px-3 text-xs font-black text-white transition hover:bg-dossa-red disabled:cursor-not-allowed disabled:bg-slate-300"
+            className="inline-flex min-h-11 items-center justify-center gap-1.5 rounded-2xl bg-brand-navy px-3 text-xs font-black text-white transition hover:bg-dossa-red disabled:cursor-not-allowed disabled:bg-slate-300"
             aria-label={linkAvailable ? `${deal.title} 구매 전 판매처 확인` : `${deal.title} 링크 확인 필요`}
           >
             판매처 확인

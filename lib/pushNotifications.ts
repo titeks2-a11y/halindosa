@@ -1,0 +1,113 @@
+export interface PushSendInput {
+  title: string;
+  body: string;
+  tokens: string[];
+  dealId?: string;
+  alertType?: "deal" | "freebie" | "price_drop" | "ending_soon" | "interest_category";
+  dryRun?: boolean;
+}
+
+export interface PushSendResult {
+  configured: boolean;
+  attempted: number;
+  sent: number;
+  failed: number;
+  message: string;
+}
+
+function getFcmServerKey() {
+  return process.env.FCM_SERVER_KEY?.trim() || "";
+}
+
+export function getPushReadiness() {
+  const enabled = process.env.PUSH_SEND_ENABLED === "true";
+  const hasServerKey = Boolean(getFcmServerKey());
+
+  return {
+    enabled,
+    hasServerKey,
+    configured: enabled && hasServerKey,
+    requiredEnv: ["PUSH_SEND_ENABLED=true", "FCM_SERVER_KEY"]
+  };
+}
+
+function normalizeTokens(tokens: string[]) {
+  return Array.from(new Set(tokens.map((token) => token.trim()).filter(Boolean))).slice(0, 500);
+}
+
+export async function sendPushNotification(input: PushSendInput): Promise<PushSendResult> {
+  const tokens = normalizeTokens(input.tokens);
+  const readiness = getPushReadiness();
+
+  if (!tokens.length) {
+    return {
+      configured: readiness.configured,
+      attempted: 0,
+      sent: 0,
+      failed: 0,
+      message: "발송 대상 토큰이 없습니다."
+    };
+  }
+
+  if (input.dryRun) {
+    return {
+      configured: readiness.configured,
+      attempted: tokens.length,
+      sent: 0,
+      failed: 0,
+      message: "dry-run으로 발송 대상만 검증했습니다."
+    };
+  }
+
+  if (!readiness.configured) {
+    return {
+      configured: false,
+      attempted: tokens.length,
+      sent: 0,
+      failed: tokens.length,
+      message: "FCM 발송 환경변수가 설정되지 않았습니다."
+    };
+  }
+
+  const response = await fetch("https://fcm.googleapis.com/fcm/send", {
+    method: "POST",
+    headers: {
+      Authorization: `key=${getFcmServerKey()}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      registration_ids: tokens,
+      notification: {
+        title: input.title,
+        body: input.body
+      },
+      data: {
+        dealId: input.dealId ?? "",
+        alertType: input.alertType ?? "deal",
+        source: "halindosa"
+      }
+    })
+  });
+
+  if (!response.ok) {
+    return {
+      configured: true,
+      attempted: tokens.length,
+      sent: 0,
+      failed: tokens.length,
+      message: `FCM 요청 실패: ${response.status}`
+    };
+  }
+
+  const payload = (await response.json().catch(() => ({}))) as { success?: number; failure?: number };
+  const sent = Number(payload.success ?? 0);
+  const failed = Number(payload.failure ?? Math.max(tokens.length - sent, 0));
+
+  return {
+    configured: true,
+    attempted: tokens.length,
+    sent,
+    failed,
+    message: "FCM 발송 요청을 처리했습니다."
+  };
+}

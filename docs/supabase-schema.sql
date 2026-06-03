@@ -31,9 +31,26 @@ alter table public.deals
   add column if not exists original_url text,
   add column if not exists affiliate_url text,
   add column if not exists final_purchase_url text,
+  add column if not exists final_url text,
+  add column if not exists source_name text,
+  add column if not exists source_url text,
+  add column if not exists event_url text,
+  add column if not exists link_type text not null default 'direct_purchase',
+  add column if not exists availability text not null default 'active',
+  add column if not exists validation_status text not null default 'passed',
+  add column if not exists validation_reason text not null default 'seed_verified',
+  add column if not exists last_checked_at timestamptz not null default now(),
+  add column if not exists priority_score integer not null default 0,
+  add column if not exists is_hidden boolean not null default false,
   add column if not exists click_count integer not null default 0,
   add column if not exists like_count integer not null default 0,
   add column if not exists is_sold_out boolean not null default false;
+
+create index if not exists deals_visibility_quality_idx
+  on public.deals (is_hidden, availability, validation_status, priority_score desc);
+
+create index if not exists deals_link_type_idx on public.deals (link_type);
+create index if not exists deals_last_checked_at_idx on public.deals (last_checked_at desc);
 
 create table if not exists public.user_profiles (
   user_id uuid primary key references auth.users(id) on delete cascade,
@@ -76,6 +93,82 @@ create table if not exists public.deal_click_logs (
 );
 
 comment on table public.deal_click_logs is '구매 이동 클릭 로그. 회원 탈퇴 시 user_id는 null로 익명화한다.';
+
+create table if not exists public.deal_validation_logs (
+  id uuid primary key default gen_random_uuid(),
+  deal_id text references public.deals(id) on delete cascade,
+  provider text not null default 'manual',
+  checked_url text not null,
+  final_url text,
+  http_status integer,
+  redirect_count integer not null default 0,
+  link_type text not null default 'direct_purchase',
+  availability text not null default 'unknown',
+  validation_status text not null default 'needs_review',
+  validation_reason text not null default '',
+  response_excerpt text,
+  checked_at timestamptz not null default now()
+);
+
+comment on table public.deal_validation_logs is '상품 링크 검증 로그. 검색/품절/오류/리다이렉트 결과를 기록해 관리자 숨김과 재검증 근거로 사용한다.';
+
+create index if not exists deal_validation_logs_deal_idx on public.deal_validation_logs (deal_id, checked_at desc);
+create index if not exists deal_validation_logs_status_idx on public.deal_validation_logs (validation_status, availability);
+
+create table if not exists public.provider_runs (
+  id uuid primary key default gen_random_uuid(),
+  provider text not null,
+  mode text not null default 'manual',
+  started_at timestamptz not null default now(),
+  finished_at timestamptz,
+  fetched_count integer not null default 0,
+  normalized_count integer not null default 0,
+  visible_count integer not null default 0,
+  hidden_count integer not null default 0,
+  failed_count integer not null default 0,
+  error_message text,
+  report jsonb not null default '{}'
+);
+
+comment on table public.provider_runs is 'Coupang/Naver/11st/Event/Manual provider 수집 실행 이력. refresh:deals 결과를 운영 DB에 영구 저장할 때 사용한다.';
+
+create index if not exists provider_runs_provider_started_idx on public.provider_runs (provider, started_at desc);
+
+create table if not exists public.admin_actions (
+  id uuid primary key default gen_random_uuid(),
+  admin_user_id uuid references auth.users(id) on delete set null,
+  action_type text not null,
+  deal_id text references public.deals(id) on delete set null,
+  before_state jsonb not null default '{}',
+  after_state jsonb not null default '{}',
+  reason text not null default '',
+  created_at timestamptz not null default now()
+);
+
+comment on table public.admin_actions is '관리자 숨김/복구/수정/재검증 액션 감사 로그. 클라이언트에는 공개하지 않고 service_role 서버 액션만 기록한다.';
+
+create index if not exists admin_actions_created_idx on public.admin_actions (created_at desc);
+create index if not exists admin_actions_deal_idx on public.admin_actions (deal_id, created_at desc);
+
+create table if not exists public.push_subscriptions (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid references auth.users(id) on delete cascade,
+  endpoint text,
+  fcm_token text,
+  platform text not null default 'web',
+  interest_categories text[] not null default '{}',
+  alert_types text[] not null default '{}',
+  enabled boolean not null default true,
+  consent_at timestamptz,
+  revoked_at timestamptz,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+comment on table public.push_subscriptions is '향후 FCM/Web Push 알림 구독. 실제 발송은 사용자 동의와 서버 FCM 설정이 완료된 뒤 활성화한다.';
+
+create index if not exists push_subscriptions_user_idx on public.push_subscriptions (user_id, enabled);
+create index if not exists push_subscriptions_platform_idx on public.push_subscriptions (platform, enabled);
 
 create table if not exists public.price_drop_alerts (
   id uuid primary key default gen_random_uuid(),
@@ -138,6 +231,10 @@ alter table public.user_favorite_deals enable row level security;
 alter table public.user_recent_deals enable row level security;
 alter table public.deal_click_logs enable row level security;
 alter table public.price_drop_alerts enable row level security;
+alter table public.deal_validation_logs enable row level security;
+alter table public.provider_runs enable row level security;
+alter table public.admin_actions enable row level security;
+alter table public.push_subscriptions enable row level security;
 
 create policy "public read deals"
   on public.deals for select
@@ -195,6 +292,31 @@ create policy "service writes click logs"
 create policy "users insert own click logs"
   on public.deal_click_logs for insert
   with check (auth.uid() = user_id);
+
+create policy "service manages validation logs"
+  on public.deal_validation_logs for all
+  using (auth.role() = 'service_role')
+  with check (auth.role() = 'service_role');
+
+create policy "service manages provider runs"
+  on public.provider_runs for all
+  using (auth.role() = 'service_role')
+  with check (auth.role() = 'service_role');
+
+create policy "service manages admin actions"
+  on public.admin_actions for all
+  using (auth.role() = 'service_role')
+  with check (auth.role() = 'service_role');
+
+create policy "users manage own push subscriptions"
+  on public.push_subscriptions for all
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
+
+create policy "service manages push subscriptions"
+  on public.push_subscriptions for all
+  using (auth.role() = 'service_role')
+  with check (auth.role() = 'service_role');
 
 -- 회원 탈퇴 운영 기준:
 -- 1. 클라이언트는 service_role을 절대 보유하지 않는다.

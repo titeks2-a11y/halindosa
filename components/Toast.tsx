@@ -7,7 +7,7 @@ interface ToastProps {
 
 export function Toast({ message, onClose }: ToastProps) {
   return (
-    <div className="fixed left-1/2 top-[calc(0.75rem+env(safe-area-inset-top))] z-50 w-[calc(100%-1.5rem)] max-w-sm -translate-x-1/2 rounded-2xl bg-slate-950/95 px-3 py-2.5 text-white shadow-xl sm:bottom-6 sm:top-auto">
+    <div className="fixed left-1/2 top-[calc(0.75rem+env(safe-area-inset-top))] z-50 w-[calc(100%-1.5rem)] max-w-sm -translate-x-1/2 rounded-2xl bg-brand-navy/95 px-3 py-2.5 text-white shadow-xl sm:bottom-6 sm:top-auto">
       <div className="flex items-center justify-between gap-3">
         <p className="line-clamp-2 text-xs font-bold sm:text-sm">{message}</p>
         <button

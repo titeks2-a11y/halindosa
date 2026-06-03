@@ -10,6 +10,7 @@
 - API Server: 토큰 저장, 세그먼트 계산, 발송 예약
 - Worker: 마감 임박, 오늘의 특가, 무료배송 이벤트 감지
 - FCM: Android push 발송
+- Admin API: `GET /api/admin/push/send?token=...`으로 발송 준비 상태를 확인하고, `POST /api/admin/push/send?token=...`으로 dry-run 또는 실제 FCM 발송을 실행한다.
 
 ## 알림 유형
 
@@ -28,4 +29,14 @@
 
 ## V1.0 범위
 
-실제 FCM SDK와 토큰 저장은 연결하지 않고 UI와 문서 구조만 유지한다.
+실제 FCM SDK 토큰 등록은 앱 권한/동의 UX 검토 후 연결한다. 서버 측 발송 어댑터는 `PUSH_SEND_ENABLED=true`와 `FCM_SERVER_KEY`가 설정된 경우에만 FCM으로 요청을 보내며, 기본값은 dry-run/readiness 검증이다.
+
+## 운영 환경변수
+
+```bash
+PUSH_SEND_ENABLED=false
+FCM_SERVER_KEY=
+FCM_PROJECT_ID=
+```
+
+발송 토큰은 `push_subscriptions` 테이블에 저장하고, 사용자가 철회하면 `enabled=false`, `revoked_at=now()`로 처리한다. 알림 발송 로그는 향후 `push_delivery_logs` 테이블로 분리한다.

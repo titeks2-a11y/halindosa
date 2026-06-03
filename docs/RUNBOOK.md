@@ -26,6 +26,9 @@ npm run smoke
 - 리다이렉트: `GET /api/redirect/d001?from=runbook`
 - 제휴/판매처 fallback 상태: `GET /api/affiliate/status`
 - 관리자: `GET /admin?token=$ADMIN_EXPORT_TOKEN`
+- 푸시 준비 상태: `GET /api/admin/push/send?token=$ADMIN_EXPORT_TOKEN`
+  - `PUSH_SEND_ENABLED=false`이면 readiness/dry-run만 제공한다.
+  - 실제 FCM 발송은 `PUSH_SEND_ENABLED=true`와 `FCM_SERVER_KEY`를 서버 환경변수로 넣은 뒤 관리자 토큰으로 보호된 `POST /api/admin/push/send?token=...`에서만 실행한다.
 - CSV export: `GET /api/admin/export?token=$ADMIN_EXPORT_TOKEN`
   - 링크 검수 작업에 필요한 `linkStatus`, `linkType`, `reviewPriority`, `reviewAction`, `reviewReason`, `purchaseConfidence`, `checkedAt`, `finalPurchaseUrl` 필드를 함께 내보낸다.
   - 운영자는 CSV를 스프레드시트로 열어 우선 검수 상품부터 실제 상품 상세 URL을 보강하고, 다음 피드 import 전에 원본 데이터의 `productUrl` 또는 `finalPurchaseUrl`에 반영한다.

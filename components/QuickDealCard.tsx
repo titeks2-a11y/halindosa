@@ -6,6 +6,7 @@ import { isVerifiedPurchaseLink } from "@/lib/deals/quality";
 import { getDealImageSrc } from "@/lib/imageSrc";
 import { formatPrice, getRelativeTime, getTimeLeft } from "@/lib/format";
 import { Deal } from "@/types/deal";
+import { CommerceBadge } from "@/components/ui/CommerceBadge";
 
 interface QuickDealCardProps {
   deal: Deal;
@@ -28,10 +29,10 @@ export function QuickDealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, 
   return (
     <article
       aria-label={`${deal.mallName} ${deal.title} 특가`}
-      className="group overflow-hidden rounded-[20px] border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:border-red-100 hover:shadow-deal"
+      className="group overflow-hidden rounded-[20px] border border-brand-line bg-brand-surface shadow-lift transition hover:-translate-y-0.5 hover:border-red-100 hover:shadow-commerce"
     >
       <Link href={`/deals/${deal.id}`} target="_blank" rel="noopener noreferrer" className="block" aria-label={`${deal.title} 상세 정보 새 탭으로 보기`}>
-        <span className="relative block aspect-[4/3] overflow-hidden bg-gradient-to-br from-red-50 via-rose-50 to-orange-50">
+        <span className="relative block aspect-[4/3] overflow-hidden bg-gradient-to-br from-brand-warm via-white to-orange-50">
           {deal.imageUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
@@ -50,13 +51,13 @@ export function QuickDealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, 
           )}
           <span
             className={`absolute left-2 top-2 max-w-[74%] truncate rounded-full px-2.5 py-1 text-[11px] font-black text-white shadow-sm ${
-              isBenefitFocused ? "bg-slate-950" : "bg-dossa-red"
+              isBenefitFocused ? "bg-brand-navy" : "commerce-gradient"
             }`}
           >
             {primaryBadge}
           </span>
           {deal.isHot ? (
-            <span className="absolute bottom-2 left-2 rounded-full bg-slate-950 px-2.5 py-1 text-[11px] font-black text-white shadow-sm">HOT</span>
+            <span className="absolute bottom-2 left-2 rounded-full bg-brand-navy px-2.5 py-1 text-[11px] font-black text-white shadow-sm">HOT</span>
           ) : null}
           {deal.isFreeShipping ? (
             <span className="absolute bottom-2 right-2 rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-dossa-red shadow-sm">무료배송</span>
@@ -76,7 +77,7 @@ export function QuickDealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, 
           </h3>
         </Link>
 
-        <div className="rounded-2xl border border-slate-100 bg-slate-50 p-1.5" aria-label={`${deal.title} 구매 전 한눈에`}>
+        <div className="rounded-2xl border border-brand-line bg-white/75 p-1.5" aria-label={`${deal.title} 구매 전 한눈에`}>
           <div className="mb-1 flex items-center justify-between gap-2 px-1">
             <p className="text-[10px] font-black text-slate-500">구매 전 한눈에</p>
             <p className="truncate text-[10px] font-bold text-slate-400">{deal.category}</p>
@@ -92,33 +93,33 @@ export function QuickDealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, 
 
         <div className="flex flex-wrap gap-1">
           {verified ? (
-            <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-black text-emerald-700">
+            <CommerceBadge tone="success" className="px-2 py-0.5 text-[10px]">
               <CheckCircle2 size={12} />
               직접 링크 확인
-            </span>
+            </CommerceBadge>
           ) : null}
           {isBenefitFocused ? (
-            <span className="inline-flex items-center gap-1 rounded-full bg-red-50 px-2 py-0.5 text-[10px] font-black text-dossa-red">
+            <CommerceBadge tone="primary" className="px-2 py-0.5 text-[10px]">
               {benefitLabel}
-            </span>
+            </CommerceBadge>
           ) : null}
-          <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-black text-slate-600">
+          <CommerceBadge tone="neutral" className="px-2 py-0.5 text-[10px]">
             <Truck size={12} />
             {deal.shipping}
-          </span>
-          <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-black text-slate-600">
+          </CommerceBadge>
+          <CommerceBadge tone={deal.isEndingSoon ? "warning" : "neutral"} className="px-2 py-0.5 text-[10px]">
             <Clock size={12} />
             {timeLeft}
-          </span>
+          </CommerceBadge>
         </div>
 
         <div
-          className="rounded-2xl border border-red-50 bg-gradient-to-br from-red-50 via-white to-white px-2.5 py-2"
+          className="rounded-2xl border border-brand-line bg-gradient-to-br from-white via-white to-orange-50 px-2.5 py-2"
           aria-label={`${deal.title} 가격 요약`}
         >
           <p className="sr-only">압축 가격 카드</p>
           <div className="flex items-center justify-between gap-2">
-            <span className="inline-flex shrink-0 rounded-full bg-dossa-red px-2 py-1 text-[11px] font-black text-white shadow-sm">
+            <span className="inline-flex shrink-0 rounded-full commerce-gradient px-2 py-1 text-[11px] font-black text-white shadow-sm">
               {isBenefitFocused ? benefitLabel : `${deal.discountRate}% 할인`}
             </span>
             <span className="min-w-0 truncate text-[11px] font-bold text-slate-400 line-through">{formatPrice(deal.originalPrice)}</span>
@@ -155,7 +156,7 @@ export function QuickDealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, 
             type="button"
             onClick={() => linkAvailable && onOpenDeal(deal)}
             disabled={!linkAvailable}
-            className="inline-flex min-h-10 items-center justify-center gap-1.5 rounded-2xl bg-slate-950 px-3 text-xs font-black text-white transition hover:bg-dossa-red disabled:cursor-not-allowed disabled:bg-slate-300"
+            className="inline-flex min-h-10 items-center justify-center gap-1.5 rounded-2xl bg-brand-navy px-3 text-xs font-black text-white transition hover:bg-dossa-red disabled:cursor-not-allowed disabled:bg-slate-300"
             aria-label={linkAvailable ? `${deal.title} 판매처 이동 전 확인` : `${deal.title} 링크 확인 필요`}
           >
             <span className="truncate">{primaryCta}</span>

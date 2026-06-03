@@ -33,9 +33,9 @@ function LiveDealRow({ deal, isFavorite, onToggleFavorite, onOpenDeal, onShareDe
   const linkTrustClassName = getLinkTrustClassName(deal);
 
   return (
-    <article className="relative grid gap-3 bg-white p-3 pr-24 transition hover:bg-slate-50 sm:grid-cols-[auto_1fr_auto] sm:items-center sm:pr-28">
+    <article className="relative grid gap-3 bg-brand-surface p-3 pr-24 transition hover:bg-orange-50/45 sm:grid-cols-[auto_1fr_auto] sm:items-center sm:pr-28">
       <div className="flex items-center gap-3">
-        <div className="relative flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-br from-red-50 to-rose-100 text-dossa-red">
+        <div className="relative flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-br from-brand-warm to-orange-50 text-dossa-red">
           {deal.imageUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
@@ -49,7 +49,7 @@ function LiveDealRow({ deal, isFavorite, onToggleFavorite, onOpenDeal, onShareDe
           ) : (
             <ShoppingBag size={24} aria-hidden="true" />
           )}
-          <span className="absolute bottom-1 left-1 rounded-full bg-dossa-red px-1.5 py-0.5 text-[10px] font-black text-white">
+          <span className="absolute bottom-1 left-1 rounded-full commerce-gradient px-1.5 py-0.5 text-[10px] font-black text-white">
             {deal.discountRate}%
           </span>
         </div>
@@ -73,7 +73,7 @@ function LiveDealRow({ deal, isFavorite, onToggleFavorite, onOpenDeal, onShareDe
       <div className="hidden min-w-0 sm:block">
         <div className="flex items-center gap-2">
           <span className="rounded-full bg-red-50 px-2 py-0.5 text-[11px] font-black text-dossa-red">{deal.discountRate}% 할인</span>
-          {deal.isHot ? <span className="rounded-full bg-dossa-red px-2 py-0.5 text-[11px] font-black text-white">HOT</span> : null}
+          {deal.isHot ? <span className="rounded-full commerce-gradient px-2 py-0.5 text-[11px] font-black text-white">HOT</span> : null}
           {deal.isEndingSoon ? <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[11px] font-black text-amber-700">마감임박</span> : null}
           <span className={`rounded-full px-2 py-0.5 text-[11px] font-black ${linkTrustClassName}`}>{getDealLinkTrustLabel(deal)}</span>
           <span className="text-xs font-bold text-slate-500">
@@ -92,7 +92,7 @@ function LiveDealRow({ deal, isFavorite, onToggleFavorite, onOpenDeal, onShareDe
       <div className="grid grid-cols-[1fr_auto_auto] items-center gap-2">
         <div className="min-w-0 text-right">
           <p className="text-xs font-semibold text-slate-400 line-through">{formatPrice(deal.originalPrice)}</p>
-          <p className="truncate text-xl font-black text-dossa-red">{formatPrice(deal.salePrice)}</p>
+        <p className="truncate text-xl font-black text-dossa-red">{formatPrice(deal.salePrice)}</p>
         </div>
       </div>
 
@@ -120,7 +120,7 @@ function LiveDealRow({ deal, isFavorite, onToggleFavorite, onOpenDeal, onShareDe
           type="button"
           onClick={() => linkAvailable && onOpenDeal(deal)}
           disabled={!linkAvailable}
-          className="flex h-10 w-10 items-center justify-center rounded-2xl bg-slate-950 text-white shadow-sm transition hover:bg-dossa-red disabled:cursor-not-allowed disabled:bg-slate-300"
+          className="flex h-10 w-10 items-center justify-center rounded-2xl bg-brand-navy text-white shadow-sm transition hover:bg-dossa-red disabled:cursor-not-allowed disabled:bg-slate-300"
           aria-label={linkAvailable ? `${deal.title} 판매처 이동 전 확인` : `${deal.title} 링크 확인 필요`}
         >
           <ExternalLink size={17} />
@@ -144,10 +144,10 @@ export function LiveDealFeed({
   const endingCount = leadDeals.filter((deal) => deal.isEndingSoon).length;
 
   return (
-    <section className="rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+    <section className="rounded-[28px] border border-brand-line bg-brand-surface p-4 shadow-lift sm:p-5">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <div className="inline-flex items-center gap-2 rounded-full bg-red-50 px-3 py-1 text-xs font-black text-dossa-red">
+          <div className="inline-flex items-center gap-2 rounded-full bg-orange-50 px-3 py-1 text-xs font-black text-dossa-red">
             <Radio size={14} />
             쇼핑몰별 특가
           </div>
@@ -161,7 +161,7 @@ export function LiveDealFeed({
             <p className="text-slate-400">특가</p>
             <p className="mt-1 text-lg text-slate-950">{leadDeals.length}</p>
           </div>
-          <div className="rounded-2xl bg-red-50 px-3 py-2">
+          <div className="rounded-2xl bg-orange-50 px-3 py-2">
             <p className="text-red-400">HOT</p>
             <p className="mt-1 text-lg text-dossa-red">{hotCount}</p>
           </div>
@@ -172,7 +172,7 @@ export function LiveDealFeed({
         </div>
       </div>
 
-      <div className="mt-4 divide-y divide-slate-100 overflow-hidden rounded-3xl border border-slate-100">
+      <div className="mt-4 divide-y divide-brand-line overflow-hidden rounded-3xl border border-brand-line">
         {leadDeals.map((deal) => (
           <LiveDealRow
             key={deal.id}
@@ -187,7 +187,7 @@ export function LiveDealFeed({
 
       <Link
         href="/?verifiedOnly=true&sort=hot"
-        className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-slate-950 px-4 py-3 text-sm font-black text-white transition hover:bg-dossa-red"
+        className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-brand-navy px-4 py-3 text-sm font-black text-white transition hover:bg-dossa-red"
       >
         계속 특가 보기
         <Zap size={16} />

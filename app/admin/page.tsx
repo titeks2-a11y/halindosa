@@ -15,6 +15,7 @@ import { buildTodayBenefitQueue } from "@/lib/deals/todayBenefitQueue";
 import { buildWeeklyBenefitCalendar } from "@/lib/deals/weeklyBenefitCalendar";
 import { dryRunPartnerFeedImport, samplePartnerFeed } from "@/lib/feedImport";
 import { formatPrice, getRelativeTime } from "@/lib/format";
+import { getPushReadiness } from "@/lib/pushNotifications";
 import { getReportSummary, listDealReports } from "@/lib/reports";
 
 const checklist = [
@@ -196,6 +197,24 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
     sourceCounts.set(deal.source, (sourceCounts.get(deal.source) ?? 0) + 1);
   }
 
+  const todayStart = new Date();
+  todayStart.setHours(0, 0, 0, 0);
+  const visibleDeals = deals.filter((deal) => !deal.isHidden && deal.availability === "active" && deal.validationStatus === "passed");
+  const hiddenDeals = deals.filter((deal) => deal.isHidden);
+  const failedDeals = deals.filter((deal) => deal.validationStatus === "failed" || deal.availability !== "active");
+  const todayNewDeals = deals.filter((deal) => new Date(deal.createdAt).getTime() >= todayStart.getTime());
+  const topPopularityDeals = [...deals]
+    .sort((a, b) => b.clickCount + b.popularityScore - (a.clickCount + a.popularityScore))
+    .slice(0, 20);
+  const topFavoriteDeals = [...deals].sort((a, b) => b.likeCount - a.likeCount || b.popularityScore - a.popularityScore).slice(0, 20);
+  const providerVolume = Array.from(sourceCounts.entries())
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 8);
+  const recentProviderErrors = refreshReport.providerStats.flatMap((provider) =>
+    (provider.errors ?? []).slice(0, 3).map((error) => `${provider.provider}: ${error}`)
+  );
+  const pushReadiness = getPushReadiness();
+
   const cards = [
     { label: "전체 특가", value: metrics.totalDeals.toLocaleString("ko-KR"), icon: Store },
     { label: "핫딜", value: metrics.hotDeals.toLocaleString("ko-KR"), icon: Flame },
@@ -249,6 +268,87 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
         </div>
 
         <AdminDealQualityPanel token={token} initialReport={refreshReport} />
+
+        <section className="rounded-3xl border border-brand-line bg-brand-surface p-5 shadow-lift" aria-label="출시 운영 핵심 지표">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-black text-dossa-red">출시 운영 핵심 지표</p>
+              <h2 className="mt-1 text-xl font-black text-slate-950">노출 품질, 인기 반응, 알림 준비 상태</h2>
+              <p className="mt-1 text-sm font-semibold leading-6 text-slate-500">
+                Play Store 출시 후 매일 확인할 상품 노출 상태와 사용자 반응 지표입니다.
+              </p>
+            </div>
+            <a
+              href={`/api/admin/push/send${token ? `?token=${encodeURIComponent(token)}` : ""}`}
+              className="rounded-2xl bg-brand-navy px-4 py-3 text-center text-sm font-black text-white"
+            >
+              Push readiness API
+            </a>
+          </div>
+          <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-6">
+            {[
+              ["전체", deals.length],
+              ["오늘 신규", todayNewDeals.length],
+              ["노출 가능", visibleDeals.length],
+              ["숨김", hiddenDeals.length],
+              ["실패/종료", failedDeals.length],
+              ["Push", pushReadiness.configured ? "ON" : "준비"]
+            ].map(([label, value]) => (
+              <div key={label} className="rounded-2xl bg-white p-4 shadow-sm">
+                <p className="text-xs font-black text-slate-500">{label}</p>
+                <p className="mt-2 text-2xl font-black text-slate-950">{typeof value === "number" ? value.toLocaleString("ko-KR") : value}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-4 grid gap-3 lg:grid-cols-3">
+            <div className="rounded-2xl border border-slate-100 bg-white p-4">
+              <p className="text-sm font-black text-slate-950">인기 상품 TOP20</p>
+              <div className="mt-3 space-y-2">
+                {topPopularityDeals.slice(0, 8).map((deal, index) => (
+                  <div key={deal.id} className="flex items-center gap-2 rounded-2xl bg-slate-50 px-3 py-2">
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-brand-navy text-[11px] font-black text-white">{index + 1}</span>
+                    <span className="min-w-0 flex-1 truncate text-xs font-black text-slate-700">{deal.title}</span>
+                    <span className="shrink-0 text-xs font-black text-dossa-red">{deal.clickCount + deal.popularityScore}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="rounded-2xl border border-slate-100 bg-white p-4">
+              <p className="text-sm font-black text-slate-950">찜 TOP20</p>
+              <div className="mt-3 space-y-2">
+                {topFavoriteDeals.slice(0, 8).map((deal, index) => (
+                  <div key={deal.id} className="flex items-center gap-2 rounded-2xl bg-slate-50 px-3 py-2">
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-orange-50 text-[11px] font-black text-dossa-red">{index + 1}</span>
+                    <span className="min-w-0 flex-1 truncate text-xs font-black text-slate-700">{deal.title}</span>
+                    <span className="shrink-0 text-xs font-black text-dossa-red">{deal.likeCount}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="rounded-2xl border border-slate-100 bg-white p-4">
+              <p className="text-sm font-black text-slate-950">Provider 수집량 · 최근 오류</p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {providerVolume.map(([provider, count]) => (
+                  <span key={provider} className="rounded-full bg-slate-50 px-3 py-1.5 text-xs font-black text-slate-600">
+                    {provider} {count}
+                  </span>
+                ))}
+              </div>
+              <div className="mt-3 rounded-2xl bg-slate-50 p-3">
+                {recentProviderErrors.length ? (
+                  recentProviderErrors.slice(0, 4).map((error) => (
+                    <p key={error} className="truncate text-xs font-bold leading-6 text-amber-700">{error}</p>
+                  ))
+                ) : (
+                  <p className="text-xs font-black text-emerald-700">최근 provider 오류 없음</p>
+                )}
+                <p className="mt-2 text-[11px] font-bold text-slate-400">
+                  Push: {pushReadiness.configured ? "FCM 발송 가능" : "FCM 키 입력 전 구조 준비"} · 숨김 상태는 Supabase admin_actions로 영구화 가능
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
 
         <section className="rounded-3xl border border-red-100 bg-white p-5 shadow-sm">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">

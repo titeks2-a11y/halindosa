@@ -10,12 +10,23 @@
   --brand-red-ink: #8f001b;
   --brand-red-soft: #fff1f4;
   --brand-red-tint: #ffe4ea;
-  background: #f8fafc;
+  --brand-coral: #ff6a3d;
+  --brand-orange: #ff8a1f;
+  --brand-gold: #f6c343;
+  --brand-amber: #f59e0b;
+  --brand-navy: #172554;
+  --brand-ink: #111827;
+  --brand-steel: #334155;
+  --brand-line: #e8e2d9;
+  --brand-canvas: #fbfaf7;
+  --brand-warm: #f5f1ea;
+  --brand-surface: #fffdf8;
+  background: #fbfaf7;
 }
 
 html {
   min-height: 100%;
-  background: #f8fafc;
+  background: #fbfaf7;
   scroll-behavior: smooth;
 }
 
@@ -27,7 +38,7 @@ body {
   margin: 0;
   min-height: 100vh;
   overflow-x: hidden;
-  background: #f7f8fb;
+  background: radial-gradient(circle at top left, rgba(255, 106, 61, 0.08), transparent 26rem), #fbfaf7;
   color: #111827;
   font-family:
     Arial,
@@ -36,6 +47,7 @@ body {
     sans-serif;
   -webkit-tap-highlight-color: transparent;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
   overscroll-behavior-y: none;
 }
 
@@ -69,4 +81,14 @@ a {
 
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
+}
+
+.commerce-surface {
+  border: 1px solid rgba(232, 226, 217, 0.92);
+  background: rgba(255, 253, 248, 0.98);
+  box-shadow: 0 18px 45px rgba(17, 24, 39, 0.08);
+}
+
+.commerce-gradient {
+  background: linear-gradient(135deg, #ff173f 0%, #ff6a3d 58%, #ff8a1f 100%);
 }
