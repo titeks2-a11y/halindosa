@@ -93,16 +93,16 @@ function withTimeout(ms) {
   return { controller, timeout };
 }
 
-async function probeUrl(url, method) {
+async function probeUrl(url, method, timeoutOverrideMs = timeoutMs) {
   const startedAt = Date.now();
-  const { controller, timeout } = withTimeout(timeoutMs);
+  const { controller, timeout } = withTimeout(timeoutOverrideMs);
   try {
     const response = await fetch(url, {
       method,
       redirect: "follow",
       signal: controller.signal,
       headers: {
-        "user-agent": "HalindosaSourceReadiness/1.0 (+https://halindosa.app)",
+        "user-agent": "HalindosaSourceReadiness/1.0",
         accept: method === "HEAD" ? "*/*" : "text/html,application/xhtml+xml,application/json;q=0.9,*/*;q=0.8"
       }
     });
@@ -166,7 +166,10 @@ function classify(source, result) {
     };
   }
 
-  if ([401, 403, 429, 451].includes(httpStatus)) {
+  const guardedHttpStatuses = Array.isArray(source.guardedHttpStatuses)
+    ? source.guardedHttpStatuses.map(Number).filter(Boolean)
+    : [];
+  if ([401, 403, 429, 451].includes(httpStatus) || guardedHttpStatuses.includes(httpStatus)) {
     return {
       status: "guarded",
       reason: httpStatus === 429 ? "rate_limited" : "waf_or_permission_guarded",
@@ -199,9 +202,18 @@ function classify(source, result) {
 
 async function probeSource(source) {
   const checkedAt = new Date().toISOString();
-  let result = await probeUrl(source.officialUrl, "HEAD");
-  if (!result.ok || [405, 403, 406, 429, 501].includes(Number(result.httpStatus ?? 0))) {
-    result = await probeUrl(source.officialUrl, "GET");
+  const sourceTimeoutMs = Number(source.probeTimeoutMs ?? timeoutMs);
+  const retryTimeoutMs = Number(source.probeRetryTimeoutMs ?? Math.max(sourceTimeoutMs, timeoutMs * 2));
+  const preferredMethod = String(source.preferredProbeMethod ?? "HEAD").toUpperCase();
+  let result =
+    preferredMethod === "GET"
+      ? await probeUrl(source.officialUrl, "GET", sourceTimeoutMs)
+      : await probeUrl(source.officialUrl, "HEAD", sourceTimeoutMs);
+  if (preferredMethod !== "GET" && (!result.ok || [405, 403, 406, 429, 501].includes(Number(result.httpStatus ?? 0)))) {
+    result = await probeUrl(source.officialUrl, "GET", sourceTimeoutMs);
+  }
+  if (!result.ok && result.error === "timeout" && retryTimeoutMs > sourceTimeoutMs) {
+    result = await probeUrl(source.officialUrl, "GET", retryTimeoutMs);
   }
   const classification = classify(source, result);
 
