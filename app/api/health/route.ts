@@ -3,6 +3,7 @@ import { getDeals } from "@/lib/dealService";
 import { buildPersonalizationReadiness } from "@/lib/analytics";
 import { buildClaimEffortSummary } from "@/lib/deals/claimEffort";
 import { getNewsOperationsReport } from "@/lib/deals/newsOperations";
+import { getCronRefreshOperationsReport } from "@/lib/operations/cronRefresh";
 import { getOperationalEnvReadiness } from "@/lib/operations/envReadiness";
 
 export async function GET() {
@@ -30,6 +31,7 @@ export async function GET() {
       claimEffortSummary.groups.map((group) => [group.effort, group.count])
     );
     const operationalEnvReadiness = getOperationalEnvReadiness();
+    const cronRefresh = getCronRefreshOperationsReport();
     const newsOperations = getNewsOperationsReport();
     const officialBenefitReadyCategories = newsOperations.categoryCoverage.filter((item) => item.status === "ready").length;
     const officialBenefitWeakCategories = newsOperations.categoryCoverage.filter((item) => item.status !== "ready").length;
@@ -94,6 +96,16 @@ export async function GET() {
         officialBenefitFeedSeedOnlyProviders: officialBenefitFeedTransition.seedOnlyProviders,
         officialBenefitConfiguredFeedUrls: officialBenefitFeedTransition.configuredFeedUrls,
         officialBenefitFeedRecommendedEnvKeys: officialBenefitFeedTransition.recommendedNextEnvKeys.slice(0, 5),
+        cronRefreshStatus: cronRefresh.status,
+        cronRefreshOk: cronRefresh.ok,
+        cronRefreshProtected: cronRefresh.protected,
+        cronRefreshSchedule: cronRefresh.schedule,
+        cronRefreshLastRunAt: cronRefresh.generatedAt,
+        cronRefreshAgeHours: cronRefresh.ageHours,
+        cronRefreshReportPath: cronRefresh.reportPath,
+        cronRefreshSecretConfigured: cronRefresh.secretConfigured,
+        cronRefreshProductDealsCount: cronRefresh.productDealsCount,
+        cronRefreshNewsDealsCount: cronRefresh.newsDealsCount,
         activeDeals: activeDeals.length,
         freeBenefitDeals: freeBenefitDeals.length
       },

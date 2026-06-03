@@ -24,6 +24,7 @@ import { buildNotificationCampaigns, buildOfficialBenefitNotificationCampaigns, 
 import { buildPushSubscriptionReadiness } from "@/lib/pushReadiness";
 import { getPushReadiness } from "@/lib/pushNotifications";
 import { getReportSummary, listDealReports } from "@/lib/reports";
+import { getCronRefreshOperationsReport } from "@/lib/operations/cronRefresh";
 import { getExposurePolicyReport } from "@/lib/operations/exposurePolicy";
 import { getHealthReadinessReport } from "@/lib/operations/healthReadiness";
 
@@ -82,6 +83,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const refreshReport = getRefreshDealsReport();
   const newsOperations = getNewsOperationsReport();
   const healthReadiness = getHealthReadinessReport();
+  const cronRefresh = getCronRefreshOperationsReport();
   const exposurePolicy = getExposurePolicyReport();
   const newsResult = getVisibleNewsDeals({ limit: 20 });
   const newsDeals = newsResult.deals;
@@ -117,6 +119,9 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const healthReadinessApiHref = isAdminProtectionEnabled()
     ? `/api/admin/health-readiness?token=${encodeURIComponent(token ?? "")}`
     : "/api/admin/health-readiness";
+  const cronRefreshDryRunHref = isAdminProtectionEnabled()
+    ? `/api/cron/refresh?dryRun=true&token=${encodeURIComponent(token ?? "")}`
+    : "/api/cron/refresh?dryRun=true&token=local-admin";
   const exposurePolicyApiHref = isAdminProtectionEnabled()
     ? `/api/admin/exposure-policy?token=${encodeURIComponent(token ?? "")}`
     : "/api/admin/exposure-policy";
@@ -474,6 +479,78 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
         </section>
 
         <AdminHealthReadinessPanel report={healthReadiness} apiHref={healthReadinessApiHref} />
+
+        <section className="rounded-3xl border border-brand-line bg-white p-5 shadow-lift" aria-label="자동 refresh cron 운영 상태">
+          <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+            <div>
+              <p className="text-xs font-black text-brand-red">자동 refresh cron 운영</p>
+              <h2 className="mt-1 text-xl font-black text-slate-950">6시간마다 검증 데이터 갱신 상태를 확인합니다</h2>
+              <p className="mt-1 text-sm font-semibold leading-6 text-slate-500">
+                Vercel Cron이 `/api/cron/refresh`를 호출하고, 결과는 `reports/cron-refresh.json`과 `reports/refresh-all.json`로 남습니다.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <span className={`rounded-full px-3 py-1 text-xs font-black ${cronRefresh.ok ? "bg-emerald-50 text-emerald-700" : "bg-red-50 text-brand-red"}`}>
+                {cronRefresh.label}
+              </span>
+              <span className="rounded-full bg-brand-warm px-3 py-1 text-xs font-black text-slate-700">
+                {cronRefresh.schedule}
+              </span>
+              <span className={`rounded-full px-3 py-1 text-xs font-black ${cronRefresh.secretConfigured ? "bg-emerald-50 text-emerald-700" : "bg-amber-50 text-amber-700"}`}>
+                CRON_SECRET {cronRefresh.secretConfigured ? "설정됨" : "배포 전 설정"}
+              </span>
+            </div>
+          </div>
+
+          <div className="mt-4 grid gap-3 md:grid-cols-4">
+            {[
+              ["상품 특가", cronRefresh.productDealsCount],
+              ["공식 혜택", cronRefresh.newsDealsCount],
+              ["숨김 처리", cronRefresh.hiddenCount],
+              ["실패", cronRefresh.failedCount]
+            ].map(([label, value]) => (
+              <div key={label} className="rounded-2xl bg-brand-warm p-4">
+                <p className="text-xs font-black text-slate-500">{label}</p>
+                <p className="mt-2 text-2xl font-black text-slate-950">{Number(value).toLocaleString("ko-KR")}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-4 grid gap-3 lg:grid-cols-[0.9fr_1.1fr]">
+            <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
+              <p className="text-sm font-black text-slate-950">마지막 cron 실행</p>
+              <p className="mt-2 text-xs font-bold leading-5 text-slate-600">
+                {cronRefresh.generatedAt ? `${getRelativeTime(cronRefresh.generatedAt)} · ${cronRefresh.ageHours ?? 0}시간 경과` : "아직 직접 실행 리포트 없음"}
+              </p>
+              <p className="mt-2 text-xs font-black text-brand-red">
+                상태 {cronRefresh.status} · refresh:all {cronRefresh.refreshAllOk ? "정상" : "점검"}
+              </p>
+              <p className="mt-2 text-[11px] font-bold leading-5 text-slate-500">
+                {cronRefresh.message}
+              </p>
+            </div>
+            <div className="rounded-2xl border border-red-100 bg-red-50 p-4">
+              <p className="text-sm font-black text-slate-950">다음 운영 액션</p>
+              <p className="mt-2 text-xs font-bold leading-5 text-slate-600">{cronRefresh.nextAction}</p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                <a
+                  href={cronRefreshDryRunHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-2xl bg-brand-red px-4 py-2 text-xs font-black text-white"
+                >
+                  dry-run 확인
+                </a>
+                <code className="rounded-2xl bg-white px-3 py-2 text-[11px] font-black text-slate-700">
+                  {cronRefresh.command}
+                </code>
+              </div>
+              <p className="mt-3 text-[11px] font-bold leading-5 text-red-900/70">
+                {cronRefresh.guardrails[0]} · {cronRefresh.guardrails[1]}
+              </p>
+            </div>
+          </div>
+        </section>
 
         <section className="rounded-3xl border border-brand-line bg-white p-5 shadow-lift" aria-label="뉴스 수집 현황">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">

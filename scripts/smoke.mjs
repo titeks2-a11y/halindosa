@@ -604,6 +604,8 @@ await check("admin dashboard quality cards", async () => {
   assert(text.includes("주간 혜택 편성 캘린더") && text.includes("요일별로 채워야 할 재방문 루틴"), "Admin dashboard missing weekly benefit calendar operation board");
   assert(text.includes("주간 캘린더 JSON 보기") && text.includes("실구매 특가 재확인"), "Admin dashboard missing weekly calendar API/action guidance");
   assert(text.includes("운영 피드 전환 준비도") && text.includes("공식 API·제휴 피드로 바꿀 때 볼 품질 기준"), "Admin dashboard missing source readiness operation board");
+  assert(text.includes("자동 refresh cron 운영") && text.includes("6시간마다 검증 데이터 갱신 상태를 확인합니다"), "Admin dashboard missing cron refresh operation board");
+  assert(text.includes("CRON_SECRET") && text.includes("reports/cron-refresh.json") && text.includes("dry-run 확인"), "Admin dashboard missing cron refresh secret/report/dry-run guidance");
   assert(text.includes("파트너 피드 사전 검수 리포트") && text.includes("ready / needs_fix 행을 먼저 분리합니다"), "Admin dashboard missing partner feed validation report board");
   assert(text.includes("readyRate") && text.includes("운영 반영 전 목표는 100%"), "Admin dashboard missing partner feed ready rate summary");
   assert(text.includes("feed:validate --report") && text.includes("feed:production:doctor"), "Admin dashboard missing feed validation command guidance");
@@ -1224,6 +1226,12 @@ await check("health api", async () => {
   assert(typeof data.checks?.officialBenefitFeedConfiguredProviders === "number", "Health API missing configured official feed provider count");
   assert(typeof data.checks?.officialBenefitFeedSeedOnlyProviders === "number", "Health API missing seed-only official feed provider count");
   assert(Array.isArray(data.checks?.officialBenefitFeedRecommendedEnvKeys), "Health API missing recommended official feed env keys");
+  assert(["healthy", "manual_refresh_ready", "stale", "failed"].includes(data.checks?.cronRefreshStatus), "Health API missing cron refresh status");
+  assert(data.checks?.cronRefreshProtected === true, "Health API missing protected cron refresh evidence");
+  assert(data.checks?.cronRefreshSchedule === "0 */6 * * *", "Health API missing 6-hour cron refresh schedule");
+  assert(data.checks?.cronRefreshReportPath === "reports/cron-refresh.json", "Health API missing cron refresh report path");
+  assert(data.checks?.cronRefreshProductDealsCount >= 140, "Health API missing cron refresh product count");
+  assert(data.checks?.cronRefreshNewsDealsCount >= 25, "Health API missing cron refresh news count");
 });
 
 await check("today benefits api", async () => {
