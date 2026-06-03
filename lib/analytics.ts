@@ -538,19 +538,37 @@ export function buildImageQualityReadiness(deals: Deal[]) {
   }));
   const mallQueue = Array.from(byMall.values())
     .filter((item) => item.fallback > 0)
-    .map((item) => ({
-      mallName: item.mallName,
-      total: item.total,
-      fallback: item.fallback,
-      fallbackRate: Math.round((item.fallback / item.total) * 100),
-      priorityScore: item.priorityScore,
-      sampleTitles: item.samples.map((deal) => deal.title),
-      action:
-        item.fallback >= 8
-          ? `${item.mallName} 제휴/운영 피드에서 imageUrl 일괄 보강 요청`
-          : `${item.mallName} 클릭 상위 상품부터 판매처 대표 이미지를 수동 보강`,
-      feedContractHint: "상품 상세 URL, 대표 이미지 URL, 이미지 사용 권한, 최신 가격 기준 시각을 함께 확인"
-    }))
+    .map((item) => {
+      const recommendedAcquisition =
+        item.fallback >= 8 ? "partner_feed" : item.fallback >= 3 ? "official_batch" : "manual_review";
+      const operationOwner =
+        recommendedAcquisition === "partner_feed"
+          ? "제휴/운영 피드 담당"
+          : recommendedAcquisition === "official_batch"
+            ? "상품 운영 담당"
+            : "데일리 검수 담당";
+      const slaDays = recommendedAcquisition === "partner_feed" ? 3 : recommendedAcquisition === "official_batch" ? 5 : 7;
+
+      return {
+        mallName: item.mallName,
+        total: item.total,
+        fallback: item.fallback,
+        fallbackRate: Math.round((item.fallback / item.total) * 100),
+        priorityScore: item.priorityScore,
+        recommendedAcquisition,
+        operationOwner,
+        slaDays,
+        sampleIds: item.samples.map((deal) => deal.id),
+        sampleTitles: item.samples.map((deal) => deal.title),
+        action:
+          recommendedAcquisition === "partner_feed"
+            ? `${item.mallName} 제휴/운영 피드에서 imageUrl 일괄 보강 요청`
+            : recommendedAcquisition === "official_batch"
+              ? `${item.mallName} 공식 상품 상세 이미지 후보를 묶음 검수`
+              : `${item.mallName} 클릭 상위 상품부터 판매처 대표 이미지를 수동 보강`,
+        feedContractHint: "상품 상세 URL, 대표 이미지 URL, 이미지 사용 권한, 최신 가격 기준 시각을 함께 확인"
+      };
+    })
     .sort((a, b) => b.priorityScore - a.priorityScore || b.fallback - a.fallback)
     .slice(0, 8);
   const sourcingPlan = {

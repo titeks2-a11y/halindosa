@@ -1242,6 +1242,10 @@ await check("admin image queue api", async () => {
   assert(data.imageQuality?.realImageRate >= 0, "Admin image queue missing real image rate");
   assert(Array.isArray(data.imageQuality?.categoryQueue) && data.imageQuality.categoryQueue.length >= 1, "Admin image queue missing category queue");
   assert(Array.isArray(data.imageQuality?.mallQueue) && data.imageQuality.mallQueue.length >= 1, "Admin image queue missing mall feed queue");
+  assert(
+    data.imageQuality.mallQueue.every((item) => item.recommendedAcquisition && item.operationOwner && Number.isFinite(item.slaDays) && Array.isArray(item.sampleIds)),
+    "Admin image mall queue missing acquisition, owner, SLA, or sample IDs"
+  );
   assert(data.imageQuality?.sourcingPlan?.launchTargetRate === 60, "Admin image queue missing 60% launch image target");
   assert(data.imageQuality.sourcingPlan.gapToLaunchTarget >= 0, "Admin image queue missing image launch gap");
   assert(data.imageQuality.sourcingPlan.weeklySourcingTarget >= 0, "Admin image queue missing weekly image sourcing target");

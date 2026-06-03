@@ -1294,8 +1294,25 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                       <span>{item.mallName}</span>
                       <span className="text-dossa-red">{item.fallback}개</span>
                     </div>
+                    <div className="mt-2 flex flex-wrap gap-1.5">
+                      <span className="rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-slate-600 shadow-sm">
+                        {item.recommendedAcquisition === "partner_feed"
+                          ? "제휴 피드"
+                          : item.recommendedAcquisition === "official_batch"
+                            ? "공식 이미지 묶음"
+                            : "수동 검수"}
+                      </span>
+                      <span className="rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-brand-navy shadow-sm">
+                        {item.operationOwner}
+                      </span>
+                      <span className="rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-dossa-red shadow-sm">
+                        {item.slaDays}일 내
+                      </span>
+                    </div>
                     <p className="mt-1 text-xs font-bold leading-5 text-slate-500">{item.action}</p>
-                    <p className="mt-1 line-clamp-1 text-[11px] font-semibold text-slate-400">예: {item.sampleTitles.join(", ")}</p>
+                    <p className="mt-1 line-clamp-1 text-[11px] font-semibold text-slate-400">
+                      예: {item.sampleTitles.join(", ")} · ID {item.sampleIds.join(", ")}
+                    </p>
                   </div>
                 ))}
               </div>

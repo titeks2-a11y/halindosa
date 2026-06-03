@@ -134,6 +134,10 @@ const checks = [
       adminPage.includes("이미지 보강 실행 계획") &&
       adminPage.includes("주간 보강 배치 상세") &&
       adminPage.includes("판매처별 피드 보강 우선순위") &&
+      adminPage.includes("recommendedAcquisition") &&
+      adminPage.includes("operationOwner") &&
+      adminPage.includes("slaDays") &&
+      adminPage.includes("sampleIds") &&
       adminPage.includes("imageQuality.categoryQueue") &&
       adminPage.includes("imageQuality.mallQueue") &&
       adminPage.includes("imageQuality.sourcingPlan") &&
@@ -148,13 +152,20 @@ const checks = [
       analytics.includes("gapToLaunchTarget") &&
       analytics.includes("weeklySourcingTarget") &&
       analytics.includes("feedRequirement") &&
+      analytics.includes("recommendedAcquisition") &&
+      analytics.includes("operationOwner") &&
+      analytics.includes("slaDays") &&
       analytics.includes("priorityReason") &&
       analytics.includes("sourcingPriority") &&
       imageQueueRoute.includes("launchTargetRate") &&
       imageQueueRoute.includes("weeklySourcingTarget") &&
+      imageQueueRoute.includes("primaryMallAcquisition") &&
+      imageQueueRoute.includes("primaryMallOwner") &&
+      imageQueueRoute.includes("primaryMallSlaDays") &&
       imageQueueRoute.includes("priorityReason") &&
       smoke.includes("Admin image queue missing 60% launch image target") &&
       smoke.includes("Admin image queue missing weekly image sourcing batch details") &&
+      smoke.includes("Admin image mall queue missing acquisition, owner, SLA, or sample IDs") &&
       smoke.includes("Admin dashboard missing image sourcing execution plan"),
     message: "이미지 보강 큐는 공개 운영 목표, 보강 갭, 주간 처리 목표를 API와 관리자 화면에 노출해야 합니다."
   },

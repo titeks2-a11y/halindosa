@@ -65,6 +65,11 @@ export async function GET(request: Request) {
         weeklySourcingTarget: imageQuality.sourcingPlan.weeklySourcingTarget,
         operationCadence: imageQuality.sourcingPlan.operationCadence,
         finalPurchaseUrl: deal.finalPurchaseUrl,
+        primaryMallQueue: imageQuality.mallQueue[0]?.mallName ?? "",
+        primaryMallAction: imageQuality.mallQueue[0]?.action ?? "",
+        primaryMallAcquisition: imageQuality.mallQueue[0]?.recommendedAcquisition ?? "",
+        primaryMallOwner: imageQuality.mallQueue[0]?.operationOwner ?? "",
+        primaryMallSlaDays: imageQuality.mallQueue[0]?.slaDays ?? "",
         source,
         exportedAt: updatedAt
       }))
