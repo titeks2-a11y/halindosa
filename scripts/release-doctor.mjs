@@ -2520,6 +2520,18 @@ async function checkOperationalDataSurfaces() {
   if (!linkReport.httpStatusSummary || !("http404" in linkReport.httpStatusSummary) || !("robotsBlocked" in linkReport.httpStatusSummary)) {
     linkPolicyIssues.push("link-validation report should record HTTP/redirect summary");
   }
+  if (
+    !linkReport.liveProbeReviewSummary ||
+    !("hardFailureCount" in linkReport.liveProbeReviewSummary) ||
+    !("accessProtectedCount" in linkReport.liveProbeReviewSummary) ||
+    !linkReport.liveProbeReasonCounts ||
+    !linkReport.liveProbeHostFailureCounts
+  ) {
+    linkPolicyIssues.push("link-validation report should separate hard live failures from seller access protections");
+  }
+  if ((linkReport.liveProbeReviewSummary?.hardFailureCount ?? 0) !== 0 || (linkReport.liveProbeReviewSummary?.sellerUnavailableSignals ?? 0) !== 0) {
+    linkPolicyIssues.push("link-validation live probe should have zero hard failures and zero unavailable-text signals for launch");
+  }
   if (!linkReport.liveProbe?.enabled || (linkReport.liveProbe?.checked ?? 0) < (linkReport.totalDeals ?? 0)) {
     linkPolicyIssues.push("link-validation report should include a non-strict live probe pass over every curated deal before release evidence is accepted");
   }

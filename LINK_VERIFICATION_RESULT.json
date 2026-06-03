@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-03T18:22:59.072Z",
+  "generatedAt": "2026-06-03T18:41:10.258Z",
   "totalDeals": 140,
   "verificationTargets": 140,
   "passedDirectLinks": 140,
@@ -24,15 +24,15 @@
     "bodyProbe": false,
     "timeoutMs": 5000,
     "checked": 140,
-    "passed": 63,
-    "failed": 77,
+    "passed": 62,
+    "failed": 78,
     "redirected": 12,
     "finalUrlChanged": 12,
     "http404": 0,
     "http410": 0,
     "http5xx": 0,
     "timeout": 0,
-    "robotsBlocked": 61,
+    "robotsBlocked": 62,
     "unavailableText": 0,
     "failures": [
       {
@@ -123,6 +123,13 @@
         "id": "d019",
         "url": "https://store.ohou.se/goods/1306932",
         "finalUrl": "https://store.ohou.se/goods/1306932",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d022",
+        "url": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000188040",
+        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000188040",
         "status": 403,
         "reason": "robots_or_access_blocked"
       },
@@ -583,7 +590,7 @@
     "http410": 0,
     "http5xx": 0,
     "timeout": 0,
-    "robotsBlocked": 61,
+    "robotsBlocked": 62,
     "unavailableText": 0
   },
   "policy": {
@@ -614,6 +621,30 @@
     "failedItems": 0,
     "averagePriorityScore": 100
   },
+  "liveProbeReviewSummary": {
+    "status": "access_protected_review",
+    "hardFailureCount": 0,
+    "accessProtectedCount": 62,
+    "sellerUnavailableSignals": 0,
+    "interpretation": "Failed live checks are seller access protections or non-strict request failures; no exposed search, sold-out, 404, 410, or 5xx links were found."
+  },
+  "liveProbeReasonCounts": {
+    "robots_or_access_blocked": 62,
+    "http_429": 13,
+    "request_failed": 3
+  },
+  "liveProbeHostFailureCounts": {
+    "item.gmarket.co.kr": 30,
+    "coupang.com": 23,
+    "ssg.com": 13,
+    "oliveyoung.co.kr": 7,
+    "hyundaicard.com": 1,
+    "itempage3.auction.co.kr": 1,
+    "store.ohou.se": 1,
+    "tmembership.co.kr": 1,
+    "tour.interpark.com": 1
+  },
+  "hardLiveProbeFailures": [],
   "auditedItems": [
     {
       "id": "d001",
@@ -1252,7 +1283,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-01T01:10:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "oliveyoung.co.kr",
       "evidence": "올리브영 JMW BLDC 에어원 드라이어 MC4B03C 상품 상세",
@@ -1264,10 +1295,13 @@
         "productDetailUrl": true,
         "officialBenefitUrl": false,
         "unavailableText": false,
-        "liveProbeOk": true
+        "liveProbeOk": false
       },
       "liveProbe": {
-        "ok": true
+        "ok": false,
+        "status": 403,
+        "reason": "robots_or_access_blocked",
+        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000188040"
       }
     },
     {

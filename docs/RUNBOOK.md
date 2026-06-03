@@ -190,7 +190,7 @@ SEO 규칙은 root metadata, Open Graph, canonical, manifest, sitemap, robots, �
   - 검증 스크립트는 커뮤니티, placeholder, 쇼핑몰 메인, 검색/카테고리 URL을 실패로 처리한다.
   - 검증 스크립트는 상품 상세 URL과 공식 혜택/이벤트 URL을 분리해 집계한다. 상품 상세 신호가 없는 공식 이벤트성 혜택은 evidence에 공식 이벤트, 쿠폰, 초대권, 멤버십 등 검수 근거가 있어야 통과한다.
   - `reports/link-validation.json`은 `policy.source`, `httpStatusSummary`, 검색 링크 수, 품절/종료 신호 수, hidden 처리 수와 상품별 `auditedItems`를 기록한다. Play Store 제출 전에는 검색 링크 0건, 품절/종료 노출 0건, `visibleDeals=140` 이상을 확인한다.
-  - `npm run qa`는 non-strict `npm run verify:links:live`를 포함해 Windows에서도 동일하게 redirect, 404, 410, 5xx, timeout, 접근 차단 신호를 `reports/link-validation.json`에 기록한다. `--strict`는 live probe 실패를 릴리즈 차단으로 보고, `--body`는 작은 응답 본문에서 품절/판매종료 문구까지 확인한다.
+  - `npm run qa`는 non-strict `npm run verify:links:live`를 포함해 Windows에서도 동일하게 redirect, 404, 410, 5xx, timeout, 접근 차단 신호를 `reports/link-validation.json`에 기록한다. `liveProbeReviewSummary.hardFailureCount`, `liveProbeReasonCounts`, `liveProbeHostFailureCounts`를 먼저 확인해 실제 조치가 필요한 실패와 쇼핑몰 접근 보호를 분리한다. `--strict`는 live probe 실패를 릴리즈 차단으로 보고, `--body`는 작은 응답 본문에서 품절/판매종료 문구까지 확인한다.
   - `403`, `429`, `robots_or_access_blocked`는 쇼핑몰의 자동 접근 보호 정책일 수 있으므로, 그 자체만으로 상품을 품절/종료 처리하지 않는다. 대신 `/admin`의 `라이브 실패 사유 분포`와 `reports/exposure-policy.json.liveProbeFailureReasonCounts`에서 사유를 확인하고, 검색 링크·대표몰 이동·품절 문구·404/410이 함께 있을 때만 숨김 또는 URL 보강 대상으로 본다.
   - 라이브 검증 후에는 `npm run verify:products && npm run exposure:doctor`를 다시 실행해 `reports/product-quality.json`, `reports/exposure-policy.json`, `/api/admin/exposure-policy`에 live probe 요약, 실패 사유 분포, 상품별 감사 행이 함께 반영되도록 한다.
   - `reports/product-quality.json`은 같은 정책의 `exposurePolicy`를 기록하고 `/api/deals` 노출 조건과 리포트 조건이 어긋나면 `verify:products`에서 실패한다.

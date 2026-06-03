@@ -439,6 +439,48 @@ const exposureAudit = {
   failedItems: auditedItems.filter((item) => item.validationStatus === "failed").length,
   averagePriorityScore: auditedItems.length ? Math.round(auditedItems.reduce((sum, item) => sum + item.priorityScore, 0) / auditedItems.length) : 0
 };
+const liveProbeReasonCounts = liveProbe.failures.reduce((counts, failure) => {
+  counts.set(failure.reason, (counts.get(failure.reason) ?? 0) + 1);
+  return counts;
+}, new Map());
+const liveProbeHostFailureCounts = liveProbe.failures.reduce((counts, failure) => {
+  let host = "unknown";
+
+  try {
+    host = new URL(failure.finalUrl || failure.url).hostname.replace(/^www\./, "").toLowerCase();
+  } catch {
+    host = "invalid_url";
+  }
+
+  counts.set(host, (counts.get(host) ?? 0) + 1);
+  return counts;
+}, new Map());
+const hardLiveProbeFailures = liveProbe.failures.filter((failure) => {
+  if (failure.reason === "robots_or_access_blocked") return false;
+  if (failure.reason === "request_failed") return false;
+  if (failure.reason === "timeout") return true;
+  if (failure.reason === "sold_out_or_ended_text") return true;
+  return failure.status === 404 || failure.status === 410 || failure.status >= 500;
+});
+const liveProbeReviewSummary = {
+  status: !liveProbe.enabled
+    ? "disabled"
+    : hardLiveProbeFailures.length
+      ? "needs_review"
+      : liveProbe.failed
+        ? "access_protected_review"
+        : "clear",
+  hardFailureCount: hardLiveProbeFailures.length,
+  accessProtectedCount: liveProbe.robotsBlocked,
+  sellerUnavailableSignals: liveProbe.unavailableText,
+  interpretation: !liveProbe.enabled
+    ? "Live probe is disabled for this run."
+    : hardLiveProbeFailures.length
+      ? "Some URLs returned hard failure signals and should be reviewed before launch."
+      : liveProbe.failed
+        ? "Failed live checks are seller access protections or non-strict request failures; no exposed search, sold-out, 404, 410, or 5xx links were found."
+        : "All live checks passed."
+};
 
 const report = {
   generatedAt: new Date().toISOString(),
@@ -483,6 +525,10 @@ const report = {
     ...linkQualityPolicy.exposurePolicy
   },
   exposureAudit,
+  liveProbeReviewSummary,
+  liveProbeReasonCounts: Object.fromEntries([...liveProbeReasonCounts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))),
+  liveProbeHostFailureCounts: Object.fromEntries([...liveProbeHostFailureCounts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).slice(0, 30)),
+  hardLiveProbeFailures,
   auditedItems,
   excludedReasonCounts: Object.fromEntries([...excludedReasonCounts.entries()].sort(([a], [b]) => a.localeCompare(b))),
   domainCounts: Object.fromEntries([...domainCounts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))),
@@ -519,6 +565,23 @@ Generated: ${report.generatedAt}
 | Live probe 실패 | ${report.liveProbe.failed} |
 | Live probe robots/access 차단 | ${report.liveProbe.robotsBlocked} |
 | Live probe timeout | ${report.liveProbe.timeout} |
+| Live probe hard failure | ${report.liveProbeReviewSummary.hardFailureCount} |
+
+## Live Probe Review
+
+- 상태: ${report.liveProbeReviewSummary.status}
+- 해석: ${report.liveProbeReviewSummary.interpretation}
+- 404/410/5xx/timeout/품절 본문 같은 강한 실패 신호: ${report.liveProbeReviewSummary.hardFailureCount}
+- 쇼핑몰 접근 보호 또는 robots/access 차단: ${report.liveProbeReviewSummary.accessProtectedCount}
+- 품절/판매종료 본문 감지: ${report.liveProbeReviewSummary.sellerUnavailableSignals}
+
+### Live Probe Failure Reasons
+
+${Object.entries(report.liveProbeReasonCounts).length ? Object.entries(report.liveProbeReasonCounts).map(([reason, count]) => `- ${reason}: ${count}`).join("\n") : "- 없음"}
+
+### Live Probe Failed Hosts
+
+${Object.entries(report.liveProbeHostFailureCounts).length ? Object.entries(report.liveProbeHostFailureCounts).map(([host, count]) => `- ${host}: ${count}`).join("\n") : "- 없음"}
 
 ## Excluded Reasons
 
