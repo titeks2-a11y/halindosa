@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { canAccessAdmin } from "@/lib/adminAuth";
 import { createRequestId, getClientKey, rateLimit, rateLimitHeaders } from "@/lib/apiGuards";
+import type { NotificationCampaignPriority } from "@/lib/notificationCampaigns";
 import { getPushReadiness, type PushAlertType, sendPushNotification } from "@/lib/pushNotifications";
 
 export async function GET(request: Request) {
@@ -49,6 +50,9 @@ export async function POST(request: Request) {
     campaignId?: string;
     sourceKind?: "product_deal" | "official_benefit";
     alertType?: PushAlertType;
+    priority?: NotificationCampaignPriority;
+    scheduledAt?: string;
+    confirmedConsent?: boolean;
     dryRun?: boolean;
   };
 
@@ -65,6 +69,9 @@ export async function POST(request: Request) {
     campaignId: body.campaignId,
     sourceKind: body.sourceKind,
     alertType: body.alertType,
+    priority: body.priority,
+    scheduledAt: body.scheduledAt,
+    confirmedConsent: Boolean(body.confirmedConsent),
     dryRun: body.dryRun
   });
   const status = result.configured || body.dryRun ? 200 : 503;

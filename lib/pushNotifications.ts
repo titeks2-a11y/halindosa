@@ -1,3 +1,6 @@
+import { evaluateNotificationDelivery, type NotificationDeliveryPolicyDecision } from "@/lib/notificationDeliveryPolicy";
+import type { NotificationCampaignPriority } from "@/lib/notificationCampaigns";
+
 export type PushAlertType =
   | "deal"
   | "deal_registered"
@@ -16,6 +19,9 @@ export interface PushSendInput {
   campaignId?: string;
   sourceKind?: "product_deal" | "official_benefit";
   alertType?: PushAlertType;
+  priority?: NotificationCampaignPriority;
+  scheduledAt?: string;
+  confirmedConsent?: boolean;
   dryRun?: boolean;
 }
 
@@ -25,6 +31,7 @@ export interface PushSendResult {
   sent: number;
   failed: number;
   message: string;
+  deliveryPolicy?: NotificationDeliveryPolicyDecision;
 }
 
 function getFcmServerKey() {
@@ -50,6 +57,13 @@ function normalizeTokens(tokens: string[]) {
 export async function sendPushNotification(input: PushSendInput): Promise<PushSendResult> {
   const tokens = normalizeTokens(input.tokens);
   const readiness = getPushReadiness();
+  const deliveryPolicy = evaluateNotificationDelivery({
+    tokens,
+    dryRun: input.dryRun,
+    priority: input.priority,
+    scheduledAt: input.scheduledAt,
+    confirmedConsent: input.confirmedConsent
+  });
 
   if (!tokens.length) {
     return {
@@ -57,7 +71,19 @@ export async function sendPushNotification(input: PushSendInput): Promise<PushSe
       attempted: 0,
       sent: 0,
       failed: 0,
-      message: "발송 대상 토큰이 없습니다."
+      message: "발송 대상 토큰이 없습니다.",
+      deliveryPolicy
+    };
+  }
+
+  if (!deliveryPolicy.ok) {
+    return {
+      configured: readiness.configured,
+      attempted: tokens.length,
+      sent: 0,
+      failed: tokens.length,
+      message: `알림 발송 정책으로 차단되었습니다: ${deliveryPolicy.reasons.join(", ")}`,
+      deliveryPolicy
     };
   }
 
@@ -67,7 +93,8 @@ export async function sendPushNotification(input: PushSendInput): Promise<PushSe
       attempted: tokens.length,
       sent: 0,
       failed: 0,
-      message: "dry-run으로 발송 대상만 검증했습니다."
+      message: "dry-run으로 발송 대상만 검증했습니다.",
+      deliveryPolicy
     };
   }
 
@@ -77,7 +104,8 @@ export async function sendPushNotification(input: PushSendInput): Promise<PushSe
       attempted: tokens.length,
       sent: 0,
       failed: tokens.length,
-      message: "FCM 발송 환경변수가 설정되지 않았습니다."
+      message: "FCM 발송 환경변수가 설정되지 않았습니다.",
+      deliveryPolicy
     };
   }
 
@@ -99,6 +127,8 @@ export async function sendPushNotification(input: PushSendInput): Promise<PushSe
         campaignId: input.campaignId ?? "",
         alertType: input.alertType ?? "deal",
         sourceKind: input.sourceKind ?? "product_deal",
+        scheduledAt: input.scheduledAt ?? "",
+        nextAllowedAt: deliveryPolicy.nextAllowedAt,
         source: "halindosa"
       }
     })
@@ -110,7 +140,8 @@ export async function sendPushNotification(input: PushSendInput): Promise<PushSe
       attempted: tokens.length,
       sent: 0,
       failed: tokens.length,
-      message: `FCM 요청 실패: ${response.status}`
+      message: `FCM 요청 실패: ${response.status}`,
+      deliveryPolicy
     };
   }
 
@@ -123,6 +154,7 @@ export async function sendPushNotification(input: PushSendInput): Promise<PushSe
     attempted: tokens.length,
     sent,
     failed,
-    message: "FCM 발송 요청을 처리했습니다."
+    message: "FCM 발송 요청을 처리했습니다.",
+    deliveryPolicy
   };
 }

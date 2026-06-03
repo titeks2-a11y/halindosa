@@ -70,6 +70,7 @@ async function checkPackage() {
     "refresh:all",
     "health:readiness",
     "push:readiness:report",
+    "push:delivery:doctor",
     "source:catalog:report",
     "test:mobile-ux",
     "links:report",
@@ -93,7 +94,7 @@ async function checkPackage() {
   const missing = requiredScripts.filter((script) => !pkg.scripts?.[script]);
 
   if (missing.length) fail("package scripts", `Missing scripts: ${missing.join(", ")}`);
-  else if (!pkg.scripts?.qa?.includes("verify:links") || !pkg.scripts?.qa?.includes("verify:links:live") || !pkg.scripts?.qa?.includes("verify:products") || !pkg.scripts?.qa?.includes("exposure:doctor") || !pkg.scripts?.qa?.includes("refresh:deals") || !pkg.scripts?.qa?.includes("refresh:news") || !pkg.scripts?.qa?.includes("verify:news") || !pkg.scripts?.qa?.includes("test:news-feed-errors") || !pkg.scripts?.qa?.includes("refresh:all") || !pkg.scripts?.qa?.includes("health:readiness") || !pkg.scripts?.qa?.includes("push:readiness:report") || !pkg.scripts?.qa?.includes("source:catalog:report") || !pkg.scripts?.["refresh:all"]?.includes("refresh-all.mjs") || !pkg.scripts?.["health:readiness"]?.includes("health-readiness-report.mjs") || !pkg.scripts?.["push:readiness:report"]?.includes("push-readiness-report.mjs") || !pkg.scripts?.["source:catalog:report"]?.includes("official-source-catalog-report.mjs") || !harness.includes("test:mobile-ux") || !pkg.scripts?.qa?.includes("test:mobile-ux") || !pkg.scripts?.["env:doctor:production"]?.includes("--production") || !pkg.scripts?.["qa:release"]?.includes("health:readiness") || !pkg.scripts?.["qa:release"]?.includes("audit:commercial") || !pkg.scripts?.["qa:release"]?.includes("test:env") || !pkg.scripts?.["qa:release"]?.includes("device:qa:manifest") || !pkg.scripts?.["qa:release"]?.includes("device:qa:doctor") || !pkg.scripts?.["qa:release"]?.includes("device:qa:report") || !pkg.scripts?.["qa:release"]?.includes("android:signing:doctor") || !pkg.scripts?.["qa:release"]?.includes("public:url:doctor") || !pkg.scripts?.["qa:release"]?.includes("feed:validate") || !pkg.scripts?.["qa:release"]?.includes("feed:production:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:metadata:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:submission:report") || !pkg.scripts?.["qa:release"]?.includes("store:packet:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:console:fields") || !pkg.scripts?.["qa:release"]?.includes("store:manual:checklist") || !pkg.scripts?.["qa:release"]?.includes("store:manual:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:handoff:report") || !pkg.scripts?.["qa:release"]?.includes("release:notes") || !pkg.scripts?.["qa:release"]?.includes("support:playbook") || !pkg.scripts?.["qa:release"]?.includes("known:issues") || !pkg.scripts?.["qa:release"]?.includes("store:assets:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:manifest") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:doctor") || !pkg.scripts?.["qa:release"]?.includes("perf:budget")) {
+  else if (!pkg.scripts?.qa?.includes("verify:links") || !pkg.scripts?.qa?.includes("verify:links:live") || !pkg.scripts?.qa?.includes("verify:products") || !pkg.scripts?.qa?.includes("exposure:doctor") || !pkg.scripts?.qa?.includes("refresh:deals") || !pkg.scripts?.qa?.includes("refresh:news") || !pkg.scripts?.qa?.includes("verify:news") || !pkg.scripts?.qa?.includes("test:news-feed-errors") || !pkg.scripts?.qa?.includes("refresh:all") || !pkg.scripts?.qa?.includes("health:readiness") || !pkg.scripts?.qa?.includes("push:readiness:report") || !pkg.scripts?.qa?.includes("push:delivery:doctor") || !pkg.scripts?.qa?.includes("source:catalog:report") || !pkg.scripts?.["refresh:all"]?.includes("refresh-all.mjs") || !pkg.scripts?.["health:readiness"]?.includes("health-readiness-report.mjs") || !pkg.scripts?.["push:readiness:report"]?.includes("push-readiness-report.mjs") || !pkg.scripts?.["push:delivery:doctor"]?.includes("push-delivery-policy-doctor.mjs") || !pkg.scripts?.["source:catalog:report"]?.includes("official-source-catalog-report.mjs") || !harness.includes("test:mobile-ux") || !pkg.scripts?.qa?.includes("test:mobile-ux") || !pkg.scripts?.["env:doctor:production"]?.includes("--production") || !pkg.scripts?.["qa:release"]?.includes("health:readiness") || !pkg.scripts?.["qa:release"]?.includes("audit:commercial") || !pkg.scripts?.["qa:release"]?.includes("test:env") || !pkg.scripts?.["qa:release"]?.includes("device:qa:manifest") || !pkg.scripts?.["qa:release"]?.includes("device:qa:doctor") || !pkg.scripts?.["qa:release"]?.includes("device:qa:report") || !pkg.scripts?.["qa:release"]?.includes("android:signing:doctor") || !pkg.scripts?.["qa:release"]?.includes("public:url:doctor") || !pkg.scripts?.["qa:release"]?.includes("feed:validate") || !pkg.scripts?.["qa:release"]?.includes("feed:production:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:metadata:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:submission:report") || !pkg.scripts?.["qa:release"]?.includes("store:packet:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:console:fields") || !pkg.scripts?.["qa:release"]?.includes("store:manual:checklist") || !pkg.scripts?.["qa:release"]?.includes("store:manual:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:handoff:report") || !pkg.scripts?.["qa:release"]?.includes("release:notes") || !pkg.scripts?.["qa:release"]?.includes("support:playbook") || !pkg.scripts?.["qa:release"]?.includes("known:issues") || !pkg.scripts?.["qa:release"]?.includes("store:assets:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:manifest") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:doctor") || !pkg.scripts?.["qa:release"]?.includes("perf:budget")) {
     fail("package scripts", "qa, harness, and qa:release should include refresh:all, health readiness, mobile UX, commercial security audit, device QA manifest/doctor/report, Android signing doctor, public URL doctor, partner feed validator, production feed doctor, store metadata doctor, store submission/packet/console/handoff reports, store asset doctor, store screenshot manifest/doctor, and performance budget before store submission.");
   } else {
     pass("package scripts", "Android, iOS, environment, mobile UX, commercial security, and performance release command flow is available.");
@@ -1945,12 +1946,16 @@ async function checkOperationalDataSurfaces() {
   const pushReadiness = await text("lib/pushReadiness.ts");
   const pushNotifications = await text("lib/pushNotifications.ts");
   const pushReadinessReportScript = await text("scripts/push-readiness-report.mjs");
+  const notificationDeliveryPolicy = await text("lib/notificationDeliveryPolicy.ts");
+  const pushDeliveryPolicyDoctor = await text("scripts/push-delivery-policy-doctor.mjs");
   const adminNotificationCampaignsRoute = await text("app/api/admin/notification-campaigns/route.ts");
   const adminPushReadinessRoute = await text("app/api/admin/push-readiness/route.ts");
   const adminPushDryRunPanel = await text("components/AdminPushDryRunPanel.tsx");
   const adminPushSendRoute = await text("app/api/admin/push/send/route.ts");
   const pushReadinessReportPath = join(root, "reports/push-readiness.json");
   const pushReadinessReport = existsSync(pushReadinessReportPath) ? JSON.parse(readFileSync(pushReadinessReportPath, "utf8")) : {};
+  const pushDeliveryPolicyReportPath = join(root, "reports/push-delivery-policy.json");
+  const pushDeliveryPolicyReport = existsSync(pushDeliveryPolicyReportPath) ? JSON.parse(readFileSync(pushDeliveryPolicyReportPath, "utf8")) : {};
 
   const staticDataImports = [
     ["app/categories/page.tsx", categoriesPage],
@@ -2249,13 +2254,21 @@ async function checkOperationalDataSurfaces() {
     !adminPushDryRunPanel.includes("FCM 테스트 발송 dry-run") ||
     !adminPushDryRunPanel.includes("dry-run으로만 검증") ||
     !adminPushDryRunPanel.includes("실제 발송 확인") ||
+    !adminPushDryRunPanel.includes("동의 받은 테스트 토큰") ||
     !adminPushDryRunPanel.includes("confirmLiveSend") ||
-    !adminPushDryRunPanel.includes("push.configured && confirmLiveSend") ||
+    !adminPushDryRunPanel.includes("confirmConsent") ||
+    !adminPushDryRunPanel.includes("push.configured && confirmLiveSend && confirmConsent") ||
     !adminPushDryRunPanel.includes("tokens.length") ||
+    !adminPushDryRunPanel.includes("deliveryPolicy") ||
     !adminPushSendRoute.includes("campaignId") ||
     !adminPushSendRoute.includes("benefitId") ||
     !adminPushSendRoute.includes("sourceKind") ||
+    !adminPushSendRoute.includes("confirmedConsent") ||
+    !adminPushSendRoute.includes("scheduledAt") ||
+    !adminPushSendRoute.includes("priority") ||
     !pushNotifications.includes("PushAlertType") ||
+    !pushNotifications.includes("evaluateNotificationDelivery") ||
+    !pushNotifications.includes("deliveryPolicy") ||
     !pushNotifications.includes("campaignId: input.campaignId") ||
     !pushNotifications.includes("sourceKind: input.sourceKind") ||
     !smoke.includes("admin push dry-run api") ||
@@ -2276,6 +2289,16 @@ async function checkOperationalDataSurfaces() {
     !pushReadinessReportScript.includes("reports/push-readiness.json") ||
     !pushReadinessReportScript.includes("docs/PUSH_READINESS_REPORT.md") ||
     !pushReadinessReportScript.includes("dry_run_ready") ||
+    !pushDeliveryPolicyDoctor.includes("reports/push-delivery-policy.json") ||
+    !pushDeliveryPolicyDoctor.includes("docs/PUSH_DELIVERY_POLICY.md") ||
+    !pushDeliveryPolicyDoctor.includes("quiet live send blocked") ||
+    !notificationDeliveryPolicy.includes("evaluateNotificationDelivery") ||
+    !notificationDeliveryPolicy.includes("isNotificationQuietHour") ||
+    !notificationDeliveryPolicy.includes("getNextNotificationAllowedAt") ||
+    pushDeliveryPolicyReport.ok !== true ||
+    !String(pushDeliveryPolicyReport.policy?.timezone ?? "").includes("Asia/Seoul") ||
+    (pushDeliveryPolicyReport.policy?.quietHours?.startHour ?? 0) !== 22 ||
+    (pushDeliveryPolicyReport.policy?.quietHours?.endHour ?? 0) !== 8 ||
     pushReadinessReport.ok !== true ||
     pushReadinessReport.launchStatus === "needs_work" ||
     (pushReadinessReport.queueRows ?? 0) < 30 ||

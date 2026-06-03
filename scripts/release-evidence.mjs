@@ -74,6 +74,10 @@ const artifacts = [
   ["Harness report", "docs/HARNESS_REPORT.md"],
   ["Operational health readiness report", "docs/HEALTH_READINESS_REPORT.md"],
   ["Operational health readiness JSON", "reports/health-readiness.json"],
+  ["Push readiness report", "docs/PUSH_READINESS_REPORT.md"],
+  ["Push readiness JSON", "reports/push-readiness.json"],
+  ["Push delivery policy report", "docs/PUSH_DELIVERY_POLICY.md"],
+  ["Push delivery policy JSON", "reports/push-delivery-policy.json"],
   ["Image backlog report", "docs/IMAGE_BACKLOG_REPORT.md"],
   ["Image backlog CSV", "IMAGE_BACKLOG.csv"],
   ["Link coverage report", "docs/link-coverage-report.md"]

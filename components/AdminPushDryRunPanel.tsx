@@ -34,6 +34,7 @@ export function AdminPushDryRunPanel({ apiHref, push, campaigns }: AdminPushDryR
   const [tokenText, setTokenText] = useState("");
   const [dryRun, setDryRun] = useState(true);
   const [confirmLiveSend, setConfirmLiveSend] = useState(false);
+  const [confirmConsent, setConfirmConsent] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [result, setResult] = useState<PushApiResponse | null>(null);
 
@@ -42,7 +43,7 @@ export function AdminPushDryRunPanel({ apiHref, push, campaigns }: AdminPushDryR
     [campaigns, selectedCampaignId]
   );
   const tokens = useMemo(() => splitTokens(tokenText), [tokenText]);
-  const canSend = Boolean(selectedCampaign) && tokens.length > 0 && (dryRun || (push.configured && confirmLiveSend));
+  const canSend = Boolean(selectedCampaign) && tokens.length > 0 && (dryRun || (push.configured && confirmLiveSend && confirmConsent));
 
   async function submitPushTest() {
     if (!selectedCampaign) return;
@@ -52,7 +53,7 @@ export function AdminPushDryRunPanel({ apiHref, push, campaigns }: AdminPushDryR
         ok: false,
         message: dryRun
           ? "테스트 토큰을 1개 이상 입력하세요."
-          : "실제 발송은 FCM 설정과 실제 발송 확인 체크가 필요합니다."
+          : "실제 발송은 FCM 설정, 실제 발송 확인, 동의 받은 테스트 토큰 확인이 필요합니다."
       });
       return;
     }
@@ -75,6 +76,9 @@ export function AdminPushDryRunPanel({ apiHref, push, campaigns }: AdminPushDryR
           campaignId: selectedCampaign.id,
           sourceKind: selectedCampaign.sourceKind,
           alertType: selectedCampaign.alertType,
+          priority: selectedCampaign.priority,
+          scheduledAt: selectedCampaign.scheduledAt,
+          confirmedConsent: dryRun || confirmConsent,
           dryRun
         })
       });
@@ -168,6 +172,15 @@ export function AdminPushDryRunPanel({ apiHref, push, campaigns }: AdminPushDryR
             />
             실제 발송 확인
           </label>
+          <label className={`inline-flex items-center gap-2 ${dryRun || !push.configured ? "text-slate-400" : "text-slate-600"}`}>
+            <input
+              type="checkbox"
+              checked={confirmConsent}
+              disabled={dryRun || !push.configured}
+              onChange={(event) => setConfirmConsent(event.target.checked)}
+            />
+            동의 받은 테스트 토큰
+          </label>
         </div>
         <button
           type="button"
@@ -192,6 +205,12 @@ export function AdminPushDryRunPanel({ apiHref, push, campaigns }: AdminPushDryR
             <p className="mt-1">
               대상 {result.result.attempted.toLocaleString("ko-KR")}개 · 성공 {result.result.sent.toLocaleString("ko-KR")}개 · 실패{" "}
               {result.result.failed.toLocaleString("ko-KR")}개 · 요청 ID {result.requestId ?? "-"}
+            </p>
+          ) : null}
+          {result.result?.deliveryPolicy ? (
+            <p className="mt-1">
+              발송 정책 {result.result.deliveryPolicy.mode} · quiet hours {result.result.deliveryPolicy.isQuietHours ? "적용" : "미적용"} · 다음 가능{" "}
+              {new Date(result.result.deliveryPolicy.nextAllowedAt).toLocaleString("ko-KR")}
             </p>
           ) : null}
         </div>
