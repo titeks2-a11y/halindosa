@@ -78,6 +78,9 @@ jobs:
       - name: Store screenshot readiness report
         run: npm run store:screenshots:doctor
 
+      - name: Operational health readiness report
+        run: npm run health:readiness
+
       - name: Launch harness
         run: npm run harness
 
@@ -117,10 +120,12 @@ jobs:
             IMAGE_QUALITY_REPORT.md
             LINK_VERIFICATION_REPORT.md
             LINK_VERIFICATION_RESULT.json
+            reports/health-readiness.json
             MOBILE_UX_REPORT.md
             PERFORMANCE_REPORT.md
             SEARCH_REPORT.md
             docs/HARNESS_REPORT.md
+            docs/HEALTH_READINESS_REPORT.md
             docs/AUDIT_REPORT.md
             docs/ENV_DOCTOR_REPORT.md
             docs/PUBLIC_URL_REPORT.md
