@@ -2531,6 +2531,9 @@ async function checkOperationalDataSurfaces() {
     !sourcesRoute.includes("configuredProductionFeeds") ||
     !sourcesRoute.includes("allowedSources") ||
     !sourcesRoute.includes("blockedSources") ||
+    !sourcesRoute.includes("getNewsOperationsReport") ||
+    !sourcesRoute.includes("officialBenefitProviderReadiness") ||
+    !sourcesRoute.includes("officialBenefitProviderRiskOk") ||
     !adminPage.includes("운영 피드 전환 준비도") ||
     !adminPage.includes("공식 API·제휴 피드로 바꿀 때 볼 품질 기준") ||
     !adminPage.includes("파트너 피드 사전 검수 리포트") ||
@@ -2579,15 +2582,17 @@ async function checkOperationalDataSurfaces() {
     !productionFeedDoctor.includes("Production feed doctor passed") ||
     !smoke.includes("Sources API missing source readiness summary") ||
     !smoke.includes("Sources API missing configured production feed count") ||
+    !smoke.includes("Sources API missing official benefit provider readiness details") ||
+    !smoke.includes("Sources API found danger official benefit provider risk") ||
     !smoke.includes("Admin dashboard missing partner feed validation report board") ||
     !smoke.includes("Admin dashboard missing paste-in feed dry-run panel") ||
     !smoke.includes("Admin dashboard missing row-level feed dry-run review summary") ||
     !smoke.includes("Admin dashboard missing feed dry-run export actions") ||
     !smoke.includes("partner feed sample validation api")
   ) {
-    fail("source readiness operation", "Sources API, production provider, docs, production feed doctor, and admin dashboard should expose source readiness, safe production JSON feed loading, allowed source policy, blocked source policy, and verified link quality for production feed transition.");
+    fail("source readiness operation", "Sources API, production provider, docs, production feed doctor, and admin dashboard should expose source readiness, official benefit provider readiness, safe production JSON feed loading, allowed source policy, blocked source policy, and verified link quality for production feed transition.");
   } else {
-    pass("source readiness operation", "Sources API, production provider, docs, production feed doctor, and admin dashboard expose source readiness and safe production JSON feed policy for official API, RSS, and partner feed transition.");
+    pass("source readiness operation", "Sources API, production provider, docs, production feed doctor, and admin dashboard expose source readiness, official benefit provider readiness, and safe production JSON feed policy for official API, RSS, and partner feed transition.");
   }
 
   if (!dealRepository.includes("export async function findDealByIdLive") || /findDealByIdLive[\s\S]{0,180}findDealById\(id\)[\s\S]{0,80}await getDeals/.test(dealRepository)) {

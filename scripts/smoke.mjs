@@ -1353,6 +1353,10 @@ await check("sources api", async () => {
   assert(data.operationPolicy?.allowedSources?.includes("공식 API"), "Sources API missing allowed source policy");
   assert(data.operationPolicy?.blockedSources?.some((value) => value.includes("검색 결과")), "Sources API missing blocked source policy");
   assert(typeof data.operationPolicy?.configuredProductionFeeds === "number", "Sources API missing configured production feed count");
+  assert(data.operationPolicy?.officialBenefitProviderRiskOk === true, "Sources API found danger official benefit provider risk");
+  assert(data.officialBenefitProviderReadiness?.summary?.danger === 0, "Sources API missing official benefit provider risk summary");
+  assert(Array.isArray(data.officialBenefitProviderReadiness?.providers) && data.officialBenefitProviderReadiness.providers.length >= 4, "Sources API missing official benefit provider readiness details");
+  assert(Array.isArray(data.officialBenefitProviderReadiness?.nextActions), "Sources API missing official benefit provider next actions");
   assert(data.operationPolicy?.nextStep?.includes("DEAL_PRODUCTION_FEED_URLS") || data.operationPolicy?.nextStep?.includes("dry-run"), "Sources API missing production feed next step");
 });
 
