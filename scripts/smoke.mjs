@@ -560,10 +560,11 @@ await check("admin dashboard quality cards", async () => {
       text.includes("refresh:all 운영 상태") &&
       text.includes("오늘 운영 리스크") &&
       text.includes("신선도 운영") &&
+      text.includes("Provider 위험도") &&
       text.includes("다음 refresh 권장") &&
       text.includes("npm run refresh:all") &&
       text.includes("health:readiness"),
-    "Admin dashboard missing official benefit coverage, freshness, and refresh operation summary"
+    "Admin dashboard missing official benefit coverage, provider risk, freshness, and refresh operation summary"
   );
   assert(text.includes("운영 리포트 API 보기"), "Admin dashboard missing news operation report API link");
   assert(text.includes("알림 캠페인 운영 큐") && text.includes("오늘 발송 후보와 FCM 준비 상태"), "Admin dashboard missing notification campaign queue");
@@ -704,6 +705,9 @@ await check("admin news operations api", async () => {
   assert(data.report?.visibleCount >= 25, "Admin news operations report missing launch-ready visible official benefits");
   assert(Array.isArray(data.report?.visibleDeals) && data.report.visibleDeals.length >= 6, "Admin news operations report missing visible deal operation candidates");
   assert(Array.isArray(data.report?.providerStats) && data.report.providerStats.length >= 4, "Admin news operations report missing provider stats");
+  assert(Array.isArray(data.report?.providerRisks) && data.report.providerRisks.length >= 4, "Admin news operations report missing provider risk summaries");
+  assert(data.report.providerRisks.every((risk) => risk.provider && risk.label && risk.action && ["healthy", "watch", "danger"].includes(risk.severity)), "Admin news operations provider risks missing operation fields");
+  assert(typeof data.report?.providerRiskSummary?.watch === "number" && typeof data.report?.providerRiskSummary?.danger === "number", "Admin news operations report missing provider risk summary counts");
   assert(Array.isArray(data.report?.recentLogs) && data.report.recentLogs.length >= 6, "Admin news operations report missing recent logs");
   assert(Array.isArray(data.report?.manualActions) && data.report.manualActions.length >= 3, "Admin news operations report missing manual actions");
   assert(data.report?.refreshAll?.productDealsCount >= 140, "Admin news operations report missing refresh:all product count");

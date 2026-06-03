@@ -28,6 +28,20 @@ interface ProviderStat {
   errors?: string[];
 }
 
+type ProviderRiskSeverity = "healthy" | "watch" | "danger";
+
+interface ProviderRisk {
+  provider: string;
+  source: string;
+  severity: ProviderRiskSeverity;
+  label: string;
+  reason: string;
+  action: string;
+  visibleCount: number;
+  issueCount: number;
+  failureRate: number;
+}
+
 interface NewsDealsReport {
   ok?: boolean;
   generatedAt?: string;
@@ -157,6 +171,88 @@ function getDurationMs(startedAt?: string, finishedAt?: string) {
   return Math.max(0, finished - started);
 }
 
+function getProviderRisk(stat: ProviderStat): ProviderRisk {
+  const visibleCount = Number(stat.visibleCount ?? 0);
+  const fetchedCount = Number(stat.fetchedCount ?? 0);
+  const normalizedCount = Number(stat.normalizedCount ?? 0);
+  const hiddenCount = Number(stat.hiddenCount ?? 0);
+  const failedCount = Number(stat.failedCount ?? 0);
+  const expiredCount = Number(stat.expiredCount ?? 0);
+  const officialMissingCount = Number(stat.officialMissingCount ?? 0);
+  const errorCount = Number(stat.errorCount ?? 0);
+  const issueCount = hiddenCount + failedCount + expiredCount + officialMissingCount + errorCount;
+  const totalCount = Math.max(fetchedCount, normalizedCount, visibleCount + issueCount, 1);
+  const failureRate = Math.round((issueCount / totalCount) * 1000) / 10;
+
+  if (failedCount > 0 || errorCount > 0 || officialMissingCount > 0) {
+    return {
+      provider: stat.provider,
+      source: stat.source ?? "seed_fallback",
+      severity: "danger",
+      label: "즉시 점검",
+      reason: `실패 ${failedCount} · 오류 ${errorCount} · 공식 링크 누락 ${officialMissingCount}`,
+      action: "관리자 숨김/재검증 큐에서 원인 확인 후 feed 또는 seed를 수정하세요.",
+      visibleCount,
+      issueCount,
+      failureRate
+    };
+  }
+
+  if (expiredCount > 0 || hiddenCount > 0) {
+    return {
+      provider: stat.provider,
+      source: stat.source ?? "seed_fallback",
+      severity: "watch",
+      label: "정리 필요",
+      reason: `숨김 ${hiddenCount} · 종료 ${expiredCount}`,
+      action: "종료/숨김 항목을 검토하고 대체 공식 혜택을 보강하세요.",
+      visibleCount,
+      issueCount,
+      failureRate
+    };
+  }
+
+  if (visibleCount === 0) {
+    return {
+      provider: stat.provider,
+      source: stat.source ?? "seed_fallback",
+      severity: "watch",
+      label: "수집 대기",
+      reason: "노출 가능한 공식 혜택이 아직 없습니다.",
+      action: "공식 feed URL 또는 승인된 seed 후보를 추가해 provider 공백을 줄이세요.",
+      visibleCount,
+      issueCount,
+      failureRate
+    };
+  }
+
+  if (!stat.configured) {
+    return {
+      provider: stat.provider,
+      source: stat.source ?? "seed_fallback",
+      severity: "watch",
+      label: "seed 운영",
+      reason: "외부 feed 미연결 상태에서 승인된 seed/fallback으로 운영 중입니다.",
+      action: "상용 운영 전 공식 API/RSS/제휴 feed를 연결하고 news:feed:doctor를 실행하세요.",
+      visibleCount,
+      issueCount,
+      failureRate
+    };
+  }
+
+  return {
+    provider: stat.provider,
+    source: stat.source ?? "configured_feed",
+    severity: "healthy",
+    label: "정상",
+    reason: "공식 feed가 연결되어 있고 노출/검증 실패가 없습니다.",
+    action: "현재 cadence에 맞춰 refresh:all을 유지하세요.",
+    visibleCount,
+    issueCount,
+    failureRate
+  };
+}
+
 export function getNewsOperationsReport() {
   const snapshot = readJson<NewsDealSnapshot>(refreshedNewsDealsPath, {});
   const report = readJson<NewsDealsReport>(newsDealsReportPath, {});
@@ -172,6 +268,12 @@ export function getNewsOperationsReport() {
     lastCheckedAt: entry.updatedAt
   }));
   const providerStats = report.providerStats?.length ? report.providerStats : (snapshot.providerStats ?? []);
+  const providerRisks = providerStats.map(getProviderRisk);
+  const providerRiskSummary = {
+    healthy: providerRisks.filter((risk) => risk.severity === "healthy").length,
+    watch: providerRisks.filter((risk) => risk.severity === "watch").length,
+    danger: providerRisks.filter((risk) => risk.severity === "danger").length
+  };
   const recentLogs = sortLatestLogs(report.recentLogs ?? []);
   const failureReasonTop10 = report.failureReasonTop10?.length
     ? report.failureReasonTop10
@@ -268,6 +370,8 @@ export function getNewsOperationsReport() {
     operatorNextActions,
     operationalRisks: operationalRisks.length ? operationalRisks : ["공식 혜택 노출 기준, 카테고리 커버리지, refresh:all 상태가 정상입니다."],
     providerStats,
+    providerRisks,
+    providerRiskSummary,
     failureReasonTop10,
     visibleDeals: visibleDeals
       .map((deal) => ({

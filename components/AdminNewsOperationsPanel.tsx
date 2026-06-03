@@ -51,6 +51,22 @@ interface NewsOperationsReport {
     command?: string;
     dueAt?: string;
   }>;
+  providerRisks?: Array<{
+    provider: string;
+    source: string;
+    severity: "healthy" | "watch" | "danger";
+    label: string;
+    reason: string;
+    action: string;
+    visibleCount: number;
+    issueCount: number;
+    failureRate: number;
+  }>;
+  providerRiskSummary?: {
+    healthy: number;
+    watch: number;
+    danger: number;
+  };
   categoryCoverage?: Array<{
     category: string;
     action: string;
@@ -131,6 +147,12 @@ function getFreshnessClassName(severity?: string) {
   return "bg-red-50 text-brand-red";
 }
 
+function getProviderRiskClassName(severity?: string) {
+  if (severity === "healthy") return "bg-emerald-50 text-emerald-700";
+  if (severity === "watch") return "bg-amber-50 text-amber-700";
+  return "bg-red-50 text-brand-red";
+}
+
 export function AdminNewsOperationsPanel({ apiHref, initialReport }: AdminNewsOperationsPanelProps) {
   const [report, setReport] = useState(initialReport);
   const [reason, setReason] = useState("manual_admin_review");
@@ -139,6 +161,7 @@ export function AdminNewsOperationsPanel({ apiHref, initialReport }: AdminNewsOp
   const visibleDeals = useMemo(() => report.visibleDeals?.slice(0, 8) ?? [], [report.visibleDeals]);
   const hiddenDeals = useMemo(() => report.hiddenDeals?.slice(0, 8) ?? [], [report.hiddenDeals]);
   const categoryCoverage = useMemo(() => report.categoryCoverage ?? [], [report.categoryCoverage]);
+  const providerRisks = useMemo(() => report.providerRisks ?? [], [report.providerRisks]);
   const refreshSteps = useMemo(() => report.refreshAll?.steps?.slice(0, 6) ?? [], [report.refreshAll?.steps]);
   const operatorNextActions = useMemo(() => report.operatorNextActions?.slice(0, 3) ?? [], [report.operatorNextActions]);
   const issueCount = categoryCoverage.filter((item) => item.status === "gap" || item.status === "thin").length;
@@ -296,6 +319,36 @@ export function AdminNewsOperationsPanel({ apiHref, initialReport }: AdminNewsOp
             </code>
           </div>
         </div>
+        </div>
+      </div>
+
+      <div className="mt-4 rounded-2xl border border-slate-100 bg-white p-3">
+        <div className="flex items-center justify-between gap-2">
+          <div>
+            <p className="text-sm font-black text-slate-950">Provider 위험도</p>
+            <p className="mt-1 text-[11px] font-bold text-slate-500">feed 연결 전 seed 운영, 수집 공백, 검증 실패를 분리해 출시 전 운영 우선순위를 정합니다.</p>
+          </div>
+          <span className="shrink-0 rounded-full bg-slate-50 px-2.5 py-1 text-[11px] font-black text-slate-600">
+            정상 {report.providerRiskSummary?.healthy ?? 0} · 관찰 {report.providerRiskSummary?.watch ?? 0} · 점검 {report.providerRiskSummary?.danger ?? 0}
+          </span>
+        </div>
+        <div className="mt-3 grid gap-2 md:grid-cols-2 xl:grid-cols-4">
+          {(providerRisks.length ? providerRisks : [{ provider: "없음", source: "-", severity: "danger" as const, label: "리포트 없음", reason: "provider risk 리포트가 없습니다.", action: "npm run refresh:all && npm run health:readiness", visibleCount: 0, issueCount: 0, failureRate: 0 }]).map((risk) => (
+            <div key={risk.provider} className="rounded-2xl bg-slate-50 p-3">
+              <div className="flex items-center justify-between gap-2">
+                <p className="truncate text-xs font-black text-slate-900">{risk.provider}</p>
+                <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-black ${getProviderRiskClassName(risk.severity)}`}>
+                  {risk.label}
+                </span>
+              </div>
+              <p className="mt-1 truncate text-[11px] font-bold text-slate-500">{risk.source}</p>
+              <p className="mt-2 text-[11px] font-bold leading-5 text-slate-600">{risk.reason}</p>
+              <p className="mt-2 text-[11px] font-black text-slate-500">
+                노출 {risk.visibleCount} · 이슈 {risk.issueCount} · 실패율 {risk.failureRate}%
+              </p>
+              <p className="mt-2 line-clamp-2 rounded-xl bg-white px-2 py-1.5 text-[11px] font-bold leading-5 text-slate-600">{risk.action}</p>
+            </div>
+          ))}
         </div>
       </div>
 

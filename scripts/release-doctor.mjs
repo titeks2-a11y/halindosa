@@ -3647,6 +3647,7 @@ function checkNewsDealPipeline() {
     !adminNewsOperationsPanel.includes("issueCount") ||
     !adminNewsOperationsPanel.includes("thin") ||
     !adminNewsOperationsPanel.includes("refresh:all 운영 상태") ||
+    !adminNewsOperationsPanel.includes("Provider 위험도") ||
     !adminNewsOperationsPanel.includes("신선도 운영") ||
     !adminNewsOperationsPanel.includes("다음 refresh 권장") ||
     !adminNewsOperationsPanel.includes("operatorNextActions") ||
@@ -3656,15 +3657,19 @@ function checkNewsDealPipeline() {
     !newsOperations.includes("getNewsFreshnessState") ||
     !newsOperations.includes("newsRefreshCadenceHours") ||
     !newsOperations.includes("operatorNextActions") ||
+    !newsOperations.includes("providerRisks") ||
+    !newsOperations.includes("providerRiskSummary") ||
+    !newsOperations.includes("getProviderRisk") ||
     !newsOperations.includes("requiredNewsCategories") ||
     !newsOperations.includes("minimumCategoryDealCount") ||
     !verifyScript.includes("minimumCategoryDealCount") ||
     !verifyScript.includes("thinCategories") ||
     !newsOperations.includes("durationMs") ||
     !smokeScript.includes("freshness?.cadenceHours === 6") ||
-    !smokeScript.includes("operatorNextActions")
+    !smokeScript.includes("operatorNextActions") ||
+    !smokeScript.includes("providerRisks")
   ) {
-    issues.push("admin should provide executable hide/restore/revalidate controls plus category coverage, refresh status, freshness cadence, next actions, and risk summaries for official benefit operations");
+    issues.push("admin should provide executable hide/restore/revalidate controls plus category coverage, provider risk, refresh status, freshness cadence, next actions, and risk summaries for official benefit operations");
   }
 
   if (existsSync(join(root, "reports/news-deals.json"))) {
