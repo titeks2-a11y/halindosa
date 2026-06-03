@@ -4,10 +4,10 @@
 
 ## 기본 정보
 
-- 생성 시각: 2026-06-03T19:55:28.756Z
+- 생성 시각: 2026-06-03T20:18:55.639Z
 - Git 브랜치: codex/12h-product-ux-growth-hardening
-- 최신 커밋: 9659d5d
-- Git 상태: M EXTERNAL_LINK_REPORT.md;  M IMAGE_QUALITY_REPORT.md;  M LINK_VERIFICATION_REPORT.md;  M LINK_VERIFICATION_RESULT.json;  M PERFORMANCE_REPORT.md;  M SEARCH_REPORT.md;  M data/refreshedDeals.json;  M data/refreshedNewsDeals.json;  M docs/FEED_TRANSITION_REPORT.md;  M docs/HEALTH_READINESS_REPORT.md;  M docs/OFFICIAL_SOURCE_CATALOG.md;  M docs/PERFORMANCE_REPORT.md;  M docs/PUSH_READINESS_REPORT.md;  M reports/cron-refresh-readiness.json;  M reports/exposure-policy.json;  M reports/feed-transition.json;  M reports/health-readiness.json;  M reports/link-validation.json;  M reports/news-deals.json;  M reports/official-source-catalog.json;  M reports/product-quality.json;  M reports/push-readiness.json;  M reports/refresh-all.json;  M reports/refresh-deals.json;  M reports/release-doctor.json
+- 최신 커밋: cee2a03
+- Git 상태: clean
 - 패키지 버전: 1.0.1
 - 앱 이름: 할인도사
 - 앱 ID / 패키지명: com.halindosa.app
@@ -36,7 +36,7 @@
 | Store submission readiness report | `docs/STORE_SUBMISSION_REPORT.md` | 6KB |
 | Store submission packet QA report | `docs/STORE_PACKET_REPORT.md` | 7KB |
 | Store console fields manifest | `docs/STORE_CONSOLE_FIELDS.md` | 5KB |
-| Store console fields manifest JSON | `STORE_CONSOLE_FIELDS.json` | 4KB |
+| Store console fields manifest JSON | `STORE_CONSOLE_FIELDS.json` | 5KB |
 | Store manual submission checklist | `docs/STORE_MANUAL_CHECKLIST.md` | 5KB |
 | Store manual submission checklist JSON | `STORE_MANUAL_CHECKLIST.json` | 6KB |
 | Store launch handoff report | `docs/STORE_HANDOFF_REPORT.md` | 5KB |
@@ -44,14 +44,19 @@
 | Release notes JSON | `RELEASE_NOTES.json` | 5KB |
 | Support playbook | `docs/SUPPORT_PLAYBOOK.md` | 7KB |
 | Support playbook JSON | `SUPPORT_PLAYBOOK.json` | 6KB |
-| Known issues report | `docs/KNOWN_ISSUES.md` | 3KB |
-| Known issues report root copy | `KNOWN_ISSUES.md` | 3KB |
+| Known issues report | `docs/KNOWN_ISSUES.md` | 4KB |
+| Known issues report root copy | `KNOWN_ISSUES.md` | 4KB |
 | Store screenshot QA report | `docs/STORE_SCREENSHOTS_REPORT.md` | 4KB |
 | Store screenshot manifest | `docs/STORE_SCREENSHOT_MANIFEST.md` | 4KB |
 | Store screenshot manifest JSON | `STORE_SCREENSHOT_MANIFEST.json` | 5KB |
 | Harness report | `docs/HARNESS_REPORT.md` | 20KB |
 | Operational health readiness report | `docs/HEALTH_READINESS_REPORT.md` | 4KB |
 | Operational health readiness JSON | `reports/health-readiness.json` | 8KB |
+| Push readiness report | `docs/PUSH_READINESS_REPORT.md` | 5KB |
+| Push readiness JSON | `reports/push-readiness.json` | 11KB |
+| Push delivery policy report | `docs/PUSH_DELIVERY_POLICY.md` | 3KB |
+| Push delivery policy JSON | `reports/push-delivery-policy.json` | 5KB |
+| Link quality regression JSON | `reports/link-quality-regression.json` | 5KB |
 | Image backlog report | `docs/IMAGE_BACKLOG_REPORT.md` | 18KB |
 | Image backlog CSV | `IMAGE_BACKLOG.csv` | 53KB |
 | Link coverage report | `docs/link-coverage-report.md` | 7KB |
