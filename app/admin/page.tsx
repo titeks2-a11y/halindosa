@@ -21,6 +21,7 @@ import { buildWeeklyBenefitCalendar } from "@/lib/deals/weeklyBenefitCalendar";
 import { dryRunPartnerFeedImport, samplePartnerFeed } from "@/lib/feedImport";
 import { formatPrice, getRelativeTime } from "@/lib/format";
 import { buildNotificationCampaigns, buildOfficialBenefitNotificationCampaigns, summarizeNotificationCampaigns, toPushQueueRows } from "@/lib/notificationCampaigns";
+import { buildPushSubscriptionReadiness } from "@/lib/pushReadiness";
 import { getPushReadiness } from "@/lib/pushNotifications";
 import { getReportSummary, listDealReports } from "@/lib/reports";
 import { getHealthReadinessReport } from "@/lib/operations/healthReadiness";
@@ -100,6 +101,9 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const pushSendApiHref = isAdminProtectionEnabled()
     ? `/api/admin/push/send?token=${encodeURIComponent(token ?? "")}`
     : "/api/admin/push/send";
+  const pushReadinessApiHref = isAdminProtectionEnabled()
+    ? `/api/admin/push-readiness?token=${encodeURIComponent(token ?? "")}`
+    : "/api/admin/push-readiness";
   const sourceReadiness = getDealSourceReadiness(deals);
   const priorityLabels = {
     high: "우선",
@@ -242,6 +246,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const notificationCampaigns = [...productNotificationCampaigns, ...officialBenefitNotificationCampaigns];
   const notificationCampaignSummary = summarizeNotificationCampaigns(notificationCampaigns, visibleDeals.length);
   const notificationQueueRows = toPushQueueRows(notificationCampaigns);
+  const pushSubscriptionReadiness = buildPushSubscriptionReadiness(notificationCampaigns);
 
   const cards = [
     { label: "전체 특가", value: metrics.totalDeals.toLocaleString("ko-KR"), icon: Store },
@@ -567,6 +572,64 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                 <p className="mt-2 text-2xl font-black text-slate-950">{Number(value).toLocaleString("ko-KR")}</p>
               </div>
             ))}
+          </div>
+          <div className="mt-4 rounded-2xl border border-brand-line bg-brand-warm p-4" aria-label="푸시 구독 준비도">
+            <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+              <div>
+                <p className="text-sm font-black text-slate-950">푸시 구독·동의 준비도</p>
+                <p className="mt-1 text-xs font-bold leading-5 text-slate-600">
+                  실제 푸시 권한 요청 전, 관심 카테고리 세그먼트와 동의/철회 데이터 구조가 발송 후보 큐와 맞물리는지 점검합니다.
+                </p>
+              </div>
+              <a href={pushReadinessApiHref} className="w-fit rounded-2xl bg-brand-navy px-4 py-2.5 text-xs font-black text-white">
+                푸시 준비도 API
+              </a>
+            </div>
+            <div className="mt-3 grid gap-2 sm:grid-cols-2 xl:grid-cols-5">
+              {[
+                ["준비 점수", `${pushSubscriptionReadiness.readinessScore}점`],
+                ["구독 세그먼트", `${pushSubscriptionReadiness.readySegments}/${pushSubscriptionReadiness.segmentCoverage.length}`],
+                ["큐 행", pushSubscriptionReadiness.queueRows],
+                ["동의 체크", `${pushSubscriptionReadiness.consentChecklist.filter((item) => item.ready).length}/${pushSubscriptionReadiness.consentChecklist.length}`],
+                ["상태", pushSubscriptionReadiness.launchStatus === "send_ready" ? "발송 준비" : pushSubscriptionReadiness.launchStatus === "dry_run_ready" ? "dry-run 준비" : "세그먼트 보강"]
+              ].map(([label, value]) => (
+                <div key={label} className="rounded-2xl bg-white p-3">
+                  <p className="text-[11px] font-black text-slate-500">{label}</p>
+                  <p className="mt-1 text-lg font-black text-slate-950">{typeof value === "number" ? value.toLocaleString("ko-KR") : value}</p>
+                </div>
+              ))}
+            </div>
+            <div className="mt-3 grid gap-3 lg:grid-cols-[1fr_0.9fr]">
+              <div className="rounded-2xl bg-white p-3">
+                <p className="text-xs font-black text-slate-950">관심 카테고리 세그먼트</p>
+                <div className="mt-2 flex flex-wrap gap-1.5">
+                  {pushSubscriptionReadiness.segmentCoverage.slice(0, 10).map((segment) => (
+                    <span
+                      key={segment.category}
+                      className={`rounded-full px-2.5 py-1 text-[11px] font-black ${
+                        segment.ready ? "bg-emerald-50 text-emerald-700" : "bg-slate-100 text-slate-500"
+                      }`}
+                    >
+                      {segment.category} {segment.queueRows}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <div className="rounded-2xl bg-white p-3">
+                <p className="text-xs font-black text-slate-950">동의/철회 체크</p>
+                <div className="mt-2 space-y-1.5">
+                  {pushSubscriptionReadiness.consentChecklist.slice(0, 4).map((item) => (
+                    <p key={item.key} className="flex items-center justify-between gap-2 text-[11px] font-bold text-slate-500">
+                      <span>{item.label}</span>
+                      <span className={item.ready ? "text-emerald-700" : "text-amber-700"}>{item.ready ? "준비" : "보강"}</span>
+                    </p>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <p className="mt-3 rounded-2xl bg-white px-3 py-2 text-xs font-bold leading-5 text-slate-500">
+              {pushSubscriptionReadiness.nextActions[0]} · {pushSubscriptionReadiness.nextActions[2]}
+            </p>
           </div>
           <div className="mt-4 grid gap-3 lg:grid-cols-2">
             <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">

@@ -1887,6 +1887,7 @@ async function checkOperationalDataSurfaces() {
   const adminExportRoute = await text("app/api/admin/export/route.ts");
   const adminDailyQueueRoute = await text("app/api/admin/daily-queue/route.ts");
   const commercializationPage = await text("app/commercialization/page.tsx");
+  const schema = await text("docs/supabase-schema.sql");
   const analytics = await text("lib/analytics.ts");
   const healthRoute = await text("app/api/health/route.ts");
   const todayBenefitsRoute = await text("app/api/benefits/today/route.ts");
@@ -1925,8 +1926,10 @@ async function checkOperationalDataSurfaces() {
   const partnerFeedDryRunPanel = await text("components/PartnerFeedDryRunPanel.tsx");
   const feedImport = await text("lib/feedImport.ts");
   const notificationCampaigns = await text("lib/notificationCampaigns.ts");
+  const pushReadiness = await text("lib/pushReadiness.ts");
   const pushNotifications = await text("lib/pushNotifications.ts");
   const adminNotificationCampaignsRoute = await text("app/api/admin/notification-campaigns/route.ts");
+  const adminPushReadinessRoute = await text("app/api/admin/push-readiness/route.ts");
   const adminPushDryRunPanel = await text("components/AdminPushDryRunPanel.tsx");
   const adminPushSendRoute = await text("app/api/admin/push/send/route.ts");
 
@@ -2242,6 +2245,33 @@ async function checkOperationalDataSurfaces() {
     fail("admin push dry-run operation", "Admin should expose a safe FCM dry-run panel and preserve campaign/benefit payload fields.");
   } else {
     pass("admin push dry-run operation", "Admin exposes safe FCM dry-run controls with campaign and official benefit payload fields.");
+  }
+
+  if (
+    !pushReadiness.includes("buildPushSubscriptionReadiness") ||
+    !pushReadiness.includes("notificationCategoryOptions") ||
+    !pushReadiness.includes("consentChecklist") ||
+    !pushReadiness.includes("segmentCoverage") ||
+    !pushReadiness.includes("push_subscriptions") ||
+    !pushReadiness.includes("push_notification_queue") ||
+    !schema.includes("benefit_id text") ||
+    !schema.includes("source_kind text not null default 'product_deal'") ||
+    !schema.includes("campaign_id text") ||
+    !schema.includes("dry_run_only boolean not null default true") ||
+    !adminPushReadinessRoute.includes("buildPushSubscriptionReadiness") ||
+    !adminPushReadinessRoute.includes("canAccessAdmin") ||
+    !adminPushReadinessRoute.includes("rateLimit") ||
+    !adminPage.includes("pushSubscriptionReadiness") ||
+    !adminPage.includes("푸시 구독·동의 준비도") ||
+    !adminPage.includes("관심 카테고리 세그먼트") ||
+    !adminPage.includes("동의/철회 체크") ||
+    !adminPage.includes("pushReadinessApiHref") ||
+    !smoke.includes("admin push readiness api") ||
+    !smoke.includes("Push readiness should expose push subscription table readiness")
+  ) {
+    fail("push subscription readiness operation", "Push readiness should expose consent, subscription, category segment, queue row, and protected admin API evidence before real FCM launch.");
+  } else {
+    pass("push subscription readiness operation", "Push readiness exposes consent, subscription, category segment, queue row, and protected admin API evidence before real FCM launch.");
   }
 
   if (

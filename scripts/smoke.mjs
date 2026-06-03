@@ -558,6 +558,8 @@ await check("admin dashboard quality cards", async () => {
   assert(text.includes("필수 혜택 카테고리 커버리지") && text.includes("refresh:all 운영 상태") && text.includes("오늘 운영 리스크"), "Admin dashboard missing official benefit coverage and refresh operation summary");
   assert(text.includes("운영 리포트 API 보기"), "Admin dashboard missing news operation report API link");
   assert(text.includes("알림 캠페인 운영 큐") && text.includes("오늘 발송 후보와 FCM 준비 상태"), "Admin dashboard missing notification campaign queue");
+  assert(text.includes("푸시 구독·동의 준비도") && text.includes("관심 카테고리 세그먼트") && text.includes("동의/철회 체크"), "Admin dashboard missing push subscription readiness panel");
+  assert(text.includes("푸시 준비도 API") && text.includes("dry-run 준비"), "Admin dashboard missing push readiness API/status");
   assert(text.includes("검증 상품 캠페인") && text.includes("공식 혜택 캠페인"), "Admin dashboard missing split notification campaign queues");
   assert(text.includes("공식 이벤트/공공/쿠폰 페이지가 검증된 혜택만 푸시 후보로 편성합니다"), "Admin dashboard missing official benefit campaign trust copy");
   assert(text.includes("FCM 테스트 발송 dry-run") && text.includes("운영 토큰으로 발송 후보를 안전하게 점검"), "Admin dashboard missing push dry-run panel");
@@ -729,6 +731,19 @@ await check("admin notification campaigns api", async () => {
   assert(data.officialBenefitCampaigns.some((campaign) => campaign.benefitIds.length > 0), "Official benefit campaigns should include benefit ids");
   assert(data.queueRows.some((row) => row.source_kind === "official_benefit" && row.benefit_id), "Push queue rows should include official benefit rows");
   assert(data.queueRows.some((row) => row.source_kind === "product_deal" && row.deal_id), "Push queue rows should preserve product deal rows");
+});
+
+await check("admin push readiness api", async () => {
+  const { response, data } = await fetchJson("/api/admin/push-readiness");
+  assert(response.status === 200, `Expected 200, got ${response.status}`);
+  assert(data.ok === true, "Admin push readiness API ok should be true");
+  assert(["dry_run_ready", "send_ready"].includes(data.report?.launchStatus), "Push readiness should be dry-run or send ready");
+  assert(data.report?.readinessScore >= 80, "Push readiness score should be launch-safe");
+  assert(data.report?.queueRows >= 20, "Push readiness should expose queue rows");
+  assert(data.report?.readySegments >= 8, "Push readiness should cover interest category segments");
+  assert(Array.isArray(data.report?.segmentCoverage) && data.report.segmentCoverage.length >= 10, "Push readiness should expose segment coverage");
+  assert(Array.isArray(data.report?.consentChecklist) && data.report.consentChecklist.length >= 5, "Push readiness should expose consent checklist");
+  assert(Array.isArray(data.report?.databaseTables) && data.report.databaseTables.some((table) => table.table === "push_subscriptions"), "Push readiness should expose push subscription table readiness");
 });
 
 await check("admin push dry-run api", async () => {

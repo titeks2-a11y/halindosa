@@ -210,27 +210,39 @@ create index if not exists push_subscriptions_platform_idx on public.push_subscr
 create table if not exists public.push_notification_queue (
   id uuid primary key default gen_random_uuid(),
   deal_id text references public.deals(id) on delete set null,
+  benefit_id text,
+  source_kind text not null default 'product_deal',
+  campaign_id text,
   alert_type text not null,
   title text not null,
   body text not null,
   target_categories text[] not null default '{}',
+  source_names text[] not null default '{}',
   target_user_ids uuid[] not null default '{}',
+  target_segments text[] not null default '{}',
   status text not null default 'queued',
   scheduled_at timestamptz not null default now(),
   sent_at timestamptz,
   failure_reason text,
+  dry_run_only boolean not null default true,
   payload jsonb not null default '{}',
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
 
-comment on table public.push_notification_queue is '특가 등록, 무료 이벤트, 가격 인하, 품절 임박, 관심 카테고리 알림 발송 큐. FCM 서버 키가 준비된 뒤 service_role 작업자가 처리한다.';
+comment on table public.push_notification_queue is '특가 등록, 공식 무료 이벤트, 가격 인하, 품절 임박, 관심 카테고리 알림 발송 큐. FCM 서버 키와 사용자 동의가 준비된 뒤 service_role 작업자가 dry_run_only=false 행만 처리한다.';
 
 create index if not exists push_notification_queue_status_idx
   on public.push_notification_queue (status, scheduled_at);
 
 create index if not exists push_notification_queue_deal_idx
   on public.push_notification_queue (deal_id, created_at desc);
+
+create index if not exists push_notification_queue_benefit_idx
+  on public.push_notification_queue (benefit_id, created_at desc);
+
+create index if not exists push_notification_queue_campaign_idx
+  on public.push_notification_queue (campaign_id, scheduled_at desc);
 
 create table if not exists public.price_drop_alerts (
   id uuid primary key default gen_random_uuid(),

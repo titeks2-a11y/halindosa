@@ -11,6 +11,7 @@
 - Worker: 마감 임박, 오늘의 특가, 무료배송 이벤트 감지
 - FCM: Android push 발송
 - Admin API: `GET /api/admin/push/send?token=...`으로 발송 준비 상태를 확인하고, `POST /api/admin/push/send?token=...`으로 dry-run 또는 실제 FCM 발송을 실행한다.
+- Push Readiness API: `GET /api/admin/push-readiness?token=...`으로 동의/철회, 관심 카테고리 세그먼트, 캠페인 큐, DB 테이블 준비도를 발송 전 확인한다.
 
 ## 알림 유형
 
@@ -40,3 +41,11 @@ FCM_PROJECT_ID=
 ```
 
 발송 토큰은 `push_subscriptions` 테이블에 저장하고, 사용자가 철회하면 `enabled=false`, `revoked_at=now()`로 처리한다. 알림 발송 로그는 향후 `push_delivery_logs` 테이블로 분리한다.
+
+## 구독/큐 데이터 모델
+
+- `push_subscriptions`: 사용자, 플랫폼, FCM/Web Push 토큰, 관심 카테고리, 알림 유형, 동의/철회 시각을 저장한다.
+- `push_notification_queue`: `source_kind=product_deal|official_benefit`, `campaign_id`, `deal_id`, `benefit_id`, `source_names`, `target_categories`, `dry_run_only`를 저장한다.
+- 실제 발송 작업자는 `dry_run_only=false`, `status=queued`, 사용자 동의가 확인된 구독만 대상으로 처리한다.
+- 공식 혜택 뉴스/이벤트는 `benefit_id`와 `source_kind=official_benefit`로 상품 알림과 분리한다.
+- V1은 `dry_run_ready` 상태를 출시 기준으로 삼고, `send_ready`는 FCM 키, 테스트 토큰, 사용자 동의 플로우가 모두 검증된 뒤에만 활성화한다.
