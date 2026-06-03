@@ -3516,6 +3516,9 @@ function checkRefreshDealPipeline() {
   const adminPanel = existsSync(join(root, adminPanelPath)) ? readFileSync(join(root, adminPanelPath), "utf8") : "";
   const adminPage = readFileSync(join(root, "app/admin/page.tsx"), "utf8");
   const smoke = readFileSync(join(root, "scripts/smoke.mjs"), "utf8");
+  const exposureDoctorScript = readFileSync(join(root, "scripts/exposure-policy-doctor.mjs"), "utf8");
+  const exposureReportPath = join(root, "reports/exposure-policy.json");
+  const exposureReport = existsSync(exposureReportPath) ? JSON.parse(readFileSync(exposureReportPath, "utf8")) : {};
   const issues = [];
 
   if (!existsSync(refreshPath)) {
@@ -3580,14 +3583,18 @@ function checkRefreshDealPipeline() {
     !exposureRoute.includes("getExposurePolicyReport") ||
     !exposureRoute.includes("buildExposurePolicyCsv") ||
     !exposureRoute.includes("text/csv") ||
+    !exposureDoctorScript.includes("auditedItems: auditedItems.map") ||
+    !exposureReport.auditedItems ||
+    exposureReport.auditedItems.length < 140 ||
     !adminPage.includes("노출 정책 감사") ||
     !adminPage.includes("노출 감사 CSV") ||
     !adminPage.includes("reports/exposure-policy.json") ||
     !smoke.includes("admin exposure policy api") ||
     !smoke.includes("admin exposure policy csv") ||
+    !smoke.includes("product-level audited rows") ||
     !smoke.includes("badExposedItems === 0")
   ) {
-    issues.push("admin exposure policy API/page should surface product-level exposure audit, CSV export, and smoke-test zero bad exposed links");
+    issues.push("admin exposure policy API/page should surface product-level exposure audit rows, CSV export, and smoke-test zero bad exposed links");
   }
 
   if (issues.length) fail("deal refresh pipeline", issues.join("; "));

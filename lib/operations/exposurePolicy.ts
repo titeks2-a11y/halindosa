@@ -27,6 +27,28 @@ export interface ExposurePolicyReport {
     blockedLinkTypes: string[];
     finalUrlRequired: boolean;
   } | null;
+  auditedItems: Array<{
+    id: string;
+    source: string;
+    originalUrl: string;
+    finalUrl: string;
+    linkType: string;
+    availability: string;
+    validationStatus: string;
+    validationReason: string;
+    lastCheckedAt: string;
+    priorityScore: number;
+    isHidden: boolean;
+    host: string;
+    evidence: string;
+    httpUrl: boolean;
+    searchLikeUrl: boolean;
+    productDetailUrl: boolean;
+    officialBenefitUrl: boolean;
+    unavailableText: boolean;
+    liveProbeOk: boolean | null;
+    liveProbeReason: string;
+  }>;
   badExposedItems: Array<{
     id: string;
     linkType: string;
@@ -67,6 +89,7 @@ const fallbackReport: ExposurePolicyReport = {
   availabilityCounts: {},
   validationStatusCounts: {},
   exposurePolicy: null,
+  auditedItems: [],
   badExposedItems: [],
   hiddenItems: [],
   sourceReports: {
@@ -205,5 +228,55 @@ export function buildExposurePolicyCsv(report: ExposurePolicyReport) {
     generatedAt: report.generatedAt
   }));
 
-  return toCsv([...summaryRows, ...countRows, ...issueRows, ...badRows, ...hiddenRows]);
+  const auditedRows = (report.auditedItems.length ? report.auditedItems : [{
+    id: "none",
+    source: "",
+    originalUrl: "",
+    finalUrl: "",
+    linkType: "",
+    availability: "",
+    validationStatus: "",
+    validationReason: "",
+    lastCheckedAt: "",
+    priorityScore: 0,
+    isHidden: false,
+    host: "",
+    evidence: "",
+    httpUrl: false,
+    searchLikeUrl: false,
+    productDetailUrl: false,
+    officialBenefitUrl: false,
+    unavailableText: false,
+    liveProbeOk: null,
+    liveProbeReason: ""
+  }]).map((item) => ({
+    section: "audited_item",
+    key: item.id,
+    label: item.host || item.id,
+    status: item.isHidden || item.validationStatus !== "passed" || item.availability !== "active" || item.searchLikeUrl ? "review" : "pass",
+    count: 1,
+    reason: item.validationReason,
+    action: item.isHidden || item.validationStatus !== "passed" || item.availability !== "active" || item.searchLikeUrl ? "노출 전 URL 보강 또는 숨김 유지" : "노출 가능 상태 유지",
+    linkType: item.linkType,
+    availability: item.availability,
+    validationStatus: item.validationStatus,
+    finalUrl: item.finalUrl,
+    generatedAt: report.generatedAt,
+    source: item.source,
+    originalUrl: item.originalUrl,
+    lastCheckedAt: item.lastCheckedAt,
+    priorityScore: item.priorityScore,
+    isHidden: item.isHidden,
+    host: item.host,
+    evidence: item.evidence,
+    httpUrl: item.httpUrl,
+    searchLikeUrl: item.searchLikeUrl,
+    productDetailUrl: item.productDetailUrl,
+    officialBenefitUrl: item.officialBenefitUrl,
+    unavailableText: item.unavailableText,
+    liveProbeOk: item.liveProbeOk,
+    liveProbeReason: item.liveProbeReason
+  }));
+
+  return toCsv([...summaryRows, ...countRows, ...issueRows, ...badRows, ...hiddenRows, ...auditedRows]);
 }

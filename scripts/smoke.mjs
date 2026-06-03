@@ -758,6 +758,8 @@ await check("admin exposure policy api", async () => {
   assert(response.status === 200, `Expected 200, got ${response.status}`);
   assert(data.ok === true, "Admin exposure policy API ok should be true");
   assert(data.report?.summary?.auditedItems >= 140, "Exposure policy report should audit all deals");
+  assert(Array.isArray(data.report?.auditedItems) && data.report.auditedItems.length >= 140, "Exposure policy report should include product-level audited rows");
+  assert(data.report.auditedItems.every((item) => item.finalUrl && item.validationStatus === "passed" && item.isHidden === false), "Exposure policy audited rows should only expose passed visible final URLs");
   assert(data.report?.summary?.badExposedItems === 0, "Exposure policy report should have zero bad exposed items");
   assert(data.report?.summary?.searchLinksExposed === 0, "Exposure policy report should have zero search links exposed");
   assert(data.report?.summary?.soldOutExposed === 0, "Exposure policy report should have zero sold-out links exposed");
@@ -772,6 +774,7 @@ await check("admin exposure policy csv", async () => {
   assert(text.startsWith("section,key,label"), "Exposure policy CSV header missing");
   assert(text.includes("bad_exposed_items") && text.includes("search_links_exposed") && text.includes("sold_out_exposed"), "Exposure policy CSV missing risk summary rows");
   assert(text.includes("bad_exposed_item,none") && text.includes("hidden_item,none"), "Exposure policy CSV should prove zero bad/hidden items when clean");
+  assert(text.includes("audited_item,d001") && text.includes("source,originalUrl") && text.includes("priorityScore"), "Exposure policy CSV missing product-level audit rows");
 });
 
 await check("admin notification campaigns api", async () => {

@@ -7,7 +7,13 @@ export function escapeCsvCell(value: string | number | boolean | null | undefine
 export function toCsv(rows: Array<Record<string, string | number | boolean | null | undefined>>) {
   if (!rows.length) return "";
 
-  const headers = Object.keys(rows[0]);
+  const headers = rows.reduce<string[]>((keys, row) => {
+    for (const key of Object.keys(row)) {
+      if (!keys.includes(key)) keys.push(key);
+    }
+
+    return keys;
+  }, []);
   const lines = [
     headers.map(escapeCsvCell).join(","),
     ...rows.map((row) => headers.map((header) => escapeCsvCell(row[header])).join(","))
