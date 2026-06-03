@@ -275,14 +275,14 @@
     "provider": "official_event",
     "category": ["디지털/가전"],
     "sourceType": "official_event_page",
-    "officialUrl": "https://www.e-himart.co.kr/app/event/eventList",
+    "officialUrl": "https://company.himart.co.kr/event/list",
     "preferredEnvKeys": ["OFFICIAL_EVENT_FEED_URLS", "DEAL_EVENT_FEED_URLS"],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "medium",
     "refreshCadenceHours": 12,
-    "allowedUse": "하이마트 공식 이벤트/쿠폰/카드 할인",
+    "allowedUse": "롯데하이마트 공식 진행중 이벤트, 특별기획전, 카드 혜택",
     "blockedUse": "검색 결과와 커뮤니티 링크",
-    "notes": "디지털/가전 특가는 카드 혜택과 실결제 조건을 분리한다."
+    "notes": "디지털/가전 특가는 공식 진행중 이벤트 또는 카드 혜택 페이지 기준으로 조건과 기간을 분리한다."
   },
   {
     "id": "hmall-official-events",
