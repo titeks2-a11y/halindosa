@@ -1,7 +1,7 @@
 {
   "generatedBy": "npm run release:notes",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "bb7e39a",
+  "commit": "333ffd8",
   "workingTree": "M DEVICE_QA_REPORT.md;  M KNOWN_ISSUES.md;  M PUBLIC_URL_REPORT.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_HANDOFF_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M docs/DEVICE_QA_REPORT.md;  M docs/KNOWN_ISSUES.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_HANDOFF_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md",
   "version": "1.0.1",
   "appName": "할인도사",
@@ -34,7 +34,7 @@
     {
       "path": "docs/release-evidence.md",
       "status": "present",
-      "bytes": 6599
+      "bytes": 6696
     },
     {
       "path": "docs/STORE_CONSOLE_FIELDS.md",
@@ -73,14 +73,14 @@
     }
   ],
   "recentCommits": [
+    "333ffd8 feat: add official benefit refresh cadence operations",
+    "7ced3b5 docs: refresh release evidence",
     "bb7e39a feat: centralize link quality validation policy",
     "65c270a feat: add push subscription readiness operations",
     "a4e6fa1 docs: refresh release evidence",
     "d87c4f4 feat: add image sourcing readiness operations",
     "3470d0b docs: refresh release evidence",
-    "fc4e0c5 feat: surface health readiness in admin",
-    "3de1f1a docs: refresh release evidence",
-    "08ff7ac ci: publish health readiness reports"
+    "fc4e0c5 feat: surface health readiness in admin"
   ],
   "manualWorkThatMustNotBeFaked": [
     "Do not claim Play Console or App Store Connect submission has passed from this file.",
