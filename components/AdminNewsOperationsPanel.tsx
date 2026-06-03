@@ -67,6 +67,34 @@ interface NewsOperationsReport {
     watch: number;
     danger: number;
   };
+  feedTransitionReadiness?: {
+    status: "production_feed_ready" | "hybrid_feed_ready" | "seed_launch_ready";
+    label: string;
+    readinessRate: number;
+    totalProviders: number;
+    configuredProviders: number;
+    seedOnlyProviders: number;
+    configuredFeedUrls: number;
+    launchBlockingCount: number;
+    recommendedNextEnvKeys: string[];
+    guardrails: string[];
+    operatorAction: string;
+    providers: Array<{
+      provider: string;
+      label: string;
+      mode: "external_feed" | "seed_fallback";
+      modeLabel: string;
+      configured: boolean;
+      feedUrls: number;
+      envKeys: string[];
+      acceptedSources: string;
+      nextAction: string;
+      priority: "high" | "medium" | "low";
+      launchBlocking: boolean;
+      visibleCount: number;
+      issueCount: number;
+    }>;
+  };
   categoryCoverage?: Array<{
     category: string;
     action: string;
@@ -162,6 +190,8 @@ export function AdminNewsOperationsPanel({ apiHref, initialReport }: AdminNewsOp
   const hiddenDeals = useMemo(() => report.hiddenDeals?.slice(0, 8) ?? [], [report.hiddenDeals]);
   const categoryCoverage = useMemo(() => report.categoryCoverage ?? [], [report.categoryCoverage]);
   const providerRisks = useMemo(() => report.providerRisks ?? [], [report.providerRisks]);
+  const feedTransitionReadiness = report.feedTransitionReadiness;
+  const feedTransitionProviders = useMemo(() => feedTransitionReadiness?.providers ?? [], [feedTransitionReadiness?.providers]);
   const refreshSteps = useMemo(() => report.refreshAll?.steps?.slice(0, 6) ?? [], [report.refreshAll?.steps]);
   const operatorNextActions = useMemo(() => report.operatorNextActions?.slice(0, 3) ?? [], [report.operatorNextActions]);
   const issueCount = categoryCoverage.filter((item) => item.status === "gap" || item.status === "thin").length;
@@ -349,6 +379,65 @@ export function AdminNewsOperationsPanel({ apiHref, initialReport }: AdminNewsOp
               <p className="mt-2 line-clamp-2 rounded-xl bg-white px-2 py-1.5 text-[11px] font-bold leading-5 text-slate-600">{risk.action}</p>
             </div>
           ))}
+        </div>
+      </div>
+
+      <div className="mt-4 rounded-2xl border border-amber-100 bg-gradient-to-br from-white via-amber-50/50 to-red-50 p-3">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+          <div>
+            <p className="text-sm font-black text-slate-950">공식 feed 전환 준비도</p>
+            <p className="mt-1 text-[11px] font-bold leading-5 text-slate-500">
+              seed fallback으로 출시 안정성을 유지하면서 공식 API/RSS/제휴 JSON feed 연결 우선순위를 관리합니다.
+            </p>
+          </div>
+          <div className="grid grid-cols-3 gap-2 text-center text-[11px] font-black">
+            <span className="rounded-2xl bg-white px-3 py-2 text-slate-600 shadow-sm">
+              연결
+              <b className="mt-0.5 block text-sm text-slate-950">
+                {feedTransitionReadiness?.configuredProviders ?? 0}/{feedTransitionReadiness?.totalProviders ?? 0}
+              </b>
+            </span>
+            <span className="rounded-2xl bg-white px-3 py-2 text-slate-600 shadow-sm">
+              feed URL
+              <b className="mt-0.5 block text-sm text-slate-950">{feedTransitionReadiness?.configuredFeedUrls ?? 0}</b>
+            </span>
+            <span className="rounded-2xl bg-white px-3 py-2 text-slate-600 shadow-sm">
+              준비율
+              <b className="mt-0.5 block text-sm text-brand-red">{feedTransitionReadiness?.readinessRate ?? 0}%</b>
+            </span>
+          </div>
+        </div>
+        <div className="mt-3 grid gap-2 md:grid-cols-2 xl:grid-cols-4">
+          {feedTransitionProviders.map((provider) => (
+            <div key={provider.provider} className="rounded-2xl bg-white p-3 shadow-sm">
+              <div className="flex items-start justify-between gap-2">
+                <div className="min-w-0">
+                  <p className="truncate text-xs font-black text-slate-950">{provider.label}</p>
+                  <p className="mt-1 text-[11px] font-bold text-slate-500">{provider.acceptedSources}</p>
+                </div>
+                <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-black ${provider.configured ? "bg-emerald-50 text-emerald-700" : "bg-amber-50 text-amber-700"}`}>
+                  {provider.modeLabel}
+                </span>
+              </div>
+              <p className="mt-2 text-[11px] font-black text-slate-500">
+                노출 {provider.visibleCount} · 이슈 {provider.issueCount} · URL {provider.feedUrls}
+              </p>
+              <p className="mt-2 line-clamp-2 text-[11px] font-bold leading-5 text-slate-600">{provider.nextAction}</p>
+              <code className="mt-2 block overflow-x-auto rounded-xl bg-slate-50 px-2 py-1 text-[10px] font-black text-brand-red">
+                {provider.envKeys.join(", ")}
+              </code>
+            </div>
+          ))}
+        </div>
+        <div className="mt-3 rounded-2xl bg-white px-3 py-2 text-[11px] font-bold leading-5 text-slate-600 shadow-sm">
+          <p>
+            <b className="text-slate-950">{feedTransitionReadiness?.label ?? "feed 전환 상태 확인 필요"}:</b>{" "}
+            {feedTransitionReadiness?.operatorAction ?? "공식 feed 후보를 연결한 뒤 npm run refresh:all을 실행하세요."}
+          </p>
+          <p className="mt-1">
+            <b className="text-slate-950">우선 env:</b>{" "}
+            {(feedTransitionReadiness?.recommendedNextEnvKeys ?? []).slice(0, 4).join(", ") || "모든 provider 연결됨"}
+          </p>
         </div>
       </div>
 
