@@ -19,6 +19,8 @@ npm run smoke
 - 공식 혜택 운영 API: `GET /api/admin/news-operations?token=$ADMIN_EXPORT_TOKEN`
 - 실시간 특가 API: `GET /api/deals?q=노트북%20특가&sort=latest`
 - 헬스체크: `GET /api/health`
+  - `officialBenefitFresh`, `officialBenefitFreshnessHours`, `officialBenefitVisibleCount`, `officialBenefitReadyCategories`, `officialBenefitRefreshAllOk`를 함께 확인한다.
+  - 공식 혜택 feed가 24시간 이상 갱신되지 않았거나 필수 카테고리 10개가 모두 ready가 아니면 `refresh:all`과 `/admin` 뉴스 운영 패널을 먼저 확인한다.
 - 운영 지표: `GET /api/metrics`
 - 상세 API: `GET /api/deals/d001`
 - 가격 이력: 상세 API의 `priceHistory`, `priceInsight` 필드 확인

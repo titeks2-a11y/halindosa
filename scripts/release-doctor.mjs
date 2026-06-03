@@ -2270,6 +2270,7 @@ async function checkOperationalDataSurfaces() {
     !healthRoute.includes("verifiedLinkRate") ||
     !healthRoute.includes("claimGuideRate") ||
     !healthRoute.includes("buildClaimEffortSummary") ||
+    !healthRoute.includes("getNewsOperationsReport") ||
     !healthRoute.includes("claimEffortReady") ||
     !healthRoute.includes("claimEffortEasyCount") ||
     !healthRoute.includes("freeBenefitDeals") ||
@@ -2278,6 +2279,11 @@ async function checkOperationalDataSurfaces() {
     !healthRoute.includes("personalizationQueuesReady") ||
     !healthRoute.includes("getOperationalEnvReadiness") ||
     !healthRoute.includes("operationalEnvReadyRate") ||
+    !healthRoute.includes("officialBenefitFresh") ||
+    !healthRoute.includes("officialBenefitFreshnessHours") ||
+    !healthRoute.includes("officialBenefitVisibleCount") ||
+    !healthRoute.includes("officialBenefitReadyCategories") ||
+    !healthRoute.includes("officialBenefitRefreshAllOk") ||
     !analytics.includes("operationalEnvReadiness") ||
     !envReadiness.includes("getOperationalEnvReadiness") ||
     !envReadiness.includes("NEXT_PUBLIC_SITE_URL") ||
@@ -2289,12 +2295,14 @@ async function checkOperationalDataSurfaces() {
     !smoke.includes("Health API missing claim effort readiness") ||
     !smoke.includes("Health API missing personalization readiness rate") ||
     !smoke.includes("Health API missing operational env readiness rate") ||
+    !smoke.includes("Health API official benefit feed is stale") ||
+    !smoke.includes("Health API missing official benefit category coverage") ||
     !smoke.includes("Metrics missing operational env readiness rate") ||
     !smoke.includes("Commercialization page missing operational env readiness")
   ) {
-    fail("operational health checks", "Health API should expose V2 link, free benefit, claim-guide, personalization, and deployment environment readiness with smoke coverage.");
+    fail("operational health checks", "Health API should expose V2 link, free benefit, claim-guide, personalization, official benefit feed freshness, and deployment environment readiness with smoke coverage.");
   } else {
-    pass("operational health checks", "Health API exposes V2 link, free benefit, claim-guide, personalization, and deployment environment readiness with smoke coverage.");
+    pass("operational health checks", "Health API exposes V2 link, free benefit, claim-guide, personalization, official benefit feed freshness, and deployment environment readiness with smoke coverage.");
   }
 
   if (

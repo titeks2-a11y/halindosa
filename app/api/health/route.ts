@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getDeals } from "@/lib/dealService";
 import { buildPersonalizationReadiness } from "@/lib/analytics";
 import { buildClaimEffortSummary } from "@/lib/deals/claimEffort";
+import { getNewsOperationsReport } from "@/lib/deals/newsOperations";
 import { getOperationalEnvReadiness } from "@/lib/operations/envReadiness";
 
 export async function GET() {
@@ -29,10 +30,26 @@ export async function GET() {
       claimEffortSummary.groups.map((group) => [group.effort, group.count])
     );
     const operationalEnvReadiness = getOperationalEnvReadiness();
+    const newsOperations = getNewsOperationsReport();
+    const officialBenefitReadyCategories = newsOperations.categoryCoverage.filter((item) => item.status === "ready").length;
+    const officialBenefitWeakCategories = newsOperations.categoryCoverage.filter((item) => item.status !== "ready").length;
+    const officialBenefitGeneratedAt = Date.parse(newsOperations.generatedAt);
+    const officialBenefitFreshnessHours = Number.isFinite(officialBenefitGeneratedAt)
+      ? Math.round(((Date.now() - officialBenefitGeneratedAt) / (60 * 60 * 1000)) * 10) / 10
+      : 999;
+    const officialBenefitFresh = officialBenefitFreshnessHours <= 24;
     const verifiedLinkRate = totalDeals ? Math.round((verifiedLinkDeals.length / totalDeals) * 100) : 0;
     const claimGuideRate = totalDeals ? Math.round((claimGuideReadyDeals.length / totalDeals) * 100) : 0;
     const operationalStatus =
-      totalDeals >= 30 && verifiedLinkRate >= 90 && freeBenefitDeals.length >= 10 && claimGuideRate >= 95 ? "ready" : "needs_review";
+      totalDeals >= 30 &&
+      verifiedLinkRate >= 90 &&
+      freeBenefitDeals.length >= 10 &&
+      claimGuideRate >= 95 &&
+      newsOperations.visibleCount >= 25 &&
+      officialBenefitReadyCategories >= 10 &&
+      officialBenefitFresh
+        ? "ready"
+        : "needs_review";
 
     return NextResponse.json({
       ok: true,
@@ -54,6 +71,15 @@ export async function GET() {
         operationalEnvReadyRate: operationalEnvReadiness.readyRate,
         operationalEnvReadyGroups: operationalEnvReadiness.readyGroups,
         operationalEnvBlockingGroups: operationalEnvReadiness.blockingGroups.length,
+        officialBenefitFresh,
+        officialBenefitFreshnessHours,
+        officialBenefitVisibleCount: newsOperations.visibleCount,
+        officialBenefitReadyCategories,
+        officialBenefitWeakCategories,
+        officialBenefitHiddenCount: newsOperations.hiddenCount,
+        officialBenefitFailedCount: newsOperations.failedCount,
+        officialBenefitRefreshAllOk: newsOperations.refreshAll.ok,
+        officialBenefitOperationalRisks: newsOperations.operationalRisks.length,
         activeDeals: activeDeals.length,
         freeBenefitDeals: freeBenefitDeals.length
       },

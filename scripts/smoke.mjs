@@ -1087,6 +1087,12 @@ await check("health api", async () => {
   assert(data.checks?.personalizationQueuesReady >= 0, "Health API missing personalization ready queue count");
   assert(data.checks?.operationalEnvReadyRate >= 0, "Health API missing operational env readiness rate");
   assert(data.checks?.operationalEnvReadyGroups >= 0, "Health API missing operational env ready group count");
+  assert(data.checks?.officialBenefitFresh === true, "Health API official benefit feed is stale");
+  assert(data.checks?.officialBenefitFreshnessHours <= 24, "Health API missing official benefit freshness hours");
+  assert(data.checks?.officialBenefitVisibleCount >= 25, "Health API missing official benefit visible count");
+  assert(data.checks?.officialBenefitReadyCategories >= 10, "Health API missing official benefit category coverage");
+  assert(data.checks?.officialBenefitWeakCategories === 0, "Health API found weak official benefit categories");
+  assert(data.checks?.officialBenefitRefreshAllOk === true, "Health API missing refresh:all official benefit status");
 });
 
 await check("today benefits api", async () => {
