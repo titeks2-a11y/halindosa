@@ -4,10 +4,10 @@
 
 ## 기본 정보
 
-- 생성 시각: 2026-06-03T20:44:14.973Z
+- 생성 시각: 2026-06-03T20:52:06.959Z
 - Git 브랜치: codex/12h-product-ux-growth-hardening
-- 최신 커밋: 5e354ca
-- Git 상태: M DEVICE_QA_REPORT.md;  M KNOWN_ISSUES.md;  M PUBLIC_URL_REPORT.md;  M RELEASE_NOTES.json;  M RELEASE_NOTES.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_HANDOFF_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_PACKET_REPORT.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M SUPPORT_PLAYBOOK.json;  M SUPPORT_PLAYBOOK.md;  M docs/DEVICE_QA_REPORT.md;  M docs/KNOWN_ISSUES.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/RELEASE_NOTES.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_HANDOFF_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_PACKET_REPORT.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md;  M docs/SUPPORT_PLAYBOOK.md;  M docs/release-evidence.md;  M reports/release-doctor.json
+- 최신 커밋: fa7ad89
+- Git 상태: clean
 - 패키지 버전: 1.0.1
 - 앱 이름: 할인도사
 - 앱 ID / 패키지명: com.halindosa.app
@@ -27,7 +27,7 @@
 | iOS privacy manifest | `ios/App/App/PrivacyInfo.xcprivacy` | 373B |
 | Commercial audit report | `docs/AUDIT_REPORT.md` | 291B |
 | Environment doctor report | `docs/ENV_DOCTOR_REPORT.md` | 581B |
-| Public URL submission report | `docs/PUBLIC_URL_REPORT.md` | 2KB |
+| Public URL submission report | `docs/PUBLIC_URL_REPORT.md` | 3KB |
 | Store metadata QA report | `docs/STORE_METADATA_REPORT.md` | 2KB |
 | Store asset QA report | `docs/STORE_ASSETS_REPORT.md` | 1KB |
 | Device QA execution manifest | `docs/DEVICE_QA_MANIFEST.md` | 5KB |
@@ -37,8 +37,8 @@
 | Store submission packet QA report | `docs/STORE_PACKET_REPORT.md` | 6KB |
 | Store console fields manifest | `docs/STORE_CONSOLE_FIELDS.md` | 4KB |
 | Store console fields manifest JSON | `STORE_CONSOLE_FIELDS.json` | 4KB |
-| Store manual submission checklist | `docs/STORE_MANUAL_CHECKLIST.md` | 4KB |
-| Store manual submission checklist JSON | `STORE_MANUAL_CHECKLIST.json` | 5KB |
+| Store manual submission checklist | `docs/STORE_MANUAL_CHECKLIST.md` | 5KB |
+| Store manual submission checklist JSON | `STORE_MANUAL_CHECKLIST.json` | 6KB |
 | Store launch handoff report | `docs/STORE_HANDOFF_REPORT.md` | 5KB |
 | Release notes | `docs/RELEASE_NOTES.md` | 5KB |
 | Release notes JSON | `RELEASE_NOTES.json` | 5KB |
@@ -57,6 +57,9 @@
 | Push delivery policy report | `docs/PUSH_DELIVERY_POLICY.md` | 3KB |
 | Push delivery policy JSON | `reports/push-delivery-policy.json` | 5KB |
 | Link quality regression JSON | `reports/link-quality-regression.json` | 5KB |
+| Official source live check report | `docs/OFFICIAL_SOURCE_LIVE_CHECK.md` | 5KB |
+| Official source live check JSON | `reports/official-source-live-check.json` | 16KB |
+| Official source live check CSV | `reports/official-source-live-check.csv` | 7KB |
 | Image backlog report | `docs/IMAGE_BACKLOG_REPORT.md` | 25KB |
 | Image backlog CSV | `IMAGE_BACKLOG.csv` | 53KB |
 | Image backlog next batch CSV | `IMAGE_BACKLOG_NEXT_BATCH.csv` | 12KB |
@@ -77,6 +80,7 @@ npm run device:qa:manifest
 npm run device:qa:doctor
 npm run android:signing:doctor
 npm run image:backlog:report
+npm run source:live:doctor
 npm run store:screenshots:manifest
 npm run store:console:fields
 npm run store:manual:checklist
@@ -107,6 +111,7 @@ npm run release:evidence
 - Capacitor iOS sync
 - performance budget: 정적 export, JS/CSS, APK/AAB, 스토어 이미지 크기 검사
 - operational health readiness: 상품 링크, 공식 혜택 카테고리, refresh:all, 24시간 신선도 기준 점검
+- official source live doctor: 공식 이벤트/혜택 소스 후보의 접근 가능, WAF/권한 차단, 404/410 교체 필요 상태를 non-strict 리포트로 기록
 - Android/iOS 앱 ID, 버전, 아이콘, 스플래시, 권한, 딥링크, 개인정보 manifest 점검
 - 구매 링크 커버리지 보고서: 검증된 실제 구매 상세 URL과 보강 대기 상품 목록 점검
 - 정책 페이지, 스토어 등록 문서, 데이터 보안/콘텐츠 등급/스크린샷 가이드 점검
