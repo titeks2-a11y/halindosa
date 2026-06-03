@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-03T11:49:28.233Z",
+  "generatedAt": "2026-06-03T12:40:42.439Z",
   "ok": true,
   "fetchedCount": 140,
   "normalizedCount": 140,
@@ -100,6 +100,21 @@
     "http5xxCount": 0,
     "unavailableTextCount": 0
   },
+  "policy": {
+    "version": 1,
+    "source": "data/linkQualityPolicy.json",
+    "exposurePolicy": {
+      "availability": "active",
+      "validationStatus": "passed",
+      "isHidden": false,
+      "blockedLinkTypes": [
+        "search",
+        "seller_search",
+        "unavailable"
+      ],
+      "finalUrlRequired": true
+    }
+  },
   "failureReasons": {},
   "pipeline": [
     "collect providers",
@@ -115,7 +130,7 @@
   ],
   "reports": {
     "linkValidation": {
-      "generatedAt": "2026-06-03T11:49:28.325Z",
+      "generatedAt": "2026-06-03T12:40:42.535Z",
       "totalDeals": 140,
       "verificationTargets": 140,
       "passedDirectLinks": 140,
@@ -151,6 +166,24 @@
         "robotsBlocked": 0,
         "unavailableText": 0,
         "failures": []
+      },
+      "httpStatusSummary": {
+        "redirected": 0,
+        "finalUrlChanged": 0,
+        "http404": 0,
+        "http410": 0,
+        "http5xx": 0,
+        "timeout": 0,
+        "robotsBlocked": 0,
+        "unavailableText": 0
+      },
+      "policy": {
+        "version": 1,
+        "source": "data/linkQualityPolicy.json",
+        "searchPatterns": 18,
+        "unavailableTextPatterns": 9,
+        "productDetailSignals": 26,
+        "officialBenefitUrlSignals": 15
       },
       "exposurePolicy": {
         "availability": "active",
@@ -217,7 +250,7 @@
       "issues": []
     },
     "productQuality": {
-      "generatedAt": "2026-06-03T11:49:28.423Z",
+      "generatedAt": "2026-06-03T12:40:42.636Z",
       "totalProducts": 140,
       "passedProducts": 140,
       "failedProducts": 0,
@@ -228,12 +261,45 @@
       "verifiedPurchaseLinks": 140,
       "missingVerifiedIds": [],
       "hiddenIssueIds": [],
+      "policy": {
+        "version": 1,
+        "source": "data/linkQualityPolicy.json",
+        "searchPatterns": 18,
+        "unavailableTextPatterns": 9,
+        "productDetailSignals": 26,
+        "exposurePolicy": {
+          "availability": "active",
+          "validationStatus": "passed",
+          "isHidden": false,
+          "blockedLinkTypes": [
+            "search",
+            "seller_search",
+            "unavailable"
+          ],
+          "finalUrlRequired": true
+        }
+      },
+      "httpStatusSummary": {
+        "redirected": 0,
+        "finalUrlChanged": 0,
+        "http404": 0,
+        "http410": 0,
+        "http5xx": 0,
+        "timeout": 0,
+        "robotsBlocked": 0,
+        "unavailableText": 0
+      },
       "exposurePolicy": {
         "availability": "active",
         "validationStatus": "passed",
         "isHidden": false,
-        "linkType": "not search/seller_search/unavailable",
-        "finalUrlRequired": true
+        "blockedLinkTypes": [
+          "search",
+          "seller_search",
+          "unavailable"
+        ],
+        "finalUrlRequired": true,
+        "linkType": "not search/seller_search/unavailable"
       },
       "issues": []
     }
@@ -244,8 +310,8 @@
       "command": "node scripts/verify-product-links.mjs",
       "ok": true,
       "status": 0,
-      "startedAt": "2026-06-03T11:49:28.248Z",
-      "finishedAt": "2026-06-03T11:49:28.347Z",
+      "startedAt": "2026-06-03T12:40:42.455Z",
+      "finishedAt": "2026-06-03T12:40:42.559Z",
       "stdout": "Product link verification passed: 140/140 verified purchase URLs (100%).\n- Distinct purchase hosts: 48\n- Product detail URLs: 109\n- Official benefit/event URLs: 31",
       "stderr": ""
     },
@@ -254,8 +320,8 @@
       "command": "node scripts/verify-products.mjs",
       "ok": true,
       "status": 0,
-      "startedAt": "2026-06-03T11:49:28.347Z",
-      "finishedAt": "2026-06-03T11:49:28.434Z",
+      "startedAt": "2026-06-03T12:40:42.559Z",
+      "finishedAt": "2026-06-03T12:40:42.647Z",
       "stdout": "Product quality verification passed.\n- Total products: 140\n- Visible products: 140\n- Hidden products: 0\n- Search links exposed: 0",
       "stderr": ""
     }

@@ -1868,6 +1868,8 @@ async function checkOperationalDataSurfaces() {
   const purchaseConfirmSheet = await text("components/PurchaseConfirmSheet.tsx");
   const dealDetailActions = await text("components/DealDetailActions.tsx");
   const quality = await text("lib/deals/quality.ts");
+  const linkValidator = await text("lib/deals/linkValidator.ts");
+  const providerTypes = await text("lib/deals/providers/types.ts");
   const affiliate = await text("lib/affiliate.ts");
   const dealRepository = await text("lib/deals/dealRepository.ts");
   const categoriesPage = await text("app/categories/page.tsx");
@@ -2446,6 +2448,42 @@ async function checkOperationalDataSurfaces() {
     fail("shared link quality rules", "Home, repository, featured sections, cards, live feed, and purchase confirmation should use shared link quality rules and customer-facing quality notices.");
   } else {
     pass("shared link quality rules", "Verified purchase filtering, scoring, trust labels, and customer-facing quality notices use shared link quality rules.");
+  }
+
+  const linkPolicy = JSON.parse(await text("data/linkQualityPolicy.json"));
+  const verifyLinksScript = await text("scripts/verify-product-links.mjs");
+  const verifyProductsScript = await text("scripts/verify-products.mjs");
+  const refreshDealsScript = await text("scripts/refresh-deals.mjs");
+  const linkReport = JSON.parse(await text("reports/link-validation.json"));
+  const productReport = JSON.parse(await text("reports/product-quality.json"));
+  const linkPolicyIssues = [];
+
+  for (const key of ["blockedHosts", "searchPatterns", "unavailableTextPatterns", "productDetailSignals", "officialBenefitUrlSignals", "exposurePolicy"]) {
+    if (!(key in linkPolicy)) linkPolicyIssues.push(`policy missing ${key}`);
+  }
+
+  for (const [label, source] of [
+    ["link validator", linkValidator],
+    ["provider types", providerTypes],
+    ["verify links", verifyLinksScript],
+    ["verify products", verifyProductsScript],
+    ["refresh deals", refreshDealsScript]
+  ]) {
+    if (!source.includes("linkQualityPolicy")) linkPolicyIssues.push(`${label} should read linkQualityPolicy`);
+  }
+
+  if (linkReport.policy?.source !== "data/linkQualityPolicy.json") linkPolicyIssues.push("link-validation report should record policy source");
+  if (!linkReport.httpStatusSummary || !("http404" in linkReport.httpStatusSummary) || !("robotsBlocked" in linkReport.httpStatusSummary)) {
+    linkPolicyIssues.push("link-validation report should record HTTP/redirect summary");
+  }
+  if (productReport.policy?.source !== "data/linkQualityPolicy.json") linkPolicyIssues.push("product-quality report should record policy source");
+  if ((linkReport.exposedSearchLinks ?? 0) !== 0 || (productReport.searchLinks ?? 0) !== 0) linkPolicyIssues.push("search links should be zero");
+  if ((linkReport.exposedSoldOutLinks ?? 0) !== 0 || (productReport.soldOutProducts ?? 0) !== 0) linkPolicyIssues.push("sold-out/ended links should be zero");
+
+  if (linkPolicyIssues.length) {
+    fail("link validation policy system", linkPolicyIssues.join("; "));
+  } else {
+    pass("link validation policy system", "Runtime validators, provider intake, refresh pipeline, QA scripts, and reports share the link quality policy with zero exposed search or sold-out links.");
   }
 
   const requiredOfficialOutboundHosts = [
@@ -3454,12 +3492,13 @@ function checkRefreshDealPipeline() {
     issues.push("reports/refresh-deals.json missing");
   } else {
     const report = JSON.parse(readFileSync(refreshPath, "utf8"));
-    const requiredFields = ["fetchedCount", "normalizedCount", "insertedCount", "updatedCount", "hiddenCount", "failedCount", "providerStats", "liveProbe", "failureReasons", "generatedAt"];
+    const requiredFields = ["fetchedCount", "normalizedCount", "insertedCount", "updatedCount", "hiddenCount", "failedCount", "providerStats", "liveProbe", "policy", "failureReasons", "generatedAt"];
     const missingFields = requiredFields.filter((field) => !(field in report));
 
     if (missingFields.length) issues.push(`refresh report missing ${missingFields.join(", ")}`);
     if (!Array.isArray(report.providerStats) || !report.providerStats.length) issues.push("providerStats should include provider collection status");
     if (!report.liveProbe || typeof report.liveProbe !== "object") issues.push("refresh report should include liveProbe HTTP/redirect summary");
+    if (report.policy?.source !== "data/linkQualityPolicy.json") issues.push("refresh report should record shared link policy source");
     if ((report.reports?.linkValidation?.searchOrCategorySuspected ?? 0) !== 0) issues.push("refresh report still has search/category links");
     if ((report.reports?.linkValidation?.soldOutOrEndedSuspected ?? 0) !== 0) issues.push("refresh report still has sold-out/ended link signals");
   }

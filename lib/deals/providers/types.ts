@@ -1,4 +1,11 @@
 import { DealInput } from "@/lib/deals/normalizer";
+import {
+  hasPolicyProductDetailSignal,
+  isPolicyBlockedHost,
+  isPolicyHomeOnlyUrl,
+  isPolicySearchLikeUrl,
+  linkQualityPolicy
+} from "@/lib/deals/linkQualityPolicy";
 
 export type DealProviderName = "coupang" | "naver" | "elevenst" | "event" | "manual";
 
@@ -132,23 +139,12 @@ function parseHttpUrl(value?: string) {
 }
 
 function isBlockedProviderHost(host: string) {
-  return [
-    "ppomppu.co.kr",
-    "fmkorea.com",
-    "quasarzone.com",
-    "algumon.com",
-    "clien.net",
-    "ruliweb.com",
-    "dcinside.com",
-    "theqoo.net",
-    "instiz.net",
-    "coolenjoy.net",
-    "example.com"
-  ].some((candidate) => host === candidate || host.endsWith(`.${candidate}`) || host.includes(candidate));
+  return isPolicyBlockedHost(host) || linkQualityPolicy.placeholderHosts.some((candidate) => host === candidate || host.endsWith(`.${candidate}`));
 }
 
 function isProviderSearchOrHomeUrl(url: URL) {
   const path = url.pathname.replace(/\/+$/, "").toLowerCase();
+  if (isPolicyHomeOnlyUrl(url) || isPolicySearchLikeUrl(url)) return true;
   if (/\/product\/|\/products\/|\/goods\/|\/item\/|itemview|goodsdetail|detailview/i.test(`${url.pathname}${url.search}`)) return false;
   if (/event|benefit|campaign|coupon|promotion/i.test(`${url.pathname}${url.search}${url.hash}`)) return false;
   const value = `${url.hostname}${url.pathname}${url.search}`.toLowerCase();
@@ -158,24 +154,7 @@ function isProviderSearchOrHomeUrl(url: URL) {
     path === "/" ||
     path === "/main" ||
     path === "/index" ||
-    [
-      "/search",
-      "search.",
-      "shopping/search",
-      "msearch",
-      "find",
-      "result",
-      "query=",
-      "keyword=",
-      "kwd=",
-      "sword=",
-      "wholesale-",
-      "/np/search",
-      "/productions/feed",
-      "/category",
-      "/categories",
-      "/display"
-    ].some((pattern) => value.includes(pattern))
+    linkQualityPolicy.searchPatterns.some((pattern) => value.includes(pattern))
   );
 }
 
@@ -233,6 +212,9 @@ export function validateProviderDeal(deal: DealInput): DealProviderValidation {
   if (!parsedUrl) return { ok: false, reason: "invalid_purchase_url" };
   if (isBlockedProviderHost(parsedUrl.hostname.toLowerCase())) return { ok: false, reason: "blocked_or_community_host" };
   if (isProviderSearchOrHomeUrl(parsedUrl)) return { ok: false, reason: "search_or_home_url" };
+  if (!hasPolicyProductDetailSignal(parsedUrl) && !`${parsedUrl.pathname}${parsedUrl.search}${parsedUrl.hash}`.match(/event|benefit|campaign|coupon|promotion/i)) {
+    return { ok: false, reason: "missing_product_or_benefit_signal" };
+  }
   return { ok: true, reason: "ready" };
 }
 

@@ -1,4 +1,13 @@
 import { Deal, DealLinkStatus, DealLinkType } from "@/types/deal";
+import {
+  containsPolicyUnavailableText,
+  hasPolicyProductDetailSignal,
+  isPolicyBlockedHost,
+  isPolicyHomeOnlyUrl,
+  isPolicyPlaceholderHost,
+  isPolicySearchLikeUrl,
+  linkQualityPolicy
+} from "@/lib/deals/linkQualityPolicy";
 
 export interface LinkValidationInput {
   url?: string;
@@ -30,30 +39,7 @@ export interface LinkProbeResult {
   reason: string;
 }
 
-const communityHosts = [
-  "ppomppu.co.kr",
-  "fmkorea.com",
-  "quasarzone.com",
-  "algumon.com",
-  "clien.net",
-  "ruliweb.com",
-  "dcinside.com",
-  "theqoo.net",
-  "instiz.net",
-  "coolenjoy.net"
-];
-
-const soldOutTextPatterns = [
-  /품절/,
-  /일시품절/,
-  /구매불가/,
-  /판매종료/,
-  /판매중지/,
-  /재입고알림/,
-  /이벤트종료/,
-  /행사종료/,
-  /마감/
-];
+const communityHosts = linkQualityPolicy.blockedHosts;
 
 function parseHttpUrl(value?: string) {
   if (!value) return null;
@@ -72,45 +58,29 @@ function hostMatches(host: string, candidate: string) {
 }
 
 function isCommunityHost(host: string) {
-  return communityHosts.some((candidate) => hostMatches(host, candidate));
+  return communityHosts.some((candidate) => hostMatches(host, candidate)) || isPolicyBlockedHost(host);
 }
 
 function isPlaceholderHost(host: string) {
-  return host === "example.com" || host.endsWith(".example.com");
+  return isPolicyPlaceholderHost(host);
 }
 
 function isHomeOnlyUrl(url: URL) {
   const path = url.pathname.replace(/\/+$/, "");
-  return path === "" || path === "/" || path === "/main" || path === "/index";
+  return isPolicyHomeOnlyUrl(url) || path === "" || path === "/" || path === "/main" || path === "/index";
 }
 
 function isSearchOrCategoryUrl(url: URL) {
+  if (isPolicySearchLikeUrl(url)) return true;
   if (url.pathname.toLowerCase().includes("/product/")) return false;
   if (/event|benefit|campaign|coupon|promotion/i.test(`${url.pathname}${url.search}${url.hash}`)) return false;
 
   const value = `${url.hostname}${url.pathname}${url.search}`.toLowerCase();
-  return [
-    "/search",
-    "search.",
-    "shopping/search",
-    "msearch",
-    "find",
-    "result",
-    "query=",
-    "keyword=",
-    "kwd=",
-    "sword=",
-    "wholesale-",
-    "/np/search",
-    "/productions/feed",
-    "/category",
-    "/categories",
-    "/display"
-  ].some((pattern) => value.includes(pattern));
+  return linkQualityPolicy.searchPatterns.some((pattern) => value.includes(pattern));
 }
 
 export function containsUnavailableText(text: string) {
-  return soldOutTextPatterns.some((pattern) => pattern.test(text));
+  return containsPolicyUnavailableText(text);
 }
 
 function isKnownProductDetailUrl(url: URL, mallName: string) {
@@ -163,7 +133,7 @@ function isKnownProductDetailUrl(url: URL, mallName: string) {
   if (/카카오톡|선물하기|gift\.kakao/.test(mall) || hostMatches(host, "gift.kakao.com")) return /event|page|promotion/.test(full);
   if (/티켓링크|ticketlink/.test(mall) || hostMatches(host, "ticketlink.co.kr")) return /event|product|goods/.test(full);
 
-  return !isHomeOnlyUrl(url) && !isSearchOrCategoryUrl(url);
+  return hasPolicyProductDetailSignal(url) || (!isHomeOnlyUrl(url) && !isSearchOrCategoryUrl(url));
 }
 
 function clampConfidence(value: number) {

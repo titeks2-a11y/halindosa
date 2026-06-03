@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-03T11:49:28.610Z",
+  "generatedAt": "2026-06-03T12:40:42.823Z",
   "totalDeals": 140,
   "verificationTargets": 140,
   "passedDirectLinks": 140,
@@ -35,6 +35,24 @@
     "robotsBlocked": 0,
     "unavailableText": 0,
     "failures": []
+  },
+  "httpStatusSummary": {
+    "redirected": 0,
+    "finalUrlChanged": 0,
+    "http404": 0,
+    "http410": 0,
+    "http5xx": 0,
+    "timeout": 0,
+    "robotsBlocked": 0,
+    "unavailableText": 0
+  },
+  "policy": {
+    "version": 1,
+    "source": "data/linkQualityPolicy.json",
+    "searchPatterns": 18,
+    "unavailableTextPatterns": 9,
+    "productDetailSignals": 26,
+    "officialBenefitUrlSignals": 15
   },
   "exposurePolicy": {
     "availability": "active",

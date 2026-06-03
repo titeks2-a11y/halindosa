@@ -5,50 +5,12 @@ import { dirname, join } from "node:path";
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const mockDeals = readFileSync(join(root, "data/mockDeals.ts"), "utf8");
 const verifiedLinks = readFileSync(join(root, "data/verifiedPurchaseLinks.ts"), "utf8");
+const linkQualityPolicy = JSON.parse(readFileSync(join(root, "data/linkQualityPolicy.json"), "utf8"));
 
-const blockedHosts = [
-  "ppomppu.co.kr",
-  "fmkorea.com",
-  "quasarzone.com",
-  "algumon.com",
-  "clien.net",
-  "ruliweb.com",
-  "dcinside.com",
-  "theqoo.net",
-  "instiz.net",
-  "coolenjoy.net",
-  "example.com"
-];
-
-const searchPatterns = [
-  "/search",
-  "search.",
-  "shopping/search",
-  "msearch",
-  "find",
-  "result",
-  "query=",
-  "keyword=",
-  "kwd=",
-  "sword=",
-  "wholesale-",
-  "/np/search",
-  "/productions/feed",
-  "/category",
-  "/categories"
-];
-const unavailablePatterns = [
-  "품절",
-  "일시품절",
-  "구매불가",
-  "판매종료",
-  "판매중지",
-  "재입고알림",
-  "이벤트종료",
-  "행사종료",
-  "마감"
-];
-const allowedSources = new Set(["manual_review", "partner_feed", "official_api"]);
+const blockedHosts = [...linkQualityPolicy.blockedHosts, ...linkQualityPolicy.placeholderHosts];
+const searchPatterns = linkQualityPolicy.searchPatterns;
+const unavailablePatterns = linkQualityPolicy.unavailableTextPatterns;
+const allowedSources = new Set(linkQualityPolicy.allowedVerificationSources);
 const minimums = {
   distinctHosts: 18,
   evidenceLength: 12
@@ -99,35 +61,7 @@ function containsUnavailableText(text) {
 function hasProductDetailSignal(url) {
   const value = `${url.hostname}${url.pathname}${url.search}`.toLowerCase();
 
-  return [
-    /\/vp\/products\/\d+/,
-    /\/products\/\d+/,
-    /\/product\//,
-    /\/p\/product\//,
-    /\/goods\/\d+/,
-    /\/goods\/detail/,
-    /\/item\/itemview\.ssg/,
-    /\/item\?/,
-    /\/item\//,
-    /detailview\.aspx/,
-    /itemid=/,
-    /goodsno=/,
-    /goodscode=/,
-    /goodscode=/,
-    /goodsnum=/,
-    /dealno=/,
-    /prdno=/,
-    /\/deal\/deal\.gs/,
-    /\/dp\/[a-z0-9]+/,
-    /\/gp\/product\/[a-z0-9]+/,
-    /\/item\/\d+\.html/,
-    /\/i\/\d+\.html/,
-    /\/app\/product\/[a-z0-9]+/,
-    /\/app\/goods\/goodsdetail/,
-    /\/web\/goods_view\/index\.asp/,
-    /\/tna\/products\/[a-z0-9-]+/,
-    /\/contents\/notice\/detail\/\d+/
-  ].some((pattern) => pattern.test(value));
+  return linkQualityPolicy.productDetailSignals.some((pattern) => new RegExp(pattern, "i").test(value));
 }
 
 async function fetchWithTimeout(url, options) {
@@ -229,8 +163,8 @@ function recordLiveProbeResult(id, urlValue, probe) {
 function hasClaimOrBenefitSignal(url, evidence) {
   const value = `${url.hostname}${url.pathname}${url.search}${url.hash}`.toLowerCase();
   const evidenceValue = evidence.toLowerCase();
-  const urlLooksLikeBenefit = /event|benefit|campaign|coupon|promotion|membership|discount|culture-event|whats_new|page\/event|plus\.do|bbs_category=3|\/cpc\/cr\/|services\/life\/payment|tossfeed\/article/.test(value);
-  const evidenceLooksLikeBenefit = /이벤트|행사|혜택|쿠폰|초대권|시사회|멤버십|포인트|무료|응모|할인|할인정보|캠페인|소식|공식/.test(evidenceValue);
+  const urlLooksLikeBenefit = linkQualityPolicy.officialBenefitUrlSignals.some((signal) => value.includes(signal));
+  const evidenceLooksLikeBenefit = linkQualityPolicy.officialBenefitEvidenceSignals.some((signal) => evidenceValue.includes(signal.toLowerCase()));
 
   return urlLooksLikeBenefit && evidenceLooksLikeBenefit;
 }
@@ -398,12 +332,26 @@ const report = {
   exposedSoldOutLinks: soldOutOrEndedCount,
   visibleCount: issues.length ? 0 : dealIds.length,
   liveProbe,
+  httpStatusSummary: {
+    redirected: liveProbe.redirected,
+    finalUrlChanged: liveProbe.finalUrlChanged,
+    http404: liveProbe.http404,
+    http410: liveProbe.http410,
+    http5xx: liveProbe.http5xx,
+    timeout: liveProbe.timeout,
+    robotsBlocked: liveProbe.robotsBlocked,
+    unavailableText: liveProbe.unavailableText
+  },
+  policy: {
+    version: linkQualityPolicy.version,
+    source: "data/linkQualityPolicy.json",
+    searchPatterns: linkQualityPolicy.searchPatterns.length,
+    unavailableTextPatterns: linkQualityPolicy.unavailableTextPatterns.length,
+    productDetailSignals: linkQualityPolicy.productDetailSignals.length,
+    officialBenefitUrlSignals: linkQualityPolicy.officialBenefitUrlSignals.length
+  },
   exposurePolicy: {
-    availability: "active",
-    validationStatus: "passed",
-    isHidden: false,
-    blockedLinkTypes: ["search", "seller_search", "unavailable"],
-    finalUrlRequired: true
+    ...linkQualityPolicy.exposurePolicy
   },
   excludedReasonCounts: Object.fromEntries([...excludedReasonCounts.entries()].sort(([a], [b]) => a.localeCompare(b))),
   domainCounts: Object.fromEntries([...domainCounts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))),

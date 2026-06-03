@@ -158,9 +158,12 @@ SEO 규칙은 root metadata, Open Graph, canonical, manifest, sitemap, robots, �
 - 홈 화면 검색 상태는 URL query parameter로 유지된다. 배포 후 `/?q=애플%20워치`처럼 직접 진입해도 같은 결과가 나와야 한다.
 - 탐색 버튼은 내부 `#all-deals` 앵커나 `scrollIntoView`를 쓰지 않고 필터 상태만 바꾼다. 화면 이동은 사용자가 직접 스크롤하도록 두어 상품 카드 클릭 중 갑작스러운 점프가 없어야 한다.
 - `npm run verify:links`는 `data/mockDeals.ts`의 전체 상품 ID와 `data/verifiedPurchaseLinks.ts`의 실제 구매 URL 매핑을 비교한다.
-- 검증 링크는 URL뿐 아니라 `checkedAt`, `source`, `evidence`, 도메인 다양성까지 검사한다. 상품을 추가할 때 검수 근거가 없으면 QA에서 실패해야 한다.
-- 검증 스크립트는 커뮤니티, placeholder, 쇼핑몰 메인, 검색/카테고리 URL을 실패로 처리한다.
-- 검증 스크립트는 상품 상세 URL과 공식 혜택/이벤트 URL을 분리해 집계한다. 상품 상세 신호가 없는 공식 이벤트성 혜택은 evidence에 공식 이벤트, 쿠폰, 초대권, 멤버십 등 검수 근거가 있어야 통과한다.
+  - 검색/카테고리/커뮤니티/품절/종료/공식 혜택 URL 판정 기준은 `data/linkQualityPolicy.json`이 단일 기준이다. 새 쇼핑몰, 공식 이벤트, 제휴 피드 URL 패턴을 추가할 때는 이 파일을 먼저 갱신하고 `npm run verify:links`, `npm run verify:products`, `npm run refresh:deals`, `npm run release:doctor`를 순서대로 실행한다.
+  - 검증 링크는 URL뿐 아니라 `checkedAt`, `source`, `evidence`, 도메인 다양성까지 검사한다. 상품을 추가할 때 검수 근거가 없으면 QA에서 실패해야 한다.
+  - 검증 스크립트는 커뮤니티, placeholder, 쇼핑몰 메인, 검색/카테고리 URL을 실패로 처리한다.
+  - 검증 스크립트는 상품 상세 URL과 공식 혜택/이벤트 URL을 분리해 집계한다. 상품 상세 신호가 없는 공식 이벤트성 혜택은 evidence에 공식 이벤트, 쿠폰, 초대권, 멤버십 등 검수 근거가 있어야 통과한다.
+  - `reports/link-validation.json`은 `policy.source`, `httpStatusSummary`, 검색 링크 수, 품절/종료 신호 수, hidden 처리 수를 기록한다. Play Store 제출 전에는 검색 링크 0건, 품절/종료 노출 0건, `visibleDeals=140` 이상을 확인한다.
+  - `reports/product-quality.json`은 같은 정책의 `exposurePolicy`를 기록하고 `/api/deals` 노출 조건과 리포트 조건이 어긋나면 `verify:products`에서 실패한다.
 - `npm run catalog:doctor`는 전체 상품 수 140개 이상, 판매처 수, 필수 카테고리별 최소 5개, 필수 혜택 유형별 최소 5개, 검증 구매 링크 커버리지를 함께 검사한다. 상품 ID 순번, 중복 ID, 같은 판매처의 중복 상품명, 정상가/할인가/할인율 범위, 태그 2개 이상도 함께 확인한다.
 - `npm run catalog:report`는 `docs/catalog-quality-report.md`를 갱신한다. 상품을 대량 추가한 뒤 이 보고서에서 카테고리 5개 미만 영역, 혜택 유형 5개 미만 영역, 판매처/도메인 쏠림을 확인한다.
 - 신규 상품을 많이 추가한 뒤 `catalog:doctor`가 실패하면 상품 수만 늘린 것이 아니라 카테고리/혜택/판매처 균형이 무너진 것이므로 운영 피드를 다시 조정한다.

@@ -29,8 +29,11 @@ const verifiedPurchaseLinks = read("data/verifiedPurchaseLinks.ts");
 const dealTypes = read("types/deal.ts");
 const normalizer = read("lib/deals/normalizer.ts");
 const quality = read("lib/deals/quality.ts");
+const linkValidator = read("lib/deals/linkValidator.ts");
+const providerTypes = read("lib/deals/providers/types.ts");
 const repository = read("lib/deals/dealRepository.ts");
 const affiliate = read("lib/affiliate.ts");
+const linkQualityPolicy = JSON.parse(read("data/linkQualityPolicy.json"));
 const packageJson = JSON.parse(read("package.json"));
 const linkReport = readJson("reports/link-validation.json") ?? readJson("LINK_VERIFICATION_RESULT.json");
 const refreshReport = readJson("reports/refresh-deals.json");
@@ -77,6 +80,20 @@ for (const phrase of [
   }
 }
 
+if (linkQualityPolicy.version < 1) {
+  issues.push("linkQualityPolicy.json 버전이 유효하지 않습니다.");
+}
+
+for (const field of ["blockedHosts", "searchPatterns", "unavailableTextPatterns", "productDetailSignals", "officialBenefitUrlSignals", "exposurePolicy"]) {
+  if (!(field in linkQualityPolicy)) {
+    issues.push(`linkQualityPolicy.json에 ${field} 필드가 없습니다.`);
+  }
+}
+
+if (!linkValidator.includes("linkQualityPolicy") || !providerTypes.includes("linkQualityPolicy")) {
+  issues.push("런타임 링크 검증과 provider 검증이 data/linkQualityPolicy.json 정책을 사용하지 않습니다.");
+}
+
 if (!repository.includes("deals.filter(isPubliclyVisibleDeal)")) {
   issues.push("public getDeals 결과가 isPubliclyVisibleDeal로 필터링되지 않습니다.");
 }
@@ -118,6 +135,12 @@ if (!linkReport) {
   }
   if ((linkReport.issues ?? []).length) {
     issues.push(`링크 검증 실패 상품이 있습니다: ${linkReport.issues.length}`);
+  }
+  if (linkReport.policy?.source !== "data/linkQualityPolicy.json" || (linkReport.policy?.searchPatterns ?? 0) < 10) {
+    issues.push("링크 검증 리포트가 공통 linkQualityPolicy 기준을 기록하지 않습니다.");
+  }
+  if (!linkReport.httpStatusSummary || !("http404" in linkReport.httpStatusSummary) || !("timeout" in linkReport.httpStatusSummary)) {
+    issues.push("링크 검증 리포트에 HTTP/redirect 세부 지표가 없습니다.");
   }
 }
 
@@ -168,12 +191,18 @@ const report = {
   verifiedPurchaseLinks: verifiedLinkIds.size,
   missingVerifiedIds,
   hiddenIssueIds: [...hiddenIssueIds].sort(),
+  policy: {
+    version: linkQualityPolicy.version,
+    source: "data/linkQualityPolicy.json",
+    searchPatterns: linkQualityPolicy.searchPatterns.length,
+    unavailableTextPatterns: linkQualityPolicy.unavailableTextPatterns.length,
+    productDetailSignals: linkQualityPolicy.productDetailSignals.length,
+    exposurePolicy: linkQualityPolicy.exposurePolicy
+  },
+  httpStatusSummary: linkReport?.httpStatusSummary ?? {},
   exposurePolicy: {
-    availability: "active",
-    validationStatus: "passed",
-    isHidden: false,
-    linkType: "not search/seller_search/unavailable",
-    finalUrlRequired: true
+    ...linkQualityPolicy.exposurePolicy,
+    linkType: "not search/seller_search/unavailable"
   },
   issues
 };

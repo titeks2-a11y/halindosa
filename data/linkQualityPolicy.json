@@ -1,0 +1,133 @@
+{
+  "version": 1,
+  "blockedHosts": [
+    "ppomppu.co.kr",
+    "fmkorea.com",
+    "quasarzone.com",
+    "algumon.com",
+    "clien.net",
+    "ruliweb.com",
+    "dcinside.com",
+    "theqoo.net",
+    "instiz.net",
+    "coolenjoy.net"
+  ],
+  "placeholderHosts": [
+    "example.com"
+  ],
+  "homePaths": [
+    "",
+    "/",
+    "/main",
+    "/index"
+  ],
+  "searchPatterns": [
+    "/search",
+    "search.",
+    "shopping/search",
+    "msearch",
+    "/find",
+    "find",
+    "/result",
+    "result",
+    "query=",
+    "keyword=",
+    "kwd=",
+    "sword=",
+    "wholesale-",
+    "/np/search",
+    "/productions/feed",
+    "/category",
+    "/categories",
+    "/display"
+  ],
+  "productDetailSignals": [
+    "\\/vp\\/products\\/\\d+",
+    "\\/products\\/\\d+",
+    "\\/product\\/",
+    "\\/p\\/product\\/",
+    "\\/goods\\/\\d+",
+    "\\/goods\\/detail",
+    "\\/item\\/itemview\\.ssg",
+    "\\/item\\?",
+    "\\/item\\/",
+    "detailview\\.aspx",
+    "itemid=",
+    "goodsno=",
+    "goodscode=",
+    "goodsnum=",
+    "dealno=",
+    "prdno=",
+    "\\/deal\\/deal\\.gs",
+    "\\/dp\\/[a-z0-9]+",
+    "\\/gp\\/product\\/[a-z0-9]+",
+    "\\/item\\/\\d+\\.html",
+    "\\/i\\/\\d+\\.html",
+    "\\/app\\/product\\/[a-z0-9]+",
+    "\\/app\\/goods\\/goodsdetail",
+    "\\/web\\/goods_view\\/index\\.asp",
+    "\\/tna\\/products\\/[a-z0-9-]+",
+    "\\/contents\\/notice\\/detail\\/\\d+"
+  ],
+  "officialBenefitUrlSignals": [
+    "event",
+    "benefit",
+    "campaign",
+    "coupon",
+    "promotion",
+    "membership",
+    "discount",
+    "culture-event",
+    "whats_new",
+    "page/event",
+    "plus.do",
+    "bbs_category=3",
+    "/cpc/cr/",
+    "services/life/payment",
+    "tossfeed/article"
+  ],
+  "officialBenefitEvidenceSignals": [
+    "이벤트",
+    "행사",
+    "혜택",
+    "쿠폰",
+    "초대권",
+    "시사회",
+    "멤버십",
+    "포인트",
+    "무료",
+    "응모",
+    "할인",
+    "할인정보",
+    "캠페인",
+    "소식",
+    "공식"
+  ],
+  "unavailableTextPatterns": [
+    "품절",
+    "일시품절",
+    "구매불가",
+    "판매종료",
+    "판매중지",
+    "재입고알림",
+    "이벤트종료",
+    "행사종료",
+    "마감"
+  ],
+  "allowedVerificationSources": [
+    "manual_review",
+    "partner_feed",
+    "official_api"
+  ],
+  "exposurePolicy": {
+    "availability": "active",
+    "validationStatus": "passed",
+    "isHidden": false,
+    "blockedLinkTypes": [
+      "search",
+      "seller_search",
+      "unavailable"
+    ],
+    "finalUrlRequired": true
+  }
+}

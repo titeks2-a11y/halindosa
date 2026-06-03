@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-03T11:49:28.706Z",
+  "generatedAt": "2026-06-03T12:40:42.930Z",
   "totalProducts": 140,
   "passedProducts": 140,
   "failedProducts": 0,
@@ -10,12 +10,45 @@
   "verifiedPurchaseLinks": 140,
   "missingVerifiedIds": [],
   "hiddenIssueIds": [],
+  "policy": {
+    "version": 1,
+    "source": "data/linkQualityPolicy.json",
+    "searchPatterns": 18,
+    "unavailableTextPatterns": 9,
+    "productDetailSignals": 26,
+    "exposurePolicy": {
+      "availability": "active",
+      "validationStatus": "passed",
+      "isHidden": false,
+      "blockedLinkTypes": [
+        "search",
+        "seller_search",
+        "unavailable"
+      ],
+      "finalUrlRequired": true
+    }
+  },
+  "httpStatusSummary": {
+    "redirected": 0,
+    "finalUrlChanged": 0,
+    "http404": 0,
+    "http410": 0,
+    "http5xx": 0,
+    "timeout": 0,
+    "robotsBlocked": 0,
+    "unavailableText": 0
+  },
   "exposurePolicy": {
     "availability": "active",
     "validationStatus": "passed",
     "isHidden": false,
-    "linkType": "not search/seller_search/unavailable",
-    "finalUrlRequired": true
+    "blockedLinkTypes": [
+      "search",
+      "seller_search",
+      "unavailable"
+    ],
+    "finalUrlRequired": true,
+    "linkType": "not search/seller_search/unavailable"
   },
   "issues": []
 }

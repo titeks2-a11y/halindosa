@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-06-03T12:33:17.278Z",
-  "totalChecks": 180,
-  "passedChecks": 180,
+  "generatedAt": "2026-06-03T12:43:17.673Z",
+  "totalChecks": 181,
+  "passedChecks": 181,
   "failedChecks": 0,
   "ok": true,
   "checks": [
@@ -419,6 +419,11 @@
       "name": "shared link quality rules",
       "ok": true,
       "detail": "Verified purchase filtering, scoring, trust labels, and customer-facing quality notices use shared link quality rules."
+    },
+    {
+      "name": "link validation policy system",
+      "ok": true,
+      "detail": "Runtime validators, provider intake, refresh pipeline, QA scripts, and reports share the link quality policy with zero exposed search or sold-out links."
     },
     {
       "name": "official benefit outbound allowlist",

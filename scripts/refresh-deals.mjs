@@ -6,6 +6,7 @@ import { fileURLToPath } from "node:url";
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const reportsDir = join(root, "reports");
 const dataDir = join(root, "data");
+const linkQualityPolicy = JSON.parse(readFileSync(join(root, "data/linkQualityPolicy.json"), "utf8"));
 mkdirSync(reportsDir, { recursive: true });
 mkdirSync(dataDir, { recursive: true });
 
@@ -14,48 +15,9 @@ const shouldLiveProbe = process.env.DEAL_REFRESH_LIVE_PROBE === "true";
 const shouldBodyProbe = process.env.DEAL_LINK_BODY_PROBE === "true";
 const now = new Date().toISOString();
 
-const blockedHosts = [
-  "ppomppu.co.kr",
-  "fmkorea.com",
-  "quasarzone.com",
-  "algumon.com",
-  "clien.net",
-  "ruliweb.com",
-  "dcinside.com",
-  "theqoo.net",
-  "instiz.net",
-  "coolenjoy.net",
-  "example.com"
-];
-
-const searchPatterns = [
-  "/search",
-  "search.",
-  "shopping/search",
-  "msearch",
-  "/find",
-  "/result",
-  "query=",
-  "keyword=",
-  "kwd=",
-  "sword=",
-  "/np/search",
-  "/productions/feed",
-  "/category",
-  "/categories"
-];
-
-const unavailablePatterns = [
-  "품절",
-  "일시품절",
-  "구매불가",
-  "판매종료",
-  "판매중지",
-  "재입고알림",
-  "이벤트종료",
-  "행사종료",
-  "마감"
-];
+const blockedHosts = [...linkQualityPolicy.blockedHosts, ...linkQualityPolicy.placeholderHosts];
+const searchPatterns = linkQualityPolicy.searchPatterns;
+const unavailablePatterns = linkQualityPolicy.unavailableTextPatterns;
 
 function read(path) {
   return readFileSync(join(root, path), "utf8");
@@ -139,41 +101,14 @@ function isSearchLike(url) {
 function hasProductDetailSignal(url) {
   const value = `${url.hostname}${url.pathname}${url.search}`.toLowerCase();
 
-  return [
-    /\/vp\/products\/\d+/,
-    /\/products\/\d+/,
-    /\/product\//,
-    /\/p\/product\//,
-    /\/goods\/\d+/,
-    /\/goods\/detail/,
-    /\/item\/itemview\.ssg/,
-    /\/item\?/,
-    /\/item\//,
-    /detailview\.aspx/,
-    /itemid=/,
-    /goodsno=/,
-    /goodscode=/,
-    /goodsnum=/,
-    /dealno=/,
-    /prdno=/,
-    /\/deal\/deal\.gs/,
-    /\/dp\/[a-z0-9]+/,
-    /\/gp\/product\/[a-z0-9]+/,
-    /\/item\/\d+\.html/,
-    /\/i\/\d+\.html/,
-    /\/app\/product\/[a-z0-9]+/,
-    /\/app\/goods\/goodsdetail/,
-    /\/web\/goods_view\/index\.asp/,
-    /\/tna\/products\/[a-z0-9-]+/,
-    /\/contents\/notice\/detail\/\d+/
-  ].some((pattern) => pattern.test(value));
+  return linkQualityPolicy.productDetailSignals.some((pattern) => new RegExp(pattern, "i").test(value));
 }
 
 function hasBenefitSignal(url, evidence) {
   const value = `${url.hostname}${url.pathname}${url.search}${url.hash}`.toLowerCase();
   const evidenceValue = cleanText(evidence).toLowerCase();
-  return /event|benefit|campaign|coupon|promotion|membership|discount|culture-event|whats_new|page\/event|plus\.do|bbs_category=3|\/cpc\/cr\/|services\/life\/payment|tossfeed\/article/.test(value) &&
-    /이벤트|행사|혜택|쿠폰|초대권|시사회|멤버십|포인트|무료|응모|할인|공식/.test(evidenceValue);
+  return linkQualityPolicy.officialBenefitUrlSignals.some((signal) => value.includes(signal)) &&
+    linkQualityPolicy.officialBenefitEvidenceSignals.some((signal) => evidenceValue.includes(signal.toLowerCase()));
 }
 
 function canonicalUrl(value) {
@@ -664,6 +599,11 @@ const baseSummary = {
   visibleCount: visibleDeals.length,
   providerStats,
   liveProbe: liveProbeSummary,
+  policy: {
+    version: linkQualityPolicy.version,
+    source: "data/linkQualityPolicy.json",
+    exposurePolicy: linkQualityPolicy.exposurePolicy
+  },
   failureReasons,
   pipeline: [
     "collect providers",
