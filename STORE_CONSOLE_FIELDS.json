@@ -1,8 +1,8 @@
 {
   "generatedBy": "npm run store:console:fields",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "fd9b41e",
-  "workingTree": "M DEVICE_QA_REPORT.md;  M KNOWN_ISSUES.md;  M PUBLIC_URL_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M docs/DEVICE_QA_REPORT.md;  M docs/KNOWN_ISSUES.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md;  M reports/release-doctor.json",
+  "commit": "c89be45",
+  "workingTree": "M DEVICE_QA_REPORT.md;  M EXTERNAL_LINK_REPORT.md;  M IMAGE_QUALITY_REPORT.md;  M KNOWN_ISSUES.md;  M LINK_VERIFICATION_REPORT.md;  M LINK_VERIFICATION_RESULT.json;  M PERFORMANCE_REPORT.md;  M PUBLIC_URL_REPORT.md;  M SEARCH_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M data/refreshedDeals.json;  M data/refreshedNewsDeals.json;  M docs/DEVICE_QA_REPORT.md;  M docs/HEALTH_READINESS_REPORT.md;  M docs/KNOWN_ISSUES.md;  M docs/PERFORMANCE_REPORT.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md;  M reports/health-readiness.json;  M reports/link-validation.json;  M reports/news-deals.json;  M reports/product-quality.json;  M reports/refresh-all.json;  M reports/refresh-deals.json;  M reports/release-doctor.json",
   "playConsole": {
     "appName": "할인도사",
     "packageName": "com.halindosa.app",
