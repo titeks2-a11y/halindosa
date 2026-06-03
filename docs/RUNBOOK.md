@@ -60,6 +60,7 @@ npm run smoke
   - 검증 실패, 종료, 비공식 URL, 검색 URL은 `reports/news-deals.json`의 hidden/failed 큐로만 남고 사용자 화면에는 노출하지 않는다.
   - 공식 혜택 운영 리포트는 6시간마다 갱신을 권장하고, 24시간 이상 갱신되지 않으면 출시 전 갱신 필요 상태로 본다.
   - `/admin`의 `뉴스 수집 현황`과 `공식 혜택 수동 운영` 패널에서 `Provider 위험도`, `신선도 운영`, `다음 refresh 권장`, `다음 운영 액션`을 확인한다.
+  - 스프레드시트 검토가 필요하면 `/api/admin/news-operations?format=csv` 또는 관리자 화면의 `Provider 위험도 CSV` 버튼으로 provider risk, 숨김/종료/공식 링크 누락, 실패 사유, 최근 로그를 내려받는다.
   - `Provider 위험도`가 `즉시 점검`이면 실패/오류/공식 링크 누락을 먼저 정리하고, `수집 대기` 또는 `seed 운영`이면 상용 운영 전 공식 API/RSS/제휴 feed 연결 후보를 보강한다.
   - stale 또는 due 상태이면 `npm run refresh:all && npm run health:readiness`를 실행한 뒤 `npm run smoke:local && npm run release:doctor`로 회귀를 확인한다.
 - 운영 헬스 리포트:

@@ -722,6 +722,12 @@ await check("admin news operations api", async () => {
   assert(["fresh", "due", "stale", "missing"].includes(data.report?.freshness?.status), "Admin news operations report missing freshness status");
   assert(String(data.report?.freshness?.command ?? "").includes("refresh:all"), "Admin news operations report missing refresh command guidance");
   assert(Array.isArray(data.report?.operatorNextActions) && data.report.operatorNextActions.length >= 1, "Admin news operations report missing operator next actions");
+
+  const csvResponse = await fetch(`${baseUrl}/api/admin/news-operations?format=csv`);
+  const csv = await csvResponse.text();
+  assert(csvResponse.status === 200, `Expected news operations CSV 200, got ${csvResponse.status}`);
+  assert(csvResponse.headers.get("content-type")?.includes("text/csv"), "Admin news operations CSV should use text/csv content type");
+  assert(csv.includes("provider_risk") && csv.includes("failure_reason") && csv.includes("recent_log"), "Admin news operations CSV missing provider risk, failure reason, or recent log sections");
 });
 
 await check("admin health readiness api", async () => {

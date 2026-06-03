@@ -109,6 +109,9 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const newsOperationsApiHref = isAdminProtectionEnabled()
     ? `/api/admin/news-operations?token=${encodeURIComponent(token ?? "")}`
     : "/api/admin/news-operations";
+  const newsOperationsCsvHref = isAdminProtectionEnabled()
+    ? `/api/admin/news-operations?format=csv&token=${encodeURIComponent(token ?? "")}`
+    : "/api/admin/news-operations?format=csv";
   const healthReadinessApiHref = isAdminProtectionEnabled()
     ? `/api/admin/health-readiness?token=${encodeURIComponent(token ?? "")}`
     : "/api/admin/health-readiness";
@@ -327,14 +330,25 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                 뉴스 기사는 출처로만 쓰고, 사용자 이동은 공식 이벤트·구매·혜택 페이지로 검증된 항목만 노출합니다.
               </p>
             </div>
-            <a
-              href={newsOperationsApiHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-2xl bg-brand-red px-4 py-3 text-center text-sm font-black text-white"
-            >
-              운영 리포트 API 보기
-            </a>
+            <div className="flex flex-wrap gap-2">
+              <a
+                href={newsOperationsApiHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-2xl bg-brand-red px-4 py-3 text-center text-sm font-black text-white"
+              >
+                운영 리포트 API 보기
+              </a>
+              <a
+                href={newsOperationsCsvHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 rounded-2xl border border-brand-line bg-white px-4 py-3 text-center text-sm font-black text-slate-800"
+              >
+                <Download size={16} aria-hidden="true" />
+                Provider 위험도 CSV
+              </a>
+            </div>
           </div>
           <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-6">
             {[

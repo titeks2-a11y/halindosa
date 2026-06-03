@@ -8,12 +8,117 @@ export const runtime = "nodejs";
 
 const allowedActions = new Set<NewsOverrideAction>(["hide", "restore", "revalidate"]);
 
+type NewsOperationsReport = ReturnType<typeof getNewsOperationsReport>;
+
 function assertAdmin(request: Request, requestId: string) {
   const url = new URL(request.url);
   if (!canAccessAdmin(url.searchParams.get("token"))) {
     return NextResponse.json({ ok: false, requestId, message: "관리자 권한이 없습니다." }, { status: 401 });
   }
   return null;
+}
+
+function csvCell(value: unknown) {
+  const text = String(value ?? "");
+  return `"${text.replaceAll('"', '""')}"`;
+}
+
+function toCsv(rows: Array<Array<unknown>>) {
+  return rows.map((row) => row.map(csvCell).join(",")).join("\n");
+}
+
+function getCsvField(item: unknown, key: string) {
+  if (!item || typeof item !== "object") return "";
+  const value = (item as Record<string, unknown>)[key];
+  return typeof value === "string" || typeof value === "number" || typeof value === "boolean" ? value : "";
+}
+
+function buildNewsOperationsCsv(report: NewsOperationsReport) {
+  const rows: Array<Array<unknown>> = [
+    [
+      "section",
+      "id_or_provider",
+      "title_or_label",
+      "status",
+      "reason",
+      "action",
+      "visible_count",
+      "issue_count",
+      "final_url",
+      "checked_at"
+    ]
+  ];
+
+  report.providerRisks.forEach((risk) => {
+    rows.push([
+      "provider_risk",
+      risk.provider,
+      risk.label,
+      risk.severity,
+      risk.reason,
+      risk.action,
+      risk.visibleCount,
+      risk.issueCount,
+      "",
+      report.generatedAt
+    ]);
+  });
+
+  report.hiddenDeals.forEach((deal) => {
+    rows.push([
+      "hidden_deal",
+      getCsvField(deal, "id"),
+      getCsvField(deal, "title"),
+      getCsvField(deal, "validationStatus") || "hidden",
+      getCsvField(deal, "hiddenReason"),
+      "hide/restore/revalidate",
+      "",
+      "",
+      getCsvField(deal, "finalUrl"),
+      getCsvField(deal, "lastCheckedAt")
+    ]);
+  });
+
+  report.expiredDeals.forEach((deal) => {
+    rows.push([
+      "expired_deal",
+      getCsvField(deal, "id"),
+      getCsvField(deal, "title"),
+      getCsvField(deal, "validationStatus") || "expired",
+      getCsvField(deal, "hiddenReason") || "expired",
+      "replace_with_active_official_benefit",
+      "",
+      "",
+      getCsvField(deal, "finalUrl"),
+      getCsvField(deal, "lastCheckedAt")
+    ]);
+  });
+
+  report.officialMissingDeals.forEach((deal) => {
+    rows.push([
+      "official_missing",
+      getCsvField(deal, "id"),
+      getCsvField(deal, "title"),
+      getCsvField(deal, "validationStatus") || "official_missing",
+      getCsvField(deal, "hiddenReason") || "official_final_url_required",
+      "add_verified_official_url",
+      "",
+      "",
+      getCsvField(deal, "finalUrl"),
+      getCsvField(deal, "lastCheckedAt")
+    ]);
+  });
+
+  const failureReasons = report.failureReasonTop10.length ? report.failureReasonTop10 : [{ reason: "none", count: 0 }];
+  failureReasons.forEach((item) => {
+    rows.push(["failure_reason", item.reason, `${item.count}건`, item.count > 0 ? "watch" : "clear", item.reason, "review_provider_feed", "", item.count, "", report.generatedAt]);
+  });
+
+  report.recentLogs.forEach((log) => {
+    rows.push(["recent_log", log.dealId, log.title, log.status, log.reason, log.provider, "", "", log.finalUrl, log.checkedAt]);
+  });
+
+  return toCsv(rows);
 }
 
 export async function GET(request: Request) {
@@ -31,11 +136,24 @@ export async function GET(request: Request) {
   const auth = assertAdmin(request, requestId);
   if (auth) return auth;
 
+  const url = new URL(request.url);
+  const report = getNewsOperationsReport();
+
+  if (url.searchParams.get("format") === "csv") {
+    return new Response(buildNewsOperationsCsv(report), {
+      headers: {
+        ...rateLimitHeaders(limit, requestId),
+        "Content-Type": "text/csv; charset=utf-8",
+        "Content-Disposition": `attachment; filename="halindosa-news-operations-${new Date().toISOString().slice(0, 10)}.csv"`
+      }
+    });
+  }
+
   return NextResponse.json(
     {
       ok: true,
       requestId,
-      report: getNewsOperationsReport(),
+      report,
       message: "공식 할인뉴스 운영 리포트를 성공적으로 불러왔습니다."
     },
     { headers: rateLimitHeaders(limit, requestId) }

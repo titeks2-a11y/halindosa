@@ -3588,6 +3588,9 @@ function checkNewsDealPipeline() {
   const adminNewsOperationsPanel = existsSync(join(root, "components/AdminNewsOperationsPanel.tsx"))
     ? readFileSync(join(root, "components/AdminNewsOperationsPanel.tsx"), "utf8")
     : "";
+  const adminNewsOperationsRoute = existsSync(join(root, "app/api/admin/news-operations/route.ts"))
+    ? readFileSync(join(root, "app/api/admin/news-operations/route.ts"), "utf8")
+    : "";
   const newsOperations = existsSync(join(root, "lib/deals/newsOperations.ts")) ? readFileSync(join(root, "lib/deals/newsOperations.ts"), "utf8") : "";
   const realtimeNewsSection = existsSync(join(root, "components/RealtimeNewsDealsSection.tsx")) ? readFileSync(join(root, "components/RealtimeNewsDealsSection.tsx"), "utf8") : "";
   const newsRedirectRoute = existsSync(join(root, "app/go/news/[id]/route.ts")) ? readFileSync(join(root, "app/go/news/[id]/route.ts"), "utf8") : "";
@@ -3641,11 +3644,17 @@ function checkNewsDealPipeline() {
     issues.push("home should keep recent official benefit and interest news return queues");
   }
 
-  if (!adminPage.includes("뉴스 수집 현황") || !adminPage.includes("운영 리포트 API 보기") || !adminPage.includes("Provider별 성공/실패") || !adminPage.includes("최근 20개 수집 로그") || !adminPage.includes("수동 숨김/복구/재검증 구조") || !adminPage.includes("캠페인 API 보기")) {
-    issues.push("admin should expose news collection status, provider logs, manual actions, and notification campaign operation links");
+  if (!adminPage.includes("뉴스 수집 현황") || !adminPage.includes("운영 리포트 API 보기") || !adminPage.includes("Provider 위험도 CSV") || !adminPage.includes("Provider별 성공/실패") || !adminPage.includes("최근 20개 수집 로그") || !adminPage.includes("수동 숨김/복구/재검증 구조") || !adminPage.includes("캠페인 API 보기")) {
+    issues.push("admin should expose news collection status, provider logs, CSV export, manual actions, and notification campaign operation links");
   }
   if (
     !adminPage.includes("AdminNewsOperationsPanel") ||
+    !adminPage.includes("newsOperationsCsvHref") ||
+    !adminNewsOperationsRoute.includes("format") ||
+    !adminNewsOperationsRoute.includes("buildNewsOperationsCsv") ||
+    !adminNewsOperationsRoute.includes("text/csv") ||
+    !adminNewsOperationsRoute.includes("provider_risk") ||
+    !smokeScript.includes("Admin news operations CSV should use text/csv") ||
     !adminNewsOperationsPanel.includes("공식 혜택 수동 운영") ||
     !adminNewsOperationsPanel.includes("runAction") ||
     !adminNewsOperationsPanel.includes("action: NewsOperationAction") ||
@@ -3677,7 +3686,7 @@ function checkNewsDealPipeline() {
     !smokeScript.includes("operatorNextActions") ||
     !smokeScript.includes("providerRisks")
   ) {
-    issues.push("admin should provide executable hide/restore/revalidate controls plus category coverage, provider risk, refresh status, freshness cadence, next actions, and risk summaries for official benefit operations");
+    issues.push("admin should provide executable hide/restore/revalidate controls plus CSV export, category coverage, provider risk, refresh status, freshness cadence, next actions, and risk summaries for official benefit operations");
   }
 
   if (existsSync(join(root, "reports/news-deals.json"))) {
@@ -3707,7 +3716,7 @@ function checkNewsDealPipeline() {
   }
 
   if (issues.length) fail("news and official event pipeline", issues.join("; "));
-  else pass("news and official event pipeline", "Approved news, official event, public coupon, refresh:news, verify:news, refresh:all, home section, and admin status surfaces are wired.");
+  else pass("news and official event pipeline", "Approved news, official event, public coupon, refresh:news, verify:news, refresh:all, home section, admin status surfaces, and provider-risk CSV export are wired.");
 }
 
 function checkHealthReadinessReport() {
