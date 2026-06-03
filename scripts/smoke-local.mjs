@@ -65,7 +65,8 @@ const devServer = spawn(process.execPath, [nextBin, "dev", "--hostname", loopbac
   stdio: "inherit",
   env: {
     ...process.env,
-    NEXT_TELEMETRY_DISABLED: "1"
+    NEXT_TELEMETRY_DISABLED: "1",
+    ADMIN_EXPORT_TOKEN: process.env.ADMIN_EXPORT_TOKEN ?? "local-admin"
   }
 });
 
@@ -74,7 +75,9 @@ try {
   run(process.execPath, ["scripts/smoke.mjs"], {
     env: {
       ...process.env,
-      SMOKE_BASE_URL: baseUrl
+      SMOKE_BASE_URL: baseUrl,
+      ADMIN_EXPORT_TOKEN: process.env.ADMIN_EXPORT_TOKEN ?? "local-admin",
+      SMOKE_ADMIN_TOKEN: process.env.SMOKE_ADMIN_TOKEN ?? process.env.ADMIN_EXPORT_TOKEN ?? "local-admin"
     }
   });
 } finally {

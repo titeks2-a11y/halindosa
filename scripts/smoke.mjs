@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 const loopbackHost = ["127", "0", "0", "1"].join(".");
 const baseUrl = process.env.SMOKE_BASE_URL ?? `http://${loopbackHost}:3000`;
 const smokeFetchTimeoutMs = Number(process.env.SMOKE_FETCH_TIMEOUT_MS ?? 30000);
+const smokeAdminToken = process.env.SMOKE_ADMIN_TOKEN ?? process.env.ADMIN_EXPORT_TOKEN ?? "";
 const nativeFetch = globalThis.fetch.bind(globalThis);
 const homePageSource = readFileSync(new URL("../app/page.tsx", import.meta.url), "utf8");
 const bottomNavigationSource = readFileSync(new URL("../components/BottomNavigation.tsx", import.meta.url), "utf8");
@@ -12,10 +13,17 @@ const mypageSource = readFileSync(new URL("../app/mypage/page.tsx", import.meta.
 globalThis.fetch = async (input, init = {}) => {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), smokeFetchTimeoutMs);
+  const headers = new Headers(init.headers);
+  const inputUrl = typeof input === "string" ? new URL(input, baseUrl) : new URL(input.url);
+
+  if (smokeAdminToken && inputUrl.pathname.startsWith("/api/admin") && !headers.has("authorization") && !headers.has("x-admin-token")) {
+    headers.set("x-admin-token", smokeAdminToken);
+  }
 
   try {
     return await nativeFetch(input, {
       ...init,
+      headers,
       signal: init.signal ?? controller.signal
     });
   } finally {
@@ -538,7 +546,8 @@ await check("category and notification pages", async () => {
 });
 
 await check("admin dashboard quality cards", async () => {
-  const response = await fetch(`${baseUrl}/admin`);
+  const adminPath = smokeAdminToken ? `/admin?token=${encodeURIComponent(smokeAdminToken)}` : "/admin";
+  const response = await fetch(`${baseUrl}${adminPath}`);
   const text = await response.text();
   assert(response.status === 200, `Expected 200, got ${response.status}`);
   assert(text.includes("운영 대시보드"), "Admin dashboard missing title");
@@ -835,6 +844,17 @@ await check("cron refresh api guard", async () => {
   assert(data.command === "node scripts/refresh-all.mjs", "Cron refresh dry-run missing refresh command");
   assert(data.refreshAll?.productDealsCount >= 140, "Cron refresh dry-run missing latest refresh-all product count");
   assert(data.refreshAll?.newsDealsCount >= 25, "Cron refresh dry-run missing latest refresh-all news count");
+
+  if (smokeAdminToken) {
+    const headerAuth = await fetchJson("/api/cron/refresh?dryRun=true", {
+      headers: {
+        "x-admin-token": smokeAdminToken
+      }
+    });
+    assert(headerAuth.response.status === 200, `Expected cron refresh header auth 200, got ${headerAuth.response.status}`);
+    assert(headerAuth.data.ok === true, "Cron refresh header auth should be ok");
+    assert(headerAuth.data.mode === "dry_run", "Cron refresh header auth should stay in dry-run mode");
+  }
 });
 
 await check("admin exposure policy api", async () => {
