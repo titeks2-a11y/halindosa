@@ -64,6 +64,21 @@ function buildNewsOperationsCsv(report: NewsOperationsReport) {
     ]);
   });
 
+  report.feedTransitionReadiness.providers.forEach((provider) => {
+    rows.push([
+      "feed_transition",
+      provider.provider,
+      provider.label,
+      provider.modeLabel,
+      provider.acceptedSources,
+      provider.nextAction,
+      provider.visibleCount,
+      provider.issueCount,
+      provider.envKeys.join("|"),
+      report.generatedAt
+    ]);
+  });
+
   report.hiddenDeals.forEach((deal) => {
     rows.push([
       "hidden_deal",

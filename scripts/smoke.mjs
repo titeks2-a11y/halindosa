@@ -546,6 +546,7 @@ await check("admin dashboard quality cards", async () => {
   assert(text.includes("운영 준비 점수") && text.includes("상품 링크") && text.includes("공식 혜택") && text.includes("refresh:all"), "Admin dashboard missing health readiness summary cards");
   assert(text.includes("공식 혜택 카테고리 커버리지") && text.includes("공식 혜택 Provider 상태") && text.includes("공식 혜택 Provider 위험도") && text.includes("API 보기"), "Admin dashboard missing health readiness category/provider risk/API controls");
   assert(text.includes("뉴스 수집 현황") && text.includes("공식 이벤트·무료 혜택 feed 후보"), "Admin dashboard missing news collection status");
+  assert(text.includes("공식 피드 전환 준비도") && text.includes("공식 API/RSS/제휴 feed") && text.includes("seed fallback"), "Admin dashboard missing official feed transition readiness panel");
   assert(text.includes("Provider별 성공/실패") && text.includes("검증 실패 TOP10") && text.includes("최근 20개 수집 로그"), "Admin dashboard missing news provider/log operation panels");
   assert(text.includes("숨김/종료/공식 링크 없음 큐") && text.includes("수동 숨김/복구/재검증 구조"), "Admin dashboard missing news hide/restore/revalidate operation panels");
   assert(
@@ -719,6 +720,10 @@ await check("admin news operations api", async () => {
   assert(Array.isArray(data.report?.providerRisks) && data.report.providerRisks.length >= 4, "Admin news operations report missing provider risk summaries");
   assert(data.report.providerRisks.every((risk) => risk.provider && risk.label && risk.action && ["healthy", "watch", "danger"].includes(risk.severity)), "Admin news operations provider risks missing operation fields");
   assert(typeof data.report?.providerRiskSummary?.watch === "number" && typeof data.report?.providerRiskSummary?.danger === "number", "Admin news operations report missing provider risk summary counts");
+  assert(data.report?.feedTransitionReadiness?.totalProviders >= 4, "Admin news operations report missing official feed transition readiness summary");
+  assert(Array.isArray(data.report.feedTransitionReadiness.providers) && data.report.feedTransitionReadiness.providers.length >= 4, "Admin news operations report missing feed transition providers");
+  assert(data.report.feedTransitionReadiness.providers.every((provider) => provider.provider && provider.mode && provider.modeLabel && provider.envKeys?.length && provider.nextAction), "Admin news operations feed transition providers missing launch operation fields");
+  assert(Array.isArray(data.report.feedTransitionReadiness.recommendedNextEnvKeys), "Admin news operations report missing recommended feed env keys");
   assert(Array.isArray(data.report?.recentLogs) && data.report.recentLogs.length >= 6, "Admin news operations report missing recent logs");
   assert(Array.isArray(data.report?.manualActions) && data.report.manualActions.length >= 3, "Admin news operations report missing manual actions");
   assert(data.report?.refreshAll?.productDealsCount >= 140, "Admin news operations report missing refresh:all product count");
@@ -737,7 +742,7 @@ await check("admin news operations api", async () => {
   const csv = await csvResponse.text();
   assert(csvResponse.status === 200, `Expected news operations CSV 200, got ${csvResponse.status}`);
   assert(csvResponse.headers.get("content-type")?.includes("text/csv"), "Admin news operations CSV should use text/csv content type");
-  assert(csv.includes("provider_risk") && csv.includes("failure_reason") && csv.includes("recent_log"), "Admin news operations CSV missing provider risk, failure reason, or recent log sections");
+  assert(csv.includes("provider_risk") && csv.includes("feed_transition") && csv.includes("failure_reason") && csv.includes("recent_log"), "Admin news operations CSV missing provider risk, feed transition, failure reason, or recent log sections");
 });
 
 await check("admin health readiness api", async () => {

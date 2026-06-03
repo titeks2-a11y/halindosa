@@ -42,6 +42,40 @@ interface ProviderRisk {
   failureRate: number;
 }
 
+type FeedTransitionMode = "external_feed" | "seed_fallback";
+type FeedTransitionPriority = "high" | "medium" | "low";
+
+interface FeedTransitionProvider {
+  provider: string;
+  label: string;
+  mode: FeedTransitionMode;
+  modeLabel: string;
+  configured: boolean;
+  feedUrls: number;
+  envKeys: string[];
+  acceptedSources: string;
+  nextAction: string;
+  priority: FeedTransitionPriority;
+  launchBlocking: boolean;
+  visibleCount: number;
+  issueCount: number;
+}
+
+interface FeedTransitionReadiness {
+  status: "production_feed_ready" | "hybrid_feed_ready" | "seed_launch_ready";
+  label: string;
+  readinessRate: number;
+  totalProviders: number;
+  configuredProviders: number;
+  seedOnlyProviders: number;
+  configuredFeedUrls: number;
+  launchBlockingCount: number;
+  recommendedNextEnvKeys: string[];
+  guardrails: string[];
+  operatorAction: string;
+  providers: FeedTransitionProvider[];
+}
+
 interface NewsDealsReport {
   ok?: boolean;
   generatedAt?: string;
@@ -101,6 +135,41 @@ const requiredNewsCategories = [
 const minimumCategoryDealCount = 2;
 const newsRefreshCadenceHours = 6;
 const newsRefreshStaleHours = 24;
+
+const feedTransitionProfiles = [
+  {
+    provider: "news",
+    label: "뉴스·보도자료",
+    envKeys: ["DEAL_NEWS_FEED_URLS", "DEAL_NEWS_RSS_URLS"],
+    acceptedSources: "공식 보도자료, 승인 RSS/JSON feed",
+    nextAction: "공식 보도자료 RSS 또는 승인 JSON feed를 연결하고 finalUrl은 공식 혜택 페이지로만 유지하세요.",
+    priority: "medium"
+  },
+  {
+    provider: "event_news",
+    label: "이벤트 뉴스",
+    envKeys: ["DEAL_EVENT_NEWS_FEED_URLS"],
+    acceptedSources: "공식 이벤트 보도자료 feed",
+    nextAction: "행사 기사 원문은 sourceUrl로만 보관하고 사용자 이동 URL은 공식 이벤트 상세로 교체하세요.",
+    priority: "medium"
+  },
+  {
+    provider: "official_event",
+    label: "공식 이벤트·혜택",
+    envKeys: ["OFFICIAL_EVENT_FEED_URLS", "DEAL_EVENT_FEED_URLS"],
+    acceptedSources: "쇼핑몰, 카드사, 통신사, 편의점, 마트 공식 이벤트 JSON feed",
+    nextAction: "출시 후 가장 먼저 공식 이벤트 feed를 연결해 seed 의존도를 줄이세요.",
+    priority: "high"
+  },
+  {
+    provider: "public_coupon",
+    label: "공공·쿠폰·무료혜택",
+    envKeys: ["PUBLIC_COUPON_FEED_URLS"],
+    acceptedSources: "공공기관, 브랜드, 쿠폰 제공처의 공식 혜택 feed",
+    nextAction: "무료·쿠폰·포인트 혜택은 공식 수령 페이지가 있는 feed만 연결하세요.",
+    priority: "high"
+  }
+] as const;
 
 type NewsFreshnessStatus = "fresh" | "due" | "stale" | "missing";
 type NewsFreshnessSeverity = "good" | "caution" | "danger";
@@ -253,6 +322,90 @@ function getProviderRisk(stat: ProviderStat): ProviderRisk {
   };
 }
 
+function readConfiguredFeedUrls(envKeys: readonly string[]) {
+  return envKeys.flatMap((key) =>
+    (process.env[key] ?? "")
+      .split(",")
+      .map((item) => item.trim())
+      .filter(Boolean)
+  );
+}
+
+function buildFeedTransitionReadiness(providerStats: ProviderStat[]): FeedTransitionReadiness {
+  const statsByProvider = new Map(providerStats.map((stat) => [stat.provider, stat]));
+  const providers = feedTransitionProfiles.map((profile) => {
+    const stat = statsByProvider.get(profile.provider);
+    const feedUrls = readConfiguredFeedUrls(profile.envKeys).length || Number(stat?.feedUrls ?? 0);
+    const configured = Boolean(stat?.configured) || feedUrls > 0;
+    const visibleCount = Number(stat?.visibleCount ?? 0);
+    const issueCount =
+      Number(stat?.hiddenCount ?? 0) +
+      Number(stat?.failedCount ?? 0) +
+      Number(stat?.expiredCount ?? 0) +
+      Number(stat?.officialMissingCount ?? 0) +
+      Number(stat?.errorCount ?? 0);
+
+    return {
+      provider: profile.provider,
+      label: profile.label,
+      mode: configured ? "external_feed" as const : "seed_fallback" as const,
+      modeLabel: configured ? "공식 feed 연결" : "seed fallback",
+      configured,
+      feedUrls,
+      envKeys: [...profile.envKeys],
+      acceptedSources: profile.acceptedSources,
+      nextAction: configured ? "연결된 feed의 종료/검색 URL/공식 링크 누락 리포트를 매일 확인하세요." : profile.nextAction,
+      priority: profile.priority,
+      launchBlocking: visibleCount === 0 || issueCount > 0,
+      visibleCount,
+      issueCount
+    };
+  });
+
+  const configuredProviders = providers.filter((provider) => provider.configured).length;
+  const seedOnlyProviders = providers.length - configuredProviders;
+  const configuredFeedUrls = providers.reduce((sum, provider) => sum + provider.feedUrls, 0);
+  const readinessRate = Math.round((configuredProviders / Math.max(providers.length, 1)) * 100);
+  const launchBlockingCount = providers.filter((provider) => provider.launchBlocking).length;
+  const recommendedNextEnvKeys = providers
+    .filter((provider) => !provider.configured)
+    .sort((a, b) => (a.priority === b.priority ? 0 : a.priority === "high" ? -1 : 1))
+    .flatMap((provider) => provider.envKeys);
+  const status =
+    configuredProviders === providers.length
+      ? "production_feed_ready"
+      : configuredProviders > 0
+        ? "hybrid_feed_ready"
+        : "seed_launch_ready";
+  const label =
+    status === "production_feed_ready"
+      ? "공식 feed 운영 가능"
+      : status === "hybrid_feed_ready"
+        ? "부분 feed 전환"
+        : "seed fallback 운영";
+
+  return {
+    status,
+    label,
+    readinessRate,
+    totalProviders: providers.length,
+    configuredProviders,
+    seedOnlyProviders,
+    configuredFeedUrls,
+    launchBlockingCount,
+    recommendedNextEnvKeys,
+    guardrails: [
+      "공식 API/RSS/제휴 JSON feed만 연결합니다.",
+      "뉴스·커뮤니티 원문은 출처로만 보관하고 사용자 이동은 공식 이벤트·쿠폰·구매 페이지로 제한합니다.",
+      "검색 결과 URL, 종료 이벤트, 공식 링크 누락 항목은 verify:news와 release:doctor에서 노출 제외합니다."
+    ],
+    operatorAction: recommendedNextEnvKeys.length
+      ? `${recommendedNextEnvKeys.slice(0, 3).join(", ")}부터 연결한 뒤 npm run refresh:all && npm run release:doctor를 실행하세요.`
+      : "연결된 공식 feed를 유지하면서 매일 refresh:all과 Provider 위험도 CSV를 확인하세요.",
+    providers
+  };
+}
+
 export function getNewsOperationsReport() {
   const snapshot = readJson<NewsDealSnapshot>(refreshedNewsDealsPath, {});
   const report = readJson<NewsDealsReport>(newsDealsReportPath, {});
@@ -269,6 +422,7 @@ export function getNewsOperationsReport() {
   }));
   const providerStats = report.providerStats?.length ? report.providerStats : (snapshot.providerStats ?? []);
   const providerRisks = providerStats.map(getProviderRisk);
+  const feedTransitionReadiness = buildFeedTransitionReadiness(providerStats);
   const providerRiskSummary = {
     healthy: providerRisks.filter((risk) => risk.severity === "healthy").length,
     watch: providerRisks.filter((risk) => risk.severity === "watch").length,
@@ -372,6 +526,7 @@ export function getNewsOperationsReport() {
     providerStats,
     providerRisks,
     providerRiskSummary,
+    feedTransitionReadiness,
     failureReasonTop10,
     visibleDeals: visibleDeals
       .map((deal) => ({

@@ -547,6 +547,57 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
               </div>
             </div>
           </div>
+          <div className="mt-4 rounded-2xl border border-red-100 bg-gradient-to-br from-white to-red-50 p-4">
+            <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+              <div>
+                <p className="text-sm font-black text-slate-950">공식 피드 전환 준비도</p>
+                <p className="mt-1 text-xs font-bold leading-5 text-slate-500">
+                  공식 API/RSS/제휴 feed로 바꿀 때 볼 운영 기준입니다. 현재도 승인 seed로 노출하지만, 상용 운영은 provider별 공식 feed 연결을 우선합니다.
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-dossa-red shadow-sm">
+                  {newsOperations.feedTransitionReadiness.label}
+                </span>
+                <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-slate-700 shadow-sm">
+                  연결 {newsOperations.feedTransitionReadiness.configuredProviders}/{newsOperations.feedTransitionReadiness.totalProviders}
+                </span>
+                <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-slate-700 shadow-sm">
+                  feed URL {newsOperations.feedTransitionReadiness.configuredFeedUrls}개
+                </span>
+                <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-slate-700 shadow-sm">
+                  준비율 {newsOperations.feedTransitionReadiness.readinessRate}%
+                </span>
+              </div>
+            </div>
+            <div className="mt-3 grid gap-2 md:grid-cols-2 xl:grid-cols-4">
+              {newsOperations.feedTransitionReadiness.providers.map((provider) => (
+                <div key={provider.provider} className="rounded-2xl bg-white p-3 shadow-sm">
+                  <div className="flex items-center justify-between gap-2">
+                    <p className="truncate text-xs font-black text-slate-950">{provider.label}</p>
+                    <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-black ${provider.configured ? "bg-emerald-50 text-emerald-700" : "bg-amber-50 text-amber-700"}`}>
+                      {provider.modeLabel}
+                    </span>
+                  </div>
+                  <p className="mt-2 text-[11px] font-bold leading-5 text-slate-500">
+                    노출 {provider.visibleCount} · 이슈 {provider.issueCount} · URL {provider.feedUrls}
+                  </p>
+                  <p className="mt-2 line-clamp-2 text-[11px] font-bold leading-5 text-slate-500">{provider.acceptedSources}</p>
+                  <p className="mt-2 line-clamp-2 text-[11px] font-black leading-5 text-dossa-red">{provider.nextAction}</p>
+                  <div className="mt-2 flex flex-wrap gap-1">
+                    {provider.envKeys.map((key) => (
+                      <code key={key} className="rounded-full bg-brand-warm px-2 py-0.5 text-[10px] font-black text-slate-700">
+                        {key}
+                      </code>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+            <p className="mt-3 text-xs font-bold leading-5 text-slate-500">
+              {newsOperations.feedTransitionReadiness.operatorAction} · {newsOperations.feedTransitionReadiness.guardrails[0]}
+            </p>
+          </div>
           <div className="mt-4 grid gap-3 lg:grid-cols-[0.8fr_1.2fr]">
             <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
               <p className="text-sm font-black text-slate-950">카테고리별 공식 혜택</p>
