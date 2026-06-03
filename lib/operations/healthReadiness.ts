@@ -44,6 +44,20 @@ export interface HealthReadinessReport {
     thinCategories: string[];
     categoryCounts: Record<string, number>;
     configuredProviders: string[];
+    activeProviders: string[];
+    providerStats: Array<{
+      provider: string;
+      source: string;
+      configured: boolean;
+      fetchedCount: number;
+      normalizedCount: number;
+      visibleCount: number;
+      hiddenCount: number;
+      failedCount: number;
+      expiredCount: number;
+      officialMissingCount: number;
+      errorCount: number;
+    }>;
   };
   refreshAll: {
     ok: boolean;
@@ -100,7 +114,9 @@ const fallbackReport: HealthReadinessReport = {
     missingCategories: [],
     thinCategories: [],
     categoryCounts: {},
-    configuredProviders: []
+    configuredProviders: [],
+    activeProviders: [],
+    providerStats: []
   },
   refreshAll: {
     ok: false,

@@ -94,6 +94,20 @@ const providerStats = {
 };
 const configuredProductProviders = providerStats.product.filter((stat) => stat.configured).map((stat) => stat.provider);
 const configuredNewsProviders = providerStats.news.filter((stat) => stat.configured).map((stat) => stat.provider);
+const activeNewsProviders = providerStats.news.map((stat) => stat.provider).filter(Boolean);
+const officialBenefitProviderStats = providerStats.news.map((stat) => ({
+  provider: stat.provider,
+  source: stat.source ?? (stat.configured ? "configured_feed" : "seed_fallback"),
+  configured: Boolean(stat.configured),
+  fetchedCount: Number(stat.fetchedCount ?? 0),
+  normalizedCount: Number(stat.normalizedCount ?? 0),
+  visibleCount: Number(stat.visibleCount ?? 0),
+  hiddenCount: Number(stat.hiddenCount ?? 0),
+  failedCount: Number(stat.failedCount ?? 0),
+  expiredCount: Number(stat.expiredCount ?? 0),
+  officialMissingCount: Number(stat.officialMissingCount ?? 0),
+  errorCount: Number(stat.errorCount ?? 0)
+}));
 
 const checks = [
   productDealsCount >= 140
@@ -169,7 +183,9 @@ const report = {
     missingCategories: missingNewsCategories,
     thinCategories: thinNewsCategories,
     categoryCounts,
-    configuredProviders: configuredNewsProviders
+    configuredProviders: configuredNewsProviders,
+    activeProviders: activeNewsProviders,
+    providerStats: officialBenefitProviderStats
   },
   refreshAll: {
     ok: refreshAll.ok === true,
@@ -211,6 +227,7 @@ const docsLines = [
   `- 품절/종료 의심 노출: ${soldOutProducts}개`,
   `- 공식 혜택: ${newsVisibleCount}개`,
   `- 공식 혜택 카테고리 커버리지: ${readyNewsCategories.length}/${requiredNewsCategories.length}`,
+  `- 공식 혜택 Provider: ${activeNewsProviders.length}개 (feed 연결 ${configuredNewsProviders.length}개)`,
   `- 공식 혜택 리포트 신선도: ${formatValue(newsFreshnessHours)}시간`,
   `- refresh:all 상태: ${refreshAll.ok === true ? "PASS" : "FAIL"}`,
   "",
@@ -223,6 +240,17 @@ const docsLines = [
     const status = count >= minimumCategoryDealCount ? "PASS" : count > 0 ? "THIN" : "GAP";
     return `| ${category} | ${count} | ${minimumCategoryDealCount} | ${status} |`;
   }),
+  "",
+  "## 공식 혜택 Provider 상태",
+  "",
+  "| Provider | Source | Feed 연결 | 수집 | 정규화 | 노출 | 숨김 | 실패 |",
+  "| --- | --- | --- | ---: | ---: | ---: | ---: | ---: |",
+  ...(officialBenefitProviderStats.length
+    ? officialBenefitProviderStats.map(
+        (stat) =>
+          `| ${stat.provider} | ${stat.source} | ${stat.configured ? "yes" : "seed/fallback"} | ${stat.fetchedCount} | ${stat.normalizedCount} | ${stat.visibleCount} | ${stat.hiddenCount} | ${stat.failedCount} |`
+      )
+    : ["| 없음 | - | - | 0 | 0 | 0 | 0 | 0 |"]),
   "",
   "## 게이트",
   "",

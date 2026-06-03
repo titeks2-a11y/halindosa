@@ -2,7 +2,7 @@
 
 이 문서는 상품 링크, 공식 혜택, refresh 파이프라인이 실제 출시 운영 기준을 만족하는지 요약합니다.
 
-- 생성 시각: 2026-06-03T12:59:04.251Z
+- 생성 시각: 2026-06-03T13:17:58.793Z
 - 운영 준비 점수: 100/100
 - 상태: PASS
 
@@ -14,7 +14,8 @@
 - 품절/종료 의심 노출: 0개
 - 공식 혜택: 26개
 - 공식 혜택 카테고리 커버리지: 10/10
-- 공식 혜택 리포트 신선도: 0시간
+- 공식 혜택 Provider: 4개 (feed 연결 0개)
+- 공식 혜택 리포트 신선도: 0.3시간
 - refresh:all 상태: PASS
 
 ## 카테고리 커버리지
@@ -32,6 +33,15 @@
 | 무료혜택 | 2 | 2 | PASS |
 | 정부/공공혜택 | 2 | 2 | PASS |
 
+## 공식 혜택 Provider 상태
+
+| Provider | Source | Feed 연결 | 수집 | 정규화 | 노출 | 숨김 | 실패 |
+| --- | --- | --- | ---: | ---: | ---: | ---: | ---: |
+| news | approved_news_feed | seed/fallback | 0 | 0 | 0 | 0 | 0 |
+| event_news | official_event_news_feed | seed/fallback | 5 | 5 | 5 | 0 | 0 |
+| official_event | official_event_page_feed | seed/fallback | 16 | 16 | 16 | 0 | 0 |
+| public_coupon | public_coupon_and_culture_benefit_feed | seed/fallback | 5 | 5 | 5 | 0 | 0 |
+
 ## 게이트
 
 | 게이트 | 상태 | 상세 |
@@ -44,7 +54,7 @@
 | official benefit count floor | PASS | 26 official benefit deals are visible. |
 | official benefit category coverage | PASS | All 10 required categories have at least 2 visible benefits. |
 | official benefit hidden/failed queue | PASS | No hidden, expired, non-official, or failed official benefit links are exposed. |
-| official benefit freshness | PASS | Official benefit report freshness is 0h. |
+| official benefit freshness | PASS | Official benefit report freshness is 0.3h. |
 | refresh all pipeline | PASS | refresh:all completed successfully. |
 | provider stats coverage | PASS | Product providers=6, news providers=4. |
 

@@ -3755,8 +3755,8 @@ function checkHealthReadinessReport() {
   if (!roadmap.includes("운영 헬스 리포트") || !roadmap.includes("health:readiness")) {
     issues.push("roadmap should document the operational health readiness gate");
   }
-  if (!docsReport.includes("운영 헬스 리포트") || !docsReport.includes("검색 링크 노출") || !docsReport.includes("카테고리 커버리지")) {
-    issues.push("docs/HEALTH_READINESS_REPORT.md should summarize search exposure and category coverage");
+  if (!docsReport.includes("운영 헬스 리포트") || !docsReport.includes("검색 링크 노출") || !docsReport.includes("카테고리 커버리지") || !docsReport.includes("공식 혜택 Provider 상태")) {
+    issues.push("docs/HEALTH_READINESS_REPORT.md should summarize search exposure, category coverage, and official benefit provider status");
   }
 
   if (report.ok !== true) issues.push("health readiness report should pass");
@@ -3766,6 +3766,12 @@ function checkHealthReadinessReport() {
   if ((report.product?.searchLinks ?? 0) !== 0) issues.push("health readiness should show zero search links");
   if ((report.product?.soldOutProducts ?? 0) !== 0) issues.push("health readiness should show zero sold-out product exposure");
   if ((report.officialBenefits?.visibleCount ?? 0) < 25) issues.push("health readiness should show at least 25 official benefits");
+  if (!Array.isArray(report.officialBenefits?.activeProviders) || report.officialBenefits.activeProviders.length < 4) {
+    issues.push("health readiness should expose active official benefit providers");
+  }
+  if (!Array.isArray(report.officialBenefits?.providerStats) || report.officialBenefits.providerStats.length < 4) {
+    issues.push("health readiness should expose official benefit provider stats");
+  }
   if ((report.officialBenefits?.readyCategories ?? 0) < (report.officialBenefits?.requiredCategories ?? 10)) {
     issues.push("health readiness should show all official benefit categories ready");
   }

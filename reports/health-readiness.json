@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-03T12:59:04.251Z",
+  "generatedAt": "2026-06-03T13:17:58.793Z",
   "score": 100,
   "thresholds": {
     "productDealsCount": 140,
@@ -31,7 +31,7 @@
     "expiredCount": 0,
     "officialMissingCount": 0,
     "failedCount": 0,
-    "freshnessHours": 0,
+    "freshnessHours": 0.3,
     "readyCategories": 10,
     "requiredCategories": 10,
     "minimumCategoryDealCount": 2,
@@ -49,7 +49,67 @@
       "디지털/가전": 2,
       "무료혜택": 2
     },
-    "configuredProviders": []
+    "configuredProviders": [],
+    "activeProviders": [
+      "news",
+      "event_news",
+      "official_event",
+      "public_coupon"
+    ],
+    "providerStats": [
+      {
+        "provider": "news",
+        "source": "approved_news_feed",
+        "configured": false,
+        "fetchedCount": 0,
+        "normalizedCount": 0,
+        "visibleCount": 0,
+        "hiddenCount": 0,
+        "failedCount": 0,
+        "expiredCount": 0,
+        "officialMissingCount": 0,
+        "errorCount": 0
+      },
+      {
+        "provider": "event_news",
+        "source": "official_event_news_feed",
+        "configured": false,
+        "fetchedCount": 5,
+        "normalizedCount": 5,
+        "visibleCount": 5,
+        "hiddenCount": 0,
+        "failedCount": 0,
+        "expiredCount": 0,
+        "officialMissingCount": 0,
+        "errorCount": 0
+      },
+      {
+        "provider": "official_event",
+        "source": "official_event_page_feed",
+        "configured": false,
+        "fetchedCount": 16,
+        "normalizedCount": 16,
+        "visibleCount": 16,
+        "hiddenCount": 0,
+        "failedCount": 0,
+        "expiredCount": 0,
+        "officialMissingCount": 0,
+        "errorCount": 0
+      },
+      {
+        "provider": "public_coupon",
+        "source": "public_coupon_and_culture_benefit_feed",
+        "configured": false,
+        "fetchedCount": 5,
+        "normalizedCount": 5,
+        "visibleCount": 5,
+        "hiddenCount": 0,
+        "failedCount": 0,
+        "expiredCount": 0,
+        "officialMissingCount": 0,
+        "errorCount": 0
+      }
+    ]
   },
   "refreshAll": {
     "ok": true,
@@ -137,7 +197,7 @@
     {
       "name": "official benefit freshness",
       "ok": true,
-      "detail": "Official benefit report freshness is 0h."
+      "detail": "Official benefit report freshness is 0.3h."
     },
     {
       "name": "refresh all pipeline",
