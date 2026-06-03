@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { CheckCircle2, ExternalLink, Eye, EyeOff, RefreshCw, RotateCcw } from "lucide-react";
+import { CheckCircle2, Clock3, ExternalLink, Eye, EyeOff, RefreshCw, RotateCcw } from "lucide-react";
 import { getRelativeTime } from "@/lib/format";
 
 type NewsOperationAction = "hide" | "restore" | "revalidate";
@@ -31,6 +31,26 @@ interface NewsOperationsReport {
   visibleCount: number;
   hiddenCount: number;
   failedCount: number;
+  freshness?: {
+    status: "fresh" | "due" | "stale" | "missing";
+    severity: "good" | "caution" | "danger";
+    label: string;
+    cadenceHours: number;
+    staleHours: number;
+    ageHours: number | null;
+    generatedAt: string;
+    nextRefreshDueAt: string;
+    staleAfterAt: string;
+    command: string;
+    releaseBlocking: boolean;
+  };
+  operatorNextActions?: Array<{
+    priority: "high" | "medium" | "low" | string;
+    title: string;
+    description: string;
+    command?: string;
+    dueAt?: string;
+  }>;
   categoryCoverage?: Array<{
     category: string;
     action: string;
@@ -91,6 +111,26 @@ function formatDuration(durationMs = 0) {
   return `${(durationMs / 1000).toFixed(1)}초`;
 }
 
+function formatDateTime(isoDate?: string) {
+  if (!isoDate) return "미정";
+
+  const date = new Date(isoDate);
+  if (Number.isNaN(date.getTime())) return "미정";
+
+  return new Intl.DateTimeFormat("ko-KR", {
+    month: "numeric",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit"
+  }).format(date);
+}
+
+function getFreshnessClassName(severity?: string) {
+  if (severity === "good") return "bg-emerald-50 text-emerald-700";
+  if (severity === "caution") return "bg-amber-50 text-amber-700";
+  return "bg-red-50 text-brand-red";
+}
+
 export function AdminNewsOperationsPanel({ apiHref, initialReport }: AdminNewsOperationsPanelProps) {
   const [report, setReport] = useState(initialReport);
   const [reason, setReason] = useState("manual_admin_review");
@@ -100,7 +140,9 @@ export function AdminNewsOperationsPanel({ apiHref, initialReport }: AdminNewsOp
   const hiddenDeals = useMemo(() => report.hiddenDeals?.slice(0, 8) ?? [], [report.hiddenDeals]);
   const categoryCoverage = useMemo(() => report.categoryCoverage ?? [], [report.categoryCoverage]);
   const refreshSteps = useMemo(() => report.refreshAll?.steps?.slice(0, 6) ?? [], [report.refreshAll?.steps]);
+  const operatorNextActions = useMemo(() => report.operatorNextActions?.slice(0, 3) ?? [], [report.operatorNextActions]);
   const issueCount = categoryCoverage.filter((item) => item.status === "gap" || item.status === "thin").length;
+  const freshness = report.freshness;
 
   const runAction = async (action: NewsOperationAction, deal: NewsOperationDeal) => {
     const id = getDealId(deal);
@@ -191,6 +233,7 @@ export function AdminNewsOperationsPanel({ apiHref, initialReport }: AdminNewsOp
           </div>
         </div>
 
+        <div className="space-y-3">
         <div className="rounded-2xl border border-slate-100 bg-white p-3">
           <div className="flex items-center justify-between gap-2">
             <p className="text-sm font-black text-slate-950">refresh:all 운영 상태</p>
@@ -223,6 +266,37 @@ export function AdminNewsOperationsPanel({ apiHref, initialReport }: AdminNewsOp
             ))}
           </div>
         </div>
+        <div className="rounded-2xl border border-slate-100 bg-white p-3">
+          <div className="flex items-center justify-between gap-2">
+            <p className="text-sm font-black text-slate-950">신선도 운영</p>
+            <span className={`rounded-full px-2.5 py-1 text-[11px] font-black ${getFreshnessClassName(freshness?.severity)}`}>
+              {freshness?.label ?? "리포트 확인 필요"}
+            </span>
+          </div>
+          <div className="mt-3 grid grid-cols-2 gap-2 text-[11px] font-black text-slate-600">
+            <span className="rounded-2xl bg-slate-50 px-3 py-2">
+              갱신 주기
+              <b className="mt-0.5 block text-sm text-slate-950">{freshness?.cadenceHours ?? 6}시간</b>
+            </span>
+            <span className="rounded-2xl bg-slate-50 px-3 py-2">
+              stale 기준
+              <b className="mt-0.5 block text-sm text-slate-950">{freshness?.staleHours ?? 24}시간</b>
+            </span>
+          </div>
+          <div className="mt-3 rounded-2xl bg-brand-warm px-3 py-2 text-[11px] font-bold leading-5 text-slate-600">
+            <p>
+              <b className="text-slate-950">다음 refresh 권장:</b> {formatDateTime(freshness?.nextRefreshDueAt)}
+            </p>
+            <p>
+              <b className="text-slate-950">마지막 생성:</b>{" "}
+              {freshness?.generatedAt ? `${getRelativeTime(freshness.generatedAt)} · ${freshness.ageHours ?? 0}시간 경과` : "리포트 없음"}
+            </p>
+            <code className="mt-2 block overflow-x-auto rounded-xl bg-white px-2 py-1 text-[10px] font-black text-brand-red">
+              {freshness?.command ?? "npm run refresh:all && npm run health:readiness"}
+            </code>
+          </div>
+        </div>
+        </div>
       </div>
 
       <div className="mt-4 rounded-2xl bg-brand-warm p-3">
@@ -232,6 +306,26 @@ export function AdminNewsOperationsPanel({ apiHref, initialReport }: AdminNewsOp
             <p key={risk} className="rounded-2xl bg-white px-3 py-2 text-xs font-bold leading-5 text-slate-600 shadow-sm">
               {risk}
             </p>
+          ))}
+        </div>
+      </div>
+
+      <div className="mt-4 rounded-2xl bg-slate-50 p-3">
+        <div className="flex items-center justify-between gap-2">
+          <p className="text-xs font-black text-slate-950">다음 운영 액션</p>
+          <Clock3 size={16} className="text-brand-red" aria-hidden="true" />
+        </div>
+        <div className="mt-2 grid gap-2 md:grid-cols-3">
+          {(operatorNextActions.length ? operatorNextActions : [{ priority: "low", title: "운영 액션 없음", description: "현재 공식 혜택 신선도와 카테고리 커버리지가 정상입니다." }]).map((action) => (
+            <div key={`${action.priority}-${action.title}`} className="rounded-2xl bg-white px-3 py-2 shadow-sm">
+              <span className={`rounded-full px-2 py-0.5 text-[10px] font-black ${action.priority === "high" ? "bg-red-50 text-brand-red" : action.priority === "medium" ? "bg-amber-50 text-amber-700" : "bg-emerald-50 text-emerald-700"}`}>
+                {action.priority}
+              </span>
+              <p className="mt-2 text-xs font-black text-slate-950">{action.title}</p>
+              <p className="mt-1 text-[11px] font-bold leading-5 text-slate-500">{action.description}</p>
+              {action.dueAt ? <p className="mt-1 text-[11px] font-black text-slate-600">권장 시각 {formatDateTime(action.dueAt)}</p> : null}
+              {action.command ? <code className="mt-2 block rounded-xl bg-slate-50 px-2 py-1 text-[10px] font-black text-brand-red">{action.command}</code> : null}
+            </div>
           ))}
         </div>
       </div>

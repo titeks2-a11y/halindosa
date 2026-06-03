@@ -85,6 +85,56 @@ const requiredNewsCategories = [
   { category: "정부/공공혜택", action: "공공 쿠폰, 문화/복지 혜택 2개 이상 유지" }
 ];
 const minimumCategoryDealCount = 2;
+const newsRefreshCadenceHours = 6;
+const newsRefreshStaleHours = 24;
+
+type NewsFreshnessStatus = "fresh" | "due" | "stale" | "missing";
+type NewsFreshnessSeverity = "good" | "caution" | "danger";
+
+function roundAgeHours(ageMs: number) {
+  return Math.round((ageMs / (60 * 60 * 1000)) * 10) / 10;
+}
+
+function addHours(timestamp: number, hours: number) {
+  return new Date(timestamp + hours * 60 * 60 * 1000).toISOString();
+}
+
+function getNewsFreshnessState(generatedAt?: string) {
+  const generatedTimestamp = Date.parse(generatedAt ?? "");
+  const hasGeneratedAt = Number.isFinite(generatedTimestamp);
+  const ageHours = hasGeneratedAt ? roundAgeHours(Math.max(0, Date.now() - generatedTimestamp)) : null;
+  const currentAgeHours = ageHours ?? 0;
+  const status: NewsFreshnessStatus = !hasGeneratedAt
+    ? "missing"
+    : currentAgeHours >= newsRefreshStaleHours
+      ? "stale"
+      : currentAgeHours >= newsRefreshCadenceHours
+        ? "due"
+        : "fresh";
+  const severity: NewsFreshnessSeverity = status === "fresh" ? "good" : status === "due" ? "caution" : "danger";
+  const label =
+    status === "fresh"
+      ? "최신 상태"
+      : status === "due"
+        ? "갱신 권장"
+        : status === "stale"
+          ? "출시 전 갱신 필요"
+          : "리포트 생성 필요";
+
+  return {
+    status,
+    severity,
+    label,
+    cadenceHours: newsRefreshCadenceHours,
+    staleHours: newsRefreshStaleHours,
+    ageHours,
+    generatedAt: hasGeneratedAt ? new Date(generatedTimestamp).toISOString() : "",
+    nextRefreshDueAt: hasGeneratedAt ? addHours(generatedTimestamp, newsRefreshCadenceHours) : "",
+    staleAfterAt: hasGeneratedAt ? addHours(generatedTimestamp, newsRefreshStaleHours) : "",
+    command: "npm run refresh:all && npm run health:readiness",
+    releaseBlocking: status === "stale" || status === "missing"
+  };
+}
 
 function readJson<T>(fullPath: string, fallback: T): T {
   if (!existsSync(fullPath)) return fallback;
@@ -149,8 +199,48 @@ export function getNewsOperationsReport() {
     ...step,
     durationMs: getDurationMs(step.startedAt, step.finishedAt)
   }));
-  const staleGeneratedAt = Date.parse(report.generatedAt ?? snapshot.generatedAt ?? "");
-  const isStale = !Number.isFinite(staleGeneratedAt) || Date.now() - staleGeneratedAt > 24 * 60 * 60 * 1000;
+  const freshness = getNewsFreshnessState(report.generatedAt ?? snapshot.generatedAt);
+  const operatorNextActions = [
+    ...(freshness.status === "fresh"
+      ? [
+          {
+            priority: "low",
+            title: "정기 갱신 대기",
+            description: `${freshness.cadenceHours}시간 주기로 공식 혜택 리포트를 다시 갱신합니다.`,
+            command: freshness.command,
+            dueAt: freshness.nextRefreshDueAt
+          }
+        ]
+      : [
+          {
+            priority: freshness.releaseBlocking ? "high" : "medium",
+            title: freshness.releaseBlocking ? "출시 전 공식 혜택 리포트 갱신" : "공식 혜택 리포트 갱신 권장",
+            description: `${freshness.label} 상태입니다. 상품/뉴스 refresh와 health readiness를 다시 실행하세요.`,
+            command: freshness.command,
+            dueAt: freshness.nextRefreshDueAt || new Date().toISOString()
+          }
+        ]),
+    ...(categoryCoverage.some((item) => item.status === "gap" || item.status === "thin")
+      ? [
+          {
+            priority: "high",
+            title: "공식 혜택 카테고리 보강",
+            description: "필수 혜택 카테고리별 최소 2개 이상의 공식 링크 검증 혜택을 유지하세요.",
+            command: "npm run refresh:news && npm run verify:news"
+          }
+        ]
+      : []),
+    ...(((report.hiddenCount ?? 0) > 0 || (report.failedCount ?? 0) > 0 || (report.expiredCount ?? 0) > 0)
+      ? [
+          {
+            priority: "medium",
+            title: "숨김/실패/종료 큐 검토",
+            description: "관리자 뉴스 운영 패널에서 hide, restore, revalidate 액션으로 공식 혜택 상태를 정리하세요.",
+            command: "open /admin"
+          }
+        ]
+      : [])
+  ];
   const operationalRisks = [
     ...(categoryCoverage.some((item) => item.status === "gap") ? ["카테고리 공백이 있어 공식 혜택 seed 또는 feed 보강 필요"] : []),
     ...(categoryCoverage.some((item) => item.status === "thin") ? ["공식 혜택 2건 미만 카테고리가 있어 운영 피드 추가 확인 필요"] : []),
@@ -159,11 +249,12 @@ export function getNewsOperationsReport() {
     ...((report.officialMissingCount ?? 0) > 0 ? ["공식 finalUrl이 없는 혜택 후보가 있어 노출 제외 상태 확인 필요"] : []),
     ...((report.failedCount ?? 0) > 0 ? ["검증 실패 공식 혜택이 있어 실패 사유 TOP10 확인 필요"] : []),
     ...(refreshAll.ok === false ? ["refresh:all 마지막 실행이 실패하여 파이프라인 로그 확인 필요"] : []),
-    ...(isStale ? ["뉴스 혜택 리포트가 24시간 이상 갱신되지 않아 refresh:all 실행 필요"] : [])
+    ...(freshness.releaseBlocking ? ["뉴스 혜택 리포트가 24시간 이상 갱신되지 않아 refresh:all 실행 필요"] : []),
+    ...(freshness.status === "due" ? ["뉴스 혜택 리포트 정기 갱신 시간이 지나 refresh:all 실행 권장"] : [])
   ];
 
   return {
-    ok: report.ok !== false && refreshAll.ok !== false,
+    ok: report.ok !== false && refreshAll.ok !== false && !freshness.releaseBlocking,
     generatedAt: report.generatedAt ?? snapshot.generatedAt ?? new Date().toISOString(),
     snapshotSource: snapshot.source ?? "seed",
     totalCount: report.totalCount ?? allDeals.length,
@@ -173,6 +264,8 @@ export function getNewsOperationsReport() {
     officialMissingCount: report.officialMissingCount ?? 0,
     failedCount: (report.failedCount ?? hiddenByReport.length) + manualHiddenDeals.length,
     categoryCoverage,
+    freshness,
+    operatorNextActions,
     operationalRisks: operationalRisks.length ? operationalRisks : ["공식 혜택 노출 기준, 카테고리 커버리지, refresh:all 상태가 정상입니다."],
     providerStats,
     failureReasonTop10,

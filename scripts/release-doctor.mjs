@@ -3584,6 +3584,7 @@ function checkNewsDealPipeline() {
   const realtimeNewsSection = existsSync(join(root, "components/RealtimeNewsDealsSection.tsx")) ? readFileSync(join(root, "components/RealtimeNewsDealsSection.tsx"), "utf8") : "";
   const newsRedirectRoute = existsSync(join(root, "app/go/news/[id]/route.ts")) ? readFileSync(join(root, "app/go/news/[id]/route.ts"), "utf8") : "";
   const newsLinkPolicy = existsSync(join(root, "lib/deals/newsLinkPolicy.ts")) ? readFileSync(join(root, "lib/deals/newsLinkPolicy.ts"), "utf8") : "";
+  const smokeScript = existsSync(join(root, "scripts/smoke.mjs")) ? readFileSync(join(root, "scripts/smoke.mjs"), "utf8") : "";
 
   for (const key of ["DEAL_NEWS_FEED_URLS", "DEAL_NEWS_RSS_URLS", "DEAL_EVENT_NEWS_FEED_URLS", "OFFICIAL_EVENT_FEED_URLS", "DEAL_EVENT_FEED_URLS", "PUBLIC_COUPON_FEED_URLS"]) {
     if (!envExample.includes(key)) issues.push(`env example missing ${key}`);
@@ -3646,15 +3647,24 @@ function checkNewsDealPipeline() {
     !adminNewsOperationsPanel.includes("issueCount") ||
     !adminNewsOperationsPanel.includes("thin") ||
     !adminNewsOperationsPanel.includes("refresh:all 운영 상태") ||
+    !adminNewsOperationsPanel.includes("신선도 운영") ||
+    !adminNewsOperationsPanel.includes("다음 refresh 권장") ||
+    !adminNewsOperationsPanel.includes("operatorNextActions") ||
+    !adminPage.includes("공식 혜택 다음 운영 액션") ||
     !newsOperations.includes("categoryCoverage") ||
     !newsOperations.includes("operationalRisks") ||
+    !newsOperations.includes("getNewsFreshnessState") ||
+    !newsOperations.includes("newsRefreshCadenceHours") ||
+    !newsOperations.includes("operatorNextActions") ||
     !newsOperations.includes("requiredNewsCategories") ||
     !newsOperations.includes("minimumCategoryDealCount") ||
     !verifyScript.includes("minimumCategoryDealCount") ||
     !verifyScript.includes("thinCategories") ||
-    !newsOperations.includes("durationMs")
+    !newsOperations.includes("durationMs") ||
+    !smokeScript.includes("freshness?.cadenceHours === 6") ||
+    !smokeScript.includes("operatorNextActions")
   ) {
-    issues.push("admin should provide executable hide/restore/revalidate controls plus category coverage, refresh status, and risk summaries for official benefit operations");
+    issues.push("admin should provide executable hide/restore/revalidate controls plus category coverage, refresh status, freshness cadence, next actions, and risk summaries for official benefit operations");
   }
 
   if (existsSync(join(root, "reports/news-deals.json"))) {

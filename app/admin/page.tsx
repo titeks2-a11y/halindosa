@@ -33,6 +33,20 @@ const checklist = [
   { title: "개인정보", description: "회원, 푸시, 분석 도구 연결 전 동의와 보관 기간을 정책에 반영" }
 ];
 
+function formatAdminDateTime(isoDate?: string) {
+  if (!isoDate) return "미정";
+
+  const date = new Date(isoDate);
+  if (Number.isNaN(date.getTime())) return "미정";
+
+  return new Intl.DateTimeFormat("ko-KR", {
+    month: "numeric",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit"
+  }).format(date);
+}
+
 interface AdminPageProps {
   searchParams: Promise<{
     token?: string;
@@ -336,6 +350,34 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                 <p className="mt-2 text-2xl font-black text-slate-950">{Number(value).toLocaleString("ko-KR")}</p>
               </div>
             ))}
+          </div>
+          <div className="mt-4 grid gap-3 lg:grid-cols-[0.9fr_1.1fr]">
+            <div className="rounded-2xl border border-red-100 bg-red-50 p-4">
+              <div className="flex items-center justify-between gap-2">
+                <p className="text-sm font-black text-slate-950">신선도 운영</p>
+                <span className={`rounded-full px-2.5 py-1 text-[11px] font-black ${newsOperations.freshness.severity === "good" ? "bg-emerald-50 text-emerald-700" : newsOperations.freshness.severity === "caution" ? "bg-amber-50 text-amber-700" : "bg-white text-dossa-red"}`}>
+                  {newsOperations.freshness.label}
+                </span>
+              </div>
+              <p className="mt-2 text-xs font-bold leading-5 text-slate-600">
+                마지막 생성 {newsOperations.freshness.generatedAt ? getRelativeTime(newsOperations.freshness.generatedAt) : "없음"} · 갱신 주기 {newsOperations.freshness.cadenceHours}시간 · stale 기준 {newsOperations.freshness.staleHours}시간
+              </p>
+              <p className="mt-2 text-xs font-black text-dossa-red">
+                다음 refresh 권장: {formatAdminDateTime(newsOperations.freshness.nextRefreshDueAt)}
+              </p>
+            </div>
+            <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
+              <p className="text-sm font-black text-slate-950">공식 혜택 다음 운영 액션</p>
+              <div className="mt-3 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                {newsOperations.operatorNextActions.slice(0, 3).map((action) => (
+                  <div key={`${action.priority}-${action.title}`} className="min-w-[220px] rounded-2xl bg-white px-3 py-2 shadow-sm">
+                    <p className="text-xs font-black text-slate-950">{action.title}</p>
+                    <p className="mt-1 line-clamp-2 text-[11px] font-bold leading-5 text-slate-500">{action.description}</p>
+                    {action.command ? <code className="mt-2 block rounded-xl bg-brand-warm px-2 py-1 text-[10px] font-black text-dossa-red">{action.command}</code> : null}
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
           <div className="mt-4 grid gap-3 lg:grid-cols-[0.8fr_1.2fr]">
             <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">

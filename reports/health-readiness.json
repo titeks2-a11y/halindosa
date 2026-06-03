@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-03T12:40:43.524Z",
+  "generatedAt": "2026-06-03T12:59:04.251Z",
   "score": 100,
   "thresholds": {
     "productDealsCount": 140,
@@ -53,7 +53,7 @@
   },
   "refreshAll": {
     "ok": true,
-    "generatedAt": "2026-06-03T12:40:42.361Z",
+    "generatedAt": "2026-06-03T12:59:03.135Z",
     "insertedCount": 26,
     "updatedCount": 136,
     "hiddenCount": 0,
@@ -64,32 +64,32 @@
       {
         "name": "refresh:deals",
         "ok": true,
-        "startedAt": "2026-06-03T12:40:42.362Z",
-        "finishedAt": "2026-06-03T12:40:42.658Z"
+        "startedAt": "2026-06-03T12:59:03.137Z",
+        "finishedAt": "2026-06-03T12:59:03.407Z"
       },
       {
         "name": "refresh:news",
         "ok": true,
-        "startedAt": "2026-06-03T12:40:42.658Z",
-        "finishedAt": "2026-06-03T12:40:42.746Z"
+        "startedAt": "2026-06-03T12:59:03.407Z",
+        "finishedAt": "2026-06-03T12:59:03.495Z"
       },
       {
         "name": "verify:links",
         "ok": true,
-        "startedAt": "2026-06-03T12:40:42.746Z",
-        "finishedAt": "2026-06-03T12:40:42.846Z"
+        "startedAt": "2026-06-03T12:59:03.495Z",
+        "finishedAt": "2026-06-03T12:59:03.593Z"
       },
       {
         "name": "verify:products",
         "ok": true,
-        "startedAt": "2026-06-03T12:40:42.846Z",
-        "finishedAt": "2026-06-03T12:40:42.941Z"
+        "startedAt": "2026-06-03T12:59:03.593Z",
+        "finishedAt": "2026-06-03T12:59:03.678Z"
       },
       {
         "name": "verify:news",
         "ok": true,
-        "startedAt": "2026-06-03T12:40:42.941Z",
-        "finishedAt": "2026-06-03T12:40:43.029Z"
+        "startedAt": "2026-06-03T12:59:03.678Z",
+        "finishedAt": "2026-06-03T12:59:03.764Z"
       }
     ]
   },

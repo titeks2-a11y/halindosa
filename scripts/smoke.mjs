@@ -555,7 +555,16 @@ await check("admin dashboard quality cards", async () => {
       text.includes("재검증 기록"),
     "Admin dashboard missing executable news operation controls"
   );
-  assert(text.includes("필수 혜택 카테고리 커버리지") && text.includes("refresh:all 운영 상태") && text.includes("오늘 운영 리스크"), "Admin dashboard missing official benefit coverage and refresh operation summary");
+  assert(
+    text.includes("필수 혜택 카테고리 커버리지") &&
+      text.includes("refresh:all 운영 상태") &&
+      text.includes("오늘 운영 리스크") &&
+      text.includes("신선도 운영") &&
+      text.includes("다음 refresh 권장") &&
+      text.includes("npm run refresh:all") &&
+      text.includes("health:readiness"),
+    "Admin dashboard missing official benefit coverage, freshness, and refresh operation summary"
+  );
   assert(text.includes("운영 리포트 API 보기"), "Admin dashboard missing news operation report API link");
   assert(text.includes("알림 캠페인 운영 큐") && text.includes("오늘 발송 후보와 FCM 준비 상태"), "Admin dashboard missing notification campaign queue");
   assert(text.includes("푸시 구독·동의 준비도") && text.includes("관심 카테고리 세그먼트") && text.includes("동의/철회 체크"), "Admin dashboard missing push subscription readiness panel");
@@ -703,6 +712,11 @@ await check("admin news operations api", async () => {
   assert(data.report.categoryCoverage.every((item) => item.category && typeof item.count === "number" && item.count >= 2 && item.minimumCount >= 2 && item.action), "Admin news operations category coverage missing operation fields or minimum counts");
   assert(Array.isArray(data.report?.operationalRisks) && data.report.operationalRisks.length >= 1, "Admin news operations report missing operational risk summary");
   assert(Array.isArray(data.report?.refreshAll?.steps) && data.report.refreshAll.steps.length >= 5, "Admin news operations report missing refresh:all step status");
+  assert(data.report?.freshness?.cadenceHours === 6, "Admin news operations report missing 6-hour freshness cadence");
+  assert(data.report?.freshness?.staleHours === 24, "Admin news operations report missing 24-hour stale guard");
+  assert(["fresh", "due", "stale", "missing"].includes(data.report?.freshness?.status), "Admin news operations report missing freshness status");
+  assert(String(data.report?.freshness?.command ?? "").includes("refresh:all"), "Admin news operations report missing refresh command guidance");
+  assert(Array.isArray(data.report?.operatorNextActions) && data.report.operatorNextActions.length >= 1, "Admin news operations report missing operator next actions");
 });
 
 await check("admin health readiness api", async () => {
