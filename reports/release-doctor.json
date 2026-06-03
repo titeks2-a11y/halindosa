@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-03T13:40:55.977Z",
+  "generatedAt": "2026-06-03T13:48:53.391Z",
   "totalChecks": 181,
   "passedChecks": 181,
   "failedChecks": 0,
@@ -803,62 +803,62 @@
     {
       "name": "release evidence freshness",
       "ok": true,
-      "detail": "Release evidence snapshot was refreshed for parent release commit 83fa669."
+      "detail": "Release evidence snapshot was refreshed for parent release commit 165a10a."
     },
     {
       "name": "store manual checklist freshness",
       "ok": true,
-      "detail": "docs/STORE_MANUAL_CHECKLIST.md snapshot was refreshed for parent release commit 83fa669."
+      "detail": "docs/STORE_MANUAL_CHECKLIST.md snapshot was refreshed for parent release commit 165a10a."
     },
     {
       "name": "device qa report freshness",
       "ok": true,
-      "detail": "docs/DEVICE_QA_REPORT.md snapshot was refreshed for parent release commit 83fa669."
+      "detail": "docs/DEVICE_QA_REPORT.md snapshot was refreshed for parent release commit 165a10a."
     },
     {
       "name": "store screenshots report freshness",
       "ok": true,
-      "detail": "docs/STORE_SCREENSHOTS_REPORT.md snapshot was refreshed for parent release commit 83fa669."
+      "detail": "docs/STORE_SCREENSHOTS_REPORT.md snapshot was refreshed for parent release commit 165a10a."
     },
     {
       "name": "known issues freshness",
       "ok": true,
-      "detail": "docs/KNOWN_ISSUES.md snapshot was refreshed for parent release commit 83fa669."
+      "detail": "docs/KNOWN_ISSUES.md snapshot was refreshed for parent release commit 165a10a."
     },
     {
       "name": "public url report freshness",
       "ok": true,
-      "detail": "docs/PUBLIC_URL_REPORT.md snapshot was refreshed for parent release commit 83fa669."
+      "detail": "docs/PUBLIC_URL_REPORT.md snapshot was refreshed for parent release commit 165a10a."
     },
     {
       "name": "store submission report freshness",
       "ok": true,
-      "detail": "docs/STORE_SUBMISSION_REPORT.md snapshot was refreshed for parent release commit 83fa669."
+      "detail": "docs/STORE_SUBMISSION_REPORT.md snapshot was refreshed for parent release commit 165a10a."
     },
     {
       "name": "store console fields freshness",
       "ok": true,
-      "detail": "docs/STORE_CONSOLE_FIELDS.md snapshot was refreshed for parent release commit 83fa669."
+      "detail": "docs/STORE_CONSOLE_FIELDS.md snapshot was refreshed for parent release commit 165a10a."
     },
     {
       "name": "store handoff report freshness",
       "ok": true,
-      "detail": "docs/STORE_HANDOFF_REPORT.md snapshot was refreshed for parent release commit 83fa669."
+      "detail": "docs/STORE_HANDOFF_REPORT.md snapshot was refreshed for parent release commit 165a10a."
     },
     {
       "name": "release notes freshness",
       "ok": true,
-      "detail": "docs/RELEASE_NOTES.md snapshot was refreshed for parent release commit 83fa669."
+      "detail": "docs/RELEASE_NOTES.md snapshot was refreshed for parent release commit 165a10a."
     },
     {
       "name": "support playbook freshness",
       "ok": true,
-      "detail": "docs/SUPPORT_PLAYBOOK.md snapshot was refreshed for parent release commit 83fa669."
+      "detail": "docs/SUPPORT_PLAYBOOK.md snapshot was refreshed for parent release commit 165a10a."
     },
     {
       "name": "store packet report freshness",
       "ok": true,
-      "detail": "docs/STORE_PACKET_REPORT.md snapshot was refreshed for parent release commit 83fa669."
+      "detail": "docs/STORE_PACKET_REPORT.md snapshot was refreshed for parent release commit 165a10a."
     },
     {
       "name": "customer navigation simplification",
@@ -878,7 +878,7 @@
     {
       "name": "operational health readiness",
       "ok": true,
-      "detail": "Health readiness report proves product links, official benefits, category coverage, freshness, and refresh:all status are launch-ready."
+      "detail": "Health readiness report proves product links, official benefits, category coverage, provider risk, freshness, and refresh:all status are launch-ready."
     },
     {
       "name": "keystore example",
