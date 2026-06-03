@@ -26,6 +26,7 @@ const officialProvider = requireFile("lib/deals/providers/officialEventProvider.
 const couponProvider = requireFile("lib/deals/providers/publicCouponProvider.ts", "public coupon provider");
 const refreshScript = requireFile("scripts/refresh-news-deals.mjs", "refresh script");
 const verifyScript = requireFile("scripts/verify-news-deals.mjs", "verify script");
+const configuredFeedErrorTest = requireFile("scripts/test-news-feed-error-gate.mjs", "configured feed error regression");
 const envExample = requireFile(".env.example", "env example");
 const docs = requireFile("docs/news-feed-contract.md", "feed contract docs");
 const sampleRaw = requireFile("data/newsFeed.sample.json", "sample feed");
@@ -69,6 +70,10 @@ for (const phrase of ["fetchNewsFeed", "DEAL_NEWS_FEED_URLS", "DEAL_NEWS_RSS_URL
 
 for (const phrase of ["searchLinkExposure", "nonOfficialExposure", "expiredExposure", "thinCategories", "configuredFeedErrors"]) {
   if (!verifyScript.includes(phrase)) issues.push(`verify-news-deals missing ${phrase}`);
+}
+
+for (const phrase of ["DEAL_NEWS_FEED_URLS", "not-a-halindosa-feed", "/broken.txt", "configuredFeedErrors", "refresh-news-deals.mjs", "verify-news-deals.mjs"]) {
+  if (!configuredFeedErrorTest.includes(phrase)) issues.push(`configured feed error regression missing ${phrase}`);
 }
 
 try {

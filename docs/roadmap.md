@@ -31,6 +31,7 @@
 - `data/officialSourceCatalog.json`과 `source:catalog:report`를 추가해 편의점, 마트, 외식, 문화, 카드, 공공혜택, 여행, 디지털, 패션/뷰티 공식 소스 후보 20개를 카테고리/provider별로 관리하고, `reports/official-source-catalog.json`, `docs/OFFICIAL_SOURCE_CATALOG.md`, `/api/sources`, smoke, release doctor가 공식 feed 전환 후보 공백을 회귀 방지하도록 했다.
 - 보호된 `/api/cron/refresh`와 `vercel.json` 6시간 cron refresh를 추가해 `refresh:all` 파이프라인을 배포 환경에서 정기 실행할 수 있게 하고, `CRON_SECRET`, dry-run smoke, `reports/cron-refresh.json`, release doctor로 공개 호출/무단 실행 회귀를 막았다.
 - cron refresh 운영 리포트를 `lib/operations/cronRefresh.ts`로 분리하고 `/api/health`와 `/admin`에 마지막 실행, 보호 상태, 상품/뉴스 갱신 수, dry-run 링크를 노출해 배포 후 자동 갱신 상태를 운영자가 바로 확인할 수 있게 했다.
+- `test:news-feed-errors` 회귀 테스트를 추가해 정상 공식 feed는 통과하고, 설정된 운영 feed가 깨졌을 때는 seed fallback이 있어도 `configuredFeedErrors`로 `verify:news`가 실패하는지 QA에서 직접 재현하도록 했다.
 - `/api/admin/deal-quality?format=csv`와 관리자 `품질 CSV` 버튼을 추가해 상품 provider 수집 상태, 실패 사유, 수동 숨김 ID, live probe, link validation 요약을 운영자가 스프레드시트로 바로 검수할 수 있게 했다.
 - `health:readiness` 리포트에도 공식 혜택 provider 위험도와 `danger=0` 게이트를 추가해 출시 증거 JSON, 운영 헬스 문서, 관리자 헬스 패널, release doctor가 같은 provider risk 기준을 보도록 정리했다.
 - 알림 캠페인 운영 큐를 검증 상품 캠페인과 공식 혜택 캠페인으로 분리하고, 공식 뉴스/이벤트 혜택도 `benefitIds`, `sourceNames`, `official_benefit` 구분값을 가진 푸시 후보 큐로 편성해 무료·쿠폰·카드·멤버십·문화·공공 혜택을 운영자가 바로 검토할 수 있게 했다.
