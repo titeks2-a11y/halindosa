@@ -15,6 +15,7 @@ dist/
 .env*.local
 .env.*
 !.env.example
+data/dealOperationOverrides.local.json
 data/newsDealOverrides.local.json
 
 # Logs

@@ -2010,6 +2010,10 @@ await check("admin manual hide affects public exposure", async () => {
     assert(hide.response.status === 200, `Expected hide 200, got ${hide.response.status}`);
     assert(hide.data.ok === true, "Manual hide should succeed");
     assert(hide.data.manualHiddenDealIds?.includes(dealId), "Manual hide response should include hidden deal id");
+    assert(
+      hide.data.manualOverrideAudit?.some((item) => item.action === "hide" && item.id === dealId),
+      "Manual hide response should include persistent override audit log"
+    );
 
     const publicDeals = await fetchJson("/api/deals?limit=200");
     assert(publicDeals.response.status === 200, `Expected deals 200, got ${publicDeals.response.status}`);
@@ -2027,6 +2031,10 @@ await check("admin manual hide affects public exposure", async () => {
     });
     assert(restore.response.status === 200, `Expected restore 200, got ${restore.response.status}`);
     assert(restore.data.ok === true, "Manual restore should succeed");
+    assert(
+      restore.data.manualOverrideAudit?.some((item) => item.action === "restore" && item.id === dealId),
+      "Manual restore response should include persistent override audit log"
+    );
 
     const restoredRedirect = await fetch(`${baseUrl}/api/redirect/${dealId}?from=smoke-manual-restored`, {
       redirect: "manual"

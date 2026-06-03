@@ -3,14 +3,17 @@ import { canAccessAdminRequest } from "@/lib/adminAuth";
 import { createRequestId, getClientKey, rateLimit, rateLimitHeaders } from "@/lib/apiGuards";
 import { getRefreshDealsReport } from "@/lib/deals/refreshReport";
 import { toCsv } from "@/lib/csv";
-import { hideDealManually, listManualHiddenDealIds, restoreDealManually } from "@/lib/deals/operationOverrides";
+import { hideDealManually, listManualHiddenDealIds, readDealOperationOverrides, restoreDealManually } from "@/lib/deals/operationOverrides";
 
 function getPayload() {
   const report = getRefreshDealsReport();
+  const overrides = readDealOperationOverrides();
+
   return {
     report,
     manualHiddenDealIds: listManualHiddenDealIds(),
-    message: "운영 품질 리포트를 불러왔습니다. 수동 숨김은 현재 런타임의 목록, 상세, 구매 이동에 즉시 반영됩니다."
+    manualOverrideAudit: overrides.auditLog.slice(0, 20),
+    message: "운영 품질 리포트를 불러왔습니다. 수동 숨김은 로컬 운영 파일에 저장되고 목록, 상세, 구매 이동에 즉시 반영됩니다."
   };
 }
 
@@ -95,6 +98,16 @@ function buildDealQualityCsv(payload: ReturnType<typeof getPayload>) {
       action: "복구 전 판매처/품절/종료 여부 재검증",
       generatedAt: payload.report.generatedAt
     })),
+    ...payload.manualOverrideAudit.map((item) => ({
+      section: "manual_override_audit",
+      key: item.id,
+      label: item.action,
+      status: item.action === "hide" ? "hidden" : "restored",
+      count: 1,
+      reason: item.reason,
+      action: "운영 수동 조치 감사 로그 확인",
+      generatedAt: item.createdAt
+    })),
     ...Object.entries(reportRecord.liveProbe ?? {}).map(([key, count]) => ({
       section: "live_probe",
       key,
@@ -172,11 +185,13 @@ export async function POST(request: Request) {
   const body = (await request.json().catch(() => ({}))) as {
     action?: string;
     dealId?: string;
+    reason?: string;
   };
   const dealId = body.dealId?.trim();
+  const reason = body.reason?.trim() || "admin_operation";
 
   if (body.action === "hide" && dealId) {
-    hideDealManually(dealId);
+    hideDealManually(dealId, reason);
   } else if (body.action === "restore" && dealId) {
     restoreDealManually(dealId);
   } else if (body.action !== "revalidate") {

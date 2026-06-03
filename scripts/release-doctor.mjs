@@ -3763,6 +3763,7 @@ function checkRefreshDealPipeline() {
   const adminPanel = existsSync(join(root, adminPanelPath)) ? readFileSync(join(root, adminPanelPath), "utf8") : "";
   const adminPage = readFileSync(join(root, "app/admin/page.tsx"), "utf8");
   const smoke = readFileSync(join(root, "scripts/smoke.mjs"), "utf8");
+  const gitignore = existsSync(join(root, ".gitignore")) ? readFileSync(join(root, ".gitignore"), "utf8") : "";
   const exposureDoctorScript = readFileSync(join(root, "scripts/exposure-policy-doctor.mjs"), "utf8");
   const exposureReportPath = join(root, "reports/exposure-policy.json");
   const exposureReport = existsSync(exposureReportPath) ? JSON.parse(readFileSync(exposureReportPath, "utf8")) : {};
@@ -3817,15 +3818,23 @@ function checkRefreshDealPipeline() {
   if (
     !operationOverrides.includes("hideDealManually") ||
     !operationOverrides.includes("restoreDealManually") ||
+    !operationOverrides.includes("readDealOperationOverrides") ||
+    !operationOverrides.includes("writeDealOperationOverrides") ||
+    !operationOverrides.includes("dealOperationOverrides.local.json") ||
+    !operationOverrides.includes("auditLog") ||
     !operationOverrides.includes("applyDealOperationOverrides") ||
     !dealRepository.includes("applyDealOperationOverrides") ||
     !adminRoute.includes("hideDealManually") ||
     !adminRoute.includes("restoreDealManually") ||
+    !adminRoute.includes("manualOverrideAudit") ||
+    !adminRoute.includes("manual_override_audit") ||
+    !gitignore.includes("data/dealOperationOverrides.local.json") ||
     !smoke.includes("admin manual hide affects public exposure") ||
     !smoke.includes("Manually hidden deal should not be exposed in public deal API") ||
+    !smoke.includes("persistent override audit log") ||
     !smoke.includes("Expected hidden redirect 404")
   ) {
-    issues.push("admin manual hide should use the shared operation overlay and smoke-test public API plus redirect blocking before release.");
+    issues.push("admin manual hide should use a persisted local operation overlay, expose audit evidence, ignore local override files, and smoke-test public API plus redirect blocking before release.");
   }
 
   if (

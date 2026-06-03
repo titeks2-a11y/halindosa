@@ -43,6 +43,7 @@
 - `notificationDeliveryPolicy`와 `push:delivery:doctor`를 추가해 실제 FCM 발송 전 명시 동의, dry-run-first, 토큰 수 제한, 22:00-07:59 KST quiet hours 차단을 QA와 관리자 dry-run API에 연결했다.
 - `/api/admin/deal-quality?format=csv`와 관리자 `품질 CSV` 버튼을 추가해 상품 provider 수집 상태, 실패 사유, 수동 숨김 ID, live probe, link validation 요약을 운영자가 스프레드시트로 바로 검수할 수 있게 했다.
 - 상품 수동 숨김/복구를 `lib/deals/operationOverrides.ts` 런타임 오버레이로 분리하고 `getDeals`, 상세 조회, 관련 상품, `/go`, `/api/redirect`가 같은 숨김 상태를 보도록 연결해 품절·종료·링크 오류 신고 상품을 배포 없이 즉시 사용자 노출에서 제외할 수 있게 했다.
+- 상품 수동 숨김/복구를 `data/dealOperationOverrides.local.json` 로컬 운영 파일에 저장하고 최근 감사 로그를 관리자 API/CSV/smoke/release doctor에서 검증하도록 보강했다. 로컬 파일은 Git에 올리지 않고, 운영 배포에서는 Supabase `admin_actions`로 같은 구조를 영구화한다.
 - `health:readiness` 리포트에도 공식 혜택 provider 위험도와 `danger=0` 게이트를 추가해 출시 증거 JSON, 운영 헬스 문서, 관리자 헬스 패널, release doctor가 같은 provider risk 기준을 보도록 정리했다.
 - 알림 캠페인 운영 큐를 검증 상품 캠페인과 공식 혜택 캠페인으로 분리하고, 공식 뉴스/이벤트 혜택도 `benefitIds`, `sourceNames`, `official_benefit` 구분값을 가진 푸시 후보 큐로 편성해 무료·쿠폰·카드·멤버십·문화·공공 혜택을 운영자가 바로 검토할 수 있게 했다.
 - 알림 설정을 `lib/notificationPreferences.ts`로 분리하고, 기존 4개 신호 토글에 `알림 받을 카테고리`를 추가해 비회원도 기기 저장 기반으로 무료/쿠폰/식품/생활/마트/외식/디지털/문화/카드/공공 혜택 알림 후보를 개인화할 수 있게 했다.

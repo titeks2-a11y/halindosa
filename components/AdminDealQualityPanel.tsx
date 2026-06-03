@@ -117,7 +117,7 @@ export function AdminDealQualityPanel({ token, initialReport, initialManualHidde
         <div className="rounded-2xl border border-slate-100 p-4">
           <p className="text-sm font-black text-slate-950">수동 숨김/복구</p>
           <p className="mt-1 text-xs font-bold leading-5 text-slate-500">
-            품절, 종료, 링크 오류 신고가 들어오면 현재 런타임의 목록·상세·구매 이동에서 즉시 제외합니다.
+            품절, 종료, 링크 오류 신고가 들어오면 로컬 운영 파일에 저장하고 목록·상세·구매 이동에서 즉시 제외합니다.
           </p>
           <input
             value={dealId}
