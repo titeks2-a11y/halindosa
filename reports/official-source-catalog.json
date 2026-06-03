@@ -1,7 +1,7 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-03T21:18:17.643Z",
-  "catalogCount": 21,
+  "generatedAt": "2026-06-03T21:23:08.743Z",
+  "catalogCount": 25,
   "highPriorityCount": 8,
   "configuredSourceCount": 0,
   "configuredEnvKeys": {
@@ -15,12 +15,12 @@
     "식품/생필품": 4,
     "마트/편의점": 5,
     "디지털/가전": 2,
-    "패션/뷰티": 2,
-    "외식/배달": 3,
+    "패션/뷰티": 3,
+    "외식/배달": 5,
     "여행/숙박": 2,
-    "영화/문화": 4,
-    "카드/멤버십": 4,
-    "무료혜택": 4,
+    "영화/문화": 6,
+    "카드/멤버십": 5,
+    "무료혜택": 8,
     "정부/공공혜택": 2
   },
   "missingCategories": [],
@@ -28,13 +28,13 @@
   "providerCoverage": {
     "news": 1,
     "event_news": 2,
-    "official_event": 14,
-    "public_coupon": 4
+    "official_event": 17,
+    "public_coupon": 5
   },
   "missingProviders": [],
   "sourceTypes": {
     "official_benefit_page": 2,
-    "official_event_page": 16,
+    "official_event_page": 20,
     "official_purchase_page": 1,
     "public_official_page": 2
   },
@@ -243,6 +243,95 @@
       "issues": []
     },
     {
+      "id": "starbucks-campaign",
+      "label": "스타벅스 공식 캠페인",
+      "provider": "official_event",
+      "category": [
+        "외식/배달",
+        "무료혜택"
+      ],
+      "sourceType": "official_event_page",
+      "officialUrl": "https://www.starbucks.co.kr/whats_new/campaign_list.do",
+      "preferredEnvKeys": [
+        "OFFICIAL_EVENT_FEED_URLS",
+        "PUBLIC_COUPON_FEED_URLS"
+      ],
+      "integrationMethod": "official_page_or_partner_json_feed",
+      "priority": "medium",
+      "refreshCadenceHours": 12,
+      "allowedUse": "스타벅스 공식 캠페인, 음료 쿠폰, 리워드, 무료 체험 혜택",
+      "blockedUse": "비공식 쿠폰 공유글, 중고 쿠폰 거래 글",
+      "notes": "앱 전용 혜택은 수령 조건과 계정 필요 여부를 claimWarning에 남긴다.",
+      "host": "starbucks.co.kr",
+      "configuredFeedUrls": 0,
+      "searchLike": false,
+      "blockedHost": false,
+      "homeLike": false,
+      "ok": true,
+      "issues": []
+    },
+    {
+      "id": "cjone-mobile-events",
+      "label": "CJ ONE 공식 이벤트",
+      "provider": "official_event",
+      "category": [
+        "카드/멤버십",
+        "외식/배달",
+        "영화/문화",
+        "무료혜택"
+      ],
+      "sourceType": "official_event_page",
+      "officialUrl": "https://www.cjone.com/cjmmobile/event/event.do",
+      "preferredEnvKeys": [
+        "OFFICIAL_EVENT_FEED_URLS",
+        "PUBLIC_COUPON_FEED_URLS"
+      ],
+      "integrationMethod": "official_page_or_partner_json_feed",
+      "priority": "medium",
+      "refreshCadenceHours": 12,
+      "allowedUse": "CJ ONE 공식 포인트, 쿠폰, 제휴 브랜드 이벤트",
+      "blockedUse": "뉴스 기사 원문 단독 노출, 비공식 이벤트 캡처",
+      "notes": "CJ ONE 이벤트는 제휴 브랜드, 적립 조건, 회원 필요 여부를 분리 저장한다.",
+      "host": "cjone.com",
+      "configuredFeedUrls": 0,
+      "searchLike": false,
+      "blockedHost": false,
+      "homeLike": false,
+      "ok": true,
+      "issues": []
+    },
+    {
+      "id": "oliveyoung-events",
+      "label": "올리브영 공식 이벤트",
+      "provider": "official_event",
+      "category": [
+        "패션/뷰티",
+        "무료혜택"
+      ],
+      "sourceType": "official_event_page",
+      "officialUrl": "https://www.oliveyoung.co.kr/store/main/getEventList.do",
+      "preferredEnvKeys": [
+        "OFFICIAL_EVENT_FEED_URLS",
+        "DEAL_EVENT_FEED_URLS"
+      ],
+      "integrationMethod": "official_page_or_partner_json_feed",
+      "priority": "medium",
+      "refreshCadenceHours": 12,
+      "guardedHttpStatuses": [
+        403
+      ],
+      "allowedUse": "올리브영 공식 쿠폰, 샘플, 뷰티 행사, 멤버십 혜택",
+      "blockedUse": "비공식 뷰티 커뮤니티 글, 검색 결과",
+      "notes": "보호 응답 시 무단 수집하지 않고 공식 API, 제휴 feed, 수동 승인 매핑으로 전환한다.",
+      "host": "oliveyoung.co.kr",
+      "configuredFeedUrls": 0,
+      "searchLike": false,
+      "blockedHost": false,
+      "homeLike": false,
+      "ok": true,
+      "issues": []
+    },
+    {
       "id": "cgv-events",
       "label": "CGV 공식 문화 이벤트",
       "provider": "public_coupon",
@@ -290,6 +379,34 @@
       "blockedUse": "블로그, 커뮤니티, 뉴스 원문 단독 링크",
       "notes": "기간 종료 이벤트는 refresh:news에서 숨김 처리한다.",
       "host": "lottecinema.co.kr",
+      "configuredFeedUrls": 0,
+      "searchLike": false,
+      "blockedHost": false,
+      "homeLike": false,
+      "ok": true,
+      "issues": []
+    },
+    {
+      "id": "megabox-events",
+      "label": "메가박스 공식 이벤트",
+      "provider": "public_coupon",
+      "category": [
+        "영화/문화",
+        "무료혜택"
+      ],
+      "sourceType": "official_event_page",
+      "officialUrl": "https://www.megabox.co.kr/event",
+      "preferredEnvKeys": [
+        "PUBLIC_COUPON_FEED_URLS",
+        "OFFICIAL_EVENT_FEED_URLS"
+      ],
+      "integrationMethod": "official_page_or_partner_json_feed",
+      "priority": "medium",
+      "refreshCadenceHours": 12,
+      "allowedUse": "메가박스 공식 영화 할인, 쿠폰, 초대권, 문화 이벤트",
+      "blockedUse": "커뮤니티 예매권 거래 글, 뉴스 원문 단독 링크",
+      "notes": "영화 혜택은 예매 조건, 회원 필요 여부, 기간 종료 여부를 함께 검증한다.",
+      "host": "megabox.co.kr",
       "configuredFeedUrls": 0,
       "searchLike": false,
       "blockedHost": false,

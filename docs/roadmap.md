@@ -34,6 +34,7 @@
 - `source:live:doctor`를 추가해 공식 소스 후보 URL의 접근 가능, WAF/권한 보호, 404/410 교체 필요 상태를 non-strict 리포트와 CSV로 남기고, 무단 크롤링 없이 공식 API/RSS/제휴 feed 전환 우선순위를 판단하도록 했다.
 - 종료된 하이마트 공식 이벤트 URL을 롯데하이마트 공식 진행중 이벤트 페이지로 교체하고 `source:live:doctor` 기준 `stale_or_removed` 공식 소스 후보를 0건으로 낮췄다.
 - 대한항공 공식 혜택 후보를 안정적인 공식 탑승권 제휴 혜택 URL로 교체하고 `source:live:doctor`의 접근성 probe를 보강해 timeout/network/stale/needsReview 없이 18개 공식 소스는 접근 가능, 3개 보호 소스는 guarded로 분류되게 했다.
+- 스타벅스 캠페인, CJ ONE 이벤트, 올리브영 이벤트, 메가박스 이벤트 공식 소스를 추가해 공식 후보를 25개로 늘리고 무료혜택, 외식/배달, 카드/멤버십, 영화/문화, 패션/뷰티 카테고리의 승인 feed 전환 후보를 보강했다.
 - 보호된 `/api/cron/refresh`와 `vercel.json` 6시간 cron refresh를 추가해 `refresh:all` 파이프라인을 배포 환경에서 정기 실행할 수 있게 하고, `CRON_SECRET`, dry-run smoke, `reports/cron-refresh.json`, release doctor로 공개 호출/무단 실행 회귀를 막았다.
 - cron refresh 운영 리포트를 `lib/operations/cronRefresh.ts`로 분리하고 `/api/health`와 `/admin`에 마지막 실행, 보호 상태, 상품/뉴스 갱신 수, dry-run 링크를 노출해 배포 후 자동 갱신 상태를 운영자가 바로 확인할 수 있게 했다.
 - `test:news-feed-errors` 회귀 테스트를 추가해 정상 공식 feed는 통과하고, 설정된 운영 feed가 깨졌을 때는 seed fallback이 있어도 `configuredFeedErrors`로 `verify:news`가 실패하는지 QA에서 직접 재현하도록 했다.

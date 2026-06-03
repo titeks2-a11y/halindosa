@@ -2,9 +2,9 @@
 
 이 문서는 할인도사에 연결할 수 있는 공식 이벤트, 공공 혜택, 제휴 JSON/RSS 후보를 정리합니다. 무단 크롤링 후보가 아니라 운영자가 승인 feed 또는 공식 페이지 매핑으로 전환할 때 쓰는 출발점입니다.
 
-- 생성 시각: 2026-06-03T21:18:17.643Z
+- 생성 시각: 2026-06-03T21:23:08.743Z
 - 상태: PASS
-- 후보 소스: 21개
+- 후보 소스: 25개
 - 고우선순위 후보: 8개
 - 현재 env feed 연결 후보: 0개
 - 공식 혜택 노출: 30개
@@ -18,12 +18,12 @@
 | 식품/생필품 | 4 | 충분 |
 | 마트/편의점 | 5 | 충분 |
 | 디지털/가전 | 2 | 충분 |
-| 패션/뷰티 | 2 | 충분 |
-| 외식/배달 | 3 | 충분 |
+| 패션/뷰티 | 3 | 충분 |
+| 외식/배달 | 5 | 충분 |
 | 여행/숙박 | 2 | 충분 |
-| 영화/문화 | 4 | 충분 |
-| 카드/멤버십 | 4 | 충분 |
-| 무료혜택 | 4 | 충분 |
+| 영화/문화 | 6 | 충분 |
+| 카드/멤버십 | 5 | 충분 |
+| 무료혜택 | 8 | 충분 |
 | 정부/공공혜택 | 2 | 충분 |
 
 ## Provider 커버리지
@@ -32,8 +32,8 @@
 | --- | ---: | --- |
 | news | 1 | 포함 |
 | event_news | 2 | 포함 |
-| official_event | 14 | 포함 |
-| public_coupon | 4 | 포함 |
+| official_event | 17 | 포함 |
+| public_coupon | 5 | 포함 |
 
 ## 후보 목록
 
@@ -46,8 +46,12 @@
 | homeplus-event | official_event | 식품/생필품, 마트/편의점 | medium | https://front.homeplus.co.kr/event | OFFICIAL_EVENT_FEED_URLS, DEAL_EVENT_FEED_URLS |
 | yogiyo-event | event_news | 외식/배달 | high | https://www.yogiyo.co.kr/mobile/#/event/ | DEAL_EVENT_NEWS_FEED_URLS, OFFICIAL_EVENT_FEED_URLS |
 | bhc-ecoupon | official_event | 외식/배달 | medium | https://www.bhc.co.kr/eCoupon/purchase | OFFICIAL_EVENT_FEED_URLS, DEAL_EVENT_FEED_URLS |
+| starbucks-campaign | official_event | 외식/배달, 무료혜택 | medium | https://www.starbucks.co.kr/whats_new/campaign_list.do | OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS |
+| cjone-mobile-events | official_event | 카드/멤버십, 외식/배달, 영화/문화, 무료혜택 | medium | https://www.cjone.com/cjmmobile/event/event.do | OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS |
+| oliveyoung-events | official_event | 패션/뷰티, 무료혜택 | medium | https://www.oliveyoung.co.kr/store/main/getEventList.do | OFFICIAL_EVENT_FEED_URLS, DEAL_EVENT_FEED_URLS |
 | cgv-events | public_coupon | 영화/문화, 무료혜택 | medium | https://www.cgv.co.kr/culture-event/event/defaultNew.aspx | PUBLIC_COUPON_FEED_URLS, OFFICIAL_EVENT_FEED_URLS |
 | lottecinema-events | public_coupon | 영화/문화 | medium | https://www.lottecinema.co.kr/NLCHS/Event | PUBLIC_COUPON_FEED_URLS, OFFICIAL_EVENT_FEED_URLS |
+| megabox-events | public_coupon | 영화/문화, 무료혜택 | medium | https://www.megabox.co.kr/event | PUBLIC_COUPON_FEED_URLS, OFFICIAL_EVENT_FEED_URLS |
 | culture-day | public_coupon | 영화/문화, 정부/공공혜택, 무료혜택 | high | https://www.culture.go.kr/wday/main/main.do | PUBLIC_COUPON_FEED_URLS, DEAL_NEWS_FEED_URLS |
 | mnuri-benefit | public_coupon | 정부/공공혜택, 영화/문화 | high | https://www.mnuri.kr/main/main.do | PUBLIC_COUPON_FEED_URLS |
 | naverpay-benefit | official_event | 카드/멤버십, 무료혜택 | high | https://new-m.pay.naver.com/pcpay/eventbenefit | OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS |
