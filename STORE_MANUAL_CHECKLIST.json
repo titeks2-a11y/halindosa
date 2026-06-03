@@ -1,8 +1,8 @@
 {
   "generatedBy": "npm run store:manual:checklist",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "7695f02",
-  "workingTree": "clean",
+  "commit": "fd9b41e",
+  "workingTree": "M reports/release-doctor.json",
   "appName": "할인도사",
   "version": "1.0.1",
   "packageName": "com.halindosa.app",
