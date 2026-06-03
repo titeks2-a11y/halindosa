@@ -1957,6 +1957,21 @@ async function checkOperationalDataSurfaces() {
   const officialSourceLiveReport = existsSync(join(root, "reports/official-source-live-check.json"))
     ? JSON.parse(readFileSync(join(root, "reports/official-source-live-check.json"), "utf8"))
     : {};
+  const officialSourceStatusCounts = officialSourceLiveReport.statusCounts ?? {};
+  const officialSourceBlockingLiveCount =
+    Number(officialSourceLiveReport.needsReviewCount ?? 0) +
+    Number(officialSourceLiveReport.timeoutCount ?? 0) +
+    Number(officialSourceLiveReport.networkErrorCount ?? 0) +
+    Number(officialSourceLiveReport.staleOrRemovedCount ?? 0) +
+    Number(officialSourceStatusCounts.server_error ?? 0);
+  const officialSourceHighPriorityOk =
+    Number(officialSourceLiveReport.highPriorityReachableOrGuarded ?? 0) >= Number(officialSourceLiveReport.highPrioritySources ?? 0);
+  const officialSourceCatalogThinCategories = Array.isArray(officialSourceCatalogReport.thinCategories)
+    ? officialSourceCatalogReport.thinCategories
+    : [];
+  const officialSourceCatalogMissingCategories = Array.isArray(officialSourceCatalogReport.missingCategories)
+    ? officialSourceCatalogReport.missingCategories
+    : [];
   const notificationCampaigns = await text("lib/notificationCampaigns.ts");
   const pushReadiness = await text("lib/pushReadiness.ts");
   const pushNotifications = await text("lib/pushNotifications.ts");
@@ -2761,7 +2776,12 @@ async function checkOperationalDataSurfaces() {
     !officialSourceLiveDoc.includes("무단 크롤링을 수행하지 않으며") ||
     officialSourceLiveReport.ok !== true ||
     officialSourceLiveReport.mode !== "non_strict_live_readiness" ||
-    (officialSourceLiveReport.totalSources ?? 0) < 16 ||
+    (officialSourceCatalogReport.catalogCount ?? 0) < 25 ||
+    officialSourceCatalogMissingCategories.length > 0 ||
+    officialSourceCatalogThinCategories.length > 0 ||
+    (officialSourceLiveReport.totalSources ?? 0) < 25 ||
+    officialSourceBlockingLiveCount > 0 ||
+    !officialSourceHighPriorityOk ||
     !smoke.includes("Sources API found danger official benefit provider risk") ||
     !smoke.includes("Admin dashboard missing partner feed validation report board") ||
     !smoke.includes("Admin dashboard missing paste-in feed dry-run panel") ||
@@ -2769,9 +2789,9 @@ async function checkOperationalDataSurfaces() {
     !smoke.includes("Admin dashboard missing feed dry-run export actions") ||
     !smoke.includes("partner feed sample validation api")
   ) {
-    fail("source readiness operation", "Sources API, official source catalog, live source accessibility report, production provider, docs, production feed doctor, and admin dashboard should expose source readiness, official benefit provider readiness, safe production JSON feed loading, allowed source policy, blocked source policy, and verified link quality for production feed transition.");
+    fail("source readiness operation", "Sources API, official source catalog, live source accessibility report, production provider, docs, production feed doctor, and admin dashboard should expose source readiness, official benefit provider readiness, safe production JSON feed loading, allowed source policy, blocked source policy, verified link quality, at least 25 official source candidates, no thin categories, no stale/timeout/network/server-error source candidates, and high-priority source coverage for production feed transition.");
   } else {
-    pass("source readiness operation", "Sources API, official source catalog, live source accessibility report, production provider, docs, production feed doctor, and admin dashboard expose source readiness, official benefit provider readiness, and safe production JSON feed policy for official API, RSS, and partner feed transition.");
+    pass("source readiness operation", "Sources API, official source catalog, live source accessibility report, production provider, docs, production feed doctor, and admin dashboard expose source readiness, official benefit provider readiness, safe production JSON feed policy, 25+ official source candidates, and clean live accessibility gates for official API, RSS, and partner feed transition.");
   }
 
   if (!dealRepository.includes("export async function findDealByIdLive") || /findDealByIdLive[\s\S]{0,180}findDealById\(id\)[\s\S]{0,80}await getDeals/.test(dealRepository)) {

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-03T21:23:58.664Z",
+  "generatedAt": "2026-06-03T21:25:44.192Z",
   "totalChecks": 182,
   "passedChecks": 182,
   "failedChecks": 0,
@@ -433,7 +433,7 @@
     {
       "name": "source readiness operation",
       "ok": true,
-      "detail": "Sources API, official source catalog, live source accessibility report, production provider, docs, production feed doctor, and admin dashboard expose source readiness, official benefit provider readiness, and safe production JSON feed policy for official API, RSS, and partner feed transition."
+      "detail": "Sources API, official source catalog, live source accessibility report, production provider, docs, production feed doctor, and admin dashboard expose source readiness, official benefit provider readiness, safe production JSON feed policy, 25+ official source candidates, and clean live accessibility gates for official API, RSS, and partner feed transition."
     },
     {
       "name": "live deal detail source",
