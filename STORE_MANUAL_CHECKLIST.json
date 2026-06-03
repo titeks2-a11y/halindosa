@@ -1,7 +1,7 @@
 {
   "generatedBy": "npm run store:manual:checklist",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "47145c1",
+  "commit": "576588a",
   "workingTree": "clean",
   "appName": "할인도사",
   "version": "1.0.1",
