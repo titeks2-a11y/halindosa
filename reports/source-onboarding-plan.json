@@ -1,33 +1,33 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-03T21:32:58.019Z",
-  "totalSources": 25,
-  "reachableSources": 21,
+  "generatedAt": "2026-06-03T21:53:18.669Z",
+  "totalSources": 30,
+  "reachableSources": 26,
   "guardedSources": 4,
   "blockedLiveIssues": 0,
   "configuredFeedSources": 0,
   "statusCounts": {
-    "connect_official_feed": 21,
+    "connect_official_feed": 26,
     "request_partner_or_api": 4
   },
   "topActions": [
     {
       "rank": 1,
+      "id": "lpoint-benefits",
+      "label": "L.POINT 공식 혜택",
+      "provider": "public_coupon",
+      "status": "connect_official_feed",
+      "score": 90,
+      "nextAction": "PUBLIC_COUPON_FEED_URLS 또는 OFFICIAL_EVENT_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL 연결"
+    },
+    {
+      "rank": 2,
       "id": "culture-day",
       "label": "문화가 있는 날 공식 혜택",
       "provider": "public_coupon",
       "status": "connect_official_feed",
-      "score": 98,
+      "score": 86,
       "nextAction": "PUBLIC_COUPON_FEED_URLS 또는 DEAL_NEWS_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL 연결"
-    },
-    {
-      "rank": 2,
-      "id": "mnuri-benefit",
-      "label": "문화누리카드 공식 사용 혜택",
-      "provider": "public_coupon",
-      "status": "connect_official_feed",
-      "score": 94,
-      "nextAction": "PUBLIC_COUPON_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL 연결"
     },
     {
       "rank": 3,
@@ -40,21 +40,21 @@
     },
     {
       "rank": 4,
-      "id": "jejuair-events",
-      "label": "제주항공 공식 진행 이벤트",
-      "provider": "official_event",
-      "status": "request_partner_or_api",
-      "score": 86,
-      "nextAction": "보호 페이지를 자동 수집하지 말고 공식 API/RSS/제휴 담당자 승인 feed 요청"
-    },
-    {
-      "rank": 5,
       "id": "cu-plus-event",
       "label": "CU 편의점 1+1·2+1 행사",
       "provider": "official_event",
       "status": "connect_official_feed",
       "score": 82,
       "nextAction": "OFFICIAL_EVENT_FEED_URLS 또는 DEAL_EVENT_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL 연결"
+    },
+    {
+      "rank": 5,
+      "id": "mnuri-benefit",
+      "label": "문화누리카드 공식 사용 혜택",
+      "provider": "public_coupon",
+      "status": "connect_official_feed",
+      "score": 82,
+      "nextAction": "PUBLIC_COUPON_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL 연결"
     },
     {
       "rank": 6,
@@ -76,6 +76,15 @@
     },
     {
       "rank": 8,
+      "id": "visitkorea-travel-week",
+      "label": "한국관광공사 공식 여행 혜택",
+      "provider": "public_coupon",
+      "status": "connect_official_feed",
+      "score": 82,
+      "nextAction": "PUBLIC_COUPON_FEED_URLS 또는 DEAL_NEWS_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL 연결"
+    },
+    {
+      "rank": 9,
       "id": "yogiyo-event",
       "label": "요기요 배달 쿠폰 이벤트",
       "provider": "event_news",
@@ -84,22 +93,13 @@
       "nextAction": "DEAL_EVENT_NEWS_FEED_URLS 또는 OFFICIAL_EVENT_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL 연결"
     },
     {
-      "rank": 9,
+      "rank": 10,
       "id": "cjone-mobile-events",
       "label": "CJ ONE 공식 이벤트",
       "provider": "official_event",
       "status": "connect_official_feed",
       "score": 79,
       "nextAction": "OFFICIAL_EVENT_FEED_URLS 또는 PUBLIC_COUPON_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL 연결"
-    },
-    {
-      "rank": 10,
-      "id": "bhc-ecoupon",
-      "label": "BHC 공식 e쿠폰",
-      "provider": "official_event",
-      "status": "connect_official_feed",
-      "score": 75,
-      "nextAction": "OFFICIAL_EVENT_FEED_URLS 또는 DEAL_EVENT_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL 연결"
     }
   ],
   "guardrails": [
@@ -110,6 +110,36 @@
   "queue": [
     {
       "rank": 1,
+      "id": "lpoint-benefits",
+      "label": "L.POINT 공식 혜택",
+      "provider": "public_coupon",
+      "category": [
+        "카드/멤버십",
+        "무료혜택",
+        "마트/편의점"
+      ],
+      "priority": "high",
+      "sourceType": "official_benefit_page",
+      "officialUrl": "https://m.lpoint.com/index.jsp?tabIndex=1",
+      "liveStatus": "reachable",
+      "httpStatus": 200,
+      "configuredFeedUrls": 0,
+      "recommendedEnvKeys": [
+        "PUBLIC_COUPON_FEED_URLS",
+        "OFFICIAL_EVENT_FEED_URLS"
+      ],
+      "onboardingStatus": "connect_official_feed",
+      "score": 90,
+      "reasons": [
+        "high priority",
+        "no approved feed configured",
+        "official URL reachable"
+      ],
+      "nextAction": "PUBLIC_COUPON_FEED_URLS 또는 OFFICIAL_EVENT_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL 연결",
+      "guardrail": "검색 결과·커뮤니티 원문·메인 페이지를 finalUrl로 쓰지 않기"
+    },
+    {
+      "rank": 2,
       "id": "culture-day",
       "label": "문화가 있는 날 공식 혜택",
       "provider": "public_coupon",
@@ -129,43 +159,13 @@
         "DEAL_NEWS_FEED_URLS"
       ],
       "onboardingStatus": "connect_official_feed",
-      "score": 98,
+      "score": 86,
       "reasons": [
         "high priority",
         "no approved feed configured",
-        "official URL reachable",
-        "thin category 정부/공공혜택"
+        "official URL reachable"
       ],
       "nextAction": "PUBLIC_COUPON_FEED_URLS 또는 DEAL_NEWS_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL 연결",
-      "guardrail": "검색 결과·커뮤니티 원문·메인 페이지를 finalUrl로 쓰지 않기"
-    },
-    {
-      "rank": 2,
-      "id": "mnuri-benefit",
-      "label": "문화누리카드 공식 사용 혜택",
-      "provider": "public_coupon",
-      "category": [
-        "정부/공공혜택",
-        "영화/문화"
-      ],
-      "priority": "high",
-      "sourceType": "public_official_page",
-      "officialUrl": "https://www.mnuri.kr/main/main.do",
-      "liveStatus": "reachable",
-      "httpStatus": 200,
-      "configuredFeedUrls": 0,
-      "recommendedEnvKeys": [
-        "PUBLIC_COUPON_FEED_URLS"
-      ],
-      "onboardingStatus": "connect_official_feed",
-      "score": 94,
-      "reasons": [
-        "high priority",
-        "no approved feed configured",
-        "official URL reachable",
-        "thin category 정부/공공혜택"
-      ],
-      "nextAction": "PUBLIC_COUPON_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL 연결",
       "guardrail": "검색 결과·커뮤니티 원문·메인 페이지를 finalUrl로 쓰지 않기"
     },
     {
@@ -199,35 +199,6 @@
     },
     {
       "rank": 4,
-      "id": "jejuair-events",
-      "label": "제주항공 공식 진행 이벤트",
-      "provider": "official_event",
-      "category": [
-        "여행/숙박"
-      ],
-      "priority": "high",
-      "sourceType": "official_event_page",
-      "officialUrl": "https://www.jejuair.net/ko/event/event.do",
-      "liveStatus": "guarded",
-      "httpStatus": 503,
-      "configuredFeedUrls": 0,
-      "recommendedEnvKeys": [
-        "OFFICIAL_EVENT_FEED_URLS",
-        "DEAL_EVENT_NEWS_FEED_URLS"
-      ],
-      "onboardingStatus": "request_partner_or_api",
-      "score": 86,
-      "reasons": [
-        "high priority",
-        "no approved feed configured",
-        "official source guarded; needs API/RSS/partner approval",
-        "thin category 여행/숙박"
-      ],
-      "nextAction": "보호 페이지를 자동 수집하지 말고 공식 API/RSS/제휴 담당자 승인 feed 요청",
-      "guardrail": "무단 크롤링 금지, 브라우저 자동 수집 금지, 승인 feed만 허용"
-    },
-    {
-      "rank": 5,
       "id": "cu-plus-event",
       "label": "CU 편의점 1+1·2+1 행사",
       "provider": "official_event",
@@ -252,6 +223,34 @@
         "official URL reachable"
       ],
       "nextAction": "OFFICIAL_EVENT_FEED_URLS 또는 DEAL_EVENT_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL 연결",
+      "guardrail": "검색 결과·커뮤니티 원문·메인 페이지를 finalUrl로 쓰지 않기"
+    },
+    {
+      "rank": 5,
+      "id": "mnuri-benefit",
+      "label": "문화누리카드 공식 사용 혜택",
+      "provider": "public_coupon",
+      "category": [
+        "정부/공공혜택",
+        "영화/문화"
+      ],
+      "priority": "high",
+      "sourceType": "public_official_page",
+      "officialUrl": "https://www.mnuri.kr/main/main.do",
+      "liveStatus": "reachable",
+      "httpStatus": 200,
+      "configuredFeedUrls": 0,
+      "recommendedEnvKeys": [
+        "PUBLIC_COUPON_FEED_URLS"
+      ],
+      "onboardingStatus": "connect_official_feed",
+      "score": 82,
+      "reasons": [
+        "high priority",
+        "no approved feed configured",
+        "official URL reachable"
+      ],
+      "nextAction": "PUBLIC_COUPON_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL 연결",
       "guardrail": "검색 결과·커뮤니티 원문·메인 페이지를 finalUrl로 쓰지 않기"
     },
     {
@@ -314,6 +313,36 @@
     },
     {
       "rank": 8,
+      "id": "visitkorea-travel-week",
+      "label": "한국관광공사 공식 여행 혜택",
+      "provider": "public_coupon",
+      "category": [
+        "여행/숙박",
+        "정부/공공혜택",
+        "무료혜택"
+      ],
+      "priority": "high",
+      "sourceType": "public_official_page",
+      "officialUrl": "https://korean.visitkorea.or.kr/other/otherService.do?otdid=46a412aa-0b3b-11ea-869b-020027310001",
+      "liveStatus": "reachable",
+      "httpStatus": 200,
+      "configuredFeedUrls": 0,
+      "recommendedEnvKeys": [
+        "PUBLIC_COUPON_FEED_URLS",
+        "DEAL_NEWS_FEED_URLS"
+      ],
+      "onboardingStatus": "connect_official_feed",
+      "score": 82,
+      "reasons": [
+        "high priority",
+        "no approved feed configured",
+        "official URL reachable"
+      ],
+      "nextAction": "PUBLIC_COUPON_FEED_URLS 또는 DEAL_NEWS_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL 연결",
+      "guardrail": "검색 결과·커뮤니티 원문·메인 페이지를 finalUrl로 쓰지 않기"
+    },
+    {
+      "rank": 9,
       "id": "yogiyo-event",
       "label": "요기요 배달 쿠폰 이벤트",
       "provider": "event_news",
@@ -341,7 +370,7 @@
       "guardrail": "검색 결과·커뮤니티 원문·메인 페이지를 finalUrl로 쓰지 않기"
     },
     {
-      "rank": 9,
+      "rank": 10,
       "id": "cjone-mobile-events",
       "label": "CJ ONE 공식 이벤트",
       "provider": "official_event",
@@ -372,7 +401,7 @@
       "guardrail": "검색 결과·커뮤니티 원문·메인 페이지를 finalUrl로 쓰지 않기"
     },
     {
-      "rank": 10,
+      "rank": 11,
       "id": "bhc-ecoupon",
       "label": "BHC 공식 e쿠폰",
       "provider": "official_event",
@@ -401,7 +430,7 @@
       "guardrail": "검색 결과·커뮤니티 원문·메인 페이지를 finalUrl로 쓰지 않기"
     },
     {
-      "rank": 11,
+      "rank": 12,
       "id": "himart-events",
       "label": "하이마트 공식 디지털 행사",
       "provider": "official_event",
@@ -427,35 +456,6 @@
         "thin category 디지털/가전"
       ],
       "nextAction": "OFFICIAL_EVENT_FEED_URLS 또는 DEAL_EVENT_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL 연결",
-      "guardrail": "검색 결과·커뮤니티 원문·메인 페이지를 finalUrl로 쓰지 않기"
-    },
-    {
-      "rank": 12,
-      "id": "koreanair-promotion",
-      "label": "대한항공 공식 탑승권 제휴 혜택",
-      "provider": "event_news",
-      "category": [
-        "여행/숙박"
-      ],
-      "priority": "medium",
-      "sourceType": "official_benefit_page",
-      "officialUrl": "https://www.koreanair.com/contents/booking/get-to-know/boarding-pass-benefits/excellent-boarding-pass?hl=ko",
-      "liveStatus": "reachable",
-      "httpStatus": 200,
-      "configuredFeedUrls": 0,
-      "recommendedEnvKeys": [
-        "DEAL_EVENT_NEWS_FEED_URLS",
-        "OFFICIAL_EVENT_FEED_URLS"
-      ],
-      "onboardingStatus": "connect_official_feed",
-      "score": 75,
-      "reasons": [
-        "medium priority",
-        "no approved feed configured",
-        "official URL reachable",
-        "thin category 여행/숙박"
-      ],
-      "nextAction": "DEAL_EVENT_NEWS_FEED_URLS 또는 OFFICIAL_EVENT_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL 연결",
       "guardrail": "검색 결과·커뮤니티 원문·메인 페이지를 finalUrl로 쓰지 않기"
     },
     {
@@ -489,6 +489,121 @@
     },
     {
       "rank": 14,
+      "id": "jejuair-events",
+      "label": "제주항공 공식 진행 이벤트",
+      "provider": "official_event",
+      "category": [
+        "여행/숙박"
+      ],
+      "priority": "high",
+      "sourceType": "official_event_page",
+      "officialUrl": "https://www.jejuair.net/ko/event/event.do",
+      "liveStatus": "guarded",
+      "httpStatus": 503,
+      "configuredFeedUrls": 0,
+      "recommendedEnvKeys": [
+        "OFFICIAL_EVENT_FEED_URLS",
+        "DEAL_EVENT_NEWS_FEED_URLS"
+      ],
+      "onboardingStatus": "request_partner_or_api",
+      "score": 74,
+      "reasons": [
+        "high priority",
+        "no approved feed configured",
+        "official source guarded; needs API/RSS/partner approval"
+      ],
+      "nextAction": "보호 페이지를 자동 수집하지 말고 공식 API/RSS/제휴 담당자 승인 feed 요청",
+      "guardrail": "무단 크롤링 금지, 브라우저 자동 수집 금지, 승인 feed만 허용"
+    },
+    {
+      "rank": 15,
+      "id": "baemin-academy-events",
+      "label": "배민아카데미 공식 무료 교육 이벤트",
+      "provider": "public_coupon",
+      "category": [
+        "외식/배달",
+        "무료혜택"
+      ],
+      "priority": "medium",
+      "sourceType": "official_event_page",
+      "officialUrl": "https://academy.baemin.com/event/list",
+      "liveStatus": "reachable",
+      "httpStatus": 200,
+      "configuredFeedUrls": 0,
+      "recommendedEnvKeys": [
+        "PUBLIC_COUPON_FEED_URLS",
+        "DEAL_EVENT_NEWS_FEED_URLS"
+      ],
+      "onboardingStatus": "connect_official_feed",
+      "score": 71,
+      "reasons": [
+        "medium priority",
+        "no approved feed configured",
+        "official URL reachable"
+      ],
+      "nextAction": "PUBLIC_COUPON_FEED_URLS 또는 DEAL_EVENT_NEWS_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL 연결",
+      "guardrail": "검색 결과·커뮤니티 원문·메인 페이지를 finalUrl로 쓰지 않기"
+    },
+    {
+      "rank": 16,
+      "id": "lpoint-card-events",
+      "label": "L.POINT 공식 카드 이벤트",
+      "provider": "public_coupon",
+      "category": [
+        "카드/멤버십",
+        "무료혜택"
+      ],
+      "priority": "medium",
+      "sourceType": "official_event_page",
+      "officialUrl": "https://m.lpoint.com/app/asset/LWCE100100.do?fnTapPmotC=85",
+      "liveStatus": "reachable",
+      "httpStatus": 200,
+      "configuredFeedUrls": 0,
+      "recommendedEnvKeys": [
+        "PUBLIC_COUPON_FEED_URLS",
+        "DEAL_EVENT_FEED_URLS"
+      ],
+      "onboardingStatus": "connect_official_feed",
+      "score": 71,
+      "reasons": [
+        "medium priority",
+        "no approved feed configured",
+        "official URL reachable"
+      ],
+      "nextAction": "PUBLIC_COUPON_FEED_URLS 또는 DEAL_EVENT_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL 연결",
+      "guardrail": "검색 결과·커뮤니티 원문·메인 페이지를 finalUrl로 쓰지 않기"
+    },
+    {
+      "rank": 17,
+      "id": "mcdonalds-happysnack",
+      "label": "맥도날드 공식 해피스낵 프로모션",
+      "provider": "official_event",
+      "category": [
+        "외식/배달",
+        "무료혜택"
+      ],
+      "priority": "medium",
+      "sourceType": "official_event_page",
+      "officialUrl": "https://www.mcdonalds.co.kr/kor/promotion/detail.do?seq=593",
+      "liveStatus": "reachable",
+      "httpStatus": 200,
+      "configuredFeedUrls": 0,
+      "recommendedEnvKeys": [
+        "OFFICIAL_EVENT_FEED_URLS",
+        "DEAL_EVENT_NEWS_FEED_URLS"
+      ],
+      "onboardingStatus": "connect_official_feed",
+      "score": 71,
+      "reasons": [
+        "medium priority",
+        "no approved feed configured",
+        "official URL reachable"
+      ],
+      "nextAction": "OFFICIAL_EVENT_FEED_URLS 또는 DEAL_EVENT_NEWS_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL 연결",
+      "guardrail": "검색 결과·커뮤니티 원문·메인 페이지를 finalUrl로 쓰지 않기"
+    },
+    {
+      "rank": 18,
       "id": "megabox-events",
       "label": "메가박스 공식 이벤트",
       "provider": "public_coupon",
@@ -517,7 +632,7 @@
       "guardrail": "검색 결과·커뮤니티 원문·메인 페이지를 finalUrl로 쓰지 않기"
     },
     {
-      "rank": 15,
+      "rank": 19,
       "id": "starbucks-campaign",
       "label": "스타벅스 공식 캠페인",
       "provider": "official_event",
@@ -546,7 +661,7 @@
       "guardrail": "검색 결과·커뮤니티 원문·메인 페이지를 finalUrl로 쓰지 않기"
     },
     {
-      "rank": 16,
+      "rank": 20,
       "id": "tworld-membership",
       "label": "T월드 멤버십 할인",
       "provider": "official_event",
@@ -575,7 +690,7 @@
       "guardrail": "검색 결과·커뮤니티 원문·메인 페이지를 finalUrl로 쓰지 않기"
     },
     {
-      "rank": 17,
+      "rank": 21,
       "id": "bccard-events",
       "label": "BC카드 공식 이벤트",
       "provider": "official_event",
@@ -603,7 +718,7 @@
       "guardrail": "검색 결과·커뮤니티 원문·메인 페이지를 finalUrl로 쓰지 않기"
     },
     {
-      "rank": 18,
+      "rank": 22,
       "id": "cgv-events",
       "label": "CGV 공식 문화 이벤트",
       "provider": "public_coupon",
@@ -632,7 +747,7 @@
       "guardrail": "무단 크롤링 금지, 브라우저 자동 수집 금지, 승인 feed만 허용"
     },
     {
-      "rank": 19,
+      "rank": 23,
       "id": "emart-event-main",
       "label": "이마트몰 공식 행사",
       "provider": "official_event",
@@ -661,7 +776,7 @@
       "guardrail": "검색 결과·커뮤니티 원문·메인 페이지를 finalUrl로 쓰지 않기"
     },
     {
-      "rank": 20,
+      "rank": 24,
       "id": "homeplus-event",
       "label": "홈플러스 공식 이벤트",
       "provider": "official_event",
@@ -690,7 +805,7 @@
       "guardrail": "검색 결과·커뮤니티 원문·메인 페이지를 finalUrl로 쓰지 않기"
     },
     {
-      "rank": 21,
+      "rank": 25,
       "id": "kbcard-events",
       "label": "KB국민카드 공식 이벤트",
       "provider": "official_event",
@@ -718,7 +833,7 @@
       "guardrail": "검색 결과·커뮤니티 원문·메인 페이지를 finalUrl로 쓰지 않기"
     },
     {
-      "rank": 22,
+      "rank": 26,
       "id": "lottecinema-events",
       "label": "롯데시네마 공식 이벤트",
       "provider": "public_coupon",
@@ -746,7 +861,7 @@
       "guardrail": "검색 결과·커뮤니티 원문·메인 페이지를 finalUrl로 쓰지 않기"
     },
     {
-      "rank": 23,
+      "rank": 27,
       "id": "hmall-official-events",
       "label": "현대Hmall 공식 쇼핑 기획전",
       "provider": "news",
@@ -775,7 +890,35 @@
       "guardrail": "검색 결과·커뮤니티 원문·메인 페이지를 finalUrl로 쓰지 않기"
     },
     {
-      "rank": 24,
+      "rank": 28,
+      "id": "koreanair-promotion",
+      "label": "대한항공 공식 탑승권 제휴 혜택",
+      "provider": "event_news",
+      "category": [
+        "여행/숙박"
+      ],
+      "priority": "medium",
+      "sourceType": "official_benefit_page",
+      "officialUrl": "https://www.koreanair.com/contents/booking/get-to-know/boarding-pass-benefits/excellent-boarding-pass?hl=ko",
+      "liveStatus": "reachable",
+      "httpStatus": 200,
+      "configuredFeedUrls": 0,
+      "recommendedEnvKeys": [
+        "DEAL_EVENT_NEWS_FEED_URLS",
+        "OFFICIAL_EVENT_FEED_URLS"
+      ],
+      "onboardingStatus": "connect_official_feed",
+      "score": 63,
+      "reasons": [
+        "medium priority",
+        "no approved feed configured",
+        "official URL reachable"
+      ],
+      "nextAction": "DEAL_EVENT_NEWS_FEED_URLS 또는 OFFICIAL_EVENT_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL 연결",
+      "guardrail": "검색 결과·커뮤니티 원문·메인 페이지를 finalUrl로 쓰지 않기"
+    },
+    {
+      "rank": 29,
       "id": "musinsa-fashion-festa",
       "label": "무신사 공식 패션 페스타",
       "provider": "official_event",
@@ -803,7 +946,7 @@
       "guardrail": "검색 결과·커뮤니티 원문·메인 페이지를 finalUrl로 쓰지 않기"
     },
     {
-      "rank": 25,
+      "rank": 30,
       "id": "oliveyoung-events",
       "label": "올리브영 공식 이벤트",
       "provider": "official_event",

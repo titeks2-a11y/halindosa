@@ -1,8 +1,8 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-03T21:32:48.778Z",
-  "catalogCount": 25,
-  "highPriorityCount": 8,
+  "generatedAt": "2026-06-03T21:52:59.592Z",
+  "catalogCount": 30,
+  "highPriorityCount": 10,
   "configuredSourceCount": 0,
   "configuredEnvKeys": {
     "DEAL_EVENT_FEED_URLS": 0,
@@ -13,30 +13,30 @@
   },
   "categoryCoverage": {
     "식품/생필품": 4,
-    "마트/편의점": 5,
+    "마트/편의점": 6,
     "디지털/가전": 2,
     "패션/뷰티": 3,
-    "외식/배달": 5,
-    "여행/숙박": 2,
+    "외식/배달": 7,
+    "여행/숙박": 3,
     "영화/문화": 6,
-    "카드/멤버십": 5,
-    "무료혜택": 8,
-    "정부/공공혜택": 2
+    "카드/멤버십": 7,
+    "무료혜택": 13,
+    "정부/공공혜택": 3
   },
   "missingCategories": [],
   "thinCategories": [],
   "providerCoverage": {
     "news": 1,
     "event_news": 2,
-    "official_event": 17,
-    "public_coupon": 5
+    "official_event": 18,
+    "public_coupon": 9
   },
   "missingProviders": [],
   "sourceTypes": {
-    "official_benefit_page": 2,
-    "official_event_page": 20,
+    "official_benefit_page": 3,
+    "official_event_page": 23,
     "official_purchase_page": 1,
-    "public_official_page": 2
+    "public_official_page": 3
   },
   "feedTransitionStatus": "seed_launch_ready",
   "officialBenefitsVisible": 30,
@@ -743,6 +743,148 @@
       "blockedUse": "검색 결과, 커뮤니티 행사 요약글",
       "notes": "패션 혜택은 공식 캠페인 URL과 쿠폰 조건이 확인될 때만 노출한다.",
       "host": "musinsa.com",
+      "configuredFeedUrls": 0,
+      "searchLike": false,
+      "blockedHost": false,
+      "homeLike": false,
+      "ok": true,
+      "issues": []
+    },
+    {
+      "id": "mcdonalds-happysnack",
+      "label": "맥도날드 공식 해피스낵 프로모션",
+      "provider": "official_event",
+      "category": [
+        "외식/배달",
+        "무료혜택"
+      ],
+      "sourceType": "official_event_page",
+      "officialUrl": "https://www.mcdonalds.co.kr/kor/promotion/detail.do?seq=593",
+      "preferredEnvKeys": [
+        "OFFICIAL_EVENT_FEED_URLS",
+        "DEAL_EVENT_NEWS_FEED_URLS"
+      ],
+      "integrationMethod": "official_page_or_partner_json_feed",
+      "priority": "medium",
+      "refreshCadenceHours": 12,
+      "allowedUse": "맥도날드 공식 프로모션, 앱 쿠폰, 해피스낵, 포인트 적립 혜택",
+      "blockedUse": "비공식 쿠폰 공유글, 커뮤니티 캡처, 배달앱 검색 결과",
+      "notes": "앱 전용 쿠폰은 회원 필요 여부, 매장/M오더 사용 조건, 기간을 함께 저장한다.",
+      "host": "mcdonalds.co.kr",
+      "configuredFeedUrls": 0,
+      "searchLike": false,
+      "blockedHost": false,
+      "homeLike": false,
+      "ok": true,
+      "issues": []
+    },
+    {
+      "id": "lpoint-benefits",
+      "label": "L.POINT 공식 혜택",
+      "provider": "public_coupon",
+      "category": [
+        "카드/멤버십",
+        "무료혜택",
+        "마트/편의점"
+      ],
+      "sourceType": "official_benefit_page",
+      "officialUrl": "https://m.lpoint.com/index.jsp?tabIndex=1",
+      "preferredEnvKeys": [
+        "PUBLIC_COUPON_FEED_URLS",
+        "OFFICIAL_EVENT_FEED_URLS"
+      ],
+      "integrationMethod": "official_page_or_partner_json_feed",
+      "priority": "high",
+      "refreshCadenceHours": 6,
+      "allowedUse": "L.POINT 공식 적립, 쿠폰, 제휴 쇼핑, 이벤트 혜택",
+      "blockedUse": "포인트 이벤트를 요약한 비공식 블로그, 제휴사 검색 결과",
+      "notes": "포인트 수령 조건, 마케팅 동의 필요 여부, 제휴사 이동 여부를 별도 필드로 저장한다.",
+      "host": "m.lpoint.com",
+      "configuredFeedUrls": 0,
+      "searchLike": false,
+      "blockedHost": false,
+      "homeLike": false,
+      "ok": true,
+      "issues": []
+    },
+    {
+      "id": "lpoint-card-events",
+      "label": "L.POINT 공식 카드 이벤트",
+      "provider": "public_coupon",
+      "category": [
+        "카드/멤버십",
+        "무료혜택"
+      ],
+      "sourceType": "official_event_page",
+      "officialUrl": "https://m.lpoint.com/app/asset/LWCE100100.do?fnTapPmotC=85",
+      "preferredEnvKeys": [
+        "PUBLIC_COUPON_FEED_URLS",
+        "DEAL_EVENT_FEED_URLS"
+      ],
+      "integrationMethod": "official_page_or_partner_json_feed",
+      "priority": "medium",
+      "refreshCadenceHours": 12,
+      "allowedUse": "L.POINT 공식 카드 발급/이용 이벤트와 포인트 적립 혜택",
+      "blockedUse": "카드 모집 광고성 랜딩만 있는 링크, 비공식 혜택 정리글",
+      "notes": "카드 이벤트는 대상, 응모, 이용 실적, 혜택 제공일, 마케팅 동의 조건을 명확히 분리한다.",
+      "host": "m.lpoint.com",
+      "configuredFeedUrls": 0,
+      "searchLike": false,
+      "blockedHost": false,
+      "homeLike": false,
+      "ok": true,
+      "issues": []
+    },
+    {
+      "id": "visitkorea-travel-week",
+      "label": "한국관광공사 공식 여행 혜택",
+      "provider": "public_coupon",
+      "category": [
+        "여행/숙박",
+        "정부/공공혜택",
+        "무료혜택"
+      ],
+      "sourceType": "public_official_page",
+      "officialUrl": "https://korean.visitkorea.or.kr/other/otherService.do?otdid=46a412aa-0b3b-11ea-869b-020027310001",
+      "preferredEnvKeys": [
+        "PUBLIC_COUPON_FEED_URLS",
+        "DEAL_NEWS_FEED_URLS"
+      ],
+      "integrationMethod": "official_public_feed_or_page",
+      "priority": "high",
+      "refreshCadenceHours": 12,
+      "allowedUse": "한국관광공사 공식 여행, 숙박, 교통, 지역 할인 혜택",
+      "blockedUse": "여행 메타검색 결과, 비공식 여행 블로그, 종료된 쿠폰 안내",
+      "notes": "공공 여행 혜택은 공식 기관 URL을 finalUrl로 유지하고 적용 기간과 대상 지역을 함께 저장한다.",
+      "host": "korean.visitkorea.or.kr",
+      "configuredFeedUrls": 0,
+      "searchLike": false,
+      "blockedHost": false,
+      "homeLike": false,
+      "ok": true,
+      "issues": []
+    },
+    {
+      "id": "baemin-academy-events",
+      "label": "배민아카데미 공식 무료 교육 이벤트",
+      "provider": "public_coupon",
+      "category": [
+        "외식/배달",
+        "무료혜택"
+      ],
+      "sourceType": "official_event_page",
+      "officialUrl": "https://academy.baemin.com/event/list",
+      "preferredEnvKeys": [
+        "PUBLIC_COUPON_FEED_URLS",
+        "DEAL_EVENT_NEWS_FEED_URLS"
+      ],
+      "integrationMethod": "official_page_or_partner_json_feed",
+      "priority": "medium",
+      "refreshCadenceHours": 12,
+      "allowedUse": "배민아카데미 공식 무료 교육, 행사, 소상공인 지원 혜택",
+      "blockedUse": "배달앱 주문 검색 결과, 사장님 커뮤니티 글 단독 링크",
+      "notes": "사업자 대상 혜택은 대상 조건을 명확히 표시하고 일반 소비자 혜택과 섞어 과장하지 않는다.",
+      "host": "academy.baemin.com",
       "configuredFeedUrls": 0,
       "searchLike": false,
       "blockedHost": false,
