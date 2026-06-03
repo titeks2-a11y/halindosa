@@ -120,6 +120,9 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const exposurePolicyApiHref = isAdminProtectionEnabled()
     ? `/api/admin/exposure-policy?token=${encodeURIComponent(token ?? "")}`
     : "/api/admin/exposure-policy";
+  const exposurePolicyCsvHref = isAdminProtectionEnabled()
+    ? `/api/admin/exposure-policy?format=csv&token=${encodeURIComponent(token ?? "")}`
+    : "/api/admin/exposure-policy?format=csv";
   const pushSendApiHref = isAdminProtectionEnabled()
     ? `/api/admin/push/send?token=${encodeURIComponent(token ?? "")}`
     : "/api/admin/push/send";
@@ -333,15 +336,24 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                 `reports/exposure-policy.json` 기준으로 검색 링크, 품절/종료 링크, 실패 링크가 노출 목록에 섞였는지 점검합니다.
               </p>
             </div>
-            <a
-              href={exposurePolicyApiHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-4 py-3 text-sm font-black text-white"
-            >
-              <ShieldCheck size={17} aria-hidden="true" />
-              노출 감사 JSON
-            </a>
+            <div className="flex flex-wrap gap-2">
+              <a
+                href={exposurePolicyApiHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-4 py-3 text-sm font-black text-white"
+              >
+                <ShieldCheck size={17} aria-hidden="true" />
+                노출 감사 JSON
+              </a>
+              <a
+                href={exposurePolicyCsvHref}
+                className="inline-flex items-center justify-center gap-2 rounded-2xl border border-emerald-200 bg-white px-4 py-3 text-sm font-black text-emerald-700"
+              >
+                <Download size={17} aria-hidden="true" />
+                노출 감사 CSV
+              </a>
+            </div>
           </div>
           <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {[

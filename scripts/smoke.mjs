@@ -576,7 +576,7 @@ await check("admin dashboard quality cards", async () => {
   assert(text.includes("dry-run으로만 검증") && text.includes("실제 발송 확인"), "Admin dashboard missing safe push send controls");
   assert(text.includes("구매 링크 확인율"), "Admin dashboard missing verified link rate card");
   assert(text.includes("품질 CSV"), "Admin dashboard missing deal quality CSV export action");
-  assert(text.includes("노출 정책 감사") && text.includes("문제 노출") && text.includes("노출 감사 JSON"), "Admin dashboard missing exposure policy audit panel");
+  assert(text.includes("노출 정책 감사") && text.includes("문제 노출") && text.includes("노출 감사 JSON") && text.includes("노출 감사 CSV"), "Admin dashboard missing exposure policy audit panel");
   assert(text.includes("링크 검토 필요"), "Admin dashboard missing link review count card");
   assert(text.includes("오늘 처리할 링크 작업"), "Admin dashboard missing link review action summary");
   assert(text.includes("구매 링크 보강 우선순위"), "Admin dashboard missing link review priority summary");
@@ -761,6 +761,17 @@ await check("admin exposure policy api", async () => {
   assert(data.report?.summary?.badExposedItems === 0, "Exposure policy report should have zero bad exposed items");
   assert(data.report?.summary?.searchLinksExposed === 0, "Exposure policy report should have zero search links exposed");
   assert(data.report?.summary?.soldOutExposed === 0, "Exposure policy report should have zero sold-out links exposed");
+});
+
+await check("admin exposure policy csv", async () => {
+  const response = await fetch(`${baseUrl}/api/admin/exposure-policy?format=csv`);
+  const text = await response.text();
+  assert(response.status === 200, `Expected 200, got ${response.status}`);
+  assert(response.headers.get("content-type")?.includes("text/csv"), "Exposure policy export is not CSV");
+  assert(response.headers.get("x-request-id"), "Exposure policy export missing request id");
+  assert(text.startsWith("section,key,label"), "Exposure policy CSV header missing");
+  assert(text.includes("bad_exposed_items") && text.includes("search_links_exposed") && text.includes("sold_out_exposed"), "Exposure policy CSV missing risk summary rows");
+  assert(text.includes("bad_exposed_item,none") && text.includes("hidden_item,none"), "Exposure policy CSV should prove zero bad/hidden items when clean");
 });
 
 await check("admin notification campaigns api", async () => {

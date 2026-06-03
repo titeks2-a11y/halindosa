@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { canAccessAdmin } from "@/lib/adminAuth";
 import { createRequestId, getClientKey, rateLimit, rateLimitHeaders } from "@/lib/apiGuards";
-import { getExposurePolicyReport } from "@/lib/operations/exposurePolicy";
+import { buildExposurePolicyCsv, getExposurePolicyReport } from "@/lib/operations/exposurePolicy";
 
 export async function GET(request: Request) {
   const requestId = createRequestId();
@@ -21,6 +21,16 @@ export async function GET(request: Request) {
   }
 
   const report = getExposurePolicyReport();
+
+  if (url.searchParams.get("format") === "csv") {
+    return new Response(buildExposurePolicyCsv(report), {
+      headers: {
+        "Content-Type": "text/csv; charset=utf-8",
+        "Content-Disposition": `attachment; filename="halindosa-exposure-policy-${new Date().toISOString().slice(0, 10)}.csv"`,
+        ...rateLimitHeaders(limit, requestId)
+      }
+    });
+  }
 
   return NextResponse.json(
     {
