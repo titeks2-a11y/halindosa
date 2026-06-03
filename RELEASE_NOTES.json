@@ -1,7 +1,7 @@
 {
   "generatedBy": "npm run release:notes",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "6f3e049",
+  "commit": "29c67d8",
   "workingTree": "M DEVICE_QA_REPORT.md;  M KNOWN_ISSUES.md;  M PUBLIC_URL_REPORT.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_HANDOFF_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M docs/DEVICE_QA_REPORT.md;  M docs/KNOWN_ISSUES.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_HANDOFF_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md;  M docs/release-evidence.md",
   "version": "1.0.1",
   "appName": "할인도사",
@@ -73,14 +73,14 @@
     }
   ],
   "recentCommits": [
+    "29c67d8 test: run admin smoke with protected headers",
+    "539d7c2 docs: record clean release doctor after admin auth hardening",
+    "d0de3c4 docs: refresh release evidence after admin auth hardening",
     "6f3e049 chore: harden admin token authentication",
     "d90b6a2 docs: record clean release doctor after link exposure hardening",
     "03cfc38 docs: refresh release evidence after link exposure hardening",
     "0b0e1b9 fix: block public search fallback exposure",
-    "b608581 docs: record clean release doctor after source catalog expansion",
-    "e55580f docs: refresh release evidence after source catalog expansion",
-    "8dfcbc1 feat: expand official benefit source catalog",
-    "05daf7e docs: record clean release doctor after source onboarding operations"
+    "b608581 docs: record clean release doctor after source catalog expansion"
   ],
   "manualWorkThatMustNotBeFaked": [
     "Do not claim Play Console or App Store Connect submission has passed from this file.",

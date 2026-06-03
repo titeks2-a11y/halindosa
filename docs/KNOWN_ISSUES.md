@@ -1,8 +1,8 @@
 # 할인도사 Known Issues
 
-Generated: 2026-06-03T22:30:57.373Z
+Generated: 2026-06-03T22:36:05.237Z
 Branch: codex/12h-product-ux-growth-hardening
-Commit: 6f3e049
+Commit: 29c67d8
 Working tree: M DEVICE_QA_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_SCREENSHOTS_REPORT.md;  M docs/DEVICE_QA_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/release-evidence.md
 
 ## Critical
