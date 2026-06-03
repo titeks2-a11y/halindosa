@@ -254,6 +254,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const visibleDeals = deals.filter((deal) => !deal.isHidden && deal.availability === "active" && deal.validationStatus === "passed");
   const hiddenDeals = deals.filter((deal) => deal.isHidden);
   const failedDeals = deals.filter((deal) => deal.validationStatus === "failed" || deal.availability !== "active");
+  const liveProbeFailureReasons = Object.entries(exposurePolicy.liveProbeFailureReasonCounts).sort((a, b) => b[1] - a[1]).slice(0, 4);
   const todayNewDeals = deals.filter((deal) => new Date(deal.createdAt).getTime() >= todayStart.getTime());
   const topPopularityDeals = [...deals]
     .sort((a, b) => b.clickCount + b.popularityScore - (a.clickCount + a.popularityScore))
@@ -422,6 +423,21 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                 <p className="mt-1 text-[11px] font-bold text-slate-500">{description}</p>
               </div>
             ))}
+          </div>
+          <div className="mt-3 rounded-2xl border border-amber-100 bg-amber-50 p-4">
+            <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+              <p className="text-sm font-black text-slate-950">라이브 실패 사유 분포</p>
+              <p className="text-xs font-bold text-amber-800">
+                403/429/robots 계열은 쇼핑몰 보호 정책 신호이며, 검색/품절 노출 실패와 별도로 관리합니다.
+              </p>
+            </div>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {(liveProbeFailureReasons.length ? liveProbeFailureReasons : [["none", 0]]).map(([reason, count]) => (
+                <span key={reason} className="rounded-full bg-white px-3 py-1.5 text-xs font-black text-amber-800 shadow-sm">
+                  {reason === "none" ? "실패 사유 없음" : reason} {Number(count).toLocaleString("ko-KR")}
+                </span>
+              ))}
+            </div>
           </div>
           <div className="mt-4 rounded-2xl border border-emerald-100 bg-white p-4">
             <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">

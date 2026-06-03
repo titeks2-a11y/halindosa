@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-03T15:24:37.706Z",
+  "generatedAt": "2026-06-03T15:29:56.558Z",
   "summary": {
     "auditedItems": 140,
     "exposedItems": 140,
@@ -32,22 +32,568 @@
     "finalUrlRequired": true
   },
   "liveProbe": {
-    "enabled": false,
+    "enabled": true,
     "strict": false,
     "bodyProbe": false,
-    "timeoutMs": 3500,
-    "checked": 0,
-    "passed": 0,
-    "failed": 0,
-    "redirected": 0,
-    "finalUrlChanged": 0,
+    "timeoutMs": 2500,
+    "checked": 140,
+    "passed": 63,
+    "failed": 77,
+    "redirected": 12,
+    "finalUrlChanged": 12,
     "http404": 0,
     "http410": 0,
     "http5xx": 0,
-    "timeout": 0,
-    "robotsBlocked": 0,
+    "timeout": 1,
+    "robotsBlocked": 60,
     "unavailableText": 0,
-    "failures": []
+    "failures": [
+      {
+        "id": "d002",
+        "url": "https://item.gmarket.co.kr/Item?goodsCode=4076233103",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodsCode=4076233103",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d003",
+        "url": "https://item.gmarket.co.kr/Item?goodsCode=1645289356",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodsCode=1645289356",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d004",
+        "url": "https://www.coupang.com/vp/products/9536028933?itemId=28441768456&vendorItemId=95392511443",
+        "finalUrl": "https://www.coupang.com/vp/products/9536028933?itemId=28441768456&vendorItemId=95392511443",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d006",
+        "url": "https://www.coupang.com/vp/products/4944747674?itemId=19547724956&vendorItemId=86433745874",
+        "finalUrl": "https://www.coupang.com/vp/products/4944747674?itemId=19547724956&vendorItemId=86433745874",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d007",
+        "url": "https://item.gmarket.co.kr/Item?goodscode=2845354348",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2845354348",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d009",
+        "url": "https://item.gmarket.co.kr/Item?goodscode=3768639920",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=3768639920",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d010",
+        "url": "https://www.coupang.com/vp/products/7999681537?itemId=22273718645&vendorItemId=92858534546",
+        "finalUrl": "https://www.coupang.com/vp/products/7999681537?itemId=22273718645&vendorItemId=92858534546",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d011",
+        "url": "https://www.ssg.com/item/itemView.ssg?itemId=1000377767271",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000377767271",
+        "status": 429,
+        "reason": "http_429"
+      },
+      {
+        "id": "d014",
+        "url": "https://www.coupang.com/vp/products/7687552147",
+        "finalUrl": "https://www.coupang.com/vp/products/7687552147",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d016",
+        "url": "https://item.gmarket.co.kr/Item?goodsCode=4108056484",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodsCode=4108056484",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d017",
+        "url": "https://item.gmarket.co.kr/Item?goodscode=3579809715",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=3579809715",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d019",
+        "url": "https://store.ohou.se/goods/1306932",
+        "finalUrl": "https://store.ohou.se/goods/1306932",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d022",
+        "url": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000188040",
+        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000188040",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d024",
+        "url": "https://www.ssg.com/item/itemView.ssg?itemId=1000038330709",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000038330709",
+        "status": 429,
+        "reason": "http_429"
+      },
+      {
+        "id": "d025",
+        "url": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000163532",
+        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000163532",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d027",
+        "url": "https://m.gsshop.com/deal/deal.gs?dealNo=1081284321",
+        "finalUrl": "https://m.gsshop.com/deal/deal.gs?dealNo=1081284321",
+        "status": 0,
+        "reason": "timeout"
+      },
+      {
+        "id": "d028",
+        "url": "https://www.coupang.com/vp/products/45447044?itemId=162348092&vendorItemId=3383614966",
+        "finalUrl": "https://www.coupang.com/vp/products/45447044?itemId=162348092&vendorItemId=3383614966",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d029",
+        "url": "https://www.ssg.com/item/itemView.ssg?itemId=1000568480807",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000568480807",
+        "status": 429,
+        "reason": "http_429"
+      },
+      {
+        "id": "d030",
+        "url": "https://www.coupang.com/vp/products/8640169010",
+        "finalUrl": "https://www.coupang.com/vp/products/8640169010",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d031",
+        "url": "https://www.coupang.com/vp/products/7872977867",
+        "finalUrl": "https://www.coupang.com/vp/products/7872977867",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d032",
+        "url": "https://www.ssg.com/item/itemView.ssg?itemId=0000009774169",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=0000009774169",
+        "status": 429,
+        "reason": "http_429"
+      },
+      {
+        "id": "d034",
+        "url": "https://item.gmarket.co.kr/Item?goodscode=2739226248",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2739226248",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d035",
+        "url": "https://www.coupang.com/vp/products/9468784918?itemId=28181432958&vendorItemId=95136026489",
+        "finalUrl": "https://www.coupang.com/vp/products/9468784918?itemId=28181432958&vendorItemId=95136026489",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d040",
+        "url": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000211588",
+        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000211588",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d041",
+        "url": "https://www.ssg.com/item/itemView.ssg?itemId=1000620373892",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000620373892",
+        "status": 429,
+        "reason": "http_429"
+      },
+      {
+        "id": "d044",
+        "url": "https://itempage3.auction.co.kr/DetailView.aspx?itemno=F408783307",
+        "finalUrl": "https://itempage3.auction.co.kr/DetailView.aspx?itemno=F408783307",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d045",
+        "url": "https://www.ssg.com/item/itemView.ssg?itemId=1000519076764",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000519076764",
+        "status": 429,
+        "reason": "http_429"
+      },
+      {
+        "id": "d046",
+        "url": "https://www.coupang.com/vp/products/5625704601?vendorItemId=79548063314",
+        "finalUrl": "https://www.coupang.com/vp/products/5625704601?vendorItemId=79548063314",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d049",
+        "url": "https://item.gmarket.co.kr/Item?goodscode=2723551094",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2723551094",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d050",
+        "url": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000188460",
+        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000188460",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d051",
+        "url": "https://tour.interpark.com/goods/detail?goodsCd=25031828338",
+        "finalUrl": "https://tour.interpark.com/goods/detail?goodsCd=25031828338",
+        "status": 0,
+        "reason": "request_failed"
+      },
+      {
+        "id": "d052",
+        "url": "https://www.ssg.com/item/itemView.ssg?itemId=1000560995801",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000560995801",
+        "status": 429,
+        "reason": "http_429"
+      },
+      {
+        "id": "d057",
+        "url": "https://www.tmembership.co.kr/web/html/main/benefit.html",
+        "finalUrl": "https://www.tmembership.co.kr/web/html/main/benefit.html",
+        "status": 0,
+        "reason": "request_failed"
+      },
+      {
+        "id": "d073",
+        "url": "https://www.hyundaicard.com/cpc/cr/CPCCR0101_01.hc",
+        "finalUrl": "https://www.hyundaicard.com/cpc/cr/CPCCR0101_01.hc",
+        "status": 0,
+        "reason": "request_failed"
+      },
+      {
+        "id": "d079",
+        "url": "https://www.coupang.com/vp/products/8943433269",
+        "finalUrl": "https://www.coupang.com/vp/products/8943433269",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d080",
+        "url": "https://item.gmarket.co.kr/Item?goodscode=920731222",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=920731222",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d087",
+        "url": "https://item.gmarket.co.kr/Item?goodscode=1503733317",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=1503733317",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d088",
+        "url": "https://www.coupang.com/vp/products/8263119298",
+        "finalUrl": "https://www.coupang.com/vp/products/8263119298",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d089",
+        "url": "https://item.gmarket.co.kr/Item?goodscode=2439050806",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2439050806",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d091",
+        "url": "https://www.coupang.com/vp/products/27613130",
+        "finalUrl": "https://www.coupang.com/vp/products/27613130",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d092",
+        "url": "https://item.gmarket.co.kr/Item?goodscode=4208551428",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=4208551428",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d093",
+        "url": "https://www.ssg.com/item/itemView.ssg?itemId=1000005089075",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000005089075",
+        "status": 429,
+        "reason": "http_429"
+      },
+      {
+        "id": "d096",
+        "url": "https://item.gmarket.co.kr/Item?goodscode=2066504211",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2066504211",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d097",
+        "url": "https://item.gmarket.co.kr/Item?goodscode=2953970256",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2953970256",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d098",
+        "url": "https://item.gmarket.co.kr/Item?goodscode=2809510617",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2809510617",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d099",
+        "url": "https://www.ssg.com/item/itemView.ssg?itemId=1000601459551",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000601459551",
+        "status": 429,
+        "reason": "http_429"
+      },
+      {
+        "id": "d100",
+        "url": "https://www.coupang.com/vp/products/6499690442?itemId=18173261121&vendorItemId=85322534161",
+        "finalUrl": "https://www.coupang.com/vp/products/6499690442?itemId=18173261121&vendorItemId=85322534161",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d101",
+        "url": "https://item.gmarket.co.kr/Item?goodsCode=4476089680",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodsCode=4476089680",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d103",
+        "url": "https://item.gmarket.co.kr/Item?goodscode=1771516558",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=1771516558",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d104",
+        "url": "https://www.coupang.com/vp/products/8874782036?itemId=25896029282&vendorItemId=92904466881",
+        "finalUrl": "https://www.coupang.com/vp/products/8874782036?itemId=25896029282&vendorItemId=92904466881",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d105",
+        "url": "https://www.coupang.com/vp/products/6133165754",
+        "finalUrl": "https://www.coupang.com/vp/products/6133165754",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d106",
+        "url": "https://item.gmarket.co.kr/Item?goodscode=2763212387",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2763212387",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d107",
+        "url": "https://item.gmarket.co.kr/Item?goodsCode=4261528217",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodsCode=4261528217",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d108",
+        "url": "https://item.gmarket.co.kr/Item?goodscode=4236933731",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=4236933731",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d109",
+        "url": "https://item.gmarket.co.kr/Item?goodscode=2745012476",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2745012476",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d110",
+        "url": "https://www.coupang.com/vp/products/9358422?itemId=19687297735&vendorItemId=90791761130",
+        "finalUrl": "https://www.coupang.com/vp/products/9358422?itemId=19687297735&vendorItemId=90791761130",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d111",
+        "url": "https://item.gmarket.co.kr/Item?goodscode=3560262554",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=3560262554",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d113",
+        "url": "https://www.coupang.com/vp/products/186524064",
+        "finalUrl": "https://www.coupang.com/vp/products/186524064",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d114",
+        "url": "https://item.gmarket.co.kr/Item?goodscode=2667091230",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2667091230",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d118",
+        "url": "https://item.gmarket.co.kr/Item?goodscode=2910475736",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2910475736",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d120",
+        "url": "https://item.gmarket.co.kr/Item?goodsCode=4285817639",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodsCode=4285817639",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d121",
+        "url": "https://www.coupang.com/vp/products/4739246363",
+        "finalUrl": "https://www.coupang.com/vp/products/4739246363",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d122",
+        "url": "https://item.gmarket.co.kr/Item?goodsCode=4412121040",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodsCode=4412121040",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d124",
+        "url": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000230063",
+        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000230063",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d125",
+        "url": "https://www.ssg.com/item/itemView.ssg?itemId=1000032939693",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000032939693",
+        "status": 429,
+        "reason": "http_429"
+      },
+      {
+        "id": "d126",
+        "url": "https://www.coupang.com/vp/products/169280610?itemId=18366710784&vendorItemId=85510322367",
+        "finalUrl": "https://www.coupang.com/vp/products/169280610?itemId=18366710784&vendorItemId=85510322367",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d127",
+        "url": "https://item.gmarket.co.kr/Item?goodscode=2349292374",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2349292374",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d129",
+        "url": "https://www.ssg.com/item/itemView.ssg?itemId=2097001847275",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=2097001847275",
+        "status": 429,
+        "reason": "http_429"
+      },
+      {
+        "id": "d130",
+        "url": "https://www.coupang.com/vp/products/8286305822",
+        "finalUrl": "https://www.coupang.com/vp/products/8286305822",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d131",
+        "url": "https://www.coupang.com/vp/products/7689270513?itemId=20877904748&vendorItemId=87945140914",
+        "finalUrl": "https://www.coupang.com/vp/products/7689270513?itemId=20877904748&vendorItemId=87945140914",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d132",
+        "url": "https://item.gmarket.co.kr/Item?goodscode=2571643785",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2571643785",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d134",
+        "url": "https://www.ssg.com/item/itemView.ssg?itemId=1000625953830",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000625953830",
+        "status": 429,
+        "reason": "http_429"
+      },
+      {
+        "id": "d135",
+        "url": "https://item.gmarket.co.kr/Item?goodscode=3055540533",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=3055540533",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d136",
+        "url": "https://www.coupang.com/vp/products/5594587350",
+        "finalUrl": "https://www.coupang.com/vp/products/5594587350",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d138",
+        "url": "https://www.ssg.com/item/itemView.ssg?itemId=1000588225854",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000588225854",
+        "status": 429,
+        "reason": "http_429"
+      },
+      {
+        "id": "d139",
+        "url": "https://www.coupang.com/vp/products/7430740821?vendorItemId=70327608949",
+        "finalUrl": "https://www.coupang.com/vp/products/7430740821?vendorItemId=70327608949",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d140",
+        "url": "https://item.gmarket.co.kr/Item?goodscode=3534198074",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=3534198074",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      }
+    ]
+  },
+  "liveProbeFailureReasonCounts": {
+    "robots_or_access_blocked": 60,
+    "http_429": 13,
+    "timeout": 1,
+    "request_failed": 3
   },
   "auditedItems": [
     {
@@ -69,8 +615,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d002",
@@ -82,7 +628,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-05-31T14:20:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "item.gmarket.co.kr",
       "evidence": "G마켓 새우깡 8봉 + 매운새우깡 8봉 상품 상세",
@@ -91,8 +637,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d003",
@@ -104,7 +650,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-05-31T10:00:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "item.gmarket.co.kr",
       "evidence": "G마켓 돌산갓김치 상품 상세",
@@ -113,8 +659,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d004",
@@ -126,7 +672,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-01T00:08:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "coupang.com",
       "evidence": "쿠팡 JMW 에이플로 온도 센서 플라즈마 미니 드라이기 상품 상세",
@@ -135,8 +681,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d005",
@@ -157,8 +703,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d006",
@@ -170,7 +716,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-05-31T10:20:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "coupang.com",
       "evidence": "쿠팡 오리온 제주용암수 2L 18개 상품 상세",
@@ -179,8 +725,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d007",
@@ -192,7 +738,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-05-31T12:35:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "item.gmarket.co.kr",
       "evidence": "G마켓 칼집 양념 목살 왕구이 600g x 4팩 상품 상세",
@@ -201,8 +747,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d008",
@@ -223,8 +769,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d009",
@@ -236,7 +782,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-05-31T10:20:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "item.gmarket.co.kr",
       "evidence": "G마켓 신라면+너구리+짜파게티+오징어짬뽕 20봉 상품 상세",
@@ -245,8 +791,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d010",
@@ -258,7 +804,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-05-31T14:20:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "coupang.com",
       "evidence": "쿠팡 알리사 급속 냉각 에어컨 무선 휴대용선풍기 상품 상세",
@@ -267,8 +813,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d011",
@@ -289,8 +835,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "http_429"
     },
     {
       "id": "d012",
@@ -311,8 +857,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d013",
@@ -333,8 +879,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d014",
@@ -346,7 +892,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-05-31T10:00:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "coupang.com",
       "evidence": "쿠팡 애플워치 호환 밴드 상품 상세",
@@ -355,8 +901,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d015",
@@ -377,8 +923,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d016",
@@ -390,7 +936,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-05-31T10:20:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "item.gmarket.co.kr",
       "evidence": "G마켓 스타배송 상품 상세 URL 패턴 검증",
@@ -399,8 +945,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d017",
@@ -412,7 +958,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-01T01:10:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "item.gmarket.co.kr",
       "evidence": "G마켓 아이클레보 올인원 로봇청소기 Ultra 365 Max 상품 상세",
@@ -421,8 +967,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d018",
@@ -443,8 +989,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d019",
@@ -456,7 +1002,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-01T00:08:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "store.ohou.se",
       "evidence": "오늘의집 제프리 삼나무 원목 수납장 3단 오픈책장 상품 상세",
@@ -465,8 +1011,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d020",
@@ -487,8 +1033,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d021",
@@ -509,8 +1055,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d022",
@@ -522,7 +1068,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-01T01:10:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "oliveyoung.co.kr",
       "evidence": "올리브영 JMW BLDC 에어원 드라이어 MC4B03C 상품 상세",
@@ -531,8 +1077,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d023",
@@ -553,8 +1099,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d024",
@@ -575,8 +1121,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "http_429"
     },
     {
       "id": "d025",
@@ -588,7 +1134,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-05-31T10:20:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "oliveyoung.co.kr",
       "evidence": "올리브영 선크림 1+1 상품 상세",
@@ -597,8 +1143,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d026",
@@ -619,8 +1165,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d027",
@@ -641,8 +1187,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "timeout"
     },
     {
       "id": "d028",
@@ -654,7 +1200,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-01T00:08:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "coupang.com",
       "evidence": "쿠팡 워터픽 나노 패밀리팩 구강세정기 상품 상세",
@@ -663,8 +1209,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d029",
@@ -685,8 +1231,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "http_429"
     },
     {
       "id": "d030",
@@ -698,7 +1244,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-05-31T14:20:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "coupang.com",
       "evidence": "쿠팡 Apple 2025 아이패드 A16 11세대 128GB Wi-Fi 상품 상세",
@@ -707,8 +1253,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d031",
@@ -720,7 +1266,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-05-31T11:10:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "coupang.com",
       "evidence": "쿠팡 원목 수납장 3단 상품 상세",
@@ -729,8 +1275,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d032",
@@ -751,8 +1297,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "http_429"
     },
     {
       "id": "d033",
@@ -773,8 +1319,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d034",
@@ -786,7 +1332,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-05-31T11:10:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "item.gmarket.co.kr",
       "evidence": "G마켓 국산 KF94 마스크 100매 상품 상세",
@@ -795,8 +1341,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d035",
@@ -808,7 +1354,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-05-31T12:35:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "coupang.com",
       "evidence": "쿠팡 곰곰 무농약 완숙토마토 2kg 상품 상세",
@@ -817,8 +1363,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d036",
@@ -839,8 +1385,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d037",
@@ -861,8 +1407,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d038",
@@ -883,8 +1429,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d039",
@@ -905,8 +1451,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d040",
@@ -918,7 +1464,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-01T02:40:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "oliveyoung.co.kr",
       "evidence": "올리브영 아이보들 CCP 크림 1+1 기획 상품 상세",
@@ -927,8 +1473,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d041",
@@ -949,8 +1495,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "http_429"
     },
     {
       "id": "d042",
@@ -971,8 +1517,8 @@
       "productDetailUrl": false,
       "officialBenefitUrl": true,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d043",
@@ -993,8 +1539,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d044",
@@ -1006,7 +1552,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-05-31T10:20:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "itempage3.auction.co.kr",
       "evidence": "옥션 냉동 블루베리 1kg 상품 상세",
@@ -1015,8 +1561,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d045",
@@ -1037,8 +1583,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "http_429"
     },
     {
       "id": "d046",
@@ -1050,7 +1596,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-05-31T10:00:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "coupang.com",
       "evidence": "쿠팡 탐사수 무라벨 상품 상세",
@@ -1059,8 +1605,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d047",
@@ -1081,8 +1627,8 @@
       "productDetailUrl": false,
       "officialBenefitUrl": true,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d048",
@@ -1103,8 +1649,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d049",
@@ -1116,7 +1662,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-05-31T10:20:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "item.gmarket.co.kr",
       "evidence": "G마켓 접이식 핸드트럭/캠핑 웨건 상품 상세",
@@ -1125,8 +1671,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d050",
@@ -1138,7 +1684,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-05-31T10:20:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "oliveyoung.co.kr",
       "evidence": "올리브영 멀티비타민 90정 상품 상세",
@@ -1147,8 +1693,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d051",
@@ -1169,8 +1715,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "request_failed"
     },
     {
       "id": "d052",
@@ -1191,8 +1737,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "http_429"
     },
     {
       "id": "d053",
@@ -1213,8 +1759,8 @@
       "productDetailUrl": false,
       "officialBenefitUrl": true,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d054",
@@ -1235,8 +1781,8 @@
       "productDetailUrl": false,
       "officialBenefitUrl": true,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d055",
@@ -1257,8 +1803,8 @@
       "productDetailUrl": false,
       "officialBenefitUrl": true,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d056",
@@ -1279,8 +1825,8 @@
       "productDetailUrl": false,
       "officialBenefitUrl": true,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d057",
@@ -1301,8 +1847,8 @@
       "productDetailUrl": false,
       "officialBenefitUrl": true,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "request_failed"
     },
     {
       "id": "d058",
@@ -1323,8 +1869,8 @@
       "productDetailUrl": false,
       "officialBenefitUrl": true,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d059",
@@ -1345,8 +1891,8 @@
       "productDetailUrl": false,
       "officialBenefitUrl": true,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d060",
@@ -1367,8 +1913,8 @@
       "productDetailUrl": false,
       "officialBenefitUrl": true,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d061",
@@ -1389,8 +1935,8 @@
       "productDetailUrl": false,
       "officialBenefitUrl": true,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d062",
@@ -1411,8 +1957,8 @@
       "productDetailUrl": false,
       "officialBenefitUrl": true,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d063",
@@ -1433,8 +1979,8 @@
       "productDetailUrl": false,
       "officialBenefitUrl": true,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d064",
@@ -1455,8 +2001,8 @@
       "productDetailUrl": false,
       "officialBenefitUrl": true,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d065",
@@ -1477,8 +2023,8 @@
       "productDetailUrl": false,
       "officialBenefitUrl": true,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d066",
@@ -1499,8 +2045,8 @@
       "productDetailUrl": false,
       "officialBenefitUrl": true,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d067",
@@ -1521,8 +2067,8 @@
       "productDetailUrl": false,
       "officialBenefitUrl": true,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d068",
@@ -1543,8 +2089,8 @@
       "productDetailUrl": false,
       "officialBenefitUrl": true,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d069",
@@ -1565,8 +2111,8 @@
       "productDetailUrl": false,
       "officialBenefitUrl": true,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d070",
@@ -1587,8 +2133,8 @@
       "productDetailUrl": false,
       "officialBenefitUrl": true,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d071",
@@ -1609,8 +2155,8 @@
       "productDetailUrl": false,
       "officialBenefitUrl": true,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d072",
@@ -1631,8 +2177,8 @@
       "productDetailUrl": false,
       "officialBenefitUrl": true,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d073",
@@ -1653,8 +2199,8 @@
       "productDetailUrl": false,
       "officialBenefitUrl": true,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "request_failed"
     },
     {
       "id": "d074",
@@ -1675,8 +2221,8 @@
       "productDetailUrl": false,
       "officialBenefitUrl": true,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d075",
@@ -1697,8 +2243,8 @@
       "productDetailUrl": false,
       "officialBenefitUrl": true,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d076",
@@ -1719,8 +2265,8 @@
       "productDetailUrl": false,
       "officialBenefitUrl": true,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d077",
@@ -1741,8 +2287,8 @@
       "productDetailUrl": false,
       "officialBenefitUrl": true,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d078",
@@ -1763,8 +2309,8 @@
       "productDetailUrl": false,
       "officialBenefitUrl": true,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d079",
@@ -1776,7 +2322,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-01T22:45:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "coupang.com",
       "evidence": "쿠팡 탐사 고평량 종이컵 디자인 380ml 상품 상세",
@@ -1785,8 +2331,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d080",
@@ -1798,7 +2344,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-01T22:45:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "item.gmarket.co.kr",
       "evidence": "G마켓 CJ 햇반 즉석밥 210g 24개 상품 상세",
@@ -1807,8 +2353,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d081",
@@ -1829,8 +2375,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d082",
@@ -1851,8 +2397,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d083",
@@ -1873,8 +2419,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d084",
@@ -1895,8 +2441,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d085",
@@ -1917,8 +2463,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d086",
@@ -1939,8 +2485,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d087",
@@ -1952,7 +2498,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-01T22:45:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "item.gmarket.co.kr",
       "evidence": "G마켓 맥심 모카골드 리필커피 상품 상세",
@@ -1961,8 +2507,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d088",
@@ -1974,7 +2520,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-01T22:45:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "coupang.com",
       "evidence": "쿠팡 샤오미 미밴드 9 스마트밴드 상품 상세",
@@ -1983,8 +2529,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d089",
@@ -1996,7 +2542,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-01T22:45:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "item.gmarket.co.kr",
       "evidence": "G마켓 홈매트 리퀴드 홈솔루션 훈증기 리필 상품 상세",
@@ -2005,8 +2551,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d090",
@@ -2027,8 +2573,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d091",
@@ -2040,7 +2586,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-02T00:20:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "coupang.com",
       "evidence": "쿠팡 탐사수 1L 12개입 생수 상품 상세",
@@ -2049,8 +2595,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d092",
@@ -2062,7 +2608,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-02T00:20:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "item.gmarket.co.kr",
       "evidence": "G마켓 CJ비비고 왕교자 1.05kg X 2 + 새우왕교자 상품 상세",
@@ -2071,8 +2617,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d093",
@@ -2093,8 +2639,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "http_429"
     },
     {
       "id": "d094",
@@ -2115,8 +2661,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d095",
@@ -2137,8 +2683,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d096",
@@ -2150,7 +2696,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-02T00:20:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "item.gmarket.co.kr",
       "evidence": "G마켓 국산 개별 절전형 멀티탭 모음 상품 상세",
@@ -2159,8 +2705,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d097",
@@ -2172,7 +2718,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-02T00:20:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "item.gmarket.co.kr",
       "evidence": "G마켓 CJ 스팸 클래식 200g x 10개 상품 상세",
@@ -2181,8 +2727,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d098",
@@ -2194,7 +2740,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-02T00:20:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "item.gmarket.co.kr",
       "evidence": "G마켓 리챔 오리지널 200g 10캔 상품 상세",
@@ -2203,8 +2749,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d099",
@@ -2225,8 +2771,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "http_429"
     },
     {
       "id": "d100",
@@ -2238,7 +2784,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-02T00:20:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "coupang.com",
       "evidence": "쿠팡 트리오 항균 주방세제 3kg 2개 상품 상세",
@@ -2247,8 +2793,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d101",
@@ -2260,7 +2806,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-02T01:10:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "item.gmarket.co.kr",
       "evidence": "G마켓 T 담은정 국산 포기김치 10kg 상품 상세",
@@ -2269,8 +2815,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d102",
@@ -2291,8 +2837,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d103",
@@ -2304,7 +2850,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-02T01:10:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "item.gmarket.co.kr",
       "evidence": "G마켓 2080 퓨어 마운틴 솔트 치약 120g 12개 상품 상세",
@@ -2313,8 +2859,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d104",
@@ -2326,7 +2872,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-02T01:10:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "coupang.com",
       "evidence": "쿠팡 습기타파 대용량 제습제 280g 24개 상품 상세",
@@ -2335,8 +2881,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d105",
@@ -2348,7 +2894,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-02T01:10:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "coupang.com",
       "evidence": "쿠팡 모나미 153 볼펜 12자루 상품 상세",
@@ -2357,8 +2903,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d106",
@@ -2370,7 +2916,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-02T01:10:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "item.gmarket.co.kr",
       "evidence": "G마켓 듀라셀 알카라인 건전지 AA 20개입 상품 상세",
@@ -2379,8 +2925,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d107",
@@ -2392,7 +2938,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-02T01:10:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "item.gmarket.co.kr",
       "evidence": "G마켓 벡셀 건전지 AA 20개 AAA 20개 상품 상세",
@@ -2401,8 +2947,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d108",
@@ -2414,7 +2960,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-02T01:10:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "item.gmarket.co.kr",
       "evidence": "G마켓 행복이온 포기김치 10kg 상품 상세",
@@ -2423,8 +2969,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d109",
@@ -2436,7 +2982,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-02T01:10:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "item.gmarket.co.kr",
       "evidence": "G마켓 2080 클래식 치약 170g x 5개 상품 상세",
@@ -2445,8 +2991,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d110",
@@ -2458,7 +3004,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-02T01:10:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "coupang.com",
       "evidence": "쿠팡 모나미 153 볼펜 1.0mm Red 60개 상품 상세",
@@ -2467,8 +3013,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d111",
@@ -2480,7 +3026,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-02T02:30:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "item.gmarket.co.kr",
       "evidence": "G마켓 지오다노 코튼 크루넥 반팔 티셔츠 3팩 상품 상세",
@@ -2489,8 +3035,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d112",
@@ -2511,8 +3057,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d113",
@@ -2524,7 +3070,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-02T02:30:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "coupang.com",
       "evidence": "쿠팡 코멧 자동 장우산 2개 세트 상품 상세",
@@ -2533,8 +3079,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d114",
@@ -2546,7 +3092,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-02T02:30:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "item.gmarket.co.kr",
       "evidence": "G마켓 듀라셀 코인 리튬 건전지 CR2032 10개 상품 상세",
@@ -2555,8 +3101,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d115",
@@ -2577,8 +3123,8 @@
       "productDetailUrl": false,
       "officialBenefitUrl": true,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d116",
@@ -2599,8 +3145,8 @@
       "productDetailUrl": false,
       "officialBenefitUrl": true,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d117",
@@ -2621,8 +3167,8 @@
       "productDetailUrl": false,
       "officialBenefitUrl": true,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d118",
@@ -2634,7 +3180,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-02T04:10:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "item.gmarket.co.kr",
       "evidence": "G마켓 제주 삼다수 2L 24병 생수 상품 상세",
@@ -2643,8 +3189,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d119",
@@ -2665,8 +3211,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d120",
@@ -2678,7 +3224,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-02T04:10:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "item.gmarket.co.kr",
       "evidence": "G마켓 제주삼다수 2L 12병 한정수량 특가 상품 상세",
@@ -2687,8 +3233,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d121",
@@ -2700,7 +3246,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-02T05:20:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "coupang.com",
       "evidence": "쿠팡 코멧 홈 물걸레 청소포 대형 리필 30매 상품 상세",
@@ -2709,8 +3255,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d122",
@@ -2722,7 +3268,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-02T05:20:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "item.gmarket.co.kr",
       "evidence": "G마켓 오뚜기 맛있는 오뚜기밥 210g 24개입 상품 상세",
@@ -2731,8 +3277,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d123",
@@ -2753,8 +3299,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d124",
@@ -2766,7 +3312,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-02T05:20:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "oliveyoung.co.kr",
       "evidence": "올리브영 닥터지 레드 블레미쉬 클리어 수딩 크림 70ml 기획 상품 상세",
@@ -2775,8 +3321,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d125",
@@ -2797,8 +3343,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "http_429"
     },
     {
       "id": "d126",
@@ -2810,7 +3356,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-02T06:30:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "coupang.com",
       "evidence": "쿠팡 코멧 깨끗한 천연펄프 키친타월 150매 16개 상품 상세",
@@ -2819,8 +3365,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d127",
@@ -2832,7 +3378,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-02T06:30:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "item.gmarket.co.kr",
       "evidence": "G마켓 동원 EPA참치 150g x 10캔 상품 상세",
@@ -2841,8 +3387,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d128",
@@ -2863,8 +3409,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d129",
@@ -2885,8 +3431,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "http_429"
     },
     {
       "id": "d130",
@@ -2898,7 +3444,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-02T06:30:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "coupang.com",
       "evidence": "쿠팡 국산 세이프크린 KF94 대형 마스크 100매 상품 상세",
@@ -2907,8 +3453,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d131",
@@ -2920,7 +3466,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-02T07:10:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "coupang.com",
       "evidence": "쿠팡 탐사 샘물 2L 24개 상품 상세",
@@ -2929,8 +3475,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d132",
@@ -2942,7 +3488,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-02T07:10:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "item.gmarket.co.kr",
       "evidence": "G마켓 팔도 비빔면 130g 20개 상품 상세",
@@ -2951,8 +3497,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d133",
@@ -2973,8 +3519,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d134",
@@ -2995,8 +3541,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "http_429"
     },
     {
       "id": "d135",
@@ -3008,7 +3554,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-02T07:10:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "item.gmarket.co.kr",
       "evidence": "G마켓 농심 순한너구리 120g 20개 상품 상세",
@@ -3017,8 +3563,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d136",
@@ -3030,7 +3576,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-02T07:45:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "coupang.com",
       "evidence": "쿠팡 코카콜라 제로콜라/스프라이트 제로 355ml 24캔 상품 상세",
@@ -3039,8 +3585,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d137",
@@ -3061,8 +3607,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d138",
@@ -3083,8 +3629,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "http_429"
     },
     {
       "id": "d139",
@@ -3096,7 +3642,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-02T07:45:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "coupang.com",
       "evidence": "쿠팡 닥터유 주머니쏙 단백질바 34g 12개 상품 상세",
@@ -3105,8 +3651,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d140",
@@ -3118,7 +3664,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-02T07:45:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "item.gmarket.co.kr",
       "evidence": "G마켓 농심 새우깡 90g 20개 상품 상세",
@@ -3127,14 +3673,14 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": null,
-      "liveProbeReason": "disabled"
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     }
   ],
   "badExposedItems": [],
   "hiddenItems": [],
   "sourceReports": {
-    "linkValidationGeneratedAt": "2026-06-03T15:24:37.038Z",
+    "linkValidationGeneratedAt": "2026-06-03T15:28:51.981Z",
     "productQualityGeneratedAt": "2026-06-03T15:24:37.132Z",
     "refreshAllGeneratedAt": "2026-06-03T15:24:36.583Z"
   },

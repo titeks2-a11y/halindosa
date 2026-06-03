@@ -51,6 +51,7 @@ export interface ExposurePolicyReport {
     finalUrlRequired: boolean;
   } | null;
   liveProbe: ExposurePolicyLiveProbeSummary;
+  liveProbeFailureReasonCounts: Record<string, number>;
   auditedItems: Array<{
     id: string;
     source: string;
@@ -131,6 +132,7 @@ const fallbackReport: ExposurePolicyReport = {
     unavailableText: 0,
     failures: []
   },
+  liveProbeFailureReasonCounts: {},
   auditedItems: [],
   badExposedItems: [],
   hiddenItems: [],
@@ -330,6 +332,26 @@ export function buildExposurePolicyCsv(report: ExposurePolicyReport) {
     liveProbeTimeoutMs: report.liveProbe.timeoutMs
   }));
 
+  const liveProbeReasonEntries: Array<[string, number]> = Object.keys(report.liveProbeFailureReasonCounts).length
+    ? Object.entries(report.liveProbeFailureReasonCounts)
+    : [["none", 0]];
+
+  const liveProbeReasonRows = liveProbeReasonEntries.map(([reason, count]) => ({
+    section: "live_probe_reason",
+    key: reason,
+    label: reason === "none" ? "실패 사유 없음" : reason,
+    status: reason === "none" ? "pass" : reason.includes("robots") || reason.includes("429") ? "access_limited" : "review",
+    count,
+    reason: reason === "none" ? "" : "라이브 HTTP 검증 실패 사유 분포",
+    action: reason === "none" ? "현 상태 유지" : reason.includes("robots") || reason.includes("429") ? "공식 API/제휴 피드 또는 브라우저 수동 확인으로 보완" : "URL 보강 또는 숨김 후보 검토",
+    linkType: "",
+    availability: "",
+    validationStatus: "",
+    finalUrl: "",
+    generatedAt: report.generatedAt,
+    liveProbeEnabled: report.liveProbe.enabled
+  }));
+
   const auditedRows = (report.auditedItems.length ? report.auditedItems : [{
     id: "none",
     source: "",
@@ -380,5 +402,5 @@ export function buildExposurePolicyCsv(report: ExposurePolicyReport) {
     liveProbeReason: item.liveProbeReason
   }));
 
-  return toCsv([...summaryRows, ...countRows, ...issueRows, ...badRows, ...hiddenRows, ...liveProbeRows, ...auditedRows]);
+  return toCsv([...summaryRows, ...countRows, ...issueRows, ...badRows, ...hiddenRows, ...liveProbeRows, ...liveProbeReasonRows, ...auditedRows]);
 }

@@ -47,6 +47,11 @@ const badExposedItems = exposedItems.filter(
 );
 const hiddenItems = auditedItems.filter((item) => item.isHidden);
 const issues = [];
+const liveProbeFailureReasonCounts = (linkReport?.liveProbe?.failures ?? []).reduce((acc, failure) => {
+  const reason = String(failure.reason ?? "unknown");
+  acc[reason] = (acc[reason] ?? 0) + 1;
+  return acc;
+}, {});
 
 if (!linkReport) issues.push("reports/link-validation.json is missing.");
 if (!productReport) issues.push("reports/product-quality.json is missing.");
@@ -121,6 +126,7 @@ const report = {
     unavailableText: 0,
     failures: []
   },
+  liveProbeFailureReasonCounts,
   auditedItems: auditedItems.map((item) => ({
     id: item.id,
     source: item.source,

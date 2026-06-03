@@ -773,6 +773,7 @@ await check("admin exposure policy api", async () => {
   assert(data.report?.summary?.soldOutExposed === 0, "Exposure policy report should have zero sold-out links exposed");
   assert(data.report?.liveProbe && typeof data.report.liveProbe.enabled === "boolean", "Exposure policy report should expose live probe summary");
   assert(typeof data.report.liveProbe.timeoutMs === "number", "Exposure policy live probe summary should include timeout");
+  assert(data.report?.liveProbeFailureReasonCounts && typeof data.report.liveProbeFailureReasonCounts === "object", "Exposure policy report should expose live probe failure reason counts");
 });
 
 await check("admin exposure policy csv", async () => {
@@ -786,6 +787,7 @@ await check("admin exposure policy csv", async () => {
   assert(text.includes("bad_exposed_item,none") && text.includes("hidden_item,none"), "Exposure policy CSV should prove zero bad/hidden items when clean");
   assert(text.includes("audited_item,d001") && text.includes("source,originalUrl") && text.includes("priorityScore"), "Exposure policy CSV missing product-level audit rows");
   assert(text.includes("live_probe,enabled") && text.includes("liveProbeTimeoutMs"), "Exposure policy CSV missing live probe operation rows");
+  assert(text.includes("live_probe_reason"), "Exposure policy CSV missing live probe failure reason rows");
 });
 
 await check("admin notification campaigns api", async () => {

@@ -1,6 +1,6 @@
 # 할인도사 Link Verification Report
 
-Generated: 2026-06-03T15:24:37.038Z
+Generated: 2026-06-03T15:28:51.981Z
 
 ## Summary
 
@@ -19,10 +19,10 @@ Generated: 2026-06-03T15:24:37.038Z
 | 메인/홈 링크 의심 | 0 |
 | 커뮤니티 의심 | 0 |
 | 수동 검토 필요 | 0 |
-| Live probe 확인 | 0 |
-| Live probe 실패 | 0 |
-| Live probe robots/access 차단 | 0 |
-| Live probe timeout | 0 |
+| Live probe 확인 | 140 |
+| Live probe 실패 | 77 |
+| Live probe robots/access 차단 | 60 |
+| Live probe timeout | 1 |
 
 ## Excluded Reasons
 
