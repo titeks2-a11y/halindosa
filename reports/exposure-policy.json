@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-03T18:23:00.114Z",
+  "generatedAt": "2026-06-03T18:44:39.193Z",
   "summary": {
     "auditedItems": 140,
     "exposedItems": 140,
@@ -37,15 +37,15 @@
     "bodyProbe": false,
     "timeoutMs": 5000,
     "checked": 140,
-    "passed": 63,
-    "failed": 77,
+    "passed": 66,
+    "failed": 74,
     "redirected": 12,
     "finalUrlChanged": 12,
     "http404": 0,
     "http410": 0,
     "http5xx": 0,
     "timeout": 0,
-    "robotsBlocked": 61,
+    "robotsBlocked": 58,
     "unavailableText": 0,
     "failures": [
       {
@@ -147,13 +147,6 @@
         "reason": "http_429"
       },
       {
-        "id": "d025",
-        "url": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000163532",
-        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000163532",
-        "status": 403,
-        "reason": "robots_or_access_blocked"
-      },
-      {
         "id": "d028",
         "url": "https://www.coupang.com/vp/products/45447044?itemId=162348092&vendorItemId=3383614966",
         "finalUrl": "https://www.coupang.com/vp/products/45447044?itemId=162348092&vendorItemId=3383614966",
@@ -241,13 +234,6 @@
         "id": "d049",
         "url": "https://item.gmarket.co.kr/Item?goodscode=2723551094",
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2723551094",
-        "status": 403,
-        "reason": "robots_or_access_blocked"
-      },
-      {
-        "id": "d050",
-        "url": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000188460",
-        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000188460",
         "status": 403,
         "reason": "robots_or_access_blocked"
       },
@@ -490,13 +476,6 @@
         "reason": "robots_or_access_blocked"
       },
       {
-        "id": "d124",
-        "url": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000230063",
-        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000230063",
-        "status": 403,
-        "reason": "robots_or_access_blocked"
-      },
-      {
         "id": "d125",
         "url": "https://www.ssg.com/item/itemView.ssg?itemId=1000032939693",
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000032939693",
@@ -590,7 +569,7 @@
     ]
   },
   "liveProbeFailureReasonCounts": {
-    "robots_or_access_blocked": 61,
+    "robots_or_access_blocked": 58,
     "http_429": 13,
     "request_failed": 3
   },
@@ -1133,7 +1112,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-05-31T10:20:00.000Z",
-      "priorityScore": 99,
+      "priorityScore": 100,
       "isHidden": false,
       "host": "oliveyoung.co.kr",
       "evidence": "올리브영 선크림 1+1 상품 상세",
@@ -1142,8 +1121,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": false,
-      "liveProbeReason": "robots_or_access_blocked"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d026",
@@ -1683,7 +1662,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-05-31T10:20:00.000Z",
-      "priorityScore": 99,
+      "priorityScore": 100,
       "isHidden": false,
       "host": "oliveyoung.co.kr",
       "evidence": "올리브영 멀티비타민 90정 상품 상세",
@@ -1692,8 +1671,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": false,
-      "liveProbeReason": "robots_or_access_blocked"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d051",
@@ -3311,7 +3290,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-02T05:20:00.000Z",
-      "priorityScore": 99,
+      "priorityScore": 100,
       "isHidden": false,
       "host": "oliveyoung.co.kr",
       "evidence": "올리브영 닥터지 레드 블레미쉬 클리어 수딩 크림 70ml 기획 상품 상세",
@@ -3320,8 +3299,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": false,
-      "liveProbeReason": "robots_or_access_blocked"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d125",
@@ -3679,9 +3658,9 @@
   "badExposedItems": [],
   "hiddenItems": [],
   "sourceReports": {
-    "linkValidationGeneratedAt": "2026-06-03T18:22:59.072Z",
-    "productQualityGeneratedAt": "2026-06-03T18:22:59.598Z",
-    "refreshAllGeneratedAt": "2026-06-03T18:22:40.786Z"
+    "linkValidationGeneratedAt": "2026-06-03T18:44:38.147Z",
+    "productQualityGeneratedAt": "2026-06-03T18:44:38.687Z",
+    "refreshAllGeneratedAt": "2026-06-03T18:44:19.353Z"
   },
   "issues": []
 }

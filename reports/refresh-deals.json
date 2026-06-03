@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-03T18:22:40.858Z",
+  "generatedAt": "2026-06-03T18:44:19.427Z",
   "ok": true,
   "fetchedCount": 140,
   "normalizedCount": 140,
@@ -130,7 +130,7 @@
   ],
   "reports": {
     "linkValidation": {
-      "generatedAt": "2026-06-03T18:22:40.953Z",
+      "generatedAt": "2026-06-03T18:44:19.521Z",
       "totalDeals": 140,
       "verificationTargets": 140,
       "passedDirectLinks": 140,
@@ -205,6 +205,16 @@
         "failedItems": 0,
         "averagePriorityScore": 100
       },
+      "liveProbeReviewSummary": {
+        "status": "disabled",
+        "hardFailureCount": 0,
+        "accessProtectedCount": 0,
+        "sellerUnavailableSignals": 0,
+        "interpretation": "Live probe is disabled for this run."
+      },
+      "liveProbeReasonCounts": {},
+      "liveProbeHostFailureCounts": {},
+      "hardLiveProbeFailures": [],
       "auditedItems": [
         {
           "id": "d001",
@@ -4321,7 +4331,7 @@
       "issues": []
     },
     "productQuality": {
-      "generatedAt": "2026-06-03T18:22:41.052Z",
+      "generatedAt": "2026-06-03T18:44:19.618Z",
       "totalProducts": 140,
       "passedProducts": 140,
       "failedProducts": 0,
@@ -4381,8 +4391,8 @@
       "command": "node scripts/verify-product-links.mjs",
       "ok": true,
       "status": 0,
-      "startedAt": "2026-06-03T18:22:40.874Z",
-      "finishedAt": "2026-06-03T18:22:40.978Z",
+      "startedAt": "2026-06-03T18:44:19.442Z",
+      "finishedAt": "2026-06-03T18:44:19.546Z",
       "stdout": "Product link verification passed: 140/140 verified purchase URLs (100%).\n- Distinct purchase hosts: 48\n- Product detail URLs: 109\n- Official benefit/event URLs: 31",
       "stderr": ""
     },
@@ -4391,8 +4401,8 @@
       "command": "node scripts/verify-products.mjs",
       "ok": true,
       "status": 0,
-      "startedAt": "2026-06-03T18:22:40.978Z",
-      "finishedAt": "2026-06-03T18:22:41.063Z",
+      "startedAt": "2026-06-03T18:44:19.546Z",
+      "finishedAt": "2026-06-03T18:44:19.629Z",
       "stdout": "Product quality verification passed.\n- Total products: 140\n- Visible products: 140\n- Hidden products: 0\n- Search links exposed: 0",
       "stderr": ""
     }
