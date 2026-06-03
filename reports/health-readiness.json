@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-03T16:07:46.525Z",
+  "generatedAt": "2026-06-03T16:47:12.736Z",
   "score": 100,
   "thresholds": {
     "productDealsCount": 140,
@@ -8,7 +8,8 @@
     "officialBenefits": 25,
     "newsCategories": 10,
     "minimumCategoryDealCount": 2,
-    "freshnessHours": 24
+    "freshnessHours": 24,
+    "cronRefreshStaleHours": 12
   },
   "product": {
     "productDealsCount": 140,
@@ -31,7 +32,7 @@
     "expiredCount": 0,
     "officialMissingCount": 0,
     "failedCount": 0,
-    "freshnessHours": 0,
+    "freshnessHours": 0.7,
     "readyCategories": 10,
     "requiredCategories": 10,
     "minimumCategoryDealCount": 2,
@@ -200,6 +201,23 @@
       }
     ]
   },
+  "cronRefresh": {
+    "ok": true,
+    "status": "manual_refresh_ready",
+    "label": "수동 갱신 기준 정상",
+    "reportPath": "reports/cron-refresh.json",
+    "reportExists": false,
+    "generatedAt": "",
+    "ageHours": null,
+    "command": "node scripts/refresh-all.mjs",
+    "schedule": "0 */6 * * *",
+    "protected": true,
+    "durationMs": 0,
+    "productDealsCount": 140,
+    "newsDealsCount": 26,
+    "failedCount": 0,
+    "message": "아직 cron 직접 실행 리포트는 없지만 refresh:all 수동 리포트는 정상입니다."
+  },
   "checks": [
     {
       "name": "product count floor",
@@ -244,12 +262,17 @@
     {
       "name": "official benefit freshness",
       "ok": true,
-      "detail": "Official benefit report freshness is 0h."
+      "detail": "Official benefit report freshness is 0.7h."
     },
     {
       "name": "refresh all pipeline",
       "ok": true,
       "detail": "refresh:all completed successfully."
+    },
+    {
+      "name": "cron refresh operations",
+      "ok": true,
+      "detail": "Cron refresh status=manual_refresh_ready; report=manual refresh fallback."
     },
     {
       "name": "provider stats coverage",

@@ -6,6 +6,7 @@ const reportsDir = join(root, "reports");
 const docsDir = join(root, "docs");
 const reportJsonPath = "reports/health-readiness.json";
 const reportDocsPath = "docs/HEALTH_READINESS_REPORT.md";
+const cronReportPath = "reports/cron-refresh.json";
 
 const requiredNewsCategories = [
   "식품/생필품",
@@ -21,6 +22,7 @@ const requiredNewsCategories = [
 ];
 const minimumCategoryDealCount = 2;
 const freshnessLimitHours = 24;
+const cronRefreshStaleHours = 12;
 
 function readJson(path, fallback) {
   const fullPath = join(root, path);
@@ -62,6 +64,7 @@ const productQuality = readJson("reports/product-quality.json", {});
 const newsQuality = readJson("reports/news-deals.json", {});
 const refreshAll = readJson("reports/refresh-all.json", {});
 const refreshDeals = readJson("reports/refresh-deals.json", {});
+const cronRefreshReport = readJson(cronReportPath, {});
 
 const productDealsCount = Number(refreshAll.productDealsCount ?? productQuality.totalProducts ?? linkValidation.totalDeals ?? 0);
 const visibleProducts = Number(productQuality.visibleProducts ?? linkValidation.visibleDeals ?? 0);
@@ -88,6 +91,24 @@ const readyNewsCategories = requiredNewsCategories.filter((category) => Number(c
 
 const refreshSteps = Array.isArray(refreshAll.steps) ? refreshAll.steps : [];
 const failedRefreshSteps = refreshSteps.filter((step) => !step.ok).map((step) => step.name);
+const cronRefreshReportExists = existsSync(join(root, cronReportPath));
+const cronRefreshAgeHours = hoursSince(cronRefreshReport.generatedAt);
+const cronRefreshStatus = !cronRefreshReportExists
+  ? "manual_refresh_ready"
+  : cronRefreshReport.ok === false
+    ? "failed"
+    : cronRefreshAgeHours > cronRefreshStaleHours
+      ? "stale"
+      : "healthy";
+const cronRefreshOk = ["healthy", "manual_refresh_ready"].includes(cronRefreshStatus) && refreshAll.ok === true;
+const cronRefreshLabel =
+  cronRefreshStatus === "healthy"
+    ? "자동 갱신 정상"
+    : cronRefreshStatus === "manual_refresh_ready"
+      ? "수동 갱신 기준 정상"
+      : cronRefreshStatus === "stale"
+        ? "cron 재실행 필요"
+        : "cron 실패 확인";
 const providerStats = {
   product: Array.isArray(refreshAll.providerStats?.product) ? refreshAll.providerStats.product : Array.isArray(refreshDeals.providerStats) ? refreshDeals.providerStats : [],
   news: Array.isArray(refreshAll.providerStats?.news) ? refreshAll.providerStats.news : Array.isArray(newsQuality.providerStats) ? newsQuality.providerStats : []
@@ -174,6 +195,9 @@ const checks = [
   refreshAll.ok === true && failedRefreshSteps.length === 0
     ? pass("refresh all pipeline", "refresh:all completed successfully.")
     : fail("refresh all pipeline", `refresh:all failed or missing. Failed steps: ${failedRefreshSteps.join(", ") || "unknown"}.`),
+  cronRefreshOk
+    ? pass("cron refresh operations", `Cron refresh status=${cronRefreshStatus}; report=${cronRefreshReportExists ? cronReportPath : "manual refresh fallback"}.`)
+    : fail("cron refresh operations", `Cron refresh status=${cronRefreshStatus}; run /api/cron/refresh or check ${cronReportPath}.`),
   providerStats.product.length >= 4 && providerStats.news.length >= 4
     ? pass("provider stats coverage", `Product providers=${providerStats.product.length}, news providers=${providerStats.news.length}.`)
     : fail("provider stats coverage", `Product providers=${providerStats.product.length}, news providers=${providerStats.news.length}.`),
@@ -194,7 +218,8 @@ const report = {
     officialBenefits: 25,
     newsCategories: requiredNewsCategories.length,
     minimumCategoryDealCount,
-    freshnessHours: freshnessLimitHours
+    freshnessHours: freshnessLimitHours,
+    cronRefreshStaleHours
   },
   product: {
     productDealsCount,
@@ -242,6 +267,23 @@ const report = {
       finishedAt: step.finishedAt
     }))
   },
+  cronRefresh: {
+    ok: cronRefreshOk,
+    status: cronRefreshStatus,
+    label: cronRefreshLabel,
+    reportPath: cronReportPath,
+    reportExists: cronRefreshReportExists,
+    generatedAt: cronRefreshReport.generatedAt ?? "",
+    ageHours: Number.isFinite(cronRefreshAgeHours) ? cronRefreshAgeHours : null,
+    command: cronRefreshReport.command ?? "node scripts/refresh-all.mjs",
+    schedule: "0 */6 * * *",
+    protected: true,
+    durationMs: Number(cronRefreshReport.durationMs ?? 0),
+    productDealsCount: Number((cronRefreshReport.refreshAll ?? refreshAll).productDealsCount ?? productDealsCount),
+    newsDealsCount: Number((cronRefreshReport.refreshAll ?? refreshAll).newsDealsCount ?? newsVisibleCount),
+    failedCount: Number((cronRefreshReport.refreshAll ?? refreshAll).failedCount ?? 0),
+    message: cronRefreshReport.message ?? "아직 cron 직접 실행 리포트는 없지만 refresh:all 수동 리포트는 정상입니다."
+  },
   checks
 };
 
@@ -270,6 +312,7 @@ const docsLines = [
   `- 공식 혜택 Provider 위험도: 정상 ${officialBenefitProviderRiskSummary.healthy}개 · 관찰 ${officialBenefitProviderRiskSummary.watch}개 · 즉시 점검 ${officialBenefitProviderRiskSummary.danger}개`,
   `- 공식 혜택 리포트 신선도: ${formatValue(newsFreshnessHours)}시간`,
   `- refresh:all 상태: ${refreshAll.ok === true ? "PASS" : "FAIL"}`,
+  `- cron refresh 상태: ${cronRefreshLabel} (${cronRefreshStatus})`,
   "",
   "## 카테고리 커버리지",
   "",
@@ -299,6 +342,16 @@ const docsLines = [
   ...(officialBenefitProviderRisks.length
     ? officialBenefitProviderRisks.map((risk) => `| ${risk.provider} | ${risk.label} | ${risk.source} | ${risk.visibleCount} | ${risk.issueCount} | ${risk.failureRate}% | ${risk.reason} |`)
     : ["| 없음 | 리포트 없음 | - | 0 | 0 | 0% | provider risk 리포트가 없습니다. |"]),
+  "",
+  "## 자동 refresh cron 운영",
+  "",
+  `- 상태: ${cronRefreshLabel} (${cronRefreshStatus})`,
+  `- 스케줄: 0 */6 * * *`,
+  `- 보호 여부: CRON_SECRET 또는 관리자 토큰 필요`,
+  `- 리포트: ${cronReportPath} (${cronRefreshReportExists ? "존재" : "아직 없음"})`,
+  `- 마지막 실행: ${cronRefreshReport.generatedAt ?? "직접 실행 전"}`,
+  `- 상품/뉴스 건수: ${Number((cronRefreshReport.refreshAll ?? refreshAll).productDealsCount ?? productDealsCount)} / ${Number((cronRefreshReport.refreshAll ?? refreshAll).newsDealsCount ?? newsVisibleCount)}`,
+  `- 메시지: ${cronRefreshReport.message ?? "아직 cron 직접 실행 리포트는 없지만 refresh:all 수동 리포트는 정상입니다."}`,
   "",
   "## 게이트",
   "",

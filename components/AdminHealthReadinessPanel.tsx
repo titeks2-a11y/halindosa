@@ -54,6 +54,11 @@ export function AdminHealthReadinessPanel({ report, apiHref }: AdminHealthReadin
       label: "refresh:all",
       value: report.refreshAll.ok ? "정상" : "점검",
       detail: `갱신 ${formatDate(report.refreshAll.generatedAt)}`
+    },
+    {
+      label: "cron refresh",
+      value: report.cronRefresh.ok ? "정상" : "점검",
+      detail: `${report.cronRefresh.schedule} · ${report.cronRefresh.reportExists ? formatDate(report.cronRefresh.generatedAt) : "수동 리포트 기준"}`
     }
   ];
 
@@ -78,7 +83,7 @@ export function AdminHealthReadinessPanel({ report, apiHref }: AdminHealthReadin
         </a>
       </div>
 
-      <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
         {healthCards.map((card) => (
           <div key={card.label} className="rounded-2xl bg-brand-warm p-4">
             <p className="text-xs font-black text-slate-500">{card.label}</p>

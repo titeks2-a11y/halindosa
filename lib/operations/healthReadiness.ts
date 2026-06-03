@@ -18,6 +18,7 @@ export interface HealthReadinessReport {
     newsCategories: number;
     minimumCategoryDealCount: number;
     freshnessHours: number;
+    cronRefreshStaleHours?: number;
   };
   product: {
     productDealsCount: number;
@@ -90,6 +91,23 @@ export interface HealthReadinessReport {
       finishedAt?: string;
     }>;
   };
+  cronRefresh: {
+    ok: boolean;
+    status: "healthy" | "manual_refresh_ready" | "stale" | "failed" | string;
+    label: string;
+    reportPath: string;
+    reportExists: boolean;
+    generatedAt: string;
+    ageHours: number | null;
+    command: string;
+    schedule: string;
+    protected: boolean;
+    durationMs: number;
+    productDealsCount: number;
+    newsDealsCount: number;
+    failedCount: number;
+    message: string;
+  };
   checks: HealthReadinessCheck[];
 }
 
@@ -103,7 +121,8 @@ const fallbackReport: HealthReadinessReport = {
     officialBenefits: 25,
     newsCategories: 10,
     minimumCategoryDealCount: 2,
-    freshnessHours: 24
+    freshnessHours: 24,
+    cronRefreshStaleHours: 12
   },
   product: {
     productDealsCount: 0,
@@ -150,6 +169,23 @@ const fallbackReport: HealthReadinessReport = {
     failedSteps: [],
     steps: []
   },
+  cronRefresh: {
+    ok: false,
+    status: "manual_refresh_ready",
+    label: "수동 갱신 기준 정상",
+    reportPath: "reports/cron-refresh.json",
+    reportExists: false,
+    generatedAt: "",
+    ageHours: null,
+    command: "node scripts/refresh-all.mjs",
+    schedule: "0 */6 * * *",
+    protected: true,
+    durationMs: 0,
+    productDealsCount: 0,
+    newsDealsCount: 0,
+    failedCount: 0,
+    message: "Run npm run refresh:all && npm run health:readiness before release review."
+  },
   checks: [
     {
       name: "health readiness report",
@@ -173,6 +209,7 @@ export function getHealthReadinessReport(): HealthReadinessReport {
       product: { ...fallbackReport.product, ...report.product },
       officialBenefits: { ...fallbackReport.officialBenefits, ...report.officialBenefits },
       refreshAll: { ...fallbackReport.refreshAll, ...report.refreshAll },
+      cronRefresh: { ...fallbackReport.cronRefresh, ...report.cronRefresh },
       checks: Array.isArray(report.checks) ? report.checks : fallbackReport.checks
     };
   } catch {

@@ -2,7 +2,7 @@
 
 이 문서는 상품 링크, 공식 혜택, refresh 파이프라인이 실제 출시 운영 기준을 만족하는지 요약합니다.
 
-- 생성 시각: 2026-06-03T16:07:46.525Z
+- 생성 시각: 2026-06-03T16:47:12.736Z
 - 운영 준비 점수: 100/100
 - 상태: PASS
 
@@ -16,8 +16,9 @@
 - 공식 혜택 카테고리 커버리지: 10/10
 - 공식 혜택 Provider: 4개 (feed 연결 0개)
 - 공식 혜택 Provider 위험도: 정상 0개 · 관찰 4개 · 즉시 점검 0개
-- 공식 혜택 리포트 신선도: 0시간
+- 공식 혜택 리포트 신선도: 0.7시간
 - refresh:all 상태: PASS
+- cron refresh 상태: 수동 갱신 기준 정상 (manual_refresh_ready)
 
 ## 카테고리 커버리지
 
@@ -52,6 +53,16 @@
 | official_event | seed 운영 | official_event_page_feed | 16 | 0 | 0% | 승인된 seed/fallback으로 운영 중입니다. |
 | public_coupon | seed 운영 | public_coupon_and_culture_benefit_feed | 5 | 0 | 0% | 승인된 seed/fallback으로 운영 중입니다. |
 
+## 자동 refresh cron 운영
+
+- 상태: 수동 갱신 기준 정상 (manual_refresh_ready)
+- 스케줄: 0 */6 * * *
+- 보호 여부: CRON_SECRET 또는 관리자 토큰 필요
+- 리포트: reports/cron-refresh.json (아직 없음)
+- 마지막 실행: 직접 실행 전
+- 상품/뉴스 건수: 140 / 26
+- 메시지: 아직 cron 직접 실행 리포트는 없지만 refresh:all 수동 리포트는 정상입니다.
+
 ## 게이트
 
 | 게이트 | 상태 | 상세 |
@@ -64,8 +75,9 @@
 | official benefit count floor | PASS | 26 official benefit deals are visible. |
 | official benefit category coverage | PASS | All 10 required categories have at least 2 visible benefits. |
 | official benefit hidden/failed queue | PASS | No hidden, expired, non-official, or failed official benefit links are exposed. |
-| official benefit freshness | PASS | Official benefit report freshness is 0h. |
+| official benefit freshness | PASS | Official benefit report freshness is 0.7h. |
 | refresh all pipeline | PASS | refresh:all completed successfully. |
+| cron refresh operations | PASS | Cron refresh status=manual_refresh_ready; report=manual refresh fallback. |
 | provider stats coverage | PASS | Product providers=6, news providers=4. |
 | provider risk gate | PASS | Official benefit providers danger=0, watch=4. |
 

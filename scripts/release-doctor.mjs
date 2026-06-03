@@ -3839,7 +3839,7 @@ function checkHealthReadinessReport() {
   if (!String(packageJson.scripts?.["qa:release"] ?? "").includes("health:readiness")) {
     issues.push("qa:release should include health:readiness before release submission reports");
   }
-  for (const phrase of ["productVerificationRate", "official benefit category coverage", "provider risk gate", "refresh all pipeline", "reports/health-readiness.json", "docs/HEALTH_READINESS_REPORT.md"]) {
+  for (const phrase of ["productVerificationRate", "official benefit category coverage", "provider risk gate", "refresh all pipeline", "cron refresh operations", "reports/health-readiness.json", "docs/HEALTH_READINESS_REPORT.md"]) {
     if (!healthScript.includes(phrase)) issues.push(`health readiness script missing ${phrase}`);
   }
   if (!healthApiRoute.includes("getHealthReadinessReport") || !healthApiRoute.includes("canAccessAdmin") || !healthApiRoute.includes("admin-health-readiness")) {
@@ -3848,10 +3848,10 @@ function checkHealthReadinessReport() {
   if (!adminPage.includes("AdminHealthReadinessPanel") || !adminPage.includes("healthReadinessApiHref") || !adminPage.includes("/api/admin/health-readiness")) {
     issues.push("admin page should expose health readiness panel and API link");
   }
-  for (const phrase of ["운영 헬스 리포트", "검증 상품·공식 혜택 출시 게이트", "공식 혜택 카테고리 커버리지", "공식 혜택 Provider 위험도", "refresh:all"]) {
+  for (const phrase of ["운영 헬스 리포트", "검증 상품·공식 혜택 출시 게이트", "공식 혜택 카테고리 커버리지", "공식 혜택 Provider 위험도", "refresh:all", "cron refresh"]) {
     if (!adminHealthPanel.includes(phrase)) issues.push(`admin health readiness panel missing ${phrase}`);
   }
-  if (!smokeScript.includes("admin health readiness api") || !smokeScript.includes("/api/admin/health-readiness") || !smokeScript.includes("운영 헬스 리포트")) {
+  if (!smokeScript.includes("admin health readiness api") || !smokeScript.includes("/api/admin/health-readiness") || !smokeScript.includes("운영 헬스 리포트") || !smokeScript.includes("Admin health readiness should expose cron refresh status")) {
     issues.push("smoke tests should cover admin health readiness API and dashboard panel");
   }
   if (!releaseEvidence.includes("HEALTH_READINESS_REPORT.md") || !releaseEvidence.includes("health-readiness.json")) {
@@ -3863,8 +3863,8 @@ function checkHealthReadinessReport() {
   if (!roadmap.includes("운영 헬스 리포트") || !roadmap.includes("health:readiness")) {
     issues.push("roadmap should document the operational health readiness gate");
   }
-  if (!docsReport.includes("운영 헬스 리포트") || !docsReport.includes("검색 링크 노출") || !docsReport.includes("카테고리 커버리지") || !docsReport.includes("공식 혜택 Provider 상태") || !docsReport.includes("공식 혜택 Provider 위험도")) {
-    issues.push("docs/HEALTH_READINESS_REPORT.md should summarize search exposure, category coverage, official benefit provider status, and provider risk");
+  if (!docsReport.includes("운영 헬스 리포트") || !docsReport.includes("검색 링크 노출") || !docsReport.includes("카테고리 커버리지") || !docsReport.includes("공식 혜택 Provider 상태") || !docsReport.includes("공식 혜택 Provider 위험도") || !docsReport.includes("자동 refresh cron 운영")) {
+    issues.push("docs/HEALTH_READINESS_REPORT.md should summarize search exposure, category coverage, official benefit provider status, provider risk, and cron refresh operation");
   }
 
   if (report.ok !== true) issues.push("health readiness report should pass");
@@ -3896,9 +3896,18 @@ function checkHealthReadinessReport() {
   if (report.refreshAll?.ok !== true || (report.refreshAll?.failedSteps ?? []).length) {
     issues.push("health readiness should require refresh:all success and zero failed steps");
   }
+  if (!["healthy", "manual_refresh_ready"].includes(report.cronRefresh?.status) || report.cronRefresh?.ok !== true) {
+    issues.push(`health readiness should show cron refresh launch-safe status, got ${report.cronRefresh?.status ?? "missing"}`);
+  }
+  if (report.cronRefresh?.protected !== true || report.cronRefresh?.schedule !== "0 */6 * * *" || report.cronRefresh?.reportPath !== "reports/cron-refresh.json") {
+    issues.push("health readiness should expose protected 6-hour cron refresh report metadata");
+  }
+  if ((report.cronRefresh?.productDealsCount ?? 0) < 140 || (report.cronRefresh?.newsDealsCount ?? 0) < 25) {
+    issues.push("health readiness cron refresh summary should preserve product/news counts");
+  }
 
   if (issues.length) fail("operational health readiness", issues.join("; "));
-  else pass("operational health readiness", "Health readiness report proves product links, official benefits, category coverage, provider risk, freshness, and refresh:all status are launch-ready.");
+  else pass("operational health readiness", "Health readiness report proves product links, official benefits, category coverage, provider risk, freshness, refresh:all, and cron refresh status are launch-ready.");
 }
 
 function checkCronRefreshPipeline() {

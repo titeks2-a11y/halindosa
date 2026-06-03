@@ -543,7 +543,7 @@ await check("admin dashboard quality cards", async () => {
   assert(response.status === 200, `Expected 200, got ${response.status}`);
   assert(text.includes("운영 대시보드"), "Admin dashboard missing title");
   assert(text.includes("운영 헬스 리포트") && text.includes("검증 상품·공식 혜택 출시 게이트"), "Admin dashboard missing health readiness panel");
-  assert(text.includes("운영 준비 점수") && text.includes("상품 링크") && text.includes("공식 혜택") && text.includes("refresh:all"), "Admin dashboard missing health readiness summary cards");
+  assert(text.includes("운영 준비 점수") && text.includes("상품 링크") && text.includes("공식 혜택") && text.includes("refresh:all") && text.includes("cron refresh"), "Admin dashboard missing health readiness summary cards");
   assert(text.includes("공식 혜택 카테고리 커버리지") && text.includes("공식 혜택 Provider 상태") && text.includes("공식 혜택 Provider 위험도") && text.includes("API 보기"), "Admin dashboard missing health readiness category/provider risk/API controls");
   assert(text.includes("뉴스 수집 현황") && text.includes("공식 이벤트·무료 혜택 feed 후보"), "Admin dashboard missing news collection status");
   assert(text.includes("공식 피드 전환 준비도") && text.includes("공식 API/RSS/제휴 feed") && text.includes("seed fallback"), "Admin dashboard missing official feed transition readiness panel");
@@ -765,6 +765,11 @@ await check("admin health readiness api", async () => {
   assert(data.report.officialBenefits.providerRisks.every((risk) => risk.provider && risk.label && ["healthy", "watch", "danger"].includes(risk.severity)), "Admin health readiness provider risks missing launch fields");
   assert(data.report?.officialBenefits?.providerRiskSummary?.danger === 0, "Admin health readiness should show zero danger official benefit providers");
   assert(data.report?.refreshAll?.ok === true, "Admin health readiness should show refresh:all success");
+  assert(["healthy", "manual_refresh_ready", "stale", "failed"].includes(data.report?.cronRefresh?.status), "Admin health readiness should expose cron refresh status");
+  assert(data.report?.cronRefresh?.protected === true, "Admin health readiness should expose protected cron refresh evidence");
+  assert(data.report?.cronRefresh?.schedule === "0 */6 * * *", "Admin health readiness should expose 6-hour cron refresh schedule");
+  assert(data.report?.cronRefresh?.productDealsCount >= 140, "Admin health readiness should expose cron product count");
+  assert(data.report?.cronRefresh?.newsDealsCount >= 25, "Admin health readiness should expose cron news count");
   assert(Array.isArray(data.report?.checks) && data.report.checks.every((check) => check.ok), "Admin health readiness checks should all pass");
 });
 
