@@ -1,6 +1,6 @@
 # 할인도사 Link Verification Report
 
-Generated: 2026-06-03T09:41:14.709Z
+Generated: 2026-06-03T09:56:21.665Z
 
 ## Summary
 

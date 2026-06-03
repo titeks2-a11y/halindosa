@@ -41,7 +41,13 @@ const missingVerifiedIds = dealIds.filter((id) => !verifiedLinkIds.has(id));
 const issues = [];
 
 const requiredTypeFields = [
+  "source",
+  "mallName",
+  "originalUrl",
+  "finalUrl",
+  "affiliateUrl",
   "eventUrl",
+  "linkType",
   "availability",
   "validationStatus",
   "validationReason",
@@ -73,6 +79,14 @@ for (const phrase of [
 
 if (!repository.includes("deals.filter(isPubliclyVisibleDeal)")) {
   issues.push("public getDeals 결과가 isPubliclyVisibleDeal로 필터링되지 않습니다.");
+}
+
+if (!repository.includes("availability === \"active\"") && !quality.includes("availability === \"active\"")) {
+  issues.push("노출 정책에 availability=active 조건이 없습니다.");
+}
+
+if (!quality.includes("validationStatus === \"passed\"") || !quality.includes("deal.isHidden !== true")) {
+  issues.push("노출 정책에 validationStatus=passed 및 isHidden=false 조건이 없습니다.");
 }
 
 if (!affiliate.includes('return ""') || !affiliate.includes("isVerifiedPurchaseLink(deal)")) {

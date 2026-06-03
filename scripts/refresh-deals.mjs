@@ -103,6 +103,10 @@ function cleanText(value) {
     .trim();
 }
 
+function firstNonEmptyUrl(...values) {
+  return values.map((value) => cleanText(value)).find(Boolean) ?? "";
+}
+
 function toNumber(value, fallback = 0) {
   const numeric = typeof value === "number" ? value : Number(String(value ?? "").replace(/[^0-9.-]/g, ""));
   return Number.isFinite(numeric) && numeric >= 0 ? numeric : fallback;
@@ -459,7 +463,19 @@ async function collectProviderItems() {
 function normalizeCollectedItem(raw, index) {
   const title = cleanText(raw.title ?? raw.productName ?? raw.name);
   const mallName = cleanText(raw.mallName ?? raw.mall ?? raw.seller ?? raw.sourceProvider ?? "할인도사");
-  const finalUrl = cleanText(raw.finalPurchaseUrl ?? raw.finalUrl ?? raw.purchaseUrl ?? raw.productUrl ?? raw.url ?? raw.link);
+  const finalUrl = firstNonEmptyUrl(
+    raw.affiliateUrl,
+    raw.verifiedProductUrl,
+    raw.finalPurchaseUrl,
+    raw.finalUrl,
+    raw.productUrl,
+    raw.purchaseUrl,
+    raw.originalUrl,
+    raw.eventUrl,
+    raw.url,
+    raw.link,
+    raw.searchUrl
+  );
   const salePrice = toNumber(raw.salePrice ?? raw.price ?? raw.lprice);
   const originalPrice = Math.max(toNumber(raw.originalPrice ?? raw.listPrice ?? raw.hprice, salePrice), salePrice);
   const discountRate = toNumber(raw.discountRate, originalPrice > salePrice ? Math.round(((originalPrice - salePrice) / originalPrice) * 100) : 0);
@@ -489,7 +505,8 @@ function normalizeCollectedItem(raw, index) {
       imageUrl: cleanText(raw.imageUrl ?? raw.thumbnail ?? raw.image),
       finalUrl,
       finalPurchaseUrl: finalUrl,
-      productUrl: cleanText(raw.productUrl) || finalUrl,
+      productUrl: cleanText(raw.productUrl) || cleanText(raw.verifiedProductUrl) || finalUrl,
+      verifiedProductUrl: cleanText(raw.verifiedProductUrl),
       purchaseUrl: cleanText(raw.purchaseUrl) || finalUrl,
       originalUrl: cleanText(raw.originalUrl) || finalUrl,
       affiliateUrl: cleanText(raw.affiliateUrl),
@@ -578,7 +595,15 @@ for (const deal of normalizedDeals) {
 }
 
 const dedupedDeals = dedupeDeals(validatedDeals);
-const visibleDeals = dedupedDeals.filter((deal) => !deal.isHidden && deal.validationStatus === "passed" && deal.availability === "active" && deal.linkType !== "search");
+const visibleDeals = dedupedDeals.filter(
+  (deal) =>
+    !deal.isHidden &&
+    deal.validationStatus === "passed" &&
+    deal.availability === "active" &&
+    deal.linkType !== "search" &&
+    deal.linkType !== "unavailable" &&
+    Boolean(deal.finalUrl || deal.finalPurchaseUrl)
+);
 const hiddenDeals = dedupedDeals.filter((deal) => !visibleDeals.some((visible) => visible.id === deal.id));
 const liveProbeSummary = {
   enabled: shouldLiveProbe,

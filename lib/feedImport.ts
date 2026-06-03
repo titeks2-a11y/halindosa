@@ -11,9 +11,12 @@ export interface PartnerFeedItem {
   salePrice?: number;
   imageUrl?: string;
   link?: string;
+  finalUrl?: string;
   productUrl?: string;
+  verifiedProductUrl?: string;
   purchaseUrl?: string;
   affiliateUrl?: string;
+  eventUrl?: string;
   finalPurchaseUrl?: string;
   searchUrl?: string;
   originalUrl?: string;
@@ -179,11 +182,14 @@ function normalizeCategory(category?: string): DealCategory {
 function getPrimaryPurchaseUrl(item: PartnerFeedItem) {
   return (
     item.affiliateUrl?.trim() ||
+    item.verifiedProductUrl?.trim() ||
     item.finalPurchaseUrl?.trim() ||
+    item.finalUrl?.trim() ||
     item.productUrl?.trim() ||
     item.purchaseUrl?.trim() ||
-    item.link?.trim() ||
     item.originalUrl?.trim() ||
+    item.eventUrl?.trim() ||
+    item.link?.trim() ||
     item.searchUrl?.trim() ||
     ""
   );
@@ -254,7 +260,7 @@ export function validatePartnerFeed(items: PartnerFeedItem[]) {
     } else if (isValidUrl(primaryUrl) && !looksLikeProductDetailUrl(primaryUrl) && !looksLikeOfficialBenefitDetailUrl(primaryUrl, item)) {
       issues.push({ index, field: "productUrl", message: "상품 상세 또는 공식 혜택 상세 URL 패턴이 확인되지 않아 운영 반영 전 수동 검수가 필요합니다." });
     }
-    (["affiliateUrl", "finalPurchaseUrl", "productUrl", "purchaseUrl", "link", "originalUrl", "searchUrl", "sourceUrl"] as const).forEach((field) => {
+    (["affiliateUrl", "verifiedProductUrl", "finalPurchaseUrl", "finalUrl", "productUrl", "purchaseUrl", "originalUrl", "eventUrl", "link", "searchUrl", "sourceUrl"] as const).forEach((field) => {
       validateUrlField(issues, item, index, field);
     });
     validateImageUrl(issues, item, index);
@@ -299,7 +305,7 @@ export function validatePartnerFeed(items: PartnerFeedItem[]) {
 function buildRowSummary(items: PartnerFeedItem[], issues: FeedImportIssue[]): FeedImportRowSummary[] {
   return items.map((item, index) => {
     const rowIssues = issues.filter((issue) => issue.index === index);
-    const primaryField = (["affiliateUrl", "finalPurchaseUrl", "productUrl", "purchaseUrl", "link", "originalUrl", "searchUrl"] as const).find(
+    const primaryField = (["affiliateUrl", "verifiedProductUrl", "finalPurchaseUrl", "finalUrl", "productUrl", "purchaseUrl", "originalUrl", "eventUrl", "link", "searchUrl"] as const).find(
       (field) => typeof item[field] === "string" && item[field]?.trim()
     );
 
@@ -344,9 +350,12 @@ export function normalizePartnerFeed(items: PartnerFeedItem[], source = "partner
       link: primaryUrl,
       url: item.link ?? primaryUrl,
       productUrl: item.productUrl,
+      verifiedProductUrl: item.verifiedProductUrl,
       purchaseUrl: item.purchaseUrl,
       affiliateUrl: item.affiliateUrl,
+      finalUrl: item.finalUrl,
       finalPurchaseUrl: item.finalPurchaseUrl,
+      eventUrl: item.eventUrl,
       searchUrl,
       originalUrl: item.originalUrl ?? item.link ?? primaryUrl,
       sourceName: item.sourceName ?? mall,

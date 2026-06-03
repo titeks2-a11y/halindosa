@@ -27,6 +27,9 @@
 - 관리자 대시보드에 출시 운영 핵심 지표, 오늘 신규, 노출 가능, 숨김, 실패/종료, Provider 수집량, 인기 TOP20, 찜 TOP20, Push readiness API 연결을 추가했다.
 - `/api/admin/push/send`와 `lib/pushNotifications.ts`를 추가해 FCM 환경변수가 설정되면 실제 발송 요청을 처리하고, 설정 전에는 dry-run/readiness로 안전하게 검증하도록 구조화했다.
 - `/admin`에 `FCM 테스트 발송 dry-run` 패널을 추가해 검증 상품/공식 혜택 캠페인 payload를 테스트 토큰으로 검증하고, 실제 발송은 FCM 설정과 명시적 확인 체크가 있을 때만 가능하도록 운영 안전장치를 마련했다.
+- 링크 후보 우선순위를 `affiliateUrl -> verifiedProductUrl -> finalPurchaseUrl/finalUrl -> productUrl/purchaseUrl -> originalUrl/eventUrl -> link -> searchUrl`로 정리해 파트너/공식 feed가 검색 URL을 함께 보내도 검증된 상세 URL을 먼저 판정하도록 강화했다.
+- Provider 사전 검증에서 커뮤니티/placeholder/대표몰/검색 URL을 `valid`로 세지 않도록 막고, 공개 API는 `availability=active`, `validationStatus=passed`, `isHidden=false`, `linkType`이 검색/이동불가가 아닌 상품만 노출하도록 QA 게이트를 상향했다.
+- `/go`와 `/api/redirect` 외부 이동 allowlist에 공식 혜택 도메인을 보강해 검증된 카드/멤버십/문화/편의점/외식/공식 이벤트 링크가 410으로 막히지 않고 새 탭 이동 검증을 통과하도록 개선했다.
 
 ### PHASE 24H Commercial Autopilot Hardening
 

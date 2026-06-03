@@ -940,6 +940,9 @@ async function checkPartnerFeedSafety() {
     fail("partner feed unsafe link guard", "Smoke tests should cover unsafe partner feed links.");
   } else if (
     !feedImport.includes("getPrimaryPurchaseUrl") ||
+    !feedImport.includes("item.verifiedProductUrl?.trim()") ||
+    !feedImport.includes("item.originalUrl?.trim()") ||
+    !feedImport.includes("item.eventUrl?.trim()") ||
     !feedImport.includes("finalPurchaseUrl") ||
     !feedImport.includes("sourceName") ||
     !feedImport.includes("sourceUrl") ||
@@ -987,7 +990,14 @@ async function checkPartnerFeedSafety() {
 
   if (!linkValidator.includes("export function validatePurchaseLink") || !linkValidator.includes("export async function probePurchaseLink") || !linkValidator.includes("isKnownProductDetailUrl") || !linkValidator.includes("isSearchOrCategoryUrl")) {
     fail("purchase link validator", "lib/deals/linkValidator.ts should classify product detail, search/category, home, placeholder, community links, and support optional HTTP probing.");
-  } else if (!normalizer.includes("validatePurchaseLink") || missingTypeFields.length || missingSmokeFields.length) {
+  } else if (
+    !normalizer.includes("validatePurchaseLink") ||
+    !normalizer.includes("input.affiliateUrl") ||
+    !normalizer.includes("input.verifiedProductUrl") ||
+    !normalizer.includes("input.searchUrl") ||
+    missingTypeFields.length ||
+    missingSmokeFields.length
+  ) {
     fail("purchase link validator", `Purchase link fields should be typed, normalized, and smoke-tested. Missing type: ${missingTypeFields.join(", ") || "none"}, smoke: ${missingSmokeFields.join(", ") || "none"}`);
   } else {
     pass("purchase link validator", "Deal normalization exposes purchase link verification fields and smoke tests cover them.");
@@ -1853,6 +1863,7 @@ async function checkOperationalDataSurfaces() {
   const purchaseConfirmSheet = await text("components/PurchaseConfirmSheet.tsx");
   const dealDetailActions = await text("components/DealDetailActions.tsx");
   const quality = await text("lib/deals/quality.ts");
+  const affiliate = await text("lib/affiliate.ts");
   const dealRepository = await text("lib/deals/dealRepository.ts");
   const categoriesPage = await text("app/categories/page.tsx");
   const notificationsPage = await text("app/notifications/page.tsx");
@@ -2370,6 +2381,30 @@ async function checkOperationalDataSurfaces() {
     fail("shared link quality rules", "Home, repository, featured sections, cards, live feed, and purchase confirmation should use shared link quality rules and customer-facing quality notices.");
   } else {
     pass("shared link quality rules", "Verified purchase filtering, scoring, trust labels, and customer-facing quality notices use shared link quality rules.");
+  }
+
+  const requiredOfficialOutboundHosts = [
+    "kakaopay.com",
+    "payco.com",
+    "tmembership.co.kr",
+    "cgv.co.kr",
+    "bgfretail.com",
+    "homeplus.co.kr",
+    "yogiyo.co.kr",
+    "hyundaicard.com",
+    "shinhancard.com",
+    "bhc.co.kr",
+    "pay.naver.com"
+  ];
+  const missingOfficialOutboundHosts = requiredOfficialOutboundHosts.filter((host) => !affiliate.includes(`"${host}"`));
+
+  if (missingOfficialOutboundHosts.length || !smoke.includes('["d060", "cgv.co.kr"]') || !smoke.includes('["d073", "hyundaicard.com"]') || !smoke.includes('["d115", "bhc.co.kr"]')) {
+    fail(
+      "official benefit outbound allowlist",
+      `Verified official benefit links should remain openable through redirect routes. Missing hosts: ${missingOfficialOutboundHosts.join(", ") || "smoke coverage"}`
+    );
+  } else {
+    pass("official benefit outbound allowlist", "Verified official benefit domains are allowlisted and smoke-tested through redirect routes.");
   }
 
   if (

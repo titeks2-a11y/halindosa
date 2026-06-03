@@ -19,6 +19,7 @@ export type DealInput = Partial<Deal> & {
   link: string;
   url?: string;
   productUrl?: string;
+  verifiedProductUrl?: string;
   searchUrl?: string;
   originalUrl?: string;
   affiliateUrl?: string;
@@ -46,6 +47,10 @@ export type DealInput = Partial<Deal> & {
   tags?: string[];
 };
 
+function firstNonEmptyUrl(...values: Array<string | undefined>) {
+  return values.map((value) => value?.trim()).find((value): value is string => Boolean(value)) ?? "";
+}
+
 export function normalizeDeal(input: DealInput, source = input.source ?? "mock"): Deal {
   const mallName = input.mallName ?? input.mall ?? "할인도사";
   const thumbnail = input.thumbnail ?? input.imageUrl ?? "";
@@ -56,7 +61,19 @@ export function normalizeDeal(input: DealInput, source = input.source ?? "mock")
   const discountAmount = input.discountAmount ?? Math.max(0, input.originalPrice - input.salePrice);
   const discountRate = input.discountRate ?? Math.round((discountAmount / Math.max(input.originalPrice, 1)) * 100);
   const isFreeShipping = input.isFreeShipping ?? /무료배송|무배|네멤무료|로켓프레시/.test([shipping, ...tags].join(" "));
-  const rawLink = input.productUrl ?? input.purchaseUrl ?? input.url ?? input.link;
+  const rawLink = firstNonEmptyUrl(
+    input.affiliateUrl,
+    input.verifiedProductUrl,
+    input.finalPurchaseUrl,
+    input.finalUrl,
+    input.productUrl,
+    input.purchaseUrl,
+    input.originalUrl,
+    input.eventUrl,
+    input.url,
+    input.link,
+    input.searchUrl
+  );
   const priceCheckedAt = input.priceCheckedAt ?? input.verifiedAt ?? createdAt;
   const linkValidation = validatePurchaseLink({
     url: rawLink,
@@ -67,7 +84,7 @@ export function normalizeDeal(input: DealInput, source = input.source ?? "mock")
     linkType: input.linkType,
     checkedAt: input.checkedAt ?? input.verifiedAt ?? priceCheckedAt
   });
-  const link = input.finalPurchaseUrl ?? input.finalUrl ?? linkValidation.finalPurchaseUrl;
+  const link = firstNonEmptyUrl(input.affiliateUrl, input.finalPurchaseUrl, input.finalUrl, linkValidation.finalPurchaseUrl);
   const linkStatus = input.linkStatus ?? linkValidation.linkStatus;
   const linkType = input.linkType ?? linkValidation.linkType;
   const linkVerified = input.linkVerified ?? linkValidation.linkVerified;

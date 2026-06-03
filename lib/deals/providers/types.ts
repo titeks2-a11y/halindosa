@@ -113,13 +113,79 @@ function getCanonicalUrl(value: string) {
   }
 }
 
+function firstNonEmptyUrl(...values: unknown[]) {
+  return values
+    .map((value) => (typeof value === "string" ? value.trim() : ""))
+    .find((value) => value.length > 0) ?? "";
+}
+
+function parseHttpUrl(value?: string) {
+  if (!value) return null;
+
+  try {
+    const url = new URL(value);
+    if (url.protocol !== "https:" && url.protocol !== "http:") return null;
+    return url;
+  } catch {
+    return null;
+  }
+}
+
+function isBlockedProviderHost(host: string) {
+  return [
+    "ppomppu.co.kr",
+    "fmkorea.com",
+    "quasarzone.com",
+    "algumon.com",
+    "clien.net",
+    "ruliweb.com",
+    "dcinside.com",
+    "theqoo.net",
+    "instiz.net",
+    "coolenjoy.net",
+    "example.com"
+  ].some((candidate) => host === candidate || host.endsWith(`.${candidate}`) || host.includes(candidate));
+}
+
+function isProviderSearchOrHomeUrl(url: URL) {
+  const path = url.pathname.replace(/\/+$/, "").toLowerCase();
+  if (/\/product\/|\/products\/|\/goods\/|\/item\/|itemview|goodsdetail|detailview/i.test(`${url.pathname}${url.search}`)) return false;
+  if (/event|benefit|campaign|coupon|promotion/i.test(`${url.pathname}${url.search}${url.hash}`)) return false;
+  const value = `${url.hostname}${url.pathname}${url.search}`.toLowerCase();
+
+  return (
+    path === "" ||
+    path === "/" ||
+    path === "/main" ||
+    path === "/index" ||
+    [
+      "/search",
+      "search.",
+      "shopping/search",
+      "msearch",
+      "find",
+      "result",
+      "query=",
+      "keyword=",
+      "kwd=",
+      "sword=",
+      "wholesale-",
+      "/np/search",
+      "/productions/feed",
+      "/category",
+      "/categories",
+      "/display"
+    ].some((pattern) => value.includes(pattern))
+  );
+}
+
 export function normalizeProviderDeal(raw: unknown, providerName: DealProviderName): DealInput | null {
   if (!raw || typeof raw !== "object") return null;
 
   const item = raw as Record<string, unknown>;
   const title = String(item.title ?? item.productName ?? item.name ?? "").replace(/<[^>]+>/g, "").trim();
   const mallName = String(item.mallName ?? item.mall ?? item.seller ?? providerName).trim();
-  const link = String(item.finalPurchaseUrl ?? item.purchaseUrl ?? item.productUrl ?? item.url ?? item.link ?? "").trim();
+  const link = firstNonEmptyUrl(item.affiliateUrl, item.verifiedProductUrl, item.finalPurchaseUrl, item.finalUrl, item.productUrl, item.purchaseUrl, item.originalUrl, item.eventUrl, item.url, item.link, item.searchUrl);
   const salePrice = toNumber(item.salePrice ?? item.price ?? item.lprice);
   const originalPrice = Math.max(toNumber(item.originalPrice ?? item.listPrice ?? item.hprice, salePrice), salePrice);
 
@@ -139,7 +205,9 @@ export function normalizeProviderDeal(raw: unknown, providerName: DealProviderNa
     imageUrl: String(item.imageUrl ?? item.thumbnail ?? item.image ?? ""),
     link,
     productUrl: typeof item.productUrl === "string" ? item.productUrl : link,
+    verifiedProductUrl: typeof item.verifiedProductUrl === "string" ? item.verifiedProductUrl : undefined,
     purchaseUrl: typeof item.purchaseUrl === "string" ? item.purchaseUrl : link,
+    finalUrl: typeof item.finalUrl === "string" ? item.finalUrl : link,
     finalPurchaseUrl: typeof item.finalPurchaseUrl === "string" ? item.finalPurchaseUrl : link,
     originalUrl: typeof item.originalUrl === "string" ? item.originalUrl : link,
     affiliateUrl: typeof item.affiliateUrl === "string" ? item.affiliateUrl : undefined,
@@ -158,7 +226,13 @@ export function validateProviderDeal(deal: DealInput): DealProviderValidation {
   if (!deal.title?.trim()) return { ok: false, reason: "missing_title" };
   if (!deal.mallName?.trim() && !deal.mall?.trim()) return { ok: false, reason: "missing_mall" };
   if (!deal.salePrice || deal.salePrice <= 0) return { ok: false, reason: "missing_price" };
-  if (!deal.link && !deal.productUrl && !deal.purchaseUrl && !deal.finalPurchaseUrl) return { ok: false, reason: "missing_purchase_url" };
+  const primaryUrl = firstNonEmptyUrl(deal.affiliateUrl, deal.verifiedProductUrl, deal.finalPurchaseUrl, deal.finalUrl, deal.productUrl, deal.purchaseUrl, deal.originalUrl, deal.eventUrl, deal.link, deal.searchUrl);
+  const parsedUrl = parseHttpUrl(primaryUrl);
+
+  if (!primaryUrl) return { ok: false, reason: "missing_purchase_url" };
+  if (!parsedUrl) return { ok: false, reason: "invalid_purchase_url" };
+  if (isBlockedProviderHost(parsedUrl.hostname.toLowerCase())) return { ok: false, reason: "blocked_or_community_host" };
+  if (isProviderSearchOrHomeUrl(parsedUrl)) return { ok: false, reason: "search_or_home_url" };
   return { ok: true, reason: "ready" };
 }
 

@@ -46,7 +46,31 @@ const outboundHostAllowList = [
   "korailtravel.com",
   "amante.co.kr",
   "rexpia.com",
-  "benebedding.com"
+  "benebedding.com",
+  "kakaopay.com",
+  "payco.com",
+  "tmembership.co.kr",
+  "baemin.com",
+  "amoremall.com",
+  "cgv.co.kr",
+  "bgfretail.com",
+  "7-eleven.co.kr",
+  "homeplus.co.kr",
+  "yogiyo.co.kr",
+  "starbucks.co.kr",
+  "membership.kt.com",
+  "uplus.co.kr",
+  "momq.co.kr",
+  "i-challenge.co.kr",
+  "hyundaicard.com",
+  "shinhancard.com",
+  "lottecinema.co.kr",
+  "mega-mgccoffee.com",
+  "gift.kakao.com",
+  "ticketlink.co.kr",
+  "bhc.co.kr",
+  "pay.naver.com",
+  "nid.naver.com"
 ];
 
 type AffiliateTemplateMap = Record<string, string>;

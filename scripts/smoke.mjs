@@ -864,7 +864,11 @@ await check("deal link integrity", async () => {
     const destination = deal.purchaseUrl || deal.url || deal.link;
     assert(!/티몬|위메프/.test(`${deal.mallName} ${deal.mall}`), `${deal.id} uses excluded mall: ${deal.mallName}`);
     assert(["direct_purchase", "seller_search", "affiliate", "unavailable"].includes(deal.linkType), `${deal.id} invalid linkType`);
+    assert(!["seller_search", "search", "unavailable"].includes(deal.linkType), `${deal.id} exposed a non-openable link type: ${deal.linkType}`);
     assert(["verified", "needs_review", "broken", "sold_out"].includes(deal.linkStatus), `${deal.id} invalid linkStatus`);
+    assert(deal.availability === "active", `${deal.id} exposed a non-active deal: ${deal.availability}`);
+    assert(deal.validationStatus === "passed", `${deal.id} exposed a non-passed deal: ${deal.validationStatus}`);
+    assert(deal.isHidden === false, `${deal.id} exposed a hidden deal`);
     assert(typeof deal.linkVerified === "boolean", `${deal.id} linkVerified should be boolean`);
     assert(typeof deal.purchaseLinkVerified === "boolean", `${deal.id} purchaseLinkVerified should be boolean`);
     assert(typeof deal.purchaseConfidence === "number", `${deal.id} purchaseConfidence should be number`);
@@ -1627,7 +1631,12 @@ await check("seller search redirect fallbacks", async () => {
     ["d137", "11st.co.kr"],
     ["d138", "ssg.com"],
     ["d139", "coupang.com"],
-    ["d140", "gmarket.co.kr"]
+    ["d140", "gmarket.co.kr"],
+    ["d047", "pay.naver.com"],
+    ["d054", "kakaopay.com"],
+    ["d060", "cgv.co.kr"],
+    ["d073", "hyundaicard.com"],
+    ["d115", "bhc.co.kr"]
   ];
 
   for (const [dealId, expectedHost] of cases) {
