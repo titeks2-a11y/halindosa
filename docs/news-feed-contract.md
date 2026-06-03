@@ -1,17 +1,20 @@
 # 할인도사 공식 혜택 Feed 계약
 
-할인도사 뉴스/이벤트 feed는 승인된 공식 페이지를 앱용 혜택 카드로 변환하기 위한 서버 측 JSON 계약이다. 검색 결과, 커뮤니티 글, 블로그 글, 뉴스 기사 원문, 쇼핑몰 메인, 종료 이벤트는 사용자 화면에 노출하지 않는다.
+할인도사 뉴스/이벤트 feed는 승인된 공식 페이지를 앱용 혜택 카드로 변환하기 위한 서버 측 JSON/RSS/Atom 계약이다. 검색 결과, 커뮤니티 글, 블로그 글, 뉴스 기사 원문, 쇼핑몰 메인, 종료 이벤트는 사용자 화면에 노출하지 않는다.
 
 ## 연결 위치
 
 운영 feed URL은 쉼표로 구분해 `.env`에 입력한다.
 
-- `DEAL_NEWS_FEED_URLS`: 공식 보도자료 또는 승인된 혜택 feed
+- `DEAL_NEWS_FEED_URLS`: 공식 보도자료 또는 승인된 혜택 JSON feed
+- `DEAL_NEWS_RSS_URLS`: 공식 보도자료 또는 승인된 혜택 RSS/Atom feed
 - `DEAL_EVENT_NEWS_FEED_URLS`: 공식 이벤트 뉴스 feed
 - `OFFICIAL_EVENT_FEED_URLS`: 쇼핑몰, 편의점, 마트, 통신사, 카드사 공식 이벤트 feed
 - `PUBLIC_COUPON_FEED_URLS`: 공공 쿠폰, 문화 혜택, 무료 체험 feed
 
 각 feed는 `Deal[]`, `{ "items": Deal[] }`, `{ "deals": Deal[] }`, `{ "newsDeals": Deal[] }`, `{ "events": Deal[] }`, `{ "coupons": Deal[] }`, `{ "benefits": Deal[] }` 중 하나를 반환할 수 있다.
+
+RSS/Atom feed도 사용할 수 있다. RSS/Atom은 `<item>` 또는 `<entry>` 단위로 읽으며, `halindosa:finalUrl`, `finalUrl`, `eventUrl`, `purchaseUrl` 중 하나가 있으면 사용자 이동 URL로 사용한다. 해당 필드가 없으면 `<link>`를 후보로 쓰지만, 기존 검증 규칙상 공식 혜택/이벤트 페이지가 아니면 사용자 화면에서 제외된다.
 
 ## 필수 필드
 
@@ -32,6 +35,27 @@
   "tags": ["공식행사", "쿠폰"]
 }
 ```
+
+## RSS/Atom 필드 예시
+
+```xml
+<item>
+  <guid>stable-official-benefit-id</guid>
+  <title>공식 혜택명</title>
+  <description>사용자가 조건을 이해할 수 있는 한두 문장 요약</description>
+  <halindosa:merchant>공식 판매처 또는 기관명</halindosa:merchant>
+  <halindosa:category>마트/편의점</halindosa:category>
+  <halindosa:benefitType>coupon</halindosa:benefitType>
+  <halindosa:startDate>2026-06-01</halindosa:startDate>
+  <halindosa:endDate>2026-12-31</halindosa:endDate>
+  <halindosa:sourceName>공식 출처명</halindosa:sourceName>
+  <halindosa:sourceUrl>https://official.example/event</halindosa:sourceUrl>
+  <halindosa:finalUrl>https://official.example/event</halindosa:finalUrl>
+  <halindosa:confidenceScore>85</halindosa:confidenceScore>
+</item>
+```
+
+운영 RSS가 일반 뉴스 RSS처럼 기사 링크만 제공한다면 `sourceUrl`로만 보관하고, 앱 노출용 `finalUrl`은 공식 이벤트/쿠폰/구매 페이지로 별도 매핑해야 한다. 매핑되지 않은 기사 원문은 기본 노출에서 제외된다.
 
 ## 허용 카테고리
 
@@ -79,4 +103,4 @@ npm run verify:news
 npm run refresh:all
 ```
 
-`data/newsFeed.sample.json`은 운영자가 feed 포맷을 확인하는 안전한 샘플이다. 샘플과 실제 feed 모두 `scripts/news-feed-contract-doctor.mjs`의 계약 검사를 통과해야 한다.
+`data/newsFeed.sample.json`과 `data/newsFeed.sample.rss.xml`은 운영자가 feed 포맷을 확인하는 안전한 샘플이다. 샘플과 실제 feed 모두 `scripts/news-feed-contract-doctor.mjs`의 계약 검사를 통과해야 한다.

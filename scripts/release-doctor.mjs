@@ -3639,6 +3639,7 @@ function checkNewsDealPipeline() {
     "scripts/refresh-all.mjs",
     "data/newsDeals.seed.json",
     "data/newsFeed.sample.json",
+    "data/newsFeed.sample.rss.xml",
     "data/refreshedNewsDeals.json",
     "reports/news-deals.json",
     "docs/news-feed-contract.md",
@@ -3701,17 +3702,21 @@ function checkNewsDealPipeline() {
   if (
     !newsProvider.includes("createJsonFeedNewsProvider") ||
     !newsProvider.includes("fetchJsonNewsFeed") ||
+    !newsProvider.includes("fetchNewsFeed") ||
+    !newsProvider.includes("parseNewsFeedXmlItems") ||
     !newsProvider.includes("AbortController") ||
     !eventNewsProvider.includes("DEAL_EVENT_NEWS_FEED_URLS") ||
     !officialEventProvider.includes("OFFICIAL_EVENT_FEED_URLS") ||
     !officialEventProvider.includes("DEAL_EVENT_FEED_URLS") ||
     !publicCouponProvider.includes("PUBLIC_COUPON_FEED_URLS") ||
     !feedDoctorScript.includes("data/newsFeed.sample.json") ||
+    !feedDoctorScript.includes("data/newsFeed.sample.rss.xml") ||
+    !feedDoctorScript.includes("parseNewsFeedXmlItems") ||
     !feedDoctorScript.includes("validateNewsDeal")
   ) {
-    issues.push("official benefit providers should support seed fallback plus approved JSON feed ingestion with a contract doctor");
+    issues.push("official benefit providers should support seed fallback plus approved JSON/RSS/Atom feed ingestion with a contract doctor");
   }
-  for (const phrase of ["공식 혜택 Feed 계약", "검색 결과 URL", "커뮤니티", "finalUrl", "npm run refresh:news"]) {
+  for (const phrase of ["공식 혜택 Feed 계약", "검색 결과 URL", "커뮤니티", "finalUrl", "RSS", "Atom", "npm run refresh:news"]) {
     if (!newsFeedContract.includes(phrase)) issues.push(`news feed contract docs missing ${phrase}`);
   }
 

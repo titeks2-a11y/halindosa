@@ -91,6 +91,66 @@ function cleanText(value) {
     .trim();
 }
 
+function stripCdata(value) {
+  return String(value ?? "").replace(/^<!\[CDATA\[/, "").replace(/\]\]>$/, "");
+}
+
+function decodeXmlEntities(value) {
+  return stripCdata(value)
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, "\"")
+    .replace(/&#39;/g, "'")
+    .replace(/&#x([0-9a-f]+);/gi, (_match, hex) => String.fromCodePoint(Number.parseInt(hex, 16)))
+    .replace(/&#(\d+);/g, (_match, code) => String.fromCodePoint(Number.parseInt(code, 10)));
+}
+
+function escapeRegExp(value) {
+  return String(value).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function xmlTagPattern(name) {
+  const escaped = escapeRegExp(name);
+  return name.includes(":") ? escaped : `(?:[\\w.-]+:)?${escaped}`;
+}
+
+function extractXmlTag(block, names) {
+  for (const name of names) {
+    const pattern = xmlTagPattern(name);
+    const match = block.match(new RegExp(`<${pattern}(?:\\s[^>]*)?>([\\s\\S]*?)<\\/${pattern}>`, "i"));
+    if (match?.[1]) return cleanText(decodeXmlEntities(match[1]));
+  }
+  return "";
+}
+
+function extractAtomLinkHref(block) {
+  const alternate = block.match(/<link\b(?=[^>]*\brel=["']alternate["'])(?=[^>]*\bhref=["']([^"']+)["'])[^>]*\/?>/i);
+  if (alternate?.[1]) return cleanText(decodeXmlEntities(alternate[1]));
+
+  const first = block.match(/<link\b(?=[^>]*\bhref=["']([^"']+)["'])[^>]*\/?>/i);
+  return first?.[1] ? cleanText(decodeXmlEntities(first[1])) : "";
+}
+
+function splitTags(value) {
+  return cleanText(value)
+    .split(/[,/|]/)
+    .map((tag) => tag.trim())
+    .filter(Boolean);
+}
+
+function collectXmlBlocks(xml, pattern) {
+  const blocks = [];
+  let match = pattern.exec(xml);
+
+  while (match) {
+    blocks.push(match[0]);
+    match = pattern.exec(xml);
+  }
+
+  return blocks;
+}
+
 function toNumber(value, fallback = 0) {
   const numeric = typeof value === "number" ? value : Number(String(value ?? "").replace(/[^0-9.-]/g, ""));
   return Number.isFinite(numeric) && numeric >= 0 ? numeric : fallback;
@@ -319,16 +379,72 @@ export function summarizeNewsDeals(deals, generatedAt = new Date().toISOString()
   };
 }
 
-export async function fetchJsonFeed(url, provider) {
+function extractNewsFeedItems(payload) {
+  if (Array.isArray(payload)) return payload;
+  if (Array.isArray(payload?.items)) return payload.items;
+  if (Array.isArray(payload?.deals)) return payload.deals;
+  if (Array.isArray(payload?.newsDeals)) return payload.newsDeals;
+  if (Array.isArray(payload?.events)) return payload.events;
+  if (Array.isArray(payload?.coupons)) return payload.coupons;
+  if (Array.isArray(payload?.benefits)) return payload.benefits;
+  return [];
+}
+
+export function parseNewsFeedXmlItems(xml, provider = "news", feedUrl = "") {
+  const xmlText = String(xml);
+  const blocks = collectXmlBlocks(xmlText, /<item\b[\s\S]*?<\/item>/gi);
+  const entries = blocks.length ? blocks : collectXmlBlocks(xmlText, /<entry\b[\s\S]*?<\/entry>/gi);
+
+  return entries.map((block) => {
+    const link = extractXmlTag(block, ["link"]) || extractAtomLinkHref(block) || extractXmlTag(block, ["guid", "id"]);
+    const finalUrl = extractXmlTag(block, ["finalUrl", "final-url", "final_url", "eventUrl", "event-url", "event_url", "purchaseUrl", "purchase-url", "purchase_url"]) || link;
+    const tags = [
+      ...splitTags(extractXmlTag(block, ["tags", "keywords"])),
+      ...splitTags(extractXmlTag(block, ["category"]))
+    ];
+
+    return {
+      id: extractXmlTag(block, ["id", "guid"]),
+      title: extractXmlTag(block, ["title"]),
+      summary: extractXmlTag(block, ["summary", "description", "content", "content:encoded"]),
+      merchant: extractXmlTag(block, ["merchant", "seller", "mallName", "brand", "author"]),
+      category: extractXmlTag(block, ["category", "benefitCategory"]),
+      benefitType: extractXmlTag(block, ["benefitType", "benefit-type", "benefit_type", "type"]),
+      discountRate: extractXmlTag(block, ["discountRate", "discount-rate", "discount_rate"]),
+      price: extractXmlTag(block, ["price", "salePrice", "sale-price", "sale_price"]),
+      originalPrice: extractXmlTag(block, ["originalPrice", "original-price", "original_price"]),
+      couponAmount: extractXmlTag(block, ["couponAmount", "coupon-amount", "coupon_amount"]),
+      startDate: extractXmlTag(block, ["startDate", "start-date", "start_date", "pubDate", "published", "updated"]),
+      endDate: extractXmlTag(block, ["endDate", "end-date", "end_date", "expireAt", "expiresAt", "expires"]),
+      sourceName: extractXmlTag(block, ["sourceName", "source-name", "source_name", "source", "author"]),
+      sourceUrl: extractXmlTag(block, ["sourceUrl", "source-url", "source_url"]) || link || feedUrl,
+      finalUrl,
+      imageUrl: extractXmlTag(block, ["imageUrl", "image-url", "image_url", "thumbnail", "media:thumbnail", "enclosure"]),
+      confidenceScore: extractXmlTag(block, ["confidenceScore", "confidence-score", "confidence_score"]) || 80,
+      provider,
+      tags
+    };
+  });
+}
+
+export async function fetchNewsFeed(url, provider) {
   const response = await fetch(url, {
-    headers: { Accept: "application/json", "User-Agent": "HalindosaNewsProvider/1.0" },
+    headers: { Accept: "application/json, application/rss+xml, application/atom+xml, application/xml, text/xml", "User-Agent": "HalindosaNewsProvider/1.0" },
     cache: "no-store",
     redirect: "follow"
   });
   if (!response.ok) throw new Error(`${provider}_feed_http_${response.status}`);
-  const payload = await response.json();
-  if (Array.isArray(payload)) return payload;
-  if (Array.isArray(payload?.items)) return payload.items;
-  if (Array.isArray(payload?.deals)) return payload.deals;
-  return [];
+  const body = await response.text();
+
+  try {
+    return extractNewsFeedItems(JSON.parse(body));
+  } catch {
+    const items = parseNewsFeedXmlItems(body, provider, url);
+    if (!items.length) throw new Error(`${provider}_feed_unsupported_payload`);
+    return items;
+  }
+}
+
+export async function fetchJsonFeed(url, provider) {
+  return fetchNewsFeed(url, provider);
 }

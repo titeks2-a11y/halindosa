@@ -3,7 +3,7 @@ import { join } from "node:path";
 import {
   dataDir,
   dedupeNewsDeals,
-  fetchJsonFeed,
+  fetchNewsFeed,
   normalizeNewsDeal,
   readJson,
   root,
@@ -44,7 +44,7 @@ for (const spec of providerSpecs) {
 
   for (const feedUrl of feedUrls) {
     try {
-      const feedItems = await fetchJsonFeed(feedUrl, spec.provider);
+      const feedItems = await fetchNewsFeed(feedUrl, spec.provider);
       items.push(...feedItems.map((item) => ({ ...item, provider: spec.provider, sourceName: item.sourceName ?? spec.source })));
     } catch (error) {
       errors.push(error instanceof Error ? error.message : `${spec.provider}_feed_failed`);

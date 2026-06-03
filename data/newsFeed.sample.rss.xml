@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:halindosa="https://halindosa.com/feed">
+  <channel>
+    <title>할인도사 공식 혜택 RSS 샘플</title>
+    <link>https://halindosa.com</link>
+    <description>공식 이벤트/쿠폰/공공 혜택 feed 계약 샘플입니다.</description>
+    <item>
+      <guid>sample-rss-official-culture-benefit</guid>
+      <title>문화가 있는 날 공식 문화 혜택 RSS 샘플</title>
+      <description>공식 문화 포털에서 확인 가능한 영화, 전시, 공연 할인 및 무료 문화 혜택 샘플입니다.</description>
+      <halindosa:merchant>문화가 있는 날</halindosa:merchant>
+      <halindosa:category>영화/문화</halindosa:category>
+      <halindosa:benefitType>culture</halindosa:benefitType>
+      <halindosa:startDate>2026-06-01</halindosa:startDate>
+      <halindosa:endDate>2026-12-31</halindosa:endDate>
+      <halindosa:sourceName>문화가 있는 날</halindosa:sourceName>
+      <halindosa:sourceUrl>https://www.culture.go.kr/wday/main/main.do</halindosa:sourceUrl>
+      <halindosa:finalUrl>https://www.culture.go.kr/wday/main/main.do</halindosa:finalUrl>
+      <halindosa:confidenceScore>88</halindosa:confidenceScore>
+      <halindosa:tags>공식혜택,문화,무료혜택</halindosa:tags>
+    </item>
+    <item>
+      <guid>sample-rss-official-convenience-benefit</guid>
+      <title>GS25 공식 행사상품 RSS 샘플</title>
+      <description>편의점 공식 행사 페이지에서 확인 가능한 1+1, 2+1, 카드 할인 혜택 샘플입니다.</description>
+      <halindosa:merchant>GS25</halindosa:merchant>
+      <halindosa:category>마트/편의점</halindosa:category>
+      <halindosa:benefitType>coupon</halindosa:benefitType>
+      <halindosa:startDate>2026-06-01</halindosa:startDate>
+      <halindosa:endDate>2026-12-31</halindosa:endDate>
+      <halindosa:sourceName>GS25 공식 이벤트</halindosa:sourceName>
+      <halindosa:sourceUrl>https://gs25.gsretail.com/gscvs/ko/products/event-goods</halindosa:sourceUrl>
+      <halindosa:finalUrl>https://gs25.gsretail.com/gscvs/ko/products/event-goods</halindosa:finalUrl>
+      <halindosa:confidenceScore>86</halindosa:confidenceScore>
+      <halindosa:tags>공식행사,편의점,쿠폰</halindosa:tags>
+    </item>
+  </channel>
+</rss>
