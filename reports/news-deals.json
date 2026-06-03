@@ -1,0 +1,39 @@
+{
+  "ok": true,
+  "generatedAt": "2026-06-03T08:26:30.483Z",
+  "totalCount": 10,
+  "visibleCount": 10,
+  "hiddenCount": 0,
+  "expiredCount": 0,
+  "officialMissingCount": 0,
+  "failedCount": 0,
+  "categoryCounts": {
+    "마트/편의점": 3,
+    "영화/문화": 3,
+    "정부/공공혜택": 1,
+    "카드/멤버십": 2,
+    "여행/숙박": 1
+  },
+  "providerStats": [],
+  "failureReasons": {},
+  "visibleDealIds": [
+    "news-gs25-drinking-festa-2026",
+    "news-gs25-card-june-2026",
+    "news-gs25-event-goods",
+    "news-culture-day-programs-2026",
+    "news-culture-day-weekly-2026",
+    "news-cgv-official-events",
+    "news-lottecinema-official-events",
+    "news-tworld-membership-upgrade",
+    "news-tworld-longterm-discount",
+    "news-koreanair-promotion"
+  ],
+  "hiddenDeals": [],
+  "gates": {
+    "hasVisibleNewsDeals": true,
+    "searchLinkExposure": 0,
+    "nonOfficialExposure": 0,
+    "expiredExposure": 0,
+    "hiddenExposure": 0
+  }
+}

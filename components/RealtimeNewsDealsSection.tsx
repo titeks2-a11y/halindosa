@@ -1,0 +1,88 @@
+"use client";
+
+import Link from "next/link";
+import { CalendarClock, ExternalLink, ShieldCheck, TicketPercent } from "lucide-react";
+import { getRelativeTime, getTimeLeft } from "@/lib/format";
+import type { NewsDeal } from "@/types/newsDeal";
+
+const benefitLabels: Record<NewsDeal["benefitType"], string> = {
+  discount: "할인",
+  coupon: "쿠폰",
+  freebie: "무료",
+  membership: "멤버십",
+  card: "카드",
+  culture: "문화",
+  travel: "여행",
+  public: "공공혜택"
+};
+
+export function RealtimeNewsDealsSection({ deals, updatedAt }: { deals: NewsDeal[]; updatedAt: string }) {
+  if (!deals.length) {
+    return (
+      <section className="rounded-2xl border border-dashed border-slate-200 bg-white p-4 shadow-sm" aria-label="오늘의 실시간 할인뉴스">
+        <p className="text-xs font-black text-brand-red">오늘의 실시간 할인뉴스</p>
+        <h3 className="mt-1 text-base font-black text-slate-950">공식 링크가 확인된 혜택만 준비 중입니다</h3>
+        <p className="mt-2 text-xs font-bold leading-5 text-slate-500">
+          검색 결과, 커뮤니티 원문, 종료 이벤트는 노출하지 않습니다. 공식 이벤트 페이지가 검증되면 이 영역에 표시됩니다.
+        </p>
+      </section>
+    );
+  }
+
+  return (
+    <section className="rounded-2xl border border-brand-line bg-white p-3 shadow-sm sm:rounded-[28px] sm:p-4" aria-label="오늘의 실시간 할인뉴스">
+      <div className="flex items-center justify-between gap-3">
+        <div>
+          <p className="text-xs font-black text-brand-red">오늘의 실시간 할인뉴스</p>
+          <h3 className="mt-1 text-base font-black text-slate-950 sm:text-xl">공식 혜택 페이지로 바로 이동</h3>
+        </div>
+        <span className="hidden rounded-full bg-brand-warm px-3 py-1.5 text-[11px] font-black text-slate-600 sm:inline-flex">
+          {updatedAt ? getRelativeTime(updatedAt) : "방금 확인"}
+        </span>
+      </div>
+      <div className="mt-3 flex snap-x snap-mandatory gap-2 overflow-x-auto pb-1 [scrollbar-width:none] sm:grid sm:grid-cols-2 sm:gap-3 lg:grid-cols-3 [&::-webkit-scrollbar]:hidden">
+        {deals.slice(0, 6).map((deal) => (
+          <article
+            key={deal.id}
+            data-news-deal-card="true"
+            className="min-h-[166px] w-[250px] shrink-0 snap-start rounded-2xl border border-slate-100 bg-gradient-to-br from-white to-brand-warm p-4 shadow-sm sm:w-auto"
+          >
+            <div className="flex items-start justify-between gap-3">
+              <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-white text-brand-red shadow-sm">
+                <TicketPercent size={19} />
+              </span>
+              <span className="rounded-full bg-brand-navy px-2.5 py-1 text-[11px] font-black text-white">
+                {benefitLabels[deal.benefitType]}
+              </span>
+            </div>
+            <p className="mt-3 line-clamp-2 min-h-10 text-sm font-black leading-5 text-slate-950">{deal.title}</p>
+            <p className="mt-1 line-clamp-2 text-xs font-bold leading-5 text-slate-500">{deal.summary}</p>
+            <div className="mt-3 flex flex-wrap gap-1.5">
+              <span className="inline-flex items-center gap-1 rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-emerald-700 shadow-sm">
+                <ShieldCheck size={12} />
+                공식 링크
+              </span>
+              <span className="inline-flex items-center gap-1 rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-slate-600 shadow-sm">
+                <CalendarClock size={12} />
+                {getTimeLeft(deal.endDate)}
+              </span>
+            </div>
+            <div className="mt-3 flex items-center justify-between gap-2">
+              <p className="min-w-0 truncate text-[11px] font-black text-slate-500">{deal.sourceName}</p>
+              <Link
+                href={deal.finalUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-9 shrink-0 items-center gap-1.5 rounded-full bg-brand-red px-3 text-xs font-black text-white transition hover:bg-brand-coral"
+                aria-label={`${deal.title} 공식 페이지 새 탭으로 열기`}
+              >
+                공식 페이지
+                <ExternalLink size={13} />
+              </Link>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}

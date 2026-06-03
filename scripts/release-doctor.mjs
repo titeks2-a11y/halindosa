@@ -62,6 +62,9 @@ async function checkPackage() {
     "verify:links",
     "verify:products",
     "refresh:deals",
+    "refresh:news",
+    "verify:news",
+    "refresh:all",
     "test:mobile-ux",
     "links:report",
     "store:metadata:doctor",
@@ -84,7 +87,7 @@ async function checkPackage() {
   const missing = requiredScripts.filter((script) => !pkg.scripts?.[script]);
 
   if (missing.length) fail("package scripts", `Missing scripts: ${missing.join(", ")}`);
-  else if (!pkg.scripts?.qa?.includes("verify:links") || !pkg.scripts?.qa?.includes("verify:products") || !pkg.scripts?.qa?.includes("refresh:deals") || !pkg.scripts?.qa?.includes("test:mobile-ux") || !harness.includes("test:mobile-ux") || !pkg.scripts?.["env:doctor:production"]?.includes("--production") || !pkg.scripts?.["qa:release"]?.includes("audit:commercial") || !pkg.scripts?.["qa:release"]?.includes("test:env") || !pkg.scripts?.["qa:release"]?.includes("device:qa:manifest") || !pkg.scripts?.["qa:release"]?.includes("device:qa:doctor") || !pkg.scripts?.["qa:release"]?.includes("device:qa:report") || !pkg.scripts?.["qa:release"]?.includes("android:signing:doctor") || !pkg.scripts?.["qa:release"]?.includes("public:url:doctor") || !pkg.scripts?.["qa:release"]?.includes("feed:validate") || !pkg.scripts?.["qa:release"]?.includes("feed:production:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:metadata:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:submission:report") || !pkg.scripts?.["qa:release"]?.includes("store:packet:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:console:fields") || !pkg.scripts?.["qa:release"]?.includes("store:manual:checklist") || !pkg.scripts?.["qa:release"]?.includes("store:manual:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:handoff:report") || !pkg.scripts?.["qa:release"]?.includes("release:notes") || !pkg.scripts?.["qa:release"]?.includes("support:playbook") || !pkg.scripts?.["qa:release"]?.includes("known:issues") || !pkg.scripts?.["qa:release"]?.includes("store:assets:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:manifest") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:doctor") || !pkg.scripts?.["qa:release"]?.includes("perf:budget")) {
+  else if (!pkg.scripts?.qa?.includes("verify:links") || !pkg.scripts?.qa?.includes("verify:products") || !pkg.scripts?.qa?.includes("refresh:deals") || !pkg.scripts?.qa?.includes("refresh:news") || !pkg.scripts?.qa?.includes("verify:news") || !pkg.scripts?.["refresh:all"]?.includes("refresh-all.mjs") || !pkg.scripts?.qa?.includes("test:mobile-ux") || !harness.includes("test:mobile-ux") || !pkg.scripts?.["env:doctor:production"]?.includes("--production") || !pkg.scripts?.["qa:release"]?.includes("audit:commercial") || !pkg.scripts?.["qa:release"]?.includes("test:env") || !pkg.scripts?.["qa:release"]?.includes("device:qa:manifest") || !pkg.scripts?.["qa:release"]?.includes("device:qa:doctor") || !pkg.scripts?.["qa:release"]?.includes("device:qa:report") || !pkg.scripts?.["qa:release"]?.includes("android:signing:doctor") || !pkg.scripts?.["qa:release"]?.includes("public:url:doctor") || !pkg.scripts?.["qa:release"]?.includes("feed:validate") || !pkg.scripts?.["qa:release"]?.includes("feed:production:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:metadata:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:submission:report") || !pkg.scripts?.["qa:release"]?.includes("store:packet:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:console:fields") || !pkg.scripts?.["qa:release"]?.includes("store:manual:checklist") || !pkg.scripts?.["qa:release"]?.includes("store:manual:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:handoff:report") || !pkg.scripts?.["qa:release"]?.includes("release:notes") || !pkg.scripts?.["qa:release"]?.includes("support:playbook") || !pkg.scripts?.["qa:release"]?.includes("known:issues") || !pkg.scripts?.["qa:release"]?.includes("store:assets:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:manifest") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:doctor") || !pkg.scripts?.["qa:release"]?.includes("perf:budget")) {
     fail("package scripts", "qa, harness, and qa:release should include mobile UX, commercial security audit, device QA manifest/doctor/report, Android signing doctor, public URL doctor, partner feed validator, production feed doctor, store metadata doctor, store submission/packet/console/handoff reports, store asset doctor, store screenshot manifest/doctor, and performance budget before store submission.");
   } else {
     pass("package scripts", "Android, iOS, environment, mobile UX, commercial security, and performance release command flow is available.");
@@ -3335,6 +3338,81 @@ function checkRefreshDealPipeline() {
   else pass("deal refresh pipeline", "Provider collection, normalization, dedupe, validation, reports, snapshot, and admin operations are wired.");
 }
 
+function checkNewsDealPipeline() {
+  const requiredFiles = [
+    "lib/deals/providers/newsProvider.ts",
+    "lib/deals/providers/eventNewsProvider.ts",
+    "lib/deals/providers/officialEventProvider.ts",
+    "lib/deals/providers/publicCouponProvider.ts",
+    "scripts/refresh-news-deals.mjs",
+    "scripts/verify-news-deals.mjs",
+    "scripts/refresh-all.mjs",
+    "data/newsDeals.seed.json",
+    "data/refreshedNewsDeals.json",
+    "reports/news-deals.json",
+    "reports/refresh-all.json",
+    "app/api/news-deals/route.ts",
+    "components/RealtimeNewsDealsSection.tsx"
+  ];
+  const issues = [];
+  const missing = requiredFiles.filter((file) => !existsSync(join(root, file)));
+  if (missing.length) issues.push(`missing files: ${missing.join(", ")}`);
+
+  const envExample = readFileSync(join(root, ".env.example"), "utf8");
+  const packageJson = JSON.parse(readFileSync(join(root, "package.json"), "utf8"));
+  const refreshScript = existsSync(join(root, "scripts/refresh-news-deals.mjs")) ? readFileSync(join(root, "scripts/refresh-news-deals.mjs"), "utf8") : "";
+  const verifyScript = existsSync(join(root, "scripts/verify-news-deals.mjs")) ? readFileSync(join(root, "scripts/verify-news-deals.mjs"), "utf8") : "";
+  const newsUtils = existsSync(join(root, "scripts/news-deal-utils.mjs")) ? readFileSync(join(root, "scripts/news-deal-utils.mjs"), "utf8") : "";
+  const refreshAllScript = existsSync(join(root, "scripts/refresh-all.mjs")) ? readFileSync(join(root, "scripts/refresh-all.mjs"), "utf8") : "";
+  const homePage = readFileSync(join(root, "app/page.tsx"), "utf8");
+  const adminPage = readFileSync(join(root, "app/admin/page.tsx"), "utf8");
+
+  for (const key of ["DEAL_NEWS_FEED_URLS", "DEAL_EVENT_NEWS_FEED_URLS", "OFFICIAL_EVENT_FEED_URLS", "PUBLIC_COUPON_FEED_URLS"]) {
+    if (!envExample.includes(key)) issues.push(`env example missing ${key}`);
+  }
+
+  if (!packageJson.scripts?.["refresh:news"] || !packageJson.scripts?.["verify:news"] || !packageJson.scripts?.["refresh:all"]) {
+    issues.push("package scripts should expose refresh:news, verify:news, and refresh:all");
+  }
+
+  for (const phrase of ["not_approved_official_url", "search_or_result_url", "expired_event", "official_event_seed_and_approved_feeds"]) {
+    if (!refreshScript.includes(phrase) && !verifyScript.includes(phrase) && !newsUtils.includes(phrase)) {
+      issues.push(`news verification missing ${phrase}`);
+    }
+  }
+
+  for (const step of ["refresh-deals.mjs", "refresh-news-deals.mjs", "verify-product-links.mjs", "verify-products.mjs", "verify-news-deals.mjs"]) {
+    if (!refreshAllScript.includes(step)) issues.push(`refresh:all missing ${step}`);
+  }
+
+  if (!homePage.includes("RealtimeNewsDealsSection") || !homePage.includes("/api/news-deals?limit=6")) {
+    issues.push("home should show verified realtime discount news section from /api/news-deals");
+  }
+
+  if (!adminPage.includes("뉴스 수집 현황") || !adminPage.includes("/api/news-deals?limit=20") || !adminPage.includes("캠페인 API 보기")) {
+    issues.push("admin should expose news collection status and notification campaign operation links");
+  }
+
+  if (existsSync(join(root, "reports/news-deals.json"))) {
+    const report = JSON.parse(readFileSync(join(root, "reports/news-deals.json"), "utf8"));
+    if (report.ok !== true) issues.push("news-deals report should pass");
+    if ((report.visibleCount ?? 0) < 5) issues.push("news-deals report should include at least 5 visible official benefits");
+    if ((report.hiddenCount ?? 0) !== 0 || (report.expiredCount ?? 0) !== 0 || (report.officialMissingCount ?? 0) !== 0) {
+      issues.push("news-deals report should expose zero hidden, expired, or non-official links");
+    }
+  }
+
+  if (existsSync(join(root, "reports/refresh-all.json"))) {
+    const report = JSON.parse(readFileSync(join(root, "reports/refresh-all.json"), "utf8"));
+    if (report.ok !== true) issues.push("refresh-all report should pass");
+    if ((report.newsDealsCount ?? 0) < 5) issues.push("refresh-all should include official news/event benefits");
+    if ((report.productDealsCount ?? 0) < 140) issues.push("refresh-all should preserve 140 verified product deals");
+  }
+
+  if (issues.length) fail("news and official event pipeline", issues.join("; "));
+  else pass("news and official event pipeline", "Approved news, official event, public coupon, refresh:news, verify:news, refresh:all, home section, and admin status surfaces are wired.");
+}
+
 await checkPackage();
 await checkCiWorkflow();
 await checkSecurityPolicy();
@@ -3355,6 +3433,7 @@ await checkReleaseEvidenceFreshness();
 await checkGeneratedReportFreshness();
 await checkCustomerNavigationSimplification();
 checkRefreshDealPipeline();
+checkNewsDealPipeline();
 checkSigningAndArtifacts();
 checkStoreAssets();
 

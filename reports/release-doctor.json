@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-06-03T07:47:59.492Z",
-  "totalChecks": 174,
-  "passedChecks": 174,
+  "generatedAt": "2026-06-03T08:26:40.238Z",
+  "totalChecks": 175,
+  "passedChecks": 175,
   "failedChecks": 0,
   "ok": true,
   "checks": [
@@ -844,6 +844,11 @@
       "name": "deal refresh pipeline",
       "ok": true,
       "detail": "Provider collection, normalization, dedupe, validation, reports, snapshot, and admin operations are wired."
+    },
+    {
+      "name": "news and official event pipeline",
+      "ok": true,
+      "detail": "Approved news, official event, public coupon, refresh:news, verify:news, refresh:all, home section, and admin status surfaces are wired."
     },
     {
       "name": "keystore example",

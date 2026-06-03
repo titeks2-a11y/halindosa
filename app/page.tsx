@@ -20,6 +20,7 @@ import { PriceAlertList } from "@/components/PriceAlertList";
 import { PurchaseConfirmSheet } from "@/components/PurchaseConfirmSheet";
 import { PurchaseLinkOverview } from "@/components/PurchaseLinkOverview";
 import { QuickDealCard } from "@/components/QuickDealCard";
+import { RealtimeNewsDealsSection } from "@/components/RealtimeNewsDealsSection";
 import { SearchBar } from "@/components/SearchBar";
 import { SearchDiscoveryPanel } from "@/components/SearchDiscoveryPanel";
 import { SortSelect } from "@/components/SortSelect";
@@ -30,6 +31,7 @@ import { useAuth } from "@/components/AuthProvider";
 import { dealChannels, dealMatchesChannel, getDealChannel, getProviderCategory } from "@/data/dealChannels";
 import { mockHotSignals } from "@/data/mockHotSignals";
 import { mockDeals } from "@/data/mockDeals";
+import refreshedNewsSnapshot from "@/data/refreshedNewsDeals.json";
 import { ConsentState, hasAffiliateConsent, hasAnalyticsConsent, readStoredConsent } from "@/lib/consent";
 import { canOpenDealLink } from "@/lib/affiliate";
 import { benefitReturnReservationUpdatedEvent, readBenefitReturnReservations } from "@/lib/benefitReturnReservations";
@@ -60,10 +62,12 @@ import {
 import { getSupportMailto, supportEmail } from "@/lib/support";
 import { Deal, DealBenefitType, DealSort } from "@/types/deal";
 import { HotSignal } from "@/types/hotSignal";
+import type { NewsDeal } from "@/types/newsDeal";
 
 type AppView = "home" | "categories" | "alerts" | "favorites" | "my";
 const INITIAL_HOME_DEAL_LIMIT = 12;
 const HOME_DEAL_LOAD_STEP = 12;
+const initialNewsSnapshot = refreshedNewsSnapshot as { generatedAt?: string; deals?: NewsDeal[] };
 const mallFilters = [
   { id: "all", label: "전체 쇼핑몰" },
   { id: "쿠팡", label: "쿠팡" },
@@ -390,6 +394,15 @@ interface HotSignalsResponse {
   message: string;
 }
 
+interface NewsDealsResponse {
+  ok: boolean;
+  deals: NewsDeal[];
+  count: number;
+  updatedAt: string;
+  source: string;
+  message: string;
+}
+
 function requestJson<T>(url: string): Promise<T> {
   if (typeof window.fetch === "function") {
     return window.fetch(url, { cache: "no-store" }).then(async (response) => (await response.json()) as T);
@@ -663,6 +676,8 @@ export default function Home() {
   const [isOffline, setIsOffline] = useState(false);
   const [hotSignals, setHotSignals] = useState<HotSignal[]>(mockHotSignals);
   const [isSignalLoading, setIsSignalLoading] = useState(false);
+  const [newsDeals, setNewsDeals] = useState<NewsDeal[]>(() => initialNewsSnapshot.deals ?? []);
+  const [newsUpdatedAt, setNewsUpdatedAt] = useState(initialNewsSnapshot.generatedAt ?? "");
   const [favorites, setFavorites] = useState<string[]>(() => readLocalFavoriteIds());
   const [recentDealIds, setRecentDealIds] = useState<string[]>([]);
   const [favoriteCategories, setFavoriteCategories] = useState<string[]>(() => readLocalPreferences().favoriteCategories);
@@ -924,6 +939,31 @@ export default function Home() {
 
     return () => window.clearTimeout(handle);
   }, [fetchDeals, hasAppliedInitialParams]);
+
+  useEffect(() => {
+    if (!hasAppliedInitialParams) return;
+
+    let active = true;
+    const handle = window.setTimeout(async () => {
+      try {
+        if (await isNativeRuntime()) return;
+        const data = await requestJson<NewsDealsResponse>("/api/news-deals?limit=6");
+        if (!active) return;
+        setNewsDeals(Array.isArray(data.deals) ? data.deals : []);
+        setNewsUpdatedAt(data.updatedAt);
+      } catch {
+        if (active) {
+          setNewsDeals([]);
+          setNewsUpdatedAt("");
+        }
+      }
+    }, 260);
+
+    return () => {
+      active = false;
+      window.clearTimeout(handle);
+    };
+  }, [hasAppliedInitialParams]);
 
   useEffect(() => {
     let cleanup: (() => void) | undefined;
@@ -2695,6 +2735,7 @@ export default function Home() {
             </div>
           </section>
         ) : null}
+        {activeView === "home" ? <RealtimeNewsDealsSection deals={newsDeals} updatedAt={newsUpdatedAt} /> : null}
         {activeView === "home" ? (
           <section className="grid gap-2 sm:gap-4 lg:grid-cols-[1fr_0.9fr]" aria-label="홈 핵심 특가 요약">
             <div className="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm sm:rounded-[28px] sm:p-5">

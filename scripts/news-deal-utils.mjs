@@ -1,0 +1,269 @@
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
+
+export const root = process.cwd();
+export const reportsDir = join(root, "reports");
+export const dataDir = join(root, "data");
+
+mkdirSync(reportsDir, { recursive: true });
+mkdirSync(dataDir, { recursive: true });
+
+const approvedHosts = [
+  "gs25.gsretail.com",
+  "cu.bgfretail.com",
+  "www.culture.go.kr",
+  "culture.go.kr",
+  "www.tworld.co.kr",
+  "tworld.co.kr",
+  "www.cgv.co.kr",
+  "cgv.co.kr",
+  "www.lottecinema.co.kr",
+  "lottecinema.co.kr",
+  "www.koreanair.com",
+  "koreanair.com",
+  "www.ssg.com",
+  "www.emart.com",
+  "www.homeplus.co.kr",
+  "www.hyundaihmall.com",
+  "www.bccard.com",
+  "card.kbcard.com",
+  "www.shinhancard.com"
+];
+
+const blockedHosts = [
+  "ppomppu.co.kr",
+  "fmkorea.com",
+  "quasarzone.com",
+  "algumon.com",
+  "clien.net",
+  "dcinside.com",
+  "theqoo.net",
+  "blog.naver.com",
+  "m.blog.naver.com",
+  "news.naver.com",
+  "v.daum.net",
+  "news.daum.net",
+  "youtube.com",
+  "www.youtube.com",
+  "example.com"
+];
+
+const searchPatterns = [
+  "/search",
+  "search?",
+  "query=",
+  "keyword=",
+  "shopping/search",
+  "msearch",
+  "/find",
+  "/result",
+  "sword=",
+  "kwd="
+];
+
+const spamWords = ["광고문의", "협찬", "체험단 모집 대행", "고수익 보장", "클릭만 하면", "무조건 지급"];
+const unclearWords = ["확인 필요", "추정", "소문", "커뮤니티", "제보", "단독 기사"];
+
+export function readJson(path, fallback) {
+  const fullPath = join(root, path);
+  if (!existsSync(fullPath)) return fallback;
+  return JSON.parse(readFileSync(fullPath, "utf8"));
+}
+
+export function writeJson(path, payload) {
+  writeFileSync(join(root, path), `${JSON.stringify(payload, null, 2)}\n`, "utf8");
+}
+
+function cleanText(value) {
+  return String(value ?? "")
+    .replace(/<[^>]+>/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function toNumber(value, fallback = 0) {
+  const numeric = typeof value === "number" ? value : Number(String(value ?? "").replace(/[^0-9.-]/g, ""));
+  return Number.isFinite(numeric) && numeric >= 0 ? numeric : fallback;
+}
+
+function normalizeHost(urlValue) {
+  try {
+    return new URL(urlValue).hostname.replace(/^www\./, "").toLowerCase();
+  } catch {
+    return "";
+  }
+}
+
+function isApprovedOfficialUrl(urlValue) {
+  try {
+    const url = new URL(urlValue);
+    const host = url.hostname.replace(/^www\./, "").toLowerCase();
+    if (url.protocol !== "https:" && url.protocol !== "http:") return false;
+    if (blockedHosts.some((blocked) => host === blocked || host.endsWith(`.${blocked}`))) return false;
+    return approvedHosts.some((approved) => host === approved.replace(/^www\./, "") || host.endsWith(`.${approved.replace(/^www\./, "")}`));
+  } catch {
+    return false;
+  }
+}
+
+function isSearchUrl(urlValue) {
+  try {
+    const url = new URL(urlValue);
+    const value = `${url.hostname}${url.pathname}${url.search}`.toLowerCase();
+    if (/event|benefit|campaign|coupon|promotion|membership|wday|culture-event/i.test(value)) return false;
+    return searchPatterns.some((pattern) => value.includes(pattern));
+  } catch {
+    return true;
+  }
+}
+
+function canonicalKey(deal) {
+  try {
+    const url = new URL(deal.finalUrl);
+    url.hash = "";
+    return `${url.hostname.replace(/^www\./, "").toLowerCase()}${url.pathname}${url.search}`;
+  } catch {
+    return `${deal.merchant}-${deal.title}`.toLowerCase();
+  }
+}
+
+export function normalizeNewsDeal(raw, nowIso = new Date().toISOString()) {
+  const title = cleanText(raw.title);
+  const summary = cleanText(raw.summary ?? raw.description);
+  const merchant = cleanText(raw.merchant ?? raw.mallName ?? raw.sourceName);
+  const finalUrl = cleanText(raw.finalUrl ?? raw.eventUrl ?? raw.sourceUrl ?? raw.url);
+  const endDate = cleanText(raw.endDate ?? raw.expireAt ?? raw.expiresAt);
+  const startDate = cleanText(raw.startDate ?? raw.createdAt) || nowIso.slice(0, 10);
+
+  return {
+    id: cleanText(raw.id) || `news-${Buffer.from(`${merchant}-${title}-${finalUrl}`).toString("base64url").slice(0, 18)}`,
+    title,
+    summary,
+    merchant,
+    category: cleanText(raw.category) || "무료혜택",
+    benefitType: cleanText(raw.benefitType) || "discount",
+    discountRate: toNumber(raw.discountRate),
+    price: toNumber(raw.price),
+    originalPrice: toNumber(raw.originalPrice),
+    couponAmount: toNumber(raw.couponAmount),
+    startDate,
+    endDate,
+    sourceName: cleanText(raw.sourceName) || merchant,
+    sourceUrl: cleanText(raw.sourceUrl) || finalUrl,
+    finalUrl,
+    imageUrl: cleanText(raw.imageUrl),
+    confidenceScore: toNumber(raw.confidenceScore, 50),
+    validationStatus: "needs_review",
+    isHidden: false,
+    hiddenReason: "",
+    lastCheckedAt: nowIso,
+    provider: cleanText(raw.provider) || "news",
+    tags: Array.isArray(raw.tags) ? raw.tags.filter((tag) => typeof tag === "string") : []
+  };
+}
+
+export function validateNewsDeal(deal, now = Date.now()) {
+  const reasons = [];
+  const text = `${deal.title} ${deal.summary} ${deal.tags.join(" ")}`;
+  const endsAt = Date.parse(deal.endDate);
+  const startsAt = Date.parse(deal.startDate);
+
+  if (!deal.title || !deal.summary || !deal.merchant) reasons.push("missing_required_copy");
+  if (!deal.finalUrl) reasons.push("missing_final_url");
+  if (!isApprovedOfficialUrl(deal.finalUrl)) reasons.push("not_approved_official_url");
+  if (isSearchUrl(deal.finalUrl)) reasons.push("search_or_result_url");
+  if (!Number.isFinite(endsAt)) reasons.push("missing_end_date");
+  if (Number.isFinite(endsAt) && endsAt < now) reasons.push("expired_event");
+  if (Number.isFinite(startsAt) && startsAt > now + 45 * 24 * 60 * 60 * 1000) reasons.push("too_far_future");
+  if (deal.confidenceScore < 70) reasons.push("low_confidence");
+  if (unclearWords.some((word) => text.includes(word))) reasons.push("unclear_benefit_condition");
+  if (spamWords.some((word) => text.includes(word))) reasons.push("spam_or_ad_like_copy");
+
+  const passed = reasons.length === 0;
+  const host = normalizeHost(deal.finalUrl);
+  const benefitSignal = deal.discountRate > 0 || deal.couponAmount > 0 || ["freebie", "coupon", "membership", "card", "culture", "travel", "public"].includes(deal.benefitType);
+  const confidenceScore = Math.max(
+    0,
+    Math.min(
+      100,
+      Math.round(
+        deal.confidenceScore +
+          (isApprovedOfficialUrl(deal.finalUrl) ? 8 : -25) +
+          (benefitSignal ? 8 : -8) +
+          (deal.summary.length >= 30 ? 5 : -5) +
+          (Number.isFinite(endsAt) && endsAt >= now ? 6 : -20) -
+          reasons.length * 8
+      )
+    )
+  );
+
+  return {
+    ...deal,
+    confidenceScore,
+    validationStatus: passed ? "passed" : "failed",
+    isHidden: !passed,
+    hiddenReason: passed ? "" : reasons.join(","),
+    lastCheckedAt: new Date(now).toISOString(),
+    officialHost: host
+  };
+}
+
+export function dedupeNewsDeals(deals) {
+  const unique = new Map();
+  for (const deal of deals) {
+    const key = canonicalKey(deal);
+    const previous = unique.get(key);
+    if (!previous || deal.confidenceScore > previous.confidenceScore) unique.set(key, deal);
+  }
+  return Array.from(unique.values());
+}
+
+export function summarizeNewsDeals(deals, generatedAt = new Date().toISOString(), providerStats = []) {
+  const visible = deals.filter((deal) => !deal.isHidden && deal.validationStatus === "passed");
+  const hidden = deals.filter((deal) => deal.isHidden || deal.validationStatus !== "passed");
+  const expired = deals.filter((deal) => deal.hiddenReason.includes("expired_event"));
+  const officialMissing = deals.filter((deal) => deal.hiddenReason.includes("not_approved_official_url"));
+  const failureReasons = {};
+  for (const deal of hidden) {
+    for (const reason of deal.hiddenReason.split(",").filter(Boolean)) {
+      failureReasons[reason] = (failureReasons[reason] ?? 0) + 1;
+    }
+  }
+
+  return {
+    ok: hidden.length === 0,
+    generatedAt,
+    totalCount: deals.length,
+    visibleCount: visible.length,
+    hiddenCount: hidden.length,
+    expiredCount: expired.length,
+    officialMissingCount: officialMissing.length,
+    failedCount: hidden.length,
+    categoryCounts: Object.fromEntries(
+      visible.reduce((map, deal) => map.set(deal.category, (map.get(deal.category) ?? 0) + 1), new Map())
+    ),
+    providerStats,
+    failureReasons,
+    visibleDealIds: visible.map((deal) => deal.id),
+    hiddenDeals: hidden.map((deal) => ({
+      id: deal.id,
+      title: deal.title,
+      finalUrl: deal.finalUrl,
+      hiddenReason: deal.hiddenReason
+    }))
+  };
+}
+
+export async function fetchJsonFeed(url, provider) {
+  const response = await fetch(url, {
+    headers: { Accept: "application/json", "User-Agent": "HalindosaNewsProvider/1.0" },
+    cache: "no-store",
+    redirect: "follow"
+  });
+  if (!response.ok) throw new Error(`${provider}_feed_http_${response.status}`);
+  const payload = await response.json();
+  if (Array.isArray(payload)) return payload;
+  if (Array.isArray(payload?.items)) return payload.items;
+  if (Array.isArray(payload?.deals)) return payload.deals;
+  return [];
+}

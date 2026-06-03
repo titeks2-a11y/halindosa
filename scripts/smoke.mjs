@@ -200,6 +200,8 @@ await check("home page", async () => {
     text.includes("오늘 바로 볼 특가") && (text.includes("검색 결과에서 먼저 확인할 상품") || text.includes("먼저 확인할 상품")),
     "Home page missing compact instant deal rail"
   );
+  assert(text.includes("오늘의 실시간 할인뉴스") && text.includes("공식 혜택 페이지로 바로 이동"), "Home page missing verified realtime discount news section");
+  assert(text.includes("공식 링크") && text.includes("공식 페이지"), "Home page missing official event/news link trust actions");
   assert(text.includes("심화 혜택 탐색") && text.includes("상품 목록을 먼저 보고"), "Home page missing collapsible deep discovery summary");
   assert(text.includes("상세 필터와 결과 분석") && text.includes("상품 목록을 먼저 보고, 더 좁힐 때 펼치세요"), "Home page missing collapsible advanced filter summary");
   assert(text.includes("검색 도우미"), "Home page missing search discovery panel");
@@ -536,6 +538,8 @@ await check("admin dashboard quality cards", async () => {
   const text = await response.text();
   assert(response.status === 200, `Expected 200, got ${response.status}`);
   assert(text.includes("운영 대시보드"), "Admin dashboard missing title");
+  assert(text.includes("뉴스 수집 현황") && text.includes("공식 이벤트·무료 혜택 feed 후보"), "Admin dashboard missing news collection status");
+  assert(text.includes("알림 캠페인 운영 큐") && text.includes("오늘 발송 후보와 FCM 준비 상태"), "Admin dashboard missing notification campaign queue");
   assert(text.includes("구매 링크 확인율"), "Admin dashboard missing verified link rate card");
   assert(text.includes("링크 검토 필요"), "Admin dashboard missing link review count card");
   assert(text.includes("오늘 처리할 링크 작업"), "Admin dashboard missing link review action summary");
@@ -635,6 +639,18 @@ await check("deals api", async () => {
   for (const field of ["mall", "imageUrl", "shippingInfo", "expiresAt"]) {
     assert(field in data.deals[0], `Legacy Deal alias missing: ${field}`);
   }
+});
+
+await check("news deals api", async () => {
+  const { response, data } = await fetchJson("/api/news-deals?limit=6");
+  assert(response.status === 200, `Expected 200, got ${response.status}`);
+  assert(data.ok === true, "News deals API ok should be true");
+  assert(data.count >= 6, `Expected at least 6 official news/event benefits, got ${data.count}`);
+  assert(data.deals.every((deal) => deal.validationStatus === "passed" && deal.isHidden === false), "News deals API returned hidden or unverified items");
+  assert(data.deals.every((deal) => /^https?:\/\//.test(deal.finalUrl)), "News deals API returned invalid finalUrl");
+  assert(data.deals.every((deal) => !/search|query=|keyword=|msearch|result/i.test(deal.finalUrl)), "News deals API returned a search/result URL");
+  assert(data.deals.some((deal) => deal.category === "마트/편의점"), "News deals API missing mart/convenience official benefits");
+  assert(data.deals.some((deal) => deal.category === "영화/문화" || deal.category === "정부/공공혜택"), "News deals API missing culture/public official benefits");
 });
 
 await check("deals filters api", async () => {
