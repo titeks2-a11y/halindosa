@@ -49,10 +49,12 @@ npm run harness
 
 ```bash
 npm run verify:links
+npm run verify:products
 npm run refresh:news
 npm run verify:news
 npm run news:feed:doctor
 npm run refresh:all
+npm run exposure:doctor
 npm run health:readiness
 npm run catalog:doctor
 npm run catalog:report
@@ -79,7 +81,7 @@ npm run release:doctor
 
 `npm run health:readiness`는 `reports/health-readiness.json`과 [docs/HEALTH_READINESS_REPORT.md](docs/HEALTH_READINESS_REPORT.md)를 생성해 상품 140개 이상, 검증 링크 99% 이상, 검색/품절 노출 0개, 공식 혜택 25개 이상, 필수 공식 혜택 카테고리별 2건 이상, `refresh:all` 성공, 24시간 이내 신선도를 함께 점검합니다.
 
-`npm run qa`는 `lint`, `verify:links`, 상품/뉴스 refresh, `verify:news`, `news:feed:doctor`, `refresh:all`, `health:readiness`, 외부 링크/이미지/이미지 운영 doctor, `catalog:doctor`, `search:doctor`, UI/모바일 UX/SEO/성능 doctor, 구매·상세·전역 navigation doctor, 홈 URL/list scan doctor, `smoke:local`, `build`, `release:doctor`를 순서대로 실행합니다.
+`npm run qa`는 `lint`, `verify:links`, `verify:products`, 상품/뉴스 refresh, `verify:news`, `news:feed:doctor`, `refresh:all`, `exposure:doctor`, `health:readiness`, 외부 링크/이미지/이미지 운영 doctor, `catalog:doctor`, `search:doctor`, UI/모바일 UX/SEO/성능 doctor, 구매·상세·전역 navigation doctor, 홈 URL/list scan doctor, `smoke:local`, `build`, `release:doctor`를 순서대로 실행합니다.
 
 ## 공식 혜택 Feed 운영
 
@@ -156,7 +158,7 @@ npm run search:doctor
 ## 상품 데이터 추가 기준
 
 신규 상품은 검색 결과나 대표몰 메인 링크가 아니라 실제 상품/혜택 상세 페이지를 `verifiedPurchaseLinks.ts` 또는 운영 피드의 `productUrl`, `finalPurchaseUrl`, `affiliateUrl`에 등록해야 합니다.
-검증 링크에는 `checkedAt`, `source`, `evidence`를 함께 남겨야 하며 `npm run verify:links`는 URL 형태뿐 아니라 검수 근거와 구매 도메인 다양성까지 확인합니다. 검증 통과 URL은 상품 상세 URL 또는 공식 혜택/이벤트 URL 신호가 있어야 하며, 현재 기준은 상품 상세 URL 82개와 공식 혜택/이벤트 URL 28개를 구분해 출력합니다.
+검증 링크에는 `checkedAt`, `source`, `evidence`를 함께 남겨야 하며 `npm run verify:links`는 URL 형태뿐 아니라 검수 근거와 구매 도메인 다양성까지 확인합니다. 검증 통과 URL은 상품 상세 URL 또는 공식 혜택/이벤트 URL 신호가 있어야 하며, `reports/link-validation.json`의 `auditedItems`에는 상품별 `linkType`, `availability`, `validationStatus`, `isHidden`, `priorityScore`가 기록됩니다. `npm run exposure:doctor`는 이 감사 행을 기준으로 검색 링크, 품절/종료 링크, 실패 링크가 사용자 노출 목록에 섞이지 않았는지 다시 확인합니다.
 
 필수 기준:
 
@@ -169,6 +171,8 @@ npm run search:doctor
 
 ```bash
 npm run verify:links
+npm run verify:products
+npm run exposure:doctor
 ```
 
 운영 피드는 `npm run feed:validate`와 `/api/admin/import` dry-run을 통과한 뒤 연결합니다. 두 검증 모두 구매 이동 후보가 검색 결과 URL뿐인 행, 커뮤니티/placeholder 링크, 중복 externalId, 같은 판매처의 중복 상품명을 `needs_fix`로 분리합니다. 운영 반영 전 `rows[].status`가 모두 `ready`인지 확인하세요.

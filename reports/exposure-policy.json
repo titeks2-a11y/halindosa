@@ -1,0 +1,42 @@
+{
+  "ok": true,
+  "generatedAt": "2026-06-03T14:39:17.467Z",
+  "summary": {
+    "auditedItems": 140,
+    "exposedItems": 140,
+    "hiddenItems": 0,
+    "badExposedItems": 0,
+    "searchLinksExposed": 0,
+    "soldOutExposed": 0,
+    "failedExposed": 0,
+    "averagePriorityScore": 100
+  },
+  "linkTypeCounts": {
+    "direct_purchase": 140
+  },
+  "availabilityCounts": {
+    "active": 140
+  },
+  "validationStatusCounts": {
+    "passed": 140
+  },
+  "exposurePolicy": {
+    "availability": "active",
+    "validationStatus": "passed",
+    "isHidden": false,
+    "blockedLinkTypes": [
+      "search",
+      "seller_search",
+      "unavailable"
+    ],
+    "finalUrlRequired": true
+  },
+  "badExposedItems": [],
+  "hiddenItems": [],
+  "sourceReports": {
+    "linkValidationGeneratedAt": "2026-06-03T14:39:16.813Z",
+    "productQualityGeneratedAt": "2026-06-03T14:39:16.911Z",
+    "refreshAllGeneratedAt": "2026-06-03T14:39:16.380Z"
+  },
+  "issues": []
+}

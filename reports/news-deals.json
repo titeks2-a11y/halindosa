@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-03T13:31:41.326Z",
+  "generatedAt": "2026-06-03T14:39:16.995Z",
   "totalCount": 26,
   "visibleCount": 26,
   "hiddenCount": 0,
@@ -122,7 +122,7 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://gs25.gsretail.com/gscvs/ko/customer-engagement/event/detail/publishing?eventCode=8842885844512&pageNum=1&uiel=Mobile",
-      "checkedAt": "2026-06-03T13:31:41.326Z"
+      "checkedAt": "2026-06-03T14:39:16.995Z"
     },
     {
       "dealId": "news-musinsa-fashion-festa",
@@ -131,7 +131,7 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://www.musinsa.com/campaign/fashionfesta_1",
-      "checkedAt": "2026-06-03T13:31:41.326Z"
+      "checkedAt": "2026-06-03T14:39:16.995Z"
     },
     {
       "dealId": "news-lotteon-lohbs-coupon",
@@ -140,7 +140,7 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://www.lotteon.com/event/onLohbsShare",
-      "checkedAt": "2026-06-03T13:31:41.326Z"
+      "checkedAt": "2026-06-03T14:39:16.995Z"
     },
     {
       "dealId": "news-gs25-card-june-2026",
@@ -149,7 +149,7 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://gs25.gsretail.com/gscvs/ko/customer-engagement/event/detail/publishing?eventCode=8842885778976&pageNum=1",
-      "checkedAt": "2026-06-03T13:31:41.326Z"
+      "checkedAt": "2026-06-03T14:39:16.995Z"
     },
     {
       "dealId": "news-gs25-event-goods",
@@ -158,7 +158,7 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://gs25.gsretail.com/gscvs/ko/products/event-goods",
-      "checkedAt": "2026-06-03T13:31:41.326Z"
+      "checkedAt": "2026-06-03T14:39:16.995Z"
     },
     {
       "dealId": "news-culture-day-programs-2026",
@@ -167,7 +167,7 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://www.culture.go.kr/wday/main/main.do",
-      "checkedAt": "2026-06-03T13:31:41.326Z"
+      "checkedAt": "2026-06-03T14:39:16.995Z"
     },
     {
       "dealId": "news-culture-day-weekly-2026",
@@ -176,7 +176,7 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://www.culture.go.kr/local/wday/cltrDay.do",
-      "checkedAt": "2026-06-03T13:31:41.326Z"
+      "checkedAt": "2026-06-03T14:39:16.995Z"
     },
     {
       "dealId": "news-cgv-official-events",
@@ -185,7 +185,7 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://www.cgv.co.kr/culture-event/event/defaultNew.aspx",
-      "checkedAt": "2026-06-03T13:31:41.326Z"
+      "checkedAt": "2026-06-03T14:39:16.995Z"
     },
     {
       "dealId": "news-lottecinema-official-events",
@@ -194,7 +194,7 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://www.lottecinema.co.kr/NLCHS/Event",
-      "checkedAt": "2026-06-03T13:31:41.326Z"
+      "checkedAt": "2026-06-03T14:39:16.995Z"
     },
     {
       "dealId": "news-tworld-membership-upgrade",
@@ -203,7 +203,7 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://www.tworld.co.kr/poc/html/product/TS3.7.1T.2.html",
-      "checkedAt": "2026-06-03T13:31:41.326Z"
+      "checkedAt": "2026-06-03T14:39:16.995Z"
     },
     {
       "dealId": "news-tworld-longterm-discount",
@@ -212,7 +212,7 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://www.tworld.co.kr/poc/html/product/TS3.3.1T.8.html",
-      "checkedAt": "2026-06-03T13:31:41.326Z"
+      "checkedAt": "2026-06-03T14:39:16.995Z"
     },
     {
       "dealId": "news-koreanair-promotion",
@@ -221,7 +221,7 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://www.koreanair.com/promotion/list",
-      "checkedAt": "2026-06-03T13:31:41.326Z"
+      "checkedAt": "2026-06-03T14:39:16.995Z"
     },
     {
       "dealId": "news-ssg-official-event-main",
@@ -230,7 +230,7 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://www.ssg.com/event/eventMain.ssg",
-      "checkedAt": "2026-06-03T13:31:41.326Z"
+      "checkedAt": "2026-06-03T14:39:16.995Z"
     },
     {
       "dealId": "news-emart-official-event-main",
@@ -239,7 +239,7 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://emart.ssg.com/event/eventMain.ssg",
-      "checkedAt": "2026-06-03T13:31:41.326Z"
+      "checkedAt": "2026-06-03T14:39:16.995Z"
     },
     {
       "dealId": "news-homeplus-official-event",
@@ -248,7 +248,7 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://front.homeplus.co.kr/event",
-      "checkedAt": "2026-06-03T13:31:41.326Z"
+      "checkedAt": "2026-06-03T14:39:16.995Z"
     },
     {
       "dealId": "news-yogiyo-official-event",
@@ -257,7 +257,7 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://www.yogiyo.co.kr/mobile/#/event/",
-      "checkedAt": "2026-06-03T13:31:41.326Z"
+      "checkedAt": "2026-06-03T14:39:16.995Z"
     },
     {
       "dealId": "news-samsung-shop-official-event",
@@ -266,7 +266,7 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://www.samsung.com/sec/shop/event/",
-      "checkedAt": "2026-06-03T13:31:41.326Z"
+      "checkedAt": "2026-06-03T14:39:16.995Z"
     },
     {
       "dealId": "news-cu-plus-official-event",
@@ -275,7 +275,7 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://cu.bgfretail.com/event/plus.do?category=event&depth2=1",
-      "checkedAt": "2026-06-03T13:31:41.326Z"
+      "checkedAt": "2026-06-03T14:39:16.995Z"
     },
     {
       "dealId": "news-ssg-earlymorning-food-event",
@@ -284,7 +284,7 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://earlymorning.ssg.com/event/eventMain.ssg",
-      "checkedAt": "2026-06-03T13:31:41.326Z"
+      "checkedAt": "2026-06-03T14:39:16.995Z"
     },
     {
       "dealId": "news-yogiyo-brand-coupon-event",
@@ -293,7 +293,7 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://www.yogiyo.co.kr/mobile/?category=event#/event/",
-      "checkedAt": "2026-06-03T13:31:41.326Z"
+      "checkedAt": "2026-06-03T14:39:16.995Z"
     }
   ],
   "manualActions": [

@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-03T13:44:48.721Z",
+  "generatedAt": "2026-06-03T14:39:17.958Z",
   "score": 100,
   "thresholds": {
     "productDealsCount": 140,
@@ -31,7 +31,7 @@
     "expiredCount": 0,
     "officialMissingCount": 0,
     "failedCount": 0,
-    "freshnessHours": 0.2,
+    "freshnessHours": 0,
     "readyCategories": 10,
     "requiredCategories": 10,
     "minimumCategoryDealCount": 2,
@@ -160,7 +160,7 @@
   },
   "refreshAll": {
     "ok": true,
-    "generatedAt": "2026-06-03T13:31:40.755Z",
+    "generatedAt": "2026-06-03T14:39:16.380Z",
     "insertedCount": 26,
     "updatedCount": 136,
     "hiddenCount": 0,
@@ -171,32 +171,32 @@
       {
         "name": "refresh:deals",
         "ok": true,
-        "startedAt": "2026-06-03T13:31:40.757Z",
-        "finishedAt": "2026-06-03T13:31:41.015Z"
+        "startedAt": "2026-06-03T14:39:16.381Z",
+        "finishedAt": "2026-06-03T14:39:16.660Z"
       },
       {
         "name": "refresh:news",
         "ok": true,
-        "startedAt": "2026-06-03T13:31:41.015Z",
-        "finishedAt": "2026-06-03T13:31:41.093Z"
+        "startedAt": "2026-06-03T14:39:16.660Z",
+        "finishedAt": "2026-06-03T14:39:16.738Z"
       },
       {
         "name": "verify:links",
         "ok": true,
-        "startedAt": "2026-06-03T13:31:41.093Z",
-        "finishedAt": "2026-06-03T13:31:41.185Z"
+        "startedAt": "2026-06-03T14:39:16.738Z",
+        "finishedAt": "2026-06-03T14:39:16.839Z"
       },
       {
         "name": "verify:products",
         "ok": true,
-        "startedAt": "2026-06-03T13:31:41.185Z",
-        "finishedAt": "2026-06-03T13:31:41.260Z"
+        "startedAt": "2026-06-03T14:39:16.839Z",
+        "finishedAt": "2026-06-03T14:39:16.923Z"
       },
       {
         "name": "verify:news",
         "ok": true,
-        "startedAt": "2026-06-03T13:31:41.260Z",
-        "finishedAt": "2026-06-03T13:31:41.340Z"
+        "startedAt": "2026-06-03T14:39:16.923Z",
+        "finishedAt": "2026-06-03T14:39:17.009Z"
       }
     ]
   },
@@ -244,7 +244,7 @@
     {
       "name": "official benefit freshness",
       "ok": true,
-      "detail": "Official benefit report freshness is 0.2h."
+      "detail": "Official benefit report freshness is 0h."
     },
     {
       "name": "refresh all pipeline",

@@ -188,6 +188,124 @@ function parseVerifiedEntries() {
   return entries;
 }
 
+function getIssueMessagesForId(id, allIssues) {
+  return allIssues.filter((issue) => issue.startsWith(`${id}:`));
+}
+
+function getLiveProbeFailureForId(id) {
+  return liveProbe.failures.find((failure) => failure.id === id) ?? null;
+}
+
+function getAuditPriorityScore({ linkType, validationStatus, availability, hasImage, hasPrice, discountRate, checkedAt, liveProbeFailure }) {
+  let score = 50;
+
+  if (linkType === "direct_purchase" || linkType === "affiliate") score += 24;
+  if (validationStatus === "passed") score += 16;
+  if (availability === "active") score += 12;
+  if (hasImage) score += 8;
+  if (hasPrice) score += 8;
+  if (discountRate > 0) score += 5;
+  if (checkedAt) score += 4;
+  if (linkType === "search" || linkType === "seller_search") score -= 45;
+  if (linkType === "unavailable") score -= 50;
+  if (availability === "sold_out" || availability === "ended") score -= 60;
+  if (validationStatus === "failed") score -= 35;
+  if (liveProbeFailure?.reason === "timeout") score -= 12;
+  if (liveProbeFailure?.reason === "robots_or_access_blocked") score -= 8;
+  if (liveProbeFailure?.status >= 400) score -= 20;
+
+  return Math.max(0, Math.min(100, Math.round(score)));
+}
+
+function buildAuditedItems({ dealIds, entryMap, metadataMap, issues }) {
+  return dealIds.map((id) => {
+    const urlValue = entryMap.get(id) ?? "";
+    const metadata = metadataMap.get(id);
+    const issueMessages = getIssueMessagesForId(id, issues);
+    const liveProbeFailure = getLiveProbeFailureForId(id);
+    const checks = {
+      httpUrl: false,
+      blockedHost: false,
+      homeOnlyUrl: false,
+      searchLikeUrl: false,
+      productDetailUrl: false,
+      officialBenefitUrl: false,
+      unavailableText: containsUnavailableText(metadata?.evidence ?? ""),
+      liveProbeOk: liveProbeEnabled ? !liveProbeFailure : null
+    };
+    let host = "";
+    let finalUrl = urlValue;
+    let linkType = "unavailable";
+
+    try {
+      if (urlValue) {
+        const url = new URL(urlValue);
+        host = url.hostname.replace(/^www\./, "").toLowerCase();
+        finalUrl = liveProbeFailure?.finalUrl ?? urlValue;
+        checks.httpUrl = url.protocol === "https:" || url.protocol === "http:";
+        checks.blockedHost = isBlockedHost(host);
+        checks.homeOnlyUrl = isHomeOnly(url);
+        checks.searchLikeUrl = isSearchLike(url);
+        checks.productDetailUrl = hasProductDetailSignal(url);
+        checks.officialBenefitUrl = hasClaimOrBenefitSignal(url, metadata?.evidence ?? "");
+
+        if (checks.searchLikeUrl) linkType = "search";
+        else if (checks.productDetailUrl || checks.officialBenefitUrl) linkType = "direct_purchase";
+      }
+    } catch {
+      finalUrl = urlValue;
+    }
+
+    const unavailableDetected = checks.unavailableText || liveProbeFailure?.reason === "sold_out_or_ended_text";
+    const validationStatus = issueMessages.length ? "failed" : "passed";
+    const availability = unavailableDetected ? "sold_out" : validationStatus === "passed" ? "active" : "unknown";
+    const isHidden =
+      availability !== "active" ||
+      validationStatus !== "passed" ||
+      linkType === "search" ||
+      linkType === "seller_search" ||
+      linkType === "unavailable" ||
+      !urlValue;
+    const priorityScore = getAuditPriorityScore({
+      linkType,
+      validationStatus,
+      availability,
+      hasImage: true,
+      hasPrice: true,
+      discountRate: 1,
+      checkedAt: metadata?.checkedAt,
+      liveProbeFailure
+    });
+
+    return {
+      id,
+      source: metadata?.source ?? "missing",
+      originalUrl: urlValue,
+      finalUrl,
+      linkType,
+      availability,
+      validationStatus,
+      validationReason: issueMessages.length ? issueMessages.map((issue) => issue.replace(`${id}: `, "")).join(" | ") : "passed",
+      lastCheckedAt: metadata?.checkedAt ?? "",
+      priorityScore,
+      isHidden,
+      host,
+      evidence: metadata?.evidence ?? "",
+      checks,
+      liveProbe: liveProbeFailure
+        ? {
+            ok: false,
+            status: liveProbeFailure.status,
+            reason: liveProbeFailure.reason,
+            finalUrl: liveProbeFailure.finalUrl
+          }
+        : liveProbeEnabled
+          ? { ok: true }
+          : { ok: null, reason: "disabled" }
+    };
+  });
+}
+
 const dealIds = [...mockDeals.matchAll(/deal\("(d\d+)"/g)].map((match) => match[1]);
 const entries = parseVerifiedEntries();
 const entryMap = new Map(entries.map((entry) => [entry.id, entry.url]));
@@ -311,6 +429,17 @@ if (hosts.size < minimums.distinctHosts) {
   addExcludedReason("manual_review_needed");
 }
 
+const auditedItems = buildAuditedItems({ dealIds, entryMap, metadataMap, issues });
+const exposureAudit = {
+  totalItems: auditedItems.length,
+  passedItems: auditedItems.filter((item) => item.validationStatus === "passed" && item.availability === "active" && !item.isHidden).length,
+  hiddenItems: auditedItems.filter((item) => item.isHidden).length,
+  searchItems: auditedItems.filter((item) => item.linkType === "search" || item.linkType === "seller_search").length,
+  soldOutItems: auditedItems.filter((item) => item.availability === "sold_out").length,
+  failedItems: auditedItems.filter((item) => item.validationStatus === "failed").length,
+  averagePriorityScore: auditedItems.length ? Math.round(auditedItems.reduce((sum, item) => sum + item.priorityScore, 0) / auditedItems.length) : 0
+};
+
 const report = {
   generatedAt: new Date().toISOString(),
   totalDeals: dealIds.length,
@@ -353,6 +482,8 @@ const report = {
   exposurePolicy: {
     ...linkQualityPolicy.exposurePolicy
   },
+  exposureAudit,
+  auditedItems,
   excludedReasonCounts: Object.fromEntries([...excludedReasonCounts.entries()].sort(([a], [b]) => a.localeCompare(b))),
   domainCounts: Object.fromEntries([...domainCounts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))),
   issues

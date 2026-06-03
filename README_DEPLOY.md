@@ -153,10 +153,12 @@ DNS 반영 후 확인:
 
 ```bash
 npm run verify:links
+npm run verify:products
 npm run news:feed:doctor
 npm run refresh:news
 npm run verify:news
 npm run refresh:all
+npm run exposure:doctor
 npm run health:readiness
 npm run feed:validate -- --file ./partner-feed.json
 ```
