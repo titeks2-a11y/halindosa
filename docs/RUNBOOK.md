@@ -31,6 +31,8 @@ npm run smoke
 - 신고 API: `POST /api/reports`
 - 신고 큐: `GET /api/admin/reports?token=$ADMIN_EXPORT_TOKEN`
 - 피드 dry-run: `POST /api/admin/import?token=$ADMIN_EXPORT_TOKEN`
+- 상품 품질 CSV: `GET /api/admin/deal-quality?format=csv&token=$ADMIN_EXPORT_TOKEN`
+  - provider 수집 상태, 실패 사유, 수동 숨김 ID, live probe, link validation 요약을 내려받아 검색/품절/종료 링크 노출 0건을 운영 검수한다.
 - 리다이렉트: `GET /api/redirect/d001?from=runbook`
 - 제휴/판매처 fallback 상태: `GET /api/affiliate/status`
 - 관리자: `GET /admin?token=$ADMIN_EXPORT_TOKEN`

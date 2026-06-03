@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { RotateCw, ShieldCheck, ToggleLeft, ToggleRight } from "lucide-react";
+import { Download, RotateCw, ShieldCheck, ToggleLeft, ToggleRight } from "lucide-react";
 import type { RefreshDealsReport } from "@/lib/deals/refreshReport";
 
 interface AdminDealQualityPanelProps {
@@ -15,11 +15,13 @@ export function AdminDealQualityPanel({ token, initialReport }: AdminDealQuality
   const [manualHiddenDealIds, setManualHiddenDealIds] = useState<string[]>([]);
   const [message, setMessage] = useState("최신 refresh 리포트 기준입니다.");
   const [isLoading, setIsLoading] = useState(false);
+  const apiHref = `/api/admin/deal-quality${token ? `?token=${encodeURIComponent(token)}` : ""}`;
+  const csvHref = `/api/admin/deal-quality?format=csv${token ? `&token=${encodeURIComponent(token)}` : ""}`;
 
   async function runAction(action: "revalidate" | "hide" | "restore") {
     setIsLoading(true);
     try {
-      const response = await fetch(`/api/admin/deal-quality${token ? `?token=${encodeURIComponent(token)}` : ""}`, {
+      const response = await fetch(apiHref, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ action, dealId })
@@ -53,15 +55,26 @@ export function AdminDealQualityPanel({ token, initialReport }: AdminDealQuality
             provider 수집, 중복 제거, 검색 링크 차단, 숨김 처리 결과를 운영자가 바로 확인합니다.
           </p>
         </div>
-        <button
-          type="button"
-          onClick={() => runAction("revalidate")}
-          disabled={isLoading}
-          className="inline-flex items-center justify-center gap-2 rounded-2xl bg-slate-950 px-4 py-3 text-sm font-black text-white disabled:opacity-60"
-        >
-          <RotateCw size={17} />
-          링크 재검증
-        </button>
+        <div className="flex flex-wrap gap-2">
+          <a
+            href={csvHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-black text-slate-800"
+          >
+            <Download size={17} aria-hidden="true" />
+            품질 CSV
+          </a>
+          <button
+            type="button"
+            onClick={() => runAction("revalidate")}
+            disabled={isLoading}
+            className="inline-flex items-center justify-center gap-2 rounded-2xl bg-slate-950 px-4 py-3 text-sm font-black text-white disabled:opacity-60"
+          >
+            <RotateCw size={17} />
+            링크 재검증
+          </button>
+        </div>
       </div>
 
       <div className="mt-4 grid gap-3 md:grid-cols-6">

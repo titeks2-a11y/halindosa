@@ -3499,6 +3499,9 @@ function checkRefreshDealPipeline() {
   const providerRegistry = readFileSync(join(root, "lib/deals/providers/providerRegistry.ts"), "utf8");
   const dealRepository = readFileSync(join(root, "lib/deals/dealRepository.ts"), "utf8");
   const refreshScript = readFileSync(join(root, "scripts/refresh-deals.mjs"), "utf8");
+  const adminRoute = existsSync(join(root, adminRoutePath)) ? readFileSync(join(root, adminRoutePath), "utf8") : "";
+  const adminPanel = existsSync(join(root, adminPanelPath)) ? readFileSync(join(root, adminPanelPath), "utf8") : "";
+  const smoke = readFileSync(join(root, "scripts/smoke.mjs"), "utf8");
   const issues = [];
 
   if (!existsSync(refreshPath)) {
@@ -3544,8 +3547,20 @@ function checkRefreshDealPipeline() {
     issues.push("deal repository should merge refreshed snapshots and provider registry deals into customer-visible data");
   }
 
+  if (
+    !adminRoute.includes("format") ||
+    !adminRoute.includes("buildDealQualityCsv") ||
+    !adminRoute.includes("text/csv") ||
+    !adminRoute.includes("link_validation") ||
+    !adminPanel.includes("품질 CSV") ||
+    !smoke.includes("admin deal quality csv") ||
+    !smoke.includes("Deal quality CSV missing provider")
+  ) {
+    issues.push("admin deal quality API/panel should export provider stats, failure reasons, manual hidden ids, and link validation as CSV");
+  }
+
   if (issues.length) fail("deal refresh pipeline", issues.join("; "));
-  else pass("deal refresh pipeline", "Provider collection, normalization, dedupe, validation, reports, snapshot, and admin operations are wired.");
+  else pass("deal refresh pipeline", "Provider collection, normalization, dedupe, validation, reports, snapshot, admin operations, and deal quality CSV export are wired.");
 }
 
 function checkNewsDealPipeline() {

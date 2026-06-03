@@ -575,6 +575,7 @@ await check("admin dashboard quality cards", async () => {
   assert(text.includes("FCM 테스트 발송 dry-run") && text.includes("운영 토큰으로 발송 후보를 안전하게 점검"), "Admin dashboard missing push dry-run panel");
   assert(text.includes("dry-run으로만 검증") && text.includes("실제 발송 확인"), "Admin dashboard missing safe push send controls");
   assert(text.includes("구매 링크 확인율"), "Admin dashboard missing verified link rate card");
+  assert(text.includes("품질 CSV"), "Admin dashboard missing deal quality CSV export action");
   assert(text.includes("링크 검토 필요"), "Admin dashboard missing link review count card");
   assert(text.includes("오늘 처리할 링크 작업"), "Admin dashboard missing link review action summary");
   assert(text.includes("구매 링크 보강 우선순위"), "Admin dashboard missing link review priority summary");
@@ -1792,6 +1793,16 @@ await check("admin export csv", async () => {
     text.includes("dailyQueueSections") && text.includes("dailyQueueRank") && text.includes("dailyQueueAction"),
     "CSV missing daily benefit queue export fields"
   );
+});
+
+await check("admin deal quality csv", async () => {
+  const response = await fetch(`${baseUrl}/api/admin/deal-quality?format=csv`);
+  const text = await response.text();
+  assert(response.status === 200, `Expected 200, got ${response.status}`);
+  assert(response.headers.get("content-type")?.includes("text/csv"), "Deal quality export is not CSV");
+  assert(response.headers.get("x-request-id"), "Deal quality export missing request id");
+  assert(text.startsWith("section,key,label"), "Deal quality CSV header missing");
+  assert(text.includes("provider") && text.includes("failure_reason") && text.includes("link_validation"), "Deal quality CSV missing provider, failure reason, or link validation sections");
 });
 
 await check("admin image queue csv", async () => {
