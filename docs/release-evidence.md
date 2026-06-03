@@ -4,10 +4,10 @@
 
 ## 기본 정보
 
-- 생성 시각: 2026-06-03T19:32:42.452Z
+- 생성 시각: 2026-06-03T19:47:19.905Z
 - Git 브랜치: codex/12h-product-ux-growth-hardening
-- 최신 커밋: 9e989b9
-- Git 상태: clean
+- 최신 커밋: 984756c
+- Git 상태: M EXTERNAL_LINK_REPORT.md;  M IMAGE_QUALITY_REPORT.md;  M LINK_VERIFICATION_REPORT.md;  M LINK_VERIFICATION_RESULT.json;  M PERFORMANCE_REPORT.md;  M SEARCH_REPORT.md;  M data/refreshedDeals.json;  M docs/FEED_TRANSITION_REPORT.md;  M docs/HEALTH_READINESS_REPORT.md;  M docs/OFFICIAL_SOURCE_CATALOG.md;  M docs/PERFORMANCE_REPORT.md;  M docs/PUSH_READINESS_REPORT.md;  M reports/cron-refresh-readiness.json;  M reports/exposure-policy.json;  M reports/feed-transition.json;  M reports/health-readiness.json;  M reports/link-validation.json;  M reports/official-source-catalog.json;  M reports/product-quality.json;  M reports/push-readiness.json;  M reports/refresh-all.json;  M reports/refresh-deals.json;  M reports/release-doctor.json
 - 패키지 버전: 1.0.1
 - 앱 이름: 할인도사
 - 앱 ID / 패키지명: com.halindosa.app
