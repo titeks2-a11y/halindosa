@@ -2020,6 +2020,8 @@ async function checkOperationalDataSurfaces() {
     !benefitReturnReservationList.includes("재방문 루틴 추가") ||
     !notificationsPage.includes("<InterestAlertPreview") ||
     !interestAlertPreview.includes("readLocalPreferences") ||
+    !interestAlertPreview.includes("readLocalFavoriteIds") ||
+    !interestAlertPreview.includes("readRecentDealIds") ||
     !interestAlertPreview.includes("readNotificationPreferenceCategories") ||
     !interestAlertPreview.includes("notificationPreferenceUpdatedEvent") ||
     !interestAlertPreview.includes("buildPersonalizedBenefitQueue") ||
@@ -2095,6 +2097,11 @@ async function checkOperationalDataSurfaces() {
     !interestAlertPreview.includes("관심 설정하기") ||
     !interestAlertPreview.includes("알림 개인화 추천 API") ||
     !interestAlertPreview.includes("개인화 API 보기") ||
+    !interestAlertPreview.includes("favoriteId") ||
+    !interestAlertPreview.includes("recentId") ||
+    !interestAlertPreview.includes("기기 저장 알림 신호") ||
+    !interestAlertPreview.includes("찜 반영") ||
+    !interestAlertPreview.includes("최근 본 상품") ||
     !interestAlertPreview.includes("비회원도 기기에 관심 알림 카테고리를 저장") ||
     !interestAlertPreview.includes("interestAlertPlan") ||
     !interestAlertPreview.includes("관심 알림 실행 카드") ||
@@ -2122,6 +2129,7 @@ async function checkOperationalDataSurfaces() {
     !smoke.includes("Notifications page missing alert time routine") ||
     !smoke.includes("Notifications page missing interest alert action cards") ||
     !smoke.includes("Notifications page missing local notification category preferences") ||
+    !smoke.includes("Notifications page missing favorite and recent signal personalization summary") ||
     !smoke.includes("Notifications page missing reusable personalized recommendation API card") ||
     notificationsPage.includes("Notification.requestPermission")
   ) {

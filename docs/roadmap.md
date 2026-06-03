@@ -23,6 +23,7 @@
 - 알림 캠페인 운영 큐를 검증 상품 캠페인과 공식 혜택 캠페인으로 분리하고, 공식 뉴스/이벤트 혜택도 `benefitIds`, `sourceNames`, `official_benefit` 구분값을 가진 푸시 후보 큐로 편성해 무료·쿠폰·카드·멤버십·문화·공공 혜택을 운영자가 바로 검토할 수 있게 했다.
 - 알림 설정을 `lib/notificationPreferences.ts`로 분리하고, 기존 4개 신호 토글에 `알림 받을 카테고리`를 추가해 비회원도 기기 저장 기반으로 무료/쿠폰/식품/생활/마트/외식/디지털/문화/카드/공공 혜택 알림 후보를 개인화할 수 있게 했다.
 - `InterestAlertPreview`가 마이페이지 관심 카테고리와 알림 받을 카테고리를 함께 읽고, 같은 탭에서 설정이 바뀌면 즉시 추천 큐를 갱신하도록 연결했다.
+- 관심 알림 미리보기가 `favoriteId`, `recentId`를 `/api/benefits/personalized`에 함께 전달하도록 보강해 비회원의 기기 저장 찜, 최근 본 상품, 알림 카테고리가 같은 향후 푸시 후보 점수에 반영되게 했다.
 
 ### PHASE Premium Commerce UX and Operations
 

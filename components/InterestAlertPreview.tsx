@@ -6,8 +6,9 @@ import { BellPlus, Clock3, Gift, SlidersHorizontal, Sparkles, TicketPercent } fr
 import { getBenefitTypeLabel } from "@/lib/deals/benefits";
 import { buildPersonalizedBenefitQueue } from "@/lib/deals/personalizedBenefitQueue";
 import { formatPrice, getTimeLeft } from "@/lib/format";
-import { readLocalPreferences } from "@/lib/memberSync";
+import { favoriteStorageKey, readLocalFavoriteIds, readLocalPreferences } from "@/lib/memberSync";
 import { notificationPreferenceUpdatedEvent, readNotificationPreferenceCategories } from "@/lib/notificationPreferences";
+import { readRecentDealIds, recentDealStorageKey } from "@/lib/recentDeals";
 import { Deal } from "@/types/deal";
 
 interface InterestAlertPreviewProps {
@@ -42,6 +43,8 @@ function rankPersonalDeal(deal: Deal) {
 
 export function InterestAlertPreview({ deals }: InterestAlertPreviewProps) {
   const [interests, setInterests] = useState<string[]>(fallbackInterests);
+  const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
+  const [recentIds, setRecentIds] = useState<string[]>([]);
   const [hasSavedInterests, setHasSavedInterests] = useState(false);
 
   useEffect(() => {
@@ -51,13 +54,20 @@ export function InterestAlertPreview({ deals }: InterestAlertPreviewProps) {
       const next = Array.from(new Set([...saved, ...notificationCategories])).slice(0, 8);
       setHasSavedInterests(saved.length > 0 || notificationCategories.length > 0);
       setInterests(next.length ? next : fallbackInterests);
+      setFavoriteIds(readLocalFavoriteIds().slice(0, 12));
+      setRecentIds(readRecentDealIds().slice(0, 12));
+    };
+    const handleStorageChange = (event: StorageEvent) => {
+      if (!event.key || [favoriteStorageKey, recentDealStorageKey].includes(event.key)) refreshInterests();
     };
     const handle = window.setTimeout(refreshInterests, 0);
     window.addEventListener(notificationPreferenceUpdatedEvent, refreshInterests);
+    window.addEventListener("storage", handleStorageChange);
 
     return () => {
       window.clearTimeout(handle);
       window.removeEventListener(notificationPreferenceUpdatedEvent, refreshInterests);
+      window.removeEventListener("storage", handleStorageChange);
     };
   }, []);
 
@@ -65,14 +75,26 @@ export function InterestAlertPreview({ deals }: InterestAlertPreviewProps) {
     () =>
       buildPersonalizedBenefitQueue(deals, {
         interests,
+        favoriteIds,
+        recentIds,
         limit: 5
       }),
-    [deals, interests]
+    [deals, favoriteIds, interests, recentIds]
   );
   const personalizedApiHref = `/api/benefits/personalized?limit=5${interests
     .slice(0, 5)
     .map((interest) => `&interest=${encodeURIComponent(interest)}`)
+    .join("")}${favoriteIds
+    .slice(0, 3)
+    .map((favoriteId) => `&favoriteId=${encodeURIComponent(favoriteId)}`)
+    .join("")}${recentIds
+    .slice(0, 3)
+    .map((recentId) => `&recentId=${encodeURIComponent(recentId)}`)
     .join("")}`;
+  const personalizedReasons = useMemo(
+    () => new Map(personalizedQueue.items.map((item) => [item.id, item.reason])),
+    [personalizedQueue.items]
+  );
 
   const matchedDeals = useMemo(() => {
     const queueDeals = personalizedQueue.items
@@ -148,7 +170,7 @@ export function InterestAlertPreview({ deals }: InterestAlertPreviewProps) {
           <div>
             <p className="text-xs font-black text-dossa-red">알림 개인화 추천 API</p>
             <p className="mt-1 text-xs font-bold leading-5 text-slate-500">
-              관심사 {personalizedQueue.summary.interestMatchedDeals}개 후보를 오늘 알림 큐와 같은 기준으로 정리합니다.
+              관심사 {personalizedQueue.summary.interestMatchedDeals}개, 찜/최근 본 {personalizedQueue.summary.continuityDeals}개 후보를 오늘 알림 큐와 같은 기준으로 정리합니다.
             </p>
           </div>
           <Link href={personalizedApiHref} className="rounded-2xl bg-slate-950 px-4 py-2.5 text-center text-xs font-black text-white">
@@ -158,6 +180,20 @@ export function InterestAlertPreview({ deals }: InterestAlertPreviewProps) {
         <p className="mt-2 text-[11px] font-bold leading-5 text-slate-500">
           {personalizedQueue.notice}
         </p>
+      </div>
+
+      <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4" aria-label="기기 저장 알림 신호">
+        {[
+          { label: "알림 카테고리", value: interests.length },
+          { label: "찜 반영", value: favoriteIds.length },
+          { label: "최근 본 상품", value: recentIds.length },
+          { label: "추천 후보", value: personalizedQueue.summary.recommendedDeals }
+        ].map((item) => (
+          <div key={item.label} className="rounded-2xl bg-white px-3 py-2 text-center shadow-sm">
+            <p className="text-base font-black text-slate-950">{item.value}</p>
+            <p className="mt-0.5 text-[11px] font-black text-slate-500">{item.label}</p>
+          </div>
+        ))}
       </div>
 
       <div className="mt-4 flex gap-2 overflow-x-auto pb-1">
@@ -209,7 +245,7 @@ export function InterestAlertPreview({ deals }: InterestAlertPreviewProps) {
               <span className="min-w-0 flex-1">
                 <span className="block truncate text-sm font-black text-slate-950">{deal.title}</span>
                 <span className="mt-1 block truncate text-xs font-bold text-slate-500">
-                  {deal.mallName} · {getBenefitTypeLabel(deal.dealType)} · {getTimeLeft(deal.expireAt)}
+                  {personalizedReasons.get(deal.id) ?? `${deal.mallName} · ${getBenefitTypeLabel(deal.dealType)} · ${getTimeLeft(deal.expireAt)}`}
                 </span>
               </span>
               <span className="shrink-0 text-right">

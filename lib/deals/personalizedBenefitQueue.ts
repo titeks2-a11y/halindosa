@@ -22,9 +22,17 @@ export function dealMatchesPersonalInterest(deal: Deal, interest: string) {
 
   if (interest === "무료/체험") return ["freebie", "experience", "freeShipping"].includes(deal.dealType) || /무료|체험|샘플|0원|무배/.test(searchable);
   if (interest === "쿠폰/이벤트") return ["coupon", "event", "foodDelivery", "point"].includes(deal.dealType) || /쿠폰|이벤트|포인트|적립|배달/.test(searchable);
+  if (interest === "생활용품") return /생활용품|생필품|화장지|물티슈|세제|청소|주방|칫솔|치약|가글/.test(searchable);
+  if (interest === "마트/편의점") return ["mart", "convenienceStore"].includes(deal.dealType) || /마트|편의점|1\+1|2\+1|장보기|이마트|홈플러스|GS25|CU|세븐일레븐/.test(searchable);
+  if (interest === "외식/배달") return ["foodDelivery"].includes(deal.dealType) || /외식|배달|요기요|배달의민족|치킨|피자|커피|버거/.test(searchable);
   if (interest === "디지털") return /디지털|전자기기|가전|노트북|TV|스마트|충전|이어폰/.test(searchable);
   if (interest === "패션") return /패션|의류|잡화|신발|무신사|가방|스니커즈/.test(searchable);
+  if (interest === "뷰티") return /뷰티|화장품|올리브영|선크림|스킨케어|마스크팩|샴푸/.test(searchable);
+  if (interest === "육아") return /육아|키즈|기저귀|분유|아기|유아|장난감/.test(searchable);
   if (interest === "여행") return /여행|티켓|항공|숙박|호텔|공연|전시|영화/.test(searchable);
+  if (interest === "영화/문화") return /영화|문화|공연|전시|도서|티켓|CGV|롯데시네마|메가박스/.test(searchable);
+  if (interest === "카드/멤버십") return /카드|멤버십|통신사|T멤버십|KT|LG유플러스|청구할인|간편결제|페이/.test(searchable);
+  if (interest === "정부/공공혜택") return /정부|공공|복지|쿠폰|지원금|문화누리|청년|지역/.test(searchable);
 
   return searchable.includes(interest);
 }
