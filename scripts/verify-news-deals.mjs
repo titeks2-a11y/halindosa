@@ -12,6 +12,9 @@ const source = snapshot ? (snapshot.allDeals?.length ? snapshot.allDeals : snaps
 const normalized = source.map((item) => normalizeNewsDeal(item, generatedAt));
 const validated = dedupeNewsDeals(normalized.map((deal) => validateNewsDeal(deal, now)));
 const summary = summarizeNewsDeals(validated, generatedAt, snapshot?.providerStats ?? []);
+const configuredFeedErrors = (snapshot?.providerStats ?? []).filter(
+  (provider) => provider?.configured === true && Number(provider?.errorCount ?? 0) > 0
+);
 const searchLikeVisible = validated.filter((deal) => !deal.isHidden && /search|query=|keyword=|msearch|result/i.test(deal.finalUrl));
 const nonOfficialVisible = validated.filter((deal) => !deal.isHidden && deal.hiddenReason.includes("not_approved_official_url"));
 const expiredVisible = validated.filter((deal) => !deal.isHidden && Date.parse(deal.endDate) < now);
@@ -33,6 +36,7 @@ const ok =
   expiredVisible.length === 0 &&
   missingCategories.length === 0 &&
   thinCategories.length === 0 &&
+  configuredFeedErrors.length === 0 &&
   existsSync(join(root, "app/go/news/[id]/route.ts"));
 
 const report = {
@@ -44,6 +48,12 @@ const report = {
     nonOfficialExposure: nonOfficialVisible.length,
     expiredExposure: expiredVisible.length,
     hiddenExposure: summary.hiddenCount,
+    configuredFeedErrors: configuredFeedErrors.map((provider) => ({
+      provider: provider.provider,
+      feedUrls: provider.feedUrls,
+      errorCount: provider.errorCount,
+      errors: provider.errors ?? []
+    })),
     visibleCategoryCoverage: visibleCategoryCounts.size,
     minimumCategoryDealCount,
     missingCategories,

@@ -3790,7 +3790,7 @@ function checkNewsDealPipeline() {
   ) {
     issues.push("official benefit providers should support seed fallback plus approved JSON/RSS/Atom feed ingestion with a contract doctor");
   }
-  for (const phrase of ["공식 혜택 Feed 계약", "검색 결과 URL", "커뮤니티", "finalUrl", "RSS", "Atom", "npm run refresh:news"]) {
+  for (const phrase of ["공식 혜택 Feed 계약", "검색 결과 URL", "커뮤니티", "finalUrl", "RSS", "Atom", "npm run refresh:news", "configuredFeedErrors", "설정된 운영 feed"]) {
     if (!newsFeedContract.includes(phrase)) issues.push(`news feed contract docs missing ${phrase}`);
   }
 
@@ -3845,6 +3845,7 @@ function checkNewsDealPipeline() {
     !newsOperations.includes("minimumCategoryDealCount") ||
     !verifyScript.includes("minimumCategoryDealCount") ||
     !verifyScript.includes("thinCategories") ||
+    !verifyScript.includes("configuredFeedErrors") ||
     !newsOperations.includes("durationMs") ||
     !smokeScript.includes("freshness?.cadenceHours === 6") ||
     !smokeScript.includes("operatorNextActions") ||
@@ -3865,6 +3866,8 @@ function checkNewsDealPipeline() {
     if (missingCategories.length) issues.push(`news-deals report missing required categories: ${missingCategories.join(", ")}`);
     if (thinCategories.length) issues.push(`news-deals report thin required categories: ${thinCategories.join(", ")}`);
     if (!Array.isArray(report.providerStats) || report.providerStats.length < 4) issues.push("news-deals report should include provider stats");
+    if (Array.isArray(report.gates?.configuredFeedErrors) && report.gates.configuredFeedErrors.length > 0) issues.push("news-deals report should fail configured feed errors before release");
+    if (report.gates && !Array.isArray(report.gates.configuredFeedErrors)) issues.push("news-deals report should expose configured feed error gate");
     if (!Array.isArray(report.recentLogs) || report.recentLogs.length < 5) issues.push("news-deals report should include recent collection logs");
     if (!Array.isArray(report.manualActions) || report.manualActions.length < 3) issues.push("news-deals report should include manual hide/restore/revalidate actions");
     if ((report.hiddenCount ?? 0) !== 0 || (report.expiredCount ?? 0) !== 0 || (report.officialMissingCount ?? 0) !== 0) {

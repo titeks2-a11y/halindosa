@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-03T19:19:23.688Z",
+  "generatedAt": "2026-06-03T19:30:03.800Z",
   "productDealsCount": 140,
   "newsDealsCount": 30,
   "insertedCount": 30,
@@ -153,7 +153,7 @@
     ]
   },
   "linkQuality": {
-    "generatedAt": "2026-06-03T19:19:24.125Z",
+    "generatedAt": "2026-06-03T19:30:04.228Z",
     "totalDeals": 140,
     "verificationTargets": 140,
     "passedDirectLinks": 140,
@@ -4354,7 +4354,7 @@
     "issues": []
   },
   "productQuality": {
-    "generatedAt": "2026-06-03T19:19:24.222Z",
+    "generatedAt": "2026-06-03T19:30:04.324Z",
     "totalProducts": 140,
     "passedProducts": 140,
     "failedProducts": 0,
@@ -4409,7 +4409,7 @@
   },
   "newsQuality": {
     "ok": true,
-    "generatedAt": "2026-06-03T19:19:24.299Z",
+    "generatedAt": "2026-06-03T19:30:04.405Z",
     "totalCount": 30,
     "visibleCount": 30,
     "hiddenCount": 0,
@@ -4535,7 +4535,7 @@
         "status": "visible",
         "reason": "passed",
         "finalUrl": "https://gs25.gsretail.com/gscvs/ko/customer-engagement/event/detail/publishing?eventCode=8842885844512&pageNum=1&uiel=Mobile",
-        "checkedAt": "2026-06-03T19:19:24.299Z"
+        "checkedAt": "2026-06-03T19:30:04.405Z"
       },
       {
         "dealId": "news-musinsa-fashion-festa",
@@ -4544,7 +4544,7 @@
         "status": "visible",
         "reason": "passed",
         "finalUrl": "https://www.musinsa.com/campaign/fashionfesta_1",
-        "checkedAt": "2026-06-03T19:19:24.299Z"
+        "checkedAt": "2026-06-03T19:30:04.405Z"
       },
       {
         "dealId": "news-lotteon-lohbs-coupon",
@@ -4553,7 +4553,7 @@
         "status": "visible",
         "reason": "passed",
         "finalUrl": "https://www.lotteon.com/event/onLohbsShare",
-        "checkedAt": "2026-06-03T19:19:24.299Z"
+        "checkedAt": "2026-06-03T19:30:04.405Z"
       },
       {
         "dealId": "news-gs25-card-june-2026",
@@ -4562,7 +4562,7 @@
         "status": "visible",
         "reason": "passed",
         "finalUrl": "https://gs25.gsretail.com/gscvs/ko/customer-engagement/event/detail/publishing?eventCode=8842885778976&pageNum=1",
-        "checkedAt": "2026-06-03T19:19:24.299Z"
+        "checkedAt": "2026-06-03T19:30:04.405Z"
       },
       {
         "dealId": "news-gs25-event-goods",
@@ -4571,7 +4571,7 @@
         "status": "visible",
         "reason": "passed",
         "finalUrl": "https://gs25.gsretail.com/gscvs/ko/products/event-goods",
-        "checkedAt": "2026-06-03T19:19:24.299Z"
+        "checkedAt": "2026-06-03T19:30:04.405Z"
       },
       {
         "dealId": "news-culture-day-programs-2026",
@@ -4580,7 +4580,7 @@
         "status": "visible",
         "reason": "passed",
         "finalUrl": "https://www.culture.go.kr/wday/main/main.do",
-        "checkedAt": "2026-06-03T19:19:24.299Z"
+        "checkedAt": "2026-06-03T19:30:04.405Z"
       },
       {
         "dealId": "news-culture-day-weekly-2026",
@@ -4589,7 +4589,7 @@
         "status": "visible",
         "reason": "passed",
         "finalUrl": "https://www.culture.go.kr/local/wday/cltrDay.do",
-        "checkedAt": "2026-06-03T19:19:24.299Z"
+        "checkedAt": "2026-06-03T19:30:04.405Z"
       },
       {
         "dealId": "news-kbcard-official-event-center",
@@ -4598,7 +4598,7 @@
         "status": "visible",
         "reason": "passed",
         "finalUrl": "https://card.kbcard.com/BON/DVIEW/HBBMCXCRVNEC0002",
-        "checkedAt": "2026-06-03T19:19:24.299Z"
+        "checkedAt": "2026-06-03T19:30:04.405Z"
       },
       {
         "dealId": "news-kbcard-membership-benefit-center",
@@ -4607,7 +4607,7 @@
         "status": "visible",
         "reason": "passed",
         "finalUrl": "https://card.kbcard.com/BON/DVIEW/HBBMCXCRVNEC0001",
-        "checkedAt": "2026-06-03T19:19:24.299Z"
+        "checkedAt": "2026-06-03T19:30:04.405Z"
       },
       {
         "dealId": "news-hmall-official-shopping-event",
@@ -4616,7 +4616,7 @@
         "status": "visible",
         "reason": "passed",
         "finalUrl": "https://www.hyundaihmall.com/front/evntSect.do",
-        "checkedAt": "2026-06-03T19:19:24.299Z"
+        "checkedAt": "2026-06-03T19:30:04.405Z"
       },
       {
         "dealId": "news-bccard-official-event-center",
@@ -4625,7 +4625,7 @@
         "status": "visible",
         "reason": "passed",
         "finalUrl": "https://www.bccard.com/app/card/EventActn.do?menuId=64",
-        "checkedAt": "2026-06-03T19:19:24.299Z"
+        "checkedAt": "2026-06-03T19:30:04.405Z"
       },
       {
         "dealId": "news-cgv-official-events",
@@ -4634,7 +4634,7 @@
         "status": "visible",
         "reason": "passed",
         "finalUrl": "https://www.cgv.co.kr/culture-event/event/defaultNew.aspx",
-        "checkedAt": "2026-06-03T19:19:24.299Z"
+        "checkedAt": "2026-06-03T19:30:04.405Z"
       },
       {
         "dealId": "news-lottecinema-official-events",
@@ -4643,7 +4643,7 @@
         "status": "visible",
         "reason": "passed",
         "finalUrl": "https://www.lottecinema.co.kr/NLCHS/Event",
-        "checkedAt": "2026-06-03T19:19:24.299Z"
+        "checkedAt": "2026-06-03T19:30:04.405Z"
       },
       {
         "dealId": "news-tworld-membership-upgrade",
@@ -4652,7 +4652,7 @@
         "status": "visible",
         "reason": "passed",
         "finalUrl": "https://www.tworld.co.kr/poc/html/product/TS3.7.1T.2.html",
-        "checkedAt": "2026-06-03T19:19:24.299Z"
+        "checkedAt": "2026-06-03T19:30:04.405Z"
       },
       {
         "dealId": "news-tworld-longterm-discount",
@@ -4661,7 +4661,7 @@
         "status": "visible",
         "reason": "passed",
         "finalUrl": "https://www.tworld.co.kr/poc/html/product/TS3.3.1T.8.html",
-        "checkedAt": "2026-06-03T19:19:24.299Z"
+        "checkedAt": "2026-06-03T19:30:04.405Z"
       },
       {
         "dealId": "news-koreanair-promotion",
@@ -4670,7 +4670,7 @@
         "status": "visible",
         "reason": "passed",
         "finalUrl": "https://www.koreanair.com/promotion/list",
-        "checkedAt": "2026-06-03T19:19:24.299Z"
+        "checkedAt": "2026-06-03T19:30:04.405Z"
       },
       {
         "dealId": "news-ssg-official-event-main",
@@ -4679,7 +4679,7 @@
         "status": "visible",
         "reason": "passed",
         "finalUrl": "https://www.ssg.com/event/eventMain.ssg",
-        "checkedAt": "2026-06-03T19:19:24.299Z"
+        "checkedAt": "2026-06-03T19:30:04.405Z"
       },
       {
         "dealId": "news-emart-official-event-main",
@@ -4688,7 +4688,7 @@
         "status": "visible",
         "reason": "passed",
         "finalUrl": "https://emart.ssg.com/event/eventMain.ssg",
-        "checkedAt": "2026-06-03T19:19:24.299Z"
+        "checkedAt": "2026-06-03T19:30:04.405Z"
       },
       {
         "dealId": "news-homeplus-official-event",
@@ -4697,7 +4697,7 @@
         "status": "visible",
         "reason": "passed",
         "finalUrl": "https://front.homeplus.co.kr/event",
-        "checkedAt": "2026-06-03T19:19:24.299Z"
+        "checkedAt": "2026-06-03T19:30:04.405Z"
       },
       {
         "dealId": "news-yogiyo-official-event",
@@ -4706,7 +4706,7 @@
         "status": "visible",
         "reason": "passed",
         "finalUrl": "https://www.yogiyo.co.kr/mobile/#/event/",
-        "checkedAt": "2026-06-03T19:19:24.299Z"
+        "checkedAt": "2026-06-03T19:30:04.405Z"
       }
     ],
     "manualActions": [
@@ -4732,6 +4732,7 @@
       "nonOfficialExposure": 0,
       "expiredExposure": 0,
       "hiddenExposure": 0,
+      "configuredFeedErrors": [],
       "visibleCategoryCoverage": 10,
       "minimumCategoryDealCount": 2,
       "missingCategories": [],
@@ -4746,8 +4747,8 @@
       "command": "C:\\Program Files\\nodejs\\node.exe scripts/refresh-deals.mjs",
       "ok": true,
       "status": 0,
-      "startedAt": "2026-06-03T19:19:23.689Z",
-      "finishedAt": "2026-06-03T19:19:23.966Z",
+      "startedAt": "2026-06-03T19:30:03.801Z",
+      "finishedAt": "2026-06-03T19:30:04.076Z",
       "stdout": "PASS link-validation\nProduct link verification passed: 140/140 verified purchase URLs (100%).\n- Distinct purchase hosts: 48\n- Product detail URLs: 109\n- Official benefit/event URLs: 31\nPASS product-quality\nProduct quality verification passed.\n- Total products: 140\n- Visible products: 140\n- Hidden products: 0\n- Search links exposed: 0\nDeal refresh pipeline completed.\n- fetchedCount: 140\n- normalizedCount: 140\n- insertedCount: 0\n- updatedCount: 136\n- hiddenCount: 0\n- failedCount: 0\n- reports/refresh-deals.json\n- data/refreshedDeals.json",
       "stderr": ""
     },
@@ -4756,8 +4757,8 @@
       "command": "C:\\Program Files\\nodejs\\node.exe scripts/refresh-news-deals.mjs",
       "ok": true,
       "status": 0,
-      "startedAt": "2026-06-03T19:19:23.966Z",
-      "finishedAt": "2026-06-03T19:19:24.048Z",
+      "startedAt": "2026-06-03T19:30:04.076Z",
+      "finishedAt": "2026-06-03T19:30:04.157Z",
       "stdout": "News/event deal refresh completed.\n- collectedCount: 30\n- normalizedCount: 30\n- visibleCount: 30\n- hiddenCount: 0\n- failedCount: 0\n- data/refreshedNewsDeals.json\n- reports/news-deals.json",
       "stderr": ""
     },
@@ -4766,8 +4767,8 @@
       "command": "C:\\Program Files\\nodejs\\node.exe scripts/verify-product-links.mjs",
       "ok": true,
       "status": 0,
-      "startedAt": "2026-06-03T19:19:24.048Z",
-      "finishedAt": "2026-06-03T19:19:24.150Z",
+      "startedAt": "2026-06-03T19:30:04.157Z",
+      "finishedAt": "2026-06-03T19:30:04.252Z",
       "stdout": "Product link verification passed: 140/140 verified purchase URLs (100%).\n- Distinct purchase hosts: 48\n- Product detail URLs: 109\n- Official benefit/event URLs: 31",
       "stderr": ""
     },
@@ -4776,8 +4777,8 @@
       "command": "C:\\Program Files\\nodejs\\node.exe scripts/verify-products.mjs",
       "ok": true,
       "status": 0,
-      "startedAt": "2026-06-03T19:19:24.150Z",
-      "finishedAt": "2026-06-03T19:19:24.234Z",
+      "startedAt": "2026-06-03T19:30:04.253Z",
+      "finishedAt": "2026-06-03T19:30:04.336Z",
       "stdout": "Product quality verification passed.\n- Total products: 140\n- Visible products: 140\n- Hidden products: 0\n- Search links exposed: 0",
       "stderr": ""
     },
@@ -4786,8 +4787,8 @@
       "command": "C:\\Program Files\\nodejs\\node.exe scripts/verify-news-deals.mjs",
       "ok": true,
       "status": 0,
-      "startedAt": "2026-06-03T19:19:24.234Z",
-      "finishedAt": "2026-06-03T19:19:24.314Z",
+      "startedAt": "2026-06-03T19:30:04.336Z",
+      "finishedAt": "2026-06-03T19:30:04.420Z",
       "stdout": "PASS news deals verified: 30/30 official benefit links",
       "stderr": ""
     }

@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-03T19:19:42.660Z",
+  "generatedAt": "2026-06-03T19:30:23.897Z",
   "summary": {
     "auditedItems": 140,
     "exposedItems": 140,
@@ -3704,9 +3704,9 @@
   "badExposedItems": [],
   "hiddenItems": [],
   "sourceReports": {
-    "linkValidationGeneratedAt": "2026-06-03T19:19:41.608Z",
-    "productQualityGeneratedAt": "2026-06-03T19:19:42.145Z",
-    "refreshAllGeneratedAt": "2026-06-03T19:19:23.688Z"
+    "linkValidationGeneratedAt": "2026-06-03T19:30:22.838Z",
+    "productQualityGeneratedAt": "2026-06-03T19:30:23.384Z",
+    "refreshAllGeneratedAt": "2026-06-03T19:30:03.800Z"
   },
   "issues": []
 }

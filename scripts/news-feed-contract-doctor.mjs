@@ -59,7 +59,7 @@ for (const [path, content, required] of [
   }
 }
 
-for (const phrase of ["공식 승인 도메인", "검색 결과 URL", "커뮤니티", "finalUrl", "RSS", "Atom", "npm run refresh:news", "data/newsFeed.sample.json", "data/newsFeed.sample.rss.xml"]) {
+for (const phrase of ["공식 승인 도메인", "검색 결과 URL", "커뮤니티", "finalUrl", "RSS", "Atom", "npm run refresh:news", "configuredFeedErrors", "설정된 운영 feed", "data/newsFeed.sample.json", "data/newsFeed.sample.rss.xml"]) {
   if (!docs.includes(phrase)) issues.push(`feed contract docs missing ${phrase}`);
 }
 
@@ -67,7 +67,7 @@ for (const phrase of ["fetchNewsFeed", "DEAL_NEWS_FEED_URLS", "DEAL_NEWS_RSS_URL
   if (!refreshScript.includes(phrase)) issues.push(`refresh-news-deals missing ${phrase}`);
 }
 
-for (const phrase of ["searchLinkExposure", "nonOfficialExposure", "expiredExposure", "thinCategories"]) {
+for (const phrase of ["searchLinkExposure", "nonOfficialExposure", "expiredExposure", "thinCategories", "configuredFeedErrors"]) {
   if (!verifyScript.includes(phrase)) issues.push(`verify-news-deals missing ${phrase}`);
 }
 
