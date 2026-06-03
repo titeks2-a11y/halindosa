@@ -18,7 +18,7 @@ import { buildTodayBenefitQueue } from "@/lib/deals/todayBenefitQueue";
 import { buildWeeklyBenefitCalendar } from "@/lib/deals/weeklyBenefitCalendar";
 import { dryRunPartnerFeedImport, samplePartnerFeed } from "@/lib/feedImport";
 import { formatPrice, getRelativeTime } from "@/lib/format";
-import { buildNotificationCampaigns, summarizeNotificationCampaigns, toPushQueueRows } from "@/lib/notificationCampaigns";
+import { buildNotificationCampaigns, buildOfficialBenefitNotificationCampaigns, summarizeNotificationCampaigns, toPushQueueRows } from "@/lib/notificationCampaigns";
 import { getPushReadiness } from "@/lib/pushNotifications";
 import { getReportSummary, listDealReports } from "@/lib/reports";
 
@@ -227,7 +227,9 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
     (provider.errors ?? []).slice(0, 3).map((error) => `${provider.provider}: ${error}`)
   );
   const pushReadiness = getPushReadiness();
-  const notificationCampaigns = buildNotificationCampaigns(deals, { fcmConfigured: pushReadiness.configured });
+  const productNotificationCampaigns = buildNotificationCampaigns(deals, { fcmConfigured: pushReadiness.configured });
+  const officialBenefitNotificationCampaigns = buildOfficialBenefitNotificationCampaigns(newsDeals, { fcmConfigured: pushReadiness.configured });
+  const notificationCampaigns = [...productNotificationCampaigns, ...officialBenefitNotificationCampaigns];
   const notificationCampaignSummary = summarizeNotificationCampaigns(notificationCampaigns, visibleDeals.length);
   const notificationQueueRows = toPushQueueRows(notificationCampaigns);
 
@@ -528,7 +530,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
               <p className="text-xs font-black text-brand-red">알림 캠페인 운영 큐</p>
               <h2 className="mt-1 text-xl font-black text-slate-950">오늘 발송 후보와 FCM 준비 상태</h2>
               <p className="mt-1 text-sm font-semibold leading-6 text-slate-500">
-                무료 혜택, 가격 인하, 마감 임박, 관심 카테고리 후보를 같은 규칙으로 만들고 service_role 큐에 저장할 수 있게 정리했습니다.
+                검증 상품과 공식 뉴스·이벤트 혜택을 분리해 무료 혜택, 가격 인하, 마감 임박, 관심 카테고리 발송 후보를 같은 규칙으로 편성합니다.
               </p>
             </div>
             <a
@@ -543,6 +545,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
               ["캠페인", notificationCampaignSummary.totalCampaigns],
               ["발송 가능", notificationCampaignSummary.readyCampaigns],
               ["후보 상품", notificationCampaignSummary.candidateDeals],
+              ["공식 혜택 캠페인", officialBenefitNotificationCampaigns.length],
               ["큐 행", notificationQueueRows.length],
               ["예상 대상", notificationCampaignSummary.estimatedAudience],
               ["긴급", notificationCampaignSummary.criticalCampaigns]
@@ -552,6 +555,34 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                 <p className="mt-2 text-2xl font-black text-slate-950">{Number(value).toLocaleString("ko-KR")}</p>
               </div>
             ))}
+          </div>
+          <div className="mt-4 grid gap-3 lg:grid-cols-2">
+            <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
+              <p className="text-sm font-black text-slate-950">검증 상품 캠페인</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-slate-500">
+                실제 구매 상세 링크가 검증된 상품 기반 후보입니다.
+              </p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {productNotificationCampaigns.map((campaign) => (
+                  <span key={campaign.id} className="rounded-full bg-white px-3 py-1.5 text-[11px] font-black text-slate-600 shadow-sm">
+                    {campaign.title} {campaign.dealIds.length}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <div className="rounded-2xl border border-amber-100 bg-amber-50 p-4">
+              <p className="text-sm font-black text-slate-950">공식 혜택 캠페인</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-amber-800">
+                공식 이벤트/공공/쿠폰 페이지가 검증된 혜택만 푸시 후보로 편성합니다.
+              </p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {officialBenefitNotificationCampaigns.map((campaign) => (
+                  <span key={campaign.id} className="rounded-full bg-white px-3 py-1.5 text-[11px] font-black text-amber-700 shadow-sm">
+                    {campaign.title} {campaign.benefitIds.length}
+                  </span>
+                ))}
+              </div>
+            </div>
           </div>
           <div className="mt-4 grid gap-3 lg:grid-cols-5">
             {notificationCampaigns.map((campaign) => (
@@ -576,9 +607,17 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                     {campaign.segmentLabel}
                   </span>
                   <span className="rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-brand-red shadow-sm">
-                    {campaign.dealIds.length}개
+                    {(campaign.dealIds.length || campaign.benefitIds.length).toLocaleString("ko-KR")}개
+                  </span>
+                  <span className="rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-brand-navy shadow-sm">
+                    {campaign.sourceKind === "official_benefit" ? "공식 혜택" : "검증 상품"}
                   </span>
                 </div>
+                {campaign.sourceNames.length ? (
+                  <p className="mt-2 line-clamp-1 text-[11px] font-bold text-amber-700">
+                    출처: {campaign.sourceNames.slice(0, 2).join(", ")}
+                  </p>
+                ) : null}
                 <p className="mt-3 text-[11px] font-bold leading-5 text-slate-500">
                   {campaign.readiness === "ready" ? "FCM 발송 가능" : campaign.blockedReasons[0] ?? "운영 후보 큐"}
                 </p>

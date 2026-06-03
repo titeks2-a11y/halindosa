@@ -2,8 +2,9 @@ import { NextResponse } from "next/server";
 import { canAccessAdmin } from "@/lib/adminAuth";
 import { createRequestId, getClientKey, rateLimit, rateLimitHeaders } from "@/lib/apiGuards";
 import { getDeals } from "@/lib/dealService";
+import { getVisibleNewsDeals } from "@/lib/deals/newsDeals";
 import { isPubliclyVisibleDeal } from "@/lib/deals/quality";
-import { buildNotificationCampaigns, summarizeNotificationCampaigns, toPushQueueRows } from "@/lib/notificationCampaigns";
+import { buildNotificationCampaigns, buildOfficialBenefitNotificationCampaigns, summarizeNotificationCampaigns, toPushQueueRows } from "@/lib/notificationCampaigns";
 import { getPushReadiness } from "@/lib/pushNotifications";
 
 export async function GET(request: Request) {
@@ -24,9 +25,12 @@ export async function GET(request: Request) {
   }
 
   const { deals, updatedAt, source } = await getDeals();
+  const officialBenefits = getVisibleNewsDeals({ limit: 30 });
   const push = getPushReadiness();
   const visibleVerifiedDeals = deals.filter(isPubliclyVisibleDeal).length;
-  const campaigns = buildNotificationCampaigns(deals, { fcmConfigured: push.configured });
+  const productCampaigns = buildNotificationCampaigns(deals, { fcmConfigured: push.configured });
+  const officialBenefitCampaigns = buildOfficialBenefitNotificationCampaigns(officialBenefits.deals, { fcmConfigured: push.configured });
+  const campaigns = [...productCampaigns, ...officialBenefitCampaigns];
   const summary = summarizeNotificationCampaigns(campaigns, visibleVerifiedDeals);
   const includeRows = url.searchParams.get("includeRows") === "true";
 
@@ -38,7 +42,10 @@ export async function GET(request: Request) {
       source,
       push,
       summary,
+      officialBenefitCount: officialBenefits.count,
       campaigns,
+      productCampaigns,
+      officialBenefitCampaigns,
       queueRows: includeRows ? toPushQueueRows(campaigns) : [],
       message: "할인도사 알림 캠페인 후보를 성공적으로 생성했습니다."
     },

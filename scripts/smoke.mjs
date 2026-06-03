@@ -552,6 +552,8 @@ await check("admin dashboard quality cards", async () => {
   );
   assert(text.includes("운영 리포트 API 보기"), "Admin dashboard missing news operation report API link");
   assert(text.includes("알림 캠페인 운영 큐") && text.includes("오늘 발송 후보와 FCM 준비 상태"), "Admin dashboard missing notification campaign queue");
+  assert(text.includes("검증 상품 캠페인") && text.includes("공식 혜택 캠페인"), "Admin dashboard missing split notification campaign queues");
+  assert(text.includes("공식 이벤트/공공/쿠폰 페이지가 검증된 혜택만 푸시 후보로 편성합니다"), "Admin dashboard missing official benefit campaign trust copy");
   assert(text.includes("구매 링크 확인율"), "Admin dashboard missing verified link rate card");
   assert(text.includes("링크 검토 필요"), "Admin dashboard missing link review count card");
   assert(text.includes("오늘 처리할 링크 작업"), "Admin dashboard missing link review action summary");
@@ -676,6 +678,19 @@ await check("admin news operations api", async () => {
   assert(Array.isArray(data.report?.manualActions) && data.report.manualActions.length >= 3, "Admin news operations report missing manual actions");
   assert(data.report?.refreshAll?.productDealsCount >= 140, "Admin news operations report missing refresh:all product count");
   assert(data.report?.refreshAll?.newsDealsCount >= 6, "Admin news operations report missing refresh:all news count");
+});
+
+await check("admin notification campaigns api", async () => {
+  const { response, data } = await fetchJson("/api/admin/notification-campaigns?includeRows=true");
+  assert(response.status === 200, `Expected 200, got ${response.status}`);
+  assert(data.ok === true, "Admin notification campaigns API ok should be true");
+  assert(data.officialBenefitCount >= 6, "Notification campaign API missing official benefit count");
+  assert(Array.isArray(data.productCampaigns) && data.productCampaigns.length >= 5, "Notification campaign API missing product campaigns");
+  assert(Array.isArray(data.officialBenefitCampaigns) && data.officialBenefitCampaigns.length >= 4, "Notification campaign API missing official benefit campaigns");
+  assert(data.officialBenefitCampaigns.every((campaign) => campaign.sourceKind === "official_benefit"), "Official benefit campaigns should be marked separately");
+  assert(data.officialBenefitCampaigns.some((campaign) => campaign.benefitIds.length > 0), "Official benefit campaigns should include benefit ids");
+  assert(data.queueRows.some((row) => row.source_kind === "official_benefit" && row.benefit_id), "Push queue rows should include official benefit rows");
+  assert(data.queueRows.some((row) => row.source_kind === "product_deal" && row.deal_id), "Push queue rows should preserve product deal rows");
 });
 
 await check("deals filters api", async () => {

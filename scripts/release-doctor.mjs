@@ -1906,6 +1906,8 @@ async function checkOperationalDataSurfaces() {
   const productionFeedDoctor = await text("scripts/production-feed-doctor.mjs");
   const partnerFeedDryRunPanel = await text("components/PartnerFeedDryRunPanel.tsx");
   const feedImport = await text("lib/feedImport.ts");
+  const notificationCampaigns = await text("lib/notificationCampaigns.ts");
+  const adminNotificationCampaignsRoute = await text("app/api/admin/notification-campaigns/route.ts");
 
   const staticDataImports = [
     ["app/categories/page.tsx", categoriesPage],
@@ -2154,6 +2156,28 @@ async function checkOperationalDataSurfaces() {
     fail("admin product copy", "Admin page should expose V2 benefit operation quality, condition operation, and retention summaries with smoke coverage.");
   } else {
     pass("admin product copy", "Admin dashboard avoids raw internal source copy and exposes V2 benefit operation quality, condition operation, and retention readiness.");
+  }
+
+  if (
+    !notificationCampaigns.includes("buildOfficialBenefitNotificationCampaigns") ||
+    !notificationCampaigns.includes('sourceKind: "official_benefit"') ||
+    !notificationCampaigns.includes("benefitIds") ||
+    !notificationCampaigns.includes("sourceNames") ||
+    !notificationCampaigns.includes("selectTopNewsBenefits") ||
+    !adminNotificationCampaignsRoute.includes("getVisibleNewsDeals") ||
+    !adminNotificationCampaignsRoute.includes("officialBenefitCampaigns") ||
+    !adminNotificationCampaignsRoute.includes("productCampaigns") ||
+    !adminPage.includes("productNotificationCampaigns") ||
+    !adminPage.includes("officialBenefitNotificationCampaigns") ||
+    !adminPage.includes("검증 상품 캠페인") ||
+    !adminPage.includes("공식 혜택 캠페인") ||
+    !adminPage.includes("공식 이벤트/공공/쿠폰 페이지가 검증된 혜택만 푸시 후보로 편성합니다") ||
+    !smoke.includes("admin notification campaigns api") ||
+    !smoke.includes("source_kind === \"official_benefit\"")
+  ) {
+    fail("official benefit notification campaign queue", "Official news/event benefits should feed a separate notification campaign queue with API, admin UI, and smoke coverage.");
+  } else {
+    pass("official benefit notification campaign queue", "Official news/event benefits feed a separate notification campaign queue with product campaigns preserved.");
   }
 
   if (

@@ -16,6 +16,7 @@
 - `reports/news-deals.json`과 `reports/refresh-all.json`을 생성해 공식 혜택 10/10 통과, 숨김/종료/비공식 링크 0건, 상품 링크 140/140 통과 상태를 출시 게이트 증거로 남겼다.
 - 뉴스 운영 리포트에 provider별 성공/실패, 최근 20개 수집 로그, 실패 사유 TOP10, 숨김/종료/공식 링크 없음 큐, 수동 숨김/복구/재검증 액션을 추가하고 `/api/admin/news-operations`와 `/admin`에 연결했다.
 - `/admin`에 `공식 혜택 수동 운영` 패널을 추가해 운영자가 노출 중 공식 혜택을 바로 숨김 처리하고, 숨김/점검 혜택을 복구하거나 링크 재검증 요청을 기록할 수 있게 했다.
+- 알림 캠페인 운영 큐를 검증 상품 캠페인과 공식 혜택 캠페인으로 분리하고, 공식 뉴스/이벤트 혜택도 `benefitIds`, `sourceNames`, `official_benefit` 구분값을 가진 푸시 후보 큐로 편성해 무료·쿠폰·카드·멤버십·문화·공공 혜택을 운영자가 바로 검토할 수 있게 했다.
 
 ### PHASE Premium Commerce UX and Operations
 

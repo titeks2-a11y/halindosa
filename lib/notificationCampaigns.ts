@@ -1,5 +1,6 @@
 import { isPubliclyVisibleDeal } from "@/lib/deals/quality";
 import type { Deal, DealBenefitType } from "@/types/deal";
+import type { NewsDeal, NewsDealCategory } from "@/types/newsDeal";
 
 export type NotificationCampaignType =
   | "deal_registered"
@@ -12,13 +13,16 @@ export type NotificationCampaignPriority = "critical" | "high" | "medium" | "low
 
 export interface NotificationCampaign {
   id: string;
+  sourceKind: "product_deal" | "official_benefit";
   alertType: NotificationCampaignType;
   title: string;
   body: string;
   segmentLabel: string;
   targetCategories: string[];
   dealIds: string[];
+  benefitIds: string[];
   sampleDealTitles: string[];
+  sourceNames: string[];
   priority: NotificationCampaignPriority;
   scheduledAt: string;
   estimatedAudience: number;
@@ -102,6 +106,9 @@ function estimateAudience(deals: Deal[], base: number) {
 function buildCampaign(input: {
   type: NotificationCampaignType;
   deals: Deal[];
+  sourceKind?: "product_deal" | "official_benefit";
+  benefitIds?: string[];
+  sourceNames?: string[];
   title: string;
   body: string;
   segmentLabel: string;
@@ -120,16 +127,20 @@ function buildCampaign(input: {
   const readiness = input.deals.length ? (input.fcmConfigured ? "ready" : "needs_fcm") : "needs_deals";
   const dealIds = input.deals.map((deal) => deal.id);
   const targetCategories = Array.from(new Set(input.deals.map((deal) => deal.category)));
+  const benefitIds = input.benefitIds ?? [];
 
   return {
-    id: campaignId(input.type, dealIds),
+    id: campaignId(input.type, dealIds.length ? dealIds : benefitIds),
+    sourceKind: input.sourceKind ?? "product_deal",
     alertType: input.type,
     title: input.title,
     body: input.body,
     segmentLabel: input.segmentLabel,
     targetCategories,
     dealIds,
+    benefitIds,
     sampleDealTitles: input.deals.slice(0, 3).map((deal) => deal.title),
+    sourceNames: input.sourceNames ?? [],
     priority: input.priority,
     scheduledAt: input.scheduledAt,
     estimatedAudience: estimateAudience(input.deals, input.baseAudience),
@@ -143,7 +154,96 @@ function buildCampaign(input: {
       campaignLabel: campaignLabels[input.type],
       deeplinkUrl: input.deeplinkUrl,
       dealIds,
+      benefitIds,
       targetCategories,
+      dryRunSafe: true
+    }
+  };
+}
+
+function hoursUntilNewsBenefit(deal: NewsDeal, now: number) {
+  return (new Date(deal.endDate).getTime() - now) / (60 * 60 * 1000);
+}
+
+function scoreNewsBenefit(deal: NewsDeal, now: number) {
+  const endingBoost = Math.max(0, 72 - hoursUntilNewsBenefit(deal, now));
+  const benefitBoost = deal.benefitType === "freebie" || deal.benefitType === "coupon" ? 30 : 0;
+  const categoryBoost = deal.category === "무료혜택" || deal.category === "정부/공공혜택" ? 18 : 0;
+
+  return deal.confidenceScore + deal.discountRate + deal.couponAmount / 1000 + endingBoost + benefitBoost + categoryBoost;
+}
+
+function isVisibleOfficialBenefit(deal: NewsDeal, now: number) {
+  return (
+    deal.validationStatus === "passed" &&
+    !deal.isHidden &&
+    Boolean(deal.finalUrl) &&
+    new Date(deal.endDate).getTime() >= now
+  );
+}
+
+function selectTopNewsBenefits(deals: NewsDeal[], predicate: (deal: NewsDeal) => boolean, limit: number, now: number) {
+  return deals
+    .filter((deal) => isVisibleOfficialBenefit(deal, now))
+    .filter(predicate)
+    .sort((a, b) => scoreNewsBenefit(b, now) - scoreNewsBenefit(a, now))
+    .slice(0, limit);
+}
+
+function buildOfficialBenefitCampaign(input: {
+  type: NotificationCampaignType;
+  benefits: NewsDeal[];
+  title: string;
+  body: string;
+  segmentLabel: string;
+  priority: NotificationCampaignPriority;
+  scheduledAt: string;
+  deeplinkUrl: string;
+  actionLabel: string;
+  baseAudience: number;
+  fcmConfigured: boolean;
+}): NotificationCampaign {
+  const blockedReasons = [];
+
+  if (!input.benefits.length) blockedReasons.push("발송 후보 공식 혜택이 없습니다.");
+  if (!input.fcmConfigured) blockedReasons.push("FCM 발송 환경변수가 아직 설정되지 않았습니다.");
+
+  const benefitIds = input.benefits.map((deal) => deal.id);
+  const targetCategories = Array.from(new Set(input.benefits.map((deal) => deal.category)));
+  const sourceNames = Array.from(new Set(input.benefits.map((deal) => deal.sourceName)));
+  const estimatedAudience = Math.max(
+    0,
+    Math.round(input.baseAudience + input.benefits.reduce((sum, deal) => sum + scoreNewsBenefit(deal, Date.now()), 0) * 1.4)
+  );
+
+  return {
+    id: campaignId(input.type, benefitIds),
+    sourceKind: "official_benefit",
+    alertType: input.type,
+    title: input.title,
+    body: input.body,
+    segmentLabel: input.segmentLabel,
+    targetCategories,
+    dealIds: [],
+    benefitIds,
+    sampleDealTitles: input.benefits.slice(0, 3).map((deal) => deal.title),
+    sourceNames,
+    priority: input.priority,
+    scheduledAt: input.scheduledAt,
+    estimatedAudience,
+    readiness: input.benefits.length ? (input.fcmConfigured ? "ready" : "needs_fcm") : "needs_deals",
+    blockedReasons,
+    actionLabel: input.actionLabel,
+    deeplinkUrl: input.deeplinkUrl,
+    payload: {
+      source: "halindosa",
+      sourceKind: "official_benefit",
+      campaignType: input.type,
+      campaignLabel: campaignLabels[input.type],
+      deeplinkUrl: input.deeplinkUrl,
+      benefitIds,
+      targetCategories,
+      sourceNames,
       dryRunSafe: true
     }
   };
@@ -263,6 +363,91 @@ export function buildNotificationCampaigns(deals: Deal[], options: { fcmConfigur
   ];
 }
 
+export function buildOfficialBenefitNotificationCampaigns(newsDeals: NewsDeal[], options: { fcmConfigured?: boolean; now?: number } = {}) {
+  const now = options.now ?? Date.now();
+  const fcmConfigured = options.fcmConfigured ?? false;
+  const scheduledBase = new Date(now);
+  scheduledBase.setMinutes(Math.ceil(scheduledBase.getMinutes() / 10) * 10, 0, 0);
+  const schedule = (minutes: number) => new Date(scheduledBase.getTime() + minutes * 60_000).toISOString();
+  const category = (name: NewsDealCategory) => (deal: NewsDeal) => deal.category === name;
+  const hasBenefit = (...benefitTypes: NewsDeal["benefitType"][]) => (deal: NewsDeal) => benefitTypes.includes(deal.benefitType);
+
+  const freeCouponBenefits = selectTopNewsBenefits(
+    newsDeals,
+    (deal) => deal.category === "무료혜택" || hasBenefit("freebie", "coupon")(deal) || deal.couponAmount > 0,
+    5,
+    now
+  );
+  const cardMembershipBenefits = selectTopNewsBenefits(
+    newsDeals,
+    (deal) => deal.category === "카드/멤버십" || hasBenefit("card", "membership")(deal),
+    5,
+    now
+  );
+  const culturePublicBenefits = selectTopNewsBenefits(
+    newsDeals,
+    (deal) => category("영화/문화")(deal) || category("정부/공공혜택")(deal) || hasBenefit("culture", "public")(deal),
+    5,
+    now
+  );
+  const martConvenienceBenefits = selectTopNewsBenefits(newsDeals, category("마트/편의점"), 5, now);
+
+  return [
+    buildOfficialBenefitCampaign({
+      type: "free_event",
+      benefits: freeCouponBenefits,
+      title: "오늘 받을 수 있는 무료·쿠폰 혜택",
+      body: "공식 페이지가 확인된 무료 혜택과 쿠폰만 골라 알림 후보로 정리했습니다.",
+      segmentLabel: "무료/쿠폰 관심 사용자",
+      priority: "high",
+      scheduledAt: schedule(12),
+      deeplinkUrl: "/free-benefits?activeOnly=true",
+      actionLabel: "공식 무료 혜택 알림 후보 확인",
+      baseAudience: 320,
+      fcmConfigured
+    }),
+    buildOfficialBenefitCampaign({
+      type: "interest_category",
+      benefits: cardMembershipBenefits,
+      title: "카드·멤버십 할인 확인",
+      body: "공식 이벤트 페이지가 있는 카드와 멤버십 할인만 모았습니다.",
+      segmentLabel: "카드/멤버십 관심 사용자",
+      priority: "medium",
+      scheduledAt: schedule(22),
+      deeplinkUrl: "/?category=카드/멤버십&verifiedOnly=true",
+      actionLabel: "카드·멤버십 알림 후보 확인",
+      baseAudience: 180,
+      fcmConfigured
+    }),
+    buildOfficialBenefitCampaign({
+      type: "free_event",
+      benefits: culturePublicBenefits,
+      title: "문화·공공 혜택 놓치지 않기",
+      body: "문화, 공공 쿠폰, 무료 개방처럼 기간이 있는 공식 혜택을 확인하세요.",
+      segmentLabel: "문화/공공혜택 관심 사용자",
+      priority: "medium",
+      scheduledAt: schedule(32),
+      deeplinkUrl: "/free-benefits?benefitType=public",
+      actionLabel: "문화·공공 혜택 알림 후보 확인",
+      baseAudience: 160,
+      fcmConfigured
+    }),
+    buildOfficialBenefitCampaign({
+      type: "ending_soon",
+      benefits: martConvenienceBenefits,
+      title: "마트·편의점 행사 확인",
+      body: "공식 행사 페이지가 확인된 마트와 편의점 혜택을 마감 전 다시 확인하세요.",
+      segmentLabel: "마트/편의점 관심 사용자",
+      priority: "critical",
+      scheduledAt: schedule(42),
+      deeplinkUrl: "/categories",
+      actionLabel: "마트·편의점 알림 후보 확인",
+      baseAudience: 260,
+      fcmConfigured
+    })
+  ];
+}
+
 export function summarizeNotificationCampaigns(campaigns: NotificationCampaign[], visibleVerifiedDeals: number): NotificationCampaignSummary {
   const readyCampaigns = campaigns.filter((campaign) => campaign.readiness === "ready").length;
   const candidateDeals = new Set(campaigns.flatMap((campaign) => campaign.dealIds)).size;
@@ -287,13 +472,16 @@ export function summarizeNotificationCampaigns(campaigns: NotificationCampaign[]
 
 export function toPushQueueRows(campaigns: NotificationCampaign[]) {
   return campaigns.flatMap((campaign) =>
-    campaign.dealIds.map((dealId) => ({
-      deal_id: dealId,
+    (campaign.dealIds.length ? campaign.dealIds : campaign.benefitIds).map((itemId) => ({
+      deal_id: campaign.sourceKind === "product_deal" ? itemId : "",
+      benefit_id: campaign.sourceKind === "official_benefit" ? itemId : "",
+      source_kind: campaign.sourceKind,
       campaign_id: campaign.id,
       alert_type: campaign.alertType,
       title: campaign.title,
       body: campaign.body,
       target_categories: campaign.targetCategories,
+      source_names: campaign.sourceNames,
       status: campaign.readiness === "ready" ? "queued" : "draft",
       scheduled_at: campaign.scheduledAt,
       payload: campaign.payload
