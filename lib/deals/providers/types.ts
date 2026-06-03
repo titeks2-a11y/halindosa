@@ -40,26 +40,34 @@ function getFeedItems(payload: unknown): unknown[] {
 export async function fetchProviderJsonFeeds(providerName: DealProviderName, urls: string[], timeoutMs = 5000) {
   const settled = await Promise.allSettled(
     urls.map(async (url) => {
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), timeoutMs);
+      for (let attempt = 0; attempt < 2; attempt += 1) {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), timeoutMs);
 
-      try {
-        const response = await fetch(url, {
-          headers: { Accept: "application/json", "User-Agent": "HalindosaProvider/1.0" },
-          cache: "no-store",
-          signal: controller.signal
-        });
+        try {
+          const response = await fetch(url, {
+            headers: { Accept: "application/json", "User-Agent": "HalindosaProvider/1.0" },
+            cache: "no-store",
+            signal: controller.signal
+          });
 
-        if (!response.ok) return [];
-        const payload = await response.json();
-        return getFeedItems(payload)
-          .map((item) => normalizeProviderDeal({ ...(item as Record<string, unknown>), sourceProvider: providerName }, providerName))
-          .filter((item): item is DealInput => Boolean(item));
-      } catch {
-        return [];
-      } finally {
-        clearTimeout(timeout);
+          if (!response.ok) {
+            if (attempt === 0 && response.status >= 500) continue;
+            return [];
+          }
+
+          const payload = await response.json();
+          return getFeedItems(payload)
+            .map((item) => normalizeProviderDeal({ ...(item as Record<string, unknown>), sourceProvider: providerName }, providerName))
+            .filter((item): item is DealInput => Boolean(item));
+        } catch {
+          if (attempt === 1) return [];
+        } finally {
+          clearTimeout(timeout);
+        }
       }
+
+      return [];
     })
   );
 
