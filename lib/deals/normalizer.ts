@@ -4,6 +4,7 @@ import { buildBenefitSummary, inferDealBenefitType } from "@/lib/deals/benefits"
 import { buildBenefitClaimGuide } from "@/lib/deals/claimGuide";
 import { validatePurchaseLink } from "@/lib/deals/linkValidator";
 import { getDealPriorityScore, resolveDealAvailability, resolveDealValidationStatus, shouldHideDeal } from "@/lib/deals/quality";
+import { isPolicyBlockedHost, isPolicyHomeOnlyUrl, isPolicyPlaceholderHost, isPolicySearchLikeUrl } from "@/lib/deals/linkQualityPolicy";
 
 export type DealInput = Partial<Deal> & {
   id: string;
@@ -51,6 +52,23 @@ function firstNonEmptyUrl(...values: Array<string | undefined>) {
   return values.map((value) => value?.trim()).find((value): value is string => Boolean(value)) ?? "";
 }
 
+function sanitizePublicAuxiliaryUrl(value?: string) {
+  if (!value?.trim()) return "";
+
+  try {
+    const url = new URL(value);
+    const host = url.hostname.replace(/^www\./, "").toLowerCase();
+
+    if (url.protocol !== "https:" && url.protocol !== "http:") return "";
+    if (isPolicyBlockedHost(host) || isPolicyPlaceholderHost(host)) return "";
+    if (isPolicyHomeOnlyUrl(url) || isPolicySearchLikeUrl(url)) return "";
+
+    return url.toString();
+  } catch {
+    return "";
+  }
+}
+
 export function normalizeDeal(input: DealInput, source = input.source ?? "mock"): Deal {
   const mallName = input.mallName ?? input.mall ?? "할인도사";
   const thumbnail = input.thumbnail ?? input.imageUrl ?? "";
@@ -85,6 +103,9 @@ export function normalizeDeal(input: DealInput, source = input.source ?? "mock")
     checkedAt: input.checkedAt ?? input.verifiedAt ?? priceCheckedAt
   });
   const link = firstNonEmptyUrl(input.affiliateUrl, input.finalPurchaseUrl, input.finalUrl, linkValidation.finalPurchaseUrl);
+  const publicSearchUrl = sanitizePublicAuxiliaryUrl(input.searchUrl);
+  const publicOriginalUrl = sanitizePublicAuxiliaryUrl(input.originalUrl ?? input.link);
+  const publicSourceUrl = sanitizePublicAuxiliaryUrl(input.sourceUrl);
   const linkStatus = input.linkStatus ?? linkValidation.linkStatus;
   const linkType = input.linkType ?? linkValidation.linkType;
   const linkVerified = input.linkVerified ?? linkValidation.linkVerified;
@@ -159,8 +180,8 @@ export function normalizeDeal(input: DealInput, source = input.source ?? "mock")
     url: input.url ?? link,
     productUrl: input.productUrl ?? (linkValidation.linkVerified ? linkValidation.finalPurchaseUrl : ""),
     verifiedProductUrl: input.verifiedProductUrl ?? (linkValidation.linkVerified ? linkValidation.finalPurchaseUrl : ""),
-    searchUrl: input.searchUrl ?? (!linkValidation.linkVerified ? linkValidation.finalPurchaseUrl : ""),
-    originalUrl: input.originalUrl ?? input.link,
+    searchUrl: publicSearchUrl,
+    originalUrl: publicOriginalUrl,
     affiliateUrl: input.affiliateUrl,
     eventUrl: input.eventUrl,
     purchaseUrl: input.purchaseUrl ?? link,
@@ -208,7 +229,7 @@ export function normalizeDeal(input: DealInput, source = input.source ?? "mock")
     isFreeShipping,
     discountAmount,
     source,
-    sourceUrl: input.sourceUrl,
+    sourceUrl: publicSourceUrl,
     sourceName: input.sourceName,
     notice: input.notice ?? "가격, 재고, 쿠폰, 배송 조건은 판매처에서 최종 확인하세요.",
     isNew: input.isNew ?? false,

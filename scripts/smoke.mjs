@@ -692,6 +692,10 @@ await check("deals api", async () => {
   for (const field of ["linkVerified", "finalUrl", "checkedAt", "purchaseConfidence", "purchaseLinkVerified", "finalPurchaseUrl"]) {
     assert(field in data.deals[0], `Purchase link verification field missing: ${field}`);
   }
+  for (const deal of data.deals) {
+    assert(!deal.searchUrl || !/search|query=|keyword=|msearch|result|\/np\/search/i.test(deal.searchUrl), `${deal.id} exposed a public searchUrl fallback`);
+    assert(!deal.sourceUrl || !/search|query=|keyword=|msearch|result|\/np\/search/i.test(deal.sourceUrl), `${deal.id} exposed a public sourceUrl search fallback`);
+  }
   assert(!data.message.includes("mock"), "Deals API should not expose mock wording in success message");
   for (const field of ["mall", "imageUrl", "shippingInfo", "expiresAt"]) {
     assert(field in data.deals[0], `Legacy Deal alias missing: ${field}`);
@@ -1892,7 +1896,7 @@ await check("favorites page consent guard", async () => {
   assert(!text.includes("analytics=granted"), "Favorites page should not server-render analytics consent");
 });
 
-await check("seller search redirect fallbacks", async () => {
+await check("verified purchase redirect destinations", async () => {
   const cases = [
     ["d014", "coupang.com"],
     ["d016", "gmarket.co.kr"],

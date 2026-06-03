@@ -105,6 +105,14 @@ if (!repository.includes("deals.filter(isPubliclyVisibleDeal)")) {
   issues.push("public getDeals 결과가 isPubliclyVisibleDeal로 필터링되지 않습니다.");
 }
 
+if (!normalizer.includes("sanitizePublicAuxiliaryUrl")) {
+  issues.push("normalizeDeal이 public search/source/original URL에서 검색·대표·커뮤니티 fallback을 제거하지 않습니다.");
+}
+
+if (/searchUrl:\s*validation\.linkVerified\s*\?\s*fallbackUrl/.test(mockDeals) || /searchUrl:\s*fallbackUrl/.test(mockDeals)) {
+  issues.push("mockDeals가 검증 상품에도 검색 fallback URL을 public searchUrl로 채웁니다.");
+}
+
 if (!repository.includes("availability === \"active\"") && !quality.includes("availability !== \"active\"")) {
   issues.push("노출 정책에 availability=active 조건이 없습니다.");
 }
@@ -194,6 +202,7 @@ const report = {
   searchLinks: linkReport?.searchOrCategorySuspected ?? 0,
   soldOutProducts: linkReport?.soldOutOrEndedSuspected ?? linkReport?.exposedSoldOutLinks ?? 0,
   hiddenProducts,
+  publicSearchFallbacks: issues.some((issue) => issue.includes("searchUrl")) ? 1 : 0,
   visibleProducts: issues.length ? 0 : visibleProducts,
   verifiedPurchaseLinks: verifiedLinkIds.size,
   missingVerifiedIds,

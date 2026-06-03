@@ -109,8 +109,8 @@ function deal(
   const expiresAt = new Date(now + expiresInHours * hour).toISOString();
   const createdAt = new Date(now - offsetHours * hour).toISOString();
   const fallbackUrl = buildMarketplaceSearchUrl(mall, title);
-  const rawSourceUrl = isUsableSourceUrl(link) ? link : fallbackUrl;
   const verifiedOverride = verifiedPurchaseLinks[id];
+  const rawSourceUrl = isUsableSourceUrl(link) ? link : (verifiedOverride?.url ?? "");
   const checkedAt = verifiedOverride?.checkedAt ?? new Date(now - Math.max(5, Math.round(offsetHours * 18)) * 60 * 1000).toISOString();
   const validation = validatePurchaseLink({
     url: verifiedOverride?.url ?? link,
@@ -189,7 +189,7 @@ function deal(
     url: purchaseUrl,
     productUrl: validation.linkVerified ? validation.finalPurchaseUrl : "",
     verifiedProductUrl: validation.linkVerified ? validation.finalPurchaseUrl : "",
-    searchUrl: validation.linkVerified ? fallbackUrl : validation.finalPurchaseUrl,
+    searchUrl: "",
     originalUrl: link,
     eventUrl: dealType === "event" || dealType === "coupon" || dealType === "experience" ? validation.finalPurchaseUrl : undefined,
     purchaseUrl,

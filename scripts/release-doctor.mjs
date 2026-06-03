@@ -1010,6 +1010,9 @@ async function checkPartnerFeedSafety() {
     !normalizer.includes("input.affiliateUrl") ||
     !normalizer.includes("input.verifiedProductUrl") ||
     !normalizer.includes("input.searchUrl") ||
+    !normalizer.includes("sanitizePublicAuxiliaryUrl") ||
+    !smoke.includes("exposed a public searchUrl fallback") ||
+    !smoke.includes("exposed a public sourceUrl search fallback") ||
     missingTypeFields.length ||
     missingSmokeFields.length
   ) {

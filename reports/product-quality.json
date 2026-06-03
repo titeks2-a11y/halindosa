@@ -1,11 +1,12 @@
 {
-  "generatedAt": "2026-06-03T20:15:56.121Z",
+  "generatedAt": "2026-06-03T22:09:43.242Z",
   "totalProducts": 140,
   "passedProducts": 140,
   "failedProducts": 0,
   "searchLinks": 0,
   "soldOutProducts": 0,
   "hiddenProducts": 0,
+  "publicSearchFallbacks": 0,
   "visibleProducts": 140,
   "verifiedPurchaseLinks": 140,
   "missingVerifiedIds": [],
@@ -35,7 +36,7 @@
     "http410": 0,
     "http5xx": 0,
     "timeout": 0,
-    "robotsBlocked": 56,
+    "robotsBlocked": 57,
     "unavailableText": 0
   },
   "exposurePolicy": {
