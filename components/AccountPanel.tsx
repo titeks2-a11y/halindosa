@@ -12,6 +12,7 @@ import { benefitVisitStreakStorageKey, readBenefitVisitStreak } from "@/lib/bene
 import { claimedBenefitUpdatedEvent, readClaimedBenefits } from "@/lib/claimedBenefits";
 import { buildClaimEffortSummary, getClaimEffort } from "@/lib/deals/claimEffort";
 import { formatPrice } from "@/lib/format";
+import { notificationPreferenceStorageKey } from "@/lib/notificationPreferences";
 import { priceAlertStorageKey, readStoredPriceAlerts } from "@/lib/priceAlerts";
 import { readRecentDealIds } from "@/lib/recentDeals";
 import {
@@ -600,6 +601,7 @@ export function AccountPanel() {
       window.localStorage.removeItem("halindosa:favorites");
       window.localStorage.removeItem("halindosa:recent-deals");
       window.localStorage.removeItem("halindosa:member-preferences");
+      window.localStorage.removeItem(notificationPreferenceStorageKey);
       window.localStorage.removeItem(priceAlertStorageKey);
       window.localStorage.removeItem(benefitVisitStreakStorageKey);
       window.location.href = "/";

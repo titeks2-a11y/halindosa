@@ -1868,6 +1868,8 @@ async function checkOperationalDataSurfaces() {
   const categoriesPage = await text("app/categories/page.tsx");
   const notificationsPage = await text("app/notifications/page.tsx");
   const interestAlertPreview = await text("components/InterestAlertPreview.tsx");
+  const notificationPreferences = await text("components/NotificationPreferences.tsx");
+  const notificationPreferencesLib = await text("lib/notificationPreferences.ts");
   const benefitVisitStreakSummary = await text("components/BenefitVisitStreakSummary.tsx");
   const claimedBenefitAlertSummary = await text("components/ClaimedBenefitAlertSummary.tsx");
   const benefitReturnReservationList = await text("components/BenefitReturnReservationList.tsx");
@@ -2018,6 +2020,8 @@ async function checkOperationalDataSurfaces() {
     !benefitReturnReservationList.includes("재방문 루틴 추가") ||
     !notificationsPage.includes("<InterestAlertPreview") ||
     !interestAlertPreview.includes("readLocalPreferences") ||
+    !interestAlertPreview.includes("readNotificationPreferenceCategories") ||
+    !interestAlertPreview.includes("notificationPreferenceUpdatedEvent") ||
     !interestAlertPreview.includes("buildPersonalizedBenefitQueue") ||
     !homePage.includes("<PriceAlertList") ||
     !localDataControls.includes("priceAlertStorageKey") ||
@@ -2030,9 +2034,12 @@ async function checkOperationalDataSurfaces() {
     !accountPanel.includes("무료 혜택 방문 루틴 이어보기") ||
     !localDataControls.includes("claimedBenefitStorageKey") ||
     !localDataControls.includes("챙긴 혜택 기록") ||
+    !localDataControls.includes("notificationPreferenceStorageKey") ||
+    !localDataControls.includes("관심 알림 카테고리") ||
     !localDataControls.includes("benefitReturnReservationStorageKey") ||
     !localDataControls.includes("재방문 예약") ||
     !accountPanel.includes("priceAlertStorageKey") ||
+    !accountPanel.includes("notificationPreferenceStorageKey") ||
     !accountPanel.includes("benefitReturnReservationUpdatedEvent") ||
     !homePage.includes("benefitReturnReservationUpdatedEvent") ||
     !freeBenefitsClient.includes("benefitReturnReservationUpdatedEvent")
@@ -2088,11 +2095,17 @@ async function checkOperationalDataSurfaces() {
     !interestAlertPreview.includes("관심 설정하기") ||
     !interestAlertPreview.includes("알림 개인화 추천 API") ||
     !interestAlertPreview.includes("개인화 API 보기") ||
-    !interestAlertPreview.includes("비회원도 기기에 관심사를 저장") ||
+    !interestAlertPreview.includes("비회원도 기기에 관심 알림 카테고리를 저장") ||
     !interestAlertPreview.includes("interestAlertPlan") ||
     !interestAlertPreview.includes("관심 알림 실행 카드") ||
     !interestAlertPreview.includes("무료·체험 먼저") ||
     !interestAlertPreview.includes("마감 전 확인") ||
+    !notificationPreferences.includes("알림 받을 카테고리") ||
+    !notificationPreferences.includes("writeInAppNotificationPreferences") ||
+    !notificationPreferences.includes("notificationCategoryOptions") ||
+    !notificationPreferencesLib.includes("notificationPreferenceUpdatedEvent") ||
+    !notificationPreferencesLib.includes("defaultNotificationCategories") ||
+    !notificationPreferencesLib.includes("legacySignals") ||
     !notificationsPage.includes("무료 혜택 알림") ||
     !notificationsPage.includes("쿠폰·포인트 알림") ||
     !notificationsPage.includes("비회원도 모두 볼 수 있고") ||
@@ -2108,6 +2121,7 @@ async function checkOperationalDataSurfaces() {
     !smoke.includes("Notifications page missing alert action routine") ||
     !smoke.includes("Notifications page missing alert time routine") ||
     !smoke.includes("Notifications page missing interest alert action cards") ||
+    !smoke.includes("Notifications page missing local notification category preferences") ||
     !smoke.includes("Notifications page missing reusable personalized recommendation API card") ||
     notificationsPage.includes("Notification.requestPermission")
   ) {

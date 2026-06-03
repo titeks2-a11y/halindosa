@@ -7,6 +7,7 @@ import { getBenefitTypeLabel } from "@/lib/deals/benefits";
 import { buildPersonalizedBenefitQueue } from "@/lib/deals/personalizedBenefitQueue";
 import { formatPrice, getTimeLeft } from "@/lib/format";
 import { readLocalPreferences } from "@/lib/memberSync";
+import { notificationPreferenceUpdatedEvent, readNotificationPreferenceCategories } from "@/lib/notificationPreferences";
 import { Deal } from "@/types/deal";
 
 interface InterestAlertPreviewProps {
@@ -44,13 +45,20 @@ export function InterestAlertPreview({ deals }: InterestAlertPreviewProps) {
   const [hasSavedInterests, setHasSavedInterests] = useState(false);
 
   useEffect(() => {
-    const handle = window.setTimeout(() => {
+    const refreshInterests = () => {
       const saved = readLocalPreferences().favoriteCategories;
-      setHasSavedInterests(saved.length > 0);
-      setInterests(saved.length ? saved : fallbackInterests);
-    }, 0);
+      const notificationCategories = readNotificationPreferenceCategories();
+      const next = Array.from(new Set([...saved, ...notificationCategories])).slice(0, 8);
+      setHasSavedInterests(saved.length > 0 || notificationCategories.length > 0);
+      setInterests(next.length ? next : fallbackInterests);
+    };
+    const handle = window.setTimeout(refreshInterests, 0);
+    window.addEventListener(notificationPreferenceUpdatedEvent, refreshInterests);
 
-    return () => window.clearTimeout(handle);
+    return () => {
+      window.clearTimeout(handle);
+      window.removeEventListener(notificationPreferenceUpdatedEvent, refreshInterests);
+    };
   }, []);
 
   const personalizedQueue = useMemo(
@@ -122,10 +130,10 @@ export function InterestAlertPreview({ deals }: InterestAlertPreviewProps) {
           <div className="min-w-0">
             <p className="text-xs font-black text-dossa-red">관심 카테고리 알림</p>
             <h2 className="mt-1 text-base font-black text-slate-950">
-              {hasSavedInterests ? "저장한 관심사로 오늘 볼 혜택을 골랐습니다" : "관심사를 고르면 알림 큐가 더 정확해집니다"}
+              {hasSavedInterests ? "저장한 관심 알림 카테고리로 오늘 볼 혜택을 골랐습니다" : "관심사를 고르면 알림 큐가 더 정확해집니다"}
             </h2>
             <p className="mt-1 text-sm font-semibold leading-6 text-slate-500">
-              비회원도 기기에 관심사를 저장할 수 있고, 로그인하면 찜과 가격 알림까지 계정으로 이어볼 수 있습니다.
+              비회원도 기기에 관심 알림 카테고리를 저장할 수 있고, 로그인하면 찜과 가격 알림까지 계정으로 이어볼 수 있습니다.
             </p>
           </div>
         </div>

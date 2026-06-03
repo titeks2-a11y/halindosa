@@ -494,6 +494,7 @@ await check("category and notification pages", async () => {
   assert(notificationsText.includes("재방문 루틴 추가") && notificationsText.includes("아침 무료 혜택") && notificationsText.includes("저녁 쿠폰 점검"), "Notifications page missing benefit return reservation fallback actions");
   assert(notificationsText.includes("관심 카테고리 알림"), "Notifications page missing interest category alert preview");
   assert(notificationsText.includes("관심 설정하기"), "Notifications page missing interest settings link");
+  assert(notificationsText.includes("알림 받을 카테고리") && notificationsText.includes("기기에 저장한 관심 알림 카테고리"), "Notifications page missing local notification category preferences");
   assert(notificationsText.includes("알림 개인화 추천 API") && notificationsText.includes("개인화 API 보기"), "Notifications page missing reusable personalized recommendation API card");
   assert(notificationsText.includes("관심 알림 실행 카드"), "Notifications page missing interest alert action cards");
   assert(notificationsText.includes("무료·체험 먼저") && notificationsText.includes("쿠폰·포인트 챙기기") && notificationsText.includes("마감 전 확인"), "Notifications page missing personalized alert action steps");

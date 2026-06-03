@@ -7,6 +7,7 @@ import { benefitReturnReservationStorageKey } from "@/lib/benefitReturnReservati
 import { benefitVisitStreakStorageKey } from "@/lib/benefitVisitStreak";
 import { claimedBenefitStorageKey } from "@/lib/claimedBenefits";
 import { consentStorageKey } from "@/lib/consent";
+import { notificationPreferenceStorageKey } from "@/lib/notificationPreferences";
 import { priceAlertStorageKey } from "@/lib/priceAlerts";
 import { recentDealStorageKey } from "@/lib/recentDeals";
 import { recentNewsBenefitStorageKey } from "@/lib/recentNewsBenefits";
@@ -34,9 +35,10 @@ export function LocalDataControls() {
       benefitCheckInStorageKey,
       benefitVisitStreakStorageKey,
       claimedBenefitStorageKey,
-      benefitReturnReservationStorageKey
+      benefitReturnReservationStorageKey,
+      notificationPreferenceStorageKey
     ]);
-    setMessage("찜 목록, 최근 본 특가, 최근 본 공식 혜택, 가격 알림 조건, 혜택 출석 기록, 무료 혜택 방문 기록, 챙긴 혜택 기록, 재방문 예약을 이 기기에서 삭제했습니다.");
+    setMessage("찜 목록, 최근 본 특가, 최근 본 공식 혜택, 가격 알림 조건, 관심 알림 카테고리, 혜택 출석 기록, 무료 혜택 방문 기록, 챙긴 혜택 기록, 재방문 예약을 이 기기에서 삭제했습니다.");
   };
 
   const resetConsent = () => {
@@ -75,7 +77,7 @@ export function LocalDataControls() {
       <div className="mt-3 grid gap-2 rounded-2xl bg-slate-50 p-3 text-xs font-bold leading-5 text-slate-600">
         <div className="flex gap-2">
           <CheckCircle2 size={15} className="mt-0.5 shrink-0 text-dossa-red" />
-          <span>삭제 대상: 이 기기에 저장된 찜한 특가, 최근 본 특가, 최근 본 공식 혜택, 가격 알림 조건, 혜택 출석 기록, 무료 혜택 방문 기록, 챙긴 혜택 기록, 재방문 예약, 관심 할인 신호, 분석/제휴 동의 설정</span>
+          <span>삭제 대상: 이 기기에 저장된 찜한 특가, 최근 본 특가, 최근 본 공식 혜택, 가격 알림 조건, 관심 알림 카테고리, 혜택 출석 기록, 무료 혜택 방문 기록, 챙긴 혜택 기록, 재방문 예약, 관심 할인 신호, 분석/제휴 동의 설정</span>
         </div>
         <div className="flex gap-2">
           <ShieldCheck size={15} className="mt-0.5 shrink-0 text-slate-500" />
