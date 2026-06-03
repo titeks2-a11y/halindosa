@@ -84,7 +84,7 @@ npm run smoke
   - 공식 혜택 운영 리포트는 6시간마다 갱신을 권장하고, 24시간 이상 갱신되지 않으면 출시 전 갱신 필요 상태로 본다.
   - `/admin`의 `뉴스 수집 현황`과 `공식 혜택 수동 운영` 패널에서 `Provider 위험도`, `신선도 운영`, `다음 refresh 권장`, `다음 운영 액션`을 확인한다.
   - `/admin`의 `공식 피드 전환 준비도`는 `news`, `event_news`, `official_event`, `public_coupon` provider가 seed fallback인지 공식 feed 연결 상태인지 보여준다. 상용 운영 전에는 우선순위가 높은 `OFFICIAL_EVENT_FEED_URLS`, `DEAL_EVENT_FEED_URLS`, `PUBLIC_COUPON_FEED_URLS`부터 공식 API/RSS/제휴 JSON feed를 연결한다.
-  - `npm run source:catalog:report`는 `data/officialSourceCatalog.json`을 검증해 `reports/official-source-catalog.json`과 `docs/OFFICIAL_SOURCE_CATALOG.md`를 생성한다. 운영자는 이 문서에서 카테고리별 공식 소스 후보, provider별 후보, 우선 연결할 환경변수, 허용/차단 사용 범위를 확인한다.
+  - `npm run source:catalog:report`는 `data/officialSourceCatalog.json`을 검증해 `reports/official-source-catalog.json`, `reports/official-source-catalog.csv`, `docs/OFFICIAL_SOURCE_CATALOG.md`를 생성한다. 운영자는 이 문서와 CSV에서 카테고리별 공식 소스 후보, provider별 후보, 우선 연결할 환경변수, 허용/차단 사용 범위를 확인한다.
   - `/api/sources`의 `officialSourceCatalog` 요약은 공식 feed 후보 수, 고우선순위 후보, 카테고리/provider 커버리지, thin category, 후보별 공식 URL, 허용/차단 사용 범위, 다음 연결 env key를 반환한다. 공식 feed를 붙이기 전에는 이 값이 10개 필수 카테고리별 최소 2개 후보와 4개 provider를 모두 채우는지 먼저 본다.
   - 스프레드시트 검토가 필요하면 `/api/admin/news-operations?format=csv` 또는 관리자 화면의 `Provider 위험도 CSV` 버튼으로 provider risk, 숨김/종료/공식 링크 누락, 실패 사유, 최근 로그를 내려받는다.
   - CSV의 `feed_transition` 행은 provider별 허용 소스, 필요한 환경변수, 현재 feed URL 수, 다음 액션을 포함한다. 공식 feed URL을 추가한 뒤에는 `npm run source:catalog:report && npm run news:feed:doctor && npm run refresh:all && npm run smoke:local && npm run release:doctor`를 순서대로 실행한다.

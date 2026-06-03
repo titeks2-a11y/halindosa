@@ -2727,6 +2727,10 @@ async function checkOperationalDataSurfaces() {
     !sourcesRoute.includes("feed_transition") ||
     !adminPage.includes("/api/sources?format=csv") ||
     !dataSourceRunbook.includes("/api/sources?format=csv") ||
+    !officialSourceCatalogReportScript.includes("reports/official-source-catalog.csv") ||
+    !officialSourceCatalogReportScript.includes("source_catalog") ||
+    !officialSourceCatalogReportScript.includes("feed_transition") ||
+    !officialSourceCatalogDoc.includes("CSV 리포트") ||
     !smoke.includes("Sources API found danger official benefit provider risk") ||
     !smoke.includes("Admin dashboard missing partner feed validation report board") ||
     !smoke.includes("Admin dashboard missing paste-in feed dry-run panel") ||

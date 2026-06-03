@@ -2,13 +2,14 @@
 
 이 문서는 할인도사에 연결할 수 있는 공식 이벤트, 공공 혜택, 제휴 JSON/RSS 후보를 정리합니다. 무단 크롤링 후보가 아니라 운영자가 승인 feed 또는 공식 페이지 매핑으로 전환할 때 쓰는 출발점입니다.
 
-- 생성 시각: 2026-06-03T20:15:59.931Z
+- 생성 시각: 2026-06-03T20:35:18.707Z
 - 상태: PASS
 - 후보 소스: 21개
 - 고우선순위 후보: 8개
 - 현재 env feed 연결 후보: 0개
 - 공식 혜택 노출: 30개
 - feed 전환 상태: seed_launch_ready
+- CSV 리포트: reports/official-source-catalog.csv
 
 ## 카테고리 커버리지
 
@@ -65,6 +66,11 @@
 - OFFICIAL_EVENT_FEED_URLS와 PUBLIC_COUPON_FEED_URLS부터 승인 JSON/RSS feed를 연결해 seed 의존도를 줄입니다.
 - 새 후보를 추가할 때는 공식 URL, 허용 사용 범위, 차단 사용 범위, env key를 함께 기록합니다.
 - 사용자 finalUrl은 검색 결과, 커뮤니티 원문, 쇼핑몰 메인이 아니라 공식 이벤트·혜택·구매 상세 페이지여야 합니다.
+
+## CSV 사용
+
+- `reports/official-source-catalog.csv`는 `source_catalog`, `feed_transition`, `next_action` 행을 포함한다.
+- 운영자는 CSV를 스프레드시트로 열어 공식 URL, 카테고리, 우선 연결 env key, 현재 feed URL 수, 다음 액션을 함께 검수한다.
 
 ## 검증 결과
 

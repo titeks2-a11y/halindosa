@@ -6,6 +6,7 @@ const reportsDir = join(root, "reports");
 const docsDir = join(root, "docs");
 const catalogPath = "data/officialSourceCatalog.json";
 const reportPath = "reports/official-source-catalog.json";
+const csvPath = "reports/official-source-catalog.csv";
 const docsPath = "docs/OFFICIAL_SOURCE_CATALOG.md";
 const requiredCategories = [
   "식품/생필품",
@@ -48,6 +49,50 @@ function configuredFeedCount(envKeys) {
       .filter(Boolean).length;
     return sum + count;
   }, 0);
+}
+
+function toList(value) {
+  if (Array.isArray(value)) return value.map(String).filter(Boolean).join(" | ");
+  if (value == null) return "";
+  return String(value);
+}
+
+function csvEscape(value) {
+  const text = toList(value);
+  if (/[",\n\r]/.test(text)) return `"${text.replace(/"/g, '""')}"`;
+  return text;
+}
+
+function buildCsv(rows) {
+  const headers = [
+    "section",
+    "id",
+    "label",
+    "provider",
+    "category",
+    "sourceType",
+    "priority",
+    "officialUrl",
+    "host",
+    "refreshCadenceHours",
+    "preferredEnvKeys",
+    "configuredFeedUrls",
+    "allowedUse",
+    "blockedUse",
+    "status",
+    "mode",
+    "modeLabel",
+    "visibleCount",
+    "issueCount",
+    "readinessRate",
+    "nextAction",
+    "operatorAction"
+  ];
+
+  return [
+    headers.join(","),
+    ...rows.map((row) => headers.map((header) => csvEscape(row[header])).join(","))
+  ].join("\n");
 }
 
 function hostMatches(host, candidate) {
@@ -192,6 +237,58 @@ mkdirSync(reportsDir, { recursive: true });
 mkdirSync(docsDir, { recursive: true });
 writeFileSync(join(root, reportPath), `${JSON.stringify(report, null, 2)}\n`, "utf8");
 
+const feedTransitionRows = Array.isArray(feedTransition.providers)
+  ? feedTransition.providers.map((provider) => ({
+      section: "feed_transition",
+      id: provider.provider,
+      label: provider.label,
+      provider: provider.provider,
+      priority: provider.priority,
+      configuredFeedUrls: provider.feedUrls,
+      preferredEnvKeys: provider.envKeys,
+      allowedUse: provider.acceptedSources,
+      status: feedTransition.status ?? "unknown",
+      mode: provider.mode,
+      modeLabel: provider.modeLabel,
+      visibleCount: provider.visibleCount,
+      issueCount: provider.issueCount,
+      readinessRate: feedTransition.readinessRate ?? 0,
+      nextAction: provider.nextAction,
+      operatorAction: feedTransition.operatorAction ?? nextActions[0]
+    }))
+  : [];
+const csvRows = [
+  ...catalogRows.map((source) => ({
+    section: "source_catalog",
+    id: source.id,
+    label: source.label,
+    provider: source.provider,
+    category: source.category,
+    sourceType: source.sourceType,
+    priority: source.priority,
+    officialUrl: source.officialUrl,
+    host: source.host,
+    refreshCadenceHours: source.refreshCadenceHours,
+    preferredEnvKeys: source.preferredEnvKeys,
+    configuredFeedUrls: source.configuredFeedUrls,
+    allowedUse: source.allowedUse,
+    blockedUse: source.blockedUse,
+    nextAction: source.configuredFeedUrls
+      ? "연결된 공식 feed를 refresh:news와 verify:news로 검증"
+      : `${source.preferredEnvKeys.join(" 또는 ")}에 승인 feed URL 연결`
+  })),
+  ...feedTransitionRows,
+  ...nextActions.map((action, index) => ({
+    section: "next_action",
+    id: `next_${index + 1}`,
+    label: action,
+    status: feedTransition.status ?? "unknown",
+    readinessRate: feedTransition.readinessRate ?? 0,
+    operatorAction: feedTransition.operatorAction ?? nextActions[0]
+  }))
+];
+writeFileSync(join(root, csvPath), `\uFEFF${buildCsv(csvRows)}\n`, "utf8");
+
 const docsLines = [
   "# 공식 소스 카탈로그",
   "",
@@ -204,6 +301,7 @@ const docsLines = [
   `- 현재 env feed 연결 후보: ${report.configuredSourceCount}개`,
   `- 공식 혜택 노출: ${report.officialBenefitsVisible}개`,
   `- feed 전환 상태: ${report.feedTransitionStatus}`,
+  `- CSV 리포트: ${csvPath}`,
   "",
   "## 카테고리 커버리지",
   "",
@@ -233,6 +331,11 @@ const docsLines = [
   "",
   ...nextActions.map((action) => `- ${action}`),
   "",
+  "## CSV 사용",
+  "",
+  `- \`${csvPath}\`는 \`source_catalog\`, \`feed_transition\`, \`next_action\` 행을 포함한다.`,
+  "- 운영자는 CSV를 스프레드시트로 열어 공식 URL, 카테고리, 우선 연결 env key, 현재 feed URL 수, 다음 액션을 함께 검수한다.",
+  "",
   "## 검증 결과",
   "",
   report.issues.length ? report.issues.map((issue) => `- ${issue}`).join("\n") : "- 이슈 없음",
@@ -248,6 +351,7 @@ if (issues.length) {
 
 console.log("Official source catalog report written.");
 console.log(`- ${reportPath}`);
+console.log(`- ${csvPath}`);
 console.log(`- ${docsPath}`);
 console.log(`- sources: ${report.catalogCount}`);
 console.log(`- category coverage: ${requiredCategories.length - missingCategories.length}/${requiredCategories.length}`);

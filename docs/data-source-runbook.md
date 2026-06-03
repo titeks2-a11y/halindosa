@@ -29,6 +29,7 @@ GET /api/metrics
 
 `/api/sources`는 공급원별 상태, 신뢰도, 현재 deal 수, 운영 피드 전환 준비도, 허용/차단 데이터 정책을 반환한다.
 `/api/sources?format=csv`는 같은 데이터를 `source_catalog`, `feed_transition`, `next_action` 행으로 내려보내며, 운영자가 공식 API/RSS/제휴 JSON 후보를 스프레드시트에서 검수하고 `OFFICIAL_EVENT_FEED_URLS`, `PUBLIC_COUPON_FEED_URLS` 연결 순서를 정할 때 사용한다.
+서버 없이 파일로 검수하려면 `npm run source:catalog:report`를 실행해 `reports/official-source-catalog.csv`를 생성한다.
 
 ## 운영 전환 순서
 
