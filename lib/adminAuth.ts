@@ -1,5 +1,5 @@
 export function getAdminToken() {
-  return process.env.ADMIN_EXPORT_TOKEN?.trim() || "";
+  return process.env.ADMIN_TOKEN?.trim() || process.env.ADMIN_EXPORT_TOKEN?.trim() || "";
 }
 
 export function isAdminProtectionEnabled() {

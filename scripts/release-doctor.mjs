@@ -84,7 +84,7 @@ async function checkPackage() {
   const missing = requiredScripts.filter((script) => !pkg.scripts?.[script]);
 
   if (missing.length) fail("package scripts", `Missing scripts: ${missing.join(", ")}`);
-  else if (!pkg.scripts?.qa?.includes("verify:links") || !pkg.scripts?.qa?.includes("verify:products") || !pkg.scripts?.qa?.includes("test:mobile-ux") || !harness.includes("test:mobile-ux") || !pkg.scripts?.["env:doctor:production"]?.includes("--production") || !pkg.scripts?.["qa:release"]?.includes("audit:commercial") || !pkg.scripts?.["qa:release"]?.includes("test:env") || !pkg.scripts?.["qa:release"]?.includes("device:qa:manifest") || !pkg.scripts?.["qa:release"]?.includes("device:qa:doctor") || !pkg.scripts?.["qa:release"]?.includes("device:qa:report") || !pkg.scripts?.["qa:release"]?.includes("android:signing:doctor") || !pkg.scripts?.["qa:release"]?.includes("public:url:doctor") || !pkg.scripts?.["qa:release"]?.includes("feed:validate") || !pkg.scripts?.["qa:release"]?.includes("feed:production:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:metadata:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:submission:report") || !pkg.scripts?.["qa:release"]?.includes("store:packet:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:console:fields") || !pkg.scripts?.["qa:release"]?.includes("store:manual:checklist") || !pkg.scripts?.["qa:release"]?.includes("store:manual:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:handoff:report") || !pkg.scripts?.["qa:release"]?.includes("release:notes") || !pkg.scripts?.["qa:release"]?.includes("support:playbook") || !pkg.scripts?.["qa:release"]?.includes("known:issues") || !pkg.scripts?.["qa:release"]?.includes("store:assets:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:manifest") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:doctor") || !pkg.scripts?.["qa:release"]?.includes("perf:budget")) {
+  else if (!pkg.scripts?.qa?.includes("verify:links") || !pkg.scripts?.qa?.includes("verify:products") || !pkg.scripts?.qa?.includes("refresh:deals") || !pkg.scripts?.qa?.includes("test:mobile-ux") || !harness.includes("test:mobile-ux") || !pkg.scripts?.["env:doctor:production"]?.includes("--production") || !pkg.scripts?.["qa:release"]?.includes("audit:commercial") || !pkg.scripts?.["qa:release"]?.includes("test:env") || !pkg.scripts?.["qa:release"]?.includes("device:qa:manifest") || !pkg.scripts?.["qa:release"]?.includes("device:qa:doctor") || !pkg.scripts?.["qa:release"]?.includes("device:qa:report") || !pkg.scripts?.["qa:release"]?.includes("android:signing:doctor") || !pkg.scripts?.["qa:release"]?.includes("public:url:doctor") || !pkg.scripts?.["qa:release"]?.includes("feed:validate") || !pkg.scripts?.["qa:release"]?.includes("feed:production:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:metadata:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:submission:report") || !pkg.scripts?.["qa:release"]?.includes("store:packet:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:console:fields") || !pkg.scripts?.["qa:release"]?.includes("store:manual:checklist") || !pkg.scripts?.["qa:release"]?.includes("store:manual:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:handoff:report") || !pkg.scripts?.["qa:release"]?.includes("release:notes") || !pkg.scripts?.["qa:release"]?.includes("support:playbook") || !pkg.scripts?.["qa:release"]?.includes("known:issues") || !pkg.scripts?.["qa:release"]?.includes("store:assets:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:manifest") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:doctor") || !pkg.scripts?.["qa:release"]?.includes("perf:budget")) {
     fail("package scripts", "qa, harness, and qa:release should include mobile UX, commercial security audit, device QA manifest/doctor/report, Android signing doctor, public URL doctor, partner feed validator, production feed doctor, store metadata doctor, store submission/packet/console/handoff reports, store asset doctor, store screenshot manifest/doctor, and performance budget before store submission.");
   } else {
     pass("package scripts", "Android, iOS, environment, mobile UX, commercial security, and performance release command flow is available.");
@@ -3251,6 +3251,47 @@ function checkStoreAssets() {
   else pass("store assets", "Store icon, feature graphic, PWA, Android, and iOS assets have launch-ready dimensions and bright red generation support.");
 }
 
+function checkRefreshDealPipeline() {
+  const refreshPath = join(root, "reports/refresh-deals.json");
+  const snapshotPath = join(root, "data/refreshedDeals.json");
+  const adminRoutePath = "app/api/admin/deal-quality/route.ts";
+  const adminPanelPath = "components/AdminDealQualityPanel.tsx";
+  const providerTypes = readFileSync(join(root, "lib/deals/providers/types.ts"), "utf8");
+  const refreshScript = readFileSync(join(root, "scripts/refresh-deals.mjs"), "utf8");
+  const issues = [];
+
+  if (!existsSync(refreshPath)) {
+    issues.push("reports/refresh-deals.json missing");
+  } else {
+    const report = JSON.parse(readFileSync(refreshPath, "utf8"));
+    const requiredFields = ["fetchedCount", "normalizedCount", "insertedCount", "updatedCount", "hiddenCount", "failedCount", "providerStats", "failureReasons", "generatedAt"];
+    const missingFields = requiredFields.filter((field) => !(field in report));
+
+    if (missingFields.length) issues.push(`refresh report missing ${missingFields.join(", ")}`);
+    if (!Array.isArray(report.providerStats) || !report.providerStats.length) issues.push("providerStats should include provider collection status");
+    if ((report.reports?.linkValidation?.searchOrCategorySuspected ?? 0) !== 0) issues.push("refresh report still has search/category links");
+  }
+
+  if (!existsSync(snapshotPath)) issues.push("data/refreshedDeals.json missing");
+  if (!existsSync(join(root, adminRoutePath)) || !existsSync(join(root, adminPanelPath))) {
+    issues.push("admin deal quality API/panel missing");
+  }
+
+  for (const phrase of ["fetchDeals", "normalizeDeal", "validateDeal", "dedupeDeal"]) {
+    if (!providerTypes.includes(phrase)) issues.push(`provider interface missing ${phrase}`);
+    if (!refreshScript.includes(phrase === "fetchDeals" ? "collectProviderItems" : phrase.replace("Deal", ""))) {
+      issues.push(`refresh script missing ${phrase} pipeline evidence`);
+    }
+  }
+
+  if (!refreshScript.includes("COUPANG_PARTNER_FEED_URLS") || !refreshScript.includes("NAVER_CLIENT_ID") || !refreshScript.includes("ELEVENST_PARTNER_FEED_URLS")) {
+    issues.push("refresh script should support Coupang/Naver/11st approved feeds or API keys");
+  }
+
+  if (issues.length) fail("deal refresh pipeline", issues.join("; "));
+  else pass("deal refresh pipeline", "Provider collection, normalization, dedupe, validation, reports, snapshot, and admin operations are wired.");
+}
+
 await checkPackage();
 await checkCiWorkflow();
 await checkSecurityPolicy();
@@ -3270,6 +3311,7 @@ await checkPolicyAndStoreDocs();
 await checkReleaseEvidenceFreshness();
 await checkGeneratedReportFreshness();
 await checkCustomerNavigationSimplification();
+checkRefreshDealPipeline();
 checkSigningAndArtifacts();
 checkStoreAssets();
 

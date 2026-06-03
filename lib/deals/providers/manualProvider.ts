@@ -1,6 +1,6 @@
 import { mockDeals } from "@/data/mockDeals";
 import { DealInput } from "@/lib/deals/normalizer";
-import { DealProvider } from "@/lib/deals/providers/types";
+import { DealProvider, dedupeProviderDeals, normalizeProviderDeal, validateProviderDeal } from "@/lib/deals/providers/types";
 
 export const ManualProvider: DealProvider = {
   name: "manual",
@@ -11,5 +11,14 @@ export const ManualProvider: DealProvider = {
   },
   async fetchDeals() {
     return mockDeals as DealInput[];
+  },
+  normalizeDeal(raw) {
+    return normalizeProviderDeal(raw, "manual");
+  },
+  validateDeal(deal) {
+    return validateProviderDeal(deal);
+  },
+  dedupeDeal(deals) {
+    return dedupeProviderDeals(deals);
   }
 };

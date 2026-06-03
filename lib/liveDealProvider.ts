@@ -286,8 +286,11 @@ async function fetchJsonFeed(url: string) {
 }
 
 async function fetchPublicBoardDeals() {
-  if (process.env.DEAL_PUBLIC_BOARD_ENABLE === "false") return [];
+  if (process.env.DEAL_PUBLIC_BOARD_ENABLE !== "true") return [];
 
+  // This path is intentionally opt-in only. Production collection should use
+  // official APIs, approved partner feeds, RSS, or a permitted proxy feed and
+  // must still resolve community signals to a real product/event final URL.
   const response = await fetch("https://www.ppomppu.co.kr/zboard/zboard.php?id=ppomppu", {
     headers: {
       "User-Agent": "Mozilla/5.0 (compatible; Halindosa/1.0; +https://halindosa.local)",

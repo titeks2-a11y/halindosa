@@ -33,6 +33,7 @@ const repository = read("lib/deals/dealRepository.ts");
 const affiliate = read("lib/affiliate.ts");
 const packageJson = JSON.parse(read("package.json"));
 const linkReport = readJson("reports/link-validation.json") ?? readJson("LINK_VERIFICATION_RESULT.json");
+const refreshReport = readJson("reports/refresh-deals.json");
 const dealIds = extractDealIds(mockDeals);
 const hiddenIssueIds = extractHiddenIssueIds(linkReport?.issues ?? []);
 const verifiedLinkIds = new Set([...verifiedPurchaseLinks.matchAll(/^\s*(d\d+):\s*{/gm)].map((match) => match[1]));
@@ -105,6 +106,34 @@ if (!linkReport) {
 
 if (missingVerifiedIds.length) {
   issues.push(`검증 구매 링크가 없는 상품이 있습니다: ${missingVerifiedIds.join(", ")}`);
+}
+
+const requiredRefreshFields = [
+  "fetchedCount",
+  "normalizedCount",
+  "insertedCount",
+  "updatedCount",
+  "hiddenCount",
+  "failedCount",
+  "providerStats",
+  "failureReasons",
+  "generatedAt"
+];
+
+if (refreshReport) {
+  for (const field of requiredRefreshFields) {
+    if (!(field in refreshReport)) {
+      issues.push(`refresh-deals 리포트에 ${field} 필드가 없습니다.`);
+    }
+  }
+
+  if (!Array.isArray(refreshReport.providerStats)) {
+    issues.push("refresh-deals 리포트의 providerStats가 배열이 아닙니다.");
+  }
+
+  if ((refreshReport.reports?.linkValidation?.searchOrCategorySuspected ?? 0) !== 0) {
+    issues.push("refresh-deals 리포트에 검색 링크 노출 의심 항목이 남아 있습니다.");
+  }
 }
 
 const totalProducts = dealIds.length;

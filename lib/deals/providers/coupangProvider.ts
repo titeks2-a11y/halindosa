@@ -1,4 +1,4 @@
-import { DealProvider, hasRequiredEnv } from "@/lib/deals/providers/types";
+import { DealProvider, dedupeProviderDeals, hasRequiredEnv, normalizeProviderDeal, validateProviderDeal } from "@/lib/deals/providers/types";
 
 const requiredEnv = ["COUPANG_ACCESS_KEY", "COUPANG_SECRET_KEY"];
 
@@ -15,5 +15,14 @@ export const CoupangProvider: DealProvider = {
     // Future production hook: call an approved Coupang API/partner feed,
     // then return DealInput[] with productUrl/finalPurchaseUrl populated.
     return [];
+  },
+  normalizeDeal(raw) {
+    return normalizeProviderDeal(raw, "coupang");
+  },
+  validateDeal(deal) {
+    return validateProviderDeal(deal);
+  },
+  dedupeDeal(deals) {
+    return dedupeProviderDeals(deals);
   }
 };

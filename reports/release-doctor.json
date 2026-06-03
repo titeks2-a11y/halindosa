@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-06-03T04:54:01.108Z",
-  "totalChecks": 173,
-  "passedChecks": 173,
+  "generatedAt": "2026-06-03T05:53:02.348Z",
+  "totalChecks": 174,
+  "passedChecks": 174,
   "failedChecks": 0,
   "ok": true,
   "checks": [
@@ -839,6 +839,11 @@
       "name": "customer navigation simplification",
       "ok": true,
       "detail": "Customer navigation is reduced to home/popular/categories/my and default deal API favors verified purchase links."
+    },
+    {
+      "name": "deal refresh pipeline",
+      "ok": true,
+      "detail": "Provider collection, normalization, dedupe, validation, reports, snapshot, and admin operations are wired."
     },
     {
       "name": "keystore example",

@@ -1,13 +1,13 @@
 # 할인도사 External Link Safety Report
 
-Generated: 2026-06-03T04:52:08.994Z
+Generated: 2026-06-03T05:51:03.499Z
 Status: PASS
 
 ## Summary
 
 | Metric | Value |
 | --- | ---: |
-| 검사 파일 수 | 167 |
+| 검사 파일 수 | 170 |
 | 새 탭 링크 수 | 30 |
 | /go 구매 링크 수 | 3 |
 | window.open 호출 수 | 5 |

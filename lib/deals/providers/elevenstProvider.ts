@@ -1,4 +1,4 @@
-import { DealProvider, hasRequiredEnv } from "@/lib/deals/providers/types";
+import { DealProvider, dedupeProviderDeals, hasRequiredEnv, normalizeProviderDeal, validateProviderDeal } from "@/lib/deals/providers/types";
 
 const requiredEnv = ["ELEVENST_API_KEY"];
 
@@ -14,5 +14,14 @@ export const ElevenstProvider: DealProvider = {
 
     // Future production hook: call the 11st Open API or approved partner feed.
     return [];
+  },
+  normalizeDeal(raw) {
+    return normalizeProviderDeal(raw, "elevenst");
+  },
+  validateDeal(deal) {
+    return validateProviderDeal(deal);
+  },
+  dedupeDeal(deals) {
+    return dedupeProviderDeals(deals);
   }
 };

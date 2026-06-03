@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Activity, BadgePercent, DatabaseZap, Download, ExternalLink, Flame, ImageIcon, LineChart, LockKeyhole, ShieldCheck, Store, Timer, TrendingDown, WalletCards } from "lucide-react";
 import { AdminReportQueue } from "@/components/AdminReportQueue";
+import { AdminDealQualityPanel } from "@/components/AdminDealQualityPanel";
 import { PartnerFeedDryRunPanel } from "@/components/PartnerFeedDryRunPanel";
 import { getMockBusinessMetrics } from "@/lib/analytics";
 import { canAccessAdmin, getAdminExportHref, isAdminProtectionEnabled } from "@/lib/adminAuth";
@@ -8,6 +9,7 @@ import { getDeals } from "@/lib/dealService";
 import { buildBenefitDecisionGuide } from "@/lib/deals/benefitDecisionGuide";
 import { buildClaimEffortSummary } from "@/lib/deals/claimEffort";
 import { getLinkReviewActionLabel, getLinkReviewQueue, getLinkStatusLabel, getLinkTypeLabel } from "@/lib/deals/quality";
+import { getRefreshDealsReport } from "@/lib/deals/refreshReport";
 import { getDealSourceReadiness, listDealSourceProfiles } from "@/lib/deals/trust";
 import { buildTodayBenefitQueue } from "@/lib/deals/todayBenefitQueue";
 import { buildWeeklyBenefitCalendar } from "@/lib/deals/weeklyBenefitCalendar";
@@ -53,6 +55,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const { metrics, topDeals, updatedAt, source, benefitQuality, benefitRetention, personalizationReadiness, imageQuality } = await getMockBusinessMetrics();
   const { deals } = await getDeals();
   const reportSummary = getReportSummary();
+  const refreshReport = getRefreshDealsReport();
   const recentReports = listDealReports().slice(0, 6);
   const sampleFeedValidation = dryRunPartnerFeedImport(samplePartnerFeed, "sample_partner_feed");
   const sampleFeedJson = JSON.stringify({ items: samplePartnerFeed }, null, 2);
@@ -244,6 +247,8 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
             CSV 다운로드
           </a>
         </div>
+
+        <AdminDealQualityPanel token={token} initialReport={refreshReport} />
 
         <section className="rounded-3xl border border-red-100 bg-white p-5 shadow-sm">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
