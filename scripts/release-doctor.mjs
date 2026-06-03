@@ -3620,6 +3620,9 @@ function checkNewsDealPipeline() {
 function checkHealthReadinessReport() {
   const requiredFiles = [
     "scripts/health-readiness-report.mjs",
+    "lib/operations/healthReadiness.ts",
+    "app/api/admin/health-readiness/route.ts",
+    "components/AdminHealthReadinessPanel.tsx",
     "reports/health-readiness.json",
     "docs/HEALTH_READINESS_REPORT.md"
   ];
@@ -3632,6 +3635,10 @@ function checkHealthReadinessReport() {
   const roadmap = existsSync(join(root, "docs/roadmap.md")) ? readFileSync(join(root, "docs/roadmap.md"), "utf8") : "";
   const releaseEvidence = existsSync(join(root, "scripts/release-evidence.mjs")) ? readFileSync(join(root, "scripts/release-evidence.mjs"), "utf8") : "";
   const healthScript = existsSync(join(root, "scripts/health-readiness-report.mjs")) ? readFileSync(join(root, "scripts/health-readiness-report.mjs"), "utf8") : "";
+  const healthApiRoute = existsSync(join(root, "app/api/admin/health-readiness/route.ts")) ? readFileSync(join(root, "app/api/admin/health-readiness/route.ts"), "utf8") : "";
+  const adminPage = existsSync(join(root, "app/admin/page.tsx")) ? readFileSync(join(root, "app/admin/page.tsx"), "utf8") : "";
+  const adminHealthPanel = existsSync(join(root, "components/AdminHealthReadinessPanel.tsx")) ? readFileSync(join(root, "components/AdminHealthReadinessPanel.tsx"), "utf8") : "";
+  const smokeScript = existsSync(join(root, "scripts/smoke.mjs")) ? readFileSync(join(root, "scripts/smoke.mjs"), "utf8") : "";
   const docsReport = existsSync(join(root, "docs/HEALTH_READINESS_REPORT.md")) ? readFileSync(join(root, "docs/HEALTH_READINESS_REPORT.md"), "utf8") : "";
   const report = existsSync(join(root, "reports/health-readiness.json")) ? JSON.parse(readFileSync(join(root, "reports/health-readiness.json"), "utf8")) : {};
 
@@ -3646,6 +3653,18 @@ function checkHealthReadinessReport() {
   }
   for (const phrase of ["productVerificationRate", "official benefit category coverage", "refresh all pipeline", "reports/health-readiness.json", "docs/HEALTH_READINESS_REPORT.md"]) {
     if (!healthScript.includes(phrase)) issues.push(`health readiness script missing ${phrase}`);
+  }
+  if (!healthApiRoute.includes("getHealthReadinessReport") || !healthApiRoute.includes("canAccessAdmin") || !healthApiRoute.includes("admin-health-readiness")) {
+    issues.push("admin health readiness API should be protected and return the generated report");
+  }
+  if (!adminPage.includes("AdminHealthReadinessPanel") || !adminPage.includes("healthReadinessApiHref") || !adminPage.includes("/api/admin/health-readiness")) {
+    issues.push("admin page should expose health readiness panel and API link");
+  }
+  for (const phrase of ["운영 헬스 리포트", "검증 상품·공식 혜택 출시 게이트", "공식 혜택 카테고리 커버리지", "refresh:all"]) {
+    if (!adminHealthPanel.includes(phrase)) issues.push(`admin health readiness panel missing ${phrase}`);
+  }
+  if (!smokeScript.includes("admin health readiness api") || !smokeScript.includes("/api/admin/health-readiness") || !smokeScript.includes("운영 헬스 리포트")) {
+    issues.push("smoke tests should cover admin health readiness API and dashboard panel");
   }
   if (!releaseEvidence.includes("HEALTH_READINESS_REPORT.md") || !releaseEvidence.includes("health-readiness.json")) {
     issues.push("release evidence should list health readiness artifacts");

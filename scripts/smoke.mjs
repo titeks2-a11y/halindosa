@@ -542,6 +542,9 @@ await check("admin dashboard quality cards", async () => {
   const text = await response.text();
   assert(response.status === 200, `Expected 200, got ${response.status}`);
   assert(text.includes("운영 대시보드"), "Admin dashboard missing title");
+  assert(text.includes("운영 헬스 리포트") && text.includes("검증 상품·공식 혜택 출시 게이트"), "Admin dashboard missing health readiness panel");
+  assert(text.includes("운영 준비 점수") && text.includes("상품 링크") && text.includes("공식 혜택") && text.includes("refresh:all"), "Admin dashboard missing health readiness summary cards");
+  assert(text.includes("공식 혜택 카테고리 커버리지") && text.includes("API 보기"), "Admin dashboard missing health readiness category/API controls");
   assert(text.includes("뉴스 수집 현황") && text.includes("공식 이벤트·무료 혜택 feed 후보"), "Admin dashboard missing news collection status");
   assert(text.includes("Provider별 성공/실패") && text.includes("검증 실패 TOP10") && text.includes("최근 20개 수집 로그"), "Admin dashboard missing news provider/log operation panels");
   assert(text.includes("숨김/종료/공식 링크 없음 큐") && text.includes("수동 숨김/복구/재검증 구조"), "Admin dashboard missing news hide/restore/revalidate operation panels");
@@ -696,6 +699,21 @@ await check("admin news operations api", async () => {
   assert(data.report.categoryCoverage.every((item) => item.category && typeof item.count === "number" && item.count >= 2 && item.minimumCount >= 2 && item.action), "Admin news operations category coverage missing operation fields or minimum counts");
   assert(Array.isArray(data.report?.operationalRisks) && data.report.operationalRisks.length >= 1, "Admin news operations report missing operational risk summary");
   assert(Array.isArray(data.report?.refreshAll?.steps) && data.report.refreshAll.steps.length >= 5, "Admin news operations report missing refresh:all step status");
+});
+
+await check("admin health readiness api", async () => {
+  const { response, data } = await fetchJson("/api/admin/health-readiness");
+  assert(response.status === 200, `Expected 200, got ${response.status}`);
+  assert(data.ok === true, "Admin health readiness API ok should be true");
+  assert(data.report?.ok === true, "Admin health readiness report should pass");
+  assert(data.report?.score === 100, "Admin health readiness score should be 100");
+  assert(data.report?.product?.productDealsCount >= 140, "Admin health readiness should preserve product count");
+  assert(data.report?.product?.verifiedProductLinks >= 140, "Admin health readiness should preserve verified product links");
+  assert(data.report?.product?.searchLinks === 0, "Admin health readiness should expose zero search links");
+  assert(data.report?.officialBenefits?.visibleCount >= 25, "Admin health readiness should preserve official benefit count");
+  assert(data.report?.officialBenefits?.readyCategories >= 10, "Admin health readiness should preserve official benefit category coverage");
+  assert(data.report?.refreshAll?.ok === true, "Admin health readiness should show refresh:all success");
+  assert(Array.isArray(data.report?.checks) && data.report.checks.every((check) => check.ok), "Admin health readiness checks should all pass");
 });
 
 await check("admin notification campaigns api", async () => {

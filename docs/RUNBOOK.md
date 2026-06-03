@@ -17,6 +17,7 @@ npm run smoke
 - 특가 API: `GET /api/deals?limit=3`
 - 공식 혜택 API: `GET /api/news-deals?limit=10`
 - 공식 혜택 운영 API: `GET /api/admin/news-operations?token=$ADMIN_EXPORT_TOKEN`
+- 운영 헬스 API: `GET /api/admin/health-readiness?token=$ADMIN_EXPORT_TOKEN`
 - 실시간 특가 API: `GET /api/deals?q=노트북%20특가&sort=latest`
 - 헬스체크: `GET /api/health`
   - `officialBenefitFresh`, `officialBenefitFreshnessHours`, `officialBenefitVisibleCount`, `officialBenefitReadyCategories`, `officialBenefitRefreshAllOk`를 함께 확인한다.
@@ -52,7 +53,7 @@ npm run smoke
 - 운영 헬스 리포트:
   - `npm run refresh:all && npm run health:readiness`를 실행하면 `reports/health-readiness.json`과 `docs/HEALTH_READINESS_REPORT.md`가 생성된다.
   - 이 리포트는 상품 140개 이상, 검증 구매 링크 99% 이상, 검색 링크 0개, 품절/종료 노출 0개, 공식 혜택 25개 이상, 필수 10개 공식 혜택 카테고리별 2건 이상, `refresh:all` 성공, 24시간 이내 리포트 신선도를 함께 검사한다.
-  - `npm run qa`와 `npm run release:doctor`도 이 리포트의 존재와 수치를 확인하므로, 출시 직전에는 `docs/HEALTH_READINESS_REPORT.md`가 PASS인지 먼저 확인한다.
+  - `npm run qa`, `/admin`의 `운영 헬스 리포트`, `/api/admin/health-readiness`, `npm run release:doctor`도 이 리포트의 존재와 수치를 확인하므로, 출시 직전에는 `docs/HEALTH_READINESS_REPORT.md`가 PASS인지 먼저 확인한다.
 - 피드 dry-run import: `POST /api/admin/import?token=$ADMIN_EXPORT_TOKEN`
   - 신규/보강 피드는 `affiliateUrl` → `finalPurchaseUrl` → `productUrl` → `purchaseUrl` → `link` → `originalUrl` → `searchUrl` 순서로 실제 구매 이동 URL을 판정한다.
   - `linkSummary.verified`와 `linkSummary.needsReview`를 확인해 출시 전 실제 상품 상세 URL 비율을 관리한다.

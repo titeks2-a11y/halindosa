@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Activity, BadgePercent, DatabaseZap, Download, ExternalLink, Flame, ImageIcon, LineChart, LockKeyhole, ShieldCheck, Store, Timer, TrendingDown, WalletCards } from "lucide-react";
 import { AdminReportQueue } from "@/components/AdminReportQueue";
 import { AdminDealQualityPanel } from "@/components/AdminDealQualityPanel";
+import { AdminHealthReadinessPanel } from "@/components/AdminHealthReadinessPanel";
 import { AdminNewsOperationsPanel } from "@/components/AdminNewsOperationsPanel";
 import { AdminPushDryRunPanel } from "@/components/AdminPushDryRunPanel";
 import { PartnerFeedDryRunPanel } from "@/components/PartnerFeedDryRunPanel";
@@ -22,6 +23,7 @@ import { formatPrice, getRelativeTime } from "@/lib/format";
 import { buildNotificationCampaigns, buildOfficialBenefitNotificationCampaigns, summarizeNotificationCampaigns, toPushQueueRows } from "@/lib/notificationCampaigns";
 import { getPushReadiness } from "@/lib/pushNotifications";
 import { getReportSummary, listDealReports } from "@/lib/reports";
+import { getHealthReadinessReport } from "@/lib/operations/healthReadiness";
 
 const checklist = [
   { title: "제휴 고지", description: "광고/제휴 링크 여부를 상품 상세 및 이동 전 플로우에 명확히 표시" },
@@ -63,6 +65,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const reportSummary = getReportSummary();
   const refreshReport = getRefreshDealsReport();
   const newsOperations = getNewsOperationsReport();
+  const healthReadiness = getHealthReadinessReport();
   const newsResult = getVisibleNewsDeals({ limit: 20 });
   const newsDeals = newsResult.deals;
   const newsCategoryCounts = Array.from(
@@ -91,6 +94,9 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const newsOperationsApiHref = isAdminProtectionEnabled()
     ? `/api/admin/news-operations?token=${encodeURIComponent(token ?? "")}`
     : "/api/admin/news-operations";
+  const healthReadinessApiHref = isAdminProtectionEnabled()
+    ? `/api/admin/health-readiness?token=${encodeURIComponent(token ?? "")}`
+    : "/api/admin/health-readiness";
   const pushSendApiHref = isAdminProtectionEnabled()
     ? `/api/admin/push/send?token=${encodeURIComponent(token ?? "")}`
     : "/api/admin/push/send";
@@ -290,6 +296,8 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
         </div>
 
         <AdminDealQualityPanel token={token} initialReport={refreshReport} />
+
+        <AdminHealthReadinessPanel report={healthReadiness} apiHref={healthReadinessApiHref} />
 
         <section className="rounded-3xl border border-brand-line bg-white p-5 shadow-lift" aria-label="뉴스 수집 현황">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
