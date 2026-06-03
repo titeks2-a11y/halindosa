@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useMemo } from "react";
 import { CalendarClock, ExternalLink, ShieldCheck, TicketPercent } from "lucide-react";
 import { getRelativeTime, getTimeLeft } from "@/lib/format";
 import { rememberRecentNewsBenefitId } from "@/lib/recentNewsBenefits";
@@ -17,6 +18,15 @@ const benefitLabels: Record<NewsDeal["benefitType"], string> = {
   public: "공공혜택"
 };
 
+const categoryHighlights = [
+  { key: "free-coupon", label: "무료/쿠폰 혜택", matches: (deal: NewsDeal) => deal.category === "무료혜택" || deal.benefitType === "coupon" || deal.benefitType === "freebie" },
+  { key: "card", label: "카드·멤버십 할인", matches: (deal: NewsDeal) => deal.category === "카드/멤버십" || deal.benefitType === "card" || deal.benefitType === "membership" },
+  { key: "culture", label: "영화·문화 할인", matches: (deal: NewsDeal) => deal.category === "영화/문화" || deal.benefitType === "culture" },
+  { key: "mart", label: "마트·편의점 행사", matches: (deal: NewsDeal) => deal.category === "마트/편의점" },
+  { key: "public", label: "정부·공공혜택", matches: (deal: NewsDeal) => deal.category === "정부/공공혜택" || deal.benefitType === "public" },
+  { key: "delivery", label: "외식·배달 쿠폰", matches: (deal: NewsDeal) => deal.category === "외식/배달" }
+];
+
 export function RealtimeNewsDealsSection({
   deals,
   updatedAt,
@@ -26,6 +36,17 @@ export function RealtimeNewsDealsSection({
   updatedAt: string;
   onOpenNewsDeal?: (deal: NewsDeal) => void;
 }) {
+  const highlightCounts = useMemo(
+    () =>
+      categoryHighlights
+        .map((item) => ({
+          ...item,
+          count: deals.filter(item.matches).length
+        }))
+        .filter((item) => item.count > 0),
+    [deals]
+  );
+
   if (!deals.length) {
     return (
       <section className="rounded-2xl border border-dashed border-slate-200 bg-white p-4 shadow-sm" aria-label="오늘의 실시간 할인뉴스">
@@ -49,8 +70,17 @@ export function RealtimeNewsDealsSection({
           {updatedAt ? getRelativeTime(updatedAt) : "방금 확인"}
         </span>
       </div>
+      {highlightCounts.length ? (
+        <div className="mt-3 flex gap-1.5 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" aria-label="공식 혜택 카테고리 요약">
+          {highlightCounts.map((item) => (
+            <span key={item.key} className="shrink-0 rounded-full bg-brand-warm px-3 py-1.5 text-[11px] font-black text-slate-700">
+              {item.label} {item.count}
+            </span>
+          ))}
+        </div>
+      ) : null}
       <div className="mt-3 flex snap-x snap-mandatory gap-2 overflow-x-auto pb-1 [scrollbar-width:none] sm:grid sm:grid-cols-2 sm:gap-3 lg:grid-cols-3 [&::-webkit-scrollbar]:hidden">
-        {deals.slice(0, 6).map((deal) => (
+        {deals.slice(0, 8).map((deal) => (
           <article
             key={deal.id}
             data-news-deal-card="true"
