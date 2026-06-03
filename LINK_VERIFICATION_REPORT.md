@@ -1,6 +1,6 @@
 # 할인도사 Link Verification Report
 
-Generated: 2026-06-03T19:44:54.533Z
+Generated: 2026-06-03T19:53:29.440Z
 
 ## Summary
 
@@ -20,7 +20,7 @@ Generated: 2026-06-03T19:44:54.533Z
 | 커뮤니티 의심 | 0 |
 | 수동 검토 필요 | 0 |
 | Live probe 확인 | 140 |
-| Live probe 실패 | 78 |
+| Live probe 실패 | 79 |
 | Live probe robots/access 차단 | 62 |
 | Live probe timeout | 0 |
 | Live probe hard failure | 0 |
@@ -37,7 +37,7 @@ Generated: 2026-06-03T19:44:54.533Z
 
 - robots_or_access_blocked: 62
 - http_429: 13
-- request_failed: 3
+- request_failed: 4
 
 ### Live Probe Failed Hosts
 
@@ -47,6 +47,7 @@ Generated: 2026-06-03T19:44:54.533Z
 - oliveyoung.co.kr: 7
 - hyundaicard.com: 1
 - itempage3.auction.co.kr: 1
+- shinhancard.com: 1
 - store.ohou.se: 1
 - tmembership.co.kr: 1
 - tour.interpark.com: 1

@@ -1,8 +1,8 @@
 {
   "generatedBy": "npm run store:manual:checklist",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "984756c",
-  "workingTree": "M EXTERNAL_LINK_REPORT.md;  M IMAGE_QUALITY_REPORT.md;  M LINK_VERIFICATION_REPORT.md;  M LINK_VERIFICATION_RESULT.json;  M PERFORMANCE_REPORT.md;  M SEARCH_REPORT.md;  M data/refreshedDeals.json;  M docs/FEED_TRANSITION_REPORT.md;  M docs/HEALTH_READINESS_REPORT.md;  M docs/OFFICIAL_SOURCE_CATALOG.md;  M docs/PERFORMANCE_REPORT.md;  M docs/PUSH_READINESS_REPORT.md;  M docs/release-evidence.md;  M reports/cron-refresh-readiness.json;  M reports/exposure-policy.json;  M reports/feed-transition.json;  M reports/health-readiness.json;  M reports/link-validation.json;  M reports/official-source-catalog.json;  M reports/product-quality.json;  M reports/push-readiness.json;  M reports/refresh-all.json;  M reports/refresh-deals.json;  M reports/release-doctor.json",
+  "commit": "9659d5d",
+  "workingTree": "M EXTERNAL_LINK_REPORT.md;  M IMAGE_QUALITY_REPORT.md;  M LINK_VERIFICATION_REPORT.md;  M LINK_VERIFICATION_RESULT.json;  M PERFORMANCE_REPORT.md;  M SEARCH_REPORT.md;  M data/refreshedDeals.json;  M data/refreshedNewsDeals.json;  M docs/FEED_TRANSITION_REPORT.md;  M docs/HEALTH_READINESS_REPORT.md;  M docs/OFFICIAL_SOURCE_CATALOG.md;  M docs/PERFORMANCE_REPORT.md;  M docs/PUSH_READINESS_REPORT.md;  M docs/release-evidence.md;  M reports/cron-refresh-readiness.json;  M reports/exposure-policy.json;  M reports/feed-transition.json;  M reports/health-readiness.json;  M reports/link-validation.json;  M reports/news-deals.json;  M reports/official-source-catalog.json;  M reports/product-quality.json;  M reports/push-readiness.json;  M reports/refresh-all.json;  M reports/refresh-deals.json;  M reports/release-doctor.json",
   "appName": "할인도사",
   "version": "1.0.1",
   "packageName": "com.halindosa.app",
@@ -101,17 +101,17 @@
     {
       "path": "docs/STORE_CONSOLE_FIELDS.md",
       "status": "present",
-      "bytes": 3898
+      "bytes": 4639
     },
     {
       "path": "docs/STORE_HANDOFF_REPORT.md",
       "status": "present",
-      "bytes": 4688
+      "bytes": 5429
     },
     {
       "path": "docs/STORE_SUBMISSION_REPORT.md",
       "status": "present",
-      "bytes": 4906
+      "bytes": 5647
     },
     {
       "path": "docs/DEVICE_QA_MANIFEST.md",
@@ -126,12 +126,12 @@
     {
       "path": "docs/PUBLIC_URL_REPORT.md",
       "status": "present",
-      "bytes": 2326
+      "bytes": 3067
     },
     {
       "path": "docs/release-evidence.md",
       "status": "present",
-      "bytes": 6719
+      "bytes": 6780
     }
   ],
   "manualWorkThatMustNotBeFaked": [

@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-03T19:44:55.546Z",
+  "generatedAt": "2026-06-03T19:53:30.460Z",
   "summary": {
     "auditedItems": 140,
     "exposedItems": 140,
@@ -37,10 +37,10 @@
     "bodyProbe": false,
     "timeoutMs": 5000,
     "checked": 140,
-    "passed": 62,
-    "failed": 78,
-    "redirected": 12,
-    "finalUrlChanged": 12,
+    "passed": 61,
+    "failed": 79,
+    "redirected": 11,
+    "finalUrlChanged": 11,
     "http404": 0,
     "http410": 0,
     "http5xx": 0,
@@ -283,6 +283,13 @@
         "id": "d073",
         "url": "https://www.hyundaicard.com/cpc/cr/CPCCR0101_01.hc",
         "finalUrl": "https://www.hyundaicard.com/cpc/cr/CPCCR0101_01.hc",
+        "status": 0,
+        "reason": "request_failed"
+      },
+      {
+        "id": "d074",
+        "url": "https://www.shinhancard.com/pconts/html/benefit/event/MOBFM220/MOBFM220R01.html",
+        "finalUrl": "https://www.shinhancard.com/pconts/html/benefit/event/MOBFM220/MOBFM220R01.html",
         "status": 0,
         "reason": "request_failed"
       },
@@ -606,7 +613,7 @@
   "liveProbeFailureReasonCounts": {
     "robots_or_access_blocked": 62,
     "http_429": 13,
-    "request_failed": 3
+    "request_failed": 4
   },
   "liveProbeHostFailureCounts": {
     "item.gmarket.co.kr": 30,
@@ -615,6 +622,7 @@
     "oliveyoung.co.kr": 7,
     "hyundaicard.com": 1,
     "itempage3.auction.co.kr": 1,
+    "shinhancard.com": 1,
     "store.ohou.se": 1,
     "tmembership.co.kr": 1,
     "tour.interpark.com": 1
@@ -2245,8 +2253,8 @@
       "productDetailUrl": false,
       "officialBenefitUrl": true,
       "unavailableText": false,
-      "liveProbeOk": true,
-      "liveProbeReason": ""
+      "liveProbeOk": false,
+      "liveProbeReason": "request_failed"
     },
     {
       "id": "d075",
@@ -3704,9 +3712,9 @@
   "badExposedItems": [],
   "hiddenItems": [],
   "sourceReports": {
-    "linkValidationGeneratedAt": "2026-06-03T19:44:54.533Z",
-    "productQualityGeneratedAt": "2026-06-03T19:44:55.049Z",
-    "refreshAllGeneratedAt": "2026-06-03T19:44:33.815Z"
+    "linkValidationGeneratedAt": "2026-06-03T19:53:29.440Z",
+    "productQualityGeneratedAt": "2026-06-03T19:53:29.972Z",
+    "refreshAllGeneratedAt": "2026-06-03T19:53:11.445Z"
   },
   "issues": []
 }
