@@ -4,6 +4,7 @@ import { getNewsOperationsReport } from "@/lib/deals/newsOperations";
 import { buildPersonalizedBenefitQueue } from "@/lib/deals/personalizedBenefitQueue";
 import { getLinkReviewQueue, summarizeDealQuality } from "@/lib/deals/quality";
 import { hasRealDealImage } from "@/lib/deals/ranking";
+import { getImageSourcingPolicy } from "@/lib/deals/imageSourcingPolicy";
 import { getOperationalEnvReadiness } from "@/lib/operations/envReadiness";
 import { getPriceInsight } from "@/lib/priceHistory";
 import type { Deal, DealBenefitType } from "@/types/deal";
@@ -500,23 +501,34 @@ export function buildImageQualityReadiness(deals: Deal[]) {
   };
   const priorityDeals = sortedFallbackDeals
     .slice(0, 8)
-    .map((deal) => ({
-      id: deal.id,
-      title: deal.title,
-      category: deal.category,
-      mallName: deal.mallName,
-      popularityScore: deal.popularityScore,
-      currentImageUrl: deal.thumbnail || deal.imageUrl,
-      sourceName: deal.sourceName ?? deal.mallName,
-      sourceUrl: deal.sourceUrl ?? deal.finalPurchaseUrl,
-      finalPurchaseUrl: deal.finalPurchaseUrl,
-      imageSearchUrl: buildImageSearchUrl(deal),
-      imageField: "imageUrl",
-      imageSourceHint: "판매처 상세의 대표 상품 이미지 또는 제휴/공식 피드 imageUrl",
-      sourcingPriority: getSourcingPriority(deal),
-      priorityReason: getImagePriorityReason(deal),
-      action: "판매처 상세 페이지의 상품 이미지를 imageUrl/thumbnail에 보강"
-    }));
+    .map((deal) => {
+      const imagePolicy = getImageSourcingPolicy(deal.mallName);
+
+      return {
+        id: deal.id,
+        title: deal.title,
+        category: deal.category,
+        mallName: deal.mallName,
+        popularityScore: deal.popularityScore,
+        currentImageUrl: deal.thumbnail || deal.imageUrl,
+        sourceName: deal.sourceName ?? deal.mallName,
+        sourceUrl: deal.sourceUrl ?? deal.finalPurchaseUrl,
+        finalPurchaseUrl: deal.finalPurchaseUrl,
+        imageSearchUrl: buildImageSearchUrl(deal),
+        imageField: "imageUrl",
+        imageSourceHint: imagePolicy.recommendedImageSource,
+        imagePolicyKey: imagePolicy.key,
+        imageAcquisitionChannel: imagePolicy.acquisitionChannel,
+        recommendedImageSource: imagePolicy.recommendedImageSource,
+        imageFeedFields: imagePolicy.feedFields,
+        imageRightsChecklist: imagePolicy.imageRightsChecklist,
+        imageManualVerification: imagePolicy.manualVerification,
+        prohibitedImageSource: imagePolicy.prohibitedImageSource,
+        sourcingPriority: getSourcingPriority(deal),
+        priorityReason: getImagePriorityReason(deal),
+        action: "판매처 상세 페이지의 상품 이미지를 imageUrl/thumbnail에 보강"
+      };
+    });
 
   const realImageRate = deals.length ? Math.round((realImageDeals.length / deals.length) * 100) : 0;
   const launchTargetRate = 60;
@@ -524,23 +536,38 @@ export function buildImageQualityReadiness(deals: Deal[]) {
   const gapToLaunchTarget = Math.max(0, targetRealImageCount - realImageDeals.length);
   const weeklySourcingTarget = Math.min(24, gapToLaunchTarget);
   const nextBatchDeals = sortedFallbackDeals.slice(0, weeklySourcingTarget || Math.min(8, sortedFallbackDeals.length));
-  const nextBatchOperationDeals = nextBatchDeals.slice(0, 24).map((deal, index) => ({
-    rank: index + 1,
-    id: deal.id,
-    title: deal.title,
-    category: deal.category,
-    mallName: deal.mallName,
-    finalPurchaseUrl: deal.finalPurchaseUrl,
-    imageSearchUrl: buildImageSearchUrl(deal),
-    sourcingPriority: getSourcingPriority(deal),
-    priorityReason: getImagePriorityReason(deal),
-    action: "이번 주 이미지 보강 배치"
-  }));
+  const nextBatchOperationDeals = nextBatchDeals.slice(0, 24).map((deal, index) => {
+    const imagePolicy = getImageSourcingPolicy(deal.mallName);
+
+    return {
+      rank: index + 1,
+      id: deal.id,
+      title: deal.title,
+      category: deal.category,
+      mallName: deal.mallName,
+      finalPurchaseUrl: deal.finalPurchaseUrl,
+      imageSearchUrl: buildImageSearchUrl(deal),
+      imagePolicyKey: imagePolicy.key,
+      imageAcquisitionChannel: imagePolicy.acquisitionChannel,
+      recommendedImageSource: imagePolicy.recommendedImageSource,
+      imageFeedFields: imagePolicy.feedFields,
+      imageManualVerification: imagePolicy.manualVerification,
+      prohibitedImageSource: imagePolicy.prohibitedImageSource,
+      sourcingPriority: getSourcingPriority(deal),
+      priorityReason: getImagePriorityReason(deal),
+      action: "이번 주 이미지 보강 배치"
+    };
+  });
   const mallQueue = Array.from(byMall.values())
     .filter((item) => item.fallback > 0)
     .map((item) => {
+      const imagePolicy = getImageSourcingPolicy(item.mallName);
       const recommendedAcquisition =
-        item.fallback >= 8 ? "partner_feed" : item.fallback >= 3 ? "official_batch" : "manual_review";
+        imagePolicy.acquisitionChannel === "partner_feed" || item.fallback >= 8
+          ? "partner_feed"
+          : imagePolicy.acquisitionChannel === "official_feed" || imagePolicy.acquisitionChannel === "official_batch" || item.fallback >= 3
+            ? "official_batch"
+            : "manual_review";
       const operationOwner =
         recommendedAcquisition === "partner_feed"
           ? "제휴/운영 피드 담당"
@@ -560,6 +587,12 @@ export function buildImageQualityReadiness(deals: Deal[]) {
         slaDays,
         sampleIds: item.samples.map((deal) => deal.id),
         sampleTitles: item.samples.map((deal) => deal.title),
+        imagePolicyKey: imagePolicy.key,
+        recommendedImageSource: imagePolicy.recommendedImageSource,
+        imageFeedFields: imagePolicy.feedFields,
+        imageRightsChecklist: imagePolicy.imageRightsChecklist,
+        imageManualVerification: imagePolicy.manualVerification,
+        prohibitedImageSource: imagePolicy.prohibitedImageSource,
         action:
           recommendedAcquisition === "partner_feed"
             ? `${item.mallName} 제휴/운영 피드에서 imageUrl 일괄 보강 요청`

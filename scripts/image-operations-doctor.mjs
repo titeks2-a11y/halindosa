@@ -8,6 +8,7 @@ const metricsRoute = readFileSync(join(root, "app", "api", "metrics", "route.ts"
 const imageQueueRoute = readFileSync(join(root, "app", "api", "admin", "image-queue", "route.ts"), "utf8");
 const feedImport = readFileSync(join(root, "lib", "feedImport.ts"), "utf8");
 const imageResolver = readFileSync(join(root, "lib", "deals", "imageResolver.ts"), "utf8");
+const imageSourcingPolicy = readFileSync(join(root, "lib", "deals", "imageSourcingPolicy.ts"), "utf8");
 const mockDeals = readFileSync(join(root, "data", "mockDeals.ts"), "utf8");
 const partnerFeedValidator = readFileSync(join(root, "scripts", "validate-partner-feed.mjs"), "utf8");
 const imageTest = readFileSync(join(root, "scripts", "test-images.mjs"), "utf8");
@@ -62,11 +63,30 @@ const checks = [
       imageQueueRoute.includes("sourcingPriority") &&
       adminPage.includes("이미지 후보 검색") &&
       adminPage.includes("우선순위 사유") &&
+      adminPage.includes("권장 출처") &&
+      adminPage.includes("금지:") &&
       smoke.includes("imageSearchUrl") &&
       smoke.includes("currentImageUrl") &&
       smoke.includes("priorityReason") &&
       smoke.includes("sourcingPriority"),
     message: "이미지 보강 큐는 현재 이미지, 출처, 보강 검색 URL, 저장 필드를 운영자가 바로 볼 수 있게 제공해야 합니다."
+  },
+  {
+    name: "seller-specific image sourcing policy",
+    ok:
+      imageSourcingPolicy.includes("getImageSourcingPolicy") &&
+      imageSourcingPolicy.includes("recommendedImageSource") &&
+      imageSourcingPolicy.includes("imageRightsChecklist") &&
+      imageSourcingPolicy.includes("prohibitedImageSource") &&
+      analytics.includes("getImageSourcingPolicy") &&
+      analytics.includes("imagePolicyKey") &&
+      analytics.includes("imageAcquisitionChannel") &&
+      analytics.includes("imageFeedFields") &&
+      imageQueueRoute.includes("recommendedImageSource") &&
+      imageQueueRoute.includes("imageFeedFields") &&
+      imageQueueRoute.includes("prohibitedImageSource") &&
+      smoke.includes("seller-specific image sourcing policy"),
+    message: "이미지 보강 큐는 판매처별 권장 이미지 출처, 필수 피드 필드, 금지 출처를 API/CSV/관리자 화면에서 제공해야 합니다."
   },
   {
     name: "partner feed image gate",

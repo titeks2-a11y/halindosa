@@ -1394,6 +1394,8 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                   <p className="mt-2 line-clamp-2 text-xs font-black text-slate-950">{deal.title}</p>
                   <p className="mt-1 text-[11px] font-bold text-slate-500">{deal.mallName} · {deal.category}</p>
                   <p className="mt-1 line-clamp-2 text-[11px] font-bold leading-4 text-slate-400">우선순위 사유: {deal.priorityReason}</p>
+                  <p className="mt-2 line-clamp-2 text-[11px] font-black leading-4 text-brand-navy">{deal.recommendedImageSource}</p>
+                  <p className="mt-1 line-clamp-1 text-[10px] font-bold text-slate-400">필드: {deal.imageFeedFields.join(", ")}</p>
                 </a>
               ))}
             </div>
@@ -1450,6 +1452,10 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                       </span>
                     </div>
                     <p className="mt-1 text-xs font-bold leading-5 text-slate-500">{item.action}</p>
+                    <p className="mt-1 text-[11px] font-black leading-4 text-brand-navy">{item.recommendedImageSource}</p>
+                    <p className="mt-1 line-clamp-2 text-[11px] font-bold leading-4 text-slate-400">
+                      확인: {item.imageManualVerification}
+                    </p>
                     <p className="mt-1 line-clamp-1 text-[11px] font-semibold text-slate-400">
                       예: {item.sampleTitles.join(", ")} · ID {item.sampleIds.join(", ")}
                     </p>
@@ -1473,6 +1479,8 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                     </div>
                     <p className="mt-2 text-xs font-bold leading-5 text-red-900/70">{deal.action}</p>
                     <p className="mt-1 text-[11px] font-black leading-4 text-dossa-red">우선순위 사유: {deal.priorityReason}</p>
+                    <p className="mt-1 text-[11px] font-bold leading-4 text-brand-navy">권장 출처: {deal.recommendedImageSource}</p>
+                    <p className="mt-1 line-clamp-2 text-[11px] font-bold leading-4 text-slate-400">금지: {deal.prohibitedImageSource}</p>
                     <div className="mt-3 flex flex-wrap gap-2">
                       <a
                         href={deal.finalPurchaseUrl}

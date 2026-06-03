@@ -92,6 +92,7 @@
 - 이미지 보강 큐에 `sourcingPriority`, `priorityReason`, `nextBatchDeals`를 추가해 클릭/인기/무료배송/할인율/무료·쿠폰 혜택 신호를 기준으로 주간 이미지 보강 배치를 운영자가 바로 처리하도록 개선
 - `npm run test:images`에 명시 실상품 이미지 최소 기준 25%를 추가해 신규 상품 확장 중 이미지 커버리지가 다시 낮아지지 않도록 품질 게이트를 상향
 - 관리자 이미지 큐에 공개 운영 목표 60%, 목표까지 남은 보강 수, 주간 보강 목표, 판매처별 피드 보강 우선순위를 추가해 이미지 품질을 단순 리포트가 아닌 운영 실행 큐로 관리
+- 판매처별 이미지 확보 정책을 `imageSourcingPolicy`로 분리해 쿠팡, G마켓, 11번가, SSG/이마트, 올리브영, 무신사별 권장 이미지 출처, 필수 feed 필드, 권리 확인 체크, 금지 이미지 출처를 관리자 이미지 큐 JSON/CSV와 화면에 노출하도록 개선
 - [24H_START_AUDIT.md](../24H_START_AUDIT.md), [HARNESS_AUDIT.md](../HARNESS_AUDIT.md), [KNOWN_ISSUES.md](../KNOWN_ISSUES.md)를 추가해 이번 장기 hardening의 시작 상태, 검사 범위, 남은 운영 리스크를 문서화
 
 ### PHASE Harness Hardening

@@ -11,6 +11,7 @@ Status: PASS
 | metrics api exposure | PASS | /api/metrics 응답 경로에 이미지 품질 지표가 포함되어야 합니다. |
 | admin image queue api | PASS | 관리자 이미지 큐는 보호된 JSON/CSV API로 제공되어야 합니다. |
 | image sourcing operation fields | PASS | 이미지 보강 큐는 현재 이미지, 출처, 보강 검색 URL, 저장 필드를 운영자가 바로 볼 수 있게 제공해야 합니다. |
+| seller-specific image sourcing policy | PASS | 이미지 보강 큐는 판매처별 권장 이미지 출처, 필수 피드 필드, 금지 출처를 API/CSV/관리자 화면에서 제공해야 합니다. |
 | partner feed image gate | PASS | 파트너/운영 피드는 imageUrl을 필수 운영 품질 항목으로 검증해야 합니다. |
 | verified purchase image resolver | PASS | 검증된 구매 상세 URL에서 공식 상품 이미지 URL을 파생하고 category fallback보다 먼저 적용해야 합니다. |
 | minimum explicit image gate | PASS | 명시 실상품 이미지 커버리지는 현재 달성한 25% 이상 기준을 자동 검사해야 합니다. |

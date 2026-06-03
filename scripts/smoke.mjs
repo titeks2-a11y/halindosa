@@ -1289,15 +1289,19 @@ await check("admin image queue api", async () => {
     data.imageQuality.mallQueue.every((item) => item.recommendedAcquisition && item.operationOwner && Number.isFinite(item.slaDays) && Array.isArray(item.sampleIds)),
     "Admin image mall queue missing acquisition, owner, SLA, or sample IDs"
   );
+  assert(
+    data.imageQuality.mallQueue.every((item) => item.recommendedImageSource && Array.isArray(item.imageFeedFields) && item.imageManualVerification && item.prohibitedImageSource),
+    "Admin image mall queue missing seller-specific image sourcing policy"
+  );
   assert(data.imageQuality?.sourcingPlan?.launchTargetRate === 60, "Admin image queue missing 60% launch image target");
   assert(data.imageQuality.sourcingPlan.gapToLaunchTarget >= 0, "Admin image queue missing image launch gap");
   assert(data.imageQuality.sourcingPlan.weeklySourcingTarget >= 0, "Admin image queue missing weekly image sourcing target");
   assert(Array.isArray(data.imageQuality?.nextBatchDeals) && data.imageQuality.nextBatchDeals.length >= 1, "Admin image queue missing weekly image sourcing batch details");
   assert(Array.isArray(data.imageQuality?.priorityDeals) && data.imageQuality.priorityDeals.length >= 1, "Admin image queue missing priority deals");
   assert(data.imageQuality.priorityDeals.every((deal) => deal.id && deal.title && deal.finalPurchaseUrl && deal.action && deal.priorityReason && deal.sourcingPriority), "Admin image priority deals missing operation fields");
-  assert(data.imageQuality.nextBatchDeals.every((deal) => deal.id && deal.imageSearchUrl && deal.priorityReason), "Admin image weekly batch missing sourcing fields");
+  assert(data.imageQuality.nextBatchDeals.every((deal) => deal.id && deal.imageSearchUrl && deal.priorityReason && deal.recommendedImageSource && Array.isArray(deal.imageFeedFields)), "Admin image weekly batch missing sourcing fields");
   assert(
-    data.imageQuality.priorityDeals.every((deal) => deal.currentImageUrl && deal.imageField === "imageUrl" && deal.imageSearchUrl && deal.sourceUrl),
+    data.imageQuality.priorityDeals.every((deal) => deal.currentImageUrl && deal.imageField === "imageUrl" && deal.imageSearchUrl && deal.sourceUrl && deal.recommendedImageSource && deal.prohibitedImageSource),
     "Admin image priority deals missing image sourcing fields"
   );
 });
@@ -1922,6 +1926,7 @@ await check("admin image queue csv", async () => {
   assert(text.includes("finalPurchaseUrl") && text.includes("action"), "Image queue CSV missing operation fields");
   assert(text.includes("imageSearchUrl") && text.includes("currentImageUrl"), "Image queue CSV missing image sourcing fields");
   assert(text.includes("priorityReason") && text.includes("sourcingPriority"), "Image queue CSV missing sourcing priority fields");
+  assert(text.includes("recommendedImageSource") && text.includes("imageFeedFields") && text.includes("prohibitedImageSource"), "Image queue CSV missing seller-specific image sourcing policy fields");
 });
 
 await check("seo files", async () => {
