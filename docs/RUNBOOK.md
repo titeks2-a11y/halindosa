@@ -21,11 +21,13 @@ npm run smoke
 - 실시간 특가 API: `GET /api/deals?q=노트북%20특가&sort=latest`
 - 헬스체크: `GET /api/health`
   - `officialBenefitFresh`, `officialBenefitFreshnessHours`, `officialBenefitVisibleCount`, `officialBenefitReadyCategories`, `officialBenefitRefreshAllOk`, `officialBenefitProviderRiskOk`, `officialBenefitProviderDangerCount`를 함께 확인한다.
+  - `officialBenefitFeedTransitionStatus`, `officialBenefitFeedReadinessRate`, `officialBenefitFeedConfiguredProviders`, `officialBenefitFeedSeedOnlyProviders`, `officialBenefitFeedRecommendedEnvKeys`로 공식 혜택 feed가 seed fallback인지, 어떤 환경변수부터 연결해야 하는지 확인한다.
   - 공식 혜택 feed가 24시간 이상 갱신되지 않았거나 필수 카테고리 10개가 모두 ready가 아니면 `refresh:all`과 `/admin` 뉴스 운영 패널을 먼저 확인한다.
 - 운영 지표: `GET /api/metrics`
   - `officialBenefitProviderRisk.summary`와 `nextActions`로 공식 혜택 provider의 seed/fallback 운영, 수집 공백, 공식 링크 누락 우선순위를 확인한다.
 - 공급원 상태: `GET /api/sources`
   - 상품 feed readiness와 `officialBenefitProviderReadiness`를 함께 확인해 상품 특가와 공식 혜택 feed 전환 준비도를 같은 화면에서 판단한다.
+  - `officialBenefitFeedTransitionReadiness`는 provider별 `seed_fallback`/`external_feed` 모드, 필요한 env key, 허용 소스, 다음 액션을 반환한다. 외부 feed URL을 붙인 뒤 이 값과 `/admin`의 `공식 피드 전환 준비도`가 함께 갱신되는지 확인한다.
 - 상세 API: `GET /api/deals/d001`
 - 가격 이력: 상세 API의 `priceHistory`, `priceInsight` 필드 확인
 - 신고 API: `POST /api/reports`

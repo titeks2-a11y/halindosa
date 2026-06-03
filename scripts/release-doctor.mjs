@@ -2287,6 +2287,7 @@ async function checkOperationalDataSurfaces() {
     !analytics.includes("personalizationReadiness") ||
     !analytics.includes("buildPersonalizedBenefitQueue") ||
     !analytics.includes("officialBenefitProviderRisk") ||
+    !analytics.includes("officialBenefitFeedTransition") ||
     !analytics.includes("getNewsOperationsReport") ||
     !commercializationPage.includes("benefitRetention") ||
     !commercializationPage.includes("개인화 추천 출시 준비도") ||
@@ -2298,6 +2299,7 @@ async function checkOperationalDataSurfaces() {
     !smoke.includes("Metrics missing benefit retention score") ||
     !smoke.includes("Metrics missing personalization readiness rate") ||
     !smoke.includes("Metrics missing official benefit provider risk details") ||
+    !smoke.includes("Metrics missing official benefit feed transition providers") ||
     !smoke.includes("Commercialization page missing benefit retention readiness") ||
     !smoke.includes("Commercialization page missing personalization readiness") ||
     !smoke.includes("Commercialization page missing official benefit provider risk readiness") ||
@@ -2330,6 +2332,8 @@ async function checkOperationalDataSurfaces() {
     !healthRoute.includes("officialBenefitRefreshAllOk") ||
     !healthRoute.includes("officialBenefitProviderRiskOk") ||
     !healthRoute.includes("officialBenefitProviderDangerCount") ||
+    !healthRoute.includes("officialBenefitFeedTransitionStatus") ||
+    !healthRoute.includes("officialBenefitFeedReadinessRate") ||
     !analytics.includes("operationalEnvReadiness") ||
     !envReadiness.includes("getOperationalEnvReadiness") ||
     !envReadiness.includes("NEXT_PUBLIC_SITE_URL") ||
@@ -2344,6 +2348,7 @@ async function checkOperationalDataSurfaces() {
     !smoke.includes("Health API official benefit feed is stale") ||
     !smoke.includes("Health API missing official benefit category coverage") ||
     !smoke.includes("Health API official benefit provider risk should be launch-safe") ||
+    !smoke.includes("Health API missing official benefit feed transition status") ||
     !smoke.includes("Metrics missing operational env readiness rate") ||
     !smoke.includes("Commercialization page missing operational env readiness")
   ) {
@@ -2599,6 +2604,9 @@ async function checkOperationalDataSurfaces() {
     !smoke.includes("Sources API missing source readiness summary") ||
     !smoke.includes("Sources API missing configured production feed count") ||
     !smoke.includes("Sources API missing official benefit provider readiness details") ||
+    !smoke.includes("Sources API missing official benefit feed transition providers") ||
+    !sourcesRoute.includes("officialBenefitFeedTransitionReadiness") ||
+    !sourcesRoute.includes("configuredOfficialBenefitFeeds") ||
     !smoke.includes("Sources API found danger official benefit provider risk") ||
     !smoke.includes("Admin dashboard missing partner feed validation report board") ||
     !smoke.includes("Admin dashboard missing paste-in feed dry-run panel") ||

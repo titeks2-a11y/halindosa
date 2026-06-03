@@ -11,6 +11,7 @@ export async function GET() {
   const newsOperations = getNewsOperationsReport();
   const counts = new Map<string, number>();
   const configuredProductionFeeds = getConfiguredProductionFeedUrls().length;
+  const officialBenefitFeedTransition = newsOperations.feedTransitionReadiness;
 
   for (const deal of deals) {
     counts.set(deal.source, (counts.get(deal.source) ?? 0) + 1);
@@ -48,14 +49,42 @@ export async function GET() {
           action: risk.action
         }))
     },
+    officialBenefitFeedTransitionReadiness: {
+      status: officialBenefitFeedTransition.status,
+      label: officialBenefitFeedTransition.label,
+      readinessRate: officialBenefitFeedTransition.readinessRate,
+      configuredProviders: officialBenefitFeedTransition.configuredProviders,
+      seedOnlyProviders: officialBenefitFeedTransition.seedOnlyProviders,
+      totalProviders: officialBenefitFeedTransition.totalProviders,
+      configuredFeedUrls: officialBenefitFeedTransition.configuredFeedUrls,
+      recommendedNextEnvKeys: officialBenefitFeedTransition.recommendedNextEnvKeys,
+      operatorAction: officialBenefitFeedTransition.operatorAction,
+      guardrails: officialBenefitFeedTransition.guardrails,
+      providers: officialBenefitFeedTransition.providers.map((provider) => ({
+        provider: provider.provider,
+        label: provider.label,
+        mode: provider.mode,
+        modeLabel: provider.modeLabel,
+        configured: provider.configured,
+        feedUrls: provider.feedUrls,
+        envKeys: provider.envKeys,
+        acceptedSources: provider.acceptedSources,
+        nextAction: provider.nextAction,
+        priority: provider.priority,
+        visibleCount: provider.visibleCount,
+        issueCount: provider.issueCount
+      }))
+    },
     operationPolicy: {
       configuredProductionFeeds,
+      configuredOfficialBenefitFeeds: officialBenefitFeedTransition.configuredFeedUrls,
+      officialBenefitSeedOnlyProviders: officialBenefitFeedTransition.seedOnlyProviders,
       allowedSources: ["공식 API", "RSS", "제휴 피드", "허용된 파트너 JSON"],
       blockedSources: ["약관이 불명확한 크롤링", "커뮤니티 원문 단독 구매 링크", "검색 결과를 상세 링크처럼 표시"],
       officialBenefitProviderRiskOk: newsOperations.providerRiskSummary.danger === 0,
       nextStep: configuredProductionFeeds
         ? "production 피드는 dry-run 검증 후 유효한 상품·혜택 상세 URL만 노출합니다."
-        : "DEAL_PRODUCTION_FEED_URLS에 공식 API, RSS 변환 JSON, 제휴 피드 URL을 연결한 뒤 dry-run 검증을 실행하세요."
+        : `${officialBenefitFeedTransition.operatorAction} 상품 피드는 DEAL_PRODUCTION_FEED_URLS에 공식 API, RSS 변환 JSON, 제휴 피드 URL을 연결한 뒤 dry-run 검증을 실행하세요.`
     },
     message: "할인도사 데이터 공급원 상태를 불러왔습니다."
   });

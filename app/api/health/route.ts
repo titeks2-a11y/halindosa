@@ -34,6 +34,7 @@ export async function GET() {
     const officialBenefitReadyCategories = newsOperations.categoryCoverage.filter((item) => item.status === "ready").length;
     const officialBenefitWeakCategories = newsOperations.categoryCoverage.filter((item) => item.status !== "ready").length;
     const officialBenefitProviderRiskSummary = newsOperations.providerRiskSummary ?? { healthy: 0, watch: 0, danger: 0 };
+    const officialBenefitFeedTransition = newsOperations.feedTransitionReadiness;
     const officialBenefitProviderRiskOk = officialBenefitProviderRiskSummary.danger === 0;
     const officialBenefitGeneratedAt = Date.parse(newsOperations.generatedAt);
     const officialBenefitFreshnessHours = Number.isFinite(officialBenefitGeneratedAt)
@@ -87,6 +88,12 @@ export async function GET() {
         officialBenefitProviderHealthyCount: officialBenefitProviderRiskSummary.healthy,
         officialBenefitProviderWatchCount: officialBenefitProviderRiskSummary.watch,
         officialBenefitProviderDangerCount: officialBenefitProviderRiskSummary.danger,
+        officialBenefitFeedTransitionStatus: officialBenefitFeedTransition.status,
+        officialBenefitFeedReadinessRate: officialBenefitFeedTransition.readinessRate,
+        officialBenefitFeedConfiguredProviders: officialBenefitFeedTransition.configuredProviders,
+        officialBenefitFeedSeedOnlyProviders: officialBenefitFeedTransition.seedOnlyProviders,
+        officialBenefitConfiguredFeedUrls: officialBenefitFeedTransition.configuredFeedUrls,
+        officialBenefitFeedRecommendedEnvKeys: officialBenefitFeedTransition.recommendedNextEnvKeys.slice(0, 5),
         activeDeals: activeDeals.length,
         freeBenefitDeals: freeBenefitDeals.length
       },

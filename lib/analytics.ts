@@ -688,6 +688,29 @@ export async function getMockBusinessMetrics() {
         action: risk.action
       }))
   };
+  const officialBenefitFeedTransition = {
+    status: newsOperations.feedTransitionReadiness.status,
+    label: newsOperations.feedTransitionReadiness.label,
+    readinessRate: newsOperations.feedTransitionReadiness.readinessRate,
+    configuredProviders: newsOperations.feedTransitionReadiness.configuredProviders,
+    seedOnlyProviders: newsOperations.feedTransitionReadiness.seedOnlyProviders,
+    totalProviders: newsOperations.feedTransitionReadiness.totalProviders,
+    configuredFeedUrls: newsOperations.feedTransitionReadiness.configuredFeedUrls,
+    recommendedNextEnvKeys: newsOperations.feedTransitionReadiness.recommendedNextEnvKeys,
+    operatorAction: newsOperations.feedTransitionReadiness.operatorAction,
+    providers: newsOperations.feedTransitionReadiness.providers.map((provider) => ({
+      provider: provider.provider,
+      label: provider.label,
+      mode: provider.mode,
+      modeLabel: provider.modeLabel,
+      configured: provider.configured,
+      envKeys: provider.envKeys,
+      nextAction: provider.nextAction,
+      priority: provider.priority,
+      visibleCount: provider.visibleCount,
+      issueCount: provider.issueCount
+    }))
+  };
   const averageConfidenceScore = Math.round(
     priceInsights.reduce((sum, insight) => sum + insight.confidenceScore, 0) / priceInsights.length
   );
@@ -721,6 +744,7 @@ export async function getMockBusinessMetrics() {
     imageQuality,
     operationalEnvReadiness,
     officialBenefitProviderRisk,
+    officialBenefitFeedTransition,
     launchReadiness,
     linkReviewQueue
   };

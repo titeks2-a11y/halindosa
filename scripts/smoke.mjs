@@ -1206,6 +1206,11 @@ await check("health api", async () => {
   assert(data.checks?.officialBenefitProviderRiskOk === true, "Health API official benefit provider risk should be launch-safe");
   assert(typeof data.checks?.officialBenefitProviderWatchCount === "number", "Health API missing official benefit provider watch count");
   assert(data.checks?.officialBenefitProviderDangerCount === 0, "Health API found danger official benefit providers");
+  assert(["seed_launch_ready", "hybrid_feed_ready", "production_feed_ready"].includes(data.checks?.officialBenefitFeedTransitionStatus), "Health API missing official benefit feed transition status");
+  assert(typeof data.checks?.officialBenefitFeedReadinessRate === "number", "Health API missing official benefit feed readiness rate");
+  assert(typeof data.checks?.officialBenefitFeedConfiguredProviders === "number", "Health API missing configured official feed provider count");
+  assert(typeof data.checks?.officialBenefitFeedSeedOnlyProviders === "number", "Health API missing seed-only official feed provider count");
+  assert(Array.isArray(data.checks?.officialBenefitFeedRecommendedEnvKeys), "Health API missing recommended official feed env keys");
 });
 
 await check("today benefits api", async () => {
@@ -1381,6 +1386,10 @@ await check("metrics api", async () => {
   assert(data.officialBenefitProviderRisk?.summary?.danger === 0, "Metrics found danger official benefit providers");
   assert(Array.isArray(data.officialBenefitProviderRisk?.providers) && data.officialBenefitProviderRisk.providers.length >= 4, "Metrics missing official benefit provider risk details");
   assert(Array.isArray(data.officialBenefitProviderRisk?.nextActions), "Metrics missing official benefit provider next actions");
+  assert(data.officialBenefitFeedTransition?.totalProviders >= 4, "Metrics missing official benefit feed transition provider count");
+  assert(typeof data.officialBenefitFeedTransition?.readinessRate === "number", "Metrics missing official benefit feed transition readiness rate");
+  assert(Array.isArray(data.officialBenefitFeedTransition?.providers) && data.officialBenefitFeedTransition.providers.length >= 4, "Metrics missing official benefit feed transition providers");
+  assert(Array.isArray(data.officialBenefitFeedTransition?.recommendedNextEnvKeys), "Metrics missing official benefit feed transition env guidance");
   assert(Array.isArray(data.linkReviewQueue), "Metrics missing link review queue");
   assert(data.linkReviewQueue.length <= 8, "Metrics link review queue should be capped");
   if (data.linkReviewQueue.length) {
@@ -1405,6 +1414,12 @@ await check("sources api", async () => {
   assert(data.officialBenefitProviderReadiness?.summary?.danger === 0, "Sources API missing official benefit provider risk summary");
   assert(Array.isArray(data.officialBenefitProviderReadiness?.providers) && data.officialBenefitProviderReadiness.providers.length >= 4, "Sources API missing official benefit provider readiness details");
   assert(Array.isArray(data.officialBenefitProviderReadiness?.nextActions), "Sources API missing official benefit provider next actions");
+  assert(data.officialBenefitFeedTransitionReadiness?.totalProviders >= 4, "Sources API missing official benefit feed transition summary");
+  assert(typeof data.officialBenefitFeedTransitionReadiness?.readinessRate === "number", "Sources API missing official benefit feed transition readiness rate");
+  assert(Array.isArray(data.officialBenefitFeedTransitionReadiness?.providers) && data.officialBenefitFeedTransitionReadiness.providers.length >= 4, "Sources API missing official benefit feed transition providers");
+  assert(Array.isArray(data.officialBenefitFeedTransitionReadiness?.recommendedNextEnvKeys), "Sources API missing official benefit feed env guidance");
+  assert(typeof data.operationPolicy?.configuredOfficialBenefitFeeds === "number", "Sources API missing configured official benefit feed count");
+  assert(typeof data.operationPolicy?.officialBenefitSeedOnlyProviders === "number", "Sources API missing seed-only official benefit provider count");
   assert(data.operationPolicy?.nextStep?.includes("DEAL_PRODUCTION_FEED_URLS") || data.operationPolicy?.nextStep?.includes("dry-run"), "Sources API missing production feed next step");
 });
 
