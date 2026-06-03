@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-03T14:17:24.153Z",
+  "generatedAt": "2026-06-03T14:25:50.698Z",
   "totalChecks": 181,
   "passedChecks": 181,
   "failedChecks": 0,
@@ -803,62 +803,62 @@
     {
       "name": "release evidence freshness",
       "ok": true,
-      "detail": "Release evidence snapshot was refreshed for parent release commit ce2c0d4."
+      "detail": "Release evidence snapshot was refreshed for parent release commit ad88845."
     },
     {
       "name": "store manual checklist freshness",
       "ok": true,
-      "detail": "docs/STORE_MANUAL_CHECKLIST.md snapshot was refreshed for parent release commit ce2c0d4."
+      "detail": "docs/STORE_MANUAL_CHECKLIST.md snapshot was refreshed for parent release commit ad88845."
     },
     {
       "name": "device qa report freshness",
       "ok": true,
-      "detail": "docs/DEVICE_QA_REPORT.md snapshot was refreshed for parent release commit ce2c0d4."
+      "detail": "docs/DEVICE_QA_REPORT.md snapshot was refreshed for parent release commit ad88845."
     },
     {
       "name": "store screenshots report freshness",
       "ok": true,
-      "detail": "docs/STORE_SCREENSHOTS_REPORT.md snapshot was refreshed for parent release commit ce2c0d4."
+      "detail": "docs/STORE_SCREENSHOTS_REPORT.md snapshot was refreshed for parent release commit ad88845."
     },
     {
       "name": "known issues freshness",
       "ok": true,
-      "detail": "docs/KNOWN_ISSUES.md snapshot was refreshed for parent release commit ce2c0d4."
+      "detail": "docs/KNOWN_ISSUES.md snapshot was refreshed for parent release commit ad88845."
     },
     {
       "name": "public url report freshness",
       "ok": true,
-      "detail": "docs/PUBLIC_URL_REPORT.md snapshot was refreshed for parent release commit ce2c0d4."
+      "detail": "docs/PUBLIC_URL_REPORT.md snapshot was refreshed for parent release commit ad88845."
     },
     {
       "name": "store submission report freshness",
       "ok": true,
-      "detail": "docs/STORE_SUBMISSION_REPORT.md snapshot was refreshed for parent release commit ce2c0d4."
+      "detail": "docs/STORE_SUBMISSION_REPORT.md snapshot was refreshed for parent release commit ad88845."
     },
     {
       "name": "store console fields freshness",
       "ok": true,
-      "detail": "docs/STORE_CONSOLE_FIELDS.md snapshot was refreshed for parent release commit ce2c0d4."
+      "detail": "docs/STORE_CONSOLE_FIELDS.md snapshot was refreshed for parent release commit ad88845."
     },
     {
       "name": "store handoff report freshness",
       "ok": true,
-      "detail": "docs/STORE_HANDOFF_REPORT.md snapshot was refreshed for parent release commit ce2c0d4."
+      "detail": "docs/STORE_HANDOFF_REPORT.md snapshot was refreshed for parent release commit ad88845."
     },
     {
       "name": "release notes freshness",
       "ok": true,
-      "detail": "docs/RELEASE_NOTES.md snapshot was refreshed for parent release commit ce2c0d4."
+      "detail": "docs/RELEASE_NOTES.md snapshot was refreshed for parent release commit ad88845."
     },
     {
       "name": "support playbook freshness",
       "ok": true,
-      "detail": "docs/SUPPORT_PLAYBOOK.md snapshot was refreshed for parent release commit ce2c0d4."
+      "detail": "docs/SUPPORT_PLAYBOOK.md snapshot was refreshed for parent release commit ad88845."
     },
     {
       "name": "store packet report freshness",
       "ok": true,
-      "detail": "docs/STORE_PACKET_REPORT.md snapshot was refreshed for parent release commit ce2c0d4."
+      "detail": "docs/STORE_PACKET_REPORT.md snapshot was refreshed for parent release commit ad88845."
     },
     {
       "name": "customer navigation simplification",
@@ -868,7 +868,7 @@
     {
       "name": "deal refresh pipeline",
       "ok": true,
-      "detail": "Provider collection, normalization, dedupe, validation, reports, snapshot, and admin operations are wired."
+      "detail": "Provider collection, normalization, dedupe, validation, reports, snapshot, admin operations, and deal quality CSV export are wired."
     },
     {
       "name": "news and official event pipeline",
