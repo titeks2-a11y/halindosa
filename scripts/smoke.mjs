@@ -1998,6 +1998,43 @@ await check("admin deal quality csv", async () => {
   assert(text.includes("provider") && text.includes("failure_reason") && text.includes("link_validation"), "Deal quality CSV missing provider, failure reason, or link validation sections");
 });
 
+await check("admin manual hide affects public exposure", async () => {
+  const dealId = "d014";
+
+  try {
+    const hide = await fetchJson("/api/admin/deal-quality", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "hide", dealId })
+    });
+    assert(hide.response.status === 200, `Expected hide 200, got ${hide.response.status}`);
+    assert(hide.data.ok === true, "Manual hide should succeed");
+    assert(hide.data.manualHiddenDealIds?.includes(dealId), "Manual hide response should include hidden deal id");
+
+    const publicDeals = await fetchJson("/api/deals?limit=200");
+    assert(publicDeals.response.status === 200, `Expected deals 200, got ${publicDeals.response.status}`);
+    assert(!publicDeals.data.deals?.some((deal) => deal.id === dealId), "Manually hidden deal should not be exposed in public deal API");
+
+    const blockedRedirect = await fetch(`${baseUrl}/api/redirect/${dealId}?from=smoke-manual-hidden`, {
+      redirect: "manual"
+    });
+    assert(blockedRedirect.status === 404, `Expected hidden redirect 404, got ${blockedRedirect.status}`);
+  } finally {
+    const restore = await fetchJson("/api/admin/deal-quality", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "restore", dealId })
+    });
+    assert(restore.response.status === 200, `Expected restore 200, got ${restore.response.status}`);
+    assert(restore.data.ok === true, "Manual restore should succeed");
+
+    const restoredRedirect = await fetch(`${baseUrl}/api/redirect/${dealId}?from=smoke-manual-restored`, {
+      redirect: "manual"
+    });
+    assert(restoredRedirect.status === 302, `Expected restored redirect 302, got ${restoredRedirect.status}`);
+  }
+});
+
 await check("admin image queue csv", async () => {
   const response = await fetch(`${baseUrl}/api/admin/image-queue?format=csv`);
   const text = await response.text();

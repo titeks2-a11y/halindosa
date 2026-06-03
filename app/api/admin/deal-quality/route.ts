@@ -3,25 +3,14 @@ import { canAccessAdminRequest } from "@/lib/adminAuth";
 import { createRequestId, getClientKey, rateLimit, rateLimitHeaders } from "@/lib/apiGuards";
 import { getRefreshDealsReport } from "@/lib/deals/refreshReport";
 import { toCsv } from "@/lib/csv";
-
-const operationStore = globalThis as typeof globalThis & {
-  __halindosaManualHiddenDeals?: Set<string>;
-};
-
-function getHiddenStore() {
-  if (!operationStore.__halindosaManualHiddenDeals) {
-    operationStore.__halindosaManualHiddenDeals = new Set<string>();
-  }
-
-  return operationStore.__halindosaManualHiddenDeals;
-}
+import { hideDealManually, listManualHiddenDealIds, restoreDealManually } from "@/lib/deals/operationOverrides";
 
 function getPayload() {
   const report = getRefreshDealsReport();
   return {
     report,
-    manualHiddenDealIds: Array.from(getHiddenStore()).sort(),
-    message: "운영 품질 리포트를 불러왔습니다. 실제 데이터 반영은 Supabase/Admin DB 연결 후 영구 저장됩니다."
+    manualHiddenDealIds: listManualHiddenDealIds(),
+    message: "운영 품질 리포트를 불러왔습니다. 수동 숨김은 현재 런타임의 목록, 상세, 구매 이동에 즉시 반영됩니다."
   };
 }
 
@@ -184,13 +173,12 @@ export async function POST(request: Request) {
     action?: string;
     dealId?: string;
   };
-  const hiddenStore = getHiddenStore();
   const dealId = body.dealId?.trim();
 
   if (body.action === "hide" && dealId) {
-    hiddenStore.add(dealId);
+    hideDealManually(dealId);
   } else if (body.action === "restore" && dealId) {
-    hiddenStore.delete(dealId);
+    restoreDealManually(dealId);
   } else if (body.action !== "revalidate") {
     return NextResponse.json({ ok: false, requestId, message: "지원하지 않는 운영 액션입니다." }, { status: 400, headers: rateLimitHeaders(limit, requestId) });
   }

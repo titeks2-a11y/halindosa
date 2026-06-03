@@ -7,12 +7,13 @@ import type { RefreshDealsReport } from "@/lib/deals/refreshReport";
 interface AdminDealQualityPanelProps {
   token?: string;
   initialReport: RefreshDealsReport;
+  initialManualHiddenDealIds?: string[];
 }
 
-export function AdminDealQualityPanel({ token, initialReport }: AdminDealQualityPanelProps) {
+export function AdminDealQualityPanel({ token, initialReport, initialManualHiddenDealIds = [] }: AdminDealQualityPanelProps) {
   const [report, setReport] = useState(initialReport);
   const [dealId, setDealId] = useState("");
-  const [manualHiddenDealIds, setManualHiddenDealIds] = useState<string[]>([]);
+  const [manualHiddenDealIds, setManualHiddenDealIds] = useState<string[]>(initialManualHiddenDealIds);
   const [message, setMessage] = useState("최신 refresh 리포트 기준입니다.");
   const [isLoading, setIsLoading] = useState(false);
   const apiHref = `/api/admin/deal-quality${token ? `?token=${encodeURIComponent(token)}` : ""}`;
@@ -35,7 +36,7 @@ export function AdminDealQualityPanel({ token, initialReport }: AdminDealQuality
 
       setReport(payload.report);
       setManualHiddenDealIds(payload.manualHiddenDealIds ?? []);
-      setMessage(action === "revalidate" ? "링크 검증 리포트를 다시 불러왔습니다." : "수동 운영 상태를 업데이트했습니다.");
+      setMessage(action === "revalidate" ? "링크 검증 리포트를 다시 불러왔습니다." : "수동 운영 상태를 업데이트했고 사용자 노출 정책에 반영했습니다.");
     } catch {
       setMessage("네트워크 오류로 운영 액션을 처리하지 못했습니다.");
     } finally {
@@ -116,7 +117,7 @@ export function AdminDealQualityPanel({ token, initialReport }: AdminDealQuality
         <div className="rounded-2xl border border-slate-100 p-4">
           <p className="text-sm font-black text-slate-950">수동 숨김/복구</p>
           <p className="mt-1 text-xs font-bold leading-5 text-slate-500">
-            로컬 운영 상태입니다. 배포 운영에서는 Supabase/Admin DB에 영구 저장하도록 확장합니다.
+            품절, 종료, 링크 오류 신고가 들어오면 현재 런타임의 목록·상세·구매 이동에서 즉시 제외합니다.
           </p>
           <input
             value={dealId}

@@ -3756,6 +3756,7 @@ function checkRefreshDealPipeline() {
   const providerTypes = readFileSync(join(root, "lib/deals/providers/types.ts"), "utf8");
   const providerRegistry = readFileSync(join(root, "lib/deals/providers/providerRegistry.ts"), "utf8");
   const dealRepository = readFileSync(join(root, "lib/deals/dealRepository.ts"), "utf8");
+  const operationOverrides = existsSync(join(root, "lib/deals/operationOverrides.ts")) ? readFileSync(join(root, "lib/deals/operationOverrides.ts"), "utf8") : "";
   const refreshScript = readFileSync(join(root, "scripts/refresh-deals.mjs"), "utf8");
   const adminRoute = existsSync(join(root, adminRoutePath)) ? readFileSync(join(root, adminRoutePath), "utf8") : "";
   const exposureRoute = existsSync(join(root, exposureRoutePath)) ? readFileSync(join(root, exposureRoutePath), "utf8") : "";
@@ -3811,6 +3812,20 @@ function checkRefreshDealPipeline() {
 
   if (!dealRepository.includes("fetchRefreshedSnapshotDeals") || !dealRepository.includes("fetchProviderDealsSafely") || !dealRepository.includes("mergeUniqueDeals")) {
     issues.push("deal repository should merge refreshed snapshots and provider registry deals into customer-visible data");
+  }
+
+  if (
+    !operationOverrides.includes("hideDealManually") ||
+    !operationOverrides.includes("restoreDealManually") ||
+    !operationOverrides.includes("applyDealOperationOverrides") ||
+    !dealRepository.includes("applyDealOperationOverrides") ||
+    !adminRoute.includes("hideDealManually") ||
+    !adminRoute.includes("restoreDealManually") ||
+    !smoke.includes("admin manual hide affects public exposure") ||
+    !smoke.includes("Manually hidden deal should not be exposed in public deal API") ||
+    !smoke.includes("Expected hidden redirect 404")
+  ) {
+    issues.push("admin manual hide should use the shared operation overlay and smoke-test public API plus redirect blocking before release.");
   }
 
   if (

@@ -46,6 +46,7 @@ npm run smoke
 - 피드 dry-run: `POST /api/admin/import?token=$ADMIN_EXPORT_TOKEN`
 - 상품 품질 CSV: `GET /api/admin/deal-quality?format=csv&token=$ADMIN_EXPORT_TOKEN`
   - provider 수집 상태, 실패 사유, 수동 숨김 ID, live probe, link validation 요약을 내려받아 검색/품절/종료 링크 노출 0건을 운영 검수한다.
+  - `POST /api/admin/deal-quality`의 `hide`/`restore` 액션은 `lib/deals/operationOverrides.ts`의 런타임 오버레이를 통해 현재 목록, 상세 API, `/go`, `/api/redirect` 이동에 즉시 반영된다. 품절, 이벤트 종료, 다른 상품 이동 신고가 들어오면 먼저 숨김 처리하고, 올바른 `finalPurchaseUrl` 또는 공식 혜택 URL을 보강한 뒤 복구한다.
 - 리다이렉트: `GET /api/redirect/d001?from=runbook`
 - 제휴/판매처 fallback 상태: `GET /api/affiliate/status`
 - 관리자: `GET /admin?token=$ADMIN_EXPORT_TOKEN`

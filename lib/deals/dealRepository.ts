@@ -8,6 +8,7 @@ import { fetchRefreshedSnapshotDeals, getRefreshedSnapshotUpdatedAt } from "@/li
 import { fetchStagingDeals } from "@/lib/deals/providers/stagingProvider";
 import { isPubliclyVisibleDeal, isVerifiedPurchaseLink } from "@/lib/deals/quality";
 import { dealMatchesSearch } from "@/lib/deals/search";
+import { applyDealOperationOverrides } from "@/lib/deals/operationOverrides";
 import { Deal, DealDataMode, DealSort } from "@/types/deal";
 
 export interface DealQuery {
@@ -170,7 +171,7 @@ export async function getDeals(query: DealQuery = {}) {
   const provider = await fetchProviderDeals(query);
   const sort = normalizeSort(query.sort);
   const limit = query.limit ?? 0;
-  let deals = provider.deals;
+  let deals = provider.deals.map(applyDealOperationOverrides);
 
   if (!query.includeHidden) {
     deals = deals.filter(isPubliclyVisibleDeal);
@@ -219,7 +220,8 @@ export async function getDeals(query: DealQuery = {}) {
 }
 
 export function findDealById(id: string) {
-  return dealCache.get(id) ?? normalizeDeals(curatedMockDeals, "mock").find((deal) => deal.id === id) ?? null;
+  const deal = dealCache.get(id) ?? normalizeDeals(curatedMockDeals, "mock").find((item) => item.id === id) ?? null;
+  return deal ? applyDealOperationOverrides(deal) : null;
 }
 
 export async function findDealByIdLive(id: string) {
@@ -233,7 +235,9 @@ export async function findDealByIdLive(id: string) {
 
 export function getRelatedDeals(dealId: string, limit = 4) {
   const cachedDeals = Array.from(dealCache.values());
-  const deals = cachedDeals.length ? cachedDeals : normalizeDeals(curatedMockDeals, "mock");
+  const deals = (cachedDeals.length ? cachedDeals : normalizeDeals(curatedMockDeals, "mock"))
+    .map(applyDealOperationOverrides)
+    .filter(isPubliclyVisibleDeal);
   const deal = deals.find((item) => item.id === dealId);
   if (!deal) return [];
 
