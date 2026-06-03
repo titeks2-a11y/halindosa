@@ -291,6 +291,7 @@
     "category": ["패션/뷰티", "식품/생필품"],
     "sourceType": "official_event_page",
     "officialUrl": "https://www.hyundaihmall.com/front/evntSect.do",
+    "allowedFinalHosts": ["www.hmall.com", "hmall.com"],
     "preferredEnvKeys": ["DEAL_NEWS_FEED_URLS", "DEAL_EVENT_NEWS_FEED_URLS"],
     "integrationMethod": "approved_news_or_partner_json_feed",
     "priority": "medium",

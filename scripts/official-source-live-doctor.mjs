@@ -56,7 +56,9 @@ function buildCsv(rows) {
 
 function getHost(value) {
   try {
-    return new URL(value).hostname.replace(/^www\./, "").toLowerCase();
+    const input = String(value ?? "").trim();
+    const normalized = /^https?:\/\//i.test(input) ? input : `https://${input}`;
+    return new URL(normalized).hostname.replace(/^www\./, "").toLowerCase();
   } catch {
     return "";
   }
@@ -66,7 +68,23 @@ function hostMatchesExpected(source, finalUrl) {
   const expected = getHost(source.officialUrl);
   const actual = getHost(finalUrl);
   if (!expected || !actual) return false;
-  return actual === expected || actual.endsWith(`.${expected}`) || expected.endsWith(`.${actual}`);
+  const allowedHosts = Array.isArray(source.allowedFinalHosts) ? source.allowedFinalHosts.map(getHost).filter(Boolean) : [];
+  return (
+    actual === expected ||
+    actual.endsWith(`.${expected}`) ||
+    expected.endsWith(`.${actual}`) ||
+    allowedHosts.some((host) => actual === host || actual.endsWith(`.${host}`))
+  );
+}
+
+function isLoginOrPermissionRedirect(finalUrl) {
+  try {
+    const url = new URL(finalUrl);
+    const value = `${url.hostname}${url.pathname}${url.search}`.toLowerCase();
+    return ["login", "nidlogin", "signin", "auth", "member"].some((pattern) => value.includes(pattern));
+  } catch {
+    return false;
+  }
 }
 
 function withTimeout(ms) {
@@ -124,6 +142,14 @@ function classify(source, result) {
   const httpStatus = Number(result.httpStatus ?? 0);
   const domainOk = hostMatchesExpected(source, result.finalUrl);
 
+  if (httpStatus >= 200 && httpStatus < 400 && isLoginOrPermissionRedirect(result.finalUrl)) {
+    return {
+      status: "guarded",
+      reason: "login_or_permission_redirect",
+      operatorAction: "로그인/권한 페이지를 수집하지 말고 공식 API/RSS/제휴 feed 또는 수동 승인 매핑 사용"
+    };
+  }
+
   if (httpStatus >= 200 && httpStatus < 400 && domainOk) {
     return {
       status: "reachable",
@@ -174,7 +200,7 @@ function classify(source, result) {
 async function probeSource(source) {
   const checkedAt = new Date().toISOString();
   let result = await probeUrl(source.officialUrl, "HEAD");
-  if (!result.ok || [405, 403, 406, 429].includes(Number(result.httpStatus ?? 0))) {
+  if (!result.ok || [405, 403, 406, 429, 501].includes(Number(result.httpStatus ?? 0))) {
     result = await probeUrl(source.officialUrl, "GET");
   }
   const classification = classify(source, result);

@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-03T20:35:18.707Z",
+  "generatedAt": "2026-06-03T20:53:49.320Z",
   "catalogCount": 21,
   "highPriorityCount": 8,
   "configuredSourceCount": 0,
@@ -581,6 +581,10 @@
       ],
       "sourceType": "official_event_page",
       "officialUrl": "https://www.hyundaihmall.com/front/evntSect.do",
+      "allowedFinalHosts": [
+        "www.hmall.com",
+        "hmall.com"
+      ],
       "preferredEnvKeys": [
         "DEAL_NEWS_FEED_URLS",
         "DEAL_EVENT_NEWS_FEED_URLS"
