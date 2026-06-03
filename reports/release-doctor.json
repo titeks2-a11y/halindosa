@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-03T13:58:38.369Z",
+  "generatedAt": "2026-06-03T14:10:03.813Z",
   "totalChecks": 181,
   "passedChecks": 181,
   "failedChecks": 0,
@@ -803,62 +803,62 @@
     {
       "name": "release evidence freshness",
       "ok": true,
-      "detail": "Release evidence snapshot was refreshed for parent release commit dc524c3."
+      "detail": "Release evidence snapshot was refreshed for parent release commit 061ac43."
     },
     {
       "name": "store manual checklist freshness",
       "ok": true,
-      "detail": "docs/STORE_MANUAL_CHECKLIST.md snapshot was refreshed for parent release commit dc524c3."
+      "detail": "docs/STORE_MANUAL_CHECKLIST.md snapshot was refreshed for parent release commit 061ac43."
     },
     {
       "name": "device qa report freshness",
       "ok": true,
-      "detail": "docs/DEVICE_QA_REPORT.md snapshot was refreshed for parent release commit dc524c3."
+      "detail": "docs/DEVICE_QA_REPORT.md snapshot was refreshed for parent release commit 061ac43."
     },
     {
       "name": "store screenshots report freshness",
       "ok": true,
-      "detail": "docs/STORE_SCREENSHOTS_REPORT.md snapshot was refreshed for parent release commit dc524c3."
+      "detail": "docs/STORE_SCREENSHOTS_REPORT.md snapshot was refreshed for parent release commit 061ac43."
     },
     {
       "name": "known issues freshness",
       "ok": true,
-      "detail": "docs/KNOWN_ISSUES.md snapshot was refreshed for parent release commit dc524c3."
+      "detail": "docs/KNOWN_ISSUES.md snapshot was refreshed for parent release commit 061ac43."
     },
     {
       "name": "public url report freshness",
       "ok": true,
-      "detail": "docs/PUBLIC_URL_REPORT.md snapshot was refreshed for parent release commit dc524c3."
+      "detail": "docs/PUBLIC_URL_REPORT.md snapshot was refreshed for parent release commit 061ac43."
     },
     {
       "name": "store submission report freshness",
       "ok": true,
-      "detail": "docs/STORE_SUBMISSION_REPORT.md snapshot was refreshed for parent release commit dc524c3."
+      "detail": "docs/STORE_SUBMISSION_REPORT.md snapshot was refreshed for parent release commit 061ac43."
     },
     {
       "name": "store console fields freshness",
       "ok": true,
-      "detail": "docs/STORE_CONSOLE_FIELDS.md snapshot was refreshed for parent release commit dc524c3."
+      "detail": "docs/STORE_CONSOLE_FIELDS.md snapshot was refreshed for parent release commit 061ac43."
     },
     {
       "name": "store handoff report freshness",
       "ok": true,
-      "detail": "docs/STORE_HANDOFF_REPORT.md snapshot was refreshed for parent release commit dc524c3."
+      "detail": "docs/STORE_HANDOFF_REPORT.md snapshot was refreshed for parent release commit 061ac43."
     },
     {
       "name": "release notes freshness",
       "ok": true,
-      "detail": "docs/RELEASE_NOTES.md snapshot was refreshed for parent release commit dc524c3."
+      "detail": "docs/RELEASE_NOTES.md snapshot was refreshed for parent release commit 061ac43."
     },
     {
       "name": "support playbook freshness",
       "ok": true,
-      "detail": "docs/SUPPORT_PLAYBOOK.md snapshot was refreshed for parent release commit dc524c3."
+      "detail": "docs/SUPPORT_PLAYBOOK.md snapshot was refreshed for parent release commit 061ac43."
     },
     {
       "name": "store packet report freshness",
       "ok": true,
-      "detail": "docs/STORE_PACKET_REPORT.md snapshot was refreshed for parent release commit dc524c3."
+      "detail": "docs/STORE_PACKET_REPORT.md snapshot was refreshed for parent release commit 061ac43."
     },
     {
       "name": "customer navigation simplification",
@@ -873,7 +873,7 @@
     {
       "name": "news and official event pipeline",
       "ok": true,
-      "detail": "Approved news, official event, public coupon, refresh:news, verify:news, refresh:all, home section, and admin status surfaces are wired."
+      "detail": "Approved news, official event, public coupon, refresh:news, verify:news, refresh:all, home section, admin status surfaces, and provider-risk CSV export are wired."
     },
     {
       "name": "operational health readiness",
