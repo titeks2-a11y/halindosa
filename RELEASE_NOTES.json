@@ -1,7 +1,7 @@
 {
   "generatedBy": "npm run release:notes",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "497d162",
+  "commit": "af22dfe",
   "workingTree": "M DEVICE_QA_REPORT.md;  M KNOWN_ISSUES.md;  M PUBLIC_URL_REPORT.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_HANDOFF_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M docs/DEVICE_QA_REPORT.md;  M docs/KNOWN_ISSUES.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_HANDOFF_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md",
   "version": "1.0.1",
   "appName": "할인도사",
@@ -34,7 +34,7 @@
     {
       "path": "docs/release-evidence.md",
       "status": "present",
-      "bytes": 6728
+      "bytes": 6696
     },
     {
       "path": "docs/STORE_CONSOLE_FIELDS.md",
@@ -73,14 +73,14 @@
     }
   ],
   "recentCommits": [
+    "af22dfe feat: surface exposure policy audit in admin",
+    "58507c3 docs: refresh release evidence",
     "497d162 test: add exposure policy doctor",
     "eb51c79 docs: refresh release evidence",
     "ad88845 feat: add deal quality csv export",
     "4ef2dec docs: refresh release evidence",
     "ce2c0d4 feat: expose provider readiness in sources api",
-    "6f8a6f1 docs: refresh release evidence",
-    "061ac43 feat: add provider risk csv export",
-    "b243115 docs: refresh release evidence"
+    "6f8a6f1 docs: refresh release evidence"
   ],
   "manualWorkThatMustNotBeFaked": [
     "Do not claim Play Console or App Store Connect submission has passed from this file.",
