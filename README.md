@@ -62,6 +62,7 @@ npm run catalog:report
 npm run search:doctor
 npm run test:external-links
 npm run test:images
+npm run image:backlog:report
 npm run image:operations:doctor
 npm run test:ui
 npm run test:mobile-ux
@@ -79,6 +80,8 @@ npm run build:android
 npm run cap:sync
 npm run release:doctor
 ```
+
+`npm run image:backlog:report`는 전체 이미지 보강 큐(`IMAGE_BACKLOG.csv`), 이번 주 실행 배치(`IMAGE_BACKLOG_NEXT_BATCH.csv`), 판매처별 피드 요청서(`IMAGE_BACKLOG_MALL_REQUESTS.csv`), JSON/문서 리포트를 함께 생성합니다. 공개 운영 전에는 주간 배치 CSV부터 처리하고, backlog가 많은 판매처는 mall request CSV로 `imageUrl` 또는 `thumbnail` 확보를 요청합니다.
 
 `npm run health:readiness`는 `reports/health-readiness.json`과 [docs/HEALTH_READINESS_REPORT.md](docs/HEALTH_READINESS_REPORT.md)를 생성해 상품 140개 이상, 검증 링크 99% 이상, 검색/품절 노출 0개, 공식 혜택 25개 이상, 필수 공식 혜택 카테고리별 2건 이상, `refresh:all` 성공, 24시간 이내 신선도를 함께 점검합니다.
 

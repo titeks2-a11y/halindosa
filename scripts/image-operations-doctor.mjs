@@ -132,15 +132,21 @@ const checks = [
       packageJson.scripts?.["image:backlog:report"] === "node scripts/image-backlog-report.mjs" &&
       packageJson.scripts?.qa?.includes("image:backlog:report") &&
       imageBacklogReportScript.includes("IMAGE_BACKLOG.csv") &&
+      imageBacklogReportScript.includes("IMAGE_BACKLOG_NEXT_BATCH.csv") &&
+      imageBacklogReportScript.includes("IMAGE_BACKLOG_MALL_REQUESTS.csv") &&
       imageBacklogReportScript.includes("IMAGE_BACKLOG.json") &&
       imageBacklogReportScript.includes("docs/IMAGE_BACKLOG_REPORT.md") &&
       imageBacklogReport.includes("Image Backlog Report") &&
       imageBacklogReport.includes("Backlog By Category") &&
+      imageBacklogReport.includes("이번 주 이미지 보강 배치") &&
+      imageBacklogReport.includes("판매처별 이미지 요청서") &&
       imageBacklogReport.includes("주간 보강 배치 후보") &&
       imageBacklogReport.includes("운영 사유") &&
       imageBacklogReport.includes("Root CSV") &&
+      imageBacklogReport.includes("Next batch CSV") &&
+      imageBacklogReport.includes("Mall request CSV") &&
       imageBacklogReport.includes("Root JSON"),
-    message: "전체 이미지 보강 큐는 CSV/JSON/문서 리포트로 생성되고 QA 흐름에 연결되어야 합니다."
+    message: "전체 이미지 보강 큐는 전체 CSV, 주간 배치 CSV, 판매처 요청 CSV, JSON, 문서 리포트로 생성되고 QA 흐름에 연결되어야 합니다."
   },
   {
     name: "admin image operations queue",

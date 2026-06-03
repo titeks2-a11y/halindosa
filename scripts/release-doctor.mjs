@@ -1517,6 +1517,10 @@ async function checkUiAccessibility() {
     !imageBacklogReport.includes("Image Backlog Report") ||
     !imageBacklogReport.includes("Backlog By Category") ||
     !imageBacklogReport.includes("Root CSV") ||
+    !imageBacklogReport.includes("Next batch CSV") ||
+    !imageBacklogReport.includes("Mall request CSV") ||
+    !imageBacklogReport.includes("이번 주 이미지 보강 배치") ||
+    !imageBacklogReport.includes("판매처별 이미지 요청서") ||
     !harnessReport.includes("Image quality passed: 39/140 deals have explicit images.")
   ) {
     fail("deal image quality coverage gate", "Release QA should enforce the 25% explicit product image floor, record current coverage evidence, and keep an actionable fallback image backlog.");
@@ -3362,7 +3366,7 @@ async function checkPolicyAndStoreDocs() {
     {
       name: "release evidence content",
       file: "docs/release-evidence.md",
-      phrases: ["릴리즈 증빙", "최신 커밋", "Release AAB", "Commercial audit report", "Environment doctor report", "Public URL submission report", "Store metadata QA report", "Store asset QA report", "Store submission packet QA report", "Store console fields manifest", "Store manual submission checklist", "Store launch handoff report", "Release notes", "Support playbook", "Known issues report", "Store screenshot QA report", "Store screenshot manifest", "Device QA execution manifest", "Device QA readiness report", "Store submission readiness report", "Harness report", "Image backlog report", "Image backlog CSV", "npm run image:backlog:report", "npm run store:screenshots:manifest", "npm run store:console:fields", "npm run store:manual:checklist", "npm run store:manual:doctor", "npm run store:handoff:report", "npm run release:notes", "npm run support:playbook", "npm run known:issues", "npm run device:qa:manifest", "npm run harness", "npm run env:doctor:production", "npm run test:env", "npm run public:url:doctor", "Android signing doctor", "device QA doctor", "자동 검증 범위", "남은 수동 확인", "공개 개인정보처리방침/고객지원 URL"]
+      phrases: ["릴리즈 증빙", "최신 커밋", "Release AAB", "Commercial audit report", "Environment doctor report", "Public URL submission report", "Store metadata QA report", "Store asset QA report", "Store submission packet QA report", "Store console fields manifest", "Store manual submission checklist", "Store launch handoff report", "Release notes", "Support playbook", "Known issues report", "Store screenshot QA report", "Store screenshot manifest", "Device QA execution manifest", "Device QA readiness report", "Store submission readiness report", "Harness report", "Image backlog report", "Image backlog CSV", "Image backlog next batch CSV", "Image backlog mall request CSV", "npm run image:backlog:report", "npm run store:screenshots:manifest", "npm run store:console:fields", "npm run store:manual:checklist", "npm run store:manual:doctor", "npm run store:handoff:report", "npm run release:notes", "npm run support:playbook", "npm run known:issues", "npm run device:qa:manifest", "npm run harness", "npm run env:doctor:production", "npm run test:env", "npm run public:url:doctor", "Android signing doctor", "device QA doctor", "자동 검증 범위", "남은 수동 확인", "공개 개인정보처리방침/고객지원 URL"]
     },
     {
       name: "release checklist content",

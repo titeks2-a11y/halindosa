@@ -88,6 +88,7 @@
 - `known:issues`를 추가해 자동 검증 기준 Critical 상태, 링크 커버리지, 이미지 fallback backlog, 공개 URL/실기기 수동 확인 리스크를 `KNOWN_ISSUES.md`와 `docs/KNOWN_ISSUES.md`로 생성하고 CI, `qa:release`, `release:doctor`, `release:evidence`, 제출 패킷에 연결
 - 375px 모바일 브라우저에서 홈 첫 화면을 직접 확인해 compact 검색, 상태 배지, 가로 필터, 카테고리 rail, `오늘 바로 볼 특가`, `/go/[dealId]` 새 탭 링크, 하단 탭 safe-area 노출이 실제 렌더링에서도 유지되는지 점검
 - `image:backlog:report`를 추가해 전체 이미지 보강 대기 상품을 `IMAGE_BACKLOG.csv`, `IMAGE_BACKLOG.json`, `docs/IMAGE_BACKLOG_REPORT.md`로 생성하고, `qa`, `image:operations:doctor`, `release:doctor`, `release:evidence`가 해당 운영 큐를 함께 확인하도록 보강
+- 이미지 backlog 리포트를 `IMAGE_BACKLOG_NEXT_BATCH.csv`와 `IMAGE_BACKLOG_MALL_REQUESTS.csv`까지 확장해 이번 주 처리할 상품 배치와 판매처별 imageUrl 확보 요청서를 분리하고, 운영자가 60% 실상품 이미지 목표를 배치 단위로 추진할 수 있게 했다.
 - `codex/24h-commercial-autopilot-hardening` 브랜치에서 직접 구매/공식 혜택 링크, 외부 새 탭 이동, 이미지 fallback, 생활형 검색 품질을 별도 하네스로 분리
 - `npm run test:links`, `npm run test:external-links`, `npm run test:images`를 추가해 검색/홈/커뮤니티 링크 차단, `/go` 새 탭 정책, `window.open`/Capacitor Browser 안전 이동, 상품 이미지 렌더링 품질을 자동 검사
 - 링크 검증 결과를 [LINK_VERIFICATION_REPORT.md](../LINK_VERIFICATION_REPORT.md), [LINK_VERIFICATION_RESULT.json](../LINK_VERIFICATION_RESULT.json)으로 저장해 전체 상품 수, 직접 링크 통과 수, 상품 상세/공식 혜택 URL 수, 도메인 분포를 운영자가 바로 확인하도록 개선

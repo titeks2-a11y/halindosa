@@ -81,6 +81,8 @@ const artifacts = [
   ["Link quality regression JSON", "reports/link-quality-regression.json"],
   ["Image backlog report", "docs/IMAGE_BACKLOG_REPORT.md"],
   ["Image backlog CSV", "IMAGE_BACKLOG.csv"],
+  ["Image backlog next batch CSV", "IMAGE_BACKLOG_NEXT_BATCH.csv"],
+  ["Image backlog mall request CSV", "IMAGE_BACKLOG_MALL_REQUESTS.csv"],
   ["Link coverage report", "docs/link-coverage-report.md"]
 ];
 

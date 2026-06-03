@@ -69,8 +69,8 @@ npm run smoke
   - 공개 운영 전 목표는 명시 실상품 이미지 60% 이상이다. 현재 25% 자동 게이트는 회귀 방지 최소선이며, 60%는 운영 보강 목표로 관리한다.
   - `npm run test:images`는 명시 실상품 이미지 커버리지 25% 미만이면 실패한다. 신규 상품을 많이 추가할 때는 이미지 없는 상품만 늘려 이 기준을 떨어뜨리지 않는다.
   - `IMAGE_QUALITY_REPORT.md`의 `Image Backlog`는 fallback 상품별 판매처, 카테고리, 이미지 후보 검색 URL을 남긴다. 출시 직전에는 이 표의 상위 상품부터 실상품 이미지를 보강한다.
-  - `npm run image:backlog:report`는 전체 fallback 이미지 보강 큐를 `IMAGE_BACKLOG.csv`, `IMAGE_BACKLOG.json`, `docs/IMAGE_BACKLOG_REPORT.md`로 생성한다. CSV는 운영자가 스프레드시트에서 전체 101개 보강 대기 상품을 처리할 때 사용한다.
-  - 이미지 큐 JSON/CSV는 `sourcingPriority`, `priorityReason`, `nextBatchDeals`를 포함한다. 운영자는 주간 배치 상위 후보부터 판매처 상세 페이지 또는 제휴 피드 대표 이미지로 `imageUrl`을 보강한다.
+  - `npm run image:backlog:report`는 전체 fallback 이미지 보강 큐를 `IMAGE_BACKLOG.csv`, 이번 주 실행 배치를 `IMAGE_BACKLOG_NEXT_BATCH.csv`, 판매처별 imageUrl 요청서를 `IMAGE_BACKLOG_MALL_REQUESTS.csv`, JSON/문서를 `IMAGE_BACKLOG.json`, `docs/IMAGE_BACKLOG_REPORT.md`로 생성한다.
+  - 이미지 큐 JSON/CSV는 `sourcingPriority`, `priorityReason`, `nextBatchDeals`, `mallRequestRows`를 포함한다. 운영자는 먼저 `IMAGE_BACKLOG_NEXT_BATCH.csv`의 주간 배치 상위 후보를 처리하고, backlog가 많은 판매처는 `IMAGE_BACKLOG_MALL_REQUESTS.csv`로 제휴/운영 피드 담당자에게 `imageUrl` 또는 `thumbnail` 확보를 요청한다.
 - 공식 혜택 feed 운영:
   - 새 공식 뉴스/이벤트/쿠폰 feed는 `docs/news-feed-contract.md`의 JSON 계약을 따라야 한다.
   - feed URL은 쉼표, 세미콜론, 줄바꿈 또는 JSON 배열로 입력할 수 있고, URL query 안의 쉼표는 그대로 유지된다. 긴 운영 URL은 줄바꿈이나 JSON 배열 형식을 권장한다.
