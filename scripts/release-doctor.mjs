@@ -49,6 +49,7 @@ async function checkPackage() {
     "android:debug",
     "android:bundle",
     "android:signing:doctor",
+    "admin:auth:doctor",
     "qa:release",
     "perf:budget",
     "device:qa:manifest",
@@ -97,8 +98,8 @@ async function checkPackage() {
   const missing = requiredScripts.filter((script) => !pkg.scripts?.[script]);
 
   if (missing.length) fail("package scripts", `Missing scripts: ${missing.join(", ")}`);
-  else if (!pkg.scripts?.qa?.includes("verify:links") || !pkg.scripts?.qa?.includes("verify:links:live") || !pkg.scripts?.qa?.includes("verify:products") || !pkg.scripts?.qa?.includes("link:policy:regression") || !pkg.scripts?.qa?.includes("exposure:doctor") || !pkg.scripts?.qa?.includes("refresh:deals") || !pkg.scripts?.qa?.includes("refresh:news") || !pkg.scripts?.qa?.includes("verify:news") || !pkg.scripts?.qa?.includes("test:news-feed-errors") || !pkg.scripts?.qa?.includes("refresh:all") || !pkg.scripts?.qa?.includes("health:readiness") || !pkg.scripts?.qa?.includes("push:readiness:report") || !pkg.scripts?.qa?.includes("push:delivery:doctor") || !pkg.scripts?.qa?.includes("source:catalog:report") || !pkg.scripts?.qa?.includes("source:live:doctor") || !pkg.scripts?.qa?.includes("source:onboarding:plan") || !pkg.scripts?.["link:policy:regression"]?.includes("link-quality-regression.mjs") || !pkg.scripts?.["refresh:all"]?.includes("refresh-all.mjs") || !pkg.scripts?.["health:readiness"]?.includes("health-readiness-report.mjs") || !pkg.scripts?.["push:readiness:report"]?.includes("push-readiness-report.mjs") || !pkg.scripts?.["push:delivery:doctor"]?.includes("push-delivery-policy-doctor.mjs") || !pkg.scripts?.["source:catalog:report"]?.includes("official-source-catalog-report.mjs") || !pkg.scripts?.["source:live:doctor"]?.includes("official-source-live-doctor.mjs") || !pkg.scripts?.["source:onboarding:plan"]?.includes("source-onboarding-plan.mjs") || !harness.includes("test:mobile-ux") || !pkg.scripts?.qa?.includes("test:mobile-ux") || !pkg.scripts?.["env:doctor:production"]?.includes("--production") || !pkg.scripts?.["qa:release"]?.includes("health:readiness") || !pkg.scripts?.["qa:release"]?.includes("audit:commercial") || !pkg.scripts?.["qa:release"]?.includes("test:env") || !pkg.scripts?.["qa:release"]?.includes("device:qa:manifest") || !pkg.scripts?.["qa:release"]?.includes("device:qa:doctor") || !pkg.scripts?.["qa:release"]?.includes("device:qa:report") || !pkg.scripts?.["qa:release"]?.includes("android:signing:doctor") || !pkg.scripts?.["qa:release"]?.includes("public:url:doctor") || !pkg.scripts?.["qa:release"]?.includes("feed:validate") || !pkg.scripts?.["qa:release"]?.includes("feed:production:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:metadata:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:submission:report") || !pkg.scripts?.["qa:release"]?.includes("store:packet:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:console:fields") || !pkg.scripts?.["qa:release"]?.includes("store:manual:checklist") || !pkg.scripts?.["qa:release"]?.includes("store:manual:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:handoff:report") || !pkg.scripts?.["qa:release"]?.includes("release:notes") || !pkg.scripts?.["qa:release"]?.includes("support:playbook") || !pkg.scripts?.["qa:release"]?.includes("known:issues") || !pkg.scripts?.["qa:release"]?.includes("store:assets:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:manifest") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:doctor") || !pkg.scripts?.["qa:release"]?.includes("perf:budget")) {
-    fail("package scripts", "qa, harness, and qa:release should include refresh:all, health readiness, mobile UX, commercial security audit, device QA manifest/doctor/report, Android signing doctor, public URL doctor, partner feed validator, production feed doctor, store metadata doctor, store submission/packet/console/handoff reports, store asset doctor, store screenshot manifest/doctor, and performance budget before store submission.");
+  else if (!pkg.scripts?.qa?.includes("admin:auth:doctor") || !pkg.scripts?.qa?.includes("verify:links") || !pkg.scripts?.qa?.includes("verify:links:live") || !pkg.scripts?.qa?.includes("verify:products") || !pkg.scripts?.qa?.includes("link:policy:regression") || !pkg.scripts?.qa?.includes("exposure:doctor") || !pkg.scripts?.qa?.includes("refresh:deals") || !pkg.scripts?.qa?.includes("refresh:news") || !pkg.scripts?.qa?.includes("verify:news") || !pkg.scripts?.qa?.includes("test:news-feed-errors") || !pkg.scripts?.qa?.includes("refresh:all") || !pkg.scripts?.qa?.includes("health:readiness") || !pkg.scripts?.qa?.includes("push:readiness:report") || !pkg.scripts?.qa?.includes("push:delivery:doctor") || !pkg.scripts?.qa?.includes("source:catalog:report") || !pkg.scripts?.qa?.includes("source:live:doctor") || !pkg.scripts?.qa?.includes("source:onboarding:plan") || !pkg.scripts?.["admin:auth:doctor"]?.includes("admin-auth-doctor.mjs") || !pkg.scripts?.["link:policy:regression"]?.includes("link-quality-regression.mjs") || !pkg.scripts?.["refresh:all"]?.includes("refresh-all.mjs") || !pkg.scripts?.["health:readiness"]?.includes("health-readiness-report.mjs") || !pkg.scripts?.["push:readiness:report"]?.includes("push-readiness-report.mjs") || !pkg.scripts?.["push:delivery:doctor"]?.includes("push-delivery-policy-doctor.mjs") || !pkg.scripts?.["source:catalog:report"]?.includes("official-source-catalog-report.mjs") || !pkg.scripts?.["source:live:doctor"]?.includes("official-source-live-doctor.mjs") || !pkg.scripts?.["source:onboarding:plan"]?.includes("source-onboarding-plan.mjs") || !harness.includes("test:mobile-ux") || !pkg.scripts?.qa?.includes("test:mobile-ux") || !pkg.scripts?.["env:doctor:production"]?.includes("--production") || !pkg.scripts?.["qa:release"]?.includes("health:readiness") || !pkg.scripts?.["qa:release"]?.includes("audit:commercial") || !pkg.scripts?.["qa:release"]?.includes("test:env") || !pkg.scripts?.["qa:release"]?.includes("device:qa:manifest") || !pkg.scripts?.["qa:release"]?.includes("device:qa:doctor") || !pkg.scripts?.["qa:release"]?.includes("device:qa:report") || !pkg.scripts?.["qa:release"]?.includes("android:signing:doctor") || !pkg.scripts?.["qa:release"]?.includes("public:url:doctor") || !pkg.scripts?.["qa:release"]?.includes("feed:validate") || !pkg.scripts?.["qa:release"]?.includes("feed:production:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:metadata:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:submission:report") || !pkg.scripts?.["qa:release"]?.includes("store:packet:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:console:fields") || !pkg.scripts?.["qa:release"]?.includes("store:manual:checklist") || !pkg.scripts?.["qa:release"]?.includes("store:manual:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:handoff:report") || !pkg.scripts?.["qa:release"]?.includes("release:notes") || !pkg.scripts?.["qa:release"]?.includes("support:playbook") || !pkg.scripts?.["qa:release"]?.includes("known:issues") || !pkg.scripts?.["qa:release"]?.includes("store:assets:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:manifest") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:doctor") || !pkg.scripts?.["qa:release"]?.includes("perf:budget")) {
+    fail("package scripts", "qa, harness, and qa:release should include admin auth doctor, refresh:all, health readiness, mobile UX, commercial security audit, device QA manifest/doctor/report, Android signing doctor, public URL doctor, partner feed validator, production feed doctor, store metadata doctor, store submission/packet/console/handoff reports, store asset doctor, store screenshot manifest/doctor, and performance budget before store submission.");
   } else {
     pass("package scripts", "Android, iOS, environment, mobile UX, commercial security, and performance release command flow is available.");
   }
@@ -4222,6 +4223,59 @@ function checkCronRefreshPipeline() {
   else pass("cron refresh automation", "Protected 6-hour cron refresh endpoint, Vercel schedule, dry-run smoke guard, env keys, and runbook guidance are wired.");
 }
 
+function checkAdminAuthHardening() {
+  const issues = [];
+  const packageJson = existsSync(join(root, "package.json")) ? JSON.parse(readFileSync(join(root, "package.json"), "utf8")) : {};
+  const adminAuth = existsSync(join(root, "lib/adminAuth.ts")) ? readFileSync(join(root, "lib/adminAuth.ts"), "utf8") : "";
+  const doctor = existsSync(join(root, "scripts/admin-auth-doctor.mjs")) ? readFileSync(join(root, "scripts/admin-auth-doctor.mjs"), "utf8") : "";
+  const report = existsSync(join(root, "reports/admin-auth.json")) ? JSON.parse(readFileSync(join(root, "reports/admin-auth.json"), "utf8")) : null;
+  const runbook = existsSync(join(root, "docs/RUNBOOK.md")) ? readFileSync(join(root, "docs/RUNBOOK.md"), "utf8") : "";
+  const adminApiRoutes = [
+    "app/api/admin/daily-queue/route.ts",
+    "app/api/admin/deal-quality/route.ts",
+    "app/api/admin/export/route.ts",
+    "app/api/admin/exposure-policy/route.ts",
+    "app/api/admin/health-readiness/route.ts",
+    "app/api/admin/image-queue/route.ts",
+    "app/api/admin/import/route.ts",
+    "app/api/admin/news-operations/route.ts",
+    "app/api/admin/notification-campaigns/route.ts",
+    "app/api/admin/push-readiness/route.ts",
+    "app/api/admin/push/send/route.ts",
+    "app/api/admin/reports/route.ts",
+    "app/api/admin/source-live/route.ts",
+    "app/api/admin/source-onboarding/route.ts",
+    "app/api/cron/refresh/route.ts"
+  ];
+
+  if (packageJson.scripts?.["admin:auth:doctor"] !== "node scripts/admin-auth-doctor.mjs" || !String(packageJson.scripts?.qa ?? "").includes("admin:auth:doctor")) {
+    issues.push("package scripts should expose admin:auth:doctor and include it in qa");
+  }
+  for (const phrase of ["getAdminTokenFromRequest", "canAccessAdminRequest", "x-admin-token", "x-admin-export-token", "x-halindosa-admin-token", "Bearer"]) {
+    if (!adminAuth.includes(phrase)) issues.push(`lib/adminAuth.ts missing ${phrase}`);
+  }
+  if (!doctor.includes("routesWithLegacyDirectCall") || !doctor.includes("Authorization: Bearer") || !doctor.includes("reports/admin-auth.json")) {
+    issues.push("admin auth doctor should scan protected routes and write reports/admin-auth.json");
+  }
+  for (const routePath of adminApiRoutes) {
+    const route = existsSync(join(root, routePath)) ? readFileSync(join(root, routePath), "utf8") : "";
+    if (!route) {
+      issues.push(`${routePath} missing`);
+    } else if (!route.includes("canAccessAdminRequest")) {
+      issues.push(`${routePath} should use canAccessAdminRequest`);
+    }
+  }
+  if (report?.ok !== true || Number(report?.protectedRouteCount ?? 0) < 10 || report?.routesWithLegacyDirectCall?.length) {
+    issues.push("reports/admin-auth.json should prove request-aware admin auth coverage");
+  }
+  if (!runbook.includes("Authorization: Bearer $ADMIN_EXPORT_TOKEN") || !runbook.includes("x-admin-token") || !runbook.includes("쿼리 token")) {
+    issues.push("RUNBOOK should document preferred header-based admin auth and query token compatibility");
+  }
+
+  if (issues.length) fail("admin auth hardening", issues.join("; "));
+  else pass("admin auth hardening", "Admin and cron APIs use request-aware token extraction, header-based auth, query-token compatibility, and a QA/release doctor gate.");
+}
+
 await checkPackage();
 await checkCiWorkflow();
 await checkSecurityPolicy();
@@ -4243,6 +4297,7 @@ await checkGeneratedReportFreshness();
 await checkCustomerNavigationSimplification();
 checkRefreshDealPipeline();
 checkNewsDealPipeline();
+checkAdminAuthHardening();
 checkCronRefreshPipeline();
 checkHealthReadinessReport();
 checkSigningAndArtifacts();

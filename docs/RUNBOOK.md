@@ -13,6 +13,10 @@ npm run smoke
 
 ## 주요 헬스 체크
 
+- 관리자 API 인증:
+  - 운영 자동화와 CSV 다운로드는 URL에 토큰을 남기지 않도록 `Authorization: Bearer $ADMIN_EXPORT_TOKEN` 또는 `x-admin-token: $ADMIN_EXPORT_TOKEN` 헤더를 우선 사용한다.
+  - 호환성 때문에 기존 `?token=$ADMIN_EXPORT_TOKEN` 쿼리 token 방식은 유지하지만, 공유 로그와 브라우저 히스토리에 남을 수 있으므로 관리자 화면 링크 확인용으로만 제한한다.
+  - `x-admin-export-token`과 `x-halindosa-admin-token`도 같은 값으로 허용한다. 회귀 점검은 `npm run admin:auth:doctor`가 `reports/admin-auth.json`에 남긴다.
 - 메인: `GET /`
 - 특가 API: `GET /api/deals?limit=3`
 - 공식 혜택 API: `GET /api/news-deals?limit=10`

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { canAccessAdmin } from "@/lib/adminAuth";
+import { canAccessAdminRequest } from "@/lib/adminAuth";
 import { createRequestId, getClientKey, rateLimit, rateLimitHeaders } from "@/lib/apiGuards";
 import { getDeals } from "@/lib/dealService";
 import { buildTodayBenefitQueue } from "@/lib/deals/todayBenefitQueue";
@@ -35,7 +35,7 @@ export async function GET(request: Request) {
   const url = new URL(request.url);
   const token = url.searchParams.get("token");
 
-  if (!canAccessAdmin(token)) {
+  if (!canAccessAdminRequest(request, token)) {
     return NextResponse.json(
       {
         ok: false,

@@ -60,6 +60,8 @@ Google, Kakao, Naver Provider 설정은 `docs/OAUTH_SETUP.md`와 `docs/DEEPLINK_
 
 제휴 링크 템플릿은 `{url}`, `{encodedUrl}`, `{dealId}`, `{mall}`, `{campaign}`, `{subId}`, `{title}` placeholder를 사용할 수 있습니다.
 
+운영 API 호출은 URL 노출을 줄이기 위해 `Authorization: Bearer $ADMIN_EXPORT_TOKEN` 또는 `x-admin-token: $ADMIN_EXPORT_TOKEN` 헤더를 기본으로 사용합니다. 기존 `?token=` 방식은 관리자 화면 링크 호환용으로 유지되지만 자동화 스크립트와 외부 툴에는 권장하지 않습니다.
+
 ## 스토어 제출 전 판정
 
 - [ ] `npm run env:doctor` 결과에서 운영 필수 값이 모두 `OK`

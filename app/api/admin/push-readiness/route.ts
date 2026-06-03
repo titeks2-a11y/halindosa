@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { canAccessAdmin } from "@/lib/adminAuth";
+import { canAccessAdminRequest } from "@/lib/adminAuth";
 import { createRequestId, getClientKey, rateLimit, rateLimitHeaders } from "@/lib/apiGuards";
 import { getDeals } from "@/lib/dealService";
 import { getVisibleNewsDeals } from "@/lib/deals/newsDeals";
@@ -26,7 +26,7 @@ export async function GET(request: Request) {
 
   const url = new URL(request.url);
 
-  if (!canAccessAdmin(url.searchParams.get("token"))) {
+  if (!canAccessAdminRequest(request, url.searchParams.get("token"))) {
     return NextResponse.json(
       { ok: false, requestId, message: "푸시 준비도 접근 권한이 없습니다." },
       { status: 401, headers: rateLimitHeaders(limit, requestId) }

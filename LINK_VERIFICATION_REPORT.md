@@ -1,6 +1,6 @@
 # 할인도사 Link Verification Report
 
-Generated: 2026-06-03T22:09:42.723Z
+Generated: 2026-06-03T22:27:33.159Z
 
 ## Summary
 
@@ -20,8 +20,8 @@ Generated: 2026-06-03T22:09:42.723Z
 | 커뮤니티 의심 | 0 |
 | 수동 검토 필요 | 0 |
 | Live probe 확인 | 140 |
-| Live probe 실패 | 73 |
-| Live probe robots/access 차단 | 57 |
+| Live probe 실패 | 75 |
+| Live probe robots/access 차단 | 58 |
 | Live probe timeout | 0 |
 | Live probe hard failure | 0 |
 
@@ -30,23 +30,24 @@ Generated: 2026-06-03T22:09:42.723Z
 - 상태: access_protected_review
 - 해석: Failed live checks are seller access protections or non-strict request failures; no exposed search, sold-out, 404, 410, or 5xx links were found.
 - 404/410/5xx/timeout/품절 본문 같은 강한 실패 신호: 0
-- 쇼핑몰 접근 보호 또는 robots/access 차단: 57
+- 쇼핑몰 접근 보호 또는 robots/access 차단: 58
 - 품절/판매종료 본문 감지: 0
 
 ### Live Probe Failure Reasons
 
-- robots_or_access_blocked: 57
+- robots_or_access_blocked: 58
 - http_429: 13
-- request_failed: 3
+- request_failed: 4
 
 ### Live Probe Failed Hosts
 
 - item.gmarket.co.kr: 30
 - coupang.com: 23
 - ssg.com: 13
-- oliveyoung.co.kr: 2
+- oliveyoung.co.kr: 3
 - hyundaicard.com: 1
 - itempage3.auction.co.kr: 1
+- shinhancard.com: 1
 - store.ohou.se: 1
 - tmembership.co.kr: 1
 - tour.interpark.com: 1

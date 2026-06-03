@@ -1,0 +1,71 @@
+{
+  "ok": true,
+  "generatedAt": "2026-06-03T22:27:06.497Z",
+  "status": "ready",
+  "adminAuthPath": "lib/adminAuth.ts",
+  "protectedRouteCount": 15,
+  "protectedRoutes": [
+    "app/api/admin/daily-queue/route.ts",
+    "app/api/admin/deal-quality/route.ts",
+    "app/api/admin/export/route.ts",
+    "app/api/admin/exposure-policy/route.ts",
+    "app/api/admin/health-readiness/route.ts",
+    "app/api/admin/image-queue/route.ts",
+    "app/api/admin/import/route.ts",
+    "app/api/admin/news-operations/route.ts",
+    "app/api/admin/notification-campaigns/route.ts",
+    "app/api/admin/push/send/route.ts",
+    "app/api/admin/push-readiness/route.ts",
+    "app/api/admin/reports/route.ts",
+    "app/api/admin/source-live/route.ts",
+    "app/api/admin/source-onboarding/route.ts",
+    "app/api/cron/refresh/route.ts"
+  ],
+  "routesWithLegacyDirectCall": [],
+  "routesWithoutRequestGuard": [],
+  "supportedHeaders": [
+    "Authorization: Bearer",
+    "x-admin-token",
+    "x-admin-export-token",
+    "x-halindosa-admin-token"
+  ],
+  "queryTokenCompatibility": true,
+  "reportPath": "reports/admin-auth.json",
+  "checks": [
+    {
+      "name": "request helper",
+      "ok": true,
+      "detail": "lib/adminAuth.ts exposes canAccessAdminRequest."
+    },
+    {
+      "name": "token extractor",
+      "ok": true,
+      "detail": "lib/adminAuth.ts centralizes admin token extraction."
+    },
+    {
+      "name": "bearer token",
+      "ok": true,
+      "detail": "Authorization: Bearer admin tokens are supported."
+    },
+    {
+      "name": "admin headers",
+      "ok": true,
+      "detail": "Admin token headers are supported."
+    },
+    {
+      "name": "legacy direct calls",
+      "ok": true,
+      "detail": "No protected API route calls canAccessAdmin directly."
+    },
+    {
+      "name": "request guard coverage",
+      "ok": true,
+      "detail": "Protected API routes use request-aware admin auth."
+    },
+    {
+      "name": "protected route scan",
+      "ok": true,
+      "detail": "15 admin/cron API routes scanned."
+    }
+  ]
+}

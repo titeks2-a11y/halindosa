@@ -2,7 +2,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 import { join } from "node:path";
 import { NextResponse } from "next/server";
-import { canAccessAdmin } from "@/lib/adminAuth";
+import { canAccessAdminRequest, getAdminTokenFromRequest } from "@/lib/adminAuth";
 import { createRequestId, getClientKey, rateLimit, rateLimitHeaders } from "@/lib/apiGuards";
 
 export const runtime = "nodejs";
@@ -41,7 +41,8 @@ function canRunCronRefresh(request: Request, url: URL) {
   const queryToken = url.searchParams.get("token")?.trim() ?? "";
 
   if (cronSecret && [bearerToken, headerSecret, queryToken].includes(cronSecret)) return true;
-  if (queryToken && canAccessAdmin(queryToken)) return true;
+  const adminToken = getAdminTokenFromRequest(request, queryToken);
+  if (adminToken && canAccessAdminRequest(request, queryToken)) return true;
   return false;
 }
 
