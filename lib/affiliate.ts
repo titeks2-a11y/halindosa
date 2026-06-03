@@ -1,4 +1,5 @@
 import { Deal } from "@/types/deal";
+import { isVerifiedPurchaseLink } from "@/lib/deals/quality";
 
 const affiliateMallAllowList = new Set([
   "쿠팡",
@@ -162,20 +163,20 @@ export function resolveDealDestinationUrl(deal: Deal, preferAffiliate = false) {
   const candidate = preferAffiliate
     ? (deal.affiliateUrl || deal.finalPurchaseUrl || deal.finalUrl || deal.purchaseUrl || deal.url || deal.link)
     : (deal.finalPurchaseUrl || deal.finalUrl || deal.purchaseUrl || deal.url || deal.link);
-  if (isPlaceholderOrCommunityUrl(candidate)) return buildSellerSearchUrl(deal);
-  return isAllowedOutboundHost(candidate) ? candidate : buildSellerSearchUrl(deal);
+  if (isPlaceholderOrCommunityUrl(candidate)) return "";
+  return isAllowedOutboundHost(candidate) ? candidate : "";
 }
 
 export function getDealLinkTrustLabel(deal: Pick<Deal, "linkStatus" | "linkType" | "linkLabel">) {
   if (deal.linkStatus === "verified") return deal.linkLabel || "구매 페이지 확인";
   if (deal.linkStatus === "sold_out") return "품절 가능성";
   if (deal.linkStatus === "broken") return "링크 확인 필요";
-  if (deal.linkType === "seller_search") return "링크 확인 필요";
+  if (deal.linkType === "seller_search" || deal.linkType === "search") return "검색 링크 제외";
   return "확인 필요";
 }
 
-export function canOpenDealLink(deal: Pick<Deal, "linkStatus">) {
-  return deal.linkStatus !== "broken" && deal.linkStatus !== "sold_out";
+export function canOpenDealLink(deal: Deal) {
+  return isVerifiedPurchaseLink(deal) && Boolean(resolveDealDestinationUrl(deal));
 }
 
 export function isAffiliateEligible(deal: Pick<Deal, "mall" | "mallName">) {
@@ -186,6 +187,7 @@ export function isAffiliateEligible(deal: Pick<Deal, "mall" | "mallName">) {
 export function buildOutboundUrl(deal: Deal, from: string, includeAffiliateParams = true) {
   const subId = process.env.AFFILIATE_SUB_ID ?? "halindosa-local";
   const destinationUrl = resolveDealDestinationUrl(deal, includeAffiliateParams);
+  if (!destinationUrl) return "";
 
   if (includeAffiliateParams && isAffiliateEligible(deal)) {
     const template = getAffiliateTemplate(deal);

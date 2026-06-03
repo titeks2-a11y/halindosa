@@ -3,6 +3,7 @@ import { buildSellerSearchUrl } from "@/lib/affiliate";
 import { buildBenefitSummary, inferDealBenefitType } from "@/lib/deals/benefits";
 import { buildBenefitClaimGuide } from "@/lib/deals/claimGuide";
 import { validatePurchaseLink } from "@/lib/deals/linkValidator";
+import { getDealPriorityScore, resolveDealAvailability, resolveDealValidationStatus, shouldHideDeal } from "@/lib/deals/quality";
 
 export type DealInput = Partial<Deal> & {
   id: string;
@@ -21,9 +22,16 @@ export type DealInput = Partial<Deal> & {
   searchUrl?: string;
   originalUrl?: string;
   affiliateUrl?: string;
+  eventUrl?: string;
   purchaseUrl?: string;
   finalUrl?: string;
   finalPurchaseUrl?: string;
+  availability?: Deal["availability"];
+  validationStatus?: Deal["validationStatus"];
+  validationReason?: string;
+  lastCheckedAt?: string;
+  priorityScore?: number;
+  isHidden?: boolean;
   linkVerified?: boolean;
   purchaseLinkVerified?: boolean;
   checkedAt?: string;
@@ -67,6 +75,37 @@ export function normalizeDeal(input: DealInput, source = input.source ?? "mock")
   const dealType = input.dealType ?? inferDealBenefitType({ title: input.title, category: input.category, tags, shipping, salePrice: input.salePrice, originalPrice: input.originalPrice, discountRate });
   const isExpired = input.isExpired ?? new Date(expireAt).getTime() <= Date.now();
   const reliabilityScore = input.reliabilityScore ?? Math.min(100, Math.round(purchaseConfidence + (linkVerified ? 8 : 0) + ((input.popularityScore ?? 0) >= 85 ? 3 : 0)));
+  const purchaseLinkVerified = input.purchaseLinkVerified ?? linkValidation.purchaseLinkVerified;
+  const isSoldOut = input.isSoldOut ?? linkStatus === "sold_out";
+  const finalUrl = input.finalUrl ?? linkValidation.finalUrl;
+  const finalPurchaseUrl = input.finalPurchaseUrl ?? linkValidation.finalPurchaseUrl;
+  const checkedAt = input.checkedAt ?? linkValidation.checkedAt;
+  const qualityInput = {
+    linkStatus,
+    linkType,
+    linkVerified,
+    purchaseLinkVerified,
+    finalUrl,
+    finalPurchaseUrl,
+    isExpired,
+    isSoldOut,
+    purchaseConfidence,
+    reliabilityScore,
+    thumbnail,
+    imageUrl: thumbnail,
+    salePrice: input.salePrice,
+    price: input.price ?? input.salePrice,
+    originalPrice: input.originalPrice,
+    discountRate,
+    checkedAt,
+    priceCheckedAt
+  };
+  const availability = input.availability ?? resolveDealAvailability(qualityInput);
+  const validationStatus = input.validationStatus ?? resolveDealValidationStatus({ ...qualityInput, availability });
+  const validationReason = input.validationReason ?? linkValidation.reason;
+  const lastCheckedAt = input.lastCheckedAt ?? checkedAt;
+  const isHidden = input.isHidden ?? shouldHideDeal({ ...qualityInput, availability, validationStatus });
+  const priorityScore = input.priorityScore ?? getDealPriorityScore({ ...qualityInput, availability, validationStatus, validationReason, lastCheckedAt, isHidden });
   const conditionText = [input.title, input.category, ...tags].join(" ");
   const isFirstComeFirstServed = input.isFirstComeFirstServed ?? /선착순|한정수량|오늘만|마감임박/.test(conditionText);
   const requiresSignup = input.requiresSignup ?? /첫 구매|신규 가입|체험단|포인트|앱테크|무료체험/.test(conditionText);
@@ -106,17 +145,24 @@ export function normalizeDeal(input: DealInput, source = input.source ?? "mock")
     searchUrl: input.searchUrl ?? (!linkValidation.linkVerified ? linkValidation.finalPurchaseUrl : ""),
     originalUrl: input.originalUrl ?? input.link,
     affiliateUrl: input.affiliateUrl,
+    eventUrl: input.eventUrl,
     purchaseUrl: input.purchaseUrl ?? link,
-    finalUrl: input.finalUrl ?? linkValidation.finalUrl,
-    finalPurchaseUrl: input.finalPurchaseUrl ?? linkValidation.finalPurchaseUrl,
+    finalUrl,
+    finalPurchaseUrl,
     linkType,
     linkStatus,
     linkLabel: input.linkLabel ?? (linkStatus === "verified" ? "구매 페이지 확인" : "링크 확인 필요"),
     linkVerified,
-    checkedAt: input.checkedAt ?? linkValidation.checkedAt,
+    checkedAt,
     purchaseConfidence,
     purchaseStatus: linkStatus === "verified" ? "available" : linkStatus,
-    purchaseLinkVerified: input.purchaseLinkVerified ?? linkValidation.purchaseLinkVerified,
+    purchaseLinkVerified,
+    availability,
+    validationStatus,
+    validationReason,
+    lastCheckedAt,
+    priorityScore,
+    isHidden,
     verifiedAt: linkStatus === "verified" ? (input.verifiedAt ?? priceCheckedAt) : undefined,
     lastVerifiedAt: input.lastVerifiedAt ?? (linkStatus === "verified" ? (input.verifiedAt ?? priceCheckedAt) : undefined),
     priceCheckedAt,
@@ -155,7 +201,7 @@ export function normalizeDeal(input: DealInput, source = input.source ?? "mock")
     likeCount: input.likeCount ?? Math.max(0, Math.round((input.popularityScore ?? 0) * 3.2)),
     viewCount: input.viewCount ?? Math.max(0, Math.round((input.popularityScore ?? 0) * 21)),
     reportCount: input.reportCount ?? (linkStatus === "verified" ? 0 : 1),
-    isSoldOut: input.isSoldOut ?? linkStatus === "sold_out",
+    isSoldOut,
     updatedAt: input.updatedAt ?? priceCheckedAt,
     mall: mallName,
     imageUrl: thumbnail,

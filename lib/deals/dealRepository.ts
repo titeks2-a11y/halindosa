@@ -4,7 +4,7 @@ import { normalizeDeals } from "@/lib/deals/normalizer";
 import { fetchMockDeals } from "@/lib/deals/providers/mockProvider";
 import { fetchProductionDeals } from "@/lib/deals/providers/productionProvider";
 import { fetchStagingDeals } from "@/lib/deals/providers/stagingProvider";
-import { isVerifiedPurchaseLink } from "@/lib/deals/quality";
+import { isPubliclyVisibleDeal, isVerifiedPurchaseLink } from "@/lib/deals/quality";
 import { dealMatchesSearch } from "@/lib/deals/search";
 import { Deal, DealDataMode, DealSort } from "@/types/deal";
 
@@ -20,6 +20,7 @@ export interface DealQuery {
   hotOnly?: boolean;
   endingSoonOnly?: boolean;
   verifiedOnly?: boolean;
+  includeHidden?: boolean;
   mall?: string;
   dealType?: string;
 }
@@ -120,6 +121,10 @@ export async function getDeals(query: DealQuery = {}) {
   const limit = query.limit ?? 0;
   let deals = provider.deals;
 
+  if (!query.includeHidden) {
+    deals = deals.filter(isPubliclyVisibleDeal);
+  }
+
   if (query.category && query.category !== "전체" && query.category !== "all") {
     deals = deals.filter((deal) => dealMatchesChannel(deal, query.category));
   }
@@ -168,7 +173,11 @@ export function findDealById(id: string) {
 
 export async function findDealByIdLive(id: string) {
   const { deals } = await getDeals();
-  return deals.find((deal) => deal.id === id) ?? findDealById(id);
+  const liveDeal = deals.find((deal) => deal.id === id);
+  if (liveDeal) return liveDeal;
+
+  const fallbackDeal = findDealById(id);
+  return fallbackDeal && isPubliclyVisibleDeal(fallbackDeal) ? fallbackDeal : null;
 }
 
 export function getRelatedDeals(dealId: string, limit = 4) {

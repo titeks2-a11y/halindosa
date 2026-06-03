@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { createAnalyticsEvent } from "@/lib/analytics";
-import { buildOutboundUrl, isAffiliateEligible } from "@/lib/affiliate";
+import { buildOutboundUrl, canOpenDealLink, isAffiliateEligible } from "@/lib/affiliate";
 import { createRequestId, getClientKey, jsonHeaders, rateLimit, rateLimitHeaders } from "@/lib/apiGuards";
 import { recordDealClick } from "@/lib/clickStore";
 import { findDealByIdLive } from "@/lib/dealService";
@@ -62,6 +62,17 @@ export async function GET(
     );
   }
 
+  if (!canOpenDealLink(deal)) {
+    return NextResponse.json(
+      {
+        ok: false,
+        requestId,
+        message: "현재 노출 가능한 구매 링크가 아닙니다."
+      },
+      { status: 410, headers: jsonHeaders(requestId) }
+    );
+  }
+
   const url = new URL(request.url);
   const from = url.searchParams.get("from") ?? "unknown";
   const analyticsGranted = url.searchParams.get("analytics") === "granted";
@@ -96,6 +107,16 @@ export async function GET(
   }
 
   const outboundUrl = buildOutboundUrl(deal, from, affiliateGranted);
+  if (!outboundUrl) {
+    return NextResponse.json(
+      {
+        ok: false,
+        requestId,
+        message: "안전하게 이동할 수 있는 판매처 URL이 없습니다."
+      },
+      { status: 410, headers: jsonHeaders(requestId) }
+    );
+  }
   recordDealClick({
     dealId: deal.id,
     from,

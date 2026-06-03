@@ -1,4 +1,4 @@
-import { existsSync, readFileSync, statSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 import { execFileSync } from "node:child_process";
 import { join } from "node:path";
@@ -60,6 +60,8 @@ async function checkPackage() {
     "feed:validate",
     "feed:production:doctor",
     "verify:links",
+    "verify:products",
+    "refresh:deals",
     "test:mobile-ux",
     "links:report",
     "store:metadata:doctor",
@@ -82,7 +84,7 @@ async function checkPackage() {
   const missing = requiredScripts.filter((script) => !pkg.scripts?.[script]);
 
   if (missing.length) fail("package scripts", `Missing scripts: ${missing.join(", ")}`);
-  else if (!pkg.scripts?.qa?.includes("verify:links") || !pkg.scripts?.qa?.includes("test:mobile-ux") || !harness.includes("test:mobile-ux") || !pkg.scripts?.["env:doctor:production"]?.includes("--production") || !pkg.scripts?.["qa:release"]?.includes("audit:commercial") || !pkg.scripts?.["qa:release"]?.includes("test:env") || !pkg.scripts?.["qa:release"]?.includes("device:qa:manifest") || !pkg.scripts?.["qa:release"]?.includes("device:qa:doctor") || !pkg.scripts?.["qa:release"]?.includes("device:qa:report") || !pkg.scripts?.["qa:release"]?.includes("android:signing:doctor") || !pkg.scripts?.["qa:release"]?.includes("public:url:doctor") || !pkg.scripts?.["qa:release"]?.includes("feed:validate") || !pkg.scripts?.["qa:release"]?.includes("feed:production:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:metadata:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:submission:report") || !pkg.scripts?.["qa:release"]?.includes("store:packet:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:console:fields") || !pkg.scripts?.["qa:release"]?.includes("store:manual:checklist") || !pkg.scripts?.["qa:release"]?.includes("store:manual:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:handoff:report") || !pkg.scripts?.["qa:release"]?.includes("release:notes") || !pkg.scripts?.["qa:release"]?.includes("support:playbook") || !pkg.scripts?.["qa:release"]?.includes("known:issues") || !pkg.scripts?.["qa:release"]?.includes("store:assets:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:manifest") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:doctor") || !pkg.scripts?.["qa:release"]?.includes("perf:budget")) {
+  else if (!pkg.scripts?.qa?.includes("verify:links") || !pkg.scripts?.qa?.includes("verify:products") || !pkg.scripts?.qa?.includes("test:mobile-ux") || !harness.includes("test:mobile-ux") || !pkg.scripts?.["env:doctor:production"]?.includes("--production") || !pkg.scripts?.["qa:release"]?.includes("audit:commercial") || !pkg.scripts?.["qa:release"]?.includes("test:env") || !pkg.scripts?.["qa:release"]?.includes("device:qa:manifest") || !pkg.scripts?.["qa:release"]?.includes("device:qa:doctor") || !pkg.scripts?.["qa:release"]?.includes("device:qa:report") || !pkg.scripts?.["qa:release"]?.includes("android:signing:doctor") || !pkg.scripts?.["qa:release"]?.includes("public:url:doctor") || !pkg.scripts?.["qa:release"]?.includes("feed:validate") || !pkg.scripts?.["qa:release"]?.includes("feed:production:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:metadata:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:submission:report") || !pkg.scripts?.["qa:release"]?.includes("store:packet:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:console:fields") || !pkg.scripts?.["qa:release"]?.includes("store:manual:checklist") || !pkg.scripts?.["qa:release"]?.includes("store:manual:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:handoff:report") || !pkg.scripts?.["qa:release"]?.includes("release:notes") || !pkg.scripts?.["qa:release"]?.includes("support:playbook") || !pkg.scripts?.["qa:release"]?.includes("known:issues") || !pkg.scripts?.["qa:release"]?.includes("store:assets:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:manifest") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:doctor") || !pkg.scripts?.["qa:release"]?.includes("perf:budget")) {
     fail("package scripts", "qa, harness, and qa:release should include mobile UX, commercial security audit, device QA manifest/doctor/report, Android signing doctor, public URL doctor, partner feed validator, production feed doctor, store metadata doctor, store submission/packet/console/handoff reports, store asset doctor, store screenshot manifest/doctor, and performance budget before store submission.");
   } else {
     pass("package scripts", "Android, iOS, environment, mobile UX, commercial security, and performance release command flow is available.");
@@ -3277,6 +3279,17 @@ for (const check of checks) {
 }
 
 const failures = checks.filter((check) => !check.ok);
+const releaseDoctorReport = {
+  generatedAt: new Date().toISOString(),
+  totalChecks: checks.length,
+  passedChecks: checks.length - failures.length,
+  failedChecks: failures.length,
+  ok: failures.length === 0,
+  checks
+};
+
+mkdirSync(join(root, "reports"), { recursive: true });
+writeFileSync(join(root, "reports", "release-doctor.json"), `${JSON.stringify(releaseDoctorReport, null, 2)}\n`, "utf8");
 
 if (failures.length) {
   console.error(`Release doctor failed: ${failures.length}/${checks.length}`);

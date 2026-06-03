@@ -43,6 +43,18 @@ const communityHosts = [
   "coolenjoy.net"
 ];
 
+const soldOutTextPatterns = [
+  /품절/,
+  /일시품절/,
+  /구매불가/,
+  /판매종료/,
+  /판매중지/,
+  /재입고알림/,
+  /이벤트종료/,
+  /행사종료/,
+  /마감/
+];
+
 function parseHttpUrl(value?: string) {
   if (!value) return null;
 
@@ -80,6 +92,10 @@ function isSearchOrCategoryUrl(url: URL) {
   return [
     "/search",
     "search.",
+    "shopping/search",
+    "msearch",
+    "find",
+    "result",
     "query=",
     "keyword=",
     "kwd=",
@@ -91,6 +107,10 @@ function isSearchOrCategoryUrl(url: URL) {
     "/categories",
     "/display"
   ].some((pattern) => value.includes(pattern));
+}
+
+export function containsUnavailableText(text: string) {
+  return soldOutTextPatterns.some((pattern) => pattern.test(text));
 }
 
 function isKnownProductDetailUrl(url: URL, mallName: string) {
@@ -191,7 +211,7 @@ export function validatePurchaseLink(input: LinkValidationInput): LinkValidation
       finalUrl: candidate.toString(),
       finalPurchaseUrl: candidate.toString(),
       linkStatus: "needs_review",
-      linkType: "seller_search",
+      linkType: "search",
       checkedAt,
       purchaseConfidence: 45,
       reason: "검색/카테고리 링크이므로 상품 상세 URL 보강이 필요합니다."
@@ -257,7 +277,7 @@ export async function probePurchaseLink(url: string, timeoutMs = 3500): Promise<
       finalUrl: response.url || candidate.toString(),
       status: response.status,
       checkedAt,
-      reason: response.status >= 200 && response.status < 400 ? "링크 응답 확인" : `HTTP ${response.status}`
+      reason: response.status >= 200 && response.status < 400 ? "링크 응답 확인" : response.status === 403 ? "robots_or_access_blocked" : `HTTP ${response.status}`
     };
   } catch (error) {
     return {

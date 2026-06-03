@@ -1,0 +1,874 @@
+{
+  "generatedAt": "2026-06-03T04:54:01.108Z",
+  "totalChecks": 173,
+  "passedChecks": 173,
+  "failedChecks": 0,
+  "ok": true,
+  "checks": [
+    {
+      "name": "package scripts",
+      "ok": true,
+      "detail": "Android, iOS, environment, mobile UX, commercial security, and performance release command flow is available."
+    },
+    {
+      "name": "Capacitor iOS dependency",
+      "ok": true,
+      "detail": "^8.3.4"
+    },
+    {
+      "name": "Supabase Auth dependency",
+      "ok": true,
+      "detail": "^2.106.2"
+    },
+    {
+      "name": "release version alignment",
+      "ok": true,
+      "detail": "Web, lockfile, Android, and iOS versions are aligned at 1.0.1."
+    },
+    {
+      "name": "commercial audit zero-vulnerability gate",
+      "ok": true,
+      "detail": "audit:commercial requires npm audit total vulnerabilities to be 0 and writes non-secret audit reports."
+    },
+    {
+      "name": "github ci workflow",
+      "ok": true,
+      "detail": "GitHub Actions runs commercial audit, env regression, public URL doctor, harness, release doctor, and uploads verification reports on main and codex branches."
+    },
+    {
+      "name": "github pr template",
+      "ok": true,
+      "detail": "PR template covers launch safety, verified links, guest access, secrets, OAuth/policy impact, and mobile layout checks."
+    },
+    {
+      "name": "github issue templates",
+      "ok": true,
+      "detail": "Issue templates capture deal link/price reports, app bugs, reproduction evidence, and privacy cautions."
+    },
+    {
+      "name": "security policy",
+      "ok": true,
+      "detail": "SECURITY.md documents private vulnerability reporting, secret handling, redirect risk, and release verification."
+    },
+    {
+      "name": "gitignore release safety",
+      "ok": true,
+      "detail": "Sensitive local files and build artifacts are ignored."
+    },
+    {
+      "name": "tracked secret scan",
+      "ok": true,
+      "detail": "No tracked env, keystore, service config, or build artifact files found."
+    },
+    {
+      "name": "env example",
+      "ok": true,
+      "detail": "Commercial deployment environment keys are documented."
+    },
+    {
+      "name": "env fallback guidance",
+      "ok": true,
+      "detail": "External API keys can be left blank for fallback operation."
+    },
+    {
+      "name": "env doctor format validation",
+      "ok": true,
+      "detail": "Environment doctor validates HTTPS/public URLs, /auth/callback redirect path, app scheme, and support email format."
+    },
+    {
+      "name": "env doctor regression tests",
+      "ok": true,
+      "detail": "Environment doctor tests cover production URL, callback origin, app scheme regressions, and report generation."
+    },
+    {
+      "name": "env data mode values",
+      "ok": true,
+      "detail": "Data provider mode examples match the repository runtime modes."
+    },
+    {
+      "name": "public contact",
+      "ok": true,
+      "detail": "No .example support contact is exposed in public app files."
+    },
+    {
+      "name": "support email config",
+      "ok": true,
+      "detail": "Support email is centralized and configurable."
+    },
+    {
+      "name": "Supabase auth client",
+      "ok": true,
+      "detail": "Supabase Auth client persists session and exposes auth state."
+    },
+    {
+      "name": "auth pages",
+      "ok": true,
+      "detail": "Login and signup pages support email/password auth, nickname, and error states."
+    },
+    {
+      "name": "member profile settings",
+      "ok": true,
+      "detail": "Mypage prepares member profile, interest categories, consent settings, activity summary, and settings hub."
+    },
+    {
+      "name": "social login redirect safety",
+      "ok": true,
+      "detail": "Social login buttons use safe web/app OAuth redirect URLs."
+    },
+    {
+      "name": "member data sync",
+      "ok": true,
+      "detail": "Favorites, recent views, and member preferences sync to Supabase with graceful fallback."
+    },
+    {
+      "name": "recent deal detail marker",
+      "ok": true,
+      "detail": "Deal detail views record recent products with Supabase/local fallback."
+    },
+    {
+      "name": "account deletion",
+      "ok": true,
+      "detail": "Mypage account deletion uses a server route with service-role-only cleanup and click-log anonymization."
+    },
+    {
+      "name": "native OAuth deep link handler",
+      "ok": true,
+      "detail": "Capacitor OAuth deep links are bridged into the web callback route."
+    },
+    {
+      "name": "member database schema",
+      "ok": true,
+      "detail": "Supabase schema includes profiles, favorites, recent deals, clicks, and price alerts."
+    },
+    {
+      "name": "auth smoke coverage",
+      "ok": true,
+      "detail": "Smoke tests cover login/signup pages, onboarding/callback, and account deletion guardrails."
+    },
+    {
+      "name": "public claim copy",
+      "ok": true,
+      "detail": "Public UI and listing copy avoids absolute price/availability guarantees."
+    },
+    {
+      "name": "customer-facing product copy",
+      "ok": true,
+      "detail": "Customer-facing app surfaces avoid internal launch, API, and SEO wording."
+    },
+    {
+      "name": "purchase trust copy regression guard",
+      "ok": true,
+      "detail": "Customer and launch docs use verified product/official benefit URL copy instead of search-fallback wording."
+    },
+    {
+      "name": "account model copy",
+      "ok": true,
+      "detail": "Store docs and public app copy reflect optional login with account sync."
+    },
+    {
+      "name": "partner feed unsafe link guard",
+      "ok": true,
+      "detail": "Partner feed import rejects unsafe links and accepts canonical product URL, source, and benefit condition fields."
+    },
+    {
+      "name": "purchase link validator",
+      "ok": true,
+      "detail": "Deal normalization exposes purchase link verification fields and smoke tests cover them."
+    },
+    {
+      "name": "verified purchase link coverage",
+      "ok": true,
+      "detail": "140/140 curated deals have manually reviewed product detail URLs (100%)."
+    },
+    {
+      "name": "benefit data density",
+      "ok": true,
+      "detail": "Mock benefits include verified apptech, pay, membership, delivery, sample, and invitation examples."
+    },
+    {
+      "name": "search purchase discovery",
+      "ok": true,
+      "detail": "Search normalizes Korean spacing, mall/brand/tag text, daily synonym terms, URL state, and smoke coverage."
+    },
+    {
+      "name": "purchase link new-tab guard",
+      "ok": true,
+      "detail": "Verified product link, catalog quality, purchase navigation, detail new-tab, and URL state scripts are present; top search is visible and product discovery CTAs avoid hash-scroll links."
+    },
+    {
+      "name": "v2 brand color system",
+      "ok": true,
+      "detail": "Bright red brand tokens are centralized and used across home, auth, and launch readiness surfaces."
+    },
+    {
+      "name": "deal card accessibility",
+      "ok": true,
+      "detail": "Deal images and icon buttons expose product-specific accessible labels."
+    },
+    {
+      "name": "deal commerce actions",
+      "ok": true,
+      "detail": "Deal cards and live rows expose clear detail and seller confirmation paths."
+    },
+    {
+      "name": "admin report priority workflow",
+      "ok": true,
+      "detail": "Admin/report surfaces prioritize link error, sold-out, and expired reports with expected handling, SLA, and recommended actions."
+    },
+    {
+      "name": "empty state UX",
+      "ok": true,
+      "detail": "Search, favorites, not-found, loading, and error states include branded next actions."
+    },
+    {
+      "name": "store screenshot preview",
+      "ok": true,
+      "detail": "Store screenshot capture board covers launch screenshots and is smoke-tested."
+    },
+    {
+      "name": "favorites filter UX",
+      "ok": true,
+      "detail": "Favorites page supports saved-deal filtering and sorting by verified link, urgency, shipping, discount, deadline, and price."
+    },
+    {
+      "name": "app install guide",
+      "ok": true,
+      "detail": "Mypage offers install/share guidance with public share URLs and accessible feedback."
+    },
+    {
+      "name": "public trust badge copy",
+      "ok": true,
+      "detail": "Public trust badges use plain labels and purchase trust checklist instead of internal scores."
+    },
+    {
+      "name": "purchase confirmation score copy",
+      "ok": true,
+      "detail": "Purchase confirmation uses plain link status labels and shows the destination host before external navigation."
+    },
+    {
+      "name": "purchase safety checklist",
+      "ok": true,
+      "detail": "Reusable purchase safety checklist guides users through final price, shipping, return, and report checks."
+    },
+    {
+      "name": "deal card benefit condition summary",
+      "ok": true,
+      "detail": "Deal cards expose signup, first-come, shipping, and coupon conditions before users open a detail page."
+    },
+    {
+      "name": "benefit condition checklist",
+      "ok": true,
+      "detail": "Deal detail explains benefit type, signup, shipping, coupon, first-come, expiry, and report conditions before users claim a benefit."
+    },
+    {
+      "name": "purchase readiness summary",
+      "ok": true,
+      "detail": "Deal detail summarizes price timing, link status, quality notice, report count, trust checklist, and destination domain before purchase."
+    },
+    {
+      "name": "related deal discovery UX",
+      "ok": true,
+      "detail": "Deal detail presents related deals with images, timing, category navigation, and purchase-minded copy."
+    },
+    {
+      "name": "bottom navigation accessibility",
+      "ok": true,
+      "detail": "Route navigation and in-page navigation expose the simplified primary menus, active state, and explicit labels."
+    },
+    {
+      "name": "top navigation accessibility",
+      "ok": true,
+      "detail": "Desktop top navigation names the menu, search box, and refresh button."
+    },
+    {
+      "name": "live card media accessibility",
+      "ok": true,
+      "detail": "Live deal and signal cards expose meaningful image alt text and keyboard activation."
+    },
+    {
+      "name": "deal image loading hints",
+      "ok": true,
+      "detail": "Deal list, live feed, signal, and detail images use proxy helpers and browser loading hints, while quick cards expose compact purchase snapshots."
+    },
+    {
+      "name": "deal image quality coverage gate",
+      "ok": true,
+      "detail": "QA, image operations doctor, and release evidence enforce the 25% explicit product image floor with 39/140 current coverage and an actionable fallback image backlog."
+    },
+    {
+      "name": "harness release gate coverage",
+      "ok": true,
+      "detail": "Harness executes mobile UX, release:doctor, writes root/docs reports, and preserves image-quality evidence."
+    },
+    {
+      "name": "mobile ux report coverage",
+      "ok": true,
+      "detail": "Mobile UX report records the stable 10-gate compact first-screen regression suite."
+    },
+    {
+      "name": "search filter accessibility",
+      "ok": true,
+      "detail": "Search, sort, category, mall, price, benefit type, result decision cards, purpose quick filters, outcome summary, next action queue, list scan, and price comparison shortcut controls expose accessible names and state."
+    },
+    {
+      "name": "v2 benefit discovery UX",
+      "ok": true,
+      "detail": "Home exposes free benefit, coupon, apptech, daily checklist, true deal spotlight, interest personalization, mart, and rising benefit discovery with a verified benefit filter."
+    },
+    {
+      "name": "recent deal management UX",
+      "ok": true,
+      "detail": "Home lets returning users continue, clear, and manage recently viewed deals."
+    },
+    {
+      "name": "mall discovery UX",
+      "ok": true,
+      "detail": "Home exposes seller-first discovery cards tied to mall filters."
+    },
+    {
+      "name": "purchase link overview UX",
+      "ok": true,
+      "detail": "Home explains verified purchase and seller-confirmation link paths without exposing internal coverage ratios."
+    },
+    {
+      "name": "detail action feedback",
+      "ok": true,
+      "detail": "Deal detail favorite and share actions expose state, accessible names, and user feedback."
+    },
+    {
+      "name": "public share url safety",
+      "ok": true,
+      "detail": "Home, detail, favorites, and app sharing use public web URLs that avoid native/local origins."
+    },
+    {
+      "name": "price alert readiness",
+      "ok": true,
+      "detail": "Deal detail and notifications manage price alert intent locally and keep real push permission for a later FCM release."
+    },
+    {
+      "name": "policy footer navigation",
+      "ok": true,
+      "detail": "Purchase caution, service guide, terms, and privacy links remain reachable on narrow mobile screens."
+    },
+    {
+      "name": "operational data surfaces",
+      "ok": true,
+      "detail": "Category, notification, and favorites pages use the Deal repository/API instead of static mock-only arrays."
+    },
+    {
+      "name": "category discovery UX",
+      "ok": true,
+      "detail": "Categories page groups channels and surfaces verified-link-first, benefit-type, and claim-effort discovery."
+    },
+    {
+      "name": "price alert data surface",
+      "ok": true,
+      "detail": "Saved price alerts, benefit check-in records, claimed benefit records, and return reservations are visible in-app, refresh across same-tab events, and are included in local/account data deletion controls."
+    },
+    {
+      "name": "notification launch readiness UX",
+      "ok": true,
+      "detail": "Notifications page explains the in-app alert flow and keeps real push permission for a later release."
+    },
+    {
+      "name": "admin product copy",
+      "ok": true,
+      "detail": "Admin dashboard avoids raw internal source copy and exposes V2 benefit operation quality, condition operation, and retention readiness."
+    },
+    {
+      "name": "benefit retention metrics",
+      "ok": true,
+      "detail": "Metrics, admin, and commercialization pages expose daily routine and personalization readiness for V2 retention operations."
+    },
+    {
+      "name": "operational health checks",
+      "ok": true,
+      "detail": "Health API exposes V2 link, free benefit, claim-guide, personalization, and deployment environment readiness with smoke coverage."
+    },
+    {
+      "name": "today benefits api",
+      "ok": true,
+      "detail": "Daily benefit API, weekly calendar API, daily briefing API, daily routine API, claim-effort API, personalized benefit API, and protected admin operation queue expose guest-accessible free, coupon, apptech, and verified purchase routines with smoke coverage."
+    },
+    {
+      "name": "api fallback normalization",
+      "ok": true,
+      "detail": "Deals API fallback keeps canonical fields and user-facing fallback copy."
+    },
+    {
+      "name": "price filter data path",
+      "ok": true,
+      "detail": "Deals API and repository support commercial price band filtering."
+    },
+    {
+      "name": "shared link quality rules",
+      "ok": true,
+      "detail": "Verified purchase filtering, scoring, trust labels, and customer-facing quality notices use shared link quality rules."
+    },
+    {
+      "name": "source readiness operation",
+      "ok": true,
+      "detail": "Sources API, production provider, docs, production feed doctor, and admin dashboard expose source readiness and safe production JSON feed policy for official API, RSS, and partner feed transition."
+    },
+    {
+      "name": "live deal detail source",
+      "ok": true,
+      "detail": "Deal detail lookup reads provider data first and only falls back to cached/default data when necessary."
+    },
+    {
+      "name": "admin link review workflow",
+      "ok": true,
+      "detail": "Admin link review queue and CSV export expose priority, reason, confidence, current destination URL, and daily benefit queue operation fields."
+    },
+    {
+      "name": "commercial launch readiness page",
+      "ok": true,
+      "detail": "Commercialization page exposes launch readiness metrics, daily benefit queue readiness, retention readiness, external setup, and remaining link review risk."
+    },
+    {
+      "name": "commercial deal fields",
+      "ok": true,
+      "detail": "Deal type includes product/search URL split and commercial engagement fields."
+    },
+    {
+      "name": "structured benefit claim guide",
+      "ok": true,
+      "detail": "Deals expose structured eligibility checklist, claim steps, and warning text for benefit claim UX."
+    },
+    {
+      "name": "free benefits dedicated page",
+      "ok": true,
+      "detail": "Free benefits, coupons, convenience store, mart, delivery, point offers, claimed-benefit tracking, today's priority queue, weekly routine, claim-effort filtering, and active-benefit filtering remain available without occupying primary navigation."
+    },
+    {
+      "name": "go redirect route",
+      "ok": true,
+      "detail": "Purchase redirect uses /go/[dealId] with click logging and server-side outbound URL resolution."
+    },
+    {
+      "name": "native purchase navigation",
+      "ok": true,
+      "detail": "Native purchase buttons keep web redirect tracking when available and fall back to a safe product URL in static app bundles."
+    },
+    {
+      "name": "launch sitemap coverage",
+      "ok": true,
+      "detail": "Sitemap includes service guide, support, privacy, and commercialization readiness pages."
+    },
+    {
+      "name": "capacitor appId",
+      "ok": true,
+      "detail": "com.halindosa.app"
+    },
+    {
+      "name": "capacitor appName",
+      "ok": true,
+      "detail": "할인도사"
+    },
+    {
+      "name": "capacitor webDir",
+      "ok": true,
+      "detail": "out"
+    },
+    {
+      "name": "Capacitor export stability",
+      "ok": true,
+      "detail": "Capacitor static export avoids unsupported headers and uses runtime data mode."
+    },
+    {
+      "name": "Android applicationId",
+      "ok": true,
+      "detail": "com.halindosa.app"
+    },
+    {
+      "name": "Android versionCode",
+      "ok": true,
+      "detail": "2"
+    },
+    {
+      "name": "Android versionName",
+      "ok": true,
+      "detail": "1.0.1"
+    },
+    {
+      "name": "Android app label",
+      "ok": true,
+      "detail": "할인도사"
+    },
+    {
+      "name": "Android permissions",
+      "ok": true,
+      "detail": "Only expected network permission found."
+    },
+    {
+      "name": "Android auth deep link",
+      "ok": true,
+      "detail": "halindosa://auth/callback intent-filter is registered."
+    },
+    {
+      "name": "Android icons",
+      "ok": true,
+      "detail": "Launcher icon densities are present."
+    },
+    {
+      "name": "Android splash",
+      "ok": true,
+      "detail": "Splash image exists."
+    },
+    {
+      "name": "iOS project",
+      "ok": true,
+      "detail": "ios/App is present."
+    },
+    {
+      "name": "iOS bundle identifier",
+      "ok": true,
+      "detail": "com.halindosa.app"
+    },
+    {
+      "name": "iOS build number",
+      "ok": true,
+      "detail": "2"
+    },
+    {
+      "name": "iOS version",
+      "ok": true,
+      "detail": "1.0.1"
+    },
+    {
+      "name": "iOS display name",
+      "ok": true,
+      "detail": "할인도사"
+    },
+    {
+      "name": "iOS auth deep link",
+      "ok": true,
+      "detail": "halindosa URL scheme is registered."
+    },
+    {
+      "name": "iOS app icon",
+      "ok": true,
+      "detail": "App Store icon asset is present."
+    },
+    {
+      "name": "iOS splash",
+      "ok": true,
+      "detail": "Splash image asset is present."
+    },
+    {
+      "name": "iOS privacy permissions",
+      "ok": true,
+      "detail": "No tracking, camera, microphone, location, contacts, or photo permissions declared."
+    },
+    {
+      "name": "iOS privacy manifest",
+      "ok": true,
+      "detail": "PrivacyInfo.xcprivacy is bundled and declares no tracking or collected data for V1."
+    },
+    {
+      "name": "policy and store docs",
+      "ok": true,
+      "detail": "Required policy/listing drafts are present."
+    },
+    {
+      "name": "store metadata guard",
+      "ok": true,
+      "detail": "scripts/store-metadata-doctor.mjs includes launch-critical policy copy."
+    },
+    {
+      "name": "device qa record guard",
+      "ok": true,
+      "detail": "scripts/device-qa-doctor.mjs includes launch-critical policy copy."
+    },
+    {
+      "name": "privacy policy content",
+      "ok": true,
+      "detail": "app/privacy/page.tsx includes launch-critical policy copy."
+    },
+    {
+      "name": "terms content",
+      "ok": true,
+      "detail": "app/terms/page.tsx includes launch-critical policy copy."
+    },
+    {
+      "name": "service guide content",
+      "ok": true,
+      "detail": "app/guide/page.tsx includes launch-critical policy copy."
+    },
+    {
+      "name": "support page content",
+      "ok": true,
+      "detail": "app/support/page.tsx includes launch-critical policy copy."
+    },
+    {
+      "name": "data safety guide content",
+      "ok": true,
+      "detail": "docs/data-safety-guide.md includes launch-critical policy copy."
+    },
+    {
+      "name": "privacy policy draft content",
+      "ok": true,
+      "detail": "docs/privacy-policy-draft.md includes launch-critical policy copy."
+    },
+    {
+      "name": "test plan content",
+      "ok": true,
+      "detail": "docs/test-plan.md includes launch-critical policy copy."
+    },
+    {
+      "name": "readme qa guidance",
+      "ok": true,
+      "detail": "README.md includes launch-critical policy copy."
+    },
+    {
+      "name": "runbook harness guidance",
+      "ok": true,
+      "detail": "docs/RUNBOOK.md includes launch-critical policy copy."
+    },
+    {
+      "name": "oauth setup content",
+      "ok": true,
+      "detail": "docs/OAUTH_SETUP.md includes launch-critical policy copy."
+    },
+    {
+      "name": "deep link auth content",
+      "ok": true,
+      "detail": "docs/DEEPLINK_AUTH.md includes launch-critical policy copy."
+    },
+    {
+      "name": "account deletion content",
+      "ok": true,
+      "detail": "docs/ACCOUNT_DELETION.md includes launch-critical policy copy."
+    },
+    {
+      "name": "release evidence content",
+      "ok": true,
+      "detail": "docs/release-evidence.md includes launch-critical policy copy."
+    },
+    {
+      "name": "release checklist content",
+      "ok": true,
+      "detail": "docs/release-checklist.md includes launch-critical policy copy."
+    },
+    {
+      "name": "launch day checklist content",
+      "ok": true,
+      "detail": "docs/launch-day-checklist.md includes launch-critical policy copy."
+    },
+    {
+      "name": "store screenshot storyboard content",
+      "ok": true,
+      "detail": "docs/store-assets-guide.md includes launch-critical policy copy."
+    },
+    {
+      "name": "store asset qa report content",
+      "ok": true,
+      "detail": "docs/STORE_ASSETS_REPORT.md includes launch-critical policy copy."
+    },
+    {
+      "name": "store screenshot qa report content",
+      "ok": true,
+      "detail": "docs/STORE_SCREENSHOTS_REPORT.md includes launch-critical policy copy."
+    },
+    {
+      "name": "store screenshot manifest content",
+      "ok": true,
+      "detail": "docs/STORE_SCREENSHOT_MANIFEST.md includes launch-critical policy copy."
+    },
+    {
+      "name": "device qa execution manifest content",
+      "ok": true,
+      "detail": "docs/DEVICE_QA_MANIFEST.md includes launch-critical policy copy."
+    },
+    {
+      "name": "device qa readiness report content",
+      "ok": true,
+      "detail": "docs/DEVICE_QA_REPORT.md includes launch-critical policy copy."
+    },
+    {
+      "name": "device qa checklist content",
+      "ok": true,
+      "detail": "docs/device-qa-checklist.md includes launch-critical policy copy."
+    },
+    {
+      "name": "device qa record template content",
+      "ok": true,
+      "detail": "docs/device-qa-record-template.md includes launch-critical policy copy."
+    },
+    {
+      "name": "deployment env checklist content",
+      "ok": true,
+      "detail": "docs/deployment-env-checklist.md includes launch-critical policy copy."
+    },
+    {
+      "name": "public url submission report content",
+      "ok": true,
+      "detail": "docs/PUBLIC_URL_REPORT.md includes launch-critical policy copy."
+    },
+    {
+      "name": "store metadata qa report content",
+      "ok": true,
+      "detail": "docs/STORE_METADATA_REPORT.md includes launch-critical policy copy."
+    },
+    {
+      "name": "store submission packet content",
+      "ok": true,
+      "detail": "docs/store-submission-packet.md includes launch-critical policy copy."
+    },
+    {
+      "name": "store console fields content",
+      "ok": true,
+      "detail": "docs/STORE_CONSOLE_FIELDS.md includes launch-critical policy copy."
+    },
+    {
+      "name": "store manual checklist content",
+      "ok": true,
+      "detail": "docs/STORE_MANUAL_CHECKLIST.md includes launch-critical policy copy."
+    },
+    {
+      "name": "store handoff report content",
+      "ok": true,
+      "detail": "docs/STORE_HANDOFF_REPORT.md includes launch-critical policy copy."
+    },
+    {
+      "name": "release notes content",
+      "ok": true,
+      "detail": "docs/RELEASE_NOTES.md includes launch-critical policy copy."
+    },
+    {
+      "name": "support playbook content",
+      "ok": true,
+      "detail": "docs/SUPPORT_PLAYBOOK.md includes launch-critical policy copy."
+    },
+    {
+      "name": "known issues content",
+      "ok": true,
+      "detail": "docs/KNOWN_ISSUES.md includes launch-critical policy copy."
+    },
+    {
+      "name": "store packet qa report content",
+      "ok": true,
+      "detail": "docs/STORE_PACKET_REPORT.md includes launch-critical policy copy."
+    },
+    {
+      "name": "store submission readiness report content",
+      "ok": true,
+      "detail": "docs/STORE_SUBMISSION_REPORT.md includes launch-critical policy copy."
+    },
+    {
+      "name": "store review notes content",
+      "ok": true,
+      "detail": "docs/store-review-notes.md includes launch-critical policy copy."
+    },
+    {
+      "name": "link coverage report content",
+      "ok": true,
+      "detail": "docs/link-coverage-report.md includes launch-critical policy copy."
+    },
+    {
+      "name": "catalog quality report content",
+      "ok": true,
+      "detail": "docs/catalog-quality-report.md includes launch-critical policy copy."
+    },
+    {
+      "name": "customer support guide content",
+      "ok": true,
+      "detail": "docs/customer-support-guide.md includes launch-critical policy copy."
+    },
+    {
+      "name": "release evidence freshness",
+      "ok": true,
+      "detail": "Working tree has pending changes; clean release candidates must refresh evidence after the final commit. Current document points at df3a0c7."
+    },
+    {
+      "name": "store manual checklist freshness",
+      "ok": true,
+      "detail": "Working tree has pending changes; clean release candidates must refresh docs/STORE_MANUAL_CHECKLIST.md after the final commit. Current document points at df3a0c7."
+    },
+    {
+      "name": "device qa report freshness",
+      "ok": true,
+      "detail": "Working tree has pending changes; clean release candidates must refresh docs/DEVICE_QA_REPORT.md after the final commit. Current document points at df3a0c7."
+    },
+    {
+      "name": "store screenshots report freshness",
+      "ok": true,
+      "detail": "Working tree has pending changes; clean release candidates must refresh docs/STORE_SCREENSHOTS_REPORT.md after the final commit. Current document points at df3a0c7."
+    },
+    {
+      "name": "known issues freshness",
+      "ok": true,
+      "detail": "Working tree has pending changes; clean release candidates must refresh docs/KNOWN_ISSUES.md after the final commit. Current document points at df3a0c7."
+    },
+    {
+      "name": "public url report freshness",
+      "ok": true,
+      "detail": "Working tree has pending changes; clean release candidates must refresh docs/PUBLIC_URL_REPORT.md after the final commit. Current document points at df3a0c7."
+    },
+    {
+      "name": "store submission report freshness",
+      "ok": true,
+      "detail": "Working tree has pending changes; clean release candidates must refresh docs/STORE_SUBMISSION_REPORT.md after the final commit. Current document points at df3a0c7."
+    },
+    {
+      "name": "store console fields freshness",
+      "ok": true,
+      "detail": "Working tree has pending changes; clean release candidates must refresh docs/STORE_CONSOLE_FIELDS.md after the final commit. Current document points at df3a0c7."
+    },
+    {
+      "name": "store handoff report freshness",
+      "ok": true,
+      "detail": "Working tree has pending changes; clean release candidates must refresh docs/STORE_HANDOFF_REPORT.md after the final commit. Current document points at df3a0c7."
+    },
+    {
+      "name": "release notes freshness",
+      "ok": true,
+      "detail": "Working tree has pending changes; clean release candidates must refresh docs/RELEASE_NOTES.md after the final commit. Current document points at df3a0c7."
+    },
+    {
+      "name": "support playbook freshness",
+      "ok": true,
+      "detail": "Working tree has pending changes; clean release candidates must refresh docs/SUPPORT_PLAYBOOK.md after the final commit. Current document points at df3a0c7."
+    },
+    {
+      "name": "store packet report freshness",
+      "ok": true,
+      "detail": "Working tree has pending changes; clean release candidates must refresh docs/STORE_PACKET_REPORT.md after the final commit. Current document points at df3a0c7."
+    },
+    {
+      "name": "customer navigation simplification",
+      "ok": true,
+      "detail": "Customer navigation is reduced to home/popular/categories/my and default deal API favors verified purchase links."
+    },
+    {
+      "name": "keystore example",
+      "ok": true,
+      "detail": "Example signing config is present."
+    },
+    {
+      "name": "Android signing doctor",
+      "ok": true,
+      "detail": "Signing doctor guards Gradle release signing, local secret ignores, example file, docs, and tracked signing secrets."
+    },
+    {
+      "name": "release keystore",
+      "ok": true,
+      "detail": "Not committed. Create android/keystore.properties locally or use Android Studio signing wizard."
+    },
+    {
+      "name": "release AAB",
+      "ok": true,
+      "detail": "android/app/build/outputs/bundle/release/app-release.aab (14242929 bytes)"
+    },
+    {
+      "name": "debug APK",
+      "ok": true,
+      "detail": "android/app/build/outputs/apk/debug/app-debug.apk (10610182 bytes)"
+    },
+    {
+      "name": "store assets",
+      "ok": true,
+      "detail": "Store icon, feature graphic, PWA, Android, and iOS assets have launch-ready dimensions and bright red generation support."
+    }
+  ]
+}

@@ -3,6 +3,7 @@ import { buildBenefitSummary, inferDealBenefitType } from "@/lib/deals/benefits"
 import { buildBenefitClaimGuide } from "@/lib/deals/claimGuide";
 import { deriveProductImageUrlFromPurchaseUrl } from "@/lib/deals/imageResolver";
 import { validatePurchaseLink } from "@/lib/deals/linkValidator";
+import { getDealPriorityScore, resolveDealAvailability, resolveDealValidationStatus, shouldHideDeal } from "@/lib/deals/quality";
 import { verifiedPurchaseLinks } from "./verifiedPurchaseLinks";
 
 const now = Date.now();
@@ -143,6 +144,33 @@ function deal(
   });
   const derivedProductImageUrl = deriveProductImageUrlFromPurchaseUrl(validation.finalPurchaseUrl);
   const displayImageUrl = imageUrl || derivedProductImageUrl || categoryFallbackImages[category] || categoryFallbackImages["기타"];
+  const isSoldOut = validation.linkStatus === "sold_out";
+  const qualityInput = {
+    linkStatus: validation.linkStatus,
+    linkType: validation.linkType,
+    linkVerified: validation.linkVerified,
+    purchaseLinkVerified: validation.purchaseLinkVerified,
+    finalUrl: validation.finalUrl,
+    finalPurchaseUrl: validation.finalPurchaseUrl,
+    isExpired,
+    isSoldOut,
+    purchaseConfidence: validation.purchaseConfidence,
+    reliabilityScore,
+    thumbnail: displayImageUrl,
+    imageUrl: displayImageUrl,
+    salePrice,
+    price: salePrice,
+    originalPrice,
+    discountRate,
+    checkedAt,
+    priceCheckedAt: checkedAt
+  };
+  const availability = resolveDealAvailability(qualityInput);
+  const validationStatus = resolveDealValidationStatus({ ...qualityInput, availability });
+  const validationReason = validation.reason;
+  const lastCheckedAt = checkedAt;
+  const isHidden = shouldHideDeal({ ...qualityInput, availability, validationStatus });
+  const priorityScore = getDealPriorityScore({ ...qualityInput, availability, validationStatus, validationReason, lastCheckedAt, isHidden });
 
   return {
     id,
@@ -163,6 +191,7 @@ function deal(
     verifiedProductUrl: validation.linkVerified ? validation.finalPurchaseUrl : "",
     searchUrl: validation.linkVerified ? fallbackUrl : validation.finalPurchaseUrl,
     originalUrl: link,
+    eventUrl: dealType === "event" || dealType === "coupon" || dealType === "experience" ? validation.finalPurchaseUrl : undefined,
     purchaseUrl,
     finalUrl: validation.finalUrl,
     finalPurchaseUrl: validation.finalPurchaseUrl,
@@ -176,6 +205,12 @@ function deal(
     purchaseConfidence: validation.purchaseConfidence,
     purchaseStatus: validation.linkStatus === "verified" ? "available" : validation.linkStatus,
     purchaseLinkVerified: validation.purchaseLinkVerified,
+    availability,
+    validationStatus,
+    validationReason,
+    lastCheckedAt,
+    priorityScore,
+    isHidden,
     verifiedAt: validation.linkVerified ? checkedAt : undefined,
     lastVerifiedAt: validation.linkVerified ? checkedAt : undefined,
     priceCheckedAt: checkedAt,
@@ -210,7 +245,7 @@ function deal(
     likeCount: Math.round(popularityScore * 3.2),
     viewCount: Math.round(popularityScore * 21),
     reportCount: validation.linkVerified ? 0 : 1,
-    isSoldOut: false,
+    isSoldOut,
     updatedAt: checkedAt,
     mall,
     imageUrl: displayImageUrl,

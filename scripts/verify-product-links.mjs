@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync } from "node:fs";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
@@ -23,6 +23,10 @@ const blockedHosts = [
 const searchPatterns = [
   "/search",
   "search.",
+  "shopping/search",
+  "msearch",
+  "find",
+  "result",
   "query=",
   "keyword=",
   "kwd=",
@@ -227,7 +231,9 @@ const report = {
   issues
 };
 
+mkdirSync(join(root, "reports"), { recursive: true });
 writeFileSync(join(root, "LINK_VERIFICATION_RESULT.json"), `${JSON.stringify(report, null, 2)}\n`, "utf8");
+writeFileSync(join(root, "reports", "link-validation.json"), `${JSON.stringify(report, null, 2)}\n`, "utf8");
 writeFileSync(
   join(root, "LINK_VERIFICATION_REPORT.md"),
   `# 할인도사 Link Verification Report

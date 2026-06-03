@@ -46,9 +46,12 @@ const linkStatusLabels: Record<Deal["linkStatus"], string> = {
 const linkTypeLabels: Record<Deal["linkType"], string> = {
   direct_purchase: "상품 구매 링크",
   seller_search: "링크 확인 필요",
+  search: "검색 링크",
   affiliate: "제휴 구매 링크",
   unavailable: "이동 불가"
 };
+
+const hiddenLinkTypes = new Set<Deal["linkType"]>(["seller_search", "search", "unavailable"]);
 
 function percent(part: number, total: number) {
   if (!total) return 0;
@@ -66,32 +69,131 @@ export function getLinkTypeLabel(type: Deal["linkType"]) {
 export function getLinkReviewActionLabel(deal: Pick<Deal, "linkStatus" | "linkType">) {
   if (deal.linkStatus === "broken") return "링크 교체 필요";
   if (deal.linkStatus === "sold_out") return "노출 종료 검토";
-  if (deal.linkType === "seller_search") return "상품 상세 URL 보강 필요";
+  if (hiddenLinkTypes.has(deal.linkType)) return "상품 상세 URL 보강 필요";
   return "운영 확인 필요";
 }
 
 export function getLinkReviewPriority(deal: Pick<Deal, "linkStatus" | "linkType" | "popularityScore" | "purchaseConfidence" | "isHot" | "isEndingSoon">): LinkReviewQueueItem["reviewPriority"] {
   if (deal.linkStatus === "broken" || deal.linkStatus === "sold_out") return "high";
   if (deal.isHot || deal.isEndingSoon || deal.popularityScore >= 85 || deal.purchaseConfidence < 45) return "high";
-  if (deal.linkType === "seller_search" || deal.popularityScore >= 70) return "medium";
+  if (hiddenLinkTypes.has(deal.linkType) || deal.popularityScore >= 70) return "medium";
   return "low";
 }
 
 export function getLinkReviewReason(deal: Pick<Deal, "linkStatus" | "linkType" | "isHot" | "isEndingSoon" | "purchaseConfidence">) {
   if (deal.linkStatus === "broken") return "이동 실패 링크라 교체가 필요합니다.";
   if (deal.linkStatus === "sold_out") return "품절 가능성이 있어 노출 종료를 검토하세요.";
-  if (deal.linkType === "seller_search") return "검색 결과 이동 상품입니다. 실제 상품 상세 URL을 보강하세요.";
+  if (hiddenLinkTypes.has(deal.linkType)) return "검색 결과 또는 이동 불가 링크입니다. 실제 상품 상세 URL을 보강하세요.";
   if (deal.isHot || deal.isEndingSoon) return "상단 노출 가능성이 높아 링크 정확도 확인이 필요합니다.";
   if (deal.purchaseConfidence < 50) return "구매 링크 신뢰도가 낮아 재확인이 필요합니다.";
   return "운영 확인이 필요한 링크입니다.";
 }
 
-export function isVerifiedPurchaseLink(deal: Pick<Deal, "linkStatus" | "linkType">) {
-  return deal.linkStatus === "verified" && deal.linkType !== "seller_search" && deal.linkType !== "unavailable";
+type VisibilityInput = Pick<Deal, "linkStatus" | "linkType"> &
+  Partial<
+    Pick<
+      Deal,
+      | "availability"
+      | "validationStatus"
+      | "validationReason"
+      | "isHidden"
+      | "finalPurchaseUrl"
+      | "finalUrl"
+      | "purchaseLinkVerified"
+      | "linkVerified"
+      | "isExpired"
+      | "isSoldOut"
+      | "thumbnail"
+      | "imageUrl"
+      | "salePrice"
+      | "price"
+      | "originalPrice"
+      | "discountRate"
+      | "purchaseConfidence"
+      | "reliabilityScore"
+      | "lastCheckedAt"
+      | "checkedAt"
+      | "priceCheckedAt"
+    >
+  >;
+
+export function isSearchLinkType(linkType: Deal["linkType"]) {
+  return linkType === "seller_search" || linkType === "search";
+}
+
+export function resolveDealAvailability(deal: VisibilityInput): Deal["availability"] {
+  if (deal.availability) return deal.availability;
+  if (deal.isSoldOut || deal.linkStatus === "sold_out") return "sold_out";
+  if (deal.isExpired) return "ended";
+  if (deal.linkStatus === "verified" && !hiddenLinkTypes.has(deal.linkType)) return "active";
+  return "unknown";
+}
+
+export function resolveDealValidationStatus(deal: VisibilityInput): Deal["validationStatus"] {
+  if (deal.validationStatus) return deal.validationStatus;
+  if (deal.linkStatus === "broken" || deal.linkStatus === "sold_out" || hiddenLinkTypes.has(deal.linkType)) return "failed";
+  if (deal.linkStatus === "verified" && Boolean(deal.finalPurchaseUrl || deal.finalUrl)) return "passed";
+  return "needs_review";
+}
+
+export function shouldHideDeal(deal: VisibilityInput) {
+  const availability = resolveDealAvailability(deal);
+  const validationStatus = resolveDealValidationStatus(deal);
+  const hasDestination = Boolean(deal.finalPurchaseUrl || deal.finalUrl);
+
+  return (
+    deal.isHidden === true ||
+    availability !== "active" ||
+    validationStatus !== "passed" ||
+    deal.linkStatus !== "verified" ||
+    hiddenLinkTypes.has(deal.linkType) ||
+    !hasDestination
+  );
+}
+
+export function getDealPriorityScore(deal: VisibilityInput) {
+  let score = 50;
+
+  if (deal.linkStatus === "verified" && !hiddenLinkTypes.has(deal.linkType)) score += deal.linkType === "affiliate" ? 24 : 20;
+  if (deal.purchaseLinkVerified || deal.linkVerified) score += 10;
+  if (deal.finalPurchaseUrl || deal.finalUrl) score += 8;
+  if (deal.thumbnail || deal.imageUrl) score += 8;
+  if ((deal.salePrice ?? deal.price ?? 0) > 0 && (deal.originalPrice ?? 0) >= (deal.salePrice ?? deal.price ?? 0)) score += 8;
+  if ((deal.discountRate ?? 0) > 0) score += 5;
+  if ((deal.purchaseConfidence ?? 0) >= 80) score += 6;
+  if ((deal.reliabilityScore ?? 0) >= 90) score += 4;
+  if (deal.lastCheckedAt || deal.checkedAt || deal.priceCheckedAt) score += 4;
+  if (isSearchLinkType(deal.linkType)) score -= 45;
+  if (deal.linkType === "unavailable") score -= 50;
+  if (deal.linkStatus === "broken") score -= 55;
+  if (deal.linkStatus === "sold_out" || deal.isSoldOut) score -= 60;
+  if (deal.isExpired) score -= 55;
+  if (shouldHideDeal(deal)) score -= 20;
+
+  return Math.max(0, Math.min(100, Math.round(score)));
+}
+
+export function isVerifiedPurchaseLink(deal: VisibilityInput) {
+  const validationStatus = resolveDealValidationStatus(deal);
+  const availability = resolveDealAvailability(deal);
+  const hasDestination = "finalPurchaseUrl" in deal || "finalUrl" in deal ? Boolean(deal.finalPurchaseUrl || deal.finalUrl) : true;
+
+  return (
+    deal.linkStatus === "verified" &&
+    !hiddenLinkTypes.has(deal.linkType) &&
+    validationStatus === "passed" &&
+    availability === "active" &&
+    deal.isHidden !== true &&
+    hasDestination
+  );
+}
+
+export function isPubliclyVisibleDeal(deal: VisibilityInput) {
+  return isVerifiedPurchaseLink(deal) && !shouldHideDeal(deal);
 }
 
 export function needsLinkReview(deal: Pick<Deal, "linkStatus" | "linkType">) {
-  return !isVerifiedPurchaseLink(deal) || deal.linkType === "seller_search";
+  return !isVerifiedPurchaseLink(deal) || hiddenLinkTypes.has(deal.linkType);
 }
 
 export function getLinkQualityScore(deal: Pick<Deal, "linkStatus" | "linkType">) {

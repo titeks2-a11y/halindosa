@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { mockDeals } from "@/data/mockDeals";
 import { getDeals, normalizeSort } from "@/lib/dealService";
 import { normalizeDeals } from "@/lib/deals/normalizer";
-import { isVerifiedPurchaseLink, summarizeDealQuality } from "@/lib/deals/quality";
+import { isPubliclyVisibleDeal, summarizeDealQuality } from "@/lib/deals/quality";
 
 export async function GET(request: Request) {
   try {
@@ -36,7 +36,7 @@ export async function GET(request: Request) {
       message: "할인도사 특가 데이터를 성공적으로 불러왔습니다."
     });
   } catch (error) {
-    const fallbackDeals = normalizeDeals(mockDeals, "mock").filter((deal) => isVerifiedPurchaseLink(deal) && deal.purchaseLinkVerified && deal.linkStatus === "verified" && Boolean(deal.finalPurchaseUrl));
+    const fallbackDeals = normalizeDeals(mockDeals, "mock").filter(isPubliclyVisibleDeal);
 
     return NextResponse.json(
       {

@@ -12,9 +12,11 @@ export type DealCategory =
   | "기타";
 
 export type DealSort = "latest" | "discount" | "price" | "hot" | "endingSoon";
-export type DealLinkType = "direct_purchase" | "seller_search" | "affiliate" | "unavailable";
+export type DealLinkType = "direct_purchase" | "seller_search" | "search" | "affiliate" | "unavailable";
 export type DealLinkStatus = "verified" | "needs_review" | "broken" | "sold_out";
 export type DealPurchaseStatus = "available" | "needs_review" | "sold_out" | "broken";
+export type DealAvailability = "active" | "sold_out" | "ended" | "unknown";
+export type DealValidationStatus = "passed" | "failed" | "needs_review";
 export type DealBenefitType =
   | "discount"
   | "freebie"
@@ -60,6 +62,13 @@ export interface Deal {
   finalPurchaseUrl: string;
   sourceUrl?: string;
   sourceName?: string;
+  eventUrl?: string;
+  availability: DealAvailability;
+  validationStatus: DealValidationStatus;
+  validationReason: string;
+  lastCheckedAt: string;
+  priorityScore: number;
+  isHidden: boolean;
   verifiedAt?: string;
   lastVerifiedAt?: string;
   priceCheckedAt: string;
