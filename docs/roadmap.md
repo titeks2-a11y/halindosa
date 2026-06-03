@@ -47,6 +47,7 @@
 - `/api/admin/push/send`와 `lib/pushNotifications.ts`를 추가해 FCM 환경변수가 설정되면 실제 발송 요청을 처리하고, 설정 전에는 dry-run/readiness로 안전하게 검증하도록 구조화했다.
 - `/admin`에 `FCM 테스트 발송 dry-run` 패널을 추가해 검증 상품/공식 혜택 캠페인 payload를 테스트 토큰으로 검증하고, 실제 발송은 FCM 설정과 명시적 확인 체크가 있을 때만 가능하도록 운영 안전장치를 마련했다.
 - `lib/pushReadiness.ts`와 `/api/admin/push-readiness`를 추가해 실제 권한 요청 전에도 관심 카테고리 세그먼트, 동의/철회 체크, `push_subscriptions`, `push_notification_queue`, 공식 혜택/상품 캠페인 큐 준비도를 관리자와 smoke/release gate에서 확인하도록 보강했다.
+- `push:readiness:report`를 추가해 검증 상품/공식 혜택 후보, 캠페인 큐 행, 관심 세그먼트 커버리지, DB 스키마/RLS, dry-run 기준을 `reports/push-readiness.json`과 `docs/PUSH_READINESS_REPORT.md`로 남기고 QA/release doctor에서 실제 FCM 연결 전 출시 준비도를 파일 증거로 확인하도록 보강했다.
 - 링크 후보 우선순위를 `affiliateUrl -> verifiedProductUrl -> finalPurchaseUrl/finalUrl -> productUrl/purchaseUrl -> originalUrl/eventUrl -> link -> searchUrl`로 정리해 파트너/공식 feed가 검색 URL을 함께 보내도 검증된 상세 URL을 먼저 판정하도록 강화했다.
 - Provider 사전 검증에서 커뮤니티/placeholder/대표몰/검색 URL을 `valid`로 세지 않도록 막고, 공개 API는 `availability=active`, `validationStatus=passed`, `isHidden=false`, `linkType`이 검색/이동불가가 아닌 상품만 노출하도록 QA 게이트를 상향했다.
 - `data/linkQualityPolicy.json`을 추가해 검색/카테고리 URL, 커뮤니티/placeholder 도메인, 품절/판매종료 문구, 상품 상세 URL 신호, 공식 혜택 URL 신호를 단일 정책으로 관리하고, 런타임 validator, provider intake, `verify:links`, `verify:products`, `refresh:deals`, `release:doctor`가 같은 정책을 보도록 정리했다.

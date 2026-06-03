@@ -46,6 +46,9 @@ npm run smoke
 - 관리자: `GET /admin?token=$ADMIN_EXPORT_TOKEN`
 - 푸시 준비 상태: `GET /api/admin/push/send?token=$ADMIN_EXPORT_TOKEN`
   - 구독/동의 준비도: `GET /api/admin/push-readiness?token=$ADMIN_EXPORT_TOKEN`
+  - 파일 리포트: `npm run push:readiness:report`
+    - `reports/push-readiness.json`과 `docs/PUSH_READINESS_REPORT.md`를 생성한다.
+    - 출시 전 `launchStatus=dry_run_ready` 이상, `queueRows >= 30`, 관심 세그먼트 10개 이상 준비를 기준으로 본다.
   - `/admin`의 “푸시 구독·동의 준비도”는 관심 카테고리 세그먼트, 동의/철회 체크, 큐 행, dry-run 상태를 함께 보여준다.
   - `PUSH_SEND_ENABLED=false`이면 readiness/dry-run만 제공한다.
   - 실제 FCM 발송은 `PUSH_SEND_ENABLED=true`와 `FCM_SERVER_KEY`를 서버 환경변수로 넣은 뒤 관리자 토큰으로 보호된 `POST /api/admin/push/send?token=...`에서만 실행한다.

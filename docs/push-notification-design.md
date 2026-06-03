@@ -49,3 +49,13 @@ FCM_PROJECT_ID=
 - 실제 발송 작업자는 `dry_run_only=false`, `status=queued`, 사용자 동의가 확인된 구독만 대상으로 처리한다.
 - 공식 혜택 뉴스/이벤트는 `benefit_id`와 `source_kind=official_benefit`로 상품 알림과 분리한다.
 - V1은 `dry_run_ready` 상태를 출시 기준으로 삼고, `send_ready`는 FCM 키, 테스트 토큰, 사용자 동의 플로우가 모두 검증된 뒤에만 활성화한다.
+
+## 운영 리포트
+
+```bash
+npm run push:readiness:report
+```
+
+- `reports/push-readiness.json`: 검증 상품 수, 공식 혜택 수, 캠페인 후보, 큐 후보 행, 관심 세그먼트 커버리지, 동의/철회 체크, DB 테이블 준비도를 기록한다.
+- `docs/PUSH_READINESS_REPORT.md`: 운영자가 출시 전 확인할 수 있는 Markdown 요약이다.
+- 출시 전 기준: `launchStatus`가 `dry_run_ready` 이상, `queueRows >= 30`, 관심 세그먼트 10개 이상, `push_subscriptions`/`push_notification_queue`/`price_drop_alerts` RLS 준비.
