@@ -721,14 +721,28 @@ async function checkAuthSurface() {
     pass("native OAuth deep link handler", "Capacitor OAuth deep links are bridged into the web callback route.");
   }
 
-  const requiredTables = ["user_profiles", "user_favorite_deals", "user_recent_deals", "deal_click_logs", "price_drop_alerts"];
+  const requiredTables = [
+    "user_profiles",
+    "user_favorite_deals",
+    "user_recent_deals",
+    "deal_click_logs",
+    "price_drop_alerts",
+    "deals",
+    "deal_validation_logs",
+    "provider_runs",
+    "admin_actions",
+    "push_subscriptions",
+    "deal_engagement_rollups",
+    "deal_popularity_snapshots",
+    "push_notification_queue"
+  ];
   const missingTables = requiredTables.filter((table) => !schema.includes(table));
   if (missingTables.length) {
     fail("member database schema", `Missing Supabase tables: ${missingTables.join(", ")}`);
   } else if (!schema.includes("users manage own favorites") || !schema.includes("users manage own recent deals") || !schema.includes("user_id null") || !schema.includes("favorites as") || !schema.includes("recent_views as")) {
     fail("member database schema", "Supabase schema should include RLS for own favorites/recent data, deletion anonymization notes, and compatibility views.");
   } else {
-    pass("member database schema", "Supabase schema includes profiles, favorites, recent deals, clicks, and price alerts.");
+    pass("member database schema", "Supabase schema includes profiles, favorites, recent deals, clicks, price alerts, engagement rollups, provider logs, admin audit, and push notification queue.");
   }
 
   if (!smoke.includes("auth pages") || !smoke.includes("oauth callback") || !smoke.includes("account deletion guard")) {
@@ -1154,18 +1168,23 @@ async function checkUiAccessibility() {
   const packageJson = await text("package.json");
 
   if (
-    !tailwindConfig.includes('red: "#ff173f"') ||
-    !tailwindConfig.includes("bright") ||
+    !tailwindConfig.includes('red: "#ff2b2b"') ||
+    !tailwindConfig.includes('coral: "#ff6a4a"') ||
+    !tailwindConfig.includes('gold: "#f7c948"') ||
+    !tailwindConfig.includes('navy: "#121b35"') ||
     (!tailwindConfig.includes("shadow:") && !tailwindConfig.includes("brand:")) ||
-    !globalsCss.includes("--brand-red: #ff173f") ||
-    !globalsCss.includes("--brand-red-bright: #ff2a4f") ||
+    !globalsCss.includes("--brand-red: #ff2b2b") ||
+    !globalsCss.includes("--brand-coral: #ff6a4a") ||
+    !globalsCss.includes("--brand-gold: #f7c948") ||
+    !globalsCss.includes("--brand-navy: #121b35") ||
+    !globalsCss.includes(".premium-gradient") ||
     !homePage.includes("shadow-brand") ||
     !commercializationPage.includes("bg-dossa-red") ||
     !authForm.includes("bg-dossa-red")
   ) {
-    fail("v2 brand color system", "Brand red should use a bright commercial token across Tailwind, globals, home, auth, and launch readiness surfaces.");
+    fail("v2 brand color system", "Brand tokens should use bright red plus coral, gold, navy, and warm commerce support colors across Tailwind, globals, home, auth, and launch readiness surfaces.");
   } else {
-    pass("v2 brand color system", "Bright red brand tokens are centralized and used across home, auth, and launch readiness surfaces.");
+    pass("v2 brand color system", "Premium red, coral, gold, navy, and warm commerce tokens are centralized and used across home, auth, and launch readiness surfaces.");
   }
 
   const requiredSnippets = [

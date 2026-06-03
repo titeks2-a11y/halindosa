@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-03T07:24:28.638Z",
+  "generatedAt": "2026-06-03T07:41:19.459Z",
   "ok": true,
   "fetchedCount": 140,
   "normalizedCount": 140,
@@ -115,7 +115,7 @@
   ],
   "reports": {
     "linkValidation": {
-      "generatedAt": "2026-06-03T07:24:28.727Z",
+      "generatedAt": "2026-06-03T07:41:19.542Z",
       "totalDeals": 140,
       "verificationTargets": 140,
       "passedDirectLinks": 140,
@@ -217,7 +217,7 @@
       "issues": []
     },
     "productQuality": {
-      "generatedAt": "2026-06-03T07:24:28.822Z",
+      "generatedAt": "2026-06-03T07:41:19.634Z",
       "totalProducts": 140,
       "passedProducts": 140,
       "failedProducts": 0,
@@ -244,8 +244,8 @@
       "command": "node scripts/verify-product-links.mjs",
       "ok": true,
       "status": 0,
-      "startedAt": "2026-06-03T07:24:28.651Z",
-      "finishedAt": "2026-06-03T07:24:28.750Z",
+      "startedAt": "2026-06-03T07:41:19.471Z",
+      "finishedAt": "2026-06-03T07:41:19.564Z",
       "stdout": "Product link verification passed: 140/140 verified purchase URLs (100%).\n- Distinct purchase hosts: 48\n- Product detail URLs: 109\n- Official benefit/event URLs: 31",
       "stderr": ""
     },
@@ -254,8 +254,8 @@
       "command": "node scripts/verify-products.mjs",
       "ok": true,
       "status": 0,
-      "startedAt": "2026-06-03T07:24:28.750Z",
-      "finishedAt": "2026-06-03T07:24:28.835Z",
+      "startedAt": "2026-06-03T07:41:19.564Z",
+      "finishedAt": "2026-06-03T07:41:19.645Z",
       "stdout": "Product quality verification passed.\n- Total products: 140\n- Visible products: 140\n- Hidden products: 0\n- Search links exposed: 0",
       "stderr": ""
     }

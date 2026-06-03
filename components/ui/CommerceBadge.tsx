@@ -1,11 +1,12 @@
 import type { ReactNode } from "react";
 
-type CommerceBadgeTone = "primary" | "gold" | "navy" | "success" | "neutral" | "warning";
+type CommerceBadgeTone = "primary" | "coral" | "gold" | "navy" | "success" | "neutral" | "warning";
 
 const toneClassNames: Record<CommerceBadgeTone, string> = {
   primary: "bg-red-50 text-dossa-red",
+  coral: "bg-orange-50 text-orange-700",
   gold: "bg-yellow-50 text-yellow-700",
-  navy: "bg-slate-950 text-white",
+  navy: "bg-brand-navy text-white",
   success: "bg-emerald-50 text-emerald-700",
   neutral: "bg-slate-100 text-slate-600",
   warning: "bg-amber-50 text-amber-700"

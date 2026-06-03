@@ -9,38 +9,46 @@ const config: Config = {
     extend: {
       colors: {
         brand: {
-          primary: "#ff173f",
-          coral: "#ff6a3d",
+          primary: "#ff2b2b",
+          primaryDeep: "#e9162d",
+          primarySoft: "#fff1f1",
+          coral: "#ff6a4a",
           orange: "#ff8a1f",
-          gold: "#f6c343",
+          gold: "#f7c948",
           amber: "#f59e0b",
-          navy: "#172554",
+          navy: "#121b35",
+          navySoft: "#eaf0ff",
           ink: "#111827",
           steel: "#334155",
+          muted: "#64748b",
           line: "#e8e2d9",
           canvas: "#fbfaf7",
-          warm: "#f5f1ea",
+          warm: "#f6f1e8",
           surface: "#fffdf8",
+          elevated: "#ffffff",
           success: "#059669",
-          warning: "#d97706"
+          successSoft: "#ecfdf5",
+          warning: "#d97706",
+          warningSoft: "#fff7ed"
         },
         dossa: {
-          red: "#ff173f",
-          bright: "#ff2a4f",
-          deep: "#e0002a",
-          ink: "#8f001b",
-          soft: "#fff1f4",
-          tint: "#ffe4ea"
+          red: "#ff2b2b",
+          bright: "#ff4d4f",
+          deep: "#e9162d",
+          ink: "#9f1239",
+          soft: "#fff1f1",
+          tint: "#ffe4e4"
         }
       },
       boxShadow: {
-        deal: "0 14px 34px rgba(15, 23, 42, 0.08)",
-        brand: "0 18px 44px rgba(255, 23, 63, 0.18)",
-        commerce: "0 18px 45px rgba(17, 24, 39, 0.08)",
-        lift: "0 10px 28px rgba(17, 24, 39, 0.07)"
+        deal: "0 10px 26px rgba(18, 27, 53, 0.07)",
+        brand: "0 18px 44px rgba(255, 43, 43, 0.16)",
+        commerce: "0 18px 45px rgba(18, 27, 53, 0.09)",
+        lift: "0 8px 22px rgba(18, 27, 53, 0.07)",
+        focus: "0 0 0 4px rgba(255, 106, 74, 0.16)"
       },
       borderRadius: {
-        "deal-card": "20px",
+        "deal-card": "16px",
         "commerce": "24px"
       }
     }

@@ -134,6 +134,43 @@ comment on table public.provider_runs is 'Coupang/Naver/11st/Event/Manual provid
 
 create index if not exists provider_runs_provider_started_idx on public.provider_runs (provider, started_at desc);
 
+create table if not exists public.deal_engagement_rollups (
+  deal_id text primary key references public.deals(id) on delete cascade,
+  click_count integer not null default 0,
+  favorite_count integer not null default 0,
+  recent_click_count integer not null default 0,
+  recent_favorite_count integer not null default 0,
+  category_rank integer,
+  overall_rank integer,
+  ranking_score numeric not null default 0,
+  refreshed_at timestamptz not null default now()
+);
+
+comment on table public.deal_engagement_rollups is '찜/클릭 기반 인기 특가 집계. 홈 인기 특가, 카테고리별 인기, 최근 인기 특가 랭킹을 재배포와 무관하게 유지한다.';
+
+create index if not exists deal_engagement_rollups_score_idx
+  on public.deal_engagement_rollups (ranking_score desc, refreshed_at desc);
+
+create index if not exists deal_engagement_rollups_category_rank_idx
+  on public.deal_engagement_rollups (category_rank, overall_rank);
+
+create table if not exists public.deal_popularity_snapshots (
+  id uuid primary key default gen_random_uuid(),
+  deal_id text references public.deals(id) on delete cascade,
+  snapshot_date date not null default current_date,
+  click_count integer not null default 0,
+  favorite_count integer not null default 0,
+  rank_position integer,
+  category text,
+  created_at timestamptz not null default now(),
+  unique (deal_id, snapshot_date)
+);
+
+comment on table public.deal_popularity_snapshots is '일별 인기 특가 스냅샷. 어제 대비 급상승, 주간 인기, 카테고리별 랭킹 계산에 사용한다.';
+
+create index if not exists deal_popularity_snapshots_date_idx
+  on public.deal_popularity_snapshots (snapshot_date desc, rank_position);
+
 create table if not exists public.admin_actions (
   id uuid primary key default gen_random_uuid(),
   admin_user_id uuid references auth.users(id) on delete set null,
@@ -169,6 +206,31 @@ comment on table public.push_subscriptions is '향후 FCM/Web Push 알림 구독
 
 create index if not exists push_subscriptions_user_idx on public.push_subscriptions (user_id, enabled);
 create index if not exists push_subscriptions_platform_idx on public.push_subscriptions (platform, enabled);
+
+create table if not exists public.push_notification_queue (
+  id uuid primary key default gen_random_uuid(),
+  deal_id text references public.deals(id) on delete set null,
+  alert_type text not null,
+  title text not null,
+  body text not null,
+  target_categories text[] not null default '{}',
+  target_user_ids uuid[] not null default '{}',
+  status text not null default 'queued',
+  scheduled_at timestamptz not null default now(),
+  sent_at timestamptz,
+  failure_reason text,
+  payload jsonb not null default '{}',
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+comment on table public.push_notification_queue is '특가 등록, 무료 이벤트, 가격 인하, 품절 임박, 관심 카테고리 알림 발송 큐. FCM 서버 키가 준비된 뒤 service_role 작업자가 처리한다.';
+
+create index if not exists push_notification_queue_status_idx
+  on public.push_notification_queue (status, scheduled_at);
+
+create index if not exists push_notification_queue_deal_idx
+  on public.push_notification_queue (deal_id, created_at desc);
 
 create table if not exists public.price_drop_alerts (
   id uuid primary key default gen_random_uuid(),
@@ -233,8 +295,11 @@ alter table public.deal_click_logs enable row level security;
 alter table public.price_drop_alerts enable row level security;
 alter table public.deal_validation_logs enable row level security;
 alter table public.provider_runs enable row level security;
+alter table public.deal_engagement_rollups enable row level security;
+alter table public.deal_popularity_snapshots enable row level security;
 alter table public.admin_actions enable row level security;
 alter table public.push_subscriptions enable row level security;
+alter table public.push_notification_queue enable row level security;
 
 create policy "public read deals"
   on public.deals for select
@@ -303,6 +368,24 @@ create policy "service manages provider runs"
   using (auth.role() = 'service_role')
   with check (auth.role() = 'service_role');
 
+create policy "public read engagement rollups"
+  on public.deal_engagement_rollups for select
+  using (true);
+
+create policy "service manages engagement rollups"
+  on public.deal_engagement_rollups for all
+  using (auth.role() = 'service_role')
+  with check (auth.role() = 'service_role');
+
+create policy "public read popularity snapshots"
+  on public.deal_popularity_snapshots for select
+  using (true);
+
+create policy "service manages popularity snapshots"
+  on public.deal_popularity_snapshots for all
+  using (auth.role() = 'service_role')
+  with check (auth.role() = 'service_role');
+
 create policy "service manages admin actions"
   on public.admin_actions for all
   using (auth.role() = 'service_role')
@@ -315,6 +398,11 @@ create policy "users manage own push subscriptions"
 
 create policy "service manages push subscriptions"
   on public.push_subscriptions for all
+  using (auth.role() = 'service_role')
+  with check (auth.role() = 'service_role');
+
+create policy "service manages push notification queue"
+  on public.push_notification_queue for all
   using (auth.role() = 'service_role')
   with check (auth.role() = 'service_role');
 

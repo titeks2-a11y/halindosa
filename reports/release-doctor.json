@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-03T07:26:49.760Z",
+  "generatedAt": "2026-06-03T07:47:59.492Z",
   "totalChecks": 174,
   "passedChecks": 174,
   "failedChecks": 0,
@@ -138,7 +138,7 @@
     {
       "name": "member database schema",
       "ok": true,
-      "detail": "Supabase schema includes profiles, favorites, recent deals, clicks, and price alerts."
+      "detail": "Supabase schema includes profiles, favorites, recent deals, clicks, price alerts, engagement rollups, provider logs, admin audit, and push notification queue."
     },
     {
       "name": "auth smoke coverage",
@@ -198,7 +198,7 @@
     {
       "name": "v2 brand color system",
       "ok": true,
-      "detail": "Bright red brand tokens are centralized and used across home, auth, and launch readiness surfaces."
+      "detail": "Premium red, coral, gold, navy, and warm commerce tokens are centralized and used across home, auth, and launch readiness surfaces."
     },
     {
       "name": "deal card accessibility",

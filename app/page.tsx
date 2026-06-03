@@ -1204,8 +1204,10 @@ export default function Home() {
   const stats = useMemo(() => {
     const hotCount = deals.filter((deal) => deal.isHot).length;
     const endingCount = deals.filter((deal) => deal.isEndingSoon).length;
-    return { hotCount, endingCount };
-  }, [deals]);
+    const newCount = deals.filter((deal) => deal.isNew).length;
+    const favoriteSignalCount = deals.filter((deal) => deal.likeCount >= 500 || favorites.includes(deal.id)).length;
+    return { hotCount, endingCount, newCount, favoriteSignalCount };
+  }, [deals, favorites]);
 
   const dataQuality = useMemo(() => {
     const source = deals.length ? deals : catalog;
@@ -2310,25 +2312,28 @@ export default function Home() {
             새로고침
           </button>
         </div>
-        <div className="rounded-2xl border border-slate-200 bg-white px-2 py-2 shadow-sm sm:rounded-[22px] sm:px-3 sm:py-3">
-          <div className="flex gap-1.5 overflow-x-auto [scrollbar-width:none] sm:gap-2 sm:pb-1 [&::-webkit-scrollbar]:hidden">
-            <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-red-50 px-2.5 py-1.5 sm:gap-2 sm:px-3 sm:py-2">
-              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-white text-dossa-red sm:h-7 sm:w-7">
-                <ShieldCheck size={14} className="sm:h-[18px] sm:w-[18px]" />
+        <div className="rounded-2xl border border-brand-line bg-brand-surface px-2 py-2 shadow-lift sm:rounded-[22px] sm:px-3 sm:py-3" aria-label="오늘 특가 운영 상태">
+          <div className="grid grid-cols-3 gap-1.5 sm:grid-cols-5 sm:gap-2">
+            {[
+              { label: "오늘의 특가", value: `${deals.length}개`, tone: "text-brand-navy bg-brand-navySoft" },
+              { label: "실시간 검증", value: `${dataQuality.verifiedLinkCount}개`, tone: "text-emerald-700 bg-emerald-50" },
+              { label: "오늘 업데이트", value: `${stats.newCount}개`, tone: "text-orange-700 bg-orange-50" },
+              { label: "인기 반응", value: `${stats.hotCount}개`, tone: "hidden sm:flex text-dossa-red bg-red-50" },
+              { label: "상태", value: isOffline ? "오프라인" : "네트워크 정상", tone: "hidden sm:flex text-slate-700 bg-white" }
+            ].map((item) => (
+              <span key={item.label} className={`flex min-w-0 flex-col rounded-2xl px-2.5 py-2 ${item.tone}`}>
+                <span className="truncate text-[10px] font-black opacity-70">{item.label}</span>
+                <span className="mt-0.5 truncate text-[12px] font-black sm:text-sm">{item.value}</span>
               </span>
-              <span className="text-[11px] font-black text-dossa-deep sm:text-xs">상태</span>
-              <span className="text-[11px] font-black text-slate-950 sm:text-xs">{getProviderDisplayLabel(providerSource)}</span>
-            </span>
-            <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-slate-50 px-2.5 py-1.5 text-[11px] font-black text-slate-700 sm:gap-2 sm:px-3 sm:py-2 sm:text-xs">
-              {deals.length}개 특가
-            </span>
-            <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-amber-50 px-2.5 py-1.5 text-[11px] font-black text-amber-800 sm:gap-2 sm:px-3 sm:py-2 sm:text-xs">
-              가격 변동
-            </span>
-            <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-slate-50 px-2.5 py-1.5 text-[11px] font-black text-slate-700 sm:gap-2 sm:px-3 sm:py-2 sm:text-xs">
-              <b className="text-slate-950">{isOffline ? "오프라인" : "네트워크 정상"}</b>
-            </span>
+            ))}
           </div>
+          <div className="mt-1.5 flex items-center justify-between gap-2 px-1 text-[11px] font-bold text-slate-500 sm:hidden">
+            <span>{getProviderDisplayLabel(providerSource)}</span>
+            <span>{isOffline ? "오프라인" : "네트워크 정상"}</span>
+          </div>
+          <p className="mt-1.5 px-1 text-[11px] font-bold text-slate-500">
+            가격/재고 변동 가능 · 구매 전 판매처에서 최종 조건 확인
+          </p>
         </div>
         <div className="hidden rounded-[22px] border border-slate-200 bg-white px-4 py-3 shadow-sm sm:block">
           <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
