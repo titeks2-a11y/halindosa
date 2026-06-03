@@ -93,6 +93,9 @@ if (!linkReport) {
   if ((linkReport.searchOrCategorySuspected ?? 0) !== 0) {
     issues.push(`검색/카테고리 링크가 남아 있습니다: ${linkReport.searchOrCategorySuspected}`);
   }
+  if ((linkReport.soldOutOrEndedSuspected ?? 0) !== 0 || (linkReport.exposedSoldOutLinks ?? 0) !== 0) {
+    issues.push(`품절/판매종료 의심 링크가 남아 있습니다: ${linkReport.soldOutOrEndedSuspected ?? linkReport.exposedSoldOutLinks}`);
+  }
   if ((linkReport.communitySuspected ?? 0) !== 0) {
     issues.push(`커뮤니티 링크가 남아 있습니다: ${linkReport.communitySuspected}`);
   }
@@ -145,7 +148,7 @@ const report = {
   passedProducts: issues.length ? 0 : visibleProducts,
   failedProducts: issues.length ? totalProducts - visibleProducts : 0,
   searchLinks: linkReport?.searchOrCategorySuspected ?? 0,
-  soldOutProducts: 0,
+  soldOutProducts: linkReport?.soldOutOrEndedSuspected ?? linkReport?.exposedSoldOutLinks ?? 0,
   hiddenProducts,
   visibleProducts: issues.length ? 0 : visibleProducts,
   verifiedPurchaseLinks: verifiedLinkIds.size,

@@ -37,10 +37,43 @@ const searchPatterns = [
   "/category",
   "/categories"
 ];
+const unavailablePatterns = [
+  "품절",
+  "일시품절",
+  "구매불가",
+  "판매종료",
+  "판매중지",
+  "재입고알림",
+  "이벤트종료",
+  "행사종료",
+  "마감"
+];
 const allowedSources = new Set(["manual_review", "partner_feed", "official_api"]);
 const minimums = {
   distinctHosts: 18,
   evidenceLength: 12
+};
+const liveProbeEnabled = process.env.DEAL_LINK_LIVE_PROBE === "true" || process.env.DEAL_REFRESH_LIVE_PROBE === "true";
+const liveProbeStrict = process.env.DEAL_LINK_LIVE_STRICT === "true";
+const bodyProbeEnabled = process.env.DEAL_LINK_BODY_PROBE === "true";
+const probeTimeoutMs = Number(process.env.DEAL_LINK_TIMEOUT_MS ?? 3500);
+const liveProbe = {
+  enabled: liveProbeEnabled,
+  strict: liveProbeStrict,
+  bodyProbe: bodyProbeEnabled,
+  timeoutMs: probeTimeoutMs,
+  checked: 0,
+  passed: 0,
+  failed: 0,
+  redirected: 0,
+  finalUrlChanged: 0,
+  http404: 0,
+  http410: 0,
+  http5xx: 0,
+  timeout: 0,
+  robotsBlocked: 0,
+  unavailableText: 0,
+  failures: []
 };
 
 function isBlockedHost(host) {
@@ -57,6 +90,10 @@ function isSearchLike(url) {
   if (/event|benefit|campaign|coupon|promotion/i.test(`${url.pathname}${url.search}${url.hash}`)) return false;
   const value = `${url.hostname}${url.pathname}${url.search}`.toLowerCase();
   return searchPatterns.some((pattern) => value.includes(pattern));
+}
+
+function containsUnavailableText(text) {
+  return unavailablePatterns.some((pattern) => text.includes(pattern));
 }
 
 function hasProductDetailSignal(url) {
@@ -93,10 +130,106 @@ function hasProductDetailSignal(url) {
   ].some((pattern) => pattern.test(value));
 }
 
+async function fetchWithTimeout(url, options) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), probeTimeoutMs);
+
+  try {
+    return await fetch(url, {
+      ...options,
+      redirect: "follow",
+      headers: {
+        "User-Agent": "HalindosaLinkVerifier/1.0 (+https://halindosa.com)",
+        Accept: "text/html,application/xhtml+xml,application/json;q=0.8,*/*;q=0.5",
+        ...(options.headers ?? {})
+      },
+      signal: controller.signal
+    });
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
+async function probeLiveUrl(urlValue) {
+  const result = {
+    ok: false,
+    status: 0,
+    finalUrl: urlValue,
+    reason: "not_checked",
+    bodyChecked: false,
+    unavailableText: false
+  };
+
+  try {
+    let response = await fetchWithTimeout(urlValue, { method: "HEAD" });
+
+    if ([403, 404, 405, 501].includes(response.status) || bodyProbeEnabled) {
+      response = await fetchWithTimeout(urlValue, {
+        method: "GET",
+        headers: bodyProbeEnabled ? { Range: "bytes=0-65535" } : {}
+      });
+    }
+
+    result.status = response.status;
+    result.finalUrl = response.url || urlValue;
+    result.ok = response.status >= 200 && response.status < 400;
+
+    if (response.status === 403 || response.status === 401) result.reason = "robots_or_access_blocked";
+    else if (response.status === 404) result.reason = "http_404";
+    else if (response.status === 410) result.reason = "http_410";
+    else if (response.status >= 500) result.reason = `http_${response.status}`;
+    else result.reason = result.ok ? "http_ok" : `http_${response.status}`;
+
+    const contentType = response.headers.get("content-type") ?? "";
+    if (bodyProbeEnabled && /text|html|json/i.test(contentType)) {
+      const body = await response.text();
+      result.bodyChecked = true;
+      result.unavailableText = containsUnavailableText(body.slice(0, 65535));
+      if (result.unavailableText) {
+        result.ok = false;
+        result.reason = "sold_out_or_ended_text";
+      }
+    }
+
+    return result;
+  } catch (error) {
+    result.reason = error instanceof Error && error.name === "AbortError" ? "timeout" : "request_failed";
+    return result;
+  }
+}
+
+function recordLiveProbeResult(id, urlValue, probe) {
+  liveProbe.checked += 1;
+  if (probe.ok) liveProbe.passed += 1;
+  else liveProbe.failed += 1;
+
+  if (probe.finalUrl && probe.finalUrl !== urlValue) {
+    liveProbe.redirected += 1;
+    liveProbe.finalUrlChanged += 1;
+  }
+
+  if (probe.status === 404) liveProbe.http404 += 1;
+  if (probe.status === 410) liveProbe.http410 += 1;
+  if (probe.status >= 500) liveProbe.http5xx += 1;
+  if (probe.reason === "timeout") liveProbe.timeout += 1;
+  if (probe.reason === "robots_or_access_blocked") liveProbe.robotsBlocked += 1;
+  if (probe.unavailableText) liveProbe.unavailableText += 1;
+
+  if (!probe.ok) {
+    liveProbe.failures.push({
+      id,
+      url: urlValue,
+      finalUrl: probe.finalUrl,
+      status: probe.status,
+      reason: probe.reason
+    });
+  }
+}
+
 function hasClaimOrBenefitSignal(url, evidence) {
   const value = `${url.hostname}${url.pathname}${url.search}${url.hash}`.toLowerCase();
   const evidenceValue = evidence.toLowerCase();
-  const urlLooksLikeBenefit = /event|benefit|campaign|coupon|promotion|membership|discount|culture-event|whats_new|page\/event|plus\.do|bbs_category=3|\/cpc\/cr\//.test(value);
+  const urlLooksLikeBenefit = /event|benefit|campaign|coupon|promotion|membership|discount|culture-event|whats_new|page\/event|plus\.do|bbs_category=3|\/cpc\/cr\/|services\/life\/payment|tossfeed\/article/.test(value);
   const evidenceLooksLikeBenefit = /이벤트|행사|혜택|쿠폰|초대권|시사회|멤버십|포인트|무료|응모|할인|할인정보|캠페인|소식|공식/.test(evidenceValue);
 
   return urlLooksLikeBenefit && evidenceLooksLikeBenefit;
@@ -131,6 +264,7 @@ const domainCounts = new Map();
 const excludedReasonCounts = new Map();
 let productDetailCount = 0;
 let claimBenefitCount = 0;
+let soldOutOrEndedCount = 0;
 
 function addExcludedReason(reason) {
   excludedReasonCounts.set(reason, (excludedReasonCounts.get(reason) ?? 0) + 1);
@@ -186,6 +320,12 @@ for (const id of dealIds) {
       addExcludedReason("search_result_url");
     }
 
+    if (containsUnavailableText(metadata?.evidence ?? "")) {
+      issues.push(`${id}: 검수 근거에 품절/판매종료/마감 신호가 있습니다.`);
+      soldOutOrEndedCount += 1;
+      addExcludedReason("sold_out_or_ended");
+    }
+
     const productDetailLike = hasProductDetailSignal(url);
     const claimBenefitLike = hasClaimOrBenefitSignal(url, metadata?.evidence ?? "");
 
@@ -195,6 +335,30 @@ for (const id of dealIds) {
     if (!productDetailLike && !claimBenefitLike) {
       issues.push(`${id}: 상품 상세 또는 혜택 신청 페이지로 보기 어려운 URL입니다. ${urlValue}`);
       addExcludedReason("manual_review_needed");
+    }
+
+    if (liveProbeEnabled && !isBlockedHost(host) && !isHomeOnly(url) && !isSearchLike(url)) {
+      const probe = await probeLiveUrl(urlValue);
+      recordLiveProbeResult(id, urlValue, probe);
+
+      if (probe.finalUrl && probe.finalUrl !== urlValue) {
+        const finalUrl = new URL(probe.finalUrl);
+        if (isHomeOnly(finalUrl) || isSearchLike(finalUrl)) {
+          issues.push(`${id}: redirect 후 최종 URL이 검색/대표 페이지입니다. ${probe.finalUrl}`);
+          addExcludedReason("redirect_to_search_or_home");
+        }
+      }
+
+      if (probe.unavailableText) {
+        issues.push(`${id}: live probe 본문에서 품절/판매종료 문구가 탐지되었습니다. ${probe.finalUrl}`);
+        soldOutOrEndedCount += 1;
+        addExcludedReason("sold_out_or_ended");
+      }
+
+      if (liveProbeStrict && !probe.ok) {
+        issues.push(`${id}: live probe 실패: ${probe.reason} (${probe.status || "no_status"})`);
+        addExcludedReason(probe.reason);
+      }
     }
   } catch {
     issues.push(`${id}: 올바른 URL이 아닙니다. ${urlValue}`);
@@ -220,12 +384,27 @@ const report = {
   passedDirectLinks: issues.length ? Math.max(0, entries.length - issues.length) : entries.length,
   visibleDeals: issues.length ? 0 : dealIds.length,
   excludedDeals: issues.length ? new Set(issues.map((issue) => issue.match(/^(d\d+)/)?.[1]).filter(Boolean)).size : 0,
+  failedCount: issues.length,
   productDetailUrls: productDetailCount,
   officialBenefitUrls: claimBenefitCount,
   searchOrCategorySuspected: excludedReasonCounts.get("search_result_url") ?? 0,
+  searchLinks: excludedReasonCounts.get("search_result_url") ?? 0,
+  soldOutOrEndedSuspected: soldOutOrEndedCount,
   homeOrMainSuspected: excludedReasonCounts.get("redirect_to_home") ?? 0,
   communitySuspected: excludedReasonCounts.get("community_source") ?? 0,
   manualReviewNeeded: excludedReasonCounts.get("manual_review_needed") ?? 0,
+  hiddenCount: issues.length ? new Set(issues.map((issue) => issue.match(/^(d\d+)/)?.[1]).filter(Boolean)).size : 0,
+  exposedSearchLinks: excludedReasonCounts.get("search_result_url") ?? 0,
+  exposedSoldOutLinks: soldOutOrEndedCount,
+  visibleCount: issues.length ? 0 : dealIds.length,
+  liveProbe,
+  exposurePolicy: {
+    availability: "active",
+    validationStatus: "passed",
+    isHidden: false,
+    blockedLinkTypes: ["search", "seller_search", "unavailable"],
+    finalUrlRequired: true
+  },
   excludedReasonCounts: Object.fromEntries([...excludedReasonCounts.entries()].sort(([a], [b]) => a.localeCompare(b))),
   domainCounts: Object.fromEntries([...domainCounts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))),
   issues
@@ -249,12 +428,18 @@ Generated: ${report.generatedAt}
 | 직접 링크 통과 수 | ${report.passedDirectLinks} |
 | 노출 가능 상품 수 | ${report.visibleDeals} |
 | 제외 상품 수 | ${report.excludedDeals} |
+| 실패 이슈 수 | ${report.failedCount} |
 | 상품 상세 URL | ${report.productDetailUrls} |
 | 공식 혜택/이벤트 URL | ${report.officialBenefitUrls} |
 | 검색/카테고리 의심 | ${report.searchOrCategorySuspected} |
+| 품절/종료 의심 | ${report.soldOutOrEndedSuspected} |
 | 메인/홈 링크 의심 | ${report.homeOrMainSuspected} |
 | 커뮤니티 의심 | ${report.communitySuspected} |
 | 수동 검토 필요 | ${report.manualReviewNeeded} |
+| Live probe 확인 | ${report.liveProbe.checked} |
+| Live probe 실패 | ${report.liveProbe.failed} |
+| Live probe robots/access 차단 | ${report.liveProbe.robotsBlocked} |
+| Live probe timeout | ${report.liveProbe.timeout} |
 
 ## Excluded Reasons
 

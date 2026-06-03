@@ -1,16 +1,599 @@
 {
-  "generatedAt": "2026-06-03T06:44:12.182Z",
+  "generatedAt": "2026-06-03T07:26:41.037Z",
   "totalDeals": 140,
   "verificationTargets": 140,
   "passedDirectLinks": 140,
   "visibleDeals": 140,
   "excludedDeals": 0,
+  "failedCount": 0,
   "productDetailUrls": 109,
   "officialBenefitUrls": 31,
   "searchOrCategorySuspected": 0,
+  "searchLinks": 0,
+  "soldOutOrEndedSuspected": 0,
   "homeOrMainSuspected": 0,
   "communitySuspected": 0,
   "manualReviewNeeded": 0,
+  "hiddenCount": 0,
+  "exposedSearchLinks": 0,
+  "exposedSoldOutLinks": 0,
+  "visibleCount": 140,
+  "liveProbe": {
+    "enabled": true,
+    "strict": false,
+    "bodyProbe": false,
+    "timeoutMs": 1600,
+    "checked": 140,
+    "passed": 62,
+    "failed": 78,
+    "redirected": 12,
+    "finalUrlChanged": 12,
+    "http404": 0,
+    "http410": 0,
+    "http5xx": 0,
+    "timeout": 0,
+    "robotsBlocked": 62,
+    "unavailableText": 0,
+    "failures": [
+      {
+        "id": "d002",
+        "url": "https://item.gmarket.co.kr/Item?goodsCode=4076233103",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodsCode=4076233103",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d003",
+        "url": "https://item.gmarket.co.kr/Item?goodsCode=1645289356",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodsCode=1645289356",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d004",
+        "url": "https://www.coupang.com/vp/products/9536028933?itemId=28441768456&vendorItemId=95392511443",
+        "finalUrl": "https://www.coupang.com/vp/products/9536028933?itemId=28441768456&vendorItemId=95392511443",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d006",
+        "url": "https://www.coupang.com/vp/products/4944747674?itemId=19547724956&vendorItemId=86433745874",
+        "finalUrl": "https://www.coupang.com/vp/products/4944747674?itemId=19547724956&vendorItemId=86433745874",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d007",
+        "url": "https://item.gmarket.co.kr/Item?goodscode=2845354348",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2845354348",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d009",
+        "url": "https://item.gmarket.co.kr/Item?goodscode=3768639920",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=3768639920",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d010",
+        "url": "https://www.coupang.com/vp/products/7999681537?itemId=22273718645&vendorItemId=92858534546",
+        "finalUrl": "https://www.coupang.com/vp/products/7999681537?itemId=22273718645&vendorItemId=92858534546",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d011",
+        "url": "https://www.ssg.com/item/itemView.ssg?itemId=1000377767271",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000377767271",
+        "status": 429,
+        "reason": "http_429"
+      },
+      {
+        "id": "d012",
+        "url": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000216997",
+        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000216997",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d014",
+        "url": "https://www.coupang.com/vp/products/7687552147",
+        "finalUrl": "https://www.coupang.com/vp/products/7687552147",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d016",
+        "url": "https://item.gmarket.co.kr/Item?goodsCode=4108056484",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodsCode=4108056484",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d017",
+        "url": "https://item.gmarket.co.kr/Item?goodscode=3579809715",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=3579809715",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d019",
+        "url": "https://store.ohou.se/goods/1306932",
+        "finalUrl": "https://store.ohou.se/goods/1306932",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d022",
+        "url": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000188040",
+        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000188040",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d024",
+        "url": "https://www.ssg.com/item/itemView.ssg?itemId=1000038330709",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000038330709",
+        "status": 429,
+        "reason": "http_429"
+      },
+      {
+        "id": "d025",
+        "url": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000163532",
+        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000163532",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d028",
+        "url": "https://www.coupang.com/vp/products/45447044?itemId=162348092&vendorItemId=3383614966",
+        "finalUrl": "https://www.coupang.com/vp/products/45447044?itemId=162348092&vendorItemId=3383614966",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d029",
+        "url": "https://www.ssg.com/item/itemView.ssg?itemId=1000568480807",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000568480807",
+        "status": 429,
+        "reason": "http_429"
+      },
+      {
+        "id": "d030",
+        "url": "https://www.coupang.com/vp/products/8640169010",
+        "finalUrl": "https://www.coupang.com/vp/products/8640169010",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d031",
+        "url": "https://www.coupang.com/vp/products/7872977867",
+        "finalUrl": "https://www.coupang.com/vp/products/7872977867",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d032",
+        "url": "https://www.ssg.com/item/itemView.ssg?itemId=0000009774169",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=0000009774169",
+        "status": 429,
+        "reason": "http_429"
+      },
+      {
+        "id": "d034",
+        "url": "https://item.gmarket.co.kr/Item?goodscode=2739226248",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2739226248",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d035",
+        "url": "https://www.coupang.com/vp/products/9468784918?itemId=28181432958&vendorItemId=95136026489",
+        "finalUrl": "https://www.coupang.com/vp/products/9468784918?itemId=28181432958&vendorItemId=95136026489",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d040",
+        "url": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000211588",
+        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000211588",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d041",
+        "url": "https://www.ssg.com/item/itemView.ssg?itemId=1000620373892",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000620373892",
+        "status": 429,
+        "reason": "http_429"
+      },
+      {
+        "id": "d044",
+        "url": "https://itempage3.auction.co.kr/DetailView.aspx?itemno=F408783307",
+        "finalUrl": "https://itempage3.auction.co.kr/DetailView.aspx?itemno=F408783307",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d045",
+        "url": "https://www.ssg.com/item/itemView.ssg?itemId=1000519076764",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000519076764",
+        "status": 429,
+        "reason": "http_429"
+      },
+      {
+        "id": "d046",
+        "url": "https://www.coupang.com/vp/products/5625704601?vendorItemId=79548063314",
+        "finalUrl": "https://www.coupang.com/vp/products/5625704601?vendorItemId=79548063314",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d049",
+        "url": "https://item.gmarket.co.kr/Item?goodscode=2723551094",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2723551094",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d050",
+        "url": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000188460",
+        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000188460",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d051",
+        "url": "https://tour.interpark.com/goods/detail?goodsCd=25031828338",
+        "finalUrl": "https://tour.interpark.com/goods/detail?goodsCd=25031828338",
+        "status": 0,
+        "reason": "request_failed"
+      },
+      {
+        "id": "d052",
+        "url": "https://www.ssg.com/item/itemView.ssg?itemId=1000560995801",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000560995801",
+        "status": 429,
+        "reason": "http_429"
+      },
+      {
+        "id": "d057",
+        "url": "https://www.tmembership.co.kr/web/html/main/benefit.html",
+        "finalUrl": "https://www.tmembership.co.kr/web/html/main/benefit.html",
+        "status": 0,
+        "reason": "request_failed"
+      },
+      {
+        "id": "d073",
+        "url": "https://www.hyundaicard.com/cpc/cr/CPCCR0101_01.hc",
+        "finalUrl": "https://www.hyundaicard.com/cpc/cr/CPCCR0101_01.hc",
+        "status": 0,
+        "reason": "request_failed"
+      },
+      {
+        "id": "d079",
+        "url": "https://www.coupang.com/vp/products/8943433269",
+        "finalUrl": "https://www.coupang.com/vp/products/8943433269",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d080",
+        "url": "https://item.gmarket.co.kr/Item?goodscode=920731222",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=920731222",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d087",
+        "url": "https://item.gmarket.co.kr/Item?goodscode=1503733317",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=1503733317",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d088",
+        "url": "https://www.coupang.com/vp/products/8263119298",
+        "finalUrl": "https://www.coupang.com/vp/products/8263119298",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d089",
+        "url": "https://item.gmarket.co.kr/Item?goodscode=2439050806",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2439050806",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d091",
+        "url": "https://www.coupang.com/vp/products/27613130",
+        "finalUrl": "https://www.coupang.com/vp/products/27613130",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d092",
+        "url": "https://item.gmarket.co.kr/Item?goodscode=4208551428",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=4208551428",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d093",
+        "url": "https://www.ssg.com/item/itemView.ssg?itemId=1000005089075",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000005089075",
+        "status": 429,
+        "reason": "http_429"
+      },
+      {
+        "id": "d094",
+        "url": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000246774",
+        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000246774",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d096",
+        "url": "https://item.gmarket.co.kr/Item?goodscode=2066504211",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2066504211",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d097",
+        "url": "https://item.gmarket.co.kr/Item?goodscode=2953970256",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2953970256",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d098",
+        "url": "https://item.gmarket.co.kr/Item?goodscode=2809510617",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2809510617",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d099",
+        "url": "https://www.ssg.com/item/itemView.ssg?itemId=1000601459551",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000601459551",
+        "status": 429,
+        "reason": "http_429"
+      },
+      {
+        "id": "d100",
+        "url": "https://www.coupang.com/vp/products/6499690442?itemId=18173261121&vendorItemId=85322534161",
+        "finalUrl": "https://www.coupang.com/vp/products/6499690442?itemId=18173261121&vendorItemId=85322534161",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d101",
+        "url": "https://item.gmarket.co.kr/Item?goodsCode=4476089680",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodsCode=4476089680",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d103",
+        "url": "https://item.gmarket.co.kr/Item?goodscode=1771516558",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=1771516558",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d104",
+        "url": "https://www.coupang.com/vp/products/8874782036?itemId=25896029282&vendorItemId=92904466881",
+        "finalUrl": "https://www.coupang.com/vp/products/8874782036?itemId=25896029282&vendorItemId=92904466881",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d105",
+        "url": "https://www.coupang.com/vp/products/6133165754",
+        "finalUrl": "https://www.coupang.com/vp/products/6133165754",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d106",
+        "url": "https://item.gmarket.co.kr/Item?goodscode=2763212387",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2763212387",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d107",
+        "url": "https://item.gmarket.co.kr/Item?goodsCode=4261528217",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodsCode=4261528217",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d108",
+        "url": "https://item.gmarket.co.kr/Item?goodscode=4236933731",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=4236933731",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d109",
+        "url": "https://item.gmarket.co.kr/Item?goodscode=2745012476",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2745012476",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d110",
+        "url": "https://www.coupang.com/vp/products/9358422?itemId=19687297735&vendorItemId=90791761130",
+        "finalUrl": "https://www.coupang.com/vp/products/9358422?itemId=19687297735&vendorItemId=90791761130",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d111",
+        "url": "https://item.gmarket.co.kr/Item?goodscode=3560262554",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=3560262554",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d113",
+        "url": "https://www.coupang.com/vp/products/186524064",
+        "finalUrl": "https://www.coupang.com/vp/products/186524064",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d114",
+        "url": "https://item.gmarket.co.kr/Item?goodscode=2667091230",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2667091230",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d118",
+        "url": "https://item.gmarket.co.kr/Item?goodscode=2910475736",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2910475736",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d120",
+        "url": "https://item.gmarket.co.kr/Item?goodsCode=4285817639",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodsCode=4285817639",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d121",
+        "url": "https://www.coupang.com/vp/products/4739246363",
+        "finalUrl": "https://www.coupang.com/vp/products/4739246363",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d122",
+        "url": "https://item.gmarket.co.kr/Item?goodsCode=4412121040",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodsCode=4412121040",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d124",
+        "url": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000230063",
+        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000230063",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d125",
+        "url": "https://www.ssg.com/item/itemView.ssg?itemId=1000032939693",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000032939693",
+        "status": 429,
+        "reason": "http_429"
+      },
+      {
+        "id": "d126",
+        "url": "https://www.coupang.com/vp/products/169280610?itemId=18366710784&vendorItemId=85510322367",
+        "finalUrl": "https://www.coupang.com/vp/products/169280610?itemId=18366710784&vendorItemId=85510322367",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d127",
+        "url": "https://item.gmarket.co.kr/Item?goodscode=2349292374",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2349292374",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d129",
+        "url": "https://www.ssg.com/item/itemView.ssg?itemId=2097001847275",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=2097001847275",
+        "status": 429,
+        "reason": "http_429"
+      },
+      {
+        "id": "d130",
+        "url": "https://www.coupang.com/vp/products/8286305822",
+        "finalUrl": "https://www.coupang.com/vp/products/8286305822",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d131",
+        "url": "https://www.coupang.com/vp/products/7689270513?itemId=20877904748&vendorItemId=87945140914",
+        "finalUrl": "https://www.coupang.com/vp/products/7689270513?itemId=20877904748&vendorItemId=87945140914",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d132",
+        "url": "https://item.gmarket.co.kr/Item?goodscode=2571643785",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2571643785",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d134",
+        "url": "https://www.ssg.com/item/itemView.ssg?itemId=1000625953830",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000625953830",
+        "status": 429,
+        "reason": "http_429"
+      },
+      {
+        "id": "d135",
+        "url": "https://item.gmarket.co.kr/Item?goodscode=3055540533",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=3055540533",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d136",
+        "url": "https://www.coupang.com/vp/products/5594587350",
+        "finalUrl": "https://www.coupang.com/vp/products/5594587350",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d138",
+        "url": "https://www.ssg.com/item/itemView.ssg?itemId=1000588225854",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000588225854",
+        "status": 429,
+        "reason": "http_429"
+      },
+      {
+        "id": "d139",
+        "url": "https://www.coupang.com/vp/products/7430740821?vendorItemId=70327608949",
+        "finalUrl": "https://www.coupang.com/vp/products/7430740821?vendorItemId=70327608949",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d140",
+        "url": "https://item.gmarket.co.kr/Item?goodscode=3534198074",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=3534198074",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      }
+    ]
+  },
+  "exposurePolicy": {
+    "availability": "active",
+    "validationStatus": "passed",
+    "isHidden": false,
+    "blockedLinkTypes": [
+      "search",
+      "seller_search",
+      "unavailable"
+    ],
+    "finalUrlRequired": true
+  },
   "excludedReasonCounts": {},
   "domainCounts": {
     "item.gmarket.co.kr": 30,
@@ -25,15 +608,16 @@
     "m.gsshop.com": 2,
     "mega-mgccoffee.com": 2,
     "7-eleven.co.kr": 1,
+    "academy.baemin.com": 1,
     "aliexpress.com": 1,
     "amoremall.com": 1,
-    "baemin.com": 1,
     "benebedding.com": 1,
     "bhc.co.kr": 1,
     "card.pay.naver.com": 1,
     "cgv.co.kr": 1,
     "cu.bgfretail.com": 1,
     "emart.ssg.com": 1,
+    "events.payco.com": 1,
     "front.homeplus.co.kr": 1,
     "gift.kakao.com": 1,
     "gs25.gsretail.com": 1,
@@ -49,7 +633,6 @@
     "momq.co.kr": 1,
     "new-m.pay.naver.com": 1,
     "nid.naver.com": 1,
-    "payco.com": 1,
     "shinhancard.com": 1,
     "starbucks.co.kr": 1,
     "store.ohou.se": 1,

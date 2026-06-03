@@ -139,14 +139,14 @@ function isKnownProductDetailUrl(url: URL, mallName: string) {
   if (/하이마트|himart/.test(mall) || hostMatches(host, "e-himart.co.kr")) return /\/app\/goods\/goodsdetail|goodsno=|goodscode=/.test(full);
   if (/네이버페이|naverpay/.test(mall) || hostMatches(host, "pay.naver.com")) return /\/member\/benefit\/event|\/promotion\/event/.test(path);
   if (/네이버플러스|naverplus/.test(mall) || hostMatches(host, "nid.naver.com")) return /\/membership\/join/.test(path);
-  if (/카카오페이|kakaopay/.test(mall) || hostMatches(host, "kakaopay.com")) return /\/benefits|\/event/.test(path);
-  if (/토스|toss/.test(mall) || hostMatches(host, "toss.im")) return /\/event/.test(path);
-  if (/payco|페이코/.test(mall) || hostMatches(host, "payco.com")) return /\/event/.test(path) || path.includes("event.nhn");
+  if (/카카오페이|kakaopay/.test(mall) || hostMatches(host, "kakaopay.com")) return /\/benefits|\/event|\/services\/life\/payment/.test(path);
+  if (/토스|toss/.test(mall) || hostMatches(host, "toss.im")) return /\/event|\/tossfeed\/article\//.test(path);
+  if (/payco|페이코/.test(mall) || hostMatches(host, "payco.com")) return /\/event/.test(path) || path.includes("event.nhn") || path.includes("/app/share.nhn") || host.startsWith("events.");
   if (/t멤버십|tmembership|통신사/.test(mall) || hostMatches(host, "tmembership.co.kr")) return /\/benefit|\/event|\/discount/.test(path);
   if (/배달의민족|배민|baemin/.test(mall) || hostMatches(host, "baemin.com")) return /\/event/.test(path);
   if (/bhc/.test(mall) || hostMatches(host, "bhc.co.kr")) return /\/event|coupon|promotion/.test(full);
   if (/아모레몰|amoremall/.test(mall) || hostMatches(host, "amoremall.com")) return /\/event/.test(path);
-  if (/cgv/.test(mall) || hostMatches(host, "cgv.co.kr")) return /\/culture-event\/event/.test(path);
+  if (/cgv/.test(mall) || hostMatches(host, "cgv.co.kr")) return /\/culture-event\/event/.test(path) || /\/evt\/eventdetail/.test(path) || /\/cnm\/bzplccgv\//.test(path);
   if (/cu|bgf/.test(mall) || hostMatches(host, "bgfretail.com")) return /\/event/.test(path);
   if (/세븐일레븐|7-eleven|7eleven/.test(mall) || hostMatches(host, "7-eleven.co.kr")) return /\/event/.test(path);
   if (/홈플러스|homeplus/.test(mall) || hostMatches(host, "homeplus.co.kr")) return /\/event/.test(path) || full.includes("event");

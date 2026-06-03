@@ -328,22 +328,22 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     evidence: "네이버페이 혜택 이벤트 공식 진입 페이지"
   },
   d054: {
-    url: "https://www.kakaopay.com/benefits",
-    checkedAt: "2026-06-01T08:30:00.000Z",
+    url: "https://kakaopay.com/services/life/payment?t_ch=main&t_src=homepage",
+    checkedAt: "2026-06-03T16:30:00.000+09:00",
     source: "manual_review",
-    evidence: "카카오페이 혜택 공식 페이지"
+    evidence: "카카오페이 결제 혜택 공식 서비스 상세 페이지"
   },
   d055: {
-    url: "https://toss.im/event",
-    checkedAt: "2026-06-01T08:30:00.000Z",
+    url: "https://toss.im/tossfeed/article/tosspay-2025-02",
+    checkedAt: "2026-06-03T16:30:00.000+09:00",
     source: "manual_review",
-    evidence: "토스 공식 이벤트 목록"
+    evidence: "토스 공식 토스페이 혜택 안내 상세 페이지"
   },
   d056: {
-    url: "https://www.payco.com/event.nhn",
-    checkedAt: "2026-06-01T08:30:00.000Z",
+    url: "https://events.payco.com/app/share.nhn?evntPageNm=tmzvlWb",
+    checkedAt: "2026-06-03T16:20:00.000+09:00",
     source: "manual_review",
-    evidence: "PAYCO 공식 이벤트 목록"
+    evidence: "PAYCO 공식 혜택 이벤트 상세 공유 페이지"
   },
   d057: {
     url: "https://www.tmembership.co.kr/web/html/main/benefit.html",
@@ -352,10 +352,10 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     evidence: "T멤버십 공식 혜택 페이지"
   },
   d058: {
-    url: "https://www.baemin.com/event/",
-    checkedAt: "2026-06-01T08:30:00.000Z",
+    url: "https://academy.baemin.com/event/list",
+    checkedAt: "2026-06-03T16:30:00.000+09:00",
     source: "manual_review",
-    evidence: "배달의민족 공식 이벤트 페이지"
+    evidence: "배달의민족 배민아카데미 공식 진행중 이벤트 목록"
   },
   d059: {
     url: "https://www.amoremall.com/kr/ko/event",
@@ -364,10 +364,10 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     evidence: "아모레몰 공식 이벤트 페이지"
   },
   d060: {
-    url: "https://www.cgv.co.kr/culture-event/event/",
-    checkedAt: "2026-06-01T08:30:00.000Z",
+    url: "https://cgv.co.kr/evt/eventDetail?evntNo=202602235927",
+    checkedAt: "2026-06-03T16:20:00.000+09:00",
     source: "manual_review",
-    evidence: "CGV 공식 이벤트 페이지"
+    evidence: "CGV 공식 이벤트 상세 페이지"
   },
   d061: {
     url: "https://cu.bgfretail.com/event/plus.do?category=event&depth2=1&sf=N",
@@ -406,10 +406,10 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     evidence: "스타벅스 공식 캠페인 목록"
   },
   d067: {
-    url: "https://membership.kt.com/discount/discountList.do",
-    checkedAt: "2026-06-01T09:40:00.000Z",
+    url: "https://membership.kt.com/discount/partner/C23/67/PartnerDetail.do",
+    checkedAt: "2026-06-03T16:30:00.000+09:00",
     source: "manual_review",
-    evidence: "KT멤버십 공식 할인 혜택 목록"
+    evidence: "KT멤버십 메가박스 영화 할인 공식 제휴 혜택 상세"
   },
   d068: {
     url: "https://www.uplus.co.kr/benefit-membership",
@@ -418,8 +418,8 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     evidence: "U+멤버십 공식 혜택 페이지"
   },
   d069: {
-    url: "https://www.momq.co.kr/display/eventList",
-    checkedAt: "2026-06-01T09:40:00.000Z",
+    url: "https://www.momq.co.kr/event",
+    checkedAt: "2026-06-03T16:30:00.000+09:00",
     source: "manual_review",
     evidence: "맘큐 공식 이벤트 목록"
   },
@@ -430,14 +430,14 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     evidence: "아이챌린지 공식 이벤트 페이지"
   },
   d071: {
-    url: "https://www.kakaopay.com/benefits",
-    checkedAt: "2026-06-01T09:40:00.000Z",
+    url: "https://kakaopay.com/services/life/payment?t_ch=main&t_src=homepage",
+    checkedAt: "2026-06-03T16:30:00.000+09:00",
     source: "manual_review",
-    evidence: "카카오페이 공식 혜택 페이지"
+    evidence: "카카오페이 결제 리워드 공식 서비스 상세 페이지"
   },
   d072: {
-    url: "https://nid.naver.com/membership/join?m=benefit",
-    checkedAt: "2026-06-01T09:40:00.000Z",
+    url: "https://nid.naver.com/membership/join",
+    checkedAt: "2026-06-03T16:30:00.000+09:00",
     source: "manual_review",
     evidence: "네이버플러스 멤버십 공식 가입 혜택 페이지"
   },
@@ -472,8 +472,8 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     evidence: "카카오톡 선물하기 공식 이벤트 페이지"
   },
   d078: {
-    url: "https://www.ticketlink.co.kr/event",
-    checkedAt: "2026-06-01T11:20:00.000Z",
+    url: "https://www.ticketlink.co.kr/event/main",
+    checkedAt: "2026-06-03T16:30:00.000+09:00",
     source: "manual_review",
     evidence: "티켓링크 공식 이벤트 페이지"
   },
@@ -694,10 +694,10 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     evidence: "G마켓 듀라셀 코인 리튬 건전지 CR2032 10개 상품 상세"
   },
   d115: {
-    url: "https://www.bhc.co.kr/event/ingList.asp",
-    checkedAt: "2026-06-02T02:30:00.000Z",
+    url: "https://www.bhc.co.kr/eCoupon/purchase",
+    checkedAt: "2026-06-03T16:30:00.000+09:00",
     source: "manual_review",
-    evidence: "BHC 앱 첫 주문 할인 쿠폰 공식 이벤트 혜택 페이지"
+    evidence: "BHC 공식 E쿠폰 구매 및 앱 쿠폰 사용 안내 페이지"
   },
   d116: {
     url: "https://www.musinsa.com/app/campaign/index/benefit",

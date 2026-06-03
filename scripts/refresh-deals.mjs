@@ -11,6 +11,7 @@ mkdirSync(dataDir, { recursive: true });
 
 const requestTimeoutMs = Number(process.env.DEAL_REFRESH_TIMEOUT_MS ?? 5000);
 const shouldLiveProbe = process.env.DEAL_REFRESH_LIVE_PROBE === "true";
+const shouldBodyProbe = process.env.DEAL_LINK_BODY_PROBE === "true";
 const now = new Date().toISOString();
 
 const blockedHosts = [
@@ -167,7 +168,7 @@ function hasProductDetailSignal(url) {
 function hasBenefitSignal(url, evidence) {
   const value = `${url.hostname}${url.pathname}${url.search}${url.hash}`.toLowerCase();
   const evidenceValue = cleanText(evidence).toLowerCase();
-  return /event|benefit|campaign|coupon|promotion|membership|discount|culture-event|whats_new|page\/event|plus\.do|bbs_category=3|\/cpc\/cr\//.test(value) &&
+  return /event|benefit|campaign|coupon|promotion|membership|discount|culture-event|whats_new|page\/event|plus\.do|bbs_category=3|\/cpc\/cr\/|services\/life\/payment|tossfeed\/article/.test(value) &&
     /이벤트|행사|혜택|쿠폰|초대권|시사회|멤버십|포인트|무료|응모|할인|공식/.test(evidenceValue);
 }
 
@@ -232,16 +233,66 @@ async function fetchWithTimeout(url, options = {}, retry = 1) {
 }
 
 async function probeUrl(urlValue) {
-  if (!shouldLiveProbe) return { ok: true, reason: "static_validation_only" };
+  if (!shouldLiveProbe) {
+    return {
+      ok: true,
+      reason: "static_validation_only",
+      status: 0,
+      finalUrl: urlValue,
+      redirected: false,
+      unavailableText: false,
+      bodyChecked: false
+    };
+  }
 
   try {
-    const response = await fetchWithTimeout(urlValue, { method: "HEAD", redirect: "follow" }, 1);
-    if ([404, 410].includes(response.status)) return { ok: false, reason: `http_${response.status}` };
-    if (response.status === 403) return { ok: false, reason: "robots_or_access_blocked" };
-    if (response.status >= 500) return { ok: false, reason: `http_${response.status}` };
-    return { ok: response.ok || response.status < 400, reason: response.ok ? "http_ok" : `http_${response.status}` };
+    let response = await fetchWithTimeout(urlValue, { method: "HEAD", redirect: "follow" }, 1);
+
+    if ([403, 404, 405, 501].includes(response.status) || shouldBodyProbe) {
+      response = await fetchWithTimeout(
+        urlValue,
+        {
+          method: "GET",
+          redirect: "follow",
+          headers: shouldBodyProbe ? { Range: "bytes=0-65535" } : {}
+        },
+        1
+      );
+    }
+
+    const result = {
+      ok: response.ok || response.status < 400,
+      reason: response.ok ? "http_ok" : `http_${response.status}`,
+      status: response.status,
+      finalUrl: response.url || urlValue,
+      redirected: Boolean(response.url && response.url !== urlValue),
+      unavailableText: false,
+      bodyChecked: false
+    };
+
+    if ([404, 410].includes(response.status)) return { ...result, ok: false, reason: `http_${response.status}` };
+    if (response.status === 403 || response.status === 401) return { ...result, ok: false, reason: "robots_or_access_blocked" };
+    if (response.status >= 500) return { ...result, ok: false, reason: `http_${response.status}` };
+
+    const contentType = response.headers.get("content-type") ?? "";
+    if (shouldBodyProbe && /text|html|json/i.test(contentType)) {
+      const body = await response.text();
+      result.bodyChecked = true;
+      result.unavailableText = unavailablePatterns.some((pattern) => body.slice(0, 65535).includes(pattern));
+      if (result.unavailableText) return { ...result, ok: false, reason: "sold_out_or_ended_text" };
+    }
+
+    return result;
   } catch (error) {
-    return { ok: false, reason: error instanceof Error && error.name === "AbortError" ? "timeout" : "network_error" };
+    return {
+      ok: false,
+      reason: error instanceof Error && error.name === "AbortError" ? "timeout" : "network_error",
+      status: 0,
+      finalUrl: urlValue,
+      redirected: false,
+      unavailableText: false,
+      bodyChecked: false
+    };
   }
 }
 
@@ -459,28 +510,43 @@ function normalizeCollectedItem(raw, index) {
 async function validateCollectedDeal(deal) {
   const classification = classifyUrl(deal.finalPurchaseUrl, deal.evidence);
   const probe = classification.ok ? await probeUrl(deal.finalPurchaseUrl) : { ok: true, reason: "not_probed" };
-  const ok = classification.ok && probe.ok;
+  const finalClassification =
+    probe.finalUrl && probe.finalUrl !== deal.finalPurchaseUrl ? classifyUrl(probe.finalUrl, deal.evidence) : classification;
+  const ok = classification.ok && finalClassification.ok && probe.ok && !probe.unavailableText;
   const isHidden = !ok;
   const priorityScore =
-    (classification.linkType === "direct_purchase" ? 45 : 30) +
+    (finalClassification.linkType === "direct_purchase" ? 45 : 30) +
     (deal.thumbnail ? 12 : -10) +
     (deal.salePrice > 0 ? 12 : -20) +
     (deal.discountRate > 0 ? 8 : 0) +
-    (classification.availability === "active" ? 15 : -30) +
+    (finalClassification.availability === "active" ? 15 : -30) +
     (probe.reason === "http_ok" || probe.reason === "static_validation_only" ? 8 : -12);
+  const validationReason = ok
+    ? probe.redirected
+      ? `redirect_checked:${finalClassification.reason}`
+      : finalClassification.reason
+    : probe.ok
+      ? finalClassification.reason
+      : probe.reason;
 
   return {
     ...deal,
-    linkType: classification.linkType,
-    availability: classification.availability,
+    finalUrl: probe.finalUrl ?? deal.finalUrl,
+    finalPurchaseUrl: probe.finalUrl ?? deal.finalPurchaseUrl,
+    linkType: finalClassification.linkType,
+    availability: finalClassification.availability,
     validationStatus: ok ? "passed" : "failed",
-    validationReason: ok ? classification.reason : probe.ok ? classification.reason : probe.reason,
+    validationReason,
     isHidden,
     priorityScore,
     lastCheckedAt: now,
     checkedAt: now,
     linkVerified: ok,
-    purchaseLinkVerified: ok
+    purchaseLinkVerified: ok,
+    probeStatus: probe.status ?? 0,
+    probeFinalUrl: probe.finalUrl ?? deal.finalPurchaseUrl,
+    probeRedirected: Boolean(probe.redirected),
+    probeBodyChecked: Boolean(probe.bodyChecked)
   };
 }
 
@@ -514,6 +580,18 @@ for (const deal of normalizedDeals) {
 const dedupedDeals = dedupeDeals(validatedDeals);
 const visibleDeals = dedupedDeals.filter((deal) => !deal.isHidden && deal.validationStatus === "passed" && deal.availability === "active" && deal.linkType !== "search");
 const hiddenDeals = dedupedDeals.filter((deal) => !visibleDeals.some((visible) => visible.id === deal.id));
+const liveProbeSummary = {
+  enabled: shouldLiveProbe,
+  bodyProbe: shouldBodyProbe,
+  checkedCount: shouldLiveProbe ? dedupedDeals.filter((deal) => deal.probeStatus || deal.probeRedirected || deal.probeBodyChecked).length : 0,
+  redirectedCount: shouldLiveProbe ? dedupedDeals.filter((deal) => deal.probeRedirected).length : 0,
+  timeoutCount: shouldLiveProbe ? dedupedDeals.filter((deal) => deal.validationReason === "timeout").length : 0,
+  robotsBlockedCount: shouldLiveProbe ? dedupedDeals.filter((deal) => deal.validationReason === "robots_or_access_blocked").length : 0,
+  http404Count: shouldLiveProbe ? dedupedDeals.filter((deal) => deal.validationReason === "http_404").length : 0,
+  http410Count: shouldLiveProbe ? dedupedDeals.filter((deal) => deal.validationReason === "http_410").length : 0,
+  http5xxCount: shouldLiveProbe ? dedupedDeals.filter((deal) => /^http_5/.test(deal.validationReason)).length : 0,
+  unavailableTextCount: shouldLiveProbe ? dedupedDeals.filter((deal) => deal.validationReason === "sold_out_or_ended_text").length : 0
+};
 const manualVisibleCount = visibleDeals.filter((deal) => deal.sourceProvider === "manual").length;
 const insertedDeals = visibleDeals.filter((deal) => deal.sourceProvider !== "manual");
 const failureReasons = {};
@@ -560,6 +638,7 @@ const baseSummary = {
   failedCount: hiddenDeals.length + normalizationFailures.length,
   visibleCount: visibleDeals.length,
   providerStats,
+  liveProbe: liveProbeSummary,
   failureReasons,
   pipeline: [
     "collect providers",

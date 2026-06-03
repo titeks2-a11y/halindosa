@@ -517,6 +517,14 @@ async function checkEnvExample() {
     "DEAL_NEWS_RSS_URLS",
     "DEAL_COMMUNITY_RSS_URLS",
     "PPOMPPU_HOTDEAL_ENABLE",
+    "COUPANG_ACCESS_KEY",
+    "COUPANG_SECRET_KEY",
+    "ELEVENST_API_KEY",
+    "DEAL_REFRESH_LIVE_PROBE",
+    "DEAL_LINK_LIVE_PROBE",
+    "DEAL_LINK_LIVE_STRICT",
+    "DEAL_LINK_BODY_PROBE",
+    "DEAL_LINK_TIMEOUT_MS",
     "NEXT_PUBLIC_SUPABASE_URL",
     "NEXT_PUBLIC_SUPABASE_ANON_KEY",
     "SUPABASE_SERVICE_ROLE_KEY",
@@ -3266,12 +3274,14 @@ function checkRefreshDealPipeline() {
     issues.push("reports/refresh-deals.json missing");
   } else {
     const report = JSON.parse(readFileSync(refreshPath, "utf8"));
-    const requiredFields = ["fetchedCount", "normalizedCount", "insertedCount", "updatedCount", "hiddenCount", "failedCount", "providerStats", "failureReasons", "generatedAt"];
+    const requiredFields = ["fetchedCount", "normalizedCount", "insertedCount", "updatedCount", "hiddenCount", "failedCount", "providerStats", "liveProbe", "failureReasons", "generatedAt"];
     const missingFields = requiredFields.filter((field) => !(field in report));
 
     if (missingFields.length) issues.push(`refresh report missing ${missingFields.join(", ")}`);
     if (!Array.isArray(report.providerStats) || !report.providerStats.length) issues.push("providerStats should include provider collection status");
+    if (!report.liveProbe || typeof report.liveProbe !== "object") issues.push("refresh report should include liveProbe HTTP/redirect summary");
     if ((report.reports?.linkValidation?.searchOrCategorySuspected ?? 0) !== 0) issues.push("refresh report still has search/category links");
+    if ((report.reports?.linkValidation?.soldOutOrEndedSuspected ?? 0) !== 0) issues.push("refresh report still has sold-out/ended link signals");
   }
 
   if (!existsSync(snapshotPath)) issues.push("data/refreshedDeals.json missing");
@@ -3288,6 +3298,10 @@ function checkRefreshDealPipeline() {
 
   if (!refreshScript.includes("COUPANG_PARTNER_FEED_URLS") || !refreshScript.includes("NAVER_CLIENT_ID") || !refreshScript.includes("ELEVENST_PARTNER_FEED_URLS")) {
     issues.push("refresh script should support Coupang/Naver/11st approved feeds or API keys");
+  }
+
+  if (!refreshScript.includes("DEAL_REFRESH_LIVE_PROBE") || !refreshScript.includes("DEAL_LINK_BODY_PROBE") || !refreshScript.includes("probeFinalUrl")) {
+    issues.push("refresh script should track optional live HTTP probes, body sold-out detection, redirects, and final URLs");
   }
 
   if (!providerTypes.includes("fetchProviderJsonFeeds") || !providerRegistry.includes("fetchProviderDealsSafely")) {

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-03T06:44:12.091Z",
+  "generatedAt": "2026-06-03T07:24:28.638Z",
   "ok": true,
   "fetchedCount": 140,
   "normalizedCount": 140,
@@ -88,6 +88,18 @@
       "failedCount": 0
     }
   ],
+  "liveProbe": {
+    "enabled": false,
+    "bodyProbe": false,
+    "checkedCount": 0,
+    "redirectedCount": 0,
+    "timeoutCount": 0,
+    "robotsBlockedCount": 0,
+    "http404Count": 0,
+    "http410Count": 0,
+    "http5xxCount": 0,
+    "unavailableTextCount": 0
+  },
   "failureReasons": {},
   "pipeline": [
     "collect providers",
@@ -103,18 +115,54 @@
   ],
   "reports": {
     "linkValidation": {
-      "generatedAt": "2026-06-03T06:44:12.182Z",
+      "generatedAt": "2026-06-03T07:24:28.727Z",
       "totalDeals": 140,
       "verificationTargets": 140,
       "passedDirectLinks": 140,
       "visibleDeals": 140,
       "excludedDeals": 0,
+      "failedCount": 0,
       "productDetailUrls": 109,
       "officialBenefitUrls": 31,
       "searchOrCategorySuspected": 0,
+      "searchLinks": 0,
+      "soldOutOrEndedSuspected": 0,
       "homeOrMainSuspected": 0,
       "communitySuspected": 0,
       "manualReviewNeeded": 0,
+      "hiddenCount": 0,
+      "exposedSearchLinks": 0,
+      "exposedSoldOutLinks": 0,
+      "visibleCount": 140,
+      "liveProbe": {
+        "enabled": false,
+        "strict": false,
+        "bodyProbe": false,
+        "timeoutMs": 3500,
+        "checked": 0,
+        "passed": 0,
+        "failed": 0,
+        "redirected": 0,
+        "finalUrlChanged": 0,
+        "http404": 0,
+        "http410": 0,
+        "http5xx": 0,
+        "timeout": 0,
+        "robotsBlocked": 0,
+        "unavailableText": 0,
+        "failures": []
+      },
+      "exposurePolicy": {
+        "availability": "active",
+        "validationStatus": "passed",
+        "isHidden": false,
+        "blockedLinkTypes": [
+          "search",
+          "seller_search",
+          "unavailable"
+        ],
+        "finalUrlRequired": true
+      },
       "excludedReasonCounts": {},
       "domainCounts": {
         "item.gmarket.co.kr": 30,
@@ -129,15 +177,16 @@
         "m.gsshop.com": 2,
         "mega-mgccoffee.com": 2,
         "7-eleven.co.kr": 1,
+        "academy.baemin.com": 1,
         "aliexpress.com": 1,
         "amoremall.com": 1,
-        "baemin.com": 1,
         "benebedding.com": 1,
         "bhc.co.kr": 1,
         "card.pay.naver.com": 1,
         "cgv.co.kr": 1,
         "cu.bgfretail.com": 1,
         "emart.ssg.com": 1,
+        "events.payco.com": 1,
         "front.homeplus.co.kr": 1,
         "gift.kakao.com": 1,
         "gs25.gsretail.com": 1,
@@ -153,7 +202,6 @@
         "momq.co.kr": 1,
         "new-m.pay.naver.com": 1,
         "nid.naver.com": 1,
-        "payco.com": 1,
         "shinhancard.com": 1,
         "starbucks.co.kr": 1,
         "store.ohou.se": 1,
@@ -169,7 +217,7 @@
       "issues": []
     },
     "productQuality": {
-      "generatedAt": "2026-06-03T06:44:12.274Z",
+      "generatedAt": "2026-06-03T07:24:28.822Z",
       "totalProducts": 140,
       "passedProducts": 140,
       "failedProducts": 0,
@@ -196,8 +244,8 @@
       "command": "node scripts/verify-product-links.mjs",
       "ok": true,
       "status": 0,
-      "startedAt": "2026-06-03T06:44:12.104Z",
-      "finishedAt": "2026-06-03T06:44:12.206Z",
+      "startedAt": "2026-06-03T07:24:28.651Z",
+      "finishedAt": "2026-06-03T07:24:28.750Z",
       "stdout": "Product link verification passed: 140/140 verified purchase URLs (100%).\n- Distinct purchase hosts: 48\n- Product detail URLs: 109\n- Official benefit/event URLs: 31",
       "stderr": ""
     },
@@ -206,8 +254,8 @@
       "command": "node scripts/verify-products.mjs",
       "ok": true,
       "status": 0,
-      "startedAt": "2026-06-03T06:44:12.206Z",
-      "finishedAt": "2026-06-03T06:44:12.285Z",
+      "startedAt": "2026-06-03T07:24:28.750Z",
+      "finishedAt": "2026-06-03T07:24:28.835Z",
       "stdout": "Product quality verification passed.\n- Total products: 140\n- Visible products: 140\n- Hidden products: 0\n- Search links exposed: 0",
       "stderr": ""
     }
