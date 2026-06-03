@@ -1,0 +1,463 @@
+{
+  "ok": true,
+  "mode": "non_strict_live_readiness",
+  "generatedAt": "2026-06-03T20:50:05.526Z",
+  "timeoutMs": 4500,
+  "maxConcurrent": 6,
+  "totalSources": 21,
+  "reachableCount": 13,
+  "guardedCount": 2,
+  "needsReviewCount": 2,
+  "timeoutCount": 1,
+  "networkErrorCount": 0,
+  "staleOrRemovedCount": 1,
+  "highPrioritySources": 8,
+  "highPriorityReachableOrGuarded": 7,
+  "statusCounts": {
+    "reachable": 13,
+    "server_error": 2,
+    "guarded": 2,
+    "needs_review": 2,
+    "timeout": 1,
+    "stale_or_removed": 1
+  },
+  "launchPolicy": "This doctor records live accessibility for official source onboarding. It must not scrape protected pages and does not change user-visible deals. Only verified product/official benefit URLs remain exposed.",
+  "operatorActions": [
+    "reachable 소스는 승인 JSON/RSS feed 또는 수동 공식 페이지 매핑 후보로 유지합니다.",
+    "guarded 소스는 브라우저 자동 수집 대신 공식 API, RSS, 제휴 feed, 담당자 승인 데이터로 연결합니다.",
+    "stale_or_removed 소스는 카탈로그 URL을 교체하기 전까지 신규 혜택 source로 사용하지 않습니다."
+  ],
+  "sources": [
+    {
+      "id": "gs25-event-goods",
+      "label": "GS25 행사상품과 카드 할인",
+      "provider": "official_event",
+      "category": [
+        "마트/편의점",
+        "무료혜택"
+      ],
+      "priority": "high",
+      "officialUrl": "https://gs25.gsretail.com/gscvs/ko/products/event-goods",
+      "finalUrl": "http://gs25.gsretail.com/gscvs/ko/products/event-goods",
+      "host": "gs25.gsretail.com",
+      "method": "GET",
+      "httpStatus": 200,
+      "redirected": true,
+      "durationMs": 106,
+      "checkedAt": "2026-06-03T20:50:00.556Z",
+      "status": "reachable",
+      "reason": "official_url_redirected_to_same_host",
+      "operatorAction": "승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결"
+    },
+    {
+      "id": "cu-plus-event",
+      "label": "CU 편의점 1+1·2+1 행사",
+      "provider": "official_event",
+      "category": [
+        "마트/편의점"
+      ],
+      "priority": "high",
+      "officialUrl": "https://cu.bgfretail.com/event/plus.do?category=event&depth2=1",
+      "finalUrl": "https://cu.bgfretail.com/event/plus.do?category=event&depth2=1",
+      "host": "cu.bgfretail.com",
+      "method": "HEAD",
+      "httpStatus": 501,
+      "redirected": false,
+      "durationMs": 112,
+      "checkedAt": "2026-06-03T20:50:00.595Z",
+      "status": "server_error",
+      "reason": "source_server_error",
+      "operatorAction": "일시 장애 여부를 재확인하고 노출 데이터는 기존 검증 feed만 유지"
+    },
+    {
+      "id": "ssg-event-main",
+      "label": "SSG닷컴 공식 장보기 행사",
+      "provider": "official_event",
+      "category": [
+        "식품/생필품",
+        "마트/편의점"
+      ],
+      "priority": "high",
+      "officialUrl": "https://www.ssg.com/event/eventMain.ssg",
+      "finalUrl": "https://www.ssg.com/event/eventMain.ssg",
+      "host": "ssg.com",
+      "method": "HEAD",
+      "httpStatus": 200,
+      "redirected": false,
+      "durationMs": 209,
+      "checkedAt": "2026-06-03T20:50:00.596Z",
+      "status": "reachable",
+      "reason": "official_url_reachable",
+      "operatorAction": "승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결"
+    },
+    {
+      "id": "emart-event-main",
+      "label": "이마트몰 공식 행사",
+      "provider": "official_event",
+      "category": [
+        "식품/생필품",
+        "마트/편의점"
+      ],
+      "priority": "medium",
+      "officialUrl": "https://emart.ssg.com/event/eventMain.ssg",
+      "finalUrl": "https://emart.ssg.com/event/eventMain.ssg",
+      "host": "emart.ssg.com",
+      "method": "HEAD",
+      "httpStatus": 200,
+      "redirected": false,
+      "durationMs": 272,
+      "checkedAt": "2026-06-03T20:50:00.597Z",
+      "status": "reachable",
+      "reason": "official_url_reachable",
+      "operatorAction": "승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결"
+    },
+    {
+      "id": "homeplus-event",
+      "label": "홈플러스 공식 이벤트",
+      "provider": "official_event",
+      "category": [
+        "식품/생필품",
+        "마트/편의점"
+      ],
+      "priority": "medium",
+      "officialUrl": "https://front.homeplus.co.kr/event",
+      "finalUrl": "https://front.homeplus.co.kr/event",
+      "host": "front.homeplus.co.kr",
+      "method": "HEAD",
+      "httpStatus": 200,
+      "redirected": false,
+      "durationMs": 89,
+      "checkedAt": "2026-06-03T20:50:00.598Z",
+      "status": "reachable",
+      "reason": "official_url_reachable",
+      "operatorAction": "승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결"
+    },
+    {
+      "id": "yogiyo-event",
+      "label": "요기요 배달 쿠폰 이벤트",
+      "provider": "event_news",
+      "category": [
+        "외식/배달"
+      ],
+      "priority": "high",
+      "officialUrl": "https://www.yogiyo.co.kr/mobile/#/event/",
+      "finalUrl": "https://www.yogiyo.co.kr/mobile/",
+      "host": "yogiyo.co.kr",
+      "method": "HEAD",
+      "httpStatus": 200,
+      "redirected": false,
+      "durationMs": 132,
+      "checkedAt": "2026-06-03T20:50:00.599Z",
+      "status": "reachable",
+      "reason": "official_url_reachable",
+      "operatorAction": "승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결"
+    },
+    {
+      "id": "bhc-ecoupon",
+      "label": "BHC 공식 e쿠폰",
+      "provider": "official_event",
+      "category": [
+        "외식/배달"
+      ],
+      "priority": "medium",
+      "officialUrl": "https://www.bhc.co.kr/eCoupon/purchase",
+      "finalUrl": "https://www.bhc.co.kr/eCoupon/purchase",
+      "host": "bhc.co.kr",
+      "method": "HEAD",
+      "httpStatus": 200,
+      "redirected": false,
+      "durationMs": 58,
+      "checkedAt": "2026-06-03T20:50:00.687Z",
+      "status": "reachable",
+      "reason": "official_url_reachable",
+      "operatorAction": "승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결"
+    },
+    {
+      "id": "cgv-events",
+      "label": "CGV 공식 문화 이벤트",
+      "provider": "public_coupon",
+      "category": [
+        "영화/문화",
+        "무료혜택"
+      ],
+      "priority": "medium",
+      "officialUrl": "https://www.cgv.co.kr/culture-event/event/defaultNew.aspx",
+      "finalUrl": "https://cgv.co.kr/",
+      "host": "cgv.co.kr",
+      "method": "GET",
+      "httpStatus": 403,
+      "redirected": true,
+      "durationMs": 75,
+      "checkedAt": "2026-06-03T20:50:00.707Z",
+      "status": "guarded",
+      "reason": "waf_or_permission_guarded",
+      "operatorAction": "무단 크롤링하지 말고 공식 API/RSS/제휴 feed 또는 수동 승인 매핑 사용"
+    },
+    {
+      "id": "lottecinema-events",
+      "label": "롯데시네마 공식 이벤트",
+      "provider": "public_coupon",
+      "category": [
+        "영화/문화"
+      ],
+      "priority": "medium",
+      "officialUrl": "https://www.lottecinema.co.kr/NLCHS/Event",
+      "finalUrl": "https://www.lottecinema.co.kr/NLCHS/Event",
+      "host": "lottecinema.co.kr",
+      "method": "HEAD",
+      "httpStatus": 200,
+      "redirected": false,
+      "durationMs": 54,
+      "checkedAt": "2026-06-03T20:50:00.731Z",
+      "status": "reachable",
+      "reason": "official_url_reachable",
+      "operatorAction": "승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결"
+    },
+    {
+      "id": "culture-day",
+      "label": "문화가 있는 날 공식 혜택",
+      "provider": "public_coupon",
+      "category": [
+        "영화/문화",
+        "정부/공공혜택",
+        "무료혜택"
+      ],
+      "priority": "high",
+      "officialUrl": "https://www.culture.go.kr/wday/main/main.do",
+      "finalUrl": "https://www.culture.go.kr/local/",
+      "host": "culture.go.kr",
+      "method": "HEAD",
+      "httpStatus": 200,
+      "redirected": true,
+      "durationMs": 408,
+      "checkedAt": "2026-06-03T20:50:00.745Z",
+      "status": "reachable",
+      "reason": "official_url_redirected_to_same_host",
+      "operatorAction": "승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결"
+    },
+    {
+      "id": "mnuri-benefit",
+      "label": "문화누리카드 공식 사용 혜택",
+      "provider": "public_coupon",
+      "category": [
+        "정부/공공혜택",
+        "영화/문화"
+      ],
+      "priority": "high",
+      "officialUrl": "https://www.mnuri.kr/main/main.do",
+      "finalUrl": "https://www.mnuri.kr/main/main.do",
+      "host": "mnuri.kr",
+      "method": "GET",
+      "httpStatus": 200,
+      "redirected": false,
+      "durationMs": 580,
+      "checkedAt": "2026-06-03T20:50:00.785Z",
+      "status": "reachable",
+      "reason": "official_url_reachable",
+      "operatorAction": "승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결"
+    },
+    {
+      "id": "naverpay-benefit",
+      "label": "네이버페이 공식 이벤트 혜택",
+      "provider": "official_event",
+      "category": [
+        "카드/멤버십",
+        "무료혜택"
+      ],
+      "priority": "high",
+      "officialUrl": "https://new-m.pay.naver.com/pcpay/eventbenefit",
+      "finalUrl": "https://nid.naver.com/nidlogin.login?svctype=262144&url=http%3A%2F%2Fpoint.pay.naver.com%2Fpc%2Fmain",
+      "host": "nid.naver.com",
+      "method": "HEAD",
+      "httpStatus": 200,
+      "redirected": true,
+      "durationMs": 109,
+      "checkedAt": "2026-06-03T20:50:00.805Z",
+      "status": "needs_review",
+      "reason": "redirected_to_different_host",
+      "operatorAction": "최종 도메인이 공식 운영 도메인인지 확인 후 allowlist에 반영"
+    },
+    {
+      "id": "kbcard-events",
+      "label": "KB국민카드 공식 이벤트",
+      "provider": "official_event",
+      "category": [
+        "카드/멤버십"
+      ],
+      "priority": "medium",
+      "officialUrl": "https://card.kbcard.com/BON/DVIEW/HBBMCXCRVNEC0001",
+      "finalUrl": "https://card.kbcard.com/BON/DVIEW/HBBMCXCRVNEC0001",
+      "host": "card.kbcard.com",
+      "method": "HEAD",
+      "httpStatus": 200,
+      "redirected": false,
+      "durationMs": 316,
+      "checkedAt": "2026-06-03T20:50:00.819Z",
+      "status": "reachable",
+      "reason": "official_url_reachable",
+      "operatorAction": "승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결"
+    },
+    {
+      "id": "bccard-events",
+      "label": "BC카드 공식 이벤트",
+      "provider": "official_event",
+      "category": [
+        "카드/멤버십"
+      ],
+      "priority": "medium",
+      "officialUrl": "https://www.bccard.com/app/card/EventActn.do?menuId=64",
+      "finalUrl": "https://www.bccard.com/app/card/EventActn.do?menuId=64",
+      "host": "bccard.com",
+      "method": "HEAD",
+      "httpStatus": 501,
+      "redirected": false,
+      "durationMs": 48,
+      "checkedAt": "2026-06-03T20:50:00.869Z",
+      "status": "server_error",
+      "reason": "source_server_error",
+      "operatorAction": "일시 장애 여부를 재확인하고 노출 데이터는 기존 검증 feed만 유지"
+    },
+    {
+      "id": "tworld-membership",
+      "label": "T월드 멤버십 할인",
+      "provider": "official_event",
+      "category": [
+        "카드/멤버십",
+        "외식/배달"
+      ],
+      "priority": "medium",
+      "officialUrl": "https://www.tworld.co.kr/poc/html/product/TS3.7.1T.2.html",
+      "finalUrl": "https://www.tworld.co.kr/poc/html/product/TS3.7.1T.2.html",
+      "host": "tworld.co.kr",
+      "method": "HEAD",
+      "httpStatus": 200,
+      "redirected": false,
+      "durationMs": 33,
+      "checkedAt": "2026-06-03T20:50:00.892Z",
+      "status": "reachable",
+      "reason": "official_url_reachable",
+      "operatorAction": "승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결"
+    },
+    {
+      "id": "koreanair-promotion",
+      "label": "대한항공 공식 프로모션",
+      "provider": "event_news",
+      "category": [
+        "여행/숙박"
+      ],
+      "priority": "medium",
+      "officialUrl": "https://www.koreanair.com/promotion/list",
+      "finalUrl": "https://www.koreanair.com/promotion/list",
+      "host": "koreanair.com",
+      "method": "GET",
+      "httpStatus": 0,
+      "redirected": false,
+      "durationMs": 4515,
+      "checkedAt": "2026-06-03T20:50:00.914Z",
+      "status": "timeout",
+      "reason": "timeout",
+      "operatorAction": "공식 feed 연결 전 브라우저/제휴 담당자 확인 필요"
+    },
+    {
+      "id": "jejuair-events",
+      "label": "제주항공 공식 진행 이벤트",
+      "provider": "official_event",
+      "category": [
+        "여행/숙박"
+      ],
+      "priority": "high",
+      "officialUrl": "https://www.jejuair.net/ko/event/event.do",
+      "finalUrl": "https://www.jejuair.net/ko/event/event.do",
+      "host": "jejuair.net",
+      "method": "GET",
+      "httpStatus": 403,
+      "redirected": false,
+      "durationMs": 44,
+      "checkedAt": "2026-06-03T20:50:00.917Z",
+      "status": "guarded",
+      "reason": "waf_or_permission_guarded",
+      "operatorAction": "무단 크롤링하지 말고 공식 API/RSS/제휴 feed 또는 수동 승인 매핑 사용"
+    },
+    {
+      "id": "samsung-shop-event",
+      "label": "삼성닷컴 공식 이벤트",
+      "provider": "official_event",
+      "category": [
+        "디지털/가전"
+      ],
+      "priority": "medium",
+      "officialUrl": "https://www.samsung.com/sec/shop/event/",
+      "finalUrl": "https://www.samsung.com/sec/shop/event/",
+      "host": "samsung.com",
+      "method": "HEAD",
+      "httpStatus": 200,
+      "redirected": false,
+      "durationMs": 200,
+      "checkedAt": "2026-06-03T20:50:00.925Z",
+      "status": "reachable",
+      "reason": "official_url_reachable",
+      "operatorAction": "승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결"
+    },
+    {
+      "id": "himart-events",
+      "label": "하이마트 공식 디지털 행사",
+      "provider": "official_event",
+      "category": [
+        "디지털/가전"
+      ],
+      "priority": "medium",
+      "officialUrl": "https://www.e-himart.co.kr/app/event/eventList",
+      "finalUrl": "https://www.e-himart.co.kr/app/event/eventList",
+      "host": "e-himart.co.kr",
+      "method": "HEAD",
+      "httpStatus": 404,
+      "redirected": false,
+      "durationMs": 146,
+      "checkedAt": "2026-06-03T20:50:00.991Z",
+      "status": "stale_or_removed",
+      "reason": "not_found",
+      "operatorAction": "카탈로그 URL을 최신 공식 이벤트/혜택 URL로 교체"
+    },
+    {
+      "id": "hmall-official-events",
+      "label": "현대Hmall 공식 쇼핑 기획전",
+      "provider": "news",
+      "category": [
+        "패션/뷰티",
+        "식품/생필품"
+      ],
+      "priority": "medium",
+      "officialUrl": "https://www.hyundaihmall.com/front/evntSect.do",
+      "finalUrl": "https://www.hmall.com/md/dpl/index",
+      "host": "hmall.com",
+      "method": "HEAD",
+      "httpStatus": 200,
+      "redirected": true,
+      "durationMs": 157,
+      "checkedAt": "2026-06-03T20:50:01.125Z",
+      "status": "needs_review",
+      "reason": "redirected_to_different_host",
+      "operatorAction": "최종 도메인이 공식 운영 도메인인지 확인 후 allowlist에 반영"
+    },
+    {
+      "id": "musinsa-fashion-festa",
+      "label": "무신사 공식 패션 페스타",
+      "provider": "official_event",
+      "category": [
+        "패션/뷰티"
+      ],
+      "priority": "medium",
+      "officialUrl": "https://www.musinsa.com/campaign/fashionfesta_1",
+      "finalUrl": "https://www.musinsa.com/main/musinsa/recommend",
+      "host": "musinsa.com",
+      "method": "HEAD",
+      "httpStatus": 200,
+      "redirected": true,
+      "durationMs": 241,
+      "checkedAt": "2026-06-03T20:50:01.135Z",
+      "status": "reachable",
+      "reason": "official_url_redirected_to_same_host",
+      "operatorAction": "승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결"
+    }
+  ]
+}

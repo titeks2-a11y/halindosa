@@ -85,9 +85,11 @@ npm run smoke
   - `/admin`의 `뉴스 수집 현황`과 `공식 혜택 수동 운영` 패널에서 `Provider 위험도`, `신선도 운영`, `다음 refresh 권장`, `다음 운영 액션`을 확인한다.
   - `/admin`의 `공식 피드 전환 준비도`는 `news`, `event_news`, `official_event`, `public_coupon` provider가 seed fallback인지 공식 feed 연결 상태인지 보여준다. 상용 운영 전에는 우선순위가 높은 `OFFICIAL_EVENT_FEED_URLS`, `DEAL_EVENT_FEED_URLS`, `PUBLIC_COUPON_FEED_URLS`부터 공식 API/RSS/제휴 JSON feed를 연결한다.
   - `npm run source:catalog:report`는 `data/officialSourceCatalog.json`을 검증해 `reports/official-source-catalog.json`, `reports/official-source-catalog.csv`, `docs/OFFICIAL_SOURCE_CATALOG.md`를 생성한다. 운영자는 이 문서와 CSV에서 카테고리별 공식 소스 후보, provider별 후보, 우선 연결할 환경변수, 허용/차단 사용 범위를 확인한다.
+  - `npm run source:live:doctor`는 공식 소스 후보 URL을 짧게 확인해 `reports/official-source-live-check.json`, `reports/official-source-live-check.csv`, `docs/OFFICIAL_SOURCE_LIVE_CHECK.md`를 생성한다. 이 리포트는 무단 크롤링이 아니라 접근 가능, WAF/권한 보호, 404/410 교체 필요 상태를 분류하는 non-strict 운영 점검이다.
+  - live check에서 `reachable`은 승인 feed 또는 공식 페이지 매핑 후보로 유지하고, `guarded`는 공식 API/RSS/제휴 feed 또는 담당자 제공 데이터로 연결한다. `stale_or_removed`는 카탈로그 URL을 교체하기 전까지 신규 혜택 source로 쓰지 않는다.
   - `/api/sources`의 `officialSourceCatalog` 요약은 공식 feed 후보 수, 고우선순위 후보, 카테고리/provider 커버리지, thin category, 후보별 공식 URL, 허용/차단 사용 범위, 다음 연결 env key를 반환한다. 공식 feed를 붙이기 전에는 이 값이 10개 필수 카테고리별 최소 2개 후보와 4개 provider를 모두 채우는지 먼저 본다.
   - 스프레드시트 검토가 필요하면 `/api/admin/news-operations?format=csv` 또는 관리자 화면의 `Provider 위험도 CSV` 버튼으로 provider risk, 숨김/종료/공식 링크 누락, 실패 사유, 최근 로그를 내려받는다.
-  - CSV의 `feed_transition` 행은 provider별 허용 소스, 필요한 환경변수, 현재 feed URL 수, 다음 액션을 포함한다. 공식 feed URL을 추가한 뒤에는 `npm run source:catalog:report && npm run news:feed:doctor && npm run refresh:all && npm run smoke:local && npm run release:doctor`를 순서대로 실행한다.
+  - CSV의 `feed_transition` 행은 provider별 허용 소스, 필요한 환경변수, 현재 feed URL 수, 다음 액션을 포함한다. 공식 feed URL을 추가한 뒤에는 `npm run source:catalog:report && npm run source:live:doctor && npm run news:feed:doctor && npm run refresh:all && npm run smoke:local && npm run release:doctor`를 순서대로 실행한다.
   - `Provider 위험도`가 `즉시 점검`이면 실패/오류/공식 링크 누락을 먼저 정리하고, `수집 대기` 또는 `seed 운영`이면 상용 운영 전 공식 API/RSS/제휴 feed 연결 후보를 보강한다.
   - stale 또는 due 상태이면 `npm run refresh:all && npm run health:readiness`를 실행한 뒤 `npm run smoke:local && npm run release:doctor`로 회귀를 확인한다.
 - 운영 헬스 리포트:

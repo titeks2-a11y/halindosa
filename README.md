@@ -64,6 +64,7 @@ npm run test:external-links
 npm run test:images
 npm run image:backlog:report
 npm run image:operations:doctor
+npm run source:live:doctor
 npm run test:ui
 npm run test:mobile-ux
 npm run test:seo
@@ -83,9 +84,11 @@ npm run release:doctor
 
 `npm run image:backlog:report`는 전체 이미지 보강 큐(`IMAGE_BACKLOG.csv`), 이번 주 실행 배치(`IMAGE_BACKLOG_NEXT_BATCH.csv`), 판매처별 피드 요청서(`IMAGE_BACKLOG_MALL_REQUESTS.csv`), JSON/문서 리포트를 함께 생성합니다. 공개 운영 전에는 주간 배치 CSV부터 처리하고, backlog가 많은 판매처는 mall request CSV로 `imageUrl` 또는 `thumbnail` 확보를 요청합니다.
 
+`npm run source:live:doctor`는 `data/officialSourceCatalog.json`의 공식 소스 후보 URL을 non-strict로 점검해 `reports/official-source-live-check.json`, `reports/official-source-live-check.csv`, [docs/OFFICIAL_SOURCE_LIVE_CHECK.md](docs/OFFICIAL_SOURCE_LIVE_CHECK.md)를 생성합니다. 이 점검은 무단 크롤링이 아니라 접근 가능, WAF/권한 보호, 404/410 교체 필요 상태를 운영자가 보는 리포트이며 사용자 노출 데이터를 자동 변경하지 않습니다.
+
 `npm run health:readiness`는 `reports/health-readiness.json`과 [docs/HEALTH_READINESS_REPORT.md](docs/HEALTH_READINESS_REPORT.md)를 생성해 상품 140개 이상, 검증 링크 99% 이상, 검색/품절 노출 0개, 공식 혜택 25개 이상, 필수 공식 혜택 카테고리별 2건 이상, `refresh:all` 성공, 24시간 이내 신선도를 함께 점검합니다.
 
-`npm run qa`는 `lint`, `verify:links`, `verify:products`, `link:policy:regression`, 상품/뉴스 refresh, `verify:news`, `news:feed:doctor`, `refresh:all`, non-strict `verify:links:live`, `exposure:doctor`, `health:readiness`, 공식 소스 카탈로그 리포트, 외부 링크/이미지/이미지 운영 doctor, `catalog:doctor`, `search:doctor`, UI/모바일 UX/SEO/성능 doctor, 구매·상세·전역 navigation doctor, 홈 URL/list scan doctor, `smoke:local`, `build`, `release:doctor`를 순서대로 실행합니다.
+`npm run qa`는 `lint`, `verify:links`, `verify:products`, `link:policy:regression`, 상품/뉴스 refresh, `verify:news`, `news:feed:doctor`, `refresh:all`, non-strict `verify:links:live`, `exposure:doctor`, `health:readiness`, 공식 소스 카탈로그/라이브 접근성 리포트, 외부 링크/이미지/이미지 운영 doctor, `catalog:doctor`, `search:doctor`, UI/모바일 UX/SEO/성능 doctor, 구매·상세·전역 navigation doctor, 홈 URL/list scan doctor, `smoke:local`, `build`, `release:doctor`를 순서대로 실행합니다.
 
 ## 공식 혜택 Feed 운영
 
@@ -103,6 +106,8 @@ npm run health:readiness
 
 공식 소스 후보와 feed 전환 작업표는 `GET /api/sources`에서 JSON으로 확인하고, 스프레드시트 검토가 필요하면 `GET /api/sources?format=csv`를 내려받습니다. CSV는 공식 URL, provider, 카테고리, 우선 연결 env key, 현재 feed URL 수, 다음 운영 액션을 `source_catalog`, `feed_transition`, `next_action` 행으로 정리합니다.
 서버를 띄우지 않는 운영 점검에서는 `npm run source:catalog:report`로 같은 목적의 `reports/official-source-catalog.csv` 파일을 생성할 수 있습니다.
+
+공식 feed를 붙이기 전에는 `npm run source:live:doctor`로 후보 URL의 현재 접근 상태를 확인합니다. `reachable`은 승인 feed 또는 공식 페이지 매핑 후보로 유지하고, `guarded`는 브라우저 자동 수집 대상이 아니라 공식 API/RSS/제휴 feed 담당자 확인 대상으로 분류합니다. `stale_or_removed`는 카탈로그 URL을 교체하기 전까지 신규 혜택 source로 사용하지 않습니다.
 
 ## 검색 동작 방식
 
