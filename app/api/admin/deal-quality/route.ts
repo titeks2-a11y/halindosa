@@ -3,21 +3,28 @@ import { canAccessAdminRequest } from "@/lib/adminAuth";
 import { createRequestId, getClientKey, rateLimit, rateLimitHeaders } from "@/lib/apiGuards";
 import { getRefreshDealsReport } from "@/lib/deals/refreshReport";
 import { toCsv } from "@/lib/csv";
-import { hideDealManually, listManualHiddenDealIds, readDealOperationOverrides, restoreDealManually } from "@/lib/deals/operationOverrides";
+import {
+  getDealOperationOverrideStorageStatus,
+  readDealOperationOverridesLive,
+  recordDealOperationActionWithPersistence
+} from "@/lib/deals/operationOverrides";
 
-function getPayload() {
+async function getPayload() {
   const report = getRefreshDealsReport();
-  const overrides = readDealOperationOverrides();
+  const overrides = await readDealOperationOverridesLive();
 
   return {
     report,
-    manualHiddenDealIds: listManualHiddenDealIds(),
+    manualHiddenDealIds: Object.keys(overrides.hidden).sort(),
     manualOverrideAudit: overrides.auditLog.slice(0, 20),
-    message: "운영 품질 리포트를 불러왔습니다. 수동 숨김은 로컬 운영 파일에 저장되고 목록, 상세, 구매 이동에 즉시 반영됩니다."
+    manualOverrideStorage: getDealOperationOverrideStorageStatus(),
+    message: "운영 품질 리포트를 불러왔습니다. 수동 숨김은 로컬 운영 파일과 Supabase admin_actions 준비 구조를 통해 목록, 상세, 구매 이동에 즉시 반영됩니다."
   };
 }
 
-function buildDealQualityCsv(payload: ReturnType<typeof getPayload>) {
+type DealQualityPayload = Awaited<ReturnType<typeof getPayload>>;
+
+function buildDealQualityCsv(payload: DealQualityPayload) {
   const reportRecord = payload.report as typeof payload.report & {
     liveProbe?: Record<string, number>;
     reports?: {
@@ -108,6 +115,26 @@ function buildDealQualityCsv(payload: ReturnType<typeof getPayload>) {
       action: "운영 수동 조치 감사 로그 확인",
       generatedAt: item.createdAt
     })),
+    {
+      section: "manual_override_storage",
+      key: "local_file",
+      label: payload.manualOverrideStorage.localFile ? "enabled" : "empty",
+      status: payload.manualOverrideStorage.localFile ? "pass" : "watch",
+      count: payload.manualOverrideStorage.localFile ? 1 : 0,
+      reason: payload.manualOverrideStorage.localPath,
+      action: "로컬 운영 파일은 Git에 올리지 않고 서버 재시작 후 숨김 상태를 복원",
+      generatedAt: payload.report.generatedAt
+    },
+    {
+      section: "manual_override_storage",
+      key: "supabase_admin_actions",
+      label: payload.manualOverrideStorage.supabaseConfigured ? "configured" : "not_configured",
+      status: payload.manualOverrideStorage.supabaseConfigured ? "pass" : "watch",
+      count: payload.manualOverrideStorage.supabaseConfigured ? 1 : 0,
+      reason: payload.manualOverrideStorage.supabaseTable,
+      action: "운영 배포에서는 service-role 서버 액션으로 admin_actions에 감사 로그 영구화",
+      generatedAt: payload.report.generatedAt
+    },
     ...Object.entries(reportRecord.liveProbe ?? {}).map(([key, count]) => ({
       section: "live_probe",
       key,
@@ -150,7 +177,7 @@ export async function GET(request: Request) {
     return NextResponse.json({ ok: false, requestId, message: "관리자 권한이 없습니다." }, { status: 401, headers: rateLimitHeaders(limit, requestId) });
   }
 
-  const payload = getPayload();
+  const payload = await getPayload();
 
   if (url.searchParams.get("format") === "csv") {
     return new Response(buildDealQualityCsv(payload), {
@@ -191,9 +218,11 @@ export async function POST(request: Request) {
   const reason = body.reason?.trim() || "admin_operation";
 
   if (body.action === "hide" && dealId) {
-    hideDealManually(dealId, reason);
+    await recordDealOperationActionWithPersistence("hide", dealId, reason);
   } else if (body.action === "restore" && dealId) {
-    restoreDealManually(dealId);
+    await recordDealOperationActionWithPersistence("restore", dealId, "admin_restore");
+  } else if (body.action === "revalidate" && dealId) {
+    await recordDealOperationActionWithPersistence("revalidate", dealId, reason);
   } else if (body.action !== "revalidate") {
     return NextResponse.json({ ok: false, requestId, message: "지원하지 않는 운영 액션입니다." }, { status: 400, headers: rateLimitHeaders(limit, requestId) });
   }
@@ -203,7 +232,7 @@ export async function POST(request: Request) {
       ok: true,
       requestId,
       action: body.action,
-      ...getPayload()
+      ...(await getPayload())
     },
     { headers: rateLimitHeaders(limit, requestId) }
   );

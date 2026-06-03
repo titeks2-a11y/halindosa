@@ -8,7 +8,7 @@ import { fetchRefreshedSnapshotDeals, getRefreshedSnapshotUpdatedAt } from "@/li
 import { fetchStagingDeals } from "@/lib/deals/providers/stagingProvider";
 import { isPubliclyVisibleDeal, isVerifiedPurchaseLink } from "@/lib/deals/quality";
 import { dealMatchesSearch } from "@/lib/deals/search";
-import { applyDealOperationOverrides } from "@/lib/deals/operationOverrides";
+import { applyDealOperationOverrides, readDealOperationOverridesLive } from "@/lib/deals/operationOverrides";
 import { Deal, DealDataMode, DealSort } from "@/types/deal";
 
 export interface DealQuery {
@@ -169,9 +169,10 @@ async function fetchProviderDeals(query: Pick<DealQuery, "category" | "q"> = {})
 
 export async function getDeals(query: DealQuery = {}) {
   const provider = await fetchProviderDeals(query);
+  const operationOverrides = await readDealOperationOverridesLive();
   const sort = normalizeSort(query.sort);
   const limit = query.limit ?? 0;
-  let deals = provider.deals.map(applyDealOperationOverrides);
+  let deals = provider.deals.map((deal) => applyDealOperationOverrides(deal, operationOverrides));
 
   if (!query.includeHidden) {
     deals = deals.filter(isPubliclyVisibleDeal);
@@ -236,7 +237,7 @@ export async function findDealByIdLive(id: string) {
 export function getRelatedDeals(dealId: string, limit = 4) {
   const cachedDeals = Array.from(dealCache.values());
   const deals = (cachedDeals.length ? cachedDeals : normalizeDeals(curatedMockDeals, "mock"))
-    .map(applyDealOperationOverrides)
+    .map((deal) => applyDealOperationOverrides(deal))
     .filter(isPubliclyVisibleDeal);
   const deal = deals.find((item) => item.id === dealId);
   if (!deal) return [];

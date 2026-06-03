@@ -1996,6 +1996,7 @@ await check("admin deal quality csv", async () => {
   assert(response.headers.get("x-request-id"), "Deal quality export missing request id");
   assert(text.startsWith("section,key,label"), "Deal quality CSV header missing");
   assert(text.includes("provider") && text.includes("failure_reason") && text.includes("link_validation"), "Deal quality CSV missing provider, failure reason, or link validation sections");
+  assert(text.includes("manual_override_storage") && text.includes("supabase_admin_actions"), "Deal quality CSV missing manual override storage readiness");
 });
 
 await check("admin manual hide affects public exposure", async () => {
@@ -2013,6 +2014,10 @@ await check("admin manual hide affects public exposure", async () => {
     assert(
       hide.data.manualOverrideAudit?.some((item) => item.action === "hide" && item.id === dealId),
       "Manual hide response should include persistent override audit log"
+    );
+    assert(
+      hide.data.manualOverrideStorage?.supabaseTable === "admin_actions",
+      "Manual hide response should expose Supabase admin_actions storage readiness"
     );
 
     const publicDeals = await fetchJson("/api/deals?limit=200");

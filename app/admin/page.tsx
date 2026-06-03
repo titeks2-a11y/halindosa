@@ -13,7 +13,7 @@ import { buildBenefitDecisionGuide } from "@/lib/deals/benefitDecisionGuide";
 import { buildClaimEffortSummary } from "@/lib/deals/claimEffort";
 import { getVisibleNewsDeals } from "@/lib/deals/newsDeals";
 import { getNewsOperationsReport } from "@/lib/deals/newsOperations";
-import { listManualHiddenDealIds } from "@/lib/deals/operationOverrides";
+import { readDealOperationOverridesLive } from "@/lib/deals/operationOverrides";
 import { getLinkReviewActionLabel, getLinkReviewQueue, getLinkStatusLabel, getLinkTypeLabel } from "@/lib/deals/quality";
 import { getRefreshDealsReport } from "@/lib/deals/refreshReport";
 import { getDealSourceReadiness, listDealSourceProfiles } from "@/lib/deals/trust";
@@ -84,6 +84,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const { deals } = await getDeals();
   const reportSummary = getReportSummary();
   const refreshReport = getRefreshDealsReport();
+  const dealOperationOverrides = await readDealOperationOverridesLive();
   const newsOperations = getNewsOperationsReport();
   const healthReadiness = getHealthReadinessReport();
   const sourceLiveReport = getOfficialSourceLiveReport();
@@ -351,7 +352,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
           </a>
         </div>
 
-        <AdminDealQualityPanel token={token} initialReport={refreshReport} initialManualHiddenDealIds={listManualHiddenDealIds()} />
+        <AdminDealQualityPanel token={token} initialReport={refreshReport} initialManualHiddenDealIds={Object.keys(dealOperationOverrides.hidden).sort()} />
 
         <section className="rounded-3xl border border-emerald-100 bg-white p-5 shadow-sm" aria-label="노출 정책 감사">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">

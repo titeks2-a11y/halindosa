@@ -3819,22 +3819,30 @@ function checkRefreshDealPipeline() {
     !operationOverrides.includes("hideDealManually") ||
     !operationOverrides.includes("restoreDealManually") ||
     !operationOverrides.includes("readDealOperationOverrides") ||
+    !operationOverrides.includes("readDealOperationOverridesLive") ||
     !operationOverrides.includes("writeDealOperationOverrides") ||
+    !operationOverrides.includes("recordDealOperationActionWithPersistence") ||
+    !operationOverrides.includes("rest/v1/admin_actions") ||
+    !operationOverrides.includes("SUPABASE_SERVICE_ROLE_KEY") ||
     !operationOverrides.includes("dealOperationOverrides.local.json") ||
     !operationOverrides.includes("auditLog") ||
     !operationOverrides.includes("applyDealOperationOverrides") ||
+    !dealRepository.includes("readDealOperationOverridesLive") ||
     !dealRepository.includes("applyDealOperationOverrides") ||
-    !adminRoute.includes("hideDealManually") ||
-    !adminRoute.includes("restoreDealManually") ||
+    !adminRoute.includes("recordDealOperationActionWithPersistence") ||
     !adminRoute.includes("manualOverrideAudit") ||
+    !adminRoute.includes("manualOverrideStorage") ||
     !adminRoute.includes("manual_override_audit") ||
+    !adminRoute.includes("supabase_admin_actions") ||
+    !adminPage.includes("readDealOperationOverridesLive") ||
     !gitignore.includes("data/dealOperationOverrides.local.json") ||
     !smoke.includes("admin manual hide affects public exposure") ||
     !smoke.includes("Manually hidden deal should not be exposed in public deal API") ||
     !smoke.includes("persistent override audit log") ||
+    !smoke.includes("Supabase admin_actions storage readiness") ||
     !smoke.includes("Expected hidden redirect 404")
   ) {
-    issues.push("admin manual hide should use a persisted local operation overlay, expose audit evidence, ignore local override files, and smoke-test public API plus redirect blocking before release.");
+    issues.push("admin manual hide should use a persisted local plus Supabase-ready operation overlay, expose audit/storage evidence, ignore local override files, and smoke-test public API plus redirect blocking before release.");
   }
 
   if (
