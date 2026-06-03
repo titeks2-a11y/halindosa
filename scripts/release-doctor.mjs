@@ -3257,6 +3257,8 @@ function checkRefreshDealPipeline() {
   const adminRoutePath = "app/api/admin/deal-quality/route.ts";
   const adminPanelPath = "components/AdminDealQualityPanel.tsx";
   const providerTypes = readFileSync(join(root, "lib/deals/providers/types.ts"), "utf8");
+  const providerRegistry = readFileSync(join(root, "lib/deals/providers/providerRegistry.ts"), "utf8");
+  const dealRepository = readFileSync(join(root, "lib/deals/dealRepository.ts"), "utf8");
   const refreshScript = readFileSync(join(root, "scripts/refresh-deals.mjs"), "utf8");
   const issues = [];
 
@@ -3286,6 +3288,14 @@ function checkRefreshDealPipeline() {
 
   if (!refreshScript.includes("COUPANG_PARTNER_FEED_URLS") || !refreshScript.includes("NAVER_CLIENT_ID") || !refreshScript.includes("ELEVENST_PARTNER_FEED_URLS")) {
     issues.push("refresh script should support Coupang/Naver/11st approved feeds or API keys");
+  }
+
+  if (!providerTypes.includes("fetchProviderJsonFeeds") || !providerRegistry.includes("fetchProviderDealsSafely")) {
+    issues.push("runtime provider registry should fetch approved API/feed providers safely");
+  }
+
+  if (!dealRepository.includes("fetchRefreshedSnapshotDeals") || !dealRepository.includes("fetchProviderDealsSafely") || !dealRepository.includes("mergeUniqueDeals")) {
+    issues.push("deal repository should merge refreshed snapshots and provider registry deals into customer-visible data");
   }
 
   if (issues.length) fail("deal refresh pipeline", issues.join("; "));

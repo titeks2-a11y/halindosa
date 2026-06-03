@@ -1,4 +1,4 @@
-import { DealProvider, dedupeProviderDeals, hasRequiredEnv, normalizeProviderDeal, validateProviderDeal } from "@/lib/deals/providers/types";
+import { DealProvider, dedupeProviderDeals, fetchProviderJsonFeeds, getProviderFeedUrls, hasRequiredEnv, normalizeProviderDeal, validateProviderDeal } from "@/lib/deals/providers/types";
 
 const requiredEnv = ["COUPANG_ACCESS_KEY", "COUPANG_SECRET_KEY"];
 
@@ -10,11 +10,13 @@ export const CoupangProvider: DealProvider = {
     return hasRequiredEnv(requiredEnv);
   },
   async fetchDeals() {
-    if (!this.isConfigured()) return [];
+    const feedDeals = await fetchProviderJsonFeeds("coupang", getProviderFeedUrls("COUPANG_PARTNER_FEED_URLS"));
 
-    // Future production hook: call an approved Coupang API/partner feed,
-    // then return DealInput[] with productUrl/finalPurchaseUrl populated.
-    return [];
+    // Coupang Partners/Open API signing differs by approved account type.
+    // Until keys and a permitted endpoint are configured, feedDeals keeps the
+    // provider operational without scraping or exposing search fallback links.
+    if (!this.isConfigured()) return feedDeals;
+    return this.dedupeDeal(feedDeals);
   },
   normalizeDeal(raw) {
     return normalizeProviderDeal(raw, "coupang");

@@ -23,6 +23,49 @@ export function hasRequiredEnv(keys: string[]) {
   return keys.every((key) => Boolean(process.env[key]?.trim()));
 }
 
+export function getProviderFeedUrls(...keys: string[]) {
+  return keys
+    .flatMap((key) => (process.env[key] ?? "").split(","))
+    .map((url) => url.trim())
+    .filter(Boolean);
+}
+
+function getFeedItems(payload: unknown): unknown[] {
+  if (Array.isArray(payload)) return payload;
+  if (payload && typeof payload === "object" && Array.isArray((payload as { deals?: unknown[] }).deals)) return (payload as { deals: unknown[] }).deals;
+  if (payload && typeof payload === "object" && Array.isArray((payload as { items?: unknown[] }).items)) return (payload as { items: unknown[] }).items;
+  return [];
+}
+
+export async function fetchProviderJsonFeeds(providerName: DealProviderName, urls: string[], timeoutMs = 5000) {
+  const settled = await Promise.allSettled(
+    urls.map(async (url) => {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), timeoutMs);
+
+      try {
+        const response = await fetch(url, {
+          headers: { Accept: "application/json", "User-Agent": "HalindosaProvider/1.0" },
+          cache: "no-store",
+          signal: controller.signal
+        });
+
+        if (!response.ok) return [];
+        const payload = await response.json();
+        return getFeedItems(payload)
+          .map((item) => normalizeProviderDeal({ ...(item as Record<string, unknown>), sourceProvider: providerName }, providerName))
+          .filter((item): item is DealInput => Boolean(item));
+      } catch {
+        return [];
+      } finally {
+        clearTimeout(timeout);
+      }
+    })
+  );
+
+  return settled.flatMap((result) => (result.status === "fulfilled" ? result.value : []));
+}
+
 export interface DealProviderValidation {
   ok: boolean;
   reason: string;

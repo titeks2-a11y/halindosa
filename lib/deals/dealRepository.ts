@@ -3,6 +3,8 @@ import { mockDeals as curatedMockDeals } from "@/data/mockDeals";
 import { normalizeDeals } from "@/lib/deals/normalizer";
 import { fetchMockDeals } from "@/lib/deals/providers/mockProvider";
 import { fetchProductionDeals } from "@/lib/deals/providers/productionProvider";
+import { fetchProviderDealsSafely } from "@/lib/deals/providers/providerRegistry";
+import { fetchRefreshedSnapshotDeals, getRefreshedSnapshotUpdatedAt } from "@/lib/deals/providers/refreshedSnapshotProvider";
 import { fetchStagingDeals } from "@/lib/deals/providers/stagingProvider";
 import { isPubliclyVisibleDeal, isVerifiedPurchaseLink } from "@/lib/deals/quality";
 import { dealMatchesSearch } from "@/lib/deals/search";
@@ -45,6 +47,34 @@ function rememberDeals(deals: Deal[]) {
   }
 }
 
+function canonicalDealKey(deal: Deal) {
+  const urlValue = deal.finalPurchaseUrl || deal.finalUrl || deal.productUrl || deal.purchaseUrl || deal.link || deal.id;
+
+  try {
+    const url = new URL(urlValue);
+    const keepParams = new Set(["itemId", "vendorItemId", "goodsCode", "goodsNo", "goodscode", "productId", "prdNo", "dealNo"]);
+
+    for (const key of Array.from(url.searchParams.keys())) {
+      if (!keepParams.has(key)) url.searchParams.delete(key);
+    }
+
+    return `${url.hostname.replace(/^www\./, "").toLowerCase()}${url.pathname.replace(/\/+$/, "")}${url.search}`;
+  } catch {
+    return `${deal.mallName}-${deal.title}-${deal.salePrice}`.toLowerCase();
+  }
+}
+
+function mergeUniqueDeals(primary: Deal[], fallback: Deal[]) {
+  const unique = new Map<string, Deal>();
+
+  for (const deal of [...primary, ...fallback]) {
+    const key = canonicalDealKey(deal);
+    if (!unique.has(key)) unique.set(key, deal);
+  }
+
+  return Array.from(unique.values());
+}
+
 export function normalizeSort(sort?: string | null): DealSort {
   return validSorts.has(sort as DealSort) ? (sort as DealSort) : "latest";
 }
@@ -85,34 +115,55 @@ function getPriceBandRange(priceBand?: string) {
 async function fetchProviderDeals(query: Pick<DealQuery, "category" | "q"> = {}): Promise<DealProviderResult> {
   const mode = getDataMode();
   const mockDeals = await fetchMockDeals();
+  const refreshedDeals = await fetchRefreshedSnapshotDeals();
+  const refreshedUpdatedAt = getRefreshedSnapshotUpdatedAt();
 
   try {
     if (mode === "staging") {
       const stagingDeals = await fetchStagingDeals({ category: getProviderCategory(query.category) ?? query.category, q: query.q });
-      if (stagingDeals.length) return { deals: stagingDeals, source: "staging", updatedAt: new Date().toISOString() };
+      if (stagingDeals.length) return { deals: mergeUniqueDeals([...stagingDeals, ...refreshedDeals], mockDeals), source: "staging", updatedAt: new Date().toISOString() };
     }
 
     if (mode === "production") {
       const productionDeals = normalizeDeals(await fetchProductionDeals(), "production");
-      if (productionDeals.length) return { deals: productionDeals, source: "production", updatedAt: new Date().toISOString() };
+      const providerResults = await fetchProviderDealsSafely();
+      const providerDeals = normalizeDeals(
+        providerResults.filter((result) => result.provider !== "manual").flatMap((result) => result.deals),
+        "production"
+      );
+      if (productionDeals.length || providerDeals.length || refreshedDeals.length) {
+        return { deals: mergeUniqueDeals([...productionDeals, ...providerDeals, ...refreshedDeals], mockDeals), source: "production", updatedAt: new Date().toISOString() };
+      }
     }
 
     if (mode === "hybrid") {
-      const [stagingDeals, productionDeals] = await Promise.allSettled([
+      const [stagingDeals, productionDeals, providerResults] = await Promise.allSettled([
         fetchStagingDeals({ category: getProviderCategory(query.category) ?? query.category, q: query.q }),
-        fetchProductionDeals()
+        fetchProductionDeals(),
+        fetchProviderDealsSafely()
       ]);
+      const registryDeals =
+        providerResults.status === "fulfilled"
+          ? normalizeDeals(providerResults.value.filter((result) => result.provider !== "manual").flatMap((result) => result.deals), "production")
+          : [];
       const externalDeals = [
         ...(stagingDeals.status === "fulfilled" ? stagingDeals.value : []),
-        ...(productionDeals.status === "fulfilled" ? normalizeDeals(productionDeals.value, "production") : [])
+        ...(productionDeals.status === "fulfilled" ? normalizeDeals(productionDeals.value, "production") : []),
+        ...registryDeals
       ];
-      if (externalDeals.length) return { deals: [...externalDeals, ...mockDeals], source: "hybrid", updatedAt: new Date().toISOString() };
+      if (externalDeals.length || refreshedDeals.length) {
+        return { deals: mergeUniqueDeals([...externalDeals, ...refreshedDeals], mockDeals), source: "hybrid", updatedAt: new Date().toISOString() };
+      }
     }
   } catch {
     // Keep V1 stable by falling back to curated mock deals when external providers fail.
   }
 
-  return { deals: mockDeals, source: "mock", updatedAt: new Date().toISOString() };
+  return {
+    deals: refreshedDeals.length ? mergeUniqueDeals(refreshedDeals, mockDeals) : mockDeals,
+    source: refreshedDeals.length ? "hybrid" : "mock",
+    updatedAt: refreshedUpdatedAt || new Date().toISOString()
+  };
 }
 
 export async function getDeals(query: DealQuery = {}) {

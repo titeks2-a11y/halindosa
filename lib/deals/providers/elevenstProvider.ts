@@ -1,4 +1,4 @@
-import { DealProvider, dedupeProviderDeals, hasRequiredEnv, normalizeProviderDeal, validateProviderDeal } from "@/lib/deals/providers/types";
+import { DealProvider, dedupeProviderDeals, fetchProviderJsonFeeds, getProviderFeedUrls, hasRequiredEnv, normalizeProviderDeal, validateProviderDeal } from "@/lib/deals/providers/types";
 
 const requiredEnv = ["ELEVENST_API_KEY"];
 
@@ -10,10 +10,12 @@ export const ElevenstProvider: DealProvider = {
     return hasRequiredEnv(requiredEnv);
   },
   async fetchDeals() {
-    if (!this.isConfigured()) return [];
+    const feedDeals = await fetchProviderJsonFeeds("elevenst", getProviderFeedUrls("ELEVENST_PARTNER_FEED_URLS"));
 
-    // Future production hook: call the 11st Open API or approved partner feed.
-    return [];
+    // 11st Open API response formats vary by contract. Approved JSON feeds are
+    // supported now, and raw API keys can be mapped here without changing UI code.
+    if (!this.isConfigured()) return feedDeals;
+    return this.dedupeDeal(feedDeals);
   },
   normalizeDeal(raw) {
     return normalizeProviderDeal(raw, "elevenst");
