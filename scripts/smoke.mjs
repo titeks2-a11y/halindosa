@@ -1149,6 +1149,9 @@ await check("health api", async () => {
   assert(data.checks?.officialBenefitReadyCategories >= 10, "Health API missing official benefit category coverage");
   assert(data.checks?.officialBenefitWeakCategories === 0, "Health API found weak official benefit categories");
   assert(data.checks?.officialBenefitRefreshAllOk === true, "Health API missing refresh:all official benefit status");
+  assert(data.checks?.officialBenefitProviderRiskOk === true, "Health API official benefit provider risk should be launch-safe");
+  assert(typeof data.checks?.officialBenefitProviderWatchCount === "number", "Health API missing official benefit provider watch count");
+  assert(data.checks?.officialBenefitProviderDangerCount === 0, "Health API found danger official benefit providers");
 });
 
 await check("today benefits api", async () => {

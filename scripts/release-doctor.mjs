@@ -2321,6 +2321,8 @@ async function checkOperationalDataSurfaces() {
     !healthRoute.includes("officialBenefitVisibleCount") ||
     !healthRoute.includes("officialBenefitReadyCategories") ||
     !healthRoute.includes("officialBenefitRefreshAllOk") ||
+    !healthRoute.includes("officialBenefitProviderRiskOk") ||
+    !healthRoute.includes("officialBenefitProviderDangerCount") ||
     !analytics.includes("operationalEnvReadiness") ||
     !envReadiness.includes("getOperationalEnvReadiness") ||
     !envReadiness.includes("NEXT_PUBLIC_SITE_URL") ||
@@ -2334,12 +2336,13 @@ async function checkOperationalDataSurfaces() {
     !smoke.includes("Health API missing operational env readiness rate") ||
     !smoke.includes("Health API official benefit feed is stale") ||
     !smoke.includes("Health API missing official benefit category coverage") ||
+    !smoke.includes("Health API official benefit provider risk should be launch-safe") ||
     !smoke.includes("Metrics missing operational env readiness rate") ||
     !smoke.includes("Commercialization page missing operational env readiness")
   ) {
-    fail("operational health checks", "Health API should expose V2 link, free benefit, claim-guide, personalization, official benefit feed freshness, and deployment environment readiness with smoke coverage.");
+    fail("operational health checks", "Health API should expose V2 link, free benefit, claim-guide, personalization, official benefit feed freshness, provider risk, and deployment environment readiness with smoke coverage.");
   } else {
-    pass("operational health checks", "Health API exposes V2 link, free benefit, claim-guide, personalization, official benefit feed freshness, and deployment environment readiness with smoke coverage.");
+    pass("operational health checks", "Health API exposes V2 link, free benefit, claim-guide, personalization, official benefit feed freshness, provider risk, and deployment environment readiness with smoke coverage.");
   }
 
   if (

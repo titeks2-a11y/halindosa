@@ -33,6 +33,8 @@ export async function GET() {
     const newsOperations = getNewsOperationsReport();
     const officialBenefitReadyCategories = newsOperations.categoryCoverage.filter((item) => item.status === "ready").length;
     const officialBenefitWeakCategories = newsOperations.categoryCoverage.filter((item) => item.status !== "ready").length;
+    const officialBenefitProviderRiskSummary = newsOperations.providerRiskSummary ?? { healthy: 0, watch: 0, danger: 0 };
+    const officialBenefitProviderRiskOk = officialBenefitProviderRiskSummary.danger === 0;
     const officialBenefitGeneratedAt = Date.parse(newsOperations.generatedAt);
     const officialBenefitFreshnessHours = Number.isFinite(officialBenefitGeneratedAt)
       ? Math.round(((Date.now() - officialBenefitGeneratedAt) / (60 * 60 * 1000)) * 10) / 10
@@ -47,7 +49,8 @@ export async function GET() {
       claimGuideRate >= 95 &&
       newsOperations.visibleCount >= 25 &&
       officialBenefitReadyCategories >= 10 &&
-      officialBenefitFresh
+      officialBenefitFresh &&
+      officialBenefitProviderRiskOk
         ? "ready"
         : "needs_review";
 
@@ -80,6 +83,10 @@ export async function GET() {
         officialBenefitFailedCount: newsOperations.failedCount,
         officialBenefitRefreshAllOk: newsOperations.refreshAll.ok,
         officialBenefitOperationalRisks: newsOperations.operationalRisks.length,
+        officialBenefitProviderRiskOk,
+        officialBenefitProviderHealthyCount: officialBenefitProviderRiskSummary.healthy,
+        officialBenefitProviderWatchCount: officialBenefitProviderRiskSummary.watch,
+        officialBenefitProviderDangerCount: officialBenefitProviderRiskSummary.danger,
         activeDeals: activeDeals.length,
         freeBenefitDeals: freeBenefitDeals.length
       },
