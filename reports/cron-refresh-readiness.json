@@ -1,0 +1,68 @@
+{
+  "ok": true,
+  "generatedAt": "2026-06-03T19:19:43.642Z",
+  "status": "ready",
+  "endpoint": "/api/cron/refresh",
+  "schedule": "0 */6 * * *",
+  "packageScript": "node scripts/cron-refresh-doctor.mjs",
+  "routeProtected": true,
+  "dryRunGuarded": true,
+  "refreshAllOk": true,
+  "healthCronStatus": "manual_refresh_ready",
+  "cronReportExists": false,
+  "cronReportGeneratedAt": "",
+  "reportPath": "reports/cron-refresh.json",
+  "readinessReportPath": "reports/cron-refresh-readiness.json",
+  "checks": [
+    {
+      "name": "protected route",
+      "ok": true,
+      "detail": "Cron endpoint requires CRON_SECRET, bearer/header secret, or admin token."
+    },
+    {
+      "name": "dry-run guard",
+      "ok": true,
+      "detail": "Dry-run path is smoke-tested and does not execute refresh scripts."
+    },
+    {
+      "name": "refresh execution",
+      "ok": true,
+      "detail": "Cron route executes the same refresh:all pipeline as release QA."
+    },
+    {
+      "name": "vercel schedule",
+      "ok": true,
+      "detail": "Vercel schedules /api/cron/refresh every 6 hours."
+    },
+    {
+      "name": "environment keys",
+      "ok": true,
+      "detail": ".env.example documents cron secret and timeout knobs."
+    },
+    {
+      "name": "operations report",
+      "ok": true,
+      "detail": "Cron operations layer exposes last-run status and report path."
+    },
+    {
+      "name": "health and admin surfaces",
+      "ok": true,
+      "detail": "Health API and admin dashboard expose cron readiness."
+    },
+    {
+      "name": "refresh-all evidence",
+      "ok": true,
+      "detail": "refresh:all is healthy with 140 product deals and 30 official benefits."
+    },
+    {
+      "name": "health readiness status",
+      "ok": true,
+      "detail": "Health readiness marks cron refresh as manual_refresh_ready."
+    },
+    {
+      "name": "runbook",
+      "ok": true,
+      "detail": "RUNBOOK documents protected cron execution and report inspection."
+    }
+  ]
+}

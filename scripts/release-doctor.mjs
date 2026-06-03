@@ -3999,6 +3999,10 @@ function checkCronRefreshPipeline() {
   const vercelConfig = existsSync(join(root, "vercel.json")) ? JSON.parse(readFileSync(join(root, "vercel.json"), "utf8")) : {};
   const envExample = existsSync(join(root, ".env.example")) ? readFileSync(join(root, ".env.example"), "utf8") : "";
   const smokeScript = existsSync(join(root, "scripts/smoke.mjs")) ? readFileSync(join(root, "scripts/smoke.mjs"), "utf8") : "";
+  const packageJson = existsSync(join(root, "package.json")) ? JSON.parse(readFileSync(join(root, "package.json"), "utf8")) : {};
+  const cronDoctor = existsSync(join(root, "scripts/cron-refresh-doctor.mjs")) ? readFileSync(join(root, "scripts/cron-refresh-doctor.mjs"), "utf8") : "";
+  const cronReadinessReport = existsSync(join(root, "reports/cron-refresh-readiness.json")) ? JSON.parse(readFileSync(join(root, "reports/cron-refresh-readiness.json"), "utf8")) : null;
+  const cronReadinessDocs = existsSync(join(root, "docs/CRON_REFRESH_READINESS.md")) ? readFileSync(join(root, "docs/CRON_REFRESH_READINESS.md"), "utf8") : "";
   const runbook = existsSync(join(root, "docs/RUNBOOK.md")) ? readFileSync(join(root, "docs/RUNBOOK.md"), "utf8") : "";
   const roadmap = existsSync(join(root, "docs/roadmap.md")) ? readFileSync(join(root, "docs/roadmap.md"), "utf8") : "";
 
@@ -4017,6 +4021,19 @@ function checkCronRefreshPipeline() {
 
   for (const key of ["CRON_SECRET", "CRON_REFRESH_TIMEOUT_MS"]) {
     if (!envExample.includes(`${key}=`)) issues.push(`env example missing ${key}`);
+  }
+
+  if (packageJson.scripts?.["cron:refresh:doctor"] !== "node scripts/cron-refresh-doctor.mjs" || !packageJson.scripts?.qa?.includes("cron:refresh:doctor")) {
+    issues.push("package scripts should expose cron:refresh:doctor and include it in qa");
+  }
+  if (!cronDoctor.includes("cron-refresh-readiness.json") || !cronDoctor.includes("CRON_REFRESH_READINESS.md") || !cronDoctor.includes("refresh-all evidence")) {
+    issues.push("cron refresh doctor should write JSON/docs readiness evidence and verify refresh:all");
+  }
+  if (cronReadinessReport?.ok !== true || cronReadinessReport?.endpoint !== "/api/cron/refresh" || cronReadinessReport?.schedule !== "0 */6 * * *") {
+    issues.push("reports/cron-refresh-readiness.json should prove protected 6-hour cron readiness");
+  }
+  if (!cronReadinessDocs.includes("Cron Refresh Readiness") || !cronReadinessDocs.includes("dryRun=true") || !cronReadinessDocs.includes("CRON_SECRET")) {
+    issues.push("docs/CRON_REFRESH_READINESS.md should document dry-run and CRON_SECRET operation");
   }
 
   if (!cronOperations.includes("getCronRefreshOperationsReport") || !cronOperations.includes("reports/cron-refresh.json") || !cronOperations.includes("manual_refresh_ready")) {
