@@ -1,9 +1,9 @@
 {
   "generatedBy": "npm run release:notes",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "df3a0c7",
-  "workingTree": "M DEVICE_QA_REPORT.md;  M KNOWN_ISSUES.md;  M PUBLIC_URL_REPORT.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_HANDOFF_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M docs/DEVICE_QA_REPORT.md;  M docs/KNOWN_ISSUES.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_HANDOFF_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md",
-  "version": "1.0.0",
+  "commit": "b6c1071",
+  "workingTree": "M DEVICE_QA_REPORT.md;  M KNOWN_ISSUES.md;  M PUBLIC_URL_REPORT.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_HANDOFF_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M docs/DEVICE_QA_REPORT.md;  M docs/KNOWN_ISSUES.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_HANDOFF_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md;  M reports/release-doctor.json",
+  "version": "1.0.1",
   "appName": "할인도사",
   "packageName": "com.halindosa.app",
   "linkCoverage": {
@@ -34,27 +34,27 @@
     {
       "path": "docs/release-evidence.md",
       "status": "present",
-      "bytes": 6389
+      "bytes": 5680
     },
     {
       "path": "docs/STORE_CONSOLE_FIELDS.md",
       "status": "present",
-      "bytes": 3869
+      "bytes": 3901
     },
     {
       "path": "docs/STORE_MANUAL_CHECKLIST.md",
       "status": "present",
-      "bytes": 4377
+      "bytes": 4402
     },
     {
       "path": "docs/STORE_HANDOFF_REPORT.md",
       "status": "present",
-      "bytes": 4658
+      "bytes": 4691
     },
     {
       "path": "docs/STORE_SUBMISSION_REPORT.md",
       "status": "present",
-      "bytes": 4876
+      "bytes": 4909
     },
     {
       "path": "docs/DEVICE_QA_MANIFEST.md",
@@ -73,14 +73,14 @@
     }
   ],
   "recentCommits": [
-    "df3a0c7 fix: prevent local origins in public share urls",
-    "80e798a docs: refresh release evidence",
-    "b84a80c test: guard quick deal purchase cta navigation",
-    "bf0e410 docs: refresh release evidence",
-    "4253eda docs: document mobile rail qa cues",
-    "453043a docs: refresh release evidence",
-    "ec82702 docs: require rail scroll checks in release plan",
-    "60b784b docs: refresh release evidence"
+    "b6c1071 docs: refresh release evidence",
+    "56151b0 feat: add admin news operation controls",
+    "c47f576 feat: add official benefit return history",
+    "d301108 feat: improve news operations dashboard",
+    "25c092a feat: add official news benefit pipeline",
+    "b763338 feat: polish premium commerce UX and launch schema",
+    "c24103c feat: harden verified deal link quality gates",
+    "604413e feat: polish commerce ux and operations readiness"
   ],
   "manualWorkThatMustNotBeFaked": [
     "Do not claim Play Console or App Store Connect submission has passed from this file.",
