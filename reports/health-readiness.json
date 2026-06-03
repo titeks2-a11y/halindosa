@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-03T17:03:29.444Z",
+  "generatedAt": "2026-06-03T17:13:58.594Z",
   "score": 100,
   "thresholds": {
     "productDealsCount": 140,
@@ -27,7 +27,7 @@
     ]
   },
   "officialBenefits": {
-    "visibleCount": 26,
+    "visibleCount": 30,
     "hiddenCount": 0,
     "expiredCount": 0,
     "officialMissingCount": 0,
@@ -40,10 +40,10 @@
     "thinCategories": [],
     "categoryCounts": {
       "마트/편의점": 6,
-      "패션/뷰티": 2,
+      "패션/뷰티": 3,
       "영화/문화": 3,
       "정부/공공혜택": 2,
-      "카드/멤버십": 3,
+      "카드/멤버십": 6,
       "여행/숙박": 2,
       "식품/생필품": 2,
       "외식/배달": 2,
@@ -62,9 +62,9 @@
         "provider": "news",
         "source": "approved_news_feed",
         "configured": false,
-        "fetchedCount": 0,
-        "normalizedCount": 0,
-        "visibleCount": 0,
+        "fetchedCount": 4,
+        "normalizedCount": 4,
+        "visibleCount": 4,
         "hiddenCount": 0,
         "failedCount": 0,
         "expiredCount": 0,
@@ -116,9 +116,9 @@
         "provider": "news",
         "source": "approved_news_feed",
         "severity": "watch",
-        "label": "수집 대기",
-        "reason": "노출 가능한 공식 혜택이 아직 없습니다.",
-        "visibleCount": 0,
+        "label": "seed 운영",
+        "reason": "승인된 seed/fallback으로 운영 중입니다.",
+        "visibleCount": 4,
         "issueCount": 0,
         "failureRate": 0
       },
@@ -161,8 +161,8 @@
   },
   "refreshAll": {
     "ok": true,
-    "generatedAt": "2026-06-03T17:03:27.827Z",
-    "insertedCount": 26,
+    "generatedAt": "2026-06-03T17:13:57.022Z",
+    "insertedCount": 30,
     "updatedCount": 136,
     "hiddenCount": 0,
     "expiredCount": 0,
@@ -172,32 +172,32 @@
       {
         "name": "refresh:deals",
         "ok": true,
-        "startedAt": "2026-06-03T17:03:27.828Z",
-        "finishedAt": "2026-06-03T17:03:28.119Z"
+        "startedAt": "2026-06-03T17:13:57.023Z",
+        "finishedAt": "2026-06-03T17:13:57.293Z"
       },
       {
         "name": "refresh:news",
         "ok": true,
-        "startedAt": "2026-06-03T17:03:28.119Z",
-        "finishedAt": "2026-06-03T17:03:28.201Z"
+        "startedAt": "2026-06-03T17:13:57.293Z",
+        "finishedAt": "2026-06-03T17:13:57.371Z"
       },
       {
         "name": "verify:links",
         "ok": true,
-        "startedAt": "2026-06-03T17:03:28.201Z",
-        "finishedAt": "2026-06-03T17:03:28.298Z"
+        "startedAt": "2026-06-03T17:13:57.371Z",
+        "finishedAt": "2026-06-03T17:13:57.467Z"
       },
       {
         "name": "verify:products",
         "ok": true,
-        "startedAt": "2026-06-03T17:03:28.298Z",
-        "finishedAt": "2026-06-03T17:03:28.378Z"
+        "startedAt": "2026-06-03T17:13:57.467Z",
+        "finishedAt": "2026-06-03T17:13:57.545Z"
       },
       {
         "name": "verify:news",
         "ok": true,
-        "startedAt": "2026-06-03T17:03:28.378Z",
-        "finishedAt": "2026-06-03T17:03:28.465Z"
+        "startedAt": "2026-06-03T17:13:57.545Z",
+        "finishedAt": "2026-06-03T17:13:57.627Z"
       }
     ]
   },
@@ -214,7 +214,7 @@
     "protected": true,
     "durationMs": 0,
     "productDealsCount": 140,
-    "newsDealsCount": 26,
+    "newsDealsCount": 30,
     "failedCount": 0,
     "message": "아직 cron 직접 실행 리포트는 없지만 refresh:all 수동 리포트는 정상입니다."
   },
@@ -247,7 +247,7 @@
     {
       "name": "official benefit count floor",
       "ok": true,
-      "detail": "26 official benefit deals are visible."
+      "detail": "30 official benefit deals are visible."
     },
     {
       "name": "official benefit category coverage",

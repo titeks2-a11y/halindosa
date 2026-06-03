@@ -1,18 +1,18 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-03T17:03:28.451Z",
-  "totalCount": 26,
-  "visibleCount": 26,
+  "generatedAt": "2026-06-03T17:13:57.612Z",
+  "totalCount": 30,
+  "visibleCount": 30,
   "hiddenCount": 0,
   "expiredCount": 0,
   "officialMissingCount": 0,
   "failedCount": 0,
   "categoryCounts": {
     "마트/편의점": 6,
-    "패션/뷰티": 2,
+    "패션/뷰티": 3,
     "영화/문화": 3,
     "정부/공공혜택": 2,
-    "카드/멤버십": 3,
+    "카드/멤버십": 6,
     "여행/숙박": 2,
     "식품/생필품": 2,
     "외식/배달": 2,
@@ -25,11 +25,11 @@
       "source": "approved_news_feed",
       "configured": false,
       "feedUrls": 0,
-      "fetchedCount": 0,
+      "fetchedCount": 4,
       "errorCount": 0,
       "errors": [],
-      "normalizedCount": 0,
-      "visibleCount": 0,
+      "normalizedCount": 4,
+      "visibleCount": 4,
       "hiddenCount": 0,
       "failedCount": 0,
       "expiredCount": 0,
@@ -91,6 +91,10 @@
     "news-gs25-event-goods",
     "news-culture-day-programs-2026",
     "news-culture-day-weekly-2026",
+    "news-kbcard-official-event-center",
+    "news-kbcard-membership-benefit-center",
+    "news-hmall-official-shopping-event",
+    "news-bccard-official-event-center",
     "news-cgv-official-events",
     "news-lottecinema-official-events",
     "news-tworld-membership-upgrade",
@@ -122,7 +126,7 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://gs25.gsretail.com/gscvs/ko/customer-engagement/event/detail/publishing?eventCode=8842885844512&pageNum=1&uiel=Mobile",
-      "checkedAt": "2026-06-03T17:03:28.451Z"
+      "checkedAt": "2026-06-03T17:13:57.612Z"
     },
     {
       "dealId": "news-musinsa-fashion-festa",
@@ -131,7 +135,7 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://www.musinsa.com/campaign/fashionfesta_1",
-      "checkedAt": "2026-06-03T17:03:28.451Z"
+      "checkedAt": "2026-06-03T17:13:57.612Z"
     },
     {
       "dealId": "news-lotteon-lohbs-coupon",
@@ -140,7 +144,7 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://www.lotteon.com/event/onLohbsShare",
-      "checkedAt": "2026-06-03T17:03:28.451Z"
+      "checkedAt": "2026-06-03T17:13:57.612Z"
     },
     {
       "dealId": "news-gs25-card-june-2026",
@@ -149,7 +153,7 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://gs25.gsretail.com/gscvs/ko/customer-engagement/event/detail/publishing?eventCode=8842885778976&pageNum=1",
-      "checkedAt": "2026-06-03T17:03:28.451Z"
+      "checkedAt": "2026-06-03T17:13:57.612Z"
     },
     {
       "dealId": "news-gs25-event-goods",
@@ -158,7 +162,7 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://gs25.gsretail.com/gscvs/ko/products/event-goods",
-      "checkedAt": "2026-06-03T17:03:28.451Z"
+      "checkedAt": "2026-06-03T17:13:57.612Z"
     },
     {
       "dealId": "news-culture-day-programs-2026",
@@ -167,7 +171,7 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://www.culture.go.kr/wday/main/main.do",
-      "checkedAt": "2026-06-03T17:03:28.451Z"
+      "checkedAt": "2026-06-03T17:13:57.612Z"
     },
     {
       "dealId": "news-culture-day-weekly-2026",
@@ -176,7 +180,43 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://www.culture.go.kr/local/wday/cltrDay.do",
-      "checkedAt": "2026-06-03T17:03:28.451Z"
+      "checkedAt": "2026-06-03T17:13:57.612Z"
+    },
+    {
+      "dealId": "news-kbcard-official-event-center",
+      "provider": "news",
+      "title": "KB국민카드 공식 이벤트 혜택 모음",
+      "status": "visible",
+      "reason": "passed",
+      "finalUrl": "https://card.kbcard.com/BON/DVIEW/HBBMCXCRVNEC0002",
+      "checkedAt": "2026-06-03T17:13:57.612Z"
+    },
+    {
+      "dealId": "news-kbcard-membership-benefit-center",
+      "provider": "news",
+      "title": "KB국민카드 공식 생활 할인 혜택",
+      "status": "visible",
+      "reason": "passed",
+      "finalUrl": "https://card.kbcard.com/BON/DVIEW/HBBMCXCRVNEC0001",
+      "checkedAt": "2026-06-03T17:13:57.612Z"
+    },
+    {
+      "dealId": "news-hmall-official-shopping-event",
+      "provider": "news",
+      "title": "현대Hmall 공식 쇼핑 기획전 혜택",
+      "status": "visible",
+      "reason": "passed",
+      "finalUrl": "https://www.hyundaihmall.com/front/evntSect.do",
+      "checkedAt": "2026-06-03T17:13:57.612Z"
+    },
+    {
+      "dealId": "news-bccard-official-event-center",
+      "provider": "news",
+      "title": "BC카드 공식 이벤트 혜택 모음",
+      "status": "visible",
+      "reason": "passed",
+      "finalUrl": "https://www.bccard.com/app/card/EventActn.do?menuId=64",
+      "checkedAt": "2026-06-03T17:13:57.612Z"
     },
     {
       "dealId": "news-cgv-official-events",
@@ -185,7 +225,7 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://www.cgv.co.kr/culture-event/event/defaultNew.aspx",
-      "checkedAt": "2026-06-03T17:03:28.451Z"
+      "checkedAt": "2026-06-03T17:13:57.612Z"
     },
     {
       "dealId": "news-lottecinema-official-events",
@@ -194,7 +234,7 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://www.lottecinema.co.kr/NLCHS/Event",
-      "checkedAt": "2026-06-03T17:03:28.451Z"
+      "checkedAt": "2026-06-03T17:13:57.612Z"
     },
     {
       "dealId": "news-tworld-membership-upgrade",
@@ -203,7 +243,7 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://www.tworld.co.kr/poc/html/product/TS3.7.1T.2.html",
-      "checkedAt": "2026-06-03T17:03:28.451Z"
+      "checkedAt": "2026-06-03T17:13:57.612Z"
     },
     {
       "dealId": "news-tworld-longterm-discount",
@@ -212,7 +252,7 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://www.tworld.co.kr/poc/html/product/TS3.3.1T.8.html",
-      "checkedAt": "2026-06-03T17:03:28.451Z"
+      "checkedAt": "2026-06-03T17:13:57.612Z"
     },
     {
       "dealId": "news-koreanair-promotion",
@@ -221,7 +261,7 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://www.koreanair.com/promotion/list",
-      "checkedAt": "2026-06-03T17:03:28.451Z"
+      "checkedAt": "2026-06-03T17:13:57.612Z"
     },
     {
       "dealId": "news-ssg-official-event-main",
@@ -230,7 +270,7 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://www.ssg.com/event/eventMain.ssg",
-      "checkedAt": "2026-06-03T17:03:28.451Z"
+      "checkedAt": "2026-06-03T17:13:57.612Z"
     },
     {
       "dealId": "news-emart-official-event-main",
@@ -239,7 +279,7 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://emart.ssg.com/event/eventMain.ssg",
-      "checkedAt": "2026-06-03T17:03:28.451Z"
+      "checkedAt": "2026-06-03T17:13:57.612Z"
     },
     {
       "dealId": "news-homeplus-official-event",
@@ -248,7 +288,7 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://front.homeplus.co.kr/event",
-      "checkedAt": "2026-06-03T17:03:28.451Z"
+      "checkedAt": "2026-06-03T17:13:57.612Z"
     },
     {
       "dealId": "news-yogiyo-official-event",
@@ -257,43 +297,7 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://www.yogiyo.co.kr/mobile/#/event/",
-      "checkedAt": "2026-06-03T17:03:28.451Z"
-    },
-    {
-      "dealId": "news-samsung-shop-official-event",
-      "provider": "official_event",
-      "title": "삼성닷컴 공식 기획전·카드 혜택",
-      "status": "visible",
-      "reason": "passed",
-      "finalUrl": "https://www.samsung.com/sec/shop/event/",
-      "checkedAt": "2026-06-03T17:03:28.451Z"
-    },
-    {
-      "dealId": "news-cu-plus-official-event",
-      "provider": "official_event",
-      "title": "CU 공식 1+1·2+1 행사상품",
-      "status": "visible",
-      "reason": "passed",
-      "finalUrl": "https://cu.bgfretail.com/event/plus.do?category=event&depth2=1",
-      "checkedAt": "2026-06-03T17:03:28.451Z"
-    },
-    {
-      "dealId": "news-ssg-earlymorning-food-event",
-      "provider": "official_event",
-      "title": "SSG 새벽배송 식품·생필품 공식 행사",
-      "status": "visible",
-      "reason": "passed",
-      "finalUrl": "https://earlymorning.ssg.com/event/eventMain.ssg",
-      "checkedAt": "2026-06-03T17:03:28.451Z"
-    },
-    {
-      "dealId": "news-yogiyo-brand-coupon-event",
-      "provider": "official_event",
-      "title": "요기요 브랜드 할인 쿠폰 공식 혜택",
-      "status": "visible",
-      "reason": "passed",
-      "finalUrl": "https://www.yogiyo.co.kr/mobile/?category=event#/event/",
-      "checkedAt": "2026-06-03T17:03:28.451Z"
+      "checkedAt": "2026-06-03T17:13:57.612Z"
     }
   ],
   "manualActions": [

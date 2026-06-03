@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-03T17:03:28.187Z",
+  "generatedAt": "2026-06-03T17:13:57.356Z",
   "schemaVersion": 1,
   "source": "official_event_seed_and_approved_feeds",
   "allDeals": [
@@ -24,7 +24,7 @@
       "validationStatus": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-03T17:03:28.187Z",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
       "provider": "official_event",
       "tags": [
         "편의점",
@@ -54,7 +54,7 @@
       "validationStatus": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-03T17:03:28.187Z",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
       "provider": "event_news",
       "tags": [
         "패션",
@@ -84,7 +84,7 @@
       "validationStatus": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-03T17:03:28.187Z",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
       "provider": "event_news",
       "tags": [
         "뷰티",
@@ -114,7 +114,7 @@
       "validationStatus": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-03T17:03:28.187Z",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
       "provider": "official_event",
       "tags": [
         "편의점",
@@ -144,7 +144,7 @@
       "validationStatus": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-03T17:03:28.187Z",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
       "provider": "official_event",
       "tags": [
         "편의점",
@@ -174,7 +174,7 @@
       "validationStatus": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-03T17:03:28.187Z",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
       "provider": "event_news",
       "tags": [
         "문화",
@@ -204,7 +204,7 @@
       "validationStatus": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-03T17:03:28.187Z",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
       "provider": "public_coupon",
       "tags": [
         "공공혜택",
@@ -212,6 +212,126 @@
         "무료개방"
       ],
       "officialHost": "culture.go.kr"
+    },
+    {
+      "id": "news-kbcard-official-event-center",
+      "title": "KB국민카드 공식 이벤트 혜택 모음",
+      "summary": "KB국민카드 공식 이벤트 페이지에서 카드 결제 할인, 캐시백, 제휴 이벤트 조건을 확인할 수 있습니다.",
+      "merchant": "KB국민카드",
+      "category": "카드/멤버십",
+      "benefitType": "card",
+      "discountRate": 0,
+      "price": 0,
+      "originalPrice": 0,
+      "couponAmount": 0,
+      "startDate": "2026-06-01",
+      "endDate": "2026-12-31",
+      "sourceName": "KB국민카드 공식 이벤트",
+      "sourceUrl": "https://card.kbcard.com/BON/DVIEW/HBBMCXCRVNEC0002",
+      "finalUrl": "https://card.kbcard.com/BON/DVIEW/HBBMCXCRVNEC0002",
+      "imageUrl": "",
+      "confidenceScore": 100,
+      "validationStatus": "passed",
+      "isHidden": false,
+      "hiddenReason": "",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
+      "provider": "news",
+      "tags": [
+        "카드",
+        "캐시백",
+        "공식이벤트"
+      ],
+      "officialHost": "card.kbcard.com"
+    },
+    {
+      "id": "news-kbcard-membership-benefit-center",
+      "title": "KB국민카드 공식 생활 할인 혜택",
+      "summary": "KB국민카드 공식 혜택 페이지에서 쇼핑, 외식, 문화 영역의 카드 할인과 이용 조건을 확인할 수 있습니다.",
+      "merchant": "KB국민카드",
+      "category": "카드/멤버십",
+      "benefitType": "card",
+      "discountRate": 0,
+      "price": 0,
+      "originalPrice": 0,
+      "couponAmount": 0,
+      "startDate": "2026-06-01",
+      "endDate": "2026-12-31",
+      "sourceName": "KB국민카드 공식 혜택",
+      "sourceUrl": "https://card.kbcard.com/BON/DVIEW/HBBMCXCRVNEC0001",
+      "finalUrl": "https://card.kbcard.com/BON/DVIEW/HBBMCXCRVNEC0001",
+      "imageUrl": "",
+      "confidenceScore": 100,
+      "validationStatus": "passed",
+      "isHidden": false,
+      "hiddenReason": "",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
+      "provider": "news",
+      "tags": [
+        "카드",
+        "생활혜택",
+        "공식혜택"
+      ],
+      "officialHost": "card.kbcard.com"
+    },
+    {
+      "id": "news-hmall-official-shopping-event",
+      "title": "현대Hmall 공식 쇼핑 기획전 혜택",
+      "summary": "현대Hmall 공식 이벤트 페이지에서 쇼핑 쿠폰, 카드 할인, 기간 한정 기획전 조건을 확인할 수 있습니다.",
+      "merchant": "현대Hmall",
+      "category": "패션/뷰티",
+      "benefitType": "coupon",
+      "discountRate": 0,
+      "price": 0,
+      "originalPrice": 0,
+      "couponAmount": 0,
+      "startDate": "2026-06-01",
+      "endDate": "2026-12-31",
+      "sourceName": "현대Hmall 공식 이벤트",
+      "sourceUrl": "https://www.hyundaihmall.com/front/evntSect.do",
+      "finalUrl": "https://www.hyundaihmall.com/front/evntSect.do",
+      "imageUrl": "",
+      "confidenceScore": 100,
+      "validationStatus": "passed",
+      "isHidden": false,
+      "hiddenReason": "",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
+      "provider": "news",
+      "tags": [
+        "쇼핑",
+        "쿠폰",
+        "공식이벤트"
+      ],
+      "officialHost": "hyundaihmall.com"
+    },
+    {
+      "id": "news-bccard-official-event-center",
+      "title": "BC카드 공식 이벤트 혜택 모음",
+      "summary": "BC카드 공식 이벤트 페이지에서 카드 결제 할인, 제휴 쿠폰, 캐시백 행사 조건을 확인할 수 있습니다.",
+      "merchant": "BC카드",
+      "category": "카드/멤버십",
+      "benefitType": "card",
+      "discountRate": 0,
+      "price": 0,
+      "originalPrice": 0,
+      "couponAmount": 0,
+      "startDate": "2026-06-01",
+      "endDate": "2026-12-31",
+      "sourceName": "BC카드 공식 이벤트",
+      "sourceUrl": "https://www.bccard.com/app/card/EventActn.do?menuId=64",
+      "finalUrl": "https://www.bccard.com/app/card/EventActn.do?menuId=64",
+      "imageUrl": "",
+      "confidenceScore": 100,
+      "validationStatus": "passed",
+      "isHidden": false,
+      "hiddenReason": "",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
+      "provider": "news",
+      "tags": [
+        "카드",
+        "캐시백",
+        "공식이벤트"
+      ],
+      "officialHost": "bccard.com"
     },
     {
       "id": "news-cgv-official-events",
@@ -234,7 +354,7 @@
       "validationStatus": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-03T17:03:28.187Z",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
       "provider": "event_news",
       "tags": [
         "영화",
@@ -264,7 +384,7 @@
       "validationStatus": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-03T17:03:28.187Z",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
       "provider": "event_news",
       "tags": [
         "영화",
@@ -294,7 +414,7 @@
       "validationStatus": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-03T17:03:28.187Z",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
       "provider": "official_event",
       "tags": [
         "멤버십",
@@ -324,7 +444,7 @@
       "validationStatus": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-03T17:03:28.187Z",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
       "provider": "official_event",
       "tags": [
         "통신사",
@@ -354,7 +474,7 @@
       "validationStatus": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-03T17:03:28.187Z",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
       "provider": "official_event",
       "tags": [
         "항공",
@@ -384,7 +504,7 @@
       "validationStatus": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-03T17:03:28.187Z",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
       "provider": "official_event",
       "tags": [
         "장보기",
@@ -414,7 +534,7 @@
       "validationStatus": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-03T17:03:28.187Z",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
       "provider": "official_event",
       "tags": [
         "마트",
@@ -444,7 +564,7 @@
       "validationStatus": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-03T17:03:28.187Z",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
       "provider": "official_event",
       "tags": [
         "마트",
@@ -474,7 +594,7 @@
       "validationStatus": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-03T17:03:28.187Z",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
       "provider": "official_event",
       "tags": [
         "배달",
@@ -504,7 +624,7 @@
       "validationStatus": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-03T17:03:28.187Z",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
       "provider": "official_event",
       "tags": [
         "디지털",
@@ -534,7 +654,7 @@
       "validationStatus": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-03T17:03:28.187Z",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
       "provider": "official_event",
       "tags": [
         "편의점",
@@ -564,7 +684,7 @@
       "validationStatus": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-03T17:03:28.187Z",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
       "provider": "official_event",
       "tags": [
         "식품",
@@ -594,7 +714,7 @@
       "validationStatus": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-03T17:03:28.187Z",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
       "provider": "official_event",
       "tags": [
         "배달",
@@ -624,7 +744,7 @@
       "validationStatus": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-03T17:03:28.187Z",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
       "provider": "official_event",
       "tags": [
         "가전",
@@ -654,7 +774,7 @@
       "validationStatus": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-03T17:03:28.187Z",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
       "provider": "official_event",
       "tags": [
         "항공",
@@ -684,7 +804,7 @@
       "validationStatus": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-03T17:03:28.187Z",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
       "provider": "public_coupon",
       "tags": [
         "페이",
@@ -714,7 +834,7 @@
       "validationStatus": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-03T17:03:28.187Z",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
       "provider": "public_coupon",
       "tags": [
         "공공혜택",
@@ -744,7 +864,7 @@
       "validationStatus": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-03T17:03:28.187Z",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
       "provider": "public_coupon",
       "tags": [
         "공공혜택",
@@ -774,7 +894,7 @@
       "validationStatus": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-03T17:03:28.187Z",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
       "provider": "public_coupon",
       "tags": [
         "포인트",
@@ -806,7 +926,7 @@
       "validationStatus": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-03T17:03:28.187Z",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
       "provider": "official_event",
       "tags": [
         "편의점",
@@ -836,7 +956,7 @@
       "validationStatus": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-03T17:03:28.187Z",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
       "provider": "event_news",
       "tags": [
         "패션",
@@ -866,7 +986,7 @@
       "validationStatus": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-03T17:03:28.187Z",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
       "provider": "event_news",
       "tags": [
         "뷰티",
@@ -896,7 +1016,7 @@
       "validationStatus": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-03T17:03:28.187Z",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
       "provider": "official_event",
       "tags": [
         "편의점",
@@ -926,7 +1046,7 @@
       "validationStatus": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-03T17:03:28.187Z",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
       "provider": "official_event",
       "tags": [
         "편의점",
@@ -956,7 +1076,7 @@
       "validationStatus": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-03T17:03:28.187Z",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
       "provider": "event_news",
       "tags": [
         "문화",
@@ -986,7 +1106,7 @@
       "validationStatus": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-03T17:03:28.187Z",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
       "provider": "public_coupon",
       "tags": [
         "공공혜택",
@@ -994,6 +1114,126 @@
         "무료개방"
       ],
       "officialHost": "culture.go.kr"
+    },
+    {
+      "id": "news-kbcard-official-event-center",
+      "title": "KB국민카드 공식 이벤트 혜택 모음",
+      "summary": "KB국민카드 공식 이벤트 페이지에서 카드 결제 할인, 캐시백, 제휴 이벤트 조건을 확인할 수 있습니다.",
+      "merchant": "KB국민카드",
+      "category": "카드/멤버십",
+      "benefitType": "card",
+      "discountRate": 0,
+      "price": 0,
+      "originalPrice": 0,
+      "couponAmount": 0,
+      "startDate": "2026-06-01",
+      "endDate": "2026-12-31",
+      "sourceName": "KB국민카드 공식 이벤트",
+      "sourceUrl": "https://card.kbcard.com/BON/DVIEW/HBBMCXCRVNEC0002",
+      "finalUrl": "https://card.kbcard.com/BON/DVIEW/HBBMCXCRVNEC0002",
+      "imageUrl": "",
+      "confidenceScore": 100,
+      "validationStatus": "passed",
+      "isHidden": false,
+      "hiddenReason": "",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
+      "provider": "news",
+      "tags": [
+        "카드",
+        "캐시백",
+        "공식이벤트"
+      ],
+      "officialHost": "card.kbcard.com"
+    },
+    {
+      "id": "news-kbcard-membership-benefit-center",
+      "title": "KB국민카드 공식 생활 할인 혜택",
+      "summary": "KB국민카드 공식 혜택 페이지에서 쇼핑, 외식, 문화 영역의 카드 할인과 이용 조건을 확인할 수 있습니다.",
+      "merchant": "KB국민카드",
+      "category": "카드/멤버십",
+      "benefitType": "card",
+      "discountRate": 0,
+      "price": 0,
+      "originalPrice": 0,
+      "couponAmount": 0,
+      "startDate": "2026-06-01",
+      "endDate": "2026-12-31",
+      "sourceName": "KB국민카드 공식 혜택",
+      "sourceUrl": "https://card.kbcard.com/BON/DVIEW/HBBMCXCRVNEC0001",
+      "finalUrl": "https://card.kbcard.com/BON/DVIEW/HBBMCXCRVNEC0001",
+      "imageUrl": "",
+      "confidenceScore": 100,
+      "validationStatus": "passed",
+      "isHidden": false,
+      "hiddenReason": "",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
+      "provider": "news",
+      "tags": [
+        "카드",
+        "생활혜택",
+        "공식혜택"
+      ],
+      "officialHost": "card.kbcard.com"
+    },
+    {
+      "id": "news-hmall-official-shopping-event",
+      "title": "현대Hmall 공식 쇼핑 기획전 혜택",
+      "summary": "현대Hmall 공식 이벤트 페이지에서 쇼핑 쿠폰, 카드 할인, 기간 한정 기획전 조건을 확인할 수 있습니다.",
+      "merchant": "현대Hmall",
+      "category": "패션/뷰티",
+      "benefitType": "coupon",
+      "discountRate": 0,
+      "price": 0,
+      "originalPrice": 0,
+      "couponAmount": 0,
+      "startDate": "2026-06-01",
+      "endDate": "2026-12-31",
+      "sourceName": "현대Hmall 공식 이벤트",
+      "sourceUrl": "https://www.hyundaihmall.com/front/evntSect.do",
+      "finalUrl": "https://www.hyundaihmall.com/front/evntSect.do",
+      "imageUrl": "",
+      "confidenceScore": 100,
+      "validationStatus": "passed",
+      "isHidden": false,
+      "hiddenReason": "",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
+      "provider": "news",
+      "tags": [
+        "쇼핑",
+        "쿠폰",
+        "공식이벤트"
+      ],
+      "officialHost": "hyundaihmall.com"
+    },
+    {
+      "id": "news-bccard-official-event-center",
+      "title": "BC카드 공식 이벤트 혜택 모음",
+      "summary": "BC카드 공식 이벤트 페이지에서 카드 결제 할인, 제휴 쿠폰, 캐시백 행사 조건을 확인할 수 있습니다.",
+      "merchant": "BC카드",
+      "category": "카드/멤버십",
+      "benefitType": "card",
+      "discountRate": 0,
+      "price": 0,
+      "originalPrice": 0,
+      "couponAmount": 0,
+      "startDate": "2026-06-01",
+      "endDate": "2026-12-31",
+      "sourceName": "BC카드 공식 이벤트",
+      "sourceUrl": "https://www.bccard.com/app/card/EventActn.do?menuId=64",
+      "finalUrl": "https://www.bccard.com/app/card/EventActn.do?menuId=64",
+      "imageUrl": "",
+      "confidenceScore": 100,
+      "validationStatus": "passed",
+      "isHidden": false,
+      "hiddenReason": "",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
+      "provider": "news",
+      "tags": [
+        "카드",
+        "캐시백",
+        "공식이벤트"
+      ],
+      "officialHost": "bccard.com"
     },
     {
       "id": "news-cgv-official-events",
@@ -1016,7 +1256,7 @@
       "validationStatus": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-03T17:03:28.187Z",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
       "provider": "event_news",
       "tags": [
         "영화",
@@ -1046,7 +1286,7 @@
       "validationStatus": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-03T17:03:28.187Z",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
       "provider": "event_news",
       "tags": [
         "영화",
@@ -1076,7 +1316,7 @@
       "validationStatus": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-03T17:03:28.187Z",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
       "provider": "official_event",
       "tags": [
         "멤버십",
@@ -1106,7 +1346,7 @@
       "validationStatus": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-03T17:03:28.187Z",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
       "provider": "official_event",
       "tags": [
         "통신사",
@@ -1136,7 +1376,7 @@
       "validationStatus": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-03T17:03:28.187Z",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
       "provider": "official_event",
       "tags": [
         "항공",
@@ -1166,7 +1406,7 @@
       "validationStatus": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-03T17:03:28.187Z",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
       "provider": "official_event",
       "tags": [
         "장보기",
@@ -1196,7 +1436,7 @@
       "validationStatus": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-03T17:03:28.187Z",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
       "provider": "official_event",
       "tags": [
         "마트",
@@ -1226,7 +1466,7 @@
       "validationStatus": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-03T17:03:28.187Z",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
       "provider": "official_event",
       "tags": [
         "마트",
@@ -1256,7 +1496,7 @@
       "validationStatus": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-03T17:03:28.187Z",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
       "provider": "official_event",
       "tags": [
         "배달",
@@ -1286,7 +1526,7 @@
       "validationStatus": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-03T17:03:28.187Z",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
       "provider": "official_event",
       "tags": [
         "디지털",
@@ -1316,7 +1556,7 @@
       "validationStatus": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-03T17:03:28.187Z",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
       "provider": "official_event",
       "tags": [
         "편의점",
@@ -1346,7 +1586,7 @@
       "validationStatus": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-03T17:03:28.187Z",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
       "provider": "official_event",
       "tags": [
         "식품",
@@ -1376,7 +1616,7 @@
       "validationStatus": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-03T17:03:28.187Z",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
       "provider": "official_event",
       "tags": [
         "배달",
@@ -1406,7 +1646,7 @@
       "validationStatus": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-03T17:03:28.187Z",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
       "provider": "official_event",
       "tags": [
         "가전",
@@ -1436,7 +1676,7 @@
       "validationStatus": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-03T17:03:28.187Z",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
       "provider": "official_event",
       "tags": [
         "항공",
@@ -1466,7 +1706,7 @@
       "validationStatus": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-03T17:03:28.187Z",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
       "provider": "public_coupon",
       "tags": [
         "페이",
@@ -1496,7 +1736,7 @@
       "validationStatus": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-03T17:03:28.187Z",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
       "provider": "public_coupon",
       "tags": [
         "공공혜택",
@@ -1526,7 +1766,7 @@
       "validationStatus": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-03T17:03:28.187Z",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
       "provider": "public_coupon",
       "tags": [
         "공공혜택",
@@ -1556,7 +1796,7 @@
       "validationStatus": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-03T17:03:28.187Z",
+      "lastCheckedAt": "2026-06-03T17:13:57.356Z",
       "provider": "public_coupon",
       "tags": [
         "포인트",
@@ -1573,7 +1813,7 @@
       "source": "approved_news_feed",
       "configured": false,
       "feedUrls": 0,
-      "fetchedCount": 0,
+      "fetchedCount": 4,
       "errorCount": 0,
       "errors": []
     },
