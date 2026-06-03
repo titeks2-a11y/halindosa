@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-03T12:04:25.711Z",
+  "generatedAt": "2026-06-03T12:07:57.743Z",
   "totalChecks": 179,
   "passedChecks": 179,
   "failedChecks": 0,
@@ -793,62 +793,62 @@
     {
       "name": "release evidence freshness",
       "ok": true,
-      "detail": "Working tree has pending changes; clean release candidates must refresh evidence after the final commit. Current document points at 08ff7ac."
+      "detail": "Release evidence snapshot was refreshed for parent release commit fc4e0c5."
     },
     {
       "name": "store manual checklist freshness",
       "ok": true,
-      "detail": "Working tree has pending changes; clean release candidates must refresh docs/STORE_MANUAL_CHECKLIST.md after the final commit. Current document points at 08ff7ac."
+      "detail": "docs/STORE_MANUAL_CHECKLIST.md snapshot was refreshed for parent release commit fc4e0c5."
     },
     {
       "name": "device qa report freshness",
       "ok": true,
-      "detail": "Working tree has pending changes; clean release candidates must refresh docs/DEVICE_QA_REPORT.md after the final commit. Current document points at 08ff7ac."
+      "detail": "docs/DEVICE_QA_REPORT.md snapshot was refreshed for parent release commit fc4e0c5."
     },
     {
       "name": "store screenshots report freshness",
       "ok": true,
-      "detail": "Working tree has pending changes; clean release candidates must refresh docs/STORE_SCREENSHOTS_REPORT.md after the final commit. Current document points at 08ff7ac."
+      "detail": "docs/STORE_SCREENSHOTS_REPORT.md snapshot was refreshed for parent release commit fc4e0c5."
     },
     {
       "name": "known issues freshness",
       "ok": true,
-      "detail": "Working tree has pending changes; clean release candidates must refresh docs/KNOWN_ISSUES.md after the final commit. Current document points at 08ff7ac."
+      "detail": "docs/KNOWN_ISSUES.md snapshot was refreshed for parent release commit fc4e0c5."
     },
     {
       "name": "public url report freshness",
       "ok": true,
-      "detail": "Working tree has pending changes; clean release candidates must refresh docs/PUBLIC_URL_REPORT.md after the final commit. Current document points at 08ff7ac."
+      "detail": "docs/PUBLIC_URL_REPORT.md snapshot was refreshed for parent release commit fc4e0c5."
     },
     {
       "name": "store submission report freshness",
       "ok": true,
-      "detail": "Working tree has pending changes; clean release candidates must refresh docs/STORE_SUBMISSION_REPORT.md after the final commit. Current document points at 08ff7ac."
+      "detail": "docs/STORE_SUBMISSION_REPORT.md snapshot was refreshed for parent release commit fc4e0c5."
     },
     {
       "name": "store console fields freshness",
       "ok": true,
-      "detail": "Working tree has pending changes; clean release candidates must refresh docs/STORE_CONSOLE_FIELDS.md after the final commit. Current document points at 08ff7ac."
+      "detail": "docs/STORE_CONSOLE_FIELDS.md snapshot was refreshed for parent release commit fc4e0c5."
     },
     {
       "name": "store handoff report freshness",
       "ok": true,
-      "detail": "Working tree has pending changes; clean release candidates must refresh docs/STORE_HANDOFF_REPORT.md after the final commit. Current document points at 08ff7ac."
+      "detail": "docs/STORE_HANDOFF_REPORT.md snapshot was refreshed for parent release commit fc4e0c5."
     },
     {
       "name": "release notes freshness",
       "ok": true,
-      "detail": "Working tree has pending changes; clean release candidates must refresh docs/RELEASE_NOTES.md after the final commit. Current document points at 08ff7ac."
+      "detail": "docs/RELEASE_NOTES.md snapshot was refreshed for parent release commit fc4e0c5."
     },
     {
       "name": "support playbook freshness",
       "ok": true,
-      "detail": "Working tree has pending changes; clean release candidates must refresh docs/SUPPORT_PLAYBOOK.md after the final commit. Current document points at 08ff7ac."
+      "detail": "docs/SUPPORT_PLAYBOOK.md snapshot was refreshed for parent release commit fc4e0c5."
     },
     {
       "name": "store packet report freshness",
       "ok": true,
-      "detail": "Working tree has pending changes; clean release candidates must refresh docs/STORE_PACKET_REPORT.md after the final commit. Current document points at 08ff7ac."
+      "detail": "docs/STORE_PACKET_REPORT.md snapshot was refreshed for parent release commit fc4e0c5."
     },
     {
       "name": "customer navigation simplification",
