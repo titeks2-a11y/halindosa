@@ -1,0 +1,56 @@
+# 할인도사 운영 헬스 리포트
+
+이 문서는 상품 링크, 공식 혜택, refresh 파이프라인이 실제 출시 운영 기준을 만족하는지 요약합니다.
+
+- 생성 시각: 2026-06-03T11:50:14.645Z
+- 운영 준비 점수: 100/100
+- 상태: PASS
+
+## 핵심 지표
+
+- 상품 특가: 140개
+- 검증된 상품 링크: 140개 (100%)
+- 검색 링크 노출: 0개
+- 품절/종료 의심 노출: 0개
+- 공식 혜택: 26개
+- 공식 혜택 카테고리 커버리지: 10/10
+- 공식 혜택 리포트 신선도: 0시간
+- refresh:all 상태: PASS
+
+## 카테고리 커버리지
+
+| 카테고리 | 노출 건수 | 기준 | 상태 |
+| --- | ---: | ---: | --- |
+| 식품/생필품 | 2 | 2 | PASS |
+| 마트/편의점 | 6 | 2 | PASS |
+| 디지털/가전 | 2 | 2 | PASS |
+| 패션/뷰티 | 2 | 2 | PASS |
+| 외식/배달 | 2 | 2 | PASS |
+| 여행/숙박 | 2 | 2 | PASS |
+| 영화/문화 | 3 | 2 | PASS |
+| 카드/멤버십 | 3 | 2 | PASS |
+| 무료혜택 | 2 | 2 | PASS |
+| 정부/공공혜택 | 2 | 2 | PASS |
+
+## 게이트
+
+| 게이트 | 상태 | 상세 |
+| --- | --- | --- |
+| product count floor | PASS | 140 verified product deals are available. |
+| product verification rate | PASS | 100% product links are verified. |
+| search link exposure | PASS | No search/result URLs are exposed. |
+| sold out exposure | PASS | No sold-out or ended product links are exposed. |
+| product hidden/failed queue | PASS | No hidden or failed product deals remain in the customer exposure set. |
+| official benefit count floor | PASS | 26 official benefit deals are visible. |
+| official benefit category coverage | PASS | All 10 required categories have at least 2 visible benefits. |
+| official benefit hidden/failed queue | PASS | No hidden, expired, non-official, or failed official benefit links are exposed. |
+| official benefit freshness | PASS | Official benefit report freshness is 0h. |
+| refresh all pipeline | PASS | refresh:all completed successfully. |
+| provider stats coverage | PASS | Product providers=6, news providers=4. |
+
+## 운영 조치
+
+- 현재 상품 링크, 공식 혜택, refresh 파이프라인 모두 출시 운영 기준을 만족합니다.
+- 공식 혜택 feed가 추가되면 `data/newsFeed.sample.json` 계약을 기준으로 `npm run news:feed:doctor`를 먼저 실행하세요.
+- 검색 링크, 대표몰, 커뮤니티 원문 링크, 종료 이벤트는 사용자 노출 전에 hidden 처리해야 합니다.
+

@@ -65,6 +65,7 @@ async function checkPackage() {
     "refresh:news",
     "verify:news",
     "refresh:all",
+    "health:readiness",
     "test:mobile-ux",
     "links:report",
     "store:metadata:doctor",
@@ -87,8 +88,8 @@ async function checkPackage() {
   const missing = requiredScripts.filter((script) => !pkg.scripts?.[script]);
 
   if (missing.length) fail("package scripts", `Missing scripts: ${missing.join(", ")}`);
-  else if (!pkg.scripts?.qa?.includes("verify:links") || !pkg.scripts?.qa?.includes("verify:products") || !pkg.scripts?.qa?.includes("refresh:deals") || !pkg.scripts?.qa?.includes("refresh:news") || !pkg.scripts?.qa?.includes("verify:news") || !pkg.scripts?.["refresh:all"]?.includes("refresh-all.mjs") || !pkg.scripts?.qa?.includes("test:mobile-ux") || !harness.includes("test:mobile-ux") || !pkg.scripts?.["env:doctor:production"]?.includes("--production") || !pkg.scripts?.["qa:release"]?.includes("audit:commercial") || !pkg.scripts?.["qa:release"]?.includes("test:env") || !pkg.scripts?.["qa:release"]?.includes("device:qa:manifest") || !pkg.scripts?.["qa:release"]?.includes("device:qa:doctor") || !pkg.scripts?.["qa:release"]?.includes("device:qa:report") || !pkg.scripts?.["qa:release"]?.includes("android:signing:doctor") || !pkg.scripts?.["qa:release"]?.includes("public:url:doctor") || !pkg.scripts?.["qa:release"]?.includes("feed:validate") || !pkg.scripts?.["qa:release"]?.includes("feed:production:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:metadata:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:submission:report") || !pkg.scripts?.["qa:release"]?.includes("store:packet:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:console:fields") || !pkg.scripts?.["qa:release"]?.includes("store:manual:checklist") || !pkg.scripts?.["qa:release"]?.includes("store:manual:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:handoff:report") || !pkg.scripts?.["qa:release"]?.includes("release:notes") || !pkg.scripts?.["qa:release"]?.includes("support:playbook") || !pkg.scripts?.["qa:release"]?.includes("known:issues") || !pkg.scripts?.["qa:release"]?.includes("store:assets:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:manifest") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:doctor") || !pkg.scripts?.["qa:release"]?.includes("perf:budget")) {
-    fail("package scripts", "qa, harness, and qa:release should include mobile UX, commercial security audit, device QA manifest/doctor/report, Android signing doctor, public URL doctor, partner feed validator, production feed doctor, store metadata doctor, store submission/packet/console/handoff reports, store asset doctor, store screenshot manifest/doctor, and performance budget before store submission.");
+  else if (!pkg.scripts?.qa?.includes("verify:links") || !pkg.scripts?.qa?.includes("verify:products") || !pkg.scripts?.qa?.includes("refresh:deals") || !pkg.scripts?.qa?.includes("refresh:news") || !pkg.scripts?.qa?.includes("verify:news") || !pkg.scripts?.qa?.includes("refresh:all") || !pkg.scripts?.qa?.includes("health:readiness") || !pkg.scripts?.["refresh:all"]?.includes("refresh-all.mjs") || !pkg.scripts?.["health:readiness"]?.includes("health-readiness-report.mjs") || !pkg.scripts?.qa?.includes("test:mobile-ux") || !harness.includes("test:mobile-ux") || !pkg.scripts?.["env:doctor:production"]?.includes("--production") || !pkg.scripts?.["qa:release"]?.includes("health:readiness") || !pkg.scripts?.["qa:release"]?.includes("audit:commercial") || !pkg.scripts?.["qa:release"]?.includes("test:env") || !pkg.scripts?.["qa:release"]?.includes("device:qa:manifest") || !pkg.scripts?.["qa:release"]?.includes("device:qa:doctor") || !pkg.scripts?.["qa:release"]?.includes("device:qa:report") || !pkg.scripts?.["qa:release"]?.includes("android:signing:doctor") || !pkg.scripts?.["qa:release"]?.includes("public:url:doctor") || !pkg.scripts?.["qa:release"]?.includes("feed:validate") || !pkg.scripts?.["qa:release"]?.includes("feed:production:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:metadata:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:submission:report") || !pkg.scripts?.["qa:release"]?.includes("store:packet:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:console:fields") || !pkg.scripts?.["qa:release"]?.includes("store:manual:checklist") || !pkg.scripts?.["qa:release"]?.includes("store:manual:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:handoff:report") || !pkg.scripts?.["qa:release"]?.includes("release:notes") || !pkg.scripts?.["qa:release"]?.includes("support:playbook") || !pkg.scripts?.["qa:release"]?.includes("known:issues") || !pkg.scripts?.["qa:release"]?.includes("store:assets:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:manifest") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:doctor") || !pkg.scripts?.["qa:release"]?.includes("perf:budget")) {
+    fail("package scripts", "qa, harness, and qa:release should include refresh:all, health readiness, mobile UX, commercial security audit, device QA manifest/doctor/report, Android signing doctor, public URL doctor, partner feed validator, production feed doctor, store metadata doctor, store submission/packet/console/handoff reports, store asset doctor, store screenshot manifest/doctor, and performance budget before store submission.");
   } else {
     pass("package scripts", "Android, iOS, environment, mobile UX, commercial security, and performance release command flow is available.");
   }
@@ -3613,6 +3614,71 @@ function checkNewsDealPipeline() {
   else pass("news and official event pipeline", "Approved news, official event, public coupon, refresh:news, verify:news, refresh:all, home section, and admin status surfaces are wired.");
 }
 
+function checkHealthReadinessReport() {
+  const requiredFiles = [
+    "scripts/health-readiness-report.mjs",
+    "reports/health-readiness.json",
+    "docs/HEALTH_READINESS_REPORT.md"
+  ];
+  const issues = [];
+  const missing = requiredFiles.filter((file) => !existsSync(join(root, file)));
+  if (missing.length) issues.push(`missing files: ${missing.join(", ")}`);
+
+  const packageJson = JSON.parse(readFileSync(join(root, "package.json"), "utf8"));
+  const runbook = existsSync(join(root, "docs/RUNBOOK.md")) ? readFileSync(join(root, "docs/RUNBOOK.md"), "utf8") : "";
+  const roadmap = existsSync(join(root, "docs/roadmap.md")) ? readFileSync(join(root, "docs/roadmap.md"), "utf8") : "";
+  const releaseEvidence = existsSync(join(root, "scripts/release-evidence.mjs")) ? readFileSync(join(root, "scripts/release-evidence.mjs"), "utf8") : "";
+  const healthScript = existsSync(join(root, "scripts/health-readiness-report.mjs")) ? readFileSync(join(root, "scripts/health-readiness-report.mjs"), "utf8") : "";
+  const docsReport = existsSync(join(root, "docs/HEALTH_READINESS_REPORT.md")) ? readFileSync(join(root, "docs/HEALTH_READINESS_REPORT.md"), "utf8") : "";
+  const report = existsSync(join(root, "reports/health-readiness.json")) ? JSON.parse(readFileSync(join(root, "reports/health-readiness.json"), "utf8")) : {};
+
+  if (!packageJson.scripts?.["health:readiness"]?.includes("health-readiness-report.mjs")) {
+    issues.push("package scripts should expose health:readiness");
+  }
+  if (!String(packageJson.scripts?.qa ?? "").includes("refresh:all") || !String(packageJson.scripts?.qa ?? "").includes("health:readiness")) {
+    issues.push("qa should run refresh:all before health:readiness");
+  }
+  if (!String(packageJson.scripts?.["qa:release"] ?? "").includes("health:readiness")) {
+    issues.push("qa:release should include health:readiness before release submission reports");
+  }
+  for (const phrase of ["productVerificationRate", "official benefit category coverage", "refresh all pipeline", "reports/health-readiness.json", "docs/HEALTH_READINESS_REPORT.md"]) {
+    if (!healthScript.includes(phrase)) issues.push(`health readiness script missing ${phrase}`);
+  }
+  if (!releaseEvidence.includes("HEALTH_READINESS_REPORT.md") || !releaseEvidence.includes("health-readiness.json")) {
+    issues.push("release evidence should list health readiness artifacts");
+  }
+  for (const phrase of ["npm run health:readiness", "HEALTH_READINESS_REPORT.md", "reports/health-readiness.json"]) {
+    if (!runbook.includes(phrase)) issues.push(`RUNBOOK missing ${phrase}`);
+  }
+  if (!roadmap.includes("운영 헬스 리포트") || !roadmap.includes("health:readiness")) {
+    issues.push("roadmap should document the operational health readiness gate");
+  }
+  if (!docsReport.includes("운영 헬스 리포트") || !docsReport.includes("검색 링크 노출") || !docsReport.includes("카테고리 커버리지")) {
+    issues.push("docs/HEALTH_READINESS_REPORT.md should summarize search exposure and category coverage");
+  }
+
+  if (report.ok !== true) issues.push("health readiness report should pass");
+  if ((report.score ?? 0) < 100) issues.push(`health readiness score should be 100, got ${report.score ?? "missing"}`);
+  if ((report.product?.productDealsCount ?? 0) < 140) issues.push("health readiness should preserve at least 140 product deals");
+  if ((report.product?.productVerificationRate ?? 0) < 99) issues.push("health readiness product verification rate should be >=99%");
+  if ((report.product?.searchLinks ?? 0) !== 0) issues.push("health readiness should show zero search links");
+  if ((report.product?.soldOutProducts ?? 0) !== 0) issues.push("health readiness should show zero sold-out product exposure");
+  if ((report.officialBenefits?.visibleCount ?? 0) < 25) issues.push("health readiness should show at least 25 official benefits");
+  if ((report.officialBenefits?.readyCategories ?? 0) < (report.officialBenefits?.requiredCategories ?? 10)) {
+    issues.push("health readiness should show all official benefit categories ready");
+  }
+  if ((report.officialBenefits?.hiddenCount ?? 0) !== 0 || (report.officialBenefits?.expiredCount ?? 0) !== 0 || (report.officialBenefits?.officialMissingCount ?? 0) !== 0 || (report.officialBenefits?.failedCount ?? 0) !== 0) {
+    issues.push("health readiness should show zero hidden, expired, non-official, or failed official benefits");
+  }
+  if ((report.officialBenefits?.freshnessHours ?? 999) > 24) issues.push("health readiness official benefit report should be fresher than 24h");
+  if (report.refreshAll?.ok !== true || (report.refreshAll?.failedSteps ?? []).length) {
+    issues.push("health readiness should require refresh:all success and zero failed steps");
+  }
+
+  if (issues.length) fail("operational health readiness", issues.join("; "));
+  else pass("operational health readiness", "Health readiness report proves product links, official benefits, category coverage, freshness, and refresh:all status are launch-ready.");
+}
+
 await checkPackage();
 await checkCiWorkflow();
 await checkSecurityPolicy();
@@ -3634,6 +3700,7 @@ await checkGeneratedReportFreshness();
 await checkCustomerNavigationSimplification();
 checkRefreshDealPipeline();
 checkNewsDealPipeline();
+checkHealthReadinessReport();
 checkSigningAndArtifacts();
 checkStoreAssets();
 

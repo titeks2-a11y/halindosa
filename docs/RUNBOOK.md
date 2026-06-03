@@ -49,6 +49,10 @@ npm run smoke
   - 사용자에게 열리는 `finalUrl`은 공식 이벤트, 공식 쿠폰, 공식 구매 또는 공식 혜택 안내 페이지여야 하며, 뉴스 기사/검색 결과/커뮤니티 글은 `sourceUrl`로만 남긴다.
   - 운영자가 feed URL을 `.env`의 `DEAL_NEWS_FEED_URLS`, `DEAL_EVENT_NEWS_FEED_URLS`, `OFFICIAL_EVENT_FEED_URLS`, `PUBLIC_COUPON_FEED_URLS`에 넣은 뒤 `npm run news:feed:doctor && npm run refresh:news && npm run verify:news && npm run refresh:all`을 실행한다.
   - 검증 실패, 종료, 비공식 URL, 검색 URL은 `reports/news-deals.json`의 hidden/failed 큐로만 남고 사용자 화면에는 노출하지 않는다.
+- 운영 헬스 리포트:
+  - `npm run refresh:all && npm run health:readiness`를 실행하면 `reports/health-readiness.json`과 `docs/HEALTH_READINESS_REPORT.md`가 생성된다.
+  - 이 리포트는 상품 140개 이상, 검증 구매 링크 99% 이상, 검색 링크 0개, 품절/종료 노출 0개, 공식 혜택 25개 이상, 필수 10개 공식 혜택 카테고리별 2건 이상, `refresh:all` 성공, 24시간 이내 리포트 신선도를 함께 검사한다.
+  - `npm run qa`와 `npm run release:doctor`도 이 리포트의 존재와 수치를 확인하므로, 출시 직전에는 `docs/HEALTH_READINESS_REPORT.md`가 PASS인지 먼저 확인한다.
 - 피드 dry-run import: `POST /api/admin/import?token=$ADMIN_EXPORT_TOKEN`
   - 신규/보강 피드는 `affiliateUrl` → `finalPurchaseUrl` → `productUrl` → `purchaseUrl` → `link` → `originalUrl` → `searchUrl` 순서로 실제 구매 이동 URL을 판정한다.
   - `linkSummary.verified`와 `linkSummary.needsReview`를 확인해 출시 전 실제 상품 상세 URL 비율을 관리한다.

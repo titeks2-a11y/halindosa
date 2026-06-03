@@ -8,6 +8,8 @@
 npm install
 npm run lint
 npm run news:feed:doctor
+npm run refresh:all
+npm run health:readiness
 npm run build
 npm run build:android
 npm run cap:sync
@@ -137,6 +139,7 @@ DNS 반영 후 확인:
 - `/api/health` 응답 확인
 - `/api/deals` 응답 확인
 - `/api/news-deals` 응답 확인
+- `docs/HEALTH_READINESS_REPORT.md`가 PASS이고 `reports/health-readiness.json`의 `score`가 100인지 확인
 - `/api/redirect/[id]`가 검증된 상품 상세 또는 공식 혜택 상세 페이지로 이동하는지 확인
 - `sitemap.xml`, `robots.txt`, `manifest.webmanifest` 확인
 - 모바일 화면에서 하단 탭바 확인
@@ -153,6 +156,8 @@ npm run verify:links
 npm run news:feed:doctor
 npm run refresh:news
 npm run verify:news
+npm run refresh:all
+npm run health:readiness
 npm run feed:validate -- --file ./partner-feed.json
 ```
 

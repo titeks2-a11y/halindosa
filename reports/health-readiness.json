@@ -1,0 +1,153 @@
+{
+  "ok": true,
+  "generatedAt": "2026-06-03T11:50:14.645Z",
+  "score": 100,
+  "thresholds": {
+    "productDealsCount": 140,
+    "productVerificationRate": 99,
+    "officialBenefits": 25,
+    "newsCategories": 10,
+    "minimumCategoryDealCount": 2,
+    "freshnessHours": 24
+  },
+  "product": {
+    "productDealsCount": 140,
+    "visibleProducts": 140,
+    "verifiedProductLinks": 140,
+    "productVerificationRate": 100,
+    "searchLinks": 0,
+    "soldOutProducts": 0,
+    "hiddenProducts": 0,
+    "failedProducts": 0,
+    "configuredProviders": [
+      "manual",
+      "event",
+      "partner_feed"
+    ]
+  },
+  "officialBenefits": {
+    "visibleCount": 26,
+    "hiddenCount": 0,
+    "expiredCount": 0,
+    "officialMissingCount": 0,
+    "failedCount": 0,
+    "freshnessHours": 0,
+    "readyCategories": 10,
+    "requiredCategories": 10,
+    "minimumCategoryDealCount": 2,
+    "missingCategories": [],
+    "thinCategories": [],
+    "categoryCounts": {
+      "마트/편의점": 6,
+      "패션/뷰티": 2,
+      "영화/문화": 3,
+      "정부/공공혜택": 2,
+      "카드/멤버십": 3,
+      "여행/숙박": 2,
+      "식품/생필품": 2,
+      "외식/배달": 2,
+      "디지털/가전": 2,
+      "무료혜택": 2
+    },
+    "configuredProviders": []
+  },
+  "refreshAll": {
+    "ok": true,
+    "generatedAt": "2026-06-03T11:49:28.162Z",
+    "insertedCount": 26,
+    "updatedCount": 136,
+    "hiddenCount": 0,
+    "expiredCount": 0,
+    "failedCount": 0,
+    "failedSteps": [],
+    "steps": [
+      {
+        "name": "refresh:deals",
+        "ok": true,
+        "startedAt": "2026-06-03T11:49:28.163Z",
+        "finishedAt": "2026-06-03T11:49:28.445Z"
+      },
+      {
+        "name": "refresh:news",
+        "ok": true,
+        "startedAt": "2026-06-03T11:49:28.445Z",
+        "finishedAt": "2026-06-03T11:49:28.534Z"
+      },
+      {
+        "name": "verify:links",
+        "ok": true,
+        "startedAt": "2026-06-03T11:49:28.534Z",
+        "finishedAt": "2026-06-03T11:49:28.635Z"
+      },
+      {
+        "name": "verify:products",
+        "ok": true,
+        "startedAt": "2026-06-03T11:49:28.635Z",
+        "finishedAt": "2026-06-03T11:49:28.718Z"
+      },
+      {
+        "name": "verify:news",
+        "ok": true,
+        "startedAt": "2026-06-03T11:49:28.718Z",
+        "finishedAt": "2026-06-03T11:49:28.800Z"
+      }
+    ]
+  },
+  "checks": [
+    {
+      "name": "product count floor",
+      "ok": true,
+      "detail": "140 verified product deals are available."
+    },
+    {
+      "name": "product verification rate",
+      "ok": true,
+      "detail": "100% product links are verified."
+    },
+    {
+      "name": "search link exposure",
+      "ok": true,
+      "detail": "No search/result URLs are exposed."
+    },
+    {
+      "name": "sold out exposure",
+      "ok": true,
+      "detail": "No sold-out or ended product links are exposed."
+    },
+    {
+      "name": "product hidden/failed queue",
+      "ok": true,
+      "detail": "No hidden or failed product deals remain in the customer exposure set."
+    },
+    {
+      "name": "official benefit count floor",
+      "ok": true,
+      "detail": "26 official benefit deals are visible."
+    },
+    {
+      "name": "official benefit category coverage",
+      "ok": true,
+      "detail": "All 10 required categories have at least 2 visible benefits."
+    },
+    {
+      "name": "official benefit hidden/failed queue",
+      "ok": true,
+      "detail": "No hidden, expired, non-official, or failed official benefit links are exposed."
+    },
+    {
+      "name": "official benefit freshness",
+      "ok": true,
+      "detail": "Official benefit report freshness is 0h."
+    },
+    {
+      "name": "refresh all pipeline",
+      "ok": true,
+      "detail": "refresh:all completed successfully."
+    },
+    {
+      "name": "provider stats coverage",
+      "ok": true,
+      "detail": "Product providers=6, news providers=4."
+    }
+  ]
+}
