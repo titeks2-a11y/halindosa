@@ -605,6 +605,8 @@ await check("admin dashboard quality cards", async () => {
   assert(text.includes("수령 난이도 API 보기") && text.includes("간편 수령") && text.includes("조건 확인") && text.includes("마감 주의"), "Admin dashboard missing claim effort operation cards");
   assert(text.includes("주간 혜택 편성 캘린더") && text.includes("요일별로 채워야 할 재방문 루틴"), "Admin dashboard missing weekly benefit calendar operation board");
   assert(text.includes("주간 캘린더 JSON 보기") && text.includes("실구매 특가 재확인"), "Admin dashboard missing weekly calendar API/action guidance");
+  assert(text.includes("공식 소스 live 접근성") && text.includes("무단 크롤링 없이 공식 후보 URL의 접근 가능"), "Admin dashboard missing official source live readiness panel");
+  assert(text.includes("live JSON") && text.includes("live CSV") && text.includes("protected/guarded 소스"), "Admin dashboard missing official source live API/CSV controls");
   assert(text.includes("운영 피드 전환 준비도") && text.includes("공식 API·제휴 피드로 바꿀 때 볼 품질 기준"), "Admin dashboard missing source readiness operation board");
   assert(text.includes("자동 refresh cron 운영") && text.includes("6시간마다 검증 데이터 갱신 상태를 확인합니다"), "Admin dashboard missing cron refresh operation board");
   assert(text.includes("CRON_SECRET") && text.includes("reports/cron-refresh.json") && text.includes("dry-run 확인"), "Admin dashboard missing cron refresh secret/report/dry-run guidance");
@@ -747,6 +749,26 @@ await check("admin news operations api", async () => {
   assert(csvResponse.status === 200, `Expected news operations CSV 200, got ${csvResponse.status}`);
   assert(csvResponse.headers.get("content-type")?.includes("text/csv"), "Admin news operations CSV should use text/csv content type");
   assert(csv.includes("provider_risk") && csv.includes("feed_transition") && csv.includes("failure_reason") && csv.includes("recent_log"), "Admin news operations CSV missing provider risk, feed transition, failure reason, or recent log sections");
+});
+
+await check("admin source live readiness api", async () => {
+  const { response, data } = await fetchJson("/api/admin/source-live");
+  assert(response.status === 200, `Expected source live 200, got ${response.status}`);
+  assert(data.ok === true, "Admin source live API ok should be true");
+  assert(data.report?.mode === "non_strict_live_readiness", "Admin source live report should use non-strict live readiness mode");
+  assert(data.report?.totalSources >= 16, "Admin source live report missing official source candidates");
+  assert(data.report?.reachableCount >= 1, "Admin source live report should include reachable official sources");
+  assert(typeof data.report?.guardedCount === "number", "Admin source live report missing guarded count");
+  assert(Array.isArray(data.report?.sources) && data.report.sources.length >= 16, "Admin source live report missing source rows");
+  assert(data.report.sources.every((source) => source.id && source.status && source.operatorAction), "Admin source live rows missing operation fields");
+});
+
+await check("admin source live readiness csv", async () => {
+  const response = await fetch(`${baseUrl}/api/admin/source-live?format=csv`);
+  const text = await response.text();
+  assert(response.status === 200, `Expected source live CSV 200, got ${response.status}`);
+  assert(response.headers.get("content-type")?.includes("text/csv"), "Admin source live CSV should use text/csv content type");
+  assert(text.includes("officialUrl") && text.includes("operatorAction") && text.includes("checkedAt"), "Admin source live CSV missing source URL, operator action, or checkedAt fields");
 });
 
 await check("admin health readiness api", async () => {

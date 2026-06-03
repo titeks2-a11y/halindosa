@@ -1949,6 +1949,8 @@ async function checkOperationalDataSurfaces() {
     ? JSON.parse(readFileSync(join(root, "reports/official-source-catalog.json"), "utf8"))
     : {};
   const officialSourceLiveDoctorScript = await text("scripts/official-source-live-doctor.mjs");
+  const officialSourceLiveReadiness = await text("lib/operations/sourceLiveReadiness.ts");
+  const adminSourceLiveRoute = await text("app/api/admin/source-live/route.ts");
   const officialSourceLiveDoc = existsSync(join(root, "docs/OFFICIAL_SOURCE_LIVE_CHECK.md"))
     ? readFileSync(join(root, "docs/OFFICIAL_SOURCE_LIVE_CHECK.md"), "utf8")
     : "";
@@ -2746,6 +2748,15 @@ async function checkOperationalDataSurfaces() {
     !officialSourceLiveDoctorScript.includes("non_strict_live_readiness") ||
     !officialSourceLiveDoctorScript.includes("reports/official-source-live-check.csv") ||
     !officialSourceLiveDoctorScript.includes("waf_or_permission_guarded") ||
+    !officialSourceLiveReadiness.includes("getOfficialSourceLiveReport") ||
+    !adminSourceLiveRoute.includes("canAccessAdmin") ||
+    !adminSourceLiveRoute.includes("format === \"csv\"") ||
+    !adminSourceLiveRoute.includes("official-source-live-check.csv") ||
+    !adminPage.includes("공식 소스 live 접근성") ||
+    !adminPage.includes("protected/guarded 소스") ||
+    !adminPage.includes("/api/admin/source-live") ||
+    !smoke.includes("admin source live readiness api") ||
+    !smoke.includes("Admin source live report should use non-strict live readiness mode") ||
     !officialSourceLiveDoc.includes("공식 소스 라이브 접근성 점검") ||
     !officialSourceLiveDoc.includes("무단 크롤링을 수행하지 않으며") ||
     officialSourceLiveReport.ok !== true ||
