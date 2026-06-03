@@ -188,6 +188,23 @@ function parseVerifiedEntries() {
   return entries;
 }
 
+function parseMockDealMetadata() {
+  const entries = [];
+  const pattern = /deal\("(?<id>d\d+)",\s*"(?<mallName>[^"]+)",\s*"(?<title>[^"]+)",\s*"(?<category>[^"]+)"/g;
+  let match;
+
+  while ((match = pattern.exec(mockDeals))) {
+    entries.push({
+      id: match.groups?.id ?? "",
+      mallName: match.groups?.mallName ?? "",
+      title: match.groups?.title ?? "",
+      category: match.groups?.category ?? ""
+    });
+  }
+
+  return entries;
+}
+
 function getIssueMessagesForId(id, allIssues) {
   return allIssues.filter((issue) => issue.startsWith(`${id}:`));
 }
@@ -217,10 +234,11 @@ function getAuditPriorityScore({ linkType, validationStatus, availability, hasIm
   return Math.max(0, Math.min(100, Math.round(score)));
 }
 
-function buildAuditedItems({ dealIds, entryMap, metadataMap, issues }) {
+function buildAuditedItems({ dealIds, entryMap, metadataMap, dealMetadataMap, issues }) {
   return dealIds.map((id) => {
     const urlValue = entryMap.get(id) ?? "";
     const metadata = metadataMap.get(id);
+    const dealMetadata = dealMetadataMap.get(id) ?? {};
     const issueMessages = getIssueMessagesForId(id, issues);
     const liveProbeFailure = getLiveProbeFailureForId(id);
     const checks = {
@@ -250,7 +268,8 @@ function buildAuditedItems({ dealIds, entryMap, metadataMap, issues }) {
         checks.officialBenefitUrl = hasClaimOrBenefitSignal(url, metadata?.evidence ?? "");
 
         if (checks.searchLikeUrl) linkType = "search";
-        else if (checks.productDetailUrl || checks.officialBenefitUrl) linkType = "direct_purchase";
+        else if (checks.officialBenefitUrl) linkType = "affiliate";
+        else if (checks.productDetailUrl) linkType = "direct_purchase";
       }
     } catch {
       finalUrl = urlValue;
@@ -279,9 +298,15 @@ function buildAuditedItems({ dealIds, entryMap, metadataMap, issues }) {
 
     return {
       id,
+      title: dealMetadata.title ?? "",
+      mallName: dealMetadata.mallName ?? "",
+      category: dealMetadata.category ?? "",
       source: metadata?.source ?? "missing",
+      sourceName: dealMetadata.mallName ?? "",
       originalUrl: urlValue,
       finalUrl,
+      affiliateUrl: linkType === "affiliate" ? urlValue : "",
+      eventUrl: checks.officialBenefitUrl ? urlValue : "",
       linkType,
       availability,
       validationStatus,
@@ -310,6 +335,7 @@ const dealIds = [...mockDeals.matchAll(/deal\("(d\d+)"/g)].map((match) => match[
 const entries = parseVerifiedEntries();
 const entryMap = new Map(entries.map((entry) => [entry.id, entry.url]));
 const metadataMap = new Map(entries.map((entry) => [entry.id, entry]));
+const dealMetadataMap = new Map(parseMockDealMetadata().map((entry) => [entry.id, entry]));
 const issues = [];
 const hosts = new Set();
 const domainCounts = new Map();
@@ -429,7 +455,7 @@ if (hosts.size < minimums.distinctHosts) {
   addExcludedReason("manual_review_needed");
 }
 
-const auditedItems = buildAuditedItems({ dealIds, entryMap, metadataMap, issues });
+const auditedItems = buildAuditedItems({ dealIds, entryMap, metadataMap, dealMetadataMap, issues });
 const exposureAudit = {
   totalItems: auditedItems.length,
   passedItems: auditedItems.filter((item) => item.validationStatus === "passed" && item.availability === "active" && !item.isHidden).length,
@@ -458,25 +484,31 @@ const liveProbeHostFailureCounts = liveProbe.failures.reduce((counts, failure) =
 const hardLiveProbeFailures = liveProbe.failures.filter((failure) => {
   if (failure.reason === "robots_or_access_blocked") return false;
   if (failure.reason === "request_failed") return false;
-  if (failure.reason === "timeout") return true;
+  if (failure.reason === "timeout") return false;
   if (failure.reason === "sold_out_or_ended_text") return true;
   return failure.status === 404 || failure.status === 410 || failure.status >= 500;
 });
+const transientLiveProbeFailures = liveProbe.failures.filter((failure) => failure.reason === "timeout" || failure.reason === "request_failed");
 const liveProbeReviewSummary = {
   status: !liveProbe.enabled
     ? "disabled"
     : hardLiveProbeFailures.length
       ? "needs_review"
+      : transientLiveProbeFailures.length
+        ? "transient_network_review"
       : liveProbe.failed
         ? "access_protected_review"
         : "clear",
   hardFailureCount: hardLiveProbeFailures.length,
+  transientNetworkCount: transientLiveProbeFailures.length,
   accessProtectedCount: liveProbe.robotsBlocked,
   sellerUnavailableSignals: liveProbe.unavailableText,
   interpretation: !liveProbe.enabled
     ? "Live probe is disabled for this run."
     : hardLiveProbeFailures.length
       ? "Some URLs returned hard failure signals and should be reviewed before launch."
+      : transientLiveProbeFailures.length
+        ? "Some URLs returned transient network signals; no exposed search, sold-out, 404, 410, or 5xx links were found."
       : liveProbe.failed
         ? "Failed live checks are seller access protections or non-strict request failures; no exposed search, sold-out, 404, 410, or 5xx links were found."
         : "All live checks passed."
@@ -529,6 +561,7 @@ const report = {
   liveProbeReasonCounts: Object.fromEntries([...liveProbeReasonCounts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))),
   liveProbeHostFailureCounts: Object.fromEntries([...liveProbeHostFailureCounts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).slice(0, 30)),
   hardLiveProbeFailures,
+  transientLiveProbeFailures,
   auditedItems,
   excludedReasonCounts: Object.fromEntries([...excludedReasonCounts.entries()].sort(([a], [b]) => a.localeCompare(b))),
   domainCounts: Object.fromEntries([...domainCounts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))),
@@ -566,12 +599,14 @@ Generated: ${report.generatedAt}
 | Live probe robots/access 차단 | ${report.liveProbe.robotsBlocked} |
 | Live probe timeout | ${report.liveProbe.timeout} |
 | Live probe hard failure | ${report.liveProbeReviewSummary.hardFailureCount} |
+| Live probe transient network | ${report.liveProbeReviewSummary.transientNetworkCount} |
 
 ## Live Probe Review
 
 - 상태: ${report.liveProbeReviewSummary.status}
 - 해석: ${report.liveProbeReviewSummary.interpretation}
-- 404/410/5xx/timeout/품절 본문 같은 강한 실패 신호: ${report.liveProbeReviewSummary.hardFailureCount}
+- 404/410/5xx/품절 본문 같은 강한 실패 신호: ${report.liveProbeReviewSummary.hardFailureCount}
+- timeout/request_failed 같은 일시 네트워크 신호: ${report.liveProbeReviewSummary.transientNetworkCount}
 - 쇼핑몰 접근 보호 또는 robots/access 차단: ${report.liveProbeReviewSummary.accessProtectedCount}
 - 품절/판매종료 본문 감지: ${report.liveProbeReviewSummary.sellerUnavailableSignals}
 

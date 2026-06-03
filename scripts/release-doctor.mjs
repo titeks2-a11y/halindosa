@@ -2585,6 +2585,31 @@ async function checkOperationalDataSurfaces() {
 
   if (linkReport.policy?.source !== "data/linkQualityPolicy.json") linkPolicyIssues.push("link-validation report should record policy source");
   if (!Array.isArray(linkReport.auditedItems) || !linkReport.auditedItems.length) linkPolicyIssues.push("link-validation report should include product-level auditedItems");
+  const requiredAuditFields = [
+    "id",
+    "title",
+    "mallName",
+    "category",
+    "source",
+    "sourceName",
+    "originalUrl",
+    "finalUrl",
+    "affiliateUrl",
+    "eventUrl",
+    "linkType",
+    "availability",
+    "validationStatus",
+    "validationReason",
+    "lastCheckedAt",
+    "priorityScore",
+    "isHidden"
+  ];
+  const auditedItemsMissingFields = Array.isArray(linkReport.auditedItems)
+    ? linkReport.auditedItems.filter((item) => requiredAuditFields.some((field) => !(field in item))).slice(0, 5)
+    : [];
+  if (auditedItemsMissingFields.length) {
+    linkPolicyIssues.push(`link-validation auditedItems should include launch audit fields for every product: ${auditedItemsMissingFields.map((item) => item.id ?? "unknown").join(", ")}`);
+  }
   if (!linkReport.exposureAudit || linkReport.exposureAudit.searchItems !== 0 || linkReport.exposureAudit.soldOutItems !== 0) {
     linkPolicyIssues.push("link-validation report should include zero-search, zero-sold-out exposureAudit");
   }
@@ -2594,6 +2619,7 @@ async function checkOperationalDataSurfaces() {
   if (
     !linkReport.liveProbeReviewSummary ||
     !("hardFailureCount" in linkReport.liveProbeReviewSummary) ||
+    !("transientNetworkCount" in linkReport.liveProbeReviewSummary) ||
     !("accessProtectedCount" in linkReport.liveProbeReviewSummary) ||
     !linkReport.liveProbeReasonCounts ||
     !linkReport.liveProbeHostFailureCounts

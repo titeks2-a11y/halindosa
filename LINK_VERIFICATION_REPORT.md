@@ -1,6 +1,6 @@
 # 할인도사 Link Verification Report
 
-Generated: 2026-06-03T22:27:33.159Z
+Generated: 2026-06-03T22:50:01.266Z
 
 ## Summary
 
@@ -20,32 +20,36 @@ Generated: 2026-06-03T22:27:33.159Z
 | 커뮤니티 의심 | 0 |
 | 수동 검토 필요 | 0 |
 | Live probe 확인 | 140 |
-| Live probe 실패 | 75 |
-| Live probe robots/access 차단 | 58 |
-| Live probe timeout | 0 |
+| Live probe 실패 | 78 |
+| Live probe robots/access 차단 | 60 |
+| Live probe timeout | 1 |
 | Live probe hard failure | 0 |
+| Live probe transient network | 5 |
 
 ## Live Probe Review
 
-- 상태: access_protected_review
-- 해석: Failed live checks are seller access protections or non-strict request failures; no exposed search, sold-out, 404, 410, or 5xx links were found.
-- 404/410/5xx/timeout/품절 본문 같은 강한 실패 신호: 0
-- 쇼핑몰 접근 보호 또는 robots/access 차단: 58
+- 상태: transient_network_review
+- 해석: Some URLs returned transient network signals; no exposed search, sold-out, 404, 410, or 5xx links were found.
+- 404/410/5xx/품절 본문 같은 강한 실패 신호: 0
+- timeout/request_failed 같은 일시 네트워크 신호: 5
+- 쇼핑몰 접근 보호 또는 robots/access 차단: 60
 - 품절/판매종료 본문 감지: 0
 
 ### Live Probe Failure Reasons
 
-- robots_or_access_blocked: 58
+- robots_or_access_blocked: 60
 - http_429: 13
 - request_failed: 4
+- timeout: 1
 
 ### Live Probe Failed Hosts
 
 - item.gmarket.co.kr: 30
 - coupang.com: 23
 - ssg.com: 13
-- oliveyoung.co.kr: 3
+- oliveyoung.co.kr: 5
 - hyundaicard.com: 1
+- ipraves.co.kr: 1
 - itempage3.auction.co.kr: 1
 - shinhancard.com: 1
 - store.ohou.se: 1

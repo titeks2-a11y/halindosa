@@ -1,14 +1,14 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-03T22:27:49.365Z",
+  "generatedAt": "2026-06-03T22:50:15.004Z",
   "totalSources": 30,
-  "reachableSources": 27,
-  "guardedSources": 3,
+  "reachableSources": 26,
+  "guardedSources": 4,
   "blockedLiveIssues": 0,
   "configuredFeedSources": 0,
   "statusCounts": {
-    "connect_official_feed": 27,
-    "request_partner_or_api": 3
+    "connect_official_feed": 26,
+    "request_partner_or_api": 4
   },
   "topActions": [
     {
@@ -862,35 +862,6 @@
     },
     {
       "rank": 27,
-      "id": "oliveyoung-events",
-      "label": "올리브영 공식 이벤트",
-      "provider": "official_event",
-      "category": [
-        "패션/뷰티",
-        "무료혜택"
-      ],
-      "priority": "medium",
-      "sourceType": "official_event_page",
-      "officialUrl": "https://www.oliveyoung.co.kr/store/main/getEventList.do",
-      "liveStatus": "reachable",
-      "httpStatus": 200,
-      "configuredFeedUrls": 0,
-      "recommendedEnvKeys": [
-        "OFFICIAL_EVENT_FEED_URLS",
-        "DEAL_EVENT_FEED_URLS"
-      ],
-      "onboardingStatus": "connect_official_feed",
-      "score": 67,
-      "reasons": [
-        "medium priority",
-        "no approved feed configured",
-        "official URL reachable"
-      ],
-      "nextAction": "OFFICIAL_EVENT_FEED_URLS 또는 DEAL_EVENT_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL 연결",
-      "guardrail": "검색 결과·커뮤니티 원문·메인 페이지를 finalUrl로 쓰지 않기"
-    },
-    {
-      "rank": 28,
       "id": "hmall-official-events",
       "label": "현대Hmall 공식 쇼핑 기획전",
       "provider": "news",
@@ -919,7 +890,7 @@
       "guardrail": "검색 결과·커뮤니티 원문·메인 페이지를 finalUrl로 쓰지 않기"
     },
     {
-      "rank": 29,
+      "rank": 28,
       "id": "koreanair-promotion",
       "label": "대한항공 공식 탑승권 제휴 혜택",
       "provider": "event_news",
@@ -947,7 +918,7 @@
       "guardrail": "검색 결과·커뮤니티 원문·메인 페이지를 finalUrl로 쓰지 않기"
     },
     {
-      "rank": 30,
+      "rank": 29,
       "id": "musinsa-fashion-festa",
       "label": "무신사 공식 패션 페스타",
       "provider": "official_event",
@@ -973,6 +944,35 @@
       ],
       "nextAction": "OFFICIAL_EVENT_FEED_URLS 또는 DEAL_EVENT_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL 연결",
       "guardrail": "검색 결과·커뮤니티 원문·메인 페이지를 finalUrl로 쓰지 않기"
+    },
+    {
+      "rank": 30,
+      "id": "oliveyoung-events",
+      "label": "올리브영 공식 이벤트",
+      "provider": "official_event",
+      "category": [
+        "패션/뷰티",
+        "무료혜택"
+      ],
+      "priority": "medium",
+      "sourceType": "official_event_page",
+      "officialUrl": "https://www.oliveyoung.co.kr/store/main/getEventList.do",
+      "liveStatus": "guarded",
+      "httpStatus": 403,
+      "configuredFeedUrls": 0,
+      "recommendedEnvKeys": [
+        "OFFICIAL_EVENT_FEED_URLS",
+        "DEAL_EVENT_FEED_URLS"
+      ],
+      "onboardingStatus": "request_partner_or_api",
+      "score": 63,
+      "reasons": [
+        "medium priority",
+        "no approved feed configured",
+        "official source guarded; needs API/RSS/partner approval"
+      ],
+      "nextAction": "보호 페이지를 자동 수집하지 말고 공식 API/RSS/제휴 담당자 승인 feed 요청",
+      "guardrail": "무단 크롤링 금지, 브라우저 자동 수집 금지, 승인 feed만 허용"
     }
   ]
 }

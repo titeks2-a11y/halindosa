@@ -55,6 +55,7 @@ const liveProbeFailureReasonCounts = (linkReport?.liveProbe?.failures ?? []).red
 const liveProbeReviewSummary = linkReport?.liveProbeReviewSummary ?? {
   status: linkReport?.liveProbe?.enabled ? "legacy_live_probe_report" : "disabled",
   hardFailureCount: 0,
+  transientNetworkCount: linkReport?.liveProbe?.timeout ?? 0,
   accessProtectedCount: linkReport?.liveProbe?.robotsBlocked ?? 0,
   sellerUnavailableSignals: linkReport?.liveProbe?.unavailableText ?? 0,
   interpretation: "Run npm run verify:links:live to refresh the live probe review summary."
@@ -154,9 +155,15 @@ const report = {
   liveProbeHostFailureCounts,
   auditedItems: auditedItems.map((item) => ({
     id: item.id,
+    title: item.title ?? "",
+    mallName: item.mallName ?? "",
+    category: item.category ?? "",
     source: item.source,
+    sourceName: item.sourceName ?? "",
     originalUrl: item.originalUrl,
     finalUrl: item.finalUrl,
+    affiliateUrl: item.affiliateUrl ?? "",
+    eventUrl: item.eventUrl ?? "",
     linkType: item.linkType,
     availability: item.availability,
     validationStatus: item.validationStatus,

@@ -136,6 +136,38 @@ if (!packageJson.scripts?.["refresh:deals"]) {
 if (!linkReport) {
   issues.push("링크 검증 리포트가 없습니다. npm run verify:links를 먼저 실행하세요.");
 } else {
+  const auditedItems = Array.isArray(linkReport.auditedItems) ? linkReport.auditedItems : [];
+  const requiredAuditFields = [
+    "id",
+    "title",
+    "mallName",
+    "category",
+    "source",
+    "sourceName",
+    "originalUrl",
+    "finalUrl",
+    "affiliateUrl",
+    "eventUrl",
+    "linkType",
+    "availability",
+    "validationStatus",
+    "validationReason",
+    "lastCheckedAt",
+    "priorityScore",
+    "isHidden"
+  ];
+  const auditFieldMissingIds = auditedItems
+    .filter((item) => requiredAuditFields.some((field) => !(field in item)))
+    .map((item) => item.id ?? "unknown");
+
+  if (!auditedItems.length) {
+    issues.push("링크 검증 리포트에 상품별 auditedItems가 없습니다.");
+  }
+
+  if (auditFieldMissingIds.length) {
+    issues.push(`링크 검증 auditedItems에 필수 감사 필드가 누락된 상품이 있습니다: ${auditFieldMissingIds.slice(0, 10).join(", ")}`);
+  }
+
   if ((linkReport.searchOrCategorySuspected ?? 0) !== 0) {
     issues.push(`검색/카테고리 링크가 남아 있습니다: ${linkReport.searchOrCategorySuspected}`);
   }

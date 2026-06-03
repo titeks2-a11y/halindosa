@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-03T22:27:06.497Z",
+  "generatedAt": "2026-06-03T22:49:33.597Z",
   "status": "ready",
   "adminAuthPath": "lib/adminAuth.ts",
   "protectedRouteCount": 15,

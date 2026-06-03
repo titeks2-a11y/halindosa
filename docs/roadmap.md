@@ -64,10 +64,12 @@
 - `data/linkQualityPolicy.json`을 추가해 검색/카테고리 URL, 커뮤니티/placeholder 도메인, 품절/판매종료 문구, 상품 상세 URL 신호, 공식 혜택 URL 신호를 단일 정책으로 관리하고, 런타임 validator, provider intake, `verify:links`, `verify:products`, `refresh:deals`, `release:doctor`가 같은 정책을 보도록 정리했다.
 - 링크 검증 리포트에 `policy.source`, `httpStatusSummary`, live probe redirect/404/410/5xx/timeout/robots 차단 지표를 명시해 검색 링크 0건, 품절/종료 노출 0건, 숨김 처리 수를 출시 증거로 추적하도록 보강했다.
 - 링크 검증 리포트에 상품별 `auditedItems`를 추가하고 `npm run exposure:doctor`/`reports/exposure-policy.json`을 QA에 연결해 사용자 노출 목록 기준으로 검색 링크, 품절/종료 링크, 실패 링크 0건을 별도 출시 게이트로 검증하도록 보강했다.
+- `auditedItems`를 상품명, 판매처, 카테고리, 검수 출처, 최종 URL, 제휴/이벤트 URL, 링크 타입, 판매 가능 상태, 검증 상태, 우선순위 점수까지 포함하는 운영 감사 행으로 확장하고 `verify:products`와 `release:doctor`가 필드 누락을 막도록 보강했다.
 - `npm run link:policy:regression`과 `reports/link-quality-regression.json`을 추가해 검색 URL, 대표몰 홈, 커뮤니티 원문, 위험 프로토콜, 품절/종료 문구, 공식 이벤트 URL 샘플이 같은 정책으로 차단/허용되는지 QA와 release doctor에서 회귀 검증하도록 보강했다.
 - `/api/admin/exposure-policy?format=csv`와 관리자 `노출 감사 CSV` 버튼을 추가하고, `reports/exposure-policy.json`에도 140개 상품별 감사 행을 저장해 운영자가 최종 URL, 링크 타입, 판매 가능 상태, 검증 근거, 우선순위 점수를 스프레드시트로 점검할 수 있게 했다.
 - `npm run verify:links:live`로 140개 URL의 실제 HTTP/redirect probe를 수행하고, `reports/exposure-policy.json.liveProbeFailureReasonCounts`, CSV `live_probe_reason` 행, `/admin`의 `라이브 실패 사유 분포`로 403/429/robots 접근 차단과 실제 검색/품절 실패를 구분해 운영하도록 보강했다.
-- live probe 결과를 `liveProbeReviewSummary`와 `liveProbeHostFailureCounts`로 재분류해 404/410/5xx/timeout/품절 같은 강한 실패 신호는 출시 차단 기준으로, 403/429/robots 같은 접근 보호 신호는 공식 API·제휴 feed·실기기 확인 우선순위로 운영하도록 관리자 화면, API, CSV, smoke, release doctor에 연결했다.
+- live probe 결과를 `liveProbeReviewSummary`와 `liveProbeHostFailureCounts`로 재분류해 404/410/5xx/품절 같은 강한 실패 신호는 출시 차단 기준으로, timeout/request_failed는 일시 네트워크 재확인 큐로, 403/429/robots 같은 접근 보호 신호는 공식 API·제휴 feed·실기기 확인 우선순위로 운영하도록 관리자 화면, API, CSV, smoke, release doctor에 연결했다.
+- non-strict live probe에서 timeout/request_failed는 `transientNetworkCount`로 분리해 404/410/5xx/품절 본문 같은 확정 실패와 구분하고, 네트워크 일시 오류 때문에 정상 구매 상세 링크가 과도하게 숨겨지지 않도록 운영 재확인 큐로 남기게 했다.
 - `npm run qa`에 non-strict `verify:links:live`와 후속 `verify:products`를 포함하고, release doctor가 live probe 전체 검사와 HTTP 지표를 필수 출시 증거로 확인하도록 상향했다.
 - `/go`와 `/api/redirect` 외부 이동 allowlist에 공식 혜택 도메인을 보강해 검증된 카드/멤버십/문화/편의점/외식/공식 이벤트 링크가 410으로 막히지 않고 새 탭 이동 검증을 통과하도록 개선했다.
 
