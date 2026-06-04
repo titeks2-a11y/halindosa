@@ -45,9 +45,7 @@ import { buildPersonalizedBenefitQueue } from "@/lib/deals/personalizedBenefitQu
 import { isVerifiedPurchaseLink } from "@/lib/deals/quality";
 import { formatPrice, getRelativeTime, getTimeLeft } from "@/lib/format";
 import {
-  commercialScore,
   filterLocalDeals,
-  getCategoryFilterId,
   getProviderDisplayLabel,
   isFreeShippingDeal
 } from "@/lib/homeDealFilters";
@@ -55,7 +53,6 @@ import { getDealImageSrc } from "@/lib/imageSrc";
 import {
   benefitFilters,
   fallbackInterestCategories,
-  highIntentSearchKeywords,
   mallFilters,
   priceBands,
   quickInterestOptions,
@@ -80,9 +77,13 @@ import {
   buildHomeCategoryHighlights,
   buildHomeCategoryStats,
   buildHomeDataQuality,
+  buildHomeDealScanItems,
+  buildHomeFilterActionQueue,
+  buildHomeListRefinementChips,
   buildHomeMallCounts,
   buildHomeMallHighlights,
   buildHomePriceBandCounts,
+  buildHomeResultInsightCards,
   buildHomeStats,
   buildListComparisonCards,
   buildPopularSearchKeywords,
@@ -97,9 +98,12 @@ import {
   buildSearchResultGroups,
   buildSearchResultSnapshot,
   buildTodayBenefitQueue,
+  selectHomeEmptySearchRecoveryDeals,
+  selectHomeEmptySearchRecoveryKeywords,
   selectHomeEndingSoonDeals,
   selectHomeHeroDeal,
   selectHomeInstantDealRail,
+  selectHomeQuickResultPicks,
   selectHomeTopDeals,
   selectMemberFavoriteHomeDeals,
   selectPersonalizedHomeDeals,
@@ -841,260 +845,88 @@ export default function Home() {
 
   const searchDecisionGuide = useMemo(() => buildSearchDecisionGuide(deals), [deals]);
 
-  const dealScanBarItems = useMemo(() => {
-    const verifiedCount = deals.filter(isVerifiedPurchaseLink).length;
-    const freeShippingCount = deals.filter(isFreeShippingDeal).length;
-    const hotCount = deals.filter((deal) => deal.isHot).length;
-    const lowestDeal = deals.reduce<Deal | null>((best, deal) => (!best || deal.salePrice < best.salePrice ? deal : best), null);
-    const topDiscountDeal = deals.reduce<Deal | null>((best, deal) => (!best || deal.discountRate > best.discountRate ? deal : best), null);
-
-    return [
-      {
-        label: "구매처 확인",
-        value: `${verifiedCount}개`,
-        helper: "검색 결과 대신 상세 이동",
-        action: () => setVerifiedOnly((current) => !current),
-        active: verifiedOnly
-      },
-      {
-        label: "무료배송",
-        value: `${freeShippingCount}개`,
-        helper: "배송비 부담 낮춤",
-        action: () => setFreeShippingOnly((current) => !current),
-        active: freeShippingOnly
-      },
-      {
-        label: "핫딜",
-        value: `${hotCount}개`,
-        helper: "반응 좋은 상품",
-        action: () => setHotOnly((current) => !current),
-        active: hotOnly
-      },
-      {
-        label: "낮은 가격 후보",
-        value: lowestDeal ? formatPrice(lowestDeal.salePrice) : "-",
-        helper: lowestDeal?.mallName ?? "결과 없음",
-        action: () => setSort("price"),
-        active: sort === "price"
-      },
-      {
-        label: "할인율 최고",
-        value: topDiscountDeal ? `${topDiscountDeal.discountRate}%` : "0%",
-        helper: topDiscountDeal?.mallName ?? "결과 없음",
-        action: () => setSort("discount"),
-        active: sort === "discount"
-      }
-    ];
-  }, [deals, freeShippingOnly, hotOnly, sort, verifiedOnly]);
+  const dealScanBarItems = useMemo(
+    () =>
+      buildHomeDealScanItems(deals).map((item) => ({
+        ...item,
+        active:
+          (item.id === "verified" && verifiedOnly) ||
+          (item.id === "freeShipping" && freeShippingOnly) ||
+          (item.id === "hot" && hotOnly) ||
+          (item.id === "price" && sort === "price") ||
+          (item.id === "discount" && sort === "discount"),
+        action: () => {
+          if (item.id === "verified") setVerifiedOnly((current) => !current);
+          if (item.id === "freeShipping") setFreeShippingOnly((current) => !current);
+          if (item.id === "hot") setHotOnly((current) => !current);
+          if (item.id === "price") setSort("price");
+          if (item.id === "discount") setSort("discount");
+        }
+      })),
+    [deals, freeShippingOnly, hotOnly, sort, verifiedOnly]
+  );
 
   const listComparisonCards = useMemo(() => buildListComparisonCards(deals), [deals]);
 
-  const listRefinementChips = useMemo(() => {
-    const countBy = <T extends string>(items: T[]) => {
-      const counts = new Map<T, number>();
-      for (const item of items) counts.set(item, (counts.get(item) ?? 0) + 1);
-
-      return Array.from(counts.entries())
-        .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], "ko"))
-        .map(([id, count]) => ({ id, count }));
-    };
-
-    const mallChips = countBy(deals.map((deal) => deal.mallName))
-      .filter((item) => item.id !== mallFilter)
-      .slice(0, 3)
-      .map((item) => ({
-        id: `mall-${item.id}`,
-        label: item.id,
-        value: `${item.count}개`,
-        helper: "쇼핑몰로 좁히기",
-        active: false,
+  const listRefinementChips = useMemo(
+    () =>
+      buildHomeListRefinementChips(deals, { mallFilter, category, benefitFilter, verifiedOnly, freeShippingOnly, endingSoonOnly }).map((item) => ({
+        ...item,
         action: () => {
-          setMallFilter(item.id);
-          showToast(`${item.id} 특가만 모아봅니다.`);
-        }
-      }));
+          if (item.kind === "mall") {
+            setMallFilter(item.target);
+            showToast(`${item.label} 특가만 모아봅니다.`);
+          }
 
-    const categoryChips = countBy(deals.map((deal) => deal.category))
-      .map((item) => ({ ...item, filterId: getCategoryFilterId(item.id) }))
-      .filter((item) => item.filterId !== category)
-      .slice(0, 3)
-      .map((item) => ({
-        id: `category-${item.filterId}-${item.id}`,
-        label: item.id,
-        value: `${item.count}개`,
-        helper: "카테고리로 좁히기",
-        active: false,
-        action: () => {
-          setCategory(item.filterId);
-          showToast(`${item.id} 카테고리만 봅니다.`);
-        }
-      }));
+          if (item.kind === "category") {
+            setCategory(item.target);
+            showToast(`${item.label} 카테고리만 봅니다.`);
+          }
 
-    const benefitChips = countBy(deals.map((deal) => deal.dealType))
-      .filter((item) => item.id !== benefitFilter)
-      .slice(0, 3)
-      .map((item) => ({
-        id: `benefit-${item.id}`,
-        label: benefitFilters.find((filter) => filter.id === item.id)?.label ?? item.id,
-        value: `${item.count}개`,
-        helper: "혜택 유형으로 좁히기",
-        active: false,
-        action: () => {
-          setBenefitFilter(item.id);
-          showToast(`${benefitFilters.find((filter) => filter.id === item.id)?.label ?? item.id} 혜택만 봅니다.`);
-        }
-      }));
+          if (item.kind === "benefit") {
+            setBenefitFilter(item.target);
+            showToast(`${item.label} 혜택만 봅니다.`);
+          }
 
-    const utilityChips = [
-      {
-        id: "verified",
-        label: "구매처 확인",
-        value: `${deals.filter(isVerifiedPurchaseLink).length}개`,
-        helper: "실제 상세 이동 우선",
-        active: verifiedOnly,
-        action: () => {
-          setVerifiedOnly((current) => !current);
-          showToast(verifiedOnly ? "구매처 확인 필터를 해제했습니다." : "구매처 확인된 특가만 봅니다.");
-        }
-      },
-      {
-        id: "free-shipping",
-        label: "무료배송",
-        value: `${deals.filter(isFreeShippingDeal).length}개`,
-        helper: "배송비 부담 낮음",
-        active: freeShippingOnly,
-        action: () => {
-          setFreeShippingOnly((current) => !current);
-          showToast(freeShippingOnly ? "무료배송 필터를 해제했습니다." : "무료배송 특가만 봅니다.");
-        }
-      },
-      {
-        id: "ending-soon",
-        label: "마감임박",
-        value: `${deals.filter((deal) => deal.isEndingSoon || deal.isExpired).length}개`,
-        helper: "오늘 먼저 확인",
-        active: endingSoonOnly,
-        action: () => {
-          setEndingSoonOnly((current) => !current);
-          showToast(endingSoonOnly ? "마감임박 필터를 해제했습니다." : "마감임박 특가만 봅니다.");
-        }
-      }
-    ].filter((item) => item.active || !item.value.startsWith("0"));
+          if (item.target === "verified") {
+            setVerifiedOnly((current) => !current);
+            showToast(verifiedOnly ? "구매처 확인 필터를 해제했습니다." : "구매처 확인된 특가만 봅니다.");
+          }
 
-    return [...utilityChips, ...mallChips, ...categoryChips, ...benefitChips].slice(0, 10);
-  }, [benefitFilter, category, deals, endingSoonOnly, freeShippingOnly, mallFilter, showToast, verifiedOnly]);
+          if (item.target === "freeShipping") {
+            setFreeShippingOnly((current) => !current);
+            showToast(freeShippingOnly ? "무료배송 필터를 해제했습니다." : "무료배송 특가만 봅니다.");
+          }
+
+          if (item.target === "endingSoon") {
+            setEndingSoonOnly((current) => !current);
+            showToast(endingSoonOnly ? "마감임박 필터를 해제했습니다." : "마감임박 특가만 봅니다.");
+          }
+        }
+      })),
+    [benefitFilter, category, deals, endingSoonOnly, freeShippingOnly, mallFilter, showToast, verifiedOnly]
+  );
 
   const searchResultGroups = useMemo(() => buildSearchResultGroups(catalog, deals, query), [catalog, deals, query]);
 
-  const resultInsightCards = useMemo(() => {
-    const topMall = searchResultGroups.malls[0] ?? null;
-    const topCategory = searchResultGroups.categories[0] ?? null;
-    const topBenefit = searchResultGroups.benefits[0] ?? null;
-    const firstVerifiedDeal = deals.find(isVerifiedPurchaseLink) ?? null;
-
-    return [
-      {
-        id: "mall",
-        label: "판매처 집중",
-        title: topMall ? `${topMall.label} ${topMall.count}개` : "판매처 대기",
-        copy: topMall ? "가장 많이 나온 판매처만 먼저 볼 수 있습니다." : "검색 결과가 생기면 판매처를 추천합니다.",
-        actionLabel: "판매처로 좁히기",
-        active: Boolean(topMall && mallFilter === topMall.id),
-        disabled: !topMall,
-        action: () => topMall && setMallFilter(topMall.id)
-      },
-      {
-        id: "category",
-        label: "카테고리 집중",
-        title: topCategory ? `${topCategory.label} ${topCategory.count}개` : "카테고리 대기",
-        copy: topCategory ? "가장 가까운 카테고리 결과를 먼저 모읍니다." : "검색 결과가 생기면 카테고리를 추천합니다.",
-        actionLabel: "카테고리로 좁히기",
-        active: Boolean(topCategory && category === topCategory.id),
-        disabled: !topCategory,
-        action: () => topCategory && setCategory(topCategory.id)
-      },
-      {
-        id: "benefit",
-        label: "혜택 유형",
-        title: topBenefit ? `${topBenefit.label} ${topBenefit.count}개` : "혜택 대기",
-        copy: topBenefit ? "무료, 쿠폰, 무배 같은 혜택 성격으로 다시 정리합니다." : "검색 결과가 생기면 혜택 유형을 추천합니다.",
-        actionLabel: "혜택으로 좁히기",
-        active: Boolean(topBenefit && benefitFilter === topBenefit.id),
-        disabled: !topBenefit,
-        action: () => topBenefit && setBenefitFilter(topBenefit.id)
-      },
-      {
-        id: "verified",
-        label: "안전 이동",
-        title: firstVerifiedDeal ? "구매처 확인 결과 우선" : "구매처 확인 대기",
-        copy: firstVerifiedDeal ? `${firstVerifiedDeal.mallName} 등 상세 이동 가능한 결과를 먼저 봅니다.` : "구매처 확인된 결과가 생기면 먼저 보여줍니다.",
-        actionLabel: "구매처 확인만 보기",
-        active: verifiedOnly,
-        disabled: !firstVerifiedDeal,
-        action: () => setVerifiedOnly((current) => !current)
-      }
-    ];
-  }, [benefitFilter, category, deals, mallFilter, searchResultGroups.benefits, searchResultGroups.categories, searchResultGroups.malls, verifiedOnly]);
-
-  const filterActionQueue = useMemo(() => {
-    const usedIds = new Set<string>();
-    const findDeal = (predicate: (deal: Deal) => boolean) => {
-      const found = deals.find((deal) => !usedIds.has(deal.id) && predicate(deal));
-      if (found) usedIds.add(found.id);
-      return found ?? null;
-    };
-
-    return [
-      {
-        label: "가장 안전한 이동",
-        title: "구매처가 확인된 혜택부터 보기",
-        helper: "검색 결과가 아닌 상세 이동 링크가 확인된 결과입니다.",
-        deal: findDeal((deal) => isVerifiedPurchaseLink(deal))
-      },
-      {
-        label: "돈 쓰기 전",
-        title: "무료·쿠폰 혜택 먼저 챙기기",
-        helper: "결제 전에 적용하거나 받을 수 있는 혜택을 먼저 봅니다.",
-        deal: findDeal((deal) => ["freebie", "experience", "coupon", "point", "foodDelivery"].includes(deal.dealType))
-      },
-      {
-        label: "오늘 확인",
-        title: "마감 전 놓치기 쉬운 혜택",
-        helper: "선착순, 기간 한정, 종료 가능성이 있는 결과입니다.",
-        deal: findDeal((deal) => deal.isEndingSoon || deal.isExpired)
-      }
-    ];
-  }, [deals]);
-  const quickResultPicks = useMemo(
+  const resultInsightCards = useMemo(
     () =>
-      [...deals]
-        .sort(
-          (a, b) =>
-            Number(isVerifiedPurchaseLink(b)) * 120 -
-              Number(isVerifiedPurchaseLink(a)) * 120 +
-              commercialScore(b) -
-              commercialScore(a) +
-              b.likeCount * 0.4 -
-              a.likeCount * 0.4 +
-              b.clickCount * 0.08 -
-              a.clickCount * 0.08
-        )
-        .slice(0, 3),
-    [deals]
+      buildHomeResultInsightCards(deals, searchResultGroups, { mallFilter, category, benefitFilter, verifiedOnly }).map((item) => ({
+        ...item,
+        action: () => {
+          if (item.id === "mall" && item.target) setMallFilter(item.target);
+          if (item.id === "category" && item.target) setCategory(item.target);
+          if (item.id === "benefit" && item.target) setBenefitFilter(item.target);
+          if (item.id === "verified") setVerifiedOnly((current) => !current);
+        }
+      })),
+    [benefitFilter, category, deals, mallFilter, searchResultGroups, verifiedOnly]
   );
-  const emptySearchRecoveryDeals = useMemo(() => {
-    if (deals.length) return [];
 
-    return [...catalog]
-      .filter(isVerifiedPurchaseLink)
-      .sort((a, b) => commercialScore(b) - commercialScore(a) || b.discountRate - a.discountRate)
-      .slice(0, 3);
-  }, [catalog, deals.length]);
-  const emptySearchRecoveryKeywords = useMemo(() => {
-    if (deals.length) return [];
-
-    return highIntentSearchKeywords.filter((keyword) => keyword !== query).slice(0, 8);
-  }, [deals.length, query]);
+  const filterActionQueue = useMemo(() => buildHomeFilterActionQueue(deals), [deals]);
+  const quickResultPicks = useMemo(() => selectHomeQuickResultPicks(deals), [deals]);
+  const emptySearchRecoveryDeals = useMemo(() => selectHomeEmptySearchRecoveryDeals(catalog, deals), [catalog, deals]);
+  const emptySearchRecoveryKeywords = useMemo(() => selectHomeEmptySearchRecoveryKeywords(deals, query), [deals, query]);
 
   const todayBenefitQueue = useMemo(() => buildTodayBenefitQueue(catalog, deals), [catalog, deals]);
   const firstVisitDecisionGuide = useMemo(() => {

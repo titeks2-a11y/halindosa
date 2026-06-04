@@ -415,6 +415,47 @@ export function buildSearchDecisionGuide(deals: Deal[]) {
   };
 }
 
+export function buildHomeDealScanItems(deals: Deal[]) {
+  const verifiedCount = deals.filter(isVerifiedPurchaseLink).length;
+  const freeShippingCount = deals.filter(isFreeShippingDeal).length;
+  const hotCount = deals.filter((deal) => deal.isHot).length;
+  const lowestDeal = deals.reduce<Deal | null>((best, deal) => (!best || deal.salePrice < best.salePrice ? deal : best), null);
+  const topDiscountDeal = deals.reduce<Deal | null>((best, deal) => (!best || deal.discountRate > best.discountRate ? deal : best), null);
+
+  return [
+    {
+      id: "verified" as const,
+      label: "구매처 확인",
+      value: `${verifiedCount}개`,
+      helper: "검색 결과 대신 상세 이동"
+    },
+    {
+      id: "freeShipping" as const,
+      label: "무료배송",
+      value: `${freeShippingCount}개`,
+      helper: "배송비 부담 낮춤"
+    },
+    {
+      id: "hot" as const,
+      label: "핫딜",
+      value: `${hotCount}개`,
+      helper: "반응 좋은 상품"
+    },
+    {
+      id: "price" as const,
+      label: "낮은 가격 후보",
+      value: lowestDeal ? formatPrice(lowestDeal.salePrice) : "-",
+      helper: lowestDeal?.mallName ?? "결과 없음"
+    },
+    {
+      id: "discount" as const,
+      label: "할인율 최고",
+      value: topDiscountDeal ? `${topDiscountDeal.discountRate}%` : "0%",
+      helper: topDiscountDeal?.mallName ?? "결과 없음"
+    }
+  ];
+}
+
 export function buildSearchResultGroups(catalog: Deal[], deals: Deal[], query: string) {
   const normalizedQuery = query.trim();
   const source = catalog.length ? catalog : deals;
@@ -445,6 +486,221 @@ export function buildSearchResultGroups(catalog: Deal[], deals: Deal[], query: s
     categories,
     benefits
   };
+}
+
+export type HomeSearchResultGroups = ReturnType<typeof buildSearchResultGroups>;
+
+const countByText = <T extends string>(items: T[]) => {
+  const counts = new Map<T, number>();
+  for (const item of items) counts.set(item, (counts.get(item) ?? 0) + 1);
+
+  return Array.from(counts.entries())
+    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], "ko"))
+    .map(([id, count]) => ({ id, count }));
+};
+
+export function buildHomeListRefinementChips(
+  deals: Deal[],
+  filters: {
+    mallFilter: string;
+    category: string;
+    benefitFilter: "all" | DealBenefitType;
+    verifiedOnly: boolean;
+    freeShippingOnly: boolean;
+    endingSoonOnly: boolean;
+  }
+) {
+  const mallChips = countByText(deals.map((deal) => deal.mallName))
+    .filter((item) => item.id !== filters.mallFilter)
+    .slice(0, 3)
+    .map((item) => ({
+      id: `mall-${item.id}`,
+      kind: "mall" as const,
+      target: item.id,
+      label: item.id,
+      value: `${item.count}개`,
+      helper: "쇼핑몰로 좁히기",
+      active: false
+    }));
+
+  const categoryChips = countByText(deals.map((deal) => deal.category))
+    .map((item) => ({ ...item, filterId: getCategoryFilterId(item.id) }))
+    .filter((item) => item.filterId !== filters.category)
+    .slice(0, 3)
+    .map((item) => ({
+      id: `category-${item.filterId}-${item.id}`,
+      kind: "category" as const,
+      target: item.filterId,
+      label: item.id,
+      value: `${item.count}개`,
+      helper: "카테고리로 좁히기",
+      active: false
+    }));
+
+  const benefitChips = countByText(deals.map((deal) => deal.dealType))
+    .filter((item) => item.id !== filters.benefitFilter)
+    .slice(0, 3)
+    .map((item) => ({
+      id: `benefit-${item.id}`,
+      kind: "benefit" as const,
+      target: item.id,
+      label: benefitFilters.find((filter) => filter.id === item.id)?.label ?? item.id,
+      value: `${item.count}개`,
+      helper: "혜택 유형으로 좁히기",
+      active: false
+    }));
+
+  const utilityChips = [
+    {
+      id: "verified",
+      kind: "utility" as const,
+      target: "verified",
+      label: "구매처 확인",
+      value: `${deals.filter(isVerifiedPurchaseLink).length}개`,
+      helper: "실제 상세 이동 우선",
+      active: filters.verifiedOnly
+    },
+    {
+      id: "free-shipping",
+      kind: "utility" as const,
+      target: "freeShipping",
+      label: "무료배송",
+      value: `${deals.filter(isFreeShippingDeal).length}개`,
+      helper: "배송비 부담 낮음",
+      active: filters.freeShippingOnly
+    },
+    {
+      id: "ending-soon",
+      kind: "utility" as const,
+      target: "endingSoon",
+      label: "마감임박",
+      value: `${deals.filter((deal) => deal.isEndingSoon || deal.isExpired).length}개`,
+      helper: "오늘 먼저 확인",
+      active: filters.endingSoonOnly
+    }
+  ].filter((item) => item.active || !item.value.startsWith("0"));
+
+  return [...utilityChips, ...mallChips, ...categoryChips, ...benefitChips].slice(0, 10);
+}
+
+export function buildHomeResultInsightCards(
+  deals: Deal[],
+  groups: HomeSearchResultGroups,
+  filters: {
+    mallFilter: string;
+    category: string;
+    benefitFilter: "all" | DealBenefitType;
+    verifiedOnly: boolean;
+  }
+) {
+  const topMall = groups.malls[0] ?? null;
+  const topCategory = groups.categories[0] ?? null;
+  const topBenefit = groups.benefits[0] ?? null;
+  const firstVerifiedDeal = deals.find(isVerifiedPurchaseLink) ?? null;
+
+  return [
+    {
+      id: "mall" as const,
+      label: "판매처 집중",
+      title: topMall ? `${topMall.label} ${topMall.count}개` : "판매처 대기",
+      copy: topMall ? "가장 많이 나온 판매처만 먼저 볼 수 있습니다." : "검색 결과가 생기면 판매처를 추천합니다.",
+      actionLabel: "판매처로 좁히기",
+      active: Boolean(topMall && filters.mallFilter === topMall.id),
+      disabled: !topMall,
+      target: topMall?.id ?? ""
+    },
+    {
+      id: "category" as const,
+      label: "카테고리 집중",
+      title: topCategory ? `${topCategory.label} ${topCategory.count}개` : "카테고리 대기",
+      copy: topCategory ? "가장 가까운 카테고리 결과를 먼저 모읍니다." : "검색 결과가 생기면 카테고리를 추천합니다.",
+      actionLabel: "카테고리로 좁히기",
+      active: Boolean(topCategory && filters.category === topCategory.id),
+      disabled: !topCategory,
+      target: topCategory?.id ?? ""
+    },
+    {
+      id: "benefit" as const,
+      label: "혜택 유형",
+      title: topBenefit ? `${topBenefit.label} ${topBenefit.count}개` : "혜택 대기",
+      copy: topBenefit ? "무료, 쿠폰, 무배 같은 혜택 성격으로 다시 정리합니다." : "검색 결과가 생기면 혜택 유형을 추천합니다.",
+      actionLabel: "혜택으로 좁히기",
+      active: Boolean(topBenefit && filters.benefitFilter === topBenefit.id),
+      disabled: !topBenefit,
+      target: topBenefit?.id ?? ""
+    },
+    {
+      id: "verified" as const,
+      label: "안전 이동",
+      title: firstVerifiedDeal ? "구매처 확인 결과 우선" : "구매처 확인 대기",
+      copy: firstVerifiedDeal ? `${firstVerifiedDeal.mallName} 등 상세 이동 가능한 결과를 먼저 봅니다.` : "구매처 확인된 결과가 생기면 먼저 보여줍니다.",
+      actionLabel: "구매처 확인만 보기",
+      active: filters.verifiedOnly,
+      disabled: !firstVerifiedDeal,
+      target: "verified"
+    }
+  ];
+}
+
+export function buildHomeFilterActionQueue(deals: Deal[]) {
+  const usedIds = new Set<string>();
+  const findDeal = (predicate: (deal: Deal) => boolean) => {
+    const found = deals.find((deal) => !usedIds.has(deal.id) && predicate(deal));
+    if (found) usedIds.add(found.id);
+    return found ?? null;
+  };
+
+  return [
+    {
+      label: "가장 안전한 이동",
+      title: "구매처가 확인된 혜택부터 보기",
+      helper: "검색 결과가 아닌 상세 이동 링크가 확인된 결과입니다.",
+      deal: findDeal((deal) => isVerifiedPurchaseLink(deal))
+    },
+    {
+      label: "돈 쓰기 전",
+      title: "무료·쿠폰 혜택 먼저 챙기기",
+      helper: "결제 전에 적용하거나 받을 수 있는 혜택을 먼저 봅니다.",
+      deal: findDeal((deal) => ["freebie", "experience", "coupon", "point", "foodDelivery"].includes(deal.dealType))
+    },
+    {
+      label: "오늘 확인",
+      title: "마감 전 놓치기 쉬운 혜택",
+      helper: "선착순, 기간 한정, 종료 가능성이 있는 결과입니다.",
+      deal: findDeal((deal) => deal.isEndingSoon || deal.isExpired)
+    }
+  ];
+}
+
+export function selectHomeQuickResultPicks(deals: Deal[]) {
+  return [...deals]
+    .sort(
+      (a, b) =>
+        Number(isVerifiedPurchaseLink(b)) * 120 -
+        Number(isVerifiedPurchaseLink(a)) * 120 +
+        commercialScore(b) -
+        commercialScore(a) +
+        b.likeCount * 0.4 -
+        a.likeCount * 0.4 +
+        b.clickCount * 0.08 -
+        a.clickCount * 0.08
+    )
+    .slice(0, 3);
+}
+
+export function selectHomeEmptySearchRecoveryDeals(catalog: Deal[], deals: Deal[]) {
+  if (deals.length) return [];
+
+  return [...catalog]
+    .filter(isVerifiedPurchaseLink)
+    .sort((a, b) => commercialScore(b) - commercialScore(a) || b.discountRate - a.discountRate)
+    .slice(0, 3);
+}
+
+export function selectHomeEmptySearchRecoveryKeywords(deals: Deal[], query: string) {
+  if (deals.length) return [];
+
+  return highIntentSearchKeywords.filter((keyword) => keyword !== query).slice(0, 8);
 }
 
 export function buildListComparisonCards(deals: Deal[]) {

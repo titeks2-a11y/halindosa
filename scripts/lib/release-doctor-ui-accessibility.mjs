@@ -518,9 +518,9 @@ export async function checkUiAccessibility() {
     !homePage.includes("filterOutcomeCards") ||
     !homePage.includes("resultInsightCards") ||
     !homePage.includes('aria-label="결과 바로 판단 카드"') ||
-    !homePage.includes("판매처 집중") ||
-    !homePage.includes("카테고리 집중") ||
-    !homePage.includes("안전 이동") ||
+    !homeSearchSource.includes("판매처 집중") ||
+    !homeSearchSource.includes("카테고리 집중") ||
+    !homeSearchSource.includes("안전 이동") ||
     !homeSearchSource.includes("searchPurposePresets") ||
     !homePage.includes('aria-label="혜택 목적 빠른 필터"') ||
     !homePage.includes("무료, 쿠폰, 앱테크, 문화 초대권을 한 번에 좁힙니다") ||
