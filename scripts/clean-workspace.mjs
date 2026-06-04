@@ -9,17 +9,25 @@ const includeAndroidWebAssets = args.has("--android-web-assets");
 const includeIosBuild = args.has("--ios-build");
 const includeCapacitorPluginBuilds = args.has("--capacitor-plugin-builds");
 const includeReports = args.has("--reports");
+const reportsOnly =
+  includeReports &&
+  !includeAndroidBuild &&
+  !includeAndroidWebAssets &&
+  !includeIosBuild &&
+  !includeCapacitorPluginBuilds;
 
-const targets = [
-  ".next",
-  "out",
-  ".turbo",
-  ".eslintcache",
-  ".dev-server.log",
-  ".dev-server.err.log",
-  ".codex-dev-server.out.log",
-  ".codex-dev-server.err.log",
-];
+const targets = reportsOnly
+  ? []
+  : [
+      ".next",
+      "out",
+      ".turbo",
+      ".eslintcache",
+      ".dev-server.log",
+      ".dev-server.err.log",
+      ".codex-dev-server.out.log",
+      ".codex-dev-server.err.log",
+    ];
 
 if (includeAndroidBuild) {
   targets.push("android/.gradle", "android/app/build", "android/build");
@@ -34,42 +42,7 @@ if (includeIosBuild) {
 }
 
 if (includeReports) {
-  targets.push(
-    "reports",
-    "AUDIT_REPORT.md",
-    "DEVICE_QA_MANIFEST.json",
-    "DEVICE_QA_REPORT.md",
-    "ENV_DOCTOR_REPORT.md",
-    "EXTERNAL_LINK_REPORT.md",
-    "HARNESS_REPORT.md",
-    "IMAGE_BACKLOG.csv",
-    "IMAGE_BACKLOG.json",
-    "IMAGE_BACKLOG_MALL_REQUESTS.csv",
-    "IMAGE_BACKLOG_NEXT_BATCH.csv",
-    "IMAGE_OPERATIONS_REPORT.md",
-    "IMAGE_QUALITY_REPORT.md",
-    "KNOWN_ISSUES.md",
-    "LINK_VERIFICATION_REPORT.md",
-    "LINK_VERIFICATION_RESULT.json",
-    "MOBILE_UX_REPORT.md",
-    "PERFORMANCE_REPORT.md",
-    "PUBLIC_URL_REPORT.md",
-    "RELEASE_NOTES.json",
-    "RELEASE_NOTES.md",
-    "SEARCH_REPORT.md",
-    "STORE_ASSETS_REPORT.md",
-    "STORE_CONSOLE_FIELDS.json",
-    "STORE_HANDOFF_REPORT.md",
-    "STORE_MANUAL_CHECKLIST.json",
-    "STORE_MANUAL_CHECKLIST.md",
-    "STORE_METADATA_REPORT.md",
-    "STORE_PACKET_REPORT.md",
-    "STORE_SCREENSHOT_MANIFEST.json",
-    "STORE_SCREENSHOTS_REPORT.md",
-    "STORE_SUBMISSION_REPORT.md",
-    "SUPPORT_PLAYBOOK.json",
-    "SUPPORT_PLAYBOOK.md"
-  );
+  targets.push("reports");
 }
 
 async function addCapacitorPluginBuildTargets() {
