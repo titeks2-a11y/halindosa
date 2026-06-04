@@ -1,15 +1,15 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-04T00:50:56.389Z",
-  "sourceGeneratedAt": "2026-06-04T00:50:55.897Z",
+  "generatedAt": "2026-06-04T01:32:50.408Z",
+  "sourceGeneratedAt": "2026-06-04T01:32:49.904Z",
   "freshnessStatus": "fresh",
   "cadenceHours": 6,
   "staleAfterHours": 24,
   "reportAgeHours": 0,
-  "oldestCheckedAt": "2026-06-04T00:50:55.407Z",
+  "oldestCheckedAt": "2026-06-04T01:32:49.439Z",
   "oldestCheckedAgeHours": 0,
-  "nextRefreshDueAt": "2026-06-04T06:50:55.897Z",
-  "staleAfterAt": "2026-06-05T00:50:55.897Z",
+  "nextRefreshDueAt": "2026-06-04T07:32:49.904Z",
+  "staleAfterAt": "2026-06-05T01:32:49.904Z",
   "visibleCount": 30,
   "hiddenCount": 0,
   "failedCount": 0,
@@ -78,7 +78,7 @@
       "category": "마트/편의점",
       "sourceName": "GS25 공식 이벤트",
       "endDate": "2026-06-15",
-      "daysLeft": 11,
+      "daysLeft": 10.9,
       "action": "공식 페이지 종료 여부를 확인하고 대체 혜택 후보를 준비하세요."
     }
   ],
@@ -89,7 +89,7 @@
       "merchant": "GS25",
       "category": "마트/편의점",
       "endDate": "2026-06-15",
-      "daysLeft": 11
+      "daysLeft": 10.9
     },
     {
       "id": "news-musinsa-fashion-festa",
@@ -97,7 +97,7 @@
       "merchant": "무신사",
       "category": "패션/뷰티",
       "endDate": "2026-06-30",
-      "daysLeft": 26
+      "daysLeft": 25.9
     },
     {
       "id": "news-lotteon-lohbs-coupon",
@@ -105,7 +105,7 @@
       "merchant": "롯데ON",
       "category": "패션/뷰티",
       "endDate": "2026-06-30",
-      "daysLeft": 26
+      "daysLeft": 25.9
     },
     {
       "id": "news-gs25-card-june-2026",
@@ -113,7 +113,7 @@
       "merchant": "GS25",
       "category": "마트/편의점",
       "endDate": "2026-06-30",
-      "daysLeft": 26
+      "daysLeft": 25.9
     },
     {
       "id": "news-gs25-event-goods",
@@ -121,7 +121,7 @@
       "merchant": "GS25",
       "category": "마트/편의점",
       "endDate": "2026-06-30",
-      "daysLeft": 26
+      "daysLeft": 25.9
     }
   ],
   "checks": [

@@ -31,6 +31,38 @@ GET /api/metrics
 `/api/sources?format=csv`는 같은 데이터를 `source_catalog`, `feed_transition`, `next_action` 행으로 내려보내며, 운영자가 공식 API/RSS/제휴 JSON 후보를 스프레드시트에서 검수하고 `OFFICIAL_EVENT_FEED_URLS`, `PUBLIC_COUPON_FEED_URLS` 연결 순서를 정할 때 사용한다.
 서버 없이 파일로 검수하려면 `npm run source:catalog:report`를 실행해 `reports/official-source-catalog.csv`를 생성한다.
 
+## Official Benefit Feed Env Guard
+
+공식 뉴스, 이벤트, 쿠폰, 공공혜택 feed를 연결하기 전에는 운영 환경변수 자체를 먼저 검사한다.
+
+```bash
+npm run source:feed-env:doctor
+```
+
+검사 대상:
+
+- `DEAL_NEWS_FEED_URLS`
+- `DEAL_NEWS_RSS_URLS`
+- `DEAL_EVENT_NEWS_FEED_URLS`
+- `OFFICIAL_EVENT_FEED_URLS`
+- `DEAL_EVENT_FEED_URLS`
+- `PUBLIC_COUPON_FEED_URLS`
+
+검사 기준:
+
+- HTTPS URL만 허용한다.
+- JSON, RSS, Atom, 공식 API, 승인된 partner feed endpoint만 허용한다.
+- 공식 소스 카탈로그 host 또는 `HALINDOSA_APPROVED_FEED_HOSTS`에 등록한 승인 host만 허용한다.
+- 검색 결과, 커뮤니티 원문, 블로그, 쇼핑몰 메인, HTML 이벤트 랜딩 페이지 직접 수집 URL은 실패 처리한다.
+- `HALINDOSA_APPROVED_FEED_HOSTS`에는 host만 적고 full URL, token, query 값은 기록하지 않는다.
+
+리포트:
+
+- `reports/source-feed-env-readiness.json`
+- `docs/SOURCE_FEED_ENV_REPORT.md`
+
+이 명령이 통과한 뒤 `npm run refresh:news`, `npm run verify:news`, `npm run refresh:all`을 실행한다.
+
 ## 운영 전환 순서
 
 1. 신규 공급원을 `/api/admin/import` dry-run으로 검증

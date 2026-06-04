@@ -78,6 +78,7 @@ async function checkPackage() {
     "source:catalog:report",
     "source:live:doctor",
     "source:onboarding:plan",
+    "source:feed-env:doctor",
     "test:mobile-ux",
     "links:report",
     "store:metadata:doctor",
@@ -100,7 +101,7 @@ async function checkPackage() {
   const missing = requiredScripts.filter((script) => !pkg.scripts?.[script]);
 
   if (missing.length) fail("package scripts", `Missing scripts: ${missing.join(", ")}`);
-  else if (!pkg.scripts?.qa?.includes("admin:auth:doctor") || !pkg.scripts?.qa?.includes("verify:links") || !pkg.scripts?.qa?.includes("verify:links:live") || !pkg.scripts?.qa?.includes("verify:products") || !pkg.scripts?.qa?.includes("link:policy:regression") || !pkg.scripts?.qa?.includes("exposure:doctor") || !pkg.scripts?.qa?.includes("refresh:deals") || !pkg.scripts?.qa?.includes("refresh:news") || !pkg.scripts?.qa?.includes("verify:news") || !pkg.scripts?.qa?.includes("news:freshness:doctor") || !pkg.scripts?.qa?.includes("test:news-feed-errors") || !pkg.scripts?.qa?.includes("refresh:all") || !pkg.scripts?.qa?.includes("health:readiness") || !pkg.scripts?.qa?.includes("push:readiness:report") || !pkg.scripts?.qa?.includes("push:delivery:doctor") || !pkg.scripts?.qa?.includes("push:delivery:audit") || !pkg.scripts?.qa?.includes("source:catalog:report") || !pkg.scripts?.qa?.includes("source:live:doctor") || !pkg.scripts?.qa?.includes("source:onboarding:plan") || !pkg.scripts?.["admin:auth:doctor"]?.includes("admin-auth-doctor.mjs") || !pkg.scripts?.["link:policy:regression"]?.includes("link-quality-regression.mjs") || !pkg.scripts?.["refresh:all"]?.includes("refresh-all.mjs") || !pkg.scripts?.["health:readiness"]?.includes("health-readiness-report.mjs") || !pkg.scripts?.["push:readiness:report"]?.includes("push-readiness-report.mjs") || !pkg.scripts?.["push:delivery:doctor"]?.includes("push-delivery-policy-doctor.mjs") || !pkg.scripts?.["push:delivery:audit"]?.includes("push-delivery-audit-doctor.mjs") || !pkg.scripts?.["news:freshness:doctor"]?.includes("news-freshness-doctor.mjs") || !pkg.scripts?.["source:catalog:report"]?.includes("official-source-catalog-report.mjs") || !pkg.scripts?.["source:live:doctor"]?.includes("official-source-live-doctor.mjs") || !pkg.scripts?.["source:onboarding:plan"]?.includes("source-onboarding-plan.mjs") || !harness.includes("test:mobile-ux") || !pkg.scripts?.qa?.includes("test:mobile-ux") || !pkg.scripts?.["env:doctor:production"]?.includes("--production") || !pkg.scripts?.["qa:release"]?.includes("health:readiness") || !pkg.scripts?.["qa:release"]?.includes("audit:commercial") || !pkg.scripts?.["qa:release"]?.includes("test:env") || !pkg.scripts?.["qa:release"]?.includes("device:qa:manifest") || !pkg.scripts?.["qa:release"]?.includes("device:qa:doctor") || !pkg.scripts?.["qa:release"]?.includes("device:qa:report") || !pkg.scripts?.["qa:release"]?.includes("android:signing:doctor") || !pkg.scripts?.["qa:release"]?.includes("public:url:doctor") || !pkg.scripts?.["qa:release"]?.includes("feed:validate") || !pkg.scripts?.["qa:release"]?.includes("feed:production:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:metadata:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:submission:report") || !pkg.scripts?.["qa:release"]?.includes("store:packet:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:console:fields") || !pkg.scripts?.["qa:release"]?.includes("store:manual:checklist") || !pkg.scripts?.["qa:release"]?.includes("store:manual:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:handoff:report") || !pkg.scripts?.["qa:release"]?.includes("release:notes") || !pkg.scripts?.["qa:release"]?.includes("support:playbook") || !pkg.scripts?.["qa:release"]?.includes("known:issues") || !pkg.scripts?.["qa:release"]?.includes("store:assets:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:manifest") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:doctor") || !pkg.scripts?.["qa:release"]?.includes("perf:budget")) {
+  else if (!pkg.scripts?.qa?.includes("admin:auth:doctor") || !pkg.scripts?.qa?.includes("verify:links") || !pkg.scripts?.qa?.includes("verify:links:live") || !pkg.scripts?.qa?.includes("verify:products") || !pkg.scripts?.qa?.includes("link:policy:regression") || !pkg.scripts?.qa?.includes("exposure:doctor") || !pkg.scripts?.qa?.includes("refresh:deals") || !pkg.scripts?.qa?.includes("refresh:news") || !pkg.scripts?.qa?.includes("verify:news") || !pkg.scripts?.qa?.includes("news:freshness:doctor") || !pkg.scripts?.qa?.includes("test:news-feed-errors") || !pkg.scripts?.qa?.includes("refresh:all") || !pkg.scripts?.qa?.includes("health:readiness") || !pkg.scripts?.qa?.includes("push:readiness:report") || !pkg.scripts?.qa?.includes("push:delivery:doctor") || !pkg.scripts?.qa?.includes("push:delivery:audit") || !pkg.scripts?.qa?.includes("source:catalog:report") || !pkg.scripts?.qa?.includes("source:live:doctor") || !pkg.scripts?.qa?.includes("source:onboarding:plan") || !pkg.scripts?.qa?.includes("source:feed-env:doctor") || !pkg.scripts?.["admin:auth:doctor"]?.includes("admin-auth-doctor.mjs") || !pkg.scripts?.["link:policy:regression"]?.includes("link-quality-regression.mjs") || !pkg.scripts?.["refresh:all"]?.includes("refresh-all.mjs") || !pkg.scripts?.["health:readiness"]?.includes("health-readiness-report.mjs") || !pkg.scripts?.["push:readiness:report"]?.includes("push-readiness-report.mjs") || !pkg.scripts?.["push:delivery:doctor"]?.includes("push-delivery-policy-doctor.mjs") || !pkg.scripts?.["push:delivery:audit"]?.includes("push-delivery-audit-doctor.mjs") || !pkg.scripts?.["news:freshness:doctor"]?.includes("news-freshness-doctor.mjs") || !pkg.scripts?.["source:catalog:report"]?.includes("official-source-catalog-report.mjs") || !pkg.scripts?.["source:live:doctor"]?.includes("official-source-live-doctor.mjs") || !pkg.scripts?.["source:onboarding:plan"]?.includes("source-onboarding-plan.mjs") || !pkg.scripts?.["source:feed-env:doctor"]?.includes("source-feed-env-doctor.mjs") || !harness.includes("test:mobile-ux") || !pkg.scripts?.qa?.includes("test:mobile-ux") || !pkg.scripts?.["env:doctor:production"]?.includes("--production") || !pkg.scripts?.["qa:release"]?.includes("health:readiness") || !pkg.scripts?.["qa:release"]?.includes("audit:commercial") || !pkg.scripts?.["qa:release"]?.includes("test:env") || !pkg.scripts?.["qa:release"]?.includes("device:qa:manifest") || !pkg.scripts?.["qa:release"]?.includes("device:qa:doctor") || !pkg.scripts?.["qa:release"]?.includes("device:qa:report") || !pkg.scripts?.["qa:release"]?.includes("android:signing:doctor") || !pkg.scripts?.["qa:release"]?.includes("public:url:doctor") || !pkg.scripts?.["qa:release"]?.includes("feed:validate") || !pkg.scripts?.["qa:release"]?.includes("feed:production:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:metadata:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:submission:report") || !pkg.scripts?.["qa:release"]?.includes("store:packet:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:console:fields") || !pkg.scripts?.["qa:release"]?.includes("store:manual:checklist") || !pkg.scripts?.["qa:release"]?.includes("store:manual:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:handoff:report") || !pkg.scripts?.["qa:release"]?.includes("release:notes") || !pkg.scripts?.["qa:release"]?.includes("support:playbook") || !pkg.scripts?.["qa:release"]?.includes("known:issues") || !pkg.scripts?.["qa:release"]?.includes("store:assets:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:manifest") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:doctor") || !pkg.scripts?.["qa:release"]?.includes("perf:budget")) {
     fail("package scripts", "qa, harness, and qa:release should include admin auth doctor, refresh:all, health readiness, mobile UX, commercial security audit, device QA manifest/doctor/report, Android signing doctor, public URL doctor, partner feed validator, production feed doctor, store metadata doctor, store submission/packet/console/handoff reports, store asset doctor, store screenshot manifest/doctor, and performance budget before store submission.");
   } else {
     pass("package scripts", "Android, iOS, environment, mobile UX, commercial security, and performance release command flow is available.");
@@ -1966,6 +1967,7 @@ async function checkOperationalDataSurfaces() {
     ? JSON.parse(readFileSync(join(root, "reports/official-source-live-check.json"), "utf8"))
     : {};
   const sourceOnboardingPlanScript = await text("scripts/source-onboarding-plan.mjs");
+  const sourceFeedEnvDoctorScript = await text("scripts/source-feed-env-doctor.mjs");
   const sourceOnboardingPlanReadiness = await text("lib/operations/sourceOnboardingPlan.ts");
   const adminSourceOnboardingRoute = await text("app/api/admin/source-onboarding/route.ts");
   const sourceOnboardingPlanDoc = existsSync(join(root, "docs/SOURCE_ONBOARDING_PLAN.md"))
@@ -1977,6 +1979,13 @@ async function checkOperationalDataSurfaces() {
   const sourceOnboardingPlanReport = existsSync(join(root, "reports/source-onboarding-plan.json"))
     ? JSON.parse(readFileSync(join(root, "reports/source-onboarding-plan.json"), "utf8"))
     : {};
+  const sourceFeedEnvReport = existsSync(join(root, "reports/source-feed-env-readiness.json"))
+    ? JSON.parse(readFileSync(join(root, "reports/source-feed-env-readiness.json"), "utf8"))
+    : {};
+  const sourceFeedEnvDoc = existsSync(join(root, "docs/SOURCE_FEED_ENV_REPORT.md"))
+    ? readFileSync(join(root, "docs/SOURCE_FEED_ENV_REPORT.md"), "utf8")
+    : "";
+  const envExample = existsSync(join(root, ".env.example")) ? readFileSync(join(root, ".env.example"), "utf8") : "";
   const officialSourceStatusCounts = officialSourceLiveReport.statusCounts ?? {};
   const officialSourceBlockingLiveCount =
     Number(officialSourceLiveReport.needsReviewCount ?? 0) +
@@ -2834,6 +2843,14 @@ async function checkOperationalDataSurfaces() {
     !sourceOnboardingPlanScript.includes("buildEnvPlan") ||
     !sourceOnboardingPlanScript.includes("buildEnvTemplate") ||
     !sourceOnboardingPlanScript.includes("공식 API, RSS, 제휴 feed") ||
+    !sourceFeedEnvDoctorScript.includes("source-feed-env-readiness.json") ||
+    !sourceFeedEnvDoctorScript.includes("HALINDOSA_APPROVED_FEED_HOSTS") ||
+    !sourceFeedEnvDoctorScript.includes("not_machine_readable_feed") ||
+    !sourceFeedEnvDoctorScript.includes("unlisted_feed_host") ||
+    !sourceFeedEnvDoctorScript.includes("community_or_blog_host") ||
+    !sourceFeedEnvDoctorScript.includes("policyRegressionSamples") ||
+    !envExample.includes("HALINDOSA_APPROVED_FEED_HOSTS") ||
+    !envExample.includes("HALINDOSA_ALLOW_DATA_FEED_URLS") ||
     !sourceOnboardingPlanReadiness.includes("envPlan") ||
     !sourceOnboardingPlanReadiness.includes("envTemplate") ||
     !sourceOnboardingPlanReadiness.includes("getOfficialSourceOnboardingPlan") ||
@@ -2878,9 +2895,22 @@ async function checkOperationalDataSurfaces() {
     !String(sourceOnboardingPlanReport.envTemplate ?? "").includes("OFFICIAL_EVENT_FEED_URLS") ||
     !sourceOnboardingEnvTemplate.includes("OFFICIAL_EVENT_FEED_URLS") ||
     !sourceOnboardingEnvTemplate.includes("검색 결과, 커뮤니티 원문") ||
+    sourceFeedEnvReport.ok !== true ||
+    !Array.isArray(sourceFeedEnvReport.checkedKeys) ||
+    sourceFeedEnvReport.checkedKeys.length < 6 ||
+    !sourceFeedEnvReport.policy?.machineReadableFeedRequired ||
+    !sourceFeedEnvReport.policy?.officialCatalogHostOrApprovedPartnerHostRequired ||
+    !Array.isArray(sourceFeedEnvReport.allowedCatalogHosts) ||
+    sourceFeedEnvReport.allowedCatalogHosts.length < 25 ||
+    !Array.isArray(sourceFeedEnvReport.policyRegressionSamples) ||
+    sourceFeedEnvReport.policyRegressionSamples.some((sample) => sample.passed !== true) ||
     !sourceOnboardingPlanDoc.includes("공식 소스 온보딩 우선순위") ||
     !sourceOnboardingPlanDoc.includes("다음 연결 우선순위 TOP 10") ||
     !sourceOnboardingPlanDoc.includes("환경변수 연결 템플릿") ||
+    !sourceFeedEnvDoc.includes("공식 feed 환경변수 안전성 리포트") ||
+    !sourceFeedEnvDoc.includes("정책 회귀 샘플") ||
+    !sourceFeedEnvDoc.includes("검색 결과, 커뮤니티 원문") ||
+    !dataSourceRunbook.includes("source:feed-env:doctor") ||
     !smoke.includes("Sources API found danger official benefit provider risk") ||
     !smoke.includes("Admin dashboard missing partner feed validation report board") ||
     !smoke.includes("Admin dashboard missing paste-in feed dry-run panel") ||
