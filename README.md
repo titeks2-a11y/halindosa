@@ -101,6 +101,8 @@ npm run release:doctor
 
 `npm run image:backlog:report`는 전체 이미지 보강 큐(`IMAGE_BACKLOG.csv`), 이번 주 실행 배치(`IMAGE_BACKLOG_NEXT_BATCH.csv`), 판매처별 피드 요청서(`IMAGE_BACKLOG_MALL_REQUESTS.csv`), JSON/문서 리포트를 함께 생성합니다. 공개 운영 전에는 주간 배치 CSV부터 처리하고, backlog가 많은 판매처는 mall request CSV로 `imageUrl` 또는 `thumbnail` 확보를 요청합니다. 이미지 ready 기준은 `productUrl + imageUrl/thumbnail + imageRights + priceCheckedAt`이며, 검색 결과 썸네일·커뮤니티 캡처·블로그 이미지는 보강 완료로 인정하지 않습니다.
 
+로컬 작업 폴더가 무거워지면 먼저 `npm run clean:artifacts:mobile:dry`로 삭제 대상을 확인한 뒤 `npm run clean:artifacts:mobile`을 실행합니다. 더 깊게 정리할 때는 `npm run clean:artifacts:deep`을 사용하며, Next/Capacitor/Android/iOS가 다시 생성할 수 있는 산출물만 지웁니다.
+
 `npm run source:live:doctor`는 `data/officialSourceCatalog.json`의 공식 소스 후보 URL을 non-strict로 점검해 `reports/official-source-live-check.json`, `reports/official-source-live-check.csv`, [docs/OFFICIAL_SOURCE_LIVE_CHECK.md](docs/OFFICIAL_SOURCE_LIVE_CHECK.md)를 생성합니다. 이 점검은 무단 크롤링이 아니라 접근 가능, WAF/권한 보호, 404/410 교체 필요 상태를 운영자가 보는 리포트이며 사용자 노출 데이터를 자동 변경하지 않습니다.
 
 `npm run source:onboarding:plan`은 공식 소스 카탈로그와 live 점검 결과를 합쳐 `reports/source-onboarding-plan.json`, `reports/source-onboarding-plan.csv`, [docs/SOURCE_ONBOARDING_PLAN.md](docs/SOURCE_ONBOARDING_PLAN.md)를 생성합니다. 운영자는 이 파일에서 공식 API/RSS/제휴 feed를 어느 소스부터 연결할지, guarded 소스는 어떤 담당자 확인이 필요한지 우선순위로 확인합니다.

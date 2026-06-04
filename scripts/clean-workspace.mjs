@@ -5,6 +5,7 @@ const workspaceRoot = process.cwd();
 const args = new Set(process.argv.slice(2));
 const shouldDelete = args.has("--delete");
 const includeAndroidBuild = args.has("--android-build");
+const includeIosBuild = args.has("--ios-build");
 const includeCapacitorPluginBuilds = args.has("--capacitor-plugin-builds");
 
 const targets = [
@@ -20,6 +21,10 @@ const targets = [
 
 if (includeAndroidBuild) {
   targets.push("android/.gradle", "android/app/build", "android/build");
+}
+
+if (includeIosBuild) {
+  targets.push("ios/App/App/public", "ios/App/build", "ios/App/DerivedData", "ios/build");
 }
 
 async function addCapacitorPluginBuildTargets() {
@@ -99,6 +104,7 @@ if (!shouldDelete) {
   console.log(`\nDry run complete. ${found} generated target(s) found.`);
   console.log("Run `npm run clean:artifacts` to remove web build artifacts.");
   console.log("Run `npm run clean:artifacts:android` to also remove Android build outputs.");
+  console.log("Run `npm run clean:artifacts:mobile` to also remove regenerated Android/iOS build outputs.");
   console.log("Run `npm run clean:artifacts:deep` to also remove Capacitor plugin build caches.");
 } else {
   console.log(`\nClean complete. Removed ${removed} generated target(s).`);

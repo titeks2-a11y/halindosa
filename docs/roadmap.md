@@ -160,7 +160,7 @@
 - 관리자 이미지 큐에 공개 운영 목표 60%, 목표까지 남은 보강 수, 주간 보강 목표, 판매처별 피드 보강 우선순위를 추가해 이미지 품질을 단순 리포트가 아닌 운영 실행 큐로 관리
 - 판매처별 이미지 확보 정책을 `imageSourcingPolicy`로 분리해 쿠팡, G마켓, 11번가, SSG/이마트, 올리브영, 무신사별 권장 이미지 출처, 필수 feed 필드, 권리 확인 체크, 금지 이미지 출처를 관리자 이미지 큐 JSON/CSV와 화면에 노출하도록 개선
 - 이미지 보강 큐에 `sourceSafetyLevel=official_or_partner_only`, `imageReadyGate`, `requiredFeedFields`, `operatorChecklist`, `requestTemplate`를 추가해 `productUrl + imageUrl/thumbnail + imageRights + priceCheckedAt`이 함께 있어야 운영 ready로 인정되도록 강화하고, 검색 결과 썸네일·커뮤니티·블로그 이미지를 보강 완료로 보지 않도록 QA 게이트를 확장했다.
-- [24H_START_AUDIT.md](../24H_START_AUDIT.md), [HARNESS_AUDIT.md](../HARNESS_AUDIT.md), [KNOWN_ISSUES.md](../KNOWN_ISSUES.md)를 추가해 이번 장기 hardening의 시작 상태, 검사 범위, 남은 운영 리스크를 문서화
+- [archive/24H_START_AUDIT.md](archive/24H_START_AUDIT.md), [HARNESS_AUDIT.md](HARNESS_AUDIT.md), [KNOWN_ISSUES.md](../KNOWN_ISSUES.md)를 추가해 이번 장기 hardening의 시작 상태, 검사 범위, 남은 운영 리스크를 문서화
 
 ### PHASE Harness Hardening
 
