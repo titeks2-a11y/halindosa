@@ -1210,6 +1210,8 @@ async function checkUiAccessibility() {
   const priceAlertList = await text("components/PriceAlertList.tsx");
   const priceAlerts = await text("lib/priceAlerts.ts");
   const homePage = await text("app/page.tsx");
+  const homeDiscoveryConfig = await text("lib/homeDiscoveryConfig.ts");
+  const homeSearchSource = `${homePage}\n${homeDiscoveryConfig}`;
   const favoritesPage = await text("app/favorites/page.tsx");
   const notFoundPage = await text("app/not-found.tsx");
   const loadingPage = await text("app/loading.tsx");
@@ -1656,8 +1658,8 @@ async function checkUiAccessibility() {
     !searchDiscoveryPanel.includes('aria-label="검색 도우미"') ||
     !searchDiscoveryPanel.includes("인기 검색어") ||
     !searchDiscoveryPanel.includes("최근 검색어") ||
-    !homePage.includes("recentSearchStorageKey") ||
-    !homePage.includes("highIntentSearchKeywords") ||
+    !homeSearchSource.includes("recentSearchStorageKey") ||
+    !homeSearchSource.includes("highIntentSearchKeywords") ||
     !homePage.includes("quickSearchSuggestions") ||
     !homePage.includes("searchResultSnapshot") ||
     !homePage.includes('aria-label="검색 결과 핵심 요약"') ||
@@ -1670,7 +1672,7 @@ async function checkUiAccessibility() {
   } else if (
     !homePage.includes('aria-label="쇼핑몰 필터"') ||
     !homePage.includes('aria-label="가격대 필터"') ||
-    !homePage.includes("전체 가격대") ||
+    !homeSearchSource.includes("전체 가격대") ||
     !homePage.includes("혜택 유형 필터") ||
     !homePage.includes("무료배송만 보기") ||
     !homePage.includes("구매링크 확인된 특가만 보기") ||
@@ -1684,10 +1686,10 @@ async function checkUiAccessibility() {
     !homePage.includes("판매처 집중") ||
     !homePage.includes("카테고리 집중") ||
     !homePage.includes("안전 이동") ||
-    !homePage.includes("searchPurposePresets") ||
+    !homeSearchSource.includes("searchPurposePresets") ||
     !homePage.includes('aria-label="혜택 목적 빠른 필터"') ||
     !homePage.includes("무료, 쿠폰, 앱테크, 문화 초대권을 한 번에 좁힙니다") ||
-    !homePage.includes("검증 링크만") ||
+    !homeSearchSource.includes("검증 링크만") ||
     !homePage.includes('aria-label="조건별 결과 요약"') ||
     !homePage.includes("현재 필터가 보여주는 혜택을 먼저 해석합니다") ||
     !homePage.includes("현재 조건으로 볼 혜택") ||
@@ -1807,7 +1809,7 @@ async function checkUiAccessibility() {
       !homePage.includes("dealMatchesInterestCategory") ||
       !homePage.includes("관심 카테고리 추천") ||
       !homePage.includes("비회원도 모두 보고") ||
-      !homePage.includes("quickInterestOptions") ||
+      !homeSearchSource.includes("quickInterestOptions") ||
       !homePage.includes("toggleQuickInterest") ||
       !homePage.includes("홈 빠른 관심 설정") ||
       !homePage.includes("비회원 기기 저장") ||
