@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useMemo } from "react";
-import { CalendarClock, ExternalLink, ShieldCheck, TicketPercent } from "lucide-react";
+import { CalendarClock, ExternalLink, RefreshCw, ShieldCheck, TicketPercent } from "lucide-react";
 import { getRelativeTime, getTimeLeft } from "@/lib/format";
 import { rememberRecentNewsBenefitId } from "@/lib/recentNewsBenefits";
 import { CommerceBadge } from "@/components/ui/CommerceBadge";
@@ -37,10 +37,16 @@ const categoryHighlights = [
 export function RealtimeNewsDealsSection({
   deals,
   updatedAt,
+  isRefreshing = false,
+  refreshError = "",
+  onRefresh,
   onOpenNewsDeal
 }: {
   deals: NewsDeal[];
   updatedAt: string;
+  isRefreshing?: boolean;
+  refreshError?: string;
+  onRefresh?: () => void;
   onOpenNewsDeal?: (deal: NewsDeal) => void;
 }) {
   const highlightCounts = useMemo(
@@ -73,11 +79,42 @@ export function RealtimeNewsDealsSection({
         title="공식 혜택 페이지로 바로 이동"
         compact
         trailing={
-          <CommerceBadge tone="neutral" className="hidden sm:inline-flex">
-            {updatedAt ? getRelativeTime(updatedAt) : "방금 확인"}
-          </CommerceBadge>
+          <div className="hidden items-center gap-1.5 sm:flex">
+            <CommerceBadge tone={refreshError ? "gold" : "neutral"}>
+              {isRefreshing ? "갱신 중" : updatedAt ? getRelativeTime(updatedAt) : "방금 확인"}
+            </CommerceBadge>
+            {onRefresh ? (
+              <button
+                type="button"
+                onClick={onRefresh}
+                disabled={isRefreshing}
+                className="inline-flex min-h-8 min-w-8 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 transition hover:border-brand-red hover:text-brand-red disabled:cursor-wait disabled:opacity-60"
+                aria-label="공식 혜택 다시 확인"
+              >
+                <RefreshCw size={14} className={isRefreshing ? "animate-spin" : ""} />
+              </button>
+            ) : null}
+          </div>
         }
       />
+      <div className="mt-2 flex items-center justify-between gap-2 sm:hidden">
+        <CommerceBadge tone={refreshError ? "gold" : "neutral"}>
+          {isRefreshing ? "갱신 중" : updatedAt ? getRelativeTime(updatedAt) : "방금 확인"}
+        </CommerceBadge>
+        {onRefresh ? (
+          <button
+            type="button"
+            onClick={onRefresh}
+            disabled={isRefreshing}
+            className="inline-flex min-h-8 items-center gap-1.5 rounded-full border border-slate-200 bg-white px-3 text-[11px] font-black text-slate-600 disabled:cursor-wait disabled:opacity-60"
+            aria-label="공식 혜택 다시 확인"
+          >
+            <RefreshCw size={13} className={isRefreshing ? "animate-spin" : ""} />
+            새로고침
+          </button>
+        ) : null}
+      </div>
+      {refreshError ? <p className="mt-2 text-[11px] font-bold text-amber-700">{refreshError}</p> : null}
       {highlightCounts.length ? (
         <div className="mt-3 flex gap-1.5 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" aria-label="공식 혜택 카테고리 요약">
           {highlightCounts.map((item) => (

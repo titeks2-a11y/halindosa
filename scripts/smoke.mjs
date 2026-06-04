@@ -209,6 +209,7 @@ await check("home page", async () => {
     "Home page missing compact instant deal rail"
   );
   assert(text.includes("오늘의 실시간 할인뉴스") && text.includes("공식 혜택 페이지로 바로 이동"), "Home page missing verified realtime discount news section");
+  assert(text.includes("공식 혜택 다시 확인") && text.includes("새로고침"), "Home page missing official benefit live refresh control");
   assert(text.includes("공식 링크") && text.includes("공식 페이지"), "Home page missing official event/news link trust actions");
   assert(text.includes("재방문 혜택 큐") && text.includes("최근 본 공식 혜택") && text.includes("관심 카테고리 공식 혜택"), "Home page missing recent official benefit return queue");
   assert(text.includes("오늘 다시 볼 공식 혜택") && text.includes("검색 결과가 아니라 공식 페이지") && text.includes("공식 보기"), "Home page missing compact official benefit alert rail");

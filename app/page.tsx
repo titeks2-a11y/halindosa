@@ -680,6 +680,8 @@ export default function Home() {
   const [isSignalLoading, setIsSignalLoading] = useState(false);
   const [newsDeals, setNewsDeals] = useState<NewsDeal[]>(() => initialNewsSnapshot.deals ?? []);
   const [newsUpdatedAt, setNewsUpdatedAt] = useState(initialNewsSnapshot.generatedAt ?? "");
+  const [isNewsRefreshing, setIsNewsRefreshing] = useState(false);
+  const [newsRefreshError, setNewsRefreshError] = useState("");
   const [favorites, setFavorites] = useState<string[]>(() => readLocalFavoriteIds());
   const [recentDealIds, setRecentDealIds] = useState<string[]>([]);
   const [favoriteCategories, setFavoriteCategories] = useState<string[]>(() => readLocalPreferences().favoriteCategories);
@@ -695,6 +697,28 @@ export default function Home() {
     setToast(message);
     window.setTimeout(() => setToast(""), 2200);
   }, []);
+
+  const refreshNewsDeals = useCallback(
+    async ({ silent = false, notify = false }: { silent?: boolean; notify?: boolean } = {}) => {
+      try {
+        if (await isNativeRuntime()) return;
+        if (silent && typeof document !== "undefined" && document.visibilityState === "hidden") return;
+
+        setIsNewsRefreshing(true);
+        const data = await requestJson<NewsDealsResponse>(`/api/news-deals?limit=8&ts=${Date.now()}`);
+        setNewsDeals(Array.isArray(data.deals) ? data.deals : []);
+        setNewsUpdatedAt(data.updatedAt);
+        setNewsRefreshError("");
+        if (notify) showToast("공식 혜택 정보를 다시 확인했습니다.");
+      } catch {
+        setNewsRefreshError("연결이 불안정해 기존 혜택을 유지합니다.");
+        if (notify) showToast("공식 혜택을 다시 확인하지 못했습니다.");
+      } finally {
+        setIsNewsRefreshing(false);
+      }
+    },
+    [showToast]
+  );
 
   useEffect(() => {
     let active = true;
@@ -946,26 +970,25 @@ export default function Home() {
     if (!hasAppliedInitialParams) return;
 
     let active = true;
-    const handle = window.setTimeout(async () => {
-      try {
-        if (await isNativeRuntime()) return;
-        const data = await requestJson<NewsDealsResponse>("/api/news-deals?limit=6");
-        if (!active) return;
-        setNewsDeals(Array.isArray(data.deals) ? data.deals : []);
-        setNewsUpdatedAt(data.updatedAt);
-      } catch {
-        if (active) {
-          setNewsDeals([]);
-          setNewsUpdatedAt("");
-        }
-      }
-    }, 260);
+    const refreshIfActive = () => {
+      if (!active) return;
+      void refreshNewsDeals({ silent: true });
+    };
+    const initialHandle = window.setTimeout(refreshIfActive, 260);
+    const intervalHandle = window.setInterval(refreshIfActive, 120_000);
+    const handleVisibility = () => {
+      if (document.visibilityState === "visible") refreshIfActive();
+    };
+
+    document.addEventListener("visibilitychange", handleVisibility);
 
     return () => {
       active = false;
-      window.clearTimeout(handle);
+      window.clearTimeout(initialHandle);
+      window.clearInterval(intervalHandle);
+      document.removeEventListener("visibilitychange", handleVisibility);
     };
-  }, [hasAppliedInitialParams]);
+  }, [hasAppliedInitialParams, refreshNewsDeals]);
 
   useEffect(() => {
     let cleanup: (() => void) | undefined;
@@ -2742,7 +2765,18 @@ export default function Home() {
             </div>
           </section>
         ) : null}
-        {activeView === "home" ? <RealtimeNewsDealsSection deals={newsDeals} updatedAt={newsUpdatedAt} onOpenNewsDeal={rememberRecentNewsBenefit} /> : null}
+        {activeView === "home" ? (
+          <RealtimeNewsDealsSection
+            deals={newsDeals}
+            updatedAt={newsUpdatedAt}
+            isRefreshing={isNewsRefreshing}
+            refreshError={newsRefreshError}
+            onRefresh={() => {
+              void refreshNewsDeals({ notify: true });
+            }}
+            onOpenNewsDeal={rememberRecentNewsBenefit}
+          />
+        ) : null}
         {activeView === "home" ? <HomeOfficialBenefitAlertRail deals={newsDeals} onOpenNewsDeal={rememberRecentNewsBenefit} /> : null}
         {activeView === "home" ? (
           <section className="grid gap-2 sm:gap-4 lg:grid-cols-[1fr_0.9fr]" aria-label="홈 핵심 특가 요약">

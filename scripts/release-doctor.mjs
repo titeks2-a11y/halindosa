@@ -4552,8 +4552,8 @@ function checkNewsDealPipeline() {
     if (!newsFeedContract.includes(phrase)) issues.push(`news feed contract docs missing ${phrase}`);
   }
 
-  if (!homePage.includes("RealtimeNewsDealsSection") || !homePage.includes("/api/news-deals?limit=6")) {
-    issues.push("home should show verified realtime discount news section from /api/news-deals");
+  if (!homePage.includes("RealtimeNewsDealsSection") || !homePage.includes("/api/news-deals?limit=8") || !homePage.includes("refreshNewsDeals") || !homePage.includes("120_000")) {
+    issues.push("home should show verified realtime discount news section from /api/news-deals with live refresh");
   }
   if (
     !realtimeNewsSection.includes("/go/news/") ||
