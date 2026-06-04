@@ -4306,6 +4306,7 @@ function checkNewsDealPipeline() {
     "app/go/news/[id]/route.ts",
     "app/api/admin/news-operations/route.ts",
     "app/api/admin/news-feed-canary/route.ts",
+    "app/api/admin/news-feed-live/route.ts",
     "app/api/admin/news-feed-preview/route.ts",
     "components/NewsFeedDryRunPanel.tsx",
     "components/RealtimeNewsDealsSection.tsx"
@@ -4368,6 +4369,9 @@ function checkNewsDealPipeline() {
     : "";
   const adminNewsFeedCanaryRoute = existsSync(join(root, "app/api/admin/news-feed-canary/route.ts"))
     ? readFileSync(join(root, "app/api/admin/news-feed-canary/route.ts"), "utf8")
+    : "";
+  const adminNewsFeedLiveRoute = existsSync(join(root, "app/api/admin/news-feed-live/route.ts"))
+    ? readFileSync(join(root, "app/api/admin/news-feed-live/route.ts"), "utf8")
     : "";
   const adminNewsFeedPreviewRoute = existsSync(join(root, "app/api/admin/news-feed-preview/route.ts"))
     ? readFileSync(join(root, "app/api/admin/news-feed-preview/route.ts"), "utf8")
@@ -4497,6 +4501,10 @@ function checkNewsDealPipeline() {
     !adminNewsFeedCanaryRoute.includes("buildFeedCanaryCsv") ||
     !adminNewsFeedCanaryRoute.includes("text/csv") ||
     !adminNewsFeedCanaryRoute.includes("getNewsOperationsReport") ||
+    !adminNewsFeedLiveRoute.includes("canAccessAdminRequest") ||
+    !adminNewsFeedLiveRoute.includes("buildLivePipelineCsv") ||
+    !adminNewsFeedLiveRoute.includes("text/csv") ||
+    !adminNewsFeedLiveRoute.includes("news-feed-live-pipeline.json") ||
     !freshnessScript.includes("expiredVisibleCount") ||
     !freshnessScript.includes("expiringWithin14Days") ||
     !freshnessScript.includes("lastCheckedAt") ||
@@ -4530,6 +4538,9 @@ function checkNewsDealPipeline() {
   }
   if (!adminPage.includes("canary JSON") || !adminPage.includes("canary CSV") || !smokeScript.includes("admin news feed canary api")) {
     issues.push("admin dashboard and smoke tests should expose protected official feed canary JSON/CSV checks");
+  }
+  if (!adminPage.includes("live JSON") || !adminPage.includes("live CSV") || !smokeScript.includes("admin news feed live pipeline api")) {
+    issues.push("admin dashboard and smoke tests should expose protected official feed live pipeline JSON/CSV checks");
   }
   for (const phrase of ["공식 혜택 Feed Canary", "신선도", "연결된 feed URL", "설정 feed 공백", "npm run news:feed:canary"]) {
     if (!feedCanaryDocs.includes(phrase)) issues.push(`news feed canary docs missing ${phrase}`);

@@ -865,6 +865,26 @@ await check("admin news feed canary api", async () => {
   assert(csv.includes("official_feed_canary") && csv.includes("next_action"), "Admin news feed canary CSV missing summary or next action rows");
 });
 
+await check("admin news feed live pipeline api", async () => {
+  const { response, data } = await fetchJson("/api/admin/news-feed-live");
+  assert(response.status === 200, `Expected news feed live pipeline 200, got ${response.status}`);
+  assert(data.ok === true, "Admin news feed live pipeline API ok should be true");
+  assert(["seed_launch_ready", "live_feed_ready", "needs_attention", "missing", "unreadable"].includes(data.report?.status), "Admin news feed live pipeline missing status");
+  assert(typeof data.report?.configuredUrlCount === "number", "Admin news feed live pipeline missing configured URL count");
+  assert(["fresh", "due", "stale", "missing"].includes(data.report?.canary?.freshnessStatus), "Admin news feed live pipeline missing canary freshness status");
+  assert(data.report?.officialBenefits?.visibleCount >= 40, "Admin news feed live pipeline should expose visible official benefits");
+  assert(data.report?.officialBenefits?.exposedSearchLinkCount === 0, "Admin news feed live pipeline should expose zero search links");
+  assert(data.report?.officialBenefits?.exposedNonOfficialLinkCount === 0, "Admin news feed live pipeline should expose zero non-official links");
+  assert(Array.isArray(data.report?.steps) && data.report.steps.some((step) => step.name === "verify:links:live"), "Admin news feed live pipeline should expose live probe step");
+  assert(Array.isArray(data.report?.nextActions) && data.report.nextActions.length >= 1, "Admin news feed live pipeline missing next actions");
+
+  const csvResponse = await fetch(`${baseUrl}/api/admin/news-feed-live?format=csv`);
+  const csv = await csvResponse.text();
+  assert(csvResponse.status === 200, `Expected news feed live pipeline CSV 200, got ${csvResponse.status}`);
+  assert(csvResponse.headers.get("content-type")?.includes("text/csv"), "Admin news feed live pipeline CSV should use text/csv content type");
+  assert(csv.includes("news_feed_live_pipeline") && csv.includes("provider") && csv.includes("next_action"), "Admin news feed live pipeline CSV missing summary, provider, or next action rows");
+});
+
 await check("admin news feed preview api", async () => {
   const { response, data } = await fetchJson("/api/admin/news-feed-preview");
   assert(response.status === 200, `Expected news feed preview 200, got ${response.status}`);
