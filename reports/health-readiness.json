@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-04T08:16:59.130Z",
+  "generatedAt": "2026-06-04T08:47:49.726Z",
   "score": 100,
   "thresholds": {
     "productDealsCount": 140,
@@ -161,7 +161,7 @@
   },
   "refreshAll": {
     "ok": true,
-    "generatedAt": "2026-06-04T08:16:32.381Z",
+    "generatedAt": "2026-06-04T08:47:14.597Z",
     "insertedCount": 43,
     "updatedCount": 136,
     "hiddenCount": 0,
@@ -172,32 +172,32 @@
       {
         "name": "refresh:deals",
         "ok": true,
-        "startedAt": "2026-06-04T08:16:32.382Z",
-        "finishedAt": "2026-06-04T08:16:32.679Z"
+        "startedAt": "2026-06-04T08:47:14.598Z",
+        "finishedAt": "2026-06-04T08:47:14.908Z"
       },
       {
         "name": "refresh:news",
         "ok": true,
-        "startedAt": "2026-06-04T08:16:32.679Z",
-        "finishedAt": "2026-06-04T08:16:32.762Z"
+        "startedAt": "2026-06-04T08:47:14.908Z",
+        "finishedAt": "2026-06-04T08:47:15.002Z"
       },
       {
         "name": "verify:links",
         "ok": true,
-        "startedAt": "2026-06-04T08:16:32.762Z",
-        "finishedAt": "2026-06-04T08:16:32.857Z"
+        "startedAt": "2026-06-04T08:47:15.002Z",
+        "finishedAt": "2026-06-04T08:47:15.118Z"
       },
       {
         "name": "verify:products",
         "ok": true,
-        "startedAt": "2026-06-04T08:16:32.857Z",
-        "finishedAt": "2026-06-04T08:16:32.937Z"
+        "startedAt": "2026-06-04T08:47:15.118Z",
+        "finishedAt": "2026-06-04T08:47:15.201Z"
       },
       {
         "name": "verify:news",
         "ok": true,
-        "startedAt": "2026-06-04T08:16:32.937Z",
-        "finishedAt": "2026-06-04T08:16:33.020Z"
+        "startedAt": "2026-06-04T08:47:15.201Z",
+        "finishedAt": "2026-06-04T08:47:15.284Z"
       }
     ]
   },
@@ -223,8 +223,8 @@
     "readinessLabel": "seed launch ready / 공식 feed 연결 대기",
     "launchGateStatus": "passed",
     "officialSourceCandidates": 30,
-    "reachableSources": 26,
-    "guardedSources": 4,
+    "reachableSources": 27,
+    "guardedSources": 3,
     "configuredFeedUrls": 0,
     "visibleOfficialBenefits": 43,
     "blockedLiveIssues": 0,

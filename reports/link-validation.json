@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-04T08:16:56.529Z",
+  "generatedAt": "2026-06-04T08:47:47.152Z",
   "totalDeals": 140,
   "verificationTargets": 140,
   "passedDirectLinks": 140,
@@ -26,15 +26,15 @@
     "bodyProbe": false,
     "timeoutMs": 5000,
     "checked": 140,
-    "passed": 66,
-    "failed": 74,
-    "redirected": 12,
-    "finalUrlChanged": 12,
+    "passed": 64,
+    "failed": 76,
+    "redirected": 11,
+    "finalUrlChanged": 11,
     "http404": 0,
     "http410": 0,
     "http5xx": 0,
-    "timeout": 0,
-    "robotsBlocked": 58,
+    "timeout": 2,
+    "robotsBlocked": 57,
     "unavailableText": 0,
     "failures": [
       {
@@ -92,13 +92,6 @@
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000377767271",
         "status": 429,
         "reason": "http_429"
-      },
-      {
-        "id": "d012",
-        "url": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000216997",
-        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000216997",
-        "status": 403,
-        "reason": "robots_or_access_blocked"
       },
       {
         "id": "d014",
@@ -185,6 +178,13 @@
         "reason": "robots_or_access_blocked"
       },
       {
+        "id": "d036",
+        "url": "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0041365090",
+        "finalUrl": "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0041365090",
+        "status": 0,
+        "reason": "timeout"
+      },
+      {
         "id": "d041",
         "url": "https://www.ssg.com/item/itemView.ssg?itemId=1000620373892",
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000620373892",
@@ -255,6 +255,13 @@
         "reason": "request_failed"
       },
       {
+        "id": "d074",
+        "url": "https://www.shinhancard.com/pconts/html/benefit/event/MOBFM220/MOBFM220R01.html",
+        "finalUrl": "https://www.shinhancard.com/pconts/html/benefit/event/MOBFM220/MOBFM220R01.html",
+        "status": 0,
+        "reason": "request_failed"
+      },
+      {
         "id": "d079",
         "url": "https://www.coupang.com/vp/products/8943433269",
         "finalUrl": "https://www.coupang.com/vp/products/8943433269",
@@ -288,6 +295,13 @@
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2439050806",
         "status": 403,
         "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d090",
+        "url": "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0000066953",
+        "finalUrl": "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0000066953",
+        "status": 0,
+        "reason": "timeout"
       },
       {
         "id": "d091",
@@ -558,13 +572,13 @@
     ]
   },
   "httpStatusSummary": {
-    "redirected": 12,
-    "finalUrlChanged": 12,
+    "redirected": 11,
+    "finalUrlChanged": 11,
     "http404": 0,
     "http410": 0,
     "http5xx": 0,
-    "timeout": 0,
-    "robotsBlocked": 58,
+    "timeout": 2,
+    "robotsBlocked": 57,
     "unavailableText": 0
   },
   "policy": {
@@ -622,29 +636,39 @@
   "liveProbeReviewSummary": {
     "status": "transient_network_review",
     "hardFailureCount": 0,
-    "transientNetworkCount": 3,
-    "accessProtectedCount": 58,
+    "transientNetworkCount": 6,
+    "accessProtectedCount": 57,
     "sellerUnavailableSignals": 0,
     "interpretation": "Some URLs returned transient network signals; no exposed search, sold-out, 404, 410, or 5xx links were found."
   },
   "liveProbeReasonCounts": {
-    "robots_or_access_blocked": 58,
+    "robots_or_access_blocked": 57,
     "http_429": 13,
-    "request_failed": 3
+    "request_failed": 4,
+    "timeout": 2
   },
   "liveProbeHostFailureCounts": {
     "item.gmarket.co.kr": 30,
     "coupang.com": 23,
     "ssg.com": 13,
-    "oliveyoung.co.kr": 3,
+    "e-himart.co.kr": 2,
+    "oliveyoung.co.kr": 2,
     "hyundaicard.com": 1,
     "itempage3.auction.co.kr": 1,
+    "shinhancard.com": 1,
     "store.ohou.se": 1,
     "tmembership.co.kr": 1,
     "tour.interpark.com": 1
   },
   "hardLiveProbeFailures": [],
   "transientLiveProbeFailures": [
+    {
+      "id": "d036",
+      "url": "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0041365090",
+      "finalUrl": "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0041365090",
+      "status": 0,
+      "reason": "timeout"
+    },
     {
       "id": "d051",
       "url": "https://tour.interpark.com/goods/detail?goodsCd=25031828338",
@@ -665,6 +689,20 @@
       "finalUrl": "https://www.hyundaicard.com/cpc/cr/CPCCR0101_01.hc",
       "status": 0,
       "reason": "request_failed"
+    },
+    {
+      "id": "d074",
+      "url": "https://www.shinhancard.com/pconts/html/benefit/event/MOBFM220/MOBFM220R01.html",
+      "finalUrl": "https://www.shinhancard.com/pconts/html/benefit/event/MOBFM220/MOBFM220R01.html",
+      "status": 0,
+      "reason": "request_failed"
+    },
+    {
+      "id": "d090",
+      "url": "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0000066953",
+      "finalUrl": "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0000066953",
+      "status": 0,
+      "reason": "timeout"
     }
   ],
   "auditedItems": [
@@ -1082,7 +1120,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-05-31T10:00:00.000Z",
-      "priorityScore": 99,
+      "priorityScore": 100,
       "isHidden": false,
       "host": "oliveyoung.co.kr",
       "evidence": "올리브영 세라마이드 크림 상품 상세",
@@ -1094,13 +1132,10 @@
         "productDetailUrl": true,
         "officialBenefitUrl": false,
         "unavailableText": false,
-        "liveProbeOk": false
+        "liveProbeOk": true
       },
       "liveProbe": {
-        "ok": false,
-        "status": 403,
-        "reason": "robots_or_access_blocked",
-        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000216997"
+        "ok": true
       }
     },
     {
@@ -1949,10 +1984,13 @@
         "productDetailUrl": true,
         "officialBenefitUrl": false,
         "unavailableText": false,
-        "liveProbeOk": true
+        "liveProbeOk": false
       },
       "liveProbe": {
-        "ok": true
+        "ok": false,
+        "status": 0,
+        "reason": "timeout",
+        "finalUrl": "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0041365090"
       }
     },
     {
@@ -3271,10 +3309,13 @@
         "productDetailUrl": false,
         "officialBenefitUrl": true,
         "unavailableText": false,
-        "liveProbeOk": true
+        "liveProbeOk": false
       },
       "liveProbe": {
-        "ok": true
+        "ok": false,
+        "status": 0,
+        "reason": "request_failed",
+        "finalUrl": "https://www.shinhancard.com/pconts/html/benefit/event/MOBFM220/MOBFM220R01.html"
       }
     },
     {
@@ -3830,10 +3871,13 @@
         "productDetailUrl": true,
         "officialBenefitUrl": false,
         "unavailableText": false,
-        "liveProbeOk": true
+        "liveProbeOk": false
       },
       "liveProbe": {
-        "ok": true
+        "ok": false,
+        "status": 0,
+        "reason": "timeout",
+        "finalUrl": "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0000066953"
       }
     },
     {

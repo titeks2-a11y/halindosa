@@ -24,6 +24,7 @@
 - `newsProvider`, `eventNewsProvider`, `officialEventProvider`, `publicCouponProvider`를 seed 전용에서 seed fallback + 승인 JSON feed ingestion 구조로 확장하고, `docs/news-feed-contract.md`, `data/newsFeed.sample.json`, `news:feed:doctor`로 운영 feed 계약을 검증하도록 보강했다.
 - `news:preview`, `reports/news-feed-preview.json`, `docs/NEWS_FEED_PREVIEW_REPORT.md`, `/api/admin/news-feed-preview`, `/api/admin/news-feed-preview?format=csv`, 관리자 `공식 feed preview` 패널을 추가해 운영 feed 반영 전 공식 링크 승격, 검색/비공식 링크 차단, 숨김 후보를 화면과 스프레드시트에서 dry-run으로 확인할 수 있게 했다.
 - 관리자 `공식 뉴스·혜택 feed 붙여넣기 검증` 패널과 POST `/api/admin/news-feed-preview` dry-run을 추가해 운영자가 받은 JSON/RSS 본문을 임의 URL 서버 fetch 없이 검증하고, `visibleRows`와 `hiddenRows`를 기준으로 공식 링크 보강 후 반영 여부를 판단할 수 있게 했다.
+- `test:news-feed-dry-run`과 `reports/news-feed-dry-run-regression.json`을 추가해 RSS 본문 공식 링크 승격, 검색 결과 URL 숨김, 뉴스 기사 단독 URL 숨김, 만료 공식 이벤트 숨김을 QA/release doctor가 고정하도록 했다.
 - 뉴스 운영 리포트에 provider별 성공/실패, 최근 20개 수집 로그, 실패 사유 TOP10, 숨김/종료/공식 링크 없음 큐, 수동 숨김/복구/재검증 액션을 추가하고 `/api/admin/news-operations`와 `/admin`에 연결했다.
 - `/admin`에 `공식 혜택 수동 운영` 패널을 추가해 운영자가 노출 중 공식 혜택을 바로 숨김 처리하고, 숨김/점검 혜택을 복구하거나 링크 재검증 요청을 기록할 수 있게 했다.
 - 공식 혜택 운영 리포트에 필수 10개 혜택 카테고리 커버리지, `refresh:all` 단계별 상태, 오늘 운영 리스크 요약을 추가해 운영자가 카테고리 공백, 리포트 stale, 파이프라인 실패 여부를 관리자 화면에서 바로 판단하도록 개선했다.

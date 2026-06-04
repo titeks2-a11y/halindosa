@@ -1,0 +1,63 @@
+{
+  "ok": true,
+  "generatedAt": "2026-06-04T08:47:14.040Z",
+  "visibleCount": 1,
+  "hiddenCount": 3,
+  "officialPromotion": {
+    "id": "dry-run-positive-official-link",
+    "sourceUrl": "https://news.naver.com/example/halindosa-dry-run",
+    "finalUrl": "https://www.mcdonalds.co.kr/kor/promotion/detail.do?seq=593"
+  },
+  "blockedCases": [
+    {
+      "id": "dry-run-negative-search-url",
+      "linkType": "search",
+      "availability": "active",
+      "validationStatus": "failed",
+      "hiddenReason": "not_approved_official_url,search_or_result_url",
+      "finalUrl": "https://search.shopping.naver.com/search/all?query=%ED%95%A0%EC%9D%B8"
+    },
+    {
+      "id": "dry-run-negative-news-only",
+      "linkType": "community",
+      "availability": "active",
+      "validationStatus": "failed",
+      "hiddenReason": "not_approved_official_url,blocked_community_or_news_host",
+      "finalUrl": "https://news.naver.com/example/only-news-context"
+    },
+    {
+      "id": "dry-run-negative-expired-official",
+      "linkType": "official_coupon",
+      "availability": "expired",
+      "validationStatus": "failed",
+      "hiddenReason": "expired_event",
+      "finalUrl": "https://www.mcdonalds.co.kr/kor/promotion/detail.do?seq=593"
+    }
+  ],
+  "gates": [
+    {
+      "name": "rss_official_href_promotion",
+      "ok": true
+    },
+    {
+      "name": "search_url_hidden",
+      "ok": true
+    },
+    {
+      "name": "news_only_hidden",
+      "ok": true
+    },
+    {
+      "name": "expired_official_hidden",
+      "ok": true
+    },
+    {
+      "name": "admin_post_route_guarded",
+      "ok": true
+    },
+    {
+      "name": "smoke_runtime_negative_cases",
+      "ok": true
+    }
+  ]
+}

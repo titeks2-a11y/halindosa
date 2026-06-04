@@ -844,6 +844,57 @@ await check("admin news feed preview api", async () => {
   assert(dryRun.data.result?.hidden === 0, "Admin news feed dry-run should hide zero rows for official sample");
   assert(dryRun.data.result?.officialLinkPromotedCount === 1, "Admin news feed dry-run should promote official link from RSS body");
   assert(dryRun.data.result?.visibleRows?.[0]?.finalUrl?.includes("mcdonalds.co.kr"), "Admin news feed dry-run should use official final URL");
+
+  const blockedDryRun = await fetchJson("/api/admin/news-feed-preview", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      source: "smoke_news_feed_blocked_samples",
+      provider: "official_event",
+      items: [
+        {
+          id: "smoke-dry-run-search-url",
+          title: "검색 결과 URL 차단 샘플",
+          summary: "검색 결과 URL은 운영 feed에서 숨김 처리되어야 합니다.",
+          merchant: "검색몰",
+          finalUrl: "https://search.shopping.naver.com/search/all?query=%ED%8A%B9%EA%B0%80",
+          endDate: "2026-12-31T14:59:59.000Z"
+        },
+        {
+          id: "smoke-dry-run-news-only",
+          title: "뉴스 원문 단독 URL 차단 샘플",
+          summary: "공식 이벤트 URL 없이 뉴스 기사 링크만 있으면 사용자 노출 후보가 아닙니다.",
+          merchant: "뉴스",
+          finalUrl: "https://news.naver.com/example/halindosa-only-news",
+          endDate: "2026-12-31T14:59:59.000Z"
+        },
+        {
+          id: "smoke-dry-run-expired-official",
+          title: "만료 공식 이벤트 차단 샘플",
+          summary: "공식 이벤트 URL이라도 종료일이 지나면 사용자 노출에서 제외합니다.",
+          merchant: "맥도날드",
+          finalUrl: "https://www.mcdonalds.co.kr/kor/promotion/detail.do?seq=593",
+          endDate: "2025-12-31T14:59:59.000Z"
+        }
+      ]
+    })
+  });
+  assert(blockedDryRun.response.status === 200, `Expected blocked dry-run 200, got ${blockedDryRun.response.status}`);
+  assert(blockedDryRun.data.ok === false, "Admin news feed dry-run should fail blocked samples");
+  assert(blockedDryRun.data.result?.visible === 0, "Admin news feed dry-run should expose zero blocked sample rows");
+  assert(blockedDryRun.data.result?.hidden === 3, "Admin news feed dry-run should hide all blocked sample rows");
+  assert(
+    blockedDryRun.data.result?.hiddenRows?.some((row) => row.id === "smoke-dry-run-search-url" && row.hiddenReason.includes("search_or_result_url")),
+    "Admin news feed dry-run should block search URL sample"
+  );
+  assert(
+    blockedDryRun.data.result?.hiddenRows?.some((row) => row.id === "smoke-dry-run-news-only" && row.hiddenReason.includes("blocked_news_or_community_context_url")),
+    "Admin news feed dry-run should block news-only sample"
+  );
+  assert(
+    blockedDryRun.data.result?.hiddenRows?.some((row) => row.id === "smoke-dry-run-expired-official" && row.hiddenReason.includes("expired_event")),
+    "Admin news feed dry-run should block expired official sample"
+  );
 });
 
 await check("admin source live readiness api", async () => {

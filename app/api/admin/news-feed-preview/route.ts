@@ -162,7 +162,20 @@ export async function POST(request: Request) {
   }
 
   const body = await request.json().catch(() => ({}));
-  const text = typeof body.text === "string" ? body.text.slice(0, 300_000) : "";
+  const rawText = typeof body.text === "string" ? body.text : "";
+  if (rawText.length > 300_000) {
+    return NextResponse.json(
+      {
+        ok: false,
+        requestId,
+        message: "공식 feed dry-run 원문이 너무 큽니다. 300KB 이하로 나누어 검증해주세요.",
+        reason: "source too large"
+      },
+      { status: 413, headers: rateLimitHeaders(limit, requestId) }
+    );
+  }
+
+  const text = rawText;
   const source = typeof body.source === "string" ? body.source.slice(0, 80) : "admin_news_feed_paste";
   const provider = ["news", "event_news", "official_event", "public_coupon"].includes(String(body.provider))
     ? (body.provider as "news" | "event_news" | "official_event" | "public_coupon")
