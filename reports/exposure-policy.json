@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-04T06:18:55.706Z",
+  "generatedAt": "2026-06-04T07:18:20.062Z",
   "summary": {
     "auditedItems": 140,
     "exposedItems": 140,
@@ -9,6 +9,8 @@
     "searchLinksExposed": 0,
     "soldOutExposed": 0,
     "failedExposed": 0,
+    "syntheticExposurePassed": 11,
+    "syntheticExposureTotal": 11,
     "averagePriorityScore": 100
   },
   "linkTypeCounts": {
@@ -618,6 +620,132 @@
     "store.ohou.se": 1,
     "tmembership.co.kr": 1,
     "tour.interpark.com": 1
+  },
+  "syntheticExposureScenarios": {
+    "ok": true,
+    "total": 11,
+    "passed": 11,
+    "exposedPositiveSamples": 2,
+    "blockedNegativeSamples": 9,
+    "results": [
+      {
+        "id": "synthetic-active-direct",
+        "title": "정상 직접 구매 링크 샘플",
+        "expectedCanExpose": true,
+        "actualCanExpose": true,
+        "expectedIssue": "",
+        "issues": [],
+        "ok": true
+      },
+      {
+        "id": "synthetic-official-benefit",
+        "title": "정상 공식 혜택 링크 샘플",
+        "expectedCanExpose": true,
+        "actualCanExpose": true,
+        "expectedIssue": "",
+        "issues": [],
+        "ok": true
+      },
+      {
+        "id": "synthetic-search-url",
+        "title": "검색 URL 차단 샘플",
+        "expectedCanExpose": false,
+        "actualCanExpose": false,
+        "expectedIssue": "search_or_category_url",
+        "issues": [
+          "search_or_category_url"
+        ],
+        "ok": true
+      },
+      {
+        "id": "synthetic-search-type",
+        "title": "검색 linkType 차단 샘플",
+        "expectedCanExpose": false,
+        "actualCanExpose": false,
+        "expectedIssue": "link_type_search",
+        "issues": [
+          "link_type_search"
+        ],
+        "ok": true
+      },
+      {
+        "id": "synthetic-sold-out",
+        "title": "품절 상품 차단 샘플",
+        "expectedCanExpose": false,
+        "actualCanExpose": false,
+        "expectedIssue": "availability_sold_out",
+        "issues": [
+          "availability_sold_out"
+        ],
+        "ok": true
+      },
+      {
+        "id": "synthetic-failed-validation",
+        "title": "검증 실패 차단 샘플",
+        "expectedCanExpose": false,
+        "actualCanExpose": false,
+        "expectedIssue": "validation_failed",
+        "issues": [
+          "validation_failed"
+        ],
+        "ok": true
+      },
+      {
+        "id": "synthetic-hidden",
+        "title": "운영 숨김 차단 샘플",
+        "expectedCanExpose": false,
+        "actualCanExpose": false,
+        "expectedIssue": "manual_hidden",
+        "issues": [
+          "manual_hidden"
+        ],
+        "ok": true
+      },
+      {
+        "id": "synthetic-unsafe-url",
+        "title": "위험 프로토콜 차단 샘플",
+        "expectedCanExpose": false,
+        "actualCanExpose": false,
+        "expectedIssue": "unsafe_protocol_or_invalid_url",
+        "issues": [
+          "unsafe_protocol_or_invalid_url"
+        ],
+        "ok": true
+      },
+      {
+        "id": "synthetic-home-url",
+        "title": "대표몰 홈 차단 샘플",
+        "expectedCanExpose": false,
+        "actualCanExpose": false,
+        "expectedIssue": "home_or_landing_url",
+        "issues": [
+          "home_or_landing_url"
+        ],
+        "ok": true
+      },
+      {
+        "id": "synthetic-community-url",
+        "title": "커뮤니티 원문 차단 샘플",
+        "expectedCanExpose": false,
+        "actualCanExpose": false,
+        "expectedIssue": "blocked_or_community_host",
+        "issues": [
+          "blocked_or_community_host"
+        ],
+        "ok": true
+      },
+      {
+        "id": "synthetic-missing-final-url",
+        "title": "최종 URL 누락 차단 샘플",
+        "expectedCanExpose": false,
+        "actualCanExpose": false,
+        "expectedIssue": "missing_final_url",
+        "issues": [
+          "missing_final_url"
+        ],
+        "ok": true
+      }
+    ]
   },
   "auditedItems": [
     {

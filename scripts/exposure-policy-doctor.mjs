@@ -24,6 +24,189 @@ function countBy(items, key) {
   }, {});
 }
 
+function hostMatches(host, candidate) {
+  return host === candidate || host.endsWith(`.${candidate}`);
+}
+
+function isPolicyHost(host, candidates = []) {
+  return candidates.some((candidate) => hostMatches(host, String(candidate).replace(/^www\./, "").toLowerCase()));
+}
+
+function parseHttpUrl(value) {
+  try {
+    const url = new URL(value);
+    if (url.protocol !== "https:" && url.protocol !== "http:") return null;
+    return url;
+  } catch {
+    return null;
+  }
+}
+
+function isHomeOnlyUrl(url) {
+  const normalizedPath = url.pathname.replace(/\/+$/, "").toLowerCase();
+  return ["", "/", "/main", "/index"].includes(normalizedPath);
+}
+
+function isSearchLikeUrl(url, policy) {
+  const value = `${url.hostname}${url.pathname}${url.search}`.toLowerCase();
+  const productSignals = policy?.productDetailSignals ?? [];
+  const officialSignals = policy?.officialBenefitUrlSignals ?? [];
+
+  if (productSignals.some((pattern) => new RegExp(pattern, "i").test(value))) return false;
+  if (officialSignals.some((signal) => `${url.pathname}${url.search}${url.hash}`.toLowerCase().includes(String(signal).toLowerCase()))) return false;
+
+  return (policy?.searchPatterns ?? []).some((pattern) => value.includes(String(pattern).toLowerCase()));
+}
+
+function getSyntheticExposureDecision(item, policy) {
+  const issues = [];
+  const finalUrl = String(item.finalUrl ?? "").trim();
+
+  if (item.isHidden === true) issues.push("manual_hidden");
+  if (item.availability !== "active") issues.push(`availability_${item.availability ?? "missing"}`);
+  if (item.validationStatus !== "passed") issues.push(`validation_${item.validationStatus ?? "missing"}`);
+  if (item.linkStatus !== "verified") issues.push(`link_status_${item.linkStatus ?? "missing"}`);
+  if (["seller_search", "search", "unavailable"].includes(item.linkType)) issues.push(`link_type_${item.linkType ?? "missing"}`);
+  if (!finalUrl) issues.push("missing_final_url");
+
+  if (finalUrl) {
+    const parsedUrl = parseHttpUrl(finalUrl);
+    if (!parsedUrl) {
+      issues.push("unsafe_protocol_or_invalid_url");
+    } else {
+      const host = parsedUrl.hostname.replace(/^www\./, "").toLowerCase();
+      if (isPolicyHost(host, [...(policy?.blockedHosts ?? []), ...(policy?.placeholderHosts ?? [])])) issues.push("blocked_or_community_host");
+      if (isHomeOnlyUrl(parsedUrl)) issues.push("home_or_landing_url");
+      if (isSearchLikeUrl(parsedUrl, policy)) issues.push("search_or_category_url");
+    }
+  }
+
+  return {
+    canExpose: issues.length === 0,
+    issues
+  };
+}
+
+function buildSyntheticExposureScenarios(policy) {
+  const base = {
+    id: "synthetic-active-direct",
+    title: "정상 직접 구매 링크 샘플",
+    linkStatus: "verified",
+    linkType: "direct_purchase",
+    availability: "active",
+    validationStatus: "passed",
+    isHidden: false,
+    finalUrl: "https://www.coupang.com/vp/products/130180913?itemId=383114455&vendorItemId=3930090438",
+    expectedCanExpose: true
+  };
+  const scenarios = [
+    base,
+    {
+      ...base,
+      id: "synthetic-official-benefit",
+      title: "정상 공식 혜택 링크 샘플",
+      linkType: "affiliate",
+      finalUrl: "https://www.cgv.co.kr/culture-event/event/detailViewUnited.aspx?seq=12345",
+      expectedCanExpose: true
+    },
+    {
+      ...base,
+      id: "synthetic-search-url",
+      title: "검색 URL 차단 샘플",
+      finalUrl: "https://www.coupang.com/np/search?q=%EC%9A%B0%EC%9C%A0",
+      expectedCanExpose: false,
+      expectedIssue: "search_or_category_url"
+    },
+    {
+      ...base,
+      id: "synthetic-search-type",
+      title: "검색 linkType 차단 샘플",
+      linkType: "search",
+      expectedCanExpose: false,
+      expectedIssue: "link_type_search"
+    },
+    {
+      ...base,
+      id: "synthetic-sold-out",
+      title: "품절 상품 차단 샘플",
+      availability: "sold_out",
+      expectedCanExpose: false,
+      expectedIssue: "availability_sold_out"
+    },
+    {
+      ...base,
+      id: "synthetic-failed-validation",
+      title: "검증 실패 차단 샘플",
+      validationStatus: "failed",
+      expectedCanExpose: false,
+      expectedIssue: "validation_failed"
+    },
+    {
+      ...base,
+      id: "synthetic-hidden",
+      title: "운영 숨김 차단 샘플",
+      isHidden: true,
+      expectedCanExpose: false,
+      expectedIssue: "manual_hidden"
+    },
+    {
+      ...base,
+      id: "synthetic-unsafe-url",
+      title: "위험 프로토콜 차단 샘플",
+      finalUrl: "javascript:alert(1)",
+      expectedCanExpose: false,
+      expectedIssue: "unsafe_protocol_or_invalid_url"
+    },
+    {
+      ...base,
+      id: "synthetic-home-url",
+      title: "대표몰 홈 차단 샘플",
+      finalUrl: "https://www.gmarket.co.kr/",
+      expectedCanExpose: false,
+      expectedIssue: "home_or_landing_url"
+    },
+    {
+      ...base,
+      id: "synthetic-community-url",
+      title: "커뮤니티 원문 차단 샘플",
+      finalUrl: "https://www.ppomppu.co.kr/zboard/view.php?id=ppomppu&no=123",
+      expectedCanExpose: false,
+      expectedIssue: "blocked_or_community_host"
+    },
+    {
+      ...base,
+      id: "synthetic-missing-final-url",
+      title: "최종 URL 누락 차단 샘플",
+      finalUrl: "",
+      expectedCanExpose: false,
+      expectedIssue: "missing_final_url"
+    }
+  ];
+  const results = scenarios.map((scenario) => {
+    const decision = getSyntheticExposureDecision(scenario, policy);
+    const issueOk = scenario.expectedIssue ? decision.issues.includes(scenario.expectedIssue) : true;
+
+    return {
+      id: scenario.id,
+      title: scenario.title,
+      expectedCanExpose: scenario.expectedCanExpose,
+      actualCanExpose: decision.canExpose,
+      expectedIssue: scenario.expectedIssue ?? "",
+      issues: decision.issues,
+      ok: decision.canExpose === scenario.expectedCanExpose && issueOk
+    };
+  });
+
+  return {
+    ok: results.every((item) => item.ok),
+    total: results.length,
+    passed: results.filter((item) => item.ok).length,
+    exposedPositiveSamples: results.filter((item) => item.expectedCanExpose && item.actualCanExpose).length,
+    blockedNegativeSamples: results.filter((item) => !item.expectedCanExpose && !item.actualCanExpose).length,
+    results
+  };
+}
+
 const linkReport = readJson("reports/link-validation.json");
 const productReport = readJson("reports/product-quality.json");
 const refreshAllReport = readJson("reports/refresh-all.json");
@@ -46,6 +229,7 @@ const badExposedItems = exposedItems.filter(
     !item.finalUrl
 );
 const hiddenItems = auditedItems.filter((item) => item.isHidden);
+const syntheticExposureScenarios = buildSyntheticExposureScenarios(policy);
 const issues = [];
 const liveProbeFailureReasonCounts = (linkReport?.liveProbe?.failures ?? []).reduce((acc, failure) => {
   const reason = String(failure.reason ?? "unknown");
@@ -68,6 +252,7 @@ if (!productReport) issues.push("reports/product-quality.json is missing.");
 if (!refreshAllReport) issues.push("reports/refresh-all.json is missing.");
 if (!policy) issues.push("data/linkQualityPolicy.json is missing.");
 if (!auditedItems.length) issues.push("link-validation report should include auditedItems for product-level traceability.");
+if (!syntheticExposureScenarios.ok) issues.push("synthetic exposure scenarios should block search, sold-out, hidden, unsafe, home, community, and missing-final-url samples.");
 
 if ((linkReport?.exposedSearchLinks ?? 0) !== 0 || badExposedItems.some((item) => item.linkType === "search" || item.linkType === "seller_search")) {
   issues.push("search or seller-search links are exposed.");
@@ -130,6 +315,8 @@ const report = {
     searchLinksExposed: exposedItems.filter((item) => item.linkType === "search" || item.linkType === "seller_search").length,
     soldOutExposed: exposedItems.filter((item) => item.availability === "sold_out").length,
     failedExposed: exposedItems.filter((item) => item.validationStatus !== "passed").length,
+    syntheticExposurePassed: syntheticExposureScenarios.passed,
+    syntheticExposureTotal: syntheticExposureScenarios.total,
     averagePriorityScore: linkReport?.exposureAudit?.averagePriorityScore ?? 0
   },
   linkTypeCounts: countBy(auditedItems, "linkType"),
@@ -158,6 +345,7 @@ const report = {
   liveProbeReviewSummary,
   liveProbeFailureReasonCounts: liveProbeReasonCounts,
   liveProbeHostFailureCounts,
+  syntheticExposureScenarios,
   auditedItems: auditedItems.map((item) => ({
     id: item.id,
     title: item.title ?? "",

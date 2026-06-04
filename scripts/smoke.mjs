@@ -983,6 +983,16 @@ await check("admin exposure policy api", async () => {
   assert(data.report?.summary?.badExposedItems === 0, "Exposure policy report should have zero bad exposed items");
   assert(data.report?.summary?.searchLinksExposed === 0, "Exposure policy report should have zero search links exposed");
   assert(data.report?.summary?.soldOutExposed === 0, "Exposure policy report should have zero sold-out links exposed");
+  assert(data.report?.syntheticExposureScenarios?.ok === true, "Exposure policy synthetic scenarios should pass");
+  assert(data.report?.syntheticExposureScenarios?.blockedNegativeSamples >= 8, "Exposure policy synthetic scenarios should block bad public samples");
+  assert(
+    data.report?.syntheticExposureScenarios?.results?.some((item) => item.id === "synthetic-search-url" && item.issues.includes("search_or_category_url")),
+    "Exposure policy synthetic scenarios should block search URLs"
+  );
+  assert(
+    data.report?.syntheticExposureScenarios?.results?.some((item) => item.id === "synthetic-unsafe-url" && item.issues.includes("unsafe_protocol_or_invalid_url")),
+    "Exposure policy synthetic scenarios should block unsafe URLs"
+  );
   assert(data.report?.liveProbe && typeof data.report.liveProbe.enabled === "boolean", "Exposure policy report should expose live probe summary");
   assert(data.report?.liveProbeReviewSummary?.hardFailureCount === 0, "Exposure policy report should expose zero hard live probe failures");
   assert(typeof data.report.liveProbeReviewSummary.accessProtectedCount === "number", "Exposure policy report should expose access protected live probe count");

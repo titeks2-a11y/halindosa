@@ -2877,6 +2877,23 @@ async function checkOperationalDataSurfaces() {
   if (!exposureReport.ok || exposureReport.summary?.badExposedItems !== 0 || exposureReport.summary?.searchLinksExposed !== 0 || exposureReport.summary?.soldOutExposed !== 0 || exposureReport.launchGate?.passed !== true) {
     linkPolicyIssues.push("exposure-policy report should prove zero bad/search/sold-out exposed items");
   }
+  if (
+    !exposureDoctorScript.includes("buildSyntheticExposureScenarios") ||
+    !exposureDoctorScript.includes("synthetic-search-url") ||
+    !exposureDoctorScript.includes("synthetic-unsafe-url") ||
+    !exposureDoctorScript.includes("synthetic-community-url")
+  ) {
+    linkPolicyIssues.push("exposure-policy doctor should include synthetic bad-public-exposure scenarios");
+  }
+  if (
+    exposureReport.syntheticExposureScenarios?.ok !== true ||
+    (exposureReport.syntheticExposureScenarios?.blockedNegativeSamples ?? 0) < 8 ||
+    !Array.isArray(exposureReport.syntheticExposureScenarios?.results) ||
+    !exposureReport.syntheticExposureScenarios.results.some((item) => item.id === "synthetic-search-url" && item.issues?.includes("search_or_category_url")) ||
+    !exposureReport.syntheticExposureScenarios.results.some((item) => item.id === "synthetic-unsafe-url" && item.issues?.includes("unsafe_protocol_or_invalid_url"))
+  ) {
+    linkPolicyIssues.push("exposure-policy report should prove synthetic search, unsafe, sold-out, hidden, community, and missing-final-url samples are blocked");
+  }
   if ((linkReport.exposedSearchLinks ?? 0) !== 0 || (productReport.searchLinks ?? 0) !== 0) linkPolicyIssues.push("search links should be zero");
   if ((linkReport.exposedSoldOutLinks ?? 0) !== 0 || (productReport.soldOutProducts ?? 0) !== 0) linkPolicyIssues.push("sold-out/ended links should be zero");
 
