@@ -9,18 +9,10 @@ import { buildPublicDealShareUrl } from "@/lib/shareUrl";
 import { canOpenDealLink } from "@/lib/affiliate";
 import { hasAffiliateConsent, hasAnalyticsConsent, readStoredConsent } from "@/lib/consent";
 import { readLocalFavoriteIds, recordRecentDealView, syncFavoritesWithSupabase, toggleFavoriteSynced } from "@/lib/memberSync";
+import { isNativeRuntime } from "@/lib/nativeRuntime";
 import { PurchaseConfirmSheet } from "@/components/PurchaseConfirmSheet";
 import { LoginPromptSheet } from "@/components/LoginPromptSheet";
 import { useAuth } from "@/components/AuthProvider";
-
-async function isNativeRuntime() {
-  try {
-    const { Capacitor } = await import("@capacitor/core");
-    return Capacitor.isNativePlatform();
-  } catch {
-    return false;
-  }
-}
 
 export function DealDetailActions({ deal }: { deal: Deal }) {
   const { configured: authConfigured, user } = useAuth();

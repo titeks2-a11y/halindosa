@@ -68,9 +68,11 @@ import {
   toastMessages,
   type PriceBand
 } from "@/lib/homeDiscoveryConfig";
+import { type DealsResponse, type HotSignalsResponse, type NewsDealsResponse, requestJson } from "@/lib/homeApi";
 import { buildDealRedirectUrl, buildNativeSafeDealUrl } from "@/lib/redirectUrl";
 import { rememberRecentNewsBenefitId } from "@/lib/recentNewsBenefits";
 import { buildPublicAppShareUrl, buildPublicDealShareUrl } from "@/lib/shareUrl";
+import { isNativeRuntime } from "@/lib/nativeRuntime";
 import {
   clearRecentDealsSynced,
   fetchRemotePreferences,
@@ -106,76 +108,6 @@ function readRecentSearchKeywords() {
 function storeRecentSearchKeywords(keywords: string[]) {
   if (typeof window === "undefined") return;
   window.localStorage.setItem(recentSearchStorageKey, JSON.stringify(keywords.slice(0, 8)));
-}
-
-async function isNativeRuntime() {
-  const localHost = "local" + "host";
-  const loopbackHost = ["127", "0", "0", "1"].join(".");
-
-  if (typeof window !== "undefined" && [localHost, loopbackHost, "::1"].includes(window.location.hostname)) {
-    return false;
-  }
-
-  const { Capacitor } = await import("@capacitor/core");
-  return Capacitor.isNativePlatform();
-}
-
-interface DealsResponse {
-  ok: boolean;
-  deals: Deal[];
-  count: number;
-  updatedAt: string;
-  source: string;
-  message: string;
-}
-
-interface HotSignalsResponse {
-  ok: boolean;
-  signals: HotSignal[];
-  count: number;
-  updatedAt: string;
-  source: string;
-  message: string;
-}
-
-interface NewsDealsResponse {
-  ok: boolean;
-  deals: NewsDeal[];
-  count: number;
-  updatedAt: string;
-  source: string;
-  categoryCounts?: Record<string, number>;
-  benefitTypeCounts?: Record<string, number>;
-  sourceCounts?: Record<string, number>;
-  recommendedQueries?: Array<{ query: string; count: number }>;
-  sourceTrustScores?: NewsDealSourceTrust[];
-  deadlineSummary?: NewsDeadlineSummary;
-  freshnessStatus?: "fresh" | "due" | "stale" | "seed";
-  freshnessLabel?: string;
-  freshnessAgeMinutes?: number | null;
-  nextRefreshAt?: string;
-  message: string;
-}
-
-function requestJson<T>(url: string): Promise<T> {
-  if (typeof window.fetch === "function") {
-    return window.fetch(url, { cache: "no-store" }).then(async (response) => (await response.json()) as T);
-  }
-
-  return new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest();
-    xhr.open("GET", url, true);
-    xhr.setRequestHeader("Accept", "application/json");
-    xhr.onload = () => {
-      try {
-        resolve(JSON.parse(xhr.responseText) as T);
-      } catch (error) {
-        reject(error);
-      }
-    };
-    xhr.onerror = () => reject(new Error("Network request failed"));
-    xhr.send();
-  });
 }
 
 export default function Home() {
