@@ -5123,6 +5123,8 @@ function checkAdminAuthHardening() {
   const adminAuth = existsSync(join(root, "lib/adminAuth.ts")) ? readFileSync(join(root, "lib/adminAuth.ts"), "utf8") : "";
   const doctor = existsSync(join(root, "scripts/admin-auth-doctor.mjs")) ? readFileSync(join(root, "scripts/admin-auth-doctor.mjs"), "utf8") : "";
   const smoke = existsSync(join(root, "scripts/smoke.mjs")) ? readFileSync(join(root, "scripts/smoke.mjs"), "utf8") : "";
+  const smokeHarness = existsSync(join(root, "scripts/lib/smoke-harness.mjs")) ? readFileSync(join(root, "scripts/lib/smoke-harness.mjs"), "utf8") : "";
+  const smokeSource = `${smoke}\n${smokeHarness}`;
   const smokeLocal = existsSync(join(root, "scripts/smoke-local.mjs")) ? readFileSync(join(root, "scripts/smoke-local.mjs"), "utf8") : "";
   const report = existsSync(join(root, "reports/admin-auth.json")) ? JSON.parse(readFileSync(join(root, "reports/admin-auth.json"), "utf8")) : null;
   const runbook = existsSync(join(root, "docs/RUNBOOK.md")) ? readFileSync(join(root, "docs/RUNBOOK.md"), "utf8") : "";
@@ -5156,7 +5158,7 @@ function checkAdminAuthHardening() {
   if (!doctor.includes("routesWithLegacyDirectCall") || !doctor.includes("Authorization: Bearer") || !doctor.includes("reports/admin-auth.json")) {
     issues.push("admin auth doctor should scan protected routes and write reports/admin-auth.json");
   }
-  if (!smoke.includes("SMOKE_ADMIN_TOKEN") || !smoke.includes("x-admin-token") || !smoke.includes("Expected cron refresh header auth 200")) {
+  if (!smokeSource.includes("SMOKE_ADMIN_TOKEN") || !smokeSource.includes("x-admin-token") || !smokeSource.includes("Expected cron refresh header auth 200")) {
     issues.push("smoke should exercise protected admin APIs and cron header auth with x-admin-token");
   }
   if (!smokeLocal.includes("ADMIN_EXPORT_TOKEN") || !smokeLocal.includes("SMOKE_ADMIN_TOKEN")) {
