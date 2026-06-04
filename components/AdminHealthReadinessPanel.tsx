@@ -60,7 +60,7 @@ export function AdminHealthReadinessPanel({ report, apiHref }: AdminHealthReadin
     {
       label: "feed canary",
       value: report.officialBenefits.feedCanary.ok ? "정상" : "점검",
-      detail: `${report.officialBenefits.feedCanary.status} · 후보 ${report.officialBenefits.feedCanary.visibleCandidateCount}개`
+      detail: `${report.officialBenefits.feedCanary.status} · ${report.officialBenefits.feedCanary.freshnessStatus} · ${report.officialBenefits.feedCanary.ageHours ?? "?"}h`
     },
     {
       label: "공식 소스",

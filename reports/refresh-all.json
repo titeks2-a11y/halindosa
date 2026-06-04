@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-04T10:19:23.082Z",
+  "generatedAt": "2026-06-04T10:47:05.369Z",
   "productDealsCount": 140,
   "newsDealsCount": 43,
   "insertedCount": 43,
@@ -173,7 +173,7 @@
     ]
   },
   "linkQuality": {
-    "generatedAt": "2026-06-04T10:19:23.534Z",
+    "generatedAt": "2026-06-04T10:47:05.805Z",
     "totalDeals": 140,
     "verificationTargets": 140,
     "passedDirectLinks": 140,
@@ -5242,7 +5242,7 @@
     "issues": []
   },
   "productQuality": {
-    "generatedAt": "2026-06-04T10:19:23.632Z",
+    "generatedAt": "2026-06-04T10:47:05.907Z",
     "totalProducts": 140,
     "passedProducts": 140,
     "failedProducts": 0,
@@ -5321,7 +5321,7 @@
   },
   "newsQuality": {
     "ok": true,
-    "generatedAt": "2026-06-04T10:19:23.710Z",
+    "generatedAt": "2026-06-04T10:47:05.988Z",
     "totalCount": 43,
     "visibleCount": 43,
     "hiddenCount": 0,
@@ -5489,7 +5489,7 @@
         "linkType": "official_event",
         "availability": "active",
         "priorityScore": 100,
-        "checkedAt": "2026-06-04T10:19:23.710Z"
+        "checkedAt": "2026-06-04T10:47:05.988Z"
       },
       {
         "dealId": "news-musinsa-fashion-festa",
@@ -5501,7 +5501,7 @@
         "linkType": "official_coupon",
         "availability": "active",
         "priorityScore": 100,
-        "checkedAt": "2026-06-04T10:19:23.710Z"
+        "checkedAt": "2026-06-04T10:47:05.988Z"
       },
       {
         "dealId": "news-lotteon-lohbs-coupon",
@@ -5513,7 +5513,7 @@
         "linkType": "official_coupon",
         "availability": "active",
         "priorityScore": 100,
-        "checkedAt": "2026-06-04T10:19:23.710Z"
+        "checkedAt": "2026-06-04T10:47:05.988Z"
       },
       {
         "dealId": "news-gs25-card-june-2026",
@@ -5525,7 +5525,7 @@
         "linkType": "official_coupon",
         "availability": "active",
         "priorityScore": 100,
-        "checkedAt": "2026-06-04T10:19:23.710Z"
+        "checkedAt": "2026-06-04T10:47:05.988Z"
       },
       {
         "dealId": "news-gs25-event-goods",
@@ -5537,7 +5537,7 @@
         "linkType": "official_event",
         "availability": "active",
         "priorityScore": 100,
-        "checkedAt": "2026-06-04T10:19:23.710Z"
+        "checkedAt": "2026-06-04T10:47:05.988Z"
       },
       {
         "dealId": "news-culture-day-programs-2026",
@@ -5549,7 +5549,7 @@
         "linkType": "official_benefit",
         "availability": "active",
         "priorityScore": 100,
-        "checkedAt": "2026-06-04T10:19:23.710Z"
+        "checkedAt": "2026-06-04T10:47:05.988Z"
       },
       {
         "dealId": "news-culture-day-weekly-2026",
@@ -5561,7 +5561,7 @@
         "linkType": "official_benefit",
         "availability": "active",
         "priorityScore": 100,
-        "checkedAt": "2026-06-04T10:19:23.710Z"
+        "checkedAt": "2026-06-04T10:47:05.988Z"
       },
       {
         "dealId": "news-kbcard-official-event-center",
@@ -5573,7 +5573,7 @@
         "linkType": "official_coupon",
         "availability": "active",
         "priorityScore": 100,
-        "checkedAt": "2026-06-04T10:19:23.710Z"
+        "checkedAt": "2026-06-04T10:47:05.988Z"
       },
       {
         "dealId": "news-kbcard-membership-benefit-center",
@@ -5585,7 +5585,7 @@
         "linkType": "official_coupon",
         "availability": "active",
         "priorityScore": 100,
-        "checkedAt": "2026-06-04T10:19:23.710Z"
+        "checkedAt": "2026-06-04T10:47:05.988Z"
       },
       {
         "dealId": "news-hmall-official-shopping-event",
@@ -5597,7 +5597,7 @@
         "linkType": "official_coupon",
         "availability": "active",
         "priorityScore": 100,
-        "checkedAt": "2026-06-04T10:19:23.710Z"
+        "checkedAt": "2026-06-04T10:47:05.988Z"
       },
       {
         "dealId": "news-bccard-official-event-center",
@@ -5609,7 +5609,7 @@
         "linkType": "official_coupon",
         "availability": "active",
         "priorityScore": 100,
-        "checkedAt": "2026-06-04T10:19:23.710Z"
+        "checkedAt": "2026-06-04T10:47:05.988Z"
       },
       {
         "dealId": "news-cgv-official-events",
@@ -5621,7 +5621,7 @@
         "linkType": "official_benefit",
         "availability": "active",
         "priorityScore": 100,
-        "checkedAt": "2026-06-04T10:19:23.710Z"
+        "checkedAt": "2026-06-04T10:47:05.988Z"
       },
       {
         "dealId": "news-lottecinema-official-events",
@@ -5633,7 +5633,7 @@
         "linkType": "official_benefit",
         "availability": "active",
         "priorityScore": 100,
-        "checkedAt": "2026-06-04T10:19:23.710Z"
+        "checkedAt": "2026-06-04T10:47:05.988Z"
       },
       {
         "dealId": "news-koreanair-boarding-pass-benefit",
@@ -5645,7 +5645,7 @@
         "linkType": "official_benefit",
         "availability": "active",
         "priorityScore": 100,
-        "checkedAt": "2026-06-04T10:19:23.710Z"
+        "checkedAt": "2026-06-04T10:47:05.988Z"
       },
       {
         "dealId": "news-tworld-membership-upgrade",
@@ -5657,7 +5657,7 @@
         "linkType": "official_coupon",
         "availability": "active",
         "priorityScore": 100,
-        "checkedAt": "2026-06-04T10:19:23.710Z"
+        "checkedAt": "2026-06-04T10:47:05.988Z"
       },
       {
         "dealId": "news-tworld-longterm-discount",
@@ -5669,7 +5669,7 @@
         "linkType": "official_coupon",
         "availability": "active",
         "priorityScore": 100,
-        "checkedAt": "2026-06-04T10:19:23.710Z"
+        "checkedAt": "2026-06-04T10:47:05.988Z"
       },
       {
         "dealId": "news-koreanair-promotion",
@@ -5681,7 +5681,7 @@
         "linkType": "official_benefit",
         "availability": "active",
         "priorityScore": 100,
-        "checkedAt": "2026-06-04T10:19:23.710Z"
+        "checkedAt": "2026-06-04T10:47:05.988Z"
       },
       {
         "dealId": "news-ssg-official-event-main",
@@ -5693,7 +5693,7 @@
         "linkType": "official_coupon",
         "availability": "active",
         "priorityScore": 100,
-        "checkedAt": "2026-06-04T10:19:23.710Z"
+        "checkedAt": "2026-06-04T10:47:05.988Z"
       },
       {
         "dealId": "news-emart-official-event-main",
@@ -5705,7 +5705,7 @@
         "linkType": "official_coupon",
         "availability": "active",
         "priorityScore": 100,
-        "checkedAt": "2026-06-04T10:19:23.710Z"
+        "checkedAt": "2026-06-04T10:47:05.988Z"
       },
       {
         "dealId": "news-homeplus-official-event",
@@ -5717,7 +5717,7 @@
         "linkType": "official_coupon",
         "availability": "active",
         "priorityScore": 100,
-        "checkedAt": "2026-06-04T10:19:23.710Z"
+        "checkedAt": "2026-06-04T10:47:05.988Z"
       }
     ],
     "manualActions": [
@@ -5905,8 +5905,8 @@
       "command": "C:\\Program Files\\nodejs\\node.exe scripts/refresh-deals.mjs",
       "ok": true,
       "status": 0,
-      "startedAt": "2026-06-04T10:19:23.083Z",
-      "finishedAt": "2026-06-04T10:19:23.372Z",
+      "startedAt": "2026-06-04T10:47:05.370Z",
+      "finishedAt": "2026-06-04T10:47:05.642Z",
       "stdout": "PASS link-validation\nProduct link verification passed: 140/140 verified purchase URLs (100%).\n- Distinct purchase hosts: 48\n- Product detail URLs: 109\n- Official benefit/event URLs: 31\nPASS product-quality\nProduct quality verification passed.\n- Total products: 140\n- Visible products: 140\n- Hidden products: 0\n- Search links exposed: 0\nDeal refresh pipeline completed.\n- fetchedCount: 140\n- normalizedCount: 140\n- insertedCount: 0\n- updatedCount: 136\n- hiddenCount: 0\n- failedCount: 0\n- reports/refresh-deals.json\n- data/refreshedDeals.json",
       "stderr": ""
     },
@@ -5915,8 +5915,8 @@
       "command": "C:\\Program Files\\nodejs\\node.exe scripts/refresh-news-deals.mjs",
       "ok": true,
       "status": 0,
-      "startedAt": "2026-06-04T10:19:23.372Z",
-      "finishedAt": "2026-06-04T10:19:23.456Z",
+      "startedAt": "2026-06-04T10:47:05.642Z",
+      "finishedAt": "2026-06-04T10:47:05.726Z",
       "stdout": "News/event deal refresh completed.\n- collectedCount: 43\n- normalizedCount: 43\n- visibleCount: 43\n- hiddenCount: 0\n- failedCount: 0\n- data/refreshedNewsDeals.json\n- reports/news-deals.json",
       "stderr": ""
     },
@@ -5925,8 +5925,8 @@
       "command": "C:\\Program Files\\nodejs\\node.exe scripts/verify-product-links.mjs",
       "ok": true,
       "status": 0,
-      "startedAt": "2026-06-04T10:19:23.456Z",
-      "finishedAt": "2026-06-04T10:19:23.559Z",
+      "startedAt": "2026-06-04T10:47:05.726Z",
+      "finishedAt": "2026-06-04T10:47:05.831Z",
       "stdout": "Product link verification passed: 140/140 verified purchase URLs (100%).\n- Distinct purchase hosts: 48\n- Product detail URLs: 109\n- Official benefit/event URLs: 31",
       "stderr": ""
     },
@@ -5935,8 +5935,8 @@
       "command": "C:\\Program Files\\nodejs\\node.exe scripts/verify-products.mjs",
       "ok": true,
       "status": 0,
-      "startedAt": "2026-06-04T10:19:23.559Z",
-      "finishedAt": "2026-06-04T10:19:23.644Z",
+      "startedAt": "2026-06-04T10:47:05.831Z",
+      "finishedAt": "2026-06-04T10:47:05.917Z",
       "stdout": "Product quality verification passed.\n- Total products: 140\n- Visible products: 140\n- Hidden products: 0\n- Search links exposed: 0",
       "stderr": ""
     },
@@ -5945,8 +5945,8 @@
       "command": "C:\\Program Files\\nodejs\\node.exe scripts/verify-news-deals.mjs",
       "ok": true,
       "status": 0,
-      "startedAt": "2026-06-04T10:19:23.644Z",
-      "finishedAt": "2026-06-04T10:19:23.728Z",
+      "startedAt": "2026-06-04T10:47:05.917Z",
+      "finishedAt": "2026-06-04T10:47:06.007Z",
       "stdout": "PASS news deals verified: 43/43 official benefit links",
       "stderr": ""
     }

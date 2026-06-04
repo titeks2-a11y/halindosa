@@ -39,6 +39,7 @@ export async function GET() {
     const officialBenefitWeakCategories = newsOperations.categoryCoverage.filter((item) => item.status !== "ready").length;
     const officialBenefitProviderRiskSummary = newsOperations.providerRiskSummary ?? { healthy: 0, watch: 0, danger: 0 };
     const officialBenefitFeedTransition = newsOperations.feedTransitionReadiness;
+    const officialBenefitFeedCanaryOk = newsOperations.feedCanary.ok && !newsOperations.feedCanary.releaseBlocking;
     const officialSourceReadinessOk =
       sourceReadiness.ok &&
       sourceReadiness.launchGateStatus === "passed" &&
@@ -62,7 +63,8 @@ export async function GET() {
       officialBenefitReadyCategories >= 10 &&
       officialBenefitFresh &&
       officialBenefitProviderRiskOk &&
-      officialSourceReadinessOk
+      officialSourceReadinessOk &&
+      officialBenefitFeedCanaryOk
         ? "ready"
         : "needs_review";
 
@@ -112,8 +114,12 @@ export async function GET() {
         officialBenefitFeedConfiguredEmptyCount: officialBenefitFeedTransition.configuredEmptyFeedCount,
         officialBenefitFeedConfiguredEmptyProviders: officialBenefitFeedTransition.configuredEmptyFeedProviders,
         officialBenefitFeedRecommendedEnvKeys: officialBenefitFeedTransition.recommendedNextEnvKeys.slice(0, 5),
-        officialBenefitFeedCanaryOk: newsOperations.feedCanary.ok,
+        officialBenefitFeedCanaryOk,
         officialBenefitFeedCanaryStatus: newsOperations.feedCanary.status,
+        officialBenefitFeedCanaryFreshnessStatus: newsOperations.feedCanary.freshnessStatus,
+        officialBenefitFeedCanaryAgeHours: newsOperations.feedCanary.ageHours,
+        officialBenefitFeedCanaryStaleHours: newsOperations.feedCanary.staleHours,
+        officialBenefitFeedCanaryReleaseBlocking: newsOperations.feedCanary.releaseBlocking,
         officialBenefitFeedCanaryConfiguredUrls: newsOperations.feedCanary.configuredFeedUrls,
         officialBenefitFeedCanaryVisibleCount: newsOperations.feedCanary.visibleCandidateCount,
         officialBenefitFeedCanaryErrorCount: newsOperations.feedCanary.errorCount,

@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-04T10:19:48.275Z",
+  "generatedAt": "2026-06-04T10:47:35.414Z",
   "criteria": {
     "reportsPresent": true,
     "minimumAuditedItems": 140,
@@ -58,10 +58,10 @@
     }
   },
   "sourceReports": {
-    "linkValidation": "2026-06-04T10:19:46.170Z",
-    "productQuality": "2026-06-04T10:19:46.731Z",
-    "exposurePolicy": "2026-06-04T10:19:47.747Z",
-    "refreshDeals": "2026-06-04T10:19:23.155Z"
+    "linkValidation": "2026-06-04T10:47:33.357Z",
+    "productQuality": "2026-06-04T10:47:33.940Z",
+    "exposurePolicy": "2026-06-04T10:47:34.937Z",
+    "refreshDeals": "2026-06-04T10:47:05.437Z"
   },
   "linkTypeCounts": {
     "direct_purchase": 109,
@@ -76,8 +76,8 @@
   "liveProbeReviewSummary": {
     "status": "transient_network_review",
     "hardFailureCount": 0,
-    "transientNetworkCount": 4,
-    "accessProtectedCount": 58,
+    "transientNetworkCount": 5,
+    "accessProtectedCount": 55,
     "sellerUnavailableSignals": 0,
     "interpretation": "Some URLs returned transient network signals; no exposed search, sold-out, 404, 410, or 5xx links were found."
   },

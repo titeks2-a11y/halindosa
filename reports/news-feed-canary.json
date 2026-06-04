@@ -1,7 +1,11 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-04T10:30:37.865Z",
+  "generatedAt": "2026-06-04T10:47:03.206Z",
   "status": "seed_fallback_only",
+  "freshnessStatus": "fresh",
+  "cadenceHours": 6,
+  "staleHours": 24,
+  "ageHours": 0,
   "providerCount": 4,
   "configuredProviderCount": 0,
   "configuredFeedUrls": 0,

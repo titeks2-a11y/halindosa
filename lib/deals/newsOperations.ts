@@ -203,6 +203,9 @@ interface NewsFeedCanaryReport {
   ok?: boolean;
   generatedAt?: string;
   status?: string;
+  freshnessStatus?: string;
+  cadenceHours?: number;
+  staleHours?: number;
   providerCount?: number;
   configuredProviderCount?: number;
   configuredFeedUrls?: number;
@@ -649,6 +652,10 @@ export function getNewsOperationsReport() {
     durationMs: getDurationMs(step.startedAt, step.finishedAt)
   }));
   const freshness = getNewsFreshnessState(report.generatedAt ?? snapshot.generatedAt);
+  const feedCanaryFreshness = {
+    ...getNewsFreshnessState(feedCanaryReport.generatedAt),
+    command: "npm run news:feed:canary && npm run health:readiness"
+  };
   const renewalQueue = attachReplacementCandidates((freshnessReport.renewalQueue ?? []).slice(0, 12), sourceOnboardingPlan.queue);
   const watchQueue = attachReplacementCandidates((freshnessReport.watchQueue ?? []).slice(0, 20), sourceOnboardingPlan.queue, 2);
   const freshnessNextActions = freshnessReport.nextActions ?? [];
@@ -713,12 +720,23 @@ export function getNewsOperationsReport() {
     ...(refreshAll.ok === false ? ["refresh:all 마지막 실행이 실패하여 파이프라인 로그 확인 필요"] : []),
     ...(freshness.releaseBlocking ? ["뉴스 혜택 리포트가 24시간 이상 갱신되지 않아 refresh:all 실행 필요"] : []),
     ...(freshness.status === "due" ? ["뉴스 혜택 리포트 정기 갱신 시간이 지나 refresh:all 실행 권장"] : []),
+    ...(feedCanaryReport.ok === false ? ["공식 feed canary가 실패하여 연결 feed URL과 노출 후보를 점검해야 합니다."] : []),
+    ...(feedCanaryFreshness.releaseBlocking ? ["공식 feed canary 리포트가 24시간 이상 갱신되지 않아 news:feed:canary 실행 필요"] : []),
+    ...(feedCanaryFreshness.status === "due" ? ["공식 feed canary 정기 갱신 시간이 지나 news:feed:canary 실행 권장"] : []),
     ...(renewalQueue.length ? [`14일 이내 종료되는 공식 혜택 ${renewalQueue.length}개가 있어 대체 공식 혜택 후보 준비 필요`] : [])
   ];
   const feedCanary = {
-    ok: feedCanaryReport.ok === true,
-    generatedAt: feedCanaryReport.generatedAt ?? "",
+    ok: feedCanaryReport.ok === true && !feedCanaryFreshness.releaseBlocking,
+    generatedAt: feedCanaryFreshness.generatedAt,
     status: feedCanaryReport.status ?? "missing",
+    freshnessStatus: feedCanaryFreshness.status,
+    freshnessLabel: feedCanaryFreshness.label,
+    ageHours: feedCanaryFreshness.ageHours,
+    cadenceHours: feedCanaryFreshness.cadenceHours,
+    staleHours: feedCanaryFreshness.staleHours,
+    nextRefreshDueAt: feedCanaryFreshness.nextRefreshDueAt,
+    staleAfterAt: feedCanaryFreshness.staleAfterAt,
+    releaseBlocking: feedCanaryFreshness.releaseBlocking,
     providerCount: Number(feedCanaryReport.providerCount ?? 0),
     configuredProviderCount: Number(feedCanaryReport.configuredProviderCount ?? 0),
     configuredFeedUrls: Number(feedCanaryReport.configuredFeedUrls ?? 0),
@@ -735,7 +753,7 @@ export function getNewsOperationsReport() {
   };
 
   return {
-    ok: report.ok !== false && refreshAll.ok !== false && !freshness.releaseBlocking,
+    ok: report.ok !== false && refreshAll.ok !== false && !freshness.releaseBlocking && feedCanary.ok,
     generatedAt: report.generatedAt ?? snapshot.generatedAt ?? new Date().toISOString(),
     snapshotSource: snapshot.source ?? "seed",
     totalCount: report.totalCount ?? allDeals.length,

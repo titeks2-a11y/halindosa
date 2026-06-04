@@ -4322,6 +4322,12 @@ function checkNewsDealPipeline() {
   const feedDryRunOperation = existsSync(join(root, "lib/operations/newsFeedDryRun.ts")) ? readFileSync(join(root, "lib/operations/newsFeedDryRun.ts"), "utf8") : "";
   const feedPreviewReport = existsSync(join(root, "reports/news-feed-preview.json")) ? JSON.parse(readFileSync(join(root, "reports/news-feed-preview.json"), "utf8")) : {};
   const feedCanaryReport = existsSync(join(root, "reports/news-feed-canary.json")) ? JSON.parse(readFileSync(join(root, "reports/news-feed-canary.json"), "utf8")) : {};
+  const feedCanaryGeneratedAt = Date.parse(String(feedCanaryReport.generatedAt ?? ""));
+  const feedCanaryAgeHours = Number.isFinite(feedCanaryGeneratedAt)
+    ? Math.round(((Date.now() - feedCanaryGeneratedAt) / (60 * 60 * 1000)) * 10) / 10
+    : Number.POSITIVE_INFINITY;
+  const feedCanaryStaleHours = Number(feedCanaryReport.staleHours ?? 24);
+  const feedCanaryFreshEnough = Number.isFinite(feedCanaryAgeHours) && feedCanaryAgeHours <= feedCanaryStaleHours;
   const feedCanaryDocs = existsSync(join(root, "docs/NEWS_FEED_CANARY_REPORT.md")) ? readFileSync(join(root, "docs/NEWS_FEED_CANARY_REPORT.md"), "utf8") : "";
   const feedPreviewDocs = existsSync(join(root, "docs/NEWS_FEED_PREVIEW_REPORT.md")) ? readFileSync(join(root, "docs/NEWS_FEED_PREVIEW_REPORT.md"), "utf8") : "";
   const configuredFeedErrorTest = existsSync(join(root, "scripts/test-news-feed-error-gate.mjs")) ? readFileSync(join(root, "scripts/test-news-feed-error-gate.mjs"), "utf8") : "";
@@ -4478,13 +4484,21 @@ function checkNewsDealPipeline() {
   ) {
     issues.push("official benefit providers should support seed fallback plus approved JSON/RSS/Atom feed ingestion with a contract doctor, canary, freshness doctor, and configured feed error regression");
   }
-  if (feedCanaryReport.ok !== true || !["seed_fallback_only", "live_feed_ready"].includes(feedCanaryReport.status) || typeof feedCanaryReport.configuredFeedUrls !== "number" || typeof feedCanaryReport.visibleCandidateCount !== "number") {
-    issues.push("news feed canary report should pass and expose configured feed URL and visible candidate counters");
+  if (
+    feedCanaryReport.ok !== true ||
+    !["seed_fallback_only", "live_feed_ready"].includes(feedCanaryReport.status) ||
+    !["fresh", "due", "stale", "missing"].includes(feedCanaryReport.freshnessStatus) ||
+    typeof feedCanaryReport.staleHours !== "number" ||
+    !feedCanaryFreshEnough ||
+    typeof feedCanaryReport.configuredFeedUrls !== "number" ||
+    typeof feedCanaryReport.visibleCandidateCount !== "number"
+  ) {
+    issues.push("news feed canary report should pass, be fresher than the stale threshold, and expose configured feed URL and visible candidate counters");
   }
   if (!adminPage.includes("canary JSON") || !adminPage.includes("canary CSV") || !smokeScript.includes("admin news feed canary api")) {
     issues.push("admin dashboard and smoke tests should expose protected official feed canary JSON/CSV checks");
   }
-  for (const phrase of ["공식 혜택 Feed Canary", "연결된 feed URL", "설정 feed 공백", "npm run news:feed:canary"]) {
+  for (const phrase of ["공식 혜택 Feed Canary", "신선도", "연결된 feed URL", "설정 feed 공백", "npm run news:feed:canary"]) {
     if (!feedCanaryDocs.includes(phrase)) issues.push(`news feed canary docs missing ${phrase}`);
   }
   for (const phrase of ["공식 혜택 Feed 계약", "검색 결과 URL", "커뮤니티", "finalUrl", "RSS", "Atom", "본문 안 공식 링크", "npm run refresh:news", "configuredFeedErrors", "설정된 운영 feed"]) {
@@ -4802,8 +4816,14 @@ function checkHealthReadinessReport() {
   ) {
     issues.push("health readiness provider stats should expose source mix counters");
   }
-  if (!["seed_fallback_only", "live_feed_ready"].includes(report.officialBenefits?.feedCanary?.status) || report.officialBenefits?.feedCanary?.ok !== true) {
-    issues.push("health readiness feed canary should pass with seed fallback or live feed ready status");
+  if (
+    !["seed_fallback_only", "live_feed_ready"].includes(report.officialBenefits?.feedCanary?.status) ||
+    report.officialBenefits?.feedCanary?.ok !== true ||
+    !["fresh", "due"].includes(report.officialBenefits?.feedCanary?.freshnessStatus) ||
+    report.officialBenefits?.feedCanary?.releaseBlocking !== false ||
+    typeof report.officialBenefits?.feedCanary?.staleHours !== "number"
+  ) {
+    issues.push("health readiness feed canary should pass with seed fallback or live feed ready status and non-stale freshness evidence");
   }
   if (!Array.isArray(report.officialBenefits?.providerRisks) || report.officialBenefits.providerRisks.length < 4) {
     issues.push("health readiness should expose official benefit provider risks");

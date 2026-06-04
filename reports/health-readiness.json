@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-04T10:19:48.800Z",
+  "generatedAt": "2026-06-04T10:47:35.890Z",
   "score": 100,
   "thresholds": {
     "productDealsCount": 140,
@@ -9,7 +9,9 @@
     "newsCategories": 10,
     "minimumCategoryDealCount": 2,
     "freshnessHours": 24,
-    "cronRefreshStaleHours": 12
+    "cronRefreshStaleHours": 12,
+    "newsFeedCanaryCadenceHours": 6,
+    "newsFeedCanaryStaleHours": 24
   },
   "product": {
     "productDealsCount": 140,
@@ -198,8 +200,13 @@
     },
     "feedCanary": {
       "ok": true,
-      "generatedAt": "2026-06-04T10:19:20.751Z",
+      "generatedAt": "2026-06-04T10:47:03.206Z",
       "status": "seed_fallback_only",
+      "freshnessStatus": "fresh",
+      "ageHours": 0,
+      "cadenceHours": 6,
+      "staleHours": 24,
+      "releaseBlocking": false,
       "configuredFeedUrls": 0,
       "visibleCandidateCount": 0,
       "hiddenCandidateCount": 0,
@@ -211,7 +218,7 @@
   },
   "refreshAll": {
     "ok": true,
-    "generatedAt": "2026-06-04T10:19:23.082Z",
+    "generatedAt": "2026-06-04T10:47:05.369Z",
     "insertedCount": 43,
     "updatedCount": 136,
     "hiddenCount": 0,
@@ -222,32 +229,32 @@
       {
         "name": "refresh:deals",
         "ok": true,
-        "startedAt": "2026-06-04T10:19:23.083Z",
-        "finishedAt": "2026-06-04T10:19:23.372Z"
+        "startedAt": "2026-06-04T10:47:05.370Z",
+        "finishedAt": "2026-06-04T10:47:05.642Z"
       },
       {
         "name": "refresh:news",
         "ok": true,
-        "startedAt": "2026-06-04T10:19:23.372Z",
-        "finishedAt": "2026-06-04T10:19:23.456Z"
+        "startedAt": "2026-06-04T10:47:05.642Z",
+        "finishedAt": "2026-06-04T10:47:05.726Z"
       },
       {
         "name": "verify:links",
         "ok": true,
-        "startedAt": "2026-06-04T10:19:23.456Z",
-        "finishedAt": "2026-06-04T10:19:23.559Z"
+        "startedAt": "2026-06-04T10:47:05.726Z",
+        "finishedAt": "2026-06-04T10:47:05.831Z"
       },
       {
         "name": "verify:products",
         "ok": true,
-        "startedAt": "2026-06-04T10:19:23.559Z",
-        "finishedAt": "2026-06-04T10:19:23.644Z"
+        "startedAt": "2026-06-04T10:47:05.831Z",
+        "finishedAt": "2026-06-04T10:47:05.917Z"
       },
       {
         "name": "verify:news",
         "ok": true,
-        "startedAt": "2026-06-04T10:19:23.644Z",
-        "finishedAt": "2026-06-04T10:19:23.728Z"
+        "startedAt": "2026-06-04T10:47:05.917Z",
+        "finishedAt": "2026-06-04T10:47:06.007Z"
       }
     ]
   },
@@ -362,7 +369,7 @@
     {
       "name": "official feed canary",
       "ok": true,
-      "detail": "status=seed_fallback_only; configured=0; visible=0."
+      "detail": "status=seed_fallback_only; freshness=fresh; age=0h; configured=0; visible=0."
     },
     {
       "name": "provider risk gate",

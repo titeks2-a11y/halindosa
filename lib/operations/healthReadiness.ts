@@ -19,6 +19,8 @@ export interface HealthReadinessReport {
     minimumCategoryDealCount: number;
     freshnessHours: number;
     cronRefreshStaleHours?: number;
+    newsFeedCanaryCadenceHours?: number;
+    newsFeedCanaryStaleHours?: number;
   };
   product: {
     productDealsCount: number;
@@ -95,6 +97,12 @@ export interface HealthReadinessReport {
       ok: boolean;
       generatedAt: string;
       status: string;
+      freshnessStatus: string;
+      freshnessLabel?: string;
+      ageHours: number | null;
+      cadenceHours?: number;
+      staleHours: number;
+      releaseBlocking: boolean;
       configuredFeedUrls: number;
       visibleCandidateCount: number;
       hiddenCandidateCount: number;
@@ -214,6 +222,12 @@ const fallbackReport: HealthReadinessReport = {
       ok: false,
       generatedAt: "",
       status: "missing",
+      freshnessStatus: "missing",
+      freshnessLabel: "리포트 생성 필요",
+      ageHours: null,
+      cadenceHours: 6,
+      staleHours: 24,
+      releaseBlocking: true,
       configuredFeedUrls: 0,
       visibleCandidateCount: 0,
       hiddenCandidateCount: 0,

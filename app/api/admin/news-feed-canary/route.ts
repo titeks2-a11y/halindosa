@@ -24,7 +24,7 @@ function buildFeedCanaryCsv(report: FeedCanaryReport) {
       "official_feed_canary",
       report.status,
       report.ok ? "passed" : "needs_attention",
-      `configured=${report.configuredFeedUrls};visible=${report.visibleCandidateCount};hidden=${report.hiddenCandidateCount};empty=${report.configuredEmptyFeedCount};errors=${report.errorCount}`,
+      `freshness=${report.freshnessStatus};age=${report.ageHours ?? "unknown"}h;configured=${report.configuredFeedUrls};visible=${report.visibleCandidateCount};hidden=${report.hiddenCandidateCount};empty=${report.configuredEmptyFeedCount};errors=${report.errorCount}`,
       "npm run news:feed:canary",
       report.generatedAt
     ],

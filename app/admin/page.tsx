@@ -919,7 +919,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                   feed URL {newsOperations.feedTransitionReadiness.configuredFeedUrls}개
                 </span>
                 <span className={`rounded-full bg-white px-3 py-1 text-xs font-black shadow-sm ${newsOperations.feedCanary.ok ? "text-emerald-700" : "text-amber-700"}`}>
-                  canary {newsOperations.feedCanary.status}
+                  canary {newsOperations.feedCanary.status} · {newsOperations.feedCanary.freshnessStatus}
                 </span>
                 <a
                   href={newsFeedCanaryApiHref}
@@ -979,7 +979,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
               ))}
             </div>
             <p className="mt-3 text-xs font-bold leading-5 text-slate-500">
-              {newsOperations.feedTransitionReadiness.operatorAction} · canary 후보 {newsOperations.feedCanary.visibleCandidateCount}개 · {newsOperations.feedTransitionReadiness.guardrails[0]}
+              {newsOperations.feedTransitionReadiness.operatorAction} · canary 후보 {newsOperations.feedCanary.visibleCandidateCount}개 · canary age {newsOperations.feedCanary.ageHours ?? "확인 불가"}h · {newsOperations.feedTransitionReadiness.guardrails[0]}
             </p>
           </div>
           <div className="mt-4 grid gap-3 lg:grid-cols-[0.8fr_1.2fr]">

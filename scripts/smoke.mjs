@@ -811,6 +811,8 @@ await check("admin news operations api", async () => {
   );
   assert(Array.isArray(data.report.feedTransitionReadiness.recommendedNextEnvKeys), "Admin news operations report missing recommended feed env keys");
   assert(["seed_fallback_only", "live_feed_ready", "needs_attention", "missing"].includes(data.report?.feedCanary?.status), "Admin news operations report missing official feed canary status");
+  assert(["fresh", "due", "stale", "missing"].includes(data.report?.feedCanary?.freshnessStatus), "Admin news operations report missing official feed canary freshness status");
+  assert(typeof data.report?.feedCanary?.staleHours === "number", "Admin news operations report missing official feed canary stale threshold");
   assert(typeof data.report?.feedCanary?.configuredFeedUrls === "number", "Admin news operations report missing official feed canary configured URL count");
   assert(typeof data.report?.feedCanary?.visibleCandidateCount === "number", "Admin news operations report missing official feed canary visible candidate count");
   assert(Array.isArray(data.report?.recentLogs) && data.report.recentLogs.length >= 6, "Admin news operations report missing recent logs");
@@ -850,6 +852,8 @@ await check("admin news feed canary api", async () => {
   assert(response.status === 200, `Expected news feed canary 200, got ${response.status}`);
   assert(data.ok === true, "Admin news feed canary API ok should be true");
   assert(["seed_fallback_only", "live_feed_ready", "needs_attention", "missing"].includes(data.report?.status), "Admin news feed canary missing status");
+  assert(["fresh", "due", "stale", "missing"].includes(data.report?.freshnessStatus), "Admin news feed canary missing freshness status");
+  assert(typeof data.report?.staleHours === "number", "Admin news feed canary missing stale threshold");
   assert(typeof data.report?.configuredFeedUrls === "number", "Admin news feed canary missing configured feed URL count");
   assert(typeof data.report?.visibleCandidateCount === "number", "Admin news feed canary missing visible candidate count");
   assert(Array.isArray(data.report?.nextActions) && data.report.nextActions.length >= 1, "Admin news feed canary missing next actions");
@@ -1099,6 +1103,8 @@ await check("admin health readiness api", async () => {
   assert(data.report.officialBenefits.providerRisks.every((risk) => risk.provider && risk.label && ["healthy", "watch", "danger"].includes(risk.severity)), "Admin health readiness provider risks missing launch fields");
   assert(data.report?.officialBenefits?.providerRiskSummary?.danger === 0, "Admin health readiness should show zero danger official benefit providers");
   assert(["seed_fallback_only", "live_feed_ready", "needs_attention", "missing"].includes(data.report?.officialBenefits?.feedCanary?.status), "Admin health readiness should expose official feed canary status");
+  assert(["fresh", "due", "stale", "missing"].includes(data.report?.officialBenefits?.feedCanary?.freshnessStatus), "Admin health readiness should expose official feed canary freshness status");
+  assert(typeof data.report?.officialBenefits?.feedCanary?.staleHours === "number", "Admin health readiness should expose official feed canary stale threshold");
   assert(typeof data.report?.officialBenefits?.feedCanary?.configuredFeedUrls === "number", "Admin health readiness should expose official feed canary URL count");
   assert(data.report?.sourceReadiness?.ok === true, "Admin health readiness should expose passing source readiness");
   assert(data.report?.sourceReadiness?.launchGateStatus === "passed", "Admin health readiness source launch gate should pass");
@@ -1654,6 +1660,8 @@ await check("health api", async () => {
   assert(typeof data.checks?.officialBenefitFeedConfiguredEmptyCount === "number", "Health API missing configured empty feed count");
   assert(Array.isArray(data.checks?.officialBenefitFeedConfiguredEmptyProviders), "Health API missing configured empty feed providers");
   assert(["seed_fallback_only", "live_feed_ready", "needs_attention", "missing"].includes(data.checks?.officialBenefitFeedCanaryStatus), "Health API missing official feed canary status");
+  assert(["fresh", "due", "stale", "missing"].includes(data.checks?.officialBenefitFeedCanaryFreshnessStatus), "Health API missing official feed canary freshness status");
+  assert(typeof data.checks?.officialBenefitFeedCanaryStaleHours === "number", "Health API missing official feed canary stale threshold");
   assert(typeof data.checks?.officialBenefitFeedCanaryConfiguredUrls === "number", "Health API missing official feed canary configured URL count");
   assert(typeof data.checks?.officialBenefitFeedCanaryVisibleCount === "number", "Health API missing official feed canary visible candidate count");
   assert(Array.isArray(data.checks?.officialBenefitFeedRecommendedEnvKeys), "Health API missing recommended official feed env keys");
@@ -1903,6 +1911,8 @@ await check("metrics api", async () => {
   assert(data.officialBenefitFeedTransition.providers.every((provider) => typeof provider.seedCount === "number" && typeof provider.feedItemCount === "number" && typeof provider.feedItemRate === "number" && typeof provider.configuredEmptyFeed === "boolean"), "Metrics official feed transition providers missing source mix counters");
   assert(Array.isArray(data.officialBenefitFeedTransition?.recommendedNextEnvKeys), "Metrics missing official benefit feed transition env guidance");
   assert(["seed_fallback_only", "live_feed_ready", "needs_attention", "missing"].includes(data.officialBenefitFeedCanary?.status), "Metrics missing official feed canary status");
+  assert(["fresh", "due", "stale", "missing"].includes(data.officialBenefitFeedCanary?.freshnessStatus), "Metrics missing official feed canary freshness status");
+  assert(typeof data.officialBenefitFeedCanary?.staleHours === "number", "Metrics missing official feed canary stale threshold");
   assert(typeof data.officialBenefitFeedCanary?.configuredFeedUrls === "number", "Metrics missing official feed canary configured URL count");
   assert(Array.isArray(data.linkReviewQueue), "Metrics missing link review queue");
   assert(data.linkReviewQueue.length <= 8, "Metrics link review queue should be capped");

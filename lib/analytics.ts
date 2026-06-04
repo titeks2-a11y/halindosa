@@ -779,6 +779,12 @@ export async function getMockBusinessMetrics() {
   const officialBenefitFeedCanary = {
     ok: newsOperations.feedCanary.ok,
     status: newsOperations.feedCanary.status,
+    freshnessStatus: newsOperations.feedCanary.freshnessStatus,
+    freshnessLabel: newsOperations.feedCanary.freshnessLabel,
+    ageHours: newsOperations.feedCanary.ageHours,
+    cadenceHours: newsOperations.feedCanary.cadenceHours,
+    staleHours: newsOperations.feedCanary.staleHours,
+    releaseBlocking: newsOperations.feedCanary.releaseBlocking,
     configuredFeedUrls: newsOperations.feedCanary.configuredFeedUrls,
     visibleCandidateCount: newsOperations.feedCanary.visibleCandidateCount,
     hiddenCandidateCount: newsOperations.feedCanary.hiddenCandidateCount,

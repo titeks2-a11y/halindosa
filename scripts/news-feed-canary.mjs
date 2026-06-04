@@ -12,6 +12,8 @@ import {
 
 const generatedAt = new Date().toISOString();
 const now = Date.now();
+const canaryCadenceHours = 6;
+const canaryStaleHours = 24;
 const reportsDir = join(root, "reports");
 const docsDir = join(root, "docs");
 
@@ -144,6 +146,10 @@ const report = {
   ok: status === "seed_fallback_only" || status === "live_feed_ready",
   generatedAt,
   status,
+  freshnessStatus: "fresh",
+  cadenceHours: canaryCadenceHours,
+  staleHours: canaryStaleHours,
+  ageHours: 0,
   providerCount: providers.length,
   configuredProviderCount: configuredProviders.length,
   configuredFeedUrls: providers.reduce((sum, provider) => sum + provider.configuredFeedUrls, 0),
@@ -190,6 +196,7 @@ const docsLines = [
   "",
   `- 생성 시각: ${generatedAt}`,
   `- 상태: ${status}`,
+  `- 신선도: fresh · age 0h · stale 기준 ${canaryStaleHours}h`,
   `- Provider: ${providers.length}개`,
   `- 연결된 feed URL: ${report.configuredFeedUrls}개`,
   `- 수집 후보: ${report.totalFetchedCount}개`,
