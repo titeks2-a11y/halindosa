@@ -1,8 +1,8 @@
 {
   "generatedBy": "npm run release:notes",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "e8ddd13",
-  "workingTree": "M DEVICE_QA_REPORT.md;  M KNOWN_ISSUES.md;  M PUBLIC_URL_REPORT.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_HANDOFF_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M docs/DEVICE_QA_REPORT.md;  M docs/KNOWN_ISSUES.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_HANDOFF_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md;  M docs/release-evidence.md",
+  "commit": "aac247b",
+  "workingTree": "M DEVICE_QA_REPORT.md;  M KNOWN_ISSUES.md;  M PUBLIC_URL_REPORT.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_HANDOFF_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M docs/DEVICE_QA_REPORT.md;  M docs/KNOWN_ISSUES.md;  M docs/OFFICIAL_BENEFIT_ALERTS_REPORT.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_HANDOFF_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md;  M reports/official-benefit-alerts.json",
   "version": "1.0.1",
   "appName": "할인도사",
   "packageName": "com.halindosa.app",
@@ -39,22 +39,22 @@
     {
       "path": "docs/STORE_CONSOLE_FIELDS.md",
       "status": "present",
-      "bytes": 3898
+      "bytes": 3953
     },
     {
       "path": "docs/STORE_MANUAL_CHECKLIST.md",
       "status": "present",
-      "bytes": 4399
+      "bytes": 4454
     },
     {
       "path": "docs/STORE_HANDOFF_REPORT.md",
       "status": "present",
-      "bytes": 4688
+      "bytes": 4743
     },
     {
       "path": "docs/STORE_SUBMISSION_REPORT.md",
       "status": "present",
-      "bytes": 4906
+      "bytes": 4961
     },
     {
       "path": "docs/DEVICE_QA_MANIFEST.md",
@@ -73,14 +73,14 @@
     }
   ],
   "recentCommits": [
+    "aac247b feat: add official benefit alert operations report",
+    "97ab38a docs: refresh release evidence",
     "e8ddd13 feat: strengthen purchase link quality gates",
     "4077f4a docs: refresh release evidence",
     "892ca32 feat: expose official benefit alert queue api",
     "71509ba feat: add official benefit alert preview",
     "6bade80 feat: unify official benefit commerce UI",
-    "3ed552a feat: strengthen official benefit link quality gates",
-    "f6d8596 feat: improve admin news operation triage",
-    "18cd77f feat: surface link launch gate in admin"
+    "3ed552a feat: strengthen official benefit link quality gates"
   ],
   "manualWorkThatMustNotBeFaked": [
     "Do not claim Play Console or App Store Connect submission has passed from this file.",

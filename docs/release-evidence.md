@@ -4,10 +4,10 @@
 
 ## 기본 정보
 
-- 생성 시각: 2026-06-04T06:03:42.116Z
+- 생성 시각: 2026-06-04T06:22:56.675Z
 - Git 브랜치: codex/12h-product-ux-growth-hardening
-- 최신 커밋: e8ddd13
-- Git 상태: clean
+- 최신 커밋: aac247b
+- Git 상태: M DEVICE_QA_REPORT.md;  M KNOWN_ISSUES.md;  M PUBLIC_URL_REPORT.md;  M RELEASE_NOTES.json;  M RELEASE_NOTES.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_HANDOFF_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_PACKET_REPORT.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M SUPPORT_PLAYBOOK.json;  M SUPPORT_PLAYBOOK.md;  M docs/DEVICE_QA_REPORT.md;  M docs/KNOWN_ISSUES.md;  M docs/OFFICIAL_BENEFIT_ALERTS_REPORT.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/RELEASE_NOTES.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_HANDOFF_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_PACKET_REPORT.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md;  M docs/SUPPORT_PLAYBOOK.md;  M reports/official-benefit-alerts.json
 - 패키지 버전: 1.0.1
 - 앱 이름: 할인도사
 - 앱 ID / 패키지명: com.halindosa.app
@@ -56,6 +56,8 @@
 | Push readiness JSON | `reports/push-readiness.json` | 11KB |
 | Push delivery policy report | `docs/PUSH_DELIVERY_POLICY.md` | 3KB |
 | Push delivery policy JSON | `reports/push-delivery-policy.json` | 5KB |
+| Official benefit alert report | `docs/OFFICIAL_BENEFIT_ALERTS_REPORT.md` | 4KB |
+| Official benefit alert JSON | `reports/official-benefit-alerts.json` | 28KB |
 | Link quality regression JSON | `reports/link-quality-regression.json` | 7KB |
 | Official source live check report | `docs/OFFICIAL_SOURCE_LIVE_CHECK.md` | 7KB |
 | Official source live check JSON | `reports/official-source-live-check.json` | 23KB |
@@ -91,6 +93,7 @@ npm run store:manual:checklist
 npm run store:manual:doctor
 npm run store:handoff:report
 npm run health:readiness
+npm run official:alerts:report
 npm run release:notes
 npm run support:playbook
 npm run known:issues
