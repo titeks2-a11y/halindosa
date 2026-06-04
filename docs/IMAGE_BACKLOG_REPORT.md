@@ -16,11 +16,15 @@ Status: ACTION_NEEDED
 | 주간 보강 목표 | 24 |
 | 주간 보강 배치 후보 | 24 |
 | 판매처별 요청서 행 | 43 |
+| 이미지 ready gate | productUrl + imageUrl/thumbnail + imageRights + priceCheckedAt |
 
 ## Operation Policy
 
 - 카테고리 fallback 이미지는 화면 깨짐을 막는 안전장치이며, 출시 후 운영 품질 목표로 보지 않습니다.
 - 신규 운영 피드와 제휴 피드는 실제 상품 또는 공식 혜택 상세 이미지 URL을 함께 제공해야 합니다.
+- 운영 ready 이미지는 공식/제휴 피드 또는 판매처 상품 상세에서 권리 확인 가능한 이미지여야 합니다.
+- 검색 결과 썸네일, 커뮤니티 캡처, 블로그 이미지, 무출처 이미지는 보강 완료로 인정하지 않습니다.
+- 이미지 보강 행은 `sourceSafetyLevel=official_or_partner_only`, `imageReadyGate`, `requiredProviderFields`, `operatorChecklist`, `requestTemplate`를 포함해야 합니다.
 - 공개 운영 전 목표는 명시 실상품 이미지 60% 이상이며, 목표 도달까지 매주 클릭 상위 fallback 상품 24개를 먼저 보강합니다.
 - 판매처별 backlog가 많은 경우 수동 이미지 검색보다 제휴/운영 피드의 `imageUrl`, 이미지 사용 권한, 최신 가격 기준 시각을 함께 확보합니다.
 - 보강 우선순위는 클릭/찜이 많은 상품, 무료 혜택 상단 노출 상품, 카테고리 대표 상품 순서입니다.
@@ -68,57 +72,57 @@ Status: ACTION_NEEDED
 
 ## 이번 주 이미지 보강 배치
 
-| Rank | ID | 판매처 | 상품명 | 우선순위 | 운영 사유 |
-| ---: | --- | --- | --- | --- | --- |
-| 1 | d011 | SSG닷컴 | 프리미엄 한우 불고기 600g | high | 주간 보강 배치 상위 후보 |
-| 2 | d013 | 하이마트 | 삼성 55형 4K UHD TV | high | 주간 보강 배치 상위 후보 |
-| 3 | d014 | 쿠팡 | 애플워치 호환 스포츠 밴드 | high | 주간 보강 배치 상위 후보 |
-| 4 | d015 | 11번가 | 대용량 캡슐세제 80개입 | high | 주간 보강 배치 상위 후보 |
-| 5 | d018 | 마켓컬리 | 무항생제 계란 30구 | high | 주간 보강 배치 상위 후보 |
-| 6 | d019 | 오늘의집 | 원목 수납장 3단 | high | 주간 보강 배치 상위 후보 |
-| 7 | d020 | 무신사 | 아웃도어 프로덕츠 3PACK 티셔츠 | high | 주간 보강 배치 상위 후보 |
-| 8 | d021 | 인터파크투어 | [제주] 제주투어패스 타임제로 자유이용권 | high | 주간 보강 배치 상위 후보 |
-| 9 | d022 | 올리브영 | JMW BLDC 에어원 드라이어 MC4B03C | high | 주간 보강 배치 상위 후보 |
-| 10 | d023 | 아이프라브 | 확장형 5휠 밸런스 큐브 캐리어 24인치 | high | 주간 보강 배치 상위 후보 |
-| 11 | d024 | SSG닷컴 | 프리미엄 생수 2L 24병 | high | 주간 보강 배치 상위 후보 |
-| 12 | d025 | 올리브영 | 선크림 1+1 기획 | high | 주간 보강 배치 상위 후보 |
-| 13 | d026 | 하이마트 | 게이밍 노트북 RTX 특가 | medium | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 |
-| 14 | d027 | GS SHOP | 군 기저귀 프리미엄 팬티 대형 4팩 | medium | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 |
-| 15 | d028 | 쿠팡 | 워터픽 나노 패밀리팩 구강세정기 | medium | 재방문 빈도가 높은 생활형 카테고리 |
-| 16 | d029 | SSG닷컴 | 422 올스텐 에어프라이어 7L 대용량 | medium | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 |
-| 17 | d030 | 쿠팡 | Apple 2025 아이패드 A16 11세대 128GB Wi-Fi | medium | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 |
-| 18 | d031 | 쿠팡 | 원목 수납장 3단 다용도 월넛 유리 거실장 | medium | 재방문 빈도가 높은 생활형 카테고리 |
-| 19 | d032 | SSG닷컴 | 명품 향수 50ml | medium | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 |
-| 20 | d033 | 코레일관광 | 부산 주말 KTX 연계 숙박 패키지 | medium | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 |
-| 21 | d035 | 쿠팡 | 로켓프레시 친환경 토마토 2kg | medium | 재방문 빈도가 높은 생활형 카테고리 |
-| 22 | d036 | 하이마트 | 허밍 무선청소기 HML-VC2502W 물걸레 세트 | medium | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 |
-| 23 | d037 | 무신사 | 여름 기능성 반팔 티셔츠 3팩 | medium | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 |
-| 24 | d038 | GS SHOP | 군 기저귀 프리미엄 팬티 대형 32P 4팩 | medium | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 |
+| Rank | ID | 판매처 | 상품명 | 우선순위 | Ready Gate | 운영 사유 |
+| ---: | --- | --- | --- | --- | --- | --- |
+| 1 | d011 | SSG닷컴 | 프리미엄 한우 불고기 600g | high | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 주간 보강 배치 상위 후보 |
+| 2 | d013 | 하이마트 | 삼성 55형 4K UHD TV | high | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 주간 보강 배치 상위 후보 |
+| 3 | d014 | 쿠팡 | 애플워치 호환 스포츠 밴드 | high | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 주간 보강 배치 상위 후보 |
+| 4 | d015 | 11번가 | 대용량 캡슐세제 80개입 | high | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 주간 보강 배치 상위 후보 |
+| 5 | d018 | 마켓컬리 | 무항생제 계란 30구 | high | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 주간 보강 배치 상위 후보 |
+| 6 | d019 | 오늘의집 | 원목 수납장 3단 | high | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 주간 보강 배치 상위 후보 |
+| 7 | d020 | 무신사 | 아웃도어 프로덕츠 3PACK 티셔츠 | high | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 주간 보강 배치 상위 후보 |
+| 8 | d021 | 인터파크투어 | [제주] 제주투어패스 타임제로 자유이용권 | high | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 주간 보강 배치 상위 후보 |
+| 9 | d022 | 올리브영 | JMW BLDC 에어원 드라이어 MC4B03C | high | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 주간 보강 배치 상위 후보 |
+| 10 | d023 | 아이프라브 | 확장형 5휠 밸런스 큐브 캐리어 24인치 | high | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 주간 보강 배치 상위 후보 |
+| 11 | d024 | SSG닷컴 | 프리미엄 생수 2L 24병 | high | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 주간 보강 배치 상위 후보 |
+| 12 | d025 | 올리브영 | 선크림 1+1 기획 | high | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 주간 보강 배치 상위 후보 |
+| 13 | d026 | 하이마트 | 게이밍 노트북 RTX 특가 | medium | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 |
+| 14 | d027 | GS SHOP | 군 기저귀 프리미엄 팬티 대형 4팩 | medium | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 |
+| 15 | d028 | 쿠팡 | 워터픽 나노 패밀리팩 구강세정기 | medium | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 재방문 빈도가 높은 생활형 카테고리 |
+| 16 | d029 | SSG닷컴 | 422 올스텐 에어프라이어 7L 대용량 | medium | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 |
+| 17 | d030 | 쿠팡 | Apple 2025 아이패드 A16 11세대 128GB Wi-Fi | medium | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 |
+| 18 | d031 | 쿠팡 | 원목 수납장 3단 다용도 월넛 유리 거실장 | medium | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 재방문 빈도가 높은 생활형 카테고리 |
+| 19 | d032 | SSG닷컴 | 명품 향수 50ml | medium | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 |
+| 20 | d033 | 코레일관광 | 부산 주말 KTX 연계 숙박 패키지 | medium | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 |
+| 21 | d035 | 쿠팡 | 로켓프레시 친환경 토마토 2kg | medium | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 재방문 빈도가 높은 생활형 카테고리 |
+| 22 | d036 | 하이마트 | 허밍 무선청소기 HML-VC2502W 물걸레 세트 | medium | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 |
+| 23 | d037 | 무신사 | 여름 기능성 반팔 티셔츠 3팩 | medium | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 |
+| 24 | d038 | GS SHOP | 군 기저귀 프리미엄 팬티 대형 32P 4팩 | medium | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 |
 
 ## 판매처별 이미지 요청서
 
-| 판매처 | 보강 대기 | 확보 방식 | 담당 | SLA | 샘플 ID | 요청 액션 |
-| --- | ---: | --- | --- | ---: | --- | --- |
-| 쿠팡 | 20 | partner_feed | 제휴/운영 피드 담당 | 3 | d014 | d028 | d030 | 쿠팡 운영 피드에 imageUrl 또는 thumbnail 필드 포함 요청 |
-| SSG닷컴 | 13 | partner_feed | 제휴/운영 피드 담당 | 3 | d011 | d024 | d029 | SSG닷컴 운영 피드에 imageUrl 또는 thumbnail 필드 포함 요청 |
-| 11번가 | 10 | partner_feed | 제휴/운영 피드 담당 | 3 | d015 | d048 | d081 | 11번가 운영 피드에 imageUrl 또는 thumbnail 필드 포함 요청 |
-| 무신사 | 5 | official_batch | 상품 운영 담당 | 5 | d020 | d037 | d086 | 무신사 공식 상세 페이지 이미지 후보를 배치 검수 |
-| 하이마트 | 5 | official_batch | 상품 운영 담당 | 5 | d013 | d026 | d036 | 하이마트 공식 상세 페이지 이미지 후보를 배치 검수 |
-| 올리브영 | 4 | official_batch | 상품 운영 담당 | 5 | d022 | d025 | d040 | 올리브영 공식 상세 페이지 이미지 후보를 배치 검수 |
-| 마켓컬리 | 3 | official_batch | 상품 운영 담당 | 5 | d018 | d082 | d095 | 마켓컬리 공식 상세 페이지 이미지 후보를 배치 검수 |
-| 메가MGC커피 | 2 | manual_review | 데일리 검수 담당 | 7 | d076 | d117 | 메가MGC커피 클릭 상위 상품부터 대표 이미지 수동 보강 |
-| 이마트몰 | 2 | manual_review | 데일리 검수 담당 | 7 | d041 | d064 | 이마트몰 클릭 상위 상품부터 대표 이미지 수동 보강 |
-| 인터파크투어 | 2 | manual_review | 데일리 검수 담당 | 7 | d021 | d051 | 인터파크투어 클릭 상위 상품부터 대표 이미지 수동 보강 |
-| 카카오페이 | 2 | manual_review | 데일리 검수 담당 | 7 | d054 | d071 | 카카오페이 클릭 상위 상품부터 대표 이미지 수동 보강 |
-| GS SHOP | 2 | manual_review | 데일리 검수 담당 | 7 | d027 | d038 | GS SHOP 클릭 상위 상품부터 대표 이미지 수동 보강 |
-| 네이버쇼핑 | 1 | manual_review | 데일리 검수 담당 | 7 | d047 | 네이버쇼핑 클릭 상위 상품부터 대표 이미지 수동 보강 |
-| 네이버페이 | 1 | manual_review | 데일리 검수 담당 | 7 | d053 | 네이버페이 클릭 상위 상품부터 대표 이미지 수동 보강 |
-| 네이버플러스 | 1 | manual_review | 데일리 검수 담당 | 7 | d072 | 네이버플러스 클릭 상위 상품부터 대표 이미지 수동 보강 |
-| 롯데시네마 | 1 | manual_review | 데일리 검수 담당 | 7 | d075 | 롯데시네마 클릭 상위 상품부터 대표 이미지 수동 보강 |
-| 맘큐 | 1 | manual_review | 데일리 검수 담당 | 7 | d069 | 맘큐 클릭 상위 상품부터 대표 이미지 수동 보강 |
-| 배달의민족 | 1 | manual_review | 데일리 검수 담당 | 7 | d058 | 배달의민족 클릭 상위 상품부터 대표 이미지 수동 보강 |
-| 세븐일레븐 | 1 | manual_review | 데일리 검수 담당 | 7 | d062 | 세븐일레븐 클릭 상위 상품부터 대표 이미지 수동 보강 |
-| 스타벅스 | 1 | manual_review | 데일리 검수 담당 | 7 | d066 | 스타벅스 클릭 상위 상품부터 대표 이미지 수동 보강 |
+| 판매처 | 보강 대기 | 확보 방식 | 담당 | SLA | 샘플 ID | Ready Gate | 요청 액션 |
+| --- | ---: | --- | --- | ---: | --- | --- | --- |
+| 쿠팡 | 20 | partner_feed | 제휴/운영 피드 담당 | 3 | d014 | d028 | d030 | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 쿠팡 운영 피드에 imageUrl 또는 thumbnail 필드 포함 요청 |
+| SSG닷컴 | 13 | partner_feed | 제휴/운영 피드 담당 | 3 | d011 | d024 | d029 | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | SSG닷컴 운영 피드에 imageUrl 또는 thumbnail 필드 포함 요청 |
+| 11번가 | 10 | partner_feed | 제휴/운영 피드 담당 | 3 | d015 | d048 | d081 | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 11번가 운영 피드에 imageUrl 또는 thumbnail 필드 포함 요청 |
+| 무신사 | 5 | official_batch | 상품 운영 담당 | 5 | d020 | d037 | d086 | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 무신사 공식 상세 페이지 이미지 후보를 배치 검수 |
+| 하이마트 | 5 | official_batch | 상품 운영 담당 | 5 | d013 | d026 | d036 | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 하이마트 공식 상세 페이지 이미지 후보를 배치 검수 |
+| 올리브영 | 4 | official_batch | 상품 운영 담당 | 5 | d022 | d025 | d040 | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 올리브영 공식 상세 페이지 이미지 후보를 배치 검수 |
+| 마켓컬리 | 3 | official_batch | 상품 운영 담당 | 5 | d018 | d082 | d095 | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 마켓컬리 공식 상세 페이지 이미지 후보를 배치 검수 |
+| 메가MGC커피 | 2 | manual_review | 데일리 검수 담당 | 7 | d076 | d117 | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 메가MGC커피 클릭 상위 상품부터 대표 이미지 수동 보강 |
+| 이마트몰 | 2 | manual_review | 데일리 검수 담당 | 7 | d041 | d064 | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 이마트몰 클릭 상위 상품부터 대표 이미지 수동 보강 |
+| 인터파크투어 | 2 | manual_review | 데일리 검수 담당 | 7 | d021 | d051 | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 인터파크투어 클릭 상위 상품부터 대표 이미지 수동 보강 |
+| 카카오페이 | 2 | manual_review | 데일리 검수 담당 | 7 | d054 | d071 | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 카카오페이 클릭 상위 상품부터 대표 이미지 수동 보강 |
+| GS SHOP | 2 | manual_review | 데일리 검수 담당 | 7 | d027 | d038 | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | GS SHOP 클릭 상위 상품부터 대표 이미지 수동 보강 |
+| 네이버쇼핑 | 1 | manual_review | 데일리 검수 담당 | 7 | d047 | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 네이버쇼핑 클릭 상위 상품부터 대표 이미지 수동 보강 |
+| 네이버페이 | 1 | manual_review | 데일리 검수 담당 | 7 | d053 | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 네이버페이 클릭 상위 상품부터 대표 이미지 수동 보강 |
+| 네이버플러스 | 1 | manual_review | 데일리 검수 담당 | 7 | d072 | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 네이버플러스 클릭 상위 상품부터 대표 이미지 수동 보강 |
+| 롯데시네마 | 1 | manual_review | 데일리 검수 담당 | 7 | d075 | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 롯데시네마 클릭 상위 상품부터 대표 이미지 수동 보강 |
+| 맘큐 | 1 | manual_review | 데일리 검수 담당 | 7 | d069 | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 맘큐 클릭 상위 상품부터 대표 이미지 수동 보강 |
+| 배달의민족 | 1 | manual_review | 데일리 검수 담당 | 7 | d058 | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 배달의민족 클릭 상위 상품부터 대표 이미지 수동 보강 |
+| 세븐일레븐 | 1 | manual_review | 데일리 검수 담당 | 7 | d062 | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 세븐일레븐 클릭 상위 상품부터 대표 이미지 수동 보강 |
+| 스타벅스 | 1 | manual_review | 데일리 검수 담당 | 7 | d066 | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 스타벅스 클릭 상위 상품부터 대표 이미지 수동 보강 |
 
 ## Priority Backlog
 

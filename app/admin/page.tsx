@@ -1792,7 +1792,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
               <p className="text-xs font-black text-dossa-red">상품 이미지 보강 큐</p>
               <h2 className="mt-1 text-xl font-black text-slate-950">실상품 이미지 커버리지를 운영 품질 지표로 관리합니다</h2>
               <p className="mt-1 text-sm font-semibold leading-6 text-slate-500">
-                카테고리 fallback 이미지는 앱 깨짐을 막는 안전장치입니다. 공개 운영 전에는 클릭 상위 상품부터 실제 판매처 이미지를 보강하세요.
+                카테고리 fallback 이미지는 앱 깨짐을 막는 안전장치입니다. 공개 운영 전에는 공식·제휴 피드 또는 판매처 상세에서 권리 확인 가능한 대표 이미지만 보강하세요.
               </p>
               <div className="mt-3 flex flex-wrap gap-2">
                 <a href={imageQueueApiHref} className="rounded-2xl bg-slate-950 px-4 py-2.5 text-xs font-black text-white">
@@ -1828,6 +1828,9 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                 <p className="text-sm font-black text-slate-950">이미지 보강 실행 계획</p>
                 <p className="mt-1 text-xs font-bold leading-5 text-amber-800">
                   {imageQuality.sourcingPlan.operationCadence} · {imageQuality.sourcingPlan.feedRequirement}
+                </p>
+                <p className="mt-1 text-xs font-bold leading-5 text-slate-500">
+                  운영 ready 조건: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 · 검색 결과 썸네일/커뮤니티 이미지는 금지
                 </p>
               </div>
               <span className="w-fit rounded-full bg-white px-3 py-1 text-xs font-black text-amber-700">
@@ -1869,7 +1872,8 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                   <p className="mt-1 text-[11px] font-bold text-slate-500">{deal.mallName} · {deal.category}</p>
                   <p className="mt-1 line-clamp-2 text-[11px] font-bold leading-4 text-slate-400">우선순위 사유: {deal.priorityReason}</p>
                   <p className="mt-2 line-clamp-2 text-[11px] font-black leading-4 text-brand-navy">{deal.recommendedImageSource}</p>
-                  <p className="mt-1 line-clamp-1 text-[10px] font-bold text-slate-400">필드: {deal.imageFeedFields.join(", ")}</p>
+                  <p className="mt-1 line-clamp-2 text-[10px] font-bold text-slate-500">Ready: {deal.imageReadyGate}</p>
+                  <p className="mt-1 line-clamp-1 text-[10px] font-bold text-slate-400">필수 필드: {deal.requiredFeedFields.join(", ")}</p>
                 </a>
               ))}
             </div>
@@ -1927,6 +1931,12 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                     </div>
                     <p className="mt-1 text-xs font-bold leading-5 text-slate-500">{item.action}</p>
                     <p className="mt-1 text-[11px] font-black leading-4 text-brand-navy">{item.recommendedImageSource}</p>
+                    <p className="mt-1 line-clamp-2 text-[11px] font-bold leading-4 text-slate-500">
+                      요청: {item.requestTemplate}
+                    </p>
+                    <p className="mt-1 line-clamp-1 text-[11px] font-black text-dossa-red">
+                      Ready: {item.imageReadyGate}
+                    </p>
                     <p className="mt-1 line-clamp-2 text-[11px] font-bold leading-4 text-slate-400">
                       확인: {item.imageManualVerification}
                     </p>
@@ -1955,6 +1965,9 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                     <p className="mt-1 text-[11px] font-black leading-4 text-dossa-red">우선순위 사유: {deal.priorityReason}</p>
                     <p className="mt-1 text-[11px] font-bold leading-4 text-brand-navy">권장 출처: {deal.recommendedImageSource}</p>
                     <p className="mt-1 line-clamp-2 text-[11px] font-bold leading-4 text-slate-400">금지: {deal.prohibitedImageSource}</p>
+                    <p className="mt-1 line-clamp-2 text-[11px] font-bold leading-4 text-slate-500">
+                      체크: {deal.operatorChecklist.slice(0, 2).join(" · ")}
+                    </p>
                     <div className="mt-3 flex flex-wrap gap-2">
                       <a
                         href={deal.finalPurchaseUrl}

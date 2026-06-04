@@ -4,7 +4,7 @@ import { getNewsOperationsReport } from "@/lib/deals/newsOperations";
 import { buildPersonalizedBenefitQueue } from "@/lib/deals/personalizedBenefitQueue";
 import { getLinkReviewQueue, summarizeDealQuality } from "@/lib/deals/quality";
 import { hasRealDealImage } from "@/lib/deals/ranking";
-import { getImageSourcingPolicy } from "@/lib/deals/imageSourcingPolicy";
+import { buildImageSourcingOperation } from "@/lib/deals/imageSourcingPolicy";
 import { getOperationalEnvReadiness } from "@/lib/operations/envReadiness";
 import { getPriceInsight } from "@/lib/priceHistory";
 import type { Deal, DealBenefitType } from "@/types/deal";
@@ -502,7 +502,8 @@ export function buildImageQualityReadiness(deals: Deal[]) {
   const priorityDeals = sortedFallbackDeals
     .slice(0, 8)
     .map((deal) => {
-      const imagePolicy = getImageSourcingPolicy(deal.mallName);
+      const imageOperation = buildImageSourcingOperation(deal.mallName);
+      const imagePolicy = imageOperation.policy;
 
       return {
         id: deal.id,
@@ -521,6 +522,11 @@ export function buildImageQualityReadiness(deals: Deal[]) {
         imageAcquisitionChannel: imagePolicy.acquisitionChannel,
         recommendedImageSource: imagePolicy.recommendedImageSource,
         imageFeedFields: imagePolicy.feedFields,
+        requiredFeedFields: imageOperation.requiredFeedFields,
+        sourceSafetyLevel: imageOperation.sourceSafetyLevel,
+        imageReadyGate: imageOperation.imageReadyGate,
+        operatorChecklist: imageOperation.operatorChecklist,
+        requestTemplate: imageOperation.requestTemplate,
         imageRightsChecklist: imagePolicy.imageRightsChecklist,
         imageManualVerification: imagePolicy.manualVerification,
         prohibitedImageSource: imagePolicy.prohibitedImageSource,
@@ -537,7 +543,8 @@ export function buildImageQualityReadiness(deals: Deal[]) {
   const weeklySourcingTarget = Math.min(24, gapToLaunchTarget);
   const nextBatchDeals = sortedFallbackDeals.slice(0, weeklySourcingTarget || Math.min(8, sortedFallbackDeals.length));
   const nextBatchOperationDeals = nextBatchDeals.slice(0, 24).map((deal, index) => {
-    const imagePolicy = getImageSourcingPolicy(deal.mallName);
+    const imageOperation = buildImageSourcingOperation(deal.mallName);
+    const imagePolicy = imageOperation.policy;
 
     return {
       rank: index + 1,
@@ -551,6 +558,11 @@ export function buildImageQualityReadiness(deals: Deal[]) {
       imageAcquisitionChannel: imagePolicy.acquisitionChannel,
       recommendedImageSource: imagePolicy.recommendedImageSource,
       imageFeedFields: imagePolicy.feedFields,
+      requiredFeedFields: imageOperation.requiredFeedFields,
+      sourceSafetyLevel: imageOperation.sourceSafetyLevel,
+      imageReadyGate: imageOperation.imageReadyGate,
+      operatorChecklist: imageOperation.operatorChecklist,
+      requestTemplate: imageOperation.requestTemplate,
       imageManualVerification: imagePolicy.manualVerification,
       prohibitedImageSource: imagePolicy.prohibitedImageSource,
       sourcingPriority: getSourcingPriority(deal),
@@ -561,7 +573,8 @@ export function buildImageQualityReadiness(deals: Deal[]) {
   const mallQueue = Array.from(byMall.values())
     .filter((item) => item.fallback > 0)
     .map((item) => {
-      const imagePolicy = getImageSourcingPolicy(item.mallName);
+      const imageOperation = buildImageSourcingOperation(item.mallName);
+      const imagePolicy = imageOperation.policy;
       const recommendedAcquisition =
         imagePolicy.acquisitionChannel === "partner_feed" || item.fallback >= 8
           ? "partner_feed"
@@ -590,6 +603,11 @@ export function buildImageQualityReadiness(deals: Deal[]) {
         imagePolicyKey: imagePolicy.key,
         recommendedImageSource: imagePolicy.recommendedImageSource,
         imageFeedFields: imagePolicy.feedFields,
+        requiredFeedFields: imageOperation.requiredFeedFields,
+        sourceSafetyLevel: imageOperation.sourceSafetyLevel,
+        imageReadyGate: imageOperation.imageReadyGate,
+        operatorChecklist: imageOperation.operatorChecklist,
+        requestTemplate: imageOperation.requestTemplate,
         imageRightsChecklist: imagePolicy.imageRightsChecklist,
         imageManualVerification: imagePolicy.manualVerification,
         prohibitedImageSource: imagePolicy.prohibitedImageSource,

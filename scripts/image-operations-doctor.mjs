@@ -76,18 +76,46 @@ const checks = [
     name: "seller-specific image sourcing policy",
     ok:
       imageSourcingPolicy.includes("getImageSourcingPolicy") &&
+      imageSourcingPolicy.includes("buildImageSourcingOperation") &&
       imageSourcingPolicy.includes("recommendedImageSource") &&
       imageSourcingPolicy.includes("imageRightsChecklist") &&
       imageSourcingPolicy.includes("prohibitedImageSource") &&
-      analytics.includes("getImageSourcingPolicy") &&
+      imageSourcingPolicy.includes("sourceSafetyLevel") &&
+      imageSourcingPolicy.includes("imageReadyGate") &&
+      analytics.includes("buildImageSourcingOperation") &&
       analytics.includes("imagePolicyKey") &&
       analytics.includes("imageAcquisitionChannel") &&
       analytics.includes("imageFeedFields") &&
+      analytics.includes("requiredFeedFields") &&
+      analytics.includes("operatorChecklist") &&
+      analytics.includes("requestTemplate") &&
       imageQueueRoute.includes("recommendedImageSource") &&
       imageQueueRoute.includes("imageFeedFields") &&
+      imageQueueRoute.includes("requiredFeedFields") &&
+      imageQueueRoute.includes("sourceSafetyLevel") &&
+      imageQueueRoute.includes("imageReadyGate") &&
+      imageQueueRoute.includes("operatorChecklist") &&
+      imageQueueRoute.includes("requestTemplate") &&
       imageQueueRoute.includes("prohibitedImageSource") &&
       smoke.includes("seller-specific image sourcing policy"),
     message: "이미지 보강 큐는 판매처별 권장 이미지 출처, 필수 피드 필드, 금지 출처를 API/CSV/관리자 화면에서 제공해야 합니다."
+  },
+  {
+    name: "official image ready gate",
+    ok:
+      imageSourcingPolicy.includes("official_or_partner_only") &&
+      imageSourcingPolicy.includes("productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt") &&
+      imageBacklogReportScript.includes("sourceSafetyLevel") &&
+      imageBacklogReportScript.includes("imageReadyGate") &&
+      imageBacklogReportScript.includes("requiredProviderFields") &&
+      imageBacklogReportScript.includes("operatorChecklist") &&
+      imageBacklogReportScript.includes("requestTemplate") &&
+      imageBacklogReport.includes("sourceSafetyLevel=official_or_partner_only") &&
+      imageBacklogReport.includes("productUrl + imageUrl/thumbnail + imageRights + priceCheckedAt") &&
+      adminPage.includes("운영 ready 조건") &&
+      adminPage.includes("검색 결과 썸네일/커뮤니티 이미지는 금지") &&
+      smoke.includes("official image ready gate"),
+    message: "이미지 보강 큐는 공식/제휴 이미지만 ready로 인정하는 gate와 요청 템플릿을 파일/관리자/QA에 남겨야 합니다."
   },
   {
     name: "partner feed image gate",
@@ -205,7 +233,7 @@ const checks = [
     ok:
       !adminPage.includes("AI") &&
       !adminPage.includes("가짜") &&
-      adminPage.includes("실제 판매처 이미지를 보강"),
+      adminPage.includes("공식·제휴 피드 또는 판매처 상세에서 권리 확인 가능한 대표 이미지만 보강"),
     message: "운영 화면 문구는 내부 개발 티를 줄이고 실제 운영 액션 중심이어야 합니다."
   },
   {

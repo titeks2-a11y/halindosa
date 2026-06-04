@@ -83,9 +83,11 @@ npm run smoke
   - 운영자는 CSV를 스프레드시트로 열어 우선 검수 상품부터 실제 상품 상세 URL을 보강하고, 다음 피드 import 전에 원본 데이터의 `productUrl` 또는 `finalPurchaseUrl`에 반영한다.
 - 이미지 보강 큐: `GET /api/admin/image-queue?token=$ADMIN_EXPORT_TOKEN`
   - JSON과 CSV 모두 `currentImageUrl`, `sourceName`, `sourceUrl`, `finalPurchaseUrl`, `imageSearchUrl`, `imageField`, `imageSourceHint`를 제공한다.
+  - JSON과 CSV는 `sourceSafetyLevel=official_or_partner_only`, `imageReadyGate`, `requiredFeedFields`, `operatorChecklist`, `requestTemplate`를 함께 제공한다. 운영 ready 기준은 `productUrl + imageUrl/thumbnail + imageRights + priceCheckedAt` 동시 확보이다.
   - JSON은 `sourcingPlan`으로 공개 운영 목표 60%, 목표까지 남은 보강 수, 주간 보강 목표, 다음 처리 배치 ID를 함께 제공한다.
   - `/admin`의 “판매처별 피드 보강 우선순위”는 판매처별 fallback 규모와 피드 imageUrl 확보 우선순위를 보여준다.
-  - 운영자는 `finalPurchaseUrl`에서 판매처 대표 이미지를 확인하고, 필요하면 `imageSearchUrl`로 후보 이미지를 찾은 뒤 원본 피드의 `imageUrl` 필드에 반영한다.
+  - 운영자는 `finalPurchaseUrl`에서 판매처 대표 이미지를 확인하고, 필요하면 `imageSearchUrl`로 후보를 찾되 최종 반영은 공식/제휴 피드 또는 판매처 상세에서 권리 확인 가능한 이미지 URL만 사용한다.
+  - 검색 결과 썸네일, 커뮤니티 캡처, 블로그 이미지, 무출처 이미지는 보강 완료로 인정하지 않는다.
   - 카테고리 fallback은 화면 안정용이며 운영 ready 이미지로 보지 않는다. 신규 파트너 피드는 `imageUrl` 없이 dry-run을 통과할 수 없다.
   - 공개 운영 전 목표는 명시 실상품 이미지 60% 이상이다. 현재 25% 자동 게이트는 회귀 방지 최소선이며, 60%는 운영 보강 목표로 관리한다.
   - `npm run test:images`는 명시 실상품 이미지 커버리지 25% 미만이면 실패한다. 신규 상품을 많이 추가할 때는 이미지 없는 상품만 늘려 이 기준을 떨어뜨리지 않는다.

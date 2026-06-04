@@ -53,6 +53,24 @@ function getPriorityReason(rank, category) {
   return "60% 출시 이미지 목표 달성을 위한 fallback 보강 후보";
 }
 
+function buildOperationFields(mallName) {
+  const requiredProviderFields = "productUrl | imageUrl | thumbnail | imageRights | priceCheckedAt";
+  const operatorChecklist = [
+    "판매처 또는 승인 제휴 피드 이미지",
+    "상품명과 옵션이 현재 노출 상품과 일치",
+    "검색 결과 썸네일/커뮤니티/블로그 이미지 사용 금지",
+    "가격 기준 시각과 이미지 갱신 시각 기록"
+  ].join(" | ");
+
+  return {
+    sourceSafetyLevel: "official_or_partner_only",
+    imageReadyGate: "productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보",
+    requiredProviderFields,
+    operatorChecklist,
+    requestTemplate: `${mallName} 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외`
+  };
+}
+
 for (const line of dealLines) {
   const quotedValues = [...line.matchAll(/"([^"]*)"/g)].map((match) => match[1]);
   const id = quotedValues[0] ?? "";
@@ -65,6 +83,7 @@ for (const line of dealLines) {
 
   const imageSearchUrl = `https://search.shopping.naver.com/search/all?query=${encodeURIComponent(`${mallName} ${title} 상품 이미지`)}`;
   const rank = fallbackDeals.length + 1;
+  const operationFields = buildOperationFields(mallName);
   const item = {
     rank,
     id,
@@ -76,7 +95,9 @@ for (const line of dealLines) {
     imageSourceHint: "판매처 상세 페이지 또는 공식 제휴 피드 대표 이미지",
     sourcingPriority: getSourcingPriority(rank),
     priorityReason: getPriorityReason(rank, category),
-    imageSearchUrl
+    imageSearchUrl,
+    batchWeek: Math.ceil(rank / 24),
+    ...operationFields
   };
 
   fallbackDeals.push(item);
@@ -132,7 +153,13 @@ const csvHeader = [
   "imageSourceHint",
   "sourcingPriority",
   "priorityReason",
-  "imageSearchUrl"
+  "imageSearchUrl",
+  "batchWeek",
+  "sourceSafetyLevel",
+  "imageReadyGate",
+  "requiredProviderFields",
+  "operatorChecklist",
+  "requestTemplate"
 ];
 const csvRows = [
   csvHeader.join(","),
@@ -145,6 +172,7 @@ const nextBatchCsvRows = [
 const mallRequestRows = mallSummary.map(([mallName, fallbackCount]) => {
   const samples = fallbackDeals.filter((deal) => deal.mallName === mallName).slice(0, 3);
   const plan = getMallAcquisitionPlan(mallName, fallbackCount);
+  const operationFields = buildOperationFields(mallName);
 
   return {
     mallName,
@@ -155,7 +183,11 @@ const mallRequestRows = mallSummary.map(([mallName, fallbackCount]) => {
     sampleIds: samples.map((deal) => deal.id).join(" | "),
     sampleTitles: samples.map((deal) => deal.title).join(" | "),
     requestAction: plan.requestAction,
+    requestTemplate: operationFields.requestTemplate,
     feedRequestFields: "productUrl | imageUrl | thumbnail | imageRights | priceCheckedAt",
+    sourceSafetyLevel: operationFields.sourceSafetyLevel,
+    imageReadyGate: operationFields.imageReadyGate,
+    operatorChecklist: operationFields.operatorChecklist,
     prohibitedSource: "커뮤니티 캡처, 블로그 이미지, 검색 결과 썸네일 단독 사용 금지"
   };
 });
@@ -168,7 +200,11 @@ const mallRequestHeader = [
   "sampleIds",
   "sampleTitles",
   "requestAction",
+  "requestTemplate",
   "feedRequestFields",
+  "sourceSafetyLevel",
+  "imageReadyGate",
+  "operatorChecklist",
   "prohibitedSource"
 ];
 const mallRequestCsvRows = [
@@ -194,11 +230,15 @@ Status: ${fallbackDeals.length ? "ACTION_NEEDED" : "CLEAR"}
 | 주간 보강 목표 | ${weeklySourcingTarget} |
 | 주간 보강 배치 후보 | ${nextBatchDeals.length} |
 | 판매처별 요청서 행 | ${mallRequestRows.length} |
+| 이미지 ready gate | productUrl + imageUrl/thumbnail + imageRights + priceCheckedAt |
 
 ## Operation Policy
 
 - 카테고리 fallback 이미지는 화면 깨짐을 막는 안전장치이며, 출시 후 운영 품질 목표로 보지 않습니다.
 - 신규 운영 피드와 제휴 피드는 실제 상품 또는 공식 혜택 상세 이미지 URL을 함께 제공해야 합니다.
+- 운영 ready 이미지는 공식/제휴 피드 또는 판매처 상품 상세에서 권리 확인 가능한 이미지여야 합니다.
+- 검색 결과 썸네일, 커뮤니티 캡처, 블로그 이미지, 무출처 이미지는 보강 완료로 인정하지 않습니다.
+- 이미지 보강 행은 \`sourceSafetyLevel=official_or_partner_only\`, \`imageReadyGate\`, \`requiredProviderFields\`, \`operatorChecklist\`, \`requestTemplate\`를 포함해야 합니다.
 - 공개 운영 전 목표는 명시 실상품 이미지 ${launchTargetRate}% 이상이며, 목표 도달까지 매주 클릭 상위 fallback 상품 ${weeklySourcingTarget || "대기 없음"}개를 먼저 보강합니다.
 - 판매처별 backlog가 많은 경우 수동 이미지 검색보다 제휴/운영 피드의 \`imageUrl\`, 이미지 사용 권한, 최신 가격 기준 시각을 함께 확보합니다.
 - 보강 우선순위는 클릭/찜이 많은 상품, 무료 혜택 상단 노출 상품, 카테고리 대표 상품 순서입니다.
@@ -217,15 +257,15 @@ ${mallSummary.length ? mallSummary.slice(0, 20).map(([mall, count]) => `- ${mall
 
 ## 이번 주 이미지 보강 배치
 
-| Rank | ID | 판매처 | 상품명 | 우선순위 | 운영 사유 |
-| ---: | --- | --- | --- | --- | --- |
-${nextBatchDeals.length ? nextBatchDeals.map((deal) => `| ${deal.rank} | ${deal.id} | ${deal.mallName} | ${deal.title.replace(/\|/g, "/")} | ${deal.sourcingPriority} | ${deal.priorityReason} |`).join("\n") : "| - | - | - | 보강 대기 상품 없음 | - | - |"}
+| Rank | ID | 판매처 | 상품명 | 우선순위 | Ready Gate | 운영 사유 |
+| ---: | --- | --- | --- | --- | --- | --- |
+${nextBatchDeals.length ? nextBatchDeals.map((deal) => `| ${deal.rank} | ${deal.id} | ${deal.mallName} | ${deal.title.replace(/\|/g, "/")} | ${deal.sourcingPriority} | ${deal.imageReadyGate} | ${deal.priorityReason} |`).join("\n") : "| - | - | - | 보강 대기 상품 없음 | - | - | - |"}
 
 ## 판매처별 이미지 요청서
 
-| 판매처 | 보강 대기 | 확보 방식 | 담당 | SLA | 샘플 ID | 요청 액션 |
-| --- | ---: | --- | --- | ---: | --- | --- |
-${mallRequestRows.length ? mallRequestRows.slice(0, 20).map((row) => `| ${row.mallName} | ${row.fallbackCount} | ${row.recommendedAcquisition} | ${row.operationOwner} | ${row.slaDays} | ${row.sampleIds} | ${row.requestAction} |`).join("\n") : "| - | 0 | - | - | - | - | 보강 요청 없음 |"}
+| 판매처 | 보강 대기 | 확보 방식 | 담당 | SLA | 샘플 ID | Ready Gate | 요청 액션 |
+| --- | ---: | --- | --- | ---: | --- | --- | --- |
+${mallRequestRows.length ? mallRequestRows.slice(0, 20).map((row) => `| ${row.mallName} | ${row.fallbackCount} | ${row.recommendedAcquisition} | ${row.operationOwner} | ${row.slaDays} | ${row.sampleIds} | ${row.imageReadyGate} | ${row.requestAction} |`).join("\n") : "| - | 0 | - | - | - | - | - | 보강 요청 없음 |"}
 
 ## Priority Backlog
 

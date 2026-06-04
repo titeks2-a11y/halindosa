@@ -9,6 +9,15 @@ export interface ImageSourcingPolicy {
   prohibitedImageSource: string;
 }
 
+export interface ImageSourcingOperation {
+  policy: ImageSourcingPolicy;
+  sourceSafetyLevel: "official_or_partner_only";
+  imageReadyGate: string;
+  requiredFeedFields: string[];
+  operatorChecklist: string[];
+  requestTemplate: string;
+}
+
 const defaultPolicy: ImageSourcingPolicy = {
   key: "default",
   label: "판매처 공식 이미지",
@@ -106,4 +115,27 @@ export function getImageSourcingPolicy(mallName?: string): ImageSourcingPolicy {
   const matched = policies.find((item) => item.match.test(target));
 
   return matched?.policy ?? defaultPolicy;
+}
+
+export function buildImageSourcingOperation(mallName?: string): ImageSourcingOperation {
+  const policy = getImageSourcingPolicy(mallName);
+  const displayMall = String(mallName ?? "판매처").trim() || "판매처";
+  const requiredFeedFields = Array.from(new Set([...policy.feedFields, "imageRights", "priceCheckedAt"]));
+  const operatorChecklist = Array.from(
+    new Set([
+      ...policy.imageRightsChecklist,
+      policy.manualVerification,
+      "검색 결과 썸네일, 커뮤니티 캡처, 블로그 이미지는 사용하지 않음",
+      "상품명, 옵션, 가격 기준 시각이 현재 노출 상품과 일치"
+    ])
+  );
+
+  return {
+    policy,
+    sourceSafetyLevel: "official_or_partner_only",
+    imageReadyGate: "productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt이 함께 있어야 운영 ready",
+    requiredFeedFields,
+    operatorChecklist,
+    requestTemplate: `${displayMall} 이미지 보강 요청: ${requiredFeedFields.join(", ")} 필드를 공식/제휴 피드로 제공하고, 검색 결과 썸네일·커뮤니티 이미지는 제외`
+  };
 }
