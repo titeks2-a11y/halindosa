@@ -134,6 +134,42 @@ function countBy<T extends string>(deals: NewsDeal[], getKey: (deal: NewsDeal) =
   }, {} as Record<T, number>);
 }
 
+function buildRecommendedNewsQueries(deals: NewsDeal[]) {
+  const benefitLabels: Record<string, string> = {
+    discount: "할인",
+    coupon: "쿠폰",
+    freebie: "무료",
+    membership: "멤버십",
+    card: "카드할인",
+    culture: "문화",
+    travel: "여행",
+    public: "공공혜택",
+    point: "포인트",
+    foodDelivery: "배달쿠폰"
+  };
+  const weights = new Map<string, { count: number; score: number }>();
+
+  const add = (value: string, score = 1) => {
+    const query = value.trim();
+    if (!query || query.length > 14) return;
+    const current = weights.get(query) ?? { count: 0, score: 0 };
+    weights.set(query, { count: current.count + 1, score: current.score + score });
+  };
+
+  for (const deal of deals) {
+    add(deal.category, 2);
+    add(benefitLabels[deal.benefitType] ?? deal.benefitType, 3);
+    add(deal.merchant, 2);
+    for (const tag of deal.tags) add(tag, 1);
+  }
+
+  return Array.from(weights.entries())
+    .map(([query, value]) => ({ query, count: value.count, score: value.score }))
+    .sort((a, b) => b.score - a.score || b.count - a.count || a.query.localeCompare(b.query))
+    .slice(0, 10)
+    .map(({ query, count }) => ({ query, count }));
+}
+
 export function getVisibleNewsDeals(options: { limit?: number; category?: string; benefitType?: string; q?: string; sort?: string } = {}) {
   const snapshot = readSnapshot();
   const sourceDeals = snapshot?.deals?.length ? snapshot.deals : (seedNewsDeals as NewsDeal[]);
@@ -162,6 +198,7 @@ export function getVisibleNewsDeals(options: { limit?: number; category?: string
     categoryCounts: countBy(sorted, (deal) => deal.category),
     benefitTypeCounts: countBy(sorted, (deal) => deal.benefitType),
     sourceCounts: countBy(sorted, (deal) => deal.sourceName),
+    recommendedQueries: buildRecommendedNewsQueries(sorted),
     ...freshness
   };
 }

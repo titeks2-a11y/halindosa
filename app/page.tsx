@@ -405,6 +405,7 @@ interface NewsDealsResponse {
   categoryCounts?: Record<string, number>;
   benefitTypeCounts?: Record<string, number>;
   sourceCounts?: Record<string, number>;
+  recommendedQueries?: Array<{ query: string; count: number }>;
   freshnessStatus?: "fresh" | "due" | "stale" | "seed";
   freshnessLabel?: string;
   freshnessAgeMinutes?: number | null;
@@ -687,6 +688,7 @@ export default function Home() {
   const [isSignalLoading, setIsSignalLoading] = useState(false);
   const [newsDeals, setNewsDeals] = useState<NewsDeal[]>(() => initialNewsSnapshot.deals ?? []);
   const [newsTotalCount, setNewsTotalCount] = useState(() => initialNewsSnapshot.deals?.length ?? 0);
+  const [newsRecommendedQueries, setNewsRecommendedQueries] = useState<Array<{ query: string; count: number }>>([]);
   const [newsUpdatedAt, setNewsUpdatedAt] = useState(initialNewsSnapshot.generatedAt ?? "");
   const [newsFreshness, setNewsFreshness] = useState<{
     status: "fresh" | "due" | "stale" | "seed";
@@ -735,6 +737,7 @@ export default function Home() {
         const data = await requestJson<NewsDealsResponse>(`/api/news-deals?${params.toString()}`);
         setNewsDeals(Array.isArray(data.deals) ? data.deals : []);
         setNewsTotalCount(Number.isFinite(data.count) ? data.count : Array.isArray(data.deals) ? data.deals.length : 0);
+        setNewsRecommendedQueries(Array.isArray(data.recommendedQueries) ? data.recommendedQueries : []);
         setNewsUpdatedAt(data.updatedAt);
         setNewsFreshness({
           status: data.freshnessStatus ?? "seed",
@@ -2356,48 +2359,9 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       <p className="sr-only">
-        구매 전 판매처 확인. 상세 보기와 판매처 확인 버튼을 통해 이동합니다. 적용된 조건과 조건 개별 해제, 구매링크 확인 필터 상태,
-        조건별 결과 요약을 상품 목록에서 확인할 수 있습니다. 구매 전 체크, 출처, 신고 상태, 신고 처리 기준, 운영 점검 큐,
-        실제 링크 확인, 바로 신고, 혜택 조건, 회원가입, 선착순, 배송비, 쿠폰 조건도 함께 확인할 수 있습니다.
-        검색 결과 빠른 분류, 많이 나온 쇼핑몰, 가까운 카테고리, 판매처 집중, 카테고리 집중, 안전 이동 기준으로 결과를 좁힐 수 있습니다.
-        구매 이동 안내와 구매처 바로 확인 상품을 먼저 보여드려요. 판매처 확인 단계와 조건 초기화도 제공합니다.
-        오늘 바로 볼 할인 지도에서 오늘 놓치면 아쉬운 혜택을 빠르게 확인합니다.
-        오늘 혜택 1분 시작. 앱을 열자마자 무료, 쿠폰, 생활비, 마감 순서로 바로 갑니다. 첫 화면에서 가장 체감이 큰 혜택만 먼저 압축했습니다.
-        10초 혜택 바로가기. 오늘 받을 혜택을 바로 고르세요. 무료 샘플, 결제 전 쿠폰, 앱테크 포인트, 무료로 받을 수 있는 혜택, 무료혜택/쿠폰, 0원.
-        오늘 절약 요약, 오늘 절약 후보, 무료·무배, 홈 혜택 헛걸음 방지, 누르기 전 놓치기 쉬운 조건을 먼저 봅니다.
-        숨은 비용 먼저 보기, 가입 조건 있는 혜택, 선착순·마감 주의, 신고 상태 확인, 오늘 절약 영수증, 무료, 쿠폰, 배송비, 큰 절약을 한 번에 챙기세요.
-        무료 혜택, 쿠폰 절약, 배송비 절약, 큰 절약 후보, 3분 혜택 루틴, 앱을 열자마자 이 순서로 받으세요.
-        오늘 혜택 미션 보드, 처음 들어왔다면 이 3가지만 먼저 보세요. 돈 쓰기 전 무료 혜택, 쿠폰·포인트 먼저 적용, 오늘 끝날 수 있는 혜택.
-        오늘 바로 실행할 혜택 액션 큐, 무료 수령, 쿠폰 적용, 생활 혜택, 마감 확인 순서로 봅니다. 무료 혜택 받기, 쿠폰 조건 보기, 생활 혜택 보기, 마감 혜택 확인.
-        첫 화면 혜택 우선순위 큐, 오늘 받을 혜택 큐, 스크롤 전에 먼저 고를 5가지, 무료, 쿠폰, 무배, 마감, 실제 구매처 이동.
-        무료 혜택 먼저, 쿠폰·포인트 적용, 배송비 줄이기, 구매처 바로 이동, 첫 방문 혜택 판단 가이드, 오늘 먼저 챙길 혜택 판단표.
-        돈 안 쓰고 받을 것, 결제 전 적용할 것, 오늘 놓치기 쉬운 것, 구매처가 확인된 것, 무료로 받을 것, 결제 전 적용할 것, 오늘 끝날 것, 바로 이동할 상품.
-        오늘 혜택 브리핑, 이번 주 혜택 캘린더에서 오늘 먼저 챙길 루틴, 브리핑 API 보기, 오늘 대표 큐, 가입 없이 전체 혜택 확인.
-        루틴 API 보기, 오늘 3분 혜택 루틴, 실행, 단계, 무료 혜택 보기, 검증 링크 보기, 실제 구매처 확인 특가.
-        품질 안내, 무료혜택 TOP 5, 쿠폰·앱테크 TOP 5, 오늘 눌러둘 적립 혜택, 포인트 루틴 보기, 앱테크 적립 혜택 확인.
-        회원들이 많이 찜한 혜택, 인기 찜, 내 찜, 관심 카테고리 추천, 비회원도 모두 보고, 관심 설정하기.
-        홈 빠른 관심 설정, 비회원 기기 저장, 관심사는 홈 추천과 알림 후보에 바로 반영, 개인화 혜택 추천 API, 추천 API 보기, 최근/찜 흐름.
-        오늘 혜택 체크리스트, 앱을 열면 이 순서로 챙기세요, 무료 혜택 먼저 받기, 쿠폰 조건 확인, 앱테크 포인트 적립, 실제 구매 링크로 보기, 비회원 전체 열람 · 저장만 로그인.
-        오늘 혜택 출석 체크, 매일 1분만 확인해도 놓치는 혜택이 줄어듭니다, 무료·체험 먼저, 알림 큐, 오늘 챙긴 혜택 기록, 루틴 완료, 기기 저장.
-        비회원도 기기에만 출석 기록을 저장합니다, 무료 혜택 전용 탭에서 이번 주 루틴 보기, 오늘 챙긴 혜택 요약, 아직 챙길 만한 무료 혜택, 무료 혜택 더 챙기기.
-        홈 무료 혜택 방문 요약, 무료 혜택 방문 루틴 계속하기, 홈 오늘 혜택 미션, 무료 혜택 1개 챙기기, 쿠폰 1개 저장하기, 내일 볼 루틴 예약.
-        홈 재방문 예약 요약, 재방문 루틴 더 저장, 알림에서 이어보기, 쿠폰·이벤트·앱테크, 쇼핑몰 쿠폰, 배달앱 쿠폰, 출석체크 포인트.
-        오늘의 진짜 특가, 가격, 혜택, 링크까지 먼저 확인한 추천, 절약 예상, 같이 보면 좋은 특가, 네이버페이·카카오페이·토스·페이코, 통신사 멤버십.
-        편의점/마트, 혜택 유형 필터, 구매처 바로 확인, 쇼핑몰별 특가 바로가기, 자주 쓰는 판매처만 골라보기, 구매처 확인.
-        쇼핑몰 빠른 선택, 가격 빠른 선택, 혜택 빠른 선택, 홈 탐색 바로가기, 전체상품, 구매처확인.
-        오늘 바로 볼 특가, 먼저 확인할 상품, 심화 혜택 탐색, 상품 목록을 먼저 보고, 상세 필터와 결과 분석, 상품 목록을 먼저 보고, 더 좁힐 때 펼치세요.
-        검색 도우미, 인기 검색어, 최근 검색어, 추천 검색어, 검색어 빠른 초기화 지원, 로켓, 배달쿠폰, 커피쿠폰, 라면, 햇반, 계란, 우유, 충전케이블.
-        화장지, 청소포, 김자반, 키친타월, 참치, 가글, 많은 판매처, 최대 할인, 낮은 현재가, 마감 임박.
-        검색 결과 추천 판단, 먼저 볼 기준, 현재 결과, 구매하기, 구매 전 한눈에, 링크 확인, 가격 요약, 아낌, 압축 가격 카드.
-        혜택 목적 빠른 필터, 무료, 쿠폰, 앱테크, 문화 초대권을 한 번에 좁힙니다, 무료·0원 먼저, 앱테크 적립, 문화 초대권, 검증 링크만.
-        현재 필터가 보여주는 혜택을 먼저 해석합니다. 현재 조건으로 볼 혜택, 마감 전 확인, 배송비 부담 낮음, 현재 조건 빠른 추천, 목록을 길게 보기 전 먼저 확인할 3개.
-        현재 결과 바로 실행 큐, 지금 조건에서 먼저 눌러볼 혜택, 가장 안전한 이동, 상품 목록 적용 조건, 조건을 눌러 바로 해제, 전체 특가를 보고 있습니다.
-        현재 결과 빠른 좁히기, 목록 안에서 많이 나온 기준, 상품 목록 빠른 스캔, 낮은 가격 후보, 할인율 최고, 현재 목록 가격 비교, 절약액 큼, 마감 먼저.
-        최근 기록 관리, 찜 목록 보기, 판매처 이동 전 확인, 네트워크 정상, 오프라인 상태, 전체 쇼핑몰, 쿠팡 (, 전체 가격대, 1만원 미만.
+        할인도사는 검증된 특가와 공식 혜택을 검색, 필터, 정렬해 보여주며 구매 전 판매처 확인과 신고 기능을 제공합니다.
+        상품 목록, 공식 혜택, 무료 혜택, 찜, 최근 본 상품, 하단 네비게이션을 통해 원하는 혜택으로 이동할 수 있습니다.
       </p>
-      <span className="sr-only">
-        {1}단계 무료 혜택 보기 {5}단계 검증 링크 보기 실제 구매처 확인 특가
-      </span>
       <section id="deals" className="space-y-2 px-2 py-2 sm:space-y-4 sm:px-4 sm:py-4 lg:px-0 lg:py-8">
         <div className="hidden flex-wrap items-center justify-between gap-3 lg:flex">
           <div>
@@ -2803,6 +2767,7 @@ export default function Home() {
           <RealtimeNewsDealsSection
             deals={newsDeals}
             totalCount={newsTotalCount}
+            recommendedQueries={newsRecommendedQueries}
             updatedAt={newsUpdatedAt}
             activeQuery={query}
             freshnessStatus={newsFreshness.status}
@@ -2815,6 +2780,10 @@ export default function Home() {
               void refreshNewsDeals({ notify: true });
             }}
             onOpenNewsDeal={rememberRecentNewsBenefit}
+            onSelectQuery={(nextQuery) => {
+              setQuery(nextQuery);
+              setActiveView("home");
+            }}
           />
         ) : null}
         {activeView === "home" ? <HomeOfficialBenefitAlertRail deals={newsDeals} onOpenNewsDeal={rememberRecentNewsBenefit} /> : null}

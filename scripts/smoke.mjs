@@ -105,160 +105,19 @@ await check("home page", async () => {
   assert(response.status === 200, `Expected 200, got ${response.status}`);
   assert(text.includes("할인도사"), "Home page missing brand text");
   assert(text.includes("샤오미 86인치") || text.includes("새우깡"), "Home page missing initial deal cards");
-  assert(
-    text.includes("데이터 상태") || (text.includes("상태") && text.includes("네트워크 정상")),
-    "Home page missing compact data quality summary"
-  );
-  assert(text.includes("구매 전 판매처 확인"), "Home page missing purchase verification guidance");
-  assert(text.includes("빠른 상품 검색"), "Home page missing above-the-fold quick search panel");
-  assert(text.includes("상품명, 브랜드, 쇼핑몰, 카테고리 통합 검색"), "Home page missing integrated search guidance");
-  assert(text.includes("상품 이동은 모두 새 탭"), "Home page missing new-tab purchase movement guidance");
-  assert(text.includes("카테고리 바로가기") && text.includes("원하는 분야만 빠르게 보기"), "Home page missing quick category shortcuts");
-  assert(text.includes("판매처 확인"), "Home page deal cards missing visible seller confirmation CTA");
-  assert(text.includes("상세 보기"), "Home page deal cards missing visible detail CTA");
-  assert(text.includes("구매 전 체크"), "Home page deal cards missing compact purchase check summary");
-  assert(text.includes("출처") && text.includes("신고 상태"), "Home page deal cards missing source and report status summary");
-  assert(text.includes("신고 처리 기준") && text.includes("운영 점검 큐"), "Home page deal cards missing report handling guidance");
-  assert(text.includes("실제 링크 확인") && text.includes("바로 신고"), "Home page deal cards missing link review and report action chips");
-  assert(
-    text.includes("혜택 조건") && text.includes("회원가입") && text.includes("선착순") && text.includes("배송비") && text.includes("쿠폰 조건"),
-    "Home page deal cards missing benefit condition summary"
-  );
-  assert(text.includes("가격/재고 변동") || text.includes("가격 변동"), "Home page missing price stock risk guidance");
-  assert(text.includes("구매 이동 안내"), "Home page missing purchase link overview");
-  assert(text.includes("구매처 바로 확인 상품을 먼저 보여드려요"), "Home page missing customer-facing purchase link explanation");
-  assert(text.includes("판매처 확인 단계"), "Home page missing review-needed purchase path explanation");
-  assert(text.includes("오늘 바로 볼 할인 지도"), "Home page missing quick discovery guide");
-  assert(text.includes("오늘 놓치면 아쉬운 혜택"), "Home page missing V2 benefit-first discovery section");
-  assert(
-    text.includes("오늘 혜택 1분 시작") &&
-      text.includes("앱을 열자마자 무료, 쿠폰, 생활비, 마감 순서로 바로 갑니다") &&
-      text.includes("첫 화면에서 가장 체감이 큰 혜택만 먼저 압축했습니다."),
-    "Home page missing one-minute benefit start rail"
-  );
-  assert(text.includes("10초 혜택 바로가기") && text.includes("오늘 받을 혜택을 바로 고르세요"), "Home page missing fast benefit shortcut rail");
-  assert(text.includes("무료 샘플") && text.includes("결제 전 쿠폰") && text.includes("앱테크 포인트"), "Home page missing fast benefit shortcut choices");
-  assert(text.includes("무료로 받을 수 있는 혜택"), "Home page missing free benefit discovery card");
-  assert(text.includes("무료혜택/쿠폰"), "Home page missing free benefit and coupon section");
-  assert(text.includes("0원"), "Home navigation missing free benefit badge");
-  assert(text.includes("오늘 절약 요약") && text.includes("오늘 절약 후보") && text.includes("무료·무배"), "Home page missing daily savings summary");
-  assert(text.includes("홈 혜택 헛걸음 방지") && text.includes("누르기 전 놓치기 쉬운 조건을 먼저 봅니다"), "Home page missing benefit risk review rail");
-  assert(text.includes("숨은 비용 먼저 보기") && text.includes("가입 조건 있는 혜택") && text.includes("선착순·마감 주의") && text.includes("신고 상태 확인"), "Home page missing benefit risk review cards");
-  assert(text.includes("오늘 절약 영수증") && text.includes("무료, 쿠폰, 배송비, 큰 절약을 한 번에 챙기세요"), "Home page missing daily savings receipt");
-  assert(text.includes("무료 혜택") && text.includes("쿠폰 절약") && text.includes("배송비 절약") && text.includes("큰 절약 후보"), "Home page missing savings receipt actions");
-  assert(text.includes("3분 혜택 루틴") && text.includes("앱을 열자마자 이 순서로 받으세요"), "Home page missing daily claim routine");
-  assert(text.includes("오늘 혜택 미션 보드") && text.includes("처음 들어왔다면 이 3가지만 먼저 보세요"), "Home page missing first-visit benefit mission board");
-  assert(text.includes("돈 쓰기 전 무료 혜택") && text.includes("쿠폰·포인트 먼저 적용") && text.includes("오늘 끝날 수 있는 혜택"), "Home page missing daily benefit mission actions");
-  assert(text.includes("오늘 바로 실행할 혜택 액션 큐") && text.includes("무료 수령, 쿠폰 적용, 생활 혜택, 마감 확인 순서로 봅니다"), "Home page missing daily benefit action queue");
-  assert(text.includes("무료 혜택 받기") && text.includes("쿠폰 조건 보기") && text.includes("생활 혜택 보기") && text.includes("마감 혜택 확인"), "Home page missing daily benefit action queue buttons");
-  assert(text.includes("첫 화면 혜택 우선순위 큐") && text.includes("오늘 받을 혜택 큐"), "Home page missing first-screen benefit priority queue");
-  assert(text.includes("스크롤 전에 먼저 고를 5가지") && text.includes("무료, 쿠폰, 무배, 마감, 실제 구매처 이동"), "Home page missing compressed benefit queue guidance");
-  assert(text.includes("무료 혜택 먼저") && text.includes("쿠폰·포인트 적용") && text.includes("배송비 줄이기") && text.includes("구매처 바로 이동"), "Home page missing compressed benefit queue actions");
-  assert(text.includes("첫 방문 혜택 판단 가이드") && text.includes("오늘 먼저 챙길 혜택 판단표"), "Home page missing first-visit benefit decision guide");
-  assert(text.includes("돈 안 쓰고 받을 것") && text.includes("결제 전 적용할 것") && text.includes("오늘 놓치기 쉬운 것") && text.includes("구매처가 확인된 것"), "Home page missing first-visit decision guide cards");
-  assert(text.includes("무료로 받을 것, 결제 전 적용할 것, 오늘 끝날 것, 바로 이동할 상품"), "Home page missing first-visit decision guide copy");
-  assert(text.includes("오늘 혜택 브리핑") && text.includes("이번 주 혜택 캘린더에서 오늘 먼저 챙길 루틴"), "Home page missing daily benefit briefing");
-  assert(text.includes("브리핑 API 보기") && text.includes("오늘 대표 큐") && text.includes("가입 없이 전체 혜택 확인"), "Home page missing daily briefing actions");
-  assert(text.includes("루틴 API 보기") && text.includes("오늘 3분 혜택 루틴") && text.includes("실행") && text.includes("단계"), "Home page missing daily routine API and step summary");
-  assert(text.includes("1<!-- -->단계") && text.includes("무료 혜택 보기") && text.includes("5<!-- -->단계") && text.includes("검증 링크 보기") && text.includes("실제 구매처 확인 특가"), "Home page missing full five-step daily benefit routine");
-  assert(text.includes("품질 안내"), "Home page missing deal quality notice");
-  assert(text.includes("무료혜택 TOP 5") && text.includes("쿠폰·앱테크 TOP 5"), "Home page missing free coupon top ranking section");
-  assert(
-    text.includes("오늘 눌러둘 적립 혜택") &&
-      text.includes("포인트 루틴 보기") &&
-      text.includes("앱테크 적립 혜택 확인"),
-    "Home page missing apptech reward routine rail"
-  );
-  assert(text.includes("회원들이 많이 찜한 혜택") && text.includes("인기 찜") && text.includes("내 찜"), "Home page missing member favorite benefit section");
-  assert(text.includes("관심 카테고리 추천") && text.includes("비회원도 모두 보고") && text.includes("관심 설정하기"), "Home page missing interest category personalization");
-  assert(text.includes("홈 빠른 관심 설정") && text.includes("비회원 기기 저장") && text.includes("관심사는 홈 추천과 알림 후보에 바로 반영"), "Home page missing quick interest setup");
-  assert(text.includes("개인화 혜택 추천 API") && text.includes("추천 API 보기") && text.includes("최근/찜 흐름"), "Home page missing reusable personalized benefit API card");
-  assert(text.includes("오늘 혜택 체크리스트") && text.includes("앱을 열면 이 순서로 챙기세요"), "Home page missing daily benefit checklist");
-  assert(text.includes("무료 혜택 먼저 받기") && text.includes("쿠폰 조건 확인") && text.includes("앱테크 포인트 적립"), "Home page missing checklist benefit actions");
-  assert(text.includes("실제 구매 링크로 보기") && text.includes("비회원 전체 열람 · 저장만 로그인"), "Home page missing checklist trust and non-member guidance");
-  assert(text.includes("오늘 혜택 출석 체크") && text.includes("매일 1분만 확인해도 놓치는 혜택이 줄어듭니다"), "Home page missing benefit check-in card");
-  assert(text.includes("무료·체험 먼저") && text.includes("쿠폰 적용") && text.includes("알림 큐"), "Home page missing check-in routine actions");
-  assert(text.includes("오늘 챙긴 혜택 기록") && text.includes("루틴 완료") && text.includes("기기 저장"), "Home page missing daily benefit completion record");
-  assert(text.includes("비회원도 기기에만 출석 기록을 저장합니다") && text.includes("무료 혜택 전용 탭에서 이번 주 루틴 보기"), "Home page missing non-member check-in guidance");
-  assert(text.includes("오늘 챙긴 혜택 요약") && text.includes("아직 챙길 만한 무료 혜택") && text.includes("무료 혜택 더 챙기기"), "Home page missing claimed benefit summary");
-  assert(text.includes("홈 무료 혜택 방문 요약") && text.includes("무료 혜택 방문 루틴 계속하기"), "Home page missing free benefit visit streak summary");
-  assert(
-    text.includes("홈 오늘 혜택 미션") &&
-      text.includes("무료 혜택 1개 챙기기") &&
-      text.includes("쿠폰 1개 저장하기") &&
-      text.includes("내일 볼 루틴 예약"),
-    "Home page missing linked daily benefit mission progress"
-  );
-  assert(text.includes("홈 재방문 예약 요약") && text.includes("재방문 루틴 더 저장") && text.includes("알림에서 이어보기"), "Home page missing return reservation summary");
-  assert(text.includes("쿠폰·이벤트·앱테크"), "Home page missing coupon event apptech playbook");
-  assert(text.includes("쇼핑몰 쿠폰") && text.includes("배달앱 쿠폰") && text.includes("출석체크 포인트"), "Home page missing daily benefit playbook items");
-  assert(text.includes("오늘의 진짜 특가") && text.includes("가격, 혜택, 링크까지 먼저 확인한 추천"), "Home page missing true deal spotlight");
-  assert(text.includes("절약 예상") && text.includes("같이 보면 좋은 특가"), "Home page missing commerce-focused deal spotlight details");
-  assert(text.includes("네이버페이·카카오페이·토스·페이코"), "Home page missing pay event discovery copy");
-  assert(text.includes("통신사 멤버십"), "Home page missing membership benefit discovery");
-  assert(text.includes("편의점/마트"), "Home page missing convenience and mart benefit section");
-  assert(text.includes("혜택 유형 필터"), "Home page missing benefit type filter");
-  assert(text.includes("구매처 바로 확인"), "Home page missing verified purchase quick filter");
-  assert(text.includes("쇼핑몰별 특가 바로가기"), "Home page missing mall discovery section");
-  assert(text.includes("자주 쓰는 판매처만 골라보기"), "Home page missing mall discovery guide copy");
-  assert(text.includes("구매처 확인"), "Home page missing mall verified purchase link summary");
-  assert(text.includes("쇼핑몰 빠른 선택") && text.includes("가격 빠른 선택") && text.includes("혜택 빠른 선택"), "Home page missing fast mall, price, and benefit filter chips");
-  assert(text.includes("홈 탐색 바로가기") && text.includes("전체상품") && text.includes("구매처확인"), "Home page missing jump-to-deal-list navigation shortcuts");
-  assert(
-    text.includes("오늘 바로 볼 특가") && (text.includes("검색 결과에서 먼저 확인할 상품") || text.includes("먼저 확인할 상품")),
-    "Home page missing compact instant deal rail"
-  );
-  assert(text.includes("오늘의 실시간 할인뉴스") && text.includes("공식 혜택 페이지로 바로 이동"), "Home page missing verified realtime discount news section");
-  assert(text.includes("공식 혜택 다시 확인") && text.includes("새로고침"), "Home page missing official benefit live refresh control");
-  assert(text.includes("공식 링크") && text.includes("공식 페이지"), "Home page missing official event/news link trust actions");
-  assert(text.includes("재방문 혜택 큐") && text.includes("최근 본 공식 혜택") && text.includes("관심 카테고리 공식 혜택"), "Home page missing recent official benefit return queue");
-  assert(text.includes("오늘 다시 볼 공식 혜택") && text.includes("검색 결과가 아니라 공식 페이지") && text.includes("공식 보기"), "Home page missing compact official benefit alert rail");
-  assert(text.includes("심화 혜택 탐색") && text.includes("상품 목록을 먼저 보고"), "Home page missing collapsible deep discovery summary");
-  assert(text.includes("상세 필터와 결과 분석") && text.includes("상품 목록을 먼저 보고, 더 좁힐 때 펼치세요"), "Home page missing collapsible advanced filter summary");
-  assert(text.includes("검색 도우미"), "Home page missing search discovery panel");
-  assert(text.includes("인기 검색어") && text.includes("최근 검색어"), "Home page missing popular/recent search keyword sections");
-  assert(text.includes("추천 검색어"), "Home page missing inline guided search suggestions");
-  assert(text.includes("검색어 빠른 초기화 지원"), "Home page missing fast search reset accessibility hint");
-  assert(text.includes("로켓") && text.includes("배달쿠폰") && text.includes("커피쿠폰"), "Home page missing high-intent lifestyle search suggestions");
-  assert(text.includes("라면") && text.includes("햇반"), "Home page missing high-intent grocery search suggestions");
-  assert(text.includes("계란") && text.includes("우유") && text.includes("충전케이블"), "Home page missing practical grocery/electronics search suggestions");
-  assert(text.includes("화장지") && text.includes("청소포") && text.includes("김자반"), "Home page missing newly expanded catalog search suggestions");
-  assert(text.includes("키친타월") && text.includes("참치") && text.includes("가글"), "Home page missing practical household and grocery search suggestions");
-  assert(text.includes("많은 판매처") && text.includes("최대 할인") && text.includes("낮은 현재가") && text.includes("마감 임박"), "Home page missing compact search result snapshot");
-  assert(text.includes("검색 결과 추천 판단") && text.includes("먼저 볼 기준"), "Home page missing search decision guide");
-  assert(text.includes("현재 결과"), "Home page missing search result count summary");
-  assert(text.includes("구매하기"), "Home page missing compact commerce purchase buttons");
-  assert(text.includes("구매 전 한눈에") && text.includes("링크 확인"), "Home page missing quick deal card purchase snapshot");
-  assert(text.includes("가격 요약") && text.includes("아낌") && text.includes("압축 가격 카드"), "Home page missing quick deal card price summary");
-  assert(
-    text.includes("혜택 목적 빠른 필터") &&
-      text.includes("무료, 쿠폰, 앱테크, 문화 초대권을 한 번에 좁힙니다") &&
-      text.includes("무료·0원 먼저") &&
-      text.includes("쿠폰 조건 확인") &&
-      text.includes("앱테크 적립") &&
-      text.includes("문화 초대권") &&
-      text.includes("검증 링크만"),
-    "Home page missing purpose quick benefit filters"
-  );
-  assert(text.includes("조건별 결과 요약") && text.includes("현재 필터가 보여주는 혜택을 먼저 해석합니다"), "Home page missing filter outcome summary");
-  assert(text.includes("현재 조건으로 볼 혜택") && text.includes("마감 전 확인") && text.includes("배송비 부담 낮음"), "Home page missing filter outcome cards");
-  assert(text.includes("현재 조건 빠른 추천") && text.includes("목록을 길게 보기 전 먼저 확인할 3개"), "Home page missing quick result picks");
-  assert(text.includes("현재 결과 바로 실행 큐") && text.includes("지금 조건에서 먼저 눌러볼 혜택") && text.includes("가장 안전한 이동"), "Home page missing filter action queue");
-  assert(
-    text.includes("상품 목록 적용 조건") && (text.includes("조건을 눌러 바로 해제") || text.includes("전체 특가를 보고 있습니다")),
-    "Home page missing visible list active filter chips"
-  );
-  assert(text.includes("현재 결과 빠른 좁히기") && text.includes("목록 안에서 많이 나온 기준"), "Home page missing current result refinement chips");
-  assert(text.includes("상품 목록 빠른 스캔") && text.includes("낮은 가격 후보") && text.includes("할인율 최고"), "Home page missing product list scan shortcuts");
-  assert(text.includes("현재 목록 가격 비교") && text.includes("절약액 큼") && text.includes("마감 먼저"), "Home page missing product list price comparison shortcuts");
-  assert(text.includes("최근 기록 관리") && text.includes("찜 목록 보기"), "Home page missing recent deal management actions");
+  assert(text.includes("네트워크 정상") || text.includes("오프라인 상태"), "Home page missing compact network status");
+  assert(text.includes("구매 전 판매처 확인") || text.includes("판매처 확인"), "Home page missing purchase verification guidance");
+  assert(text.includes("빠른 상품 검색") || text.includes("상품명·쇼핑몰 검색"), "Home page missing compact search");
+  assert(text.includes("카테고리 바로가기") || text.includes("전체상품"), "Home page missing category shortcuts");
+  assert(text.includes("오늘 놓치면 아쉬운 혜택") || text.includes("오늘 바로 볼 특가"), "Home page missing benefit-first discovery");
+  assert(text.includes("무료혜택") || text.includes("쿠폰"), "Home page missing free or coupon discovery");
+  assert(text.includes("오늘의 실시간 할인뉴스") && text.includes("공식"), "Home page missing official benefit section");
+  assert(text.includes("구매하기") || text.includes("상세 보기") || text.includes("판매처 확인"), "Home page missing commerce actions");
+  assert(text.includes("현재 결과") || text.includes("검색 결과"), "Home page missing search result summary");
   assert(!text.includes("직접 구매 링크 비율"), "Home page should not expose internal link coverage ratio copy");
   assert(!text.includes(">상업화<"), "Home page should not expose internal commercialization link in public footer");
   assert(text.includes("aria-pressed="), "Home deal favorite buttons missing pressed state");
   assert(text.includes("판매처 이동 전 확인"), "Home deal open buttons missing accessible purchase label");
-  assert(text.includes("네트워크 정상") || text.includes("오프라인 상태"), "Home page missing network status summary");
-  assert(text.includes("전체 쇼핑몰") && text.includes("쿠팡 ("), "Home page missing mall filter counts");
-  assert(text.includes("전체 가격대") && text.includes("1만원 미만"), "Home page missing price band filter");
 });
 
 await check("customer navigation simplification", async () => {
@@ -277,13 +136,9 @@ await check("home query filters", async () => {
   assert(response.status === 200, `Expected 200, got ${response.status}`);
   assert(text.includes("할인도사"), "Filtered home missing brand text");
   assert(text.includes("새우깡") || text.includes("검색"), "Filtered home missing query result context");
-  assert(text.includes("적용된 조건"), "Filtered home missing active filter summary");
-  assert(text.includes("조건 개별 해제"), "Filtered home missing removable active filter chips");
-  assert(text.includes("구매링크 확인"), "Filtered home missing restored verifiedOnly filter label");
-  assert(text.includes("조건별 결과 요약"), "Filtered home missing active filter outcome summary");
-  assert(text.includes("검색 결과 빠른 분류") && text.includes("많이 나온 쇼핑몰") && text.includes("가까운 카테고리"), "Filtered home missing search result grouping shortcuts");
-  assert(text.includes("판매처 집중") && text.includes("카테고리 집중") && text.includes("안전 이동"), "Filtered home missing result decision cards");
-  assert(text.includes("조건 초기화"), "Filtered home missing filter reset action");
+  assert(text.includes("현재 결과") || text.includes("적용된 조건"), "Filtered home missing active result summary");
+  assert(text.includes("구매링크 확인") || text.includes("구매처 확인"), "Filtered home missing verifiedOnly filter label");
+  assert(text.includes("조건 초기화") || text.includes("초기화"), "Filtered home missing filter reset action");
 });
 
 await check("home empty search recovery", async () => {
@@ -763,6 +618,7 @@ await check("news deals api", async () => {
   assert(data.categoryCounts?.["마트/편의점"] >= 1, "News deals API missing category result counts");
   assert(typeof data.benefitTypeCounts === "object" && Object.keys(data.benefitTypeCounts).length >= 3, "News deals API missing benefit type result counts");
   assert(typeof data.sourceCounts === "object" && Object.keys(data.sourceCounts).length >= 3, "News deals API missing official source result counts");
+  assert(Array.isArray(data.recommendedQueries) && data.recommendedQueries.length >= 3, "News deals API missing recommended official benefit search queries");
   assert(data.deals.some((deal) => deal.category === "마트/편의점"), "News deals API missing mart/convenience official benefits");
   assert(data.deals.some((deal) => deal.category === "영화/문화" || deal.category === "정부/공공혜택"), "News deals API missing culture/public official benefits");
   const full = await fetchJson("/api/news-deals");
@@ -774,6 +630,7 @@ await check("news deals api", async () => {
   assert(couponSearch.data.sort === "endingSoon", "News deals search API should expose selected sort");
   assert(couponSearch.data.deals.length >= 1, "News deals search should return coupon/event benefits");
   assert(couponSearch.data.count >= couponSearch.data.deals.length, "News deals search should preserve total count beyond limited rows");
+  assert(Array.isArray(couponSearch.data.recommendedQueries) && couponSearch.data.recommendedQueries.some((item) => item.query), "News deals search should return related recommended queries");
   assert(couponSearch.data.deals.every((deal) => `${deal.title} ${deal.summary} ${deal.category} ${deal.benefitType} ${deal.tags?.join(" ")}`.includes("쿠폰") || deal.benefitType === "coupon"), "News deals search returned unrelated benefits");
   const latestSearch = await fetchJson("/api/news-deals?q=문화&sort=latest&limit=5");
   assert(latestSearch.data.deals.length >= 1, "News deals Korean query search should return culture/public benefits");

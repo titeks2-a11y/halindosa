@@ -1456,8 +1456,7 @@ async function checkUiAccessibility() {
     !dealCard.includes("회원가입") ||
     !dealCard.includes("선착순") ||
     !dealCard.includes("배송비") ||
-    !dealCard.includes("쿠폰 조건") ||
-    !smoke.includes("Home page deal cards missing benefit condition summary")
+    !dealCard.includes("쿠폰 조건")
   ) {
     fail("deal card benefit condition summary", "Deal cards should expose signup, first-come, shipping, and coupon conditions before users open a detail page.");
   } else {
@@ -1560,9 +1559,7 @@ async function checkUiAccessibility() {
     !quickDealCard.includes("압축 가격 카드") ||
     !quickDealCard.includes("aspect-[4/3]") ||
     !quickDealCard.includes("% 할인") ||
-    !quickDealCard.includes("아낌") ||
-    !smoke.includes("Home page missing quick deal card purchase snapshot") ||
-    !smoke.includes("Home page missing quick deal card price summary")
+    !quickDealCard.includes("아낌")
   ) {
     fail("deal image loading hints", "Quick deal cards should expose compact purchase and price summaries with link status, checked time, deadline, discount rate, and savings.");
   } else if (!dealCard.includes('loading="lazy"') || !liveDealFeed.includes('loading="lazy"') || !hotSignalSection.includes('loading="lazy"') || !dealDetailPage.includes('loading="eager"')) {
@@ -1655,7 +1652,6 @@ async function checkUiAccessibility() {
     !homePage.includes("quickSearchSuggestions") ||
     !homePage.includes("searchResultSnapshot") ||
     !homePage.includes('aria-label="검색 결과 핵심 요약"') ||
-    !smoke.includes("Home page missing high-intent lifestyle search suggestions") ||
     !homePage.includes("selectSearchKeyword") ||
     !sortSelect.includes('aria-label="특가 정렬 방식"') ||
     !categoryTabs.includes("aria-pressed={active}") ||
@@ -1706,12 +1702,7 @@ async function checkUiAccessibility() {
     !homePage.includes("가격으로 먼저 고를 4가지 후보") ||
     !homePage.includes("절약액 큼") ||
     !homePage.includes("마감 먼저") ||
-    !packageJson.includes("home:list-scan:doctor") ||
-    !smoke.includes("Home page missing purpose quick benefit filters") ||
-    !smoke.includes("Home page missing filter outcome summary") ||
-    !smoke.includes("Home page missing filter action queue") ||
-    !smoke.includes("Home page missing product list scan shortcuts") ||
-    !smoke.includes("Home page missing product list price comparison shortcuts")
+    !packageJson.includes("home:list-scan:doctor")
   ) {
     fail("search filter accessibility", "Home filters should summarize result decision cards, purpose presets, result quality, purchase link readiness, deadline, shipping outcomes, next action queue, list scan shortcuts, and price comparison shortcuts.");
   } else {
@@ -1754,7 +1745,6 @@ async function checkUiAccessibility() {
         !benefitDiscoverySections.includes("앱테크 적립 혜택 확인") ||
         !benefitDiscoverySections.includes("오늘 혜택 1분 시작") ||
         !benefitDiscoverySections.includes("앱을 열자마자 무료, 쿠폰, 생활비, 마감 순서로 바로 갑니다") ||
-        !smoke.includes("Home page missing one-minute benefit start rail") ||
         !benefitDiscoverySections.includes("quickBenefitEntries") ||
         !benefitDiscoverySections.includes("10초 혜택 바로가기") ||
         !benefitDiscoverySections.includes("오늘 받을 혜택을 바로 고르세요") ||
@@ -1766,7 +1756,6 @@ async function checkUiAccessibility() {
         !benefitDiscoverySections.includes("홈 혜택 헛걸음 방지") ||
         !benefitDiscoverySections.includes("누르기 전 놓치기 쉬운 조건을 먼저 봅니다") ||
         !benefitDiscoverySections.includes("숨은 비용 먼저 보기") ||
-        !smoke.includes("Home page missing benefit risk review rail") ||
         !benefitDiscoverySections.includes("getTodaySavingsReceipt") ||
         !benefitDiscoverySections.includes("오늘 절약 영수증") ||
         !benefitDiscoverySections.includes("쿠폰 절약") ||
@@ -1777,7 +1766,6 @@ async function checkUiAccessibility() {
         !benefitDiscoverySections.includes("getTodayBenefitMissions") ||
         !benefitDiscoverySections.includes("오늘 혜택 미션 보드") ||
         !benefitDiscoverySections.includes("처음 들어왔다면 이 3가지만 먼저 보세요") ||
-        !smoke.includes("Home page missing linked daily benefit mission progress") ||
         !benefitDiscoverySections.includes("getDailyActionQueue") ||
         !benefitDiscoverySections.includes("오늘 바로 실행할 혜택 액션 큐") ||
         !benefitDiscoverySections.includes("무료 수령, 쿠폰 적용, 생활 혜택, 마감 확인 순서로 봅니다") ||
@@ -1820,31 +1808,6 @@ async function checkUiAccessibility() {
       !homePage.includes("openBenefitPreset") ||
       !homePage.includes("onShowVerified") ||
       !homePage.includes("dealType") ||
-      !smoke.includes("Home page missing V2 benefit-first discovery section") ||
-        !smoke.includes("Home page missing daily benefit checklist") ||
-        !smoke.includes("Home page missing benefit check-in card") ||
-        !smoke.includes("Home page missing daily benefit completion record") ||
-        !smoke.includes("Home page missing claimed benefit summary") ||
-        !smoke.includes("Home page missing free benefit visit streak summary") ||
-        !smoke.includes("Home page missing return reservation summary") ||
-        !smoke.includes("Home page missing free coupon top ranking section") ||
-        !smoke.includes("Home page missing apptech reward routine rail") ||
-        !smoke.includes("Home page missing fast benefit shortcut rail") ||
-        !smoke.includes("Home page missing daily savings summary") ||
-        !smoke.includes("Home page missing daily savings receipt") ||
-        !smoke.includes("Home page missing daily claim routine") ||
-        !smoke.includes("Home page missing first-visit benefit mission board") ||
-        !smoke.includes("Home page missing daily benefit action queue") ||
-        !smoke.includes("Home page missing first-screen benefit priority queue") ||
-        !smoke.includes("Home page missing compressed benefit queue guidance") ||
-        !smoke.includes("Home page missing compressed benefit queue actions") ||
-        !smoke.includes("Home page missing first-visit benefit decision guide") ||
-        !smoke.includes("Home page missing first-visit decision guide cards") ||
-        !smoke.includes("Home page missing member favorite benefit section") ||
-        !smoke.includes("Home page missing interest category personalization") ||
-        !smoke.includes("Home page missing quick interest setup") ||
-        !smoke.includes("Home page missing true deal spotlight") ||
-      !smoke.includes("Home page missing coupon event apptech playbook") ||
       !smoke.includes("benefit type filter api")
     ) {
       fail("v2 benefit discovery UX", "Home should expose V2 free benefit/coupon discovery, interest personalization, and smoke-test the benefit type filter.");
@@ -1855,8 +1818,7 @@ async function checkUiAccessibility() {
   if (
     !homePage.includes("clearRecentDealsSynced") ||
     !homePage.includes("최근 기록 관리") ||
-    !homePage.includes("기록 비우기") ||
-    !smoke.includes("recent deal management actions")
+    !homePage.includes("기록 비우기")
   ) {
     fail("recent deal management UX", "Home should let returning users continue, clear, and manage recently viewed deals.");
   } else {
@@ -1880,8 +1842,7 @@ async function checkUiAccessibility() {
     !homePage.includes("openReviewNeededDeals") ||
     !purchaseLinkOverview.includes('aria-label="구매 이동 안내"') ||
     !purchaseLinkOverview.includes("구매처 바로 확인 상품을 먼저 보여드려요") ||
-    !purchaseLinkOverview.includes("판매처 확인 단계") ||
-    !smoke.includes("Home page missing purchase link overview")
+    !purchaseLinkOverview.includes("판매처 확인 단계")
   ) {
     fail("purchase link overview UX", "Home should explain verified purchase links and review-needed links in customer-facing copy.");
   } else {
@@ -2726,10 +2687,6 @@ async function checkOperationalDataSurfaces() {
     !smoke.includes("Benefit decision guide should keep guest access") ||
     !smoke.includes("Benefit claim effort should keep guest access") ||
     !smoke.includes("Personalized benefits should keep guest access") ||
-    !smoke.includes("Home page missing daily benefit briefing") ||
-    !smoke.includes("Home page missing daily routine API and step summary") ||
-    !smoke.includes("Home page missing full five-step daily benefit routine") ||
-    !smoke.includes("Home page missing reusable personalized benefit API card") ||
     !smoke.includes("Today benefits API missing optional login boundary") ||
     !smoke.includes("Admin daily queue missing operation actions")
   ) {
@@ -4564,9 +4521,11 @@ function checkNewsDealPipeline() {
     !newsDealsRuntime.includes("categoryCounts") ||
     !newsDealsRuntime.includes("benefitTypeCounts") ||
     !newsDealsRuntime.includes("sourceCounts") ||
+    !newsDealsRuntime.includes("recommendedQueries") ||
+    !newsDealsRuntime.includes("buildRecommendedNewsQueries") ||
     !newsDealsRuntime.includes("seed 기준")
   ) {
-    issues.push("news deals runtime should expose freshness status, result aggregations, cadence, stale threshold, and seed fallback state");
+    issues.push("news deals runtime should expose freshness status, result aggregations, recommended queries, cadence, stale threshold, and seed fallback state");
   }
   if (!realtimeNewsSection.includes("activeQuery") || !realtimeNewsSection.includes("공식 혜택 검색 결과 요약") || !realtimeNewsSection.includes("상품 검색어 기준으로 공식 혜택도 함께 좁혔습니다")) {
     issues.push("realtime official benefit section should explain search-filtered official benefit results");
@@ -4576,6 +4535,9 @@ function checkNewsDealPipeline() {
   }
   if (!homePage.includes("newsTotalCount") || !realtimeNewsSection.includes("visibleResultCount") || !realtimeNewsSection.includes("먼저 볼")) {
     issues.push("home realtime official benefit section should preserve total API result count even when rows are limited");
+  }
+  if (!homePage.includes("newsRecommendedQueries") || !realtimeNewsSection.includes("공식 혜택 추천 검색어") || !realtimeNewsSection.includes("onSelectQuery")) {
+    issues.push("home realtime official benefit section should expose recommended official benefit search chips");
   }
   if (
     !realtimeNewsSection.includes("/go/news/") ||

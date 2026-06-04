@@ -3,6 +3,7 @@ import { join } from "node:path";
 import { getEnvFeedUrls } from "./feed-url-utils.mjs";
 import {
   dataDir,
+  buildNewsPolicyRegressionScenarios,
   dedupeNewsDeals,
   fetchNewsFeed,
   normalizeNewsDeal,
@@ -74,6 +75,8 @@ const validated = dedupeNewsDeals(normalized.map((deal) => validateNewsDeal(deal
   (a, b) => Number(a.isHidden) - Number(b.isHidden) || b.confidenceScore - a.confidenceScore || new Date(a.endDate).getTime() - new Date(b.endDate).getTime()
 );
 const summary = summarizeNewsDeals(validated, generatedAt, providerStats);
+const configuredFeedErrors = providerStats.filter((provider) => provider.configured === true && Number(provider.errorCount ?? 0) > 0);
+const policyRegression = buildNewsPolicyRegressionScenarios({ now, generatedAt });
 const visibleDeals = validated.filter((deal) => !deal.isHidden && deal.validationStatus === "passed");
 const snapshot = {
   generatedAt,
@@ -88,6 +91,16 @@ const snapshot = {
 writeJson("data/refreshedNewsDeals.json", snapshot);
 writeJson("reports/news-deals.json", {
   ...summary,
+  ok: summary.ok && configuredFeedErrors.length === 0 && policyRegression.ok,
+  gates: {
+    configuredFeedErrors: configuredFeedErrors.map((provider) => ({
+      provider: provider.provider,
+      feedUrls: provider.feedUrls,
+      errorCount: provider.errorCount,
+      errors: provider.errors ?? []
+    })),
+    policyRegression
+  },
   pipeline: [
     "collect approved seed/feed sources",
     "normalize news/event fields",

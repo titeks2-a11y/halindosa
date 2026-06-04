@@ -37,6 +37,7 @@ const categoryHighlights = [
 export function RealtimeNewsDealsSection({
   deals,
   totalCount,
+  recommendedQueries = [],
   updatedAt,
   activeQuery = "",
   freshnessStatus = "fresh",
@@ -46,10 +47,12 @@ export function RealtimeNewsDealsSection({
   isRefreshing = false,
   refreshError = "",
   onRefresh,
-  onOpenNewsDeal
+  onOpenNewsDeal,
+  onSelectQuery
 }: {
   deals: NewsDeal[];
   totalCount?: number;
+  recommendedQueries?: Array<{ query: string; count: number }>;
   updatedAt: string;
   activeQuery?: string;
   freshnessStatus?: "fresh" | "due" | "stale" | "seed" | string;
@@ -60,9 +63,11 @@ export function RealtimeNewsDealsSection({
   refreshError?: string;
   onRefresh?: () => void;
   onOpenNewsDeal?: (deal: NewsDeal) => void;
+  onSelectQuery?: (query: string) => void;
 }) {
   const trimmedQuery = activeQuery.trim();
   const visibleResultCount = typeof totalCount === "number" && totalCount >= deals.length ? totalCount : deals.length;
+  const visibleRecommendedQueries = recommendedQueries.filter((item) => item.query && item.query !== trimmedQuery).slice(0, 8);
   const freshnessTone = refreshError || freshnessStatus === "stale" ? "warning" : freshnessStatus === "fresh" ? "success" : "neutral";
   const freshnessText = isRefreshing ? "갱신 중" : freshnessLabel || (updatedAt ? getRelativeTime(updatedAt) : "seed 기준");
   const freshnessDetail =
@@ -156,6 +161,22 @@ export function RealtimeNewsDealsSection({
         <div className="mt-2 rounded-2xl border border-red-100 bg-red-50 px-3 py-2 text-[11px] font-black text-brand-red" aria-label="공식 혜택 검색 결과 요약">
           상품 검색어 기준으로 공식 혜택도 함께 좁혔습니다. 검색 결과·커뮤니티 원문은 제외됩니다.
           {visibleResultCount > deals.length ? ` 먼저 볼 ${deals.length}개를 보여드립니다.` : ""}
+        </div>
+      ) : null}
+      {visibleRecommendedQueries.length ? (
+        <div className="mt-3 flex gap-1.5 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" aria-label="공식 혜택 추천 검색어">
+          {visibleRecommendedQueries.map((item) => (
+            <button
+              key={item.query}
+              type="button"
+              onClick={() => onSelectQuery?.(item.query)}
+              className="inline-flex min-h-8 shrink-0 items-center gap-1 rounded-full border border-slate-200 bg-white px-3 text-[11px] font-black text-slate-700 shadow-sm transition hover:border-brand-red hover:text-brand-red"
+              aria-label={`${item.query} 공식 혜택 검색`}
+            >
+              {item.query}
+              <span className="text-[10px] text-slate-400">{item.count}</span>
+            </button>
+          ))}
         </div>
       ) : null}
       {highlightCounts.length ? (

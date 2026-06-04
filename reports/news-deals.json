@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-04T10:57:20.373Z",
+  "generatedAt": "2026-06-04T13:03:06.435Z",
   "totalCount": 43,
   "visibleCount": 43,
   "hiddenCount": 0,
@@ -25,6 +25,140 @@
     "디지털/가전": 3,
     "무료혜택": 3
   },
+  "benefitTypeCounts": {
+    "discount": 4,
+    "coupon": 12,
+    "card": 8,
+    "culture": 4,
+    "public": 4,
+    "travel": 4,
+    "membership": 5,
+    "point": 1,
+    "freebie": 1
+  },
+  "sourceCounts": {
+    "GS25 공식 이벤트": 2,
+    "무신사 공식 캠페인": 1,
+    "롯데ON 공식 이벤트": 1,
+    "GS25 공식 행사상품": 1,
+    "문화가 있는 날 공식": 1,
+    "지역문화통합정보시스템": 1,
+    "KB국민카드 공식 이벤트": 1,
+    "KB국민카드 공식 혜택": 1,
+    "현대Hmall 공식 이벤트": 1,
+    "BC카드 공식 이벤트": 1,
+    "CGV 공식 이벤트": 1,
+    "롯데시네마 공식 이벤트": 1,
+    "대한항공 공식 탑승권 혜택": 1,
+    "T world 공식 혜택": 2,
+    "대한항공 공식 프로모션": 1,
+    "SSG닷컴 공식 이벤트": 1,
+    "이마트몰 공식 이벤트": 1,
+    "홈플러스 공식 이벤트": 1,
+    "요기요 공식 이벤트": 2,
+    "삼성닷컴 공식 기획전": 1,
+    "CU 공식 행사상품": 1,
+    "SSG 새벽배송 공식 이벤트": 1,
+    "하이마트 공식 이벤트": 2,
+    "대한항공 공식 스카이패스": 1,
+    "BHC 공식 e쿠폰": 1,
+    "스타벅스 공식 캠페인": 1,
+    "CJ ONE 공식 이벤트": 1,
+    "올리브영 공식 이벤트": 1,
+    "제주항공 공식 이벤트": 1,
+    "네이버페이 공식 혜택": 1,
+    "문화누리카드 공식 누리집": 1,
+    "네이버페이 포인트 공식": 1,
+    "문화누리카드 공식 이용처": 1,
+    "메가박스 공식 이벤트": 1,
+    "L.POINT 공식 혜택": 1,
+    "L.POINT 공식 이벤트": 1,
+    "대한민국 구석구석 공식 혜택": 1,
+    "배민아카데미 공식 이벤트": 1,
+    "맥도날드 공식 프로모션": 1
+  },
+  "topKeywords": [
+    {
+      "keyword": "쿠폰",
+      "score": 32
+    },
+    {
+      "keyword": "공식이벤트",
+      "score": 21
+    },
+    {
+      "keyword": "카드/멤버십",
+      "score": 18
+    },
+    {
+      "keyword": "카드할인",
+      "score": 17
+    },
+    {
+      "keyword": "멤버십",
+      "score": 14
+    },
+    {
+      "keyword": "문화",
+      "score": 14
+    },
+    {
+      "keyword": "여행",
+      "score": 13
+    },
+    {
+      "keyword": "공공혜택",
+      "score": 12
+    },
+    {
+      "keyword": "마트/편의점",
+      "score": 12
+    },
+    {
+      "keyword": "외식/배달",
+      "score": 10
+    },
+    {
+      "keyword": "할인",
+      "score": 10
+    },
+    {
+      "keyword": "공식혜택",
+      "score": 9
+    },
+    {
+      "keyword": "무료혜택",
+      "score": 8
+    },
+    {
+      "keyword": "여행/숙박",
+      "score": 8
+    },
+    {
+      "keyword": "영화/문화",
+      "score": 8
+    },
+    {
+      "keyword": "패션/뷰티",
+      "score": 8
+    },
+    {
+      "keyword": "포인트",
+      "score": 7
+    },
+    {
+      "keyword": "디지털/가전",
+      "score": 6
+    },
+    {
+      "keyword": "정부/공공혜택",
+      "score": 6
+    },
+    {
+      "keyword": "식품/생필품",
+      "score": 4
+    }
+  ],
   "providerStats": [
     {
       "provider": "news",
@@ -168,7 +302,7 @@
       "linkType": "official_event",
       "availability": "active",
       "priorityScore": 100,
-      "checkedAt": "2026-06-04T10:57:20.373Z"
+      "checkedAt": "2026-06-04T13:03:06.435Z"
     },
     {
       "dealId": "news-musinsa-fashion-festa",
@@ -180,7 +314,7 @@
       "linkType": "official_coupon",
       "availability": "active",
       "priorityScore": 100,
-      "checkedAt": "2026-06-04T10:57:20.373Z"
+      "checkedAt": "2026-06-04T13:03:06.435Z"
     },
     {
       "dealId": "news-lotteon-lohbs-coupon",
@@ -192,7 +326,7 @@
       "linkType": "official_coupon",
       "availability": "active",
       "priorityScore": 100,
-      "checkedAt": "2026-06-04T10:57:20.373Z"
+      "checkedAt": "2026-06-04T13:03:06.435Z"
     },
     {
       "dealId": "news-gs25-card-june-2026",
@@ -204,7 +338,7 @@
       "linkType": "official_coupon",
       "availability": "active",
       "priorityScore": 100,
-      "checkedAt": "2026-06-04T10:57:20.373Z"
+      "checkedAt": "2026-06-04T13:03:06.435Z"
     },
     {
       "dealId": "news-gs25-event-goods",
@@ -216,7 +350,7 @@
       "linkType": "official_event",
       "availability": "active",
       "priorityScore": 100,
-      "checkedAt": "2026-06-04T10:57:20.373Z"
+      "checkedAt": "2026-06-04T13:03:06.435Z"
     },
     {
       "dealId": "news-culture-day-programs-2026",
@@ -228,7 +362,7 @@
       "linkType": "official_benefit",
       "availability": "active",
       "priorityScore": 100,
-      "checkedAt": "2026-06-04T10:57:20.373Z"
+      "checkedAt": "2026-06-04T13:03:06.435Z"
     },
     {
       "dealId": "news-culture-day-weekly-2026",
@@ -240,7 +374,7 @@
       "linkType": "official_benefit",
       "availability": "active",
       "priorityScore": 100,
-      "checkedAt": "2026-06-04T10:57:20.373Z"
+      "checkedAt": "2026-06-04T13:03:06.435Z"
     },
     {
       "dealId": "news-kbcard-official-event-center",
@@ -252,7 +386,7 @@
       "linkType": "official_coupon",
       "availability": "active",
       "priorityScore": 100,
-      "checkedAt": "2026-06-04T10:57:20.373Z"
+      "checkedAt": "2026-06-04T13:03:06.435Z"
     },
     {
       "dealId": "news-kbcard-membership-benefit-center",
@@ -264,7 +398,7 @@
       "linkType": "official_coupon",
       "availability": "active",
       "priorityScore": 100,
-      "checkedAt": "2026-06-04T10:57:20.373Z"
+      "checkedAt": "2026-06-04T13:03:06.435Z"
     },
     {
       "dealId": "news-hmall-official-shopping-event",
@@ -276,7 +410,7 @@
       "linkType": "official_coupon",
       "availability": "active",
       "priorityScore": 100,
-      "checkedAt": "2026-06-04T10:57:20.373Z"
+      "checkedAt": "2026-06-04T13:03:06.435Z"
     },
     {
       "dealId": "news-bccard-official-event-center",
@@ -288,7 +422,7 @@
       "linkType": "official_coupon",
       "availability": "active",
       "priorityScore": 100,
-      "checkedAt": "2026-06-04T10:57:20.373Z"
+      "checkedAt": "2026-06-04T13:03:06.435Z"
     },
     {
       "dealId": "news-cgv-official-events",
@@ -300,7 +434,7 @@
       "linkType": "official_benefit",
       "availability": "active",
       "priorityScore": 100,
-      "checkedAt": "2026-06-04T10:57:20.373Z"
+      "checkedAt": "2026-06-04T13:03:06.435Z"
     },
     {
       "dealId": "news-lottecinema-official-events",
@@ -312,7 +446,7 @@
       "linkType": "official_benefit",
       "availability": "active",
       "priorityScore": 100,
-      "checkedAt": "2026-06-04T10:57:20.373Z"
+      "checkedAt": "2026-06-04T13:03:06.435Z"
     },
     {
       "dealId": "news-koreanair-boarding-pass-benefit",
@@ -324,7 +458,7 @@
       "linkType": "official_benefit",
       "availability": "active",
       "priorityScore": 100,
-      "checkedAt": "2026-06-04T10:57:20.373Z"
+      "checkedAt": "2026-06-04T13:03:06.435Z"
     },
     {
       "dealId": "news-tworld-membership-upgrade",
@@ -336,7 +470,7 @@
       "linkType": "official_coupon",
       "availability": "active",
       "priorityScore": 100,
-      "checkedAt": "2026-06-04T10:57:20.373Z"
+      "checkedAt": "2026-06-04T13:03:06.435Z"
     },
     {
       "dealId": "news-tworld-longterm-discount",
@@ -348,7 +482,7 @@
       "linkType": "official_coupon",
       "availability": "active",
       "priorityScore": 100,
-      "checkedAt": "2026-06-04T10:57:20.373Z"
+      "checkedAt": "2026-06-04T13:03:06.435Z"
     },
     {
       "dealId": "news-koreanair-promotion",
@@ -360,7 +494,7 @@
       "linkType": "official_benefit",
       "availability": "active",
       "priorityScore": 100,
-      "checkedAt": "2026-06-04T10:57:20.373Z"
+      "checkedAt": "2026-06-04T13:03:06.435Z"
     },
     {
       "dealId": "news-ssg-official-event-main",
@@ -372,7 +506,7 @@
       "linkType": "official_coupon",
       "availability": "active",
       "priorityScore": 100,
-      "checkedAt": "2026-06-04T10:57:20.373Z"
+      "checkedAt": "2026-06-04T13:03:06.435Z"
     },
     {
       "dealId": "news-emart-official-event-main",
@@ -384,7 +518,7 @@
       "linkType": "official_coupon",
       "availability": "active",
       "priorityScore": 100,
-      "checkedAt": "2026-06-04T10:57:20.373Z"
+      "checkedAt": "2026-06-04T13:03:06.435Z"
     },
     {
       "dealId": "news-homeplus-official-event",
@@ -396,7 +530,7 @@
       "linkType": "official_coupon",
       "availability": "active",
       "priorityScore": 100,
-      "checkedAt": "2026-06-04T10:57:20.373Z"
+      "checkedAt": "2026-06-04T13:03:06.435Z"
     }
   ],
   "manualActions": [
