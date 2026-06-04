@@ -4062,6 +4062,8 @@ function checkNewsDealPipeline() {
     !adminNewsOperationsRoute.includes("text/csv") ||
     !adminNewsOperationsRoute.includes("provider_risk") ||
     !adminNewsOperationsRoute.includes("feed_transition") ||
+    !adminNewsOperationsRoute.includes("renewal_queue") ||
+    !adminNewsOperationsRoute.includes("watch_queue") ||
     !smokeScript.includes("Admin news operations CSV should use text/csv") ||
     !adminNewsOperationsPanel.includes("공식 혜택 수동 운영") ||
     !adminNewsOperationsPanel.includes("runAction") ||
@@ -4075,6 +4077,8 @@ function checkNewsDealPipeline() {
     !adminNewsOperationsPanel.includes("Provider 위험도") ||
     !adminNewsOperationsPanel.includes("신선도 운영") ||
     !adminNewsOperationsPanel.includes("다음 refresh 권장") ||
+    !adminNewsOperationsPanel.includes("만료 임박 대체 큐") ||
+    !adminNewsOperationsPanel.includes("renewalQueue") ||
     !adminNewsOperationsPanel.includes("operatorNextActions") ||
     !adminPage.includes("공식 혜택 다음 운영 액션") ||
     !newsOperations.includes("categoryCoverage") ||
@@ -4084,6 +4088,8 @@ function checkNewsDealPipeline() {
     !newsOperations.includes("operatorNextActions") ||
     !newsOperations.includes("providerRisks") ||
     !newsOperations.includes("providerRiskSummary") ||
+    !newsOperations.includes("freshnessQueues") ||
+    !newsOperations.includes("newsFreshnessReportPath") ||
     !newsOperations.includes("feedTransitionReadiness") ||
     !newsOperations.includes("buildFeedTransitionReadiness") ||
     !newsOperations.includes("getEnvFeedUrls") ||

@@ -79,6 +79,36 @@ function buildNewsOperationsCsv(report: NewsOperationsReport) {
     ]);
   });
 
+  report.freshnessQueues.renewalQueue.forEach((deal) => {
+    rows.push([
+      "renewal_queue",
+      deal.id,
+      deal.title,
+      "expires_within_14_days",
+      `${deal.category ?? ""} · D-${deal.daysLeft ?? ""}`,
+      deal.action || "prepare_replacement_official_benefit",
+      report.visibleCount,
+      report.freshnessQueues.expiringWithin14DaysCount,
+      "",
+      deal.endDate ?? ""
+    ]);
+  });
+
+  report.freshnessQueues.watchQueue.forEach((deal) => {
+    rows.push([
+      "watch_queue",
+      deal.id,
+      deal.title,
+      "expires_within_30_days",
+      `${deal.category ?? ""} · D-${deal.daysLeft ?? ""}`,
+      "watch_end_date_and_source_replacement",
+      report.visibleCount,
+      report.freshnessQueues.expiringWithin30DaysCount,
+      "",
+      deal.endDate ?? ""
+    ]);
+  });
+
   report.hiddenDeals.forEach((deal) => {
     rows.push([
       "hidden_deal",

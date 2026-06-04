@@ -1,6 +1,6 @@
 # 할인도사 Link Verification Report
 
-Generated: 2026-06-04T00:37:59.448Z
+Generated: 2026-06-04T00:51:22.263Z
 
 ## Summary
 
@@ -20,7 +20,7 @@ Generated: 2026-06-04T00:37:59.448Z
 | 커뮤니티 의심 | 0 |
 | 수동 검토 필요 | 0 |
 | Live probe 확인 | 140 |
-| Live probe 실패 | 70 |
+| Live probe 실패 | 74 |
 | Live probe robots/access 차단 | 58 |
 | Live probe timeout | 0 |
 | Live probe hard failure | 0 |
@@ -38,14 +38,14 @@ Generated: 2026-06-04T00:37:59.448Z
 ### Live Probe Failure Reasons
 
 - robots_or_access_blocked: 58
-- http_429: 9
+- http_429: 13
 - request_failed: 3
 
 ### Live Probe Failed Hosts
 
 - item.gmarket.co.kr: 30
 - coupang.com: 23
-- ssg.com: 9
+- ssg.com: 13
 - oliveyoung.co.kr: 3
 - hyundaicard.com: 1
 - itempage3.auction.co.kr: 1

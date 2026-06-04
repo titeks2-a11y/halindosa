@@ -117,9 +117,31 @@ interface RefreshAllReport {
   steps?: Array<{ name: string; ok: boolean; status: number; startedAt: string; finishedAt: string }>;
 }
 
+interface FreshnessQueueItem {
+  id: string;
+  title: string;
+  merchant?: string;
+  category?: string;
+  sourceName?: string;
+  endDate?: string;
+  daysLeft?: number;
+  action?: string;
+}
+
+interface NewsFreshnessReport {
+  ok?: boolean;
+  generatedAt?: string;
+  expiringWithin14DaysCount?: number;
+  expiringWithin30DaysCount?: number;
+  renewalQueue?: FreshnessQueueItem[];
+  watchQueue?: FreshnessQueueItem[];
+  nextActions?: string[];
+}
+
 const refreshedNewsDealsPath = join(process.cwd(), "data", "refreshedNewsDeals.json");
 const newsDealsReportPath = join(process.cwd(), "reports", "news-deals.json");
 const refreshAllReportPath = join(process.cwd(), "reports", "refresh-all.json");
+const newsFreshnessReportPath = join(process.cwd(), "reports", "news-freshness.json");
 
 const requiredNewsCategories = [
   { category: "식품/생필품", action: "생활 장보기 공식 행사 2개 이상 유지" },
@@ -406,6 +428,7 @@ export function getNewsOperationsReport() {
   const snapshot = readJson<NewsDealSnapshot>(refreshedNewsDealsPath, {});
   const report = readJson<NewsDealsReport>(newsDealsReportPath, {});
   const refreshAll = readJson<RefreshAllReport>(refreshAllReportPath, {});
+  const freshnessReport = readJson<NewsFreshnessReport>(newsFreshnessReportPath, {});
   const overrides = readNewsDealOverrides();
   const allDeals = snapshot.allDeals?.length ? snapshot.allDeals : [...(snapshot.deals ?? []), ...(snapshot.hiddenDeals ?? [])] as NewsDeal[];
   const visibleDeals = applyNewsDealOverrides(snapshot.deals ?? []);
@@ -452,6 +475,9 @@ export function getNewsOperationsReport() {
     durationMs: getDurationMs(step.startedAt, step.finishedAt)
   }));
   const freshness = getNewsFreshnessState(report.generatedAt ?? snapshot.generatedAt);
+  const renewalQueue = (freshnessReport.renewalQueue ?? []).slice(0, 12);
+  const watchQueue = (freshnessReport.watchQueue ?? []).slice(0, 20);
+  const freshnessNextActions = freshnessReport.nextActions ?? [];
   const operatorNextActions = [
     ...(freshness.status === "fresh"
       ? [
@@ -482,6 +508,16 @@ export function getNewsOperationsReport() {
           }
         ]
       : []),
+    ...(renewalQueue.length
+      ? [
+          {
+            priority: "medium",
+            title: "14일 내 종료 혜택 대체 준비",
+            description: `${renewalQueue.length}개 공식 혜택이 14일 이내 종료됩니다. 공식 소스 후보에서 같은 카테고리 대체 혜택을 준비하세요.`,
+            command: "npm run source:onboarding:plan && npm run refresh:news"
+          }
+        ]
+      : []),
     ...(((report.hiddenCount ?? 0) > 0 || (report.failedCount ?? 0) > 0 || (report.expiredCount ?? 0) > 0)
       ? [
           {
@@ -502,7 +538,8 @@ export function getNewsOperationsReport() {
     ...((report.failedCount ?? 0) > 0 ? ["검증 실패 공식 혜택이 있어 실패 사유 TOP10 확인 필요"] : []),
     ...(refreshAll.ok === false ? ["refresh:all 마지막 실행이 실패하여 파이프라인 로그 확인 필요"] : []),
     ...(freshness.releaseBlocking ? ["뉴스 혜택 리포트가 24시간 이상 갱신되지 않아 refresh:all 실행 필요"] : []),
-    ...(freshness.status === "due" ? ["뉴스 혜택 리포트 정기 갱신 시간이 지나 refresh:all 실행 권장"] : [])
+    ...(freshness.status === "due" ? ["뉴스 혜택 리포트 정기 갱신 시간이 지나 refresh:all 실행 권장"] : []),
+    ...(renewalQueue.length ? [`14일 이내 종료되는 공식 혜택 ${renewalQueue.length}개가 있어 대체 공식 혜택 후보 준비 필요`] : [])
   ];
 
   return {
@@ -517,6 +554,14 @@ export function getNewsOperationsReport() {
     failedCount: (report.failedCount ?? hiddenByReport.length) + manualHiddenDeals.length,
     categoryCoverage,
     freshness,
+    freshnessQueues: {
+      reportGeneratedAt: freshnessReport.generatedAt ?? "",
+      expiringWithin14DaysCount: freshnessReport.expiringWithin14DaysCount ?? renewalQueue.length,
+      expiringWithin30DaysCount: freshnessReport.expiringWithin30DaysCount ?? watchQueue.length,
+      renewalQueue,
+      watchQueue,
+      nextActions: freshnessNextActions
+    },
     operatorNextActions,
     operationalRisks: operationalRisks.length ? operationalRisks : ["공식 혜택 노출 기준, 카테고리 커버리지, refresh:all 상태가 정상입니다."],
     providerStats,

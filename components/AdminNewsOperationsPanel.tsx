@@ -26,6 +26,17 @@ interface NewsOperationAuditLog {
   createdAt: string;
 }
 
+interface FreshnessQueueItem {
+  id: string;
+  title: string;
+  merchant?: string;
+  category?: string;
+  sourceName?: string;
+  endDate?: string;
+  daysLeft?: number;
+  action?: string;
+}
+
 interface NewsOperationsReport {
   ok: boolean;
   visibleCount: number;
@@ -43,6 +54,14 @@ interface NewsOperationsReport {
     staleAfterAt: string;
     command: string;
     releaseBlocking: boolean;
+  };
+  freshnessQueues?: {
+    reportGeneratedAt: string;
+    expiringWithin14DaysCount: number;
+    expiringWithin30DaysCount: number;
+    renewalQueue: FreshnessQueueItem[];
+    watchQueue: FreshnessQueueItem[];
+    nextActions: string[];
   };
   operatorNextActions?: Array<{
     priority: "high" | "medium" | "low" | string;
@@ -194,6 +213,8 @@ export function AdminNewsOperationsPanel({ apiHref, initialReport }: AdminNewsOp
   const feedTransitionProviders = useMemo(() => feedTransitionReadiness?.providers ?? [], [feedTransitionReadiness?.providers]);
   const refreshSteps = useMemo(() => report.refreshAll?.steps?.slice(0, 6) ?? [], [report.refreshAll?.steps]);
   const operatorNextActions = useMemo(() => report.operatorNextActions?.slice(0, 3) ?? [], [report.operatorNextActions]);
+  const renewalQueue = useMemo(() => report.freshnessQueues?.renewalQueue?.slice(0, 4) ?? [], [report.freshnessQueues?.renewalQueue]);
+  const watchQueue = useMemo(() => report.freshnessQueues?.watchQueue?.slice(0, 4) ?? [], [report.freshnessQueues?.watchQueue]);
   const issueCount = categoryCoverage.filter((item) => item.status === "gap" || item.status === "thin").length;
   const freshness = report.freshness;
 
@@ -349,6 +370,67 @@ export function AdminNewsOperationsPanel({ apiHref, initialReport }: AdminNewsOp
             </code>
           </div>
         </div>
+        </div>
+      </div>
+
+      <div className="mt-4 rounded-2xl border border-amber-100 bg-amber-50 p-3">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+          <div>
+            <p className="text-sm font-black text-slate-950">만료 임박 대체 큐</p>
+            <p className="mt-1 text-[11px] font-bold leading-5 text-amber-900/75">
+              14일 이내 종료 혜택은 같은 카테고리의 공식 소스 후보로 대체 준비하고, 30일 이내 항목은 감시 큐로 유지합니다.
+            </p>
+          </div>
+          <div className="grid grid-cols-2 gap-2 text-center text-[11px] font-black">
+            <span className="rounded-2xl bg-white px-3 py-2 text-amber-800 shadow-sm">
+              14일 내
+              <b className="mt-0.5 block text-sm text-slate-950">{report.freshnessQueues?.expiringWithin14DaysCount ?? renewalQueue.length}</b>
+            </span>
+            <span className="rounded-2xl bg-white px-3 py-2 text-amber-800 shadow-sm">
+              30일 감시
+              <b className="mt-0.5 block text-sm text-slate-950">{report.freshnessQueues?.expiringWithin30DaysCount ?? watchQueue.length}</b>
+            </span>
+          </div>
+        </div>
+        <div className="mt-3 grid gap-2 lg:grid-cols-2">
+          <div className="rounded-2xl bg-white p-3 shadow-sm">
+            <p className="text-xs font-black text-brand-red">이번 주 대체 준비</p>
+            <div className="mt-2 space-y-2">
+              {(renewalQueue.length ? renewalQueue : [{ id: "none", title: "14일 이내 종료 혜택 없음", merchant: "운영 상태", category: "정상", daysLeft: 0 }]).map((item) => (
+                <div key={item.id} className="rounded-2xl bg-slate-50 px-3 py-2">
+                  <div className="flex items-start justify-between gap-2">
+                    <p className="line-clamp-1 text-xs font-black text-slate-950">{item.title}</p>
+                    <span className="shrink-0 rounded-full bg-white px-2 py-0.5 text-[10px] font-black text-amber-700">
+                      D-{Math.max(0, Math.ceil(Number(item.daysLeft ?? 0)))}
+                    </span>
+                  </div>
+                  <p className="mt-1 text-[11px] font-bold text-slate-500">
+                    {item.merchant ?? item.sourceName ?? "공식 혜택"} · {item.category ?? "카테고리"}
+                    {item.endDate ? ` · 종료 ${formatDateTime(item.endDate)}` : ""}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="rounded-2xl bg-white p-3 shadow-sm">
+            <p className="text-xs font-black text-slate-950">30일 감시 후보</p>
+            <div className="mt-2 space-y-2">
+              {(watchQueue.length ? watchQueue : [{ id: "none", title: "30일 이내 감시 혜택 없음", merchant: "운영 상태", category: "정상", daysLeft: 0 }]).map((item) => (
+                <div key={item.id} className="rounded-2xl bg-slate-50 px-3 py-2">
+                  <div className="flex items-start justify-between gap-2">
+                    <p className="line-clamp-1 text-xs font-black text-slate-950">{item.title}</p>
+                    <span className="shrink-0 rounded-full bg-white px-2 py-0.5 text-[10px] font-black text-slate-600">
+                      D-{Math.max(0, Math.ceil(Number(item.daysLeft ?? 0)))}
+                    </span>
+                  </div>
+                  <p className="mt-1 text-[11px] font-bold text-slate-500">
+                    {item.merchant ?? item.sourceName ?? "공식 혜택"} · {item.category ?? "카테고리"}
+                    {item.endDate ? ` · 종료 ${formatDateTime(item.endDate)}` : ""}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
