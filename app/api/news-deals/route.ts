@@ -8,7 +8,9 @@ export async function GET(request: Request) {
     const result = getVisibleNewsDeals({
       limit,
       category: searchParams.get("category") ?? undefined,
-      benefitType: searchParams.get("benefitType") ?? undefined
+      benefitType: searchParams.get("benefitType") ?? undefined,
+      q: searchParams.get("q") ?? undefined,
+      sort: searchParams.get("sort") ?? undefined
     });
 
     return NextResponse.json({

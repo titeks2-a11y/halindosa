@@ -758,6 +758,15 @@ await check("news deals api", async () => {
   assert(data.deals.some((deal) => deal.category === "영화/문화" || deal.category === "정부/공공혜택"), "News deals API missing culture/public official benefits");
   const full = await fetchJson("/api/news-deals");
   assert(full.data.count >= 40, `News deals API should keep at least 40 visible official benefits, got ${full.data.count}`);
+  const couponSearch = await fetchJson("/api/news-deals?q=쿠폰&sort=endingSoon&limit=10");
+  assert(couponSearch.response.status === 200, `Expected coupon news search 200, got ${couponSearch.response.status}`);
+  assert(couponSearch.data.ok === true, "News deals search API ok should be true");
+  assert(couponSearch.data.query === "쿠폰", "News deals search API should echo normalized query");
+  assert(couponSearch.data.sort === "endingSoon", "News deals search API should expose selected sort");
+  assert(couponSearch.data.deals.length >= 1, "News deals search should return coupon/event benefits");
+  assert(couponSearch.data.deals.every((deal) => `${deal.title} ${deal.summary} ${deal.category} ${deal.benefitType} ${deal.tags?.join(" ")}`.includes("쿠폰") || deal.benefitType === "coupon"), "News deals search returned unrelated benefits");
+  const latestSearch = await fetchJson("/api/news-deals?q=문화&sort=latest&limit=5");
+  assert(latestSearch.data.deals.length >= 1, "News deals Korean query search should return culture/public benefits");
   const categories = new Set(full.data.deals.map((deal) => deal.category));
   for (const category of ["식품/생필품", "마트/편의점", "디지털/가전", "패션/뷰티", "외식/배달", "여행/숙박", "영화/문화", "카드/멤버십", "무료혜택", "정부/공공혜택"]) {
     assert(categories.has(category), `News deals API missing expanded official benefit category: ${category}`);
