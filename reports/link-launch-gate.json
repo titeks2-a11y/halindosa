@@ -1,0 +1,90 @@
+{
+  "ok": true,
+  "generatedAt": "2026-06-04T04:46:20.965Z",
+  "criteria": {
+    "reportsPresent": true,
+    "minimumAuditedItems": 140,
+    "exposedSearchLinks": 0,
+    "exposedSoldOutLinks": 0,
+    "exposedBrokenLinks": 0,
+    "exposedInvalidUrls": 0,
+    "failedProducts": 0,
+    "hiddenProducts": 0,
+    "liveHardFailures": 0,
+    "sellerUnavailableSignals": 0,
+    "releaseDoctorFailures": 0
+  },
+  "actual": {
+    "reportsPresent": true,
+    "auditedItems": 140,
+    "exposedItems": 140,
+    "hiddenItems": 0,
+    "failedExposureItems": 0,
+    "exposedSearchLinks": 0,
+    "exposedSoldOutLinks": 0,
+    "exposedBrokenLinks": 0,
+    "exposedInvalidUrls": 0,
+    "failedProducts": 0,
+    "searchLinks": 0,
+    "soldOutProducts": 0,
+    "hiddenProducts": 0,
+    "visibleProducts": 140,
+    "verifiedPurchaseLinks": 140,
+    "refreshOk": true,
+    "refreshVisibleCount": 136,
+    "refreshFailedCount": 0,
+    "liveHardFailures": 0,
+    "sellerUnavailableSignals": 0,
+    "releaseDoctorFailures": 0
+  },
+  "policy": {
+    "version": 2,
+    "exposurePolicy": {
+      "availability": "active",
+      "validationStatus": "passed",
+      "isHidden": false,
+      "blockedLinkTypes": [
+        "search",
+        "seller_search",
+        "unavailable"
+      ],
+      "finalUrlRequired": true
+    },
+    "launchGate": {
+      "exposedSearchLinks": 0,
+      "exposedSoldOutLinks": 0,
+      "exposedBrokenLinks": 0,
+      "exposedInvalidUrls": 0,
+      "liveHardFailures": 0,
+      "sellerUnavailableSignals": 0
+    }
+  },
+  "sourceReports": {
+    "linkValidation": "2026-06-04T04:41:39.942Z",
+    "productQuality": "2026-06-04T04:41:40.473Z",
+    "exposurePolicy": "2026-06-04T04:41:41.473Z",
+    "refreshDeals": "2026-06-04T04:41:19.235Z",
+    "releaseDoctor": "2026-06-04T04:43:21.149Z"
+  },
+  "linkTypeCounts": {
+    "direct_purchase": 109,
+    "affiliate": 31
+  },
+  "availabilityCounts": {
+    "active": 140
+  },
+  "validationStatusCounts": {
+    "passed": 140
+  },
+  "liveProbeReviewSummary": {
+    "status": "transient_network_review",
+    "hardFailureCount": 0,
+    "transientNetworkCount": 4,
+    "accessProtectedCount": 60,
+    "sellerUnavailableSignals": 0,
+    "interpretation": "Some URLs returned transient network signals; no exposed search, sold-out, 404, 410, or 5xx links were found."
+  },
+  "failedExposureItems": [],
+  "hiddenItems": [],
+  "issues": []
+}

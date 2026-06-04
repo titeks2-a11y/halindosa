@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-04T04:23:24.498Z",
+  "generatedAt": "2026-06-04T04:41:39.942Z",
   "totalDeals": 140,
   "verificationTargets": 140,
   "passedDirectLinks": 140,
@@ -26,15 +26,15 @@
     "bodyProbe": false,
     "timeoutMs": 5000,
     "checked": 140,
-    "passed": 67,
-    "failed": 73,
-    "redirected": 12,
-    "finalUrlChanged": 12,
+    "passed": 63,
+    "failed": 77,
+    "redirected": 11,
+    "finalUrlChanged": 11,
     "http404": 0,
     "http410": 0,
     "http5xx": 0,
     "timeout": 0,
-    "robotsBlocked": 57,
+    "robotsBlocked": 60,
     "unavailableText": 0,
     "failures": [
       {
@@ -92,6 +92,13 @@
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000377767271",
         "status": 429,
         "reason": "http_429"
+      },
+      {
+        "id": "d012",
+        "url": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000216997",
+        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000216997",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
       },
       {
         "id": "d014",
@@ -185,6 +192,13 @@
         "reason": "robots_or_access_blocked"
       },
       {
+        "id": "d040",
+        "url": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000211588",
+        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000211588",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
         "id": "d041",
         "url": "https://www.ssg.com/item/itemView.ssg?itemId=1000620373892",
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000620373892",
@@ -220,6 +234,13 @@
         "reason": "robots_or_access_blocked"
       },
       {
+        "id": "d050",
+        "url": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000188460",
+        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000188460",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
         "id": "d051",
         "url": "https://tour.interpark.com/goods/detail?goodsCd=25031828338",
         "finalUrl": "https://tour.interpark.com/goods/detail?goodsCd=25031828338",
@@ -244,6 +265,13 @@
         "id": "d073",
         "url": "https://www.hyundaicard.com/cpc/cr/CPCCR0101_01.hc",
         "finalUrl": "https://www.hyundaicard.com/cpc/cr/CPCCR0101_01.hc",
+        "status": 0,
+        "reason": "request_failed"
+      },
+      {
+        "id": "d074",
+        "url": "https://www.shinhancard.com/pconts/html/benefit/event/MOBFM220/MOBFM220R01.html",
+        "finalUrl": "https://www.shinhancard.com/pconts/html/benefit/event/MOBFM220/MOBFM220R01.html",
         "status": 0,
         "reason": "request_failed"
       },
@@ -551,13 +579,13 @@
     ]
   },
   "httpStatusSummary": {
-    "redirected": 12,
-    "finalUrlChanged": 12,
+    "redirected": 11,
+    "finalUrlChanged": 11,
     "http404": 0,
     "http410": 0,
     "http5xx": 0,
     "timeout": 0,
-    "robotsBlocked": 57,
+    "robotsBlocked": 60,
     "unavailableText": 0
   },
   "policy": {
@@ -615,23 +643,24 @@
   "liveProbeReviewSummary": {
     "status": "transient_network_review",
     "hardFailureCount": 0,
-    "transientNetworkCount": 3,
-    "accessProtectedCount": 57,
+    "transientNetworkCount": 4,
+    "accessProtectedCount": 60,
     "sellerUnavailableSignals": 0,
     "interpretation": "Some URLs returned transient network signals; no exposed search, sold-out, 404, 410, or 5xx links were found."
   },
   "liveProbeReasonCounts": {
-    "robots_or_access_blocked": 57,
+    "robots_or_access_blocked": 60,
     "http_429": 13,
-    "request_failed": 3
+    "request_failed": 4
   },
   "liveProbeHostFailureCounts": {
     "item.gmarket.co.kr": 30,
     "coupang.com": 23,
     "ssg.com": 13,
-    "oliveyoung.co.kr": 2,
+    "oliveyoung.co.kr": 5,
     "hyundaicard.com": 1,
     "itempage3.auction.co.kr": 1,
+    "shinhancard.com": 1,
     "store.ohou.se": 1,
     "tmembership.co.kr": 1,
     "tour.interpark.com": 1
@@ -656,6 +685,13 @@
       "id": "d073",
       "url": "https://www.hyundaicard.com/cpc/cr/CPCCR0101_01.hc",
       "finalUrl": "https://www.hyundaicard.com/cpc/cr/CPCCR0101_01.hc",
+      "status": 0,
+      "reason": "request_failed"
+    },
+    {
+      "id": "d074",
+      "url": "https://www.shinhancard.com/pconts/html/benefit/event/MOBFM220/MOBFM220R01.html",
+      "finalUrl": "https://www.shinhancard.com/pconts/html/benefit/event/MOBFM220/MOBFM220R01.html",
       "status": 0,
       "reason": "request_failed"
     }
@@ -1075,7 +1111,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-05-31T10:00:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "oliveyoung.co.kr",
       "evidence": "올리브영 세라마이드 크림 상품 상세",
@@ -1087,10 +1123,13 @@
         "productDetailUrl": true,
         "officialBenefitUrl": false,
         "unavailableText": false,
-        "liveProbeOk": true
+        "liveProbeOk": false
       },
       "liveProbe": {
-        "ok": true
+        "ok": false,
+        "status": 403,
+        "reason": "robots_or_access_blocked",
+        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000216997"
       }
     },
     {
@@ -2066,7 +2105,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-01T02:40:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "oliveyoung.co.kr",
       "evidence": "올리브영 아이보들 CCP 크림 1+1 기획 상품 상세",
@@ -2078,10 +2117,13 @@
         "productDetailUrl": true,
         "officialBenefitUrl": false,
         "unavailableText": false,
-        "liveProbeOk": true
+        "liveProbeOk": false
       },
       "liveProbe": {
-        "ok": true
+        "ok": false,
+        "status": 403,
+        "reason": "robots_or_access_blocked",
+        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000211588"
       }
     },
     {
@@ -2421,7 +2463,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-05-31T10:20:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "oliveyoung.co.kr",
       "evidence": "올리브영 멀티비타민 90정 상품 상세",
@@ -2433,10 +2475,13 @@
         "productDetailUrl": true,
         "officialBenefitUrl": false,
         "unavailableText": false,
-        "liveProbeOk": true
+        "liveProbeOk": false
       },
       "liveProbe": {
-        "ok": true
+        "ok": false,
+        "status": 403,
+        "reason": "robots_or_access_blocked",
+        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000188460"
       }
     },
     {
@@ -3261,10 +3306,13 @@
         "productDetailUrl": false,
         "officialBenefitUrl": true,
         "unavailableText": false,
-        "liveProbeOk": true
+        "liveProbeOk": false
       },
       "liveProbe": {
-        "ok": true
+        "ok": false,
+        "status": 0,
+        "reason": "request_failed",
+        "finalUrl": "https://www.shinhancard.com/pconts/html/benefit/event/MOBFM220/MOBFM220R01.html"
       }
     },
     {

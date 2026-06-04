@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-04T04:23:25.030Z",
+  "generatedAt": "2026-06-04T04:41:40.473Z",
   "totalProducts": 140,
   "passedProducts": 140,
   "failedProducts": 0,
@@ -34,13 +34,13 @@
     }
   },
   "httpStatusSummary": {
-    "redirected": 12,
-    "finalUrlChanged": 12,
+    "redirected": 11,
+    "finalUrlChanged": 11,
     "http404": 0,
     "http410": 0,
     "http5xx": 0,
     "timeout": 0,
-    "robotsBlocked": 57,
+    "robotsBlocked": 60,
     "unavailableText": 0
   },
   "exposurePolicy": {

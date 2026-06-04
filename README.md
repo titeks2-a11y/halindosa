@@ -56,6 +56,7 @@ npm run verify:news
 npm run news:feed:doctor
 npm run refresh:all
 npm run exposure:doctor
+npm run link:launch:gate
 npm run health:readiness
 npm run catalog:doctor
 npm run catalog:report
@@ -90,7 +91,7 @@ npm run release:doctor
 
 `npm run health:readiness`는 `reports/health-readiness.json`과 [docs/HEALTH_READINESS_REPORT.md](docs/HEALTH_READINESS_REPORT.md)를 생성해 상품 140개 이상, 검증 링크 99% 이상, 검색/품절 노출 0개, 공식 혜택 40개 이상, 필수 공식 혜택 카테고리별 2건 이상, `refresh:all` 성공, 24시간 이내 신선도를 함께 점검합니다.
 
-`npm run qa`는 `lint`, `verify:links`, `verify:products`, `link:policy:regression`, 상품/뉴스 refresh, `verify:news`, `news:feed:doctor`, `refresh:all`, non-strict `verify:links:live`, `exposure:doctor`, `health:readiness`, 공식 소스 카탈로그/라이브 접근성/온보딩 우선순위 리포트, 외부 링크/이미지/이미지 운영 doctor, `catalog:doctor`, `search:doctor`, UI/모바일 UX/SEO/성능 doctor, 구매·상세·전역 navigation doctor, 홈 URL/list scan doctor, `smoke:local`, `build`, `release:doctor`를 순서대로 실행합니다.
+`npm run qa`는 `lint`, `verify:links`, `verify:products`, `link:policy:regression`, 상품/뉴스 refresh, `verify:news`, `news:feed:doctor`, `refresh:all`, non-strict `verify:links:live`, `exposure:doctor`, `link:launch:gate`, `health:readiness`, 공식 소스 카탈로그/라이브 접근성/온보딩 우선순위 리포트, 외부 링크/이미지/이미지 운영 doctor, `catalog:doctor`, `search:doctor`, UI/모바일 UX/SEO/성능 doctor, 구매·상세·전역 navigation doctor, 홈 URL/list scan doctor, `smoke:local`, `build`, `release:doctor`를 순서대로 실행합니다.
 
 ## 공식 혜택 Feed 운영
 
@@ -190,10 +191,11 @@ npm run verify:links
 npm run verify:products
 npm run link:policy:regression
 npm run exposure:doctor
+npm run link:launch:gate
 npm run verify:links:live -- --dry-run
 ```
 
-`link:policy:regression`은 실제 상품 상세 URL, 검색 URL, 대표몰 홈, 커뮤니티 원문, 위험 프로토콜, 품절/종료 문구, 공식 이벤트 URL 샘플을 검사하고 `reports/link-quality-regression.json`을 생성합니다. `verify:links:live`는 실제 HTTP HEAD/GET으로 redirect, 404/410/5xx, timeout, 접근 차단 신호를 확인하는 선택 운영 명령입니다. 기본 실행은 실패를 리포트에 남기되 출시 QA를 과도하게 흔들지 않도록 non-strict이며, 출시 직전 강하게 막고 싶을 때는 `npm run verify:links:live -- --strict`, 품절/판매종료 문구까지 확인하려면 `npm run verify:links:live -- --body`를 사용합니다.
+`link:policy:regression`은 실제 상품 상세 URL, 검색 URL, 대표몰 홈, 커뮤니티 원문, 위험 프로토콜, 품절/종료 문구, 공식 이벤트 URL 샘플을 검사하고 `reports/link-quality-regression.json`을 생성합니다. `link:launch:gate`는 `link-validation`, `product-quality`, `exposure-policy`, `refresh-deals`, `release-doctor` 리포트를 대조해 검색 링크, 품절/종료 링크, 실패 링크, invalid URL 노출이 모두 0건인지 최종 판정하고 `reports/link-launch-gate.json`과 `reports/LINK_LAUNCH_GATE.md`를 남깁니다. `verify:links:live`는 실제 HTTP HEAD/GET으로 redirect, 404/410/5xx, timeout, 접근 차단 신호를 확인하는 선택 운영 명령입니다. 기본 실행은 실패를 리포트에 남기되 출시 QA를 과도하게 흔들지 않도록 non-strict이며, 출시 직전 강하게 막고 싶을 때는 `npm run verify:links:live -- --strict`, 품절/판매종료 문구까지 확인하려면 `npm run verify:links:live -- --body`를 사용합니다.
 
 운영 피드는 `npm run feed:validate`와 `/api/admin/import` dry-run을 통과한 뒤 연결합니다. 두 검증 모두 구매 이동 후보가 검색 결과 URL뿐인 행, 커뮤니티/placeholder 링크, 중복 externalId, 같은 판매처의 중복 상품명을 `needs_fix`로 분리합니다. 운영 반영 전 `rows[].status`가 모두 `ready`인지 확인하세요.
 
