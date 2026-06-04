@@ -40,12 +40,13 @@ FCM_SERVER_KEY=
 FCM_PROJECT_ID=
 ```
 
-발송 토큰은 `push_subscriptions` 테이블에 저장하고, 사용자가 철회하면 `enabled=false`, `revoked_at=now()`로 처리한다. 알림 발송 로그는 향후 `push_delivery_logs` 테이블로 분리한다.
+발송 토큰은 `push_subscriptions` 테이블에 저장하고, 사용자가 철회하면 `enabled=false`, `revoked_at=now()`로 처리한다. dry-run/live 발송 시도는 `push_delivery_logs`에 감사 로그로 남기되, 토큰 원문은 저장하지 않고 대상 수, 차단 사유, 정책 경고, provider 메시지만 기록한다.
 
 ## 구독/큐 데이터 모델
 
 - `push_subscriptions`: 사용자, 플랫폼, FCM/Web Push 토큰, 관심 카테고리, 알림 유형, 동의/철회 시각을 저장한다.
 - `push_notification_queue`: `source_kind=product_deal|official_benefit`, `campaign_id`, `deal_id`, `benefit_id`, `source_names`, `target_categories`, `dry_run_only`를 저장한다.
+- `push_delivery_logs`: 큐/캠페인, dry-run/live 모드, 발송 상태, 대상 수, 성공/실패 수, 동의 확인, quiet hours/동의/토큰 제한 차단 사유를 토큰 원문 없이 저장한다.
 - 실제 발송 작업자는 `dry_run_only=false`, `status=queued`, 사용자 동의가 확인된 구독만 대상으로 처리한다.
 - 공식 혜택 뉴스/이벤트는 `benefit_id`와 `source_kind=official_benefit`로 상품 알림과 분리한다.
 - V1은 `dry_run_ready` 상태를 출시 기준으로 삼고, `send_ready`는 FCM 키, 테스트 토큰, 사용자 동의 플로우가 모두 검증된 뒤에만 활성화한다.
@@ -54,8 +55,11 @@ FCM_PROJECT_ID=
 
 ```bash
 npm run push:readiness:report
+npm run push:delivery:audit
 ```
 
 - `reports/push-readiness.json`: 검증 상품 수, 공식 혜택 수, 캠페인 후보, 큐 후보 행, 관심 세그먼트 커버리지, 동의/철회 체크, DB 테이블 준비도를 기록한다.
 - `docs/PUSH_READINESS_REPORT.md`: 운영자가 출시 전 확인할 수 있는 Markdown 요약이다.
+- `reports/push-delivery-audit.json`: 발송 시도 감사 구조, 토큰 최소화, 차단 사유 샘플, 관리자 dry-run 응답의 감사 이벤트 노출 여부를 기록한다.
+- `docs/PUSH_DELIVERY_AUDIT.md`: 실제 FCM 전환 전 운영자가 확인할 감사 로그 기준이다.
 - 출시 전 기준: `launchStatus`가 `dry_run_ready` 이상, `queueRows >= 30`, 관심 세그먼트 10개 이상, `push_subscriptions`/`push_notification_queue`/`price_drop_alerts` RLS 준비.

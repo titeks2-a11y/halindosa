@@ -2,7 +2,7 @@
 
 이 문서는 할인도사가 seed fallback에서 공식 API/RSS/제휴 JSON feed 운영으로 전환할 때 필요한 provider별 상태를 요약합니다.
 
-- 생성 시각: 2026-06-03T22:50:05.343Z
+- 생성 시각: 2026-06-04T00:23:26.797Z
 - 상태: seed fallback 운영 (seed_launch_ready)
 - 전환 준비율: 0%
 - Provider: 0/4개 연결

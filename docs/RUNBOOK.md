@@ -60,10 +60,14 @@ npm run smoke
   - 발송 정책 리포트: `npm run push:delivery:doctor`
     - `reports/push-delivery-policy.json`과 `docs/PUSH_DELIVERY_POLICY.md`를 생성한다.
     - live send는 `quiet hours` 22:00-07:59 KST, 토큰 수 제한, 명시 동의, dry-run-first 정책을 모두 통과해야 한다.
+  - 발송 감사 리포트: `npm run push:delivery:audit`
+    - `reports/push-delivery-audit.json`과 `docs/PUSH_DELIVERY_AUDIT.md`를 생성한다.
+    - `push_delivery_logs`는 dry-run/live 발송 시도의 캠페인, 대상 수, 성공/실패 수, 차단 사유, 다음 발송 가능 시각만 저장하고 토큰 원문은 저장하지 않는다.
   - `/admin`의 “푸시 구독·동의 준비도”는 관심 카테고리 세그먼트, 동의/철회 체크, 큐 행, dry-run 상태를 함께 보여준다.
   - `PUSH_SEND_ENABLED=false`이면 readiness/dry-run만 제공한다.
   - 실제 FCM 발송은 `PUSH_SEND_ENABLED=true`와 `FCM_SERVER_KEY`를 서버 환경변수로 넣은 뒤 관리자 토큰으로 보호된 `POST /api/admin/push/send?token=...`에서만 실행한다. 관리자 화면에서는 “동의 받은 테스트 토큰” 확인 후에만 live test를 허용한다.
   - `push_notification_queue`는 `source_kind`, `campaign_id`, `benefit_id`, `source_names`, `dry_run_only`를 포함한다. 공식 혜택 알림은 `source_kind=official_benefit`, 상품 알림은 `source_kind=product_deal`로 구분한다.
+  - 관리자 dry-run 응답의 `deliveryAudit.eventId`는 향후 `push_delivery_logs.request_id` 또는 운영 로그 request id와 함께 추적한다.
 - CSV export: `GET /api/admin/export?token=$ADMIN_EXPORT_TOKEN`
   - 링크 검수 작업에 필요한 `linkStatus`, `linkType`, `reviewPriority`, `reviewAction`, `reviewReason`, `purchaseConfidence`, `checkedAt`, `finalPurchaseUrl` 필드를 함께 내보낸다.
   - 운영자는 CSV를 스프레드시트로 열어 우선 검수 상품부터 실제 상품 상세 URL을 보강하고, 다음 피드 import 전에 원본 데이터의 `productUrl` 또는 `finalPurchaseUrl`에 반영한다.

@@ -244,6 +244,41 @@ create index if not exists push_notification_queue_benefit_idx
 create index if not exists push_notification_queue_campaign_idx
   on public.push_notification_queue (campaign_id, scheduled_at desc);
 
+create table if not exists public.push_delivery_logs (
+  id uuid primary key default gen_random_uuid(),
+  queue_id uuid references public.push_notification_queue(id) on delete set null,
+  campaign_id text,
+  deal_id text,
+  benefit_id text,
+  source_kind text not null default 'product_deal',
+  alert_type text not null,
+  delivery_mode text not null default 'dry_run',
+  delivery_status text not null,
+  priority text not null default 'medium',
+  token_count integer not null default 0,
+  attempted_count integer not null default 0,
+  sent_count integer not null default 0,
+  failed_count integer not null default 0,
+  confirmed_consent boolean not null default false,
+  blocked_reasons text[] not null default '{}',
+  policy_warnings text[] not null default '{}',
+  next_allowed_at timestamptz,
+  provider_message text not null default '',
+  request_id text,
+  created_at timestamptz not null default now()
+);
+
+comment on table public.push_delivery_logs is 'FCM/Web Push dry-run 및 실제 발송 시도 감사 로그. 토큰 원문은 저장하지 않고 대상 수, 차단 사유, 정책 판단, 결과만 service_role 서버 액션이 기록한다.';
+
+create index if not exists push_delivery_logs_campaign_idx
+  on public.push_delivery_logs (campaign_id, created_at desc);
+
+create index if not exists push_delivery_logs_status_idx
+  on public.push_delivery_logs (delivery_status, created_at desc);
+
+create index if not exists push_delivery_logs_queue_idx
+  on public.push_delivery_logs (queue_id, created_at desc);
+
 create table if not exists public.price_drop_alerts (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null references auth.users(id) on delete cascade,
@@ -312,6 +347,7 @@ alter table public.deal_popularity_snapshots enable row level security;
 alter table public.admin_actions enable row level security;
 alter table public.push_subscriptions enable row level security;
 alter table public.push_notification_queue enable row level security;
+alter table public.push_delivery_logs enable row level security;
 
 create policy "public read deals"
   on public.deals for select
@@ -415,6 +451,11 @@ create policy "service manages push subscriptions"
 
 create policy "service manages push notification queue"
   on public.push_notification_queue for all
+  using (auth.role() = 'service_role')
+  with check (auth.role() = 'service_role');
+
+create policy "service manages push delivery logs"
+  on public.push_delivery_logs for all
   using (auth.role() = 'service_role')
   with check (auth.role() = 'service_role');
 

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-03T22:50:01.266Z",
+  "generatedAt": "2026-06-04T00:23:22.248Z",
   "totalDeals": 140,
   "verificationTargets": 140,
   "passedDirectLinks": 140,
@@ -24,15 +24,15 @@
     "bodyProbe": false,
     "timeoutMs": 5000,
     "checked": 140,
-    "passed": 62,
-    "failed": 78,
+    "passed": 79,
+    "failed": 61,
     "redirected": 11,
     "finalUrlChanged": 11,
     "http404": 0,
     "http410": 0,
     "http5xx": 0,
-    "timeout": 1,
-    "robotsBlocked": 60,
+    "timeout": 0,
+    "robotsBlocked": 57,
     "unavailableText": 0,
     "failures": [
       {
@@ -85,20 +85,6 @@
         "reason": "robots_or_access_blocked"
       },
       {
-        "id": "d011",
-        "url": "https://www.ssg.com/item/itemView.ssg?itemId=1000377767271",
-        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000377767271",
-        "status": 429,
-        "reason": "http_429"
-      },
-      {
-        "id": "d012",
-        "url": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000216997",
-        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000216997",
-        "status": 403,
-        "reason": "robots_or_access_blocked"
-      },
-      {
         "id": "d014",
         "url": "https://www.coupang.com/vp/products/7687552147",
         "finalUrl": "https://www.coupang.com/vp/products/7687552147",
@@ -127,20 +113,6 @@
         "reason": "robots_or_access_blocked"
       },
       {
-        "id": "d023",
-        "url": "https://ipraves.co.kr/product/5%ED%9C%A0-%EB%B0%B8%EB%9F%B0%EC%8A%A4-%EC%BA%90%EB%A6%AC%EC%96%B4-%ED%81%90%EB%B8%8C%ED%98%95-24%ED%98%95%ED%99%95%EC%9E%A5%EA%B0%80%EB%8A%A5/708/",
-        "finalUrl": "https://ipraves.co.kr/product/5%ED%9C%A0-%EB%B0%B8%EB%9F%B0%EC%8A%A4-%EC%BA%90%EB%A6%AC%EC%96%B4-%ED%81%90%EB%B8%8C%ED%98%95-24%ED%98%95%ED%99%95%EC%9E%A5%EA%B0%80%EB%8A%A5/708/",
-        "status": 0,
-        "reason": "timeout"
-      },
-      {
-        "id": "d024",
-        "url": "https://www.ssg.com/item/itemView.ssg?itemId=1000038330709",
-        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000038330709",
-        "status": 429,
-        "reason": "http_429"
-      },
-      {
         "id": "d025",
         "url": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000163532",
         "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000163532",
@@ -153,13 +125,6 @@
         "finalUrl": "https://www.coupang.com/vp/products/45447044?itemId=162348092&vendorItemId=3383614966",
         "status": 403,
         "reason": "robots_or_access_blocked"
-      },
-      {
-        "id": "d029",
-        "url": "https://www.ssg.com/item/itemView.ssg?itemId=1000568480807",
-        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000568480807",
-        "status": 429,
-        "reason": "http_429"
       },
       {
         "id": "d030",
@@ -176,13 +141,6 @@
         "reason": "robots_or_access_blocked"
       },
       {
-        "id": "d032",
-        "url": "https://www.ssg.com/item/itemView.ssg?itemId=0000009774169",
-        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=0000009774169",
-        "status": 429,
-        "reason": "http_429"
-      },
-      {
         "id": "d034",
         "url": "https://item.gmarket.co.kr/Item?goodscode=2739226248",
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2739226248",
@@ -197,25 +155,11 @@
         "reason": "robots_or_access_blocked"
       },
       {
-        "id": "d041",
-        "url": "https://www.ssg.com/item/itemView.ssg?itemId=1000620373892",
-        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000620373892",
-        "status": 429,
-        "reason": "http_429"
-      },
-      {
         "id": "d044",
         "url": "https://itempage3.auction.co.kr/DetailView.aspx?itemno=F408783307",
         "finalUrl": "https://itempage3.auction.co.kr/DetailView.aspx?itemno=F408783307",
         "status": 403,
         "reason": "robots_or_access_blocked"
-      },
-      {
-        "id": "d045",
-        "url": "https://www.ssg.com/item/itemView.ssg?itemId=1000519076764",
-        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000519076764",
-        "status": 429,
-        "reason": "http_429"
       },
       {
         "id": "d046",
@@ -244,13 +188,6 @@
         "finalUrl": "https://tour.interpark.com/goods/detail?goodsCd=25031828338",
         "status": 0,
         "reason": "request_failed"
-      },
-      {
-        "id": "d052",
-        "url": "https://www.ssg.com/item/itemView.ssg?itemId=1000560995801",
-        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000560995801",
-        "status": 429,
-        "reason": "http_429"
       },
       {
         "id": "d057",
@@ -323,20 +260,6 @@
         "reason": "robots_or_access_blocked"
       },
       {
-        "id": "d093",
-        "url": "https://www.ssg.com/item/itemView.ssg?itemId=1000005089075",
-        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000005089075",
-        "status": 429,
-        "reason": "http_429"
-      },
-      {
-        "id": "d094",
-        "url": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000246774",
-        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000246774",
-        "status": 403,
-        "reason": "robots_or_access_blocked"
-      },
-      {
         "id": "d096",
         "url": "https://item.gmarket.co.kr/Item?goodscode=2066504211",
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2066504211",
@@ -356,13 +279,6 @@
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2809510617",
         "status": 403,
         "reason": "robots_or_access_blocked"
-      },
-      {
-        "id": "d099",
-        "url": "https://www.ssg.com/item/itemView.ssg?itemId=1000601459551",
-        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000601459551",
-        "status": 429,
-        "reason": "http_429"
       },
       {
         "id": "d100",
@@ -484,20 +400,6 @@
         "reason": "robots_or_access_blocked"
       },
       {
-        "id": "d124",
-        "url": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000230063",
-        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000230063",
-        "status": 403,
-        "reason": "robots_or_access_blocked"
-      },
-      {
-        "id": "d125",
-        "url": "https://www.ssg.com/item/itemView.ssg?itemId=1000032939693",
-        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000032939693",
-        "status": 429,
-        "reason": "http_429"
-      },
-      {
         "id": "d126",
         "url": "https://www.coupang.com/vp/products/169280610?itemId=18366710784&vendorItemId=85510322367",
         "finalUrl": "https://www.coupang.com/vp/products/169280610?itemId=18366710784&vendorItemId=85510322367",
@@ -510,13 +412,6 @@
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2349292374",
         "status": 403,
         "reason": "robots_or_access_blocked"
-      },
-      {
-        "id": "d129",
-        "url": "https://www.ssg.com/item/itemView.ssg?itemId=2097001847275",
-        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=2097001847275",
-        "status": 429,
-        "reason": "http_429"
       },
       {
         "id": "d130",
@@ -540,13 +435,6 @@
         "reason": "robots_or_access_blocked"
       },
       {
-        "id": "d134",
-        "url": "https://www.ssg.com/item/itemView.ssg?itemId=1000625953830",
-        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000625953830",
-        "status": 429,
-        "reason": "http_429"
-      },
-      {
         "id": "d135",
         "url": "https://item.gmarket.co.kr/Item?goodscode=3055540533",
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=3055540533",
@@ -559,13 +447,6 @@
         "finalUrl": "https://www.coupang.com/vp/products/5594587350",
         "status": 403,
         "reason": "robots_or_access_blocked"
-      },
-      {
-        "id": "d138",
-        "url": "https://www.ssg.com/item/itemView.ssg?itemId=1000588225854",
-        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000588225854",
-        "status": 429,
-        "reason": "http_429"
       },
       {
         "id": "d139",
@@ -589,8 +470,8 @@
     "http404": 0,
     "http410": 0,
     "http5xx": 0,
-    "timeout": 1,
-    "robotsBlocked": 60,
+    "timeout": 0,
+    "robotsBlocked": 57,
     "unavailableText": 0
   },
   "policy": {
@@ -624,24 +505,20 @@
   "liveProbeReviewSummary": {
     "status": "transient_network_review",
     "hardFailureCount": 0,
-    "transientNetworkCount": 5,
-    "accessProtectedCount": 60,
+    "transientNetworkCount": 4,
+    "accessProtectedCount": 57,
     "sellerUnavailableSignals": 0,
     "interpretation": "Some URLs returned transient network signals; no exposed search, sold-out, 404, 410, or 5xx links were found."
   },
   "liveProbeReasonCounts": {
-    "robots_or_access_blocked": 60,
-    "http_429": 13,
-    "request_failed": 4,
-    "timeout": 1
+    "robots_or_access_blocked": 57,
+    "request_failed": 4
   },
   "liveProbeHostFailureCounts": {
     "item.gmarket.co.kr": 30,
     "coupang.com": 23,
-    "ssg.com": 13,
-    "oliveyoung.co.kr": 5,
+    "oliveyoung.co.kr": 2,
     "hyundaicard.com": 1,
-    "ipraves.co.kr": 1,
     "itempage3.auction.co.kr": 1,
     "shinhancard.com": 1,
     "store.ohou.se": 1,
@@ -650,13 +527,6 @@
   },
   "hardLiveProbeFailures": [],
   "transientLiveProbeFailures": [
-    {
-      "id": "d023",
-      "url": "https://ipraves.co.kr/product/5%ED%9C%A0-%EB%B0%B8%EB%9F%B0%EC%8A%A4-%EC%BA%90%EB%A6%AC%EC%96%B4-%ED%81%90%EB%B8%8C%ED%98%95-24%ED%98%95%ED%99%95%EC%9E%A5%EA%B0%80%EB%8A%A5/708/",
-      "finalUrl": "https://ipraves.co.kr/product/5%ED%9C%A0-%EB%B0%B8%EB%9F%B0%EC%8A%A4-%EC%BA%90%EB%A6%AC%EC%96%B4-%ED%81%90%EB%B8%8C%ED%98%95-24%ED%98%95%ED%99%95%EC%9E%A5%EA%B0%80%EB%8A%A5/708/",
-      "status": 0,
-      "reason": "timeout"
-    },
     {
       "id": "d051",
       "url": "https://tour.interpark.com/goods/detail?goodsCd=25031828338",
@@ -1076,13 +946,10 @@
         "productDetailUrl": true,
         "officialBenefitUrl": false,
         "unavailableText": false,
-        "liveProbeOk": false
+        "liveProbeOk": true
       },
       "liveProbe": {
-        "ok": false,
-        "status": 429,
-        "reason": "http_429",
-        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000377767271"
+        "ok": true
       }
     },
     {
@@ -1101,7 +968,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-05-31T10:00:00.000Z",
-      "priorityScore": 99,
+      "priorityScore": 100,
       "isHidden": false,
       "host": "oliveyoung.co.kr",
       "evidence": "올리브영 세라마이드 크림 상품 상세",
@@ -1113,13 +980,10 @@
         "productDetailUrl": true,
         "officialBenefitUrl": false,
         "unavailableText": false,
-        "liveProbeOk": false
+        "liveProbeOk": true
       },
       "liveProbe": {
-        "ok": false,
-        "status": 403,
-        "reason": "robots_or_access_blocked",
-        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000216997"
+        "ok": true
       }
     },
     {
@@ -1502,13 +1366,10 @@
         "productDetailUrl": true,
         "officialBenefitUrl": false,
         "unavailableText": false,
-        "liveProbeOk": false
+        "liveProbeOk": true
       },
       "liveProbe": {
-        "ok": false,
-        "status": 0,
-        "reason": "timeout",
-        "finalUrl": "https://ipraves.co.kr/product/5%ED%9C%A0-%EB%B0%B8%EB%9F%B0%EC%8A%A4-%EC%BA%90%EB%A6%AC%EC%96%B4-%ED%81%90%EB%B8%8C%ED%98%95-24%ED%98%95%ED%99%95%EC%9E%A5%EA%B0%80%EB%8A%A5/708/"
+        "ok": true
       }
     },
     {
@@ -1539,13 +1400,10 @@
         "productDetailUrl": true,
         "officialBenefitUrl": false,
         "unavailableText": false,
-        "liveProbeOk": false
+        "liveProbeOk": true
       },
       "liveProbe": {
-        "ok": false,
-        "status": 429,
-        "reason": "http_429",
-        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000038330709"
+        "ok": true
       }
     },
     {
@@ -1718,13 +1576,10 @@
         "productDetailUrl": true,
         "officialBenefitUrl": false,
         "unavailableText": false,
-        "liveProbeOk": false
+        "liveProbeOk": true
       },
       "liveProbe": {
-        "ok": false,
-        "status": 429,
-        "reason": "http_429",
-        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000568480807"
+        "ok": true
       }
     },
     {
@@ -1829,13 +1684,10 @@
         "productDetailUrl": true,
         "officialBenefitUrl": false,
         "unavailableText": false,
-        "liveProbeOk": false
+        "liveProbeOk": true
       },
       "liveProbe": {
-        "ok": false,
-        "status": 429,
-        "reason": "http_429",
-        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=0000009774169"
+        "ok": true
       }
     },
     {
@@ -2144,13 +1996,10 @@
         "productDetailUrl": true,
         "officialBenefitUrl": false,
         "unavailableText": false,
-        "liveProbeOk": false
+        "liveProbeOk": true
       },
       "liveProbe": {
-        "ok": false,
-        "status": 429,
-        "reason": "http_429",
-        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000620373892"
+        "ok": true
       }
     },
     {
@@ -2286,13 +2135,10 @@
         "productDetailUrl": true,
         "officialBenefitUrl": false,
         "unavailableText": false,
-        "liveProbeOk": false
+        "liveProbeOk": true
       },
       "liveProbe": {
-        "ok": false,
-        "status": 429,
-        "reason": "http_429",
-        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000519076764"
+        "ok": true
       }
     },
     {
@@ -2539,13 +2385,10 @@
         "productDetailUrl": true,
         "officialBenefitUrl": false,
         "unavailableText": false,
-        "liveProbeOk": false
+        "liveProbeOk": true
       },
       "liveProbe": {
-        "ok": false,
-        "status": 429,
-        "reason": "http_429",
-        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000560995801"
+        "ok": true
       }
     },
     {
@@ -3966,13 +3809,10 @@
         "productDetailUrl": true,
         "officialBenefitUrl": false,
         "unavailableText": false,
-        "liveProbeOk": false
+        "liveProbeOk": true
       },
       "liveProbe": {
-        "ok": false,
-        "status": 429,
-        "reason": "http_429",
-        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000005089075"
+        "ok": true
       }
     },
     {
@@ -3991,7 +3831,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-02T00:20:00.000Z",
-      "priorityScore": 99,
+      "priorityScore": 100,
       "isHidden": false,
       "host": "oliveyoung.co.kr",
       "evidence": "올리브영 라운드랩 1025 독도 토너 더블 기획 상품 상세",
@@ -4003,13 +3843,10 @@
         "productDetailUrl": true,
         "officialBenefitUrl": false,
         "unavailableText": false,
-        "liveProbeOk": false
+        "liveProbeOk": true
       },
       "liveProbe": {
-        "ok": false,
-        "status": 403,
-        "reason": "robots_or_access_blocked",
-        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000246774"
+        "ok": true
       }
     },
     {
@@ -4185,13 +4022,10 @@
         "productDetailUrl": true,
         "officialBenefitUrl": false,
         "unavailableText": false,
-        "liveProbeOk": false
+        "liveProbeOk": true
       },
       "liveProbe": {
-        "ok": false,
-        "status": 429,
-        "reason": "http_429",
-        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000601459551"
+        "ok": true
       }
     },
     {
@@ -5077,7 +4911,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-02T05:20:00.000Z",
-      "priorityScore": 99,
+      "priorityScore": 100,
       "isHidden": false,
       "host": "oliveyoung.co.kr",
       "evidence": "올리브영 닥터지 레드 블레미쉬 클리어 수딩 크림 70ml 기획 상품 상세",
@@ -5089,13 +4923,10 @@
         "productDetailUrl": true,
         "officialBenefitUrl": false,
         "unavailableText": false,
-        "liveProbeOk": false
+        "liveProbeOk": true
       },
       "liveProbe": {
-        "ok": false,
-        "status": 403,
-        "reason": "robots_or_access_blocked",
-        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000230063"
+        "ok": true
       }
     },
     {
@@ -5126,13 +4957,10 @@
         "productDetailUrl": true,
         "officialBenefitUrl": false,
         "unavailableText": false,
-        "liveProbeOk": false
+        "liveProbeOk": true
       },
       "liveProbe": {
-        "ok": false,
-        "status": 429,
-        "reason": "http_429",
-        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000032939693"
+        "ok": true
       }
     },
     {
@@ -5271,13 +5099,10 @@
         "productDetailUrl": true,
         "officialBenefitUrl": false,
         "unavailableText": false,
-        "liveProbeOk": false
+        "liveProbeOk": true
       },
       "liveProbe": {
-        "ok": false,
-        "status": 429,
-        "reason": "http_429",
-        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=2097001847275"
+        "ok": true
       }
     },
     {
@@ -5453,13 +5278,10 @@
         "productDetailUrl": true,
         "officialBenefitUrl": false,
         "unavailableText": false,
-        "liveProbeOk": false
+        "liveProbeOk": true
       },
       "liveProbe": {
-        "ok": false,
-        "status": 429,
-        "reason": "http_429",
-        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000625953830"
+        "ok": true
       }
     },
     {
@@ -5598,13 +5420,10 @@
         "productDetailUrl": true,
         "officialBenefitUrl": false,
         "unavailableText": false,
-        "liveProbeOk": false
+        "liveProbeOk": true
       },
       "liveProbe": {
-        "ok": false,
-        "status": 429,
-        "reason": "http_429",
-        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000588225854"
+        "ok": true
       }
     },
     {

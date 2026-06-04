@@ -73,6 +73,7 @@ async function checkPackage() {
     "health:readiness",
     "push:readiness:report",
     "push:delivery:doctor",
+    "push:delivery:audit",
     "source:catalog:report",
     "source:live:doctor",
     "source:onboarding:plan",
@@ -98,7 +99,7 @@ async function checkPackage() {
   const missing = requiredScripts.filter((script) => !pkg.scripts?.[script]);
 
   if (missing.length) fail("package scripts", `Missing scripts: ${missing.join(", ")}`);
-  else if (!pkg.scripts?.qa?.includes("admin:auth:doctor") || !pkg.scripts?.qa?.includes("verify:links") || !pkg.scripts?.qa?.includes("verify:links:live") || !pkg.scripts?.qa?.includes("verify:products") || !pkg.scripts?.qa?.includes("link:policy:regression") || !pkg.scripts?.qa?.includes("exposure:doctor") || !pkg.scripts?.qa?.includes("refresh:deals") || !pkg.scripts?.qa?.includes("refresh:news") || !pkg.scripts?.qa?.includes("verify:news") || !pkg.scripts?.qa?.includes("test:news-feed-errors") || !pkg.scripts?.qa?.includes("refresh:all") || !pkg.scripts?.qa?.includes("health:readiness") || !pkg.scripts?.qa?.includes("push:readiness:report") || !pkg.scripts?.qa?.includes("push:delivery:doctor") || !pkg.scripts?.qa?.includes("source:catalog:report") || !pkg.scripts?.qa?.includes("source:live:doctor") || !pkg.scripts?.qa?.includes("source:onboarding:plan") || !pkg.scripts?.["admin:auth:doctor"]?.includes("admin-auth-doctor.mjs") || !pkg.scripts?.["link:policy:regression"]?.includes("link-quality-regression.mjs") || !pkg.scripts?.["refresh:all"]?.includes("refresh-all.mjs") || !pkg.scripts?.["health:readiness"]?.includes("health-readiness-report.mjs") || !pkg.scripts?.["push:readiness:report"]?.includes("push-readiness-report.mjs") || !pkg.scripts?.["push:delivery:doctor"]?.includes("push-delivery-policy-doctor.mjs") || !pkg.scripts?.["source:catalog:report"]?.includes("official-source-catalog-report.mjs") || !pkg.scripts?.["source:live:doctor"]?.includes("official-source-live-doctor.mjs") || !pkg.scripts?.["source:onboarding:plan"]?.includes("source-onboarding-plan.mjs") || !harness.includes("test:mobile-ux") || !pkg.scripts?.qa?.includes("test:mobile-ux") || !pkg.scripts?.["env:doctor:production"]?.includes("--production") || !pkg.scripts?.["qa:release"]?.includes("health:readiness") || !pkg.scripts?.["qa:release"]?.includes("audit:commercial") || !pkg.scripts?.["qa:release"]?.includes("test:env") || !pkg.scripts?.["qa:release"]?.includes("device:qa:manifest") || !pkg.scripts?.["qa:release"]?.includes("device:qa:doctor") || !pkg.scripts?.["qa:release"]?.includes("device:qa:report") || !pkg.scripts?.["qa:release"]?.includes("android:signing:doctor") || !pkg.scripts?.["qa:release"]?.includes("public:url:doctor") || !pkg.scripts?.["qa:release"]?.includes("feed:validate") || !pkg.scripts?.["qa:release"]?.includes("feed:production:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:metadata:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:submission:report") || !pkg.scripts?.["qa:release"]?.includes("store:packet:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:console:fields") || !pkg.scripts?.["qa:release"]?.includes("store:manual:checklist") || !pkg.scripts?.["qa:release"]?.includes("store:manual:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:handoff:report") || !pkg.scripts?.["qa:release"]?.includes("release:notes") || !pkg.scripts?.["qa:release"]?.includes("support:playbook") || !pkg.scripts?.["qa:release"]?.includes("known:issues") || !pkg.scripts?.["qa:release"]?.includes("store:assets:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:manifest") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:doctor") || !pkg.scripts?.["qa:release"]?.includes("perf:budget")) {
+  else if (!pkg.scripts?.qa?.includes("admin:auth:doctor") || !pkg.scripts?.qa?.includes("verify:links") || !pkg.scripts?.qa?.includes("verify:links:live") || !pkg.scripts?.qa?.includes("verify:products") || !pkg.scripts?.qa?.includes("link:policy:regression") || !pkg.scripts?.qa?.includes("exposure:doctor") || !pkg.scripts?.qa?.includes("refresh:deals") || !pkg.scripts?.qa?.includes("refresh:news") || !pkg.scripts?.qa?.includes("verify:news") || !pkg.scripts?.qa?.includes("test:news-feed-errors") || !pkg.scripts?.qa?.includes("refresh:all") || !pkg.scripts?.qa?.includes("health:readiness") || !pkg.scripts?.qa?.includes("push:readiness:report") || !pkg.scripts?.qa?.includes("push:delivery:doctor") || !pkg.scripts?.qa?.includes("push:delivery:audit") || !pkg.scripts?.qa?.includes("source:catalog:report") || !pkg.scripts?.qa?.includes("source:live:doctor") || !pkg.scripts?.qa?.includes("source:onboarding:plan") || !pkg.scripts?.["admin:auth:doctor"]?.includes("admin-auth-doctor.mjs") || !pkg.scripts?.["link:policy:regression"]?.includes("link-quality-regression.mjs") || !pkg.scripts?.["refresh:all"]?.includes("refresh-all.mjs") || !pkg.scripts?.["health:readiness"]?.includes("health-readiness-report.mjs") || !pkg.scripts?.["push:readiness:report"]?.includes("push-readiness-report.mjs") || !pkg.scripts?.["push:delivery:doctor"]?.includes("push-delivery-policy-doctor.mjs") || !pkg.scripts?.["push:delivery:audit"]?.includes("push-delivery-audit-doctor.mjs") || !pkg.scripts?.["source:catalog:report"]?.includes("official-source-catalog-report.mjs") || !pkg.scripts?.["source:live:doctor"]?.includes("official-source-live-doctor.mjs") || !pkg.scripts?.["source:onboarding:plan"]?.includes("source-onboarding-plan.mjs") || !harness.includes("test:mobile-ux") || !pkg.scripts?.qa?.includes("test:mobile-ux") || !pkg.scripts?.["env:doctor:production"]?.includes("--production") || !pkg.scripts?.["qa:release"]?.includes("health:readiness") || !pkg.scripts?.["qa:release"]?.includes("audit:commercial") || !pkg.scripts?.["qa:release"]?.includes("test:env") || !pkg.scripts?.["qa:release"]?.includes("device:qa:manifest") || !pkg.scripts?.["qa:release"]?.includes("device:qa:doctor") || !pkg.scripts?.["qa:release"]?.includes("device:qa:report") || !pkg.scripts?.["qa:release"]?.includes("android:signing:doctor") || !pkg.scripts?.["qa:release"]?.includes("public:url:doctor") || !pkg.scripts?.["qa:release"]?.includes("feed:validate") || !pkg.scripts?.["qa:release"]?.includes("feed:production:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:metadata:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:submission:report") || !pkg.scripts?.["qa:release"]?.includes("store:packet:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:console:fields") || !pkg.scripts?.["qa:release"]?.includes("store:manual:checklist") || !pkg.scripts?.["qa:release"]?.includes("store:manual:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:handoff:report") || !pkg.scripts?.["qa:release"]?.includes("release:notes") || !pkg.scripts?.["qa:release"]?.includes("support:playbook") || !pkg.scripts?.["qa:release"]?.includes("known:issues") || !pkg.scripts?.["qa:release"]?.includes("store:assets:doctor") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:manifest") || !pkg.scripts?.["qa:release"]?.includes("store:screenshots:doctor") || !pkg.scripts?.["qa:release"]?.includes("perf:budget")) {
     fail("package scripts", "qa, harness, and qa:release should include admin auth doctor, refresh:all, health readiness, mobile UX, commercial security audit, device QA manifest/doctor/report, Android signing doctor, public URL doctor, partner feed validator, production feed doctor, store metadata doctor, store submission/packet/console/handoff reports, store asset doctor, store screenshot manifest/doctor, and performance budget before store submission.");
   } else {
     pass("package scripts", "Android, iOS, environment, mobile UX, commercial security, and performance release command flow is available.");
@@ -1993,6 +1994,8 @@ async function checkOperationalDataSurfaces() {
   const pushReadinessReportScript = await text("scripts/push-readiness-report.mjs");
   const notificationDeliveryPolicy = await text("lib/notificationDeliveryPolicy.ts");
   const pushDeliveryPolicyDoctor = await text("scripts/push-delivery-policy-doctor.mjs");
+  const pushDeliveryAudit = await text("lib/pushDeliveryAudit.ts");
+  const pushDeliveryAuditDoctor = await text("scripts/push-delivery-audit-doctor.mjs");
   const adminNotificationCampaignsRoute = await text("app/api/admin/notification-campaigns/route.ts");
   const adminPushReadinessRoute = await text("app/api/admin/push-readiness/route.ts");
   const adminPushDryRunPanel = await text("components/AdminPushDryRunPanel.tsx");
@@ -2001,6 +2004,8 @@ async function checkOperationalDataSurfaces() {
   const pushReadinessReport = existsSync(pushReadinessReportPath) ? JSON.parse(readFileSync(pushReadinessReportPath, "utf8")) : {};
   const pushDeliveryPolicyReportPath = join(root, "reports/push-delivery-policy.json");
   const pushDeliveryPolicyReport = existsSync(pushDeliveryPolicyReportPath) ? JSON.parse(readFileSync(pushDeliveryPolicyReportPath, "utf8")) : {};
+  const pushDeliveryAuditReportPath = join(root, "reports/push-delivery-audit.json");
+  const pushDeliveryAuditReport = existsSync(pushDeliveryAuditReportPath) ? JSON.parse(readFileSync(pushDeliveryAuditReportPath, "utf8")) : {};
 
   const staticDataImports = [
     ["app/categories/page.tsx", categoriesPage],
@@ -2337,10 +2342,19 @@ async function checkOperationalDataSurfaces() {
     !pushDeliveryPolicyDoctor.includes("reports/push-delivery-policy.json") ||
     !pushDeliveryPolicyDoctor.includes("docs/PUSH_DELIVERY_POLICY.md") ||
     !pushDeliveryPolicyDoctor.includes("quiet live send blocked") ||
+    !pushDeliveryAudit.includes("buildPushDeliveryAuditEntry") ||
+    !pushDeliveryAudit.includes("summarizePushDeliveryAudit") ||
+    !pushDeliveryAuditDoctor.includes("reports/push-delivery-audit.json") ||
+    !pushDeliveryAuditDoctor.includes("docs/PUSH_DELIVERY_AUDIT.md") ||
+    !pushDeliveryAuditDoctor.includes("token counts, not raw FCM tokens") ||
     !notificationDeliveryPolicy.includes("evaluateNotificationDelivery") ||
     !notificationDeliveryPolicy.includes("isNotificationQuietHour") ||
     !notificationDeliveryPolicy.includes("getNextNotificationAllowedAt") ||
     pushDeliveryPolicyReport.ok !== true ||
+    pushDeliveryAuditReport.ok !== true ||
+    !Array.isArray(pushDeliveryAuditReport.sampleEvents) ||
+    pushDeliveryAuditReport.sampleEvents.length < 3 ||
+    !String(pushDeliveryAuditReport.tokenStoragePolicy ?? "").includes("token counts") ||
     !String(pushDeliveryPolicyReport.policy?.timezone ?? "").includes("Asia/Seoul") ||
     (pushDeliveryPolicyReport.policy?.quietHours?.startHour ?? 0) !== 22 ||
     (pushDeliveryPolicyReport.policy?.quietHours?.endHour ?? 0) !== 8 ||
@@ -2352,6 +2366,9 @@ async function checkOperationalDataSurfaces() {
     !schema.includes("source_kind text not null default 'product_deal'") ||
     !schema.includes("campaign_id text") ||
     !schema.includes("dry_run_only boolean not null default true") ||
+    !schema.includes("create table if not exists public.push_delivery_logs") ||
+    !schema.includes("blocked_reasons text[]") ||
+    !schema.includes("service manages push delivery logs") ||
     !adminPushReadinessRoute.includes("buildPushSubscriptionReadiness") ||
     !adminPushReadinessRoute.includes("canAccessAdmin") ||
     !adminPushReadinessRoute.includes("rateLimit") ||
@@ -2363,9 +2380,9 @@ async function checkOperationalDataSurfaces() {
     !smoke.includes("admin push readiness api") ||
     !smoke.includes("Push readiness should expose push subscription table readiness")
   ) {
-    fail("push subscription readiness operation", "Push readiness should expose consent, subscription, category segment, queue row, protected admin API evidence, and file reports before real FCM launch.");
+    fail("push subscription readiness operation", "Push readiness should expose consent, subscription, category segment, queue row, protected admin API evidence, delivery audit logs, and file reports before real FCM launch.");
   } else {
-    pass("push subscription readiness operation", "Push readiness exposes consent, subscription, category segment, queue row, protected admin API evidence, and file reports before real FCM launch.");
+    pass("push subscription readiness operation", "Push readiness exposes consent, subscription, category segment, queue row, protected admin API evidence, delivery audit logs, and file reports before real FCM launch.");
   }
 
   if (

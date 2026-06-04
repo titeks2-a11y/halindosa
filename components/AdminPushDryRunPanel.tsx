@@ -213,6 +213,12 @@ export function AdminPushDryRunPanel({ apiHref, push, campaigns }: AdminPushDryR
               {new Date(result.result.deliveryPolicy.nextAllowedAt).toLocaleString("ko-KR")}
             </p>
           ) : null}
+          {result.result?.deliveryAudit ? (
+            <p className="mt-1">
+              감사 로그 후보 {result.result.deliveryAudit.eventId} · 상태 {result.result.deliveryAudit.status} · 차단 사유{" "}
+              {result.result.deliveryAudit.blockedReasons.join(", ") || "없음"}
+            </p>
+          ) : null}
         </div>
       ) : null}
     </div>
