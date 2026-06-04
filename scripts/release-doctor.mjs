@@ -4552,8 +4552,11 @@ function checkNewsDealPipeline() {
     if (!newsFeedContract.includes(phrase)) issues.push(`news feed contract docs missing ${phrase}`);
   }
 
-  if (!homePage.includes("RealtimeNewsDealsSection") || !homePage.includes("/api/news-deals?${params.toString()}") || !homePage.includes("params.set(\"q\"") || !homePage.includes("refreshNewsDeals") || !homePage.includes("120_000")) {
+  if (!homePage.includes("RealtimeNewsDealsSection") || !homePage.includes("/api/news-deals?${params.toString()}") || !homePage.includes("params.set(\"q\"") || !homePage.includes("activeQuery={query}") || !homePage.includes("refreshNewsDeals") || !homePage.includes("120_000")) {
     issues.push("home should show verified realtime discount news section from /api/news-deals with live refresh");
+  }
+  if (!realtimeNewsSection.includes("activeQuery") || !realtimeNewsSection.includes("공식 혜택 검색 결과 요약") || !realtimeNewsSection.includes("상품 검색어 기준으로 공식 혜택도 함께 좁혔습니다")) {
+    issues.push("realtime official benefit section should explain search-filtered official benefit results");
   }
   if (
     !realtimeNewsSection.includes("/go/news/") ||

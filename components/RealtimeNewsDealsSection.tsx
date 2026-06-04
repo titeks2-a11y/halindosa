@@ -37,6 +37,7 @@ const categoryHighlights = [
 export function RealtimeNewsDealsSection({
   deals,
   updatedAt,
+  activeQuery = "",
   isRefreshing = false,
   refreshError = "",
   onRefresh,
@@ -44,11 +45,13 @@ export function RealtimeNewsDealsSection({
 }: {
   deals: NewsDeal[];
   updatedAt: string;
+  activeQuery?: string;
   isRefreshing?: boolean;
   refreshError?: string;
   onRefresh?: () => void;
   onOpenNewsDeal?: (deal: NewsDeal) => void;
 }) {
+  const trimmedQuery = activeQuery.trim();
   const highlightCounts = useMemo(
     () =>
       categoryHighlights
@@ -65,8 +68,12 @@ export function RealtimeNewsDealsSection({
       <section className="rounded-2xl border border-dashed border-slate-200 bg-white p-4 shadow-sm" aria-label="오늘의 실시간 할인뉴스">
         <StatePanel
           tone="retry"
-          title="공식 링크가 확인된 혜택만 준비 중입니다"
-          description="검색 결과, 커뮤니티 원문, 종료 이벤트는 노출하지 않습니다. 공식 이벤트 페이지가 검증되면 이 영역에 표시됩니다."
+          title={trimmedQuery ? `"${trimmedQuery}" 관련 공식 혜택을 확인 중입니다` : "공식 링크가 확인된 혜택만 준비 중입니다"}
+          description={
+            trimmedQuery
+              ? "상품 검색어와 맞는 공식 혜택만 함께 보여주며, 검색 결과·커뮤니티 원문·종료 이벤트는 제외합니다."
+              : "검색 결과, 커뮤니티 원문, 종료 이벤트는 노출하지 않습니다. 공식 이벤트 페이지가 검증되면 이 영역에 표시됩니다."
+          }
         />
       </section>
     );
@@ -76,7 +83,7 @@ export function RealtimeNewsDealsSection({
     <CommerceCard tone="surface" className="p-3 sm:rounded-[28px] sm:p-4" aria-label="오늘의 실시간 할인뉴스">
       <CommerceSectionHeader
         eyebrow="오늘의 실시간 할인뉴스"
-        title="공식 혜택 페이지로 바로 이동"
+        title={trimmedQuery ? `"${trimmedQuery}" 관련 공식 혜택 ${deals.length}개` : "공식 혜택 페이지로 바로 이동"}
         compact
         trailing={
           <div className="hidden items-center gap-1.5 sm:flex">
@@ -115,6 +122,11 @@ export function RealtimeNewsDealsSection({
         ) : null}
       </div>
       {refreshError ? <p className="mt-2 text-[11px] font-bold text-amber-700">{refreshError}</p> : null}
+      {trimmedQuery ? (
+        <div className="mt-2 rounded-2xl border border-red-100 bg-red-50 px-3 py-2 text-[11px] font-black text-brand-red" aria-label="공식 혜택 검색 결과 요약">
+          상품 검색어 기준으로 공식 혜택도 함께 좁혔습니다. 검색 결과·커뮤니티 원문은 제외됩니다.
+        </div>
+      ) : null}
       {highlightCounts.length ? (
         <div className="mt-3 flex gap-1.5 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" aria-label="공식 혜택 카테고리 요약">
           {highlightCounts.map((item) => (

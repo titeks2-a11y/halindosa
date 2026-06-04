@@ -2777,6 +2777,7 @@ export default function Home() {
           <RealtimeNewsDealsSection
             deals={newsDeals}
             updatedAt={newsUpdatedAt}
+            activeQuery={query}
             isRefreshing={isNewsRefreshing}
             refreshError={newsRefreshError}
             onRefresh={() => {
