@@ -2441,6 +2441,10 @@ async function checkOperationalDataSurfaces() {
     !officialBenefitAlertReportScript.includes("reports/official-benefit-alerts.json") ||
     !officialBenefitAlertReportScript.includes("docs/OFFICIAL_BENEFIT_ALERTS_REPORT.md") ||
     !officialBenefitAlertReportScript.includes("redirectSafety") ||
+    !officialBenefitAlertReportScript.includes("buildRegressionScenarios") ||
+    !officialBenefitAlertReportScript.includes("regression-search-link") ||
+    !officialBenefitAlertReportScript.includes("regression-unsafe-url") ||
+    !officialBenefitAlertReportScript.includes("regression-invalid-date") ||
     !officialBenefitAlertReportScript.includes("/go/news/") ||
     !officialBenefitAlertReportScript.includes("defaultInterests") ||
     !adminOfficialAlertsRoute.includes("canAccessAdminRequest") ||
@@ -2453,11 +2457,19 @@ async function checkOperationalDataSurfaces() {
     (officialBenefitAlertReport.totals?.activeOfficialBenefits ?? 0) < 40 ||
     (officialBenefitAlertReport.defaultQueue?.recommendedBenefits ?? 0) < 6 ||
     officialBenefitAlertReport.redirectSafety?.ok !== true ||
+    officialBenefitAlertReport.regression?.ok !== true ||
+    !Array.isArray(officialBenefitAlertReport.regression?.checks) ||
+    officialBenefitAlertReport.regression.checks.some((check) => check.ok !== true) ||
+    !Array.isArray(officialBenefitAlertReport.regression?.rejectedIds) ||
+    !officialBenefitAlertReport.regression.rejectedIds.includes("regression-search-link") ||
+    !officialBenefitAlertReport.regression.rejectedIds.includes("regression-unsafe-url") ||
     defaultInterestCoverage.length < 4 ||
     defaultInterestCoverage.some((item) => Number(item.matchedCount ?? 0) < 1) ||
     !officialBenefitAlertReportDoc.includes("공식 혜택 알림 후보 리포트") ||
     !officialBenefitAlertReportDoc.includes("/go/news/[id]") ||
     !officialBenefitAlertReportDoc.includes("기본 관심 카테고리 커버리지") ||
+    !officialBenefitAlertReportDoc.includes("회귀 방지 샘플") ||
+    !officialBenefitAlertReportDoc.includes("검색 링크, unsafe URL, 종료·숨김·판매 중단 혜택") ||
     !runbook.includes("official:alerts:report") ||
     !runbook.includes("/api/benefits/official-alerts") ||
     !roadmap.includes("official:alerts:report") ||

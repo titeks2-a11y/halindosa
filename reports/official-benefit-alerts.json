@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-04T06:56:54.138Z",
+  "generatedAt": "2026-06-04T07:07:18.857Z",
   "source": "official_event_seed_and_approved_feeds",
   "snapshotGeneratedAt": "2026-06-04T06:18:30.992Z",
   "totals": {
@@ -347,6 +347,60 @@
     "checkedItems": 9,
     "expectedInternalPrefix": "/go/news/",
     "issues": []
+  },
+  "regression": {
+    "ok": true,
+    "candidateCount": 7,
+    "acceptedIds": [
+      "regression-invalid-date",
+      "regression-official-active"
+    ],
+    "rejectedIds": [
+      "regression-search-link",
+      "regression-unsafe-url",
+      "regression-expired",
+      "regression-hidden",
+      "regression-sold-out"
+    ],
+    "expectedAcceptedIds": [
+      "regression-official-active",
+      "regression-invalid-date"
+    ],
+    "expectedRejectedIds": [
+      "regression-search-link",
+      "regression-unsafe-url",
+      "regression-expired",
+      "regression-hidden",
+      "regression-sold-out"
+    ],
+    "checkedRedirectPrefix": "/go/news/",
+    "checks": [
+      {
+        "id": "accept-official-active",
+        "ok": true,
+        "detail": "활성 공식 혜택과 종료일 형식 이상 공식 혜택은 오류 없이 후보에 남습니다."
+      },
+      {
+        "id": "reject-search-link",
+        "ok": true,
+        "detail": "검색 결과 URL은 linkType=search로 후보에서 제외합니다."
+      },
+      {
+        "id": "reject-unsafe-url",
+        "ok": true,
+        "detail": "http/https가 아닌 URL은 후보에서 제외합니다."
+      },
+      {
+        "id": "reject-expired-hidden-sold-out",
+        "ok": true,
+        "detail": "종료, 숨김, 판매 중단 혜택은 후보에서 제외합니다."
+      },
+      {
+        "id": "redirect-and-metadata",
+        "ok": true,
+        "detail": "후보는 내부 redirect 경로, 공식 host, 관심 카테고리 매칭 정보를 유지합니다."
+      }
+    ]
   },
   "defaultQueue": {
     "totalActiveBenefits": 43,

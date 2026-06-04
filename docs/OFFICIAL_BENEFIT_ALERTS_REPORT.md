@@ -4,7 +4,7 @@
 
 ## 요약
 
-- 생성 시각: 2026-06-04T06:56:54.138Z
+- 생성 시각: 2026-06-04T07:07:18.857Z
 - 원본 스냅샷: 2026-06-04T06:18:30.992Z
 - 전체 공식 혜택: 43개
 - 알림 후보 가능 혜택: 43개
@@ -34,6 +34,24 @@
 | 현대Hmall 공식 쇼핑 기획전 혜택 | 현대Hmall 공식 이벤트 | 패션/뷰티 | `/go/news/news-hmall-official-shopping-event` | 쿠폰/이벤트 관심 알림과 맞는 공식 혜택입니다. |
 | BC카드 공식 이벤트 혜택 모음 | BC카드 공식 이벤트 | 카드/멤버십 | `/go/news/news-bccard-official-event-center` | 쿠폰/이벤트 관심 알림과 맞는 공식 혜택입니다. |
 | T 멤버십 장기고객 등급 업그레이드 혜택 | T world 공식 혜택 | 카드/멤버십 | `/go/news/news-tworld-membership-upgrade` | 쿠폰/이벤트 관심 알림과 맞는 공식 혜택입니다. |
+
+## 회귀 방지 샘플
+
+- 상태: PASS
+- 합성 후보 수: 7개
+- 후보 유지: regression-invalid-date, regression-official-active
+- 후보 차단: regression-search-link, regression-unsafe-url, regression-expired, regression-hidden, regression-sold-out
+- 내부 이동 경로 기준: `/go/news/`
+
+| 검사 | 상태 | 내용 |
+| --- | --- | --- |
+| accept-official-active | PASS | 활성 공식 혜택과 종료일 형식 이상 공식 혜택은 오류 없이 후보에 남습니다. |
+| reject-search-link | PASS | 검색 결과 URL은 linkType=search로 후보에서 제외합니다. |
+| reject-unsafe-url | PASS | http/https가 아닌 URL은 후보에서 제외합니다. |
+| reject-expired-hidden-sold-out | PASS | 종료, 숨김, 판매 중단 혜택은 후보에서 제외합니다. |
+| redirect-and-metadata | PASS | 후보는 내부 redirect 경로, 공식 host, 관심 카테고리 매칭 정보를 유지합니다. |
+
+검색 링크, unsafe URL, 종료·숨김·판매 중단 혜택은 알림 후보에서 제외하고, 날짜 형식 이상값은 점수 계산을 깨지 않는지 매번 확인합니다.
 
 ## 운영 기준
 

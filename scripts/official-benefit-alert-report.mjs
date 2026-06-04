@@ -197,6 +197,124 @@ function topItems(items, limit = 8) {
   }));
 }
 
+function buildRegressionScenarios() {
+  const baseDeal = {
+    id: "regression-official-active",
+    title: "공식 혜택 알림 회귀 테스트",
+    summary: "공식 상세 URL이 있는 활성 쿠폰 혜택만 알림 후보로 남겨야 합니다.",
+    merchant: "할인도사 테스트 제공처",
+    sourceName: "공식 혜택 회귀 테스트",
+    category: "무료혜택",
+    benefitType: "coupon",
+    price: 0,
+    originalPrice: 0,
+    couponAmount: 3000,
+    endDate: "2099-12-31T23:59:59.000Z",
+    finalUrl: "https://www.homeplus.co.kr/event/halindosa-regression-benefit",
+    linkType: "official_coupon",
+    availability: "active",
+    validationStatus: "passed",
+    isHidden: false,
+    tags: ["쿠폰", "무료혜택"],
+    priorityScore: 90,
+    confidenceScore: 90,
+    lastCheckedAt: new Date().toISOString()
+  };
+  const candidates = [
+    baseDeal,
+    {
+      ...baseDeal,
+      id: "regression-invalid-date",
+      title: "종료일 형식 이상 공식 혜택",
+      endDate: "not-a-date",
+      finalUrl: "https://www.homeplus.co.kr/event/halindosa-regression-invalid-date"
+    },
+    {
+      ...baseDeal,
+      id: "regression-search-link",
+      title: "검색 링크 회귀 테스트",
+      finalUrl: "https://www.homeplus.co.kr/search?keyword=coupon",
+      linkType: "search"
+    },
+    {
+      ...baseDeal,
+      id: "regression-unsafe-url",
+      title: "위험 URL 회귀 테스트",
+      finalUrl: "javascript:alert(1)"
+    },
+    {
+      ...baseDeal,
+      id: "regression-expired",
+      title: "종료 혜택 회귀 테스트",
+      endDate: "2000-01-01T00:00:00.000Z"
+    },
+    {
+      ...baseDeal,
+      id: "regression-hidden",
+      title: "숨김 혜택 회귀 테스트",
+      isHidden: true
+    },
+    {
+      ...baseDeal,
+      id: "regression-sold-out",
+      title: "판매 중단 혜택 회귀 테스트",
+      availability: "sold_out"
+    }
+  ];
+  const queue = buildQueue(candidates, {
+    interests: ["무료/체험", "쿠폰/이벤트"],
+    recentNewsIds: ["regression-invalid-date"],
+    limit: 8
+  });
+  const acceptedIds = queue.items.map((item) => item.id);
+  const expectedAcceptedIds = ["regression-official-active", "regression-invalid-date"];
+  const expectedRejectedIds = [
+    "regression-search-link",
+    "regression-unsafe-url",
+    "regression-expired",
+    "regression-hidden",
+    "regression-sold-out"
+  ];
+  const checks = [
+    {
+      id: "accept-official-active",
+      ok: expectedAcceptedIds.every((id) => acceptedIds.includes(id)),
+      detail: "활성 공식 혜택과 종료일 형식 이상 공식 혜택은 오류 없이 후보에 남습니다."
+    },
+    {
+      id: "reject-search-link",
+      ok: !acceptedIds.includes("regression-search-link"),
+      detail: "검색 결과 URL은 linkType=search로 후보에서 제외합니다."
+    },
+    {
+      id: "reject-unsafe-url",
+      ok: !acceptedIds.includes("regression-unsafe-url"),
+      detail: "http/https가 아닌 URL은 후보에서 제외합니다."
+    },
+    {
+      id: "reject-expired-hidden-sold-out",
+      ok: ["regression-expired", "regression-hidden", "regression-sold-out"].every((id) => !acceptedIds.includes(id)),
+      detail: "종료, 숨김, 판매 중단 혜택은 후보에서 제외합니다."
+    },
+    {
+      id: "redirect-and-metadata",
+      ok: queue.items.every((item) => item.redirectUrl.startsWith("/go/news/") && item.officialHost && Array.isArray(item.matchedInterests)),
+      detail: "후보는 내부 redirect 경로, 공식 host, 관심 카테고리 매칭 정보를 유지합니다."
+    }
+  ];
+
+  return {
+    ok: checks.every((check) => check.ok),
+    candidateCount: candidates.length,
+    acceptedIds,
+    rejectedIds: expectedRejectedIds.filter((id) => !acceptedIds.includes(id)),
+    expectedAcceptedIds,
+    expectedRejectedIds,
+    checkedRedirectPrefix: "/go/news/",
+    checks
+  };
+}
+
 mkdirSync(reportsDir, { recursive: true });
 mkdirSync(docsDir, { recursive: true });
 
@@ -242,6 +360,7 @@ const sourceHosts = countBy(activeBenefits.map((deal) => deal.officialHost || ho
 const categoryCounts = countBy(activeBenefits.map((deal) => deal.category));
 const benefitTypeCounts = countBy(activeBenefits.map((deal) => deal.benefitType));
 const sourceCounts = countBy(activeBenefits.map((deal) => deal.sourceName));
+const regression = buildRegressionScenarios();
 const issues = [
   ...(activeBenefits.length >= 40 ? [] : [issue("active-official-benefits", `공식 혜택 후보가 ${activeBenefits.length}개입니다.`, "npm run refresh:news && npm run verify:news")]),
   ...(defaultQueue.summary.recommendedBenefits >= 6 ? [] : [issue("default-recommendations", `기본 알림 추천 후보가 ${defaultQueue.summary.recommendedBenefits}개입니다.`, "공식 혜택 seed 또는 approved feed를 보강하세요.")]),
@@ -257,7 +376,8 @@ const issues = [
   ...(sourceHosts.length >= 8 ? [] : [issue("official-source-diversity", `공식 출처 host가 ${sourceHosts.length}개입니다.`, "공식 이벤트/쿠폰 feed 출처를 더 연결하세요.")]),
   ...(categoryCounts.length >= 8 ? [] : [issue("official-category-diversity", `공식 혜택 카테고리가 ${categoryCounts.length}개입니다.`, "공식 혜택 카테고리 seed를 보강하세요.")]),
   ...(redirectSafetyIssues.length ? [issue("redirect-safety", redirectSafetyIssues.join("; "), "추천 후보는 외부 URL이 아니라 /go/news/[id]만 사용해야 합니다.")] : []),
-  ...(invalidActiveBenefits.length ? [issue("active-filter", `${invalidActiveBenefits.length}개 후보가 active 조건을 벗어났습니다.`, "verify:news 결과와 officialBenefitAlertQueue 필터를 확인하세요.")] : [])
+  ...(invalidActiveBenefits.length ? [issue("active-filter", `${invalidActiveBenefits.length}개 후보가 active 조건을 벗어났습니다.`, "verify:news 결과와 officialBenefitAlertQueue 필터를 확인하세요.")] : []),
+  ...(regression.ok ? [] : [issue("official-alert-regression", "검색 링크, unsafe URL, 종료/숨김/판매중단 혜택 차단 회귀 샘플이 실패했습니다.", "officialBenefitAlertQueue 필터와 report script의 회귀 샘플을 함께 확인하세요.")])
 ];
 const report = {
   ok: issues.length === 0,
@@ -286,6 +406,7 @@ const report = {
     expectedInternalPrefix: "/go/news/",
     issues: redirectSafetyIssues
   },
+  regression,
   defaultQueue: {
     ...defaultQueue.summary,
     items: topItems(defaultQueue.items)
@@ -330,6 +451,20 @@ const docs = [
   "| 혜택 | 출처 | 카테고리 | 이동 경로 | 이유 |",
   "| --- | --- | --- | --- | --- |",
   ...report.topRecommendations.map((item) => `| ${item.title} | ${item.sourceName} | ${item.category} | \`${item.redirectUrl}\` | ${item.reason} |`),
+  "",
+  "## 회귀 방지 샘플",
+  "",
+  `- 상태: ${report.regression.ok ? "PASS" : "CHECK"}`,
+  `- 합성 후보 수: ${report.regression.candidateCount}개`,
+  `- 후보 유지: ${report.regression.acceptedIds.join(", ") || "없음"}`,
+  `- 후보 차단: ${report.regression.rejectedIds.join(", ") || "없음"}`,
+  `- 내부 이동 경로 기준: \`${report.regression.checkedRedirectPrefix}\``,
+  "",
+  "| 검사 | 상태 | 내용 |",
+  "| --- | --- | --- |",
+  ...report.regression.checks.map((item) => `| ${item.id} | ${item.ok ? "PASS" : "CHECK"} | ${item.detail} |`),
+  "",
+  "검색 링크, unsafe URL, 종료·숨김·판매 중단 혜택은 알림 후보에서 제외하고, 날짜 형식 이상값은 점수 계산을 깨지 않는지 매번 확인합니다.",
   "",
   "## 운영 기준",
   "",

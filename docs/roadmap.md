@@ -676,3 +676,4 @@
 - release doctor가 `test:mobile-ux`가 `qa`와 `harness`에 계속 포함되어 있는지 검사하도록 확장해 모바일 첫 화면 회귀가 출시 체인에서 빠지지 않게 했다.
 - `README.md`, `docs/RUNBOOK.md`, `docs/test-plan.md`의 QA/harness 설명을 실제 검증 체인과 맞춰 모바일 UX, 이미지, 외부 링크, 성능, smoke, release doctor 범위를 명확히 문서화했다.
 - `device:qa:doctor`와 실기기 QA 기록 템플릿을 보강해 기준 Git 커밋, Android/iOS 빌드, OAuth Provider, 외부 브라우저, 공유 시트, safe area, 구매 링크 샘플, 남은 Critical Issue, 민감정보 기록 금지 원칙이 빠지면 출시 게이트에서 잡히도록 강화했다.
+- `official:alerts:report`에 합성 회귀 샘플을 추가해 검색 링크, unsafe URL, 종료/숨김/판매 중단 공식 혜택이 알림 후보에 섞이지 않고, 날짜 형식 이상값도 큐 정렬을 깨지 않는지 release doctor까지 자동 확인하도록 강화했다.
