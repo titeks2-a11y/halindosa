@@ -5,6 +5,7 @@ import { buildClaimEffortSummary } from "@/lib/deals/claimEffort";
 import { getNewsOperationsReport } from "@/lib/deals/newsOperations";
 import { getCronRefreshOperationsReport } from "@/lib/operations/cronRefresh";
 import { getOperationalEnvReadiness } from "@/lib/operations/envReadiness";
+import { getOfficialSourceReadiness } from "@/lib/operations/sourceReadiness";
 
 export async function GET() {
   const startedAt = Date.now();
@@ -32,11 +33,18 @@ export async function GET() {
     );
     const operationalEnvReadiness = getOperationalEnvReadiness();
     const cronRefresh = getCronRefreshOperationsReport();
+    const sourceReadiness = getOfficialSourceReadiness();
     const newsOperations = getNewsOperationsReport();
     const officialBenefitReadyCategories = newsOperations.categoryCoverage.filter((item) => item.status === "ready").length;
     const officialBenefitWeakCategories = newsOperations.categoryCoverage.filter((item) => item.status !== "ready").length;
     const officialBenefitProviderRiskSummary = newsOperations.providerRiskSummary ?? { healthy: 0, watch: 0, danger: 0 };
     const officialBenefitFeedTransition = newsOperations.feedTransitionReadiness;
+    const officialSourceReadinessOk =
+      sourceReadiness.ok &&
+      sourceReadiness.launchGateStatus === "passed" &&
+      sourceReadiness.summary.blockedLiveIssues === 0 &&
+      sourceReadiness.summary.feedEnvFailedCount === 0 &&
+      sourceReadiness.gates.every((gate) => gate.ok);
     const officialBenefitProviderRiskOk = officialBenefitProviderRiskSummary.danger === 0;
     const officialBenefitGeneratedAt = Date.parse(newsOperations.generatedAt);
     const officialBenefitFreshnessHours = Number.isFinite(officialBenefitGeneratedAt)
@@ -53,7 +61,8 @@ export async function GET() {
       newsOperations.visibleCount >= 25 &&
       officialBenefitReadyCategories >= 10 &&
       officialBenefitFresh &&
-      officialBenefitProviderRiskOk
+      officialBenefitProviderRiskOk &&
+      officialSourceReadinessOk
         ? "ready"
         : "needs_review";
 
@@ -96,6 +105,16 @@ export async function GET() {
         officialBenefitFeedSeedOnlyProviders: officialBenefitFeedTransition.seedOnlyProviders,
         officialBenefitConfiguredFeedUrls: officialBenefitFeedTransition.configuredFeedUrls,
         officialBenefitFeedRecommendedEnvKeys: officialBenefitFeedTransition.recommendedNextEnvKeys.slice(0, 5),
+        officialSourceReadinessOk,
+        officialSourceLaunchGateStatus: sourceReadiness.launchGateStatus,
+        officialSourceReadinessLabel: sourceReadiness.readinessLabel,
+        officialSourceCandidates: sourceReadiness.summary.officialSourceCandidates,
+        officialSourceReachableCount: sourceReadiness.summary.reachableSources,
+        officialSourceGuardedCount: sourceReadiness.summary.guardedSources,
+        officialSourceConfiguredFeedUrls: sourceReadiness.summary.configuredFeedUrls,
+        officialSourceFeedEnvFailedCount: sourceReadiness.summary.feedEnvFailedCount,
+        officialSourceBlockedLiveIssues: sourceReadiness.summary.blockedLiveIssues,
+        officialSourceFailedGateCount: sourceReadiness.gates.filter((gate) => !gate.ok).length,
         cronRefreshStatus: cronRefresh.status,
         cronRefreshOk: cronRefresh.ok,
         cronRefreshProtected: cronRefresh.protected,

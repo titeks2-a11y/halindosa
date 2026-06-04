@@ -2,7 +2,7 @@
 
 이 문서는 상품 링크, 공식 혜택, refresh 파이프라인이 실제 출시 운영 기준을 만족하는지 요약합니다.
 
-- 생성 시각: 2026-06-04T01:33:14.831Z
+- 생성 시각: 2026-06-04T02:13:23.385Z
 - 운영 준비 점수: 100/100
 - 상태: PASS
 
@@ -16,7 +16,10 @@
 - 공식 혜택 카테고리 커버리지: 10/10
 - 공식 혜택 Provider: 4개 (feed 연결 0개)
 - 공식 혜택 Provider 위험도: 정상 0개 · 관찰 4개 · 즉시 점검 0개
-- 공식 혜택 리포트 신선도: 0시간
+- 공식 소스 통합 준비도: seed launch ready / 공식 feed 연결 대기
+- 공식 소스 후보/노출 혜택: 30개 / 30개
+- 공식 소스 차단 이슈: 0개
+- 공식 혜택 리포트 신선도: 0.7시간
 - refresh:all 상태: PASS
 - cron refresh 상태: 수동 갱신 기준 정상 (manual_refresh_ready)
 
@@ -53,6 +56,23 @@
 | official_event | seed 운영 | official_event_page_feed | 16 | 0 | 0% | 승인된 seed/fallback으로 운영 중입니다. |
 | public_coupon | seed 운영 | public_coupon_and_culture_benefit_feed | 5 | 0 | 0% | 승인된 seed/fallback으로 운영 중입니다. |
 
+## 공식 소스 통합 준비도
+
+- 상태: seed launch ready / 공식 feed 연결 대기 (passed)
+- 공식 소스 후보: 30개
+- 접근 가능/보호 소스: 26개 / 4개
+- 설정된 공식 feed URL: 0개
+- 공식 혜택 노출 가능: 30개
+- 차단 이슈: 0개
+
+### 공식 소스 다음 액션
+
+- OFFICIAL_EVENT_FEED_URLS와 PUBLIC_COUPON_FEED_URLS부터 승인 JSON/RSS feed를 연결해 seed 의존도를 줄입니다.
+- 새 후보를 추가할 때는 공식 URL, 허용 사용 범위, 차단 사용 범위, env key를 함께 기록합니다.
+- 사용자 finalUrl은 검색 결과, 커뮤니티 원문, 쇼핑몰 메인이 아니라 공식 이벤트·혜택·구매 상세 페이지여야 합니다.
+- PUBLIC_COUPON_FEED_URLS 또는 OFFICIAL_EVENT_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL 연결
+- PUBLIC_COUPON_FEED_URLS 또는 DEAL_NEWS_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL 연결
+
 ## 자동 refresh cron 운영
 
 - 상태: 수동 갱신 기준 정상 (manual_refresh_ready)
@@ -75,11 +95,12 @@
 | official benefit count floor | PASS | 30 official benefit deals are visible. |
 | official benefit category coverage | PASS | All 10 required categories have at least 2 visible benefits. |
 | official benefit hidden/failed queue | PASS | No hidden, expired, non-official, or failed official benefit links are exposed. |
-| official benefit freshness | PASS | Official benefit report freshness is 0h. |
+| official benefit freshness | PASS | Official benefit report freshness is 0.7h. |
 | refresh all pipeline | PASS | refresh:all completed successfully. |
 | cron refresh operations | PASS | Cron refresh status=manual_refresh_ready; report=manual refresh fallback. |
 | provider stats coverage | PASS | Product providers=6, news providers=4. |
 | provider risk gate | PASS | Official benefit providers danger=0, watch=4. |
+| official source readiness gate | PASS | 30 official source candidates, 30 visible official benefits, failed gates=0. |
 
 ## 운영 조치
 

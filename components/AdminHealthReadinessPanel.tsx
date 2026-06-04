@@ -34,6 +34,8 @@ export function AdminHealthReadinessPanel({ report, apiHref }: AdminHealthReadin
   const categoryCounts = Object.entries(report.officialBenefits.categoryCounts).sort((a, b) => b[1] - a[1]);
   const officialProviderStats = report.officialBenefits.providerStats;
   const officialProviderRisks = report.officialBenefits.providerRisks;
+  const sourceReadinessIssueCount =
+    report.sourceReadiness.blockedLiveIssues + report.sourceReadiness.feedEnvFailedCount + report.sourceReadiness.failedGateCount;
   const healthCards = [
     {
       label: "운영 준비 점수",
@@ -49,6 +51,11 @@ export function AdminHealthReadinessPanel({ report, apiHref }: AdminHealthReadin
       label: "공식 혜택",
       value: `${report.officialBenefits.visibleCount}개`,
       detail: `카테고리 ${report.officialBenefits.readyCategories}/${report.officialBenefits.requiredCategories}`
+    },
+    {
+      label: "공식 소스",
+      value: report.sourceReadiness.ok ? "정상" : "점검",
+      detail: `후보 ${report.sourceReadiness.officialSourceCandidates}개 · 차단 ${sourceReadinessIssueCount}개`
     },
     {
       label: "refresh:all",
@@ -83,7 +90,7 @@ export function AdminHealthReadinessPanel({ report, apiHref }: AdminHealthReadin
         </a>
       </div>
 
-      <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
+      <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-6">
         {healthCards.map((card) => (
           <div key={card.label} className="rounded-2xl bg-brand-warm p-4">
             <p className="text-xs font-black text-slate-500">{card.label}</p>
@@ -190,6 +197,27 @@ export function AdminHealthReadinessPanel({ report, apiHref }: AdminHealthReadin
                     노출 {risk.visibleCount} · 이슈 {risk.issueCount} · 실패율 {risk.failureRate}% · {risk.reason}
                   </p>
                 </div>
+              ))}
+            </div>
+          </div>
+          <div className="mt-3 rounded-2xl bg-white p-3">
+            <div className="flex items-center justify-between gap-2">
+              <p className="text-xs font-black text-slate-950">공식 소스 통합 준비도</p>
+              <span className={`rounded-full px-2.5 py-1 text-[11px] font-black ${report.sourceReadiness.ok ? "bg-emerald-50 text-emerald-700" : "bg-red-50 text-dossa-red"}`}>
+                {report.sourceReadiness.launchGateStatus}
+              </span>
+            </div>
+            <p className="mt-2 text-[11px] font-bold leading-5 text-slate-500">
+              {report.sourceReadiness.readinessLabel} · 공식 후보 {report.sourceReadiness.officialSourceCandidates}개 · 접근 가능 {report.sourceReadiness.reachableSources}개 · 보호 {report.sourceReadiness.guardedSources}개
+            </p>
+            <p className="mt-1 text-[11px] font-bold leading-5 text-slate-500">
+              공식 feed URL {report.sourceReadiness.configuredFeedUrls}개 · feed env 실패 {report.sourceReadiness.feedEnvFailedCount}개 · 차단 이슈 {sourceReadinessIssueCount}개
+            </p>
+            <div className="mt-2 space-y-1.5">
+              {(report.sourceReadiness.operatorNextActions.length ? report.sourceReadiness.operatorNextActions.slice(0, 3) : ["npm run source:readiness:report 실행 후 health:readiness를 다시 실행하세요."]).map((action) => (
+                <p key={action} className="rounded-2xl bg-slate-50 px-3 py-2 text-[11px] font-bold leading-5 text-slate-600">
+                  {action}
+                </p>
               ))}
             </div>
           </div>

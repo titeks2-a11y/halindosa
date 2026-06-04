@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-04T01:33:14.831Z",
+  "generatedAt": "2026-06-04T02:13:23.385Z",
   "score": 100,
   "thresholds": {
     "productDealsCount": 140,
@@ -32,7 +32,7 @@
     "expiredCount": 0,
     "officialMissingCount": 0,
     "failedCount": 0,
-    "freshnessHours": 0,
+    "freshnessHours": 0.7,
     "readyCategories": 10,
     "requiredCategories": 10,
     "minimumCategoryDealCount": 2,
@@ -218,6 +218,26 @@
     "failedCount": 0,
     "message": "아직 cron 직접 실행 리포트는 없지만 refresh:all 수동 리포트는 정상입니다."
   },
+  "sourceReadiness": {
+    "ok": true,
+    "readinessLabel": "seed launch ready / 공식 feed 연결 대기",
+    "launchGateStatus": "passed",
+    "officialSourceCandidates": 30,
+    "reachableSources": 26,
+    "guardedSources": 4,
+    "configuredFeedUrls": 0,
+    "visibleOfficialBenefits": 30,
+    "blockedLiveIssues": 0,
+    "feedEnvFailedCount": 0,
+    "failedGateCount": 0,
+    "operatorNextActions": [
+      "OFFICIAL_EVENT_FEED_URLS와 PUBLIC_COUPON_FEED_URLS부터 승인 JSON/RSS feed를 연결해 seed 의존도를 줄입니다.",
+      "새 후보를 추가할 때는 공식 URL, 허용 사용 범위, 차단 사용 범위, env key를 함께 기록합니다.",
+      "사용자 finalUrl은 검색 결과, 커뮤니티 원문, 쇼핑몰 메인이 아니라 공식 이벤트·혜택·구매 상세 페이지여야 합니다.",
+      "PUBLIC_COUPON_FEED_URLS 또는 OFFICIAL_EVENT_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL 연결",
+      "PUBLIC_COUPON_FEED_URLS 또는 DEAL_NEWS_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL 연결"
+    ]
+  },
   "checks": [
     {
       "name": "product count floor",
@@ -262,7 +282,7 @@
     {
       "name": "official benefit freshness",
       "ok": true,
-      "detail": "Official benefit report freshness is 0h."
+      "detail": "Official benefit report freshness is 0.7h."
     },
     {
       "name": "refresh all pipeline",
@@ -283,6 +303,11 @@
       "name": "provider risk gate",
       "ok": true,
       "detail": "Official benefit providers danger=0, watch=4."
+    },
+    {
+      "name": "official source readiness gate",
+      "ok": true,
+      "detail": "30 official source candidates, 30 visible official benefits, failed gates=0."
     }
   ]
 }

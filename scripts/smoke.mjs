@@ -552,8 +552,8 @@ await check("admin dashboard quality cards", async () => {
   assert(response.status === 200, `Expected 200, got ${response.status}`);
   assert(text.includes("운영 대시보드"), "Admin dashboard missing title");
   assert(text.includes("운영 헬스 리포트") && text.includes("검증 상품·공식 혜택 출시 게이트"), "Admin dashboard missing health readiness panel");
-  assert(text.includes("운영 준비 점수") && text.includes("상품 링크") && text.includes("공식 혜택") && text.includes("refresh:all") && text.includes("cron refresh"), "Admin dashboard missing health readiness summary cards");
-  assert(text.includes("공식 혜택 카테고리 커버리지") && text.includes("공식 혜택 Provider 상태") && text.includes("공식 혜택 Provider 위험도") && text.includes("API 보기"), "Admin dashboard missing health readiness category/provider risk/API controls");
+  assert(text.includes("운영 준비 점수") && text.includes("상품 링크") && text.includes("공식 혜택") && text.includes("공식 소스") && text.includes("refresh:all") && text.includes("cron refresh"), "Admin dashboard missing health readiness summary cards");
+  assert(text.includes("공식 혜택 카테고리 커버리지") && text.includes("공식 혜택 Provider 상태") && text.includes("공식 혜택 Provider 위험도") && text.includes("공식 소스 통합 준비도") && text.includes("API 보기"), "Admin dashboard missing health readiness category/provider/source risk/API controls");
   assert(text.includes("뉴스 수집 현황") && text.includes("공식 이벤트·무료 혜택 feed 후보"), "Admin dashboard missing news collection status");
   assert(text.includes("공식 피드 전환 준비도") && text.includes("공식 API/RSS/제휴 feed") && text.includes("seed fallback"), "Admin dashboard missing official feed transition readiness panel");
   assert(text.includes("Provider별 성공/실패") && text.includes("검증 실패 TOP10") && text.includes("최근 20개 수집 로그"), "Admin dashboard missing news provider/log operation panels");
@@ -879,6 +879,13 @@ await check("admin health readiness api", async () => {
   assert(Array.isArray(data.report?.officialBenefits?.providerRisks) && data.report.officialBenefits.providerRisks.length >= 4, "Admin health readiness should expose official benefit provider risks");
   assert(data.report.officialBenefits.providerRisks.every((risk) => risk.provider && risk.label && ["healthy", "watch", "danger"].includes(risk.severity)), "Admin health readiness provider risks missing launch fields");
   assert(data.report?.officialBenefits?.providerRiskSummary?.danger === 0, "Admin health readiness should show zero danger official benefit providers");
+  assert(data.report?.sourceReadiness?.ok === true, "Admin health readiness should expose passing source readiness");
+  assert(data.report?.sourceReadiness?.launchGateStatus === "passed", "Admin health readiness source launch gate should pass");
+  assert(data.report?.sourceReadiness?.officialSourceCandidates >= 30, "Admin health readiness should expose official source candidates");
+  assert(data.report?.sourceReadiness?.visibleOfficialBenefits >= 25, "Admin health readiness should expose source readiness official benefits");
+  assert(data.report?.sourceReadiness?.blockedLiveIssues === 0, "Admin health readiness should expose zero source blocked live issues");
+  assert(data.report?.sourceReadiness?.feedEnvFailedCount === 0, "Admin health readiness should expose zero source feed env failures");
+  assert(data.report?.sourceReadiness?.failedGateCount === 0, "Admin health readiness source gates should all pass");
   assert(data.report?.refreshAll?.ok === true, "Admin health readiness should show refresh:all success");
   assert(["healthy", "manual_refresh_ready", "stale", "failed"].includes(data.report?.cronRefresh?.status), "Admin health readiness should expose cron refresh status");
   assert(data.report?.cronRefresh?.protected === true, "Admin health readiness should expose protected cron refresh evidence");
@@ -886,6 +893,7 @@ await check("admin health readiness api", async () => {
   assert(data.report?.cronRefresh?.productDealsCount >= 140, "Admin health readiness should expose cron product count");
   assert(data.report?.cronRefresh?.newsDealsCount >= 25, "Admin health readiness should expose cron news count");
   assert(Array.isArray(data.report?.checks) && data.report.checks.every((check) => check.ok), "Admin health readiness checks should all pass");
+  assert(data.report.checks.some((check) => check.name === "official source readiness gate"), "Admin health readiness checks missing official source readiness gate");
 });
 
 await check("cron refresh api guard", async () => {
@@ -1362,6 +1370,13 @@ await check("health api", async () => {
   assert(typeof data.checks?.officialBenefitFeedConfiguredProviders === "number", "Health API missing configured official feed provider count");
   assert(typeof data.checks?.officialBenefitFeedSeedOnlyProviders === "number", "Health API missing seed-only official feed provider count");
   assert(Array.isArray(data.checks?.officialBenefitFeedRecommendedEnvKeys), "Health API missing recommended official feed env keys");
+  assert(data.checks?.officialSourceReadinessOk === true, "Health API missing passing official source readiness");
+  assert(data.checks?.officialSourceLaunchGateStatus === "passed", "Health API missing source readiness launch gate");
+  assert(data.checks?.officialSourceCandidates >= 30, "Health API missing official source candidate count");
+  assert(data.checks?.officialSourceConfiguredFeedUrls >= 0, "Health API missing official source configured feed count");
+  assert(data.checks?.officialSourceFeedEnvFailedCount === 0, "Health API found source feed env failures");
+  assert(data.checks?.officialSourceBlockedLiveIssues === 0, "Health API found source blocked live issues");
+  assert(data.checks?.officialSourceFailedGateCount === 0, "Health API found source readiness failed gates");
   assert(["healthy", "manual_refresh_ready", "stale", "failed"].includes(data.checks?.cronRefreshStatus), "Health API missing cron refresh status");
   assert(data.checks?.cronRefreshProtected === true, "Health API missing protected cron refresh evidence");
   assert(data.checks?.cronRefreshSchedule === "0 */6 * * *", "Health API missing 6-hour cron refresh schedule");

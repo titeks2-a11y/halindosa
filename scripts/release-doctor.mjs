@@ -4268,6 +4268,7 @@ function checkHealthReadinessReport() {
   const requiredFiles = [
     "scripts/health-readiness-report.mjs",
     "lib/operations/healthReadiness.ts",
+    "app/api/health/route.ts",
     "app/api/admin/health-readiness/route.ts",
     "components/AdminHealthReadinessPanel.tsx",
     "reports/health-readiness.json",
@@ -4282,6 +4283,7 @@ function checkHealthReadinessReport() {
   const roadmap = existsSync(join(root, "docs/roadmap.md")) ? readFileSync(join(root, "docs/roadmap.md"), "utf8") : "";
   const releaseEvidence = existsSync(join(root, "scripts/release-evidence.mjs")) ? readFileSync(join(root, "scripts/release-evidence.mjs"), "utf8") : "";
   const healthScript = existsSync(join(root, "scripts/health-readiness-report.mjs")) ? readFileSync(join(root, "scripts/health-readiness-report.mjs"), "utf8") : "";
+  const publicHealthRoute = existsSync(join(root, "app/api/health/route.ts")) ? readFileSync(join(root, "app/api/health/route.ts"), "utf8") : "";
   const healthApiRoute = existsSync(join(root, "app/api/admin/health-readiness/route.ts")) ? readFileSync(join(root, "app/api/admin/health-readiness/route.ts"), "utf8") : "";
   const adminPage = existsSync(join(root, "app/admin/page.tsx")) ? readFileSync(join(root, "app/admin/page.tsx"), "utf8") : "";
   const adminHealthPanel = existsSync(join(root, "components/AdminHealthReadinessPanel.tsx")) ? readFileSync(join(root, "components/AdminHealthReadinessPanel.tsx"), "utf8") : "";
@@ -4298,8 +4300,11 @@ function checkHealthReadinessReport() {
   if (!String(packageJson.scripts?.["qa:release"] ?? "").includes("health:readiness")) {
     issues.push("qa:release should include health:readiness before release submission reports");
   }
-  for (const phrase of ["productVerificationRate", "official benefit category coverage", "provider risk gate", "refresh all pipeline", "cron refresh operations", "reports/health-readiness.json", "docs/HEALTH_READINESS_REPORT.md"]) {
+  for (const phrase of ["productVerificationRate", "official benefit category coverage", "provider risk gate", "official source readiness gate", "source-readiness.json", "refresh all pipeline", "cron refresh operations", "reports/health-readiness.json", "docs/HEALTH_READINESS_REPORT.md"]) {
     if (!healthScript.includes(phrase)) issues.push(`health readiness script missing ${phrase}`);
+  }
+  if (!publicHealthRoute.includes("getOfficialSourceReadiness") || !publicHealthRoute.includes("officialSourceReadinessOk") || !publicHealthRoute.includes("officialSourceCandidates")) {
+    issues.push("public health API should expose official source readiness summary");
   }
   if (!healthApiRoute.includes("getHealthReadinessReport") || !healthApiRoute.includes("canAccessAdmin") || !healthApiRoute.includes("admin-health-readiness")) {
     issues.push("admin health readiness API should be protected and return the generated report");
@@ -4307,10 +4312,10 @@ function checkHealthReadinessReport() {
   if (!adminPage.includes("AdminHealthReadinessPanel") || !adminPage.includes("healthReadinessApiHref") || !adminPage.includes("/api/admin/health-readiness")) {
     issues.push("admin page should expose health readiness panel and API link");
   }
-  for (const phrase of ["운영 헬스 리포트", "검증 상품·공식 혜택 출시 게이트", "공식 혜택 카테고리 커버리지", "공식 혜택 Provider 위험도", "refresh:all", "cron refresh"]) {
+  for (const phrase of ["운영 헬스 리포트", "검증 상품·공식 혜택 출시 게이트", "공식 혜택 카테고리 커버리지", "공식 혜택 Provider 위험도", "공식 소스 통합 준비도", "refresh:all", "cron refresh"]) {
     if (!adminHealthPanel.includes(phrase)) issues.push(`admin health readiness panel missing ${phrase}`);
   }
-  if (!smokeScript.includes("admin health readiness api") || !smokeScript.includes("/api/admin/health-readiness") || !smokeScript.includes("운영 헬스 리포트") || !smokeScript.includes("Admin health readiness should expose cron refresh status")) {
+  if (!smokeScript.includes("admin health readiness api") || !smokeScript.includes("/api/admin/health-readiness") || !smokeScript.includes("운영 헬스 리포트") || !smokeScript.includes("Admin health readiness should expose cron refresh status") || !smokeScript.includes("Admin health readiness should expose passing source readiness")) {
     issues.push("smoke tests should cover admin health readiness API and dashboard panel");
   }
   if (!releaseEvidence.includes("HEALTH_READINESS_REPORT.md") || !releaseEvidence.includes("health-readiness.json")) {
@@ -4322,8 +4327,8 @@ function checkHealthReadinessReport() {
   if (!roadmap.includes("운영 헬스 리포트") || !roadmap.includes("health:readiness")) {
     issues.push("roadmap should document the operational health readiness gate");
   }
-  if (!docsReport.includes("운영 헬스 리포트") || !docsReport.includes("검색 링크 노출") || !docsReport.includes("카테고리 커버리지") || !docsReport.includes("공식 혜택 Provider 상태") || !docsReport.includes("공식 혜택 Provider 위험도") || !docsReport.includes("자동 refresh cron 운영")) {
-    issues.push("docs/HEALTH_READINESS_REPORT.md should summarize search exposure, category coverage, official benefit provider status, provider risk, and cron refresh operation");
+  if (!docsReport.includes("운영 헬스 리포트") || !docsReport.includes("검색 링크 노출") || !docsReport.includes("카테고리 커버리지") || !docsReport.includes("공식 혜택 Provider 상태") || !docsReport.includes("공식 혜택 Provider 위험도") || !docsReport.includes("공식 소스 통합 준비도") || !docsReport.includes("자동 refresh cron 운영")) {
+    issues.push("docs/HEALTH_READINESS_REPORT.md should summarize search exposure, category coverage, official benefit provider status, source readiness, provider risk, and cron refresh operation");
   }
 
   if (report.ok !== true) issues.push("health readiness report should pass");
@@ -4344,6 +4349,15 @@ function checkHealthReadinessReport() {
   }
   if ((report.officialBenefits?.providerRiskSummary?.danger ?? 999) !== 0) {
     issues.push("health readiness should show zero danger official benefit providers");
+  }
+  if (report.sourceReadiness?.ok !== true || report.sourceReadiness?.launchGateStatus !== "passed") {
+    issues.push("health readiness should include a passing official source readiness gate");
+  }
+  if ((report.sourceReadiness?.officialSourceCandidates ?? 0) < 30 || (report.sourceReadiness?.visibleOfficialBenefits ?? 0) < 25) {
+    issues.push("health readiness source readiness summary should preserve official source and benefit counts");
+  }
+  if ((report.sourceReadiness?.blockedLiveIssues ?? 1) !== 0 || (report.sourceReadiness?.feedEnvFailedCount ?? 1) !== 0 || (report.sourceReadiness?.failedGateCount ?? 1) !== 0) {
+    issues.push("health readiness source readiness summary should show zero live, feed env, and gate failures");
   }
   if ((report.officialBenefits?.readyCategories ?? 0) < (report.officialBenefits?.requiredCategories ?? 10)) {
     issues.push("health readiness should show all official benefit categories ready");

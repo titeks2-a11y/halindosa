@@ -65,6 +65,7 @@ const newsQuality = readJson("reports/news-deals.json", {});
 const refreshAll = readJson("reports/refresh-all.json", {});
 const refreshDeals = readJson("reports/refresh-deals.json", {});
 const cronRefreshReport = readJson(cronReportPath, {});
+const sourceReadiness = readJson("reports/source-readiness.json", {});
 
 const productDealsCount = Number(refreshAll.productDealsCount ?? productQuality.totalProducts ?? linkValidation.totalDeals ?? 0);
 const visibleProducts = Number(productQuality.visibleProducts ?? linkValidation.visibleDeals ?? 0);
@@ -163,6 +164,16 @@ const officialBenefitProviderRiskSummary = {
   watch: officialBenefitProviderRisks.filter((risk) => risk.severity === "watch").length,
   danger: officialBenefitProviderRisks.filter((risk) => risk.severity === "danger").length
 };
+const sourceReadinessFailedGates = Array.isArray(sourceReadiness.gates) ? sourceReadiness.gates.filter((gate) => gate.ok !== true) : [];
+const sourceReadinessSummary = sourceReadiness.summary ?? {};
+const sourceReadinessOk =
+  sourceReadiness.ok === true &&
+  sourceReadiness.launchGateStatus === "passed" &&
+  Number(sourceReadinessSummary.officialSourceCandidates ?? 0) >= 30 &&
+  Number(sourceReadinessSummary.visibleOfficialBenefits ?? 0) >= 25 &&
+  Number(sourceReadinessSummary.blockedLiveIssues ?? 1) === 0 &&
+  Number(sourceReadinessSummary.feedEnvFailedCount ?? 1) === 0 &&
+  sourceReadinessFailedGates.length === 0;
 
 const checks = [
   productDealsCount >= 140
@@ -203,7 +214,16 @@ const checks = [
     : fail("provider stats coverage", `Product providers=${providerStats.product.length}, news providers=${providerStats.news.length}.`),
   officialBenefitProviderRiskSummary.danger === 0
     ? pass("provider risk gate", `Official benefit providers danger=${officialBenefitProviderRiskSummary.danger}, watch=${officialBenefitProviderRiskSummary.watch}.`)
-    : fail("provider risk gate", `Official benefit providers danger=${officialBenefitProviderRiskSummary.danger}.`)
+    : fail("provider risk gate", `Official benefit providers danger=${officialBenefitProviderRiskSummary.danger}.`),
+  sourceReadinessOk
+    ? pass(
+        "official source readiness gate",
+        `${Number(sourceReadinessSummary.officialSourceCandidates ?? 0)} official source candidates, ${Number(sourceReadinessSummary.visibleOfficialBenefits ?? 0)} visible official benefits, failed gates=${sourceReadinessFailedGates.length}.`
+      )
+    : fail(
+        "official source readiness gate",
+        `Run npm run source:readiness:report. launch=${sourceReadiness.launchGateStatus ?? "missing"}, candidates=${Number(sourceReadinessSummary.officialSourceCandidates ?? 0)}, visible=${Number(sourceReadinessSummary.visibleOfficialBenefits ?? 0)}, failedGates=${sourceReadinessFailedGates.length}.`
+      )
 ];
 
 const failures = checks.filter((check) => !check.ok);
@@ -284,6 +304,20 @@ const report = {
     failedCount: Number((cronRefreshReport.refreshAll ?? refreshAll).failedCount ?? 0),
     message: cronRefreshReport.message ?? "아직 cron 직접 실행 리포트는 없지만 refresh:all 수동 리포트는 정상입니다."
   },
+  sourceReadiness: {
+    ok: sourceReadinessOk,
+    readinessLabel: sourceReadiness.readinessLabel ?? "통합 준비도 리포트 생성 필요",
+    launchGateStatus: sourceReadiness.launchGateStatus ?? "missing",
+    officialSourceCandidates: Number(sourceReadinessSummary.officialSourceCandidates ?? 0),
+    reachableSources: Number(sourceReadinessSummary.reachableSources ?? 0),
+    guardedSources: Number(sourceReadinessSummary.guardedSources ?? 0),
+    configuredFeedUrls: Number(sourceReadinessSummary.configuredFeedUrls ?? 0),
+    visibleOfficialBenefits: Number(sourceReadinessSummary.visibleOfficialBenefits ?? 0),
+    blockedLiveIssues: Number(sourceReadinessSummary.blockedLiveIssues ?? 0),
+    feedEnvFailedCount: Number(sourceReadinessSummary.feedEnvFailedCount ?? 0),
+    failedGateCount: sourceReadinessFailedGates.length,
+    operatorNextActions: Array.isArray(sourceReadiness.operatorNextActions) ? sourceReadiness.operatorNextActions.slice(0, 5) : []
+  },
   checks
 };
 
@@ -310,6 +344,9 @@ const docsLines = [
   `- 공식 혜택 카테고리 커버리지: ${readyNewsCategories.length}/${requiredNewsCategories.length}`,
   `- 공식 혜택 Provider: ${activeNewsProviders.length}개 (feed 연결 ${configuredNewsProviders.length}개)`,
   `- 공식 혜택 Provider 위험도: 정상 ${officialBenefitProviderRiskSummary.healthy}개 · 관찰 ${officialBenefitProviderRiskSummary.watch}개 · 즉시 점검 ${officialBenefitProviderRiskSummary.danger}개`,
+  `- 공식 소스 통합 준비도: ${report.sourceReadiness.readinessLabel}`,
+  `- 공식 소스 후보/노출 혜택: ${report.sourceReadiness.officialSourceCandidates}개 / ${report.sourceReadiness.visibleOfficialBenefits}개`,
+  `- 공식 소스 차단 이슈: ${report.sourceReadiness.blockedLiveIssues + report.sourceReadiness.feedEnvFailedCount + report.sourceReadiness.failedGateCount}개`,
   `- 공식 혜택 리포트 신선도: ${formatValue(newsFreshnessHours)}시간`,
   `- refresh:all 상태: ${refreshAll.ok === true ? "PASS" : "FAIL"}`,
   `- cron refresh 상태: ${cronRefreshLabel} (${cronRefreshStatus})`,
@@ -342,6 +379,19 @@ const docsLines = [
   ...(officialBenefitProviderRisks.length
     ? officialBenefitProviderRisks.map((risk) => `| ${risk.provider} | ${risk.label} | ${risk.source} | ${risk.visibleCount} | ${risk.issueCount} | ${risk.failureRate}% | ${risk.reason} |`)
     : ["| 없음 | 리포트 없음 | - | 0 | 0 | 0% | provider risk 리포트가 없습니다. |"]),
+  "",
+  "## 공식 소스 통합 준비도",
+  "",
+  `- 상태: ${report.sourceReadiness.readinessLabel} (${report.sourceReadiness.launchGateStatus})`,
+  `- 공식 소스 후보: ${report.sourceReadiness.officialSourceCandidates}개`,
+  `- 접근 가능/보호 소스: ${report.sourceReadiness.reachableSources}개 / ${report.sourceReadiness.guardedSources}개`,
+  `- 설정된 공식 feed URL: ${report.sourceReadiness.configuredFeedUrls}개`,
+  `- 공식 혜택 노출 가능: ${report.sourceReadiness.visibleOfficialBenefits}개`,
+  `- 차단 이슈: ${report.sourceReadiness.blockedLiveIssues + report.sourceReadiness.feedEnvFailedCount + report.sourceReadiness.failedGateCount}개`,
+  "",
+  "### 공식 소스 다음 액션",
+  "",
+  ...(report.sourceReadiness.operatorNextActions.length ? report.sourceReadiness.operatorNextActions.map((action) => `- ${action}`) : ["- npm run source:readiness:report를 실행해 공식 소스 통합 준비도 리포트를 생성하세요."]),
   "",
   "## 자동 refresh cron 운영",
   "",

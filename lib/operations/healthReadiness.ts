@@ -108,6 +108,20 @@ export interface HealthReadinessReport {
     failedCount: number;
     message: string;
   };
+  sourceReadiness: {
+    ok: boolean;
+    readinessLabel: string;
+    launchGateStatus: string;
+    officialSourceCandidates: number;
+    reachableSources: number;
+    guardedSources: number;
+    configuredFeedUrls: number;
+    visibleOfficialBenefits: number;
+    blockedLiveIssues: number;
+    feedEnvFailedCount: number;
+    failedGateCount: number;
+    operatorNextActions: string[];
+  };
   checks: HealthReadinessCheck[];
 }
 
@@ -186,6 +200,20 @@ const fallbackReport: HealthReadinessReport = {
     failedCount: 0,
     message: "Run npm run refresh:all && npm run health:readiness before release review."
   },
+  sourceReadiness: {
+    ok: false,
+    readinessLabel: "통합 준비도 리포트 생성 필요",
+    launchGateStatus: "blocked",
+    officialSourceCandidates: 0,
+    reachableSources: 0,
+    guardedSources: 0,
+    configuredFeedUrls: 0,
+    visibleOfficialBenefits: 0,
+    blockedLiveIssues: 0,
+    feedEnvFailedCount: 0,
+    failedGateCount: 1,
+    operatorNextActions: ["npm run source:readiness:report 실행 후 health:readiness를 다시 실행하세요."]
+  },
   checks: [
     {
       name: "health readiness report",
@@ -210,6 +238,7 @@ export function getHealthReadinessReport(): HealthReadinessReport {
       officialBenefits: { ...fallbackReport.officialBenefits, ...report.officialBenefits },
       refreshAll: { ...fallbackReport.refreshAll, ...report.refreshAll },
       cronRefresh: { ...fallbackReport.cronRefresh, ...report.cronRefresh },
+      sourceReadiness: { ...fallbackReport.sourceReadiness, ...report.sourceReadiness },
       checks: Array.isArray(report.checks) ? report.checks : fallbackReport.checks
     };
   } catch {
