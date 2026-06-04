@@ -71,6 +71,9 @@ npm run smoke
     - `reports/official-benefit-alerts.json`과 `docs/OFFICIAL_BENEFIT_ALERTS_REPORT.md`를 생성한다.
     - 추천 후보는 외부 URL을 직접 노출하지 않고 `/go/news/[id]` 내부 경로만 사용해야 한다.
     - 기본 관심 카테고리 `무료/체험`, `쿠폰/이벤트`, `마트/편의점`, `영화/문화`가 모두 후보를 가져야 하며, 공식 혜택 40개 이상과 redirect 안전성 통과를 출시 기준으로 본다.
+  - 관리자 공식 혜택 알림 리포트: `GET /api/admin/official-alerts?token=$ADMIN_EXPORT_TOKEN`
+    - CSV 검수표는 `GET /api/admin/official-alerts?format=csv&token=$ADMIN_EXPORT_TOKEN`로 내려받는다.
+    - `/admin`의 `공식 혜택 알림 후보` 영역에서 추천 후보, 관심 매칭, `/go/news/[id]` 이동 경로를 바로 확인한다.
   - 앱 알림 후보 API: `GET /api/benefits/official-alerts?interest=무료%2F체험&limit=6`
     - 비회원 기기 저장 관심 카테고리와 최근 본 공식 혜택 ID를 받아 인앱 알림 후보를 반환한다.
     - 실제 푸시 발송 전에는 이 API와 `official:alerts:report`를 함께 확인해 검색 결과, 커뮤니티 원문, 종료 혜택이 후보에 섞이지 않았는지 검수한다.

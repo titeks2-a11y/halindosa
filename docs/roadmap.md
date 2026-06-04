@@ -67,6 +67,7 @@
 - 알림 센터에 `OfficialBenefitAlertPreview`를 추가해 검색 결과·커뮤니티 원문이 아닌 공식 페이지 이동이 검증된 공식 혜택만 “공식 혜택 알림 후보”로 보여주고, `halindosa:recent-news-benefits` 최근 본 공식 혜택과 알림 받을 카테고리가 같은 후보 정렬에 반영되도록 했다.
 - `/api/benefits/official-alerts`와 `lib/deals/officialBenefitAlertQueue.ts`를 추가해 비회원 기기 관심 카테고리와 최근 본 공식 혜택을 공식 혜택 알림 후보 API로 재사용하고, 향후 홈 위젯/푸시 후보/운영 리포트가 같은 공식 혜택 정렬 기준을 쓰도록 준비했다.
 - `official:alerts:report`, `reports/official-benefit-alerts.json`, `docs/OFFICIAL_BENEFIT_ALERTS_REPORT.md`를 추가해 공식 혜택 알림 후보 수, 기본 관심 카테고리 커버리지, 최근 본 혜택 시나리오, `/go/news/[id]` redirect 안전성을 매일 QA 산출물로 남기게 했다.
+- `/api/admin/official-alerts`와 `/api/admin/official-alerts?format=csv`를 추가하고 `/admin`의 `공식 혜택 알림 후보` 운영 패널에 연결해 공식 혜택 알림 추천 후보를 관리자 화면과 스프레드시트에서 바로 검수할 수 있게 했다.
 
 ### PHASE Premium Commerce UX and Operations
 

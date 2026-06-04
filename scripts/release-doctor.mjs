@@ -2087,6 +2087,7 @@ async function checkOperationalDataSurfaces() {
   const pushDeliveryAudit = await text("lib/pushDeliveryAudit.ts");
   const pushDeliveryAuditDoctor = await text("scripts/push-delivery-audit-doctor.mjs");
   const officialBenefitAlertReportScript = await text("scripts/official-benefit-alert-report.mjs");
+  const adminOfficialAlertsRoute = await text("app/api/admin/official-alerts/route.ts");
   const adminNotificationCampaignsRoute = await text("app/api/admin/notification-campaigns/route.ts");
   const adminPushReadinessRoute = await text("app/api/admin/push-readiness/route.ts");
   const adminPushDryRunPanel = await text("components/AdminPushDryRunPanel.tsx");
@@ -2423,6 +2424,12 @@ async function checkOperationalDataSurfaces() {
     !officialBenefitAlertReportScript.includes("redirectSafety") ||
     !officialBenefitAlertReportScript.includes("/go/news/") ||
     !officialBenefitAlertReportScript.includes("defaultInterests") ||
+    !adminOfficialAlertsRoute.includes("canAccessAdminRequest") ||
+    !adminOfficialAlertsRoute.includes("official-benefit-alerts.json") ||
+    !adminOfficialAlertsRoute.includes("format\") === \"csv\"") ||
+    !adminPage.includes("officialAlertsApiHref") ||
+    !adminPage.includes("officialAlertsCsvHref") ||
+    !adminPage.includes("공식 혜택 알림 후보") ||
     officialBenefitAlertReport.ok !== true ||
     (officialBenefitAlertReport.totals?.activeOfficialBenefits ?? 0) < 40 ||
     (officialBenefitAlertReport.defaultQueue?.recommendedBenefits ?? 0) < 6 ||
@@ -2434,11 +2441,13 @@ async function checkOperationalDataSurfaces() {
     !officialBenefitAlertReportDoc.includes("기본 관심 카테고리 커버리지") ||
     !runbook.includes("official:alerts:report") ||
     !runbook.includes("/api/benefits/official-alerts") ||
-    !roadmap.includes("official:alerts:report")
+    !roadmap.includes("official:alerts:report") ||
+    !smoke.includes("admin official benefit alerts api") ||
+    !smoke.includes("Admin dashboard missing official benefit alert operations panel")
   ) {
-    fail("official benefit alert operations report", "Official benefit alert candidates should have a QA report, docs, default interest coverage, and /go/news redirect safety evidence.");
+    fail("official benefit alert operations report", "Official benefit alert candidates should have a QA report, docs, protected admin API/CSV, default interest coverage, and /go/news redirect safety evidence.");
   } else {
-    pass("official benefit alert operations report", "Official benefit alert candidates have a QA report, docs, default interest coverage, and /go/news redirect safety evidence.");
+    pass("official benefit alert operations report", "Official benefit alert candidates have a QA report, docs, protected admin API/CSV, default interest coverage, and /go/news redirect safety evidence.");
   }
 
   if (
@@ -4745,6 +4754,7 @@ function checkAdminAuthHardening() {
     "app/api/admin/link-launch-gate/route.ts",
     "app/api/admin/news-operations/route.ts",
     "app/api/admin/notification-campaigns/route.ts",
+    "app/api/admin/official-alerts/route.ts",
     "app/api/admin/push-readiness/route.ts",
     "app/api/admin/push/send/route.ts",
     "app/api/admin/reports/route.ts",

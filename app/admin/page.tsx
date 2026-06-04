@@ -11,6 +11,7 @@ import { canAccessAdmin, getAdminExportHref, isAdminProtectionEnabled } from "@/
 import { getDeals } from "@/lib/dealService";
 import { buildBenefitDecisionGuide } from "@/lib/deals/benefitDecisionGuide";
 import { buildClaimEffortSummary } from "@/lib/deals/claimEffort";
+import { buildOfficialBenefitAlertQueue } from "@/lib/deals/officialBenefitAlertQueue";
 import { getVisibleNewsDeals } from "@/lib/deals/newsDeals";
 import { getNewsOperationsReport } from "@/lib/deals/newsOperations";
 import { readDealOperationOverridesLive } from "@/lib/deals/operationOverrides";
@@ -102,6 +103,8 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const linkLaunchGate = getLinkLaunchGateReport();
   const newsResult = getVisibleNewsDeals({ limit: 20 });
   const newsDeals = newsResult.deals;
+  const officialAlertNewsResult = getVisibleNewsDeals({ limit: 60 });
+  const officialBenefitAlertQueue = buildOfficialBenefitAlertQueue(officialAlertNewsResult.deals, { limit: 8 });
   const newsCategoryCounts = Array.from(
     newsDeals.reduce((map, deal) => map.set(deal.category, (map.get(deal.category) ?? 0) + 1), new Map<string, number>())
   ).sort((a, b) => b[1] - a[1]);
@@ -186,6 +189,12 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const pushReadinessApiHref = isAdminProtectionEnabled()
     ? `/api/admin/push-readiness?token=${encodeURIComponent(token ?? "")}`
     : "/api/admin/push-readiness";
+  const officialAlertsApiHref = isAdminProtectionEnabled()
+    ? `/api/admin/official-alerts?token=${encodeURIComponent(token ?? "")}`
+    : "/api/admin/official-alerts";
+  const officialAlertsCsvHref = isAdminProtectionEnabled()
+    ? `/api/admin/official-alerts?format=csv&token=${encodeURIComponent(token ?? "")}`
+    : "/api/admin/official-alerts?format=csv";
   const sourceReadiness = getDealSourceReadiness(deals);
   const sourceLiveRiskRows = sourceLiveReport.sources.filter((item) => item.status !== "reachable").slice(0, 5);
   const sourceOnboardingTopQueue = sourceOnboardingPlan.queue.slice(0, 8);
@@ -1145,6 +1154,60 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
             </div>
             <p className="mt-3 rounded-2xl bg-white px-3 py-2 text-xs font-bold leading-5 text-slate-500">
               {pushSubscriptionReadiness.nextActions[0]} · {pushSubscriptionReadiness.nextActions[2]}
+            </p>
+          </div>
+          <div className="mt-4 rounded-2xl border border-amber-100 bg-amber-50 p-4" aria-label="공식 혜택 알림 후보 운영 리포트">
+            <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+              <div>
+                <p className="text-sm font-black text-slate-950">공식 혜택 알림 후보</p>
+                <p className="mt-1 text-xs font-bold leading-5 text-amber-800">
+                  검색 결과나 커뮤니티 원문이 아니라 공식 페이지 이동이 검증된 혜택만 인앱 알림 후보로 편성합니다.
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <a href={officialAlertsApiHref} className="rounded-2xl bg-brand-navy px-4 py-2.5 text-xs font-black text-white">
+                  알림 후보 API
+                </a>
+                <a href={officialAlertsCsvHref} className="rounded-2xl bg-white px-4 py-2.5 text-xs font-black text-amber-700 shadow-sm">
+                  CSV
+                </a>
+              </div>
+            </div>
+            <div className="mt-3 grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
+              {[
+                ["활성 공식 혜택", officialBenefitAlertQueue.summary.totalActiveBenefits],
+                ["관심 매칭", officialBenefitAlertQueue.summary.interestMatchedBenefits],
+                ["추천 후보", officialBenefitAlertQueue.summary.recommendedBenefits],
+                ["최근 본 혜택", officialBenefitAlertQueue.summary.recentBenefits]
+              ].map(([label, value]) => (
+                <div key={label} className="rounded-2xl bg-white p-3">
+                  <p className="text-[11px] font-black text-slate-500">{label}</p>
+                  <p className="mt-1 text-lg font-black text-slate-950">{Number(value).toLocaleString("ko-KR")}</p>
+                </div>
+              ))}
+            </div>
+            <div className="mt-3 grid gap-3 lg:grid-cols-2">
+              {officialBenefitAlertQueue.items.slice(0, 4).map((item) => (
+                <a
+                  key={item.id}
+                  href={item.redirectUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-2xl bg-white p-3 text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+                >
+                  <div className="flex items-start justify-between gap-2">
+                    <p className="line-clamp-2 text-xs font-black leading-5 text-slate-950">{item.title}</p>
+                    <span className="shrink-0 rounded-full bg-amber-100 px-2 py-1 text-[10px] font-black text-amber-800">
+                      /go/news
+                    </span>
+                  </div>
+                  <p className="mt-1 line-clamp-1 text-[11px] font-bold text-slate-500">{item.sourceName} · {item.category}</p>
+                  <p className="mt-2 line-clamp-2 text-[11px] font-bold leading-5 text-amber-800">{item.reason}</p>
+                </a>
+              ))}
+            </div>
+            <p className="mt-3 rounded-2xl bg-white px-3 py-2 text-xs font-bold leading-5 text-slate-500">
+              운영 리포트는 `npm run official:alerts:report`로 갱신하며, 기본 관심 카테고리와 redirect 안전성이 깨지면 `release:doctor`가 실패합니다.
             </p>
           </div>
           <div className="mt-4 grid gap-3 lg:grid-cols-2">

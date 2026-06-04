@@ -590,6 +590,7 @@ await check("admin dashboard quality cards", async () => {
   assert(text.includes("알림 캠페인 운영 큐") && text.includes("오늘 발송 후보와 FCM 준비 상태"), "Admin dashboard missing notification campaign queue");
   assert(text.includes("푸시 구독·동의 준비도") && text.includes("관심 카테고리 세그먼트") && text.includes("동의/철회 체크"), "Admin dashboard missing push subscription readiness panel");
   assert(text.includes("푸시 준비도 API") && text.includes("dry-run 준비"), "Admin dashboard missing push readiness API/status");
+  assert(text.includes("공식 혜택 알림 후보") && text.includes("알림 후보 API") && text.includes("CSV"), "Admin dashboard missing official benefit alert operations panel");
   assert(text.includes("검증 상품 캠페인") && text.includes("공식 혜택 캠페인"), "Admin dashboard missing split notification campaign queues");
   assert(text.includes("공식 이벤트/공공/쿠폰 페이지가 검증된 혜택만 푸시 후보로 편성합니다"), "Admin dashboard missing official benefit campaign trust copy");
   assert(text.includes("FCM 테스트 발송 dry-run") && text.includes("운영 토큰으로 발송 후보를 안전하게 점검"), "Admin dashboard missing push dry-run panel");
@@ -1059,6 +1060,22 @@ await check("admin push readiness api", async () => {
   assert(Array.isArray(data.report?.segmentCoverage) && data.report.segmentCoverage.length >= 10, "Push readiness should expose segment coverage");
   assert(Array.isArray(data.report?.consentChecklist) && data.report.consentChecklist.length >= 5, "Push readiness should expose consent checklist");
   assert(Array.isArray(data.report?.databaseTables) && data.report.databaseTables.some((table) => table.table === "push_subscriptions"), "Push readiness should expose push subscription table readiness");
+});
+
+await check("admin official benefit alerts api", async () => {
+  const { response, data } = await fetchJson("/api/admin/official-alerts");
+  assert(response.status === 200, `Expected 200, got ${response.status}`);
+  assert(data.ok === true, "Admin official benefit alerts API ok should be true");
+  assert(data.report?.totals?.activeOfficialBenefits >= 40, "Official benefit alert admin report should expose active official benefits");
+  assert(data.report?.defaultQueue?.recommendedBenefits >= 6, "Official benefit alert admin report should expose recommendations");
+  assert(data.report?.redirectSafety?.ok === true, "Official benefit alert admin report should prove redirect safety");
+  assert(Array.isArray(data.report?.interestCoverage) && data.report.interestCoverage.length >= 4, "Official benefit alert admin report should expose interest coverage");
+
+  const csvResponse = await fetch(`${baseUrl}/api/admin/official-alerts?format=csv`);
+  const csv = await csvResponse.text();
+  assert(csvResponse.status === 200, `Expected 200, got ${csvResponse.status}`);
+  assert(csvResponse.headers.get("content-type")?.includes("text/csv"), "Official benefit alerts export is not CSV");
+  assert(csv.includes("summary") && csv.includes("redirectSafety") && csv.includes("/go/news/"), "Official benefit alerts CSV missing summary or redirect safety rows");
 });
 
 await check("admin push dry-run api", async () => {
