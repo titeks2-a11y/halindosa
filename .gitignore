@@ -17,6 +17,7 @@ dist/
 !.env.example
 data/dealOperationOverrides.local.json
 data/newsDealOverrides.local.json
+data/dealReports.local.json
 
 # Logs
 npm-debug.log*

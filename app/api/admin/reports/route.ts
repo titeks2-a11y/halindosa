@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
 import { canAccessAdminRequest } from "@/lib/adminAuth";
 import { createRequestId, getClientKey, rateLimit, rateLimitHeaders } from "@/lib/apiGuards";
-import { getReportSummary, listDealReports, updateDealReportStatus } from "@/lib/reports";
+import { recordDealOperationActionWithPersistence } from "@/lib/deals/operationOverrides";
+import { getReportStorageStatus, getReportSummary, listDealReports, updateDealReportStatus } from "@/lib/reports";
+import type { DealOperationAction } from "@/lib/deals/operationOverrides";
 
 export async function GET(request: Request) {
   const requestId = createRequestId();
@@ -45,6 +47,7 @@ export async function GET(request: Request) {
       requestId,
       reports,
       summary: getReportSummary(),
+      storage: getReportStorageStatus(),
       message: "신고 큐를 불러왔습니다."
     },
     { headers: rateLimitHeaders(limit, requestId) }
@@ -87,6 +90,8 @@ export async function PATCH(request: Request) {
   const body = (await request.json()) as {
     reportId?: string;
     status?: string;
+    operationAction?: DealOperationAction;
+    operationReason?: string;
   };
   const report = body.reportId && body.status ? updateDealReportStatus(body.reportId, body.status) : null;
 
@@ -101,13 +106,38 @@ export async function PATCH(request: Request) {
     );
   }
 
+  let operation: { action: DealOperationAction; dealId: string; reason: string } | null = null;
+  if (body.operationAction) {
+    const allowedActions = new Set<DealOperationAction>(["hide", "restore", "revalidate"]);
+    if (!allowedActions.has(body.operationAction)) {
+      return NextResponse.json(
+        {
+          ok: false,
+          requestId,
+          message: "지원하지 않는 상품 운영 액션입니다."
+        },
+        { status: 400, headers: rateLimitHeaders(limit, requestId) }
+      );
+    }
+
+    const reason = (body.operationReason || `report_${report.reason}_${body.status}`).trim().slice(0, 120);
+    await recordDealOperationActionWithPersistence(body.operationAction, report.dealId, reason);
+    operation = {
+      action: body.operationAction,
+      dealId: report.dealId,
+      reason
+    };
+  }
+
   return NextResponse.json(
     {
       ok: true,
       requestId,
       report,
+      operation,
       summary: getReportSummary(),
-      message: "신고 상태가 변경되었습니다."
+      storage: getReportStorageStatus(),
+      message: operation ? "신고 상태와 상품 노출 운영 액션이 함께 반영되었습니다." : "신고 상태가 변경되었습니다."
     },
     { headers: rateLimitHeaders(limit, requestId) }
   );

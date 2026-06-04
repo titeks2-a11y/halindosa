@@ -108,12 +108,140 @@ const reportStore = globalThis as typeof globalThis & {
   __halindosaReports?: DealReport[];
 };
 
+interface NodeStorage {
+  existsSync: (path: string) => boolean;
+  mkdirSync: (path: string, options?: { recursive?: boolean }) => void;
+  readFileSync: (path: string, encoding: BufferEncoding) => string;
+  writeFileSync: (path: string, data: string, encoding: BufferEncoding) => void;
+  dirname: (path: string) => string;
+  join: (...paths: string[]) => string;
+}
+
+interface ServerRuntime {
+  process?: {
+    cwd?: () => string;
+    getBuiltinModule?: (moduleName: string) => unknown;
+    versions?: {
+      node?: string;
+    };
+  };
+}
+
+function getNodeStorage(): NodeStorage | null {
+  const runtime = globalThis as typeof globalThis & ServerRuntime;
+
+  if (!runtime.process?.versions?.node || typeof window !== "undefined") {
+    return null;
+  }
+
+  try {
+    const fs = runtime.process.getBuiltinModule?.("fs") as Pick<NodeStorage, "existsSync" | "mkdirSync" | "readFileSync" | "writeFileSync"> | undefined;
+    const path = runtime.process.getBuiltinModule?.("path") as Pick<NodeStorage, "dirname" | "join"> | undefined;
+    if (!fs || !path) return null;
+
+    return {
+      existsSync: fs.existsSync,
+      mkdirSync: fs.mkdirSync,
+      readFileSync: fs.readFileSync,
+      writeFileSync: fs.writeFileSync,
+      dirname: path.dirname,
+      join: path.join
+    };
+  } catch {
+    return null;
+  }
+}
+
+function getReportsPath(storage: NodeStorage) {
+  const runtime = globalThis as typeof globalThis & ServerRuntime;
+  const cwd = runtime.process?.cwd?.() ?? "";
+
+  return storage.join(cwd, "data", "dealReports.local.json");
+}
+
+function normalizeReport(report: Partial<DealReport>): DealReport | null {
+  if (!report.id || !report.dealId || !report.reason || !report.status) return null;
+
+  const reason = reportReasons.has(report.reason as ReportReason) ? (report.reason as ReportReason) : "other";
+  const status = reportStatuses.has(report.status as ReportStatus) ? (report.status as ReportStatus) : "open";
+  const receivedAt = report.receivedAt || new Date().toISOString();
+
+  return {
+    id: report.id,
+    dealId: report.dealId,
+    mall: report.mall || "unknown",
+    title: report.title || "unknown",
+    reason,
+    message: report.message?.slice(0, maxReportMessageLength) ?? "",
+    status,
+    priority: report.priority ?? getReportPriority(reason),
+    recommendedAction: report.recommendedAction || getReportRecommendedAction(reason),
+    userExpectation: report.userExpectation || getReportResolutionPlan(reason).userExpectation,
+    operatorSla: report.operatorSla || getReportResolutionPlan(reason).operatorSla,
+    queueLabel: report.queueLabel || getReportResolutionPlan(reason).queueLabel,
+    receivedAt,
+    updatedAt: report.updatedAt || receivedAt
+  };
+}
+
+function readReportsFromDisk() {
+  const storage = getNodeStorage();
+  if (!storage) return [];
+
+  try {
+    const reportsPath = getReportsPath(storage);
+    if (!storage.existsSync(reportsPath)) return [];
+    const payload = JSON.parse(storage.readFileSync(reportsPath, "utf8")) as unknown;
+    const reports = Array.isArray(payload) ? payload : Array.isArray((payload as { reports?: unknown[] })?.reports) ? (payload as { reports: unknown[] }).reports : [];
+
+    return reports
+      .map((report) => normalizeReport(report as Partial<DealReport>))
+      .filter((report): report is DealReport => Boolean(report))
+      .sort((a, b) => new Date(b.receivedAt).getTime() - new Date(a.receivedAt).getTime())
+      .slice(0, 200);
+  } catch {
+    return [];
+  }
+}
+
+function writeReportsToDisk(reports: DealReport[]) {
+  const storage = getNodeStorage();
+  if (!storage) return;
+
+  const reportsPath = getReportsPath(storage);
+  storage.mkdirSync(storage.dirname(reportsPath), { recursive: true });
+  storage.writeFileSync(
+    reportsPath,
+    `${JSON.stringify(
+      {
+        updatedAt: new Date().toISOString(),
+        reports: reports.slice(0, 200)
+      },
+      null,
+      2
+    )}\n`,
+    "utf8"
+  );
+}
+
 function getReportStore() {
   if (!reportStore.__halindosaReports) {
-    reportStore.__halindosaReports = [];
+    reportStore.__halindosaReports = readReportsFromDisk();
   }
 
   return reportStore.__halindosaReports;
+}
+
+export function getReportStorageStatus() {
+  const storage = getNodeStorage();
+  const reportsPath = storage ? getReportsPath(storage) : "";
+
+  return {
+    localFile: Boolean(storage && reportsPath && storage.existsSync(reportsPath)),
+    localPath: reportsPath,
+    maxStoredReports: 200,
+    persistence: storage ? "local_file" : "memory"
+  };
 }
 
 export function validateDealReport(input: DealReportInput) {
@@ -174,6 +302,7 @@ export function saveDealReport(report: DealReport) {
   const reports = getReportStore();
   reports.unshift(report);
   reportStore.__halindosaReports = reports.slice(0, 200);
+  writeReportsToDisk(reportStore.__halindosaReports);
   return report;
 }
 
@@ -207,6 +336,7 @@ export function updateDealReportStatus(reportId: string, status: string) {
 
   report.status = status as ReportStatus;
   report.updatedAt = new Date().toISOString();
+  writeReportsToDisk(reports);
   return report;
 }
 

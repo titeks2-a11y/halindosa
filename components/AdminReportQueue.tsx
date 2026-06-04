@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { AlertTriangle, CheckCircle2, Eye, Link2Off, PackageX, XCircle } from "lucide-react";
+import { AlertTriangle, CheckCircle2, Eye, EyeOff, Link2Off, PackageX, RefreshCw, RotateCcw, XCircle } from "lucide-react";
 import { DealReport, getReportPriorityLabel, getReportReasonLabel, getReportStatusLabel } from "@/lib/reports";
 
 interface ReportSummary {
@@ -15,6 +15,7 @@ interface ReportSummary {
 interface AdminReportQueueProps {
   initialReports: DealReport[];
   initialSummary: ReportSummary;
+  initialStorage?: ReportStorage;
   token?: string;
 }
 
@@ -22,7 +23,20 @@ interface ReportsResponse {
   ok: boolean;
   reports: DealReport[];
   summary: ReportSummary;
+  storage?: ReportStorage;
+  operation?: {
+    action: "hide" | "restore" | "revalidate";
+    dealId: string;
+    reason: string;
+  } | null;
   message: string;
+}
+
+interface ReportStorage {
+  localFile: boolean;
+  localPath: string;
+  maxStoredReports: number;
+  persistence: string;
 }
 
 const statusActions = [
@@ -31,15 +45,40 @@ const statusActions = [
   { status: "dismissed", label: "기각", icon: XCircle }
 ];
 
+const operationActions = [
+  {
+    action: "hide",
+    status: "reviewing",
+    label: "노출 숨김",
+    icon: EyeOff,
+    reason: "admin_report_manual_hide"
+  },
+  {
+    action: "revalidate",
+    status: "reviewing",
+    label: "재검증 기록",
+    icon: RefreshCw,
+    reason: "admin_report_revalidate"
+  },
+  {
+    action: "restore",
+    status: "resolved",
+    label: "노출 복구",
+    icon: RotateCcw,
+    reason: "admin_report_restore"
+  }
+] as const;
+
 const priorityClassNames = {
   high: "bg-red-50 text-dossa-red",
   medium: "bg-amber-50 text-amber-700",
   low: "bg-slate-100 text-slate-600"
 };
 
-export function AdminReportQueue({ initialReports, initialSummary, token }: AdminReportQueueProps) {
+export function AdminReportQueue({ initialReports, initialSummary, initialStorage, token }: AdminReportQueueProps) {
   const [reports, setReports] = useState(initialReports);
   const [summary, setSummary] = useState(initialSummary);
+  const [storage, setStorage] = useState<ReportStorage | undefined>(initialStorage);
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -70,10 +109,18 @@ export function AdminReportQueue({ initialReports, initialSummary, token }: Admi
     if (data.ok) {
       setReports(data.reports);
       setSummary(data.summary);
+      setStorage(data.storage);
     }
   };
 
-  const updateStatus = async (reportId: string, status: string) => {
+  const updateStatus = async (
+    reportId: string,
+    status: string,
+    operation?: {
+      operationAction: "hide" | "restore" | "revalidate";
+      operationReason: string;
+    }
+  ) => {
     setIsLoading(true);
     setMessage("");
 
@@ -83,13 +130,14 @@ export function AdminReportQueue({ initialReports, initialSummary, token }: Admi
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ reportId, status })
+        body: JSON.stringify({ reportId, status, ...operation })
       });
       const data = (await response.json()) as ReportsResponse;
 
       setMessage(data.message);
       if (data.ok) {
         setSummary(data.summary);
+        setStorage(data.storage);
         await refreshReports();
       }
     } catch {
@@ -112,6 +160,9 @@ export function AdminReportQueue({ initialReports, initialSummary, token }: Admi
           </p>
           <p className="mt-1 text-xs font-bold text-slate-400">
             목표 처리 시간: 우선 검수 6시간 이내, 일반 검수 영업일 24시간 이내를 기준으로 운영합니다.
+          </p>
+          <p className="mt-1 text-xs font-bold text-slate-400">
+            저장 방식: {storage?.persistence === "local_file" ? "로컬 운영 파일" : "메모리"} · 최대 {storage?.maxStoredReports ?? 200}건 보관 · 상품 숨김/복구 액션은 노출 정책에 즉시 반영됩니다.
           </p>
         </div>
         <a
@@ -197,6 +248,30 @@ export function AdminReportQueue({ initialReports, initialSummary, token }: Admi
                           ? "bg-slate-200 text-slate-400"
                           : "bg-white text-slate-700 hover:bg-dossa-red hover:text-white"
                       } disabled:cursor-not-allowed`}
+                    >
+                      <Icon size={14} />
+                      {action.label}
+                    </button>
+                  );
+                })}
+              </div>
+              <div className="mt-2 flex flex-wrap gap-2 border-t border-white/70 pt-2">
+                {operationActions.map((action) => {
+                  const Icon = action.icon;
+
+                  return (
+                    <button
+                      key={action.action}
+                      type="button"
+                      disabled={isLoading}
+                      onClick={() =>
+                        updateStatus(report.id, action.status, {
+                          operationAction: action.action,
+                          operationReason: `${action.reason}:${report.reason}`
+                        })
+                      }
+                      className="inline-flex items-center gap-1 rounded-full bg-white px-3 py-2 text-xs font-black text-dossa-deep transition hover:bg-slate-950 hover:text-white disabled:cursor-not-allowed disabled:opacity-60"
+                      aria-label={`${report.title} ${action.label}`}
                     >
                       <Icon size={14} />
                       {action.label}

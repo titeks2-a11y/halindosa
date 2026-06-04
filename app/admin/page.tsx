@@ -24,7 +24,7 @@ import { formatPrice, getRelativeTime } from "@/lib/format";
 import { buildNotificationCampaigns, buildOfficialBenefitNotificationCampaigns, summarizeNotificationCampaigns, toPushQueueRows } from "@/lib/notificationCampaigns";
 import { buildPushSubscriptionReadiness } from "@/lib/pushReadiness";
 import { getPushReadiness } from "@/lib/pushNotifications";
-import { getReportSummary, listDealReports } from "@/lib/reports";
+import { getReportStorageStatus, getReportSummary, listDealReports } from "@/lib/reports";
 import { getCronRefreshOperationsReport } from "@/lib/operations/cronRefresh";
 import { getDailyOperationsReport } from "@/lib/operations/dailyOperations";
 import { getExposurePolicyReport } from "@/lib/operations/exposurePolicy";
@@ -2428,7 +2428,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
         </section>
 
         <div id="report-queue">
-          <AdminReportQueue initialReports={recentReports} initialSummary={reportSummary} token={token} />
+          <AdminReportQueue initialReports={recentReports} initialSummary={reportSummary} initialStorage={getReportStorageStatus()} token={token} />
         </div>
 
         <section className="rounded-3xl border border-red-100 bg-gradient-to-br from-red-50 via-white to-slate-50 p-5 shadow-sm">

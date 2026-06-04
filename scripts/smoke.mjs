@@ -1711,6 +1711,8 @@ await check("admin reports api", async () => {
   assert(data.summary?.total >= 1, "Admin reports summary should include submitted report");
   assert(Array.isArray(data.reports), "Admin reports list missing");
   assert(data.reports.some((report) => report.priority && report.recommendedAction), "Admin reports missing priority action fields");
+  assert(data.storage?.maxStoredReports === 200, "Admin reports API missing persisted queue storage metadata");
+  assert(["local_file", "memory"].includes(data.storage?.persistence), "Admin reports API missing persistence mode");
 });
 
 await check("admin report status update", async () => {
@@ -1731,16 +1733,35 @@ await check("admin report status update", async () => {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       reportId,
-      status: "reviewing"
+      status: "reviewing",
+      operationAction: "hide",
+      operationReason: "smoke_report_hide"
     })
   });
 
   assert(response.status === 200, `Expected 200, got ${response.status}`);
   assert(data.ok === true, "Report status update should be ok");
   assert(data.report?.status === "reviewing", `Expected reviewing, got ${data.report?.status}`);
+  assert(data.operation?.action === "hide" && data.operation?.dealId === "d002", "Report update should record a matching hide operation");
   assert(data.report?.priority === "high", `Expected high priority link error report, got ${data.report?.priority}`);
   assert(data.report?.recommendedAction?.includes("링크"), "Link error report missing recommended link action");
   assert(data.report?.operatorSla?.includes("6시간") && data.report?.queueLabel?.includes("링크"), "Link error report missing SLA and queue label");
+  assert(data.storage?.maxStoredReports === 200, "Report update response missing storage metadata");
+
+  const restored = await fetchJson("/api/admin/reports", {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      reportId,
+      status: "resolved",
+      operationAction: "restore",
+      operationReason: "smoke_report_restore"
+    })
+  });
+
+  assert(restored.response.status === 200, `Expected restore 200, got ${restored.response.status}`);
+  assert(restored.data.ok === true, "Report restore operation should be ok");
+  assert(restored.data.operation?.action === "restore" && restored.data.operation?.dealId === "d002", "Report update should record a matching restore operation");
 });
 
 await check("partner feed import dry-run", async () => {

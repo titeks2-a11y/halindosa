@@ -1168,6 +1168,7 @@ async function checkUiAccessibility() {
   const reportsPage = await text("app/reports/page.tsx");
   const reportForm = await text("components/ReportForm.tsx");
   const reportsApi = await text("app/api/reports/route.ts");
+  const adminReportsRoute = await text("app/api/admin/reports/route.ts");
   const reportsLib = await text("lib/reports.ts");
   const bottomNav = await text("components/BottomNav.tsx");
   const bottomNavigation = await text("components/BottomNavigation.tsx");
@@ -1276,14 +1277,25 @@ async function checkUiAccessibility() {
     !reportsPage.includes("reportFlowCards") ||
     !reportsPage.includes("getReportResolutionPlan") ||
     !reportsLib.includes("getReportResolutionPlan") ||
+    !reportsLib.includes("dealReports.local.json") ||
+    !reportsLib.includes("writeReportsToDisk") ||
+    !reportsLib.includes("getReportStorageStatus") ||
+    !adminReportsRoute.includes("operationAction") ||
+    !adminReportsRoute.includes("recordDealOperationActionWithPersistence") ||
+    !adminReportQueue.includes("저장 방식") ||
+    !adminReportQueue.includes("operationActions") ||
+    !adminReportQueue.includes("노출 숨김") ||
+    !adminReportQueue.includes("노출 복구") ||
     !reportsApi.includes("plan: getReportResolutionPlan") ||
     !smoke.includes("Report API missing resolution plan metadata") ||
+    !smoke.includes("Admin reports API missing persisted queue storage metadata") ||
+    !smoke.includes("Report update should record a matching hide operation") ||
     !smoke.includes("Report page missing public report workflow summary") ||
     !smoke.includes("Admin dashboard missing deal quality report queue")
   ) {
-    fail("admin report priority workflow", "Admin/report surfaces should expose reason-specific expectations, SLA, recommended actions, and smoke coverage.");
+    fail("admin report priority workflow", "Admin/report surfaces should expose reason-specific expectations, persistent queue storage, product hide/restore operations, SLA, recommended actions, and smoke coverage.");
   } else {
-    pass("admin report priority workflow", "Admin/report surfaces prioritize link error, sold-out, and expired reports with expected handling, SLA, and recommended actions.");
+    pass("admin report priority workflow", "Admin/report surfaces prioritize link error, sold-out, and expired reports with persistent queue storage, product hide/restore operations, SLA, and recommended actions.");
   }
 
   const requiredEmptyStateSnippets = [
