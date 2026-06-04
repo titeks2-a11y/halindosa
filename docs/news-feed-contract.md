@@ -125,4 +125,6 @@ npm run refresh:all
 
 환경변수에 공식 feed URL을 연결한 뒤에는 해당 feed의 HTTP 오류, timeout, JSON/RSS 파싱 오류가 1건이라도 있으면 `verify:news`가 실패한다. seed fallback은 로컬 개발과 미연결 provider의 화면 안정장치일 뿐이며, 설정된 운영 feed의 장애를 성공으로 덮지 않는다. `reports/news-deals.json.gates.configuredFeedErrors`에서 실패 provider, feed 수, 오류 메시지를 먼저 확인한다.
 
+`reports/news-deals.json.sourceTrustScores`는 출처별 운영 신뢰도 표다. `trusted` 출처는 공식 링크, 마감일, 혜택 조건, 우선순위 점수가 안정적인 소스이며, `watch` 또는 `needs_review`가 나오면 검색 결과 링크, 종료 혜택, 비공식 URL, 낮은 신뢰도 사유를 먼저 수정한다. 이 표는 `/api/admin/news-operations`와 CSV export에도 포함된다.
+
 `data/newsFeed.sample.json`과 `data/newsFeed.sample.rss.xml`은 운영자가 feed 포맷을 확인하는 안전한 샘플이다. 샘플과 실제 feed 모두 `scripts/news-feed-contract-doctor.mjs`의 계약 검사를 통과해야 한다. `npm run test:news-feed-errors`는 정상 JSON feed와 깨진 feed를 모두 재현해, 설정된 운영 feed 실패가 `configuredFeedErrors`로 잡히는지 확인한다.

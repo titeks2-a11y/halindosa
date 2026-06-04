@@ -92,6 +92,21 @@ function buildNewsOperationsCsv(report: NewsOperationsReport) {
     ]);
   });
 
+  report.sourceTrustScores.slice(0, 30).forEach((source) => {
+    rows.push([
+      "source_trust",
+      source.provider,
+      source.sourceName,
+      source.status,
+      `trust=${source.trustScore};avg=${source.averagePriorityScore};host=${source.officialHost};categories=${source.categories.join("|")}`,
+      source.recommendedAction,
+      source.visibleCount,
+      source.hiddenCount + source.failedCount + source.searchLinkCount + source.expiredCount,
+      source.officialHost,
+      source.lastCheckedAt
+    ]);
+  });
+
   report.feedTransitionReadiness.providers.forEach((provider) => {
     rows.push([
       "feed_transition",

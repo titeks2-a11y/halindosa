@@ -48,6 +48,7 @@ npm run release:doctor
 - 수집 → 정규화 → 검증 → 중복 제거 → 노출/차단으로 이어지는 `collectionSummary`
 - 중복 제거 수, 실패 feed 수, 설정됐지만 비어 있는 feed 수
 - provider별 seed/feed 수집 현황
+- 출처별 `sourceTrustScores`: 노출 수, 숨김/실패/검색 링크/종료 수, 평균 우선순위, 신뢰도 점수, 권장 운영 액션
 - 카테고리별, 혜택 유형별, 출처별 수
 - 추천 검색어
 - 차단 사유

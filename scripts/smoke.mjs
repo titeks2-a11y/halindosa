@@ -622,6 +622,11 @@ await check("news deals api", async () => {
   assert(data.categoryCounts?.["마트/편의점"] >= 1, "News deals API missing category result counts");
   assert(typeof data.benefitTypeCounts === "object" && Object.keys(data.benefitTypeCounts).length >= 3, "News deals API missing benefit type result counts");
   assert(typeof data.sourceCounts === "object" && Object.keys(data.sourceCounts).length >= 3, "News deals API missing official source result counts");
+  assert(Array.isArray(data.sourceTrustScores) && data.sourceTrustScores.length >= 3, "News deals API missing official source trust scores");
+  assert(
+    data.sourceTrustScores.every((source) => source.sourceName && source.trustScore >= 75 && ["trusted", "watch", "needs_review"].includes(source.status)),
+    "News deals API source trust scores missing launch fields"
+  );
   assert(Array.isArray(data.recommendedQueries) && data.recommendedQueries.length >= 3, "News deals API missing recommended official benefit search queries");
   assert(data.deals.some((deal) => deal.category === "마트/편의점"), "News deals API missing mart/convenience official benefits");
   assert(data.deals.some((deal) => deal.category === "영화/문화" || deal.category === "정부/공공혜택"), "News deals API missing culture/public official benefits");
@@ -669,6 +674,11 @@ await check("admin news operations api", async () => {
   assert(Array.isArray(data.report?.providerRisks) && data.report.providerRisks.length >= 4, "Admin news operations report missing provider risk summaries");
   assert(data.report.providerRisks.every((risk) => risk.provider && risk.label && risk.action && ["healthy", "watch", "danger"].includes(risk.severity)), "Admin news operations provider risks missing operation fields");
   assert(typeof data.report?.providerRiskSummary?.watch === "number" && typeof data.report?.providerRiskSummary?.danger === "number", "Admin news operations report missing provider risk summary counts");
+  assert(Array.isArray(data.report?.sourceTrustScores) && data.report.sourceTrustScores.length >= 10, "Admin news operations report missing source trust score rows");
+  assert(
+    data.report.sourceTrustScores.every((source) => source.sourceName && source.trustScore >= 75 && source.recommendedAction && Array.isArray(source.categories)),
+    "Admin news operations source trust scores missing operation fields"
+  );
   assert(data.report?.feedTransitionReadiness?.totalProviders >= 4, "Admin news operations report missing official feed transition readiness summary");
   assert(typeof data.report.feedTransitionReadiness.seedCount === "number", "Admin news operations feed transition missing seed source count");
   assert(typeof data.report.feedTransitionReadiness.feedItemCount === "number", "Admin news operations feed transition missing external feed item count");

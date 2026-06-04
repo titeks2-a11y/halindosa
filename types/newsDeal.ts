@@ -65,3 +65,22 @@ export interface NewsDeal {
   tags: string[];
   officialHost?: string;
 }
+
+export interface NewsDealSourceTrust {
+  sourceName: string;
+  provider: string;
+  officialHost: string;
+  totalCount: number;
+  visibleCount: number;
+  hiddenCount: number;
+  failedCount: number;
+  searchLinkCount: number;
+  expiredCount: number;
+  averagePriorityScore: number;
+  trustScore: number;
+  status: "trusted" | "watch" | "needs_review";
+  lastCheckedAt: string;
+  categories: NewsDealCategory[];
+  benefitTypes: NewsBenefitType[];
+  recommendedAction: string;
+}

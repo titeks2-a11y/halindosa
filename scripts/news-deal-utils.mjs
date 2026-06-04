@@ -478,6 +478,98 @@ function topKeywordCounts(deals) {
     .map(([keyword, score]) => ({ keyword, score }));
 }
 
+function clampScore(value) {
+  return Math.max(0, Math.min(100, Math.round(value)));
+}
+
+function buildSourceTrustScores(deals) {
+  const groups = new Map();
+
+  for (const deal of deals) {
+    const sourceName = deal.sourceName || deal.merchant || deal.provider || "unknown_source";
+    const officialHost = deal.officialHost || normalizeHost(deal.finalUrl) || "";
+    const key = `${sourceName}::${officialHost}`;
+    const current = groups.get(key) ?? {
+      sourceName,
+      provider: deal.provider,
+      officialHost,
+      totalCount: 0,
+      visibleCount: 0,
+      hiddenCount: 0,
+      failedCount: 0,
+      searchLinkCount: 0,
+      expiredCount: 0,
+      priorityScoreSum: 0,
+      lastCheckedAt: "",
+      categories: new Set(),
+      benefitTypes: new Set()
+    };
+    const visible = !deal.isHidden && deal.validationStatus === "passed";
+
+    current.totalCount += 1;
+    current.visibleCount += visible ? 1 : 0;
+    current.hiddenCount += visible ? 0 : 1;
+    current.failedCount += deal.validationStatus === "failed" ? 1 : 0;
+    current.searchLinkCount += deal.linkType === "search" || deal.hiddenReason?.includes("search_or_result_url") ? 1 : 0;
+    current.expiredCount += deal.availability === "expired" || deal.hiddenReason?.includes("expired_event") ? 1 : 0;
+    current.priorityScoreSum += Number(deal.priorityScore ?? 0);
+    current.lastCheckedAt = !current.lastCheckedAt || Date.parse(deal.lastCheckedAt) > Date.parse(current.lastCheckedAt) ? deal.lastCheckedAt : current.lastCheckedAt;
+    if (deal.category) current.categories.add(deal.category);
+    if (deal.benefitType) current.benefitTypes.add(deal.benefitType);
+    groups.set(key, current);
+  }
+
+  return Array.from(groups.values())
+    .map((item) => {
+      const averagePriorityScore = item.totalCount ? Math.round(item.priorityScoreSum / item.totalCount) : 0;
+      const exposureRate = item.totalCount ? item.visibleCount / item.totalCount : 0;
+      const trustScore = clampScore(
+        averagePriorityScore * 0.45 +
+          exposureRate * 35 +
+          (item.officialHost ? 20 : 0) -
+          item.hiddenCount * 4 -
+          item.failedCount * 6 -
+          item.searchLinkCount * 12 -
+          item.expiredCount * 8
+      );
+      const status = trustScore >= 90 && item.searchLinkCount === 0 && item.failedCount === 0
+        ? "trusted"
+        : trustScore >= 75
+          ? "watch"
+          : "needs_review";
+      const recommendedAction =
+        status === "trusted"
+          ? "공식 feed 후보로 우선 유지"
+          : item.searchLinkCount > 0
+            ? "검색 결과 URL을 공식 상세 URL로 교체"
+            : item.expiredCount > 0
+              ? "종료 혜택 대체 후보 준비"
+              : item.failedCount > 0
+                ? "실패 사유 확인 후 수동 숨김 또는 재검증"
+                : "공식 링크와 혜택 조건을 재확인";
+
+      return {
+        sourceName: item.sourceName,
+        provider: item.provider,
+        officialHost: item.officialHost,
+        totalCount: item.totalCount,
+        visibleCount: item.visibleCount,
+        hiddenCount: item.hiddenCount,
+        failedCount: item.failedCount,
+        searchLinkCount: item.searchLinkCount,
+        expiredCount: item.expiredCount,
+        averagePriorityScore,
+        trustScore,
+        status,
+        lastCheckedAt: item.lastCheckedAt,
+        categories: Array.from(item.categories).sort(),
+        benefitTypes: Array.from(item.benefitTypes).sort(),
+        recommendedAction
+      };
+    })
+    .sort((a, b) => b.trustScore - a.trustScore || b.visibleCount - a.visibleCount || a.sourceName.localeCompare(b.sourceName));
+}
+
 export function summarizeNewsDeals(deals, generatedAt = new Date().toISOString(), providerStats = [], collectionStats = {}) {
   const visible = deals.filter((deal) => !deal.isHidden && deal.validationStatus === "passed");
   const hidden = deals.filter((deal) => deal.isHidden || deal.validationStatus !== "passed");
@@ -559,6 +651,7 @@ export function summarizeNewsDeals(deals, generatedAt = new Date().toISOString()
   const categoryCounts = countVisibleBy(visible, (deal) => deal.category);
   const benefitTypeCounts = countVisibleBy(visible, (deal) => deal.benefitType);
   const sourceCounts = countVisibleBy(visible, (deal) => deal.sourceName);
+  const sourceTrustScores = buildSourceTrustScores(deals);
   const collectedCountFromProviders = providerStats.reduce((sum, stat) => sum + Number(stat?.collectedCount ?? stat?.fetchedCount ?? 0), 0);
   const feedFailureCount = providerStats.filter((stat) => Number(stat?.errorCount ?? 0) > 0).length;
   const configuredEmptyFeedCount = providerStats.filter((stat) => stat?.configuredEmptyFeed === true).length;
@@ -595,6 +688,7 @@ export function summarizeNewsDeals(deals, generatedAt = new Date().toISOString()
     categoryCounts,
     benefitTypeCounts,
     sourceCounts,
+    sourceTrustScores,
     collectionSummary,
     topKeywords: topKeywordCounts(visible),
     providerStats: enrichedProviderStats,

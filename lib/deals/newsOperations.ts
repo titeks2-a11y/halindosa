@@ -3,7 +3,7 @@ import { join } from "node:path";
 import { getEnvFeedUrls } from "@/lib/deals/feedUrls";
 import { applyNewsDealOverrides, readNewsDealOverrides } from "@/lib/deals/newsOverrides";
 import { getOfficialSourceOnboardingPlan } from "@/lib/operations/sourceOnboardingPlan";
-import type { NewsDeal } from "@/types/newsDeal";
+import type { NewsDeal, NewsDealSourceTrust } from "@/types/newsDeal";
 
 interface NewsDealSnapshot {
   generatedAt?: string;
@@ -138,6 +138,7 @@ interface NewsDealsReport {
   failedCount?: number;
   providerStats?: ProviderStat[];
   sourceConfig?: OfficialBenefitSourceConfig;
+  sourceTrustScores?: NewsDealSourceTrust[];
   failureReasons?: Record<string, number>;
   failureReasonTop10?: Array<{ reason: string; count: number }>;
   hiddenDeals?: Array<Partial<NewsDeal> & { hiddenReason?: string; officialHost?: string }>;
@@ -485,6 +486,111 @@ function getProviderRisk(stat: ProviderStat): ProviderRisk {
   };
 }
 
+function clampScore(value: number) {
+  return Math.max(0, Math.min(100, Math.round(value)));
+}
+
+function buildRuntimeSourceTrustScores(deals: NewsDeal[]): NewsDealSourceTrust[] {
+  const groups = new Map<string, {
+    sourceName: string;
+    provider: string;
+    officialHost: string;
+    totalCount: number;
+    visibleCount: number;
+    hiddenCount: number;
+    failedCount: number;
+    searchLinkCount: number;
+    expiredCount: number;
+    priorityScoreSum: number;
+    lastCheckedAt: string;
+    categories: Set<NewsDeal["category"]>;
+    benefitTypes: Set<NewsDeal["benefitType"]>;
+  }>();
+
+  deals.forEach((deal) => {
+    const sourceName = deal.sourceName || deal.merchant || deal.provider || "unknown_source";
+    const officialHost = deal.officialHost ?? "";
+    const key = `${sourceName}::${officialHost}`;
+    const current = groups.get(key) ?? {
+      sourceName,
+      provider: deal.provider,
+      officialHost,
+      totalCount: 0,
+      visibleCount: 0,
+      hiddenCount: 0,
+      failedCount: 0,
+      searchLinkCount: 0,
+      expiredCount: 0,
+      priorityScoreSum: 0,
+      lastCheckedAt: "",
+      categories: new Set<NewsDeal["category"]>(),
+      benefitTypes: new Set<NewsDeal["benefitType"]>()
+    };
+    const visible = !deal.isHidden && deal.validationStatus === "passed";
+
+    current.totalCount += 1;
+    current.visibleCount += visible ? 1 : 0;
+    current.hiddenCount += visible ? 0 : 1;
+    current.failedCount += deal.validationStatus === "failed" ? 1 : 0;
+    current.searchLinkCount += deal.linkType === "search" || deal.hiddenReason?.includes("search_or_result_url") ? 1 : 0;
+    current.expiredCount += deal.availability === "expired" || deal.hiddenReason?.includes("expired_event") ? 1 : 0;
+    current.priorityScoreSum += Number(deal.priorityScore ?? 0);
+    current.lastCheckedAt = !current.lastCheckedAt || Date.parse(deal.lastCheckedAt) > Date.parse(current.lastCheckedAt) ? deal.lastCheckedAt : current.lastCheckedAt;
+    current.categories.add(deal.category);
+    current.benefitTypes.add(deal.benefitType);
+    groups.set(key, current);
+  });
+
+  return Array.from(groups.values())
+    .map((source) => {
+      const averagePriorityScore = source.totalCount ? Math.round(source.priorityScoreSum / source.totalCount) : 0;
+      const exposureRate = source.totalCount ? source.visibleCount / source.totalCount : 0;
+      const trustScore = clampScore(
+        averagePriorityScore * 0.45 +
+          exposureRate * 35 +
+          (source.officialHost ? 20 : 0) -
+          source.hiddenCount * 4 -
+          source.failedCount * 6 -
+          source.searchLinkCount * 12 -
+          source.expiredCount * 8
+      );
+      const status = trustScore >= 90 && source.searchLinkCount === 0 && source.failedCount === 0
+        ? "trusted"
+        : trustScore >= 75
+          ? "watch"
+          : "needs_review";
+
+      return {
+        sourceName: source.sourceName,
+        provider: source.provider,
+        officialHost: source.officialHost,
+        totalCount: source.totalCount,
+        visibleCount: source.visibleCount,
+        hiddenCount: source.hiddenCount,
+        failedCount: source.failedCount,
+        searchLinkCount: source.searchLinkCount,
+        expiredCount: source.expiredCount,
+        averagePriorityScore,
+        trustScore,
+        status,
+        lastCheckedAt: source.lastCheckedAt,
+        categories: Array.from(source.categories).sort(),
+        benefitTypes: Array.from(source.benefitTypes).sort(),
+        recommendedAction:
+          status === "trusted"
+            ? "공식 feed 후보로 우선 유지"
+            : source.searchLinkCount > 0
+              ? "검색 결과 URL을 공식 상세 URL로 교체"
+              : source.expiredCount > 0
+                ? "종료 혜택 대체 후보 준비"
+                : source.failedCount > 0
+                  ? "실패 사유 확인 후 수동 숨김 또는 재검증"
+                  : "공식 링크와 혜택 조건을 재확인"
+      } satisfies NewsDealSourceTrust;
+    })
+    .sort((a, b) => b.trustScore - a.trustScore || b.visibleCount - a.visibleCount || a.sourceName.localeCompare(b.sourceName));
+}
+
 function readConfiguredFeedUrls(envKeys: readonly string[]) {
   return getEnvFeedUrls(...envKeys);
 }
@@ -615,6 +721,7 @@ export function getNewsOperationsReport() {
     lastCheckedAt: entry.updatedAt
   }));
   const rawProviderStats = report.providerStats?.length ? report.providerStats : (snapshot.providerStats ?? []);
+  const sourceTrustScores = report.sourceTrustScores?.length ? report.sourceTrustScores : buildRuntimeSourceTrustScores(allDeals);
   const providerStats = rawProviderStats.map((stat) => {
     const feedUrls = Number(stat.feedUrls ?? 0);
     const feedItemCount = Number(stat.feedItemCount ?? 0);
@@ -788,6 +895,7 @@ export function getNewsOperationsReport() {
     operatorNextActions,
     operationalRisks: operationalRisks.length ? operationalRisks : ["공식 혜택 노출 기준, 카테고리 커버리지, refresh:all 상태가 정상입니다."],
     providerStats,
+    sourceTrustScores,
     providerRisks,
     providerRiskSummary,
     feedTransitionReadiness,
