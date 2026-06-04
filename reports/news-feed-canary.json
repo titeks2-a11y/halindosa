@@ -1,0 +1,98 @@
+{
+  "ok": true,
+  "generatedAt": "2026-06-04T10:19:20.751Z",
+  "status": "seed_fallback_only",
+  "providerCount": 4,
+  "configuredProviderCount": 0,
+  "configuredFeedUrls": 0,
+  "totalFetchedCount": 0,
+  "visibleCandidateCount": 0,
+  "hiddenCandidateCount": 0,
+  "errorCount": 0,
+  "configuredEmptyFeedCount": 0,
+  "officialLinkPromotedCount": 0,
+  "exposedSearchLinkCount": 0,
+  "exposedNonOfficialLinkCount": 0,
+  "failedProviders": [],
+  "providers": [
+    {
+      "provider": "news",
+      "label": "뉴스·보도자료",
+      "envKeys": [
+        "DEAL_NEWS_FEED_URLS",
+        "DEAL_NEWS_RSS_URLS"
+      ],
+      "configuredFeedUrls": 0,
+      "fetchedCount": 0,
+      "visibleCount": 0,
+      "hiddenCount": 0,
+      "errorCount": 0,
+      "configuredEmptyFeed": false,
+      "officialLinkPromotedCount": 0,
+      "hiddenReasonTop5": [],
+      "feedResults": [],
+      "sampleVisible": [],
+      "status": "seed_fallback_only"
+    },
+    {
+      "provider": "event_news",
+      "label": "이벤트 뉴스",
+      "envKeys": [
+        "DEAL_EVENT_NEWS_FEED_URLS"
+      ],
+      "configuredFeedUrls": 0,
+      "fetchedCount": 0,
+      "visibleCount": 0,
+      "hiddenCount": 0,
+      "errorCount": 0,
+      "configuredEmptyFeed": false,
+      "officialLinkPromotedCount": 0,
+      "hiddenReasonTop5": [],
+      "feedResults": [],
+      "sampleVisible": [],
+      "status": "seed_fallback_only"
+    },
+    {
+      "provider": "official_event",
+      "label": "공식 이벤트·혜택",
+      "envKeys": [
+        "OFFICIAL_EVENT_FEED_URLS",
+        "DEAL_EVENT_FEED_URLS"
+      ],
+      "configuredFeedUrls": 0,
+      "fetchedCount": 0,
+      "visibleCount": 0,
+      "hiddenCount": 0,
+      "errorCount": 0,
+      "configuredEmptyFeed": false,
+      "officialLinkPromotedCount": 0,
+      "hiddenReasonTop5": [],
+      "feedResults": [],
+      "sampleVisible": [],
+      "status": "seed_fallback_only"
+    },
+    {
+      "provider": "public_coupon",
+      "label": "공공·쿠폰·무료혜택",
+      "envKeys": [
+        "PUBLIC_COUPON_FEED_URLS"
+      ],
+      "configuredFeedUrls": 0,
+      "fetchedCount": 0,
+      "visibleCount": 0,
+      "hiddenCount": 0,
+      "errorCount": 0,
+      "configuredEmptyFeed": false,
+      "officialLinkPromotedCount": 0,
+      "hiddenReasonTop5": [],
+      "feedResults": [],
+      "sampleVisible": [],
+      "status": "seed_fallback_only"
+    }
+  ],
+  "nextActions": [
+    "아직 운영 feed URL이 없어 seed fallback만 검사했습니다.",
+    "OFFICIAL_EVENT_FEED_URLS 또는 PUBLIC_COUPON_FEED_URLS에 공식 JSON/RSS/Atom feed를 연결한 뒤 npm run news:feed:canary를 다시 실행하세요.",
+    "무단 HTML 크롤링 대신 공식 API, RSS, Atom, 승인된 파트너 JSON만 연결하세요."
+  ]
+}

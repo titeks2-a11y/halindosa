@@ -199,10 +199,28 @@ interface NewsFreshnessReport {
   nextActions?: string[];
 }
 
+interface NewsFeedCanaryReport {
+  ok?: boolean;
+  generatedAt?: string;
+  status?: string;
+  providerCount?: number;
+  configuredProviderCount?: number;
+  configuredFeedUrls?: number;
+  totalFetchedCount?: number;
+  visibleCandidateCount?: number;
+  hiddenCandidateCount?: number;
+  errorCount?: number;
+  configuredEmptyFeedCount?: number;
+  officialLinkPromotedCount?: number;
+  failedProviders?: Array<{ provider: string; status: string; action: string }>;
+  nextActions?: string[];
+}
+
 const refreshedNewsDealsPath = join(process.cwd(), "data", "refreshedNewsDeals.json");
 const newsDealsReportPath = join(process.cwd(), "reports", "news-deals.json");
 const refreshAllReportPath = join(process.cwd(), "reports", "refresh-all.json");
 const newsFreshnessReportPath = join(process.cwd(), "reports", "news-freshness.json");
+const newsFeedCanaryReportPath = join(process.cwd(), "reports", "news-feed-canary.json");
 
 const requiredNewsCategories = [
   { category: "식품/생필품", action: "생활 장보기 공식 행사 2개 이상 유지" },
@@ -569,6 +587,7 @@ export function getNewsOperationsReport() {
   const report = readJson<NewsDealsReport>(newsDealsReportPath, {});
   const refreshAll = readJson<RefreshAllReport>(refreshAllReportPath, {});
   const freshnessReport = readJson<NewsFreshnessReport>(newsFreshnessReportPath, {});
+  const feedCanaryReport = readJson<NewsFeedCanaryReport>(newsFeedCanaryReportPath, {});
   const sourceOnboardingPlan = getOfficialSourceOnboardingPlan();
   const overrides = readNewsDealOverrides();
   const allDeals = snapshot.allDeals?.length ? snapshot.allDeals : [...(snapshot.deals ?? []), ...(snapshot.hiddenDeals ?? [])] as NewsDeal[];
@@ -696,6 +715,24 @@ export function getNewsOperationsReport() {
     ...(freshness.status === "due" ? ["뉴스 혜택 리포트 정기 갱신 시간이 지나 refresh:all 실행 권장"] : []),
     ...(renewalQueue.length ? [`14일 이내 종료되는 공식 혜택 ${renewalQueue.length}개가 있어 대체 공식 혜택 후보 준비 필요`] : [])
   ];
+  const feedCanary = {
+    ok: feedCanaryReport.ok === true,
+    generatedAt: feedCanaryReport.generatedAt ?? "",
+    status: feedCanaryReport.status ?? "missing",
+    providerCount: Number(feedCanaryReport.providerCount ?? 0),
+    configuredProviderCount: Number(feedCanaryReport.configuredProviderCount ?? 0),
+    configuredFeedUrls: Number(feedCanaryReport.configuredFeedUrls ?? 0),
+    totalFetchedCount: Number(feedCanaryReport.totalFetchedCount ?? 0),
+    visibleCandidateCount: Number(feedCanaryReport.visibleCandidateCount ?? 0),
+    hiddenCandidateCount: Number(feedCanaryReport.hiddenCandidateCount ?? 0),
+    errorCount: Number(feedCanaryReport.errorCount ?? 0),
+    configuredEmptyFeedCount: Number(feedCanaryReport.configuredEmptyFeedCount ?? 0),
+    officialLinkPromotedCount: Number(feedCanaryReport.officialLinkPromotedCount ?? 0),
+    failedProviders: Array.isArray(feedCanaryReport.failedProviders) ? feedCanaryReport.failedProviders : [],
+    nextActions: Array.isArray(feedCanaryReport.nextActions)
+      ? feedCanaryReport.nextActions.slice(0, 5)
+      : ["npm run news:feed:canary 실행 후 공식 feed 연결 상태를 다시 확인하세요."]
+  };
 
   return {
     ok: report.ok !== false && refreshAll.ok !== false && !freshness.releaseBlocking,
@@ -717,6 +754,7 @@ export function getNewsOperationsReport() {
       watchQueue,
       nextActions: freshnessNextActions
     },
+    feedCanary,
     operatorNextActions,
     operationalRisks: operationalRisks.length ? operationalRisks : ["공식 혜택 노출 기준, 카테고리 커버리지, refresh:all 상태가 정상입니다."],
     providerStats,

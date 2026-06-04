@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-04T09:59:14.086Z",
+  "generatedAt": "2026-06-04T10:19:48.800Z",
   "score": 100,
   "thresholds": {
     "productDealsCount": 140,
@@ -32,7 +32,7 @@
     "expiredCount": 0,
     "officialMissingCount": 0,
     "failedCount": 0,
-    "freshnessHours": 0.3,
+    "freshnessHours": 0,
     "readyCategories": 10,
     "requiredCategories": 10,
     "minimumCategoryDealCount": 2,
@@ -195,11 +195,23 @@
       "healthy": 0,
       "watch": 4,
       "danger": 0
+    },
+    "feedCanary": {
+      "ok": true,
+      "generatedAt": "2026-06-04T10:19:20.751Z",
+      "status": "seed_fallback_only",
+      "configuredFeedUrls": 0,
+      "visibleCandidateCount": 0,
+      "hiddenCandidateCount": 0,
+      "errorCount": 0,
+      "configuredEmptyFeedCount": 0,
+      "officialLinkPromotedCount": 0,
+      "failedProviders": []
     }
   },
   "refreshAll": {
     "ok": true,
-    "generatedAt": "2026-06-04T09:40:10.976Z",
+    "generatedAt": "2026-06-04T10:19:23.082Z",
     "insertedCount": 43,
     "updatedCount": 136,
     "hiddenCount": 0,
@@ -210,32 +222,32 @@
       {
         "name": "refresh:deals",
         "ok": true,
-        "startedAt": "2026-06-04T09:40:10.977Z",
-        "finishedAt": "2026-06-04T09:40:11.293Z"
+        "startedAt": "2026-06-04T10:19:23.083Z",
+        "finishedAt": "2026-06-04T10:19:23.372Z"
       },
       {
         "name": "refresh:news",
         "ok": true,
-        "startedAt": "2026-06-04T09:40:11.293Z",
-        "finishedAt": "2026-06-04T09:40:11.377Z"
+        "startedAt": "2026-06-04T10:19:23.372Z",
+        "finishedAt": "2026-06-04T10:19:23.456Z"
       },
       {
         "name": "verify:links",
         "ok": true,
-        "startedAt": "2026-06-04T09:40:11.377Z",
-        "finishedAt": "2026-06-04T09:40:11.479Z"
+        "startedAt": "2026-06-04T10:19:23.456Z",
+        "finishedAt": "2026-06-04T10:19:23.559Z"
       },
       {
         "name": "verify:products",
         "ok": true,
-        "startedAt": "2026-06-04T09:40:11.479Z",
-        "finishedAt": "2026-06-04T09:40:11.561Z"
+        "startedAt": "2026-06-04T10:19:23.559Z",
+        "finishedAt": "2026-06-04T10:19:23.644Z"
       },
       {
         "name": "verify:news",
         "ok": true,
-        "startedAt": "2026-06-04T09:40:11.561Z",
-        "finishedAt": "2026-06-04T09:40:11.645Z"
+        "startedAt": "2026-06-04T10:19:23.644Z",
+        "finishedAt": "2026-06-04T10:19:23.728Z"
       }
     ]
   },
@@ -320,7 +332,7 @@
     {
       "name": "official benefit freshness",
       "ok": true,
-      "detail": "Official benefit report freshness is 0.3h."
+      "detail": "Official benefit report freshness is 0h."
     },
     {
       "name": "refresh all pipeline",
@@ -346,6 +358,11 @@
       "name": "configured empty feed watch",
       "ok": true,
       "detail": "configured-empty=0; providers=none."
+    },
+    {
+      "name": "official feed canary",
+      "ok": true,
+      "detail": "status=seed_fallback_only; configured=0; visible=0."
     },
     {
       "name": "provider risk gate",

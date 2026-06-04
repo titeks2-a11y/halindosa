@@ -64,6 +64,19 @@ function buildNewsOperationsCsv(report: NewsOperationsReport) {
     ]);
   });
 
+  rows.push([
+    "feed_canary",
+    "summary",
+    "공식 feed canary",
+    report.feedCanary.status,
+    `configured=${report.feedCanary.configuredFeedUrls};visible=${report.feedCanary.visibleCandidateCount};empty=${report.feedCanary.configuredEmptyFeedCount};errors=${report.feedCanary.errorCount}`,
+    report.feedCanary.nextActions.join(" | "),
+    report.feedCanary.visibleCandidateCount,
+    report.feedCanary.errorCount + report.feedCanary.configuredEmptyFeedCount,
+    "",
+    report.feedCanary.generatedAt || report.generatedAt
+  ]);
+
   report.providerRisks.forEach((risk) => {
     rows.push([
       "provider_risk",

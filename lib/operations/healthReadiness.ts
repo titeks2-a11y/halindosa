@@ -91,6 +91,18 @@ export interface HealthReadinessReport {
       watch: number;
       danger: number;
     };
+    feedCanary: {
+      ok: boolean;
+      generatedAt: string;
+      status: string;
+      configuredFeedUrls: number;
+      visibleCandidateCount: number;
+      hiddenCandidateCount: number;
+      errorCount: number;
+      configuredEmptyFeedCount: number;
+      officialLinkPromotedCount: number;
+      failedProviders: Array<{ provider: string; status: string; action: string }>;
+    };
   };
   refreshAll: {
     ok: boolean;
@@ -197,6 +209,18 @@ const fallbackReport: HealthReadinessReport = {
       healthy: 0,
       watch: 0,
       danger: 0
+    },
+    feedCanary: {
+      ok: false,
+      generatedAt: "",
+      status: "missing",
+      configuredFeedUrls: 0,
+      visibleCandidateCount: 0,
+      hiddenCandidateCount: 0,
+      errorCount: 0,
+      configuredEmptyFeedCount: 0,
+      officialLinkPromotedCount: 0,
+      failedProviders: []
     }
   },
   refreshAll: {

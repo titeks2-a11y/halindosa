@@ -58,6 +58,11 @@ export function AdminHealthReadinessPanel({ report, apiHref }: AdminHealthReadin
       detail: `seed ${report.officialBenefits.sourceMix.seedCount} · 성공 ${report.officialBenefits.sourceMix.feedSuccessCount}/${report.officialBenefits.sourceMix.configuredFeedUrls} · 공백 ${report.officialBenefits.sourceMix.configuredEmptyFeedCount}`
     },
     {
+      label: "feed canary",
+      value: report.officialBenefits.feedCanary.ok ? "정상" : "점검",
+      detail: `${report.officialBenefits.feedCanary.status} · 후보 ${report.officialBenefits.feedCanary.visibleCandidateCount}개`
+    },
+    {
       label: "공식 소스",
       value: report.sourceReadiness.ok ? "정상" : "점검",
       detail: `후보 ${report.sourceReadiness.officialSourceCandidates}개 · 차단 ${sourceReadinessIssueCount}개`
@@ -95,7 +100,7 @@ export function AdminHealthReadinessPanel({ report, apiHref }: AdminHealthReadin
         </a>
       </div>
 
-      <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-7">
+      <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
         {healthCards.map((card) => (
           <div key={card.label} className="rounded-2xl bg-brand-warm p-4">
             <p className="text-xs font-black text-slate-500">{card.label}</p>

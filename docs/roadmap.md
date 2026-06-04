@@ -36,6 +36,7 @@
 - `/api/sources`, `/api/health`, `/api/metrics`에도 공식 혜택 feed 전환 준비도와 권장 환경변수 큐를 노출해 관리자 화면 밖에서도 seed fallback과 공식 feed 연결 상태를 모니터링할 수 있게 했다.
 - 공식 feed 전환 준비도에 `seedCount`, `feedItemCount`, `feedSuccessCount`, `collectedCount`, `feedItemRate`를 공통 필드로 승격해 `/api/health`, `/api/sources`, `/api/metrics`, 운영 헬스 리포트, 관리자 화면, CSV에서 외부 feed 유입량과 seed fallback 의존도를 같은 기준으로 확인하게 했다.
 - 공식 feed URL이 설정됐지만 외부 항목이 0건인 provider를 `configuredEmptyFeed`로 별도 표시하고, `/api/health`, `/api/sources`, `/api/metrics`, 운영 헬스 리포트, 관리자 화면, smoke, release doctor에서 feed 공백 상태를 관찰하도록 추가했다.
+- `news:feed:canary`를 추가해 운영 환경변수로 연결한 공식 RSS/Atom/JSON feed가 실제 노출 후보를 생성하는지 refresh 전에 확인하고, `reports/news-feed-canary.json`, `docs/NEWS_FEED_CANARY_REPORT.md`, `/api/health`, `/api/metrics`, `/admin`, 운영 헬스 리포트에서 `seed_fallback_only`/`live_feed_ready`/`needs_attention` 상태를 추적하도록 했다.
 - `data/officialSourceCatalog.json`과 `source:catalog:report`를 추가해 편의점, 마트, 외식, 문화, 카드, 공공혜택, 여행, 디지털, 패션/뷰티 공식 소스 후보 20개를 카테고리/provider별로 관리하고, `reports/official-source-catalog.json`, `docs/OFFICIAL_SOURCE_CATALOG.md`, `/api/sources`, smoke, release doctor가 공식 feed 전환 후보 공백을 회귀 방지하도록 했다.
 - `/api/sources?format=csv`와 관리자 공급원 CSV 버튼을 추가해 `source_catalog`, `feed_transition`, `next_action` 행으로 공식 URL, provider, 카테고리, 연결 env key, 현재 feed 수, 다음 운영 액션을 스프레드시트에서 바로 검수할 수 있게 했다.
 - `source:catalog:report`도 `reports/official-source-catalog.csv`를 생성하도록 확장해 서버를 띄우지 않아도 공식 소스 후보와 feed 전환 작업표를 파일로 검수할 수 있게 했다.
@@ -550,9 +551,10 @@
 4. 실제 기기 2종 이상 설치 확인
 5. 개인정보처리방침 실제 URL 배포
 6. 운영 데이터 공급 방식 확정 및 Supabase/API 연결
-7. 제휴/광고 고지 문구 법무 검토
-8. 실제 제휴 피드 도입 후에도 direct purchase URL 100% 기준과 이미지 URL 필수 기준 유지
-9. 커뮤니티 출처는 원문 링크만 저장하지 않고 본문 내 실제 쇼핑몰 상품 상세 URL 추출 결과를 우선 저장
+7. 공식 RSS/Atom/API feed 후보를 연결할 때 `source:feed-env:doctor`와 `news:feed:canary`를 먼저 통과시킨 뒤 `refresh:all`로 운영 반영
+8. 제휴/광고 고지 문구 법무 검토
+9. 실제 제휴 피드 도입 후에도 direct purchase URL 100% 기준과 이미지 URL 필수 기준 유지
+10. 커뮤니티 출처는 원문 링크만 저장하지 않고 본문 내 실제 쇼핑몰 상품 상세 URL 추출 결과를 우선 저장
 
 ## 출시 전 남은 작업
 

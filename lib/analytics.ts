@@ -776,6 +776,18 @@ export async function getMockBusinessMetrics() {
       issueCount: provider.issueCount
     }))
   };
+  const officialBenefitFeedCanary = {
+    ok: newsOperations.feedCanary.ok,
+    status: newsOperations.feedCanary.status,
+    configuredFeedUrls: newsOperations.feedCanary.configuredFeedUrls,
+    visibleCandidateCount: newsOperations.feedCanary.visibleCandidateCount,
+    hiddenCandidateCount: newsOperations.feedCanary.hiddenCandidateCount,
+    errorCount: newsOperations.feedCanary.errorCount,
+    configuredEmptyFeedCount: newsOperations.feedCanary.configuredEmptyFeedCount,
+    officialLinkPromotedCount: newsOperations.feedCanary.officialLinkPromotedCount,
+    failedProviders: newsOperations.feedCanary.failedProviders,
+    nextActions: newsOperations.feedCanary.nextActions
+  };
   const averageConfidenceScore = Math.round(
     priceInsights.reduce((sum, insight) => sum + insight.confidenceScore, 0) / priceInsights.length
   );
@@ -810,6 +822,7 @@ export async function getMockBusinessMetrics() {
     operationalEnvReadiness,
     officialBenefitProviderRisk,
     officialBenefitFeedTransition,
+    officialBenefitFeedCanary,
     launchReadiness,
     linkReviewQueue
   };

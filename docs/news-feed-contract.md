@@ -108,11 +108,14 @@ RSS/Atom feed도 사용할 수 있다. RSS/Atom은 `<item>` 또는 `<entry>` 단
 
 ```bash
 npm run news:feed:doctor
+npm run news:feed:canary
 npm run test:news-feed-errors
 npm run refresh:news
 npm run verify:news
 npm run refresh:all
 ```
+
+환경변수에 공식 feed URL을 연결한 뒤에는 `npm run news:feed:canary`로 연결된 feed URL, 설정 feed 공백, 노출 가능 후보, HTTP 오류, timeout, JSON/RSS 파싱 오류를 먼저 확인한다. canary 리포트는 `reports/news-feed-canary.json`과 `docs/NEWS_FEED_CANARY_REPORT.md`에 저장되며, `live_feed_ready` 또는 미연결 상태의 `seed_fallback_only`일 때만 다음 refresh 단계로 넘어간다.
 
 환경변수에 공식 feed URL을 연결한 뒤에는 해당 feed의 HTTP 오류, timeout, JSON/RSS 파싱 오류가 1건이라도 있으면 `verify:news`가 실패한다. seed fallback은 로컬 개발과 미연결 provider의 화면 안정장치일 뿐이며, 설정된 운영 feed의 장애를 성공으로 덮지 않는다. `reports/news-deals.json.gates.configuredFeedErrors`에서 실패 provider, feed 수, 오류 메시지를 먼저 확인한다.
 

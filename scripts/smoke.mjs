@@ -566,7 +566,7 @@ await check("admin dashboard quality cards", async () => {
   assert(text.includes("뉴스 수집 현황") && text.includes("공식 이벤트·무료 혜택 feed 후보"), "Admin dashboard missing news collection status");
   assert(text.includes("공식 feed preview") && text.includes("뉴스 본문 공식 링크 승격") && text.includes("Preview JSON") && text.includes("Preview CSV"), "Admin dashboard missing official news feed preview panel");
   assert(text.includes("공식 뉴스·혜택 feed 붙여넣기 검증") && text.includes("공식 feed dry-run 실행") && text.includes("RSS/JSON을 붙여넣고"), "Admin dashboard missing official news paste dry-run panel");
-  assert(text.includes("공식 피드 전환 준비도") && text.includes("공식 API/RSS/제휴 feed") && text.includes("seed fallback"), "Admin dashboard missing official feed transition readiness panel");
+  assert(text.includes("공식 피드 전환 준비도") && text.includes("공식 API/RSS/제휴 feed") && text.includes("seed fallback") && text.includes("canary"), "Admin dashboard missing official feed transition readiness panel");
   assert(text.includes("Provider별 성공/실패") && text.includes("검증 실패 TOP10") && text.includes("최근 20개 수집 로그"), "Admin dashboard missing news provider/log operation panels");
   assert(text.includes("숨김/종료/공식 링크 없음 큐") && text.includes("수동 숨김/복구/재검증 구조"), "Admin dashboard missing news hide/restore/revalidate operation panels");
   assert(
@@ -810,6 +810,9 @@ await check("admin news operations api", async () => {
     "Admin news operations feed transition providers missing source mix counters"
   );
   assert(Array.isArray(data.report.feedTransitionReadiness.recommendedNextEnvKeys), "Admin news operations report missing recommended feed env keys");
+  assert(["seed_fallback_only", "live_feed_ready", "needs_attention", "missing"].includes(data.report?.feedCanary?.status), "Admin news operations report missing official feed canary status");
+  assert(typeof data.report?.feedCanary?.configuredFeedUrls === "number", "Admin news operations report missing official feed canary configured URL count");
+  assert(typeof data.report?.feedCanary?.visibleCandidateCount === "number", "Admin news operations report missing official feed canary visible candidate count");
   assert(Array.isArray(data.report?.recentLogs) && data.report.recentLogs.length >= 6, "Admin news operations report missing recent logs");
   assert(Array.isArray(data.report?.manualActions) && data.report.manualActions.length >= 3, "Admin news operations report missing manual actions");
   assert(data.report?.refreshAll?.productDealsCount >= 140, "Admin news operations report missing refresh:all product count");
@@ -1079,6 +1082,8 @@ await check("admin health readiness api", async () => {
   assert(Array.isArray(data.report?.officialBenefits?.providerRisks) && data.report.officialBenefits.providerRisks.length >= 4, "Admin health readiness should expose official benefit provider risks");
   assert(data.report.officialBenefits.providerRisks.every((risk) => risk.provider && risk.label && ["healthy", "watch", "danger"].includes(risk.severity)), "Admin health readiness provider risks missing launch fields");
   assert(data.report?.officialBenefits?.providerRiskSummary?.danger === 0, "Admin health readiness should show zero danger official benefit providers");
+  assert(["seed_fallback_only", "live_feed_ready", "needs_attention", "missing"].includes(data.report?.officialBenefits?.feedCanary?.status), "Admin health readiness should expose official feed canary status");
+  assert(typeof data.report?.officialBenefits?.feedCanary?.configuredFeedUrls === "number", "Admin health readiness should expose official feed canary URL count");
   assert(data.report?.sourceReadiness?.ok === true, "Admin health readiness should expose passing source readiness");
   assert(data.report?.sourceReadiness?.launchGateStatus === "passed", "Admin health readiness source launch gate should pass");
   assert(data.report?.sourceReadiness?.officialSourceCandidates >= 30, "Admin health readiness should expose official source candidates");
@@ -1632,6 +1637,9 @@ await check("health api", async () => {
   assert(typeof data.checks?.officialBenefitFeedExternalItemRate === "number", "Health API missing official external feed item rate");
   assert(typeof data.checks?.officialBenefitFeedConfiguredEmptyCount === "number", "Health API missing configured empty feed count");
   assert(Array.isArray(data.checks?.officialBenefitFeedConfiguredEmptyProviders), "Health API missing configured empty feed providers");
+  assert(["seed_fallback_only", "live_feed_ready", "needs_attention", "missing"].includes(data.checks?.officialBenefitFeedCanaryStatus), "Health API missing official feed canary status");
+  assert(typeof data.checks?.officialBenefitFeedCanaryConfiguredUrls === "number", "Health API missing official feed canary configured URL count");
+  assert(typeof data.checks?.officialBenefitFeedCanaryVisibleCount === "number", "Health API missing official feed canary visible candidate count");
   assert(Array.isArray(data.checks?.officialBenefitFeedRecommendedEnvKeys), "Health API missing recommended official feed env keys");
   assert(data.checks?.officialSourceReadinessOk === true, "Health API missing passing official source readiness");
   assert(data.checks?.officialSourceLaunchGateStatus === "passed", "Health API missing source readiness launch gate");
@@ -1878,6 +1886,8 @@ await check("metrics api", async () => {
   assert(Array.isArray(data.officialBenefitFeedTransition?.providers) && data.officialBenefitFeedTransition.providers.length >= 4, "Metrics missing official benefit feed transition providers");
   assert(data.officialBenefitFeedTransition.providers.every((provider) => typeof provider.seedCount === "number" && typeof provider.feedItemCount === "number" && typeof provider.feedItemRate === "number" && typeof provider.configuredEmptyFeed === "boolean"), "Metrics official feed transition providers missing source mix counters");
   assert(Array.isArray(data.officialBenefitFeedTransition?.recommendedNextEnvKeys), "Metrics missing official benefit feed transition env guidance");
+  assert(["seed_fallback_only", "live_feed_ready", "needs_attention", "missing"].includes(data.officialBenefitFeedCanary?.status), "Metrics missing official feed canary status");
+  assert(typeof data.officialBenefitFeedCanary?.configuredFeedUrls === "number", "Metrics missing official feed canary configured URL count");
   assert(Array.isArray(data.linkReviewQueue), "Metrics missing link review queue");
   assert(data.linkReviewQueue.length <= 8, "Metrics link review queue should be capped");
   if (data.linkReviewQueue.length) {

@@ -66,6 +66,7 @@ const refreshAll = readJson("reports/refresh-all.json", {});
 const refreshDeals = readJson("reports/refresh-deals.json", {});
 const cronRefreshReport = readJson(cronReportPath, {});
 const sourceReadiness = readJson("reports/source-readiness.json", {});
+const newsFeedCanary = readJson("reports/news-feed-canary.json", {});
 
 const productDealsCount = Number(refreshAll.productDealsCount ?? productQuality.totalProducts ?? linkValidation.totalDeals ?? 0);
 const visibleProducts = Number(productQuality.visibleProducts ?? linkValidation.visibleDeals ?? 0);
@@ -213,6 +214,11 @@ const sourceReadinessOk =
   Number(sourceReadinessSummary.blockedLiveIssues ?? 1) === 0 &&
   Number(sourceReadinessSummary.feedEnvFailedCount ?? 1) === 0 &&
   sourceReadinessFailedGates.length === 0;
+const newsFeedCanaryOk =
+  newsFeedCanary.ok === true &&
+  ["seed_fallback_only", "live_feed_ready"].includes(newsFeedCanary.status) &&
+  Number(newsFeedCanary.errorCount ?? 0) === 0 &&
+  Number(newsFeedCanary.configuredEmptyFeedCount ?? 0) === 0;
 
 const checks = [
   productDealsCount >= 140
@@ -257,6 +263,9 @@ const checks = [
   officialBenefitProviderStats.every((stat) => typeof stat.configuredEmptyFeed === "boolean")
     ? pass("configured empty feed watch", `configured-empty=${officialBenefitFeedSourceMix.configuredEmptyFeedCount}; providers=${officialBenefitFeedSourceMix.configuredEmptyFeedProviders.join(", ") || "none"}.`)
     : fail("configured empty feed watch", "Official benefit provider stats must expose configuredEmptyFeed boolean counters."),
+  newsFeedCanaryOk
+    ? pass("official feed canary", `status=${newsFeedCanary.status}; configured=${Number(newsFeedCanary.configuredFeedUrls ?? 0)}; visible=${Number(newsFeedCanary.visibleCandidateCount ?? 0)}.`)
+    : fail("official feed canary", `Run npm run news:feed:canary. status=${newsFeedCanary.status ?? "missing"}, errors=${Number(newsFeedCanary.errorCount ?? 0)}, empty=${Number(newsFeedCanary.configuredEmptyFeedCount ?? 0)}.`),
   officialBenefitProviderRiskSummary.danger === 0
     ? pass("provider risk gate", `Official benefit providers danger=${officialBenefitProviderRiskSummary.danger}, watch=${officialBenefitProviderRiskSummary.watch}.`)
     : fail("provider risk gate", `Official benefit providers danger=${officialBenefitProviderRiskSummary.danger}.`),
@@ -315,7 +324,19 @@ const report = {
     sourceMix: officialBenefitFeedSourceMix,
     providerStats: officialBenefitProviderStats,
     providerRisks: officialBenefitProviderRisks,
-    providerRiskSummary: officialBenefitProviderRiskSummary
+    providerRiskSummary: officialBenefitProviderRiskSummary,
+    feedCanary: {
+      ok: newsFeedCanary.ok === true,
+      generatedAt: newsFeedCanary.generatedAt ?? "",
+      status: newsFeedCanary.status ?? "missing",
+      configuredFeedUrls: Number(newsFeedCanary.configuredFeedUrls ?? 0),
+      visibleCandidateCount: Number(newsFeedCanary.visibleCandidateCount ?? 0),
+      hiddenCandidateCount: Number(newsFeedCanary.hiddenCandidateCount ?? 0),
+      errorCount: Number(newsFeedCanary.errorCount ?? 0),
+      configuredEmptyFeedCount: Number(newsFeedCanary.configuredEmptyFeedCount ?? 0),
+      officialLinkPromotedCount: Number(newsFeedCanary.officialLinkPromotedCount ?? 0),
+      failedProviders: Array.isArray(newsFeedCanary.failedProviders) ? newsFeedCanary.failedProviders : []
+    }
   },
   refreshAll: {
     ok: refreshAll.ok === true,
@@ -391,6 +412,7 @@ const docsLines = [
   `- 공식 혜택 Provider: ${activeNewsProviders.length}개 (feed 연결 ${configuredNewsProviders.length}개)`,
   `- 공식 혜택 source mix: seed ${officialBenefitFeedSourceMix.seedCount}개 · 외부 feed ${officialBenefitFeedSourceMix.feedItemCount}개 · 성공 feed ${officialBenefitFeedSourceMix.feedSuccessCount}/${officialBenefitFeedSourceMix.configuredFeedUrls}`,
   `- 공식 혜택 설정 feed 공백: ${officialBenefitFeedSourceMix.configuredEmptyFeedCount}개 (${officialBenefitFeedSourceMix.configuredEmptyFeedProviders.join(", ") || "없음"})`,
+  `- 공식 feed canary: ${newsFeedCanary.status ?? "missing"} · 연결 ${Number(newsFeedCanary.configuredFeedUrls ?? 0)}개 · 후보 ${Number(newsFeedCanary.visibleCandidateCount ?? 0)}개`,
   `- 공식 혜택 Provider 위험도: 정상 ${officialBenefitProviderRiskSummary.healthy}개 · 관찰 ${officialBenefitProviderRiskSummary.watch}개 · 즉시 점검 ${officialBenefitProviderRiskSummary.danger}개`,
   `- 공식 소스 통합 준비도: ${report.sourceReadiness.readinessLabel}`,
   `- 공식 소스 후보/노출 혜택: ${report.sourceReadiness.officialSourceCandidates}개 / ${report.sourceReadiness.visibleOfficialBenefits}개`,
