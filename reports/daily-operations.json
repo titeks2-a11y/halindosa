@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-04T05:59:47.491Z",
+  "generatedAt": "2026-06-04T06:18:57.192Z",
   "readinessLabel": "오늘 운영 가능",
   "summary": {
     "productDealsCount": 140,
@@ -18,8 +18,8 @@
     "officialSourceLaunchGateStatus": "passed",
     "cronRefreshStatus": "ready",
     "pushReadinessScore": 100,
-    "releaseDoctorPassedChecks": 184,
-    "releaseDoctorTotalChecks": 184
+    "releaseDoctorPassedChecks": 185,
+    "releaseDoctorTotalChecks": 185
   },
   "gates": [
     {
@@ -61,7 +61,7 @@
       "name": "release doctor",
       "ok": true,
       "status": "passed",
-      "detail": "184/184 checks",
+      "detail": "185/185 checks",
       "action": "npm run release:doctor"
     }
   ],
@@ -115,7 +115,7 @@
       "id": "release",
       "title": "출시 게이트",
       "tone": "good",
-      "value": "184/184",
+      "value": "185/185",
       "description": "스토어 제출 전 회귀 게이트입니다.",
       "command": "npm run release:doctor",
       "href": "/admin"
@@ -144,7 +144,7 @@
       "title": "Play Store 제출 전 최종 증적 갱신",
       "reason": "최종 AAB 생성 직전 release evidence가 최신 커밋을 가리켜야 합니다.",
       "action": "npm run release:evidence && npm run release:doctor",
-      "evidence": "184/184 release checks"
+      "evidence": "185/185 release checks"
     }
   ],
   "commands": [

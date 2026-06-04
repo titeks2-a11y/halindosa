@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-06-04T06:03:52.297Z",
-  "totalChecks": 184,
-  "passedChecks": 184,
+  "generatedAt": "2026-06-04T06:22:08.515Z",
+  "totalChecks": 185,
+  "passedChecks": 185,
   "failedChecks": 0,
   "ok": true,
   "checks": [
@@ -379,6 +379,11 @@
       "name": "official benefit notification campaign queue",
       "ok": true,
       "detail": "Official news/event benefits feed a separate notification campaign queue with product campaigns preserved."
+    },
+    {
+      "name": "official benefit alert operations report",
+      "ok": true,
+      "detail": "Official benefit alert candidates have a QA report, docs, default interest coverage, and /go/news redirect safety evidence."
     },
     {
       "name": "admin push dry-run operation",

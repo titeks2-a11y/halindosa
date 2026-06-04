@@ -1,13 +1,13 @@
 # 할인도사 일일 운영 리포트
 
-- 생성 시각: 2026-06-04T05:59:47.491Z
+- 생성 시각: 2026-06-04T06:18:57.192Z
 - 운영 상태: 오늘 운영 가능
 - 상품 링크: 140/140 검증
 - 검색 링크 노출: 0건
 - 품절/종료 상품 노출: 0건
 - 공식 혜택 노출: 43개
 - refresh:all: 통과
-- release:doctor: 184/184
+- release:doctor: 185/185
 
 ## 오늘 운영 게이트
 
@@ -18,7 +18,7 @@
 | refresh:all | passed | refresh:all ok=true, failed=0 | npm run refresh:all |
 | 공식 소스 준비도 | passed | 공식 소스 30개, launch gate=passed | npm run source:readiness:report |
 | cron/push 운영 준비 | passed | cron=ready, push readiness=100 | npm run cron:refresh:doctor && npm run push:readiness:report |
-| release doctor | passed | 184/184 checks | npm run release:doctor |
+| release doctor | passed | 185/185 checks | npm run release:doctor |
 
 ## 운영 카드
 
@@ -29,7 +29,7 @@
 | 수집 파이프라인 | good | 정상 | 상품과 혜택 refresh가 같은 증적 흐름으로 갱신되는지 봅니다. | npm run refresh:all |
 | 공식 소스 | good | 30개 | 향후 API/RSS/제휴 feed 전환 후보와 정책 게이트입니다. | npm run source:readiness:report |
 | 자동 운영 | good | ready | 6시간 refresh와 푸시 준비 상태를 점검합니다. | npm run cron:refresh:doctor |
-| 출시 게이트 | good | 184/184 | 스토어 제출 전 회귀 게이트입니다. | npm run release:doctor |
+| 출시 게이트 | good | 185/185 | 스토어 제출 전 회귀 게이트입니다. | npm run release:doctor |
 
 ## 우선 처리 큐
 

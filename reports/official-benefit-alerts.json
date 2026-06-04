@@ -1,0 +1,978 @@
+{
+  "ok": true,
+  "generatedAt": "2026-06-04T06:18:59.646Z",
+  "source": "official_event_seed_and_approved_feeds",
+  "snapshotGeneratedAt": "2026-06-04T06:18:30.992Z",
+  "totals": {
+    "newsDeals": 43,
+    "activeOfficialBenefits": 43,
+    "hiddenBenefits": 0,
+    "failedBenefits": 0,
+    "expiredBenefits": 0,
+    "officialHosts": 33,
+    "categories": 10,
+    "benefitTypes": 9
+  },
+  "defaultInterests": [
+    "무료/체험",
+    "쿠폰/이벤트",
+    "마트/편의점",
+    "영화/문화"
+  ],
+  "supportedInterests": [
+    "무료/체험",
+    "쿠폰/이벤트",
+    "마트/편의점",
+    "영화/문화",
+    "카드/멤버십",
+    "정부/공공혜택",
+    "여행",
+    "식품",
+    "생활용품",
+    "디지털",
+    "패션",
+    "뷰티",
+    "외식/배달"
+  ],
+  "interestCoverage": [
+    {
+      "interest": "무료/체험",
+      "matchedCount": 6,
+      "sampleItems": [
+        {
+          "id": "news-culture-day-programs-2026",
+          "title": "이번 주 문화가 있는 날 프로그램",
+          "sourceName": "문화가 있는 날 공식",
+          "officialHost": "culture.go.kr"
+        },
+        {
+          "id": "news-culture-day-weekly-2026",
+          "title": "문화가 있는 날 매주 수요일 문화 혜택",
+          "sourceName": "지역문화통합정보시스템",
+          "officialHost": "culture.go.kr"
+        },
+        {
+          "id": "news-oliveyoung-official-events",
+          "title": "올리브영 공식 뷰티 이벤트",
+          "sourceName": "올리브영 공식 이벤트",
+          "officialHost": "oliveyoung.co.kr"
+        }
+      ]
+    },
+    {
+      "interest": "쿠폰/이벤트",
+      "matchedCount": 40,
+      "sampleItems": [
+        {
+          "id": "news-gs25-drinking-festa-2026",
+          "title": "GS25 드링킹 페스타 1+1·다량 구매 행사",
+          "sourceName": "GS25 공식 이벤트",
+          "officialHost": "gs25.gsretail.com"
+        },
+        {
+          "id": "news-musinsa-fashion-festa",
+          "title": "무신사 패션 페스타 공식 혜택",
+          "sourceName": "무신사 공식 캠페인",
+          "officialHost": "musinsa.com"
+        },
+        {
+          "id": "news-lotteon-lohbs-coupon",
+          "title": "롯데ON 롭스 공식 쿠폰 이벤트",
+          "sourceName": "롯데ON 공식 이벤트",
+          "officialHost": "lotteon.com"
+        }
+      ]
+    },
+    {
+      "interest": "마트/편의점",
+      "matchedCount": 8,
+      "sampleItems": [
+        {
+          "id": "news-gs25-drinking-festa-2026",
+          "title": "GS25 드링킹 페스타 1+1·다량 구매 행사",
+          "sourceName": "GS25 공식 이벤트",
+          "officialHost": "gs25.gsretail.com"
+        },
+        {
+          "id": "news-gs25-card-june-2026",
+          "title": "GS25 6월 신용카드 현장 할인 혜택",
+          "sourceName": "GS25 공식 이벤트",
+          "officialHost": "gs25.gsretail.com"
+        },
+        {
+          "id": "news-gs25-event-goods",
+          "title": "GS25 행사상품 공식 목록",
+          "sourceName": "GS25 공식 행사상품",
+          "officialHost": "gs25.gsretail.com"
+        }
+      ]
+    },
+    {
+      "interest": "영화/문화",
+      "matchedCount": 4,
+      "sampleItems": [
+        {
+          "id": "news-culture-day-programs-2026",
+          "title": "이번 주 문화가 있는 날 프로그램",
+          "sourceName": "문화가 있는 날 공식",
+          "officialHost": "culture.go.kr"
+        },
+        {
+          "id": "news-cgv-official-events",
+          "title": "CGV 공식 이벤트·쿠폰 혜택",
+          "sourceName": "CGV 공식 이벤트",
+          "officialHost": "cgv.co.kr"
+        },
+        {
+          "id": "news-lottecinema-official-events",
+          "title": "롯데시네마 공식 이벤트 혜택",
+          "sourceName": "롯데시네마 공식 이벤트",
+          "officialHost": "lottecinema.co.kr"
+        }
+      ]
+    },
+    {
+      "interest": "카드/멤버십",
+      "matchedCount": 14,
+      "sampleItems": [
+        {
+          "id": "news-gs25-card-june-2026",
+          "title": "GS25 6월 신용카드 현장 할인 혜택",
+          "sourceName": "GS25 공식 이벤트",
+          "officialHost": "gs25.gsretail.com"
+        },
+        {
+          "id": "news-kbcard-official-event-center",
+          "title": "KB국민카드 공식 이벤트 혜택 모음",
+          "sourceName": "KB국민카드 공식 이벤트",
+          "officialHost": "card.kbcard.com"
+        },
+        {
+          "id": "news-kbcard-membership-benefit-center",
+          "title": "KB국민카드 공식 생활 할인 혜택",
+          "sourceName": "KB국민카드 공식 혜택",
+          "officialHost": "card.kbcard.com"
+        }
+      ]
+    },
+    {
+      "interest": "정부/공공혜택",
+      "matchedCount": 4,
+      "sampleItems": [
+        {
+          "id": "news-culture-day-weekly-2026",
+          "title": "문화가 있는 날 매주 수요일 문화 혜택",
+          "sourceName": "지역문화통합정보시스템",
+          "officialHost": "culture.go.kr"
+        },
+        {
+          "id": "news-mnuri-official-benefit",
+          "title": "문화누리카드 공식 문화·여행 혜택",
+          "sourceName": "문화누리카드 공식 누리집",
+          "officialHost": "mnuri.kr"
+        },
+        {
+          "id": "news-mnuri-online-merchant-benefit",
+          "title": "문화누리카드 온라인 이용처 공식 혜택",
+          "sourceName": "문화누리카드 공식 이용처",
+          "officialHost": "mnuri.kr"
+        }
+      ]
+    },
+    {
+      "interest": "여행",
+      "matchedCount": 4,
+      "sampleItems": [
+        {
+          "id": "news-koreanair-boarding-pass-benefit",
+          "title": "대한항공 탑승권 제휴 할인 혜택",
+          "sourceName": "대한항공 공식 탑승권 혜택",
+          "officialHost": "koreanair.com"
+        },
+        {
+          "id": "news-koreanair-promotion",
+          "title": "대한항공 공식 항공권 프로모션",
+          "sourceName": "대한항공 공식 프로모션",
+          "officialHost": "koreanair.com"
+        },
+        {
+          "id": "news-koreanair-skypass-benefit",
+          "title": "대한항공 스카이패스 공식 여행 혜택",
+          "sourceName": "대한항공 공식 스카이패스",
+          "officialHost": "koreanair.com"
+        }
+      ]
+    },
+    {
+      "interest": "식품",
+      "matchedCount": 2,
+      "sampleItems": [
+        {
+          "id": "news-ssg-official-event-main",
+          "title": "SSG닷컴 공식 장보기·생활 행사",
+          "sourceName": "SSG닷컴 공식 이벤트",
+          "officialHost": "ssg.com"
+        },
+        {
+          "id": "news-ssg-earlymorning-food-event",
+          "title": "SSG 새벽배송 식품·생필품 공식 행사",
+          "sourceName": "SSG 새벽배송 공식 이벤트",
+          "officialHost": "earlymorning.ssg.com"
+        }
+      ]
+    },
+    {
+      "interest": "생활용품",
+      "matchedCount": 5,
+      "sampleItems": [
+        {
+          "id": "news-lotteon-lohbs-coupon",
+          "title": "롯데ON 롭스 공식 쿠폰 이벤트",
+          "sourceName": "롯데ON 공식 이벤트",
+          "officialHost": "lotteon.com"
+        },
+        {
+          "id": "news-kbcard-membership-benefit-center",
+          "title": "KB국민카드 공식 생활 할인 혜택",
+          "sourceName": "KB국민카드 공식 혜택",
+          "officialHost": "card.kbcard.com"
+        },
+        {
+          "id": "news-ssg-official-event-main",
+          "title": "SSG닷컴 공식 장보기·생활 행사",
+          "sourceName": "SSG닷컴 공식 이벤트",
+          "officialHost": "ssg.com"
+        }
+      ]
+    },
+    {
+      "interest": "디지털",
+      "matchedCount": 3,
+      "sampleItems": [
+        {
+          "id": "news-samsung-shop-official-event",
+          "title": "삼성닷컴 공식 기획전·카드 혜택",
+          "sourceName": "삼성닷컴 공식 기획전",
+          "officialHost": "samsung.com"
+        },
+        {
+          "id": "news-himart-digital-official-event",
+          "title": "하이마트 공식 디지털·가전 행사",
+          "sourceName": "하이마트 공식 이벤트",
+          "officialHost": "e-himart.co.kr"
+        },
+        {
+          "id": "news-himart-company-events",
+          "title": "하이마트 공식 기획전·가전 혜택",
+          "sourceName": "하이마트 공식 이벤트",
+          "officialHost": "company.himart.co.kr"
+        }
+      ]
+    },
+    {
+      "interest": "패션",
+      "matchedCount": 4,
+      "sampleItems": [
+        {
+          "id": "news-musinsa-fashion-festa",
+          "title": "무신사 패션 페스타 공식 혜택",
+          "sourceName": "무신사 공식 캠페인",
+          "officialHost": "musinsa.com"
+        },
+        {
+          "id": "news-lotteon-lohbs-coupon",
+          "title": "롯데ON 롭스 공식 쿠폰 이벤트",
+          "sourceName": "롯데ON 공식 이벤트",
+          "officialHost": "lotteon.com"
+        },
+        {
+          "id": "news-hmall-official-shopping-event",
+          "title": "현대Hmall 공식 쇼핑 기획전 혜택",
+          "sourceName": "현대Hmall 공식 이벤트",
+          "officialHost": "hyundaihmall.com"
+        }
+      ]
+    },
+    {
+      "interest": "뷰티",
+      "matchedCount": 4,
+      "sampleItems": [
+        {
+          "id": "news-musinsa-fashion-festa",
+          "title": "무신사 패션 페스타 공식 혜택",
+          "sourceName": "무신사 공식 캠페인",
+          "officialHost": "musinsa.com"
+        },
+        {
+          "id": "news-lotteon-lohbs-coupon",
+          "title": "롯데ON 롭스 공식 쿠폰 이벤트",
+          "sourceName": "롯데ON 공식 이벤트",
+          "officialHost": "lotteon.com"
+        },
+        {
+          "id": "news-hmall-official-shopping-event",
+          "title": "현대Hmall 공식 쇼핑 기획전 혜택",
+          "sourceName": "현대Hmall 공식 이벤트",
+          "officialHost": "hyundaihmall.com"
+        }
+      ]
+    },
+    {
+      "interest": "외식/배달",
+      "matchedCount": 5,
+      "sampleItems": [
+        {
+          "id": "news-yogiyo-official-event",
+          "title": "요기요 공식 배달 할인 이벤트",
+          "sourceName": "요기요 공식 이벤트",
+          "officialHost": "yogiyo.co.kr"
+        },
+        {
+          "id": "news-yogiyo-brand-coupon-event",
+          "title": "요기요 브랜드 할인 쿠폰 공식 혜택",
+          "sourceName": "요기요 공식 이벤트",
+          "officialHost": "yogiyo.co.kr"
+        },
+        {
+          "id": "news-bhc-official-ecoupon",
+          "title": "BHC 공식 e쿠폰 구매 혜택",
+          "sourceName": "BHC 공식 e쿠폰",
+          "officialHost": "bhc.co.kr"
+        }
+      ]
+    }
+  ],
+  "redirectSafety": {
+    "ok": true,
+    "checkedItems": 8,
+    "expectedInternalPrefix": "/go/news/",
+    "issues": []
+  },
+  "defaultQueue": {
+    "totalActiveBenefits": 43,
+    "interestMatchedBenefits": 42,
+    "recentBenefits": 0,
+    "recommendedBenefits": 8,
+    "items": [
+      {
+        "id": "news-gs25-drinking-festa-2026",
+        "title": "GS25 드링킹 페스타 1+1·다량 구매 행사",
+        "sourceName": "GS25 공식 이벤트",
+        "category": "마트/편의점",
+        "benefitType": "discount",
+        "officialHost": "gs25.gsretail.com",
+        "redirectUrl": "/go/news/news-gs25-drinking-festa-2026",
+        "reason": "쿠폰/이벤트 관심 알림과 맞는 공식 혜택입니다.",
+        "matchedInterests": [
+          "쿠폰/이벤트",
+          "마트/편의점"
+        ]
+      },
+      {
+        "id": "news-musinsa-fashion-festa",
+        "title": "무신사 패션 페스타 공식 혜택",
+        "sourceName": "무신사 공식 캠페인",
+        "category": "패션/뷰티",
+        "benefitType": "coupon",
+        "officialHost": "musinsa.com",
+        "redirectUrl": "/go/news/news-musinsa-fashion-festa",
+        "reason": "쿠폰/이벤트 관심 알림과 맞는 공식 혜택입니다.",
+        "matchedInterests": [
+          "쿠폰/이벤트"
+        ]
+      },
+      {
+        "id": "news-lotteon-lohbs-coupon",
+        "title": "롯데ON 롭스 공식 쿠폰 이벤트",
+        "sourceName": "롯데ON 공식 이벤트",
+        "category": "패션/뷰티",
+        "benefitType": "coupon",
+        "officialHost": "lotteon.com",
+        "redirectUrl": "/go/news/news-lotteon-lohbs-coupon",
+        "reason": "쿠폰/이벤트 관심 알림과 맞는 공식 혜택입니다.",
+        "matchedInterests": [
+          "쿠폰/이벤트"
+        ]
+      },
+      {
+        "id": "news-gs25-card-june-2026",
+        "title": "GS25 6월 신용카드 현장 할인 혜택",
+        "sourceName": "GS25 공식 이벤트",
+        "category": "마트/편의점",
+        "benefitType": "card",
+        "officialHost": "gs25.gsretail.com",
+        "redirectUrl": "/go/news/news-gs25-card-june-2026",
+        "reason": "쿠폰/이벤트 관심 알림과 맞는 공식 혜택입니다.",
+        "matchedInterests": [
+          "쿠폰/이벤트",
+          "마트/편의점"
+        ]
+      },
+      {
+        "id": "news-gs25-event-goods",
+        "title": "GS25 행사상품 공식 목록",
+        "sourceName": "GS25 공식 행사상품",
+        "category": "마트/편의점",
+        "benefitType": "discount",
+        "officialHost": "gs25.gsretail.com",
+        "redirectUrl": "/go/news/news-gs25-event-goods",
+        "reason": "마트/편의점 관심 알림과 맞는 공식 혜택입니다.",
+        "matchedInterests": [
+          "마트/편의점"
+        ]
+      },
+      {
+        "id": "news-culture-day-programs-2026",
+        "title": "이번 주 문화가 있는 날 프로그램",
+        "sourceName": "문화가 있는 날 공식",
+        "category": "영화/문화",
+        "benefitType": "culture",
+        "officialHost": "culture.go.kr",
+        "redirectUrl": "/go/news/news-culture-day-programs-2026",
+        "reason": "무료/체험 관심 알림과 맞는 공식 혜택입니다.",
+        "matchedInterests": [
+          "무료/체험",
+          "쿠폰/이벤트",
+          "영화/문화"
+        ]
+      },
+      {
+        "id": "news-culture-day-weekly-2026",
+        "title": "문화가 있는 날 매주 수요일 문화 혜택",
+        "sourceName": "지역문화통합정보시스템",
+        "category": "정부/공공혜택",
+        "benefitType": "public",
+        "officialHost": "culture.go.kr",
+        "redirectUrl": "/go/news/news-culture-day-weekly-2026",
+        "reason": "무료/체험 관심 알림과 맞는 공식 혜택입니다.",
+        "matchedInterests": [
+          "무료/체험",
+          "쿠폰/이벤트"
+        ]
+      },
+      {
+        "id": "news-kbcard-official-event-center",
+        "title": "KB국민카드 공식 이벤트 혜택 모음",
+        "sourceName": "KB국민카드 공식 이벤트",
+        "category": "카드/멤버십",
+        "benefitType": "card",
+        "officialHost": "card.kbcard.com",
+        "redirectUrl": "/go/news/news-kbcard-official-event-center",
+        "reason": "쿠폰/이벤트 관심 알림과 맞는 공식 혜택입니다.",
+        "matchedInterests": [
+          "쿠폰/이벤트"
+        ]
+      }
+    ]
+  },
+  "recentScenario": {
+    "recentNewsIds": [
+      "news-gs25-drinking-festa-2026",
+      "news-musinsa-fashion-festa",
+      "news-lotteon-lohbs-coupon"
+    ],
+    "totalActiveBenefits": 43,
+    "interestMatchedBenefits": 42,
+    "recentBenefits": 3,
+    "recommendedBenefits": 8,
+    "items": [
+      {
+        "id": "news-gs25-drinking-festa-2026",
+        "title": "GS25 드링킹 페스타 1+1·다량 구매 행사",
+        "sourceName": "GS25 공식 이벤트",
+        "category": "마트/편의점",
+        "benefitType": "discount",
+        "officialHost": "gs25.gsretail.com",
+        "redirectUrl": "/go/news/news-gs25-drinking-festa-2026",
+        "reason": "최근 본 공식 혜택이라 다시 확인하기 좋습니다.",
+        "matchedInterests": [
+          "쿠폰/이벤트",
+          "마트/편의점"
+        ]
+      },
+      {
+        "id": "news-musinsa-fashion-festa",
+        "title": "무신사 패션 페스타 공식 혜택",
+        "sourceName": "무신사 공식 캠페인",
+        "category": "패션/뷰티",
+        "benefitType": "coupon",
+        "officialHost": "musinsa.com",
+        "redirectUrl": "/go/news/news-musinsa-fashion-festa",
+        "reason": "최근 본 공식 혜택이라 다시 확인하기 좋습니다.",
+        "matchedInterests": [
+          "쿠폰/이벤트"
+        ]
+      },
+      {
+        "id": "news-lotteon-lohbs-coupon",
+        "title": "롯데ON 롭스 공식 쿠폰 이벤트",
+        "sourceName": "롯데ON 공식 이벤트",
+        "category": "패션/뷰티",
+        "benefitType": "coupon",
+        "officialHost": "lotteon.com",
+        "redirectUrl": "/go/news/news-lotteon-lohbs-coupon",
+        "reason": "최근 본 공식 혜택이라 다시 확인하기 좋습니다.",
+        "matchedInterests": [
+          "쿠폰/이벤트"
+        ]
+      },
+      {
+        "id": "news-gs25-card-june-2026",
+        "title": "GS25 6월 신용카드 현장 할인 혜택",
+        "sourceName": "GS25 공식 이벤트",
+        "category": "마트/편의점",
+        "benefitType": "card",
+        "officialHost": "gs25.gsretail.com",
+        "redirectUrl": "/go/news/news-gs25-card-june-2026",
+        "reason": "쿠폰/이벤트 관심 알림과 맞는 공식 혜택입니다.",
+        "matchedInterests": [
+          "쿠폰/이벤트",
+          "마트/편의점"
+        ]
+      },
+      {
+        "id": "news-gs25-event-goods",
+        "title": "GS25 행사상품 공식 목록",
+        "sourceName": "GS25 공식 행사상품",
+        "category": "마트/편의점",
+        "benefitType": "discount",
+        "officialHost": "gs25.gsretail.com",
+        "redirectUrl": "/go/news/news-gs25-event-goods",
+        "reason": "마트/편의점 관심 알림과 맞는 공식 혜택입니다.",
+        "matchedInterests": [
+          "마트/편의점"
+        ]
+      },
+      {
+        "id": "news-culture-day-programs-2026",
+        "title": "이번 주 문화가 있는 날 프로그램",
+        "sourceName": "문화가 있는 날 공식",
+        "category": "영화/문화",
+        "benefitType": "culture",
+        "officialHost": "culture.go.kr",
+        "redirectUrl": "/go/news/news-culture-day-programs-2026",
+        "reason": "무료/체험 관심 알림과 맞는 공식 혜택입니다.",
+        "matchedInterests": [
+          "무료/체험",
+          "쿠폰/이벤트",
+          "영화/문화"
+        ]
+      },
+      {
+        "id": "news-culture-day-weekly-2026",
+        "title": "문화가 있는 날 매주 수요일 문화 혜택",
+        "sourceName": "지역문화통합정보시스템",
+        "category": "정부/공공혜택",
+        "benefitType": "public",
+        "officialHost": "culture.go.kr",
+        "redirectUrl": "/go/news/news-culture-day-weekly-2026",
+        "reason": "무료/체험 관심 알림과 맞는 공식 혜택입니다.",
+        "matchedInterests": [
+          "무료/체험",
+          "쿠폰/이벤트"
+        ]
+      },
+      {
+        "id": "news-kbcard-official-event-center",
+        "title": "KB국민카드 공식 이벤트 혜택 모음",
+        "sourceName": "KB국민카드 공식 이벤트",
+        "category": "카드/멤버십",
+        "benefitType": "card",
+        "officialHost": "card.kbcard.com",
+        "redirectUrl": "/go/news/news-kbcard-official-event-center",
+        "reason": "쿠폰/이벤트 관심 알림과 맞는 공식 혜택입니다.",
+        "matchedInterests": [
+          "쿠폰/이벤트"
+        ]
+      }
+    ]
+  },
+  "categoryCounts": [
+    {
+      "name": "카드/멤버십",
+      "count": 9
+    },
+    {
+      "name": "마트/편의점",
+      "count": 6
+    },
+    {
+      "name": "외식/배달",
+      "count": 5
+    },
+    {
+      "name": "여행/숙박",
+      "count": 4
+    },
+    {
+      "name": "영화/문화",
+      "count": 4
+    },
+    {
+      "name": "패션/뷰티",
+      "count": 4
+    },
+    {
+      "name": "디지털/가전",
+      "count": 3
+    },
+    {
+      "name": "무료혜택",
+      "count": 3
+    },
+    {
+      "name": "정부/공공혜택",
+      "count": 3
+    },
+    {
+      "name": "식품/생필품",
+      "count": 2
+    }
+  ],
+  "benefitTypeCounts": [
+    {
+      "name": "coupon",
+      "count": 12
+    },
+    {
+      "name": "card",
+      "count": 8
+    },
+    {
+      "name": "membership",
+      "count": 5
+    },
+    {
+      "name": "culture",
+      "count": 4
+    },
+    {
+      "name": "discount",
+      "count": 4
+    },
+    {
+      "name": "public",
+      "count": 4
+    },
+    {
+      "name": "travel",
+      "count": 4
+    },
+    {
+      "name": "freebie",
+      "count": 1
+    },
+    {
+      "name": "point",
+      "count": 1
+    }
+  ],
+  "sourceHosts": [
+    {
+      "name": "gs25.gsretail.com",
+      "count": 3
+    },
+    {
+      "name": "koreanair.com",
+      "count": 3
+    },
+    {
+      "name": "card.kbcard.com",
+      "count": 2
+    },
+    {
+      "name": "culture.go.kr",
+      "count": 2
+    },
+    {
+      "name": "m.lpoint.com",
+      "count": 2
+    },
+    {
+      "name": "mnuri.kr",
+      "count": 2
+    },
+    {
+      "name": "tworld.co.kr",
+      "count": 2
+    },
+    {
+      "name": "yogiyo.co.kr",
+      "count": 2
+    },
+    {
+      "name": "academy.baemin.com",
+      "count": 1
+    },
+    {
+      "name": "bccard.com",
+      "count": 1
+    },
+    {
+      "name": "bhc.co.kr",
+      "count": 1
+    },
+    {
+      "name": "cgv.co.kr",
+      "count": 1
+    },
+    {
+      "name": "cjone.com",
+      "count": 1
+    },
+    {
+      "name": "company.himart.co.kr",
+      "count": 1
+    },
+    {
+      "name": "cu.bgfretail.com",
+      "count": 1
+    },
+    {
+      "name": "e-himart.co.kr",
+      "count": 1
+    },
+    {
+      "name": "earlymorning.ssg.com",
+      "count": 1
+    },
+    {
+      "name": "emart.ssg.com",
+      "count": 1
+    },
+    {
+      "name": "front.homeplus.co.kr",
+      "count": 1
+    },
+    {
+      "name": "hyundaihmall.com",
+      "count": 1
+    },
+    {
+      "name": "jejuair.net",
+      "count": 1
+    },
+    {
+      "name": "korean.visitkorea.or.kr",
+      "count": 1
+    },
+    {
+      "name": "lottecinema.co.kr",
+      "count": 1
+    },
+    {
+      "name": "lotteon.com",
+      "count": 1
+    },
+    {
+      "name": "mcdonalds.co.kr",
+      "count": 1
+    },
+    {
+      "name": "megabox.co.kr",
+      "count": 1
+    },
+    {
+      "name": "musinsa.com",
+      "count": 1
+    },
+    {
+      "name": "new-m.pay.naver.com",
+      "count": 1
+    },
+    {
+      "name": "oliveyoung.co.kr",
+      "count": 1
+    },
+    {
+      "name": "point.pay.naver.com",
+      "count": 1
+    },
+    {
+      "name": "samsung.com",
+      "count": 1
+    },
+    {
+      "name": "ssg.com",
+      "count": 1
+    },
+    {
+      "name": "starbucks.co.kr",
+      "count": 1
+    }
+  ],
+  "sourceCounts": [
+    {
+      "name": "요기요 공식 이벤트",
+      "count": 2
+    },
+    {
+      "name": "하이마트 공식 이벤트",
+      "count": 2
+    },
+    {
+      "name": "GS25 공식 이벤트",
+      "count": 2
+    },
+    {
+      "name": "T world 공식 혜택",
+      "count": 2
+    },
+    {
+      "name": "네이버페이 공식 혜택",
+      "count": 1
+    },
+    {
+      "name": "네이버페이 포인트 공식",
+      "count": 1
+    },
+    {
+      "name": "대한민국 구석구석 공식 혜택",
+      "count": 1
+    },
+    {
+      "name": "대한항공 공식 스카이패스",
+      "count": 1
+    },
+    {
+      "name": "대한항공 공식 탑승권 혜택",
+      "count": 1
+    },
+    {
+      "name": "대한항공 공식 프로모션",
+      "count": 1
+    },
+    {
+      "name": "롯데시네마 공식 이벤트",
+      "count": 1
+    },
+    {
+      "name": "롯데ON 공식 이벤트",
+      "count": 1
+    },
+    {
+      "name": "맥도날드 공식 프로모션",
+      "count": 1
+    },
+    {
+      "name": "메가박스 공식 이벤트",
+      "count": 1
+    },
+    {
+      "name": "무신사 공식 캠페인",
+      "count": 1
+    }
+  ],
+  "topRecommendations": [
+    {
+      "id": "news-gs25-drinking-festa-2026",
+      "title": "GS25 드링킹 페스타 1+1·다량 구매 행사",
+      "sourceName": "GS25 공식 이벤트",
+      "category": "마트/편의점",
+      "benefitType": "discount",
+      "officialHost": "gs25.gsretail.com",
+      "redirectUrl": "/go/news/news-gs25-drinking-festa-2026",
+      "reason": "쿠폰/이벤트 관심 알림과 맞는 공식 혜택입니다.",
+      "matchedInterests": [
+        "쿠폰/이벤트",
+        "마트/편의점"
+      ]
+    },
+    {
+      "id": "news-musinsa-fashion-festa",
+      "title": "무신사 패션 페스타 공식 혜택",
+      "sourceName": "무신사 공식 캠페인",
+      "category": "패션/뷰티",
+      "benefitType": "coupon",
+      "officialHost": "musinsa.com",
+      "redirectUrl": "/go/news/news-musinsa-fashion-festa",
+      "reason": "쿠폰/이벤트 관심 알림과 맞는 공식 혜택입니다.",
+      "matchedInterests": [
+        "쿠폰/이벤트"
+      ]
+    },
+    {
+      "id": "news-lotteon-lohbs-coupon",
+      "title": "롯데ON 롭스 공식 쿠폰 이벤트",
+      "sourceName": "롯데ON 공식 이벤트",
+      "category": "패션/뷰티",
+      "benefitType": "coupon",
+      "officialHost": "lotteon.com",
+      "redirectUrl": "/go/news/news-lotteon-lohbs-coupon",
+      "reason": "쿠폰/이벤트 관심 알림과 맞는 공식 혜택입니다.",
+      "matchedInterests": [
+        "쿠폰/이벤트"
+      ]
+    },
+    {
+      "id": "news-gs25-card-june-2026",
+      "title": "GS25 6월 신용카드 현장 할인 혜택",
+      "sourceName": "GS25 공식 이벤트",
+      "category": "마트/편의점",
+      "benefitType": "card",
+      "officialHost": "gs25.gsretail.com",
+      "redirectUrl": "/go/news/news-gs25-card-june-2026",
+      "reason": "쿠폰/이벤트 관심 알림과 맞는 공식 혜택입니다.",
+      "matchedInterests": [
+        "쿠폰/이벤트",
+        "마트/편의점"
+      ]
+    },
+    {
+      "id": "news-gs25-event-goods",
+      "title": "GS25 행사상품 공식 목록",
+      "sourceName": "GS25 공식 행사상품",
+      "category": "마트/편의점",
+      "benefitType": "discount",
+      "officialHost": "gs25.gsretail.com",
+      "redirectUrl": "/go/news/news-gs25-event-goods",
+      "reason": "마트/편의점 관심 알림과 맞는 공식 혜택입니다.",
+      "matchedInterests": [
+        "마트/편의점"
+      ]
+    },
+    {
+      "id": "news-culture-day-programs-2026",
+      "title": "이번 주 문화가 있는 날 프로그램",
+      "sourceName": "문화가 있는 날 공식",
+      "category": "영화/문화",
+      "benefitType": "culture",
+      "officialHost": "culture.go.kr",
+      "redirectUrl": "/go/news/news-culture-day-programs-2026",
+      "reason": "무료/체험 관심 알림과 맞는 공식 혜택입니다.",
+      "matchedInterests": [
+        "무료/체험",
+        "쿠폰/이벤트",
+        "영화/문화"
+      ]
+    },
+    {
+      "id": "news-culture-day-weekly-2026",
+      "title": "문화가 있는 날 매주 수요일 문화 혜택",
+      "sourceName": "지역문화통합정보시스템",
+      "category": "정부/공공혜택",
+      "benefitType": "public",
+      "officialHost": "culture.go.kr",
+      "redirectUrl": "/go/news/news-culture-day-weekly-2026",
+      "reason": "무료/체험 관심 알림과 맞는 공식 혜택입니다.",
+      "matchedInterests": [
+        "무료/체험",
+        "쿠폰/이벤트"
+      ]
+    },
+    {
+      "id": "news-kbcard-official-event-center",
+      "title": "KB국민카드 공식 이벤트 혜택 모음",
+      "sourceName": "KB국민카드 공식 이벤트",
+      "category": "카드/멤버십",
+      "benefitType": "card",
+      "officialHost": "card.kbcard.com",
+      "redirectUrl": "/go/news/news-kbcard-official-event-center",
+      "reason": "쿠폰/이벤트 관심 알림과 맞는 공식 혜택입니다.",
+      "matchedInterests": [
+        "쿠폰/이벤트"
+      ]
+    }
+  ],
+  "issues": []
+}

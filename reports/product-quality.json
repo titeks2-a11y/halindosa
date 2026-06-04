@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-04T05:59:45.005Z",
+  "generatedAt": "2026-06-04T06:18:54.718Z",
   "totalProducts": 140,
   "passedProducts": 140,
   "failedProducts": 0,
@@ -40,7 +40,7 @@
     "http410": 0,
     "http5xx": 0,
     "timeout": 0,
-    "robotsBlocked": 57,
+    "robotsBlocked": 59,
     "unavailableText": 0
   },
   "exposurePolicy": {

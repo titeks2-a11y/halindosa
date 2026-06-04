@@ -67,6 +67,13 @@ npm run smoke
   - 파일 리포트: `npm run push:readiness:report`
     - `reports/push-readiness.json`과 `docs/PUSH_READINESS_REPORT.md`를 생성한다.
     - 출시 전 `launchStatus=dry_run_ready` 이상, `queueRows >= 30`, 관심 세그먼트 10개 이상 준비를 기준으로 본다.
+  - 공식 혜택 알림 후보 리포트: `npm run official:alerts:report`
+    - `reports/official-benefit-alerts.json`과 `docs/OFFICIAL_BENEFIT_ALERTS_REPORT.md`를 생성한다.
+    - 추천 후보는 외부 URL을 직접 노출하지 않고 `/go/news/[id]` 내부 경로만 사용해야 한다.
+    - 기본 관심 카테고리 `무료/체험`, `쿠폰/이벤트`, `마트/편의점`, `영화/문화`가 모두 후보를 가져야 하며, 공식 혜택 40개 이상과 redirect 안전성 통과를 출시 기준으로 본다.
+  - 앱 알림 후보 API: `GET /api/benefits/official-alerts?interest=무료%2F체험&limit=6`
+    - 비회원 기기 저장 관심 카테고리와 최근 본 공식 혜택 ID를 받아 인앱 알림 후보를 반환한다.
+    - 실제 푸시 발송 전에는 이 API와 `official:alerts:report`를 함께 확인해 검색 결과, 커뮤니티 원문, 종료 혜택이 후보에 섞이지 않았는지 검수한다.
   - 발송 정책 리포트: `npm run push:delivery:doctor`
     - `reports/push-delivery-policy.json`과 `docs/PUSH_DELIVERY_POLICY.md`를 생성한다.
     - live send는 `quiet hours` 22:00-07:59 KST, 토큰 수 제한, 명시 동의, dry-run-first 정책을 모두 통과해야 한다.
