@@ -41,10 +41,11 @@ export async function checkUiAccessibility() {
   const priceAlerts = await text("lib/priceAlerts.ts");
   const homePage = await text("app/page.tsx");
   const claimedBenefitHomeSummary = await text("components/ClaimedBenefitHomeSummary.tsx");
+  const homeDerivedData = await text("lib/homeDerivedData.ts");
   const homeDealFilters = await text("lib/homeDealFilters.ts");
   const homeDiscoveryConfig = await text("lib/homeDiscoveryConfig.ts");
   const homeRecentSearches = await text("lib/homeRecentSearches.ts");
-  const homeFeatureSource = `${homePage}\n${claimedBenefitHomeSummary}\n${homeDealFilters}`;
+  const homeFeatureSource = `${homePage}\n${claimedBenefitHomeSummary}\n${homeDealFilters}\n${homeDerivedData}`;
   const homeSearchSource = `${homeFeatureSource}\n${homeDiscoveryConfig}\n${homeRecentSearches}`;
   const favoritesPage = await text("app/favorites/page.tsx");
   const notFoundPage = await text("app/not-found.tsx");
@@ -526,16 +527,16 @@ export async function checkUiAccessibility() {
     !homeSearchSource.includes("검증 링크만") ||
     !homePage.includes('aria-label="조건별 결과 요약"') ||
     !homePage.includes("현재 필터가 보여주는 혜택을 먼저 해석합니다") ||
-    !homePage.includes("현재 조건으로 볼 혜택") ||
-    !homePage.includes("마감 전 확인") ||
-    !homePage.includes("배송비 부담 낮음") ||
+    !homeSearchSource.includes("현재 조건으로 볼 혜택") ||
+    !homeSearchSource.includes("마감 전 확인") ||
+    !homeSearchSource.includes("배송비 부담 낮음") ||
     !homePage.includes("filterActionQueue") ||
     !homePage.includes('aria-label="현재 결과 바로 실행 큐"') ||
     !homePage.includes("지금 조건에서 먼저 눌러볼 혜택을 골랐습니다") ||
     !homePage.includes("dealScanBarItems") ||
     !homePage.includes('aria-label="상품 목록 빠른 스캔"') ||
-    !homePage.includes("낮은 가격 후보") ||
-    !homePage.includes("할인율 최고") ||
+    !homeSearchSource.includes("낮은 가격 후보") ||
+    !homeSearchSource.includes("할인율 최고") ||
     !homePage.includes("listComparisonCards") ||
     !homePage.includes('aria-label="현재 목록 가격 비교"') ||
     !homePage.includes('aria-label="심화 혜택 탐색 접기"') ||
@@ -544,9 +545,9 @@ export async function checkUiAccessibility() {
     !homePage.includes("상품 목록을 먼저 보고, 더 좁힐 때 펼치세요") ||
     !homePage.includes('aria-label="상품 목록 적용 조건 빠른 해제"') ||
     !homePage.includes("조건을 눌러 바로 해제하고 같은 목록에서 다시 비교합니다.") ||
-    !homePage.includes("가격으로 먼저 고를 4가지 후보") ||
-    !homePage.includes("절약액 큼") ||
-    !homePage.includes("마감 먼저") ||
+    !homeSearchSource.includes("가격으로 먼저 고를 4가지 후보") ||
+    !homeSearchSource.includes("절약액 큼") ||
+    !homeSearchSource.includes("마감 먼저") ||
     !packageJson.includes("home:list-scan:doctor")
   ) {
     fail("search filter accessibility", "Home filters should summarize result decision cards, purpose presets, result quality, purchase link readiness, deadline, shipping outcomes, next action queue, list scan shortcuts, and price comparison shortcuts.");
@@ -623,10 +624,10 @@ export async function checkUiAccessibility() {
         !homePage.includes("오늘 받을 혜택 큐") ||
         !homePage.includes("스크롤 전에 먼저 고를 5가지") ||
         !homePage.includes("무료, 쿠폰, 무배, 마감, 실제 구매처 이동을 한 화면에서 빠르게 좁힙니다") ||
-        !homePage.includes("무료 혜택 먼저") ||
-        !homePage.includes("쿠폰·포인트 적용") ||
-        !homePage.includes("배송비 줄이기") ||
-        !homePage.includes("구매처 바로 이동") ||
+        !homeFeatureSource.includes("무료 혜택 먼저") ||
+        !homeFeatureSource.includes("쿠폰·포인트 적용") ||
+        !homeFeatureSource.includes("배송비 줄이기") ||
+        !homeFeatureSource.includes("구매처 바로 이동") ||
         !homePage.includes("firstVisitDecisionGuide") ||
         !homePage.includes("buildBenefitDecisionGuide") ||
         !homePage.includes('aria-label="첫 방문 혜택 판단 가이드"') ||
