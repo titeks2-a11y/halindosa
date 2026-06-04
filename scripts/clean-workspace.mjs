@@ -5,6 +5,7 @@ const workspaceRoot = process.cwd();
 const args = new Set(process.argv.slice(2));
 const shouldDelete = args.has("--delete");
 const includeAndroidBuild = args.has("--android-build");
+const includeAndroidWebAssets = args.has("--android-web-assets");
 const includeIosBuild = args.has("--ios-build");
 const includeCapacitorPluginBuilds = args.has("--capacitor-plugin-builds");
 
@@ -21,6 +22,10 @@ const targets = [
 
 if (includeAndroidBuild) {
   targets.push("android/.gradle", "android/app/build", "android/build");
+}
+
+if (includeAndroidWebAssets) {
+  targets.push("android/app/src/main/assets/public", "android/app/src/main/assets/capacitor.config.json");
 }
 
 if (includeIosBuild) {

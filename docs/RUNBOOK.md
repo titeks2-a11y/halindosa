@@ -106,8 +106,10 @@ npm run smoke
   - `npm run image:backlog:report`는 전체 fallback 이미지 보강 큐를 `IMAGE_BACKLOG.csv`, 이번 주 실행 배치를 `IMAGE_BACKLOG_NEXT_BATCH.csv`, 판매처별 imageUrl 요청서를 `IMAGE_BACKLOG_MALL_REQUESTS.csv`, JSON/문서를 `IMAGE_BACKLOG.json`, `docs/IMAGE_BACKLOG_REPORT.md`로 생성한다.
   - 이미지 큐 JSON/CSV는 `sourcingPriority`, `priorityReason`, `nextBatchDeals`, `mallRequestRows`를 포함한다. 운영자는 먼저 `IMAGE_BACKLOG_NEXT_BATCH.csv`의 주간 배치 상위 후보를 처리하고, backlog가 많은 판매처는 `IMAGE_BACKLOG_MALL_REQUESTS.csv`로 제휴/운영 피드 담당자에게 `imageUrl` 또는 `thumbnail` 확보를 요청한다.
 - 로컬 workspace 정리:
+  - `npm run workspace:doctor`는 `.next`, `out`, Android/iOS build cache처럼 다시 생성 가능한 산출물과 큰 폴더/파일을 먼저 요약한다.
+  - `npm run workspace:doctor:strict`는 재생성 가능한 산출물이 남아 있으면 실패하므로 커밋 전 깨끗한 작업 폴더 확인에 쓴다.
   - `npm run clean:artifacts:mobile:dry`는 Next/Android/iOS가 다시 생성할 수 있는 산출물 삭제 대상을 먼저 보여준다.
-  - `npm run clean:artifacts:mobile`은 `.next`, `out`, Android build cache, iOS `App/App/public` export를 삭제한다.
+  - `npm run clean:artifacts:mobile`은 `.next`, `out`, Android build cache, Android WebView 복사본 `android/app/src/main/assets/public`, iOS `App/App/public` export를 삭제한다.
   - `npm run clean:artifacts:deep`은 위 항목에 Capacitor plugin build cache까지 포함한다. `node_modules`, keystore, `.env`, release AAB는 삭제하지 않는다.
 - 공식 혜택 feed 운영:
   - 새 공식 뉴스/이벤트/쿠폰 feed는 `docs/news-feed-contract.md`의 JSON 계약을 따라야 한다.
