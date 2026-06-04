@@ -441,6 +441,7 @@ await check("admin dashboard quality cards", async () => {
       text.includes("오늘 운영 리스크") &&
       text.includes("신선도 운영") &&
       text.includes("Provider 위험도") &&
+      text.includes("공식 출처 신뢰도") &&
       text.includes("공식 feed 소스 설정") &&
       text.includes("추천 검색어 자동 큐") &&
       text.includes("허용·차단 가드레일") &&

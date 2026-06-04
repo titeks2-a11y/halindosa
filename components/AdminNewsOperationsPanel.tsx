@@ -52,6 +52,25 @@ interface FailureReasonTopItem {
   count: number;
 }
 
+interface SourceTrustScore {
+  sourceName: string;
+  provider: string;
+  officialHost: string;
+  totalCount: number;
+  visibleCount: number;
+  hiddenCount: number;
+  failedCount: number;
+  searchLinkCount: number;
+  expiredCount: number;
+  averagePriorityScore: number;
+  trustScore: number;
+  status: "trusted" | "watch" | "needs_review";
+  lastCheckedAt: string;
+  categories: string[];
+  benefitTypes: string[];
+  recommendedAction: string;
+}
+
 interface RecentCollectionLog {
   dealId: string;
   provider: string;
@@ -114,6 +133,7 @@ interface NewsOperationsReport {
     watch: number;
     danger: number;
   };
+  sourceTrustScores?: SourceTrustScore[];
   feedTransitionReadiness?: {
     status: "production_feed_ready" | "hybrid_feed_ready" | "seed_launch_ready";
     label: string;
@@ -240,6 +260,18 @@ function getProviderRiskClassName(severity?: string) {
   return "bg-red-50 text-brand-red";
 }
 
+function getSourceTrustClassName(status?: string) {
+  if (status === "trusted") return "bg-emerald-50 text-emerald-700";
+  if (status === "watch") return "bg-amber-50 text-amber-700";
+  return "bg-red-50 text-brand-red";
+}
+
+function getSourceTrustLabel(status?: string) {
+  if (status === "trusted") return "신뢰";
+  if (status === "watch") return "관찰";
+  return "점검";
+}
+
 function getFailureReasonAction(reason: string) {
   if (reason === "none") return "현재 조치 없음";
   if (/search|result|query|keyword/i.test(reason)) return "검색/결과 링크는 사용자 노출 전 숨김 처리하고 공식 상세 URL로 교체";
@@ -257,6 +289,7 @@ export function AdminNewsOperationsPanel({ apiHref, initialReport }: AdminNewsOp
   const hiddenDeals = useMemo(() => report.hiddenDeals?.slice(0, 8) ?? [], [report.hiddenDeals]);
   const categoryCoverage = useMemo(() => report.categoryCoverage ?? [], [report.categoryCoverage]);
   const providerRisks = useMemo(() => report.providerRisks ?? [], [report.providerRisks]);
+  const sourceTrustScores = useMemo(() => report.sourceTrustScores?.slice(0, 8) ?? [], [report.sourceTrustScores]);
   const feedTransitionReadiness = report.feedTransitionReadiness;
   const sourceConfig = report.sourceConfig;
   const feedTransitionProviders = useMemo(() => feedTransitionReadiness?.providers ?? [], [feedTransitionReadiness?.providers]);
@@ -270,6 +303,8 @@ export function AdminNewsOperationsPanel({ apiHref, initialReport }: AdminNewsOp
   const failureReasonTop10 = useMemo(() => report.failureReasonTop10?.slice(0, 10) ?? [], [report.failureReasonTop10]);
   const recentLogs = useMemo(() => report.recentLogs?.slice(0, 20) ?? [], [report.recentLogs]);
   const issueCount = categoryCoverage.filter((item) => item.status === "gap" || item.status === "thin").length;
+  const trustedSourceCount = sourceTrustScores.filter((source) => source.status === "trusted").length;
+  const sourceTrustIssueCount = sourceTrustScores.filter((source) => source.status !== "trusted").length;
   const freshness = report.freshness;
 
   const runAction = async (action: NewsOperationAction, deal: NewsOperationDeal) => {
@@ -523,6 +558,90 @@ export function AdminNewsOperationsPanel({ apiHref, initialReport }: AdminNewsOp
               <p className="mt-2 line-clamp-2 rounded-xl bg-white px-2 py-1.5 text-[11px] font-bold leading-5 text-slate-600">{risk.action}</p>
             </div>
           ))}
+        </div>
+      </div>
+
+      <div className="mt-4 rounded-2xl border border-emerald-100 bg-gradient-to-br from-white via-emerald-50/40 to-red-50 p-3">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+          <div>
+            <p className="text-sm font-black text-slate-950">공식 출처 신뢰도</p>
+            <p className="mt-1 text-[11px] font-bold leading-5 text-slate-500">
+              노출 중인 공식 출처를 링크 품질, 종료/검색 링크 차단, 평균 우선순위로 점검합니다.
+            </p>
+          </div>
+          <span className="shrink-0 rounded-full bg-white px-3 py-1 text-[11px] font-black text-slate-600 shadow-sm">
+            신뢰 {trustedSourceCount} · 점검 {sourceTrustIssueCount}
+          </span>
+        </div>
+        <div className="mt-3 grid gap-2 md:grid-cols-2 xl:grid-cols-4">
+          {(sourceTrustScores.length
+            ? sourceTrustScores
+            : [
+                {
+                  sourceName: "리포트 없음",
+                  provider: "system",
+                  officialHost: "",
+                  totalCount: 0,
+                  visibleCount: 0,
+                  hiddenCount: 0,
+                  failedCount: 0,
+                  searchLinkCount: 0,
+                  expiredCount: 0,
+                  averagePriorityScore: 0,
+                  trustScore: 0,
+                  status: "needs_review" as const,
+                  lastCheckedAt: "",
+                  categories: [],
+                  benefitTypes: [],
+                  recommendedAction: "npm run refresh:news && npm run verify:news로 공식 출처 신뢰도 리포트를 갱신하세요."
+                }
+              ]).map((source) => {
+            const issueTotal = source.hiddenCount + source.failedCount + source.searchLinkCount + source.expiredCount;
+
+            return (
+              <div key={`${source.provider}-${source.sourceName}`} className="rounded-2xl bg-white p-3 shadow-sm">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="min-w-0">
+                    <p className="line-clamp-1 text-xs font-black text-slate-950">{source.sourceName}</p>
+                    <p className="mt-1 truncate text-[11px] font-bold text-slate-500">
+                      {source.provider}
+                      {source.officialHost ? ` · ${source.officialHost}` : ""}
+                    </p>
+                  </div>
+                  <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-black ${getSourceTrustClassName(source.status)}`}>
+                    {getSourceTrustLabel(source.status)}
+                  </span>
+                </div>
+                <div className="mt-3 grid grid-cols-3 gap-1.5 text-center text-[10px] font-black text-slate-500">
+                  <span className="rounded-xl bg-slate-50 px-2 py-1.5">
+                    신뢰
+                    <b className="mt-0.5 block text-sm text-slate-950">{source.trustScore}</b>
+                  </span>
+                  <span className="rounded-xl bg-slate-50 px-2 py-1.5">
+                    평균
+                    <b className="mt-0.5 block text-sm text-slate-950">{source.averagePriorityScore}</b>
+                  </span>
+                  <span className="rounded-xl bg-slate-50 px-2 py-1.5">
+                    이슈
+                    <b className="mt-0.5 block text-sm text-brand-red">{issueTotal}</b>
+                  </span>
+                </div>
+                <p className="mt-2 text-[11px] font-black text-slate-500">
+                  노출 {source.visibleCount}/{source.totalCount} · 숨김 {source.hiddenCount} · 실패 {source.failedCount}
+                </p>
+                <div className="mt-2 flex gap-1 overflow-hidden">
+                  {(source.categories.length ? source.categories : ["카테고리 대기"]).slice(0, 2).map((category) => (
+                    <span key={category} className="shrink-0 rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-black text-emerald-700">
+                      {category}
+                    </span>
+                  ))}
+                </div>
+                <p className="mt-2 line-clamp-2 rounded-xl bg-slate-50 px-2 py-1.5 text-[11px] font-bold leading-5 text-slate-600">
+                  {source.recommendedAction}
+                </p>
+              </div>
+            );
+          })}
         </div>
       </div>
 
