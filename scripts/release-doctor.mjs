@@ -1971,6 +1971,9 @@ async function checkOperationalDataSurfaces() {
   const sourceOnboardingPlanDoc = existsSync(join(root, "docs/SOURCE_ONBOARDING_PLAN.md"))
     ? readFileSync(join(root, "docs/SOURCE_ONBOARDING_PLAN.md"), "utf8")
     : "";
+  const sourceOnboardingEnvTemplate = existsSync(join(root, "reports/source-onboarding-env-template.env"))
+    ? readFileSync(join(root, "reports/source-onboarding-env-template.env"), "utf8")
+    : "";
   const sourceOnboardingPlanReport = existsSync(join(root, "reports/source-onboarding-plan.json"))
     ? JSON.parse(readFileSync(join(root, "reports/source-onboarding-plan.json"), "utf8"))
     : {};
@@ -2827,11 +2830,18 @@ async function checkOperationalDataSurfaces() {
     !officialSourceLiveDoctorScript.includes("reports/official-source-live-check.csv") ||
     !officialSourceLiveDoctorScript.includes("waf_or_permission_guarded") ||
     !sourceOnboardingPlanScript.includes("reports/source-onboarding-plan.csv") ||
+    !sourceOnboardingPlanScript.includes("reports/source-onboarding-env-template.env") ||
+    !sourceOnboardingPlanScript.includes("buildEnvPlan") ||
+    !sourceOnboardingPlanScript.includes("buildEnvTemplate") ||
     !sourceOnboardingPlanScript.includes("공식 API, RSS, 제휴 feed") ||
+    !sourceOnboardingPlanReadiness.includes("envPlan") ||
+    !sourceOnboardingPlanReadiness.includes("envTemplate") ||
     !sourceOnboardingPlanReadiness.includes("getOfficialSourceOnboardingPlan") ||
     !adminSourceOnboardingRoute.includes("canAccessAdmin") ||
     !adminSourceOnboardingRoute.includes("format === \"csv\"") ||
+    !adminSourceOnboardingRoute.includes("format === \"env\"") ||
     !adminSourceOnboardingRoute.includes("source-onboarding-plan.csv") ||
+    !adminSourceOnboardingRoute.includes("halindosa-source-feed-template.env") ||
     !officialSourceLiveReadiness.includes("getOfficialSourceLiveReport") ||
     !adminSourceLiveRoute.includes("canAccessAdmin") ||
     !adminSourceLiveRoute.includes("format === \"csv\"") ||
@@ -2842,10 +2852,12 @@ async function checkOperationalDataSurfaces() {
     !adminPage.includes("공식 소스 온보딩 우선순위") ||
     !adminPage.includes("다음 연결 우선순위 TOP 10") ||
     !adminPage.includes("/api/admin/source-onboarding") ||
+    !adminPage.includes("feed env") ||
     !smoke.includes("admin source live readiness api") ||
     !smoke.includes("Admin source live report should use non-strict live readiness mode") ||
     !smoke.includes("admin source onboarding plan api") ||
     !smoke.includes("Admin source onboarding plan should pass") ||
+    !smoke.includes("admin source onboarding env template") ||
     !officialSourceLiveDoc.includes("공식 소스 라이브 접근성 점검") ||
     !officialSourceLiveDoc.includes("무단 크롤링을 수행하지 않으며") ||
     officialSourceLiveReport.ok !== true ||
@@ -2861,8 +2873,14 @@ async function checkOperationalDataSurfaces() {
     (sourceOnboardingPlanReport.blockedLiveIssues ?? 0) > 0 ||
     !Array.isArray(sourceOnboardingPlanReport.topActions) ||
     sourceOnboardingPlanReport.topActions.length < 5 ||
+    !Array.isArray(sourceOnboardingPlanReport.envPlan) ||
+    sourceOnboardingPlanReport.envPlan.length < 5 ||
+    !String(sourceOnboardingPlanReport.envTemplate ?? "").includes("OFFICIAL_EVENT_FEED_URLS") ||
+    !sourceOnboardingEnvTemplate.includes("OFFICIAL_EVENT_FEED_URLS") ||
+    !sourceOnboardingEnvTemplate.includes("검색 결과, 커뮤니티 원문") ||
     !sourceOnboardingPlanDoc.includes("공식 소스 온보딩 우선순위") ||
     !sourceOnboardingPlanDoc.includes("다음 연결 우선순위 TOP 10") ||
+    !sourceOnboardingPlanDoc.includes("환경변수 연결 템플릿") ||
     !smoke.includes("Sources API found danger official benefit provider risk") ||
     !smoke.includes("Admin dashboard missing partner feed validation report board") ||
     !smoke.includes("Admin dashboard missing paste-in feed dry-run panel") ||

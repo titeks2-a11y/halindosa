@@ -1,6 +1,6 @@
 # 공식 소스 온보딩 우선순위
 
-- 생성 시각: 2026-06-04T00:51:36.521Z
+- 생성 시각: 2026-06-04T01:10:16.668Z
 - 공식 소스 후보: 30개
 - 접근 가능: 27개
 - 보호/권한 확인 필요: 3개
@@ -27,6 +27,51 @@
 | 8 | 한국관광공사 공식 여행 혜택 | public_coupon | connect_official_feed | 82 | PUBLIC_COUPON_FEED_URLS 또는 DEAL_NEWS_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL 연결 |
 | 9 | 요기요 배달 쿠폰 이벤트 | event_news | connect_official_feed | 82 | DEAL_EVENT_NEWS_FEED_URLS 또는 OFFICIAL_EVENT_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL 연결 |
 | 10 | CJ ONE 공식 이벤트 | official_event | connect_official_feed | 79 | OFFICIAL_EVENT_FEED_URLS 또는 PUBLIC_COUPON_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL 연결 |
+
+## 환경변수 연결 템플릿
+
+운영자는 아래 env key별로 공식 API, RSS, 제휴 feed, 담당자 승인 JSON만 연결합니다. 검색 결과, 커뮤니티 원문, 블로그, 쇼핑몰 메인 URL은 입력하지 않습니다.
+
+| Env key | 후보 | 접근 가능 | 보호/승인 필요 | 대표 후보 |
+| --- | ---: | ---: | ---: | --- |
+| OFFICIAL_EVENT_FEED_URLS | 24 | 21 | 3 | L.POINT 공식 혜택 / GS25 행사상품과 카드 할인 / CU 편의점 1+1·2+1 행사 / 네이버페이 공식 이벤트 혜택 / SSG닷컴 공식 장보기 행사 |
+| DEAL_EVENT_FEED_URLS | 13 | 13 | 0 | GS25 행사상품과 카드 할인 / CU 편의점 1+1·2+1 행사 / SSG닷컴 공식 장보기 행사 / BHC 공식 e쿠폰 / 하이마트 공식 디지털 행사 |
+| PUBLIC_COUPON_FEED_URLS | 12 | 10 | 2 | L.POINT 공식 혜택 / 문화가 있는 날 공식 혜택 / 문화누리카드 공식 사용 혜택 / 네이버페이 공식 이벤트 혜택 / 한국관광공사 공식 여행 혜택 |
+| DEAL_EVENT_NEWS_FEED_URLS | 7 | 6 | 1 | 요기요 배달 쿠폰 이벤트 / 제주항공 공식 진행 이벤트 / 배민아카데미 공식 무료 교육 이벤트 / 맥도날드 공식 해피스낵 프로모션 / T월드 멤버십 할인 |
+| DEAL_NEWS_FEED_URLS | 3 | 3 | 0 | 문화가 있는 날 공식 혜택 / 한국관광공사 공식 여행 혜택 / 현대Hmall 공식 쇼핑 기획전 |
+
+```env
+# 할인도사 공식 혜택 feed 연결 템플릿
+# 공식 API, RSS, 제휴 feed, 담당자 승인 JSON만 입력하세요.
+# 검색 결과, 커뮤니티 원문, 블로그, 쇼핑몰 메인 URL은 입력하지 않습니다.
+# 여러 URL은 줄바꿈, 쉼표, 세미콜론, JSON 배열 형식 중 하나로 관리할 수 있습니다.
+
+# OFFICIAL_EVENT_FEED_URLS
+# 후보 24개 · 접근 가능 21개 · 보호/승인 필요 3개
+# 대표 후보: L.POINT 공식 혜택 / GS25 행사상품과 카드 할인 / CU 편의점 1+1·2+1 행사 / 네이버페이 공식 이벤트 혜택 / SSG닷컴 공식 장보기 행사
+OFFICIAL_EVENT_FEED_URLS=
+
+# DEAL_EVENT_FEED_URLS
+# 후보 13개 · 접근 가능 13개 · 보호/승인 필요 0개
+# 대표 후보: GS25 행사상품과 카드 할인 / CU 편의점 1+1·2+1 행사 / SSG닷컴 공식 장보기 행사 / BHC 공식 e쿠폰 / 하이마트 공식 디지털 행사
+DEAL_EVENT_FEED_URLS=
+
+# PUBLIC_COUPON_FEED_URLS
+# 후보 12개 · 접근 가능 10개 · 보호/승인 필요 2개
+# 대표 후보: L.POINT 공식 혜택 / 문화가 있는 날 공식 혜택 / 문화누리카드 공식 사용 혜택 / 네이버페이 공식 이벤트 혜택 / 한국관광공사 공식 여행 혜택
+PUBLIC_COUPON_FEED_URLS=
+
+# DEAL_EVENT_NEWS_FEED_URLS
+# 후보 7개 · 접근 가능 6개 · 보호/승인 필요 1개
+# 대표 후보: 요기요 배달 쿠폰 이벤트 / 제주항공 공식 진행 이벤트 / 배민아카데미 공식 무료 교육 이벤트 / 맥도날드 공식 해피스낵 프로모션 / T월드 멤버십 할인
+DEAL_EVENT_NEWS_FEED_URLS=
+
+# DEAL_NEWS_FEED_URLS
+# 후보 3개 · 접근 가능 3개 · 보호/승인 필요 0개
+# 대표 후보: 문화가 있는 날 공식 혜택 / 한국관광공사 공식 여행 혜택 / 현대Hmall 공식 쇼핑 기획전
+DEAL_NEWS_FEED_URLS=
+
+```
 
 ## 전체 큐
 

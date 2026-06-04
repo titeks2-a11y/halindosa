@@ -8,6 +8,7 @@ const catalogPath = join(root, "reports", "official-source-catalog.json");
 const livePath = join(root, "reports", "official-source-live-check.json");
 const jsonPath = join(root, "reports", "source-onboarding-plan.json");
 const csvPath = join(root, "reports", "source-onboarding-plan.csv");
+const envTemplatePath = join(root, "reports", "source-onboarding-env-template.env");
 const docsPath = join(root, "docs", "SOURCE_ONBOARDING_PLAN.md");
 
 const strategicCategories = new Set(["무료혜택", "마트/편의점", "외식/배달", "영화/문화", "카드/멤버십"]);
@@ -49,6 +50,77 @@ function buildCsv(rows) {
     headers.join(","),
     ...rows.map((row) => headers.map((header) => csvEscape(row[header])).join(","))
   ].join("\n");
+}
+
+function buildEnvPlan(rows) {
+  const envRows = new Map();
+
+  for (const row of rows) {
+    for (const envKey of row.recommendedEnvKeys ?? []) {
+      if (!envKey || envKey === "source:onboarding:plan") continue;
+      const current = envRows.get(envKey) ?? {
+        envKey,
+        status: "not_configured",
+        configuredFeedUrls: 0,
+        candidateCount: 0,
+        reachableCandidates: 0,
+        guardedCandidates: 0,
+        topSources: [],
+        categories: new Set(),
+        providers: new Set(),
+        nextAction: `${envKey}에 공식 JSON/RSS 또는 승인된 파트너 feed URL을 줄바꿈 또는 쉼표로 입력`
+      };
+
+      current.candidateCount += 1;
+      current.configuredFeedUrls += Number(row.configuredFeedUrls ?? 0);
+      if (row.liveStatus === "reachable") current.reachableCandidates += 1;
+      if (row.liveStatus === "guarded") current.guardedCandidates += 1;
+      current.providers.add(row.provider);
+      for (const category of row.category ?? []) current.categories.add(category);
+      if (current.topSources.length < 5) {
+        current.topSources.push({
+          id: row.id,
+          label: row.label,
+          provider: row.provider,
+          officialUrl: row.officialUrl,
+          liveStatus: row.liveStatus,
+          rank: row.rank
+        });
+      }
+
+      envRows.set(envKey, current);
+    }
+  }
+
+  return [...envRows.values()]
+    .map((row) => ({
+      ...row,
+      status: row.configuredFeedUrls > 0 ? "configured_verify" : "ready_to_connect",
+      categories: [...row.categories].sort(),
+      providers: [...row.providers].sort(),
+      topSources: row.topSources.sort((a, b) => a.rank - b.rank)
+    }))
+    .sort((a, b) => b.candidateCount - a.candidateCount || a.envKey.localeCompare(b.envKey));
+}
+
+function buildEnvTemplate(envPlan) {
+  const lines = [
+    "# 할인도사 공식 혜택 feed 연결 템플릿",
+    "# 공식 API, RSS, 제휴 feed, 담당자 승인 JSON만 입력하세요.",
+    "# 검색 결과, 커뮤니티 원문, 블로그, 쇼핑몰 메인 URL은 입력하지 않습니다.",
+    "# 여러 URL은 줄바꿈, 쉼표, 세미콜론, JSON 배열 형식 중 하나로 관리할 수 있습니다.",
+    ""
+  ];
+
+  for (const plan of envPlan) {
+    lines.push(`# ${plan.envKey}`);
+    lines.push(`# 후보 ${plan.candidateCount}개 · 접근 가능 ${plan.reachableCandidates}개 · 보호/승인 필요 ${plan.guardedCandidates}개`);
+    lines.push(`# 대표 후보: ${plan.topSources.map((source) => source.label).join(" / ")}`);
+    lines.push(`${plan.envKey}=`);
+    lines.push("");
+  }
+
+  return lines.join("\n");
 }
 
 function scoreSource(source, live, categoryCoverage) {
@@ -170,6 +242,8 @@ const statusCounts = queue.reduce((acc, row) => {
   acc[row.onboardingStatus] = (acc[row.onboardingStatus] ?? 0) + 1;
   return acc;
 }, {});
+const envPlan = buildEnvPlan(queue);
+const envTemplate = buildEnvTemplate(envPlan);
 
 const topActions = queue.slice(0, 10).map((row) => ({
   rank: row.rank,
@@ -195,6 +269,8 @@ const report = {
     Number(liveReport.statusCounts?.server_error ?? 0),
   configuredFeedSources: queue.filter((row) => row.configuredFeedUrls > 0).length,
   statusCounts,
+  envPlan,
+  envTemplate,
   topActions,
   guardrails: [
     "공식 API, RSS, 제휴 feed, 담당자 승인 JSON만 운영 feed로 연결합니다.",
@@ -224,6 +300,21 @@ const docsLines = [
   "| --- | --- | --- | --- | ---: | --- |",
   ...topActions.map((row) => `| ${row.rank} | ${row.label} | ${row.provider} | ${row.status} | ${row.score} | ${row.nextAction} |`),
   "",
+  "## 환경변수 연결 템플릿",
+  "",
+  "운영자는 아래 env key별로 공식 API, RSS, 제휴 feed, 담당자 승인 JSON만 연결합니다. 검색 결과, 커뮤니티 원문, 블로그, 쇼핑몰 메인 URL은 입력하지 않습니다.",
+  "",
+  "| Env key | 후보 | 접근 가능 | 보호/승인 필요 | 대표 후보 |",
+  "| --- | ---: | ---: | ---: | --- |",
+  ...envPlan.map(
+    (plan) =>
+      `| ${plan.envKey} | ${plan.candidateCount} | ${plan.reachableCandidates} | ${plan.guardedCandidates} | ${plan.topSources.map((source) => source.label).join(" / ")} |`
+  ),
+  "",
+  "```env",
+  ...envTemplate.split("\n"),
+  "```",
+  "",
   "## 전체 큐",
   "",
   "| 순위 | ID | 카테고리 | Live | HTTP | Env | Guardrail |",
@@ -247,11 +338,13 @@ mkdirSync(reportsDir, { recursive: true });
 mkdirSync(docsDir, { recursive: true });
 writeFileSync(jsonPath, `${JSON.stringify(report, null, 2)}\n`, "utf8");
 writeFileSync(csvPath, `\uFEFF${buildCsv(queue)}\n`, "utf8");
+writeFileSync(envTemplatePath, `${envTemplate}\n`, "utf8");
 writeFileSync(docsPath, docsLines.join("\n"), "utf8");
 
 console.log("Source onboarding plan written.");
 console.log("- reports/source-onboarding-plan.json");
 console.log("- reports/source-onboarding-plan.csv");
+console.log("- reports/source-onboarding-env-template.env");
 console.log("- docs/SOURCE_ONBOARDING_PLAN.md");
 console.log(`- sources: ${report.totalSources}`);
 console.log(`- top action: ${topActions[0]?.label ?? "none"}`);

@@ -42,6 +42,7 @@
 - `news:freshness:doctor`를 추가해 사용자 노출 공식 혜택의 리포트 freshness, `lastCheckedAt`, 종료 노출 0건, 14일 이내 종료 대체 큐, 필수 카테고리 커버리지, 공식 소스 후보 수를 `reports/news-freshness.json`과 `docs/NEWS_FRESHNESS_REPORT.md`로 남기고 QA/release doctor에 연결했다.
 - `reports/news-freshness.json`의 14일 내 종료 `renewalQueue`와 30일 감시 `watchQueue`를 `/api/admin/news-operations`, 관리자 `공식 혜택 수동 운영` 패널, CSV export, release doctor에 연결해 운영자가 종료 임박 공식 혜택을 스프레드시트와 화면에서 바로 대체 준비할 수 있게 했다.
 - 만료 임박 공식 혜택 큐가 `source:onboarding:plan`의 카테고리별 공식 소스 후보를 자동 매칭하도록 보강해 관리자 화면과 CSV에서 추천 대체 소스, 공식 URL, 권장 env key를 바로 확인할 수 있게 했다.
+- `source:onboarding:plan`이 env key별 후보 수, 접근 가능/보호 소스 수, 대표 후보를 묶은 `envPlan`과 복사 가능한 `reports/source-onboarding-env-template.env`를 생성하도록 보강하고, `/api/admin/source-onboarding?format=env`와 관리자 `feed env` 버튼으로 운영자가 공식 feed 환경변수 초안을 바로 내려받을 수 있게 했다.
 - feed URL 파서를 런타임 provider와 refresh 스크립트 양쪽에 적용해 쉼표/세미콜론/줄바꿈/JSON 배열 입력을 지원하고, URL query 안의 쉼표나 data URL payload가 잘못 분리되지 않도록 회귀 테스트를 추가했다.
 - 같은 feed URL 파서를 공식 혜택 운영 리포트, `/api/sources`, feed 전환 리포트, 공식 소스 카탈로그 리포트, production 상품 feed에도 적용해 관리자 화면의 feed URL 수와 실제 수집 대상 수가 어긋나지 않게 했다.
 - `notificationDeliveryPolicy`와 `push:delivery:doctor`를 추가해 실제 FCM 발송 전 명시 동의, dry-run-first, 토큰 수 제한, 22:00-07:59 KST quiet hours 차단을 QA와 관리자 dry-run API에 연결했다.

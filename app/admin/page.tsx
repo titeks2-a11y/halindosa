@@ -146,6 +146,9 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const sourceOnboardingCsvHref = isAdminProtectionEnabled()
     ? `/api/admin/source-onboarding?format=csv&token=${encodeURIComponent(token ?? "")}`
     : "/api/admin/source-onboarding?format=csv";
+  const sourceOnboardingEnvHref = isAdminProtectionEnabled()
+    ? `/api/admin/source-onboarding?format=env&token=${encodeURIComponent(token ?? "")}`
+    : "/api/admin/source-onboarding?format=env";
   const pushSendApiHref = isAdminProtectionEnabled()
     ? `/api/admin/push/send?token=${encodeURIComponent(token ?? "")}`
     : "/api/admin/push/send";
@@ -1375,6 +1378,10 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                 <Download size={17} />
                 온보딩 CSV
               </a>
+              <a href={sourceOnboardingEnvHref} className="inline-flex items-center gap-2 rounded-2xl border border-emerald-100 bg-white px-4 py-3 text-sm font-black text-emerald-700">
+                <Download size={17} />
+                feed env
+              </a>
             </div>
           </div>
           <div className="mt-4 grid gap-3 md:grid-cols-5">
@@ -1465,6 +1472,16 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                 <p className="mt-1">
                   <b className="text-slate-950">재생성:</b> npm run source:catalog:report && npm run source:live:doctor && npm run source:onboarding:plan
                 </p>
+              </div>
+              <div className="mt-3 rounded-2xl bg-white px-3 py-2 text-xs font-bold leading-5 text-slate-600 shadow-sm">
+                <p className="font-black text-slate-950">우선 연결 env</p>
+                <div className="mt-2 flex flex-wrap gap-1.5">
+                  {(sourceOnboardingPlan.envPlan.length ? sourceOnboardingPlan.envPlan.slice(0, 5) : [{ envKey: "OFFICIAL_EVENT_FEED_URLS", candidateCount: 0 }]).map((plan) => (
+                    <span key={plan.envKey} className="rounded-full bg-emerald-50 px-2.5 py-1 text-[11px] font-black text-emerald-700">
+                      {plan.envKey} {plan.candidateCount}개
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
           </div>

@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-04T00:51:36.521Z",
+  "generatedAt": "2026-06-04T01:10:16.668Z",
   "totalSources": 30,
   "reachableSources": 27,
   "guardedSources": 3,
@@ -10,6 +10,316 @@
     "connect_official_feed": 27,
     "request_partner_or_api": 3
   },
+  "envPlan": [
+    {
+      "envKey": "OFFICIAL_EVENT_FEED_URLS",
+      "status": "ready_to_connect",
+      "configuredFeedUrls": 0,
+      "candidateCount": 24,
+      "reachableCandidates": 21,
+      "guardedCandidates": 3,
+      "topSources": [
+        {
+          "id": "lpoint-benefits",
+          "label": "L.POINT 공식 혜택",
+          "provider": "public_coupon",
+          "officialUrl": "https://m.lpoint.com/index.jsp?tabIndex=1",
+          "liveStatus": "reachable",
+          "rank": 1
+        },
+        {
+          "id": "gs25-event-goods",
+          "label": "GS25 행사상품과 카드 할인",
+          "provider": "official_event",
+          "officialUrl": "https://gs25.gsretail.com/gscvs/ko/products/event-goods",
+          "liveStatus": "reachable",
+          "rank": 3
+        },
+        {
+          "id": "cu-plus-event",
+          "label": "CU 편의점 1+1·2+1 행사",
+          "provider": "official_event",
+          "officialUrl": "https://cu.bgfretail.com/event/plus.do?category=event&depth2=1",
+          "liveStatus": "reachable",
+          "rank": 4
+        },
+        {
+          "id": "naverpay-benefit",
+          "label": "네이버페이 공식 이벤트 혜택",
+          "provider": "official_event",
+          "officialUrl": "https://new-m.pay.naver.com/pcpay/eventbenefit",
+          "liveStatus": "guarded",
+          "rank": 6
+        },
+        {
+          "id": "ssg-event-main",
+          "label": "SSG닷컴 공식 장보기 행사",
+          "provider": "official_event",
+          "officialUrl": "https://www.ssg.com/event/eventMain.ssg",
+          "liveStatus": "reachable",
+          "rank": 7
+        }
+      ],
+      "categories": [
+        "디지털/가전",
+        "마트/편의점",
+        "무료혜택",
+        "식품/생필품",
+        "여행/숙박",
+        "영화/문화",
+        "외식/배달",
+        "카드/멤버십",
+        "패션/뷰티"
+      ],
+      "providers": [
+        "event_news",
+        "official_event",
+        "public_coupon"
+      ],
+      "nextAction": "OFFICIAL_EVENT_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL을 줄바꿈 또는 쉼표로 입력"
+    },
+    {
+      "envKey": "DEAL_EVENT_FEED_URLS",
+      "status": "ready_to_connect",
+      "configuredFeedUrls": 0,
+      "candidateCount": 13,
+      "reachableCandidates": 13,
+      "guardedCandidates": 0,
+      "topSources": [
+        {
+          "id": "gs25-event-goods",
+          "label": "GS25 행사상품과 카드 할인",
+          "provider": "official_event",
+          "officialUrl": "https://gs25.gsretail.com/gscvs/ko/products/event-goods",
+          "liveStatus": "reachable",
+          "rank": 3
+        },
+        {
+          "id": "cu-plus-event",
+          "label": "CU 편의점 1+1·2+1 행사",
+          "provider": "official_event",
+          "officialUrl": "https://cu.bgfretail.com/event/plus.do?category=event&depth2=1",
+          "liveStatus": "reachable",
+          "rank": 4
+        },
+        {
+          "id": "ssg-event-main",
+          "label": "SSG닷컴 공식 장보기 행사",
+          "provider": "official_event",
+          "officialUrl": "https://www.ssg.com/event/eventMain.ssg",
+          "liveStatus": "reachable",
+          "rank": 7
+        },
+        {
+          "id": "bhc-ecoupon",
+          "label": "BHC 공식 e쿠폰",
+          "provider": "official_event",
+          "officialUrl": "https://www.bhc.co.kr/eCoupon/purchase",
+          "liveStatus": "reachable",
+          "rank": 11
+        },
+        {
+          "id": "himart-events",
+          "label": "하이마트 공식 디지털 행사",
+          "provider": "official_event",
+          "officialUrl": "https://company.himart.co.kr/event/list",
+          "liveStatus": "reachable",
+          "rank": 12
+        }
+      ],
+      "categories": [
+        "디지털/가전",
+        "마트/편의점",
+        "무료혜택",
+        "식품/생필품",
+        "외식/배달",
+        "카드/멤버십",
+        "패션/뷰티"
+      ],
+      "providers": [
+        "official_event",
+        "public_coupon"
+      ],
+      "nextAction": "DEAL_EVENT_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL을 줄바꿈 또는 쉼표로 입력"
+    },
+    {
+      "envKey": "PUBLIC_COUPON_FEED_URLS",
+      "status": "ready_to_connect",
+      "configuredFeedUrls": 0,
+      "candidateCount": 12,
+      "reachableCandidates": 10,
+      "guardedCandidates": 2,
+      "topSources": [
+        {
+          "id": "lpoint-benefits",
+          "label": "L.POINT 공식 혜택",
+          "provider": "public_coupon",
+          "officialUrl": "https://m.lpoint.com/index.jsp?tabIndex=1",
+          "liveStatus": "reachable",
+          "rank": 1
+        },
+        {
+          "id": "culture-day",
+          "label": "문화가 있는 날 공식 혜택",
+          "provider": "public_coupon",
+          "officialUrl": "https://www.culture.go.kr/wday/main/main.do",
+          "liveStatus": "reachable",
+          "rank": 2
+        },
+        {
+          "id": "mnuri-benefit",
+          "label": "문화누리카드 공식 사용 혜택",
+          "provider": "public_coupon",
+          "officialUrl": "https://www.mnuri.kr/main/main.do",
+          "liveStatus": "reachable",
+          "rank": 5
+        },
+        {
+          "id": "naverpay-benefit",
+          "label": "네이버페이 공식 이벤트 혜택",
+          "provider": "official_event",
+          "officialUrl": "https://new-m.pay.naver.com/pcpay/eventbenefit",
+          "liveStatus": "guarded",
+          "rank": 6
+        },
+        {
+          "id": "visitkorea-travel-week",
+          "label": "한국관광공사 공식 여행 혜택",
+          "provider": "public_coupon",
+          "officialUrl": "https://korean.visitkorea.or.kr/other/otherService.do?otdid=46a412aa-0b3b-11ea-869b-020027310001",
+          "liveStatus": "reachable",
+          "rank": 8
+        }
+      ],
+      "categories": [
+        "마트/편의점",
+        "무료혜택",
+        "여행/숙박",
+        "영화/문화",
+        "외식/배달",
+        "정부/공공혜택",
+        "카드/멤버십"
+      ],
+      "providers": [
+        "official_event",
+        "public_coupon"
+      ],
+      "nextAction": "PUBLIC_COUPON_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL을 줄바꿈 또는 쉼표로 입력"
+    },
+    {
+      "envKey": "DEAL_EVENT_NEWS_FEED_URLS",
+      "status": "ready_to_connect",
+      "configuredFeedUrls": 0,
+      "candidateCount": 7,
+      "reachableCandidates": 6,
+      "guardedCandidates": 1,
+      "topSources": [
+        {
+          "id": "yogiyo-event",
+          "label": "요기요 배달 쿠폰 이벤트",
+          "provider": "event_news",
+          "officialUrl": "https://www.yogiyo.co.kr/mobile/#/event/",
+          "liveStatus": "reachable",
+          "rank": 9
+        },
+        {
+          "id": "jejuair-events",
+          "label": "제주항공 공식 진행 이벤트",
+          "provider": "official_event",
+          "officialUrl": "https://www.jejuair.net/ko/event/event.do",
+          "liveStatus": "guarded",
+          "rank": 14
+        },
+        {
+          "id": "baemin-academy-events",
+          "label": "배민아카데미 공식 무료 교육 이벤트",
+          "provider": "public_coupon",
+          "officialUrl": "https://academy.baemin.com/event/list",
+          "liveStatus": "reachable",
+          "rank": 15
+        },
+        {
+          "id": "mcdonalds-happysnack",
+          "label": "맥도날드 공식 해피스낵 프로모션",
+          "provider": "official_event",
+          "officialUrl": "https://www.mcdonalds.co.kr/kor/promotion/detail.do?seq=593",
+          "liveStatus": "reachable",
+          "rank": 17
+        },
+        {
+          "id": "tworld-membership",
+          "label": "T월드 멤버십 할인",
+          "provider": "official_event",
+          "officialUrl": "https://www.tworld.co.kr/poc/html/product/TS3.7.1T.2.html",
+          "liveStatus": "reachable",
+          "rank": 20
+        }
+      ],
+      "categories": [
+        "무료혜택",
+        "식품/생필품",
+        "여행/숙박",
+        "외식/배달",
+        "카드/멤버십",
+        "패션/뷰티"
+      ],
+      "providers": [
+        "event_news",
+        "news",
+        "official_event",
+        "public_coupon"
+      ],
+      "nextAction": "DEAL_EVENT_NEWS_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL을 줄바꿈 또는 쉼표로 입력"
+    },
+    {
+      "envKey": "DEAL_NEWS_FEED_URLS",
+      "status": "ready_to_connect",
+      "configuredFeedUrls": 0,
+      "candidateCount": 3,
+      "reachableCandidates": 3,
+      "guardedCandidates": 0,
+      "topSources": [
+        {
+          "id": "culture-day",
+          "label": "문화가 있는 날 공식 혜택",
+          "provider": "public_coupon",
+          "officialUrl": "https://www.culture.go.kr/wday/main/main.do",
+          "liveStatus": "reachable",
+          "rank": 2
+        },
+        {
+          "id": "visitkorea-travel-week",
+          "label": "한국관광공사 공식 여행 혜택",
+          "provider": "public_coupon",
+          "officialUrl": "https://korean.visitkorea.or.kr/other/otherService.do?otdid=46a412aa-0b3b-11ea-869b-020027310001",
+          "liveStatus": "reachable",
+          "rank": 8
+        },
+        {
+          "id": "hmall-official-events",
+          "label": "현대Hmall 공식 쇼핑 기획전",
+          "provider": "news",
+          "officialUrl": "https://www.hyundaihmall.com/front/evntSect.do",
+          "liveStatus": "reachable",
+          "rank": 28
+        }
+      ],
+      "categories": [
+        "무료혜택",
+        "식품/생필품",
+        "여행/숙박",
+        "영화/문화",
+        "정부/공공혜택",
+        "패션/뷰티"
+      ],
+      "providers": [
+        "news",
+        "public_coupon"
+      ],
+      "nextAction": "DEAL_NEWS_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL을 줄바꿈 또는 쉼표로 입력"
+    }
+  ],
+  "envTemplate": "# 할인도사 공식 혜택 feed 연결 템플릿\n# 공식 API, RSS, 제휴 feed, 담당자 승인 JSON만 입력하세요.\n# 검색 결과, 커뮤니티 원문, 블로그, 쇼핑몰 메인 URL은 입력하지 않습니다.\n# 여러 URL은 줄바꿈, 쉼표, 세미콜론, JSON 배열 형식 중 하나로 관리할 수 있습니다.\n\n# OFFICIAL_EVENT_FEED_URLS\n# 후보 24개 · 접근 가능 21개 · 보호/승인 필요 3개\n# 대표 후보: L.POINT 공식 혜택 / GS25 행사상품과 카드 할인 / CU 편의점 1+1·2+1 행사 / 네이버페이 공식 이벤트 혜택 / SSG닷컴 공식 장보기 행사\nOFFICIAL_EVENT_FEED_URLS=\n\n# DEAL_EVENT_FEED_URLS\n# 후보 13개 · 접근 가능 13개 · 보호/승인 필요 0개\n# 대표 후보: GS25 행사상품과 카드 할인 / CU 편의점 1+1·2+1 행사 / SSG닷컴 공식 장보기 행사 / BHC 공식 e쿠폰 / 하이마트 공식 디지털 행사\nDEAL_EVENT_FEED_URLS=\n\n# PUBLIC_COUPON_FEED_URLS\n# 후보 12개 · 접근 가능 10개 · 보호/승인 필요 2개\n# 대표 후보: L.POINT 공식 혜택 / 문화가 있는 날 공식 혜택 / 문화누리카드 공식 사용 혜택 / 네이버페이 공식 이벤트 혜택 / 한국관광공사 공식 여행 혜택\nPUBLIC_COUPON_FEED_URLS=\n\n# DEAL_EVENT_NEWS_FEED_URLS\n# 후보 7개 · 접근 가능 6개 · 보호/승인 필요 1개\n# 대표 후보: 요기요 배달 쿠폰 이벤트 / 제주항공 공식 진행 이벤트 / 배민아카데미 공식 무료 교육 이벤트 / 맥도날드 공식 해피스낵 프로모션 / T월드 멤버십 할인\nDEAL_EVENT_NEWS_FEED_URLS=\n\n# DEAL_NEWS_FEED_URLS\n# 후보 3개 · 접근 가능 3개 · 보호/승인 필요 0개\n# 대표 후보: 문화가 있는 날 공식 혜택 / 한국관광공사 공식 여행 혜택 / 현대Hmall 공식 쇼핑 기획전\nDEAL_NEWS_FEED_URLS=\n",
   "topActions": [
     {
       "rank": 1,

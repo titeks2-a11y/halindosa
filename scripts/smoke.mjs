@@ -617,7 +617,7 @@ await check("admin dashboard quality cards", async () => {
   assert(text.includes("공식 소스 live 접근성") && text.includes("무단 크롤링 없이 공식 후보 URL의 접근 가능"), "Admin dashboard missing official source live readiness panel");
   assert(text.includes("live JSON") && text.includes("live CSV") && text.includes("protected/guarded 소스"), "Admin dashboard missing official source live API/CSV controls");
   assert(text.includes("공식 소스 온보딩 우선순위") && text.includes("다음 연결 우선순위 TOP 10"), "Admin dashboard missing official source onboarding plan panel");
-  assert(text.includes("온보딩 JSON") && text.includes("온보딩 CSV") && text.includes("/api/admin/source-onboarding"), "Admin dashboard missing official source onboarding API/CSV controls");
+  assert(text.includes("온보딩 JSON") && text.includes("온보딩 CSV") && text.includes("feed env") && text.includes("/api/admin/source-onboarding"), "Admin dashboard missing official source onboarding API/CSV/env controls");
   assert(text.includes("feed 연결 후보") && text.includes("제휴 확인") && text.includes("차단 이슈"), "Admin dashboard missing official source onboarding summary cards");
   assert(text.includes("운영 피드 전환 준비도") && text.includes("공식 API·제휴 피드로 바꿀 때 볼 품질 기준"), "Admin dashboard missing source readiness operation board");
   assert(text.includes("자동 refresh cron 운영") && text.includes("6시간마다 검증 데이터 갱신 상태를 확인합니다"), "Admin dashboard missing cron refresh operation board");
@@ -795,6 +795,8 @@ await check("admin source onboarding plan api", async () => {
   assert(data.report?.totalSources >= 30, "Admin source onboarding plan missing official source candidates");
   assert(data.report?.blockedLiveIssues === 0, "Admin source onboarding plan should not include blocked live issues");
   assert(Array.isArray(data.report?.topActions) && data.report.topActions.length >= 5, "Admin source onboarding plan missing top actions");
+  assert(Array.isArray(data.report?.envPlan) && data.report.envPlan.length >= 5, "Admin source onboarding plan missing env plan");
+  assert(String(data.report?.envTemplate ?? "").includes("OFFICIAL_EVENT_FEED_URLS"), "Admin source onboarding plan missing env template");
   assert(Array.isArray(data.report?.queue) && data.report.queue.length >= 30, "Admin source onboarding plan missing full queue");
   assert(data.report.queue.every((source) => source.id && source.nextAction && source.guardrail && source.recommendedEnvKeys?.length), "Admin source onboarding rows missing operation guidance");
 });
@@ -805,6 +807,15 @@ await check("admin source onboarding plan csv", async () => {
   assert(response.status === 200, `Expected source onboarding CSV 200, got ${response.status}`);
   assert(response.headers.get("content-type")?.includes("text/csv"), "Admin source onboarding CSV should use text/csv content type");
   assert(text.includes("recommendedEnvKeys") && text.includes("nextAction") && text.includes("guardrail"), "Admin source onboarding CSV missing env key, next action, or guardrail fields");
+});
+
+await check("admin source onboarding env template", async () => {
+  const response = await fetch(`${baseUrl}/api/admin/source-onboarding?format=env`);
+  const text = await response.text();
+  assert(response.status === 200, `Expected source onboarding env 200, got ${response.status}`);
+  assert(response.headers.get("content-type")?.includes("text/plain"), "Admin source onboarding env template should use text/plain content type");
+  assert(text.includes("OFFICIAL_EVENT_FEED_URLS=") && text.includes("PUBLIC_COUPON_FEED_URLS="), "Admin source onboarding env template missing official feed keys");
+  assert(text.includes("검색 결과, 커뮤니티 원문") && text.includes("담당자 승인 JSON"), "Admin source onboarding env template missing safe source guardrails");
 });
 
 await check("admin health readiness api", async () => {

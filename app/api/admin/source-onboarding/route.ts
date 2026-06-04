@@ -53,6 +53,18 @@ export async function GET(request: Request) {
     });
   }
 
+  if (format === "env") {
+    const report = getOfficialSourceOnboardingPlan();
+    return new NextResponse(`${report.envTemplate.trim()}\n`, {
+      headers: {
+        ...rateLimitHeaders(limit, requestId),
+        "Content-Type": "text/plain; charset=utf-8",
+        "Content-Disposition": "attachment; filename=\"halindosa-source-feed-template.env\"",
+        "Cache-Control": "no-store"
+      }
+    });
+  }
+
   return NextResponse.json(
     {
       ok: true,

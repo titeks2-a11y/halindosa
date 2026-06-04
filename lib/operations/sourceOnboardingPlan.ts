@@ -1,7 +1,11 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
-export type SourceOnboardingStatus = "connect_official_feed" | "request_partner_or_api";
+export type SourceOnboardingStatus =
+  | "connect_official_feed"
+  | "request_partner_or_api"
+  | "feed_configured_verify"
+  | "do_not_use_until_reviewed";
 
 export type SourceOnboardingAction = {
   rank: number;
@@ -33,6 +37,26 @@ export type SourceOnboardingQueueRow = {
   guardrail: string;
 };
 
+export type SourceOnboardingEnvPlan = {
+  envKey: string;
+  status: "ready_to_connect" | "configured_verify" | string;
+  configuredFeedUrls: number;
+  candidateCount: number;
+  reachableCandidates: number;
+  guardedCandidates: number;
+  topSources: Array<{
+    id: string;
+    label: string;
+    provider: string;
+    officialUrl: string;
+    liveStatus: string;
+    rank: number;
+  }>;
+  categories: string[];
+  providers: string[];
+  nextAction: string;
+};
+
 export type SourceOnboardingPlan = {
   ok: boolean;
   generatedAt: string;
@@ -42,6 +66,8 @@ export type SourceOnboardingPlan = {
   blockedLiveIssues: number;
   configuredFeedSources: number;
   statusCounts: Record<string, number>;
+  envPlan: SourceOnboardingEnvPlan[];
+  envTemplate: string;
   topActions: SourceOnboardingAction[];
   guardrails: string[];
   queue: SourceOnboardingQueueRow[];
@@ -56,6 +82,9 @@ const fallbackPlan: SourceOnboardingPlan = {
   blockedLiveIssues: 0,
   configuredFeedSources: 0,
   statusCounts: {},
+  envPlan: [],
+  envTemplate:
+    "# reports/source-onboarding-env-template.env 파일이 없습니다.\n# npm run source:onboarding:plan 실행 후 공식 feed env 템플릿을 확인합니다.",
   topActions: [],
   guardrails: [
     "npm run source:catalog:report && npm run source:live:doctor && npm run source:onboarding:plan 실행 후 공식 소스 온보딩 큐를 확인합니다."
@@ -74,6 +103,8 @@ export function getOfficialSourceOnboardingPlan(): SourceOnboardingPlan {
       ...fallbackPlan,
       ...report,
       statusCounts: report.statusCounts ?? {},
+      envPlan: Array.isArray(report.envPlan) ? (report.envPlan as SourceOnboardingEnvPlan[]) : [],
+      envTemplate: typeof report.envTemplate === "string" ? report.envTemplate : fallbackPlan.envTemplate,
       topActions: Array.isArray(report.topActions) ? (report.topActions as SourceOnboardingAction[]) : [],
       guardrails: Array.isArray(report.guardrails) ? report.guardrails : fallbackPlan.guardrails,
       queue: Array.isArray(report.queue) ? (report.queue as SourceOnboardingQueueRow[]) : []
