@@ -163,6 +163,9 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const cronRefreshDryRunHref = isAdminProtectionEnabled()
     ? `/api/cron/refresh?dryRun=true&token=${encodeURIComponent(token ?? "")}`
     : "/api/cron/refresh?dryRun=true&token=local-admin";
+  const cronLiveFeedDryRunHref = isAdminProtectionEnabled()
+    ? `/api/cron/refresh?dryRun=true&mode=liveFeed&token=${encodeURIComponent(token ?? "")}`
+    : "/api/cron/refresh?dryRun=true&mode=liveFeed&token=local-admin";
   const dailyOperationsApiHref = isAdminProtectionEnabled()
     ? `/api/admin/daily-operations?token=${encodeURIComponent(token ?? "")}`
     : "/api/admin/daily-operations";
@@ -696,7 +699,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
               <p className="text-xs font-black text-brand-red">자동 refresh cron 운영</p>
               <h2 className="mt-1 text-xl font-black text-slate-950">6시간마다 검증 데이터 갱신 상태를 확인합니다</h2>
               <p className="mt-1 text-sm font-semibold leading-6 text-slate-500">
-                Vercel Cron이 `/api/cron/refresh`를 호출하고, 결과는 `reports/cron-refresh.json`과 `reports/refresh-all.json`로 남습니다.
+                Vercel Cron이 `/api/cron/refresh`를 호출하고, 결과는 `reports/cron-refresh.json`에 남습니다. 명시 호출 시 `mode=liveFeed`로 공식 feed 라이브 파이프라인까지 점검합니다.
               </p>
             </div>
             <div className="flex flex-wrap gap-2">
@@ -712,10 +715,11 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
             </div>
           </div>
 
-          <div className="mt-4 grid gap-3 md:grid-cols-4">
+          <div className="mt-4 grid gap-3 md:grid-cols-5">
             {[
               ["상품 특가", cronRefresh.productDealsCount],
               ["공식 혜택", cronRefresh.newsDealsCount],
+              ["live feed 혜택", cronRefresh.livePipelineOfficialBenefitsCount],
               ["숨김 처리", cronRefresh.hiddenCount],
               ["실패", cronRefresh.failedCount]
             ].map(([label, value]) => (
@@ -733,7 +737,10 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                 {cronRefresh.generatedAt ? `${getRelativeTime(cronRefresh.generatedAt)} · ${cronRefresh.ageHours ?? 0}시간 경과` : "아직 직접 실행 리포트 없음"}
               </p>
               <p className="mt-2 text-xs font-black text-brand-red">
-                상태 {cronRefresh.status} · refresh:all {cronRefresh.refreshAllOk ? "정상" : "점검"}
+                상태 {cronRefresh.status} · refresh:all {cronRefresh.refreshAllOk ? "정상" : "점검"} · 마지막 모드 {cronRefresh.lastPipelineMode}
+              </p>
+              <p className="mt-1 text-xs font-black text-slate-500">
+                live feed {cronRefresh.livePipelineStatus} · URL {cronRefresh.livePipelineConfiguredUrlCount}개 · {cronRefresh.livePipelineOk ? "리포트 정상" : "점검 필요"}
               </p>
               <p className="mt-2 text-[11px] font-bold leading-5 text-slate-500">
                 {cronRefresh.message}
@@ -751,8 +758,19 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                 >
                   dry-run 확인
                 </a>
+                <a
+                  href={cronLiveFeedDryRunHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-2xl bg-slate-950 px-4 py-2 text-xs font-black text-white"
+                >
+                  liveFeed dry-run
+                </a>
                 <code className="rounded-2xl bg-white px-3 py-2 text-[11px] font-black text-slate-700">
                   {cronRefresh.command}
+                </code>
+                <code className="rounded-2xl bg-white px-3 py-2 text-[11px] font-black text-slate-700">
+                  {cronRefresh.liveCommand}
                 </code>
               </div>
               <p className="mt-3 text-[11px] font-bold leading-5 text-red-900/70">

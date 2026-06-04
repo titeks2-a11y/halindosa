@@ -50,6 +50,7 @@
 - 스타벅스 캠페인, CJ ONE 이벤트, 올리브영 이벤트, 메가박스 이벤트, BHC e쿠폰, L.POINT, 제주항공, 하이마트 등 공식 소스를 추가해 사용자 노출 공식 혜택을 43개로 늘리고 무료혜택, 외식/배달, 카드/멤버십, 여행/숙박, 영화/문화, 패션/뷰티 카테고리의 승인 feed 전환 후보를 보강했다.
 - 보호된 `/api/cron/refresh`와 `vercel.json` 6시간 cron refresh를 추가해 `refresh:all` 파이프라인을 배포 환경에서 정기 실행할 수 있게 하고, `CRON_SECRET`, dry-run smoke, `reports/cron-refresh.json`, release doctor로 공개 호출/무단 실행 회귀를 막았다.
 - cron refresh 운영 리포트를 `lib/operations/cronRefresh.ts`로 분리하고 `/api/health`와 `/admin`에 마지막 실행, 보호 상태, 상품/뉴스 갱신 수, dry-run 링크를 노출해 배포 후 자동 갱신 상태를 운영자가 바로 확인할 수 있게 했다.
+- `/api/cron/refresh?mode=liveFeed` 명시 실행 모드를 추가해 기본 6시간 `refresh:all` 안정성은 유지하면서, 공식 API/RSS/제휴 JSON feed 검증이 필요한 시점에는 `news:feed:live` 전체 파이프라인을 cron auth와 같은 보호 경로로 실행할 수 있게 했다.
 - 관리자/운영 API 인증을 `canAccessAdminRequest`로 통일해 `Authorization: Bearer`, `x-admin-token`, `x-admin-export-token`, `x-halindosa-admin-token` 헤더를 지원하고, 쿼리 token 방식은 호환용으로만 유지하도록 `admin:auth:doctor`, `reports/admin-auth.json`, release doctor 게이트를 추가했다.
 - `test:news-feed-errors` 회귀 테스트를 추가해 정상 공식 feed는 통과하고, 설정된 운영 feed가 깨졌을 때는 seed fallback이 있어도 `configuredFeedErrors`로 `verify:news`가 실패하는지 QA에서 직접 재현하도록 했다.
 - `test:news-feed-errors`가 임시 공식 feed 서버를 띄워 정상 feed의 `feedItemCount/feedSuccessCount` 증가와 깨진 feed의 seed fallback 보존을 함께 검증하도록 보강해, 실제 RSS/JSON feed 연결 시 source mix 집계가 회귀하지 않게 했다.

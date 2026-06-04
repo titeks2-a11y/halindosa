@@ -16,6 +16,7 @@ interface RefreshAllReport {
 interface CronRefreshFileReport {
   ok?: boolean;
   mode?: string;
+  pipelineMode?: string;
   generatedAt?: string;
   command?: string;
   reportPath?: string;
@@ -25,6 +26,17 @@ interface CronRefreshFileReport {
   stdoutTail?: string;
   stderrTail?: string;
   refreshAll?: RefreshAllReport;
+  livePipeline?: {
+    ok?: boolean;
+    status?: string;
+    configuredUrlCount?: number;
+    officialBenefits?: {
+      visibleCount?: number;
+      exposedSearchLinkCount?: number;
+      exposedNonOfficialLinkCount?: number;
+      expiredVisibleCount?: number;
+    };
+  };
   message?: string;
 }
 
@@ -35,15 +47,23 @@ export interface CronRefreshOperationsReport {
   endpoint: string;
   schedule: string;
   command: string;
+  liveCommand: string;
   reportPath: string;
+  livePipelineReportPath: string;
+  lastPipelineMode: string;
   secretConfigured: boolean;
   protected: boolean;
   cronReportExists: boolean;
   refreshAllReportExists: boolean;
+  livePipelineReportExists: boolean;
   generatedAt: string;
   ageHours: number | null;
   durationMs: number;
   refreshAllOk: boolean;
+  livePipelineOk: boolean;
+  livePipelineStatus: string;
+  livePipelineConfiguredUrlCount: number;
+  livePipelineOfficialBenefitsCount: number;
   productDealsCount: number;
   newsDealsCount: number;
   hiddenCount: number;
@@ -57,9 +77,12 @@ export interface CronRefreshOperationsReport {
 const endpoint = "/api/cron/refresh";
 const schedule = "0 */6 * * *";
 const command = "node scripts/refresh-all.mjs";
+const liveCommand = "node scripts/news-feed-live-pipeline.mjs";
 const reportPath = "reports/cron-refresh.json";
+const livePipelineReportPath = "reports/news-feed-live-pipeline.json";
 const cronReportFullPath = join(process.cwd(), "reports", "cron-refresh.json");
 const refreshAllReportFullPath = join(process.cwd(), "reports", "refresh-all.json");
+const livePipelineReportFullPath = join(process.cwd(), "reports", "news-feed-live-pipeline.json");
 const staleHours = 12;
 
 function readJson<T>(fullPath: string, fallback: T): T {
@@ -81,12 +104,16 @@ function getAgeHours(isoDate?: string) {
 export function getCronRefreshOperationsReport(): CronRefreshOperationsReport {
   const cronReportExists = existsSync(cronReportFullPath);
   const refreshAllReportExists = existsSync(refreshAllReportFullPath);
+  const livePipelineReportExists = existsSync(livePipelineReportFullPath);
   const cronReport = readJson<CronRefreshFileReport>(cronReportFullPath, {});
   const refreshAllReport = readJson<RefreshAllReport>(refreshAllReportFullPath, {});
+  const livePipelineReport = readJson<NonNullable<CronRefreshFileReport["livePipeline"]>>(livePipelineReportFullPath, {});
   const refreshAll = cronReport.refreshAll ?? refreshAllReport;
+  const livePipeline = cronReport.livePipeline ?? livePipelineReport;
   const generatedAt = cronReport.generatedAt ?? "";
   const ageHours = getAgeHours(generatedAt);
   const refreshAllOk = refreshAll.ok === true;
+  const livePipelineOk = livePipeline.ok === true;
   const cronOk = cronReport.ok === true;
   const hasRecentCronRun = cronReportExists && ageHours !== null && ageHours <= staleHours;
   const status: CronRefreshStatus = !cronReportExists
@@ -120,15 +147,23 @@ export function getCronRefreshOperationsReport(): CronRefreshOperationsReport {
     endpoint,
     schedule,
     command: cronReport.command ?? command,
+    liveCommand,
     reportPath: cronReport.reportPath ?? reportPath,
+    livePipelineReportPath,
+    lastPipelineMode: cronReport.pipelineMode ?? "refreshAll",
     secretConfigured: Boolean(process.env.CRON_SECRET?.trim()),
     protected: true,
     cronReportExists,
     refreshAllReportExists,
+    livePipelineReportExists,
     generatedAt,
     ageHours,
     durationMs: Number(cronReport.durationMs ?? 0),
     refreshAllOk,
+    livePipelineOk,
+    livePipelineStatus: String(livePipeline.status ?? (livePipelineOk ? "live_feed_ready" : "unknown")),
+    livePipelineConfiguredUrlCount: Number(livePipeline.configuredUrlCount ?? 0),
+    livePipelineOfficialBenefitsCount: Number(livePipeline.officialBenefits?.visibleCount ?? 0),
     productDealsCount: Number(refreshAll.productDealsCount ?? 0),
     newsDealsCount: Number(refreshAll.newsDealsCount ?? 0),
     hiddenCount: Number(refreshAll.hiddenCount ?? 0),
@@ -138,7 +173,8 @@ export function getCronRefreshOperationsReport(): CronRefreshOperationsReport {
     nextAction,
     guardrails: [
       "CRON_SECRET 없이는 실제 refresh를 실행하지 않습니다.",
-      "dryRun=true는 reports/refresh-all.json만 읽고 수집 스크립트를 실행하지 않습니다.",
+      "dryRun=true는 기존 refresh:all/live feed 리포트만 읽고 수집 스크립트를 실행하지 않습니다.",
+      "mode=liveFeed는 공식 RSS/API/제휴 JSON feed 검증을 포함한 news:feed:live 파이프라인만 명시 호출 시 실행합니다.",
       "실패 시 사용자 노출 데이터는 마지막 통과 리포트와 검증 snapshot을 유지합니다."
     ]
   };

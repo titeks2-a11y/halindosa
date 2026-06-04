@@ -655,6 +655,7 @@ await check("admin dashboard quality cards", async () => {
   assert(text.includes("운영 피드 전환 준비도") && text.includes("공식 API·제휴 피드로 바꿀 때 볼 품질 기준"), "Admin dashboard missing source readiness operation board");
   assert(text.includes("자동 refresh cron 운영") && text.includes("6시간마다 검증 데이터 갱신 상태를 확인합니다"), "Admin dashboard missing cron refresh operation board");
   assert(text.includes("CRON_SECRET") && text.includes("reports/cron-refresh.json") && text.includes("dry-run 확인"), "Admin dashboard missing cron refresh secret/report/dry-run guidance");
+  assert(text.includes("liveFeed dry-run") && text.includes("node scripts/news-feed-live-pipeline.mjs"), "Admin dashboard missing live feed cron dry-run guidance");
   assert(text.includes("파트너 피드 사전 검수 리포트") && text.includes("ready / needs_fix 행을 먼저 분리합니다"), "Admin dashboard missing partner feed validation report board");
   assert(text.includes("readyRate") && text.includes("운영 반영 전 목표는 100%"), "Admin dashboard missing partner feed ready rate summary");
   assert(text.includes("feed:validate --report") && text.includes("feed:production:doctor"), "Admin dashboard missing feed validation command guidance");
@@ -1154,6 +1155,15 @@ await check("cron refresh api guard", async () => {
   assert(data.command === "node scripts/refresh-all.mjs", "Cron refresh dry-run missing refresh command");
   assert(data.refreshAll?.productDealsCount >= 140, "Cron refresh dry-run missing latest refresh-all product count");
   assert(data.refreshAll?.newsDealsCount >= 40, "Cron refresh dry-run missing latest refresh-all news count");
+
+  const liveFeed = await fetchJson("/api/cron/refresh?dryRun=true&mode=liveFeed&token=local-admin");
+  assert(liveFeed.response.status === 200, `Expected cron liveFeed dry-run 200, got ${liveFeed.response.status}`);
+  assert(liveFeed.data.ok === true, "Cron liveFeed dry-run should be ok");
+  assert(liveFeed.data.mode === "dry_run", "Cron liveFeed dry-run should not execute refresh scripts");
+  assert(liveFeed.data.pipelineMode === "liveFeed", "Cron liveFeed dry-run missing pipeline mode");
+  assert(liveFeed.data.command === "node scripts/news-feed-live-pipeline.mjs", "Cron liveFeed dry-run missing live pipeline command");
+  assert(["seed_launch_ready", "live_feed_ready"].includes(liveFeed.data.livePipeline?.status), "Cron liveFeed dry-run missing live pipeline status");
+  assert(liveFeed.data.livePipeline?.officialBenefits?.visibleCount >= 40, "Cron liveFeed dry-run missing official benefits count");
 
   if (smokeAdminToken) {
     const headerAuth = await fetchJson("/api/cron/refresh?dryRun=true", {
@@ -1696,6 +1706,10 @@ await check("health api", async () => {
   assert(data.checks?.cronRefreshProtected === true, "Health API missing protected cron refresh evidence");
   assert(data.checks?.cronRefreshSchedule === "0 */6 * * *", "Health API missing 6-hour cron refresh schedule");
   assert(data.checks?.cronRefreshReportPath === "reports/cron-refresh.json", "Health API missing cron refresh report path");
+  assert(data.checks?.cronRefreshLiveCommand === "node scripts/news-feed-live-pipeline.mjs", "Health API missing cron live feed command");
+  assert(data.checks?.cronRefreshLivePipelineReportPath === "reports/news-feed-live-pipeline.json", "Health API missing cron live feed report path");
+  assert(["seed_launch_ready", "live_feed_ready", "unknown"].includes(data.checks?.cronRefreshLivePipelineStatus), "Health API missing cron live feed pipeline status");
+  assert(data.checks?.cronRefreshLivePipelineOfficialBenefitsCount >= 40, "Health API missing cron live feed official benefit count");
   assert(data.checks?.cronRefreshProductDealsCount >= 140, "Health API missing cron refresh product count");
   assert(data.checks?.cronRefreshNewsDealsCount >= 40, "Health API missing cron refresh news count");
 });

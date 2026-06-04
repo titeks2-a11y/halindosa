@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-04T11:04:14.316Z",
+  "generatedAt": "2026-06-04T11:17:12.091Z",
   "totalChecks": 185,
   "passedChecks": 185,
   "failedChecks": 0,
@@ -888,7 +888,7 @@
     {
       "name": "cron refresh automation",
       "ok": true,
-      "detail": "Protected 6-hour cron refresh endpoint, Vercel schedule, dry-run smoke guard, env keys, and runbook guidance are wired."
+      "detail": "Protected 6-hour cron refresh endpoint, explicit live feed mode, Vercel schedule, dry-run smoke guard, env keys, and runbook guidance are wired."
     },
     {
       "name": "operational health readiness",

@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-04T10:47:36.952Z",
+  "generatedAt": "2026-06-04T11:14:29.196Z",
   "status": "ready",
   "endpoint": "/api/cron/refresh",
   "schedule": "0 */6 * * *",
@@ -8,6 +8,10 @@
   "routeProtected": true,
   "dryRunGuarded": true,
   "refreshAllOk": true,
+  "livePipelineOk": true,
+  "livePipelineStatus": "seed_launch_ready",
+  "livePipelineOfficialBenefits": 43,
+  "livePipelineConfiguredUrlCount": 0,
   "healthCronStatus": "manual_refresh_ready",
   "cronReportExists": false,
   "cronReportGeneratedAt": "",
@@ -28,6 +32,11 @@
       "name": "refresh execution",
       "ok": true,
       "detail": "Cron route executes the same refresh:all pipeline as release QA."
+    },
+    {
+      "name": "live feed mode",
+      "ok": true,
+      "detail": "Cron route supports an explicit mode=liveFeed dry-run and execution path for official feed operations."
     },
     {
       "name": "vercel schedule",
@@ -53,6 +62,11 @@
       "name": "refresh-all evidence",
       "ok": true,
       "detail": "refresh:all is healthy with 140 product deals and 43 official benefits."
+    },
+    {
+      "name": "live feed evidence",
+      "ok": true,
+      "detail": "news:feed:live is seed_launch_ready with 43 official benefits and zero unsafe exposed links."
     },
     {
       "name": "health readiness status",

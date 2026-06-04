@@ -38,12 +38,19 @@ const smoke = readText("scripts/smoke.mjs");
 const runbook = readText("docs/RUNBOOK.md");
 const envExample = readText(".env.example");
 const refreshAll = readJson("reports/refresh-all.json");
+const livePipeline = readJson("reports/news-feed-live-pipeline.json");
 const healthReadiness = readJson("reports/health-readiness.json");
 const cronReport = readJson("reports/cron-refresh.json", null);
 const cronConfig = Array.isArray(vercelConfig.crons) ? vercelConfig.crons.find((item) => item.path === "/api/cron/refresh") : null;
 const minimumVisibleOfficialBenefits = 40;
 
 const refreshAllOk = refreshAll.ok === true && Number(refreshAll.productDealsCount ?? 0) >= 140 && Number(refreshAll.newsDealsCount ?? 0) >= minimumVisibleOfficialBenefits && Number(refreshAll.failedCount ?? 0) === 0;
+const livePipelineOk =
+  livePipeline.ok === true &&
+  ["seed_launch_ready", "live_feed_ready"].includes(String(livePipeline.status ?? "")) &&
+  Number(livePipeline.officialBenefits?.visibleCount ?? 0) >= minimumVisibleOfficialBenefits &&
+  Number(livePipeline.officialBenefits?.exposedSearchLinkCount ?? 0) === 0 &&
+  Number(livePipeline.officialBenefits?.exposedNonOfficialLinkCount ?? 0) === 0;
 const healthCronStatus = healthReadiness.cronRefresh?.status ?? "";
 const healthCronOk = healthReadiness.cronRefresh?.ok === true;
 const checks = [
@@ -56,6 +63,9 @@ const checks = [
   route.includes("spawnSync") && route.includes("scripts/refresh-all.mjs") && route.includes("CRON_REFRESH_RUN")
     ? pass("refresh execution", "Cron route executes the same refresh:all pipeline as release QA.")
     : fail("refresh execution", "Cron route should execute scripts/refresh-all.mjs with bounded timeout."),
+  route.includes("resolvePipelineMode") && route.includes("mode=liveFeed") && route.includes("scripts/news-feed-live-pipeline.mjs") && smoke.includes("/api/cron/refresh?dryRun=true&mode=liveFeed")
+    ? pass("live feed mode", "Cron route supports an explicit mode=liveFeed dry-run and execution path for official feed operations.")
+    : fail("live feed mode", "Cron route should expose a guarded mode=liveFeed path and smoke should test its dry-run."),
   cronConfig?.schedule === "0 */6 * * *"
     ? pass("vercel schedule", "Vercel schedules /api/cron/refresh every 6 hours.")
     : fail("vercel schedule", "vercel.json should schedule /api/cron/refresh every 6 hours."),
@@ -71,6 +81,9 @@ const checks = [
   refreshAllOk
     ? pass("refresh-all evidence", `refresh:all is healthy with ${refreshAll.productDealsCount} product deals and ${refreshAll.newsDealsCount} official benefits.`)
     : fail("refresh-all evidence", "reports/refresh-all.json should show a passing product/news refresh."),
+  livePipelineOk
+    ? pass("live feed evidence", `news:feed:live is ${livePipeline.status} with ${livePipeline.officialBenefits?.visibleCount} official benefits and zero unsafe exposed links.`)
+    : fail("live feed evidence", "reports/news-feed-live-pipeline.json should show a passing live feed pipeline with official benefits and zero unsafe exposed links."),
   ["healthy", "manual_refresh_ready"].includes(healthCronStatus) && healthCronOk
     ? pass("health readiness status", `Health readiness marks cron refresh as ${healthCronStatus}.`)
     : fail("health readiness status", `Health readiness cron status is ${healthCronStatus || "missing"}.`),
@@ -90,6 +103,10 @@ const report = {
   routeProtected: checks[0].ok,
   dryRunGuarded: checks[1].ok,
   refreshAllOk,
+  livePipelineOk,
+  livePipelineStatus: livePipeline.status ?? "",
+  livePipelineOfficialBenefits: Number(livePipeline.officialBenefits?.visibleCount ?? 0),
+  livePipelineConfiguredUrlCount: Number(livePipeline.configuredUrlCount ?? 0),
   healthCronStatus,
   cronReportExists: Boolean(cronReport),
   cronReportGeneratedAt: cronReport?.generatedAt ?? "",
@@ -112,6 +129,10 @@ Status: ${report.status}
 | Protected route | ${report.routeProtected ? "PASS" : "FAIL"} |
 | Dry-run guard | ${report.dryRunGuarded ? "PASS" : "FAIL"} |
 | refresh:all evidence | ${report.refreshAllOk ? "PASS" : "FAIL"} |
+| news:feed:live evidence | ${report.livePipelineOk ? "PASS" : "FAIL"} |
+| Live feed status | ${report.livePipelineStatus || "missing"} |
+| Live feed configured URL | ${report.livePipelineConfiguredUrlCount} |
+| Live feed official benefits | ${report.livePipelineOfficialBenefits} |
 | Health cron status | ${report.healthCronStatus || "missing"} |
 | Actual cron report | ${report.cronReportExists ? report.cronReportGeneratedAt : "not generated yet"} |
 
@@ -125,8 +146,9 @@ ${checks.map((check) => `| ${check.name} | ${check.ok ? "PASS" : "FAIL"} | ${che
 
 - 실제 배포 환경에서는 \`CRON_SECRET\` 설정 후 Vercel Cron이 \`/api/cron/refresh\`를 호출합니다.
 - \`dryRun=true\`는 리포트 상태만 확인하고 수집 스크립트를 실행하지 않습니다.
+- 공식 API/RSS/제휴 JSON feed를 점검할 때는 \`/api/cron/refresh?mode=liveFeed\`를 명시 호출합니다. 기본 6시간 cron은 기존 \`refresh:all\` 경로를 유지합니다.
 - \`reports/cron-refresh.json\`은 실제 실행 증거이므로 오래된 파일을 커밋해 출시 게이트를 흔들지 않습니다.
-- 자동 실행 전에도 \`reports/refresh-all.json\`과 이 readiness 리포트로 수동 갱신 기준을 확인합니다.
+- 자동 실행 전에도 \`reports/refresh-all.json\`, \`reports/news-feed-live-pipeline.json\`과 이 readiness 리포트로 수동 갱신 기준을 확인합니다.
 `;
 
 mkdirSync(reportsDir, { recursive: true });

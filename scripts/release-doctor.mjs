@@ -5011,7 +5011,7 @@ function checkCronRefreshPipeline() {
   if (!route) {
     issues.push("cron refresh route is missing");
   } else {
-    for (const phrase of ["CRON_SECRET", "canRunCronRefresh", "spawnSync", "scripts/refresh-all.mjs", "dry_run", "rateLimit", "reports/cron-refresh.json"]) {
+    for (const phrase of ["CRON_SECRET", "canRunCronRefresh", "spawnSync", "scripts/refresh-all.mjs", "scripts/news-feed-live-pipeline.mjs", "resolvePipelineMode", "mode=liveFeed", "dry_run", "rateLimit", "reports/cron-refresh.json"]) {
       if (!route.includes(phrase)) issues.push(`cron refresh route missing ${phrase}`);
     }
   }
@@ -5028,41 +5028,44 @@ function checkCronRefreshPipeline() {
   if (packageJson.scripts?.["cron:refresh:doctor"] !== "node scripts/cron-refresh-doctor.mjs" || !packageJson.scripts?.qa?.includes("cron:refresh:doctor")) {
     issues.push("package scripts should expose cron:refresh:doctor and include it in qa");
   }
-  if (!cronDoctor.includes("cron-refresh-readiness.json") || !cronDoctor.includes("CRON_REFRESH_READINESS.md") || !cronDoctor.includes("refresh-all evidence")) {
-    issues.push("cron refresh doctor should write JSON/docs readiness evidence and verify refresh:all");
+  if (!cronDoctor.includes("cron-refresh-readiness.json") || !cronDoctor.includes("CRON_REFRESH_READINESS.md") || !cronDoctor.includes("refresh-all evidence") || !cronDoctor.includes("live feed evidence")) {
+    issues.push("cron refresh doctor should write JSON/docs readiness evidence and verify refresh:all plus live feed evidence");
   }
   if (cronReadinessReport?.ok !== true || cronReadinessReport?.endpoint !== "/api/cron/refresh" || cronReadinessReport?.schedule !== "0 */6 * * *") {
     issues.push("reports/cron-refresh-readiness.json should prove protected 6-hour cron readiness");
   }
-  if (!cronReadinessDocs.includes("Cron Refresh Readiness") || !cronReadinessDocs.includes("dryRun=true") || !cronReadinessDocs.includes("CRON_SECRET")) {
-    issues.push("docs/CRON_REFRESH_READINESS.md should document dry-run and CRON_SECRET operation");
+  if (cronReadinessReport?.livePipelineOk !== true || (cronReadinessReport?.livePipelineOfficialBenefits ?? 0) < 40) {
+    issues.push("reports/cron-refresh-readiness.json should prove live feed pipeline evidence");
+  }
+  if (!cronReadinessDocs.includes("Cron Refresh Readiness") || !cronReadinessDocs.includes("dryRun=true") || !cronReadinessDocs.includes("mode=liveFeed") || !cronReadinessDocs.includes("CRON_SECRET")) {
+    issues.push("docs/CRON_REFRESH_READINESS.md should document dry-run, mode=liveFeed, and CRON_SECRET operation");
   }
 
-  if (!cronOperations.includes("getCronRefreshOperationsReport") || !cronOperations.includes("reports/cron-refresh.json") || !cronOperations.includes("manual_refresh_ready")) {
-    issues.push("cron refresh operations report should summarize last run, fallback manual readiness, and report path");
+  if (!cronOperations.includes("getCronRefreshOperationsReport") || !cronOperations.includes("reports/cron-refresh.json") || !cronOperations.includes("reports/news-feed-live-pipeline.json") || !cronOperations.includes("livePipelineOk") || !cronOperations.includes("manual_refresh_ready")) {
+    issues.push("cron refresh operations report should summarize last run, live feed evidence, fallback manual readiness, and report path");
   }
-  if (!healthRoute.includes("getCronRefreshOperationsReport") || !healthRoute.includes("cronRefreshStatus") || !healthRoute.includes("cronRefreshProtected") || !healthRoute.includes("cronRefreshProductDealsCount")) {
-    issues.push("Health API should expose cron refresh status, protection evidence, and deal counts");
+  if (!healthRoute.includes("getCronRefreshOperationsReport") || !healthRoute.includes("cronRefreshStatus") || !healthRoute.includes("cronRefreshProtected") || !healthRoute.includes("cronRefreshProductDealsCount") || !healthRoute.includes("cronRefreshLivePipelineStatus")) {
+    issues.push("Health API should expose cron refresh status, protection evidence, deal counts, and live feed status");
   }
-  if (!adminPage.includes("자동 refresh cron 운영") || !adminPage.includes("cronRefreshDryRunHref") || !adminPage.includes("reports/cron-refresh.json") || !adminPage.includes("CRON_SECRET")) {
-    issues.push("Admin dashboard should expose cron refresh operation status and dry-run link");
+  if (!adminPage.includes("자동 refresh cron 운영") || !adminPage.includes("cronRefreshDryRunHref") || !adminPage.includes("cronLiveFeedDryRunHref") || !adminPage.includes("liveFeed dry-run") || !adminPage.includes("CRON_SECRET")) {
+    issues.push("Admin dashboard should expose cron refresh operation status, liveFeed dry-run, and auth guidance");
   }
 
-  if (!smokeScript.includes("cron refresh api guard") || !smokeScript.includes("/api/cron/refresh?dryRun=true") || !smokeScript.includes("Expected cron refresh without token to be 401")) {
-    issues.push("smoke should verify cron refresh auth guard and dry-run response");
+  if (!smokeScript.includes("cron refresh api guard") || !smokeScript.includes("/api/cron/refresh?dryRun=true") || !smokeScript.includes("/api/cron/refresh?dryRun=true&mode=liveFeed") || !smokeScript.includes("Expected cron refresh without token to be 401")) {
+    issues.push("smoke should verify cron refresh auth guard, default dry-run, and liveFeed dry-run response");
   }
-  if (!smokeScript.includes("Admin dashboard missing cron refresh operation board") || !smokeScript.includes("Health API missing cron refresh status")) {
-    issues.push("smoke should verify cron refresh admin and health visibility");
+  if (!smokeScript.includes("Admin dashboard missing cron refresh operation board") || !smokeScript.includes("Health API missing cron refresh status") || !smokeScript.includes("Health API missing cron live feed pipeline status")) {
+    issues.push("smoke should verify cron refresh admin, health, and live feed visibility");
   }
-  if (!runbook.includes("/api/cron/refresh") || !runbook.includes("CRON_SECRET") || !runbook.includes("reports/cron-refresh.json")) {
-    issues.push("RUNBOOK should document protected cron refresh operation");
+  if (!runbook.includes("/api/cron/refresh") || !runbook.includes("mode=liveFeed") || !runbook.includes("CRON_SECRET") || !runbook.includes("reports/cron-refresh.json")) {
+    issues.push("RUNBOOK should document protected cron refresh and live feed operation");
   }
   if (!roadmap.includes("cron refresh") && !roadmap.includes("Cron refresh")) {
     issues.push("roadmap should document cron refresh automation");
   }
 
   if (issues.length) fail("cron refresh automation", issues.join("; "));
-  else pass("cron refresh automation", "Protected 6-hour cron refresh endpoint, Vercel schedule, dry-run smoke guard, env keys, and runbook guidance are wired.");
+  else pass("cron refresh automation", "Protected 6-hour cron refresh endpoint, explicit live feed mode, Vercel schedule, dry-run smoke guard, env keys, and runbook guidance are wired.");
 }
 
 function checkAdminAuthHardening() {

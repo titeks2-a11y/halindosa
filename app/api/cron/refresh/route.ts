@@ -11,8 +11,11 @@ export const maxDuration = 60;
 
 const reportsDir = join(process.cwd(), "reports");
 const refreshAllReportPath = join(reportsDir, "refresh-all.json");
+const livePipelineReportPath = join(reportsDir, "news-feed-live-pipeline.json");
 const cronReportRelativePath = "reports/cron-refresh.json";
 const cronReportPath = join(process.cwd(), cronReportRelativePath);
+
+type CronPipelineMode = "refreshAll" | "liveFeed";
 
 function tail(value: string, maxLength = 4000) {
   if (value.length <= maxLength) return value;
@@ -46,26 +49,45 @@ function canRunCronRefresh(request: Request, url: URL) {
   return false;
 }
 
-function buildDryRunReport(requestId: string) {
+function resolvePipelineMode(url: URL): CronPipelineMode {
+  const mode = (url.searchParams.get("mode") ?? url.searchParams.get("pipeline") ?? "").trim();
+  return mode === "liveFeed" || mode === "newsFeedLive" ? "liveFeed" : "refreshAll";
+}
+
+function commandForMode(mode: CronPipelineMode) {
+  return mode === "liveFeed" ? "node scripts/news-feed-live-pipeline.mjs" : "node scripts/refresh-all.mjs";
+}
+
+function scriptArgsForMode(mode: CronPipelineMode) {
+  return mode === "liveFeed" ? ["scripts/news-feed-live-pipeline.mjs"] : ["scripts/refresh-all.mjs"];
+}
+
+function buildDryRunReport(requestId: string, mode: CronPipelineMode) {
   const refreshAll = readJson<Record<string, unknown>>(refreshAllReportPath, {});
+  const livePipeline = readJson<Record<string, unknown>>(livePipelineReportPath, {});
   return {
     ok: true,
     requestId,
     mode: "dry_run",
+    pipelineMode: mode,
     generatedAt: new Date().toISOString(),
-    command: "node scripts/refresh-all.mjs",
+    command: commandForMode(mode),
     reportPath: cronReportRelativePath,
     writableReportsDir: existsSync(reportsDir),
     refreshAll,
-    message: "cron refresh dry-run 상태입니다. 실제 갱신은 dryRun=false 또는 Vercel Cron 호출에서 실행됩니다."
+    livePipeline,
+    message:
+      mode === "liveFeed"
+        ? "cron liveFeed dry-run 상태입니다. 실제 공식 feed 라이브 검증은 dryRun=false와 mode=liveFeed에서 실행됩니다."
+        : "cron refresh dry-run 상태입니다. 실제 갱신은 dryRun=false 또는 Vercel Cron 호출에서 실행됩니다."
   };
 }
 
-function runRefreshAll(requestId: string) {
+function runRefreshPipeline(requestId: string, mode: CronPipelineMode) {
   const startedAt = Date.now();
   mkdirSync(reportsDir, { recursive: true });
 
-  const result = spawnSync(process.execPath, ["scripts/refresh-all.mjs"], {
+  const result = spawnSync(process.execPath, scriptArgsForMode(mode), {
     cwd: process.cwd(),
     encoding: "utf8",
     shell: false,
@@ -76,12 +98,14 @@ function runRefreshAll(requestId: string) {
     }
   });
   const refreshAll = readJson<Record<string, unknown>>(refreshAllReportPath, {});
+  const livePipeline = readJson<Record<string, unknown>>(livePipelineReportPath, {});
   const report = {
     ok: result.status === 0,
     requestId,
     mode: "execute",
+    pipelineMode: mode,
     generatedAt: new Date().toISOString(),
-    command: "node scripts/refresh-all.mjs",
+    command: commandForMode(mode),
     reportPath: cronReportRelativePath,
     status: result.status,
     signal: result.signal,
@@ -89,7 +113,15 @@ function runRefreshAll(requestId: string) {
     stdoutTail: tail(result.stdout ?? ""),
     stderrTail: tail(result.stderr ?? ""),
     refreshAll,
-    message: result.status === 0 ? "cron refresh가 정상 완료되었습니다." : "cron refresh가 실패했습니다. stderrTail과 reports/refresh-all.json을 확인하세요."
+    livePipeline,
+    message:
+      result.status === 0
+        ? mode === "liveFeed"
+          ? "cron liveFeed 공식 feed 파이프라인이 정상 완료되었습니다."
+          : "cron refresh가 정상 완료되었습니다."
+        : mode === "liveFeed"
+          ? "cron liveFeed가 실패했습니다. stderrTail과 reports/news-feed-live-pipeline.json을 확인하세요."
+          : "cron refresh가 실패했습니다. stderrTail과 reports/refresh-all.json을 확인하세요."
   };
 
   writeFileSync(cronReportPath, `${JSON.stringify(report, null, 2)}\n`, "utf8");
@@ -114,10 +146,10 @@ async function handleCronRefresh(request: Request) {
   }
 
   if (url.searchParams.get("dryRun") === "true") {
-    return NextResponse.json(buildDryRunReport(requestId), { headers: rateLimitHeaders(limit, requestId) });
+    return NextResponse.json(buildDryRunReport(requestId, resolvePipelineMode(url)), { headers: rateLimitHeaders(limit, requestId) });
   }
 
-  const report = runRefreshAll(requestId);
+  const report = runRefreshPipeline(requestId, resolvePipelineMode(url));
   return NextResponse.json(report, {
     status: report.ok ? 200 : 500,
     headers: rateLimitHeaders(limit, requestId)
