@@ -159,6 +159,9 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const sourceReadinessApiHref = isAdminProtectionEnabled()
     ? `/api/admin/source-readiness?token=${encodeURIComponent(token ?? "")}`
     : "/api/admin/source-readiness";
+  const sourceReadinessCsvHref = isAdminProtectionEnabled()
+    ? `/api/admin/source-readiness?format=csv&token=${encodeURIComponent(token ?? "")}`
+    : "/api/admin/source-readiness?format=csv";
   const pushSendApiHref = isAdminProtectionEnabled()
     ? `/api/admin/push/send?token=${encodeURIComponent(token ?? "")}`
     : "/api/admin/push/send";
@@ -1511,10 +1514,16 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                 카탈로그, live 접근성, 온보딩 큐, feed env, 공식 혜택 노출, refresh:all 결과를 한 번에 묶어 운영 가능 여부를 확인합니다.
               </p>
             </div>
-            <a href={sourceReadinessApiHref} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-2xl bg-slate-950 px-4 py-3 text-sm font-black text-white">
-              <DatabaseZap size={17} />
-              source readiness JSON
-            </a>
+            <div className="flex flex-wrap gap-2">
+              <a href={sourceReadinessApiHref} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-2xl bg-slate-950 px-4 py-3 text-sm font-black text-white">
+                <DatabaseZap size={17} />
+                source readiness JSON
+              </a>
+              <a href={sourceReadinessCsvHref} className="inline-flex items-center gap-2 rounded-2xl border border-violet-100 bg-white px-4 py-3 text-sm font-black text-violet-700">
+                <Download size={17} />
+                source readiness CSV
+              </a>
+            </div>
           </div>
           <div className="mt-4 grid gap-3 md:grid-cols-5">
             <div className="rounded-2xl bg-violet-50 p-4">

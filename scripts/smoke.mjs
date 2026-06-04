@@ -622,7 +622,7 @@ await check("admin dashboard quality cards", async () => {
   assert(text.includes("공식 feed 환경변수 안전성") && text.includes("운영 env에 검색·커뮤니티 링크가 들어가기 전 차단"), "Admin dashboard missing source feed env readiness panel");
   assert(text.includes("feed env JSON") && text.includes("정책 회귀 샘플 모두 통과"), "Admin dashboard missing source feed env API and regression status controls");
   assert(text.includes("공식 소스 통합 준비도") && text.includes("오늘 공식 feed 전환 판단"), "Admin dashboard missing official source readiness rollup panel");
-  assert(text.includes("source readiness JSON") && text.includes("통합 게이트") && text.includes("운영 다음 액션"), "Admin dashboard missing official source readiness API and gate controls");
+  assert(text.includes("source readiness JSON") && text.includes("source readiness CSV") && text.includes("통합 게이트") && text.includes("운영 다음 액션"), "Admin dashboard missing official source readiness API, CSV, and gate controls");
   assert(text.includes("운영 피드 전환 준비도") && text.includes("공식 API·제휴 피드로 바꿀 때 볼 품질 기준"), "Admin dashboard missing source readiness operation board");
   assert(text.includes("자동 refresh cron 운영") && text.includes("6시간마다 검증 데이터 갱신 상태를 확인합니다"), "Admin dashboard missing cron refresh operation board");
   assert(text.includes("CRON_SECRET") && text.includes("reports/cron-refresh.json") && text.includes("dry-run 확인"), "Admin dashboard missing cron refresh secret/report/dry-run guidance");
@@ -851,6 +851,15 @@ await check("admin source readiness rollup api", async () => {
   assert(data.report.gates.every((gate) => gate.ok === true), "Admin source readiness gates should all pass");
   assert(Array.isArray(data.report?.operatorNextActions) && data.report.operatorNextActions.length >= 3, "Admin source readiness report missing operator next actions");
   assert(Array.isArray(data.report?.commands) && data.report.commands.includes("npm run source:readiness:report"), "Admin source readiness report missing regeneration command");
+});
+
+await check("admin source readiness rollup csv", async () => {
+  const response = await fetch(`${baseUrl}/api/admin/source-readiness?format=csv`);
+  const text = await response.text();
+  assert(response.status === 200, `Expected source readiness CSV 200, got ${response.status}`);
+  assert(response.headers.get("content-type")?.includes("text/csv"), "Admin source readiness CSV should use text/csv content type");
+  assert(text.includes("env_plan") && text.includes("gate") && text.includes("next_action"), "Admin source readiness CSV missing env plan, gate, or next action sections");
+  assert(text.includes("검색 결과, 커뮤니티 원문") && text.includes("source:feed-env:doctor"), "Admin source readiness CSV missing safe source guardrails or feed env command");
 });
 
 await check("admin health readiness api", async () => {

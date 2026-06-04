@@ -86,7 +86,7 @@ npm run source:readiness:report
 - `reports/news-deals.json`
 - `reports/refresh-all.json`
 
-운영자는 `/api/admin/source-readiness` 또는 `/admin`의 `공식 소스 통합 준비도` 패널에서 출시 게이트, 공식 후보 수, 접근 가능/보호 소스, feed env 실패, 공식 혜택 노출 수, 다음 연결 액션을 확인한다. 검색 결과, 커뮤니티 원문, 블로그, 쇼핑몰 메인, HTML 이벤트 랜딩 페이지는 공식 feed 후보나 사용자 이동 링크로 쓰지 않는다.
+운영자는 `/api/admin/source-readiness`, `/api/admin/source-readiness?format=csv` 또는 `/admin`의 `공식 소스 통합 준비도` 패널에서 출시 게이트, 공식 후보 수, 접근 가능/보호 소스, feed env 실패, 공식 혜택 노출 수, 다음 연결 액션을 확인한다. 검색 결과, 커뮤니티 원문, 블로그, 쇼핑몰 메인, HTML 이벤트 랜딩 페이지는 공식 feed 후보나 사용자 이동 링크로 쓰지 않는다.
 
 ## 운영 전환 순서
 
