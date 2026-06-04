@@ -1712,7 +1712,8 @@ await check("admin reports api", async () => {
   assert(Array.isArray(data.reports), "Admin reports list missing");
   assert(data.reports.some((report) => report.priority && report.recommendedAction), "Admin reports missing priority action fields");
   assert(data.storage?.maxStoredReports === 200, "Admin reports API missing persisted queue storage metadata");
-  assert(["local_file", "memory"].includes(data.storage?.persistence), "Admin reports API missing persistence mode");
+  assert(["local_file", "memory", "supabase_and_local_file"].includes(data.storage?.persistence), "Admin reports API missing persistence mode");
+  assert(typeof data.storage?.supabaseConfigured === "boolean", "Admin reports API missing Supabase storage readiness flag");
 });
 
 await check("admin report status update", async () => {
@@ -1747,6 +1748,7 @@ await check("admin report status update", async () => {
   assert(data.report?.recommendedAction?.includes("링크"), "Link error report missing recommended link action");
   assert(data.report?.operatorSla?.includes("6시간") && data.report?.queueLabel?.includes("링크"), "Link error report missing SLA and queue label");
   assert(data.storage?.maxStoredReports === 200, "Report update response missing storage metadata");
+  assert(typeof data.storage?.supabaseConfigured === "boolean", "Report update response missing Supabase storage readiness flag");
 
   const restored = await fetchJson("/api/admin/reports", {
     method: "PATCH",

@@ -1211,6 +1211,9 @@ async function checkUiAccessibility() {
   const harnessScript = await text("scripts/harness.mjs");
   const smoke = await text("scripts/smoke.mjs");
   const packageJson = await text("package.json");
+  const adminPage = await text("app/admin/page.tsx");
+  const runbook = await text("docs/RUNBOOK.md");
+  const roadmap = await text("docs/roadmap.md");
 
   if (
     !tailwindConfig.includes('red: "#ff2b2b"') ||
@@ -1279,17 +1282,33 @@ async function checkUiAccessibility() {
     !reportsLib.includes("getReportResolutionPlan") ||
     !reportsLib.includes("dealReports.local.json") ||
     !reportsLib.includes("writeReportsToDisk") ||
+    !reportsLib.includes("getSupabaseDealReportsConfig") ||
+    !reportsLib.includes("fetchSupabaseDealReports") ||
+    !reportsLib.includes("saveDealReportWithPersistence") ||
+    !reportsLib.includes("updateDealReportStatusWithPersistence") ||
     !reportsLib.includes("getReportStorageStatus") ||
+    !reportsLib.includes("supabaseConfigured") ||
+    !reportsLib.includes("deal_reports") ||
     !adminReportsRoute.includes("operationAction") ||
     !adminReportsRoute.includes("recordDealOperationActionWithPersistence") ||
+    !adminReportsRoute.includes("listDealReportsLive") ||
+    !adminReportsRoute.includes("getReportSummaryLive") ||
+    !reportsApi.includes("saveDealReportWithPersistence") ||
+    !adminPage.includes("getReportSummaryLive") ||
+    !adminPage.includes("listDealReportsLive") ||
     !adminReportQueue.includes("저장 방식") ||
+    !adminReportQueue.includes("Supabase 신고 저장") ||
     !adminReportQueue.includes("operationActions") ||
     !adminReportQueue.includes("노출 숨김") ||
     !adminReportQueue.includes("노출 복구") ||
     !reportsApi.includes("plan: getReportResolutionPlan") ||
     !smoke.includes("Report API missing resolution plan metadata") ||
     !smoke.includes("Admin reports API missing persisted queue storage metadata") ||
+    !smoke.includes("Admin reports API missing Supabase storage readiness flag") ||
     !smoke.includes("Report update should record a matching hide operation") ||
+    !runbook.includes("Supabase `deal_reports`") ||
+    !runbook.includes("storage.supabaseConfigured") ||
+    !roadmap.includes("Supabase `deal_reports`") ||
     !smoke.includes("Report page missing public report workflow summary") ||
     !smoke.includes("Admin dashboard missing deal quality report queue")
   ) {

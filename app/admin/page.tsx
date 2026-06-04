@@ -24,7 +24,7 @@ import { formatPrice, getRelativeTime } from "@/lib/format";
 import { buildNotificationCampaigns, buildOfficialBenefitNotificationCampaigns, summarizeNotificationCampaigns, toPushQueueRows } from "@/lib/notificationCampaigns";
 import { buildPushSubscriptionReadiness } from "@/lib/pushReadiness";
 import { getPushReadiness } from "@/lib/pushNotifications";
-import { getReportStorageStatus, getReportSummary, listDealReports } from "@/lib/reports";
+import { getReportStorageStatus, getReportSummaryLive, listDealReportsLive } from "@/lib/reports";
 import { getCronRefreshOperationsReport } from "@/lib/operations/cronRefresh";
 import { getDailyOperationsReport } from "@/lib/operations/dailyOperations";
 import { getExposurePolicyReport } from "@/lib/operations/exposurePolicy";
@@ -85,7 +85,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
 
   const { metrics, topDeals, updatedAt, source, benefitQuality, benefitRetention, personalizationReadiness, imageQuality } = await getMockBusinessMetrics();
   const { deals } = await getDeals();
-  const reportSummary = getReportSummary();
+  const [reportSummary, recentReportsLive] = await Promise.all([getReportSummaryLive(), listDealReportsLive()]);
   const refreshReport = getRefreshDealsReport();
   const dealOperationOverrides = await readDealOperationOverridesLive();
   const newsOperations = getNewsOperationsReport();
@@ -102,7 +102,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const newsCategoryCounts = Array.from(
     newsDeals.reduce((map, deal) => map.set(deal.category, (map.get(deal.category) ?? 0) + 1), new Map<string, number>())
   ).sort((a, b) => b[1] - a[1]);
-  const recentReports = listDealReports().slice(0, 6);
+  const recentReports = recentReportsLive.slice(0, 6);
   const sampleFeedValidation = dryRunPartnerFeedImport(samplePartnerFeed, "sample_partner_feed");
   const sampleFeedJson = JSON.stringify({ items: samplePartnerFeed }, null, 2);
   const sampleFeedReadyRate = sampleFeedValidation.received ? Math.round((sampleFeedValidation.valid / sampleFeedValidation.received) * 100) : 0;

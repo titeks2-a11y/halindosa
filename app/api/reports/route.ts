@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { createRequestId, getClientKey, jsonHeaders, rateLimit, rateLimitHeaders } from "@/lib/apiGuards";
 import { maxReportMessageLength } from "@/lib/reportConfig";
-import { createDealReport, DealReportInput, getReportResolutionPlan, saveDealReport, validateDealReport } from "@/lib/reports";
+import { createDealReport, DealReportInput, getReportResolutionPlan, saveDealReportWithPersistence, validateDealReport } from "@/lib/reports";
 
 export async function GET(request: Request) {
   const requestId = createRequestId();
@@ -59,7 +59,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const report = saveDealReport(createDealReport({
+    const report = await saveDealReportWithPersistence(createDealReport({
       dealId: body.dealId!,
       reason: body.reason!,
       message: body.message

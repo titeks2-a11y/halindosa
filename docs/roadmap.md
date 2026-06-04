@@ -56,6 +56,7 @@
 - 상품 수동 숨김/복구를 `data/dealOperationOverrides.local.json` 로컬 운영 파일에 저장하고 최근 감사 로그를 관리자 API/CSV/smoke/release doctor에서 검증하도록 보강했다. 로컬 파일은 Git에 올리지 않고, 운영 배포에서는 Supabase `admin_actions`로 같은 구조를 영구화한다.
 - 상품 수동 숨김/복구를 Supabase service-role REST `admin_actions`에도 기록·조회할 수 있게 확장하고, `getDeals()`가 로컬 파일과 Supabase 감사 로그를 합친 live override를 적용하도록 보강했다. Vercel 서버리스처럼 로컬 파일이 영구 저장소가 아닌 환경에서도 Supabase가 설정되어 있으면 품절·종료 신고 상품이 다시 노출되지 않는다.
 - 고객 품질 신고 큐를 `data/dealReports.local.json` 로컬 운영 파일에 최대 200건 영속 저장하고, `/api/admin/reports` PATCH에서 `operationAction=hide|restore|revalidate`를 함께 받아 신고 처리와 상품 노출 숨김/복구 override가 한 요청으로 기록되도록 연결했다.
+- 고객 품질 신고를 Supabase `deal_reports`에도 service-role REST로 저장·조회·상태 변경하도록 확장하고, 관리자 큐는 Supabase와 로컬 fallback을 병합해 서버리스 운영에서도 가격/품절/링크 오류 신고가 사라지지 않게 했다.
 - `health:readiness` 리포트에도 공식 혜택 provider 위험도와 `danger=0` 게이트를 추가해 출시 증거 JSON, 운영 헬스 문서, 관리자 헬스 패널, release doctor가 같은 provider risk 기준을 보도록 정리했다.
 - 알림 캠페인 운영 큐를 검증 상품 캠페인과 공식 혜택 캠페인으로 분리하고, 공식 뉴스/이벤트 혜택도 `benefitIds`, `sourceNames`, `official_benefit` 구분값을 가진 푸시 후보 큐로 편성해 무료·쿠폰·카드·멤버십·문화·공공 혜택을 운영자가 바로 검토할 수 있게 했다.
 - `push_delivery_logs`, `lib/pushDeliveryAudit.ts`, `push:delivery:audit`를 추가해 dry-run/live 발송 시도 감사 이벤트, 차단 사유, 정책 경고, 대상 수, 성공/실패 수를 토큰 원문 없이 추적하고, 관리자 dry-run 결과에서 `deliveryAudit.eventId`를 바로 확인할 수 있게 했다.

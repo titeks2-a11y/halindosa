@@ -106,6 +106,10 @@ export interface DealReport {
 
 const reportStore = globalThis as typeof globalThis & {
   __halindosaReports?: DealReport[];
+  __halindosaReportsLiveCache?: {
+    reports: DealReport[];
+    readAt: number;
+  };
 };
 
 interface NodeStorage {
@@ -120,6 +124,7 @@ interface NodeStorage {
 interface ServerRuntime {
   process?: {
     cwd?: () => string;
+    env?: Record<string, string | undefined>;
     getBuiltinModule?: (moduleName: string) => unknown;
     versions?: {
       node?: string;
@@ -159,6 +164,23 @@ function getReportsPath(storage: NodeStorage) {
   return storage.join(cwd, "data", "dealReports.local.json");
 }
 
+function getServerEnv() {
+  const runtime = globalThis as typeof globalThis & ServerRuntime;
+  if (!runtime.process?.versions?.node || typeof window !== "undefined") return null;
+
+  return runtime.process.env ?? null;
+}
+
+function getSupabaseDealReportsConfig() {
+  const env = getServerEnv();
+  const url = env?.NEXT_PUBLIC_SUPABASE_URL?.replace(/\/+$/, "");
+  const serviceKey = env?.SUPABASE_SERVICE_ROLE_KEY;
+
+  if (!url || !serviceKey) return null;
+
+  return { url, serviceKey };
+}
+
 function normalizeReport(report: Partial<DealReport>): DealReport | null {
   if (!report.id || !report.dealId || !report.reason || !report.status) return null;
 
@@ -182,6 +204,47 @@ function normalizeReport(report: Partial<DealReport>): DealReport | null {
     receivedAt,
     updatedAt: report.updatedAt || receivedAt
   };
+}
+
+function mapSupabaseReportRow(row: {
+  id?: string;
+  deal_id?: string | null;
+  mall?: string | null;
+  title?: string | null;
+  reason?: string | null;
+  message?: string | null;
+  status?: string | null;
+  received_at?: string | null;
+  updated_at?: string | null;
+}) {
+  const reason = reportReasons.has(row.reason as ReportReason) ? (row.reason as ReportReason) : "other";
+  const status = reportStatuses.has(row.status as ReportStatus) ? (row.status as ReportStatus) : "open";
+
+  return normalizeReport({
+    id: row.id,
+    dealId: row.deal_id || "unknown",
+    mall: row.mall || "unknown",
+    title: row.title || "unknown",
+    reason,
+    message: row.message || "",
+    status,
+    receivedAt: row.received_at || undefined,
+    updatedAt: row.updated_at || undefined
+  });
+}
+
+function mergeReports(primary: DealReport[], fallback: DealReport[]) {
+  const merged = new Map<string, DealReport>();
+
+  for (const report of [...primary, ...fallback]) {
+    if (!merged.has(report.id)) {
+      merged.set(report.id, report);
+    }
+  }
+
+  return Array.from(merged.values())
+    .sort((a, b) => new Date(b.receivedAt).getTime() - new Date(a.receivedAt).getTime())
+    .slice(0, 200);
 }
 
 function readReportsFromDisk() {
@@ -235,12 +298,15 @@ function getReportStore() {
 export function getReportStorageStatus() {
   const storage = getNodeStorage();
   const reportsPath = storage ? getReportsPath(storage) : "";
+  const supabaseConfigured = Boolean(getSupabaseDealReportsConfig());
 
   return {
     localFile: Boolean(storage && reportsPath && storage.existsSync(reportsPath)),
     localPath: reportsPath,
+    supabaseConfigured,
+    supabaseTable: "deal_reports",
     maxStoredReports: 200,
-    persistence: storage ? "local_file" : "memory"
+    persistence: supabaseConfigured ? "supabase_and_local_file" : storage ? "local_file" : "memory"
   };
 }
 
@@ -303,7 +369,104 @@ export function saveDealReport(report: DealReport) {
   reports.unshift(report);
   reportStore.__halindosaReports = reports.slice(0, 200);
   writeReportsToDisk(reportStore.__halindosaReports);
+  reportStore.__halindosaReportsLiveCache = undefined;
   return report;
+}
+
+async function fetchSupabaseDealReports(status?: string | null): Promise<DealReport[]> {
+  const config = getSupabaseDealReportsConfig();
+  if (!config) return [];
+
+  try {
+    const params = new URLSearchParams({
+      select: "id,deal_id,mall,title,reason,message,status,received_at,updated_at",
+      order: "received_at.desc",
+      limit: "200"
+    });
+    if (status && status !== "all") params.set("status", `eq.${status}`);
+
+    const response = await fetch(`${config.url}/rest/v1/deal_reports?${params.toString()}`, {
+      headers: {
+        apikey: config.serviceKey,
+        Authorization: `Bearer ${config.serviceKey}`
+      },
+      cache: "no-store"
+    });
+
+    if (!response.ok) return [];
+
+    const rows = (await response.json()) as Array<Parameters<typeof mapSupabaseReportRow>[0]>;
+    return rows.map(mapSupabaseReportRow).filter((report): report is DealReport => Boolean(report));
+  } catch {
+    return [];
+  }
+}
+
+async function writeSupabaseDealReport(report: DealReport) {
+  const config = getSupabaseDealReportsConfig();
+  if (!config) return false;
+
+  const body = {
+    id: report.id,
+    deal_id: report.dealId,
+    mall: report.mall,
+    title: report.title,
+    reason: report.reason,
+    message: report.message,
+    status: report.status,
+    received_at: report.receivedAt,
+    updated_at: report.updatedAt
+  };
+
+  try {
+    const response = await fetch(`${config.url}/rest/v1/deal_reports`, {
+      method: "POST",
+      headers: {
+        apikey: config.serviceKey,
+        Authorization: `Bearer ${config.serviceKey}`,
+        "Content-Type": "application/json",
+        Prefer: "resolution=merge-duplicates,return=minimal"
+      },
+      body: JSON.stringify(body)
+    });
+
+    return response.ok;
+  } catch {
+    return false;
+  }
+}
+
+async function updateSupabaseDealReportStatus(reportId: string, status: ReportStatus) {
+  const config = getSupabaseDealReportsConfig();
+  if (!config) return false;
+
+  try {
+    const response = await fetch(`${config.url}/rest/v1/deal_reports?id=eq.${encodeURIComponent(reportId)}`, {
+      method: "PATCH",
+      headers: {
+        apikey: config.serviceKey,
+        Authorization: `Bearer ${config.serviceKey}`,
+        "Content-Type": "application/json",
+        Prefer: "return=minimal"
+      },
+      body: JSON.stringify({
+        status,
+        updated_at: new Date().toISOString()
+      })
+    });
+
+    return response.ok;
+  } catch {
+    return false;
+  }
+}
+
+export async function saveDealReportWithPersistence(report: DealReport) {
+  const saved = saveDealReport(report);
+  await writeSupabaseDealReport(saved);
+  reportStore.__halindosaReportsLiveCache = undefined;
+
+  return saved;
 }
 
 export function listDealReports(status?: string | null) {
@@ -312,9 +475,38 @@ export function listDealReports(status?: string | null) {
   return reports.filter((report) => report.status === status);
 }
 
+export async function listDealReportsLive(status?: string | null) {
+  const now = Date.now();
+  const cache = reportStore.__halindosaReportsLiveCache;
+  const shouldUseCache = !status || status === "all";
+
+  if (shouldUseCache && cache && now - cache.readAt < 10_000) {
+    return cache.reports;
+  }
+
+  const localReports = listDealReports();
+  const supabaseReports = await fetchSupabaseDealReports(status);
+  const merged = mergeReports(supabaseReports, localReports);
+  reportStore.__halindosaReports = mergeReports(merged, localReports);
+
+  if (shouldUseCache) {
+    reportStore.__halindosaReportsLiveCache = {
+      reports: merged,
+      readAt: now
+    };
+  }
+
+  if (!status || status === "all") return merged;
+  return merged.filter((report) => report.status === status);
+}
+
 export function getReportSummary() {
   const reports = getReportStore();
 
+  return summarizeReports(reports);
+}
+
+function summarizeReports(reports: DealReport[]) {
   return {
     total: reports.length,
     open: reports.filter((report) => report.status === "open").length,
@@ -322,6 +514,10 @@ export function getReportSummary() {
     resolved: reports.filter((report) => report.status === "resolved").length,
     dismissed: reports.filter((report) => report.status === "dismissed").length
   };
+}
+
+export async function getReportSummaryLive() {
+  return summarizeReports(await listDealReportsLive());
 }
 
 export function updateDealReportStatus(reportId: string, status: string) {
@@ -337,6 +533,17 @@ export function updateDealReportStatus(reportId: string, status: string) {
   report.status = status as ReportStatus;
   report.updatedAt = new Date().toISOString();
   writeReportsToDisk(reports);
+  reportStore.__halindosaReportsLiveCache = undefined;
+  return report;
+}
+
+export async function updateDealReportStatusWithPersistence(reportId: string, status: string) {
+  const report = updateDealReportStatus(reportId, status);
+  if (!report) return null;
+
+  await updateSupabaseDealReportStatus(report.id, report.status);
+  reportStore.__halindosaReportsLiveCache = undefined;
+
   return report;
 }
 

@@ -35,6 +35,8 @@ interface ReportsResponse {
 interface ReportStorage {
   localFile: boolean;
   localPath: string;
+  supabaseConfigured: boolean;
+  supabaseTable: string;
   maxStoredReports: number;
   persistence: string;
 }
@@ -83,6 +85,12 @@ export function AdminReportQueue({ initialReports, initialSummary, initialStorag
   const [isLoading, setIsLoading] = useState(false);
 
   const endpoint = `/api/admin/reports${token ? `?token=${encodeURIComponent(token)}` : ""}`;
+  const storageLabel =
+    storage?.persistence === "supabase_and_local_file"
+      ? "Supabase + 로컬 운영 파일"
+      : storage?.persistence === "local_file"
+        ? "로컬 운영 파일"
+        : "메모리";
   const urgentReports = reports.filter((report) => report.status !== "resolved" && report.status !== "dismissed" && report.priority === "high");
   const reasonSummary = [
     {
@@ -162,7 +170,10 @@ export function AdminReportQueue({ initialReports, initialSummary, initialStorag
             목표 처리 시간: 우선 검수 6시간 이내, 일반 검수 영업일 24시간 이내를 기준으로 운영합니다.
           </p>
           <p className="mt-1 text-xs font-bold text-slate-400">
-            저장 방식: {storage?.persistence === "local_file" ? "로컬 운영 파일" : "메모리"} · 최대 {storage?.maxStoredReports ?? 200}건 보관 · 상품 숨김/복구 액션은 노출 정책에 즉시 반영됩니다.
+            저장 방식: {storageLabel} · 최대 {storage?.maxStoredReports ?? 200}건 보관 · 상품 숨김/복구 액션은 노출 정책에 즉시 반영됩니다.
+          </p>
+          <p className="mt-1 text-xs font-bold text-slate-400">
+            Supabase 신고 저장: {storage?.supabaseConfigured ? `${storage.supabaseTable} 연결됨` : "미연결, 로컬 fallback 사용"}
           </p>
         </div>
         <a

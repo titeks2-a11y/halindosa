@@ -47,8 +47,10 @@ npm run smoke
 - 신고 API: `POST /api/reports`
 - 신고 큐: `GET /api/admin/reports?token=$ADMIN_EXPORT_TOKEN`
   - 신고 큐는 서버 런타임에서 `data/dealReports.local.json`에 최대 200건까지 보관한다. 이 파일은 운영 전용 로컬 파일이며 `.gitignore`에 포함되어 GitHub에 올라가지 않는다.
+  - 운영 환경에 `NEXT_PUBLIC_SUPABASE_URL`과 `SUPABASE_SERVICE_ROLE_KEY`가 있으면 같은 신고를 Supabase `deal_reports` 테이블에도 저장하고, 관리자 큐는 Supabase와 로컬 파일을 병합해 최신 200건을 보여준다.
+  - Supabase `deal_reports.deal_id`는 `deals.id` FK를 사용하므로 운영 DB에 상품이 먼저 upsert되어 있어야 한다. DB 쓰기가 실패해도 로컬 파일 fallback으로 접수 UX는 유지된다.
   - `PATCH /api/admin/reports`는 `reportId`, `status`와 함께 `operationAction=hide|restore|revalidate`를 받을 수 있다. 품절, 종료, 링크 오류 신고는 `operationAction=hide`로 먼저 노출을 낮추고, 판매처 상세 링크 보강 또는 재고 확인 후 `restore`로 복구한다.
-  - 응답의 `storage.persistence`, `storage.localPath`, `operation`을 확인하면 신고 저장소와 상품 노출 override 반영 여부를 한 번에 검수할 수 있다.
+  - 응답의 `storage.persistence`, `storage.localPath`, `storage.supabaseConfigured`, `operation`을 확인하면 신고 저장소와 상품 노출 override 반영 여부를 한 번에 검수할 수 있다.
 - 피드 dry-run: `POST /api/admin/import?token=$ADMIN_EXPORT_TOKEN`
 - 상품 품질 CSV: `GET /api/admin/deal-quality?format=csv&token=$ADMIN_EXPORT_TOKEN`
   - provider 수집 상태, 실패 사유, 수동 숨김 ID, live probe, link validation 요약을 내려받아 검색/품절/종료 링크 노출 0건을 운영 검수한다.
@@ -288,7 +290,7 @@ docker run --rm -p 3000:3000 --env-file .env.example halindosa
 - 리다이렉트 장애 시 `/api/track`과 `/api/redirect/[id]` 로그를 먼저 확인
 - 가격 오류 신고가 들어오면 `price_snapshots` 기준으로 수집 시점과 판매처 조건 확인
 - `/reports?dealId=...` 신고가 증가하면 해당 mall/source 공급자 품질을 점검
-- `/api/admin/reports`에서 신고 상태를 `open`, `reviewing`, `resolved`, `dismissed`로 관리하고, `operationAction`으로 상품 숨김/복구/재검증을 동시에 기록
+- `/api/admin/reports`에서 신고 상태를 `open`, `reviewing`, `resolved`, `dismissed`로 관리하고, Supabase `deal_reports`와 로컬 fallback을 함께 보며 `operationAction`으로 상품 숨김/복구/재검증을 동시에 기록
 - 상세 페이지의 가격 신뢰도는 현재 mock 이력 기반입니다. 운영 DB 전환 후 `price_snapshots`로 계산해야 합니다.
 - 신규 제휴/공식 피드는 `/api/admin/import` dry-run을 통과한 뒤 DB 저장 파이프라인에 연결합니다.
 - 네이버 쇼핑 공식 API를 쓰려면 `DEAL_DATA_MODE=hybrid`, `NAVER_CLIENT_ID`, `NAVER_CLIENT_SECRET`을 설정합니다. 키가 없거나 API 장애가 있으면 기본 큐레이션 fallback으로 화면을 유지합니다.

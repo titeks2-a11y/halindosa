@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { canAccessAdminRequest } from "@/lib/adminAuth";
 import { createRequestId, getClientKey, rateLimit, rateLimitHeaders } from "@/lib/apiGuards";
 import { recordDealOperationActionWithPersistence } from "@/lib/deals/operationOverrides";
-import { getReportStorageStatus, getReportSummary, listDealReports, updateDealReportStatus } from "@/lib/reports";
+import { getReportStorageStatus, getReportSummaryLive, listDealReportsLive, updateDealReportStatusWithPersistence } from "@/lib/reports";
 import type { DealOperationAction } from "@/lib/deals/operationOverrides";
 
 export async function GET(request: Request) {
@@ -39,14 +39,14 @@ export async function GET(request: Request) {
   }
 
   const status = url.searchParams.get("status");
-  const reports = listDealReports(status).slice(0, 50);
+  const reports = (await listDealReportsLive(status)).slice(0, 50);
 
   return NextResponse.json(
     {
       ok: true,
       requestId,
       reports,
-      summary: getReportSummary(),
+      summary: await getReportSummaryLive(),
       storage: getReportStorageStatus(),
       message: "신고 큐를 불러왔습니다."
     },
@@ -93,7 +93,7 @@ export async function PATCH(request: Request) {
     operationAction?: DealOperationAction;
     operationReason?: string;
   };
-  const report = body.reportId && body.status ? updateDealReportStatus(body.reportId, body.status) : null;
+  const report = body.reportId && body.status ? await updateDealReportStatusWithPersistence(body.reportId, body.status) : null;
 
   if (!report) {
     return NextResponse.json(
@@ -135,7 +135,7 @@ export async function PATCH(request: Request) {
       requestId,
       report,
       operation,
-      summary: getReportSummary(),
+      summary: await getReportSummaryLive(),
       storage: getReportStorageStatus(),
       message: operation ? "신고 상태와 상품 노출 운영 액션이 함께 반영되었습니다." : "신고 상태가 변경되었습니다."
     },
