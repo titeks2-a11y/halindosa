@@ -1,44 +1,6 @@
-import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
-import { readFile } from "node:fs/promises";
-import { execFileSync } from "node:child_process";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-
-const root = process.cwd();
-const checks = [];
-
-function pass(name, detail = "") {
-  checks.push({ name, ok: true, detail });
-}
-
-function fail(name, detail) {
-  checks.push({ name, ok: false, detail });
-}
-
-async function text(path) {
-  return readFile(join(root, path), "utf8");
-}
-
-function fileSize(path) {
-  const fullPath = join(root, path);
-  return existsSync(fullPath) ? statSync(fullPath).size : 0;
-}
-
-function run(command, args) {
-  try {
-    return execFileSync(command, args, { cwd: root, encoding: "utf8" }).trim();
-  } catch {
-    return "";
-  }
-}
-
-function withQaRunnerScripts(pkg) {
-  const qaRunnerPath = join(root, "scripts/run-qa.mjs");
-  const qaRunner = existsSync(qaRunnerPath) ? readFileSync(qaRunnerPath, "utf8") : "";
-  const scripts = { ...(pkg.scripts ?? {}) };
-  scripts.qa = `${scripts.qa ?? ""}\n${qaRunner}`;
-  scripts["qa:release"] = `${scripts["qa:release"] ?? ""}\n${qaRunner}`;
-  return { ...pkg, scripts };
-}
+import { checks, fail, fileSize, pass, root, run, text, withQaRunnerScripts } from "./lib/release-doctor-harness.mjs";
 
 async function checkPackage() {
   const pkg = withQaRunnerScripts(JSON.parse(await text("package.json")));

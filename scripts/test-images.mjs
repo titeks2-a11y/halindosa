@@ -7,6 +7,7 @@ const mockDeals = readFileSync(join(root, "data", "mockDeals.ts"), "utf8");
 const verifiedPurchaseLinks = readFileSync(join(root, "data", "verifiedPurchaseLinks.ts"), "utf8");
 const ranking = readFileSync(join(root, "lib", "deals", "ranking.ts"), "utf8");
 const homePage = readFileSync(join(root, "app", "page.tsx"), "utf8");
+const homeDealFilters = readFileSync(join(root, "lib", "homeDealFilters.ts"), "utf8");
 const components = [
   ["QuickDealCard", join(root, "components", "QuickDealCard.tsx")],
   ["DealCard", join(root, "components", "DealCard.tsx")],
@@ -107,7 +108,8 @@ if (!ranking.includes("getDealImageQualityScore") || !ranking.includes("hasRealD
   issues.push("상품 랭킹이 공용 이미지 판별 유틸로 실상품 이미지와 카테고리 fallback 이미지를 구분해야 합니다.");
 }
 
-if (!homePage.includes("getCommercialDealScore(deal)")) {
+const homeScoringSource = `${homePage}\n${homeDealFilters}`;
+if (!homeScoringSource.includes("getCommercialDealScore(deal)") || !homePage.includes("commercialScore(")) {
   issues.push("홈 상단 정렬이 공용 이미지 품질 랭킹을 사용해야 합니다.");
 }
 
