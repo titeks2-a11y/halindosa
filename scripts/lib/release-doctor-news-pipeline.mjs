@@ -1,6 +1,6 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
-import { fail, pass, root, withQaRunnerScripts } from "./release-doctor-harness.mjs";
+import { fail, pass, root, smokeSourceSync, withQaRunnerScripts } from "./release-doctor-harness.mjs";
 
 export function checkNewsDealPipeline() {
   const requiredFiles = [
@@ -131,7 +131,7 @@ export function checkNewsDealPipeline() {
     : "";
   const newsRedirectRoute = existsSync(join(root, "app/go/news/[id]/route.ts")) ? readFileSync(join(root, "app/go/news/[id]/route.ts"), "utf8") : "";
   const newsLinkPolicy = existsSync(join(root, "lib/deals/newsLinkPolicy.ts")) ? readFileSync(join(root, "lib/deals/newsLinkPolicy.ts"), "utf8") : "";
-  const smokeScript = existsSync(join(root, "scripts/smoke.mjs")) ? readFileSync(join(root, "scripts/smoke.mjs"), "utf8") : "";
+  const smokeScript = smokeSourceSync();
 
   for (const key of ["DEAL_NEWS_FEED_URLS", "DEAL_NEWS_RSS_URLS", "DEAL_EVENT_NEWS_FEED_URLS", "OFFICIAL_EVENT_FEED_URLS", "DEAL_EVENT_FEED_URLS", "PUBLIC_COUPON_FEED_URLS"]) {
     if (!envExample.includes(key)) issues.push(`env example missing ${key}`);

@@ -1,6 +1,6 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
-import { fail, pass, root, text } from "./release-doctor-harness.mjs";
+import { fail, pass, root, smokeSource, text } from "./release-doctor-harness.mjs";
 
 export async function checkOperationalDataSurfaces() {
   const dealsRoute = await text("app/api/deals/route.ts");
@@ -65,7 +65,7 @@ export async function checkOperationalDataSurfaces() {
   const dailyRoutinePlan = await text("lib/deals/dailyRoutinePlan.ts");
   const personalizedBenefitQueue = await text("lib/deals/personalizedBenefitQueue.ts");
   const envReadiness = await text("lib/operations/envReadiness.ts");
-  const smoke = await text("scripts/smoke.mjs");
+  const smoke = await smokeSource();
   const redirectUrl = await text("lib/redirectUrl.ts");
   const goRoute = await text("app/go/[id]/route.ts");
   const dealTypes = await text("types/deal.ts");

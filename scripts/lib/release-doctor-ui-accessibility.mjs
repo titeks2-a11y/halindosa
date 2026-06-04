@@ -1,4 +1,4 @@
-import { fail, pass, text } from "./release-doctor-harness.mjs";
+import { fail, pass, smokeSource, text } from "./release-doctor-harness.mjs";
 
 export async function checkUiAccessibility() {
   const dealCard = await text("components/DealCard.tsx");
@@ -64,7 +64,7 @@ export async function checkUiAccessibility() {
   const imageOperationsDoctor = await text("scripts/image-operations-doctor.mjs");
   const harnessReport = await text("HARNESS_REPORT.md");
   const harnessScript = await text("scripts/harness.mjs");
-  const smoke = await text("scripts/smoke.mjs");
+  const smoke = await smokeSource();
   const packageJson = `${await text("package.json")}\n${await text("scripts/run-qa.mjs")}`;
   const adminPage = await text("app/admin/page.tsx");
   const runbook = await text("docs/RUNBOOK.md");

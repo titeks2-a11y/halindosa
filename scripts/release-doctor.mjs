@@ -1,6 +1,6 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { checks, fail, fileSize, pass, root, run, text, withQaRunnerScripts } from "./lib/release-doctor-harness.mjs";
+import { checks, fail, fileSize, pass, root, run, smokeSource, smokeSourceSync, text, withQaRunnerScripts } from "./lib/release-doctor-harness.mjs";
 import { checkSigningAndArtifacts, checkStoreAssets } from "./lib/release-doctor-native-assets.mjs";
 import { checkNewsDealPipeline } from "./lib/release-doctor-news-pipeline.mjs";
 import { checkUiAccessibility } from "./lib/release-doctor-ui-accessibility.mjs";
@@ -639,7 +639,7 @@ async function checkAuthSurface() {
   const signupPage = await text("app/signup/page.tsx");
   const supabaseClient = await text("lib/auth/supabaseClient.ts");
   const schema = await text("docs/supabase-schema.sql");
-  const smoke = await text("scripts/smoke.mjs");
+  const smoke = await smokeSource();
 
   if (!supabaseClient.includes("createClient") || !supabaseClient.includes("persistSession") || !authProvider.includes("onAuthStateChange")) {
     fail("Supabase auth client", "Supabase browser auth should create a persisted client and subscribe to auth state.");
@@ -929,7 +929,7 @@ async function checkPublicClaimCopy() {
 
 async function checkPartnerFeedSafety() {
   const feedImport = await text("lib/feedImport.ts");
-  const smoke = await text("scripts/smoke.mjs");
+  const smoke = await smokeSource();
   const linkValidator = await text("lib/deals/linkValidator.ts");
   const normalizer = await text("lib/deals/normalizer.ts");
   const types = await text("types/deal.ts");
@@ -1052,7 +1052,7 @@ async function checkSearchAndPurchaseFlow() {
   const search = await text("lib/deals/search.ts");
   const repository = await text("lib/deals/dealRepository.ts");
   const homePage = await text("app/page.tsx");
-  const smoke = await text("scripts/smoke.mjs");
+  const smoke = await smokeSource();
   const verifyLinks = await text("scripts/verify-product-links.mjs");
   const catalogDoctor = await text("scripts/catalog-quality-doctor.mjs");
   const searchQualityDoctor = await text("scripts/search-quality-doctor.mjs");
@@ -1596,7 +1596,7 @@ function checkRefreshDealPipeline() {
   const linkLaunchGateRoute = existsSync(join(root, linkLaunchGateRoutePath)) ? readFileSync(join(root, linkLaunchGateRoutePath), "utf8") : "";
   const adminPanel = existsSync(join(root, adminPanelPath)) ? readFileSync(join(root, adminPanelPath), "utf8") : "";
   const adminPage = readFileSync(join(root, "app/admin/page.tsx"), "utf8");
-  const smoke = readFileSync(join(root, "scripts/smoke.mjs"), "utf8");
+  const smoke = smokeSourceSync();
   const gitignore = existsSync(join(root, ".gitignore")) ? readFileSync(join(root, ".gitignore"), "utf8") : "";
   const exposureDoctorScript = readFileSync(join(root, "scripts/exposure-policy-doctor.mjs"), "utf8");
   const linkLaunchGateScriptPath = join(root, "scripts/link-launch-gate.mjs");
@@ -1782,7 +1782,7 @@ function checkHealthReadinessReport() {
     existsSync(join(root, "lib/adminDashboardHrefs.ts")) ? readFileSync(join(root, "lib/adminDashboardHrefs.ts"), "utf8") : ""
   ].join("\n");
   const adminHealthPanel = existsSync(join(root, "components/AdminHealthReadinessPanel.tsx")) ? readFileSync(join(root, "components/AdminHealthReadinessPanel.tsx"), "utf8") : "";
-  const smokeScript = existsSync(join(root, "scripts/smoke.mjs")) ? readFileSync(join(root, "scripts/smoke.mjs"), "utf8") : "";
+  const smokeScript = smokeSourceSync();
   const docsReport = existsSync(join(root, "docs/HEALTH_READINESS_REPORT.md")) ? readFileSync(join(root, "docs/HEALTH_READINESS_REPORT.md"), "utf8") : "";
   const report = existsSync(join(root, "reports/health-readiness.json")) ? JSON.parse(readFileSync(join(root, "reports/health-readiness.json"), "utf8")) : {};
 
@@ -1929,7 +1929,7 @@ function checkDailyOperationsReport() {
   const dailyApi = existsSync(join(root, "app/api/admin/daily-operations/route.ts")) ? readFileSync(join(root, "app/api/admin/daily-operations/route.ts"), "utf8") : "";
   const dailyLib = existsSync(join(root, "lib/operations/dailyOperations.ts")) ? readFileSync(join(root, "lib/operations/dailyOperations.ts"), "utf8") : "";
   const adminPage = existsSync(join(root, "app/admin/page.tsx")) ? readFileSync(join(root, "app/admin/page.tsx"), "utf8") : "";
-  const smokeScript = existsSync(join(root, "scripts/smoke.mjs")) ? readFileSync(join(root, "scripts/smoke.mjs"), "utf8") : "";
+  const smokeScript = smokeSourceSync();
   const runbook = existsSync(join(root, "docs/RUNBOOK.md")) ? readFileSync(join(root, "docs/RUNBOOK.md"), "utf8") : "";
   const roadmap = existsSync(join(root, "docs/roadmap.md")) ? readFileSync(join(root, "docs/roadmap.md"), "utf8") : "";
   const docsReport = existsSync(join(root, "docs/DAILY_OPERATIONS_REPORT.md")) ? readFileSync(join(root, "docs/DAILY_OPERATIONS_REPORT.md"), "utf8") : "";
@@ -2001,7 +2001,7 @@ function checkCronRefreshPipeline() {
   const adminPage = existsSync(join(root, "app/admin/page.tsx")) ? readFileSync(join(root, "app/admin/page.tsx"), "utf8") : "";
   const vercelConfig = existsSync(join(root, "vercel.json")) ? JSON.parse(readFileSync(join(root, "vercel.json"), "utf8")) : {};
   const envExample = existsSync(join(root, ".env.example")) ? readFileSync(join(root, ".env.example"), "utf8") : "";
-  const smokeScript = existsSync(join(root, "scripts/smoke.mjs")) ? readFileSync(join(root, "scripts/smoke.mjs"), "utf8") : "";
+  const smokeScript = smokeSourceSync();
   const packageJson = existsSync(join(root, "package.json")) ? withQaRunnerScripts(JSON.parse(readFileSync(join(root, "package.json"), "utf8"))) : {};
   const cronDoctor = existsSync(join(root, "scripts/cron-refresh-doctor.mjs")) ? readFileSync(join(root, "scripts/cron-refresh-doctor.mjs"), "utf8") : "";
   const cronReadinessReport = existsSync(join(root, "reports/cron-refresh-readiness.json")) ? JSON.parse(readFileSync(join(root, "reports/cron-refresh-readiness.json"), "utf8")) : null;
@@ -2074,7 +2074,7 @@ function checkAdminAuthHardening() {
   const packageJson = existsSync(join(root, "package.json")) ? withQaRunnerScripts(JSON.parse(readFileSync(join(root, "package.json"), "utf8"))) : {};
   const adminAuth = existsSync(join(root, "lib/adminAuth.ts")) ? readFileSync(join(root, "lib/adminAuth.ts"), "utf8") : "";
   const doctor = existsSync(join(root, "scripts/admin-auth-doctor.mjs")) ? readFileSync(join(root, "scripts/admin-auth-doctor.mjs"), "utf8") : "";
-  const smoke = existsSync(join(root, "scripts/smoke.mjs")) ? readFileSync(join(root, "scripts/smoke.mjs"), "utf8") : "";
+  const smoke = smokeSourceSync();
   const smokeHarness = existsSync(join(root, "scripts/lib/smoke-harness.mjs")) ? readFileSync(join(root, "scripts/lib/smoke-harness.mjs"), "utf8") : "";
   const smokeSource = `${smoke}\n${smokeHarness}`;
   const smokeLocal = existsSync(join(root, "scripts/smoke-local.mjs")) ? readFileSync(join(root, "scripts/smoke-local.mjs"), "utf8") : "";

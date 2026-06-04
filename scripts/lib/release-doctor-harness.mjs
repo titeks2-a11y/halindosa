@@ -18,6 +18,32 @@ export async function text(path) {
   return readFile(join(root, path), "utf8");
 }
 
+export async function optionalText(path) {
+  const fullPath = join(root, path);
+  return existsSync(fullPath) ? readFile(fullPath, "utf8") : "";
+}
+
+export async function smokeSource() {
+  const sources = await Promise.all([
+    optionalText("scripts/smoke.mjs"),
+    optionalText("scripts/lib/smoke-page-checks.mjs")
+  ]);
+
+  return sources.join("\n");
+}
+
+export function optionalTextSync(path) {
+  const fullPath = join(root, path);
+  return existsSync(fullPath) ? readFileSync(fullPath, "utf8") : "";
+}
+
+export function smokeSourceSync() {
+  return [
+    optionalTextSync("scripts/smoke.mjs"),
+    optionalTextSync("scripts/lib/smoke-page-checks.mjs")
+  ].join("\n");
+}
+
 export function fileSize(path) {
   const fullPath = join(root, path);
   return existsSync(fullPath) ? statSync(fullPath).size : 0;
