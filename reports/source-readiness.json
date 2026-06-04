@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-04T02:56:41.017Z",
+  "generatedAt": "2026-06-04T03:12:09.554Z",
   "readinessLabel": "seed launch ready / 공식 feed 연결 대기",
   "launchGateStatus": "passed",
   "summary": {
@@ -390,8 +390,8 @@
       "method": "GET",
       "httpStatus": 403,
       "redirected": true,
-      "durationMs": 50,
-      "checkedAt": "2026-06-04T02:56:31.404Z",
+      "durationMs": 58,
+      "checkedAt": "2026-06-04T03:12:00.009Z",
       "status": "guarded",
       "reason": "waf_or_permission_guarded",
       "operatorAction": "무단 크롤링하지 말고 공식 API/RSS/제휴 feed 또는 수동 승인 매핑 사용"
@@ -411,8 +411,8 @@
       "method": "HEAD",
       "httpStatus": 200,
       "redirected": true,
-      "durationMs": 67,
-      "checkedAt": "2026-06-04T02:56:31.475Z",
+      "durationMs": 63,
+      "checkedAt": "2026-06-04T03:12:00.075Z",
       "status": "guarded",
       "reason": "login_or_permission_redirect",
       "operatorAction": "로그인/권한 페이지를 수집하지 말고 공식 API/RSS/제휴 feed 또는 수동 승인 매핑 사용"
@@ -431,8 +431,8 @@
       "method": "HEAD",
       "httpStatus": 503,
       "redirected": false,
-      "durationMs": 36,
-      "checkedAt": "2026-06-04T02:56:31.610Z",
+      "durationMs": 37,
+      "checkedAt": "2026-06-04T03:12:00.166Z",
       "status": "guarded",
       "reason": "waf_or_permission_guarded",
       "operatorAction": "무단 크롤링하지 말고 공식 API/RSS/제휴 feed 또는 수동 승인 매핑 사용"
