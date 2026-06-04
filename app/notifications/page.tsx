@@ -5,8 +5,10 @@ import { BenefitVisitStreakSummary } from "@/components/BenefitVisitStreakSummar
 import { ClaimedBenefitAlertSummary } from "@/components/ClaimedBenefitAlertSummary";
 import { InterestAlertPreview } from "@/components/InterestAlertPreview";
 import { NotificationPreferences } from "@/components/NotificationPreferences";
+import { OfficialBenefitAlertPreview } from "@/components/OfficialBenefitAlertPreview";
 import { PriceAlertList } from "@/components/PriceAlertList";
 import { getDeals } from "@/lib/dealService";
+import { getVisibleNewsDeals } from "@/lib/deals/newsDeals";
 import { getBenefitTypeLabel } from "@/lib/deals/benefits";
 import { buildBenefitDecisionGuide } from "@/lib/deals/benefitDecisionGuide";
 import { buildTodayBenefitQueue, DailyBenefitSectionKey } from "@/lib/deals/todayBenefitQueue";
@@ -46,6 +48,7 @@ function getAlertClaimEffort(deal: Deal) {
 
 export default async function NotificationsPage() {
   const { deals } = await getDeals();
+  const officialBenefits = getVisibleNewsDeals({ limit: 12 });
   const endingSoonDeals = deals.filter((deal) => deal.isEndingSoon);
   const hotDeals = deals.filter((deal) => deal.isHot);
   const newDeals = deals.filter((deal) => deal.isNew);
@@ -288,6 +291,7 @@ export default async function NotificationsPage() {
       </section>
 
       <NotificationPreferences />
+      <OfficialBenefitAlertPreview deals={officialBenefits.deals} updatedAt={officialBenefits.updatedAt} />
       <PriceAlertList deals={deals} />
       <BenefitVisitStreakSummary />
       <ClaimedBenefitAlertSummary deals={deals} />

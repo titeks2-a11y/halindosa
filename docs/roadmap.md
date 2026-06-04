@@ -64,6 +64,7 @@
 - 알림 설정을 `lib/notificationPreferences.ts`로 분리하고, 기존 4개 신호 토글에 `알림 받을 카테고리`를 추가해 비회원도 기기 저장 기반으로 무료/쿠폰/식품/생활/마트/외식/디지털/문화/카드/공공 혜택 알림 후보를 개인화할 수 있게 했다.
 - `InterestAlertPreview`가 마이페이지 관심 카테고리와 알림 받을 카테고리를 함께 읽고, 같은 탭에서 설정이 바뀌면 즉시 추천 큐를 갱신하도록 연결했다.
 - 관심 알림 미리보기가 `favoriteId`, `recentId`를 `/api/benefits/personalized`에 함께 전달하도록 보강해 비회원의 기기 저장 찜, 최근 본 상품, 알림 카테고리가 같은 향후 푸시 후보 점수에 반영되게 했다.
+- 알림 센터에 `OfficialBenefitAlertPreview`를 추가해 검색 결과·커뮤니티 원문이 아닌 공식 페이지 이동이 검증된 공식 혜택만 “공식 혜택 알림 후보”로 보여주고, `halindosa:recent-news-benefits` 최근 본 공식 혜택과 알림 받을 카테고리가 같은 후보 정렬에 반영되도록 했다.
 
 ### PHASE Premium Commerce UX and Operations
 

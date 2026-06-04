@@ -1954,6 +1954,7 @@ async function checkOperationalDataSurfaces() {
   const categoriesPage = await text("app/categories/page.tsx");
   const notificationsPage = await text("app/notifications/page.tsx");
   const interestAlertPreview = await text("components/InterestAlertPreview.tsx");
+  const officialBenefitAlertPreview = await text("components/OfficialBenefitAlertPreview.tsx");
   const notificationPreferences = await text("components/NotificationPreferences.tsx");
   const notificationPreferencesLib = await text("lib/notificationPreferences.ts");
   const benefitVisitStreakSummary = await text("components/BenefitVisitStreakSummary.tsx");
@@ -2254,6 +2255,7 @@ async function checkOperationalDataSurfaces() {
     !notificationsPage.includes("오늘 먼저 열어볼 알림을 4가지로 좁혔습니다") ||
     !notificationsPage.includes("판단표 API 보기") ||
     !notificationsPage.includes("API 기준 오늘 혜택 큐") ||
+    !notificationsPage.includes("OfficialBenefitAlertPreview") ||
     !notificationsPage.includes("비회원 기준 혜택 큐") ||
     !notificationsPage.includes("오늘 알림 큐") ||
     !interestAlertPreview.includes("관심 카테고리 알림") ||
@@ -2270,6 +2272,13 @@ async function checkOperationalDataSurfaces() {
     !interestAlertPreview.includes("관심 알림 실행 카드") ||
     !interestAlertPreview.includes("무료·체험 먼저") ||
     !interestAlertPreview.includes("마감 전 확인") ||
+    !officialBenefitAlertPreview.includes("공식 혜택 알림 후보") ||
+    !officialBenefitAlertPreview.includes("공식 페이지 이동만 포함") ||
+    !officialBenefitAlertPreview.includes("recentNewsBenefitUpdatedEvent") ||
+    !officialBenefitAlertPreview.includes("rememberRecentNewsBenefitId") ||
+    !officialBenefitAlertPreview.includes("/go/news/") ||
+    !officialBenefitAlertPreview.includes("target=\"_blank\"") ||
+    !officialBenefitAlertPreview.includes("최근 본 공식 혜택") ||
     !notificationPreferences.includes("알림 받을 카테고리") ||
     !notificationPreferences.includes("writeInAppNotificationPreferences") ||
     !notificationPreferences.includes("notificationCategoryOptions") ||
@@ -2291,6 +2300,7 @@ async function checkOperationalDataSurfaces() {
     !smoke.includes("Notifications page missing alert action routine") ||
     !smoke.includes("Notifications page missing alert time routine") ||
     !smoke.includes("Notifications page missing interest alert action cards") ||
+    !smoke.includes("Notifications page missing official benefit alert preview") ||
     !smoke.includes("Notifications page missing local notification category preferences") ||
     !smoke.includes("Notifications page missing favorite and recent signal personalization summary") ||
     !smoke.includes("Notifications page missing reusable personalized recommendation API card") ||

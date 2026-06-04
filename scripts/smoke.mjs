@@ -503,6 +503,12 @@ await check("category and notification pages", async () => {
   assert(notificationsText.includes("관심 카테고리 알림"), "Notifications page missing interest category alert preview");
   assert(notificationsText.includes("관심 설정하기"), "Notifications page missing interest settings link");
   assert(notificationsText.includes("알림 받을 카테고리") && notificationsText.includes("기기에 저장한 관심 알림 카테고리"), "Notifications page missing local notification category preferences");
+  assert(
+    notificationsText.includes("공식 혜택 알림 후보") &&
+      notificationsText.includes("공식 페이지 이동만 포함") &&
+      notificationsText.includes("최근 본 공식 혜택"),
+    "Notifications page missing official benefit alert preview"
+  );
   assert(notificationsText.includes("기기 저장 알림 신호") && notificationsText.includes("찜 반영") && notificationsText.includes("최근 본 상품"), "Notifications page missing favorite and recent signal personalization summary");
   assert(notificationsText.includes("알림 개인화 추천 API") && notificationsText.includes("개인화 API 보기"), "Notifications page missing reusable personalized recommendation API card");
   assert(notificationsText.includes("관심 알림 실행 카드"), "Notifications page missing interest alert action cards");
