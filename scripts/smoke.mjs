@@ -109,6 +109,7 @@ await check("home page", async () => {
   assert(text.includes("구매 전 판매처 확인") || text.includes("판매처 확인"), "Home page missing purchase verification guidance");
   assert(text.includes("빠른 상품 검색") || text.includes("상품명·쇼핑몰 검색"), "Home page missing compact search");
   assert(text.includes("카테고리 바로가기") || text.includes("전체상품"), "Home page missing category shortcuts");
+  assert(text.includes("상품 목록 빠른 스캔") && text.includes("목록 안에서 많이 나온 기준"), "Home page missing product list scan shortcuts");
   assert(text.includes("오늘 놓치면 아쉬운 혜택") || text.includes("오늘 바로 볼 특가"), "Home page missing benefit-first discovery");
   assert(text.includes("무료혜택") || text.includes("쿠폰"), "Home page missing free or coupon discovery");
   assert(text.includes("오늘의 실시간 할인뉴스") && text.includes("공식"), "Home page missing official benefit section");

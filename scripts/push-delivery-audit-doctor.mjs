@@ -67,6 +67,8 @@ const adminPushPanel = read("components/AdminPushDryRunPanel.tsx");
 const pushNotificationDesign = read("docs/push-notification-design.md");
 const runbook = read("docs/RUNBOOK.md");
 const packageJson = readJson("package.json", {});
+const qaRunner = read("scripts/run-qa.mjs");
+const qaCommandSource = `${String(packageJson.scripts?.qa ?? "")}\n${qaRunner}`;
 const releaseDoctor = read("scripts/release-doctor.mjs");
 
 const scenarios = [
@@ -120,7 +122,7 @@ const checks = [
     ? pass("runbook documentation", "Runbook includes push delivery audit command and output.")
     : fail("runbook documentation", "Runbook should document push delivery audit operation."),
   packageJson.scripts?.["push:delivery:audit"] === "node scripts/push-delivery-audit-doctor.mjs" &&
-    String(packageJson.scripts?.qa ?? "").includes("push:delivery:audit")
+    qaCommandSource.includes("push:delivery:audit")
     ? pass("package script wiring", "push:delivery:audit is wired into QA.")
     : fail("package script wiring", "package.json should expose push:delivery:audit and include it in qa."),
   releaseDoctor.includes("push-delivery-audit.json") && releaseDoctor.includes("push:delivery:audit")

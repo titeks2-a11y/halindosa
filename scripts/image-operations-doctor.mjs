@@ -18,6 +18,8 @@ const imageQualityReport = readFileSync(join(root, "IMAGE_QUALITY_REPORT.md"), "
 const imageBacklogReport = readFileSync(join(root, "docs", "IMAGE_BACKLOG_REPORT.md"), "utf8");
 const smoke = readFileSync(join(root, "scripts", "smoke.mjs"), "utf8");
 const packageJson = JSON.parse(readFileSync(join(root, "package.json"), "utf8"));
+const qaRunner = readFileSync(join(root, "scripts", "run-qa.mjs"), "utf8");
+const qaCommandSource = `${String(packageJson.scripts?.qa ?? "")}\n${qaRunner}`;
 
 const checks = [
   {
@@ -163,7 +165,7 @@ const checks = [
     name: "full image backlog export",
     ok:
       packageJson.scripts?.["image:backlog:report"] === "node scripts/image-backlog-report.mjs" &&
-      packageJson.scripts?.qa?.includes("image:backlog:report") &&
+      qaCommandSource.includes("image:backlog:report") &&
       imageBacklogReportScript.includes("IMAGE_BACKLOG.csv") &&
       imageBacklogReportScript.includes("IMAGE_BACKLOG_NEXT_BATCH.csv") &&
       imageBacklogReportScript.includes("IMAGE_BACKLOG_MALL_REQUESTS.csv") &&
@@ -239,7 +241,7 @@ const checks = [
   {
     name: "qa wiring",
     ok:
-      packageJson.scripts?.qa?.includes("image:operations:doctor") &&
+      qaCommandSource.includes("image:operations:doctor") &&
       packageJson.scripts?.harness === "node scripts/harness.mjs" &&
       smoke.includes("admin image queue api") &&
       smoke.includes("admin image queue csv"),

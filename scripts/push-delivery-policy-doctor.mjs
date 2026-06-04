@@ -81,6 +81,8 @@ const pushNotifications = read("lib/pushNotifications.ts");
 const pushSendRoute = read("app/api/admin/push/send/route.ts");
 const adminPushPanel = read("components/AdminPushDryRunPanel.tsx");
 const packageJson = readJson("package.json", {});
+const qaRunner = read("scripts/run-qa.mjs");
+const qaCommandSource = `${String(packageJson.scripts?.qa ?? "")}\n${qaRunner}`;
 const runbook = read("docs/RUNBOOK.md");
 const releaseDoctor = read("scripts/release-doctor.mjs");
 
@@ -153,7 +155,7 @@ const checks = [
     ? pass("admin panel consent UX", "Admin dry-run panel requires consent confirmation for live tests and shows policy output.")
     : fail("admin panel consent UX", "Admin dry-run panel should expose consent confirmation and policy output."),
   packageJson.scripts?.["push:delivery:doctor"] === "node scripts/push-delivery-policy-doctor.mjs" &&
-    String(packageJson.scripts?.qa ?? "").includes("push:delivery:doctor")
+    qaCommandSource.includes("push:delivery:doctor")
     ? pass("package script wiring", "push:delivery:doctor is part of QA.")
     : fail("package script wiring", "package.json should expose push:delivery:doctor and include it in qa."),
   runbook.includes("PUSH_DELIVERY_POLICY.md") && runbook.includes("quiet hours") && runbook.includes("동의 받은 테스트 토큰")

@@ -96,11 +96,13 @@ if (shouldList) {
 }
 
 function runTask(taskName, index) {
-  const npmCommand = process.platform === "win32" ? "npm.cmd" : "npm";
+  const isWindows = process.platform === "win32";
+  const command = isWindows ? process.env.ComSpec || "cmd.exe" : "npm";
+  const commandArgs = isWindows ? ["/d", "/s", "/c", "npm", "run", taskName] : ["run", taskName];
   console.log(`\n[${index + 1}/${tasks.length}] npm run ${taskName}`);
 
   return new Promise((resolve, reject) => {
-    const child = spawn(npmCommand, ["run", taskName], {
+    const child = spawn(command, commandArgs, {
       cwd: process.cwd(),
       env: process.env,
       stdio: "inherit"

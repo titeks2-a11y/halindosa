@@ -1981,7 +1981,10 @@ async function checkOperationalDataSurfaces() {
   const mockDeals = await text("data/mockDeals.ts");
   const claimGuide = await text("lib/deals/claimGuide.ts");
   const freeBenefitsPage = await text("app/free-benefits/page.tsx");
-  const freeBenefitsClient = await text("components/FreeBenefitsClient.tsx");
+  const freeBenefitsClient = [
+    await text("components/FreeBenefitsClient.tsx"),
+    await text("lib/freeBenefitsConfig.ts")
+  ].join("\n");
   const benefitSavingsDiary = await text("components/BenefitSavingsDiary.tsx");
   const savingsDiary = await text("lib/savingsDiary.ts");
   const benefitVisitStreak = await text("lib/benefitVisitStreak.ts");

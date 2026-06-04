@@ -26,6 +26,8 @@ const affiliate = read("lib/affiliate.ts");
 const goRoute = read("app/go/[id]/route.ts");
 const redirectRoute = read("app/api/redirect/[id]/route.ts");
 const packageJson = readJson("package.json", {});
+const qaRunner = read("scripts/run-qa.mjs");
+const qaCommandSource = `${String(packageJson.scripts?.qa ?? "")}\n${qaRunner}`;
 
 const blockedHosts = new Set([...(policy.blockedHosts ?? []), ...(policy.placeholderHosts ?? [])]);
 const searchPatterns = policy.searchPatterns ?? [];
@@ -214,7 +216,7 @@ const structuralChecks = [
   },
   {
     name: "qa includes link and exposure gates",
-    ok: ["verify:links", "verify:products", "exposure:doctor"].every((script) => String(packageJson.scripts?.qa ?? "").includes(script))
+    ok: ["verify:links", "verify:products", "exposure:doctor"].every((script) => qaCommandSource.includes(script))
   }
 ];
 

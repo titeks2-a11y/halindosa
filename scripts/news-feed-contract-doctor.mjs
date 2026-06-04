@@ -27,6 +27,8 @@ const eventProvider = requireFile("lib/deals/providers/eventNewsProvider.ts", "e
 const officialProvider = requireFile("lib/deals/providers/officialEventProvider.ts", "official event provider");
 const couponProvider = requireFile("lib/deals/providers/publicCouponProvider.ts", "public coupon provider");
 const refreshScript = requireFile("scripts/refresh-news-deals.mjs", "refresh script");
+const sourceConfigScript = requireFile("scripts/official-benefit-source-config.mjs", "official benefit source config helper");
+const sourceConfigData = requireFile("data/officialBenefitFeedSources.json", "official benefit source config data");
 const verifyScript = requireFile("scripts/verify-news-deals.mjs", "verify script");
 const configuredFeedErrorTest = requireFile("scripts/test-news-feed-error-gate.mjs", "configured feed error regression");
 const newsOperations = requireFile("lib/deals/newsOperations.ts", "news operations");
@@ -80,8 +82,10 @@ for (const phrase of ["공식 승인 도메인", "검색 결과 URL", "커뮤니
   if (!docs.includes(phrase)) issues.push(`feed contract docs missing ${phrase}`);
 }
 
+const refreshContractSource = `${refreshScript}\n${sourceConfigScript}\n${sourceConfigData}`;
+
 for (const phrase of ["fetchNewsFeed", "DEAL_NEWS_FEED_URLS", "DEAL_NEWS_RSS_URLS", "DEAL_EVENT_NEWS_FEED_URLS", "OFFICIAL_EVENT_FEED_URLS", "PUBLIC_COUPON_FEED_URLS"]) {
-  if (!refreshScript.includes(phrase)) issues.push(`refresh-news-deals missing ${phrase}`);
+  if (!refreshContractSource.includes(phrase)) issues.push(`refresh-news-deals source config missing ${phrase}`);
 }
 
 for (const [label, content] of [

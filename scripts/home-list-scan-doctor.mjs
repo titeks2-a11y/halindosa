@@ -2,6 +2,8 @@ import fs from "node:fs";
 
 const homePage = fs.readFileSync("app/page.tsx", "utf8");
 const packageJson = fs.readFileSync("package.json", "utf8");
+const qaRunner = fs.readFileSync("scripts/run-qa.mjs", "utf8");
+const qaCommandSource = `${packageJson}\n${qaRunner}`;
 const smoke = fs.readFileSync("scripts/smoke.mjs", "utf8");
 const runbook = fs.readFileSync("docs/RUNBOOK.md", "utf8");
 
@@ -45,7 +47,7 @@ if (!packageJson.includes("home:list-scan:doctor")) {
   issues.push("package.json should expose home:list-scan:doctor");
 }
 
-if (!packageJson.includes("npm run home:list-scan:doctor")) {
+if (!qaCommandSource.includes("home:list-scan:doctor")) {
   issues.push("qa script should run home:list-scan:doctor");
 }
 

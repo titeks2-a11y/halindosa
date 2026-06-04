@@ -5,6 +5,8 @@ import { fileURLToPath } from "node:url";
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const mockDeals = readFileSync(join(root, "data/mockDeals.ts"), "utf8");
 const homePage = readFileSync(join(root, "app/page.tsx"), "utf8");
+const homeDiscoveryConfig = readFileSync(join(root, "lib/homeDiscoveryConfig.ts"), "utf8");
+const homeSearchSource = `${homePage}\n${homeDiscoveryConfig}`;
 const searchAliases = JSON.parse(readFileSync(join(root, "data/searchAliases.json"), "utf8"));
 
 const requiredSearches = [
@@ -286,7 +288,7 @@ function extractDeals() {
 }
 
 function extractHighIntentKeywords() {
-  const match = homePage.match(/const highIntentSearchKeywords = \[(?<body>[\s\S]*?)\];/);
+  const match = homeSearchSource.match(/(?:const|export const) highIntentSearchKeywords = \[(?<body>[\s\S]*?)\];/);
   const body = match?.groups?.body ?? "";
   return [...body.matchAll(/"([^"]+)"/g)].map((keywordMatch) => keywordMatch[1]);
 }

@@ -6,7 +6,7 @@ import { ArrowLeft, AlertTriangle, CalendarDays, CheckCircle2, ExternalLink, Gif
 import { BenefitSavingsDiary } from "@/components/BenefitSavingsDiary";
 import { DealCard } from "@/components/DealCard";
 import { benefitReturnReservationUpdatedEvent, readBenefitReturnReservations, writeBenefitReturnReservations } from "@/lib/benefitReturnReservations";
-import { markBenefitVisit, readBenefitVisitStreak } from "@/lib/benefitVisitStreak";
+import { markBenefitVisit } from "@/lib/benefitVisitStreak";
 import { claimedBenefitUpdatedEvent, readClaimedBenefits, toggleClaimedBenefit } from "@/lib/claimedBenefits";
 import { getBenefitTypeLabel } from "@/lib/deals/benefits";
 import { buildBenefitDecisionGuide } from "@/lib/deals/benefitDecisionGuide";
@@ -14,102 +14,25 @@ import { getClaimEffort, getClaimEffortLabel } from "@/lib/deals/claimEffort";
 import { buildPersonalizedBenefitQueue } from "@/lib/deals/personalizedBenefitQueue";
 import { buildWeeklyBenefitCalendar, WeeklyBenefitPreset } from "@/lib/deals/weeklyBenefitCalendar";
 import { formatPrice } from "@/lib/format";
-import { readLocalPreferences } from "@/lib/memberSync";
+import {
+  BenefitSort,
+  ClaimEffortFilter,
+  FiveMinuteChecklistPreset,
+  benefitGuardrails,
+  emptyVisitStreak,
+  fiveMinuteChecklist,
+  freeBenefitTabs,
+  getMinimumOrderLabel,
+  getPriorityReason,
+  getPriorityScore
+} from "@/lib/freeBenefitsConfig";
+import { readLocalFavoriteIds, readLocalPreferences, writeLocalFavoriteIds } from "@/lib/memberSync";
 import { buildDealRedirectUrl, buildNativeSafeDealUrl } from "@/lib/redirectUrl";
 import { buildPublicDealShareUrl } from "@/lib/shareUrl";
 import { Deal, DealBenefitType } from "@/types/deal";
 
 interface FreeBenefitsClientProps {
   deals: Deal[];
-}
-
-const tabs: Array<{ id: "all" | DealBenefitType; label: string }> = [
-  { id: "all", label: "전체" },
-  { id: "freebie", label: "무료 샘플" },
-  { id: "experience", label: "체험단" },
-  { id: "coupon", label: "쿠폰" },
-  { id: "freeShipping", label: "무료배송" },
-  { id: "point", label: "포인트" },
-  { id: "convenienceStore", label: "편의점" },
-  { id: "mart", label: "마트" },
-  { id: "foodDelivery", label: "배달/외식" }
-];
-
-type BenefitSort = "recommended" | "endingSoon" | "popular" | "savings";
-type ClaimEffortFilter = "all" | "easy" | "condition" | "deadline";
-
-const emptyVisitStreak: ReturnType<typeof readBenefitVisitStreak> = { currentStreak: 0, totalVisits: 0, lastVisitedDate: "", visitedDates: [] };
-
-const fiveMinuteChecklist = [
-  {
-    title: "무료·0원 먼저 확인",
-    description: "무료 샘플, 초대권, 체험단처럼 결제 부담이 낮은 혜택부터 봅니다.",
-    preset: "freebie" as const
-  },
-  {
-    title: "결제 전 쿠폰 적용",
-    description: "첫 구매, 카드사, 브랜드 쿠폰 조건과 최소 주문 금액을 확인합니다.",
-    preset: "coupon" as const
-  },
-  {
-    title: "배송비 줄이기",
-    description: "무료배송, 무배 쿠폰, 장보기 조건을 같이 보면 체감 절약이 커집니다.",
-    preset: "freeShipping" as const
-  },
-  {
-    title: "마감 전 다시 확인",
-    description: "선착순, 기간 한정, 종료 예정 혜택은 판매처에서 최종 상태를 확인합니다.",
-    preset: "endingSoon" as const
-  }
-];
-
-const benefitGuardrails = [
-  ["무료 혜택", "배송비, 체험단 조건, 회원가입 필요 여부를 먼저 확인"],
-  ["쿠폰/포인트", "최소 주문 금액, 중복 적용, 적립 예정일을 확인"],
-  ["편의점/마트", "행사 지점, 앱 쿠폰 발급 여부, 재고 변동 가능성 확인"],
-  ["배달/외식", "지역, 시간대, 브랜드별 제외 메뉴와 결제 수단 조건 확인"]
-];
-
-function readFavorites() {
-  if (typeof window === "undefined") return [];
-
-  try {
-    const parsed = JSON.parse(window.localStorage.getItem("halindosa:favorites") ?? "[]");
-    return Array.isArray(parsed) ? parsed.filter((value): value is string => typeof value === "string") : [];
-  } catch {
-    return [];
-  }
-}
-
-function writeFavorites(ids: string[]) {
-  window.localStorage.setItem("halindosa:favorites", JSON.stringify(ids));
-}
-
-function getMinimumOrderLabel(deal: Deal) {
-  if (!deal.minimumOrderAmount) return "최소 주문 없음";
-  return `${formatPrice(deal.minimumOrderAmount)} 이상`;
-}
-
-function getPriorityReason(deal: Deal, referenceNow: number) {
-  const hoursLeft = (new Date(deal.expireAt).getTime() - referenceNow) / (60 * 60 * 1000);
-  if (deal.isExpired) return "종료 가능성이 있어 판매처 상태를 먼저 확인하세요.";
-  if (hoursLeft <= 6 || deal.isEndingSoon) return "마감 시간이 가까워 지금 먼저 확인할 혜택입니다.";
-  if (deal.dealType === "freebie" || deal.dealType === "experience") return "비용 부담이 낮은 무료·체험 혜택입니다.";
-  if (deal.dealType === "coupon" || deal.dealType === "foodDelivery") return "결제 전 쿠폰 조건을 먼저 챙기기 좋습니다.";
-  if (deal.dealType === "point") return "출석체크나 페이 적립처럼 매일 반복 확인하기 좋습니다.";
-  if (deal.isFreeShipping) return "배송비를 줄일 수 있어 생활비 절약 체감이 큽니다.";
-  return "반응과 링크 상태가 좋은 혜택입니다.";
-}
-
-function getPriorityScore(deal: Deal, referenceNow: number) {
-  const hoursLeft = Math.max(0, (new Date(deal.expireAt).getTime() - referenceNow) / (60 * 60 * 1000));
-  const urgencyScore = Math.max(0, 36 - hoursLeft) * 2;
-  const benefitScore = deal.dealType === "freebie" || deal.dealType === "experience" ? 22 : deal.dealType === "coupon" || deal.dealType === "point" ? 16 : 8;
-  const trustScore = deal.isVerified ? 12 : 0;
-  const shippingScore = deal.isFreeShipping ? 8 : 0;
-  const engagementScore = Math.min(20, deal.clickCount * 0.18 + deal.likeCount * 0.35);
-
-  return urgencyScore + benefitScore + trustScore + shippingScore + engagementScore + deal.reliabilityScore * 0.08;
 }
 
 export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
@@ -132,7 +55,7 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
 
   useEffect(() => {
     const refreshLocalState = () => {
-      setFavorites(readFavorites());
+      setFavorites(readLocalFavoriteIds());
       setClaimedBenefits(readClaimedBenefits());
       setBenefitReturnReservations(readBenefitReturnReservations());
       setFavoriteCategories(readLocalPreferences().favoriteCategories);
@@ -196,7 +119,7 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
   const counts = useMemo(
     () =>
       Object.fromEntries(
-        tabs.map((tab) => [
+        freeBenefitTabs.map((tab) => [
           tab.id,
           tab.id === "all" ? deals.length : deals.filter((deal) => deal.dealType === tab.id).length
         ])
@@ -847,7 +770,7 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
   const toggleFavorite = (id: string) => {
     setFavorites((current) => {
       const next = current.includes(id) ? current.filter((item) => item !== id) : [id, ...current];
-      writeFavorites(next);
+      writeLocalFavoriteIds(next);
       setMessage(current.includes(id) ? "찜을 해제했습니다." : "혜택을 찜했습니다.");
       window.setTimeout(() => setMessage(""), 2500);
       return next;
@@ -941,7 +864,7 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
     setActiveOnly(Boolean(preset.activeOnly));
   };
 
-  const applyChecklistPreset = (preset: (typeof fiveMinuteChecklist)[number]["preset"]) => {
+  const applyChecklistPreset = (preset: FiveMinuteChecklistPreset) => {
     setQuery("");
     setSort(preset === "endingSoon" ? "endingSoon" : "recommended");
     setEndingSoonOnly(preset === "endingSoon");
@@ -1842,7 +1765,7 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
 
         <section className="rounded-[26px] border border-slate-200 bg-white p-3 shadow-sm">
           <div className="flex gap-2 overflow-x-auto pb-1 hide-scrollbar">
-            {tabs.map((tab) => (
+            {freeBenefitTabs.map((tab) => (
               <button
                 key={tab.id}
                 type="button"
