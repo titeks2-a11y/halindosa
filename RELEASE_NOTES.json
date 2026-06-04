@@ -1,8 +1,8 @@
 {
   "generatedBy": "npm run release:notes",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "48122ab",
-  "workingTree": "M DEVICE_QA_REPORT.md;  M KNOWN_ISSUES.md;  M PUBLIC_URL_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_SCREENSHOTS_REPORT.md;  M docs/DEVICE_QA_REPORT.md;  M docs/KNOWN_ISSUES.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/release-evidence.md",
+  "commit": "cdccba3",
+  "workingTree": "M DEVICE_QA_REPORT.md;  M KNOWN_ISSUES.md;  M PUBLIC_URL_REPORT.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_HANDOFF_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M SUPPORT_PLAYBOOK.json;  M SUPPORT_PLAYBOOK.md;  M docs/DEVICE_QA_REPORT.md;  M docs/KNOWN_ISSUES.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_HANDOFF_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md;  M docs/SUPPORT_PLAYBOOK.md;  M docs/release-evidence.md",
   "version": "1.0.1",
   "appName": "할인도사",
   "packageName": "com.halindosa.app",
@@ -34,22 +34,22 @@
     {
       "path": "docs/release-evidence.md",
       "status": "present",
-      "bytes": 7251
+      "bytes": 7214
     },
     {
       "path": "docs/STORE_CONSOLE_FIELDS.md",
       "status": "present",
-      "bytes": 3898
+      "bytes": 4038
     },
     {
       "path": "docs/STORE_MANUAL_CHECKLIST.md",
       "status": "present",
-      "bytes": 4484
+      "bytes": 4513
     },
     {
       "path": "docs/STORE_HANDOFF_REPORT.md",
       "status": "present",
-      "bytes": 4688
+      "bytes": 4558
     },
     {
       "path": "docs/STORE_SUBMISSION_REPORT.md",
@@ -73,14 +73,14 @@
     }
   ],
   "recentCommits": [
+    "cdccba3 feat: add official benefit freshness gate",
+    "e4f2082 docs: record clean release doctor after push audit readiness",
+    "d7eab51 docs: refresh release evidence after push audit readiness",
     "48122ab feat: add push delivery audit readiness",
     "2af86df docs: record clean release doctor after feed parser hardening",
     "dac3f70 docs: refresh release evidence after feed parser hardening",
     "2702b24 fix: unify feed URL parsing across operations",
-    "62a17d3 docs: record clean release doctor result",
-    "523286d docs: refresh release evidence after Supabase override sync",
-    "76a0306 feat: sync admin deal overrides with Supabase",
-    "ad07f39 docs: refresh release evidence after admin override persistence"
+    "62a17d3 docs: record clean release doctor result"
   ],
   "manualWorkThatMustNotBeFaked": [
     "Do not claim Play Console or App Store Connect submission has passed from this file.",
