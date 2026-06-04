@@ -89,6 +89,7 @@
 - live probe 결과를 `liveProbeReviewSummary`와 `liveProbeHostFailureCounts`로 재분류해 404/410/5xx/품절 같은 강한 실패 신호는 출시 차단 기준으로, timeout/request_failed는 일시 네트워크 재확인 큐로, 403/429/robots 같은 접근 보호 신호는 공식 API·제휴 feed·실기기 확인 우선순위로 운영하도록 관리자 화면, API, CSV, smoke, release doctor에 연결했다.
 - `link:launch:gate`를 추가해 `link-validation`, `product-quality`, `exposure-policy`, `refresh-deals`, `release-doctor` 리포트를 대조하고 검색 링크, 품절/종료 링크, 깨진 링크, invalid URL 노출 0건을 Play Store 제출 직전 최종 판정으로 남기도록 QA와 release doctor에 연결했다.
 - `/api/admin/link-launch-gate`와 관리자 `최종 링크 출시 게이트` 패널을 추가해 운영자가 Play Store 제출 직전 검색 링크, 품절/종료 링크, 깨진 링크, invalid URL, 실패 노출 행을 JSON/CSV로 즉시 확인하도록 보강했다.
+- 관리자 공식 혜택 수동 운영 패널에 `실패 사유별 운영 액션`과 `수집 로그 바로 점검` 영역을 추가해 검증 실패 TOP10, 최근 20개 수집 로그, 공식 링크 확인, 재검증 기록 흐름을 같은 화면에서 처리하도록 개선했다.
 - non-strict live probe에서 timeout/request_failed는 `transientNetworkCount`로 분리해 404/410/5xx/품절 본문 같은 확정 실패와 구분하고, 네트워크 일시 오류 때문에 정상 구매 상세 링크가 과도하게 숨겨지지 않도록 운영 재확인 큐로 남기게 했다.
 - `npm run qa`에 non-strict `verify:links:live`와 후속 `verify:products`를 포함하고, release doctor가 live probe 전체 검사와 HTTP 지표를 필수 출시 증거로 확인하도록 상향했다.
 - `/go`와 `/api/redirect` 외부 이동 allowlist에 공식 혜택 도메인을 보강해 검증된 카드/멤버십/문화/편의점/외식/공식 이벤트 링크가 410으로 막히지 않고 새 탭 이동 검증을 통과하도록 개선했다.

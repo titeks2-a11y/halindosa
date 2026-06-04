@@ -4265,6 +4265,11 @@ function checkNewsDealPipeline() {
     !adminNewsOperationsPanel.includes("thin") ||
     !adminNewsOperationsPanel.includes("refresh:all 운영 상태") ||
     !adminNewsOperationsPanel.includes("Provider 위험도") ||
+    !adminNewsOperationsPanel.includes("실패 사유별 운영 액션") ||
+    !adminNewsOperationsPanel.includes("수집 로그 바로 점검") ||
+    !adminNewsOperationsPanel.includes("getFailureReasonAction") ||
+    !adminNewsOperationsPanel.includes("failureReasonTop10") ||
+    !adminNewsOperationsPanel.includes("recentLogs") ||
     !adminNewsOperationsPanel.includes("신선도 운영") ||
     !adminNewsOperationsPanel.includes("다음 refresh 권장") ||
     !adminNewsOperationsPanel.includes("만료 임박 대체 큐") ||

@@ -573,7 +573,9 @@ await check("admin dashboard quality cards", async () => {
       text.includes("Provider 위험도") &&
       text.includes("다음 refresh 권장") &&
       text.includes("npm run refresh:all") &&
-      text.includes("health:readiness"),
+      text.includes("health:readiness") &&
+      text.includes("실패 사유별 운영 액션") &&
+      text.includes("수집 로그 바로 점검"),
     "Admin dashboard missing official benefit coverage, provider risk, freshness, and refresh operation summary"
   );
   assert(text.includes("운영 리포트 API 보기"), "Admin dashboard missing news operation report API link");

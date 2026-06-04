@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { CheckCircle2, Clock3, ExternalLink, Eye, EyeOff, RefreshCw, RotateCcw } from "lucide-react";
+import { AlertTriangle, CheckCircle2, Clock3, ExternalLink, Eye, EyeOff, ListChecks, RefreshCw, RotateCcw } from "lucide-react";
 import { getRelativeTime } from "@/lib/format";
 
 type NewsOperationAction = "hide" | "restore" | "revalidate";
@@ -45,6 +45,21 @@ interface FreshnessQueueItem {
     nextAction: string;
     recommendedEnvKeys: string[];
   }>;
+}
+
+interface FailureReasonTopItem {
+  reason: string;
+  count: number;
+}
+
+interface RecentCollectionLog {
+  dealId: string;
+  provider: string;
+  title: string;
+  status: string;
+  reason: string;
+  finalUrl: string;
+  checkedAt: string;
 }
 
 interface NewsOperationsReport {
@@ -135,6 +150,8 @@ interface NewsOperationsReport {
   operationalRisks?: string[];
   visibleDeals: NewsOperationDeal[];
   hiddenDeals: NewsOperationDeal[];
+  failureReasonTop10?: FailureReasonTopItem[];
+  recentLogs?: RecentCollectionLog[];
   refreshAll?: {
     ok: boolean;
     generatedAt: string;
@@ -210,6 +227,14 @@ function getProviderRiskClassName(severity?: string) {
   return "bg-red-50 text-brand-red";
 }
 
+function getFailureReasonAction(reason: string) {
+  if (reason === "none") return "현재 조치 없음";
+  if (/search|result|query|keyword/i.test(reason)) return "검색/결과 링크는 사용자 노출 전 숨김 처리하고 공식 상세 URL로 교체";
+  if (/expired|ended|sold|unavailable|마감|종료|품절/i.test(reason)) return "기간·재고 확인 후 종료/품절이면 숨김 유지";
+  if (/official|host|domain|url/i.test(reason)) return "공식 도메인과 finalUrl을 검수하고 승인 feed만 연결";
+  return "provider 원본 feed와 정규화 결과를 확인한 뒤 재검증 실행";
+}
+
 export function AdminNewsOperationsPanel({ apiHref, initialReport }: AdminNewsOperationsPanelProps) {
   const [report, setReport] = useState(initialReport);
   const [reason, setReason] = useState("manual_admin_review");
@@ -225,6 +250,8 @@ export function AdminNewsOperationsPanel({ apiHref, initialReport }: AdminNewsOp
   const operatorNextActions = useMemo(() => report.operatorNextActions?.slice(0, 3) ?? [], [report.operatorNextActions]);
   const renewalQueue = useMemo(() => report.freshnessQueues?.renewalQueue?.slice(0, 4) ?? [], [report.freshnessQueues?.renewalQueue]);
   const watchQueue = useMemo(() => report.freshnessQueues?.watchQueue?.slice(0, 4) ?? [], [report.freshnessQueues?.watchQueue]);
+  const failureReasonTop10 = useMemo(() => report.failureReasonTop10?.slice(0, 10) ?? [], [report.failureReasonTop10]);
+  const recentLogs = useMemo(() => report.recentLogs?.slice(0, 20) ?? [], [report.recentLogs]);
   const issueCount = categoryCoverage.filter((item) => item.status === "gap" || item.status === "thin").length;
   const freshness = report.freshness;
 
@@ -538,6 +565,78 @@ export function AdminNewsOperationsPanel({ apiHref, initialReport }: AdminNewsOp
             <b className="text-slate-950">우선 env:</b>{" "}
             {(feedTransitionReadiness?.recommendedNextEnvKeys ?? []).slice(0, 4).join(", ") || "모든 provider 연결됨"}
           </p>
+        </div>
+      </div>
+
+      <div className="mt-4 grid gap-3 xl:grid-cols-[0.9fr_1.1fr]">
+        <div className="rounded-2xl border border-red-100 bg-white p-3">
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <p className="text-sm font-black text-slate-950">실패 사유별 운영 액션</p>
+              <p className="mt-1 text-[11px] font-bold leading-5 text-slate-500">
+                검증 실패 TOP10이 생기면 원인별 조치 기준을 보고 숨김, 공식 URL 교체, 재검증 순서로 처리합니다.
+              </p>
+            </div>
+            <AlertTriangle size={18} className="shrink-0 text-brand-red" aria-hidden="true" />
+          </div>
+          <div className="mt-3 space-y-2">
+            {(failureReasonTop10.length ? failureReasonTop10 : [{ reason: "none", count: 0 }]).map((item) => (
+              <div key={item.reason} className={`rounded-2xl px-3 py-2 ${item.reason === "none" ? "bg-emerald-50" : "bg-red-50"}`}>
+                <div className="flex items-center justify-between gap-2">
+                  <p className={`truncate text-xs font-black ${item.reason === "none" ? "text-emerald-700" : "text-brand-red"}`}>
+                    {item.reason === "none" ? "현재 실패 사유 없음" : item.reason}
+                  </p>
+                  <span className="shrink-0 rounded-full bg-white px-2 py-0.5 text-[10px] font-black text-slate-700 shadow-sm">
+                    {item.count}건
+                  </span>
+                </div>
+                <p className="mt-1 text-[11px] font-bold leading-5 text-slate-600">{getFailureReasonAction(item.reason)}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="rounded-2xl border border-slate-100 bg-white p-3">
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <p className="text-sm font-black text-slate-950">수집 로그 바로 점검</p>
+              <p className="mt-1 text-[11px] font-bold leading-5 text-slate-500">
+                최근 20개 수집 로그에서 provider, 상태, 사유, 공식 링크를 확인하고 이상 신호가 있으면 재검증을 기록합니다.
+              </p>
+            </div>
+            <ListChecks size={18} className="shrink-0 text-slate-500" aria-hidden="true" />
+          </div>
+          <div className="mt-3 max-h-80 space-y-2 overflow-y-auto pr-1">
+            {(recentLogs.length ? recentLogs : [{ dealId: "none", provider: "system", title: "최근 수집 로그 없음", status: "empty", reason: "refresh:news 실행 필요", finalUrl: "", checkedAt: "" }]).map((log) => (
+              <div key={`${log.dealId}-${log.checkedAt}-${log.status}`} className="rounded-2xl bg-slate-50 px-3 py-2">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="min-w-0">
+                    <p className="line-clamp-1 text-xs font-black text-slate-950">{log.title}</p>
+                    <p className="mt-1 truncate text-[11px] font-bold text-slate-500">
+                      {log.provider} · {log.reason} {log.checkedAt ? `· ${getRelativeTime(log.checkedAt)}` : ""}
+                    </p>
+                  </div>
+                  <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-black ${log.status === "visible" ? "bg-emerald-50 text-emerald-700" : log.status === "empty" ? "bg-slate-100 text-slate-500" : "bg-red-50 text-brand-red"}`}>
+                    {log.status === "visible" ? "노출" : log.status === "empty" ? "대기" : "점검"}
+                  </span>
+                </div>
+                <div className="mt-2 flex items-center justify-between gap-2">
+                  <p className="truncate text-[10px] font-bold text-slate-400">{log.finalUrl || "공식 링크 없음"}</p>
+                  {log.finalUrl ? (
+                    <a
+                      href={log.finalUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="shrink-0 rounded-full bg-white px-2 py-1 text-[10px] font-black text-slate-700 shadow-sm hover:text-brand-red"
+                      aria-label={`${log.title} 공식 링크 새 탭 확인`}
+                    >
+                      확인
+                    </a>
+                  ) : null}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
