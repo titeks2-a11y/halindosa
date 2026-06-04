@@ -98,7 +98,14 @@ npm run release:doctor
 할인 뉴스, 공식 이벤트, 무료 쿠폰, 카드/멤버십/문화 혜택은 검색 결과나 커뮤니티 원문을 사용자 이동 링크로 쓰지 않습니다. 운영 feed는 `docs/news-feed-contract.md`의 JSON 계약을 따라야 하며, `finalUrl`은 공식 이벤트, 공식 쿠폰, 공식 구매 또는 공식 혜택 안내 페이지여야 합니다.
 
 ```bash
+npm run news:feed:live
+```
+
+이 명령은 feed 환경변수 안전성, feed 계약, canary, 공식 혜택 refresh/verify, 전체 refresh, 운영 헬스 준비도를 한 번에 실행하고 `reports/news-feed-live-pipeline.json`, [docs/NEWS_FEED_LIVE_PIPELINE.md](docs/NEWS_FEED_LIVE_PIPELINE.md)를 생성합니다. 개별 점검이 필요하면 아래 명령을 나누어 실행합니다.
+
+```bash
 npm run news:feed:doctor
+npm run news:feed:canary
 npm run refresh:news
 npm run verify:news
 npm run refresh:all

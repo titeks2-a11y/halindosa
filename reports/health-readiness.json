@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-04T10:47:35.890Z",
+  "generatedAt": "2026-06-04T10:57:41.489Z",
   "score": 100,
   "thresholds": {
     "productDealsCount": 140,
@@ -200,7 +200,7 @@
     },
     "feedCanary": {
       "ok": true,
-      "generatedAt": "2026-06-04T10:47:03.206Z",
+      "generatedAt": "2026-06-04T10:57:19.457Z",
       "status": "seed_fallback_only",
       "freshnessStatus": "fresh",
       "ageHours": 0,
@@ -218,7 +218,7 @@
   },
   "refreshAll": {
     "ok": true,
-    "generatedAt": "2026-06-04T10:47:05.369Z",
+    "generatedAt": "2026-06-04T10:57:19.727Z",
     "insertedCount": 43,
     "updatedCount": 136,
     "hiddenCount": 0,
@@ -229,32 +229,32 @@
       {
         "name": "refresh:deals",
         "ok": true,
-        "startedAt": "2026-06-04T10:47:05.370Z",
-        "finishedAt": "2026-06-04T10:47:05.642Z"
+        "startedAt": "2026-06-04T10:57:19.728Z",
+        "finishedAt": "2026-06-04T10:57:20.028Z"
       },
       {
         "name": "refresh:news",
         "ok": true,
-        "startedAt": "2026-06-04T10:47:05.642Z",
-        "finishedAt": "2026-06-04T10:47:05.726Z"
+        "startedAt": "2026-06-04T10:57:20.028Z",
+        "finishedAt": "2026-06-04T10:57:20.117Z"
       },
       {
         "name": "verify:links",
         "ok": true,
-        "startedAt": "2026-06-04T10:47:05.726Z",
-        "finishedAt": "2026-06-04T10:47:05.831Z"
+        "startedAt": "2026-06-04T10:57:20.117Z",
+        "finishedAt": "2026-06-04T10:57:20.223Z"
       },
       {
         "name": "verify:products",
         "ok": true,
-        "startedAt": "2026-06-04T10:47:05.831Z",
-        "finishedAt": "2026-06-04T10:47:05.917Z"
+        "startedAt": "2026-06-04T10:57:20.223Z",
+        "finishedAt": "2026-06-04T10:57:20.308Z"
       },
       {
         "name": "verify:news",
         "ok": true,
-        "startedAt": "2026-06-04T10:47:05.917Z",
-        "finishedAt": "2026-06-04T10:47:06.007Z"
+        "startedAt": "2026-06-04T10:57:20.308Z",
+        "finishedAt": "2026-06-04T10:57:20.390Z"
       }
     ]
   },
@@ -280,8 +280,8 @@
     "readinessLabel": "seed launch ready / 공식 feed 연결 대기",
     "launchGateStatus": "passed",
     "officialSourceCandidates": 30,
-    "reachableSources": 27,
-    "guardedSources": 3,
+    "reachableSources": 26,
+    "guardedSources": 4,
     "configuredFeedUrls": 0,
     "visibleOfficialBenefits": 43,
     "blockedLiveIssues": 0,

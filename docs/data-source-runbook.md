@@ -63,7 +63,7 @@ npm run source:feed-env:doctor
 - `/api/admin/source-feed-env`
 - `/admin`의 `공식 feed 환경변수 안전성` 패널
 
-이 명령이 통과한 뒤 `npm run refresh:news`, `npm run verify:news`, `npm run refresh:all`을 실행한다.
+이 명령이 통과한 뒤에는 `npm run news:feed:live`를 실행한다. 이 명령은 feed env 안전성, feed 계약, canary, 뉴스 갱신, 뉴스 검증, 전체 갱신, 운영 헬스 준비도를 한 번에 확인하고 `reports/news-feed-live-pipeline.json`과 `docs/NEWS_FEED_LIVE_PIPELINE.md`를 생성한다.
 
 ## Official Source Readiness Rollup
 
@@ -75,6 +75,7 @@ npm run source:live:doctor
 npm run source:onboarding:plan
 npm run source:feed-env:doctor
 npm run source:readiness:report
+npm run news:feed:live
 ```
 
 `source:readiness:report`는 아래 리포트를 함께 읽어 `reports/source-readiness.json`과 `docs/SOURCE_READINESS_REPORT.md`를 만든다.
@@ -87,6 +88,8 @@ npm run source:readiness:report
 - `reports/refresh-all.json`
 
 운영자는 `/api/admin/source-readiness`, `/api/admin/source-readiness?format=csv` 또는 `/admin`의 `공식 소스 통합 준비도` 패널에서 출시 게이트, 공식 후보 수, 접근 가능/보호 소스, feed env 실패, 공식 혜택 노출 수, 다음 연결 액션을 확인한다. 검색 결과, 커뮤니티 원문, 블로그, 쇼핑몰 메인, HTML 이벤트 랜딩 페이지는 공식 feed 후보나 사용자 이동 링크로 쓰지 않는다.
+
+`news:feed:live` 결과가 `live_feed_ready`이면 실제 feed URL이 연결된 상태로 운영 가능하다. feed URL이 아직 없으면 `seed_launch_ready`로 통과하며, 이 상태는 무단 크롤링 없이 승인 seed/fallback만 사용자에게 노출한다는 의미다. `needs_attention`이면 실패 step의 stderr와 `reports/source-feed-env-readiness.json`, `reports/news-feed-canary.json`, `reports/news-deals.json`을 먼저 확인한다.
 
 ## 운영 전환 순서
 

@@ -73,6 +73,7 @@ async function checkPackage() {
     "news:preview",
     "test:news-feed-errors",
     "test:news-feed-dry-run",
+    "news:feed:live",
     "refresh:all",
     "health:readiness",
     "push:readiness:report",
@@ -4280,6 +4281,7 @@ function checkNewsDealPipeline() {
     "scripts/news-freshness-doctor.mjs",
     "scripts/news-feed-contract-doctor.mjs",
     "scripts/news-feed-canary.mjs",
+    "scripts/news-feed-live-pipeline.mjs",
     "scripts/news-feed-preview.mjs",
     "scripts/test-news-feed-error-gate.mjs",
     "scripts/test-news-feed-dry-run.mjs",
@@ -4292,9 +4294,11 @@ function checkNewsDealPipeline() {
     "reports/news-deals.json",
     "reports/news-freshness.json",
     "reports/news-feed-canary.json",
+    "reports/news-feed-live-pipeline.json",
     "reports/news-feed-preview.json",
     "docs/NEWS_FRESHNESS_REPORT.md",
     "docs/NEWS_FEED_CANARY_REPORT.md",
+    "docs/NEWS_FEED_LIVE_PIPELINE.md",
     "docs/NEWS_FEED_PREVIEW_REPORT.md",
     "docs/news-feed-contract.md",
     "reports/refresh-all.json",
@@ -4317,18 +4321,26 @@ function checkNewsDealPipeline() {
   const freshnessScript = existsSync(join(root, "scripts/news-freshness-doctor.mjs")) ? readFileSync(join(root, "scripts/news-freshness-doctor.mjs"), "utf8") : "";
   const feedDoctorScript = existsSync(join(root, "scripts/news-feed-contract-doctor.mjs")) ? readFileSync(join(root, "scripts/news-feed-contract-doctor.mjs"), "utf8") : "";
   const feedCanaryScript = existsSync(join(root, "scripts/news-feed-canary.mjs")) ? readFileSync(join(root, "scripts/news-feed-canary.mjs"), "utf8") : "";
+  const feedLivePipelineScript = existsSync(join(root, "scripts/news-feed-live-pipeline.mjs")) ? readFileSync(join(root, "scripts/news-feed-live-pipeline.mjs"), "utf8") : "";
   const feedPreviewScript = existsSync(join(root, "scripts/news-feed-preview.mjs")) ? readFileSync(join(root, "scripts/news-feed-preview.mjs"), "utf8") : "";
   const feedPreviewOperation = existsSync(join(root, "lib/operations/newsFeedPreview.ts")) ? readFileSync(join(root, "lib/operations/newsFeedPreview.ts"), "utf8") : "";
   const feedDryRunOperation = existsSync(join(root, "lib/operations/newsFeedDryRun.ts")) ? readFileSync(join(root, "lib/operations/newsFeedDryRun.ts"), "utf8") : "";
   const feedPreviewReport = existsSync(join(root, "reports/news-feed-preview.json")) ? JSON.parse(readFileSync(join(root, "reports/news-feed-preview.json"), "utf8")) : {};
   const feedCanaryReport = existsSync(join(root, "reports/news-feed-canary.json")) ? JSON.parse(readFileSync(join(root, "reports/news-feed-canary.json"), "utf8")) : {};
+  const feedLivePipelineReport = existsSync(join(root, "reports/news-feed-live-pipeline.json")) ? JSON.parse(readFileSync(join(root, "reports/news-feed-live-pipeline.json"), "utf8")) : {};
   const feedCanaryGeneratedAt = Date.parse(String(feedCanaryReport.generatedAt ?? ""));
   const feedCanaryAgeHours = Number.isFinite(feedCanaryGeneratedAt)
     ? Math.round(((Date.now() - feedCanaryGeneratedAt) / (60 * 60 * 1000)) * 10) / 10
     : Number.POSITIVE_INFINITY;
   const feedCanaryStaleHours = Number(feedCanaryReport.staleHours ?? 24);
   const feedCanaryFreshEnough = Number.isFinite(feedCanaryAgeHours) && feedCanaryAgeHours <= feedCanaryStaleHours;
+  const feedLivePipelineGeneratedAt = Date.parse(String(feedLivePipelineReport.generatedAt ?? ""));
+  const feedLivePipelineAgeHours = Number.isFinite(feedLivePipelineGeneratedAt)
+    ? Math.round(((Date.now() - feedLivePipelineGeneratedAt) / (60 * 60 * 1000)) * 10) / 10
+    : Number.POSITIVE_INFINITY;
+  const feedLivePipelineFreshEnough = Number.isFinite(feedLivePipelineAgeHours) && feedLivePipelineAgeHours <= 24;
   const feedCanaryDocs = existsSync(join(root, "docs/NEWS_FEED_CANARY_REPORT.md")) ? readFileSync(join(root, "docs/NEWS_FEED_CANARY_REPORT.md"), "utf8") : "";
+  const feedLivePipelineDocs = existsSync(join(root, "docs/NEWS_FEED_LIVE_PIPELINE.md")) ? readFileSync(join(root, "docs/NEWS_FEED_LIVE_PIPELINE.md"), "utf8") : "";
   const feedPreviewDocs = existsSync(join(root, "docs/NEWS_FEED_PREVIEW_REPORT.md")) ? readFileSync(join(root, "docs/NEWS_FEED_PREVIEW_REPORT.md"), "utf8") : "";
   const configuredFeedErrorTest = existsSync(join(root, "scripts/test-news-feed-error-gate.mjs")) ? readFileSync(join(root, "scripts/test-news-feed-error-gate.mjs"), "utf8") : "";
   const feedDryRunTest = existsSync(join(root, "scripts/test-news-feed-dry-run.mjs")) ? readFileSync(join(root, "scripts/test-news-feed-dry-run.mjs"), "utf8") : "";
@@ -4373,8 +4385,8 @@ function checkNewsDealPipeline() {
     if (!envExample.includes(key)) issues.push(`env example missing ${key}`);
   }
 
-  if (!packageJson.scripts?.["refresh:news"] || !packageJson.scripts?.["verify:news"] || !packageJson.scripts?.["news:freshness:doctor"] || !packageJson.scripts?.["news:feed:doctor"] || !packageJson.scripts?.["news:feed:canary"] || !packageJson.scripts?.["test:news-feed-errors"] || !packageJson.scripts?.["test:news-feed-dry-run"] || !packageJson.scripts?.["refresh:all"]) {
-    issues.push("package scripts should expose refresh:news, verify:news, news:freshness:doctor, news:feed:doctor, news:feed:canary, test:news-feed-errors, test:news-feed-dry-run, and refresh:all");
+  if (!packageJson.scripts?.["refresh:news"] || !packageJson.scripts?.["verify:news"] || !packageJson.scripts?.["news:freshness:doctor"] || !packageJson.scripts?.["news:feed:doctor"] || !packageJson.scripts?.["news:feed:canary"] || !packageJson.scripts?.["news:feed:live"] || !packageJson.scripts?.["test:news-feed-errors"] || !packageJson.scripts?.["test:news-feed-dry-run"] || !packageJson.scripts?.["refresh:all"]) {
+    issues.push("package scripts should expose refresh:news, verify:news, news:freshness:doctor, news:feed:doctor, news:feed:canary, news:feed:live, test:news-feed-errors, test:news-feed-dry-run, and refresh:all");
   }
   if (!String(packageJson.scripts?.qa ?? "").includes("news:freshness:doctor") || !String(packageJson.scripts?.qa ?? "").includes("news:feed:doctor") || !String(packageJson.scripts?.qa ?? "").includes("news:feed:canary") || !String(packageJson.scripts?.qa ?? "").includes("test:news-feed-errors") || !String(packageJson.scripts?.qa ?? "").includes("test:news-feed-dry-run")) {
     issues.push("qa should include news:freshness:doctor, news:feed:doctor, news:feed:canary, test:news-feed-errors, and test:news-feed-dry-run");
@@ -4473,6 +4485,14 @@ function checkNewsDealPipeline() {
     !feedCanaryScript.includes("configured_empty_feed") ||
     !feedCanaryScript.includes("live_feed_ready") ||
     !feedCanaryScript.includes("seed_fallback_only") ||
+    !feedLivePipelineScript.includes("source-feed-env-doctor.mjs") ||
+    !feedLivePipelineScript.includes("news-feed-canary.mjs") ||
+    !feedLivePipelineScript.includes("refresh-news-deals.mjs") ||
+    !feedLivePipelineScript.includes("verify-news-deals.mjs") ||
+    !feedLivePipelineScript.includes("refresh-all.mjs") ||
+    !feedLivePipelineScript.includes("verify-product-links-live.mjs") ||
+    !feedLivePipelineScript.includes("health-readiness-report.mjs") ||
+    !feedLivePipelineScript.includes("reports/news-feed-live-pipeline.json") ||
     !adminNewsFeedCanaryRoute.includes("canAccessAdminRequest") ||
     !adminNewsFeedCanaryRoute.includes("buildFeedCanaryCsv") ||
     !adminNewsFeedCanaryRoute.includes("text/csv") ||
@@ -4495,11 +4515,27 @@ function checkNewsDealPipeline() {
   ) {
     issues.push("news feed canary report should pass, be fresher than the stale threshold, and expose configured feed URL and visible candidate counters");
   }
+  if (
+    feedLivePipelineReport.ok !== true ||
+    !["seed_launch_ready", "live_feed_ready"].includes(feedLivePipelineReport.status) ||
+    !feedLivePipelineFreshEnough ||
+    typeof feedLivePipelineReport.configuredUrlCount !== "number" ||
+    !["fresh", "due"].includes(feedLivePipelineReport.canary?.freshnessStatus) ||
+    Number(feedLivePipelineReport.officialBenefits?.visibleCount ?? 0) < 40 ||
+    Number(feedLivePipelineReport.officialBenefits?.exposedSearchLinkCount ?? 1) !== 0 ||
+    Number(feedLivePipelineReport.officialBenefits?.exposedNonOfficialLinkCount ?? 1) !== 0 ||
+    Number(feedLivePipelineReport.officialBenefits?.expiredCount ?? 1) !== 0
+  ) {
+    issues.push("news feed live pipeline should pass recently and prove official benefits expose no search, non-official, or expired links");
+  }
   if (!adminPage.includes("canary JSON") || !adminPage.includes("canary CSV") || !smokeScript.includes("admin news feed canary api")) {
     issues.push("admin dashboard and smoke tests should expose protected official feed canary JSON/CSV checks");
   }
   for (const phrase of ["공식 혜택 Feed Canary", "신선도", "연결된 feed URL", "설정 feed 공백", "npm run news:feed:canary"]) {
     if (!feedCanaryDocs.includes(phrase)) issues.push(`news feed canary docs missing ${phrase}`);
+  }
+  for (const phrase of ["실시간 공식 feed 운영 파이프라인", "npm run news:feed:live", "검색 결과 URL", "공식 혜택", "canary"]) {
+    if (!feedLivePipelineDocs.includes(phrase)) issues.push(`news feed live pipeline docs missing ${phrase}`);
   }
   for (const phrase of ["공식 혜택 Feed 계약", "검색 결과 URL", "커뮤니티", "finalUrl", "RSS", "Atom", "본문 안 공식 링크", "npm run refresh:news", "configuredFeedErrors", "설정된 운영 feed"]) {
     if (!newsFeedContract.includes(phrase)) issues.push(`news feed contract docs missing ${phrase}`);
