@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-04T04:41:40.980Z",
+  "generatedAt": "2026-06-04T05:59:45.529Z",
   "sampleResults": [
     {
       "name": "coupang product detail allowed",
@@ -140,6 +140,41 @@
       "mismatches": []
     },
     {
+      "name": "ending soon evidence stays visible",
+      "url": "https://item.gmarket.co.kr/Item?goodscode=3560262554",
+      "expected": {
+        "isHidden": false,
+        "availability": "active",
+        "validationStatus": "passed"
+      },
+      "actual": {
+        "linkType": "direct_purchase",
+        "availability": "active",
+        "validationStatus": "passed",
+        "isHidden": false,
+        "reason": "product_detail"
+      },
+      "ok": true,
+      "mismatches": []
+    },
+    {
+      "name": "event ended evidence blocked",
+      "url": "https://www.coupang.com/vp/products/130180913?itemId=383114455",
+      "expected": {
+        "isHidden": true,
+        "availability": "sold_out"
+      },
+      "actual": {
+        "linkType": "unavailable",
+        "availability": "sold_out",
+        "validationStatus": "failed",
+        "isHidden": true,
+        "reason": "sold_out_or_ended_text"
+      },
+      "ok": true,
+      "mismatches": []
+    },
+    {
       "name": "english sold out evidence blocked",
       "url": "https://www.coupang.com/vp/products/130180913?itemId=383114455",
       "expected": {
@@ -216,8 +251,8 @@
     }
   ],
   "summary": {
-    "sampleCount": 10,
-    "samplePassed": 10,
+    "sampleCount": 12,
+    "samplePassed": 12,
     "structuralPassed": 5,
     "reportPassed": 4,
     "exposedSearchLinks": 0,

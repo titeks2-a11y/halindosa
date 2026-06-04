@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-04T05:18:48.936Z",
+  "generatedAt": "2026-06-04T05:59:45.005Z",
   "totalProducts": 140,
   "passedProducts": 140,
   "failedProducts": 0,
@@ -19,7 +19,7 @@
     "version": 2,
     "source": "data/linkQualityPolicy.json",
     "searchPatterns": 31,
-    "unavailableTextPatterns": 28,
+    "unavailableTextPatterns": 37,
     "productDetailSignals": 26,
     "exposurePolicy": {
       "availability": "active",
@@ -40,7 +40,7 @@
     "http410": 0,
     "http5xx": 0,
     "timeout": 0,
-    "robotsBlocked": 58,
+    "robotsBlocked": 57,
     "unavailableText": 0
   },
   "exposurePolicy": {

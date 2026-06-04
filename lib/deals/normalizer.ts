@@ -4,7 +4,13 @@ import { buildBenefitSummary, inferDealBenefitType } from "@/lib/deals/benefits"
 import { buildBenefitClaimGuide } from "@/lib/deals/claimGuide";
 import { validatePurchaseLink } from "@/lib/deals/linkValidator";
 import { getDealPriorityScore, resolveDealAvailability, resolveDealValidationStatus, shouldHideDeal } from "@/lib/deals/quality";
-import { isPolicyBlockedHost, isPolicyHomeOnlyUrl, isPolicyPlaceholderHost, isPolicySearchLikeUrl } from "@/lib/deals/linkQualityPolicy";
+import {
+  containsPolicyUnavailableText,
+  isPolicyBlockedHost,
+  isPolicyHomeOnlyUrl,
+  isPolicyPlaceholderHost,
+  isPolicySearchLikeUrl
+} from "@/lib/deals/linkQualityPolicy";
 
 export type DealInput = Partial<Deal> & {
   id: string;
@@ -76,6 +82,15 @@ export function normalizeDeal(input: DealInput, source = input.source ?? "mock")
   const expireAt = input.expireAt ?? input.expiresAt ?? new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
   const createdAt = input.createdAt ?? new Date().toISOString();
   const tags = input.tags ?? [];
+  const unavailableSignalText = [
+    input.title,
+    input.description,
+    input.notice,
+    input.benefitSummary,
+    input.validationReason,
+    ...tags
+  ].join(" ");
+  const hasUnavailableSignal = containsPolicyUnavailableText(unavailableSignalText);
   const discountAmount = input.discountAmount ?? Math.max(0, input.originalPrice - input.salePrice);
   const discountRate = input.discountRate ?? Math.round((discountAmount / Math.max(input.originalPrice, 1)) * 100);
   const isFreeShipping = input.isFreeShipping ?? /무료배송|무배|네멤무료|로켓프레시/.test([shipping, ...tags].join(" "));
@@ -106,7 +121,7 @@ export function normalizeDeal(input: DealInput, source = input.source ?? "mock")
   const publicSearchUrl = sanitizePublicAuxiliaryUrl(input.searchUrl);
   const publicOriginalUrl = sanitizePublicAuxiliaryUrl(input.originalUrl ?? input.link);
   const publicSourceUrl = sanitizePublicAuxiliaryUrl(input.sourceUrl);
-  const linkStatus = input.linkStatus ?? linkValidation.linkStatus;
+  const linkStatus = input.linkStatus ?? (hasUnavailableSignal ? "sold_out" : linkValidation.linkStatus);
   const linkType = input.linkType ?? linkValidation.linkType;
   const linkVerified = input.linkVerified ?? linkValidation.linkVerified;
   const purchaseConfidence = input.purchaseConfidence ?? linkValidation.purchaseConfidence;
@@ -114,7 +129,7 @@ export function normalizeDeal(input: DealInput, source = input.source ?? "mock")
   const isExpired = input.isExpired ?? new Date(expireAt).getTime() <= Date.now();
   const reliabilityScore = input.reliabilityScore ?? Math.min(100, Math.round(purchaseConfidence + (linkVerified ? 8 : 0) + ((input.popularityScore ?? 0) >= 85 ? 3 : 0)));
   const purchaseLinkVerified = input.purchaseLinkVerified ?? linkValidation.purchaseLinkVerified;
-  const isSoldOut = input.isSoldOut ?? linkStatus === "sold_out";
+  const isSoldOut = input.isSoldOut ?? (hasUnavailableSignal || linkStatus === "sold_out");
   const finalUrl = input.finalUrl ?? linkValidation.finalUrl;
   const finalPurchaseUrl = input.finalPurchaseUrl ?? linkValidation.finalPurchaseUrl;
   const checkedAt = input.checkedAt ?? linkValidation.checkedAt;
@@ -138,11 +153,11 @@ export function normalizeDeal(input: DealInput, source = input.source ?? "mock")
     checkedAt,
     priceCheckedAt
   };
-  const availability = input.availability ?? resolveDealAvailability(qualityInput);
-  const validationStatus = input.validationStatus ?? resolveDealValidationStatus({ ...qualityInput, availability });
-  const validationReason = input.validationReason ?? linkValidation.reason;
+  const availability = input.availability ?? (hasUnavailableSignal ? "sold_out" : resolveDealAvailability(qualityInput));
+  const validationStatus = input.validationStatus ?? (hasUnavailableSignal ? "failed" : resolveDealValidationStatus({ ...qualityInput, availability }));
+  const validationReason = input.validationReason ?? (hasUnavailableSignal ? "상품 정보에 품절/판매종료/이벤트 종료 신호가 있어 노출 제한 대상입니다." : linkValidation.reason);
   const lastCheckedAt = input.lastCheckedAt ?? checkedAt;
-  const isHidden = input.isHidden ?? shouldHideDeal({ ...qualityInput, availability, validationStatus });
+  const isHidden = input.isHidden ?? (hasUnavailableSignal || shouldHideDeal({ ...qualityInput, availability, validationStatus }));
   const priorityScore = input.priorityScore ?? getDealPriorityScore({ ...qualityInput, availability, validationStatus, validationReason, lastCheckedAt, isHidden });
   const conditionText = [input.title, input.category, ...tags].join(" ");
   const isFirstComeFirstServed = input.isFirstComeFirstServed ?? /선착순|한정수량|오늘만|마감임박/.test(conditionText);

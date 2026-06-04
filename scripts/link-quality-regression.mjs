@@ -157,6 +157,18 @@ const samples = [
     expected: { isHidden: true, availability: "sold_out" }
   },
   {
+    name: "ending soon evidence stays visible",
+    url: "https://item.gmarket.co.kr/Item?goodscode=3560262554",
+    evidence: "마감임박 오늘만 한정수량",
+    expected: { isHidden: false, availability: "active", validationStatus: "passed" }
+  },
+  {
+    name: "event ended evidence blocked",
+    url: "https://www.coupang.com/vp/products/130180913?itemId=383114455",
+    evidence: "이벤트 종료 모집 마감 신청마감",
+    expected: { isHidden: true, availability: "sold_out" }
+  },
+  {
     name: "english sold out evidence blocked",
     url: "https://www.coupang.com/vp/products/130180913?itemId=383114455",
     evidence: "Out of stock temporarily unavailable",

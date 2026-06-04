@@ -460,10 +460,11 @@ function normalizeCollectedItem(raw, index) {
 }
 
 async function validateCollectedDeal(deal) {
-  const classification = classifyUrl(deal.finalPurchaseUrl, deal.evidence);
+  const evidenceText = [deal.title, deal.evidence, ...(deal.tags ?? [])].join(" ");
+  const classification = classifyUrl(deal.finalPurchaseUrl, evidenceText);
   const probe = classification.ok ? await probeUrl(deal.finalPurchaseUrl) : { ok: true, reason: "not_probed" };
   const finalClassification =
-    probe.finalUrl && probe.finalUrl !== deal.finalPurchaseUrl ? classifyUrl(probe.finalUrl, deal.evidence) : classification;
+    probe.finalUrl && probe.finalUrl !== deal.finalPurchaseUrl ? classifyUrl(probe.finalUrl, evidenceText) : classification;
   const ok = classification.ok && finalClassification.ok && probe.ok && !probe.unavailableText;
   const isHidden = !ok;
   const priorityScore =
