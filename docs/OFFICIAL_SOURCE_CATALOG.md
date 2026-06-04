@@ -2,9 +2,9 @@
 
 이 문서는 할인도사에 연결할 수 있는 공식 이벤트, 공공 혜택, 제휴 JSON/RSS 후보를 정리합니다. 무단 크롤링 후보가 아니라 운영자가 승인 feed 또는 공식 페이지 매핑으로 전환할 때 쓰는 출발점입니다.
 
-- 생성 시각: 2026-06-04T10:47:40.027Z
+- 생성 시각: 2026-06-04T15:28:26.610Z
 - 상태: PASS
-- 후보 소스: 30개
+- 후보 소스: 31개
 - 고우선순위 후보: 10개
 - 현재 env feed 연결 후보: 0개
 - 공식 혜택 노출: 43개
@@ -18,12 +18,12 @@
 | 식품/생필품 | 4 | 충분 |
 | 마트/편의점 | 6 | 충분 |
 | 디지털/가전 | 2 | 충분 |
-| 패션/뷰티 | 3 | 충분 |
+| 패션/뷰티 | 4 | 충분 |
 | 외식/배달 | 7 | 충분 |
 | 여행/숙박 | 3 | 충분 |
 | 영화/문화 | 6 | 충분 |
-| 카드/멤버십 | 7 | 충분 |
-| 무료혜택 | 13 | 충분 |
+| 카드/멤버십 | 8 | 충분 |
+| 무료혜택 | 14 | 충분 |
 | 정부/공공혜택 | 3 | 충분 |
 
 ## Provider 커버리지
@@ -32,7 +32,7 @@
 | --- | ---: | --- |
 | news | 1 | 포함 |
 | event_news | 2 | 포함 |
-| official_event | 18 | 포함 |
+| official_event | 19 | 포함 |
 | public_coupon | 9 | 포함 |
 
 ## 후보 목록
@@ -69,6 +69,7 @@
 | lpoint-card-events | public_coupon | 카드/멤버십, 무료혜택 | medium | https://m.lpoint.com/app/asset/LWCE100100.do?fnTapPmotC=85 | PUBLIC_COUPON_FEED_URLS, DEAL_EVENT_FEED_URLS |
 | visitkorea-travel-week | public_coupon | 여행/숙박, 정부/공공혜택, 무료혜택 | high | https://korean.visitkorea.or.kr/other/otherService.do?otdid=46a412aa-0b3b-11ea-869b-020027310001 | PUBLIC_COUPON_FEED_URLS, DEAL_NEWS_FEED_URLS |
 | baemin-academy-events | public_coupon | 외식/배달, 무료혜택 | medium | https://academy.baemin.com/event/list | PUBLIC_COUPON_FEED_URLS, DEAL_EVENT_NEWS_FEED_URLS |
+| lotteon-lobs-share-event | official_event | 패션/뷰티, 무료혜택, 카드/멤버십 | medium | https://www.lotteon.com/event/onLohbsShare | OFFICIAL_EVENT_FEED_URLS, DEAL_EVENT_FEED_URLS |
 
 ## 다음 작업
 

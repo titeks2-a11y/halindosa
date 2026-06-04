@@ -2,7 +2,8 @@ import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import seedNewsDeals from "@/data/newsDeals.seed.json";
 import { applyNewsDealOverrides } from "@/lib/deals/newsOverrides";
-import type { NewsDeal, NewsDealSourceTrust } from "@/types/newsDeal";
+import { buildNewsSourceTrustScores } from "@/lib/deals/newsSourceTrust";
+import type { NewsDeal } from "@/types/newsDeal";
 
 interface NewsDealSnapshot {
   generatedAt?: string;
@@ -198,6 +199,18 @@ function buildRecommendedNewsQueries(deals: NewsDeal[], configuredQueries = buil
     mart: "마트행사"
   };
   const weights = new Map<string, { count: number; score: number }>();
+  const intentQueries = [
+    { query: "오늘의 무료", score: 18 },
+    { query: "무료 쿠폰", score: 17 },
+    { query: "마트 행사", score: 16 },
+    { query: "편의점 1+1", score: 16 },
+    { query: "배달 쿠폰", score: 15 },
+    { query: "카드 혜택", score: 15 },
+    { query: "정부 지원", score: 14 },
+    { query: "문화 혜택", score: 14 },
+    { query: "마감임박", score: 13 },
+    { query: "무료배송", score: 13 }
+  ];
 
   const add = (value: string, score = 1) => {
     const query = value.trim();
@@ -210,8 +223,19 @@ function buildRecommendedNewsQueries(deals: NewsDeal[], configuredQueries = buil
     add(deal.category, 2);
     add(benefitLabels[deal.benefitType] ?? deal.benefitType, 3);
     add(deal.merchant, 2);
+    if (Date.parse(deal.endDate) - Date.now() <= 3 * 24 * 60 * 60 * 1000) add("마감임박", 3);
     for (const tag of deal.tags) add(tag, 1);
   }
+
+  intentQueries.forEach(({ query, score }) => {
+    const inferredCount = inferRecommendedQueryCount(query, deals);
+    if (inferredCount <= 0) return;
+    const current = weights.get(query) ?? { count: 0, score: 0 };
+    weights.set(query, {
+      count: Math.max(current.count, inferredCount),
+      score: current.score + score + inferredCount * 2
+    });
+  });
 
   configuredQueries.forEach((query, index) => {
     const current = weights.get(query) ?? { count: 0, score: 0 };
@@ -227,68 +251,6 @@ function buildRecommendedNewsQueries(deals: NewsDeal[], configuredQueries = buil
     .sort((a, b) => b.score - a.score || b.count - a.count || a.query.localeCompare(b.query))
     .slice(0, 10)
     .map(({ query, count }) => ({ query, count }));
-}
-
-function buildVisibleSourceTrustScores(deals: NewsDeal[]): NewsDealSourceTrust[] {
-  const groups = new Map<string, {
-    sourceName: string;
-    provider: string;
-    officialHost: string;
-    totalCount: number;
-    priorityScoreSum: number;
-    lastCheckedAt: string;
-    categories: Set<NewsDeal["category"]>;
-    benefitTypes: Set<NewsDeal["benefitType"]>;
-  }>();
-
-  deals.forEach((deal) => {
-    const sourceName = deal.sourceName || deal.merchant || "공식 혜택";
-    const officialHost = deal.officialHost ?? "";
-    const key = `${sourceName}::${officialHost}`;
-    const current = groups.get(key) ?? {
-      sourceName,
-      provider: deal.provider,
-      officialHost,
-      totalCount: 0,
-      priorityScoreSum: 0,
-      lastCheckedAt: "",
-      categories: new Set<NewsDeal["category"]>(),
-      benefitTypes: new Set<NewsDeal["benefitType"]>()
-    };
-
-    current.totalCount += 1;
-    current.priorityScoreSum += Number(deal.priorityScore ?? deal.confidenceScore ?? 0);
-    current.lastCheckedAt = !current.lastCheckedAt || Date.parse(deal.lastCheckedAt) > Date.parse(current.lastCheckedAt) ? deal.lastCheckedAt : current.lastCheckedAt;
-    current.categories.add(deal.category);
-    current.benefitTypes.add(deal.benefitType);
-    groups.set(key, current);
-  });
-
-  return Array.from(groups.values())
-    .map((item) => {
-      const averagePriorityScore = item.totalCount ? Math.round(item.priorityScoreSum / item.totalCount) : 0;
-      const trustScore = Math.max(0, Math.min(100, Math.round(averagePriorityScore * 0.65 + 35)));
-
-      return {
-        sourceName: item.sourceName,
-        provider: item.provider,
-        officialHost: item.officialHost,
-        totalCount: item.totalCount,
-        visibleCount: item.totalCount,
-        hiddenCount: 0,
-        failedCount: 0,
-        searchLinkCount: 0,
-        expiredCount: 0,
-        averagePriorityScore,
-        trustScore,
-        status: trustScore >= 90 ? "trusted" : trustScore >= 75 ? "watch" : "needs_review",
-        lastCheckedAt: item.lastCheckedAt,
-        categories: Array.from(item.categories).sort(),
-        benefitTypes: Array.from(item.benefitTypes).sort(),
-        recommendedAction: "공식 링크가 검증된 출처로 유지"
-      } satisfies NewsDealSourceTrust;
-    })
-    .sort((a, b) => b.trustScore - a.trustScore || b.visibleCount - a.visibleCount || a.sourceName.localeCompare(b.sourceName));
 }
 
 export function getVisibleNewsDeals(options: { limit?: number; category?: string; benefitType?: string; q?: string; sort?: string } = {}) {
@@ -320,7 +282,7 @@ export function getVisibleNewsDeals(options: { limit?: number; category?: string
     categoryCounts: countBy(sorted, (deal) => deal.category),
     benefitTypeCounts: countBy(sorted, (deal) => deal.benefitType),
     sourceCounts: countBy(sorted, (deal) => deal.sourceName),
-    sourceTrustScores: buildVisibleSourceTrustScores(sorted),
+    sourceTrustScores: buildNewsSourceTrustScores(sorted),
     recommendedQueries: buildRecommendedNewsQueries(sorted, sourceConfigQueries),
     sourceConfigQueries,
     ...freshness

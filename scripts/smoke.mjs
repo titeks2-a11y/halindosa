@@ -630,6 +630,10 @@ await check("news deals api", async () => {
     "News deals API source trust scores missing launch fields"
   );
   assert(Array.isArray(data.recommendedQueries) && data.recommendedQueries.length >= 3, "News deals API missing recommended official benefit search queries");
+  assert(
+    data.recommendedQueries.some((item) => ["오늘의 무료", "무료 쿠폰", "마트 행사", "편의점 1+1", "배달 쿠폰", "카드 혜택"].includes(item.query)),
+    "News deals API missing customer intent recommended queries"
+  );
   assert(data.deals.some((deal) => deal.category === "마트/편의점"), "News deals API missing mart/convenience official benefits");
   assert(data.deals.some((deal) => deal.category === "영화/문화" || deal.category === "정부/공공혜택"), "News deals API missing culture/public official benefits");
   const full = await fetchJson("/api/news-deals");

@@ -451,5 +451,20 @@
     "allowedUse": "배민아카데미 공식 무료 교육, 행사, 소상공인 지원 혜택",
     "blockedUse": "배달앱 주문 검색 결과, 사장님 커뮤니티 글 단독 링크",
     "notes": "사업자 대상 혜택은 대상 조건을 명확히 표시하고 일반 소비자 혜택과 섞어 과장하지 않는다."
+  },
+  {
+    "id": "lotteon-lobs-share-event",
+    "label": "롯데ON 공식 혜택 이벤트",
+    "provider": "official_event",
+    "category": ["패션/뷰티", "무료혜택", "카드/멤버십"],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.lotteon.com/event/onLohbsShare",
+    "preferredEnvKeys": ["OFFICIAL_EVENT_FEED_URLS", "DEAL_EVENT_FEED_URLS"],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "롯데ON 공식 이벤트 페이지에서 혜택 기간, 대상, 쿠폰 또는 참여 조건이 확인되는 항목",
+    "blockedUse": "롯데ON 검색 결과, 쇼핑몰 메인, 비공식 공유글, 종료 이벤트",
+    "notes": "현재 공식 이벤트 후보 URL로만 관리한다. 사용자 노출 feed로 승격하려면 운영자가 공식 JSON/RSS/API 또는 승인 feed에 title, summary, endDate, finalUrl을 명시한다."
   }
 ]

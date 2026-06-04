@@ -1,7 +1,7 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-04T10:47:40.027Z",
-  "catalogCount": 30,
+  "generatedAt": "2026-06-04T15:28:26.610Z",
+  "catalogCount": 31,
   "highPriorityCount": 10,
   "configuredSourceCount": 0,
   "configuredEnvKeys": {
@@ -15,12 +15,12 @@
     "식품/생필품": 4,
     "마트/편의점": 6,
     "디지털/가전": 2,
-    "패션/뷰티": 3,
+    "패션/뷰티": 4,
     "외식/배달": 7,
     "여행/숙박": 3,
     "영화/문화": 6,
-    "카드/멤버십": 7,
-    "무료혜택": 13,
+    "카드/멤버십": 8,
+    "무료혜택": 14,
     "정부/공공혜택": 3
   },
   "missingCategories": [],
@@ -28,13 +28,13 @@
   "providerCoverage": {
     "news": 1,
     "event_news": 2,
-    "official_event": 18,
+    "official_event": 19,
     "public_coupon": 9
   },
   "missingProviders": [],
   "sourceTypes": {
     "official_benefit_page": 3,
-    "official_event_page": 23,
+    "official_event_page": 24,
     "official_purchase_page": 1,
     "public_official_page": 3
   },
@@ -885,6 +885,35 @@
       "blockedUse": "배달앱 주문 검색 결과, 사장님 커뮤니티 글 단독 링크",
       "notes": "사업자 대상 혜택은 대상 조건을 명확히 표시하고 일반 소비자 혜택과 섞어 과장하지 않는다.",
       "host": "academy.baemin.com",
+      "configuredFeedUrls": 0,
+      "searchLike": false,
+      "blockedHost": false,
+      "homeLike": false,
+      "ok": true,
+      "issues": []
+    },
+    {
+      "id": "lotteon-lobs-share-event",
+      "label": "롯데ON 공식 혜택 이벤트",
+      "provider": "official_event",
+      "category": [
+        "패션/뷰티",
+        "무료혜택",
+        "카드/멤버십"
+      ],
+      "sourceType": "official_event_page",
+      "officialUrl": "https://www.lotteon.com/event/onLohbsShare",
+      "preferredEnvKeys": [
+        "OFFICIAL_EVENT_FEED_URLS",
+        "DEAL_EVENT_FEED_URLS"
+      ],
+      "integrationMethod": "official_page_or_partner_json_feed",
+      "priority": "medium",
+      "refreshCadenceHours": 12,
+      "allowedUse": "롯데ON 공식 이벤트 페이지에서 혜택 기간, 대상, 쿠폰 또는 참여 조건이 확인되는 항목",
+      "blockedUse": "롯데ON 검색 결과, 쇼핑몰 메인, 비공식 공유글, 종료 이벤트",
+      "notes": "현재 공식 이벤트 후보 URL로만 관리한다. 사용자 노출 feed로 승격하려면 운영자가 공식 JSON/RSS/API 또는 승인 feed에 title, summary, endDate, finalUrl을 명시한다.",
+      "host": "lotteon.com",
       "configuredFeedUrls": 0,
       "searchLike": false,
       "blockedHost": false,
