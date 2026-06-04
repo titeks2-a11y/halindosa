@@ -1,14 +1,14 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-04T06:19:09.820Z",
+  "generatedAt": "2026-06-04T07:38:16.976Z",
   "totalSources": 30,
-  "reachableSources": 27,
-  "guardedSources": 3,
+  "reachableSources": 26,
+  "guardedSources": 4,
   "blockedLiveIssues": 0,
   "configuredFeedSources": 0,
   "statusCounts": {
-    "connect_official_feed": 27,
-    "request_partner_or_api": 3
+    "connect_official_feed": 26,
+    "request_partner_or_api": 4
   },
   "envPlan": [
     {
@@ -16,8 +16,8 @@
       "status": "ready_to_connect",
       "configuredFeedUrls": 0,
       "candidateCount": 24,
-      "reachableCandidates": 21,
-      "guardedCandidates": 3,
+      "reachableCandidates": 20,
+      "guardedCandidates": 4,
       "topSources": [
         {
           "id": "lpoint-benefits",
@@ -83,8 +83,8 @@
       "status": "ready_to_connect",
       "configuredFeedUrls": 0,
       "candidateCount": 13,
-      "reachableCandidates": 13,
-      "guardedCandidates": 0,
+      "reachableCandidates": 12,
+      "guardedCandidates": 1,
       "topSources": [
         {
           "id": "gs25-event-goods",
@@ -301,7 +301,7 @@
           "provider": "news",
           "officialUrl": "https://www.hyundaihmall.com/front/evntSect.do",
           "liveStatus": "reachable",
-          "rank": 28
+          "rank": 27
         }
       ],
       "categories": [
@@ -319,7 +319,7 @@
       "nextAction": "DEAL_NEWS_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL을 줄바꿈 또는 쉼표로 입력"
     }
   ],
-  "envTemplate": "# 할인도사 공식 혜택 feed 연결 템플릿\n# 공식 API, RSS, 제휴 feed, 담당자 승인 JSON만 입력하세요.\n# 검색 결과, 커뮤니티 원문, 블로그, 쇼핑몰 메인 URL은 입력하지 않습니다.\n# 여러 URL은 줄바꿈, 쉼표, 세미콜론, JSON 배열 형식 중 하나로 관리할 수 있습니다.\n\n# OFFICIAL_EVENT_FEED_URLS\n# 후보 24개 · 접근 가능 21개 · 보호/승인 필요 3개\n# 대표 후보: L.POINT 공식 혜택 / GS25 행사상품과 카드 할인 / CU 편의점 1+1·2+1 행사 / 네이버페이 공식 이벤트 혜택 / SSG닷컴 공식 장보기 행사\nOFFICIAL_EVENT_FEED_URLS=\n\n# DEAL_EVENT_FEED_URLS\n# 후보 13개 · 접근 가능 13개 · 보호/승인 필요 0개\n# 대표 후보: GS25 행사상품과 카드 할인 / CU 편의점 1+1·2+1 행사 / SSG닷컴 공식 장보기 행사 / BHC 공식 e쿠폰 / 하이마트 공식 디지털 행사\nDEAL_EVENT_FEED_URLS=\n\n# PUBLIC_COUPON_FEED_URLS\n# 후보 12개 · 접근 가능 10개 · 보호/승인 필요 2개\n# 대표 후보: L.POINT 공식 혜택 / 문화가 있는 날 공식 혜택 / 문화누리카드 공식 사용 혜택 / 네이버페이 공식 이벤트 혜택 / 한국관광공사 공식 여행 혜택\nPUBLIC_COUPON_FEED_URLS=\n\n# DEAL_EVENT_NEWS_FEED_URLS\n# 후보 7개 · 접근 가능 6개 · 보호/승인 필요 1개\n# 대표 후보: 요기요 배달 쿠폰 이벤트 / 제주항공 공식 진행 이벤트 / 배민아카데미 공식 무료 교육 이벤트 / 맥도날드 공식 해피스낵 프로모션 / T월드 멤버십 할인\nDEAL_EVENT_NEWS_FEED_URLS=\n\n# DEAL_NEWS_FEED_URLS\n# 후보 3개 · 접근 가능 3개 · 보호/승인 필요 0개\n# 대표 후보: 문화가 있는 날 공식 혜택 / 한국관광공사 공식 여행 혜택 / 현대Hmall 공식 쇼핑 기획전\nDEAL_NEWS_FEED_URLS=\n",
+  "envTemplate": "# 할인도사 공식 혜택 feed 연결 템플릿\n# 공식 API, RSS, 제휴 feed, 담당자 승인 JSON만 입력하세요.\n# 검색 결과, 커뮤니티 원문, 블로그, 쇼핑몰 메인 URL은 입력하지 않습니다.\n# 여러 URL은 줄바꿈, 쉼표, 세미콜론, JSON 배열 형식 중 하나로 관리할 수 있습니다.\n\n# OFFICIAL_EVENT_FEED_URLS\n# 후보 24개 · 접근 가능 20개 · 보호/승인 필요 4개\n# 대표 후보: L.POINT 공식 혜택 / GS25 행사상품과 카드 할인 / CU 편의점 1+1·2+1 행사 / 네이버페이 공식 이벤트 혜택 / SSG닷컴 공식 장보기 행사\nOFFICIAL_EVENT_FEED_URLS=\n\n# DEAL_EVENT_FEED_URLS\n# 후보 13개 · 접근 가능 12개 · 보호/승인 필요 1개\n# 대표 후보: GS25 행사상품과 카드 할인 / CU 편의점 1+1·2+1 행사 / SSG닷컴 공식 장보기 행사 / BHC 공식 e쿠폰 / 하이마트 공식 디지털 행사\nDEAL_EVENT_FEED_URLS=\n\n# PUBLIC_COUPON_FEED_URLS\n# 후보 12개 · 접근 가능 10개 · 보호/승인 필요 2개\n# 대표 후보: L.POINT 공식 혜택 / 문화가 있는 날 공식 혜택 / 문화누리카드 공식 사용 혜택 / 네이버페이 공식 이벤트 혜택 / 한국관광공사 공식 여행 혜택\nPUBLIC_COUPON_FEED_URLS=\n\n# DEAL_EVENT_NEWS_FEED_URLS\n# 후보 7개 · 접근 가능 6개 · 보호/승인 필요 1개\n# 대표 후보: 요기요 배달 쿠폰 이벤트 / 제주항공 공식 진행 이벤트 / 배민아카데미 공식 무료 교육 이벤트 / 맥도날드 공식 해피스낵 프로모션 / T월드 멤버십 할인\nDEAL_EVENT_NEWS_FEED_URLS=\n\n# DEAL_NEWS_FEED_URLS\n# 후보 3개 · 접근 가능 3개 · 보호/승인 필요 0개\n# 대표 후보: 문화가 있는 날 공식 혜택 / 한국관광공사 공식 여행 혜택 / 현대Hmall 공식 쇼핑 기획전\nDEAL_NEWS_FEED_URLS=\n",
   "topActions": [
     {
       "rank": 1,
@@ -1172,35 +1172,6 @@
     },
     {
       "rank": 27,
-      "id": "oliveyoung-events",
-      "label": "올리브영 공식 이벤트",
-      "provider": "official_event",
-      "category": [
-        "패션/뷰티",
-        "무료혜택"
-      ],
-      "priority": "medium",
-      "sourceType": "official_event_page",
-      "officialUrl": "https://www.oliveyoung.co.kr/store/main/getEventList.do",
-      "liveStatus": "reachable",
-      "httpStatus": 200,
-      "configuredFeedUrls": 0,
-      "recommendedEnvKeys": [
-        "OFFICIAL_EVENT_FEED_URLS",
-        "DEAL_EVENT_FEED_URLS"
-      ],
-      "onboardingStatus": "connect_official_feed",
-      "score": 67,
-      "reasons": [
-        "medium priority",
-        "no approved feed configured",
-        "official URL reachable"
-      ],
-      "nextAction": "OFFICIAL_EVENT_FEED_URLS 또는 DEAL_EVENT_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL 연결",
-      "guardrail": "검색 결과·커뮤니티 원문·메인 페이지를 finalUrl로 쓰지 않기"
-    },
-    {
-      "rank": 28,
       "id": "hmall-official-events",
       "label": "현대Hmall 공식 쇼핑 기획전",
       "provider": "news",
@@ -1229,7 +1200,7 @@
       "guardrail": "검색 결과·커뮤니티 원문·메인 페이지를 finalUrl로 쓰지 않기"
     },
     {
-      "rank": 29,
+      "rank": 28,
       "id": "koreanair-promotion",
       "label": "대한항공 공식 탑승권 제휴 혜택",
       "provider": "event_news",
@@ -1257,7 +1228,7 @@
       "guardrail": "검색 결과·커뮤니티 원문·메인 페이지를 finalUrl로 쓰지 않기"
     },
     {
-      "rank": 30,
+      "rank": 29,
       "id": "musinsa-fashion-festa",
       "label": "무신사 공식 패션 페스타",
       "provider": "official_event",
@@ -1283,6 +1254,35 @@
       ],
       "nextAction": "OFFICIAL_EVENT_FEED_URLS 또는 DEAL_EVENT_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL 연결",
       "guardrail": "검색 결과·커뮤니티 원문·메인 페이지를 finalUrl로 쓰지 않기"
+    },
+    {
+      "rank": 30,
+      "id": "oliveyoung-events",
+      "label": "올리브영 공식 이벤트",
+      "provider": "official_event",
+      "category": [
+        "패션/뷰티",
+        "무료혜택"
+      ],
+      "priority": "medium",
+      "sourceType": "official_event_page",
+      "officialUrl": "https://www.oliveyoung.co.kr/store/main/getEventList.do",
+      "liveStatus": "guarded",
+      "httpStatus": 403,
+      "configuredFeedUrls": 0,
+      "recommendedEnvKeys": [
+        "OFFICIAL_EVENT_FEED_URLS",
+        "DEAL_EVENT_FEED_URLS"
+      ],
+      "onboardingStatus": "request_partner_or_api",
+      "score": 63,
+      "reasons": [
+        "medium priority",
+        "no approved feed configured",
+        "official source guarded; needs API/RSS/partner approval"
+      ],
+      "nextAction": "보호 페이지를 자동 수집하지 말고 공식 API/RSS/제휴 담당자 승인 feed 요청",
+      "guardrail": "무단 크롤링 금지, 브라우저 자동 수집 금지, 승인 feed만 허용"
     }
   ]
 }

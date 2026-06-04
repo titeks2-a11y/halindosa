@@ -4,10 +4,10 @@
 
 ## 기본 정보
 
-- 생성 시각: 2026-06-04T06:48:30.206Z
+- 생성 시각: 2026-06-04T07:36:13.543Z
 - Git 브랜치: codex/12h-product-ux-growth-hardening
-- 최신 커밋: 2dd8ecc
-- Git 상태: M reports/release-doctor.json
+- 최신 커밋: ffa224b
+- Git 상태: M DEVICE_QA_REPORT.md;  M KNOWN_ISSUES.md;  M PUBLIC_URL_REPORT.md;  M RELEASE_NOTES.json;  M RELEASE_NOTES.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_HANDOFF_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_PACKET_REPORT.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M SUPPORT_PLAYBOOK.json;  M SUPPORT_PLAYBOOK.md;  M docs/DEVICE_QA_REPORT.md;  M docs/KNOWN_ISSUES.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/RELEASE_NOTES.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_HANDOFF_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_PACKET_REPORT.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md;  M docs/SUPPORT_PLAYBOOK.md;  M docs/release-evidence.md;  M reports/release-doctor.json
 - 패키지 버전: 1.0.1
 - 앱 이름: 할인도사
 - 앱 ID / 패키지명: com.halindosa.app
@@ -27,7 +27,7 @@
 | iOS privacy manifest | `ios/App/App/PrivacyInfo.xcprivacy` | 373B |
 | Commercial audit report | `docs/AUDIT_REPORT.md` | 291B |
 | Environment doctor report | `docs/ENV_DOCTOR_REPORT.md` | 581B |
-| Public URL submission report | `docs/PUBLIC_URL_REPORT.md` | 2KB |
+| Public URL submission report | `docs/PUBLIC_URL_REPORT.md` | 3KB |
 | Store metadata QA report | `docs/STORE_METADATA_REPORT.md` | 2KB |
 | Store asset QA report | `docs/STORE_ASSETS_REPORT.md` | 1KB |
 | Device QA execution manifest | `docs/DEVICE_QA_MANIFEST.md` | 5KB |
@@ -37,10 +37,10 @@
 | Store submission packet QA report | `docs/STORE_PACKET_REPORT.md` | 6KB |
 | Store console fields manifest | `docs/STORE_CONSOLE_FIELDS.md` | 4KB |
 | Store console fields manifest JSON | `STORE_CONSOLE_FIELDS.json` | 4KB |
-| Store manual submission checklist | `docs/STORE_MANUAL_CHECKLIST.md` | 4KB |
-| Store manual submission checklist JSON | `STORE_MANUAL_CHECKLIST.json` | 5KB |
+| Store manual submission checklist | `docs/STORE_MANUAL_CHECKLIST.md` | 5KB |
+| Store manual submission checklist JSON | `STORE_MANUAL_CHECKLIST.json` | 6KB |
 | Store launch handoff report | `docs/STORE_HANDOFF_REPORT.md` | 5KB |
-| Release notes | `docs/RELEASE_NOTES.md` | 4KB |
+| Release notes | `docs/RELEASE_NOTES.md` | 5KB |
 | Release notes JSON | `RELEASE_NOTES.json` | 5KB |
 | Support playbook | `docs/SUPPORT_PLAYBOOK.md` | 6KB |
 | Support playbook JSON | `SUPPORT_PLAYBOOK.json` | 5KB |
@@ -56,8 +56,8 @@
 | Push readiness JSON | `reports/push-readiness.json` | 11KB |
 | Push delivery policy report | `docs/PUSH_DELIVERY_POLICY.md` | 3KB |
 | Push delivery policy JSON | `reports/push-delivery-policy.json` | 5KB |
-| Official benefit alert report | `docs/OFFICIAL_BENEFIT_ALERTS_REPORT.md` | 4KB |
-| Official benefit alert JSON | `reports/official-benefit-alerts.json` | 28KB |
+| Official benefit alert report | `docs/OFFICIAL_BENEFIT_ALERTS_REPORT.md` | 5KB |
+| Official benefit alert JSON | `reports/official-benefit-alerts.json` | 29KB |
 | Link quality regression JSON | `reports/link-quality-regression.json` | 7KB |
 | Official source live check report | `docs/OFFICIAL_SOURCE_LIVE_CHECK.md` | 7KB |
 | Official source live check JSON | `reports/official-source-live-check.json` | 23KB |
