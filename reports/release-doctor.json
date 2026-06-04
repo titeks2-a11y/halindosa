@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-04T05:19:44.302Z",
+  "generatedAt": "2026-06-04T05:25:00.495Z",
   "totalChecks": 184,
   "passedChecks": 184,
   "failedChecks": 0,
@@ -198,7 +198,7 @@
     {
       "name": "v2 brand color system",
       "ok": true,
-      "detail": "Premium red, coral, gold, navy, and warm commerce tokens are centralized and used across home, auth, and launch readiness surfaces."
+      "detail": "Premium red, coral, gold, navy, and warm commerce tokens are centralized and used across shared commerce UI primitives, home, auth, and launch readiness surfaces."
     },
     {
       "name": "deal card accessibility",

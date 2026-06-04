@@ -1216,6 +1216,11 @@ async function checkUiAccessibility() {
   const adminPage = await text("app/admin/page.tsx");
   const runbook = await text("docs/RUNBOOK.md");
   const roadmap = await text("docs/roadmap.md");
+  const commerceBadge = await text("components/ui/CommerceBadge.tsx");
+  const commerceButton = await text("components/ui/CommerceButton.tsx");
+  const commerceCard = await text("components/ui/CommerceCard.tsx");
+  const commerceSectionHeader = await text("components/ui/CommerceSectionHeader.tsx");
+  const realtimeNewsSection = await text("components/RealtimeNewsDealsSection.tsx");
 
   if (
     !tailwindConfig.includes('red: "#ff2b2b"') ||
@@ -1230,11 +1235,17 @@ async function checkUiAccessibility() {
     !globalsCss.includes(".premium-gradient") ||
     !homePage.includes("shadow-brand") ||
     !commercializationPage.includes("bg-dossa-red") ||
-    !authForm.includes("bg-dossa-red")
+    !authForm.includes("bg-dossa-red") ||
+    !commerceBadge.includes("CommerceBadge") ||
+    !commerceButton.includes("commerceButtonClassName") ||
+    !commerceCard.includes("CommerceCard") ||
+    !commerceSectionHeader.includes("CommerceSectionHeader") ||
+    !realtimeNewsSection.includes("CommerceSectionHeader") ||
+    !realtimeNewsSection.includes("commerceButtonClassName")
   ) {
-    fail("v2 brand color system", "Brand tokens should use bright red plus coral, gold, navy, and warm commerce support colors across Tailwind, globals, home, auth, and launch readiness surfaces.");
+    fail("v2 brand color system", "Brand tokens should use bright red plus coral, gold, navy, and warm commerce support colors across Tailwind, globals, shared commerce UI primitives, home, auth, and launch readiness surfaces.");
   } else {
-    pass("v2 brand color system", "Premium red, coral, gold, navy, and warm commerce tokens are centralized and used across home, auth, and launch readiness surfaces.");
+    pass("v2 brand color system", "Premium red, coral, gold, navy, and warm commerce tokens are centralized and used across shared commerce UI primitives, home, auth, and launch readiness surfaces.");
   }
 
   const requiredSnippets = [

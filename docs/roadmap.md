@@ -70,6 +70,7 @@
 - 밝은 레드 단색 중심 UI를 `Primary Red + Orange Coral + Warm Orange + Gold/Amber + Navy + Warm Gray` 컬러 시스템으로 확장하고 Tailwind `brand-*` 토큰, 전역 CSS 변수, `lib/designTokens.ts`를 추가했다.
 - 홈 상품 카드와 쇼핑몰 특가 피드의 표면색, CTA, 할인율 배지를 정리해 전단지 느낌을 줄이고 실제 커머스 카드처럼 가격/검증/배송/마감 정보가 먼저 보이도록 개선했다.
 - 공통 `CommerceBadge`, `StatePanel`, `DealGridSkeleton` 컴포넌트를 추가해 배지, 빈 화면, 로딩 화면을 출시용 디자인 톤으로 통일했다.
+- 공통 `CommerceSectionHeader`를 추가하고 `RealtimeNewsDealsSection`을 `CommerceCard`, `CommerceBadge`, `CommerceButton` 계층으로 정리해 공식 혜택 뉴스 카드가 상품 카드와 같은 브랜드 토큰, 버튼, 배지 체계를 쓰도록 개선했다.
 - Supabase 운영 스키마에 `deal_validation_logs`, `provider_runs`, `admin_actions`, `push_subscriptions`를 추가하고 deals visibility/validation 컬럼과 RLS 정책을 보강했다.
 - 관리자 대시보드에 출시 운영 핵심 지표, 오늘 신규, 노출 가능, 숨김, 실패/종료, Provider 수집량, 인기 TOP20, 찜 TOP20, Push readiness API 연결을 추가했다.
 - `/api/admin/push/send`와 `lib/pushNotifications.ts`를 추가해 FCM 환경변수가 설정되면 실제 발송 요청을 처리하고, 설정 전에는 dry-run/readiness로 안전하게 검증하도록 구조화했다.
