@@ -69,6 +69,7 @@ import {
 } from "@/lib/homeDiscoveryConfig";
 import { type DealsResponse, type HotSignalsResponse, type NewsDealsResponse, requestJson } from "@/lib/homeApi";
 import { readRecentSearchKeywords, storeRecentSearchKeywords } from "@/lib/homeRecentSearches";
+import { buildHomeUrlSearchParams, readHomeUrlState } from "@/lib/homeUrlState";
 import { buildDealRedirectUrl, buildNativeSafeDealUrl } from "@/lib/redirectUrl";
 import { rememberRecentNewsBenefitId } from "@/lib/recentNewsBenefits";
 import { buildPublicAppShareUrl, buildPublicDealShareUrl } from "@/lib/shareUrl";
@@ -226,17 +227,18 @@ export default function Home() {
   useEffect(() => {
     const handle = window.setTimeout(() => {
       setRecentSearchKeywords(readRecentSearchKeywords());
-      const params = new URLSearchParams(window.location.search);
-      const initialCategory = params.get("category");
-      const initialMall = params.get("mall");
-      const initialSort = params.get("sort") as DealSort | null;
-      const initialQuery = params.get("q");
-      const initialFreeShipping = params.get("freeShipping") ?? params.get("freeShippingOnly");
-      const initialHotOnly = params.get("hotOnly");
-      const initialEndingSoon = params.get("endingSoon") ?? params.get("endingSoonOnly");
-      const initialVerifiedOnly = params.get("verified") ?? params.get("verifiedOnly");
-      const initialPriceBand = params.get("priceBand") as PriceBand | null;
-      const initialBenefitType = params.get("dealType") as DealBenefitType | null;
+      const {
+        category: initialCategory,
+        mall: initialMall,
+        sort: initialSort,
+        query: initialQuery,
+        freeShippingOnly: initialFreeShipping,
+        hotOnly: initialHotOnly,
+        endingSoonOnly: initialEndingSoon,
+        verifiedOnly: initialVerifiedOnly,
+        priceBand: initialPriceBand,
+        benefitFilter: initialBenefitType
+      } = readHomeUrlState(window.location.search);
 
       if (initialCategory) {
         setCategory(initialCategory);
@@ -248,7 +250,7 @@ export default function Home() {
         setActiveView("home");
       }
 
-      if (initialSort && ["latest", "discount", "price", "hot", "endingSoon"].includes(initialSort)) {
+      if (initialSort) {
         setSort(initialSort);
         setActiveView("home");
       }
@@ -258,32 +260,32 @@ export default function Home() {
         setActiveView("home");
       }
 
-      if (initialFreeShipping === "true") {
+      if (initialFreeShipping) {
         setFreeShippingOnly(true);
         setActiveView("home");
       }
 
-      if (initialHotOnly === "true") {
+      if (initialHotOnly) {
         setHotOnly(true);
         setActiveView("home");
       }
 
-      if (initialEndingSoon === "true") {
+      if (initialEndingSoon) {
         setEndingSoonOnly(true);
         setActiveView("home");
       }
 
-      if (initialVerifiedOnly === "true") {
+      if (initialVerifiedOnly) {
         setVerifiedOnly(true);
         setActiveView("home");
       }
 
-      if (initialPriceBand && priceBands.some((band) => band.id === initialPriceBand)) {
+      if (initialPriceBand) {
         setPriceBand(initialPriceBand);
         setActiveView("home");
       }
 
-      if (initialBenefitType && benefitFilters.some((filter) => filter.id === initialBenefitType)) {
+      if (initialBenefitType) {
         setBenefitFilter(initialBenefitType);
         setActiveView("home");
       }
@@ -314,19 +316,7 @@ export default function Home() {
     if (!hasAppliedInitialParams || typeof window === "undefined") return;
 
     const handle = window.setTimeout(() => {
-      const params = new URLSearchParams();
-
-      if (category !== "all") params.set("category", category);
-      if (query.trim()) params.set("q", query.trim());
-      if (sort !== "latest") params.set("sort", sort);
-      if (freeShippingOnly) params.set("freeShippingOnly", "true");
-      if (hotOnly) params.set("hotOnly", "true");
-      if (endingSoonOnly) params.set("endingSoonOnly", "true");
-      if (verifiedOnly) params.set("verifiedOnly", "true");
-      if (mallFilter !== "all") params.set("mall", mallFilter);
-      if (priceBand !== "all") params.set("priceBand", priceBand);
-      if (benefitFilter !== "all") params.set("dealType", benefitFilter);
-
+      const params = buildHomeUrlSearchParams({ category, query, sort, freeShippingOnly, hotOnly, endingSoonOnly, verifiedOnly, mallFilter, priceBand, benefitFilter });
       const nextUrl = `${window.location.pathname}${params.toString() ? `?${params.toString()}` : ""}`;
       if (`${window.location.pathname}${window.location.search}` !== nextUrl) {
         window.history.replaceState(null, "", nextUrl);

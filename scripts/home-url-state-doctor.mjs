@@ -1,8 +1,10 @@
 import fs from "node:fs";
 
 const homePage = fs.readFileSync("app/page.tsx", "utf8");
+const homeUrlState = fs.readFileSync("lib/homeUrlState.ts", "utf8");
 const packageJson = fs.readFileSync("package.json", "utf8");
 const smoke = fs.readFileSync("scripts/smoke.mjs", "utf8");
+const homeUrlSource = `${homePage}\n${homeUrlState}`;
 
 const requiredUrlState = [
   {
@@ -61,11 +63,11 @@ const issues = [];
 
 for (const item of requiredUrlState) {
   for (const snippet of item.read) {
-    if (!homePage.includes(snippet)) issues.push(`${item.name}: missing URL restore snippet "${snippet}"`);
+    if (!homeUrlSource.includes(snippet)) issues.push(`${item.name}: missing URL restore snippet "${snippet}"`);
   }
 
   for (const snippet of item.write) {
-    if (!homePage.includes(snippet)) issues.push(`${item.name}: missing URL persistence snippet "${snippet}"`);
+    if (!homeUrlSource.includes(snippet)) issues.push(`${item.name}: missing URL persistence snippet "${snippet}"`);
   }
 }
 
