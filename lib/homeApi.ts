@@ -1,7 +1,7 @@
 import type { PriceBand } from "@/lib/homeDiscoveryConfig";
 import type { Deal, DealBenefitType, DealSort } from "@/types/deal";
 import type { HotSignal } from "@/types/hotSignal";
-import type { NewsDeadlineSummary, NewsDeal, NewsDealSourceTrust } from "@/types/newsDeal";
+import type { NewsDeadlineSummary, NewsDeal, NewsDealSourceTrust, NewsTargetSection } from "@/types/newsDeal";
 
 export interface DealsResponse {
   ok: boolean;
@@ -31,6 +31,7 @@ export interface NewsDealsResponse {
   benefitTypeCounts?: Record<string, number>;
   sourceCounts?: Record<string, number>;
   recommendedQueries?: Array<{ query: string; count: number }>;
+  targetSections?: NewsTargetSection[];
   sourceTrustScores?: NewsDealSourceTrust[];
   deadlineSummary?: NewsDeadlineSummary;
   freshnessStatus?: "fresh" | "due" | "stale" | "seed";

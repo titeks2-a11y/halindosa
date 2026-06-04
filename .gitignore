@@ -31,6 +31,10 @@ pnpm-debug.log*
 .dev-server*.log
 .codex-dev-server*.log
 
+# Generated verification reports
+reports/*
+!reports/.gitkeep
+
 # OS and editor files
 .DS_Store
 Thumbs.db

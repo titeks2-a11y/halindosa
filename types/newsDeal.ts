@@ -85,6 +85,12 @@ export interface NewsDealSourceTrust {
   recommendedAction: string;
 }
 
+export interface NewsTargetSection {
+  label: string;
+  query: string;
+  count: number;
+}
+
 export interface NewsDeadlineBucket {
   id: "today" | "threeDays" | "sevenDays" | "later";
   label: string;

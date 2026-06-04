@@ -17,6 +17,7 @@ import { HotSignalSection } from "@/components/HotSignalSection";
 import { LoginPromptSheet } from "@/components/LoginPromptSheet";
 import { LiveDealFeed } from "@/components/LiveDealFeed";
 import { HomeOfficialBenefitAlertRail } from "@/components/HomeOfficialBenefitAlertRail";
+import { HomeStatusStrip } from "@/components/home/HomeStatusStrip";
 import { NotificationPreferences } from "@/components/NotificationPreferences";
 import { PriceAlertList } from "@/components/PriceAlertList";
 import { PurchaseConfirmSheet } from "@/components/PurchaseConfirmSheet";
@@ -40,14 +41,13 @@ import { buildBenefitDecisionGuide } from "@/lib/deals/benefitDecisionGuide";
 import { buildDailyBenefitBriefing } from "@/lib/deals/dailyBenefitBriefing";
 import { buildDailyRoutinePlan } from "@/lib/deals/dailyRoutinePlan";
 import { buildNewsDeadlineSummary } from "@/lib/deals/newsDeadlineInsights";
-import { buildInitialNewsRecommendedQueries } from "@/lib/deals/newsRecommendedQueries";
+import { buildInitialNewsRecommendedQueries, buildInitialNewsTargetSections } from "@/lib/deals/newsRecommendedQueries";
 import { buildPersonalizedBenefitQueue } from "@/lib/deals/personalizedBenefitQueue";
 import { isVerifiedPurchaseLink } from "@/lib/deals/quality";
 import { formatPrice, getRelativeTime, getTimeLeft } from "@/lib/format";
 import {
   commercialScore,
   filterLocalDeals,
-  getProviderDisplayLabel,
   isFreeShippingDeal
 } from "@/lib/homeDealFilters";
 import { getDealImageSrc } from "@/lib/imageSrc";
@@ -131,7 +131,7 @@ import {
 import { getSupportMailto, supportEmail } from "@/lib/support";
 import { Deal, DealBenefitType, DealSort } from "@/types/deal";
 import { HotSignal } from "@/types/hotSignal";
-import type { NewsDeadlineSummary, NewsDeal, NewsDealSourceTrust } from "@/types/newsDeal";
+import type { NewsDeadlineSummary, NewsDeal, NewsDealSourceTrust, NewsTargetSection } from "@/types/newsDeal";
 
 type AppView = "home" | "categories" | "alerts" | "favorites" | "my";
 const INITIAL_HOME_DEAL_LIMIT = 12;
@@ -171,6 +171,7 @@ export default function Home() {
   const [newsRecommendedQueries, setNewsRecommendedQueries] = useState<Array<{ query: string; count: number }>>(() =>
     buildInitialNewsRecommendedQueries(initialNewsSnapshot.deals ?? [])
   );
+  const [newsTargetSections, setNewsTargetSections] = useState<NewsTargetSection[]>(() => buildInitialNewsTargetSections(initialNewsSnapshot.deals ?? []));
   const [newsSourceTrustScores, setNewsSourceTrustScores] = useState<NewsDealSourceTrust[]>(() => initialNewsSnapshot.sourceTrustScores ?? []);
   const [newsDeadlineSummary, setNewsDeadlineSummary] = useState<NewsDeadlineSummary>(() => buildNewsDeadlineSummary(initialNewsSnapshot.deals ?? []));
   const [newsUpdatedAt, setNewsUpdatedAt] = useState(initialNewsSnapshot.generatedAt ?? "");
@@ -236,6 +237,7 @@ export default function Home() {
         setNewsDeals(snapshot.deals);
         setNewsTotalCount(snapshot.totalCount);
         setNewsRecommendedQueries(snapshot.recommendedQueries);
+        setNewsTargetSections(snapshot.targetSections.length ? snapshot.targetSections : buildInitialNewsTargetSections(snapshot.deals));
         setNewsSourceTrustScores(snapshot.sourceTrustScores);
         setNewsDeadlineSummary(snapshot.deadlineSummary);
         setNewsUpdatedAt(snapshot.updatedAt);
@@ -1208,44 +1210,15 @@ export default function Home() {
             새로고침
           </button>
         </div>
-        <div className="rounded-2xl border border-brand-line bg-brand-surface px-2 py-2 shadow-lift sm:rounded-[22px] sm:px-3 sm:py-3" aria-label="오늘 특가 운영 상태">
-          <div className="grid grid-cols-3 gap-1.5 sm:grid-cols-5 sm:gap-2">
-            {[
-              { label: "오늘의 특가", value: `${deals.length}개`, tone: "text-brand-navy bg-brand-navySoft" },
-              { label: "실시간 검증", value: `${verifiedHomeDeals.length}개`, tone: "text-emerald-700 bg-emerald-50" },
-              { label: "오늘 업데이트", value: `${stats.newCount}개`, tone: "text-orange-700 bg-orange-50" },
-              { label: "인기 반응", value: `${stats.hotCount}개`, tone: "hidden sm:flex text-dossa-red bg-red-50" },
-              { label: "상태", value: isOffline ? "오프라인" : "네트워크 정상", tone: "hidden sm:flex text-slate-700 bg-white" }
-            ].map((item) => (
-              <span key={item.label} className={`flex min-w-0 flex-col rounded-2xl px-2.5 py-2 ${item.tone}`}>
-                <span className="truncate text-[10px] font-black opacity-70">{item.label}</span>
-                <span className="mt-0.5 truncate text-[12px] font-black sm:text-sm">{item.value}</span>
-              </span>
-            ))}
-          </div>
-          <div className="mt-1.5 flex items-center justify-between gap-2 px-1 text-[11px] font-bold text-slate-500 sm:hidden">
-            <span>{getProviderDisplayLabel(providerSource)}</span>
-            <span>{isOffline ? "오프라인" : "네트워크 정상"}</span>
-          </div>
-          <p className="mt-1.5 px-1 text-[11px] font-bold text-slate-500">
-            가격/재고 변동 가능 · 구매 전 판매처에서 최종 조건 확인
-          </p>
-        </div>
-        <div className="hidden rounded-[22px] border border-slate-200 bg-white px-4 py-3 shadow-sm sm:block">
-          <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
-            <p className="text-sm font-black text-slate-950">
-              {isOffline ? "오프라인 상태입니다." : "네트워크 정상 · 최신 특가 확인 가능"}
-            </p>
-            <p className="text-xs font-bold text-slate-500">
-              최근 가격 기준 {dataQuality.latestPriceCheckedAt ? getRelativeTime(dataQuality.latestPriceCheckedAt) : "대기 중"}
-            </p>
-          </div>
-          <p className="mt-1 text-xs font-semibold leading-5 text-slate-500">
-            {isOffline
-              ? "연결이 복구되면 새로고침으로 최신 특가를 다시 불러올 수 있습니다."
-              : "판매처의 최종 가격, 옵션가, 쿠폰 조건은 구매 전 다시 확인하세요."}
-          </p>
-        </div>
+        <HomeStatusStrip
+          dealCount={deals.length}
+          verifiedDealCount={verifiedHomeDeals.length}
+          newDealCount={stats.newCount}
+          hotDealCount={stats.hotCount}
+          isOffline={isOffline}
+          providerSource={providerSource}
+          latestPriceCheckedAt={dataQuality.latestPriceCheckedAt}
+        />
         {activeView === "home" ? (
           <section className="rounded-2xl border border-red-100 bg-white p-2 shadow-sm sm:rounded-[28px] sm:p-4" aria-label="빠른 상품 검색">
             <div className="mb-2 hidden flex-col gap-1 sm:mb-3 sm:flex sm:flex-row sm:items-end sm:justify-between">
@@ -1596,6 +1569,7 @@ export default function Home() {
             deals={newsDeals}
             totalCount={newsTotalCount}
             recommendedQueries={newsRecommendedQueries}
+            targetSections={newsTargetSections}
             sourceTrustScores={newsSourceTrustScores}
             deadlineSummary={newsDeadlineSummary}
             updatedAt={newsUpdatedAt}

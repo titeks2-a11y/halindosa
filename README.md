@@ -46,6 +46,10 @@ npm run clean:artifacts
 npm run clean:artifacts:mobile
 npm run clean:artifacts:android
 npm run clean:artifacts:deep
+npm run clean:reports:dry
+npm run clean:reports
+npm run clean:workspace:dry
+npm run clean:workspace
 ```
 
 - `workspace:doctor`: `.next`, `out`, Android/iOS build cache처럼 다시 만들 수 있는 산출물이 쌓였는지와 큰 폴더/파일을 요약
@@ -53,6 +57,8 @@ npm run clean:artifacts:deep
 - `clean:artifacts:android`: Android Gradle/build 산출물까지 정리
 - `clean:artifacts:mobile`: Android WebView 복사본, Android build cache, iOS export/build 산출물까지 정리
 - `clean:artifacts:deep`: Capacitor 플러그인이 `node_modules` 아래에 만든 Android build 캐시까지 정리
+- `clean:reports`: QA, 출시, 링크, 이미지, 스토어 제출 리포트처럼 다시 만들 수 있는 루트/report 산출물을 정리하고 `reports/.gitkeep`만 유지
+- `clean:workspace`: mobile/deep 산출물과 report 산출물을 함께 정리
 - `android/app/release`의 AAB 파일, keystore, 환경변수 파일은 자동 삭제 대상이 아닙니다.
 
 고급 하네스 검증:
@@ -106,7 +112,7 @@ npm run release:doctor
 
 `npm run image:backlog:report`는 전체 이미지 보강 큐(`IMAGE_BACKLOG.csv`), 이번 주 실행 배치(`IMAGE_BACKLOG_NEXT_BATCH.csv`), 판매처별 피드 요청서(`IMAGE_BACKLOG_MALL_REQUESTS.csv`), JSON/문서 리포트를 함께 생성합니다. 공개 운영 전에는 주간 배치 CSV부터 처리하고, backlog가 많은 판매처는 mall request CSV로 `imageUrl` 또는 `thumbnail` 확보를 요청합니다. 이미지 ready 기준은 `productUrl + imageUrl/thumbnail + imageRights + priceCheckedAt`이며, 검색 결과 썸네일·커뮤니티 캡처·블로그 이미지는 보강 완료로 인정하지 않습니다.
 
-로컬 작업 폴더가 무거워지면 먼저 `npm run workspace:doctor`로 큰 폴더와 재생성 가능한 산출물을 확인합니다. 삭제 전에는 `npm run clean:artifacts:mobile:dry`로 삭제 대상을 확인한 뒤 `npm run clean:artifacts:mobile`을 실행합니다. 이 명령은 `npx cap sync android`가 다시 복사할 수 있는 `android/app/src/main/assets/public`도 함께 지웁니다. 더 깊게 정리할 때는 `npm run clean:artifacts:deep`을 사용하며, Next/Capacitor/Android/iOS가 다시 생성할 수 있는 산출물만 지웁니다.
+로컬 작업 폴더가 무거워지면 먼저 `npm run workspace:doctor`로 큰 폴더와 재생성 가능한 산출물을 확인합니다. 삭제 전에는 `npm run clean:artifacts:mobile:dry` 또는 `npm run clean:workspace:dry`로 삭제 대상을 확인한 뒤 필요한 정리 명령을 실행합니다. `clean:reports`는 검증 명령이 다시 생성하는 JSON/CSV/MD 리포트만 정리하며, `reports/` 내용은 Git에 커밋하지 않습니다. `clean:artifacts:mobile`은 `npx cap sync android`가 다시 복사할 수 있는 `android/app/src/main/assets/public`도 함께 지웁니다. 더 깊게 정리할 때는 `npm run clean:artifacts:deep`을 사용하며, Next/Capacitor/Android/iOS가 다시 생성할 수 있는 산출물만 지웁니다.
 
 `npm run source:live:doctor`는 `data/officialSourceCatalog.json`의 공식 소스 후보 URL을 non-strict로 점검해 `reports/official-source-live-check.json`, `reports/official-source-live-check.csv`, [docs/OFFICIAL_SOURCE_LIVE_CHECK.md](docs/OFFICIAL_SOURCE_LIVE_CHECK.md)를 생성합니다. 이 점검은 무단 크롤링이 아니라 접근 가능, WAF/권한 보호, 404/410 교체 필요 상태를 운영자가 보는 리포트이며 사용자 노출 데이터를 자동 변경하지 않습니다.
 

@@ -3,6 +3,7 @@ import { join } from "node:path";
 import seedNewsDeals from "@/data/newsDeals.seed.json";
 import { applyNewsDealOverrides } from "@/lib/deals/newsOverrides";
 import { buildNewsDeadlineSummary } from "@/lib/deals/newsDeadlineInsights";
+import { buildInitialNewsTargetSections } from "@/lib/deals/newsRecommendedQueries";
 import { buildNewsSourceTrustScores } from "@/lib/deals/newsSourceTrust";
 import type { NewsDeal } from "@/types/newsDeal";
 
@@ -18,6 +19,7 @@ interface NewsDealSnapshot {
 interface OfficialBenefitSourceSpec {
   enabled?: boolean;
   recommendedQueries?: string[];
+  targetSections?: string[];
 }
 
 function readSnapshot(): NewsDealSnapshot | null {
@@ -162,6 +164,15 @@ function buildConfiguredNewsQuerySeeds() {
   return Array.from(new Set([...fromConfig, ...baseline].map((query) => query.trim()).filter(Boolean)));
 }
 
+function buildConfiguredNewsTargetSections() {
+  const fromConfig = readOfficialBenefitSourceSpecs()
+    .filter((spec) => spec.enabled !== false)
+    .flatMap((spec) => (Array.isArray(spec.targetSections) ? spec.targetSections : []));
+  const baseline = ["오늘의 무료", "쿠폰", "마트 행사", "편의점 1+1", "배달 쿠폰", "카드 혜택", "정부 지원/문화 혜택", "마감임박"];
+
+  return Array.from(new Set([...fromConfig, ...baseline].map((section) => section.trim()).filter(Boolean)));
+}
+
 function inferRecommendedQueryCount(query: string, deals: NewsDeal[]) {
   const directMatches = deals.filter((deal) => matchesNewsDealQuery(deal, query)).length;
   if (directMatches > 0) return directMatches;
@@ -260,6 +271,7 @@ export function getVisibleNewsDeals(options: { limit?: number; category?: string
   const now = Date.now();
   const sort = normalizeNewsSort(options.sort);
   const sourceConfigQueries = buildConfiguredNewsQuerySeeds();
+  const sourceConfigTargetSections = buildConfiguredNewsTargetSections();
   const updatedAt = snapshot?.generatedAt ?? "";
   const freshness = buildNewsFreshness(updatedAt);
   const filtered = applyNewsDealOverrides(sourceDeals)
@@ -286,7 +298,9 @@ export function getVisibleNewsDeals(options: { limit?: number; category?: string
     sourceTrustScores: buildNewsSourceTrustScores(sorted),
     deadlineSummary: buildNewsDeadlineSummary(sorted),
     recommendedQueries: buildRecommendedNewsQueries(sorted, sourceConfigQueries),
+    targetSections: buildInitialNewsTargetSections(sorted, sourceConfigTargetSections),
     sourceConfigQueries,
+    sourceConfigTargetSections,
     ...freshness
   };
 }

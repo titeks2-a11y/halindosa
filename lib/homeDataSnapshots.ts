@@ -25,6 +25,7 @@ export function buildHomeNewsSnapshot(data: NewsDealsResponse) {
     deals,
     totalCount: Number.isFinite(data.count) ? data.count : deals.length,
     recommendedQueries: Array.isArray(data.recommendedQueries) ? data.recommendedQueries : [],
+    targetSections: Array.isArray(data.targetSections) ? data.targetSections : [],
     sourceTrustScores: Array.isArray(data.sourceTrustScores) ? data.sourceTrustScores : [],
     deadlineSummary: data.deadlineSummary ?? buildNewsDeadlineSummary(deals),
     updatedAt: data.updatedAt,

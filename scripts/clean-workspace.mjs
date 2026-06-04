@@ -1,4 +1,4 @@
-import { readdir, rm, stat } from "node:fs/promises";
+import { mkdir, readdir, rm, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 const workspaceRoot = process.cwd();
@@ -8,6 +8,7 @@ const includeAndroidBuild = args.has("--android-build");
 const includeAndroidWebAssets = args.has("--android-web-assets");
 const includeIosBuild = args.has("--ios-build");
 const includeCapacitorPluginBuilds = args.has("--capacitor-plugin-builds");
+const includeReports = args.has("--reports");
 
 const targets = [
   ".next",
@@ -30,6 +31,45 @@ if (includeAndroidWebAssets) {
 
 if (includeIosBuild) {
   targets.push("ios/App/App/public", "ios/App/build", "ios/App/DerivedData", "ios/build");
+}
+
+if (includeReports) {
+  targets.push(
+    "reports",
+    "AUDIT_REPORT.md",
+    "DEVICE_QA_MANIFEST.json",
+    "DEVICE_QA_REPORT.md",
+    "ENV_DOCTOR_REPORT.md",
+    "EXTERNAL_LINK_REPORT.md",
+    "HARNESS_REPORT.md",
+    "IMAGE_BACKLOG.csv",
+    "IMAGE_BACKLOG.json",
+    "IMAGE_BACKLOG_MALL_REQUESTS.csv",
+    "IMAGE_BACKLOG_NEXT_BATCH.csv",
+    "IMAGE_OPERATIONS_REPORT.md",
+    "IMAGE_QUALITY_REPORT.md",
+    "KNOWN_ISSUES.md",
+    "LINK_VERIFICATION_REPORT.md",
+    "LINK_VERIFICATION_RESULT.json",
+    "MOBILE_UX_REPORT.md",
+    "PERFORMANCE_REPORT.md",
+    "PUBLIC_URL_REPORT.md",
+    "RELEASE_NOTES.json",
+    "RELEASE_NOTES.md",
+    "SEARCH_REPORT.md",
+    "STORE_ASSETS_REPORT.md",
+    "STORE_CONSOLE_FIELDS.json",
+    "STORE_HANDOFF_REPORT.md",
+    "STORE_MANUAL_CHECKLIST.json",
+    "STORE_MANUAL_CHECKLIST.md",
+    "STORE_METADATA_REPORT.md",
+    "STORE_PACKET_REPORT.md",
+    "STORE_SCREENSHOT_MANIFEST.json",
+    "STORE_SCREENSHOTS_REPORT.md",
+    "STORE_SUBMISSION_REPORT.md",
+    "SUPPORT_PLAYBOOK.json",
+    "SUPPORT_PLAYBOOK.md"
+  );
 }
 
 async function addCapacitorPluginBuildTargets() {
@@ -111,6 +151,12 @@ if (!shouldDelete) {
   console.log("Run `npm run clean:artifacts:android` to also remove Android build outputs.");
   console.log("Run `npm run clean:artifacts:mobile` to also remove regenerated Android/iOS build outputs.");
   console.log("Run `npm run clean:artifacts:deep` to also remove Capacitor plugin build caches.");
+  console.log("Run `npm run clean:reports` to remove regenerated QA/release report outputs.");
 } else {
+  if (includeReports) {
+    const reportsDir = resolveInsideWorkspace("reports");
+    await mkdir(reportsDir, { recursive: true });
+    await writeFile(path.join(reportsDir, ".gitkeep"), "\n", "utf8");
+  }
   console.log(`\nClean complete. Removed ${removed} generated target(s).`);
 }

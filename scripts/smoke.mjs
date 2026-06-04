@@ -93,6 +93,11 @@ await check("news deals api", async () => {
     data.recommendedQueries.some((item) => ["오늘의 무료", "무료 쿠폰", "마트 행사", "편의점 1+1", "배달 쿠폰", "카드 혜택"].includes(item.query)),
     "News deals API missing customer intent recommended queries"
   );
+  assert(Array.isArray(data.targetSections) && data.targetSections.length >= 4, "News deals API missing official target section chips");
+  assert(
+    data.targetSections.some((item) => item.label && item.query && item.count > 0 && ["오늘의 무료", "쿠폰", "마트 행사", "편의점 1+1", "배달 쿠폰", "카드 혜택"].includes(item.label)),
+    "News deals API missing customer-facing official target section labels"
+  );
   assert(typeof data.deadlineSummary?.nearestEndDate === "string" && data.deadlineSummary.nearestEndDate.length > 0, "News deals API missing official benefit deadline summary");
   assert(Array.isArray(data.deadlineSummary?.buckets) && data.deadlineSummary.buckets.some((bucket) => bucket.id === "sevenDays"), "News deals API missing deadline bucket rows");
   assert(data.deals.some((deal) => deal.category === "마트/편의점"), "News deals API missing mart/convenience official benefits");

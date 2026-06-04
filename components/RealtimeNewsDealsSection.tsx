@@ -18,7 +18,7 @@ import {
 } from "@/lib/deals/newsSourceTrust";
 import { customerIntentNewsQuerySet } from "@/lib/deals/newsRecommendedQueries";
 import { buildNewsDeadlineSummary } from "@/lib/deals/newsDeadlineInsights";
-import type { NewsDeadlineSummary, NewsDeal, NewsDealSourceTrust } from "@/types/newsDeal";
+import type { NewsDeadlineSummary, NewsDeal, NewsDealSourceTrust, NewsTargetSection } from "@/types/newsDeal";
 
 const benefitLabels: Record<NewsDeal["benefitType"], string> = {
   discount: "할인",
@@ -50,6 +50,7 @@ export function RealtimeNewsDealsSection({
   deals,
   totalCount,
   recommendedQueries = [],
+  targetSections = [],
   sourceTrustScores = [],
   deadlineSummary,
   updatedAt,
@@ -67,6 +68,7 @@ export function RealtimeNewsDealsSection({
   deals: NewsDeal[];
   totalCount?: number;
   recommendedQueries?: Array<{ query: string; count: number }>;
+  targetSections?: NewsTargetSection[];
   sourceTrustScores?: NewsDealSourceTrust[];
   deadlineSummary?: NewsDeadlineSummary;
   updatedAt: string;
@@ -84,6 +86,7 @@ export function RealtimeNewsDealsSection({
   const trimmedQuery = activeQuery.trim();
   const visibleResultCount = typeof totalCount === "number" && totalCount >= deals.length ? totalCount : deals.length;
   const visibleRecommendedQueries = recommendedQueries.filter((item) => item.query && item.query !== trimmedQuery).slice(0, 8);
+  const visibleTargetSections = targetSections.filter((item) => item.label && item.query && item.count > 0).slice(0, 8);
   const intentRecommendedQueries = visibleRecommendedQueries.filter((item) => customerIntentNewsQuerySet.has(item.query)).slice(0, 6);
   const quickRecommendedQueries = (intentRecommendedQueries.length ? intentRecommendedQueries : visibleRecommendedQueries).slice(0, 6);
   const secondaryRecommendedQueries = visibleRecommendedQueries
@@ -193,6 +196,30 @@ export function RealtimeNewsDealsSection({
       <p className="mt-2 text-[11px] font-bold text-slate-500" aria-label="공식 혜택 신선도 안내">
         {freshnessDetail} · 검색 결과와 커뮤니티 원문은 제외하고 공식 혜택 링크만 유지합니다.
       </p>
+      {visibleTargetSections.length ? (
+        <div className="mt-3 rounded-2xl border border-slate-200 bg-white px-3 py-2 shadow-sm" aria-label="운영 추천 혜택 지도">
+          <div className="flex items-center justify-between gap-2">
+            <p className="text-[11px] font-black text-slate-950">운영 추천 혜택 지도</p>
+            <span className="text-[10px] font-black text-slate-400">공식 소스 기준</span>
+          </div>
+          <div className="mt-2 flex gap-1.5 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {visibleTargetSections.map((item, index) => (
+              <button
+                key={`${item.label}-${item.query}`}
+                type="button"
+                onClick={() => onSelectQuery?.(item.query)}
+                className={`inline-flex min-h-8 shrink-0 items-center gap-1 rounded-full px-3 text-[11px] font-black shadow-sm transition ${
+                  index === 0 ? "bg-slate-950 text-white hover:bg-brand-red" : "bg-slate-50 text-slate-700 hover:bg-red-50 hover:text-brand-red"
+                }`}
+                aria-label={`${item.label} 공식 혜택 ${item.count}개 검색`}
+              >
+                {item.label}
+                <span className={index === 0 ? "text-[10px] text-white/75" : "text-[10px] text-slate-400"}>{item.count}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      ) : null}
       {visibleDeadlineBuckets.length ? (
         <div className="mt-3 rounded-2xl border border-amber-100 bg-amber-50/70 px-3 py-2" aria-label="마감 전 공식 혜택 우선확인">
           <div className="flex items-center justify-between gap-2">
