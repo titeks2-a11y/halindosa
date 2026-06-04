@@ -506,7 +506,9 @@ await check("category and notification pages", async () => {
   assert(
     notificationsText.includes("공식 혜택 알림 후보") &&
       notificationsText.includes("공식 페이지 이동만 포함") &&
-      notificationsText.includes("최근 본 공식 혜택"),
+      notificationsText.includes("최근 본 공식 혜택") &&
+      notificationsText.includes("공식 혜택 알림 API") &&
+      notificationsText.includes("공식 알림 API 보기"),
     "Notifications page missing official benefit alert preview"
   );
   assert(notificationsText.includes("기기 저장 알림 신호") && notificationsText.includes("찜 반영") && notificationsText.includes("최근 본 상품"), "Notifications page missing favorite and recent signal personalization summary");
@@ -1618,6 +1620,21 @@ await check("personalized benefits api", async () => {
   assert(Array.isArray(data.recommendations?.items) && data.recommendations.items.length > 0, "Personalized benefits missing recommendation items");
   assert(data.recommendations.items.every((item) => item.redirectUrl?.startsWith("/go/") && item.reason && item.personalizedSignals), "Personalized benefits items missing redirect, reason, or signals");
   assert(String(data.recommendations.notice ?? "").includes("선택 로그인"), "Personalized benefits missing optional login notice");
+});
+
+await check("official benefit alerts api", async () => {
+  const { response, data } = await fetchJson("/api/benefits/official-alerts?interest=%EB%AC%B4%EB%A3%8C%2F%EC%B2%B4%ED%97%98&interest=%EC%98%81%ED%99%94%2F%EB%AC%B8%ED%99%94&recentNewsId=news-homeplus-official-event&limit=4");
+  assert(response.status === 200, `Expected 200, got ${response.status}`);
+  assert(data.ok === true, "Official benefit alerts API ok should be true");
+  assert(data.recommendations?.audience === "guest", "Official benefit alerts should keep guest access");
+  assert(data.recommendations?.summary?.totalActiveBenefits >= 40, "Official benefit alerts should use visible official benefit pool");
+  assert(data.recommendations?.summary?.recommendedBenefits <= 4, "Official benefit alerts should respect limit");
+  assert(Array.isArray(data.recommendations?.items) && data.recommendations.items.length > 0, "Official benefit alerts missing recommendation items");
+  assert(
+    data.recommendations.items.every((item) => item.redirectUrl?.startsWith("/go/news/") && item.reason && item.personalizedSignals),
+    "Official benefit alert items missing redirect, reason, or signals"
+  );
+  assert(String(data.recommendations.notice ?? "").includes("실제 푸시는 별도 동의"), "Official benefit alerts missing push consent notice");
 });
 
 await check("metrics api", async () => {

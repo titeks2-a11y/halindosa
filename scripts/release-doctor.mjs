@@ -1955,6 +1955,8 @@ async function checkOperationalDataSurfaces() {
   const notificationsPage = await text("app/notifications/page.tsx");
   const interestAlertPreview = await text("components/InterestAlertPreview.tsx");
   const officialBenefitAlertPreview = await text("components/OfficialBenefitAlertPreview.tsx");
+  const officialBenefitAlertsRoute = await text("app/api/benefits/official-alerts/route.ts");
+  const officialBenefitAlertQueue = await text("lib/deals/officialBenefitAlertQueue.ts");
   const notificationPreferences = await text("components/NotificationPreferences.tsx");
   const notificationPreferencesLib = await text("lib/notificationPreferences.ts");
   const benefitVisitStreakSummary = await text("components/BenefitVisitStreakSummary.tsx");
@@ -2274,11 +2276,20 @@ async function checkOperationalDataSurfaces() {
     !interestAlertPreview.includes("마감 전 확인") ||
     !officialBenefitAlertPreview.includes("공식 혜택 알림 후보") ||
     !officialBenefitAlertPreview.includes("공식 페이지 이동만 포함") ||
+    !officialBenefitAlertPreview.includes("공식 혜택 알림 API") ||
+    !officialBenefitAlertPreview.includes("공식 알림 API 보기") ||
+    !officialBenefitAlertPreview.includes("/api/benefits/official-alerts") ||
     !officialBenefitAlertPreview.includes("recentNewsBenefitUpdatedEvent") ||
     !officialBenefitAlertPreview.includes("rememberRecentNewsBenefitId") ||
     !officialBenefitAlertPreview.includes("/go/news/") ||
     !officialBenefitAlertPreview.includes("target=\"_blank\"") ||
     !officialBenefitAlertPreview.includes("최근 본 공식 혜택") ||
+    !officialBenefitAlertsRoute.includes("buildOfficialBenefitAlertQueue") ||
+    !officialBenefitAlertsRoute.includes("getVisibleNewsDeals") ||
+    !officialBenefitAlertsRoute.includes("recentNewsId") ||
+    !officialBenefitAlertQueue.includes("newsDealMatchesNotificationInterest") ||
+    !officialBenefitAlertQueue.includes("redirectUrl: `/go/news/${deal.id}`") ||
+    !officialBenefitAlertQueue.includes("실제 푸시는 별도 동의") ||
     !notificationPreferences.includes("알림 받을 카테고리") ||
     !notificationPreferences.includes("writeInAppNotificationPreferences") ||
     !notificationPreferences.includes("notificationCategoryOptions") ||
@@ -2301,6 +2312,7 @@ async function checkOperationalDataSurfaces() {
     !smoke.includes("Notifications page missing alert time routine") ||
     !smoke.includes("Notifications page missing interest alert action cards") ||
     !smoke.includes("Notifications page missing official benefit alert preview") ||
+    !smoke.includes("official benefit alerts api") ||
     !smoke.includes("Notifications page missing local notification category preferences") ||
     !smoke.includes("Notifications page missing favorite and recent signal personalization summary") ||
     !smoke.includes("Notifications page missing reusable personalized recommendation API card") ||

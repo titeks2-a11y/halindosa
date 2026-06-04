@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { BadgeCheck, BellRing, Clock3, Gift, Sparkles, TicketPercent } from "lucide-react";
 import { getTimeLeft } from "@/lib/format";
+import { buildOfficialBenefitAlertQueue, defaultOfficialBenefitAlertInterests } from "@/lib/deals/officialBenefitAlertQueue";
 import {
   defaultNotificationCategories,
   notificationPreferenceUpdatedEvent,
@@ -22,36 +23,6 @@ interface OfficialBenefitAlertPreviewProps {
 }
 
 const fallbackCategories = ["무료/체험", "쿠폰/이벤트", "마트/편의점", "영화/문화"];
-
-function dealMatchesNotificationCategory(deal: NewsDeal, category: string) {
-  const searchable = [deal.title, deal.summary, deal.merchant, deal.category, deal.benefitType, deal.sourceName, deal.tags.join(" ")]
-    .filter(Boolean)
-    .join(" ");
-
-  if (category === "무료/체험") return deal.category === "무료혜택" || /무료|체험|샘플|0원/.test(searchable);
-  if (category === "쿠폰/이벤트") return deal.benefitType === "coupon" || /쿠폰|이벤트|포인트|혜택/.test(searchable);
-  if (category === "마트/편의점") return deal.category === "마트/편의점" || /마트|편의점|1\+1|2\+1/.test(searchable);
-  if (category === "외식/배달") return deal.category === "외식/배달" || deal.benefitType === "foodDelivery";
-  if (category === "영화/문화") return deal.category === "영화/문화" || deal.benefitType === "culture";
-  if (category === "카드/멤버십") return deal.category === "카드/멤버십" || deal.benefitType === "card" || deal.benefitType === "membership";
-  if (category === "정부/공공혜택") return deal.category === "정부/공공혜택" || deal.benefitType === "public";
-  if (category === "여행") return deal.category === "여행/숙박" || deal.benefitType === "travel";
-  if (category === "식품") return deal.category === "식품/생필품";
-  if (category === "생활용품") return deal.category === "식품/생필품" || /생활|생필품/.test(searchable);
-  if (category === "디지털") return deal.category === "디지털/가전";
-  if (category === "패션" || category === "뷰티") return deal.category === "패션/뷰티";
-
-  return searchable.includes(category);
-}
-
-function rankOfficialBenefit(deal: NewsDeal, categories: string[], recentIds: string[]) {
-  const categoryBoost = categories.some((category) => dealMatchesNotificationCategory(deal, category)) ? 34 : 0;
-  const recentBoost = recentIds.includes(deal.id) ? 18 : 0;
-  const endingBoost = Math.max(0, 72 - (new Date(deal.endDate).getTime() - Date.now()) / (60 * 60 * 1000));
-  const freeBoost = deal.benefitType === "freebie" || deal.benefitType === "coupon" || deal.price === 0 ? 24 : 0;
-
-  return (deal.priorityScore ?? deal.confidenceScore) + categoryBoost + recentBoost + endingBoost + freeBoost + deal.couponAmount / 1000;
-}
 
 function benefitLabel(deal: NewsDeal) {
   if (deal.benefitType === "freebie") return "무료혜택";
@@ -84,15 +55,22 @@ export function OfficialBenefitAlertPreview({ deals, updatedAt }: OfficialBenefi
     };
   }, []);
 
-  const matchedBenefits = useMemo(() => {
-    const selectedCategories = categories.length ? categories : fallbackCategories;
-    const matched = deals.filter((deal) => selectedCategories.some((category) => dealMatchesNotificationCategory(deal, category)));
-    const source = matched.length ? matched : deals;
-
-    return [...source]
-      .sort((a, b) => rankOfficialBenefit(b, selectedCategories, recentIds) - rankOfficialBenefit(a, selectedCategories, recentIds))
-      .slice(0, 5);
-  }, [categories, deals, recentIds]);
+  const alertQueue = useMemo(
+    () =>
+      buildOfficialBenefitAlertQueue(deals, {
+        interests: categories.length ? categories : defaultOfficialBenefitAlertInterests,
+        recentNewsIds: recentIds,
+        limit: 5
+      }),
+    [categories, deals, recentIds]
+  );
+  const matchedBenefits = useMemo(
+    () =>
+      alertQueue.items
+        .map((item) => deals.find((deal) => deal.id === item.id))
+        .filter((deal): deal is NewsDeal => Boolean(deal)),
+    [alertQueue.items, deals]
+  );
 
   const recentBenefits = useMemo(
     () =>
@@ -102,6 +80,13 @@ export function OfficialBenefitAlertPreview({ deals, updatedAt }: OfficialBenefi
         .slice(0, 3),
     [deals, recentIds]
   );
+  const officialAlertApiHref = `/api/benefits/official-alerts?limit=5${(categories.length ? categories : defaultOfficialBenefitAlertInterests)
+    .slice(0, 5)
+    .map((interest) => `&interest=${encodeURIComponent(interest)}`)
+    .join("")}${recentIds
+    .slice(0, 3)
+    .map((recentNewsId) => `&recentNewsId=${encodeURIComponent(recentNewsId)}`)
+    .join("")}`;
 
   const quickFilters = [
     { label: "무료·쿠폰", href: "/free-benefits?activeOnly=true", icon: Gift },
@@ -130,10 +115,24 @@ export function OfficialBenefitAlertPreview({ deals, updatedAt }: OfficialBenefi
         </span>
       </div>
 
+      <div className="mt-4 rounded-3xl border border-amber-100 bg-white/85 p-3 shadow-sm" aria-label="공식 혜택 알림 API">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="text-xs font-black text-dossa-red">공식 혜택 알림 API</p>
+            <p className="mt-1 text-xs font-bold leading-5 text-slate-500">
+              공식 혜택 {alertQueue.summary.totalActiveBenefits}개 중 관심 카테고리 {alertQueue.summary.interestMatchedBenefits}개와 최근 본 공식 혜택 {alertQueue.summary.recentBenefits}개를 후보로 정리합니다.
+            </p>
+          </div>
+          <Link href={officialAlertApiHref} className="rounded-2xl bg-slate-950 px-4 py-2.5 text-center text-xs font-black text-white">
+            공식 알림 API 보기
+          </Link>
+        </div>
+      </div>
+
       <div className="mt-4 grid grid-cols-3 gap-2">
         {[
-          { label: "관심 매칭", value: matchedBenefits.length },
-          { label: "최근 본 공식 혜택", value: recentBenefits.length },
+          { label: "관심 매칭", value: alertQueue.summary.interestMatchedBenefits },
+          { label: "최근 본 공식 혜택", value: alertQueue.summary.recentBenefits },
           { label: "마지막 확인", value: updatedAt ? "최신" : "대기" }
         ].map((item) => (
           <div key={item.label} className="rounded-2xl bg-white px-3 py-2 text-center shadow-sm">
@@ -179,6 +178,9 @@ export function OfficialBenefitAlertPreview({ deals, updatedAt }: OfficialBenefi
                 <span className="mt-1 block truncate text-xs font-bold text-slate-500">
                   {deal.sourceName} · {benefitLabel(deal)} · {getTimeLeft(deal.endDate)}
                 </span>
+                <span className="mt-0.5 block truncate text-[11px] font-bold text-dossa-red">
+                  {alertQueue.items.find((item) => item.id === deal.id)?.reason ?? "공식 페이지 이동이 확인된 혜택입니다."}
+                </span>
               </span>
               <span className="shrink-0 rounded-full bg-slate-950 px-3 py-2 text-[11px] font-black text-white">
                 공식 보기
@@ -199,7 +201,7 @@ export function OfficialBenefitAlertPreview({ deals, updatedAt }: OfficialBenefi
         </p>
       ) : (
         <p className="mt-3 rounded-2xl bg-white px-4 py-3 text-xs font-bold leading-5 text-slate-500 shadow-sm">
-          공식 혜택을 열어보면 최근 본 흐름이 기기에 저장되어 다음 알림 후보가 더 빨리 정리됩니다.
+          {alertQueue.notice}
         </p>
       )}
     </section>
