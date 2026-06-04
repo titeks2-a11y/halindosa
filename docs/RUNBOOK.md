@@ -22,6 +22,9 @@ npm run smoke
 - 공식 혜택 API: `GET /api/news-deals?limit=10`
 - 공식 혜택 운영 API: `GET /api/admin/news-operations?token=$ADMIN_EXPORT_TOKEN`
 - 운영 헬스 API: `GET /api/admin/health-readiness?token=$ADMIN_EXPORT_TOKEN`
+- 일일 운영 API: `GET /api/admin/daily-operations?token=$ADMIN_EXPORT_TOKEN`
+  - CSV 점검표는 `GET /api/admin/daily-operations?format=csv&token=$ADMIN_EXPORT_TOKEN`로 내려받는다.
+  - `npm run daily:operations:report`는 `reports/daily-operations.json`과 `docs/DAILY_OPERATIONS_REPORT.md`를 생성하고, 검증 구매 링크, 공식 혜택, `refresh:all`, 공식 소스 준비도, cron/push, `release:doctor`를 일일 운영 큐로 묶는다.
 - 실시간 특가 API: `GET /api/deals?q=노트북%20특가&sort=latest`
 - 헬스체크: `GET /api/health`
   - `officialBenefitFresh`, `officialBenefitFreshnessHours`, `officialBenefitVisibleCount`, `officialBenefitReadyCategories`, `officialBenefitRefreshAllOk`, `officialBenefitProviderRiskOk`, `officialBenefitProviderDangerCount`를 함께 확인한다.
@@ -115,6 +118,10 @@ npm run smoke
   - `npm run refresh:all && npm run health:readiness`를 실행하면 `reports/health-readiness.json`과 `docs/HEALTH_READINESS_REPORT.md`가 생성된다.
   - 이 리포트는 상품 140개 이상, 검증 구매 링크 99% 이상, 검색 링크 0개, 품절/종료 노출 0개, 공식 혜택 25개 이상, 필수 10개 공식 혜택 카테고리별 2건 이상, provider 즉시 점검 0개, 공식 소스 통합 준비도 통과, `refresh:all` 성공, 24시간 이내 리포트 신선도를 함께 검사한다.
   - `npm run qa`, `/admin`의 `운영 헬스 리포트`, `/api/admin/health-readiness`, `npm run release:doctor`도 이 리포트의 존재와 수치를 확인하므로, 출시 직전에는 `docs/HEALTH_READINESS_REPORT.md`가 PASS인지 먼저 확인한다.
+- 일일 운영 리포트:
+  - `npm run daily:operations:report`를 실행하면 `reports/daily-operations.json`과 `docs/DAILY_OPERATIONS_REPORT.md`가 생성된다.
+  - 이 리포트는 검색 링크 노출 0건, 품절/종료 상품 노출 0건, 공식 혜택 25개 이상, `refresh:all` 성공, 공식 소스 launch gate 통과, cron/push 준비, `release:doctor` 통과를 오늘 운영자가 볼 카드와 우선 처리 큐로 묶는다.
+  - `/admin`의 `일일 운영 리포트` 패널과 `/api/admin/daily-operations`, `/api/admin/daily-operations?format=csv`에서 같은 내용을 확인한다. 검색 결과, 대표몰, 커뮤니티 원문, 블로그, 품절/종료 링크가 큐에 보이면 노출 전에 숨김 또는 URL 보강부터 처리한다.
 - 피드 dry-run import: `POST /api/admin/import?token=$ADMIN_EXPORT_TOKEN`
   - 신규/보강 피드는 `affiliateUrl` → `finalPurchaseUrl` → `productUrl` → `purchaseUrl` → `link` → `originalUrl` → `searchUrl` 순서로 실제 구매 이동 URL을 판정한다.
   - `linkSummary.verified`와 `linkSummary.needsReview`를 확인해 출시 전 실제 상품 상세 URL 비율을 관리한다.

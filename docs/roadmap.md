@@ -17,6 +17,7 @@
 - `health:readiness` 운영 헬스 리포트를 추가해 `reports/health-readiness.json`과 `docs/HEALTH_READINESS_REPORT.md`에 상품 140개, 검증 링크 99% 이상, 검색/품절 노출 0건, 공식 혜택 25개 이상, 필수 카테고리 10개별 최소 2건, `refresh:all` 성공과 24시간 신선도를 하나의 출시 게이트로 고정했다.
 - 운영 헬스 리포트와 `/api/health`에 공식 소스 통합 준비도 요약을 연결해 공식 소스 후보, 접근 가능/보호 소스, feed env 실패, 통합 게이트 실패가 생기면 health readiness도 출시 전 점검 상태가 되도록 했다.
 - `/api/admin/health-readiness`와 `/admin` 운영 헬스 패널을 추가해 운영자가 출시 게이트 점수, 검증 상품 링크, 공식 혜택 카테고리, `refresh:all` 상태를 관리자 화면에서 즉시 확인하도록 연결했다.
+- `daily:operations:report`, `reports/daily-operations.json`, `docs/DAILY_OPERATIONS_REPORT.md`, `/api/admin/daily-operations`, `/api/admin/daily-operations?format=csv`, 관리자 `일일 운영 리포트` 패널을 추가해 검증 구매 링크, 공식 혜택, `refresh:all`, 공식 소스 준비도, cron/push, `release:doctor` 상태를 운영자가 매일 확인할 카드와 우선 처리 큐로 묶었다.
 - SSG닷컴, 이마트몰, 홈플러스, 요기요, 무신사, 롯데ON, 삼성닷컴, 네이버페이, 문화누리카드의 공식 혜택/이벤트 페이지를 추가해 식품/생필품, 외식/배달, 패션/뷰티, 디지털/가전, 무료혜택까지 뉴스형 혜택 카테고리를 확장했다.
 - 공식 혜택 뉴스도 `/go/news/[id]` 서버 리다이렉트를 거치도록 변경해 finalUrl을 직접 노출하지 않고 승인 도메인 정책, 종료 여부, 검증 상태, 클릭 로그를 한 번 더 통과한 뒤 새 탭으로 이동하게 했다.
 - `verify:news`, `smoke:local`, `release:doctor` 기준을 상향해 공식 혜택 25개 이상, 필수 10개 카테고리별 최소 2건, `/go/news/[id]` 클릭 게이트, 검색/비공식/종료 링크 0건을 출시 회귀 조건으로 고정했다.

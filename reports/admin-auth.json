@@ -1,10 +1,11 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-04T02:21:19.468Z",
+  "generatedAt": "2026-06-04T02:40:09.175Z",
   "status": "ready",
   "adminAuthPath": "lib/adminAuth.ts",
-  "protectedRouteCount": 17,
+  "protectedRouteCount": 18,
   "protectedRoutes": [
+    "app/api/admin/daily-operations/route.ts",
     "app/api/admin/daily-queue/route.ts",
     "app/api/admin/deal-quality/route.ts",
     "app/api/admin/export/route.ts",
@@ -67,7 +68,7 @@
     {
       "name": "protected route scan",
       "ok": true,
-      "detail": "17 admin/cron API routes scanned."
+      "detail": "18 admin/cron API routes scanned."
     }
   ]
 }

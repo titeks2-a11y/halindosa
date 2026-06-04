@@ -608,6 +608,8 @@ await check("admin dashboard quality cards", async () => {
   assert(text.includes("혜택형 콘텐츠") && text.includes("활성 노출 가능") && text.includes("점검 우선"), "Admin dashboard missing benefit operation cards");
   assert(text.includes("오늘 운영 체크인") && text.includes("무료·쿠폰·링크·재방문 루틴을 먼저 점검합니다"), "Admin dashboard missing daily operations check-in");
   assert(text.includes("무료 혜택 보강") && text.includes("링크 검수") && text.includes("신고·종료 정리") && text.includes("재방문 루틴"), "Admin dashboard missing daily operations check-in cards");
+  assert(text.includes("일일 운영 리포트") && text.includes("검증 링크, 공식 혜택, refresh 상태를 한 번에 확인합니다"), "Admin dashboard missing daily operations report panel");
+  assert(text.includes("daily JSON") && text.includes("daily CSV") && text.includes("일일 운영 게이트") && text.includes("오늘 우선 처리 큐"), "Admin dashboard missing daily operations API, CSV, gates, or priority queue");
   assert(text.includes("운영 혜택 판단표") && text.includes("고객이 오늘 먼저 보는 4가지 기준을 운영 큐로 점검합니다"), "Admin dashboard missing shared benefit decision operation board");
   assert(text.includes("무료 수령") && text.includes("결제 전 쿠폰") && text.includes("마감 혜택") && text.includes("구매처 확인 상품"), "Admin dashboard missing decision guide operation actions");
   assert(text.includes("수령 난이도 운영 큐") && text.includes("비회원 기준으로 먼저 받을 혜택"), "Admin dashboard missing claim effort operation queue");
@@ -860,6 +862,32 @@ await check("admin source readiness rollup csv", async () => {
   assert(response.headers.get("content-type")?.includes("text/csv"), "Admin source readiness CSV should use text/csv content type");
   assert(text.includes("env_plan") && text.includes("gate") && text.includes("next_action"), "Admin source readiness CSV missing env plan, gate, or next action sections");
   assert(text.includes("검색 결과, 커뮤니티 원문") && text.includes("source:feed-env:doctor"), "Admin source readiness CSV missing safe source guardrails or feed env command");
+});
+
+await check("admin daily operations api", async () => {
+  const { response, data } = await fetchJson("/api/admin/daily-operations");
+  assert(response.status === 200, `Expected daily operations 200, got ${response.status}`);
+  assert(data.ok === true, "Admin daily operations API ok should be true");
+  assert(data.report?.ok === true, "Admin daily operations report should pass");
+  assert(data.report?.summary?.productDealsCount >= 140, "Admin daily operations should preserve product count");
+  assert(data.report?.summary?.verifiedProductLinks >= 140, "Admin daily operations should preserve verified links");
+  assert(data.report?.summary?.exposedSearchLinks === 0, "Admin daily operations should show zero exposed search links");
+  assert(data.report?.summary?.exposedSoldOutLinks === 0, "Admin daily operations should show zero exposed sold-out links");
+  assert(data.report?.summary?.visibleOfficialBenefits >= 25, "Admin daily operations should preserve official benefits");
+  assert(data.report?.summary?.refreshAllOk === true, "Admin daily operations should preserve refresh:all success");
+  assert(data.report?.summary?.officialSourceLaunchGateStatus === "passed", "Admin daily operations should expose passing source readiness");
+  assert(Array.isArray(data.report?.gates) && data.report.gates.length >= 6 && data.report.gates.every((gate) => gate.ok === true), "Admin daily operations gates should all pass");
+  assert(Array.isArray(data.report?.cards) && data.report.cards.length >= 6, "Admin daily operations should expose operation cards");
+  assert(Array.isArray(data.report?.priorityQueue) && data.report.priorityQueue.length >= 3, "Admin daily operations should expose priority queue");
+});
+
+await check("admin daily operations csv", async () => {
+  const response = await fetch(`${baseUrl}/api/admin/daily-operations?format=csv`);
+  const text = await response.text();
+  assert(response.status === 200, `Expected daily operations CSV 200, got ${response.status}`);
+  assert(response.headers.get("content-type")?.includes("text/csv"), "Admin daily operations CSV should use text/csv content type");
+  assert(text.includes("priority_queue") && text.includes("verifiedProductLinks") && text.includes("exposedSearchLinks"), "Admin daily operations CSV missing summary or queue fields");
+  assert(text.includes("npm run daily:operations:report") && text.includes("npm run verify:links"), "Admin daily operations CSV missing regeneration commands");
 });
 
 await check("admin health readiness api", async () => {

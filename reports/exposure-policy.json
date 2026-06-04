@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-04T02:21:53.725Z",
+  "generatedAt": "2026-06-04T02:40:40.989Z",
   "summary": {
     "auditedItems": 140,
     "exposedItems": 140,
@@ -40,13 +40,13 @@
     "checked": 140,
     "passed": 66,
     "failed": 74,
-    "redirected": 12,
-    "finalUrlChanged": 12,
+    "redirected": 11,
+    "finalUrlChanged": 11,
     "http404": 0,
     "http410": 0,
     "http5xx": 0,
     "timeout": 0,
-    "robotsBlocked": 58,
+    "robotsBlocked": 57,
     "unavailableText": 0,
     "failures": [
       {
@@ -106,6 +106,13 @@
         "reason": "http_429"
       },
       {
+        "id": "d012",
+        "url": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000216997",
+        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000216997",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
         "id": "d014",
         "url": "https://www.coupang.com/vp/products/7687552147",
         "finalUrl": "https://www.coupang.com/vp/products/7687552147",
@@ -139,13 +146,6 @@
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000038330709",
         "status": 429,
         "reason": "http_429"
-      },
-      {
-        "id": "d025",
-        "url": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000163532",
-        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000163532",
-        "status": 403,
-        "reason": "robots_or_access_blocked"
       },
       {
         "id": "d028",
@@ -193,13 +193,6 @@
         "id": "d035",
         "url": "https://www.coupang.com/vp/products/9468784918?itemId=28181432958&vendorItemId=95136026489",
         "finalUrl": "https://www.coupang.com/vp/products/9468784918?itemId=28181432958&vendorItemId=95136026489",
-        "status": 403,
-        "reason": "robots_or_access_blocked"
-      },
-      {
-        "id": "d040",
-        "url": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000211588",
-        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000211588",
         "status": 403,
         "reason": "robots_or_access_blocked"
       },
@@ -270,6 +263,13 @@
         "id": "d073",
         "url": "https://www.hyundaicard.com/cpc/cr/CPCCR0101_01.hc",
         "finalUrl": "https://www.hyundaicard.com/cpc/cr/CPCCR0101_01.hc",
+        "status": 0,
+        "reason": "request_failed"
+      },
+      {
+        "id": "d074",
+        "url": "https://www.shinhancard.com/pconts/html/benefit/event/MOBFM220/MOBFM220R01.html",
+        "finalUrl": "https://www.shinhancard.com/pconts/html/benefit/event/MOBFM220/MOBFM220R01.html",
         "status": 0,
         "reason": "request_failed"
       },
@@ -572,23 +572,24 @@
   "liveProbeReviewSummary": {
     "status": "transient_network_review",
     "hardFailureCount": 0,
-    "transientNetworkCount": 3,
-    "accessProtectedCount": 58,
+    "transientNetworkCount": 4,
+    "accessProtectedCount": 57,
     "sellerUnavailableSignals": 0,
     "interpretation": "Some URLs returned transient network signals; no exposed search, sold-out, 404, 410, or 5xx links were found."
   },
   "liveProbeFailureReasonCounts": {
-    "robots_or_access_blocked": 58,
+    "robots_or_access_blocked": 57,
     "http_429": 13,
-    "request_failed": 3
+    "request_failed": 4
   },
   "liveProbeHostFailureCounts": {
     "item.gmarket.co.kr": 30,
     "coupang.com": 23,
     "ssg.com": 13,
-    "oliveyoung.co.kr": 3,
+    "oliveyoung.co.kr": 2,
     "hyundaicard.com": 1,
     "itempage3.auction.co.kr": 1,
+    "shinhancard.com": 1,
     "store.ohou.se": 1,
     "tmembership.co.kr": 1,
     "tour.interpark.com": 1
@@ -918,7 +919,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-05-31T10:00:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "oliveyoung.co.kr",
       "evidence": "올리브영 세라마이드 크림 상품 상세",
@@ -927,8 +928,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": true,
-      "liveProbeReason": ""
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d013",
@@ -1282,7 +1283,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-05-31T10:20:00.000Z",
-      "priorityScore": 99,
+      "priorityScore": 100,
       "isHidden": false,
       "host": "oliveyoung.co.kr",
       "evidence": "올리브영 선크림 1+1 상품 상세",
@@ -1291,8 +1292,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": false,
-      "liveProbeReason": "robots_or_access_blocked"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d026",
@@ -1702,7 +1703,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-01T02:40:00.000Z",
-      "priorityScore": 99,
+      "priorityScore": 100,
       "isHidden": false,
       "host": "oliveyoung.co.kr",
       "evidence": "올리브영 아이보들 CCP 크림 1+1 기획 상품 상세",
@@ -1711,8 +1712,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": false,
-      "liveProbeReason": "robots_or_access_blocked"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d041",
@@ -2663,8 +2664,8 @@
       "productDetailUrl": false,
       "officialBenefitUrl": true,
       "unavailableText": false,
-      "liveProbeOk": true,
-      "liveProbeReason": ""
+      "liveProbeOk": false,
+      "liveProbeReason": "request_failed"
     },
     {
       "id": "d075",
@@ -4518,9 +4519,9 @@
   "badExposedItems": [],
   "hiddenItems": [],
   "sourceReports": {
-    "linkValidationGeneratedAt": "2026-06-04T02:21:52.192Z",
-    "productQualityGeneratedAt": "2026-06-04T02:21:52.739Z",
-    "refreshAllGeneratedAt": "2026-06-04T02:21:25.227Z"
+    "linkValidationGeneratedAt": "2026-06-04T02:40:39.469Z",
+    "productQualityGeneratedAt": "2026-06-04T02:40:39.999Z",
+    "refreshAllGeneratedAt": "2026-06-04T02:40:14.973Z"
   },
   "issues": []
 }

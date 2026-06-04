@@ -4383,6 +4383,86 @@ function checkHealthReadinessReport() {
   else pass("operational health readiness", "Health readiness report proves product links, official benefits, category coverage, provider risk, freshness, refresh:all, and cron refresh status are launch-ready.");
 }
 
+function checkDailyOperationsReport() {
+  const requiredFiles = [
+    "scripts/daily-operations-report.mjs",
+    "lib/operations/dailyOperations.ts",
+    "app/api/admin/daily-operations/route.ts",
+    "reports/daily-operations.json",
+    "docs/DAILY_OPERATIONS_REPORT.md"
+  ];
+  const issues = [];
+  const missing = requiredFiles.filter((file) => !existsSync(join(root, file)));
+  if (missing.length) issues.push(`missing files: ${missing.join(", ")}`);
+
+  const packageJson = existsSync(join(root, "package.json")) ? JSON.parse(readFileSync(join(root, "package.json"), "utf8")) : {};
+  const dailyScript = existsSync(join(root, "scripts/daily-operations-report.mjs")) ? readFileSync(join(root, "scripts/daily-operations-report.mjs"), "utf8") : "";
+  const dailyApi = existsSync(join(root, "app/api/admin/daily-operations/route.ts")) ? readFileSync(join(root, "app/api/admin/daily-operations/route.ts"), "utf8") : "";
+  const dailyLib = existsSync(join(root, "lib/operations/dailyOperations.ts")) ? readFileSync(join(root, "lib/operations/dailyOperations.ts"), "utf8") : "";
+  const adminPage = existsSync(join(root, "app/admin/page.tsx")) ? readFileSync(join(root, "app/admin/page.tsx"), "utf8") : "";
+  const smokeScript = existsSync(join(root, "scripts/smoke.mjs")) ? readFileSync(join(root, "scripts/smoke.mjs"), "utf8") : "";
+  const runbook = existsSync(join(root, "docs/RUNBOOK.md")) ? readFileSync(join(root, "docs/RUNBOOK.md"), "utf8") : "";
+  const roadmap = existsSync(join(root, "docs/roadmap.md")) ? readFileSync(join(root, "docs/roadmap.md"), "utf8") : "";
+  const docsReport = existsSync(join(root, "docs/DAILY_OPERATIONS_REPORT.md")) ? readFileSync(join(root, "docs/DAILY_OPERATIONS_REPORT.md"), "utf8") : "";
+  const report = existsSync(join(root, "reports/daily-operations.json")) ? JSON.parse(readFileSync(join(root, "reports/daily-operations.json"), "utf8")) : {};
+
+  if (packageJson.scripts?.["daily:operations:report"] !== "node scripts/daily-operations-report.mjs") {
+    issues.push("package scripts should expose daily:operations:report");
+  }
+  if (!String(packageJson.scripts?.qa ?? "").includes("daily:operations:report")) {
+    issues.push("qa should regenerate daily operations report");
+  }
+  for (const phrase of ["검증 구매 링크", "공식 혜택 노출", "refresh:all", "공식 소스 준비도", "release doctor", "reports/daily-operations.json", "docs/DAILY_OPERATIONS_REPORT.md"]) {
+    if (!dailyScript.includes(phrase)) issues.push(`daily operations script missing ${phrase}`);
+  }
+  if (!dailyLib.includes("getDailyOperationsReport") || !dailyLib.includes("exposedSearchLinks") || !dailyLib.includes("priorityQueue")) {
+    issues.push("daily operations library should expose report, search-link count, and priority queue");
+  }
+  if (!dailyApi.includes("canAccessAdminRequest") || !dailyApi.includes("format") || !dailyApi.includes("text/csv") || !dailyApi.includes("admin-daily-operations")) {
+    issues.push("daily operations admin API should be protected and support CSV export");
+  }
+  if (!adminPage.includes("일일 운영 리포트") || !adminPage.includes("dailyOperationsApiHref") || !adminPage.includes("dailyOperationsCsvHref") || !adminPage.includes("오늘 우선 처리 큐")) {
+    issues.push("admin page should expose daily operations report JSON, CSV, gates, and priority queue");
+  }
+  if (!smokeScript.includes("admin daily operations api") || !smokeScript.includes("/api/admin/daily-operations") || !smokeScript.includes("Admin daily operations should show zero exposed search links")) {
+    issues.push("smoke tests should cover daily operations admin API and dashboard panel");
+  }
+  for (const phrase of ["npm run daily:operations:report", "reports/daily-operations.json", "docs/DAILY_OPERATIONS_REPORT.md"]) {
+    if (!runbook.includes(phrase)) issues.push(`RUNBOOK missing ${phrase}`);
+  }
+  if (!roadmap.includes("일일 운영 리포트") || !roadmap.includes("daily:operations:report")) {
+    issues.push("roadmap should document daily operations report");
+  }
+  for (const phrase of ["할인도사 일일 운영 리포트", "검색 링크 노출", "품절/종료 상품 노출", "우선 처리 큐", "검색 결과, 대표몰, 커뮤니티 원문"]) {
+    if (!docsReport.includes(phrase)) issues.push(`docs/DAILY_OPERATIONS_REPORT.md missing ${phrase}`);
+  }
+
+  if (report.ok !== true) issues.push("daily operations report should pass");
+  if ((report.summary?.productDealsCount ?? 0) < 140) issues.push("daily operations should preserve at least 140 product deals");
+  if ((report.summary?.verifiedProductLinks ?? 0) < 140) issues.push("daily operations should preserve verified product links");
+  if ((report.summary?.exposedSearchLinks ?? 1) !== 0) issues.push("daily operations should show zero exposed search links");
+  if ((report.summary?.exposedSoldOutLinks ?? 1) !== 0) issues.push("daily operations should show zero exposed sold-out links");
+  if ((report.summary?.visibleOfficialBenefits ?? 0) < 25) issues.push("daily operations should show at least 25 official benefits");
+  if (report.summary?.refreshAllOk !== true || (report.summary?.refreshAllFailedCount ?? 1) !== 0) {
+    issues.push("daily operations should require passing refresh:all with zero failures");
+  }
+  if ((report.summary?.officialSourceCandidates ?? 0) < 30 || report.summary?.officialSourceLaunchGateStatus !== "passed") {
+    issues.push("daily operations should expose passing official source readiness");
+  }
+  if ((report.summary?.releaseDoctorPassedChecks ?? 0) !== (report.summary?.releaseDoctorTotalChecks ?? -1)) {
+    issues.push("daily operations should preserve clean release doctor evidence");
+  }
+  if (!Array.isArray(report.gates) || report.gates.length < 6 || !report.gates.every((gate) => gate.ok === true)) {
+    issues.push("daily operations gates should all pass");
+  }
+  if (!Array.isArray(report.priorityQueue) || report.priorityQueue.length < 3) {
+    issues.push("daily operations should include a priority queue");
+  }
+
+  if (issues.length) fail("daily operations readiness", issues.join("; "));
+  else pass("daily operations readiness", "Daily operations report ties verified links, official benefits, refresh:all, source readiness, cron/push, admin API, CSV export, and store release gates into a daily operator queue.");
+}
+
 function checkCronRefreshPipeline() {
   const issues = [];
   const routePath = join(root, "app/api/cron/refresh/route.ts");
@@ -4468,6 +4548,7 @@ function checkAdminAuthHardening() {
   const runbook = existsSync(join(root, "docs/RUNBOOK.md")) ? readFileSync(join(root, "docs/RUNBOOK.md"), "utf8") : "";
   const adminApiRoutes = [
     "app/api/admin/daily-queue/route.ts",
+    "app/api/admin/daily-operations/route.ts",
     "app/api/admin/deal-quality/route.ts",
     "app/api/admin/export/route.ts",
     "app/api/admin/exposure-policy/route.ts",
@@ -4542,6 +4623,7 @@ checkNewsDealPipeline();
 checkAdminAuthHardening();
 checkCronRefreshPipeline();
 checkHealthReadinessReport();
+checkDailyOperationsReport();
 checkSigningAndArtifacts();
 checkStoreAssets();
 
