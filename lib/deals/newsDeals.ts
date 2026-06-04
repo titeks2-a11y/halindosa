@@ -126,6 +126,14 @@ function buildNewsFreshness(generatedAt?: string) {
   };
 }
 
+function countBy<T extends string>(deals: NewsDeal[], getKey: (deal: NewsDeal) => T) {
+  return deals.reduce<Record<T, number>>((counts, deal) => {
+    const key = getKey(deal);
+    counts[key] = (counts[key] ?? 0) + 1;
+    return counts;
+  }, {} as Record<T, number>);
+}
+
 export function getVisibleNewsDeals(options: { limit?: number; category?: string; benefitType?: string; q?: string; sort?: string } = {}) {
   const snapshot = readSnapshot();
   const sourceDeals = snapshot?.deals?.length ? snapshot.deals : (seedNewsDeals as NewsDeal[]);
@@ -151,6 +159,9 @@ export function getVisibleNewsDeals(options: { limit?: number; category?: string
     source: snapshot?.source ?? "seed",
     sort,
     query: options.q?.trim() ?? "",
+    categoryCounts: countBy(sorted, (deal) => deal.category),
+    benefitTypeCounts: countBy(sorted, (deal) => deal.benefitType),
+    sourceCounts: countBy(sorted, (deal) => deal.sourceName),
     ...freshness
   };
 }

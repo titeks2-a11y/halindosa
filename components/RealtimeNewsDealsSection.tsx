@@ -36,6 +36,7 @@ const categoryHighlights = [
 
 export function RealtimeNewsDealsSection({
   deals,
+  totalCount,
   updatedAt,
   activeQuery = "",
   freshnessStatus = "fresh",
@@ -48,6 +49,7 @@ export function RealtimeNewsDealsSection({
   onOpenNewsDeal
 }: {
   deals: NewsDeal[];
+  totalCount?: number;
   updatedAt: string;
   activeQuery?: string;
   freshnessStatus?: "fresh" | "due" | "stale" | "seed" | string;
@@ -60,6 +62,7 @@ export function RealtimeNewsDealsSection({
   onOpenNewsDeal?: (deal: NewsDeal) => void;
 }) {
   const trimmedQuery = activeQuery.trim();
+  const visibleResultCount = typeof totalCount === "number" && totalCount >= deals.length ? totalCount : deals.length;
   const freshnessTone = refreshError || freshnessStatus === "stale" ? "warning" : freshnessStatus === "fresh" ? "success" : "neutral";
   const freshnessText = isRefreshing ? "갱신 중" : freshnessLabel || (updatedAt ? getRelativeTime(updatedAt) : "seed 기준");
   const freshnessDetail =
@@ -101,7 +104,7 @@ export function RealtimeNewsDealsSection({
     <CommerceCard tone="surface" className="p-3 sm:rounded-[28px] sm:p-4" aria-label="오늘의 실시간 할인뉴스">
       <CommerceSectionHeader
         eyebrow="오늘의 실시간 할인뉴스"
-        title={trimmedQuery ? `"${trimmedQuery}" 관련 공식 혜택 ${deals.length}개` : "공식 혜택 페이지로 바로 이동"}
+        title={trimmedQuery ? `"${trimmedQuery}" 관련 공식 혜택 ${visibleResultCount}개` : "공식 혜택 페이지로 바로 이동"}
         compact
         trailing={
           <div className="hidden items-center gap-1.5 sm:flex">
@@ -152,6 +155,7 @@ export function RealtimeNewsDealsSection({
       {trimmedQuery ? (
         <div className="mt-2 rounded-2xl border border-red-100 bg-red-50 px-3 py-2 text-[11px] font-black text-brand-red" aria-label="공식 혜택 검색 결과 요약">
           상품 검색어 기준으로 공식 혜택도 함께 좁혔습니다. 검색 결과·커뮤니티 원문은 제외됩니다.
+          {visibleResultCount > deals.length ? ` 먼저 볼 ${deals.length}개를 보여드립니다.` : ""}
         </div>
       ) : null}
       {highlightCounts.length ? (

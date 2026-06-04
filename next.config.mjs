@@ -27,6 +27,7 @@ const isCapacitorBuild = process.env.CAPACITOR_BUILD === "true";
 const nextConfig = {
   output: isCapacitorBuild ? "export" : "standalone",
   trailingSlash: isCapacitorBuild,
+  allowedDevOrigins: ["127.0.0.1"],
   images: {
     unoptimized: true
   },

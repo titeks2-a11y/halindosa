@@ -760,6 +760,9 @@ await check("news deals api", async () => {
   assert(typeof data.freshnessLabel === "string" && data.freshnessLabel.length > 0, "News deals API missing official benefit freshness label");
   assert(data.freshnessCadenceMinutes === 360, "News deals API missing 6-hour freshness cadence");
   assert(data.freshnessStaleAfterMinutes === 1440, "News deals API missing 24-hour stale threshold");
+  assert(data.categoryCounts?.["마트/편의점"] >= 1, "News deals API missing category result counts");
+  assert(typeof data.benefitTypeCounts === "object" && Object.keys(data.benefitTypeCounts).length >= 3, "News deals API missing benefit type result counts");
+  assert(typeof data.sourceCounts === "object" && Object.keys(data.sourceCounts).length >= 3, "News deals API missing official source result counts");
   assert(data.deals.some((deal) => deal.category === "마트/편의점"), "News deals API missing mart/convenience official benefits");
   assert(data.deals.some((deal) => deal.category === "영화/문화" || deal.category === "정부/공공혜택"), "News deals API missing culture/public official benefits");
   const full = await fetchJson("/api/news-deals");
@@ -770,6 +773,7 @@ await check("news deals api", async () => {
   assert(couponSearch.data.query === "쿠폰", "News deals search API should echo normalized query");
   assert(couponSearch.data.sort === "endingSoon", "News deals search API should expose selected sort");
   assert(couponSearch.data.deals.length >= 1, "News deals search should return coupon/event benefits");
+  assert(couponSearch.data.count >= couponSearch.data.deals.length, "News deals search should preserve total count beyond limited rows");
   assert(couponSearch.data.deals.every((deal) => `${deal.title} ${deal.summary} ${deal.category} ${deal.benefitType} ${deal.tags?.join(" ")}`.includes("쿠폰") || deal.benefitType === "coupon"), "News deals search returned unrelated benefits");
   const latestSearch = await fetchJson("/api/news-deals?q=문화&sort=latest&limit=5");
   assert(latestSearch.data.deals.length >= 1, "News deals Korean query search should return culture/public benefits");

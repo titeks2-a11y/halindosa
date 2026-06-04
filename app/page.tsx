@@ -402,6 +402,9 @@ interface NewsDealsResponse {
   count: number;
   updatedAt: string;
   source: string;
+  categoryCounts?: Record<string, number>;
+  benefitTypeCounts?: Record<string, number>;
+  sourceCounts?: Record<string, number>;
   freshnessStatus?: "fresh" | "due" | "stale" | "seed";
   freshnessLabel?: string;
   freshnessAgeMinutes?: number | null;
@@ -683,6 +686,7 @@ export default function Home() {
   const [hotSignals, setHotSignals] = useState<HotSignal[]>(mockHotSignals);
   const [isSignalLoading, setIsSignalLoading] = useState(false);
   const [newsDeals, setNewsDeals] = useState<NewsDeal[]>(() => initialNewsSnapshot.deals ?? []);
+  const [newsTotalCount, setNewsTotalCount] = useState(() => initialNewsSnapshot.deals?.length ?? 0);
   const [newsUpdatedAt, setNewsUpdatedAt] = useState(initialNewsSnapshot.generatedAt ?? "");
   const [newsFreshness, setNewsFreshness] = useState<{
     status: "fresh" | "due" | "stale" | "seed";
@@ -730,6 +734,7 @@ export default function Home() {
 
         const data = await requestJson<NewsDealsResponse>(`/api/news-deals?${params.toString()}`);
         setNewsDeals(Array.isArray(data.deals) ? data.deals : []);
+        setNewsTotalCount(Number.isFinite(data.count) ? data.count : Array.isArray(data.deals) ? data.deals.length : 0);
         setNewsUpdatedAt(data.updatedAt);
         setNewsFreshness({
           status: data.freshnessStatus ?? "seed",
@@ -2797,6 +2802,7 @@ export default function Home() {
         {activeView === "home" ? (
           <RealtimeNewsDealsSection
             deals={newsDeals}
+            totalCount={newsTotalCount}
             updatedAt={newsUpdatedAt}
             activeQuery={query}
             freshnessStatus={newsFreshness.status}

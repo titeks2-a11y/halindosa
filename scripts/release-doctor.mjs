@@ -4561,15 +4561,21 @@ function checkNewsDealPipeline() {
     !newsDealsRuntime.includes("freshnessCadenceMinutes") ||
     !newsDealsRuntime.includes("freshnessStaleAfterMinutes") ||
     !newsDealsRuntime.includes("freshnessStatus") ||
+    !newsDealsRuntime.includes("categoryCounts") ||
+    !newsDealsRuntime.includes("benefitTypeCounts") ||
+    !newsDealsRuntime.includes("sourceCounts") ||
     !newsDealsRuntime.includes("seed 기준")
   ) {
-    issues.push("news deals runtime should expose freshness status, cadence, stale threshold, and seed fallback state");
+    issues.push("news deals runtime should expose freshness status, result aggregations, cadence, stale threshold, and seed fallback state");
   }
   if (!realtimeNewsSection.includes("activeQuery") || !realtimeNewsSection.includes("공식 혜택 검색 결과 요약") || !realtimeNewsSection.includes("상품 검색어 기준으로 공식 혜택도 함께 좁혔습니다")) {
     issues.push("realtime official benefit section should explain search-filtered official benefit results");
   }
   if (!realtimeNewsSection.includes("공식 혜택 신선도 안내") || !realtimeNewsSection.includes("freshnessLabel") || !realtimeNewsSection.includes("freshnessAgeMinutes")) {
     issues.push("realtime official benefit section should surface freshness status without implying unverified realtime data");
+  }
+  if (!homePage.includes("newsTotalCount") || !realtimeNewsSection.includes("visibleResultCount") || !realtimeNewsSection.includes("먼저 볼")) {
+    issues.push("home realtime official benefit section should preserve total API result count even when rows are limited");
   }
   if (
     !realtimeNewsSection.includes("/go/news/") ||
