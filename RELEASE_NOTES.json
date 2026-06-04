@@ -1,8 +1,8 @@
 {
   "generatedBy": "npm run release:notes",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "ffd04ea",
-  "workingTree": "M PUBLIC_URL_REPORT.md;  M SUPPORT_PLAYBOOK.json;  M SUPPORT_PLAYBOOK.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/SUPPORT_PLAYBOOK.md;  M docs/release-evidence.md",
+  "commit": "aca6bdc",
+  "workingTree": "M PUBLIC_URL_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/release-evidence.md",
   "version": "1.0.1",
   "appName": "할인도사",
   "packageName": "com.halindosa.app",
@@ -44,17 +44,17 @@
     {
       "path": "docs/STORE_MANUAL_CHECKLIST.md",
       "status": "present",
-      "bytes": 4726
+      "bytes": 4378
     },
     {
       "path": "docs/STORE_HANDOFF_REPORT.md",
       "status": "present",
-      "bytes": 4373
+      "bytes": 4416
     },
     {
       "path": "docs/STORE_SUBMISSION_REPORT.md",
       "status": "present",
-      "bytes": 4782
+      "bytes": 4914
     },
     {
       "path": "docs/DEVICE_QA_MANIFEST.md",
@@ -73,14 +73,14 @@
     }
   ],
   "recentCommits": [
+    "aca6bdc feat: expose source feed env readiness in admin",
+    "bd1ceb3 docs: record clean release doctor after source feed env doctor",
+    "78ce392 docs: refresh release evidence after source feed env doctor",
     "ffd04ea feat: add official source feed env doctor",
     "68c02bc docs: record clean release doctor after source env template",
     "02bb33e docs: refresh release evidence after source env template",
     "5250882 feat: add official source feed env template",
-    "d33cae7 docs: record clean release doctor after replacement sources",
-    "40c9261 docs: refresh release evidence after replacement sources",
-    "519a133 feat: recommend replacement sources for expiring benefits",
-    "16205b5 docs: record clean release doctor after renewal queue"
+    "d33cae7 docs: record clean release doctor after replacement sources"
   ],
   "manualWorkThatMustNotBeFaked": [
     "Do not claim Play Console or App Store Connect submission has passed from this file.",
