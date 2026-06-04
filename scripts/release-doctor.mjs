@@ -4472,7 +4472,7 @@ function checkNewsDealPipeline() {
     issues.push("home should keep recent official benefit and interest news return queues");
   }
 
-  if (!adminPage.includes("뉴스 수집 현황") || !adminPage.includes("운영 리포트 API 보기") || !adminPage.includes("Provider 위험도 CSV") || !adminPage.includes("공식 feed preview") || !adminPage.includes("Preview JSON") || !adminPage.includes("뉴스 본문 공식 링크 승격") || !adminPage.includes("NewsFeedDryRunPanel") || !adminPage.includes("공식 피드 전환 준비도") || !adminPage.includes("Provider별 성공/실패") || !adminPage.includes("최근 20개 수집 로그") || !adminPage.includes("수동 숨김/복구/재검증 구조") || !adminPage.includes("캠페인 API 보기")) {
+  if (!adminPage.includes("뉴스 수집 현황") || !adminPage.includes("운영 리포트 API 보기") || !adminPage.includes("Provider 위험도 CSV") || !adminPage.includes("공식 feed preview") || !adminPage.includes("Preview JSON") || !adminPage.includes("뉴스 본문 공식 링크 승격") || !adminPage.includes("NewsFeedDryRunPanel") || !adminPage.includes("공식 피드 전환 준비도") || !adminPage.includes("Provider별 성공/실패") || !adminPage.includes("실시간 feed") || !adminPage.includes("성공 feed") || !adminPage.includes("최근 20개 수집 로그") || !adminPage.includes("수동 숨김/복구/재검증 구조") || !adminPage.includes("캠페인 API 보기")) {
     issues.push("admin should expose news collection status, provider logs, CSV export, manual actions, and notification campaign operation links");
   }
   if (
@@ -4482,6 +4482,9 @@ function checkNewsDealPipeline() {
     !adminNewsOperationsRoute.includes("buildNewsOperationsCsv") ||
     !adminNewsOperationsRoute.includes("text/csv") ||
     !adminNewsOperationsRoute.includes("provider_risk") ||
+    !adminNewsOperationsRoute.includes("feed_source_mix") ||
+    !adminNewsOperationsRoute.includes("seed=") ||
+    !adminNewsOperationsRoute.includes("feed=") ||
     !adminNewsOperationsRoute.includes("feed_transition") ||
     !adminNewsOperationsRoute.includes("renewal_queue") ||
     !adminNewsOperationsRoute.includes("watch_queue") ||
@@ -4538,6 +4541,14 @@ function checkNewsDealPipeline() {
     !newsOperations.includes("getOfficialSourceOnboardingPlan") ||
     !newsOperations.includes("feedTransitionReadiness") ||
     !newsOperations.includes("buildFeedTransitionReadiness") ||
+    !newsOperations.includes("seedCount") ||
+    !newsOperations.includes("feedItemCount") ||
+    !newsOperations.includes("feedSuccessCount") ||
+    !newsOperations.includes("collectedCount") ||
+    !refreshScript.includes("seedCount") ||
+    !refreshScript.includes("feedItemCount") ||
+    !refreshScript.includes("feedSuccessCount") ||
+    !refreshScript.includes("collectedCount") ||
     !newsOperations.includes("getEnvFeedUrls") ||
     !newsOperations.includes("DEAL_NEWS_FEED_URLS") ||
     !newsOperations.includes("getProviderRisk") ||
@@ -4557,7 +4568,9 @@ function checkNewsDealPipeline() {
     !smokeScript.includes("freshness?.cadenceHours === 6") ||
     !smokeScript.includes("operatorNextActions") ||
     !smokeScript.includes("providerRisks") ||
-    !smokeScript.includes("feedTransitionReadiness")
+    !smokeScript.includes("feedTransitionReadiness") ||
+    !smokeScript.includes("seed/feed source mix counters") ||
+    !smokeScript.includes("feed_source_mix")
   ) {
     issues.push("admin should provide executable hide/restore/revalidate controls plus CSV export, category coverage, provider risk, official feed transition readiness, refresh status, freshness cadence, next actions, and risk summaries for official benefit operations");
   }
@@ -4573,6 +4586,18 @@ function checkNewsDealPipeline() {
     if (missingCategories.length) issues.push(`news-deals report missing required categories: ${missingCategories.join(", ")}`);
     if (thinCategories.length) issues.push(`news-deals report thin required categories: ${thinCategories.join(", ")}`);
     if (!Array.isArray(report.providerStats) || report.providerStats.length < 4) issues.push("news-deals report should include provider stats");
+    if (
+      Array.isArray(report.providerStats) &&
+      report.providerStats.some(
+        (provider) =>
+          typeof provider.seedCount !== "number" ||
+          typeof provider.feedItemCount !== "number" ||
+          typeof provider.feedSuccessCount !== "number" ||
+          typeof provider.collectedCount !== "number"
+      )
+    ) {
+      issues.push("news-deals provider stats should separate seed fallback counts from external feed item counts");
+    }
     if (Array.isArray(report.gates?.configuredFeedErrors) && report.gates.configuredFeedErrors.length > 0) issues.push("news-deals report should fail configured feed errors before release");
     if (report.gates && !Array.isArray(report.gates.configuredFeedErrors)) issues.push("news-deals report should expose configured feed error gate");
     if (report.gates?.policyRegression?.ok !== true || Number(report.gates?.policyRegression?.blockedNegativeSamples ?? 0) < 8) {

@@ -773,6 +773,16 @@ await check("admin news operations api", async () => {
   assert(data.report?.visibleCount >= 40, "Admin news operations report missing launch-ready visible official benefits");
   assert(Array.isArray(data.report?.visibleDeals) && data.report.visibleDeals.length >= 6, "Admin news operations report missing visible deal operation candidates");
   assert(Array.isArray(data.report?.providerStats) && data.report.providerStats.length >= 4, "Admin news operations report missing provider stats");
+  assert(
+    data.report.providerStats.every(
+      (provider) =>
+        typeof provider.seedCount === "number" &&
+        typeof provider.feedItemCount === "number" &&
+        typeof provider.feedSuccessCount === "number" &&
+        typeof provider.collectedCount === "number"
+    ),
+    "Admin news operations provider stats missing seed/feed source mix counters"
+  );
   assert(Array.isArray(data.report?.providerRisks) && data.report.providerRisks.length >= 4, "Admin news operations report missing provider risk summaries");
   assert(data.report.providerRisks.every((risk) => risk.provider && risk.label && risk.action && ["healthy", "watch", "danger"].includes(risk.severity)), "Admin news operations provider risks missing operation fields");
   assert(typeof data.report?.providerRiskSummary?.watch === "number" && typeof data.report?.providerRiskSummary?.danger === "number", "Admin news operations report missing provider risk summary counts");
@@ -809,6 +819,7 @@ await check("admin news operations api", async () => {
   assert(csvResponse.status === 200, `Expected news operations CSV 200, got ${csvResponse.status}`);
   assert(csvResponse.headers.get("content-type")?.includes("text/csv"), "Admin news operations CSV should use text/csv content type");
   assert(csv.includes("provider_risk") && csv.includes("feed_transition") && csv.includes("failure_reason") && csv.includes("recent_log"), "Admin news operations CSV missing provider risk, feed transition, failure reason, or recent log sections");
+  assert(csv.includes("feed_source_mix") && csv.includes("seed=") && csv.includes("feed="), "Admin news operations CSV missing seed/feed source mix rows");
 });
 
 await check("admin news feed preview api", async () => {

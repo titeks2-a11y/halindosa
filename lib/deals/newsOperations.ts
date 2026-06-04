@@ -19,6 +19,10 @@ interface ProviderStat {
   source?: string;
   configured?: boolean;
   feedUrls?: number;
+  seedCount?: number;
+  feedItemCount?: number;
+  feedSuccessCount?: number;
+  collectedCount?: number;
   fetchedCount?: number;
   normalizedCount?: number;
   visibleCount?: number;

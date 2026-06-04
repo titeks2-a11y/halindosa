@@ -49,6 +49,21 @@ function buildNewsOperationsCsv(report: NewsOperationsReport) {
     ]
   ];
 
+  report.providerStats.forEach((provider) => {
+    rows.push([
+      "feed_source_mix",
+      provider.provider,
+      provider.source ?? "official_feed_provider",
+      provider.configured ? "external_feed_configured" : "seed_fallback",
+      `seed=${provider.seedCount ?? 0};feed=${provider.feedItemCount ?? 0};success=${provider.feedSuccessCount ?? 0}/${provider.feedUrls ?? 0}`,
+      "공식 API/RSS/승인 JSON feed 연결 후 실시간 feed 유입과 seed fallback 비중을 매일 확인",
+      provider.visibleCount ?? 0,
+      provider.hiddenCount ?? 0,
+      "",
+      report.generatedAt
+    ]);
+  });
+
   report.providerRisks.forEach((risk) => {
     rows.push([
       "provider_risk",

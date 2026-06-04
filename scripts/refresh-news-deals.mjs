@@ -35,14 +35,17 @@ for (const spec of providerSpecs) {
   const feedUrls = envUrls(...spec.env);
   const items = [];
   const errors = [];
+  const seedItems = spec.seed ? seed.filter((deal) => deal.provider === spec.provider) : [];
+  let feedItemCount = 0;
+  let feedSuccessCount = 0;
 
-  if (spec.seed) {
-    items.push(...seed.filter((deal) => deal.provider === spec.provider));
-  }
+  items.push(...seedItems);
 
   for (const feedUrl of feedUrls) {
     try {
       const feedItems = await fetchNewsFeed(feedUrl, spec.provider);
+      feedSuccessCount += 1;
+      feedItemCount += feedItems.length;
       items.push(...feedItems.map((item) => ({ ...item, provider: spec.provider, sourceName: item.sourceName ?? spec.source })));
     } catch (error) {
       errors.push(error instanceof Error ? error.message : `${spec.provider}_feed_failed`);
@@ -55,6 +58,10 @@ for (const spec of providerSpecs) {
     source: spec.source,
     configured: feedUrls.length > 0,
     feedUrls: feedUrls.length,
+    seedCount: seedItems.length,
+    feedItemCount,
+    feedSuccessCount,
+    collectedCount: items.length,
     fetchedCount: items.length,
     errorCount: errors.length,
     errors

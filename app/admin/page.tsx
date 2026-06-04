@@ -991,7 +991,10 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                       <p className="text-[11px] font-black text-slate-500">{provider.configured ? "feed 연결" : "seed/fallback"}</p>
                     </div>
                     <p className="mt-1 text-[11px] font-bold text-slate-500">
-                      수집 {provider.fetchedCount ?? 0} · 정규화 {provider.normalizedCount ?? 0} · 노출 {provider.visibleCount ?? 0} · 숨김 {provider.hiddenCount ?? 0} · 오류 {provider.errorCount ?? 0}
+                      seed {provider.seedCount ?? 0} · 실시간 feed {provider.feedItemCount ?? 0} · 성공 feed {provider.feedSuccessCount ?? 0}/{provider.feedUrls ?? 0}
+                    </p>
+                    <p className="mt-1 text-[11px] font-bold text-slate-500">
+                      수집 {provider.collectedCount ?? provider.fetchedCount ?? 0} · 정규화 {provider.normalizedCount ?? 0} · 노출 {provider.visibleCount ?? 0} · 숨김 {provider.hiddenCount ?? 0} · 오류 {provider.errorCount ?? 0}
                     </p>
                   </div>
                 ))}
