@@ -408,7 +408,8 @@ const aliasRows = searchAliases.map((alias) => {
   return { query, count, terms: alias.terms.length };
 });
 const noResultAliasRows = aliasRows.filter((row) => row.count === 0);
-const recentSearchImplemented = homePage.includes("recentSearchStorageKey") && homePage.includes("storeRecentSearchKeywords");
+const recentSearchSource = `${homePage}\n${readFileSync(join(root, "lib", "homeRecentSearches.ts"), "utf8")}`;
+const recentSearchImplemented = recentSearchSource.includes("recentSearchStorageKey") && recentSearchSource.includes("storeRecentSearchKeywords");
 const noResultStateImplemented = homePage.includes("검색 결과 없음") || homePage.includes("조건에 맞는 특가");
 const activeOnlyPolicy = homePage.includes("verifiedOnly") && mockDeals.includes("isExpired");
 

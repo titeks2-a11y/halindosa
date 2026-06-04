@@ -63,12 +63,12 @@ import {
   mallFilters,
   priceBands,
   quickInterestOptions,
-  recentSearchStorageKey,
   searchPurposePresets,
   toastMessages,
   type PriceBand
 } from "@/lib/homeDiscoveryConfig";
 import { type DealsResponse, type HotSignalsResponse, type NewsDealsResponse, requestJson } from "@/lib/homeApi";
+import { readRecentSearchKeywords, storeRecentSearchKeywords } from "@/lib/homeRecentSearches";
 import { buildDealRedirectUrl, buildNativeSafeDealUrl } from "@/lib/redirectUrl";
 import { rememberRecentNewsBenefitId } from "@/lib/recentNewsBenefits";
 import { buildPublicAppShareUrl, buildPublicDealShareUrl } from "@/lib/shareUrl";
@@ -93,22 +93,6 @@ type AppView = "home" | "categories" | "alerts" | "favorites" | "my";
 const INITIAL_HOME_DEAL_LIMIT = 12;
 const HOME_DEAL_LOAD_STEP = 12;
 const initialNewsSnapshot = refreshedNewsSnapshot as { generatedAt?: string; deals?: NewsDeal[]; sourceTrustScores?: NewsDealSourceTrust[] };
-
-function readRecentSearchKeywords() {
-  if (typeof window === "undefined") return [];
-
-  try {
-    const parsed = JSON.parse(window.localStorage.getItem(recentSearchStorageKey) ?? "[]");
-    return Array.isArray(parsed) ? parsed.filter((value): value is string => typeof value === "string").slice(0, 8) : [];
-  } catch {
-    return [];
-  }
-}
-
-function storeRecentSearchKeywords(keywords: string[]) {
-  if (typeof window === "undefined") return;
-  window.localStorage.setItem(recentSearchStorageKey, JSON.stringify(keywords.slice(0, 8)));
-}
 
 export default function Home() {
   const { configured: authConfigured, user, nickname } = useAuth();

@@ -1176,8 +1176,9 @@ async function checkUiAccessibility() {
   const claimedBenefitHomeSummary = await text("components/ClaimedBenefitHomeSummary.tsx");
   const homeDealFilters = await text("lib/homeDealFilters.ts");
   const homeDiscoveryConfig = await text("lib/homeDiscoveryConfig.ts");
+  const homeRecentSearches = await text("lib/homeRecentSearches.ts");
   const homeFeatureSource = `${homePage}\n${claimedBenefitHomeSummary}\n${homeDealFilters}`;
-  const homeSearchSource = `${homeFeatureSource}\n${homeDiscoveryConfig}`;
+  const homeSearchSource = `${homeFeatureSource}\n${homeDiscoveryConfig}\n${homeRecentSearches}`;
   const favoritesPage = await text("app/favorites/page.tsx");
   const notFoundPage = await text("app/not-found.tsx");
   const loadingPage = await text("app/loading.tsx");
