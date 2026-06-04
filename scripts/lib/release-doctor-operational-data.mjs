@@ -37,6 +37,8 @@ export async function checkOperationalDataSurfaces() {
   const claimedBenefits = await text("lib/claimedBenefits.ts");
   const adminPage = [
     await text("app/admin/page.tsx"),
+    await text("components/AdminCronRefreshPanel.tsx"),
+    await text("components/AdminNewsCollectionPanel.tsx"),
     await text("components/AdminExposurePolicyPanel.tsx"),
     await text("components/AdminLinkLaunchGatePanel.tsx"),
     await text("lib/adminDashboardDerivedData.ts"),

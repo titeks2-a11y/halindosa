@@ -88,7 +88,10 @@ assert(negativeCases[2].hiddenReason.includes("expired_event"), "Expired officia
 const operationSource = read("lib/operations/newsFeedDryRun.ts");
 const routeSource = read("app/api/admin/news-feed-preview/route.ts");
 const smokeSource = read("scripts/smoke.mjs");
-const releaseDoctorSource = read("scripts/release-doctor.mjs");
+const releaseDoctorSource = [
+  read("scripts/release-doctor.mjs"),
+  read("scripts/lib/release-doctor-news-pipeline.mjs")
+].join("\n");
 const docsSource = read("docs/RUNBOOK.md");
 
 for (const phrase of [

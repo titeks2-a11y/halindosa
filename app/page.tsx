@@ -45,6 +45,7 @@ import { buildPersonalizedBenefitQueue } from "@/lib/deals/personalizedBenefitQu
 import { isVerifiedPurchaseLink } from "@/lib/deals/quality";
 import { formatPrice, getRelativeTime, getTimeLeft } from "@/lib/format";
 import {
+  commercialScore,
   filterLocalDeals,
   getProviderDisplayLabel,
   isFreeShippingDeal
@@ -779,8 +780,15 @@ export default function Home() {
 
   const categoryStats = useMemo(() => buildHomeCategoryStats(catalog), [catalog]);
   const publicDealSource = useMemo(() => buildPublicDealSource(catalog, deals), [catalog, deals]);
-  const heroDeal = useMemo(() => selectHomeHeroDeal(publicDealSource), [publicDealSource]);
-  const topDeals = useMemo(() => selectHomeTopDeals(publicDealSource), [publicDealSource]);
+  const verifiedHomeDeals = useMemo(
+    () => publicDealSource.filter((deal) => isVerifiedPurchaseLink(deal) && deal.purchaseLinkVerified && deal.linkStatus === "verified"),
+    [publicDealSource]
+  );
+  const topDeals = useMemo(
+    () => selectHomeTopDeals(publicDealSource).sort((a, b) => commercialScore(b) - commercialScore(a) || b.discountRate - a.discountRate),
+    [publicDealSource]
+  );
+  const heroDeal = useMemo(() => topDeals[0] ?? selectHomeHeroDeal(publicDealSource), [publicDealSource, topDeals]);
   const endingSoonDeals = useMemo(() => selectHomeEndingSoonDeals(publicDealSource), [publicDealSource]);
   const instantDealRail = useMemo(() => selectHomeInstantDealRail(deals, publicDealSource), [deals, publicDealSource]);
   const recentDeals = useMemo(() => selectRecentHomeDeals(publicDealSource, deals, recentDealIds), [deals, publicDealSource, recentDealIds]);
@@ -1204,7 +1212,7 @@ export default function Home() {
           <div className="grid grid-cols-3 gap-1.5 sm:grid-cols-5 sm:gap-2">
             {[
               { label: "오늘의 특가", value: `${deals.length}개`, tone: "text-brand-navy bg-brand-navySoft" },
-              { label: "실시간 검증", value: `${dataQuality.verifiedLinkCount}개`, tone: "text-emerald-700 bg-emerald-50" },
+              { label: "실시간 검증", value: `${verifiedHomeDeals.length}개`, tone: "text-emerald-700 bg-emerald-50" },
               { label: "오늘 업데이트", value: `${stats.newCount}개`, tone: "text-orange-700 bg-orange-50" },
               { label: "인기 반응", value: `${stats.hotCount}개`, tone: "hidden sm:flex text-dossa-red bg-red-50" },
               { label: "상태", value: isOffline ? "오프라인" : "네트워크 정상", tone: "hidden sm:flex text-slate-700 bg-white" }

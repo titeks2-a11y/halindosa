@@ -16,7 +16,10 @@ const imageTest = readFileSync(join(root, "scripts", "test-images.mjs"), "utf8")
 const imageBacklogReportScript = readFileSync(join(root, "scripts", "image-backlog-report.mjs"), "utf8");
 const imageQualityReport = readFileSync(join(root, "IMAGE_QUALITY_REPORT.md"), "utf8");
 const imageBacklogReport = readFileSync(join(root, "docs", "IMAGE_BACKLOG_REPORT.md"), "utf8");
-const smoke = readFileSync(join(root, "scripts", "smoke.mjs"), "utf8");
+const smoke = [
+  readFileSync(join(root, "scripts", "smoke.mjs"), "utf8"),
+  readFileSync(join(root, "scripts", "lib", "smoke-admin-checks.mjs"), "utf8")
+].join("\n");
 const packageJson = JSON.parse(readFileSync(join(root, "package.json"), "utf8"));
 const qaRunner = readFileSync(join(root, "scripts", "run-qa.mjs"), "utf8");
 const qaCommandSource = `${String(packageJson.scripts?.qa ?? "")}\n${qaRunner}`;

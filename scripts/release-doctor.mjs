@@ -1597,6 +1597,7 @@ function checkRefreshDealPipeline() {
   const adminPanel = existsSync(join(root, adminPanelPath)) ? readFileSync(join(root, adminPanelPath), "utf8") : "";
   const adminPage = [
     readFileSync(join(root, "app/admin/page.tsx"), "utf8"),
+    readFileSync(join(root, "components/AdminNewsCollectionPanel.tsx"), "utf8"),
     readFileSync(join(root, "components/AdminExposurePolicyPanel.tsx"), "utf8"),
     readFileSync(join(root, "components/AdminLinkLaunchGatePanel.tsx"), "utf8")
   ].join("\n");
@@ -1783,6 +1784,7 @@ function checkHealthReadinessReport() {
   const healthApiRoute = existsSync(join(root, "app/api/admin/health-readiness/route.ts")) ? readFileSync(join(root, "app/api/admin/health-readiness/route.ts"), "utf8") : "";
   const adminPage = [
     existsSync(join(root, "app/admin/page.tsx")) ? readFileSync(join(root, "app/admin/page.tsx"), "utf8") : "",
+    existsSync(join(root, "components/AdminNewsCollectionPanel.tsx")) ? readFileSync(join(root, "components/AdminNewsCollectionPanel.tsx"), "utf8") : "",
     existsSync(join(root, "lib/adminDashboardHrefs.ts")) ? readFileSync(join(root, "lib/adminDashboardHrefs.ts"), "utf8") : ""
   ].join("\n");
   const adminHealthPanel = existsSync(join(root, "components/AdminHealthReadinessPanel.tsx")) ? readFileSync(join(root, "components/AdminHealthReadinessPanel.tsx"), "utf8") : "";
@@ -1932,7 +1934,11 @@ function checkDailyOperationsReport() {
   const dailyScript = existsSync(join(root, "scripts/daily-operations-report.mjs")) ? readFileSync(join(root, "scripts/daily-operations-report.mjs"), "utf8") : "";
   const dailyApi = existsSync(join(root, "app/api/admin/daily-operations/route.ts")) ? readFileSync(join(root, "app/api/admin/daily-operations/route.ts"), "utf8") : "";
   const dailyLib = existsSync(join(root, "lib/operations/dailyOperations.ts")) ? readFileSync(join(root, "lib/operations/dailyOperations.ts"), "utf8") : "";
-  const adminPage = existsSync(join(root, "app/admin/page.tsx")) ? readFileSync(join(root, "app/admin/page.tsx"), "utf8") : "";
+  const adminPage = [
+    existsSync(join(root, "app/admin/page.tsx")) ? readFileSync(join(root, "app/admin/page.tsx"), "utf8") : "",
+    existsSync(join(root, "components/AdminNewsCollectionPanel.tsx")) ? readFileSync(join(root, "components/AdminNewsCollectionPanel.tsx"), "utf8") : "",
+    existsSync(join(root, "components/AdminCronRefreshPanel.tsx")) ? readFileSync(join(root, "components/AdminCronRefreshPanel.tsx"), "utf8") : ""
+  ].join("\n");
   const smokeScript = smokeSourceSync();
   const runbook = existsSync(join(root, "docs/RUNBOOK.md")) ? readFileSync(join(root, "docs/RUNBOOK.md"), "utf8") : "";
   const roadmap = existsSync(join(root, "docs/roadmap.md")) ? readFileSync(join(root, "docs/roadmap.md"), "utf8") : "";
@@ -2002,7 +2008,11 @@ function checkCronRefreshPipeline() {
   const route = existsSync(routePath) ? readFileSync(routePath, "utf8") : "";
   const cronOperations = existsSync(join(root, "lib/operations/cronRefresh.ts")) ? readFileSync(join(root, "lib/operations/cronRefresh.ts"), "utf8") : "";
   const healthRoute = existsSync(join(root, "app/api/health/route.ts")) ? readFileSync(join(root, "app/api/health/route.ts"), "utf8") : "";
-  const adminPage = existsSync(join(root, "app/admin/page.tsx")) ? readFileSync(join(root, "app/admin/page.tsx"), "utf8") : "";
+  const adminPage = [
+    existsSync(join(root, "app/admin/page.tsx")) ? readFileSync(join(root, "app/admin/page.tsx"), "utf8") : "",
+    existsSync(join(root, "components/AdminNewsCollectionPanel.tsx")) ? readFileSync(join(root, "components/AdminNewsCollectionPanel.tsx"), "utf8") : "",
+    existsSync(join(root, "components/AdminCronRefreshPanel.tsx")) ? readFileSync(join(root, "components/AdminCronRefreshPanel.tsx"), "utf8") : ""
+  ].join("\n");
   const vercelConfig = existsSync(join(root, "vercel.json")) ? JSON.parse(readFileSync(join(root, "vercel.json"), "utf8")) : {};
   const envExample = existsSync(join(root, ".env.example")) ? readFileSync(join(root, ".env.example"), "utf8") : "";
   const smokeScript = smokeSourceSync();

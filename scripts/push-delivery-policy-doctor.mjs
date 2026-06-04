@@ -84,7 +84,10 @@ const packageJson = readJson("package.json", {});
 const qaRunner = read("scripts/run-qa.mjs");
 const qaCommandSource = `${String(packageJson.scripts?.qa ?? "")}\n${qaRunner}`;
 const runbook = read("docs/RUNBOOK.md");
-const releaseDoctor = read("scripts/release-doctor.mjs");
+const releaseDoctor = [
+  read("scripts/release-doctor.mjs"),
+  read("scripts/lib/release-doctor-operational-data.mjs")
+].join("\n");
 
 const scenarios = policy
   ? [

@@ -3,7 +3,10 @@ import fs from "node:fs";
 const homePage = fs.readFileSync("app/page.tsx", "utf8");
 const homeUrlState = fs.readFileSync("lib/homeUrlState.ts", "utf8");
 const packageJson = fs.readFileSync("package.json", "utf8");
-const smoke = fs.readFileSync("scripts/smoke.mjs", "utf8");
+const smoke = [
+  fs.readFileSync("scripts/smoke.mjs", "utf8"),
+  fs.readFileSync("scripts/lib/smoke-page-checks.mjs", "utf8")
+].join("\n");
 const homeUrlSource = `${homePage}\n${homeUrlState}`;
 
 const requiredUrlState = [

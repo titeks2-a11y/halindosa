@@ -1,11 +1,16 @@
 import fs from "node:fs";
 
 const homePage = fs.readFileSync("app/page.tsx", "utf8");
+const homeDerivedData = fs.readFileSync("lib/homeDerivedData.ts", "utf8");
 const packageJson = fs.readFileSync("package.json", "utf8");
 const qaRunner = fs.readFileSync("scripts/run-qa.mjs", "utf8");
 const qaCommandSource = `${packageJson}\n${qaRunner}`;
-const smoke = fs.readFileSync("scripts/smoke.mjs", "utf8");
+const smoke = [
+  fs.readFileSync("scripts/smoke.mjs", "utf8"),
+  fs.readFileSync("scripts/lib/smoke-page-checks.mjs", "utf8")
+].join("\n");
 const runbook = fs.readFileSync("docs/RUNBOOK.md", "utf8");
+const homeSource = `${homePage}\n${homeDerivedData}`;
 
 const requiredSnippets = [
   "dealScanBarItems",
@@ -34,7 +39,7 @@ const requiredSnippets = [
 const issues = [];
 
 for (const snippet of requiredSnippets) {
-  if (!homePage.includes(snippet)) {
+  if (!homeSource.includes(snippet)) {
     issues.push(`home list scan missing snippet: ${snippet}`);
   }
 }

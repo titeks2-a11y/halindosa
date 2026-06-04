@@ -102,7 +102,10 @@ export function checkNewsDealPipeline() {
   const homePage = readFileSync(join(root, "app/page.tsx"), "utf8");
   const homeApi = existsSync(join(root, "lib/homeApi.ts")) ? readFileSync(join(root, "lib/homeApi.ts"), "utf8") : "";
   const homeRuntimeSource = `${homePage}\n${homeApi}`;
-  const adminPage = readFileSync(join(root, "app/admin/page.tsx"), "utf8");
+  const adminPage = [
+    readFileSync(join(root, "app/admin/page.tsx"), "utf8"),
+    existsSync(join(root, "components/AdminNewsCollectionPanel.tsx")) ? readFileSync(join(root, "components/AdminNewsCollectionPanel.tsx"), "utf8") : ""
+  ].join("\n");
   const adminNewsOperationsPanel = existsSync(join(root, "components/AdminNewsOperationsPanel.tsx"))
     ? readFileSync(join(root, "components/AdminNewsOperationsPanel.tsx"), "utf8")
     : "";

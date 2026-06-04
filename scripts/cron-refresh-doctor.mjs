@@ -33,7 +33,10 @@ const vercelConfig = readJson("vercel.json");
 const route = readText("app/api/cron/refresh/route.ts");
 const cronOperations = readText("lib/operations/cronRefresh.ts");
 const healthRoute = readText("app/api/health/route.ts");
-const adminPage = readText("app/admin/page.tsx");
+const adminPage = [
+  readText("app/admin/page.tsx"),
+  readText("components/AdminCronRefreshPanel.tsx")
+].join("\n");
 const smoke = readText("scripts/smoke.mjs");
 const runbook = readText("docs/RUNBOOK.md");
 const envExample = readText(".env.example");
