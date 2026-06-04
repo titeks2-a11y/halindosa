@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-04T08:47:14.040Z",
+  "generatedAt": "2026-06-04T08:54:52.575Z",
   "visibleCount": 1,
   "hiddenCount": 3,
   "officialPromotion": {
@@ -53,6 +53,10 @@
     },
     {
       "name": "admin_post_route_guarded",
+      "ok": true
+    },
+    {
+      "name": "oversized_source_rejected",
       "ok": true
     },
     {

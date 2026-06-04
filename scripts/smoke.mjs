@@ -895,6 +895,19 @@ await check("admin news feed preview api", async () => {
     blockedDryRun.data.result?.hiddenRows?.some((row) => row.id === "smoke-dry-run-expired-official" && row.hiddenReason.includes("expired_event")),
     "Admin news feed dry-run should block expired official sample"
   );
+
+  const oversizedDryRun = await fetchJson("/api/admin/news-feed-preview", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      source: "smoke_news_feed_oversized",
+      provider: "official_event",
+      text: "x".repeat(300_001)
+    })
+  });
+  assert(oversizedDryRun.response.status === 413, `Expected oversized dry-run 413, got ${oversizedDryRun.response.status}`);
+  assert(oversizedDryRun.data.ok === false, "Admin news feed dry-run should reject oversized source");
+  assert(oversizedDryRun.data.reason === "source too large", "Admin news feed dry-run should expose oversized source reason");
 });
 
 await check("admin source live readiness api", async () => {

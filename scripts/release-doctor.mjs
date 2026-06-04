@@ -4483,6 +4483,7 @@ function checkNewsDealPipeline() {
     !smokeScript.includes("Admin news feed dry-run should block search URL sample") ||
     !smokeScript.includes("Admin news feed dry-run should block news-only sample") ||
     !smokeScript.includes("Admin news feed dry-run should block expired official sample") ||
+    !smokeScript.includes("Admin news feed dry-run should reject oversized source") ||
     !smokeScript.includes("Admin dashboard missing official news paste dry-run panel") ||
     !newsFeedDryRunPanel.includes("공식 뉴스·혜택 feed 붙여넣기 검증") ||
     !newsFeedDryRunPanel.includes("공식 feed dry-run 실행") ||

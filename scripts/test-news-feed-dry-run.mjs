@@ -112,7 +112,8 @@ for (const phrase of [
   "Admin news feed dry-run should pass official RSS sample",
   "Admin news feed dry-run should block search URL sample",
   "Admin news feed dry-run should block news-only sample",
-  "Admin news feed dry-run should block expired official sample"
+  "Admin news feed dry-run should block expired official sample",
+  "Admin news feed dry-run should reject oversized source"
 ]) {
   assert(smokeSource.includes(phrase), `smoke missing runtime dry-run assertion: ${phrase}`);
 }
@@ -146,6 +147,7 @@ const report = {
     { name: "news_only_hidden", ok: true },
     { name: "expired_official_hidden", ok: true },
     { name: "admin_post_route_guarded", ok: true },
+    { name: "oversized_source_rejected", ok: true },
     { name: "smoke_runtime_negative_cases", ok: true }
   ]
 };
