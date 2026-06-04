@@ -619,6 +619,8 @@ await check("admin dashboard quality cards", async () => {
   assert(text.includes("공식 소스 온보딩 우선순위") && text.includes("다음 연결 우선순위 TOP 10"), "Admin dashboard missing official source onboarding plan panel");
   assert(text.includes("온보딩 JSON") && text.includes("온보딩 CSV") && text.includes("feed env") && text.includes("/api/admin/source-onboarding"), "Admin dashboard missing official source onboarding API/CSV/env controls");
   assert(text.includes("feed 연결 후보") && text.includes("제휴 확인") && text.includes("차단 이슈"), "Admin dashboard missing official source onboarding summary cards");
+  assert(text.includes("공식 feed 환경변수 안전성") && text.includes("운영 env에 검색·커뮤니티 링크가 들어가기 전 차단"), "Admin dashboard missing source feed env readiness panel");
+  assert(text.includes("feed env JSON") && text.includes("정책 회귀 샘플 모두 통과"), "Admin dashboard missing source feed env API and regression status controls");
   assert(text.includes("운영 피드 전환 준비도") && text.includes("공식 API·제휴 피드로 바꿀 때 볼 품질 기준"), "Admin dashboard missing source readiness operation board");
   assert(text.includes("자동 refresh cron 운영") && text.includes("6시간마다 검증 데이터 갱신 상태를 확인합니다"), "Admin dashboard missing cron refresh operation board");
   assert(text.includes("CRON_SECRET") && text.includes("reports/cron-refresh.json") && text.includes("dry-run 확인"), "Admin dashboard missing cron refresh secret/report/dry-run guidance");
@@ -816,6 +818,21 @@ await check("admin source onboarding env template", async () => {
   assert(response.headers.get("content-type")?.includes("text/plain"), "Admin source onboarding env template should use text/plain content type");
   assert(text.includes("OFFICIAL_EVENT_FEED_URLS=") && text.includes("PUBLIC_COUPON_FEED_URLS="), "Admin source onboarding env template missing official feed keys");
   assert(text.includes("검색 결과, 커뮤니티 원문") && text.includes("담당자 승인 JSON"), "Admin source onboarding env template missing safe source guardrails");
+});
+
+await check("admin source feed env readiness api", async () => {
+  const { response, data } = await fetchJson("/api/admin/source-feed-env");
+  assert(response.status === 200, `Expected source feed env 200, got ${response.status}`);
+  assert(data.ok === true, "Admin source feed env API ok should be true");
+  assert(data.report?.ok === true, "Admin source feed env report should pass");
+  assert(Array.isArray(data.report?.checkedKeys) && data.report.checkedKeys.length >= 6, "Admin source feed env report missing checked keys");
+  assert(typeof data.report?.configuredUrlCount === "number", "Admin source feed env report missing configured URL count");
+  assert(data.report?.failedCount === 0, "Admin source feed env report should have zero failed configured URLs");
+  assert(data.report?.policy?.httpsOnly === true, "Admin source feed env report should require HTTPS");
+  assert(data.report?.policy?.machineReadableFeedRequired === true, "Admin source feed env report should require machine-readable feeds");
+  assert(data.report?.policy?.officialCatalogHostOrApprovedPartnerHostRequired === true, "Admin source feed env report should require official or approved hosts");
+  assert(Array.isArray(data.report?.allowedCatalogHosts) && data.report.allowedCatalogHosts.length >= 25, "Admin source feed env report missing allowed catalog hosts");
+  assert(Array.isArray(data.report?.policyRegressionSamples) && data.report.policyRegressionSamples.every((sample) => sample.passed === true), "Admin source feed env policy regression samples should all pass");
 });
 
 await check("admin health readiness api", async () => {

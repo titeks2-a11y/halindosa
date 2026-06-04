@@ -1969,7 +1969,9 @@ async function checkOperationalDataSurfaces() {
   const sourceOnboardingPlanScript = await text("scripts/source-onboarding-plan.mjs");
   const sourceFeedEnvDoctorScript = await text("scripts/source-feed-env-doctor.mjs");
   const sourceOnboardingPlanReadiness = await text("lib/operations/sourceOnboardingPlan.ts");
+  const sourceFeedEnvReadiness = await text("lib/operations/sourceFeedEnvReadiness.ts");
   const adminSourceOnboardingRoute = await text("app/api/admin/source-onboarding/route.ts");
+  const adminSourceFeedEnvRoute = await text("app/api/admin/source-feed-env/route.ts");
   const sourceOnboardingPlanDoc = existsSync(join(root, "docs/SOURCE_ONBOARDING_PLAN.md"))
     ? readFileSync(join(root, "docs/SOURCE_ONBOARDING_PLAN.md"), "utf8")
     : "";
@@ -2854,11 +2856,17 @@ async function checkOperationalDataSurfaces() {
     !sourceOnboardingPlanReadiness.includes("envPlan") ||
     !sourceOnboardingPlanReadiness.includes("envTemplate") ||
     !sourceOnboardingPlanReadiness.includes("getOfficialSourceOnboardingPlan") ||
+    !sourceFeedEnvReadiness.includes("getOfficialSourceFeedEnvReadiness") ||
+    !sourceFeedEnvReadiness.includes("SourceFeedEnvReadinessReport") ||
+    !sourceFeedEnvReadiness.includes("source-feed-env-readiness.json") ||
     !adminSourceOnboardingRoute.includes("canAccessAdmin") ||
     !adminSourceOnboardingRoute.includes("format === \"csv\"") ||
     !adminSourceOnboardingRoute.includes("format === \"env\"") ||
     !adminSourceOnboardingRoute.includes("source-onboarding-plan.csv") ||
     !adminSourceOnboardingRoute.includes("halindosa-source-feed-template.env") ||
+    !adminSourceFeedEnvRoute.includes("canAccessAdminRequest") ||
+    !adminSourceFeedEnvRoute.includes("admin-source-feed-env") ||
+    !adminSourceFeedEnvRoute.includes("getOfficialSourceFeedEnvReadiness") ||
     !officialSourceLiveReadiness.includes("getOfficialSourceLiveReport") ||
     !adminSourceLiveRoute.includes("canAccessAdmin") ||
     !adminSourceLiveRoute.includes("format === \"csv\"") ||
@@ -2870,11 +2878,16 @@ async function checkOperationalDataSurfaces() {
     !adminPage.includes("다음 연결 우선순위 TOP 10") ||
     !adminPage.includes("/api/admin/source-onboarding") ||
     !adminPage.includes("feed env") ||
+    !adminPage.includes("공식 feed 환경변수 안전성") ||
+    !adminPage.includes("feed env JSON") ||
+    !adminPage.includes("/api/admin/source-feed-env") ||
     !smoke.includes("admin source live readiness api") ||
     !smoke.includes("Admin source live report should use non-strict live readiness mode") ||
     !smoke.includes("admin source onboarding plan api") ||
     !smoke.includes("Admin source onboarding plan should pass") ||
     !smoke.includes("admin source onboarding env template") ||
+    !smoke.includes("admin source feed env readiness api") ||
+    !smoke.includes("Admin source feed env report should pass") ||
     !officialSourceLiveDoc.includes("공식 소스 라이브 접근성 점검") ||
     !officialSourceLiveDoc.includes("무단 크롤링을 수행하지 않으며") ||
     officialSourceLiveReport.ok !== true ||

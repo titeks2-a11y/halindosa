@@ -28,6 +28,7 @@ import { getReportSummary, listDealReports } from "@/lib/reports";
 import { getCronRefreshOperationsReport } from "@/lib/operations/cronRefresh";
 import { getExposurePolicyReport } from "@/lib/operations/exposurePolicy";
 import { getHealthReadinessReport } from "@/lib/operations/healthReadiness";
+import { getOfficialSourceFeedEnvReadiness } from "@/lib/operations/sourceFeedEnvReadiness";
 import { getOfficialSourceLiveReport } from "@/lib/operations/sourceLiveReadiness";
 import { getOfficialSourceOnboardingPlan } from "@/lib/operations/sourceOnboardingPlan";
 
@@ -89,6 +90,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const healthReadiness = getHealthReadinessReport();
   const sourceLiveReport = getOfficialSourceLiveReport();
   const sourceOnboardingPlan = getOfficialSourceOnboardingPlan();
+  const sourceFeedEnvReadiness = getOfficialSourceFeedEnvReadiness();
   const cronRefresh = getCronRefreshOperationsReport();
   const exposurePolicy = getExposurePolicyReport();
   const newsResult = getVisibleNewsDeals({ limit: 20 });
@@ -149,6 +151,9 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const sourceOnboardingEnvHref = isAdminProtectionEnabled()
     ? `/api/admin/source-onboarding?format=env&token=${encodeURIComponent(token ?? "")}`
     : "/api/admin/source-onboarding?format=env";
+  const sourceFeedEnvApiHref = isAdminProtectionEnabled()
+    ? `/api/admin/source-feed-env?token=${encodeURIComponent(token ?? "")}`
+    : "/api/admin/source-feed-env";
   const pushSendApiHref = isAdminProtectionEnabled()
     ? `/api/admin/push/send?token=${encodeURIComponent(token ?? "")}`
     : "/api/admin/push/send";
@@ -158,6 +163,9 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const sourceReadiness = getDealSourceReadiness(deals);
   const sourceLiveRiskRows = sourceLiveReport.sources.filter((item) => item.status !== "reachable").slice(0, 5);
   const sourceOnboardingTopQueue = sourceOnboardingPlan.queue.slice(0, 8);
+  const sourceFeedEnvFailures = sourceFeedEnvReadiness.rows.filter((row) => row.status !== "passed");
+  const sourceFeedEnvRegressionFailures = sourceFeedEnvReadiness.policyRegressionSamples.filter((sample) => !sample.passed);
+  const sourceFeedEnvRows = (sourceFeedEnvFailures.length ? sourceFeedEnvFailures : sourceFeedEnvReadiness.rows).slice(0, 4);
   const priorityLabels = {
     high: "우선",
     medium: "보강",
@@ -1482,6 +1490,108 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                     </span>
                   ))}
                 </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="rounded-3xl border border-emerald-100 bg-white p-5 shadow-sm" aria-label="공식 feed 환경변수 안전성">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-black text-emerald-700">공식 feed 환경변수 안전성</p>
+              <h2 className="mt-1 text-xl font-black text-slate-950">운영 env에 검색·커뮤니티 링크가 들어가기 전 차단</h2>
+              <p className="mt-1 text-sm font-semibold leading-6 text-slate-500">
+                공식 API/RSS/JSON feed만 허용하고 검색 결과, 커뮤니티 원문, 블로그, HTML 랜딩 페이지는 refresh 전에 막습니다.
+              </p>
+            </div>
+            <a href={sourceFeedEnvApiHref} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-2xl bg-slate-950 px-4 py-3 text-sm font-black text-white">
+              <DatabaseZap size={17} />
+              feed env JSON
+            </a>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-4">
+            <div className="rounded-2xl bg-emerald-50 p-4">
+              <p className="text-xs font-black text-emerald-700">검사 상태</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">{sourceFeedEnvReadiness.ok ? "정상" : "점검"}</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-emerald-900/70">source:feed-env:doctor</p>
+            </div>
+            <div className="rounded-2xl bg-slate-50 p-4">
+              <p className="text-xs font-black text-slate-500">설정된 feed URL</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">{sourceFeedEnvReadiness.configuredUrlCount}개</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-slate-500">현재 env 기준</p>
+            </div>
+            <div className="rounded-2xl bg-red-50 p-4">
+              <p className="text-xs font-black text-dossa-red">차단 URL</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">{sourceFeedEnvReadiness.failedCount}개</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-red-900/70">출시 전 0 유지</p>
+            </div>
+            <div className="rounded-2xl bg-blue-50 p-4">
+              <p className="text-xs font-black text-blue-700">승인 host</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">{sourceFeedEnvReadiness.allowedCatalogHosts.length}개</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-blue-900/70">공식 카탈로그 기준</p>
+            </div>
+          </div>
+          <div className="mt-4 grid gap-3 xl:grid-cols-[0.95fr_1.05fr]">
+            <div className="rounded-2xl border border-emerald-100 bg-emerald-50 p-4">
+              <div className="flex items-center justify-between gap-2">
+                <p className="text-sm font-black text-slate-950">차단 정책</p>
+                <span className="rounded-full bg-white px-3 py-1.5 text-xs font-black text-emerald-700 shadow-sm">
+                  {sourceFeedEnvReadiness.policyRegressionSamples.filter((sample) => sample.passed).length}/{sourceFeedEnvReadiness.policyRegressionSamples.length} 샘플 통과
+                </span>
+              </div>
+              <div className="mt-3 space-y-2">
+                {[
+                  "HTTPS URL만 허용",
+                  "JSON, RSS, Atom, 공식 API, 승인 파트너 feed endpoint만 허용",
+                  "공식 소스 카탈로그 host 또는 승인 host만 허용",
+                  "검색 결과, 커뮤니티 원문, 블로그, HTML 이벤트 랜딩 페이지 차단"
+                ].map((rule) => (
+                  <p key={rule} className="rounded-2xl bg-white px-3 py-2 text-xs font-bold leading-5 text-slate-600 shadow-sm">
+                    {rule}
+                  </p>
+                ))}
+              </div>
+              <p className="mt-3 rounded-2xl bg-white px-3 py-2 text-xs font-bold leading-5 text-slate-600 shadow-sm">
+                <b className="text-slate-950">마지막 검사:</b> {formatAdminDateTime(sourceFeedEnvReadiness.generatedAt)}
+              </p>
+            </div>
+            <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
+              <p className="text-sm font-black text-slate-950">검사 결과와 다음 액션</p>
+              <div className="mt-3 space-y-2">
+                {sourceFeedEnvRows.length ? (
+                  sourceFeedEnvRows.map((row) => (
+                    <div key={`${row.envKey}-${row.configuredValue}`} className="rounded-2xl bg-white p-3 shadow-sm">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className={`rounded-full px-2.5 py-1 text-[11px] font-black ${row.status === "passed" ? "bg-emerald-50 text-emerald-700" : "bg-red-50 text-dossa-red"}`}>
+                          {row.status === "passed" ? "통과" : "차단"}
+                        </span>
+                        <span className="rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-black text-slate-600">{row.envKey}</span>
+                        <span className="rounded-full bg-blue-50 px-2.5 py-1 text-[11px] font-black text-blue-700">{row.reason}</span>
+                      </div>
+                      <p className="mt-2 line-clamp-1 text-xs font-black text-slate-950">{row.configuredValue}</p>
+                      <p className="mt-1 text-xs font-bold leading-5 text-slate-500">{row.action}</p>
+                    </div>
+                  ))
+                ) : (
+                  <div className="rounded-2xl bg-white p-4 shadow-sm">
+                    <div className="flex items-center gap-2">
+                      <ShieldCheck size={17} className="text-emerald-600" />
+                      <p className="text-sm font-black text-slate-950">설정된 운영 feed URL 없음</p>
+                    </div>
+                    <p className="mt-2 text-xs font-bold leading-5 text-slate-500">
+                      현재는 seed fallback으로 안전하게 운영합니다. 공식 feed를 추가하면 이 패널에서 검색 결과·커뮤니티·HTML 랜딩 여부를 먼저 확인하세요.
+                    </p>
+                  </div>
+                )}
+                {sourceFeedEnvRegressionFailures.length ? (
+                  <p className="rounded-2xl bg-red-50 px-3 py-2 text-xs font-black leading-5 text-dossa-red">
+                    정책 회귀 샘플 실패 {sourceFeedEnvRegressionFailures.length}개. npm run source:feed-env:doctor를 다시 실행하세요.
+                  </p>
+                ) : (
+                  <p className="rounded-2xl bg-emerald-50 px-3 py-2 text-xs font-black leading-5 text-emerald-700">
+                    정책 회귀 샘플 모두 통과. 검색 결과와 커뮤니티 원문은 운영 feed로 들어가지 않습니다.
+                  </p>
+                )}
               </div>
             </div>
           </div>

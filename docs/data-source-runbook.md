@@ -60,6 +60,8 @@ npm run source:feed-env:doctor
 
 - `reports/source-feed-env-readiness.json`
 - `docs/SOURCE_FEED_ENV_REPORT.md`
+- `/api/admin/source-feed-env`
+- `/admin`의 `공식 feed 환경변수 안전성` 패널
 
 이 명령이 통과한 뒤 `npm run refresh:news`, `npm run verify:news`, `npm run refresh:all`을 실행한다.
 
