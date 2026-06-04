@@ -76,12 +76,12 @@ import {
 import { getSupportMailto, supportEmail } from "@/lib/support";
 import { Deal, DealBenefitType, DealSort } from "@/types/deal";
 import { HotSignal } from "@/types/hotSignal";
-import type { NewsDeal } from "@/types/newsDeal";
+import type { NewsDeal, NewsDealSourceTrust } from "@/types/newsDeal";
 
 type AppView = "home" | "categories" | "alerts" | "favorites" | "my";
 const INITIAL_HOME_DEAL_LIMIT = 12;
 const HOME_DEAL_LOAD_STEP = 12;
-const initialNewsSnapshot = refreshedNewsSnapshot as { generatedAt?: string; deals?: NewsDeal[] };
+const initialNewsSnapshot = refreshedNewsSnapshot as { generatedAt?: string; deals?: NewsDeal[]; sourceTrustScores?: NewsDealSourceTrust[] };
 
 function readRecentSearchKeywords() {
   if (typeof window === "undefined") return [];
@@ -273,6 +273,7 @@ interface NewsDealsResponse {
   benefitTypeCounts?: Record<string, number>;
   sourceCounts?: Record<string, number>;
   recommendedQueries?: Array<{ query: string; count: number }>;
+  sourceTrustScores?: NewsDealSourceTrust[];
   freshnessStatus?: "fresh" | "due" | "stale" | "seed";
   freshnessLabel?: string;
   freshnessAgeMinutes?: number | null;
@@ -556,6 +557,7 @@ export default function Home() {
   const [newsDeals, setNewsDeals] = useState<NewsDeal[]>(() => initialNewsSnapshot.deals ?? []);
   const [newsTotalCount, setNewsTotalCount] = useState(() => initialNewsSnapshot.deals?.length ?? 0);
   const [newsRecommendedQueries, setNewsRecommendedQueries] = useState<Array<{ query: string; count: number }>>([]);
+  const [newsSourceTrustScores, setNewsSourceTrustScores] = useState<NewsDealSourceTrust[]>(() => initialNewsSnapshot.sourceTrustScores ?? []);
   const [newsUpdatedAt, setNewsUpdatedAt] = useState(initialNewsSnapshot.generatedAt ?? "");
   const [newsFreshness, setNewsFreshness] = useState<{
     status: "fresh" | "due" | "stale" | "seed";
@@ -605,6 +607,7 @@ export default function Home() {
         setNewsDeals(Array.isArray(data.deals) ? data.deals : []);
         setNewsTotalCount(Number.isFinite(data.count) ? data.count : Array.isArray(data.deals) ? data.deals.length : 0);
         setNewsRecommendedQueries(Array.isArray(data.recommendedQueries) ? data.recommendedQueries : []);
+        setNewsSourceTrustScores(Array.isArray(data.sourceTrustScores) ? data.sourceTrustScores : []);
         setNewsUpdatedAt(data.updatedAt);
         setNewsFreshness({
           status: data.freshnessStatus ?? "seed",
@@ -2635,6 +2638,7 @@ export default function Home() {
             deals={newsDeals}
             totalCount={newsTotalCount}
             recommendedQueries={newsRecommendedQueries}
+            sourceTrustScores={newsSourceTrustScores}
             updatedAt={newsUpdatedAt}
             activeQuery={query}
             freshnessStatus={newsFreshness.status}

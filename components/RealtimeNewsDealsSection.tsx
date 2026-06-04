@@ -10,7 +10,7 @@ import { commerceButtonClassName } from "@/components/ui/CommerceButton";
 import { CommerceCard } from "@/components/ui/CommerceCard";
 import { CommerceSectionHeader } from "@/components/ui/CommerceSectionHeader";
 import { StatePanel } from "@/components/ui/StatePanel";
-import type { NewsDeal } from "@/types/newsDeal";
+import type { NewsDeal, NewsDealSourceTrust } from "@/types/newsDeal";
 
 const benefitLabels: Record<NewsDeal["benefitType"], string> = {
   discount: "할인",
@@ -42,6 +42,7 @@ export function RealtimeNewsDealsSection({
   deals,
   totalCount,
   recommendedQueries = [],
+  sourceTrustScores = [],
   updatedAt,
   activeQuery = "",
   freshnessStatus = "fresh",
@@ -57,6 +58,7 @@ export function RealtimeNewsDealsSection({
   deals: NewsDeal[];
   totalCount?: number;
   recommendedQueries?: Array<{ query: string; count: number }>;
+  sourceTrustScores?: NewsDealSourceTrust[];
   updatedAt: string;
   activeQuery?: string;
   freshnessStatus?: "fresh" | "due" | "stale" | "seed" | string;
@@ -72,6 +74,77 @@ export function RealtimeNewsDealsSection({
   const trimmedQuery = activeQuery.trim();
   const visibleResultCount = typeof totalCount === "number" && totalCount >= deals.length ? totalCount : deals.length;
   const visibleRecommendedQueries = recommendedQueries.filter((item) => item.query && item.query !== trimmedQuery).slice(0, 8);
+  const effectiveSourceTrustScores = useMemo(() => {
+    if (sourceTrustScores.length) return sourceTrustScores;
+
+    const groups = new Map<string, NewsDealSourceTrust>();
+
+    deals.forEach((deal) => {
+      const sourceName = deal.sourceName || deal.merchant || "공식 혜택";
+      const officialHost = deal.officialHost ?? "";
+      const key = `${sourceName}::${officialHost}`;
+      const current = groups.get(key) ?? {
+        sourceName,
+        provider: deal.provider,
+        officialHost,
+        totalCount: 0,
+        visibleCount: 0,
+        hiddenCount: 0,
+        failedCount: 0,
+        searchLinkCount: 0,
+        expiredCount: 0,
+        averagePriorityScore: 0,
+        trustScore: 0,
+        status: "watch" as const,
+        lastCheckedAt: deal.lastCheckedAt,
+        categories: [],
+        benefitTypes: [],
+        recommendedAction: "공식 링크가 검증된 출처로 유지"
+      };
+      const nextTotal = current.totalCount + 1;
+      const nextAveragePriority = Math.round((current.averagePriorityScore * current.totalCount + Number(deal.priorityScore ?? deal.confidenceScore ?? 0)) / nextTotal);
+      const nextTrustScore = Math.max(0, Math.min(100, Math.round(nextAveragePriority * 0.65 + 35)));
+
+      groups.set(key, {
+        ...current,
+        totalCount: nextTotal,
+        visibleCount: nextTotal,
+        averagePriorityScore: nextAveragePriority,
+        trustScore: nextTrustScore,
+        status: nextTrustScore >= 90 ? "trusted" : nextTrustScore >= 75 ? "watch" : "needs_review",
+        lastCheckedAt: Date.parse(deal.lastCheckedAt) > Date.parse(current.lastCheckedAt) ? deal.lastCheckedAt : current.lastCheckedAt,
+        categories: Array.from(new Set([...current.categories, deal.category])).sort(),
+        benefitTypes: Array.from(new Set([...current.benefitTypes, deal.benefitType])).sort()
+      });
+    });
+
+    return Array.from(groups.values()).sort((a, b) => b.trustScore - a.trustScore || b.visibleCount - a.visibleCount || a.sourceName.localeCompare(b.sourceName));
+  }, [deals, sourceTrustScores]);
+  const visibleSourceTrustScores = effectiveSourceTrustScores
+    .filter((item) => item.sourceName && item.trustScore >= 75)
+    .slice(0, 5);
+  const sourceTrustByKey = useMemo(() => {
+    const map = new Map<string, NewsDealSourceTrust>();
+
+    effectiveSourceTrustScores.forEach((source) => {
+      map.set(`${source.sourceName}::${source.officialHost}`, source);
+      map.set(source.sourceName, source);
+    });
+
+    return map;
+  }, [effectiveSourceTrustScores]);
+  const trustedDeals = useMemo(
+    () =>
+      [...deals].sort((a, b) => {
+        const aTrust = sourceTrustByKey.get(`${a.sourceName}::${a.officialHost ?? ""}`) ?? sourceTrustByKey.get(a.sourceName);
+        const bTrust = sourceTrustByKey.get(`${b.sourceName}::${b.officialHost ?? ""}`) ?? sourceTrustByKey.get(b.sourceName);
+        const aTrustedBonus = aTrust?.status === "trusted" ? 20 : aTrust?.status === "watch" ? 8 : 0;
+        const bTrustedBonus = bTrust?.status === "trusted" ? 20 : bTrust?.status === "watch" ? 8 : 0;
+
+        return (bTrust?.trustScore ?? 0) + bTrustedBonus - ((aTrust?.trustScore ?? 0) + aTrustedBonus) || b.priorityScore - a.priorityScore;
+      }),
+    [deals, sourceTrustByKey]
+  );
   const freshnessTone = refreshError || freshnessStatus === "stale" ? "warning" : freshnessStatus === "fresh" ? "success" : "neutral";
   const freshnessText = isRefreshing ? "갱신 중" : freshnessLabel || (updatedAt ? getRelativeTime(updatedAt) : "seed 기준");
   const freshnessDetail =
@@ -161,6 +234,25 @@ export function RealtimeNewsDealsSection({
       <p className="mt-2 text-[11px] font-bold text-slate-500" aria-label="공식 혜택 신선도 안내">
         {freshnessDetail} · 검색 결과와 커뮤니티 원문은 제외하고 공식 혜택 링크만 유지합니다.
       </p>
+      {visibleSourceTrustScores.length ? (
+        <div className="mt-3 rounded-2xl border border-emerald-100 bg-emerald-50/70 px-3 py-2" aria-label="신뢰 공식출처 우선 노출">
+          <div className="flex items-center justify-between gap-2">
+            <p className="text-[11px] font-black text-emerald-800">신뢰 공식출처 우선</p>
+            <CommerceBadge tone="success" className="bg-white">
+              {visibleSourceTrustScores.filter((item) => item.status === "trusted").length}개 신뢰
+            </CommerceBadge>
+          </div>
+          <div className="mt-2 flex gap-1.5 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {visibleSourceTrustScores.map((source) => (
+              <span key={`${source.sourceName}-${source.officialHost}`} className="inline-flex shrink-0 items-center gap-1 rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-emerald-700 shadow-sm">
+                <ShieldCheck size={12} />
+                {source.sourceName}
+                <span className="text-[10px] text-emerald-500">{source.trustScore}</span>
+              </span>
+            ))}
+          </div>
+        </div>
+      ) : null}
       {trimmedQuery ? (
         <div className="mt-2 rounded-2xl border border-red-100 bg-red-50 px-3 py-2 text-[11px] font-black text-brand-red" aria-label="공식 혜택 검색 결과 요약">
           상품 검색어 기준으로 공식 혜택도 함께 좁혔습니다. 검색 결과·커뮤니티 원문은 제외됩니다.
@@ -193,7 +285,10 @@ export function RealtimeNewsDealsSection({
         </div>
       ) : null}
       <div className="mt-3 flex snap-x snap-mandatory gap-2 overflow-x-auto pb-1 [scrollbar-width:none] sm:grid sm:grid-cols-2 sm:gap-3 lg:grid-cols-3 [&::-webkit-scrollbar]:hidden">
-        {deals.slice(0, 8).map((deal) => (
+        {trustedDeals.slice(0, 8).map((deal) => {
+          const sourceTrust = sourceTrustByKey.get(`${deal.sourceName}::${deal.officialHost ?? ""}`) ?? sourceTrustByKey.get(deal.sourceName);
+
+          return (
           <CommerceCard
             key={deal.id}
             data-news-deal-card="true"
@@ -213,7 +308,7 @@ export function RealtimeNewsDealsSection({
             <div className="mt-3 flex flex-wrap gap-1.5">
               <CommerceBadge tone="success" className="bg-white shadow-sm">
                 <ShieldCheck size={12} />
-                공식 링크
+                {sourceTrust?.status === "trusted" ? "신뢰 출처" : "공식 링크"}
               </CommerceBadge>
               <CommerceBadge tone="neutral" className="bg-white shadow-sm">
                 <CalendarClock size={12} />
@@ -238,7 +333,8 @@ export function RealtimeNewsDealsSection({
               </Link>
             </div>
           </CommerceCard>
-        ))}
+          );
+        })}
       </div>
     </CommerceCard>
   );
