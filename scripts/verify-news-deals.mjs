@@ -1,6 +1,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { dataDir, dedupeNewsDeals, normalizeNewsDeal, readJson, root, summarizeNewsDeals, validateNewsDeal, writeJson } from "./news-deal-utils.mjs";
+import { buildOfficialBenefitSourceConfigSummary } from "./official-benefit-source-config.mjs";
 
 const now = Date.now();
 const generatedAt = new Date(now).toISOString();
@@ -8,6 +9,8 @@ const snapshotPath = join(dataDir, "refreshedNewsDeals.json");
 const snapshot = existsSync(snapshotPath)
   ? readJson("data/refreshedNewsDeals.json", { deals: [], allDeals: [], providerStats: [] })
   : null;
+const previousReport = readJson("reports/news-deals.json", {});
+
 const source = snapshot ? (snapshot.allDeals?.length ? snapshot.allDeals : snapshot.deals) : readJson("data/newsDeals.seed.json", []);
 const normalized = source.map((item) => normalizeNewsDeal(item, generatedAt));
 const validated = dedupeNewsDeals(normalized.map((deal) => validateNewsDeal(deal, now)));
@@ -203,6 +206,7 @@ const ok =
 
 const report = {
   ...summary,
+  sourceConfig: previousReport.sourceConfig ?? buildOfficialBenefitSourceConfigSummary(),
   ok,
   gates: {
     hasVisibleNewsDeals: summary.visibleCount > 0,

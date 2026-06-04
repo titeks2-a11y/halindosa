@@ -142,6 +142,16 @@ interface NewsOperationsReport {
       issueCount: number;
     }>;
   };
+  sourceConfig?: {
+    configFile?: string;
+    configuredSources?: number;
+    enabledProviders?: string[];
+    envKeys?: string[];
+    categories?: string[];
+    benefitTypes?: string[];
+    recommendedQueries?: string[];
+    guardrails?: string[];
+  };
   categoryCoverage?: Array<{
     category: string;
     action: string;
@@ -248,7 +258,11 @@ export function AdminNewsOperationsPanel({ apiHref, initialReport }: AdminNewsOp
   const categoryCoverage = useMemo(() => report.categoryCoverage ?? [], [report.categoryCoverage]);
   const providerRisks = useMemo(() => report.providerRisks ?? [], [report.providerRisks]);
   const feedTransitionReadiness = report.feedTransitionReadiness;
+  const sourceConfig = report.sourceConfig;
   const feedTransitionProviders = useMemo(() => feedTransitionReadiness?.providers ?? [], [feedTransitionReadiness?.providers]);
+  const sourceConfigQueries = useMemo(() => sourceConfig?.recommendedQueries?.slice(0, 12) ?? [], [sourceConfig?.recommendedQueries]);
+  const sourceConfigGuardrails = useMemo(() => sourceConfig?.guardrails?.slice(0, 4) ?? [], [sourceConfig?.guardrails]);
+  const sourceConfigEnvKeys = useMemo(() => sourceConfig?.envKeys?.slice(0, 8) ?? [], [sourceConfig?.envKeys]);
   const refreshSteps = useMemo(() => report.refreshAll?.steps?.slice(0, 6) ?? [], [report.refreshAll?.steps]);
   const operatorNextActions = useMemo(() => report.operatorNextActions?.slice(0, 3) ?? [], [report.operatorNextActions]);
   const renewalQueue = useMemo(() => report.freshnessQueues?.renewalQueue?.slice(0, 4) ?? [], [report.freshnessQueues?.renewalQueue]);
@@ -568,6 +582,59 @@ export function AdminNewsOperationsPanel({ apiHref, initialReport }: AdminNewsOp
             <b className="text-slate-950">우선 env:</b>{" "}
             {(feedTransitionReadiness?.recommendedNextEnvKeys ?? []).slice(0, 4).join(", ") || "모든 provider 연결됨"}
           </p>
+        </div>
+      </div>
+
+      <div className="mt-4 rounded-2xl border border-red-100 bg-white p-3">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+          <div>
+            <p className="text-sm font-black text-slate-950">공식 feed 소스 설정</p>
+            <p className="mt-1 text-[11px] font-bold leading-5 text-slate-500">
+              운영자가 승인한 RSS, JSON, 제휴 API만 연결하고 검색 결과·커뮤니티·뉴스 단독 링크는 자동 차단합니다.
+            </p>
+          </div>
+          <div className="grid grid-cols-2 gap-2 text-center text-[11px] font-black">
+            <span className="rounded-2xl bg-red-50 px-3 py-2 text-brand-red">
+              설정 소스
+              <b className="mt-0.5 block text-sm text-slate-950">{sourceConfig?.configuredSources ?? 0}</b>
+            </span>
+            <span className="rounded-2xl bg-slate-50 px-3 py-2 text-slate-600">
+              env key
+              <b className="mt-0.5 block text-sm text-slate-950">{sourceConfig?.envKeys?.length ?? 0}</b>
+            </span>
+          </div>
+        </div>
+        <div className="mt-3 grid gap-3 lg:grid-cols-[0.95fr_1.05fr]">
+          <div className="rounded-2xl bg-slate-50 p-3">
+            <p className="text-xs font-black text-slate-950">추천 검색어 자동 큐</p>
+            <div className="mt-2 flex flex-wrap gap-1.5">
+              {(sourceConfigQueries.length ? sourceConfigQueries : ["오늘의 무료", "쿠폰", "마트", "편의점", "배달", "카드 혜택", "정부 지원/문화 혜택"]).map((query) => (
+                <span key={query} className="rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-brand-red shadow-sm">
+                  {query}
+                </span>
+              ))}
+            </div>
+            <p className="mt-3 text-[11px] font-bold leading-5 text-slate-500">
+              설정 파일: <code className="rounded-lg bg-white px-1.5 py-0.5 font-black text-slate-700">{sourceConfig?.configFile ?? "data/officialBenefitFeedSources.json"}</code>
+            </p>
+          </div>
+          <div className="rounded-2xl bg-brand-warm p-3">
+            <p className="text-xs font-black text-slate-950">허용·차단 가드레일</p>
+            <div className="mt-2 grid gap-2 md:grid-cols-2">
+              {(sourceConfigGuardrails.length ? sourceConfigGuardrails : ["공식 RSS, 공식 JSON, 제휴 API만 연결", "검색 결과, 커뮤니티 원문, 뉴스 기사 단독 링크 차단"]).map((rule) => (
+                <p key={rule} className="rounded-2xl bg-white px-3 py-2 text-[11px] font-bold leading-5 text-slate-600 shadow-sm">
+                  {rule}
+                </p>
+              ))}
+            </div>
+            <div className="mt-3 flex gap-1.5 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              {(sourceConfigEnvKeys.length ? sourceConfigEnvKeys : feedTransitionReadiness?.recommendedNextEnvKeys ?? []).slice(0, 8).map((key) => (
+                <code key={key} className="shrink-0 rounded-full bg-white px-2.5 py-1 text-[10px] font-black text-slate-700 shadow-sm">
+                  {key}
+                </code>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 

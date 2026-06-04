@@ -440,6 +440,9 @@ await check("admin dashboard quality cards", async () => {
       text.includes("오늘 운영 리스크") &&
       text.includes("신선도 운영") &&
       text.includes("Provider 위험도") &&
+      text.includes("공식 feed 소스 설정") &&
+      text.includes("추천 검색어 자동 큐") &&
+      text.includes("허용·차단 가드레일") &&
       text.includes("다음 refresh 권장") &&
       text.includes("npm run refresh:all") &&
       text.includes("health:readiness") &&
@@ -688,6 +691,10 @@ await check("admin news operations api", async () => {
     "Admin news operations feed transition providers missing source mix counters"
   );
   assert(Array.isArray(data.report.feedTransitionReadiness.recommendedNextEnvKeys), "Admin news operations report missing recommended feed env keys");
+  assert(data.report?.sourceConfig?.configuredSources >= 4, "Admin news operations report missing official source config summary");
+  assert(Array.isArray(data.report.sourceConfig.recommendedQueries) && data.report.sourceConfig.recommendedQueries.length >= 8, "Admin news operations report missing official source recommended queries");
+  assert(Array.isArray(data.report.sourceConfig.guardrails) && data.report.sourceConfig.guardrails.some((rule) => String(rule).includes("검색 결과")), "Admin news operations report missing official source guardrails");
+  assert(Array.isArray(data.report.sourceConfig.envKeys) && data.report.sourceConfig.envKeys.includes("OFFICIAL_EVENT_FEED_URLS"), "Admin news operations report missing official feed env keys");
   assert(["seed_fallback_only", "live_feed_ready", "needs_attention", "missing"].includes(data.report?.feedCanary?.status), "Admin news operations report missing official feed canary status");
   assert(["fresh", "due", "stale", "missing"].includes(data.report?.feedCanary?.freshnessStatus), "Admin news operations report missing official feed canary freshness status");
   assert(typeof data.report?.feedCanary?.staleHours === "number", "Admin news operations report missing official feed canary stale threshold");

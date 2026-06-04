@@ -96,6 +96,17 @@ interface FeedTransitionReadiness {
   providers: FeedTransitionProvider[];
 }
 
+interface OfficialBenefitSourceConfig {
+  configFile?: string;
+  configuredSources?: number;
+  enabledProviders?: string[];
+  envKeys?: string[];
+  categories?: string[];
+  benefitTypes?: string[];
+  recommendedQueries?: string[];
+  guardrails?: string[];
+}
+
 interface NewsPolicyRegression {
   ok: boolean;
   total: number;
@@ -126,6 +137,7 @@ interface NewsDealsReport {
   officialMissingCount?: number;
   failedCount?: number;
   providerStats?: ProviderStat[];
+  sourceConfig?: OfficialBenefitSourceConfig;
   failureReasons?: Record<string, number>;
   failureReasonTop10?: Array<{ reason: string; count: number }>;
   hiddenDeals?: Array<Partial<NewsDeal> & { hiddenReason?: string; officialHost?: string }>;
@@ -779,6 +791,16 @@ export function getNewsOperationsReport() {
     providerRisks,
     providerRiskSummary,
     feedTransitionReadiness,
+    sourceConfig: report.sourceConfig ?? {
+      configFile: "data/officialBenefitFeedSources.json",
+      configuredSources: feedTransitionReadiness.totalProviders,
+      enabledProviders: feedTransitionReadiness.providers.map((provider) => provider.provider),
+      envKeys: feedTransitionReadiness.providers.flatMap((provider) => provider.envKeys),
+      categories: requiredNewsCategories.map((item) => item.category),
+      benefitTypes: [],
+      recommendedQueries: ["무료 쿠폰", "공식 이벤트", "마트 행사", "편의점 1+1", "배달 쿠폰", "카드 혜택", "문화 초대권", "공공 혜택"],
+      guardrails: feedTransitionReadiness.guardrails
+    },
     failureReasonTop10,
     policyRegression: report.gates?.policyRegression ?? {
       ok: false,

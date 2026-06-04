@@ -1,6 +1,7 @@
 import { existsSync } from "node:fs";
 import { join } from "node:path";
 import { getEnvFeedUrls } from "./feed-url-utils.mjs";
+import { buildOfficialBenefitSourceConfigSummary, getOfficialBenefitProviderSpecs } from "./official-benefit-source-config.mjs";
 import {
   dataDir,
   buildNewsPolicyRegressionScenarios,
@@ -21,40 +22,7 @@ function envUrls(...keys) {
   return getEnvFeedUrls(...keys);
 }
 
-const defaultProviderSpecs = [
-  { provider: "news", source: "approved_news_feed", seed: true, env: ["DEAL_NEWS_FEED_URLS", "DEAL_NEWS_RSS_URLS"] },
-  { provider: "event_news", source: "official_event_news_feed", seed: true, env: ["DEAL_EVENT_NEWS_FEED_URLS"] },
-  { provider: "official_event", source: "official_event_page_feed", seed: true, env: ["OFFICIAL_EVENT_FEED_URLS", "DEAL_EVENT_FEED_URLS"] },
-  { provider: "public_coupon", source: "public_coupon_and_culture_benefit_feed", seed: true, env: ["PUBLIC_COUPON_FEED_URLS"] }
-];
-
-function normalizeProviderSpec(spec) {
-  return {
-    id: String(spec.id ?? spec.provider ?? "").trim(),
-    provider: String(spec.provider ?? "").trim(),
-    source: String(spec.source ?? spec.provider ?? "").trim(),
-    enabled: spec.enabled !== false,
-    seed: spec.seed !== false,
-    env: Array.isArray(spec.env) ? spec.env.filter((key) => typeof key === "string" && key.trim()) : [],
-    categories: Array.isArray(spec.categories) ? spec.categories.filter(Boolean) : [],
-    benefitTypes: Array.isArray(spec.benefitTypes) ? spec.benefitTypes.filter(Boolean) : [],
-    recommendedQueries: Array.isArray(spec.recommendedQueries) ? spec.recommendedQueries.filter(Boolean) : [],
-    allowedUse: String(spec.allowedUse ?? "").trim(),
-    blockedUse: String(spec.blockedUse ?? "").trim(),
-    operatorNote: String(spec.operatorNote ?? "").trim()
-  };
-}
-
-function readProviderSpecs() {
-  const configured = readJson("data/officialBenefitFeedSources.json", []);
-  const specs = (Array.isArray(configured) && configured.length ? configured : defaultProviderSpecs)
-    .map(normalizeProviderSpec)
-    .filter((spec) => spec.enabled && spec.provider && spec.source && spec.env.length);
-
-  return specs.length ? specs : defaultProviderSpecs.map(normalizeProviderSpec);
-}
-
-const providerSpecs = readProviderSpecs();
+const providerSpecs = getOfficialBenefitProviderSpecs();
 const seed = readJson("data/newsDeals.seed.json", []);
 const collected = [];
 const providerStats = [];
@@ -122,20 +90,7 @@ const snapshot = {
   providerStats
 };
 
-const sourceConfigSummary = {
-  configFile: "data/officialBenefitFeedSources.json",
-  configuredSources: providerSpecs.length,
-  enabledProviders: providerSpecs.map((spec) => spec.provider),
-  envKeys: [...new Set(providerSpecs.flatMap((spec) => spec.env))],
-  categories: [...new Set(providerSpecs.flatMap((spec) => spec.categories))],
-  benefitTypes: [...new Set(providerSpecs.flatMap((spec) => spec.benefitTypes))],
-  recommendedQueries: [...new Set(providerSpecs.flatMap((spec) => spec.recommendedQueries))],
-  guardrails: [
-    "공식 RSS, 공식 JSON, 제휴 API, 운영자 승인 feed만 연결",
-    "검색 결과, 커뮤니티 원문, 블로그, 뉴스 기사 단독 링크 차단",
-    "종료일, 혜택 조건, 공식 finalUrl이 없는 항목 숨김 처리"
-  ]
-};
+const sourceConfigSummary = buildOfficialBenefitSourceConfigSummary(providerSpecs);
 
 writeJson("data/refreshedNewsDeals.json", snapshot);
 writeJson("reports/news-deals.json", {

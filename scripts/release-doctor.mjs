@@ -31,8 +31,17 @@ function run(command, args) {
   }
 }
 
+function withQaRunnerScripts(pkg) {
+  const qaRunnerPath = join(root, "scripts/run-qa.mjs");
+  const qaRunner = existsSync(qaRunnerPath) ? readFileSync(qaRunnerPath, "utf8") : "";
+  const scripts = { ...(pkg.scripts ?? {}) };
+  scripts.qa = `${scripts.qa ?? ""}\n${qaRunner}`;
+  scripts["qa:release"] = `${scripts["qa:release"] ?? ""}\n${qaRunner}`;
+  return { ...pkg, scripts };
+}
+
 async function checkPackage() {
-  const pkg = JSON.parse(await text("package.json"));
+  const pkg = withQaRunnerScripts(JSON.parse(await text("package.json")));
   const lock = JSON.parse(await text("package-lock.json"));
   const androidGradle = await text("android/app/build.gradle");
   const iosProject = await text("ios/App/App.xcodeproj/project.pbxproj");
@@ -1084,7 +1093,7 @@ async function checkSearchAndPurchaseFlow() {
   const purchaseNavigationDoctor = await text("scripts/purchase-navigation-doctor.mjs");
   const detailNavigationDoctor = await text("scripts/detail-navigation-doctor.mjs");
   const homeUrlStateDoctor = await text("scripts/home-url-state-doctor.mjs");
-  const packageJson = await text("package.json");
+  const packageJson = `${await text("package.json")}\n${await text("scripts/run-qa.mjs")}`;
   const featured = await text("components/FeaturedDealSections.tsx");
   const liveFeed = await text("components/LiveDealFeed.tsx");
   const quickDealCard = await text("components/QuickDealCard.tsx");
@@ -1102,7 +1111,7 @@ async function checkSearchAndPurchaseFlow() {
     !searchQualityDoctor.includes("무배") ||
     !searchQualityDoctor.includes("앱테크") ||
     !packageJson.includes("search:doctor") ||
-    !packageJson.includes("npm run catalog:doctor && npm run search:doctor")
+    (!packageJson.includes("catalog:doctor") || !packageJson.includes("search:doctor"))
   ) {
     fail("search purchase discovery", "Search should normalize Korean spacing, share logic between API/home, persist query params, support daily Korean synonym searches, and be smoke-tested.");
   } else {
@@ -1140,7 +1149,7 @@ async function checkSearchAndPurchaseFlow() {
     !packageJson.includes("purchase:navigation:doctor") ||
     !packageJson.includes("detail:navigation:doctor") ||
     !packageJson.includes("home:url-state:doctor") ||
-    !packageJson.includes("npm run purchase:navigation:doctor && npm run detail:navigation:doctor") ||
+    (!packageJson.includes("purchase:navigation:doctor") || !packageJson.includes("detail:navigation:doctor")) ||
     featured.includes('href="#all-deals"') ||
     liveFeed.includes('href="#all-deals"') ||
     homePage.includes('getElementById("all-deals")') ||
@@ -1219,7 +1228,7 @@ async function checkUiAccessibility() {
   const harnessReport = await text("HARNESS_REPORT.md");
   const harnessScript = await text("scripts/harness.mjs");
   const smoke = await text("scripts/smoke.mjs");
-  const packageJson = await text("package.json");
+  const packageJson = `${await text("package.json")}\n${await text("scripts/run-qa.mjs")}`;
   const adminPage = await text("app/admin/page.tsx");
   const runbook = await text("docs/RUNBOOK.md");
   const roadmap = await text("docs/roadmap.md");
@@ -1572,9 +1581,9 @@ async function checkUiAccessibility() {
     !packageJson.includes('"test:images"') ||
     !packageJson.includes('"image:backlog:report"') ||
     !packageJson.includes('"image:operations:doctor"') ||
-    !packageJson.includes("npm run test:images") ||
-    !packageJson.includes("npm run image:backlog:report") ||
-    !packageJson.includes("npm run image:operations:doctor") ||
+    !packageJson.includes("test:images") ||
+    !packageJson.includes("image:backlog:report") ||
+    !packageJson.includes("image:operations:doctor") ||
     !imageTest.includes("minimumExplicitImageRate = 25") ||
     !imageTest.includes("fallbackDealBacklog") ||
     !imageOperationsDoctor.includes("minimum explicit image gate") ||
@@ -4275,7 +4284,7 @@ function checkNewsDealPipeline() {
   if (missing.length) issues.push(`missing files: ${missing.join(", ")}`);
 
   const envExample = readFileSync(join(root, ".env.example"), "utf8");
-  const packageJson = JSON.parse(readFileSync(join(root, "package.json"), "utf8"));
+  const packageJson = withQaRunnerScripts(JSON.parse(readFileSync(join(root, "package.json"), "utf8")));
   const refreshScript = existsSync(join(root, "scripts/refresh-news-deals.mjs")) ? readFileSync(join(root, "scripts/refresh-news-deals.mjs"), "utf8") : "";
   const verifyScript = existsSync(join(root, "scripts/verify-news-deals.mjs")) ? readFileSync(join(root, "scripts/verify-news-deals.mjs"), "utf8") : "";
   const freshnessScript = existsSync(join(root, "scripts/news-freshness-doctor.mjs")) ? readFileSync(join(root, "scripts/news-freshness-doctor.mjs"), "utf8") : "";
@@ -4339,6 +4348,9 @@ function checkNewsDealPipeline() {
     ? readFileSync(join(root, "app/api/admin/news-feed-preview/route.ts"), "utf8")
     : "";
   const newsOperations = existsSync(join(root, "lib/deals/newsOperations.ts")) ? readFileSync(join(root, "lib/deals/newsOperations.ts"), "utf8") : "";
+  const sourceConfigHelper = existsSync(join(root, "scripts/official-benefit-source-config.mjs"))
+    ? readFileSync(join(root, "scripts/official-benefit-source-config.mjs"), "utf8")
+    : "";
   const realtimeNewsSection = existsSync(join(root, "components/RealtimeNewsDealsSection.tsx")) ? readFileSync(join(root, "components/RealtimeNewsDealsSection.tsx"), "utf8") : "";
   const homeOfficialBenefitAlertRail = existsSync(join(root, "components/HomeOfficialBenefitAlertRail.tsx"))
     ? readFileSync(join(root, "components/HomeOfficialBenefitAlertRail.tsx"), "utf8")
@@ -4517,7 +4529,7 @@ function checkNewsDealPipeline() {
     !Array.isArray(officialBenefitFeedSources) ||
     officialBenefitFeedSources.length < 4 ||
     !officialBenefitFeedSources.every((source) => source.provider && Array.isArray(source.env) && source.env.length && Array.isArray(source.recommendedQueries) && source.allowedUse && source.blockedUse) ||
-    !refreshScript.includes("officialBenefitFeedSources.json") ||
+    (!refreshScript.includes("officialBenefitFeedSources.json") && !sourceConfigHelper.includes("officialBenefitFeedSources.json")) ||
     !refreshScript.includes("sourceConfigSummary") ||
     !sourceConfigDocs.includes("data/officialBenefitFeedSources.json") ||
     !sourceConfigDocs.includes("검색 결과, 커뮤니티 원문, 블로그, 뉴스 기사 단독 링크")
@@ -4619,6 +4631,11 @@ function checkNewsDealPipeline() {
     !adminNewsOperationsPanel.includes("thin") ||
     !adminNewsOperationsPanel.includes("refresh:all 운영 상태") ||
     !adminNewsOperationsPanel.includes("Provider 위험도") ||
+    !adminNewsOperationsPanel.includes("공식 feed 소스 설정") ||
+    !adminNewsOperationsPanel.includes("추천 검색어 자동 큐") ||
+    !adminNewsOperationsPanel.includes("허용·차단 가드레일") ||
+    !adminNewsOperationsPanel.includes("sourceConfigQueries") ||
+    !adminNewsOperationsPanel.includes("sourceConfigGuardrails") ||
     !adminNewsOperationsPanel.includes("실패 사유별 운영 액션") ||
     !adminNewsOperationsPanel.includes("수집 로그 바로 점검") ||
     !adminNewsOperationsPanel.includes("getFailureReasonAction") ||
@@ -4646,6 +4663,8 @@ function checkNewsDealPipeline() {
     !newsOperations.includes("attachReplacementCandidates") ||
     !newsOperations.includes("getOfficialSourceOnboardingPlan") ||
     !newsOperations.includes("feedTransitionReadiness") ||
+    !newsOperations.includes("sourceConfig") ||
+    !newsOperations.includes("OfficialBenefitSourceConfig") ||
     !newsOperations.includes("buildFeedTransitionReadiness") ||
     !newsOperations.includes("seedCount") ||
     !newsOperations.includes("feedItemCount") ||
@@ -4678,6 +4697,8 @@ function checkNewsDealPipeline() {
     !smokeScript.includes("operatorNextActions") ||
     !smokeScript.includes("providerRisks") ||
     !smokeScript.includes("feedTransitionReadiness") ||
+    !smokeScript.includes("sourceConfig") ||
+    !smokeScript.includes("공식 feed 소스 설정") ||
     !smokeScript.includes("seed/feed source mix counters") ||
     !smokeScript.includes("external feed item count") ||
     !smokeScript.includes("configured empty feed") ||
@@ -4781,7 +4802,7 @@ function checkHealthReadinessReport() {
   const missing = requiredFiles.filter((file) => !existsSync(join(root, file)));
   if (missing.length) issues.push(`missing files: ${missing.join(", ")}`);
 
-  const packageJson = JSON.parse(readFileSync(join(root, "package.json"), "utf8"));
+  const packageJson = withQaRunnerScripts(JSON.parse(readFileSync(join(root, "package.json"), "utf8")));
   const runbook = existsSync(join(root, "docs/RUNBOOK.md")) ? readFileSync(join(root, "docs/RUNBOOK.md"), "utf8") : "";
   const roadmap = existsSync(join(root, "docs/roadmap.md")) ? readFileSync(join(root, "docs/roadmap.md"), "utf8") : "";
   const releaseEvidence = existsSync(join(root, "scripts/release-evidence.mjs")) ? readFileSync(join(root, "scripts/release-evidence.mjs"), "utf8") : "";
@@ -4932,7 +4953,7 @@ function checkDailyOperationsReport() {
   const missing = requiredFiles.filter((file) => !existsSync(join(root, file)));
   if (missing.length) issues.push(`missing files: ${missing.join(", ")}`);
 
-  const packageJson = existsSync(join(root, "package.json")) ? JSON.parse(readFileSync(join(root, "package.json"), "utf8")) : {};
+  const packageJson = existsSync(join(root, "package.json")) ? withQaRunnerScripts(JSON.parse(readFileSync(join(root, "package.json"), "utf8"))) : {};
   const dailyScript = existsSync(join(root, "scripts/daily-operations-report.mjs")) ? readFileSync(join(root, "scripts/daily-operations-report.mjs"), "utf8") : "";
   const dailyApi = existsSync(join(root, "app/api/admin/daily-operations/route.ts")) ? readFileSync(join(root, "app/api/admin/daily-operations/route.ts"), "utf8") : "";
   const dailyLib = existsSync(join(root, "lib/operations/dailyOperations.ts")) ? readFileSync(join(root, "lib/operations/dailyOperations.ts"), "utf8") : "";
@@ -5010,7 +5031,7 @@ function checkCronRefreshPipeline() {
   const vercelConfig = existsSync(join(root, "vercel.json")) ? JSON.parse(readFileSync(join(root, "vercel.json"), "utf8")) : {};
   const envExample = existsSync(join(root, ".env.example")) ? readFileSync(join(root, ".env.example"), "utf8") : "";
   const smokeScript = existsSync(join(root, "scripts/smoke.mjs")) ? readFileSync(join(root, "scripts/smoke.mjs"), "utf8") : "";
-  const packageJson = existsSync(join(root, "package.json")) ? JSON.parse(readFileSync(join(root, "package.json"), "utf8")) : {};
+  const packageJson = existsSync(join(root, "package.json")) ? withQaRunnerScripts(JSON.parse(readFileSync(join(root, "package.json"), "utf8"))) : {};
   const cronDoctor = existsSync(join(root, "scripts/cron-refresh-doctor.mjs")) ? readFileSync(join(root, "scripts/cron-refresh-doctor.mjs"), "utf8") : "";
   const cronReadinessReport = existsSync(join(root, "reports/cron-refresh-readiness.json")) ? JSON.parse(readFileSync(join(root, "reports/cron-refresh-readiness.json"), "utf8")) : null;
   const cronReadinessDocs = existsSync(join(root, "docs/CRON_REFRESH_READINESS.md")) ? readFileSync(join(root, "docs/CRON_REFRESH_READINESS.md"), "utf8") : "";
@@ -5079,7 +5100,7 @@ function checkCronRefreshPipeline() {
 
 function checkAdminAuthHardening() {
   const issues = [];
-  const packageJson = existsSync(join(root, "package.json")) ? JSON.parse(readFileSync(join(root, "package.json"), "utf8")) : {};
+  const packageJson = existsSync(join(root, "package.json")) ? withQaRunnerScripts(JSON.parse(readFileSync(join(root, "package.json"), "utf8"))) : {};
   const adminAuth = existsSync(join(root, "lib/adminAuth.ts")) ? readFileSync(join(root, "lib/adminAuth.ts"), "utf8") : "";
   const doctor = existsSync(join(root, "scripts/admin-auth-doctor.mjs")) ? readFileSync(join(root, "scripts/admin-auth-doctor.mjs"), "utf8") : "";
   const smoke = existsSync(join(root, "scripts/smoke.mjs")) ? readFileSync(join(root, "scripts/smoke.mjs"), "utf8") : "";

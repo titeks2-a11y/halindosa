@@ -91,7 +91,7 @@ npm run release:doctor
 
 `npm run health:readiness`는 `reports/health-readiness.json`과 [docs/HEALTH_READINESS_REPORT.md](docs/HEALTH_READINESS_REPORT.md)를 생성해 상품 140개 이상, 검증 링크 99% 이상, 검색/품절 노출 0개, 공식 혜택 40개 이상, 필수 공식 혜택 카테고리별 2건 이상, `refresh:all` 성공, 24시간 이내 신선도를 함께 점검합니다.
 
-`npm run qa`는 `lint`, `verify:links`, `verify:products`, `link:policy:regression`, 상품/뉴스 refresh, `verify:news`, `news:feed:doctor`, `refresh:all`, non-strict `verify:links:live`, `exposure:doctor`, `link:launch:gate`, `health:readiness`, 공식 소스 카탈로그/라이브 접근성/온보딩 우선순위 리포트, 외부 링크/이미지/이미지 운영 doctor, `catalog:doctor`, `search:doctor`, UI/모바일 UX/SEO/성능 doctor, 구매·상세·전역 navigation doctor, 홈 URL/list scan doctor, `smoke:local`, `build`, `release:doctor`를 순서대로 실행합니다.
+`npm run qa`는 `scripts/run-qa.mjs`가 관리하는 출시 검증 목록을 순서대로 실행합니다. 현재 목록은 `npm run qa:list`로 확인할 수 있으며, `lint`, `verify:links`, `verify:products`, `link:policy:regression`, 상품/뉴스 refresh, `verify:news`, `news:feed:doctor`, `refresh:all`, non-strict `verify:links:live`, `exposure:doctor`, `link:launch:gate`, `health:readiness`, 공식 소스 카탈로그/라이브 접근성/온보딩 우선순위 리포트, 외부 링크/이미지/이미지 운영 doctor, `catalog:doctor`, `search:doctor`, UI/모바일 UX/SEO/성능 doctor, 구매·상세·전역 navigation doctor, 홈 URL/list scan doctor, `smoke:local`, `build`, `release:doctor`를 포함합니다.
 
 ## 공식 혜택 Feed 운영
 
