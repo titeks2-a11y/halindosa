@@ -15,6 +15,17 @@ import { buildPersonalizedBenefitQueue } from "@/lib/deals/personalizedBenefitQu
 import { buildWeeklyBenefitCalendar, WeeklyBenefitPreset } from "@/lib/deals/weeklyBenefitCalendar";
 import { formatPrice } from "@/lib/format";
 import {
+  buildClaimEffortSummary,
+  buildFilteredFreeBenefits,
+  buildFilteredReadinessSummary,
+  buildFilteredRiskReview,
+  buildFreeBenefitRoutines,
+  buildFreeBenefitTabCounts,
+  countActiveFreeBenefits,
+  selectFreeBenefitPriorityQueue,
+  selectZeroCostStarterPack
+} from "@/lib/freeBenefitsDerivedData";
+import {
   BenefitSort,
   ClaimEffortFilter,
   FiveMinuteChecklistPreset,
@@ -23,8 +34,7 @@ import {
   fiveMinuteChecklist,
   freeBenefitTabs,
   getMinimumOrderLabel,
-  getPriorityReason,
-  getPriorityScore
+  getPriorityReason
 } from "@/lib/freeBenefitsConfig";
 import { readLocalFavoriteIds, readLocalPreferences, writeLocalFavoriteIds } from "@/lib/memberSync";
 import { buildDealRedirectUrl, buildNativeSafeDealUrl } from "@/lib/redirectUrl";
@@ -81,221 +91,118 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
     };
   }, []);
 
-  const filteredDeals = useMemo(() => {
-    const searchQuery = query.trim().toLowerCase();
-    let source = activeType === "all" ? deals : deals.filter((deal) => deal.dealType === activeType);
-
-    if (searchQuery) {
-      source = source.filter((deal) =>
-        [
-          deal.title,
-          deal.mallName,
-          deal.category,
-          deal.subCategory ?? "",
-          deal.benefitSummary,
-          deal.couponCondition ?? "",
-          ...deal.tags
-        ].some((value) => value.toLowerCase().includes(searchQuery))
-      );
-    }
-
-    if (endingSoonOnly) source = source.filter((deal) => deal.isEndingSoon || new Date(deal.expireAt).getTime() - referenceNow < 12 * 60 * 60 * 1000);
-    if (freeShippingOnly) source = source.filter((deal) => deal.isFreeShipping || deal.shippingFee === "무료배송");
-    if (noSignupOnly) source = source.filter((deal) => !deal.requiresSignup);
-    if (firstComeOnly) source = source.filter((deal) => deal.isFirstComeFirstServed);
-    if (activeOnly) source = source.filter((deal) => !deal.isExpired && !deal.isSoldOut && deal.linkStatus !== "broken");
-    if (claimEffortFilter !== "all") source = source.filter((deal) => getClaimEffort(deal, referenceNow) === claimEffortFilter);
-
-    return [...source].sort((a, b) => {
-      const activeScore = Number(a.isExpired) - Number(b.isExpired);
-      if (activeScore !== 0) return activeScore;
-      if (sort === "endingSoon") return new Date(a.expireAt).getTime() - new Date(b.expireAt).getTime();
-      if (sort === "popular") return b.clickCount - a.clickCount || b.likeCount - a.likeCount;
-      if (sort === "savings") return b.savingsAmount - a.savingsAmount || b.savingsRate - a.savingsRate;
-      return b.reliabilityScore - a.reliabilityScore || b.clickCount - a.clickCount || new Date(a.expireAt).getTime() - new Date(b.expireAt).getTime();
-    });
-  }, [activeOnly, activeType, claimEffortFilter, deals, endingSoonOnly, firstComeOnly, freeShippingOnly, noSignupOnly, query, referenceNow, sort]);
-
-  const counts = useMemo(
+  const filteredDeals = useMemo(
     () =>
-      Object.fromEntries(
-        freeBenefitTabs.map((tab) => [
-          tab.id,
-          tab.id === "all" ? deals.length : deals.filter((deal) => deal.dealType === tab.id).length
-        ])
-      ),
-    [deals]
+      buildFilteredFreeBenefits(deals, {
+        activeType,
+        query,
+        sort,
+        endingSoonOnly,
+        freeShippingOnly,
+        noSignupOnly,
+        firstComeOnly,
+        activeOnly,
+        claimEffortFilter,
+        referenceNow
+      }),
+    [activeOnly, activeType, claimEffortFilter, deals, endingSoonOnly, firstComeOnly, freeShippingOnly, noSignupOnly, query, referenceNow, sort]
   );
+
+  const counts = useMemo(() => buildFreeBenefitTabCounts(deals), [deals]);
 
   const benefitRoutines = useMemo(
-    () => [
-      {
-        title: "오늘 먼저 받을 혜택",
-        copy: "무료 샘플, 체험단, 초대권처럼 비용 없이 확인할 수 있는 혜택입니다.",
-        count: deals.filter((deal) => deal.dealType === "freebie" || deal.dealType === "experience").length,
-        action: "무료부터 보기",
-        icon: Gift,
-        onClick: () => setActiveType("freebie" as const)
-      },
-      {
-        title: "결제 전 쿠폰 챙기기",
-        copy: "첫 구매, 카드사, 브랜드 공식몰 쿠폰 조건을 구매 전에 확인합니다.",
-        count: deals.filter((deal) => deal.dealType === "coupon" || deal.dealType === "foodDelivery").length,
-        action: "쿠폰 모아보기",
-        icon: Sparkles,
-        onClick: () => setActiveType("coupon" as const)
-      },
-      {
-        title: "앱테크·포인트 적립",
-        copy: "출석체크, 페이 리워드, 멤버십 포인트처럼 생활비를 줄이는 혜택입니다.",
-        count: deals.filter((deal) => deal.dealType === "point").length,
-        action: "포인트 보기",
-        icon: Timer,
-        onClick: () => setActiveType("point" as const)
-      },
-      {
-        title: "장보기·편의점 행사",
-        copy: "편의점 1+1, 마트 무료배송, 장보기 쿠폰을 한 번에 좁혀봅니다.",
-        count: deals.filter((deal) => deal.dealType === "convenienceStore" || deal.dealType === "mart" || deal.isFreeShipping).length,
-        action: "생활 혜택 보기",
-        icon: Truck,
-        onClick: () => setActiveType("convenienceStore" as const)
-      },
-      {
-        title: "문화 초대권 찾기",
-        copy: "영화 시사회, 전시, 공연, 티켓 초대권처럼 빨리 마감되는 문화 혜택만 바로 좁혀봅니다.",
-        count: deals.filter((deal) => /영화|시사회|전시|공연|초대권|티켓/.test(`${deal.title} ${deal.tags.join(" ")} ${deal.benefitSummary}`)).length,
-        action: "초대권 보기",
-        icon: CalendarDays,
+    () =>
+      buildFreeBenefitRoutines(deals).map((routine) => ({
+        ...routine,
+        icon:
+          routine.id === "freebie"
+            ? Gift
+            : routine.id === "coupon"
+              ? Sparkles
+              : routine.id === "point"
+                ? Timer
+                : routine.id === "convenienceStore"
+                  ? Truck
+                  : CalendarDays,
         onClick: () => {
-          setActiveType("all");
-          setQuery("초대권");
-          setActiveOnly(true);
-          setSort("endingSoon");
+          if (routine.id === "cultureInvite") {
+            setActiveType("all");
+            setQuery("초대권");
+            setActiveOnly(true);
+            setSort("endingSoon");
+            return;
+          }
+
+          setActiveType(routine.id);
         }
-      }
-    ],
+      })),
     [deals]
   );
 
-  const priorityQueue = useMemo(
-    () =>
-      [...deals]
-        .filter((deal) => !deal.isSoldOut && deal.linkStatus !== "broken")
-        .sort((a, b) => getPriorityScore(b, referenceNow) - getPriorityScore(a, referenceNow))
-        .slice(0, 5),
-    [deals, referenceNow]
-  );
-  const zeroCostStarterPack = useMemo(
-    () =>
-      [...deals]
-        .filter((deal) => {
-          const zeroCostLike = deal.salePrice === 0 || deal.dealType === "freebie" || deal.dealType === "experience" || /무료|0원|샘플|체험|초대권/.test(`${deal.title} ${deal.tags.join(" ")} ${deal.benefitSummary}`);
-          return zeroCostLike && !deal.isExpired && !deal.isSoldOut && deal.linkStatus !== "broken";
-        })
-        .sort((a, b) => Number(b.isFirstComeFirstServed) - Number(a.isFirstComeFirstServed) || getPriorityScore(b, referenceNow) - getPriorityScore(a, referenceNow))
-        .slice(0, 3),
-    [deals, referenceNow]
-  );
+  const priorityQueue = useMemo(() => selectFreeBenefitPriorityQueue(deals, referenceNow), [deals, referenceNow]);
+  const zeroCostStarterPack = useMemo(() => selectZeroCostStarterPack(deals, referenceNow), [deals, referenceNow]);
   const weeklyBenefitPlan = useMemo(
     () => buildWeeklyBenefitCalendar(deals, referenceNow),
     [deals, referenceNow]
   );
-  const activeBenefitCount = useMemo(
-    () => deals.filter((deal) => !deal.isExpired && !deal.isSoldOut && deal.linkStatus !== "broken").length,
-    [deals]
-  );
+  const activeBenefitCount = useMemo(() => countActiveFreeBenefits(deals), [deals]);
   const filteredReadinessSummary = useMemo(
-    () => [
-      {
-        title: "바로 받을 가능성",
-        value: `${filteredDeals.filter((deal) => !deal.requiresSignup && !deal.isExpired && !deal.isSoldOut).length}개`,
-        copy: "가입 없이 받기, 진행 중 상태를 우선 봅니다.",
-        action: "가입 없이",
+    () =>
+      buildFilteredReadinessSummary(filteredDeals).map((item) => ({
+        ...item,
         onClick: () => {
-          setNoSignupOnly(true);
-          setActiveOnly(true);
+          if (item.id === "noSignup") {
+            setNoSignupOnly(true);
+            setActiveOnly(true);
+          }
+
+          if (item.id === "freeShipping") {
+            setFreeShippingOnly(true);
+            setActiveOnly(true);
+          }
+
+          if (item.id === "endingSoon") {
+            setEndingSoonOnly(true);
+            setFirstComeOnly(true);
+            setSort("endingSoon");
+          }
+
+          if (item.id === "verified") {
+            setActiveOnly(true);
+            setSort("recommended");
+          }
         }
-      },
-      {
-        title: "추가 비용 낮음",
-        value: `${filteredDeals.filter((deal) => deal.isFreeShipping || deal.shippingFee === "무료배송" || deal.salePrice <= 1000).length}개`,
-        copy: "무료배송, 0원, 배송비 부담이 낮은 혜택입니다.",
-        action: "무배/0원",
-        onClick: () => {
-          setFreeShippingOnly(true);
-          setActiveOnly(true);
-        }
-      },
-      {
-        title: "오늘 먼저 확인",
-        value: `${filteredDeals.filter((deal) => deal.isEndingSoon || deal.isFirstComeFirstServed).length}개`,
-        copy: "마감 임박, 선착순 가능성이 있는 혜택입니다.",
-        action: "마감순",
-        onClick: () => {
-          setEndingSoonOnly(true);
-          setFirstComeOnly(true);
-          setSort("endingSoon");
-        }
-      },
-      {
-        title: "실제 링크 확인",
-        value: `${filteredDeals.filter((deal) => deal.linkStatus === "verified" && deal.finalPurchaseUrl).length}개`,
-        copy: "신청/구매 상세로 바로 이동 가능한 혜택입니다.",
-        action: "신뢰 링크",
-        onClick: () => {
-          setActiveOnly(true);
-          setSort("recommended");
-        }
-      }
-    ],
+      })),
     [filteredDeals]
   );
   const filteredRiskReview = useMemo(
-    () => [
-      {
-        title: "숨은 비용 확인",
-        value: `${filteredDeals.filter((deal) => !deal.isFreeShipping && deal.shippingFee !== "무료배송" && deal.salePrice > 0).length}개`,
-        copy: "무료처럼 보여도 배송비, 옵션가, 최소 주문 금액이 붙을 수 있는 혜택입니다.",
-        action: "배송비 보기",
+    () =>
+      buildFilteredRiskReview(filteredDeals).map((item) => ({
+        ...item,
         onClick: () => {
-          setFreeShippingOnly(false);
-          setActiveOnly(true);
-          setSort("savings");
+          if (item.id === "shipping") {
+            setFreeShippingOnly(false);
+            setActiveOnly(true);
+            setSort("savings");
+          }
+
+          if (item.id === "signup") {
+            setNoSignupOnly(true);
+            setActiveOnly(true);
+          }
+
+          if (item.id === "deadline") {
+            setEndingSoonOnly(true);
+            setFirstComeOnly(true);
+            setSort("endingSoon");
+          }
+
+          if (item.id === "review") {
+            setActiveOnly(true);
+            setSort("recommended");
+          }
         }
-      },
-      {
-        title: "가입 조건 확인",
-        value: `${filteredDeals.filter((deal) => deal.requiresSignup).length}개`,
-        copy: "판매처 회원가입, 앱 설치, 신규 가입 조건이 붙을 수 있어 먼저 확인합니다.",
-        action: "가입 없는 혜택",
-        onClick: () => {
-          setNoSignupOnly(true);
-          setActiveOnly(true);
-        }
-      },
-      {
-        title: "선착순·마감 위험",
-        value: `${filteredDeals.filter((deal) => deal.isFirstComeFirstServed || deal.isEndingSoon || deal.isExpired).length}개`,
-        copy: "마감 시간, 수량 제한, 종료 가능성을 기준으로 빨리 봐야 할 혜택입니다.",
-        action: "마감순 보기",
-        onClick: () => {
-          setEndingSoonOnly(true);
-          setFirstComeOnly(true);
-          setSort("endingSoon");
-        }
-      },
-      {
-        title: "신고 전 확인",
-        value: `${filteredDeals.filter((deal) => deal.reportCount > 0 || deal.linkStatus !== "verified" || deal.isSoldOut).length}개`,
-        copy: "신고 누적, 링크 확인 필요, 품절 가능성이 있어 판매처 상태를 다시 봅니다.",
-        action: "진행 중만",
-        onClick: () => {
-          setActiveOnly(true);
-          setSort("recommended");
-        }
-      }
-    ],
+      })),
     [filteredDeals]
   );
   const claimedBenefitIds = useMemo(() => new Set(claimedBenefits.map((record) => record.dealId)), [claimedBenefits]);
@@ -379,32 +286,7 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
   const weeklyRoutineDoneCount = weeklyRoutineProgress.filter((item) => item.done).length;
   const recentClaimedBenefits = claimedBenefits.slice(0, 3);
   const needsFinalCheckCount = deals.length - activeBenefitCount;
-  const claimEffortSummary = useMemo(
-    () => [
-      {
-        id: "easy" as const,
-        title: "간편 수령",
-        value: deals.filter((deal) => getClaimEffort(deal, referenceNow) === "easy").length,
-        copy: "가입, 배송비, 쿠폰 조건 부담이 낮아 먼저 눌러볼 혜택입니다.",
-        action: "간편 혜택만"
-      },
-      {
-        id: "condition" as const,
-        title: "조건 확인",
-        value: deals.filter((deal) => getClaimEffort(deal, referenceNow) === "condition").length,
-        copy: "회원가입, 최소 주문, 쿠폰 조건, 배송비를 확인해야 하는 혜택입니다.",
-        action: "조건 있는 혜택"
-      },
-      {
-        id: "deadline" as const,
-        title: "마감 주의",
-        value: deals.filter((deal) => getClaimEffort(deal, referenceNow) === "deadline").length,
-        copy: "선착순, 마감 임박, 종료 가능성이 있어 빨리 확인할 혜택입니다.",
-        action: "마감 먼저"
-      }
-    ],
-    [deals, referenceNow]
-  );
+  const claimEffortSummary = useMemo(() => buildClaimEffortSummary(deals, referenceNow), [deals, referenceNow]);
   const nextVisitPlan = useMemo(
     () => [
       {

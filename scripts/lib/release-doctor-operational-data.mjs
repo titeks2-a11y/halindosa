@@ -75,7 +75,8 @@ export async function checkOperationalDataSurfaces() {
   const freeBenefitsPage = await text("app/free-benefits/page.tsx");
   const freeBenefitsClient = [
     await text("components/FreeBenefitsClient.tsx"),
-    await text("lib/freeBenefitsConfig.ts")
+    await text("lib/freeBenefitsConfig.ts"),
+    await text("lib/freeBenefitsDerivedData.ts")
   ].join("\n");
   const benefitSavingsDiary = await text("components/BenefitSavingsDiary.tsx");
   const savingsDiary = await text("lib/savingsDiary.ts");
