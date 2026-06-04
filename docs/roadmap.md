@@ -40,6 +40,7 @@
 - 관리자/운영 API 인증을 `canAccessAdminRequest`로 통일해 `Authorization: Bearer`, `x-admin-token`, `x-admin-export-token`, `x-halindosa-admin-token` 헤더를 지원하고, 쿼리 token 방식은 호환용으로만 유지하도록 `admin:auth:doctor`, `reports/admin-auth.json`, release doctor 게이트를 추가했다.
 - `test:news-feed-errors` 회귀 테스트를 추가해 정상 공식 feed는 통과하고, 설정된 운영 feed가 깨졌을 때는 seed fallback이 있어도 `configuredFeedErrors`로 `verify:news`가 실패하는지 QA에서 직접 재현하도록 했다.
 - feed URL 파서를 런타임 provider와 refresh 스크립트 양쪽에 적용해 쉼표/세미콜론/줄바꿈/JSON 배열 입력을 지원하고, URL query 안의 쉼표나 data URL payload가 잘못 분리되지 않도록 회귀 테스트를 추가했다.
+- 같은 feed URL 파서를 공식 혜택 운영 리포트, `/api/sources`, feed 전환 리포트, 공식 소스 카탈로그 리포트, production 상품 feed에도 적용해 관리자 화면의 feed URL 수와 실제 수집 대상 수가 어긋나지 않게 했다.
 - `notificationDeliveryPolicy`와 `push:delivery:doctor`를 추가해 실제 FCM 발송 전 명시 동의, dry-run-first, 토큰 수 제한, 22:00-07:59 KST quiet hours 차단을 QA와 관리자 dry-run API에 연결했다.
 - `/api/admin/deal-quality?format=csv`와 관리자 `품질 CSV` 버튼을 추가해 상품 provider 수집 상태, 실패 사유, 수동 숨김 ID, live probe, link validation 요약을 운영자가 스프레드시트로 바로 검수할 수 있게 했다.
 - 상품 수동 숨김/복구를 `lib/deals/operationOverrides.ts` 런타임 오버레이로 분리하고 `getDeals`, 상세 조회, 관련 상품, `/go`, `/api/redirect`가 같은 숨김 상태를 보도록 연결해 품절·종료·링크 오류 신고 상품을 배포 없이 즉시 사용자 노출에서 제외할 수 있게 했다.

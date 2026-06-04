@@ -1,5 +1,6 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
+import { getEnvFeedUrls } from "./feed-url-utils.mjs";
 
 const root = process.cwd();
 const reportsDir = join(root, "reports");
@@ -54,12 +55,7 @@ function readJson(path, fallback) {
 }
 
 function readConfiguredFeedUrls(envKeys) {
-  return envKeys.flatMap((key) =>
-    (process.env[key] ?? "")
-      .split(",")
-      .map((url) => url.trim())
-      .filter(Boolean)
-  );
+  return getEnvFeedUrls(...envKeys);
 }
 
 function riskForProvider(stat) {

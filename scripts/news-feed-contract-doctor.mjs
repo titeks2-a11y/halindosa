@@ -29,6 +29,11 @@ const couponProvider = requireFile("lib/deals/providers/publicCouponProvider.ts"
 const refreshScript = requireFile("scripts/refresh-news-deals.mjs", "refresh script");
 const verifyScript = requireFile("scripts/verify-news-deals.mjs", "verify script");
 const configuredFeedErrorTest = requireFile("scripts/test-news-feed-error-gate.mjs", "configured feed error regression");
+const newsOperations = requireFile("lib/deals/newsOperations.ts", "news operations");
+const sourcesRoute = requireFile("app/api/sources/route.ts", "sources API");
+const feedTransitionReport = requireFile("scripts/feed-transition-report.mjs", "feed transition report");
+const sourceCatalogReport = requireFile("scripts/official-source-catalog-report.mjs", "official source catalog report");
+const productionProvider = requireFile("lib/deals/providers/productionProvider.ts", "production product feed provider");
 const envExample = requireFile(".env.example", "env example");
 const docs = requireFile("docs/news-feed-contract.md", "feed contract docs");
 const sampleRaw = requireFile("data/newsFeed.sample.json", "sample feed");
@@ -77,6 +82,18 @@ for (const phrase of ["공식 승인 도메인", "검색 결과 URL", "커뮤니
 
 for (const phrase of ["fetchNewsFeed", "DEAL_NEWS_FEED_URLS", "DEAL_NEWS_RSS_URLS", "DEAL_EVENT_NEWS_FEED_URLS", "OFFICIAL_EVENT_FEED_URLS", "PUBLIC_COUPON_FEED_URLS"]) {
   if (!refreshScript.includes(phrase)) issues.push(`refresh-news-deals missing ${phrase}`);
+}
+
+for (const [label, content] of [
+  ["news operations", newsOperations],
+  ["sources API", sourcesRoute],
+  ["feed transition report", feedTransitionReport],
+  ["official source catalog report", sourceCatalogReport],
+  ["production product feed provider", productionProvider]
+]) {
+  if (!content.includes("getEnvFeedUrls")) {
+    issues.push(`${label} should use the shared robust feed URL parser for comma, semicolon, newline, JSON array, and data URL env values`);
+  }
 }
 
 for (const phrase of ["searchLinkExposure", "nonOfficialExposure", "expiredExposure", "thinCategories", "configuredFeedErrors"]) {

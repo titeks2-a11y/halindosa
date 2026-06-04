@@ -1,13 +1,11 @@
 import { normalizePartnerFeed, PartnerFeedItem, validatePartnerFeed } from "@/lib/feedImport";
+import { getEnvFeedUrls } from "@/lib/deals/feedUrls";
 import { Deal } from "@/types/deal";
 
 const requestTimeoutMs = 5000;
 
 export function getConfiguredProductionFeedUrls() {
-  return (process.env.DEAL_PRODUCTION_FEED_URLS ?? process.env.DEAL_PARTNER_FEED_URLS ?? "")
-    .split(",")
-    .map((url) => url.trim())
-    .filter(Boolean);
+  return getEnvFeedUrls("DEAL_PRODUCTION_FEED_URLS", "DEAL_PARTNER_FEED_URLS");
 }
 
 function getFeedItems(payload: unknown): unknown[] {

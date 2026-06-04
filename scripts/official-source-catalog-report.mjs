@@ -1,5 +1,6 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
+import { getEnvFeedUrls } from "./feed-url-utils.mjs";
 
 const root = process.cwd();
 const reportsDir = join(root, "reports");
@@ -42,13 +43,7 @@ function readJson(path, fallback) {
 }
 
 function configuredFeedCount(envKeys) {
-  return envKeys.reduce((sum, key) => {
-    const count = (process.env[key] ?? "")
-      .split(",")
-      .map((value) => value.trim())
-      .filter(Boolean).length;
-    return sum + count;
-  }, 0);
+  return getEnvFeedUrls(...envKeys).length;
 }
 
 function toList(value) {

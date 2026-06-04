@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getDeals } from "@/lib/dealService";
+import { getEnvFeedUrls } from "@/lib/deals/feedUrls";
 import { getNewsOperationsReport } from "@/lib/deals/newsOperations";
 import { getConfiguredProductionFeedUrls } from "@/lib/deals/providers/productionProvider";
 import { getDealSourceReadiness, listDealSourceProfiles } from "@/lib/deals/trust";
@@ -181,7 +182,7 @@ function getOfficialSourceCatalogSummary() {
       }
     }
     for (const key of source.preferredEnvKeys) {
-      if ((process.env[key] ?? "").trim()) configuredEnvKeys.add(key);
+      if (getEnvFeedUrls(key).length) configuredEnvKeys.add(key);
     }
   }
 
@@ -220,11 +221,7 @@ function getOfficialSourceCatalogSummary() {
       priority: source.priority,
       refreshCadenceHours: source.refreshCadenceHours,
       configuredFeedUrls: source.preferredEnvKeys.reduce((sum, key) => {
-        const count = (process.env[key] ?? "")
-          .split(",")
-          .map((value) => value.trim())
-          .filter(Boolean).length;
-        return sum + count;
+        return sum + getEnvFeedUrls(key).length;
       }, 0),
       allowedUse: source.allowedUse,
       blockedUse: source.blockedUse,

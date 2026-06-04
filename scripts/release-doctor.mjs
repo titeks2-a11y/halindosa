@@ -1947,6 +1947,7 @@ async function checkOperationalDataSurfaces() {
   const partnerFeedDryRunPanel = await text("components/PartnerFeedDryRunPanel.tsx");
   const feedImport = await text("lib/feedImport.ts");
   const officialSourceCatalogReportScript = await text("scripts/official-source-catalog-report.mjs");
+  const feedTransitionReportScript = await text("scripts/feed-transition-report.mjs");
   const officialSourceCatalogDoc = existsSync(join(root, "docs/OFFICIAL_SOURCE_CATALOG.md"))
     ? readFileSync(join(root, "docs/OFFICIAL_SOURCE_CATALOG.md"), "utf8")
     : "";
@@ -2705,11 +2706,13 @@ async function checkOperationalDataSurfaces() {
     !trust.includes("verifiedRate") ||
     !trust.includes("conditionReadyCount") ||
     !productionProvider.includes("getConfiguredProductionFeedUrls") ||
+    !productionProvider.includes("getEnvFeedUrls") ||
     !productionProvider.includes("DEAL_PRODUCTION_FEED_URLS") ||
     !productionProvider.includes("validatePartnerFeed") ||
     !productionProvider.includes("normalizePartnerFeed") ||
     !productionProvider.includes("AbortController") ||
     !sourcesRoute.includes("operationPolicy") ||
+    !sourcesRoute.includes("getEnvFeedUrls") ||
     !sourcesRoute.includes("configuredProductionFeeds") ||
     !sourcesRoute.includes("allowedSources") ||
     !sourcesRoute.includes("blockedSources") ||
@@ -2728,6 +2731,8 @@ async function checkOperationalDataSurfaces() {
     !officialSourceCatalogReportScript.includes("blocked_or_placeholder_host") ||
     !officialSourceCatalogReportScript.includes("search_or_result_url") ||
     !officialSourceCatalogReportScript.includes("home_or_landing_url") ||
+    !officialSourceCatalogReportScript.includes("getEnvFeedUrls") ||
+    !feedTransitionReportScript.includes("getEnvFeedUrls") ||
     !officialSourceCatalogDoc.includes("공식 소스 카탈로그") ||
     officialSourceCatalogReport.ok !== true ||
     (officialSourceCatalogReport.catalogCount ?? 0) < 30 ||
@@ -4054,6 +4059,7 @@ function checkNewsDealPipeline() {
     !newsOperations.includes("providerRiskSummary") ||
     !newsOperations.includes("feedTransitionReadiness") ||
     !newsOperations.includes("buildFeedTransitionReadiness") ||
+    !newsOperations.includes("getEnvFeedUrls") ||
     !newsOperations.includes("DEAL_NEWS_FEED_URLS") ||
     !newsOperations.includes("getProviderRisk") ||
     !newsOperations.includes("requiredNewsCategories") ||

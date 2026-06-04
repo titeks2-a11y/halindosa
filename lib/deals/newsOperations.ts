@@ -1,5 +1,6 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
+import { getEnvFeedUrls } from "@/lib/deals/feedUrls";
 import { applyNewsDealOverrides, readNewsDealOverrides } from "@/lib/deals/newsOverrides";
 import type { NewsDeal } from "@/types/newsDeal";
 
@@ -323,12 +324,7 @@ function getProviderRisk(stat: ProviderStat): ProviderRisk {
 }
 
 function readConfiguredFeedUrls(envKeys: readonly string[]) {
-  return envKeys.flatMap((key) =>
-    (process.env[key] ?? "")
-      .split(",")
-      .map((item) => item.trim())
-      .filter(Boolean)
-  );
+  return getEnvFeedUrls(...envKeys);
 }
 
 function buildFeedTransitionReadiness(providerStats: ProviderStat[]): FeedTransitionReadiness {

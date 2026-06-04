@@ -81,6 +81,7 @@ npm run smoke
 - 공식 혜택 feed 운영:
   - 새 공식 뉴스/이벤트/쿠폰 feed는 `docs/news-feed-contract.md`의 JSON 계약을 따라야 한다.
   - feed URL은 쉼표, 세미콜론, 줄바꿈 또는 JSON 배열로 입력할 수 있고, URL query 안의 쉼표는 그대로 유지된다. 긴 운영 URL은 줄바꿈이나 JSON 배열 형식을 권장한다.
+  - 동일한 feed URL 파서는 런타임 provider, `refresh:*` 스크립트, `/api/sources`, `feed:transition:report`, `source:catalog:report`, production 상품 feed에 모두 적용된다. 관리자 화면의 feed URL 수와 실제 수집 대상 수가 같은 기준으로 계산되는지 함께 확인한다.
   - `data/newsFeed.sample.json`을 복제해 `items`, `deals`, `newsDeals`, `events`, `coupons`, `benefits` 중 하나로 배열을 반환한다.
   - 사용자에게 열리는 `finalUrl`은 공식 이벤트, 공식 쿠폰, 공식 구매 또는 공식 혜택 안내 페이지여야 하며, 뉴스 기사/검색 결과/커뮤니티 글은 `sourceUrl`로만 남긴다.
   - 운영자가 feed URL을 `.env`의 `DEAL_NEWS_FEED_URLS`, `DEAL_EVENT_NEWS_FEED_URLS`, `OFFICIAL_EVENT_FEED_URLS`, `PUBLIC_COUPON_FEED_URLS`에 넣은 뒤 `npm run news:feed:doctor && npm run test:news-feed-errors && npm run refresh:news && npm run verify:news && npm run refresh:all`을 실행한다.

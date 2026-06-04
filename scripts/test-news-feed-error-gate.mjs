@@ -5,7 +5,12 @@ import { join } from "node:path";
 import { parseFeedUrlList } from "./feed-url-utils.mjs";
 
 const root = process.cwd();
-const managedFiles = ["data/refreshedNewsDeals.json", "reports/news-deals.json"];
+const managedFiles = [
+  "data/refreshedNewsDeals.json",
+  "reports/news-deals.json",
+  "reports/feed-transition.json",
+  "docs/FEED_TRANSITION_REPORT.md"
+];
 const feedEnvKeys = [
   "DEAL_NEWS_FEED_URLS",
   "DEAL_NEWS_RSS_URLS",
@@ -65,6 +70,10 @@ function runNode(script, env) {
 
 function readReport() {
   return JSON.parse(readFileSync(join(root, "reports/news-deals.json"), "utf8"));
+}
+
+function readFeedTransitionReport() {
+  return JSON.parse(readFileSync(join(root, "reports/feed-transition.json"), "utf8"));
 }
 
 function assert(condition, message, result) {
@@ -153,6 +162,19 @@ try {
   assert(validReport.gates.configuredFeedErrors.length === 0, "valid configured feed should have zero configuredFeedErrors");
   assert(validNewsProvider?.configured === true, "valid configured feed should mark the news provider as configured");
   assert(Number(validNewsProvider?.errorCount ?? 999) === 0, "valid configured feed should have zero provider errors");
+
+  const parserEnv = buildEnv({
+    DEAL_NEWS_FEED_URLS: `${feedServer.validFeedUrl}?tags=mart,coupon`,
+    PUBLIC_COUPON_FEED_URLS: `["${feedServer.validFeedUrl}/public-a.json","${feedServer.validFeedUrl}/public-b.json"]`
+  });
+  const feedTransition = await runNode("scripts/feed-transition-report.mjs", parserEnv);
+  assert(feedTransition.status === 0, "feed transition report should accept shared feed URL parser inputs", feedTransition);
+
+  const feedTransitionReport = readFeedTransitionReport();
+  const transitionNewsProvider = feedTransitionReport.providers?.find((provider) => provider.provider === "news");
+  const transitionCouponProvider = feedTransitionReport.providers?.find((provider) => provider.provider === "public_coupon");
+  assert(transitionNewsProvider?.feedUrls === 1, "feed transition should preserve commas inside query values as one URL");
+  assert(transitionCouponProvider?.feedUrls === 2, "feed transition should count JSON array feed URLs");
 
   const invalidEnv = buildEnv({ DEAL_NEWS_FEED_URLS: feedServer.invalidFeedUrl });
   const invalidRefresh = await runNode("scripts/refresh-news-deals.mjs", invalidEnv);
