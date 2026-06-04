@@ -22,6 +22,7 @@
 - 공식 혜택 뉴스도 `/go/news/[id]` 서버 리다이렉트를 거치도록 변경해 finalUrl을 직접 노출하지 않고 승인 도메인 정책, 종료 여부, 검증 상태, 클릭 로그를 한 번 더 통과한 뒤 새 탭으로 이동하게 했다.
 - `verify:news`, `smoke:local`, `release:doctor` 기준을 상향해 공식 혜택 40개 이상, 필수 10개 카테고리별 최소 2건, `/go/news/[id]` 클릭 게이트, 검색/비공식/종료 링크 0건을 출시 회귀 조건으로 고정했다.
 - `newsProvider`, `eventNewsProvider`, `officialEventProvider`, `publicCouponProvider`를 seed 전용에서 seed fallback + 승인 JSON feed ingestion 구조로 확장하고, `docs/news-feed-contract.md`, `data/newsFeed.sample.json`, `news:feed:doctor`로 운영 feed 계약을 검증하도록 보강했다.
+- `news:preview`, `reports/news-feed-preview.json`, `docs/NEWS_FEED_PREVIEW_REPORT.md`, `/api/admin/news-feed-preview`, `/api/admin/news-feed-preview?format=csv`, 관리자 `공식 feed preview` 패널을 추가해 운영 feed 반영 전 공식 링크 승격, 검색/비공식 링크 차단, 숨김 후보를 화면과 스프레드시트에서 dry-run으로 확인할 수 있게 했다.
 - 뉴스 운영 리포트에 provider별 성공/실패, 최근 20개 수집 로그, 실패 사유 TOP10, 숨김/종료/공식 링크 없음 큐, 수동 숨김/복구/재검증 액션을 추가하고 `/api/admin/news-operations`와 `/admin`에 연결했다.
 - `/admin`에 `공식 혜택 수동 운영` 패널을 추가해 운영자가 노출 중 공식 혜택을 바로 숨김 처리하고, 숨김/점검 혜택을 복구하거나 링크 재검증 요청을 기록할 수 있게 했다.
 - 공식 혜택 운영 리포트에 필수 10개 혜택 카테고리 커버리지, `refresh:all` 단계별 상태, 오늘 운영 리스크 요약을 추가해 운영자가 카테고리 공백, 리포트 stale, 파이프라인 실패 여부를 관리자 화면에서 바로 판단하도록 개선했다.

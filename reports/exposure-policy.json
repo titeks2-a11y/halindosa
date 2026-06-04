@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-04T07:38:02.847Z",
+  "generatedAt": "2026-06-04T08:16:58.174Z",
   "summary": {
     "auditedItems": 140,
     "exposedItems": 140,
@@ -59,15 +59,15 @@
     "bodyProbe": false,
     "timeoutMs": 5000,
     "checked": 140,
-    "passed": 69,
-    "failed": 71,
-    "redirected": 11,
-    "finalUrlChanged": 11,
+    "passed": 66,
+    "failed": 74,
+    "redirected": 12,
+    "finalUrlChanged": 12,
     "http404": 0,
     "http410": 0,
     "http5xx": 0,
     "timeout": 0,
-    "robotsBlocked": 54,
+    "robotsBlocked": 58,
     "unavailableText": 0,
     "failures": [
       {
@@ -127,6 +127,13 @@
         "reason": "http_429"
       },
       {
+        "id": "d012",
+        "url": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000216997",
+        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000216997",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
         "id": "d014",
         "url": "https://www.coupang.com/vp/products/7687552147",
         "finalUrl": "https://www.coupang.com/vp/products/7687552147",
@@ -160,13 +167,6 @@
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000038330709",
         "status": 429,
         "reason": "http_429"
-      },
-      {
-        "id": "d025",
-        "url": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000163532",
-        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000163532",
-        "status": 403,
-        "reason": "robots_or_access_blocked"
       },
       {
         "id": "d028",
@@ -218,13 +218,6 @@
         "reason": "robots_or_access_blocked"
       },
       {
-        "id": "d040",
-        "url": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000211588",
-        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000211588",
-        "status": 403,
-        "reason": "robots_or_access_blocked"
-      },
-      {
         "id": "d041",
         "url": "https://www.ssg.com/item/itemView.ssg?itemId=1000620373892",
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000620373892",
@@ -260,6 +253,13 @@
         "reason": "robots_or_access_blocked"
       },
       {
+        "id": "d050",
+        "url": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000188460",
+        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000188460",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
         "id": "d051",
         "url": "https://tour.interpark.com/goods/detail?goodsCd=25031828338",
         "finalUrl": "https://tour.interpark.com/goods/detail?goodsCd=25031828338",
@@ -284,13 +284,6 @@
         "id": "d073",
         "url": "https://www.hyundaicard.com/cpc/cr/CPCCR0101_01.hc",
         "finalUrl": "https://www.hyundaicard.com/cpc/cr/CPCCR0101_01.hc",
-        "status": 0,
-        "reason": "request_failed"
-      },
-      {
-        "id": "d074",
-        "url": "https://www.shinhancard.com/pconts/html/benefit/event/MOBFM220/MOBFM220R01.html",
-        "finalUrl": "https://www.shinhancard.com/pconts/html/benefit/event/MOBFM220/MOBFM220R01.html",
         "status": 0,
         "reason": "request_failed"
       },
@@ -349,6 +342,13 @@
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000005089075",
         "status": 429,
         "reason": "http_429"
+      },
+      {
+        "id": "d094",
+        "url": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000246774",
+        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000246774",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
       },
       {
         "id": "d096",
@@ -498,13 +498,6 @@
         "reason": "robots_or_access_blocked"
       },
       {
-        "id": "d124",
-        "url": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000230063",
-        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000230063",
-        "status": 403,
-        "reason": "robots_or_access_blocked"
-      },
-      {
         "id": "d125",
         "url": "https://www.ssg.com/item/itemView.ssg?itemId=1000032939693",
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000032939693",
@@ -533,6 +526,20 @@
         "reason": "http_429"
       },
       {
+        "id": "d130",
+        "url": "https://www.coupang.com/vp/products/8286305822",
+        "finalUrl": "https://www.coupang.com/vp/products/8286305822",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d131",
+        "url": "https://www.coupang.com/vp/products/7689270513?itemId=20877904748&vendorItemId=87945140914",
+        "finalUrl": "https://www.coupang.com/vp/products/7689270513?itemId=20877904748&vendorItemId=87945140914",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
         "id": "d132",
         "url": "https://item.gmarket.co.kr/Item?goodscode=2571643785",
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2571643785",
@@ -554,11 +561,25 @@
         "reason": "robots_or_access_blocked"
       },
       {
+        "id": "d136",
+        "url": "https://www.coupang.com/vp/products/5594587350",
+        "finalUrl": "https://www.coupang.com/vp/products/5594587350",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
         "id": "d138",
         "url": "https://www.ssg.com/item/itemView.ssg?itemId=1000588225854",
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000588225854",
         "status": 429,
         "reason": "http_429"
+      },
+      {
+        "id": "d139",
+        "url": "https://www.coupang.com/vp/products/7430740821?vendorItemId=70327608949",
+        "finalUrl": "https://www.coupang.com/vp/products/7430740821?vendorItemId=70327608949",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
       },
       {
         "id": "d140",
@@ -572,24 +593,23 @@
   "liveProbeReviewSummary": {
     "status": "transient_network_review",
     "hardFailureCount": 0,
-    "transientNetworkCount": 4,
-    "accessProtectedCount": 54,
+    "transientNetworkCount": 3,
+    "accessProtectedCount": 58,
     "sellerUnavailableSignals": 0,
     "interpretation": "Some URLs returned transient network signals; no exposed search, sold-out, 404, 410, or 5xx links were found."
   },
   "liveProbeFailureReasonCounts": {
-    "robots_or_access_blocked": 54,
+    "robots_or_access_blocked": 58,
     "http_429": 13,
-    "request_failed": 4
+    "request_failed": 3
   },
   "liveProbeHostFailureCounts": {
     "item.gmarket.co.kr": 30,
-    "coupang.com": 19,
+    "coupang.com": 23,
     "ssg.com": 13,
     "oliveyoung.co.kr": 3,
     "hyundaicard.com": 1,
     "itempage3.auction.co.kr": 1,
-    "shinhancard.com": 1,
     "store.ohou.se": 1,
     "tmembership.co.kr": 1,
     "tour.interpark.com": 1
@@ -1045,7 +1065,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-05-31T10:00:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "oliveyoung.co.kr",
       "evidence": "올리브영 세라마이드 크림 상품 상세",
@@ -1054,8 +1074,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": true,
-      "liveProbeReason": ""
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d013",
@@ -1409,7 +1429,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-05-31T10:20:00.000Z",
-      "priorityScore": 99,
+      "priorityScore": 100,
       "isHidden": false,
       "host": "oliveyoung.co.kr",
       "evidence": "올리브영 선크림 1+1 상품 상세",
@@ -1418,8 +1438,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": false,
-      "liveProbeReason": "robots_or_access_blocked"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d026",
@@ -1829,7 +1849,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-01T02:40:00.000Z",
-      "priorityScore": 99,
+      "priorityScore": 100,
       "isHidden": false,
       "host": "oliveyoung.co.kr",
       "evidence": "올리브영 아이보들 CCP 크림 1+1 기획 상품 상세",
@@ -1838,8 +1858,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": false,
-      "liveProbeReason": "robots_or_access_blocked"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d041",
@@ -2109,7 +2129,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-05-31T10:20:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "oliveyoung.co.kr",
       "evidence": "올리브영 멀티비타민 90정 상품 상세",
@@ -2118,8 +2138,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": true,
-      "liveProbeReason": ""
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d051",
@@ -2790,8 +2810,8 @@
       "productDetailUrl": false,
       "officialBenefitUrl": true,
       "unavailableText": false,
-      "liveProbeOk": false,
-      "liveProbeReason": "request_failed"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d075",
@@ -3341,7 +3361,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-02T00:20:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "oliveyoung.co.kr",
       "evidence": "올리브영 라운드랩 1025 독도 토너 더블 기획 상품 상세",
@@ -3350,8 +3370,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": true,
-      "liveProbeReason": ""
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d095",
@@ -4181,7 +4201,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-02T05:20:00.000Z",
-      "priorityScore": 99,
+      "priorityScore": 100,
       "isHidden": false,
       "host": "oliveyoung.co.kr",
       "evidence": "올리브영 닥터지 레드 블레미쉬 클리어 수딩 크림 70ml 기획 상품 상세",
@@ -4190,8 +4210,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": false,
-      "liveProbeReason": "robots_or_access_blocked"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d125",
@@ -4349,7 +4369,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-02T06:30:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "coupang.com",
       "evidence": "쿠팡 국산 세이프크린 KF94 대형 마스크 100매 상품 상세",
@@ -4358,8 +4378,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": true,
-      "liveProbeReason": ""
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d131",
@@ -4377,7 +4397,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-02T07:10:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "coupang.com",
       "evidence": "쿠팡 탐사 샘물 2L 24개 상품 상세",
@@ -4386,8 +4406,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": true,
-      "liveProbeReason": ""
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d132",
@@ -4517,7 +4537,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-02T07:45:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "coupang.com",
       "evidence": "쿠팡 코카콜라 제로콜라/스프라이트 제로 355ml 24캔 상품 상세",
@@ -4526,8 +4546,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": true,
-      "liveProbeReason": ""
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d137",
@@ -4601,7 +4621,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-02T07:45:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "coupang.com",
       "evidence": "쿠팡 닥터유 주머니쏙 단백질바 34g 12개 상품 상세",
@@ -4610,8 +4630,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": true,
-      "liveProbeReason": ""
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d140",
@@ -4645,9 +4665,9 @@
   "badExposedItems": [],
   "hiddenItems": [],
   "sourceReports": {
-    "linkValidationGeneratedAt": "2026-06-04T07:38:01.320Z",
-    "productQualityGeneratedAt": "2026-06-04T07:38:01.850Z",
-    "refreshAllGeneratedAt": "2026-06-04T07:37:34.651Z"
+    "linkValidationGeneratedAt": "2026-06-04T08:16:56.529Z",
+    "productQualityGeneratedAt": "2026-06-04T08:16:57.108Z",
+    "refreshAllGeneratedAt": "2026-06-04T08:16:32.381Z"
   },
   "issues": []
 }

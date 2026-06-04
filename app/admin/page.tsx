@@ -32,6 +32,7 @@ import { getDailyOperationsReport } from "@/lib/operations/dailyOperations";
 import { getExposurePolicyReport } from "@/lib/operations/exposurePolicy";
 import { getHealthReadinessReport } from "@/lib/operations/healthReadiness";
 import { getLinkLaunchGateReport } from "@/lib/operations/linkLaunchGate";
+import { getNewsFeedPreviewReport } from "@/lib/operations/newsFeedPreview";
 import { getOfficialSourceFeedEnvReadiness } from "@/lib/operations/sourceFeedEnvReadiness";
 import { getOfficialSourceLiveReport } from "@/lib/operations/sourceLiveReadiness";
 import { getOfficialSourceOnboardingPlan } from "@/lib/operations/sourceOnboardingPlan";
@@ -92,6 +93,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const refreshReport = getRefreshDealsReport();
   const dealOperationOverrides = await readDealOperationOverridesLive();
   const newsOperations = getNewsOperationsReport();
+  const newsFeedPreview = getNewsFeedPreviewReport();
   const healthReadiness = getHealthReadinessReport();
   const sourceLiveReport = getOfficialSourceLiveReport();
   const sourceOnboardingPlan = getOfficialSourceOnboardingPlan();
@@ -135,6 +137,12 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const newsOperationsCsvHref = isAdminProtectionEnabled()
     ? `/api/admin/news-operations?format=csv&token=${encodeURIComponent(token ?? "")}`
     : "/api/admin/news-operations?format=csv";
+  const newsFeedPreviewApiHref = isAdminProtectionEnabled()
+    ? `/api/admin/news-feed-preview?token=${encodeURIComponent(token ?? "")}`
+    : "/api/admin/news-feed-preview";
+  const newsFeedPreviewCsvHref = isAdminProtectionEnabled()
+    ? `/api/admin/news-feed-preview?format=csv&token=${encodeURIComponent(token ?? "")}`
+    : "/api/admin/news-feed-preview?format=csv";
   const healthReadinessApiHref = isAdminProtectionEnabled()
     ? `/api/admin/health-readiness?token=${encodeURIComponent(token ?? "")}`
     : "/api/admin/health-readiness";
@@ -782,6 +790,75 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                 <p className="mt-2 text-2xl font-black text-slate-950">{Number(value).toLocaleString("ko-KR")}</p>
               </div>
             ))}
+          </div>
+          <div className="mt-4 rounded-2xl border border-emerald-100 bg-gradient-to-br from-emerald-50 via-white to-red-50 p-4">
+            <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+              <div>
+                <p className="text-sm font-black text-slate-950">공식 feed preview</p>
+                <p className="mt-1 text-xs font-bold leading-5 text-slate-500">
+                  운영 feed를 실제 노출 전에 dry-run으로 확인합니다. 뉴스 기사 링크는 출처로만 남기고, 뉴스 본문 공식 링크 승격으로 공식 이벤트·혜택 링크만 사용자 이동 URL에 반영합니다.
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <a
+                  href={newsFeedPreviewApiHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-2xl bg-slate-950 px-4 py-2.5 text-xs font-black text-white"
+                >
+                  Preview JSON
+                </a>
+                <a
+                  href={newsFeedPreviewCsvHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 rounded-2xl bg-white px-4 py-2.5 text-xs font-black text-emerald-700 shadow-sm"
+                >
+                  <Download size={14} aria-hidden="true" />
+                  Preview CSV
+                </a>
+              </div>
+            </div>
+            <div className="mt-3 grid gap-2 sm:grid-cols-2 xl:grid-cols-5">
+              {[
+                ["상태", newsFeedPreview.ok ? "통과" : "점검"],
+                ["노출 가능", `${newsFeedPreview.visibleCount}개`],
+                ["숨김 후보", `${newsFeedPreview.hiddenCount}개`],
+                ["공식 링크 승격", `${newsFeedPreview.officialLinkPromotedCount}개`],
+                ["검색/비공식", `${newsFeedPreview.summary.exposedSearchLinkCount + newsFeedPreview.summary.exposedNonOfficialLinkCount}개`]
+              ].map(([label, value]) => (
+                <div key={label} className="rounded-2xl bg-white p-3 shadow-sm">
+                  <p className="text-[11px] font-black text-slate-500">{label}</p>
+                  <p className={`mt-1 text-lg font-black ${label === "상태" && value !== "통과" ? "text-dossa-red" : "text-slate-950"}`}>{value}</p>
+                </div>
+              ))}
+            </div>
+            <div className="mt-3 grid gap-2 lg:grid-cols-4">
+              {newsFeedPreview.providerResults.map((provider) => (
+                <div key={provider.provider} className="rounded-2xl bg-white p-3 shadow-sm">
+                  <div className="flex items-center justify-between gap-2">
+                    <p className="truncate text-xs font-black text-slate-950">{provider.label}</p>
+                    <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-black ${provider.errorCount === 0 ? "bg-emerald-50 text-emerald-700" : "bg-red-50 text-dossa-red"}`}>
+                      {provider.errorCount === 0 ? "정상" : "오류"}
+                    </span>
+                  </div>
+                  <p className="mt-2 text-[11px] font-bold leading-5 text-slate-500">
+                    후보 {provider.fetchedCount} · 노출 {provider.visibleCount} · 숨김 {provider.hiddenCount} · 승격 {provider.officialLinkPromotedCount}
+                  </p>
+                  <p className="mt-2 line-clamp-1 text-[11px] font-black text-emerald-700">{provider.sourceMode}</p>
+                </div>
+              ))}
+            </div>
+            <div className="mt-3 grid gap-2 md:grid-cols-3">
+              {newsFeedPreview.nextActions.slice(0, 3).map((action) => (
+                <p key={action} className="rounded-2xl bg-white px-3 py-2 text-[11px] font-bold leading-5 text-slate-500 shadow-sm">
+                  {action}
+                </p>
+              ))}
+            </div>
+            <p className="mt-3 text-[11px] font-bold leading-5 text-slate-500">
+              마지막 preview {newsFeedPreview.generatedAt ? getRelativeTime(newsFeedPreview.generatedAt) : "생성 필요"} · 명령어: npm run news:preview
+            </p>
           </div>
           <div className="mt-4 grid gap-3 lg:grid-cols-[0.9fr_1.1fr]">
             <div className="rounded-2xl border border-red-100 bg-red-50 p-4">

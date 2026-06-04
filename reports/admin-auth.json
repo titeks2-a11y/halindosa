@@ -1,9 +1,9 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-04T07:37:28.839Z",
+  "generatedAt": "2026-06-04T08:16:26.462Z",
   "status": "ready",
   "adminAuthPath": "lib/adminAuth.ts",
-  "protectedRouteCount": 20,
+  "protectedRouteCount": 21,
   "protectedRoutes": [
     "app/api/admin/daily-operations/route.ts",
     "app/api/admin/daily-queue/route.ts",
@@ -14,6 +14,7 @@
     "app/api/admin/image-queue/route.ts",
     "app/api/admin/import/route.ts",
     "app/api/admin/link-launch-gate/route.ts",
+    "app/api/admin/news-feed-preview/route.ts",
     "app/api/admin/news-operations/route.ts",
     "app/api/admin/notification-campaigns/route.ts",
     "app/api/admin/official-alerts/route.ts",
@@ -70,7 +71,7 @@
     {
       "name": "protected route scan",
       "ok": true,
-      "detail": "20 admin/cron API routes scanned."
+      "detail": "21 admin/cron API routes scanned."
     }
   ]
 }

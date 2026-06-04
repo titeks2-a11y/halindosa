@@ -4247,6 +4247,7 @@ function checkNewsDealPipeline() {
     "lib/deals/newsOperations.ts",
     "lib/deals/newsOverrides.ts",
     "lib/deals/newsLinkPolicy.ts",
+    "lib/operations/newsFeedPreview.ts",
     "scripts/refresh-news-deals.mjs",
     "scripts/verify-news-deals.mjs",
     "scripts/news-freshness-doctor.mjs",
@@ -4269,6 +4270,7 @@ function checkNewsDealPipeline() {
     "app/api/news-deals/route.ts",
     "app/go/news/[id]/route.ts",
     "app/api/admin/news-operations/route.ts",
+    "app/api/admin/news-feed-preview/route.ts",
     "components/RealtimeNewsDealsSection.tsx"
   ];
   const issues = [];
@@ -4282,6 +4284,7 @@ function checkNewsDealPipeline() {
   const freshnessScript = existsSync(join(root, "scripts/news-freshness-doctor.mjs")) ? readFileSync(join(root, "scripts/news-freshness-doctor.mjs"), "utf8") : "";
   const feedDoctorScript = existsSync(join(root, "scripts/news-feed-contract-doctor.mjs")) ? readFileSync(join(root, "scripts/news-feed-contract-doctor.mjs"), "utf8") : "";
   const feedPreviewScript = existsSync(join(root, "scripts/news-feed-preview.mjs")) ? readFileSync(join(root, "scripts/news-feed-preview.mjs"), "utf8") : "";
+  const feedPreviewOperation = existsSync(join(root, "lib/operations/newsFeedPreview.ts")) ? readFileSync(join(root, "lib/operations/newsFeedPreview.ts"), "utf8") : "";
   const feedPreviewReport = existsSync(join(root, "reports/news-feed-preview.json")) ? JSON.parse(readFileSync(join(root, "reports/news-feed-preview.json"), "utf8")) : {};
   const feedPreviewDocs = existsSync(join(root, "docs/NEWS_FEED_PREVIEW_REPORT.md")) ? readFileSync(join(root, "docs/NEWS_FEED_PREVIEW_REPORT.md"), "utf8") : "";
   const configuredFeedErrorTest = existsSync(join(root, "scripts/test-news-feed-error-gate.mjs")) ? readFileSync(join(root, "scripts/test-news-feed-error-gate.mjs"), "utf8") : "";
@@ -4302,6 +4305,9 @@ function checkNewsDealPipeline() {
     : "";
   const adminNewsOperationsRoute = existsSync(join(root, "app/api/admin/news-operations/route.ts"))
     ? readFileSync(join(root, "app/api/admin/news-operations/route.ts"), "utf8")
+    : "";
+  const adminNewsFeedPreviewRoute = existsSync(join(root, "app/api/admin/news-feed-preview/route.ts"))
+    ? readFileSync(join(root, "app/api/admin/news-feed-preview/route.ts"), "utf8")
     : "";
   const newsOperations = existsSync(join(root, "lib/deals/newsOperations.ts")) ? readFileSync(join(root, "lib/deals/newsOperations.ts"), "utf8") : "";
   const realtimeNewsSection = existsSync(join(root, "components/RealtimeNewsDealsSection.tsx")) ? readFileSync(join(root, "components/RealtimeNewsDealsSection.tsx"), "utf8") : "";
@@ -4368,6 +4374,14 @@ function checkNewsDealPipeline() {
     !feedPreviewScript.includes("contract_sample_preview") ||
     !feedPreviewScript.includes("configured_feed_preview") ||
     !feedPreviewScript.includes("reports/news-feed-preview.json") ||
+    !feedPreviewOperation.includes("getNewsFeedPreviewReport") ||
+    !feedPreviewOperation.includes("officialLinkPromotedCount") ||
+    !feedPreviewOperation.includes("exposedSearchLinkCount") ||
+    !feedPreviewOperation.includes("nextActions") ||
+    !adminNewsFeedPreviewRoute.includes("canAccessAdminRequest") ||
+    !adminNewsFeedPreviewRoute.includes("buildPreviewCsv") ||
+    !adminNewsFeedPreviewRoute.includes("text/csv") ||
+    !adminNewsFeedPreviewRoute.includes("getNewsFeedPreviewReport") ||
     !feedPreviewDocs.includes("뉴스 본문 공식 링크 승격") ||
     feedPreviewReport.officialLinkPromotedCount < 1 ||
     feedPreviewReport.summary?.exposedSearchLinkCount !== 0 ||
@@ -4424,7 +4438,7 @@ function checkNewsDealPipeline() {
     issues.push("home should keep recent official benefit and interest news return queues");
   }
 
-  if (!adminPage.includes("뉴스 수집 현황") || !adminPage.includes("운영 리포트 API 보기") || !adminPage.includes("Provider 위험도 CSV") || !adminPage.includes("공식 피드 전환 준비도") || !adminPage.includes("Provider별 성공/실패") || !adminPage.includes("최근 20개 수집 로그") || !adminPage.includes("수동 숨김/복구/재검증 구조") || !adminPage.includes("캠페인 API 보기")) {
+  if (!adminPage.includes("뉴스 수집 현황") || !adminPage.includes("운영 리포트 API 보기") || !adminPage.includes("Provider 위험도 CSV") || !adminPage.includes("공식 feed preview") || !adminPage.includes("Preview JSON") || !adminPage.includes("뉴스 본문 공식 링크 승격") || !adminPage.includes("공식 피드 전환 준비도") || !adminPage.includes("Provider별 성공/실패") || !adminPage.includes("최근 20개 수집 로그") || !adminPage.includes("수동 숨김/복구/재검증 구조") || !adminPage.includes("캠페인 API 보기")) {
     issues.push("admin should expose news collection status, provider logs, CSV export, manual actions, and notification campaign operation links");
   }
   if (
@@ -4439,6 +4453,9 @@ function checkNewsDealPipeline() {
     !adminNewsOperationsRoute.includes("watch_queue") ||
     !adminNewsOperationsRoute.includes("replacementCandidates") ||
     !smokeScript.includes("Admin news operations CSV should use text/csv") ||
+    !smokeScript.includes("admin news feed preview api") ||
+    !smokeScript.includes("Admin news feed preview CSV should use text/csv") ||
+    !smokeScript.includes("Admin dashboard missing official news feed preview panel") ||
     !adminNewsOperationsPanel.includes("공식 혜택 수동 운영") ||
     !adminNewsOperationsPanel.includes("runAction") ||
     !adminNewsOperationsPanel.includes("action: NewsOperationAction") ||
