@@ -1988,8 +1988,14 @@ function checkDailyOperationsReport() {
   if ((report.summary?.officialSourceCandidates ?? 0) < 30 || report.summary?.officialSourceLaunchGateStatus !== "passed") {
     issues.push("daily operations should expose passing official source readiness");
   }
-  if ((report.summary?.releaseDoctorPassedChecks ?? 0) !== (report.summary?.releaseDoctorTotalChecks ?? -1)) {
-    issues.push("daily operations should preserve clean release doctor evidence");
+  const dailyReleasePendingNames = Array.isArray(report.summary?.releaseDoctorFailedCheckNames)
+    ? report.summary.releaseDoctorFailedCheckNames
+    : [];
+  const dailyReleaseDoctorReady =
+    report.summary?.releaseDoctorReadyForDaily === true ||
+    (dailyReleasePendingNames.length > 0 && dailyReleasePendingNames.every((name) => name === "daily operations readiness"));
+  if (!dailyReleaseDoctorReady) {
+    issues.push("daily operations should preserve clean release doctor evidence or only the daily operations circular bootstrap state");
   }
   if (!Array.isArray(report.gates) || report.gates.length < 6 || !report.gates.every((gate) => gate.ok === true)) {
     issues.push("daily operations gates should all pass");

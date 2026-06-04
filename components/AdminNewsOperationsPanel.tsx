@@ -117,6 +117,20 @@ interface NewsOperationsReport {
     command?: string;
     dueAt?: string;
   }>;
+  sourceActionQueue?: Array<{
+    provider: string;
+    source: string;
+    priority: "high" | "medium" | "low";
+    status: "connect_feed" | "fix_feed" | "review" | "healthy";
+    label: string;
+    reason: string;
+    action: string;
+    command: string;
+    envKeys: string[];
+    nextRefreshAt?: string;
+    issueCount: number;
+    visibleCount: number;
+  }>;
   providerRisks?: Array<{
     provider: string;
     source: string;
@@ -329,6 +343,7 @@ export function AdminNewsOperationsPanel({ apiHref, initialReport }: AdminNewsOp
   const sourceConfigTargetSections = useMemo(() => sourceConfig?.targetSections?.slice(0, 8) ?? [], [sourceConfig?.targetSections]);
   const sourceConfigOwners = useMemo(() => sourceConfig?.operatorOwners?.slice(0, 4) ?? [], [sourceConfig?.operatorOwners]);
   const sourceRefreshWindows = useMemo(() => sourceConfig?.sourceRefreshWindows?.slice(0, 6) ?? [], [sourceConfig?.sourceRefreshWindows]);
+  const sourceActionQueue = useMemo(() => report.sourceActionQueue?.slice(0, 6) ?? [], [report.sourceActionQueue]);
   const refreshSteps = useMemo(() => report.refreshAll?.steps?.slice(0, 6) ?? [], [report.refreshAll?.steps]);
   const operatorNextActions = useMemo(() => report.operatorNextActions?.slice(0, 3) ?? [], [report.operatorNextActions]);
   const renewalQueue = useMemo(() => report.freshnessQueues?.renewalQueue?.slice(0, 4) ?? [], [report.freshnessQueues?.renewalQueue]);
@@ -851,6 +866,53 @@ export function AdminNewsOperationsPanel({ apiHref, initialReport }: AdminNewsOp
                   <p className="mt-1 line-clamp-2 text-[11px] font-bold leading-5 text-slate-500">
                     {item.operatorAction ?? "공식 feed 연결 상태와 혜택 조건을 재확인합니다."}
                   </p>
+                </article>
+              ))}
+            </div>
+          </div>
+        ) : null}
+        {sourceActionQueue.length ? (
+          <div className="mt-3 rounded-2xl border border-red-100 bg-white p-3" aria-label="공식 feed 우선 운영 액션 큐">
+            <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p className="text-xs font-black text-slate-950">공식 feed 우선 운영 액션 큐</p>
+                <p className="mt-1 text-[11px] font-bold leading-5 text-slate-500">
+                  provider 위험도, feed 전환 상태, 다음 갱신 시각을 합쳐 출시 전 먼저 처리할 소스를 정렬합니다.
+                </p>
+              </div>
+              <span className="rounded-full bg-red-50 px-2.5 py-1 text-[10px] font-black text-brand-red">
+                {sourceActionQueue.filter((item) => item.priority !== "low").length}개 조치
+              </span>
+            </div>
+            <div className="mt-3 grid gap-2 md:grid-cols-2 xl:grid-cols-3">
+              {sourceActionQueue.map((item) => (
+                <article key={`${item.provider}-${item.status}`} className="rounded-2xl bg-slate-50 p-3">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="min-w-0">
+                      <p className="truncate text-xs font-black text-slate-950">{item.source}</p>
+                      <p className="mt-1 text-[10px] font-bold text-slate-400">
+                        {item.provider} · 노출 {item.visibleCount} · 이슈 {item.issueCount}
+                      </p>
+                    </div>
+                    <span className={`shrink-0 rounded-full px-2 py-1 text-[10px] font-black ${
+                      item.priority === "high" ? "bg-red-50 text-brand-red" : item.priority === "medium" ? "bg-amber-50 text-amber-700" : "bg-emerald-50 text-emerald-700"
+                    }`}>
+                      {item.label}
+                    </span>
+                  </div>
+                  <p className="mt-2 line-clamp-2 text-[11px] font-bold leading-5 text-slate-600">{item.reason}</p>
+                  <p className="mt-2 line-clamp-2 text-[11px] font-bold leading-5 text-slate-500">{item.action}</p>
+                  {item.nextRefreshAt ? (
+                    <p className="mt-2 text-[11px] font-black text-brand-navy">다음 확인 {getRelativeTime(item.nextRefreshAt)}</p>
+                  ) : null}
+                  <div className="mt-2 flex gap-1.5 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                    {item.envKeys.slice(0, 3).map((key) => (
+                      <code key={key} className="shrink-0 rounded-full bg-white px-2 py-0.5 text-[10px] font-black text-slate-500 shadow-sm">
+                        {key}
+                      </code>
+                    ))}
+                  </div>
+                  <code className="mt-2 block rounded-xl bg-white px-2 py-1 text-[10px] font-black text-brand-red shadow-sm">{item.command}</code>
                 </article>
               ))}
             </div>

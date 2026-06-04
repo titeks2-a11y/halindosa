@@ -449,8 +449,10 @@ export function checkNewsDealPipeline() {
     !adminNewsOperationsPanel.includes("공식 feed 소스 설정") ||
     !adminNewsOperationsPanel.includes("추천 검색어 자동 큐") ||
     !adminNewsOperationsPanel.includes("허용·차단 가드레일") ||
+    !adminNewsOperationsPanel.includes("공식 feed 우선 운영 액션 큐") ||
     !adminNewsOperationsPanel.includes("sourceConfigQueries") ||
     !adminNewsOperationsPanel.includes("sourceConfigGuardrails") ||
+    !adminNewsOperationsPanel.includes("sourceActionQueue") ||
     !adminNewsOperationsPanel.includes("실패 사유별 운영 액션") ||
     !adminNewsOperationsPanel.includes("수집 로그 바로 점검") ||
     !adminNewsOperationsPanel.includes("getFailureReasonAction") ||
@@ -479,6 +481,8 @@ export function checkNewsDealPipeline() {
     !newsOperations.includes("getOfficialSourceOnboardingPlan") ||
     !newsOperations.includes("feedTransitionReadiness") ||
     !newsOperations.includes("sourceConfig") ||
+    !newsOperations.includes("sourceActionQueue") ||
+    !newsOperations.includes("buildSourceActionQueue") ||
     !newsOperations.includes("OfficialBenefitSourceConfig") ||
     !newsOperations.includes("buildFeedTransitionReadiness") ||
     !newsOperations.includes("seedCount") ||
@@ -513,6 +517,7 @@ export function checkNewsDealPipeline() {
     !smokeScript.includes("providerRisks") ||
     !smokeScript.includes("feedTransitionReadiness") ||
     !smokeScript.includes("sourceConfig") ||
+    !smokeScript.includes("sourceActionQueue") ||
     !smokeScript.includes("공식 feed 소스 설정") ||
     !smokeScript.includes("seed/feed source mix counters") ||
     !smokeScript.includes("external feed item count") ||

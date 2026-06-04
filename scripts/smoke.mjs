@@ -185,6 +185,20 @@ await check("admin news operations api", async () => {
       data.report.sourceConfig.sourceRefreshWindows.every((item) => item.nextRefreshAt && Number(item.refreshCadenceMinutes ?? 0) > 0),
     "Admin news operations report missing official source refresh windows"
   );
+  assert(Array.isArray(data.report?.sourceActionQueue) && data.report.sourceActionQueue.length >= 4, "Admin news operations report missing official source action queue");
+  assert(
+    data.report.sourceActionQueue.every(
+      (item) =>
+        item.provider &&
+        item.source &&
+        ["high", "medium", "low"].includes(item.priority) &&
+        ["connect_feed", "fix_feed", "review", "healthy"].includes(item.status) &&
+        item.action &&
+        item.command &&
+        Array.isArray(item.envKeys)
+    ),
+    "Admin news operations source action queue missing launch operation fields"
+  );
   assert(["seed_fallback_only", "live_feed_ready", "needs_attention", "missing"].includes(data.report?.feedCanary?.status), "Admin news operations report missing official feed canary status");
   assert(["fresh", "due", "stale", "missing"].includes(data.report?.feedCanary?.freshnessStatus), "Admin news operations report missing official feed canary freshness status");
   assert(typeof data.report?.feedCanary?.staleHours === "number", "Admin news operations report missing official feed canary stale threshold");

@@ -101,6 +101,21 @@ interface FeedTransitionReadiness {
   providers: FeedTransitionProvider[];
 }
 
+interface SourceActionQueueItem {
+  provider: string;
+  source: string;
+  priority: "high" | "medium" | "low";
+  status: "connect_feed" | "fix_feed" | "review" | "healthy";
+  label: string;
+  reason: string;
+  action: string;
+  command: string;
+  envKeys: string[];
+  nextRefreshAt?: string;
+  issueCount: number;
+  visibleCount: number;
+}
+
 interface OfficialBenefitSourceConfig {
   configFile?: string;
   configuredSources?: number;
@@ -738,6 +753,88 @@ function buildFeedTransitionReadiness(providerStats: ProviderStat[]): FeedTransi
   };
 }
 
+function buildSourceActionQueue(
+  providerRisks: ProviderRisk[],
+  feedTransitionReadiness: FeedTransitionReadiness,
+  sourceRefreshWindows: NonNullable<OfficialBenefitSourceConfig["sourceRefreshWindows"]> = []
+): SourceActionQueueItem[] {
+  const risksByProvider = new Map(providerRisks.map((risk) => [risk.provider, risk]));
+  const windowsByProvider = new Map(sourceRefreshWindows.map((item) => [item.provider ?? "", item]));
+  const priorityWeight = { high: 0, medium: 1, low: 2 };
+  const statusWeight = { fix_feed: 0, connect_feed: 1, review: 2, healthy: 3 };
+
+  return feedTransitionReadiness.providers
+    .map((provider) => {
+      const risk = risksByProvider.get(provider.provider);
+      const window = windowsByProvider.get(provider.provider);
+      const needsFeedConnection = !provider.configured;
+      const needsFeedFix = provider.configuredEmptyFeed || provider.launchBlocking || risk?.severity === "danger";
+      const needsReview = risk?.severity === "watch" || provider.issueCount > 0;
+      const status: SourceActionQueueItem["status"] = needsFeedFix
+        ? "fix_feed"
+        : needsFeedConnection
+          ? "connect_feed"
+          : needsReview
+            ? "review"
+            : "healthy";
+      const priority: SourceActionQueueItem["priority"] =
+        status === "fix_feed" || (status === "connect_feed" && provider.priority === "high")
+          ? "high"
+          : status === "review" || status === "connect_feed"
+            ? "medium"
+            : "low";
+      const label =
+        status === "fix_feed"
+          ? "공식 feed 점검"
+          : status === "connect_feed"
+            ? "공식 feed 연결"
+            : status === "review"
+              ? "운영 검토"
+              : "정상 유지";
+      const reason =
+        status === "fix_feed"
+          ? risk?.reason ?? "feed 연결 또는 검증 지표에 출시 전 확인이 필요한 신호가 있습니다."
+          : status === "connect_feed"
+            ? `${provider.acceptedSources} 기준의 공식 feed URL이 아직 연결되지 않았습니다.`
+            : status === "review"
+              ? risk?.reason ?? "숨김/종료/검증 지표를 운영자가 주기적으로 확인해야 합니다."
+              : "공식 feed와 검증 지표가 안정적입니다.";
+      const action =
+        status === "healthy"
+          ? "현재 refresh cadence를 유지하고 종료일/혜택 조건 변경만 확인하세요."
+          : provider.nextAction;
+
+      return {
+        provider: provider.provider,
+        source: provider.label,
+        priority,
+        status,
+        label,
+        reason,
+        action,
+        command:
+          status === "connect_feed"
+            ? "npm run source:feed-env:doctor && npm run refresh:all"
+            : status === "fix_feed"
+              ? "npm run refresh:news && npm run verify:news"
+              : status === "review"
+                ? "npm run daily:operations:report && npm run health:readiness"
+                : "npm run refresh:all",
+        envKeys: provider.envKeys,
+        nextRefreshAt: window?.nextRefreshAt,
+        issueCount: provider.issueCount,
+        visibleCount: provider.visibleCount
+      };
+    })
+    .sort((a, b) => {
+      const priorityDiff = priorityWeight[a.priority] - priorityWeight[b.priority];
+      if (priorityDiff) return priorityDiff;
+      const statusDiff = statusWeight[a.status] - statusWeight[b.status];
+      if (statusDiff) return statusDiff;
+      return b.issueCount - a.issueCount || a.provider.localeCompare(b.provider);
+    });
+}
+
 export function getNewsOperationsReport() {
   const snapshot = readJson<NewsDealSnapshot>(refreshedNewsDealsPath, {});
   const report = readJson<NewsDealsReport>(newsDealsReportPath, {});
@@ -909,6 +1006,49 @@ export function getNewsOperationsReport() {
   const operationGeneratedAtMs = Date.parse(operationGeneratedAt);
   const refreshBaseTime = Number.isFinite(operationGeneratedAtMs) ? operationGeneratedAtMs : Date.now();
   const buildNextRefreshAt = (minutes = 360) => new Date(refreshBaseTime + minutes * 60_000).toISOString();
+  const fallbackSourceConfig = {
+    configFile: "data/officialBenefitFeedSources.json",
+    configuredSources: feedTransitionReadiness.totalProviders,
+    enabledProviders: feedTransitionReadiness.providers.map((provider) => provider.provider),
+    envKeys: feedTransitionReadiness.providers.flatMap((provider) => provider.envKeys),
+    categories: requiredNewsCategories.map((item) => item.category),
+    benefitTypes: [],
+    recommendedQueries: ["무료 쿠폰", "공식 이벤트", "마트 행사", "편의점 1+1", "배달 쿠폰", "카드 혜택", "문화 초대권", "공공 혜택"],
+    targetSections: ["오늘의 무료", "쿠폰", "마트 행사", "편의점 1+1", "배달 쿠폰", "카드 혜택"],
+    operatorOwners: ["benefit-ops", "commerce-ops", "event-ops"],
+    minimumRefreshCadenceMinutes: 180,
+    nextRefreshAt: buildNextRefreshAt(180),
+    sourceRefreshWindows: feedTransitionReadiness.providers.map((provider) => {
+      const refreshCadenceMinutes = provider.priority === "high" ? 180 : 360;
+      return {
+        provider: provider.provider,
+        source: provider.label,
+        operatorOwner: "benefit-ops",
+        launchPriority: provider.priority,
+        refreshCadenceMinutes,
+        nextRefreshAt: buildNextRefreshAt(refreshCadenceMinutes),
+        targetSections: [],
+        envKeys: provider.envKeys,
+        status: refreshCadenceMinutes <= 180 ? "near_realtime" : "standard",
+        operatorAction: "공식 feed 연결 상태와 혜택 조건을 재확인합니다."
+      };
+    }),
+    highPrioritySources: feedTransitionReadiness.providers.filter((provider) => provider.priority === "high").length,
+    sourceOperations: feedTransitionReadiness.providers.map((provider) => ({
+      provider: provider.provider,
+      source: provider.label,
+      operatorOwner: "benefit-ops",
+      launchPriority: provider.priority,
+      refreshCadenceMinutes: provider.priority === "high" ? 180 : 360,
+      nextRefreshAt: buildNextRefreshAt(provider.priority === "high" ? 180 : 360),
+      targetSections: [],
+      qualityChecklist: ["officialFinalUrl", "endDate", "benefitConditions"],
+      envKeys: provider.envKeys
+    })),
+    guardrails: feedTransitionReadiness.guardrails
+  } satisfies OfficialBenefitSourceConfig;
+  const sourceConfig = report.sourceConfig ?? fallbackSourceConfig;
+  const sourceActionQueue = buildSourceActionQueue(providerRisks, feedTransitionReadiness, sourceConfig.sourceRefreshWindows ?? []);
 
   return {
     ok: report.ok !== false && refreshAll.ok !== false && !freshness.releaseBlocking && feedCanary.ok,
@@ -938,47 +1078,8 @@ export function getNewsOperationsReport() {
     providerRisks,
     providerRiskSummary,
     feedTransitionReadiness,
-    sourceConfig: report.sourceConfig ?? {
-      configFile: "data/officialBenefitFeedSources.json",
-      configuredSources: feedTransitionReadiness.totalProviders,
-      enabledProviders: feedTransitionReadiness.providers.map((provider) => provider.provider),
-      envKeys: feedTransitionReadiness.providers.flatMap((provider) => provider.envKeys),
-      categories: requiredNewsCategories.map((item) => item.category),
-      benefitTypes: [],
-      recommendedQueries: ["무료 쿠폰", "공식 이벤트", "마트 행사", "편의점 1+1", "배달 쿠폰", "카드 혜택", "문화 초대권", "공공 혜택"],
-      targetSections: ["오늘의 무료", "쿠폰", "마트 행사", "편의점 1+1", "배달 쿠폰", "카드 혜택"],
-      operatorOwners: ["benefit-ops", "commerce-ops", "event-ops"],
-      minimumRefreshCadenceMinutes: 180,
-      nextRefreshAt: buildNextRefreshAt(180),
-      sourceRefreshWindows: feedTransitionReadiness.providers.map((provider) => {
-        const refreshCadenceMinutes = provider.priority === "high" ? 180 : 360;
-        return {
-          provider: provider.provider,
-          source: provider.label,
-          operatorOwner: "benefit-ops",
-          launchPriority: provider.priority,
-          refreshCadenceMinutes,
-          nextRefreshAt: buildNextRefreshAt(refreshCadenceMinutes),
-          targetSections: [],
-          envKeys: provider.envKeys,
-          status: refreshCadenceMinutes <= 180 ? "near_realtime" : "standard",
-          operatorAction: "공식 feed 연결 상태와 혜택 조건을 재확인합니다."
-        };
-      }),
-      highPrioritySources: feedTransitionReadiness.providers.filter((provider) => provider.priority === "high").length,
-      sourceOperations: feedTransitionReadiness.providers.map((provider) => ({
-        provider: provider.provider,
-        source: provider.label,
-        operatorOwner: "benefit-ops",
-        launchPriority: provider.priority,
-        refreshCadenceMinutes: provider.priority === "high" ? 180 : 360,
-        nextRefreshAt: buildNextRefreshAt(provider.priority === "high" ? 180 : 360),
-        targetSections: [],
-        qualityChecklist: ["officialFinalUrl", "endDate", "benefitConditions"],
-        envKeys: provider.envKeys
-      })),
-      guardrails: feedTransitionReadiness.guardrails
-    },
+    sourceConfig,
+    sourceActionQueue,
     failureReasonTop10,
     policyRegression: report.gates?.policyRegression ?? {
       ok: false,

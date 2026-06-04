@@ -64,6 +64,8 @@ npm run release:doctor
 - `sourceConfig.targetSections`: 홈에서 우선 보여줄 추천 섹션 후보
 - `sourceConfig.operatorOwners`: 운영 담당 그룹 목록
 
+`/api/admin/news-operations`는 `sourceConfig.sourceRefreshWindows`, provider 위험도, feed 전환 상태를 합쳐 `sourceActionQueue`도 반환한다. 이 큐는 공식 feed 미연결, 연결됐지만 비어 있는 feed, 검증 실패 provider, 정상 유지 provider를 우선순위대로 정렬해 관리자 화면의 “공식 feed 우선 운영 액션 큐”에 표시한다.
+
 `/api/news-deals`는 보이는 혜택에서 뽑은 키워드와 이 설정 파일의 `recommendedQueries`를 함께 사용한다. 따라서 운영자가 `오늘의 무료`, `쿠폰`, `마트 행사`, `편의점 1+1`, `배달 쿠폰`, `카드 혜택`, `정부 지원`, `문화 혜택` 같은 검색어를 설정하면 홈 공식 혜택 섹션의 추천 검색어 칩에도 반영된다. `targetSections`는 관리자 운영 화면에서 노출 후보로 확인해 홈 편집과 피드 운영이 같은 기준을 보게 한다.
 
 ## 새 소스 추가 흐름
