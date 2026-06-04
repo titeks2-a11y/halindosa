@@ -84,3 +84,19 @@ export interface NewsDealSourceTrust {
   benefitTypes: NewsBenefitType[];
   recommendedAction: string;
 }
+
+export interface NewsDeadlineBucket {
+  id: "today" | "threeDays" | "sevenDays" | "later";
+  label: string;
+  count: number;
+  maxHours: number | null;
+}
+
+export interface NewsDeadlineSummary {
+  expiringTodayCount: number;
+  expiringThreeDaysCount: number;
+  expiringSevenDaysCount: number;
+  laterCount: number;
+  nearestEndDate: string;
+  buckets: NewsDeadlineBucket[];
+}

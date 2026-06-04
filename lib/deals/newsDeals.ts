@@ -2,6 +2,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import seedNewsDeals from "@/data/newsDeals.seed.json";
 import { applyNewsDealOverrides } from "@/lib/deals/newsOverrides";
+import { buildNewsDeadlineSummary } from "@/lib/deals/newsDeadlineInsights";
 import { buildNewsSourceTrustScores } from "@/lib/deals/newsSourceTrust";
 import type { NewsDeal } from "@/types/newsDeal";
 
@@ -283,6 +284,7 @@ export function getVisibleNewsDeals(options: { limit?: number; category?: string
     benefitTypeCounts: countBy(sorted, (deal) => deal.benefitType),
     sourceCounts: countBy(sorted, (deal) => deal.sourceName),
     sourceTrustScores: buildNewsSourceTrustScores(sorted),
+    deadlineSummary: buildNewsDeadlineSummary(sorted),
     recommendedQueries: buildRecommendedNewsQueries(sorted, sourceConfigQueries),
     sourceConfigQueries,
     ...freshness

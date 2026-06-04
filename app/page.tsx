@@ -41,6 +41,7 @@ import { claimedBenefitUpdatedEvent, readClaimedBenefits } from "@/lib/claimedBe
 import { buildBenefitDecisionGuide } from "@/lib/deals/benefitDecisionGuide";
 import { buildDailyBenefitBriefing } from "@/lib/deals/dailyBenefitBriefing";
 import { buildDailyRoutinePlan } from "@/lib/deals/dailyRoutinePlan";
+import { buildNewsDeadlineSummary } from "@/lib/deals/newsDeadlineInsights";
 import { buildInitialNewsRecommendedQueries } from "@/lib/deals/newsRecommendedQueries";
 import { buildPersonalizedBenefitQueue } from "@/lib/deals/personalizedBenefitQueue";
 import { isVerifiedPurchaseLink } from "@/lib/deals/quality";
@@ -77,7 +78,7 @@ import {
 import { getSupportMailto, supportEmail } from "@/lib/support";
 import { Deal, DealBenefitType, DealSort } from "@/types/deal";
 import { HotSignal } from "@/types/hotSignal";
-import type { NewsDeal, NewsDealSourceTrust } from "@/types/newsDeal";
+import type { NewsDeadlineSummary, NewsDeal, NewsDealSourceTrust } from "@/types/newsDeal";
 
 type AppView = "home" | "categories" | "alerts" | "favorites" | "my";
 const INITIAL_HOME_DEAL_LIMIT = 12;
@@ -275,6 +276,7 @@ interface NewsDealsResponse {
   sourceCounts?: Record<string, number>;
   recommendedQueries?: Array<{ query: string; count: number }>;
   sourceTrustScores?: NewsDealSourceTrust[];
+  deadlineSummary?: NewsDeadlineSummary;
   freshnessStatus?: "fresh" | "due" | "stale" | "seed";
   freshnessLabel?: string;
   freshnessAgeMinutes?: number | null;
@@ -561,6 +563,7 @@ export default function Home() {
     buildInitialNewsRecommendedQueries(initialNewsSnapshot.deals ?? [])
   );
   const [newsSourceTrustScores, setNewsSourceTrustScores] = useState<NewsDealSourceTrust[]>(() => initialNewsSnapshot.sourceTrustScores ?? []);
+  const [newsDeadlineSummary, setNewsDeadlineSummary] = useState<NewsDeadlineSummary>(() => buildNewsDeadlineSummary(initialNewsSnapshot.deals ?? []));
   const [newsUpdatedAt, setNewsUpdatedAt] = useState(initialNewsSnapshot.generatedAt ?? "");
   const [newsFreshness, setNewsFreshness] = useState<{
     status: "fresh" | "due" | "stale" | "seed";
@@ -611,6 +614,7 @@ export default function Home() {
         setNewsTotalCount(Number.isFinite(data.count) ? data.count : Array.isArray(data.deals) ? data.deals.length : 0);
         setNewsRecommendedQueries(Array.isArray(data.recommendedQueries) ? data.recommendedQueries : []);
         setNewsSourceTrustScores(Array.isArray(data.sourceTrustScores) ? data.sourceTrustScores : []);
+        setNewsDeadlineSummary(data.deadlineSummary ?? buildNewsDeadlineSummary(Array.isArray(data.deals) ? data.deals : []));
         setNewsUpdatedAt(data.updatedAt);
         setNewsFreshness({
           status: data.freshnessStatus ?? "seed",
@@ -2642,6 +2646,7 @@ export default function Home() {
             totalCount={newsTotalCount}
             recommendedQueries={newsRecommendedQueries}
             sourceTrustScores={newsSourceTrustScores}
+            deadlineSummary={newsDeadlineSummary}
             updatedAt={newsUpdatedAt}
             activeQuery={query}
             freshnessStatus={newsFreshness.status}

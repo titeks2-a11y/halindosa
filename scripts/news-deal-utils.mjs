@@ -478,6 +478,42 @@ function topKeywordCounts(deals) {
     .map(([keyword, score]) => ({ keyword, score }));
 }
 
+function hoursUntil(endDate, now) {
+  const endsAt = Date.parse(endDate);
+  if (!Number.isFinite(endsAt)) return Number.POSITIVE_INFINITY;
+  return (endsAt - now) / (60 * 60 * 1000);
+}
+
+function buildDeadlineSummary(deals, now = Date.now()) {
+  const activeDeals = deals.filter((deal) => {
+    const hoursLeft = hoursUntil(deal.endDate, now);
+    return Number.isFinite(hoursLeft) && hoursLeft >= 0;
+  });
+  const expiringTodayCount = activeDeals.filter((deal) => hoursUntil(deal.endDate, now) <= 24).length;
+  const expiringThreeDaysCount = activeDeals.filter((deal) => hoursUntil(deal.endDate, now) <= 72).length;
+  const expiringSevenDaysCount = activeDeals.filter((deal) => hoursUntil(deal.endDate, now) <= 168).length;
+  const laterCount = activeDeals.filter((deal) => hoursUntil(deal.endDate, now) > 168).length;
+  const nearestEndDate =
+    activeDeals
+      .map((deal) => deal.endDate)
+      .filter((value) => Number.isFinite(Date.parse(value)))
+      .sort((a, b) => Date.parse(a) - Date.parse(b))[0] ?? "";
+
+  return {
+    expiringTodayCount,
+    expiringThreeDaysCount,
+    expiringSevenDaysCount,
+    laterCount,
+    nearestEndDate,
+    buckets: [
+      { id: "today", label: "오늘 종료", count: expiringTodayCount, maxHours: 24 },
+      { id: "threeDays", label: "3일 내", count: expiringThreeDaysCount, maxHours: 72 },
+      { id: "sevenDays", label: "7일 내", count: expiringSevenDaysCount, maxHours: 168 },
+      { id: "later", label: "여유 있음", count: laterCount, maxHours: null }
+    ]
+  };
+}
+
 function clampScore(value) {
   return Math.max(0, Math.min(100, Math.round(value)));
 }
@@ -652,6 +688,7 @@ export function summarizeNewsDeals(deals, generatedAt = new Date().toISOString()
   const benefitTypeCounts = countVisibleBy(visible, (deal) => deal.benefitType);
   const sourceCounts = countVisibleBy(visible, (deal) => deal.sourceName);
   const sourceTrustScores = buildSourceTrustScores(deals);
+  const deadlineSummary = buildDeadlineSummary(visible);
   const collectedCountFromProviders = providerStats.reduce((sum, stat) => sum + Number(stat?.collectedCount ?? stat?.fetchedCount ?? 0), 0);
   const feedFailureCount = providerStats.filter((stat) => Number(stat?.errorCount ?? 0) > 0).length;
   const configuredEmptyFeedCount = providerStats.filter((stat) => stat?.configuredEmptyFeed === true).length;
@@ -689,6 +726,7 @@ export function summarizeNewsDeals(deals, generatedAt = new Date().toISOString()
     benefitTypeCounts,
     sourceCounts,
     sourceTrustScores,
+    deadlineSummary,
     collectionSummary,
     topKeywords: topKeywordCounts(visible),
     providerStats: enrichedProviderStats,

@@ -115,6 +115,7 @@ await check("home page", async () => {
   assert(text.includes("오늘의 실시간 할인뉴스") && text.includes("공식"), "Home page missing official benefit section");
   assert(text.includes("신뢰 공식출처 우선") && text.includes("신뢰 출처"), "Home page missing trusted official source prioritization");
   assert(text.includes("혜택 바로찾기") && text.includes("공식 링크만"), "Home page missing customer-intent official benefit query rail");
+  assert(text.includes("마감 전 우선확인"), "Home page missing official benefit deadline summary");
   assert(text.includes("구매하기") || text.includes("상세 보기") || text.includes("판매처 확인"), "Home page missing commerce actions");
   assert(text.includes("현재 결과") || text.includes("검색 결과"), "Home page missing search result summary");
   assert(!text.includes("직접 구매 링크 비율"), "Home page should not expose internal link coverage ratio copy");
@@ -635,6 +636,8 @@ await check("news deals api", async () => {
     data.recommendedQueries.some((item) => ["오늘의 무료", "무료 쿠폰", "마트 행사", "편의점 1+1", "배달 쿠폰", "카드 혜택"].includes(item.query)),
     "News deals API missing customer intent recommended queries"
   );
+  assert(typeof data.deadlineSummary?.nearestEndDate === "string" && data.deadlineSummary.nearestEndDate.length > 0, "News deals API missing official benefit deadline summary");
+  assert(Array.isArray(data.deadlineSummary?.buckets) && data.deadlineSummary.buckets.some((bucket) => bucket.id === "sevenDays"), "News deals API missing deadline bucket rows");
   assert(data.deals.some((deal) => deal.category === "마트/편의점"), "News deals API missing mart/convenience official benefits");
   assert(data.deals.some((deal) => deal.category === "영화/문화" || deal.category === "정부/공공혜택"), "News deals API missing culture/public official benefits");
   const full = await fetchJson("/api/news-deals");

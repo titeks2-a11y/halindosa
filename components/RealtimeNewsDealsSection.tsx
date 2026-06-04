@@ -17,7 +17,8 @@ import {
   sortNewsDealsBySourceTrust
 } from "@/lib/deals/newsSourceTrust";
 import { customerIntentNewsQuerySet } from "@/lib/deals/newsRecommendedQueries";
-import type { NewsDeal, NewsDealSourceTrust } from "@/types/newsDeal";
+import { buildNewsDeadlineSummary } from "@/lib/deals/newsDeadlineInsights";
+import type { NewsDeadlineSummary, NewsDeal, NewsDealSourceTrust } from "@/types/newsDeal";
 
 const benefitLabels: Record<NewsDeal["benefitType"], string> = {
   discount: "할인",
@@ -50,6 +51,7 @@ export function RealtimeNewsDealsSection({
   totalCount,
   recommendedQueries = [],
   sourceTrustScores = [],
+  deadlineSummary,
   updatedAt,
   activeQuery = "",
   freshnessStatus = "fresh",
@@ -66,6 +68,7 @@ export function RealtimeNewsDealsSection({
   totalCount?: number;
   recommendedQueries?: Array<{ query: string; count: number }>;
   sourceTrustScores?: NewsDealSourceTrust[];
+  deadlineSummary?: NewsDeadlineSummary;
   updatedAt: string;
   activeQuery?: string;
   freshnessStatus?: "fresh" | "due" | "stale" | "seed" | string;
@@ -94,6 +97,9 @@ export function RealtimeNewsDealsSection({
     .filter((item) => item.sourceName && item.trustScore >= 75)
     .slice(0, 5);
   const sourceTrustByKey = useMemo(() => buildNewsSourceTrustMap(effectiveSourceTrustScores), [effectiveSourceTrustScores]);
+  const effectiveDeadlineSummary = useMemo(() => deadlineSummary ?? buildNewsDeadlineSummary(deals), [deadlineSummary, deals]);
+  const visibleDeadlineBuckets = effectiveDeadlineSummary.buckets.filter((bucket) => bucket.count > 0).slice(0, 3);
+  const hasUrgentNewsBenefits = effectiveDeadlineSummary.expiringSevenDaysCount > 0;
   const trustedDeals = useMemo(
     () => sortNewsDealsBySourceTrust(deals, sourceTrustByKey),
     [deals, sourceTrustByKey]
@@ -187,6 +193,46 @@ export function RealtimeNewsDealsSection({
       <p className="mt-2 text-[11px] font-bold text-slate-500" aria-label="공식 혜택 신선도 안내">
         {freshnessDetail} · 검색 결과와 커뮤니티 원문은 제외하고 공식 혜택 링크만 유지합니다.
       </p>
+      {visibleDeadlineBuckets.length ? (
+        <div className="mt-3 rounded-2xl border border-amber-100 bg-amber-50/70 px-3 py-2" aria-label="마감 전 공식 혜택 우선확인">
+          <div className="flex items-center justify-between gap-2">
+            <p className="inline-flex items-center gap-1.5 text-[11px] font-black text-amber-800">
+              <CalendarClock size={13} />
+              마감 전 우선확인
+            </p>
+            {effectiveDeadlineSummary.nearestEndDate && hasUrgentNewsBenefits ? (
+              <button
+                type="button"
+                onClick={() => onSelectQuery?.("마감임박")}
+                className="rounded-full bg-white px-2.5 py-1 text-[10px] font-black text-amber-700 shadow-sm transition hover:text-brand-red"
+                aria-label="마감임박 공식 혜택 검색"
+              >
+                {getTimeLeft(effectiveDeadlineSummary.nearestEndDate)}
+              </button>
+            ) : effectiveDeadlineSummary.nearestEndDate ? (
+              <span className="rounded-full bg-white px-2.5 py-1 text-[10px] font-black text-amber-700 shadow-sm">
+                가장 빠른 마감 {getTimeLeft(effectiveDeadlineSummary.nearestEndDate)}
+              </span>
+            ) : null}
+          </div>
+          <div className="mt-2 flex gap-1.5 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {visibleDeadlineBuckets.map((bucket) => (
+              <button
+                key={bucket.id}
+                type="button"
+                onClick={() => {
+                  if (bucket.id !== "later") onSelectQuery?.("마감임박");
+                }}
+                className={`inline-flex min-h-8 shrink-0 items-center gap-1 rounded-full bg-white px-3 text-[11px] font-black text-slate-700 shadow-sm transition ${bucket.id === "later" ? "cursor-default" : "hover:text-brand-red"}`}
+                aria-label={`${bucket.label} 공식 혜택 ${bucket.count}개 보기`}
+              >
+                {bucket.label}
+                <span className="text-[10px] text-amber-600">{bucket.count}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      ) : null}
       {quickRecommendedQueries.length ? (
         <div className="mt-3 rounded-2xl border border-red-100 bg-gradient-to-r from-red-50 via-white to-orange-50 p-2.5" aria-label="혜택 목적별 추천 검색어">
           <div className="flex items-center justify-between gap-2 px-1">
