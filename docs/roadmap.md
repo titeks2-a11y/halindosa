@@ -68,6 +68,7 @@
 - `/api/benefits/official-alerts`와 `lib/deals/officialBenefitAlertQueue.ts`를 추가해 비회원 기기 관심 카테고리와 최근 본 공식 혜택을 공식 혜택 알림 후보 API로 재사용하고, 향후 홈 위젯/푸시 후보/운영 리포트가 같은 공식 혜택 정렬 기준을 쓰도록 준비했다.
 - `official:alerts:report`, `reports/official-benefit-alerts.json`, `docs/OFFICIAL_BENEFIT_ALERTS_REPORT.md`를 추가해 공식 혜택 알림 후보 수, 기본 관심 카테고리 커버리지, 최근 본 혜택 시나리오, `/go/news/[id]` redirect 안전성을 매일 QA 산출물로 남기게 했다.
 - `/api/admin/official-alerts`와 `/api/admin/official-alerts?format=csv`를 추가하고 `/admin`의 `공식 혜택 알림 후보` 운영 패널에 연결해 공식 혜택 알림 추천 후보를 관리자 화면과 스프레드시트에서 바로 검수할 수 있게 했다.
+- 홈 화면의 큰 `재방문 혜택 큐`를 `HomeOfficialBenefitAlertRail`로 압축해 `buildOfficialBenefitAlertQueue` 기준의 관심 카테고리·최근 본 공식 혜택 추천을 모바일에서 짧은 가로 레일로 보여주고, 모든 이동을 `/go/news/[id]` 새 탭 리다이렉트로 통일했다.
 
 ### PHASE Premium Commerce UX and Operations
 

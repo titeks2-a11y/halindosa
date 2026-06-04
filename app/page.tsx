@@ -15,6 +15,7 @@ import { FeaturedDealSections } from "@/components/FeaturedDealSections";
 import { HotSignalSection } from "@/components/HotSignalSection";
 import { LoginPromptSheet } from "@/components/LoginPromptSheet";
 import { LiveDealFeed } from "@/components/LiveDealFeed";
+import { HomeOfficialBenefitAlertRail } from "@/components/HomeOfficialBenefitAlertRail";
 import { NotificationPreferences } from "@/components/NotificationPreferences";
 import { PriceAlertList } from "@/components/PriceAlertList";
 import { PurchaseConfirmSheet } from "@/components/PurchaseConfirmSheet";
@@ -47,12 +48,7 @@ import { dealMatchesSearch } from "@/lib/deals/search";
 import { formatPrice, getRelativeTime, getTimeLeft } from "@/lib/format";
 import { getDealImageSrc } from "@/lib/imageSrc";
 import { buildDealRedirectUrl, buildNativeSafeDealUrl } from "@/lib/redirectUrl";
-import {
-  clearRecentNewsBenefitIds,
-  readRecentNewsBenefitIds,
-  recentNewsBenefitUpdatedEvent,
-  rememberRecentNewsBenefitId
-} from "@/lib/recentNewsBenefits";
+import { rememberRecentNewsBenefitId } from "@/lib/recentNewsBenefits";
 import { buildPublicAppShareUrl, buildPublicDealShareUrl } from "@/lib/shareUrl";
 import {
   clearRecentDealsSynced,
@@ -253,29 +249,6 @@ function dealMatchesInterestCategory(deal: Deal, interest: string) {
   if (interest === "패션") return /패션|의류|잡화|신발|무신사|가방|스니커즈/.test(searchable);
   if (interest === "여행") return /여행|티켓|항공|숙박|호텔|공연|전시|영화/.test(searchable);
   if (interest === "무료/체험") return ["freebie", "experience", "coupon", "point"].includes(deal.dealType) || /무료|체험|샘플|쿠폰|포인트|0원/.test(searchable);
-
-  return searchable.includes(interest);
-}
-
-function newsDealMatchesInterestCategory(deal: NewsDeal, interest: string) {
-  const searchable = [
-    deal.title,
-    deal.summary,
-    deal.merchant,
-    deal.category,
-    deal.benefitType,
-    deal.sourceName,
-    ...deal.tags
-  ].join(" ");
-
-  if (interest === "디지털") return /디지털|전자|가전|통신|모바일|인터넷|구독/.test(searchable);
-  if (interest === "패션") return /패션|뷰티|화장품|의류|잡화|브랜드/.test(searchable);
-  if (interest === "여행") return /여행|숙박|항공|호텔|렌터카|공항|티켓/.test(searchable);
-  if (interest === "무료/체험") return /무료|체험|샘플|쿠폰|초대|공공|지원|혜택/.test(searchable);
-  if (interest === "생활용품") return /마트|편의점|생활|장보기|멤버십|쿠폰/.test(searchable);
-  if (interest === "식품") return /식품|마트|편의점|외식|배달|음식|카페/.test(searchable);
-  if (interest === "육아") return /육아|키즈|가족|공공|지원|문화/.test(searchable);
-  if (interest === "쿠폰/이벤트") return /쿠폰|이벤트|할인|멤버십|카드|행사/.test(searchable);
 
   return searchable.includes(interest);
 }
@@ -709,7 +682,6 @@ export default function Home() {
   const [newsUpdatedAt, setNewsUpdatedAt] = useState(initialNewsSnapshot.generatedAt ?? "");
   const [favorites, setFavorites] = useState<string[]>(() => readLocalFavoriteIds());
   const [recentDealIds, setRecentDealIds] = useState<string[]>([]);
-  const [recentNewsBenefitIds, setRecentNewsBenefitIds] = useState<string[]>([]);
   const [favoriteCategories, setFavoriteCategories] = useState<string[]>(() => readLocalPreferences().favoriteCategories);
   const [toast, setToast] = useState("");
   const [pendingPurchaseDeal, setPendingPurchaseDeal] = useState<Deal | null>(null);
@@ -1093,21 +1065,6 @@ export default function Home() {
   }, [user?.id]);
 
   useEffect(() => {
-    const refreshRecentNewsBenefits = () => {
-      setRecentNewsBenefitIds(readRecentNewsBenefitIds());
-    };
-
-    refreshRecentNewsBenefits();
-    window.addEventListener("storage", refreshRecentNewsBenefits);
-    window.addEventListener(recentNewsBenefitUpdatedEvent, refreshRecentNewsBenefits);
-
-    return () => {
-      window.removeEventListener("storage", refreshRecentNewsBenefits);
-      window.removeEventListener(recentNewsBenefitUpdatedEvent, refreshRecentNewsBenefits);
-    };
-  }, []);
-
-  useEffect(() => {
     let active = true;
     Promise.resolve()
       .then(() => (authConfigured && userId ? syncFavoritesWithSupabase() : readLocalFavoriteIds()))
@@ -1168,7 +1125,7 @@ export default function Home() {
   }, []);
 
   const rememberRecentNewsBenefit = useCallback((deal: NewsDeal) => {
-    setRecentNewsBenefitIds(rememberRecentNewsBenefitId(deal.id));
+    rememberRecentNewsBenefitId(deal.id);
     showToast(`${deal.merchant} 공식 혜택을 최근 본 혜택에 저장했습니다.`);
   }, [showToast]);
 
@@ -1381,26 +1338,6 @@ export default function Home() {
     const source = publicDealSource.length ? publicDealSource : deals;
     return recentDealIds.map((id) => source.find((deal) => deal.id === id)).filter((deal): deal is Deal => Boolean(deal)).slice(0, 6);
   }, [deals, publicDealSource, recentDealIds]);
-
-  const visibleNewsDeals = useMemo(
-    () => newsDeals.filter((deal) => deal.validationStatus === "passed" && !deal.isHidden && Boolean(deal.finalUrl)),
-    [newsDeals]
-  );
-
-  const recentNewsBenefits = useMemo(
-    () =>
-      recentNewsBenefitIds
-        .map((id) => visibleNewsDeals.find((deal) => deal.id === id))
-        .filter((deal): deal is NewsDeal => Boolean(deal))
-        .slice(0, 6),
-    [recentNewsBenefitIds, visibleNewsDeals]
-  );
-
-  const interestNewsBenefits = useMemo(() => {
-    const interests = favoriteCategories.length ? favoriteCategories : fallbackInterestCategories;
-    const matchedDeals = visibleNewsDeals.filter((deal) => interests.some((interest) => newsDealMatchesInterestCategory(deal, interest)));
-    return (matchedDeals.length ? matchedDeals : visibleNewsDeals).slice(0, 6);
-  }, [favoriteCategories, visibleNewsDeals]);
 
   const recommendedDeals = useMemo(() => {
     const source = publicDealSource.length ? publicDealSource : deals;
@@ -2189,12 +2126,6 @@ export default function Home() {
       });
   };
 
-  const clearRecentNewsBenefits = () => {
-    clearRecentNewsBenefitIds();
-    setRecentNewsBenefitIds([]);
-    showToast("최근 본 공식 혜택을 비웠습니다.");
-  };
-
   const openCategory = (id: string) => {
     setCategory(id);
     setActiveView("home");
@@ -2812,78 +2743,7 @@ export default function Home() {
           </section>
         ) : null}
         {activeView === "home" ? <RealtimeNewsDealsSection deals={newsDeals} updatedAt={newsUpdatedAt} onOpenNewsDeal={rememberRecentNewsBenefit} /> : null}
-        {activeView === "home" && visibleNewsDeals.length ? (
-          <section className="rounded-2xl border border-brand-line bg-white p-3 shadow-sm sm:rounded-[28px] sm:p-4" aria-label="최근 본 공식 혜택과 관심 혜택">
-            <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
-              <div>
-                <p className="text-xs font-black text-brand-red">재방문 혜택 큐</p>
-                <h2 className="mt-1 text-base font-black text-slate-950 sm:text-xl">최근 본 공식 혜택과 관심 혜택을 이어봅니다</h2>
-              </div>
-              <span className="w-fit rounded-full bg-brand-warm px-3 py-1 text-[11px] font-black text-slate-600">
-                공식 링크 {visibleNewsDeals.length}개
-              </span>
-            </div>
-            <div className="mt-3 grid gap-2 lg:grid-cols-2">
-              <div className="rounded-2xl bg-slate-50 p-3" aria-label="최근 본 공식 혜택">
-                <div className="flex items-center justify-between gap-2">
-                  <p className="text-sm font-black text-slate-950">최근 본 공식 혜택</p>
-                  {recentNewsBenefits.length ? (
-                    <button type="button" onClick={clearRecentNewsBenefits} className="text-[11px] font-black text-slate-500 hover:text-brand-red">
-                      비우기
-                    </button>
-                  ) : null}
-                </div>
-                <div className="mt-2 space-y-2">
-                  {(recentNewsBenefits.length ? recentNewsBenefits : interestNewsBenefits.slice(0, 3)).map((deal) => (
-                    <a
-                      key={`recent-news-${deal.id}`}
-                      href={deal.finalUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={() => rememberRecentNewsBenefit(deal)}
-                      className="flex items-center justify-between gap-3 rounded-2xl bg-white px-3 py-2.5 shadow-sm transition hover:bg-red-50"
-                      aria-label={`${deal.title} 공식 혜택 새 탭으로 열기`}
-                    >
-                      <span className="min-w-0">
-                        <span className="line-clamp-1 block text-xs font-black text-slate-950">{deal.title}</span>
-                        <span className="mt-0.5 block truncate text-[11px] font-bold text-slate-500">{deal.merchant} · {getTimeLeft(deal.endDate)}</span>
-                      </span>
-                      <ExternalLink size={15} className="shrink-0 text-brand-red" />
-                    </a>
-                  ))}
-                </div>
-                {!recentNewsBenefits.length ? (
-                  <p className="mt-2 rounded-2xl bg-white px-3 py-2 text-[11px] font-bold leading-4 text-slate-500">
-                    아직 최근 본 공식 혜택이 없어 관심 카테고리 기준 추천을 먼저 보여드립니다.
-                  </p>
-                ) : null}
-              </div>
-              <div className="rounded-2xl bg-red-50 p-3" aria-label="관심 카테고리 공식 혜택">
-                <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
-                  <p className="text-sm font-black text-slate-950">관심 카테고리 공식 혜택</p>
-                  <span className="text-[11px] font-black text-brand-red">{interestLabels.slice(0, 3).join(" · ")}</span>
-                </div>
-                <div className="mt-2 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                  {interestNewsBenefits.map((deal) => (
-                    <a
-                      key={`interest-news-${deal.id}`}
-                      href={deal.finalUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={() => rememberRecentNewsBenefit(deal)}
-                      className="min-w-[210px] rounded-2xl bg-white p-3 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
-                      aria-label={`${deal.title} 관심 공식 혜택 새 탭으로 열기`}
-                    >
-                      <span className="inline-flex rounded-full bg-red-50 px-2.5 py-1 text-[11px] font-black text-brand-red">{deal.category}</span>
-                      <span className="mt-2 line-clamp-2 block min-h-9 text-xs font-black leading-5 text-slate-950">{deal.title}</span>
-                      <span className="mt-2 block truncate text-[11px] font-bold text-slate-500">{deal.sourceName} · 공식 페이지</span>
-                    </a>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </section>
-        ) : null}
+        {activeView === "home" ? <HomeOfficialBenefitAlertRail deals={newsDeals} onOpenNewsDeal={rememberRecentNewsBenefit} /> : null}
         {activeView === "home" ? (
           <section className="grid gap-2 sm:gap-4 lg:grid-cols-[1fr_0.9fr]" aria-label="홈 핵심 특가 요약">
             <div className="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm sm:rounded-[28px] sm:p-5">

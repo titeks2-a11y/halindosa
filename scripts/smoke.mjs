@@ -211,6 +211,7 @@ await check("home page", async () => {
   assert(text.includes("오늘의 실시간 할인뉴스") && text.includes("공식 혜택 페이지로 바로 이동"), "Home page missing verified realtime discount news section");
   assert(text.includes("공식 링크") && text.includes("공식 페이지"), "Home page missing official event/news link trust actions");
   assert(text.includes("재방문 혜택 큐") && text.includes("최근 본 공식 혜택") && text.includes("관심 카테고리 공식 혜택"), "Home page missing recent official benefit return queue");
+  assert(text.includes("오늘 다시 볼 공식 혜택") && text.includes("검색 결과가 아니라 공식 페이지") && text.includes("공식 보기"), "Home page missing compact official benefit alert rail");
   assert(text.includes("심화 혜택 탐색") && text.includes("상품 목록을 먼저 보고"), "Home page missing collapsible deep discovery summary");
   assert(text.includes("상세 필터와 결과 분석") && text.includes("상품 목록을 먼저 보고, 더 좁힐 때 펼치세요"), "Home page missing collapsible advanced filter summary");
   assert(text.includes("검색 도우미"), "Home page missing search discovery panel");

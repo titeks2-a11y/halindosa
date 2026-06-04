@@ -1959,6 +1959,7 @@ async function checkOperationalDataSurfaces() {
   const notificationsPage = await text("app/notifications/page.tsx");
   const interestAlertPreview = await text("components/InterestAlertPreview.tsx");
   const officialBenefitAlertPreview = await text("components/OfficialBenefitAlertPreview.tsx");
+  const homeOfficialBenefitAlertRail = await text("components/HomeOfficialBenefitAlertRail.tsx");
   const officialBenefitAlertsRoute = await text("app/api/benefits/official-alerts/route.ts");
   const officialBenefitAlertQueue = await text("lib/deals/officialBenefitAlertQueue.ts");
   const notificationPreferences = await text("components/NotificationPreferences.tsx");
@@ -2297,6 +2298,17 @@ async function checkOperationalDataSurfaces() {
     !officialBenefitAlertPreview.includes("/go/news/") ||
     !officialBenefitAlertPreview.includes("target=\"_blank\"") ||
     !officialBenefitAlertPreview.includes("최근 본 공식 혜택") ||
+    !homePage.includes("HomeOfficialBenefitAlertRail") ||
+    !homeOfficialBenefitAlertRail.includes("오늘 다시 볼 공식 혜택") ||
+    !homeOfficialBenefitAlertRail.includes("재방문 혜택 큐") ||
+    !homeOfficialBenefitAlertRail.includes("관심 카테고리 공식 혜택") ||
+    !homeOfficialBenefitAlertRail.includes("buildOfficialBenefitAlertQueue") ||
+    !homeOfficialBenefitAlertRail.includes("readNotificationPreferenceCategories") ||
+    !homeOfficialBenefitAlertRail.includes("recentNewsBenefitUpdatedEvent") ||
+    !homeOfficialBenefitAlertRail.includes("rememberRecentNewsBenefitId") ||
+    !homeOfficialBenefitAlertRail.includes("/go/news/") ||
+    !homeOfficialBenefitAlertRail.includes("target=\"_blank\"") ||
+    !homeOfficialBenefitAlertRail.includes("noopener noreferrer") ||
     !officialBenefitAlertsRoute.includes("buildOfficialBenefitAlertQueue") ||
     !officialBenefitAlertsRoute.includes("getVisibleNewsDeals") ||
     !officialBenefitAlertsRoute.includes("recentNewsId") ||
@@ -4250,6 +4262,9 @@ function checkNewsDealPipeline() {
     : "";
   const newsOperations = existsSync(join(root, "lib/deals/newsOperations.ts")) ? readFileSync(join(root, "lib/deals/newsOperations.ts"), "utf8") : "";
   const realtimeNewsSection = existsSync(join(root, "components/RealtimeNewsDealsSection.tsx")) ? readFileSync(join(root, "components/RealtimeNewsDealsSection.tsx"), "utf8") : "";
+  const homeOfficialBenefitAlertRail = existsSync(join(root, "components/HomeOfficialBenefitAlertRail.tsx"))
+    ? readFileSync(join(root, "components/HomeOfficialBenefitAlertRail.tsx"), "utf8")
+    : "";
   const newsRedirectRoute = existsSync(join(root, "app/go/news/[id]/route.ts")) ? readFileSync(join(root, "app/go/news/[id]/route.ts"), "utf8") : "";
   const newsLinkPolicy = existsSync(join(root, "lib/deals/newsLinkPolicy.ts")) ? readFileSync(join(root, "lib/deals/newsLinkPolicy.ts"), "utf8") : "";
   const smokeScript = existsSync(join(root, "scripts/smoke.mjs")) ? readFileSync(join(root, "scripts/smoke.mjs"), "utf8") : "";
@@ -4330,7 +4345,16 @@ function checkNewsDealPipeline() {
   if (!realtimeNewsSection.includes("/go/news/") || !newsRedirectRoute.includes("resolveNewsDealDestinationUrl") || !newsRedirectRoute.includes("recordDealClick") || !newsLinkPolicy.includes("approvedNewsHosts")) {
     issues.push("official news benefit clicks should pass through /go/news/[id] with link policy and click logging");
   }
-  if (!homePage.includes("recentNewsBenefitIds") || !homePage.includes("재방문 혜택 큐") || !homePage.includes("관심 카테고리 공식 혜택")) {
+  if (
+    !homePage.includes("HomeOfficialBenefitAlertRail") ||
+    !homeOfficialBenefitAlertRail.includes("readRecentNewsBenefitIds") ||
+    !homeOfficialBenefitAlertRail.includes("recentNewsBenefitUpdatedEvent") ||
+    !homeOfficialBenefitAlertRail.includes("재방문 혜택 큐") ||
+    !homeOfficialBenefitAlertRail.includes("오늘 다시 볼 공식 혜택") ||
+    !homeOfficialBenefitAlertRail.includes("관심 카테고리 공식 혜택") ||
+    !homeOfficialBenefitAlertRail.includes("target=\"_blank\"") ||
+    !homeOfficialBenefitAlertRail.includes("noopener noreferrer")
+  ) {
     issues.push("home should keep recent official benefit and interest news return queues");
   }
 
