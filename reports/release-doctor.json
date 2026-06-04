@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-06-04T02:57:59.006Z",
+  "generatedAt": "2026-06-04T02:59:51.645Z",
   "totalChecks": 184,
-  "passedChecks": 184,
-  "failedChecks": 0,
-  "ok": true,
+  "passedChecks": 172,
+  "failedChecks": 12,
+  "ok": false,
   "checks": [
     {
       "name": "package scripts",
@@ -802,63 +802,63 @@
     },
     {
       "name": "release evidence freshness",
-      "ok": true,
-      "detail": "Working tree has pending changes; clean release candidates must refresh evidence after the final commit. Current document points at 7060c77."
+      "ok": false,
+      "detail": "Release evidence is stale: document has f7cb5e0, current commit is f48413d. Run npm run release:evidence after final QA."
     },
     {
       "name": "store manual checklist freshness",
-      "ok": true,
-      "detail": "Working tree has pending changes; clean release candidates must refresh docs/STORE_MANUAL_CHECKLIST.md after the final commit. Current document points at 7060c77."
+      "ok": false,
+      "detail": "docs/STORE_MANUAL_CHECKLIST.md is stale: document has f7cb5e0, current commit is f48413d. Run npm run store:manual:checklist after final QA."
     },
     {
       "name": "device qa report freshness",
-      "ok": true,
-      "detail": "Working tree has pending changes; clean release candidates must refresh docs/DEVICE_QA_REPORT.md after the final commit. Current document points at 7060c77."
+      "ok": false,
+      "detail": "docs/DEVICE_QA_REPORT.md is stale: document has f7cb5e0, current commit is f48413d. Run npm run device:qa:report after final QA."
     },
     {
       "name": "store screenshots report freshness",
-      "ok": true,
-      "detail": "Working tree has pending changes; clean release candidates must refresh docs/STORE_SCREENSHOTS_REPORT.md after the final commit. Current document points at 7060c77."
+      "ok": false,
+      "detail": "docs/STORE_SCREENSHOTS_REPORT.md is stale: document has f7cb5e0, current commit is f48413d. Run npm run store:screenshots:doctor after final QA."
     },
     {
       "name": "known issues freshness",
-      "ok": true,
-      "detail": "Working tree has pending changes; clean release candidates must refresh docs/KNOWN_ISSUES.md after the final commit. Current document points at 7060c77."
+      "ok": false,
+      "detail": "docs/KNOWN_ISSUES.md is stale: document has f7cb5e0, current commit is f48413d. Run npm run known:issues after final QA."
     },
     {
       "name": "public url report freshness",
-      "ok": true,
-      "detail": "Working tree has pending changes; clean release candidates must refresh docs/PUBLIC_URL_REPORT.md after the final commit. Current document points at 7060c77."
+      "ok": false,
+      "detail": "docs/PUBLIC_URL_REPORT.md is stale: document has f7cb5e0, current commit is f48413d. Run npm run public:url:doctor after final QA."
     },
     {
       "name": "store submission report freshness",
-      "ok": true,
-      "detail": "Working tree has pending changes; clean release candidates must refresh docs/STORE_SUBMISSION_REPORT.md after the final commit. Current document points at 7060c77."
+      "ok": false,
+      "detail": "docs/STORE_SUBMISSION_REPORT.md is stale: document has f7cb5e0, current commit is f48413d. Run npm run store:submission:report after final QA."
     },
     {
       "name": "store console fields freshness",
-      "ok": true,
-      "detail": "Working tree has pending changes; clean release candidates must refresh docs/STORE_CONSOLE_FIELDS.md after the final commit. Current document points at 7060c77."
+      "ok": false,
+      "detail": "docs/STORE_CONSOLE_FIELDS.md is stale: document has f7cb5e0, current commit is f48413d. Run npm run store:console:fields after final QA."
     },
     {
       "name": "store handoff report freshness",
-      "ok": true,
-      "detail": "Working tree has pending changes; clean release candidates must refresh docs/STORE_HANDOFF_REPORT.md after the final commit. Current document points at 7060c77."
+      "ok": false,
+      "detail": "docs/STORE_HANDOFF_REPORT.md is stale: document has f7cb5e0, current commit is f48413d. Run npm run store:handoff:report after final QA."
     },
     {
       "name": "release notes freshness",
-      "ok": true,
-      "detail": "Working tree has pending changes; clean release candidates must refresh docs/RELEASE_NOTES.md after the final commit. Current document points at 7060c77."
+      "ok": false,
+      "detail": "docs/RELEASE_NOTES.md is stale: document has f7cb5e0, current commit is f48413d. Run npm run release:notes after final QA."
     },
     {
       "name": "support playbook freshness",
-      "ok": true,
-      "detail": "Working tree has pending changes; clean release candidates must refresh docs/SUPPORT_PLAYBOOK.md after the final commit. Current document points at 7060c77."
+      "ok": false,
+      "detail": "docs/SUPPORT_PLAYBOOK.md is stale: document has f7cb5e0, current commit is f48413d. Run npm run support:playbook after final QA."
     },
     {
       "name": "store packet report freshness",
-      "ok": true,
-      "detail": "Working tree has pending changes; clean release candidates must refresh docs/STORE_PACKET_REPORT.md after the final commit. Current document points at 7060c77."
+      "ok": false,
+      "detail": "docs/STORE_PACKET_REPORT.md is stale: document has f7cb5e0, current commit is f48413d. Run npm run store:packet:doctor after final QA."
     },
     {
       "name": "customer navigation simplification",
