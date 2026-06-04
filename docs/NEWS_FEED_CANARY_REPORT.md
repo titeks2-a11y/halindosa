@@ -2,7 +2,7 @@
 
 운영 환경변수에 연결된 실시간 공식 feed가 실제로 살아 있고, 사용자 노출 가능한 공식 혜택 후보를 만들 수 있는지 확인하는 canary 리포트입니다.
 
-- 생성 시각: 2026-06-04T10:19:20.751Z
+- 생성 시각: 2026-06-04T10:30:37.865Z
 - 상태: seed_fallback_only
 - Provider: 4개
 - 연결된 feed URL: 0개
@@ -27,6 +27,12 @@
 - 아직 운영 feed URL이 없어 seed fallback만 검사했습니다.
 - OFFICIAL_EVENT_FEED_URLS 또는 PUBLIC_COUPON_FEED_URLS에 공식 JSON/RSS/Atom feed를 연결한 뒤 npm run news:feed:canary를 다시 실행하세요.
 - 무단 HTML 크롤링 대신 공식 API, RSS, Atom, 승인된 파트너 JSON만 연결하세요.
+
+## 운영 API
+
+- JSON: `GET /api/admin/news-feed-canary`
+- CSV: `GET /api/admin/news-feed-canary?format=csv`
+- 운영 화면: `/admin`의 공식 피드 전환 준비도에서 `canary JSON`, `canary CSV` 버튼으로 확인합니다.
 
 ## 검증 명령
 

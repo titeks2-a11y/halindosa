@@ -845,6 +845,22 @@ await check("admin news operations api", async () => {
   assert(csv.includes("feed_source_mix") && csv.includes("seed=") && csv.includes("feed="), "Admin news operations CSV missing seed/feed source mix rows");
 });
 
+await check("admin news feed canary api", async () => {
+  const { response, data } = await fetchJson("/api/admin/news-feed-canary");
+  assert(response.status === 200, `Expected news feed canary 200, got ${response.status}`);
+  assert(data.ok === true, "Admin news feed canary API ok should be true");
+  assert(["seed_fallback_only", "live_feed_ready", "needs_attention", "missing"].includes(data.report?.status), "Admin news feed canary missing status");
+  assert(typeof data.report?.configuredFeedUrls === "number", "Admin news feed canary missing configured feed URL count");
+  assert(typeof data.report?.visibleCandidateCount === "number", "Admin news feed canary missing visible candidate count");
+  assert(Array.isArray(data.report?.nextActions) && data.report.nextActions.length >= 1, "Admin news feed canary missing next actions");
+
+  const csvResponse = await fetch(`${baseUrl}/api/admin/news-feed-canary?format=csv`);
+  const csv = await csvResponse.text();
+  assert(csvResponse.status === 200, `Expected news feed canary CSV 200, got ${csvResponse.status}`);
+  assert(csvResponse.headers.get("content-type")?.includes("text/csv"), "Admin news feed canary CSV should use text/csv content type");
+  assert(csv.includes("official_feed_canary") && csv.includes("next_action"), "Admin news feed canary CSV missing summary or next action rows");
+});
+
 await check("admin news feed preview api", async () => {
   const { response, data } = await fetchJson("/api/admin/news-feed-preview");
   assert(response.status === 200, `Expected news feed preview 200, got ${response.status}`);

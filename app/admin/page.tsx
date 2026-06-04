@@ -145,6 +145,12 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const newsFeedPreviewCsvHref = isAdminProtectionEnabled()
     ? `/api/admin/news-feed-preview?format=csv&token=${encodeURIComponent(token ?? "")}`
     : "/api/admin/news-feed-preview?format=csv";
+  const newsFeedCanaryApiHref = isAdminProtectionEnabled()
+    ? `/api/admin/news-feed-canary?token=${encodeURIComponent(token ?? "")}`
+    : "/api/admin/news-feed-canary";
+  const newsFeedCanaryCsvHref = isAdminProtectionEnabled()
+    ? `/api/admin/news-feed-canary?format=csv&token=${encodeURIComponent(token ?? "")}`
+    : "/api/admin/news-feed-canary?format=csv";
   const healthReadinessApiHref = isAdminProtectionEnabled()
     ? `/api/admin/health-readiness?token=${encodeURIComponent(token ?? "")}`
     : "/api/admin/health-readiness";
@@ -915,6 +921,22 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                 <span className={`rounded-full bg-white px-3 py-1 text-xs font-black shadow-sm ${newsOperations.feedCanary.ok ? "text-emerald-700" : "text-amber-700"}`}>
                   canary {newsOperations.feedCanary.status}
                 </span>
+                <a
+                  href={newsFeedCanaryApiHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-full bg-slate-950 px-3 py-1 text-xs font-black text-white shadow-sm"
+                >
+                  canary JSON
+                </a>
+                <a
+                  href={newsFeedCanaryCsvHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-full bg-white px-3 py-1 text-xs font-black text-dossa-red shadow-sm"
+                >
+                  canary CSV
+                </a>
                 <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-slate-700 shadow-sm">
                   외부 feed {newsOperations.feedTransitionReadiness.feedItemCount}건
                 </span>

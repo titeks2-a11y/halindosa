@@ -4301,6 +4301,7 @@ function checkNewsDealPipeline() {
     "app/api/news-deals/route.ts",
     "app/go/news/[id]/route.ts",
     "app/api/admin/news-operations/route.ts",
+    "app/api/admin/news-feed-canary/route.ts",
     "app/api/admin/news-feed-preview/route.ts",
     "components/NewsFeedDryRunPanel.tsx",
     "components/RealtimeNewsDealsSection.tsx"
@@ -4346,6 +4347,9 @@ function checkNewsDealPipeline() {
     : "";
   const adminNewsOperationsRoute = existsSync(join(root, "app/api/admin/news-operations/route.ts"))
     ? readFileSync(join(root, "app/api/admin/news-operations/route.ts"), "utf8")
+    : "";
+  const adminNewsFeedCanaryRoute = existsSync(join(root, "app/api/admin/news-feed-canary/route.ts"))
+    ? readFileSync(join(root, "app/api/admin/news-feed-canary/route.ts"), "utf8")
     : "";
   const adminNewsFeedPreviewRoute = existsSync(join(root, "app/api/admin/news-feed-preview/route.ts"))
     ? readFileSync(join(root, "app/api/admin/news-feed-preview/route.ts"), "utf8")
@@ -4463,6 +4467,10 @@ function checkNewsDealPipeline() {
     !feedCanaryScript.includes("configured_empty_feed") ||
     !feedCanaryScript.includes("live_feed_ready") ||
     !feedCanaryScript.includes("seed_fallback_only") ||
+    !adminNewsFeedCanaryRoute.includes("canAccessAdminRequest") ||
+    !adminNewsFeedCanaryRoute.includes("buildFeedCanaryCsv") ||
+    !adminNewsFeedCanaryRoute.includes("text/csv") ||
+    !adminNewsFeedCanaryRoute.includes("getNewsOperationsReport") ||
     !freshnessScript.includes("expiredVisibleCount") ||
     !freshnessScript.includes("expiringWithin14Days") ||
     !freshnessScript.includes("lastCheckedAt") ||
@@ -4472,6 +4480,9 @@ function checkNewsDealPipeline() {
   }
   if (feedCanaryReport.ok !== true || !["seed_fallback_only", "live_feed_ready"].includes(feedCanaryReport.status) || typeof feedCanaryReport.configuredFeedUrls !== "number" || typeof feedCanaryReport.visibleCandidateCount !== "number") {
     issues.push("news feed canary report should pass and expose configured feed URL and visible candidate counters");
+  }
+  if (!adminPage.includes("canary JSON") || !adminPage.includes("canary CSV") || !smokeScript.includes("admin news feed canary api")) {
+    issues.push("admin dashboard and smoke tests should expose protected official feed canary JSON/CSV checks");
   }
   for (const phrase of ["공식 혜택 Feed Canary", "연결된 feed URL", "설정 feed 공백", "npm run news:feed:canary"]) {
     if (!feedCanaryDocs.includes(phrase)) issues.push(`news feed canary docs missing ${phrase}`);
