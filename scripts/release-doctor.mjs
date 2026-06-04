@@ -1948,6 +1948,8 @@ async function checkOperationalDataSurfaces() {
   const accountPanel = await text("components/AccountPanel.tsx");
   const claimedBenefits = await text("lib/claimedBenefits.ts");
   const adminPage = await text("app/admin/page.tsx");
+  const adminDashboardConfig = await text("lib/adminDashboardConfig.ts");
+  const adminDashboardSource = `${adminPage}\n${adminDashboardConfig}`;
   const runbook = await text("docs/RUNBOOK.md");
   const roadmap = await text("docs/roadmap.md");
   const adminExportRoute = await text("app/api/admin/export/route.ts");
@@ -3166,7 +3168,7 @@ async function checkOperationalDataSurfaces() {
     pass("live deal detail source", "Deal detail lookup reads provider data first and only falls back to cached/default data when necessary.");
   }
 
-  if (!quality.includes("getLinkReviewPriority") || !quality.includes("reviewReason") || !adminPage.includes("priorityLabels") || !adminPage.includes("linkReviewSummary") || !adminPage.includes("오늘 처리할 링크 작업") || !adminPage.includes("현재 이동 URL")) {
+  if (!quality.includes("getLinkReviewPriority") || !quality.includes("reviewReason") || !adminDashboardSource.includes("linkReviewPriorityLabels") || !adminPage.includes("linkReviewSummary") || !adminPage.includes("오늘 처리할 링크 작업") || !adminPage.includes("현재 이동 URL")) {
     fail("admin link review workflow", "Admin link review queue should expose priority, reason, confidence, and current destination URL.");
   } else if (
     !adminPage.includes("CSV 다운로드") ||

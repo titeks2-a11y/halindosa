@@ -7,6 +7,14 @@ import { AdminNewsOperationsPanel } from "@/components/AdminNewsOperationsPanel"
 import { AdminPushDryRunPanel } from "@/components/AdminPushDryRunPanel";
 import { NewsFeedDryRunPanel } from "@/components/NewsFeedDryRunPanel";
 import { PartnerFeedDryRunPanel } from "@/components/PartnerFeedDryRunPanel";
+import {
+  adminLaunchChecklist,
+  benefitOperationPriorityClassNames,
+  benefitOperationPriorityLabels,
+  decisionGuideOperationActions,
+  linkReviewPriorityClassNames,
+  linkReviewPriorityLabels
+} from "@/lib/adminDashboardConfig";
 import { getMockBusinessMetrics } from "@/lib/analytics";
 import { canAccessAdmin, getAdminExportHref, isAdminProtectionEnabled } from "@/lib/adminAuth";
 import { getDeals } from "@/lib/dealService";
@@ -38,13 +46,6 @@ import { getOfficialSourceFeedEnvReadiness } from "@/lib/operations/sourceFeedEn
 import { getOfficialSourceLiveReport } from "@/lib/operations/sourceLiveReadiness";
 import { getOfficialSourceOnboardingPlan } from "@/lib/operations/sourceOnboardingPlan";
 import { getOfficialSourceReadiness } from "@/lib/operations/sourceReadiness";
-
-const checklist = [
-  { title: "제휴 고지", description: "광고/제휴 링크 여부를 상품 상세 및 이동 전 플로우에 명확히 표시" },
-  { title: "데이터 권한", description: "공식 API, RSS, 제휴 피드 또는 허용된 수집 방식만 운영 데이터로 사용" },
-  { title: "가격 이력", description: "가격 변동과 수집 시점을 저장해 허위 할인 리스크를 낮춤" },
-  { title: "개인정보", description: "회원, 푸시, 분석 도구 연결 전 동의와 보관 기간을 정책에 반영" }
-];
 
 function formatAdminDateTime(isoDate?: string) {
   if (!isoDate) return "미정";
@@ -229,16 +230,6 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const sourceReadinessFailedGates = officialSourceReadiness.gates.filter((gate) => !gate.ok);
   const sourceReadinessNextActions = officialSourceReadiness.operatorNextActions.slice(0, 5);
   const sourceReadinessRiskRows = officialSourceReadiness.riskySources.slice(0, 6);
-  const priorityLabels = {
-    high: "우선",
-    medium: "보강",
-    low: "대기"
-  };
-  const priorityClassNames = {
-    high: "bg-red-50 text-dossa-red",
-    medium: "bg-amber-50 text-amber-700",
-    low: "bg-slate-100 text-slate-600"
-  };
   const linkReviewSummary = [
     {
       priority: "high",
@@ -312,12 +303,6 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
       href: "/notifications"
     }
   ];
-  const decisionGuideOperationActions = {
-    free: "무료 샘플, 체험단, 초대권의 수령 조건과 배송비를 먼저 보강",
-    coupon: "최소 주문 금액, 중복 가능 여부, 결제수단 조건을 최신화",
-    endingSoon: "마감 시간, 선착순 여부, 종료 신고를 우선 정리",
-    verified: "검색 fallback 없이 상품·혜택 상세 URL을 검수"
-  };
   const claimEffortOperationQueue = claimEffortSummary.groups.map((group) => {
     const sample = group.items[0];
     const operationAction =
@@ -333,16 +318,6 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
       operationAction
     };
   });
-  const benefitPriorityLabels = {
-    high: "오늘 처리",
-    medium: "이번 주 보강",
-    low: "유지 관리"
-  };
-  const benefitPriorityClassNames = {
-    high: "bg-red-50 text-dossa-red",
-    medium: "bg-amber-50 text-amber-700",
-    low: "bg-emerald-50 text-emerald-700"
-  };
 
   for (const deal of deals) {
     sourceCounts.set(deal.source, (sourceCounts.get(deal.source) ?? 0) + 1);
@@ -2631,8 +2606,8 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                 <div key={item.type} className="rounded-2xl bg-white p-4 shadow-sm">
                   <div className="flex items-center justify-between gap-2">
                     <p className="text-sm font-black text-slate-950">{item.label}</p>
-                    <span className={`rounded-full px-2.5 py-1 text-[11px] font-black ${benefitPriorityClassNames[item.priority]}`}>
-                      {benefitPriorityLabels[item.priority]}
+                    <span className={`rounded-full px-2.5 py-1 text-[11px] font-black ${benefitOperationPriorityClassNames[item.priority]}`}>
+                      {benefitOperationPriorityLabels[item.priority]}
                     </span>
                   </div>
                   <p className="mt-2 text-xs font-bold leading-5 text-slate-500">{item.reason}</p>
@@ -2688,8 +2663,8 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                 <div key={item.type} className="rounded-2xl bg-white p-4 shadow-sm">
                   <div className="flex items-center justify-between gap-3">
                     <p className="text-sm font-black text-slate-950">{item.label}</p>
-                    <span className={`rounded-full px-2.5 py-1 text-[11px] font-black ${benefitPriorityClassNames[item.priority]}`}>
-                      {benefitPriorityLabels[item.priority]}
+                    <span className={`rounded-full px-2.5 py-1 text-[11px] font-black ${benefitOperationPriorityClassNames[item.priority]}`}>
+                      {benefitOperationPriorityLabels[item.priority]}
                     </span>
                   </div>
                   <p className="mt-2 text-xs font-bold leading-5 text-slate-500">{item.action}</p>
@@ -2866,8 +2841,8 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
               <div key={item.priority} className="rounded-2xl bg-white p-4 shadow-sm">
                 <div className="flex items-center justify-between gap-3">
                   <p className="text-sm font-black text-slate-950">{item.title}</p>
-                  <span className={`rounded-full px-2.5 py-1 text-xs font-black ${priorityClassNames[item.priority]}`}>
-                    {priorityLabels[item.priority]} 검수
+                  <span className={`rounded-full px-2.5 py-1 text-xs font-black ${linkReviewPriorityClassNames[item.priority]}`}>
+                    {linkReviewPriorityLabels[item.priority]} 검수
                   </span>
                 </div>
                 <p className="mt-2 text-3xl font-black text-slate-950">{item.count}개</p>
@@ -2898,8 +2873,8 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                     <div className="min-w-0">
                       <div className="flex flex-wrap items-center gap-2">
                         <span className="rounded-full bg-red-50 px-2.5 py-1 text-xs font-black text-dossa-red">{deal.linkLabel}</span>
-                        <span className={`rounded-full px-2.5 py-1 text-xs font-black ${priorityClassNames[deal.reviewPriority]}`}>
-                          {priorityLabels[deal.reviewPriority]} 검수
+                        <span className={`rounded-full px-2.5 py-1 text-xs font-black ${linkReviewPriorityClassNames[deal.reviewPriority]}`}>
+                          {linkReviewPriorityLabels[deal.reviewPriority]} 검수
                         </span>
                         <span className="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-black text-slate-600">{deal.mallName}</span>
                         <span className="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-black text-slate-600">{deal.category}</span>
@@ -2966,7 +2941,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
           <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
             <h2 className="text-xl font-black text-slate-950">상업화 체크리스트</h2>
             <div className="mt-4 space-y-3">
-              {checklist.map((item) => (
+              {adminLaunchChecklist.map((item) => (
                 <div key={item.title} className="rounded-2xl border border-slate-100 p-4">
                   <div className="flex items-center gap-2">
                     <ShieldCheck size={18} className="text-dossa-red" />
