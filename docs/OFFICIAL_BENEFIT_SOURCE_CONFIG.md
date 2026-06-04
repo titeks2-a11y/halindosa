@@ -58,7 +58,9 @@ npm run release:doctor
 - 추천 검색어
 - 차단 사유
 - `sourceConfig`: 설정 파일에서 읽은 provider, env key, 카테고리, 추천 검색어, 운영 가드레일
-- `sourceConfig.sourceOperations`: 소스별 담당 그룹, 출시 우선순위, 재확인 주기, 노출 섹션, 품질 체크리스트
+- `sourceConfig.nextRefreshAt`: 가장 짧은 `refreshCadenceMinutes` 기준 다음 공식 feed 재확인 시각
+- `sourceConfig.sourceRefreshWindows`: 소스별 담당 그룹, 재확인 주기, 다음 확인 시각, 상태(`near_realtime`, `standard`, `watch`), 운영 액션
+- `sourceConfig.sourceOperations`: 소스별 담당 그룹, 출시 우선순위, 재확인 주기, 다음 확인 시각, 노출 섹션, 품질 체크리스트
 - `sourceConfig.targetSections`: 홈에서 우선 보여줄 추천 섹션 후보
 - `sourceConfig.operatorOwners`: 운영 담당 그룹 목록
 

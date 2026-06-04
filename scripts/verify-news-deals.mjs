@@ -30,6 +30,10 @@ const previousSourceConfig =
   previousReport.sourceConfig &&
   Array.isArray(previousReport.sourceConfig.targetSections) &&
   Array.isArray(previousReport.sourceConfig.sourceOperations) &&
+  Array.isArray(previousReport.sourceConfig.sourceRefreshWindows) &&
+  previousReport.sourceConfig.sourceRefreshWindows.length > 0 &&
+  previousReport.sourceConfig.sourceRefreshWindows.every((item) => item.nextRefreshAt && Number(item.refreshCadenceMinutes ?? 0) > 0) &&
+  previousReport.sourceConfig.nextRefreshAt &&
   Number(previousReport.sourceConfig.minimumRefreshCadenceMinutes ?? 0) > 0
     ? previousReport.sourceConfig
     : null;

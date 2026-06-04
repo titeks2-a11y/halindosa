@@ -112,17 +112,32 @@ interface OfficialBenefitSourceConfig {
   targetSections?: string[];
   operatorOwners?: string[];
   minimumRefreshCadenceMinutes?: number;
-  highPrioritySources?: number;
-  sourceOperations?: Array<{
+  nextRefreshAt?: string;
+  sourceRefreshWindows?: Array<{
     id?: string;
     provider?: string;
     source?: string;
     operatorOwner?: string;
     launchPriority?: string;
     refreshCadenceMinutes?: number;
+    nextRefreshAt?: string;
     targetSections?: string[];
-    qualityChecklist?: string[];
     envKeys?: string[];
+    status?: string;
+    operatorAction?: string;
+  }>;
+  highPrioritySources?: number;
+  sourceOperations?: Array<{
+    id?: string;
+    provider?: string;
+    source?: string;
+      operatorOwner?: string;
+      launchPriority?: string;
+      refreshCadenceMinutes?: number;
+      nextRefreshAt?: string;
+      targetSections?: string[];
+      qualityChecklist?: string[];
+      envKeys?: string[];
   }>;
   guardrails?: string[];
 }
@@ -890,10 +905,14 @@ export function getNewsOperationsReport() {
       ? feedCanaryReport.nextActions.slice(0, 5)
       : ["npm run news:feed:canary 실행 후 공식 feed 연결 상태를 다시 확인하세요."]
   };
+  const operationGeneratedAt = report.generatedAt ?? snapshot.generatedAt ?? new Date().toISOString();
+  const operationGeneratedAtMs = Date.parse(operationGeneratedAt);
+  const refreshBaseTime = Number.isFinite(operationGeneratedAtMs) ? operationGeneratedAtMs : Date.now();
+  const buildNextRefreshAt = (minutes = 360) => new Date(refreshBaseTime + minutes * 60_000).toISOString();
 
   return {
     ok: report.ok !== false && refreshAll.ok !== false && !freshness.releaseBlocking && feedCanary.ok,
-    generatedAt: report.generatedAt ?? snapshot.generatedAt ?? new Date().toISOString(),
+    generatedAt: operationGeneratedAt,
     snapshotSource: snapshot.source ?? "seed",
     totalCount: report.totalCount ?? allDeals.length,
     visibleCount: visibleDeals.length,
@@ -930,6 +949,22 @@ export function getNewsOperationsReport() {
       targetSections: ["오늘의 무료", "쿠폰", "마트 행사", "편의점 1+1", "배달 쿠폰", "카드 혜택"],
       operatorOwners: ["benefit-ops", "commerce-ops", "event-ops"],
       minimumRefreshCadenceMinutes: 180,
+      nextRefreshAt: buildNextRefreshAt(180),
+      sourceRefreshWindows: feedTransitionReadiness.providers.map((provider) => {
+        const refreshCadenceMinutes = provider.priority === "high" ? 180 : 360;
+        return {
+          provider: provider.provider,
+          source: provider.label,
+          operatorOwner: "benefit-ops",
+          launchPriority: provider.priority,
+          refreshCadenceMinutes,
+          nextRefreshAt: buildNextRefreshAt(refreshCadenceMinutes),
+          targetSections: [],
+          envKeys: provider.envKeys,
+          status: refreshCadenceMinutes <= 180 ? "near_realtime" : "standard",
+          operatorAction: "공식 feed 연결 상태와 혜택 조건을 재확인합니다."
+        };
+      }),
       highPrioritySources: feedTransitionReadiness.providers.filter((provider) => provider.priority === "high").length,
       sourceOperations: feedTransitionReadiness.providers.map((provider) => ({
         provider: provider.provider,
@@ -937,6 +972,7 @@ export function getNewsOperationsReport() {
         operatorOwner: "benefit-ops",
         launchPriority: provider.priority,
         refreshCadenceMinutes: provider.priority === "high" ? 180 : 360,
+        nextRefreshAt: buildNextRefreshAt(provider.priority === "high" ? 180 : 360),
         targetSections: [],
         qualityChecklist: ["officialFinalUrl", "endDate", "benefitConditions"],
         envKeys: provider.envKeys

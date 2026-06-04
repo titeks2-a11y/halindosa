@@ -178,6 +178,13 @@ await check("admin news operations api", async () => {
   assert(Array.isArray(data.report.sourceConfig.recommendedQueries) && data.report.sourceConfig.recommendedQueries.length >= 8, "Admin news operations report missing official source recommended queries");
   assert(Array.isArray(data.report.sourceConfig.guardrails) && data.report.sourceConfig.guardrails.some((rule) => String(rule).includes("검색 결과")), "Admin news operations report missing official source guardrails");
   assert(Array.isArray(data.report.sourceConfig.envKeys) && data.report.sourceConfig.envKeys.includes("OFFICIAL_EVENT_FEED_URLS"), "Admin news operations report missing official feed env keys");
+  assert(data.report.sourceConfig.nextRefreshAt, "Admin news operations report missing next official feed refresh time");
+  assert(
+    Array.isArray(data.report.sourceConfig.sourceRefreshWindows) &&
+      data.report.sourceConfig.sourceRefreshWindows.length >= 4 &&
+      data.report.sourceConfig.sourceRefreshWindows.every((item) => item.nextRefreshAt && Number(item.refreshCadenceMinutes ?? 0) > 0),
+    "Admin news operations report missing official source refresh windows"
+  );
   assert(["seed_fallback_only", "live_feed_ready", "needs_attention", "missing"].includes(data.report?.feedCanary?.status), "Admin news operations report missing official feed canary status");
   assert(["fresh", "due", "stale", "missing"].includes(data.report?.feedCanary?.freshnessStatus), "Admin news operations report missing official feed canary freshness status");
   assert(typeof data.report?.feedCanary?.staleHours === "number", "Admin news operations report missing official feed canary stale threshold");

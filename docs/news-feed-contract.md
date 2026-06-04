@@ -14,7 +14,7 @@
 
 각 feed는 `Deal[]`, `{ "items": Deal[] }`, `{ "deals": Deal[] }`, `{ "newsDeals": Deal[] }`, `{ "events": Deal[] }`, `{ "coupons": Deal[] }`, `{ "benefits": Deal[] }` 중 하나를 반환할 수 있다.
 
-소스별 운영 메타데이터는 `data/officialBenefitFeedSources.json`에 둔다. 새 공식 feed를 추가할 때는 `targetSections`, `operatorOwner`, `launchPriority`, `refreshCadenceMinutes`, `qualityChecklist`를 함께 입력해 홈 노출 위치, 담당 그룹, 재확인 주기, 품질 기준이 리포트와 관리자 화면에 같이 표시되게 한다.
+소스별 운영 메타데이터는 `data/officialBenefitFeedSources.json`에 둔다. 새 공식 feed를 추가할 때는 `targetSections`, `operatorOwner`, `launchPriority`, `refreshCadenceMinutes`, `qualityChecklist`를 함께 입력해 홈 노출 위치, 담당 그룹, 재확인 주기, 품질 기준이 리포트와 관리자 화면에 같이 표시되게 한다. 실행 리포트는 이 주기를 기준으로 `sourceConfig.nextRefreshAt`과 `sourceConfig.sourceRefreshWindows`를 자동 계산하므로 운영자는 다음에 재확인할 공식 feed를 관리자 화면에서 바로 볼 수 있다.
 
 RSS/Atom feed도 사용할 수 있다. RSS/Atom은 `<item>` 또는 `<entry>` 단위로 읽으며, `halindosa:finalUrl`, `finalUrl`, `eventUrl`, `purchaseUrl` 중 하나가 있으면 사용자 이동 URL로 사용한다. 해당 필드가 없으면 `<description>`, `<summary>`, `<content:encoded>` 본문 안 공식 링크를 먼저 찾고, 마지막으로 `<link>`를 후보로 쓴다. 기사 링크는 `sourceUrl`로만 보관하고, 본문 안 공식 링크가 승인 도메인이면 그 공식 링크를 `finalUrl`로 승격한다. 공식 혜택/이벤트 페이지가 아니면 사용자 화면에서 제외된다.
 

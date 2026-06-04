@@ -44,10 +44,31 @@ export function getOfficialBenefitProviderSpecs() {
 }
 
 export function buildOfficialBenefitSourceConfigSummary(providerSpecs = getOfficialBenefitProviderSpecs()) {
+  const generatedAt = new Date().toISOString();
+  const generatedAtMs = Date.parse(generatedAt);
   const refreshCadences = providerSpecs.map((spec) => spec.refreshCadenceMinutes).filter(Number.isFinite);
+  const minimumRefreshCadenceMinutes = refreshCadences.length ? Math.min(...refreshCadences) : 360;
+  const nextRefreshAt = new Date(generatedAtMs + minimumRefreshCadenceMinutes * 60_000).toISOString();
+  const sourceRefreshWindows = providerSpecs.map((spec) => ({
+    id: spec.id,
+    provider: spec.provider,
+    source: spec.source,
+    operatorOwner: spec.operatorOwner,
+    launchPriority: spec.launchPriority,
+    refreshCadenceMinutes: spec.refreshCadenceMinutes,
+    nextRefreshAt: new Date(generatedAtMs + spec.refreshCadenceMinutes * 60_000).toISOString(),
+    targetSections: spec.targetSections,
+    envKeys: spec.env,
+    status: spec.refreshCadenceMinutes <= 180 ? "near_realtime" : spec.refreshCadenceMinutes <= 360 ? "standard" : "watch",
+    operatorAction:
+      spec.refreshCadenceMinutes <= 180
+        ? "영업시간 중 최소 3시간 단위로 공식 feed 갱신 상태를 확인합니다."
+        : "하루 운영 루틴에서 공식 feed 연결, 종료일, 혜택 조건을 재확인합니다."
+  }));
 
   return {
     configFile: officialBenefitSourceConfigPath,
+    generatedAt,
     configuredSources: providerSpecs.length,
     enabledProviders: [...new Set(providerSpecs.map((spec) => spec.provider).filter(Boolean))],
     envKeys: [...new Set(providerSpecs.flatMap((spec) => spec.env).filter(Boolean))],
@@ -56,7 +77,9 @@ export function buildOfficialBenefitSourceConfigSummary(providerSpecs = getOffic
     recommendedQueries: [...new Set(providerSpecs.flatMap((spec) => spec.recommendedQueries).filter(Boolean))],
     targetSections: [...new Set(providerSpecs.flatMap((spec) => spec.targetSections).filter(Boolean))],
     operatorOwners: [...new Set(providerSpecs.map((spec) => spec.operatorOwner).filter(Boolean))],
-    minimumRefreshCadenceMinutes: refreshCadences.length ? Math.min(...refreshCadences) : 360,
+    minimumRefreshCadenceMinutes,
+    nextRefreshAt,
+    sourceRefreshWindows,
     highPrioritySources: providerSpecs.filter((spec) => spec.launchPriority === "high").length,
     sourceOperations: providerSpecs.map((spec) => ({
       id: spec.id,
@@ -65,6 +88,7 @@ export function buildOfficialBenefitSourceConfigSummary(providerSpecs = getOffic
       operatorOwner: spec.operatorOwner,
       launchPriority: spec.launchPriority,
       refreshCadenceMinutes: spec.refreshCadenceMinutes,
+      nextRefreshAt: new Date(generatedAtMs + spec.refreshCadenceMinutes * 60_000).toISOString(),
       targetSections: spec.targetSections,
       qualityChecklist: spec.qualityChecklist,
       envKeys: spec.env

@@ -332,9 +332,12 @@ export function checkNewsDealPipeline() {
     !sourceConfigDocs.includes("data/officialBenefitFeedSources.json") ||
     !sourceConfigDocs.includes("검색 결과, 커뮤니티 원문, 블로그, 뉴스 기사 단독 링크") ||
     !sourceConfigDocs.includes("refreshCadenceMinutes") ||
-    !sourceConfigDocs.includes("qualityChecklist")
+    !sourceConfigDocs.includes("qualityChecklist") ||
+    !sourceConfigHelper.includes("sourceRefreshWindows") ||
+    !sourceConfigHelper.includes("nextRefreshAt") ||
+    !sourceConfigHelper.includes("operatorAction")
   ) {
-    issues.push("official benefit feed source config should let operators add approved providers with owner, cadence, target section, quality checklist, and allowed/blocked source policy");
+    issues.push("official benefit feed source config should let operators add approved providers with owner, cadence, next refresh window, target section, quality checklist, and allowed/blocked source policy");
   }
 
   if (!homeRuntimeSource.includes("RealtimeNewsDealsSection") || !homeRuntimeSource.includes("/api/news-deals?${params.toString()}") || !homeRuntimeSource.includes("params.set(\"q\"") || !homeRuntimeSource.includes("activeQuery={query}") || !homeRuntimeSource.includes("refreshNewsDeals") || !homeRuntimeSource.includes("120_000")) {
@@ -370,6 +373,13 @@ export function checkNewsDealPipeline() {
   }
   if (!homePage.includes("newsTargetSections") || !realtimeNewsSection.includes("운영 추천 혜택 지도") || !realtimeNewsSection.includes("targetSections")) {
     issues.push("home realtime official benefit section should expose operator target section chips for free, coupon, mart, delivery, card, and public benefits");
+  }
+  if (
+    !adminNewsOperationsPanel.includes("sourceRefreshWindows") ||
+    !adminNewsOperationsPanel.includes("소스별 재확인 큐") ||
+    !adminNewsOperationsPanel.includes("nextRefreshAt")
+  ) {
+    issues.push("admin official benefit operations should expose source refresh windows and next refresh timing for operator handoff");
   }
   if (
     !realtimeNewsSection.includes("/go/news/") ||
@@ -530,11 +540,15 @@ export function checkNewsDealPipeline() {
       report.sourceConfig.recommendedQueries.length < 8 ||
       !Array.isArray(report.sourceConfig.guardrails) ||
       !report.sourceConfig.guardrails.some((rule) => String(rule).includes("검색 결과")) ||
+      !Array.isArray(report.sourceConfig.sourceRefreshWindows) ||
+      !report.sourceConfig.sourceRefreshWindows.every((item) => item.nextRefreshAt && Number(item.refreshCadenceMinutes ?? 0) > 0) ||
+      !report.sourceConfig.nextRefreshAt ||
       !sourceConfigHasOperationalMetadata ||
       !sourceConfigHelper.includes("sourceOperations") ||
-      !sourceConfigHelper.includes("minimumRefreshCadenceMinutes")
+      !sourceConfigHelper.includes("minimumRefreshCadenceMinutes") ||
+      !sourceConfigHelper.includes("sourceRefreshWindows")
     ) {
-      issues.push("news-deals report should include operator source config, recommended queries, target sections, cadence, owners, and blocked source guardrails");
+      issues.push("news-deals report should include operator source config, recommended queries, target sections, cadence, next refresh windows, owners, and blocked source guardrails");
     }
     if (
       Array.isArray(report.providerStats) &&

@@ -173,6 +173,20 @@ interface NewsOperationsReport {
     targetSections?: string[];
     operatorOwners?: string[];
     minimumRefreshCadenceMinutes?: number;
+    nextRefreshAt?: string;
+    sourceRefreshWindows?: Array<{
+      id?: string;
+      provider?: string;
+      source?: string;
+      operatorOwner?: string;
+      launchPriority?: string;
+      refreshCadenceMinutes?: number;
+      nextRefreshAt?: string;
+      targetSections?: string[];
+      envKeys?: string[];
+      status?: string;
+      operatorAction?: string;
+    }>;
     highPrioritySources?: number;
     sourceOperations?: Array<{
       id?: string;
@@ -181,6 +195,7 @@ interface NewsOperationsReport {
       operatorOwner?: string;
       launchPriority?: string;
       refreshCadenceMinutes?: number;
+      nextRefreshAt?: string;
       targetSections?: string[];
       qualityChecklist?: string[];
       envKeys?: string[];
@@ -313,6 +328,7 @@ export function AdminNewsOperationsPanel({ apiHref, initialReport }: AdminNewsOp
   const sourceConfigEnvKeys = useMemo(() => sourceConfig?.envKeys?.slice(0, 8) ?? [], [sourceConfig?.envKeys]);
   const sourceConfigTargetSections = useMemo(() => sourceConfig?.targetSections?.slice(0, 8) ?? [], [sourceConfig?.targetSections]);
   const sourceConfigOwners = useMemo(() => sourceConfig?.operatorOwners?.slice(0, 4) ?? [], [sourceConfig?.operatorOwners]);
+  const sourceRefreshWindows = useMemo(() => sourceConfig?.sourceRefreshWindows?.slice(0, 6) ?? [], [sourceConfig?.sourceRefreshWindows]);
   const refreshSteps = useMemo(() => report.refreshAll?.steps?.slice(0, 6) ?? [], [report.refreshAll?.steps]);
   const operatorNextActions = useMemo(() => report.operatorNextActions?.slice(0, 3) ?? [], [report.operatorNextActions]);
   const renewalQueue = useMemo(() => report.freshnessQueues?.renewalQueue?.slice(0, 4) ?? [], [report.freshnessQueues?.renewalQueue]);
@@ -746,6 +762,12 @@ export function AdminNewsOperationsPanel({ apiHref, initialReport }: AdminNewsOp
               최소 주기
               <b className="mt-0.5 block text-sm text-slate-950">{sourceConfig?.minimumRefreshCadenceMinutes ?? 360}분</b>
             </span>
+            <span className="rounded-2xl bg-brand-navySoft px-3 py-2 text-brand-navy">
+              다음 갱신
+              <b className="mt-0.5 block text-sm text-slate-950">
+                {sourceConfig?.nextRefreshAt ? getRelativeTime(sourceConfig.nextRefreshAt) : "대기 중"}
+              </b>
+            </span>
           </div>
         </div>
         <div className="mt-3 grid gap-3 lg:grid-cols-[0.95fr_1.05fr]">
@@ -794,6 +816,46 @@ export function AdminNewsOperationsPanel({ apiHref, initialReport }: AdminNewsOp
             </div>
           </div>
         </div>
+        {sourceRefreshWindows.length ? (
+          <div className="mt-3 rounded-2xl border border-slate-100 bg-slate-50 p-3" aria-label="공식 feed 소스별 재확인 큐">
+            <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p className="text-xs font-black text-slate-950">소스별 재확인 큐</p>
+                <p className="mt-1 text-[11px] font-bold leading-5 text-slate-500">
+                  출시 후 운영자는 다음 갱신 시각이 가까운 공식 feed부터 가격, 종료일, 혜택 조건을 다시 확인합니다.
+                </p>
+              </div>
+              <span className="rounded-full bg-white px-2.5 py-1 text-[10px] font-black text-slate-500 shadow-sm">
+                {sourceRefreshWindows.length}개 소스
+              </span>
+            </div>
+            <div className="mt-3 grid gap-2 md:grid-cols-2 xl:grid-cols-3">
+              {sourceRefreshWindows.map((item) => (
+                <article key={`${item.provider}-${item.source}`} className="rounded-2xl bg-white p-3 shadow-sm">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="min-w-0">
+                      <p className="truncate text-xs font-black text-slate-950">{item.source ?? item.provider}</p>
+                      <p className="mt-1 text-[10px] font-bold text-slate-400">
+                        담당 {item.operatorOwner ?? "benefit-ops"} · {item.refreshCadenceMinutes ?? 360}분 주기
+                      </p>
+                    </div>
+                    <span className={`shrink-0 rounded-full px-2 py-1 text-[10px] font-black ${
+                      item.status === "near_realtime" ? "bg-emerald-50 text-emerald-700" : item.status === "standard" ? "bg-red-50 text-brand-red" : "bg-amber-50 text-amber-700"
+                    }`}>
+                      {item.status === "near_realtime" ? "고빈도" : item.status === "standard" ? "표준" : "주의"}
+                    </span>
+                  </div>
+                  <p className="mt-2 text-[11px] font-black text-brand-navy">
+                    다음 확인 {item.nextRefreshAt ? getRelativeTime(item.nextRefreshAt) : "대기 중"}
+                  </p>
+                  <p className="mt-1 line-clamp-2 text-[11px] font-bold leading-5 text-slate-500">
+                    {item.operatorAction ?? "공식 feed 연결 상태와 혜택 조건을 재확인합니다."}
+                  </p>
+                </article>
+              ))}
+            </div>
+          </div>
+        ) : null}
       </div>
 
       <div className="mt-4 grid gap-3 xl:grid-cols-[0.9fr_1.1fr]">
