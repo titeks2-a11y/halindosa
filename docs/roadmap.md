@@ -45,6 +45,7 @@
 - cron refresh 운영 리포트를 `lib/operations/cronRefresh.ts`로 분리하고 `/api/health`와 `/admin`에 마지막 실행, 보호 상태, 상품/뉴스 갱신 수, dry-run 링크를 노출해 배포 후 자동 갱신 상태를 운영자가 바로 확인할 수 있게 했다.
 - 관리자/운영 API 인증을 `canAccessAdminRequest`로 통일해 `Authorization: Bearer`, `x-admin-token`, `x-admin-export-token`, `x-halindosa-admin-token` 헤더를 지원하고, 쿼리 token 방식은 호환용으로만 유지하도록 `admin:auth:doctor`, `reports/admin-auth.json`, release doctor 게이트를 추가했다.
 - `test:news-feed-errors` 회귀 테스트를 추가해 정상 공식 feed는 통과하고, 설정된 운영 feed가 깨졌을 때는 seed fallback이 있어도 `configuredFeedErrors`로 `verify:news`가 실패하는지 QA에서 직접 재현하도록 했다.
+- `test:news-feed-errors`가 임시 공식 feed 서버를 띄워 정상 feed의 `feedItemCount/feedSuccessCount` 증가와 깨진 feed의 seed fallback 보존을 함께 검증하도록 보강해, 실제 RSS/JSON feed 연결 시 source mix 집계가 회귀하지 않게 했다.
 - `news:freshness:doctor`를 추가해 사용자 노출 공식 혜택의 리포트 freshness, `lastCheckedAt`, 종료 노출 0건, 14일 이내 종료 대체 큐, 필수 카테고리 커버리지, 공식 소스 후보 수를 `reports/news-freshness.json`과 `docs/NEWS_FRESHNESS_REPORT.md`로 남기고 QA/release doctor에 연결했다.
 - `reports/news-freshness.json`의 14일 내 종료 `renewalQueue`와 30일 감시 `watchQueue`를 `/api/admin/news-operations`, 관리자 `공식 혜택 수동 운영` 패널, CSV export, release doctor에 연결해 운영자가 종료 임박 공식 혜택을 스프레드시트와 화면에서 바로 대체 준비할 수 있게 했다.
 - 만료 임박 공식 혜택 큐가 `source:onboarding:plan`의 카테고리별 공식 소스 후보를 자동 매칭하도록 보강해 관리자 화면과 CSV에서 추천 대체 소스, 공식 URL, 권장 env key를 바로 확인할 수 있게 했다.

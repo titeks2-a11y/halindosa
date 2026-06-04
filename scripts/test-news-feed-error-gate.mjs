@@ -162,6 +162,13 @@ try {
   assert(validReport.gates.configuredFeedErrors.length === 0, "valid configured feed should have zero configuredFeedErrors");
   assert(validNewsProvider?.configured === true, "valid configured feed should mark the news provider as configured");
   assert(Number(validNewsProvider?.errorCount ?? 999) === 0, "valid configured feed should have zero provider errors");
+  assert(Number(validNewsProvider?.seedCount ?? 0) >= 1, "valid configured feed should preserve seed fallback count");
+  assert(Number(validNewsProvider?.feedItemCount ?? 0) >= 1, "valid configured feed should count external feed items separately");
+  assert(Number(validNewsProvider?.feedSuccessCount ?? 0) === 1, "valid configured feed should count successful external feed fetches");
+  assert(
+    Number(validNewsProvider?.collectedCount ?? 0) === Number(validNewsProvider?.seedCount ?? 0) + Number(validNewsProvider?.feedItemCount ?? 0),
+    "valid configured feed should expose collectedCount as seed plus external feed items"
+  );
 
   const parserEnv = buildEnv({
     DEAL_NEWS_FEED_URLS: `${feedServer.validFeedUrl}?tags=mart,coupon`,
@@ -191,9 +198,14 @@ try {
   assert(invalidReport.gates.configuredFeedErrors.some((provider) => provider.provider === "news"), "broken feed errors should include the news provider");
   assert(invalidNewsProvider?.configured === true, "broken configured feed should still mark the news provider as configured");
   assert(Number(invalidNewsProvider?.errorCount ?? 0) > 0, "broken configured feed should increment provider errorCount");
+  assert(Number(invalidNewsProvider?.seedCount ?? 0) >= 1, "broken configured feed should preserve seed fallback count for safety");
+  assert(Number(invalidNewsProvider?.feedItemCount ?? 999) === 0, "broken configured feed should not count external feed items");
+  assert(Number(invalidNewsProvider?.feedSuccessCount ?? 999) === 0, "broken configured feed should not count successful feed fetches");
+  assert(Number(invalidNewsProvider?.collectedCount ?? 0) === Number(invalidNewsProvider?.seedCount ?? 0), "broken configured feed collectedCount should equal seed fallback count");
 
   console.log("PASS configured news feed error gate regression");
   console.log("- valid configured JSON feed passes refresh and verify");
+  console.log("- providerStats split seed fallback and external feed item counters");
   console.log("- broken configured feed fails verify:news via configuredFeedErrors");
   console.log("- data/refreshedNewsDeals.json and reports/news-deals.json were restored");
 } finally {

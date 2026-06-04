@@ -4425,6 +4425,10 @@ function checkNewsDealPipeline() {
     !configuredFeedErrorTest.includes("tags=mart,coupon") ||
     !configuredFeedErrorTest.includes("base64,") ||
     !configuredFeedErrorTest.includes("configuredFeedErrors") ||
+    !configuredFeedErrorTest.includes("seedCount") ||
+    !configuredFeedErrorTest.includes("feedItemCount") ||
+    !configuredFeedErrorTest.includes("feedSuccessCount") ||
+    !configuredFeedErrorTest.includes("collectedCount") ||
     !configuredFeedErrorTest.includes("DEAL_NEWS_FEED_URLS") ||
     !configuredFeedErrorTest.includes("verify-news-deals.mjs") ||
     !feedDryRunTest.includes("dry-run-negative-search-url") ||
