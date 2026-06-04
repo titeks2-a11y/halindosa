@@ -35,6 +35,16 @@ interface FreshnessQueueItem {
   endDate?: string;
   daysLeft?: number;
   action?: string;
+  replacementCandidates?: Array<{
+    id: string;
+    label: string;
+    provider: string;
+    officialUrl: string;
+    liveStatus: string;
+    score: number;
+    nextAction: string;
+    recommendedEnvKeys: string[];
+  }>;
 }
 
 interface NewsOperationsReport {
@@ -408,6 +418,14 @@ export function AdminNewsOperationsPanel({ apiHref, initialReport }: AdminNewsOp
                     {item.merchant ?? item.sourceName ?? "공식 혜택"} · {item.category ?? "카테고리"}
                     {item.endDate ? ` · 종료 ${formatDateTime(item.endDate)}` : ""}
                   </p>
+                  {item.replacementCandidates?.length ? (
+                    <div className="mt-2 rounded-xl bg-white px-2 py-1.5">
+                      <p className="text-[10px] font-black text-amber-700">추천 대체 소스</p>
+                      <p className="mt-1 line-clamp-1 text-[11px] font-bold text-slate-700">
+                        {item.replacementCandidates[0].label} · {item.replacementCandidates[0].recommendedEnvKeys.slice(0, 2).join(", ")}
+                      </p>
+                    </div>
+                  ) : null}
                 </div>
               ))}
             </div>

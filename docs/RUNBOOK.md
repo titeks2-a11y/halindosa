@@ -96,7 +96,7 @@ npm run smoke
   - 공식 혜택 운영 리포트는 6시간마다 갱신을 권장하고, 24시간 이상 갱신되지 않으면 출시 전 갱신 필요 상태로 본다.
   - `npm run news:freshness:doctor`는 `reports/news-freshness.json`과 `docs/NEWS_FRESHNESS_REPORT.md`를 생성한다. 사용자 노출 공식 혜택의 `lastCheckedAt`, 종료일, 14일 이내 종료 큐, 필수 카테고리 커버리지, 공식 소스 후보 수를 확인한다.
   - `/admin`의 `뉴스 수집 현황`과 `공식 혜택 수동 운영` 패널에서 `Provider 위험도`, `신선도 운영`, `만료 임박 대체 큐`, `다음 refresh 권장`, `다음 운영 액션`을 확인한다.
-  - `/api/admin/news-operations?format=csv`는 `renewal_queue`와 `watch_queue` 행을 포함한다. 14일 내 종료 혜택은 같은 카테고리의 공식 소스 후보를 준비하고, 30일 내 혜택은 감시 큐로 매일 확인한다.
+  - `/api/admin/news-operations?format=csv`는 `renewal_queue`와 `watch_queue` 행을 포함한다. 14일 내 종료 혜택은 같은 카테고리의 공식 소스 후보를 준비하고, 30일 내 혜택은 감시 큐로 매일 확인한다. 각 행은 `source:onboarding:plan`의 추천 대체 소스 공식 URL과 권장 환경변수도 함께 내려보낸다.
   - `/admin`의 `공식 피드 전환 준비도`는 `news`, `event_news`, `official_event`, `public_coupon` provider가 seed fallback인지 공식 feed 연결 상태인지 보여준다. 상용 운영 전에는 우선순위가 높은 `OFFICIAL_EVENT_FEED_URLS`, `DEAL_EVENT_FEED_URLS`, `PUBLIC_COUPON_FEED_URLS`부터 공식 API/RSS/제휴 JSON feed를 연결한다.
   - `npm run source:catalog:report`는 `data/officialSourceCatalog.json`을 검증해 `reports/official-source-catalog.json`, `reports/official-source-catalog.csv`, `docs/OFFICIAL_SOURCE_CATALOG.md`를 생성한다. 운영자는 이 문서와 CSV에서 카테고리별 공식 소스 후보, provider별 후보, 우선 연결할 환경변수, 허용/차단 사용 범위를 확인한다.
   - `npm run source:live:doctor`는 공식 소스 후보 URL을 짧게 확인해 `reports/official-source-live-check.json`, `reports/official-source-live-check.csv`, `docs/OFFICIAL_SOURCE_LIVE_CHECK.md`를 생성한다. 이 리포트는 무단 크롤링이 아니라 접근 가능, WAF/권한 보호, 404/410 교체 필요 상태를 분류하는 non-strict 운영 점검이다.

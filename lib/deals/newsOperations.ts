@@ -2,6 +2,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { getEnvFeedUrls } from "@/lib/deals/feedUrls";
 import { applyNewsDealOverrides, readNewsDealOverrides } from "@/lib/deals/newsOverrides";
+import { getOfficialSourceOnboardingPlan } from "@/lib/operations/sourceOnboardingPlan";
 import type { NewsDeal } from "@/types/newsDeal";
 
 interface NewsDealSnapshot {
@@ -127,6 +128,21 @@ interface FreshnessQueueItem {
   daysLeft?: number;
   action?: string;
 }
+
+interface SourceReplacementCandidate {
+  id: string;
+  label: string;
+  provider: string;
+  officialUrl: string;
+  liveStatus: string;
+  score: number;
+  nextAction: string;
+  recommendedEnvKeys: string[];
+}
+
+type FreshnessQueueWithCandidates = FreshnessQueueItem & {
+  replacementCandidates: SourceReplacementCandidate[];
+};
 
 interface NewsFreshnessReport {
   ok?: boolean;
@@ -261,6 +277,35 @@ function getDurationMs(startedAt?: string, finishedAt?: string) {
   const finished = Date.parse(finishedAt ?? "");
   if (!Number.isFinite(started) || !Number.isFinite(finished)) return 0;
   return Math.max(0, finished - started);
+}
+
+function attachReplacementCandidates(
+  queue: FreshnessQueueItem[],
+  sourceQueue: ReturnType<typeof getOfficialSourceOnboardingPlan>["queue"],
+  limitPerDeal = 3
+): FreshnessQueueWithCandidates[] {
+  return queue.map((deal) => {
+    const category = deal.category ?? "";
+    const candidates = sourceQueue
+      .filter((source) => source.category.includes(category))
+      .sort((a, b) => b.score - a.score || a.rank - b.rank)
+      .slice(0, limitPerDeal)
+      .map((source) => ({
+        id: source.id,
+        label: source.label,
+        provider: source.provider,
+        officialUrl: source.officialUrl,
+        liveStatus: source.liveStatus,
+        score: source.score,
+        nextAction: source.nextAction,
+        recommendedEnvKeys: source.recommendedEnvKeys
+      }));
+
+    return {
+      ...deal,
+      replacementCandidates: candidates
+    };
+  });
 }
 
 function getProviderRisk(stat: ProviderStat): ProviderRisk {
@@ -429,6 +474,7 @@ export function getNewsOperationsReport() {
   const report = readJson<NewsDealsReport>(newsDealsReportPath, {});
   const refreshAll = readJson<RefreshAllReport>(refreshAllReportPath, {});
   const freshnessReport = readJson<NewsFreshnessReport>(newsFreshnessReportPath, {});
+  const sourceOnboardingPlan = getOfficialSourceOnboardingPlan();
   const overrides = readNewsDealOverrides();
   const allDeals = snapshot.allDeals?.length ? snapshot.allDeals : [...(snapshot.deals ?? []), ...(snapshot.hiddenDeals ?? [])] as NewsDeal[];
   const visibleDeals = applyNewsDealOverrides(snapshot.deals ?? []);
@@ -475,8 +521,8 @@ export function getNewsOperationsReport() {
     durationMs: getDurationMs(step.startedAt, step.finishedAt)
   }));
   const freshness = getNewsFreshnessState(report.generatedAt ?? snapshot.generatedAt);
-  const renewalQueue = (freshnessReport.renewalQueue ?? []).slice(0, 12);
-  const watchQueue = (freshnessReport.watchQueue ?? []).slice(0, 20);
+  const renewalQueue = attachReplacementCandidates((freshnessReport.renewalQueue ?? []).slice(0, 12), sourceOnboardingPlan.queue);
+  const watchQueue = attachReplacementCandidates((freshnessReport.watchQueue ?? []).slice(0, 20), sourceOnboardingPlan.queue, 2);
   const freshnessNextActions = freshnessReport.nextActions ?? [];
   const operatorNextActions = [
     ...(freshness.status === "fresh"
