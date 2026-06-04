@@ -85,6 +85,18 @@ export function checkNewsDealPipeline() {
   const feedPreviewDocs = existsSync(join(root, "docs/NEWS_FEED_PREVIEW_REPORT.md")) ? readFileSync(join(root, "docs/NEWS_FEED_PREVIEW_REPORT.md"), "utf8") : "";
   const sourceConfigDocs = existsSync(join(root, "docs/OFFICIAL_BENEFIT_SOURCE_CONFIG.md")) ? readFileSync(join(root, "docs/OFFICIAL_BENEFIT_SOURCE_CONFIG.md"), "utf8") : "";
   const officialBenefitFeedSources = existsSync(join(root, "data/officialBenefitFeedSources.json")) ? JSON.parse(readFileSync(join(root, "data/officialBenefitFeedSources.json"), "utf8")) : [];
+  const sourceConfigHasOperationalMetadata =
+    Array.isArray(officialBenefitFeedSources) &&
+    officialBenefitFeedSources.every(
+      (source) =>
+        Array.isArray(source.targetSections) &&
+        source.targetSections.length &&
+        source.operatorOwner &&
+        ["high", "medium", "low"].includes(source.launchPriority) &&
+        Number(source.refreshCadenceMinutes) > 0 &&
+        Array.isArray(source.qualityChecklist) &&
+        source.qualityChecklist.length >= 3
+    );
   const configuredFeedErrorTest = existsSync(join(root, "scripts/test-news-feed-error-gate.mjs")) ? readFileSync(join(root, "scripts/test-news-feed-error-gate.mjs"), "utf8") : "";
   const feedDryRunTest = existsSync(join(root, "scripts/test-news-feed-dry-run.mjs")) ? readFileSync(join(root, "scripts/test-news-feed-dry-run.mjs"), "utf8") : "";
   const feedDryRunRegressionReport = existsSync(join(root, "reports/news-feed-dry-run-regression.json")) ? JSON.parse(readFileSync(join(root, "reports/news-feed-dry-run-regression.json"), "utf8")) : {};
@@ -305,13 +317,24 @@ export function checkNewsDealPipeline() {
   if (
     !Array.isArray(officialBenefitFeedSources) ||
     officialBenefitFeedSources.length < 4 ||
-    !officialBenefitFeedSources.every((source) => source.provider && Array.isArray(source.env) && source.env.length && Array.isArray(source.recommendedQueries) && source.allowedUse && source.blockedUse) ||
+    !officialBenefitFeedSources.every(
+      (source) =>
+        source.provider &&
+        Array.isArray(source.env) &&
+        source.env.length &&
+        Array.isArray(source.recommendedQueries) &&
+        source.allowedUse &&
+        source.blockedUse
+    ) ||
+    !sourceConfigHasOperationalMetadata ||
     (!refreshScript.includes("officialBenefitFeedSources.json") && !sourceConfigHelper.includes("officialBenefitFeedSources.json")) ||
     !refreshScript.includes("sourceConfigSummary") ||
     !sourceConfigDocs.includes("data/officialBenefitFeedSources.json") ||
-    !sourceConfigDocs.includes("검색 결과, 커뮤니티 원문, 블로그, 뉴스 기사 단독 링크")
+    !sourceConfigDocs.includes("검색 결과, 커뮤니티 원문, 블로그, 뉴스 기사 단독 링크") ||
+    !sourceConfigDocs.includes("refreshCadenceMinutes") ||
+    !sourceConfigDocs.includes("qualityChecklist")
   ) {
-    issues.push("official benefit feed source config should let operators add approved providers without editing refresh code and document allowed/blocked source policy");
+    issues.push("official benefit feed source config should let operators add approved providers with owner, cadence, target section, quality checklist, and allowed/blocked source policy");
   }
 
   if (!homeRuntimeSource.includes("RealtimeNewsDealsSection") || !homeRuntimeSource.includes("/api/news-deals?${params.toString()}") || !homeRuntimeSource.includes("params.set(\"q\"") || !homeRuntimeSource.includes("activeQuery={query}") || !homeRuntimeSource.includes("refreshNewsDeals") || !homeRuntimeSource.includes("120_000")) {
@@ -501,9 +524,12 @@ export function checkNewsDealPipeline() {
       !Array.isArray(report.sourceConfig.recommendedQueries) ||
       report.sourceConfig.recommendedQueries.length < 8 ||
       !Array.isArray(report.sourceConfig.guardrails) ||
-      !report.sourceConfig.guardrails.some((rule) => String(rule).includes("검색 결과"))
+      !report.sourceConfig.guardrails.some((rule) => String(rule).includes("검색 결과")) ||
+      !sourceConfigHasOperationalMetadata ||
+      !sourceConfigHelper.includes("sourceOperations") ||
+      !sourceConfigHelper.includes("minimumRefreshCadenceMinutes")
     ) {
-      issues.push("news-deals report should include operator source config, recommended queries, and blocked source guardrails");
+      issues.push("news-deals report should include operator source config, recommended queries, target sections, cadence, owners, and blocked source guardrails");
     }
     if (
       Array.isArray(report.providerStats) &&

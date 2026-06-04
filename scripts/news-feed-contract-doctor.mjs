@@ -78,7 +78,7 @@ for (const [path, content, required] of [
   }
 }
 
-for (const phrase of ["공식 승인 도메인", "검색 결과 URL", "커뮤니티", "finalUrl", "RSS", "Atom", "본문 안 공식 링크", "npm run refresh:news", "configuredFeedErrors", "설정된 운영 feed", "data/newsFeed.sample.json", "data/newsFeed.sample.rss.xml"]) {
+for (const phrase of ["공식 승인 도메인", "검색 결과 URL", "커뮤니티", "finalUrl", "RSS", "Atom", "본문 안 공식 링크", "npm run refresh:news", "configuredFeedErrors", "설정된 운영 feed", "targetSections", "operatorOwner", "refreshCadenceMinutes", "qualityChecklist", "data/newsFeed.sample.json", "data/newsFeed.sample.rss.xml"]) {
   if (!docs.includes(phrase)) issues.push(`feed contract docs missing ${phrase}`);
 }
 
@@ -86,6 +86,10 @@ const refreshContractSource = `${refreshScript}\n${sourceConfigScript}\n${source
 
 for (const phrase of ["fetchNewsFeed", "DEAL_NEWS_FEED_URLS", "DEAL_NEWS_RSS_URLS", "DEAL_EVENT_NEWS_FEED_URLS", "OFFICIAL_EVENT_FEED_URLS", "PUBLIC_COUPON_FEED_URLS"]) {
   if (!refreshContractSource.includes(phrase)) issues.push(`refresh-news-deals source config missing ${phrase}`);
+}
+
+for (const phrase of ["targetSections", "operatorOwner", "launchPriority", "refreshCadenceMinutes", "qualityChecklist"]) {
+  if (!refreshContractSource.includes(phrase)) issues.push(`refresh-news-deals source config missing operational metadata ${phrase}`);
 }
 
 for (const [label, content] of [

@@ -170,6 +170,21 @@ interface NewsOperationsReport {
     categories?: string[];
     benefitTypes?: string[];
     recommendedQueries?: string[];
+    targetSections?: string[];
+    operatorOwners?: string[];
+    minimumRefreshCadenceMinutes?: number;
+    highPrioritySources?: number;
+    sourceOperations?: Array<{
+      id?: string;
+      provider?: string;
+      source?: string;
+      operatorOwner?: string;
+      launchPriority?: string;
+      refreshCadenceMinutes?: number;
+      targetSections?: string[];
+      qualityChecklist?: string[];
+      envKeys?: string[];
+    }>;
     guardrails?: string[];
   };
   categoryCoverage?: Array<{
@@ -296,6 +311,8 @@ export function AdminNewsOperationsPanel({ apiHref, initialReport }: AdminNewsOp
   const sourceConfigQueries = useMemo(() => sourceConfig?.recommendedQueries?.slice(0, 12) ?? [], [sourceConfig?.recommendedQueries]);
   const sourceConfigGuardrails = useMemo(() => sourceConfig?.guardrails?.slice(0, 4) ?? [], [sourceConfig?.guardrails]);
   const sourceConfigEnvKeys = useMemo(() => sourceConfig?.envKeys?.slice(0, 8) ?? [], [sourceConfig?.envKeys]);
+  const sourceConfigTargetSections = useMemo(() => sourceConfig?.targetSections?.slice(0, 8) ?? [], [sourceConfig?.targetSections]);
+  const sourceConfigOwners = useMemo(() => sourceConfig?.operatorOwners?.slice(0, 4) ?? [], [sourceConfig?.operatorOwners]);
   const refreshSteps = useMemo(() => report.refreshAll?.steps?.slice(0, 6) ?? [], [report.refreshAll?.steps]);
   const operatorNextActions = useMemo(() => report.operatorNextActions?.slice(0, 3) ?? [], [report.operatorNextActions]);
   const renewalQueue = useMemo(() => report.freshnessQueues?.renewalQueue?.slice(0, 4) ?? [], [report.freshnessQueues?.renewalQueue]);
@@ -721,6 +738,14 @@ export function AdminNewsOperationsPanel({ apiHref, initialReport }: AdminNewsOp
               env key
               <b className="mt-0.5 block text-sm text-slate-950">{sourceConfig?.envKeys?.length ?? 0}</b>
             </span>
+            <span className="rounded-2xl bg-emerald-50 px-3 py-2 text-emerald-700">
+              우선 소스
+              <b className="mt-0.5 block text-sm text-slate-950">{sourceConfig?.highPrioritySources ?? 0}</b>
+            </span>
+            <span className="rounded-2xl bg-amber-50 px-3 py-2 text-amber-700">
+              최소 주기
+              <b className="mt-0.5 block text-sm text-slate-950">{sourceConfig?.minimumRefreshCadenceMinutes ?? 360}분</b>
+            </span>
           </div>
         </div>
         <div className="mt-3 grid gap-3 lg:grid-cols-[0.95fr_1.05fr]">
@@ -736,6 +761,13 @@ export function AdminNewsOperationsPanel({ apiHref, initialReport }: AdminNewsOp
             <p className="mt-3 text-[11px] font-bold leading-5 text-slate-500">
               설정 파일: <code className="rounded-lg bg-white px-1.5 py-0.5 font-black text-slate-700">{sourceConfig?.configFile ?? "data/officialBenefitFeedSources.json"}</code>
             </p>
+            <div className="mt-2 flex flex-wrap gap-1.5">
+              {(sourceConfigTargetSections.length ? sourceConfigTargetSections : ["오늘의 무료", "쿠폰", "마트", "편의점"]).map((section) => (
+                <span key={section} className="rounded-full bg-white px-2.5 py-1 text-[10px] font-black text-slate-600 shadow-sm">
+                  노출 {section}
+                </span>
+              ))}
+            </div>
           </div>
           <div className="rounded-2xl bg-brand-warm p-3">
             <p className="text-xs font-black text-slate-950">허용·차단 가드레일</p>
@@ -751,6 +783,13 @@ export function AdminNewsOperationsPanel({ apiHref, initialReport }: AdminNewsOp
                 <code key={key} className="shrink-0 rounded-full bg-white px-2.5 py-1 text-[10px] font-black text-slate-700 shadow-sm">
                   {key}
                 </code>
+              ))}
+            </div>
+            <div className="mt-2 flex flex-wrap gap-1.5">
+              {(sourceConfigOwners.length ? sourceConfigOwners : ["benefit-ops"]).map((owner) => (
+                <span key={owner} className="rounded-full bg-white px-2.5 py-1 text-[10px] font-black text-slate-600 shadow-sm">
+                  담당 {owner}
+                </span>
               ))}
             </div>
           </div>

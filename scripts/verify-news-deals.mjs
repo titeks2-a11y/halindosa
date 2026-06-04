@@ -25,6 +25,14 @@ const summary = summarizeNewsDeals(validated, generatedAt, snapshot?.providerSta
 const configuredFeedErrors = (snapshot?.providerStats ?? []).filter(
   (provider) => provider?.configured === true && Number(provider?.errorCount ?? 0) > 0
 );
+const sourceConfigSummary = buildOfficialBenefitSourceConfigSummary();
+const previousSourceConfig =
+  previousReport.sourceConfig &&
+  Array.isArray(previousReport.sourceConfig.targetSections) &&
+  Array.isArray(previousReport.sourceConfig.sourceOperations) &&
+  Number(previousReport.sourceConfig.minimumRefreshCadenceMinutes ?? 0) > 0
+    ? previousReport.sourceConfig
+    : null;
 const searchLikeVisible = validated.filter((deal) => !deal.isHidden && /search|query=|keyword=|msearch|result/i.test(deal.finalUrl));
 const searchLinkTypeVisible = validated.filter((deal) => !deal.isHidden && deal.linkType === "search");
 const nonOfficialLinkTypeVisible = validated.filter((deal) => !deal.isHidden && ["news_only", "community", "invalid"].includes(deal.linkType));
@@ -213,7 +221,7 @@ const ok =
 
 const report = {
   ...summary,
-  sourceConfig: previousReport.sourceConfig ?? buildOfficialBenefitSourceConfigSummary(),
+  sourceConfig: previousSourceConfig ?? sourceConfigSummary,
   ok,
   gates: {
     hasVisibleNewsDeals: summary.visibleCount > 0,

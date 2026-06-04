@@ -23,6 +23,11 @@ data/officialBenefitFeedSources.json
 - `categories`: 홈/검색 추천에 사용할 카테고리
 - `benefitTypes`: `coupon`, `freebie`, `card`, `culture`, `foodDelivery` 같은 혜택 유형
 - `recommendedQueries`: 홈 공식 혜택 섹션에 추천할 검색어 후보
+- `targetSections`: 홈·카테고리·추천 검색에서 우선 노출할 섹션명
+- `operatorOwner`: 운영 담당 그룹. 예: `benefit-ops`, `commerce-ops`, `event-ops`
+- `launchPriority`: `high`, `medium`, `low` 중 하나. 출시 전 우선 연결할 소스는 `high`
+- `refreshCadenceMinutes`: 운영 feed 재확인 권장 주기. 이벤트·마트·배달은 180분, 공공·문화·카드는 360분을 기본으로 둔다
+- `qualityChecklist`: 운영자가 feed 연결 전 확인해야 할 품질 항목. 예: `officialFinalUrl`, `endDate`, `benefitConditions`, `sourceAttribution`
 - `allowedUse`: 허용되는 데이터 사용 방식
 - `blockedUse`: 노출하면 안 되는 링크/데이터
 - `operatorNote`: 운영자가 수집 전 확인할 사항
@@ -53,8 +58,11 @@ npm run release:doctor
 - 추천 검색어
 - 차단 사유
 - `sourceConfig`: 설정 파일에서 읽은 provider, env key, 카테고리, 추천 검색어, 운영 가드레일
+- `sourceConfig.sourceOperations`: 소스별 담당 그룹, 출시 우선순위, 재확인 주기, 노출 섹션, 품질 체크리스트
+- `sourceConfig.targetSections`: 홈에서 우선 보여줄 추천 섹션 후보
+- `sourceConfig.operatorOwners`: 운영 담당 그룹 목록
 
-`/api/news-deals`는 보이는 혜택에서 뽑은 키워드와 이 설정 파일의 `recommendedQueries`를 함께 사용한다. 따라서 운영자가 `오늘의 무료`, `쿠폰`, `마트 행사`, `편의점 1+1`, `배달 쿠폰`, `카드 혜택`, `정부 지원`, `문화 혜택` 같은 검색어를 설정하면 홈 공식 혜택 섹션의 추천 검색어 칩에도 반영된다.
+`/api/news-deals`는 보이는 혜택에서 뽑은 키워드와 이 설정 파일의 `recommendedQueries`를 함께 사용한다. 따라서 운영자가 `오늘의 무료`, `쿠폰`, `마트 행사`, `편의점 1+1`, `배달 쿠폰`, `카드 혜택`, `정부 지원`, `문화 혜택` 같은 검색어를 설정하면 홈 공식 혜택 섹션의 추천 검색어 칩에도 반영된다. `targetSections`는 관리자 운영 화면에서 노출 후보로 확인해 홈 편집과 피드 운영이 같은 기준을 보게 한다.
 
 ## 새 소스 추가 흐름
 

@@ -19,6 +19,11 @@ interface ProviderStat {
   source?: string;
   configured?: boolean;
   feedUrls?: number;
+  targetSections?: string[];
+  operatorOwner?: string;
+  launchPriority?: string;
+  refreshCadenceMinutes?: number;
+  qualityChecklist?: string[];
   seedCount?: number;
   feedItemCount?: number;
   feedSuccessCount?: number;
@@ -104,6 +109,21 @@ interface OfficialBenefitSourceConfig {
   categories?: string[];
   benefitTypes?: string[];
   recommendedQueries?: string[];
+  targetSections?: string[];
+  operatorOwners?: string[];
+  minimumRefreshCadenceMinutes?: number;
+  highPrioritySources?: number;
+  sourceOperations?: Array<{
+    id?: string;
+    provider?: string;
+    source?: string;
+    operatorOwner?: string;
+    launchPriority?: string;
+    refreshCadenceMinutes?: number;
+    targetSections?: string[];
+    qualityChecklist?: string[];
+    envKeys?: string[];
+  }>;
   guardrails?: string[];
 }
 
@@ -907,6 +927,20 @@ export function getNewsOperationsReport() {
       categories: requiredNewsCategories.map((item) => item.category),
       benefitTypes: [],
       recommendedQueries: ["무료 쿠폰", "공식 이벤트", "마트 행사", "편의점 1+1", "배달 쿠폰", "카드 혜택", "문화 초대권", "공공 혜택"],
+      targetSections: ["오늘의 무료", "쿠폰", "마트 행사", "편의점 1+1", "배달 쿠폰", "카드 혜택"],
+      operatorOwners: ["benefit-ops", "commerce-ops", "event-ops"],
+      minimumRefreshCadenceMinutes: 180,
+      highPrioritySources: feedTransitionReadiness.providers.filter((provider) => provider.priority === "high").length,
+      sourceOperations: feedTransitionReadiness.providers.map((provider) => ({
+        provider: provider.provider,
+        source: provider.label,
+        operatorOwner: "benefit-ops",
+        launchPriority: provider.priority,
+        refreshCadenceMinutes: provider.priority === "high" ? 180 : 360,
+        targetSections: [],
+        qualityChecklist: ["officialFinalUrl", "endDate", "benefitConditions"],
+        envKeys: provider.envKeys
+      })),
       guardrails: feedTransitionReadiness.guardrails
     },
     failureReasonTop10,
