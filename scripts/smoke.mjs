@@ -621,6 +621,8 @@ await check("admin dashboard quality cards", async () => {
   assert(text.includes("feed 연결 후보") && text.includes("제휴 확인") && text.includes("차단 이슈"), "Admin dashboard missing official source onboarding summary cards");
   assert(text.includes("공식 feed 환경변수 안전성") && text.includes("운영 env에 검색·커뮤니티 링크가 들어가기 전 차단"), "Admin dashboard missing source feed env readiness panel");
   assert(text.includes("feed env JSON") && text.includes("정책 회귀 샘플 모두 통과"), "Admin dashboard missing source feed env API and regression status controls");
+  assert(text.includes("공식 소스 통합 준비도") && text.includes("오늘 공식 feed 전환 판단"), "Admin dashboard missing official source readiness rollup panel");
+  assert(text.includes("source readiness JSON") && text.includes("통합 게이트") && text.includes("운영 다음 액션"), "Admin dashboard missing official source readiness API and gate controls");
   assert(text.includes("운영 피드 전환 준비도") && text.includes("공식 API·제휴 피드로 바꿀 때 볼 품질 기준"), "Admin dashboard missing source readiness operation board");
   assert(text.includes("자동 refresh cron 운영") && text.includes("6시간마다 검증 데이터 갱신 상태를 확인합니다"), "Admin dashboard missing cron refresh operation board");
   assert(text.includes("CRON_SECRET") && text.includes("reports/cron-refresh.json") && text.includes("dry-run 확인"), "Admin dashboard missing cron refresh secret/report/dry-run guidance");
@@ -833,6 +835,22 @@ await check("admin source feed env readiness api", async () => {
   assert(data.report?.policy?.officialCatalogHostOrApprovedPartnerHostRequired === true, "Admin source feed env report should require official or approved hosts");
   assert(Array.isArray(data.report?.allowedCatalogHosts) && data.report.allowedCatalogHosts.length >= 25, "Admin source feed env report missing allowed catalog hosts");
   assert(Array.isArray(data.report?.policyRegressionSamples) && data.report.policyRegressionSamples.every((sample) => sample.passed === true), "Admin source feed env policy regression samples should all pass");
+});
+
+await check("admin source readiness rollup api", async () => {
+  const { response, data } = await fetchJson("/api/admin/source-readiness");
+  assert(response.status === 200, `Expected source readiness 200, got ${response.status}`);
+  assert(data.ok === true, "Admin source readiness API ok should be true");
+  assert(data.report?.ok === true, "Admin source readiness report should pass");
+  assert(data.report?.launchGateStatus === "passed", "Admin source readiness launch gate should pass");
+  assert(data.report?.summary?.officialSourceCandidates >= 30, "Admin source readiness missing official source candidates");
+  assert(data.report?.summary?.visibleOfficialBenefits >= 25, "Admin source readiness missing visible official benefits");
+  assert(data.report?.summary?.feedEnvFailedCount === 0, "Admin source readiness should have zero feed env failures");
+  assert(data.report?.summary?.blockedLiveIssues === 0, "Admin source readiness should have zero blocking live issues");
+  assert(Array.isArray(data.report?.gates) && data.report.gates.length >= 6, "Admin source readiness report missing gate rows");
+  assert(data.report.gates.every((gate) => gate.ok === true), "Admin source readiness gates should all pass");
+  assert(Array.isArray(data.report?.operatorNextActions) && data.report.operatorNextActions.length >= 3, "Admin source readiness report missing operator next actions");
+  assert(Array.isArray(data.report?.commands) && data.report.commands.includes("npm run source:readiness:report"), "Admin source readiness report missing regeneration command");
 });
 
 await check("admin health readiness api", async () => {

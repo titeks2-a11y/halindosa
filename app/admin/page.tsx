@@ -31,6 +31,7 @@ import { getHealthReadinessReport } from "@/lib/operations/healthReadiness";
 import { getOfficialSourceFeedEnvReadiness } from "@/lib/operations/sourceFeedEnvReadiness";
 import { getOfficialSourceLiveReport } from "@/lib/operations/sourceLiveReadiness";
 import { getOfficialSourceOnboardingPlan } from "@/lib/operations/sourceOnboardingPlan";
+import { getOfficialSourceReadiness } from "@/lib/operations/sourceReadiness";
 
 const checklist = [
   { title: "제휴 고지", description: "광고/제휴 링크 여부를 상품 상세 및 이동 전 플로우에 명확히 표시" },
@@ -91,6 +92,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const sourceLiveReport = getOfficialSourceLiveReport();
   const sourceOnboardingPlan = getOfficialSourceOnboardingPlan();
   const sourceFeedEnvReadiness = getOfficialSourceFeedEnvReadiness();
+  const officialSourceReadiness = getOfficialSourceReadiness();
   const cronRefresh = getCronRefreshOperationsReport();
   const exposurePolicy = getExposurePolicyReport();
   const newsResult = getVisibleNewsDeals({ limit: 20 });
@@ -154,6 +156,9 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const sourceFeedEnvApiHref = isAdminProtectionEnabled()
     ? `/api/admin/source-feed-env?token=${encodeURIComponent(token ?? "")}`
     : "/api/admin/source-feed-env";
+  const sourceReadinessApiHref = isAdminProtectionEnabled()
+    ? `/api/admin/source-readiness?token=${encodeURIComponent(token ?? "")}`
+    : "/api/admin/source-readiness";
   const pushSendApiHref = isAdminProtectionEnabled()
     ? `/api/admin/push/send?token=${encodeURIComponent(token ?? "")}`
     : "/api/admin/push/send";
@@ -166,6 +171,8 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const sourceFeedEnvFailures = sourceFeedEnvReadiness.rows.filter((row) => row.status !== "passed");
   const sourceFeedEnvRegressionFailures = sourceFeedEnvReadiness.policyRegressionSamples.filter((sample) => !sample.passed);
   const sourceFeedEnvRows = (sourceFeedEnvFailures.length ? sourceFeedEnvFailures : sourceFeedEnvReadiness.rows).slice(0, 4);
+  const sourceReadinessFailedGates = officialSourceReadiness.gates.filter((gate) => !gate.ok);
+  const sourceReadinessNextActions = officialSourceReadiness.operatorNextActions.slice(0, 5);
   const priorityLabels = {
     high: "우선",
     medium: "보강",
@@ -1490,6 +1497,98 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                     </span>
                   ))}
                 </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="rounded-3xl border border-violet-100 bg-white p-5 shadow-sm" aria-label="공식 소스 통합 준비도">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-black text-violet-700">공식 소스 통합 준비도</p>
+              <h2 className="mt-1 text-xl font-black text-slate-950">오늘 공식 feed 전환 판단</h2>
+              <p className="mt-1 text-sm font-semibold leading-6 text-slate-500">
+                카탈로그, live 접근성, 온보딩 큐, feed env, 공식 혜택 노출, refresh:all 결과를 한 번에 묶어 운영 가능 여부를 확인합니다.
+              </p>
+            </div>
+            <a href={sourceReadinessApiHref} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-2xl bg-slate-950 px-4 py-3 text-sm font-black text-white">
+              <DatabaseZap size={17} />
+              source readiness JSON
+            </a>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-5">
+            <div className="rounded-2xl bg-violet-50 p-4">
+              <p className="text-xs font-black text-violet-700">출시 게이트</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">{officialSourceReadiness.launchGateStatus === "passed" ? "통과" : "점검"}</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-violet-900/70">{officialSourceReadiness.readinessLabel}</p>
+            </div>
+            <div className="rounded-2xl bg-slate-50 p-4">
+              <p className="text-xs font-black text-slate-500">공식 후보</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">{officialSourceReadiness.summary.officialSourceCandidates}개</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-slate-500">카테고리 공백 없음</p>
+            </div>
+            <div className="rounded-2xl bg-blue-50 p-4">
+              <p className="text-xs font-black text-blue-700">접근/보호</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">
+                {officialSourceReadiness.summary.reachableSources}/{officialSourceReadiness.summary.guardedSources}
+              </p>
+              <p className="mt-1 text-xs font-bold leading-5 text-blue-900/70">보호 소스는 API·제휴 우선</p>
+            </div>
+            <div className="rounded-2xl bg-emerald-50 p-4">
+              <p className="text-xs font-black text-emerald-700">공식 혜택</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">{officialSourceReadiness.summary.visibleOfficialBenefits}개</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-emerald-900/70">노출 가능 혜택</p>
+            </div>
+            <div className="rounded-2xl bg-red-50 p-4">
+              <p className="text-xs font-black text-dossa-red">차단 이슈</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">
+                {officialSourceReadiness.summary.blockedLiveIssues + officialSourceReadiness.summary.feedEnvFailedCount + officialSourceReadiness.summary.newsFailedCount}개
+              </p>
+              <p className="mt-1 text-xs font-bold leading-5 text-red-900/70">출시 전 0 유지</p>
+            </div>
+          </div>
+          <div className="mt-4 grid gap-3 xl:grid-cols-[0.95fr_1.05fr]">
+            <div className="rounded-2xl border border-violet-100 bg-violet-50 p-4">
+              <div className="flex items-center justify-between gap-2">
+                <p className="text-sm font-black text-slate-950">통합 게이트</p>
+                <span className="rounded-full bg-white px-3 py-1.5 text-xs font-black text-violet-700 shadow-sm">
+                  {sourceReadinessFailedGates.length ? `${sourceReadinessFailedGates.length}개 점검` : "전체 통과"}
+                </span>
+              </div>
+              <div className="mt-3 space-y-2">
+                {officialSourceReadiness.gates.map((gate) => (
+                  <div key={gate.name} className="rounded-2xl bg-white p-3 shadow-sm">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className={`rounded-full px-2.5 py-1 text-[11px] font-black ${gate.ok ? "bg-emerald-50 text-emerald-700" : "bg-red-50 text-dossa-red"}`}>
+                        {gate.ok ? "통과" : "점검"}
+                      </span>
+                      <span className="rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-black text-slate-600">{gate.name}</span>
+                    </div>
+                    <p className="mt-2 text-xs font-bold leading-5 text-slate-500">{gate.detail}</p>
+                    <p className="mt-1 text-[11px] font-black text-violet-700">{gate.action}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
+              <p className="text-sm font-black text-slate-950">운영 다음 액션</p>
+              <div className="mt-3 space-y-2">
+                {sourceReadinessNextActions.map((action) => (
+                  <p key={action} className="rounded-2xl bg-white px-3 py-2 text-xs font-bold leading-5 text-slate-600 shadow-sm">
+                    {action}
+                  </p>
+                ))}
+              </div>
+              <div className="mt-3 rounded-2xl bg-white px-3 py-2 text-xs font-bold leading-5 text-slate-600 shadow-sm">
+                <p>
+                  <b className="text-slate-950">공식 feed URL:</b> {officialSourceReadiness.summary.configuredFeedUrls}개
+                </p>
+                <p className="mt-1">
+                  <b className="text-slate-950">재생성:</b> npm run source:readiness:report
+                </p>
+                <p className="mt-1">
+                  검색 결과, 커뮤니티 원문, HTML 랜딩 페이지는 공식 feed 전환 대상에서 제외합니다.
+                </p>
               </div>
             </div>
           </div>

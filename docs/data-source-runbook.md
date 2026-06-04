@@ -65,6 +65,29 @@ npm run source:feed-env:doctor
 
 이 명령이 통과한 뒤 `npm run refresh:news`, `npm run verify:news`, `npm run refresh:all`을 실행한다.
 
+## Official Source Readiness Rollup
+
+공식 feed를 실제 운영 환경에 붙이기 전에는 통합 리포트로 전체 상태를 확인한다.
+
+```bash
+npm run source:catalog:report
+npm run source:live:doctor
+npm run source:onboarding:plan
+npm run source:feed-env:doctor
+npm run source:readiness:report
+```
+
+`source:readiness:report`는 아래 리포트를 함께 읽어 `reports/source-readiness.json`과 `docs/SOURCE_READINESS_REPORT.md`를 만든다.
+
+- `reports/official-source-catalog.json`
+- `reports/official-source-live-check.json`
+- `reports/source-onboarding-plan.json`
+- `reports/source-feed-env-readiness.json`
+- `reports/news-deals.json`
+- `reports/refresh-all.json`
+
+운영자는 `/api/admin/source-readiness` 또는 `/admin`의 `공식 소스 통합 준비도` 패널에서 출시 게이트, 공식 후보 수, 접근 가능/보호 소스, feed env 실패, 공식 혜택 노출 수, 다음 연결 액션을 확인한다. 검색 결과, 커뮤니티 원문, 블로그, 쇼핑몰 메인, HTML 이벤트 랜딩 페이지는 공식 feed 후보나 사용자 이동 링크로 쓰지 않는다.
+
 ## 운영 전환 순서
 
 1. 신규 공급원을 `/api/admin/import` dry-run으로 검증
