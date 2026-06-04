@@ -45,11 +45,15 @@ npm run release:doctor
 `refresh:news`는 `reports/news-deals.json`에 아래 정보를 남긴다.
 
 - 수집/정규화/노출/숨김 수
+- 수집 → 정규화 → 검증 → 중복 제거 → 노출/차단으로 이어지는 `collectionSummary`
+- 중복 제거 수, 실패 feed 수, 설정됐지만 비어 있는 feed 수
 - provider별 seed/feed 수집 현황
 - 카테고리별, 혜택 유형별, 출처별 수
 - 추천 검색어
 - 차단 사유
 - `sourceConfig`: 설정 파일에서 읽은 provider, env key, 카테고리, 추천 검색어, 운영 가드레일
+
+`/api/news-deals`는 보이는 혜택에서 뽑은 키워드와 이 설정 파일의 `recommendedQueries`를 함께 사용한다. 따라서 운영자가 `오늘의 무료`, `쿠폰`, `마트 행사`, `편의점 1+1`, `배달 쿠폰`, `카드 혜택`, `정부 지원`, `문화 혜택` 같은 검색어를 설정하면 홈 공식 혜택 섹션의 추천 검색어 칩에도 반영된다.
 
 ## 새 소스 추가 흐름
 

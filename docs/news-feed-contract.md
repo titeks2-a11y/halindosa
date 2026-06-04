@@ -85,11 +85,17 @@ RSS/Atom feed도 사용할 수 있다. RSS/Atom은 `<item>` 또는 `<entry>` 단
 - `discount`
 - `coupon`
 - `freebie`
+- `freeShipping`
+- `event`
 - `membership`
 - `card`
 - `culture`
 - `travel`
 - `public`
+- `point`
+- `foodDelivery`
+- `convenienceStore`
+- `mart`
 
 ## 노출 차단 기준
 

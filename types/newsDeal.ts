@@ -2,13 +2,17 @@ export type NewsBenefitType =
   | "discount"
   | "coupon"
   | "freebie"
+  | "freeShipping"
+  | "event"
   | "membership"
   | "card"
   | "culture"
   | "travel"
   | "public"
   | "point"
-  | "foodDelivery";
+  | "foodDelivery"
+  | "convenienceStore"
+  | "mart";
 
 export type NewsDealCategory =
   | "식품/생필품"

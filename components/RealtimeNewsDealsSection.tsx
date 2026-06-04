@@ -16,13 +16,17 @@ const benefitLabels: Record<NewsDeal["benefitType"], string> = {
   discount: "할인",
   coupon: "쿠폰",
   freebie: "무료",
+  freeShipping: "무배",
+  event: "이벤트",
   membership: "멤버십",
   card: "카드",
   culture: "문화",
   travel: "여행",
   public: "공공혜택",
   point: "포인트",
-  foodDelivery: "배달"
+  foodDelivery: "배달",
+  convenienceStore: "편의점",
+  mart: "마트"
 };
 
 const categoryHighlights = [
@@ -174,7 +178,7 @@ export function RealtimeNewsDealsSection({
               aria-label={`${item.query} 공식 혜택 검색`}
             >
               {item.query}
-              <span className="text-[10px] text-slate-400">{item.count}</span>
+              {item.count > 0 ? <span className="text-[10px] text-slate-400">{item.count}</span> : null}
             </button>
           ))}
         </div>

@@ -266,8 +266,8 @@ function resolveNewsLinkType(deal) {
   if (isBlockedUrl(finalUrl)) return "community";
   if (isSearchUrl(finalUrl)) return "search";
   if (!isApprovedOfficialUrl(finalUrl)) return "news_only";
-  if (["coupon", "card", "membership", "point"].includes(deal.benefitType)) return "official_coupon";
-  if (["culture", "travel", "public", "freebie", "foodDelivery"].includes(deal.benefitType)) return "official_benefit";
+  if (["coupon", "card", "membership", "point", "freeShipping"].includes(deal.benefitType)) return "official_coupon";
+  if (["culture", "travel", "public", "freebie", "foodDelivery", "event", "convenienceStore", "mart"].includes(deal.benefitType)) return "official_benefit";
   return "official_event";
 }
 
@@ -280,7 +280,10 @@ function resolveAvailability(endDate, now) {
 function scoreNewsDeal(deal, { reasons = [], availability = "unknown", linkType = "invalid", now = Date.now() } = {}) {
   const endsAt = Date.parse(deal.endDate);
   const daysLeft = Number.isFinite(endsAt) ? Math.max(0, Math.ceil((endsAt - now) / (24 * 60 * 60 * 1000))) : 999;
-  const benefitSignal = deal.discountRate > 0 || deal.couponAmount > 0 || ["freebie", "coupon", "membership", "card", "culture", "travel", "public", "point", "foodDelivery"].includes(deal.benefitType);
+  const benefitSignal =
+    deal.discountRate > 0 ||
+    deal.couponAmount > 0 ||
+    ["freebie", "coupon", "freeShipping", "event", "membership", "card", "culture", "travel", "public", "point", "foodDelivery", "convenienceStore", "mart"].includes(deal.benefitType);
   const directOfficialBonus = linkType.startsWith("official") ? 18 : -35;
   const freshnessBonus = daysLeft <= 14 ? 8 : daysLeft <= 45 ? 5 : 2;
 
@@ -382,7 +385,10 @@ export function validateNewsDeal(deal, now = Date.now()) {
 
   const passed = reasons.length === 0;
   const host = normalizeHost(deal.finalUrl);
-  const benefitSignal = deal.discountRate > 0 || deal.couponAmount > 0 || ["freebie", "coupon", "membership", "card", "culture", "travel", "public", "point", "foodDelivery"].includes(deal.benefitType);
+  const benefitSignal =
+    deal.discountRate > 0 ||
+    deal.couponAmount > 0 ||
+    ["freebie", "coupon", "freeShipping", "event", "membership", "card", "culture", "travel", "public", "point", "foodDelivery", "convenienceStore", "mart"].includes(deal.benefitType);
   const validationReason = passed ? "passed" : reasons.join(",");
   const priorityScore = scoreNewsDeal(deal, { reasons, availability, linkType, now });
   const confidenceScore = Math.max(
@@ -441,13 +447,17 @@ function topKeywordCounts(deals) {
     discount: "할인",
     coupon: "쿠폰",
     freebie: "무료",
+    freeShipping: "무료배송",
+    event: "이벤트",
     membership: "멤버십",
     card: "카드할인",
     culture: "문화",
     travel: "여행",
     public: "공공혜택",
     point: "포인트",
-    foodDelivery: "배달쿠폰"
+    foodDelivery: "배달쿠폰",
+    convenienceStore: "편의점행사",
+    mart: "마트행사"
   };
   const add = (value, weight = 1) => {
     const keyword = cleanText(value);
@@ -468,7 +478,7 @@ function topKeywordCounts(deals) {
     .map(([keyword, score]) => ({ keyword, score }));
 }
 
-export function summarizeNewsDeals(deals, generatedAt = new Date().toISOString(), providerStats = []) {
+export function summarizeNewsDeals(deals, generatedAt = new Date().toISOString(), providerStats = [], collectionStats = {}) {
   const visible = deals.filter((deal) => !deal.isHidden && deal.validationStatus === "passed");
   const hidden = deals.filter((deal) => deal.isHidden || deal.validationStatus !== "passed");
   const expired = deals.filter((deal) => deal.hiddenReason.includes("expired_event"));
@@ -546,6 +556,26 @@ export function summarizeNewsDeals(deals, generatedAt = new Date().toISOString()
       priorityScore: deal.priorityScore,
       checkedAt: deal.lastCheckedAt
     }));
+  const categoryCounts = countVisibleBy(visible, (deal) => deal.category);
+  const benefitTypeCounts = countVisibleBy(visible, (deal) => deal.benefitType);
+  const sourceCounts = countVisibleBy(visible, (deal) => deal.sourceName);
+  const collectedCountFromProviders = providerStats.reduce((sum, stat) => sum + Number(stat?.collectedCount ?? stat?.fetchedCount ?? 0), 0);
+  const feedFailureCount = providerStats.filter((stat) => Number(stat?.errorCount ?? 0) > 0).length;
+  const configuredEmptyFeedCount = providerStats.filter((stat) => stat?.configuredEmptyFeed === true).length;
+  const collectionSummary = {
+    collectedCount: Number(collectionStats.collectedCount ?? collectedCountFromProviders ?? deals.length),
+    normalizedCount: Number(collectionStats.normalizedCount ?? deals.length),
+    validationInputCount: Number(collectionStats.validationInputCount ?? collectionStats.normalizedCount ?? deals.length),
+    dedupedCount: Number(collectionStats.dedupedCount ?? deals.length),
+    duplicateRemovedCount: Number(collectionStats.duplicateRemovedCount ?? 0),
+    visibleCount: visible.length,
+    blockedCount: hidden.length,
+    sourceCount: Object.keys(sourceCounts).length,
+    categoryCount: Object.keys(categoryCounts).length,
+    benefitTypeCount: Object.keys(benefitTypeCounts).length,
+    failedFeedCount: feedFailureCount,
+    configuredEmptyFeedCount
+  };
 
   return {
     ok: hidden.length === 0 && activeVisible.length === visible.length && exposedSearchLinks.length === 0 && exposedNonOfficialLinks.length === 0,
@@ -562,9 +592,10 @@ export function summarizeNewsDeals(deals, generatedAt = new Date().toISOString()
     activeVisibleCount: activeVisible.length,
     averagePriorityScore: visible.length ? Math.round(visible.reduce((sum, deal) => sum + Number(deal.priorityScore ?? 0), 0) / visible.length) : 0,
     failedCount: hidden.length,
-    categoryCounts: countVisibleBy(visible, (deal) => deal.category),
-    benefitTypeCounts: countVisibleBy(visible, (deal) => deal.benefitType),
-    sourceCounts: countVisibleBy(visible, (deal) => deal.sourceName),
+    categoryCounts,
+    benefitTypeCounts,
+    sourceCounts,
+    collectionSummary,
     topKeywords: topKeywordCounts(visible),
     providerStats: enrichedProviderStats,
     failureReasons,

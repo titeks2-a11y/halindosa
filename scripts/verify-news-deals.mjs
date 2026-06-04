@@ -13,8 +13,15 @@ const previousReport = readJson("reports/news-deals.json", {});
 
 const source = snapshot ? (snapshot.allDeals?.length ? snapshot.allDeals : snapshot.deals) : readJson("data/newsDeals.seed.json", []);
 const normalized = source.map((item) => normalizeNewsDeal(item, generatedAt));
-const validated = dedupeNewsDeals(normalized.map((deal) => validateNewsDeal(deal, now)));
-const summary = summarizeNewsDeals(validated, generatedAt, snapshot?.providerStats ?? []);
+const validatedBeforeDedupe = normalized.map((deal) => validateNewsDeal(deal, now));
+const validated = dedupeNewsDeals(validatedBeforeDedupe);
+const summary = summarizeNewsDeals(validated, generatedAt, snapshot?.providerStats ?? [], {
+  collectedCount: source.length,
+  normalizedCount: normalized.length,
+  validationInputCount: validatedBeforeDedupe.length,
+  dedupedCount: validated.length,
+  duplicateRemovedCount: Math.max(0, validatedBeforeDedupe.length - validated.length)
+});
 const configuredFeedErrors = (snapshot?.providerStats ?? []).filter(
   (provider) => provider?.configured === true && Number(provider?.errorCount ?? 0) > 0
 );

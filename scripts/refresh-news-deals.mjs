@@ -73,10 +73,17 @@ for (const spec of providerSpecs) {
 }
 
 const normalized = collected.map((item) => normalizeNewsDeal(item, generatedAt));
-const validated = dedupeNewsDeals(normalized.map((deal) => validateNewsDeal(deal, now))).sort(
+const validatedBeforeDedupe = normalized.map((deal) => validateNewsDeal(deal, now));
+const validated = dedupeNewsDeals(validatedBeforeDedupe).sort(
   (a, b) => Number(a.isHidden) - Number(b.isHidden) || b.confidenceScore - a.confidenceScore || new Date(a.endDate).getTime() - new Date(b.endDate).getTime()
 );
-const summary = summarizeNewsDeals(validated, generatedAt, providerStats);
+const summary = summarizeNewsDeals(validated, generatedAt, providerStats, {
+  collectedCount: collected.length,
+  normalizedCount: normalized.length,
+  validationInputCount: validatedBeforeDedupe.length,
+  dedupedCount: validated.length,
+  duplicateRemovedCount: Math.max(0, validatedBeforeDedupe.length - validated.length)
+});
 const configuredFeedErrors = providerStats.filter((provider) => provider.configured === true && Number(provider.errorCount ?? 0) > 0);
 const policyRegression = buildNewsPolicyRegressionScenarios({ now, generatedAt });
 const visibleDeals = validated.filter((deal) => !deal.isHidden && deal.validationStatus === "passed");
@@ -126,6 +133,7 @@ writeJson("reports/news-deals.json", {
 console.log("News/event deal refresh completed.");
 console.log(`- collectedCount: ${collected.length}`);
 console.log(`- normalizedCount: ${normalized.length}`);
+console.log(`- duplicateRemovedCount: ${summary.collectionSummary.duplicateRemovedCount}`);
 console.log(`- visibleCount: ${summary.visibleCount}`);
 console.log(`- hiddenCount: ${summary.hiddenCount}`);
 console.log(`- failedCount: ${summary.failedCount}`);
