@@ -1,7 +1,7 @@
 {
   "generatedBy": "npm run store:manual:checklist",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "3f2614e",
+  "commit": "6e9a048",
   "workingTree": "M docs/release-evidence.md",
   "appName": "할인도사",
   "version": "1.0.1",
@@ -131,7 +131,7 @@
     {
       "path": "docs/release-evidence.md",
       "status": "present",
-      "bytes": 7215
+      "bytes": 7216
     }
   ],
   "manualWorkThatMustNotBeFaked": [
