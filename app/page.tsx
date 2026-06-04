@@ -67,7 +67,16 @@ import {
   toastMessages,
   type PriceBand
 } from "@/lib/homeDiscoveryConfig";
-import { type DealsResponse, type HotSignalsResponse, type NewsDealsResponse, requestJson } from "@/lib/homeApi";
+import {
+  buildDealsRequestUrl,
+  buildHotSignalsRequestUrl,
+  buildLatestDealsRequestUrl,
+  buildNewsDealsRequestUrl,
+  type DealsResponse,
+  type HotSignalsResponse,
+  type NewsDealsResponse,
+  requestJson
+} from "@/lib/homeApi";
 import { readRecentSearchKeywords, storeRecentSearchKeywords } from "@/lib/homeRecentSearches";
 import { buildHomeUrlSearchParams, readHomeUrlState } from "@/lib/homeUrlState";
 import { buildDealRedirectUrl, buildNativeSafeDealUrl } from "@/lib/redirectUrl";
@@ -167,15 +176,12 @@ export default function Home() {
         if (silent && typeof document !== "undefined" && document.visibilityState === "hidden") return;
 
         setIsNewsRefreshing(true);
-        const params = new URLSearchParams({
-          limit: "8",
-          sort: query.trim() ? "endingSoon" : "priority",
-          ts: String(Date.now())
-        });
-
-        if (query.trim()) params.set("q", query.trim());
-
-        const data = await requestJson<NewsDealsResponse>(`/api/news-deals?${params.toString()}`);
+        const data = await requestJson<NewsDealsResponse>(
+          buildNewsDealsRequestUrl({
+            query,
+            sort: query.trim() ? "endingSoon" : "priority"
+          })
+        );
         setNewsDeals(Array.isArray(data.deals) ? data.deals : []);
         setNewsTotalCount(Number.isFinite(data.count) ? data.count : Array.isArray(data.deals) ? data.deals.length : 0);
         setNewsRecommendedQueries(Array.isArray(data.recommendedQueries) ? data.recommendedQueries : []);
@@ -374,23 +380,20 @@ export default function Home() {
         }
 
         if (!isOffline) setLoadError("");
-        const params = new URLSearchParams({
-          category,
-          sort,
-          freeShippingOnly: String(freeShippingOnly),
-          hotOnly: String(hotOnly),
-          endingSoonOnly: String(endingSoonOnly),
-          verifiedOnly: String(verifiedOnly),
-          mall: mallFilter,
-          priceBand,
-          dealType: benefitFilter
-        });
-
-        if (query.trim()) {
-          params.set("q", query.trim());
-        }
-
-        const data = await requestJson<DealsResponse>(`/api/deals?${params.toString()}`);
+        const data = await requestJson<DealsResponse>(
+          buildDealsRequestUrl({
+            category,
+            sort,
+            freeShippingOnly,
+            hotOnly,
+            endingSoonOnly,
+            verifiedOnly,
+            mallFilter,
+            priceBand,
+            benefitFilter,
+            query
+          })
+        );
 
         const nextDeals = Array.isArray(data.deals) ? data.deals : [];
         setDeals(
@@ -500,16 +503,12 @@ export default function Home() {
           return;
         }
 
-        const params = new URLSearchParams({
-          category: getProviderCategory(category) ?? category,
-          limit: "9"
-        });
-
-        if (query.trim()) {
-          params.set("q", query.trim());
-        }
-
-        const data = await requestJson<HotSignalsResponse>(`/api/hot-signals?${params.toString()}`);
+        const data = await requestJson<HotSignalsResponse>(
+          buildHotSignalsRequestUrl({
+            category: getProviderCategory(category) ?? category,
+            query
+          })
+        );
         const nextSignals = Array.isArray(data.signals) && data.signals.length ? data.signals : mockHotSignals;
         setHotSignals(nextSignals);
       } catch {
@@ -531,7 +530,7 @@ export default function Home() {
           return;
         }
 
-        const data = await requestJson<DealsResponse>("/api/deals?sort=latest");
+        const data = await requestJson<DealsResponse>(buildLatestDealsRequestUrl());
         setCatalog(data.deals);
       } catch {
         setCatalog([]);

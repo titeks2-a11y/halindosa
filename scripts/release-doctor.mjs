@@ -4213,6 +4213,8 @@ function checkNewsDealPipeline() {
   const publicCouponProvider = existsSync(join(root, "lib/deals/providers/publicCouponProvider.ts")) ? readFileSync(join(root, "lib/deals/providers/publicCouponProvider.ts"), "utf8") : "";
   const newsFeedContract = existsSync(join(root, "docs/news-feed-contract.md")) ? readFileSync(join(root, "docs/news-feed-contract.md"), "utf8") : "";
   const homePage = readFileSync(join(root, "app/page.tsx"), "utf8");
+  const homeApi = existsSync(join(root, "lib/homeApi.ts")) ? readFileSync(join(root, "lib/homeApi.ts"), "utf8") : "";
+  const homeRuntimeSource = `${homePage}\n${homeApi}`;
   const adminPage = readFileSync(join(root, "app/admin/page.tsx"), "utf8");
   const adminNewsOperationsPanel = existsSync(join(root, "components/AdminNewsOperationsPanel.tsx"))
     ? readFileSync(join(root, "components/AdminNewsOperationsPanel.tsx"), "utf8")
@@ -4422,7 +4424,7 @@ function checkNewsDealPipeline() {
     issues.push("official benefit feed source config should let operators add approved providers without editing refresh code and document allowed/blocked source policy");
   }
 
-  if (!homePage.includes("RealtimeNewsDealsSection") || !homePage.includes("/api/news-deals?${params.toString()}") || !homePage.includes("params.set(\"q\"") || !homePage.includes("activeQuery={query}") || !homePage.includes("refreshNewsDeals") || !homePage.includes("120_000")) {
+  if (!homeRuntimeSource.includes("RealtimeNewsDealsSection") || !homeRuntimeSource.includes("/api/news-deals?${params.toString()}") || !homeRuntimeSource.includes("params.set(\"q\"") || !homeRuntimeSource.includes("activeQuery={query}") || !homeRuntimeSource.includes("refreshNewsDeals") || !homeRuntimeSource.includes("120_000")) {
     issues.push("home should show verified realtime discount news section from /api/news-deals with live refresh");
   }
   if (
