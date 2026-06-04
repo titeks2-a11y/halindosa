@@ -14,13 +14,13 @@
 - 공식 뉴스/이벤트 혜택도 `halindosa:recent-news-benefits` localStorage 기록으로 저장하고, 홈 `재방문 혜택 큐`와 마이페이지 `마이 최근 본 공식 혜택`에서 최근 본 공식 혜택과 관심 카테고리 기반 혜택을 이어볼 수 있게 했다.
 - 관리자 화면에 뉴스 수집 현황과 알림 캠페인 운영 큐를 추가해 무료혜택, 카드·멤버십, 영화·문화, 마트·편의점, 정부·공공혜택을 향후 FCM 발송 후보로 운영할 수 있게 했다.
 - `reports/news-deals.json`과 `reports/refresh-all.json`을 생성해 공식 혜택 26/26 통과, 필수 10개 카테고리별 최소 2건 이상, 숨김/종료/비공식 링크 0건, 상품 링크 140/140 통과 상태를 출시 게이트 증거로 남겼다.
-- `health:readiness` 운영 헬스 리포트를 추가해 `reports/health-readiness.json`과 `docs/HEALTH_READINESS_REPORT.md`에 상품 140개, 검증 링크 99% 이상, 검색/품절 노출 0건, 공식 혜택 25개 이상, 필수 카테고리 10개별 최소 2건, `refresh:all` 성공과 24시간 신선도를 하나의 출시 게이트로 고정했다.
+- `health:readiness` 운영 헬스 리포트를 추가해 `reports/health-readiness.json`과 `docs/HEALTH_READINESS_REPORT.md`에 상품 140개, 검증 링크 99% 이상, 검색/품절 노출 0건, 공식 혜택 40개 이상, 필수 카테고리 10개별 최소 2건, `refresh:all` 성공과 24시간 신선도를 하나의 출시 게이트로 고정했다.
 - 운영 헬스 리포트와 `/api/health`에 공식 소스 통합 준비도 요약을 연결해 공식 소스 후보, 접근 가능/보호 소스, feed env 실패, 통합 게이트 실패가 생기면 health readiness도 출시 전 점검 상태가 되도록 했다.
 - `/api/admin/health-readiness`와 `/admin` 운영 헬스 패널을 추가해 운영자가 출시 게이트 점수, 검증 상품 링크, 공식 혜택 카테고리, `refresh:all` 상태를 관리자 화면에서 즉시 확인하도록 연결했다.
 - `daily:operations:report`, `reports/daily-operations.json`, `docs/DAILY_OPERATIONS_REPORT.md`, `/api/admin/daily-operations`, `/api/admin/daily-operations?format=csv`, 관리자 `일일 운영 리포트` 패널을 추가해 검증 구매 링크, 공식 혜택, `refresh:all`, 공식 소스 준비도, cron/push, `release:doctor` 상태를 운영자가 매일 확인할 카드와 우선 처리 큐로 묶었다.
 - SSG닷컴, 이마트몰, 홈플러스, 요기요, 무신사, 롯데ON, 삼성닷컴, 네이버페이, 문화누리카드의 공식 혜택/이벤트 페이지를 추가해 식품/생필품, 외식/배달, 패션/뷰티, 디지털/가전, 무료혜택까지 뉴스형 혜택 카테고리를 확장했다.
 - 공식 혜택 뉴스도 `/go/news/[id]` 서버 리다이렉트를 거치도록 변경해 finalUrl을 직접 노출하지 않고 승인 도메인 정책, 종료 여부, 검증 상태, 클릭 로그를 한 번 더 통과한 뒤 새 탭으로 이동하게 했다.
-- `verify:news`, `smoke:local`, `release:doctor` 기준을 상향해 공식 혜택 25개 이상, 필수 10개 카테고리별 최소 2건, `/go/news/[id]` 클릭 게이트, 검색/비공식/종료 링크 0건을 출시 회귀 조건으로 고정했다.
+- `verify:news`, `smoke:local`, `release:doctor` 기준을 상향해 공식 혜택 40개 이상, 필수 10개 카테고리별 최소 2건, `/go/news/[id]` 클릭 게이트, 검색/비공식/종료 링크 0건을 출시 회귀 조건으로 고정했다.
 - `newsProvider`, `eventNewsProvider`, `officialEventProvider`, `publicCouponProvider`를 seed 전용에서 seed fallback + 승인 JSON feed ingestion 구조로 확장하고, `docs/news-feed-contract.md`, `data/newsFeed.sample.json`, `news:feed:doctor`로 운영 feed 계약을 검증하도록 보강했다.
 - 뉴스 운영 리포트에 provider별 성공/실패, 최근 20개 수집 로그, 실패 사유 TOP10, 숨김/종료/공식 링크 없음 큐, 수동 숨김/복구/재검증 액션을 추가하고 `/api/admin/news-operations`와 `/admin`에 연결했다.
 - `/admin`에 `공식 혜택 수동 운영` 패널을 추가해 운영자가 노출 중 공식 혜택을 바로 숨김 처리하고, 숨김/점검 혜택을 복구하거나 링크 재검증 요청을 기록할 수 있게 했다.
@@ -36,7 +36,7 @@
 - `source:live:doctor`를 추가해 공식 소스 후보 URL의 접근 가능, WAF/권한 보호, 404/410 교체 필요 상태를 non-strict 리포트와 CSV로 남기고, 무단 크롤링 없이 공식 API/RSS/제휴 feed 전환 우선순위를 판단하도록 했다.
 - 종료된 하이마트 공식 이벤트 URL을 롯데하이마트 공식 진행중 이벤트 페이지로 교체하고 `source:live:doctor` 기준 `stale_or_removed` 공식 소스 후보를 0건으로 낮췄다.
 - 대한항공 공식 혜택 후보를 안정적인 공식 탑승권 제휴 혜택 URL로 교체하고 `source:live:doctor`의 접근성 probe를 보강해 timeout/network/stale/needsReview 없이 18개 공식 소스는 접근 가능, 3개 보호 소스는 guarded로 분류되게 했다.
-- 스타벅스 캠페인, CJ ONE 이벤트, 올리브영 이벤트, 메가박스 이벤트 공식 소스를 추가해 공식 후보를 25개로 늘리고 무료혜택, 외식/배달, 카드/멤버십, 영화/문화, 패션/뷰티 카테고리의 승인 feed 전환 후보를 보강했다.
+- 스타벅스 캠페인, CJ ONE 이벤트, 올리브영 이벤트, 메가박스 이벤트, BHC e쿠폰, L.POINT, 제주항공, 하이마트 등 공식 소스를 추가해 사용자 노출 공식 혜택을 43개로 늘리고 무료혜택, 외식/배달, 카드/멤버십, 여행/숙박, 영화/문화, 패션/뷰티 카테고리의 승인 feed 전환 후보를 보강했다.
 - 보호된 `/api/cron/refresh`와 `vercel.json` 6시간 cron refresh를 추가해 `refresh:all` 파이프라인을 배포 환경에서 정기 실행할 수 있게 하고, `CRON_SECRET`, dry-run smoke, `reports/cron-refresh.json`, release doctor로 공개 호출/무단 실행 회귀를 막았다.
 - cron refresh 운영 리포트를 `lib/operations/cronRefresh.ts`로 분리하고 `/api/health`와 `/admin`에 마지막 실행, 보호 상태, 상품/뉴스 갱신 수, dry-run 링크를 노출해 배포 후 자동 갱신 상태를 운영자가 바로 확인할 수 있게 했다.
 - 관리자/운영 API 인증을 `canAccessAdminRequest`로 통일해 `Authorization: Bearer`, `x-admin-token`, `x-admin-export-token`, `x-halindosa-admin-token` 헤더를 지원하고, 쿼리 token 방식은 호환용으로만 유지하도록 `admin:auth:doctor`, `reports/admin-auth.json`, release doctor 게이트를 추가했다.

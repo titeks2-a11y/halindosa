@@ -166,11 +166,12 @@ const officialBenefitProviderRiskSummary = {
 };
 const sourceReadinessFailedGates = Array.isArray(sourceReadiness.gates) ? sourceReadiness.gates.filter((gate) => gate.ok !== true) : [];
 const sourceReadinessSummary = sourceReadiness.summary ?? {};
+const minimumVisibleOfficialBenefits = 40;
 const sourceReadinessOk =
   sourceReadiness.ok === true &&
   sourceReadiness.launchGateStatus === "passed" &&
   Number(sourceReadinessSummary.officialSourceCandidates ?? 0) >= 30 &&
-  Number(sourceReadinessSummary.visibleOfficialBenefits ?? 0) >= 25 &&
+  Number(sourceReadinessSummary.visibleOfficialBenefits ?? 0) >= minimumVisibleOfficialBenefits &&
   Number(sourceReadinessSummary.blockedLiveIssues ?? 1) === 0 &&
   Number(sourceReadinessSummary.feedEnvFailedCount ?? 1) === 0 &&
   sourceReadinessFailedGates.length === 0;
@@ -191,9 +192,9 @@ const checks = [
   hiddenProducts === 0 && productFailed === 0
     ? pass("product hidden/failed queue", "No hidden or failed product deals remain in the customer exposure set.")
     : fail("product hidden/failed queue", `Hidden=${hiddenProducts}, failed=${productFailed}.`),
-  newsVisibleCount >= 25
+  newsVisibleCount >= minimumVisibleOfficialBenefits
     ? pass("official benefit count floor", `${newsVisibleCount} official benefit deals are visible.`)
-    : fail("official benefit count floor", `Expected at least 25 official benefit deals, got ${newsVisibleCount}.`),
+    : fail("official benefit count floor", `Expected at least ${minimumVisibleOfficialBenefits} official benefit deals, got ${newsVisibleCount}.`),
   readyNewsCategories.length === requiredNewsCategories.length
     ? pass("official benefit category coverage", `All ${requiredNewsCategories.length} required categories have at least ${minimumCategoryDealCount} visible benefits.`)
     : fail("official benefit category coverage", `Missing=${missingNewsCategories.join(", ") || "none"}; thin=${thinNewsCategories.join(", ") || "none"}.`),
@@ -235,7 +236,7 @@ const report = {
   thresholds: {
     productDealsCount: 140,
     productVerificationRate: 99,
-    officialBenefits: 25,
+    officialBenefits: minimumVisibleOfficialBenefits,
     newsCategories: requiredNewsCategories.length,
     minimumCategoryDealCount,
     freshnessHours: freshnessLimitHours,

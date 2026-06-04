@@ -40,6 +40,34 @@ const approvedHosts = [
   "www.mnuri.kr"
 ];
 
+function readCatalogApprovedHosts() {
+  const catalogPath = join(dataDir, "officialSourceCatalog.json");
+  if (!existsSync(catalogPath)) return [];
+
+  try {
+    const catalog = JSON.parse(readFileSync(catalogPath, "utf8"));
+    if (!Array.isArray(catalog)) return [];
+
+    return catalog
+      .flatMap((source) => [source?.officialUrl, ...(Array.isArray(source?.allowedFinalHosts) ? source.allowedFinalHosts : [])])
+      .map((value) => {
+        try {
+          return new URL(value).hostname.replace(/^www\./, "").toLowerCase();
+        } catch {
+          return "";
+        }
+      })
+      .filter(Boolean);
+  } catch {
+    return [];
+  }
+}
+
+const approvedHostSet = new Set([
+  ...approvedHosts.map((host) => host.replace(/^www\./, "").toLowerCase()),
+  ...readCatalogApprovedHosts()
+]);
+
 const blockedHosts = [
   "ppomppu.co.kr",
   "fmkorea.com",
@@ -170,7 +198,7 @@ function isApprovedOfficialUrl(urlValue) {
     const host = url.hostname.replace(/^www\./, "").toLowerCase();
     if (url.protocol !== "https:" && url.protocol !== "http:") return false;
     if (blockedHosts.some((blocked) => host === blocked || host.endsWith(`.${blocked}`))) return false;
-    return approvedHosts.some((approved) => host === approved.replace(/^www\./, "") || host.endsWith(`.${approved.replace(/^www\./, "")}`));
+    return [...approvedHostSet].some((approved) => host === approved || host.endsWith(`.${approved}`));
   } catch {
     return false;
   }

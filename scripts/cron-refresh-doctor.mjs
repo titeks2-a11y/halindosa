@@ -41,8 +41,9 @@ const refreshAll = readJson("reports/refresh-all.json");
 const healthReadiness = readJson("reports/health-readiness.json");
 const cronReport = readJson("reports/cron-refresh.json", null);
 const cronConfig = Array.isArray(vercelConfig.crons) ? vercelConfig.crons.find((item) => item.path === "/api/cron/refresh") : null;
+const minimumVisibleOfficialBenefits = 40;
 
-const refreshAllOk = refreshAll.ok === true && Number(refreshAll.productDealsCount ?? 0) >= 140 && Number(refreshAll.newsDealsCount ?? 0) >= 25 && Number(refreshAll.failedCount ?? 0) === 0;
+const refreshAllOk = refreshAll.ok === true && Number(refreshAll.productDealsCount ?? 0) >= 140 && Number(refreshAll.newsDealsCount ?? 0) >= minimumVisibleOfficialBenefits && Number(refreshAll.failedCount ?? 0) === 0;
 const healthCronStatus = healthReadiness.cronRefresh?.status ?? "";
 const healthCronOk = healthReadiness.cronRefresh?.ok === true;
 const checks = [

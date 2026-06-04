@@ -20,6 +20,7 @@ const requiredCategories = [
   "정부/공공혜택"
 ];
 const minimumCategoryCount = 2;
+const minimumVisibleOfficialBenefits = 40;
 const refreshCadenceHours = 6;
 const staleAfterHours = 24;
 const renewalWindowDays = 14;
@@ -131,9 +132,9 @@ const freshnessStatus =
         ? "due"
         : "fresh";
 const checks = [
-  visibleDeals.length >= 25
+  visibleDeals.length >= minimumVisibleOfficialBenefits
     ? pass("visible official benefits", `${visibleDeals.length} visible official benefit deals are available.`)
-    : fail("visible official benefits", `Expected at least 25 visible official benefits, got ${visibleDeals.length}.`),
+    : fail("visible official benefits", `Expected at least ${minimumVisibleOfficialBenefits} visible official benefits, got ${visibleDeals.length}.`),
   reportAgeHours <= staleAfterHours
     ? pass("report freshness", `news-deals report age is ${reportAgeHours}h.`)
     : fail("report freshness", `news-deals report is stale at ${reportAgeHours}h.`),

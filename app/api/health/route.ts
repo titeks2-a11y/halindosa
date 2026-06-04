@@ -58,7 +58,7 @@ export async function GET() {
       verifiedLinkRate >= 90 &&
       freeBenefitDeals.length >= 10 &&
       claimGuideRate >= 95 &&
-      newsOperations.visibleCount >= 25 &&
+      newsOperations.visibleCount >= 40 &&
       officialBenefitReadyCategories >= 10 &&
       officialBenefitFresh &&
       officialBenefitProviderRiskOk &&

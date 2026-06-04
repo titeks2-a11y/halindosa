@@ -132,7 +132,7 @@ const fallbackReport: HealthReadinessReport = {
   thresholds: {
     productDealsCount: 140,
     productVerificationRate: 99,
-    officialBenefits: 25,
+    officialBenefits: 40,
     newsCategories: 10,
     minimumCategoryDealCount: 2,
     freshnessHours: 24,

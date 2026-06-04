@@ -722,13 +722,14 @@ await check("news deals api", async () => {
   const { response, data } = await fetchJson("/api/news-deals?limit=25");
   assert(response.status === 200, `Expected 200, got ${response.status}`);
   assert(data.ok === true, "News deals API ok should be true");
-  assert(data.count >= 25, `Expected at least 25 official news/event benefits, got ${data.count}`);
+  assert(data.count >= 40, `Expected at least 40 official news/event benefits, got ${data.count}`);
   assert(data.deals.every((deal) => deal.validationStatus === "passed" && deal.isHidden === false), "News deals API returned hidden or unverified items");
   assert(data.deals.every((deal) => /^https?:\/\//.test(deal.finalUrl)), "News deals API returned invalid finalUrl");
   assert(data.deals.every((deal) => !/search|query=|keyword=|msearch|result/i.test(deal.finalUrl)), "News deals API returned a search/result URL");
   assert(data.deals.some((deal) => deal.category === "마트/편의점"), "News deals API missing mart/convenience official benefits");
   assert(data.deals.some((deal) => deal.category === "영화/문화" || deal.category === "정부/공공혜택"), "News deals API missing culture/public official benefits");
   const full = await fetchJson("/api/news-deals");
+  assert(full.data.count >= 40, `News deals API should keep at least 40 visible official benefits, got ${full.data.count}`);
   const categories = new Set(full.data.deals.map((deal) => deal.category));
   for (const category of ["식품/생필품", "마트/편의점", "디지털/가전", "패션/뷰티", "외식/배달", "여행/숙박", "영화/문화", "카드/멤버십", "무료혜택", "정부/공공혜택"]) {
     assert(categories.has(category), `News deals API missing expanded official benefit category: ${category}`);
@@ -743,7 +744,7 @@ await check("admin news operations api", async () => {
   const { response, data } = await fetchJson("/api/admin/news-operations");
   assert(response.status === 200, `Expected 200, got ${response.status}`);
   assert(data.ok === true, "Admin news operations API ok should be true");
-  assert(data.report?.visibleCount >= 25, "Admin news operations report missing launch-ready visible official benefits");
+  assert(data.report?.visibleCount >= 40, "Admin news operations report missing launch-ready visible official benefits");
   assert(Array.isArray(data.report?.visibleDeals) && data.report.visibleDeals.length >= 6, "Admin news operations report missing visible deal operation candidates");
   assert(Array.isArray(data.report?.providerStats) && data.report.providerStats.length >= 4, "Admin news operations report missing provider stats");
   assert(Array.isArray(data.report?.providerRisks) && data.report.providerRisks.length >= 4, "Admin news operations report missing provider risk summaries");
@@ -756,7 +757,7 @@ await check("admin news operations api", async () => {
   assert(Array.isArray(data.report?.recentLogs) && data.report.recentLogs.length >= 6, "Admin news operations report missing recent logs");
   assert(Array.isArray(data.report?.manualActions) && data.report.manualActions.length >= 3, "Admin news operations report missing manual actions");
   assert(data.report?.refreshAll?.productDealsCount >= 140, "Admin news operations report missing refresh:all product count");
-  assert(data.report?.refreshAll?.newsDealsCount >= 25, "Admin news operations report missing refresh:all news count");
+  assert(data.report?.refreshAll?.newsDealsCount >= 40, "Admin news operations report missing refresh:all news count");
   assert(Array.isArray(data.report?.categoryCoverage) && data.report.categoryCoverage.length >= 10, "Admin news operations report missing required category coverage");
   assert(data.report.categoryCoverage.every((item) => item.category && typeof item.count === "number" && item.count >= 2 && item.minimumCount >= 2 && item.action), "Admin news operations category coverage missing operation fields or minimum counts");
   assert(Array.isArray(data.report?.operationalRisks) && data.report.operationalRisks.length >= 1, "Admin news operations report missing operational risk summary");
@@ -847,7 +848,7 @@ await check("admin source readiness rollup api", async () => {
   assert(data.report?.ok === true, "Admin source readiness report should pass");
   assert(data.report?.launchGateStatus === "passed", "Admin source readiness launch gate should pass");
   assert(data.report?.summary?.officialSourceCandidates >= 30, "Admin source readiness missing official source candidates");
-  assert(data.report?.summary?.visibleOfficialBenefits >= 25, "Admin source readiness missing visible official benefits");
+  assert(data.report?.summary?.visibleOfficialBenefits >= 40, "Admin source readiness missing visible official benefits");
   assert(data.report?.summary?.feedEnvFailedCount === 0, "Admin source readiness should have zero feed env failures");
   assert(data.report?.summary?.blockedLiveIssues === 0, "Admin source readiness should have zero blocking live issues");
   assert(Array.isArray(data.report?.gates) && data.report.gates.length >= 6, "Admin source readiness report missing gate rows");
@@ -874,7 +875,7 @@ await check("admin daily operations api", async () => {
   assert(data.report?.summary?.verifiedProductLinks >= 140, "Admin daily operations should preserve verified links");
   assert(data.report?.summary?.exposedSearchLinks === 0, "Admin daily operations should show zero exposed search links");
   assert(data.report?.summary?.exposedSoldOutLinks === 0, "Admin daily operations should show zero exposed sold-out links");
-  assert(data.report?.summary?.visibleOfficialBenefits >= 25, "Admin daily operations should preserve official benefits");
+  assert(data.report?.summary?.visibleOfficialBenefits >= 40, "Admin daily operations should preserve official benefits");
   assert(data.report?.summary?.refreshAllOk === true, "Admin daily operations should preserve refresh:all success");
   assert(data.report?.summary?.officialSourceLaunchGateStatus === "passed", "Admin daily operations should expose passing source readiness");
   assert(Array.isArray(data.report?.gates) && data.report.gates.length >= 6 && data.report.gates.every((gate) => gate.ok === true), "Admin daily operations gates should all pass");
@@ -900,7 +901,7 @@ await check("admin health readiness api", async () => {
   assert(data.report?.product?.productDealsCount >= 140, "Admin health readiness should preserve product count");
   assert(data.report?.product?.verifiedProductLinks >= 140, "Admin health readiness should preserve verified product links");
   assert(data.report?.product?.searchLinks === 0, "Admin health readiness should expose zero search links");
-  assert(data.report?.officialBenefits?.visibleCount >= 25, "Admin health readiness should preserve official benefit count");
+  assert(data.report?.officialBenefits?.visibleCount >= 40, "Admin health readiness should preserve official benefit count");
   assert(data.report?.officialBenefits?.readyCategories >= 10, "Admin health readiness should preserve official benefit category coverage");
   assert(Array.isArray(data.report?.officialBenefits?.activeProviders) && data.report.officialBenefits.activeProviders.length >= 4, "Admin health readiness should expose active official benefit providers");
   assert(Array.isArray(data.report?.officialBenefits?.providerStats) && data.report.officialBenefits.providerStats.length >= 4, "Admin health readiness should expose official benefit provider stats");
@@ -911,7 +912,7 @@ await check("admin health readiness api", async () => {
   assert(data.report?.sourceReadiness?.ok === true, "Admin health readiness should expose passing source readiness");
   assert(data.report?.sourceReadiness?.launchGateStatus === "passed", "Admin health readiness source launch gate should pass");
   assert(data.report?.sourceReadiness?.officialSourceCandidates >= 30, "Admin health readiness should expose official source candidates");
-  assert(data.report?.sourceReadiness?.visibleOfficialBenefits >= 25, "Admin health readiness should expose source readiness official benefits");
+  assert(data.report?.sourceReadiness?.visibleOfficialBenefits >= 40, "Admin health readiness should expose source readiness official benefits");
   assert(data.report?.sourceReadiness?.blockedLiveIssues === 0, "Admin health readiness should expose zero source blocked live issues");
   assert(data.report?.sourceReadiness?.feedEnvFailedCount === 0, "Admin health readiness should expose zero source feed env failures");
   assert(data.report?.sourceReadiness?.failedGateCount === 0, "Admin health readiness source gates should all pass");
@@ -920,7 +921,7 @@ await check("admin health readiness api", async () => {
   assert(data.report?.cronRefresh?.protected === true, "Admin health readiness should expose protected cron refresh evidence");
   assert(data.report?.cronRefresh?.schedule === "0 */6 * * *", "Admin health readiness should expose 6-hour cron refresh schedule");
   assert(data.report?.cronRefresh?.productDealsCount >= 140, "Admin health readiness should expose cron product count");
-  assert(data.report?.cronRefresh?.newsDealsCount >= 25, "Admin health readiness should expose cron news count");
+  assert(data.report?.cronRefresh?.newsDealsCount >= 40, "Admin health readiness should expose cron news count");
   assert(Array.isArray(data.report?.checks) && data.report.checks.every((check) => check.ok), "Admin health readiness checks should all pass");
   assert(data.report.checks.some((check) => check.name === "official source readiness gate"), "Admin health readiness checks missing official source readiness gate");
 });
@@ -935,7 +936,7 @@ await check("cron refresh api guard", async () => {
   assert(data.mode === "dry_run", "Cron refresh dry-run should not execute refresh scripts");
   assert(data.command === "node scripts/refresh-all.mjs", "Cron refresh dry-run missing refresh command");
   assert(data.refreshAll?.productDealsCount >= 140, "Cron refresh dry-run missing latest refresh-all product count");
-  assert(data.refreshAll?.newsDealsCount >= 25, "Cron refresh dry-run missing latest refresh-all news count");
+  assert(data.refreshAll?.newsDealsCount >= 40, "Cron refresh dry-run missing latest refresh-all news count");
 
   if (smokeAdminToken) {
     const headerAuth = await fetchJson("/api/cron/refresh?dryRun=true", {
@@ -1387,7 +1388,7 @@ await check("health api", async () => {
   assert(data.checks?.operationalEnvReadyGroups >= 0, "Health API missing operational env ready group count");
   assert(data.checks?.officialBenefitFresh === true, "Health API official benefit feed is stale");
   assert(data.checks?.officialBenefitFreshnessHours <= 24, "Health API missing official benefit freshness hours");
-  assert(data.checks?.officialBenefitVisibleCount >= 25, "Health API missing official benefit visible count");
+  assert(data.checks?.officialBenefitVisibleCount >= 40, "Health API missing official benefit visible count");
   assert(data.checks?.officialBenefitReadyCategories >= 10, "Health API missing official benefit category coverage");
   assert(data.checks?.officialBenefitWeakCategories === 0, "Health API found weak official benefit categories");
   assert(data.checks?.officialBenefitRefreshAllOk === true, "Health API missing refresh:all official benefit status");
@@ -1411,7 +1412,7 @@ await check("health api", async () => {
   assert(data.checks?.cronRefreshSchedule === "0 */6 * * *", "Health API missing 6-hour cron refresh schedule");
   assert(data.checks?.cronRefreshReportPath === "reports/cron-refresh.json", "Health API missing cron refresh report path");
   assert(data.checks?.cronRefreshProductDealsCount >= 140, "Health API missing cron refresh product count");
-  assert(data.checks?.cronRefreshNewsDealsCount >= 25, "Health API missing cron refresh news count");
+  assert(data.checks?.cronRefreshNewsDealsCount >= 40, "Health API missing cron refresh news count");
 });
 
 await check("today benefits api", async () => {

@@ -190,9 +190,9 @@ const checks = [
   Number(productQuality.visibleProducts ?? refreshAll.productDealsCount ?? 0) >= 140
     ? pass("verified product base", "검증 상품 140개 이상을 알림 후보로 사용할 수 있습니다.")
     : fail("verified product base", "검증 상품 알림 후보가 140개 미만입니다."),
-  Number(newsQuality.visibleCount ?? refreshAll.newsDealsCount ?? 0) >= 25
-    ? pass("official benefit base", "공식 혜택 25개 이상을 알림 후보로 사용할 수 있습니다.")
-    : fail("official benefit base", "공식 혜택 알림 후보가 25개 미만입니다."),
+  Number(newsQuality.visibleCount ?? refreshAll.newsDealsCount ?? 0) >= 40
+    ? pass("official benefit base", "공식 혜택 40개 이상을 알림 후보로 사용할 수 있습니다.")
+    : fail("official benefit base", "공식 혜택 알림 후보가 40개 미만입니다."),
   readySegments.length >= 10
     ? pass("interest segment coverage", `${readySegments.length}/${categories.length} 관심 세그먼트가 알림 후보를 가집니다.`)
     : fail("interest segment coverage", `${readySegments.length}/${categories.length} 관심 세그먼트만 준비됐습니다.`),

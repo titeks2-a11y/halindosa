@@ -26,7 +26,7 @@ Status: ready
 | environment keys | PASS | .env.example documents cron secret and timeout knobs. |
 | operations report | PASS | Cron operations layer exposes last-run status and report path. |
 | health and admin surfaces | PASS | Health API and admin dashboard expose cron readiness. |
-| refresh-all evidence | PASS | refresh:all is healthy with 140 product deals and 30 official benefits. |
+| refresh-all evidence | PASS | refresh:all is healthy with 140 product deals and 43 official benefits. |
 | health readiness status | PASS | Health readiness marks cron refresh as manual_refresh_ready. |
 | runbook | PASS | RUNBOOK documents protected cron execution and report inspection. |
 

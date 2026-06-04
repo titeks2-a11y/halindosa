@@ -3002,7 +3002,7 @@ async function checkOperationalDataSurfaces() {
     sourceReadinessReport.ok !== true ||
     sourceReadinessReport.launchGateStatus !== "passed" ||
     (sourceReadinessReport.summary?.officialSourceCandidates ?? 0) < 30 ||
-    (sourceReadinessReport.summary?.visibleOfficialBenefits ?? 0) < 25 ||
+    (sourceReadinessReport.summary?.visibleOfficialBenefits ?? 0) < 40 ||
     (sourceReadinessReport.summary?.feedEnvFailedCount ?? 1) !== 0 ||
     (sourceReadinessReport.summary?.blockedLiveIssues ?? 1) !== 0 ||
     !Array.isArray(sourceReadinessReport.gates) ||
@@ -4274,7 +4274,7 @@ function checkNewsDealPipeline() {
   if (existsSync(join(root, "reports/news-deals.json"))) {
     const report = JSON.parse(readFileSync(join(root, "reports/news-deals.json"), "utf8"));
     if (report.ok !== true) issues.push("news-deals report should pass");
-    if ((report.visibleCount ?? 0) < 25) issues.push("news-deals report should include at least 25 visible official benefits across daily benefit categories");
+    if ((report.visibleCount ?? 0) < 40) issues.push("news-deals report should include at least 40 visible official benefits across daily benefit categories");
     const requiredNewsCategories = ["식품/생필품", "마트/편의점", "디지털/가전", "패션/뷰티", "외식/배달", "여행/숙박", "영화/문화", "카드/멤버십", "무료혜택", "정부/공공혜택"];
     const categoryCounts = report.categoryCounts ?? {};
     const missingCategories = requiredNewsCategories.filter((category) => !categoryCounts[category]);
@@ -4294,7 +4294,7 @@ function checkNewsDealPipeline() {
   if (existsSync(join(root, "reports/news-freshness.json"))) {
     const report = JSON.parse(readFileSync(join(root, "reports/news-freshness.json"), "utf8"));
     if (report.ok !== true) issues.push("news-freshness report should pass");
-    if ((report.visibleCount ?? 0) < 25) issues.push("news-freshness report should include at least 25 visible official benefits");
+    if ((report.visibleCount ?? 0) < 40) issues.push("news-freshness report should include at least 40 visible official benefits");
     if ((report.expiredVisibleCount ?? 999) !== 0) issues.push("news-freshness report should show zero expired visible official benefits");
     if ((report.staleCheckedCount ?? 999) !== 0) issues.push("news-freshness report should show zero stale checked visible official benefits");
     if ((report.reportAgeHours ?? 999) > 24) issues.push("news-freshness report should be fresher than 24h");
@@ -4308,7 +4308,7 @@ function checkNewsDealPipeline() {
   if (existsSync(join(root, "reports/refresh-all.json"))) {
     const report = JSON.parse(readFileSync(join(root, "reports/refresh-all.json"), "utf8"));
     if (report.ok !== true) issues.push("refresh-all report should pass");
-    if ((report.newsDealsCount ?? 0) < 25) issues.push("refresh-all should include expanded official news/event benefits");
+    if ((report.newsDealsCount ?? 0) < 40) issues.push("refresh-all should include expanded official news/event benefits");
     if ((report.productDealsCount ?? 0) < 140) issues.push("refresh-all should preserve 140 verified product deals");
     if (!Array.isArray(report.providerStats?.news) || report.providerStats.news.length < 4) issues.push("refresh-all should preserve news provider stats");
   }
@@ -4390,7 +4390,7 @@ function checkHealthReadinessReport() {
   if ((report.product?.productVerificationRate ?? 0) < 99) issues.push("health readiness product verification rate should be >=99%");
   if ((report.product?.searchLinks ?? 0) !== 0) issues.push("health readiness should show zero search links");
   if ((report.product?.soldOutProducts ?? 0) !== 0) issues.push("health readiness should show zero sold-out product exposure");
-  if ((report.officialBenefits?.visibleCount ?? 0) < 25) issues.push("health readiness should show at least 25 official benefits");
+  if ((report.officialBenefits?.visibleCount ?? 0) < 40) issues.push("health readiness should show at least 40 official benefits");
   if (!Array.isArray(report.officialBenefits?.activeProviders) || report.officialBenefits.activeProviders.length < 4) {
     issues.push("health readiness should expose active official benefit providers");
   }
@@ -4406,7 +4406,7 @@ function checkHealthReadinessReport() {
   if (report.sourceReadiness?.ok !== true || report.sourceReadiness?.launchGateStatus !== "passed") {
     issues.push("health readiness should include a passing official source readiness gate");
   }
-  if ((report.sourceReadiness?.officialSourceCandidates ?? 0) < 30 || (report.sourceReadiness?.visibleOfficialBenefits ?? 0) < 25) {
+  if ((report.sourceReadiness?.officialSourceCandidates ?? 0) < 30 || (report.sourceReadiness?.visibleOfficialBenefits ?? 0) < 40) {
     issues.push("health readiness source readiness summary should preserve official source and benefit counts");
   }
   if ((report.sourceReadiness?.blockedLiveIssues ?? 1) !== 0 || (report.sourceReadiness?.feedEnvFailedCount ?? 1) !== 0 || (report.sourceReadiness?.failedGateCount ?? 1) !== 0) {
@@ -4428,7 +4428,7 @@ function checkHealthReadinessReport() {
   if (report.cronRefresh?.protected !== true || report.cronRefresh?.schedule !== "0 */6 * * *" || report.cronRefresh?.reportPath !== "reports/cron-refresh.json") {
     issues.push("health readiness should expose protected 6-hour cron refresh report metadata");
   }
-  if ((report.cronRefresh?.productDealsCount ?? 0) < 140 || (report.cronRefresh?.newsDealsCount ?? 0) < 25) {
+  if ((report.cronRefresh?.productDealsCount ?? 0) < 140 || (report.cronRefresh?.newsDealsCount ?? 0) < 40) {
     issues.push("health readiness cron refresh summary should preserve product/news counts");
   }
 
@@ -4495,7 +4495,7 @@ function checkDailyOperationsReport() {
   if ((report.summary?.verifiedProductLinks ?? 0) < 140) issues.push("daily operations should preserve verified product links");
   if ((report.summary?.exposedSearchLinks ?? 1) !== 0) issues.push("daily operations should show zero exposed search links");
   if ((report.summary?.exposedSoldOutLinks ?? 1) !== 0) issues.push("daily operations should show zero exposed sold-out links");
-  if ((report.summary?.visibleOfficialBenefits ?? 0) < 25) issues.push("daily operations should show at least 25 official benefits");
+  if ((report.summary?.visibleOfficialBenefits ?? 0) < 40) issues.push("daily operations should show at least 40 official benefits");
   if (report.summary?.refreshAllOk !== true || (report.summary?.refreshAllFailedCount ?? 1) !== 0) {
     issues.push("daily operations should require passing refresh:all with zero failures");
   }

@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-04T03:48:58.796Z",
+  "generatedAt": "2026-06-04T04:23:30.008Z",
   "catalogCount": 30,
   "highPriorityCount": 10,
   "configuredSourceCount": 0,
@@ -39,7 +39,7 @@
     "public_official_page": 3
   },
   "feedTransitionStatus": "seed_launch_ready",
-  "officialBenefitsVisible": 30,
+  "officialBenefitsVisible": 43,
   "officialBenefitsHidden": 0,
   "officialBenefitsExpired": 0,
   "officialBenefitsFailed": 0,

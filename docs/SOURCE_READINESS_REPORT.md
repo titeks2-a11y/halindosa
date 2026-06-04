@@ -1,12 +1,12 @@
 # 공식 소스 통합 준비도
 
-- 생성 시각: 2026-06-04T03:49:09.067Z
+- 생성 시각: 2026-06-04T04:23:40.352Z
 - 준비 상태: seed launch ready / 공식 feed 연결 대기
 - 출시 게이트: passed
 - 공식 소스 후보: 30개
 - 접근 가능/보호 소스: 26개 / 4개
 - 설정된 공식 feed URL: 0개
-- 공식 혜택 노출 가능: 30개
+- 공식 혜택 노출 가능: 43개
 - 차단 이슈: 0개
 
 ## 운영 원칙
@@ -23,8 +23,8 @@
 | official source live | passed | 접근 가능 26개, 보호 4개, 차단 이슈 0개 | npm run source:live:doctor |
 | source onboarding plan | passed | env 후보 5개, 상위 액션 10개 | npm run source:onboarding:plan |
 | source feed env safety | passed | 설정 URL 0개, 실패 0개, 정책 샘플 실패 0개 | npm run source:feed-env:doctor |
-| official benefit exposure | passed | 노출 30개, 숨김 0개, 종료 0개, 실패 0개 | npm run refresh:news && npm run verify:news |
-| refresh all pipeline | passed | 상품 140개, 공식 혜택 30개, 실패 0개 | npm run refresh:all |
+| official benefit exposure | passed | 노출 43개, 숨김 0개, 종료 0개, 실패 0개 | npm run refresh:news && npm run verify:news |
+| refresh all pipeline | passed | 상품 140개, 공식 혜택 43개, 실패 0개 | npm run refresh:all |
 
 ## 공식 feed env 연결 후보
 

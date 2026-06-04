@@ -88,7 +88,7 @@ npm run release:doctor
 
 `npm run source:onboarding:plan`은 공식 소스 카탈로그와 live 점검 결과를 합쳐 `reports/source-onboarding-plan.json`, `reports/source-onboarding-plan.csv`, [docs/SOURCE_ONBOARDING_PLAN.md](docs/SOURCE_ONBOARDING_PLAN.md)를 생성합니다. 운영자는 이 파일에서 공식 API/RSS/제휴 feed를 어느 소스부터 연결할지, guarded 소스는 어떤 담당자 확인이 필요한지 우선순위로 확인합니다.
 
-`npm run health:readiness`는 `reports/health-readiness.json`과 [docs/HEALTH_READINESS_REPORT.md](docs/HEALTH_READINESS_REPORT.md)를 생성해 상품 140개 이상, 검증 링크 99% 이상, 검색/품절 노출 0개, 공식 혜택 25개 이상, 필수 공식 혜택 카테고리별 2건 이상, `refresh:all` 성공, 24시간 이내 신선도를 함께 점검합니다.
+`npm run health:readiness`는 `reports/health-readiness.json`과 [docs/HEALTH_READINESS_REPORT.md](docs/HEALTH_READINESS_REPORT.md)를 생성해 상품 140개 이상, 검증 링크 99% 이상, 검색/품절 노출 0개, 공식 혜택 40개 이상, 필수 공식 혜택 카테고리별 2건 이상, `refresh:all` 성공, 24시간 이내 신선도를 함께 점검합니다.
 
 `npm run qa`는 `lint`, `verify:links`, `verify:products`, `link:policy:regression`, 상품/뉴스 refresh, `verify:news`, `news:feed:doctor`, `refresh:all`, non-strict `verify:links:live`, `exposure:doctor`, `health:readiness`, 공식 소스 카탈로그/라이브 접근성/온보딩 우선순위 리포트, 외부 링크/이미지/이미지 운영 doctor, `catalog:doctor`, `search:doctor`, UI/모바일 UX/SEO/성능 doctor, 구매·상세·전역 navigation doctor, 홈 URL/list scan doctor, `smoke:local`, `build`, `release:doctor`를 순서대로 실행합니다.
 

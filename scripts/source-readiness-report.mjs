@@ -197,13 +197,13 @@ const gates = [
   ),
   buildGate(
     "official benefit exposure",
-    news.ok === true && visibleOfficialBenefits >= 25 && numberValue(news.hiddenCount) === 0 && numberValue(news.expiredCount) === 0 && numberValue(news.failedCount) === 0,
+    news.ok === true && visibleOfficialBenefits >= 40 && numberValue(news.hiddenCount) === 0 && numberValue(news.expiredCount) === 0 && numberValue(news.failedCount) === 0,
     `노출 ${visibleOfficialBenefits}개, 숨김 ${numberValue(news.hiddenCount)}개, 종료 ${numberValue(news.expiredCount)}개, 실패 ${numberValue(news.failedCount)}개`,
     "npm run refresh:news && npm run verify:news"
   ),
   buildGate(
     "refresh all pipeline",
-    refreshAllOk && numberValue(refreshAll.productDealsCount) >= 140 && numberValue(refreshAll.newsDealsCount) >= 25 && numberValue(refreshAll.failedCount) === 0,
+    refreshAllOk && numberValue(refreshAll.productDealsCount) >= 140 && numberValue(refreshAll.newsDealsCount) >= 40 && numberValue(refreshAll.failedCount) === 0,
     `상품 ${numberValue(refreshAll.productDealsCount)}개, 공식 혜택 ${numberValue(refreshAll.newsDealsCount)}개, 실패 ${numberValue(refreshAll.failedCount)}개`,
     "npm run refresh:all"
   )
