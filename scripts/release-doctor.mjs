@@ -1777,7 +1777,10 @@ function checkHealthReadinessReport() {
   const healthScript = existsSync(join(root, "scripts/health-readiness-report.mjs")) ? readFileSync(join(root, "scripts/health-readiness-report.mjs"), "utf8") : "";
   const publicHealthRoute = existsSync(join(root, "app/api/health/route.ts")) ? readFileSync(join(root, "app/api/health/route.ts"), "utf8") : "";
   const healthApiRoute = existsSync(join(root, "app/api/admin/health-readiness/route.ts")) ? readFileSync(join(root, "app/api/admin/health-readiness/route.ts"), "utf8") : "";
-  const adminPage = existsSync(join(root, "app/admin/page.tsx")) ? readFileSync(join(root, "app/admin/page.tsx"), "utf8") : "";
+  const adminPage = [
+    existsSync(join(root, "app/admin/page.tsx")) ? readFileSync(join(root, "app/admin/page.tsx"), "utf8") : "",
+    existsSync(join(root, "lib/adminDashboardHrefs.ts")) ? readFileSync(join(root, "lib/adminDashboardHrefs.ts"), "utf8") : ""
+  ].join("\n");
   const adminHealthPanel = existsSync(join(root, "components/AdminHealthReadinessPanel.tsx")) ? readFileSync(join(root, "components/AdminHealthReadinessPanel.tsx"), "utf8") : "";
   const smokeScript = existsSync(join(root, "scripts/smoke.mjs")) ? readFileSync(join(root, "scripts/smoke.mjs"), "utf8") : "";
   const docsReport = existsSync(join(root, "docs/HEALTH_READINESS_REPORT.md")) ? readFileSync(join(root, "docs/HEALTH_READINESS_REPORT.md"), "utf8") : "";

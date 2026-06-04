@@ -8,6 +8,15 @@ import { AdminPushDryRunPanel } from "@/components/AdminPushDryRunPanel";
 import { NewsFeedDryRunPanel } from "@/components/NewsFeedDryRunPanel";
 import { PartnerFeedDryRunPanel } from "@/components/PartnerFeedDryRunPanel";
 import {
+  adminSampleNewsFeedText,
+  buildBenefitOperationSummary,
+  buildClaimEffortOperationQueue,
+  buildDailyOperationCheckIn,
+  buildLinkReviewSummary,
+  buildProviderVolume,
+  countDealsBySource
+} from "@/lib/adminDashboardDerivedData";
+import {
   adminLaunchChecklist,
   benefitOperationPriorityClassNames,
   benefitOperationPriorityLabels,
@@ -16,7 +25,8 @@ import {
   linkReviewPriorityLabels
 } from "@/lib/adminDashboardConfig";
 import { getMockBusinessMetrics } from "@/lib/analytics";
-import { canAccessAdmin, getAdminExportHref, isAdminProtectionEnabled } from "@/lib/adminAuth";
+import { canAccessAdmin, isAdminProtectionEnabled } from "@/lib/adminAuth";
+import { buildAdminDashboardHrefs } from "@/lib/adminDashboardHrefs";
 import { getDeals } from "@/lib/dealService";
 import { buildBenefitDecisionGuide } from "@/lib/deals/benefitDecisionGuide";
 import { buildClaimEffortSummary } from "@/lib/deals/claimEffort";
@@ -116,111 +126,49 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const reportSlaSummary = buildReportSlaSummary(recentReportsLive);
   const sampleFeedValidation = dryRunPartnerFeedImport(samplePartnerFeed, "sample_partner_feed");
   const sampleFeedJson = JSON.stringify({ items: samplePartnerFeed }, null, 2);
-  const sampleNewsFeedText = `<rss><channel><item><guid>admin-news-sample-001</guid><title>공식 이벤트 링크가 포함된 할인 뉴스 샘플</title><link>https://news.naver.com/example/halindosa-benefit-context</link><description><![CDATA[맥도날드 공식 행사 페이지 <a href="https://www.mcdonalds.co.kr/kor/promotion/detail.do?seq=593">바로가기</a>]]></description><category>외식/배달</category><benefitType>coupon</benefitType><merchant>맥도날드</merchant><endDate>2026-12-31T14:59:59.000Z</endDate></item></channel></rss>`;
   const sampleFeedReadyRate = sampleFeedValidation.received ? Math.round((sampleFeedValidation.valid / sampleFeedValidation.received) * 100) : 0;
-  const sourceCounts = new Map<string, number>();
+  const sourceCounts = countDealsBySource(deals);
   const linkReviewDeals = getLinkReviewQueue(deals, 8);
   const todayBenefitQueue = buildTodayBenefitQueue(deals, 4);
   const benefitDecisionGuide = buildBenefitDecisionGuide(deals);
   const claimEffortSummary = buildClaimEffortSummary(deals);
   const weeklyBenefitCalendar = buildWeeklyBenefitCalendar(deals);
   const dailyQueueExportCount = new Set(todayBenefitQueue.sections.flatMap((section) => section.items.map((item) => item.id))).size;
-  const dailyQueueApiHref = isAdminProtectionEnabled()
-    ? `/api/admin/daily-queue?limit=4&token=${encodeURIComponent(token ?? "")}`
-    : "/api/admin/daily-queue?limit=4";
-  const imageQueueApiHref = isAdminProtectionEnabled()
-    ? `/api/admin/image-queue?token=${encodeURIComponent(token ?? "")}`
-    : "/api/admin/image-queue";
-  const imageQueueCsvHref = isAdminProtectionEnabled()
-    ? `/api/admin/image-queue?format=csv&token=${encodeURIComponent(token ?? "")}`
-    : "/api/admin/image-queue?format=csv";
-  const newsOperationsApiHref = isAdminProtectionEnabled()
-    ? `/api/admin/news-operations?token=${encodeURIComponent(token ?? "")}`
-    : "/api/admin/news-operations";
-  const newsOperationsCsvHref = isAdminProtectionEnabled()
-    ? `/api/admin/news-operations?format=csv&token=${encodeURIComponent(token ?? "")}`
-    : "/api/admin/news-operations?format=csv";
-  const newsFeedPreviewApiHref = isAdminProtectionEnabled()
-    ? `/api/admin/news-feed-preview?token=${encodeURIComponent(token ?? "")}`
-    : "/api/admin/news-feed-preview";
-  const newsFeedPreviewCsvHref = isAdminProtectionEnabled()
-    ? `/api/admin/news-feed-preview?format=csv&token=${encodeURIComponent(token ?? "")}`
-    : "/api/admin/news-feed-preview?format=csv";
-  const newsFeedCanaryApiHref = isAdminProtectionEnabled()
-    ? `/api/admin/news-feed-canary?token=${encodeURIComponent(token ?? "")}`
-    : "/api/admin/news-feed-canary";
-  const newsFeedCanaryCsvHref = isAdminProtectionEnabled()
-    ? `/api/admin/news-feed-canary?format=csv&token=${encodeURIComponent(token ?? "")}`
-    : "/api/admin/news-feed-canary?format=csv";
-  const newsFeedLiveApiHref = isAdminProtectionEnabled()
-    ? `/api/admin/news-feed-live?token=${encodeURIComponent(token ?? "")}`
-    : "/api/admin/news-feed-live";
-  const newsFeedLiveCsvHref = isAdminProtectionEnabled()
-    ? `/api/admin/news-feed-live?format=csv&token=${encodeURIComponent(token ?? "")}`
-    : "/api/admin/news-feed-live?format=csv";
-  const healthReadinessApiHref = isAdminProtectionEnabled()
-    ? `/api/admin/health-readiness?token=${encodeURIComponent(token ?? "")}`
-    : "/api/admin/health-readiness";
-  const cronRefreshDryRunHref = isAdminProtectionEnabled()
-    ? `/api/cron/refresh?dryRun=true&token=${encodeURIComponent(token ?? "")}`
-    : "/api/cron/refresh?dryRun=true&token=local-admin";
-  const cronLiveFeedDryRunHref = isAdminProtectionEnabled()
-    ? `/api/cron/refresh?dryRun=true&mode=liveFeed&token=${encodeURIComponent(token ?? "")}`
-    : "/api/cron/refresh?dryRun=true&mode=liveFeed&token=local-admin";
-  const dailyOperationsApiHref = isAdminProtectionEnabled()
-    ? `/api/admin/daily-operations?token=${encodeURIComponent(token ?? "")}`
-    : "/api/admin/daily-operations";
-  const dailyOperationsCsvHref = isAdminProtectionEnabled()
-    ? `/api/admin/daily-operations?format=csv&token=${encodeURIComponent(token ?? "")}`
-    : "/api/admin/daily-operations?format=csv";
-  const exposurePolicyApiHref = isAdminProtectionEnabled()
-    ? `/api/admin/exposure-policy?token=${encodeURIComponent(token ?? "")}`
-    : "/api/admin/exposure-policy";
-  const exposurePolicyCsvHref = isAdminProtectionEnabled()
-    ? `/api/admin/exposure-policy?format=csv&token=${encodeURIComponent(token ?? "")}`
-    : "/api/admin/exposure-policy?format=csv";
-  const linkLaunchGateApiHref = isAdminProtectionEnabled()
-    ? `/api/admin/link-launch-gate?token=${encodeURIComponent(token ?? "")}`
-    : "/api/admin/link-launch-gate";
-  const linkLaunchGateCsvHref = isAdminProtectionEnabled()
-    ? `/api/admin/link-launch-gate?format=csv&token=${encodeURIComponent(token ?? "")}`
-    : "/api/admin/link-launch-gate?format=csv";
-  const sourceLiveApiHref = isAdminProtectionEnabled()
-    ? `/api/admin/source-live?token=${encodeURIComponent(token ?? "")}`
-    : "/api/admin/source-live";
-  const sourceLiveCsvHref = isAdminProtectionEnabled()
-    ? `/api/admin/source-live?format=csv&token=${encodeURIComponent(token ?? "")}`
-    : "/api/admin/source-live?format=csv";
-  const sourceOnboardingApiHref = isAdminProtectionEnabled()
-    ? `/api/admin/source-onboarding?token=${encodeURIComponent(token ?? "")}`
-    : "/api/admin/source-onboarding";
-  const sourceOnboardingCsvHref = isAdminProtectionEnabled()
-    ? `/api/admin/source-onboarding?format=csv&token=${encodeURIComponent(token ?? "")}`
-    : "/api/admin/source-onboarding?format=csv";
-  const sourceOnboardingEnvHref = isAdminProtectionEnabled()
-    ? `/api/admin/source-onboarding?format=env&token=${encodeURIComponent(token ?? "")}`
-    : "/api/admin/source-onboarding?format=env";
-  const sourceFeedEnvApiHref = isAdminProtectionEnabled()
-    ? `/api/admin/source-feed-env?token=${encodeURIComponent(token ?? "")}`
-    : "/api/admin/source-feed-env";
-  const sourceReadinessApiHref = isAdminProtectionEnabled()
-    ? `/api/admin/source-readiness?token=${encodeURIComponent(token ?? "")}`
-    : "/api/admin/source-readiness";
-  const sourceReadinessCsvHref = isAdminProtectionEnabled()
-    ? `/api/admin/source-readiness?format=csv&token=${encodeURIComponent(token ?? "")}`
-    : "/api/admin/source-readiness?format=csv";
-  const pushSendApiHref = isAdminProtectionEnabled()
-    ? `/api/admin/push/send?token=${encodeURIComponent(token ?? "")}`
-    : "/api/admin/push/send";
-  const pushReadinessApiHref = isAdminProtectionEnabled()
-    ? `/api/admin/push-readiness?token=${encodeURIComponent(token ?? "")}`
-    : "/api/admin/push-readiness";
-  const officialAlertsApiHref = isAdminProtectionEnabled()
-    ? `/api/admin/official-alerts?token=${encodeURIComponent(token ?? "")}`
-    : "/api/admin/official-alerts";
-  const officialAlertsCsvHref = isAdminProtectionEnabled()
-    ? `/api/admin/official-alerts?format=csv&token=${encodeURIComponent(token ?? "")}`
-    : "/api/admin/official-alerts?format=csv";
+  const {
+    adminExportHref,
+    dailyQueueApiHref,
+    imageQueueApiHref,
+    imageQueueCsvHref,
+    newsOperationsApiHref,
+    newsOperationsCsvHref,
+    newsFeedPreviewApiHref,
+    newsFeedPreviewCsvHref,
+    newsFeedCanaryApiHref,
+    newsFeedCanaryCsvHref,
+    newsFeedLiveApiHref,
+    newsFeedLiveCsvHref,
+    healthReadinessApiHref,
+    cronRefreshDryRunHref,
+    cronLiveFeedDryRunHref,
+    dailyOperationsApiHref,
+    dailyOperationsCsvHref,
+    exposurePolicyApiHref,
+    exposurePolicyCsvHref,
+    linkLaunchGateApiHref,
+    linkLaunchGateCsvHref,
+    sourceLiveApiHref,
+    sourceLiveCsvHref,
+    sourceOnboardingApiHref,
+    sourceOnboardingCsvHref,
+    sourceOnboardingEnvHref,
+    sourceFeedEnvApiHref,
+    sourceReadinessApiHref,
+    sourceReadinessCsvHref,
+    pushSendApiHref,
+    pushReadinessApiHref,
+    officialAlertsApiHref,
+    officialAlertsCsvHref
+  } = buildAdminDashboardHrefs(token);
   const sourceReadiness = getDealSourceReadiness(deals);
   const sourceLiveRiskRows = sourceLiveReport.sources.filter((item) => item.status !== "reachable").slice(0, 5);
   const sourceOnboardingTopQueue = sourceOnboardingPlan.queue.slice(0, 8);
@@ -230,98 +178,22 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const sourceReadinessFailedGates = officialSourceReadiness.gates.filter((gate) => !gate.ok);
   const sourceReadinessNextActions = officialSourceReadiness.operatorNextActions.slice(0, 5);
   const sourceReadinessRiskRows = officialSourceReadiness.riskySources.slice(0, 6);
-  const linkReviewSummary = [
-    {
-      priority: "high",
-      title: "오늘 먼저 처리",
-      count: linkReviewDeals.filter((deal) => deal.reviewPriority === "high").length,
-      description: "인기·마감 상품 또는 오류/품절 가능성이 있어 우선 확인"
-    },
-    {
-      priority: "medium",
-      title: "상품 URL 보강",
-      count: linkReviewDeals.filter((deal) => deal.reviewPriority === "medium").length,
-      description: "판매처 검색 이동 상품을 실제 상품 상세 URL로 보강"
-    },
-    {
-      priority: "low",
-      title: "대기 검수",
-      count: linkReviewDeals.filter((deal) => deal.reviewPriority === "low").length,
-      description: "노출 우선순위는 낮지만 출시 전 순차 확인"
-    }
-  ] as const;
-  const benefitOperationSummary = [
-    {
-      title: "혜택형 콘텐츠",
-      value: `${benefitQuality.freeBenefitCount}개`,
-      description: "무료, 쿠폰, 포인트, 체험단, 생활 혜택 큐"
-    },
-    {
-      title: "활성 노출 가능",
-      value: `${benefitQuality.activeCount}개`,
-      description: "종료 전 상태로 사용자에게 보여줄 수 있는 혜택"
-    },
-    {
-      title: "구매처 확인",
-      value: `${benefitQuality.verifiedCount}/${benefitQuality.total}`,
-      description: "판매처 이동 전 링크 확인이 끝난 항목"
-    },
-    {
-      title: "점검 우선",
-      value: `${benefitQuality.needsReviewCount}개`,
-      description: "신고, 종료, 품절, 링크 보강을 먼저 확인할 항목"
-    }
-  ];
+  const linkReviewSummary = buildLinkReviewSummary(linkReviewDeals);
+  const benefitOperationSummary = buildBenefitOperationSummary(benefitQuality);
   const benefitTypeBreakdown = benefitQuality.typeBreakdown.slice(0, 8);
   const benefitActionQueue = benefitQuality.actionQueue;
   const benefitConditionAudit = benefitQuality.conditionAudit;
   const benefitConditionOperationQueue = benefitQuality.conditionOperationQueue;
   const urgentBenefitActions = benefitActionQueue.filter((item) => item.priority === "high").length;
-  const dailyOperationCheckIn = [
-    {
-      title: "무료 혜택 보강",
-      value: `${benefitQuality.freeBenefitCount}개`,
-      description: "무료 샘플, 쿠폰, 포인트, 체험 혜택이 매일 볼 만큼 충분한지 확인",
-      href: "/free-benefits"
-    },
-    {
-      title: "링크 검수",
-      value: `${metrics.needsReviewLinks}개`,
-      description: "검색 이동이나 확인 필요 링크를 실제 상품/혜택 상세 URL로 보강",
-      href: getAdminExportHref(token)
-    },
-    {
-      title: "신고·종료 정리",
-      value: `${reportSummary.open + urgentBenefitActions}건`,
-      description: "사용자 신고, 종료 임박, 품절 가능성이 있는 혜택을 먼저 정리",
-      href: "#report-queue"
-    },
-    {
-      title: "재방문 루틴",
-      value: `${benefitRetention.activeRoutineSlots}/5`,
-      description: "무료·쿠폰·포인트·마트·마감 혜택 슬롯이 매일 갱신되는지 확인",
-      href: "/notifications"
-    }
-  ];
-  const claimEffortOperationQueue = claimEffortSummary.groups.map((group) => {
-    const sample = group.items[0];
-    const operationAction =
-      group.effort === "easy"
-        ? "앱 첫 화면과 무료혜택 탭에 우선 노출"
-        : group.effort === "condition"
-          ? "가입·배송비·쿠폰 조건을 카드와 상세에 보강"
-          : "마감·선착순·종료 신고를 당일 점검";
-
-    return {
-      ...group,
-      sampleTitle: sample?.title ?? "노출 후보 없음",
-      operationAction
-    };
+  const dailyOperationCheckIn = buildDailyOperationCheckIn({
+    benefitQuality,
+    benefitRetention,
+    needsReviewLinks: metrics.needsReviewLinks,
+    openReportCount: reportSummary.open,
+    urgentBenefitActions,
+    adminExportHref
   });
-
-  for (const deal of deals) {
-    sourceCounts.set(deal.source, (sourceCounts.get(deal.source) ?? 0) + 1);
-  }
+  const claimEffortOperationQueue = buildClaimEffortOperationQueue(claimEffortSummary.groups);
 
   const todayStart = new Date();
   todayStart.setHours(0, 0, 0, 0);
@@ -335,9 +207,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
     .sort((a, b) => b.clickCount + b.popularityScore - (a.clickCount + a.popularityScore))
     .slice(0, 20);
   const topFavoriteDeals = [...deals].sort((a, b) => b.likeCount - a.likeCount || b.popularityScore - a.popularityScore).slice(0, 20);
-  const providerVolume = Array.from(sourceCounts.entries())
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 8);
+  const providerVolume = buildProviderVolume(sourceCounts);
   const recentProviderErrors = refreshReport.providerStats.flatMap((provider) =>
     (provider.errors ?? []).slice(0, 3).map((error) => `${provider.provider}: ${error}`)
   );
@@ -394,7 +264,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
             </p>
           </div>
           <a
-            href={getAdminExportHref(token)}
+            href={adminExportHref}
             className="inline-flex items-center justify-center gap-2 rounded-2xl bg-dossa-red px-4 py-3 text-sm font-black text-white transition hover:bg-dossa-deep"
           >
             <Download size={17} />
@@ -869,7 +739,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
             </p>
           </div>
           <div className="mt-4">
-            <NewsFeedDryRunPanel token={token} initialText={sampleNewsFeedText} />
+            <NewsFeedDryRunPanel token={token} initialText={adminSampleNewsFeedText} />
           </div>
           <div className="mt-4 grid gap-3 lg:grid-cols-[0.9fr_1.1fr]">
             <div className="rounded-2xl border border-red-100 bg-red-50 p-4">
@@ -2832,7 +2702,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                 링크 검수 큐를 운영자가 바로 처리할 수 있도록 우선, 보강, 대기 단계로 나눠 보여줍니다.
               </p>
             </div>
-            <a href={getAdminExportHref(token)} className="rounded-2xl bg-white px-4 py-3 text-center text-sm font-black text-dossa-red shadow-sm">
+            <a href={adminExportHref} className="rounded-2xl bg-white px-4 py-3 text-center text-sm font-black text-dossa-red shadow-sm">
               검수 CSV 받기
             </a>
           </div>

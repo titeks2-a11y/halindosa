@@ -35,7 +35,11 @@ export async function checkOperationalDataSurfaces() {
   const localDataControls = await text("components/LocalDataControls.tsx");
   const accountPanel = await text("components/AccountPanel.tsx");
   const claimedBenefits = await text("lib/claimedBenefits.ts");
-  const adminPage = await text("app/admin/page.tsx");
+  const adminPage = [
+    await text("app/admin/page.tsx"),
+    await text("lib/adminDashboardDerivedData.ts"),
+    await text("lib/adminDashboardHrefs.ts")
+  ].join("\n");
   const adminDashboardConfig = await text("lib/adminDashboardConfig.ts");
   const adminDashboardSource = `${adminPage}\n${adminDashboardConfig}`;
   const runbook = await text("docs/RUNBOOK.md");
