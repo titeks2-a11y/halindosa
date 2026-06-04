@@ -50,6 +50,8 @@ npm run smoke
   - 운영 환경에 `NEXT_PUBLIC_SUPABASE_URL`과 `SUPABASE_SERVICE_ROLE_KEY`가 있으면 같은 신고를 Supabase `deal_reports` 테이블에도 저장하고, 관리자 큐는 Supabase와 로컬 파일을 병합해 최신 200건을 보여준다.
   - Supabase `deal_reports.deal_id`는 `deals.id` FK를 사용하므로 운영 DB에 상품이 먼저 upsert되어 있어야 한다. DB 쓰기가 실패해도 로컬 파일 fallback으로 접수 UX는 유지된다.
   - `PATCH /api/admin/reports`는 `reportId`, `status`와 함께 `operationAction=hide|restore|revalidate`를 받을 수 있다. 품절, 종료, 링크 오류 신고는 `operationAction=hide`로 먼저 노출을 낮추고, 판매처 상세 링크 보강 또는 재고 확인 후 `restore`로 복구한다.
+  - 신고 SLA는 `lib/reportSla.ts`의 `buildReportSlaSummary`가 계산한다. 링크 오류, 품절, 종료 신고는 6시간, 가격/정보 오류는 24시간, 기타 문의는 48시간 기준이며 `/api/admin/reports`와 `/admin`의 `SLA 우선 처리 목록`에 노출된다.
+  - `SLA 초과 신고`가 1건 이상이면 운영자는 먼저 노출 숨김 또는 재검증 액션을 실행하고, 처리 후 `resolved` 또는 `dismissed`로 닫는다. 이 기준은 `npm run smoke:local`과 `npm run release:doctor`가 함께 검사한다.
   - 응답의 `storage.persistence`, `storage.localPath`, `storage.supabaseConfigured`, `operation`을 확인하면 신고 저장소와 상품 노출 override 반영 여부를 한 번에 검수할 수 있다.
 - 피드 dry-run: `POST /api/admin/import?token=$ADMIN_EXPORT_TOKEN`
 - 상품 품질 CSV: `GET /api/admin/deal-quality?format=csv&token=$ADMIN_EXPORT_TOKEN`

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { canAccessAdminRequest } from "@/lib/adminAuth";
 import { createRequestId, getClientKey, rateLimit, rateLimitHeaders } from "@/lib/apiGuards";
 import { recordDealOperationActionWithPersistence } from "@/lib/deals/operationOverrides";
+import { buildReportSlaSummary } from "@/lib/reportSla";
 import { getReportStorageStatus, getReportSummaryLive, listDealReportsLive, updateDealReportStatusWithPersistence } from "@/lib/reports";
 import type { DealOperationAction } from "@/lib/deals/operationOverrides";
 
@@ -39,7 +40,12 @@ export async function GET(request: Request) {
   }
 
   const status = url.searchParams.get("status");
-  const reports = (await listDealReportsLive(status)).slice(0, 50);
+  const [filteredReports, allReports] = await Promise.all([
+    listDealReportsLive(status),
+    status && status !== "all" ? listDealReportsLive() : Promise.resolve(null)
+  ]);
+  const sourceReports = allReports ?? filteredReports;
+  const reports = filteredReports.slice(0, 50);
 
   return NextResponse.json(
     {
@@ -47,6 +53,7 @@ export async function GET(request: Request) {
       requestId,
       reports,
       summary: await getReportSummaryLive(),
+      sla: buildReportSlaSummary(sourceReports),
       storage: getReportStorageStatus(),
       message: "신고 큐를 불러왔습니다."
     },
@@ -136,6 +143,7 @@ export async function PATCH(request: Request) {
       report,
       operation,
       summary: await getReportSummaryLive(),
+      sla: buildReportSlaSummary(await listDealReportsLive()),
       storage: getReportStorageStatus(),
       message: operation ? "신고 상태와 상품 노출 운영 액션이 함께 반영되었습니다." : "신고 상태가 변경되었습니다."
     },

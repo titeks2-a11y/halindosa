@@ -604,6 +604,7 @@ await check("admin dashboard quality cards", async () => {
   assert(text.includes("판매처 확인"), "Admin dashboard missing seller review action");
   assert(text.includes("처리 기준"), "Admin dashboard missing report handling guidance");
   assert(text.includes("특가 품질 신고 큐"), "Admin dashboard missing deal quality report queue");
+  assert(text.includes("SLA 초과 신고") && text.includes("SLA 우선 처리 목록"), "Admin dashboard missing report SLA triage queue");
   assert(text.includes("VER 2.0 혜택 운영") && text.includes("혜택 데이터 품질 요약"), "Admin dashboard missing benefit quality operation summary");
   assert(text.includes("혜택형 콘텐츠") && text.includes("활성 노출 가능") && text.includes("점검 우선"), "Admin dashboard missing benefit operation cards");
   assert(text.includes("오늘 운영 체크인") && text.includes("무료·쿠폰·링크·재방문 루틴을 먼저 점검합니다"), "Admin dashboard missing daily operations check-in");
@@ -1711,6 +1712,8 @@ await check("admin reports api", async () => {
   assert(data.summary?.total >= 1, "Admin reports summary should include submitted report");
   assert(Array.isArray(data.reports), "Admin reports list missing");
   assert(data.reports.some((report) => report.priority && report.recommendedAction), "Admin reports missing priority action fields");
+  assert(data.sla?.active >= 1 && typeof data.sla?.slaTargetMet === "boolean", "Admin reports API missing SLA summary");
+  assert(Array.isArray(data.sla?.priorityReports), "Admin reports API missing SLA priority report list");
   assert(data.storage?.maxStoredReports === 200, "Admin reports API missing persisted queue storage metadata");
   assert(["local_file", "memory", "supabase_and_local_file"].includes(data.storage?.persistence), "Admin reports API missing persistence mode");
   assert(typeof data.storage?.supabaseConfigured === "boolean", "Admin reports API missing Supabase storage readiness flag");
@@ -1747,6 +1750,7 @@ await check("admin report status update", async () => {
   assert(data.report?.priority === "high", `Expected high priority link error report, got ${data.report?.priority}`);
   assert(data.report?.recommendedAction?.includes("링크"), "Link error report missing recommended link action");
   assert(data.report?.operatorSla?.includes("6시간") && data.report?.queueLabel?.includes("링크"), "Link error report missing SLA and queue label");
+  assert(data.sla?.urgent >= 1 && Array.isArray(data.sla?.priorityReports), "Report update response missing SLA triage summary");
   assert(data.storage?.maxStoredReports === 200, "Report update response missing storage metadata");
   assert(typeof data.storage?.supabaseConfigured === "boolean", "Report update response missing Supabase storage readiness flag");
 

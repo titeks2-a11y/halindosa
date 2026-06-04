@@ -45,7 +45,7 @@
 3. `DEAL_FEED_URLS` 또는 네이버 쇼핑 API 결과를 Supabase upsert job으로 저장
 4. 가격 변동 이력과 중복 제거 로직 추가
 5. mock 가격 이력을 실제 `price_snapshots` 테이블 기반으로 교체
-6. 고객 신고 큐는 `data/dealReports.local.json` fallback과 Supabase `deal_reports` service-role 저장 경로를 함께 사용한다. 다음 단계는 운영자 알림과 SLA 알림 자동화다.
+6. 고객 신고 큐는 `data/dealReports.local.json` fallback과 Supabase `deal_reports` service-role 저장 경로를 함께 사용하며, `buildReportSlaSummary`가 링크 오류·품절·종료 6시간, 가격/정보 오류 24시간, 기타 48시간 SLA를 계산해 관리자 우선 처리 목록으로 노출한다. 다음 단계는 SLA 초과 시 운영자 이메일/Slack 알림 자동화다.
 7. 관리자 인증, CSV export 보호, 운영 로그 저장 유지 및 Supabase `admin_actions` 감사 로그 확대
 8. 실제 약관/개인정보/광고 고지 법무 검토
 9. 배포 파이프라인에서 `npm run audit:commercial`, `npm run harness`, `npm run release:doctor` 자동 실행

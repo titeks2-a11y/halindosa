@@ -24,6 +24,7 @@ import { formatPrice, getRelativeTime } from "@/lib/format";
 import { buildNotificationCampaigns, buildOfficialBenefitNotificationCampaigns, summarizeNotificationCampaigns, toPushQueueRows } from "@/lib/notificationCampaigns";
 import { buildPushSubscriptionReadiness } from "@/lib/pushReadiness";
 import { getPushReadiness } from "@/lib/pushNotifications";
+import { buildReportSlaSummary } from "@/lib/reportSla";
 import { getReportStorageStatus, getReportSummaryLive, listDealReportsLive } from "@/lib/reports";
 import { getCronRefreshOperationsReport } from "@/lib/operations/cronRefresh";
 import { getDailyOperationsReport } from "@/lib/operations/dailyOperations";
@@ -103,6 +104,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
     newsDeals.reduce((map, deal) => map.set(deal.category, (map.get(deal.category) ?? 0) + 1), new Map<string, number>())
   ).sort((a, b) => b[1] - a[1]);
   const recentReports = recentReportsLive.slice(0, 6);
+  const reportSlaSummary = buildReportSlaSummary(recentReportsLive);
   const sampleFeedValidation = dryRunPartnerFeedImport(samplePartnerFeed, "sample_partner_feed");
   const sampleFeedJson = JSON.stringify({ items: samplePartnerFeed }, null, 2);
   const sampleFeedReadyRate = sampleFeedValidation.received ? Math.round((sampleFeedValidation.valid / sampleFeedValidation.received) * 100) : 0;
@@ -343,7 +345,8 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
     { label: "링크 검토 필요", value: metrics.needsReviewLinks.toLocaleString("ko-KR"), icon: Activity },
     { label: "이미지 보강 필요", value: metrics.fallbackImageCount.toLocaleString("ko-KR"), icon: ImageIcon },
     { label: "품절/오류 링크", value: (metrics.soldOutLinks + metrics.brokenLinks).toLocaleString("ko-KR"), icon: Activity },
-    { label: "미처리 신고", value: reportSummary.open.toLocaleString("ko-KR"), icon: Activity }
+    { label: "미처리 신고", value: reportSummary.open.toLocaleString("ko-KR"), icon: Activity },
+    { label: "SLA 초과 신고", value: reportSlaSummary.overdue.toLocaleString("ko-KR"), icon: Timer }
   ];
 
   return (
@@ -2428,7 +2431,13 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
         </section>
 
         <div id="report-queue">
-          <AdminReportQueue initialReports={recentReports} initialSummary={reportSummary} initialStorage={getReportStorageStatus()} token={token} />
+          <AdminReportQueue
+            initialReports={recentReports}
+            initialSummary={reportSummary}
+            initialSla={reportSlaSummary}
+            initialStorage={getReportStorageStatus()}
+            token={token}
+          />
         </div>
 
         <section className="rounded-3xl border border-red-100 bg-gradient-to-br from-red-50 via-white to-slate-50 p-5 shadow-sm">

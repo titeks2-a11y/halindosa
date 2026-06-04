@@ -1170,6 +1170,7 @@ async function checkUiAccessibility() {
   const reportsApi = await text("app/api/reports/route.ts");
   const adminReportsRoute = await text("app/api/admin/reports/route.ts");
   const reportsLib = await text("lib/reports.ts");
+  const reportSla = await text("lib/reportSla.ts");
   const bottomNav = await text("components/BottomNav.tsx");
   const bottomNavigation = await text("components/BottomNavigation.tsx");
   const commercialFooter = await text("components/CommercialFooter.tsx");
@@ -1273,6 +1274,9 @@ async function checkUiAccessibility() {
     !adminReportQueue.includes("우선 검수") ||
     !adminReportQueue.includes("목표 처리 시간") ||
     !adminReportQueue.includes("처리 목표") ||
+    !adminReportQueue.includes("SLA 초과") ||
+    !adminReportQueue.includes("SLA 우선 처리 목록") ||
+    !adminReportQueue.includes("operationActionLabels") ||
     !reportForm.includes("신고 처리 예상 안내") ||
     !reportForm.includes("목표 처리:") ||
     !reportsPage.includes("신고 처리 흐름") ||
@@ -1289,6 +1293,11 @@ async function checkUiAccessibility() {
     !reportsLib.includes("getReportStorageStatus") ||
     !reportsLib.includes("supabaseConfigured") ||
     !reportsLib.includes("deal_reports") ||
+    !reportSla.includes("buildReportSlaSummary") ||
+    !reportSla.includes("slaHoursByReason") ||
+    !reportSla.includes("SLA 초과 신고") ||
+    !reportSla.includes("priorityReports") ||
+    !adminReportsRoute.includes("buildReportSlaSummary") ||
     !adminReportsRoute.includes("operationAction") ||
     !adminReportsRoute.includes("recordDealOperationActionWithPersistence") ||
     !adminReportsRoute.includes("listDealReportsLive") ||
@@ -1296,6 +1305,8 @@ async function checkUiAccessibility() {
     !reportsApi.includes("saveDealReportWithPersistence") ||
     !adminPage.includes("getReportSummaryLive") ||
     !adminPage.includes("listDealReportsLive") ||
+    !adminPage.includes("reportSlaSummary") ||
+    !adminPage.includes("SLA 초과 신고") ||
     !adminReportQueue.includes("저장 방식") ||
     !adminReportQueue.includes("Supabase 신고 저장") ||
     !adminReportQueue.includes("operationActions") ||
@@ -1305,6 +1316,8 @@ async function checkUiAccessibility() {
     !smoke.includes("Report API missing resolution plan metadata") ||
     !smoke.includes("Admin reports API missing persisted queue storage metadata") ||
     !smoke.includes("Admin reports API missing Supabase storage readiness flag") ||
+    !smoke.includes("Admin reports API missing SLA summary") ||
+    !smoke.includes("Admin dashboard missing report SLA triage queue") ||
     !smoke.includes("Report update should record a matching hide operation") ||
     !runbook.includes("Supabase `deal_reports`") ||
     !runbook.includes("storage.supabaseConfigured") ||
