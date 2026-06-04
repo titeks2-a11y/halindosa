@@ -4,9 +4,9 @@
 
 ## 기본 정보
 
-- 생성 시각: 2026-06-04T02:07:05.506Z
+- 생성 시각: 2026-06-04T02:17:23.229Z
 - Git 브랜치: codex/12h-product-ux-growth-hardening
-- 최신 커밋: 88f4391
+- 최신 커밋: d0469a1
 - Git 상태: clean
 - 패키지 버전: 1.0.1
 - 앱 이름: 할인도사
@@ -50,8 +50,8 @@
 | Store screenshot manifest | `docs/STORE_SCREENSHOT_MANIFEST.md` | 4KB |
 | Store screenshot manifest JSON | `STORE_SCREENSHOT_MANIFEST.json` | 5KB |
 | Harness report | `docs/HARNESS_REPORT.md` | 20KB |
-| Operational health readiness report | `docs/HEALTH_READINESS_REPORT.md` | 4KB |
-| Operational health readiness JSON | `reports/health-readiness.json` | 8KB |
+| Operational health readiness report | `docs/HEALTH_READINESS_REPORT.md` | 6KB |
+| Operational health readiness JSON | `reports/health-readiness.json` | 9KB |
 | Push readiness report | `docs/PUSH_READINESS_REPORT.md` | 5KB |
 | Push readiness JSON | `reports/push-readiness.json` | 11KB |
 | Push delivery policy report | `docs/PUSH_DELIVERY_POLICY.md` | 3KB |

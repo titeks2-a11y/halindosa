@@ -1,7 +1,7 @@
 {
   "generatedBy": "npm run release:notes",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "88f4391",
+  "commit": "d0469a1",
   "workingTree": "M DEVICE_QA_REPORT.md;  M KNOWN_ISSUES.md;  M PUBLIC_URL_REPORT.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_HANDOFF_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M docs/DEVICE_QA_REPORT.md;  M docs/KNOWN_ISSUES.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_HANDOFF_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md;  M docs/release-evidence.md",
   "version": "1.0.1",
   "appName": "할인도사",
@@ -73,14 +73,14 @@
     }
   ],
   "recentCommits": [
+    "d0469a1 feat: include source readiness in health checks",
+    "3c63c0f docs: record clean release doctor after source readiness csv",
+    "f772ed9 docs: refresh release evidence after source readiness csv",
     "88f4391 feat: export source readiness csv",
     "dbe6fbd docs: record clean release doctor after source readiness rollup",
     "1027407 docs: refresh release evidence after source readiness rollup",
     "b808c86 feat: add official source readiness rollup",
-    "f50e48d docs: record clean release doctor after admin feed env panel",
-    "8584e59 docs: refresh release evidence after admin feed env panel",
-    "aca6bdc feat: expose source feed env readiness in admin",
-    "bd1ceb3 docs: record clean release doctor after source feed env doctor"
+    "f50e48d docs: record clean release doctor after admin feed env panel"
   ],
   "manualWorkThatMustNotBeFaked": [
     "Do not claim Play Console or App Store Connect submission has passed from this file.",
