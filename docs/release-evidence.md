@@ -4,10 +4,10 @@
 
 ## 기본 정보
 
-- 생성 시각: 2026-06-04T09:44:55.204Z
+- 생성 시각: 2026-06-04T15:00:49.090Z
 - Git 브랜치: codex/12h-product-ux-growth-hardening
-- 최신 커밋: 9af8d31
-- Git 상태: M DEVICE_QA_REPORT.md;  M EXTERNAL_LINK_REPORT.md;  M IMAGE_QUALITY_REPORT.md;  M KNOWN_ISSUES.md;  M LINK_VERIFICATION_REPORT.md;  M LINK_VERIFICATION_RESULT.json;  M PERFORMANCE_REPORT.md;  M PUBLIC_URL_REPORT.md;  M RELEASE_NOTES.json;  M RELEASE_NOTES.md;  M SEARCH_REPORT.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_HANDOFF_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_PACKET_REPORT.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M SUPPORT_PLAYBOOK.json;  M SUPPORT_PLAYBOOK.md;  M data/refreshedDeals.json;  M data/refreshedNewsDeals.json;  M docs/DAILY_OPERATIONS_REPORT.md;  M docs/DEVICE_QA_REPORT.md;  M docs/FEED_TRANSITION_REPORT.md;  M docs/KNOWN_ISSUES.md;  M docs/NEWS_FRESHNESS_REPORT.md;  M docs/OFFICIAL_BENEFIT_ALERTS_REPORT.md;  M docs/OFFICIAL_SOURCE_CATALOG.md;  M docs/OFFICIAL_SOURCE_LIVE_CHECK.md;  M docs/PERFORMANCE_REPORT.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/PUSH_DELIVERY_AUDIT.md;  M docs/PUSH_DELIVERY_POLICY.md;  M docs/PUSH_READINESS_REPORT.md;  M docs/RELEASE_NOTES.md;  M docs/SOURCE_FEED_ENV_REPORT.md;  M docs/SOURCE_ONBOARDING_PLAN.md;  M docs/SOURCE_READINESS_REPORT.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_HANDOFF_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_PACKET_REPORT.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md;  M docs/SUPPORT_PLAYBOOK.md;  M docs/release-evidence.md;  M reports/LINK_LAUNCH_GATE.md;  M reports/admin-auth.json;  M reports/cron-refresh-readiness.json;  M reports/daily-operations.json;  M reports/exposure-policy.json;  M reports/feed-transition.json;  M reports/link-launch-gate.json;  M reports/link-quality-regression.json;  M reports/link-validation.json;  M reports/news-deals.json;  M reports/news-feed-dry-run-regression.json;  M reports/news-freshness.json;  M reports/official-benefit-alerts.json;  M reports/official-source-catalog.json;  M reports/official-source-live-check.csv;  M reports/official-source-live-check.json;  M reports/product-quality.json;  M reports/push-delivery-audit.json;  M reports/push-delivery-policy.json;  M reports/push-readiness.json;  M reports/refresh-all.json;  M reports/refresh-deals.json;  M reports/release-doctor.json;  M reports/source-feed-env-readiness.json;  M reports/source-onboarding-plan.json;  M reports/source-readiness.json
+- 최신 커밋: 8c88080
+- Git 상태: clean
 - 패키지 버전: 1.0.1
 - 앱 이름: 할인도사
 - 앱 ID / 패키지명: com.halindosa.app
@@ -19,8 +19,8 @@
 
 | 항목 | 경로 | 크기 |
 | --- | --- | --- |
-| Debug APK | `android/app/build/outputs/apk/debug/app-debug.apk` | 10.12MB |
-| Release AAB | `android/app/build/outputs/bundle/release/app-release.aab` | 13.58MB |
+| Debug APK | `android/app/build/outputs/apk/debug/app-debug.apk` | 없음 |
+| Release AAB | `android/app/build/outputs/bundle/release/app-release.aab` | 없음 |
 | Play Store icon | `assets/store/play-store-icon-512.png` | 26KB |
 | Feature graphic | `assets/store/feature-graphic-1024x500.png` | 47KB |
 | iOS App icon | `ios/App/App/Assets.xcassets/AppIcon.appiconset/AppIcon-512@2x.png` | 61KB |
@@ -51,19 +51,19 @@
 | Store screenshot manifest JSON | `STORE_SCREENSHOT_MANIFEST.json` | 5KB |
 | Harness report | `docs/HARNESS_REPORT.md` | 20KB |
 | Operational health readiness report | `docs/HEALTH_READINESS_REPORT.md` | 6KB |
-| Operational health readiness JSON | `reports/health-readiness.json` | 10KB |
+| Operational health readiness JSON | `reports/health-readiness.json` | 11KB |
 | Push readiness report | `docs/PUSH_READINESS_REPORT.md` | 5KB |
 | Push readiness JSON | `reports/push-readiness.json` | 11KB |
 | Push delivery policy report | `docs/PUSH_DELIVERY_POLICY.md` | 3KB |
 | Push delivery policy JSON | `reports/push-delivery-policy.json` | 5KB |
 | Official benefit alert report | `docs/OFFICIAL_BENEFIT_ALERTS_REPORT.md` | 5KB |
-| Official benefit alert JSON | `reports/official-benefit-alerts.json` | 29KB |
+| Official benefit alert JSON | `reports/official-benefit-alerts.json` | 30KB |
 | Link quality regression JSON | `reports/link-quality-regression.json` | 7KB |
 | Official source live check report | `docs/OFFICIAL_SOURCE_LIVE_CHECK.md` | 7KB |
 | Official source live check JSON | `reports/official-source-live-check.json` | 23KB |
 | Official source live check CSV | `reports/official-source-live-check.csv` | 11KB |
 | Official source onboarding plan | `docs/SOURCE_ONBOARDING_PLAN.md` | 12KB |
-| Official source onboarding JSON | `reports/source-onboarding-plan.json` | 45KB |
+| Official source onboarding JSON | `reports/source-onboarding-plan.json` | 46KB |
 | Official source onboarding CSV | `reports/source-onboarding-plan.csv` | 11KB |
 | Image backlog report | `docs/IMAGE_BACKLOG_REPORT.md` | 29KB |
 | Image backlog CSV | `IMAGE_BACKLOG.csv` | 110KB |

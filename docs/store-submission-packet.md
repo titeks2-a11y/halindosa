@@ -6,8 +6,8 @@
 
 | 용도 | 경로 | 상태 |
 | --- | --- | --- |
-| Android debug APK | `android/app/build/outputs/apk/debug/app-debug.apk` | 내부 설치 확인용 |
-| Android release AAB | `android/app/build/outputs/bundle/release/app-release.aab` | signed AAB는 Android Studio 또는 로컬 keystore로 재생성 |
+| Android release AAB | `android/app/release/app-release.aab` | Play Console 업로드 전 Android Studio 또는 로컬 keystore 서명 확인 |
+| Android debug APK | `android/app/build/outputs/apk/debug/app-debug.apk` | 내부 설치 확인이 필요할 때 `npm run android:debug`로 재생성 |
 | Play Store icon | `assets/store/play-store-icon-512.png` | 스토어 등록정보 업로드 |
 | Play Store feature graphic | `assets/store/feature-graphic-1024x500.png` | 스토어 등록정보 업로드 |
 | iOS app icon source | `ios/App/App/Assets.xcassets/AppIcon.appiconset/AppIcon-512@2x.png` | Xcode Archive 확인 |
