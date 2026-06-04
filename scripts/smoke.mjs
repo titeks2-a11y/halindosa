@@ -565,6 +565,7 @@ await check("admin dashboard quality cards", async () => {
   assert(text.includes("공식 혜택 카테고리 커버리지") && text.includes("공식 혜택 Provider 상태") && text.includes("공식 혜택 Provider 위험도") && text.includes("공식 소스 통합 준비도") && text.includes("API 보기"), "Admin dashboard missing health readiness category/provider/source risk/API controls");
   assert(text.includes("뉴스 수집 현황") && text.includes("공식 이벤트·무료 혜택 feed 후보"), "Admin dashboard missing news collection status");
   assert(text.includes("공식 feed preview") && text.includes("뉴스 본문 공식 링크 승격") && text.includes("Preview JSON") && text.includes("Preview CSV"), "Admin dashboard missing official news feed preview panel");
+  assert(text.includes("공식 뉴스·혜택 feed 붙여넣기 검증") && text.includes("공식 feed dry-run 실행") && text.includes("RSS/JSON을 붙여넣고"), "Admin dashboard missing official news paste dry-run panel");
   assert(text.includes("공식 피드 전환 준비도") && text.includes("공식 API/RSS/제휴 feed") && text.includes("seed fallback"), "Admin dashboard missing official feed transition readiness panel");
   assert(text.includes("Provider별 성공/실패") && text.includes("검증 실패 TOP10") && text.includes("최근 20개 수집 로그"), "Admin dashboard missing news provider/log operation panels");
   assert(text.includes("숨김/종료/공식 링크 없음 큐") && text.includes("수동 숨김/복구/재검증 구조"), "Admin dashboard missing news hide/restore/revalidate operation panels");
@@ -826,6 +827,23 @@ await check("admin news feed preview api", async () => {
   assert(csvResponse.status === 200, `Expected news feed preview CSV 200, got ${csvResponse.status}`);
   assert(csvResponse.headers.get("content-type")?.includes("text/csv"), "Admin news feed preview CSV should use text/csv content type");
   assert(csv.includes("provider") && csv.includes("sample_visible") && csv.includes("official_promotions"), "Admin news feed preview CSV missing provider, sample, or promotion sections");
+
+  const sampleRss = `<rss><channel><item><guid>smoke-news-feed-dry-run</guid><title>공식 이벤트 링크가 포함된 smoke RSS</title><link>https://news.naver.com/example/halindosa-smoke</link><description><![CDATA[공식 행사 <a href="https://www.mcdonalds.co.kr/kor/promotion/detail.do?seq=593">바로가기</a>]]></description><category>외식/배달</category><benefitType>coupon</benefitType><merchant>맥도날드</merchant><endDate>2026-12-31T14:59:59.000Z</endDate></item></channel></rss>`;
+  const dryRun = await fetchJson("/api/admin/news-feed-preview", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      source: "smoke_news_feed_paste",
+      provider: "official_event",
+      text: sampleRss
+    })
+  });
+  assert(dryRun.response.status === 200, `Expected news feed dry-run 200, got ${dryRun.response.status}`);
+  assert(dryRun.data.ok === true, "Admin news feed dry-run should pass official RSS sample");
+  assert(dryRun.data.result?.visible === 1, "Admin news feed dry-run should expose one visible row");
+  assert(dryRun.data.result?.hidden === 0, "Admin news feed dry-run should hide zero rows for official sample");
+  assert(dryRun.data.result?.officialLinkPromotedCount === 1, "Admin news feed dry-run should promote official link from RSS body");
+  assert(dryRun.data.result?.visibleRows?.[0]?.finalUrl?.includes("mcdonalds.co.kr"), "Admin news feed dry-run should use official final URL");
 });
 
 await check("admin source live readiness api", async () => {

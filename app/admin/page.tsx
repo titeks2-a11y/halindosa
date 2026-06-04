@@ -5,6 +5,7 @@ import { AdminDealQualityPanel } from "@/components/AdminDealQualityPanel";
 import { AdminHealthReadinessPanel } from "@/components/AdminHealthReadinessPanel";
 import { AdminNewsOperationsPanel } from "@/components/AdminNewsOperationsPanel";
 import { AdminPushDryRunPanel } from "@/components/AdminPushDryRunPanel";
+import { NewsFeedDryRunPanel } from "@/components/NewsFeedDryRunPanel";
 import { PartnerFeedDryRunPanel } from "@/components/PartnerFeedDryRunPanel";
 import { getMockBusinessMetrics } from "@/lib/analytics";
 import { canAccessAdmin, getAdminExportHref, isAdminProtectionEnabled } from "@/lib/adminAuth";
@@ -114,6 +115,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const reportSlaSummary = buildReportSlaSummary(recentReportsLive);
   const sampleFeedValidation = dryRunPartnerFeedImport(samplePartnerFeed, "sample_partner_feed");
   const sampleFeedJson = JSON.stringify({ items: samplePartnerFeed }, null, 2);
+  const sampleNewsFeedText = `<rss><channel><item><guid>admin-news-sample-001</guid><title>공식 이벤트 링크가 포함된 할인 뉴스 샘플</title><link>https://news.naver.com/example/halindosa-benefit-context</link><description><![CDATA[맥도날드 공식 행사 페이지 <a href="https://www.mcdonalds.co.kr/kor/promotion/detail.do?seq=593">바로가기</a>]]></description><category>외식/배달</category><benefitType>coupon</benefitType><merchant>맥도날드</merchant><endDate>2026-12-31T14:59:59.000Z</endDate></item></channel></rss>`;
   const sampleFeedReadyRate = sampleFeedValidation.received ? Math.round((sampleFeedValidation.valid / sampleFeedValidation.received) * 100) : 0;
   const sourceCounts = new Map<string, number>();
   const linkReviewDeals = getLinkReviewQueue(deals, 8);
@@ -859,6 +861,9 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
             <p className="mt-3 text-[11px] font-bold leading-5 text-slate-500">
               마지막 preview {newsFeedPreview.generatedAt ? getRelativeTime(newsFeedPreview.generatedAt) : "생성 필요"} · 명령어: npm run news:preview
             </p>
+          </div>
+          <div className="mt-4">
+            <NewsFeedDryRunPanel token={token} initialText={sampleNewsFeedText} />
           </div>
           <div className="mt-4 grid gap-3 lg:grid-cols-[0.9fr_1.1fr]">
             <div className="rounded-2xl border border-red-100 bg-red-50 p-4">

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { canAccessAdminRequest } from "@/lib/adminAuth";
 import { createRequestId, getClientKey, rateLimit, rateLimitHeaders } from "@/lib/apiGuards";
+import { dryRunNewsFeedPreview } from "@/lib/operations/newsFeedDryRun";
 import { getNewsFeedPreviewReport, type NewsFeedPreviewReport } from "@/lib/operations/newsFeedPreview";
 
 export const runtime = "nodejs";
@@ -124,5 +125,62 @@ export async function GET(request: Request) {
       message: "공식 feed preview 리포트를 불러왔습니다."
     },
     { headers: rateLimitHeaders(limit, requestId) }
+  );
+}
+
+export async function POST(request: Request) {
+  const requestId = createRequestId();
+  const limit = rateLimit({
+    key: getClientKey(request, "admin-news-feed-preview-dry-run"),
+    limit: 30,
+    windowMs: 60_000
+  });
+
+  if (!limit.allowed) {
+    return NextResponse.json(
+      {
+        ok: false,
+        requestId,
+        message: "공식 feed dry-run 요청이 너무 많습니다. 잠시 후 다시 시도해주세요."
+      },
+      { status: 429, headers: rateLimitHeaders(limit, requestId) }
+    );
+  }
+
+  const url = new URL(request.url);
+  const token = url.searchParams.get("token");
+
+  if (!canAccessAdminRequest(request, token)) {
+    return NextResponse.json(
+      {
+        ok: false,
+        requestId,
+        message: "공식 feed dry-run 접근 권한이 없습니다."
+      },
+      { status: 401, headers: rateLimitHeaders(limit, requestId) }
+    );
+  }
+
+  const body = await request.json().catch(() => ({}));
+  const text = typeof body.text === "string" ? body.text.slice(0, 300_000) : "";
+  const source = typeof body.source === "string" ? body.source.slice(0, 80) : "admin_news_feed_paste";
+  const provider = ["news", "event_news", "official_event", "public_coupon"].includes(String(body.provider))
+    ? (body.provider as "news" | "event_news" | "official_event" | "public_coupon")
+    : "official_event";
+  const result = dryRunNewsFeedPreview({
+    source,
+    provider,
+    text,
+    items: body.items
+  });
+
+  return NextResponse.json(
+    {
+      ok: result.ok,
+      requestId,
+      result,
+      message: result.message
+    },
+    { status: result.received > 0 ? 200 : 400, headers: rateLimitHeaders(limit, requestId) }
   );
 }
