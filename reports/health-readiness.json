@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-04T09:40:36.265Z",
+  "generatedAt": "2026-06-04T09:59:14.086Z",
   "score": 100,
   "thresholds": {
     "productDealsCount": 140,
@@ -32,7 +32,7 @@
     "expiredCount": 0,
     "officialMissingCount": 0,
     "failedCount": 0,
-    "freshnessHours": 0,
+    "freshnessHours": 0.3,
     "readyCategories": 10,
     "requiredCategories": 10,
     "minimumCategoryDealCount": 2,
@@ -63,7 +63,9 @@
       "feedSuccessCount": 0,
       "collectedCount": 43,
       "configuredFeedUrls": 0,
-      "feedItemRate": 0
+      "feedItemRate": 0,
+      "configuredEmptyFeedCount": 0,
+      "configuredEmptyFeedProviders": []
     },
     "providerStats": [
       {
@@ -76,6 +78,7 @@
         "feedSuccessCount": 0,
         "collectedCount": 4,
         "feedItemRate": 0,
+        "configuredEmptyFeed": false,
         "fetchedCount": 4,
         "normalizedCount": 4,
         "visibleCount": 4,
@@ -95,6 +98,7 @@
         "feedSuccessCount": 0,
         "collectedCount": 6,
         "feedItemRate": 0,
+        "configuredEmptyFeed": false,
         "fetchedCount": 6,
         "normalizedCount": 6,
         "visibleCount": 6,
@@ -114,6 +118,7 @@
         "feedSuccessCount": 0,
         "collectedCount": 23,
         "feedItemRate": 0,
+        "configuredEmptyFeed": false,
         "fetchedCount": 23,
         "normalizedCount": 23,
         "visibleCount": 23,
@@ -133,6 +138,7 @@
         "feedSuccessCount": 0,
         "collectedCount": 10,
         "feedItemRate": 0,
+        "configuredEmptyFeed": false,
         "fetchedCount": 10,
         "normalizedCount": 10,
         "visibleCount": 10,
@@ -314,7 +320,7 @@
     {
       "name": "official benefit freshness",
       "ok": true,
-      "detail": "Official benefit report freshness is 0h."
+      "detail": "Official benefit report freshness is 0.3h."
     },
     {
       "name": "refresh all pipeline",
@@ -335,6 +341,11 @@
       "name": "official feed source mix counters",
       "ok": true,
       "detail": "seed=43, feed=0, success=0/0."
+    },
+    {
+      "name": "configured empty feed watch",
+      "ok": true,
+      "detail": "configured-empty=0; providers=none."
     },
     {
       "name": "provider risk gate",

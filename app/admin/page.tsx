@@ -915,6 +915,9 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                 <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-slate-700 shadow-sm">
                   외부 feed {newsOperations.feedTransitionReadiness.feedItemCount}건
                 </span>
+                <span className={`rounded-full bg-white px-3 py-1 text-xs font-black shadow-sm ${newsOperations.feedTransitionReadiness.configuredEmptyFeedCount ? "text-amber-700" : "text-slate-700"}`}>
+                  feed 공백 {newsOperations.feedTransitionReadiness.configuredEmptyFeedCount}개
+                </span>
                 <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-slate-700 shadow-sm">
                   seed {newsOperations.feedTransitionReadiness.seedCount}건
                 </span>
@@ -928,8 +931,8 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                 <div key={provider.provider} className="rounded-2xl bg-white p-3 shadow-sm">
                   <div className="flex items-center justify-between gap-2">
                     <p className="truncate text-xs font-black text-slate-950">{provider.label}</p>
-                    <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-black ${provider.configured ? "bg-emerald-50 text-emerald-700" : "bg-amber-50 text-amber-700"}`}>
-                      {provider.modeLabel}
+                    <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-black ${provider.configuredEmptyFeed ? "bg-amber-50 text-amber-700" : provider.configured ? "bg-emerald-50 text-emerald-700" : "bg-amber-50 text-amber-700"}`}>
+                      {provider.configuredEmptyFeed ? "feed 공백" : provider.modeLabel}
                     </span>
                   </div>
                   <p className="mt-2 text-[11px] font-bold leading-5 text-slate-500">

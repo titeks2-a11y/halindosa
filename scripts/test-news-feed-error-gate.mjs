@@ -165,6 +165,7 @@ try {
   assert(Number(validNewsProvider?.seedCount ?? 0) >= 1, "valid configured feed should preserve seed fallback count");
   assert(Number(validNewsProvider?.feedItemCount ?? 0) >= 1, "valid configured feed should count external feed items separately");
   assert(Number(validNewsProvider?.feedSuccessCount ?? 0) === 1, "valid configured feed should count successful external feed fetches");
+  assert(validNewsProvider?.configuredEmptyFeed === false, "valid configured feed should not be marked as configured-empty");
   assert(
     Number(validNewsProvider?.collectedCount ?? 0) === Number(validNewsProvider?.seedCount ?? 0) + Number(validNewsProvider?.feedItemCount ?? 0),
     "valid configured feed should expose collectedCount as seed plus external feed items"
@@ -201,6 +202,7 @@ try {
   assert(Number(invalidNewsProvider?.seedCount ?? 0) >= 1, "broken configured feed should preserve seed fallback count for safety");
   assert(Number(invalidNewsProvider?.feedItemCount ?? 999) === 0, "broken configured feed should not count external feed items");
   assert(Number(invalidNewsProvider?.feedSuccessCount ?? 999) === 0, "broken configured feed should not count successful feed fetches");
+  assert(invalidNewsProvider?.configuredEmptyFeed === true, "broken configured feed should be marked as configured-empty");
   assert(Number(invalidNewsProvider?.collectedCount ?? 0) === Number(invalidNewsProvider?.seedCount ?? 0), "broken configured feed collectedCount should equal seed fallback count");
 
   console.log("PASS configured news feed error gate regression");

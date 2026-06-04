@@ -116,7 +116,7 @@ npm run smoke
   - `/admin`의 `공식 뉴스·혜택 feed 붙여넣기 검증` 패널은 운영자가 받은 JSON/RSS 본문을 바로 붙여넣어 POST `/api/admin/news-feed-preview`로 dry-run한다. 이 API는 임의 URL을 서버에서 fetch하지 않으며, 원문은 300KB 이하 단위로 나누어 검증한다. `visibleRows`만 운영 후보로 보고 `hiddenRows`는 공식 URL, 종료일, 제목, 혜택 조건 보강 후 다시 검증한다.
   - `npm run test:news-feed-dry-run`은 `reports/news-feed-dry-run-regression.json`을 만들고, RSS 본문 공식 링크 승격, 검색 결과 URL 숨김, 뉴스 기사 단독 URL 숨김, 만료 공식 이벤트 숨김, POST dry-run route와 smoke negative case가 유지되는지 확인한다.
   - `npm run feed:transition:report`는 `reports/feed-transition.json`과 `docs/FEED_TRANSITION_REPORT.md`를 생성한다. 운영자는 이 파일로 provider별 `seed fallback`/`공식 feed 연결`, 우선 env key, launch-blocking 여부를 확인하고 다음 feed 연결 순서를 정한다.
-  - `reports/news-deals.json.providerStats`와 `/api/admin/news-operations?format=csv`의 `feed_source_mix` 행은 provider별 `seedCount`, `feedItemCount`, `feedSuccessCount`, `collectedCount`를 분리해 보여준다. 공식 feed URL을 연결한 뒤에는 `feedItemCount`와 `feedSuccessCount/feedUrls`가 기대대로 증가하는지 확인하고, 미연결 provider는 seed fallback 수만 남아 있어야 한다.
+  - `reports/news-deals.json.providerStats`와 `/api/admin/news-operations?format=csv`의 `feed_source_mix` 행은 provider별 `seedCount`, `feedItemCount`, `feedSuccessCount`, `collectedCount`, `configuredEmptyFeed`를 분리해 보여준다. 공식 feed URL을 연결한 뒤에는 `feedItemCount`와 `feedSuccessCount/feedUrls`가 기대대로 증가하는지 확인하고, 미연결 provider는 seed fallback 수만 남아 있어야 한다.
   - 환경변수로 연결한 공식 feed가 HTTP 오류, timeout, JSON/RSS 파싱 오류를 내면 `npm run verify:news`와 `npm run refresh:all`은 실패한다. seed fallback은 미연결 provider용 안전장치이며, 설정된 운영 feed 장애를 덮어 성공 처리하지 않는다. `npm run test:news-feed-errors`는 이 실패 게이트를 정상 feed/깨진 feed 양쪽으로 재현한다.
   - feed 오류가 나면 `reports/news-deals.json`의 `gates.configuredFeedErrors`에서 provider, feed URL 수, 오류 메시지를 확인하고 해당 feed URL 또는 포맷을 고친 뒤 다시 `npm run refresh:news && npm run verify:news`를 실행한다.
   - `npm run verify:news`는 `gates.policyRegression` 합성 샘플도 함께 기록한다. 정상 공식 이벤트/쿠폰 URL은 통과하고, 검색 URL, 커뮤니티 원문, 뉴스 기사 단독 링크, 종료 이벤트, 낮은 신뢰도, 조건 불명확 문구, 광고성 문구, 공식 링크 누락, unsafe URL은 모두 숨김 처리되어야 한다.
@@ -135,7 +135,7 @@ npm run smoke
   - `/admin`의 `공식 소스 live 접근성` 패널과 보호된 `GET /api/admin/source-live`, `GET /api/admin/source-live?format=csv`로 같은 리포트를 운영 화면과 스프레드시트에서 확인한다.
   - live check에서 `reachable`은 승인 feed 또는 공식 페이지 매핑 후보로 유지하고, `guarded`는 공식 API/RSS/제휴 feed 또는 담당자 제공 데이터로 연결한다. `stale_or_removed`는 카탈로그 URL을 교체하기 전까지 신규 혜택 source로 쓰지 않는다.
   - `/api/sources`의 `officialSourceCatalog` 요약은 공식 feed 후보 수, 고우선순위 후보, 카테고리/provider 커버리지, thin category, 후보별 공식 URL, 허용/차단 사용 범위, 다음 연결 env key를 반환한다. 공식 feed를 붙이기 전에는 이 값이 10개 필수 카테고리별 최소 2개 후보와 4개 provider를 모두 채우는지 먼저 본다.
-  - `/api/sources`와 `/api/sources?format=csv`의 `officialBenefitFeedTransitionReadiness`는 `seedCount`, `feedItemCount`, `feedSuccessCount`, `collectedCount`, `feedItemRate`를 함께 내려준다. 공식 feed를 연결한 뒤에는 feed URL 수만 보지 말고 외부 feed item 수와 seed fallback 비율이 함께 움직이는지 확인한다.
+  - `/api/sources`와 `/api/sources?format=csv`의 `officialBenefitFeedTransitionReadiness`는 `seedCount`, `feedItemCount`, `feedSuccessCount`, `collectedCount`, `feedItemRate`, `configuredEmptyFeedCount`를 함께 내려준다. 공식 feed를 연결한 뒤에는 feed URL 수만 보지 말고 외부 feed item 수와 seed fallback 비율이 함께 움직이는지 확인한다.
   - 스프레드시트 검토가 필요하면 `/api/admin/news-operations?format=csv` 또는 관리자 화면의 `Provider 위험도 CSV` 버튼으로 provider risk, 숨김/종료/공식 링크 누락, 실패 사유, 최근 로그를 내려받는다.
   - CSV의 `feed_transition` 행은 provider별 허용 소스, 필요한 환경변수, 현재 feed URL 수, 다음 액션을 포함한다. 공식 feed URL을 추가한 뒤에는 `npm run source:catalog:report && npm run source:live:doctor && npm run source:onboarding:plan && npm run source:feed-env:doctor && npm run source:readiness:report && npm run news:feed:doctor && npm run refresh:all && npm run smoke:local && npm run release:doctor`를 순서대로 실행한다.
   - `Provider 위험도`가 `즉시 점검`이면 실패/오류/공식 링크 누락을 먼저 정리하고, `수집 대기` 또는 `seed 운영`이면 상용 운영 전 공식 API/RSS/제휴 feed 연결 후보를 보강한다.
@@ -143,7 +143,7 @@ npm run smoke
 - 운영 헬스 리포트:
   - `npm run refresh:all && npm run health:readiness`를 실행하면 `reports/health-readiness.json`과 `docs/HEALTH_READINESS_REPORT.md`가 생성된다.
   - 이 리포트는 상품 140개 이상, 검증 구매 링크 99% 이상, 검색 링크 0개, 품절/종료 노출 0개, 공식 혜택 40개 이상, 필수 10개 공식 혜택 카테고리별 2건 이상, provider 즉시 점검 0개, 공식 소스 통합 준비도 통과, `refresh:all` 성공, 24시간 이내 리포트 신선도를 함께 검사한다.
-  - `officialBenefits.sourceMix`와 `/api/health`의 `officialBenefitFeedExternalItemCount`, `officialBenefitFeedSeedCount`, `officialBenefitFeedExternalItemRate`를 함께 확인해 상용 feed 연결 후 실제 외부 유입이 늘었는지 추적한다. 외부 feed가 설정되었는데 external item이 0이면 feed URL, 응답 형식, 공식 링크 승격 결과를 먼저 점검한다.
+  - `officialBenefits.sourceMix`와 `/api/health`의 `officialBenefitFeedExternalItemCount`, `officialBenefitFeedSeedCount`, `officialBenefitFeedExternalItemRate`, `officialBenefitFeedConfiguredEmptyCount`를 함께 확인해 상용 feed 연결 후 실제 외부 유입이 늘었는지 추적한다. 외부 feed가 설정되었는데 external item이 0이면 `configuredEmptyFeed`로 관찰 대상이 되므로 feed URL, 응답 형식, RSS/JSON 파서, 공식 링크 승격 결과를 먼저 점검한다.
   - `npm run qa`, `/admin`의 `운영 헬스 리포트`, `/api/admin/health-readiness`, `npm run release:doctor`도 이 리포트의 존재와 수치를 확인하므로, 출시 직전에는 `docs/HEALTH_READINESS_REPORT.md`가 PASS인지 먼저 확인한다.
 - 일일 운영 리포트:
   - `npm run daily:operations:report`를 실행하면 `reports/daily-operations.json`과 `docs/DAILY_OPERATIONS_REPORT.md`가 생성된다.

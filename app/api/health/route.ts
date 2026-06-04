@@ -109,6 +109,8 @@ export async function GET() {
         officialBenefitFeedSuccessCount: officialBenefitFeedTransition.feedSuccessCount,
         officialBenefitFeedCollectedCount: officialBenefitFeedTransition.collectedCount,
         officialBenefitFeedExternalItemRate: officialBenefitFeedTransition.feedItemRate,
+        officialBenefitFeedConfiguredEmptyCount: officialBenefitFeedTransition.configuredEmptyFeedCount,
+        officialBenefitFeedConfiguredEmptyProviders: officialBenefitFeedTransition.configuredEmptyFeedProviders,
         officialBenefitFeedRecommendedEnvKeys: officialBenefitFeedTransition.recommendedNextEnvKeys.slice(0, 5),
         officialSourceReadinessOk,
         officialSourceLaunchGateStatus: sourceReadiness.launchGateStatus,

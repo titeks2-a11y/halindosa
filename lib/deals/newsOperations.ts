@@ -23,6 +23,7 @@ interface ProviderStat {
   feedItemCount?: number;
   feedSuccessCount?: number;
   collectedCount?: number;
+  configuredEmptyFeed?: boolean;
   fetchedCount?: number;
   normalizedCount?: number;
   visibleCount?: number;
@@ -63,6 +64,7 @@ interface FeedTransitionProvider {
   feedSuccessCount: number;
   collectedCount: number;
   feedItemRate: number;
+  configuredEmptyFeed: boolean;
   envKeys: string[];
   acceptedSources: string;
   nextAction: string;
@@ -85,6 +87,8 @@ interface FeedTransitionReadiness {
   feedSuccessCount: number;
   collectedCount: number;
   feedItemRate: number;
+  configuredEmptyFeedCount: number;
+  configuredEmptyFeedProviders: string[];
   launchBlockingCount: number;
   recommendedNextEnvKeys: string[];
   guardrails: string[];
@@ -361,6 +365,9 @@ function getProviderRisk(stat: ProviderStat): ProviderRisk {
   const issueCount = hiddenCount + failedCount + expiredCount + officialMissingCount + errorCount;
   const totalCount = Math.max(fetchedCount, normalizedCount, visibleCount + issueCount, 1);
   const failureRate = Math.round((issueCount / totalCount) * 1000) / 10;
+  const feedUrls = Number(stat.feedUrls ?? 0);
+  const feedItemCount = Number(stat.feedItemCount ?? 0);
+  const configuredEmptyFeed = Boolean(stat.configured) && feedUrls > 0 && feedItemCount === 0;
 
   if (failedCount > 0 || errorCount > 0 || officialMissingCount > 0) {
     return {
@@ -418,6 +425,20 @@ function getProviderRisk(stat: ProviderStat): ProviderRisk {
     };
   }
 
+  if (configuredEmptyFeed) {
+    return {
+      provider: stat.provider,
+      source: stat.source ?? "configured_feed",
+      severity: "watch",
+      label: "feed 공백",
+      reason: `feed URL ${feedUrls}개가 연결됐지만 외부 feed 항목이 0건입니다.`,
+      action: "feed URL, 응답 형식, normalizer 매핑, 공식 상세 링크 승격 결과를 확인하세요.",
+      visibleCount,
+      issueCount,
+      failureRate
+    };
+  }
+
   return {
     provider: stat.provider,
     source: stat.source ?? "configured_feed",
@@ -447,6 +468,7 @@ function buildFeedTransitionReadiness(providerStats: ProviderStat[]): FeedTransi
     const feedSuccessCount = Number(stat?.feedSuccessCount ?? 0);
     const collectedCount = Number(stat?.collectedCount ?? stat?.fetchedCount ?? seedCount + feedItemCount);
     const feedItemRate = Math.round((feedItemCount / Math.max(collectedCount, 1)) * 1000) / 10;
+    const configuredEmptyFeed = configured && feedUrls > 0 && feedItemCount === 0;
     const issueCount =
       Number(stat?.hiddenCount ?? 0) +
       Number(stat?.failedCount ?? 0) +
@@ -466,11 +488,16 @@ function buildFeedTransitionReadiness(providerStats: ProviderStat[]): FeedTransi
       feedSuccessCount,
       collectedCount,
       feedItemRate,
+      configuredEmptyFeed,
       envKeys: [...profile.envKeys],
       acceptedSources: profile.acceptedSources,
-      nextAction: configured ? "연결된 feed의 종료/검색 URL/공식 링크 누락 리포트를 매일 확인하세요." : profile.nextAction,
+      nextAction: configuredEmptyFeed
+        ? "feed URL은 연결됐지만 외부 항목이 없습니다. 응답 스키마, RSS/JSON 파서, 공식 상세 URL 승격 결과를 먼저 확인하세요."
+        : configured
+          ? "연결된 feed의 종료/검색 URL/공식 링크 누락 리포트를 매일 확인하세요."
+          : profile.nextAction,
       priority: profile.priority,
-      launchBlocking: visibleCount === 0 || issueCount > 0,
+      launchBlocking: visibleCount === 0 || issueCount > 0 || (configuredEmptyFeed && seedCount === 0),
       visibleCount,
       issueCount
     };
@@ -484,6 +511,8 @@ function buildFeedTransitionReadiness(providerStats: ProviderStat[]): FeedTransi
   const feedSuccessCount = providers.reduce((sum, provider) => sum + provider.feedSuccessCount, 0);
   const collectedCount = providers.reduce((sum, provider) => sum + provider.collectedCount, 0);
   const feedItemRate = Math.round((feedItemCount / Math.max(collectedCount, 1)) * 1000) / 10;
+  const configuredEmptyFeedProviders = providers.filter((provider) => provider.configuredEmptyFeed).map((provider) => provider.provider);
+  const configuredEmptyFeedCount = configuredEmptyFeedProviders.length;
   const readinessRate = Math.round((configuredProviders / Math.max(providers.length, 1)) * 100);
   const launchBlockingCount = providers.filter((provider) => provider.launchBlocking).length;
   const recommendedNextEnvKeys = providers
@@ -516,14 +545,19 @@ function buildFeedTransitionReadiness(providerStats: ProviderStat[]): FeedTransi
     feedSuccessCount,
     collectedCount,
     feedItemRate,
+    configuredEmptyFeedCount,
+    configuredEmptyFeedProviders,
     launchBlockingCount,
     recommendedNextEnvKeys,
     guardrails: [
       "공식 API/RSS/제휴 JSON feed만 연결합니다.",
       "뉴스·커뮤니티 원문은 출처로만 보관하고 사용자 이동은 공식 이벤트·쿠폰·구매 페이지로 제한합니다.",
+      "feed URL이 연결됐는데 외부 항목이 0건이면 seed fallback으로 숨기지 말고 운영 경고로 처리합니다.",
       "검색 결과 URL, 종료 이벤트, 공식 링크 누락 항목은 verify:news와 release:doctor에서 노출 제외합니다."
     ],
-    operatorAction: recommendedNextEnvKeys.length
+    operatorAction: configuredEmptyFeedCount
+      ? `${configuredEmptyFeedProviders.join(", ")} feed가 연결됐지만 외부 항목 0건입니다. feed URL, 응답 형식, normalizer를 점검한 뒤 refresh:news를 다시 실행하세요.`
+      : recommendedNextEnvKeys.length
       ? `${recommendedNextEnvKeys.slice(0, 3).join(", ")}부터 연결한 뒤 npm run refresh:all && npm run release:doctor를 실행하세요.`
       : "연결된 공식 feed를 유지하면서 매일 refresh:all과 Provider 위험도 CSV를 확인하세요.",
     providers
@@ -546,7 +580,21 @@ export function getNewsOperationsReport() {
     hiddenReason: `manual_hidden:${entry.reason}`,
     lastCheckedAt: entry.updatedAt
   }));
-  const providerStats = report.providerStats?.length ? report.providerStats : (snapshot.providerStats ?? []);
+  const rawProviderStats = report.providerStats?.length ? report.providerStats : (snapshot.providerStats ?? []);
+  const providerStats = rawProviderStats.map((stat) => {
+    const feedUrls = Number(stat.feedUrls ?? 0);
+    const feedItemCount = Number(stat.feedItemCount ?? 0);
+
+    return {
+      ...stat,
+      feedUrls,
+      seedCount: Number(stat.seedCount ?? 0),
+      feedItemCount,
+      feedSuccessCount: Number(stat.feedSuccessCount ?? 0),
+      collectedCount: Number(stat.collectedCount ?? stat.fetchedCount ?? 0),
+      configuredEmptyFeed: Boolean(stat.configured) && feedUrls > 0 && feedItemCount === 0
+    };
+  });
   const providerRisks = providerStats.map(getProviderRisk);
   const feedTransitionReadiness = buildFeedTransitionReadiness(providerStats);
   const providerRiskSummary = {

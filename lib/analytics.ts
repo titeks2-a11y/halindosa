@@ -752,6 +752,8 @@ export async function getMockBusinessMetrics() {
     feedSuccessCount: newsOperations.feedTransitionReadiness.feedSuccessCount,
     collectedCount: newsOperations.feedTransitionReadiness.collectedCount,
     feedItemRate: newsOperations.feedTransitionReadiness.feedItemRate,
+    configuredEmptyFeedCount: newsOperations.feedTransitionReadiness.configuredEmptyFeedCount,
+    configuredEmptyFeedProviders: newsOperations.feedTransitionReadiness.configuredEmptyFeedProviders,
     recommendedNextEnvKeys: newsOperations.feedTransitionReadiness.recommendedNextEnvKeys,
     operatorAction: newsOperations.feedTransitionReadiness.operatorAction,
     providers: newsOperations.feedTransitionReadiness.providers.map((provider) => ({
@@ -766,6 +768,7 @@ export async function getMockBusinessMetrics() {
       feedSuccessCount: provider.feedSuccessCount,
       collectedCount: provider.collectedCount,
       feedItemRate: provider.feedItemRate,
+      configuredEmptyFeed: provider.configuredEmptyFeed,
       envKeys: provider.envKeys,
       nextAction: provider.nextAction,
       priority: provider.priority,

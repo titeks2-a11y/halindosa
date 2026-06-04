@@ -55,7 +55,7 @@ export function AdminHealthReadinessPanel({ report, apiHref }: AdminHealthReadin
     {
       label: "공식 feed",
       value: `${report.officialBenefits.sourceMix.feedItemCount}건`,
-      detail: `seed ${report.officialBenefits.sourceMix.seedCount} · 성공 ${report.officialBenefits.sourceMix.feedSuccessCount}/${report.officialBenefits.sourceMix.configuredFeedUrls}`
+      detail: `seed ${report.officialBenefits.sourceMix.seedCount} · 성공 ${report.officialBenefits.sourceMix.feedSuccessCount}/${report.officialBenefits.sourceMix.configuredFeedUrls} · 공백 ${report.officialBenefits.sourceMix.configuredEmptyFeedCount}`
     },
     {
       label: "공식 소스",
@@ -168,13 +168,19 @@ export function AdminHealthReadinessPanel({ report, apiHref }: AdminHealthReadin
             <p className="mt-2 text-[11px] font-bold leading-5 text-slate-500">
               source mix: seed {report.officialBenefits.sourceMix.seedCount} · 외부 feed {report.officialBenefits.sourceMix.feedItemCount} · 전체 수집 {report.officialBenefits.sourceMix.collectedCount} · 외부 비율 {report.officialBenefits.sourceMix.feedItemRate}%
             </p>
+            <p className="mt-1 text-[11px] font-bold leading-5 text-slate-500">
+              설정 feed 공백 {report.officialBenefits.sourceMix.configuredEmptyFeedCount}개
+              {report.officialBenefits.sourceMix.configuredEmptyFeedProviders.length
+                ? ` · ${report.officialBenefits.sourceMix.configuredEmptyFeedProviders.join(", ")}`
+                : " · 없음"}
+            </p>
             <div className="mt-2 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-              {(officialProviderStats.length ? officialProviderStats : [{ provider: "없음", source: "-", configured: false, feedUrls: 0, seedCount: 0, feedItemCount: 0, feedSuccessCount: 0, collectedCount: 0, feedItemRate: 0, fetchedCount: 0, normalizedCount: 0, visibleCount: 0, hiddenCount: 0, failedCount: 0, expiredCount: 0, officialMissingCount: 0, errorCount: 0 }]).map((provider) => (
+              {(officialProviderStats.length ? officialProviderStats : [{ provider: "없음", source: "-", configured: false, feedUrls: 0, seedCount: 0, feedItemCount: 0, feedSuccessCount: 0, collectedCount: 0, feedItemRate: 0, configuredEmptyFeed: false, fetchedCount: 0, normalizedCount: 0, visibleCount: 0, hiddenCount: 0, failedCount: 0, expiredCount: 0, officialMissingCount: 0, errorCount: 0 }]).map((provider) => (
                 <div key={provider.provider} className="min-w-[190px] rounded-2xl bg-slate-50 px-3 py-2">
                   <div className="flex items-center justify-between gap-2">
                     <p className="truncate text-xs font-black text-slate-800">{provider.provider}</p>
-                    <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-black ${provider.configured ? "bg-emerald-50 text-emerald-700" : "bg-amber-50 text-amber-700"}`}>
-                      {provider.configured ? "feed" : "seed"}
+                    <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-black ${provider.configuredEmptyFeed ? "bg-amber-50 text-amber-700" : provider.configured ? "bg-emerald-50 text-emerald-700" : "bg-amber-50 text-amber-700"}`}>
+                      {provider.configuredEmptyFeed ? "feed 공백" : provider.configured ? "feed" : "seed"}
                     </span>
                   </div>
                   <p className="mt-1 truncate text-[11px] font-bold text-slate-500">{provider.source}</p>

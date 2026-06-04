@@ -44,6 +44,8 @@ type SourcesPayload = {
     feedSuccessCount: number;
     collectedCount: number;
     feedItemRate: number;
+    configuredEmptyFeedCount: number;
+    configuredEmptyFeedProviders: string[];
     recommendedNextEnvKeys: string[];
     operatorAction: string;
     guardrails: string[];
@@ -59,6 +61,7 @@ type SourcesPayload = {
       feedSuccessCount: number;
       collectedCount: number;
       feedItemRate: number;
+      configuredEmptyFeed: boolean;
       envKeys: string[];
       acceptedSources: string;
       nextAction: string;
@@ -118,6 +121,7 @@ function buildCsv(rows: Array<Record<string, unknown>>) {
     "feedSuccessCount",
     "collectedCount",
     "feedItemRate",
+    "configuredEmptyFeed",
     "visibleCount",
     "issueCount",
     "readinessRate",
@@ -170,6 +174,7 @@ function buildSourcesCsv(payload: SourcesPayload) {
     feedSuccessCount: provider.feedSuccessCount,
     collectedCount: provider.collectedCount,
     feedItemRate: provider.feedItemRate,
+    configuredEmptyFeed: provider.configuredEmptyFeed,
     visibleCount: provider.visibleCount,
     issueCount: provider.issueCount,
     readinessRate: payload.officialBenefitFeedTransitionReadiness.readinessRate,
@@ -311,6 +316,8 @@ async function buildSourcesPayload(): Promise<SourcesPayload> {
       feedSuccessCount: officialBenefitFeedTransition.feedSuccessCount,
       collectedCount: officialBenefitFeedTransition.collectedCount,
       feedItemRate: officialBenefitFeedTransition.feedItemRate,
+      configuredEmptyFeedCount: officialBenefitFeedTransition.configuredEmptyFeedCount,
+      configuredEmptyFeedProviders: officialBenefitFeedTransition.configuredEmptyFeedProviders,
       recommendedNextEnvKeys: officialBenefitFeedTransition.recommendedNextEnvKeys,
       operatorAction: officialBenefitFeedTransition.operatorAction,
       guardrails: officialBenefitFeedTransition.guardrails,
@@ -326,6 +333,7 @@ async function buildSourcesPayload(): Promise<SourcesPayload> {
         feedSuccessCount: provider.feedSuccessCount,
         collectedCount: provider.collectedCount,
         feedItemRate: provider.feedItemRate,
+        configuredEmptyFeed: provider.configuredEmptyFeed,
         envKeys: provider.envKeys,
         acceptedSources: provider.acceptedSources,
         nextAction: provider.nextAction,

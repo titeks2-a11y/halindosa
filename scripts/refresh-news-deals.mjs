@@ -61,6 +61,7 @@ for (const spec of providerSpecs) {
     seedCount: seedItems.length,
     feedItemCount,
     feedSuccessCount,
+    configuredEmptyFeed: feedUrls.length > 0 && feedItemCount === 0,
     collectedCount: items.length,
     fetchedCount: items.length,
     errorCount: errors.length,

@@ -779,7 +779,8 @@ await check("admin news operations api", async () => {
         typeof provider.seedCount === "number" &&
         typeof provider.feedItemCount === "number" &&
         typeof provider.feedSuccessCount === "number" &&
-        typeof provider.collectedCount === "number"
+        typeof provider.collectedCount === "number" &&
+        typeof provider.configuredEmptyFeed === "boolean"
     ),
     "Admin news operations provider stats missing seed/feed source mix counters"
   );
@@ -792,6 +793,8 @@ await check("admin news operations api", async () => {
   assert(typeof data.report.feedTransitionReadiness.feedSuccessCount === "number", "Admin news operations feed transition missing successful feed count");
   assert(typeof data.report.feedTransitionReadiness.collectedCount === "number", "Admin news operations feed transition missing collected source count");
   assert(typeof data.report.feedTransitionReadiness.feedItemRate === "number", "Admin news operations feed transition missing external feed item rate");
+  assert(typeof data.report.feedTransitionReadiness.configuredEmptyFeedCount === "number", "Admin news operations feed transition missing configured empty feed count");
+  assert(Array.isArray(data.report.feedTransitionReadiness.configuredEmptyFeedProviders), "Admin news operations feed transition missing configured empty feed providers");
   assert(Array.isArray(data.report.feedTransitionReadiness.providers) && data.report.feedTransitionReadiness.providers.length >= 4, "Admin news operations report missing feed transition providers");
   assert(data.report.feedTransitionReadiness.providers.every((provider) => provider.provider && provider.mode && provider.modeLabel && provider.envKeys?.length && provider.nextAction), "Admin news operations feed transition providers missing launch operation fields");
   assert(
@@ -801,7 +804,8 @@ await check("admin news operations api", async () => {
         typeof provider.feedItemCount === "number" &&
         typeof provider.feedSuccessCount === "number" &&
         typeof provider.collectedCount === "number" &&
-        typeof provider.feedItemRate === "number"
+        typeof provider.feedItemRate === "number" &&
+        typeof provider.configuredEmptyFeed === "boolean"
     ),
     "Admin news operations feed transition providers missing source mix counters"
   );
@@ -1069,7 +1073,9 @@ await check("admin health readiness api", async () => {
   assert(data.report?.officialBenefits?.readyCategories >= 10, "Admin health readiness should preserve official benefit category coverage");
   assert(Array.isArray(data.report?.officialBenefits?.activeProviders) && data.report.officialBenefits.activeProviders.length >= 4, "Admin health readiness should expose active official benefit providers");
   assert(Array.isArray(data.report?.officialBenefits?.providerStats) && data.report.officialBenefits.providerStats.length >= 4, "Admin health readiness should expose official benefit provider stats");
-  assert(data.report.officialBenefits.providerStats.every((provider) => provider.provider && typeof provider.visibleCount === "number"), "Admin health readiness provider stats missing operation fields");
+  assert(data.report.officialBenefits.providerStats.every((provider) => provider.provider && typeof provider.visibleCount === "number" && typeof provider.configuredEmptyFeed === "boolean"), "Admin health readiness provider stats missing operation fields");
+  assert(typeof data.report?.officialBenefits?.sourceMix?.configuredEmptyFeedCount === "number", "Admin health readiness should expose configured empty feed count");
+  assert(Array.isArray(data.report?.officialBenefits?.sourceMix?.configuredEmptyFeedProviders), "Admin health readiness should expose configured empty feed providers");
   assert(Array.isArray(data.report?.officialBenefits?.providerRisks) && data.report.officialBenefits.providerRisks.length >= 4, "Admin health readiness should expose official benefit provider risks");
   assert(data.report.officialBenefits.providerRisks.every((risk) => risk.provider && risk.label && ["healthy", "watch", "danger"].includes(risk.severity)), "Admin health readiness provider risks missing launch fields");
   assert(data.report?.officialBenefits?.providerRiskSummary?.danger === 0, "Admin health readiness should show zero danger official benefit providers");
@@ -1624,6 +1630,8 @@ await check("health api", async () => {
   assert(typeof data.checks?.officialBenefitFeedSuccessCount === "number", "Health API missing official feed success count");
   assert(typeof data.checks?.officialBenefitFeedCollectedCount === "number", "Health API missing official collected source count");
   assert(typeof data.checks?.officialBenefitFeedExternalItemRate === "number", "Health API missing official external feed item rate");
+  assert(typeof data.checks?.officialBenefitFeedConfiguredEmptyCount === "number", "Health API missing configured empty feed count");
+  assert(Array.isArray(data.checks?.officialBenefitFeedConfiguredEmptyProviders), "Health API missing configured empty feed providers");
   assert(Array.isArray(data.checks?.officialBenefitFeedRecommendedEnvKeys), "Health API missing recommended official feed env keys");
   assert(data.checks?.officialSourceReadinessOk === true, "Health API missing passing official source readiness");
   assert(data.checks?.officialSourceLaunchGateStatus === "passed", "Health API missing source readiness launch gate");
@@ -1865,8 +1873,10 @@ await check("metrics api", async () => {
   assert(typeof data.officialBenefitFeedTransition?.feedItemCount === "number", "Metrics missing official external feed item count");
   assert(typeof data.officialBenefitFeedTransition?.seedCount === "number", "Metrics missing official seed source count");
   assert(typeof data.officialBenefitFeedTransition?.feedItemRate === "number", "Metrics missing official external feed item rate");
+  assert(typeof data.officialBenefitFeedTransition?.configuredEmptyFeedCount === "number", "Metrics missing configured empty feed count");
+  assert(Array.isArray(data.officialBenefitFeedTransition?.configuredEmptyFeedProviders), "Metrics missing configured empty feed providers");
   assert(Array.isArray(data.officialBenefitFeedTransition?.providers) && data.officialBenefitFeedTransition.providers.length >= 4, "Metrics missing official benefit feed transition providers");
-  assert(data.officialBenefitFeedTransition.providers.every((provider) => typeof provider.seedCount === "number" && typeof provider.feedItemCount === "number" && typeof provider.feedItemRate === "number"), "Metrics official feed transition providers missing source mix counters");
+  assert(data.officialBenefitFeedTransition.providers.every((provider) => typeof provider.seedCount === "number" && typeof provider.feedItemCount === "number" && typeof provider.feedItemRate === "number" && typeof provider.configuredEmptyFeed === "boolean"), "Metrics official feed transition providers missing source mix counters");
   assert(Array.isArray(data.officialBenefitFeedTransition?.recommendedNextEnvKeys), "Metrics missing official benefit feed transition env guidance");
   assert(Array.isArray(data.linkReviewQueue), "Metrics missing link review queue");
   assert(data.linkReviewQueue.length <= 8, "Metrics link review queue should be capped");
@@ -1897,8 +1907,10 @@ await check("sources api", async () => {
   assert(typeof data.officialBenefitFeedTransitionReadiness?.seedCount === "number", "Sources API missing official feed seed source count");
   assert(typeof data.officialBenefitFeedTransitionReadiness?.feedItemCount === "number", "Sources API missing official external feed item count");
   assert(typeof data.officialBenefitFeedTransitionReadiness?.feedItemRate === "number", "Sources API missing official external feed item rate");
+  assert(typeof data.officialBenefitFeedTransitionReadiness?.configuredEmptyFeedCount === "number", "Sources API missing configured empty feed count");
+  assert(Array.isArray(data.officialBenefitFeedTransitionReadiness?.configuredEmptyFeedProviders), "Sources API missing configured empty feed providers");
   assert(Array.isArray(data.officialBenefitFeedTransitionReadiness?.providers) && data.officialBenefitFeedTransitionReadiness.providers.length >= 4, "Sources API missing official benefit feed transition providers");
-  assert(data.officialBenefitFeedTransitionReadiness.providers.every((provider) => typeof provider.seedCount === "number" && typeof provider.feedItemCount === "number" && typeof provider.feedItemRate === "number"), "Sources API official feed transition providers missing source mix counters");
+  assert(data.officialBenefitFeedTransitionReadiness.providers.every((provider) => typeof provider.seedCount === "number" && typeof provider.feedItemCount === "number" && typeof provider.feedItemRate === "number" && typeof provider.configuredEmptyFeed === "boolean"), "Sources API official feed transition providers missing source mix counters");
   assert(Array.isArray(data.officialBenefitFeedTransitionReadiness?.recommendedNextEnvKeys), "Sources API missing official benefit feed env guidance");
   assert(data.officialSourceCatalog?.totalSources >= 30, "Sources API missing official source catalog summary");
   assert(data.officialSourceCatalog?.highPrioritySources >= 10, "Sources API missing high-priority official source candidates");
@@ -1927,7 +1939,7 @@ await check("sources csv export", async () => {
   assert(csv.includes("next_action"), "Sources CSV missing operator next action rows");
   assert(csv.includes("officialUrl"), "Sources CSV missing official URL column");
   assert(csv.includes("preferredEnvKeys"), "Sources CSV missing env key column");
-  assert(csv.includes("seedCount") && csv.includes("feedItemCount") && csv.includes("feedItemRate"), "Sources CSV missing official feed source mix columns");
+  assert(csv.includes("seedCount") && csv.includes("feedItemCount") && csv.includes("feedItemRate") && csv.includes("configuredEmptyFeed"), "Sources CSV missing official feed source mix columns");
   assert(csv.includes("OFFICIAL_EVENT_FEED_URLS") || csv.includes("PUBLIC_COUPON_FEED_URLS"), "Sources CSV missing official feed env guidance");
 });
 

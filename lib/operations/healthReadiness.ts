@@ -53,6 +53,8 @@ export interface HealthReadinessReport {
       collectedCount: number;
       configuredFeedUrls: number;
       feedItemRate: number;
+      configuredEmptyFeedCount: number;
+      configuredEmptyFeedProviders: string[];
     };
     providerStats: Array<{
       provider: string;
@@ -64,6 +66,7 @@ export interface HealthReadinessReport {
       feedSuccessCount: number;
       collectedCount: number;
       feedItemRate: number;
+      configuredEmptyFeed: boolean;
       fetchedCount: number;
       normalizedCount: number;
       visibleCount: number;
@@ -184,7 +187,9 @@ const fallbackReport: HealthReadinessReport = {
       feedSuccessCount: 0,
       collectedCount: 0,
       configuredFeedUrls: 0,
-      feedItemRate: 0
+      feedItemRate: 0,
+      configuredEmptyFeedCount: 0,
+      configuredEmptyFeedProviders: []
     },
     providerStats: [],
     providerRisks: [],
