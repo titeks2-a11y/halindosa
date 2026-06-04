@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useMemo } from "react";
-import { CalendarClock, ExternalLink, RefreshCw, ShieldCheck, TicketPercent } from "lucide-react";
+import { CalendarClock, ExternalLink, RefreshCw, Search, ShieldCheck, TicketPercent } from "lucide-react";
 import { getRelativeTime, getTimeLeft } from "@/lib/format";
 import { rememberRecentNewsBenefitId } from "@/lib/recentNewsBenefits";
 import { CommerceBadge } from "@/components/ui/CommerceBadge";
@@ -16,6 +16,7 @@ import {
   getNewsDealSourceTrust,
   sortNewsDealsBySourceTrust
 } from "@/lib/deals/newsSourceTrust";
+import { customerIntentNewsQuerySet } from "@/lib/deals/newsRecommendedQueries";
 import type { NewsDeal, NewsDealSourceTrust } from "@/types/newsDeal";
 
 const benefitLabels: Record<NewsDeal["benefitType"], string> = {
@@ -80,6 +81,11 @@ export function RealtimeNewsDealsSection({
   const trimmedQuery = activeQuery.trim();
   const visibleResultCount = typeof totalCount === "number" && totalCount >= deals.length ? totalCount : deals.length;
   const visibleRecommendedQueries = recommendedQueries.filter((item) => item.query && item.query !== trimmedQuery).slice(0, 8);
+  const intentRecommendedQueries = visibleRecommendedQueries.filter((item) => customerIntentNewsQuerySet.has(item.query)).slice(0, 6);
+  const quickRecommendedQueries = (intentRecommendedQueries.length ? intentRecommendedQueries : visibleRecommendedQueries).slice(0, 6);
+  const secondaryRecommendedQueries = visibleRecommendedQueries
+    .filter((item) => !quickRecommendedQueries.some((quickItem) => quickItem.query === item.query))
+    .slice(0, 4);
   const effectiveSourceTrustScores = useMemo(
     () => buildNewsSourceTrustScores(deals, sourceTrustScores),
     [deals, sourceTrustScores]
@@ -181,6 +187,35 @@ export function RealtimeNewsDealsSection({
       <p className="mt-2 text-[11px] font-bold text-slate-500" aria-label="공식 혜택 신선도 안내">
         {freshnessDetail} · 검색 결과와 커뮤니티 원문은 제외하고 공식 혜택 링크만 유지합니다.
       </p>
+      {quickRecommendedQueries.length ? (
+        <div className="mt-3 rounded-2xl border border-red-100 bg-gradient-to-r from-red-50 via-white to-orange-50 p-2.5" aria-label="혜택 목적별 추천 검색어">
+          <div className="flex items-center justify-between gap-2 px-1">
+            <p className="inline-flex items-center gap-1.5 text-[11px] font-black text-brand-red">
+              <Search size={13} />
+              혜택 바로찾기
+            </p>
+            <span className="text-[10px] font-black text-slate-400">공식 링크만</span>
+          </div>
+          <div className="mt-2 flex gap-1.5 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {quickRecommendedQueries.map((item, index) => (
+              <button
+                key={item.query}
+                type="button"
+                onClick={() => onSelectQuery?.(item.query)}
+                className={`inline-flex min-h-8 shrink-0 items-center gap-1 rounded-full border px-3 text-[11px] font-black shadow-sm transition ${
+                  index === 0
+                    ? "border-brand-red bg-brand-red text-white hover:bg-red-600"
+                    : "border-white bg-white text-slate-700 hover:border-brand-red hover:text-brand-red"
+                }`}
+                aria-label={`${item.query} 공식 혜택 검색`}
+              >
+                {item.query}
+                {item.count > 0 ? <span className={index === 0 ? "text-[10px] text-white/80" : "text-[10px] text-slate-400"}>{item.count}</span> : null}
+              </button>
+            ))}
+          </div>
+        </div>
+      ) : null}
       {visibleSourceTrustScores.length ? (
         <div className="mt-3 rounded-2xl border border-emerald-100 bg-emerald-50/70 px-3 py-2" aria-label="신뢰 공식출처 우선 노출">
           <div className="flex items-center justify-between gap-2">
@@ -206,9 +241,9 @@ export function RealtimeNewsDealsSection({
           {visibleResultCount > deals.length ? ` 먼저 볼 ${deals.length}개를 보여드립니다.` : ""}
         </div>
       ) : null}
-      {visibleRecommendedQueries.length ? (
-        <div className="mt-3 flex gap-1.5 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" aria-label="공식 혜택 추천 검색어">
-          {visibleRecommendedQueries.map((item) => (
+      {secondaryRecommendedQueries.length ? (
+        <div className="mt-2 flex gap-1.5 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" aria-label="공식 혜택 추천 검색어">
+          {secondaryRecommendedQueries.map((item) => (
             <button
               key={item.query}
               type="button"
@@ -233,7 +268,7 @@ export function RealtimeNewsDealsSection({
       ) : null}
       <div className="mt-3 flex snap-x snap-mandatory gap-2 overflow-x-auto pb-1 [scrollbar-width:none] sm:grid sm:grid-cols-2 sm:gap-3 lg:grid-cols-3 [&::-webkit-scrollbar]:hidden">
         {trustedDeals.slice(0, 8).map((deal) => {
-                  const sourceTrust = getNewsDealSourceTrust(deal, sourceTrustByKey);
+          const sourceTrust = getNewsDealSourceTrust(deal, sourceTrustByKey);
 
           return (
           <CommerceCard

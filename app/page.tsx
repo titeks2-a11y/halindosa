@@ -41,6 +41,7 @@ import { claimedBenefitUpdatedEvent, readClaimedBenefits } from "@/lib/claimedBe
 import { buildBenefitDecisionGuide } from "@/lib/deals/benefitDecisionGuide";
 import { buildDailyBenefitBriefing } from "@/lib/deals/dailyBenefitBriefing";
 import { buildDailyRoutinePlan } from "@/lib/deals/dailyRoutinePlan";
+import { buildInitialNewsRecommendedQueries } from "@/lib/deals/newsRecommendedQueries";
 import { buildPersonalizedBenefitQueue } from "@/lib/deals/personalizedBenefitQueue";
 import { isVerifiedPurchaseLink } from "@/lib/deals/quality";
 import { getCommercialDealScore } from "@/lib/deals/ranking";
@@ -556,7 +557,9 @@ export default function Home() {
   const [isSignalLoading, setIsSignalLoading] = useState(false);
   const [newsDeals, setNewsDeals] = useState<NewsDeal[]>(() => initialNewsSnapshot.deals ?? []);
   const [newsTotalCount, setNewsTotalCount] = useState(() => initialNewsSnapshot.deals?.length ?? 0);
-  const [newsRecommendedQueries, setNewsRecommendedQueries] = useState<Array<{ query: string; count: number }>>([]);
+  const [newsRecommendedQueries, setNewsRecommendedQueries] = useState<Array<{ query: string; count: number }>>(() =>
+    buildInitialNewsRecommendedQueries(initialNewsSnapshot.deals ?? [])
+  );
   const [newsSourceTrustScores, setNewsSourceTrustScores] = useState<NewsDealSourceTrust[]>(() => initialNewsSnapshot.sourceTrustScores ?? []);
   const [newsUpdatedAt, setNewsUpdatedAt] = useState(initialNewsSnapshot.generatedAt ?? "");
   const [newsFreshness, setNewsFreshness] = useState<{
