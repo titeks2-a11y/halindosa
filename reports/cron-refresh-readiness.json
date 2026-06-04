@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-04T03:11:56.852Z",
+  "generatedAt": "2026-06-04T03:48:56.332Z",
   "status": "ready",
   "endpoint": "/api/cron/refresh",
   "schedule": "0 */6 * * *",

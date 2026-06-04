@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-04T03:11:55.392Z",
+  "generatedAt": "2026-06-04T03:48:54.858Z",
   "summary": {
     "auditedItems": 140,
     "exposedItems": 140,
@@ -32,21 +32,40 @@
     ],
     "finalUrlRequired": true
   },
+  "launchGate": {
+    "passed": true,
+    "criteria": {
+      "exposedSearchLinks": 0,
+      "exposedSoldOutLinks": 0,
+      "exposedBrokenLinks": 0,
+      "exposedInvalidUrls": 0,
+      "liveHardFailures": 0,
+      "sellerUnavailableSignals": 0
+    },
+    "actual": {
+      "exposedSearchLinks": 0,
+      "exposedSoldOutLinks": 0,
+      "exposedBrokenLinks": 0,
+      "exposedInvalidUrls": 0,
+      "liveHardFailures": 0,
+      "sellerUnavailableSignals": 0
+    }
+  },
   "liveProbe": {
     "enabled": true,
     "strict": false,
     "bodyProbe": false,
     "timeoutMs": 5000,
     "checked": 140,
-    "passed": 65,
-    "failed": 75,
+    "passed": 63,
+    "failed": 77,
     "redirected": 11,
     "finalUrlChanged": 11,
     "http404": 0,
     "http410": 0,
     "http5xx": 0,
     "timeout": 0,
-    "robotsBlocked": 58,
+    "robotsBlocked": 60,
     "unavailableText": 0,
     "failures": [
       {
@@ -106,13 +125,6 @@
         "reason": "http_429"
       },
       {
-        "id": "d012",
-        "url": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000216997",
-        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000216997",
-        "status": 403,
-        "reason": "robots_or_access_blocked"
-      },
-      {
         "id": "d014",
         "url": "https://www.coupang.com/vp/products/7687552147",
         "finalUrl": "https://www.coupang.com/vp/products/7687552147",
@@ -153,6 +165,13 @@
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000038330709",
         "status": 429,
         "reason": "http_429"
+      },
+      {
+        "id": "d025",
+        "url": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000163532",
+        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000163532",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
       },
       {
         "id": "d028",
@@ -204,6 +223,13 @@
         "reason": "robots_or_access_blocked"
       },
       {
+        "id": "d040",
+        "url": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000211588",
+        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000211588",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
         "id": "d041",
         "url": "https://www.ssg.com/item/itemView.ssg?itemId=1000620373892",
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000620373892",
@@ -235,6 +261,13 @@
         "id": "d049",
         "url": "https://item.gmarket.co.kr/Item?goodscode=2723551094",
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2723551094",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d050",
+        "url": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000188460",
+        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000188460",
         "status": 403,
         "reason": "robots_or_access_blocked"
       },
@@ -328,6 +361,13 @@
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000005089075",
         "status": 429,
         "reason": "http_429"
+      },
+      {
+        "id": "d094",
+        "url": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000246774",
+        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000246774",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
       },
       {
         "id": "d096",
@@ -477,13 +517,6 @@
         "reason": "robots_or_access_blocked"
       },
       {
-        "id": "d124",
-        "url": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000230063",
-        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000230063",
-        "status": 403,
-        "reason": "robots_or_access_blocked"
-      },
-      {
         "id": "d125",
         "url": "https://www.ssg.com/item/itemView.ssg?itemId=1000032939693",
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000032939693",
@@ -580,12 +613,12 @@
     "status": "transient_network_review",
     "hardFailureCount": 0,
     "transientNetworkCount": 4,
-    "accessProtectedCount": 58,
+    "accessProtectedCount": 60,
     "sellerUnavailableSignals": 0,
     "interpretation": "Some URLs returned transient network signals; no exposed search, sold-out, 404, 410, or 5xx links were found."
   },
   "liveProbeFailureReasonCounts": {
-    "robots_or_access_blocked": 58,
+    "robots_or_access_blocked": 60,
     "http_429": 13,
     "request_failed": 4
   },
@@ -593,7 +626,7 @@
     "item.gmarket.co.kr": 30,
     "coupang.com": 23,
     "ssg.com": 13,
-    "oliveyoung.co.kr": 3,
+    "oliveyoung.co.kr": 5,
     "hyundaicard.com": 1,
     "itempage3.auction.co.kr": 1,
     "shinhancard.com": 1,
@@ -926,7 +959,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-05-31T10:00:00.000Z",
-      "priorityScore": 99,
+      "priorityScore": 100,
       "isHidden": false,
       "host": "oliveyoung.co.kr",
       "evidence": "올리브영 세라마이드 크림 상품 상세",
@@ -935,8 +968,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": false,
-      "liveProbeReason": "robots_or_access_blocked"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d013",
@@ -1290,7 +1323,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-05-31T10:20:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "oliveyoung.co.kr",
       "evidence": "올리브영 선크림 1+1 상품 상세",
@@ -1299,8 +1332,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": true,
-      "liveProbeReason": ""
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d026",
@@ -1710,7 +1743,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-01T02:40:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "oliveyoung.co.kr",
       "evidence": "올리브영 아이보들 CCP 크림 1+1 기획 상품 상세",
@@ -1719,8 +1752,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": true,
-      "liveProbeReason": ""
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d041",
@@ -1990,7 +2023,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-05-31T10:20:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "oliveyoung.co.kr",
       "evidence": "올리브영 멀티비타민 90정 상품 상세",
@@ -1999,8 +2032,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": true,
-      "liveProbeReason": ""
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d051",
@@ -3222,7 +3255,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-02T00:20:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "oliveyoung.co.kr",
       "evidence": "올리브영 라운드랩 1025 독도 토너 더블 기획 상품 상세",
@@ -3231,8 +3264,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": true,
-      "liveProbeReason": ""
+      "liveProbeOk": false,
+      "liveProbeReason": "robots_or_access_blocked"
     },
     {
       "id": "d095",
@@ -4062,7 +4095,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-02T05:20:00.000Z",
-      "priorityScore": 99,
+      "priorityScore": 100,
       "isHidden": false,
       "host": "oliveyoung.co.kr",
       "evidence": "올리브영 닥터지 레드 블레미쉬 클리어 수딩 크림 70ml 기획 상품 상세",
@@ -4071,8 +4104,8 @@
       "productDetailUrl": true,
       "officialBenefitUrl": false,
       "unavailableText": false,
-      "liveProbeOk": false,
-      "liveProbeReason": "robots_or_access_blocked"
+      "liveProbeOk": true,
+      "liveProbeReason": ""
     },
     {
       "id": "d125",
@@ -4526,9 +4559,9 @@
   "badExposedItems": [],
   "hiddenItems": [],
   "sourceReports": {
-    "linkValidationGeneratedAt": "2026-06-04T03:11:53.783Z",
-    "productQualityGeneratedAt": "2026-06-04T03:11:54.303Z",
-    "refreshAllGeneratedAt": "2026-06-04T03:11:30.635Z"
+    "linkValidationGeneratedAt": "2026-06-04T03:48:53.312Z",
+    "productQualityGeneratedAt": "2026-06-04T03:48:53.849Z",
+    "refreshAllGeneratedAt": "2026-06-04T03:48:34.382Z"
   },
   "issues": []
 }

@@ -174,7 +174,7 @@ npm run search:doctor
 ## 상품 데이터 추가 기준
 
 신규 상품은 검색 결과나 대표몰 메인 링크가 아니라 실제 상품/혜택 상세 페이지를 `verifiedPurchaseLinks.ts` 또는 운영 피드의 `productUrl`, `finalPurchaseUrl`, `affiliateUrl`에 등록해야 합니다.
-검증 링크에는 `checkedAt`, `source`, `evidence`를 함께 남겨야 하며 `npm run verify:links`는 URL 형태뿐 아니라 검수 근거와 구매 도메인 다양성까지 확인합니다. 검증 통과 URL은 상품 상세 URL 또는 공식 혜택/이벤트 URL 신호가 있어야 하며, `reports/link-validation.json`의 `auditedItems`에는 상품별 `linkType`, `availability`, `validationStatus`, `isHidden`, `priorityScore`가 기록됩니다. `npm run exposure:doctor`는 이 감사 행을 기준으로 검색 링크, 품절/종료 링크, 실패 링크가 사용자 노출 목록에 섞이지 않았는지 다시 확인합니다.
+검증 링크에는 `checkedAt`, `source`, `evidence`를 함께 남겨야 하며 `npm run verify:links`는 URL 형태뿐 아니라 검수 근거와 구매 도메인 다양성까지 확인합니다. 검증 통과 URL은 상품 상세 URL 또는 공식 혜택/이벤트 URL 신호가 있어야 하며, `reports/link-validation.json`의 `auditedItems`에는 상품별 `linkType`, `availability`, `validationStatus`, `isHidden`, `priorityScore`가 기록됩니다. 같은 파일의 `launchGate.passed`가 `true`이고 `actual.exposedSearchLinks`, `actual.exposedSoldOutLinks`, `actual.exposedBrokenLinks`, `actual.exposedInvalidUrls`가 모두 0이어야 출시 가능한 상품 목록으로 봅니다. `npm run exposure:doctor`는 이 감사 행을 기준으로 검색 링크, 품절/종료 링크, 실패 링크가 사용자 노출 목록에 섞이지 않았는지 다시 확인합니다.
 
 필수 기준:
 

@@ -51,11 +51,13 @@ function isSearchLike(url) {
   if (/\/product\/|\/products\/|\/goods\/|\/item\/|itemview|goodsdetail|detailview/i.test(`${url.pathname}${url.search}`)) return false;
   if (/event|benefit|campaign|coupon|promotion/i.test(`${url.pathname}${url.search}${url.hash}`)) return false;
   const value = `${url.hostname}${url.pathname}${url.search}`.toLowerCase();
-  return searchPatterns.some((pattern) => value.includes(pattern));
+  return searchPatterns.some((pattern) => value.includes(pattern.toLowerCase()));
 }
 
 function containsUnavailableText(text) {
-  return unavailablePatterns.some((pattern) => text.includes(pattern));
+  const value = text.toLowerCase();
+
+  return unavailablePatterns.some((pattern) => value.includes(pattern.toLowerCase()));
 }
 
 function hasProductDetailSignal(url) {
@@ -458,11 +460,16 @@ if (hosts.size < minimums.distinctHosts) {
 const auditedItems = buildAuditedItems({ dealIds, entryMap, metadataMap, dealMetadataMap, issues });
 const exposureAudit = {
   totalItems: auditedItems.length,
+  exposedItems: auditedItems.filter((item) => !item.isHidden).length,
   passedItems: auditedItems.filter((item) => item.validationStatus === "passed" && item.availability === "active" && !item.isHidden).length,
   hiddenItems: auditedItems.filter((item) => item.isHidden).length,
   searchItems: auditedItems.filter((item) => item.linkType === "search" || item.linkType === "seller_search").length,
   soldOutItems: auditedItems.filter((item) => item.availability === "sold_out").length,
   failedItems: auditedItems.filter((item) => item.validationStatus === "failed").length,
+  exposedSearchLinks: auditedItems.filter((item) => !item.isHidden && (item.linkType === "search" || item.linkType === "seller_search")).length,
+  exposedSoldOutLinks: auditedItems.filter((item) => !item.isHidden && item.availability === "sold_out").length,
+  exposedBrokenLinks: auditedItems.filter((item) => !item.isHidden && item.validationStatus === "failed").length,
+  exposedInvalidUrls: auditedItems.filter((item) => !item.isHidden && item.checks?.httpUrl === false).length,
   averagePriorityScore: auditedItems.length ? Math.round(auditedItems.reduce((sum, item) => sum + item.priorityScore, 0) / auditedItems.length) : 0
 };
 const liveProbeReasonCounts = liveProbe.failures.reduce((counts, failure) => {
@@ -513,6 +520,32 @@ const liveProbeReviewSummary = {
         ? "Failed live checks are seller access protections or non-strict request failures; no exposed search, sold-out, 404, 410, or 5xx links were found."
         : "All live checks passed."
 };
+const launchGate = {
+  passed:
+    exposureAudit.exposedSearchLinks === 0 &&
+    exposureAudit.exposedSoldOutLinks === 0 &&
+    exposureAudit.exposedBrokenLinks === 0 &&
+    exposureAudit.exposedInvalidUrls === 0 &&
+    liveProbeReviewSummary.hardFailureCount === 0 &&
+    liveProbeReviewSummary.sellerUnavailableSignals === 0 &&
+    issues.length === 0,
+  criteria: {
+    exposedSearchLinks: 0,
+    exposedSoldOutLinks: 0,
+    exposedBrokenLinks: 0,
+    exposedInvalidUrls: 0,
+    liveHardFailures: 0,
+    sellerUnavailableSignals: 0
+  },
+  actual: {
+    exposedSearchLinks: exposureAudit.exposedSearchLinks,
+    exposedSoldOutLinks: exposureAudit.exposedSoldOutLinks,
+    exposedBrokenLinks: exposureAudit.exposedBrokenLinks,
+    exposedInvalidUrls: exposureAudit.exposedInvalidUrls,
+    liveHardFailures: liveProbeReviewSummary.hardFailureCount,
+    sellerUnavailableSignals: liveProbeReviewSummary.sellerUnavailableSignals
+  }
+};
 
 const report = {
   generatedAt: new Date().toISOString(),
@@ -531,8 +564,10 @@ const report = {
   communitySuspected: excludedReasonCounts.get("community_source") ?? 0,
   manualReviewNeeded: excludedReasonCounts.get("manual_review_needed") ?? 0,
   hiddenCount: issues.length ? new Set(issues.map((issue) => issue.match(/^(d\d+)/)?.[1]).filter(Boolean)).size : 0,
-  exposedSearchLinks: excludedReasonCounts.get("search_result_url") ?? 0,
-  exposedSoldOutLinks: soldOutOrEndedCount,
+  exposedSearchLinks: exposureAudit.exposedSearchLinks,
+  exposedSoldOutLinks: exposureAudit.exposedSoldOutLinks,
+  exposedBrokenLinks: exposureAudit.exposedBrokenLinks,
+  exposedInvalidUrls: exposureAudit.exposedInvalidUrls,
   visibleCount: issues.length ? 0 : dealIds.length,
   liveProbe,
   httpStatusSummary: {
@@ -557,6 +592,7 @@ const report = {
     ...linkQualityPolicy.exposurePolicy
   },
   exposureAudit,
+  launchGate,
   liveProbeReviewSummary,
   liveProbeReasonCounts: Object.fromEntries([...liveProbeReasonCounts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))),
   liveProbeHostFailureCounts: Object.fromEntries([...liveProbeHostFailureCounts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).slice(0, 30)),
@@ -600,6 +636,11 @@ Generated: ${report.generatedAt}
 | Live probe timeout | ${report.liveProbe.timeout} |
 | Live probe hard failure | ${report.liveProbeReviewSummary.hardFailureCount} |
 | Live probe transient network | ${report.liveProbeReviewSummary.transientNetworkCount} |
+| 출시 게이트 통과 | ${report.launchGate.passed ? "YES" : "NO"} |
+| 노출 검색 링크 | ${report.exposedSearchLinks} |
+| 노출 품절/종료 링크 | ${report.exposedSoldOutLinks} |
+| 노출 깨진 링크 | ${report.exposedBrokenLinks} |
+| 노출 invalid URL | ${report.exposedInvalidUrls} |
 
 ## Live Probe Review
 

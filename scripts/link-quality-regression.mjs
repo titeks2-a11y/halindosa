@@ -52,7 +52,7 @@ function isSearchUrl(url) {
   if (/event|benefit|campaign|coupon|promotion|culture-event/i.test(`${url.pathname}${url.search}${url.hash}`)) {
     return false;
   }
-  return searchPatterns.some((pattern) => full.includes(pattern));
+  return searchPatterns.some((pattern) => full.includes(pattern.toLowerCase()));
 }
 
 function hasProductSignal(url) {
@@ -68,7 +68,9 @@ function hasOfficialBenefitSignal(url, evidence) {
 }
 
 function containsUnavailableText(text) {
-  return unavailablePatterns.some((pattern) => text.includes(pattern));
+  const value = text.toLowerCase();
+
+  return unavailablePatterns.some((pattern) => value.includes(pattern.toLowerCase()));
 }
 
 function classify(sample) {
@@ -125,6 +127,12 @@ const samples = [
     expected: { isHidden: true, linkType: "search" }
   },
   {
+    name: "lotteon search result blocked",
+    url: "https://www.lotteon.com/search/search/search.ecn?render=search&platform=pc&q=%ED%8A%B9%EA%B0%80",
+    evidence: "검색 결과 URL",
+    expected: { isHidden: true, linkType: "search" }
+  },
+  {
     name: "community source blocked",
     url: "https://www.ppomppu.co.kr/zboard/view.php?id=ppomppu&no=123",
     evidence: "커뮤니티 게시글",
@@ -146,6 +154,12 @@ const samples = [
     name: "sold out evidence blocked",
     url: "https://item.gmarket.co.kr/Item?goodscode=3560262554",
     evidence: "판매종료 품절 재입고알림",
+    expected: { isHidden: true, availability: "sold_out" }
+  },
+  {
+    name: "english sold out evidence blocked",
+    url: "https://www.coupang.com/vp/products/130180913?itemId=383114455",
+    evidence: "Out of stock temporarily unavailable",
     expected: { isHidden: true, availability: "sold_out" }
   },
   {

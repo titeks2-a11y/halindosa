@@ -189,6 +189,14 @@ if (!linkReport) {
   if (!linkReport.httpStatusSummary || !("http404" in linkReport.httpStatusSummary) || !("timeout" in linkReport.httpStatusSummary)) {
     issues.push("링크 검증 리포트에 HTTP/redirect 세부 지표가 없습니다.");
   }
+  if (!linkReport.launchGate || linkReport.launchGate.passed !== true) {
+    issues.push("링크 검증 리포트의 출시 게이트가 통과 상태가 아닙니다.");
+  }
+  for (const field of ["exposedSearchLinks", "exposedSoldOutLinks", "exposedBrokenLinks", "exposedInvalidUrls"]) {
+    if ((linkReport.launchGate?.actual?.[field] ?? 0) !== 0) {
+      issues.push(`출시 게이트에 노출 위험 항목이 남아 있습니다: ${field}=${linkReport.launchGate.actual[field]}`);
+    }
+  }
 }
 
 if (missingVerifiedIds.length) {
@@ -235,6 +243,10 @@ const report = {
   soldOutProducts: linkReport?.soldOutOrEndedSuspected ?? linkReport?.exposedSoldOutLinks ?? 0,
   hiddenProducts,
   publicSearchFallbacks: issues.some((issue) => issue.includes("searchUrl")) ? 1 : 0,
+  exposedSearchLinks: linkReport?.exposedSearchLinks ?? 0,
+  exposedSoldOutLinks: linkReport?.exposedSoldOutLinks ?? 0,
+  exposedBrokenLinks: linkReport?.exposedBrokenLinks ?? 0,
+  exposedInvalidUrls: linkReport?.exposedInvalidUrls ?? 0,
   visibleProducts: issues.length ? 0 : visibleProducts,
   verifiedPurchaseLinks: verifiedLinkIds.size,
   missingVerifiedIds,
@@ -252,6 +264,7 @@ const report = {
     ...linkQualityPolicy.exposurePolicy,
     linkType: "not search/seller_search/unavailable"
   },
+  launchGate: linkReport?.launchGate ?? null,
   issues
 };
 

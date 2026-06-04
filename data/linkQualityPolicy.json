@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "blockedHosts": [
     "ppomppu.co.kr",
     "fmkorea.com",
@@ -23,16 +23,29 @@
   ],
   "searchPatterns": [
     "/search",
+    "/search/",
+    "search?",
     "search.",
+    "search.ecn",
+    "search.ssg",
+    "search.tmall",
+    "getsearchmain.do",
+    "totalsearch",
+    "searchresult",
+    "keywordsearch",
     "shopping/search",
     "msearch",
     "/find",
     "find",
     "/result",
     "result",
+    "render=search",
+    "target=all&query",
     "query=",
     "keyword=",
     "kwd=",
+    "searchword=",
+    "skeyword=",
     "sword=",
     "wholesale-",
     "/np/search",
@@ -105,14 +118,33 @@
   ],
   "unavailableTextPatterns": [
     "품절",
+    "품절되었습니다",
     "일시품절",
     "구매불가",
+    "구매 불가",
     "판매종료",
+    "판매 종료",
+    "판매 완료",
     "판매중지",
+    "판매 중지",
     "재입고알림",
+    "재입고 알림",
     "이벤트종료",
+    "이벤트 종료",
     "행사종료",
-    "마감"
+    "행사 종료",
+    "종료되었습니다",
+    "준비된 수량이 모두 소진",
+    "수량이 모두 소진",
+    "매진",
+    "더 이상 판매",
+    "현재 구매할 수 없습니다",
+    "존재하지 않는 상품",
+    "마감",
+    "sold out",
+    "out of stock",
+    "temporarily unavailable",
+    "not found"
   ],
   "allowedVerificationSources": [
     "manual_review",
@@ -129,5 +161,13 @@
       "unavailable"
     ],
     "finalUrlRequired": true
+  },
+  "launchGate": {
+    "exposedSearchLinks": 0,
+    "exposedSoldOutLinks": 0,
+    "exposedBrokenLinks": 0,
+    "exposedInvalidUrls": 0,
+    "liveHardFailures": 0,
+    "sellerUnavailableSignals": 0
   }
 }

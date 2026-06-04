@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-04T03:11:54.303Z",
+  "generatedAt": "2026-06-04T03:48:53.849Z",
   "totalProducts": 140,
   "passedProducts": 140,
   "failedProducts": 0,
@@ -7,15 +7,19 @@
   "soldOutProducts": 0,
   "hiddenProducts": 0,
   "publicSearchFallbacks": 0,
+  "exposedSearchLinks": 0,
+  "exposedSoldOutLinks": 0,
+  "exposedBrokenLinks": 0,
+  "exposedInvalidUrls": 0,
   "visibleProducts": 140,
   "verifiedPurchaseLinks": 140,
   "missingVerifiedIds": [],
   "hiddenIssueIds": [],
   "policy": {
-    "version": 1,
+    "version": 2,
     "source": "data/linkQualityPolicy.json",
-    "searchPatterns": 18,
-    "unavailableTextPatterns": 9,
+    "searchPatterns": 31,
+    "unavailableTextPatterns": 28,
     "productDetailSignals": 26,
     "exposurePolicy": {
       "availability": "active",
@@ -36,7 +40,7 @@
     "http410": 0,
     "http5xx": 0,
     "timeout": 0,
-    "robotsBlocked": 58,
+    "robotsBlocked": 60,
     "unavailableText": 0
   },
   "exposurePolicy": {
@@ -50,6 +54,25 @@
     ],
     "finalUrlRequired": true,
     "linkType": "not search/seller_search/unavailable"
+  },
+  "launchGate": {
+    "passed": true,
+    "criteria": {
+      "exposedSearchLinks": 0,
+      "exposedSoldOutLinks": 0,
+      "exposedBrokenLinks": 0,
+      "exposedInvalidUrls": 0,
+      "liveHardFailures": 0,
+      "sellerUnavailableSignals": 0
+    },
+    "actual": {
+      "exposedSearchLinks": 0,
+      "exposedSoldOutLinks": 0,
+      "exposedBrokenLinks": 0,
+      "exposedInvalidUrls": 0,
+      "liveHardFailures": 0,
+      "sellerUnavailableSignals": 0
+    }
   },
   "issues": []
 }

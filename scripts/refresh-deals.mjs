@@ -93,7 +93,7 @@ function isSearchLike(url) {
   if (/\/product\/|\/products\/|\/goods\/|\/item\/|itemview|goodsdetail|detailview/i.test(`${url.pathname}${url.search}`)) return false;
   if (/event|benefit|campaign|coupon|promotion/i.test(`${url.pathname}${url.search}${url.hash}`)) return false;
   const value = `${url.hostname}${url.pathname}${url.search}`.toLowerCase();
-  return searchPatterns.some((pattern) => value.includes(pattern));
+  return searchPatterns.some((pattern) => value.includes(pattern.toLowerCase()));
 }
 
 function hasProductDetailSignal(url) {
@@ -136,7 +136,8 @@ function classifyUrl(urlValue, evidence = "") {
     if (isSearchLike(url)) return { ok: false, reason: "search_result_url", linkType: "search", availability: "unknown" };
 
     const evidenceText = cleanText(evidence);
-    if (unavailablePatterns.some((pattern) => evidenceText.includes(pattern))) {
+    const normalizedEvidenceText = evidenceText.toLowerCase();
+    if (unavailablePatterns.some((pattern) => normalizedEvidenceText.includes(pattern.toLowerCase()))) {
       return { ok: false, reason: "sold_out_or_ended_signal", linkType: "unavailable", availability: "sold_out" };
     }
 
@@ -215,7 +216,8 @@ async function probeUrl(urlValue) {
     if (shouldBodyProbe && /text|html|json/i.test(contentType)) {
       const body = await response.text();
       result.bodyChecked = true;
-      result.unavailableText = unavailablePatterns.some((pattern) => body.slice(0, 65535).includes(pattern));
+      const bodySample = body.slice(0, 65535).toLowerCase();
+      result.unavailableText = unavailablePatterns.some((pattern) => bodySample.includes(pattern.toLowerCase()));
       if (result.unavailableText) return { ...result, ok: false, reason: "sold_out_or_ended_text" };
     }
 

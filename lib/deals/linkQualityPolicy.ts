@@ -18,6 +18,14 @@ export interface LinkQualityPolicy {
     blockedLinkTypes: string[];
     finalUrlRequired: boolean;
   };
+  launchGate?: {
+    exposedSearchLinks: number;
+    exposedSoldOutLinks: number;
+    exposedBrokenLinks: number;
+    exposedInvalidUrls: number;
+    liveHardFailures: number;
+    sellerUnavailableSignals: number;
+  };
 }
 
 export const linkQualityPolicy = policy as LinkQualityPolicy;
@@ -56,11 +64,13 @@ export function isPolicySearchLikeUrl(url: URL) {
   if (productDetailPatterns.some((pattern) => pattern.test(urlValue))) return false;
   if (linkQualityPolicy.officialBenefitUrlSignals.some((signal) => benefitValue.includes(signal))) return false;
 
-  return linkQualityPolicy.searchPatterns.some((pattern) => urlValue.includes(pattern));
+  return linkQualityPolicy.searchPatterns.some((pattern) => urlValue.includes(pattern.toLowerCase()));
 }
 
 export function containsPolicyUnavailableText(text: string) {
-  return linkQualityPolicy.unavailableTextPatterns.some((pattern) => text.includes(pattern));
+  const normalizedText = text.toLowerCase();
+
+  return linkQualityPolicy.unavailableTextPatterns.some((pattern) => normalizedText.includes(pattern.toLowerCase()));
 }
 
 export function hasPolicyProductDetailSignal(url: URL) {

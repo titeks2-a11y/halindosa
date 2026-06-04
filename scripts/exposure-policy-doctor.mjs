@@ -81,6 +81,10 @@ if ((linkReport?.failedCount ?? 0) !== 0 || (productReport?.failedProducts ?? 0)
   issues.push("failed link validation items are exposed or product quality failed.");
 }
 
+if (linkReport?.launchGate?.passed !== true) {
+  issues.push("link-validation launch gate is not passed.");
+}
+
 if ((liveProbeReviewSummary.hardFailureCount ?? 0) > 0 || (liveProbeReviewSummary.sellerUnavailableSignals ?? 0) > 0) {
   issues.push("live probe hard failure or seller unavailable signals remain.");
 }
@@ -132,6 +136,7 @@ const report = {
   availabilityCounts: countBy(auditedItems, "availability"),
   validationStatusCounts: countBy(auditedItems, "validationStatus"),
   exposurePolicy: policy?.exposurePolicy ?? null,
+  launchGate: linkReport?.launchGate ?? null,
   liveProbe: linkReport?.liveProbe ?? {
     enabled: false,
     strict: false,

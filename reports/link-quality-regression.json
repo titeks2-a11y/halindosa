@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-04T03:11:54.846Z",
+  "generatedAt": "2026-06-04T03:48:54.365Z",
   "sampleResults": [
     {
       "name": "coupang product detail allowed",
@@ -40,6 +40,23 @@
     {
       "name": "naver shopping search blocked",
       "url": "https://search.shopping.naver.com/search/all?query=%ED%8A%B9%EA%B0%80",
+      "expected": {
+        "isHidden": true,
+        "linkType": "search"
+      },
+      "actual": {
+        "linkType": "search",
+        "availability": "unknown",
+        "validationStatus": "failed",
+        "isHidden": true,
+        "reason": "search_url"
+      },
+      "ok": true,
+      "mismatches": []
+    },
+    {
+      "name": "lotteon search result blocked",
+      "url": "https://www.lotteon.com/search/search/search.ecn?render=search&platform=pc&q=%ED%8A%B9%EA%B0%80",
       "expected": {
         "isHidden": true,
         "linkType": "search"
@@ -123,6 +140,23 @@
       "mismatches": []
     },
     {
+      "name": "english sold out evidence blocked",
+      "url": "https://www.coupang.com/vp/products/130180913?itemId=383114455",
+      "expected": {
+        "isHidden": true,
+        "availability": "sold_out"
+      },
+      "actual": {
+        "linkType": "unavailable",
+        "availability": "sold_out",
+        "validationStatus": "failed",
+        "isHidden": true,
+        "reason": "sold_out_or_ended_text"
+      },
+      "ok": true,
+      "mismatches": []
+    },
+    {
       "name": "official benefit allowed",
       "url": "https://www.cgv.co.kr/culture-event/event/detailViewUnited.aspx?seq=12345",
       "expected": {
@@ -182,8 +216,8 @@
     }
   ],
   "summary": {
-    "sampleCount": 8,
-    "samplePassed": 8,
+    "sampleCount": 10,
+    "samplePassed": 10,
     "structuralPassed": 5,
     "reportPassed": 4,
     "exposedSearchLinks": 0,

@@ -2654,7 +2654,7 @@ async function checkOperationalDataSurfaces() {
   const exposureReport = JSON.parse(await text("reports/exposure-policy.json"));
   const linkPolicyIssues = [];
 
-  for (const key of ["blockedHosts", "searchPatterns", "unavailableTextPatterns", "productDetailSignals", "officialBenefitUrlSignals", "exposurePolicy"]) {
+  for (const key of ["blockedHosts", "searchPatterns", "unavailableTextPatterns", "productDetailSignals", "officialBenefitUrlSignals", "exposurePolicy", "launchGate"]) {
     if (!(key in linkPolicy)) linkPolicyIssues.push(`policy missing ${key}`);
   }
 
@@ -2704,6 +2704,15 @@ async function checkOperationalDataSurfaces() {
     linkPolicyIssues.push("link-validation report should record HTTP/redirect summary");
   }
   if (
+    linkReport.launchGate?.passed !== true ||
+    (linkReport.launchGate?.actual?.exposedSearchLinks ?? 1) !== 0 ||
+    (linkReport.launchGate?.actual?.exposedSoldOutLinks ?? 1) !== 0 ||
+    (linkReport.launchGate?.actual?.exposedBrokenLinks ?? 1) !== 0 ||
+    (linkReport.launchGate?.actual?.exposedInvalidUrls ?? 1) !== 0
+  ) {
+    linkPolicyIssues.push("link-validation report should include a passed launchGate with zero exposed search, sold-out, broken, and invalid URLs");
+  }
+  if (
     !linkReport.liveProbeReviewSummary ||
     !("hardFailureCount" in linkReport.liveProbeReviewSummary) ||
     !("transientNetworkCount" in linkReport.liveProbeReviewSummary) ||
@@ -2751,7 +2760,7 @@ async function checkOperationalDataSurfaces() {
   ) {
     linkPolicyIssues.push("shared quality rules should block unsafe final URLs before exposure");
   }
-  if (!exposureReport.ok || exposureReport.summary?.badExposedItems !== 0 || exposureReport.summary?.searchLinksExposed !== 0 || exposureReport.summary?.soldOutExposed !== 0) {
+  if (!exposureReport.ok || exposureReport.summary?.badExposedItems !== 0 || exposureReport.summary?.searchLinksExposed !== 0 || exposureReport.summary?.soldOutExposed !== 0 || exposureReport.launchGate?.passed !== true) {
     linkPolicyIssues.push("exposure-policy report should prove zero bad/search/sold-out exposed items");
   }
   if ((linkReport.exposedSearchLinks ?? 0) !== 0 || (productReport.searchLinks ?? 0) !== 0) linkPolicyIssues.push("search links should be zero");
