@@ -597,6 +597,17 @@ await check("admin dashboard quality cards", async () => {
       text.includes("전체 행은 CSV로 내려받고"),
     "Admin dashboard missing exposure policy audit panel"
   );
+  assert(
+    text.includes("최종 링크 출시 게이트") &&
+      text.includes("검색·품절·깨진 링크 0건") &&
+      text.includes("출시 게이트 JSON") &&
+      text.includes("출시 게이트 CSV") &&
+      text.includes("Play Store 제출 판정") &&
+      text.includes("최종 제출 규칙") &&
+      text.includes("라이브 검증 해석") &&
+      text.includes("reports/link-launch-gate.json"),
+    "Admin dashboard missing final link launch gate panel"
+  );
   assert(text.includes("링크 검토 필요"), "Admin dashboard missing link review count card");
   assert(text.includes("오늘 처리할 링크 작업"), "Admin dashboard missing link review action summary");
   assert(text.includes("구매 링크 보강 우선순위"), "Admin dashboard missing link review priority summary");
@@ -982,6 +993,36 @@ await check("admin exposure policy csv", async () => {
   assert(text.includes("hard_failure_count") && text.includes("access_protected_count"), "Exposure policy CSV missing live probe review summary rows");
   assert(text.includes("live_probe_reason"), "Exposure policy CSV missing live probe failure reason rows");
   assert(text.includes("live_probe_host"), "Exposure policy CSV missing live probe failed host rows");
+});
+
+await check("admin link launch gate api", async () => {
+  const { response, data } = await fetchJson("/api/admin/link-launch-gate");
+  assert(response.status === 200, `Expected 200, got ${response.status}`);
+  assert(data.ok === true, "Admin link launch gate API ok should be true");
+  assert(data.report?.ok === true, "Link launch gate report should pass");
+  assert(data.report?.actual?.auditedItems >= 140, "Link launch gate should audit all products");
+  assert(data.report?.actual?.exposedItems >= 140, "Link launch gate should expose verified products");
+  assert(data.report?.actual?.verifiedPurchaseLinks >= data.report.actual.exposedItems, "Link launch gate should prove verified links cover exposed items");
+  assert(data.report?.actual?.exposedSearchLinks === 0, "Link launch gate should expose zero search links");
+  assert(data.report?.actual?.exposedSoldOutLinks === 0, "Link launch gate should expose zero sold-out links");
+  assert(data.report?.actual?.exposedBrokenLinks === 0, "Link launch gate should expose zero broken links");
+  assert(data.report?.actual?.exposedInvalidUrls === 0, "Link launch gate should expose zero invalid URLs");
+  assert(data.report?.actual?.failedExposureItems === 0, "Link launch gate should have zero failed exposure items");
+  assert(data.report?.actual?.liveHardFailures === 0, "Link launch gate should have zero hard live probe failures");
+  assert(data.report?.actual?.sellerUnavailableSignals === 0, "Link launch gate should have zero seller unavailable signals");
+  assert(Array.isArray(data.report?.issues) && data.report.issues.length === 0, "Link launch gate should have no blocking issues");
+});
+
+await check("admin link launch gate csv", async () => {
+  const response = await fetch(`${baseUrl}/api/admin/link-launch-gate?format=csv`);
+  const text = await response.text();
+  assert(response.status === 200, `Expected 200, got ${response.status}`);
+  assert(response.headers.get("content-type")?.includes("text/csv"), "Link launch gate export is not CSV");
+  assert(response.headers.get("x-request-id"), "Link launch gate export missing request id");
+  assert(text.startsWith("section,key,label"), "Link launch gate CSV header missing");
+  assert(text.includes("summary,exposed_search_links") && text.includes("summary,exposed_sold_out_links"), "Link launch gate CSV missing zero-exposure summary rows");
+  assert(text.includes("summary,exposed_invalid_urls") && text.includes("summary,failed_exposure_items"), "Link launch gate CSV missing invalid URL or failed exposure rows");
+  assert(text.includes("policy,exposure_policy") && text.includes("failed_exposure_item,none"), "Link launch gate CSV missing policy or clean failed item evidence");
 });
 
 await check("admin notification campaigns api", async () => {

@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-04T04:46:20.965Z",
+  "generatedAt": "2026-06-04T04:56:01.919Z",
   "criteria": {
     "reportsPresent": true,
     "minimumAuditedItems": 140,
@@ -64,7 +64,7 @@
     "productQuality": "2026-06-04T04:41:40.473Z",
     "exposurePolicy": "2026-06-04T04:41:41.473Z",
     "refreshDeals": "2026-06-04T04:41:19.235Z",
-    "releaseDoctor": "2026-06-04T04:43:21.149Z"
+    "releaseDoctor": "2026-06-04T04:55:48.157Z"
   },
   "linkTypeCounts": {
     "direct_purchase": 109,

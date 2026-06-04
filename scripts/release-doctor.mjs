@@ -3934,6 +3934,7 @@ function checkRefreshDealPipeline() {
   const snapshotPath = join(root, "data/refreshedDeals.json");
   const adminRoutePath = "app/api/admin/deal-quality/route.ts";
   const exposureRoutePath = "app/api/admin/exposure-policy/route.ts";
+  const linkLaunchGateRoutePath = "app/api/admin/link-launch-gate/route.ts";
   const adminPanelPath = "components/AdminDealQualityPanel.tsx";
   const providerTypes = readFileSync(join(root, "lib/deals/providers/types.ts"), "utf8");
   const providerRegistry = readFileSync(join(root, "lib/deals/providers/providerRegistry.ts"), "utf8");
@@ -3942,6 +3943,7 @@ function checkRefreshDealPipeline() {
   const refreshScript = readFileSync(join(root, "scripts/refresh-deals.mjs"), "utf8");
   const adminRoute = existsSync(join(root, adminRoutePath)) ? readFileSync(join(root, adminRoutePath), "utf8") : "";
   const exposureRoute = existsSync(join(root, exposureRoutePath)) ? readFileSync(join(root, exposureRoutePath), "utf8") : "";
+  const linkLaunchGateRoute = existsSync(join(root, linkLaunchGateRoutePath)) ? readFileSync(join(root, linkLaunchGateRoutePath), "utf8") : "";
   const adminPanel = existsSync(join(root, adminPanelPath)) ? readFileSync(join(root, adminPanelPath), "utf8") : "";
   const adminPage = readFileSync(join(root, "app/admin/page.tsx"), "utf8");
   const smoke = readFileSync(join(root, "scripts/smoke.mjs"), "utf8");
@@ -3977,11 +3979,29 @@ function checkRefreshDealPipeline() {
   if (!existsSync(join(root, exposureRoutePath))) {
     issues.push("admin exposure policy API missing");
   }
+  if (!existsSync(join(root, linkLaunchGateRoutePath))) {
+    issues.push("admin link launch gate API missing");
+  }
   if (!linkLaunchGateScript.includes("failedExposureItems") || !linkLaunchGateScript.includes("reports/link-validation.json") || !linkLaunchGateScript.includes("LINK_LAUNCH_GATE.md")) {
     issues.push("link launch gate script should audit product exposure rows and write JSON/Markdown release evidence");
   }
   if (linkLaunchGateReport.ok !== true || (linkLaunchGateReport.actual?.exposedSearchLinks ?? 1) !== 0 || (linkLaunchGateReport.actual?.exposedSoldOutLinks ?? 1) !== 0 || (linkLaunchGateReport.actual?.failedExposureItems ?? 1) !== 0) {
     issues.push("reports/link-launch-gate.json should prove zero exposed search, sold-out, and failed exposure items");
+  }
+  if (
+    !linkLaunchGateRoute.includes("getLinkLaunchGateReport") ||
+    !linkLaunchGateRoute.includes("buildLinkLaunchGateCsv") ||
+    !linkLaunchGateRoute.includes("canAccessAdminRequest") ||
+    !linkLaunchGateRoute.includes("text/csv") ||
+    !adminPage.includes("최종 링크 출시 게이트") ||
+    !adminPage.includes("출시 게이트 CSV") ||
+    !adminPage.includes("Play Store 제출 판정") ||
+    !adminPage.includes("reports/link-launch-gate.json") ||
+    !smoke.includes("admin link launch gate api") ||
+    !smoke.includes("admin link launch gate csv") ||
+    !smoke.includes("Link launch gate should expose zero search links")
+  ) {
+    issues.push("admin link launch gate API/page should expose JSON/CSV final launch evidence and smoke-test zero search/sold-out/broken/invalid links");
   }
 
   for (const phrase of ["fetchDeals", "normalizeDeal", "validateDeal", "dedupeDeal"]) {
@@ -4619,6 +4639,7 @@ function checkAdminAuthHardening() {
     "app/api/admin/health-readiness/route.ts",
     "app/api/admin/image-queue/route.ts",
     "app/api/admin/import/route.ts",
+    "app/api/admin/link-launch-gate/route.ts",
     "app/api/admin/news-operations/route.ts",
     "app/api/admin/notification-campaigns/route.ts",
     "app/api/admin/push-readiness/route.ts",
