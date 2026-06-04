@@ -88,12 +88,13 @@ npm run smoke
   - 동일한 feed URL 파서는 런타임 provider, `refresh:*` 스크립트, `/api/sources`, `feed:transition:report`, `source:catalog:report`, production 상품 feed에 모두 적용된다. 관리자 화면의 feed URL 수와 실제 수집 대상 수가 같은 기준으로 계산되는지 함께 확인한다.
   - `data/newsFeed.sample.json`을 복제해 `items`, `deals`, `newsDeals`, `events`, `coupons`, `benefits` 중 하나로 배열을 반환한다.
   - 사용자에게 열리는 `finalUrl`은 공식 이벤트, 공식 쿠폰, 공식 구매 또는 공식 혜택 안내 페이지여야 하며, 뉴스 기사/검색 결과/커뮤니티 글은 `sourceUrl`로만 남긴다.
-  - 운영자가 feed URL을 `.env`의 `DEAL_NEWS_FEED_URLS`, `DEAL_EVENT_NEWS_FEED_URLS`, `OFFICIAL_EVENT_FEED_URLS`, `PUBLIC_COUPON_FEED_URLS`에 넣은 뒤 `npm run news:feed:doctor && npm run test:news-feed-errors && npm run refresh:news && npm run verify:news && npm run refresh:all`을 실행한다.
+  - 운영자가 feed URL을 `.env`의 `DEAL_NEWS_FEED_URLS`, `DEAL_EVENT_NEWS_FEED_URLS`, `OFFICIAL_EVENT_FEED_URLS`, `PUBLIC_COUPON_FEED_URLS`에 넣은 뒤 `npm run news:feed:doctor && npm run test:news-feed-errors && npm run refresh:news && npm run verify:news && npm run news:freshness:doctor && npm run refresh:all`을 실행한다.
   - `npm run feed:transition:report`는 `reports/feed-transition.json`과 `docs/FEED_TRANSITION_REPORT.md`를 생성한다. 운영자는 이 파일로 provider별 `seed fallback`/`공식 feed 연결`, 우선 env key, launch-blocking 여부를 확인하고 다음 feed 연결 순서를 정한다.
   - 환경변수로 연결한 공식 feed가 HTTP 오류, timeout, JSON/RSS 파싱 오류를 내면 `npm run verify:news`와 `npm run refresh:all`은 실패한다. seed fallback은 미연결 provider용 안전장치이며, 설정된 운영 feed 장애를 덮어 성공 처리하지 않는다. `npm run test:news-feed-errors`는 이 실패 게이트를 정상 feed/깨진 feed 양쪽으로 재현한다.
   - feed 오류가 나면 `reports/news-deals.json`의 `gates.configuredFeedErrors`에서 provider, feed URL 수, 오류 메시지를 확인하고 해당 feed URL 또는 포맷을 고친 뒤 다시 `npm run refresh:news && npm run verify:news`를 실행한다.
   - 검증 실패, 종료, 비공식 URL, 검색 URL은 `reports/news-deals.json`의 hidden/failed 큐로만 남고 사용자 화면에는 노출하지 않는다.
   - 공식 혜택 운영 리포트는 6시간마다 갱신을 권장하고, 24시간 이상 갱신되지 않으면 출시 전 갱신 필요 상태로 본다.
+  - `npm run news:freshness:doctor`는 `reports/news-freshness.json`과 `docs/NEWS_FRESHNESS_REPORT.md`를 생성한다. 사용자 노출 공식 혜택의 `lastCheckedAt`, 종료일, 14일 이내 종료 큐, 필수 카테고리 커버리지, 공식 소스 후보 수를 확인한다.
   - `/admin`의 `뉴스 수집 현황`과 `공식 혜택 수동 운영` 패널에서 `Provider 위험도`, `신선도 운영`, `다음 refresh 권장`, `다음 운영 액션`을 확인한다.
   - `/admin`의 `공식 피드 전환 준비도`는 `news`, `event_news`, `official_event`, `public_coupon` provider가 seed fallback인지 공식 feed 연결 상태인지 보여준다. 상용 운영 전에는 우선순위가 높은 `OFFICIAL_EVENT_FEED_URLS`, `DEAL_EVENT_FEED_URLS`, `PUBLIC_COUPON_FEED_URLS`부터 공식 API/RSS/제휴 JSON feed를 연결한다.
   - `npm run source:catalog:report`는 `data/officialSourceCatalog.json`을 검증해 `reports/official-source-catalog.json`, `reports/official-source-catalog.csv`, `docs/OFFICIAL_SOURCE_CATALOG.md`를 생성한다. 운영자는 이 문서와 CSV에서 카테고리별 공식 소스 후보, provider별 후보, 우선 연결할 환경변수, 허용/차단 사용 범위를 확인한다.

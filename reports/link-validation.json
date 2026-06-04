@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-04T00:23:22.248Z",
+  "generatedAt": "2026-06-04T00:37:59.448Z",
   "totalDeals": 140,
   "verificationTargets": 140,
   "passedDirectLinks": 140,
@@ -24,15 +24,15 @@
     "bodyProbe": false,
     "timeoutMs": 5000,
     "checked": 140,
-    "passed": 79,
-    "failed": 61,
-    "redirected": 11,
-    "finalUrlChanged": 11,
+    "passed": 70,
+    "failed": 70,
+    "redirected": 12,
+    "finalUrlChanged": 12,
     "http404": 0,
     "http410": 0,
     "http5xx": 0,
     "timeout": 0,
-    "robotsBlocked": 57,
+    "robotsBlocked": 58,
     "unavailableText": 0,
     "failures": [
       {
@@ -155,11 +155,32 @@
         "reason": "robots_or_access_blocked"
       },
       {
+        "id": "d040",
+        "url": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000211588",
+        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000211588",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d041",
+        "url": "https://www.ssg.com/item/itemView.ssg?itemId=1000620373892",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000620373892",
+        "status": 429,
+        "reason": "http_429"
+      },
+      {
         "id": "d044",
         "url": "https://itempage3.auction.co.kr/DetailView.aspx?itemno=F408783307",
         "finalUrl": "https://itempage3.auction.co.kr/DetailView.aspx?itemno=F408783307",
         "status": 403,
         "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d045",
+        "url": "https://www.ssg.com/item/itemView.ssg?itemId=1000519076764",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000519076764",
+        "status": 429,
+        "reason": "http_429"
       },
       {
         "id": "d046",
@@ -190,6 +211,13 @@
         "reason": "request_failed"
       },
       {
+        "id": "d052",
+        "url": "https://www.ssg.com/item/itemView.ssg?itemId=1000560995801",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000560995801",
+        "status": 429,
+        "reason": "http_429"
+      },
+      {
         "id": "d057",
         "url": "https://www.tmembership.co.kr/web/html/main/benefit.html",
         "finalUrl": "https://www.tmembership.co.kr/web/html/main/benefit.html",
@@ -200,13 +228,6 @@
         "id": "d073",
         "url": "https://www.hyundaicard.com/cpc/cr/CPCCR0101_01.hc",
         "finalUrl": "https://www.hyundaicard.com/cpc/cr/CPCCR0101_01.hc",
-        "status": 0,
-        "reason": "request_failed"
-      },
-      {
-        "id": "d074",
-        "url": "https://www.shinhancard.com/pconts/html/benefit/event/MOBFM220/MOBFM220R01.html",
-        "finalUrl": "https://www.shinhancard.com/pconts/html/benefit/event/MOBFM220/MOBFM220R01.html",
         "status": 0,
         "reason": "request_failed"
       },
@@ -260,6 +281,13 @@
         "reason": "robots_or_access_blocked"
       },
       {
+        "id": "d093",
+        "url": "https://www.ssg.com/item/itemView.ssg?itemId=1000005089075",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000005089075",
+        "status": 429,
+        "reason": "http_429"
+      },
+      {
         "id": "d096",
         "url": "https://item.gmarket.co.kr/Item?goodscode=2066504211",
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2066504211",
@@ -279,6 +307,13 @@
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2809510617",
         "status": 403,
         "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d099",
+        "url": "https://www.ssg.com/item/itemView.ssg?itemId=1000601459551",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000601459551",
+        "status": 429,
+        "reason": "http_429"
       },
       {
         "id": "d100",
@@ -400,6 +435,13 @@
         "reason": "robots_or_access_blocked"
       },
       {
+        "id": "d125",
+        "url": "https://www.ssg.com/item/itemView.ssg?itemId=1000032939693",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000032939693",
+        "status": 429,
+        "reason": "http_429"
+      },
+      {
         "id": "d126",
         "url": "https://www.coupang.com/vp/products/169280610?itemId=18366710784&vendorItemId=85510322367",
         "finalUrl": "https://www.coupang.com/vp/products/169280610?itemId=18366710784&vendorItemId=85510322367",
@@ -412,6 +454,13 @@
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2349292374",
         "status": 403,
         "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d129",
+        "url": "https://www.ssg.com/item/itemView.ssg?itemId=2097001847275",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=2097001847275",
+        "status": 429,
+        "reason": "http_429"
       },
       {
         "id": "d130",
@@ -435,6 +484,13 @@
         "reason": "robots_or_access_blocked"
       },
       {
+        "id": "d134",
+        "url": "https://www.ssg.com/item/itemView.ssg?itemId=1000625953830",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000625953830",
+        "status": 429,
+        "reason": "http_429"
+      },
+      {
         "id": "d135",
         "url": "https://item.gmarket.co.kr/Item?goodscode=3055540533",
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=3055540533",
@@ -447,6 +503,13 @@
         "finalUrl": "https://www.coupang.com/vp/products/5594587350",
         "status": 403,
         "reason": "robots_or_access_blocked"
+      },
+      {
+        "id": "d138",
+        "url": "https://www.ssg.com/item/itemView.ssg?itemId=1000588225854",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000588225854",
+        "status": 429,
+        "reason": "http_429"
       },
       {
         "id": "d139",
@@ -465,13 +528,13 @@
     ]
   },
   "httpStatusSummary": {
-    "redirected": 11,
-    "finalUrlChanged": 11,
+    "redirected": 12,
+    "finalUrlChanged": 12,
     "http404": 0,
     "http410": 0,
     "http5xx": 0,
     "timeout": 0,
-    "robotsBlocked": 57,
+    "robotsBlocked": 58,
     "unavailableText": 0
   },
   "policy": {
@@ -505,22 +568,23 @@
   "liveProbeReviewSummary": {
     "status": "transient_network_review",
     "hardFailureCount": 0,
-    "transientNetworkCount": 4,
-    "accessProtectedCount": 57,
+    "transientNetworkCount": 3,
+    "accessProtectedCount": 58,
     "sellerUnavailableSignals": 0,
     "interpretation": "Some URLs returned transient network signals; no exposed search, sold-out, 404, 410, or 5xx links were found."
   },
   "liveProbeReasonCounts": {
-    "robots_or_access_blocked": 57,
-    "request_failed": 4
+    "robots_or_access_blocked": 58,
+    "http_429": 9,
+    "request_failed": 3
   },
   "liveProbeHostFailureCounts": {
     "item.gmarket.co.kr": 30,
     "coupang.com": 23,
-    "oliveyoung.co.kr": 2,
+    "ssg.com": 9,
+    "oliveyoung.co.kr": 3,
     "hyundaicard.com": 1,
     "itempage3.auction.co.kr": 1,
-    "shinhancard.com": 1,
     "store.ohou.se": 1,
     "tmembership.co.kr": 1,
     "tour.interpark.com": 1
@@ -545,13 +609,6 @@
       "id": "d073",
       "url": "https://www.hyundaicard.com/cpc/cr/CPCCR0101_01.hc",
       "finalUrl": "https://www.hyundaicard.com/cpc/cr/CPCCR0101_01.hc",
-      "status": 0,
-      "reason": "request_failed"
-    },
-    {
-      "id": "d074",
-      "url": "https://www.shinhancard.com/pconts/html/benefit/event/MOBFM220/MOBFM220R01.html",
-      "finalUrl": "https://www.shinhancard.com/pconts/html/benefit/event/MOBFM220/MOBFM220R01.html",
       "status": 0,
       "reason": "request_failed"
     }
@@ -1950,7 +2007,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-01T02:40:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "oliveyoung.co.kr",
       "evidence": "올리브영 아이보들 CCP 크림 1+1 기획 상품 상세",
@@ -1962,10 +2019,13 @@
         "productDetailUrl": true,
         "officialBenefitUrl": false,
         "unavailableText": false,
-        "liveProbeOk": true
+        "liveProbeOk": false
       },
       "liveProbe": {
-        "ok": true
+        "ok": false,
+        "status": 403,
+        "reason": "robots_or_access_blocked",
+        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000211588"
       }
     },
     {
@@ -1996,10 +2056,13 @@
         "productDetailUrl": true,
         "officialBenefitUrl": false,
         "unavailableText": false,
-        "liveProbeOk": true
+        "liveProbeOk": false
       },
       "liveProbe": {
-        "ok": true
+        "ok": false,
+        "status": 429,
+        "reason": "http_429",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000620373892"
       }
     },
     {
@@ -2135,10 +2198,13 @@
         "productDetailUrl": true,
         "officialBenefitUrl": false,
         "unavailableText": false,
-        "liveProbeOk": true
+        "liveProbeOk": false
       },
       "liveProbe": {
-        "ok": true
+        "ok": false,
+        "status": 429,
+        "reason": "http_429",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000519076764"
       }
     },
     {
@@ -2385,10 +2451,13 @@
         "productDetailUrl": true,
         "officialBenefitUrl": false,
         "unavailableText": false,
-        "liveProbeOk": true
+        "liveProbeOk": false
       },
       "liveProbe": {
-        "ok": true
+        "ok": false,
+        "status": 429,
+        "reason": "http_429",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000560995801"
       }
     },
     {
@@ -3139,13 +3208,10 @@
         "productDetailUrl": false,
         "officialBenefitUrl": true,
         "unavailableText": false,
-        "liveProbeOk": false
+        "liveProbeOk": true
       },
       "liveProbe": {
-        "ok": false,
-        "status": 0,
-        "reason": "request_failed",
-        "finalUrl": "https://www.shinhancard.com/pconts/html/benefit/event/MOBFM220/MOBFM220R01.html"
+        "ok": true
       }
     },
     {
@@ -3809,10 +3875,13 @@
         "productDetailUrl": true,
         "officialBenefitUrl": false,
         "unavailableText": false,
-        "liveProbeOk": true
+        "liveProbeOk": false
       },
       "liveProbe": {
-        "ok": true
+        "ok": false,
+        "status": 429,
+        "reason": "http_429",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000005089075"
       }
     },
     {
@@ -4022,10 +4091,13 @@
         "productDetailUrl": true,
         "officialBenefitUrl": false,
         "unavailableText": false,
-        "liveProbeOk": true
+        "liveProbeOk": false
       },
       "liveProbe": {
-        "ok": true
+        "ok": false,
+        "status": 429,
+        "reason": "http_429",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000601459551"
       }
     },
     {
@@ -4957,10 +5029,13 @@
         "productDetailUrl": true,
         "officialBenefitUrl": false,
         "unavailableText": false,
-        "liveProbeOk": true
+        "liveProbeOk": false
       },
       "liveProbe": {
-        "ok": true
+        "ok": false,
+        "status": 429,
+        "reason": "http_429",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000032939693"
       }
     },
     {
@@ -5099,10 +5174,13 @@
         "productDetailUrl": true,
         "officialBenefitUrl": false,
         "unavailableText": false,
-        "liveProbeOk": true
+        "liveProbeOk": false
       },
       "liveProbe": {
-        "ok": true
+        "ok": false,
+        "status": 429,
+        "reason": "http_429",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=2097001847275"
       }
     },
     {
@@ -5278,10 +5356,13 @@
         "productDetailUrl": true,
         "officialBenefitUrl": false,
         "unavailableText": false,
-        "liveProbeOk": true
+        "liveProbeOk": false
       },
       "liveProbe": {
-        "ok": true
+        "ok": false,
+        "status": 429,
+        "reason": "http_429",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000625953830"
       }
     },
     {
@@ -5420,10 +5501,13 @@
         "productDetailUrl": true,
         "officialBenefitUrl": false,
         "unavailableText": false,
-        "liveProbeOk": true
+        "liveProbeOk": false
       },
       "liveProbe": {
-        "ok": true
+        "ok": false,
+        "status": 429,
+        "reason": "http_429",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000588225854"
       }
     },
     {
