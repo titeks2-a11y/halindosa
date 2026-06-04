@@ -5,6 +5,7 @@ const workspaceRoot = process.cwd();
 const args = new Set(process.argv.slice(2));
 const shouldDelete = args.has("--delete");
 const includeAndroidBuild = args.has("--android-build");
+const includeAndroidReleaseBundles = args.has("--android-release-bundles");
 const includeAndroidWebAssets = args.has("--android-web-assets");
 const includeIosBuild = args.has("--ios-build");
 const includeCapacitorPluginBuilds = args.has("--capacitor-plugin-builds");
@@ -12,6 +13,7 @@ const includeReports = args.has("--reports");
 const reportsOnly =
   includeReports &&
   !includeAndroidBuild &&
+  !includeAndroidReleaseBundles &&
   !includeAndroidWebAssets &&
   !includeIosBuild &&
   !includeCapacitorPluginBuilds;
@@ -31,6 +33,10 @@ const targets = reportsOnly
 
 if (includeAndroidBuild) {
   targets.push("android/.gradle", "android/app/build", "android/build");
+}
+
+if (includeAndroidReleaseBundles) {
+  targets.push("android/app/release");
 }
 
 if (includeAndroidWebAssets) {
@@ -122,6 +128,7 @@ if (!shouldDelete) {
   console.log(`\nDry run complete. ${found} generated target(s) found.`);
   console.log("Run `npm run clean:artifacts` to remove web build artifacts.");
   console.log("Run `npm run clean:artifacts:android` to also remove Android build outputs.");
+  console.log("Run `npm run clean:release-bundles` to remove generated APK/AAB release copies.");
   console.log("Run `npm run clean:artifacts:mobile` to also remove regenerated Android/iOS build outputs.");
   console.log("Run `npm run clean:artifacts:deep` to also remove Capacitor plugin build caches.");
   console.log("Run `npm run clean:reports` to remove regenerated QA/release report outputs.");

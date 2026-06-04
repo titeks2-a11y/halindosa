@@ -10,6 +10,8 @@
     "clean:artifacts:dry": "node scripts/clean-workspace.mjs",
     "clean:artifacts": "node scripts/clean-workspace.mjs --delete",
     "clean:artifacts:android": "node scripts/clean-workspace.mjs --delete --android-build",
+    "clean:release-bundles:dry": "node scripts/clean-workspace.mjs --android-release-bundles",
+    "clean:release-bundles": "node scripts/clean-workspace.mjs --delete --android-release-bundles",
     "clean:artifacts:mobile:dry": "node scripts/clean-workspace.mjs --android-build --android-web-assets --ios-build",
     "clean:artifacts:mobile": "node scripts/clean-workspace.mjs --delete --android-build --android-web-assets --ios-build",
     "clean:artifacts:deep:dry": "node scripts/clean-workspace.mjs --android-build --android-web-assets --ios-build --capacitor-plugin-builds",

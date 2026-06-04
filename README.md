@@ -45,6 +45,8 @@ npm run clean:artifacts:mobile:dry
 npm run clean:artifacts
 npm run clean:artifacts:mobile
 npm run clean:artifacts:android
+npm run clean:release-bundles:dry
+npm run clean:release-bundles
 npm run clean:artifacts:deep
 npm run clean:reports:dry
 npm run clean:reports
@@ -56,10 +58,11 @@ npm run clean:workspace
 - `clean:artifacts`: Next.js 웹 산출물과 dev 로그만 정리
 - `clean:artifacts:android`: Android Gradle/build 산출물까지 정리
 - `clean:artifacts:mobile`: Android WebView 복사본, Android build cache, iOS export/build 산출물까지 정리
+- `clean:release-bundles`: `android/app/release`에 남은 APK/AAB 복사본을 명시적으로 정리. Play Console 업로드가 끝난 뒤에만 사용
 - `clean:artifacts:deep`: Capacitor 플러그인이 `node_modules` 아래에 만든 Android build 캐시까지 정리
 - `clean:reports`: QA, 출시, 링크, 이미지, 스토어 제출 리포트처럼 `reports/` 아래 다시 만들 수 있는 산출물을 정리하고 `reports/.gitkeep`만 유지
 - `clean:workspace`: mobile/deep 산출물과 report 산출물을 함께 정리
-- `android/app/release`의 AAB 파일, keystore, 환경변수 파일은 자동 삭제 대상이 아닙니다.
+- `android/app/release`의 AAB 파일은 `clean:release-bundles`를 실행할 때만 삭제되며, keystore와 환경변수 파일은 자동 삭제 대상이 아닙니다.
 
 고급 하네스 검증:
 

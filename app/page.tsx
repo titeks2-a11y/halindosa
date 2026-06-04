@@ -1,6 +1,5 @@
 "use client";
 
-import type { ReactNode } from "react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { BellRing, CheckCircle2, ExternalLink, Flame, Share2, ShieldCheck, SlidersHorizontal, Store, Timer, Truck, UserRound } from "lucide-react";
@@ -17,19 +16,20 @@ import { HotSignalSection } from "@/components/HotSignalSection";
 import { LoginPromptSheet } from "@/components/LoginPromptSheet";
 import { LiveDealFeed } from "@/components/LiveDealFeed";
 import { HomeOfficialBenefitAlertRail } from "@/components/HomeOfficialBenefitAlertRail";
+import { HomeDealGrid } from "@/components/home/HomeDealGrid";
+import { HomeEmptyRecovery } from "@/components/home/HomeEmptyRecovery";
 import { HomeStatusStrip } from "@/components/home/HomeStatusStrip";
 import { NotificationPreferences } from "@/components/NotificationPreferences";
 import { PriceAlertList } from "@/components/PriceAlertList";
 import { PurchaseConfirmSheet } from "@/components/PurchaseConfirmSheet";
 import { PurchaseLinkOverview } from "@/components/PurchaseLinkOverview";
-import { QuickDealCard } from "@/components/QuickDealCard";
 import { RealtimeNewsDealsSection } from "@/components/RealtimeNewsDealsSection";
 import { SearchBar } from "@/components/SearchBar";
 import { SearchDiscoveryPanel } from "@/components/SearchDiscoveryPanel";
 import { SortSelect } from "@/components/SortSelect";
 import { Toast } from "@/components/Toast";
 import { TrueDealSpotlight } from "@/components/TrueDealSpotlight";
-import { DealGridSkeleton, StatePanel } from "@/components/ui/StatePanel";
+import { DealGridSkeleton } from "@/components/ui/StatePanel";
 import { useAuth } from "@/components/AuthProvider";
 import { getDealChannel, getProviderCategory } from "@/data/dealChannels";
 import { mockHotSignals } from "@/data/mockHotSignals";
@@ -1137,54 +1137,6 @@ export default function Home() {
           : activeView === "favorites"
             ? "찜한 특가"
             : "마이";
-
-  const renderDealGrid = (items: Deal[], emptyTitle: string, emptyDescription: string, emptyAction: ReactNode = null) => {
-    if (!items.length) {
-      return (
-        <StatePanel
-          tone="noDeal"
-          title={emptyTitle}
-          description={`${emptyDescription} 가격과 재고는 판매처에서 변동될 수 있으므로 구매 전 최종 조건을 다시 확인하세요.`}
-          action={emptyAction ? <div className="flex justify-center">{emptyAction}</div> : null}
-        />
-      );
-    }
-
-    const visibleItems = items.slice(0, visibleDealCount);
-    const remainingCount = Math.max(items.length - visibleItems.length, 0);
-
-    return (
-      <div className="space-y-3">
-        <div className="grid grid-cols-1 gap-3 min-[430px]:grid-cols-2 md:gap-4 xl:grid-cols-3 2xl:grid-cols-4">
-          {visibleItems.map((deal) => (
-            <QuickDealCard
-              key={deal.id}
-              deal={deal}
-              isFavorite={favorites.includes(deal.id)}
-              onToggleFavorite={toggleFavorite}
-              onOpenDeal={openDeal}
-              onShareDeal={shareDeal}
-            />
-          ))}
-        </div>
-        {remainingCount ? (
-          <div className="rounded-[24px] border border-slate-200 bg-white p-3 text-center shadow-sm" aria-label="상품 목록 더보기">
-            <p className="text-xs font-bold text-slate-500">
-              {items.length.toLocaleString("ko-KR")}개 중 {visibleItems.length.toLocaleString("ko-KR")}개를 먼저 보여드립니다.
-            </p>
-            <button
-              type="button"
-              onClick={() => setVisibleDealCount((count) => Math.min(count + HOME_DEAL_LOAD_STEP, items.length))}
-              className="mt-2 inline-flex min-h-11 items-center justify-center rounded-2xl bg-slate-950 px-5 text-sm font-black text-white transition hover:bg-dossa-red"
-              aria-label={`상품 ${Math.min(HOME_DEAL_LOAD_STEP, remainingCount)}개 더 보기`}
-            >
-              특가 더보기 {Math.min(HOME_DEAL_LOAD_STEP, remainingCount).toLocaleString("ko-KR")}개
-            </button>
-          </div>
-        ) : null}
-      </div>
-    );
-  };
 
   return (
     <div className="min-h-screen">
@@ -2906,68 +2858,29 @@ export default function Home() {
             {isLoading && !deals.length ? (
               <DealGridSkeleton />
             ) : (
-              renderDealGrid(
-                deals,
-                "조건에 맞는 특가가 없습니다.",
-                freeShippingOnly || hotOnly || endingSoonOnly || verifiedOnly || priceBand !== "all"
+              <HomeDealGrid
+                items={deals}
+                visibleCount={visibleDealCount}
+                loadStep={HOME_DEAL_LOAD_STEP}
+                favoriteIds={favorites}
+                emptyTitle="조건에 맞는 특가가 없습니다."
+                emptyDescription={freeShippingOnly || hotOnly || endingSoonOnly || verifiedOnly || priceBand !== "all"
                   ? "선택한 필터를 줄이거나 다른 카테고리를 선택해보세요."
-                  : "검색어를 줄이거나 다른 카테고리를 선택해보세요.",
-                <div className="w-full max-w-3xl space-y-4 text-left" aria-label="검색 결과 없음 복구">
-                  <div className="flex justify-center">
-                    <button
-                      type="button"
-                      onClick={resetFilters}
-                      className="rounded-2xl bg-slate-950 px-5 py-3 text-sm font-black text-white transition hover:bg-dossa-red"
-                    >
-                      조건 초기화하고 전체 특가 보기
-                    </button>
-                  </div>
-                  {emptySearchRecoveryKeywords.length ? (
-                    <div className="rounded-2xl border border-red-100 bg-red-50 p-3" aria-label="검색 결과 없음 추천 검색어">
-                      <p className="text-xs font-black text-dossa-red">바로 다시 찾아볼 검색어</p>
-                      <div className="mt-2 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                        {emptySearchRecoveryKeywords.map((keyword) => (
-                          <button
-                            key={keyword}
-                            type="button"
-                            onClick={() => selectSearchKeyword(keyword)}
-                            className="inline-flex min-h-10 shrink-0 items-center rounded-2xl border border-red-100 bg-white px-3 text-xs font-black text-slate-700 shadow-sm transition hover:border-red-200 hover:bg-white hover:text-dossa-red"
-                            aria-label={`${keyword} 검색어로 다시 검색`}
-                          >
-                            {keyword}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  ) : null}
-                  {emptySearchRecoveryDeals.length ? (
-                    <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3" aria-label="검색 실패 시 먼저 볼 검증 특가">
-                      <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
-                        <div>
-                          <p className="text-xs font-black text-slate-700">먼저 볼 만한 검증 특가</p>
-                          <p className="text-[11px] font-bold text-slate-500">검색 결과 대신 실제 구매 링크가 확인된 상품을 보여드립니다.</p>
-                        </div>
-                        <span className="rounded-full bg-white px-3 py-1 text-[11px] font-black text-dossa-red">새 탭 이동</span>
-                      </div>
-                      <div className="mt-3 grid gap-2 sm:grid-cols-3">
-                        {emptySearchRecoveryDeals.map((deal) => (
-                          <button
-                            key={deal.id}
-                            type="button"
-                            onClick={() => openDeal(deal)}
-                            className="min-h-[112px] rounded-2xl bg-white p-3 text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
-                            aria-label={`${deal.title} 검증 특가 판매처 확인`}
-                          >
-                            <span className="inline-flex rounded-full bg-red-50 px-2 py-0.5 text-[11px] font-black text-dossa-red">{deal.discountRate}%</span>
-                            <strong className="mt-2 line-clamp-2 block text-sm font-black text-slate-950">{deal.title}</strong>
-                            <span className="mt-2 block truncate text-[11px] font-bold text-slate-500">{deal.mallName} · {formatPrice(deal.salePrice)}</span>
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  ) : null}
-                </div>
-              )
+                  : "검색어를 줄이거나 다른 카테고리를 선택해보세요."}
+                emptyAction={
+                  <HomeEmptyRecovery
+                    keywords={emptySearchRecoveryKeywords}
+                    deals={emptySearchRecoveryDeals}
+                    onResetFilters={resetFilters}
+                    onSelectKeyword={selectSearchKeyword}
+                    onOpenDeal={openDeal}
+                  />
+                }
+                onLoadMore={setVisibleDealCount}
+                onToggleFavorite={toggleFavorite}
+                onOpenDeal={openDeal}
+                onShareDeal={shareDeal}
+              />
             )}
           </>
         ) : null}
@@ -3033,18 +2946,29 @@ export default function Home() {
         ) : null}
 
         {activeView === "favorites"
-          ? renderDealGrid(
-              favoriteDeals,
-              "아직 찜한 특가가 없습니다.",
-              "마음에 드는 특가의 하트 버튼을 눌러 저장해보세요.",
-              <button
+          ? (
+            <HomeDealGrid
+              items={favoriteDeals}
+              visibleCount={visibleDealCount}
+              loadStep={HOME_DEAL_LOAD_STEP}
+              favoriteIds={favorites}
+              emptyTitle="아직 찜한 특가가 없습니다."
+              emptyDescription="마음에 드는 특가의 하트 버튼을 눌러 저장해보세요."
+              emptyAction={
+                <button
                 type="button"
                 onClick={() => setActiveView("home")}
                 className="rounded-2xl bg-slate-950 px-5 py-3 text-sm font-black text-white transition hover:bg-dossa-red"
               >
                 홈에서 특가 둘러보기
               </button>
-            )
+              }
+              onLoadMore={setVisibleDealCount}
+              onToggleFavorite={toggleFavorite}
+              onOpenDeal={openDeal}
+              onShareDeal={shareDeal}
+            />
+          )
           : null}
 
         {activeView === "my" ? (
