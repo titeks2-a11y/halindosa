@@ -295,6 +295,7 @@ await check("home empty search recovery", async () => {
   assert(homePageSource.includes("바로 다시 찾아볼 검색어"), "Home source missing recovery keyword suggestions");
   assert(homePageSource.includes("먼저 볼 만한 검증 특가"), "Home source missing verified deal recovery suggestions");
   assert(homePageSource.includes("검색 결과 대신 실제 구매 링크가 확인된 상품"), "Home source missing verified-link recovery copy");
+  assert(homePageSource.includes('params.set("q"') && homePageSource.includes('sort: query.trim() ? "endingSoon" : "priority"'), "Home source should pass product search query into official benefit news refresh");
 });
 
 await check("mypage data controls", async () => {

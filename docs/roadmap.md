@@ -53,6 +53,7 @@
 - `/api/cron/refresh?mode=liveFeed` 명시 실행 모드를 추가해 기본 6시간 `refresh:all` 안정성은 유지하면서, 공식 API/RSS/제휴 JSON feed 검증이 필요한 시점에는 `news:feed:live` 전체 파이프라인을 cron auth와 같은 보호 경로로 실행할 수 있게 했다.
 - 홈의 공식 혜택/할인뉴스 섹션에 2분 간격의 가벼운 자동 재조회, 화면 복귀 시 재확인, 수동 `새로고침` 버튼, 실패 시 기존 혜택 유지 문구를 추가해 사용자가 앱을 켜둔 상태에서도 검증된 공식 혜택을 자연스럽게 갱신할 수 있게 했다.
 - `/api/news-deals`에 `q` 통합 검색과 `priority/latest/endingSoon/discount` 정렬을 추가해 공식 혜택 feed가 늘어난 뒤에도 무료, 쿠폰, 문화, 배달 같은 키워드로 검증 혜택만 빠르게 탐색할 수 있게 했다.
+- 홈 검색어를 공식 혜택/할인뉴스 자동 새로고침에도 전달해 사용자가 `쿠폰`, `문화`, `배달`처럼 입력하면 상품 목록과 공식 혜택 섹션이 같은 의도로 좁혀지고, 검색 중에는 마감임박순으로 먼저 보여주도록 연결했다.
 - 관리자/운영 API 인증을 `canAccessAdminRequest`로 통일해 `Authorization: Bearer`, `x-admin-token`, `x-admin-export-token`, `x-halindosa-admin-token` 헤더를 지원하고, 쿼리 token 방식은 호환용으로만 유지하도록 `admin:auth:doctor`, `reports/admin-auth.json`, release doctor 게이트를 추가했다.
 - `test:news-feed-errors` 회귀 테스트를 추가해 정상 공식 feed는 통과하고, 설정된 운영 feed가 깨졌을 때는 seed fallback이 있어도 `configuredFeedErrors`로 `verify:news`가 실패하는지 QA에서 직접 재현하도록 했다.
 - `test:news-feed-errors`가 임시 공식 feed 서버를 띄워 정상 feed의 `feedItemCount/feedSuccessCount` 증가와 깨진 feed의 seed fallback 보존을 함께 검증하도록 보강해, 실제 RSS/JSON feed 연결 시 source mix 집계가 회귀하지 않게 했다.

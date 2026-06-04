@@ -705,7 +705,15 @@ export default function Home() {
         if (silent && typeof document !== "undefined" && document.visibilityState === "hidden") return;
 
         setIsNewsRefreshing(true);
-        const data = await requestJson<NewsDealsResponse>(`/api/news-deals?limit=8&ts=${Date.now()}`);
+        const params = new URLSearchParams({
+          limit: "8",
+          sort: query.trim() ? "endingSoon" : "priority",
+          ts: String(Date.now())
+        });
+
+        if (query.trim()) params.set("q", query.trim());
+
+        const data = await requestJson<NewsDealsResponse>(`/api/news-deals?${params.toString()}`);
         setNewsDeals(Array.isArray(data.deals) ? data.deals : []);
         setNewsUpdatedAt(data.updatedAt);
         setNewsRefreshError("");
@@ -717,7 +725,7 @@ export default function Home() {
         setIsNewsRefreshing(false);
       }
     },
-    [showToast]
+    [query, showToast]
   );
 
   useEffect(() => {
