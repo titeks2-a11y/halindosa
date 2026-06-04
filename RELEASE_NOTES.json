@@ -1,8 +1,8 @@
 {
   "generatedBy": "npm run release:notes",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "5250882",
-  "workingTree": "M DEVICE_QA_REPORT.md;  M KNOWN_ISSUES.md;  M PUBLIC_URL_REPORT.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M docs/DEVICE_QA_REPORT.md;  M docs/KNOWN_ISSUES.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md;  M docs/release-evidence.md",
+  "commit": "ffd04ea",
+  "workingTree": "M PUBLIC_URL_REPORT.md;  M SUPPORT_PLAYBOOK.json;  M SUPPORT_PLAYBOOK.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/SUPPORT_PLAYBOOK.md;  M docs/release-evidence.md",
   "version": "1.0.1",
   "appName": "할인도사",
   "packageName": "com.halindosa.app",
@@ -39,17 +39,17 @@
     {
       "path": "docs/STORE_CONSOLE_FIELDS.md",
       "status": "present",
-      "bytes": 3829
+      "bytes": 3679
     },
     {
       "path": "docs/STORE_MANUAL_CHECKLIST.md",
       "status": "present",
-      "bytes": 4378
+      "bytes": 4726
     },
     {
       "path": "docs/STORE_HANDOFF_REPORT.md",
       "status": "present",
-      "bytes": 4688
+      "bytes": 4373
     },
     {
       "path": "docs/STORE_SUBMISSION_REPORT.md",
@@ -73,14 +73,14 @@
     }
   ],
   "recentCommits": [
+    "ffd04ea feat: add official source feed env doctor",
+    "68c02bc docs: record clean release doctor after source env template",
+    "02bb33e docs: refresh release evidence after source env template",
     "5250882 feat: add official source feed env template",
     "d33cae7 docs: record clean release doctor after replacement sources",
     "40c9261 docs: refresh release evidence after replacement sources",
     "519a133 feat: recommend replacement sources for expiring benefits",
-    "16205b5 docs: record clean release doctor after renewal queue",
-    "b267036 docs: refresh release evidence after renewal queue",
-    "327afb4 feat: surface official benefit renewal queue",
-    "8ac9144 docs: record clean release doctor after news freshness gate"
+    "16205b5 docs: record clean release doctor after renewal queue"
   ],
   "manualWorkThatMustNotBeFaked": [
     "Do not claim Play Console or App Store Connect submission has passed from this file.",
