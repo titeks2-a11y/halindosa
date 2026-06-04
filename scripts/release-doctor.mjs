@@ -1210,8 +1210,11 @@ async function checkUiAccessibility() {
   const priceAlertList = await text("components/PriceAlertList.tsx");
   const priceAlerts = await text("lib/priceAlerts.ts");
   const homePage = await text("app/page.tsx");
+  const claimedBenefitHomeSummary = await text("components/ClaimedBenefitHomeSummary.tsx");
+  const homeDealFilters = await text("lib/homeDealFilters.ts");
   const homeDiscoveryConfig = await text("lib/homeDiscoveryConfig.ts");
-  const homeSearchSource = `${homePage}\n${homeDiscoveryConfig}`;
+  const homeFeatureSource = `${homePage}\n${claimedBenefitHomeSummary}\n${homeDealFilters}`;
+  const homeSearchSource = `${homeFeatureSource}\n${homeDiscoveryConfig}`;
   const favoritesPage = await text("app/favorites/page.tsx");
   const notFoundPage = await text("app/not-found.tsx");
   const loadingPage = await text("app/loading.tsx");
@@ -1734,20 +1737,20 @@ async function checkUiAccessibility() {
         !benefitCheckInCard.includes("무료 혜택 전용 탭에서 이번 주 루틴 보기") ||
         !benefitCheckIn.includes("halindosa:benefit-check-in") ||
         !homePage.includes("ClaimedBenefitHomeSummary") ||
-        !homePage.includes("readClaimedBenefits") ||
-        !homePage.includes("readBenefitReturnReservations") ||
-        !homePage.includes("readBenefitVisitStreak") ||
-        !homePage.includes("missionSteps") ||
-        !homePage.includes("오늘 챙긴 혜택 요약") ||
-        !homePage.includes("홈 무료 혜택 방문 요약") ||
-        !homePage.includes("무료 혜택 방문 루틴 계속하기") ||
-        !homePage.includes("홈 오늘 혜택 미션") ||
-        !homePage.includes("무료 혜택 1개 챙기기") ||
-        !homePage.includes("쿠폰 1개 저장하기") ||
-        !homePage.includes("내일 볼 루틴 예약") ||
-        !homePage.includes("아직 챙길 만한 무료 혜택") ||
-        !homePage.includes("홈 재방문 예약 요약") ||
-        !homePage.includes("재방문 루틴 더 저장") ||
+        !homeFeatureSource.includes("readClaimedBenefits") ||
+        !homeFeatureSource.includes("readBenefitReturnReservations") ||
+        !homeFeatureSource.includes("readBenefitVisitStreak") ||
+        !homeFeatureSource.includes("missionSteps") ||
+        !homeFeatureSource.includes("오늘 챙긴 혜택 요약") ||
+        !homeFeatureSource.includes("홈 무료 혜택 방문 요약") ||
+        !homeFeatureSource.includes("무료 혜택 방문 루틴 계속하기") ||
+        !homeFeatureSource.includes("홈 오늘 혜택 미션") ||
+        !homeFeatureSource.includes("무료 혜택 1개 챙기기") ||
+        !homeFeatureSource.includes("쿠폰 1개 저장하기") ||
+        !homeFeatureSource.includes("내일 볼 루틴 예약") ||
+        !homeFeatureSource.includes("아직 챙길 만한 무료 혜택") ||
+        !homeFeatureSource.includes("홈 재방문 예약 요약") ||
+        !homeFeatureSource.includes("재방문 루틴 더 저장") ||
         !benefitDiscoverySections.includes("무료혜택 TOP 5") ||
         !benefitDiscoverySections.includes("쿠폰·앱테크 TOP 5") ||
         !benefitDiscoverySections.includes("appTechHomeDeals") ||
@@ -1806,7 +1809,7 @@ async function checkUiAccessibility() {
       !trueDealSpotlight.includes("오늘의 진짜 특가") ||
       !trueDealSpotlight.includes("scoreDeal") ||
       !trueDealSpotlight.includes("절약 예상") ||
-      !homePage.includes("dealMatchesInterestCategory") ||
+      !homeFeatureSource.includes("dealMatchesInterestCategory") ||
       !homePage.includes("관심 카테고리 추천") ||
       !homePage.includes("비회원도 모두 보고") ||
       !homeSearchSource.includes("quickInterestOptions") ||
@@ -1919,6 +1922,8 @@ async function checkUiAccessibility() {
 async function checkOperationalDataSurfaces() {
   const dealsRoute = await text("app/api/deals/route.ts");
   const homePage = await text("app/page.tsx");
+  const claimedBenefitHomeSummary = await text("components/ClaimedBenefitHomeSummary.tsx");
+  const homeFeatureSource = `${homePage}\n${claimedBenefitHomeSummary}`;
   const sitemap = await text("app/sitemap.ts");
   const featuredSections = await text("components/FeaturedDealSections.tsx");
   const dealCard = await text("components/DealCard.tsx");
@@ -2203,7 +2208,7 @@ async function checkOperationalDataSurfaces() {
     !accountPanel.includes("priceAlertStorageKey") ||
     !accountPanel.includes("notificationPreferenceStorageKey") ||
     !accountPanel.includes("benefitReturnReservationUpdatedEvent") ||
-    !homePage.includes("benefitReturnReservationUpdatedEvent") ||
+    !homeFeatureSource.includes("benefitReturnReservationUpdatedEvent") ||
     !freeBenefitsClient.includes("benefitReturnReservationUpdatedEvent")
   ) {
     fail("price alert data surface", "Notifications, in-app alert tab, account deletion, and local data controls should expose saved price alerts, benefit check-in records, claimed benefit records, return reservations, live same-tab refresh events, and deletion scope.");
@@ -3442,7 +3447,7 @@ async function checkOperationalDataSurfaces() {
     !benefitSavingsDiary.includes("claimedBenefitUpdatedEvent") ||
     !claimedBenefitAlertSummary.includes("claimedBenefitUpdatedEvent") ||
     !accountPanel.includes("claimedBenefitUpdatedEvent") ||
-    !homePage.includes("claimedBenefitUpdatedEvent") ||
+    !homeFeatureSource.includes("claimedBenefitUpdatedEvent") ||
     !freeBenefitsClient.includes("BenefitSavingsDiary") ||
     !accountPanel.includes("BenefitSavingsDiary") ||
     !benefitSavingsDiary.includes("절약 다이어리") ||
