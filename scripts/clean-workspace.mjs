@@ -5,18 +5,39 @@ const workspaceRoot = process.cwd();
 const args = new Set(process.argv.slice(2));
 const shouldDelete = args.has("--delete");
 const includeAndroidBuild = args.has("--android-build");
+const includeCapacitorPluginBuilds = args.has("--capacitor-plugin-builds");
 
 const targets = [
   ".next",
   "out",
   ".turbo",
   ".eslintcache",
+  ".dev-server.log",
+  ".dev-server.err.log",
   ".codex-dev-server.out.log",
   ".codex-dev-server.err.log",
 ];
 
 if (includeAndroidBuild) {
-  targets.push("android/app/build", "android/build");
+  targets.push("android/.gradle", "android/app/build", "android/build");
+}
+
+async function addCapacitorPluginBuildTargets() {
+  if (!includeCapacitorPluginBuilds) return;
+
+  const capacitorRoot = resolveInsideWorkspace("node_modules/@capacitor");
+  let plugins = [];
+  try {
+    plugins = await readdir(capacitorRoot, { withFileTypes: true });
+  } catch {
+    return;
+  }
+
+  for (const plugin of plugins) {
+    if (!plugin.isDirectory()) continue;
+    targets.push(path.join("node_modules", "@capacitor", plugin.name, "android", "build"));
+    targets.push(path.join("node_modules", "@capacitor", plugin.name, "capacitor", "build"));
+  }
 }
 
 function resolveInsideWorkspace(target) {
@@ -50,6 +71,8 @@ async function getSizeBytes(targetPath) {
 let removed = 0;
 let found = 0;
 
+await addCapacitorPluginBuildTargets();
+
 for (const target of targets) {
   const targetPath = resolveInsideWorkspace(target);
   try {
@@ -76,6 +99,7 @@ if (!shouldDelete) {
   console.log(`\nDry run complete. ${found} generated target(s) found.`);
   console.log("Run `npm run clean:artifacts` to remove web build artifacts.");
   console.log("Run `npm run clean:artifacts:android` to also remove Android build outputs.");
+  console.log("Run `npm run clean:artifacts:deep` to also remove Capacitor plugin build caches.");
 } else {
   console.log(`\nClean complete. Removed ${removed} generated target(s).`);
 }

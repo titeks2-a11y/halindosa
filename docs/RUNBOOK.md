@@ -291,6 +291,23 @@ SEO 규칙은 root metadata, Open Graph, canonical, manifest, sitemap, robots, �
 - `.github/pull_request_template.md`는 출시 안전 체크리스트입니다. PR 작성자는 harness, release doctor, `npm run store:manual:doctor`, 실제 상품/공식 혜택 상세 URL, 민감정보 미커밋, 비회원 접근, OAuth/정책 문서 영향, 모바일 하단 탭 겹침 여부, `docs/STORE_CONSOLE_FIELDS.md`/`docs/STORE_MANUAL_CHECKLIST.md`/`docs/STORE_HANDOFF_REPORT.md` 갱신 여부를 확인합니다.
 - `.github/ISSUE_TEMPLATE`에는 특가/혜택 링크·가격 신고, 앱 버그 신고, 스토어 제출 Blocker 템플릿이 있습니다. 상품 ID, 판매처, 열린 URL/도메인, 재현 경로, Play Console/App Store Connect 제출 단계, 관련 store checklist 항목을 받되 주문번호, 주소, 결제 정보, 비밀번호, 인증 코드, OAuth client secret, Supabase service-role key, `.env`, keystore 같은 민감정보는 이슈에 남기지 않도록 안내합니다.
 - `npm run release:notes`는 사용자용 변경점, 운영자 주의사항, 검증 산출물, 최근 커밋을 `RELEASE_NOTES.json`, `RELEASE_NOTES.md`, `docs/RELEASE_NOTES.md`에 민감정보 없이 기록합니다. 이 문서는 스토어 제출 성공을 증명하지 않으며, Play/App Store 업로드와 실기기 QA는 별도 증빙이 있어야 합니다.
+
+## Workspace Cleanup
+
+프로젝트가 무거워졌을 때는 소스나 출시 증거 문서를 삭제하지 말고 재생성 가능한 산출물부터 정리합니다.
+
+```bash
+npm run clean:artifacts:dry
+npm run clean:artifacts
+npm run clean:artifacts:android
+npm run clean:artifacts:deep
+```
+
+- `clean:artifacts`는 `.next`, `out`, dev 로그처럼 웹 개발 산출물만 지웁니다.
+- `clean:artifacts:android`는 Android Gradle/build 산출물까지 지웁니다.
+- `clean:artifacts:deep`은 Capacitor 플러그인이 `node_modules` 아래에 만든 Android build 캐시까지 지웁니다.
+- `android/app/release`의 AAB, keystore, `.env*` 파일은 자동 삭제하지 않습니다.
+- 루트와 `docs/`, `reports/`의 출시 리포트는 `release:doctor`와 제출 인수인계가 참조하므로 정리 대상이 아닙니다.
 - `npm run support:playbook`은 가격 불일치, 품절, 링크 오류, 혜택 종료, 개인정보/계정, 스토어 제출 문의에 대한 응대 매크로와 SLA를 `SUPPORT_PLAYBOOK.json`, `SUPPORT_PLAYBOOK.md`, `docs/SUPPORT_PLAYBOOK.md`에 민감정보 없이 기록합니다. 고객지원 이슈에는 주문번호, 주소, 결제 정보, OAuth client secret, Supabase service-role key, keystore, `.env` 값을 남기지 않습니다.
 - `npm run known:issues`는 자동 검증 기준의 Critical 상태, 링크 커버리지, 이미지 fallback backlog, 공개 URL/실기기 수동 확인 리스크를 `KNOWN_ISSUES.md`와 `docs/KNOWN_ISSUES.md`에 민감정보 없이 기록합니다.
 - `SECURITY.md`는 취약점, 키 노출, 인증 우회, open redirect, 관리자 토큰/keystore 노출을 공개 이슈가 아닌 GitHub Security Advisory 또는 배포 인수인계용 비공개 채널로 접수하도록 안내합니다.

@@ -10,6 +10,8 @@
     "clean:artifacts:dry": "node scripts/clean-workspace.mjs",
     "clean:artifacts": "node scripts/clean-workspace.mjs --delete",
     "clean:artifacts:android": "node scripts/clean-workspace.mjs --delete --android-build",
+    "clean:artifacts:deep:dry": "node scripts/clean-workspace.mjs --android-build --capacitor-plugin-builds",
+    "clean:artifacts:deep": "node scripts/clean-workspace.mjs --delete --android-build --capacitor-plugin-builds",
     "cap:sync": "npx cap sync android",
     "cap:sync:ios": "npx cap sync ios",
     "cap:open": "npx cap open android",

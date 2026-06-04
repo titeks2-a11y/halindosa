@@ -9,6 +9,10 @@ out/
 build/
 dist/
 *.tsbuildinfo
+coverage/
+playwright-report/
+test-results/
+.vercel/
 
 # Environment files
 .env
@@ -35,8 +39,10 @@ Thumbs.db
 
 # Android local/build artifacts
 android/.gradle/
+android/.idea/
 android/build/
 android/app/build/
+android/app/release/
 android/local.properties
 android/keystore.properties
 android/app/google-services.json
@@ -49,6 +55,8 @@ android/app/google-services.json
 ios/App/Pods/
 ios/App/build/
 ios/App/DerivedData/
+ios/App/App/public/
+ios/capacitor-cordova-ios-plugins/
 ios/App/App.xcworkspace/xcuserdata/
 ios/App/App.xcodeproj/xcuserdata/
 *.xcuserstate

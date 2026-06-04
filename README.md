@@ -34,6 +34,22 @@ npm install
 npm run dev
 ```
 
+## 프로젝트 정리
+
+개발과 Android 빌드를 반복하면 `.next`, `out`, Gradle build, Capacitor 플러그인 build 캐시가 커질 수 있습니다. 릴리즈 AAB와 소스 코드는 지우지 않고 재생성 가능한 산출물만 정리하려면 아래 명령을 사용합니다.
+
+```bash
+npm run clean:artifacts:dry
+npm run clean:artifacts
+npm run clean:artifacts:android
+npm run clean:artifacts:deep
+```
+
+- `clean:artifacts`: Next.js 웹 산출물과 dev 로그만 정리
+- `clean:artifacts:android`: Android Gradle/build 산출물까지 정리
+- `clean:artifacts:deep`: Capacitor 플러그인이 `node_modules` 아래에 만든 Android build 캐시까지 정리
+- `android/app/release`의 AAB 파일, keystore, 환경변수 파일은 자동 삭제 대상이 아닙니다.
+
 고급 하네스 검증:
 
 ```bash
