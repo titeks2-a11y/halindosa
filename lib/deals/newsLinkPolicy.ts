@@ -1,4 +1,5 @@
 import type { NewsDeal } from "@/types/newsDeal";
+import officialSourceCatalog from "@/data/officialSourceCatalog.json";
 
 const approvedNewsHosts = [
   "gs25.gsretail.com",
@@ -26,6 +27,23 @@ const approvedNewsHosts = [
   "samsung.com",
   "mnuri.kr"
 ];
+
+function catalogAllowedHosts() {
+  return (officialSourceCatalog as Array<{ officialUrl?: string; allowedFinalHosts?: string[] }>)
+    .flatMap((source) => [source.officialUrl, ...(Array.isArray(source.allowedFinalHosts) ? source.allowedFinalHosts : [])])
+    .map((value) => {
+      try {
+        const hostSource = String(value ?? "").startsWith("http") ? String(value) : `https://${value}`;
+        return normalizeHost(new URL(hostSource).hostname);
+      } catch {
+        return "";
+      }
+    })
+    .filter(Boolean);
+}
+
+const approvedNewsHostSet = new Set([...approvedNewsHosts.map(normalizeHost), ...catalogAllowedHosts()]);
+const approvedNewsHostList = Array.from(approvedNewsHostSet);
 
 const blockedNewsHosts = [
   "ppomppu.co.kr",
@@ -73,7 +91,7 @@ export function isApprovedOfficialNewsUrl(value?: string) {
     if (blockedNewsHosts.some((blocked) => host === blocked || host.endsWith(`.${blocked}`))) return false;
     if (searchPatterns.some((pattern) => full.includes(pattern))) return false;
 
-    return approvedNewsHosts.some((approved) => host === normalizeHost(approved) || host.endsWith(`.${normalizeHost(approved)}`));
+    return approvedNewsHostList.some((approved) => host === approved || host.endsWith(`.${approved}`));
   } catch {
     return false;
   }

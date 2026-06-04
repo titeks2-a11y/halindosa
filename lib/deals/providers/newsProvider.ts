@@ -1,5 +1,6 @@
 import seedNewsDeals from "@/data/newsDeals.seed.json";
 import { getEnvFeedUrls } from "@/lib/deals/feedUrls";
+import { isApprovedOfficialNewsUrl } from "@/lib/deals/newsLinkPolicy";
 import type { NewsDeal } from "@/types/newsDeal";
 
 export interface NewsDealProviderContext {
@@ -88,12 +89,52 @@ function extractXmlTag(block: string, names: string[]) {
   return "";
 }
 
+function extractXmlTagRaw(block: string, names: string[]) {
+  for (const name of names) {
+    const pattern = xmlTagPattern(name);
+    const match = block.match(new RegExp(`<${pattern}(?:\\s[^>]*)?>([\\s\\S]*?)<\\/${pattern}>`, "i"));
+    if (match?.[1]) return decodeXmlEntities(stripCdata(match[1])).trim();
+  }
+  return "";
+}
+
 function extractAtomLinkHref(block: string) {
   const alternate = block.match(/<link\b(?=[^>]*\brel=["']alternate["'])(?=[^>]*\bhref=["']([^"']+)["'])[^>]*\/?>/i);
   if (alternate?.[1]) return cleanXmlText(decodeXmlEntities(alternate[1]));
 
   const first = block.match(/<link\b(?=[^>]*\bhref=["']([^"']+)["'])[^>]*\/?>/i);
   return first?.[1] ? cleanXmlText(decodeXmlEntities(first[1])) : "";
+}
+
+function extractUrlCandidates(value: string) {
+  const candidates = new Set<string>();
+  const hrefPattern = /\bhref=["']([^"']+)["']/gi;
+  const urlPattern = /https?:\/\/[^\s"'<>]+/gi;
+  let match = hrefPattern.exec(value);
+
+  while (match) {
+    candidates.add(cleanXmlText(decodeXmlEntities(match[1])));
+    match = hrefPattern.exec(value);
+  }
+
+  match = urlPattern.exec(value);
+  while (match) {
+    candidates.add(cleanXmlText(decodeXmlEntities(match[0])));
+    match = urlPattern.exec(value);
+  }
+
+  return Array.from(candidates).map((candidate) => candidate.replace(/[),.;\]]+$/, "")).filter(Boolean);
+}
+
+function extractOfficialUrlFromBlock(block: string) {
+  const rawFields = [
+    extractXmlTagRaw(block, ["finalUrl", "final-url", "final_url", "eventUrl", "event-url", "event_url", "purchaseUrl", "purchase-url", "purchase_url"]),
+    extractXmlTagRaw(block, ["description", "summary", "content", "content:encoded"]),
+    extractXmlTagRaw(block, ["link"]),
+    extractAtomLinkHref(block)
+  ];
+
+  return rawFields.flatMap(extractUrlCandidates).find(isApprovedOfficialNewsUrl) ?? "";
 }
 
 function splitTags(value: string) {
@@ -121,7 +162,9 @@ export function parseNewsFeedXmlItems(xml: string, provider: NewsDeal["provider"
 
   return blocks.map((block) => {
     const link = extractXmlTag(block, ["link"]) || extractAtomLinkHref(block) || extractXmlTag(block, ["guid", "id"]);
-    const finalUrl = extractXmlTag(block, ["finalUrl", "final-url", "final_url", "eventUrl", "event-url", "event_url", "purchaseUrl", "purchase-url", "purchase_url"]) || link;
+    const explicitFinalUrl = extractXmlTag(block, ["finalUrl", "final-url", "final_url", "eventUrl", "event-url", "event_url", "purchaseUrl", "purchase-url", "purchase_url"]);
+    const officialUrl = extractOfficialUrlFromBlock(block);
+    const finalUrl = explicitFinalUrl || officialUrl || link;
     const tags = [
       ...splitTags(extractXmlTag(block, ["tags", "keywords"])),
       ...splitTags(extractXmlTag(block, ["category"]))

@@ -39,7 +39,7 @@ const docs = requireFile("docs/news-feed-contract.md", "feed contract docs");
 const sampleRaw = requireFile("data/newsFeed.sample.json", "sample feed");
 const sampleRssRaw = requireFile("data/newsFeed.sample.rss.xml", "sample RSS feed");
 
-for (const phrase of ["createJsonFeedNewsProvider", "fetchJsonNewsFeed", "fetchNewsFeed", "parseNewsFeedXmlItems", "AbortController", "redirect: \"follow\"", "User-Agent"]) {
+for (const phrase of ["createJsonFeedNewsProvider", "fetchJsonNewsFeed", "fetchNewsFeed", "parseNewsFeedXmlItems", "extractOfficialUrlFromBlock", "isApprovedOfficialNewsUrl", "AbortController", "redirect: \"follow\"", "User-Agent"]) {
   if (!provider.includes(phrase)) issues.push(`news provider missing ${phrase}`);
 }
 
@@ -76,7 +76,7 @@ for (const [path, content, required] of [
   }
 }
 
-for (const phrase of ["공식 승인 도메인", "검색 결과 URL", "커뮤니티", "finalUrl", "RSS", "Atom", "npm run refresh:news", "configuredFeedErrors", "설정된 운영 feed", "data/newsFeed.sample.json", "data/newsFeed.sample.rss.xml"]) {
+for (const phrase of ["공식 승인 도메인", "검색 결과 URL", "커뮤니티", "finalUrl", "RSS", "Atom", "본문 안 공식 링크", "npm run refresh:news", "configuredFeedErrors", "설정된 운영 feed", "data/newsFeed.sample.json", "data/newsFeed.sample.rss.xml"]) {
   if (!docs.includes(phrase)) issues.push(`feed contract docs missing ${phrase}`);
 }
 
@@ -123,9 +123,21 @@ try {
 
 try {
   const items = parseNewsFeedXmlItems(sampleRssRaw, "official_event", "data/newsFeed.sample.rss.xml");
-  if (items.length < 2) {
-    issues.push("sample RSS feed should include at least two official benefit items");
+  if (items.length < 3) {
+    issues.push("sample RSS feed should include at least three official benefit items including an article-context mapping case");
   } else {
+    const mappedNewsItem = items.find((item) => item.id === "sample-rss-news-with-official-link");
+    if (!mappedNewsItem) {
+      issues.push("sample RSS feed should include sample-rss-news-with-official-link");
+    } else {
+      if (mappedNewsItem.finalUrl !== "https://www.mcdonalds.co.kr/kor/promotion/detail.do?seq=593") {
+        issues.push("sample RSS article-context item should promote the official href to finalUrl");
+      }
+      if (mappedNewsItem.sourceUrl !== "https://news.naver.com/example/halindosa-benefit-context") {
+        issues.push("sample RSS article-context item should keep the news link as sourceUrl");
+      }
+    }
+
     const now = Date.parse("2026-06-03T00:00:00.000Z");
     const validated = items.map((item) => validateNewsDeal(normalizeNewsDeal({ ...item, provider: item.provider ?? "official_event" }, "2026-06-03T00:00:00.000Z"), now));
     const failed = validated.filter((deal) => deal.validationStatus !== "passed" || deal.isHidden);

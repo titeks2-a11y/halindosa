@@ -34,5 +34,23 @@
       <halindosa:confidenceScore>86</halindosa:confidenceScore>
       <halindosa:tags>공식행사,편의점,쿠폰</halindosa:tags>
     </item>
+    <item>
+      <guid>sample-rss-news-with-official-link</guid>
+      <title>공식 이벤트 링크가 포함된 할인 뉴스 RSS 샘플</title>
+      <link>https://news.naver.com/example/halindosa-benefit-context</link>
+      <description><![CDATA[
+        보도자료 원문은 출처로만 저장하고, 사용자는
+        <a href="https://www.mcdonalds.co.kr/kor/promotion/detail.do?seq=593">맥도날드 공식 프로모션 페이지</a>
+        에서 확인 가능한 할인 혜택으로 이동해야 합니다.
+      ]]></description>
+      <halindosa:merchant>맥도날드</halindosa:merchant>
+      <halindosa:category>외식/배달</halindosa:category>
+      <halindosa:benefitType>foodDelivery</halindosa:benefitType>
+      <halindosa:startDate>2026-06-01</halindosa:startDate>
+      <halindosa:endDate>2026-12-31</halindosa:endDate>
+      <halindosa:sourceName>공식 이벤트 링크 포함 뉴스</halindosa:sourceName>
+      <halindosa:confidenceScore>87</halindosa:confidenceScore>
+      <halindosa:tags>공식혜택,외식,할인</halindosa:tags>
+    </item>
   </channel>
 </rss>

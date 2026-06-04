@@ -38,6 +38,7 @@
     "verify:news": "node scripts/verify-news-deals.mjs",
     "news:freshness:doctor": "node scripts/news-freshness-doctor.mjs",
     "news:feed:doctor": "node scripts/news-feed-contract-doctor.mjs",
+    "news:preview": "node scripts/news-feed-preview.mjs",
     "test:news-feed-errors": "node scripts/test-news-feed-error-gate.mjs",
     "feed:transition:report": "node scripts/feed-transition-report.mjs",
     "source:catalog:report": "node scripts/official-source-catalog-report.mjs",

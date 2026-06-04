@@ -70,6 +70,7 @@ async function checkPackage() {
     "refresh:news",
     "verify:news",
     "news:freshness:doctor",
+    "news:preview",
     "test:news-feed-errors",
     "refresh:all",
     "health:readiness",
@@ -4250,6 +4251,7 @@ function checkNewsDealPipeline() {
     "scripts/verify-news-deals.mjs",
     "scripts/news-freshness-doctor.mjs",
     "scripts/news-feed-contract-doctor.mjs",
+    "scripts/news-feed-preview.mjs",
     "scripts/test-news-feed-error-gate.mjs",
     "scripts/feed-url-utils.mjs",
     "scripts/refresh-all.mjs",
@@ -4259,7 +4261,9 @@ function checkNewsDealPipeline() {
     "data/refreshedNewsDeals.json",
     "reports/news-deals.json",
     "reports/news-freshness.json",
+    "reports/news-feed-preview.json",
     "docs/NEWS_FRESHNESS_REPORT.md",
+    "docs/NEWS_FEED_PREVIEW_REPORT.md",
     "docs/news-feed-contract.md",
     "reports/refresh-all.json",
     "app/api/news-deals/route.ts",
@@ -4277,6 +4281,9 @@ function checkNewsDealPipeline() {
   const verifyScript = existsSync(join(root, "scripts/verify-news-deals.mjs")) ? readFileSync(join(root, "scripts/verify-news-deals.mjs"), "utf8") : "";
   const freshnessScript = existsSync(join(root, "scripts/news-freshness-doctor.mjs")) ? readFileSync(join(root, "scripts/news-freshness-doctor.mjs"), "utf8") : "";
   const feedDoctorScript = existsSync(join(root, "scripts/news-feed-contract-doctor.mjs")) ? readFileSync(join(root, "scripts/news-feed-contract-doctor.mjs"), "utf8") : "";
+  const feedPreviewScript = existsSync(join(root, "scripts/news-feed-preview.mjs")) ? readFileSync(join(root, "scripts/news-feed-preview.mjs"), "utf8") : "";
+  const feedPreviewReport = existsSync(join(root, "reports/news-feed-preview.json")) ? JSON.parse(readFileSync(join(root, "reports/news-feed-preview.json"), "utf8")) : {};
+  const feedPreviewDocs = existsSync(join(root, "docs/NEWS_FEED_PREVIEW_REPORT.md")) ? readFileSync(join(root, "docs/NEWS_FEED_PREVIEW_REPORT.md"), "utf8") : "";
   const configuredFeedErrorTest = existsSync(join(root, "scripts/test-news-feed-error-gate.mjs")) ? readFileSync(join(root, "scripts/test-news-feed-error-gate.mjs"), "utf8") : "";
   const feedUrlParser = existsSync(join(root, "lib/deals/feedUrls.ts")) ? readFileSync(join(root, "lib/deals/feedUrls.ts"), "utf8") : "";
   const scriptFeedUrlParser = existsSync(join(root, "scripts/feed-url-utils.mjs")) ? readFileSync(join(root, "scripts/feed-url-utils.mjs"), "utf8") : "";
@@ -4344,6 +4351,8 @@ function checkNewsDealPipeline() {
     !newsProvider.includes("fetchJsonNewsFeed") ||
     !newsProvider.includes("fetchNewsFeed") ||
     !newsProvider.includes("parseNewsFeedXmlItems") ||
+    !newsProvider.includes("extractOfficialUrlFromBlock") ||
+    !newsProvider.includes("isApprovedOfficialNewsUrl") ||
     !newsProvider.includes("AbortController") ||
     !eventNewsProvider.includes("DEAL_EVENT_NEWS_FEED_URLS") ||
     !officialEventProvider.includes("OFFICIAL_EVENT_FEED_URLS") ||
@@ -4351,8 +4360,18 @@ function checkNewsDealPipeline() {
     !publicCouponProvider.includes("PUBLIC_COUPON_FEED_URLS") ||
     !feedDoctorScript.includes("data/newsFeed.sample.json") ||
     !feedDoctorScript.includes("data/newsFeed.sample.rss.xml") ||
+    !feedDoctorScript.includes("sample-rss-news-with-official-link") ||
+    !feedDoctorScript.includes("official href to finalUrl") ||
     !feedDoctorScript.includes("parseNewsFeedXmlItems") ||
     !feedDoctorScript.includes("validateNewsDeal") ||
+    !feedPreviewScript.includes("officialLinkPromotedCount") ||
+    !feedPreviewScript.includes("contract_sample_preview") ||
+    !feedPreviewScript.includes("configured_feed_preview") ||
+    !feedPreviewScript.includes("reports/news-feed-preview.json") ||
+    !feedPreviewDocs.includes("뉴스 본문 공식 링크 승격") ||
+    feedPreviewReport.officialLinkPromotedCount < 1 ||
+    feedPreviewReport.summary?.exposedSearchLinkCount !== 0 ||
+    feedPreviewReport.summary?.exposedNonOfficialLinkCount !== 0 ||
     !feedUrlParser.includes("parseFeedUrlList") ||
     !feedUrlParser.includes("JSON.parse") ||
     !feedUrlParser.includes("[;,](?=") ||
@@ -4374,14 +4393,21 @@ function checkNewsDealPipeline() {
   ) {
     issues.push("official benefit providers should support seed fallback plus approved JSON/RSS/Atom feed ingestion with a contract doctor, freshness doctor, and configured feed error regression");
   }
-  for (const phrase of ["공식 혜택 Feed 계약", "검색 결과 URL", "커뮤니티", "finalUrl", "RSS", "Atom", "npm run refresh:news", "configuredFeedErrors", "설정된 운영 feed"]) {
+  for (const phrase of ["공식 혜택 Feed 계약", "검색 결과 URL", "커뮤니티", "finalUrl", "RSS", "Atom", "본문 안 공식 링크", "npm run refresh:news", "configuredFeedErrors", "설정된 운영 feed"]) {
     if (!newsFeedContract.includes(phrase)) issues.push(`news feed contract docs missing ${phrase}`);
   }
 
   if (!homePage.includes("RealtimeNewsDealsSection") || !homePage.includes("/api/news-deals?limit=6")) {
     issues.push("home should show verified realtime discount news section from /api/news-deals");
   }
-  if (!realtimeNewsSection.includes("/go/news/") || !newsRedirectRoute.includes("resolveNewsDealDestinationUrl") || !newsRedirectRoute.includes("recordDealClick") || !newsLinkPolicy.includes("approvedNewsHosts")) {
+  if (
+    !realtimeNewsSection.includes("/go/news/") ||
+    !newsRedirectRoute.includes("resolveNewsDealDestinationUrl") ||
+    !newsRedirectRoute.includes("recordDealClick") ||
+    !newsLinkPolicy.includes("approvedNewsHosts") ||
+    !newsLinkPolicy.includes("officialSourceCatalog") ||
+    !newsLinkPolicy.includes("approvedNewsHostSet")
+  ) {
     issues.push("official news benefit clicks should pass through /go/news/[id] with link policy and click logging");
   }
   if (

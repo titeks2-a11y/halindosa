@@ -2115,7 +2115,18 @@ await check("go official news redirect", async () => {
     ["news-homeplus-official-event", "homeplus.co.kr"],
     ["news-yogiyo-official-event", "yogiyo.co.kr"],
     ["news-samsung-shop-official-event", "samsung.com"],
-    ["news-mnuri-official-benefit", "mnuri.kr"]
+    ["news-mnuri-official-benefit", "mnuri.kr"],
+    ["news-bhc-official-ecoupon", "bhc.co.kr"],
+    ["news-starbucks-official-campaign", "starbucks.co.kr"],
+    ["news-cjone-official-mobile-events", "cjone.com"],
+    ["news-jejuair-official-events", "jejuair.net"],
+    ["news-himart-company-events", "himart.co.kr"],
+    ["news-megabox-official-events", "megabox.co.kr"],
+    ["news-lpoint-official-benefits", "lpoint.com"],
+    ["news-lpoint-card-events", "lpoint.com"],
+    ["news-visitkorea-travel-benefit", "visitkorea.or.kr"],
+    ["news-baemin-academy-free-event", "baemin.com"],
+    ["news-mcdonalds-happysnack", "mcdonalds.co.kr"]
   ];
 
   for (const [dealId, expectedHost] of cases) {

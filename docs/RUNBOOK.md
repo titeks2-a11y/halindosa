@@ -111,6 +111,7 @@ npm run smoke
   - `data/newsFeed.sample.json`을 복제해 `items`, `deals`, `newsDeals`, `events`, `coupons`, `benefits` 중 하나로 배열을 반환한다.
   - 사용자에게 열리는 `finalUrl`은 공식 이벤트, 공식 쿠폰, 공식 구매 또는 공식 혜택 안내 페이지여야 하며, 뉴스 기사/검색 결과/커뮤니티 글은 `sourceUrl`로만 남긴다.
   - 운영자가 feed URL을 `.env`의 `DEAL_NEWS_FEED_URLS`, `DEAL_EVENT_NEWS_FEED_URLS`, `OFFICIAL_EVENT_FEED_URLS`, `PUBLIC_COUPON_FEED_URLS`에 넣은 뒤 `npm run news:feed:doctor && npm run test:news-feed-errors && npm run refresh:news && npm run verify:news && npm run news:freshness:doctor && npm run refresh:all`을 실행한다.
+  - `npm run news:preview`는 운영 feed를 반영하기 전 dry-run으로 `reports/news-feed-preview.json`과 `docs/NEWS_FEED_PREVIEW_REPORT.md`를 만든다. 기본값은 로컬 계약 샘플을 사용하고, `npm run news:preview -- --provider=official_event --url=https://official.example/feed.json`처럼 실행하면 특정 공식 feed 후보의 노출 가능 수, 숨김 사유, 뉴스 본문 공식 링크 승격 수를 먼저 확인할 수 있다.
   - `npm run feed:transition:report`는 `reports/feed-transition.json`과 `docs/FEED_TRANSITION_REPORT.md`를 생성한다. 운영자는 이 파일로 provider별 `seed fallback`/`공식 feed 연결`, 우선 env key, launch-blocking 여부를 확인하고 다음 feed 연결 순서를 정한다.
   - 환경변수로 연결한 공식 feed가 HTTP 오류, timeout, JSON/RSS 파싱 오류를 내면 `npm run verify:news`와 `npm run refresh:all`은 실패한다. seed fallback은 미연결 provider용 안전장치이며, 설정된 운영 feed 장애를 덮어 성공 처리하지 않는다. `npm run test:news-feed-errors`는 이 실패 게이트를 정상 feed/깨진 feed 양쪽으로 재현한다.
   - feed 오류가 나면 `reports/news-deals.json`의 `gates.configuredFeedErrors`에서 provider, feed URL 수, 오류 메시지를 확인하고 해당 feed URL 또는 포맷을 고친 뒤 다시 `npm run refresh:news && npm run verify:news`를 실행한다.

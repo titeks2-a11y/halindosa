@@ -152,12 +152,52 @@ function extractXmlTag(block, names) {
   return "";
 }
 
+function extractXmlTagRaw(block, names) {
+  for (const name of names) {
+    const pattern = xmlTagPattern(name);
+    const match = block.match(new RegExp(`<${pattern}(?:\\s[^>]*)?>([\\s\\S]*?)<\\/${pattern}>`, "i"));
+    if (match?.[1]) return decodeXmlEntities(stripCdata(match[1])).trim();
+  }
+  return "";
+}
+
 function extractAtomLinkHref(block) {
   const alternate = block.match(/<link\b(?=[^>]*\brel=["']alternate["'])(?=[^>]*\bhref=["']([^"']+)["'])[^>]*\/?>/i);
   if (alternate?.[1]) return cleanText(decodeXmlEntities(alternate[1]));
 
   const first = block.match(/<link\b(?=[^>]*\bhref=["']([^"']+)["'])[^>]*\/?>/i);
   return first?.[1] ? cleanText(decodeXmlEntities(first[1])) : "";
+}
+
+function extractUrlCandidates(value) {
+  const candidates = new Set();
+  const hrefPattern = /\bhref=["']([^"']+)["']/gi;
+  const urlPattern = /https?:\/\/[^\s"'<>]+/gi;
+  let match = hrefPattern.exec(String(value ?? ""));
+
+  while (match) {
+    candidates.add(cleanText(decodeXmlEntities(match[1])));
+    match = hrefPattern.exec(String(value ?? ""));
+  }
+
+  match = urlPattern.exec(String(value ?? ""));
+  while (match) {
+    candidates.add(cleanText(decodeXmlEntities(match[0])));
+    match = urlPattern.exec(String(value ?? ""));
+  }
+
+  return [...candidates].map((candidate) => candidate.replace(/[),.;\]]+$/, "")).filter(Boolean);
+}
+
+function extractOfficialUrlFromXmlBlock(block) {
+  const rawFields = [
+    extractXmlTagRaw(block, ["finalUrl", "final-url", "final_url", "eventUrl", "event-url", "event_url", "purchaseUrl", "purchase-url", "purchase_url"]),
+    extractXmlTagRaw(block, ["description", "summary", "content", "content:encoded"]),
+    extractXmlTagRaw(block, ["link"]),
+    extractAtomLinkHref(block)
+  ];
+
+  return rawFields.flatMap(extractUrlCandidates).find(isApprovedOfficialUrl) ?? "";
 }
 
 function splitTags(value) {
@@ -516,7 +556,9 @@ export function parseNewsFeedXmlItems(xml, provider = "news", feedUrl = "") {
 
   return entries.map((block) => {
     const link = extractXmlTag(block, ["link"]) || extractAtomLinkHref(block) || extractXmlTag(block, ["guid", "id"]);
-    const finalUrl = extractXmlTag(block, ["finalUrl", "final-url", "final_url", "eventUrl", "event-url", "event_url", "purchaseUrl", "purchase-url", "purchase_url"]) || link;
+    const explicitFinalUrl = extractXmlTag(block, ["finalUrl", "final-url", "final_url", "eventUrl", "event-url", "event_url", "purchaseUrl", "purchase-url", "purchase_url"]);
+    const officialUrl = extractOfficialUrlFromXmlBlock(block);
+    const finalUrl = explicitFinalUrl || officialUrl || link;
     const tags = [
       ...splitTags(extractXmlTag(block, ["tags", "keywords"])),
       ...splitTags(extractXmlTag(block, ["category"]))

@@ -14,7 +14,7 @@
 
 각 feed는 `Deal[]`, `{ "items": Deal[] }`, `{ "deals": Deal[] }`, `{ "newsDeals": Deal[] }`, `{ "events": Deal[] }`, `{ "coupons": Deal[] }`, `{ "benefits": Deal[] }` 중 하나를 반환할 수 있다.
 
-RSS/Atom feed도 사용할 수 있다. RSS/Atom은 `<item>` 또는 `<entry>` 단위로 읽으며, `halindosa:finalUrl`, `finalUrl`, `eventUrl`, `purchaseUrl` 중 하나가 있으면 사용자 이동 URL로 사용한다. 해당 필드가 없으면 `<link>`를 후보로 쓰지만, 기존 검증 규칙상 공식 혜택/이벤트 페이지가 아니면 사용자 화면에서 제외된다.
+RSS/Atom feed도 사용할 수 있다. RSS/Atom은 `<item>` 또는 `<entry>` 단위로 읽으며, `halindosa:finalUrl`, `finalUrl`, `eventUrl`, `purchaseUrl` 중 하나가 있으면 사용자 이동 URL로 사용한다. 해당 필드가 없으면 `<description>`, `<summary>`, `<content:encoded>` 본문 안 공식 링크를 먼저 찾고, 마지막으로 `<link>`를 후보로 쓴다. 기사 링크는 `sourceUrl`로만 보관하고, 본문 안 공식 링크가 승인 도메인이면 그 공식 링크를 `finalUrl`로 승격한다. 공식 혜택/이벤트 페이지가 아니면 사용자 화면에서 제외된다.
 
 ## 필수 필드
 
@@ -56,6 +56,8 @@ RSS/Atom feed도 사용할 수 있다. RSS/Atom은 `<item>` 또는 `<entry>` 단
 ```
 
 운영 RSS가 일반 뉴스 RSS처럼 기사 링크만 제공한다면 `sourceUrl`로만 보관하고, 앱 노출용 `finalUrl`은 공식 이벤트/쿠폰/구매 페이지로 별도 매핑해야 한다. 매핑되지 않은 기사 원문은 기본 노출에서 제외된다.
+
+뉴스 RSS 본문 안에 공식 이벤트 링크가 포함된 경우에는 자동으로 공식 링크를 우선 사용한다. 예를 들어 `<link>`가 뉴스 기사이고 `<description>`에 공식 이벤트 `<a href="https://official.example/event">`가 있으면 앱 이동 URL은 공식 이벤트 링크가 되며, 뉴스 기사는 운영 출처로만 남는다.
 
 ## 공식 소스 카탈로그
 
