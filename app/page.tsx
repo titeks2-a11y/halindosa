@@ -77,6 +77,7 @@ import {
   type NewsDealsResponse,
   requestJson
 } from "@/lib/homeApi";
+import { buildHomeDealsSnapshot, buildHomeNewsSnapshot, buildLocalHomeDealsSnapshot, type HomeDealFilters } from "@/lib/homeDataSnapshots";
 import { readRecentSearchKeywords, storeRecentSearchKeywords } from "@/lib/homeRecentSearches";
 import { buildHomeUrlSearchParams, readHomeUrlState } from "@/lib/homeUrlState";
 import { buildDealRedirectUrl, buildNativeSafeDealUrl } from "@/lib/redirectUrl";
@@ -169,6 +170,22 @@ export default function Home() {
     window.setTimeout(() => setToast(""), 2200);
   }, []);
 
+  const homeDealFilters = useMemo<HomeDealFilters>(
+    () => ({
+      category,
+      query,
+      sort,
+      freeShippingOnly,
+      hotOnly,
+      endingSoonOnly,
+      verifiedOnly,
+      mallFilter,
+      priceBand,
+      benefitFilter
+    }),
+    [benefitFilter, category, endingSoonOnly, freeShippingOnly, hotOnly, mallFilter, priceBand, query, sort, verifiedOnly]
+  );
+
   const refreshNewsDeals = useCallback(
     async ({ silent = false, notify = false }: { silent?: boolean; notify?: boolean } = {}) => {
       try {
@@ -182,18 +199,14 @@ export default function Home() {
             sort: query.trim() ? "endingSoon" : "priority"
           })
         );
-        setNewsDeals(Array.isArray(data.deals) ? data.deals : []);
-        setNewsTotalCount(Number.isFinite(data.count) ? data.count : Array.isArray(data.deals) ? data.deals.length : 0);
-        setNewsRecommendedQueries(Array.isArray(data.recommendedQueries) ? data.recommendedQueries : []);
-        setNewsSourceTrustScores(Array.isArray(data.sourceTrustScores) ? data.sourceTrustScores : []);
-        setNewsDeadlineSummary(data.deadlineSummary ?? buildNewsDeadlineSummary(Array.isArray(data.deals) ? data.deals : []));
-        setNewsUpdatedAt(data.updatedAt);
-        setNewsFreshness({
-          status: data.freshnessStatus ?? "seed",
-          label: data.freshnessLabel ?? (data.source === "seed" ? "seed 기준" : "최근 확인"),
-          ageMinutes: typeof data.freshnessAgeMinutes === "number" ? data.freshnessAgeMinutes : null,
-          nextRefreshAt: data.nextRefreshAt ?? ""
-        });
+        const snapshot = buildHomeNewsSnapshot(data);
+        setNewsDeals(snapshot.deals);
+        setNewsTotalCount(snapshot.totalCount);
+        setNewsRecommendedQueries(snapshot.recommendedQueries);
+        setNewsSourceTrustScores(snapshot.sourceTrustScores);
+        setNewsDeadlineSummary(snapshot.deadlineSummary);
+        setNewsUpdatedAt(snapshot.updatedAt);
+        setNewsFreshness(snapshot.freshness);
         setNewsRefreshError("");
         if (notify) showToast("공식 혜택 정보를 다시 확인했습니다.");
       } catch {
@@ -366,11 +379,11 @@ export default function Home() {
 
       try {
         if (await isNativeRuntime()) {
-          const localDeals = filterLocalDeals(mockDeals, category, query, sort, freeShippingOnly, hotOnly, endingSoonOnly, verifiedOnly, mallFilter, priceBand, benefitFilter);
-          setDeals(localDeals);
-          setCatalog(mockDeals);
-          setProviderSource("android bundle");
-          setUpdatedAt(new Date().toISOString());
+          const snapshot = buildLocalHomeDealsSnapshot(mockDeals, homeDealFilters, "android bundle");
+          setDeals(snapshot.deals);
+          setCatalog(snapshot.catalog);
+          setProviderSource(snapshot.providerSource);
+          setUpdatedAt(snapshot.updatedAt);
 
           if (toastMessage) {
             showToast(toastMessage);
@@ -381,51 +394,31 @@ export default function Home() {
 
         if (!isOffline) setLoadError("");
         const data = await requestJson<DealsResponse>(
-          buildDealsRequestUrl({
-            category,
-            sort,
-            freeShippingOnly,
-            hotOnly,
-            endingSoonOnly,
-            verifiedOnly,
-            mallFilter,
-            priceBand,
-            benefitFilter,
-            query
-          })
+          buildDealsRequestUrl(homeDealFilters)
         );
 
-        const nextDeals = Array.isArray(data.deals) ? data.deals : [];
-        setDeals(
-          nextDeals
-            .filter((deal) => !freeShippingOnly || isFreeShippingDeal(deal))
-            .filter((deal) => !hotOnly || deal.isHot)
-            .filter((deal) => !endingSoonOnly || deal.isEndingSoon)
-            .filter((deal) => !verifiedOnly || isVerifiedPurchaseLink(deal))
-            .filter((deal) => dealMatchesPriceBand(deal, priceBand))
-            .filter((deal) => benefitFilter === "all" || deal.dealType === benefitFilter)
-        );
-        setUpdatedAt(data.updatedAt);
-        setProviderSource(data.source ?? "mock");
-        if (!query.trim() && category === "all") {
-          setCatalog(Array.isArray(data.deals) ? data.deals : []);
-        }
+        const snapshot = buildHomeDealsSnapshot(data, homeDealFilters);
+        setDeals(snapshot.deals);
+        setUpdatedAt(snapshot.updatedAt);
+        setProviderSource(snapshot.providerSource);
+        if (snapshot.catalog) setCatalog(snapshot.catalog);
 
         if (toastMessage) {
           showToast(toastMessage);
         }
       } catch {
         setLoadError("특가 데이터를 불러오지 못했습니다. 기본 저장 데이터를 표시합니다.");
-        setDeals(filterLocalDeals(mockDeals, category, query, sort, freeShippingOnly, hotOnly, endingSoonOnly, verifiedOnly, mallFilter, priceBand, benefitFilter));
-        setCatalog(mockDeals);
-        setProviderSource("mock fallback");
-        setUpdatedAt(new Date().toISOString());
+        const snapshot = buildLocalHomeDealsSnapshot(mockDeals, homeDealFilters, "mock fallback");
+        setDeals(snapshot.deals);
+        setCatalog(snapshot.catalog);
+        setProviderSource(snapshot.providerSource);
+        setUpdatedAt(snapshot.updatedAt);
         showToast("데이터를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.");
       } finally {
         setIsLoading(false);
       }
     },
-    [benefitFilter, category, endingSoonOnly, freeShippingOnly, hotOnly, isOffline, mallFilter, priceBand, query, showToast, sort, verifiedOnly]
+    [homeDealFilters, isOffline, showToast]
   );
 
   useEffect(() => {
