@@ -1,13 +1,13 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-04T01:56:55.528Z",
+  "generatedAt": "2026-06-04T02:22:07.464Z",
   "readinessLabel": "seed launch ready / 공식 feed 연결 대기",
   "launchGateStatus": "passed",
   "summary": {
     "officialSourceCandidates": 30,
     "highPrioritySources": 10,
-    "reachableSources": 26,
-    "guardedSources": 4,
+    "reachableSources": 27,
+    "guardedSources": 3,
     "blockedLiveIssues": 0,
     "configuredFeedUrls": 0,
     "feedEnvConfiguredUrlCount": 0,
@@ -33,7 +33,7 @@
       "name": "official source live",
       "ok": true,
       "status": "passed",
-      "detail": "접근 가능 26개, 보호 4개, 차단 이슈 0개",
+      "detail": "접근 가능 27개, 보호 3개, 차단 이슈 0개",
       "action": "npm run source:live:doctor"
     },
     {
@@ -71,8 +71,8 @@
       "status": "ready_to_connect",
       "configuredFeedUrls": 0,
       "candidateCount": 24,
-      "reachableCandidates": 20,
-      "guardedCandidates": 4,
+      "reachableCandidates": 21,
+      "guardedCandidates": 3,
       "topSources": [
         {
           "id": "lpoint-benefits",
@@ -138,8 +138,8 @@
       "status": "ready_to_connect",
       "configuredFeedUrls": 0,
       "candidateCount": 13,
-      "reachableCandidates": 12,
-      "guardedCandidates": 1,
+      "reachableCandidates": 13,
+      "guardedCandidates": 0,
       "topSources": [
         {
           "id": "gs25-event-goods",
@@ -356,7 +356,7 @@
           "provider": "news",
           "officialUrl": "https://www.hyundaihmall.com/front/evntSect.do",
           "liveStatus": "reachable",
-          "rank": 27
+          "rank": 28
         }
       ],
       "categories": [
@@ -376,27 +376,6 @@
   ],
   "riskySources": [
     {
-      "id": "oliveyoung-events",
-      "label": "올리브영 공식 이벤트",
-      "provider": "official_event",
-      "category": [
-        "패션/뷰티",
-        "무료혜택"
-      ],
-      "priority": "medium",
-      "officialUrl": "https://www.oliveyoung.co.kr/store/main/getEventList.do",
-      "finalUrl": "https://www.oliveyoung.co.kr/store/main/getEventList.do",
-      "host": "oliveyoung.co.kr",
-      "method": "GET",
-      "httpStatus": 403,
-      "redirected": false,
-      "durationMs": 39,
-      "checkedAt": "2026-06-04T01:33:18.486Z",
-      "status": "guarded",
-      "reason": "waf_or_permission_guarded",
-      "operatorAction": "무단 크롤링하지 말고 공식 API/RSS/제휴 feed 또는 수동 승인 매핑 사용"
-    },
-    {
       "id": "cgv-events",
       "label": "CGV 공식 문화 이벤트",
       "provider": "public_coupon",
@@ -411,8 +390,8 @@
       "method": "GET",
       "httpStatus": 403,
       "redirected": true,
-      "durationMs": 62,
-      "checkedAt": "2026-06-04T01:33:18.500Z",
+      "durationMs": 58,
+      "checkedAt": "2026-06-04T02:21:57.904Z",
       "status": "guarded",
       "reason": "waf_or_permission_guarded",
       "operatorAction": "무단 크롤링하지 말고 공식 API/RSS/제휴 feed 또는 수동 승인 매핑 사용"
@@ -432,8 +411,8 @@
       "method": "HEAD",
       "httpStatus": 200,
       "redirected": true,
-      "durationMs": 65,
-      "checkedAt": "2026-06-04T01:33:18.618Z",
+      "durationMs": 73,
+      "checkedAt": "2026-06-04T02:21:57.984Z",
       "status": "guarded",
       "reason": "login_or_permission_redirect",
       "operatorAction": "로그인/권한 페이지를 수집하지 말고 공식 API/RSS/제휴 feed 또는 수동 승인 매핑 사용"
@@ -452,8 +431,8 @@
       "method": "HEAD",
       "httpStatus": 503,
       "redirected": false,
-      "durationMs": 32,
-      "checkedAt": "2026-06-04T01:33:18.726Z",
+      "durationMs": 34,
+      "checkedAt": "2026-06-04T02:21:58.057Z",
       "status": "guarded",
       "reason": "waf_or_permission_guarded",
       "operatorAction": "무단 크롤링하지 말고 공식 API/RSS/제휴 feed 또는 수동 승인 매핑 사용"

@@ -1,9 +1,9 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-04T01:32:46.681Z",
+  "generatedAt": "2026-06-04T02:21:19.468Z",
   "status": "ready",
   "adminAuthPath": "lib/adminAuth.ts",
-  "protectedRouteCount": 15,
+  "protectedRouteCount": 17,
   "protectedRoutes": [
     "app/api/admin/daily-queue/route.ts",
     "app/api/admin/deal-quality/route.ts",
@@ -17,8 +17,10 @@
     "app/api/admin/push/send/route.ts",
     "app/api/admin/push-readiness/route.ts",
     "app/api/admin/reports/route.ts",
+    "app/api/admin/source-feed-env/route.ts",
     "app/api/admin/source-live/route.ts",
     "app/api/admin/source-onboarding/route.ts",
+    "app/api/admin/source-readiness/route.ts",
     "app/api/cron/refresh/route.ts"
   ],
   "routesWithLegacyDirectCall": [],
@@ -65,7 +67,7 @@
     {
       "name": "protected route scan",
       "ok": true,
-      "detail": "15 admin/cron API routes scanned."
+      "detail": "17 admin/cron API routes scanned."
     }
   ]
 }
