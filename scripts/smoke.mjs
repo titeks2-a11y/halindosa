@@ -651,6 +651,7 @@ await check("admin dashboard quality cards", async () => {
   assert(text.includes("feed env JSON") && text.includes("정책 회귀 샘플 모두 통과"), "Admin dashboard missing source feed env API and regression status controls");
   assert(text.includes("공식 소스 통합 준비도") && text.includes("오늘 공식 feed 전환 판단"), "Admin dashboard missing official source readiness rollup panel");
   assert(text.includes("source readiness JSON") && text.includes("source readiness CSV") && text.includes("통합 게이트") && text.includes("운영 다음 액션"), "Admin dashboard missing official source readiness API, CSV, and gate controls");
+  assert(text.includes("공식 소스 보류 증빙") && text.includes("HTTP 상태") && text.includes("운영 사유") && text.includes("officialUrl") && text.includes("finalUrl"), "Admin dashboard missing source readiness guarded-source evidence table");
   assert(text.includes("운영 피드 전환 준비도") && text.includes("공식 API·제휴 피드로 바꿀 때 볼 품질 기준"), "Admin dashboard missing source readiness operation board");
   assert(text.includes("자동 refresh cron 운영") && text.includes("6시간마다 검증 데이터 갱신 상태를 확인합니다"), "Admin dashboard missing cron refresh operation board");
   assert(text.includes("CRON_SECRET") && text.includes("reports/cron-refresh.json") && text.includes("dry-run 확인"), "Admin dashboard missing cron refresh secret/report/dry-run guidance");

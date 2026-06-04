@@ -3098,6 +3098,11 @@ async function checkOperationalDataSurfaces() {
     !adminPage.includes("오늘 공식 feed 전환 판단") ||
     !adminPage.includes("/api/admin/source-readiness") ||
     !adminPage.includes("source readiness CSV") ||
+    !adminPage.includes("공식 소스 보류 증빙") ||
+    !adminPage.includes("HTTP 상태") ||
+    !adminPage.includes("운영 사유") ||
+    !adminPage.includes("officialUrl") ||
+    !adminPage.includes("finalUrl") ||
     !smoke.includes("admin source live readiness api") ||
     !smoke.includes("Admin source live report should use non-strict live readiness mode") ||
     !smoke.includes("admin source onboarding plan api") ||
@@ -3108,6 +3113,7 @@ async function checkOperationalDataSurfaces() {
     !smoke.includes("admin source readiness rollup api") ||
     !smoke.includes("Admin source readiness report should pass") ||
     !smoke.includes("admin source readiness rollup csv") ||
+    !smoke.includes("Admin dashboard missing source readiness guarded-source evidence table") ||
     !officialSourceLiveDoc.includes("공식 소스 라이브 접근성 점검") ||
     !officialSourceLiveDoc.includes("무단 크롤링을 수행하지 않으며") ||
     officialSourceLiveReport.ok !== true ||

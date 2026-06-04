@@ -213,6 +213,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const sourceFeedEnvRows = (sourceFeedEnvFailures.length ? sourceFeedEnvFailures : sourceFeedEnvReadiness.rows).slice(0, 4);
   const sourceReadinessFailedGates = officialSourceReadiness.gates.filter((gate) => !gate.ok);
   const sourceReadinessNextActions = officialSourceReadiness.operatorNextActions.slice(0, 5);
+  const sourceReadinessRiskRows = officialSourceReadiness.riskySources.slice(0, 6);
   const priorityLabels = {
     high: "우선",
     medium: "보강",
@@ -1870,6 +1871,61 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                 </p>
               </div>
             </div>
+          </div>
+          <div className="mt-4 rounded-2xl border border-violet-100 bg-violet-50 p-4">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+              <div>
+                <p className="text-sm font-black text-slate-950">공식 소스 보류 증빙</p>
+                <p className="mt-1 text-xs font-bold leading-5 text-violet-900/70">
+                  운영 전환 전에 HTTP 상태, 운영 사유, officialUrl, finalUrl을 함께 보고 공식 API·RSS·제휴 feed로 연결할지 결정합니다.
+                </p>
+              </div>
+              <span className="shrink-0 rounded-full bg-white px-3 py-1.5 text-xs font-black text-violet-700 shadow-sm">
+                보류 {sourceReadinessRiskRows.length}개
+              </span>
+            </div>
+            {sourceReadinessRiskRows.length ? (
+              <div className="mt-3 grid gap-2 xl:grid-cols-2">
+                {sourceReadinessRiskRows.map((source) => (
+                  <div key={source.id} className="rounded-2xl bg-white p-3 shadow-sm">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="rounded-full bg-slate-950 px-2.5 py-1 text-[11px] font-black text-white">{source.provider}</span>
+                      <span className="rounded-full bg-violet-50 px-2.5 py-1 text-[11px] font-black text-violet-700">{source.status}</span>
+                      <span className="rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-black text-slate-600">HTTP 상태 {source.httpStatus ?? "미확인"}</span>
+                    </div>
+                    <p className="mt-2 text-sm font-black text-slate-950">{source.label}</p>
+                    <p className="mt-1 text-xs font-bold leading-5 text-slate-500">운영 사유: {source.reason ?? "공식 feed 연결 전 담당자 확인 필요"}</p>
+                    <div className="mt-2 grid gap-2 text-[11px] font-bold leading-5 text-slate-500">
+                      <p className="line-clamp-1">
+                        <b className="text-slate-950">officialUrl:</b> {source.officialUrl || "미등록"}
+                      </p>
+                      <p className="line-clamp-1">
+                        <b className="text-slate-950">finalUrl:</b> {source.finalUrl || "노출 보류"}
+                      </p>
+                    </div>
+                    <div className="mt-3 flex flex-wrap items-center gap-2">
+                      {source.officialUrl ? (
+                        <a href={source.officialUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-3 py-1.5 text-[11px] font-black text-slate-700">
+                          <ExternalLink size={12} />
+                          공식 URL 확인
+                        </a>
+                      ) : null}
+                      {source.finalUrl ? (
+                        <a href={source.finalUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 rounded-full bg-violet-100 px-3 py-1.5 text-[11px] font-black text-violet-700">
+                          <ExternalLink size={12} />
+                          최종 URL 확인
+                        </a>
+                      ) : null}
+                    </div>
+                    <p className="mt-2 text-xs font-bold leading-5 text-violet-900/70">{source.operatorAction}</p>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="mt-3 rounded-2xl bg-white px-4 py-3 text-sm font-black text-violet-700 shadow-sm">
+                현재 보류된 공식 소스가 없습니다. 신규 소스는 CSV에서 officialUrl과 finalUrl을 다시 확인한 뒤 운영 feed에 연결하세요.
+              </p>
+            )}
           </div>
         </section>
 

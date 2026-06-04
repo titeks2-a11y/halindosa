@@ -51,6 +51,7 @@
 - `source:feed-env:doctor`를 추가해 공식 혜택 feed 환경변수에 검색 결과, 커뮤니티, 블로그, HTML 랜딩 페이지, 비공식 host, 비 HTTPS URL이 들어오면 QA 전에 차단하고, 민감 query 없이 `reports/source-feed-env-readiness.json`과 `docs/SOURCE_FEED_ENV_REPORT.md`로 운영자가 검수할 수 있게 했다.
 - `/api/admin/source-feed-env`와 관리자 `공식 feed 환경변수 안전성` 패널을 추가해 운영자가 공식 feed env 연결 전 통과/차단 URL, 승인 host, 정책 회귀 샘플 상태를 대시보드에서 확인할 수 있게 했다.
 - `source:readiness:report`, `reports/source-readiness.json`, `docs/SOURCE_READINESS_REPORT.md`, `/api/admin/source-readiness`, `/api/admin/source-readiness?format=csv`, 관리자 `공식 소스 통합 준비도` 패널을 추가해 공식 소스 카탈로그, live 접근성, 온보딩 큐, feed env 안전성, 공식 혜택 노출, `refresh:all` 결과를 하나의 출시 게이트로 묶고 검색 결과·커뮤니티 원문·HTML 랜딩 페이지 차단 상태를 운영자가 화면과 스프레드시트에서 확인하게 했다.
+- 관리자 `공식 소스 통합 준비도`에 `공식 소스 보류 증빙` 테이블을 추가해 보호/보류 소스의 HTTP 상태, 운영 사유, officialUrl, finalUrl, 담당자 조치를 화면에서 바로 확인하고 공식 API·RSS·제휴 feed 연결 여부를 결정할 수 있게 했다.
 - feed URL 파서를 런타임 provider와 refresh 스크립트 양쪽에 적용해 쉼표/세미콜론/줄바꿈/JSON 배열 입력을 지원하고, URL query 안의 쉼표나 data URL payload가 잘못 분리되지 않도록 회귀 테스트를 추가했다.
 - 같은 feed URL 파서를 공식 혜택 운영 리포트, `/api/sources`, feed 전환 리포트, 공식 소스 카탈로그 리포트, production 상품 feed에도 적용해 관리자 화면의 feed URL 수와 실제 수집 대상 수가 어긋나지 않게 했다.
 - `notificationDeliveryPolicy`와 `push:delivery:doctor`를 추가해 실제 FCM 발송 전 명시 동의, dry-run-first, 토큰 수 제한, 22:00-07:59 KST quiet hours 차단을 QA와 관리자 dry-run API에 연결했다.
