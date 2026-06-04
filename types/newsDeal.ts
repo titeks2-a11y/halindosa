@@ -6,7 +6,9 @@ export type NewsBenefitType =
   | "card"
   | "culture"
   | "travel"
-  | "public";
+  | "public"
+  | "point"
+  | "foodDelivery";
 
 export type NewsDealCategory =
   | "식품/생필품"
@@ -21,12 +23,15 @@ export type NewsDealCategory =
   | "정부/공공혜택";
 
 export type NewsDealValidationStatus = "passed" | "failed" | "needs_review";
+export type NewsDealLinkType = "official_event" | "official_coupon" | "official_benefit" | "search" | "news_only" | "community" | "invalid";
+export type NewsDealAvailability = "active" | "expired" | "unknown";
 
 export interface NewsDeal {
   id: string;
   title: string;
   summary: string;
   merchant: string;
+  mallName: string;
   category: NewsDealCategory;
   benefitType: NewsBenefitType;
   discountRate: number;
@@ -37,13 +42,22 @@ export interface NewsDeal {
   endDate: string;
   sourceName: string;
   sourceUrl: string;
+  source: string;
+  originalUrl: string;
+  affiliateUrl: string;
+  eventUrl: string;
   finalUrl: string;
+  linkType: NewsDealLinkType;
+  availability: NewsDealAvailability;
   imageUrl: string;
   confidenceScore: number;
+  priorityScore: number;
   validationStatus: NewsDealValidationStatus;
+  validationReason: string;
   isHidden: boolean;
   hiddenReason: string;
   lastCheckedAt: string;
   provider: "news" | "event_news" | "official_event" | "public_coupon";
   tags: string[];
+  officialHost?: string;
 }

@@ -1,11 +1,17 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-04T04:41:19.821Z",
+  "generatedAt": "2026-06-04T05:16:18.333Z",
   "totalCount": 43,
   "visibleCount": 43,
   "hiddenCount": 0,
   "expiredCount": 0,
   "officialMissingCount": 0,
+  "searchLinkCount": 0,
+  "exposedSearchLinkCount": 0,
+  "nonOfficialLinkCount": 0,
+  "exposedNonOfficialLinkCount": 0,
+  "activeVisibleCount": 43,
+  "averagePriorityScore": 100,
   "failedCount": 0,
   "categoryCounts": {
     "마트/편의점": 6,
@@ -119,14 +125,14 @@
     "news-himart-company-events",
     "news-naverpay-event-benefit",
     "news-mnuri-official-benefit",
+    "news-naverpay-point-free-benefit",
     "news-mnuri-online-merchant-benefit",
     "news-megabox-official-events",
     "news-lpoint-official-benefits",
     "news-lpoint-card-events",
     "news-visitkorea-travel-benefit",
     "news-baemin-academy-free-event",
-    "news-mcdonalds-happysnack",
-    "news-naverpay-point-free-benefit"
+    "news-mcdonalds-happysnack"
   ],
   "hiddenDeals": [],
   "expiredDeals": [],
@@ -139,7 +145,10 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://gs25.gsretail.com/gscvs/ko/customer-engagement/event/detail/publishing?eventCode=8842885844512&pageNum=1&uiel=Mobile",
-      "checkedAt": "2026-06-04T04:41:19.821Z"
+      "linkType": "official_event",
+      "availability": "active",
+      "priorityScore": 100,
+      "checkedAt": "2026-06-04T05:16:18.333Z"
     },
     {
       "dealId": "news-musinsa-fashion-festa",
@@ -148,7 +157,10 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://www.musinsa.com/campaign/fashionfesta_1",
-      "checkedAt": "2026-06-04T04:41:19.821Z"
+      "linkType": "official_coupon",
+      "availability": "active",
+      "priorityScore": 100,
+      "checkedAt": "2026-06-04T05:16:18.333Z"
     },
     {
       "dealId": "news-lotteon-lohbs-coupon",
@@ -157,7 +169,10 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://www.lotteon.com/event/onLohbsShare",
-      "checkedAt": "2026-06-04T04:41:19.821Z"
+      "linkType": "official_coupon",
+      "availability": "active",
+      "priorityScore": 100,
+      "checkedAt": "2026-06-04T05:16:18.333Z"
     },
     {
       "dealId": "news-gs25-card-june-2026",
@@ -166,7 +181,10 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://gs25.gsretail.com/gscvs/ko/customer-engagement/event/detail/publishing?eventCode=8842885778976&pageNum=1",
-      "checkedAt": "2026-06-04T04:41:19.821Z"
+      "linkType": "official_coupon",
+      "availability": "active",
+      "priorityScore": 100,
+      "checkedAt": "2026-06-04T05:16:18.333Z"
     },
     {
       "dealId": "news-gs25-event-goods",
@@ -175,7 +193,10 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://gs25.gsretail.com/gscvs/ko/products/event-goods",
-      "checkedAt": "2026-06-04T04:41:19.821Z"
+      "linkType": "official_event",
+      "availability": "active",
+      "priorityScore": 100,
+      "checkedAt": "2026-06-04T05:16:18.333Z"
     },
     {
       "dealId": "news-culture-day-programs-2026",
@@ -184,7 +205,10 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://www.culture.go.kr/wday/main/main.do",
-      "checkedAt": "2026-06-04T04:41:19.821Z"
+      "linkType": "official_benefit",
+      "availability": "active",
+      "priorityScore": 100,
+      "checkedAt": "2026-06-04T05:16:18.333Z"
     },
     {
       "dealId": "news-culture-day-weekly-2026",
@@ -193,7 +217,10 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://www.culture.go.kr/local/wday/cltrDay.do",
-      "checkedAt": "2026-06-04T04:41:19.821Z"
+      "linkType": "official_benefit",
+      "availability": "active",
+      "priorityScore": 100,
+      "checkedAt": "2026-06-04T05:16:18.333Z"
     },
     {
       "dealId": "news-kbcard-official-event-center",
@@ -202,7 +229,10 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://card.kbcard.com/BON/DVIEW/HBBMCXCRVNEC0002",
-      "checkedAt": "2026-06-04T04:41:19.821Z"
+      "linkType": "official_coupon",
+      "availability": "active",
+      "priorityScore": 100,
+      "checkedAt": "2026-06-04T05:16:18.333Z"
     },
     {
       "dealId": "news-kbcard-membership-benefit-center",
@@ -211,7 +241,10 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://card.kbcard.com/BON/DVIEW/HBBMCXCRVNEC0001",
-      "checkedAt": "2026-06-04T04:41:19.821Z"
+      "linkType": "official_coupon",
+      "availability": "active",
+      "priorityScore": 100,
+      "checkedAt": "2026-06-04T05:16:18.333Z"
     },
     {
       "dealId": "news-hmall-official-shopping-event",
@@ -220,7 +253,10 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://www.hyundaihmall.com/front/evntSect.do",
-      "checkedAt": "2026-06-04T04:41:19.821Z"
+      "linkType": "official_coupon",
+      "availability": "active",
+      "priorityScore": 100,
+      "checkedAt": "2026-06-04T05:16:18.333Z"
     },
     {
       "dealId": "news-bccard-official-event-center",
@@ -229,7 +265,10 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://www.bccard.com/app/card/EventActn.do?menuId=64",
-      "checkedAt": "2026-06-04T04:41:19.821Z"
+      "linkType": "official_coupon",
+      "availability": "active",
+      "priorityScore": 100,
+      "checkedAt": "2026-06-04T05:16:18.333Z"
     },
     {
       "dealId": "news-cgv-official-events",
@@ -238,7 +277,10 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://www.cgv.co.kr/culture-event/event/defaultNew.aspx",
-      "checkedAt": "2026-06-04T04:41:19.821Z"
+      "linkType": "official_benefit",
+      "availability": "active",
+      "priorityScore": 100,
+      "checkedAt": "2026-06-04T05:16:18.333Z"
     },
     {
       "dealId": "news-lottecinema-official-events",
@@ -247,7 +289,10 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://www.lottecinema.co.kr/NLCHS/Event",
-      "checkedAt": "2026-06-04T04:41:19.821Z"
+      "linkType": "official_benefit",
+      "availability": "active",
+      "priorityScore": 100,
+      "checkedAt": "2026-06-04T05:16:18.333Z"
     },
     {
       "dealId": "news-koreanair-boarding-pass-benefit",
@@ -256,7 +301,10 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://www.koreanair.com/contents/booking/get-to-know/boarding-pass-benefits/excellent-boarding-pass?hl=ko",
-      "checkedAt": "2026-06-04T04:41:19.821Z"
+      "linkType": "official_benefit",
+      "availability": "active",
+      "priorityScore": 100,
+      "checkedAt": "2026-06-04T05:16:18.333Z"
     },
     {
       "dealId": "news-tworld-membership-upgrade",
@@ -265,7 +313,10 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://www.tworld.co.kr/poc/html/product/TS3.7.1T.2.html",
-      "checkedAt": "2026-06-04T04:41:19.821Z"
+      "linkType": "official_coupon",
+      "availability": "active",
+      "priorityScore": 100,
+      "checkedAt": "2026-06-04T05:16:18.333Z"
     },
     {
       "dealId": "news-tworld-longterm-discount",
@@ -274,7 +325,10 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://www.tworld.co.kr/poc/html/product/TS3.3.1T.8.html",
-      "checkedAt": "2026-06-04T04:41:19.821Z"
+      "linkType": "official_coupon",
+      "availability": "active",
+      "priorityScore": 100,
+      "checkedAt": "2026-06-04T05:16:18.333Z"
     },
     {
       "dealId": "news-koreanair-promotion",
@@ -283,7 +337,10 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://www.koreanair.com/promotion/list",
-      "checkedAt": "2026-06-04T04:41:19.821Z"
+      "linkType": "official_benefit",
+      "availability": "active",
+      "priorityScore": 100,
+      "checkedAt": "2026-06-04T05:16:18.333Z"
     },
     {
       "dealId": "news-ssg-official-event-main",
@@ -292,7 +349,10 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://www.ssg.com/event/eventMain.ssg",
-      "checkedAt": "2026-06-04T04:41:19.821Z"
+      "linkType": "official_coupon",
+      "availability": "active",
+      "priorityScore": 100,
+      "checkedAt": "2026-06-04T05:16:18.333Z"
     },
     {
       "dealId": "news-emart-official-event-main",
@@ -301,7 +361,10 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://emart.ssg.com/event/eventMain.ssg",
-      "checkedAt": "2026-06-04T04:41:19.821Z"
+      "linkType": "official_coupon",
+      "availability": "active",
+      "priorityScore": 100,
+      "checkedAt": "2026-06-04T05:16:18.333Z"
     },
     {
       "dealId": "news-homeplus-official-event",
@@ -310,7 +373,10 @@
       "status": "visible",
       "reason": "passed",
       "finalUrl": "https://front.homeplus.co.kr/event",
-      "checkedAt": "2026-06-04T04:41:19.821Z"
+      "linkType": "official_coupon",
+      "availability": "active",
+      "priorityScore": 100,
+      "checkedAt": "2026-06-04T05:16:18.333Z"
     }
   ],
   "manualActions": [
@@ -333,6 +399,12 @@
   "gates": {
     "hasVisibleNewsDeals": true,
     "searchLinkExposure": 0,
+    "searchLinkTypeExposure": 0,
+    "nonOfficialLinkTypeExposure": 0,
+    "inactiveVisibleExposure": 0,
+    "lowPriorityExposure": 0,
+    "missingQualityFieldCount": 0,
+    "missingQualityFieldIds": [],
     "nonOfficialExposure": 0,
     "expiredExposure": 0,
     "hiddenExposure": 0,

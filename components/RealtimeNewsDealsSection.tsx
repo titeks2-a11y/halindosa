@@ -15,7 +15,9 @@ const benefitLabels: Record<NewsDeal["benefitType"], string> = {
   card: "카드",
   culture: "문화",
   travel: "여행",
-  public: "공공혜택"
+  public: "공공혜택",
+  point: "포인트",
+  foodDelivery: "배달"
 };
 
 const categoryHighlights = [

@@ -16,6 +16,15 @@ const configuredFeedErrors = (snapshot?.providerStats ?? []).filter(
   (provider) => provider?.configured === true && Number(provider?.errorCount ?? 0) > 0
 );
 const searchLikeVisible = validated.filter((deal) => !deal.isHidden && /search|query=|keyword=|msearch|result/i.test(deal.finalUrl));
+const searchLinkTypeVisible = validated.filter((deal) => !deal.isHidden && deal.linkType === "search");
+const nonOfficialLinkTypeVisible = validated.filter((deal) => !deal.isHidden && ["news_only", "community", "invalid"].includes(deal.linkType));
+const inactiveVisible = validated.filter((deal) => !deal.isHidden && deal.availability !== "active");
+const lowPriorityVisible = validated.filter((deal) => !deal.isHidden && Number(deal.priorityScore ?? 0) < 70);
+const missingQualityFields = validated.filter((deal) =>
+  ["source", "mallName", "originalUrl", "affiliateUrl", "eventUrl", "linkType", "availability", "validationReason", "priorityScore"].some(
+    (field) => !(field in deal)
+  )
+);
 const nonOfficialVisible = validated.filter((deal) => !deal.isHidden && deal.hiddenReason.includes("not_approved_official_url"));
 const expiredVisible = validated.filter((deal) => !deal.isHidden && Date.parse(deal.endDate) < now);
 const visibleCategoryCounts = validated
@@ -33,6 +42,11 @@ const ok =
   summary.visibleCount >= minimumVisibleOfficialBenefits &&
   summary.hiddenCount === 0 &&
   searchLikeVisible.length === 0 &&
+  searchLinkTypeVisible.length === 0 &&
+  nonOfficialLinkTypeVisible.length === 0 &&
+  inactiveVisible.length === 0 &&
+  lowPriorityVisible.length === 0 &&
+  missingQualityFields.length === 0 &&
   nonOfficialVisible.length === 0 &&
   expiredVisible.length === 0 &&
   missingCategories.length === 0 &&
@@ -46,6 +60,12 @@ const report = {
   gates: {
     hasVisibleNewsDeals: summary.visibleCount > 0,
     searchLinkExposure: searchLikeVisible.length,
+    searchLinkTypeExposure: searchLinkTypeVisible.length,
+    nonOfficialLinkTypeExposure: nonOfficialLinkTypeVisible.length,
+    inactiveVisibleExposure: inactiveVisible.length,
+    lowPriorityExposure: lowPriorityVisible.length,
+    missingQualityFieldCount: missingQualityFields.length,
+    missingQualityFieldIds: missingQualityFields.map((deal) => deal.id).slice(0, 20),
     nonOfficialExposure: nonOfficialVisible.length,
     expiredExposure: expiredVisible.length,
     hiddenExposure: summary.hiddenCount,

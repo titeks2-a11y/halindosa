@@ -100,6 +100,9 @@ interface NewsDealsReport {
     status: string;
     reason: string;
     finalUrl: string;
+    linkType?: string;
+    availability?: string;
+    priorityScore?: number;
     checkedAt: string;
   }>;
   manualActions?: Array<{ action: string; label: string; description: string }>;

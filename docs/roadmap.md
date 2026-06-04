@@ -13,7 +13,7 @@
 - 홈 화면에 `오늘의 실시간 할인뉴스` 섹션을 추가해 GS25, 문화가 있는 날, 영화관, 통신사, 항공 특가처럼 공식 혜택 페이지가 검증된 정보만 새 탭으로 이동하도록 노출했다.
 - 공식 뉴스/이벤트 혜택도 `halindosa:recent-news-benefits` localStorage 기록으로 저장하고, 홈 `재방문 혜택 큐`와 마이페이지 `마이 최근 본 공식 혜택`에서 최근 본 공식 혜택과 관심 카테고리 기반 혜택을 이어볼 수 있게 했다.
 - 관리자 화면에 뉴스 수집 현황과 알림 캠페인 운영 큐를 추가해 무료혜택, 카드·멤버십, 영화·문화, 마트·편의점, 정부·공공혜택을 향후 FCM 발송 후보로 운영할 수 있게 했다.
-- `reports/news-deals.json`과 `reports/refresh-all.json`을 생성해 공식 혜택 26/26 통과, 필수 10개 카테고리별 최소 2건 이상, 숨김/종료/비공식 링크 0건, 상품 링크 140/140 통과 상태를 출시 게이트 증거로 남겼다.
+- `reports/news-deals.json`과 `reports/refresh-all.json`을 생성해 공식 혜택 43/43 통과, 필수 10개 카테고리별 최소 2건 이상, 숨김/종료/비공식 링크 0건, 상품 링크 140/140 통과 상태를 출시 게이트 증거로 남겼다.
 - `health:readiness` 운영 헬스 리포트를 추가해 `reports/health-readiness.json`과 `docs/HEALTH_READINESS_REPORT.md`에 상품 140개, 검증 링크 99% 이상, 검색/품절 노출 0건, 공식 혜택 40개 이상, 필수 카테고리 10개별 최소 2건, `refresh:all` 성공과 24시간 신선도를 하나의 출시 게이트로 고정했다.
 - 운영 헬스 리포트와 `/api/health`에 공식 소스 통합 준비도 요약을 연결해 공식 소스 후보, 접근 가능/보호 소스, feed env 실패, 통합 게이트 실패가 생기면 health readiness도 출시 전 점검 상태가 되도록 했다.
 - `/api/admin/health-readiness`와 `/admin` 운영 헬스 패널을 추가해 운영자가 출시 게이트 점수, 검증 상품 링크, 공식 혜택 카테고리, `refresh:all` 상태를 관리자 화면에서 즉시 확인하도록 연결했다.
@@ -90,6 +90,7 @@
 - `link:launch:gate`를 추가해 `link-validation`, `product-quality`, `exposure-policy`, `refresh-deals`, `release-doctor` 리포트를 대조하고 검색 링크, 품절/종료 링크, 깨진 링크, invalid URL 노출 0건을 Play Store 제출 직전 최종 판정으로 남기도록 QA와 release doctor에 연결했다.
 - `/api/admin/link-launch-gate`와 관리자 `최종 링크 출시 게이트` 패널을 추가해 운영자가 Play Store 제출 직전 검색 링크, 품절/종료 링크, 깨진 링크, invalid URL, 실패 노출 행을 JSON/CSV로 즉시 확인하도록 보강했다.
 - 관리자 공식 혜택 수동 운영 패널에 `실패 사유별 운영 액션`과 `수집 로그 바로 점검` 영역을 추가해 검증 실패 TOP10, 최근 20개 수집 로그, 공식 링크 확인, 재검증 기록 흐름을 같은 화면에서 처리하도록 개선했다.
+- `NewsDeal`도 상품 Deal과 같은 `source`, `mallName`, `originalUrl`, `affiliateUrl`, `eventUrl`, `linkType`, `availability`, `validationReason`, `priorityScore` 품질 필드를 갖도록 표준화하고, `verify:news`와 `release:doctor`가 공식 링크 유형, 활성 상태, 우선순위 점수, 필드 누락을 출시 게이트로 검증하도록 강화했다.
 - non-strict live probe에서 timeout/request_failed는 `transientNetworkCount`로 분리해 404/410/5xx/품절 본문 같은 확정 실패와 구분하고, 네트워크 일시 오류 때문에 정상 구매 상세 링크가 과도하게 숨겨지지 않도록 운영 재확인 큐로 남기게 했다.
 - `npm run qa`에 non-strict `verify:links:live`와 후속 `verify:products`를 포함하고, release doctor가 live probe 전체 검사와 HTTP 지표를 필수 출시 증거로 확인하도록 상향했다.
 - `/go`와 `/api/redirect` 외부 이동 allowlist에 공식 혜택 도메인을 보강해 검증된 카드/멤버십/문화/편의점/외식/공식 이벤트 링크가 410으로 막히지 않고 새 탭 이동 검증을 통과하도록 개선했다.

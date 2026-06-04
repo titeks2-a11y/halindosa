@@ -25,7 +25,18 @@ function readSnapshot(): NewsDealSnapshot | null {
 }
 
 function isVisibleNewsDeal(deal: NewsDeal) {
-  return deal.validationStatus === "passed" && !deal.isHidden && Boolean(deal.finalUrl);
+  const linkType = deal.linkType ?? "official_benefit";
+  const availability = deal.availability ?? "active";
+  const priorityScore = deal.priorityScore ?? deal.confidenceScore ?? 0;
+
+  return (
+    deal.validationStatus === "passed" &&
+    !deal.isHidden &&
+    Boolean(deal.finalUrl) &&
+    availability === "active" &&
+    linkType.startsWith("official") &&
+    priorityScore >= 70
+  );
 }
 
 export function getVisibleNewsDeals(options: { limit?: number; category?: string; benefitType?: string } = {}) {
@@ -40,7 +51,7 @@ export function getVisibleNewsDeals(options: { limit?: number; category?: string
     })
     .filter((deal) => !options.category || options.category === "all" || deal.category === options.category)
     .filter((deal) => !options.benefitType || options.benefitType === "all" || deal.benefitType === options.benefitType)
-    .sort((a, b) => b.confidenceScore - a.confidenceScore || Date.parse(a.endDate) - Date.parse(b.endDate));
+    .sort((a, b) => (b.priorityScore ?? b.confidenceScore) - (a.priorityScore ?? a.confidenceScore) || Date.parse(a.endDate) - Date.parse(b.endDate));
 
   return {
     deals: typeof options.limit === "number" && options.limit > 0 ? filtered.slice(0, options.limit) : filtered,

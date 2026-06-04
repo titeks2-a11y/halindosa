@@ -215,6 +215,52 @@ function isSearchUrl(urlValue) {
   }
 }
 
+function isBlockedUrl(urlValue) {
+  const host = normalizeHost(urlValue);
+  return blockedHosts.some((blocked) => host === blocked || host.endsWith(`.${blocked}`));
+}
+
+function resolveNewsLinkType(deal) {
+  const finalUrl = String(deal.finalUrl ?? "");
+  if (!finalUrl) return "invalid";
+  if (isBlockedUrl(finalUrl)) return "community";
+  if (isSearchUrl(finalUrl)) return "search";
+  if (!isApprovedOfficialUrl(finalUrl)) return "news_only";
+  if (["coupon", "card", "membership", "point"].includes(deal.benefitType)) return "official_coupon";
+  if (["culture", "travel", "public", "freebie", "foodDelivery"].includes(deal.benefitType)) return "official_benefit";
+  return "official_event";
+}
+
+function resolveAvailability(endDate, now) {
+  const endsAt = Date.parse(endDate);
+  if (!Number.isFinite(endsAt)) return "unknown";
+  return endsAt < now ? "expired" : "active";
+}
+
+function scoreNewsDeal(deal, { reasons = [], availability = "unknown", linkType = "invalid", now = Date.now() } = {}) {
+  const endsAt = Date.parse(deal.endDate);
+  const daysLeft = Number.isFinite(endsAt) ? Math.max(0, Math.ceil((endsAt - now) / (24 * 60 * 60 * 1000))) : 999;
+  const benefitSignal = deal.discountRate > 0 || deal.couponAmount > 0 || ["freebie", "coupon", "membership", "card", "culture", "travel", "public", "point", "foodDelivery"].includes(deal.benefitType);
+  const directOfficialBonus = linkType.startsWith("official") ? 18 : -35;
+  const freshnessBonus = daysLeft <= 14 ? 8 : daysLeft <= 45 ? 5 : 2;
+
+  return Math.max(
+    0,
+    Math.min(
+      100,
+      Math.round(
+        Number(deal.confidenceScore ?? 50) +
+          directOfficialBonus +
+          (availability === "active" ? 12 : -30) +
+          (benefitSignal ? 8 : -8) +
+          (deal.summary.length >= 30 ? 5 : -5) +
+          freshnessBonus -
+          reasons.length * 10
+      )
+    )
+  );
+}
+
 function canonicalKey(deal) {
   try {
     const url = new URL(deal.finalUrl);
@@ -232,12 +278,17 @@ export function normalizeNewsDeal(raw, nowIso = new Date().toISOString()) {
   const finalUrl = cleanText(raw.finalUrl ?? raw.eventUrl ?? raw.sourceUrl ?? raw.url);
   const endDate = cleanText(raw.endDate ?? raw.expireAt ?? raw.expiresAt);
   const startDate = cleanText(raw.startDate ?? raw.createdAt) || nowIso.slice(0, 10);
+  const provider = cleanText(raw.provider) || "news";
+  const sourceName = cleanText(raw.sourceName) || merchant;
+  const originalUrl = cleanText(raw.originalUrl ?? raw.sourceUrl ?? raw.url) || finalUrl;
+  const eventUrl = cleanText(raw.eventUrl) || finalUrl;
 
   return {
     id: cleanText(raw.id) || `news-${Buffer.from(`${merchant}-${title}-${finalUrl}`).toString("base64url").slice(0, 18)}`,
     title,
     summary,
     merchant,
+    mallName: merchant,
     category: cleanText(raw.category) || "무료혜택",
     benefitType: cleanText(raw.benefitType) || "discount",
     discountRate: toNumber(raw.discountRate),
@@ -246,16 +297,24 @@ export function normalizeNewsDeal(raw, nowIso = new Date().toISOString()) {
     couponAmount: toNumber(raw.couponAmount),
     startDate,
     endDate,
-    sourceName: cleanText(raw.sourceName) || merchant,
+    sourceName,
     sourceUrl: cleanText(raw.sourceUrl) || finalUrl,
+    source: cleanText(raw.source) || provider,
+    originalUrl,
+    affiliateUrl: cleanText(raw.affiliateUrl),
+    eventUrl,
     finalUrl,
+    linkType: cleanText(raw.linkType) || "invalid",
+    availability: cleanText(raw.availability) || "unknown",
     imageUrl: cleanText(raw.imageUrl),
     confidenceScore: toNumber(raw.confidenceScore, 50),
+    priorityScore: toNumber(raw.priorityScore, 0),
     validationStatus: "needs_review",
+    validationReason: "pending_validation",
     isHidden: false,
     hiddenReason: "",
     lastCheckedAt: nowIso,
-    provider: cleanText(raw.provider) || "news",
+    provider,
     tags: Array.isArray(raw.tags) ? raw.tags.filter((tag) => typeof tag === "string") : []
   };
 }
@@ -265,11 +324,15 @@ export function validateNewsDeal(deal, now = Date.now()) {
   const text = `${deal.title} ${deal.summary} ${deal.tags.join(" ")}`;
   const endsAt = Date.parse(deal.endDate);
   const startsAt = Date.parse(deal.startDate);
+  const linkType = resolveNewsLinkType(deal);
+  const availability = resolveAvailability(deal.endDate, now);
 
   if (!deal.title || !deal.summary || !deal.merchant) reasons.push("missing_required_copy");
   if (!deal.finalUrl) reasons.push("missing_final_url");
   if (!isApprovedOfficialUrl(deal.finalUrl)) reasons.push("not_approved_official_url");
   if (isSearchUrl(deal.finalUrl)) reasons.push("search_or_result_url");
+  if (linkType === "community") reasons.push("blocked_community_or_news_host");
+  if (linkType === "news_only") reasons.push("news_or_non_official_landing");
   if (!Number.isFinite(endsAt)) reasons.push("missing_end_date");
   if (Number.isFinite(endsAt) && endsAt < now) reasons.push("expired_event");
   if (Number.isFinite(startsAt) && startsAt > now + 45 * 24 * 60 * 60 * 1000) reasons.push("too_far_future");
@@ -279,7 +342,9 @@ export function validateNewsDeal(deal, now = Date.now()) {
 
   const passed = reasons.length === 0;
   const host = normalizeHost(deal.finalUrl);
-  const benefitSignal = deal.discountRate > 0 || deal.couponAmount > 0 || ["freebie", "coupon", "membership", "card", "culture", "travel", "public"].includes(deal.benefitType);
+  const benefitSignal = deal.discountRate > 0 || deal.couponAmount > 0 || ["freebie", "coupon", "membership", "card", "culture", "travel", "public", "point", "foodDelivery"].includes(deal.benefitType);
+  const validationReason = passed ? "passed" : reasons.join(",");
+  const priorityScore = scoreNewsDeal(deal, { reasons, availability, linkType, now });
   const confidenceScore = Math.max(
     0,
     Math.min(
@@ -298,10 +363,14 @@ export function validateNewsDeal(deal, now = Date.now()) {
   return {
     ...deal,
     confidenceScore,
+    priorityScore,
     validationStatus: passed ? "passed" : "failed",
+    validationReason,
     isHidden: !passed,
-    hiddenReason: passed ? "" : reasons.join(","),
+    hiddenReason: passed ? "" : validationReason,
     lastCheckedAt: new Date(now).toISOString(),
+    linkType,
+    availability,
     officialHost: host
   };
 }
@@ -321,6 +390,11 @@ export function summarizeNewsDeals(deals, generatedAt = new Date().toISOString()
   const hidden = deals.filter((deal) => deal.isHidden || deal.validationStatus !== "passed");
   const expired = deals.filter((deal) => deal.hiddenReason.includes("expired_event"));
   const officialMissing = deals.filter((deal) => deal.hiddenReason.includes("not_approved_official_url"));
+  const searchLinks = deals.filter((deal) => deal.linkType === "search" || deal.hiddenReason.includes("search_or_result_url"));
+  const exposedSearchLinks = searchLinks.filter((deal) => !deal.isHidden && deal.validationStatus === "passed");
+  const nonOfficialLinks = deals.filter((deal) => ["news_only", "community", "invalid"].includes(deal.linkType));
+  const exposedNonOfficialLinks = nonOfficialLinks.filter((deal) => !deal.isHidden && deal.validationStatus === "passed");
+  const activeVisible = visible.filter((deal) => deal.availability === "active" && deal.linkType?.startsWith("official") && deal.priorityScore >= 70);
   const failureReasons = {};
   for (const deal of hidden) {
     for (const reason of deal.hiddenReason.split(",").filter(Boolean)) {
@@ -356,8 +430,16 @@ export function summarizeNewsDeals(deals, generatedAt = new Date().toISOString()
     provider: deal.provider,
     title: deal.title,
     sourceName: deal.sourceName,
+    source: deal.source,
     finalUrl: deal.finalUrl,
+    originalUrl: deal.originalUrl,
+    affiliateUrl: deal.affiliateUrl,
+    eventUrl: deal.eventUrl,
+    linkType: deal.linkType,
+    availability: deal.availability,
+    priorityScore: deal.priorityScore,
     validationStatus: deal.validationStatus,
+    validationReason: deal.validationReason,
     hiddenReason: deal.hiddenReason,
     lastCheckedAt: deal.lastCheckedAt,
     officialHost: deal.officialHost
@@ -374,19 +456,28 @@ export function summarizeNewsDeals(deals, generatedAt = new Date().toISOString()
       provider: deal.provider,
       title: deal.title,
       status: deal.validationStatus === "passed" && !deal.isHidden ? "visible" : "hidden",
-      reason: deal.hiddenReason || "passed",
+      reason: deal.validationReason || deal.hiddenReason || "passed",
       finalUrl: deal.finalUrl,
+      linkType: deal.linkType,
+      availability: deal.availability,
+      priorityScore: deal.priorityScore,
       checkedAt: deal.lastCheckedAt
     }));
 
   return {
-    ok: hidden.length === 0,
+    ok: hidden.length === 0 && activeVisible.length === visible.length && exposedSearchLinks.length === 0 && exposedNonOfficialLinks.length === 0,
     generatedAt,
     totalCount: deals.length,
     visibleCount: visible.length,
     hiddenCount: hidden.length,
     expiredCount: expired.length,
     officialMissingCount: officialMissing.length,
+    searchLinkCount: searchLinks.length,
+    exposedSearchLinkCount: exposedSearchLinks.length,
+    nonOfficialLinkCount: nonOfficialLinks.length,
+    exposedNonOfficialLinkCount: exposedNonOfficialLinks.length,
+    activeVisibleCount: activeVisible.length,
+    averagePriorityScore: visible.length ? Math.round(visible.reduce((sum, deal) => sum + Number(deal.priorityScore ?? 0), 0) / visible.length) : 0,
     failedCount: hidden.length,
     categoryCounts: Object.fromEntries(
       visible.reduce((map, deal) => map.set(deal.category, (map.get(deal.category) ?? 0) + 1), new Map())

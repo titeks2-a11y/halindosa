@@ -4151,6 +4151,7 @@ function checkNewsDealPipeline() {
   const feedUrlParser = existsSync(join(root, "lib/deals/feedUrls.ts")) ? readFileSync(join(root, "lib/deals/feedUrls.ts"), "utf8") : "";
   const scriptFeedUrlParser = existsSync(join(root, "scripts/feed-url-utils.mjs")) ? readFileSync(join(root, "scripts/feed-url-utils.mjs"), "utf8") : "";
   const newsUtils = existsSync(join(root, "scripts/news-deal-utils.mjs")) ? readFileSync(join(root, "scripts/news-deal-utils.mjs"), "utf8") : "";
+  const newsDealTypes = existsSync(join(root, "types/newsDeal.ts")) ? readFileSync(join(root, "types/newsDeal.ts"), "utf8") : "";
   const refreshAllScript = existsSync(join(root, "scripts/refresh-all.mjs")) ? readFileSync(join(root, "scripts/refresh-all.mjs"), "utf8") : "";
   const newsProvider = existsSync(join(root, "lib/deals/providers/newsProvider.ts")) ? readFileSync(join(root, "lib/deals/providers/newsProvider.ts"), "utf8") : "";
   const eventNewsProvider = existsSync(join(root, "lib/deals/providers/eventNewsProvider.ts")) ? readFileSync(join(root, "lib/deals/providers/eventNewsProvider.ts"), "utf8") : "";
@@ -4185,6 +4186,17 @@ function checkNewsDealPipeline() {
   for (const phrase of ["not_approved_official_url", "search_or_result_url", "expired_event", "official_event_seed_and_approved_feeds"]) {
     if (!refreshScript.includes(phrase) && !verifyScript.includes(phrase) && !newsUtils.includes(phrase)) {
       issues.push(`news verification missing ${phrase}`);
+    }
+  }
+  for (const field of ["source", "mallName", "originalUrl", "affiliateUrl", "eventUrl", "linkType", "availability", "validationReason", "priorityScore"]) {
+    if (!newsDealTypes.includes(`${field}:`) && !newsDealTypes.includes(`${field}?:`)) {
+      issues.push(`NewsDeal type missing launch quality field ${field}`);
+    }
+    if (!newsUtils.includes(field)) {
+      issues.push(`news normalization/validation missing launch quality field ${field}`);
+    }
+    if (!verifyScript.includes(field)) {
+      issues.push(`verify:news missing launch quality field gate ${field}`);
     }
   }
 
@@ -4270,6 +4282,9 @@ function checkNewsDealPipeline() {
     !adminNewsOperationsPanel.includes("getFailureReasonAction") ||
     !adminNewsOperationsPanel.includes("failureReasonTop10") ||
     !adminNewsOperationsPanel.includes("recentLogs") ||
+    !adminNewsOperationsPanel.includes("priorityScore") ||
+    !adminNewsOperationsPanel.includes("availability") ||
+    !adminNewsOperationsPanel.includes("linkType") ||
     !adminNewsOperationsPanel.includes("신선도 운영") ||
     !adminNewsOperationsPanel.includes("다음 refresh 권장") ||
     !adminNewsOperationsPanel.includes("만료 임박 대체 큐") ||
@@ -4298,6 +4313,12 @@ function checkNewsDealPipeline() {
     !verifyScript.includes("minimumCategoryDealCount") ||
     !verifyScript.includes("thinCategories") ||
     !verifyScript.includes("configuredFeedErrors") ||
+    !verifyScript.includes("searchLinkTypeExposure") ||
+    !verifyScript.includes("inactiveVisibleExposure") ||
+    !verifyScript.includes("missingQualityFieldCount") ||
+    !newsOperations.includes("priorityScore") ||
+    !newsOperations.includes("availability") ||
+    !newsOperations.includes("linkType") ||
     !newsOperations.includes("durationMs") ||
     !smokeScript.includes("freshness?.cadenceHours === 6") ||
     !smokeScript.includes("operatorNextActions") ||
@@ -4321,6 +4342,10 @@ function checkNewsDealPipeline() {
     if (Array.isArray(report.gates?.configuredFeedErrors) && report.gates.configuredFeedErrors.length > 0) issues.push("news-deals report should fail configured feed errors before release");
     if (report.gates && !Array.isArray(report.gates.configuredFeedErrors)) issues.push("news-deals report should expose configured feed error gate");
     if (!Array.isArray(report.recentLogs) || report.recentLogs.length < 5) issues.push("news-deals report should include recent collection logs");
+    if ((report.exposedSearchLinkCount ?? 0) !== 0 || (report.exposedNonOfficialLinkCount ?? 0) !== 0 || (report.activeVisibleCount ?? 0) !== (report.visibleCount ?? 0)) {
+      issues.push("news-deals report should expose only active official link types with zero search/non-official exposure");
+    }
+    if ((report.averagePriorityScore ?? 0) < 70) issues.push("news-deals report should keep average official benefit priority score above 70");
     if (!Array.isArray(report.manualActions) || report.manualActions.length < 3) issues.push("news-deals report should include manual hide/restore/revalidate actions");
     if ((report.hiddenCount ?? 0) !== 0 || (report.expiredCount ?? 0) !== 0 || (report.officialMissingCount ?? 0) !== 0) {
       issues.push("news-deals report should expose zero hidden, expired, or non-official links");

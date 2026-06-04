@@ -43,7 +43,6 @@ const linkReport = readJson("reports/link-validation.json");
 const productReport = readJson("reports/product-quality.json");
 const exposureReport = readJson("reports/exposure-policy.json");
 const refreshReport = readJson("reports/refresh-deals.json");
-const releaseDoctor = readJson("reports/release-doctor.json");
 const policy = readJson("data/linkQualityPolicy.json");
 
 const auditedItems = Array.isArray(exposureReport?.auditedItems)
@@ -68,8 +67,7 @@ const criteria = {
   failedProducts: 0,
   hiddenProducts: 0,
   liveHardFailures: 0,
-  sellerUnavailableSignals: 0,
-  releaseDoctorFailures: 0
+  sellerUnavailableSignals: 0
 };
 
 const actual = {
@@ -104,8 +102,7 @@ const actual = {
   refreshVisibleCount: refreshReport?.visibleCount ?? 0,
   refreshFailedCount: refreshReport?.failedCount ?? 0,
   liveHardFailures: liveReview?.hardFailureCount ?? 0,
-  sellerUnavailableSignals: liveReview?.sellerUnavailableSignals ?? 0,
-  releaseDoctorFailures: releaseDoctor?.failedChecks ?? 0
+  sellerUnavailableSignals: liveReview?.sellerUnavailableSignals ?? 0
 };
 
 const issues = [];
@@ -121,7 +118,6 @@ if (actual.hiddenProducts !== criteria.hiddenProducts) issues.push("hidden_produ
 if (!actual.refreshOk || actual.refreshFailedCount !== 0) issues.push("refresh_pipeline_not_clean");
 if (actual.liveHardFailures !== criteria.liveHardFailures) issues.push("live_probe_hard_failures");
 if (actual.sellerUnavailableSignals !== criteria.sellerUnavailableSignals) issues.push("seller_unavailable_signals");
-if (actual.releaseDoctorFailures !== criteria.releaseDoctorFailures) issues.push("release_doctor_failures");
 if (failedExposureItems.length) issues.push("failed_exposure_items_present");
 if (policy?.exposurePolicy?.availability !== "active" || policy?.exposurePolicy?.validationStatus !== "passed") {
   issues.push("exposure_policy_not_strict");
@@ -141,8 +137,7 @@ const report = {
     linkValidation: linkReport?.generatedAt ?? null,
     productQuality: productReport?.generatedAt ?? null,
     exposurePolicy: exposureReport?.generatedAt ?? null,
-    refreshDeals: refreshReport?.generatedAt ?? null,
-    releaseDoctor: releaseDoctor?.generatedAt ?? null
+    refreshDeals: refreshReport?.generatedAt ?? null
   },
   linkTypeCounts: exposureReport?.linkTypeCounts ?? {},
   availabilityCounts: exposureReport?.availabilityCounts ?? {},

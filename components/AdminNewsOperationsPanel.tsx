@@ -59,6 +59,9 @@ interface RecentCollectionLog {
   status: string;
   reason: string;
   finalUrl: string;
+  linkType?: string;
+  availability?: string;
+  priorityScore?: number;
   checkedAt: string;
 }
 
@@ -621,7 +624,12 @@ export function AdminNewsOperationsPanel({ apiHref, initialReport }: AdminNewsOp
                   </span>
                 </div>
                 <div className="mt-2 flex items-center justify-between gap-2">
-                  <p className="truncate text-[10px] font-bold text-slate-400">{log.finalUrl || "공식 링크 없음"}</p>
+                  <p className="truncate text-[10px] font-bold text-slate-400">
+                    {log.linkType ? `${log.linkType} · ` : ""}
+                    {log.availability ? `${log.availability} · ` : ""}
+                    {typeof log.priorityScore === "number" ? `${log.priorityScore}점 · ` : ""}
+                    {log.finalUrl || "공식 링크 없음"}
+                  </p>
                   {log.finalUrl ? (
                     <a
                       href={log.finalUrl}
