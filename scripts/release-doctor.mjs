@@ -1595,7 +1595,11 @@ function checkRefreshDealPipeline() {
   const exposureRoute = existsSync(join(root, exposureRoutePath)) ? readFileSync(join(root, exposureRoutePath), "utf8") : "";
   const linkLaunchGateRoute = existsSync(join(root, linkLaunchGateRoutePath)) ? readFileSync(join(root, linkLaunchGateRoutePath), "utf8") : "";
   const adminPanel = existsSync(join(root, adminPanelPath)) ? readFileSync(join(root, adminPanelPath), "utf8") : "";
-  const adminPage = readFileSync(join(root, "app/admin/page.tsx"), "utf8");
+  const adminPage = [
+    readFileSync(join(root, "app/admin/page.tsx"), "utf8"),
+    readFileSync(join(root, "components/AdminExposurePolicyPanel.tsx"), "utf8"),
+    readFileSync(join(root, "components/AdminLinkLaunchGatePanel.tsx"), "utf8")
+  ].join("\n");
   const smoke = smokeSourceSync();
   const gitignore = existsSync(join(root, ".gitignore")) ? readFileSync(join(root, ".gitignore"), "utf8") : "";
   const exposureDoctorScript = readFileSync(join(root, "scripts/exposure-policy-doctor.mjs"), "utf8");
