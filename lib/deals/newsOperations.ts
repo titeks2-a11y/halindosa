@@ -78,6 +78,26 @@ interface FeedTransitionReadiness {
   providers: FeedTransitionProvider[];
 }
 
+interface NewsPolicyRegression {
+  ok: boolean;
+  total: number;
+  passed: number;
+  visiblePositiveSamples: number;
+  blockedNegativeSamples: number;
+  results: Array<{
+    id: string;
+    expectedHidden: boolean;
+    actualHidden: boolean;
+    expectedReason: string;
+    hiddenReason: string;
+    linkType: string;
+    availability: string;
+    validationStatus: string;
+    priorityScore: number;
+    ok: boolean;
+  }>;
+}
+
 interface NewsDealsReport {
   ok?: boolean;
   generatedAt?: string;
@@ -106,6 +126,10 @@ interface NewsDealsReport {
     checkedAt: string;
   }>;
   manualActions?: Array<{ action: string; label: string; description: string }>;
+  gates?: {
+    policyRegression?: NewsPolicyRegression;
+    [key: string]: unknown;
+  };
 }
 
 interface RefreshAllReport {
@@ -618,6 +642,14 @@ export function getNewsOperationsReport() {
     providerRiskSummary,
     feedTransitionReadiness,
     failureReasonTop10,
+    policyRegression: report.gates?.policyRegression ?? {
+      ok: false,
+      total: 0,
+      passed: 0,
+      visiblePositiveSamples: 0,
+      blockedNegativeSamples: 0,
+      results: []
+    },
     visibleDeals: visibleDeals
       .map((deal) => ({
         id: deal.id,

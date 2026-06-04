@@ -790,6 +790,16 @@ await check("admin news operations api", async () => {
   assert(["fresh", "due", "stale", "missing"].includes(data.report?.freshness?.status), "Admin news operations report missing freshness status");
   assert(String(data.report?.freshness?.command ?? "").includes("refresh:all"), "Admin news operations report missing refresh command guidance");
   assert(Array.isArray(data.report?.operatorNextActions) && data.report.operatorNextActions.length >= 1, "Admin news operations report missing operator next actions");
+  assert(data.report?.policyRegression?.ok === true, "Admin news operations report missing passing news policy regression");
+  assert(data.report?.policyRegression?.blockedNegativeSamples >= 8, "Admin news operations policy regression should block bad official benefit samples");
+  assert(
+    data.report?.policyRegression?.results?.some((item) => item.id === "news-regression-search-url" && item.hiddenReason.includes("search_or_result_url")),
+    "Admin news operations policy regression should block search official benefit URLs"
+  );
+  assert(
+    data.report?.policyRegression?.results?.some((item) => item.id === "news-regression-community-url" && item.hiddenReason.includes("blocked_community_or_news_host")),
+    "Admin news operations policy regression should block community official benefit URLs"
+  );
 
   const csvResponse = await fetch(`${baseUrl}/api/admin/news-operations?format=csv`);
   const csv = await csvResponse.text();

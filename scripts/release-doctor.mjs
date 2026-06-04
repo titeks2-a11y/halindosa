@@ -4321,6 +4321,9 @@ function checkNewsDealPipeline() {
       issues.push(`news verification missing ${phrase}`);
     }
   }
+  for (const phrase of ["buildPolicyRegressionScenarios", "news-regression-search-url", "news-regression-community-url", "news-regression-news-only-url", "news-regression-expired-event", "news-regression-unsafe-url"]) {
+    if (!verifyScript.includes(phrase)) issues.push(`verify:news missing policy regression sample ${phrase}`);
+  }
   for (const field of ["source", "mallName", "originalUrl", "affiliateUrl", "eventUrl", "linkType", "availability", "validationReason", "priorityScore"]) {
     if (!newsDealTypes.includes(`${field}:`) && !newsDealTypes.includes(`${field}?:`)) {
       issues.push(`NewsDeal type missing launch quality field ${field}`);
@@ -4455,6 +4458,7 @@ function checkNewsDealPipeline() {
     !newsOperations.includes("minimumCategoryDealCount") ||
     !verifyScript.includes("minimumCategoryDealCount") ||
     !verifyScript.includes("thinCategories") ||
+    !verifyScript.includes("policyRegression") ||
     !verifyScript.includes("configuredFeedErrors") ||
     !verifyScript.includes("searchLinkTypeExposure") ||
     !verifyScript.includes("inactiveVisibleExposure") ||
@@ -4484,6 +4488,15 @@ function checkNewsDealPipeline() {
     if (!Array.isArray(report.providerStats) || report.providerStats.length < 4) issues.push("news-deals report should include provider stats");
     if (Array.isArray(report.gates?.configuredFeedErrors) && report.gates.configuredFeedErrors.length > 0) issues.push("news-deals report should fail configured feed errors before release");
     if (report.gates && !Array.isArray(report.gates.configuredFeedErrors)) issues.push("news-deals report should expose configured feed error gate");
+    if (report.gates?.policyRegression?.ok !== true || Number(report.gates?.policyRegression?.blockedNegativeSamples ?? 0) < 8) {
+      issues.push("news-deals report should prove policy regression blocks search, community, news-only, expired, unclear, spam, missing URL, and unsafe official benefit samples");
+    }
+    if (!Array.isArray(report.gates?.policyRegression?.results) || !report.gates.policyRegression.results.some((item) => item.id === "news-regression-search-url" && item.hiddenReason?.includes("search_or_result_url"))) {
+      issues.push("news-deals report should include a passing search URL policy regression sample");
+    }
+    if (!Array.isArray(report.gates?.policyRegression?.results) || !report.gates.policyRegression.results.some((item) => item.id === "news-regression-community-url" && item.hiddenReason?.includes("blocked_community_or_news_host"))) {
+      issues.push("news-deals report should include a passing community URL policy regression sample");
+    }
     if (!Array.isArray(report.recentLogs) || report.recentLogs.length < 5) issues.push("news-deals report should include recent collection logs");
     if ((report.exposedSearchLinkCount ?? 0) !== 0 || (report.exposedNonOfficialLinkCount ?? 0) !== 0 || (report.activeVisibleCount ?? 0) !== (report.visibleCount ?? 0)) {
       issues.push("news-deals report should expose only active official link types with zero search/non-official exposure");
