@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-04T02:40:39.469Z",
+  "generatedAt": "2026-06-04T02:56:25.129Z",
   "totalDeals": 140,
   "verificationTargets": 140,
   "passedDirectLinks": 140,
@@ -26,13 +26,13 @@
     "checked": 140,
     "passed": 66,
     "failed": 74,
-    "redirected": 11,
-    "finalUrlChanged": 11,
+    "redirected": 12,
+    "finalUrlChanged": 12,
     "http404": 0,
     "http410": 0,
     "http5xx": 0,
     "timeout": 0,
-    "robotsBlocked": 57,
+    "robotsBlocked": 58,
     "unavailableText": 0,
     "failures": [
       {
@@ -253,13 +253,6 @@
         "reason": "request_failed"
       },
       {
-        "id": "d074",
-        "url": "https://www.shinhancard.com/pconts/html/benefit/event/MOBFM220/MOBFM220R01.html",
-        "finalUrl": "https://www.shinhancard.com/pconts/html/benefit/event/MOBFM220/MOBFM220R01.html",
-        "status": 0,
-        "reason": "request_failed"
-      },
-      {
         "id": "d079",
         "url": "https://www.coupang.com/vp/products/8943433269",
         "finalUrl": "https://www.coupang.com/vp/products/8943433269",
@@ -463,6 +456,13 @@
         "reason": "robots_or_access_blocked"
       },
       {
+        "id": "d124",
+        "url": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000230063",
+        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000230063",
+        "status": 403,
+        "reason": "robots_or_access_blocked"
+      },
+      {
         "id": "d125",
         "url": "https://www.ssg.com/item/itemView.ssg?itemId=1000032939693",
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000032939693",
@@ -556,13 +556,13 @@
     ]
   },
   "httpStatusSummary": {
-    "redirected": 11,
-    "finalUrlChanged": 11,
+    "redirected": 12,
+    "finalUrlChanged": 12,
     "http404": 0,
     "http410": 0,
     "http5xx": 0,
     "timeout": 0,
-    "robotsBlocked": 57,
+    "robotsBlocked": 58,
     "unavailableText": 0
   },
   "policy": {
@@ -596,24 +596,23 @@
   "liveProbeReviewSummary": {
     "status": "transient_network_review",
     "hardFailureCount": 0,
-    "transientNetworkCount": 4,
-    "accessProtectedCount": 57,
+    "transientNetworkCount": 3,
+    "accessProtectedCount": 58,
     "sellerUnavailableSignals": 0,
     "interpretation": "Some URLs returned transient network signals; no exposed search, sold-out, 404, 410, or 5xx links were found."
   },
   "liveProbeReasonCounts": {
-    "robots_or_access_blocked": 57,
+    "robots_or_access_blocked": 58,
     "http_429": 13,
-    "request_failed": 4
+    "request_failed": 3
   },
   "liveProbeHostFailureCounts": {
     "item.gmarket.co.kr": 30,
     "coupang.com": 23,
     "ssg.com": 13,
-    "oliveyoung.co.kr": 2,
+    "oliveyoung.co.kr": 3,
     "hyundaicard.com": 1,
     "itempage3.auction.co.kr": 1,
-    "shinhancard.com": 1,
     "store.ohou.se": 1,
     "tmembership.co.kr": 1,
     "tour.interpark.com": 1
@@ -638,13 +637,6 @@
       "id": "d073",
       "url": "https://www.hyundaicard.com/cpc/cr/CPCCR0101_01.hc",
       "finalUrl": "https://www.hyundaicard.com/cpc/cr/CPCCR0101_01.hc",
-      "status": 0,
-      "reason": "request_failed"
-    },
-    {
-      "id": "d074",
-      "url": "https://www.shinhancard.com/pconts/html/benefit/event/MOBFM220/MOBFM220R01.html",
-      "finalUrl": "https://www.shinhancard.com/pconts/html/benefit/event/MOBFM220/MOBFM220R01.html",
       "status": 0,
       "reason": "request_failed"
     }
@@ -3253,13 +3245,10 @@
         "productDetailUrl": false,
         "officialBenefitUrl": true,
         "unavailableText": false,
-        "liveProbeOk": false
+        "liveProbeOk": true
       },
       "liveProbe": {
-        "ok": false,
-        "status": 0,
-        "reason": "request_failed",
-        "finalUrl": "https://www.shinhancard.com/pconts/html/benefit/event/MOBFM220/MOBFM220R01.html"
+        "ok": true
       }
     },
     {
@@ -5031,7 +5020,7 @@
       "validationStatus": "passed",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-02T05:20:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "host": "oliveyoung.co.kr",
       "evidence": "올리브영 닥터지 레드 블레미쉬 클리어 수딩 크림 70ml 기획 상품 상세",
@@ -5043,10 +5032,13 @@
         "productDetailUrl": true,
         "officialBenefitUrl": false,
         "unavailableText": false,
-        "liveProbeOk": true
+        "liveProbeOk": false
       },
       "liveProbe": {
-        "ok": true
+        "ok": false,
+        "status": 403,
+        "reason": "robots_or_access_blocked",
+        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000230063"
       }
     },
     {

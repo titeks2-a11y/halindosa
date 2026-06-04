@@ -4,10 +4,10 @@
 
 ## 기본 정보
 
-- 생성 시각: 2026-06-04T02:43:15.515Z
+- 생성 시각: 2026-06-04T02:59:02.736Z
 - Git 브랜치: codex/12h-product-ux-growth-hardening
-- 최신 커밋: 7060c77
-- Git 상태: clean
+- 최신 커밋: f7cb5e0
+- Git 상태: M EXTERNAL_LINK_REPORT.md;  M IMAGE_QUALITY_REPORT.md;  M LINK_VERIFICATION_REPORT.md;  M LINK_VERIFICATION_RESULT.json;  M PERFORMANCE_REPORT.md;  M SEARCH_REPORT.md;  M data/refreshedDeals.json;  M data/refreshedNewsDeals.json;  M docs/DAILY_OPERATIONS_REPORT.md;  M docs/FEED_TRANSITION_REPORT.md;  M docs/HEALTH_READINESS_REPORT.md;  M docs/NEWS_FRESHNESS_REPORT.md;  M docs/OFFICIAL_SOURCE_CATALOG.md;  M docs/OFFICIAL_SOURCE_LIVE_CHECK.md;  M docs/PERFORMANCE_REPORT.md;  M docs/PUSH_DELIVERY_AUDIT.md;  M docs/PUSH_DELIVERY_POLICY.md;  M docs/PUSH_READINESS_REPORT.md;  M docs/SOURCE_FEED_ENV_REPORT.md;  M docs/SOURCE_ONBOARDING_PLAN.md;  M docs/SOURCE_READINESS_REPORT.md;  M reports/admin-auth.json;  M reports/cron-refresh-readiness.json;  M reports/daily-operations.json;  M reports/exposure-policy.json;  M reports/feed-transition.json;  M reports/health-readiness.json;  M reports/link-quality-regression.json;  M reports/link-validation.json;  M reports/news-deals.json;  M reports/news-freshness.json;  M reports/official-source-catalog.json;  M reports/official-source-live-check.csv;  M reports/official-source-live-check.json;  M reports/product-quality.json;  M reports/push-delivery-audit.json;  M reports/push-delivery-policy.json;  M reports/push-readiness.json;  M reports/refresh-all.json;  M reports/refresh-deals.json;  M reports/release-doctor.json;  M reports/source-feed-env-readiness.json;  M reports/source-onboarding-env-template.env;  M reports/source-onboarding-plan.csv;  M reports/source-onboarding-plan.json;  M reports/source-readiness.json
 - 패키지 버전: 1.0.1
 - 앱 이름: 할인도사
 - 앱 ID / 패키지명: com.halindosa.app
