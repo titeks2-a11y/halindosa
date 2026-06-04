@@ -756,6 +756,10 @@ await check("news deals api", async () => {
   assert(data.deals.every((deal) => deal.validationStatus === "passed" && deal.isHidden === false), "News deals API returned hidden or unverified items");
   assert(data.deals.every((deal) => /^https?:\/\//.test(deal.finalUrl)), "News deals API returned invalid finalUrl");
   assert(data.deals.every((deal) => !/search|query=|keyword=|msearch|result/i.test(deal.finalUrl)), "News deals API returned a search/result URL");
+  assert(["fresh", "due", "stale", "seed"].includes(data.freshnessStatus), "News deals API missing official benefit freshness status");
+  assert(typeof data.freshnessLabel === "string" && data.freshnessLabel.length > 0, "News deals API missing official benefit freshness label");
+  assert(data.freshnessCadenceMinutes === 360, "News deals API missing 6-hour freshness cadence");
+  assert(data.freshnessStaleAfterMinutes === 1440, "News deals API missing 24-hour stale threshold");
   assert(data.deals.some((deal) => deal.category === "마트/편의점"), "News deals API missing mart/convenience official benefits");
   assert(data.deals.some((deal) => deal.category === "영화/문화" || deal.category === "정부/공공혜택"), "News deals API missing culture/public official benefits");
   const full = await fetchJson("/api/news-deals");

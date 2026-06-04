@@ -4349,6 +4349,7 @@ function checkNewsDealPipeline() {
   const feedUrlParser = existsSync(join(root, "lib/deals/feedUrls.ts")) ? readFileSync(join(root, "lib/deals/feedUrls.ts"), "utf8") : "";
   const scriptFeedUrlParser = existsSync(join(root, "scripts/feed-url-utils.mjs")) ? readFileSync(join(root, "scripts/feed-url-utils.mjs"), "utf8") : "";
   const newsUtils = existsSync(join(root, "scripts/news-deal-utils.mjs")) ? readFileSync(join(root, "scripts/news-deal-utils.mjs"), "utf8") : "";
+  const newsDealsRuntime = existsSync(join(root, "lib/deals/newsDeals.ts")) ? readFileSync(join(root, "lib/deals/newsDeals.ts"), "utf8") : "";
   const newsDealTypes = existsSync(join(root, "types/newsDeal.ts")) ? readFileSync(join(root, "types/newsDeal.ts"), "utf8") : "";
   const refreshAllScript = existsSync(join(root, "scripts/refresh-all.mjs")) ? readFileSync(join(root, "scripts/refresh-all.mjs"), "utf8") : "";
   const newsProvider = existsSync(join(root, "lib/deals/providers/newsProvider.ts")) ? readFileSync(join(root, "lib/deals/providers/newsProvider.ts"), "utf8") : "";
@@ -4555,8 +4556,20 @@ function checkNewsDealPipeline() {
   if (!homePage.includes("RealtimeNewsDealsSection") || !homePage.includes("/api/news-deals?${params.toString()}") || !homePage.includes("params.set(\"q\"") || !homePage.includes("activeQuery={query}") || !homePage.includes("refreshNewsDeals") || !homePage.includes("120_000")) {
     issues.push("home should show verified realtime discount news section from /api/news-deals with live refresh");
   }
+  if (
+    !newsDealsRuntime.includes("buildNewsFreshness") ||
+    !newsDealsRuntime.includes("freshnessCadenceMinutes") ||
+    !newsDealsRuntime.includes("freshnessStaleAfterMinutes") ||
+    !newsDealsRuntime.includes("freshnessStatus") ||
+    !newsDealsRuntime.includes("seed 기준")
+  ) {
+    issues.push("news deals runtime should expose freshness status, cadence, stale threshold, and seed fallback state");
+  }
   if (!realtimeNewsSection.includes("activeQuery") || !realtimeNewsSection.includes("공식 혜택 검색 결과 요약") || !realtimeNewsSection.includes("상품 검색어 기준으로 공식 혜택도 함께 좁혔습니다")) {
     issues.push("realtime official benefit section should explain search-filtered official benefit results");
+  }
+  if (!realtimeNewsSection.includes("공식 혜택 신선도 안내") || !realtimeNewsSection.includes("freshnessLabel") || !realtimeNewsSection.includes("freshnessAgeMinutes")) {
+    issues.push("realtime official benefit section should surface freshness status without implying unverified realtime data");
   }
   if (
     !realtimeNewsSection.includes("/go/news/") ||

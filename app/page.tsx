@@ -402,6 +402,10 @@ interface NewsDealsResponse {
   count: number;
   updatedAt: string;
   source: string;
+  freshnessStatus?: "fresh" | "due" | "stale" | "seed";
+  freshnessLabel?: string;
+  freshnessAgeMinutes?: number | null;
+  nextRefreshAt?: string;
   message: string;
 }
 
@@ -680,6 +684,17 @@ export default function Home() {
   const [isSignalLoading, setIsSignalLoading] = useState(false);
   const [newsDeals, setNewsDeals] = useState<NewsDeal[]>(() => initialNewsSnapshot.deals ?? []);
   const [newsUpdatedAt, setNewsUpdatedAt] = useState(initialNewsSnapshot.generatedAt ?? "");
+  const [newsFreshness, setNewsFreshness] = useState<{
+    status: "fresh" | "due" | "stale" | "seed";
+    label: string;
+    ageMinutes: number | null;
+    nextRefreshAt: string;
+  }>({
+    status: initialNewsSnapshot.generatedAt ? "fresh" : "seed",
+    label: initialNewsSnapshot.generatedAt ? "최근 확인" : "seed 기준",
+    ageMinutes: null,
+    nextRefreshAt: ""
+  });
   const [isNewsRefreshing, setIsNewsRefreshing] = useState(false);
   const [newsRefreshError, setNewsRefreshError] = useState("");
   const [favorites, setFavorites] = useState<string[]>(() => readLocalFavoriteIds());
@@ -716,6 +731,12 @@ export default function Home() {
         const data = await requestJson<NewsDealsResponse>(`/api/news-deals?${params.toString()}`);
         setNewsDeals(Array.isArray(data.deals) ? data.deals : []);
         setNewsUpdatedAt(data.updatedAt);
+        setNewsFreshness({
+          status: data.freshnessStatus ?? "seed",
+          label: data.freshnessLabel ?? (data.source === "seed" ? "seed 기준" : "최근 확인"),
+          ageMinutes: typeof data.freshnessAgeMinutes === "number" ? data.freshnessAgeMinutes : null,
+          nextRefreshAt: data.nextRefreshAt ?? ""
+        });
         setNewsRefreshError("");
         if (notify) showToast("공식 혜택 정보를 다시 확인했습니다.");
       } catch {
@@ -2778,6 +2799,10 @@ export default function Home() {
             deals={newsDeals}
             updatedAt={newsUpdatedAt}
             activeQuery={query}
+            freshnessStatus={newsFreshness.status}
+            freshnessLabel={newsFreshness.label}
+            freshnessAgeMinutes={newsFreshness.ageMinutes}
+            nextRefreshAt={newsFreshness.nextRefreshAt}
             isRefreshing={isNewsRefreshing}
             refreshError={newsRefreshError}
             onRefresh={() => {

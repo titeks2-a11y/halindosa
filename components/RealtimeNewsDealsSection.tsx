@@ -38,6 +38,10 @@ export function RealtimeNewsDealsSection({
   deals,
   updatedAt,
   activeQuery = "",
+  freshnessStatus = "fresh",
+  freshnessLabel = "",
+  freshnessAgeMinutes = null,
+  nextRefreshAt = "",
   isRefreshing = false,
   refreshError = "",
   onRefresh,
@@ -46,12 +50,26 @@ export function RealtimeNewsDealsSection({
   deals: NewsDeal[];
   updatedAt: string;
   activeQuery?: string;
+  freshnessStatus?: "fresh" | "due" | "stale" | "seed" | string;
+  freshnessLabel?: string;
+  freshnessAgeMinutes?: number | null;
+  nextRefreshAt?: string;
   isRefreshing?: boolean;
   refreshError?: string;
   onRefresh?: () => void;
   onOpenNewsDeal?: (deal: NewsDeal) => void;
 }) {
   const trimmedQuery = activeQuery.trim();
+  const freshnessTone = refreshError || freshnessStatus === "stale" ? "warning" : freshnessStatus === "fresh" ? "success" : "neutral";
+  const freshnessText = isRefreshing ? "갱신 중" : freshnessLabel || (updatedAt ? getRelativeTime(updatedAt) : "seed 기준");
+  const freshnessDetail =
+    typeof freshnessAgeMinutes === "number"
+      ? freshnessAgeMinutes < 60
+        ? `${freshnessAgeMinutes}분 전 확인`
+        : `${Math.floor(freshnessAgeMinutes / 60)}시간 전 확인`
+      : nextRefreshAt
+        ? `다음 확인 ${getRelativeTime(nextRefreshAt)}`
+        : "공식 링크 기준";
   const highlightCounts = useMemo(
     () =>
       categoryHighlights
@@ -88,7 +106,10 @@ export function RealtimeNewsDealsSection({
         trailing={
           <div className="hidden items-center gap-1.5 sm:flex">
             <CommerceBadge tone={refreshError ? "gold" : "neutral"}>
-              {isRefreshing ? "갱신 중" : updatedAt ? getRelativeTime(updatedAt) : "방금 확인"}
+              {updatedAt ? getRelativeTime(updatedAt) : freshnessText}
+            </CommerceBadge>
+            <CommerceBadge tone={freshnessTone}>
+              {freshnessText}
             </CommerceBadge>
             {onRefresh ? (
               <button
@@ -106,7 +127,10 @@ export function RealtimeNewsDealsSection({
       />
       <div className="mt-2 flex items-center justify-between gap-2 sm:hidden">
         <CommerceBadge tone={refreshError ? "gold" : "neutral"}>
-          {isRefreshing ? "갱신 중" : updatedAt ? getRelativeTime(updatedAt) : "방금 확인"}
+          {updatedAt ? getRelativeTime(updatedAt) : freshnessText}
+        </CommerceBadge>
+        <CommerceBadge tone={freshnessTone}>
+          {freshnessText}
         </CommerceBadge>
         {onRefresh ? (
           <button
@@ -122,6 +146,9 @@ export function RealtimeNewsDealsSection({
         ) : null}
       </div>
       {refreshError ? <p className="mt-2 text-[11px] font-bold text-amber-700">{refreshError}</p> : null}
+      <p className="mt-2 text-[11px] font-bold text-slate-500" aria-label="공식 혜택 신선도 안내">
+        {freshnessDetail} · 검색 결과와 커뮤니티 원문은 제외하고 공식 혜택 링크만 유지합니다.
+      </p>
       {trimmedQuery ? (
         <div className="mt-2 rounded-2xl border border-red-100 bg-red-50 px-3 py-2 text-[11px] font-black text-brand-red" aria-label="공식 혜택 검색 결과 요약">
           상품 검색어 기준으로 공식 혜택도 함께 좁혔습니다. 검색 결과·커뮤니티 원문은 제외됩니다.

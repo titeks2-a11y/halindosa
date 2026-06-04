@@ -55,6 +55,7 @@
 - `/api/news-deals`에 `q` 통합 검색과 `priority/latest/endingSoon/discount` 정렬을 추가해 공식 혜택 feed가 늘어난 뒤에도 무료, 쿠폰, 문화, 배달 같은 키워드로 검증 혜택만 빠르게 탐색할 수 있게 했다.
 - 홈 검색어를 공식 혜택/할인뉴스 자동 새로고침에도 전달해 사용자가 `쿠폰`, `문화`, `배달`처럼 입력하면 상품 목록과 공식 혜택 섹션이 같은 의도로 좁혀지고, 검색 중에는 마감임박순으로 먼저 보여주도록 연결했다.
 - 공식 혜택/할인뉴스 섹션에 검색어 기반 결과 수와 안내 배지를 추가해 상품 검색 중에도 어떤 공식 혜택이 함께 좁혀졌는지 모바일 화면에서 바로 이해할 수 있게 했다.
+- `/api/news-deals`와 홈 공식 혜택 섹션에 `fresh/due/stale/seed` 신선도 상태, 6시간 갱신 권장, 24시간 stale 기준을 노출해 seed fallback을 무리하게 실시간처럼 보이지 않게 하고 공식 링크 검증 시점을 사용자에게 가볍게 안내하도록 개선했다.
 - 관리자/운영 API 인증을 `canAccessAdminRequest`로 통일해 `Authorization: Bearer`, `x-admin-token`, `x-admin-export-token`, `x-halindosa-admin-token` 헤더를 지원하고, 쿼리 token 방식은 호환용으로만 유지하도록 `admin:auth:doctor`, `reports/admin-auth.json`, release doctor 게이트를 추가했다.
 - `test:news-feed-errors` 회귀 테스트를 추가해 정상 공식 feed는 통과하고, 설정된 운영 feed가 깨졌을 때는 seed fallback이 있어도 `configuredFeedErrors`로 `verify:news`가 실패하는지 QA에서 직접 재현하도록 했다.
 - `test:news-feed-errors`가 임시 공식 feed 서버를 띄워 정상 feed의 `feedItemCount/feedSuccessCount` 증가와 깨진 feed의 seed fallback 보존을 함께 검증하도록 보강해, 실제 RSS/JSON feed 연결 시 source mix 집계가 회귀하지 않게 했다.

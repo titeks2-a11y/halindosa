@@ -25,6 +25,10 @@ function readSnapshot(): NewsDealSnapshot | null {
 }
 
 type NewsDealSort = "priority" | "endingSoon" | "latest" | "discount";
+type NewsDealFreshnessStatus = "fresh" | "due" | "stale" | "seed";
+
+const freshnessCadenceMinutes = 6 * 60;
+const freshnessStaleAfterMinutes = 24 * 60;
 
 function isVisibleNewsDeal(deal: NewsDeal) {
   const linkType = deal.linkType ?? "official_benefit";
@@ -94,11 +98,41 @@ function sortNewsDeals(deals: NewsDeal[], sort: NewsDealSort) {
   }
 }
 
+function buildNewsFreshness(generatedAt?: string) {
+  const timestamp = Date.parse(String(generatedAt ?? ""));
+
+  if (!Number.isFinite(timestamp)) {
+    return {
+      freshnessStatus: "seed" as NewsDealFreshnessStatus,
+      freshnessLabel: "seed 기준",
+      freshnessAgeMinutes: null,
+      freshnessCadenceMinutes,
+      freshnessStaleAfterMinutes,
+      nextRefreshAt: ""
+    };
+  }
+
+  const freshnessAgeMinutes = Math.max(0, Math.floor((Date.now() - timestamp) / 60_000));
+  const freshnessStatus: NewsDealFreshnessStatus =
+    freshnessAgeMinutes <= freshnessCadenceMinutes ? "fresh" : freshnessAgeMinutes <= freshnessStaleAfterMinutes ? "due" : "stale";
+
+  return {
+    freshnessStatus,
+    freshnessLabel: freshnessStatus === "fresh" ? "최근 확인" : freshnessStatus === "due" ? "재확인 권장" : "갱신 필요",
+    freshnessAgeMinutes,
+    freshnessCadenceMinutes,
+    freshnessStaleAfterMinutes,
+    nextRefreshAt: new Date(timestamp + freshnessCadenceMinutes * 60_000).toISOString()
+  };
+}
+
 export function getVisibleNewsDeals(options: { limit?: number; category?: string; benefitType?: string; q?: string; sort?: string } = {}) {
   const snapshot = readSnapshot();
   const sourceDeals = snapshot?.deals?.length ? snapshot.deals : (seedNewsDeals as NewsDeal[]);
   const now = Date.now();
   const sort = normalizeNewsSort(options.sort);
+  const updatedAt = snapshot?.generatedAt ?? "";
+  const freshness = buildNewsFreshness(updatedAt);
   const filtered = applyNewsDealOverrides(sourceDeals)
     .filter(isVisibleNewsDeal)
     .filter((deal) => {
@@ -113,10 +147,11 @@ export function getVisibleNewsDeals(options: { limit?: number; category?: string
   return {
     deals: typeof options.limit === "number" && options.limit > 0 ? sorted.slice(0, options.limit) : sorted,
     count: sorted.length,
-    updatedAt: snapshot?.generatedAt ?? new Date().toISOString(),
+    updatedAt,
     source: snapshot?.source ?? "seed",
     sort,
-    query: options.q?.trim() ?? ""
+    query: options.q?.trim() ?? "",
+    ...freshness
   };
 }
 
