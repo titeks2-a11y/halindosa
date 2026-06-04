@@ -1,8 +1,8 @@
 {
   "generatedBy": "npm run release:notes",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "2702b24",
-  "workingTree": "M DEVICE_QA_REPORT.md;  M KNOWN_ISSUES.md;  M PUBLIC_URL_REPORT.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_HANDOFF_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M docs/DEVICE_QA_REPORT.md;  M docs/KNOWN_ISSUES.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_HANDOFF_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md;  M docs/release-evidence.md",
+  "commit": "48122ab",
+  "workingTree": "M DEVICE_QA_REPORT.md;  M KNOWN_ISSUES.md;  M PUBLIC_URL_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_SCREENSHOTS_REPORT.md;  M docs/DEVICE_QA_REPORT.md;  M docs/KNOWN_ISSUES.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/release-evidence.md",
   "version": "1.0.1",
   "appName": "할인도사",
   "packageName": "com.halindosa.app",
@@ -34,7 +34,7 @@
     {
       "path": "docs/release-evidence.md",
       "status": "present",
-      "bytes": 7214
+      "bytes": 7251
     },
     {
       "path": "docs/STORE_CONSOLE_FIELDS.md",
@@ -44,7 +44,7 @@
     {
       "path": "docs/STORE_MANUAL_CHECKLIST.md",
       "status": "present",
-      "bytes": 4399
+      "bytes": 4484
     },
     {
       "path": "docs/STORE_HANDOFF_REPORT.md",
@@ -73,14 +73,14 @@
     }
   ],
   "recentCommits": [
+    "48122ab feat: add push delivery audit readiness",
+    "2af86df docs: record clean release doctor after feed parser hardening",
+    "dac3f70 docs: refresh release evidence after feed parser hardening",
     "2702b24 fix: unify feed URL parsing across operations",
     "62a17d3 docs: record clean release doctor result",
     "523286d docs: refresh release evidence after Supabase override sync",
     "76a0306 feat: sync admin deal overrides with Supabase",
-    "ad07f39 docs: refresh release evidence after admin override persistence",
-    "d5c4882 feat: persist admin deal operation overrides",
-    "cdd4375 feat: enforce admin manual deal hiding",
-    "869a426 docs: refresh release evidence after image QA hardening"
+    "ad07f39 docs: refresh release evidence after admin override persistence"
   ],
   "manualWorkThatMustNotBeFaked": [
     "Do not claim Play Console or App Store Connect submission has passed from this file.",
