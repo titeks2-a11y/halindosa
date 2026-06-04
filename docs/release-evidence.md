@@ -4,10 +4,10 @@
 
 ## 기본 정보
 
-- 생성 시각: 2026-06-04T05:49:38.503Z
+- 생성 시각: 2026-06-04T06:03:42.116Z
 - Git 브랜치: codex/12h-product-ux-growth-hardening
-- 최신 커밋: 892ca32
-- Git 상태: M reports/release-doctor.json
+- 최신 커밋: e8ddd13
+- Git 상태: clean
 - 패키지 버전: 1.0.1
 - 앱 이름: 할인도사
 - 앱 ID / 패키지명: com.halindosa.app
@@ -56,7 +56,7 @@
 | Push readiness JSON | `reports/push-readiness.json` | 11KB |
 | Push delivery policy report | `docs/PUSH_DELIVERY_POLICY.md` | 3KB |
 | Push delivery policy JSON | `reports/push-delivery-policy.json` | 5KB |
-| Link quality regression JSON | `reports/link-quality-regression.json` | 6KB |
+| Link quality regression JSON | `reports/link-quality-regression.json` | 7KB |
 | Official source live check report | `docs/OFFICIAL_SOURCE_LIVE_CHECK.md` | 7KB |
 | Official source live check JSON | `reports/official-source-live-check.json` | 23KB |
 | Official source live check CSV | `reports/official-source-live-check.csv` | 11KB |
