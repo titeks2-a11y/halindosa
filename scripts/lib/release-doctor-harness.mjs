@@ -26,6 +26,7 @@ export async function optionalText(path) {
 export async function smokeSource() {
   const sources = await Promise.all([
     optionalText("scripts/smoke.mjs"),
+    optionalText("scripts/lib/smoke-admin-checks.mjs"),
     optionalText("scripts/lib/smoke-page-checks.mjs")
   ]);
 
@@ -40,6 +41,7 @@ export function optionalTextSync(path) {
 export function smokeSourceSync() {
   return [
     optionalTextSync("scripts/smoke.mjs"),
+    optionalTextSync("scripts/lib/smoke-admin-checks.mjs"),
     optionalTextSync("scripts/lib/smoke-page-checks.mjs")
   ].join("\n");
 }
