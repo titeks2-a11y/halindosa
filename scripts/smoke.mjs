@@ -999,6 +999,7 @@ await check("admin source readiness rollup csv", async () => {
   assert(response.headers.get("content-type")?.includes("text/csv"), "Admin source readiness CSV should use text/csv content type");
   assert(text.includes("env_plan") && text.includes("gate") && text.includes("next_action"), "Admin source readiness CSV missing env plan, gate, or next action sections");
   assert(text.includes("검색 결과, 커뮤니티 원문") && text.includes("source:feed-env:doctor"), "Admin source readiness CSV missing safe source guardrails or feed env command");
+  assert(text.includes("guarded_source") && text.includes("officialUrl=") && text.includes("finalUrl=") && text.includes("reason="), "Admin source readiness CSV missing guarded source URL and reason evidence");
 });
 
 await check("admin daily operations api", async () => {

@@ -84,9 +84,9 @@ function buildMarkdown(report) {
     : ["| - | - | 0 | 0 | 0 | 0 | source:onboarding:plan 실행 후 공식 feed env 후보를 확인합니다. |"];
   const riskRows = report.riskySources.length
     ? report.riskySources.map(
-        (source) => `| ${source.id} | ${source.label} | ${source.provider} | ${source.status} | ${source.operatorAction} |`
+        (source) => `| ${source.id} | ${source.label} | ${source.provider} | ${source.status} | ${source.httpStatus ?? "-"} | ${source.reason ?? "-"} | ${source.officialUrl ?? "-"} | ${source.finalUrl ?? "-"} | ${source.operatorAction} |`
       )
-    : ["| - | 공식 소스 위험 후보 없음 | - | passed | 계속 source:live:doctor로 접근 상태를 점검합니다. |"];
+    : ["| - | 공식 소스 위험 후보 없음 | - | passed | - | - | - | - | 계속 source:live:doctor로 접근 상태를 점검합니다. |"];
   const actionRows = report.operatorNextActions.map((action) => `- ${action}`);
 
   return [
@@ -121,8 +121,8 @@ function buildMarkdown(report) {
     "",
     "## 점검해야 할 보호/위험 소스",
     "",
-    "| ID | 소스 | Provider | 상태 | 운영 액션 |",
-    "| --- | --- | --- | --- | --- |",
+    "| ID | 소스 | Provider | 상태 | HTTP | 사유 | 공식 URL | 최종 URL | 운영 액션 |",
+    "| --- | --- | --- | --- | ---: | --- | --- | --- | --- |",
     ...riskRows,
     "",
     "## 다음 작업",

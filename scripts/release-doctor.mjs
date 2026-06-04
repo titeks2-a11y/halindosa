@@ -3050,6 +3050,9 @@ async function checkOperationalDataSurfaces() {
     !sourceReadinessReportScript.includes("source-readiness.json") ||
     !sourceReadinessReportScript.includes("source-feed-env-readiness.json") ||
     !sourceReadinessReportScript.includes("operatorNextActions") ||
+    !sourceReadinessReportScript.includes("officialUrl") ||
+    !sourceReadinessReportScript.includes("finalUrl") ||
+    !sourceReadinessReportScript.includes("httpStatus") ||
     !sourceReadinessReportScript.includes("검색 결과, 커뮤니티 원문") ||
     !envExample.includes("HALINDOSA_APPROVED_FEED_HOSTS") ||
     !envExample.includes("HALINDOSA_ALLOW_DATA_FEED_URLS") ||
@@ -3075,6 +3078,8 @@ async function checkOperationalDataSurfaces() {
     !adminSourceReadinessRoute.includes("getOfficialSourceReadiness") ||
     !adminSourceReadinessRoute.includes("format === \"csv\"") ||
     !adminSourceReadinessRoute.includes("text/csv") ||
+    !adminSourceReadinessRoute.includes("officialUrl=") ||
+    !adminSourceReadinessRoute.includes("finalUrl=") ||
     !officialSourceLiveReadiness.includes("getOfficialSourceLiveReport") ||
     !adminSourceLiveRoute.includes("canAccessAdmin") ||
     !adminSourceLiveRoute.includes("format === \"csv\"") ||

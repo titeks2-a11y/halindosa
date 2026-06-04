@@ -23,6 +23,10 @@ export type SourceReadinessRiskSource = {
   id: string;
   label: string;
   provider: string;
+  officialUrl?: string;
+  finalUrl?: string;
+  reason?: string;
+  httpStatus?: number;
   status: string;
   operatorAction: string;
 };

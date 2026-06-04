@@ -34,7 +34,14 @@ function buildSourceReadinessCsv(report: SourceReadinessReport) {
   }
 
   for (const source of report.riskySources) {
-    rows.push(["guarded_source", source.id, source.status, source.provider, source.label, source.operatorAction]);
+    rows.push([
+      "guarded_source",
+      source.id,
+      source.status,
+      String(source.httpStatus ?? ""),
+      `${source.provider}; reason=${source.reason ?? "unknown"}; officialUrl=${source.officialUrl ?? ""}; finalUrl=${source.finalUrl ?? ""}`,
+      source.operatorAction
+    ]);
   }
 
   for (const action of report.operatorNextActions) {
