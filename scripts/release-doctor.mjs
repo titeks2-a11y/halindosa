@@ -2313,6 +2313,12 @@ async function checkOperationalDataSurfaces() {
     !officialBenefitAlertsRoute.includes("getVisibleNewsDeals") ||
     !officialBenefitAlertsRoute.includes("recentNewsId") ||
     !officialBenefitAlertQueue.includes("newsDealMatchesNotificationInterest") ||
+    !officialBenefitAlertQueue.includes("isHttpUrl") ||
+    !officialBenefitAlertQueue.includes("parseTime") ||
+    !officialBenefitAlertQueue.includes("lastCheckedAt") ||
+    !officialBenefitAlertQueue.includes("freshnessBoost") ||
+    !officialBenefitAlertQueue.includes("officialHost") ||
+    !officialBenefitAlertQueue.includes("matchedInterests") ||
     !officialBenefitAlertQueue.includes("redirectUrl: `/go/news/${deal.id}`") ||
     !officialBenefitAlertQueue.includes("실제 푸시는 별도 동의") ||
     !notificationPreferences.includes("알림 받을 카테고리") ||
@@ -2338,6 +2344,7 @@ async function checkOperationalDataSurfaces() {
     !smoke.includes("Notifications page missing interest alert action cards") ||
     !smoke.includes("Notifications page missing official benefit alert preview") ||
     !smoke.includes("official benefit alerts api") ||
+    !smoke.includes("Official benefit alert items missing official host or matched interests") ||
     !smoke.includes("Notifications page missing local notification category preferences") ||
     !smoke.includes("Notifications page missing favorite and recent signal personalization summary") ||
     !smoke.includes("Notifications page missing reusable personalized recommendation API card") ||
@@ -4352,6 +4359,7 @@ function checkNewsDealPipeline() {
     !homeOfficialBenefitAlertRail.includes("재방문 혜택 큐") ||
     !homeOfficialBenefitAlertRail.includes("오늘 다시 볼 공식 혜택") ||
     !homeOfficialBenefitAlertRail.includes("관심 카테고리 공식 혜택") ||
+    !homeOfficialBenefitAlertRail.includes("officialHost") ||
     !homeOfficialBenefitAlertRail.includes("target=\"_blank\"") ||
     !homeOfficialBenefitAlertRail.includes("noopener noreferrer")
   ) {

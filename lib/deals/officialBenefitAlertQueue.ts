@@ -12,15 +12,42 @@ function uniqueValues(values: string[] = []) {
   return Array.from(new Set(values.map((value) => value.trim()).filter(Boolean))).slice(0, 12);
 }
 
+function safeNumber(value: unknown, fallback = 0) {
+  const number = Number(value);
+  return Number.isFinite(number) ? number : fallback;
+}
+
+function parseTime(value: string) {
+  const time = Date.parse(value);
+  return Number.isFinite(time) ? time : null;
+}
+
+function hostOf(value: string) {
+  try {
+    return new URL(value).hostname.replace(/^www\./, "");
+  } catch {
+    return "";
+  }
+}
+
+function isHttpUrl(value: string) {
+  try {
+    const url = new URL(value);
+    return url.protocol === "http:" || url.protocol === "https:";
+  } catch {
+    return false;
+  }
+}
+
 function isActiveOfficialBenefit(deal: NewsDeal) {
-  const endTime = Date.parse(deal.endDate);
+  const endTime = parseTime(deal.endDate);
 
   return (
     deal.validationStatus === "passed" &&
     !deal.isHidden &&
-    Boolean(deal.finalUrl) &&
+    isHttpUrl(deal.finalUrl) &&
     (deal.availability ?? "active") === "active" &&
-    (!Number.isFinite(endTime) || endTime >= Date.now()) &&
+    (endTime === null || endTime >= Date.now()) &&
     (deal.linkType ?? "official_benefit").startsWith("official")
   );
 }
@@ -49,10 +76,25 @@ export function newsDealMatchesNotificationInterest(deal: NewsDeal, interest: st
 function rankOfficialBenefit(deal: NewsDeal, interests: string[], recentNewsIds: string[]) {
   const categoryBoost = interests.some((interest) => newsDealMatchesNotificationInterest(deal, interest)) ? 34 : 0;
   const recentBoost = recentNewsIds.includes(deal.id) ? 18 : 0;
-  const endingBoost = Math.max(0, 72 - (new Date(deal.endDate).getTime() - Date.now()) / (60 * 60 * 1000));
-  const freeBoost = deal.benefitType === "freebie" || deal.benefitType === "coupon" || deal.price === 0 ? 24 : 0;
+  const endTime = parseTime(deal.endDate);
+  const checkedTime = parseTime(deal.lastCheckedAt);
+  const hoursUntilEnd = endTime === null ? Number.POSITIVE_INFINITY : (endTime - Date.now()) / (60 * 60 * 1000);
+  const hoursSinceCheck = checkedTime === null ? Number.POSITIVE_INFINITY : (Date.now() - checkedTime) / (60 * 60 * 1000);
+  const endingBoost = Number.isFinite(hoursUntilEnd) ? Math.max(0, 72 - hoursUntilEnd) : 0;
+  const freshnessBoost = hoursSinceCheck <= 24 ? 12 : hoursSinceCheck <= 72 ? 6 : hoursSinceCheck <= 168 ? 2 : 0;
+  const officialLinkBoost = deal.linkType === "official_coupon" ? 10 : deal.linkType === "official_event" ? 8 : 6;
+  const freeBoost = deal.benefitType === "freebie" || deal.benefitType === "coupon" || safeNumber(deal.price) === 0 ? 24 : 0;
 
-  return (deal.priorityScore ?? deal.confidenceScore) + categoryBoost + recentBoost + endingBoost + freeBoost + deal.couponAmount / 1000;
+  return (
+    safeNumber(deal.priorityScore, safeNumber(deal.confidenceScore)) +
+    categoryBoost +
+    recentBoost +
+    endingBoost +
+    freshnessBoost +
+    officialLinkBoost +
+    freeBoost +
+    safeNumber(deal.couponAmount) / 1000
+  );
 }
 
 function buildReason(deal: NewsDeal, interests: string[], recentNewsIds: string[]) {
@@ -83,8 +125,10 @@ export function buildOfficialBenefitAlertQueue(newsDeals: NewsDeal[], input: Off
       category: deal.category,
       benefitType: deal.benefitType,
       endDate: deal.endDate,
+      officialHost: deal.officialHost || hostOf(deal.finalUrl),
       redirectUrl: `/go/news/${deal.id}`,
       reason: buildReason(deal, interests, recentNewsIds),
+      matchedInterests: interests.filter((interest) => newsDealMatchesNotificationInterest(deal, interest)),
       personalizedSignals: {
         interestMatched: interests.filter((interest) => newsDealMatchesNotificationInterest(deal, interest)),
         recentOfficialBenefit: recentNewsIds.includes(deal.id)

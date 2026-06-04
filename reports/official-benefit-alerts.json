@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-04T06:32:18.084Z",
+  "generatedAt": "2026-06-04T06:56:54.138Z",
   "source": "official_event_seed_and_approved_feeds",
   "snapshotGeneratedAt": "2026-06-04T06:18:30.992Z",
   "totals": {
@@ -344,7 +344,7 @@
   ],
   "redirectSafety": {
     "ok": true,
-    "checkedItems": 8,
+    "checkedItems": 9,
     "expectedInternalPrefix": "/go/news/",
     "issues": []
   },
@@ -354,20 +354,6 @@
     "recentBenefits": 0,
     "recommendedBenefits": 8,
     "items": [
-      {
-        "id": "news-gs25-drinking-festa-2026",
-        "title": "GS25 드링킹 페스타 1+1·다량 구매 행사",
-        "sourceName": "GS25 공식 이벤트",
-        "category": "마트/편의점",
-        "benefitType": "discount",
-        "officialHost": "gs25.gsretail.com",
-        "redirectUrl": "/go/news/news-gs25-drinking-festa-2026",
-        "reason": "쿠폰/이벤트 관심 알림과 맞는 공식 혜택입니다.",
-        "matchedInterests": [
-          "쿠폰/이벤트",
-          "마트/편의점"
-        ]
-      },
       {
         "id": "news-musinsa-fashion-festa",
         "title": "무신사 패션 페스타 공식 혜택",
@@ -409,48 +395,6 @@
         ]
       },
       {
-        "id": "news-gs25-event-goods",
-        "title": "GS25 행사상품 공식 목록",
-        "sourceName": "GS25 공식 행사상품",
-        "category": "마트/편의점",
-        "benefitType": "discount",
-        "officialHost": "gs25.gsretail.com",
-        "redirectUrl": "/go/news/news-gs25-event-goods",
-        "reason": "마트/편의점 관심 알림과 맞는 공식 혜택입니다.",
-        "matchedInterests": [
-          "마트/편의점"
-        ]
-      },
-      {
-        "id": "news-culture-day-programs-2026",
-        "title": "이번 주 문화가 있는 날 프로그램",
-        "sourceName": "문화가 있는 날 공식",
-        "category": "영화/문화",
-        "benefitType": "culture",
-        "officialHost": "culture.go.kr",
-        "redirectUrl": "/go/news/news-culture-day-programs-2026",
-        "reason": "무료/체험 관심 알림과 맞는 공식 혜택입니다.",
-        "matchedInterests": [
-          "무료/체험",
-          "쿠폰/이벤트",
-          "영화/문화"
-        ]
-      },
-      {
-        "id": "news-culture-day-weekly-2026",
-        "title": "문화가 있는 날 매주 수요일 문화 혜택",
-        "sourceName": "지역문화통합정보시스템",
-        "category": "정부/공공혜택",
-        "benefitType": "public",
-        "officialHost": "culture.go.kr",
-        "redirectUrl": "/go/news/news-culture-day-weekly-2026",
-        "reason": "무료/체험 관심 알림과 맞는 공식 혜택입니다.",
-        "matchedInterests": [
-          "무료/체험",
-          "쿠폰/이벤트"
-        ]
-      },
-      {
         "id": "news-kbcard-official-event-center",
         "title": "KB국민카드 공식 이벤트 혜택 모음",
         "sourceName": "KB국민카드 공식 이벤트",
@@ -458,6 +402,58 @@
         "benefitType": "card",
         "officialHost": "card.kbcard.com",
         "redirectUrl": "/go/news/news-kbcard-official-event-center",
+        "reason": "쿠폰/이벤트 관심 알림과 맞는 공식 혜택입니다.",
+        "matchedInterests": [
+          "쿠폰/이벤트"
+        ]
+      },
+      {
+        "id": "news-kbcard-membership-benefit-center",
+        "title": "KB국민카드 공식 생활 할인 혜택",
+        "sourceName": "KB국민카드 공식 혜택",
+        "category": "카드/멤버십",
+        "benefitType": "card",
+        "officialHost": "card.kbcard.com",
+        "redirectUrl": "/go/news/news-kbcard-membership-benefit-center",
+        "reason": "쿠폰/이벤트 관심 알림과 맞는 공식 혜택입니다.",
+        "matchedInterests": [
+          "쿠폰/이벤트"
+        ]
+      },
+      {
+        "id": "news-hmall-official-shopping-event",
+        "title": "현대Hmall 공식 쇼핑 기획전 혜택",
+        "sourceName": "현대Hmall 공식 이벤트",
+        "category": "패션/뷰티",
+        "benefitType": "coupon",
+        "officialHost": "hyundaihmall.com",
+        "redirectUrl": "/go/news/news-hmall-official-shopping-event",
+        "reason": "쿠폰/이벤트 관심 알림과 맞는 공식 혜택입니다.",
+        "matchedInterests": [
+          "쿠폰/이벤트"
+        ]
+      },
+      {
+        "id": "news-bccard-official-event-center",
+        "title": "BC카드 공식 이벤트 혜택 모음",
+        "sourceName": "BC카드 공식 이벤트",
+        "category": "카드/멤버십",
+        "benefitType": "card",
+        "officialHost": "bccard.com",
+        "redirectUrl": "/go/news/news-bccard-official-event-center",
+        "reason": "쿠폰/이벤트 관심 알림과 맞는 공식 혜택입니다.",
+        "matchedInterests": [
+          "쿠폰/이벤트"
+        ]
+      },
+      {
+        "id": "news-tworld-membership-upgrade",
+        "title": "T 멤버십 장기고객 등급 업그레이드 혜택",
+        "sourceName": "T world 공식 혜택",
+        "category": "카드/멤버십",
+        "benefitType": "membership",
+        "officialHost": "tworld.co.kr",
+        "redirectUrl": "/go/news/news-tworld-membership-upgrade",
         "reason": "쿠폰/이벤트 관심 알림과 맞는 공식 혜택입니다.",
         "matchedInterests": [
           "쿠폰/이벤트"
@@ -477,20 +473,6 @@
     "recommendedBenefits": 8,
     "items": [
       {
-        "id": "news-gs25-drinking-festa-2026",
-        "title": "GS25 드링킹 페스타 1+1·다량 구매 행사",
-        "sourceName": "GS25 공식 이벤트",
-        "category": "마트/편의점",
-        "benefitType": "discount",
-        "officialHost": "gs25.gsretail.com",
-        "redirectUrl": "/go/news/news-gs25-drinking-festa-2026",
-        "reason": "최근 본 공식 혜택이라 다시 확인하기 좋습니다.",
-        "matchedInterests": [
-          "쿠폰/이벤트",
-          "마트/편의점"
-        ]
-      },
-      {
         "id": "news-musinsa-fashion-festa",
         "title": "무신사 패션 페스타 공식 혜택",
         "sourceName": "무신사 공식 캠페인",
@@ -517,6 +499,20 @@
         ]
       },
       {
+        "id": "news-gs25-drinking-festa-2026",
+        "title": "GS25 드링킹 페스타 1+1·다량 구매 행사",
+        "sourceName": "GS25 공식 이벤트",
+        "category": "마트/편의점",
+        "benefitType": "discount",
+        "officialHost": "gs25.gsretail.com",
+        "redirectUrl": "/go/news/news-gs25-drinking-festa-2026",
+        "reason": "최근 본 공식 혜택이라 다시 확인하기 좋습니다.",
+        "matchedInterests": [
+          "쿠폰/이벤트",
+          "마트/편의점"
+        ]
+      },
+      {
         "id": "news-gs25-card-june-2026",
         "title": "GS25 6월 신용카드 현장 할인 혜택",
         "sourceName": "GS25 공식 이벤트",
@@ -531,48 +527,6 @@
         ]
       },
       {
-        "id": "news-gs25-event-goods",
-        "title": "GS25 행사상품 공식 목록",
-        "sourceName": "GS25 공식 행사상품",
-        "category": "마트/편의점",
-        "benefitType": "discount",
-        "officialHost": "gs25.gsretail.com",
-        "redirectUrl": "/go/news/news-gs25-event-goods",
-        "reason": "마트/편의점 관심 알림과 맞는 공식 혜택입니다.",
-        "matchedInterests": [
-          "마트/편의점"
-        ]
-      },
-      {
-        "id": "news-culture-day-programs-2026",
-        "title": "이번 주 문화가 있는 날 프로그램",
-        "sourceName": "문화가 있는 날 공식",
-        "category": "영화/문화",
-        "benefitType": "culture",
-        "officialHost": "culture.go.kr",
-        "redirectUrl": "/go/news/news-culture-day-programs-2026",
-        "reason": "무료/체험 관심 알림과 맞는 공식 혜택입니다.",
-        "matchedInterests": [
-          "무료/체험",
-          "쿠폰/이벤트",
-          "영화/문화"
-        ]
-      },
-      {
-        "id": "news-culture-day-weekly-2026",
-        "title": "문화가 있는 날 매주 수요일 문화 혜택",
-        "sourceName": "지역문화통합정보시스템",
-        "category": "정부/공공혜택",
-        "benefitType": "public",
-        "officialHost": "culture.go.kr",
-        "redirectUrl": "/go/news/news-culture-day-weekly-2026",
-        "reason": "무료/체험 관심 알림과 맞는 공식 혜택입니다.",
-        "matchedInterests": [
-          "무료/체험",
-          "쿠폰/이벤트"
-        ]
-      },
-      {
         "id": "news-kbcard-official-event-center",
         "title": "KB국민카드 공식 이벤트 혜택 모음",
         "sourceName": "KB국민카드 공식 이벤트",
@@ -580,6 +534,45 @@
         "benefitType": "card",
         "officialHost": "card.kbcard.com",
         "redirectUrl": "/go/news/news-kbcard-official-event-center",
+        "reason": "쿠폰/이벤트 관심 알림과 맞는 공식 혜택입니다.",
+        "matchedInterests": [
+          "쿠폰/이벤트"
+        ]
+      },
+      {
+        "id": "news-kbcard-membership-benefit-center",
+        "title": "KB국민카드 공식 생활 할인 혜택",
+        "sourceName": "KB국민카드 공식 혜택",
+        "category": "카드/멤버십",
+        "benefitType": "card",
+        "officialHost": "card.kbcard.com",
+        "redirectUrl": "/go/news/news-kbcard-membership-benefit-center",
+        "reason": "쿠폰/이벤트 관심 알림과 맞는 공식 혜택입니다.",
+        "matchedInterests": [
+          "쿠폰/이벤트"
+        ]
+      },
+      {
+        "id": "news-hmall-official-shopping-event",
+        "title": "현대Hmall 공식 쇼핑 기획전 혜택",
+        "sourceName": "현대Hmall 공식 이벤트",
+        "category": "패션/뷰티",
+        "benefitType": "coupon",
+        "officialHost": "hyundaihmall.com",
+        "redirectUrl": "/go/news/news-hmall-official-shopping-event",
+        "reason": "쿠폰/이벤트 관심 알림과 맞는 공식 혜택입니다.",
+        "matchedInterests": [
+          "쿠폰/이벤트"
+        ]
+      },
+      {
+        "id": "news-bccard-official-event-center",
+        "title": "BC카드 공식 이벤트 혜택 모음",
+        "sourceName": "BC카드 공식 이벤트",
+        "category": "카드/멤버십",
+        "benefitType": "card",
+        "officialHost": "bccard.com",
+        "redirectUrl": "/go/news/news-bccard-official-event-center",
         "reason": "쿠폰/이벤트 관심 알림과 맞는 공식 혜택입니다.",
         "matchedInterests": [
           "쿠폰/이벤트"
@@ -865,20 +858,6 @@
   ],
   "topRecommendations": [
     {
-      "id": "news-gs25-drinking-festa-2026",
-      "title": "GS25 드링킹 페스타 1+1·다량 구매 행사",
-      "sourceName": "GS25 공식 이벤트",
-      "category": "마트/편의점",
-      "benefitType": "discount",
-      "officialHost": "gs25.gsretail.com",
-      "redirectUrl": "/go/news/news-gs25-drinking-festa-2026",
-      "reason": "쿠폰/이벤트 관심 알림과 맞는 공식 혜택입니다.",
-      "matchedInterests": [
-        "쿠폰/이벤트",
-        "마트/편의점"
-      ]
-    },
-    {
       "id": "news-musinsa-fashion-festa",
       "title": "무신사 패션 페스타 공식 혜택",
       "sourceName": "무신사 공식 캠페인",
@@ -919,48 +898,6 @@
       ]
     },
     {
-      "id": "news-gs25-event-goods",
-      "title": "GS25 행사상품 공식 목록",
-      "sourceName": "GS25 공식 행사상품",
-      "category": "마트/편의점",
-      "benefitType": "discount",
-      "officialHost": "gs25.gsretail.com",
-      "redirectUrl": "/go/news/news-gs25-event-goods",
-      "reason": "마트/편의점 관심 알림과 맞는 공식 혜택입니다.",
-      "matchedInterests": [
-        "마트/편의점"
-      ]
-    },
-    {
-      "id": "news-culture-day-programs-2026",
-      "title": "이번 주 문화가 있는 날 프로그램",
-      "sourceName": "문화가 있는 날 공식",
-      "category": "영화/문화",
-      "benefitType": "culture",
-      "officialHost": "culture.go.kr",
-      "redirectUrl": "/go/news/news-culture-day-programs-2026",
-      "reason": "무료/체험 관심 알림과 맞는 공식 혜택입니다.",
-      "matchedInterests": [
-        "무료/체험",
-        "쿠폰/이벤트",
-        "영화/문화"
-      ]
-    },
-    {
-      "id": "news-culture-day-weekly-2026",
-      "title": "문화가 있는 날 매주 수요일 문화 혜택",
-      "sourceName": "지역문화통합정보시스템",
-      "category": "정부/공공혜택",
-      "benefitType": "public",
-      "officialHost": "culture.go.kr",
-      "redirectUrl": "/go/news/news-culture-day-weekly-2026",
-      "reason": "무료/체험 관심 알림과 맞는 공식 혜택입니다.",
-      "matchedInterests": [
-        "무료/체험",
-        "쿠폰/이벤트"
-      ]
-    },
-    {
       "id": "news-kbcard-official-event-center",
       "title": "KB국민카드 공식 이벤트 혜택 모음",
       "sourceName": "KB국민카드 공식 이벤트",
@@ -968,6 +905,58 @@
       "benefitType": "card",
       "officialHost": "card.kbcard.com",
       "redirectUrl": "/go/news/news-kbcard-official-event-center",
+      "reason": "쿠폰/이벤트 관심 알림과 맞는 공식 혜택입니다.",
+      "matchedInterests": [
+        "쿠폰/이벤트"
+      ]
+    },
+    {
+      "id": "news-kbcard-membership-benefit-center",
+      "title": "KB국민카드 공식 생활 할인 혜택",
+      "sourceName": "KB국민카드 공식 혜택",
+      "category": "카드/멤버십",
+      "benefitType": "card",
+      "officialHost": "card.kbcard.com",
+      "redirectUrl": "/go/news/news-kbcard-membership-benefit-center",
+      "reason": "쿠폰/이벤트 관심 알림과 맞는 공식 혜택입니다.",
+      "matchedInterests": [
+        "쿠폰/이벤트"
+      ]
+    },
+    {
+      "id": "news-hmall-official-shopping-event",
+      "title": "현대Hmall 공식 쇼핑 기획전 혜택",
+      "sourceName": "현대Hmall 공식 이벤트",
+      "category": "패션/뷰티",
+      "benefitType": "coupon",
+      "officialHost": "hyundaihmall.com",
+      "redirectUrl": "/go/news/news-hmall-official-shopping-event",
+      "reason": "쿠폰/이벤트 관심 알림과 맞는 공식 혜택입니다.",
+      "matchedInterests": [
+        "쿠폰/이벤트"
+      ]
+    },
+    {
+      "id": "news-bccard-official-event-center",
+      "title": "BC카드 공식 이벤트 혜택 모음",
+      "sourceName": "BC카드 공식 이벤트",
+      "category": "카드/멤버십",
+      "benefitType": "card",
+      "officialHost": "bccard.com",
+      "redirectUrl": "/go/news/news-bccard-official-event-center",
+      "reason": "쿠폰/이벤트 관심 알림과 맞는 공식 혜택입니다.",
+      "matchedInterests": [
+        "쿠폰/이벤트"
+      ]
+    },
+    {
+      "id": "news-tworld-membership-upgrade",
+      "title": "T 멤버십 장기고객 등급 업그레이드 혜택",
+      "sourceName": "T world 공식 혜택",
+      "category": "카드/멤버십",
+      "benefitType": "membership",
+      "officialHost": "tworld.co.kr",
+      "redirectUrl": "/go/news/news-tworld-membership-upgrade",
       "reason": "쿠폰/이벤트 관심 알림과 맞는 공식 혜택입니다.",
       "matchedInterests": [
         "쿠폰/이벤트"

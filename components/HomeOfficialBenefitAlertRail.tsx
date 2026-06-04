@@ -135,7 +135,9 @@ export function HomeOfficialBenefitAlertRail({ deals, onOpenNewsDeal }: HomeOffi
       <div className="mt-3 flex snap-x snap-mandatory gap-2 overflow-x-auto pb-1 [scrollbar-width:none] sm:grid sm:grid-cols-2 lg:grid-cols-4 [&::-webkit-scrollbar]:hidden">
         {alertDeals.length ? (
           alertDeals.map((deal) => {
-            const reason = alertQueue.items.find((item) => item.id === deal.id)?.reason ?? "공식 페이지 이동이 확인된 혜택입니다.";
+            const queueItem = alertQueue.items.find((item) => item.id === deal.id);
+            const reason = queueItem?.reason ?? "공식 페이지 이동이 확인된 혜택입니다.";
+            const officialHost = queueItem?.officialHost || deal.officialHost || deal.sourceName;
 
             return (
               <Link
@@ -155,7 +157,7 @@ export function HomeOfficialBenefitAlertRail({ deals, onOpenNewsDeal }: HomeOffi
                 </span>
                 <span className="mt-2 line-clamp-2 block min-h-10 text-xs font-black leading-5 text-slate-950">{deal.title}</span>
                 <span className="mt-1 line-clamp-1 block text-[11px] font-bold text-slate-500">
-                  {deal.sourceName} · {getTimeLeft(deal.endDate)}
+                  {officialHost} · {getTimeLeft(deal.endDate)}
                 </span>
                 <span className="mt-2 line-clamp-1 block text-[11px] font-black text-brand-red">{reason}</span>
                 <span className="mt-3 inline-flex min-h-8 items-center justify-center rounded-full bg-slate-950 px-3 text-[11px] font-black text-white">

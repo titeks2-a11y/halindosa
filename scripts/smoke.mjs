@@ -1652,6 +1652,10 @@ await check("official benefit alerts api", async () => {
     data.recommendations.items.every((item) => item.redirectUrl?.startsWith("/go/news/") && item.reason && item.personalizedSignals),
     "Official benefit alert items missing redirect, reason, or signals"
   );
+  assert(
+    data.recommendations.items.every((item) => item.officialHost && Array.isArray(item.matchedInterests)),
+    "Official benefit alert items missing official host or matched interests"
+  );
   assert(String(data.recommendations.notice ?? "").includes("실제 푸시는 별도 동의"), "Official benefit alerts missing push consent notice");
 });
 

@@ -59,15 +59,20 @@ function isHttpUrl(value) {
   }
 }
 
+function parseTime(value) {
+  const time = Date.parse(value ?? "");
+  return Number.isFinite(time) ? time : null;
+}
+
 function isActiveOfficialBenefit(deal) {
-  const endTime = Date.parse(deal.endDate ?? "");
+  const endTime = parseTime(deal.endDate);
 
   return (
     deal.validationStatus === "passed" &&
     !deal.isHidden &&
     isHttpUrl(deal.finalUrl) &&
     (deal.availability ?? "active") === "active" &&
-    (!Number.isFinite(endTime) || endTime >= Date.now()) &&
+    (endTime === null || endTime >= Date.now()) &&
     String(deal.linkType ?? "official_benefit").startsWith("official")
   );
 }
@@ -92,13 +97,27 @@ function matchesInterest(deal, interest) {
 }
 
 function rankOfficialBenefit(deal, interests, recentNewsIds) {
-  const endTime = Date.parse(deal.endDate ?? "");
+  const endTime = parseTime(deal.endDate);
+  const checkedTime = parseTime(deal.lastCheckedAt);
+  const hoursUntilEnd = endTime === null ? Number.POSITIVE_INFINITY : (endTime - Date.now()) / (60 * 60 * 1000);
+  const hoursSinceCheck = checkedTime === null ? Number.POSITIVE_INFINITY : (Date.now() - checkedTime) / (60 * 60 * 1000);
   const categoryBoost = interests.some((interest) => matchesInterest(deal, interest)) ? 34 : 0;
   const recentBoost = recentNewsIds.includes(deal.id) ? 18 : 0;
-  const endingBoost = Number.isFinite(endTime) ? Math.max(0, 72 - (endTime - Date.now()) / (60 * 60 * 1000)) : 0;
+  const endingBoost = Number.isFinite(hoursUntilEnd) ? Math.max(0, 72 - hoursUntilEnd) : 0;
+  const freshnessBoost = hoursSinceCheck <= 24 ? 12 : hoursSinceCheck <= 72 ? 6 : hoursSinceCheck <= 168 ? 2 : 0;
+  const officialLinkBoost = deal.linkType === "official_coupon" ? 10 : deal.linkType === "official_event" ? 8 : 6;
   const freeBoost = deal.benefitType === "freebie" || deal.benefitType === "coupon" || Number(deal.price ?? 0) === 0 ? 24 : 0;
 
-  return Number(deal.priorityScore ?? deal.confidenceScore ?? 0) + categoryBoost + recentBoost + endingBoost + freeBoost + Number(deal.couponAmount ?? 0) / 1000;
+  return (
+    Number(deal.priorityScore ?? deal.confidenceScore ?? 0) +
+    categoryBoost +
+    recentBoost +
+    endingBoost +
+    freshnessBoost +
+    officialLinkBoost +
+    freeBoost +
+    Number(deal.couponAmount ?? 0) / 1000
+  );
 }
 
 function buildReason(deal, interests, recentNewsIds) {

@@ -161,32 +161,37 @@ export function OfficialBenefitAlertPreview({ deals, updatedAt }: OfficialBenefi
 
       <div className="mt-4 grid gap-2">
         {matchedBenefits.length ? (
-          matchedBenefits.map((deal) => (
-            <Link
-              key={deal.id}
-              href={`/go/news/${deal.id}`}
-              onClick={() => rememberRecentNewsBenefitId(deal.id)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-3 rounded-2xl bg-white p-3 shadow-sm transition hover:bg-red-50"
-            >
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-amber-50 text-dossa-red">
-                <Clock3 size={17} />
-              </span>
-              <span className="min-w-0 flex-1">
-                <span className="block truncate text-sm font-black text-slate-950">{deal.title}</span>
-                <span className="mt-1 block truncate text-xs font-bold text-slate-500">
-                  {deal.sourceName} · {benefitLabel(deal)} · {getTimeLeft(deal.endDate)}
+          matchedBenefits.map((deal) => {
+            const queueItem = alertQueue.items.find((item) => item.id === deal.id);
+            const officialHost = queueItem?.officialHost || deal.officialHost || deal.sourceName;
+
+            return (
+              <Link
+                key={deal.id}
+                href={`/go/news/${deal.id}`}
+                onClick={() => rememberRecentNewsBenefitId(deal.id)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 rounded-2xl bg-white p-3 shadow-sm transition hover:bg-red-50"
+              >
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-amber-50 text-dossa-red">
+                  <Clock3 size={17} />
                 </span>
-                <span className="mt-0.5 block truncate text-[11px] font-bold text-dossa-red">
-                  {alertQueue.items.find((item) => item.id === deal.id)?.reason ?? "공식 페이지 이동이 확인된 혜택입니다."}
+                <span className="min-w-0 flex-1">
+                  <span className="block truncate text-sm font-black text-slate-950">{deal.title}</span>
+                  <span className="mt-1 block truncate text-xs font-bold text-slate-500">
+                    {officialHost} · {benefitLabel(deal)} · {getTimeLeft(deal.endDate)}
+                  </span>
+                  <span className="mt-0.5 block truncate text-[11px] font-bold text-dossa-red">
+                    {queueItem?.reason ?? "공식 페이지 이동이 확인된 혜택입니다."}
+                  </span>
                 </span>
-              </span>
-              <span className="shrink-0 rounded-full bg-slate-950 px-3 py-2 text-[11px] font-black text-white">
-                공식 보기
-              </span>
-            </Link>
-          ))
+                <span className="shrink-0 rounded-full bg-slate-950 px-3 py-2 text-[11px] font-black text-white">
+                  공식 보기
+                </span>
+              </Link>
+            );
+          })
         ) : (
           <div className="rounded-2xl border border-dashed border-amber-200 bg-white p-5 text-center">
             <p className="text-sm font-black text-slate-950">현재 공식 혜택 알림 후보가 없습니다.</p>
