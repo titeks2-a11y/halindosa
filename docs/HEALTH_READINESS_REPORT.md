@@ -2,7 +2,7 @@
 
 이 문서는 상품 링크, 공식 혜택, refresh 파이프라인이 실제 출시 운영 기준을 만족하는지 요약합니다.
 
-- 생성 시각: 2026-06-04T08:47:49.726Z
+- 생성 시각: 2026-06-04T09:40:36.265Z
 - 운영 준비 점수: 100/100
 - 상태: PASS
 
@@ -15,6 +15,7 @@
 - 공식 혜택: 43개
 - 공식 혜택 카테고리 커버리지: 10/10
 - 공식 혜택 Provider: 4개 (feed 연결 0개)
+- 공식 혜택 source mix: seed 43개 · 외부 feed 0개 · 성공 feed 0/0
 - 공식 혜택 Provider 위험도: 정상 0개 · 관찰 4개 · 즉시 점검 0개
 - 공식 소스 통합 준비도: seed launch ready / 공식 feed 연결 대기
 - 공식 소스 후보/노출 혜택: 30개 / 43개
@@ -99,6 +100,7 @@
 | refresh all pipeline | PASS | refresh:all completed successfully. |
 | cron refresh operations | PASS | Cron refresh status=manual_refresh_ready; report=manual refresh fallback. |
 | provider stats coverage | PASS | Product providers=6, news providers=4. |
+| official feed source mix counters | PASS | seed=43, feed=0, success=0/0. |
 | provider risk gate | PASS | Official benefit providers danger=0, watch=4. |
 | official source readiness gate | PASS | 30 official source candidates, 43 visible official benefits, failed gates=0. |
 

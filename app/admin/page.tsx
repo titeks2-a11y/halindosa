@@ -913,6 +913,12 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                   feed URL {newsOperations.feedTransitionReadiness.configuredFeedUrls}개
                 </span>
                 <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-slate-700 shadow-sm">
+                  외부 feed {newsOperations.feedTransitionReadiness.feedItemCount}건
+                </span>
+                <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-slate-700 shadow-sm">
+                  seed {newsOperations.feedTransitionReadiness.seedCount}건
+                </span>
+                <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-slate-700 shadow-sm">
                   준비율 {newsOperations.feedTransitionReadiness.readinessRate}%
                 </span>
               </div>
@@ -928,6 +934,9 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                   </div>
                   <p className="mt-2 text-[11px] font-bold leading-5 text-slate-500">
                     노출 {provider.visibleCount} · 이슈 {provider.issueCount} · URL {provider.feedUrls}
+                  </p>
+                  <p className="mt-1 text-[11px] font-bold leading-5 text-slate-500">
+                    seed {provider.seedCount} · 외부 feed {provider.feedItemCount} · 성공 {provider.feedSuccessCount}/{provider.feedUrls} · 외부 비율 {provider.feedItemRate}%
                   </p>
                   <p className="mt-2 line-clamp-2 text-[11px] font-bold leading-5 text-slate-500">{provider.acceptedSources}</p>
                   <p className="mt-2 line-clamp-2 text-[11px] font-black leading-5 text-dossa-red">{provider.nextAction}</p>

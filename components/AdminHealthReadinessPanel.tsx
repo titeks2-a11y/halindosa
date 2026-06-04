@@ -53,6 +53,11 @@ export function AdminHealthReadinessPanel({ report, apiHref }: AdminHealthReadin
       detail: `카테고리 ${report.officialBenefits.readyCategories}/${report.officialBenefits.requiredCategories}`
     },
     {
+      label: "공식 feed",
+      value: `${report.officialBenefits.sourceMix.feedItemCount}건`,
+      detail: `seed ${report.officialBenefits.sourceMix.seedCount} · 성공 ${report.officialBenefits.sourceMix.feedSuccessCount}/${report.officialBenefits.sourceMix.configuredFeedUrls}`
+    },
+    {
       label: "공식 소스",
       value: report.sourceReadiness.ok ? "정상" : "점검",
       detail: `후보 ${report.sourceReadiness.officialSourceCandidates}개 · 차단 ${sourceReadinessIssueCount}개`
@@ -90,7 +95,7 @@ export function AdminHealthReadinessPanel({ report, apiHref }: AdminHealthReadin
         </a>
       </div>
 
-      <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-6">
+      <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-7">
         {healthCards.map((card) => (
           <div key={card.label} className="rounded-2xl bg-brand-warm p-4">
             <p className="text-xs font-black text-slate-500">{card.label}</p>
@@ -160,8 +165,11 @@ export function AdminHealthReadinessPanel({ report, apiHref }: AdminHealthReadin
                 active {report.officialBenefits.activeProviders.length} · feed {report.officialBenefits.configuredProviders.length}
               </span>
             </div>
+            <p className="mt-2 text-[11px] font-bold leading-5 text-slate-500">
+              source mix: seed {report.officialBenefits.sourceMix.seedCount} · 외부 feed {report.officialBenefits.sourceMix.feedItemCount} · 전체 수집 {report.officialBenefits.sourceMix.collectedCount} · 외부 비율 {report.officialBenefits.sourceMix.feedItemRate}%
+            </p>
             <div className="mt-2 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-              {(officialProviderStats.length ? officialProviderStats : [{ provider: "없음", source: "-", configured: false, fetchedCount: 0, normalizedCount: 0, visibleCount: 0, hiddenCount: 0, failedCount: 0, expiredCount: 0, officialMissingCount: 0, errorCount: 0 }]).map((provider) => (
+              {(officialProviderStats.length ? officialProviderStats : [{ provider: "없음", source: "-", configured: false, feedUrls: 0, seedCount: 0, feedItemCount: 0, feedSuccessCount: 0, collectedCount: 0, feedItemRate: 0, fetchedCount: 0, normalizedCount: 0, visibleCount: 0, hiddenCount: 0, failedCount: 0, expiredCount: 0, officialMissingCount: 0, errorCount: 0 }]).map((provider) => (
                 <div key={provider.provider} className="min-w-[190px] rounded-2xl bg-slate-50 px-3 py-2">
                   <div className="flex items-center justify-between gap-2">
                     <p className="truncate text-xs font-black text-slate-800">{provider.provider}</p>
@@ -171,7 +179,10 @@ export function AdminHealthReadinessPanel({ report, apiHref }: AdminHealthReadin
                   </div>
                   <p className="mt-1 truncate text-[11px] font-bold text-slate-500">{provider.source}</p>
                   <p className="mt-1 text-[11px] font-bold text-slate-500">
-                    수집 {provider.fetchedCount} · 노출 {provider.visibleCount} · 실패 {provider.failedCount}
+                    seed {provider.seedCount} · feed {provider.feedItemCount} · 성공 {provider.feedSuccessCount}/{provider.feedUrls}
+                  </p>
+                  <p className="mt-1 text-[11px] font-bold text-slate-500">
+                    수집 {provider.collectedCount || provider.fetchedCount} · 노출 {provider.visibleCount} · 실패 {provider.failedCount}
                   </p>
                 </div>
               ))}

@@ -34,6 +34,7 @@
 - 뉴스 운영 providerStats와 CSV `feed_source_mix` 행에 `seedCount`, `feedItemCount`, `feedSuccessCount`, `collectedCount`를 추가해 공식 RSS/Atom/JSON feed 연결 후 실제 외부 feed 유입량과 seed fallback 의존도를 분리해서 추적할 수 있게 했다.
 - 공식 혜택 운영 리포트에 `공식 피드 전환 준비도`를 추가해 `news`, `event_news`, `official_event`, `public_coupon` provider별 seed fallback/공식 feed 연결 상태, 필요한 환경변수, 허용 소스, 다음 운영 액션을 `/api/admin/news-operations`, `/admin`, CSV, smoke, release doctor에서 함께 검증하도록 했다.
 - `/api/sources`, `/api/health`, `/api/metrics`에도 공식 혜택 feed 전환 준비도와 권장 환경변수 큐를 노출해 관리자 화면 밖에서도 seed fallback과 공식 feed 연결 상태를 모니터링할 수 있게 했다.
+- 공식 feed 전환 준비도에 `seedCount`, `feedItemCount`, `feedSuccessCount`, `collectedCount`, `feedItemRate`를 공통 필드로 승격해 `/api/health`, `/api/sources`, `/api/metrics`, 운영 헬스 리포트, 관리자 화면, CSV에서 외부 feed 유입량과 seed fallback 의존도를 같은 기준으로 확인하게 했다.
 - `data/officialSourceCatalog.json`과 `source:catalog:report`를 추가해 편의점, 마트, 외식, 문화, 카드, 공공혜택, 여행, 디지털, 패션/뷰티 공식 소스 후보 20개를 카테고리/provider별로 관리하고, `reports/official-source-catalog.json`, `docs/OFFICIAL_SOURCE_CATALOG.md`, `/api/sources`, smoke, release doctor가 공식 feed 전환 후보 공백을 회귀 방지하도록 했다.
 - `/api/sources?format=csv`와 관리자 공급원 CSV 버튼을 추가해 `source_catalog`, `feed_transition`, `next_action` 행으로 공식 URL, provider, 카테고리, 연결 env key, 현재 feed 수, 다음 운영 액션을 스프레드시트에서 바로 검수할 수 있게 했다.
 - `source:catalog:report`도 `reports/official-source-catalog.csv`를 생성하도록 확장해 서버를 띄우지 않아도 공식 소스 후보와 feed 전환 작업표를 파일로 검수할 수 있게 했다.

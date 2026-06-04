@@ -39,6 +39,11 @@ type SourcesPayload = {
     seedOnlyProviders: number;
     totalProviders: number;
     configuredFeedUrls: number;
+    seedCount: number;
+    feedItemCount: number;
+    feedSuccessCount: number;
+    collectedCount: number;
+    feedItemRate: number;
     recommendedNextEnvKeys: string[];
     operatorAction: string;
     guardrails: string[];
@@ -49,6 +54,11 @@ type SourcesPayload = {
       modeLabel: string;
       configured: boolean;
       feedUrls: number;
+      seedCount: number;
+      feedItemCount: number;
+      feedSuccessCount: number;
+      collectedCount: number;
+      feedItemRate: number;
       envKeys: string[];
       acceptedSources: string;
       nextAction: string;
@@ -103,6 +113,11 @@ function buildCsv(rows: Array<Record<string, unknown>>) {
     "status",
     "mode",
     "modeLabel",
+    "seedCount",
+    "feedItemCount",
+    "feedSuccessCount",
+    "collectedCount",
+    "feedItemRate",
     "visibleCount",
     "issueCount",
     "readinessRate",
@@ -150,6 +165,11 @@ function buildSourcesCsv(payload: SourcesPayload) {
     status: payload.officialBenefitFeedTransitionReadiness.status,
     mode: provider.mode,
     modeLabel: provider.modeLabel,
+    seedCount: provider.seedCount,
+    feedItemCount: provider.feedItemCount,
+    feedSuccessCount: provider.feedSuccessCount,
+    collectedCount: provider.collectedCount,
+    feedItemRate: provider.feedItemRate,
     visibleCount: provider.visibleCount,
     issueCount: provider.issueCount,
     readinessRate: payload.officialBenefitFeedTransitionReadiness.readinessRate,
@@ -286,6 +306,11 @@ async function buildSourcesPayload(): Promise<SourcesPayload> {
       seedOnlyProviders: officialBenefitFeedTransition.seedOnlyProviders,
       totalProviders: officialBenefitFeedTransition.totalProviders,
       configuredFeedUrls: officialBenefitFeedTransition.configuredFeedUrls,
+      seedCount: officialBenefitFeedTransition.seedCount,
+      feedItemCount: officialBenefitFeedTransition.feedItemCount,
+      feedSuccessCount: officialBenefitFeedTransition.feedSuccessCount,
+      collectedCount: officialBenefitFeedTransition.collectedCount,
+      feedItemRate: officialBenefitFeedTransition.feedItemRate,
       recommendedNextEnvKeys: officialBenefitFeedTransition.recommendedNextEnvKeys,
       operatorAction: officialBenefitFeedTransition.operatorAction,
       guardrails: officialBenefitFeedTransition.guardrails,
@@ -296,6 +321,11 @@ async function buildSourcesPayload(): Promise<SourcesPayload> {
         modeLabel: provider.modeLabel,
         configured: provider.configured,
         feedUrls: provider.feedUrls,
+        seedCount: provider.seedCount,
+        feedItemCount: provider.feedItemCount,
+        feedSuccessCount: provider.feedSuccessCount,
+        collectedCount: provider.collectedCount,
+        feedItemRate: provider.feedItemRate,
         envKeys: provider.envKeys,
         acceptedSources: provider.acceptedSources,
         nextAction: provider.nextAction,

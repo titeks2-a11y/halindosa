@@ -58,6 +58,11 @@ interface FeedTransitionProvider {
   modeLabel: string;
   configured: boolean;
   feedUrls: number;
+  seedCount: number;
+  feedItemCount: number;
+  feedSuccessCount: number;
+  collectedCount: number;
+  feedItemRate: number;
   envKeys: string[];
   acceptedSources: string;
   nextAction: string;
@@ -75,6 +80,11 @@ interface FeedTransitionReadiness {
   configuredProviders: number;
   seedOnlyProviders: number;
   configuredFeedUrls: number;
+  seedCount: number;
+  feedItemCount: number;
+  feedSuccessCount: number;
+  collectedCount: number;
+  feedItemRate: number;
   launchBlockingCount: number;
   recommendedNextEnvKeys: string[];
   guardrails: string[];
@@ -432,6 +442,11 @@ function buildFeedTransitionReadiness(providerStats: ProviderStat[]): FeedTransi
     const feedUrls = readConfiguredFeedUrls(profile.envKeys).length || Number(stat?.feedUrls ?? 0);
     const configured = Boolean(stat?.configured) || feedUrls > 0;
     const visibleCount = Number(stat?.visibleCount ?? 0);
+    const seedCount = Number(stat?.seedCount ?? 0);
+    const feedItemCount = Number(stat?.feedItemCount ?? 0);
+    const feedSuccessCount = Number(stat?.feedSuccessCount ?? 0);
+    const collectedCount = Number(stat?.collectedCount ?? stat?.fetchedCount ?? seedCount + feedItemCount);
+    const feedItemRate = Math.round((feedItemCount / Math.max(collectedCount, 1)) * 1000) / 10;
     const issueCount =
       Number(stat?.hiddenCount ?? 0) +
       Number(stat?.failedCount ?? 0) +
@@ -446,6 +461,11 @@ function buildFeedTransitionReadiness(providerStats: ProviderStat[]): FeedTransi
       modeLabel: configured ? "공식 feed 연결" : "seed fallback",
       configured,
       feedUrls,
+      seedCount,
+      feedItemCount,
+      feedSuccessCount,
+      collectedCount,
+      feedItemRate,
       envKeys: [...profile.envKeys],
       acceptedSources: profile.acceptedSources,
       nextAction: configured ? "연결된 feed의 종료/검색 URL/공식 링크 누락 리포트를 매일 확인하세요." : profile.nextAction,
@@ -459,6 +479,11 @@ function buildFeedTransitionReadiness(providerStats: ProviderStat[]): FeedTransi
   const configuredProviders = providers.filter((provider) => provider.configured).length;
   const seedOnlyProviders = providers.length - configuredProviders;
   const configuredFeedUrls = providers.reduce((sum, provider) => sum + provider.feedUrls, 0);
+  const seedCount = providers.reduce((sum, provider) => sum + provider.seedCount, 0);
+  const feedItemCount = providers.reduce((sum, provider) => sum + provider.feedItemCount, 0);
+  const feedSuccessCount = providers.reduce((sum, provider) => sum + provider.feedSuccessCount, 0);
+  const collectedCount = providers.reduce((sum, provider) => sum + provider.collectedCount, 0);
+  const feedItemRate = Math.round((feedItemCount / Math.max(collectedCount, 1)) * 1000) / 10;
   const readinessRate = Math.round((configuredProviders / Math.max(providers.length, 1)) * 100);
   const launchBlockingCount = providers.filter((provider) => provider.launchBlocking).length;
   const recommendedNextEnvKeys = providers
@@ -486,6 +511,11 @@ function buildFeedTransitionReadiness(providerStats: ProviderStat[]): FeedTransi
     configuredProviders,
     seedOnlyProviders,
     configuredFeedUrls,
+    seedCount,
+    feedItemCount,
+    feedSuccessCount,
+    collectedCount,
+    feedItemRate,
     launchBlockingCount,
     recommendedNextEnvKeys,
     guardrails: [

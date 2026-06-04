@@ -46,10 +46,24 @@ export interface HealthReadinessReport {
     categoryCounts: Record<string, number>;
     configuredProviders: string[];
     activeProviders: string[];
+    sourceMix: {
+      seedCount: number;
+      feedItemCount: number;
+      feedSuccessCount: number;
+      collectedCount: number;
+      configuredFeedUrls: number;
+      feedItemRate: number;
+    };
     providerStats: Array<{
       provider: string;
       source: string;
       configured: boolean;
+      feedUrls: number;
+      seedCount: number;
+      feedItemCount: number;
+      feedSuccessCount: number;
+      collectedCount: number;
+      feedItemRate: number;
       fetchedCount: number;
       normalizedCount: number;
       visibleCount: number;
@@ -164,6 +178,14 @@ const fallbackReport: HealthReadinessReport = {
     categoryCounts: {},
     configuredProviders: [],
     activeProviders: [],
+    sourceMix: {
+      seedCount: 0,
+      feedItemCount: 0,
+      feedSuccessCount: 0,
+      collectedCount: 0,
+      configuredFeedUrls: 0,
+      feedItemRate: 0
+    },
     providerStats: [],
     providerRisks: [],
     providerRiskSummary: {

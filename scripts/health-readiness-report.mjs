@@ -149,6 +149,12 @@ const officialBenefitProviderStats = providerStats.news.map((stat) => ({
   provider: stat.provider,
   source: stat.source ?? (stat.configured ? "configured_feed" : "seed_fallback"),
   configured: Boolean(stat.configured),
+  feedUrls: Number(stat.feedUrls ?? 0),
+  seedCount: Number(stat.seedCount ?? 0),
+  feedItemCount: Number(stat.feedItemCount ?? 0),
+  feedSuccessCount: Number(stat.feedSuccessCount ?? 0),
+  collectedCount: Number(stat.collectedCount ?? stat.fetchedCount ?? 0),
+  feedItemRate: Math.round((Number(stat.feedItemCount ?? 0) / Math.max(Number(stat.collectedCount ?? stat.fetchedCount ?? 0), 1)) * 1000) / 10,
   fetchedCount: Number(stat.fetchedCount ?? 0),
   normalizedCount: Number(stat.normalizedCount ?? 0),
   visibleCount: Number(stat.visibleCount ?? 0),
@@ -158,6 +164,18 @@ const officialBenefitProviderStats = providerStats.news.map((stat) => ({
   officialMissingCount: Number(stat.officialMissingCount ?? 0),
   errorCount: Number(stat.errorCount ?? 0)
 }));
+const officialBenefitFeedSourceMix = officialBenefitProviderStats.reduce(
+  (summary, stat) => {
+    summary.seedCount += stat.seedCount;
+    summary.feedItemCount += stat.feedItemCount;
+    summary.feedSuccessCount += stat.feedSuccessCount;
+    summary.collectedCount += stat.collectedCount;
+    summary.configuredFeedUrls += stat.feedUrls;
+    return summary;
+  },
+  { seedCount: 0, feedItemCount: 0, feedSuccessCount: 0, collectedCount: 0, configuredFeedUrls: 0, feedItemRate: 0 }
+);
+officialBenefitFeedSourceMix.feedItemRate = Math.round((officialBenefitFeedSourceMix.feedItemCount / Math.max(officialBenefitFeedSourceMix.collectedCount, 1)) * 1000) / 10;
 const officialBenefitProviderRisks = providerStats.news.map(buildProviderRisk);
 const officialBenefitProviderRiskSummary = {
   healthy: officialBenefitProviderRisks.filter((risk) => risk.severity === "healthy").length,
@@ -213,6 +231,9 @@ const checks = [
   providerStats.product.length >= 4 && providerStats.news.length >= 4
     ? pass("provider stats coverage", `Product providers=${providerStats.product.length}, news providers=${providerStats.news.length}.`)
     : fail("provider stats coverage", `Product providers=${providerStats.product.length}, news providers=${providerStats.news.length}.`),
+  officialBenefitProviderStats.every((stat) => Number.isFinite(stat.seedCount) && Number.isFinite(stat.feedItemCount) && Number.isFinite(stat.feedSuccessCount) && Number.isFinite(stat.collectedCount))
+    ? pass("official feed source mix counters", `seed=${officialBenefitFeedSourceMix.seedCount}, feed=${officialBenefitFeedSourceMix.feedItemCount}, success=${officialBenefitFeedSourceMix.feedSuccessCount}/${officialBenefitFeedSourceMix.configuredFeedUrls}.`)
+    : fail("official feed source mix counters", "Official benefit provider stats must expose seed/feed/collected source mix counters."),
   officialBenefitProviderRiskSummary.danger === 0
     ? pass("provider risk gate", `Official benefit providers danger=${officialBenefitProviderRiskSummary.danger}, watch=${officialBenefitProviderRiskSummary.watch}.`)
     : fail("provider risk gate", `Official benefit providers danger=${officialBenefitProviderRiskSummary.danger}.`),
@@ -268,6 +289,7 @@ const report = {
     categoryCounts,
     configuredProviders: configuredNewsProviders,
     activeProviders: activeNewsProviders,
+    sourceMix: officialBenefitFeedSourceMix,
     providerStats: officialBenefitProviderStats,
     providerRisks: officialBenefitProviderRisks,
     providerRiskSummary: officialBenefitProviderRiskSummary
@@ -344,6 +366,7 @@ const docsLines = [
   `- 공식 혜택: ${newsVisibleCount}개`,
   `- 공식 혜택 카테고리 커버리지: ${readyNewsCategories.length}/${requiredNewsCategories.length}`,
   `- 공식 혜택 Provider: ${activeNewsProviders.length}개 (feed 연결 ${configuredNewsProviders.length}개)`,
+  `- 공식 혜택 source mix: seed ${officialBenefitFeedSourceMix.seedCount}개 · 외부 feed ${officialBenefitFeedSourceMix.feedItemCount}개 · 성공 feed ${officialBenefitFeedSourceMix.feedSuccessCount}/${officialBenefitFeedSourceMix.configuredFeedUrls}`,
   `- 공식 혜택 Provider 위험도: 정상 ${officialBenefitProviderRiskSummary.healthy}개 · 관찰 ${officialBenefitProviderRiskSummary.watch}개 · 즉시 점검 ${officialBenefitProviderRiskSummary.danger}개`,
   `- 공식 소스 통합 준비도: ${report.sourceReadiness.readinessLabel}`,
   `- 공식 소스 후보/노출 혜택: ${report.sourceReadiness.officialSourceCandidates}개 / ${report.sourceReadiness.visibleOfficialBenefits}개`,

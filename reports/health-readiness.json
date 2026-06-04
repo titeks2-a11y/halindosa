@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-04T08:47:49.726Z",
+  "generatedAt": "2026-06-04T09:40:36.265Z",
   "score": 100,
   "thresholds": {
     "productDealsCount": 140,
@@ -57,11 +57,25 @@
       "official_event",
       "public_coupon"
     ],
+    "sourceMix": {
+      "seedCount": 43,
+      "feedItemCount": 0,
+      "feedSuccessCount": 0,
+      "collectedCount": 43,
+      "configuredFeedUrls": 0,
+      "feedItemRate": 0
+    },
     "providerStats": [
       {
         "provider": "news",
         "source": "approved_news_feed",
         "configured": false,
+        "feedUrls": 0,
+        "seedCount": 4,
+        "feedItemCount": 0,
+        "feedSuccessCount": 0,
+        "collectedCount": 4,
+        "feedItemRate": 0,
         "fetchedCount": 4,
         "normalizedCount": 4,
         "visibleCount": 4,
@@ -75,6 +89,12 @@
         "provider": "event_news",
         "source": "official_event_news_feed",
         "configured": false,
+        "feedUrls": 0,
+        "seedCount": 6,
+        "feedItemCount": 0,
+        "feedSuccessCount": 0,
+        "collectedCount": 6,
+        "feedItemRate": 0,
         "fetchedCount": 6,
         "normalizedCount": 6,
         "visibleCount": 6,
@@ -88,6 +108,12 @@
         "provider": "official_event",
         "source": "official_event_page_feed",
         "configured": false,
+        "feedUrls": 0,
+        "seedCount": 23,
+        "feedItemCount": 0,
+        "feedSuccessCount": 0,
+        "collectedCount": 23,
+        "feedItemRate": 0,
         "fetchedCount": 23,
         "normalizedCount": 23,
         "visibleCount": 23,
@@ -101,6 +127,12 @@
         "provider": "public_coupon",
         "source": "public_coupon_and_culture_benefit_feed",
         "configured": false,
+        "feedUrls": 0,
+        "seedCount": 10,
+        "feedItemCount": 0,
+        "feedSuccessCount": 0,
+        "collectedCount": 10,
+        "feedItemRate": 0,
         "fetchedCount": 10,
         "normalizedCount": 10,
         "visibleCount": 10,
@@ -161,7 +193,7 @@
   },
   "refreshAll": {
     "ok": true,
-    "generatedAt": "2026-06-04T08:47:14.597Z",
+    "generatedAt": "2026-06-04T09:40:10.976Z",
     "insertedCount": 43,
     "updatedCount": 136,
     "hiddenCount": 0,
@@ -172,32 +204,32 @@
       {
         "name": "refresh:deals",
         "ok": true,
-        "startedAt": "2026-06-04T08:47:14.598Z",
-        "finishedAt": "2026-06-04T08:47:14.908Z"
+        "startedAt": "2026-06-04T09:40:10.977Z",
+        "finishedAt": "2026-06-04T09:40:11.293Z"
       },
       {
         "name": "refresh:news",
         "ok": true,
-        "startedAt": "2026-06-04T08:47:14.908Z",
-        "finishedAt": "2026-06-04T08:47:15.002Z"
+        "startedAt": "2026-06-04T09:40:11.293Z",
+        "finishedAt": "2026-06-04T09:40:11.377Z"
       },
       {
         "name": "verify:links",
         "ok": true,
-        "startedAt": "2026-06-04T08:47:15.002Z",
-        "finishedAt": "2026-06-04T08:47:15.118Z"
+        "startedAt": "2026-06-04T09:40:11.377Z",
+        "finishedAt": "2026-06-04T09:40:11.479Z"
       },
       {
         "name": "verify:products",
         "ok": true,
-        "startedAt": "2026-06-04T08:47:15.118Z",
-        "finishedAt": "2026-06-04T08:47:15.201Z"
+        "startedAt": "2026-06-04T09:40:11.479Z",
+        "finishedAt": "2026-06-04T09:40:11.561Z"
       },
       {
         "name": "verify:news",
         "ok": true,
-        "startedAt": "2026-06-04T08:47:15.201Z",
-        "finishedAt": "2026-06-04T08:47:15.284Z"
+        "startedAt": "2026-06-04T09:40:11.561Z",
+        "finishedAt": "2026-06-04T09:40:11.645Z"
       }
     ]
   },
@@ -298,6 +330,11 @@
       "name": "provider stats coverage",
       "ok": true,
       "detail": "Product providers=6, news providers=4."
+    },
+    {
+      "name": "official feed source mix counters",
+      "ok": true,
+      "detail": "seed=43, feed=0, success=0/0."
     },
     {
       "name": "provider risk gate",

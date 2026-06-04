@@ -2580,6 +2580,8 @@ async function checkOperationalDataSurfaces() {
     !analytics.includes("buildPersonalizedBenefitQueue") ||
     !analytics.includes("officialBenefitProviderRisk") ||
     !analytics.includes("officialBenefitFeedTransition") ||
+    !analytics.includes("feedItemCount") ||
+    !analytics.includes("feedItemRate") ||
     !analytics.includes("getNewsOperationsReport") ||
     !commercializationPage.includes("benefitRetention") ||
     !commercializationPage.includes("개인화 추천 출시 준비도") ||
@@ -2592,6 +2594,7 @@ async function checkOperationalDataSurfaces() {
     !smoke.includes("Metrics missing personalization readiness rate") ||
     !smoke.includes("Metrics missing official benefit provider risk details") ||
     !smoke.includes("Metrics missing official benefit feed transition providers") ||
+    !smoke.includes("Metrics missing official external feed item count") ||
     !smoke.includes("Commercialization page missing benefit retention readiness") ||
     !smoke.includes("Commercialization page missing personalization readiness") ||
     !smoke.includes("Commercialization page missing official benefit provider risk readiness") ||
@@ -2626,6 +2629,9 @@ async function checkOperationalDataSurfaces() {
     !healthRoute.includes("officialBenefitProviderDangerCount") ||
     !healthRoute.includes("officialBenefitFeedTransitionStatus") ||
     !healthRoute.includes("officialBenefitFeedReadinessRate") ||
+    !healthRoute.includes("officialBenefitFeedExternalItemCount") ||
+    !healthRoute.includes("officialBenefitFeedSeedCount") ||
+    !healthRoute.includes("officialBenefitFeedExternalItemRate") ||
     !analytics.includes("operationalEnvReadiness") ||
     !envReadiness.includes("getOperationalEnvReadiness") ||
     !envReadiness.includes("NEXT_PUBLIC_SITE_URL") ||
@@ -2641,6 +2647,7 @@ async function checkOperationalDataSurfaces() {
     !smoke.includes("Health API missing official benefit category coverage") ||
     !smoke.includes("Health API official benefit provider risk should be launch-safe") ||
     !smoke.includes("Health API missing official benefit feed transition status") ||
+    !smoke.includes("Health API missing official external feed item count") ||
     !smoke.includes("Metrics missing operational env readiness rate") ||
     !smoke.includes("Commercialization page missing operational env readiness")
   ) {
@@ -3018,10 +3025,14 @@ async function checkOperationalDataSurfaces() {
     !smoke.includes("Sources API missing configured production feed count") ||
     !smoke.includes("Sources API missing official benefit provider readiness details") ||
     !smoke.includes("Sources API missing official benefit feed transition providers") ||
+    !smoke.includes("Sources API missing official external feed item count") ||
     !smoke.includes("sources csv export") ||
     !smoke.includes("Sources CSV missing source catalog rows") ||
     !smoke.includes("Sources CSV missing feed transition rows") ||
+    !smoke.includes("Sources CSV missing official feed source mix columns") ||
     !sourcesRoute.includes("officialBenefitFeedTransitionReadiness") ||
+    !sourcesRoute.includes("feedItemCount") ||
+    !sourcesRoute.includes("feedItemRate") ||
     !sourcesRoute.includes("configuredOfficialBenefitFeeds") ||
     !sourcesRoute.includes("buildSourcesCsv") ||
     !sourcesRoute.includes("text/csv") ||
@@ -4549,6 +4560,7 @@ function checkNewsDealPipeline() {
     !newsOperations.includes("feedItemCount") ||
     !newsOperations.includes("feedSuccessCount") ||
     !newsOperations.includes("collectedCount") ||
+    !newsOperations.includes("feedItemRate") ||
     !refreshScript.includes("seedCount") ||
     !refreshScript.includes("feedItemCount") ||
     !refreshScript.includes("feedSuccessCount") ||
@@ -4574,6 +4586,7 @@ function checkNewsDealPipeline() {
     !smokeScript.includes("providerRisks") ||
     !smokeScript.includes("feedTransitionReadiness") ||
     !smokeScript.includes("seed/feed source mix counters") ||
+    !smokeScript.includes("external feed item count") ||
     !smokeScript.includes("feed_source_mix")
   ) {
     issues.push("admin should provide executable hide/restore/revalidate controls plus CSV export, category coverage, provider risk, official feed transition readiness, refresh status, freshness cadence, next actions, and risk summaries for official benefit operations");
@@ -4686,10 +4699,10 @@ function checkHealthReadinessReport() {
   if (!String(packageJson.scripts?.["qa:release"] ?? "").includes("health:readiness")) {
     issues.push("qa:release should include health:readiness before release submission reports");
   }
-  for (const phrase of ["productVerificationRate", "official benefit category coverage", "provider risk gate", "official source readiness gate", "source-readiness.json", "refresh all pipeline", "cron refresh operations", "reports/health-readiness.json", "docs/HEALTH_READINESS_REPORT.md"]) {
+  for (const phrase of ["productVerificationRate", "official benefit category coverage", "official feed source mix counters", "provider risk gate", "official source readiness gate", "source-readiness.json", "refresh all pipeline", "cron refresh operations", "reports/health-readiness.json", "docs/HEALTH_READINESS_REPORT.md"]) {
     if (!healthScript.includes(phrase)) issues.push(`health readiness script missing ${phrase}`);
   }
-  if (!publicHealthRoute.includes("getOfficialSourceReadiness") || !publicHealthRoute.includes("officialSourceReadinessOk") || !publicHealthRoute.includes("officialSourceCandidates")) {
+  if (!publicHealthRoute.includes("getOfficialSourceReadiness") || !publicHealthRoute.includes("officialSourceReadinessOk") || !publicHealthRoute.includes("officialSourceCandidates") || !publicHealthRoute.includes("officialBenefitFeedExternalItemCount") || !publicHealthRoute.includes("officialBenefitFeedSeedCount")) {
     issues.push("public health API should expose official source readiness summary");
   }
   if (!healthApiRoute.includes("getHealthReadinessReport") || !healthApiRoute.includes("canAccessAdmin") || !healthApiRoute.includes("admin-health-readiness")) {
@@ -4698,10 +4711,10 @@ function checkHealthReadinessReport() {
   if (!adminPage.includes("AdminHealthReadinessPanel") || !adminPage.includes("healthReadinessApiHref") || !adminPage.includes("/api/admin/health-readiness")) {
     issues.push("admin page should expose health readiness panel and API link");
   }
-  for (const phrase of ["운영 헬스 리포트", "검증 상품·공식 혜택 출시 게이트", "공식 혜택 카테고리 커버리지", "공식 혜택 Provider 위험도", "공식 소스 통합 준비도", "refresh:all", "cron refresh"]) {
+  for (const phrase of ["운영 헬스 리포트", "검증 상품·공식 혜택 출시 게이트", "공식 혜택 카테고리 커버리지", "공식 혜택 Provider 위험도", "공식 소스 통합 준비도", "source mix", "외부 feed", "refresh:all", "cron refresh"]) {
     if (!adminHealthPanel.includes(phrase)) issues.push(`admin health readiness panel missing ${phrase}`);
   }
-  if (!smokeScript.includes("admin health readiness api") || !smokeScript.includes("/api/admin/health-readiness") || !smokeScript.includes("운영 헬스 리포트") || !smokeScript.includes("Admin health readiness should expose cron refresh status") || !smokeScript.includes("Admin health readiness should expose passing source readiness")) {
+  if (!smokeScript.includes("admin health readiness api") || !smokeScript.includes("/api/admin/health-readiness") || !smokeScript.includes("운영 헬스 리포트") || !smokeScript.includes("Health API missing official external feed item count") || !smokeScript.includes("Admin health readiness should expose cron refresh status") || !smokeScript.includes("Admin health readiness should expose passing source readiness")) {
     issues.push("smoke tests should cover admin health readiness API and dashboard panel");
   }
   if (!releaseEvidence.includes("HEALTH_READINESS_REPORT.md") || !releaseEvidence.includes("health-readiness.json")) {
@@ -4713,8 +4726,8 @@ function checkHealthReadinessReport() {
   if (!roadmap.includes("운영 헬스 리포트") || !roadmap.includes("health:readiness")) {
     issues.push("roadmap should document the operational health readiness gate");
   }
-  if (!docsReport.includes("운영 헬스 리포트") || !docsReport.includes("검색 링크 노출") || !docsReport.includes("카테고리 커버리지") || !docsReport.includes("공식 혜택 Provider 상태") || !docsReport.includes("공식 혜택 Provider 위험도") || !docsReport.includes("공식 소스 통합 준비도") || !docsReport.includes("자동 refresh cron 운영")) {
-    issues.push("docs/HEALTH_READINESS_REPORT.md should summarize search exposure, category coverage, official benefit provider status, source readiness, provider risk, and cron refresh operation");
+  if (!docsReport.includes("운영 헬스 리포트") || !docsReport.includes("검색 링크 노출") || !docsReport.includes("카테고리 커버리지") || !docsReport.includes("공식 혜택 source mix") || !docsReport.includes("공식 혜택 Provider 상태") || !docsReport.includes("공식 혜택 Provider 위험도") || !docsReport.includes("공식 소스 통합 준비도") || !docsReport.includes("자동 refresh cron 운영")) {
+    issues.push("docs/HEALTH_READINESS_REPORT.md should summarize search exposure, category coverage, official benefit source mix, official benefit provider status, source readiness, provider risk, and cron refresh operation");
   }
 
   if (report.ok !== true) issues.push("health readiness report should pass");
@@ -4729,6 +4742,28 @@ function checkHealthReadinessReport() {
   }
   if (!Array.isArray(report.officialBenefits?.providerStats) || report.officialBenefits.providerStats.length < 4) {
     issues.push("health readiness should expose official benefit provider stats");
+  }
+  if (
+    typeof report.officialBenefits?.sourceMix?.seedCount !== "number" ||
+    typeof report.officialBenefits?.sourceMix?.feedItemCount !== "number" ||
+    typeof report.officialBenefits?.sourceMix?.feedSuccessCount !== "number" ||
+    typeof report.officialBenefits?.sourceMix?.collectedCount !== "number" ||
+    typeof report.officialBenefits?.sourceMix?.feedItemRate !== "number"
+  ) {
+    issues.push("health readiness should expose official benefit source mix counters");
+  }
+  if (
+    Array.isArray(report.officialBenefits?.providerStats) &&
+    report.officialBenefits.providerStats.some(
+      (provider) =>
+        typeof provider.seedCount !== "number" ||
+        typeof provider.feedItemCount !== "number" ||
+        typeof provider.feedSuccessCount !== "number" ||
+        typeof provider.collectedCount !== "number" ||
+        typeof provider.feedItemRate !== "number"
+    )
+  ) {
+    issues.push("health readiness provider stats should expose source mix counters");
   }
   if (!Array.isArray(report.officialBenefits?.providerRisks) || report.officialBenefits.providerRisks.length < 4) {
     issues.push("health readiness should expose official benefit provider risks");
