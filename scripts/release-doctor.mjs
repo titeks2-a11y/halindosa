@@ -3935,7 +3935,10 @@ async function checkPolicyAndStoreDocs() {
 function checkSigningAndArtifacts() {
   const keystoreExample = "android/keystore.properties.example";
   const keystore = "android/keystore.properties";
-  const aab = "android/app/build/outputs/bundle/release/app-release.aab";
+  const aabCandidates = [
+    "android/app/build/outputs/bundle/release/app-release.aab",
+    "android/app/release/app-release.aab"
+  ];
   const apk = "android/app/build/outputs/apk/debug/app-debug.apk";
   const signingDoctor = "scripts/android-signing-doctor.mjs";
 
@@ -3968,11 +3971,15 @@ function checkSigningAndArtifacts() {
     pass("release keystore", "Local keystore.properties exists. Keep it private.");
   }
 
-  if (fileSize(aab) <= 0) fail("release AAB", "Run npm run android:bundle to generate app-release.aab.");
-  else pass("release AAB", `${aab} (${fileSize(aab)} bytes)`);
+  const releaseAab = aabCandidates.find((candidate) => fileSize(candidate) > 0);
+  if (!releaseAab) fail("release AAB", "Run npm run android:bundle or Android Studio Generate Signed Bundle to create app-release.aab.");
+  else pass("release AAB", `${releaseAab} (${fileSize(releaseAab)} bytes)`);
 
-  if (fileSize(apk) <= 0) fail("debug APK", "Run npm run android:debug to generate app-debug.apk.");
-  else pass("debug APK", `${apk} (${fileSize(apk)} bytes)`);
+  if (fileSize(apk) <= 0) {
+    pass("debug APK", "Not retained in clean workspaces. Run npm run android:debug only when device QA needs a fresh debug APK.");
+  } else {
+    pass("debug APK", `${apk} (${fileSize(apk)} bytes)`);
+  }
 }
 
 async function checkCustomerNavigationSimplification() {
