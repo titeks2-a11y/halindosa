@@ -35,6 +35,8 @@ GET /api/metrics
 
 공식 뉴스, 이벤트, 쿠폰, 공공혜택 feed를 연결하기 전에는 운영 환경변수 자체를 먼저 검사한다.
 
+공식 혜택 provider 그룹은 `data/officialBenefitFeedSources.json`에서 관리한다. 새 소스를 추가할 때는 앱 코드가 아니라 이 설정 파일에 provider, 환경변수, 카테고리, 혜택 유형, 추천 검색어, 허용/차단 기준을 먼저 등록한다. 세부 절차는 `docs/OFFICIAL_BENEFIT_SOURCE_CONFIG.md`를 따른다.
+
 ```bash
 npm run source:feed-env:doctor
 ```

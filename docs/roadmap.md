@@ -58,6 +58,7 @@
 - `/api/news-deals`와 홈 공식 혜택 섹션에 `fresh/due/stale/seed` 신선도 상태, 6시간 갱신 권장, 24시간 stale 기준을 노출해 seed fallback을 무리하게 실시간처럼 보이지 않게 하고 공식 링크 검증 시점을 사용자에게 가볍게 안내하도록 개선했다.
 - `/api/news-deals` 응답에 카테고리별, 혜택 유형별, 공식 출처별 집계를 추가하고 홈 섹션은 `limit`로 받은 일부 카드와 전체 검색 결과 수를 분리해 보여주도록 개선했다.
 - 공식 혜택 feed 결과에서 추천 검색어를 자동 산출해 홈 섹션에 가로 칩으로 제공하고, refresh 리포트에는 혜택 유형, 공식 출처, 상위 키워드 집계를 남겨 운영자가 다음에 연결할 공식 API/RSS/제휴 feed 우선순위를 판단할 수 있게 했다.
+- 공식 혜택 provider 설정을 `data/officialBenefitFeedSources.json`으로 분리하고 `docs/OFFICIAL_BENEFIT_SOURCE_CONFIG.md`를 추가해 운영자가 코드 수정 없이 승인 feed, 추천 검색어, 허용/차단 기준을 관리하도록 정리했다.
 - 관리자/운영 API 인증을 `canAccessAdminRequest`로 통일해 `Authorization: Bearer`, `x-admin-token`, `x-admin-export-token`, `x-halindosa-admin-token` 헤더를 지원하고, 쿼리 token 방식은 호환용으로만 유지하도록 `admin:auth:doctor`, `reports/admin-auth.json`, release doctor 게이트를 추가했다.
 - `test:news-feed-errors` 회귀 테스트를 추가해 정상 공식 feed는 통과하고, 설정된 운영 feed가 깨졌을 때는 seed fallback이 있어도 `configuredFeedErrors`로 `verify:news`가 실패하는지 QA에서 직접 재현하도록 했다.
 - `test:news-feed-errors`가 임시 공식 feed 서버를 띄워 정상 feed의 `feedItemCount/feedSuccessCount` 증가와 깨진 feed의 seed fallback 보존을 함께 검증하도록 보강해, 실제 RSS/JSON feed 연결 시 source mix 집계가 회귀하지 않게 했다.

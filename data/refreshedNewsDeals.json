@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-04T13:03:06.355Z",
+  "generatedAt": "2026-06-04T13:08:37.446Z",
   "schemaVersion": 1,
   "source": "official_event_seed_and_approved_feeds",
   "allDeals": [
@@ -33,7 +33,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "official_event",
       "tags": [
         "편의점",
@@ -72,7 +72,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "event_news",
       "tags": [
         "패션",
@@ -111,7 +111,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "event_news",
       "tags": [
         "뷰티",
@@ -150,7 +150,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "official_event",
       "tags": [
         "편의점",
@@ -189,7 +189,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "official_event",
       "tags": [
         "편의점",
@@ -228,7 +228,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "event_news",
       "tags": [
         "문화",
@@ -267,7 +267,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "public_coupon",
       "tags": [
         "공공혜택",
@@ -306,7 +306,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "news",
       "tags": [
         "카드",
@@ -345,7 +345,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "news",
       "tags": [
         "카드",
@@ -384,7 +384,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "news",
       "tags": [
         "쇼핑",
@@ -423,7 +423,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "news",
       "tags": [
         "카드",
@@ -462,7 +462,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "event_news",
       "tags": [
         "영화",
@@ -501,7 +501,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "event_news",
       "tags": [
         "영화",
@@ -540,7 +540,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "event_news",
       "tags": [
         "항공",
@@ -579,7 +579,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "official_event",
       "tags": [
         "멤버십",
@@ -618,7 +618,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "official_event",
       "tags": [
         "통신사",
@@ -657,7 +657,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "official_event",
       "tags": [
         "항공",
@@ -696,7 +696,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "official_event",
       "tags": [
         "장보기",
@@ -735,7 +735,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "official_event",
       "tags": [
         "마트",
@@ -774,7 +774,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "official_event",
       "tags": [
         "마트",
@@ -813,7 +813,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "official_event",
       "tags": [
         "배달",
@@ -852,7 +852,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "official_event",
       "tags": [
         "디지털",
@@ -891,7 +891,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "official_event",
       "tags": [
         "편의점",
@@ -930,7 +930,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "official_event",
       "tags": [
         "식품",
@@ -969,7 +969,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "official_event",
       "tags": [
         "배달",
@@ -1008,7 +1008,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "official_event",
       "tags": [
         "가전",
@@ -1047,7 +1047,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "official_event",
       "tags": [
         "항공",
@@ -1086,7 +1086,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "official_event",
       "tags": [
         "외식",
@@ -1125,7 +1125,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "official_event",
       "tags": [
         "카페",
@@ -1164,7 +1164,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "official_event",
       "tags": [
         "포인트",
@@ -1203,7 +1203,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "official_event",
       "tags": [
         "뷰티",
@@ -1242,7 +1242,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "official_event",
       "tags": [
         "항공",
@@ -1281,7 +1281,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "official_event",
       "tags": [
         "가전",
@@ -1320,7 +1320,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "public_coupon",
       "tags": [
         "페이",
@@ -1359,7 +1359,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "public_coupon",
       "tags": [
         "공공혜택",
@@ -1398,7 +1398,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "public_coupon",
       "tags": [
         "포인트",
@@ -1437,7 +1437,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "public_coupon",
       "tags": [
         "공공혜택",
@@ -1476,7 +1476,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "public_coupon",
       "tags": [
         "영화",
@@ -1515,7 +1515,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "public_coupon",
       "tags": [
         "포인트",
@@ -1554,7 +1554,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "public_coupon",
       "tags": [
         "카드",
@@ -1593,7 +1593,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "public_coupon",
       "tags": [
         "여행",
@@ -1632,7 +1632,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "public_coupon",
       "tags": [
         "무료교육",
@@ -1671,7 +1671,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "official_event",
       "tags": [
         "외식",
@@ -1712,7 +1712,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "official_event",
       "tags": [
         "편의점",
@@ -1751,7 +1751,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "event_news",
       "tags": [
         "패션",
@@ -1790,7 +1790,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "event_news",
       "tags": [
         "뷰티",
@@ -1829,7 +1829,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "official_event",
       "tags": [
         "편의점",
@@ -1868,7 +1868,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "official_event",
       "tags": [
         "편의점",
@@ -1907,7 +1907,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "event_news",
       "tags": [
         "문화",
@@ -1946,7 +1946,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "public_coupon",
       "tags": [
         "공공혜택",
@@ -1985,7 +1985,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "news",
       "tags": [
         "카드",
@@ -2024,7 +2024,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "news",
       "tags": [
         "카드",
@@ -2063,7 +2063,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "news",
       "tags": [
         "쇼핑",
@@ -2102,7 +2102,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "news",
       "tags": [
         "카드",
@@ -2141,7 +2141,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "event_news",
       "tags": [
         "영화",
@@ -2180,7 +2180,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "event_news",
       "tags": [
         "영화",
@@ -2219,7 +2219,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "event_news",
       "tags": [
         "항공",
@@ -2258,7 +2258,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "official_event",
       "tags": [
         "멤버십",
@@ -2297,7 +2297,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "official_event",
       "tags": [
         "통신사",
@@ -2336,7 +2336,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "official_event",
       "tags": [
         "항공",
@@ -2375,7 +2375,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "official_event",
       "tags": [
         "장보기",
@@ -2414,7 +2414,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "official_event",
       "tags": [
         "마트",
@@ -2453,7 +2453,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "official_event",
       "tags": [
         "마트",
@@ -2492,7 +2492,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "official_event",
       "tags": [
         "배달",
@@ -2531,7 +2531,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "official_event",
       "tags": [
         "디지털",
@@ -2570,7 +2570,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "official_event",
       "tags": [
         "편의점",
@@ -2609,7 +2609,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "official_event",
       "tags": [
         "식품",
@@ -2648,7 +2648,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "official_event",
       "tags": [
         "배달",
@@ -2687,7 +2687,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "official_event",
       "tags": [
         "가전",
@@ -2726,7 +2726,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "official_event",
       "tags": [
         "항공",
@@ -2765,7 +2765,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "official_event",
       "tags": [
         "외식",
@@ -2804,7 +2804,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "official_event",
       "tags": [
         "카페",
@@ -2843,7 +2843,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "official_event",
       "tags": [
         "포인트",
@@ -2882,7 +2882,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "official_event",
       "tags": [
         "뷰티",
@@ -2921,7 +2921,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "official_event",
       "tags": [
         "항공",
@@ -2960,7 +2960,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "official_event",
       "tags": [
         "가전",
@@ -2999,7 +2999,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "public_coupon",
       "tags": [
         "페이",
@@ -3038,7 +3038,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "public_coupon",
       "tags": [
         "공공혜택",
@@ -3077,7 +3077,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "public_coupon",
       "tags": [
         "포인트",
@@ -3116,7 +3116,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "public_coupon",
       "tags": [
         "공공혜택",
@@ -3155,7 +3155,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "public_coupon",
       "tags": [
         "영화",
@@ -3194,7 +3194,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "public_coupon",
       "tags": [
         "포인트",
@@ -3233,7 +3233,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "public_coupon",
       "tags": [
         "카드",
@@ -3272,7 +3272,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "public_coupon",
       "tags": [
         "여행",
@@ -3311,7 +3311,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "public_coupon",
       "tags": [
         "무료교육",
@@ -3350,7 +3350,7 @@
       "validationReason": "passed",
       "isHidden": false,
       "hiddenReason": "",
-      "lastCheckedAt": "2026-06-04T13:03:06.355Z",
+      "lastCheckedAt": "2026-06-04T13:08:37.446Z",
       "provider": "official_event",
       "tags": [
         "외식",
@@ -3363,8 +3363,29 @@
   "hiddenDeals": [],
   "providerStats": [
     {
+      "id": "approved-news-feed",
       "provider": "news",
       "source": "approved_news_feed",
+      "categories": [
+        "카드 혜택",
+        "정부 지원/문화 혜택",
+        "무료혜택"
+      ],
+      "benefitTypes": [
+        "card",
+        "public",
+        "culture",
+        "coupon"
+      ],
+      "recommendedQueries": [
+        "오늘의 무료",
+        "카드 혜택",
+        "정부 지원",
+        "문화 혜택"
+      ],
+      "allowedUse": "공식 보도자료, 공식 RSS, 승인된 JSON feed에서 직접 신청 또는 공식 안내 페이지가 확인되는 혜택만 수집",
+      "blockedUse": "뉴스 기사 단독 링크, 블로그, 커뮤니티 원문, 검색 결과 링크",
+      "operatorNote": "기사에서 발견한 혜택은 원문을 sourceUrl에만 보관하고 finalUrl은 공식 신청/이벤트 URL로 보강한다.",
       "configured": false,
       "feedUrls": 0,
       "seedCount": 4,
@@ -3377,8 +3398,29 @@
       "errors": []
     },
     {
+      "id": "official-event-news-feed",
       "provider": "event_news",
       "source": "official_event_news_feed",
+      "categories": [
+        "외식/배달",
+        "영화/문화",
+        "여행/숙박"
+      ],
+      "benefitTypes": [
+        "foodDelivery",
+        "culture",
+        "travel",
+        "coupon"
+      ],
+      "recommendedQueries": [
+        "배달 쿠폰",
+        "영화 할인",
+        "항공권 특가",
+        "외식 쿠폰"
+      ],
+      "allowedUse": "브랜드 공식 이벤트 공지 또는 승인 feed에서 기간과 혜택 조건이 확인되는 항목",
+      "blockedUse": "커뮤니티 캡처, 종료된 이벤트, 대표 사이트 메인 링크",
+      "operatorNote": "이벤트 종료일이 없거나 finalUrl이 공식 상세가 아니면 hidden 처리한다.",
       "configured": false,
       "feedUrls": 0,
       "seedCount": 6,
@@ -3391,8 +3433,30 @@
       "errors": []
     },
     {
+      "id": "official-event-page-feed",
       "provider": "official_event",
       "source": "official_event_page_feed",
+      "categories": [
+        "마트/편의점",
+        "식품/생필품",
+        "디지털/가전",
+        "패션/뷰티"
+      ],
+      "benefitTypes": [
+        "discount",
+        "freeShipping",
+        "coupon",
+        "event"
+      ],
+      "recommendedQueries": [
+        "마트 행사",
+        "편의점 1+1",
+        "무료배송",
+        "오늘특가"
+      ],
+      "allowedUse": "공식 이벤트 상세, 공식 행사상품 페이지, 승인된 파트너 JSON feed",
+      "blockedUse": "검색 결과, 상품 검색 페이지, 쇼핑몰 홈, 이벤트 종료 페이지",
+      "operatorNote": "공식 HTML 페이지를 직접 무단 수집하지 말고 운영자가 승인한 JSON/RSS/API endpoint로 변환해 연결한다.",
       "configured": false,
       "feedUrls": 0,
       "seedCount": 23,
@@ -3405,8 +3469,30 @@
       "errors": []
     },
     {
+      "id": "public-coupon-and-culture-feed",
       "provider": "public_coupon",
       "source": "public_coupon_and_culture_benefit_feed",
+      "categories": [
+        "무료혜택",
+        "정부 지원/문화 혜택",
+        "쿠폰"
+      ],
+      "benefitTypes": [
+        "freebie",
+        "coupon",
+        "culture",
+        "public",
+        "point"
+      ],
+      "recommendedQueries": [
+        "무료 쿠폰",
+        "무료 체험",
+        "문화 초대권",
+        "포인트 적립"
+      ],
+      "allowedUse": "공공기관, 카드사, 멤버십, 문화/무료 혜택 공식 feed",
+      "blockedUse": "광고성 랜딩, 조건 불명확한 체험단 모집 대행, 비공식 이벤트 정리글",
+      "operatorNote": "무료 혜택은 가입 조건, 선착순 여부, 종료일을 반드시 summary/tags에 남긴다.",
       "configured": false,
       "feedUrls": 0,
       "seedCount": 10,

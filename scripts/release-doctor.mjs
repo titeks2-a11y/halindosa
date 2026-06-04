@@ -4244,6 +4244,7 @@ function checkNewsDealPipeline() {
     "scripts/test-news-feed-dry-run.mjs",
     "scripts/feed-url-utils.mjs",
     "scripts/refresh-all.mjs",
+    "data/officialBenefitFeedSources.json",
     "data/newsDeals.seed.json",
     "data/newsFeed.sample.json",
     "data/newsFeed.sample.rss.xml",
@@ -4258,6 +4259,7 @@ function checkNewsDealPipeline() {
     "docs/NEWS_FEED_LIVE_PIPELINE.md",
     "docs/NEWS_FEED_PREVIEW_REPORT.md",
     "docs/news-feed-contract.md",
+    "docs/OFFICIAL_BENEFIT_SOURCE_CONFIG.md",
     "reports/refresh-all.json",
     "app/api/news-deals/route.ts",
     "app/go/news/[id]/route.ts",
@@ -4300,6 +4302,8 @@ function checkNewsDealPipeline() {
   const feedCanaryDocs = existsSync(join(root, "docs/NEWS_FEED_CANARY_REPORT.md")) ? readFileSync(join(root, "docs/NEWS_FEED_CANARY_REPORT.md"), "utf8") : "";
   const feedLivePipelineDocs = existsSync(join(root, "docs/NEWS_FEED_LIVE_PIPELINE.md")) ? readFileSync(join(root, "docs/NEWS_FEED_LIVE_PIPELINE.md"), "utf8") : "";
   const feedPreviewDocs = existsSync(join(root, "docs/NEWS_FEED_PREVIEW_REPORT.md")) ? readFileSync(join(root, "docs/NEWS_FEED_PREVIEW_REPORT.md"), "utf8") : "";
+  const sourceConfigDocs = existsSync(join(root, "docs/OFFICIAL_BENEFIT_SOURCE_CONFIG.md")) ? readFileSync(join(root, "docs/OFFICIAL_BENEFIT_SOURCE_CONFIG.md"), "utf8") : "";
+  const officialBenefitFeedSources = existsSync(join(root, "data/officialBenefitFeedSources.json")) ? JSON.parse(readFileSync(join(root, "data/officialBenefitFeedSources.json"), "utf8")) : [];
   const configuredFeedErrorTest = existsSync(join(root, "scripts/test-news-feed-error-gate.mjs")) ? readFileSync(join(root, "scripts/test-news-feed-error-gate.mjs"), "utf8") : "";
   const feedDryRunTest = existsSync(join(root, "scripts/test-news-feed-dry-run.mjs")) ? readFileSync(join(root, "scripts/test-news-feed-dry-run.mjs"), "utf8") : "";
   const feedDryRunRegressionReport = existsSync(join(root, "reports/news-feed-dry-run-regression.json")) ? JSON.parse(readFileSync(join(root, "reports/news-feed-dry-run-regression.json"), "utf8")) : {};
@@ -4509,6 +4513,17 @@ function checkNewsDealPipeline() {
   for (const phrase of ["공식 혜택 Feed 계약", "검색 결과 URL", "커뮤니티", "finalUrl", "RSS", "Atom", "본문 안 공식 링크", "npm run refresh:news", "configuredFeedErrors", "설정된 운영 feed"]) {
     if (!newsFeedContract.includes(phrase)) issues.push(`news feed contract docs missing ${phrase}`);
   }
+  if (
+    !Array.isArray(officialBenefitFeedSources) ||
+    officialBenefitFeedSources.length < 4 ||
+    !officialBenefitFeedSources.every((source) => source.provider && Array.isArray(source.env) && source.env.length && Array.isArray(source.recommendedQueries) && source.allowedUse && source.blockedUse) ||
+    !refreshScript.includes("officialBenefitFeedSources.json") ||
+    !refreshScript.includes("sourceConfigSummary") ||
+    !sourceConfigDocs.includes("data/officialBenefitFeedSources.json") ||
+    !sourceConfigDocs.includes("검색 결과, 커뮤니티 원문, 블로그, 뉴스 기사 단독 링크")
+  ) {
+    issues.push("official benefit feed source config should let operators add approved providers without editing refresh code and document allowed/blocked source policy");
+  }
 
   if (!homePage.includes("RealtimeNewsDealsSection") || !homePage.includes("/api/news-deals?${params.toString()}") || !homePage.includes("params.set(\"q\"") || !homePage.includes("activeQuery={query}") || !homePage.includes("refreshNewsDeals") || !homePage.includes("120_000")) {
     issues.push("home should show verified realtime discount news section from /api/news-deals with live refresh");
@@ -4682,6 +4697,16 @@ function checkNewsDealPipeline() {
     if (missingCategories.length) issues.push(`news-deals report missing required categories: ${missingCategories.join(", ")}`);
     if (thinCategories.length) issues.push(`news-deals report thin required categories: ${thinCategories.join(", ")}`);
     if (!Array.isArray(report.providerStats) || report.providerStats.length < 4) issues.push("news-deals report should include provider stats");
+    if (
+      !report.sourceConfig ||
+      Number(report.sourceConfig.configuredSources ?? 0) < 4 ||
+      !Array.isArray(report.sourceConfig.recommendedQueries) ||
+      report.sourceConfig.recommendedQueries.length < 8 ||
+      !Array.isArray(report.sourceConfig.guardrails) ||
+      !report.sourceConfig.guardrails.some((rule) => String(rule).includes("검색 결과"))
+    ) {
+      issues.push("news-deals report should include operator source config, recommended queries, and blocked source guardrails");
+    }
     if (
       Array.isArray(report.providerStats) &&
       report.providerStats.some(
