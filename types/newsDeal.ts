@@ -91,6 +91,17 @@ export interface NewsTargetSection {
   count: number;
 }
 
+export interface NewsIntentGroup {
+  id: string;
+  label: string;
+  query: string;
+  count: number;
+  urgentCount: number;
+  topSources: string[];
+  benefitTypes: NewsBenefitType[];
+  actionLabel: string;
+}
+
 export interface NewsDeadlineBucket {
   id: "today" | "threeDays" | "sevenDays" | "later";
   label: string;

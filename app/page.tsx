@@ -41,7 +41,7 @@ import { buildBenefitDecisionGuide } from "@/lib/deals/benefitDecisionGuide";
 import { buildDailyBenefitBriefing } from "@/lib/deals/dailyBenefitBriefing";
 import { buildDailyRoutinePlan } from "@/lib/deals/dailyRoutinePlan";
 import { buildNewsDeadlineSummary } from "@/lib/deals/newsDeadlineInsights";
-import { buildInitialNewsRecommendedQueries, buildInitialNewsTargetSections } from "@/lib/deals/newsRecommendedQueries";
+import { buildInitialNewsRecommendedQueries, buildInitialNewsTargetSections, buildNewsIntentGroups } from "@/lib/deals/newsRecommendedQueries";
 import { buildPersonalizedBenefitQueue } from "@/lib/deals/personalizedBenefitQueue";
 import { isVerifiedPurchaseLink } from "@/lib/deals/quality";
 import { formatPrice, getRelativeTime, getTimeLeft } from "@/lib/format";
@@ -131,12 +131,12 @@ import {
 import { getSupportMailto, supportEmail } from "@/lib/support";
 import { Deal, DealBenefitType, DealSort } from "@/types/deal";
 import { HotSignal } from "@/types/hotSignal";
-import type { NewsDeadlineSummary, NewsDeal, NewsDealSourceTrust, NewsTargetSection } from "@/types/newsDeal";
+import type { NewsDeadlineSummary, NewsDeal, NewsDealSourceTrust, NewsIntentGroup, NewsTargetSection } from "@/types/newsDeal";
 
 type AppView = "home" | "categories" | "alerts" | "favorites" | "my";
 const INITIAL_HOME_DEAL_LIMIT = 12;
 const HOME_DEAL_LOAD_STEP = 12;
-const initialNewsSnapshot = refreshedNewsSnapshot as { generatedAt?: string; deals?: NewsDeal[]; sourceTrustScores?: NewsDealSourceTrust[] };
+const initialNewsSnapshot = refreshedNewsSnapshot as { generatedAt?: string; deals?: NewsDeal[]; sourceTrustScores?: NewsDealSourceTrust[]; intentGroups?: NewsIntentGroup[] };
 
 export default function Home() {
   const { configured: authConfigured, user, nickname } = useAuth();
@@ -172,6 +172,7 @@ export default function Home() {
     buildInitialNewsRecommendedQueries(initialNewsSnapshot.deals ?? [])
   );
   const [newsTargetSections, setNewsTargetSections] = useState<NewsTargetSection[]>(() => buildInitialNewsTargetSections(initialNewsSnapshot.deals ?? []));
+  const [newsIntentGroups, setNewsIntentGroups] = useState<NewsIntentGroup[]>(() => initialNewsSnapshot.intentGroups ?? buildNewsIntentGroups(initialNewsSnapshot.deals ?? []));
   const [newsSourceTrustScores, setNewsSourceTrustScores] = useState<NewsDealSourceTrust[]>(() => initialNewsSnapshot.sourceTrustScores ?? []);
   const [newsDeadlineSummary, setNewsDeadlineSummary] = useState<NewsDeadlineSummary>(() => buildNewsDeadlineSummary(initialNewsSnapshot.deals ?? []));
   const [newsUpdatedAt, setNewsUpdatedAt] = useState(initialNewsSnapshot.generatedAt ?? "");
@@ -238,6 +239,7 @@ export default function Home() {
         setNewsTotalCount(snapshot.totalCount);
         setNewsRecommendedQueries(snapshot.recommendedQueries);
         setNewsTargetSections(snapshot.targetSections.length ? snapshot.targetSections : buildInitialNewsTargetSections(snapshot.deals));
+        setNewsIntentGroups(snapshot.intentGroups.length ? snapshot.intentGroups : buildNewsIntentGroups(snapshot.deals));
         setNewsSourceTrustScores(snapshot.sourceTrustScores);
         setNewsDeadlineSummary(snapshot.deadlineSummary);
         setNewsUpdatedAt(snapshot.updatedAt);
@@ -1522,6 +1524,7 @@ export default function Home() {
             totalCount={newsTotalCount}
             recommendedQueries={newsRecommendedQueries}
             targetSections={newsTargetSections}
+            intentGroups={newsIntentGroups}
             sourceTrustScores={newsSourceTrustScores}
             deadlineSummary={newsDeadlineSummary}
             updatedAt={newsUpdatedAt}

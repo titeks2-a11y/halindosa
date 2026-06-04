@@ -68,6 +68,8 @@ npm run release:doctor
 
 `/api/news-deals`는 보이는 혜택에서 뽑은 키워드와 이 설정 파일의 `recommendedQueries`를 함께 사용한다. 따라서 운영자가 `오늘의 무료`, `쿠폰`, `마트 행사`, `편의점 1+1`, `배달 쿠폰`, `카드 혜택`, `정부 지원`, `문화 혜택` 같은 검색어를 설정하면 홈 공식 혜택 섹션의 추천 검색어 칩에도 반영된다. `targetSections`는 관리자 운영 화면에서 노출 후보로 확인해 홈 편집과 피드 운영이 같은 기준을 보게 한다.
 
+`intentGroups`는 같은 공식 혜택 데이터를 사용자 목적별로 다시 묶은 홈 노출 큐다. `오늘 무료`, `쿠폰`, `마트 행사`, `편의점`, `배달`, `카드 혜택`, `공공·문화`, `마감임박` 그룹별 count, urgentCount, topSources, benefitTypes, actionLabel을 내려주므로 앱 첫 화면에서 사용자가 바로 눌러볼 혜택 축을 표시할 수 있다. 새 feed를 추가할 때는 `recommendedQueries`와 `targetSections`를 함께 넣어 이 그룹이 비지 않도록 한다.
+
 ## 새 소스 추가 흐름
 
 1. 공식 소스의 사용 가능 범위를 확인한다.

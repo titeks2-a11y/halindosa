@@ -129,4 +129,6 @@ npm run refresh:all
 
 `reports/news-deals.json.sourceTrustScores`는 출처별 운영 신뢰도 표다. `trusted` 출처는 공식 링크, 마감일, 혜택 조건, 우선순위 점수가 안정적인 소스이며, `watch` 또는 `needs_review`가 나오면 검색 결과 링크, 종료 혜택, 비공식 URL, 낮은 신뢰도 사유를 먼저 수정한다. 이 표는 `/api/admin/news-operations`와 CSV export에도 포함된다.
 
+`/api/news-deals.intentGroups`는 고객이 바로 이해할 목적별 공식 혜택 큐다. 각 행은 `id`, `label`, `query`, `count`, `urgentCount`, `topSources`, `benefitTypes`, `actionLabel`을 포함한다. 홈 화면은 이 값을 `오늘 먼저 볼 혜택`으로 보여주며, 운영자는 새로운 공식 RSS/JSON/API를 추가할 때 무료, 쿠폰, 마트, 편의점, 배달, 카드, 정부/문화 그룹 중 어느 축을 채우는지 확인한다.
+
 `data/newsFeed.sample.json`과 `data/newsFeed.sample.rss.xml`은 운영자가 feed 포맷을 확인하는 안전한 샘플이다. 샘플과 실제 feed 모두 `scripts/news-feed-contract-doctor.mjs`의 계약 검사를 통과해야 한다. `npm run test:news-feed-errors`는 정상 JSON feed와 깨진 feed를 모두 재현해, 설정된 운영 feed 실패가 `configuredFeedErrors`로 잡히는지 확인한다.

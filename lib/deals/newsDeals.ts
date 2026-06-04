@@ -3,7 +3,7 @@ import { join } from "node:path";
 import seedNewsDeals from "@/data/newsDeals.seed.json";
 import { applyNewsDealOverrides } from "@/lib/deals/newsOverrides";
 import { buildNewsDeadlineSummary } from "@/lib/deals/newsDeadlineInsights";
-import { buildInitialNewsTargetSections } from "@/lib/deals/newsRecommendedQueries";
+import { buildInitialNewsTargetSections, buildNewsIntentGroups } from "@/lib/deals/newsRecommendedQueries";
 import { buildNewsSourceTrustScores } from "@/lib/deals/newsSourceTrust";
 import type { NewsDeal } from "@/types/newsDeal";
 
@@ -299,6 +299,7 @@ export function getVisibleNewsDeals(options: { limit?: number; category?: string
     deadlineSummary: buildNewsDeadlineSummary(sorted),
     recommendedQueries: buildRecommendedNewsQueries(sorted, sourceConfigQueries),
     targetSections: buildInitialNewsTargetSections(sorted, sourceConfigTargetSections),
+    intentGroups: buildNewsIntentGroups(sorted),
     sourceConfigQueries,
     sourceConfigTargetSections,
     ...freshness

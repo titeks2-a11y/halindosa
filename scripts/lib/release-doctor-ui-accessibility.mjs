@@ -40,12 +40,15 @@ export async function checkUiAccessibility() {
   const priceAlertList = await text("components/PriceAlertList.tsx");
   const priceAlerts = await text("lib/priceAlerts.ts");
   const homePage = await text("app/page.tsx");
+  const homeDealGrid = await text("components/home/HomeDealGrid.tsx");
+  const homeEmptyRecovery = await text("components/home/HomeEmptyRecovery.tsx");
   const claimedBenefitHomeSummary = await text("components/ClaimedBenefitHomeSummary.tsx");
   const homeDerivedData = await text("lib/homeDerivedData.ts");
   const homeDealFilters = await text("lib/homeDealFilters.ts");
   const homeDiscoveryConfig = await text("lib/homeDiscoveryConfig.ts");
   const homeRecentSearches = await text("lib/homeRecentSearches.ts");
-  const homeFeatureSource = `${homePage}\n${claimedBenefitHomeSummary}\n${homeDealFilters}\n${homeDerivedData}`;
+  const homeRuntimeSource = `${homePage}\n${homeDealGrid}\n${homeEmptyRecovery}`;
+  const homeFeatureSource = `${homeRuntimeSource}\n${claimedBenefitHomeSummary}\n${homeDealFilters}\n${homeDerivedData}`;
   const homeSearchSource = `${homeFeatureSource}\n${homeDiscoveryConfig}\n${homeRecentSearches}`;
   const favoritesPage = await text("app/favorites/page.tsx");
   const notFoundPage = await text("app/not-found.tsx");
@@ -203,7 +206,7 @@ export async function checkUiAccessibility() {
     "바로 다시 찾아볼 검색어",
     "먼저 볼 만한 검증 특가"
   ];
-  const missingEmptyStateSnippets = requiredEmptyStateSnippets.filter((snippet) => !homePage.includes(snippet));
+  const missingEmptyStateSnippets = requiredEmptyStateSnippets.filter((snippet) => !homeRuntimeSource.includes(snippet));
 
   if (missingEmptyStateSnippets.length) {
     fail("empty state UX", `Missing snippets: ${missingEmptyStateSnippets.join(", ")}`);

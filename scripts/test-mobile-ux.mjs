@@ -31,6 +31,8 @@ const quickDealCard = read("components/QuickDealCard.tsx");
 const liveDealFeed = read("components/LiveDealFeed.tsx");
 const toast = read("components/Toast.tsx");
 const homePage = read("app/page.tsx");
+const homeDealGrid = read("components/home/HomeDealGrid.tsx");
+const homeFirstScreenSource = `${homePage}\n${homeDealGrid}`;
 const mobileHeader = read("components/MobileHeader.tsx");
 const categoryTabs = read("components/CategoryTabs.tsx");
 
@@ -61,7 +63,7 @@ if (
   fail("single home search entry", "홈 검색창이 중복되었거나 하위 화면 보조 검색 compact 기준이 깨졌습니다.");
 }
 
-if (includesAll(homePage, ["INITIAL_HOME_DEAL_LIMIT = 12", "HOME_DEAL_LOAD_STEP = 12", "visibleItems = items.slice(0, visibleDealCount)", "특가 더보기", "showDeepBenefitSections", "혜택 루틴 더보기", "showAdvancedFilterPanel", "상세 필터와 결과 분석 열기", "상세 필터와 결과 분석 접기", "먼저 확인할 상품", "snap-x snap-mandatory", "오늘 바로 볼 특가 가로 목록", "옆으로 넘기기", "bg-gradient-to-l from-white"])) {
+if (includesAll(homeFirstScreenSource, ["INITIAL_HOME_DEAL_LIMIT = 12", "HOME_DEAL_LOAD_STEP = 12", "visibleItems = items.slice(0, visibleCount)", "특가 더보기", "showDeepBenefitSections", "혜택 루틴 더보기", "showAdvancedFilterPanel", "상세 필터와 결과 분석 열기", "상세 필터와 결과 분석 접기", "먼저 확인할 상품", "snap-x snap-mandatory", "오늘 바로 볼 특가 가로 목록", "옆으로 넘기기", "bg-gradient-to-l from-white"])) {
   pass("home first screen budget", "초기 렌더 12개 제한, 더보기 확장, 심화 혜택/상세 필터 지연 렌더링, 상단 특가 스냅 레일과 스크롤 신호가 유지됩니다.");
 } else {
   fail("home first screen budget", "홈 첫 화면 budget, 더보기 확장, 심화 혜택/상세 필터 지연 렌더링, 상단 특가 스냅 레일 또는 스크롤 신호가 깨졌습니다.");

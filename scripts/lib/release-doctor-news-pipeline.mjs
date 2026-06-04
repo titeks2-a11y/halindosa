@@ -353,11 +353,13 @@ export function checkNewsDealPipeline() {
     !newsDealsRuntime.includes("sourceCounts") ||
     !newsDealsRuntime.includes("recommendedQueries") ||
     !newsDealsRuntime.includes("targetSections") ||
+    !newsDealsRuntime.includes("intentGroups") ||
+    !newsDealsRuntime.includes("buildNewsIntentGroups") ||
     !newsDealsRuntime.includes("buildConfiguredNewsTargetSections") ||
     !newsDealsRuntime.includes("buildRecommendedNewsQueries") ||
     !newsDealsRuntime.includes("seed 기준")
   ) {
-    issues.push("news deals runtime should expose freshness status, result aggregations, recommended queries, target sections, cadence, stale threshold, and seed fallback state");
+    issues.push("news deals runtime should expose freshness status, result aggregations, recommended queries, target sections, intent groups, cadence, stale threshold, and seed fallback state");
   }
   if (!realtimeNewsSection.includes("activeQuery") || !realtimeNewsSection.includes("공식 혜택 검색 결과 요약") || !realtimeNewsSection.includes("상품 검색어 기준으로 공식 혜택도 함께 좁혔습니다")) {
     issues.push("realtime official benefit section should explain search-filtered official benefit results");
@@ -373,6 +375,9 @@ export function checkNewsDealPipeline() {
   }
   if (!homePage.includes("newsTargetSections") || !realtimeNewsSection.includes("운영 추천 혜택 지도") || !realtimeNewsSection.includes("targetSections")) {
     issues.push("home realtime official benefit section should expose operator target section chips for free, coupon, mart, delivery, card, and public benefits");
+  }
+  if (!homePage.includes("newsIntentGroups") || !realtimeNewsSection.includes("오늘 먼저 볼 혜택") || !realtimeNewsSection.includes("intentGroups")) {
+    issues.push("home realtime official benefit section should expose customer intent groups for free, coupon, mart, delivery, card, and public benefits");
   }
   if (
     !adminNewsOperationsPanel.includes("sourceRefreshWindows") ||

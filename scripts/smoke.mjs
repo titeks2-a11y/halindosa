@@ -98,6 +98,15 @@ await check("news deals api", async () => {
     data.targetSections.some((item) => item.label && item.query && item.count > 0 && ["오늘의 무료", "쿠폰", "마트 행사", "편의점 1+1", "배달 쿠폰", "카드 혜택"].includes(item.label)),
     "News deals API missing customer-facing official target section labels"
   );
+  assert(Array.isArray(data.intentGroups) && data.intentGroups.length >= 4, "News deals API missing customer intent benefit groups");
+  assert(
+    data.intentGroups.every((item) => item.id && item.label && item.query && item.count > 0 && Array.isArray(item.topSources) && Array.isArray(item.benefitTypes) && item.actionLabel),
+    "News deals API intent groups missing launch fields"
+  );
+  assert(
+    data.intentGroups.some((item) => ["free", "coupon", "mart", "convenience", "delivery", "card", "public-culture"].includes(item.id)),
+    "News deals API missing launch intent groups for free, coupon, mart, delivery, card, or public benefits"
+  );
   assert(typeof data.deadlineSummary?.nearestEndDate === "string" && data.deadlineSummary.nearestEndDate.length > 0, "News deals API missing official benefit deadline summary");
   assert(Array.isArray(data.deadlineSummary?.buckets) && data.deadlineSummary.buckets.some((bucket) => bucket.id === "sevenDays"), "News deals API missing deadline bucket rows");
   assert(data.deals.some((deal) => deal.category === "마트/편의점"), "News deals API missing mart/convenience official benefits");

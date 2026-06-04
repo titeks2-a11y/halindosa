@@ -3,7 +3,9 @@ import { assert, baseUrl, check, fetchJson } from "./smoke-harness.mjs";
 
 const homePageSource = readFileSync(new URL("../../app/page.tsx", import.meta.url), "utf8");
 const homeApiSource = readFileSync(new URL("../../lib/homeApi.ts", import.meta.url), "utf8");
-const homeRuntimeSource = `${homePageSource}\n${homeApiSource}`;
+const homeDealGridSource = readFileSync(new URL("../../components/home/HomeDealGrid.tsx", import.meta.url), "utf8");
+const homeEmptyRecoverySource = readFileSync(new URL("../../components/home/HomeEmptyRecovery.tsx", import.meta.url), "utf8");
+const homeRuntimeSource = `${homePageSource}\n${homeApiSource}\n${homeDealGridSource}\n${homeEmptyRecoverySource}`;
 const bottomNavigationSource = readFileSync(new URL("../../components/BottomNavigation.tsx", import.meta.url), "utf8");
 const topNavigationSource = readFileSync(new URL("../../components/TopNavigation.tsx", import.meta.url), "utf8");
 const mypageSource = readFileSync(new URL("../../app/mypage/page.tsx", import.meta.url), "utf8");
@@ -60,10 +62,10 @@ export async function runPageSmokeChecks() {
     assert(result.response.status === 200, `Expected 200, got ${result.response.status}`);
     assert(result.data.deals.length === 0, "Impossible search query should return no API deals");
     assert(homePageSource.includes("조건에 맞는 특가가 없습니다."), "Home source missing empty result title");
-    assert(homePageSource.includes("검색 결과 없음 복구"), "Home source missing recovery region");
-    assert(homePageSource.includes("바로 다시 찾아볼 검색어"), "Home source missing recovery keyword suggestions");
-    assert(homePageSource.includes("먼저 볼 만한 검증 특가"), "Home source missing verified deal recovery suggestions");
-    assert(homePageSource.includes("검색 결과 대신 실제 구매 링크가 확인된 상품"), "Home source missing verified-link recovery copy");
+    assert(homeRuntimeSource.includes("검색 결과 없음 복구"), "Home source missing recovery region");
+    assert(homeRuntimeSource.includes("바로 다시 찾아볼 검색어"), "Home source missing recovery keyword suggestions");
+    assert(homeRuntimeSource.includes("먼저 볼 만한 검증 특가"), "Home source missing verified deal recovery suggestions");
+    assert(homeRuntimeSource.includes("검색 결과 대신 실제 구매 링크가 확인된 상품"), "Home source missing verified-link recovery copy");
     assert(homeRuntimeSource.includes('params.set("q"') && homeRuntimeSource.includes('sort: query.trim() ? "endingSoon" : "priority"'), "Home source should pass product search query into official benefit news refresh");
     assert(homeRuntimeSource.includes("activeQuery={query}"), "Home source should pass active search query into official benefit UI");
   });
