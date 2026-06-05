@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-06-05T13:40:08.686Z",
+  "generatedAt": "2026-06-05T14:29:09.293Z",
   "totalDeals": 140,
   "verificationTargets": 140,
-  "passedDirectLinks": 125,
-  "visibleDeals": 125,
-  "publishableDeals": 125,
-  "excludedDeals": 15,
-  "failedCount": 15,
+  "passedDirectLinks": 124,
+  "visibleDeals": 124,
+  "publishableDeals": 124,
+  "excludedDeals": 16,
+  "failedCount": 16,
   "productDetailUrls": 109,
   "officialBenefitUrls": 31,
   "searchOrCategorySuspected": 0,
@@ -15,23 +15,24 @@
   "homeOrMainSuspected": 0,
   "communitySuspected": 0,
   "manualReviewNeeded": 0,
-  "hiddenCount": 15,
+  "hiddenCount": 16,
+  "exposedIssues": [],
   "exposedSearchLinks": 0,
   "exposedSoldOutLinks": 0,
   "exposedBrokenLinks": 0,
   "exposedInvalidUrls": 0,
   "exposedNonPublishableItems": 0,
-  "visibleCount": 125,
+  "visibleCount": 124,
   "liveProbe": {
     "enabled": true,
     "strict": false,
     "bodyProbe": true,
     "timeoutMs": 5000,
     "checked": 140,
-    "passed": 61,
-    "failed": 79,
-    "redirected": 10,
-    "finalUrlChanged": 10,
+    "passed": 62,
+    "failed": 78,
+    "redirected": 11,
+    "finalUrlChanged": 11,
     "http404": 0,
     "http410": 0,
     "http5xx": 0,
@@ -40,13 +41,13 @@
     "rateLimited": 13,
     "unavailableText": 0,
     "unavailableTextReview": 0,
-    "bodyChecked": 136,
-    "titleMetaChecked": 131,
+    "bodyChecked": 137,
+    "titleMetaChecked": 132,
     "contentMatched": 46,
-    "contentMismatch": 90,
-    "accessibleContentMismatch": 15,
+    "contentMismatch": 91,
+    "accessibleContentMismatch": 16,
     "accessGuardBody": 31,
-    "priceSignal": 26,
+    "priceSignal": 25,
     "purchaseActionSignal": 12,
     "failures": [
       {
@@ -449,18 +450,6 @@
         "id": "d073",
         "url": "https://www.hyundaicard.com/cpc/cr/CPCCR0101_01.hc",
         "finalUrl": "https://www.hyundaicard.com/cpc/cr/CPCCR0101_01.hc",
-        "status": 0,
-        "reason": "request_failed",
-        "titleSimilarity": 0,
-        "contentMatch": null,
-        "accessGuard": false,
-        "rateLimited": false,
-        "unavailablePattern": ""
-      },
-      {
-        "id": "d074",
-        "url": "https://www.shinhancard.com/pconts/html/benefit/event/MOBFM220/MOBFM220R01.html",
-        "finalUrl": "https://www.shinhancard.com/pconts/html/benefit/event/MOBFM220/MOBFM220R01.html",
         "status": 0,
         "reason": "request_failed",
         "titleSimilarity": 0,
@@ -1000,8 +989,8 @@
     ]
   },
   "httpStatusSummary": {
-    "redirected": 10,
-    "finalUrlChanged": 10,
+    "redirected": 11,
+    "finalUrlChanged": 11,
     "http404": 0,
     "http410": 0,
     "http5xx": 0,
@@ -1012,14 +1001,14 @@
     "unavailableTextReview": 0
   },
   "contentSignalSummary": {
-    "bodyChecked": 136,
-    "titleMetaChecked": 131,
+    "bodyChecked": 137,
+    "titleMetaChecked": 132,
     "contentMatched": 46,
-    "contentMismatch": 90,
-    "priceSignal": 26,
+    "contentMismatch": 91,
+    "priceSignal": 25,
     "purchaseActionSignal": 12,
     "unavailableTextReview": 0,
-    "accessibleContentMismatch": 15,
+    "accessibleContentMismatch": 16,
     "accessGuardBody": 31,
     "strict": false
   },
@@ -1028,16 +1017,24 @@
       "live_content_confirmed": 46,
       "manual_pattern_verified": 31,
       "seller_access_protected_manual_verified": 31,
-      "blocked": 15,
+      "blocked": 16,
       "seller_rate_limited_manual_verified": 13,
-      "transient_network_manual_verified": 4
+      "transient_network_manual_verified": 3
     },
     "liveConfirmed": 46,
     "sellerAccessProtected": 31,
     "sellerRateLimited": 13,
-    "transientNetwork": 4,
+    "transientNetwork": 3,
     "manualPatternVerified": 31,
-    "blocked": 15
+    "blocked": 16
+  },
+  "mismatchCategoryCounts": {
+    "wrong_product_or_benefit": 6,
+    "blank_or_script_shell": 5,
+    "generic_landing_or_shell": 2,
+    "ended_event_page": 1,
+    "error_page": 1,
+    "login_wall": 1
   },
   "revalidationQueue": [
     {
@@ -1047,7 +1044,7 @@
       "host": "lfmall.co.kr",
       "finalUrl": "https://www.lfmall.co.kr/app/product/E3GKXX00844",
       "priority": 100,
-      "reason": "live_content_mismatch",
+      "reason": "generic_landing_or_shell",
       "evidenceTier": "blocked",
       "liveProbe": {
         "status": 206,
@@ -1056,6 +1053,7 @@
         "bodyChecked": true,
         "title": "나를 나답게 LFmall.com",
         "metaDescription": "",
+        "textSample": "나를 나답게 LFmall.com You need to enable JavaScript to run this app.",
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
@@ -1071,7 +1069,7 @@
       "host": "e-himart.co.kr",
       "finalUrl": "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0026982316",
       "priority": 100,
-      "reason": "live_content_mismatch",
+      "reason": "blank_or_script_shell",
       "evidenceTier": "blocked",
       "liveProbe": {
         "status": 200,
@@ -1080,6 +1078,7 @@
         "bodyChecked": true,
         "title": "",
         "metaDescription": "",
+        "textSample": "",
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
@@ -1095,7 +1094,7 @@
       "host": "e-himart.co.kr",
       "finalUrl": "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0019390089",
       "priority": 100,
-      "reason": "live_content_mismatch",
+      "reason": "blank_or_script_shell",
       "evidenceTier": "blocked",
       "liveProbe": {
         "status": 200,
@@ -1104,6 +1103,7 @@
         "bodyChecked": true,
         "title": "",
         "metaDescription": "",
+        "textSample": "",
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
@@ -1119,7 +1119,7 @@
       "host": "gs25.gsretail.com",
       "finalUrl": "https://gs25.gsretail.com/gscvs/ko/customer-engagement/event/detail/publishing?eventCode=8842722233888&pageNum=1",
       "priority": 100,
-      "reason": "live_content_mismatch",
+      "reason": "ended_event_page",
       "evidenceTier": "blocked",
       "liveProbe": {
         "status": 200,
@@ -1128,6 +1128,7 @@
         "bodyChecked": true,
         "title": "종료이벤트/당첨발표 | GS25 Site",
         "metaDescription": "5월 GS25의 결제수단 혜택",
+        "textSample": "종료이벤트/당첨발표 | GS25 Site 자사에서 SSO 세션(쿠키) 조회 결과를 처리하는 URL입니다. --> 본문 바로가기 주메뉴 바로가기 GS리테일 GS25 GS SHOP GS THE FRESH POP 로그인 회원가입 채용안내 고객센터 LANGUAGE 다국어 사이트 더보기 ENG ENG 2024-09-23 비게시 --> 회사소개 GS리테일 경영이념 CEO인사말 이사회 의장 인사말 기업연혁 수상이력 계열사소개 기업 CI/RI 기업소식 오시는길 정도경영 정도경영 소개 정도경영 지침 정도경영 제도 정도경영 제보 고객만족경영 나눔경영 공정거래 공정거래 자율준수 공정거래 업무매뉴얼 투자정보 주주현황 경영성과 공시정보 정책·제도 정보 동반성장 동반성장 개요 파트너사 지원제도 입점상담 입점안내 상담신청 전자계약 공지사항 임대상가 지하철 쇼핑몰 GS THE FRESH 임대코너 모집공고 고객센터 자주묻는 질문 고객의 소리 공지사항 GS25 2025-02-04 비게시 --> 상품 행사상품 행사상",
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
@@ -1143,15 +1144,16 @@
       "host": "aliexpress.com",
       "finalUrl": "https://www.aliexpress.com/item/1005010151430718.html",
       "priority": 100,
-      "reason": "live_content_mismatch",
+      "reason": "blank_or_script_shell",
       "evidenceTier": "blocked",
       "liveProbe": {
-        "status": 200,
+        "status": 206,
         "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "",
         "metaDescription": "",
+        "textSample": "",
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
@@ -1167,7 +1169,7 @@
       "host": "new-m.pay.naver.com",
       "finalUrl": "https://new-m.pay.naver.com/member/benefit/event",
       "priority": 100,
-      "reason": "live_content_mismatch",
+      "reason": "login_wall",
       "evidenceTier": "blocked",
       "liveProbe": {
         "status": 200,
@@ -1176,6 +1178,7 @@
         "bodyChecked": true,
         "title": "Naver Sign in",
         "metaDescription": "네이버에 로그인 하고 나를 위한 다양한 서비스를 이용해 보세요",
+        "textSample": "Naver Sign in 본문 바로가기 NAVER 한국어 English 中文(简体) 中文(台灣) ID/Phone number QR code ID or Phone number delete Password\" class=\"input_pw\" maxlength=\"16\" aria-label=\">Password\"> Password 비밀번호 표시 delete Stay Signed in IP Security ON OFF Caps Lock is on. Please enter your ID or mobile phone number. Passkey login failed. Please try again. Passkey login failed. Please use another login method. Passkey login failed. Please use another login method. Passkey login failed. Please refresh and try again. Enter yo",
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
@@ -1191,7 +1194,7 @@
       "host": "events.payco.com",
       "finalUrl": "https://events.payco.com/app/share.nhn?evntPageNm=tmzvlWb",
       "priority": 100,
-      "reason": "live_content_mismatch",
+      "reason": "wrong_product_or_benefit",
       "evidenceTier": "blocked",
       "liveProbe": {
         "status": 200,
@@ -1200,6 +1203,7 @@
         "bodyChecked": true,
         "title": "PAYCO::이벤트",
         "metaDescription": "",
+        "textSample": "PAYCO::이벤트 PAYCO의 모든 혜택을 누리세요. 온오프라인 결제, 쿠폰, 포인트 적립, 금융, 쇼핑, 교통까지 PAYCO 앱 실행 중... PAYCO 앱 열기",
         "titleSimilarity": 17,
         "contentMatch": false,
         "priceSignal": false,
@@ -1215,7 +1219,7 @@
       "host": "academy.baemin.com",
       "finalUrl": "https://academy.baemin.com/event/list",
       "priority": 100,
-      "reason": "live_content_mismatch",
+      "reason": "generic_landing_or_shell",
       "evidenceTier": "blocked",
       "liveProbe": {
         "status": 200,
@@ -1224,6 +1228,7 @@
         "bodyChecked": true,
         "title": "배민아카데미",
         "metaDescription": "",
+        "textSample": "배민아카데미 We're sorry but academy-front doesn't work properly without JavaScript enabled. Please enable it to continue.",
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
@@ -1239,7 +1244,7 @@
       "host": "amoremall.com",
       "finalUrl": "https://www.amoremall.com/kr/ko/event",
       "priority": 100,
-      "reason": "live_content_mismatch",
+      "reason": "error_page",
       "evidenceTier": "blocked",
       "liveProbe": {
         "status": 206,
@@ -1248,6 +1253,7 @@
         "bodyChecked": true,
         "title": "에러페이지",
         "metaDescription": "",
+        "textSample": "에러페이지 페이지를 찾을 수 없어요 잘못된 경로나 권한 문제일 수 있어요 문제가 계속된다면 고객센터로 연락해주세요 고객센터 : 080-030-5454 (수신자 부담) 홈으로 이동 이전",
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
@@ -1263,7 +1269,7 @@
       "host": "cgv.co.kr",
       "finalUrl": "https://cgv.co.kr/evt/eventDetail?evntNo=202602235927",
       "priority": 100,
-      "reason": "live_content_mismatch",
+      "reason": "wrong_product_or_benefit",
       "evidenceTier": "blocked",
       "liveProbe": {
         "status": 200,
@@ -1272,6 +1278,7 @@
         "bodyChecked": true,
         "title": "[2026 월드 베이스볼 클래식(WBC)] 극장 단독 생중계 | CGV",
         "metaDescription": "[2026 월드 베이스볼 클래식(WBC)] 극장 단독 생중계",
+        "textSample": "[2026 월드 베이스볼 클래식(WBC)] 극장 단독 생중계 | CGV",
         "titleSimilarity": 17,
         "contentMatch": false,
         "priceSignal": false,
@@ -1287,7 +1294,7 @@
       "host": "front.homeplus.co.kr",
       "finalUrl": "https://front.homeplus.co.kr/event",
       "priority": 100,
-      "reason": "live_content_mismatch",
+      "reason": "blank_or_script_shell",
       "evidenceTier": "blocked",
       "liveProbe": {
         "status": 200,
@@ -1296,6 +1303,7 @@
         "bodyChecked": true,
         "title": "",
         "metaDescription": "",
+        "textSample": "이 어플리케이션을 보려면 자바스크립트를 활성화해야 합니다.",
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
@@ -1311,7 +1319,7 @@
       "host": "i-challenge.co.kr",
       "finalUrl": "https://www.i-challenge.co.kr/Event/",
       "priority": 100,
-      "reason": "live_content_mismatch",
+      "reason": "wrong_product_or_benefit",
       "evidenceTier": "blocked",
       "liveProbe": {
         "status": 200,
@@ -1320,6 +1328,7 @@
         "bodyChecked": true,
         "title": "�̺�Ʈ ����Ʈ : ���̽��� ����ç����, ȣ��� �Բ��ϴ� �������� Ȩ����",
         "metaDescription": "ȣ�� ����ç���� ������ ���� �پ��� �̺�Ʈ�� Ȯ���ϼ���.",
+        "textSample": "�̺�Ʈ ����Ʈ : ���̽��� ����ç����, ȣ��� �Բ��ϴ� �������� Ȩ���� ��ü�޴� �ٷΰ��� ���� �ٷΰ��� �ϴܸ޴� �ٷΰ��� �α��� �α��� ȸ������ ���̵� ã�� ��й�ȣ ã�� �̿��� ��������ó����ħ ���������� ȸ���������� ȸ������ ���� ��й�ȣ ���� ����� ���� ���� ����/â��/�ܰ� ABC Bubbles �ֹ�/��� ��ȸ ���� Q&A ������ ���� ���� �ȳ� �ſ�ī�� ���� ��ǥ ���ݿ����� ����Ȯ�μ� ȸ�� Ż�� �ֹ�/��� �������� �оߺ� FAQ �������� 1:1 �������� �Խ��� ��� īī���� ��� ����ȸ������ #ȣ�� #�����ı� ���������뼭�� �̺�Ʈ �������� ���������� STEP1~4ȣ��Ȩ���� ���̱���/Ű��ä�� �̿밡�",
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
@@ -1335,7 +1344,7 @@
       "host": "e-himart.co.kr",
       "finalUrl": "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0023645183",
       "priority": 100,
-      "reason": "live_content_mismatch",
+      "reason": "blank_or_script_shell",
       "evidenceTier": "blocked",
       "liveProbe": {
         "status": 200,
@@ -1344,6 +1353,7 @@
         "bodyChecked": true,
         "title": "",
         "metaDescription": "",
+        "textSample": "",
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
@@ -1359,7 +1369,7 @@
       "host": "11st.co.kr",
       "finalUrl": "https://www.11st.co.kr/products/2635032094",
       "priority": 100,
-      "reason": "live_content_mismatch",
+      "reason": "wrong_product_or_benefit",
       "evidenceTier": "blocked",
       "liveProbe": {
         "status": 200,
@@ -1368,6 +1378,7 @@
         "bodyChecked": true,
         "title": "11번가",
         "metaDescription": "",
+        "textSample": "11번가",
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
@@ -1383,7 +1394,7 @@
       "host": "musinsa.com",
       "finalUrl": "https://www.musinsa.com/products/4011120",
       "priority": 100,
-      "reason": "live_content_mismatch",
+      "reason": "wrong_product_or_benefit",
       "evidenceTier": "blocked",
       "liveProbe": {
         "status": 200,
@@ -1392,7 +1403,33 @@
         "bodyChecked": true,
         "title": "비아리츠(BIARRITZ) [5PACK] 에피 누드토우 덧신 4color - 사이즈 & 후기 | 무신사",
         "metaDescription": "제품분류 :소품 &gt; 양말/레그웨어 브랜드 : 비아리츠(BIARRITZ) 제품번호 : 에피5set 제품 : [5PACK] 에피 누드토우 덧신 4color - 19,900",
+        "textSample": "비아리츠(BIARRITZ) [5PACK] 에피 누드토우 덧신 4color - 사이즈 & 후기 | 무신사",
         "titleSimilarity": 0,
+        "contentMatch": false,
+        "priceSignal": false,
+        "purchaseActionSignal": false,
+        "accessGuard": false,
+        "rateLimited": false
+      }
+    },
+    {
+      "id": "d116",
+      "title": "무신사 신규 가입 웰컴 0원 쿠폰팩",
+      "mallName": "무신사",
+      "host": "musinsa.com",
+      "finalUrl": "https://www.musinsa.com/app/campaign/index/benefit",
+      "priority": 100,
+      "reason": "wrong_product_or_benefit",
+      "evidenceTier": "blocked",
+      "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
+        "ok": true,
+        "bodyChecked": true,
+        "title": "무신사",
+        "metaDescription": "패션의 모든 것, 다 무신사랑 해! 무신사에서 다양한 혜택과 스타일 팁을 확인해보세요.",
+        "textSample": "무신사 {\"props\":{\"pageProps\":{\"data\":{\"defaultCode\":\"musinsa\",\"store\":[{\"title\":\"부티크\",\"titleEng\":\"BOUTIQUE\",\"code\":\"boutique\",\"backgroundColor\":\"#0000FF\",\"storeLogo\":\"https://image.msscdn.net/display/images/2025/10/22/20cab99833834c7faad1c258e76db138.png\",\"musinsaLogo\":\"https://image.msscdn.net/display/images/2025/10/22/281c340fe29a44a78218f48ce6ff11a1.png\",\"goodsDetailLogo\":\"https://image.msscdn.net/display/images/2024/07/16/4f1e0aa9ece3462098ec68e41b1b99ce.png\",\"shareDesc\":\"BOUTIQUE는 세계적인 디자이너 브랜",
+        "titleSimilarity": 17,
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
@@ -1454,26 +1491,6 @@
         "status": 0,
         "reason": "request_failed",
         "finalUrl": "https://www.hyundaicard.com/cpc/cr/CPCCR0101_01.hc",
-        "titleSimilarity": 0,
-        "contentMatch": null,
-        "accessGuard": false,
-        "rateLimited": false
-      }
-    },
-    {
-      "id": "d074",
-      "title": "신한카드 생활비 캐시백 이벤트 모음",
-      "mallName": "신한카드",
-      "host": "shinhancard.com",
-      "finalUrl": "https://www.shinhancard.com/pconts/html/benefit/event/MOBFM220/MOBFM220R01.html",
-      "priority": 75,
-      "reason": "request_failed",
-      "evidenceTier": "transient_network_manual_verified",
-      "liveProbe": {
-        "ok": false,
-        "status": 0,
-        "reason": "request_failed",
-        "finalUrl": "https://www.shinhancard.com/pconts/html/benefit/event/MOBFM220/MOBFM220R01.html",
         "titleSimilarity": 0,
         "contentMatch": null,
         "accessGuard": false,
@@ -1724,19 +1741,19 @@
   },
   "exposureAudit": {
     "totalItems": 140,
-    "exposedItems": 125,
-    "publishableItems": 125,
-    "passedItems": 125,
-    "hiddenItems": 15,
+    "exposedItems": 124,
+    "publishableItems": 124,
+    "passedItems": 124,
+    "hiddenItems": 16,
     "searchItems": 0,
     "soldOutItems": 0,
-    "failedItems": 15,
+    "failedItems": 16,
     "exposedSearchLinks": 0,
     "exposedSoldOutLinks": 0,
     "exposedBrokenLinks": 0,
     "exposedInvalidUrls": 0,
     "exposedNonPublishableItems": 0,
-    "averagePriorityScore": 96
+    "averagePriorityScore": 95
   },
   "launchGate": {
     "passed": true,
@@ -1762,17 +1779,19 @@
   "liveProbeReviewSummary": {
     "status": "transient_network_review",
     "hardFailureCount": 0,
-    "transientNetworkCount": 4,
+    "exposedHardFailureCount": 0,
+    "exposedSellerUnavailableSignals": 0,
+    "transientNetworkCount": 3,
     "accessProtectedCount": 62,
     "sellerUnavailableSignals": 0,
     "contentProbe": {
-      "bodyChecked": 136,
-      "titleMetaChecked": 131,
+      "bodyChecked": 137,
+      "titleMetaChecked": 132,
       "contentMatched": 46,
-      "contentMismatch": 90,
-      "accessibleContentMismatch": 15,
+      "contentMismatch": 91,
+      "accessibleContentMismatch": 16,
       "accessGuardBody": 31,
-      "priceSignal": 26,
+      "priceSignal": 25,
       "purchaseActionSignal": 12,
       "strict": false
     },
@@ -1781,7 +1800,7 @@
   "liveProbeReasonCounts": {
     "robots_or_access_blocked": 62,
     "http_429": 13,
-    "request_failed": 4
+    "request_failed": 3
   },
   "liveProbeHostFailureCounts": {
     "item.gmarket.co.kr": 30,
@@ -1790,12 +1809,12 @@
     "oliveyoung.co.kr": 7,
     "hyundaicard.com": 1,
     "itempage3.auction.co.kr": 1,
-    "shinhancard.com": 1,
     "store.ohou.se": 1,
     "tmembership.co.kr": 1,
     "tour.interpark.com": 1
   },
   "hardLiveProbeFailures": [],
+  "exposedHardLiveProbeFailures": [],
   "transientLiveProbeFailures": [
     {
       "id": "d051",
@@ -1832,18 +1851,6 @@
       "accessGuard": false,
       "rateLimited": false,
       "unavailablePattern": ""
-    },
-    {
-      "id": "d074",
-      "url": "https://www.shinhancard.com/pconts/html/benefit/event/MOBFM220/MOBFM220R01.html",
-      "finalUrl": "https://www.shinhancard.com/pconts/html/benefit/event/MOBFM220/MOBFM220R01.html",
-      "status": 0,
-      "reason": "request_failed",
-      "titleSimilarity": 0,
-      "contentMatch": null,
-      "accessGuard": false,
-      "rateLimited": false,
-      "unavailablePattern": ""
     }
   ],
   "auditedItems": [
@@ -1863,6 +1870,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-05-31T10:25:00.000Z",
       "priorityScore": 100,
       "isHidden": false,
@@ -1885,7 +1894,9 @@
         "purchaseActionSignal": true,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "status": 200,
@@ -1894,6 +1905,7 @@
         "bodyChecked": true,
         "title": "[삼성전자](현대Hmall) 삼성 86인치 4K 스마트 UHD TV 86TU9010 지방권벽걸이 : 롯데ON",
         "metaDescription": "[롯데ON]삼성전자_(현대Hmall) 삼성 86인치 4K 스마트 UHD TV 86TU9010 지방권벽걸이 쇼핑의 모든 것 롯데ON!",
+        "textSample": "[삼성전자](현대Hmall) 삼성 86인치 4K 스마트 UHD TV 86TU9010 지방권벽걸이 : 롯데ON 추가 혜택함 팝업 --> 상품 혜택함 --> --> 쿠폰받기 --> 배송지 목록 팝업 --> 해외배송 안내 팝업 --> 무이자할부 팝업 --> 성인인증 팝업 -->",
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": false,
@@ -1921,6 +1933,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-05-31T14:20:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -1943,7 +1957,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -1975,6 +1991,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-05-31T10:00:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -1997,7 +2015,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -2029,6 +2049,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-01T00:08:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -2051,7 +2073,9 @@
         "purchaseActionSignal": false,
         "accessGuard": true,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -2083,6 +2107,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-01T00:08:00.000Z",
       "priorityScore": 100,
       "isHidden": false,
@@ -2105,7 +2131,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "status": 206,
@@ -2114,6 +2142,7 @@
         "bodyChecked": true,
         "title": "베네베딩 | 시원한 여름 냉감 침대 패드 쿨링 숙면",
         "metaDescription": "베네베딩 | 베네베딩 여름 냉감 침대 패드로 무더운 밤에도 쾌적한 숙면을 경험하세요. 프리미엄 기능성 소재가 선사하는 즉각적인 시원함과 안심할 수 있는 품질로 완성하는 여름 침실. MD가 추천하는 시원한 일상을 위한 필수 아이템입니다.",
+        "textSample": "베네베딩 | 시원한 여름 냉감 침대 패드 쿨링 숙면 회원가입시 전제품 평생 무료배송 구매 고객 전원 결제금액의 2% 적립 포토리뷰 작성시 1천원 포인트 지급 오늘 하루 보지 않기 YOUTUBE INSTAGRAM REVIEW 한국어 한국어 회원가입 로그인 주문조회 최근본상품 고객센터 자주 묻는 질문 상품문의하기 NEWS EVENT REVIEW SHOP TV 검색 인기검색어 <",
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": false,
@@ -2141,6 +2170,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-05-31T10:20:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -2163,7 +2194,9 @@
         "purchaseActionSignal": false,
         "accessGuard": true,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -2195,6 +2228,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-05-31T12:35:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -2217,7 +2252,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -2248,7 +2285,9 @@
       "availability": "unknown",
       "validationStatus": "failed",
       "validationCode": "mismatch",
-      "validationReason": "live_content_mismatch",
+      "validationReason": "generic_landing_or_shell",
+      "mismatchCategory": "generic_landing_or_shell",
+      "mismatchAction": "대표/목록/앱 쉘 페이지 대신 개별 상세 URL로 교체",
       "lastCheckedAt": "2026-05-31T11:10:00.000Z",
       "priorityScore": 64,
       "isHidden": true,
@@ -2271,7 +2310,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": true
+        "accessibleContentMismatch": true,
+        "mismatchCategory": "generic_landing_or_shell",
+        "mismatchAction": "대표/목록/앱 쉘 페이지 대신 개별 상세 URL로 교체"
       },
       "liveProbe": {
         "status": 206,
@@ -2280,6 +2321,7 @@
         "bodyChecked": true,
         "title": "나를 나답게 LFmall.com",
         "metaDescription": "",
+        "textSample": "나를 나답게 LFmall.com You need to enable JavaScript to run this app.",
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
@@ -2289,7 +2331,7 @@
       },
       "verificationEvidenceTier": "blocked",
       "revalidationPriority": 100,
-      "revalidationReason": "live_content_mismatch"
+      "revalidationReason": "generic_landing_or_shell"
     },
     {
       "id": "d009",
@@ -2307,6 +2349,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-05-31T10:20:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -2329,7 +2373,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -2361,6 +2407,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-05-31T14:20:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -2383,7 +2431,9 @@
         "purchaseActionSignal": false,
         "accessGuard": true,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -2415,6 +2465,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-05-31T10:00:00.000Z",
       "priorityScore": 100,
       "isHidden": false,
@@ -2437,7 +2489,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": true,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -2469,6 +2523,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-05-31T10:00:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -2491,7 +2547,9 @@
         "purchaseActionSignal": false,
         "accessGuard": true,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -2522,7 +2580,9 @@
       "availability": "unknown",
       "validationStatus": "failed",
       "validationCode": "mismatch",
-      "validationReason": "live_content_mismatch",
+      "validationReason": "blank_or_script_shell",
+      "mismatchCategory": "blank_or_script_shell",
+      "mismatchAction": "서버 렌더링 또는 메타 정보가 확인되는 상세 URL로 교체",
       "lastCheckedAt": "2026-05-31T10:20:00.000Z",
       "priorityScore": 64,
       "isHidden": true,
@@ -2545,7 +2605,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": true
+        "accessibleContentMismatch": true,
+        "mismatchCategory": "blank_or_script_shell",
+        "mismatchAction": "서버 렌더링 또는 메타 정보가 확인되는 상세 URL로 교체"
       },
       "liveProbe": {
         "status": 200,
@@ -2554,6 +2616,7 @@
         "bodyChecked": true,
         "title": "",
         "metaDescription": "",
+        "textSample": "",
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
@@ -2563,7 +2626,7 @@
       },
       "verificationEvidenceTier": "blocked",
       "revalidationPriority": 100,
-      "revalidationReason": "live_content_mismatch"
+      "revalidationReason": "blank_or_script_shell"
     },
     {
       "id": "d014",
@@ -2581,6 +2644,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-05-31T10:00:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -2603,7 +2668,9 @@
         "purchaseActionSignal": false,
         "accessGuard": true,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -2635,6 +2702,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-05-31T10:20:00.000Z",
       "priorityScore": 100,
       "isHidden": false,
@@ -2657,7 +2726,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "status": 200,
@@ -2666,6 +2737,7 @@
         "bodyChecked": true,
         "title": "[바른세탁소] 고농축 캡슐세제 스탠다드 플로랄향 100개입 / 세탁세제",
         "metaDescription": "[바른세탁소] 고농축 캡슐세제 스탠다드 플로랄향 100개입 / 세탁세제, 할인모음가: 9,900원, 평점: 4.6, 리뷰수: 74",
+        "textSample": "[바른세탁소] 고농축 캡슐세제 스탠다드 플로랄향 100개입 / 세탁세제 세탁세제>캡슐세제 \"/> 세탁세제>캡슐세제, 가격 : 9,900원\"/> 세탁세제>캡슐세제, 가격 : 9,900원\"/> 본문 바로가기 KG커머스 판매자만족 100% 응답률 - 판매량 총 5점 중 2점 정보 보기 판매자 정보 판매자만족 고객이 판매자의 서비스를 평가한 리뷰 중, 4~5점의 긍정 평가의 비율 (최근 1년 기준) 24시간내 응답 상품 Q&A 문의에 24시간 내 응답한 비율 (최근 30일 기준) 판매량 판매자의 판매건수와 판매금액을 반영하여, 판매량을 5단계로 측정 (최근 365일 기준) 판매량은 5단계(가장 높은 판매량) ~ 1단계(낮은 판매량)로 노출 닫기 스토어 찜 찜하기 117 닫기 상품 카테고리 정보 홈 &gt; 세제/방향/살충 카테고리 목록 열기 브랜드패션 브랜드 여성의류 브랜드 여성신발 브랜드 여성가방 브랜드 남성의류 브랜드 남성신발 브랜드 남성가방 캐주얼/유니섹스 브랜드 언더웨어 브랜드 여행",
         "titleSimilarity": 33,
         "contentMatch": true,
         "priceSignal": true,
@@ -2693,6 +2765,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-05-31T10:20:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -2715,7 +2789,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -2747,6 +2823,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-01T01:10:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -2769,7 +2847,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -2801,6 +2881,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-05-31T10:00:00.000Z",
       "priorityScore": 100,
       "isHidden": false,
@@ -2823,7 +2905,9 @@
         "purchaseActionSignal": true,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "status": 200,
@@ -2832,6 +2916,7 @@
         "bodyChecked": true,
         "title": "[KF365] 무항생제 왕란 30구 (15구 *2ea) - 마켓컬리",
         "metaDescription": "남다른 크기의 달걀 - Better Life for All. 건강한 식재료부터 믿을 수 있는 뷰티, 라이프스타일 상품까지. 나와 내 가족이 사고 싶은 상품을 판매합니다. 내일 아침 문 앞에서 만나요!",
+        "textSample": "[KF365] 무항생제 왕란 30구 (15구 *2ea) - 마켓컬리 단독 KF365 컬리가 제안하는 장바구니 필수 식품의 깐깐한 기준 내추럴 라이프스타일 Kurly Only 샛별배송 KF365 후기 5,289건 [KF365] 무항생제 왕란 30구 (15구 *2ea) 남다른 크기의 달걀 원산지: 상품설명/상세정보 참조 11,680 원 배송 샛별배송(내일 아침) 23시 전 주문 시 수도권/충청 내일 아침 7시 전 도착 (그 외 지역 아침 8시 전 도착) 판매자 컬리 포장타입 냉장 (종이포장) 택배배송은 에코 포장이 스티로폼으로 대체됩니다. 판매단위 1팩(30구) 중량/용량 2,040g 알레르기정보 - 계란 함유 소비기한(또는 유통기한)정보 출고일 기준, 산란일로부터 10일 이내 상품을 배송해드립니다.(총 소비기한 : 산란일로부터 30일) 총 상품금액 0 원 장바구니 담기 상품설명 상세정보 후기 ( 5,289 ) 문의 남다른 크기의 달걀 [KF365] 무항생제 왕란 30구 상품위원회 한 ",
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": true,
@@ -2859,6 +2944,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-01T00:08:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -2881,7 +2968,9 @@
         "purchaseActionSignal": false,
         "accessGuard": true,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -2913,6 +3002,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-05-31T10:20:00.000Z",
       "priorityScore": 100,
       "isHidden": false,
@@ -2935,7 +3026,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "status": 200,
@@ -2944,6 +3037,7 @@
         "bodyChecked": true,
         "title": "아웃도어 프로덕츠(OUTDOOR PRODUCTS) 3팩 티셔츠 3PACK T-SHIRT - 사이즈 & 후기 | 무신사",
         "metaDescription": "제품분류 :상의 &gt; 반소매 티셔츠 브랜드 : 아웃도어 프로덕츠(OUTDOOR PRODUCTS) 제품번호 : WO136RCSSZ51 제품 : 3팩 티셔츠 3PACK T-SHIRT - 39,000",
+        "textSample": "아웃도어 프로덕츠(OUTDOOR PRODUCTS) 3팩 티셔츠 3PACK T-SHIRT - 사이즈 & 후기 | 무신사",
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": false,
@@ -2971,6 +3065,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-01T05:20:00.000Z",
       "priorityScore": 100,
       "isHidden": false,
@@ -2993,7 +3089,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "status": 200,
@@ -3002,6 +3100,7 @@
         "bodyChecked": true,
         "title": "[제주] 제주투어패스 타임제로 자유이용권 | NOL 인터파크투어",
         "metaDescription": "- 갈 곳은 많고 사야하는 입장권이 많을때! 프리 제주투어패스 타임제로 이용해보세요. - 이용 가능 여행지는 실시간으로 변경 될 수 있으니 모바일 티켓의 &#x27;투어패스 이용가능 여행지&#x27;를 꼭 확인하세요.",
+        "textSample": "[제주] 제주투어패스 타임제로 자유이용권 | NOL 인터파크투어 옵션예약 상품소개 이용정보 리뷰 옵션예약 다른날짜 06.05(금) - 06.06(토) - 06.07(일) - 06.08(월) - 06.09(화) - 06.10(수) - 상품소개 상품설명 - 갈 곳은 많고 사야하는 입장권이 많을때! 프리 제주투어패스 타임제로 이용해보세요. - 이용 가능 여행지는 실시간으로 변경 될 수 있으니 모바일 티켓의 '투어패스 이용가능 여행지'를 꼭 확인하세요. <img src=\"https://media.triple.guide/triple-cms/q_70,f_a",
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": false,
@@ -3029,6 +3128,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-01T01:10:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -3051,7 +3152,9 @@
         "purchaseActionSignal": false,
         "accessGuard": true,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -3083,6 +3186,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-05-31T11:10:00.000Z",
       "priorityScore": 100,
       "isHidden": false,
@@ -3105,15 +3210,18 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
-        "status": 200,
+        "status": 206,
         "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "",
         "metaDescription": "24인치 중형 사이즈의 큐브형 캐리어. 5개의 바퀴 구조로 흔들림 없이 안정감 있는 주행을 제공하며, 도시형 여행과 출장에 적합한 실용적인 제품입니다.",
+        "textSample": "--> @import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap'); @import url('https://cdn.jsdelivr.net/npm/pretendard@latest/dist/web/variable/pretendardvariable-dynamic-subset.css'); /* [0] */ @font-face { font-family: 'Pretendard Variable'; font-style: normal; font-display: swap; font-weight: 45 920; src: local('Pretendard Variable'), url(/moa/fonts/pretendard/PretendardVariable.subset.0.woff2) format('woff2-variations'); unicode-range: U+f9ca-f",
         "titleSimilarity": 50,
         "contentMatch": true,
         "priceSignal": true,
@@ -3141,6 +3249,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-05-31T12:35:00.000Z",
       "priorityScore": 100,
       "isHidden": false,
@@ -3163,7 +3273,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": true,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -3195,6 +3307,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-05-31T10:20:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -3217,7 +3331,9 @@
         "purchaseActionSignal": false,
         "accessGuard": true,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -3248,7 +3364,9 @@
       "availability": "unknown",
       "validationStatus": "failed",
       "validationCode": "mismatch",
-      "validationReason": "live_content_mismatch",
+      "validationReason": "blank_or_script_shell",
+      "mismatchCategory": "blank_or_script_shell",
+      "mismatchAction": "서버 렌더링 또는 메타 정보가 확인되는 상세 URL로 교체",
       "lastCheckedAt": "2026-05-31T12:35:00.000Z",
       "priorityScore": 64,
       "isHidden": true,
@@ -3271,7 +3389,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": true
+        "accessibleContentMismatch": true,
+        "mismatchCategory": "blank_or_script_shell",
+        "mismatchAction": "서버 렌더링 또는 메타 정보가 확인되는 상세 URL로 교체"
       },
       "liveProbe": {
         "status": 200,
@@ -3280,6 +3400,7 @@
         "bodyChecked": true,
         "title": "",
         "metaDescription": "",
+        "textSample": "",
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
@@ -3289,7 +3410,7 @@
       },
       "verificationEvidenceTier": "blocked",
       "revalidationPriority": 100,
-      "revalidationReason": "live_content_mismatch"
+      "revalidationReason": "blank_or_script_shell"
     },
     {
       "id": "d027",
@@ -3307,6 +3428,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-05T03:15:00.000+09:00",
       "priorityScore": 100,
       "isHidden": false,
@@ -3329,7 +3452,9 @@
         "purchaseActionSignal": true,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "status": 200,
@@ -3338,6 +3463,7 @@
         "bodyChecked": true,
         "title": "[군 기저귀] 프리미엄 밴드 대형(L) 36P x 4팩 - GS SHOP",
         "metaDescription": "상품보기",
+        "textSample": "[군 기저귀] 프리미엄 밴드 대형(L) 36P x 4팩 - GS SHOP 선물하기 구매하기 드롭박스버튼 수량 1회 주문당 최대 100개 구매 가능 --> 수량선택 및 변경 - + 가격정보 총 0 원 장바구니 바로구매 선물하기 상품이 장바구니에 담겼습니다. 장바구니 바로가기 닫기 장바구니에 담긴 상품 중 자동삭제할 수 없는 상품이 있어 장바구니 담기 및 바로구매를 할 수 없습니다. 삭제하신 후 계속 쇼핑해 주세요. 장바구니 직접관리 아니오 네 찜 완료! 찜 취소! 앱을 업데이트 해주세요. 재입고알림 신청 [군 기저귀] 프리미엄 밴드 대형(L) 36P x 4팩 취소 확인 상품평 신고하기 직접 찍은 사진/ 동영상이 아님 상품과 관련없는 사진 첨부 같은 글을 반복, 복사하여 등록 --> 상품판매/홍보/광고글을 등록 관련없는 내용등록 --> 판매처에 대한 욕설/비방 취소 확인 날짜를 선택하세요 품절 취소 선택완료 선물하기 닫기 전화번호만 알면 선물할 수 있어요! 더 자세히 알아보기 선물하기 ",
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": true,
@@ -3365,6 +3491,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-01T00:08:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -3387,7 +3515,9 @@
         "purchaseActionSignal": false,
         "accessGuard": true,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -3419,6 +3549,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-05-31T11:10:00.000Z",
       "priorityScore": 100,
       "isHidden": false,
@@ -3441,7 +3573,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": true,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -3473,6 +3607,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-05-31T14:20:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -3495,7 +3631,9 @@
         "purchaseActionSignal": false,
         "accessGuard": true,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -3527,6 +3665,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-05-31T11:10:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -3549,7 +3689,9 @@
         "purchaseActionSignal": false,
         "accessGuard": true,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -3581,6 +3723,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-05-31T10:20:00.000Z",
       "priorityScore": 100,
       "isHidden": false,
@@ -3603,7 +3747,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": true,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -3635,6 +3781,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-01T03:30:00.000Z",
       "priorityScore": 100,
       "isHidden": false,
@@ -3657,7 +3805,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "status": 200,
@@ -3666,6 +3816,7 @@
         "bodyChecked": true,
         "title": "���������� �ڷ��ϰ�������",
         "metaDescription": "����ũ���� �ض�, ��������, ���Ϲ���ũ, �׸���ũ, �������, �����ý� �� ����",
+        "textSample": "���������� �ڷ��ϰ������� �α��� ����Ȯ�� �󼼰˻� ������ �������ּ���. ���� ����/���� X �˻��ϱ� ��ü�޴� �������� ���������� �ؿܿ��� ��ǰ�� �ؿܿ��� ��ǰ�� ���������� ����ũ���� �ض� Foreigner Tours ���㡤�������ü �������� ���Ϲ���ũ ���Ȯ����ǰ �̺�Ʈ/���� ���ӿ���(KTX/SRT) �Ϲݿ���(ITX/����ȭ ��) �������뿭�� ��õ/���/���� ����/��û �뱸/�λ�/���/��� ����/���� �� ������� ���Ͽ��� ����2��/���� ���㿩�� �������ü ���� ���Ϲ���ũ ������ ���Ϲ���ũ � �������������� û�� ���Ϲ���ũ �������� ���ӿ���(KTX/SRT) �Ϲݿ���(ITX/����ȭ ��) �������뿭�� ����",
         "titleSimilarity": 17,
         "contentMatch": true,
         "priceSignal": true,
@@ -3693,6 +3844,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-05-31T11:10:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -3715,7 +3868,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -3747,6 +3902,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-05-31T12:35:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -3769,7 +3926,9 @@
         "purchaseActionSignal": false,
         "accessGuard": true,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -3801,6 +3960,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-01T01:10:00.000Z",
       "priorityScore": 100,
       "isHidden": false,
@@ -3823,7 +3984,9 @@
         "purchaseActionSignal": true,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "status": 200,
@@ -3832,6 +3995,7 @@
         "bodyChecked": true,
         "title": "롯데하이마트 | 허밍 무선청소기 HML-VC2502W 청소기+물걸레 세트 소형 핸디용 원룸 차량용",
         "metaDescription": "허밍 무선청소기 HML-VC2502W 청소기+물걸레 세트 소형 핸디용 원룸 차량용",
+        "textSample": "롯데하이마트 | 허밍 무선청소기 HML-VC2502W 청소기+물걸레 세트 소형 핸디용 원룸 차량용 드롭다운 버튼 가전쇼핑/안심케어 토글 버튼 검색 바로가기 장바구니 바로가기 상품상세 뒤로가기 찜하기 공유하기 해당 브라우저에서는 결제가 정상 작동하지 않을 수 있으니 크롬 브라우저를 통해 접속 해 주시길 바랍니다. <script src=\"https://static1.e-himart.co.kr/resources/domain/common/netfunnelSk",
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": false,
@@ -3859,6 +4023,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-05T03:40:00.000+09:00",
       "priorityScore": 100,
       "isHidden": false,
@@ -3881,7 +4047,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "status": 200,
@@ -3890,6 +4058,7 @@
         "bodyChecked": true,
         "title": "더니트컴퍼니(THEKNITCOMPANY) 수피마 에센셜 티셔츠 3PACK 2컬러 - 사이즈 & 후기 | 무신사",
         "metaDescription": "제품분류 :상의 &gt; 긴소매 티셔츠 브랜드 : 더니트컴퍼니(THEKNITCOMPANY) 제품번호 : TMZ5KRA01A 제품 : 수피마 에센셜 티셔츠 3PACK 2컬러 - 87,000",
+        "textSample": "더니트컴퍼니(THEKNITCOMPANY) 수피마 에센셜 티셔츠 3PACK 2컬러 - 사이즈 & 후기 | 무신사",
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": false,
@@ -3917,6 +4086,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-05T03:15:00.000+09:00",
       "priorityScore": 100,
       "isHidden": false,
@@ -3939,7 +4110,9 @@
         "purchaseActionSignal": true,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "status": 200,
@@ -3948,6 +4121,7 @@
         "bodyChecked": true,
         "title": "[군 기저귀] 프리미엄 팬티 대형(L) 32P x 4팩 - GS SHOP",
         "metaDescription": "상품보기",
+        "textSample": "[군 기저귀] 프리미엄 팬티 대형(L) 32P x 4팩 - GS SHOP 선물하기 구매하기 드롭박스버튼 수량 1회 주문당 최대 100개 구매 가능 --> 수량선택 및 변경 - + 가격정보 총 0 원 장바구니 바로구매 선물하기 상품이 장바구니에 담겼습니다. 장바구니 바로가기 닫기 장바구니에 담긴 상품 중 자동삭제할 수 없는 상품이 있어 장바구니 담기 및 바로구매를 할 수 없습니다. 삭제하신 후 계속 쇼핑해 주세요. 장바구니 직접관리 아니오 네 찜 완료! 찜 취소! 앱을 업데이트 해주세요. 재입고알림 신청 [군 기저귀] 프리미엄 팬티 대형(L) 32P x 4팩 취소 확인 상품평 신고하기 직접 찍은 사진/ 동영상이 아님 상품과 관련없는 사진 첨부 같은 글을 반복, 복사하여 등록 --> 상품판매/홍보/광고글을 등록 관련없는 내용등록 --> 판매처에 대한 욕설/비방 취소 확인 날짜를 선택하세요 품절 취소 선택완료 선물하기 닫기 전화번호만 알면 선물할 수 있어요! 더 자세히 알아보기 선물하기 ",
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": true,
@@ -3975,6 +4149,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-01T02:40:00.000Z",
       "priorityScore": 100,
       "isHidden": false,
@@ -3997,7 +4173,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "status": 206,
@@ -4006,6 +4184,7 @@
         "bodyChecked": true,
         "title": "NOL 티켓 | 오픈예정 | 뮤지컬 〈태권, 날아올라〉",
         "metaDescription": "뮤지컬 〈태권, 날아올라〉 | 오늘 당신을 기다리는 공연, 전시, 레저, 스포츠까지 NOL 티켓에서 한번에 만나보세요.",
+        "textSample": "NOL 티켓 | 오픈예정 | 뮤지컬 〈태권, 날아올라〉 인터파크 투어 티켓 NOL 인터파크 NOL 트리플 Global Interpark 홈 투어 티켓 내 예약 뮤지컬 〈태권, 날아올라〉 뮤지컬 〈태권, 날아올라〉 관람일정 2026.04.04 ~ 2026.05.31 관람장소 국립중앙박물관 극장 용 관람연령 36개월이상 관람가능 공연정보 공연소개 할인정보 부가정보 공연정보 -공연일시: 수 17:00, 19:30 / 목, 금 17:00 / 토 11:00, 14:00, 16:30 / 일 11:00, 14:00 (월, 화 공연 없음) *4/4(토) 14:00, 16:30 (2회 공연) *4/8(수) 19:30 (1회 공연) *5/5(화, 어린이날) 11:00, 14:00, 16:30 (3회 공연) *5/25(월, 석가탄신일 대체휴일) 11:00, 14:00 (2회 공연) - 티켓가격 : VIP석 77,000원 / R석 66,000원 / S석(2층) 44,000원 - 관람등급 : 36개월 이상",
         "titleSimilarity": 80,
         "contentMatch": true,
         "priceSignal": true,
@@ -4033,6 +4212,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-01T02:40:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -4055,7 +4236,9 @@
         "purchaseActionSignal": false,
         "accessGuard": true,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -4087,6 +4270,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-05-31T10:20:00.000Z",
       "priorityScore": 100,
       "isHidden": false,
@@ -4109,7 +4294,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": true,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -4140,7 +4327,9 @@
       "availability": "unknown",
       "validationStatus": "failed",
       "validationCode": "mismatch",
-      "validationReason": "live_content_mismatch",
+      "validationReason": "ended_event_page",
+      "mismatchCategory": "ended_event_page",
+      "mismatchAction": "진행 중인 이벤트 상세 URL로 교체하거나 종료 처리",
       "lastCheckedAt": "2026-06-01T05:20:00.000Z",
       "priorityScore": 64,
       "isHidden": true,
@@ -4163,7 +4352,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": true
+        "accessibleContentMismatch": true,
+        "mismatchCategory": "ended_event_page",
+        "mismatchAction": "진행 중인 이벤트 상세 URL로 교체하거나 종료 처리"
       },
       "liveProbe": {
         "status": 200,
@@ -4172,6 +4363,7 @@
         "bodyChecked": true,
         "title": "종료이벤트/당첨발표 | GS25 Site",
         "metaDescription": "5월 GS25의 결제수단 혜택",
+        "textSample": "종료이벤트/당첨발표 | GS25 Site 자사에서 SSO 세션(쿠키) 조회 결과를 처리하는 URL입니다. --> 본문 바로가기 주메뉴 바로가기 GS리테일 GS25 GS SHOP GS THE FRESH POP 로그인 회원가입 채용안내 고객센터 LANGUAGE 다국어 사이트 더보기 ENG ENG 2024-09-23 비게시 --> 회사소개 GS리테일 경영이념 CEO인사말 이사회 의장 인사말 기업연혁 수상이력 계열사소개 기업 CI/RI 기업소식 오시는길 정도경영 정도경영 소개 정도경영 지침 정도경영 제도 정도경영 제보 고객만족경영 나눔경영 공정거래 공정거래 자율준수 공정거래 업무매뉴얼 투자정보 주주현황 경영성과 공시정보 정책·제도 정보 동반성장 동반성장 개요 파트너사 지원제도 입점상담 입점안내 상담신청 전자계약 공지사항 임대상가 지하철 쇼핑몰 GS THE FRESH 임대코너 모집공고 고객센터 자주묻는 질문 고객의 소리 공지사항 GS25 2025-02-04 비게시 --> 상품 행사상품 행사상",
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
@@ -4181,7 +4373,7 @@
       },
       "verificationEvidenceTier": "blocked",
       "revalidationPriority": 100,
-      "revalidationReason": "live_content_mismatch"
+      "revalidationReason": "ended_event_page"
     },
     {
       "id": "d043",
@@ -4198,7 +4390,9 @@
       "availability": "unknown",
       "validationStatus": "failed",
       "validationCode": "mismatch",
-      "validationReason": "live_content_mismatch",
+      "validationReason": "blank_or_script_shell",
+      "mismatchCategory": "blank_or_script_shell",
+      "mismatchAction": "서버 렌더링 또는 메타 정보가 확인되는 상세 URL로 교체",
       "lastCheckedAt": "2026-06-01T05:20:00.000Z",
       "priorityScore": 64,
       "isHidden": true,
@@ -4221,15 +4415,18 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": true
+        "accessibleContentMismatch": true,
+        "mismatchCategory": "blank_or_script_shell",
+        "mismatchAction": "서버 렌더링 또는 메타 정보가 확인되는 상세 URL로 교체"
       },
       "liveProbe": {
-        "status": 200,
+        "status": 206,
         "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "",
         "metaDescription": "",
+        "textSample": "",
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
@@ -4239,7 +4436,7 @@
       },
       "verificationEvidenceTier": "blocked",
       "revalidationPriority": 100,
-      "revalidationReason": "live_content_mismatch"
+      "revalidationReason": "blank_or_script_shell"
     },
     {
       "id": "d044",
@@ -4257,6 +4454,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-05-31T10:20:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -4279,7 +4478,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -4311,6 +4512,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-05-31T10:20:00.000Z",
       "priorityScore": 100,
       "isHidden": false,
@@ -4333,7 +4536,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": true,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -4365,6 +4570,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-05-31T10:00:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -4387,7 +4594,9 @@
         "purchaseActionSignal": false,
         "accessGuard": true,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -4419,6 +4628,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-01T05:20:00.000Z",
       "priorityScore": 100,
       "isHidden": false,
@@ -4441,7 +4652,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "status": 200,
@@ -4450,6 +4663,7 @@
         "bodyChecked": true,
         "title": "네이버페이 금융상품 카드",
         "metaDescription": "네이버 ID로 간편구매, 네이버페이",
+        "textSample": "네이버페이 금융상품 카드 네이버페이 카드 이벤트 뒤로가기 공유하기 공유하기 6월 받을 수 있는 카드 이벤트 자세히보기 내가 받을수 있는 혜택은? 혜택 대상자인지 확인하기 대상자 확인 최대 83만원 받기 KB국민카드 최대 78만원 받기 우리카드 최대 69.5만원 받기 현대카드 최대 63.4만원 받기 롯데카드 최대 60만원 받기 하나카드 최대 51.4만원 받기 삼성카드 최대 36만원 받기 신한카드 최대 17.5만원 받기 NH농협카드 최대 12.5만원 받기 IBK기업은행 펼쳐보기 카드 혜택 모아보기 인기카드 TOP10 요즘 어떤 카드가 인기있을까? 주유비 혜택받을 수 있는 카드 기름값 걱정이신가요? 대한항공 마일리지 적립 카드 여행가고 싶으신 분 더보기 이벤트 배너 신한카드 구독서비스 네이버페이 포인트 최대 1만원 증정 머니카드 이벤트 30초만에 발급받고 최대 3만원 받아가세요 자동차보험 최대 혜택 오픈 최대 3만원 혜택 확인해보세요! 1 번째 배너, 선택됨 2 번째 배너, 3 번째 배너",
         "titleSimilarity": 25,
         "contentMatch": true,
         "priceSignal": false,
@@ -4477,6 +4691,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-01T02:40:00.000Z",
       "priorityScore": 100,
       "isHidden": false,
@@ -4499,7 +4715,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "status": 200,
@@ -4508,6 +4726,7 @@
         "bodyChecked": true,
         "title": "[30%추가] 메듀즈 메듀즈키즈 성인 여성 여자 유아동 주니어 어린이 아쿠아샌들 젤리슈즈 샌들",
         "metaDescription": "[30%추가] 메듀즈 메듀즈키즈 성인 여성 여자 유아동 주니어 어린이 아쿠아샌들 젤리슈즈 샌들, 할인모음가: 10,500원, 평점: 4.5, 리뷰수: 1206",
+        "textSample": "[30%추가] 메듀즈 메듀즈키즈 성인 여성 여자 유아동 주니어 어린이 아쿠아샌들 젤리슈즈 샌들 샌들>샌들 \"/> 샌들>샌들, 가격 : 10,500원\"/> 샌들>샌들, 가격 : 10,500원\"/> 본문 바로가기 스토어 뱃지 고객서비스 우수 베이지그 판매자만족 90.3% 응답률 100% 판매량 총 5점 중 3점 정보 보기 판매자 정보 판매자만족 고객이 판매자의 서비스를 평가한 리뷰 중, 4~5점의 긍정 평가의 비율 (최근 1년 기준) 24시간내 응답 상품 Q&A 문의에 24시간 내 응답한 비율 (최근 30일 기준) 판매량 판매자의 판매건수와 판매금액을 반영하여, 판매량을 5단계로 측정 (최근 365일 기준) 판매량은 5단계(가장 높은 판매량) ~ 1단계(낮은 판매량)로 노출 닫기 스토어 찜 찜하기 9,999+ 닫기 상품 카테고리 정보 홈 &gt; 브랜드 여성신발 카테고리 목록 열기 브랜드패션 브랜드 여성의류 브랜드 여성신발 브랜드 여성가방 브랜드 남성의류 브랜드 남성신발 브랜드 남성가방",
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": true,
@@ -4535,6 +4754,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-05-31T10:20:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -4557,7 +4778,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -4589,6 +4812,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-05-31T10:20:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -4611,7 +4836,9 @@
         "purchaseActionSignal": false,
         "accessGuard": true,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -4643,6 +4870,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-01T05:20:00.000Z",
       "priorityScore": 100,
       "isHidden": false,
@@ -4665,7 +4894,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -4697,6 +4928,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-05-31T11:10:00.000Z",
       "priorityScore": 100,
       "isHidden": false,
@@ -4719,7 +4952,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": true,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -4750,7 +4985,9 @@
       "availability": "unknown",
       "validationStatus": "failed",
       "validationCode": "mismatch",
-      "validationReason": "live_content_mismatch",
+      "validationReason": "login_wall",
+      "mismatchCategory": "login_wall",
+      "mismatchAction": "로그인 없이 접근 가능한 공식 혜택/상품 상세 URL로 교체",
       "lastCheckedAt": "2026-06-01T08:30:00.000Z",
       "priorityScore": 64,
       "isHidden": true,
@@ -4773,7 +5010,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": true
+        "accessibleContentMismatch": true,
+        "mismatchCategory": "login_wall",
+        "mismatchAction": "로그인 없이 접근 가능한 공식 혜택/상품 상세 URL로 교체"
       },
       "liveProbe": {
         "status": 200,
@@ -4782,6 +5021,7 @@
         "bodyChecked": true,
         "title": "Naver Sign in",
         "metaDescription": "네이버에 로그인 하고 나를 위한 다양한 서비스를 이용해 보세요",
+        "textSample": "Naver Sign in 본문 바로가기 NAVER 한국어 English 中文(简体) 中文(台灣) ID/Phone number QR code ID or Phone number delete Password\" class=\"input_pw\" maxlength=\"16\" aria-label=\">Password\"> Password 비밀번호 표시 delete Stay Signed in IP Security ON OFF Caps Lock is on. Please enter your ID or mobile phone number. Passkey login failed. Please try again. Passkey login failed. Please use another login method. Passkey login failed. Please use another login method. Passkey login failed. Please refresh and try again. Enter yo",
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
@@ -4791,7 +5031,7 @@
       },
       "verificationEvidenceTier": "blocked",
       "revalidationPriority": 100,
-      "revalidationReason": "live_content_mismatch"
+      "revalidationReason": "login_wall"
     },
     {
       "id": "d054",
@@ -4809,6 +5049,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-03T16:30:00.000+09:00",
       "priorityScore": 100,
       "isHidden": false,
@@ -4831,7 +5073,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "status": 200,
@@ -4840,6 +5084,7 @@
         "bodyChecked": true,
         "title": "결제 | 카카오페이 - 마음 놓고 금융하다.",
         "metaDescription": "카카오페이",
+        "textSample": "결제 | 카카오페이 - 마음 놓고 금융하다.",
         "titleSimilarity": 40,
         "contentMatch": true,
         "priceSignal": false,
@@ -4867,6 +5112,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-03T16:30:00.000+09:00",
       "priorityScore": 100,
       "isHidden": false,
@@ -4889,7 +5136,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "status": 200,
@@ -4898,6 +5147,7 @@
         "bodyChecked": true,
         "title": "토스페이 혜택, 사용법 총정리 2026년 1월 - 금융이 알고 싶을 때, 토스피드",
         "metaDescription": "앱스토어, 아고다, 오늘의집부터 쿠쿠전자, 안다르까지 1월 할인·적립 혜택을 알 수 있어요.",
+        "textSample": "토스페이 혜택, 사용법 총정리 2026년 1월 - 금융이 알고 싶을 때, 토스피드 토스피드 에디션 금융의 모든 것 토스의 모든 것 금융 계산기 .css-1v4f7l2{font-size:15px;font-w",
         "titleSimilarity": 40,
         "contentMatch": true,
         "priceSignal": false,
@@ -4924,7 +5174,9 @@
       "availability": "unknown",
       "validationStatus": "failed",
       "validationCode": "mismatch",
-      "validationReason": "live_content_mismatch",
+      "validationReason": "wrong_product_or_benefit",
+      "mismatchCategory": "wrong_product_or_benefit",
+      "mismatchAction": "페이지 title/meta가 상품명과 맞는 직접 상세 URL로 교체",
       "lastCheckedAt": "2026-06-03T16:20:00.000+09:00",
       "priorityScore": 64,
       "isHidden": true,
@@ -4947,7 +5199,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": true
+        "accessibleContentMismatch": true,
+        "mismatchCategory": "wrong_product_or_benefit",
+        "mismatchAction": "페이지 title/meta가 상품명과 맞는 직접 상세 URL로 교체"
       },
       "liveProbe": {
         "status": 200,
@@ -4956,6 +5210,7 @@
         "bodyChecked": true,
         "title": "PAYCO::이벤트",
         "metaDescription": "",
+        "textSample": "PAYCO::이벤트 PAYCO의 모든 혜택을 누리세요. 온오프라인 결제, 쿠폰, 포인트 적립, 금융, 쇼핑, 교통까지 PAYCO 앱 실행 중... PAYCO 앱 열기",
         "titleSimilarity": 17,
         "contentMatch": false,
         "priceSignal": false,
@@ -4965,7 +5220,7 @@
       },
       "verificationEvidenceTier": "blocked",
       "revalidationPriority": 100,
-      "revalidationReason": "live_content_mismatch"
+      "revalidationReason": "wrong_product_or_benefit"
     },
     {
       "id": "d057",
@@ -4983,6 +5238,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-01T08:30:00.000Z",
       "priorityScore": 100,
       "isHidden": false,
@@ -5005,7 +5262,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -5036,7 +5295,9 @@
       "availability": "unknown",
       "validationStatus": "failed",
       "validationCode": "mismatch",
-      "validationReason": "live_content_mismatch",
+      "validationReason": "generic_landing_or_shell",
+      "mismatchCategory": "generic_landing_or_shell",
+      "mismatchAction": "대표/목록/앱 쉘 페이지 대신 개별 상세 URL로 교체",
       "lastCheckedAt": "2026-06-03T16:30:00.000+09:00",
       "priorityScore": 64,
       "isHidden": true,
@@ -5059,7 +5320,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": true
+        "accessibleContentMismatch": true,
+        "mismatchCategory": "generic_landing_or_shell",
+        "mismatchAction": "대표/목록/앱 쉘 페이지 대신 개별 상세 URL로 교체"
       },
       "liveProbe": {
         "status": 200,
@@ -5068,6 +5331,7 @@
         "bodyChecked": true,
         "title": "배민아카데미",
         "metaDescription": "",
+        "textSample": "배민아카데미 We're sorry but academy-front doesn't work properly without JavaScript enabled. Please enable it to continue.",
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
@@ -5077,7 +5341,7 @@
       },
       "verificationEvidenceTier": "blocked",
       "revalidationPriority": 100,
-      "revalidationReason": "live_content_mismatch"
+      "revalidationReason": "generic_landing_or_shell"
     },
     {
       "id": "d059",
@@ -5094,7 +5358,9 @@
       "availability": "unknown",
       "validationStatus": "failed",
       "validationCode": "mismatch",
-      "validationReason": "live_content_mismatch",
+      "validationReason": "error_page",
+      "mismatchCategory": "error_page",
+      "mismatchAction": "오류 없는 공식 상품/이벤트 상세 URL로 교체",
       "lastCheckedAt": "2026-06-01T08:30:00.000Z",
       "priorityScore": 64,
       "isHidden": true,
@@ -5117,7 +5383,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": true
+        "accessibleContentMismatch": true,
+        "mismatchCategory": "error_page",
+        "mismatchAction": "오류 없는 공식 상품/이벤트 상세 URL로 교체"
       },
       "liveProbe": {
         "status": 206,
@@ -5126,6 +5394,7 @@
         "bodyChecked": true,
         "title": "에러페이지",
         "metaDescription": "",
+        "textSample": "에러페이지 페이지를 찾을 수 없어요 잘못된 경로나 권한 문제일 수 있어요 문제가 계속된다면 고객센터로 연락해주세요 고객센터 : 080-030-5454 (수신자 부담) 홈으로 이동 이전",
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
@@ -5135,7 +5404,7 @@
       },
       "verificationEvidenceTier": "blocked",
       "revalidationPriority": 100,
-      "revalidationReason": "live_content_mismatch"
+      "revalidationReason": "error_page"
     },
     {
       "id": "d060",
@@ -5152,7 +5421,9 @@
       "availability": "unknown",
       "validationStatus": "failed",
       "validationCode": "mismatch",
-      "validationReason": "live_content_mismatch",
+      "validationReason": "wrong_product_or_benefit",
+      "mismatchCategory": "wrong_product_or_benefit",
+      "mismatchAction": "페이지 title/meta가 상품명과 맞는 직접 상세 URL로 교체",
       "lastCheckedAt": "2026-06-03T16:20:00.000+09:00",
       "priorityScore": 64,
       "isHidden": true,
@@ -5175,7 +5446,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": true
+        "accessibleContentMismatch": true,
+        "mismatchCategory": "wrong_product_or_benefit",
+        "mismatchAction": "페이지 title/meta가 상품명과 맞는 직접 상세 URL로 교체"
       },
       "liveProbe": {
         "status": 200,
@@ -5184,6 +5457,7 @@
         "bodyChecked": true,
         "title": "[2026 월드 베이스볼 클래식(WBC)] 극장 단독 생중계 | CGV",
         "metaDescription": "[2026 월드 베이스볼 클래식(WBC)] 극장 단독 생중계",
+        "textSample": "[2026 월드 베이스볼 클래식(WBC)] 극장 단독 생중계 | CGV",
         "titleSimilarity": 17,
         "contentMatch": false,
         "priceSignal": false,
@@ -5193,7 +5467,7 @@
       },
       "verificationEvidenceTier": "blocked",
       "revalidationPriority": 100,
-      "revalidationReason": "live_content_mismatch"
+      "revalidationReason": "wrong_product_or_benefit"
     },
     {
       "id": "d061",
@@ -5211,6 +5485,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-01T09:40:00.000Z",
       "priorityScore": 100,
       "isHidden": false,
@@ -5233,7 +5509,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "status": 200,
@@ -5242,6 +5520,7 @@
         "bodyChecked": true,
         "title": "NICE TO CU",
         "metaDescription": "24시간 편의점, 편의점 프랜차이즈, 편의점택배, 택배, 상품안내, 가맹 시스템, 창업 상담 제공.",
+        "textSample": "NICE TO CU CU 내용 바로가기 링크 본문 바로가기 주메뉴 바로가기 퀵메뉴 바로가기 로그인 점주광장 CU소개 브랜드 스토리 BGF LIVE CU 갤러리 상품&#183;서비스 전체 상품 CU 차별화 상품 행사상품 생활편의 서비스 제휴카드 매장안내 멤버십 창업정보&#12685;상생혜택 입점상담 입점 프로세스 기준 안내 입점 상담 신청 동반 성장 새로운소식 KR KR EN CN 로그인 CU소개 브랜드 스토리 BGF LIVE CU 갤러리 상품&#183;서비스 전체 상품 CU 차별화 상품 행사상품 생활편의 서비스 제휴카드 매장안내 멤버십 창업정보&#12685; 상생혜택 입점상담 입점 프로세스 기준 안내 입점 상담 신청 동반 성장 새로운소식 로그인 점주광장 제휴인증 매장안내 고객센터 1577-8007 평일 09시:00 - 21:00 고객센터 나만의 놀이터 CU 즐거운 상품과 서비스를 확인해보세요. 제휴/광고 문의 전체상품 CU 차별화 상품 행사 상품 생활편의 서비스 제휴카드 전체 1+1",
         "titleSimilarity": 33,
         "contentMatch": true,
         "priceSignal": false,
@@ -5269,6 +5548,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-01T09:40:00.000Z",
       "priorityScore": 100,
       "isHidden": false,
@@ -5291,7 +5572,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "status": 200,
@@ -5300,6 +5583,7 @@
         "bodyChecked": true,
         "title": "LIST | 진행중인 이벤트 | 7-ELEVEN | 세븐일레븐",
         "metaDescription": "세븐일레븐",
+        "textSample": "LIST | 진행중인 이벤트 | 7-ELEVEN | 세븐일레븐 본문 내용 바로가기 --> 진행중인 이벤트 완료된 이벤트 어린이 미술대회 --> 어린이 미술대회 온라인 갤러리 Fresh Food 세븐카페 이달의 증정할인 PB상품/신상품 쿠폰상품 --> 할인·멤버십 카드 추석 카탈로그 --> E-CATALOG --> E-Catalog 도시락 전단지 --> 서비스안내 국제특송서비스 --> 스마트픽 세븐APP 안내 --> 회사소개 ESG경영 윤리경영 환경경영 안전·보건경영 채용안내 세븐마케터 --> 고객의 소리 공지사항 7-SOCIAL 페이스북 트위터 인스타그램 블로그 --> 고객만족도조사 상품입점상담 동반성장 창업가이드 창업상담 창업설명회 --> 창업설명회 온라인 창업설명회 신청 --> 가맹 FAQ --> 창업성공기 해피리더 --> 창업점포추천 경영주계약서조회 창업적합도검사 --> 점포찾기 행복충전소 경영주님을 위한 공간입니다 --> 롯데 홈페이지 --> HOME EVENT EVENT P",
         "titleSimilarity": 75,
         "contentMatch": true,
         "priceSignal": false,
@@ -5326,7 +5610,9 @@
       "availability": "unknown",
       "validationStatus": "failed",
       "validationCode": "mismatch",
-      "validationReason": "live_content_mismatch",
+      "validationReason": "blank_or_script_shell",
+      "mismatchCategory": "blank_or_script_shell",
+      "mismatchAction": "서버 렌더링 또는 메타 정보가 확인되는 상세 URL로 교체",
       "lastCheckedAt": "2026-06-01T09:40:00.000Z",
       "priorityScore": 64,
       "isHidden": true,
@@ -5349,7 +5635,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": true
+        "accessibleContentMismatch": true,
+        "mismatchCategory": "blank_or_script_shell",
+        "mismatchAction": "서버 렌더링 또는 메타 정보가 확인되는 상세 URL로 교체"
       },
       "liveProbe": {
         "status": 200,
@@ -5358,6 +5646,7 @@
         "bodyChecked": true,
         "title": "",
         "metaDescription": "",
+        "textSample": "이 어플리케이션을 보려면 자바스크립트를 활성화해야 합니다.",
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
@@ -5367,7 +5656,7 @@
       },
       "verificationEvidenceTier": "blocked",
       "revalidationPriority": 100,
-      "revalidationReason": "live_content_mismatch"
+      "revalidationReason": "blank_or_script_shell"
     },
     {
       "id": "d064",
@@ -5385,6 +5674,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-01T09:40:00.000Z",
       "priorityScore": 100,
       "isHidden": false,
@@ -5407,7 +5698,9 @@
         "purchaseActionSignal": true,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "status": 200,
@@ -5416,6 +5709,7 @@
         "bodyChecked": true,
         "title": "원하는 상품을 원하는 시간에 쓱, 이마트몰",
         "metaDescription": "신선한 상품을 빠르게! 이마트몰 추천 상품을 쓱배송•새벽배송으로 간편하게 받아보세요.",
+        "textSample": "원하는 상품을 원하는 시간에 쓱, 이마트몰 본문바로가기 접근성 FAQ 바로가기 해당 브라우저 이용 시 일부 서비스 이용이 제한됩니다. 안정적인 서비스 이용을 위해 최신 브라우저로 업데이트 하세요. Microsoft Edge 열기 오늘 하루 열지 않음 B2E 제휴 고객사 및 신세계 그룹 임직원에게는 신세계몰과 이마트몰의 상시 할인 혜택이 적용되고 있습니다. B2E 회원은 제휴 채널 혜택이 중복 적용되지 않습니다. 특정 제휴 채널을 통한 SSG.COM 방문 시 제휴채널 헤택이 중복 적용되지 않음을 양해하여 주시기 바랍니다. 오늘 하루 이창을 열지않음 안내 레이어 닫기 믿고 사는 즐거움 SSG.COM 이마트몰 신세계몰 신세계백화점 SSG 통합검색 검색 최근 검색어 전체 삭제 최근검색어가 없습니다 검색 좋아요 MY SSG 메뉴보기 로그인 회원가입 마이페이지 로그아웃 장바구니에 담긴 상품 수 고객센터 최근본 0 전체삭제 최근 본 상품 닫기 로딩중 최근본 내역이 없습니다 이마트몰 통합검색 검색",
         "titleSimilarity": 40,
         "contentMatch": true,
         "priceSignal": false,
@@ -5443,6 +5737,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-01T09:40:00.000Z",
       "priorityScore": 100,
       "isHidden": false,
@@ -5465,7 +5761,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "status": 206,
@@ -5474,6 +5772,7 @@
         "bodyChecked": true,
         "title": "요기요",
         "metaDescription": "우리 동네 맛집이 그 맛 그대로 빠르게! 다양한 인기 브랜드 할인도 놓치지 마세요.",
+        "textSample": "요기요 요기요 전체보기 1인분 주문 프랜차이즈 치킨 피자/양식 중국집 한식 일식/돈까스 족발/보쌈 야식 분식 카페/디저트 편의점/마트 이용약관 개인정보처리방침 포인트정책 로그인 고객만족센터 회사소개 요기요사장님 입점문의 APP설치 공지사항 FAQ 페이스북 블로그 요기요 주식회사 위대한상상 서울특별시 강남구 논현로85길 70, 역삼823빌딩, 7층 | 공동대표 : 권태섭, 조형권 | 사업자등록번호:211-88-68802 사업자정보확인 통신판매업신고:제 2018-서울서초-2635호 | 개인정보담당자 : privacy@yogiyo.co.kr | 제휴문의 : partnership@yogiyo.co.kr | 고객만족센터 : 1661-5270(유료) 24시간, 연중무휴 support@yogiyo.co.kr | 호스팅 제공자: 카페24 주식회사 이용약관 | 개인정보처리방침 | 포인트정책 | 사업자정보확인 요기요 안심센터 요기요 100% 클린리뷰 고객만족센터 1661-5270 (유료) 24시간, ",
         "titleSimilarity": 60,
         "contentMatch": true,
         "priceSignal": false,
@@ -5501,6 +5800,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-01T09:40:00.000Z",
       "priorityScore": 100,
       "isHidden": false,
@@ -5523,7 +5824,9 @@
         "purchaseActionSignal": true,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "status": 200,
@@ -5532,6 +5835,7 @@
         "bodyChecked": true,
         "title": "Starbucks Korea",
         "metaDescription": "Starbucks",
+        "textSample": "Starbucks Korea 메뉴바로가기 콘텐츠 바로가기 님, 안녕하세요! 개인정보 수정 0 Gold Level 무료음료 획득 별까지 0개 남았습니다. --> 스타벅스 리워드 혜택에 편리함까지 더한 스타벅스 리워드를 즐겨보세요. 잔액 0 원 다른 카드 보기 잔액 원 다른 카드 보기 스타벅스 카드 등록 카드를 등록하시고 다양한 리워드를 만나보세요. 캘린더 0 e-쿠폰 e-프리퀀시 바코드 스타벅스커피 코리아 회원이 아니세요? 스타벅스커피 코리아 회원만의 특별한 혜택을 누릴 수 있습니다. 로그인 회원가입 스타벅스 카드를 가지고 계신가요? 스타벅스 카드를 등록하시면, 스타벅스 리워드 만의 특별한 혜택을 누릴 수 있습니다. 카드 등록 스타벅스 카드가 없으신가요? 스타벅스 매장에서 구매하시거나, PC/모바일웹, 스타벅스 앱에서 스타벅스 모바일 카드를 “나에게 선물하기”로 구매 후, 편리하게 등록하세요! 스타벅스 리워드의 특별한 혜택! 생일 쿠폰을 드립니다! 스타벅스 모바일 카드 선물하기 스타벅",
         "titleSimilarity": 60,
         "contentMatch": true,
         "priceSignal": true,
@@ -5559,6 +5863,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-03T16:30:00.000+09:00",
       "priorityScore": 100,
       "isHidden": false,
@@ -5581,7 +5887,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "status": 200,
@@ -5590,6 +5898,7 @@
         "bodyChecked": true,
         "title": "메가박스 | 제휴 브랜드 | KT",
         "metaDescription": "[KT] 제휴 브랜드 - KT 멤버십으로",
+        "textSample": "메가박스 | 제휴 브랜드 | KT --> --> 케이티닷컴 KT멤버십(membership.kt.com) --> 본문 바로가기 주메뉴 바로 가기 본문 영역 --> --> 제휴 브랜드 언제 어디에서나 누리는 다양한 할인 혜택 제휴 브랜드 바로 보기 플레이 푸드 쇼핑 플레이 메가박스 5G 데이터충전 AICE CGV KKday KT멤버십 공연예매 LTE 데이터충전 LTE데이터 룰렛 MOVV QED SK렌터카 V컬러링 genie kt wiz 프로야구 공항 스카이허브 라운지 김캐디 노보텔 앰배서더 동대문 노트미 더라운지 롯데렌터카 롯데렌터카 G car 롯데면세점 롯데면세점 동경긴자점 롯데시네마 롯데월드 롯데월드 아쿠아리움 리뷰노트 리프레쉬 골프 메가박스 모두의충전 밀리의 서재 밀크T 빌리카 서울랜드 서울스카이 서울형 키즈카페 설악워터피아 스노우 스몹 스파랜드 스피드메이트 신라면세점 신라아이파크면세점 신세계면세점 씨라이프 코엑스 아쿠아리움 아고다 아르떼 키즈파크 제주 아르떼뮤지엄 아쿠아플라넷 아",
         "titleSimilarity": 33,
         "contentMatch": true,
         "priceSignal": true,
@@ -5617,6 +5926,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-01T09:40:00.000Z",
       "priorityScore": 100,
       "isHidden": false,
@@ -5639,7 +5950,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "status": 200,
@@ -5648,6 +5961,7 @@
         "bodyChecked": true,
         "title": "전체 제휴사",
         "metaDescription": "멤버십 전체 제휴사 소개와 혜택을 안내해 드립니다. U+one 앱 멤버십이 되시면 다양한 제휴사 혜택을 누리실 수 있어요.",
+        "textSample": "전체 제휴사 본문 내용으로 건너뛰기 오늘 하루 그만보기 닫기 상단 정보영역 LG U+ 개인 기업 소상공인 회사소개 스토어 모바일 기기 모바일 홈 휴대폰 중고폰 자급제폰 태블릿 스마트워치 휴대폰 구매 지원금 모바일 요금제 통합 온라인 가입 전용 태블릿/스마트워치 듀얼넘버 플러스 인터넷/IPTV 인터넷/IPTV 홈 결합 상품 가입 가입 사은품 인터넷 요금제 인터넷 부가서비스 IPTV 요금제 IPTV 부가서비스 IPTV 주요 서비스 IPTV 채널 IPTV 리모컨 구매 유심/eSIM/자급제 유심 eSIM 자급제/중고폰 등록 해외 로밍 해외 로밍 홈 요금제 이용 현황 부가서비스 모바일서비스 추천 전체 데이터 휴대폰케어 디지털콘텐츠 통화/문자메시지 통화연결음/벨소리 가족보호/안심 PASS/정보 홈캠/도어캠 홈캠/도어캠 요금제 기기상세 정보 소상공인 상품 소상공인 상품 홈 요금제 맞춤 결합 혜택/이벤트 유용한 정보/후기 전화서비스 인터넷전화 요금제 인터넷전화 부가서비스 인터넷전화 기기 국제전화 ",
         "titleSimilarity": 40,
         "contentMatch": true,
         "priceSignal": false,
@@ -5675,6 +5989,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-03T16:30:00.000+09:00",
       "priorityScore": 100,
       "isHidden": false,
@@ -5697,7 +6013,9 @@
         "purchaseActionSignal": true,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "status": 206,
@@ -5706,6 +6024,7 @@
         "bodyChecked": true,
         "title": "맘큐 이벤트 | 진행 중인 육아 혜택 & 이벤트 모음",
         "metaDescription": "맘큐에서 진행 중인 육아 이벤트를 한눈에 확인하세요. 래플, 데일리퍼즐, 체험단 등 다양한 이벤트와 단독 혜택이 매달 업데이트됩니다.",
+        "textSample": "맘큐 이벤트 | 진행 중인 육아 혜택 & 이벤트 모음 맘큐 이벤트 회사소개 고객센터 공지사항 제휴문의 유한킴벌리(주) 사업자정보 서울시 송파구 올림픽로 300 롯데월드타워 29층 (우) 05551 대표자: 이제훈 / 사업자등록번호: 120-81-11436 통신판매업신고: 2020-서울송파-1816 이메일 : momQhelp@y-k.co.kr 고객센터 : 080-500-5200 (평일 09:00~17:30) 사업자 정보확인 이용약관 프리미엄 멤버십 이용약관 개인정보처리방침 글로벌 개인정보보호 정책 프라이버시 가치 구매안전 서비스(채무지급보증) Yuhan-Kimberly Co., Ltd. All rights reserved. 홈 카테고리 검색 마이 최근 본 더 나은 육아 생활을 위한 필수앱 BENEFIT 지금 바로 맘큐 가입하고 풍성한 혜택을 누려보세요. 가입축하 50% 웰컴쿠폰 기저귀 첫구매 50% 쿠폰 육아용품 첫구매 50% 쿠폰 웰컴혜택 받으러가기 APP DOWNLOAD QR코드 ",
         "titleSimilarity": 80,
         "contentMatch": true,
         "priceSignal": true,
@@ -5732,7 +6051,9 @@
       "availability": "unknown",
       "validationStatus": "failed",
       "validationCode": "mismatch",
-      "validationReason": "live_content_mismatch",
+      "validationReason": "wrong_product_or_benefit",
+      "mismatchCategory": "wrong_product_or_benefit",
+      "mismatchAction": "페이지 title/meta가 상품명과 맞는 직접 상세 URL로 교체",
       "lastCheckedAt": "2026-06-01T09:40:00.000Z",
       "priorityScore": 64,
       "isHidden": true,
@@ -5755,7 +6076,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": true
+        "accessibleContentMismatch": true,
+        "mismatchCategory": "wrong_product_or_benefit",
+        "mismatchAction": "페이지 title/meta가 상품명과 맞는 직접 상세 URL로 교체"
       },
       "liveProbe": {
         "status": 200,
@@ -5764,6 +6087,7 @@
         "bodyChecked": true,
         "title": "�̺�Ʈ ����Ʈ : ���̽��� ����ç����, ȣ��� �Բ��ϴ� �������� Ȩ����",
         "metaDescription": "ȣ�� ����ç���� ������ ���� �پ��� �̺�Ʈ�� Ȯ���ϼ���.",
+        "textSample": "�̺�Ʈ ����Ʈ : ���̽��� ����ç����, ȣ��� �Բ��ϴ� �������� Ȩ���� ��ü�޴� �ٷΰ��� ���� �ٷΰ��� �ϴܸ޴� �ٷΰ��� �α��� �α��� ȸ������ ���̵� ã�� ��й�ȣ ã�� �̿��� ��������ó����ħ ���������� ȸ���������� ȸ������ ���� ��й�ȣ ���� ����� ���� ���� ����/â��/�ܰ� ABC Bubbles �ֹ�/��� ��ȸ ���� Q&A ������ ���� ���� �ȳ� �ſ�ī�� ���� ��ǥ ���ݿ����� ����Ȯ�μ� ȸ�� Ż�� �ֹ�/��� �������� �оߺ� FAQ �������� 1:1 �������� �Խ��� ��� īī���� ��� ����ȸ������ #ȣ�� #�����ı� ���������뼭�� �̺�Ʈ �������� ���������� STEP1~4ȣ��Ȩ���� ���̱���/Ű��ä�� �̿밡�",
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
@@ -5773,7 +6097,7 @@
       },
       "verificationEvidenceTier": "blocked",
       "revalidationPriority": 100,
-      "revalidationReason": "live_content_mismatch"
+      "revalidationReason": "wrong_product_or_benefit"
     },
     {
       "id": "d071",
@@ -5791,6 +6115,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-05T03:40:00.000+09:00",
       "priorityScore": 100,
       "isHidden": false,
@@ -5813,7 +6139,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "status": 200,
@@ -5822,6 +6150,7 @@
         "bodyChecked": true,
         "title": "멤버십 | 카카오페이 - 마음 놓고 금융하다.",
         "metaDescription": "카카오페이",
+        "textSample": "멤버십 | 카카오페이 - 마음 놓고 금융하다.",
         "titleSimilarity": 40,
         "contentMatch": true,
         "priceSignal": false,
@@ -5849,6 +6178,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-03T16:30:00.000+09:00",
       "priorityScore": 100,
       "isHidden": false,
@@ -5871,7 +6202,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "status": 200,
@@ -5880,6 +6213,7 @@
         "bodyChecked": true,
         "title": "[네이버멤버십] : 네이버플러스 멤버십",
         "metaDescription": "지금 멤버십 시작하고 혜택받기",
+        "textSample": "[네이버멤버십] : 네이버플러스 멤버십 본문 바로가기 최대 5% 적립 강력한 콘텐츠 빠른 무료배송 N pay 상품 구매 시, 매달 20만원까지 5%, 300만원까지 2% 적립 가능 / N배송 만원 이상 주문 시 무료배송 ( 제외 대상 보기 ) 멤버십 혜택 웰컴 혜택 쇼핑 혜택 콘텐츠 혜택 라이프 혜택 멤버십 패밀리 멤버십 스튜던트 활용꿀팁 고객지원 월드컵 중계는 네이버플러스 멤버십으로 네이버 멤버십 또는 치지직 치트키 구독 시 치지직 앱에서 최대 1080p 고화질 감상 가능 2026 축구 대축제 응원 세일 멤버십 한정, N+스토어 앱 전용 유의사항은 페이지 참고 네이버플러스 스토어 20% 쿠폰 이전으로 이동 다음으로 이동 멤버십 혜택 한눈에 보는 멤버십 혜택 네이버 쇼핑 &middot; 예약 &middot; 여행 최대 5% 적립 월 20만원까지 5%, 300만원까지 2% 적립 디지털 콘텐츠 매월 선택 가능 넷플릭스, 스포티파이, PC Game Pass, 웹툰 슈퍼적립 상품은 10% ",
         "titleSimilarity": 80,
         "contentMatch": true,
         "priceSignal": true,
@@ -5907,6 +6241,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-01T11:20:00.000Z",
       "priorityScore": 100,
       "isHidden": false,
@@ -5929,7 +6265,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -5961,6 +6299,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-01T11:20:00.000Z",
       "priorityScore": 100,
       "isHidden": false,
@@ -5975,29 +6315,36 @@
         "productDetailUrl": false,
         "officialBenefitUrl": true,
         "unavailableText": false,
-        "liveProbeOk": false,
-        "titleMetaChecked": false,
-        "titleSimilarity": 0,
-        "contentMatch": null,
+        "liveProbeOk": true,
+        "titleMetaChecked": true,
+        "titleSimilarity": 20,
+        "contentMatch": true,
         "priceSignal": false,
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
-        "ok": false,
-        "status": 0,
-        "reason": "request_failed",
-        "finalUrl": "https://www.shinhancard.com/pconts/html/benefit/event/MOBFM220/MOBFM220R01.html",
-        "titleSimilarity": 0,
-        "contentMatch": null,
+        "status": 206,
+        "reason": "http_ok",
+        "ok": true,
+        "bodyChecked": true,
+        "title": "신한카드 모바일 웹",
+        "metaDescription": "",
+        "textSample": "신한카드 모바일 웹 본문 바로가기 요청하신 페이지를 찾을 수 없습니다. 잘못된 경로로 접근하였거나, 사용할 수 없는 웹사이트 주소입니다. 홈페이지 메인으로 이동",
+        "titleSimilarity": 20,
+        "contentMatch": true,
+        "priceSignal": false,
+        "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false
       },
-      "verificationEvidenceTier": "transient_network_manual_verified",
-      "revalidationPriority": 75,
-      "revalidationReason": "request_failed"
+      "verificationEvidenceTier": "live_content_confirmed",
+      "revalidationPriority": 20,
+      "revalidationReason": "routine_rotation_review"
     },
     {
       "id": "d075",
@@ -6015,6 +6362,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-01T11:20:00.000Z",
       "priorityScore": 100,
       "isHidden": false,
@@ -6037,7 +6386,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "status": 200,
@@ -6046,6 +6397,7 @@
         "bodyChecked": true,
         "title": "이벤트 - 롯데시네마",
         "metaDescription": "Innovating Contents Experience, LOTTE CINEMA",
+        "textSample": "이벤트 - 롯데시네마",
         "titleSimilarity": 40,
         "contentMatch": true,
         "priceSignal": false,
@@ -6073,6 +6425,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-01T11:20:00.000Z",
       "priorityScore": 100,
       "isHidden": false,
@@ -6095,7 +6449,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "status": 200,
@@ -6104,6 +6460,7 @@
         "bodyChecked": true,
         "title": "메가MGC커피",
         "metaDescription": "메가커피 커피전문점, 프랜차이즈, 메가엠지씨커피, 빅사이즈 투샷, 가맹안내, 테이크아웃",
+        "textSample": "메가MGC커피 --> 앱 문의 센터 1855- 3478 창업상담 1588- 0656 가맹점 인수 상담 고객센터 문의/접수 고객센터 1588- 8298 (26.06.04)누적 4,343호 오픈 QUICK 메가 스토리 메가 스토리 브랜드 BI 오시는 길 메뉴소개 메뉴소개 음료 푸드 상품 매장 매장 매장찾기 창업안내 창업안내 개설비용 인테리어 창업문의 가맹점 인수 창업뉴스 메가소식 메가소식 공지사항 이벤트 FAQ 고객의 소리 채용 채용 채용안내 --> --> --> 점주님전용 --> --> --> MEGA NEWS MEGA EVENT 홈 메가소식 이벤트 메가MGC커피 이벤트 다양한 이벤트를 확인하고 참여해보세요! 전체 메가콘서트 SMGC 메뉴 이벤트 제휴 이벤트 제휴 혜택 제목 내용 작성자 [출시] ARIH is Coming MEGA 메가MGC커피 [이벤트] 6월 메가MGC커피 X PAYCO 적립/할인 EVENT 메가MGC커피 [이벤트] 6월 메가MGC커피 X 네이버페이 적립 EVENT ",
         "titleSimilarity": 75,
         "contentMatch": true,
         "priceSignal": true,
@@ -6131,6 +6488,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-01T11:20:00.000Z",
       "priorityScore": 100,
       "isHidden": false,
@@ -6153,7 +6512,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "status": 200,
@@ -6162,6 +6523,7 @@
         "bodyChecked": true,
         "title": "카카오톡 선물하기",
         "metaDescription": "",
+        "textSample": "카카오톡 선물하기",
         "titleSimilarity": 40,
         "contentMatch": true,
         "priceSignal": false,
@@ -6189,6 +6551,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-03T16:30:00.000+09:00",
       "priorityScore": 100,
       "isHidden": false,
@@ -6211,7 +6575,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "status": 200,
@@ -6220,6 +6586,7 @@
         "bodyChecked": true,
         "title": "티켓링크",
         "metaDescription": "티켓예매, 스포츠, 공연, 전시 등 티켓 예매서비스 제공. 페이코(PAYCO)간편결제 지원.",
+        "textSample": "티켓링크 티켓링크 검색 이벤트 진행중인 이벤트 당첨자 발표 참여 이벤트 이벤트 제목 [{{topEvent.eventTypeName}}] {{topEvent.eventName}} 기간 {{topEvent.startDatetime}} ~ {{topEvent.endDatetime}} 진행중인 이벤트 제목 [{{event.eventTypeName}}] {{event.eventName}} 기간 {{event.startDatetime}} ~ {{event.endDatetime}} 0\" v-bind:paging=\"eventPaging\" @childs-event=\"getEventPageNum\"> 등록된 이벤트가 없습니다. 제목 {{coupon.couponName}} 할인 {{coupon.couponDiscountBenefitSummary}} 조건 {{coupon.couponDiscountMinimumAmount | currency}}원 이상 결제 시 {{coupon.couponDiscountMin",
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": false,
@@ -6247,6 +6614,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-01T22:45:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -6269,7 +6638,9 @@
         "purchaseActionSignal": false,
         "accessGuard": true,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -6301,6 +6672,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-01T22:45:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -6323,7 +6696,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -6355,6 +6730,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-01T22:45:00.000Z",
       "priorityScore": 100,
       "isHidden": false,
@@ -6377,7 +6754,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "status": 200,
@@ -6386,6 +6765,7 @@
         "bodyChecked": true,
         "title": "베이직 무향엠보싱 물티슈 캡형 100매 20팩/S-nBpC",
         "metaDescription": "베이직 무향엠보싱 물티슈 캡형 100매 20팩/S-nBpC, 할인모음가: 51,300원, 평점: 4.9, 리뷰수: 123",
+        "textSample": "베이직 무향엠보싱 물티슈 캡형 100매 20팩/S-nBpC 물티슈>캡형 \"/> 물티슈>캡형, 가격 : 51,300원\"/> 물티슈>캡형, 가격 : 51,300원\"/> 본문 바로가기 스토어 뱃지 종합몰 롯데아이몰 판매자만족 93.9% 응답률 81.2% 판매량 총 5점 중 5점 정보 보기 판매자 정보 판매자만족 고객이 판매자의 서비스를 평가한 리뷰 중, 4~5점의 긍정 평가의 비율 (최근 1년 기준) 24시간내 응답 상품 Q&A 문의에 24시간 내 응답한 비율 (최근 30일 기준) 판매량 판매자의 판매건수와 판매금액을 반영하여, 판매량을 5단계로 측정 (최근 365일 기준) 판매량은 5단계(가장 높은 판매량) ~ 1단계(낮은 판매량)로 노출 닫기 스토어 찜 찜하기 9,999+ 닫기 상품 카테고리 정보 홈 &gt; 물티슈 카테고리 목록 열기 브랜드패션 브랜드 여성의류 브랜드 여성신발 브랜드 여성가방 브랜드 남성의류 브랜드 남성신발 브랜드 남성가방 캐주얼/유니섹스 브랜드 언더웨어 브랜드 여행",
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": true,
@@ -6413,6 +6793,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-01T22:45:00.000Z",
       "priorityScore": 100,
       "isHidden": false,
@@ -6435,7 +6817,9 @@
         "purchaseActionSignal": true,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "status": 200,
@@ -6444,6 +6828,7 @@
         "bodyChecked": true,
         "title": "[마켓컬리X매일유업] My Basic 매일 좋은 1A 우유 900mL - 마켓컬리",
         "metaDescription": "우유의 기본에 집중한 - Better Life for All. 건강한 식재료부터 믿을 수 있는 뷰티, 라이프스타일 상품까지. 나와 내 가족이 사고 싶은 상품을 판매합니다. 내일 아침 문 앞에서 만나요!",
+        "textSample": "[마켓컬리X매일유업] My Basic 매일 좋은 1A 우유 900mL - 마켓컬리 +3천원쿠폰 매일유업 매일 묻고, 매일 답하다 Kurly Only 샛별배송 매일유업 후기 113,406건 [마켓컬리X매일유업] My Basic 매일 좋은 1A 우유 900mL 우유의 기본에 집중한 원산지: 상품설명/상세정보 참조 2,550 원 배송 샛별배송(내일 아침) 23시 전 주문 시 수도권/충청 내일 아침 7시 전 도착 (그 외 지역 아침 8시 전 도착) 판매자 컬리 포장타입 냉장 (종이포장) 택배배송은 에코 포장이 스티로폼으로 대체됩니다. 판매단위 1팩 중량/용량 900mL 알레르기정보 - 우유 함유 총 상품금액 0 원 장바구니 담기 상품설명 상세정보 후기 ( 113,406 ) 문의 우유의 기본에 집중한 [My Basic] 매일 좋은 1A 우유 우리가 매일 마시는 우유. 컬리는 매일유업과 함께 우유가 갖추어야 할 기본에 집중하여 매일 좋은 1A 우유를 만들었습니다. ESL 무균화 공법으로 갓 착",
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": true,
@@ -6471,6 +6856,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-01T22:45:00.000Z",
       "priorityScore": 100,
       "isHidden": false,
@@ -6493,7 +6880,9 @@
         "purchaseActionSignal": true,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "status": 200,
@@ -6502,6 +6891,7 @@
         "bodyChecked": true,
         "title": "다우니 대용량 섬유유연제 2.8L / 8.5L 드라이시트 모음 - SSG.COM",
         "metaDescription": "다우니 대용량 섬유유연제 2.8L / 8.5L 드라이시트 모음 | SSG.COM에서 가격, 배송, 후기 등 상품 관련 다양한 정보를 확인해보세요!",
+        "textSample": "다우니 대용량 섬유유연제 2.8L / 8.5L 드라이시트 모음 - SSG.COM 스킵 네비게이션 카테고리 메뉴 바로가기 본문바로가기 접근성 FAQ 바로가기 매일 룰렛 돌리고 선물 받으세요! 로보락 S10 득템 찬스! 배너 닫기 해당 브라우저 이용 시 일부 서비스 이용이 제한됩니다. 안정적인 서비스 이용을 위해 최신 브라우저로 업데이트 하세요. Microsoft Edge 열기 오늘 하루 열지 않음 B2E 제휴 고객사 및 신세계 그룹 임직원에게는 신세계몰과 이마트몰의 상시 할인 혜택이 적용되고 있습니다. B2E 회원은 제휴 채널 혜택이 중복 적용되지 않습니다. 특정 제휴 채널을 통한 SSG.COM 방문 시 제휴채널 헤택이 중복 적용되지 않음을 양해하여 주시기 바랍니다. 오늘 하루 이창을 열지않음 안내 레이어 닫기 믿고 사는 즐거움 SSG.COM 이마트몰 신세계몰 신세계백화점 SSG 통합검색 검색 최근 검색어 전체 삭제 최근검색어가 없습니다 검색 좋아요 MY SSG 로그인 회원가입 로그아",
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": false,
@@ -6528,7 +6918,9 @@
       "availability": "unknown",
       "validationStatus": "failed",
       "validationCode": "mismatch",
-      "validationReason": "live_content_mismatch",
+      "validationReason": "blank_or_script_shell",
+      "mismatchCategory": "blank_or_script_shell",
+      "mismatchAction": "서버 렌더링 또는 메타 정보가 확인되는 상세 URL로 교체",
       "lastCheckedAt": "2026-06-01T22:45:00.000Z",
       "priorityScore": 64,
       "isHidden": true,
@@ -6551,7 +6943,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": true
+        "accessibleContentMismatch": true,
+        "mismatchCategory": "blank_or_script_shell",
+        "mismatchAction": "서버 렌더링 또는 메타 정보가 확인되는 상세 URL로 교체"
       },
       "liveProbe": {
         "status": 200,
@@ -6560,6 +6954,7 @@
         "bodyChecked": true,
         "title": "",
         "metaDescription": "",
+        "textSample": "",
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
@@ -6569,7 +6964,7 @@
       },
       "verificationEvidenceTier": "blocked",
       "revalidationPriority": 100,
-      "revalidationReason": "live_content_mismatch"
+      "revalidationReason": "blank_or_script_shell"
     },
     {
       "id": "d085",
@@ -6586,7 +6981,9 @@
       "availability": "unknown",
       "validationStatus": "failed",
       "validationCode": "mismatch",
-      "validationReason": "live_content_mismatch",
+      "validationReason": "wrong_product_or_benefit",
+      "mismatchCategory": "wrong_product_or_benefit",
+      "mismatchAction": "페이지 title/meta가 상품명과 맞는 직접 상세 URL로 교체",
       "lastCheckedAt": "2026-06-01T22:45:00.000Z",
       "priorityScore": 64,
       "isHidden": true,
@@ -6609,7 +7006,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": true
+        "accessibleContentMismatch": true,
+        "mismatchCategory": "wrong_product_or_benefit",
+        "mismatchAction": "페이지 title/meta가 상품명과 맞는 직접 상세 URL로 교체"
       },
       "liveProbe": {
         "status": 200,
@@ -6618,6 +7017,7 @@
         "bodyChecked": true,
         "title": "11번가",
         "metaDescription": "",
+        "textSample": "11번가",
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
@@ -6627,7 +7027,7 @@
       },
       "verificationEvidenceTier": "blocked",
       "revalidationPriority": 100,
-      "revalidationReason": "live_content_mismatch"
+      "revalidationReason": "wrong_product_or_benefit"
     },
     {
       "id": "d086",
@@ -6645,6 +7045,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-01T22:45:00.000Z",
       "priorityScore": 100,
       "isHidden": false,
@@ -6667,7 +7069,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "status": 200,
@@ -6676,6 +7080,7 @@
         "bodyChecked": true,
         "title": "빈폴 멘(BEANPOLE MEN) [Essential] 피케 칼라넥 반소매 티셔츠 블랙 - 사이즈 & 후기 | 무신사",
         "metaDescription": "제품분류 :상의 &gt; 피케/카라 티셔츠 브랜드 : 빈폴 멘(BEANPOLE MEN) 제품번호 : BC6242E715 제품 : [Essential] 피케 칼라넥 반소매 티셔츠 블랙 - 135,000",
+        "textSample": "빈폴 멘(BEANPOLE MEN) [Essential] 피케 칼라넥 반소매 티셔츠 블랙 - 사이즈 & 후기 | 무신사 {\"props\":{\"pageProps\":{\"isMobile\":false,\"isApp\":false,\"referrer\":\"\",\"os\":\"\",\"buildTime\":\"1780538698926\",\"meta\":{\"meta\":{\"result\":\"SUCCESS\",\"errorCode\":\"\",\"message\":\"성공적으로 처리하였습니다.\"},\"data\":{\"goodsNo\":6092416,\"goodsNm\":\"[Essential] 피케 칼라넥 반소매 티셔츠 블랙\",\"goodsNmEng\":\"\",\"thumbnailImageUrl\":\"/images/goods_img/20260306/6092416/6092416_17774685143733_500.jpg\",\"headDesc\":\"\",\"styleNo\":\"BC6242E715\",\"sex\":[\"남성\"],\"sexCode\":2,\"brand\":\"beanpolem",
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": true,
@@ -6703,6 +7108,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-01T22:45:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -6725,7 +7132,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -6757,6 +7166,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-01T22:45:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -6779,7 +7190,9 @@
         "purchaseActionSignal": false,
         "accessGuard": true,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -6811,6 +7224,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-01T22:45:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -6833,7 +7248,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -6865,6 +7282,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-01T22:45:00.000Z",
       "priorityScore": 100,
       "isHidden": false,
@@ -6887,7 +7306,9 @@
         "purchaseActionSignal": true,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "status": 200,
@@ -6896,6 +7317,7 @@
         "bodyChecked": true,
         "title": "롯데하이마트 | HDMI 케이블 10종 HIMCAB-H1.8 (1.8m, 5가지 색상)",
         "metaDescription": "HDMI 케이블 10종 HIMCAB-H1.8 (1.8m, 5가지 색상)",
+        "textSample": "롯데하이마트 | HDMI 케이블 10종 HIMCAB-H1.8 (1.8m, 5가지 색상) 드롭다운 버튼 가전쇼핑/안심케어 토글 버튼 검색 바로가기 장바구니 바로가기 상품상세 뒤로가기 찜하기 공유하기 해당 브라우저에서는 결제가 정상 작동하지 않을 수 있으니 크롬 브라우저를 통해 접속 해 주시길 바랍니다. $(function(){ /************************************** * 헤더 드랍다운 코너정보 (전시 서비스 호출) **************************************/ headerDropDown = function(){ $.ajax({ type: 'POST', url: '/app/goods/goodsHeaderDropDownAjax', data: {urlPath : window.location.pathname, rtnPage : \"goodsHeader\"}, async: true, // 비동기 처리 success: function(data)",
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": false,
@@ -6923,6 +7345,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-02T00:20:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -6945,7 +7369,9 @@
         "purchaseActionSignal": false,
         "accessGuard": true,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -6977,6 +7403,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-02T00:20:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -6999,7 +7427,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -7031,6 +7461,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-02T00:20:00.000Z",
       "priorityScore": 100,
       "isHidden": false,
@@ -7053,7 +7485,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": true,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -7085,6 +7519,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-02T00:20:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -7107,7 +7543,9 @@
         "purchaseActionSignal": false,
         "accessGuard": true,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -7139,6 +7577,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-02T00:20:00.000Z",
       "priorityScore": 100,
       "isHidden": false,
@@ -7161,7 +7601,9 @@
         "purchaseActionSignal": true,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "status": 200,
@@ -7170,6 +7612,7 @@
         "bodyChecked": true,
         "title": "[Better me] 오리지널 닭가슴살 (냉장) - 마켓컬리",
         "metaDescription": "100g당 가격 : 2,467원 - Better Life for All. 건강한 식재료부터 믿을 수 있는 뷰티, 라이프스타일 상품까지. 나와 내 가족이 사고 싶은 상품을 판매합니다. 내일 아침 문 앞에서 만나요!",
+        "textSample": "[Better me] 오리지널 닭가슴살 (냉장) - 마켓컬리 단독 Better me Kurly Only 샛별배송 Better me 후기 21,178건 [Better me] 오리지널 닭가슴살 (냉장) 100g당 가격 : 2,467원 원산지: 상품설명/상세정보 참조 14,800 원 배송 샛별배송(내일 아침) 23시 전 주문 시 수도권/충청 내일 아침 7시 전 도착 (그 외 지역 아침 8시 전 도착) 판매자 컬리 포장타입 냉장 (종이포장) 택배배송은 에코 포장이 스티로폼으로 대체됩니다. 판매단위 1팩 중량/용량 600g 알레르기정보 - 닭고기 함유 - 알류, 우유, 메밀, 땅콩, 대두, 밀, 고등어, 게, 새우, 돼지고기, 복숭아, 토마토, 아황산류, 쇠고기, 조개류(굴, 전복, 홍합 포함), 잣을 사용한 제품과 같은 시설에서 제조하고 있습니다. 소비기한(또는 유통기한)정보 수령일 포함 10일 이상 남은 상품을 보내드립니다. 안내사항 1회 섭취참고량(100g) 정보 및 영양소 기준치: 칼",
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": true,
@@ -7197,6 +7640,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-02T00:20:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -7219,7 +7664,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -7251,6 +7698,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-02T00:20:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -7273,7 +7722,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -7305,6 +7756,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-02T00:20:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -7327,7 +7780,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -7359,6 +7814,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-02T00:20:00.000Z",
       "priorityScore": 100,
       "isHidden": false,
@@ -7381,7 +7838,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": true,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -7413,6 +7872,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-02T00:20:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -7435,7 +7896,9 @@
         "purchaseActionSignal": false,
         "accessGuard": true,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -7467,6 +7930,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-02T01:10:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -7489,7 +7954,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -7521,6 +7988,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-02T01:10:00.000Z",
       "priorityScore": 100,
       "isHidden": false,
@@ -7543,7 +8012,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "status": 200,
@@ -7552,6 +8023,7 @@
         "bodyChecked": true,
         "title": "피죤 섬유유연제(3100ml x 4개-핑크) 일반드럼겸용",
         "metaDescription": "피죤 섬유유연제(3100ml x 4개-핑크) 일반드럼겸용, 할인모음가: 22,900원, 평점: 4.8, 리뷰수: 1143",
+        "textSample": "피죤 섬유유연제(3100ml x 4개-핑크) 일반드럼겸용 섬유유연제>일반섬유유연제 \"/> 섬유유연제>일반섬유유연제, 가격 : 22,900원\"/> 섬유유연제>일반섬유유연제, 가격 : 22,900원\"/> 본문 바로가기 스토어 뱃지 고객서비스 우수 피죤공식점 판매자만족 94.8% 응답률 100% 판매량 총 5점 중 3점 정보 보기 판매자 정보 판매자만족 고객이 판매자의 서비스를 평가한 리뷰 중, 4~5점의 긍정 평가의 비율 (최근 1년 기준) 24시간내 응답 상품 Q&A 문의에 24시간 내 응답한 비율 (최근 30일 기준) 판매량 판매자의 판매건수와 판매금액을 반영하여, 판매량을 5단계로 측정 (최근 365일 기준) 판매량은 5단계(가장 높은 판매량) ~ 1단계(낮은 판매량)로 노출 닫기 스토어 찜 찜하기 9,999+ 닫기 상품 카테고리 정보 홈 &gt; 세제/방향/살충 카테고리 목록 열기 브랜드패션 브랜드 여성의류 브랜드 여성신발 브랜드 여성가방 브랜드 남성의류 브랜드 남성신발 브랜드 ",
         "titleSimilarity": 80,
         "contentMatch": true,
         "priceSignal": true,
@@ -7579,6 +8051,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-02T01:10:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -7601,7 +8075,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -7633,6 +8109,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-02T01:10:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -7655,7 +8133,9 @@
         "purchaseActionSignal": false,
         "accessGuard": true,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -7687,6 +8167,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-02T01:10:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -7709,7 +8191,9 @@
         "purchaseActionSignal": false,
         "accessGuard": true,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -7741,6 +8225,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-02T01:10:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -7763,7 +8249,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -7795,6 +8283,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-02T01:10:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -7817,7 +8307,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -7849,6 +8341,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-02T01:10:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -7871,7 +8365,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -7903,6 +8399,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-02T01:10:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -7925,7 +8423,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -7957,6 +8457,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-02T01:10:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -7979,7 +8481,9 @@
         "purchaseActionSignal": false,
         "accessGuard": true,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -8011,6 +8515,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-02T02:30:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -8033,7 +8539,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -8064,7 +8572,9 @@
       "availability": "unknown",
       "validationStatus": "failed",
       "validationCode": "mismatch",
-      "validationReason": "live_content_mismatch",
+      "validationReason": "wrong_product_or_benefit",
+      "mismatchCategory": "wrong_product_or_benefit",
+      "mismatchAction": "페이지 title/meta가 상품명과 맞는 직접 상세 URL로 교체",
       "lastCheckedAt": "2026-06-02T02:30:00.000Z",
       "priorityScore": 64,
       "isHidden": true,
@@ -8087,7 +8597,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": true
+        "accessibleContentMismatch": true,
+        "mismatchCategory": "wrong_product_or_benefit",
+        "mismatchAction": "페이지 title/meta가 상품명과 맞는 직접 상세 URL로 교체"
       },
       "liveProbe": {
         "status": 200,
@@ -8096,6 +8608,7 @@
         "bodyChecked": true,
         "title": "비아리츠(BIARRITZ) [5PACK] 에피 누드토우 덧신 4color - 사이즈 & 후기 | 무신사",
         "metaDescription": "제품분류 :소품 &gt; 양말/레그웨어 브랜드 : 비아리츠(BIARRITZ) 제품번호 : 에피5set 제품 : [5PACK] 에피 누드토우 덧신 4color - 19,900",
+        "textSample": "비아리츠(BIARRITZ) [5PACK] 에피 누드토우 덧신 4color - 사이즈 & 후기 | 무신사",
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
@@ -8105,7 +8618,7 @@
       },
       "verificationEvidenceTier": "blocked",
       "revalidationPriority": 100,
-      "revalidationReason": "live_content_mismatch"
+      "revalidationReason": "wrong_product_or_benefit"
     },
     {
       "id": "d113",
@@ -8123,6 +8636,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-02T02:30:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -8145,7 +8660,9 @@
         "purchaseActionSignal": false,
         "accessGuard": true,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -8177,6 +8694,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-02T02:30:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -8199,7 +8718,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -8231,6 +8752,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-03T16:30:00.000+09:00",
       "priorityScore": 100,
       "isHidden": false,
@@ -8253,7 +8776,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "status": 200,
@@ -8262,6 +8787,7 @@
         "bodyChecked": true,
         "title": "BHC e쿠폰",
         "metaDescription": "대표 메뉴 뿌링클, 맛초킹, 달콤바삭치즈볼 등, 깨끗하고 맛있는 치킨, 치킨 프랜차이즈 1위 브랜드(22년 DART기준), 창업 안내",
+        "textSample": "BHC e쿠폰 MENU NEW SIGNATURE CHICKEN COLPOP SIDE STORE BRAND 브랜드 스토리 연혁 EVENT 진행중 이벤트 종료된 이벤트 E-COUPON 모바일교환권 구매 모바일교환권 이용안내 창업정보 고객센터 MENU NEW SIGNATURE CHICKEN COLPOP SIDE STORE BRAND 브랜드 스토리 연혁 EVENT 진행중 이벤트 종료된 이벤트 E-COUPON 모바일교환권 구매 모바일교환권 이용안내 bhc APP 창업정보 모바일교환권 구매 모바일교환권 이용안내 치킨은 진심이야! 선물은 간편하게, 기쁨은 크게! BHC 모바일교환권, 지금 바로 전해보세요 #치킨선물 #간편선물 #센스있는선물 E쿠폰 구매처 E쿠폰 구매처 기업용 직원 복지, 고객 사은품, 이벤트 경품도 BHC 실용성과 만족도를 모두 갖춘 최적의 선택! 높은 브랜드 인지도, 다수의 인기 메뉴 모바일 전송으로 관리 간편 전국 2,000여개 이상 가맹점 사용 가능 직원 선물, 프로모션, ",
         "titleSimilarity": 50,
         "contentMatch": true,
         "priceSignal": true,
@@ -8285,14 +8811,16 @@
       "affiliateUrl": "https://www.musinsa.com/app/campaign/index/benefit",
       "eventUrl": "https://www.musinsa.com/app/campaign/index/benefit",
       "linkType": "affiliate",
-      "availability": "active",
-      "validationStatus": "passed",
-      "validationCode": "valid",
-      "validationReason": "passed",
+      "availability": "unknown",
+      "validationStatus": "failed",
+      "validationCode": "mismatch",
+      "validationReason": "wrong_product_or_benefit",
+      "mismatchCategory": "wrong_product_or_benefit",
+      "mismatchAction": "페이지 title/meta가 상품명과 맞는 직접 상세 URL로 교체",
       "lastCheckedAt": "2026-06-02T02:30:00.000Z",
-      "priorityScore": 100,
-      "isHidden": false,
-      "publishable": true,
+      "priorityScore": 64,
+      "isHidden": true,
+      "publishable": false,
       "host": "musinsa.com",
       "evidence": "무신사 신규 가입 웰컴 0원 쿠폰팩 공식 혜택 캠페인",
       "checks": {
@@ -8306,12 +8834,14 @@
         "liveProbeOk": true,
         "titleMetaChecked": true,
         "titleSimilarity": 17,
-        "contentMatch": true,
-        "priceSignal": true,
+        "contentMatch": false,
+        "priceSignal": false,
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": true,
+        "mismatchCategory": "wrong_product_or_benefit",
+        "mismatchAction": "페이지 title/meta가 상품명과 맞는 직접 상세 URL로 교체"
       },
       "liveProbe": {
         "status": 200,
@@ -8320,16 +8850,17 @@
         "bodyChecked": true,
         "title": "무신사",
         "metaDescription": "패션의 모든 것, 다 무신사랑 해! 무신사에서 다양한 혜택과 스타일 팁을 확인해보세요.",
+        "textSample": "무신사 {\"props\":{\"pageProps\":{\"data\":{\"defaultCode\":\"musinsa\",\"store\":[{\"title\":\"부티크\",\"titleEng\":\"BOUTIQUE\",\"code\":\"boutique\",\"backgroundColor\":\"#0000FF\",\"storeLogo\":\"https://image.msscdn.net/display/images/2025/10/22/20cab99833834c7faad1c258e76db138.png\",\"musinsaLogo\":\"https://image.msscdn.net/display/images/2025/10/22/281c340fe29a44a78218f48ce6ff11a1.png\",\"goodsDetailLogo\":\"https://image.msscdn.net/display/images/2024/07/16/4f1e0aa9ece3462098ec68e41b1b99ce.png\",\"shareDesc\":\"BOUTIQUE는 세계적인 디자이너 브랜",
         "titleSimilarity": 17,
-        "contentMatch": true,
-        "priceSignal": true,
+        "contentMatch": false,
+        "priceSignal": false,
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false
       },
-      "verificationEvidenceTier": "live_content_confirmed",
-      "revalidationPriority": 20,
-      "revalidationReason": "routine_rotation_review"
+      "verificationEvidenceTier": "blocked",
+      "revalidationPriority": 100,
+      "revalidationReason": "wrong_product_or_benefit"
     },
     {
       "id": "d117",
@@ -8347,6 +8878,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-05T03:40:00.000+09:00",
       "priorityScore": 100,
       "isHidden": false,
@@ -8369,7 +8902,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "status": 200,
@@ -8378,6 +8913,7 @@
         "bodyChecked": true,
         "title": "메가MGC커피",
         "metaDescription": "메가커피 커피전문점, 프랜차이즈, 메가엠지씨커피, 빅사이즈 투샷, 가맹안내, 테이크아웃",
+        "textSample": "메가MGC커피 --> 앱 문의 센터 1855- 3478 창업상담 1588- 0656 가맹점 인수 상담 고객센터 문의/접수 고객센터 1588- 8298 (26.06.04)누적 4,343호 오픈 QUICK 메가 스토리 메가 스토리 브랜드 BI 오시는 길 메뉴소개 메뉴소개 음료 푸드 상품 매장 매장 매장찾기 창업안내 창업안내 개설비용 인테리어 창업문의 가맹점 인수 창업뉴스 메가소식 메가소식 공지사항 이벤트 FAQ 고객의 소리 채용 채용 채용안내 --> --> --> 점주님전용 --> --> --> MEGA NEWS MEGA MEDIA 홈 메가소식 언론보도 메가MGC커피 언론보도 언론매체에 소개된 메가MGC커피 제목 내용 작성자 번호 제목 글쓴이 날짜 조회 93 게재_2020.11.19 메가커피 2020-11-20 451 92 게재_2020.11.11 메가커피 2020-11-20 460 91 게재_2020.09.29 메가커피 2020-10-08 456 90 게재_2020.09.09 메가커피",
         "titleSimilarity": 40,
         "contentMatch": true,
         "priceSignal": true,
@@ -8405,6 +8941,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-02T04:10:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -8427,7 +8965,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -8459,6 +8999,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-02T04:10:00.000Z",
       "priorityScore": 100,
       "isHidden": false,
@@ -8481,7 +9023,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "status": 200,
@@ -8490,6 +9034,7 @@
         "bodyChecked": true,
         "title": "종근당 전인화 락토핏 생유산균 골드 50포 2통 NEW 리뉴얼 보장균수 2배",
         "metaDescription": "종근당 전인화 락토핏 생유산균 골드 50포 2통 NEW 리뉴얼 보장균수 2배, 할인모음가: 29,800원, 평점: 0.0, 리뷰수: 0",
+        "textSample": "종근당 전인화 락토핏 생유산균 골드 50포 2통 NEW 리뉴얼 보장균수 2배 유산균>성인 유산균 \"/> 유산균>성인 유산균, 가격 : 29,800원\"/> 유산균>성인 유산균, 가격 : 29,800원\"/> 본문 바로가기 론앤장스토어 판매자만족 100% 응답률 100% 판매량 총 5점 중 1점 정보 보기 판매자 정보 판매자만족 고객이 판매자의 서비스를 평가한 리뷰 중, 4~5점의 긍정 평가의 비율 (최근 1년 기준) 24시간내 응답 상품 Q&A 문의에 24시간 내 응답한 비율 (최근 30일 기준) 판매량 판매자의 판매건수와 판매금액을 반영하여, 판매량을 5단계로 측정 (최근 365일 기준) 판매량은 5단계(가장 높은 판매량) ~ 1단계(낮은 판매량)로 노출 닫기 스토어 찜 찜하기 닫기 상품 카테고리 정보 홈 &gt; 건강식품 카테고리 목록 열기 브랜드패션 브랜드 여성의류 브랜드 여성신발 브랜드 여성가방 브랜드 남성의류 브랜드 남성신발 브랜드 남성가방 캐주얼/유니섹스 브랜드 언더웨어 브랜",
         "titleSimilarity": 83,
         "contentMatch": true,
         "priceSignal": true,
@@ -8517,6 +9062,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-02T04:10:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -8539,7 +9086,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -8571,6 +9120,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-02T05:20:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -8593,7 +9144,9 @@
         "purchaseActionSignal": false,
         "accessGuard": true,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -8625,6 +9178,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-02T05:20:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -8647,7 +9202,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -8679,6 +9236,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-02T05:20:00.000Z",
       "priorityScore": 100,
       "isHidden": false,
@@ -8701,7 +9260,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "status": 200,
@@ -8710,6 +9271,7 @@
         "bodyChecked": true,
         "title": "크리넥스 3겹 클린케어 30M 30롤 3팩 / 천연펄프 화장지 휴지 두루마리",
         "metaDescription": "크리넥스 3겹 클린케어 30M 30롤 3팩 / 천연펄프 화장지 휴지 두루마리, 할인모음가: 48,900원, 평점: 4.8, 리뷰수: 68",
+        "textSample": "크리넥스 3겹 클린케어 30M 30롤 3팩 / 천연펄프 화장지 휴지 두루마리 롤화장지>3겹이상 \"/> 롤화장지>3겹이상, 가격 : 48,900원\"/> 롤화장지>3겹이상, 가격 : 48,900원\"/> 본문 바로가기 스토어 뱃지 본사 유한킴벌리직영스토어 스토어 찜 찜하기 9,999+ 닫기 상품 카테고리 정보 홈 &gt; 화장지 카테고리 목록 열기 브랜드패션 브랜드 여성의류 브랜드 여성신발 브랜드 여성가방 브랜드 남성의류 브랜드 남성신발 브랜드 남성가방 캐주얼/유니섹스 브랜드 언더웨어 브랜드 여행가방 브랜드 지갑/벨트 브랜드 주얼리 브랜드 시계 브랜드 잡화/소품 수입명품 트렌드패션 여성의류 여성신발 여성가방 임부복/소품 남성의류 남성신발 남성가방 언더웨어/잠옷 여행가방/소품 지갑/벨트 주얼리 시계 패션잡화 뷰티 스킨케어 메이크업 선케어 클렌징/필링 남성화장품 향수 헤어케어 바디케어 네일케어 뷰티소품 식품 과일 채소 곡물 건과/견과 축산 수산 김치 반찬/젓갈 전통식품 가공식품 커피/생수/음",
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": true,
@@ -8737,6 +9299,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-02T05:20:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -8759,7 +9323,9 @@
         "purchaseActionSignal": false,
         "accessGuard": true,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -8791,6 +9357,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-02T05:20:00.000Z",
       "priorityScore": 100,
       "isHidden": false,
@@ -8813,7 +9381,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": true,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -8845,6 +9415,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-02T06:30:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -8867,7 +9439,9 @@
         "purchaseActionSignal": false,
         "accessGuard": true,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -8899,6 +9473,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-02T06:30:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -8921,7 +9497,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -8953,6 +9531,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-02T06:30:00.000Z",
       "priorityScore": 100,
       "isHidden": false,
@@ -8975,7 +9555,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "status": 200,
@@ -8984,6 +9566,7 @@
         "bodyChecked": true,
         "title": "쿨민트 마우스워시 750ml x 2개 리스테린/구강/청결/가글/케어/액상/입냄새/구취/예방/제거/양치/구강청결",
         "metaDescription": "쿨민트 마우스워시 750ml x 2개 리스테린/구강/청결/가글/케어/액상/입냄새/구취/예방/제거/양치/구강청결, 할인모음가: 33,650원, 평점: 1.0, 리뷰수: 1",
+        "textSample": "쿨민트 마우스워시 750ml x 2개 리스테린/구강/청결/가글/케어/액상/입냄새/구취/예방/제거/양치/구강청결 구강청정제/가글>구강청정제/가글 \"/> 구강청정제/가글>구강청정제/가글, 가격 : 33,650원\"/> 구강청정제/가글>구강청정제/가글, 가격 : 33,650원\"/> 본문 바로가기 학교장터몰 판매자만족 100% 응답률 - 판매량 총 5점 중 2점 정보 보기 판매자 정보 판매자만족 고객이 판매자의 서비스를 평가한 리뷰 중, 4~5점의 긍정 평가의 비율 (최근 1년 기준) 24시간내 응답 상품 Q&A 문의에 24시간 내 응답한 비율 (최근 30일 기준) 판매량 판매자의 판매건수와 판매금액을 반영하여, 판매량을 5단계로 측정 (최근 365일 기준) 판매량은 5단계(가장 높은 판매량) ~ 1단계(낮은 판매량)로 노출 닫기 스토어 찜 찜하기 닫기 상품 카테고리 정보 홈 &gt; 구강/면도 카테고리 목록 열기 브랜드패션 브랜드 여성의류 브랜드 여성신발 브랜드 여성가방 브랜드 남성의류 브",
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": true,
@@ -9011,6 +9594,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-02T06:30:00.000Z",
       "priorityScore": 100,
       "isHidden": false,
@@ -9033,7 +9618,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": true,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -9065,6 +9652,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-02T06:30:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -9087,7 +9676,9 @@
         "purchaseActionSignal": false,
         "accessGuard": true,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -9119,6 +9710,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-02T07:10:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -9141,7 +9734,9 @@
         "purchaseActionSignal": false,
         "accessGuard": true,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -9173,6 +9768,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-02T07:10:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -9195,7 +9792,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -9227,6 +9826,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-02T07:10:00.000Z",
       "priorityScore": 100,
       "isHidden": false,
@@ -9249,7 +9850,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "status": 200,
@@ -9258,6 +9861,7 @@
         "bodyChecked": true,
         "title": "크리넥스 3겹 순수소프트 쿠션 화장지 25m 30롤 2팩 (총 60롤)",
         "metaDescription": "크리넥스 3겹 순수소프트 쿠션 화장지 25m 30롤 2팩 (총 60롤), 할인모음가: 43,400원, 평점: 0.0, 리뷰수: 0",
+        "textSample": "크리넥스 3겹 순수소프트 쿠션 화장지 25m 30롤 2팩 (총 60롤) 롤화장지>3겹이상 \"/> 롤화장지>3겹이상, 가격 : 43,400원\"/> 롤화장지>3겹이상, 가격 : 43,400원\"/> 본문 바로가기 리치모 판매자만족 100% 응답률 - 판매량 총 5점 중 1점 정보 보기 판매자 정보 판매자만족 고객이 판매자의 서비스를 평가한 리뷰 중, 4~5점의 긍정 평가의 비율 (최근 1년 기준) 24시간내 응답 상품 Q&A 문의에 24시간 내 응답한 비율 (최근 30일 기준) 판매량 판매자의 판매건수와 판매금액을 반영하여, 판매량을 5단계로 측정 (최근 365일 기준) 판매량은 5단계(가장 높은 판매량) ~ 1단계(낮은 판매량)로 노출 닫기 스토어 찜 찜하기 닫기 상품 카테고리 정보 홈 &gt; 화장지 카테고리 목록 열기 브랜드패션 브랜드 여성의류 브랜드 여성신발 브랜드 여성가방 브랜드 남성의류 브랜드 남성신발 브랜드 남성가방 캐주얼/유니섹스 브랜드 언더웨어 브랜드 여행가방 브랜드 지갑",
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": true,
@@ -9285,6 +9889,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-02T07:10:00.000Z",
       "priorityScore": 100,
       "isHidden": false,
@@ -9307,7 +9913,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": true,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -9339,6 +9947,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-02T07:10:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -9361,7 +9971,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -9393,6 +10005,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-02T07:45:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -9415,7 +10029,9 @@
         "purchaseActionSignal": false,
         "accessGuard": true,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -9447,6 +10063,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-02T07:45:00.000Z",
       "priorityScore": 100,
       "isHidden": false,
@@ -9469,7 +10087,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "status": 200,
@@ -9478,6 +10098,7 @@
         "bodyChecked": true,
         "title": "페브리즈 섬유탈취제 강력탈취 다우니 실내건조 프레시클린 향 370ml 본품 3개",
         "metaDescription": "페브리즈 섬유탈취제 강력탈취 다우니 실내건조 프레시클린 향 370ml 본품 3개, 할인모음가: 18,170원, 평점: 4.0, 리뷰수: 1",
+        "textSample": "페브리즈 섬유탈취제 강력탈취 다우니 실내건조 프레시클린 향 370ml 본품 3개 탈취제>섬유탈취제 \"/> 탈취제>섬유탈취제, 가격 : 18,170원\"/> 탈취제>섬유탈취제, 가격 : 18,170원\"/> 본문 바로가기 MGDay 판매자만족 100% 응답률 100% 판매량 총 5점 중 2점 정보 보기 판매자 정보 판매자만족 고객이 판매자의 서비스를 평가한 리뷰 중, 4~5점의 긍정 평가의 비율 (최근 1년 기준) 24시간내 응답 상품 Q&A 문의에 24시간 내 응답한 비율 (최근 30일 기준) 판매량 판매자의 판매건수와 판매금액을 반영하여, 판매량을 5단계로 측정 (최근 365일 기준) 판매량은 5단계(가장 높은 판매량) ~ 1단계(낮은 판매량)로 노출 닫기 스토어 찜 찜하기 닫기 상품 카테고리 정보 홈 &gt; 세제/방향/살충 카테고리 목록 열기 브랜드패션 브랜드 여성의류 브랜드 여성신발 브랜드 여성가방 브랜드 남성의류 브랜드 남성신발 브랜드 남성가방 캐주얼/유니섹스 브랜드 언더웨어 ",
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": true,
@@ -9505,6 +10126,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-02T07:45:00.000Z",
       "priorityScore": 100,
       "isHidden": false,
@@ -9527,7 +10150,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": true,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -9559,6 +10184,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-02T07:45:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -9581,7 +10208,9 @@
         "purchaseActionSignal": false,
         "accessGuard": true,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,
@@ -9613,6 +10242,8 @@
       "validationStatus": "passed",
       "validationCode": "valid",
       "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
       "lastCheckedAt": "2026-06-02T07:45:00.000Z",
       "priorityScore": 99,
       "isHidden": false,
@@ -9635,7 +10266,9 @@
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": false
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": ""
       },
       "liveProbe": {
         "ok": false,

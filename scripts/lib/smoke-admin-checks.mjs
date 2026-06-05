@@ -56,7 +56,8 @@ export async function runAdminDashboardSmokeChecks() {
         text.includes("문제 노출") &&
         text.includes("노출 감사 JSON") &&
         text.includes("노출 감사 CSV") &&
-        text.includes("강한 실패 신호") &&
+        text.includes("노출 강한 실패") &&
+        text.includes("총 강한 실패") &&
         text.includes("접근 보호 신호") &&
         text.includes("상품별 노출 감사 샘플") &&
         text.includes("전체 행은 CSV로 내려받고"),

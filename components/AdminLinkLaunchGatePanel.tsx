@@ -16,7 +16,7 @@ export function AdminLinkLaunchGatePanel({ apiHref, csvHref, report }: AdminLink
           <p className="text-xs font-black text-sky-700">최종 링크 출시 게이트</p>
           <h2 className="mt-1 text-xl font-black text-slate-950">검색·품절·깨진 링크 0건을 제출 직전에 확인합니다</h2>
           <p className="mt-1 text-sm font-semibold leading-6 text-slate-500">
-            `reports/link-launch-gate.json` 기준으로 노출 상품, 검색 링크, 품절/종료 링크, invalid URL, live probe hard failure를 한 번에 판정합니다.
+            `reports/link-launch-gate.json` 기준으로 노출 상품, 검색 링크, 품절/종료 링크, invalid URL, 고객 노출 라이브 실패를 한 번에 판정합니다.
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -71,7 +71,7 @@ export function AdminLinkLaunchGatePanel({ apiHref, csvHref, report }: AdminLink
             깨진 링크 {report.actual.exposedBrokenLinks}개 · invalid URL {report.actual.exposedInvalidUrls}개 · hidden {report.actual.hiddenProducts}개
           </p>
           <p className="mt-2 text-xs font-bold leading-5 text-slate-600">
-            live hard failure {report.actual.liveHardFailures}개 · 품절 본문 신호 {report.actual.sellerUnavailableSignals}개
+            노출 라이브 실패 {report.actual.liveHardFailures}개 · 품절 본문 신호 {report.actual.sellerUnavailableSignals}개
           </p>
         </div>
         <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">

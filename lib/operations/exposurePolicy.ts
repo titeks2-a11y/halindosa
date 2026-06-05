@@ -39,7 +39,9 @@ export interface ExposurePolicyLiveProbeSummary {
 export interface ExposurePolicyLiveProbeReviewSummary {
   status: string;
   hardFailureCount: number;
+  exposedHardFailureCount: number;
   accessProtectedCount: number;
+  exposedSellerUnavailableSignals: number;
   sellerUnavailableSignals: number;
   interpretation: string;
 }
@@ -145,7 +147,9 @@ const fallbackReport: ExposurePolicyReport = {
   liveProbeReviewSummary: {
     status: "missing_report",
     hardFailureCount: 0,
+    exposedHardFailureCount: 0,
     accessProtectedCount: 0,
+    exposedSellerUnavailableSignals: 0,
     sellerUnavailableSignals: 0,
     interpretation: "Run npm run verify:links:live and npm run exposure:doctor to generate a live probe review summary."
   },
@@ -292,12 +296,20 @@ export function buildExposurePolicyCsv(report: ExposurePolicyReport) {
 
   const liveProbeRows = [
     {
+      key: "exposed_hard_failure_count",
+      label: "노출 강한 실패 신호",
+      count: report.liveProbeReviewSummary.exposedHardFailureCount ?? report.liveProbeReviewSummary.hardFailureCount,
+      status: (report.liveProbeReviewSummary.exposedHardFailureCount ?? report.liveProbeReviewSummary.hardFailureCount) > 0 ? "block" : "pass",
+      reason: "고객 노출 404/410/5xx/timeout/품절 본문",
+      action: (report.liveProbeReviewSummary.exposedHardFailureCount ?? report.liveProbeReviewSummary.hardFailureCount) > 0 ? "URL 숨김 또는 공식 상세 URL 보강" : "현 상태 유지"
+    },
+    {
       key: "hard_failure_count",
-      label: "강한 실패 신호",
+      label: "총 강한 실패 신호",
       count: report.liveProbeReviewSummary.hardFailureCount,
-      status: report.liveProbeReviewSummary.hardFailureCount > 0 ? "block" : "pass",
-      reason: "404/410/5xx/timeout/품절 본문",
-      action: report.liveProbeReviewSummary.hardFailureCount > 0 ? "URL 숨김 또는 공식 상세 URL 보강" : "현 상태 유지"
+      status: report.liveProbeReviewSummary.hardFailureCount > 0 ? "review" : "pass",
+      reason: "숨김 리뷰 큐를 포함한 404/410/5xx/품절 본문",
+      action: report.liveProbeReviewSummary.hardFailureCount > 0 ? "숨김 항목 상세 URL 교체 또는 종료 처리" : "현 상태 유지"
     },
     {
       key: "access_protected_count",
@@ -309,11 +321,11 @@ export function buildExposurePolicyCsv(report: ExposurePolicyReport) {
     },
     {
       key: "seller_unavailable_signals",
-      label: "품절 본문 신호",
-      count: report.liveProbeReviewSummary.sellerUnavailableSignals,
-      status: report.liveProbeReviewSummary.sellerUnavailableSignals > 0 ? "block" : "pass",
+      label: "노출 품절 본문 신호",
+      count: report.liveProbeReviewSummary.exposedSellerUnavailableSignals ?? report.liveProbeReviewSummary.sellerUnavailableSignals,
+      status: (report.liveProbeReviewSummary.exposedSellerUnavailableSignals ?? report.liveProbeReviewSummary.sellerUnavailableSignals) > 0 ? "block" : "pass",
       reason: report.liveProbeReviewSummary.interpretation,
-      action: report.liveProbeReviewSummary.sellerUnavailableSignals > 0 ? "availability=sold_out 처리" : "현 상태 유지"
+      action: (report.liveProbeReviewSummary.exposedSellerUnavailableSignals ?? report.liveProbeReviewSummary.sellerUnavailableSignals) > 0 ? "availability=sold_out 처리" : "현 상태 유지"
     },
     {
       key: "enabled",

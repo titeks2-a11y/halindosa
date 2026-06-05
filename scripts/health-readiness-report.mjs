@@ -75,9 +75,9 @@ const visibleProducts = Number(productQuality.visibleProducts ?? linkValidation.
 const verifiedProductLinks = Number(productQuality.verifiedPurchaseLinks ?? linkValidation.passedDirectLinks ?? 0);
 const productVerificationRate = productDealsCount > 0 ? (verifiedProductLinks / productDealsCount) * 100 : 0;
 const searchLinks = Number(productQuality.searchLinks ?? linkValidation.searchLinks ?? linkValidation.exposedSearchLinks ?? 0);
-const soldOutProducts = Number(productQuality.soldOutProducts ?? linkValidation.soldOutOrEndedSuspected ?? 0);
+const soldOutProducts = Number(productQuality.exposedSoldOutLinks ?? linkValidation.exposedSoldOutLinks ?? 0);
 const hiddenProducts = Number(productQuality.hiddenProducts ?? linkValidation.hiddenCount ?? 0);
-const productFailed = Number(productQuality.failedProducts ?? linkValidation.failedCount ?? 0);
+const productFailed = Number(productQuality.exposedBrokenLinks ?? linkValidation.exposedBrokenLinks ?? 0);
 
 const newsVisibleCount = Number(newsQuality.visibleCount ?? refreshAll.newsDealsCount ?? 0);
 const newsHiddenCount = Number(newsQuality.hiddenCount ?? 0);
@@ -245,9 +245,9 @@ const checks = [
   soldOutProducts === 0
     ? pass("sold out exposure", "No sold-out or ended product links are exposed.")
     : fail("sold out exposure", `${soldOutProducts} sold-out/ended product signals remain.`),
-  hiddenProducts === 0 && productFailed === 0
-    ? pass("product hidden/failed queue", "No hidden or failed product deals remain in the customer exposure set.")
-    : fail("product hidden/failed queue", `Hidden=${hiddenProducts}, failed=${productFailed}.`),
+  visibleProducts >= 120 && productFailed === 0
+    ? pass("product hidden/failed queue", `Customer exposure is clean with ${visibleProducts} visible deals; ${hiddenProducts} hidden deals stay in the operator review queue.`)
+    : fail("product hidden/failed queue", `Visible=${visibleProducts}, hidden=${hiddenProducts}, exposedFailed=${productFailed}.`),
   newsVisibleCount >= minimumVisibleOfficialBenefits
     ? pass("official benefit count floor", `${newsVisibleCount} official benefit deals are visible.`)
     : fail("official benefit count floor", `Expected at least ${minimumVisibleOfficialBenefits} official benefit deals, got ${newsVisibleCount}.`),

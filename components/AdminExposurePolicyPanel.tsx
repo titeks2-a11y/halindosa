@@ -77,7 +77,7 @@ export function AdminExposurePolicyPanel({ apiHref, csvHref, report }: AdminExpo
             라이브 HTTP 검증 {report.liveProbe.enabled ? `${report.liveProbe.checked}개 검사 · 실패 ${report.liveProbe.failed}개` : "미실행"} · timeout {report.liveProbe.timeoutMs}ms
           </p>
           <p className="mt-2 text-xs font-bold leading-5 text-emerald-900/75">
-            강한 실패 신호 {report.liveProbeReviewSummary.hardFailureCount}개 · 품절 본문 {report.liveProbeReviewSummary.sellerUnavailableSignals}개
+            노출 강한 실패 {report.liveProbeReviewSummary.exposedHardFailureCount ?? report.liveProbeReviewSummary.hardFailureCount}개 · 총 강한 실패 {report.liveProbeReviewSummary.hardFailureCount}개 · 노출 품절 본문 {report.liveProbeReviewSummary.exposedSellerUnavailableSignals ?? report.liveProbeReviewSummary.sellerUnavailableSignals}개
           </p>
         </div>
         <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
@@ -101,14 +101,15 @@ export function AdminExposurePolicyPanel({ apiHref, csvHref, report }: AdminExpo
           </p>
         </div>
       </div>
-      <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-6">
+      <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-7">
         {[
           ["라이브 모드", report.liveProbe.enabled ? "실행" : "정적", report.liveProbe.enabled ? "실제 HTTP/redirect 확인" : "정책 기반 검증"],
           ["검사/통과", `${report.liveProbe.checked}/${report.liveProbe.passed}`, "live probe 결과"],
-          ["강한 실패 신호", report.liveProbeReviewSummary.hardFailureCount, "404/410/5xx/timeout/품절"],
+          ["노출 강한 실패", report.liveProbeReviewSummary.exposedHardFailureCount ?? report.liveProbeReviewSummary.hardFailureCount, "고객 노출 404/410/5xx/timeout/품절"],
+          ["총 강한 실패", report.liveProbeReviewSummary.hardFailureCount, "숨김 리뷰 큐 포함"],
           ["접근 보호 신호", report.liveProbeReviewSummary.accessProtectedCount, "403/robots/access"],
           ["리다이렉트", report.liveProbe.redirected, `최종 URL 변경 ${report.liveProbe.finalUrlChanged}`],
-          ["품절 문구", report.liveProbe.unavailableText, "본문 감지"]
+          ["노출 품절 문구", report.liveProbeReviewSummary.exposedSellerUnavailableSignals ?? report.liveProbe.unavailableText, "고객 노출 본문 감지"]
         ].map(([label, value, description]) => (
           <div key={label} className="rounded-2xl border border-emerald-100 bg-white p-3">
             <p className="text-[11px] font-black text-emerald-700">{label}</p>

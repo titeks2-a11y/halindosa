@@ -602,7 +602,7 @@ await check("admin exposure policy api", async () => {
     "Exposure policy synthetic scenarios should block unsafe URLs"
   );
   assert(data.report?.liveProbe && typeof data.report.liveProbe.enabled === "boolean", "Exposure policy report should expose live probe summary");
-  assert(data.report?.liveProbeReviewSummary?.hardFailureCount === 0, "Exposure policy report should expose zero hard live probe failures");
+  assert(data.report?.liveProbeReviewSummary?.exposedHardFailureCount === 0, "Exposure policy report should expose zero customer-visible hard live probe failures");
   assert(typeof data.report.liveProbeReviewSummary.accessProtectedCount === "number", "Exposure policy report should expose access protected live probe count");
   assert(typeof data.report.liveProbe.timeoutMs === "number", "Exposure policy live probe summary should include timeout");
   assert(data.report?.liveProbeFailureReasonCounts && typeof data.report.liveProbeFailureReasonCounts === "object", "Exposure policy report should expose live probe failure reason counts");
@@ -620,7 +620,7 @@ await check("admin exposure policy csv", async () => {
   assert(text.includes("bad_exposed_item,none") && text.includes("hidden_item,"), "Exposure policy CSV should prove zero bad exposed items and list hidden review rows");
   assert(text.includes("audited_item,d001") && text.includes("source,originalUrl") && text.includes("priorityScore"), "Exposure policy CSV missing product-level audit rows");
   assert(text.includes("live_probe,enabled") && text.includes("liveProbeTimeoutMs"), "Exposure policy CSV missing live probe operation rows");
-  assert(text.includes("hard_failure_count") && text.includes("access_protected_count"), "Exposure policy CSV missing live probe review summary rows");
+  assert(text.includes("exposed_hard_failure_count") && text.includes("hard_failure_count") && text.includes("access_protected_count"), "Exposure policy CSV missing live probe review summary rows");
   assert(text.includes("live_probe_reason"), "Exposure policy CSV missing live probe failure reason rows");
   assert(text.includes("live_probe_host"), "Exposure policy CSV missing live probe failed host rows");
 });
@@ -639,7 +639,7 @@ await check("admin link launch gate api", async () => {
   assert(data.report?.actual?.exposedBrokenLinks === 0, "Link launch gate should expose zero broken links");
   assert(data.report?.actual?.exposedInvalidUrls === 0, "Link launch gate should expose zero invalid URLs");
   assert(data.report?.actual?.failedExposureItems === 0, "Link launch gate should have zero failed exposure items");
-  assert(data.report?.actual?.liveHardFailures === 0, "Link launch gate should have zero hard live probe failures");
+  assert(data.report?.actual?.liveHardFailures === 0, "Link launch gate should have zero customer-visible hard live probe failures");
   assert(data.report?.actual?.sellerUnavailableSignals === 0, "Link launch gate should have zero seller unavailable signals");
   assert(Array.isArray(data.report?.issues) && data.report.issues.length === 0, "Link launch gate should have no blocking issues");
 });

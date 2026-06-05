@@ -101,6 +101,59 @@ function hasAccessibleContentMismatch(probe) {
   return probe?.contentMatch === false && !isAccessProtectedProbe(probe);
 }
 
+function isHardLiveProbeFailure(probe) {
+  if (!probe) return false;
+  if (probe.reason === "sold_out_or_ended_text") return true;
+  return probe.status === 404 || probe.status === 410 || probe.status >= 500;
+}
+
+function getHardLiveFailureReason(probe) {
+  if (!isHardLiveProbeFailure(probe)) return "";
+  if (probe.reason === "sold_out_or_ended_text") return "live_sold_out_or_ended_signal";
+  if (probe.status) return `live_http_${probe.status}`;
+  return probe.reason || "live_hard_failure";
+}
+
+function classifyContentMismatch(probe) {
+  if (!hasAccessibleContentMismatch(probe)) return "";
+
+  const title = String(probe?.title ?? "");
+  const meta = String(probe?.metaDescription ?? "");
+  const text = `${title} ${meta}`.toLowerCase();
+
+  if (/naver sign in|login|로그인|sign in|인증/.test(text)) return "login_wall";
+  if (/종료이벤트|당첨발표|이벤트\s*종료|행사\s*종료|마감|ended|expired/.test(text)) return "ended_event_page";
+  if (/에러페이지|error|not found|페이지를 찾을 수|오류/.test(text)) return "error_page";
+  if (!title.trim() && !meta.trim() && !probe?.priceSignal && !probe?.purchaseActionSignal) return "blank_or_script_shell";
+  if (/나를 나답게 lfmall|^11번가$|^payco::이벤트$|배민아카데미/.test(text) && !probe?.priceSignal && !probe?.purchaseActionSignal) {
+    return "generic_landing_or_shell";
+  }
+  if ((title || meta) && Number(probe?.titleSimilarity ?? 0) < 18) return "wrong_product_or_benefit";
+
+  return "live_content_mismatch";
+}
+
+function getMismatchAction(category) {
+  switch (category) {
+    case "login_wall":
+      return "로그인 없이 접근 가능한 공식 혜택/상품 상세 URL로 교체";
+    case "ended_event_page":
+      return "진행 중인 이벤트 상세 URL로 교체하거나 종료 처리";
+    case "error_page":
+      return "오류 없는 공식 상품/이벤트 상세 URL로 교체";
+    case "blank_or_script_shell":
+      return "서버 렌더링 또는 메타 정보가 확인되는 상세 URL로 교체";
+    case "generic_landing_or_shell":
+      return "대표/목록/앱 쉘 페이지 대신 개별 상세 URL로 교체";
+    case "wrong_product_or_benefit":
+      return "페이지 title/meta가 상품명과 맞는 직접 상세 URL로 교체";
+    case "live_content_mismatch":
+      return "본문/메타가 상품명과 일치하는지 수동 재검증";
+    default:
+      return "";
+  }
+}
+
 function stripHtml(value) {
   return String(value ?? "")
     .replace(/<script[\s\S]*?<\/script>/gi, " ")
@@ -193,6 +246,7 @@ async function probeLiveUrl(urlValue, context = {}) {
     unavailableText: false,
     title: "",
     metaDescription: "",
+    textSample: "",
     titleSimilarity: 0,
     contentMatch: null,
     priceSignal: false,
@@ -229,6 +283,7 @@ async function probeLiveUrl(urlValue, context = {}) {
       const bodySignals = extractHtmlSignal(body);
       result.title = bodySignals.title;
       result.metaDescription = bodySignals.metaDescription;
+      result.textSample = bodySignals.textSample;
       result.priceSignal = bodySignals.priceSignal;
       result.purchaseActionSignal = bodySignals.purchaseActionSignal;
       result.unavailableText = bodySignals.unavailableText;
@@ -294,6 +349,7 @@ function recordLiveProbeResult(id, urlValue, probe) {
     bodyChecked: probe.bodyChecked,
     title: probe.title,
     metaDescription: probe.metaDescription,
+    textSample: probe.textSample,
     titleSimilarity: probe.titleSimilarity,
     contentMatch: probe.contentMatch,
     priceSignal: probe.priceSignal,
@@ -421,6 +477,8 @@ function buildAuditedItems({ dealIds, entryMap, metadataMap, dealMetadataMap, is
     const issueMessages = getIssueMessagesForId(id, issues);
     const liveProbeFailure = getLiveProbeFailureForId(id);
     const liveProbeDetail = getLiveProbeDetailForId(id);
+    const mismatchCategory = classifyContentMismatch(liveProbeFailure ?? liveProbeDetail);
+    const mismatchAction = getMismatchAction(mismatchCategory);
     const checks = {
       httpUrl: false,
       blockedHost: false,
@@ -437,7 +495,9 @@ function buildAuditedItems({ dealIds, entryMap, metadataMap, dealMetadataMap, is
       purchaseActionSignal: Boolean(liveProbeDetail?.purchaseActionSignal),
       accessGuard: Boolean(liveProbeDetail?.accessGuard),
       rateLimited: Boolean(isRateLimitedProbe(liveProbeFailure ?? liveProbeDetail)),
-      accessibleContentMismatch: Boolean(hasAccessibleContentMismatch(liveProbeFailure ?? liveProbeDetail))
+      accessibleContentMismatch: Boolean(hasAccessibleContentMismatch(liveProbeFailure ?? liveProbeDetail)),
+      mismatchCategory,
+      mismatchAction
     };
     let host = "";
     let finalUrl = urlValue;
@@ -464,9 +524,11 @@ function buildAuditedItems({ dealIds, entryMap, metadataMap, dealMetadataMap, is
     }
 
     const unavailableDetected = checks.unavailableText || liveProbeFailure?.reason === "sold_out_or_ended_text";
+    const hardLiveFailureReason = getHardLiveFailureReason(liveProbeFailure);
     const validationReasons = [
       ...issueMessages.map((issue) => issue.replace(`${id}: `, "")),
-      ...(checks.accessibleContentMismatch ? ["live_content_mismatch"] : [])
+      ...(hardLiveFailureReason ? [hardLiveFailureReason] : []),
+      ...(checks.accessibleContentMismatch ? [mismatchCategory || "live_content_mismatch"] : [])
     ];
     const validationStatus = validationReasons.length ? "failed" : "passed";
     const availability = unavailableDetected ? "sold_out" : validationStatus === "passed" ? "active" : "unknown";
@@ -513,6 +575,8 @@ function buildAuditedItems({ dealIds, entryMap, metadataMap, dealMetadataMap, is
       validationStatus,
       validationCode,
       validationReason: validationReasons.length ? validationReasons.join(" | ") : "passed",
+      mismatchCategory,
+      mismatchAction,
       lastCheckedAt: metadata?.checkedAt ?? "",
       priorityScore,
       isHidden,
@@ -539,6 +603,7 @@ function buildAuditedItems({ dealIds, entryMap, metadataMap, dealMetadataMap, is
               bodyChecked: liveProbeDetail?.bodyChecked ?? false,
               title: liveProbeDetail?.title ?? "",
               metaDescription: liveProbeDetail?.metaDescription ?? "",
+              textSample: liveProbeDetail?.textSample ?? "",
               titleSimilarity: liveProbeDetail?.titleSimilarity ?? null,
               contentMatch: liveProbeDetail?.contentMatch ?? null,
               priceSignal: liveProbeDetail?.priceSignal ?? false,
@@ -582,6 +647,10 @@ function getRevalidationReason(item) {
   if (item.liveProbe?.reason === "http_429") return "seller_rate_limited_review";
   if (item.liveProbe?.reason === "robots_or_access_blocked") return "seller_access_protected_review";
   return "routine_rotation_review";
+}
+
+function getIssueDealId(issue) {
+  return String(issue ?? "").match(/^(d\d+):/)?.[1] ?? "";
 }
 
 const dealIds = [...mockDeals.matchAll(/deal\("(d\d+)"/g)].map((match) => match[1]);
@@ -731,6 +800,11 @@ const exposureAudit = {
   exposedNonPublishableItems: auditedItemsWithEvidence.filter((item) => !item.isHidden && item.publishable !== true).length,
   averagePriorityScore: auditedItemsWithEvidence.length ? Math.round(auditedItemsWithEvidence.reduce((sum, item) => sum + item.priorityScore, 0) / auditedItemsWithEvidence.length) : 0
 };
+const hiddenAuditIds = new Set(auditedItemsWithEvidence.filter((item) => item.isHidden).map((item) => item.id));
+const exposedIssues = issues.filter((issue) => {
+  const issueDealId = getIssueDealId(issue);
+  return !issueDealId || !hiddenAuditIds.has(issueDealId);
+});
 const liveProbeReasonCounts = liveProbe.failures.reduce((counts, failure) => {
   counts.set(failure.reason, (counts.get(failure.reason) ?? 0) + 1);
   return counts;
@@ -754,11 +828,19 @@ const hardLiveProbeFailures = liveProbe.failures.filter((failure) => {
   if (failure.reason === "sold_out_or_ended_text") return true;
   return failure.status === 404 || failure.status === 410 || failure.status >= 500;
 });
+const hardLiveProbeFailureIds = new Set(hardLiveProbeFailures.map((failure) => failure.id));
+const exposedHardLiveProbeFailures = auditedItemsWithEvidence.filter((item) => !item.isHidden && hardLiveProbeFailureIds.has(item.id));
 const transientLiveProbeFailures = liveProbe.failures.filter((failure) => failure.reason === "timeout" || failure.reason === "request_failed");
 const verificationEvidenceCounts = auditedItemsWithEvidence.reduce((counts, item) => {
   counts.set(item.verificationEvidenceTier, (counts.get(item.verificationEvidenceTier) ?? 0) + 1);
   return counts;
 }, new Map());
+const mismatchCategoryCounts = auditedItemsWithEvidence
+  .filter((item) => item.mismatchCategory)
+  .reduce((counts, item) => {
+    counts.set(item.mismatchCategory, (counts.get(item.mismatchCategory) ?? 0) + 1);
+    return counts;
+  }, new Map());
 const revalidationQueue = auditedItemsWithEvidence
   .filter((item) => item.revalidationPriority >= 45)
   .sort((a, b) => b.revalidationPriority - a.revalidationPriority || b.priorityScore - a.priorityScore || a.id.localeCompare(b.id))
@@ -785,6 +867,8 @@ const liveProbeReviewSummary = {
         ? "access_protected_review"
         : "clear",
   hardFailureCount: hardLiveProbeFailures.length,
+  exposedHardFailureCount: exposedHardLiveProbeFailures.length,
+  exposedSellerUnavailableSignals: auditedItemsWithEvidence.filter((item) => !item.isHidden && item.liveProbe?.reason === "sold_out_or_ended_text").length,
   transientNetworkCount: transientLiveProbeFailures.length,
   accessProtectedCount: liveProbe.robotsBlocked,
   sellerUnavailableSignals: liveProbe.unavailableText,
@@ -816,9 +900,9 @@ const launchGate = {
     exposureAudit.exposedBrokenLinks === 0 &&
     exposureAudit.exposedInvalidUrls === 0 &&
     exposureAudit.exposedNonPublishableItems === 0 &&
-    liveProbeReviewSummary.hardFailureCount === 0 &&
-    liveProbeReviewSummary.sellerUnavailableSignals === 0 &&
-    issues.length === 0,
+    liveProbeReviewSummary.exposedHardFailureCount === 0 &&
+    liveProbeReviewSummary.exposedSellerUnavailableSignals === 0 &&
+    exposedIssues.length === 0,
   criteria: {
     exposedSearchLinks: 0,
     exposedSoldOutLinks: 0,
@@ -834,8 +918,8 @@ const launchGate = {
     exposedBrokenLinks: exposureAudit.exposedBrokenLinks,
     exposedInvalidUrls: exposureAudit.exposedInvalidUrls,
     exposedNonPublishableItems: exposureAudit.exposedNonPublishableItems,
-    liveHardFailures: liveProbeReviewSummary.hardFailureCount,
-    sellerUnavailableSignals: liveProbeReviewSummary.sellerUnavailableSignals
+    liveHardFailures: liveProbeReviewSummary.exposedHardFailureCount,
+    sellerUnavailableSignals: liveProbeReviewSummary.exposedSellerUnavailableSignals
   }
 };
 
@@ -857,6 +941,7 @@ const report = {
   communitySuspected: excludedReasonCounts.get("community_source") ?? 0,
   manualReviewNeeded: excludedReasonCounts.get("manual_review_needed") ?? 0,
   hiddenCount: exposureAudit.hiddenItems,
+  exposedIssues,
   exposedSearchLinks: exposureAudit.exposedSearchLinks,
   exposedSoldOutLinks: exposureAudit.exposedSoldOutLinks,
   exposedBrokenLinks: exposureAudit.exposedBrokenLinks,
@@ -897,6 +982,7 @@ const report = {
     manualPatternVerified: verificationEvidenceCounts.get("manual_pattern_verified") ?? 0,
     blocked: verificationEvidenceCounts.get("blocked") ?? 0
   },
+  mismatchCategoryCounts: Object.fromEntries([...mismatchCategoryCounts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))),
   revalidationQueue,
   policy: {
     version: linkQualityPolicy.version,
@@ -916,6 +1002,7 @@ const report = {
   liveProbeReasonCounts: Object.fromEntries([...liveProbeReasonCounts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))),
   liveProbeHostFailureCounts: Object.fromEntries([...liveProbeHostFailureCounts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).slice(0, 30)),
   hardLiveProbeFailures,
+  exposedHardLiveProbeFailures,
   transientLiveProbeFailures,
   auditedItems: auditedItemsWithEvidence,
   excludedReasonCounts: Object.fromEntries([...excludedReasonCounts.entries()].sort(([a], [b]) => a.localeCompare(b))),
@@ -943,6 +1030,8 @@ writeFileSync(
           validationStatus: item.validationStatus,
           validationReason: item.validationReason,
           validationCode: item.validationCode,
+          mismatchCategory: item.mismatchCategory,
+          mismatchAction: item.mismatchAction,
           evidenceTier: item.verificationEvidenceTier,
           revalidationReason: item.revalidationReason,
           finalUrl: item.finalUrl
@@ -982,7 +1071,8 @@ Generated: ${report.generatedAt}
 | Live probe robots/access 차단 | ${report.liveProbe.robotsBlocked} |
 | Live probe rate limit | ${report.liveProbe.rateLimited} |
 | Live probe timeout | ${report.liveProbe.timeout} |
-| Live probe hard failure | ${report.liveProbeReviewSummary.hardFailureCount} |
+| Live probe exposed hard failure | ${report.liveProbeReviewSummary.exposedHardFailureCount} |
+| Live probe hidden hard failure review | ${Math.max(0, report.liveProbeReviewSummary.hardFailureCount - report.liveProbeReviewSummary.exposedHardFailureCount)} |
 | Live probe transient network | ${report.liveProbeReviewSummary.transientNetworkCount} |
 | Live body 확인 | ${report.contentSignalSummary.bodyChecked} |
 | Live 제목/메타 확인 | ${report.contentSignalSummary.titleMetaChecked} |
@@ -1004,7 +1094,8 @@ Generated: ${report.generatedAt}
 
 - 상태: ${report.liveProbeReviewSummary.status}
 - 해석: ${report.liveProbeReviewSummary.interpretation}
-- 404/410/5xx/품절 본문 같은 강한 실패 신호: ${report.liveProbeReviewSummary.hardFailureCount}
+- 고객에게 노출되는 404/410/5xx/품절 본문 같은 강한 실패 신호: ${report.liveProbeReviewSummary.exposedHardFailureCount}
+- 숨김 처리 후 보정 큐에 남은 강한 실패 신호: ${Math.max(0, report.liveProbeReviewSummary.hardFailureCount - report.liveProbeReviewSummary.exposedHardFailureCount)}
 - timeout/request_failed 같은 일시 네트워크 신호: ${report.liveProbeReviewSummary.transientNetworkCount}
 - 쇼핑몰 접근 보호 또는 robots/access 차단: ${report.liveProbeReviewSummary.accessProtectedCount}
 - 품절/판매종료 본문 감지: ${report.liveProbeReviewSummary.sellerUnavailableSignals}

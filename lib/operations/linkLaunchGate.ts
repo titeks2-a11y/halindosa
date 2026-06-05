@@ -47,6 +47,8 @@ export interface LinkLaunchGateReport {
   liveProbeReviewSummary: {
     status?: string;
     hardFailureCount?: number;
+    exposedHardFailureCount?: number;
+    exposedSellerUnavailableSignals?: number;
     transientNetworkCount?: number;
     accessProtectedCount?: number;
     sellerUnavailableSignals?: number;
@@ -123,6 +125,10 @@ const fallbackReport: LinkLaunchGateReport = {
   validationStatusCounts: {},
   liveProbeReviewSummary: {
     status: "missing_report",
+    hardFailureCount: 0,
+    exposedHardFailureCount: 0,
+    exposedSellerUnavailableSignals: 0,
+    sellerUnavailableSignals: 0,
     interpretation: "Run npm run link:launch:gate to generate the final launch link gate report."
   },
   failedExposureItems: [],
@@ -155,7 +161,7 @@ export function buildLinkLaunchGateCsv(report: LinkLaunchGateReport) {
     ["exposed_invalid_urls", "잘못된 URL 노출", report.actual.exposedInvalidUrls, report.actual.exposedInvalidUrls === 0 ? "pass" : "block", "http/https가 아닌 finalUrl", "URL 정규화"],
     ["failed_exposure_items", "실패 노출 행", report.actual.failedExposureItems, report.actual.failedExposureItems === 0 ? "pass" : "block", "최종 노출 조건 위반 행", "CSV로 행별 조치"],
     ["hidden_products", "숨김 상품", report.actual.hiddenProducts, report.actual.hiddenProducts === 0 ? "pass" : "review", "숨김 처리된 상품", "복구 전 재검증"],
-    ["live_hard_failures", "라이브 강한 실패", report.actual.liveHardFailures, report.actual.liveHardFailures === 0 ? "pass" : "block", "404/410/5xx/품절 본문", "판매처 상세 URL 교체"],
+    ["live_hard_failures", "노출 라이브 강한 실패", report.actual.liveHardFailures, report.actual.liveHardFailures === 0 ? "pass" : "block", "고객 노출 404/410/5xx/품절 본문", "판매처 상세 URL 교체"],
     ["seller_unavailable_signals", "품절 본문 신호", report.actual.sellerUnavailableSignals, report.actual.sellerUnavailableSignals === 0 ? "pass" : "block", "판매처 품절/종료 문구", "노출 차단"]
   ].map(([key, label, count, status, reason, action]) => ({
     section: "summary",
@@ -199,8 +205,8 @@ export function buildLinkLaunchGateCsv(report: LinkLaunchGateReport) {
       section: "policy",
       key: "live_probe_review",
       label: "라이브 검증 해석",
-      status: Number(report.liveProbeReviewSummary.hardFailureCount ?? 0) === 0 ? "pass" : "block",
-      count: Number(report.liveProbeReviewSummary.hardFailureCount ?? 0),
+      status: Number(report.liveProbeReviewSummary.exposedHardFailureCount ?? report.liveProbeReviewSummary.hardFailureCount ?? 0) === 0 ? "pass" : "block",
+      count: Number(report.liveProbeReviewSummary.exposedHardFailureCount ?? report.liveProbeReviewSummary.hardFailureCount ?? 0),
       reason: report.liveProbeReviewSummary.interpretation ?? "",
       action: "hard failure는 즉시 숨김, access protected는 공식 API/제휴 feed 또는 실기기 확인",
       id: "",

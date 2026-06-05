@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-05T13:39:16.339Z",
+  "generatedAt": "2026-06-05T14:27:56.168Z",
   "schemaVersion": 1,
   "liveProbe": false,
   "deals": [],
@@ -104,7 +104,6 @@
     "d113",
     "d114",
     "d115",
-    "d116",
     "d117",
     "d118",
     "d119",
@@ -141,105 +140,112 @@
       "title": "d008",
       "provider": "manual",
       "finalUrl": "https://www.lfmall.co.kr/app/product/E3GKXX00844",
-      "reason": "live_content_mismatch"
+      "reason": "generic_landing_or_shell"
     },
     {
       "id": "d013",
       "title": "d013",
       "provider": "manual",
       "finalUrl": "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0026982316",
-      "reason": "live_content_mismatch"
+      "reason": "blank_or_script_shell"
     },
     {
       "id": "d026",
       "title": "d026",
       "provider": "manual",
       "finalUrl": "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0019390089",
-      "reason": "live_content_mismatch"
+      "reason": "blank_or_script_shell"
     },
     {
       "id": "d042",
       "title": "d042",
       "provider": "manual",
       "finalUrl": "https://gs25.gsretail.com/gscvs/ko/customer-engagement/event/detail/publishing?eventCode=8842722233888&pageNum=1",
-      "reason": "live_content_mismatch"
+      "reason": "ended_event_page"
     },
     {
       "id": "d043",
       "title": "d043",
       "provider": "manual",
       "finalUrl": "https://www.aliexpress.com/item/1005010151430718.html",
-      "reason": "live_content_mismatch"
+      "reason": "blank_or_script_shell"
     },
     {
       "id": "d053",
       "title": "d053",
       "provider": "manual",
       "finalUrl": "https://new-m.pay.naver.com/member/benefit/event",
-      "reason": "live_content_mismatch"
+      "reason": "login_wall"
     },
     {
       "id": "d056",
       "title": "d056",
       "provider": "manual",
       "finalUrl": "https://events.payco.com/app/share.nhn?evntPageNm=tmzvlWb",
-      "reason": "live_content_mismatch"
+      "reason": "wrong_product_or_benefit"
     },
     {
       "id": "d058",
       "title": "d058",
       "provider": "manual",
       "finalUrl": "https://academy.baemin.com/event/list",
-      "reason": "live_content_mismatch"
+      "reason": "generic_landing_or_shell"
     },
     {
       "id": "d059",
       "title": "d059",
       "provider": "manual",
       "finalUrl": "https://www.amoremall.com/kr/ko/event",
-      "reason": "live_content_mismatch"
+      "reason": "error_page"
     },
     {
       "id": "d060",
       "title": "d060",
       "provider": "manual",
       "finalUrl": "https://cgv.co.kr/evt/eventDetail?evntNo=202602235927",
-      "reason": "live_content_mismatch"
+      "reason": "wrong_product_or_benefit"
     },
     {
       "id": "d063",
       "title": "d063",
       "provider": "manual",
       "finalUrl": "https://front.homeplus.co.kr/event",
-      "reason": "live_content_mismatch"
+      "reason": "blank_or_script_shell"
     },
     {
       "id": "d070",
       "title": "d070",
       "provider": "manual",
       "finalUrl": "https://www.i-challenge.co.kr/Event/",
-      "reason": "live_content_mismatch"
+      "reason": "wrong_product_or_benefit"
     },
     {
       "id": "d084",
       "title": "d084",
       "provider": "manual",
       "finalUrl": "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0023645183",
-      "reason": "live_content_mismatch"
+      "reason": "blank_or_script_shell"
     },
     {
       "id": "d085",
       "title": "d085",
       "provider": "manual",
       "finalUrl": "https://www.11st.co.kr/products/2635032094",
-      "reason": "live_content_mismatch"
+      "reason": "wrong_product_or_benefit"
     },
     {
       "id": "d112",
       "title": "d112",
       "provider": "manual",
       "finalUrl": "https://www.musinsa.com/products/4011120",
-      "reason": "live_content_mismatch"
+      "reason": "wrong_product_or_benefit"
+    },
+    {
+      "id": "d116",
+      "title": "d116",
+      "provider": "manual",
+      "finalUrl": "https://www.musinsa.com/app/campaign/index/benefit",
+      "reason": "wrong_product_or_benefit"
     }
   ],
   "providerStats": [
@@ -252,8 +258,8 @@
       "errors": [],
       "normalizedCount": 140,
       "insertedCount": 0,
-      "updatedCount": 125,
-      "hiddenCount": 15,
+      "updatedCount": 124,
+      "hiddenCount": 16,
       "failedCount": 0
     },
     {

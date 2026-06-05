@@ -1,6 +1,6 @@
 # 할인도사 Search Report
 
-Generated: 2026-06-05T13:40:22.999Z
+Generated: 2026-06-05T14:29:23.747Z
 Status: PASS
 
 ## Summary

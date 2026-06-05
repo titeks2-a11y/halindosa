@@ -186,10 +186,14 @@ const campaignRows = campaignProfiles.map((profile) => ({
 }));
 const queueRows = campaignRows.reduce((sum, campaign) => sum + campaign.rowCount, 0);
 const pushConfigured = process.env.PUSH_SEND_ENABLED === "true" && Boolean(process.env.FCM_SERVER_KEY?.trim());
+const totalProductDeals = Number(productQuality.totalProducts ?? refreshAll.productDealsCount ?? 0);
+const visibleProductDeals = Number(
+  productQuality.visibleProducts ?? refreshAll.visibleProductDealsCount ?? refreshAll.publishableProductDealsCount ?? refreshAll.productDealsCount ?? 0
+);
 const checks = [
-  Number(productQuality.visibleProducts ?? refreshAll.productDealsCount ?? 0) >= 140
-    ? pass("verified product base", "검증 상품 140개 이상을 알림 후보로 사용할 수 있습니다.")
-    : fail("verified product base", "검증 상품 알림 후보가 140개 미만입니다."),
+  totalProductDeals >= 140 && visibleProductDeals >= 120
+    ? pass("verified product base", `전체 감사 상품 ${totalProductDeals}개, 고객 노출 가능 상품 ${visibleProductDeals}개를 알림 후보로 사용할 수 있습니다.`)
+    : fail("verified product base", `전체 감사 상품 ${totalProductDeals}개, 고객 노출 가능 상품 ${visibleProductDeals}개입니다. 노출 가능 상품은 120개 이상이어야 합니다.`),
   Number(newsQuality.visibleCount ?? refreshAll.newsDealsCount ?? 0) >= 40
     ? pass("official benefit base", "공식 혜택 40개 이상을 알림 후보로 사용할 수 있습니다.")
     : fail("official benefit base", "공식 혜택 알림 후보가 40개 미만입니다."),
@@ -243,7 +247,8 @@ const report = {
     configured: pushConfigured,
     requiredEnv: ["PUSH_SEND_ENABLED=true", "FCM_SERVER_KEY"]
   },
-  productDeals: Number(productQuality.visibleProducts ?? refreshAll.productDealsCount ?? productDeals.length),
+  productDeals: visibleProductDeals,
+  totalProductDeals,
   officialBenefits: Number(newsQuality.visibleCount ?? refreshAll.newsDealsCount ?? visibleNewsDeals.length),
   totalCampaigns: campaignRows.length,
   enabledCampaigns: campaignRows.filter((campaign) => campaign.rowCount > 0).length,

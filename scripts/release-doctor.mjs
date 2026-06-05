@@ -1629,7 +1629,7 @@ function checkRefreshDealPipeline() {
     if (report.policy?.source !== "data/linkQualityPolicy.json") issues.push("refresh report should record shared link policy source");
     if (!report.revalidationQueue || typeof report.revalidationQueue.total !== "number") issues.push("refresh report should include report-driven revalidation queue evidence");
     if ((report.reports?.linkValidation?.searchOrCategorySuspected ?? 0) !== 0) issues.push("refresh report still has search/category links");
-    if ((report.reports?.linkValidation?.soldOutOrEndedSuspected ?? 0) !== 0) issues.push("refresh report still has sold-out/ended link signals");
+    if ((report.reports?.linkValidation?.exposedSoldOutLinks ?? 0) !== 0) issues.push("refresh report still has exposed sold-out/ended link signals");
   }
 
   if (!existsSync(snapshotPath)) issues.push("data/refreshedDeals.json missing");
@@ -1757,14 +1757,16 @@ function checkRefreshDealPipeline() {
     !exposureReport.liveProbe ||
     typeof exposureReport.liveProbe.enabled !== "boolean" ||
     !exposureReport.liveProbeReviewSummary ||
-    (exposureReport.liveProbeReviewSummary.hardFailureCount ?? 1) !== 0 ||
+    (exposureReport.liveProbeReviewSummary.exposedHardFailureCount ?? exposureReport.liveProbeReviewSummary.hardFailureCount ?? 1) !== 0 ||
     !exposureReport.liveProbeFailureReasonCounts ||
     !exposureReport.liveProbeHostFailureCounts ||
     !adminPage.includes("노출 정책 감사") ||
     !adminPage.includes("노출 감사 CSV") ||
     !adminPage.includes("상품별 노출 감사 샘플") ||
     !adminPage.includes("라이브 HTTP 검증") ||
-    !adminPage.includes("강한 실패 신호") ||
+    !adminPage.includes("노출 강한 실패") ||
+    !adminPage.includes("총 강한 실패") ||
+    !adminPage.includes("노출 품절 본문") ||
     !adminPage.includes("접근 보호 신호") ||
     !adminPage.includes("라이브 실패 사유 분포") ||
     !adminPage.includes("reports/exposure-policy.json") ||

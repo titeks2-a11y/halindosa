@@ -2,7 +2,7 @@
 
 이 문서는 상품 링크, 공식 혜택, refresh 파이프라인이 실제 출시 운영 기준을 만족하는지 요약합니다.
 
-- 생성 시각: 2026-06-05T13:40:12.136Z
+- 생성 시각: 2026-06-05T14:29:12.744Z
 - 운영 준비 점수: 100/100
 - 상태: PASS
 
@@ -94,7 +94,7 @@
 | product verification rate | PASS | 100% product links are verified. |
 | search link exposure | PASS | No search/result URLs are exposed. |
 | sold out exposure | PASS | No sold-out or ended product links are exposed. |
-| product hidden/failed queue | PASS | No hidden or failed product deals remain in the customer exposure set. |
+| product hidden/failed queue | PASS | Customer exposure is clean with 124 visible deals; 16 hidden deals stay in the operator review queue. |
 | official benefit count floor | PASS | 43 official benefit deals are visible. |
 | official benefit category coverage | PASS | All 10 required categories have at least 2 visible benefits. |
 | official benefit hidden/failed queue | PASS | No hidden, expired, non-official, or failed official benefit links are exposed. |

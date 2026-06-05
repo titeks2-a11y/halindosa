@@ -889,6 +889,8 @@ export async function checkOperationalDataSurfaces() {
     "validationStatus",
     "validationReason",
     "validationCode",
+    "mismatchCategory",
+    "mismatchAction",
     "lastCheckedAt",
     "priorityScore",
     "isHidden",
@@ -902,6 +904,9 @@ export async function checkOperationalDataSurfaces() {
   }
   if (!linkReport.exposureAudit || linkReport.exposureAudit.searchItems !== 0 || linkReport.exposureAudit.soldOutItems !== 0) {
     linkPolicyIssues.push("link-validation report should include zero-search, zero-sold-out exposureAudit");
+  }
+  if (!linkReport.mismatchCategoryCounts || typeof linkReport.mismatchCategoryCounts !== "object") {
+    linkPolicyIssues.push("link-validation report should summarize hidden content mismatch categories");
   }
   if ((linkReport.exposureAudit?.exposedNonPublishableItems ?? 0) !== 0) {
     linkPolicyIssues.push("link-validation report should include zero non-publishable exposed items");
@@ -947,6 +952,7 @@ export async function checkOperationalDataSurfaces() {
   if (
     !linkReport.liveProbeReviewSummary ||
     !("hardFailureCount" in linkReport.liveProbeReviewSummary) ||
+    !("exposedHardFailureCount" in linkReport.liveProbeReviewSummary) ||
     !("transientNetworkCount" in linkReport.liveProbeReviewSummary) ||
     !("accessProtectedCount" in linkReport.liveProbeReviewSummary) ||
     !linkReport.liveProbeReasonCounts ||
@@ -954,8 +960,11 @@ export async function checkOperationalDataSurfaces() {
   ) {
     linkPolicyIssues.push("link-validation report should separate hard live failures from seller access protections");
   }
-  if ((linkReport.liveProbeReviewSummary?.hardFailureCount ?? 0) !== 0 || (linkReport.liveProbeReviewSummary?.sellerUnavailableSignals ?? 0) !== 0) {
-    linkPolicyIssues.push("link-validation live probe should have zero hard failures and zero unavailable-text signals for launch");
+  if (
+    (linkReport.liveProbeReviewSummary?.exposedHardFailureCount ?? 0) !== 0 ||
+    (linkReport.liveProbeReviewSummary?.exposedSellerUnavailableSignals ?? linkReport.liveProbeReviewSummary?.sellerUnavailableSignals ?? 0) !== 0
+  ) {
+    linkPolicyIssues.push("link-validation live probe should have zero exposed hard failures and zero unavailable-text signals for launch");
   }
   if (!linkReport.liveProbe?.enabled || (linkReport.liveProbe?.checked ?? 0) < (linkReport.totalDeals ?? 0)) {
     linkPolicyIssues.push("link-validation report should include a non-strict live probe pass over every curated deal before release evidence is accepted");
@@ -970,6 +979,8 @@ export async function checkOperationalDataSurfaces() {
   }
   if (
     !verifyLinksScript.includes("extractHtmlSignal") ||
+    !verifyLinksScript.includes("classifyContentMismatch") ||
+    !verifyLinksScript.includes("mismatchCategoryCounts") ||
     !verifyLinksScript.includes("getContentSimilarity") ||
     !verifyLinksScript.includes("contentSignalSummary") ||
     !verifyLinksScript.includes("verificationEvidenceSummary") ||

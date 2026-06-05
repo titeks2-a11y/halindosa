@@ -50,6 +50,7 @@ export function AdminDealQualityPanel({ token, initialReport, initialLinkValidat
 
   const failureReasons = Object.entries(report.failureReasons ?? {}).sort((a, b) => b[1] - a[1]);
   const evidenceRows = Object.entries(linkValidation.verificationEvidenceSummary.counts).sort((a, b) => b[1] - a[1]);
+  const mismatchRows = Object.entries(linkValidation.mismatchCategoryCounts).sort((a, b) => b[1] - a[1]);
   const revalidationPreview = linkValidation.revalidationQueue.slice(0, 6);
 
   return (
@@ -210,6 +211,22 @@ export function AdminDealQualityPanel({ token, initialReport, initialLinkValidat
           </div>
         </div>
       </div>
+
+      {mismatchRows.length ? (
+        <div className="mt-4 rounded-2xl border border-amber-100 bg-amber-50 p-4">
+          <p className="text-sm font-black text-amber-950">숨김 링크 보정 유형</p>
+          <p className="mt-1 text-xs font-bold leading-5 text-amber-800">
+            고객 화면에서는 제외되며, 유형별로 공개 상세 URL 교체 또는 종료 처리가 필요합니다.
+          </p>
+          <div className="mt-3 flex flex-wrap gap-2">
+            {mismatchRows.map(([category, count]) => (
+              <span key={category} className="rounded-full bg-white px-3 py-1.5 text-xs font-black text-amber-900 shadow-sm">
+                {category} {count}
+              </span>
+            ))}
+          </div>
+        </div>
+      ) : null}
     </section>
   );
 }

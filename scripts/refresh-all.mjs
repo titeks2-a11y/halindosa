@@ -35,7 +35,7 @@ function readJson(path, fallback) {
 const steps = [
   runStep("refresh:deals", process.execPath, ["scripts/refresh-deals.mjs"]),
   runStep("refresh:news", process.execPath, ["scripts/refresh-news-deals.mjs"]),
-  runStep("verify:links", process.execPath, ["scripts/verify-product-links.mjs"]),
+  runStep("verify:links", process.execPath, ["scripts/verify-product-links-live.mjs", "--body"]),
   runStep("verify:products", process.execPath, ["scripts/verify-products.mjs"]),
   runStep("verify:news", process.execPath, ["scripts/verify-news-deals.mjs"])
 ];
@@ -49,7 +49,10 @@ const ok = steps.every((step) => step.ok) && newsDeals.ok !== false;
 const report = {
   ok,
   generatedAt,
-  productDealsCount: productQuality.visibleProducts ?? productQuality.totalProducts ?? refreshDeals.visibleCount ?? 0,
+  productDealsCount: productQuality.totalProducts ?? linkValidation.totalDeals ?? refreshDeals.totalCount ?? refreshDeals.visibleCount ?? 0,
+  visibleProductDealsCount: productQuality.visibleProducts ?? linkValidation.visibleDeals ?? refreshDeals.visibleCount ?? 0,
+  publishableProductDealsCount: linkValidation.exposureAudit?.publishableItems ?? productQuality.visibleProducts ?? refreshDeals.visibleCount ?? 0,
+  hiddenProductDealsCount: productQuality.hiddenProducts ?? linkValidation.excludedDeals ?? refreshDeals.hiddenCount ?? 0,
   newsDealsCount: newsDeals.visibleCount ?? 0,
   insertedCount: (refreshDeals.insertedCount ?? 0) + (newsDeals.visibleCount ?? 0),
   updatedCount: refreshDeals.updatedCount ?? 0,

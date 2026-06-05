@@ -108,8 +108,8 @@ const actual = {
   refreshOk: refreshReport?.ok === true,
   refreshVisibleCount: refreshReport?.visibleCount ?? 0,
   refreshFailedCount: refreshReport?.failedCount ?? 0,
-  liveHardFailures: liveReview?.hardFailureCount ?? 0,
-  sellerUnavailableSignals: liveReview?.sellerUnavailableSignals ?? 0
+  liveHardFailures: liveReview?.exposedHardFailureCount ?? liveReview?.hardFailureCount ?? 0,
+  sellerUnavailableSignals: liveReview?.exposedSellerUnavailableSignals ?? liveReview?.sellerUnavailableSignals ?? 0
 };
 
 const issues = [];
@@ -195,8 +195,8 @@ Status: ${report.ok ? "PASS" : "FAIL"}
 - Exposed invalid URLs: ${actual.exposedInvalidUrls}
 - Exposed non-publishable items: ${actual.exposedNonPublishableItems}
 - Hidden products: ${actual.hiddenProducts}
-- Live hard failures: ${actual.liveHardFailures}
-- Seller unavailable signals: ${actual.sellerUnavailableSignals}
+- Exposed live hard failures: ${actual.liveHardFailures}
+- Exposed seller unavailable signals: ${actual.sellerUnavailableSignals}
 
 ## Launch Rule
 

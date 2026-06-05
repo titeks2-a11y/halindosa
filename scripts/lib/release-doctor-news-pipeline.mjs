@@ -184,8 +184,11 @@ export function checkNewsDealPipeline() {
     }
   }
 
-  for (const step of ["refresh-deals.mjs", "refresh-news-deals.mjs", "verify-product-links.mjs", "verify-products.mjs", "verify-news-deals.mjs"]) {
+  for (const step of ["refresh-deals.mjs", "refresh-news-deals.mjs", "verify-product-links-live.mjs", "verify-products.mjs", "verify-news-deals.mjs"]) {
     if (!refreshAllScript.includes(step)) issues.push(`refresh:all missing ${step}`);
+  }
+  if (!refreshAllScript.includes('"--body"')) {
+    issues.push("refresh:all should run product link verification with live body probing");
   }
   if (
     !newsProvider.includes("createJsonFeedNewsProvider") ||

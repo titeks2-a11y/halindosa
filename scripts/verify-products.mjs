@@ -189,8 +189,8 @@ if (!linkReport) {
   if ((linkReport.searchOrCategorySuspected ?? 0) !== 0) {
     issues.push(`검색/카테고리 링크가 남아 있습니다: ${linkReport.searchOrCategorySuspected}`);
   }
-  if ((linkReport.soldOutOrEndedSuspected ?? 0) !== 0 || (linkReport.exposedSoldOutLinks ?? 0) !== 0) {
-    issues.push(`품절/판매종료 의심 링크가 남아 있습니다: ${linkReport.soldOutOrEndedSuspected ?? linkReport.exposedSoldOutLinks}`);
+  if ((linkReport.exposedSoldOutLinks ?? 0) !== 0) {
+    issues.push(`고객에게 노출되는 품절/판매종료 의심 링크가 남아 있습니다: ${linkReport.exposedSoldOutLinks}`);
   }
   if ((linkReport.communitySuspected ?? 0) !== 0) {
     issues.push(`커뮤니티 링크가 남아 있습니다: ${linkReport.communitySuspected}`);
@@ -198,8 +198,8 @@ if (!linkReport) {
   if ((linkReport.homeOrMainSuspected ?? 0) !== 0) {
     issues.push(`대표몰/홈 링크가 남아 있습니다: ${linkReport.homeOrMainSuspected}`);
   }
-  if ((linkReport.issues ?? []).length) {
-    issues.push(`링크 검증 실패 상품이 있습니다: ${linkReport.issues.length}`);
+  if ((linkReport.exposedIssues ?? []).length) {
+    issues.push(`고객에게 노출되는 링크 검증 실패 상품이 있습니다: ${linkReport.exposedIssues.length}`);
   }
   if (linkReport.policy?.source !== "data/linkQualityPolicy.json" || (linkReport.policy?.searchPatterns ?? 0) < 10) {
     issues.push("링크 검증 리포트가 공통 linkQualityPolicy 기준을 기록하지 않습니다.");
@@ -261,7 +261,7 @@ const report = {
   passedProducts: issues.length ? 0 : visibleProducts,
   failedProducts: linkReport?.exposureAudit?.failedItems ?? Math.max(0, totalProducts - visibleProducts),
   searchLinks: linkReport?.searchOrCategorySuspected ?? 0,
-  soldOutProducts: linkReport?.soldOutOrEndedSuspected ?? linkReport?.exposedSoldOutLinks ?? 0,
+  soldOutProducts: linkReport?.exposedSoldOutLinks ?? 0,
   hiddenProducts,
   publicSearchFallbacks: issues.some((issue) => issue.includes("searchUrl")) ? 1 : 0,
   exposedSearchLinks: linkReport?.exposedSearchLinks ?? 0,

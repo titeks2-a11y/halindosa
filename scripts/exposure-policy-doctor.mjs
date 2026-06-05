@@ -250,9 +250,10 @@ const liveProbeFailureReasonCounts = (linkReport?.liveProbe?.failures ?? []).red
 const liveProbeReviewSummary = linkReport?.liveProbeReviewSummary ?? {
   status: linkReport?.liveProbe?.enabled ? "legacy_live_probe_report" : "disabled",
   hardFailureCount: 0,
+  exposedHardFailureCount: 0,
   transientNetworkCount: linkReport?.liveProbe?.timeout ?? 0,
   accessProtectedCount: linkReport?.liveProbe?.robotsBlocked ?? 0,
-  sellerUnavailableSignals: linkReport?.liveProbe?.unavailableText ?? 0,
+  sellerUnavailableSignals: linkReport?.liveProbeReviewSummary?.exposedSellerUnavailableSignals ?? linkReport?.liveProbe?.unavailableText ?? 0,
   interpretation: "Run npm run verify:links:live to refresh the live probe review summary."
 };
 const liveProbeReasonCounts = linkReport?.liveProbeReasonCounts ?? liveProbeFailureReasonCounts;
@@ -285,8 +286,11 @@ if (linkReport?.launchGate?.passed !== true) {
   issues.push("link-validation launch gate is not passed.");
 }
 
-if ((liveProbeReviewSummary.hardFailureCount ?? 0) > 0 || (liveProbeReviewSummary.sellerUnavailableSignals ?? 0) > 0) {
-  issues.push("live probe hard failure or seller unavailable signals remain.");
+if (
+  (liveProbeReviewSummary.exposedHardFailureCount ?? liveProbeReviewSummary.hardFailureCount ?? 0) > 0 ||
+  (liveProbeReviewSummary.exposedSellerUnavailableSignals ?? liveProbeReviewSummary.sellerUnavailableSignals ?? 0) > 0
+) {
+  issues.push("exposed live probe hard failure or seller unavailable signals remain.");
 }
 
 if ((linkReport?.homeOrMainSuspected ?? 0) !== 0 || (linkReport?.communitySuspected ?? 0) !== 0) {

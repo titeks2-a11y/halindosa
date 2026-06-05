@@ -19,6 +19,8 @@ export interface LinkValidationAuditItem {
   validationStatus?: Deal["validationStatus"];
   validationReason?: string;
   validationCode?: Deal["validationCode"];
+  mismatchCategory?: string;
+  mismatchAction?: string;
   isHidden?: boolean;
   publishable?: boolean;
   verificationEvidenceTier?: string;
@@ -58,6 +60,7 @@ export interface LinkValidationReport {
     manualPatternVerified: number;
     blocked: number;
   };
+  mismatchCategoryCounts: Record<string, number>;
   revalidationQueue: LinkValidationRevalidationItem[];
   auditedItems: LinkValidationAuditItem[];
 }
@@ -95,6 +98,7 @@ const fallbackReport: LinkValidationReport = {
     manualPatternVerified: 0,
     blocked: 0
   },
+  mismatchCategoryCounts: {},
   revalidationQueue: [],
   auditedItems: []
 };
@@ -135,6 +139,10 @@ export function getLinkValidationReport(): LinkValidationReport {
           ? report.verificationEvidenceSummary.counts
           : {}
     },
+    mismatchCategoryCounts:
+      report.mismatchCategoryCounts && typeof report.mismatchCategoryCounts === "object"
+        ? report.mismatchCategoryCounts
+        : {},
     revalidationQueue: Array.isArray(report.revalidationQueue) ? report.revalidationQueue : [],
     auditedItems: Array.isArray(report.auditedItems) ? report.auditedItems : []
   };
