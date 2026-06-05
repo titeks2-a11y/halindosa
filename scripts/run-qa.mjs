@@ -14,6 +14,7 @@ const coreTasks = [
   "refresh:news",
   "verify:news",
   "news:freshness:doctor",
+  "news:revalidation:report",
   "news:feed:doctor",
   "news:feed:canary",
   "test:news-feed-errors",

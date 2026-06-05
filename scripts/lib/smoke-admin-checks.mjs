@@ -84,6 +84,16 @@ export async function runAdminDashboardSmokeChecks() {
         text.includes("reports/link-revalidation-priority.json"),
       "Admin dashboard missing link revalidation priority panel"
     );
+    assert(
+      text.includes("공식 혜택 재검증 우선순위") &&
+        text.includes("무료·쿠폰·공식 이벤트 링크도 출시 큐로 관리합니다") &&
+        text.includes("혜택 재검증 JSON") &&
+        text.includes("혜택 재검증 CSV") &&
+        text.includes("14일 내 종료") &&
+        text.includes("오늘 처리할 공식 혜택 재검증 큐") &&
+        text.includes("reports/news-revalidation-priority.json"),
+      "Admin dashboard missing official benefit revalidation priority panel"
+    );
     assert(text.includes("링크 검토 필요"), "Admin dashboard missing link review count card");
     assert(text.includes("오늘 처리할 링크 작업"), "Admin dashboard missing link review action summary");
     assert(text.includes("구매 링크 보강 우선순위"), "Admin dashboard missing link review priority summary");

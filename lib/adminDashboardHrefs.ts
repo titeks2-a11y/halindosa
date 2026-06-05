@@ -18,6 +18,8 @@ export function buildAdminDashboardHrefs(token: string | null | undefined) {
     imageQueueCsvHref: adminHref("/api/admin/image-queue?format=csv", token),
     newsOperationsApiHref: adminHref("/api/admin/news-operations", token),
     newsOperationsCsvHref: adminHref("/api/admin/news-operations?format=csv", token),
+    newsRevalidationPriorityApiHref: adminHref("/api/admin/news-revalidation-priority", token),
+    newsRevalidationPriorityCsvHref: adminHref("/api/admin/news-revalidation-priority?format=csv", token),
     newsFeedPreviewApiHref: adminHref("/api/admin/news-feed-preview", token),
     newsFeedPreviewCsvHref: adminHref("/api/admin/news-feed-preview?format=csv", token),
     newsFeedCanaryApiHref: adminHref("/api/admin/news-feed-canary", token),

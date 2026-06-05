@@ -53,6 +53,7 @@
     "refresh:news": "node scripts/refresh-news-deals.mjs",
     "verify:news": "node scripts/verify-news-deals.mjs",
     "news:freshness:doctor": "node scripts/news-freshness-doctor.mjs",
+    "news:revalidation:report": "node scripts/news-revalidation-priority-report.mjs",
     "news:feed:doctor": "node scripts/news-feed-contract-doctor.mjs",
     "news:feed:canary": "node scripts/news-feed-canary.mjs",
     "news:feed:live": "node scripts/news-feed-live-pipeline.mjs",

@@ -8,6 +8,7 @@ import { AdminExposurePolicyPanel } from "@/components/AdminExposurePolicyPanel"
 import { AdminHealthReadinessPanel } from "@/components/AdminHealthReadinessPanel";
 import { AdminLinkLaunchGatePanel } from "@/components/AdminLinkLaunchGatePanel";
 import { AdminLinkRevalidationPriorityPanel } from "@/components/AdminLinkRevalidationPriorityPanel";
+import { AdminNewsRevalidationPriorityPanel } from "@/components/AdminNewsRevalidationPriorityPanel";
 import { AdminPushDryRunPanel } from "@/components/AdminPushDryRunPanel";
 import { PartnerFeedDryRunPanel } from "@/components/PartnerFeedDryRunPanel";
 import {
@@ -56,6 +57,7 @@ import { getHealthReadinessReport } from "@/lib/operations/healthReadiness";
 import { getLinkLaunchGateReport } from "@/lib/operations/linkLaunchGate";
 import { getLinkRevalidationPriorityReport } from "@/lib/operations/linkRevalidationPriority";
 import { getNewsFeedPreviewReport } from "@/lib/operations/newsFeedPreview";
+import { getNewsRevalidationPriorityReport } from "@/lib/operations/newsRevalidationPriority";
 import { getOfficialSourceFeedEnvReadiness } from "@/lib/operations/sourceFeedEnvReadiness";
 import { getOfficialSourceLiveReport } from "@/lib/operations/sourceLiveReadiness";
 import { getOfficialSourceOnboardingPlan } from "@/lib/operations/sourceOnboardingPlan";
@@ -121,6 +123,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const exposurePolicy = getExposurePolicyReport();
   const linkLaunchGate = getLinkLaunchGateReport();
   const linkRevalidationPriority = getLinkRevalidationPriorityReport();
+  const newsRevalidationPriority = getNewsRevalidationPriorityReport();
   const newsResult = getVisibleNewsDeals({ limit: 20 });
   const newsDeals = newsResult.deals;
   const officialAlertNewsResult = getVisibleNewsDeals({ limit: 60 });
@@ -147,6 +150,8 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
     imageQueueCsvHref,
     newsOperationsApiHref,
     newsOperationsCsvHref,
+    newsRevalidationPriorityApiHref,
+    newsRevalidationPriorityCsvHref,
     newsFeedPreviewApiHref,
     newsFeedPreviewCsvHref,
     newsFeedCanaryApiHref,
@@ -293,6 +298,12 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
           report={linkRevalidationPriority}
           apiHref={linkRevalidationPriorityApiHref}
           csvHref={linkRevalidationPriorityCsvHref}
+        />
+
+        <AdminNewsRevalidationPriorityPanel
+          report={newsRevalidationPriority}
+          apiHref={newsRevalidationPriorityApiHref}
+          csvHref={newsRevalidationPriorityCsvHref}
         />
 
         <AdminHealthReadinessPanel report={healthReadiness} apiHref={healthReadinessApiHref} />

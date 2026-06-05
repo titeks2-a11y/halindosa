@@ -12,11 +12,13 @@ export function checkNewsDealPipeline() {
     "lib/deals/newsOperations.ts",
     "lib/deals/newsOverrides.ts",
     "lib/deals/newsLinkPolicy.ts",
+    "lib/operations/newsRevalidationPriority.ts",
     "lib/operations/newsFeedDryRun.ts",
     "lib/operations/newsFeedPreview.ts",
     "scripts/refresh-news-deals.mjs",
     "scripts/verify-news-deals.mjs",
     "scripts/news-freshness-doctor.mjs",
+    "scripts/news-revalidation-priority-report.mjs",
     "scripts/news-feed-contract-doctor.mjs",
     "scripts/news-feed-canary.mjs",
     "scripts/news-feed-live-pipeline.mjs",
@@ -32,10 +34,12 @@ export function checkNewsDealPipeline() {
     "data/refreshedNewsDeals.json",
     "reports/news-deals.json",
     "reports/news-freshness.json",
+    "reports/news-revalidation-priority.json",
     "reports/news-feed-canary.json",
     "reports/news-feed-live-pipeline.json",
     "reports/news-feed-preview.json",
     "docs/NEWS_FRESHNESS_REPORT.md",
+    "docs/NEWS_REVALIDATION_PRIORITY.md",
     "docs/NEWS_FEED_CANARY_REPORT.md",
     "docs/NEWS_FEED_LIVE_PIPELINE.md",
     "docs/NEWS_FEED_PREVIEW_REPORT.md",
@@ -45,10 +49,12 @@ export function checkNewsDealPipeline() {
     "app/api/news-deals/route.ts",
     "app/go/news/[id]/route.ts",
     "app/api/admin/news-operations/route.ts",
+    "app/api/admin/news-revalidation-priority/route.ts",
     "app/api/admin/news-feed-canary/route.ts",
     "app/api/admin/news-feed-live/route.ts",
     "app/api/admin/news-feed-preview/route.ts",
     "components/NewsFeedDryRunPanel.tsx",
+    "components/AdminNewsRevalidationPriorityPanel.tsx",
     "components/OfficialBenefitIntentGroups.tsx",
     "components/RealtimeNewsDealsSection.tsx"
   ];
@@ -61,6 +67,7 @@ export function checkNewsDealPipeline() {
   const refreshScript = existsSync(join(root, "scripts/refresh-news-deals.mjs")) ? readFileSync(join(root, "scripts/refresh-news-deals.mjs"), "utf8") : "";
   const verifyScript = existsSync(join(root, "scripts/verify-news-deals.mjs")) ? readFileSync(join(root, "scripts/verify-news-deals.mjs"), "utf8") : "";
   const freshnessScript = existsSync(join(root, "scripts/news-freshness-doctor.mjs")) ? readFileSync(join(root, "scripts/news-freshness-doctor.mjs"), "utf8") : "";
+  const newsRevalidationScript = existsSync(join(root, "scripts/news-revalidation-priority-report.mjs")) ? readFileSync(join(root, "scripts/news-revalidation-priority-report.mjs"), "utf8") : "";
   const feedDoctorScript = existsSync(join(root, "scripts/news-feed-contract-doctor.mjs")) ? readFileSync(join(root, "scripts/news-feed-contract-doctor.mjs"), "utf8") : "";
   const feedCanaryScript = existsSync(join(root, "scripts/news-feed-canary.mjs")) ? readFileSync(join(root, "scripts/news-feed-canary.mjs"), "utf8") : "";
   const feedLivePipelineScript = existsSync(join(root, "scripts/news-feed-live-pipeline.mjs")) ? readFileSync(join(root, "scripts/news-feed-live-pipeline.mjs"), "utf8") : "";
@@ -68,6 +75,7 @@ export function checkNewsDealPipeline() {
   const feedPreviewOperation = existsSync(join(root, "lib/operations/newsFeedPreview.ts")) ? readFileSync(join(root, "lib/operations/newsFeedPreview.ts"), "utf8") : "";
   const feedDryRunOperation = existsSync(join(root, "lib/operations/newsFeedDryRun.ts")) ? readFileSync(join(root, "lib/operations/newsFeedDryRun.ts"), "utf8") : "";
   const feedPreviewReport = existsSync(join(root, "reports/news-feed-preview.json")) ? JSON.parse(readFileSync(join(root, "reports/news-feed-preview.json"), "utf8")) : {};
+  const newsRevalidationReport = existsSync(join(root, "reports/news-revalidation-priority.json")) ? JSON.parse(readFileSync(join(root, "reports/news-revalidation-priority.json"), "utf8")) : {};
   const feedCanaryReport = existsSync(join(root, "reports/news-feed-canary.json")) ? JSON.parse(readFileSync(join(root, "reports/news-feed-canary.json"), "utf8")) : {};
   const feedLivePipelineReport = existsSync(join(root, "reports/news-feed-live-pipeline.json")) ? JSON.parse(readFileSync(join(root, "reports/news-feed-live-pipeline.json"), "utf8")) : {};
   const feedCanaryGeneratedAt = Date.parse(String(feedCanaryReport.generatedAt ?? ""));
@@ -84,6 +92,7 @@ export function checkNewsDealPipeline() {
   const feedCanaryDocs = existsSync(join(root, "docs/NEWS_FEED_CANARY_REPORT.md")) ? readFileSync(join(root, "docs/NEWS_FEED_CANARY_REPORT.md"), "utf8") : "";
   const feedLivePipelineDocs = existsSync(join(root, "docs/NEWS_FEED_LIVE_PIPELINE.md")) ? readFileSync(join(root, "docs/NEWS_FEED_LIVE_PIPELINE.md"), "utf8") : "";
   const feedPreviewDocs = existsSync(join(root, "docs/NEWS_FEED_PREVIEW_REPORT.md")) ? readFileSync(join(root, "docs/NEWS_FEED_PREVIEW_REPORT.md"), "utf8") : "";
+  const newsRevalidationDocs = existsSync(join(root, "docs/NEWS_REVALIDATION_PRIORITY.md")) ? readFileSync(join(root, "docs/NEWS_REVALIDATION_PRIORITY.md"), "utf8") : "";
   const sourceConfigDocs = existsSync(join(root, "docs/OFFICIAL_BENEFIT_SOURCE_CONFIG.md")) ? readFileSync(join(root, "docs/OFFICIAL_BENEFIT_SOURCE_CONFIG.md"), "utf8") : "";
   const officialBenefitFeedSources = existsSync(join(root, "data/officialBenefitFeedSources.json")) ? JSON.parse(readFileSync(join(root, "data/officialBenefitFeedSources.json"), "utf8")) : [];
   const sourceConfigHasOperationalMetadata =
@@ -117,7 +126,10 @@ export function checkNewsDealPipeline() {
   const homeRuntimeSource = `${homePage}\n${homeApi}`;
   const adminPage = [
     readFileSync(join(root, "app/admin/page.tsx"), "utf8"),
-    existsSync(join(root, "components/AdminNewsCollectionPanel.tsx")) ? readFileSync(join(root, "components/AdminNewsCollectionPanel.tsx"), "utf8") : ""
+    existsSync(join(root, "components/AdminNewsCollectionPanel.tsx")) ? readFileSync(join(root, "components/AdminNewsCollectionPanel.tsx"), "utf8") : "",
+    existsSync(join(root, "components/AdminNewsRevalidationPriorityPanel.tsx"))
+      ? readFileSync(join(root, "components/AdminNewsRevalidationPriorityPanel.tsx"), "utf8")
+      : ""
   ].join("\n");
   const adminNewsOperationsPanel = existsSync(join(root, "components/AdminNewsOperationsPanel.tsx"))
     ? readFileSync(join(root, "components/AdminNewsOperationsPanel.tsx"), "utf8")
@@ -127,6 +139,9 @@ export function checkNewsDealPipeline() {
     : "";
   const adminNewsOperationsRoute = existsSync(join(root, "app/api/admin/news-operations/route.ts"))
     ? readFileSync(join(root, "app/api/admin/news-operations/route.ts"), "utf8")
+    : "";
+  const adminNewsRevalidationRoute = existsSync(join(root, "app/api/admin/news-revalidation-priority/route.ts"))
+    ? readFileSync(join(root, "app/api/admin/news-revalidation-priority/route.ts"), "utf8")
     : "";
   const adminNewsFeedCanaryRoute = existsSync(join(root, "app/api/admin/news-feed-canary/route.ts"))
     ? readFileSync(join(root, "app/api/admin/news-feed-canary/route.ts"), "utf8")
@@ -138,6 +153,7 @@ export function checkNewsDealPipeline() {
     ? readFileSync(join(root, "app/api/admin/news-feed-preview/route.ts"), "utf8")
     : "";
   const newsOperations = existsSync(join(root, "lib/deals/newsOperations.ts")) ? readFileSync(join(root, "lib/deals/newsOperations.ts"), "utf8") : "";
+  const newsRevalidationOperation = existsSync(join(root, "lib/operations/newsRevalidationPriority.ts")) ? readFileSync(join(root, "lib/operations/newsRevalidationPriority.ts"), "utf8") : "";
   const sourceConfigHelper = existsSync(join(root, "scripts/official-benefit-source-config.mjs"))
     ? readFileSync(join(root, "scripts/official-benefit-source-config.mjs"), "utf8")
     : "";
@@ -157,11 +173,11 @@ export function checkNewsDealPipeline() {
     if (!envExample.includes(key)) issues.push(`env example missing ${key}`);
   }
 
-  if (!packageJson.scripts?.["refresh:news"] || !packageJson.scripts?.["verify:news"] || !packageJson.scripts?.["news:freshness:doctor"] || !packageJson.scripts?.["news:feed:doctor"] || !packageJson.scripts?.["news:feed:canary"] || !packageJson.scripts?.["news:feed:live"] || !packageJson.scripts?.["test:news-feed-errors"] || !packageJson.scripts?.["test:news-feed-dry-run"] || !packageJson.scripts?.["refresh:all"]) {
-    issues.push("package scripts should expose refresh:news, verify:news, news:freshness:doctor, news:feed:doctor, news:feed:canary, news:feed:live, test:news-feed-errors, test:news-feed-dry-run, and refresh:all");
+  if (!packageJson.scripts?.["refresh:news"] || !packageJson.scripts?.["verify:news"] || !packageJson.scripts?.["news:freshness:doctor"] || !packageJson.scripts?.["news:revalidation:report"] || !packageJson.scripts?.["news:feed:doctor"] || !packageJson.scripts?.["news:feed:canary"] || !packageJson.scripts?.["news:feed:live"] || !packageJson.scripts?.["test:news-feed-errors"] || !packageJson.scripts?.["test:news-feed-dry-run"] || !packageJson.scripts?.["refresh:all"]) {
+    issues.push("package scripts should expose refresh:news, verify:news, news:freshness:doctor, news:revalidation:report, news:feed:doctor, news:feed:canary, news:feed:live, test:news-feed-errors, test:news-feed-dry-run, and refresh:all");
   }
-  if (!String(packageJson.scripts?.qa ?? "").includes("news:freshness:doctor") || !String(packageJson.scripts?.qa ?? "").includes("news:feed:doctor") || !String(packageJson.scripts?.qa ?? "").includes("news:feed:canary") || !String(packageJson.scripts?.qa ?? "").includes("test:news-feed-errors") || !String(packageJson.scripts?.qa ?? "").includes("test:news-feed-dry-run")) {
-    issues.push("qa should include news:freshness:doctor, news:feed:doctor, news:feed:canary, test:news-feed-errors, and test:news-feed-dry-run");
+  if (!String(packageJson.scripts?.qa ?? "").includes("news:freshness:doctor") || !String(packageJson.scripts?.qa ?? "").includes("news:revalidation:report") || !String(packageJson.scripts?.qa ?? "").includes("news:feed:doctor") || !String(packageJson.scripts?.qa ?? "").includes("news:feed:canary") || !String(packageJson.scripts?.qa ?? "").includes("test:news-feed-errors") || !String(packageJson.scripts?.qa ?? "").includes("test:news-feed-dry-run")) {
+    issues.push("qa should include news:freshness:doctor, news:revalidation:report, news:feed:doctor, news:feed:canary, test:news-feed-errors, and test:news-feed-dry-run");
   }
 
   for (const phrase of ["not_approved_official_url", "search_or_result_url", "expired_event", "official_event_seed_and_approved_feeds"]) {
@@ -619,6 +635,47 @@ export function checkNewsDealPipeline() {
     if (!report.categoryCounts || Object.keys(report.categoryCounts).length < 10) issues.push("news-freshness report should include category counts");
   } else {
     issues.push("reports/news-freshness.json is missing");
+  }
+
+  if (
+    !newsRevalidationScript.includes("news-revalidation-priority.json") ||
+    !newsRevalidationScript.includes("expires_within_14_days") ||
+    !newsRevalidationScript.includes("exposedSearchLinks") ||
+    !newsRevalidationScript.includes("exposedNonOfficialLinks") ||
+    !newsRevalidationScript.includes("Official Benefit Revalidation Priority") ||
+    !newsRevalidationOperation.includes("getNewsRevalidationPriorityReport") ||
+    !newsRevalidationOperation.includes("buildNewsRevalidationPriorityCsv") ||
+    !adminNewsRevalidationRoute.includes("admin-news-revalidation-priority") ||
+    !adminNewsRevalidationRoute.includes("halindosa-news-revalidation-priority") ||
+    !adminPage.includes("AdminNewsRevalidationPriorityPanel") ||
+    !adminPage.includes("reports/news-revalidation-priority.json") ||
+    !adminPage.includes("공식 혜택 재검증 우선순위") ||
+    !smokeScript.includes("admin news revalidation priority api") ||
+    !smokeScript.includes("Official benefit revalidation priority should expose zero search links") ||
+    !smokeScript.includes("Admin dashboard missing official benefit revalidation priority panel") ||
+    !newsRevalidationDocs.includes("Official Benefit Revalidation Priority") ||
+    !newsRevalidationDocs.includes("Search pages") && !newsRevalidationDocs.includes("Search")
+  ) {
+    issues.push("official benefit revalidation priority should generate JSON/docs, expose admin JSON/CSV, appear in admin dashboard, and be covered by smoke tests");
+  }
+
+  if (existsSync(join(root, "reports/news-revalidation-priority.json"))) {
+    const report = newsRevalidationReport;
+    if (report.ok !== true) issues.push("news-revalidation-priority report should pass");
+    if ((report.summary?.visibleItems ?? 0) < 40) issues.push("news-revalidation-priority report should include at least 40 visible official benefits");
+    if ((report.summary?.activeOfficialBenefits ?? 0) < 40) issues.push("news-revalidation-priority report should include at least 40 active official benefits");
+    if ((report.summary?.blockingItems ?? 999) !== 0) issues.push("news-revalidation-priority report should have zero blocking items");
+    if ((report.summary?.exposedSearchLinks ?? 999) !== 0) issues.push("news-revalidation-priority report should expose zero search links");
+    if ((report.summary?.exposedNonOfficialLinks ?? 999) !== 0) issues.push("news-revalidation-priority report should expose zero non-official links");
+    if ((report.summary?.hiddenItems ?? 999) !== 0 || (report.summary?.expiredItems ?? 999) !== 0 || (report.summary?.failedItems ?? 999) !== 0) {
+      issues.push("news-revalidation-priority report should expose zero hidden, expired, or failed official benefits");
+    }
+    if (!Array.isArray(report.topQueue)) issues.push("news-revalidation-priority report should include topQueue");
+    if ((report.summary?.queueItems ?? 0) < (report.summary?.renewalItems ?? 0)) {
+      issues.push("news-revalidation-priority report queue should include renewal items");
+    }
+  } else {
+    issues.push("reports/news-revalidation-priority.json is missing");
   }
 
   if (existsSync(join(root, "reports/refresh-all.json"))) {

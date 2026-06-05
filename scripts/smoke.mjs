@@ -689,6 +689,34 @@ await check("admin link revalidation priority csv", async () => {
   assert(text.includes("revalidation_queue,") && text.includes("reason_count,"), "Link revalidation priority CSV missing queue or reason rows");
 });
 
+await check("admin news revalidation priority api", async () => {
+  const { response, data } = await fetchJson("/api/admin/news-revalidation-priority");
+  assert(response.status === 200, `Expected 200, got ${response.status}`);
+  assert(data.ok === true, "Admin news revalidation priority API ok should be true");
+  assert(data.report?.ok === true, "Official benefit revalidation priority report should pass");
+  assert(data.report?.summary?.visibleItems >= 40, "Official benefit revalidation priority should include visible official benefits");
+  assert(data.report?.summary?.activeOfficialBenefits >= 40, "Official benefit revalidation priority should include active official benefits");
+  assert(data.report?.summary?.blockingItems === 0, "Official benefit revalidation priority should have zero blocking items");
+  assert(data.report?.summary?.exposedSearchLinks === 0, "Official benefit revalidation priority should expose zero search links");
+  assert(data.report?.summary?.exposedNonOfficialLinks === 0, "Official benefit revalidation priority should expose zero non-official links");
+  assert(data.report?.summary?.hiddenItems === 0, "Official benefit revalidation priority should expose zero hidden benefits");
+  assert(data.report?.summary?.expiredItems === 0, "Official benefit revalidation priority should expose zero expired benefits");
+  assert(data.report?.summary?.queueItems >= data.report.summary.renewalItems, "Official benefit revalidation priority should expose an operator queue");
+  assert(Array.isArray(data.report?.topQueue), "Official benefit revalidation priority should include top queue rows");
+  assert(data.report?.counts?.byReason && typeof data.report.counts.byReason === "object", "Official benefit revalidation priority should include reason counts");
+});
+
+await check("admin news revalidation priority csv", async () => {
+  const response = await fetch(`${baseUrl}/api/admin/news-revalidation-priority?format=csv`);
+  const text = await response.text();
+  assert(response.status === 200, `Expected 200, got ${response.status}`);
+  assert(response.headers.get("content-type")?.includes("text/csv"), "Official benefit revalidation priority export is not CSV");
+  assert(response.headers.get("x-request-id"), "Official benefit revalidation priority export missing request id");
+  assert(text.startsWith("section,key,label"), "Official benefit revalidation priority CSV header missing");
+  assert(text.includes("summary,blocking_items") && text.includes("summary,renewal_items"), "Official benefit revalidation priority CSV missing summary rows");
+  assert(text.includes("official_benefit_revalidation_queue,") && text.includes("reason_count,"), "Official benefit revalidation priority CSV missing queue or reason rows");
+});
+
 await check("admin notification campaigns api", async () => {
   const { response, data } = await fetchJson("/api/admin/notification-campaigns?includeRows=true");
   assert(response.status === 200, `Expected 200, got ${response.status}`);
