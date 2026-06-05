@@ -1,7 +1,7 @@
 {
   "generatedBy": "npm run release:notes",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "64f5c4c",
+  "commit": "3b0e7e9",
   "workingTree": "M DEVICE_QA_REPORT.md;  M KNOWN_ISSUES.md;  M PUBLIC_URL_REPORT.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_HANDOFF_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M docs/DEVICE_QA_REPORT.md;  M docs/KNOWN_ISSUES.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_HANDOFF_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md;  M docs/release-evidence.md",
   "version": "1.0.1",
   "appName": "할인도사",
@@ -73,14 +73,14 @@
     }
   ],
   "recentCommits": [
+    "3b0e7e9 fix: route mypage official benefits through redirect gate",
+    "0d234a7 docs: refresh release evidence for launch gate manual evidence",
     "64f5c4c docs: track launch gate manual evidence report",
     "c3f8289 feat: fold manual evidence into launch gate",
     "1f8241f docs: refresh release evidence for manual probe gate",
     "6d81de3 feat: require fresh manual evidence for live probe reviews",
     "b922617 docs: refresh release evidence for live probe operations",
-    "5fc19fd feat: expose live probe review operations",
-    "a53efd0 docs: refresh release evidence for live probe gate",
-    "e8a7ecd feat: add live probe review launch gate"
+    "5fc19fd feat: expose live probe review operations"
   ],
   "manualWorkThatMustNotBeFaked": [
     "Do not claim Play Console or App Store Connect submission has passed from this file.",
