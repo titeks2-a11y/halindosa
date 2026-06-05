@@ -25,6 +25,7 @@ const coreTasks = [
   "link:policy:regression",
   "exposure:doctor",
   "link:launch:gate",
+  "link:revalidation:report",
   "feed:transition:report",
   "source:catalog:report",
   "source:live:doctor",

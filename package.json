@@ -48,6 +48,7 @@
     "link:policy:regression": "node scripts/link-quality-regression.mjs",
     "exposure:doctor": "node scripts/exposure-policy-doctor.mjs",
     "link:launch:gate": "node scripts/link-launch-gate.mjs",
+    "link:revalidation:report": "node scripts/link-revalidation-priority-report.mjs",
     "refresh:deals": "node scripts/refresh-deals.mjs",
     "refresh:news": "node scripts/refresh-news-deals.mjs",
     "verify:news": "node scripts/verify-news-deals.mjs",
