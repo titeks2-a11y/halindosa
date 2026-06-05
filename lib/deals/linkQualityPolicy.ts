@@ -10,6 +10,7 @@ export interface LinkQualityPolicy {
   officialBenefitUrlSignals: string[];
   officialBenefitEvidenceSignals: string[];
   unavailableTextPatterns: string[];
+  liveUnavailableTextPatterns?: string[];
   allowedVerificationSources: string[];
   exposurePolicy: {
     availability: string;

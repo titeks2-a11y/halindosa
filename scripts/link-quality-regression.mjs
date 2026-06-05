@@ -217,6 +217,11 @@ const structuralChecks = [
   {
     name: "qa includes link and exposure gates",
     ok: ["verify:links", "verify:products", "exposure:doctor"].every((script) => qaCommandSource.includes(script))
+  },
+  {
+    name: "live probe records product content evidence",
+    ok: ["extractHtmlSignal", "getContentSimilarity", "contentSignalSummary", "purchaseActionSignal", "priceSignal"].every((token) => read("scripts/verify-product-links.mjs").includes(token)) &&
+      read("scripts/verify-product-links-live.mjs").includes("--content-strict")
   }
 ];
 

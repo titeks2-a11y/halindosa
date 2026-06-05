@@ -19,6 +19,7 @@ const now = new Date().toISOString();
 const blockedHosts = [...linkQualityPolicy.blockedHosts, ...linkQualityPolicy.placeholderHosts];
 const searchPatterns = linkQualityPolicy.searchPatterns;
 const unavailablePatterns = linkQualityPolicy.unavailableTextPatterns;
+const liveUnavailablePatterns = linkQualityPolicy.liveUnavailableTextPatterns ?? unavailablePatterns;
 
 function read(path) {
   return readFileSync(join(root, path), "utf8");
@@ -106,6 +107,11 @@ function cleanText(value) {
     .trim();
 }
 
+function containsLiveUnavailableText(value) {
+  const text = cleanText(value).toLowerCase();
+  return liveUnavailablePatterns.some((pattern) => text.includes(pattern.toLowerCase()));
+}
+
 function firstNonEmptyUrl(...values) {
   return values.map((value) => cleanText(value)).find(Boolean) ?? "";
 }
@@ -133,6 +139,7 @@ function isHomeOnly(url) {
 }
 
 function isSearchLike(url) {
+  if (hasProductDetailSignal(url)) return false;
   if (/\/product\/|\/products\/|\/goods\/|\/item\/|itemview|goodsdetail|detailview/i.test(`${url.pathname}${url.search}`)) return false;
   if (/event|benefit|campaign|coupon|promotion/i.test(`${url.pathname}${url.search}${url.hash}`)) return false;
   const value = `${url.hostname}${url.pathname}${url.search}`.toLowerCase();
@@ -155,7 +162,7 @@ function hasBenefitSignal(url, evidence) {
 function canonicalUrl(value) {
   try {
     const url = new URL(value);
-    const keepParams = new Set(["itemId", "vendorItemId", "goodsCode", "goodsNo", "goodscode", "productId", "prdNo", "dealNo"]);
+    const keepParams = new Set(["itemId", "vendorItemId", "goodsCode", "goodsNo", "goodscode", "productId", "prdNo", "prdno", "prdid", "dealNo", "dealno", "bbs_category"]);
 
     for (const key of [...url.searchParams.keys()]) {
       if (!keepParams.has(key)) url.searchParams.delete(key);
@@ -272,7 +279,7 @@ async function probeUrl(urlValue) {
       const body = await response.text();
       result.bodyChecked = true;
       const bodySample = body.slice(0, 65535).toLowerCase();
-      result.unavailableText = unavailablePatterns.some((pattern) => bodySample.includes(pattern.toLowerCase()));
+      result.unavailableText = containsLiveUnavailableText(bodySample);
       if (result.unavailableText) return { ...result, ok: false, reason: "sold_out_or_ended_text" };
     }
 

@@ -105,7 +105,7 @@ function normalizeId(value: string) {
 function getCanonicalUrl(value: string) {
   try {
     const url = new URL(value);
-    const keepParams = new Set(["itemId", "vendorItemId", "goodsCode", "goodsNo", "itemId", "goodscode", "productId"]);
+    const keepParams = new Set(["itemId", "vendorItemId", "goodsCode", "goodsNo", "goodscode", "productId", "prdNo", "prdno", "prdid", "dealNo", "dealno", "bbs_category"]);
 
     for (const key of Array.from(url.searchParams.keys())) {
       if (!keepParams.has(key)) url.searchParams.delete(key);

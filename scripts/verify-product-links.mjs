@@ -10,6 +10,7 @@ const linkQualityPolicy = JSON.parse(readFileSync(join(root, "data/linkQualityPo
 const blockedHosts = [...linkQualityPolicy.blockedHosts, ...linkQualityPolicy.placeholderHosts];
 const searchPatterns = linkQualityPolicy.searchPatterns;
 const unavailablePatterns = linkQualityPolicy.unavailableTextPatterns;
+const liveUnavailablePatterns = linkQualityPolicy.liveUnavailableTextPatterns ?? unavailablePatterns;
 const allowedSources = new Set(linkQualityPolicy.allowedVerificationSources);
 const minimums = {
   distinctHosts: 18,
@@ -35,8 +36,16 @@ const liveProbe = {
   timeout: 0,
   robotsBlocked: 0,
   unavailableText: 0,
+  unavailableTextReview: 0,
+  bodyChecked: 0,
+  titleMetaChecked: 0,
+  contentMatched: 0,
+  contentMismatch: 0,
+  priceSignal: 0,
+  purchaseActionSignal: 0,
   failures: []
 };
+const liveProbeDetails = new Map();
 
 function isBlockedHost(host) {
   return blockedHosts.some((candidate) => host === candidate || host.endsWith(`.${candidate}`));
@@ -48,6 +57,7 @@ function isHomeOnly(url) {
 }
 
 function isSearchLike(url) {
+  if (hasProductDetailSignal(url)) return false;
   if (/\/product\/|\/products\/|\/goods\/|\/item\/|itemview|goodsdetail|detailview/i.test(`${url.pathname}${url.search}`)) return false;
   if (/event|benefit|campaign|coupon|promotion/i.test(`${url.pathname}${url.search}${url.hash}`)) return false;
   const value = `${url.hostname}${url.pathname}${url.search}`.toLowerCase();
@@ -58,6 +68,78 @@ function containsUnavailableText(text) {
   const value = text.toLowerCase();
 
   return unavailablePatterns.some((pattern) => value.includes(pattern.toLowerCase()));
+}
+
+function containsLiveUnavailableText(text) {
+  const value = text.toLowerCase();
+
+  return liveUnavailablePatterns.some((pattern) => value.includes(pattern.toLowerCase()));
+}
+
+function findLiveUnavailablePattern(text) {
+  const value = String(text ?? "").toLowerCase();
+
+  return liveUnavailablePatterns.find((pattern) => value.includes(pattern.toLowerCase())) ?? "";
+}
+
+function containsAccessGuardText(text) {
+  return /(잠시만 기다려 주세요|비정상적인 접근|access denied|request blocked|bot detection|captcha|보안문자|접근이 제한)/i.test(String(text ?? ""));
+}
+
+function stripHtml(value) {
+  return String(value ?? "")
+    .replace(/<script[\s\S]*?<\/script>/gi, " ")
+    .replace(/<style[\s\S]*?<\/style>/gi, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&quot;/g, "\"")
+    .replace(/&amp;/g, "&")
+    .replace(/&#39;/g, "'")
+    .replace(/&nbsp;/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function extractHtmlSignal(body) {
+  const sample = String(body ?? "").slice(0, 65535);
+  const title = stripHtml(sample.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1] ?? "");
+  const metaDescription = stripHtml(
+    sample.match(/<meta[^>]+(?:name|property)=["'](?:description|og:description)["'][^>]+content=["']([^"']+)["'][^>]*>/i)?.[1] ??
+      sample.match(/<meta[^>]+content=["']([^"']+)["'][^>]+(?:name|property)=["'](?:description|og:description)["'][^>]*>/i)?.[1] ??
+      ""
+  );
+  const text = stripHtml(sample).slice(0, 30000);
+  const lowerText = text.toLowerCase();
+
+  return {
+    title,
+    metaDescription,
+    textSample: text.slice(0, 500),
+    priceSignal: /(\d{1,3}(,\d{3})+|\d+\s*원|₩|price|saleprice|lprice|판매가|할인가|쿠폰가|최종가)/i.test(text),
+    purchaseActionSignal: /(구매하기|장바구니|바로구매|바로 구매|주문하기|신청하기|쿠폰받기|쿠폰 받기|참여하기|예약하기|buy now|add to cart|checkout)/i.test(text),
+    unavailableText: containsLiveUnavailableText(lowerText),
+    unavailablePattern: findLiveUnavailablePattern(lowerText),
+    accessGuard: containsAccessGuardText(`${title} ${metaDescription} ${text.slice(0, 1000)}`)
+  };
+}
+
+function tokenizeForSimilarity(value) {
+  return String(value ?? "")
+    .toLowerCase()
+    .replace(/<[^>]+>/g, " ")
+    .replace(/[^a-z0-9가-힣]+/g, " ")
+    .split(/\s+/)
+    .map((token) => token.trim())
+    .filter((token) => token.length >= 2 && !/^\d+$/.test(token))
+    .slice(0, 24);
+}
+
+function getContentSimilarity(title, ...candidates) {
+  const tokens = tokenizeForSimilarity(title);
+  if (!tokens.length) return 0;
+
+  const haystack = candidates.join(" ").toLowerCase();
+  const matched = tokens.filter((token) => haystack.includes(token)).length;
+  return Math.round((matched / tokens.length) * 100);
 }
 
 function hasProductDetailSignal(url) {
@@ -86,14 +168,23 @@ async function fetchWithTimeout(url, options) {
   }
 }
 
-async function probeLiveUrl(urlValue) {
+async function probeLiveUrl(urlValue, context = {}) {
   const result = {
     ok: false,
     status: 0,
     finalUrl: urlValue,
     reason: "not_checked",
     bodyChecked: false,
-    unavailableText: false
+    unavailableText: false,
+    title: "",
+    metaDescription: "",
+    titleSimilarity: 0,
+    contentMatch: null,
+    priceSignal: false,
+    purchaseActionSignal: false,
+    unavailableTextReview: false,
+    accessGuard: false,
+    unavailablePattern: ""
   };
 
   try {
@@ -120,10 +211,29 @@ async function probeLiveUrl(urlValue) {
     if (bodyProbeEnabled && /text|html|json/i.test(contentType)) {
       const body = await response.text();
       result.bodyChecked = true;
-      result.unavailableText = containsUnavailableText(body.slice(0, 65535));
-      if (result.unavailableText) {
+      const bodySignals = extractHtmlSignal(body);
+      result.title = bodySignals.title;
+      result.metaDescription = bodySignals.metaDescription;
+      result.priceSignal = bodySignals.priceSignal;
+      result.purchaseActionSignal = bodySignals.purchaseActionSignal;
+      result.unavailableText = bodySignals.unavailableText;
+      result.unavailablePattern = bodySignals.unavailablePattern;
+      result.accessGuard = bodySignals.accessGuard;
+      result.titleSimilarity = getContentSimilarity(context.title, bodySignals.title, bodySignals.metaDescription, bodySignals.textSample);
+      result.contentMatch = result.titleSimilarity >= 18 || result.priceSignal || result.purchaseActionSignal;
+      const hasStrongContentEvidence = result.titleSimilarity >= 18 || result.priceSignal;
+
+      if (result.accessGuard) {
+        result.ok = false;
+        result.reason = "robots_or_access_blocked";
+      } else if (result.unavailableText && hasStrongContentEvidence) {
         result.ok = false;
         result.reason = "sold_out_or_ended_text";
+      } else if (result.unavailableText) {
+        result.unavailableTextReview = true;
+      } else if (process.env.DEAL_LINK_CONTENT_STRICT === "true" && result.contentMatch === false) {
+        result.ok = false;
+        result.reason = "content_mismatch";
       }
     }
 
@@ -149,16 +259,44 @@ function recordLiveProbeResult(id, urlValue, probe) {
   if (probe.status >= 500) liveProbe.http5xx += 1;
   if (probe.reason === "timeout") liveProbe.timeout += 1;
   if (probe.reason === "robots_or_access_blocked") liveProbe.robotsBlocked += 1;
-  if (probe.unavailableText) liveProbe.unavailableText += 1;
+  if (probe.reason === "sold_out_or_ended_text") liveProbe.unavailableText += 1;
+  if (probe.unavailableTextReview) liveProbe.unavailableTextReview += 1;
+  if (probe.bodyChecked) liveProbe.bodyChecked += 1;
+  if (probe.title || probe.metaDescription) liveProbe.titleMetaChecked += 1;
+  if (probe.contentMatch === true) liveProbe.contentMatched += 1;
+  if (probe.contentMatch === false) liveProbe.contentMismatch += 1;
+  if (probe.priceSignal) liveProbe.priceSignal += 1;
+  if (probe.purchaseActionSignal) liveProbe.purchaseActionSignal += 1;
+
+  liveProbeDetails.set(id, {
+    ok: probe.ok,
+    status: probe.status,
+    reason: probe.reason,
+    finalUrl: probe.finalUrl,
+    bodyChecked: probe.bodyChecked,
+    title: probe.title,
+    metaDescription: probe.metaDescription,
+    titleSimilarity: probe.titleSimilarity,
+    contentMatch: probe.contentMatch,
+    priceSignal: probe.priceSignal,
+    purchaseActionSignal: probe.purchaseActionSignal,
+    unavailableText: probe.unavailableText,
+    unavailablePattern: probe.unavailablePattern,
+    unavailableTextReview: probe.unavailableTextReview,
+    accessGuard: probe.accessGuard
+  });
 
   if (!probe.ok) {
-    liveProbe.failures.push({
-      id,
-      url: urlValue,
-      finalUrl: probe.finalUrl,
-      status: probe.status,
-      reason: probe.reason
-    });
+      liveProbe.failures.push({
+        id,
+        url: urlValue,
+        finalUrl: probe.finalUrl,
+        status: probe.status,
+        reason: probe.reason,
+        titleSimilarity: probe.titleSimilarity,
+        contentMatch: probe.contentMatch,
+        unavailablePattern: probe.unavailablePattern
+      });
   }
 }
 
@@ -215,6 +353,10 @@ function getLiveProbeFailureForId(id) {
   return liveProbe.failures.find((failure) => failure.id === id) ?? null;
 }
 
+function getLiveProbeDetailForId(id) {
+  return liveProbeDetails.get(id) ?? null;
+}
+
 function getAuditPriorityScore({ linkType, validationStatus, availability, hasImage, hasPrice, discountRate, checkedAt, liveProbeFailure }) {
   let score = 50;
 
@@ -257,6 +399,7 @@ function buildAuditedItems({ dealIds, entryMap, metadataMap, dealMetadataMap, is
     const dealMetadata = dealMetadataMap.get(id) ?? {};
     const issueMessages = getIssueMessagesForId(id, issues);
     const liveProbeFailure = getLiveProbeFailureForId(id);
+    const liveProbeDetail = getLiveProbeDetailForId(id);
     const checks = {
       httpUrl: false,
       blockedHost: false,
@@ -265,7 +408,12 @@ function buildAuditedItems({ dealIds, entryMap, metadataMap, dealMetadataMap, is
       productDetailUrl: false,
       officialBenefitUrl: false,
       unavailableText: containsUnavailableText(metadata?.evidence ?? ""),
-      liveProbeOk: liveProbeEnabled ? !liveProbeFailure : null
+      liveProbeOk: liveProbeEnabled ? !liveProbeFailure : null,
+      titleMetaChecked: liveProbeDetail ? Boolean(liveProbeDetail.title || liveProbeDetail.metaDescription) : false,
+      titleSimilarity: liveProbeDetail?.titleSimilarity ?? null,
+      contentMatch: liveProbeDetail?.contentMatch ?? null,
+      priceSignal: Boolean(liveProbeDetail?.priceSignal),
+      purchaseActionSignal: Boolean(liveProbeDetail?.purchaseActionSignal)
     };
     let host = "";
     let finalUrl = urlValue;
@@ -349,10 +497,21 @@ function buildAuditedItems({ dealIds, entryMap, metadataMap, dealMetadataMap, is
             ok: false,
             status: liveProbeFailure.status,
             reason: liveProbeFailure.reason,
-            finalUrl: liveProbeFailure.finalUrl
+            finalUrl: liveProbeFailure.finalUrl,
+            titleSimilarity: liveProbeFailure.titleSimilarity ?? null,
+            contentMatch: liveProbeFailure.contentMatch ?? null
           }
         : liveProbeEnabled
-          ? { ok: true }
+          ? {
+              ok: true,
+              bodyChecked: liveProbeDetail?.bodyChecked ?? false,
+              title: liveProbeDetail?.title ?? "",
+              metaDescription: liveProbeDetail?.metaDescription ?? "",
+              titleSimilarity: liveProbeDetail?.titleSimilarity ?? null,
+              contentMatch: liveProbeDetail?.contentMatch ?? null,
+              priceSignal: liveProbeDetail?.priceSignal ?? false,
+              purchaseActionSignal: liveProbeDetail?.purchaseActionSignal ?? false
+            }
           : { ok: null, reason: "disabled" }
     };
   });
@@ -443,7 +602,7 @@ for (const id of dealIds) {
     }
 
     if (liveProbeEnabled && !isBlockedHost(host) && !isHomeOnly(url) && !isSearchLike(url)) {
-      const probe = await probeLiveUrl(urlValue);
+      const probe = await probeLiveUrl(urlValue, dealMetadataMap.get(id) ?? {});
       recordLiveProbeResult(id, urlValue, probe);
 
       if (probe.finalUrl && probe.finalUrl !== urlValue) {
@@ -454,7 +613,7 @@ for (const id of dealIds) {
         }
       }
 
-      if (probe.unavailableText) {
+      if (probe.reason === "sold_out_or_ended_text") {
         issues.push(`${id}: live probe 본문에서 품절/판매종료 문구가 탐지되었습니다. ${probe.finalUrl}`);
         soldOutOrEndedCount += 1;
         addExcludedReason("sold_out_or_ended");
@@ -537,6 +696,15 @@ const liveProbeReviewSummary = {
   transientNetworkCount: transientLiveProbeFailures.length,
   accessProtectedCount: liveProbe.robotsBlocked,
   sellerUnavailableSignals: liveProbe.unavailableText,
+  contentProbe: {
+    bodyChecked: liveProbe.bodyChecked,
+    titleMetaChecked: liveProbe.titleMetaChecked,
+    contentMatched: liveProbe.contentMatched,
+    contentMismatch: liveProbe.contentMismatch,
+    priceSignal: liveProbe.priceSignal,
+    purchaseActionSignal: liveProbe.purchaseActionSignal,
+    strict: process.env.DEAL_LINK_CONTENT_STRICT === "true"
+  },
   interpretation: !liveProbe.enabled
     ? "Live probe is disabled for this run."
     : hardLiveProbeFailures.length
@@ -610,13 +778,25 @@ const report = {
     http5xx: liveProbe.http5xx,
     timeout: liveProbe.timeout,
     robotsBlocked: liveProbe.robotsBlocked,
-    unavailableText: liveProbe.unavailableText
+    unavailableText: liveProbe.unavailableText,
+    unavailableTextReview: liveProbe.unavailableTextReview
+  },
+  contentSignalSummary: {
+    bodyChecked: liveProbe.bodyChecked,
+    titleMetaChecked: liveProbe.titleMetaChecked,
+    contentMatched: liveProbe.contentMatched,
+    contentMismatch: liveProbe.contentMismatch,
+    priceSignal: liveProbe.priceSignal,
+    purchaseActionSignal: liveProbe.purchaseActionSignal,
+    unavailableTextReview: liveProbe.unavailableTextReview,
+    strict: process.env.DEAL_LINK_CONTENT_STRICT === "true"
   },
   policy: {
     version: linkQualityPolicy.version,
     source: "data/linkQualityPolicy.json",
     searchPatterns: linkQualityPolicy.searchPatterns.length,
     unavailableTextPatterns: linkQualityPolicy.unavailableTextPatterns.length,
+    liveUnavailableTextPatterns: liveUnavailablePatterns.length,
     productDetailSignals: linkQualityPolicy.productDetailSignals.length,
     officialBenefitUrlSignals: linkQualityPolicy.officialBenefitUrlSignals.length
   },
@@ -669,6 +849,13 @@ Generated: ${report.generatedAt}
 | Live probe timeout | ${report.liveProbe.timeout} |
 | Live probe hard failure | ${report.liveProbeReviewSummary.hardFailureCount} |
 | Live probe transient network | ${report.liveProbeReviewSummary.transientNetworkCount} |
+| Live body 확인 | ${report.contentSignalSummary.bodyChecked} |
+| Live 제목/메타 확인 | ${report.contentSignalSummary.titleMetaChecked} |
+| Live 콘텐츠 일치 신호 | ${report.contentSignalSummary.contentMatched} |
+| Live 콘텐츠 불일치 신호 | ${report.contentSignalSummary.contentMismatch} |
+| Live 가격 신호 | ${report.contentSignalSummary.priceSignal} |
+| Live 구매/신청 버튼 신호 | ${report.contentSignalSummary.purchaseActionSignal} |
+| Live 종료 문구 재검토 신호 | ${report.contentSignalSummary.unavailableTextReview} |
 | 출시 게이트 통과 | ${report.launchGate.passed ? "YES" : "NO"} |
 | 노출 검색 링크 | ${report.exposedSearchLinks} |
 | 노출 품절/종료 링크 | ${report.exposedSoldOutLinks} |

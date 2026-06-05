@@ -2,14 +2,14 @@
 
 공식 혜택/할인뉴스가 오래된 정보나 종료된 이벤트를 사용자에게 노출하지 않도록 확인하는 운영 리포트입니다.
 
-- 생성 시각: 2026-06-04T10:47:02.103Z
-- 원본 리포트 생성 시각: 2026-06-04T10:47:01.612Z
+- 생성 시각: 2026-06-05T12:25:38.976Z
+- 원본 리포트 생성 시각: 2026-06-05T12:23:40.933Z
 - 상태: fresh
 - 리포트 나이: 0h
 - 노출 공식 혜택: 43개
 - 종료 노출: 0개
 - 14일 이내 종료: 1개
-- 공식 소스 후보: 30개
+- 공식 소스 후보: 31개
 
 ## Checks
 
@@ -21,7 +21,7 @@
 | expired exposure | PASS | No expired official benefit is visible. |
 | category coverage | PASS | All 10 categories have at least 2 visible benefits. |
 | provider freshness queue | PASS | 4 providers have zero hidden/failed/expired/official-missing issues. |
-| official source catalog | PASS | 30 official source candidates are tracked. |
+| official source catalog | PASS | 31 official source candidates are tracked. |
 
 ## Category Coverage
 
@@ -42,7 +42,7 @@
 
 | Deal | Merchant | End Date | Days Left | Action |
 | --- | --- | --- | ---: | --- |
-| GS25 드링킹 페스타 1+1·다량 구매 행사 | GS25 | 2026-06-15 | 10.6 | 공식 페이지 종료 여부를 확인하고 대체 혜택 후보를 준비하세요. |
+| GS25 드링킹 페스타 1+1·다량 구매 행사 | GS25 | 2026-06-15 | 9.5 | 공식 페이지 종료 여부를 확인하고 대체 혜택 후보를 준비하세요. |
 
 ## Next Actions
 

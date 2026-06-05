@@ -53,7 +53,7 @@ function canonicalDealKey(deal: Deal) {
 
   try {
     const url = new URL(urlValue);
-    const keepParams = new Set(["itemId", "vendorItemId", "goodsCode", "goodsNo", "goodscode", "productId", "prdNo", "dealNo"]);
+    const keepParams = new Set(["itemId", "vendorItemId", "goodsCode", "goodsNo", "goodscode", "productId", "prdNo", "prdno", "prdid", "dealNo", "dealno", "bbs_category"]);
 
     for (const key of Array.from(url.searchParams.keys())) {
       if (!keepParams.has(key)) url.searchParams.delete(key);

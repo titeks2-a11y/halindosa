@@ -72,6 +72,7 @@ function isHomeOnlyUrl(url: URL) {
 
 function isSearchOrCategoryUrl(url: URL) {
   if (isPolicySearchLikeUrl(url)) return true;
+  if (hasPolicyProductDetailSignal(url)) return false;
   if (url.pathname.toLowerCase().includes("/product/")) return false;
   if (/event|benefit|campaign|coupon|promotion/i.test(`${url.pathname}${url.search}${url.hash}`)) return false;
 
@@ -99,7 +100,7 @@ function isKnownProductDetailUrl(url: URL, mallName: string) {
   if (/오늘의집/.test(mall) || hostMatches(host, "ohou.se")) return /\/productions\/\d+|\/goods\/\d+/.test(path);
   if (/무신사|musinsa/.test(mall) || hostMatches(host, "musinsa.com")) return /\/products\/\d+/.test(path) || /\/app\/campaign|\/campaign|benefit/.test(full);
   if (/lf몰|lfmall/.test(mall) || hostMatches(host, "lfmall.co.kr")) return /\/app\/product\/[a-z0-9]+/i.test(path);
-  if (/gs shop|gsshop/.test(mall) || hostMatches(host, "gsshop.com")) return /\/deal\/deal\.gs|dealno=/.test(full);
+  if (/gs shop|gsshop/.test(mall) || hostMatches(host, "gsshop.com")) return /\/deal\/deal\.gs|dealno=|\/prd\/prd\.gs|prdid=/.test(full);
   if (/gs25|gs리테일/.test(mall) || hostMatches(host, "gsretail.com")) return /\/customer-engagement\/event\/detail\/publishing/.test(path) && url.searchParams.has("eventCode");
   if (/인터파크|interpark/.test(mall) || hostMatches(host, "interpark.com")) return /\/goods\/detail/.test(path) || /\/tna\/products\/[a-z0-9-]+/.test(path) || /\/contents\/notice\/detail\/\d+/.test(path);
   if (/아이프라브|ipraves/.test(mall) || hostMatches(host, "ipraves.co.kr")) return /\/product\//.test(path);
@@ -109,7 +110,7 @@ function isKnownProductDetailUrl(url: URL, mallName: string) {
   if (/하이마트|himart/.test(mall) || hostMatches(host, "e-himart.co.kr")) return /\/app\/goods\/goodsdetail|goodsno=|goodscode=/.test(full);
   if (/네이버페이|naverpay/.test(mall) || hostMatches(host, "pay.naver.com")) return /\/member\/benefit\/event|\/promotion\/event/.test(path);
   if (/네이버플러스|naverplus/.test(mall) || hostMatches(host, "nid.naver.com")) return /\/membership\/join/.test(path);
-  if (/카카오페이|kakaopay/.test(mall) || hostMatches(host, "kakaopay.com")) return /\/benefits|\/event|\/services\/life\/payment/.test(path);
+  if (/카카오페이|kakaopay/.test(mall) || hostMatches(host, "kakaopay.com")) return /\/benefits|\/event|\/services\/life\/(?:payment|membership)/.test(path);
   if (/토스|toss/.test(mall) || hostMatches(host, "toss.im")) return /\/event|\/tossfeed\/article\//.test(path);
   if (/payco|페이코/.test(mall) || hostMatches(host, "payco.com")) return /\/event/.test(path) || path.includes("event.nhn") || path.includes("/app/share.nhn") || host.startsWith("events.");
   if (/t멤버십|tmembership|통신사/.test(mall) || hostMatches(host, "tmembership.co.kr")) return /\/benefit|\/event|\/discount/.test(path);

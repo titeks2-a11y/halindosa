@@ -166,10 +166,10 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     evidence: "하이마트 Lenovo RTX3050Ti 게이밍 노트북 상품 상세"
   },
   d027: {
-    url: "https://m.gsshop.com/deal/deal.gs?dealNo=1081284321",
-    checkedAt: "2026-05-31T11:10:00.000Z",
+    url: "https://m.gsshop.com/prd/prd.gs?prdid=1076815137&mseq=440582&rank=2&ispre=Y&kwd=24336",
+    checkedAt: "2026-06-05T03:15:00.000+09:00",
     source: "manual_review",
-    evidence: "GS SHOP 기저귀 딜 상세"
+    evidence: "GS SHOP 군 기저귀 프리미엄 밴드 대형 36P x 4팩 상품 상세"
   },
   d028: {
     url: "https://www.coupang.com/vp/products/45447044?itemId=162348092&vendorItemId=3383614966",
@@ -226,16 +226,16 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     evidence: "하이마트 허밍 무선청소기 HML-VC2502W 상품 상세"
   },
   d037: {
-    url: "https://www.musinsa.com/products/1893766",
-    checkedAt: "2026-05-31T10:20:00.000Z",
+    url: "https://www.musinsa.com/products/1455894",
+    checkedAt: "2026-06-05T03:40:00.000+09:00",
     source: "manual_review",
-    evidence: "무신사 3팩 티셔츠 상품 상세"
+    evidence: "무신사 더니트컴퍼니 수피마 에센셜 티셔츠 3PACK 상품 상세"
   },
   d038: {
-    url: "https://m.gsshop.com/deal/deal.gs?dealNo=1081284321",
-    checkedAt: "2026-05-31T11:10:00.000Z",
+    url: "https://m.gsshop.com/prd/prd.gs?ispre=Y&kwd=24336&mseq=440582&prdid=1076815128&rank=3",
+    checkedAt: "2026-06-05T03:15:00.000+09:00",
     source: "manual_review",
-    evidence: "GS SHOP 군 기저귀 4팩 상품 상세"
+    evidence: "GS SHOP 군 기저귀 프리미엄 팬티 대형 32P x 4팩 상품 상세"
   },
   d039: {
     url: "https://tickets.interpark.com/contents/notice/detail/13198",
@@ -430,10 +430,10 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     evidence: "아이챌린지 공식 이벤트 페이지"
   },
   d071: {
-    url: "https://kakaopay.com/services/life/payment?t_ch=main&t_src=homepage",
-    checkedAt: "2026-06-03T16:30:00.000+09:00",
+    url: "https://www.kakaopay.com/services/life/membership",
+    checkedAt: "2026-06-05T03:40:00.000+09:00",
     source: "manual_review",
-    evidence: "카카오페이 결제 리워드 공식 서비스 상세 페이지"
+    evidence: "카카오페이 멤버십 적립 및 쿠폰 혜택 공식 서비스 상세 페이지"
   },
   d072: {
     url: "https://nid.naver.com/membership/join",
@@ -706,10 +706,10 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     evidence: "무신사 신규 가입 웰컴 0원 쿠폰팩 공식 혜택 캠페인"
   },
   d117: {
-    url: "https://www.mega-mgccoffee.com/bbs/?bbs_category=3",
-    checkedAt: "2026-06-02T02:30:00.000Z",
+    url: "https://www.mega-mgccoffee.com/bbs/?bbs_category=2",
+    checkedAt: "2026-06-05T03:40:00.000+09:00",
     source: "manual_review",
-    evidence: "메가MGC커피 앱 가입 무료 사이즈업 쿠폰 공식 이벤트 소식"
+    evidence: "메가MGC커피 앱 가입 쿠폰 관련 공식 소식 페이지"
   },
   d118: {
     url: "https://item.gmarket.co.kr/Item?goodscode=2910475736",
