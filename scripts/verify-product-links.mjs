@@ -35,6 +35,7 @@ const liveProbe = {
   http5xx: 0,
   timeout: 0,
   robotsBlocked: 0,
+  rateLimited: 0,
   unavailableText: 0,
   unavailableTextReview: 0,
   bodyChecked: 0,
@@ -86,6 +87,18 @@ function findLiveUnavailablePattern(text) {
 
 function containsAccessGuardText(text) {
   return /(잠시만 기다려 주세요|비정상적인 접근|access denied|request blocked|bot detection|captcha|보안문자|접근이 제한)/i.test(String(text ?? ""));
+}
+
+function isRateLimitedProbe(probe) {
+  return probe?.status === 429 || probe?.reason === "http_429";
+}
+
+function isAccessProtectedProbe(probe) {
+  return Boolean(probe?.accessGuard || probe?.reason === "robots_or_access_blocked" || isRateLimitedProbe(probe));
+}
+
+function hasAccessibleContentMismatch(probe) {
+  return probe?.contentMatch === false && !isAccessProtectedProbe(probe);
 }
 
 function stripHtml(value) {
@@ -261,13 +274,14 @@ function recordLiveProbeResult(id, urlValue, probe) {
   if (probe.status >= 500) liveProbe.http5xx += 1;
   if (probe.reason === "timeout") liveProbe.timeout += 1;
   if (probe.reason === "robots_or_access_blocked") liveProbe.robotsBlocked += 1;
+  if (isRateLimitedProbe(probe)) liveProbe.rateLimited += 1;
   if (probe.reason === "sold_out_or_ended_text") liveProbe.unavailableText += 1;
   if (probe.unavailableTextReview) liveProbe.unavailableTextReview += 1;
   if (probe.bodyChecked) liveProbe.bodyChecked += 1;
   if (probe.title || probe.metaDescription) liveProbe.titleMetaChecked += 1;
   if (probe.contentMatch === true) liveProbe.contentMatched += 1;
   if (probe.contentMatch === false) liveProbe.contentMismatch += 1;
-  if (probe.contentMatch === false && !probe.accessGuard && probe.reason !== "robots_or_access_blocked") liveProbe.accessibleContentMismatch += 1;
+  if (hasAccessibleContentMismatch(probe)) liveProbe.accessibleContentMismatch += 1;
   if (probe.accessGuard) liveProbe.accessGuardBody += 1;
   if (probe.priceSignal) liveProbe.priceSignal += 1;
   if (probe.purchaseActionSignal) liveProbe.purchaseActionSignal += 1;
@@ -299,6 +313,8 @@ function recordLiveProbeResult(id, urlValue, probe) {
         reason: probe.reason,
         titleSimilarity: probe.titleSimilarity,
         contentMatch: probe.contentMatch,
+        accessGuard: probe.accessGuard,
+        rateLimited: isRateLimitedProbe(probe),
         unavailablePattern: probe.unavailablePattern
       });
   }
@@ -390,6 +406,7 @@ function getValidationCode({ linkType, validationStatus, availability, checks, l
   if (checks?.homeOnlyUrl) return "homepage_link";
   if (checks?.blockedHost) return "community_link";
   if (checks?.httpUrl === false) return "unsafe_url";
+  if (checks?.accessibleContentMismatch) return "mismatch";
   if (liveProbeFailure?.reason === "timeout") return "timeout";
   if (validationStatus === "passed" && availability === "active" && linkType !== "unavailable") return "valid";
   if (validationStatus === "needs_review") return "mismatch";
@@ -418,7 +435,9 @@ function buildAuditedItems({ dealIds, entryMap, metadataMap, dealMetadataMap, is
       contentMatch: liveProbeDetail?.contentMatch ?? null,
       priceSignal: Boolean(liveProbeDetail?.priceSignal),
       purchaseActionSignal: Boolean(liveProbeDetail?.purchaseActionSignal),
-      accessGuard: Boolean(liveProbeDetail?.accessGuard)
+      accessGuard: Boolean(liveProbeDetail?.accessGuard),
+      rateLimited: Boolean(isRateLimitedProbe(liveProbeFailure ?? liveProbeDetail)),
+      accessibleContentMismatch: Boolean(hasAccessibleContentMismatch(liveProbeFailure ?? liveProbeDetail))
     };
     let host = "";
     let finalUrl = urlValue;
@@ -445,7 +464,11 @@ function buildAuditedItems({ dealIds, entryMap, metadataMap, dealMetadataMap, is
     }
 
     const unavailableDetected = checks.unavailableText || liveProbeFailure?.reason === "sold_out_or_ended_text";
-    const validationStatus = issueMessages.length ? "failed" : "passed";
+    const validationReasons = [
+      ...issueMessages.map((issue) => issue.replace(`${id}: `, "")),
+      ...(checks.accessibleContentMismatch ? ["live_content_mismatch"] : [])
+    ];
+    const validationStatus = validationReasons.length ? "failed" : "passed";
     const availability = unavailableDetected ? "sold_out" : validationStatus === "passed" ? "active" : "unknown";
     const validationCode = getValidationCode({
       linkType,
@@ -489,7 +512,7 @@ function buildAuditedItems({ dealIds, entryMap, metadataMap, dealMetadataMap, is
       availability,
       validationStatus,
       validationCode,
-      validationReason: issueMessages.length ? issueMessages.map((issue) => issue.replace(`${id}: `, "")).join(" | ") : "passed",
+      validationReason: validationReasons.length ? validationReasons.join(" | ") : "passed",
       lastCheckedAt: metadata?.checkedAt ?? "",
       priorityScore,
       isHidden,
@@ -504,10 +527,14 @@ function buildAuditedItems({ dealIds, entryMap, metadataMap, dealMetadataMap, is
             reason: liveProbeFailure.reason,
             finalUrl: liveProbeFailure.finalUrl,
             titleSimilarity: liveProbeFailure.titleSimilarity ?? null,
-            contentMatch: liveProbeFailure.contentMatch ?? null
+            contentMatch: liveProbeFailure.contentMatch ?? null,
+            accessGuard: liveProbeFailure.accessGuard ?? false,
+            rateLimited: isRateLimitedProbe(liveProbeFailure)
           }
         : liveProbeEnabled
           ? {
+              status: liveProbeDetail?.status ?? 0,
+              reason: liveProbeDetail?.reason ?? "",
               ok: true,
               bodyChecked: liveProbeDetail?.bodyChecked ?? false,
               title: liveProbeDetail?.title ?? "",
@@ -516,7 +543,8 @@ function buildAuditedItems({ dealIds, entryMap, metadataMap, dealMetadataMap, is
               contentMatch: liveProbeDetail?.contentMatch ?? null,
               priceSignal: liveProbeDetail?.priceSignal ?? false,
               purchaseActionSignal: liveProbeDetail?.purchaseActionSignal ?? false,
-              accessGuard: liveProbeDetail?.accessGuard ?? false
+              accessGuard: liveProbeDetail?.accessGuard ?? false,
+              rateLimited: isRateLimitedProbe(liveProbeDetail)
             }
           : { ok: null, reason: "disabled" }
     };
@@ -528,6 +556,7 @@ function getVerificationEvidenceTier(item) {
   if (item.liveProbe?.ok === true && item.checks?.contentMatch === true) return "live_content_confirmed";
   if (item.liveProbe?.ok === true && (item.checks?.priceSignal || item.checks?.purchaseActionSignal)) return "live_commerce_signal_confirmed";
   if (item.liveProbe?.ok === false && item.checks?.accessGuard) return "seller_access_protected_manual_verified";
+  if (item.liveProbe?.ok === false && item.checks?.rateLimited) return "seller_rate_limited_manual_verified";
   if (item.liveProbe?.ok === false && ["request_failed", "timeout"].includes(item.liveProbe?.reason)) return "transient_network_manual_verified";
   if (item.linkType === "direct_purchase" || item.linkType === "affiliate") return "manual_pattern_verified";
   return "manual_review_needed";
@@ -538,7 +567,7 @@ function getRevalidationPriority(item) {
   if (item.liveProbe?.reason === "sold_out_or_ended_text") return 95;
   if (item.liveProbe?.status === 404 || item.liveProbe?.status === 410 || item.liveProbe?.status >= 500) return 90;
   if (["request_failed", "timeout"].includes(item.liveProbe?.reason)) return 75;
-  if (item.checks?.contentMatch === false && !item.checks?.accessGuard && item.liveProbe?.reason !== "robots_or_access_blocked") return 65;
+  if (item.checks?.accessibleContentMismatch) return 65;
   if (item.liveProbe?.reason === "http_429") return 55;
   if (item.liveProbe?.reason === "robots_or_access_blocked") return 45;
   return 20;
@@ -549,7 +578,7 @@ function getRevalidationReason(item) {
   if (item.liveProbe?.reason === "sold_out_or_ended_text") return "live_sold_out_or_ended_signal";
   if (item.liveProbe?.status === 404 || item.liveProbe?.status === 410 || item.liveProbe?.status >= 500) return `live_http_${item.liveProbe.status}`;
   if (["request_failed", "timeout"].includes(item.liveProbe?.reason)) return item.liveProbe.reason;
-  if (item.checks?.contentMatch === false && !item.checks?.accessGuard && item.liveProbe?.reason !== "robots_or_access_blocked") return "accessible_content_mismatch_review";
+  if (item.checks?.accessibleContentMismatch) return "accessible_content_mismatch_blocked";
   if (item.liveProbe?.reason === "http_429") return "seller_rate_limited_review";
   if (item.liveProbe?.reason === "robots_or_access_blocked") return "seller_access_protected_review";
   return "routine_rotation_review";
@@ -814,11 +843,11 @@ const report = {
   generatedAt: new Date().toISOString(),
   totalDeals: dealIds.length,
   verificationTargets: dealIds.length,
-  passedDirectLinks: issues.length ? Math.max(0, entries.length - issues.length) : entries.length,
-  visibleDeals: issues.length ? 0 : dealIds.length,
+  passedDirectLinks: exposureAudit.passedItems,
+  visibleDeals: exposureAudit.exposedItems,
   publishableDeals: exposureAudit.publishableItems,
-  excludedDeals: issues.length ? new Set(issues.map((issue) => issue.match(/^(d\d+)/)?.[1]).filter(Boolean)).size : 0,
-  failedCount: issues.length,
+  excludedDeals: exposureAudit.hiddenItems,
+  failedCount: exposureAudit.failedItems,
   productDetailUrls: productDetailCount,
   officialBenefitUrls: claimBenefitCount,
   searchOrCategorySuspected: excludedReasonCounts.get("search_result_url") ?? 0,
@@ -827,13 +856,13 @@ const report = {
   homeOrMainSuspected: excludedReasonCounts.get("redirect_to_home") ?? 0,
   communitySuspected: excludedReasonCounts.get("community_source") ?? 0,
   manualReviewNeeded: excludedReasonCounts.get("manual_review_needed") ?? 0,
-  hiddenCount: issues.length ? new Set(issues.map((issue) => issue.match(/^(d\d+)/)?.[1]).filter(Boolean)).size : 0,
+  hiddenCount: exposureAudit.hiddenItems,
   exposedSearchLinks: exposureAudit.exposedSearchLinks,
   exposedSoldOutLinks: exposureAudit.exposedSoldOutLinks,
   exposedBrokenLinks: exposureAudit.exposedBrokenLinks,
   exposedInvalidUrls: exposureAudit.exposedInvalidUrls,
   exposedNonPublishableItems: exposureAudit.exposedNonPublishableItems,
-  visibleCount: issues.length ? 0 : dealIds.length,
+  visibleCount: exposureAudit.exposedItems,
   liveProbe,
   httpStatusSummary: {
     redirected: liveProbe.redirected,
@@ -842,6 +871,7 @@ const report = {
     http410: liveProbe.http410,
     http5xx: liveProbe.http5xx,
     timeout: liveProbe.timeout,
+    rateLimited: liveProbe.rateLimited,
     robotsBlocked: liveProbe.robotsBlocked,
     unavailableText: liveProbe.unavailableText,
     unavailableTextReview: liveProbe.unavailableTextReview
@@ -862,6 +892,7 @@ const report = {
     counts: Object.fromEntries([...verificationEvidenceCounts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))),
     liveConfirmed: (verificationEvidenceCounts.get("live_content_confirmed") ?? 0) + (verificationEvidenceCounts.get("live_commerce_signal_confirmed") ?? 0),
     sellerAccessProtected: verificationEvidenceCounts.get("seller_access_protected_manual_verified") ?? 0,
+    sellerRateLimited: verificationEvidenceCounts.get("seller_rate_limited_manual_verified") ?? 0,
     transientNetwork: verificationEvidenceCounts.get("transient_network_manual_verified") ?? 0,
     manualPatternVerified: verificationEvidenceCounts.get("manual_pattern_verified") ?? 0,
     blocked: verificationEvidenceCounts.get("blocked") ?? 0
@@ -896,6 +927,33 @@ mkdirSync(join(root, "reports"), { recursive: true });
 writeFileSync(join(root, "LINK_VERIFICATION_RESULT.json"), `${JSON.stringify(report, null, 2)}\n`, "utf8");
 writeFileSync(join(root, "reports", "link-validation.json"), `${JSON.stringify(report, null, 2)}\n`, "utf8");
 writeFileSync(
+  join(root, "data", "linkValidationExposureOverrides.json"),
+  `${JSON.stringify(
+    {
+      generatedAt: report.generatedAt,
+      sourceReport: "reports/link-validation.json",
+      hiddenCount: report.exposureAudit.hiddenItems,
+      items: report.auditedItems
+        .filter((item) => item.isHidden === true || item.publishable !== true || item.validationStatus !== "passed" || item.availability !== "active")
+        .map((item) => ({
+          id: item.id,
+          title: item.title,
+          mallName: item.mallName,
+          availability: item.availability,
+          validationStatus: item.validationStatus,
+          validationReason: item.validationReason,
+          validationCode: item.validationCode,
+          evidenceTier: item.verificationEvidenceTier,
+          revalidationReason: item.revalidationReason,
+          finalUrl: item.finalUrl
+        }))
+    },
+    null,
+    2
+  )}\n`,
+  "utf8"
+);
+writeFileSync(
   join(root, "LINK_VERIFICATION_REPORT.md"),
   `# 할인도사 Link Verification Report
 
@@ -922,6 +980,7 @@ Generated: ${report.generatedAt}
 | Live probe 확인 | ${report.liveProbe.checked} |
 | Live probe 실패 | ${report.liveProbe.failed} |
 | Live probe robots/access 차단 | ${report.liveProbe.robotsBlocked} |
+| Live probe rate limit | ${report.liveProbe.rateLimited} |
 | Live probe timeout | ${report.liveProbe.timeout} |
 | Live probe hard failure | ${report.liveProbeReviewSummary.hardFailureCount} |
 | Live probe transient network | ${report.liveProbeReviewSummary.transientNetworkCount} |
@@ -989,6 +1048,7 @@ if (issues.length) {
 
 const coverageRate = dealIds.length ? Math.round((entries.length / dealIds.length) * 100) : 0;
 console.log(`Product link verification passed: ${entries.length}/${dealIds.length} verified purchase URLs (${coverageRate}%).`);
+console.log(`- Publishable after exposure policy: ${report.publishableDeals}/${report.totalDeals} (hidden ${report.hiddenCount})`);
 console.log(`- Distinct purchase hosts: ${hosts.size}`);
 console.log(`- Product detail URLs: ${productDetailCount}`);
 console.log(`- Official benefit/event URLs: ${claimBenefitCount}`);
@@ -1007,7 +1067,7 @@ if (liveProbe.enabled) {
     `- Live probe: checked ${liveProbe.checked}, passed ${liveProbe.passed}, failed ${liveProbe.failed}, redirected ${liveProbe.redirected}`
   );
   console.log(
-    `- Live probe signals: 404 ${liveProbe.http404}, 410 ${liveProbe.http410}, 5xx ${liveProbe.http5xx}, timeout ${liveProbe.timeout}, robots/access ${liveProbe.robotsBlocked}, sold-out text ${liveProbe.unavailableText}`
+    `- Live probe signals: 404 ${liveProbe.http404}, 410 ${liveProbe.http410}, 5xx ${liveProbe.http5xx}, timeout ${liveProbe.timeout}, rate-limit ${liveProbe.rateLimited}, robots/access ${liveProbe.robotsBlocked}, sold-out text ${liveProbe.unavailableText}`
   );
   console.log(`- Live probe failure reasons: ${reasonSummary || "none"}`);
 

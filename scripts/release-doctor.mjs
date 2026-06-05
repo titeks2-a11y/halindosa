@@ -1687,6 +1687,10 @@ function checkRefreshDealPipeline() {
     issues.push("deal repository should merge refreshed snapshots and provider registry deals into customer-visible data");
   }
 
+  if (!dealRepository.includes("applyLinkValidationExposureOverride")) {
+    issues.push("deal repository should apply link-validation hidden/mismatch exposure overrides before customer-visible filtering");
+  }
+
   if (
     !operationOverrides.includes("hideDealManually") ||
     !operationOverrides.includes("restoreDealManually") ||

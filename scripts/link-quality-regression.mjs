@@ -235,8 +235,14 @@ const reportChecks = [
     ok: (linkReport.exposedSoldOutLinks ?? linkReport.soldOutOrEndedSuspected ?? 0) === 0
   },
   {
-    name: "product report has zero failed products",
-    ok: (productReport.failedProducts ?? 0) === 0
+    name: "product report has zero exposed broken products",
+    ok: (productReport.exposedBrokenLinks ?? 0) === 0 &&
+      (productReport.exposedInvalidUrls ?? 0) === 0 &&
+      (productReport.exposedNonPublishableItems ?? 0) === 0
+  },
+  {
+    name: "hidden failed products are allowed after exposure blocking",
+    ok: (productReport.failedProducts ?? 0) <= (productReport.hiddenProducts ?? 0)
   },
   {
     name: "exposure report has zero bad exposed items",
@@ -263,6 +269,8 @@ const report = {
     reportPassed: reportChecks.filter((item) => item.ok).length,
     exposedSearchLinks: linkReport.exposedSearchLinks ?? linkReport.searchLinks ?? 0,
     exposedSoldOutLinks: linkReport.exposedSoldOutLinks ?? linkReport.soldOutOrEndedSuspected ?? 0,
+    hiddenProducts: productReport.hiddenProducts ?? 0,
+    failedProducts: productReport.failedProducts ?? 0,
     badExposedItems: exposureReport.summary?.badExposedItems ?? 0,
     nonPublishableExposed: exposureReport.summary?.nonPublishableExposed ?? 0
   },

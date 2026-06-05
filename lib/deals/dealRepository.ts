@@ -6,6 +6,7 @@ import { fetchProductionDeals } from "@/lib/deals/providers/productionProvider";
 import { fetchProviderDealsSafely } from "@/lib/deals/providers/providerRegistry";
 import { fetchRefreshedSnapshotDeals, getRefreshedSnapshotUpdatedAt } from "@/lib/deals/providers/refreshedSnapshotProvider";
 import { fetchStagingDeals } from "@/lib/deals/providers/stagingProvider";
+import { applyLinkValidationExposureOverride } from "@/lib/deals/linkValidationExposure";
 import { isPubliclyVisibleDeal, isVerifiedPurchaseLink } from "@/lib/deals/quality";
 import { dealMatchesSearch } from "@/lib/deals/search";
 import { applyDealOperationOverrides, readDealOperationOverridesLive } from "@/lib/deals/operationOverrides";
@@ -172,7 +173,7 @@ export async function getDeals(query: DealQuery = {}) {
   const operationOverrides = await readDealOperationOverridesLive();
   const sort = normalizeSort(query.sort);
   const limit = query.limit ?? 0;
-  let deals = provider.deals.map((deal) => applyDealOperationOverrides(deal, operationOverrides));
+  let deals = provider.deals.map((deal) => applyLinkValidationExposureOverride(applyDealOperationOverrides(deal, operationOverrides)));
 
   if (!query.includeHidden) {
     deals = deals.filter(isPubliclyVisibleDeal);
@@ -222,7 +223,7 @@ export async function getDeals(query: DealQuery = {}) {
 
 export function findDealById(id: string) {
   const deal = dealCache.get(id) ?? normalizeDeals(curatedMockDeals, "mock").find((item) => item.id === id) ?? null;
-  return deal ? applyDealOperationOverrides(deal) : null;
+  return deal ? applyLinkValidationExposureOverride(applyDealOperationOverrides(deal)) : null;
 }
 
 export async function findDealByIdLive(id: string) {
@@ -238,6 +239,7 @@ export function getRelatedDeals(dealId: string, limit = 4) {
   const cachedDeals = Array.from(dealCache.values());
   const deals = (cachedDeals.length ? cachedDeals : normalizeDeals(curatedMockDeals, "mock"))
     .map((deal) => applyDealOperationOverrides(deal))
+    .map((deal) => applyLinkValidationExposureOverride(deal))
     .filter(isPubliclyVisibleDeal);
   const deal = deals.find((item) => item.id === dealId);
   if (!deal) return [];

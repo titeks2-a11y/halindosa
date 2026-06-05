@@ -1,5 +1,6 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
+import type { Deal } from "@/types/deal";
 
 export interface LinkValidationRevalidationItem {
   id: string;
@@ -10,6 +11,18 @@ export interface LinkValidationRevalidationItem {
   priority: number;
   reason: string;
   evidenceTier: string;
+}
+
+export interface LinkValidationAuditItem {
+  id: string;
+  availability?: Deal["availability"];
+  validationStatus?: Deal["validationStatus"];
+  validationReason?: string;
+  validationCode?: Deal["validationCode"];
+  isHidden?: boolean;
+  publishable?: boolean;
+  verificationEvidenceTier?: string;
+  revalidationReason?: string;
 }
 
 export interface LinkValidationReport {
@@ -25,6 +38,7 @@ export interface LinkValidationReport {
     passed: number;
     failed: number;
     robotsBlocked: number;
+    rateLimited: number;
     timeout: number;
   };
   contentSignalSummary: {
@@ -39,11 +53,13 @@ export interface LinkValidationReport {
     counts: Record<string, number>;
     liveConfirmed: number;
     sellerAccessProtected: number;
+    sellerRateLimited: number;
     transientNetwork: number;
     manualPatternVerified: number;
     blocked: number;
   };
   revalidationQueue: LinkValidationRevalidationItem[];
+  auditedItems: LinkValidationAuditItem[];
 }
 
 const fallbackReport: LinkValidationReport = {
@@ -59,6 +75,7 @@ const fallbackReport: LinkValidationReport = {
     passed: 0,
     failed: 0,
     robotsBlocked: 0,
+    rateLimited: 0,
     timeout: 0
   },
   contentSignalSummary: {
@@ -73,11 +90,13 @@ const fallbackReport: LinkValidationReport = {
     counts: {},
     liveConfirmed: 0,
     sellerAccessProtected: 0,
+    sellerRateLimited: 0,
     transientNetwork: 0,
     manualPatternVerified: 0,
     blocked: 0
   },
-  revalidationQueue: []
+  revalidationQueue: [],
+  auditedItems: []
 };
 
 function readFirstExistingReport() {
@@ -116,6 +135,7 @@ export function getLinkValidationReport(): LinkValidationReport {
           ? report.verificationEvidenceSummary.counts
           : {}
     },
-    revalidationQueue: Array.isArray(report.revalidationQueue) ? report.revalidationQueue : []
+    revalidationQueue: Array.isArray(report.revalidationQueue) ? report.revalidationQueue : [],
+    auditedItems: Array.isArray(report.auditedItems) ? report.auditedItems : []
   };
 }

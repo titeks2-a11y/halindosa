@@ -632,7 +632,40 @@ for (const deal of normalizedDeals) {
 }
 
 const dedupedDeals = dedupeDeals(validatedDeals);
-const visibleDeals = dedupedDeals.filter(
+const verificationSteps = [
+  runStep("link-validation", ["scripts/verify-product-links-live.mjs", "--body"]),
+  runStep("product-quality", ["scripts/verify-products.mjs"])
+];
+const linkValidation = readJson("reports/link-validation.json");
+const productQuality = readJson("reports/product-quality.json");
+const reportBlockedItems = new Map(
+  (Array.isArray(linkValidation?.auditedItems) ? linkValidation.auditedItems : [])
+    .filter((item) => item.isHidden === true || item.publishable !== true || item.validationStatus !== "passed" || item.availability !== "active")
+    .map((item) => [item.id, item])
+);
+const exposureAdjustedDeals = dedupedDeals.map((deal) => {
+  const blockedItem = reportBlockedItems.get(deal.id);
+  if (!blockedItem) return deal;
+
+  const availability = blockedItem.availability === "sold_out" || blockedItem.availability === "ended" ? blockedItem.availability : "unknown";
+  const validationReason = blockedItem.validationReason || blockedItem.revalidationReason || "link_validation_report_blocked";
+
+  return {
+    ...deal,
+    availability,
+    validationStatus: "failed",
+    validationReason,
+    validationCode: blockedItem.validationCode && blockedItem.validationCode !== "valid" ? blockedItem.validationCode : "mismatch",
+    isHidden: true,
+    publishable: false,
+    linkStatus: availability === "sold_out" ? "sold_out" : "needs_review",
+    purchaseStatus: availability === "sold_out" ? "sold_out" : "needs_review",
+    linkLabel: "운영 재검증 중",
+    purchaseConfidence: Math.min(deal.purchaseConfidence ?? 0, 35),
+    reliabilityScore: Math.min(deal.reliabilityScore ?? 0, 45)
+  };
+});
+const visibleDeals = exposureAdjustedDeals.filter(
   (deal) =>
     !deal.isHidden &&
     deal.publishable === true &&
@@ -642,7 +675,7 @@ const visibleDeals = dedupedDeals.filter(
     deal.linkType !== "unavailable" &&
     Boolean(deal.finalUrl || deal.finalPurchaseUrl)
 );
-const hiddenDeals = dedupedDeals.filter((deal) => !visibleDeals.some((visible) => visible.id === deal.id));
+const hiddenDeals = exposureAdjustedDeals.filter((deal) => !visibleDeals.some((visible) => visible.id === deal.id));
 const liveProbeSummary = {
   enabled: shouldLiveProbe,
   bodyProbe: shouldBodyProbe,
@@ -664,12 +697,12 @@ for (const failure of [...normalizationFailures.map((result) => result.reason), 
 }
 
 for (const stat of providerStats) {
-  const providerDeals = dedupedDeals.filter((deal) => deal.sourceProvider === stat.provider);
+  const providerDeals = exposureAdjustedDeals.filter((deal) => deal.sourceProvider === stat.provider);
   stat.normalizedCount = normalizedDeals.filter((deal) => deal.sourceProvider === stat.provider).length;
   stat.insertedCount = providerDeals.filter((deal) => deal.sourceProvider !== "manual" && !deal.isHidden).length;
   stat.updatedCount = providerDeals.filter((deal) => deal.sourceProvider === "manual" && !deal.isHidden).length;
   stat.hiddenCount = providerDeals.filter((deal) => deal.isHidden).length;
-  stat.failedCount = stat.hiddenCount + normalizationFailures.filter((failure) => failure.provider === stat.provider).length;
+  stat.failedCount = normalizationFailures.filter((failure) => failure.provider === stat.provider).length;
 }
 
 const snapshot = {
@@ -680,7 +713,7 @@ const snapshot = {
   visibleDealIds: visibleDeals.map((deal) => deal.id),
   revalidationQueue: {
     total: revalidationQueue.length,
-    matchedCount: revalidationQueue.filter((item) => dedupedDeals.some((deal) => deal.id === item.id)).length,
+    matchedCount: revalidationQueue.filter((item) => exposureAdjustedDeals.some((deal) => deal.id === item.id)).length,
     ids: revalidationQueue.map((item) => item.id).slice(0, 50)
   },
   hiddenDeals: hiddenDeals.map((deal) => ({
@@ -697,18 +730,18 @@ writeFileSync(join(dataDir, "refreshedDeals.json"), `${JSON.stringify(snapshot, 
 
 const baseSummary = {
   generatedAt: now,
-  ok: hiddenDeals.every((deal) => deal.sourceProvider !== "manual"),
+  ok: normalizationFailures.length === 0 && visibleDeals.length > 0,
   fetchedCount: fetchedItems.length,
   normalizedCount: normalizedDeals.length,
   insertedCount: insertedDeals.length,
   updatedCount: manualVisibleCount,
   hiddenCount: hiddenDeals.length,
-  failedCount: hiddenDeals.length + normalizationFailures.length,
+  failedCount: normalizationFailures.length,
   visibleCount: visibleDeals.length,
   revalidationQueue: {
     total: revalidationQueue.length,
-    matchedCount: revalidationQueue.filter((item) => dedupedDeals.some((deal) => deal.id === item.id)).length,
-    missingCount: revalidationQueue.filter((item) => !dedupedDeals.some((deal) => deal.id === item.id)).length,
+    matchedCount: revalidationQueue.filter((item) => exposureAdjustedDeals.some((deal) => deal.id === item.id)).length,
+    missingCount: revalidationQueue.filter((item) => !exposureAdjustedDeals.some((deal) => deal.id === item.id)).length,
     highPriorityIds: revalidationQueue.map((item) => item.id).slice(0, 20),
     reasons: revalidationQueue.reduce((acc, item) => {
       acc[item.reason] = (acc[item.reason] ?? 0) + 1;
@@ -736,20 +769,14 @@ const baseSummary = {
     "expose only active validated deals"
   ],
   reports: {
-    linkValidation: readJson("reports/link-validation.json"),
-    productQuality: readJson("reports/product-quality.json")
+    linkValidation,
+    productQuality
   },
-  steps: []
+  steps: verificationSteps
 };
 
 writeFileSync(join(reportsDir, "refresh-deals.json"), `${JSON.stringify(baseSummary, null, 2)}\n`, "utf8");
 
-const verificationSteps = [
-  runStep("link-validation", ["scripts/verify-product-links.mjs"]),
-  runStep("product-quality", ["scripts/verify-products.mjs"])
-];
-const linkValidation = readJson("reports/link-validation.json");
-const productQuality = readJson("reports/product-quality.json");
 const summary = {
   ...baseSummary,
   ok: baseSummary.ok && verificationSteps.every((step) => step.ok),

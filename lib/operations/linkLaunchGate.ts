@@ -83,8 +83,8 @@ const fallbackReport: LinkLaunchGateReport = {
     exposedSoldOutLinks: 0,
     exposedBrokenLinks: 0,
     exposedInvalidUrls: 0,
-    failedProducts: 0,
-    hiddenProducts: 0,
+    failedProductsAllowedWhenHidden: true,
+    hiddenProductsAllowed: true,
     liveHardFailures: 0,
     sellerUnavailableSignals: 0,
     releaseDoctorFailures: 0

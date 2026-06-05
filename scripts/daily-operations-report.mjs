@@ -98,6 +98,8 @@ function buildMarkdown(report) {
     `- 상품 링크: ${report.summary.verifiedProductLinks}/${report.summary.productDealsCount} 검증`,
     `- 검색 링크 노출: ${report.summary.exposedSearchLinks}건`,
     `- 품절/종료 상품 노출: ${report.summary.exposedSoldOutLinks}건`,
+    `- 고객 노출 상품: ${report.summary.visibleProductDeals}개`,
+    `- 숨김 리뷰 상품: ${report.summary.hiddenProductDeals}개`,
     `- 공식 혜택 노출: ${report.summary.visibleOfficialBenefits}개`,
     `- refresh:all: ${report.summary.refreshAllOk ? "통과" : "점검 필요"}`,
     `- release:doctor: ${report.summary.releaseDoctorPassedChecks}/${report.summary.releaseDoctorTotalChecks}`,
@@ -159,6 +161,10 @@ const summary = {
   verifiedProductLinks: numberValue(productQuality.verifiedPurchaseLinks || linkValidation.passedDirectLinks),
   exposedSearchLinks: numberValue(productQuality.searchLinks || linkValidation.exposedSearchLinks),
   exposedSoldOutLinks: numberValue(productQuality.soldOutProducts || linkValidation.exposedSoldOutLinks),
+  exposedBrokenLinks: numberValue(productQuality.exposedBrokenLinks || linkValidation.exposedBrokenLinks),
+  exposedInvalidUrls: numberValue(productQuality.exposedInvalidUrls || linkValidation.exposedInvalidUrls),
+  exposedNonPublishableItems: numberValue(productQuality.exposedNonPublishableItems || linkValidation.exposedNonPublishableItems),
+  visibleProductDeals: numberValue(productQuality.visibleProducts || productQuality.publishableProducts || linkValidation.publishableDeals),
   hiddenProductDeals: numberValue(productQuality.hiddenProducts || linkValidation.hiddenCount),
   visibleOfficialBenefits: numberValue(newsDeals.visibleCount || refreshAll.newsDealsCount || sourceSummary.visibleOfficialBenefits),
   hiddenOfficialBenefits: numberValue(newsDeals.hiddenCount || sourceSummary.hiddenOfficialBenefits),
@@ -182,8 +188,15 @@ const summary = {
 const gates = [
   buildGate(
     "검증 구매 링크",
-    summary.productDealsCount >= 140 && summary.verifiedProductLinks >= 140 && summary.exposedSearchLinks === 0 && summary.exposedSoldOutLinks === 0 && summary.hiddenProductDeals === 0,
-    `상품 ${summary.productDealsCount}개, 검증 링크 ${summary.verifiedProductLinks}개, 검색 링크 ${summary.exposedSearchLinks}개, 품절 노출 ${summary.exposedSoldOutLinks}개`,
+    summary.productDealsCount >= 140 &&
+      summary.verifiedProductLinks >= 140 &&
+      summary.visibleProductDeals >= 120 &&
+      summary.exposedSearchLinks === 0 &&
+      summary.exposedSoldOutLinks === 0 &&
+      summary.exposedBrokenLinks === 0 &&
+      summary.exposedInvalidUrls === 0 &&
+      summary.exposedNonPublishableItems === 0,
+    `상품 ${summary.productDealsCount}개, 검증 링크 ${summary.verifiedProductLinks}개, 고객 노출 ${summary.visibleProductDeals}개, 숨김 리뷰 ${summary.hiddenProductDeals}개, 검색 링크 ${summary.exposedSearchLinks}개, 품절 노출 ${summary.exposedSoldOutLinks}개`,
     "npm run verify:links && npm run verify:products && npm run exposure:doctor"
   ),
   buildGate(
@@ -222,7 +235,7 @@ const report = {
   summary,
   gates,
   cards: [
-    buildCard("links", "구매 링크", gates[0].ok ? "good" : "danger", `${summary.verifiedProductLinks}/${summary.productDealsCount}`, "검색, 대표몰, 품절 링크를 노출하지 않는지 확인합니다.", "npm run verify:links", "/api/admin/exposure-policy"),
+    buildCard("links", "구매 링크", gates[0].ok ? "good" : "danger", `${summary.visibleProductDeals}/${summary.productDealsCount}`, "검색, 대표몰, 품절 링크를 노출하지 않고 mismatch는 숨김 리뷰 큐로 보냅니다.", "npm run verify:links", "/api/admin/exposure-policy"),
     buildCard("benefits", "공식 혜택", gates[1].ok ? "good" : "danger", `${summary.visibleOfficialBenefits}개`, "무료, 쿠폰, 카드, 문화, 공공 혜택의 공식 링크 노출 상태입니다.", "npm run verify:news", "/api/admin/news-operations"),
     buildCard("refresh", "수집 파이프라인", gates[2].ok ? "good" : "danger", summary.refreshAllOk ? "정상" : "점검", "상품과 혜택 refresh가 같은 증적 흐름으로 갱신되는지 봅니다.", "npm run refresh:all", "/api/admin/health-readiness"),
     buildCard("sources", "공식 소스", gates[3].ok ? "good" : "watch", `${summary.officialSourceCandidates}개`, "향후 API/RSS/제휴 feed 전환 후보와 정책 게이트입니다.", "npm run source:readiness:report", "/api/admin/source-readiness"),

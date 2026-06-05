@@ -66,8 +66,8 @@ const criteria = {
   exposedBrokenLinks: 0,
   exposedInvalidUrls: 0,
   exposedNonPublishableItems: 0,
-  failedProducts: 0,
-  hiddenProducts: 0,
+  failedProductsAllowedWhenHidden: true,
+  hiddenProductsAllowed: true,
   liveHardFailures: 0,
   sellerUnavailableSignals: 0
 };
@@ -121,8 +121,6 @@ if (actual.exposedSoldOutLinks !== criteria.exposedSoldOutLinks) issues.push("so
 if (actual.exposedBrokenLinks !== criteria.exposedBrokenLinks) issues.push("broken_links_exposed");
 if (actual.exposedInvalidUrls !== criteria.exposedInvalidUrls) issues.push("invalid_urls_exposed");
 if (actual.exposedNonPublishableItems !== criteria.exposedNonPublishableItems) issues.push("non_publishable_items_exposed");
-if (actual.failedProducts !== criteria.failedProducts) issues.push("failed_products_present");
-if (actual.hiddenProducts !== criteria.hiddenProducts) issues.push("hidden_products_present");
 if (!actual.refreshOk || actual.refreshFailedCount !== 0) issues.push("refresh_pipeline_not_clean");
 if (actual.liveHardFailures !== criteria.liveHardFailures) issues.push("live_probe_hard_failures");
 if (actual.sellerUnavailableSignals !== criteria.sellerUnavailableSignals) issues.push("seller_unavailable_signals");

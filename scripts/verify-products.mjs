@@ -39,6 +39,13 @@ const linkReport = readJson("reports/link-validation.json") ?? readJson("LINK_VE
 const refreshReport = readJson("reports/refresh-deals.json");
 const dealIds = extractDealIds(mockDeals);
 const hiddenIssueIds = extractHiddenIssueIds(linkReport?.issues ?? []);
+const auditedItems = Array.isArray(linkReport?.auditedItems) ? linkReport.auditedItems : [];
+const hiddenAuditIds = new Set(
+  auditedItems
+    .filter((item) => item?.isHidden === true || item?.publishable !== true || item?.validationStatus !== "passed" || item?.availability !== "active")
+    .map((item) => item.id)
+    .filter(Boolean)
+);
 const verifiedLinkIds = new Set([...verifiedPurchaseLinks.matchAll(/^\s*(d\d+):\s*{/gm)].map((match) => match[1]));
 const missingVerifiedIds = dealIds.filter((id) => !verifiedLinkIds.has(id));
 const issues = [];
@@ -111,6 +118,10 @@ if (!repository.includes("deals.filter(isPubliclyVisibleDeal)")) {
   issues.push("public getDeals 결과가 isPubliclyVisibleDeal로 필터링되지 않습니다.");
 }
 
+if (!repository.includes("applyLinkValidationExposureOverride")) {
+  issues.push("public getDeals 결과가 link-validation 리포트의 숨김/불일치 판정을 적용하지 않습니다.");
+}
+
 if (!normalizer.includes("sanitizePublicAuxiliaryUrl")) {
   issues.push("normalizeDeal이 public search/source/original URL에서 검색·대표·커뮤니티 fallback을 제거하지 않습니다.");
 }
@@ -142,7 +153,6 @@ if (!packageJson.scripts?.["refresh:deals"]) {
 if (!linkReport) {
   issues.push("링크 검증 리포트가 없습니다. npm run verify:links를 먼저 실행하세요.");
 } else {
-  const auditedItems = Array.isArray(linkReport.auditedItems) ? linkReport.auditedItems : [];
   const requiredAuditFields = [
     "id",
     "title",
@@ -243,13 +253,13 @@ if (refreshReport) {
 }
 
 const totalProducts = dealIds.length;
-const hiddenProducts = hiddenIssueIds.size + missingVerifiedIds.length;
+const hiddenProducts = new Set([...hiddenIssueIds, ...hiddenAuditIds, ...missingVerifiedIds]).size;
 const visibleProducts = Math.max(0, totalProducts - hiddenProducts);
 const report = {
   generatedAt: new Date().toISOString(),
   totalProducts,
   passedProducts: issues.length ? 0 : visibleProducts,
-  failedProducts: issues.length ? totalProducts - visibleProducts : 0,
+  failedProducts: linkReport?.exposureAudit?.failedItems ?? Math.max(0, totalProducts - visibleProducts),
   searchLinks: linkReport?.searchOrCategorySuspected ?? 0,
   soldOutProducts: linkReport?.soldOutOrEndedSuspected ?? linkReport?.exposedSoldOutLinks ?? 0,
   hiddenProducts,
@@ -263,7 +273,7 @@ const report = {
   visibleProducts: issues.length ? 0 : visibleProducts,
   verifiedPurchaseLinks: verifiedLinkIds.size,
   missingVerifiedIds,
-  hiddenIssueIds: [...hiddenIssueIds].sort(),
+  hiddenIssueIds: [...new Set([...hiddenIssueIds, ...hiddenAuditIds])].sort(),
   policy: {
     version: linkQualityPolicy.version,
     source: "data/linkQualityPolicy.json",

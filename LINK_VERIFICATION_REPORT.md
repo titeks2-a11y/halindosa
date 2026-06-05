@@ -1,6 +1,6 @@
 # 할인도사 Link Verification Report
 
-Generated: 2026-06-05T12:39:03.496Z
+Generated: 2026-06-05T13:40:08.686Z
 
 ## Summary
 
@@ -8,11 +8,11 @@ Generated: 2026-06-05T12:39:03.496Z
 | --- | ---: |
 | 총 상품 수 | 140 |
 | 검증 대상 수 | 140 |
-| 직접 링크 통과 수 | 140 |
-| 노출 가능 상품 수 | 140 |
-| 최종 발행 가능 상품 수 | 140 |
-| 제외 상품 수 | 0 |
-| 실패 이슈 수 | 0 |
+| 직접 링크 통과 수 | 125 |
+| 노출 가능 상품 수 | 125 |
+| 최종 발행 가능 상품 수 | 125 |
+| 제외 상품 수 | 15 |
+| 실패 이슈 수 | 15 |
 | 상품 상세 URL | 109 |
 | 공식 혜택/이벤트 URL | 31 |
 | 검색/카테고리 의심 | 0 |
@@ -21,20 +21,21 @@ Generated: 2026-06-05T12:39:03.496Z
 | 커뮤니티 의심 | 0 |
 | 수동 검토 필요 | 0 |
 | Live probe 확인 | 140 |
-| Live probe 실패 | 76 |
-| Live probe robots/access 차단 | 59 |
+| Live probe 실패 | 79 |
+| Live probe robots/access 차단 | 62 |
+| Live probe rate limit | 13 |
 | Live probe timeout | 0 |
 | Live probe hard failure | 0 |
 | Live probe transient network | 4 |
 | Live body 확인 | 136 |
-| Live 제목/메타 확인 | 132 |
-| Live 콘텐츠 일치 신호 | 50 |
-| Live 콘텐츠 불일치 신호 | 86 |
-| Live 접근 가능 본문 불일치 | 28 |
-| Live 접근 차단 본문 | 28 |
-| Live 가격 신호 | 27 |
-| Live 구매/신청 버튼 신호 | 15 |
-| Live 종료 문구 재검토 신호 | 2 |
+| Live 제목/메타 확인 | 131 |
+| Live 콘텐츠 일치 신호 | 46 |
+| Live 콘텐츠 불일치 신호 | 90 |
+| Live 접근 가능 본문 불일치 | 15 |
+| Live 접근 차단 본문 | 31 |
+| Live 가격 신호 | 26 |
+| Live 구매/신청 버튼 신호 | 12 |
+| Live 종료 문구 재검토 신호 | 0 |
 | 출시 게이트 통과 | YES |
 | 노출 검색 링크 | 0 |
 | 노출 품절/종료 링크 | 0 |
@@ -48,52 +49,54 @@ Generated: 2026-06-05T12:39:03.496Z
 - 해석: Some URLs returned transient network signals; no exposed search, sold-out, 404, 410, or 5xx links were found.
 - 404/410/5xx/품절 본문 같은 강한 실패 신호: 0
 - timeout/request_failed 같은 일시 네트워크 신호: 4
-- 쇼핑몰 접근 보호 또는 robots/access 차단: 59
+- 쇼핑몰 접근 보호 또는 robots/access 차단: 62
 - 품절/판매종료 본문 감지: 0
 
 ## Verification Evidence
 
-- manual_pattern_verified: 59
-- live_content_confirmed: 49
-- seller_access_protected_manual_verified: 28
+- live_content_confirmed: 46
+- manual_pattern_verified: 31
+- seller_access_protected_manual_verified: 31
+- blocked: 15
+- seller_rate_limited_manual_verified: 13
 - transient_network_manual_verified: 4
 
 ## Revalidation Queue
 
+- d008 · LF몰 · live_content_mismatch · priority 100
+- d013 · 하이마트 · live_content_mismatch · priority 100
+- d026 · 하이마트 · live_content_mismatch · priority 100
+- d042 · GS25 · live_content_mismatch · priority 100
+- d043 · 알리익스프레스 · live_content_mismatch · priority 100
+- d053 · 네이버페이 · live_content_mismatch · priority 100
+- d056 · PAYCO · live_content_mismatch · priority 100
+- d058 · 배달의민족 · live_content_mismatch · priority 100
+- d059 · 아모레몰 · live_content_mismatch · priority 100
+- d060 · CGV · live_content_mismatch · priority 100
+- d063 · 홈플러스 · live_content_mismatch · priority 100
+- d070 · 아이챌린지 · live_content_mismatch · priority 100
+- d084 · 하이마트 · live_content_mismatch · priority 100
+- d085 · 11번가 · live_content_mismatch · priority 100
+- d112 · 무신사 · live_content_mismatch · priority 100
 - d051 · 인터파크투어 · request_failed · priority 75
 - d057 · T멤버십 · request_failed · priority 75
 - d073 · 현대카드 · request_failed · priority 75
 - d074 · 신한카드 · request_failed · priority 75
-- d008 · LF몰 · accessible_content_mismatch_review · priority 65
-- d011 · SSG닷컴 · accessible_content_mismatch_review · priority 65
-- d013 · 하이마트 · accessible_content_mismatch_review · priority 65
-- d024 · SSG닷컴 · accessible_content_mismatch_review · priority 65
-- d026 · 하이마트 · accessible_content_mismatch_review · priority 65
-- d029 · SSG닷컴 · accessible_content_mismatch_review · priority 65
-- d032 · SSG닷컴 · accessible_content_mismatch_review · priority 65
-- d041 · 이마트몰 · accessible_content_mismatch_review · priority 65
-- d042 · GS25 · accessible_content_mismatch_review · priority 65
-- d043 · 알리익스프레스 · accessible_content_mismatch_review · priority 65
-- d045 · SSG닷컴 · accessible_content_mismatch_review · priority 65
-- d052 · SSG닷컴 · accessible_content_mismatch_review · priority 65
-- d053 · 네이버페이 · accessible_content_mismatch_review · priority 65
-- d056 · PAYCO · accessible_content_mismatch_review · priority 65
-- d058 · 배달의민족 · accessible_content_mismatch_review · priority 65
-- d059 · 아모레몰 · accessible_content_mismatch_review · priority 65
-- d060 · CGV · accessible_content_mismatch_review · priority 65
-- d063 · 홈플러스 · accessible_content_mismatch_review · priority 65
-- d070 · 아이챌린지 · accessible_content_mismatch_review · priority 65
-- d084 · 하이마트 · accessible_content_mismatch_review · priority 65
-- d085 · 11번가 · accessible_content_mismatch_review · priority 65
-- d093 · SSG닷컴 · accessible_content_mismatch_review · priority 65
-- d099 · SSG닷컴 · accessible_content_mismatch_review · priority 65
-- d112 · 무신사 · accessible_content_mismatch_review · priority 65
-- d125 · SSG닷컴 · accessible_content_mismatch_review · priority 65
-- d129 · SSG닷컴 · accessible_content_mismatch_review · priority 65
+- d011 · SSG닷컴 · seller_rate_limited_review · priority 55
+- d024 · SSG닷컴 · seller_rate_limited_review · priority 55
+- d029 · SSG닷컴 · seller_rate_limited_review · priority 55
+- d032 · SSG닷컴 · seller_rate_limited_review · priority 55
+- d041 · 이마트몰 · seller_rate_limited_review · priority 55
+- d045 · SSG닷컴 · seller_rate_limited_review · priority 55
+- d052 · SSG닷컴 · seller_rate_limited_review · priority 55
+- d093 · SSG닷컴 · seller_rate_limited_review · priority 55
+- d099 · SSG닷컴 · seller_rate_limited_review · priority 55
+- d125 · SSG닷컴 · seller_rate_limited_review · priority 55
+- d129 · SSG닷컴 · seller_rate_limited_review · priority 55
 
 ### Live Probe Failure Reasons
 
-- robots_or_access_blocked: 59
+- robots_or_access_blocked: 62
 - http_429: 13
 - request_failed: 4
 
@@ -102,7 +105,7 @@ Generated: 2026-06-05T12:39:03.496Z
 - item.gmarket.co.kr: 30
 - coupang.com: 23
 - ssg.com: 13
-- oliveyoung.co.kr: 4
+- oliveyoung.co.kr: 7
 - hyundaicard.com: 1
 - itempage3.auction.co.kr: 1
 - shinhancard.com: 1

@@ -6,7 +6,7 @@ const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const args = process.argv.slice(2);
 const dryRun = args.includes("--dry-run");
 const strict = args.includes("--strict") || process.env.DEAL_LINK_LIVE_STRICT === "true";
-const bodyProbe = args.includes("--body") || process.env.DEAL_LINK_BODY_PROBE === "true";
+const bodyProbe = !args.includes("--no-body") && (args.includes("--body") || process.env.DEAL_LINK_BODY_PROBE !== "false");
 const contentStrict = args.includes("--content-strict") || process.env.DEAL_LINK_CONTENT_STRICT === "true";
 const timeoutMs = process.env.DEAL_LINK_TIMEOUT_MS ?? "5000";
 
@@ -27,7 +27,8 @@ if (dryRun) {
   console.log(`- DEAL_LINK_CONTENT_STRICT=${env.DEAL_LINK_CONTENT_STRICT}`);
   console.log(`- DEAL_LINK_TIMEOUT_MS=${env.DEAL_LINK_TIMEOUT_MS}`);
   console.log("- Pass --strict to fail on live HTTP failures.");
-  console.log("- Pass --body to scan a small response body for sold-out, title/meta, price, and purchase/action signals.");
+  console.log("- Body probing is enabled by default to scan title/meta, price, purchase/action, and mismatch signals.");
+  console.log("- Pass --no-body to run HTTP/redirect probing only.");
   console.log("- Pass --content-strict with --body to fail when an accessible body has no product/benefit match signal.");
   process.exit(0);
 }

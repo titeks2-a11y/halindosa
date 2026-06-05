@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-06-05T12:39:03.496Z",
+  "generatedAt": "2026-06-05T13:40:08.686Z",
   "totalDeals": 140,
   "verificationTargets": 140,
-  "passedDirectLinks": 140,
-  "visibleDeals": 140,
-  "publishableDeals": 140,
-  "excludedDeals": 0,
-  "failedCount": 0,
+  "passedDirectLinks": 125,
+  "visibleDeals": 125,
+  "publishableDeals": 125,
+  "excludedDeals": 15,
+  "failedCount": 15,
   "productDetailUrls": 109,
   "officialBenefitUrls": 31,
   "searchOrCategorySuspected": 0,
@@ -15,38 +15,39 @@
   "homeOrMainSuspected": 0,
   "communitySuspected": 0,
   "manualReviewNeeded": 0,
-  "hiddenCount": 0,
+  "hiddenCount": 15,
   "exposedSearchLinks": 0,
   "exposedSoldOutLinks": 0,
   "exposedBrokenLinks": 0,
   "exposedInvalidUrls": 0,
   "exposedNonPublishableItems": 0,
-  "visibleCount": 140,
+  "visibleCount": 125,
   "liveProbe": {
     "enabled": true,
     "strict": false,
     "bodyProbe": true,
     "timeoutMs": 5000,
     "checked": 140,
-    "passed": 64,
-    "failed": 76,
-    "redirected": 11,
-    "finalUrlChanged": 11,
+    "passed": 61,
+    "failed": 79,
+    "redirected": 10,
+    "finalUrlChanged": 10,
     "http404": 0,
     "http410": 0,
     "http5xx": 0,
     "timeout": 0,
-    "robotsBlocked": 59,
+    "robotsBlocked": 62,
+    "rateLimited": 13,
     "unavailableText": 0,
-    "unavailableTextReview": 2,
+    "unavailableTextReview": 0,
     "bodyChecked": 136,
-    "titleMetaChecked": 132,
-    "contentMatched": 50,
-    "contentMismatch": 86,
-    "accessibleContentMismatch": 28,
-    "accessGuardBody": 28,
-    "priceSignal": 27,
-    "purchaseActionSignal": 15,
+    "titleMetaChecked": 131,
+    "contentMatched": 46,
+    "contentMismatch": 90,
+    "accessibleContentMismatch": 15,
+    "accessGuardBody": 31,
+    "priceSignal": 26,
+    "purchaseActionSignal": 12,
     "failures": [
       {
         "id": "d002",
@@ -56,6 +57,8 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -66,6 +69,8 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -76,6 +81,8 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -86,6 +93,8 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -96,6 +105,8 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -106,6 +117,8 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -116,6 +129,8 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -126,6 +141,20 @@
         "reason": "http_429",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": true,
+        "unavailablePattern": ""
+      },
+      {
+        "id": "d012",
+        "url": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000216997",
+        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000216997",
+        "status": 403,
+        "reason": "robots_or_access_blocked",
+        "titleSimilarity": 0,
+        "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -136,6 +165,8 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -146,6 +177,8 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -156,6 +189,8 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -166,6 +201,8 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -176,6 +213,8 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -186,6 +225,8 @@
         "reason": "http_429",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": true,
         "unavailablePattern": ""
       },
       {
@@ -196,6 +237,8 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -206,6 +249,8 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -216,6 +261,8 @@
         "reason": "http_429",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": true,
         "unavailablePattern": ""
       },
       {
@@ -226,6 +273,8 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -236,6 +285,8 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -246,6 +297,8 @@
         "reason": "http_429",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": true,
         "unavailablePattern": ""
       },
       {
@@ -256,6 +309,8 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -266,6 +321,20 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false,
+        "unavailablePattern": ""
+      },
+      {
+        "id": "d040",
+        "url": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000211588",
+        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000211588",
+        "status": 403,
+        "reason": "robots_or_access_blocked",
+        "titleSimilarity": 0,
+        "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -276,6 +345,8 @@
         "reason": "http_429",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": true,
         "unavailablePattern": ""
       },
       {
@@ -286,6 +357,8 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -296,6 +369,8 @@
         "reason": "http_429",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": true,
         "unavailablePattern": ""
       },
       {
@@ -306,6 +381,8 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -316,6 +393,8 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -326,6 +405,8 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -336,6 +417,8 @@
         "reason": "request_failed",
         "titleSimilarity": 0,
         "contentMatch": null,
+        "accessGuard": false,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -346,6 +429,8 @@
         "reason": "http_429",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": true,
         "unavailablePattern": ""
       },
       {
@@ -356,6 +441,8 @@
         "reason": "request_failed",
         "titleSimilarity": 0,
         "contentMatch": null,
+        "accessGuard": false,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -366,6 +453,8 @@
         "reason": "request_failed",
         "titleSimilarity": 0,
         "contentMatch": null,
+        "accessGuard": false,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -376,6 +465,8 @@
         "reason": "request_failed",
         "titleSimilarity": 0,
         "contentMatch": null,
+        "accessGuard": false,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -386,6 +477,8 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -396,6 +489,8 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -406,6 +501,8 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -416,6 +513,8 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -426,6 +525,8 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -436,6 +537,8 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -446,6 +549,8 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -456,6 +561,8 @@
         "reason": "http_429",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": true,
         "unavailablePattern": ""
       },
       {
@@ -466,6 +573,8 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -476,6 +585,8 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -486,6 +597,8 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -496,6 +609,8 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -506,6 +621,8 @@
         "reason": "http_429",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": true,
         "unavailablePattern": ""
       },
       {
@@ -516,6 +633,8 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -526,6 +645,8 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -536,6 +657,8 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -546,6 +669,8 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -556,6 +681,8 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -564,8 +691,10 @@
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2763212387",
         "status": 403,
         "reason": "robots_or_access_blocked",
-        "titleSimilarity": 20,
-        "contentMatch": true,
+        "titleSimilarity": 0,
+        "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -576,6 +705,8 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -586,6 +717,8 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -596,6 +729,8 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -606,6 +741,8 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -616,6 +753,8 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -626,6 +765,8 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -636,6 +777,8 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -646,6 +789,8 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -656,6 +801,8 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -666,6 +813,8 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -676,6 +825,20 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false,
+        "unavailablePattern": ""
+      },
+      {
+        "id": "d124",
+        "url": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000230063",
+        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000230063",
+        "status": 403,
+        "reason": "robots_or_access_blocked",
+        "titleSimilarity": 0,
+        "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -686,6 +849,8 @@
         "reason": "http_429",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": true,
         "unavailablePattern": ""
       },
       {
@@ -696,6 +861,8 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -706,6 +873,8 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -716,6 +885,8 @@
         "reason": "http_429",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": true,
         "unavailablePattern": ""
       },
       {
@@ -726,6 +897,8 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -736,6 +909,8 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -746,6 +921,8 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -756,6 +933,8 @@
         "reason": "http_429",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": true,
         "unavailablePattern": ""
       },
       {
@@ -766,6 +945,8 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -776,6 +957,8 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -786,6 +969,8 @@
         "reason": "http_429",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": true,
         "unavailablePattern": ""
       },
       {
@@ -796,6 +981,8 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false,
         "unavailablePattern": ""
       },
       {
@@ -806,47 +993,413 @@
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false,
         "unavailablePattern": ""
       }
     ]
   },
   "httpStatusSummary": {
-    "redirected": 11,
-    "finalUrlChanged": 11,
+    "redirected": 10,
+    "finalUrlChanged": 10,
     "http404": 0,
     "http410": 0,
     "http5xx": 0,
     "timeout": 0,
-    "robotsBlocked": 59,
+    "rateLimited": 13,
+    "robotsBlocked": 62,
     "unavailableText": 0,
-    "unavailableTextReview": 2
+    "unavailableTextReview": 0
   },
   "contentSignalSummary": {
     "bodyChecked": 136,
-    "titleMetaChecked": 132,
-    "contentMatched": 50,
-    "contentMismatch": 86,
-    "priceSignal": 27,
-    "purchaseActionSignal": 15,
-    "unavailableTextReview": 2,
-    "accessibleContentMismatch": 28,
-    "accessGuardBody": 28,
+    "titleMetaChecked": 131,
+    "contentMatched": 46,
+    "contentMismatch": 90,
+    "priceSignal": 26,
+    "purchaseActionSignal": 12,
+    "unavailableTextReview": 0,
+    "accessibleContentMismatch": 15,
+    "accessGuardBody": 31,
     "strict": false
   },
   "verificationEvidenceSummary": {
     "counts": {
-      "manual_pattern_verified": 59,
-      "live_content_confirmed": 49,
-      "seller_access_protected_manual_verified": 28,
+      "live_content_confirmed": 46,
+      "manual_pattern_verified": 31,
+      "seller_access_protected_manual_verified": 31,
+      "blocked": 15,
+      "seller_rate_limited_manual_verified": 13,
       "transient_network_manual_verified": 4
     },
-    "liveConfirmed": 49,
-    "sellerAccessProtected": 28,
+    "liveConfirmed": 46,
+    "sellerAccessProtected": 31,
+    "sellerRateLimited": 13,
     "transientNetwork": 4,
-    "manualPatternVerified": 59,
-    "blocked": 0
+    "manualPatternVerified": 31,
+    "blocked": 15
   },
   "revalidationQueue": [
+    {
+      "id": "d008",
+      "title": "아이더 POP ON 남성 여름 냉감 폴로 티셔츠",
+      "mallName": "LF몰",
+      "host": "lfmall.co.kr",
+      "finalUrl": "https://www.lfmall.co.kr/app/product/E3GKXX00844",
+      "priority": 100,
+      "reason": "live_content_mismatch",
+      "evidenceTier": "blocked",
+      "liveProbe": {
+        "status": 206,
+        "reason": "http_ok",
+        "ok": true,
+        "bodyChecked": true,
+        "title": "나를 나답게 LFmall.com",
+        "metaDescription": "",
+        "titleSimilarity": 0,
+        "contentMatch": false,
+        "priceSignal": false,
+        "purchaseActionSignal": false,
+        "accessGuard": false,
+        "rateLimited": false
+      }
+    },
+    {
+      "id": "d013",
+      "title": "삼성 55형 4K UHD TV",
+      "mallName": "하이마트",
+      "host": "e-himart.co.kr",
+      "finalUrl": "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0026982316",
+      "priority": 100,
+      "reason": "live_content_mismatch",
+      "evidenceTier": "blocked",
+      "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
+        "ok": true,
+        "bodyChecked": true,
+        "title": "",
+        "metaDescription": "",
+        "titleSimilarity": 0,
+        "contentMatch": false,
+        "priceSignal": false,
+        "purchaseActionSignal": false,
+        "accessGuard": false,
+        "rateLimited": false
+      }
+    },
+    {
+      "id": "d026",
+      "title": "게이밍 노트북 RTX 특가",
+      "mallName": "하이마트",
+      "host": "e-himart.co.kr",
+      "finalUrl": "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0019390089",
+      "priority": 100,
+      "reason": "live_content_mismatch",
+      "evidenceTier": "blocked",
+      "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
+        "ok": true,
+        "bodyChecked": true,
+        "title": "",
+        "metaDescription": "",
+        "titleSimilarity": 0,
+        "contentMatch": false,
+        "priceSignal": false,
+        "purchaseActionSignal": false,
+        "accessGuard": false,
+        "rateLimited": false
+      }
+    },
+    {
+      "id": "d042",
+      "title": "편의점 도시락 1+1 모바일 쿠폰",
+      "mallName": "GS25",
+      "host": "gs25.gsretail.com",
+      "finalUrl": "https://gs25.gsretail.com/gscvs/ko/customer-engagement/event/detail/publishing?eventCode=8842722233888&pageNum=1",
+      "priority": 100,
+      "reason": "live_content_mismatch",
+      "evidenceTier": "blocked",
+      "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
+        "ok": true,
+        "bodyChecked": true,
+        "title": "종료이벤트/당첨발표 | GS25 Site",
+        "metaDescription": "5월 GS25의 결제수단 혜택",
+        "titleSimilarity": 0,
+        "contentMatch": false,
+        "priceSignal": false,
+        "purchaseActionSignal": false,
+        "accessGuard": false,
+        "rateLimited": false
+      }
+    },
+    {
+      "id": "d043",
+      "title": "USB-C 100W 멀티 충전 케이블 3팩",
+      "mallName": "알리익스프레스",
+      "host": "aliexpress.com",
+      "finalUrl": "https://www.aliexpress.com/item/1005010151430718.html",
+      "priority": 100,
+      "reason": "live_content_mismatch",
+      "evidenceTier": "blocked",
+      "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
+        "ok": true,
+        "bodyChecked": true,
+        "title": "",
+        "metaDescription": "",
+        "titleSimilarity": 0,
+        "contentMatch": false,
+        "priceSignal": false,
+        "purchaseActionSignal": false,
+        "accessGuard": false,
+        "rateLimited": false
+      }
+    },
+    {
+      "id": "d053",
+      "title": "네이버페이 첫 결제 3천 포인트 적립 이벤트",
+      "mallName": "네이버페이",
+      "host": "new-m.pay.naver.com",
+      "finalUrl": "https://new-m.pay.naver.com/member/benefit/event",
+      "priority": 100,
+      "reason": "live_content_mismatch",
+      "evidenceTier": "blocked",
+      "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
+        "ok": true,
+        "bodyChecked": true,
+        "title": "Naver Sign in",
+        "metaDescription": "네이버에 로그인 하고 나를 위한 다양한 서비스를 이용해 보세요",
+        "titleSimilarity": 0,
+        "contentMatch": false,
+        "priceSignal": false,
+        "purchaseActionSignal": false,
+        "accessGuard": false,
+        "rateLimited": false
+      }
+    },
+    {
+      "id": "d056",
+      "title": "PAYCO 브랜드 공식몰 5천원 할인 쿠폰팩",
+      "mallName": "PAYCO",
+      "host": "events.payco.com",
+      "finalUrl": "https://events.payco.com/app/share.nhn?evntPageNm=tmzvlWb",
+      "priority": 100,
+      "reason": "live_content_mismatch",
+      "evidenceTier": "blocked",
+      "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
+        "ok": true,
+        "bodyChecked": true,
+        "title": "PAYCO::이벤트",
+        "metaDescription": "",
+        "titleSimilarity": 17,
+        "contentMatch": false,
+        "priceSignal": false,
+        "purchaseActionSignal": false,
+        "accessGuard": false,
+        "rateLimited": false
+      }
+    },
+    {
+      "id": "d058",
+      "title": "배달앱 첫 주문 5천원 할인 쿠폰",
+      "mallName": "배달의민족",
+      "host": "academy.baemin.com",
+      "finalUrl": "https://academy.baemin.com/event/list",
+      "priority": 100,
+      "reason": "live_content_mismatch",
+      "evidenceTier": "blocked",
+      "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
+        "ok": true,
+        "bodyChecked": true,
+        "title": "배민아카데미",
+        "metaDescription": "",
+        "titleSimilarity": 0,
+        "contentMatch": false,
+        "priceSignal": false,
+        "purchaseActionSignal": false,
+        "accessGuard": false,
+        "rateLimited": false
+      }
+    },
+    {
+      "id": "d059",
+      "title": "아모레몰 기초케어 무료 샘플 체험단",
+      "mallName": "아모레몰",
+      "host": "amoremall.com",
+      "finalUrl": "https://www.amoremall.com/kr/ko/event",
+      "priority": 100,
+      "reason": "live_content_mismatch",
+      "evidenceTier": "blocked",
+      "liveProbe": {
+        "status": 206,
+        "reason": "http_ok",
+        "ok": true,
+        "bodyChecked": true,
+        "title": "에러페이지",
+        "metaDescription": "",
+        "titleSimilarity": 0,
+        "contentMatch": false,
+        "priceSignal": false,
+        "purchaseActionSignal": false,
+        "accessGuard": false,
+        "rateLimited": false
+      }
+    },
+    {
+      "id": "d060",
+      "title": "CGV 영화 시사회 무료 초대권 응모",
+      "mallName": "CGV",
+      "host": "cgv.co.kr",
+      "finalUrl": "https://cgv.co.kr/evt/eventDetail?evntNo=202602235927",
+      "priority": 100,
+      "reason": "live_content_mismatch",
+      "evidenceTier": "blocked",
+      "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
+        "ok": true,
+        "bodyChecked": true,
+        "title": "[2026 월드 베이스볼 클래식(WBC)] 극장 단독 생중계 | CGV",
+        "metaDescription": "[2026 월드 베이스볼 클래식(WBC)] 극장 단독 생중계",
+        "titleSimilarity": 17,
+        "contentMatch": false,
+        "priceSignal": false,
+        "purchaseActionSignal": false,
+        "accessGuard": false,
+        "rateLimited": false
+      }
+    },
+    {
+      "id": "d063",
+      "title": "홈플러스 첫 장보기 무료배송 쿠폰팩",
+      "mallName": "홈플러스",
+      "host": "front.homeplus.co.kr",
+      "finalUrl": "https://front.homeplus.co.kr/event",
+      "priority": 100,
+      "reason": "live_content_mismatch",
+      "evidenceTier": "blocked",
+      "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
+        "ok": true,
+        "bodyChecked": true,
+        "title": "",
+        "metaDescription": "",
+        "titleSimilarity": 0,
+        "contentMatch": false,
+        "priceSignal": false,
+        "purchaseActionSignal": false,
+        "accessGuard": false,
+        "rateLimited": false
+      }
+    },
+    {
+      "id": "d070",
+      "title": "아이챌린지 유아 학습지 무료 체험 키트",
+      "mallName": "아이챌린지",
+      "host": "i-challenge.co.kr",
+      "finalUrl": "https://www.i-challenge.co.kr/Event/",
+      "priority": 100,
+      "reason": "live_content_mismatch",
+      "evidenceTier": "blocked",
+      "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
+        "ok": true,
+        "bodyChecked": true,
+        "title": "�̺�Ʈ ����Ʈ : ���̽��� ����ç����, ȣ��� �Բ��ϴ� �������� Ȩ����",
+        "metaDescription": "ȣ�� ����ç���� ������ ���� �پ��� �̺�Ʈ�� Ȯ���ϼ���.",
+        "titleSimilarity": 0,
+        "contentMatch": false,
+        "priceSignal": false,
+        "purchaseActionSignal": false,
+        "accessGuard": false,
+        "rateLimited": false
+      }
+    },
+    {
+      "id": "d084",
+      "title": "LG 오브제 칸 스탠드에어컨 FQ18EK1HA1M",
+      "mallName": "하이마트",
+      "host": "e-himart.co.kr",
+      "finalUrl": "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0023645183",
+      "priority": 100,
+      "reason": "live_content_mismatch",
+      "evidenceTier": "blocked",
+      "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
+        "ok": true,
+        "bodyChecked": true,
+        "title": "",
+        "metaDescription": "",
+        "titleSimilarity": 0,
+        "contentMatch": false,
+        "priceSignal": false,
+        "purchaseActionSignal": false,
+        "accessGuard": false,
+        "rateLimited": false
+      }
+    },
+    {
+      "id": "d085",
+      "title": "하기스 매직컴포트 팬티형 기저귀 5단계 42매",
+      "mallName": "11번가",
+      "host": "11st.co.kr",
+      "finalUrl": "https://www.11st.co.kr/products/2635032094",
+      "priority": 100,
+      "reason": "live_content_mismatch",
+      "evidenceTier": "blocked",
+      "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
+        "ok": true,
+        "bodyChecked": true,
+        "title": "11번가",
+        "metaDescription": "",
+        "titleSimilarity": 0,
+        "contentMatch": false,
+        "priceSignal": false,
+        "purchaseActionSignal": false,
+        "accessGuard": false,
+        "rateLimited": false
+      }
+    },
+    {
+      "id": "d112",
+      "title": "커버낫 쿨 코튼 그래픽 티셔츠",
+      "mallName": "무신사",
+      "host": "musinsa.com",
+      "finalUrl": "https://www.musinsa.com/products/4011120",
+      "priority": 100,
+      "reason": "live_content_mismatch",
+      "evidenceTier": "blocked",
+      "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
+        "ok": true,
+        "bodyChecked": true,
+        "title": "비아리츠(BIARRITZ) [5PACK] 에피 누드토우 덧신 4color - 사이즈 & 후기 | 무신사",
+        "metaDescription": "제품분류 :소품 &gt; 양말/레그웨어 브랜드 : 비아리츠(BIARRITZ) 제품번호 : 에피5set 제품 : [5PACK] 에피 누드토우 덧신 4color - 19,900",
+        "titleSimilarity": 0,
+        "contentMatch": false,
+        "priceSignal": false,
+        "purchaseActionSignal": false,
+        "accessGuard": false,
+        "rateLimited": false
+      }
+    },
     {
       "id": "d051",
       "title": "오사카 왕복 항공권 타임세일",
@@ -862,7 +1415,9 @@
         "reason": "request_failed",
         "finalUrl": "https://tour.interpark.com/goods/detail?goodsCd=25031828338",
         "titleSimilarity": 0,
-        "contentMatch": null
+        "contentMatch": null,
+        "accessGuard": false,
+        "rateLimited": false
       }
     },
     {
@@ -880,7 +1435,9 @@
         "reason": "request_failed",
         "finalUrl": "https://www.tmembership.co.kr/web/html/main/benefit.html",
         "titleSimilarity": 0,
-        "contentMatch": null
+        "contentMatch": null,
+        "accessGuard": false,
+        "rateLimited": false
       }
     },
     {
@@ -898,7 +1455,9 @@
         "reason": "request_failed",
         "finalUrl": "https://www.hyundaicard.com/cpc/cr/CPCCR0101_01.hc",
         "titleSimilarity": 0,
-        "contentMatch": null
+        "contentMatch": null,
+        "accessGuard": false,
+        "rateLimited": false
       }
     },
     {
@@ -916,28 +1475,9 @@
         "reason": "request_failed",
         "finalUrl": "https://www.shinhancard.com/pconts/html/benefit/event/MOBFM220/MOBFM220R01.html",
         "titleSimilarity": 0,
-        "contentMatch": null
-      }
-    },
-    {
-      "id": "d008",
-      "title": "아이더 POP ON 남성 여름 냉감 폴로 티셔츠",
-      "mallName": "LF몰",
-      "host": "lfmall.co.kr",
-      "finalUrl": "https://www.lfmall.co.kr/app/product/E3GKXX00844",
-      "priority": 65,
-      "reason": "accessible_content_mismatch_review",
-      "evidenceTier": "manual_pattern_verified",
-      "liveProbe": {
-        "ok": true,
-        "bodyChecked": true,
-        "title": "나를 나답게 LFmall.com",
-        "metaDescription": "",
-        "titleSimilarity": 0,
-        "contentMatch": false,
-        "priceSignal": false,
-        "purchaseActionSignal": false,
-        "accessGuard": false
+        "contentMatch": null,
+        "accessGuard": false,
+        "rateLimited": false
       }
     },
     {
@@ -946,37 +1486,18 @@
       "mallName": "SSG닷컴",
       "host": "ssg.com",
       "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000377767271",
-      "priority": 65,
-      "reason": "accessible_content_mismatch_review",
-      "evidenceTier": "manual_pattern_verified",
+      "priority": 55,
+      "reason": "seller_rate_limited_review",
+      "evidenceTier": "seller_rate_limited_manual_verified",
       "liveProbe": {
         "ok": false,
         "status": 429,
         "reason": "http_429",
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000377767271",
         "titleSimilarity": 0,
-        "contentMatch": false
-      }
-    },
-    {
-      "id": "d013",
-      "title": "삼성 55형 4K UHD TV",
-      "mallName": "하이마트",
-      "host": "e-himart.co.kr",
-      "finalUrl": "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0026982316",
-      "priority": 65,
-      "reason": "accessible_content_mismatch_review",
-      "evidenceTier": "manual_pattern_verified",
-      "liveProbe": {
-        "ok": true,
-        "bodyChecked": true,
-        "title": "",
-        "metaDescription": "",
-        "titleSimilarity": 0,
         "contentMatch": false,
-        "priceSignal": false,
-        "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": true
       }
     },
     {
@@ -985,37 +1506,18 @@
       "mallName": "SSG닷컴",
       "host": "ssg.com",
       "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000038330709",
-      "priority": 65,
-      "reason": "accessible_content_mismatch_review",
-      "evidenceTier": "manual_pattern_verified",
+      "priority": 55,
+      "reason": "seller_rate_limited_review",
+      "evidenceTier": "seller_rate_limited_manual_verified",
       "liveProbe": {
         "ok": false,
         "status": 429,
         "reason": "http_429",
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000038330709",
         "titleSimilarity": 0,
-        "contentMatch": false
-      }
-    },
-    {
-      "id": "d026",
-      "title": "게이밍 노트북 RTX 특가",
-      "mallName": "하이마트",
-      "host": "e-himart.co.kr",
-      "finalUrl": "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0019390089",
-      "priority": 65,
-      "reason": "accessible_content_mismatch_review",
-      "evidenceTier": "manual_pattern_verified",
-      "liveProbe": {
-        "ok": true,
-        "bodyChecked": true,
-        "title": "",
-        "metaDescription": "",
-        "titleSimilarity": 0,
         "contentMatch": false,
-        "priceSignal": false,
-        "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": true
       }
     },
     {
@@ -1024,16 +1526,18 @@
       "mallName": "SSG닷컴",
       "host": "ssg.com",
       "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000568480807",
-      "priority": 65,
-      "reason": "accessible_content_mismatch_review",
-      "evidenceTier": "manual_pattern_verified",
+      "priority": 55,
+      "reason": "seller_rate_limited_review",
+      "evidenceTier": "seller_rate_limited_manual_verified",
       "liveProbe": {
         "ok": false,
         "status": 429,
         "reason": "http_429",
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000568480807",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": true
       }
     },
     {
@@ -1042,16 +1546,18 @@
       "mallName": "SSG닷컴",
       "host": "ssg.com",
       "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=0000009774169",
-      "priority": 65,
-      "reason": "accessible_content_mismatch_review",
-      "evidenceTier": "manual_pattern_verified",
+      "priority": 55,
+      "reason": "seller_rate_limited_review",
+      "evidenceTier": "seller_rate_limited_manual_verified",
       "liveProbe": {
         "ok": false,
         "status": 429,
         "reason": "http_429",
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=0000009774169",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": true
       }
     },
     {
@@ -1060,58 +1566,18 @@
       "mallName": "이마트몰",
       "host": "ssg.com",
       "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000620373892",
-      "priority": 65,
-      "reason": "accessible_content_mismatch_review",
-      "evidenceTier": "manual_pattern_verified",
+      "priority": 55,
+      "reason": "seller_rate_limited_review",
+      "evidenceTier": "seller_rate_limited_manual_verified",
       "liveProbe": {
         "ok": false,
         "status": 429,
         "reason": "http_429",
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000620373892",
         "titleSimilarity": 0,
-        "contentMatch": false
-      }
-    },
-    {
-      "id": "d042",
-      "title": "편의점 도시락 1+1 모바일 쿠폰",
-      "mallName": "GS25",
-      "host": "gs25.gsretail.com",
-      "finalUrl": "https://gs25.gsretail.com/gscvs/ko/customer-engagement/event/detail/publishing?eventCode=8842722233888&pageNum=1",
-      "priority": 65,
-      "reason": "accessible_content_mismatch_review",
-      "evidenceTier": "manual_pattern_verified",
-      "liveProbe": {
-        "ok": true,
-        "bodyChecked": true,
-        "title": "종료이벤트/당첨발표 | GS25 Site",
-        "metaDescription": "5월 GS25의 결제수단 혜택",
-        "titleSimilarity": 0,
         "contentMatch": false,
-        "priceSignal": false,
-        "purchaseActionSignal": false,
-        "accessGuard": false
-      }
-    },
-    {
-      "id": "d043",
-      "title": "USB-C 100W 멀티 충전 케이블 3팩",
-      "mallName": "알리익스프레스",
-      "host": "aliexpress.com",
-      "finalUrl": "https://www.aliexpress.com/item/1005010151430718.html",
-      "priority": 65,
-      "reason": "accessible_content_mismatch_review",
-      "evidenceTier": "manual_pattern_verified",
-      "liveProbe": {
-        "ok": true,
-        "bodyChecked": true,
-        "title": "",
-        "metaDescription": "Smarter Shopping, Better Living! Aliexpress.com",
-        "titleSimilarity": 0,
-        "contentMatch": false,
-        "priceSignal": false,
-        "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": true
       }
     },
     {
@@ -1120,16 +1586,18 @@
       "mallName": "SSG닷컴",
       "host": "ssg.com",
       "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000519076764",
-      "priority": 65,
-      "reason": "accessible_content_mismatch_review",
-      "evidenceTier": "manual_pattern_verified",
+      "priority": 55,
+      "reason": "seller_rate_limited_review",
+      "evidenceTier": "seller_rate_limited_manual_verified",
       "liveProbe": {
         "ok": false,
         "status": 429,
         "reason": "http_429",
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000519076764",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": true
       }
     },
     {
@@ -1138,205 +1606,18 @@
       "mallName": "SSG닷컴",
       "host": "ssg.com",
       "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000560995801",
-      "priority": 65,
-      "reason": "accessible_content_mismatch_review",
-      "evidenceTier": "manual_pattern_verified",
+      "priority": 55,
+      "reason": "seller_rate_limited_review",
+      "evidenceTier": "seller_rate_limited_manual_verified",
       "liveProbe": {
         "ok": false,
         "status": 429,
         "reason": "http_429",
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000560995801",
         "titleSimilarity": 0,
-        "contentMatch": false
-      }
-    },
-    {
-      "id": "d053",
-      "title": "네이버페이 첫 결제 3천 포인트 적립 이벤트",
-      "mallName": "네이버페이",
-      "host": "new-m.pay.naver.com",
-      "finalUrl": "https://new-m.pay.naver.com/member/benefit/event",
-      "priority": 65,
-      "reason": "accessible_content_mismatch_review",
-      "evidenceTier": "manual_pattern_verified",
-      "liveProbe": {
-        "ok": true,
-        "bodyChecked": true,
-        "title": "Naver Sign in",
-        "metaDescription": "네이버에 로그인 하고 나를 위한 다양한 서비스를 이용해 보세요",
-        "titleSimilarity": 0,
         "contentMatch": false,
-        "priceSignal": false,
-        "purchaseActionSignal": false,
-        "accessGuard": false
-      }
-    },
-    {
-      "id": "d056",
-      "title": "PAYCO 브랜드 공식몰 5천원 할인 쿠폰팩",
-      "mallName": "PAYCO",
-      "host": "events.payco.com",
-      "finalUrl": "https://events.payco.com/app/share.nhn?evntPageNm=tmzvlWb",
-      "priority": 65,
-      "reason": "accessible_content_mismatch_review",
-      "evidenceTier": "manual_pattern_verified",
-      "liveProbe": {
-        "ok": true,
-        "bodyChecked": true,
-        "title": "PAYCO::이벤트",
-        "metaDescription": "",
-        "titleSimilarity": 17,
-        "contentMatch": false,
-        "priceSignal": false,
-        "purchaseActionSignal": false,
-        "accessGuard": false
-      }
-    },
-    {
-      "id": "d058",
-      "title": "배달앱 첫 주문 5천원 할인 쿠폰",
-      "mallName": "배달의민족",
-      "host": "academy.baemin.com",
-      "finalUrl": "https://academy.baemin.com/event/list",
-      "priority": 65,
-      "reason": "accessible_content_mismatch_review",
-      "evidenceTier": "manual_pattern_verified",
-      "liveProbe": {
-        "ok": true,
-        "bodyChecked": true,
-        "title": "배민아카데미",
-        "metaDescription": "",
-        "titleSimilarity": 0,
-        "contentMatch": false,
-        "priceSignal": false,
-        "purchaseActionSignal": false,
-        "accessGuard": false
-      }
-    },
-    {
-      "id": "d059",
-      "title": "아모레몰 기초케어 무료 샘플 체험단",
-      "mallName": "아모레몰",
-      "host": "amoremall.com",
-      "finalUrl": "https://www.amoremall.com/kr/ko/event",
-      "priority": 65,
-      "reason": "accessible_content_mismatch_review",
-      "evidenceTier": "manual_pattern_verified",
-      "liveProbe": {
-        "ok": true,
-        "bodyChecked": true,
-        "title": "에러페이지",
-        "metaDescription": "",
-        "titleSimilarity": 0,
-        "contentMatch": false,
-        "priceSignal": false,
-        "purchaseActionSignal": false,
-        "accessGuard": false
-      }
-    },
-    {
-      "id": "d060",
-      "title": "CGV 영화 시사회 무료 초대권 응모",
-      "mallName": "CGV",
-      "host": "cgv.co.kr",
-      "finalUrl": "https://cgv.co.kr/evt/eventDetail?evntNo=202602235927",
-      "priority": 65,
-      "reason": "accessible_content_mismatch_review",
-      "evidenceTier": "manual_pattern_verified",
-      "liveProbe": {
-        "ok": true,
-        "bodyChecked": true,
-        "title": "[2026 월드 베이스볼 클래식(WBC)] 극장 단독 생중계 | CGV",
-        "metaDescription": "[2026 월드 베이스볼 클래식(WBC)] 극장 단독 생중계",
-        "titleSimilarity": 17,
-        "contentMatch": false,
-        "priceSignal": false,
-        "purchaseActionSignal": false,
-        "accessGuard": false
-      }
-    },
-    {
-      "id": "d063",
-      "title": "홈플러스 첫 장보기 무료배송 쿠폰팩",
-      "mallName": "홈플러스",
-      "host": "front.homeplus.co.kr",
-      "finalUrl": "https://front.homeplus.co.kr/event",
-      "priority": 65,
-      "reason": "accessible_content_mismatch_review",
-      "evidenceTier": "manual_pattern_verified",
-      "liveProbe": {
-        "ok": true,
-        "bodyChecked": true,
-        "title": "",
-        "metaDescription": "",
-        "titleSimilarity": 0,
-        "contentMatch": false,
-        "priceSignal": false,
-        "purchaseActionSignal": false,
-        "accessGuard": false
-      }
-    },
-    {
-      "id": "d070",
-      "title": "아이챌린지 유아 학습지 무료 체험 키트",
-      "mallName": "아이챌린지",
-      "host": "i-challenge.co.kr",
-      "finalUrl": "https://www.i-challenge.co.kr/Event/",
-      "priority": 65,
-      "reason": "accessible_content_mismatch_review",
-      "evidenceTier": "manual_pattern_verified",
-      "liveProbe": {
-        "ok": true,
-        "bodyChecked": true,
-        "title": "�̺�Ʈ ����Ʈ : ���̽��� ����ç����, ȣ��� �Բ��ϴ� �������� Ȩ����",
-        "metaDescription": "ȣ�� ����ç���� ������ ���� �پ��� �̺�Ʈ�� Ȯ���ϼ���.",
-        "titleSimilarity": 0,
-        "contentMatch": false,
-        "priceSignal": false,
-        "purchaseActionSignal": false,
-        "accessGuard": false
-      }
-    },
-    {
-      "id": "d084",
-      "title": "LG 오브제 칸 스탠드에어컨 FQ18EK1HA1M",
-      "mallName": "하이마트",
-      "host": "e-himart.co.kr",
-      "finalUrl": "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0023645183",
-      "priority": 65,
-      "reason": "accessible_content_mismatch_review",
-      "evidenceTier": "manual_pattern_verified",
-      "liveProbe": {
-        "ok": true,
-        "bodyChecked": true,
-        "title": "",
-        "metaDescription": "",
-        "titleSimilarity": 0,
-        "contentMatch": false,
-        "priceSignal": false,
-        "purchaseActionSignal": false,
-        "accessGuard": false
-      }
-    },
-    {
-      "id": "d085",
-      "title": "하기스 매직컴포트 팬티형 기저귀 5단계 42매",
-      "mallName": "11번가",
-      "host": "11st.co.kr",
-      "finalUrl": "https://www.11st.co.kr/products/2635032094",
-      "priority": 65,
-      "reason": "accessible_content_mismatch_review",
-      "evidenceTier": "manual_pattern_verified",
-      "liveProbe": {
-        "ok": true,
-        "bodyChecked": true,
-        "title": "11번가",
-        "metaDescription": "",
-        "titleSimilarity": 0,
-        "contentMatch": false,
-        "priceSignal": false,
-        "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": true
       }
     },
     {
@@ -1345,16 +1626,18 @@
       "mallName": "SSG닷컴",
       "host": "ssg.com",
       "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000005089075",
-      "priority": 65,
-      "reason": "accessible_content_mismatch_review",
-      "evidenceTier": "manual_pattern_verified",
+      "priority": 55,
+      "reason": "seller_rate_limited_review",
+      "evidenceTier": "seller_rate_limited_manual_verified",
       "liveProbe": {
         "ok": false,
         "status": 429,
         "reason": "http_429",
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000005089075",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": true
       }
     },
     {
@@ -1363,37 +1646,18 @@
       "mallName": "SSG닷컴",
       "host": "ssg.com",
       "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000601459551",
-      "priority": 65,
-      "reason": "accessible_content_mismatch_review",
-      "evidenceTier": "manual_pattern_verified",
+      "priority": 55,
+      "reason": "seller_rate_limited_review",
+      "evidenceTier": "seller_rate_limited_manual_verified",
       "liveProbe": {
         "ok": false,
         "status": 429,
         "reason": "http_429",
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000601459551",
         "titleSimilarity": 0,
-        "contentMatch": false
-      }
-    },
-    {
-      "id": "d112",
-      "title": "커버낫 쿨 코튼 그래픽 티셔츠",
-      "mallName": "무신사",
-      "host": "musinsa.com",
-      "finalUrl": "https://www.musinsa.com/products/4011120",
-      "priority": 65,
-      "reason": "accessible_content_mismatch_review",
-      "evidenceTier": "manual_pattern_verified",
-      "liveProbe": {
-        "ok": true,
-        "bodyChecked": true,
-        "title": "비아리츠(BIARRITZ) [5PACK] 에피 누드토우 덧신 4color - 사이즈 & 후기 | 무신사",
-        "metaDescription": "제품분류 :소품 &gt; 양말/레그웨어 브랜드 : 비아리츠(BIARRITZ) 제품번호 : 에피5set 제품 : [5PACK] 에피 누드토우 덧신 4color - 19,900",
-        "titleSimilarity": 0,
         "contentMatch": false,
-        "priceSignal": false,
-        "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": true
       }
     },
     {
@@ -1402,16 +1666,18 @@
       "mallName": "SSG닷컴",
       "host": "ssg.com",
       "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000032939693",
-      "priority": 65,
-      "reason": "accessible_content_mismatch_review",
-      "evidenceTier": "manual_pattern_verified",
+      "priority": 55,
+      "reason": "seller_rate_limited_review",
+      "evidenceTier": "seller_rate_limited_manual_verified",
       "liveProbe": {
         "ok": false,
         "status": 429,
         "reason": "http_429",
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000032939693",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": true
       }
     },
     {
@@ -1420,16 +1686,18 @@
       "mallName": "SSG닷컴",
       "host": "ssg.com",
       "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=2097001847275",
-      "priority": 65,
-      "reason": "accessible_content_mismatch_review",
-      "evidenceTier": "manual_pattern_verified",
+      "priority": 55,
+      "reason": "seller_rate_limited_review",
+      "evidenceTier": "seller_rate_limited_manual_verified",
       "liveProbe": {
         "ok": false,
         "status": 429,
         "reason": "http_429",
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=2097001847275",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": true
       }
     }
   ],
@@ -1456,19 +1724,19 @@
   },
   "exposureAudit": {
     "totalItems": 140,
-    "exposedItems": 140,
-    "publishableItems": 140,
-    "passedItems": 140,
-    "hiddenItems": 0,
+    "exposedItems": 125,
+    "publishableItems": 125,
+    "passedItems": 125,
+    "hiddenItems": 15,
     "searchItems": 0,
     "soldOutItems": 0,
-    "failedItems": 0,
+    "failedItems": 15,
     "exposedSearchLinks": 0,
     "exposedSoldOutLinks": 0,
     "exposedBrokenLinks": 0,
     "exposedInvalidUrls": 0,
     "exposedNonPublishableItems": 0,
-    "averagePriorityScore": 100
+    "averagePriorityScore": 96
   },
   "launchGate": {
     "passed": true,
@@ -1495,23 +1763,23 @@
     "status": "transient_network_review",
     "hardFailureCount": 0,
     "transientNetworkCount": 4,
-    "accessProtectedCount": 59,
+    "accessProtectedCount": 62,
     "sellerUnavailableSignals": 0,
     "contentProbe": {
       "bodyChecked": 136,
-      "titleMetaChecked": 132,
-      "contentMatched": 50,
-      "contentMismatch": 86,
-      "accessibleContentMismatch": 28,
-      "accessGuardBody": 28,
-      "priceSignal": 27,
-      "purchaseActionSignal": 15,
+      "titleMetaChecked": 131,
+      "contentMatched": 46,
+      "contentMismatch": 90,
+      "accessibleContentMismatch": 15,
+      "accessGuardBody": 31,
+      "priceSignal": 26,
+      "purchaseActionSignal": 12,
       "strict": false
     },
     "interpretation": "Some URLs returned transient network signals; no exposed search, sold-out, 404, 410, or 5xx links were found."
   },
   "liveProbeReasonCounts": {
-    "robots_or_access_blocked": 59,
+    "robots_or_access_blocked": 62,
     "http_429": 13,
     "request_failed": 4
   },
@@ -1519,7 +1787,7 @@
     "item.gmarket.co.kr": 30,
     "coupang.com": 23,
     "ssg.com": 13,
-    "oliveyoung.co.kr": 4,
+    "oliveyoung.co.kr": 7,
     "hyundaicard.com": 1,
     "itempage3.auction.co.kr": 1,
     "shinhancard.com": 1,
@@ -1537,6 +1805,8 @@
       "reason": "request_failed",
       "titleSimilarity": 0,
       "contentMatch": null,
+      "accessGuard": false,
+      "rateLimited": false,
       "unavailablePattern": ""
     },
     {
@@ -1547,6 +1817,8 @@
       "reason": "request_failed",
       "titleSimilarity": 0,
       "contentMatch": null,
+      "accessGuard": false,
+      "rateLimited": false,
       "unavailablePattern": ""
     },
     {
@@ -1557,6 +1829,8 @@
       "reason": "request_failed",
       "titleSimilarity": 0,
       "contentMatch": null,
+      "accessGuard": false,
+      "rateLimited": false,
       "unavailablePattern": ""
     },
     {
@@ -1567,6 +1841,8 @@
       "reason": "request_failed",
       "titleSimilarity": 0,
       "contentMatch": null,
+      "accessGuard": false,
+      "rateLimited": false,
       "unavailablePattern": ""
     }
   ],
@@ -1607,9 +1883,13 @@
         "contentMatch": true,
         "priceSignal": false,
         "purchaseActionSignal": true,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "[삼성전자](현대Hmall) 삼성 86인치 4K 스마트 UHD TV 86TU9010 지방권벽걸이 : 롯데ON",
@@ -1618,7 +1898,8 @@
         "contentMatch": true,
         "priceSignal": false,
         "purchaseActionSignal": true,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "live_content_confirmed",
       "revalidationPriority": 20,
@@ -1660,7 +1941,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -1668,7 +1951,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://item.gmarket.co.kr/Item?goodsCode=4076233103",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "manual_pattern_verified",
       "revalidationPriority": 45,
@@ -1710,7 +1995,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -1718,7 +2005,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://item.gmarket.co.kr/Item?goodsCode=1645289356",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "manual_pattern_verified",
       "revalidationPriority": 45,
@@ -1760,7 +2049,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": true
+        "accessGuard": true,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -1768,7 +2059,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://www.coupang.com/vp/products/9536028933?itemId=28441768456&vendorItemId=95392511443",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "seller_access_protected_manual_verified",
       "revalidationPriority": 45,
@@ -1810,9 +2103,13 @@
         "contentMatch": true,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
+        "status": 206,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "베네베딩 | 시원한 여름 냉감 침대 패드 쿨링 숙면",
@@ -1821,7 +2118,8 @@
         "contentMatch": true,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "live_content_confirmed",
       "revalidationPriority": 20,
@@ -1863,7 +2161,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": true
+        "accessGuard": true,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -1871,7 +2171,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://www.coupang.com/vp/products/4944747674?itemId=19547724956&vendorItemId=86433745874",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "seller_access_protected_manual_verified",
       "revalidationPriority": 45,
@@ -1913,7 +2215,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -1921,7 +2225,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2845354348",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "manual_pattern_verified",
       "revalidationPriority": 45,
@@ -1939,14 +2245,14 @@
       "affiliateUrl": "",
       "eventUrl": "",
       "linkType": "direct_purchase",
-      "availability": "active",
-      "validationStatus": "passed",
-      "validationCode": "valid",
-      "validationReason": "passed",
+      "availability": "unknown",
+      "validationStatus": "failed",
+      "validationCode": "mismatch",
+      "validationReason": "live_content_mismatch",
       "lastCheckedAt": "2026-05-31T11:10:00.000Z",
-      "priorityScore": 100,
-      "isHidden": false,
-      "publishable": true,
+      "priorityScore": 64,
+      "isHidden": true,
+      "publishable": false,
       "host": "lfmall.co.kr",
       "evidence": "LF몰 아이더 POP ON 남성 여름 냉감 폴로 티셔츠 상품 상세",
       "checks": {
@@ -1963,9 +2269,13 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": true
       },
       "liveProbe": {
+        "status": 206,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "나를 나답게 LFmall.com",
@@ -1974,11 +2284,12 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
-      "verificationEvidenceTier": "manual_pattern_verified",
-      "revalidationPriority": 65,
-      "revalidationReason": "accessible_content_mismatch_review"
+      "verificationEvidenceTier": "blocked",
+      "revalidationPriority": 100,
+      "revalidationReason": "live_content_mismatch"
     },
     {
       "id": "d009",
@@ -2016,7 +2327,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -2024,7 +2337,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=3768639920",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "manual_pattern_verified",
       "revalidationPriority": 45,
@@ -2066,7 +2381,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": true
+        "accessGuard": true,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -2074,7 +2391,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://www.coupang.com/vp/products/7999681537?itemId=22273718645&vendorItemId=92858534546",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "seller_access_protected_manual_verified",
       "revalidationPriority": 45,
@@ -2116,7 +2435,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": true,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -2124,11 +2445,13 @@
         "reason": "http_429",
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000377767271",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": true
       },
-      "verificationEvidenceTier": "manual_pattern_verified",
-      "revalidationPriority": 65,
-      "revalidationReason": "accessible_content_mismatch_review"
+      "verificationEvidenceTier": "seller_rate_limited_manual_verified",
+      "revalidationPriority": 55,
+      "revalidationReason": "seller_rate_limited_review"
     },
     {
       "id": "d012",
@@ -2147,7 +2470,7 @@
       "validationCode": "valid",
       "validationReason": "passed",
       "lastCheckedAt": "2026-05-31T10:00:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "publishable": true,
       "host": "oliveyoung.co.kr",
@@ -2160,28 +2483,29 @@
         "productDetailUrl": true,
         "officialBenefitUrl": false,
         "unavailableText": false,
-        "liveProbeOk": true,
+        "liveProbeOk": false,
         "titleMetaChecked": true,
         "titleSimilarity": 0,
-        "contentMatch": true,
+        "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": true,
-        "accessGuard": false
+        "purchaseActionSignal": false,
+        "accessGuard": true,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
-        "ok": true,
-        "bodyChecked": true,
-        "title": "올리브영 온라인몰",
-        "metaDescription": "대한민국 NO.1 헬스&뷰티 스토어 OLIVEYOUNG",
+        "ok": false,
+        "status": 403,
+        "reason": "robots_or_access_blocked",
+        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000216997",
         "titleSimilarity": 0,
-        "contentMatch": true,
-        "priceSignal": false,
-        "purchaseActionSignal": true,
-        "accessGuard": false
+        "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false
       },
-      "verificationEvidenceTier": "live_content_confirmed",
-      "revalidationPriority": 20,
-      "revalidationReason": "routine_rotation_review"
+      "verificationEvidenceTier": "seller_access_protected_manual_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d013",
@@ -2195,14 +2519,14 @@
       "affiliateUrl": "",
       "eventUrl": "",
       "linkType": "direct_purchase",
-      "availability": "active",
-      "validationStatus": "passed",
-      "validationCode": "valid",
-      "validationReason": "passed",
+      "availability": "unknown",
+      "validationStatus": "failed",
+      "validationCode": "mismatch",
+      "validationReason": "live_content_mismatch",
       "lastCheckedAt": "2026-05-31T10:20:00.000Z",
-      "priorityScore": 100,
-      "isHidden": false,
-      "publishable": true,
+      "priorityScore": 64,
+      "isHidden": true,
+      "publishable": false,
       "host": "e-himart.co.kr",
       "evidence": "하이마트 삼성 55형 4K UHD TV 상품 상세",
       "checks": {
@@ -2219,9 +2543,13 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": true
       },
       "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "",
@@ -2230,11 +2558,12 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
-      "verificationEvidenceTier": "manual_pattern_verified",
-      "revalidationPriority": 65,
-      "revalidationReason": "accessible_content_mismatch_review"
+      "verificationEvidenceTier": "blocked",
+      "revalidationPriority": 100,
+      "revalidationReason": "live_content_mismatch"
     },
     {
       "id": "d014",
@@ -2272,7 +2601,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": true
+        "accessGuard": true,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -2280,7 +2611,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://www.coupang.com/vp/products/7687552147",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "seller_access_protected_manual_verified",
       "revalidationPriority": 45,
@@ -2322,9 +2655,13 @@
         "contentMatch": true,
         "priceSignal": true,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "[바른세탁소] 고농축 캡슐세제 스탠다드 플로랄향 100개입 / 세탁세제",
@@ -2333,7 +2670,8 @@
         "contentMatch": true,
         "priceSignal": true,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "live_content_confirmed",
       "revalidationPriority": 20,
@@ -2375,7 +2713,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -2383,7 +2723,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://item.gmarket.co.kr/Item?goodsCode=4108056484",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "manual_pattern_verified",
       "revalidationPriority": 45,
@@ -2425,7 +2767,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -2433,7 +2777,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=3579809715",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "manual_pattern_verified",
       "revalidationPriority": 45,
@@ -2475,9 +2821,13 @@
         "contentMatch": true,
         "priceSignal": true,
         "purchaseActionSignal": true,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "[KF365] 무항생제 왕란 30구 (15구 *2ea) - 마켓컬리",
@@ -2486,7 +2836,8 @@
         "contentMatch": true,
         "priceSignal": true,
         "purchaseActionSignal": true,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "live_content_confirmed",
       "revalidationPriority": 20,
@@ -2528,7 +2879,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": true
+        "accessGuard": true,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -2536,7 +2889,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://store.ohou.se/goods/1306932",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "seller_access_protected_manual_verified",
       "revalidationPriority": 45,
@@ -2578,9 +2933,13 @@
         "contentMatch": true,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "아웃도어 프로덕츠(OUTDOOR PRODUCTS) 3팩 티셔츠 3PACK T-SHIRT - 사이즈 & 후기 | 무신사",
@@ -2589,7 +2948,8 @@
         "contentMatch": true,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "live_content_confirmed",
       "revalidationPriority": 20,
@@ -2631,9 +2991,13 @@
         "contentMatch": true,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "[제주] 제주투어패스 타임제로 자유이용권 | NOL 인터파크투어",
@@ -2642,7 +3006,8 @@
         "contentMatch": true,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "live_content_confirmed",
       "revalidationPriority": 20,
@@ -2684,7 +3049,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": true
+        "accessGuard": true,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -2692,7 +3059,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000188040",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "seller_access_protected_manual_verified",
       "revalidationPriority": 45,
@@ -2734,9 +3103,13 @@
         "contentMatch": true,
         "priceSignal": true,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "",
@@ -2745,7 +3118,8 @@
         "contentMatch": true,
         "priceSignal": true,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "live_content_confirmed",
       "revalidationPriority": 20,
@@ -2787,7 +3161,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": true,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -2795,11 +3171,13 @@
         "reason": "http_429",
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000038330709",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": true
       },
-      "verificationEvidenceTier": "manual_pattern_verified",
-      "revalidationPriority": 65,
-      "revalidationReason": "accessible_content_mismatch_review"
+      "verificationEvidenceTier": "seller_rate_limited_manual_verified",
+      "revalidationPriority": 55,
+      "revalidationReason": "seller_rate_limited_review"
     },
     {
       "id": "d025",
@@ -2837,7 +3215,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": true
+        "accessGuard": true,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -2845,7 +3225,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000163532",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "seller_access_protected_manual_verified",
       "revalidationPriority": 45,
@@ -2863,14 +3245,14 @@
       "affiliateUrl": "",
       "eventUrl": "",
       "linkType": "direct_purchase",
-      "availability": "active",
-      "validationStatus": "passed",
-      "validationCode": "valid",
-      "validationReason": "passed",
+      "availability": "unknown",
+      "validationStatus": "failed",
+      "validationCode": "mismatch",
+      "validationReason": "live_content_mismatch",
       "lastCheckedAt": "2026-05-31T12:35:00.000Z",
-      "priorityScore": 100,
-      "isHidden": false,
-      "publishable": true,
+      "priorityScore": 64,
+      "isHidden": true,
+      "publishable": false,
       "host": "e-himart.co.kr",
       "evidence": "하이마트 Lenovo RTX3050Ti 게이밍 노트북 상품 상세",
       "checks": {
@@ -2887,9 +3269,13 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": true
       },
       "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "",
@@ -2898,11 +3284,12 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
-      "verificationEvidenceTier": "manual_pattern_verified",
-      "revalidationPriority": 65,
-      "revalidationReason": "accessible_content_mismatch_review"
+      "verificationEvidenceTier": "blocked",
+      "revalidationPriority": 100,
+      "revalidationReason": "live_content_mismatch"
     },
     {
       "id": "d027",
@@ -2940,9 +3327,13 @@
         "contentMatch": true,
         "priceSignal": true,
         "purchaseActionSignal": true,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "[군 기저귀] 프리미엄 밴드 대형(L) 36P x 4팩 - GS SHOP",
@@ -2951,7 +3342,8 @@
         "contentMatch": true,
         "priceSignal": true,
         "purchaseActionSignal": true,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "live_content_confirmed",
       "revalidationPriority": 20,
@@ -2993,7 +3385,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": true
+        "accessGuard": true,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -3001,7 +3395,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://www.coupang.com/vp/products/45447044?itemId=162348092&vendorItemId=3383614966",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "seller_access_protected_manual_verified",
       "revalidationPriority": 45,
@@ -3043,7 +3439,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": true,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -3051,11 +3449,13 @@
         "reason": "http_429",
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000568480807",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": true
       },
-      "verificationEvidenceTier": "manual_pattern_verified",
-      "revalidationPriority": 65,
-      "revalidationReason": "accessible_content_mismatch_review"
+      "verificationEvidenceTier": "seller_rate_limited_manual_verified",
+      "revalidationPriority": 55,
+      "revalidationReason": "seller_rate_limited_review"
     },
     {
       "id": "d030",
@@ -3093,7 +3493,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": true
+        "accessGuard": true,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -3101,7 +3503,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://www.coupang.com/vp/products/8640169010",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "seller_access_protected_manual_verified",
       "revalidationPriority": 45,
@@ -3143,7 +3547,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": true
+        "accessGuard": true,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -3151,7 +3557,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://www.coupang.com/vp/products/7872977867",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "seller_access_protected_manual_verified",
       "revalidationPriority": 45,
@@ -3193,7 +3601,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": true,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -3201,11 +3611,13 @@
         "reason": "http_429",
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=0000009774169",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": true
       },
-      "verificationEvidenceTier": "manual_pattern_verified",
-      "revalidationPriority": 65,
-      "revalidationReason": "accessible_content_mismatch_review"
+      "verificationEvidenceTier": "seller_rate_limited_manual_verified",
+      "revalidationPriority": 55,
+      "revalidationReason": "seller_rate_limited_review"
     },
     {
       "id": "d033",
@@ -3243,9 +3655,13 @@
         "contentMatch": true,
         "priceSignal": true,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "���������� �ڷ��ϰ�������",
@@ -3254,7 +3670,8 @@
         "contentMatch": true,
         "priceSignal": true,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "live_content_confirmed",
       "revalidationPriority": 20,
@@ -3296,7 +3713,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -3304,7 +3723,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2739226248",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "manual_pattern_verified",
       "revalidationPriority": 45,
@@ -3346,7 +3767,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": true
+        "accessGuard": true,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -3354,7 +3777,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://www.coupang.com/vp/products/9468784918?itemId=28181432958&vendorItemId=95136026489",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "seller_access_protected_manual_verified",
       "revalidationPriority": 45,
@@ -3396,9 +3821,13 @@
         "contentMatch": true,
         "priceSignal": false,
         "purchaseActionSignal": true,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "롯데하이마트 | 허밍 무선청소기 HML-VC2502W 청소기+물걸레 세트 소형 핸디용 원룸 차량용",
@@ -3407,7 +3836,8 @@
         "contentMatch": true,
         "priceSignal": false,
         "purchaseActionSignal": true,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "live_content_confirmed",
       "revalidationPriority": 20,
@@ -3449,9 +3879,13 @@
         "contentMatch": true,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "더니트컴퍼니(THEKNITCOMPANY) 수피마 에센셜 티셔츠 3PACK 2컬러 - 사이즈 & 후기 | 무신사",
@@ -3460,7 +3894,8 @@
         "contentMatch": true,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "live_content_confirmed",
       "revalidationPriority": 20,
@@ -3502,9 +3937,13 @@
         "contentMatch": true,
         "priceSignal": true,
         "purchaseActionSignal": true,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "[군 기저귀] 프리미엄 팬티 대형(L) 32P x 4팩 - GS SHOP",
@@ -3513,7 +3952,8 @@
         "contentMatch": true,
         "priceSignal": true,
         "purchaseActionSignal": true,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "live_content_confirmed",
       "revalidationPriority": 20,
@@ -3555,9 +3995,13 @@
         "contentMatch": true,
         "priceSignal": true,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
+        "status": 206,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "NOL 티켓 | 오픈예정 | 뮤지컬 〈태권, 날아올라〉",
@@ -3566,7 +4010,8 @@
         "contentMatch": true,
         "priceSignal": true,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "live_content_confirmed",
       "revalidationPriority": 20,
@@ -3589,7 +4034,7 @@
       "validationCode": "valid",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-01T02:40:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "publishable": true,
       "host": "oliveyoung.co.kr",
@@ -3602,28 +4047,29 @@
         "productDetailUrl": true,
         "officialBenefitUrl": false,
         "unavailableText": false,
-        "liveProbeOk": true,
+        "liveProbeOk": false,
         "titleMetaChecked": true,
-        "titleSimilarity": 100,
-        "contentMatch": true,
-        "priceSignal": true,
-        "purchaseActionSignal": true,
-        "accessGuard": false
+        "titleSimilarity": 0,
+        "contentMatch": false,
+        "priceSignal": false,
+        "purchaseActionSignal": false,
+        "accessGuard": true,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
-        "ok": true,
-        "bodyChecked": true,
-        "title": "아이보들 CCP 크림 (1+1기획)/단품 | 올리브영",
-        "metaDescription": "대한민국 NO.1 헬스&뷰티 스토어 OLIVEYOUNG",
-        "titleSimilarity": 100,
-        "contentMatch": true,
-        "priceSignal": true,
-        "purchaseActionSignal": true,
-        "accessGuard": false
+        "ok": false,
+        "status": 403,
+        "reason": "robots_or_access_blocked",
+        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000211588",
+        "titleSimilarity": 0,
+        "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false
       },
-      "verificationEvidenceTier": "live_content_confirmed",
-      "revalidationPriority": 20,
-      "revalidationReason": "routine_rotation_review"
+      "verificationEvidenceTier": "seller_access_protected_manual_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d041",
@@ -3661,7 +4107,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": true,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -3669,11 +4117,13 @@
         "reason": "http_429",
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000620373892",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": true
       },
-      "verificationEvidenceTier": "manual_pattern_verified",
-      "revalidationPriority": 65,
-      "revalidationReason": "accessible_content_mismatch_review"
+      "verificationEvidenceTier": "seller_rate_limited_manual_verified",
+      "revalidationPriority": 55,
+      "revalidationReason": "seller_rate_limited_review"
     },
     {
       "id": "d042",
@@ -3687,14 +4137,14 @@
       "affiliateUrl": "https://gs25.gsretail.com/gscvs/ko/customer-engagement/event/detail/publishing?eventCode=8842722233888&pageNum=1",
       "eventUrl": "https://gs25.gsretail.com/gscvs/ko/customer-engagement/event/detail/publishing?eventCode=8842722233888&pageNum=1",
       "linkType": "affiliate",
-      "availability": "active",
-      "validationStatus": "passed",
-      "validationCode": "valid",
-      "validationReason": "passed",
+      "availability": "unknown",
+      "validationStatus": "failed",
+      "validationCode": "mismatch",
+      "validationReason": "live_content_mismatch",
       "lastCheckedAt": "2026-06-01T05:20:00.000Z",
-      "priorityScore": 100,
-      "isHidden": false,
-      "publishable": true,
+      "priorityScore": 64,
+      "isHidden": true,
+      "publishable": false,
       "host": "gs25.gsretail.com",
       "evidence": "GS25 공식 진행중 이벤트 상세 페이지",
       "checks": {
@@ -3711,9 +4161,13 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": true
       },
       "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "종료이벤트/당첨발표 | GS25 Site",
@@ -3722,11 +4176,12 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
-      "verificationEvidenceTier": "manual_pattern_verified",
-      "revalidationPriority": 65,
-      "revalidationReason": "accessible_content_mismatch_review"
+      "verificationEvidenceTier": "blocked",
+      "revalidationPriority": 100,
+      "revalidationReason": "live_content_mismatch"
     },
     {
       "id": "d043",
@@ -3740,14 +4195,14 @@
       "affiliateUrl": "",
       "eventUrl": "",
       "linkType": "direct_purchase",
-      "availability": "active",
-      "validationStatus": "passed",
-      "validationCode": "valid",
-      "validationReason": "passed",
+      "availability": "unknown",
+      "validationStatus": "failed",
+      "validationCode": "mismatch",
+      "validationReason": "live_content_mismatch",
       "lastCheckedAt": "2026-06-01T05:20:00.000Z",
-      "priorityScore": 100,
-      "isHidden": false,
-      "publishable": true,
+      "priorityScore": 64,
+      "isHidden": true,
+      "publishable": false,
       "host": "aliexpress.com",
       "evidence": "AliExpress 100W 3-in-1 USB-C 케이블 상품 상세 URL 패턴",
       "checks": {
@@ -3759,27 +4214,32 @@
         "officialBenefitUrl": false,
         "unavailableText": false,
         "liveProbeOk": true,
-        "titleMetaChecked": true,
+        "titleMetaChecked": false,
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": true
       },
       "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "",
-        "metaDescription": "Smarter Shopping, Better Living! Aliexpress.com",
+        "metaDescription": "",
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
-      "verificationEvidenceTier": "manual_pattern_verified",
-      "revalidationPriority": 65,
-      "revalidationReason": "accessible_content_mismatch_review"
+      "verificationEvidenceTier": "blocked",
+      "revalidationPriority": 100,
+      "revalidationReason": "live_content_mismatch"
     },
     {
       "id": "d044",
@@ -3817,7 +4277,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -3825,7 +4287,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://itempage3.auction.co.kr/DetailView.aspx?itemno=F408783307",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "manual_pattern_verified",
       "revalidationPriority": 45,
@@ -3867,7 +4331,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": true,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -3875,11 +4341,13 @@
         "reason": "http_429",
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000519076764",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": true
       },
-      "verificationEvidenceTier": "manual_pattern_verified",
-      "revalidationPriority": 65,
-      "revalidationReason": "accessible_content_mismatch_review"
+      "verificationEvidenceTier": "seller_rate_limited_manual_verified",
+      "revalidationPriority": 55,
+      "revalidationReason": "seller_rate_limited_review"
     },
     {
       "id": "d046",
@@ -3917,7 +4385,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": true
+        "accessGuard": true,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -3925,7 +4395,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://www.coupang.com/vp/products/5625704601?vendorItemId=79548063314",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "seller_access_protected_manual_verified",
       "revalidationPriority": 45,
@@ -3967,9 +4439,13 @@
         "contentMatch": true,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "네이버페이 금융상품 카드",
@@ -3978,7 +4454,8 @@
         "contentMatch": true,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "live_content_confirmed",
       "revalidationPriority": 20,
@@ -4020,9 +4497,13 @@
         "contentMatch": true,
         "priceSignal": true,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "[30%추가] 메듀즈 메듀즈키즈 성인 여성 여자 유아동 주니어 어린이 아쿠아샌들 젤리슈즈 샌들",
@@ -4031,7 +4512,8 @@
         "contentMatch": true,
         "priceSignal": true,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "live_content_confirmed",
       "revalidationPriority": 20,
@@ -4073,7 +4555,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -4081,7 +4565,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2723551094",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "manual_pattern_verified",
       "revalidationPriority": 45,
@@ -4123,7 +4609,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": true
+        "accessGuard": true,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -4131,7 +4619,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000188460",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "seller_access_protected_manual_verified",
       "revalidationPriority": 45,
@@ -4173,7 +4663,9 @@
         "contentMatch": null,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -4181,7 +4673,9 @@
         "reason": "request_failed",
         "finalUrl": "https://tour.interpark.com/goods/detail?goodsCd=25031828338",
         "titleSimilarity": 0,
-        "contentMatch": null
+        "contentMatch": null,
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "transient_network_manual_verified",
       "revalidationPriority": 75,
@@ -4223,7 +4717,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": true,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -4231,11 +4727,13 @@
         "reason": "http_429",
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000560995801",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": true
       },
-      "verificationEvidenceTier": "manual_pattern_verified",
-      "revalidationPriority": 65,
-      "revalidationReason": "accessible_content_mismatch_review"
+      "verificationEvidenceTier": "seller_rate_limited_manual_verified",
+      "revalidationPriority": 55,
+      "revalidationReason": "seller_rate_limited_review"
     },
     {
       "id": "d053",
@@ -4249,14 +4747,14 @@
       "affiliateUrl": "https://new-m.pay.naver.com/member/benefit/event",
       "eventUrl": "https://new-m.pay.naver.com/member/benefit/event",
       "linkType": "affiliate",
-      "availability": "active",
-      "validationStatus": "passed",
-      "validationCode": "valid",
-      "validationReason": "passed",
+      "availability": "unknown",
+      "validationStatus": "failed",
+      "validationCode": "mismatch",
+      "validationReason": "live_content_mismatch",
       "lastCheckedAt": "2026-06-01T08:30:00.000Z",
-      "priorityScore": 100,
-      "isHidden": false,
-      "publishable": true,
+      "priorityScore": 64,
+      "isHidden": true,
+      "publishable": false,
       "host": "new-m.pay.naver.com",
       "evidence": "네이버페이 혜택 이벤트 공식 진입 페이지",
       "checks": {
@@ -4273,9 +4771,13 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": true
       },
       "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "Naver Sign in",
@@ -4284,11 +4786,12 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
-      "verificationEvidenceTier": "manual_pattern_verified",
-      "revalidationPriority": 65,
-      "revalidationReason": "accessible_content_mismatch_review"
+      "verificationEvidenceTier": "blocked",
+      "revalidationPriority": 100,
+      "revalidationReason": "live_content_mismatch"
     },
     {
       "id": "d054",
@@ -4326,9 +4829,13 @@
         "contentMatch": true,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "결제 | 카카오페이 - 마음 놓고 금융하다.",
@@ -4337,7 +4844,8 @@
         "contentMatch": true,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "live_content_confirmed",
       "revalidationPriority": 20,
@@ -4379,9 +4887,13 @@
         "contentMatch": true,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "토스페이 혜택, 사용법 총정리 2026년 1월 - 금융이 알고 싶을 때, 토스피드",
@@ -4390,7 +4902,8 @@
         "contentMatch": true,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "live_content_confirmed",
       "revalidationPriority": 20,
@@ -4408,14 +4921,14 @@
       "affiliateUrl": "https://events.payco.com/app/share.nhn?evntPageNm=tmzvlWb",
       "eventUrl": "https://events.payco.com/app/share.nhn?evntPageNm=tmzvlWb",
       "linkType": "affiliate",
-      "availability": "active",
-      "validationStatus": "passed",
-      "validationCode": "valid",
-      "validationReason": "passed",
+      "availability": "unknown",
+      "validationStatus": "failed",
+      "validationCode": "mismatch",
+      "validationReason": "live_content_mismatch",
       "lastCheckedAt": "2026-06-03T16:20:00.000+09:00",
-      "priorityScore": 100,
-      "isHidden": false,
-      "publishable": true,
+      "priorityScore": 64,
+      "isHidden": true,
+      "publishable": false,
       "host": "events.payco.com",
       "evidence": "PAYCO 공식 혜택 이벤트 상세 공유 페이지",
       "checks": {
@@ -4432,9 +4945,13 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": true
       },
       "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "PAYCO::이벤트",
@@ -4443,11 +4960,12 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
-      "verificationEvidenceTier": "manual_pattern_verified",
-      "revalidationPriority": 65,
-      "revalidationReason": "accessible_content_mismatch_review"
+      "verificationEvidenceTier": "blocked",
+      "revalidationPriority": 100,
+      "revalidationReason": "live_content_mismatch"
     },
     {
       "id": "d057",
@@ -4485,7 +5003,9 @@
         "contentMatch": null,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -4493,7 +5013,9 @@
         "reason": "request_failed",
         "finalUrl": "https://www.tmembership.co.kr/web/html/main/benefit.html",
         "titleSimilarity": 0,
-        "contentMatch": null
+        "contentMatch": null,
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "transient_network_manual_verified",
       "revalidationPriority": 75,
@@ -4511,14 +5033,14 @@
       "affiliateUrl": "https://academy.baemin.com/event/list",
       "eventUrl": "https://academy.baemin.com/event/list",
       "linkType": "affiliate",
-      "availability": "active",
-      "validationStatus": "passed",
-      "validationCode": "valid",
-      "validationReason": "passed",
+      "availability": "unknown",
+      "validationStatus": "failed",
+      "validationCode": "mismatch",
+      "validationReason": "live_content_mismatch",
       "lastCheckedAt": "2026-06-03T16:30:00.000+09:00",
-      "priorityScore": 100,
-      "isHidden": false,
-      "publishable": true,
+      "priorityScore": 64,
+      "isHidden": true,
+      "publishable": false,
       "host": "academy.baemin.com",
       "evidence": "배달의민족 배민아카데미 공식 진행중 이벤트 목록",
       "checks": {
@@ -4535,9 +5057,13 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": true
       },
       "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "배민아카데미",
@@ -4546,11 +5072,12 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
-      "verificationEvidenceTier": "manual_pattern_verified",
-      "revalidationPriority": 65,
-      "revalidationReason": "accessible_content_mismatch_review"
+      "verificationEvidenceTier": "blocked",
+      "revalidationPriority": 100,
+      "revalidationReason": "live_content_mismatch"
     },
     {
       "id": "d059",
@@ -4564,14 +5091,14 @@
       "affiliateUrl": "https://www.amoremall.com/kr/ko/event",
       "eventUrl": "https://www.amoremall.com/kr/ko/event",
       "linkType": "affiliate",
-      "availability": "active",
-      "validationStatus": "passed",
-      "validationCode": "valid",
-      "validationReason": "passed",
+      "availability": "unknown",
+      "validationStatus": "failed",
+      "validationCode": "mismatch",
+      "validationReason": "live_content_mismatch",
       "lastCheckedAt": "2026-06-01T08:30:00.000Z",
-      "priorityScore": 100,
-      "isHidden": false,
-      "publishable": true,
+      "priorityScore": 64,
+      "isHidden": true,
+      "publishable": false,
       "host": "amoremall.com",
       "evidence": "아모레몰 공식 이벤트 페이지",
       "checks": {
@@ -4588,9 +5115,13 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": true
       },
       "liveProbe": {
+        "status": 206,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "에러페이지",
@@ -4599,11 +5130,12 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
-      "verificationEvidenceTier": "manual_pattern_verified",
-      "revalidationPriority": 65,
-      "revalidationReason": "accessible_content_mismatch_review"
+      "verificationEvidenceTier": "blocked",
+      "revalidationPriority": 100,
+      "revalidationReason": "live_content_mismatch"
     },
     {
       "id": "d060",
@@ -4617,14 +5149,14 @@
       "affiliateUrl": "https://cgv.co.kr/evt/eventDetail?evntNo=202602235927",
       "eventUrl": "https://cgv.co.kr/evt/eventDetail?evntNo=202602235927",
       "linkType": "affiliate",
-      "availability": "active",
-      "validationStatus": "passed",
-      "validationCode": "valid",
-      "validationReason": "passed",
+      "availability": "unknown",
+      "validationStatus": "failed",
+      "validationCode": "mismatch",
+      "validationReason": "live_content_mismatch",
       "lastCheckedAt": "2026-06-03T16:20:00.000+09:00",
-      "priorityScore": 100,
-      "isHidden": false,
-      "publishable": true,
+      "priorityScore": 64,
+      "isHidden": true,
+      "publishable": false,
       "host": "cgv.co.kr",
       "evidence": "CGV 공식 이벤트 상세 페이지",
       "checks": {
@@ -4641,9 +5173,13 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": true
       },
       "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "[2026 월드 베이스볼 클래식(WBC)] 극장 단독 생중계 | CGV",
@@ -4652,11 +5188,12 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
-      "verificationEvidenceTier": "manual_pattern_verified",
-      "revalidationPriority": 65,
-      "revalidationReason": "accessible_content_mismatch_review"
+      "verificationEvidenceTier": "blocked",
+      "revalidationPriority": 100,
+      "revalidationReason": "live_content_mismatch"
     },
     {
       "id": "d061",
@@ -4694,9 +5231,13 @@
         "contentMatch": true,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "NICE TO CU",
@@ -4705,7 +5246,8 @@
         "contentMatch": true,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "live_content_confirmed",
       "revalidationPriority": 20,
@@ -4747,9 +5289,13 @@
         "contentMatch": true,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "LIST | 진행중인 이벤트 | 7-ELEVEN | 세븐일레븐",
@@ -4758,7 +5304,8 @@
         "contentMatch": true,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "live_content_confirmed",
       "revalidationPriority": 20,
@@ -4776,14 +5323,14 @@
       "affiliateUrl": "https://front.homeplus.co.kr/event",
       "eventUrl": "https://front.homeplus.co.kr/event",
       "linkType": "affiliate",
-      "availability": "active",
-      "validationStatus": "passed",
-      "validationCode": "valid",
-      "validationReason": "passed",
+      "availability": "unknown",
+      "validationStatus": "failed",
+      "validationCode": "mismatch",
+      "validationReason": "live_content_mismatch",
       "lastCheckedAt": "2026-06-01T09:40:00.000Z",
-      "priorityScore": 100,
-      "isHidden": false,
-      "publishable": true,
+      "priorityScore": 64,
+      "isHidden": true,
+      "publishable": false,
       "host": "front.homeplus.co.kr",
       "evidence": "홈플러스 공식 이벤트 페이지",
       "checks": {
@@ -4800,9 +5347,13 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": true
       },
       "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "",
@@ -4811,11 +5362,12 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
-      "verificationEvidenceTier": "manual_pattern_verified",
-      "revalidationPriority": 65,
-      "revalidationReason": "accessible_content_mismatch_review"
+      "verificationEvidenceTier": "blocked",
+      "revalidationPriority": 100,
+      "revalidationReason": "live_content_mismatch"
     },
     {
       "id": "d064",
@@ -4853,9 +5405,13 @@
         "contentMatch": true,
         "priceSignal": false,
         "purchaseActionSignal": true,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "원하는 상품을 원하는 시간에 쓱, 이마트몰",
@@ -4864,7 +5420,8 @@
         "contentMatch": true,
         "priceSignal": false,
         "purchaseActionSignal": true,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "live_content_confirmed",
       "revalidationPriority": 20,
@@ -4906,9 +5463,13 @@
         "contentMatch": true,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
+        "status": 206,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "요기요",
@@ -4917,7 +5478,8 @@
         "contentMatch": true,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "live_content_confirmed",
       "revalidationPriority": 20,
@@ -4959,9 +5521,13 @@
         "contentMatch": true,
         "priceSignal": true,
         "purchaseActionSignal": true,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "Starbucks Korea",
@@ -4970,7 +5536,8 @@
         "contentMatch": true,
         "priceSignal": true,
         "purchaseActionSignal": true,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "live_content_confirmed",
       "revalidationPriority": 20,
@@ -5012,9 +5579,13 @@
         "contentMatch": true,
         "priceSignal": true,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "메가박스 | 제휴 브랜드 | KT",
@@ -5023,7 +5594,8 @@
         "contentMatch": true,
         "priceSignal": true,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "live_content_confirmed",
       "revalidationPriority": 20,
@@ -5065,9 +5637,13 @@
         "contentMatch": true,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "전체 제휴사",
@@ -5076,7 +5652,8 @@
         "contentMatch": true,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "live_content_confirmed",
       "revalidationPriority": 20,
@@ -5118,9 +5695,13 @@
         "contentMatch": true,
         "priceSignal": true,
         "purchaseActionSignal": true,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
+        "status": 206,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "맘큐 이벤트 | 진행 중인 육아 혜택 & 이벤트 모음",
@@ -5129,7 +5710,8 @@
         "contentMatch": true,
         "priceSignal": true,
         "purchaseActionSignal": true,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "live_content_confirmed",
       "revalidationPriority": 20,
@@ -5147,14 +5729,14 @@
       "affiliateUrl": "https://www.i-challenge.co.kr/Event/",
       "eventUrl": "https://www.i-challenge.co.kr/Event/",
       "linkType": "affiliate",
-      "availability": "active",
-      "validationStatus": "passed",
-      "validationCode": "valid",
-      "validationReason": "passed",
+      "availability": "unknown",
+      "validationStatus": "failed",
+      "validationCode": "mismatch",
+      "validationReason": "live_content_mismatch",
       "lastCheckedAt": "2026-06-01T09:40:00.000Z",
-      "priorityScore": 100,
-      "isHidden": false,
-      "publishable": true,
+      "priorityScore": 64,
+      "isHidden": true,
+      "publishable": false,
       "host": "i-challenge.co.kr",
       "evidence": "아이챌린지 공식 이벤트 페이지",
       "checks": {
@@ -5171,9 +5753,13 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": true
       },
       "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "�̺�Ʈ ����Ʈ : ���̽��� ����ç����, ȣ��� �Բ��ϴ� �������� Ȩ����",
@@ -5182,11 +5768,12 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
-      "verificationEvidenceTier": "manual_pattern_verified",
-      "revalidationPriority": 65,
-      "revalidationReason": "accessible_content_mismatch_review"
+      "verificationEvidenceTier": "blocked",
+      "revalidationPriority": 100,
+      "revalidationReason": "live_content_mismatch"
     },
     {
       "id": "d071",
@@ -5224,9 +5811,13 @@
         "contentMatch": true,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "멤버십 | 카카오페이 - 마음 놓고 금융하다.",
@@ -5235,7 +5826,8 @@
         "contentMatch": true,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "live_content_confirmed",
       "revalidationPriority": 20,
@@ -5277,9 +5869,13 @@
         "contentMatch": true,
         "priceSignal": true,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "[네이버멤버십] : 네이버플러스 멤버십",
@@ -5288,7 +5884,8 @@
         "contentMatch": true,
         "priceSignal": true,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "live_content_confirmed",
       "revalidationPriority": 20,
@@ -5330,7 +5927,9 @@
         "contentMatch": null,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -5338,7 +5937,9 @@
         "reason": "request_failed",
         "finalUrl": "https://www.hyundaicard.com/cpc/cr/CPCCR0101_01.hc",
         "titleSimilarity": 0,
-        "contentMatch": null
+        "contentMatch": null,
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "transient_network_manual_verified",
       "revalidationPriority": 75,
@@ -5380,7 +5981,9 @@
         "contentMatch": null,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -5388,7 +5991,9 @@
         "reason": "request_failed",
         "finalUrl": "https://www.shinhancard.com/pconts/html/benefit/event/MOBFM220/MOBFM220R01.html",
         "titleSimilarity": 0,
-        "contentMatch": null
+        "contentMatch": null,
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "transient_network_manual_verified",
       "revalidationPriority": 75,
@@ -5430,9 +6035,13 @@
         "contentMatch": true,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "이벤트 - 롯데시네마",
@@ -5441,7 +6050,8 @@
         "contentMatch": true,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "live_content_confirmed",
       "revalidationPriority": 20,
@@ -5483,9 +6093,13 @@
         "contentMatch": true,
         "priceSignal": true,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "메가MGC커피",
@@ -5494,7 +6108,8 @@
         "contentMatch": true,
         "priceSignal": true,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "live_content_confirmed",
       "revalidationPriority": 20,
@@ -5536,9 +6151,13 @@
         "contentMatch": true,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "카카오톡 선물하기",
@@ -5547,7 +6166,8 @@
         "contentMatch": true,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "live_content_confirmed",
       "revalidationPriority": 20,
@@ -5589,9 +6209,13 @@
         "contentMatch": true,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "티켓링크",
@@ -5600,7 +6224,8 @@
         "contentMatch": true,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "live_content_confirmed",
       "revalidationPriority": 20,
@@ -5642,7 +6267,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": true
+        "accessGuard": true,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -5650,7 +6277,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://www.coupang.com/vp/products/8943433269",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "seller_access_protected_manual_verified",
       "revalidationPriority": 45,
@@ -5692,7 +6321,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -5700,7 +6331,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=920731222",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "manual_pattern_verified",
       "revalidationPriority": 45,
@@ -5742,9 +6375,13 @@
         "contentMatch": true,
         "priceSignal": true,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "베이직 무향엠보싱 물티슈 캡형 100매 20팩/S-nBpC",
@@ -5753,7 +6390,8 @@
         "contentMatch": true,
         "priceSignal": true,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "live_content_confirmed",
       "revalidationPriority": 20,
@@ -5795,9 +6433,13 @@
         "contentMatch": true,
         "priceSignal": true,
         "purchaseActionSignal": true,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "[마켓컬리X매일유업] My Basic 매일 좋은 1A 우유 900mL - 마켓컬리",
@@ -5806,7 +6448,8 @@
         "contentMatch": true,
         "priceSignal": true,
         "purchaseActionSignal": true,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "live_content_confirmed",
       "revalidationPriority": 20,
@@ -5848,9 +6491,13 @@
         "contentMatch": true,
         "priceSignal": false,
         "purchaseActionSignal": true,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "다우니 대용량 섬유유연제 2.8L / 8.5L 드라이시트 모음 - SSG.COM",
@@ -5859,7 +6506,8 @@
         "contentMatch": true,
         "priceSignal": false,
         "purchaseActionSignal": true,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "live_content_confirmed",
       "revalidationPriority": 20,
@@ -5877,14 +6525,14 @@
       "affiliateUrl": "",
       "eventUrl": "",
       "linkType": "direct_purchase",
-      "availability": "active",
-      "validationStatus": "passed",
-      "validationCode": "valid",
-      "validationReason": "passed",
+      "availability": "unknown",
+      "validationStatus": "failed",
+      "validationCode": "mismatch",
+      "validationReason": "live_content_mismatch",
       "lastCheckedAt": "2026-06-01T22:45:00.000Z",
-      "priorityScore": 100,
-      "isHidden": false,
-      "publishable": true,
+      "priorityScore": 64,
+      "isHidden": true,
+      "publishable": false,
       "host": "e-himart.co.kr",
       "evidence": "하이마트 LG 오브제 칸 스탠드에어컨 상품 상세",
       "checks": {
@@ -5901,9 +6549,13 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": true
       },
       "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "",
@@ -5912,11 +6564,12 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
-      "verificationEvidenceTier": "manual_pattern_verified",
-      "revalidationPriority": 65,
-      "revalidationReason": "accessible_content_mismatch_review"
+      "verificationEvidenceTier": "blocked",
+      "revalidationPriority": 100,
+      "revalidationReason": "live_content_mismatch"
     },
     {
       "id": "d085",
@@ -5930,14 +6583,14 @@
       "affiliateUrl": "",
       "eventUrl": "",
       "linkType": "direct_purchase",
-      "availability": "active",
-      "validationStatus": "passed",
-      "validationCode": "valid",
-      "validationReason": "passed",
+      "availability": "unknown",
+      "validationStatus": "failed",
+      "validationCode": "mismatch",
+      "validationReason": "live_content_mismatch",
       "lastCheckedAt": "2026-06-01T22:45:00.000Z",
-      "priorityScore": 100,
-      "isHidden": false,
-      "publishable": true,
+      "priorityScore": 64,
+      "isHidden": true,
+      "publishable": false,
       "host": "11st.co.kr",
       "evidence": "11번가 하기스 매직컴포트 팬티형 기저귀 5단계 상품 상세",
       "checks": {
@@ -5954,9 +6607,13 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": true
       },
       "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "11번가",
@@ -5965,11 +6622,12 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
-      "verificationEvidenceTier": "manual_pattern_verified",
-      "revalidationPriority": 65,
-      "revalidationReason": "accessible_content_mismatch_review"
+      "verificationEvidenceTier": "blocked",
+      "revalidationPriority": 100,
+      "revalidationReason": "live_content_mismatch"
     },
     {
       "id": "d086",
@@ -6007,9 +6665,13 @@
         "contentMatch": true,
         "priceSignal": true,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "빈폴 멘(BEANPOLE MEN) [Essential] 피케 칼라넥 반소매 티셔츠 블랙 - 사이즈 & 후기 | 무신사",
@@ -6018,7 +6680,8 @@
         "contentMatch": true,
         "priceSignal": true,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "live_content_confirmed",
       "revalidationPriority": 20,
@@ -6060,7 +6723,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -6068,7 +6733,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=1503733317",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "manual_pattern_verified",
       "revalidationPriority": 45,
@@ -6110,7 +6777,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": true
+        "accessGuard": true,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -6118,7 +6787,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://www.coupang.com/vp/products/8263119298",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "seller_access_protected_manual_verified",
       "revalidationPriority": 45,
@@ -6160,7 +6831,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -6168,7 +6841,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2439050806",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "manual_pattern_verified",
       "revalidationPriority": 45,
@@ -6210,9 +6885,13 @@
         "contentMatch": true,
         "priceSignal": false,
         "purchaseActionSignal": true,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "롯데하이마트 | HDMI 케이블 10종 HIMCAB-H1.8 (1.8m, 5가지 색상)",
@@ -6221,7 +6900,8 @@
         "contentMatch": true,
         "priceSignal": false,
         "purchaseActionSignal": true,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "live_content_confirmed",
       "revalidationPriority": 20,
@@ -6263,7 +6943,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": true
+        "accessGuard": true,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -6271,7 +6953,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://www.coupang.com/vp/products/27613130",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "seller_access_protected_manual_verified",
       "revalidationPriority": 45,
@@ -6313,7 +6997,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -6321,7 +7007,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=4208551428",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "manual_pattern_verified",
       "revalidationPriority": 45,
@@ -6363,7 +7051,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": true,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -6371,11 +7061,13 @@
         "reason": "http_429",
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000005089075",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": true
       },
-      "verificationEvidenceTier": "manual_pattern_verified",
-      "revalidationPriority": 65,
-      "revalidationReason": "accessible_content_mismatch_review"
+      "verificationEvidenceTier": "seller_rate_limited_manual_verified",
+      "revalidationPriority": 55,
+      "revalidationReason": "seller_rate_limited_review"
     },
     {
       "id": "d094",
@@ -6413,7 +7105,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": true
+        "accessGuard": true,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -6421,7 +7115,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000246774",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "seller_access_protected_manual_verified",
       "revalidationPriority": 45,
@@ -6463,9 +7159,13 @@
         "contentMatch": true,
         "priceSignal": true,
         "purchaseActionSignal": true,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "[Better me] 오리지널 닭가슴살 (냉장) - 마켓컬리",
@@ -6474,7 +7174,8 @@
         "contentMatch": true,
         "priceSignal": true,
         "purchaseActionSignal": true,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "live_content_confirmed",
       "revalidationPriority": 20,
@@ -6516,7 +7217,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -6524,7 +7227,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2066504211",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "manual_pattern_verified",
       "revalidationPriority": 45,
@@ -6566,7 +7271,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -6574,7 +7281,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2953970256",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "manual_pattern_verified",
       "revalidationPriority": 45,
@@ -6616,7 +7325,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -6624,7 +7335,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2809510617",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "manual_pattern_verified",
       "revalidationPriority": 45,
@@ -6666,7 +7379,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": true,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -6674,11 +7389,13 @@
         "reason": "http_429",
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000601459551",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": true
       },
-      "verificationEvidenceTier": "manual_pattern_verified",
-      "revalidationPriority": 65,
-      "revalidationReason": "accessible_content_mismatch_review"
+      "verificationEvidenceTier": "seller_rate_limited_manual_verified",
+      "revalidationPriority": 55,
+      "revalidationReason": "seller_rate_limited_review"
     },
     {
       "id": "d100",
@@ -6716,7 +7433,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": true
+        "accessGuard": true,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -6724,7 +7443,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://www.coupang.com/vp/products/6499690442?itemId=18173261121&vendorItemId=85322534161",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "seller_access_protected_manual_verified",
       "revalidationPriority": 45,
@@ -6766,7 +7487,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -6774,7 +7497,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://item.gmarket.co.kr/Item?goodsCode=4476089680",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "manual_pattern_verified",
       "revalidationPriority": 45,
@@ -6816,9 +7541,13 @@
         "contentMatch": true,
         "priceSignal": true,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "피죤 섬유유연제(3100ml x 4개-핑크) 일반드럼겸용",
@@ -6827,7 +7556,8 @@
         "contentMatch": true,
         "priceSignal": true,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "live_content_confirmed",
       "revalidationPriority": 20,
@@ -6869,7 +7599,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -6877,7 +7609,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=1771516558",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "manual_pattern_verified",
       "revalidationPriority": 45,
@@ -6919,7 +7653,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": true
+        "accessGuard": true,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -6927,7 +7663,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://www.coupang.com/vp/products/8874782036?itemId=25896029282&vendorItemId=92904466881",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "seller_access_protected_manual_verified",
       "revalidationPriority": 45,
@@ -6969,7 +7707,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": true
+        "accessGuard": true,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -6977,7 +7717,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://www.coupang.com/vp/products/6133165754",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "seller_access_protected_manual_verified",
       "revalidationPriority": 45,
@@ -7015,19 +7757,23 @@
         "unavailableText": false,
         "liveProbeOk": false,
         "titleMetaChecked": true,
-        "titleSimilarity": 20,
-        "contentMatch": true,
+        "titleSimilarity": 0,
+        "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
         "status": 403,
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2763212387",
-        "titleSimilarity": 20,
-        "contentMatch": true
+        "titleSimilarity": 0,
+        "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "manual_pattern_verified",
       "revalidationPriority": 45,
@@ -7069,7 +7815,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -7077,7 +7825,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://item.gmarket.co.kr/Item?goodsCode=4261528217",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "manual_pattern_verified",
       "revalidationPriority": 45,
@@ -7119,7 +7869,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -7127,7 +7879,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=4236933731",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "manual_pattern_verified",
       "revalidationPriority": 45,
@@ -7169,7 +7923,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -7177,7 +7933,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2745012476",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "manual_pattern_verified",
       "revalidationPriority": 45,
@@ -7219,7 +7977,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": true
+        "accessGuard": true,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -7227,7 +7987,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://www.coupang.com/vp/products/9358422?itemId=19687297735&vendorItemId=90791761130",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "seller_access_protected_manual_verified",
       "revalidationPriority": 45,
@@ -7269,7 +8031,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -7277,7 +8041,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=3560262554",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "manual_pattern_verified",
       "revalidationPriority": 45,
@@ -7295,14 +8061,14 @@
       "affiliateUrl": "",
       "eventUrl": "",
       "linkType": "direct_purchase",
-      "availability": "active",
-      "validationStatus": "passed",
-      "validationCode": "valid",
-      "validationReason": "passed",
+      "availability": "unknown",
+      "validationStatus": "failed",
+      "validationCode": "mismatch",
+      "validationReason": "live_content_mismatch",
       "lastCheckedAt": "2026-06-02T02:30:00.000Z",
-      "priorityScore": 100,
-      "isHidden": false,
-      "publishable": true,
+      "priorityScore": 64,
+      "isHidden": true,
+      "publishable": false,
       "host": "musinsa.com",
       "evidence": "무신사 커버낫 쿨 코튼 그래픽 티셔츠 상품 상세",
       "checks": {
@@ -7319,9 +8085,13 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": true
       },
       "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "비아리츠(BIARRITZ) [5PACK] 에피 누드토우 덧신 4color - 사이즈 & 후기 | 무신사",
@@ -7330,11 +8100,12 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
-      "verificationEvidenceTier": "manual_pattern_verified",
-      "revalidationPriority": 65,
-      "revalidationReason": "accessible_content_mismatch_review"
+      "verificationEvidenceTier": "blocked",
+      "revalidationPriority": 100,
+      "revalidationReason": "live_content_mismatch"
     },
     {
       "id": "d113",
@@ -7372,7 +8143,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": true
+        "accessGuard": true,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -7380,7 +8153,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://www.coupang.com/vp/products/186524064",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "seller_access_protected_manual_verified",
       "revalidationPriority": 45,
@@ -7422,7 +8197,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -7430,7 +8207,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2667091230",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "manual_pattern_verified",
       "revalidationPriority": 45,
@@ -7472,9 +8251,13 @@
         "contentMatch": true,
         "priceSignal": true,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "BHC e쿠폰",
@@ -7483,7 +8266,8 @@
         "contentMatch": true,
         "priceSignal": true,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "live_content_confirmed",
       "revalidationPriority": 20,
@@ -7525,9 +8309,13 @@
         "contentMatch": true,
         "priceSignal": true,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "무신사",
@@ -7536,7 +8324,8 @@
         "contentMatch": true,
         "priceSignal": true,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "live_content_confirmed",
       "revalidationPriority": 20,
@@ -7578,9 +8367,13 @@
         "contentMatch": true,
         "priceSignal": true,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "메가MGC커피",
@@ -7589,7 +8382,8 @@
         "contentMatch": true,
         "priceSignal": true,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "live_content_confirmed",
       "revalidationPriority": 20,
@@ -7631,7 +8425,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -7639,7 +8435,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2910475736",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "manual_pattern_verified",
       "revalidationPriority": 45,
@@ -7681,9 +8479,13 @@
         "contentMatch": true,
         "priceSignal": true,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "종근당 전인화 락토핏 생유산균 골드 50포 2통 NEW 리뉴얼 보장균수 2배",
@@ -7692,7 +8494,8 @@
         "contentMatch": true,
         "priceSignal": true,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "live_content_confirmed",
       "revalidationPriority": 20,
@@ -7734,7 +8537,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -7742,7 +8547,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://item.gmarket.co.kr/Item?goodsCode=4285817639",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "manual_pattern_verified",
       "revalidationPriority": 45,
@@ -7784,7 +8591,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": true
+        "accessGuard": true,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -7792,7 +8601,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://www.coupang.com/vp/products/4739246363",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "seller_access_protected_manual_verified",
       "revalidationPriority": 45,
@@ -7834,7 +8645,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -7842,7 +8655,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://item.gmarket.co.kr/Item?goodsCode=4412121040",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "manual_pattern_verified",
       "revalidationPriority": 45,
@@ -7884,9 +8699,13 @@
         "contentMatch": true,
         "priceSignal": true,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "크리넥스 3겹 클린케어 30M 30롤 3팩 / 천연펄프 화장지 휴지 두루마리",
@@ -7895,7 +8714,8 @@
         "contentMatch": true,
         "priceSignal": true,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "live_content_confirmed",
       "revalidationPriority": 20,
@@ -7918,7 +8738,7 @@
       "validationCode": "valid",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-02T05:20:00.000Z",
-      "priorityScore": 100,
+      "priorityScore": 99,
       "isHidden": false,
       "publishable": true,
       "host": "oliveyoung.co.kr",
@@ -7931,28 +8751,29 @@
         "productDetailUrl": true,
         "officialBenefitUrl": false,
         "unavailableText": false,
-        "liveProbeOk": true,
+        "liveProbeOk": false,
         "titleMetaChecked": true,
-        "titleSimilarity": 13,
-        "contentMatch": true,
+        "titleSimilarity": 0,
+        "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": true,
-        "accessGuard": false
+        "purchaseActionSignal": false,
+        "accessGuard": true,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
-        "ok": true,
-        "bodyChecked": true,
-        "title": "올리브영 온라인몰",
-        "metaDescription": "대한민국 NO.1 헬스&뷰티 스토어 OLIVEYOUNG",
-        "titleSimilarity": 13,
-        "contentMatch": true,
-        "priceSignal": false,
-        "purchaseActionSignal": true,
-        "accessGuard": false
+        "ok": false,
+        "status": 403,
+        "reason": "robots_or_access_blocked",
+        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000230063",
+        "titleSimilarity": 0,
+        "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false
       },
-      "verificationEvidenceTier": "live_content_confirmed",
-      "revalidationPriority": 20,
-      "revalidationReason": "routine_rotation_review"
+      "verificationEvidenceTier": "seller_access_protected_manual_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d125",
@@ -7990,7 +8811,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": true,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -7998,11 +8821,13 @@
         "reason": "http_429",
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000032939693",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": true
       },
-      "verificationEvidenceTier": "manual_pattern_verified",
-      "revalidationPriority": 65,
-      "revalidationReason": "accessible_content_mismatch_review"
+      "verificationEvidenceTier": "seller_rate_limited_manual_verified",
+      "revalidationPriority": 55,
+      "revalidationReason": "seller_rate_limited_review"
     },
     {
       "id": "d126",
@@ -8040,7 +8865,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": true
+        "accessGuard": true,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -8048,7 +8875,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://www.coupang.com/vp/products/169280610?itemId=18366710784&vendorItemId=85510322367",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "seller_access_protected_manual_verified",
       "revalidationPriority": 45,
@@ -8090,7 +8919,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -8098,7 +8929,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2349292374",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "manual_pattern_verified",
       "revalidationPriority": 45,
@@ -8140,9 +8973,13 @@
         "contentMatch": true,
         "priceSignal": true,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "쿨민트 마우스워시 750ml x 2개 리스테린/구강/청결/가글/케어/액상/입냄새/구취/예방/제거/양치/구강청결",
@@ -8151,7 +8988,8 @@
         "contentMatch": true,
         "priceSignal": true,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "live_content_confirmed",
       "revalidationPriority": 20,
@@ -8193,7 +9031,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": true,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -8201,11 +9041,13 @@
         "reason": "http_429",
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=2097001847275",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": true
       },
-      "verificationEvidenceTier": "manual_pattern_verified",
-      "revalidationPriority": 65,
-      "revalidationReason": "accessible_content_mismatch_review"
+      "verificationEvidenceTier": "seller_rate_limited_manual_verified",
+      "revalidationPriority": 55,
+      "revalidationReason": "seller_rate_limited_review"
     },
     {
       "id": "d130",
@@ -8243,7 +9085,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": true
+        "accessGuard": true,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -8251,7 +9095,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://www.coupang.com/vp/products/8286305822",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "seller_access_protected_manual_verified",
       "revalidationPriority": 45,
@@ -8293,7 +9139,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": true
+        "accessGuard": true,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -8301,7 +9149,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://www.coupang.com/vp/products/7689270513?itemId=20877904748&vendorItemId=87945140914",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "seller_access_protected_manual_verified",
       "revalidationPriority": 45,
@@ -8343,7 +9193,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -8351,7 +9203,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2571643785",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "manual_pattern_verified",
       "revalidationPriority": 45,
@@ -8393,9 +9247,13 @@
         "contentMatch": true,
         "priceSignal": true,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "크리넥스 3겹 순수소프트 쿠션 화장지 25m 30롤 2팩 (총 60롤)",
@@ -8404,7 +9262,8 @@
         "contentMatch": true,
         "priceSignal": true,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "live_content_confirmed",
       "revalidationPriority": 20,
@@ -8446,7 +9305,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": true,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -8454,11 +9315,13 @@
         "reason": "http_429",
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000625953830",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": true
       },
-      "verificationEvidenceTier": "manual_pattern_verified",
-      "revalidationPriority": 65,
-      "revalidationReason": "accessible_content_mismatch_review"
+      "verificationEvidenceTier": "seller_rate_limited_manual_verified",
+      "revalidationPriority": 55,
+      "revalidationReason": "seller_rate_limited_review"
     },
     {
       "id": "d135",
@@ -8496,7 +9359,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -8504,7 +9369,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=3055540533",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "manual_pattern_verified",
       "revalidationPriority": 45,
@@ -8546,7 +9413,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": true
+        "accessGuard": true,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -8554,7 +9423,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://www.coupang.com/vp/products/5594587350",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "seller_access_protected_manual_verified",
       "revalidationPriority": 45,
@@ -8596,9 +9467,13 @@
         "contentMatch": true,
         "priceSignal": true,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "페브리즈 섬유탈취제 강력탈취 다우니 실내건조 프레시클린 향 370ml 본품 3개",
@@ -8607,7 +9482,8 @@
         "contentMatch": true,
         "priceSignal": true,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "live_content_confirmed",
       "revalidationPriority": 20,
@@ -8649,7 +9525,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": true,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -8657,11 +9535,13 @@
         "reason": "http_429",
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000588225854",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": true
       },
-      "verificationEvidenceTier": "manual_pattern_verified",
-      "revalidationPriority": 65,
-      "revalidationReason": "accessible_content_mismatch_review"
+      "verificationEvidenceTier": "seller_rate_limited_manual_verified",
+      "revalidationPriority": 55,
+      "revalidationReason": "seller_rate_limited_review"
     },
     {
       "id": "d139",
@@ -8699,7 +9579,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": true
+        "accessGuard": true,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -8707,7 +9589,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://www.coupang.com/vp/products/7430740821?vendorItemId=70327608949",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": true,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "seller_access_protected_manual_verified",
       "revalidationPriority": 45,
@@ -8749,7 +9633,9 @@
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false
+        "accessGuard": false,
+        "rateLimited": false,
+        "accessibleContentMismatch": false
       },
       "liveProbe": {
         "ok": false,
@@ -8757,7 +9643,9 @@
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=3534198074",
         "titleSimilarity": 0,
-        "contentMatch": false
+        "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false
       },
       "verificationEvidenceTier": "manual_pattern_verified",
       "revalidationPriority": 45,

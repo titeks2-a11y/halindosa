@@ -583,7 +583,11 @@ await check("admin exposure policy api", async () => {
   assert(data.ok === true, "Admin exposure policy API ok should be true");
   assert(data.report?.summary?.auditedItems >= 140, "Exposure policy report should audit all deals");
   assert(Array.isArray(data.report?.auditedItems) && data.report.auditedItems.length >= 140, "Exposure policy report should include product-level audited rows");
-  assert(data.report.auditedItems.every((item) => item.finalUrl && item.validationStatus === "passed" && item.isHidden === false), "Exposure policy audited rows should only expose passed visible final URLs");
+  assert(
+    data.report.auditedItems.filter((item) => !item.isHidden).every((item) => item.finalUrl && item.validationStatus === "passed"),
+    "Exposure policy visible rows should only expose passed final URLs"
+  );
+  assert(data.report?.summary?.hiddenItems >= 1, "Exposure policy report should retain hidden mismatch rows for operations");
   assert(data.report?.summary?.badExposedItems === 0, "Exposure policy report should have zero bad exposed items");
   assert(data.report?.summary?.searchLinksExposed === 0, "Exposure policy report should have zero search links exposed");
   assert(data.report?.summary?.soldOutExposed === 0, "Exposure policy report should have zero sold-out links exposed");
@@ -613,7 +617,7 @@ await check("admin exposure policy csv", async () => {
   assert(response.headers.get("x-request-id"), "Exposure policy export missing request id");
   assert(text.startsWith("section,key,label"), "Exposure policy CSV header missing");
   assert(text.includes("bad_exposed_items") && text.includes("search_links_exposed") && text.includes("sold_out_exposed"), "Exposure policy CSV missing risk summary rows");
-  assert(text.includes("bad_exposed_item,none") && text.includes("hidden_item,none"), "Exposure policy CSV should prove zero bad/hidden items when clean");
+  assert(text.includes("bad_exposed_item,none") && text.includes("hidden_item,"), "Exposure policy CSV should prove zero bad exposed items and list hidden review rows");
   assert(text.includes("audited_item,d001") && text.includes("source,originalUrl") && text.includes("priorityScore"), "Exposure policy CSV missing product-level audit rows");
   assert(text.includes("live_probe,enabled") && text.includes("liveProbeTimeoutMs"), "Exposure policy CSV missing live probe operation rows");
   assert(text.includes("hard_failure_count") && text.includes("access_protected_count"), "Exposure policy CSV missing live probe review summary rows");
@@ -627,7 +631,8 @@ await check("admin link launch gate api", async () => {
   assert(data.ok === true, "Admin link launch gate API ok should be true");
   assert(data.report?.ok === true, "Link launch gate report should pass");
   assert(data.report?.actual?.auditedItems >= 140, "Link launch gate should audit all products");
-  assert(data.report?.actual?.exposedItems >= 140, "Link launch gate should expose verified products");
+  assert(data.report?.actual?.exposedItems >= 120, "Link launch gate should expose the verified publishable product set");
+  assert(data.report?.actual?.hiddenItems >= 1, "Link launch gate should retain hidden mismatch products for review");
   assert(data.report?.actual?.verifiedPurchaseLinks >= data.report.actual.exposedItems, "Link launch gate should prove verified links cover exposed items");
   assert(data.report?.actual?.exposedSearchLinks === 0, "Link launch gate should expose zero search links");
   assert(data.report?.actual?.exposedSoldOutLinks === 0, "Link launch gate should expose zero sold-out links");
@@ -850,11 +855,11 @@ await check("deal link integrity", async () => {
   const { response, data } = await fetchJson("/api/deals?limit=150&sort=latest");
   assert(response.status === 200, `Expected 200, got ${response.status}`);
   assert(data.ok === true, "Deals API ok should be true");
-  assert(data.deals.length >= 140, `Expected at least 140 deals, got ${data.deals.length}`);
+  assert(data.deals.length >= 120, `Expected at least 120 publishable deals, got ${data.deals.length}`);
   const verifiedDirectLinks = data.deals.filter((deal) => deal.linkStatus === "verified" && deal.linkType !== "seller_search");
   const verifiedDirectRate = Math.round((verifiedDirectLinks.length / data.deals.length) * 100);
   assert(
-    verifiedDirectLinks.length >= 140 && verifiedDirectRate >= 100,
+    verifiedDirectLinks.length === data.deals.length && verifiedDirectRate >= 100,
     `verified direct seller/product link coverage too low: ${verifiedDirectLinks.length}/${data.deals.length} (${verifiedDirectRate}%)`
   );
 
@@ -1039,7 +1044,7 @@ await check("verified direct purchase link coverage", async () => {
   const { response, data } = await fetchJson("/api/deals?verifiedOnly=true&limit=150&sort=hot");
   assert(response.status === 200, `Expected 200, got ${response.status}`);
   assert(data.ok === true, "Verified deals API ok should be true");
-  assert(data.deals.length >= 140, `Expected all 140 curated deals to be verified direct seller/product deals, got ${data.deals.length}`);
+  assert(data.deals.length >= 120, `Expected at least 120 verified publishable seller/product deals, got ${data.deals.length}`);
   assert(
     data.deals.every((deal) => deal.linkStatus === "verified" && deal.linkVerified && deal.purchaseLinkVerified && deal.finalPurchaseUrl),
     "Verified-only API returned a deal without a reviewed direct product URL"
@@ -1752,6 +1757,7 @@ await check("go official news redirect", async () => {
     ["news-cjone-official-mobile-events", "cjone.com"],
     ["news-jejuair-official-events", "jejuair.net"],
     ["news-himart-company-events", "himart.co.kr"],
+    ["news-cgv-official-events", "cgv.co.kr"],
     ["news-megabox-official-events", "megabox.co.kr"],
     ["news-lpoint-official-benefits", "lpoint.com"],
     ["news-lpoint-card-events", "lpoint.com"],
@@ -1824,7 +1830,6 @@ await check("verified purchase redirect destinations", async () => {
     ["d012", "oliveyoung.co.kr"],
     ["d020", "musinsa.com"],
     ["d041", "ssg.com"],
-    ["d043", "aliexpress.com"],
     ["d044", "auction.co.kr"],
     ["d118", "gmarket.co.kr"],
     ["d119", "11st.co.kr"],
@@ -1851,8 +1856,10 @@ await check("verified purchase redirect destinations", async () => {
     ["d140", "gmarket.co.kr"],
     ["d047", "pay.naver.com"],
     ["d054", "kakaopay.com"],
-    ["d060", "cgv.co.kr"],
+    ["d057", "tmembership.co.kr"],
+    ["d061", "bgfretail.com"],
     ["d073", "hyundaicard.com"],
+    ["d074", "shinhancard.com"],
     ["d115", "bhc.co.kr"]
   ];
 

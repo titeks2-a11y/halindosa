@@ -277,7 +277,7 @@ if ((linkReport?.exposedSoldOutLinks ?? 0) !== 0 || badExposedItems.some((item) 
   issues.push("sold-out or ended links are exposed.");
 }
 
-if ((linkReport?.failedCount ?? 0) !== 0 || (productReport?.failedProducts ?? 0) !== 0 || badExposedItems.length) {
+if (badExposedItems.length || (productReport?.exposedBrokenLinks ?? 0) !== 0 || (productReport?.exposedNonPublishableItems ?? 0) !== 0) {
   issues.push("failed link validation items are exposed or product quality failed.");
 }
 
@@ -308,6 +308,10 @@ if (!dealApiRoute.includes("verifiedOnly") || !dealApiRoute.includes("isPublicly
 
 if (!dealRepository.includes("deals.filter(isPubliclyVisibleDeal)") || !qualityRules.includes("export function isPubliclyVisibleDeal")) {
   issues.push("deal repository should filter public results through shared isPubliclyVisibleDeal policy.");
+}
+
+if (!dealRepository.includes("applyLinkValidationExposureOverride")) {
+  issues.push("deal repository should apply link-validation hidden/mismatch overrides before public exposure filtering.");
 }
 
 if (

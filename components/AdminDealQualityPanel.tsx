@@ -101,10 +101,11 @@ export function AdminDealQualityPanel({ token, initialReport, initialLinkValidat
         ))}
       </div>
 
-      <div className="mt-4 grid gap-3 md:grid-cols-4">
+      <div className="mt-4 grid gap-3 md:grid-cols-5">
         {[
           ["라이브 본문 확인", linkValidation.verificationEvidenceSummary.liveConfirmed, "본문/메타가 상품명과 맞는 항목"],
           ["판매처 접근 보호", linkValidation.verificationEvidenceSummary.sellerAccessProtected, "자동 검증 차단, 패턴 검증 통과"],
+          ["판매처 Rate Limit", linkValidation.verificationEvidenceSummary.sellerRateLimited, "HTTP 429로 자동 검증 제한"],
           ["패턴 기반 검증", linkValidation.verificationEvidenceSummary.manualPatternVerified, "상세/이벤트 URL 규칙 통과"],
           ["차단 증거", linkValidation.verificationEvidenceSummary.blocked, "출시 전 0건 유지"]
         ].map(([label, value, helper]) => (

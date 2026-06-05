@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-05T12:25:39.787Z",
+  "generatedAt": "2026-06-05T13:39:16.339Z",
   "schemaVersion": 1,
   "liveProbe": false,
   "deals": [],
@@ -11,12 +11,10 @@
     "d005",
     "d006",
     "d007",
-    "d008",
     "d009",
     "d010",
     "d011",
     "d012",
-    "d013",
     "d014",
     "d015",
     "d016",
@@ -29,7 +27,6 @@
     "d023",
     "d024",
     "d025",
-    "d026",
     "d027",
     "d028",
     "d029",
@@ -45,8 +42,6 @@
     "d039",
     "d040",
     "d041",
-    "d042",
-    "d043",
     "d044",
     "d045",
     "d046",
@@ -56,24 +51,17 @@
     "d050",
     "d051",
     "d052",
-    "d053",
     "d054",
     "d055",
-    "d056",
     "d057",
-    "d058",
-    "d059",
-    "d060",
     "d061",
     "d062",
-    "d063",
     "d064",
     "d065",
     "d066",
     "d067",
     "d068",
     "d069",
-    "d070",
     "d071",
     "d072",
     "d073",
@@ -87,8 +75,6 @@
     "d081",
     "d082",
     "d083",
-    "d084",
-    "d085",
     "d086",
     "d087",
     "d088",
@@ -115,7 +101,6 @@
     "d109",
     "d110",
     "d111",
-    "d112",
     "d113",
     "d114",
     "d115",
@@ -150,7 +135,113 @@
     "matchedCount": 0,
     "ids": []
   },
-  "hiddenDeals": [],
+  "hiddenDeals": [
+    {
+      "id": "d008",
+      "title": "d008",
+      "provider": "manual",
+      "finalUrl": "https://www.lfmall.co.kr/app/product/E3GKXX00844",
+      "reason": "live_content_mismatch"
+    },
+    {
+      "id": "d013",
+      "title": "d013",
+      "provider": "manual",
+      "finalUrl": "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0026982316",
+      "reason": "live_content_mismatch"
+    },
+    {
+      "id": "d026",
+      "title": "d026",
+      "provider": "manual",
+      "finalUrl": "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0019390089",
+      "reason": "live_content_mismatch"
+    },
+    {
+      "id": "d042",
+      "title": "d042",
+      "provider": "manual",
+      "finalUrl": "https://gs25.gsretail.com/gscvs/ko/customer-engagement/event/detail/publishing?eventCode=8842722233888&pageNum=1",
+      "reason": "live_content_mismatch"
+    },
+    {
+      "id": "d043",
+      "title": "d043",
+      "provider": "manual",
+      "finalUrl": "https://www.aliexpress.com/item/1005010151430718.html",
+      "reason": "live_content_mismatch"
+    },
+    {
+      "id": "d053",
+      "title": "d053",
+      "provider": "manual",
+      "finalUrl": "https://new-m.pay.naver.com/member/benefit/event",
+      "reason": "live_content_mismatch"
+    },
+    {
+      "id": "d056",
+      "title": "d056",
+      "provider": "manual",
+      "finalUrl": "https://events.payco.com/app/share.nhn?evntPageNm=tmzvlWb",
+      "reason": "live_content_mismatch"
+    },
+    {
+      "id": "d058",
+      "title": "d058",
+      "provider": "manual",
+      "finalUrl": "https://academy.baemin.com/event/list",
+      "reason": "live_content_mismatch"
+    },
+    {
+      "id": "d059",
+      "title": "d059",
+      "provider": "manual",
+      "finalUrl": "https://www.amoremall.com/kr/ko/event",
+      "reason": "live_content_mismatch"
+    },
+    {
+      "id": "d060",
+      "title": "d060",
+      "provider": "manual",
+      "finalUrl": "https://cgv.co.kr/evt/eventDetail?evntNo=202602235927",
+      "reason": "live_content_mismatch"
+    },
+    {
+      "id": "d063",
+      "title": "d063",
+      "provider": "manual",
+      "finalUrl": "https://front.homeplus.co.kr/event",
+      "reason": "live_content_mismatch"
+    },
+    {
+      "id": "d070",
+      "title": "d070",
+      "provider": "manual",
+      "finalUrl": "https://www.i-challenge.co.kr/Event/",
+      "reason": "live_content_mismatch"
+    },
+    {
+      "id": "d084",
+      "title": "d084",
+      "provider": "manual",
+      "finalUrl": "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0023645183",
+      "reason": "live_content_mismatch"
+    },
+    {
+      "id": "d085",
+      "title": "d085",
+      "provider": "manual",
+      "finalUrl": "https://www.11st.co.kr/products/2635032094",
+      "reason": "live_content_mismatch"
+    },
+    {
+      "id": "d112",
+      "title": "d112",
+      "provider": "manual",
+      "finalUrl": "https://www.musinsa.com/products/4011120",
+      "reason": "live_content_mismatch"
+    }
+  ],
   "providerStats": [
     {
       "provider": "manual",
@@ -161,8 +252,8 @@
       "errors": [],
       "normalizedCount": 140,
       "insertedCount": 0,
-      "updatedCount": 140,
-      "hiddenCount": 0,
+      "updatedCount": 125,
+      "hiddenCount": 15,
       "failedCount": 0
     },
     {

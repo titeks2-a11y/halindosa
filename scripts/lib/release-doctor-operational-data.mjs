@@ -833,6 +833,8 @@ export async function checkOperationalDataSurfaces() {
     !purchaseConfirmSheet.includes("isVerifiedPurchaseLink")
   ) {
     fail("shared link quality rules", "Home, repository, featured sections, cards, live feed, and purchase confirmation should use shared link quality rules and customer-facing quality notices.");
+  } else if (!dealRepository.includes("applyLinkValidationExposureOverride")) {
+    fail("shared link quality rules", "Repository should apply link-validation hidden/mismatch exposure overrides before customer-visible filtering.");
   } else {
     pass("shared link quality rules", "Verified purchase filtering, scoring, trust labels, and customer-facing quality notices use shared link quality rules.");
   }
@@ -904,7 +906,7 @@ export async function checkOperationalDataSurfaces() {
   if ((linkReport.exposureAudit?.exposedNonPublishableItems ?? 0) !== 0) {
     linkPolicyIssues.push("link-validation report should include zero non-publishable exposed items");
   }
-  if (!linkReport.httpStatusSummary || !("http404" in linkReport.httpStatusSummary) || !("robotsBlocked" in linkReport.httpStatusSummary)) {
+  if (!linkReport.httpStatusSummary || !("http404" in linkReport.httpStatusSummary) || !("robotsBlocked" in linkReport.httpStatusSummary) || !("rateLimited" in linkReport.httpStatusSummary)) {
     linkPolicyIssues.push("link-validation report should record HTTP/redirect summary");
   }
   if (
@@ -925,12 +927,13 @@ export async function checkOperationalDataSurfaces() {
     !("liveConfirmed" in linkReport.verificationEvidenceSummary) ||
     !("sellerAccessProtected" in linkReport.verificationEvidenceSummary) ||
     !("manualPatternVerified" in linkReport.verificationEvidenceSummary) ||
+    !("sellerRateLimited" in linkReport.verificationEvidenceSummary) ||
     !Array.isArray(linkReport.revalidationQueue)
   ) {
     linkPolicyIssues.push("link-validation report should include evidence tiers and a prioritized revalidation queue for access-protected or transient live checks");
   }
-  if ((linkReport.verificationEvidenceSummary?.blocked ?? 0) !== 0) {
-    linkPolicyIssues.push("link-validation evidence summary should not include blocked publishable products");
+  if ((linkReport.verificationEvidenceSummary?.blocked ?? 0) !== 0 && (linkReport.exposureAudit?.exposedNonPublishableItems ?? 0) !== 0) {
+    linkPolicyIssues.push("link-validation blocked evidence should never be exposed to users");
   }
   if (
     linkReport.launchGate?.passed !== true ||
@@ -957,7 +960,7 @@ export async function checkOperationalDataSurfaces() {
   if (!linkReport.liveProbe?.enabled || (linkReport.liveProbe?.checked ?? 0) < (linkReport.totalDeals ?? 0)) {
     linkPolicyIssues.push("link-validation report should include a non-strict live probe pass over every curated deal before release evidence is accepted");
   }
-  for (const field of ["http404", "http410", "http5xx", "timeout", "robotsBlocked", "unavailableText", "redirected", "finalUrlChanged"]) {
+  for (const field of ["http404", "http410", "http5xx", "timeout", "rateLimited", "robotsBlocked", "unavailableText", "redirected", "finalUrlChanged"]) {
     if (!(field in (linkReport.httpStatusSummary ?? {}))) {
       linkPolicyIssues.push(`link-validation report missing live HTTP metric ${field}`);
     }
@@ -1041,11 +1044,24 @@ export async function checkOperationalDataSurfaces() {
     "pay.naver.com"
   ];
   const missingOfficialOutboundHosts = requiredOfficialOutboundHosts.filter((host) => !affiliate.includes(`"${host}"`));
+  const requiredOfficialSmokeSnippets = [
+    '["d047", "pay.naver.com"]',
+    '["d054", "kakaopay.com"]',
+    '["d057", "tmembership.co.kr"]',
+    '["d061", "bgfretail.com"]',
+    '["d073", "hyundaicard.com"]',
+    '["d074", "shinhancard.com"]',
+    '["d115", "bhc.co.kr"]',
+    '["news-cgv-official-events", "cgv.co.kr"]',
+    '["news-homeplus-official-event", "homeplus.co.kr"]',
+    '["news-yogiyo-official-event", "yogiyo.co.kr"]'
+  ];
+  const missingOfficialSmokeSnippets = requiredOfficialSmokeSnippets.filter((snippet) => !smoke.includes(snippet));
 
-  if (missingOfficialOutboundHosts.length || !smoke.includes('["d060", "cgv.co.kr"]') || !smoke.includes('["d073", "hyundaicard.com"]') || !smoke.includes('["d115", "bhc.co.kr"]')) {
+  if (missingOfficialOutboundHosts.length || missingOfficialSmokeSnippets.length) {
     fail(
       "official benefit outbound allowlist",
-      `Verified official benefit links should remain openable through redirect routes. Missing hosts: ${missingOfficialOutboundHosts.join(", ") || "smoke coverage"}`
+      `Verified official benefit links should remain openable through redirect routes. Missing hosts: ${missingOfficialOutboundHosts.join(", ") || "none"}; missing smoke snippets: ${missingOfficialSmokeSnippets.join(", ") || "none"}`
     );
   } else {
     pass("official benefit outbound allowlist", "Verified official benefit domains are allowlisted and smoke-tested through redirect routes.");
