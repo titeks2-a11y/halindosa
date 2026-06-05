@@ -144,6 +144,7 @@ const homePageSource = readText("app/page.tsx");
 const hotSignalSectionSource = readText("components/HotSignalSection.tsx");
 const hotSignalProviderSource = readText("lib/hotSignalProvider.ts");
 const mockHotSignalsSource = readText("data/mockHotSignals.ts");
+const mockDealsSource = readText("data/mockDeals.ts");
 
 const productCandidates = Array.isArray(linkReport.auditedItems) ? linkReport.auditedItems.filter((item) => item.isHidden !== true) : [];
 const newsSnapshotItems = Array.isArray(refreshedNews.allDeals) && refreshedNews.allDeals.length
@@ -188,6 +189,10 @@ if (hotSignalSectionSource.includes("signal.url") && !hotSignalSectionSource.inc
 
 if (mockHotSignalsSource.includes("ppomppu.co.kr") || mockHotSignalsSource.includes("zboard/view.php")) {
   sourceIssues.push("mock hot signals must not expose community post URLs in the client bundle");
+}
+
+if (/deal\([^\n]*(ppomppu\.co\.kr|zboard\/view\.php|fmkorea|quasarzone|algumon)/i.test(mockDealsSource)) {
+  sourceIssues.push("mock deal seed entries must use verified product/event URLs instead of community post URLs");
 }
 
 if (!hotSignalProviderSource.includes("buildHotSignalDiscoveryPath") || !hotSignalProviderSource.includes("url: buildHotSignalDiscoveryPath(signal)")) {

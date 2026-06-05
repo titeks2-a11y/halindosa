@@ -12,6 +12,7 @@ const mypageSource = readFileSync(new URL("../../app/mypage/page.tsx", import.me
 const accountPanelSource = readFileSync(new URL("../../components/AccountPanel.tsx", import.meta.url), "utf8");
 const hotSignalSectionSource = readFileSync(new URL("../../components/HotSignalSection.tsx", import.meta.url), "utf8");
 const mockHotSignalsSource = readFileSync(new URL("../../data/mockHotSignals.ts", import.meta.url), "utf8");
+const mockDealsSource = readFileSync(new URL("../../data/mockDeals.ts", import.meta.url), "utf8");
 
 export async function runPageSmokeChecks() {
   await check("home page", async () => {
@@ -37,6 +38,7 @@ export async function runPageSmokeChecks() {
     assert(!homePageSource.includes("window.open(signal.url") && !homePageSource.includes("Browser.open({ url: signal.url"), "Home hot signals must not open raw source URLs");
     assert(hotSignalSectionSource.includes("buildPublicHotSignalDiscoveryUrl") && !hotSignalSectionSource.includes("signal.url"), "Hot signal sharing must not expose raw source URLs");
     assert(!mockHotSignalsSource.includes("ppomppu.co.kr") && !mockHotSignalsSource.includes("zboard/view.php"), "Mock hot signals must not expose community post URLs");
+    assert(!/deal\([^\n]*(ppomppu\.co\.kr|zboard\/view\.php|fmkorea|quasarzone|algumon)/i.test(mockDealsSource), "Mock deal seeds must not use community post URLs");
     assert(!text.includes("직접 구매 링크 비율"), "Home page should not expose internal link coverage ratio copy");
     assert(!text.includes(">상업화<"), "Home page should not expose internal commercialization link in public footer");
     assert(text.includes("aria-pressed="), "Home deal favorite buttons missing pressed state");

@@ -35,6 +35,7 @@ export async function checkUiAccessibility() {
   const hotSignalNavigation = await text("lib/hotSignalNavigation.ts");
   const hotSignalProvider = await text("lib/hotSignalProvider.ts");
   const mockHotSignals = await text("data/mockHotSignals.ts");
+  const mockDealsSource = await text("data/mockDeals.ts");
   const trueDealSpotlight = await text("components/TrueDealSpotlight.tsx");
   const benefitDiscoverySections = await text("components/BenefitDiscoverySections.tsx");
   const benefitDecisionGuide = await text("lib/deals/benefitDecisionGuide.ts");
@@ -395,9 +396,10 @@ export async function checkUiAccessibility() {
     !hotSignalNavigation.includes("buildHotSignalDiscoveryPath") ||
     !hotSignalProvider.includes("url: buildHotSignalDiscoveryPath(signal)") ||
     mockHotSignals.includes("ppomppu.co.kr") ||
-    mockHotSignals.includes("zboard/view.php")
+    mockHotSignals.includes("zboard/view.php") ||
+    /deal\([^\n]*(ppomppu\.co\.kr|zboard\/view\.php|fmkorea|quasarzone|algumon)/i.test(mockDealsSource)
   ) {
-    fail("live card media accessibility", "Hot signal cards must route users to internal verified-deal discovery instead of raw community/news source URLs.");
+    fail("live card media accessibility", "Hot signal cards and deal seeds must route users to verified product discovery instead of raw community/news source URLs.");
   } else {
     pass("live card media accessibility", "Live deal and signal cards expose meaningful image alt text and keyboard activation.");
   }
