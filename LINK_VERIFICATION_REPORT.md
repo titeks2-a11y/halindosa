@@ -1,6 +1,6 @@
 # 할인도사 Link Verification Report
 
-Generated: 2026-06-05T12:25:57.001Z
+Generated: 2026-06-05T12:34:31.790Z
 
 ## Summary
 
@@ -22,16 +22,16 @@ Generated: 2026-06-05T12:25:57.001Z
 | 수동 검토 필요 | 0 |
 | Live probe 확인 | 140 |
 | Live probe 실패 | 78 |
-| Live probe robots/access 차단 | 61 |
+| Live probe robots/access 차단 | 62 |
 | Live probe timeout | 0 |
 | Live probe hard failure | 0 |
-| Live probe transient network | 4 |
-| Live body 확인 | 0 |
-| Live 제목/메타 확인 | 0 |
-| Live 콘텐츠 일치 신호 | 0 |
-| Live 콘텐츠 불일치 신호 | 0 |
-| Live 가격 신호 | 0 |
-| Live 구매/신청 버튼 신호 | 0 |
+| Live probe transient network | 3 |
+| Live body 확인 | 137 |
+| Live 제목/메타 확인 | 133 |
+| Live 콘텐츠 일치 신호 | 47 |
+| Live 콘텐츠 불일치 신호 | 90 |
+| Live 가격 신호 | 26 |
+| Live 구매/신청 버튼 신호 | 12 |
 | Live 종료 문구 재검토 신호 | 0 |
 | 출시 게이트 통과 | YES |
 | 노출 검색 링크 | 0 |
@@ -45,25 +45,24 @@ Generated: 2026-06-05T12:25:57.001Z
 - 상태: transient_network_review
 - 해석: Some URLs returned transient network signals; no exposed search, sold-out, 404, 410, or 5xx links were found.
 - 404/410/5xx/품절 본문 같은 강한 실패 신호: 0
-- timeout/request_failed 같은 일시 네트워크 신호: 4
-- 쇼핑몰 접근 보호 또는 robots/access 차단: 61
+- timeout/request_failed 같은 일시 네트워크 신호: 3
+- 쇼핑몰 접근 보호 또는 robots/access 차단: 62
 - 품절/판매종료 본문 감지: 0
 
 ### Live Probe Failure Reasons
 
-- robots_or_access_blocked: 61
+- robots_or_access_blocked: 62
 - http_429: 13
-- request_failed: 4
+- request_failed: 3
 
 ### Live Probe Failed Hosts
 
 - item.gmarket.co.kr: 30
 - coupang.com: 23
 - ssg.com: 13
-- oliveyoung.co.kr: 6
+- oliveyoung.co.kr: 7
 - hyundaicard.com: 1
 - itempage3.auction.co.kr: 1
-- shinhancard.com: 1
 - store.ohou.se: 1
 - tmembership.co.kr: 1
 - tour.interpark.com: 1
