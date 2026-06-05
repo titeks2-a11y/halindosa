@@ -8,6 +8,7 @@ import { AdminExposurePolicyPanel } from "@/components/AdminExposurePolicyPanel"
 import { AdminHealthReadinessPanel } from "@/components/AdminHealthReadinessPanel";
 import { AdminLinkLaunchGatePanel } from "@/components/AdminLinkLaunchGatePanel";
 import { AdminLinkRevalidationPriorityPanel } from "@/components/AdminLinkRevalidationPriorityPanel";
+import { AdminLiveProbeReviewPanel } from "@/components/AdminLiveProbeReviewPanel";
 import { AdminNewsRevalidationPriorityPanel } from "@/components/AdminNewsRevalidationPriorityPanel";
 import { AdminPushDryRunPanel } from "@/components/AdminPushDryRunPanel";
 import { PartnerFeedDryRunPanel } from "@/components/PartnerFeedDryRunPanel";
@@ -56,6 +57,7 @@ import { getExposurePolicyReport } from "@/lib/operations/exposurePolicy";
 import { getHealthReadinessReport } from "@/lib/operations/healthReadiness";
 import { getLinkLaunchGateReport } from "@/lib/operations/linkLaunchGate";
 import { getLinkRevalidationPriorityReport } from "@/lib/operations/linkRevalidationPriority";
+import { getLiveProbeReviewReport } from "@/lib/operations/liveProbeReview";
 import { getNewsFeedPreviewReport } from "@/lib/operations/newsFeedPreview";
 import { getNewsRevalidationPriorityReport } from "@/lib/operations/newsRevalidationPriority";
 import { getOfficialSourceFeedEnvReadiness } from "@/lib/operations/sourceFeedEnvReadiness";
@@ -123,6 +125,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const exposurePolicy = getExposurePolicyReport();
   const linkLaunchGate = getLinkLaunchGateReport();
   const linkRevalidationPriority = getLinkRevalidationPriorityReport();
+  const liveProbeReview = getLiveProbeReviewReport();
   const newsRevalidationPriority = getNewsRevalidationPriorityReport();
   const newsResult = getVisibleNewsDeals({ limit: 20 });
   const newsDeals = newsResult.deals;
@@ -169,6 +172,8 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
     linkLaunchGateCsvHref,
     linkRevalidationPriorityApiHref,
     linkRevalidationPriorityCsvHref,
+    liveProbeReviewApiHref,
+    liveProbeReviewCsvHref,
     sourceLiveApiHref,
     sourceLiveCsvHref,
     sourceOnboardingApiHref,
@@ -299,6 +304,8 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
           apiHref={linkRevalidationPriorityApiHref}
           csvHref={linkRevalidationPriorityCsvHref}
         />
+
+        <AdminLiveProbeReviewPanel report={liveProbeReview} apiHref={liveProbeReviewApiHref} csvHref={liveProbeReviewCsvHref} />
 
         <AdminNewsRevalidationPriorityPanel
           report={newsRevalidationPriority}

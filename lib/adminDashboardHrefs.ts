@@ -41,6 +41,8 @@ export function buildAdminDashboardHrefs(token: string | null | undefined) {
     linkLaunchGateCsvHref: adminHref("/api/admin/link-launch-gate?format=csv", token),
     linkRevalidationPriorityApiHref: adminHref("/api/admin/link-revalidation-priority", token),
     linkRevalidationPriorityCsvHref: adminHref("/api/admin/link-revalidation-priority?format=csv", token),
+    liveProbeReviewApiHref: adminHref("/api/admin/live-probe-review", token),
+    liveProbeReviewCsvHref: adminHref("/api/admin/live-probe-review?format=csv", token),
     sourceLiveApiHref: adminHref("/api/admin/source-live", token),
     sourceLiveCsvHref: adminHref("/api/admin/source-live?format=csv", token),
     sourceOnboardingApiHref: adminHref("/api/admin/source-onboarding", token),

@@ -10,6 +10,7 @@ interface AdminLinkRevalidationPriorityPanelProps {
 
 const severityClassNames: Record<string, string> = {
   block: "bg-red-50 text-dossa-red ring-red-100",
+  quarantine: "bg-orange-50 text-orange-700 ring-orange-100",
   review: "bg-amber-50 text-amber-700 ring-amber-100",
   watch: "bg-sky-50 text-sky-700 ring-sky-100",
   routine: "bg-emerald-50 text-emerald-700 ring-emerald-100"

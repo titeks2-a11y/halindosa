@@ -42,6 +42,7 @@ export async function checkOperationalDataSurfaces() {
     await text("components/AdminExposurePolicyPanel.tsx"),
     await text("components/AdminLinkLaunchGatePanel.tsx"),
     await text("components/AdminLinkRevalidationPriorityPanel.tsx"),
+    await text("components/AdminLiveProbeReviewPanel.tsx"),
     await text("lib/adminDashboardDerivedData.ts"),
     await text("lib/adminDashboardHrefs.ts")
   ].join("\n");
@@ -850,6 +851,8 @@ export async function checkOperationalDataSurfaces() {
   const refreshDealsScript = await text("scripts/refresh-deals.mjs");
   const linkRevalidationPriorityScript = await text("scripts/link-revalidation-priority-report.mjs");
   const liveProbeReviewScript = await text("scripts/live-probe-review-report.mjs");
+  const liveProbeReviewOperation = await text("lib/operations/liveProbeReview.ts");
+  const liveProbeReviewRoute = await text("app/api/admin/live-probe-review/route.ts");
   const linkRevalidationPriorityOperation = await text("lib/operations/linkRevalidationPriority.ts");
   const linkRevalidationPriorityRoute = await text("app/api/admin/link-revalidation-priority/route.ts");
   const linkRevalidationPriorityDoc = await text("docs/LINK_REVALIDATION_PRIORITY.md");
@@ -1158,6 +1161,28 @@ export async function checkOperationalDataSurfaces() {
     !liveProbeReviewDoc.includes("backoff retry")
   ) {
     linkPolicyIssues.push("live probe review docs should explain hard failures and official API/partner/manual/backoff handling");
+  }
+  if (
+    !liveProbeReviewOperation.includes("getLiveProbeReviewReport") ||
+    !liveProbeReviewOperation.includes("buildLiveProbeReviewCsv") ||
+    !liveProbeReviewRoute.includes("canAccessAdminRequest") ||
+    !liveProbeReviewRoute.includes("admin-live-probe-review") ||
+    !liveProbeReviewRoute.includes("halindosa-live-probe-review") ||
+    !adminPage.includes("AdminLiveProbeReviewPanel") ||
+    !adminPage.includes("live probe 자동 본문 검증") ||
+    !adminPage.includes("reports/live-probe-review.json") ||
+    !adminPage.includes("hard failure") ||
+    !adminPage.includes("official API") ||
+    !adminPage.includes("partner feed") ||
+    !adminPage.includes("manual device check") ||
+    !adminPage.includes("backoff retry") ||
+    !smoke.includes("admin live probe review api") ||
+    !smoke.includes("admin live probe review csv") ||
+    !smoke.includes("/api/admin/live-probe-review") ||
+    !smoke.includes("Live probe review should have zero customer-visible hard failures") ||
+    !smoke.includes("Admin dashboard missing live probe review panel")
+  ) {
+    linkPolicyIssues.push("admin dashboard should expose live probe review JSON/CSV and hard-failure/access-protected retry guidance");
   }
   if ((linkReport.exposedSearchLinks ?? 0) !== 0 || (productReport.searchLinks ?? 0) !== 0) linkPolicyIssues.push("search links should be zero");
   if ((linkReport.exposedSoldOutLinks ?? 0) !== 0 || (productReport.soldOutProducts ?? 0) !== 0) linkPolicyIssues.push("sold-out/ended links should be zero");

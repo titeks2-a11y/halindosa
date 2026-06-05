@@ -689,6 +689,39 @@ await check("admin link revalidation priority csv", async () => {
   assert(text.includes("revalidation_queue,") && text.includes("reason_count,"), "Link revalidation priority CSV missing queue or reason rows");
 });
 
+await check("admin live probe review api", async () => {
+  const { response, data } = await fetchJson("/api/admin/live-probe-review");
+  assert(response.status === 200, `Expected 200, got ${response.status}`);
+  assert(data.ok === true, "Admin live probe review API ok should be true");
+  assert(data.report?.ok === true, "Live probe review report should pass");
+  assert(data.report?.summary?.totalDeals >= 140, "Live probe review should audit all products");
+  assert(data.report?.summary?.publishableDeals >= 140, "Live probe review should include the publishable product set");
+  assert(data.report?.summary?.liveChecked >= data.report.summary.totalDeals, "Live probe review should live-check every audited product");
+  assert(data.report?.summary?.hardFailureCount === 0, "Live probe review should have zero hard failures");
+  assert(data.report?.summary?.exposedHardFailureCount === 0, "Live probe review should have zero customer-visible hard failures");
+  assert(data.report?.summary?.unavailableTextCount === 0, "Live probe review should have zero unavailable/sold-out text signals");
+  assert(data.report?.summary?.exposedSearchLinks === 0, "Live probe review should expose zero search links");
+  assert(data.report?.summary?.exposedSoldOutLinks === 0, "Live probe review should expose zero sold-out links");
+  assert(data.report?.summary?.exposedBrokenLinks === 0, "Live probe review should expose zero broken links");
+  assert(Array.isArray(data.report?.reviewQueue), "Live probe review should include an operator review queue");
+  assert(Array.isArray(data.report?.topHostActions), "Live probe review should include host-level review actions");
+  assert(data.report?.reasonCounts && typeof data.report.reasonCounts === "object", "Live probe review should include reason counts");
+  assert(data.report?.retryModeCounts && typeof data.report.retryModeCounts === "object", "Live probe review should include retry mode counts");
+});
+
+await check("admin live probe review csv", async () => {
+  const response = await fetch(`${baseUrl}/api/admin/live-probe-review?format=csv`);
+  const text = await response.text();
+  assert(response.status === 200, `Expected 200, got ${response.status}`);
+  assert(response.headers.get("content-type")?.includes("text/csv"), "Live probe review export is not CSV");
+  assert(response.headers.get("x-request-id"), "Live probe review export missing request id");
+  assert(text.startsWith("section,key,label"), "Live probe review CSV header missing");
+  assert(text.includes("summary,hard_failures") && text.includes("summary,exposed_hard_failures"), "Live probe review CSV missing hard failure summary rows");
+  assert(text.includes("summary,protected_or_rate_limited") && text.includes("summary,transient_network"), "Live probe review CSV missing protected/rate-limit or retry summary rows");
+  assert(text.includes("host_action,") && text.includes("live_probe_queue,"), "Live probe review CSV missing host actions or queue rows");
+  assert(text.includes("official API") || text.includes("partner feed") || text.includes("manual device check") || text.includes("backoff retry"), "Live probe review CSV missing operator retry guidance");
+});
+
 await check("admin news revalidation priority api", async () => {
   const { response, data } = await fetchJson("/api/admin/news-revalidation-priority");
   assert(response.status === 200, `Expected 200, got ${response.status}`);

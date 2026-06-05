@@ -85,6 +85,19 @@ export async function runAdminDashboardSmokeChecks() {
       "Admin dashboard missing link revalidation priority panel"
     );
     assert(
+      text.includes("live probe 자동 본문 검증") &&
+        text.includes("판매처 접근 보호와 hard failure를 분리합니다") &&
+        text.includes("live JSON") &&
+        text.includes("live CSV") &&
+        text.includes("reports/live-probe-review.json") &&
+        text.includes("host별 우선 조치") &&
+        text.includes("official API") &&
+        text.includes("partner feed") &&
+        text.includes("manual device check") &&
+        text.includes("backoff retry"),
+      "Admin dashboard missing live probe review panel"
+    );
+    assert(
       text.includes("공식 혜택 재검증 우선순위") &&
         text.includes("무료·쿠폰·공식 이벤트 링크도 출시 큐로 관리합니다") &&
         text.includes("혜택 재검증 JSON") &&

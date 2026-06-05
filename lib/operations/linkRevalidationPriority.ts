@@ -25,7 +25,7 @@ export interface LinkRevalidationQueueItem {
   purchaseActionSignal: boolean;
   lastCheckedAt: string;
   priority: number;
-  severity: "block" | "review" | "watch" | "routine";
+  severity: "block" | "quarantine" | "review" | "watch" | "routine";
   action: string;
 }
 
@@ -45,6 +45,7 @@ export interface LinkRevalidationPriorityReport {
     exposedSoldOutLinks: number;
     exposedBrokenLinks: number;
     blockingRevalidationItems: number;
+    quarantinedRevalidationItems?: number;
     userReportedItems?: number;
     reviewItems: number;
     watchItems: number;
@@ -74,6 +75,7 @@ export interface LinkRevalidationPriorityReport {
   };
   counts: {
     block: number;
+    quarantine?: number;
     review: number;
     watch: number;
     routine: number;
@@ -99,6 +101,7 @@ const fallbackReport: LinkRevalidationPriorityReport = {
     exposedSoldOutLinks: 0,
     exposedBrokenLinks: 0,
     blockingRevalidationItems: 0,
+    quarantinedRevalidationItems: 0,
     userReportedItems: 0,
     reviewItems: 0,
     watchItems: 0,
@@ -111,6 +114,7 @@ const fallbackReport: LinkRevalidationPriorityReport = {
   },
   counts: {
     block: 0,
+    quarantine: 0,
     review: 0,
     watch: 0,
     routine: 0,
@@ -146,6 +150,7 @@ export function buildLinkRevalidationPriorityCsv(report: LinkRevalidationPriorit
     ["exposed_sold_out_links", "품절/종료 노출", report.summary.exposedSoldOutLinks, report.summary.exposedSoldOutLinks === 0 ? "pass" : "block", "품절/종료 링크 노출", "availability=sold_out"],
     ["exposed_broken_links", "깨진 링크 노출", report.summary.exposedBrokenLinks, report.summary.exposedBrokenLinks === 0 ? "pass" : "block", "404/5xx/invalid 노출", "상세 URL 교체"],
     ["blocking_revalidation_items", "차단 재검증", report.summary.blockingRevalidationItems, report.summary.blockingRevalidationItems === 0 ? "pass" : "block", "즉시 노출 차단 대상", "출시 전 처리"],
+    ["quarantined_revalidation_items", "숨김 격리", report.summary.quarantinedRevalidationItems ?? 0, (report.summary.quarantinedRevalidationItems ?? 0) === 0 ? "pass" : "review", "노출에서 제거된 실패 후보", "복구 전 재검증"],
     ["user_reported_items", "신고 우선 재검증", report.summary.userReportedItems ?? 0, (report.summary.userReportedItems ?? 0) === 0 ? "pass" : "review", "미처리 사용자 신고 기반 우선순위", "판매처 상세/품절/종료 우선 확인"],
     ["review_items", "검토 재검증", report.summary.reviewItems, report.summary.reviewItems === 0 ? "pass" : "review", "403/429 등 접근보호", "공식 API/제휴 피드/실기기 확인"],
     ["watch_items", "관찰 재검증", report.summary.watchItems, report.summary.watchItems === 0 ? "pass" : "watch", "일시 네트워크/timeout", "다음 refresh에서 우선 확인"],
@@ -196,7 +201,7 @@ export function buildLinkRevalidationPriorityCsv(report: LinkRevalidationPriorit
     section: "revalidation_queue",
     key: item.id,
     label: item.title,
-    status: item.severity === "block" ? "block" : item.severity === "review" ? "review" : item.severity === "watch" ? "watch" : "pass",
+    status: item.severity === "block" ? "block" : item.severity === "quarantine" ? "review" : item.severity === "review" ? "review" : item.severity === "watch" ? "watch" : "pass",
     count: item.priority,
     reason: item.liveReason,
     action: item.action,
