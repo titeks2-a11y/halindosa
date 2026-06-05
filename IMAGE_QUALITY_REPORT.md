@@ -1,6 +1,6 @@
 # 할인도사 Image Quality Report
 
-Generated: 2026-06-05T14:58:28.307Z
+Generated: 2026-06-05T15:38:52.751Z
 Status: PASS
 
 ## Summary
@@ -51,12 +51,12 @@ Status: PASS
 
 ## Fallback By Category
 
-- 쿠폰/이벤트: 22
+- 쿠폰/이벤트: 21
 - 생활용품: 19
 - 식품: 15
+- 편의점/마트: 8
 - 뷰티: 7
 - 여행/티켓: 7
-- 편의점/마트: 7
 - 육아: 6
 - 전자기기: 6
 - 가전: 4

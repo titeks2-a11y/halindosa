@@ -121,7 +121,7 @@ function getHardLiveFailureReason(probe) {
 
 function isClientRenderedDetailShellEligible({ host, checks, metadata, liveProbeDetail, mismatchCategory }) {
   if (!isClientRenderedDetailHost(host)) return false;
-  if (!checks?.productDetailUrl || checks.searchLikeUrl || checks.homeOnlyUrl || checks.blockedHost) return false;
+  if ((!checks?.productDetailUrl && !checks?.officialBenefitUrl) || checks.searchLikeUrl || checks.homeOnlyUrl || checks.blockedHost) return false;
   if (!allowedSources.has(metadata?.source ?? "")) return false;
   if (!["blank_or_script_shell", "generic_landing_or_shell"].includes(mismatchCategory)) return false;
   if (!liveProbeDetail || liveProbeDetail.ok !== true) return false;
@@ -135,6 +135,37 @@ function isClientRenderedDetailShellEligible({ host, checks, metadata, liveProbe
   ].join(" ");
 
   return !containsUnavailableText(evidenceText) && !containsLiveUnavailableText(evidenceText);
+}
+
+function getResponseCharset(response, bodyBuffer) {
+  const contentType = response.headers.get("content-type") ?? "";
+  const headerCharset = contentType.match(/charset=([^;\s]+)/i)?.[1]?.trim();
+
+  if (headerCharset) return headerCharset.replace(/^["']|["']$/g, "");
+
+  const head = Buffer.from(bodyBuffer).subarray(0, 4096).toString("latin1");
+  const metaCharset =
+    head.match(/<meta[^>]+charset=["']?\s*([^"'>\s]+)/i)?.[1]?.trim() ??
+    head.match(/<meta[^>]+content=["'][^"']*charset=([^"';\s]+)/i)?.[1]?.trim();
+
+  return metaCharset ? metaCharset.replace(/^["']|["']$/g, "") : "utf-8";
+}
+
+async function readResponseText(response) {
+  const bodyBuffer = await response.arrayBuffer();
+  const charset = getResponseCharset(response, bodyBuffer).toLowerCase();
+  const normalizedCharset =
+    charset.includes("euc-kr") || charset.includes("ks_c_5601") || charset.includes("949")
+      ? "euc-kr"
+      : charset.includes("utf-8") || charset.includes("utf8")
+        ? "utf-8"
+        : charset;
+
+  try {
+    return new TextDecoder(normalizedCharset).decode(bodyBuffer);
+  } catch {
+    return new TextDecoder("utf-8").decode(bodyBuffer);
+  }
 }
 
 function classifyContentMismatch(probe) {
@@ -301,7 +332,7 @@ async function probeLiveUrl(urlValue, context = {}) {
 
     const contentType = response.headers.get("content-type") ?? "";
     if (bodyProbeEnabled && /text|html|json/i.test(contentType)) {
-      const body = await response.text();
+      const body = await readResponseText(response);
       result.bodyChecked = true;
       const bodySignals = extractHtmlSignal(body);
       result.title = bodySignals.title;

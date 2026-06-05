@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-05T14:57:08.217Z",
+  "generatedAt": "2026-06-05T15:37:29.249Z",
   "schemaVersion": 1,
   "liveProbe": false,
   "deals": [],
@@ -45,6 +45,7 @@
     "d039",
     "d040",
     "d041",
+    "d042",
     "d044",
     "d045",
     "d046",
@@ -54,17 +55,24 @@
     "d050",
     "d051",
     "d052",
+    "d053",
     "d054",
     "d055",
+    "d056",
     "d057",
+    "d058",
+    "d059",
+    "d060",
     "d061",
     "d062",
+    "d063",
     "d064",
     "d065",
     "d066",
     "d067",
     "d068",
     "d069",
+    "d070",
     "d071",
     "d072",
     "d073",
@@ -110,6 +118,7 @@
     "d113",
     "d114",
     "d115",
+    "d116",
     "d117",
     "d118",
     "d119",
@@ -142,74 +151,11 @@
   },
   "hiddenDeals": [
     {
-      "id": "d042",
-      "title": "d042",
-      "provider": "manual",
-      "finalUrl": "https://gs25.gsretail.com/gscvs/ko/customer-engagement/event/detail/publishing?eventCode=8842722233888&pageNum=1",
-      "reason": "ended_event_page"
-    },
-    {
       "id": "d043",
       "title": "d043",
       "provider": "manual",
       "finalUrl": "https://www.aliexpress.com/item/1005010151430718.html",
       "reason": "live_http_502"
-    },
-    {
-      "id": "d053",
-      "title": "d053",
-      "provider": "manual",
-      "finalUrl": "https://new-m.pay.naver.com/member/benefit/event",
-      "reason": "login_wall"
-    },
-    {
-      "id": "d056",
-      "title": "d056",
-      "provider": "manual",
-      "finalUrl": "https://events.payco.com/app/share.nhn?evntPageNm=tmzvlWb",
-      "reason": "wrong_product_or_benefit"
-    },
-    {
-      "id": "d058",
-      "title": "d058",
-      "provider": "manual",
-      "finalUrl": "https://academy.baemin.com/event/list",
-      "reason": "generic_landing_or_shell"
-    },
-    {
-      "id": "d059",
-      "title": "d059",
-      "provider": "manual",
-      "finalUrl": "https://www.amoremall.com/kr/ko/event",
-      "reason": "error_page"
-    },
-    {
-      "id": "d060",
-      "title": "d060",
-      "provider": "manual",
-      "finalUrl": "https://cgv.co.kr/evt/eventDetail?evntNo=202602235927",
-      "reason": "wrong_product_or_benefit"
-    },
-    {
-      "id": "d063",
-      "title": "d063",
-      "provider": "manual",
-      "finalUrl": "https://front.homeplus.co.kr/event",
-      "reason": "blank_or_script_shell"
-    },
-    {
-      "id": "d070",
-      "title": "d070",
-      "provider": "manual",
-      "finalUrl": "https://www.i-challenge.co.kr/Event/",
-      "reason": "wrong_product_or_benefit"
-    },
-    {
-      "id": "d116",
-      "title": "d116",
-      "provider": "manual",
-      "finalUrl": "https://www.musinsa.com/app/campaign/index/benefit",
-      "reason": "wrong_product_or_benefit"
     }
   ],
   "providerStats": [
@@ -222,8 +168,8 @@
       "errors": [],
       "normalizedCount": 140,
       "insertedCount": 0,
-      "updatedCount": 130,
-      "hiddenCount": 10,
+      "updatedCount": 139,
+      "hiddenCount": 1,
       "failedCount": 0
     },
     {

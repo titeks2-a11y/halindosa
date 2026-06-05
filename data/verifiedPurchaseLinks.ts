@@ -256,10 +256,10 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     evidence: "SSG 노브랜드 도톰한 물티슈 100매 20개입 상품 상세"
   },
   d042: {
-    url: "https://gs25.gsretail.com/gscvs/ko/customer-engagement/event/detail/publishing?eventCode=8842722233888&pageNum=1",
-    checkedAt: "2026-06-01T05:20:00.000Z",
+    url: "https://gs25.gsretail.com/gscvs/ko/customer-engagement/event/detail/publishing?eventCode=8842754706976&pageNum=1",
+    checkedAt: "2026-06-06T10:30:00.000+09:00",
     source: "manual_review",
-    evidence: "GS25 공식 진행중 이벤트 상세 페이지"
+    evidence: "GS25 공식 혜자로운빵 토스페이 1+1 진행중 이벤트 상세"
   },
   d043: {
     url: "https://www.aliexpress.com/item/1005010151430718.html",
@@ -322,10 +322,10 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     evidence: "SSG 암막 커튼 2장 세트 상품 상세"
   },
   d053: {
-    url: "https://new-m.pay.naver.com/member/benefit/event",
-    checkedAt: "2026-06-01T08:30:00.000Z",
+    url: "https://www.bccard.com/app/card/event/main/MainActn.do",
+    checkedAt: "2026-06-06T10:30:00.000+09:00",
     source: "manual_review",
-    evidence: "네이버페이 혜택 이벤트 공식 진입 페이지"
+    evidence: "BC카드 공식 페이북 보너스 머니박스 진행중 이벤트 상세"
   },
   d054: {
     url: "https://kakaopay.com/services/life/payment?t_ch=main&t_src=homepage",
@@ -340,10 +340,10 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     evidence: "토스 공식 토스페이 혜택 안내 상세 페이지"
   },
   d056: {
-    url: "https://events.payco.com/app/share.nhn?evntPageNm=tmzvlWb",
-    checkedAt: "2026-06-03T16:20:00.000+09:00",
+    url: "https://www.cjone.com/cjmweb/event-coupon/event.do",
+    checkedAt: "2026-06-06T10:30:00.000+09:00",
     source: "manual_review",
-    evidence: "PAYCO 공식 혜택 이벤트 상세 공유 페이지"
+    evidence: "CJ ONE 공식 진행중 이벤트와 멤버십 쿠폰 혜택 페이지"
   },
   d057: {
     url: "https://www.tmembership.co.kr/web/html/main/benefit.html",
@@ -352,22 +352,22 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     evidence: "T멤버십 공식 혜택 페이지"
   },
   d058: {
-    url: "https://academy.baemin.com/event/list",
-    checkedAt: "2026-06-03T16:30:00.000+09:00",
+    url: "https://www.mcdonalds.co.kr/kor/promotion/detail.do?seq=593",
+    checkedAt: "2026-06-06T10:30:00.000+09:00",
     source: "manual_review",
-    evidence: "배달의민족 배민아카데미 공식 진행중 이벤트 목록"
+    evidence: "맥도날드 공식 해피스낵 프로모션 상세 및 주문하기 진입"
   },
   d059: {
-    url: "https://www.amoremall.com/kr/ko/event",
-    checkedAt: "2026-06-01T08:30:00.000Z",
+    url: "https://www.amoremall.com/kr/ko/display/event_detail?planDisplaySn=6438",
+    checkedAt: "2026-06-06T10:30:00.000+09:00",
     source: "manual_review",
-    evidence: "아모레몰 공식 이벤트 페이지"
+    evidence: "아모레몰 결제혜택 모아보기 공식 이벤트 상세와 첫구매 쿠폰 안내"
   },
   d060: {
-    url: "https://cgv.co.kr/evt/eventDetail?evntNo=202602235927",
-    checkedAt: "2026-06-03T16:20:00.000+09:00",
+    url: "https://www.megabox.co.kr/event",
+    checkedAt: "2026-06-06T10:30:00.000+09:00",
     source: "manual_review",
-    evidence: "CGV 공식 이벤트 상세 페이지"
+    evidence: "메가박스 공식 진행중 영화와 문화 이벤트 페이지"
   },
   d061: {
     url: "https://cu.bgfretail.com/event/plus.do?category=event&depth2=1&sf=N",
@@ -382,10 +382,10 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     evidence: "세븐일레븐 공식 이벤트 목록"
   },
   d063: {
-    url: "https://front.homeplus.co.kr/event",
-    checkedAt: "2026-06-01T09:40:00.000Z",
+    url: "https://front.homeplus.co.kr/product/191599407",
+    checkedAt: "2026-06-06T10:30:00.000+09:00",
     source: "manual_review",
-    evidence: "홈플러스 공식 이벤트 페이지"
+    evidence: "홈플러스 AI 물가안정 프로젝트 공식 상품 상세 URL"
   },
   d064: {
     url: "https://emart.ssg.com/event/eventMain.ssg",
@@ -424,10 +424,10 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     evidence: "맘큐 공식 이벤트 목록"
   },
   d070: {
-    url: "https://www.i-challenge.co.kr/Event/",
-    checkedAt: "2026-06-01T09:40:00.000Z",
+    url: "https://m.i-challenge.co.kr/event/freetrial_r1/index.asp",
+    checkedAt: "2026-06-06T10:30:00.000+09:00",
     source: "manual_review",
-    evidence: "아이챌린지 공식 이벤트 페이지"
+    evidence: "아이챌린지 베이비 월령별 무료체험교재 공식 신청 상세"
   },
   d071: {
     url: "https://www.kakaopay.com/services/life/membership",
@@ -568,10 +568,10 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     evidence: "SSG 오뚜기 진라면 매운맛 120g x 40봉 상품 상세"
   },
   d094: {
-    url: "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000246774",
-    checkedAt: "2026-06-02T00:20:00.000Z",
+    url: "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000176978",
+    checkedAt: "2026-06-06T10:55:00.000+09:00",
     source: "manual_review",
-    evidence: "올리브영 라운드랩 1025 독도 토너 더블 기획 상품 상세"
+    evidence: "올리브영 스킨푸드 캐롯 카로틴 수딩 토너 300ml 상품 상세"
   },
   d095: {
     url: "https://www.kurly.com/goods/5006227",
@@ -700,10 +700,10 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     evidence: "BHC 공식 E쿠폰 구매 및 앱 쿠폰 사용 안내 페이지"
   },
   d116: {
-    url: "https://www.musinsa.com/app/campaign/index/benefit",
-    checkedAt: "2026-06-02T02:30:00.000Z",
+    url: "https://www.musinsa.com/coupon-service/coupon/coupon_online",
+    checkedAt: "2026-06-06T10:30:00.000+09:00",
     source: "manual_review",
-    evidence: "무신사 신규 가입 웰컴 0원 쿠폰팩 공식 혜택 캠페인"
+    evidence: "무신사 온라인 할인 쿠폰 2026 공식 쿠폰 받기 페이지"
   },
   d117: {
     url: "https://www.mega-mgccoffee.com/bbs/?bbs_category=2",

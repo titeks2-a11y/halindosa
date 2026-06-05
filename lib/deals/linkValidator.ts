@@ -98,7 +98,7 @@ function isKnownProductDetailUrl(url: URL, mallName: string) {
   if (/ssg|쓱|이마트/.test(mall) || hostMatches(host, "ssg.com")) return /itemid=|\/item\/itemview\.ssg|\/goods\/|\/event/.test(full);
   if (/마켓컬리|컬리|kurly/.test(mall) || hostMatches(host, "kurly.com")) return /\/goods\/\d+/.test(path);
   if (/오늘의집/.test(mall) || hostMatches(host, "ohou.se")) return /\/productions\/\d+|\/goods\/\d+/.test(path);
-  if (/무신사|musinsa/.test(mall) || hostMatches(host, "musinsa.com")) return /\/products\/\d+/.test(path) || /\/app\/campaign|\/campaign|benefit/.test(full);
+  if (/무신사|musinsa/.test(mall) || hostMatches(host, "musinsa.com")) return /\/products\/\d+/.test(path) || /\/app\/campaign|\/campaign|benefit|coupon-service/.test(full);
   if (/lf몰|lfmall/.test(mall) || hostMatches(host, "lfmall.co.kr")) return /\/app\/product\/[a-z0-9]+/i.test(path);
   if (/gs shop|gsshop/.test(mall) || hostMatches(host, "gsshop.com")) return /\/deal\/deal\.gs|dealno=|\/prd\/prd\.gs|prdid=/.test(full);
   if (/gs25|gs리테일/.test(mall) || hostMatches(host, "gsretail.com")) return /\/customer-engagement\/event\/detail\/publishing/.test(path) && url.searchParams.has("eventCode");
@@ -120,7 +120,7 @@ function isKnownProductDetailUrl(url: URL, mallName: string) {
   if (/cgv/.test(mall) || hostMatches(host, "cgv.co.kr")) return /\/culture-event\/event/.test(path) || /\/evt\/eventdetail/.test(path) || /\/cnm\/bzplccgv\//.test(path);
   if (/cu|bgf/.test(mall) || hostMatches(host, "bgfretail.com")) return /\/event/.test(path);
   if (/세븐일레븐|7-eleven|7eleven/.test(mall) || hostMatches(host, "7-eleven.co.kr")) return /\/event/.test(path);
-  if (/홈플러스|homeplus/.test(mall) || hostMatches(host, "homeplus.co.kr")) return /\/event/.test(path) || full.includes("event");
+  if (/홈플러스|homeplus/.test(mall) || hostMatches(host, "homeplus.co.kr")) return /\/product\/\d+/.test(path) || /\/event/.test(path) || full.includes("event");
   if (/요기요|yogiyo/.test(mall) || hostMatches(host, "yogiyo.co.kr")) return /\/event/.test(path) || full.includes("event") || (path.includes("/mobile") && url.hash.includes("event"));
   if (/스타벅스|starbucks/.test(mall) || hostMatches(host, "starbucks.co.kr")) return /\/whats_new\/campaign/.test(path) || /\/event/.test(path);
   if (/kt멤버십|kt membership|kt/.test(mall) || hostMatches(host, "membership.kt.com")) return /\/benefit|\/event|\/discount/.test(path);

@@ -675,22 +675,6 @@
       "prohibitedSource": "커뮤니티 캡처, 블로그 이미지, 검색 결과 썸네일 단독 사용 금지"
     },
     {
-      "mallName": "네이버페이",
-      "fallbackCount": 1,
-      "recommendedAcquisition": "manual_review",
-      "operationOwner": "데일리 검수 담당",
-      "slaDays": 7,
-      "sampleIds": "d053",
-      "sampleTitles": "네이버페이 첫 결제 3천 포인트 적립 이벤트",
-      "requestAction": "네이버페이 클릭 상위 상품부터 대표 이미지 수동 보강",
-      "requestTemplate": "네이버페이 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외",
-      "feedRequestFields": "productUrl | imageUrl | thumbnail | imageRights | priceCheckedAt",
-      "sourceSafetyLevel": "official_or_partner_only",
-      "imageReadyGate": "productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보",
-      "operatorChecklist": "판매처 또는 승인 제휴 피드 이미지 | 상품명과 옵션이 현재 노출 상품과 일치 | 검색 결과 썸네일/커뮤니티/블로그 이미지 사용 금지 | 가격 기준 시각과 이미지 갱신 시각 기록",
-      "prohibitedSource": "커뮤니티 캡처, 블로그 이미지, 검색 결과 썸네일 단독 사용 금지"
-    },
-    {
       "mallName": "네이버플러스",
       "fallbackCount": 1,
       "recommendedAcquisition": "manual_review",
@@ -739,15 +723,31 @@
       "prohibitedSource": "커뮤니티 캡처, 블로그 이미지, 검색 결과 썸네일 단독 사용 금지"
     },
     {
-      "mallName": "배달의민족",
+      "mallName": "맥도날드",
       "fallbackCount": 1,
       "recommendedAcquisition": "manual_review",
       "operationOwner": "데일리 검수 담당",
       "slaDays": 7,
       "sampleIds": "d058",
-      "sampleTitles": "배달앱 첫 주문 5천원 할인 쿠폰",
-      "requestAction": "배달의민족 클릭 상위 상품부터 대표 이미지 수동 보강",
-      "requestTemplate": "배달의민족 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외",
+      "sampleTitles": "맥도날드 공식 해피스낵 프로모션",
+      "requestAction": "맥도날드 클릭 상위 상품부터 대표 이미지 수동 보강",
+      "requestTemplate": "맥도날드 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외",
+      "feedRequestFields": "productUrl | imageUrl | thumbnail | imageRights | priceCheckedAt",
+      "sourceSafetyLevel": "official_or_partner_only",
+      "imageReadyGate": "productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보",
+      "operatorChecklist": "판매처 또는 승인 제휴 피드 이미지 | 상품명과 옵션이 현재 노출 상품과 일치 | 검색 결과 썸네일/커뮤니티/블로그 이미지 사용 금지 | 가격 기준 시각과 이미지 갱신 시각 기록",
+      "prohibitedSource": "커뮤니티 캡처, 블로그 이미지, 검색 결과 썸네일 단독 사용 금지"
+    },
+    {
+      "mallName": "메가박스",
+      "fallbackCount": 1,
+      "recommendedAcquisition": "manual_review",
+      "operationOwner": "데일리 검수 담당",
+      "slaDays": 7,
+      "sampleIds": "d060",
+      "sampleTitles": "메가박스 공식 영화·문화 이벤트",
+      "requestAction": "메가박스 클릭 상위 상품부터 대표 이미지 수동 보강",
+      "requestTemplate": "메가박스 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외",
       "feedRequestFields": "productUrl | imageUrl | thumbnail | imageRights | priceCheckedAt",
       "sourceSafetyLevel": "official_or_partner_only",
       "imageReadyGate": "productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보",
@@ -809,7 +809,7 @@
       "operationOwner": "데일리 검수 담당",
       "slaDays": 7,
       "sampleIds": "d059",
-      "sampleTitles": "아모레몰 기초케어 무료 샘플 체험단",
+      "sampleTitles": "아모레몰 결제혜택 모아보기와 첫구매 쿠폰",
       "requestAction": "아모레몰 클릭 상위 상품부터 대표 이미지 수동 보강",
       "requestTemplate": "아모레몰 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외",
       "feedRequestFields": "productUrl | imageUrl | thumbnail | imageRights | priceCheckedAt",
@@ -825,7 +825,7 @@
       "operationOwner": "데일리 검수 담당",
       "slaDays": 7,
       "sampleIds": "d070",
-      "sampleTitles": "아이챌린지 유아 학습지 무료 체험 키트",
+      "sampleTitles": "아이챌린지 베이비 월령별 무료체험교재",
       "requestAction": "아이챌린지 클릭 상위 상품부터 대표 이미지 수동 보강",
       "requestTemplate": "아이챌린지 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외",
       "feedRequestFields": "productUrl | imageUrl | thumbnail | imageRights | priceCheckedAt",
@@ -1033,9 +1033,25 @@
       "operationOwner": "데일리 검수 담당",
       "slaDays": 7,
       "sampleIds": "d063",
-      "sampleTitles": "홈플러스 첫 장보기 무료배송 쿠폰팩",
+      "sampleTitles": "홈플러스 AI 물가안정 프로젝트 장보기 특가",
       "requestAction": "홈플러스 클릭 상위 상품부터 대표 이미지 수동 보강",
       "requestTemplate": "홈플러스 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외",
+      "feedRequestFields": "productUrl | imageUrl | thumbnail | imageRights | priceCheckedAt",
+      "sourceSafetyLevel": "official_or_partner_only",
+      "imageReadyGate": "productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보",
+      "operatorChecklist": "판매처 또는 승인 제휴 피드 이미지 | 상품명과 옵션이 현재 노출 상품과 일치 | 검색 결과 썸네일/커뮤니티/블로그 이미지 사용 금지 | 가격 기준 시각과 이미지 갱신 시각 기록",
+      "prohibitedSource": "커뮤니티 캡처, 블로그 이미지, 검색 결과 썸네일 단독 사용 금지"
+    },
+    {
+      "mallName": "BC카드",
+      "fallbackCount": 1,
+      "recommendedAcquisition": "manual_review",
+      "operationOwner": "데일리 검수 담당",
+      "slaDays": 7,
+      "sampleIds": "d053",
+      "sampleTitles": "BC카드 페이북 보너스 머니박스 이벤트",
+      "requestAction": "BC카드 클릭 상위 상품부터 대표 이미지 수동 보강",
+      "requestTemplate": "BC카드 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외",
       "feedRequestFields": "productUrl | imageUrl | thumbnail | imageRights | priceCheckedAt",
       "sourceSafetyLevel": "official_or_partner_only",
       "imageReadyGate": "productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보",
@@ -1059,15 +1075,15 @@
       "prohibitedSource": "커뮤니티 캡처, 블로그 이미지, 검색 결과 썸네일 단독 사용 금지"
     },
     {
-      "mallName": "CGV",
+      "mallName": "CJ ONE",
       "fallbackCount": 1,
       "recommendedAcquisition": "manual_review",
       "operationOwner": "데일리 검수 담당",
       "slaDays": 7,
-      "sampleIds": "d060",
-      "sampleTitles": "CGV 영화 시사회 무료 초대권 응모",
-      "requestAction": "CGV 클릭 상위 상품부터 대표 이미지 수동 보강",
-      "requestTemplate": "CGV 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외",
+      "sampleIds": "d056",
+      "sampleTitles": "CJ ONE 공식 진행중 이벤트·멤버십 쿠폰",
+      "requestAction": "CJ ONE 클릭 상위 상품부터 대표 이미지 수동 보강",
+      "requestTemplate": "CJ ONE 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외",
       "feedRequestFields": "productUrl | imageUrl | thumbnail | imageRights | priceCheckedAt",
       "sourceSafetyLevel": "official_or_partner_only",
       "imageReadyGate": "productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보",
@@ -1097,7 +1113,7 @@
       "operationOwner": "데일리 검수 담당",
       "slaDays": 7,
       "sampleIds": "d042",
-      "sampleTitles": "편의점 도시락 1+1 모바일 쿠폰",
+      "sampleTitles": "GS25 혜자로운빵 토스페이 1+1 행사",
       "requestAction": "GS25 클릭 상위 상품부터 대표 이미지 수동 보강",
       "requestTemplate": "GS25 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외",
       "feedRequestFields": "productUrl | imageUrl | thumbnail | imageRights | priceCheckedAt",
@@ -1116,22 +1132,6 @@
       "sampleTitles": "KT멤버십 영화·외식 할인 쿠폰 모음",
       "requestAction": "KT멤버십 클릭 상위 상품부터 대표 이미지 수동 보강",
       "requestTemplate": "KT멤버십 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외",
-      "feedRequestFields": "productUrl | imageUrl | thumbnail | imageRights | priceCheckedAt",
-      "sourceSafetyLevel": "official_or_partner_only",
-      "imageReadyGate": "productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보",
-      "operatorChecklist": "판매처 또는 승인 제휴 피드 이미지 | 상품명과 옵션이 현재 노출 상품과 일치 | 검색 결과 썸네일/커뮤니티/블로그 이미지 사용 금지 | 가격 기준 시각과 이미지 갱신 시각 기록",
-      "prohibitedSource": "커뮤니티 캡처, 블로그 이미지, 검색 결과 썸네일 단독 사용 금지"
-    },
-    {
-      "mallName": "PAYCO",
-      "fallbackCount": 1,
-      "recommendedAcquisition": "manual_review",
-      "operationOwner": "데일리 검수 담당",
-      "slaDays": 7,
-      "sampleIds": "d056",
-      "sampleTitles": "PAYCO 브랜드 공식몰 5천원 할인 쿠폰팩",
-      "requestAction": "PAYCO 클릭 상위 상품부터 대표 이미지 수동 보강",
-      "requestTemplate": "PAYCO 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외",
       "feedRequestFields": "productUrl | imageUrl | thumbnail | imageRights | priceCheckedAt",
       "sourceSafetyLevel": "official_or_partner_only",
       "imageReadyGate": "productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보",
@@ -1158,7 +1158,7 @@
   "categorySummary": [
     [
       "쿠폰/이벤트",
-      22
+      21
     ],
     [
       "생활용품",
@@ -1169,15 +1169,15 @@
       15
     ],
     [
+      "편의점/마트",
+      8
+    ],
+    [
       "뷰티",
       7
     ],
     [
       "여행/티켓",
-      7
-    ],
-    [
-      "편의점/마트",
       7
     ],
     [
@@ -1255,10 +1255,6 @@
       1
     ],
     [
-      "네이버페이",
-      1
-    ],
-    [
       "네이버플러스",
       1
     ],
@@ -1271,7 +1267,11 @@
       1
     ],
     [
-      "배달의민족",
+      "맥도날드",
+      1
+    ],
+    [
+      "메가박스",
       1
     ],
     [
@@ -1347,11 +1347,15 @@
       1
     ],
     [
+      "BC카드",
+      1
+    ],
+    [
       "BHC",
       1
     ],
     [
-      "CGV",
+      "CJ ONE",
       1
     ],
     [
@@ -1364,10 +1368,6 @@
     ],
     [
       "KT멤버십",
-      1
-    ],
-    [
-      "PAYCO",
       1
     ],
     [
@@ -1893,14 +1893,14 @@
       "rank": 28,
       "id": "d042",
       "mallName": "GS25",
-      "category": "쿠폰/이벤트",
-      "title": "편의점 도시락 1+1 모바일 쿠폰",
-      "purchaseUrl": "https://gs25.gsretail.com/gscvs/ko/customer-engagement/event/detail/publishing?eventCode=8842722233888&pageNum=1",
+      "category": "편의점/마트",
+      "title": "GS25 혜자로운빵 토스페이 1+1 행사",
+      "purchaseUrl": "https://gs25.gsretail.com/gscvs/ko/customer-engagement/event/detail/publishing?eventCode=8842754706976&pageNum=1",
       "imageField": "imageUrl",
       "imageSourceHint": "판매처 상세 페이지 또는 공식 제휴 피드 대표 이미지",
       "sourcingPriority": "low",
       "priorityReason": "60% 출시 이미지 목표 달성을 위한 fallback 보강 후보",
-      "imageSearchUrl": "https://search.shopping.naver.com/search/all?query=GS25%20%ED%8E%B8%EC%9D%98%EC%A0%90%20%EB%8F%84%EC%8B%9C%EB%9D%BD%201%2B1%20%EB%AA%A8%EB%B0%94%EC%9D%BC%20%EC%BF%A0%ED%8F%B0%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80",
+      "imageSearchUrl": "https://search.shopping.naver.com/search/all?query=GS25%20GS25%20%ED%98%9C%EC%9E%90%EB%A1%9C%EC%9A%B4%EB%B9%B5%20%ED%86%A0%EC%8A%A4%ED%8E%98%EC%9D%B4%201%2B1%20%ED%96%89%EC%82%AC%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80",
       "batchWeek": 2,
       "sourceSafetyLevel": "official_or_partner_only",
       "imageReadyGate": "productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보",
@@ -2082,21 +2082,21 @@
     {
       "rank": 38,
       "id": "d053",
-      "mallName": "네이버페이",
+      "mallName": "BC카드",
       "category": "쿠폰/이벤트",
-      "title": "네이버페이 첫 결제 3천 포인트 적립 이벤트",
-      "purchaseUrl": "https://new-m.pay.naver.com/member/benefit/event",
+      "title": "BC카드 페이북 보너스 머니박스 이벤트",
+      "purchaseUrl": "https://www.bccard.com/app/card/event/main/MainActn.do",
       "imageField": "imageUrl",
       "imageSourceHint": "판매처 상세 페이지 또는 공식 제휴 피드 대표 이미지",
       "sourcingPriority": "low",
       "priorityReason": "60% 출시 이미지 목표 달성을 위한 fallback 보강 후보",
-      "imageSearchUrl": "https://search.shopping.naver.com/search/all?query=%EB%84%A4%EC%9D%B4%EB%B2%84%ED%8E%98%EC%9D%B4%20%EB%84%A4%EC%9D%B4%EB%B2%84%ED%8E%98%EC%9D%B4%20%EC%B2%AB%20%EA%B2%B0%EC%A0%9C%203%EC%B2%9C%20%ED%8F%AC%EC%9D%B8%ED%8A%B8%20%EC%A0%81%EB%A6%BD%20%EC%9D%B4%EB%B2%A4%ED%8A%B8%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80",
+      "imageSearchUrl": "https://search.shopping.naver.com/search/all?query=BC%EC%B9%B4%EB%93%9C%20BC%EC%B9%B4%EB%93%9C%20%ED%8E%98%EC%9D%B4%EB%B6%81%20%EB%B3%B4%EB%84%88%EC%8A%A4%20%EB%A8%B8%EB%8B%88%EB%B0%95%EC%8A%A4%20%EC%9D%B4%EB%B2%A4%ED%8A%B8%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80",
       "batchWeek": 2,
       "sourceSafetyLevel": "official_or_partner_only",
       "imageReadyGate": "productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보",
       "requiredProviderFields": "productUrl | imageUrl | thumbnail | imageRights | priceCheckedAt",
       "operatorChecklist": "판매처 또는 승인 제휴 피드 이미지 | 상품명과 옵션이 현재 노출 상품과 일치 | 검색 결과 썸네일/커뮤니티/블로그 이미지 사용 금지 | 가격 기준 시각과 이미지 갱신 시각 기록",
-      "requestTemplate": "네이버페이 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외"
+      "requestTemplate": "BC카드 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외"
     },
     {
       "rank": 39,
@@ -2139,21 +2139,21 @@
     {
       "rank": 41,
       "id": "d056",
-      "mallName": "PAYCO",
+      "mallName": "CJ ONE",
       "category": "쿠폰/이벤트",
-      "title": "PAYCO 브랜드 공식몰 5천원 할인 쿠폰팩",
-      "purchaseUrl": "https://events.payco.com/app/share.nhn?evntPageNm=tmzvlWb",
+      "title": "CJ ONE 공식 진행중 이벤트·멤버십 쿠폰",
+      "purchaseUrl": "https://www.cjone.com/cjmweb/event-coupon/event.do",
       "imageField": "imageUrl",
       "imageSourceHint": "판매처 상세 페이지 또는 공식 제휴 피드 대표 이미지",
       "sourcingPriority": "low",
       "priorityReason": "60% 출시 이미지 목표 달성을 위한 fallback 보강 후보",
-      "imageSearchUrl": "https://search.shopping.naver.com/search/all?query=PAYCO%20PAYCO%20%EB%B8%8C%EB%9E%9C%EB%93%9C%20%EA%B3%B5%EC%8B%9D%EB%AA%B0%205%EC%B2%9C%EC%9B%90%20%ED%95%A0%EC%9D%B8%20%EC%BF%A0%ED%8F%B0%ED%8C%A9%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80",
+      "imageSearchUrl": "https://search.shopping.naver.com/search/all?query=CJ%20ONE%20CJ%20ONE%20%EA%B3%B5%EC%8B%9D%20%EC%A7%84%ED%96%89%EC%A4%91%20%EC%9D%B4%EB%B2%A4%ED%8A%B8%C2%B7%EB%A9%A4%EB%B2%84%EC%8B%AD%20%EC%BF%A0%ED%8F%B0%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80",
       "batchWeek": 2,
       "sourceSafetyLevel": "official_or_partner_only",
       "imageReadyGate": "productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보",
       "requiredProviderFields": "productUrl | imageUrl | thumbnail | imageRights | priceCheckedAt",
       "operatorChecklist": "판매처 또는 승인 제휴 피드 이미지 | 상품명과 옵션이 현재 노출 상품과 일치 | 검색 결과 썸네일/커뮤니티/블로그 이미지 사용 금지 | 가격 기준 시각과 이미지 갱신 시각 기록",
-      "requestTemplate": "PAYCO 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외"
+      "requestTemplate": "CJ ONE 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외"
     },
     {
       "rank": 42,
@@ -2177,34 +2177,34 @@
     {
       "rank": 43,
       "id": "d058",
-      "mallName": "배달의민족",
+      "mallName": "맥도날드",
       "category": "쿠폰/이벤트",
-      "title": "배달앱 첫 주문 5천원 할인 쿠폰",
-      "purchaseUrl": "https://academy.baemin.com/event/list",
+      "title": "맥도날드 공식 해피스낵 프로모션",
+      "purchaseUrl": "https://www.mcdonalds.co.kr/kor/promotion/detail.do?seq=593",
       "imageField": "imageUrl",
       "imageSourceHint": "판매처 상세 페이지 또는 공식 제휴 피드 대표 이미지",
       "sourcingPriority": "low",
       "priorityReason": "60% 출시 이미지 목표 달성을 위한 fallback 보강 후보",
-      "imageSearchUrl": "https://search.shopping.naver.com/search/all?query=%EB%B0%B0%EB%8B%AC%EC%9D%98%EB%AF%BC%EC%A1%B1%20%EB%B0%B0%EB%8B%AC%EC%95%B1%20%EC%B2%AB%20%EC%A3%BC%EB%AC%B8%205%EC%B2%9C%EC%9B%90%20%ED%95%A0%EC%9D%B8%20%EC%BF%A0%ED%8F%B0%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80",
+      "imageSearchUrl": "https://search.shopping.naver.com/search/all?query=%EB%A7%A5%EB%8F%84%EB%82%A0%EB%93%9C%20%EB%A7%A5%EB%8F%84%EB%82%A0%EB%93%9C%20%EA%B3%B5%EC%8B%9D%20%ED%95%B4%ED%94%BC%EC%8A%A4%EB%82%B5%20%ED%94%84%EB%A1%9C%EB%AA%A8%EC%85%98%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80",
       "batchWeek": 2,
       "sourceSafetyLevel": "official_or_partner_only",
       "imageReadyGate": "productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보",
       "requiredProviderFields": "productUrl | imageUrl | thumbnail | imageRights | priceCheckedAt",
       "operatorChecklist": "판매처 또는 승인 제휴 피드 이미지 | 상품명과 옵션이 현재 노출 상품과 일치 | 검색 결과 썸네일/커뮤니티/블로그 이미지 사용 금지 | 가격 기준 시각과 이미지 갱신 시각 기록",
-      "requestTemplate": "배달의민족 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외"
+      "requestTemplate": "맥도날드 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외"
     },
     {
       "rank": 44,
       "id": "d059",
       "mallName": "아모레몰",
       "category": "뷰티",
-      "title": "아모레몰 기초케어 무료 샘플 체험단",
-      "purchaseUrl": "https://www.amoremall.com/kr/ko/event",
+      "title": "아모레몰 결제혜택 모아보기와 첫구매 쿠폰",
+      "purchaseUrl": "https://www.amoremall.com/kr/ko/display/event_detail?planDisplaySn=6438",
       "imageField": "imageUrl",
       "imageSourceHint": "판매처 상세 페이지 또는 공식 제휴 피드 대표 이미지",
       "sourcingPriority": "low",
       "priorityReason": "60% 출시 이미지 목표 달성을 위한 fallback 보강 후보",
-      "imageSearchUrl": "https://search.shopping.naver.com/search/all?query=%EC%95%84%EB%AA%A8%EB%A0%88%EB%AA%B0%20%EC%95%84%EB%AA%A8%EB%A0%88%EB%AA%B0%20%EA%B8%B0%EC%B4%88%EC%BC%80%EC%96%B4%20%EB%AC%B4%EB%A3%8C%20%EC%83%98%ED%94%8C%20%EC%B2%B4%ED%97%98%EB%8B%A8%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80",
+      "imageSearchUrl": "https://search.shopping.naver.com/search/all?query=%EC%95%84%EB%AA%A8%EB%A0%88%EB%AA%B0%20%EC%95%84%EB%AA%A8%EB%A0%88%EB%AA%B0%20%EA%B2%B0%EC%A0%9C%ED%98%9C%ED%83%9D%20%EB%AA%A8%EC%95%84%EB%B3%B4%EA%B8%B0%EC%99%80%20%EC%B2%AB%EA%B5%AC%EB%A7%A4%20%EC%BF%A0%ED%8F%B0%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80",
       "batchWeek": 2,
       "sourceSafetyLevel": "official_or_partner_only",
       "imageReadyGate": "productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보",
@@ -2215,21 +2215,21 @@
     {
       "rank": 45,
       "id": "d060",
-      "mallName": "CGV",
+      "mallName": "메가박스",
       "category": "여행/티켓",
-      "title": "CGV 영화 시사회 무료 초대권 응모",
-      "purchaseUrl": "https://cgv.co.kr/evt/eventDetail?evntNo=202602235927",
+      "title": "메가박스 공식 영화·문화 이벤트",
+      "purchaseUrl": "https://www.megabox.co.kr/event",
       "imageField": "imageUrl",
       "imageSourceHint": "판매처 상세 페이지 또는 공식 제휴 피드 대표 이미지",
       "sourcingPriority": "low",
       "priorityReason": "60% 출시 이미지 목표 달성을 위한 fallback 보강 후보",
-      "imageSearchUrl": "https://search.shopping.naver.com/search/all?query=CGV%20CGV%20%EC%98%81%ED%99%94%20%EC%8B%9C%EC%82%AC%ED%9A%8C%20%EB%AC%B4%EB%A3%8C%20%EC%B4%88%EB%8C%80%EA%B6%8C%20%EC%9D%91%EB%AA%A8%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80",
+      "imageSearchUrl": "https://search.shopping.naver.com/search/all?query=%EB%A9%94%EA%B0%80%EB%B0%95%EC%8A%A4%20%EB%A9%94%EA%B0%80%EB%B0%95%EC%8A%A4%20%EA%B3%B5%EC%8B%9D%20%EC%98%81%ED%99%94%C2%B7%EB%AC%B8%ED%99%94%20%EC%9D%B4%EB%B2%A4%ED%8A%B8%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80",
       "batchWeek": 2,
       "sourceSafetyLevel": "official_or_partner_only",
       "imageReadyGate": "productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보",
       "requiredProviderFields": "productUrl | imageUrl | thumbnail | imageRights | priceCheckedAt",
       "operatorChecklist": "판매처 또는 승인 제휴 피드 이미지 | 상품명과 옵션이 현재 노출 상품과 일치 | 검색 결과 썸네일/커뮤니티/블로그 이미지 사용 금지 | 가격 기준 시각과 이미지 갱신 시각 기록",
-      "requestTemplate": "CGV 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외"
+      "requestTemplate": "메가박스 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외"
     },
     {
       "rank": 46,
@@ -2274,13 +2274,13 @@
       "id": "d063",
       "mallName": "홈플러스",
       "category": "편의점/마트",
-      "title": "홈플러스 첫 장보기 무료배송 쿠폰팩",
-      "purchaseUrl": "https://front.homeplus.co.kr/event",
+      "title": "홈플러스 AI 물가안정 프로젝트 장보기 특가",
+      "purchaseUrl": "https://front.homeplus.co.kr/product/191599407",
       "imageField": "imageUrl",
       "imageSourceHint": "판매처 상세 페이지 또는 공식 제휴 피드 대표 이미지",
       "sourcingPriority": "low",
       "priorityReason": "60% 출시 이미지 목표 달성을 위한 fallback 보강 후보",
-      "imageSearchUrl": "https://search.shopping.naver.com/search/all?query=%ED%99%88%ED%94%8C%EB%9F%AC%EC%8A%A4%20%ED%99%88%ED%94%8C%EB%9F%AC%EC%8A%A4%20%EC%B2%AB%20%EC%9E%A5%EB%B3%B4%EA%B8%B0%20%EB%AC%B4%EB%A3%8C%EB%B0%B0%EC%86%A1%20%EC%BF%A0%ED%8F%B0%ED%8C%A9%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80",
+      "imageSearchUrl": "https://search.shopping.naver.com/search/all?query=%ED%99%88%ED%94%8C%EB%9F%AC%EC%8A%A4%20%ED%99%88%ED%94%8C%EB%9F%AC%EC%8A%A4%20AI%20%EB%AC%BC%EA%B0%80%EC%95%88%EC%A0%95%20%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%20%EC%9E%A5%EB%B3%B4%EA%B8%B0%20%ED%8A%B9%EA%B0%80%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80",
       "batchWeek": 2,
       "sourceSafetyLevel": "official_or_partner_only",
       "imageReadyGate": "productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보",
@@ -2407,13 +2407,13 @@
       "id": "d070",
       "mallName": "아이챌린지",
       "category": "육아",
-      "title": "아이챌린지 유아 학습지 무료 체험 키트",
-      "purchaseUrl": "https://www.i-challenge.co.kr/Event/",
+      "title": "아이챌린지 베이비 월령별 무료체험교재",
+      "purchaseUrl": "https://m.i-challenge.co.kr/event/freetrial_r1/index.asp",
       "imageField": "imageUrl",
       "imageSourceHint": "판매처 상세 페이지 또는 공식 제휴 피드 대표 이미지",
       "sourcingPriority": "low",
       "priorityReason": "60% 출시 이미지 목표 달성을 위한 fallback 보강 후보",
-      "imageSearchUrl": "https://search.shopping.naver.com/search/all?query=%EC%95%84%EC%9D%B4%EC%B1%8C%EB%A6%B0%EC%A7%80%20%EC%95%84%EC%9D%B4%EC%B1%8C%EB%A6%B0%EC%A7%80%20%EC%9C%A0%EC%95%84%20%ED%95%99%EC%8A%B5%EC%A7%80%20%EB%AC%B4%EB%A3%8C%20%EC%B2%B4%ED%97%98%20%ED%82%A4%ED%8A%B8%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80",
+      "imageSearchUrl": "https://search.shopping.naver.com/search/all?query=%EC%95%84%EC%9D%B4%EC%B1%8C%EB%A6%B0%EC%A7%80%20%EC%95%84%EC%9D%B4%EC%B1%8C%EB%A6%B0%EC%A7%80%20%EB%B2%A0%EC%9D%B4%EB%B9%84%20%EC%9B%94%EB%A0%B9%EB%B3%84%20%EB%AC%B4%EB%A3%8C%EC%B2%B4%ED%97%98%EA%B5%90%EC%9E%AC%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80",
       "batchWeek": 3,
       "sourceSafetyLevel": "official_or_partner_only",
       "imageReadyGate": "productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보",
@@ -2977,13 +2977,13 @@
       "id": "d116",
       "mallName": "무신사",
       "category": "쿠폰/이벤트",
-      "title": "무신사 신규 가입 웰컴 0원 쿠폰팩",
-      "purchaseUrl": "https://www.musinsa.com/app/campaign/index/benefit",
+      "title": "무신사 온라인 할인 쿠폰 2026",
+      "purchaseUrl": "https://www.musinsa.com/coupon-service/coupon/coupon_online",
       "imageField": "imageUrl",
       "imageSourceHint": "판매처 상세 페이지 또는 공식 제휴 피드 대표 이미지",
       "sourcingPriority": "low",
       "priorityReason": "60% 출시 이미지 목표 달성을 위한 fallback 보강 후보",
-      "imageSearchUrl": "https://search.shopping.naver.com/search/all?query=%EB%AC%B4%EC%8B%A0%EC%82%AC%20%EB%AC%B4%EC%8B%A0%EC%82%AC%20%EC%8B%A0%EA%B7%9C%20%EA%B0%80%EC%9E%85%20%EC%9B%B0%EC%BB%B4%200%EC%9B%90%20%EC%BF%A0%ED%8F%B0%ED%8C%A9%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80",
+      "imageSearchUrl": "https://search.shopping.naver.com/search/all?query=%EB%AC%B4%EC%8B%A0%EC%82%AC%20%EB%AC%B4%EC%8B%A0%EC%82%AC%20%EC%98%A8%EB%9D%BC%EC%9D%B8%20%ED%95%A0%EC%9D%B8%20%EC%BF%A0%ED%8F%B0%202026%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80",
       "batchWeek": 4,
       "sourceSafetyLevel": "official_or_partner_only",
       "imageReadyGate": "productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보",
