@@ -6,6 +6,7 @@ export interface HotSignal {
   id: string;
   title: string;
   sourceName: string;
+  /** Customer-safe internal discovery URL. Raw community/news source URLs must not be exposed here. */
   url: string;
   imageUrl?: string;
   publishedAt: string;

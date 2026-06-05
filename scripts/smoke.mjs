@@ -137,6 +137,20 @@ await check("news deals api", async () => {
   }
 });
 
+await check("hot signals api internal discovery links", async () => {
+  const { response, data } = await fetchJson("/api/hot-signals?limit=8");
+  assert(response.status === 200, `Expected hot signals 200, got ${response.status}`);
+  assert(Array.isArray(data.signals), "Hot signals API missing signals array");
+  assert(
+    data.signals.every((signal) => typeof signal.url === "string" && signal.url.startsWith("/?") && signal.url.includes("verifiedOnly=true")),
+    "Hot signals API should expose only internal verified-deal discovery URLs"
+  );
+  assert(
+    data.signals.every((signal) => !/^https?:\/\//i.test(signal.url) && !/ppomppu\.co\.kr|zboard\/view\.php|fmkorea|quasarzone|algumon/i.test(signal.url)),
+    "Hot signals API must not expose raw news/community source URLs"
+  );
+});
+
 await check("admin news operations api", async () => {
   const { response, data } = await fetchJson("/api/admin/news-operations");
   assert(response.status === 200, `Expected 200, got ${response.status}`);

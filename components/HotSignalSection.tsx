@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ExternalLink, Heart, Radio, Share2, ShoppingBag, Sparkles, TrendingUp } from "lucide-react";
 import { getRelativeTime } from "@/lib/format";
+import { buildPublicHotSignalDiscoveryUrl } from "@/lib/hotSignalNavigation";
 import { getDealImageSrc } from "@/lib/imageSrc";
 import { HotSignal } from "@/types/hotSignal";
 
@@ -45,6 +46,7 @@ export function HotSignalSection({ signals, isLoading, onOpenSignal }: HotSignal
 
   const shareSignal = async (signal: HotSignal) => {
     const text = `할인도사 ${signal.title}`;
+    const shareUrl = buildPublicHotSignalDiscoveryUrl(signal);
 
     try {
       const nav = navigator as Navigator & {
@@ -53,11 +55,11 @@ export function HotSignalSection({ signals, isLoading, onOpenSignal }: HotSignal
       };
 
       if (nav.share) {
-        await nav.share({ title: `할인도사 - ${signal.title}`, text, url: signal.url });
+        await nav.share({ title: `할인도사 - ${signal.title}`, text, url: shareUrl });
         return;
       }
 
-      await nav.clipboard?.writeText(`${text}\n${signal.url}`);
+      await nav.clipboard?.writeText(`${text}\n${shareUrl}`);
     } catch {
       // Optional share action.
     }
@@ -126,7 +128,7 @@ export function HotSignalSection({ signals, isLoading, onOpenSignal }: HotSignal
             className={`flex h-10 w-10 items-center justify-center rounded-2xl transition ${
               dark ? "bg-white text-slate-950 hover:bg-red-50" : "bg-slate-950 text-white shadow-sm hover:bg-dossa-red"
             }`}
-            aria-label={`${signal.title} 자세히 보기`}
+            aria-label={`${signal.title} 관련 검증 특가 보기`}
           >
             <ExternalLink size={17} />
           </button>
@@ -183,7 +185,7 @@ export function HotSignalSection({ signals, isLoading, onOpenSignal }: HotSignal
                   onOpenSignal(leadSignal);
                 }
               }}
-              aria-label={`${leadSignal.title} 할인 정보 자세히 보기`}
+              aria-label={`${leadSignal.title} 관련 검증 특가 보기`}
               className="relative grid min-h-72 gap-4 rounded-3xl bg-slate-950 p-4 pb-16 pr-16 text-left text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-900 sm:grid-cols-[180px_1fr] sm:p-5 sm:pb-16 sm:pr-20"
             >
               {renderImage(leadSignal, "h-32 w-full sm:h-full sm:w-[180px]")}
@@ -230,7 +232,7 @@ export function HotSignalSection({ signals, isLoading, onOpenSignal }: HotSignal
                     onOpenSignal(signal);
                   }
                 }}
-                aria-label={`${signal.title} 할인 정보 자세히 보기`}
+                aria-label={`${signal.title} 관련 검증 특가 보기`}
                 className="relative grid min-h-40 grid-cols-[72px_1fr] gap-3 rounded-2xl border border-slate-100 bg-slate-50 p-3 pb-14 pr-16 text-left transition hover:-translate-y-0.5 hover:border-red-100 hover:bg-red-50"
               >
                 {renderImage(signal, "h-[72px] w-[72px]")}

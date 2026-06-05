@@ -32,6 +32,9 @@ export async function checkUiAccessibility() {
   const topNavigation = await text("components/TopNavigation.tsx");
   const liveDealFeed = await text("components/LiveDealFeed.tsx");
   const hotSignalSection = await text("components/HotSignalSection.tsx");
+  const hotSignalNavigation = await text("lib/hotSignalNavigation.ts");
+  const hotSignalProvider = await text("lib/hotSignalProvider.ts");
+  const mockHotSignals = await text("data/mockHotSignals.ts");
   const trueDealSpotlight = await text("components/TrueDealSpotlight.tsx");
   const benefitDiscoverySections = await text("components/BenefitDiscoverySections.tsx");
   const benefitDecisionGuide = await text("lib/deals/benefitDecisionGuide.ts");
@@ -383,6 +386,18 @@ export async function checkUiAccessibility() {
 
   if (!liveDealFeed.includes('alt={`${deal.title} 상품 이미지`}') || !hotSignalSection.includes('alt={`${signal.title} 할인 정보 이미지`}') || !hotSignalSection.includes("event.preventDefault()")) {
     fail("live card media accessibility", "Live deal and signal cards should expose meaningful image alt text and keyboard activation.");
+  } else if (
+    !homePage.includes("getHotSignalDiscoveryQuery") ||
+    homePage.includes("window.open(signal.url") ||
+    homePage.includes("Browser.open({ url: signal.url") ||
+    !hotSignalSection.includes("buildPublicHotSignalDiscoveryUrl") ||
+    hotSignalSection.includes("signal.url") ||
+    !hotSignalNavigation.includes("buildHotSignalDiscoveryPath") ||
+    !hotSignalProvider.includes("url: buildHotSignalDiscoveryPath(signal)") ||
+    mockHotSignals.includes("ppomppu.co.kr") ||
+    mockHotSignals.includes("zboard/view.php")
+  ) {
+    fail("live card media accessibility", "Hot signal cards must route users to internal verified-deal discovery instead of raw community/news source URLs.");
   } else {
     pass("live card media accessibility", "Live deal and signal cards expose meaningful image alt text and keyboard activation.");
   }

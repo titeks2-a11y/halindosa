@@ -111,6 +111,8 @@ function deal(
   const fallbackUrl = buildMarketplaceSearchUrl(mall, title);
   const verifiedOverride = verifiedPurchaseLinks[id];
   const rawSourceUrl = isUsableSourceUrl(link) ? link : (verifiedOverride?.url ?? "");
+  const publicOriginalUrl = isCommunitySource(link) ? (verifiedOverride?.url ?? "") : link;
+  const publicSourceUrl = isCommunitySource(rawSourceUrl) ? "" : rawSourceUrl;
   const checkedAt = verifiedOverride?.checkedAt ?? new Date(now - Math.max(5, Math.round(offsetHours * 18)) * 60 * 1000).toISOString();
   const validation = validatePurchaseLink({
     url: verifiedOverride?.url ?? link,
@@ -192,13 +194,13 @@ function deal(
     productUrl: validation.linkVerified ? validation.finalPurchaseUrl : "",
     verifiedProductUrl: validation.linkVerified ? validation.finalPurchaseUrl : "",
     searchUrl: "",
-    originalUrl: link,
+    originalUrl: publicOriginalUrl,
     eventUrl: dealType === "event" || dealType === "coupon" || dealType === "experience" ? validation.finalPurchaseUrl : undefined,
     purchaseUrl,
     finalUrl: validation.finalUrl,
     finalPurchaseUrl: validation.finalPurchaseUrl,
     sourceName: isCommunitySource(rawSourceUrl) ? "할인도사 원문 확인" : mall,
-    sourceUrl: rawSourceUrl,
+    sourceUrl: publicSourceUrl,
     linkType: validation.linkType,
     linkStatus: validation.linkStatus,
     linkLabel: validation.linkVerified ? "구매 페이지 검증 완료" : "링크 확인 필요",

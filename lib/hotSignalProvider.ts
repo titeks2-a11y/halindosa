@@ -1,5 +1,6 @@
 import { DealCategory } from "@/types/deal";
 import { getProviderCategory } from "@/data/dealChannels";
+import { buildHotSignalDiscoveryPath } from "@/lib/hotSignalNavigation";
 import { HotSignal, HotSignalType } from "@/types/hotSignal";
 
 interface FeedSource {
@@ -367,5 +368,9 @@ export async function fetchHotSignals(options: { category?: string; q?: string; 
 
   return Array.from(unique.values())
     .sort((a, b) => b.score - a.score || new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
-    .slice(0, options.limit && options.limit > 0 ? options.limit : 12);
+    .slice(0, options.limit && options.limit > 0 ? options.limit : 12)
+    .map((signal) => ({
+      ...signal,
+      url: buildHotSignalDiscoveryPath(signal)
+    }));
 }

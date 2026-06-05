@@ -113,6 +113,7 @@ import {
 } from "@/lib/homeDerivedData";
 import { readRecentSearchKeywords, storeRecentSearchKeywords } from "@/lib/homeRecentSearches";
 import { buildHomeUrlSearchParams, readHomeUrlState } from "@/lib/homeUrlState";
+import { getHotSignalDiscoveryQuery } from "@/lib/hotSignalNavigation";
 import { buildDealRedirectUrl, buildNativeSafeDealUrl } from "@/lib/redirectUrl";
 import { rememberRecentNewsBenefitId } from "@/lib/recentNewsBenefits";
 import { buildPublicAppShareUrl, buildPublicDealShareUrl } from "@/lib/shareUrl";
@@ -735,16 +736,25 @@ export default function Home() {
     }
   };
 
-  const openHotSignal = async (signal: HotSignal) => {
-    showToast("할인도사 특가 브리핑으로 이동합니다.");
+  const openHotSignal = (signal: HotSignal) => {
+    const nextQuery = getHotSignalDiscoveryQuery(signal);
+    const nextCategory = getProviderCategory(signal.category) ?? signal.category;
 
-    if (await isNativeRuntime()) {
-      const { Browser } = await import("@capacitor/browser");
-      await Browser.open({ url: signal.url });
-      return;
-    }
-
-    window.open(signal.url, "_blank", "noopener,noreferrer");
+    setQuery(nextQuery);
+    setCategory(nextCategory && nextCategory !== "전체" ? nextCategory : "all");
+    setMallFilter("all");
+    setPriceBand("all");
+    setBenefitFilter("all");
+    setVerifiedOnly(true);
+    setFreeShippingOnly(false);
+    setHotOnly(false);
+    setEndingSoonOnly(false);
+    setSort("hot");
+    setActiveView("home");
+    showToast("검증된 구매 링크 특가에서 관련 상품을 찾아봅니다.");
+    window.setTimeout(() => {
+      document.getElementById("deal-list")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 80);
   };
 
   const shareApp = async () => {

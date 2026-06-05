@@ -39,7 +39,7 @@ export const mockHotSignals: HotSignal[] = [
     ["특가", "무료배송", "고할인"],
     99,
     6,
-    "https://www.ppomppu.co.kr/zboard/view.php?id=ppomppu&page=1&divpage=112&no=707648",
+    "/?q=%EC%83%A4%EC%98%A4%EB%AF%B8%20%EC%8A%A4%EB%A7%88%ED%8A%B8TV&category=%EC%A0%84%EC%9E%90%EA%B8%B0%EA%B8%B0&verifiedOnly=true&sort=hot",
     "/deal-images/live-707648.jpg"
   ),
   signal(
@@ -50,7 +50,7 @@ export const mockHotSignals: HotSignal[] = [
     ["특가", "무료배송", "생필품"],
     98,
     12,
-    "https://www.ppomppu.co.kr/zboard/view.php?id=ppomppu&page=1&divpage=112&no=707791",
+    "/?q=%EC%83%88%EC%9A%B0%EA%B9%A1&category=%EC%8B%9D%ED%92%88&verifiedOnly=true&sort=hot",
     "/deal-images/live-707791.jpg"
   ),
   signal(
@@ -61,7 +61,7 @@ export const mockHotSignals: HotSignal[] = [
     ["특가", "무료배송", "가격하락"],
     96,
     24,
-    "https://www.ppomppu.co.kr/zboard/view.php?id=ppomppu&page=1&divpage=112&no=707788",
+    "/?q=JMW%20%EB%AF%B8%EB%8B%88%20%EB%93%9C%EB%9D%BC%EC%9D%B4%EA%B8%B0&category=%EB%B7%B0%ED%8B%B0&verifiedOnly=true&sort=hot",
     "/deal-images/live-707788.jpg"
   ),
   signal(
@@ -72,7 +72,7 @@ export const mockHotSignals: HotSignal[] = [
     ["특가", "무료배송", "계절특가"],
     95,
     30,
-    "https://www.ppomppu.co.kr/zboard/view.php?id=ppomppu&page=1&divpage=112&no=707787",
+    "/?q=%EB%83%89%EA%B0%90%20%EC%B9%A8%EB%8C%80%ED%8C%A8%EB%93%9C&category=%EC%83%9D%ED%99%9C%EC%9A%A9%ED%92%88&verifiedOnly=true&sort=hot",
     "/deal-images/live-707787.jpg"
   ),
   signal(
@@ -83,7 +83,7 @@ export const mockHotSignals: HotSignal[] = [
     ["쿠폰", "특가", "마감"],
     94,
     54,
-    "https://www.ppomppu.co.kr/zboard/view.php?id=ppomppu&page=1&divpage=112&no=707783",
+    "/?q=%EB%9D%BC%EB%A9%B4%20%EC%BF%A0%ED%8F%B0&category=%EC%8B%9D%ED%92%88&verifiedOnly=true&sort=hot",
     "/deal-images/live-707783.jpg"
   )
 ];

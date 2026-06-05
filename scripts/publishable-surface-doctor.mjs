@@ -140,6 +140,10 @@ const eventsReport = readJson("reports/events-refresh.json", {});
 const refreshedDeals = readJson("data/refreshedDeals.json", {});
 const refreshedNews = readJson("data/refreshedNewsDeals.json", {});
 const accountPanelSource = readText("components/AccountPanel.tsx");
+const homePageSource = readText("app/page.tsx");
+const hotSignalSectionSource = readText("components/HotSignalSection.tsx");
+const hotSignalProviderSource = readText("lib/hotSignalProvider.ts");
+const mockHotSignalsSource = readText("data/mockHotSignals.ts");
 
 const productCandidates = Array.isArray(linkReport.auditedItems) ? linkReport.auditedItems.filter((item) => item.isHidden !== true) : [];
 const newsSnapshotItems = Array.isArray(refreshedNews.allDeals) && refreshedNews.allDeals.length
@@ -172,6 +176,22 @@ if (accountPanelSource.includes("href={deal.finalUrl}")) {
 
 if (!accountPanelSource.includes("mypage-recent-benefit") || !accountPanelSource.includes("/go/news/${deal.id}")) {
   sourceIssues.push("mypage recent official benefits should route through /go/news/[id] for click logging and URL policy checks");
+}
+
+if (homePageSource.includes("window.open(signal.url") || homePageSource.includes("Browser.open({ url: signal.url")) {
+  sourceIssues.push("home hot signals must not open raw signal.url because community/news source links are not publishable purchase destinations");
+}
+
+if (hotSignalSectionSource.includes("signal.url") && !hotSignalSectionSource.includes("buildPublicHotSignalDiscoveryUrl")) {
+  sourceIssues.push("hot signal sharing should use an internal verified-deal discovery URL instead of raw signal.url");
+}
+
+if (mockHotSignalsSource.includes("ppomppu.co.kr") || mockHotSignalsSource.includes("zboard/view.php")) {
+  sourceIssues.push("mock hot signals must not expose community post URLs in the client bundle");
+}
+
+if (!hotSignalProviderSource.includes("buildHotSignalDiscoveryPath") || !hotSignalProviderSource.includes("url: buildHotSignalDiscoveryPath(signal)")) {
+  sourceIssues.push("hot signal API responses should replace raw source URLs with internal discovery URLs before customer exposure");
 }
 
 const sliceIssues = [];

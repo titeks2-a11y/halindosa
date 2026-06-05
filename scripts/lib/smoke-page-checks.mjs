@@ -10,6 +10,8 @@ const bottomNavigationSource = readFileSync(new URL("../../components/BottomNavi
 const topNavigationSource = readFileSync(new URL("../../components/TopNavigation.tsx", import.meta.url), "utf8");
 const mypageSource = readFileSync(new URL("../../app/mypage/page.tsx", import.meta.url), "utf8");
 const accountPanelSource = readFileSync(new URL("../../components/AccountPanel.tsx", import.meta.url), "utf8");
+const hotSignalSectionSource = readFileSync(new URL("../../components/HotSignalSection.tsx", import.meta.url), "utf8");
+const mockHotSignalsSource = readFileSync(new URL("../../data/mockHotSignals.ts", import.meta.url), "utf8");
 
 export async function runPageSmokeChecks() {
   await check("home page", async () => {
@@ -31,6 +33,10 @@ export async function runPageSmokeChecks() {
     assert(text.includes("마감 전 우선확인"), "Home page missing official benefit deadline summary");
     assert(text.includes("구매하기") || text.includes("상세 보기") || text.includes("판매처 확인"), "Home page missing commerce actions");
     assert(text.includes("현재 결과") || text.includes("검색 결과"), "Home page missing search result summary");
+    assert(homePageSource.includes("getHotSignalDiscoveryQuery"), "Home hot signals should map to verified internal deal discovery");
+    assert(!homePageSource.includes("window.open(signal.url") && !homePageSource.includes("Browser.open({ url: signal.url"), "Home hot signals must not open raw source URLs");
+    assert(hotSignalSectionSource.includes("buildPublicHotSignalDiscoveryUrl") && !hotSignalSectionSource.includes("signal.url"), "Hot signal sharing must not expose raw source URLs");
+    assert(!mockHotSignalsSource.includes("ppomppu.co.kr") && !mockHotSignalsSource.includes("zboard/view.php"), "Mock hot signals must not expose community post URLs");
     assert(!text.includes("직접 구매 링크 비율"), "Home page should not expose internal link coverage ratio copy");
     assert(!text.includes(">상업화<"), "Home page should not expose internal commercialization link in public footer");
     assert(text.includes("aria-pressed="), "Home deal favorite buttons missing pressed state");
