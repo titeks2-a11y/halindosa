@@ -1649,11 +1649,29 @@ function checkRefreshDealPipeline() {
   if (!existsSync(join(root, linkLaunchGateRoutePath))) {
     issues.push("admin link launch gate API missing");
   }
-  if (!linkLaunchGateScript.includes("failedExposureItems") || !linkLaunchGateScript.includes("reports/link-validation.json") || !linkLaunchGateScript.includes("LINK_LAUNCH_GATE.md")) {
-    issues.push("link launch gate script should audit product exposure rows and write JSON/Markdown release evidence");
+  if (
+    !linkLaunchGateScript.includes("failedExposureItems") ||
+    !linkLaunchGateScript.includes("reports/link-validation.json") ||
+    !linkLaunchGateScript.includes("reports/live-probe-review.json") ||
+    !linkLaunchGateScript.includes("manualEvidenceSummary") ||
+    !linkLaunchGateScript.includes("staleManualEvidence") ||
+    !linkLaunchGateScript.includes("missingManualEvidence") ||
+    !linkLaunchGateScript.includes("LINK_LAUNCH_GATE.md")
+  ) {
+    issues.push("link launch gate script should audit product exposure rows, fresh manual evidence, and write JSON/Markdown release evidence");
   }
-  if (linkLaunchGateReport.ok !== true || (linkLaunchGateReport.actual?.exposedSearchLinks ?? 1) !== 0 || (linkLaunchGateReport.actual?.exposedSoldOutLinks ?? 1) !== 0 || (linkLaunchGateReport.actual?.failedExposureItems ?? 1) !== 0) {
-    issues.push("reports/link-launch-gate.json should prove zero exposed search, sold-out, and failed exposure items");
+  if (
+    linkLaunchGateReport.ok !== true ||
+    (linkLaunchGateReport.actual?.exposedSearchLinks ?? 1) !== 0 ||
+    (linkLaunchGateReport.actual?.exposedSoldOutLinks ?? 1) !== 0 ||
+    (linkLaunchGateReport.actual?.failedExposureItems ?? 1) !== 0 ||
+    (linkLaunchGateReport.actual?.manualEvidenceMaxAgeDays ?? 0) !== 7 ||
+    (linkLaunchGateReport.actual?.staleManualEvidence ?? 1) !== 0 ||
+    (linkLaunchGateReport.actual?.missingManualEvidence ?? 1) !== 0 ||
+    (linkLaunchGateReport.actual?.manualEvidenceReviewedItems ?? -1) !== (linkLaunchGateReport.actual?.freshManualEvidence ?? -2) ||
+    (linkLaunchGateReport.manualEvidenceSummary?.freshManualEvidenceCount ?? -1) !== (linkLaunchGateReport.actual?.freshManualEvidence ?? -2)
+  ) {
+    issues.push("reports/link-launch-gate.json should prove zero exposed search, sold-out, failed exposure, stale manual evidence, and missing manual evidence items");
   }
   if (
     !linkLaunchGateRoute.includes("getLinkLaunchGateReport") ||
@@ -1664,11 +1682,16 @@ function checkRefreshDealPipeline() {
     !adminPage.includes("출시 게이트 CSV") ||
     !adminPage.includes("Play Store 제출 판정") ||
     !adminPage.includes("reports/link-launch-gate.json") ||
+    !adminPage.includes("수동 검수") ||
+    !adminPage.includes("stale") ||
+    !adminPage.includes("missing") ||
     !smoke.includes("admin link launch gate api") ||
     !smoke.includes("admin link launch gate csv") ||
-    !smoke.includes("Link launch gate should expose zero search links")
+    !smoke.includes("Link launch gate should expose zero search links") ||
+    !smoke.includes("Link launch gate should enforce 7-day manual evidence freshness") ||
+    !smoke.includes("summary,fresh_manual_evidence")
   ) {
-    issues.push("admin link launch gate API/page should expose JSON/CSV final launch evidence and smoke-test zero search/sold-out/broken/invalid links");
+    issues.push("admin link launch gate API/page should expose JSON/CSV final launch evidence and smoke-test zero search/sold-out/broken/invalid links plus fresh manual evidence");
   }
 
   for (const phrase of ["fetchDeals", "normalizeDeal", "validateDeal", "dedupeDeal"]) {

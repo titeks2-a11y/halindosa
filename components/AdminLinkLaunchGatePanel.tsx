@@ -9,6 +9,8 @@ interface AdminLinkLaunchGatePanelProps {
 }
 
 export function AdminLinkLaunchGatePanel({ apiHref, csvHref, report }: AdminLinkLaunchGatePanelProps) {
+  const manualEvidenceOk = report.actual.staleManualEvidence === 0 && report.actual.missingManualEvidence === 0;
+
   return (
     <section className="rounded-3xl border border-sky-100 bg-white p-5 shadow-sm" aria-label="최종 링크 출시 게이트">
       <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
@@ -73,6 +75,9 @@ export function AdminLinkLaunchGatePanel({ apiHref, csvHref, report }: AdminLink
           <p className="mt-2 text-xs font-bold leading-5 text-slate-600">
             노출 라이브 실패 {report.actual.liveHardFailures}개 · 품절 본문 신호 {report.actual.sellerUnavailableSignals}개
           </p>
+          <p className="mt-2 text-xs font-bold leading-5 text-slate-600">
+            수동 검수 증거 {report.actual.freshManualEvidence}/{report.actual.manualEvidenceReviewedItems}개 · stale {report.actual.staleManualEvidence}개 · missing {report.actual.missingManualEvidence}개
+          </p>
         </div>
         <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
           <p className="text-sm font-black text-slate-950">최종 제출 규칙</p>
@@ -89,9 +94,12 @@ export function AdminLinkLaunchGatePanel({ apiHref, csvHref, report }: AdminLink
             <span className="rounded-full bg-white px-3 py-1.5 text-xs font-black text-slate-700 shadow-sm">
               HTTP(S) finalUrl 필수
             </span>
+            <span className={`rounded-full bg-white px-3 py-1.5 text-xs font-black shadow-sm ${manualEvidenceOk ? "text-emerald-700" : "text-dossa-red"}`}>
+              수동 검수 {report.actual.manualEvidenceMaxAgeDays || 7}일 이내
+            </span>
           </div>
           <p className="mt-3 text-xs font-bold leading-5 text-slate-500">
-            제출 직전에는 `npm run verify:links && npm run verify:products && npm run exposure:doctor && npm run link:launch:gate` 순서로 갱신한 뒤 CSV에서 실패 노출 행이 없는지 확인합니다.
+            제출 직전에는 `npm run verify:links && npm run live:probe:review && npm run verify:products && npm run exposure:doctor && npm run link:launch:gate` 순서로 갱신한 뒤 CSV에서 실패 노출 행과 stale/missing 수동 검수 증거가 없는지 확인합니다.
           </p>
         </div>
       </div>

@@ -44,6 +44,7 @@ const linkReport = readJson("reports/link-validation.json");
 const productReport = readJson("reports/product-quality.json");
 const exposureReport = readJson("reports/exposure-policy.json");
 const refreshReport = readJson("reports/refresh-deals.json");
+const liveProbeReviewReport = readJson("reports/live-probe-review.json");
 const policy = readJson("data/linkQualityPolicy.json");
 
 const auditedItems = Array.isArray(exposureReport?.auditedItems)
@@ -57,6 +58,7 @@ const failedExposureItems = exposedItems
   .filter((item) => item.issues.length);
 const hiddenItems = auditedItems.filter((item) => item.isHidden);
 const liveReview = exposureReport?.liveProbeReviewSummary ?? linkReport?.liveProbeReviewSummary ?? {};
+const manualEvidenceSummary = liveProbeReviewReport?.manualEvidenceSummary ?? {};
 
 const criteria = {
   reportsPresent: Boolean(linkReport && productReport && exposureReport && refreshReport),
@@ -69,7 +71,10 @@ const criteria = {
   failedProductsAllowedWhenHidden: true,
   hiddenProductsAllowed: true,
   liveHardFailures: 0,
-  sellerUnavailableSignals: 0
+  sellerUnavailableSignals: 0,
+  manualEvidenceMaxAgeDays: 7,
+  staleManualEvidence: 0,
+  missingManualEvidence: 0
 };
 
 const actual = {
@@ -109,7 +114,12 @@ const actual = {
   refreshVisibleCount: refreshReport?.visibleCount ?? 0,
   refreshFailedCount: refreshReport?.failedCount ?? 0,
   liveHardFailures: liveReview?.exposedHardFailureCount ?? liveReview?.hardFailureCount ?? 0,
-  sellerUnavailableSignals: liveReview?.exposedSellerUnavailableSignals ?? liveReview?.sellerUnavailableSignals ?? 0
+  sellerUnavailableSignals: liveReview?.exposedSellerUnavailableSignals ?? liveReview?.sellerUnavailableSignals ?? 0,
+  manualEvidenceReviewedItems: Number(manualEvidenceSummary.reviewedQueueItems ?? 0),
+  freshManualEvidence: Number(manualEvidenceSummary.freshManualEvidenceCount ?? 0),
+  staleManualEvidence: Number(manualEvidenceSummary.staleManualEvidenceCount ?? 0),
+  missingManualEvidence: Number(manualEvidenceSummary.missingManualEvidenceCount ?? 0),
+  manualEvidenceMaxAgeDays: Number(manualEvidenceSummary.maxAgeDays ?? 0)
 };
 
 const issues = [];
@@ -124,6 +134,10 @@ if (actual.exposedNonPublishableItems !== criteria.exposedNonPublishableItems) i
 if (!actual.refreshOk || actual.refreshFailedCount !== 0) issues.push("refresh_pipeline_not_clean");
 if (actual.liveHardFailures !== criteria.liveHardFailures) issues.push("live_probe_hard_failures");
 if (actual.sellerUnavailableSignals !== criteria.sellerUnavailableSignals) issues.push("seller_unavailable_signals");
+if (actual.manualEvidenceMaxAgeDays !== criteria.manualEvidenceMaxAgeDays) issues.push("manual_evidence_window_mismatch");
+if (actual.staleManualEvidence !== criteria.staleManualEvidence) issues.push("stale_manual_evidence");
+if (actual.missingManualEvidence !== criteria.missingManualEvidence) issues.push("missing_manual_evidence");
+if (actual.manualEvidenceReviewedItems > 0 && actual.freshManualEvidence !== actual.manualEvidenceReviewedItems) issues.push("manual_evidence_not_fresh");
 if (failedExposureItems.length) issues.push("failed_exposure_items_present");
 if (
   policy?.exposurePolicy?.availability !== "active" ||
@@ -147,12 +161,14 @@ const report = {
     linkValidation: linkReport?.generatedAt ?? null,
     productQuality: productReport?.generatedAt ?? null,
     exposurePolicy: exposureReport?.generatedAt ?? null,
-    refreshDeals: refreshReport?.generatedAt ?? null
+    refreshDeals: refreshReport?.generatedAt ?? null,
+    liveProbeReview: liveProbeReviewReport?.generatedAt ?? null
   },
   linkTypeCounts: exposureReport?.linkTypeCounts ?? {},
   availabilityCounts: exposureReport?.availabilityCounts ?? {},
   validationStatusCounts: exposureReport?.validationStatusCounts ?? {},
   liveProbeReviewSummary: liveReview,
+  manualEvidenceSummary,
   failedExposureItems: failedExposureItems.map((item) => ({
     id: item.id,
     title: item.title,
@@ -197,10 +213,15 @@ Status: ${report.ok ? "PASS" : "FAIL"}
 - Hidden products: ${actual.hiddenProducts}
 - Exposed live hard failures: ${actual.liveHardFailures}
 - Exposed seller unavailable signals: ${actual.sellerUnavailableSignals}
+- Fresh manual evidence: ${actual.freshManualEvidence}/${actual.manualEvidenceReviewedItems}
+- Stale manual evidence: ${actual.staleManualEvidence}
+- Missing manual evidence: ${actual.missingManualEvidence}
 
 ## Launch Rule
 
 Only deals with \`availability=active\`, \`validationStatus=passed\`, \`isHidden=false\`, \`publishable=true\`, non-search \`linkType\`, and a valid HTTP(S) \`finalUrl\` can be exposed.
+
+Protected 403/429/robots links must also have manual review, official API, or partner feed evidence fresher than ${criteria.manualEvidenceMaxAgeDays} days.
 
 ## Issues
 

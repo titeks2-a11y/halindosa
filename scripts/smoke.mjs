@@ -646,6 +646,11 @@ await check("admin link launch gate api", async () => {
   assert(data.report?.actual?.failedExposureItems === 0, "Link launch gate should have zero failed exposure items");
   assert(data.report?.actual?.liveHardFailures === 0, "Link launch gate should have zero customer-visible hard live probe failures");
   assert(data.report?.actual?.sellerUnavailableSignals === 0, "Link launch gate should have zero seller unavailable signals");
+  assert(data.report?.actual?.manualEvidenceMaxAgeDays === 7, "Link launch gate should enforce 7-day manual evidence freshness");
+  assert(data.report?.actual?.manualEvidenceReviewedItems === data.report?.actual?.freshManualEvidence, "Link launch gate should have fresh evidence for every live review queue item");
+  assert(data.report?.actual?.staleManualEvidence === 0, "Link launch gate should have zero stale manual evidence items");
+  assert(data.report?.actual?.missingManualEvidence === 0, "Link launch gate should have zero missing manual evidence items");
+  assert(data.report?.manualEvidenceSummary?.freshManualEvidenceCount === data.report?.actual?.freshManualEvidence, "Link launch gate should include the live probe manual evidence summary");
   assert(Array.isArray(data.report?.issues) && data.report.issues.length === 0, "Link launch gate should have no blocking issues");
 });
 
@@ -658,6 +663,7 @@ await check("admin link launch gate csv", async () => {
   assert(text.startsWith("section,key,label"), "Link launch gate CSV header missing");
   assert(text.includes("summary,exposed_search_links") && text.includes("summary,exposed_sold_out_links"), "Link launch gate CSV missing zero-exposure summary rows");
   assert(text.includes("summary,exposed_invalid_urls") && text.includes("summary,failed_exposure_items"), "Link launch gate CSV missing invalid URL or failed exposure rows");
+  assert(text.includes("summary,fresh_manual_evidence") && text.includes("summary,stale_manual_evidence") && text.includes("summary,missing_manual_evidence"), "Link launch gate CSV missing manual evidence freshness rows");
   assert(text.includes("policy,exposure_policy") && text.includes("failed_exposure_item,none"), "Link launch gate CSV missing policy or clean failed item evidence");
 });
 

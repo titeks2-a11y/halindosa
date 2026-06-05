@@ -27,6 +27,11 @@ export interface LinkLaunchGateReport {
     refreshFailedCount: number;
     liveHardFailures: number;
     sellerUnavailableSignals: number;
+    manualEvidenceReviewedItems: number;
+    freshManualEvidence: number;
+    staleManualEvidence: number;
+    missingManualEvidence: number;
+    manualEvidenceMaxAgeDays: number;
     releaseDoctorFailures: number;
   };
   policy: {
@@ -53,6 +58,15 @@ export interface LinkLaunchGateReport {
     accessProtectedCount?: number;
     sellerUnavailableSignals?: number;
     interpretation?: string;
+  };
+  manualEvidenceSummary?: {
+    maxAgeDays?: number;
+    reviewedQueueItems?: number;
+    freshManualEvidenceCount?: number;
+    staleManualEvidenceCount?: number;
+    missingManualEvidenceCount?: number;
+    oldestCheckedAt?: string;
+    newestCheckedAt?: string;
   };
   failedExposureItems: Array<{
     id: string;
@@ -89,6 +103,11 @@ const fallbackReport: LinkLaunchGateReport = {
     hiddenProductsAllowed: true,
     liveHardFailures: 0,
     sellerUnavailableSignals: 0,
+    manualEvidenceReviewedItems: 0,
+    freshManualEvidence: 0,
+    staleManualEvidence: 0,
+    missingManualEvidence: 0,
+    manualEvidenceMaxAgeDays: 7,
     releaseDoctorFailures: 0
   },
   actual: {
@@ -112,6 +131,11 @@ const fallbackReport: LinkLaunchGateReport = {
     refreshFailedCount: 0,
     liveHardFailures: 0,
     sellerUnavailableSignals: 0,
+    manualEvidenceReviewedItems: 0,
+    freshManualEvidence: 0,
+    staleManualEvidence: 0,
+    missingManualEvidence: 0,
+    manualEvidenceMaxAgeDays: 7,
     releaseDoctorFailures: 0
   },
   policy: {
@@ -130,6 +154,15 @@ const fallbackReport: LinkLaunchGateReport = {
     exposedSellerUnavailableSignals: 0,
     sellerUnavailableSignals: 0,
     interpretation: "Run npm run link:launch:gate to generate the final launch link gate report."
+  },
+  manualEvidenceSummary: {
+    maxAgeDays: 7,
+    reviewedQueueItems: 0,
+    freshManualEvidenceCount: 0,
+    staleManualEvidenceCount: 0,
+    missingManualEvidenceCount: 0,
+    oldestCheckedAt: "",
+    newestCheckedAt: ""
   },
   failedExposureItems: [],
   hiddenItems: [],
@@ -162,7 +195,17 @@ export function buildLinkLaunchGateCsv(report: LinkLaunchGateReport) {
     ["failed_exposure_items", "실패 노출 행", report.actual.failedExposureItems, report.actual.failedExposureItems === 0 ? "pass" : "block", "최종 노출 조건 위반 행", "CSV로 행별 조치"],
     ["hidden_products", "숨김 상품", report.actual.hiddenProducts, report.actual.hiddenProducts === 0 ? "pass" : "review", "숨김 처리된 상품", "복구 전 재검증"],
     ["live_hard_failures", "노출 라이브 강한 실패", report.actual.liveHardFailures, report.actual.liveHardFailures === 0 ? "pass" : "block", "고객 노출 404/410/5xx/품절 본문", "판매처 상세 URL 교체"],
-    ["seller_unavailable_signals", "품절 본문 신호", report.actual.sellerUnavailableSignals, report.actual.sellerUnavailableSignals === 0 ? "pass" : "block", "판매처 품절/종료 문구", "노출 차단"]
+    ["seller_unavailable_signals", "품절 본문 신호", report.actual.sellerUnavailableSignals, report.actual.sellerUnavailableSignals === 0 ? "pass" : "block", "판매처 품절/종료 문구", "노출 차단"],
+    [
+      "fresh_manual_evidence",
+      "신선한 수동 검수 증거",
+      `${report.actual.freshManualEvidence}/${report.actual.manualEvidenceReviewedItems}`,
+      report.actual.staleManualEvidence === 0 && report.actual.missingManualEvidence === 0 ? "pass" : "block",
+      `${report.actual.manualEvidenceMaxAgeDays || 7}일 이내 수동 검수`,
+      "stale/missing 항목 재검수"
+    ],
+    ["stale_manual_evidence", "오래된 수동 검수", report.actual.staleManualEvidence, report.actual.staleManualEvidence === 0 ? "pass" : "block", "수동 검수 만료", "즉시 재검수"],
+    ["missing_manual_evidence", "수동 검수 누락", report.actual.missingManualEvidence, report.actual.missingManualEvidence === 0 ? "pass" : "block", "checkedAt 없음", "즉시 재검수"]
   ].map(([key, label, count, status, reason, action]) => ({
     section: "summary",
     key,
