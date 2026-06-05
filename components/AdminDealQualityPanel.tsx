@@ -2,16 +2,19 @@
 
 import { useState } from "react";
 import { Download, RotateCw, ShieldCheck, ToggleLeft, ToggleRight } from "lucide-react";
+import type { LinkValidationReport } from "@/lib/deals/linkValidationReport";
 import type { RefreshDealsReport } from "@/lib/deals/refreshReport";
 
 interface AdminDealQualityPanelProps {
   token?: string;
   initialReport: RefreshDealsReport;
+  initialLinkValidation: LinkValidationReport;
   initialManualHiddenDealIds?: string[];
 }
 
-export function AdminDealQualityPanel({ token, initialReport, initialManualHiddenDealIds = [] }: AdminDealQualityPanelProps) {
+export function AdminDealQualityPanel({ token, initialReport, initialLinkValidation, initialManualHiddenDealIds = [] }: AdminDealQualityPanelProps) {
   const [report, setReport] = useState(initialReport);
+  const [linkValidation, setLinkValidation] = useState(initialLinkValidation);
   const [dealId, setDealId] = useState("");
   const [manualHiddenDealIds, setManualHiddenDealIds] = useState<string[]>(initialManualHiddenDealIds);
   const [message, setMessage] = useState("최신 refresh 리포트 기준입니다.");
@@ -35,6 +38,7 @@ export function AdminDealQualityPanel({ token, initialReport, initialManualHidde
       }
 
       setReport(payload.report);
+      setLinkValidation(payload.linkValidation);
       setManualHiddenDealIds(payload.manualHiddenDealIds ?? []);
       setMessage(action === "revalidate" ? "링크 검증 리포트를 다시 불러왔습니다." : "수동 운영 상태를 업데이트했고 사용자 노출 정책에 반영했습니다.");
     } catch {
@@ -45,6 +49,8 @@ export function AdminDealQualityPanel({ token, initialReport, initialManualHidde
   }
 
   const failureReasons = Object.entries(report.failureReasons ?? {}).sort((a, b) => b[1] - a[1]);
+  const evidenceRows = Object.entries(linkValidation.verificationEvidenceSummary.counts).sort((a, b) => b[1] - a[1]);
+  const revalidationPreview = linkValidation.revalidationQueue.slice(0, 6);
 
   return (
     <section className="rounded-3xl border border-red-100 bg-white p-5 shadow-sm" aria-label="자동 수집 품질 관리">
@@ -91,6 +97,21 @@ export function AdminDealQualityPanel({ token, initialReport, initialManualHidde
           <div key={label} className="rounded-2xl bg-slate-50 p-4">
             <p className="text-xs font-black text-slate-500">{label}</p>
             <p className="mt-2 text-2xl font-black text-slate-950">{Number(value).toLocaleString("ko-KR")}</p>
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-4 grid gap-3 md:grid-cols-4">
+        {[
+          ["라이브 본문 확인", linkValidation.verificationEvidenceSummary.liveConfirmed, "본문/메타가 상품명과 맞는 항목"],
+          ["판매처 접근 보호", linkValidation.verificationEvidenceSummary.sellerAccessProtected, "자동 검증 차단, 패턴 검증 통과"],
+          ["패턴 기반 검증", linkValidation.verificationEvidenceSummary.manualPatternVerified, "상세/이벤트 URL 규칙 통과"],
+          ["차단 증거", linkValidation.verificationEvidenceSummary.blocked, "출시 전 0건 유지"]
+        ].map(([label, value, helper]) => (
+          <div key={label} className="rounded-2xl border border-slate-100 bg-white p-4">
+            <p className="text-xs font-black text-slate-500">{label}</p>
+            <p className="mt-2 text-2xl font-black text-slate-950">{Number(value).toLocaleString("ko-KR")}</p>
+            <p className="mt-1 text-[11px] font-bold leading-4 text-slate-400">{helper}</p>
           </div>
         ))}
       </div>
@@ -151,21 +172,41 @@ export function AdminDealQualityPanel({ token, initialReport, initialManualHidde
           <p className="mt-1 text-xs font-bold text-slate-400">
             재검증 큐: {report.revalidationQueue.total ? report.revalidationQueue.highPriorityIds.slice(0, 6).join(", ") : "없음"}
           </p>
+          <p className="mt-1 text-xs font-bold text-slate-400">
+            라이브 우선 재검증: {revalidationPreview.length ? revalidationPreview.map((item) => `${item.id}/${item.reason}`).join(", ") : "없음"}
+          </p>
         </div>
       </div>
 
-      <div className="mt-4 rounded-2xl bg-slate-50 p-4">
-        <p className="text-sm font-black text-slate-950">검증 실패 사유</p>
-        <div className="mt-2 flex flex-wrap gap-2">
-          {failureReasons.length ? (
-            failureReasons.map(([reason, count]) => (
-              <span key={reason} className="rounded-full bg-white px-3 py-1.5 text-xs font-black text-slate-600 shadow-sm">
-                {reason} {count}
-              </span>
-            ))
-          ) : (
-            <span className="rounded-full bg-white px-3 py-1.5 text-xs font-black text-emerald-700 shadow-sm">실패 사유 없음</span>
-          )}
+      <div className="mt-4 grid gap-3 lg:grid-cols-2">
+        <div className="rounded-2xl bg-slate-50 p-4">
+          <p className="text-sm font-black text-slate-950">검증 실패 사유</p>
+          <div className="mt-2 flex flex-wrap gap-2">
+            {failureReasons.length ? (
+              failureReasons.map(([reason, count]) => (
+                <span key={reason} className="rounded-full bg-white px-3 py-1.5 text-xs font-black text-slate-600 shadow-sm">
+                  {reason} {count}
+                </span>
+              ))
+            ) : (
+              <span className="rounded-full bg-white px-3 py-1.5 text-xs font-black text-emerald-700 shadow-sm">실패 사유 없음</span>
+            )}
+          </div>
+        </div>
+
+        <div className="rounded-2xl bg-slate-50 p-4">
+          <p className="text-sm font-black text-slate-950">링크 증거 등급</p>
+          <div className="mt-2 flex flex-wrap gap-2">
+            {evidenceRows.length ? (
+              evidenceRows.map(([tier, count]) => (
+                <span key={tier} className="rounded-full bg-white px-3 py-1.5 text-xs font-black text-slate-600 shadow-sm">
+                  {tier} {count}
+                </span>
+              ))
+            ) : (
+              <span className="rounded-full bg-white px-3 py-1.5 text-xs font-black text-slate-500 shadow-sm">리포트 없음</span>
+            )}
+          </div>
         </div>
       </div>
     </section>

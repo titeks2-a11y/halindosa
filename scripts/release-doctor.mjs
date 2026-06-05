@@ -1708,13 +1708,19 @@ function checkRefreshDealPipeline() {
     !adminRoute.includes("manualOverrideStorage") ||
     !adminRoute.includes("manual_override_audit") ||
     !adminRoute.includes("revalidation_queue") ||
+    !adminRoute.includes("getLinkValidationReport") ||
+    !adminRoute.includes("link_validation_evidence") ||
+    !adminRoute.includes("link_validation_revalidation_queue") ||
     !adminRoute.includes("supabase_admin_actions") ||
     !adminPanel.includes("재검증 큐") ||
+    !adminPanel.includes("링크 증거 등급") ||
+    !adminPanel.includes("라이브 우선 재검증") ||
     !refreshScript.includes("revalidationQueue") ||
     !reportsLib.includes("shouldPrioritizeReportForRevalidation") ||
     !reportsRoute.includes("shouldPrioritizeReportForRevalidation") ||
     !reportsRoute.includes("recordDealOperationActionWithPersistence") ||
     !adminPage.includes("readDealOperationOverridesLive") ||
+    !adminPage.includes("getLinkValidationReport") ||
     !gitignore.includes("data/dealOperationOverrides.local.json") ||
     !smoke.includes("admin manual hide affects public exposure") ||
     !smoke.includes("Manually hidden deal should not be exposed in public deal API") ||

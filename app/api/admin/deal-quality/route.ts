@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { canAccessAdminRequest } from "@/lib/adminAuth";
 import { createRequestId, getClientKey, rateLimit, rateLimitHeaders } from "@/lib/apiGuards";
+import { getLinkValidationReport } from "@/lib/deals/linkValidationReport";
 import { getRefreshDealsReport } from "@/lib/deals/refreshReport";
 import { toCsv } from "@/lib/csv";
 import {
@@ -11,10 +12,12 @@ import {
 
 async function getPayload() {
   const report = getRefreshDealsReport();
+  const linkValidation = getLinkValidationReport();
   const overrides = await readDealOperationOverridesLive();
 
   return {
     report,
+    linkValidation,
     manualHiddenDealIds: Object.keys(overrides.hidden).sort(),
     manualOverrideAudit: overrides.auditLog.slice(0, 20),
     manualOverrideStorage: getDealOperationOverrideStorageStatus(),
@@ -74,6 +77,56 @@ function buildDealQualityCsv(payload: DealQualityPayload) {
       action: "link_error/sold_out/expired 신고 항목을 다음 refresh에서 우선 확인",
       generatedAt: payload.report.generatedAt
     },
+    {
+      section: "link_validation_evidence",
+      key: "live_confirmed",
+      label: "라이브 본문 확인",
+      status: payload.linkValidation.verificationEvidenceSummary.liveConfirmed > 0 ? "pass" : "review",
+      count: payload.linkValidation.verificationEvidenceSummary.liveConfirmed,
+      reason: "title/meta/body content matched the deal enough to trust the final URL",
+      action: "라이브 본문 확인 상품은 현 노출 유지",
+      generatedAt: payload.linkValidation.generatedAt
+    },
+    {
+      section: "link_validation_evidence",
+      key: "seller_access_protected",
+      label: "판매처 접근 보호",
+      status: "watch",
+      count: payload.linkValidation.verificationEvidenceSummary.sellerAccessProtected,
+      reason: "seller blocks automated body probe, but URL pattern and manual/product signals are valid",
+      action: "공식 feed/API 또는 실기기 검수로 우선 재확인",
+      generatedAt: payload.linkValidation.generatedAt
+    },
+    {
+      section: "link_validation_evidence",
+      key: "manual_pattern_verified",
+      label: "패턴 기반 검증",
+      status: payload.linkValidation.verificationEvidenceSummary.manualPatternVerified > 0 ? "pass" : "review",
+      count: payload.linkValidation.verificationEvidenceSummary.manualPatternVerified,
+      reason: "known product/event URL pattern passed policy without live hard failure",
+      action: "상품명/가격 변경 가능성이 큰 항목부터 주기 재검증",
+      generatedAt: payload.linkValidation.generatedAt
+    },
+    {
+      section: "link_validation_evidence",
+      key: "blocked",
+      label: "차단 증거",
+      status: payload.linkValidation.verificationEvidenceSummary.blocked === 0 ? "pass" : "block",
+      count: payload.linkValidation.verificationEvidenceSummary.blocked,
+      reason: "blocked evidence tier must stay zero before release",
+      action: "차단 항목은 즉시 숨김 처리",
+      generatedAt: payload.linkValidation.generatedAt
+    },
+    ...payload.linkValidation.revalidationQueue.slice(0, 50).map((item) => ({
+      section: "link_validation_revalidation_queue",
+      key: item.id,
+      label: item.title,
+      status: item.priority >= 75 ? "review" : "watch",
+      count: item.priority,
+      reason: `${item.reason}; evidence=${item.evidenceTier}; host=${item.host}`,
+      action: "접근 가능 본문 불일치/429/요청 실패 항목부터 실제 판매처 상세 URL 재확인",
+      generatedAt: payload.linkValidation.generatedAt
+    })),
     ...payload.report.providerStats.map((stat) => ({
       section: "provider",
       key: stat.provider,

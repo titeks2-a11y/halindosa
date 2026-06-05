@@ -36,6 +36,7 @@ import { getVisibleNewsDeals } from "@/lib/deals/newsDeals";
 import { getNewsOperationsReport } from "@/lib/deals/newsOperations";
 import { readDealOperationOverridesLive } from "@/lib/deals/operationOverrides";
 import { getLinkReviewActionLabel, getLinkReviewQueue, getLinkStatusLabel, getLinkTypeLabel } from "@/lib/deals/quality";
+import { getLinkValidationReport } from "@/lib/deals/linkValidationReport";
 import { getRefreshDealsReport } from "@/lib/deals/refreshReport";
 import { getDealSourceReadiness, listDealSourceProfiles } from "@/lib/deals/trust";
 import { buildTodayBenefitQueue } from "@/lib/deals/todayBenefitQueue";
@@ -104,6 +105,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const { deals } = await getDeals();
   const [reportSummary, recentReportsLive] = await Promise.all([getReportSummaryLive(), listDealReportsLive()]);
   const refreshReport = getRefreshDealsReport();
+  const linkValidationReport = getLinkValidationReport();
   const dealOperationOverrides = await readDealOperationOverridesLive();
   const newsOperations = getNewsOperationsReport();
   const newsFeedPreview = getNewsFeedPreviewReport();
@@ -271,7 +273,12 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
           </a>
         </div>
 
-        <AdminDealQualityPanel token={token} initialReport={refreshReport} initialManualHiddenDealIds={Object.keys(dealOperationOverrides.hidden).sort()} />
+        <AdminDealQualityPanel
+          token={token}
+          initialReport={refreshReport}
+          initialLinkValidation={linkValidationReport}
+          initialManualHiddenDealIds={Object.keys(dealOperationOverrides.hidden).sort()}
+        />
 
         <AdminExposurePolicyPanel report={exposurePolicy} apiHref={exposurePolicyApiHref} csvHref={exposurePolicyCsvHref} />
 
