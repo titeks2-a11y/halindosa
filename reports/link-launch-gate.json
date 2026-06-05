@@ -1,0 +1,121 @@
+{
+  "ok": true,
+  "generatedAt": "2026-06-05T19:23:40.472Z",
+  "criteria": {
+    "reportsPresent": true,
+    "minimumAuditedItems": 140,
+    "exposedSearchLinks": 0,
+    "exposedSoldOutLinks": 0,
+    "exposedBrokenLinks": 0,
+    "exposedInvalidUrls": 0,
+    "exposedNonPublishableItems": 0,
+    "failedProductsAllowedWhenHidden": true,
+    "hiddenProductsAllowed": true,
+    "liveHardFailures": 0,
+    "sellerUnavailableSignals": 0,
+    "manualEvidenceMaxAgeDays": 7,
+    "staleManualEvidence": 0,
+    "missingManualEvidence": 0
+  },
+  "actual": {
+    "reportsPresent": true,
+    "auditedItems": 140,
+    "exposedItems": 140,
+    "hiddenItems": 0,
+    "failedExposureItems": 0,
+    "exposedSearchLinks": 0,
+    "exposedSoldOutLinks": 0,
+    "exposedBrokenLinks": 0,
+    "exposedInvalidUrls": 0,
+    "exposedNonPublishableItems": 0,
+    "failedProducts": 0,
+    "searchLinks": 0,
+    "soldOutProducts": 0,
+    "hiddenProducts": 0,
+    "visibleProducts": 140,
+    "verifiedPurchaseLinks": 140,
+    "refreshOk": true,
+    "refreshVisibleCount": 140,
+    "refreshFailedCount": 0,
+    "liveHardFailures": 0,
+    "sellerUnavailableSignals": 0,
+    "manualEvidenceReviewedItems": 80,
+    "freshManualEvidence": 80,
+    "staleManualEvidence": 0,
+    "missingManualEvidence": 0,
+    "manualEvidenceMaxAgeDays": 7
+  },
+  "policy": {
+    "version": 2,
+    "exposurePolicy": {
+      "availability": "active",
+      "validationStatus": "passed",
+      "isHidden": false,
+      "publishable": true,
+      "blockedLinkTypes": [
+        "search",
+        "seller_search",
+        "unavailable"
+      ],
+      "finalUrlRequired": true
+    },
+    "launchGate": {
+      "exposedSearchLinks": 0,
+      "exposedSoldOutLinks": 0,
+      "exposedBrokenLinks": 0,
+      "exposedInvalidUrls": 0,
+      "liveHardFailures": 0,
+      "sellerUnavailableSignals": 0
+    }
+  },
+  "sourceReports": {
+    "linkValidation": "2026-06-05T19:14:27.535Z",
+    "productQuality": "2026-06-05T19:13:59.958Z",
+    "exposurePolicy": "2026-06-05T18:56:07.593Z",
+    "refreshDeals": "2026-06-05T19:13:29.245Z",
+    "liveProbeReview": "2026-06-05T19:14:28.054Z"
+  },
+  "linkTypeCounts": {
+    "direct_purchase": 110,
+    "affiliate": 30
+  },
+  "availabilityCounts": {
+    "active": 140
+  },
+  "validationStatusCounts": {
+    "passed": 140
+  },
+  "liveProbeReviewSummary": {
+    "status": "transient_network_review",
+    "hardFailureCount": 0,
+    "exposedHardFailureCount": 0,
+    "exposedSellerUnavailableSignals": 0,
+    "transientNetworkCount": 3,
+    "accessProtectedCount": 64,
+    "sellerUnavailableSignals": 0,
+    "contentProbe": {
+      "bodyChecked": 137,
+      "titleMetaChecked": 133,
+      "contentMatched": 55,
+      "contentMismatch": 82,
+      "accessibleContentMismatch": 5,
+      "accessGuardBody": 32,
+      "priceSignal": 26,
+      "purchaseActionSignal": 14,
+      "strict": false
+    },
+    "interpretation": "Some URLs returned transient network signals; no exposed search, sold-out, 404, 410, or 5xx links were found."
+  },
+  "manualEvidenceSummary": {
+    "maxAgeDays": 7,
+    "reviewedQueueItems": 80,
+    "freshManualEvidenceCount": 80,
+    "staleManualEvidenceCount": 0,
+    "missingManualEvidenceCount": 0,
+    "oldestCheckedAt": "2026-05-31T10:00:00.000Z",
+    "newestCheckedAt": "2026-06-06T10:58:00.000+09:00"
+  },
+  "failedExposureItems": [],
+  "hiddenItems": [],
+  "issues": []
+}
