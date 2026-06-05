@@ -846,6 +846,7 @@ export async function checkOperationalDataSurfaces() {
   const verifyProductsScript = await text("scripts/verify-products.mjs");
   const linkQualityRegressionScript = await text("scripts/link-quality-regression.mjs");
   const exposureDoctorScript = await text("scripts/exposure-policy-doctor.mjs");
+  const publishableSurfaceDoctorScript = await text("scripts/publishable-surface-doctor.mjs");
   const refreshDealsScript = await text("scripts/refresh-deals.mjs");
   const linkRevalidationPriorityScript = await text("scripts/link-revalidation-priority-report.mjs");
   const linkRevalidationPriorityOperation = await text("lib/operations/linkRevalidationPriority.ts");
@@ -858,6 +859,7 @@ export async function checkOperationalDataSurfaces() {
     ? JSON.parse(await text("reports/link-quality-regression.json"))
     : { ok: false, summary: {}, cases: [] };
   const exposureReport = JSON.parse(await text("reports/exposure-policy.json"));
+  const publishableSurfaceReport = JSON.parse(await text("reports/publishable-surface.json"));
   const linkRevalidationPriorityReport = JSON.parse(await text("reports/link-revalidation-priority.json"));
   const linkPolicyIssues = [];
 
@@ -872,7 +874,8 @@ export async function checkOperationalDataSurfaces() {
     ["verify products", verifyProductsScript],
     ["link quality regression", linkQualityRegressionScript],
     ["refresh deals", refreshDealsScript],
-    ["exposure doctor", exposureDoctorScript]
+    ["exposure doctor", exposureDoctorScript],
+    ["publishable surface doctor", publishableSurfaceDoctorScript]
   ]) {
     if (!source.includes("linkQualityPolicy")) linkPolicyIssues.push(`${label} should read linkQualityPolicy`);
   }
@@ -1039,6 +1042,29 @@ export async function checkOperationalDataSurfaces() {
     !exposureReport.syntheticExposureScenarios.results.some((item) => item.id === "synthetic-unsafe-url" && item.issues?.includes("unsafe_protocol_or_invalid_url"))
   ) {
     linkPolicyIssues.push("exposure-policy report should prove synthetic search, unsafe, sold-out, hidden, community, and missing-final-url samples are blocked");
+  }
+  if (
+    !publishableSurfaceDoctorScript.includes("reports/publishable-surface.json") ||
+    !publishableSurfaceDoctorScript.includes("getProductExposureIssues") ||
+    !publishableSurfaceDoctorScript.includes("getNewsExposureIssues") ||
+    !publishableSurfaceDoctorScript.includes("homepage_link") ||
+    !publishableSurfaceDoctorScript.includes("app/go/news/[id]/route.ts")
+  ) {
+    linkPolicyIssues.push("publishable surface doctor should audit product, official benefit, homepage/search, and redirect route exposure before release");
+  }
+  if (
+    publishableSurfaceReport.ok !== true ||
+    (publishableSurfaceReport.summary?.productCandidates ?? 0) < 140 ||
+    (publishableSurfaceReport.summary?.productViolations ?? 1) !== 0 ||
+    (publishableSurfaceReport.summary?.newsCandidates ?? 0) < 40 ||
+    (publishableSurfaceReport.summary?.newsViolations ?? 1) !== 0 ||
+    (publishableSurfaceReport.summary?.freebiesVisible ?? 0) < 5 ||
+    (publishableSurfaceReport.summary?.eventsVisible ?? 0) < 30 ||
+    (publishableSurfaceReport.summary?.exposedSearchLinks ?? 1) !== 0 ||
+    (publishableSurfaceReport.summary?.exposedSoldOutLinks ?? 1) !== 0 ||
+    (publishableSurfaceReport.summary?.exposedNonOfficialLinks ?? 1) !== 0
+  ) {
+    linkPolicyIssues.push("publishable-surface report should prove products, official benefits, free benefits, and events expose only publishable direct links");
   }
   if (
     !linkRevalidationPriorityScript.includes("link-revalidation-priority.json") ||
