@@ -27,6 +27,13 @@ export interface RefreshDealsReport {
   visibleCount: number;
   providerStats: RefreshProviderStat[];
   failureReasons: Record<string, number>;
+  revalidationQueue: {
+    total: number;
+    matchedCount: number;
+    missingCount: number;
+    highPriorityIds: string[];
+    reasons: Record<string, number>;
+  };
 }
 
 const fallbackReport: RefreshDealsReport = {
@@ -40,7 +47,14 @@ const fallbackReport: RefreshDealsReport = {
   failedCount: 0,
   visibleCount: 0,
   providerStats: [],
-  failureReasons: {}
+  failureReasons: {},
+  revalidationQueue: {
+    total: 0,
+    matchedCount: 0,
+    missingCount: 0,
+    highPriorityIds: [],
+    reasons: {}
+  }
 };
 
 export function getRefreshDealsReport(): RefreshDealsReport {
@@ -54,7 +68,12 @@ export function getRefreshDealsReport(): RefreshDealsReport {
       ...fallbackReport,
       ...report,
       providerStats: Array.isArray(report.providerStats) ? report.providerStats : [],
-      failureReasons: report.failureReasons && typeof report.failureReasons === "object" ? report.failureReasons : {}
+      failureReasons: report.failureReasons && typeof report.failureReasons === "object" ? report.failureReasons : {},
+      revalidationQueue: {
+        ...fallbackReport.revalidationQueue,
+        ...(report.revalidationQueue && typeof report.revalidationQueue === "object" ? report.revalidationQueue : {}),
+        highPriorityIds: Array.isArray(report.revalidationQueue?.highPriorityIds) ? report.revalidationQueue.highPriorityIds : []
+      }
     };
   } catch {
     return fallbackReport;

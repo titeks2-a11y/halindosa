@@ -141,6 +141,11 @@
     "d139",
     "d140"
   ],
+  "revalidationQueue": {
+    "total": 0,
+    "matchedCount": 0,
+    "ids": []
+  },
   "hiddenDeals": [],
   "providerStats": [
     {

@@ -24,6 +24,7 @@ export interface DealOperationOverrideLog {
 
 export interface DealOperationOverrides {
   hidden: Record<string, DealOperationOverrideEntry>;
+  revalidate: Record<string, DealOperationOverrideEntry>;
   auditLog: DealOperationOverrideLog[];
 }
 
@@ -89,6 +90,7 @@ function getServerEnv() {
 function createEmptyOverrides(): DealOperationOverrides {
   return {
     hidden: {},
+    revalidate: {},
     auditLog: []
   };
 }
@@ -100,6 +102,7 @@ function normalizeDealId(dealId: string) {
 function normalizeOverrides(payload: Partial<DealOperationOverrides> = {}): DealOperationOverrides {
   return {
     hidden: payload.hidden ?? {},
+    revalidate: payload.revalidate ?? {},
     auditLog: Array.isArray(payload.auditLog) ? payload.auditLog.slice(0, 200) : []
   };
 }
@@ -118,6 +121,7 @@ function mergeDealOperationOverrides(...overrideGroups: DealOperationOverrides[]
     .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
     .slice(0, 200);
   const hidden: DealOperationOverrides["hidden"] = {};
+  const revalidate: DealOperationOverrides["revalidate"] = {};
   const resolved = new Set<string>();
 
   for (const item of auditLog) {
@@ -130,6 +134,13 @@ function mergeDealOperationOverrides(...overrideGroups: DealOperationOverrides[]
         updatedAt: item.createdAt
       };
     }
+
+    if (item.action === "revalidate") {
+      revalidate[item.id] = {
+        reason: item.reason || "report_revalidate",
+        updatedAt: item.createdAt
+      };
+    }
   }
 
   for (const overrides of overrideGroups) {
@@ -138,9 +149,15 @@ function mergeDealOperationOverrides(...overrideGroups: DealOperationOverrides[]
         hidden[id] = entry;
       }
     }
+
+    for (const [id, entry] of Object.entries(overrides.revalidate)) {
+      if (!resolved.has(id) && !hidden[id]) {
+        revalidate[id] = entry;
+      }
+    }
   }
 
-  return { hidden, auditLog };
+  return { hidden, revalidate, auditLog };
 }
 
 export function readDealOperationOverrides(): DealOperationOverrides {
@@ -238,7 +255,7 @@ async function fetchSupabaseDealOperationOverrides(): Promise<DealOperationOverr
       })
       .filter((item): item is DealOperationOverrideLog => Boolean(item));
 
-    return mergeDealOperationOverrides({ hidden: {}, auditLog });
+    return mergeDealOperationOverrides({ hidden: {}, revalidate: {}, auditLog });
   } catch {
     return createEmptyOverrides();
   }
@@ -320,10 +337,16 @@ export function recordDealOperationAction(action: DealOperationAction, dealId: s
 
   if (action === "hide") {
     overrides.hidden[id] = { reason, updatedAt: createdAt };
+    delete overrides.revalidate[id];
   }
 
   if (action === "restore") {
     delete overrides.hidden[id];
+    delete overrides.revalidate[id];
+  }
+
+  if (action === "revalidate" && !overrides.hidden[id]) {
+    overrides.revalidate[id] = { reason, updatedAt: createdAt };
   }
 
   overrides.auditLog = [{ action, id, reason, createdAt }, ...overrides.auditLog].slice(0, 200);
@@ -366,13 +389,36 @@ export function listManualHiddenDealIds() {
   return Object.keys(readDealOperationOverrides().hidden).sort();
 }
 
+export function listRevalidationDealIds() {
+  return Object.entries(readDealOperationOverrides().revalidate)
+    .sort((a, b) => new Date(b[1].updatedAt).getTime() - new Date(a[1].updatedAt).getTime())
+    .map(([id]) => id);
+}
+
 export function getManualHiddenReason(dealId: string) {
   return readDealOperationOverrides().hidden[normalizeDealId(dealId)]?.reason ?? "admin_manual_hidden";
 }
 
+export function getRevalidationReason(dealId: string) {
+  return readDealOperationOverrides().revalidate[normalizeDealId(dealId)]?.reason ?? "report_revalidate";
+}
+
 export function applyDealOperationOverrides<T extends Deal>(deal: T, overrides = readDealOperationOverrides()): T {
-  const hiddenEntry = overrides.hidden[normalizeDealId(deal.id)];
-  if (!hiddenEntry) return deal;
+  const id = normalizeDealId(deal.id);
+  const hiddenEntry = overrides.hidden[id];
+  const revalidationEntry = overrides.revalidate[id];
+  if (!hiddenEntry && !revalidationEntry) return deal;
+
+  if (!hiddenEntry && revalidationEntry) {
+    const reason = revalidationEntry.reason || getRevalidationReason(deal.id);
+    return {
+      ...deal,
+      validationReason: deal.validationReason ? `${deal.validationReason}; ${reason}` : reason,
+      priorityScore: Math.max(deal.priorityScore ?? 0, 92),
+      reportCount: Math.max(deal.reportCount ?? 0, 1),
+      notice: "사용자 신고가 접수되어 운영자가 링크, 재고, 가격 조건을 우선 재검증 중입니다."
+    };
+  }
 
   const reason = hiddenEntry.reason || getManualHiddenReason(deal.id);
   const updatedAt = hiddenEntry.updatedAt ?? new Date().toISOString();
@@ -380,6 +426,8 @@ export function applyDealOperationOverrides<T extends Deal>(deal: T, overrides =
   return {
     ...deal,
     isHidden: true,
+    validationCode: "hidden",
+    publishable: false,
     validationReason: deal.validationReason ? `${deal.validationReason}; ${reason}` : reason,
     validationStatus: "failed",
     lastCheckedAt: updatedAt,

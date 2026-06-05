@@ -570,3 +570,7 @@ export function getReportRecommendedAction(reason: ReportReason) {
 export function getReportResolutionPlan(reason: ReportReason) {
   return reportResolutionPlans[reason] ?? reportResolutionPlans.other;
 }
+
+export function shouldPrioritizeReportForRevalidation(reason: ReportReason) {
+  return reason === "link_error" || reason === "sold_out" || reason === "expired";
+}

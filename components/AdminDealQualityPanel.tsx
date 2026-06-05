@@ -78,14 +78,15 @@ export function AdminDealQualityPanel({ token, initialReport, initialManualHidde
         </div>
       </div>
 
-      <div className="mt-4 grid gap-3 md:grid-cols-6">
+      <div className="mt-4 grid gap-3 md:grid-cols-7">
         {[
           ["전체 수집", report.fetchedCount],
           ["정규화", report.normalizedCount],
           ["신규 수집", report.insertedCount],
           ["기존 유지", report.updatedCount],
           ["숨김", report.hiddenCount],
-          ["실패", report.failedCount]
+          ["실패", report.failedCount],
+          ["재검증 큐", report.revalidationQueue.total]
         ].map(([label, value]) => (
           <div key={label} className="rounded-2xl bg-slate-50 p-4">
             <p className="text-xs font-black text-slate-500">{label}</p>
@@ -117,7 +118,7 @@ export function AdminDealQualityPanel({ token, initialReport, initialManualHidde
         <div className="rounded-2xl border border-slate-100 p-4">
           <p className="text-sm font-black text-slate-950">수동 숨김/복구</p>
           <p className="mt-1 text-xs font-bold leading-5 text-slate-500">
-            품절, 종료, 링크 오류 신고가 들어오면 로컬 운영 파일과 Supabase 운영 액션 구조에 기록하고 목록·상세·구매 이동에서 즉시 제외합니다.
+            품절, 종료, 링크 오류 신고가 들어오면 로컬 운영 파일과 Supabase 운영 액션 구조에 기록하고 다음 refresh에서 우선 재검증합니다.
           </p>
           <input
             value={dealId}
@@ -147,6 +148,9 @@ export function AdminDealQualityPanel({ token, initialReport, initialManualHidde
           </div>
           <p className="mt-3 text-xs font-bold text-slate-500">{message}</p>
           <p className="mt-2 text-xs font-bold text-slate-400">수동 숨김: {manualHiddenDealIds.length ? manualHiddenDealIds.join(", ") : "없음"}</p>
+          <p className="mt-1 text-xs font-bold text-slate-400">
+            재검증 큐: {report.revalidationQueue.total ? report.revalidationQueue.highPriorityIds.slice(0, 6).join(", ") : "없음"}
+          </p>
         </div>
       </div>
 

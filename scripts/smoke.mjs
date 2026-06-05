@@ -1432,6 +1432,7 @@ await check("report api", async () => {
   });
   assert(response.status === 200, `Expected 200, got ${response.status}`);
   assert(data.ok === true, "Report API ok should be true");
+  assert(data.revalidationQueued === false, "Price-only report should not enter urgent link revalidation queue");
   assert(response.headers.get("x-request-id"), "Report API missing request id");
   assert(response.headers.get("x-ratelimit-remaining"), "Report API missing rate limit header");
 });
@@ -1493,6 +1494,7 @@ await check("admin report status update", async () => {
   });
   const reportId = created.data.report?.id;
   assert(reportId, "Created report missing id");
+  assert(created.data.revalidationQueued === true, "Link error report should enter the urgent revalidation queue");
 
   const { response, data } = await fetchJson("/api/admin/reports", {
     method: "PATCH",

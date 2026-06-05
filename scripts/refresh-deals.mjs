@@ -30,6 +30,49 @@ function readJson(path, fallback = null) {
   return JSON.parse(readFileSync(fullPath, "utf8"));
 }
 
+function readOperationOverrides() {
+  const payload = readJson("data/dealOperationOverrides.local.json", { hidden: {}, revalidate: {}, auditLog: [] });
+  const hidden = {};
+  const revalidate = {};
+  const resolved = new Set();
+  const auditLog = Array.isArray(payload?.auditLog)
+    ? [...payload.auditLog].sort((a, b) => new Date(b?.createdAt ?? 0).getTime() - new Date(a?.createdAt ?? 0).getTime())
+    : [];
+
+  for (const item of auditLog) {
+    if (!item?.id || !item?.action) continue;
+    if (resolved.has(item.id)) continue;
+    resolved.add(item.id);
+    const createdAt = item.createdAt || now;
+    if (item.action === "hide") {
+      hidden[item.id] = { reason: item.reason || "admin_manual_hidden", updatedAt: createdAt };
+    }
+    if (item.action === "revalidate" && !hidden[item.id]) {
+      revalidate[item.id] = { reason: item.reason || "report_revalidate", updatedAt: createdAt };
+    }
+  }
+
+  for (const [id, entry] of Object.entries(payload?.hidden ?? {})) {
+    if (!resolved.has(id)) hidden[id] = entry;
+  }
+
+  for (const [id, entry] of Object.entries(payload?.revalidate ?? {})) {
+    if (!resolved.has(id) && !hidden[id]) revalidate[id] = entry;
+  }
+
+  return { hidden, revalidate, auditLog };
+}
+
+function buildRevalidationQueue(overrides) {
+  return Object.entries(overrides.revalidate)
+    .sort((a, b) => new Date(b[1].updatedAt ?? 0).getTime() - new Date(a[1].updatedAt ?? 0).getTime())
+    .map(([id, entry]) => ({
+      id,
+      reason: entry.reason || "report_revalidate",
+      updatedAt: entry.updatedAt || now
+    }));
+}
+
 function runStep(name, args) {
   const startedAt = new Date().toISOString();
   const result = spawnSync(process.execPath, args, {
@@ -519,6 +562,35 @@ async function validateCollectedDeal(deal) {
   };
 }
 
+function applyOperationOverrideToValidatedDeal(deal, overrides) {
+  const hiddenEntry = overrides.hidden[deal.id];
+  if (hiddenEntry) {
+    return {
+      ...deal,
+      validationStatus: "failed",
+      validationCode: "hidden",
+      validationReason: `manual_hidden:${hiddenEntry.reason || "admin_manual_hidden"}`,
+      availability: "unknown",
+      isHidden: true,
+      publishable: false,
+      priorityScore: Math.min(deal.priorityScore ?? 0, 10),
+      lastCheckedAt: hiddenEntry.updatedAt || deal.lastCheckedAt || now
+    };
+  }
+
+  const revalidationEntry = overrides.revalidate[deal.id];
+  if (!revalidationEntry) return deal;
+
+  return {
+    ...deal,
+    validationReason: `${deal.validationReason}; revalidation_queue:${revalidationEntry.reason || "report_revalidate"}`,
+    priorityScore: Math.max(deal.priorityScore ?? 0, 92),
+    revalidationQueued: true,
+    revalidationReason: revalidationEntry.reason || "report_revalidate",
+    revalidationQueuedAt: revalidationEntry.updatedAt || now
+  };
+}
+
 function dedupeDeals(deals) {
   const unique = new Map();
 
@@ -536,14 +608,20 @@ function dedupeDeals(deals) {
   return [...unique.values()];
 }
 
+const operationOverrides = readOperationOverrides();
+const revalidationQueue = buildRevalidationQueue(operationOverrides);
+const revalidationIndex = new Map(revalidationQueue.map((item, index) => [item.id, index]));
 const { items: fetchedItems, providerStats } = await collectProviderItems();
 const normalizedResults = fetchedItems.map(normalizeCollectedItem);
-const normalizedDeals = normalizedResults.filter((result) => result.ok).map((result) => result.deal);
+const normalizedDeals = normalizedResults
+  .filter((result) => result.ok)
+  .map((result) => result.deal)
+  .sort((a, b) => (revalidationIndex.get(a.id) ?? Number.MAX_SAFE_INTEGER) - (revalidationIndex.get(b.id) ?? Number.MAX_SAFE_INTEGER));
 const normalizationFailures = normalizedResults.filter((result) => !result.ok);
 const validatedDeals = [];
 
 for (const deal of normalizedDeals) {
-  validatedDeals.push(await validateCollectedDeal(deal));
+  validatedDeals.push(applyOperationOverrideToValidatedDeal(await validateCollectedDeal(deal), operationOverrides));
 }
 
 const dedupedDeals = dedupeDeals(validatedDeals);
@@ -593,6 +671,11 @@ const snapshot = {
   liveProbe: shouldLiveProbe,
   deals: insertedDeals,
   visibleDealIds: visibleDeals.map((deal) => deal.id),
+  revalidationQueue: {
+    total: revalidationQueue.length,
+    matchedCount: revalidationQueue.filter((item) => dedupedDeals.some((deal) => deal.id === item.id)).length,
+    ids: revalidationQueue.map((item) => item.id).slice(0, 50)
+  },
   hiddenDeals: hiddenDeals.map((deal) => ({
     id: deal.id,
     title: deal.title,
@@ -615,6 +698,16 @@ const baseSummary = {
   hiddenCount: hiddenDeals.length,
   failedCount: hiddenDeals.length + normalizationFailures.length,
   visibleCount: visibleDeals.length,
+  revalidationQueue: {
+    total: revalidationQueue.length,
+    matchedCount: revalidationQueue.filter((item) => dedupedDeals.some((deal) => deal.id === item.id)).length,
+    missingCount: revalidationQueue.filter((item) => !dedupedDeals.some((deal) => deal.id === item.id)).length,
+    highPriorityIds: revalidationQueue.map((item) => item.id).slice(0, 20),
+    reasons: revalidationQueue.reduce((acc, item) => {
+      acc[item.reason] = (acc[item.reason] ?? 0) + 1;
+      return acc;
+    }, {})
+  },
   providerStats,
   liveProbe: liveProbeSummary,
   policy: {

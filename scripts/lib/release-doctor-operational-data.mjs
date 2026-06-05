@@ -846,7 +846,10 @@ export async function checkOperationalDataSurfaces() {
   const refreshDealsScript = await text("scripts/refresh-deals.mjs");
   const linkReport = JSON.parse(await text("reports/link-validation.json"));
   const productReport = JSON.parse(await text("reports/product-quality.json"));
-  const linkRegressionReport = JSON.parse(await text("reports/link-quality-regression.json"));
+  const linkRegressionReportPath = join(root, "reports/link-quality-regression.json");
+  const linkRegressionReport = existsSync(linkRegressionReportPath)
+    ? JSON.parse(await text("reports/link-quality-regression.json"))
+    : { ok: false, summary: {}, cases: [] };
   const exposureReport = JSON.parse(await text("reports/exposure-policy.json"));
   const linkPolicyIssues = [];
 

@@ -62,6 +62,18 @@ function buildDealQualityCsv(payload: DealQualityPayload) {
       action: "숨김 사유와 대체 상품 확인",
       generatedAt: payload.report.generatedAt
     },
+    {
+      section: "summary",
+      key: "revalidation_queue",
+      label: "신고 기반 재검증 큐",
+      status: payload.report.revalidationQueue.total > 0 ? "review" : "pass",
+      count: payload.report.revalidationQueue.total,
+      reason: Object.entries(payload.report.revalidationQueue.reasons)
+        .map(([reason, count]) => `${reason}:${count}`)
+        .join(" | "),
+      action: "link_error/sold_out/expired 신고 항목을 다음 refresh에서 우선 확인",
+      generatedAt: payload.report.generatedAt
+    },
     ...payload.report.providerStats.map((stat) => ({
       section: "provider",
       key: stat.provider,
@@ -103,6 +115,16 @@ function buildDealQualityCsv(payload: DealQualityPayload) {
       count: 1,
       reason: "admin_manual_hidden",
       action: "복구 전 판매처/품절/종료 여부 재검증",
+      generatedAt: payload.report.generatedAt
+    })),
+    ...payload.report.revalidationQueue.highPriorityIds.map((id) => ({
+      section: "manual_revalidation_queue",
+      key: id,
+      label: "우선 재검증",
+      status: "review",
+      count: 1,
+      reason: "user_report_or_admin_revalidate",
+      action: "판매처 URL, 품절/종료 문구, 상품명 일치 여부를 우선 재검증",
       generatedAt: payload.report.generatedAt
     })),
     ...payload.manualOverrideAudit.map((item) => ({

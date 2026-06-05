@@ -1592,6 +1592,8 @@ function checkRefreshDealPipeline() {
   const providerRegistry = readFileSync(join(root, "lib/deals/providers/providerRegistry.ts"), "utf8");
   const dealRepository = readFileSync(join(root, "lib/deals/dealRepository.ts"), "utf8");
   const operationOverrides = existsSync(join(root, "lib/deals/operationOverrides.ts")) ? readFileSync(join(root, "lib/deals/operationOverrides.ts"), "utf8") : "";
+  const reportsLib = existsSync(join(root, "lib/reports.ts")) ? readFileSync(join(root, "lib/reports.ts"), "utf8") : "";
+  const reportsRoute = existsSync(join(root, "app/api/reports/route.ts")) ? readFileSync(join(root, "app/api/reports/route.ts"), "utf8") : "";
   const refreshScript = readFileSync(join(root, "scripts/refresh-deals.mjs"), "utf8");
   const adminRoute = existsSync(join(root, adminRoutePath)) ? readFileSync(join(root, adminRoutePath), "utf8") : "";
   const exposureRoute = existsSync(join(root, exposureRoutePath)) ? readFileSync(join(root, exposureRoutePath), "utf8") : "";
@@ -1618,13 +1620,14 @@ function checkRefreshDealPipeline() {
     issues.push("reports/refresh-deals.json missing");
   } else {
     const report = JSON.parse(readFileSync(refreshPath, "utf8"));
-    const requiredFields = ["fetchedCount", "normalizedCount", "insertedCount", "updatedCount", "hiddenCount", "failedCount", "providerStats", "liveProbe", "policy", "failureReasons", "generatedAt"];
+    const requiredFields = ["fetchedCount", "normalizedCount", "insertedCount", "updatedCount", "hiddenCount", "failedCount", "providerStats", "liveProbe", "policy", "failureReasons", "revalidationQueue", "generatedAt"];
     const missingFields = requiredFields.filter((field) => !(field in report));
 
     if (missingFields.length) issues.push(`refresh report missing ${missingFields.join(", ")}`);
     if (!Array.isArray(report.providerStats) || !report.providerStats.length) issues.push("providerStats should include provider collection status");
     if (!report.liveProbe || typeof report.liveProbe !== "object") issues.push("refresh report should include liveProbe HTTP/redirect summary");
     if (report.policy?.source !== "data/linkQualityPolicy.json") issues.push("refresh report should record shared link policy source");
+    if (!report.revalidationQueue || typeof report.revalidationQueue.total !== "number") issues.push("refresh report should include report-driven revalidation queue evidence");
     if ((report.reports?.linkValidation?.searchOrCategorySuspected ?? 0) !== 0) issues.push("refresh report still has search/category links");
     if ((report.reports?.linkValidation?.soldOutOrEndedSuspected ?? 0) !== 0) issues.push("refresh report still has sold-out/ended link signals");
   }
@@ -1691,6 +1694,8 @@ function checkRefreshDealPipeline() {
     !operationOverrides.includes("readDealOperationOverridesLive") ||
     !operationOverrides.includes("writeDealOperationOverrides") ||
     !operationOverrides.includes("recordDealOperationActionWithPersistence") ||
+    !operationOverrides.includes("listRevalidationDealIds") ||
+    !operationOverrides.includes("revalidate") ||
     !operationOverrides.includes("rest/v1/admin_actions") ||
     !operationOverrides.includes("SUPABASE_SERVICE_ROLE_KEY") ||
     !operationOverrides.includes("dealOperationOverrides.local.json") ||
@@ -1702,7 +1707,13 @@ function checkRefreshDealPipeline() {
     !adminRoute.includes("manualOverrideAudit") ||
     !adminRoute.includes("manualOverrideStorage") ||
     !adminRoute.includes("manual_override_audit") ||
+    !adminRoute.includes("revalidation_queue") ||
     !adminRoute.includes("supabase_admin_actions") ||
+    !adminPanel.includes("재검증 큐") ||
+    !refreshScript.includes("revalidationQueue") ||
+    !reportsLib.includes("shouldPrioritizeReportForRevalidation") ||
+    !reportsRoute.includes("shouldPrioritizeReportForRevalidation") ||
+    !reportsRoute.includes("recordDealOperationActionWithPersistence") ||
     !adminPage.includes("readDealOperationOverridesLive") ||
     !gitignore.includes("data/dealOperationOverrides.local.json") ||
     !smoke.includes("admin manual hide affects public exposure") ||

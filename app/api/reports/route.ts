@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { createRequestId, getClientKey, jsonHeaders, rateLimit, rateLimitHeaders } from "@/lib/apiGuards";
+import { recordDealOperationActionWithPersistence } from "@/lib/deals/operationOverrides";
 import { maxReportMessageLength } from "@/lib/reportConfig";
-import { createDealReport, DealReportInput, getReportResolutionPlan, saveDealReportWithPersistence, validateDealReport } from "@/lib/reports";
+import { createDealReport, DealReportInput, getReportResolutionPlan, saveDealReportWithPersistence, shouldPrioritizeReportForRevalidation, validateDealReport } from "@/lib/reports";
 
 export async function GET(request: Request) {
   const requestId = createRequestId();
@@ -64,6 +65,11 @@ export async function POST(request: Request) {
       reason: body.reason!,
       message: body.message
     }));
+    const revalidationQueued = shouldPrioritizeReportForRevalidation(report.reason);
+
+    if (revalidationQueued) {
+      await recordDealOperationActionWithPersistence("revalidate", report.dealId, `user_report_${report.reason}`);
+    }
 
     // Commercial extension point:
     // Persist to Supabase, attach price/link snapshot evidence, notify the operator queue,
@@ -72,6 +78,7 @@ export async function POST(request: Request) {
       ok: true,
       requestId,
       report,
+      revalidationQueued,
       message: "신고가 접수되었습니다. 운영자가 가격과 재고를 확인할 예정입니다."
     }, { headers: rateLimitHeaders(limit, requestId) });
   } catch (error) {
