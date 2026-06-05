@@ -37,11 +37,15 @@ const steps = [
   runStep("refresh:news", process.execPath, ["scripts/refresh-news-deals.mjs"]),
   runStep("verify:links", process.execPath, ["scripts/verify-product-links-live.mjs", "--body"]),
   runStep("verify:products", process.execPath, ["scripts/verify-products.mjs"]),
-  runStep("verify:news", process.execPath, ["scripts/verify-news-deals.mjs"])
+  runStep("verify:news", process.execPath, ["scripts/verify-news-deals.mjs"]),
+  runStep("refresh:freebies", process.execPath, ["scripts/refresh-official-benefit-slice.mjs", "freebies", "--no-refresh"]),
+  runStep("refresh:events", process.execPath, ["scripts/refresh-official-benefit-slice.mjs", "events", "--no-refresh"])
 ];
 
 const refreshDeals = readJson("reports/refresh-deals.json", {});
 const newsDeals = readJson("reports/news-deals.json", {});
+const freebies = readJson("reports/freebies-refresh.json", {});
+const events = readJson("reports/events-refresh.json", {});
 const linkValidation = readJson("reports/link-validation.json", {});
 const productQuality = readJson("reports/product-quality.json", {});
 const ok = steps.every((step) => step.ok) && newsDeals.ok !== false;
@@ -59,6 +63,8 @@ const report = {
   hiddenCount: (refreshDeals.hiddenCount ?? 0) + (newsDeals.hiddenCount ?? 0),
   expiredCount: newsDeals.expiredCount ?? 0,
   failedCount: (refreshDeals.failedCount ?? 0) + (newsDeals.failedCount ?? 0),
+  freebiesCount: freebies.visibleCount ?? 0,
+  eventsCount: events.visibleCount ?? 0,
   providerStats: {
     product: refreshDeals.providerStats ?? [],
     news: newsDeals.providerStats ?? []
@@ -66,6 +72,8 @@ const report = {
   linkQuality: linkValidation.summary ?? linkValidation,
   productQuality,
   newsQuality: newsDeals,
+  freebiesQuality: freebies,
+  eventsQuality: events,
   steps
 };
 

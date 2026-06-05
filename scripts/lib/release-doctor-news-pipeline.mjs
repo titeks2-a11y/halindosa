@@ -16,6 +16,7 @@ export function checkNewsDealPipeline() {
     "lib/operations/newsFeedDryRun.ts",
     "lib/operations/newsFeedPreview.ts",
     "scripts/refresh-news-deals.mjs",
+    "scripts/refresh-official-benefit-slice.mjs",
     "scripts/verify-news-deals.mjs",
     "scripts/news-freshness-doctor.mjs",
     "scripts/news-revalidation-priority-report.mjs",
@@ -33,12 +34,16 @@ export function checkNewsDealPipeline() {
     "data/newsFeed.sample.rss.xml",
     "data/refreshedNewsDeals.json",
     "reports/news-deals.json",
+    "reports/freebies-refresh.json",
+    "reports/events-refresh.json",
     "reports/news-freshness.json",
     "reports/news-revalidation-priority.json",
     "reports/news-feed-canary.json",
     "reports/news-feed-live-pipeline.json",
     "reports/news-feed-preview.json",
     "docs/NEWS_FRESHNESS_REPORT.md",
+    "docs/FREEBIES_REFRESH_REPORT.md",
+    "docs/EVENTS_REFRESH_REPORT.md",
     "docs/NEWS_REVALIDATION_PRIORITY.md",
     "docs/NEWS_FEED_CANARY_REPORT.md",
     "docs/NEWS_FEED_LIVE_PIPELINE.md",
@@ -65,6 +70,7 @@ export function checkNewsDealPipeline() {
   const envExample = readFileSync(join(root, ".env.example"), "utf8");
   const packageJson = withQaRunnerScripts(JSON.parse(readFileSync(join(root, "package.json"), "utf8")));
   const refreshScript = existsSync(join(root, "scripts/refresh-news-deals.mjs")) ? readFileSync(join(root, "scripts/refresh-news-deals.mjs"), "utf8") : "";
+  const officialBenefitSliceScript = existsSync(join(root, "scripts/refresh-official-benefit-slice.mjs")) ? readFileSync(join(root, "scripts/refresh-official-benefit-slice.mjs"), "utf8") : "";
   const verifyScript = existsSync(join(root, "scripts/verify-news-deals.mjs")) ? readFileSync(join(root, "scripts/verify-news-deals.mjs"), "utf8") : "";
   const freshnessScript = existsSync(join(root, "scripts/news-freshness-doctor.mjs")) ? readFileSync(join(root, "scripts/news-freshness-doctor.mjs"), "utf8") : "";
   const newsRevalidationScript = existsSync(join(root, "scripts/news-revalidation-priority-report.mjs")) ? readFileSync(join(root, "scripts/news-revalidation-priority-report.mjs"), "utf8") : "";
@@ -75,6 +81,8 @@ export function checkNewsDealPipeline() {
   const feedPreviewOperation = existsSync(join(root, "lib/operations/newsFeedPreview.ts")) ? readFileSync(join(root, "lib/operations/newsFeedPreview.ts"), "utf8") : "";
   const feedDryRunOperation = existsSync(join(root, "lib/operations/newsFeedDryRun.ts")) ? readFileSync(join(root, "lib/operations/newsFeedDryRun.ts"), "utf8") : "";
   const feedPreviewReport = existsSync(join(root, "reports/news-feed-preview.json")) ? JSON.parse(readFileSync(join(root, "reports/news-feed-preview.json"), "utf8")) : {};
+  const freebiesReport = existsSync(join(root, "reports/freebies-refresh.json")) ? JSON.parse(readFileSync(join(root, "reports/freebies-refresh.json"), "utf8")) : {};
+  const eventsReport = existsSync(join(root, "reports/events-refresh.json")) ? JSON.parse(readFileSync(join(root, "reports/events-refresh.json"), "utf8")) : {};
   const newsRevalidationReport = existsSync(join(root, "reports/news-revalidation-priority.json")) ? JSON.parse(readFileSync(join(root, "reports/news-revalidation-priority.json"), "utf8")) : {};
   const feedCanaryReport = existsSync(join(root, "reports/news-feed-canary.json")) ? JSON.parse(readFileSync(join(root, "reports/news-feed-canary.json"), "utf8")) : {};
   const feedLivePipelineReport = existsSync(join(root, "reports/news-feed-live-pipeline.json")) ? JSON.parse(readFileSync(join(root, "reports/news-feed-live-pipeline.json"), "utf8")) : {};
@@ -92,6 +100,8 @@ export function checkNewsDealPipeline() {
   const feedCanaryDocs = existsSync(join(root, "docs/NEWS_FEED_CANARY_REPORT.md")) ? readFileSync(join(root, "docs/NEWS_FEED_CANARY_REPORT.md"), "utf8") : "";
   const feedLivePipelineDocs = existsSync(join(root, "docs/NEWS_FEED_LIVE_PIPELINE.md")) ? readFileSync(join(root, "docs/NEWS_FEED_LIVE_PIPELINE.md"), "utf8") : "";
   const feedPreviewDocs = existsSync(join(root, "docs/NEWS_FEED_PREVIEW_REPORT.md")) ? readFileSync(join(root, "docs/NEWS_FEED_PREVIEW_REPORT.md"), "utf8") : "";
+  const freebiesDocs = existsSync(join(root, "docs/FREEBIES_REFRESH_REPORT.md")) ? readFileSync(join(root, "docs/FREEBIES_REFRESH_REPORT.md"), "utf8") : "";
+  const eventsDocs = existsSync(join(root, "docs/EVENTS_REFRESH_REPORT.md")) ? readFileSync(join(root, "docs/EVENTS_REFRESH_REPORT.md"), "utf8") : "";
   const newsRevalidationDocs = existsSync(join(root, "docs/NEWS_REVALIDATION_PRIORITY.md")) ? readFileSync(join(root, "docs/NEWS_REVALIDATION_PRIORITY.md"), "utf8") : "";
   const sourceConfigDocs = existsSync(join(root, "docs/OFFICIAL_BENEFIT_SOURCE_CONFIG.md")) ? readFileSync(join(root, "docs/OFFICIAL_BENEFIT_SOURCE_CONFIG.md"), "utf8") : "";
   const officialBenefitFeedSources = existsSync(join(root, "data/officialBenefitFeedSources.json")) ? JSON.parse(readFileSync(join(root, "data/officialBenefitFeedSources.json"), "utf8")) : [];
@@ -173,11 +183,11 @@ export function checkNewsDealPipeline() {
     if (!envExample.includes(key)) issues.push(`env example missing ${key}`);
   }
 
-  if (!packageJson.scripts?.["refresh:news"] || !packageJson.scripts?.["verify:news"] || !packageJson.scripts?.["news:freshness:doctor"] || !packageJson.scripts?.["news:revalidation:report"] || !packageJson.scripts?.["news:feed:doctor"] || !packageJson.scripts?.["news:feed:canary"] || !packageJson.scripts?.["news:feed:live"] || !packageJson.scripts?.["test:news-feed-errors"] || !packageJson.scripts?.["test:news-feed-dry-run"] || !packageJson.scripts?.["refresh:all"]) {
-    issues.push("package scripts should expose refresh:news, verify:news, news:freshness:doctor, news:revalidation:report, news:feed:doctor, news:feed:canary, news:feed:live, test:news-feed-errors, test:news-feed-dry-run, and refresh:all");
+  if (!packageJson.scripts?.["refresh:news"] || !packageJson.scripts?.["refresh:freebies"] || !packageJson.scripts?.["refresh:events"] || !packageJson.scripts?.["verify:news"] || !packageJson.scripts?.["news:freshness:doctor"] || !packageJson.scripts?.["news:revalidation:report"] || !packageJson.scripts?.["news:feed:doctor"] || !packageJson.scripts?.["news:feed:canary"] || !packageJson.scripts?.["news:feed:live"] || !packageJson.scripts?.["test:news-feed-errors"] || !packageJson.scripts?.["test:news-feed-dry-run"] || !packageJson.scripts?.["refresh:all"]) {
+    issues.push("package scripts should expose refresh:news, refresh:freebies, refresh:events, verify:news, news:freshness:doctor, news:revalidation:report, news:feed:doctor, news:feed:canary, news:feed:live, test:news-feed-errors, test:news-feed-dry-run, and refresh:all");
   }
-  if (!String(packageJson.scripts?.qa ?? "").includes("news:freshness:doctor") || !String(packageJson.scripts?.qa ?? "").includes("news:revalidation:report") || !String(packageJson.scripts?.qa ?? "").includes("news:feed:doctor") || !String(packageJson.scripts?.qa ?? "").includes("news:feed:canary") || !String(packageJson.scripts?.qa ?? "").includes("test:news-feed-errors") || !String(packageJson.scripts?.qa ?? "").includes("test:news-feed-dry-run")) {
-    issues.push("qa should include news:freshness:doctor, news:revalidation:report, news:feed:doctor, news:feed:canary, test:news-feed-errors, and test:news-feed-dry-run");
+  if (!String(packageJson.scripts?.qa ?? "").includes("refresh:freebies") || !String(packageJson.scripts?.qa ?? "").includes("refresh:events") || !String(packageJson.scripts?.qa ?? "").includes("news:freshness:doctor") || !String(packageJson.scripts?.qa ?? "").includes("news:revalidation:report") || !String(packageJson.scripts?.qa ?? "").includes("news:feed:doctor") || !String(packageJson.scripts?.qa ?? "").includes("news:feed:canary") || !String(packageJson.scripts?.qa ?? "").includes("test:news-feed-errors") || !String(packageJson.scripts?.qa ?? "").includes("test:news-feed-dry-run")) {
+    issues.push("qa should include refresh:freebies, refresh:events, news:freshness:doctor, news:revalidation:report, news:feed:doctor, news:feed:canary, test:news-feed-errors, and test:news-feed-dry-run");
   }
 
   for (const phrase of ["not_approved_official_url", "search_or_result_url", "expired_event", "official_event_seed_and_approved_feeds"]) {
@@ -200,7 +210,7 @@ export function checkNewsDealPipeline() {
     }
   }
 
-  for (const step of ["refresh-deals.mjs", "refresh-news-deals.mjs", "verify-product-links-live.mjs", "verify-products.mjs", "verify-news-deals.mjs"]) {
+  for (const step of ["refresh-deals.mjs", "refresh-news-deals.mjs", "verify-product-links-live.mjs", "verify-products.mjs", "verify-news-deals.mjs", "refresh-official-benefit-slice.mjs"]) {
     if (!refreshAllScript.includes(step)) issues.push(`refresh:all missing ${step}`);
   }
   if (!refreshAllScript.includes('"--body"')) {
@@ -635,6 +645,47 @@ export function checkNewsDealPipeline() {
     if (!report.categoryCounts || Object.keys(report.categoryCounts).length < 10) issues.push("news-freshness report should include category counts");
   } else {
     issues.push("reports/news-freshness.json is missing");
+  }
+
+  if (
+    !officialBenefitSliceScript.includes("reports/freebies-refresh.json") ||
+    !officialBenefitSliceScript.includes("reports/events-refresh.json") ||
+    !officialBenefitSliceScript.includes("Search, community, news-only") ||
+    !officialBenefitSliceScript.includes("startsWith(\"official\")") ||
+    !officialBenefitSliceScript.includes("refresh-news-deals.mjs") ||
+    !officialBenefitSliceScript.includes("verify-news-deals.mjs") ||
+    !freebiesDocs.includes("무료혜택 Refresh Report") ||
+    !eventsDocs.includes("Official Event Refresh Report")
+  ) {
+    issues.push("freebie/event refresh slices should generate reports/docs, run official news refresh/verify, and keep only official publishable links");
+  }
+
+  if (existsSync(join(root, "reports/freebies-refresh.json"))) {
+    const report = freebiesReport;
+    if (report.ok !== true) issues.push("freebies-refresh report should pass");
+    if ((report.visibleCount ?? 0) < 5) issues.push("freebies-refresh should expose at least 5 verified free/public/point benefits");
+    if ((report.exposedSearchLinks ?? 999) !== 0 || (report.exposedNonOfficialLinks ?? 999) !== 0) {
+      issues.push("freebies-refresh should expose zero search or non-official links");
+    }
+    if (!Array.isArray(report.topItems) || !report.topItems.every((item) => String(item.redirectUrl ?? "").startsWith("/go/news/"))) {
+      issues.push("freebies-refresh top items should use /go/news/[id] redirects");
+    }
+  } else {
+    issues.push("reports/freebies-refresh.json is missing");
+  }
+
+  if (existsSync(join(root, "reports/events-refresh.json"))) {
+    const report = eventsReport;
+    if (report.ok !== true) issues.push("events-refresh report should pass");
+    if ((report.visibleCount ?? 0) < 30) issues.push("events-refresh should expose at least 30 verified official event/coupon benefits");
+    if ((report.exposedSearchLinks ?? 999) !== 0 || (report.exposedNonOfficialLinks ?? 999) !== 0) {
+      issues.push("events-refresh should expose zero search or non-official links");
+    }
+    if (!Array.isArray(report.topItems) || !report.topItems.every((item) => String(item.redirectUrl ?? "").startsWith("/go/news/"))) {
+      issues.push("events-refresh top items should use /go/news/[id] redirects");
+    }
+  } else {
+    issues.push("reports/events-refresh.json is missing");
   }
 
   if (

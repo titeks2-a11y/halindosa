@@ -51,6 +51,8 @@
     "link:revalidation:report": "node scripts/link-revalidation-priority-report.mjs",
     "refresh:deals": "node scripts/refresh-deals.mjs",
     "refresh:news": "node scripts/refresh-news-deals.mjs",
+    "refresh:freebies": "node scripts/refresh-official-benefit-slice.mjs freebies",
+    "refresh:events": "node scripts/refresh-official-benefit-slice.mjs events",
     "verify:news": "node scripts/verify-news-deals.mjs",
     "news:freshness:doctor": "node scripts/news-freshness-doctor.mjs",
     "news:revalidation:report": "node scripts/news-revalidation-priority-report.mjs",
