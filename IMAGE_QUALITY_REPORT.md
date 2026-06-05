@@ -1,6 +1,6 @@
 # 할인도사 Image Quality Report
 
-Generated: 2026-06-05T14:29:14.405Z
+Generated: 2026-06-05T14:58:28.307Z
 Status: PASS
 
 ## Summary
@@ -81,7 +81,7 @@ Status: PASS
 | d023 | 아이프라브 | 기타 | 확장형 5휠 밸런스 큐브 캐리어 24인치 | [검색](https://search.shopping.naver.com/search/all?query=%EC%95%84%EC%9D%B4%ED%94%84%EB%9D%BC%EB%B8%8C%20%ED%99%95%EC%9E%A5%ED%98%95%205%ED%9C%A0%20%EB%B0%B8%EB%9F%B0%EC%8A%A4%20%ED%81%90%EB%B8%8C%20%EC%BA%90%EB%A6%AC%EC%96%B4%2024%EC%9D%B8%EC%B9%98%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
 | d024 | SSG닷컴 | 식품 | 프리미엄 생수 2L 24병 | [검색](https://search.shopping.naver.com/search/all?query=SSG%EB%8B%B7%EC%BB%B4%20%ED%94%84%EB%A6%AC%EB%AF%B8%EC%97%84%20%EC%83%9D%EC%88%98%202L%2024%EB%B3%91%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
 | d025 | 올리브영 | 뷰티 | 선크림 1+1 기획 | [검색](https://search.shopping.naver.com/search/all?query=%EC%98%AC%EB%A6%AC%EB%B8%8C%EC%98%81%20%EC%84%A0%ED%81%AC%EB%A6%BC%201%2B1%20%EA%B8%B0%ED%9A%8D%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
-| d026 | 하이마트 | 전자기기 | 게이밍 노트북 RTX 특가 | [검색](https://search.shopping.naver.com/search/all?query=%ED%95%98%EC%9D%B4%EB%A7%88%ED%8A%B8%20%EA%B2%8C%EC%9D%B4%EB%B0%8D%20%EB%85%B8%ED%8A%B8%EB%B6%81%20RTX%20%ED%8A%B9%EA%B0%80%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
+| d026 | 하이마트 | 전자기기 | HP 오멘 16-am0121TX RTX5070 게이밍노트북 | [검색](https://search.shopping.naver.com/search/all?query=%ED%95%98%EC%9D%B4%EB%A7%88%ED%8A%B8%20HP%20%EC%98%A4%EB%A9%98%2016-am0121TX%20RTX5070%20%EA%B2%8C%EC%9D%B4%EB%B0%8D%EB%85%B8%ED%8A%B8%EB%B6%81%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
 | d027 | GS SHOP | 육아 | 군 기저귀 프리미엄 밴드 대형 36P 4팩 | [검색](https://search.shopping.naver.com/search/all?query=GS%20SHOP%20%EA%B5%B0%20%EA%B8%B0%EC%A0%80%EA%B7%80%20%ED%94%84%EB%A6%AC%EB%AF%B8%EC%97%84%20%EB%B0%B4%EB%93%9C%20%EB%8C%80%ED%98%95%2036P%204%ED%8C%A9%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
 | d028 | 쿠팡 | 생활용품 | 워터픽 나노 패밀리팩 구강세정기 | [검색](https://search.shopping.naver.com/search/all?query=%EC%BF%A0%ED%8C%A1%20%EC%9B%8C%ED%84%B0%ED%94%BD%20%EB%82%98%EB%85%B8%20%ED%8C%A8%EB%B0%80%EB%A6%AC%ED%8C%A9%20%EA%B5%AC%EA%B0%95%EC%84%B8%EC%A0%95%EA%B8%B0%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
 | d029 | SSG닷컴 | 가전 | 422 올스텐 에어프라이어 7L 대용량 | [검색](https://search.shopping.naver.com/search/all?query=SSG%EB%8B%B7%EC%BB%B4%20422%20%EC%98%AC%EC%8A%A4%ED%85%90%20%EC%97%90%EC%96%B4%ED%94%84%EB%9D%BC%EC%9D%B4%EC%96%B4%207L%20%EB%8C%80%EC%9A%A9%EB%9F%89%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |

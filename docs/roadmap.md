@@ -118,6 +118,8 @@
 - live probe 결과를 `liveProbeReviewSummary`와 `liveProbeHostFailureCounts`로 재분류해 404/410/5xx/품절 같은 강한 실패 신호는 출시 차단 기준으로, timeout/request_failed는 일시 네트워크 재확인 큐로, 403/429/robots 같은 접근 보호 신호는 공식 API·제휴 feed·실기기 확인 우선순위로 운영하도록 관리자 화면, API, CSV, smoke, release doctor에 연결했다.
 - `link:launch:gate`를 추가해 `link-validation`, `product-quality`, `exposure-policy`, `refresh-deals`, `release-doctor` 리포트를 대조하고 검색 링크, 품절/종료 링크, 깨진 링크, invalid URL 노출 0건을 Play Store 제출 직전 최종 판정으로 남기도록 QA와 release doctor에 연결했다.
 - `/api/admin/link-launch-gate`와 관리자 `최종 링크 출시 게이트` 패널을 추가해 운영자가 Play Store 제출 직전 검색 링크, 품절/종료 링크, 깨진 링크, invalid URL, 실패 노출 행을 JSON/CSV로 즉시 확인하도록 보강했다.
+- 클라이언트 렌더링 상세 페이지 복구 정책을 추가해 LF몰, 하이마트, 알리익스프레스 등 신뢰 호스트의 직접 상세 URL만 제한적으로 복구하고, timeout/5xx/종료 이벤트/로그인벽/목록성 이벤트/상품 불일치 항목은 `publishable=false`로 사용자 화면에서 제외하도록 강화했다.
+- 하이마트 HP 오멘 RTX5070 노트북, 쿠팡 하기스 매직컴포트 기저귀, 무신사 커버낫 X 미즈노 티셔츠처럼 기존 상품명과 실제 URL이 어긋난 항목을 실제 구매 상세 페이지 기준으로 보정하고, link launch gate 기준 `exposedNonPublishableItems=0`을 달성했다.
 - 관리자 공식 혜택 수동 운영 패널에 `실패 사유별 운영 액션`과 `수집 로그 바로 점검` 영역을 추가해 검증 실패 TOP10, 최근 20개 수집 로그, 공식 링크 확인, 재검증 기록 흐름을 같은 화면에서 처리하도록 개선했다.
 - `NewsDeal`도 상품 Deal과 같은 `source`, `mallName`, `originalUrl`, `affiliateUrl`, `eventUrl`, `linkType`, `availability`, `validationReason`, `priorityScore` 품질 필드를 갖도록 표준화하고, `verify:news`와 `release:doctor`가 공식 링크 유형, 활성 상태, 우선순위 점수, 필드 누락을 출시 게이트로 검증하도록 강화했다.
 - non-strict live probe에서 timeout/request_failed는 `transientNetworkCount`로 분리해 404/410/5xx/품절 본문 같은 확정 실패와 구분하고, 네트워크 일시 오류 때문에 정상 구매 상세 링크가 과도하게 숨겨지지 않도록 운영 재확인 큐로 남기게 했다.

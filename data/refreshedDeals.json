@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-05T14:27:56.168Z",
+  "generatedAt": "2026-06-05T14:57:08.217Z",
   "schemaVersion": 1,
   "liveProbe": false,
   "deals": [],
@@ -11,10 +11,12 @@
     "d005",
     "d006",
     "d007",
+    "d008",
     "d009",
     "d010",
     "d011",
     "d012",
+    "d013",
     "d014",
     "d015",
     "d016",
@@ -27,6 +29,7 @@
     "d023",
     "d024",
     "d025",
+    "d026",
     "d027",
     "d028",
     "d029",
@@ -75,6 +78,8 @@
     "d081",
     "d082",
     "d083",
+    "d084",
+    "d085",
     "d086",
     "d087",
     "d088",
@@ -101,6 +106,7 @@
     "d109",
     "d110",
     "d111",
+    "d112",
     "d113",
     "d114",
     "d115",
@@ -136,27 +142,6 @@
   },
   "hiddenDeals": [
     {
-      "id": "d008",
-      "title": "d008",
-      "provider": "manual",
-      "finalUrl": "https://www.lfmall.co.kr/app/product/E3GKXX00844",
-      "reason": "generic_landing_or_shell"
-    },
-    {
-      "id": "d013",
-      "title": "d013",
-      "provider": "manual",
-      "finalUrl": "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0026982316",
-      "reason": "blank_or_script_shell"
-    },
-    {
-      "id": "d026",
-      "title": "d026",
-      "provider": "manual",
-      "finalUrl": "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0019390089",
-      "reason": "blank_or_script_shell"
-    },
-    {
       "id": "d042",
       "title": "d042",
       "provider": "manual",
@@ -168,7 +153,7 @@
       "title": "d043",
       "provider": "manual",
       "finalUrl": "https://www.aliexpress.com/item/1005010151430718.html",
-      "reason": "blank_or_script_shell"
+      "reason": "live_http_502"
     },
     {
       "id": "d053",
@@ -220,27 +205,6 @@
       "reason": "wrong_product_or_benefit"
     },
     {
-      "id": "d084",
-      "title": "d084",
-      "provider": "manual",
-      "finalUrl": "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0023645183",
-      "reason": "blank_or_script_shell"
-    },
-    {
-      "id": "d085",
-      "title": "d085",
-      "provider": "manual",
-      "finalUrl": "https://www.11st.co.kr/products/2635032094",
-      "reason": "wrong_product_or_benefit"
-    },
-    {
-      "id": "d112",
-      "title": "d112",
-      "provider": "manual",
-      "finalUrl": "https://www.musinsa.com/products/4011120",
-      "reason": "wrong_product_or_benefit"
-    },
-    {
       "id": "d116",
       "title": "d116",
       "provider": "manual",
@@ -258,8 +222,8 @@
       "errors": [],
       "normalizedCount": 140,
       "insertedCount": 0,
-      "updatedCount": 124,
-      "hiddenCount": 16,
+      "updatedCount": 130,
+      "hiddenCount": 10,
       "failedCount": 0
     },
     {

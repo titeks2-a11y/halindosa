@@ -1,6 +1,6 @@
 # 할인도사 Link Verification Report
 
-Generated: 2026-06-05T14:29:09.293Z
+Generated: 2026-06-05T14:58:23.197Z
 
 ## Summary
 
@@ -8,11 +8,11 @@ Generated: 2026-06-05T14:29:09.293Z
 | --- | ---: |
 | 총 상품 수 | 140 |
 | 검증 대상 수 | 140 |
-| 직접 링크 통과 수 | 124 |
-| 노출 가능 상품 수 | 124 |
-| 최종 발행 가능 상품 수 | 124 |
-| 제외 상품 수 | 16 |
-| 실패 이슈 수 | 16 |
+| 직접 링크 통과 수 | 131 |
+| 노출 가능 상품 수 | 131 |
+| 최종 발행 가능 상품 수 | 131 |
+| 제외 상품 수 | 9 |
+| 실패 이슈 수 | 9 |
 | 상품 상세 URL | 109 |
 | 공식 혜택/이벤트 URL | 31 |
 | 검색/카테고리 의심 | 0 |
@@ -21,21 +21,21 @@ Generated: 2026-06-05T14:29:09.293Z
 | 커뮤니티 의심 | 0 |
 | 수동 검토 필요 | 0 |
 | Live probe 확인 | 140 |
-| Live probe 실패 | 78 |
-| Live probe robots/access 차단 | 62 |
+| Live probe 실패 | 79 |
+| Live probe robots/access 차단 | 63 |
 | Live probe rate limit | 13 |
 | Live probe timeout | 0 |
 | Live probe exposed hard failure | 0 |
 | Live probe hidden hard failure review | 0 |
 | Live probe transient network | 3 |
 | Live body 확인 | 137 |
-| Live 제목/메타 확인 | 132 |
-| Live 콘텐츠 일치 신호 | 46 |
-| Live 콘텐츠 불일치 신호 | 91 |
-| Live 접근 가능 본문 불일치 | 16 |
-| Live 접근 차단 본문 | 31 |
+| Live 제목/메타 확인 | 133 |
+| Live 콘텐츠 일치 신호 | 48 |
+| Live 콘텐츠 불일치 신호 | 89 |
+| Live 접근 가능 본문 불일치 | 13 |
+| Live 접근 차단 본문 | 32 |
 | Live 가격 신호 | 25 |
-| Live 구매/신청 버튼 신호 | 12 |
+| Live 구매/신청 버튼 신호 | 13 |
 | Live 종료 문구 재검토 신호 | 0 |
 | 출시 게이트 통과 | YES |
 | 노출 검색 링크 | 0 |
@@ -51,25 +51,22 @@ Generated: 2026-06-05T14:29:09.293Z
 - 고객에게 노출되는 404/410/5xx/품절 본문 같은 강한 실패 신호: 0
 - 숨김 처리 후 보정 큐에 남은 강한 실패 신호: 0
 - timeout/request_failed 같은 일시 네트워크 신호: 3
-- 쇼핑몰 접근 보호 또는 robots/access 차단: 62
+- 쇼핑몰 접근 보호 또는 robots/access 차단: 63
 - 품절/판매종료 본문 감지: 0
 
 ## Verification Evidence
 
-- live_content_confirmed: 46
+- live_content_confirmed: 48
+- seller_access_protected_manual_verified: 32
 - manual_pattern_verified: 31
-- seller_access_protected_manual_verified: 31
-- blocked: 16
 - seller_rate_limited_manual_verified: 13
+- blocked: 9
+- client_rendered_detail_manual_verified: 4
 - transient_network_manual_verified: 3
 
 ## Revalidation Queue
 
-- d008 · LF몰 · generic_landing_or_shell · priority 100
-- d013 · 하이마트 · blank_or_script_shell · priority 100
-- d026 · 하이마트 · blank_or_script_shell · priority 100
 - d042 · GS25 · ended_event_page · priority 100
-- d043 · 알리익스프레스 · blank_or_script_shell · priority 100
 - d053 · 네이버페이 · login_wall · priority 100
 - d056 · PAYCO · wrong_product_or_benefit · priority 100
 - d058 · 배달의민족 · generic_landing_or_shell · priority 100
@@ -77,13 +74,14 @@ Generated: 2026-06-05T14:29:09.293Z
 - d060 · CGV · wrong_product_or_benefit · priority 100
 - d063 · 홈플러스 · blank_or_script_shell · priority 100
 - d070 · 아이챌린지 · wrong_product_or_benefit · priority 100
-- d084 · 하이마트 · blank_or_script_shell · priority 100
-- d085 · 11번가 · wrong_product_or_benefit · priority 100
-- d112 · 무신사 · wrong_product_or_benefit · priority 100
 - d116 · 무신사 · wrong_product_or_benefit · priority 100
 - d051 · 인터파크투어 · request_failed · priority 75
 - d057 · T멤버십 · request_failed · priority 75
 - d073 · 현대카드 · request_failed · priority 75
+- d008 · LF몰 · client_rendered_detail_periodic_review · priority 60
+- d013 · 하이마트 · client_rendered_detail_periodic_review · priority 60
+- d043 · 알리익스프레스 · client_rendered_detail_periodic_review · priority 60
+- d084 · 하이마트 · client_rendered_detail_periodic_review · priority 60
 - d011 · SSG닷컴 · seller_rate_limited_review · priority 55
 - d024 · SSG닷컴 · seller_rate_limited_review · priority 55
 - d029 · SSG닷컴 · seller_rate_limited_review · priority 55
@@ -95,17 +93,20 @@ Generated: 2026-06-05T14:29:09.293Z
 - d099 · SSG닷컴 · seller_rate_limited_review · priority 55
 - d125 · SSG닷컴 · seller_rate_limited_review · priority 55
 - d129 · SSG닷컴 · seller_rate_limited_review · priority 55
+- d134 · SSG닷컴 · seller_rate_limited_review · priority 55
+- d138 · SSG닷컴 · seller_rate_limited_review · priority 55
+- d002 · 지마켓 · seller_access_protected_review · priority 45
 
 ### Live Probe Failure Reasons
 
-- robots_or_access_blocked: 62
+- robots_or_access_blocked: 63
 - http_429: 13
 - request_failed: 3
 
 ### Live Probe Failed Hosts
 
 - item.gmarket.co.kr: 30
-- coupang.com: 23
+- coupang.com: 24
 - ssg.com: 13
 - oliveyoung.co.kr: 7
 - hyundaicard.com: 1
@@ -121,9 +122,9 @@ Generated: 2026-06-05T14:29:09.293Z
 ## Domain Distribution
 
 - item.gmarket.co.kr: 30
-- coupang.com: 23
+- coupang.com: 24
 - ssg.com: 14
-- 11st.co.kr: 10
+- 11st.co.kr: 9
 - oliveyoung.co.kr: 7
 - e-himart.co.kr: 5
 - musinsa.com: 5

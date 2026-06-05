@@ -855,7 +855,7 @@ export async function checkOperationalDataSurfaces() {
   const exposureReport = JSON.parse(await text("reports/exposure-policy.json"));
   const linkPolicyIssues = [];
 
-  for (const key of ["blockedHosts", "searchPatterns", "unavailableTextPatterns", "liveUnavailableTextPatterns", "productDetailSignals", "officialBenefitUrlSignals", "exposurePolicy", "launchGate"]) {
+  for (const key of ["blockedHosts", "searchPatterns", "unavailableTextPatterns", "liveUnavailableTextPatterns", "clientRenderedDetailHosts", "productDetailSignals", "officialBenefitUrlSignals", "exposurePolicy", "launchGate"]) {
     if (!(key in linkPolicy)) linkPolicyIssues.push(`policy missing ${key}`);
   }
 
@@ -872,6 +872,7 @@ export async function checkOperationalDataSurfaces() {
   }
 
   if (linkReport.policy?.source !== "data/linkQualityPolicy.json") linkPolicyIssues.push("link-validation report should record policy source");
+  if (!("clientRenderedDetailHosts" in (linkReport.policy ?? {}))) linkPolicyIssues.push("link-validation report should record client-rendered detail host policy coverage");
   if (!Array.isArray(linkReport.auditedItems) || !linkReport.auditedItems.length) linkPolicyIssues.push("link-validation report should include product-level auditedItems");
   const requiredAuditFields = [
     "id",
@@ -984,7 +985,8 @@ export async function checkOperationalDataSurfaces() {
     !verifyLinksScript.includes("getContentSimilarity") ||
     !verifyLinksScript.includes("contentSignalSummary") ||
     !verifyLinksScript.includes("verificationEvidenceSummary") ||
-    !verifyLinksScript.includes("revalidationQueue")
+    !verifyLinksScript.includes("revalidationQueue") ||
+    !verifyLinksScript.includes("clientRenderedDetailShell")
   ) {
     linkPolicyIssues.push("verify-product-links should extract title/meta, price, purchase/action, product-content similarity, evidence tiers, and revalidation queue signals during body probes");
   }

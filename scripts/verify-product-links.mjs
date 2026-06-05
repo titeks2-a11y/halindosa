@@ -12,6 +12,7 @@ const searchPatterns = linkQualityPolicy.searchPatterns;
 const unavailablePatterns = linkQualityPolicy.unavailableTextPatterns;
 const liveUnavailablePatterns = linkQualityPolicy.liveUnavailableTextPatterns ?? unavailablePatterns;
 const allowedSources = new Set(linkQualityPolicy.allowedVerificationSources);
+const clientRenderedDetailHosts = linkQualityPolicy.clientRenderedDetailHosts ?? [];
 const minimums = {
   distinctHosts: 18,
   evidenceLength: 12
@@ -52,6 +53,10 @@ const liveProbeDetails = new Map();
 
 function isBlockedHost(host) {
   return blockedHosts.some((candidate) => host === candidate || host.endsWith(`.${candidate}`));
+}
+
+function isClientRenderedDetailHost(host) {
+  return clientRenderedDetailHosts.some((candidate) => host === candidate || host.endsWith(`.${candidate}`));
 }
 
 function isHomeOnly(url) {
@@ -112,6 +117,24 @@ function getHardLiveFailureReason(probe) {
   if (probe.reason === "sold_out_or_ended_text") return "live_sold_out_or_ended_signal";
   if (probe.status) return `live_http_${probe.status}`;
   return probe.reason || "live_hard_failure";
+}
+
+function isClientRenderedDetailShellEligible({ host, checks, metadata, liveProbeDetail, mismatchCategory }) {
+  if (!isClientRenderedDetailHost(host)) return false;
+  if (!checks?.productDetailUrl || checks.searchLikeUrl || checks.homeOnlyUrl || checks.blockedHost) return false;
+  if (!allowedSources.has(metadata?.source ?? "")) return false;
+  if (!["blank_or_script_shell", "generic_landing_or_shell"].includes(mismatchCategory)) return false;
+  if (!liveProbeDetail || liveProbeDetail.ok !== true) return false;
+  if (isHardLiveProbeFailure(liveProbeDetail) || isAccessProtectedProbe(liveProbeDetail)) return false;
+
+  const evidenceText = [
+    liveProbeDetail.title,
+    liveProbeDetail.metaDescription,
+    liveProbeDetail.textSample,
+    metadata?.evidence
+  ].join(" ");
+
+  return !containsUnavailableText(evidenceText) && !containsLiveUnavailableText(evidenceText);
 }
 
 function classifyContentMismatch(probe) {
@@ -462,7 +485,7 @@ function getValidationCode({ linkType, validationStatus, availability, checks, l
   if (checks?.homeOnlyUrl) return "homepage_link";
   if (checks?.blockedHost) return "community_link";
   if (checks?.httpUrl === false) return "unsafe_url";
-  if (checks?.accessibleContentMismatch) return "mismatch";
+  if (checks?.accessibleContentMismatch && !checks?.clientRenderedDetailShell) return "mismatch";
   if (liveProbeFailure?.reason === "timeout") return "timeout";
   if (validationStatus === "passed" && availability === "active" && linkType !== "unavailable") return "valid";
   if (validationStatus === "needs_review") return "mismatch";
@@ -525,10 +548,17 @@ function buildAuditedItems({ dealIds, entryMap, metadataMap, dealMetadataMap, is
 
     const unavailableDetected = checks.unavailableText || liveProbeFailure?.reason === "sold_out_or_ended_text";
     const hardLiveFailureReason = getHardLiveFailureReason(liveProbeFailure);
+    checks.clientRenderedDetailShell = isClientRenderedDetailShellEligible({
+      host,
+      checks,
+      metadata,
+      liveProbeDetail,
+      mismatchCategory
+    });
     const validationReasons = [
       ...issueMessages.map((issue) => issue.replace(`${id}: `, "")),
       ...(hardLiveFailureReason ? [hardLiveFailureReason] : []),
-      ...(checks.accessibleContentMismatch ? [mismatchCategory || "live_content_mismatch"] : [])
+      ...(checks.accessibleContentMismatch && !checks.clientRenderedDetailShell ? [mismatchCategory || "live_content_mismatch"] : [])
     ];
     const validationStatus = validationReasons.length ? "failed" : "passed";
     const availability = unavailableDetected ? "sold_out" : validationStatus === "passed" ? "active" : "unknown";
@@ -543,6 +573,7 @@ function buildAuditedItems({ dealIds, entryMap, metadataMap, dealMetadataMap, is
     const isHidden =
       availability !== "active" ||
       validationStatus !== "passed" ||
+      validationCode !== "valid" ||
       linkType === "search" ||
       linkType === "seller_search" ||
       linkType === "unavailable" ||
@@ -620,6 +651,7 @@ function getVerificationEvidenceTier(item) {
   if (item.validationStatus !== "passed" || item.availability !== "active" || item.isHidden) return "blocked";
   if (item.liveProbe?.ok === true && item.checks?.contentMatch === true) return "live_content_confirmed";
   if (item.liveProbe?.ok === true && (item.checks?.priceSignal || item.checks?.purchaseActionSignal)) return "live_commerce_signal_confirmed";
+  if (item.liveProbe?.ok === true && item.checks?.clientRenderedDetailShell) return "client_rendered_detail_manual_verified";
   if (item.liveProbe?.ok === false && item.checks?.accessGuard) return "seller_access_protected_manual_verified";
   if (item.liveProbe?.ok === false && item.checks?.rateLimited) return "seller_rate_limited_manual_verified";
   if (item.liveProbe?.ok === false && ["request_failed", "timeout"].includes(item.liveProbe?.reason)) return "transient_network_manual_verified";
@@ -632,6 +664,7 @@ function getRevalidationPriority(item) {
   if (item.liveProbe?.reason === "sold_out_or_ended_text") return 95;
   if (item.liveProbe?.status === 404 || item.liveProbe?.status === 410 || item.liveProbe?.status >= 500) return 90;
   if (["request_failed", "timeout"].includes(item.liveProbe?.reason)) return 75;
+  if (item.checks?.clientRenderedDetailShell) return 60;
   if (item.checks?.accessibleContentMismatch) return 65;
   if (item.liveProbe?.reason === "http_429") return 55;
   if (item.liveProbe?.reason === "robots_or_access_blocked") return 45;
@@ -643,6 +676,7 @@ function getRevalidationReason(item) {
   if (item.liveProbe?.reason === "sold_out_or_ended_text") return "live_sold_out_or_ended_signal";
   if (item.liveProbe?.status === 404 || item.liveProbe?.status === 410 || item.liveProbe?.status >= 500) return `live_http_${item.liveProbe.status}`;
   if (["request_failed", "timeout"].includes(item.liveProbe?.reason)) return item.liveProbe.reason;
+  if (item.checks?.clientRenderedDetailShell) return "client_rendered_detail_periodic_review";
   if (item.checks?.accessibleContentMismatch) return "accessible_content_mismatch_blocked";
   if (item.liveProbe?.reason === "http_429") return "seller_rate_limited_review";
   if (item.liveProbe?.reason === "robots_or_access_blocked") return "seller_access_protected_review";
@@ -990,6 +1024,7 @@ const report = {
     searchPatterns: linkQualityPolicy.searchPatterns.length,
     unavailableTextPatterns: linkQualityPolicy.unavailableTextPatterns.length,
     liveUnavailableTextPatterns: liveUnavailablePatterns.length,
+    clientRenderedDetailHosts: clientRenderedDetailHosts.length,
     productDetailSignals: linkQualityPolicy.productDetailSignals.length,
     officialBenefitUrlSignals: linkQualityPolicy.officialBenefitUrlSignals.length
   },

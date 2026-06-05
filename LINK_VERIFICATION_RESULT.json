@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-06-05T14:29:09.293Z",
+  "generatedAt": "2026-06-05T14:58:23.197Z",
   "totalDeals": 140,
   "verificationTargets": 140,
-  "passedDirectLinks": 124,
-  "visibleDeals": 124,
-  "publishableDeals": 124,
-  "excludedDeals": 16,
-  "failedCount": 16,
+  "passedDirectLinks": 131,
+  "visibleDeals": 131,
+  "publishableDeals": 131,
+  "excludedDeals": 9,
+  "failedCount": 9,
   "productDetailUrls": 109,
   "officialBenefitUrls": 31,
   "searchOrCategorySuspected": 0,
@@ -15,40 +15,40 @@
   "homeOrMainSuspected": 0,
   "communitySuspected": 0,
   "manualReviewNeeded": 0,
-  "hiddenCount": 16,
+  "hiddenCount": 9,
   "exposedIssues": [],
   "exposedSearchLinks": 0,
   "exposedSoldOutLinks": 0,
   "exposedBrokenLinks": 0,
   "exposedInvalidUrls": 0,
   "exposedNonPublishableItems": 0,
-  "visibleCount": 124,
+  "visibleCount": 131,
   "liveProbe": {
     "enabled": true,
     "strict": false,
     "bodyProbe": true,
     "timeoutMs": 5000,
     "checked": 140,
-    "passed": 62,
-    "failed": 78,
-    "redirected": 11,
-    "finalUrlChanged": 11,
+    "passed": 61,
+    "failed": 79,
+    "redirected": 10,
+    "finalUrlChanged": 10,
     "http404": 0,
     "http410": 0,
     "http5xx": 0,
     "timeout": 0,
-    "robotsBlocked": 62,
+    "robotsBlocked": 63,
     "rateLimited": 13,
     "unavailableText": 0,
     "unavailableTextReview": 0,
     "bodyChecked": 137,
-    "titleMetaChecked": 132,
-    "contentMatched": 46,
-    "contentMismatch": 91,
-    "accessibleContentMismatch": 16,
-    "accessGuardBody": 31,
+    "titleMetaChecked": 133,
+    "contentMatched": 48,
+    "contentMismatch": 89,
+    "accessibleContentMismatch": 13,
+    "accessGuardBody": 32,
     "priceSignal": 25,
-    "purchaseActionSignal": 12,
+    "purchaseActionSignal": 13,
     "failures": [
       {
         "id": "d002",
@@ -479,6 +479,18 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "accessGuard": false,
+        "rateLimited": false,
+        "unavailablePattern": ""
+      },
+      {
+        "id": "d085",
+        "url": "https://www.coupang.com/vp/products/7956680597?categoryId=502159&itemId=24502713557&sourceType=CATEGORY&vendorItemId=89031970736",
+        "finalUrl": "https://www.coupang.com/vp/products/7956680597?categoryId=502159&itemId=24502713557&sourceType=CATEGORY&vendorItemId=89031970736",
+        "status": 403,
+        "reason": "robots_or_access_blocked",
+        "titleSimilarity": 0,
+        "contentMatch": false,
+        "accessGuard": true,
         "rateLimited": false,
         "unavailablePattern": ""
       },
@@ -989,129 +1001,55 @@
     ]
   },
   "httpStatusSummary": {
-    "redirected": 11,
-    "finalUrlChanged": 11,
+    "redirected": 10,
+    "finalUrlChanged": 10,
     "http404": 0,
     "http410": 0,
     "http5xx": 0,
     "timeout": 0,
     "rateLimited": 13,
-    "robotsBlocked": 62,
+    "robotsBlocked": 63,
     "unavailableText": 0,
     "unavailableTextReview": 0
   },
   "contentSignalSummary": {
     "bodyChecked": 137,
-    "titleMetaChecked": 132,
-    "contentMatched": 46,
-    "contentMismatch": 91,
+    "titleMetaChecked": 133,
+    "contentMatched": 48,
+    "contentMismatch": 89,
     "priceSignal": 25,
-    "purchaseActionSignal": 12,
+    "purchaseActionSignal": 13,
     "unavailableTextReview": 0,
-    "accessibleContentMismatch": 16,
-    "accessGuardBody": 31,
+    "accessibleContentMismatch": 13,
+    "accessGuardBody": 32,
     "strict": false
   },
   "verificationEvidenceSummary": {
     "counts": {
-      "live_content_confirmed": 46,
+      "live_content_confirmed": 48,
+      "seller_access_protected_manual_verified": 32,
       "manual_pattern_verified": 31,
-      "seller_access_protected_manual_verified": 31,
-      "blocked": 16,
       "seller_rate_limited_manual_verified": 13,
+      "blocked": 9,
+      "client_rendered_detail_manual_verified": 4,
       "transient_network_manual_verified": 3
     },
-    "liveConfirmed": 46,
-    "sellerAccessProtected": 31,
+    "liveConfirmed": 48,
+    "sellerAccessProtected": 32,
     "sellerRateLimited": 13,
     "transientNetwork": 3,
     "manualPatternVerified": 31,
-    "blocked": 16
+    "blocked": 9
   },
   "mismatchCategoryCounts": {
-    "wrong_product_or_benefit": 6,
-    "blank_or_script_shell": 5,
+    "blank_or_script_shell": 4,
+    "wrong_product_or_benefit": 4,
     "generic_landing_or_shell": 2,
     "ended_event_page": 1,
     "error_page": 1,
     "login_wall": 1
   },
   "revalidationQueue": [
-    {
-      "id": "d008",
-      "title": "아이더 POP ON 남성 여름 냉감 폴로 티셔츠",
-      "mallName": "LF몰",
-      "host": "lfmall.co.kr",
-      "finalUrl": "https://www.lfmall.co.kr/app/product/E3GKXX00844",
-      "priority": 100,
-      "reason": "generic_landing_or_shell",
-      "evidenceTier": "blocked",
-      "liveProbe": {
-        "status": 206,
-        "reason": "http_ok",
-        "ok": true,
-        "bodyChecked": true,
-        "title": "나를 나답게 LFmall.com",
-        "metaDescription": "",
-        "textSample": "나를 나답게 LFmall.com You need to enable JavaScript to run this app.",
-        "titleSimilarity": 0,
-        "contentMatch": false,
-        "priceSignal": false,
-        "purchaseActionSignal": false,
-        "accessGuard": false,
-        "rateLimited": false
-      }
-    },
-    {
-      "id": "d013",
-      "title": "삼성 55형 4K UHD TV",
-      "mallName": "하이마트",
-      "host": "e-himart.co.kr",
-      "finalUrl": "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0026982316",
-      "priority": 100,
-      "reason": "blank_or_script_shell",
-      "evidenceTier": "blocked",
-      "liveProbe": {
-        "status": 200,
-        "reason": "http_ok",
-        "ok": true,
-        "bodyChecked": true,
-        "title": "",
-        "metaDescription": "",
-        "textSample": "",
-        "titleSimilarity": 0,
-        "contentMatch": false,
-        "priceSignal": false,
-        "purchaseActionSignal": false,
-        "accessGuard": false,
-        "rateLimited": false
-      }
-    },
-    {
-      "id": "d026",
-      "title": "게이밍 노트북 RTX 특가",
-      "mallName": "하이마트",
-      "host": "e-himart.co.kr",
-      "finalUrl": "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0019390089",
-      "priority": 100,
-      "reason": "blank_or_script_shell",
-      "evidenceTier": "blocked",
-      "liveProbe": {
-        "status": 200,
-        "reason": "http_ok",
-        "ok": true,
-        "bodyChecked": true,
-        "title": "",
-        "metaDescription": "",
-        "textSample": "",
-        "titleSimilarity": 0,
-        "contentMatch": false,
-        "priceSignal": false,
-        "purchaseActionSignal": false,
-        "accessGuard": false,
-        "rateLimited": false
-      }
-    },
     {
       "id": "d042",
       "title": "편의점 도시락 1+1 모바일 쿠폰",
@@ -1129,31 +1067,6 @@
         "title": "종료이벤트/당첨발표 | GS25 Site",
         "metaDescription": "5월 GS25의 결제수단 혜택",
         "textSample": "종료이벤트/당첨발표 | GS25 Site 자사에서 SSO 세션(쿠키) 조회 결과를 처리하는 URL입니다. --> 본문 바로가기 주메뉴 바로가기 GS리테일 GS25 GS SHOP GS THE FRESH POP 로그인 회원가입 채용안내 고객센터 LANGUAGE 다국어 사이트 더보기 ENG ENG 2024-09-23 비게시 --> 회사소개 GS리테일 경영이념 CEO인사말 이사회 의장 인사말 기업연혁 수상이력 계열사소개 기업 CI/RI 기업소식 오시는길 정도경영 정도경영 소개 정도경영 지침 정도경영 제도 정도경영 제보 고객만족경영 나눔경영 공정거래 공정거래 자율준수 공정거래 업무매뉴얼 투자정보 주주현황 경영성과 공시정보 정책·제도 정보 동반성장 동반성장 개요 파트너사 지원제도 입점상담 입점안내 상담신청 전자계약 공지사항 임대상가 지하철 쇼핑몰 GS THE FRESH 임대코너 모집공고 고객센터 자주묻는 질문 고객의 소리 공지사항 GS25 2025-02-04 비게시 --> 상품 행사상품 행사상",
-        "titleSimilarity": 0,
-        "contentMatch": false,
-        "priceSignal": false,
-        "purchaseActionSignal": false,
-        "accessGuard": false,
-        "rateLimited": false
-      }
-    },
-    {
-      "id": "d043",
-      "title": "USB-C 100W 멀티 충전 케이블 3팩",
-      "mallName": "알리익스프레스",
-      "host": "aliexpress.com",
-      "finalUrl": "https://www.aliexpress.com/item/1005010151430718.html",
-      "priority": 100,
-      "reason": "blank_or_script_shell",
-      "evidenceTier": "blocked",
-      "liveProbe": {
-        "status": 206,
-        "reason": "http_ok",
-        "ok": true,
-        "bodyChecked": true,
-        "title": "",
-        "metaDescription": "",
-        "textSample": "",
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
@@ -1338,81 +1251,6 @@
       }
     },
     {
-      "id": "d084",
-      "title": "LG 오브제 칸 스탠드에어컨 FQ18EK1HA1M",
-      "mallName": "하이마트",
-      "host": "e-himart.co.kr",
-      "finalUrl": "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0023645183",
-      "priority": 100,
-      "reason": "blank_or_script_shell",
-      "evidenceTier": "blocked",
-      "liveProbe": {
-        "status": 200,
-        "reason": "http_ok",
-        "ok": true,
-        "bodyChecked": true,
-        "title": "",
-        "metaDescription": "",
-        "textSample": "",
-        "titleSimilarity": 0,
-        "contentMatch": false,
-        "priceSignal": false,
-        "purchaseActionSignal": false,
-        "accessGuard": false,
-        "rateLimited": false
-      }
-    },
-    {
-      "id": "d085",
-      "title": "하기스 매직컴포트 팬티형 기저귀 5단계 42매",
-      "mallName": "11번가",
-      "host": "11st.co.kr",
-      "finalUrl": "https://www.11st.co.kr/products/2635032094",
-      "priority": 100,
-      "reason": "wrong_product_or_benefit",
-      "evidenceTier": "blocked",
-      "liveProbe": {
-        "status": 200,
-        "reason": "http_ok",
-        "ok": true,
-        "bodyChecked": true,
-        "title": "11번가",
-        "metaDescription": "",
-        "textSample": "11번가",
-        "titleSimilarity": 0,
-        "contentMatch": false,
-        "priceSignal": false,
-        "purchaseActionSignal": false,
-        "accessGuard": false,
-        "rateLimited": false
-      }
-    },
-    {
-      "id": "d112",
-      "title": "커버낫 쿨 코튼 그래픽 티셔츠",
-      "mallName": "무신사",
-      "host": "musinsa.com",
-      "finalUrl": "https://www.musinsa.com/products/4011120",
-      "priority": 100,
-      "reason": "wrong_product_or_benefit",
-      "evidenceTier": "blocked",
-      "liveProbe": {
-        "status": 200,
-        "reason": "http_ok",
-        "ok": true,
-        "bodyChecked": true,
-        "title": "비아리츠(BIARRITZ) [5PACK] 에피 누드토우 덧신 4color - 사이즈 & 후기 | 무신사",
-        "metaDescription": "제품분류 :소품 &gt; 양말/레그웨어 브랜드 : 비아리츠(BIARRITZ) 제품번호 : 에피5set 제품 : [5PACK] 에피 누드토우 덧신 4color - 19,900",
-        "textSample": "비아리츠(BIARRITZ) [5PACK] 에피 누드토우 덧신 4color - 사이즈 & 후기 | 무신사",
-        "titleSimilarity": 0,
-        "contentMatch": false,
-        "priceSignal": false,
-        "purchaseActionSignal": false,
-        "accessGuard": false,
-        "rateLimited": false
-      }
-    },
-    {
       "id": "d116",
       "title": "무신사 신규 가입 웰컴 0원 쿠폰팩",
       "mallName": "무신사",
@@ -1493,6 +1331,106 @@
         "finalUrl": "https://www.hyundaicard.com/cpc/cr/CPCCR0101_01.hc",
         "titleSimilarity": 0,
         "contentMatch": null,
+        "accessGuard": false,
+        "rateLimited": false
+      }
+    },
+    {
+      "id": "d008",
+      "title": "아이더 POP ON 남성 여름 냉감 폴로 티셔츠",
+      "mallName": "LF몰",
+      "host": "lfmall.co.kr",
+      "finalUrl": "https://www.lfmall.co.kr/app/product/E3GKXX00844",
+      "priority": 60,
+      "reason": "client_rendered_detail_periodic_review",
+      "evidenceTier": "client_rendered_detail_manual_verified",
+      "liveProbe": {
+        "status": 206,
+        "reason": "http_ok",
+        "ok": true,
+        "bodyChecked": true,
+        "title": "나를 나답게 LFmall.com",
+        "metaDescription": "",
+        "textSample": "나를 나답게 LFmall.com You need to enable JavaScript to run this app.",
+        "titleSimilarity": 0,
+        "contentMatch": false,
+        "priceSignal": false,
+        "purchaseActionSignal": false,
+        "accessGuard": false,
+        "rateLimited": false
+      }
+    },
+    {
+      "id": "d013",
+      "title": "삼성 55형 4K UHD TV",
+      "mallName": "하이마트",
+      "host": "e-himart.co.kr",
+      "finalUrl": "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0026982316",
+      "priority": 60,
+      "reason": "client_rendered_detail_periodic_review",
+      "evidenceTier": "client_rendered_detail_manual_verified",
+      "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
+        "ok": true,
+        "bodyChecked": true,
+        "title": "",
+        "metaDescription": "",
+        "textSample": "",
+        "titleSimilarity": 0,
+        "contentMatch": false,
+        "priceSignal": false,
+        "purchaseActionSignal": false,
+        "accessGuard": false,
+        "rateLimited": false
+      }
+    },
+    {
+      "id": "d043",
+      "title": "USB-C 100W 멀티 충전 케이블 3팩",
+      "mallName": "알리익스프레스",
+      "host": "aliexpress.com",
+      "finalUrl": "https://www.aliexpress.com/item/1005010151430718.html",
+      "priority": 60,
+      "reason": "client_rendered_detail_periodic_review",
+      "evidenceTier": "client_rendered_detail_manual_verified",
+      "liveProbe": {
+        "status": 206,
+        "reason": "http_ok",
+        "ok": true,
+        "bodyChecked": true,
+        "title": "",
+        "metaDescription": "",
+        "textSample": "",
+        "titleSimilarity": 0,
+        "contentMatch": false,
+        "priceSignal": false,
+        "purchaseActionSignal": false,
+        "accessGuard": false,
+        "rateLimited": false
+      }
+    },
+    {
+      "id": "d084",
+      "title": "LG 오브제 칸 스탠드에어컨 FQ18EK1HA1M",
+      "mallName": "하이마트",
+      "host": "e-himart.co.kr",
+      "finalUrl": "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0023645183",
+      "priority": 60,
+      "reason": "client_rendered_detail_periodic_review",
+      "evidenceTier": "client_rendered_detail_manual_verified",
+      "liveProbe": {
+        "status": 200,
+        "reason": "http_ok",
+        "ok": true,
+        "bodyChecked": true,
+        "title": "",
+        "metaDescription": "",
+        "textSample": "",
+        "titleSimilarity": 0,
+        "contentMatch": false,
+        "priceSignal": false,
+        "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false
       }
@@ -1716,14 +1654,75 @@
         "accessGuard": false,
         "rateLimited": true
       }
+    },
+    {
+      "id": "d134",
+      "title": "종가 알찬 포기김치 3.1kg",
+      "mallName": "SSG닷컴",
+      "host": "ssg.com",
+      "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000625953830",
+      "priority": 55,
+      "reason": "seller_rate_limited_review",
+      "evidenceTier": "seller_rate_limited_manual_verified",
+      "liveProbe": {
+        "ok": false,
+        "status": 429,
+        "reason": "http_429",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000625953830",
+        "titleSimilarity": 0,
+        "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": true
+      }
+    },
+    {
+      "id": "d138",
+      "title": "햇반 현미쌀밥 210g 36입",
+      "mallName": "SSG닷컴",
+      "host": "ssg.com",
+      "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000588225854",
+      "priority": 55,
+      "reason": "seller_rate_limited_review",
+      "evidenceTier": "seller_rate_limited_manual_verified",
+      "liveProbe": {
+        "ok": false,
+        "status": 429,
+        "reason": "http_429",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000588225854",
+        "titleSimilarity": 0,
+        "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": true
+      }
+    },
+    {
+      "id": "d002",
+      "title": "새우깡 8봉 + 매운새우깡 8봉",
+      "mallName": "지마켓",
+      "host": "item.gmarket.co.kr",
+      "finalUrl": "https://item.gmarket.co.kr/Item?goodsCode=4076233103",
+      "priority": 45,
+      "reason": "seller_access_protected_review",
+      "evidenceTier": "manual_pattern_verified",
+      "liveProbe": {
+        "ok": false,
+        "status": 403,
+        "reason": "robots_or_access_blocked",
+        "finalUrl": "https://item.gmarket.co.kr/Item?goodsCode=4076233103",
+        "titleSimilarity": 0,
+        "contentMatch": false,
+        "accessGuard": false,
+        "rateLimited": false
+      }
     }
   ],
   "policy": {
     "version": 2,
     "source": "data/linkQualityPolicy.json",
     "searchPatterns": 31,
-    "unavailableTextPatterns": 37,
-    "liveUnavailableTextPatterns": 22,
+    "unavailableTextPatterns": 38,
+    "liveUnavailableTextPatterns": 23,
+    "clientRenderedDetailHosts": 4,
     "productDetailSignals": 28,
     "officialBenefitUrlSignals": 17
   },
@@ -1741,19 +1740,19 @@
   },
   "exposureAudit": {
     "totalItems": 140,
-    "exposedItems": 124,
-    "publishableItems": 124,
-    "passedItems": 124,
-    "hiddenItems": 16,
+    "exposedItems": 131,
+    "publishableItems": 131,
+    "passedItems": 131,
+    "hiddenItems": 9,
     "searchItems": 0,
     "soldOutItems": 0,
-    "failedItems": 16,
+    "failedItems": 9,
     "exposedSearchLinks": 0,
     "exposedSoldOutLinks": 0,
     "exposedBrokenLinks": 0,
     "exposedInvalidUrls": 0,
     "exposedNonPublishableItems": 0,
-    "averagePriorityScore": 95
+    "averagePriorityScore": 97
   },
   "launchGate": {
     "passed": true,
@@ -1782,29 +1781,29 @@
     "exposedHardFailureCount": 0,
     "exposedSellerUnavailableSignals": 0,
     "transientNetworkCount": 3,
-    "accessProtectedCount": 62,
+    "accessProtectedCount": 63,
     "sellerUnavailableSignals": 0,
     "contentProbe": {
       "bodyChecked": 137,
-      "titleMetaChecked": 132,
-      "contentMatched": 46,
-      "contentMismatch": 91,
-      "accessibleContentMismatch": 16,
-      "accessGuardBody": 31,
+      "titleMetaChecked": 133,
+      "contentMatched": 48,
+      "contentMismatch": 89,
+      "accessibleContentMismatch": 13,
+      "accessGuardBody": 32,
       "priceSignal": 25,
-      "purchaseActionSignal": 12,
+      "purchaseActionSignal": 13,
       "strict": false
     },
     "interpretation": "Some URLs returned transient network signals; no exposed search, sold-out, 404, 410, or 5xx links were found."
   },
   "liveProbeReasonCounts": {
-    "robots_or_access_blocked": 62,
+    "robots_or_access_blocked": 63,
     "http_429": 13,
     "request_failed": 3
   },
   "liveProbeHostFailureCounts": {
     "item.gmarket.co.kr": 30,
-    "coupang.com": 23,
+    "coupang.com": 24,
     "ssg.com": 13,
     "oliveyoung.co.kr": 7,
     "hyundaicard.com": 1,
@@ -1896,7 +1895,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 200,
@@ -1959,7 +1959,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -2017,7 +2018,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -2075,7 +2077,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -2133,7 +2136,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 206,
@@ -2196,7 +2200,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -2254,7 +2259,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -2282,16 +2288,16 @@
       "affiliateUrl": "",
       "eventUrl": "",
       "linkType": "direct_purchase",
-      "availability": "unknown",
-      "validationStatus": "failed",
-      "validationCode": "mismatch",
-      "validationReason": "generic_landing_or_shell",
+      "availability": "active",
+      "validationStatus": "passed",
+      "validationCode": "valid",
+      "validationReason": "passed",
       "mismatchCategory": "generic_landing_or_shell",
       "mismatchAction": "대표/목록/앱 쉘 페이지 대신 개별 상세 URL로 교체",
       "lastCheckedAt": "2026-05-31T11:10:00.000Z",
-      "priorityScore": 64,
-      "isHidden": true,
-      "publishable": false,
+      "priorityScore": 100,
+      "isHidden": false,
+      "publishable": true,
       "host": "lfmall.co.kr",
       "evidence": "LF몰 아이더 POP ON 남성 여름 냉감 폴로 티셔츠 상품 상세",
       "checks": {
@@ -2312,7 +2318,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": true,
         "mismatchCategory": "generic_landing_or_shell",
-        "mismatchAction": "대표/목록/앱 쉘 페이지 대신 개별 상세 URL로 교체"
+        "mismatchAction": "대표/목록/앱 쉘 페이지 대신 개별 상세 URL로 교체",
+        "clientRenderedDetailShell": true
       },
       "liveProbe": {
         "status": 206,
@@ -2329,9 +2336,9 @@
         "accessGuard": false,
         "rateLimited": false
       },
-      "verificationEvidenceTier": "blocked",
-      "revalidationPriority": 100,
-      "revalidationReason": "generic_landing_or_shell"
+      "verificationEvidenceTier": "client_rendered_detail_manual_verified",
+      "revalidationPriority": 60,
+      "revalidationReason": "client_rendered_detail_periodic_review"
     },
     {
       "id": "d009",
@@ -2375,7 +2382,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -2433,7 +2441,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -2491,7 +2500,8 @@
         "rateLimited": true,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -2549,7 +2559,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -2577,16 +2588,16 @@
       "affiliateUrl": "",
       "eventUrl": "",
       "linkType": "direct_purchase",
-      "availability": "unknown",
-      "validationStatus": "failed",
-      "validationCode": "mismatch",
-      "validationReason": "blank_or_script_shell",
+      "availability": "active",
+      "validationStatus": "passed",
+      "validationCode": "valid",
+      "validationReason": "passed",
       "mismatchCategory": "blank_or_script_shell",
       "mismatchAction": "서버 렌더링 또는 메타 정보가 확인되는 상세 URL로 교체",
       "lastCheckedAt": "2026-05-31T10:20:00.000Z",
-      "priorityScore": 64,
-      "isHidden": true,
-      "publishable": false,
+      "priorityScore": 100,
+      "isHidden": false,
+      "publishable": true,
       "host": "e-himart.co.kr",
       "evidence": "하이마트 삼성 55형 4K UHD TV 상품 상세",
       "checks": {
@@ -2607,7 +2618,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": true,
         "mismatchCategory": "blank_or_script_shell",
-        "mismatchAction": "서버 렌더링 또는 메타 정보가 확인되는 상세 URL로 교체"
+        "mismatchAction": "서버 렌더링 또는 메타 정보가 확인되는 상세 URL로 교체",
+        "clientRenderedDetailShell": true
       },
       "liveProbe": {
         "status": 200,
@@ -2624,9 +2636,9 @@
         "accessGuard": false,
         "rateLimited": false
       },
-      "verificationEvidenceTier": "blocked",
-      "revalidationPriority": 100,
-      "revalidationReason": "blank_or_script_shell"
+      "verificationEvidenceTier": "client_rendered_detail_manual_verified",
+      "revalidationPriority": 60,
+      "revalidationReason": "client_rendered_detail_periodic_review"
     },
     {
       "id": "d014",
@@ -2670,7 +2682,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -2728,7 +2741,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 200,
@@ -2791,7 +2805,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -2849,7 +2864,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -2907,7 +2923,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 200,
@@ -2970,7 +2987,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -3028,7 +3046,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 200,
@@ -3091,7 +3110,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 200,
@@ -3154,7 +3174,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -3212,7 +3233,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 206,
@@ -3275,7 +3297,8 @@
         "rateLimited": true,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -3333,7 +3356,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -3351,28 +3375,28 @@
     },
     {
       "id": "d026",
-      "title": "게이밍 노트북 RTX 특가",
+      "title": "HP 오멘 16-am0121TX RTX5070 게이밍노트북",
       "mallName": "하이마트",
       "category": "전자기기",
       "source": "manual_review",
       "sourceName": "하이마트",
-      "originalUrl": "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0019390089",
-      "finalUrl": "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0019390089",
+      "originalUrl": "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0046590199",
+      "finalUrl": "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0046590199",
       "affiliateUrl": "",
       "eventUrl": "",
       "linkType": "direct_purchase",
-      "availability": "unknown",
-      "validationStatus": "failed",
-      "validationCode": "mismatch",
-      "validationReason": "blank_or_script_shell",
-      "mismatchCategory": "blank_or_script_shell",
-      "mismatchAction": "서버 렌더링 또는 메타 정보가 확인되는 상세 URL로 교체",
-      "lastCheckedAt": "2026-05-31T12:35:00.000Z",
-      "priorityScore": 64,
-      "isHidden": true,
-      "publishable": false,
+      "availability": "active",
+      "validationStatus": "passed",
+      "validationCode": "valid",
+      "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
+      "lastCheckedAt": "2026-06-05T18:20:00.000+09:00",
+      "priorityScore": 100,
+      "isHidden": false,
+      "publishable": true,
       "host": "e-himart.co.kr",
-      "evidence": "하이마트 Lenovo RTX3050Ti 게이밍 노트북 상품 상세",
+      "evidence": "하이마트 HP 오멘 16-am0121TX RTX5070 게이밍노트북 상품 상세",
       "checks": {
         "httpUrl": true,
         "blockedHost": false,
@@ -3382,35 +3406,36 @@
         "officialBenefitUrl": false,
         "unavailableText": false,
         "liveProbeOk": true,
-        "titleMetaChecked": false,
-        "titleSimilarity": 0,
-        "contentMatch": false,
+        "titleMetaChecked": true,
+        "titleSimilarity": 100,
+        "contentMatch": true,
         "priceSignal": false,
-        "purchaseActionSignal": false,
+        "purchaseActionSignal": true,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": true,
-        "mismatchCategory": "blank_or_script_shell",
-        "mismatchAction": "서버 렌더링 또는 메타 정보가 확인되는 상세 URL로 교체"
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 200,
         "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
-        "title": "",
-        "metaDescription": "",
-        "textSample": "",
-        "titleSimilarity": 0,
-        "contentMatch": false,
+        "title": "롯데하이마트 | HP 오멘 16-am0121TX 게이밍노트북 i7-14650HX RTX5070 DDR5 16GB NVMe 512GB",
+        "metaDescription": "HP 오멘 16-am0121TX 게이밍노트북 i7-14650HX RTX5070 DDR5 16GB NVMe 512GB",
+        "textSample": "롯데하이마트 | HP 오멘 16-am0121TX 게이밍노트북 i7-14650HX RTX5070 DDR5 16GB NVMe 512GB 드롭다운 버튼 가전쇼핑/안심케어 토글 버튼 검색 바로가기 장바구니 바로가기 상품상세 뒤로가기 찜하기 공유하기 해당 브라우저에서는 결제가 정상 작동하지 않을 수 있으니 크롬 브라우저를 통해 접속 해 주시길 바랍니다. <script src=\"https://static",
+        "titleSimilarity": 100,
+        "contentMatch": true,
         "priceSignal": false,
-        "purchaseActionSignal": false,
+        "purchaseActionSignal": true,
         "accessGuard": false,
         "rateLimited": false
       },
-      "verificationEvidenceTier": "blocked",
-      "revalidationPriority": 100,
-      "revalidationReason": "blank_or_script_shell"
+      "verificationEvidenceTier": "live_content_confirmed",
+      "revalidationPriority": 20,
+      "revalidationReason": "routine_rotation_review"
     },
     {
       "id": "d027",
@@ -3454,7 +3479,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 200,
@@ -3517,7 +3543,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -3575,7 +3602,8 @@
         "rateLimited": true,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -3633,7 +3661,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -3691,7 +3720,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -3749,7 +3779,8 @@
         "rateLimited": true,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -3807,7 +3838,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 200,
@@ -3870,7 +3902,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -3928,7 +3961,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -3986,7 +4020,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 200,
@@ -4049,7 +4084,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 200,
@@ -4112,7 +4148,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 200,
@@ -4175,7 +4212,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 206,
@@ -4238,7 +4276,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -4296,7 +4335,8 @@
         "rateLimited": true,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -4354,7 +4394,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": true,
         "mismatchCategory": "ended_event_page",
-        "mismatchAction": "진행 중인 이벤트 상세 URL로 교체하거나 종료 처리"
+        "mismatchAction": "진행 중인 이벤트 상세 URL로 교체하거나 종료 처리",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 200,
@@ -4387,16 +4428,16 @@
       "affiliateUrl": "",
       "eventUrl": "",
       "linkType": "direct_purchase",
-      "availability": "unknown",
-      "validationStatus": "failed",
-      "validationCode": "mismatch",
-      "validationReason": "blank_or_script_shell",
+      "availability": "active",
+      "validationStatus": "passed",
+      "validationCode": "valid",
+      "validationReason": "passed",
       "mismatchCategory": "blank_or_script_shell",
       "mismatchAction": "서버 렌더링 또는 메타 정보가 확인되는 상세 URL로 교체",
       "lastCheckedAt": "2026-06-01T05:20:00.000Z",
-      "priorityScore": 64,
-      "isHidden": true,
-      "publishable": false,
+      "priorityScore": 100,
+      "isHidden": false,
+      "publishable": true,
       "host": "aliexpress.com",
       "evidence": "AliExpress 100W 3-in-1 USB-C 케이블 상품 상세 URL 패턴",
       "checks": {
@@ -4417,7 +4458,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": true,
         "mismatchCategory": "blank_or_script_shell",
-        "mismatchAction": "서버 렌더링 또는 메타 정보가 확인되는 상세 URL로 교체"
+        "mismatchAction": "서버 렌더링 또는 메타 정보가 확인되는 상세 URL로 교체",
+        "clientRenderedDetailShell": true
       },
       "liveProbe": {
         "status": 206,
@@ -4434,9 +4476,9 @@
         "accessGuard": false,
         "rateLimited": false
       },
-      "verificationEvidenceTier": "blocked",
-      "revalidationPriority": 100,
-      "revalidationReason": "blank_or_script_shell"
+      "verificationEvidenceTier": "client_rendered_detail_manual_verified",
+      "revalidationPriority": 60,
+      "revalidationReason": "client_rendered_detail_periodic_review"
     },
     {
       "id": "d044",
@@ -4480,7 +4522,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -4538,7 +4581,8 @@
         "rateLimited": true,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -4596,7 +4640,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -4654,7 +4699,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 200,
@@ -4717,7 +4763,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 200,
@@ -4780,7 +4827,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -4838,7 +4886,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -4896,7 +4945,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -4954,7 +5004,8 @@
         "rateLimited": true,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -5012,7 +5063,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": true,
         "mismatchCategory": "login_wall",
-        "mismatchAction": "로그인 없이 접근 가능한 공식 혜택/상품 상세 URL로 교체"
+        "mismatchAction": "로그인 없이 접근 가능한 공식 혜택/상품 상세 URL로 교체",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 200,
@@ -5075,7 +5127,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 200,
@@ -5138,7 +5191,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 200,
@@ -5201,7 +5255,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": true,
         "mismatchCategory": "wrong_product_or_benefit",
-        "mismatchAction": "페이지 title/meta가 상품명과 맞는 직접 상세 URL로 교체"
+        "mismatchAction": "페이지 title/meta가 상품명과 맞는 직접 상세 URL로 교체",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 200,
@@ -5264,7 +5319,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -5322,7 +5378,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": true,
         "mismatchCategory": "generic_landing_or_shell",
-        "mismatchAction": "대표/목록/앱 쉘 페이지 대신 개별 상세 URL로 교체"
+        "mismatchAction": "대표/목록/앱 쉘 페이지 대신 개별 상세 URL로 교체",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 200,
@@ -5385,7 +5442,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": true,
         "mismatchCategory": "error_page",
-        "mismatchAction": "오류 없는 공식 상품/이벤트 상세 URL로 교체"
+        "mismatchAction": "오류 없는 공식 상품/이벤트 상세 URL로 교체",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 206,
@@ -5448,7 +5506,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": true,
         "mismatchCategory": "wrong_product_or_benefit",
-        "mismatchAction": "페이지 title/meta가 상품명과 맞는 직접 상세 URL로 교체"
+        "mismatchAction": "페이지 title/meta가 상품명과 맞는 직접 상세 URL로 교체",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 200,
@@ -5511,7 +5570,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 200,
@@ -5574,7 +5634,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 200,
@@ -5637,7 +5698,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": true,
         "mismatchCategory": "blank_or_script_shell",
-        "mismatchAction": "서버 렌더링 또는 메타 정보가 확인되는 상세 URL로 교체"
+        "mismatchAction": "서버 렌더링 또는 메타 정보가 확인되는 상세 URL로 교체",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 200,
@@ -5700,7 +5762,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 200,
@@ -5763,7 +5826,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 206,
@@ -5826,7 +5890,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 200,
@@ -5889,7 +5954,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 200,
@@ -5952,7 +6018,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 200,
@@ -6015,7 +6082,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 206,
@@ -6078,7 +6146,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": true,
         "mismatchCategory": "wrong_product_or_benefit",
-        "mismatchAction": "페이지 title/meta가 상품명과 맞는 직접 상세 URL로 교체"
+        "mismatchAction": "페이지 title/meta가 상품명과 맞는 직접 상세 URL로 교체",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 200,
@@ -6141,7 +6210,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 200,
@@ -6204,7 +6274,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 200,
@@ -6267,7 +6338,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -6325,7 +6397,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 206,
@@ -6388,7 +6461,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 200,
@@ -6451,7 +6525,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 200,
@@ -6514,7 +6589,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 200,
@@ -6577,7 +6653,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 200,
@@ -6640,7 +6717,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -6698,7 +6776,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -6756,7 +6835,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 200,
@@ -6819,7 +6899,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 200,
@@ -6882,7 +6963,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 200,
@@ -6915,16 +6997,16 @@
       "affiliateUrl": "",
       "eventUrl": "",
       "linkType": "direct_purchase",
-      "availability": "unknown",
-      "validationStatus": "failed",
-      "validationCode": "mismatch",
-      "validationReason": "blank_or_script_shell",
+      "availability": "active",
+      "validationStatus": "passed",
+      "validationCode": "valid",
+      "validationReason": "passed",
       "mismatchCategory": "blank_or_script_shell",
       "mismatchAction": "서버 렌더링 또는 메타 정보가 확인되는 상세 URL로 교체",
       "lastCheckedAt": "2026-06-01T22:45:00.000Z",
-      "priorityScore": 64,
-      "isHidden": true,
-      "publishable": false,
+      "priorityScore": 100,
+      "isHidden": false,
+      "publishable": true,
       "host": "e-himart.co.kr",
       "evidence": "하이마트 LG 오브제 칸 스탠드에어컨 상품 상세",
       "checks": {
@@ -6945,7 +7027,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": true,
         "mismatchCategory": "blank_or_script_shell",
-        "mismatchAction": "서버 렌더링 또는 메타 정보가 확인되는 상세 URL로 교체"
+        "mismatchAction": "서버 렌더링 또는 메타 정보가 확인되는 상세 URL로 교체",
+        "clientRenderedDetailShell": true
       },
       "liveProbe": {
         "status": 200,
@@ -6962,34 +7045,34 @@
         "accessGuard": false,
         "rateLimited": false
       },
-      "verificationEvidenceTier": "blocked",
-      "revalidationPriority": 100,
-      "revalidationReason": "blank_or_script_shell"
+      "verificationEvidenceTier": "client_rendered_detail_manual_verified",
+      "revalidationPriority": 60,
+      "revalidationReason": "client_rendered_detail_periodic_review"
     },
     {
       "id": "d085",
-      "title": "하기스 매직컴포트 팬티형 기저귀 5단계 42매",
-      "mallName": "11번가",
+      "title": "하기스 2024 매직컴포트 팬티형 기저귀 5단계 84매",
+      "mallName": "쿠팡",
       "category": "육아",
       "source": "manual_review",
-      "sourceName": "11번가",
-      "originalUrl": "https://www.11st.co.kr/products/2635032094",
-      "finalUrl": "https://www.11st.co.kr/products/2635032094",
+      "sourceName": "쿠팡",
+      "originalUrl": "https://www.coupang.com/vp/products/7956680597?categoryId=502159&itemId=24502713557&sourceType=CATEGORY&vendorItemId=89031970736",
+      "finalUrl": "https://www.coupang.com/vp/products/7956680597?categoryId=502159&itemId=24502713557&sourceType=CATEGORY&vendorItemId=89031970736",
       "affiliateUrl": "",
       "eventUrl": "",
       "linkType": "direct_purchase",
-      "availability": "unknown",
-      "validationStatus": "failed",
-      "validationCode": "mismatch",
-      "validationReason": "wrong_product_or_benefit",
-      "mismatchCategory": "wrong_product_or_benefit",
-      "mismatchAction": "페이지 title/meta가 상품명과 맞는 직접 상세 URL로 교체",
-      "lastCheckedAt": "2026-06-01T22:45:00.000Z",
-      "priorityScore": 64,
-      "isHidden": true,
-      "publishable": false,
-      "host": "11st.co.kr",
-      "evidence": "11번가 하기스 매직컴포트 팬티형 기저귀 5단계 상품 상세",
+      "availability": "active",
+      "validationStatus": "passed",
+      "validationCode": "valid",
+      "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
+      "lastCheckedAt": "2026-06-05T18:20:00.000+09:00",
+      "priorityScore": 99,
+      "isHidden": false,
+      "publishable": true,
+      "host": "coupang.com",
+      "evidence": "쿠팡 하기스 2024 매직컴포트 팬티형 기저귀 5단계 84매 상품 상세",
       "checks": {
         "httpUrl": true,
         "blockedHost": false,
@@ -6998,36 +7081,32 @@
         "productDetailUrl": true,
         "officialBenefitUrl": false,
         "unavailableText": false,
-        "liveProbeOk": true,
+        "liveProbeOk": false,
         "titleMetaChecked": true,
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
-        "accessGuard": false,
+        "accessGuard": true,
         "rateLimited": false,
-        "accessibleContentMismatch": true,
-        "mismatchCategory": "wrong_product_or_benefit",
-        "mismatchAction": "페이지 title/meta가 상품명과 맞는 직접 상세 URL로 교체"
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
-        "status": 200,
-        "reason": "http_ok",
-        "ok": true,
-        "bodyChecked": true,
-        "title": "11번가",
-        "metaDescription": "",
-        "textSample": "11번가",
+        "ok": false,
+        "status": 403,
+        "reason": "robots_or_access_blocked",
+        "finalUrl": "https://www.coupang.com/vp/products/7956680597?categoryId=502159&itemId=24502713557&sourceType=CATEGORY&vendorItemId=89031970736",
         "titleSimilarity": 0,
         "contentMatch": false,
-        "priceSignal": false,
-        "purchaseActionSignal": false,
-        "accessGuard": false,
+        "accessGuard": true,
         "rateLimited": false
       },
-      "verificationEvidenceTier": "blocked",
-      "revalidationPriority": 100,
-      "revalidationReason": "wrong_product_or_benefit"
+      "verificationEvidenceTier": "seller_access_protected_manual_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d086",
@@ -7071,7 +7150,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 200,
@@ -7134,7 +7214,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -7192,7 +7273,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -7250,7 +7332,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -7308,7 +7391,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 200,
@@ -7371,7 +7455,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -7429,7 +7514,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -7487,7 +7573,8 @@
         "rateLimited": true,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -7545,7 +7632,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -7603,7 +7691,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 200,
@@ -7666,7 +7755,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -7724,7 +7814,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -7782,7 +7873,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -7840,7 +7932,8 @@
         "rateLimited": true,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -7898,7 +7991,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -7956,7 +8050,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -8014,7 +8109,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 200,
@@ -8077,7 +8173,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -8135,7 +8232,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -8193,7 +8291,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -8251,7 +8350,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -8309,7 +8409,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -8367,7 +8468,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -8425,7 +8527,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -8483,7 +8586,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -8541,7 +8645,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -8559,28 +8664,28 @@
     },
     {
       "id": "d112",
-      "title": "커버낫 쿨 코튼 그래픽 티셔츠",
+      "title": "커버낫 X 미즈노 쿨 코튼 모티베이션 그래픽 티셔츠",
       "mallName": "무신사",
       "category": "의류",
       "source": "manual_review",
       "sourceName": "무신사",
-      "originalUrl": "https://www.musinsa.com/products/4011120",
-      "finalUrl": "https://www.musinsa.com/products/4011120",
+      "originalUrl": "https://www.musinsa.com/products/6245413",
+      "finalUrl": "https://www.musinsa.com/products/6245413",
       "affiliateUrl": "",
       "eventUrl": "",
       "linkType": "direct_purchase",
-      "availability": "unknown",
-      "validationStatus": "failed",
-      "validationCode": "mismatch",
-      "validationReason": "wrong_product_or_benefit",
-      "mismatchCategory": "wrong_product_or_benefit",
-      "mismatchAction": "페이지 title/meta가 상품명과 맞는 직접 상세 URL로 교체",
-      "lastCheckedAt": "2026-06-02T02:30:00.000Z",
-      "priorityScore": 64,
-      "isHidden": true,
-      "publishable": false,
+      "availability": "active",
+      "validationStatus": "passed",
+      "validationCode": "valid",
+      "validationReason": "passed",
+      "mismatchCategory": "",
+      "mismatchAction": "",
+      "lastCheckedAt": "2026-06-05T18:20:00.000+09:00",
+      "priorityScore": 100,
+      "isHidden": false,
+      "publishable": true,
       "host": "musinsa.com",
-      "evidence": "무신사 커버낫 쿨 코튼 그래픽 티셔츠 상품 상세",
+      "evidence": "무신사 커버낫 X 미즈노 쿨 코튼 모티베이션 그래픽 티셔츠 상품 상세",
       "checks": {
         "httpUrl": true,
         "blockedHost": false,
@@ -8591,34 +8696,35 @@
         "unavailableText": false,
         "liveProbeOk": true,
         "titleMetaChecked": true,
-        "titleSimilarity": 0,
-        "contentMatch": false,
+        "titleSimilarity": 100,
+        "contentMatch": true,
         "priceSignal": false,
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false,
-        "accessibleContentMismatch": true,
-        "mismatchCategory": "wrong_product_or_benefit",
-        "mismatchAction": "페이지 title/meta가 상품명과 맞는 직접 상세 URL로 교체"
+        "accessibleContentMismatch": false,
+        "mismatchCategory": "",
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 200,
         "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
-        "title": "비아리츠(BIARRITZ) [5PACK] 에피 누드토우 덧신 4color - 사이즈 & 후기 | 무신사",
-        "metaDescription": "제품분류 :소품 &gt; 양말/레그웨어 브랜드 : 비아리츠(BIARRITZ) 제품번호 : 에피5set 제품 : [5PACK] 에피 누드토우 덧신 4color - 19,900",
-        "textSample": "비아리츠(BIARRITZ) [5PACK] 에피 누드토우 덧신 4color - 사이즈 & 후기 | 무신사",
-        "titleSimilarity": 0,
-        "contentMatch": false,
+        "title": "커버낫(COVERNAT) [커버낫 X 미즈노] 쿨 코튼 모티베이션 그래픽 티셔츠 화이트 - 사이즈 & 후기 | 무신사",
+        "metaDescription": "제품분류 :상의 &gt; 반소매 티셔츠 브랜드 : 커버낫(COVERNAT) 제품번호 : CO2602STM1WH 제품 : [커버낫 X 미즈노] 쿨 코튼 모티베이션 그래픽 티셔츠 화이트 - 53,100",
+        "textSample": "커버낫(COVERNAT) [커버낫 X 미즈노] 쿨 코튼 모티베이션 그래픽 티셔츠 화이트 - 사이즈 & 후기 | 무신사",
+        "titleSimilarity": 100,
+        "contentMatch": true,
         "priceSignal": false,
         "purchaseActionSignal": false,
         "accessGuard": false,
         "rateLimited": false
       },
-      "verificationEvidenceTier": "blocked",
-      "revalidationPriority": 100,
-      "revalidationReason": "wrong_product_or_benefit"
+      "verificationEvidenceTier": "live_content_confirmed",
+      "revalidationPriority": 20,
+      "revalidationReason": "routine_rotation_review"
     },
     {
       "id": "d113",
@@ -8662,7 +8768,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -8720,7 +8827,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -8778,7 +8886,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 200,
@@ -8841,7 +8950,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": true,
         "mismatchCategory": "wrong_product_or_benefit",
-        "mismatchAction": "페이지 title/meta가 상품명과 맞는 직접 상세 URL로 교체"
+        "mismatchAction": "페이지 title/meta가 상품명과 맞는 직접 상세 URL로 교체",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 200,
@@ -8904,7 +9014,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 200,
@@ -8967,7 +9078,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -9025,7 +9137,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 200,
@@ -9088,7 +9201,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -9146,7 +9260,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -9204,7 +9319,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -9262,7 +9378,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 200,
@@ -9325,7 +9442,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -9383,7 +9501,8 @@
         "rateLimited": true,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -9441,7 +9560,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -9499,7 +9619,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -9557,7 +9678,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 200,
@@ -9620,7 +9742,8 @@
         "rateLimited": true,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -9678,7 +9801,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -9736,7 +9860,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -9794,7 +9919,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -9852,7 +9978,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 200,
@@ -9915,7 +10042,8 @@
         "rateLimited": true,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -9973,7 +10101,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -10031,7 +10160,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -10089,7 +10219,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "status": 200,
@@ -10152,7 +10283,8 @@
         "rateLimited": true,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -10210,7 +10342,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -10268,7 +10401,8 @@
         "rateLimited": false,
         "accessibleContentMismatch": false,
         "mismatchCategory": "",
-        "mismatchAction": ""
+        "mismatchAction": "",
+        "clientRenderedDetailShell": false
       },
       "liveProbe": {
         "ok": false,
@@ -10288,9 +10422,9 @@
   "excludedReasonCounts": {},
   "domainCounts": {
     "item.gmarket.co.kr": 30,
-    "coupang.com": 23,
+    "coupang.com": 24,
     "ssg.com": 14,
-    "11st.co.kr": 10,
+    "11st.co.kr": 9,
     "oliveyoung.co.kr": 7,
     "e-himart.co.kr": 5,
     "musinsa.com": 5,

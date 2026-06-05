@@ -1,50 +1,8 @@
 {
-  "generatedAt": "2026-06-05T14:29:09.293Z",
+  "generatedAt": "2026-06-05T14:58:23.197Z",
   "sourceReport": "reports/link-validation.json",
-  "hiddenCount": 16,
+  "hiddenCount": 9,
   "items": [
-    {
-      "id": "d008",
-      "title": "아이더 POP ON 남성 여름 냉감 폴로 티셔츠",
-      "mallName": "LF몰",
-      "availability": "unknown",
-      "validationStatus": "failed",
-      "validationReason": "generic_landing_or_shell",
-      "validationCode": "mismatch",
-      "mismatchCategory": "generic_landing_or_shell",
-      "mismatchAction": "대표/목록/앱 쉘 페이지 대신 개별 상세 URL로 교체",
-      "evidenceTier": "blocked",
-      "revalidationReason": "generic_landing_or_shell",
-      "finalUrl": "https://www.lfmall.co.kr/app/product/E3GKXX00844"
-    },
-    {
-      "id": "d013",
-      "title": "삼성 55형 4K UHD TV",
-      "mallName": "하이마트",
-      "availability": "unknown",
-      "validationStatus": "failed",
-      "validationReason": "blank_or_script_shell",
-      "validationCode": "mismatch",
-      "mismatchCategory": "blank_or_script_shell",
-      "mismatchAction": "서버 렌더링 또는 메타 정보가 확인되는 상세 URL로 교체",
-      "evidenceTier": "blocked",
-      "revalidationReason": "blank_or_script_shell",
-      "finalUrl": "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0026982316"
-    },
-    {
-      "id": "d026",
-      "title": "게이밍 노트북 RTX 특가",
-      "mallName": "하이마트",
-      "availability": "unknown",
-      "validationStatus": "failed",
-      "validationReason": "blank_or_script_shell",
-      "validationCode": "mismatch",
-      "mismatchCategory": "blank_or_script_shell",
-      "mismatchAction": "서버 렌더링 또는 메타 정보가 확인되는 상세 URL로 교체",
-      "evidenceTier": "blocked",
-      "revalidationReason": "blank_or_script_shell",
-      "finalUrl": "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0019390089"
-    },
     {
       "id": "d042",
       "title": "편의점 도시락 1+1 모바일 쿠폰",
@@ -58,20 +16,6 @@
       "evidenceTier": "blocked",
       "revalidationReason": "ended_event_page",
       "finalUrl": "https://gs25.gsretail.com/gscvs/ko/customer-engagement/event/detail/publishing?eventCode=8842722233888&pageNum=1"
-    },
-    {
-      "id": "d043",
-      "title": "USB-C 100W 멀티 충전 케이블 3팩",
-      "mallName": "알리익스프레스",
-      "availability": "unknown",
-      "validationStatus": "failed",
-      "validationReason": "blank_or_script_shell",
-      "validationCode": "mismatch",
-      "mismatchCategory": "blank_or_script_shell",
-      "mismatchAction": "서버 렌더링 또는 메타 정보가 확인되는 상세 URL로 교체",
-      "evidenceTier": "blocked",
-      "revalidationReason": "blank_or_script_shell",
-      "finalUrl": "https://www.aliexpress.com/item/1005010151430718.html"
     },
     {
       "id": "d053",
@@ -170,48 +114,6 @@
       "evidenceTier": "blocked",
       "revalidationReason": "wrong_product_or_benefit",
       "finalUrl": "https://www.i-challenge.co.kr/Event/"
-    },
-    {
-      "id": "d084",
-      "title": "LG 오브제 칸 스탠드에어컨 FQ18EK1HA1M",
-      "mallName": "하이마트",
-      "availability": "unknown",
-      "validationStatus": "failed",
-      "validationReason": "blank_or_script_shell",
-      "validationCode": "mismatch",
-      "mismatchCategory": "blank_or_script_shell",
-      "mismatchAction": "서버 렌더링 또는 메타 정보가 확인되는 상세 URL로 교체",
-      "evidenceTier": "blocked",
-      "revalidationReason": "blank_or_script_shell",
-      "finalUrl": "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0023645183"
-    },
-    {
-      "id": "d085",
-      "title": "하기스 매직컴포트 팬티형 기저귀 5단계 42매",
-      "mallName": "11번가",
-      "availability": "unknown",
-      "validationStatus": "failed",
-      "validationReason": "wrong_product_or_benefit",
-      "validationCode": "mismatch",
-      "mismatchCategory": "wrong_product_or_benefit",
-      "mismatchAction": "페이지 title/meta가 상품명과 맞는 직접 상세 URL로 교체",
-      "evidenceTier": "blocked",
-      "revalidationReason": "wrong_product_or_benefit",
-      "finalUrl": "https://www.11st.co.kr/products/2635032094"
-    },
-    {
-      "id": "d112",
-      "title": "커버낫 쿨 코튼 그래픽 티셔츠",
-      "mallName": "무신사",
-      "availability": "unknown",
-      "validationStatus": "failed",
-      "validationReason": "wrong_product_or_benefit",
-      "validationCode": "mismatch",
-      "mismatchCategory": "wrong_product_or_benefit",
-      "mismatchAction": "페이지 title/meta가 상품명과 맞는 직접 상세 URL로 교체",
-      "evidenceTier": "blocked",
-      "revalidationReason": "wrong_product_or_benefit",
-      "finalUrl": "https://www.musinsa.com/products/4011120"
     },
     {
       "id": "d116",

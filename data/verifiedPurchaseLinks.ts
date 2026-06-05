@@ -160,10 +160,10 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     evidence: "올리브영 선크림 1+1 상품 상세"
   },
   d026: {
-    url: "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0019390089",
-    checkedAt: "2026-05-31T12:35:00.000Z",
+    url: "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0046590199",
+    checkedAt: "2026-06-05T18:20:00.000+09:00",
     source: "manual_review",
-    evidence: "하이마트 Lenovo RTX3050Ti 게이밍 노트북 상품 상세"
+    evidence: "하이마트 HP 오멘 16-am0121TX RTX5070 게이밍노트북 상품 상세"
   },
   d027: {
     url: "https://m.gsshop.com/prd/prd.gs?prdid=1076815137&mseq=440582&rank=2&ispre=Y&kwd=24336",
@@ -514,10 +514,10 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     evidence: "하이마트 LG 오브제 칸 스탠드에어컨 상품 상세"
   },
   d085: {
-    url: "https://www.11st.co.kr/products/2635032094",
-    checkedAt: "2026-06-01T22:45:00.000Z",
+    url: "https://www.coupang.com/vp/products/7956680597?categoryId=502159&itemId=24502713557&sourceType=CATEGORY&vendorItemId=89031970736",
+    checkedAt: "2026-06-05T18:20:00.000+09:00",
     source: "manual_review",
-    evidence: "11번가 하기스 매직컴포트 팬티형 기저귀 5단계 상품 상세"
+    evidence: "쿠팡 하기스 2024 매직컴포트 팬티형 기저귀 5단계 84매 상품 상세"
   },
   d086: {
     url: "https://www.musinsa.com/products/6092416",
@@ -676,10 +676,10 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     evidence: "G마켓 지오다노 코튼 크루넥 반팔 티셔츠 3팩 상품 상세"
   },
   d112: {
-    url: "https://www.musinsa.com/products/4011120",
-    checkedAt: "2026-06-02T02:30:00.000Z",
+    url: "https://www.musinsa.com/products/6245413",
+    checkedAt: "2026-06-05T18:20:00.000+09:00",
     source: "manual_review",
-    evidence: "무신사 커버낫 쿨 코튼 그래픽 티셔츠 상품 상세"
+    evidence: "무신사 커버낫 X 미즈노 쿨 코튼 모티베이션 그래픽 티셔츠 상품 상세"
   },
   d113: {
     url: "https://www.coupang.com/vp/products/186524064",

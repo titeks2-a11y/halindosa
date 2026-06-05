@@ -241,13 +241,13 @@
       "id": "d026",
       "mallName": "하이마트",
       "category": "전자기기",
-      "title": "게이밍 노트북 RTX 특가",
-      "purchaseUrl": "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0019390089",
+      "title": "HP 오멘 16-am0121TX RTX5070 게이밍노트북",
+      "purchaseUrl": "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0046590199",
       "imageField": "imageUrl",
       "imageSourceHint": "판매처 상세 페이지 또는 공식 제휴 피드 대표 이미지",
       "sourcingPriority": "medium",
       "priorityReason": "60% 출시 이미지 목표 달성을 위한 fallback 보강 후보",
-      "imageSearchUrl": "https://search.shopping.naver.com/search/all?query=%ED%95%98%EC%9D%B4%EB%A7%88%ED%8A%B8%20%EA%B2%8C%EC%9D%B4%EB%B0%8D%20%EB%85%B8%ED%8A%B8%EB%B6%81%20RTX%20%ED%8A%B9%EA%B0%80%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80",
+      "imageSearchUrl": "https://search.shopping.naver.com/search/all?query=%ED%95%98%EC%9D%B4%EB%A7%88%ED%8A%B8%20HP%20%EC%98%A4%EB%A9%98%2016-am0121TX%20RTX5070%20%EA%B2%8C%EC%9D%B4%EB%B0%8D%EB%85%B8%ED%8A%B8%EB%B6%81%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80",
       "batchWeek": 1,
       "sourceSafetyLevel": "official_or_partner_only",
       "imageReadyGate": "productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보",
@@ -468,7 +468,7 @@
   "mallRequestRows": [
     {
       "mallName": "쿠팡",
-      "fallbackCount": 20,
+      "fallbackCount": 21,
       "recommendedAcquisition": "partner_feed",
       "operationOwner": "제휴/운영 피드 담당",
       "slaDays": 3,
@@ -500,7 +500,7 @@
     },
     {
       "mallName": "11번가",
-      "fallbackCount": 10,
+      "fallbackCount": 9,
       "recommendedAcquisition": "partner_feed",
       "operationOwner": "제휴/운영 피드 담당",
       "slaDays": 3,
@@ -537,7 +537,7 @@
       "operationOwner": "상품 운영 담당",
       "slaDays": 5,
       "sampleIds": "d013 | d026 | d036",
-      "sampleTitles": "삼성 55형 4K UHD TV | 게이밍 노트북 RTX 특가 | 허밍 무선청소기 HML-VC2502W 물걸레 세트",
+      "sampleTitles": "삼성 55형 4K UHD TV | HP 오멘 16-am0121TX RTX5070 게이밍노트북 | 허밍 무선청소기 HML-VC2502W 물걸레 세트",
       "requestAction": "하이마트 공식 상세 페이지 이미지 후보를 배치 검수",
       "requestTemplate": "하이마트 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외",
       "feedRequestFields": "productUrl | imageUrl | thumbnail | imageRights | priceCheckedAt",
@@ -1204,7 +1204,7 @@
   "mallSummary": [
     [
       "쿠팡",
-      20
+      21
     ],
     [
       "SSG닷컴",
@@ -1212,7 +1212,7 @@
     ],
     [
       "11번가",
-      10
+      9
     ],
     [
       "무신사",
@@ -1609,13 +1609,13 @@
       "id": "d026",
       "mallName": "하이마트",
       "category": "전자기기",
-      "title": "게이밍 노트북 RTX 특가",
-      "purchaseUrl": "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0019390089",
+      "title": "HP 오멘 16-am0121TX RTX5070 게이밍노트북",
+      "purchaseUrl": "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0046590199",
       "imageField": "imageUrl",
       "imageSourceHint": "판매처 상세 페이지 또는 공식 제휴 피드 대표 이미지",
       "sourcingPriority": "medium",
       "priorityReason": "60% 출시 이미지 목표 달성을 위한 fallback 보강 후보",
-      "imageSearchUrl": "https://search.shopping.naver.com/search/all?query=%ED%95%98%EC%9D%B4%EB%A7%88%ED%8A%B8%20%EA%B2%8C%EC%9D%B4%EB%B0%8D%20%EB%85%B8%ED%8A%B8%EB%B6%81%20RTX%20%ED%8A%B9%EA%B0%80%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80",
+      "imageSearchUrl": "https://search.shopping.naver.com/search/all?query=%ED%95%98%EC%9D%B4%EB%A7%88%ED%8A%B8%20HP%20%EC%98%A4%EB%A9%98%2016-am0121TX%20RTX5070%20%EA%B2%8C%EC%9D%B4%EB%B0%8D%EB%85%B8%ED%8A%B8%EB%B6%81%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80",
       "batchWeek": 1,
       "sourceSafetyLevel": "official_or_partner_only",
       "imageReadyGate": "productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보",
@@ -2671,21 +2671,21 @@
     {
       "rank": 69,
       "id": "d085",
-      "mallName": "11번가",
+      "mallName": "쿠팡",
       "category": "육아",
-      "title": "하기스 매직컴포트 팬티형 기저귀 5단계 42매",
-      "purchaseUrl": "https://www.11st.co.kr/products/2635032094",
+      "title": "하기스 2024 매직컴포트 팬티형 기저귀 5단계 84매",
+      "purchaseUrl": "https://www.coupang.com/vp/products/7956680597?categoryId=502159&itemId=24502713557&sourceType=CATEGORY&vendorItemId=89031970736",
       "imageField": "imageUrl",
       "imageSourceHint": "판매처 상세 페이지 또는 공식 제휴 피드 대표 이미지",
       "sourcingPriority": "low",
       "priorityReason": "60% 출시 이미지 목표 달성을 위한 fallback 보강 후보",
-      "imageSearchUrl": "https://search.shopping.naver.com/search/all?query=11%EB%B2%88%EA%B0%80%20%ED%95%98%EA%B8%B0%EC%8A%A4%20%EB%A7%A4%EC%A7%81%EC%BB%B4%ED%8F%AC%ED%8A%B8%20%ED%8C%AC%ED%8B%B0%ED%98%95%20%EA%B8%B0%EC%A0%80%EA%B7%80%205%EB%8B%A8%EA%B3%84%2042%EB%A7%A4%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80",
+      "imageSearchUrl": "https://search.shopping.naver.com/search/all?query=%EC%BF%A0%ED%8C%A1%20%ED%95%98%EA%B8%B0%EC%8A%A4%202024%20%EB%A7%A4%EC%A7%81%EC%BB%B4%ED%8F%AC%ED%8A%B8%20%ED%8C%AC%ED%8B%B0%ED%98%95%20%EA%B8%B0%EC%A0%80%EA%B7%80%205%EB%8B%A8%EA%B3%84%2084%EB%A7%A4%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80",
       "batchWeek": 3,
       "sourceSafetyLevel": "official_or_partner_only",
       "imageReadyGate": "productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보",
       "requiredProviderFields": "productUrl | imageUrl | thumbnail | imageRights | priceCheckedAt",
       "operatorChecklist": "판매처 또는 승인 제휴 피드 이미지 | 상품명과 옵션이 현재 노출 상품과 일치 | 검색 결과 썸네일/커뮤니티/블로그 이미지 사용 금지 | 가격 기준 시각과 이미지 갱신 시각 기록",
-      "requestTemplate": "11번가 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외"
+      "requestTemplate": "쿠팡 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외"
     },
     {
       "rank": 70,
@@ -2920,13 +2920,13 @@
       "id": "d112",
       "mallName": "무신사",
       "category": "의류",
-      "title": "커버낫 쿨 코튼 그래픽 티셔츠",
-      "purchaseUrl": "https://www.musinsa.com/products/4011120",
+      "title": "커버낫 X 미즈노 쿨 코튼 모티베이션 그래픽 티셔츠",
+      "purchaseUrl": "https://www.musinsa.com/products/6245413",
       "imageField": "imageUrl",
       "imageSourceHint": "판매처 상세 페이지 또는 공식 제휴 피드 대표 이미지",
       "sourcingPriority": "low",
       "priorityReason": "60% 출시 이미지 목표 달성을 위한 fallback 보강 후보",
-      "imageSearchUrl": "https://search.shopping.naver.com/search/all?query=%EB%AC%B4%EC%8B%A0%EC%82%AC%20%EC%BB%A4%EB%B2%84%EB%82%AB%20%EC%BF%A8%20%EC%BD%94%ED%8A%BC%20%EA%B7%B8%EB%9E%98%ED%94%BD%20%ED%8B%B0%EC%85%94%EC%B8%A0%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80",
+      "imageSearchUrl": "https://search.shopping.naver.com/search/all?query=%EB%AC%B4%EC%8B%A0%EC%82%AC%20%EC%BB%A4%EB%B2%84%EB%82%AB%20X%20%EB%AF%B8%EC%A6%88%EB%85%B8%20%EC%BF%A8%20%EC%BD%94%ED%8A%BC%20%EB%AA%A8%ED%8B%B0%EB%B2%A0%EC%9D%B4%EC%85%98%20%EA%B7%B8%EB%9E%98%ED%94%BD%20%ED%8B%B0%EC%85%94%EC%B8%A0%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80",
       "batchWeek": 4,
       "sourceSafetyLevel": "official_or_partner_only",
       "imageReadyGate": "productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보",

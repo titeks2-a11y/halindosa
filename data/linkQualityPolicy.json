@@ -15,6 +15,12 @@
   "placeholderHosts": [
     "example.com"
   ],
+  "clientRenderedDetailHosts": [
+    "lfmall.co.kr",
+    "e-himart.co.kr",
+    "aliexpress.com",
+    "11st.co.kr"
+  ],
   "homePaths": [
     "",
     "/",
@@ -143,6 +149,7 @@
     "매진",
     "더 이상 판매",
     "현재 구매할 수 없습니다",
+    "현재 판매중인 상품이 아닙니다",
     "존재하지 않는 상품",
     "마감되었습니다",
     "마감 되었습니다",
@@ -177,6 +184,7 @@
     "준비된 수량이 모두 소진",
     "수량이 모두 소진",
     "현재 구매할 수 없습니다",
+    "현재 판매중인 상품이 아닙니다",
     "존재하지 않는 상품",
     "sold out",
     "out of stock",
