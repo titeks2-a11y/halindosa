@@ -94,7 +94,11 @@ export async function runAdminDashboardSmokeChecks() {
         text.includes("official API") &&
         text.includes("partner feed") &&
         text.includes("manual device check") &&
-        text.includes("backoff retry"),
+        text.includes("backoff retry") &&
+        text.includes("수동 검수 증거 신선도") &&
+        text.includes("7일 이내") &&
+        text.includes("stale") &&
+        text.includes("missing"),
       "Admin dashboard missing live probe review panel"
     );
     assert(

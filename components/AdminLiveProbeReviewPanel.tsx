@@ -17,6 +17,16 @@ const severityClassNames: Record<string, string> = {
 
 export function AdminLiveProbeReviewPanel({ apiHref, csvHref, report }: AdminLiveProbeReviewPanelProps) {
   const topQueue = report.reviewQueue.slice(0, 5);
+  const manualEvidence = report.manualEvidenceSummary ?? {
+    maxAgeDays: 7,
+    reviewedQueueItems: 0,
+    freshManualEvidenceCount: 0,
+    staleManualEvidenceCount: 0,
+    missingManualEvidenceCount: 0,
+    oldestCheckedAt: "",
+    newestCheckedAt: ""
+  };
+  const manualEvidenceOk = manualEvidence.staleManualEvidenceCount === 0 && manualEvidence.missingManualEvidenceCount === 0;
 
   return (
     <section className="rounded-3xl border border-sky-100 bg-white p-5 shadow-sm" aria-label="live probe 자동 본문 검증 운영 큐">
@@ -63,6 +73,33 @@ export function AdminLiveProbeReviewPanel({ apiHref, csvHref, report }: AdminLiv
             <p className="mt-1 text-xs font-bold text-sky-900/70">{description}</p>
           </div>
         ))}
+      </div>
+
+      <div className="mt-4 rounded-2xl border border-amber-100 bg-amber-50 p-4">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="text-sm font-black text-slate-950">수동 검수 증거 신선도</p>
+            <p className="mt-1 text-xs font-bold leading-5 text-amber-900/75">
+              판매처가 403/429로 자동 본문 확인을 막아도 {manualEvidence.maxAgeDays}일 이내 manual device check, official API, partner feed 증거가 있어야 출시 허용됩니다.
+            </p>
+          </div>
+          <span className={`inline-flex shrink-0 rounded-full px-3 py-1.5 text-xs font-black ${manualEvidenceOk ? "bg-white text-emerald-700" : "bg-white text-dossa-red"}`}>
+            {manualEvidenceOk ? "7일 이내 증거 유지" : "수동 재검수 필요"}
+          </span>
+        </div>
+        <div className="mt-3 grid gap-2 sm:grid-cols-3">
+          {[
+            ["fresh", `${manualEvidence.freshManualEvidenceCount}/${manualEvidence.reviewedQueueItems}`, "최근 수동 검수"],
+            ["stale", manualEvidence.staleManualEvidenceCount, "만료 증거"],
+            ["missing", manualEvidence.missingManualEvidenceCount, "증거 누락"]
+          ].map(([label, value, description]) => (
+            <div key={label} className="rounded-2xl bg-white p-3 shadow-sm">
+              <p className="text-xs font-black text-amber-700">{label}</p>
+              <p className="mt-1 text-xl font-black text-slate-950">{String(value)}</p>
+              <p className="mt-1 text-xs font-bold text-slate-500">{description}</p>
+            </div>
+          ))}
+        </div>
       </div>
 
       <div className="mt-4 grid gap-3 lg:grid-cols-[0.78fr_1.22fr]">
@@ -135,6 +172,9 @@ export function AdminLiveProbeReviewPanel({ apiHref, csvHref, report }: AdminLiv
                       {item.mallName} · {item.host} · {item.status ?? "n/a"} · {item.reason}
                     </p>
                     <p className="mt-1 text-xs font-semibold text-slate-400">{item.retryMode}</p>
+                    <p className="mt-1 text-xs font-semibold text-amber-700">
+                      수동 증거 {item.manualEvidenceStatus ?? "missing"} · {item.manualEvidenceAgeDays ?? "n/a"}일 경과
+                    </p>
                   </div>
                   <span className={`shrink-0 rounded-full px-2.5 py-1 text-[11px] font-black ring-1 ${severityClassNames[item.severity] ?? severityClassNames.watch}`}>
                     {item.severity}

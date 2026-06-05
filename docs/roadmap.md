@@ -118,6 +118,7 @@
 - live probe 결과를 `liveProbeReviewSummary`와 `liveProbeHostFailureCounts`로 재분류해 404/410/5xx/품절 같은 강한 실패 신호는 출시 차단 기준으로, timeout/request_failed는 일시 네트워크 재확인 큐로, 403/429/robots 같은 접근 보호 신호는 공식 API·제휴 feed·실기기 확인 우선순위로 운영하도록 관리자 화면, API, CSV, smoke, release doctor에 연결했다.
 - `live:probe:review`를 추가해 접근 보호·429·일시 네트워크 실패를 `reports/live-probe-review.json`과 `docs/LIVE_PROBE_REVIEW_REPORT.md`로 별도 큐화하고, hard failure/품절 문구/검색 링크 노출 0건을 release doctor가 다시 확인하도록 강화했다.
 - `/api/admin/live-probe-review`와 관리자 `live probe 자동 본문 검증` 패널을 추가해 hard failure, 숨김 격리, 접근보호/429, 일시 네트워크 retry 큐를 JSON/CSV로 운영자가 바로 내려받고, official API·partner feed·manual device check·backoff retry 순서로 처리하도록 smoke와 release doctor에 고정했다.
+- live probe 리뷰 큐에 `manualEvidenceSummary`와 상품별 `manualEvidenceStatus`, `manualEvidenceAgeDays`, `manualEvidenceFresh`를 추가해 자동 본문 확인이 막힌 403/429/robots 상품도 7일 이내 수동 검수·공식 API·제휴 feed 증거가 있어야만 출시 게이트를 통과하도록 강화했다.
 - `link:launch:gate`를 추가해 `link-validation`, `product-quality`, `exposure-policy`, `refresh-deals`, `release-doctor` 리포트를 대조하고 검색 링크, 품절/종료 링크, 깨진 링크, invalid URL 노출 0건을 Play Store 제출 직전 최종 판정으로 남기도록 QA와 release doctor에 연결했다.
 - `/api/admin/link-launch-gate`와 관리자 `최종 링크 출시 게이트` 패널을 추가해 운영자가 Play Store 제출 직전 검색 링크, 품절/종료 링크, 깨진 링크, invalid URL, 실패 노출 행을 JSON/CSV로 즉시 확인하도록 보강했다.
 - 클라이언트 렌더링 상세 페이지 복구 정책을 추가해 LF몰, 하이마트, 알리익스프레스 등 신뢰 호스트의 직접 상세 URL만 제한적으로 복구하고, timeout/5xx/종료 이벤트/로그인벽/목록성 이벤트/상품 불일치 항목은 `publishable=false`로 사용자 화면에서 제외하도록 강화했다.

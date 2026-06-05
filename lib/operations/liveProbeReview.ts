@@ -21,6 +21,9 @@ export interface LiveProbeReviewQueueItem {
   priceSignal: boolean;
   purchaseActionSignal: boolean;
   lastCheckedAt: string;
+  manualEvidenceStatus?: "fresh" | "stale" | "missing";
+  manualEvidenceAgeDays?: number | null;
+  manualEvidenceFresh?: boolean;
   severity: "blocker" | "quarantine" | "review" | "watch";
   retryMode: "remove_or_replace" | "official_api_or_partner_feed" | "backoff_retry" | "network_retry" | "manual_device_check";
   recommendedAction: string;
@@ -55,6 +58,15 @@ export interface LiveProbeReviewReport {
   hostCounts: Record<string, number>;
   retryModeCounts: Record<string, number>;
   severityCounts: Record<string, number>;
+  manualEvidenceSummary?: {
+    maxAgeDays: number;
+    reviewedQueueItems: number;
+    freshManualEvidenceCount: number;
+    staleManualEvidenceCount: number;
+    missingManualEvidenceCount: number;
+    oldestCheckedAt: string;
+    newestCheckedAt: string;
+  };
   liveProbeReviewSummary: {
     status?: string;
     hardFailureCount?: number;
@@ -102,6 +114,15 @@ const fallbackReport: LiveProbeReviewReport = {
   hostCounts: {},
   retryModeCounts: {},
   severityCounts: {},
+  manualEvidenceSummary: {
+    maxAgeDays: 7,
+    reviewedQueueItems: 0,
+    freshManualEvidenceCount: 0,
+    staleManualEvidenceCount: 0,
+    missingManualEvidenceCount: 0,
+    oldestCheckedAt: "",
+    newestCheckedAt: ""
+  },
   liveProbeReviewSummary: {
     status: "missing_report",
     interpretation: "Run npm run live:probe:review to generate the live probe review report."
@@ -141,6 +162,16 @@ export function buildLiveProbeReviewCsv(report: LiveProbeReviewReport) {
     ["unavailable_text", "품절/종료 문구", report.summary.unavailableTextCount, report.summary.unavailableTextCount === 0 ? "pass" : "block", "본문 품절/종료 감지", "노출 차단"],
     ["protected_or_rate_limited", "접근보호/429", report.summary.protectedOrRateLimitedCount, "review", "판매처 자동 차단", "official API/partner feed/manual device check"],
     ["transient_network", "일시 네트워크", report.summary.transientNetworkCount, report.summary.transientNetworkCount === 0 ? "pass" : "watch", "request_failed 등", "backoff retry"],
+    [
+      "fresh_manual_evidence",
+      "신선한 수동 검수 증거",
+      `${report.manualEvidenceSummary?.freshManualEvidenceCount ?? 0}/${report.manualEvidenceSummary?.reviewedQueueItems ?? 0}`,
+      (report.manualEvidenceSummary?.staleManualEvidenceCount ?? 0) === 0 && (report.manualEvidenceSummary?.missingManualEvidenceCount ?? 0) === 0 ? "pass" : "block",
+      `${report.manualEvidenceSummary?.maxAgeDays ?? 7}일 이내 수동 검수`,
+      "stale/missing 항목은 재검수"
+    ],
+    ["stale_manual_evidence", "오래된 수동 검수", report.manualEvidenceSummary?.staleManualEvidenceCount ?? 0, (report.manualEvidenceSummary?.staleManualEvidenceCount ?? 0) === 0 ? "pass" : "block", "수동 검수 만료", "즉시 재검수"],
+    ["missing_manual_evidence", "수동 검수 누락", report.manualEvidenceSummary?.missingManualEvidenceCount ?? 0, (report.manualEvidenceSummary?.missingManualEvidenceCount ?? 0) === 0 ? "pass" : "block", "checkedAt 없음", "즉시 재검수"],
     ["exposed_search_links", "검색 링크 노출", report.summary.exposedSearchLinks, report.summary.exposedSearchLinks === 0 ? "pass" : "block", "검색/목록 URL", "즉시 차단"],
     ["exposed_sold_out_links", "품절 노출", report.summary.exposedSoldOutLinks, report.summary.exposedSoldOutLinks === 0 ? "pass" : "block", "품절/종료 노출", "즉시 차단"],
     ["review_queue", "운영 큐", report.summary.reviewQueueCount, report.ok ? "pass" : "review", "처리할 live probe 큐", "우선순위 순 처리"]
@@ -160,6 +191,9 @@ export function buildLiveProbeReviewCsv(report: LiveProbeReviewReport) {
     retryMode: "",
     liveStatus: "",
     liveReason: "",
+    manualEvidenceStatus: "",
+    manualEvidenceAgeDays: "",
+    manualEvidenceFresh: "",
     finalUrl: "",
     generatedAt: report.generatedAt
   }));
@@ -179,6 +213,9 @@ export function buildLiveProbeReviewCsv(report: LiveProbeReviewReport) {
           severity: "watch",
           retryMode: "manual_device_check",
           recommendedAction: "현 상태 유지",
+          manualEvidenceStatus: "fresh",
+          manualEvidenceAgeDays: 0,
+          manualEvidenceFresh: true,
           priority: 0
         }
       ]
@@ -198,6 +235,9 @@ export function buildLiveProbeReviewCsv(report: LiveProbeReviewReport) {
     retryMode: item.retryMode,
     liveStatus: item.status ?? "",
     liveReason: item.reason,
+    manualEvidenceStatus: item.manualEvidenceStatus ?? "",
+    manualEvidenceAgeDays: item.manualEvidenceAgeDays ?? "",
+    manualEvidenceFresh: item.manualEvidenceFresh === true ? "true" : item.manualEvidenceFresh === false ? "false" : "",
     finalUrl: item.finalUrl,
     generatedAt: report.generatedAt
   }));
@@ -218,6 +258,9 @@ export function buildLiveProbeReviewCsv(report: LiveProbeReviewReport) {
     retryMode: item.retryModes.join(" / "),
     liveStatus: "",
     liveReason: "",
+    manualEvidenceStatus: "",
+    manualEvidenceAgeDays: "",
+    manualEvidenceFresh: "",
     finalUrl: "",
     generatedAt: report.generatedAt
   }));

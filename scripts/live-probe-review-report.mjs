@@ -26,6 +26,22 @@ function normalizeReason(value) {
   return String(value || "unknown").trim() || "unknown";
 }
 
+const manualEvidenceMaxAgeDays = Number(process.env.DEAL_MANUAL_EVIDENCE_MAX_AGE_DAYS ?? 7);
+const dayMs = 24 * 60 * 60 * 1000;
+
+function getEvidenceAgeDays(value, now = Date.now()) {
+  const timestamp = Date.parse(String(value || ""));
+  if (Number.isNaN(timestamp)) return null;
+  return Math.max(0, Math.round(((now - timestamp) / dayMs) * 10) / 10);
+}
+
+function getManualEvidenceStatus(value) {
+  const ageDays = getEvidenceAgeDays(value);
+  if (ageDays === null) return { status: "missing", ageDays: null, fresh: false };
+  if (ageDays > manualEvidenceMaxAgeDays) return { status: "stale", ageDays, fresh: false };
+  return { status: "fresh", ageDays, fresh: true };
+}
+
 function classifyLiveFailure(failure, item) {
   const status = Number(failure?.status || item?.liveProbe?.status || 0);
   const reason = normalizeReason(failure?.reason || item?.liveProbe?.reason || item?.validationReason);
@@ -118,6 +134,7 @@ const reviewQueue = failures
     const classification = classifyLiveFailure(failure, item);
     const host = hostOf(failure.finalUrl || failure.url || item.finalUrl || item.originalUrl);
     const reason = normalizeReason(failure.reason || item.liveProbe?.reason || item.validationReason);
+    const evidenceStatus = getManualEvidenceStatus(item.lastCheckedAt);
     const queueItem = {
       id: failure.id,
       title: item.title ?? "",
@@ -137,6 +154,9 @@ const reviewQueue = failures
       priceSignal: item.checks?.priceSignal === true,
       purchaseActionSignal: item.checks?.purchaseActionSignal === true,
       lastCheckedAt: item.lastCheckedAt ?? "",
+      manualEvidenceStatus: evidenceStatus.status,
+      manualEvidenceAgeDays: evidenceStatus.ageDays,
+      manualEvidenceFresh: evidenceStatus.fresh,
       severity: classification.severity,
       retryMode: classification.retryMode,
       recommendedAction: classification.recommendedAction
@@ -178,6 +198,25 @@ const topHostActions = Object.entries(byHost)
     };
   });
 
+const manualEvidenceItems = reviewQueue.filter((item) => ["official_api_or_partner_feed", "backoff_retry", "network_retry", "manual_device_check"].includes(item.retryMode));
+const manualEvidenceSummary = {
+  maxAgeDays: manualEvidenceMaxAgeDays,
+  reviewedQueueItems: manualEvidenceItems.length,
+  freshManualEvidenceCount: manualEvidenceItems.filter((item) => item.manualEvidenceStatus === "fresh").length,
+  staleManualEvidenceCount: manualEvidenceItems.filter((item) => item.manualEvidenceStatus === "stale").length,
+  missingManualEvidenceCount: manualEvidenceItems.filter((item) => item.manualEvidenceStatus === "missing").length,
+  oldestCheckedAt:
+    manualEvidenceItems
+      .map((item) => item.lastCheckedAt)
+      .filter(Boolean)
+      .sort((a, b) => Date.parse(a) - Date.parse(b))[0] ?? "",
+  newestCheckedAt:
+    manualEvidenceItems
+      .map((item) => item.lastCheckedAt)
+      .filter(Boolean)
+      .sort((a, b) => Date.parse(b) - Date.parse(a))[0] ?? ""
+};
+
 const summary = {
   totalDeals: Number(linkReport.totalDeals ?? linkReport.auditedItems.length),
   publishableDeals: Number(linkReport.publishableDeals ?? 0),
@@ -203,6 +242,8 @@ const ok =
   summary.liveChecked >= summary.totalDeals &&
   summary.hardFailureCount === 0 &&
   summary.exposedHardFailureCount === 0 &&
+  manualEvidenceSummary.staleManualEvidenceCount === 0 &&
+  manualEvidenceSummary.missingManualEvidenceCount === 0 &&
   summary.unavailableTextCount === 0 &&
   summary.exposedSearchLinks === 0 &&
   summary.exposedSoldOutLinks === 0 &&
@@ -220,6 +261,7 @@ const report = {
   hostCounts: byHost,
   retryModeCounts: byRetryMode,
   severityCounts: bySeverity,
+  manualEvidenceSummary,
   liveProbeReviewSummary: linkReport.liveProbeReviewSummary ?? {},
   topHostActions,
   hardFailures,
@@ -227,9 +269,17 @@ const report = {
   reviewQueue
 };
 
+function formatManualEvidence(item) {
+  const age = item.manualEvidenceAgeDays === null ? "n/a" : `${item.manualEvidenceAgeDays}d`;
+  return `${item.manualEvidenceStatus} (${age})`;
+}
+
 const rows = reviewQueue
   .slice(0, 40)
-  .map((item) => `| ${item.severity} | ${item.id} | ${item.mallName} | ${item.host} | ${item.status ?? "-"} | ${item.reason} | ${item.retryMode} | ${item.recommendedAction} |`)
+  .map(
+    (item) =>
+      `| ${item.severity} | ${item.id} | ${item.mallName} | ${item.host} | ${item.status ?? "-"} | ${item.reason} | ${item.retryMode} | ${formatManualEvidence(item)} | ${item.recommendedAction} |`
+  )
   .join("\n");
 
 const hostRows = topHostActions
@@ -255,12 +305,15 @@ Status: ${report.ok ? "PASS" : "BLOCKED"}
 - Unavailable text signals: ${summary.unavailableTextCount}
 - Protected or rate-limited checks: ${summary.protectedOrRateLimitedCount}
 - Transient network checks: ${summary.transientNetworkCount}
+- Fresh manual evidence: ${manualEvidenceSummary.freshManualEvidenceCount}/${manualEvidenceSummary.reviewedQueueItems}
+- Stale manual evidence: ${manualEvidenceSummary.staleManualEvidenceCount}
+- Missing manual evidence: ${manualEvidenceSummary.missingManualEvidenceCount}
 - Exposed search links: ${summary.exposedSearchLinks}
 - Exposed sold-out links: ${summary.exposedSoldOutLinks}
 
 ## Launch Rule
 
-The app can expose only links that are already publishable and have zero hard failures, zero unavailable-text signals, zero search links, and zero sold-out links. Seller access protection, robots blocks, and 429 responses are not treated as successful body verification; they stay in this queue for official API, partner feed, manual device check, or backoff retry.
+The app can expose only links that are already publishable and have zero hard failures, zero unavailable-text signals, zero search links, and zero sold-out links. Seller access protection, robots blocks, and 429 responses are not treated as successful body verification; they stay in this queue for official API, partner feed, manual device check, or backoff retry. Protected links also need manual review evidence fresher than ${manualEvidenceMaxAgeDays} days.
 
 ## Top Host Actions
 
@@ -270,9 +323,9 @@ ${hostRows || "| - | 0 | - | No live probe review queue |"}
 
 ## Review Queue
 
-| Severity | ID | Mall | Host | Status | Reason | Retry mode | Recommended action |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-${rows || "| - | - | - | - | - | - | - | No live probe review queue |"}
+| Severity | ID | Mall | Host | Status | Reason | Retry mode | Manual evidence | Recommended action |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+${rows || "| - | - | - | - | - | - | - | - | No live probe review queue |"}
 `;
 
 writeFileSync(join(reportsDir, "live-probe-review.json"), `${JSON.stringify(report, null, 2)}\n`, "utf8");
@@ -283,6 +336,8 @@ if (!report.ok) {
   console.error(`- Hard failures: ${summary.hardFailureCount}`);
   console.error(`- Exposed hard failures: ${summary.exposedHardFailureCount}`);
   console.error(`- Unavailable text signals: ${summary.unavailableTextCount}`);
+  console.error(`- Stale manual evidence: ${manualEvidenceSummary.staleManualEvidenceCount}`);
+  console.error(`- Missing manual evidence: ${manualEvidenceSummary.missingManualEvidenceCount}`);
   process.exit(1);
 }
 
@@ -291,6 +346,7 @@ console.log(`- Live checked: ${summary.liveChecked}/${summary.totalDeals}`);
 console.log(`- Live passed: ${summary.livePassed}`);
 console.log(`- Review queue: ${summary.reviewQueueCount}`);
 console.log(`- Protected or rate-limited: ${summary.protectedOrRateLimitedCount}`);
+console.log(`- Fresh manual evidence: ${manualEvidenceSummary.freshManualEvidenceCount}/${manualEvidenceSummary.reviewedQueueItems}`);
 console.log(`- Hard failures: ${summary.hardFailureCount}`);
 console.log("- reports/live-probe-review.json");
 console.log("- docs/LIVE_PROBE_REVIEW_REPORT.md");

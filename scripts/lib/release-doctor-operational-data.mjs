@@ -1125,12 +1125,16 @@ export async function checkOperationalDataSurfaces() {
     !liveProbeReviewScript.includes("LIVE_PROBE_REVIEW_REPORT.md") ||
     !liveProbeReviewScript.includes("hardFailureCount") ||
     !liveProbeReviewScript.includes("exposedHardFailureCount") ||
+    !liveProbeReviewScript.includes("manualEvidenceSummary") ||
+    !liveProbeReviewScript.includes("DEAL_MANUAL_EVIDENCE_MAX_AGE_DAYS") ||
+    !liveProbeReviewScript.includes("staleManualEvidenceCount") ||
+    !liveProbeReviewScript.includes("missingManualEvidenceCount") ||
     !liveProbeReviewScript.includes("official API") ||
     !liveProbeReviewScript.includes("partner feed") ||
     !liveProbeReviewScript.includes("manual device check") ||
     !liveProbeReviewScript.includes("backoff retry")
   ) {
-    linkPolicyIssues.push("live probe review script should generate JSON/docs and separate hard failures from official API, partner feed, manual device, and backoff retry queues");
+    linkPolicyIssues.push("live probe review script should generate JSON/docs, separate hard failures from official API/partner/manual/backoff retry queues, and enforce fresh manual evidence");
   }
   if (
     liveProbeReviewReport.ok !== true ||
@@ -1145,26 +1149,35 @@ export async function checkOperationalDataSurfaces() {
     (liveProbeReviewReport.summary?.exposedBrokenLinks ?? 1) !== 0 ||
     (liveProbeReviewReport.summary?.exposedInvalidUrls ?? 1) !== 0 ||
     (liveProbeReviewReport.summary?.exposedNonPublishableItems ?? 1) !== 0 ||
+    (liveProbeReviewReport.manualEvidenceSummary?.maxAgeDays ?? 0) !== 7 ||
+    (liveProbeReviewReport.manualEvidenceSummary?.reviewedQueueItems ?? -1) !== (liveProbeReviewReport.summary?.reviewQueueCount ?? 0) ||
+    (liveProbeReviewReport.manualEvidenceSummary?.staleManualEvidenceCount ?? 1) !== 0 ||
+    (liveProbeReviewReport.manualEvidenceSummary?.missingManualEvidenceCount ?? 1) !== 0 ||
+    !liveProbeReviewReport.reviewQueue?.every((item) => item.manualEvidenceFresh === true && item.manualEvidenceStatus === "fresh") ||
     !Array.isArray(liveProbeReviewReport.reviewQueue) ||
     !Array.isArray(liveProbeReviewReport.topHostActions) ||
     !liveProbeReviewReport.reasonCounts ||
     !liveProbeReviewReport.retryModeCounts
   ) {
-    linkPolicyIssues.push("live probe review report should pass with zero hard/unavailable/search/sold-out/broken exposures and operator retry queues");
+    linkPolicyIssues.push("live probe review report should pass with zero hard/unavailable/search/sold-out/broken exposures, fresh manual evidence, and operator retry queues");
   }
   if (
     !liveProbeReviewDoc.includes("Hard failures") ||
     !liveProbeReviewDoc.includes("Exposed hard failures") ||
+    !liveProbeReviewDoc.includes("Fresh manual evidence") ||
+    !liveProbeReviewDoc.includes("Protected links also need manual review evidence fresher than") ||
     !liveProbeReviewDoc.includes("official API") ||
     !liveProbeReviewDoc.includes("partner feed") ||
     !liveProbeReviewDoc.includes("manual device check") ||
     !liveProbeReviewDoc.includes("backoff retry")
   ) {
-    linkPolicyIssues.push("live probe review docs should explain hard failures and official API/partner/manual/backoff handling");
+    linkPolicyIssues.push("live probe review docs should explain hard failures, fresh manual evidence, and official API/partner/manual/backoff handling");
   }
   if (
     !liveProbeReviewOperation.includes("getLiveProbeReviewReport") ||
     !liveProbeReviewOperation.includes("buildLiveProbeReviewCsv") ||
+    !liveProbeReviewOperation.includes("manualEvidenceSummary") ||
+    !liveProbeReviewOperation.includes("manualEvidenceStatus") ||
     !liveProbeReviewRoute.includes("canAccessAdminRequest") ||
     !liveProbeReviewRoute.includes("admin-live-probe-review") ||
     !liveProbeReviewRoute.includes("halindosa-live-probe-review") ||
@@ -1175,14 +1188,18 @@ export async function checkOperationalDataSurfaces() {
     !adminPage.includes("official API") ||
     !adminPage.includes("partner feed") ||
     !adminPage.includes("manual device check") ||
+    !adminPage.includes("수동 검수 증거 신선도") ||
+    !adminPage.includes("7일 이내") ||
     !adminPage.includes("backoff retry") ||
     !smoke.includes("admin live probe review api") ||
     !smoke.includes("admin live probe review csv") ||
     !smoke.includes("/api/admin/live-probe-review") ||
     !smoke.includes("Live probe review should have zero customer-visible hard failures") ||
+    !smoke.includes("manual evidence freshness") ||
+    !smoke.includes("fresh_manual_evidence") ||
     !smoke.includes("Admin dashboard missing live probe review panel")
   ) {
-    linkPolicyIssues.push("admin dashboard should expose live probe review JSON/CSV and hard-failure/access-protected retry guidance");
+    linkPolicyIssues.push("admin dashboard should expose live probe review JSON/CSV, fresh manual evidence, and hard-failure/access-protected retry guidance");
   }
   if ((linkReport.exposedSearchLinks ?? 0) !== 0 || (productReport.searchLinks ?? 0) !== 0) linkPolicyIssues.push("search links should be zero");
   if ((linkReport.exposedSoldOutLinks ?? 0) !== 0 || (productReport.soldOutProducts ?? 0) !== 0) linkPolicyIssues.push("sold-out/ended links should be zero");

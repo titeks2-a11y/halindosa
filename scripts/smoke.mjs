@@ -707,6 +707,17 @@ await check("admin live probe review api", async () => {
   assert(Array.isArray(data.report?.topHostActions), "Live probe review should include host-level review actions");
   assert(data.report?.reasonCounts && typeof data.report.reasonCounts === "object", "Live probe review should include reason counts");
   assert(data.report?.retryModeCounts && typeof data.report.retryModeCounts === "object", "Live probe review should include retry mode counts");
+  assert(data.report?.manualEvidenceSummary?.maxAgeDays === 7, "Live probe review should enforce a 7-day manual evidence freshness window");
+  assert(
+    data.report?.manualEvidenceSummary?.reviewedQueueItems === data.report?.summary?.reviewQueueCount,
+    "Live probe review should require manual evidence for every protected/rate-limited queue item"
+  );
+  assert(data.report?.manualEvidenceSummary?.staleManualEvidenceCount === 0, "Live probe review should have zero stale manual evidence items");
+  assert(data.report?.manualEvidenceSummary?.missingManualEvidenceCount === 0, "Live probe review should have zero missing manual evidence items");
+  assert(
+    data.report?.reviewQueue.every((item) => item.manualEvidenceFresh === true && item.manualEvidenceStatus === "fresh"),
+    "Live probe review queue should expose only fresh manual evidence"
+  );
 });
 
 await check("admin live probe review csv", async () => {
@@ -718,6 +729,11 @@ await check("admin live probe review csv", async () => {
   assert(text.startsWith("section,key,label"), "Live probe review CSV header missing");
   assert(text.includes("summary,hard_failures") && text.includes("summary,exposed_hard_failures"), "Live probe review CSV missing hard failure summary rows");
   assert(text.includes("summary,protected_or_rate_limited") && text.includes("summary,transient_network"), "Live probe review CSV missing protected/rate-limit or retry summary rows");
+  assert(
+    text.includes("summary,fresh_manual_evidence") && text.includes("summary,stale_manual_evidence") && text.includes("summary,missing_manual_evidence"),
+    "Live probe review CSV missing manual evidence freshness summary rows"
+  );
+  assert(text.includes("manualEvidenceStatus") && text.includes("manualEvidenceAgeDays"), "Live probe review CSV missing manual evidence queue columns");
   assert(text.includes("host_action,") && text.includes("live_probe_queue,"), "Live probe review CSV missing host actions or queue rows");
   assert(text.includes("official API") || text.includes("partner feed") || text.includes("manual device check") || text.includes("backoff retry"), "Live probe review CSV missing operator retry guidance");
 });

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-05T18:57:40.745Z",
+  "generatedAt": "2026-06-05T19:14:27.535Z",
   "totalDeals": 140,
   "verificationTargets": 140,
   "passedDirectLinks": 140,
@@ -5414,7 +5414,7 @@
         "bodyChecked": true,
         "title": "[결제] 아모레몰 결제혜택 모아보기 | 아모레몰",
         "metaDescription": "2026-04-01 ~ 2026-12-31",
-        "textSample": "[결제] 아모레몰 결제혜택 모아보기 | 아모레몰 window.AP = { WEBVIEW: \"\", PAYMENT_DEVICE: \"pc\", DEVICE: 'mo', REGION: 'kr', LANGUAGE: 'ko', CURRENCY_SYMBOL: '원', CURRENCY_CODE: 'KRW', DATE_FORMAT: 'YYYY.MM.DD', CURRENT_DATE: 1780685846606, //server date (milliseconds since 1970/01/01) LOGIN_USER: false, EMPLOYEE: \"\", DISPLAY_MENU_ID: \"event_detail\", ALLMENU: {\"CTG001001006\":{\"menuPageTypeCode\":\"ProdDisplayCate\",\"displayMenuId\":\"CTG001001006\",\"brandSn\":null,\"menuPageId\":\"M01_category3depth\",\"linkDisplayMenuTypeCode\"",
+        "textSample": "[결제] 아모레몰 결제혜택 모아보기 | 아모레몰 window.AP = { WEBVIEW: \"\", PAYMENT_DEVICE: \"pc\", DEVICE: 'mo', REGION: 'kr', LANGUAGE: 'ko', CURRENCY_SYMBOL: '원', CURRENCY_CODE: 'KRW', DATE_FORMAT: 'YYYY.MM.DD', CURRENT_DATE: 1780686853515, //server date (milliseconds since 1970/01/01) LOGIN_USER: false, EMPLOYEE: \"\", DISPLAY_MENU_ID: \"event_detail\", ALLMENU: {\"CTG001001006\":{\"menuPageTypeCode\":\"ProdDisplayCate\",\"displayMenuId\":\"CTG001001006\",\"brandSn\":null,\"menuPageId\":\"M01_category3depth\",\"linkDisplayMenuTypeCode\"",
         "titleSimilarity": 40,
         "contentMatch": true,
         "priceSignal": false,
