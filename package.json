@@ -47,6 +47,7 @@
     "verify:products": "node scripts/verify-products.mjs",
     "link:policy:regression": "node scripts/link-quality-regression.mjs",
     "exposure:doctor": "node scripts/exposure-policy-doctor.mjs",
+    "surface:publishable:doctor": "node scripts/publishable-surface-doctor.mjs",
     "link:launch:gate": "node scripts/link-launch-gate.mjs",
     "link:revalidation:report": "node scripts/link-revalidation-priority-report.mjs",
     "refresh:deals": "node scripts/refresh-deals.mjs",

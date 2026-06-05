@@ -129,6 +129,15 @@ function buildPolicyRegressionScenarios() {
     },
     {
       ...base,
+      id: "news-regression-official-home-url",
+      title: "공식 홈 URL 차단 샘플",
+      finalUrl: "https://point.pay.naver.com/",
+      sourceUrl: "https://point.pay.naver.com/",
+      expectedHidden: true,
+      expectedReason: "home_or_landing_url"
+    },
+    {
+      ...base,
       id: "news-regression-expired-event",
       title: "종료 이벤트 차단 샘플",
       endDate: "2000-01-01",

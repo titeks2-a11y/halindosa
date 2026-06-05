@@ -1,0 +1,35 @@
+{
+  "ok": true,
+  "generatedAt": "2026-06-05T17:53:07.627Z",
+  "summary": {
+    "productCandidates": 140,
+    "productViolations": 0,
+    "newsCandidates": 42,
+    "newsViolations": 0,
+    "freebiesVisible": 11,
+    "eventsVisible": 42,
+    "exposedSearchLinks": 0,
+    "exposedSoldOutLinks": 0,
+    "exposedNonOfficialLinks": 0,
+    "refreshedProductSnapshotCount": 0,
+    "refreshedNewsSnapshotCount": 42
+  },
+  "surfacePolicy": {
+    "products": "availability=active, validationStatus=passed, publishable=true, isHidden=false, non-search linkType, safe finalUrl",
+    "officialBenefits": "availability=active, validationStatus=passed, publishable=true, isHidden=false, official linkType, safe finalUrl, priorityScore>=70",
+    "redirects": "all customer purchase/application buttons must pass /go/[id] or /go/news/[id]"
+  },
+  "surfaceChecks": {
+    "productApi": "app/api/deals/route.ts",
+    "productRepository": "lib/deals/dealRepository.ts",
+    "newsApi": "app/api/news-deals/route.ts",
+    "newsRepository": "lib/deals/newsDeals.ts",
+    "productRedirect": "app/go/[id]/route.ts",
+    "officialBenefitRedirect": "app/go/news/[id]/route.ts"
+  },
+  "productViolations": [],
+  "newsViolations": [],
+  "sourceIssues": [],
+  "sliceIssues": [],
+  "issues": []
+}

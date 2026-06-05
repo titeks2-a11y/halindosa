@@ -255,6 +255,16 @@ function isSearchUrl(urlValue) {
   }
 }
 
+function isHomeOnlyUrl(urlValue) {
+  try {
+    const url = new URL(urlValue);
+    const path = url.pathname.replace(/\/+$/, "").toLowerCase();
+    return ["", "/", "/main", "/index"].includes(path);
+  } catch {
+    return true;
+  }
+}
+
 function isBlockedUrl(urlValue) {
   const host = normalizeHost(urlValue);
   return blockedHosts.some((blocked) => host === blocked || host.endsWith(`.${blocked}`));
@@ -281,6 +291,7 @@ function getNewsValidationCode({ reasons, linkType, availability }) {
   if (!reasons.length && availability === "active" && String(linkType).startsWith("official")) return "valid";
   if (availability === "expired" || reasons.includes("expired_event")) return "stale";
   if (reasons.includes("search_or_result_url") || linkType === "search") return "search_link";
+  if (reasons.includes("home_or_landing_url")) return "homepage_link";
   if (reasons.includes("blocked_community_or_news_host") || linkType === "community") return "community_link";
   if (reasons.includes("missing_final_url")) return "missing_final_url";
   if (reasons.includes("not_approved_official_url") || linkType === "invalid") return "unsafe_url";
@@ -387,6 +398,7 @@ export function validateNewsDeal(deal, now = Date.now()) {
   if (!deal.title || !deal.summary || !deal.merchant) reasons.push("missing_required_copy");
   if (!deal.finalUrl) reasons.push("missing_final_url");
   if (!isApprovedOfficialUrl(deal.finalUrl)) reasons.push("not_approved_official_url");
+  if (isHomeOnlyUrl(deal.finalUrl)) reasons.push("home_or_landing_url");
   if (isSearchUrl(deal.finalUrl)) reasons.push("search_or_result_url");
   if (linkType === "community") reasons.push("blocked_community_or_news_host");
   if (linkType === "news_only") reasons.push("news_or_non_official_landing");
@@ -836,6 +848,15 @@ export function buildNewsPolicyRegressionScenarios({ now = Date.now(), generated
       sourceUrl: "https://news.naver.com/main/read.naver?mode=LSD&mid=sec&sid1=101&oid=001&aid=0000000001",
       expectedHidden: true,
       expectedReason: "not_approved_official_url"
+    },
+    {
+      ...base,
+      id: "news-regression-official-home-url",
+      title: "공식 홈 URL 차단 샘플",
+      finalUrl: "https://point.pay.naver.com/",
+      sourceUrl: "https://point.pay.naver.com/",
+      expectedHidden: true,
+      expectedReason: "home_or_landing_url"
     },
     {
       ...base,

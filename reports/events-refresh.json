@@ -1,13 +1,13 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-05T17:32:56.082Z",
+  "generatedAt": "2026-06-05T17:54:12.134Z",
   "mode": "events",
   "label": "공식 이벤트·쿠폰",
-  "sourceSnapshotGeneratedAt": "2026-06-05T17:32:26.674Z",
-  "sourceReportGeneratedAt": "2026-06-05T17:32:55.890Z",
-  "totalOfficialBenefits": 43,
-  "matchedCount": 43,
-  "visibleCount": 43,
+  "sourceSnapshotGeneratedAt": "2026-06-05T17:53:46.483Z",
+  "sourceReportGeneratedAt": "2026-06-05T17:54:11.920Z",
+  "totalOfficialBenefits": 42,
+  "matchedCount": 42,
+  "visibleCount": 42,
   "hiddenOrBlockedCount": 0,
   "exposedSearchLinks": 0,
   "exposedNonOfficialLinks": 0,
@@ -20,8 +20,8 @@
     "영화/문화": 4,
     "패션/뷰티": 4,
     "디지털/가전": 3,
-    "무료혜택": 3,
     "정부/공공혜택": 3,
+    "무료혜택": 2,
     "식품/생필품": 2
   },
   "benefitTypeCounts": {
@@ -32,8 +32,7 @@
     "discount": 4,
     "public": 4,
     "travel": 4,
-    "freebie": 1,
-    "point": 1
+    "freebie": 1
   },
   "sourceCounts": {
     "요기요 공식 이벤트": 2,
@@ -41,7 +40,6 @@
     "GS25 공식 이벤트": 2,
     "T world 공식 혜택": 2,
     "네이버페이 공식 혜택": 1,
-    "네이버페이 포인트 공식": 1,
     "대한민국 구석구석 공식 혜택": 1,
     "대한항공 공식 스카이패스": 1,
     "대한항공 공식 탑승권 혜택": 1,
@@ -104,7 +102,6 @@
     "musinsa.com",
     "new-m.pay.naver.com",
     "oliveyoung.co.kr",
-    "point.pay.naver.com",
     "samsung.com",
     "ssg.com",
     "starbucks.co.kr",
@@ -123,7 +120,7 @@
       "finalUrl": "https://gs25.gsretail.com/gscvs/ko/customer-engagement/event/detail/publishing?eventCode=8842885844512&pageNum=1&uiel=Mobile",
       "redirectUrl": "/go/news/news-gs25-drinking-festa-2026",
       "endDate": "2026-06-15",
-      "lastCheckedAt": "2026-06-05T17:32:26.674Z"
+      "lastCheckedAt": "2026-06-05T17:53:46.483Z"
     },
     {
       "id": "news-musinsa-fashion-festa",
@@ -136,7 +133,7 @@
       "finalUrl": "https://www.musinsa.com/campaign/fashionfesta_1",
       "redirectUrl": "/go/news/news-musinsa-fashion-festa",
       "endDate": "2026-06-30",
-      "lastCheckedAt": "2026-06-05T17:32:26.674Z"
+      "lastCheckedAt": "2026-06-05T17:53:46.483Z"
     },
     {
       "id": "news-lotteon-lohbs-coupon",
@@ -149,7 +146,7 @@
       "finalUrl": "https://www.lotteon.com/event/onLohbsShare",
       "redirectUrl": "/go/news/news-lotteon-lohbs-coupon",
       "endDate": "2026-06-30",
-      "lastCheckedAt": "2026-06-05T17:32:26.674Z"
+      "lastCheckedAt": "2026-06-05T17:53:46.483Z"
     },
     {
       "id": "news-gs25-card-june-2026",
@@ -162,7 +159,7 @@
       "finalUrl": "https://gs25.gsretail.com/gscvs/ko/customer-engagement/event/detail/publishing?eventCode=8842885778976&pageNum=1",
       "redirectUrl": "/go/news/news-gs25-card-june-2026",
       "endDate": "2026-06-30",
-      "lastCheckedAt": "2026-06-05T17:32:26.674Z"
+      "lastCheckedAt": "2026-06-05T17:53:46.483Z"
     },
     {
       "id": "news-gs25-event-goods",
@@ -175,7 +172,7 @@
       "finalUrl": "https://gs25.gsretail.com/gscvs/ko/products/event-goods",
       "redirectUrl": "/go/news/news-gs25-event-goods",
       "endDate": "2026-06-30",
-      "lastCheckedAt": "2026-06-05T17:32:26.674Z"
+      "lastCheckedAt": "2026-06-05T17:53:46.483Z"
     },
     {
       "id": "news-culture-day-programs-2026",
@@ -188,7 +185,7 @@
       "finalUrl": "https://www.culture.go.kr/wday/main/main.do",
       "redirectUrl": "/go/news/news-culture-day-programs-2026",
       "endDate": "2026-12-30",
-      "lastCheckedAt": "2026-06-05T17:32:26.674Z"
+      "lastCheckedAt": "2026-06-05T17:53:46.483Z"
     },
     {
       "id": "news-culture-day-weekly-2026",
@@ -201,7 +198,7 @@
       "finalUrl": "https://www.culture.go.kr/local/wday/cltrDay.do",
       "redirectUrl": "/go/news/news-culture-day-weekly-2026",
       "endDate": "2026-12-30",
-      "lastCheckedAt": "2026-06-05T17:32:26.674Z"
+      "lastCheckedAt": "2026-06-05T17:53:46.483Z"
     },
     {
       "id": "news-kbcard-official-event-center",
@@ -214,7 +211,7 @@
       "finalUrl": "https://card.kbcard.com/BON/DVIEW/HBBMCXCRVNEC0002",
       "redirectUrl": "/go/news/news-kbcard-official-event-center",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-05T17:32:26.674Z"
+      "lastCheckedAt": "2026-06-05T17:53:46.483Z"
     },
     {
       "id": "news-kbcard-membership-benefit-center",
@@ -227,7 +224,7 @@
       "finalUrl": "https://card.kbcard.com/BON/DVIEW/HBBMCXCRVNEC0001",
       "redirectUrl": "/go/news/news-kbcard-membership-benefit-center",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-05T17:32:26.674Z"
+      "lastCheckedAt": "2026-06-05T17:53:46.483Z"
     },
     {
       "id": "news-hmall-official-shopping-event",
@@ -240,7 +237,7 @@
       "finalUrl": "https://www.hyundaihmall.com/front/evntSect.do",
       "redirectUrl": "/go/news/news-hmall-official-shopping-event",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-05T17:32:26.674Z"
+      "lastCheckedAt": "2026-06-05T17:53:46.483Z"
     },
     {
       "id": "news-bccard-official-event-center",
@@ -253,7 +250,7 @@
       "finalUrl": "https://www.bccard.com/app/card/EventActn.do?menuId=64",
       "redirectUrl": "/go/news/news-bccard-official-event-center",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-05T17:32:26.674Z"
+      "lastCheckedAt": "2026-06-05T17:53:46.483Z"
     },
     {
       "id": "news-cgv-official-events",
@@ -266,7 +263,7 @@
       "finalUrl": "https://www.cgv.co.kr/culture-event/event/defaultNew.aspx",
       "redirectUrl": "/go/news/news-cgv-official-events",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-05T17:32:26.674Z"
+      "lastCheckedAt": "2026-06-05T17:53:46.483Z"
     },
     {
       "id": "news-lottecinema-official-events",
@@ -279,7 +276,7 @@
       "finalUrl": "https://www.lottecinema.co.kr/NLCHS/Event",
       "redirectUrl": "/go/news/news-lottecinema-official-events",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-05T17:32:26.674Z"
+      "lastCheckedAt": "2026-06-05T17:53:46.483Z"
     },
     {
       "id": "news-koreanair-boarding-pass-benefit",
@@ -292,7 +289,7 @@
       "finalUrl": "https://www.koreanair.com/contents/booking/get-to-know/boarding-pass-benefits/excellent-boarding-pass?hl=ko",
       "redirectUrl": "/go/news/news-koreanair-boarding-pass-benefit",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-05T17:32:26.674Z"
+      "lastCheckedAt": "2026-06-05T17:53:46.483Z"
     },
     {
       "id": "news-tworld-membership-upgrade",
@@ -305,7 +302,7 @@
       "finalUrl": "https://www.tworld.co.kr/poc/html/product/TS3.7.1T.2.html",
       "redirectUrl": "/go/news/news-tworld-membership-upgrade",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-05T17:32:26.674Z"
+      "lastCheckedAt": "2026-06-05T17:53:46.483Z"
     },
     {
       "id": "news-tworld-longterm-discount",
@@ -318,7 +315,7 @@
       "finalUrl": "https://www.tworld.co.kr/poc/html/product/TS3.3.1T.8.html",
       "redirectUrl": "/go/news/news-tworld-longterm-discount",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-05T17:32:26.674Z"
+      "lastCheckedAt": "2026-06-05T17:53:46.483Z"
     },
     {
       "id": "news-koreanair-promotion",
@@ -331,7 +328,7 @@
       "finalUrl": "https://www.koreanair.com/promotion/list",
       "redirectUrl": "/go/news/news-koreanair-promotion",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-05T17:32:26.674Z"
+      "lastCheckedAt": "2026-06-05T17:53:46.483Z"
     },
     {
       "id": "news-ssg-official-event-main",
@@ -344,7 +341,7 @@
       "finalUrl": "https://www.ssg.com/event/eventMain.ssg",
       "redirectUrl": "/go/news/news-ssg-official-event-main",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-05T17:32:26.674Z"
+      "lastCheckedAt": "2026-06-05T17:53:46.483Z"
     },
     {
       "id": "news-emart-official-event-main",
@@ -357,7 +354,7 @@
       "finalUrl": "https://emart.ssg.com/event/eventMain.ssg",
       "redirectUrl": "/go/news/news-emart-official-event-main",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-05T17:32:26.674Z"
+      "lastCheckedAt": "2026-06-05T17:53:46.483Z"
     },
     {
       "id": "news-homeplus-official-event",
@@ -370,7 +367,7 @@
       "finalUrl": "https://front.homeplus.co.kr/event",
       "redirectUrl": "/go/news/news-homeplus-official-event",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-05T17:32:26.674Z"
+      "lastCheckedAt": "2026-06-05T17:53:46.483Z"
     }
   ],
   "blockedItems": [],

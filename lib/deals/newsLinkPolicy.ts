@@ -79,6 +79,11 @@ function normalizeHost(host: string) {
   return host.replace(/^www\./, "").toLowerCase();
 }
 
+function isHomeOnlyUrl(url: URL) {
+  const path = url.pathname.replace(/\/+$/, "").toLowerCase();
+  return ["", "/", "/main", "/index"].includes(path);
+}
+
 export function isApprovedOfficialNewsUrl(value?: string) {
   if (!value) return false;
 
@@ -89,6 +94,7 @@ export function isApprovedOfficialNewsUrl(value?: string) {
 
     if (url.protocol !== "https:" && url.protocol !== "http:") return false;
     if (blockedNewsHosts.some((blocked) => host === blocked || host.endsWith(`.${blocked}`))) return false;
+    if (isHomeOnlyUrl(url)) return false;
     if (searchPatterns.some((pattern) => full.includes(pattern))) return false;
 
     return approvedNewsHostList.some((approved) => host === approved || host.endsWith(`.${approved}`));

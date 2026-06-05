@@ -2,11 +2,11 @@
 
 공식 혜택/할인뉴스가 오래된 정보나 종료된 이벤트를 사용자에게 노출하지 않도록 확인하는 운영 리포트입니다.
 
-- 생성 시각: 2026-06-05T17:30:26.181Z
-- 원본 리포트 생성 시각: 2026-06-05T17:30:25.608Z
+- 생성 시각: 2026-06-05T17:51:43.768Z
+- 원본 리포트 생성 시각: 2026-06-05T17:51:43.213Z
 - 상태: fresh
 - 리포트 나이: 0h
-- 노출 공식 혜택: 43개
+- 노출 공식 혜택: 42개
 - 종료 노출: 0개
 - 14일 이내 종료: 1개
 - 공식 소스 후보: 31개
@@ -15,7 +15,7 @@
 
 | Check | Status | Detail |
 | --- | --- | --- |
-| visible official benefits | PASS | 43 visible official benefit deals are available. |
+| visible official benefits | PASS | 42 visible official benefit deals are available. |
 | report freshness | PASS | news-deals report age is 0h. |
 | deal check freshness | PASS | No visible official benefit has lastCheckedAt older than 24h. |
 | expired exposure | PASS | No expired official benefit is visible. |
@@ -35,7 +35,7 @@
 | 여행/숙박 | 4 | ready |
 | 영화/문화 | 4 | ready |
 | 카드/멤버십 | 9 | ready |
-| 무료혜택 | 3 | ready |
+| 무료혜택 | 2 | ready |
 | 정부/공공혜택 | 3 | ready |
 
 ## Renewal Queue

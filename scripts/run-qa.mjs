@@ -27,6 +27,7 @@ const coreTasks = [
   "verify:products",
   "link:policy:regression",
   "exposure:doctor",
+  "surface:publishable:doctor",
   "link:launch:gate",
   "link:revalidation:report",
   "feed:transition:report",

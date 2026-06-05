@@ -1,12 +1,12 @@
 # 무료혜택 Refresh Report
 
-Generated: 2026-06-05T17:32:55.991Z
+Generated: 2026-06-05T17:54:12.030Z
 
 ## Summary
 
 - Mode: freebies
-- Matched items: 12
-- Visible official items: 12
+- Matched items: 11
+- Visible official items: 11
 - Hidden/blocked items: 0
 - Exposed search links: 0
 - Exposed non-official links: 0
@@ -29,7 +29,6 @@ All visible rows must keep `/go/news/[id]` redirect tracking and must resolve to
 | news-oliveyoung-official-events | 올리브영 공식 뷰티 이벤트 | 올리브영 공식 이벤트 | 패션/뷰티 | oliveyoung.co.kr | `/go/news/news-oliveyoung-official-events` |
 | news-naverpay-event-benefit | 네이버페이 공식 결제 혜택 | 네이버페이 공식 혜택 | 카드/멤버십 | new-m.pay.naver.com | `/go/news/news-naverpay-event-benefit` |
 | news-mnuri-official-benefit | 문화누리카드 공식 문화·여행 혜택 | 문화누리카드 공식 누리집 | 무료혜택 | mnuri.kr | `/go/news/news-mnuri-official-benefit` |
-| news-naverpay-point-free-benefit | 네이버페이 포인트 공식 적립 혜택 | 네이버페이 포인트 공식 | 무료혜택 | point.pay.naver.com | `/go/news/news-naverpay-point-free-benefit` |
 | news-mnuri-online-merchant-benefit | 문화누리카드 온라인 이용처 공식 혜택 | 문화누리카드 공식 이용처 | 정부/공공혜택 | mnuri.kr | `/go/news/news-mnuri-online-merchant-benefit` |
 | news-lpoint-official-benefits | L.POINT 공식 혜택·적립 이벤트 | L.POINT 공식 혜택 | 카드/멤버십 | m.lpoint.com | `/go/news/news-lpoint-official-benefits` |
 | news-lpoint-card-events | L.POINT 공식 카드 이벤트 | L.POINT 공식 이벤트 | 카드/멤버십 | m.lpoint.com | `/go/news/news-lpoint-card-events` |
