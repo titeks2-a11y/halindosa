@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-05T12:34:31.790Z",
+  "generatedAt": "2026-06-05T12:39:03.496Z",
   "totalDeals": 140,
   "verificationTargets": 140,
   "passedDirectLinks": 140,
@@ -28,23 +28,25 @@
     "bodyProbe": true,
     "timeoutMs": 5000,
     "checked": 140,
-    "passed": 62,
-    "failed": 78,
-    "redirected": 12,
-    "finalUrlChanged": 12,
+    "passed": 64,
+    "failed": 76,
+    "redirected": 11,
+    "finalUrlChanged": 11,
     "http404": 0,
     "http410": 0,
     "http5xx": 0,
     "timeout": 0,
-    "robotsBlocked": 62,
+    "robotsBlocked": 59,
     "unavailableText": 0,
-    "unavailableTextReview": 0,
-    "bodyChecked": 137,
-    "titleMetaChecked": 133,
-    "contentMatched": 47,
-    "contentMismatch": 90,
-    "priceSignal": 26,
-    "purchaseActionSignal": 12,
+    "unavailableTextReview": 2,
+    "bodyChecked": 136,
+    "titleMetaChecked": 132,
+    "contentMatched": 50,
+    "contentMismatch": 86,
+    "accessibleContentMismatch": 28,
+    "accessGuardBody": 28,
+    "priceSignal": 27,
+    "purchaseActionSignal": 15,
     "failures": [
       {
         "id": "d002",
@@ -122,16 +124,6 @@
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000377767271",
         "status": 429,
         "reason": "http_429",
-        "titleSimilarity": 0,
-        "contentMatch": false,
-        "unavailablePattern": ""
-      },
-      {
-        "id": "d012",
-        "url": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000216997",
-        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000216997",
-        "status": 403,
-        "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
         "contentMatch": false,
         "unavailablePattern": ""
@@ -277,16 +269,6 @@
         "unavailablePattern": ""
       },
       {
-        "id": "d040",
-        "url": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000211588",
-        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000211588",
-        "status": 403,
-        "reason": "robots_or_access_blocked",
-        "titleSimilarity": 0,
-        "contentMatch": false,
-        "unavailablePattern": ""
-      },
-      {
         "id": "d041",
         "url": "https://www.ssg.com/item/itemView.ssg?itemId=1000620373892",
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000620373892",
@@ -380,6 +362,16 @@
         "id": "d073",
         "url": "https://www.hyundaicard.com/cpc/cr/CPCCR0101_01.hc",
         "finalUrl": "https://www.hyundaicard.com/cpc/cr/CPCCR0101_01.hc",
+        "status": 0,
+        "reason": "request_failed",
+        "titleSimilarity": 0,
+        "contentMatch": null,
+        "unavailablePattern": ""
+      },
+      {
+        "id": "d074",
+        "url": "https://www.shinhancard.com/pconts/html/benefit/event/MOBFM220/MOBFM220R01.html",
+        "finalUrl": "https://www.shinhancard.com/pconts/html/benefit/event/MOBFM220/MOBFM220R01.html",
         "status": 0,
         "reason": "request_failed",
         "titleSimilarity": 0,
@@ -572,8 +564,8 @@
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2763212387",
         "status": 403,
         "reason": "robots_or_access_blocked",
-        "titleSimilarity": 0,
-        "contentMatch": false,
+        "titleSimilarity": 20,
+        "contentMatch": true,
         "unavailablePattern": ""
       },
       {
@@ -680,16 +672,6 @@
         "id": "d122",
         "url": "https://item.gmarket.co.kr/Item?goodsCode=4412121040",
         "finalUrl": "https://item.gmarket.co.kr/Item?goodsCode=4412121040",
-        "status": 403,
-        "reason": "robots_or_access_blocked",
-        "titleSimilarity": 0,
-        "contentMatch": false,
-        "unavailablePattern": ""
-      },
-      {
-        "id": "d124",
-        "url": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000230063",
-        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000230063",
         "status": 403,
         "reason": "robots_or_access_blocked",
         "titleSimilarity": 0,
@@ -829,26 +811,628 @@
     ]
   },
   "httpStatusSummary": {
-    "redirected": 12,
-    "finalUrlChanged": 12,
+    "redirected": 11,
+    "finalUrlChanged": 11,
     "http404": 0,
     "http410": 0,
     "http5xx": 0,
     "timeout": 0,
-    "robotsBlocked": 62,
+    "robotsBlocked": 59,
     "unavailableText": 0,
-    "unavailableTextReview": 0
+    "unavailableTextReview": 2
   },
   "contentSignalSummary": {
-    "bodyChecked": 137,
-    "titleMetaChecked": 133,
-    "contentMatched": 47,
-    "contentMismatch": 90,
-    "priceSignal": 26,
-    "purchaseActionSignal": 12,
-    "unavailableTextReview": 0,
+    "bodyChecked": 136,
+    "titleMetaChecked": 132,
+    "contentMatched": 50,
+    "contentMismatch": 86,
+    "priceSignal": 27,
+    "purchaseActionSignal": 15,
+    "unavailableTextReview": 2,
+    "accessibleContentMismatch": 28,
+    "accessGuardBody": 28,
     "strict": false
   },
+  "verificationEvidenceSummary": {
+    "counts": {
+      "manual_pattern_verified": 59,
+      "live_content_confirmed": 49,
+      "seller_access_protected_manual_verified": 28,
+      "transient_network_manual_verified": 4
+    },
+    "liveConfirmed": 49,
+    "sellerAccessProtected": 28,
+    "transientNetwork": 4,
+    "manualPatternVerified": 59,
+    "blocked": 0
+  },
+  "revalidationQueue": [
+    {
+      "id": "d051",
+      "title": "오사카 왕복 항공권 타임세일",
+      "mallName": "인터파크투어",
+      "host": "tour.interpark.com",
+      "finalUrl": "https://tour.interpark.com/goods/detail?goodsCd=25031828338",
+      "priority": 75,
+      "reason": "request_failed",
+      "evidenceTier": "transient_network_manual_verified",
+      "liveProbe": {
+        "ok": false,
+        "status": 0,
+        "reason": "request_failed",
+        "finalUrl": "https://tour.interpark.com/goods/detail?goodsCd=25031828338",
+        "titleSimilarity": 0,
+        "contentMatch": null
+      }
+    },
+    {
+      "id": "d057",
+      "title": "T멤버십 커피 무료 사이즈업 쿠폰",
+      "mallName": "T멤버십",
+      "host": "tmembership.co.kr",
+      "finalUrl": "https://www.tmembership.co.kr/web/html/main/benefit.html",
+      "priority": 75,
+      "reason": "request_failed",
+      "evidenceTier": "transient_network_manual_verified",
+      "liveProbe": {
+        "ok": false,
+        "status": 0,
+        "reason": "request_failed",
+        "finalUrl": "https://www.tmembership.co.kr/web/html/main/benefit.html",
+        "titleSimilarity": 0,
+        "contentMatch": null
+      }
+    },
+    {
+      "id": "d073",
+      "title": "현대카드 M포인트 외식·쇼핑 할인 혜택",
+      "mallName": "현대카드",
+      "host": "hyundaicard.com",
+      "finalUrl": "https://www.hyundaicard.com/cpc/cr/CPCCR0101_01.hc",
+      "priority": 75,
+      "reason": "request_failed",
+      "evidenceTier": "transient_network_manual_verified",
+      "liveProbe": {
+        "ok": false,
+        "status": 0,
+        "reason": "request_failed",
+        "finalUrl": "https://www.hyundaicard.com/cpc/cr/CPCCR0101_01.hc",
+        "titleSimilarity": 0,
+        "contentMatch": null
+      }
+    },
+    {
+      "id": "d074",
+      "title": "신한카드 생활비 캐시백 이벤트 모음",
+      "mallName": "신한카드",
+      "host": "shinhancard.com",
+      "finalUrl": "https://www.shinhancard.com/pconts/html/benefit/event/MOBFM220/MOBFM220R01.html",
+      "priority": 75,
+      "reason": "request_failed",
+      "evidenceTier": "transient_network_manual_verified",
+      "liveProbe": {
+        "ok": false,
+        "status": 0,
+        "reason": "request_failed",
+        "finalUrl": "https://www.shinhancard.com/pconts/html/benefit/event/MOBFM220/MOBFM220R01.html",
+        "titleSimilarity": 0,
+        "contentMatch": null
+      }
+    },
+    {
+      "id": "d008",
+      "title": "아이더 POP ON 남성 여름 냉감 폴로 티셔츠",
+      "mallName": "LF몰",
+      "host": "lfmall.co.kr",
+      "finalUrl": "https://www.lfmall.co.kr/app/product/E3GKXX00844",
+      "priority": 65,
+      "reason": "accessible_content_mismatch_review",
+      "evidenceTier": "manual_pattern_verified",
+      "liveProbe": {
+        "ok": true,
+        "bodyChecked": true,
+        "title": "나를 나답게 LFmall.com",
+        "metaDescription": "",
+        "titleSimilarity": 0,
+        "contentMatch": false,
+        "priceSignal": false,
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      }
+    },
+    {
+      "id": "d011",
+      "title": "프리미엄 한우 불고기 600g",
+      "mallName": "SSG닷컴",
+      "host": "ssg.com",
+      "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000377767271",
+      "priority": 65,
+      "reason": "accessible_content_mismatch_review",
+      "evidenceTier": "manual_pattern_verified",
+      "liveProbe": {
+        "ok": false,
+        "status": 429,
+        "reason": "http_429",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000377767271",
+        "titleSimilarity": 0,
+        "contentMatch": false
+      }
+    },
+    {
+      "id": "d013",
+      "title": "삼성 55형 4K UHD TV",
+      "mallName": "하이마트",
+      "host": "e-himart.co.kr",
+      "finalUrl": "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0026982316",
+      "priority": 65,
+      "reason": "accessible_content_mismatch_review",
+      "evidenceTier": "manual_pattern_verified",
+      "liveProbe": {
+        "ok": true,
+        "bodyChecked": true,
+        "title": "",
+        "metaDescription": "",
+        "titleSimilarity": 0,
+        "contentMatch": false,
+        "priceSignal": false,
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      }
+    },
+    {
+      "id": "d024",
+      "title": "프리미엄 생수 2L 24병",
+      "mallName": "SSG닷컴",
+      "host": "ssg.com",
+      "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000038330709",
+      "priority": 65,
+      "reason": "accessible_content_mismatch_review",
+      "evidenceTier": "manual_pattern_verified",
+      "liveProbe": {
+        "ok": false,
+        "status": 429,
+        "reason": "http_429",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000038330709",
+        "titleSimilarity": 0,
+        "contentMatch": false
+      }
+    },
+    {
+      "id": "d026",
+      "title": "게이밍 노트북 RTX 특가",
+      "mallName": "하이마트",
+      "host": "e-himart.co.kr",
+      "finalUrl": "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0019390089",
+      "priority": 65,
+      "reason": "accessible_content_mismatch_review",
+      "evidenceTier": "manual_pattern_verified",
+      "liveProbe": {
+        "ok": true,
+        "bodyChecked": true,
+        "title": "",
+        "metaDescription": "",
+        "titleSimilarity": 0,
+        "contentMatch": false,
+        "priceSignal": false,
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      }
+    },
+    {
+      "id": "d029",
+      "title": "422 올스텐 에어프라이어 7L 대용량",
+      "mallName": "SSG닷컴",
+      "host": "ssg.com",
+      "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000568480807",
+      "priority": 65,
+      "reason": "accessible_content_mismatch_review",
+      "evidenceTier": "manual_pattern_verified",
+      "liveProbe": {
+        "ok": false,
+        "status": 429,
+        "reason": "http_429",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000568480807",
+        "titleSimilarity": 0,
+        "contentMatch": false
+      }
+    },
+    {
+      "id": "d032",
+      "title": "명품 향수 50ml",
+      "mallName": "SSG닷컴",
+      "host": "ssg.com",
+      "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=0000009774169",
+      "priority": 65,
+      "reason": "accessible_content_mismatch_review",
+      "evidenceTier": "manual_pattern_verified",
+      "liveProbe": {
+        "ok": false,
+        "status": 429,
+        "reason": "http_429",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=0000009774169",
+        "titleSimilarity": 0,
+        "contentMatch": false
+      }
+    },
+    {
+      "id": "d041",
+      "title": "노브랜드 물티슈 100매 20팩",
+      "mallName": "이마트몰",
+      "host": "ssg.com",
+      "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000620373892",
+      "priority": 65,
+      "reason": "accessible_content_mismatch_review",
+      "evidenceTier": "manual_pattern_verified",
+      "liveProbe": {
+        "ok": false,
+        "status": 429,
+        "reason": "http_429",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000620373892",
+        "titleSimilarity": 0,
+        "contentMatch": false
+      }
+    },
+    {
+      "id": "d042",
+      "title": "편의점 도시락 1+1 모바일 쿠폰",
+      "mallName": "GS25",
+      "host": "gs25.gsretail.com",
+      "finalUrl": "https://gs25.gsretail.com/gscvs/ko/customer-engagement/event/detail/publishing?eventCode=8842722233888&pageNum=1",
+      "priority": 65,
+      "reason": "accessible_content_mismatch_review",
+      "evidenceTier": "manual_pattern_verified",
+      "liveProbe": {
+        "ok": true,
+        "bodyChecked": true,
+        "title": "종료이벤트/당첨발표 | GS25 Site",
+        "metaDescription": "5월 GS25의 결제수단 혜택",
+        "titleSimilarity": 0,
+        "contentMatch": false,
+        "priceSignal": false,
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      }
+    },
+    {
+      "id": "d043",
+      "title": "USB-C 100W 멀티 충전 케이블 3팩",
+      "mallName": "알리익스프레스",
+      "host": "aliexpress.com",
+      "finalUrl": "https://www.aliexpress.com/item/1005010151430718.html",
+      "priority": 65,
+      "reason": "accessible_content_mismatch_review",
+      "evidenceTier": "manual_pattern_verified",
+      "liveProbe": {
+        "ok": true,
+        "bodyChecked": true,
+        "title": "",
+        "metaDescription": "Smarter Shopping, Better Living! Aliexpress.com",
+        "titleSimilarity": 0,
+        "contentMatch": false,
+        "priceSignal": false,
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      }
+    },
+    {
+      "id": "d045",
+      "title": "스타벅스 아메리카노 모바일 교환권",
+      "mallName": "SSG닷컴",
+      "host": "ssg.com",
+      "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000519076764",
+      "priority": 65,
+      "reason": "accessible_content_mismatch_review",
+      "evidenceTier": "manual_pattern_verified",
+      "liveProbe": {
+        "ok": false,
+        "status": 429,
+        "reason": "http_429",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000519076764",
+        "titleSimilarity": 0,
+        "contentMatch": false
+      }
+    },
+    {
+      "id": "d052",
+      "title": "암막 커튼 2장 세트 와인 132x160cm",
+      "mallName": "SSG닷컴",
+      "host": "ssg.com",
+      "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000560995801",
+      "priority": 65,
+      "reason": "accessible_content_mismatch_review",
+      "evidenceTier": "manual_pattern_verified",
+      "liveProbe": {
+        "ok": false,
+        "status": 429,
+        "reason": "http_429",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000560995801",
+        "titleSimilarity": 0,
+        "contentMatch": false
+      }
+    },
+    {
+      "id": "d053",
+      "title": "네이버페이 첫 결제 3천 포인트 적립 이벤트",
+      "mallName": "네이버페이",
+      "host": "new-m.pay.naver.com",
+      "finalUrl": "https://new-m.pay.naver.com/member/benefit/event",
+      "priority": 65,
+      "reason": "accessible_content_mismatch_review",
+      "evidenceTier": "manual_pattern_verified",
+      "liveProbe": {
+        "ok": true,
+        "bodyChecked": true,
+        "title": "Naver Sign in",
+        "metaDescription": "네이버에 로그인 하고 나를 위한 다양한 서비스를 이용해 보세요",
+        "titleSimilarity": 0,
+        "contentMatch": false,
+        "priceSignal": false,
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      }
+    },
+    {
+      "id": "d056",
+      "title": "PAYCO 브랜드 공식몰 5천원 할인 쿠폰팩",
+      "mallName": "PAYCO",
+      "host": "events.payco.com",
+      "finalUrl": "https://events.payco.com/app/share.nhn?evntPageNm=tmzvlWb",
+      "priority": 65,
+      "reason": "accessible_content_mismatch_review",
+      "evidenceTier": "manual_pattern_verified",
+      "liveProbe": {
+        "ok": true,
+        "bodyChecked": true,
+        "title": "PAYCO::이벤트",
+        "metaDescription": "",
+        "titleSimilarity": 17,
+        "contentMatch": false,
+        "priceSignal": false,
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      }
+    },
+    {
+      "id": "d058",
+      "title": "배달앱 첫 주문 5천원 할인 쿠폰",
+      "mallName": "배달의민족",
+      "host": "academy.baemin.com",
+      "finalUrl": "https://academy.baemin.com/event/list",
+      "priority": 65,
+      "reason": "accessible_content_mismatch_review",
+      "evidenceTier": "manual_pattern_verified",
+      "liveProbe": {
+        "ok": true,
+        "bodyChecked": true,
+        "title": "배민아카데미",
+        "metaDescription": "",
+        "titleSimilarity": 0,
+        "contentMatch": false,
+        "priceSignal": false,
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      }
+    },
+    {
+      "id": "d059",
+      "title": "아모레몰 기초케어 무료 샘플 체험단",
+      "mallName": "아모레몰",
+      "host": "amoremall.com",
+      "finalUrl": "https://www.amoremall.com/kr/ko/event",
+      "priority": 65,
+      "reason": "accessible_content_mismatch_review",
+      "evidenceTier": "manual_pattern_verified",
+      "liveProbe": {
+        "ok": true,
+        "bodyChecked": true,
+        "title": "에러페이지",
+        "metaDescription": "",
+        "titleSimilarity": 0,
+        "contentMatch": false,
+        "priceSignal": false,
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      }
+    },
+    {
+      "id": "d060",
+      "title": "CGV 영화 시사회 무료 초대권 응모",
+      "mallName": "CGV",
+      "host": "cgv.co.kr",
+      "finalUrl": "https://cgv.co.kr/evt/eventDetail?evntNo=202602235927",
+      "priority": 65,
+      "reason": "accessible_content_mismatch_review",
+      "evidenceTier": "manual_pattern_verified",
+      "liveProbe": {
+        "ok": true,
+        "bodyChecked": true,
+        "title": "[2026 월드 베이스볼 클래식(WBC)] 극장 단독 생중계 | CGV",
+        "metaDescription": "[2026 월드 베이스볼 클래식(WBC)] 극장 단독 생중계",
+        "titleSimilarity": 17,
+        "contentMatch": false,
+        "priceSignal": false,
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      }
+    },
+    {
+      "id": "d063",
+      "title": "홈플러스 첫 장보기 무료배송 쿠폰팩",
+      "mallName": "홈플러스",
+      "host": "front.homeplus.co.kr",
+      "finalUrl": "https://front.homeplus.co.kr/event",
+      "priority": 65,
+      "reason": "accessible_content_mismatch_review",
+      "evidenceTier": "manual_pattern_verified",
+      "liveProbe": {
+        "ok": true,
+        "bodyChecked": true,
+        "title": "",
+        "metaDescription": "",
+        "titleSimilarity": 0,
+        "contentMatch": false,
+        "priceSignal": false,
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      }
+    },
+    {
+      "id": "d070",
+      "title": "아이챌린지 유아 학습지 무료 체험 키트",
+      "mallName": "아이챌린지",
+      "host": "i-challenge.co.kr",
+      "finalUrl": "https://www.i-challenge.co.kr/Event/",
+      "priority": 65,
+      "reason": "accessible_content_mismatch_review",
+      "evidenceTier": "manual_pattern_verified",
+      "liveProbe": {
+        "ok": true,
+        "bodyChecked": true,
+        "title": "�̺�Ʈ ����Ʈ : ���̽��� ����ç����, ȣ��� �Բ��ϴ� �������� Ȩ����",
+        "metaDescription": "ȣ�� ����ç���� ������ ���� �پ��� �̺�Ʈ�� Ȯ���ϼ���.",
+        "titleSimilarity": 0,
+        "contentMatch": false,
+        "priceSignal": false,
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      }
+    },
+    {
+      "id": "d084",
+      "title": "LG 오브제 칸 스탠드에어컨 FQ18EK1HA1M",
+      "mallName": "하이마트",
+      "host": "e-himart.co.kr",
+      "finalUrl": "https://www.e-himart.co.kr/app/goods/goodsDetail?goodsNo=0023645183",
+      "priority": 65,
+      "reason": "accessible_content_mismatch_review",
+      "evidenceTier": "manual_pattern_verified",
+      "liveProbe": {
+        "ok": true,
+        "bodyChecked": true,
+        "title": "",
+        "metaDescription": "",
+        "titleSimilarity": 0,
+        "contentMatch": false,
+        "priceSignal": false,
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      }
+    },
+    {
+      "id": "d085",
+      "title": "하기스 매직컴포트 팬티형 기저귀 5단계 42매",
+      "mallName": "11번가",
+      "host": "11st.co.kr",
+      "finalUrl": "https://www.11st.co.kr/products/2635032094",
+      "priority": 65,
+      "reason": "accessible_content_mismatch_review",
+      "evidenceTier": "manual_pattern_verified",
+      "liveProbe": {
+        "ok": true,
+        "bodyChecked": true,
+        "title": "11번가",
+        "metaDescription": "",
+        "titleSimilarity": 0,
+        "contentMatch": false,
+        "priceSignal": false,
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      }
+    },
+    {
+      "id": "d093",
+      "title": "오뚜기 진라면 매운맛 120g x 40봉",
+      "mallName": "SSG닷컴",
+      "host": "ssg.com",
+      "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000005089075",
+      "priority": 65,
+      "reason": "accessible_content_mismatch_review",
+      "evidenceTier": "manual_pattern_verified",
+      "liveProbe": {
+        "ok": false,
+        "status": 429,
+        "reason": "http_429",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000005089075",
+        "titleSimilarity": 0,
+        "contentMatch": false
+      }
+    },
+    {
+      "id": "d099",
+      "title": "피코크 떡갈비 450g x 3팩",
+      "mallName": "SSG닷컴",
+      "host": "ssg.com",
+      "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000601459551",
+      "priority": 65,
+      "reason": "accessible_content_mismatch_review",
+      "evidenceTier": "manual_pattern_verified",
+      "liveProbe": {
+        "ok": false,
+        "status": 429,
+        "reason": "http_429",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000601459551",
+        "titleSimilarity": 0,
+        "contentMatch": false
+      }
+    },
+    {
+      "id": "d112",
+      "title": "커버낫 쿨 코튼 그래픽 티셔츠",
+      "mallName": "무신사",
+      "host": "musinsa.com",
+      "finalUrl": "https://www.musinsa.com/products/4011120",
+      "priority": 65,
+      "reason": "accessible_content_mismatch_review",
+      "evidenceTier": "manual_pattern_verified",
+      "liveProbe": {
+        "ok": true,
+        "bodyChecked": true,
+        "title": "비아리츠(BIARRITZ) [5PACK] 에피 누드토우 덧신 4color - 사이즈 & 후기 | 무신사",
+        "metaDescription": "제품분류 :소품 &gt; 양말/레그웨어 브랜드 : 비아리츠(BIARRITZ) 제품번호 : 에피5set 제품 : [5PACK] 에피 누드토우 덧신 4color - 19,900",
+        "titleSimilarity": 0,
+        "contentMatch": false,
+        "priceSignal": false,
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      }
+    },
+    {
+      "id": "d125",
+      "title": "노브랜드 김자반 60g",
+      "mallName": "SSG닷컴",
+      "host": "ssg.com",
+      "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000032939693",
+      "priority": 65,
+      "reason": "accessible_content_mismatch_review",
+      "evidenceTier": "manual_pattern_verified",
+      "liveProbe": {
+        "ok": false,
+        "status": 429,
+        "reason": "http_429",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000032939693",
+        "titleSimilarity": 0,
+        "contentMatch": false
+      }
+    },
+    {
+      "id": "d129",
+      "title": "리벤스 오리지널 소프트 저자극 물티슈 캡형 100매 10팩",
+      "mallName": "SSG닷컴",
+      "host": "ssg.com",
+      "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=2097001847275",
+      "priority": 65,
+      "reason": "accessible_content_mismatch_review",
+      "evidenceTier": "manual_pattern_verified",
+      "liveProbe": {
+        "ok": false,
+        "status": 429,
+        "reason": "http_429",
+        "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=2097001847275",
+        "titleSimilarity": 0,
+        "contentMatch": false
+      }
+    }
+  ],
   "policy": {
     "version": 2,
     "source": "data/linkQualityPolicy.json",
@@ -910,32 +1494,35 @@
   "liveProbeReviewSummary": {
     "status": "transient_network_review",
     "hardFailureCount": 0,
-    "transientNetworkCount": 3,
-    "accessProtectedCount": 62,
+    "transientNetworkCount": 4,
+    "accessProtectedCount": 59,
     "sellerUnavailableSignals": 0,
     "contentProbe": {
-      "bodyChecked": 137,
-      "titleMetaChecked": 133,
-      "contentMatched": 47,
-      "contentMismatch": 90,
-      "priceSignal": 26,
-      "purchaseActionSignal": 12,
+      "bodyChecked": 136,
+      "titleMetaChecked": 132,
+      "contentMatched": 50,
+      "contentMismatch": 86,
+      "accessibleContentMismatch": 28,
+      "accessGuardBody": 28,
+      "priceSignal": 27,
+      "purchaseActionSignal": 15,
       "strict": false
     },
     "interpretation": "Some URLs returned transient network signals; no exposed search, sold-out, 404, 410, or 5xx links were found."
   },
   "liveProbeReasonCounts": {
-    "robots_or_access_blocked": 62,
+    "robots_or_access_blocked": 59,
     "http_429": 13,
-    "request_failed": 3
+    "request_failed": 4
   },
   "liveProbeHostFailureCounts": {
     "item.gmarket.co.kr": 30,
     "coupang.com": 23,
     "ssg.com": 13,
-    "oliveyoung.co.kr": 7,
+    "oliveyoung.co.kr": 4,
     "hyundaicard.com": 1,
     "itempage3.auction.co.kr": 1,
+    "shinhancard.com": 1,
     "store.ohou.se": 1,
     "tmembership.co.kr": 1,
     "tour.interpark.com": 1
@@ -966,6 +1553,16 @@
       "id": "d073",
       "url": "https://www.hyundaicard.com/cpc/cr/CPCCR0101_01.hc",
       "finalUrl": "https://www.hyundaicard.com/cpc/cr/CPCCR0101_01.hc",
+      "status": 0,
+      "reason": "request_failed",
+      "titleSimilarity": 0,
+      "contentMatch": null,
+      "unavailablePattern": ""
+    },
+    {
+      "id": "d074",
+      "url": "https://www.shinhancard.com/pconts/html/benefit/event/MOBFM220/MOBFM220R01.html",
+      "finalUrl": "https://www.shinhancard.com/pconts/html/benefit/event/MOBFM220/MOBFM220R01.html",
       "status": 0,
       "reason": "request_failed",
       "titleSimilarity": 0,
@@ -1009,7 +1606,8 @@
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": false,
-        "purchaseActionSignal": true
+        "purchaseActionSignal": true,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -1019,8 +1617,12 @@
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": false,
-        "purchaseActionSignal": true
-      }
+        "purchaseActionSignal": true,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "live_content_confirmed",
+      "revalidationPriority": 20,
+      "revalidationReason": "routine_rotation_review"
     },
     {
       "id": "d002",
@@ -1057,7 +1659,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": false,
@@ -1066,7 +1669,10 @@
         "finalUrl": "https://item.gmarket.co.kr/Item?goodsCode=4076233103",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d003",
@@ -1103,7 +1709,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": false,
@@ -1112,7 +1719,10 @@
         "finalUrl": "https://item.gmarket.co.kr/Item?goodsCode=1645289356",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d004",
@@ -1149,7 +1759,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": true
       },
       "liveProbe": {
         "ok": false,
@@ -1158,7 +1769,10 @@
         "finalUrl": "https://www.coupang.com/vp/products/9536028933?itemId=28441768456&vendorItemId=95392511443",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "seller_access_protected_manual_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d005",
@@ -1195,7 +1809,8 @@
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -1205,8 +1820,12 @@
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": false,
-        "purchaseActionSignal": false
-      }
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "live_content_confirmed",
+      "revalidationPriority": 20,
+      "revalidationReason": "routine_rotation_review"
     },
     {
       "id": "d006",
@@ -1243,7 +1862,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": true
       },
       "liveProbe": {
         "ok": false,
@@ -1252,7 +1872,10 @@
         "finalUrl": "https://www.coupang.com/vp/products/4944747674?itemId=19547724956&vendorItemId=86433745874",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "seller_access_protected_manual_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d007",
@@ -1289,7 +1912,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": false,
@@ -1298,7 +1922,10 @@
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2845354348",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d008",
@@ -1335,7 +1962,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -1345,8 +1973,12 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
-      }
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 65,
+      "revalidationReason": "accessible_content_mismatch_review"
     },
     {
       "id": "d009",
@@ -1383,7 +2015,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": false,
@@ -1392,7 +2025,10 @@
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=3768639920",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d010",
@@ -1429,7 +2065,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": true
       },
       "liveProbe": {
         "ok": false,
@@ -1438,7 +2075,10 @@
         "finalUrl": "https://www.coupang.com/vp/products/7999681537?itemId=22273718645&vendorItemId=92858534546",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "seller_access_protected_manual_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d011",
@@ -1475,7 +2115,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": false,
@@ -1484,7 +2125,10 @@
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000377767271",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 65,
+      "revalidationReason": "accessible_content_mismatch_review"
     },
     {
       "id": "d012",
@@ -1503,7 +2147,7 @@
       "validationCode": "valid",
       "validationReason": "passed",
       "lastCheckedAt": "2026-05-31T10:00:00.000Z",
-      "priorityScore": 99,
+      "priorityScore": 100,
       "isHidden": false,
       "publishable": true,
       "host": "oliveyoung.co.kr",
@@ -1516,21 +2160,28 @@
         "productDetailUrl": true,
         "officialBenefitUrl": false,
         "unavailableText": false,
-        "liveProbeOk": false,
+        "liveProbeOk": true,
         "titleMetaChecked": true,
         "titleSimilarity": 0,
-        "contentMatch": false,
+        "contentMatch": true,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": true,
+        "accessGuard": false
       },
       "liveProbe": {
-        "ok": false,
-        "status": 403,
-        "reason": "robots_or_access_blocked",
-        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000216997",
+        "ok": true,
+        "bodyChecked": true,
+        "title": "올리브영 온라인몰",
+        "metaDescription": "대한민국 NO.1 헬스&뷰티 스토어 OLIVEYOUNG",
         "titleSimilarity": 0,
-        "contentMatch": false
-      }
+        "contentMatch": true,
+        "priceSignal": false,
+        "purchaseActionSignal": true,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "live_content_confirmed",
+      "revalidationPriority": 20,
+      "revalidationReason": "routine_rotation_review"
     },
     {
       "id": "d013",
@@ -1567,7 +2218,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -1577,8 +2229,12 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
-      }
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 65,
+      "revalidationReason": "accessible_content_mismatch_review"
     },
     {
       "id": "d014",
@@ -1615,7 +2271,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": true
       },
       "liveProbe": {
         "ok": false,
@@ -1624,7 +2281,10 @@
         "finalUrl": "https://www.coupang.com/vp/products/7687552147",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "seller_access_protected_manual_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d015",
@@ -1661,7 +2321,8 @@
         "titleSimilarity": 33,
         "contentMatch": true,
         "priceSignal": true,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -1671,8 +2332,12 @@
         "titleSimilarity": 33,
         "contentMatch": true,
         "priceSignal": true,
-        "purchaseActionSignal": false
-      }
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "live_content_confirmed",
+      "revalidationPriority": 20,
+      "revalidationReason": "routine_rotation_review"
     },
     {
       "id": "d016",
@@ -1709,7 +2374,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": false,
@@ -1718,7 +2384,10 @@
         "finalUrl": "https://item.gmarket.co.kr/Item?goodsCode=4108056484",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d017",
@@ -1755,7 +2424,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": false,
@@ -1764,7 +2434,10 @@
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=3579809715",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d018",
@@ -1801,7 +2474,8 @@
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": true,
-        "purchaseActionSignal": true
+        "purchaseActionSignal": true,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -1811,8 +2485,12 @@
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": true,
-        "purchaseActionSignal": true
-      }
+        "purchaseActionSignal": true,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "live_content_confirmed",
+      "revalidationPriority": 20,
+      "revalidationReason": "routine_rotation_review"
     },
     {
       "id": "d019",
@@ -1849,7 +2527,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": true
       },
       "liveProbe": {
         "ok": false,
@@ -1858,7 +2537,10 @@
         "finalUrl": "https://store.ohou.se/goods/1306932",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "seller_access_protected_manual_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d020",
@@ -1895,7 +2577,8 @@
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -1905,8 +2588,12 @@
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": false,
-        "purchaseActionSignal": false
-      }
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "live_content_confirmed",
+      "revalidationPriority": 20,
+      "revalidationReason": "routine_rotation_review"
     },
     {
       "id": "d021",
@@ -1943,7 +2630,8 @@
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -1953,8 +2641,12 @@
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": false,
-        "purchaseActionSignal": false
-      }
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "live_content_confirmed",
+      "revalidationPriority": 20,
+      "revalidationReason": "routine_rotation_review"
     },
     {
       "id": "d022",
@@ -1991,7 +2683,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": true
       },
       "liveProbe": {
         "ok": false,
@@ -2000,7 +2693,10 @@
         "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000188040",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "seller_access_protected_manual_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d023",
@@ -2037,7 +2733,8 @@
         "titleSimilarity": 50,
         "contentMatch": true,
         "priceSignal": true,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -2047,8 +2744,12 @@
         "titleSimilarity": 50,
         "contentMatch": true,
         "priceSignal": true,
-        "purchaseActionSignal": false
-      }
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "live_content_confirmed",
+      "revalidationPriority": 20,
+      "revalidationReason": "routine_rotation_review"
     },
     {
       "id": "d024",
@@ -2085,7 +2786,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": false,
@@ -2094,7 +2796,10 @@
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000038330709",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 65,
+      "revalidationReason": "accessible_content_mismatch_review"
     },
     {
       "id": "d025",
@@ -2131,7 +2836,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": true
       },
       "liveProbe": {
         "ok": false,
@@ -2140,7 +2846,10 @@
         "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000163532",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "seller_access_protected_manual_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d026",
@@ -2177,7 +2886,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -2187,8 +2897,12 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
-      }
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 65,
+      "revalidationReason": "accessible_content_mismatch_review"
     },
     {
       "id": "d027",
@@ -2225,7 +2939,8 @@
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": true,
-        "purchaseActionSignal": true
+        "purchaseActionSignal": true,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -2235,8 +2950,12 @@
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": true,
-        "purchaseActionSignal": true
-      }
+        "purchaseActionSignal": true,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "live_content_confirmed",
+      "revalidationPriority": 20,
+      "revalidationReason": "routine_rotation_review"
     },
     {
       "id": "d028",
@@ -2273,7 +2992,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": true
       },
       "liveProbe": {
         "ok": false,
@@ -2282,7 +3002,10 @@
         "finalUrl": "https://www.coupang.com/vp/products/45447044?itemId=162348092&vendorItemId=3383614966",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "seller_access_protected_manual_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d029",
@@ -2319,7 +3042,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": false,
@@ -2328,7 +3052,10 @@
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000568480807",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 65,
+      "revalidationReason": "accessible_content_mismatch_review"
     },
     {
       "id": "d030",
@@ -2365,7 +3092,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": true
       },
       "liveProbe": {
         "ok": false,
@@ -2374,7 +3102,10 @@
         "finalUrl": "https://www.coupang.com/vp/products/8640169010",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "seller_access_protected_manual_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d031",
@@ -2411,7 +3142,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": true
       },
       "liveProbe": {
         "ok": false,
@@ -2420,7 +3152,10 @@
         "finalUrl": "https://www.coupang.com/vp/products/7872977867",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "seller_access_protected_manual_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d032",
@@ -2457,7 +3192,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": false,
@@ -2466,7 +3202,10 @@
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=0000009774169",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 65,
+      "revalidationReason": "accessible_content_mismatch_review"
     },
     {
       "id": "d033",
@@ -2503,7 +3242,8 @@
         "titleSimilarity": 17,
         "contentMatch": true,
         "priceSignal": true,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -2513,8 +3253,12 @@
         "titleSimilarity": 17,
         "contentMatch": true,
         "priceSignal": true,
-        "purchaseActionSignal": false
-      }
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "live_content_confirmed",
+      "revalidationPriority": 20,
+      "revalidationReason": "routine_rotation_review"
     },
     {
       "id": "d034",
@@ -2551,7 +3295,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": false,
@@ -2560,7 +3305,10 @@
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2739226248",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d035",
@@ -2597,7 +3345,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": true
       },
       "liveProbe": {
         "ok": false,
@@ -2606,7 +3355,10 @@
         "finalUrl": "https://www.coupang.com/vp/products/9468784918?itemId=28181432958&vendorItemId=95136026489",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "seller_access_protected_manual_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d036",
@@ -2643,7 +3395,8 @@
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": false,
-        "purchaseActionSignal": true
+        "purchaseActionSignal": true,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -2653,8 +3406,12 @@
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": false,
-        "purchaseActionSignal": true
-      }
+        "purchaseActionSignal": true,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "live_content_confirmed",
+      "revalidationPriority": 20,
+      "revalidationReason": "routine_rotation_review"
     },
     {
       "id": "d037",
@@ -2691,7 +3448,8 @@
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -2701,8 +3459,12 @@
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": false,
-        "purchaseActionSignal": false
-      }
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "live_content_confirmed",
+      "revalidationPriority": 20,
+      "revalidationReason": "routine_rotation_review"
     },
     {
       "id": "d038",
@@ -2739,7 +3501,8 @@
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": true,
-        "purchaseActionSignal": true
+        "purchaseActionSignal": true,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -2749,8 +3512,12 @@
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": true,
-        "purchaseActionSignal": true
-      }
+        "purchaseActionSignal": true,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "live_content_confirmed",
+      "revalidationPriority": 20,
+      "revalidationReason": "routine_rotation_review"
     },
     {
       "id": "d039",
@@ -2787,7 +3554,8 @@
         "titleSimilarity": 80,
         "contentMatch": true,
         "priceSignal": true,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -2797,8 +3565,12 @@
         "titleSimilarity": 80,
         "contentMatch": true,
         "priceSignal": true,
-        "purchaseActionSignal": false
-      }
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "live_content_confirmed",
+      "revalidationPriority": 20,
+      "revalidationReason": "routine_rotation_review"
     },
     {
       "id": "d040",
@@ -2817,7 +3589,7 @@
       "validationCode": "valid",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-01T02:40:00.000Z",
-      "priorityScore": 99,
+      "priorityScore": 100,
       "isHidden": false,
       "publishable": true,
       "host": "oliveyoung.co.kr",
@@ -2830,21 +3602,28 @@
         "productDetailUrl": true,
         "officialBenefitUrl": false,
         "unavailableText": false,
-        "liveProbeOk": false,
+        "liveProbeOk": true,
         "titleMetaChecked": true,
-        "titleSimilarity": 0,
-        "contentMatch": false,
-        "priceSignal": false,
-        "purchaseActionSignal": false
+        "titleSimilarity": 100,
+        "contentMatch": true,
+        "priceSignal": true,
+        "purchaseActionSignal": true,
+        "accessGuard": false
       },
       "liveProbe": {
-        "ok": false,
-        "status": 403,
-        "reason": "robots_or_access_blocked",
-        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000211588",
-        "titleSimilarity": 0,
-        "contentMatch": false
-      }
+        "ok": true,
+        "bodyChecked": true,
+        "title": "아이보들 CCP 크림 (1+1기획)/단품 | 올리브영",
+        "metaDescription": "대한민국 NO.1 헬스&뷰티 스토어 OLIVEYOUNG",
+        "titleSimilarity": 100,
+        "contentMatch": true,
+        "priceSignal": true,
+        "purchaseActionSignal": true,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "live_content_confirmed",
+      "revalidationPriority": 20,
+      "revalidationReason": "routine_rotation_review"
     },
     {
       "id": "d041",
@@ -2881,7 +3660,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": false,
@@ -2890,7 +3670,10 @@
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000620373892",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 65,
+      "revalidationReason": "accessible_content_mismatch_review"
     },
     {
       "id": "d042",
@@ -2927,7 +3710,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -2937,8 +3721,12 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
-      }
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 65,
+      "revalidationReason": "accessible_content_mismatch_review"
     },
     {
       "id": "d043",
@@ -2975,7 +3763,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -2985,8 +3774,12 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
-      }
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 65,
+      "revalidationReason": "accessible_content_mismatch_review"
     },
     {
       "id": "d044",
@@ -3023,7 +3816,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": false,
@@ -3032,7 +3826,10 @@
         "finalUrl": "https://itempage3.auction.co.kr/DetailView.aspx?itemno=F408783307",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d045",
@@ -3069,7 +3866,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": false,
@@ -3078,7 +3876,10 @@
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000519076764",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 65,
+      "revalidationReason": "accessible_content_mismatch_review"
     },
     {
       "id": "d046",
@@ -3115,7 +3916,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": true
       },
       "liveProbe": {
         "ok": false,
@@ -3124,7 +3926,10 @@
         "finalUrl": "https://www.coupang.com/vp/products/5625704601?vendorItemId=79548063314",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "seller_access_protected_manual_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d047",
@@ -3161,7 +3966,8 @@
         "titleSimilarity": 25,
         "contentMatch": true,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -3171,8 +3977,12 @@
         "titleSimilarity": 25,
         "contentMatch": true,
         "priceSignal": false,
-        "purchaseActionSignal": false
-      }
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "live_content_confirmed",
+      "revalidationPriority": 20,
+      "revalidationReason": "routine_rotation_review"
     },
     {
       "id": "d048",
@@ -3209,7 +4019,8 @@
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": true,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -3219,8 +4030,12 @@
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": true,
-        "purchaseActionSignal": false
-      }
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "live_content_confirmed",
+      "revalidationPriority": 20,
+      "revalidationReason": "routine_rotation_review"
     },
     {
       "id": "d049",
@@ -3257,7 +4072,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": false,
@@ -3266,7 +4082,10 @@
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2723551094",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d050",
@@ -3303,7 +4122,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": true
       },
       "liveProbe": {
         "ok": false,
@@ -3312,7 +4132,10 @@
         "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000188460",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "seller_access_protected_manual_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d051",
@@ -3349,7 +4172,8 @@
         "titleSimilarity": 0,
         "contentMatch": null,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": false,
@@ -3358,7 +4182,10 @@
         "finalUrl": "https://tour.interpark.com/goods/detail?goodsCd=25031828338",
         "titleSimilarity": 0,
         "contentMatch": null
-      }
+      },
+      "verificationEvidenceTier": "transient_network_manual_verified",
+      "revalidationPriority": 75,
+      "revalidationReason": "request_failed"
     },
     {
       "id": "d052",
@@ -3395,7 +4222,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": false,
@@ -3404,7 +4232,10 @@
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000560995801",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 65,
+      "revalidationReason": "accessible_content_mismatch_review"
     },
     {
       "id": "d053",
@@ -3441,7 +4272,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -3451,8 +4283,12 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
-      }
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 65,
+      "revalidationReason": "accessible_content_mismatch_review"
     },
     {
       "id": "d054",
@@ -3489,7 +4325,8 @@
         "titleSimilarity": 40,
         "contentMatch": true,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -3499,8 +4336,12 @@
         "titleSimilarity": 40,
         "contentMatch": true,
         "priceSignal": false,
-        "purchaseActionSignal": false
-      }
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "live_content_confirmed",
+      "revalidationPriority": 20,
+      "revalidationReason": "routine_rotation_review"
     },
     {
       "id": "d055",
@@ -3537,7 +4378,8 @@
         "titleSimilarity": 40,
         "contentMatch": true,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -3547,8 +4389,12 @@
         "titleSimilarity": 40,
         "contentMatch": true,
         "priceSignal": false,
-        "purchaseActionSignal": false
-      }
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "live_content_confirmed",
+      "revalidationPriority": 20,
+      "revalidationReason": "routine_rotation_review"
     },
     {
       "id": "d056",
@@ -3585,7 +4431,8 @@
         "titleSimilarity": 17,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -3595,8 +4442,12 @@
         "titleSimilarity": 17,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
-      }
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 65,
+      "revalidationReason": "accessible_content_mismatch_review"
     },
     {
       "id": "d057",
@@ -3633,7 +4484,8 @@
         "titleSimilarity": 0,
         "contentMatch": null,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": false,
@@ -3642,7 +4494,10 @@
         "finalUrl": "https://www.tmembership.co.kr/web/html/main/benefit.html",
         "titleSimilarity": 0,
         "contentMatch": null
-      }
+      },
+      "verificationEvidenceTier": "transient_network_manual_verified",
+      "revalidationPriority": 75,
+      "revalidationReason": "request_failed"
     },
     {
       "id": "d058",
@@ -3679,7 +4534,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -3689,8 +4545,12 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
-      }
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 65,
+      "revalidationReason": "accessible_content_mismatch_review"
     },
     {
       "id": "d059",
@@ -3727,7 +4587,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -3737,8 +4598,12 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
-      }
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 65,
+      "revalidationReason": "accessible_content_mismatch_review"
     },
     {
       "id": "d060",
@@ -3775,7 +4640,8 @@
         "titleSimilarity": 17,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -3785,8 +4651,12 @@
         "titleSimilarity": 17,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
-      }
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 65,
+      "revalidationReason": "accessible_content_mismatch_review"
     },
     {
       "id": "d061",
@@ -3823,7 +4693,8 @@
         "titleSimilarity": 33,
         "contentMatch": true,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -3833,8 +4704,12 @@
         "titleSimilarity": 33,
         "contentMatch": true,
         "priceSignal": false,
-        "purchaseActionSignal": false
-      }
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "live_content_confirmed",
+      "revalidationPriority": 20,
+      "revalidationReason": "routine_rotation_review"
     },
     {
       "id": "d062",
@@ -3871,7 +4746,8 @@
         "titleSimilarity": 75,
         "contentMatch": true,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -3881,8 +4757,12 @@
         "titleSimilarity": 75,
         "contentMatch": true,
         "priceSignal": false,
-        "purchaseActionSignal": false
-      }
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "live_content_confirmed",
+      "revalidationPriority": 20,
+      "revalidationReason": "routine_rotation_review"
     },
     {
       "id": "d063",
@@ -3919,7 +4799,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -3929,8 +4810,12 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
-      }
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 65,
+      "revalidationReason": "accessible_content_mismatch_review"
     },
     {
       "id": "d064",
@@ -3967,7 +4852,8 @@
         "titleSimilarity": 40,
         "contentMatch": true,
         "priceSignal": false,
-        "purchaseActionSignal": true
+        "purchaseActionSignal": true,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -3977,8 +4863,12 @@
         "titleSimilarity": 40,
         "contentMatch": true,
         "priceSignal": false,
-        "purchaseActionSignal": true
-      }
+        "purchaseActionSignal": true,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "live_content_confirmed",
+      "revalidationPriority": 20,
+      "revalidationReason": "routine_rotation_review"
     },
     {
       "id": "d065",
@@ -4015,7 +4905,8 @@
         "titleSimilarity": 60,
         "contentMatch": true,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -4025,8 +4916,12 @@
         "titleSimilarity": 60,
         "contentMatch": true,
         "priceSignal": false,
-        "purchaseActionSignal": false
-      }
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "live_content_confirmed",
+      "revalidationPriority": 20,
+      "revalidationReason": "routine_rotation_review"
     },
     {
       "id": "d066",
@@ -4063,7 +4958,8 @@
         "titleSimilarity": 60,
         "contentMatch": true,
         "priceSignal": true,
-        "purchaseActionSignal": true
+        "purchaseActionSignal": true,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -4073,8 +4969,12 @@
         "titleSimilarity": 60,
         "contentMatch": true,
         "priceSignal": true,
-        "purchaseActionSignal": true
-      }
+        "purchaseActionSignal": true,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "live_content_confirmed",
+      "revalidationPriority": 20,
+      "revalidationReason": "routine_rotation_review"
     },
     {
       "id": "d067",
@@ -4111,7 +5011,8 @@
         "titleSimilarity": 33,
         "contentMatch": true,
         "priceSignal": true,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -4121,8 +5022,12 @@
         "titleSimilarity": 33,
         "contentMatch": true,
         "priceSignal": true,
-        "purchaseActionSignal": false
-      }
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "live_content_confirmed",
+      "revalidationPriority": 20,
+      "revalidationReason": "routine_rotation_review"
     },
     {
       "id": "d068",
@@ -4159,7 +5064,8 @@
         "titleSimilarity": 40,
         "contentMatch": true,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -4169,8 +5075,12 @@
         "titleSimilarity": 40,
         "contentMatch": true,
         "priceSignal": false,
-        "purchaseActionSignal": false
-      }
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "live_content_confirmed",
+      "revalidationPriority": 20,
+      "revalidationReason": "routine_rotation_review"
     },
     {
       "id": "d069",
@@ -4207,7 +5117,8 @@
         "titleSimilarity": 80,
         "contentMatch": true,
         "priceSignal": true,
-        "purchaseActionSignal": true
+        "purchaseActionSignal": true,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -4217,8 +5128,12 @@
         "titleSimilarity": 80,
         "contentMatch": true,
         "priceSignal": true,
-        "purchaseActionSignal": true
-      }
+        "purchaseActionSignal": true,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "live_content_confirmed",
+      "revalidationPriority": 20,
+      "revalidationReason": "routine_rotation_review"
     },
     {
       "id": "d070",
@@ -4255,7 +5170,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -4265,8 +5181,12 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
-      }
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 65,
+      "revalidationReason": "accessible_content_mismatch_review"
     },
     {
       "id": "d071",
@@ -4303,7 +5223,8 @@
         "titleSimilarity": 40,
         "contentMatch": true,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -4313,8 +5234,12 @@
         "titleSimilarity": 40,
         "contentMatch": true,
         "priceSignal": false,
-        "purchaseActionSignal": false
-      }
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "live_content_confirmed",
+      "revalidationPriority": 20,
+      "revalidationReason": "routine_rotation_review"
     },
     {
       "id": "d072",
@@ -4351,7 +5276,8 @@
         "titleSimilarity": 80,
         "contentMatch": true,
         "priceSignal": true,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -4361,8 +5287,12 @@
         "titleSimilarity": 80,
         "contentMatch": true,
         "priceSignal": true,
-        "purchaseActionSignal": false
-      }
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "live_content_confirmed",
+      "revalidationPriority": 20,
+      "revalidationReason": "routine_rotation_review"
     },
     {
       "id": "d073",
@@ -4399,7 +5329,8 @@
         "titleSimilarity": 0,
         "contentMatch": null,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": false,
@@ -4408,7 +5339,10 @@
         "finalUrl": "https://www.hyundaicard.com/cpc/cr/CPCCR0101_01.hc",
         "titleSimilarity": 0,
         "contentMatch": null
-      }
+      },
+      "verificationEvidenceTier": "transient_network_manual_verified",
+      "revalidationPriority": 75,
+      "revalidationReason": "request_failed"
     },
     {
       "id": "d074",
@@ -4440,23 +5374,25 @@
         "productDetailUrl": false,
         "officialBenefitUrl": true,
         "unavailableText": false,
-        "liveProbeOk": true,
-        "titleMetaChecked": true,
-        "titleSimilarity": 20,
-        "contentMatch": true,
+        "liveProbeOk": false,
+        "titleMetaChecked": false,
+        "titleSimilarity": 0,
+        "contentMatch": null,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
-        "ok": true,
-        "bodyChecked": true,
-        "title": "신한카드 모바일 웹",
-        "metaDescription": "",
-        "titleSimilarity": 20,
-        "contentMatch": true,
-        "priceSignal": false,
-        "purchaseActionSignal": false
-      }
+        "ok": false,
+        "status": 0,
+        "reason": "request_failed",
+        "finalUrl": "https://www.shinhancard.com/pconts/html/benefit/event/MOBFM220/MOBFM220R01.html",
+        "titleSimilarity": 0,
+        "contentMatch": null
+      },
+      "verificationEvidenceTier": "transient_network_manual_verified",
+      "revalidationPriority": 75,
+      "revalidationReason": "request_failed"
     },
     {
       "id": "d075",
@@ -4493,7 +5429,8 @@
         "titleSimilarity": 40,
         "contentMatch": true,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -4503,8 +5440,12 @@
         "titleSimilarity": 40,
         "contentMatch": true,
         "priceSignal": false,
-        "purchaseActionSignal": false
-      }
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "live_content_confirmed",
+      "revalidationPriority": 20,
+      "revalidationReason": "routine_rotation_review"
     },
     {
       "id": "d076",
@@ -4541,7 +5482,8 @@
         "titleSimilarity": 75,
         "contentMatch": true,
         "priceSignal": true,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -4551,8 +5493,12 @@
         "titleSimilarity": 75,
         "contentMatch": true,
         "priceSignal": true,
-        "purchaseActionSignal": false
-      }
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "live_content_confirmed",
+      "revalidationPriority": 20,
+      "revalidationReason": "routine_rotation_review"
     },
     {
       "id": "d077",
@@ -4589,7 +5535,8 @@
         "titleSimilarity": 40,
         "contentMatch": true,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -4599,8 +5546,12 @@
         "titleSimilarity": 40,
         "contentMatch": true,
         "priceSignal": false,
-        "purchaseActionSignal": false
-      }
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "live_content_confirmed",
+      "revalidationPriority": 20,
+      "revalidationReason": "routine_rotation_review"
     },
     {
       "id": "d078",
@@ -4637,7 +5588,8 @@
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -4647,8 +5599,12 @@
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": false,
-        "purchaseActionSignal": false
-      }
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "live_content_confirmed",
+      "revalidationPriority": 20,
+      "revalidationReason": "routine_rotation_review"
     },
     {
       "id": "d079",
@@ -4685,7 +5641,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": true
       },
       "liveProbe": {
         "ok": false,
@@ -4694,7 +5651,10 @@
         "finalUrl": "https://www.coupang.com/vp/products/8943433269",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "seller_access_protected_manual_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d080",
@@ -4731,7 +5691,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": false,
@@ -4740,7 +5701,10 @@
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=920731222",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d081",
@@ -4777,7 +5741,8 @@
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": true,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -4787,8 +5752,12 @@
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": true,
-        "purchaseActionSignal": false
-      }
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "live_content_confirmed",
+      "revalidationPriority": 20,
+      "revalidationReason": "routine_rotation_review"
     },
     {
       "id": "d082",
@@ -4825,7 +5794,8 @@
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": true,
-        "purchaseActionSignal": true
+        "purchaseActionSignal": true,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -4835,8 +5805,12 @@
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": true,
-        "purchaseActionSignal": true
-      }
+        "purchaseActionSignal": true,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "live_content_confirmed",
+      "revalidationPriority": 20,
+      "revalidationReason": "routine_rotation_review"
     },
     {
       "id": "d083",
@@ -4873,7 +5847,8 @@
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": false,
-        "purchaseActionSignal": true
+        "purchaseActionSignal": true,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -4883,8 +5858,12 @@
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": false,
-        "purchaseActionSignal": true
-      }
+        "purchaseActionSignal": true,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "live_content_confirmed",
+      "revalidationPriority": 20,
+      "revalidationReason": "routine_rotation_review"
     },
     {
       "id": "d084",
@@ -4921,7 +5900,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -4931,8 +5911,12 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
-      }
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 65,
+      "revalidationReason": "accessible_content_mismatch_review"
     },
     {
       "id": "d085",
@@ -4969,7 +5953,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -4979,8 +5964,12 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
-      }
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 65,
+      "revalidationReason": "accessible_content_mismatch_review"
     },
     {
       "id": "d086",
@@ -5017,7 +6006,8 @@
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": true,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -5027,8 +6017,12 @@
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": true,
-        "purchaseActionSignal": false
-      }
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "live_content_confirmed",
+      "revalidationPriority": 20,
+      "revalidationReason": "routine_rotation_review"
     },
     {
       "id": "d087",
@@ -5065,7 +6059,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": false,
@@ -5074,7 +6069,10 @@
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=1503733317",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d088",
@@ -5111,7 +6109,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": true
       },
       "liveProbe": {
         "ok": false,
@@ -5120,7 +6119,10 @@
         "finalUrl": "https://www.coupang.com/vp/products/8263119298",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "seller_access_protected_manual_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d089",
@@ -5157,7 +6159,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": false,
@@ -5166,7 +6169,10 @@
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2439050806",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d090",
@@ -5203,7 +6209,8 @@
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": false,
-        "purchaseActionSignal": true
+        "purchaseActionSignal": true,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -5213,8 +6220,12 @@
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": false,
-        "purchaseActionSignal": true
-      }
+        "purchaseActionSignal": true,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "live_content_confirmed",
+      "revalidationPriority": 20,
+      "revalidationReason": "routine_rotation_review"
     },
     {
       "id": "d091",
@@ -5251,7 +6262,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": true
       },
       "liveProbe": {
         "ok": false,
@@ -5260,7 +6272,10 @@
         "finalUrl": "https://www.coupang.com/vp/products/27613130",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "seller_access_protected_manual_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d092",
@@ -5297,7 +6312,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": false,
@@ -5306,7 +6322,10 @@
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=4208551428",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d093",
@@ -5343,7 +6362,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": false,
@@ -5352,7 +6372,10 @@
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000005089075",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 65,
+      "revalidationReason": "accessible_content_mismatch_review"
     },
     {
       "id": "d094",
@@ -5389,7 +6412,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": true
       },
       "liveProbe": {
         "ok": false,
@@ -5398,7 +6422,10 @@
         "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000246774",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "seller_access_protected_manual_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d095",
@@ -5435,7 +6462,8 @@
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": true,
-        "purchaseActionSignal": true
+        "purchaseActionSignal": true,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -5445,8 +6473,12 @@
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": true,
-        "purchaseActionSignal": true
-      }
+        "purchaseActionSignal": true,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "live_content_confirmed",
+      "revalidationPriority": 20,
+      "revalidationReason": "routine_rotation_review"
     },
     {
       "id": "d096",
@@ -5483,7 +6515,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": false,
@@ -5492,7 +6525,10 @@
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2066504211",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d097",
@@ -5529,7 +6565,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": false,
@@ -5538,7 +6575,10 @@
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2953970256",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d098",
@@ -5575,7 +6615,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": false,
@@ -5584,7 +6625,10 @@
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2809510617",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d099",
@@ -5621,7 +6665,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": false,
@@ -5630,7 +6675,10 @@
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000601459551",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 65,
+      "revalidationReason": "accessible_content_mismatch_review"
     },
     {
       "id": "d100",
@@ -5667,7 +6715,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": true
       },
       "liveProbe": {
         "ok": false,
@@ -5676,7 +6725,10 @@
         "finalUrl": "https://www.coupang.com/vp/products/6499690442?itemId=18173261121&vendorItemId=85322534161",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "seller_access_protected_manual_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d101",
@@ -5713,7 +6765,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": false,
@@ -5722,7 +6775,10 @@
         "finalUrl": "https://item.gmarket.co.kr/Item?goodsCode=4476089680",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d102",
@@ -5759,7 +6815,8 @@
         "titleSimilarity": 80,
         "contentMatch": true,
         "priceSignal": true,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -5769,8 +6826,12 @@
         "titleSimilarity": 80,
         "contentMatch": true,
         "priceSignal": true,
-        "purchaseActionSignal": false
-      }
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "live_content_confirmed",
+      "revalidationPriority": 20,
+      "revalidationReason": "routine_rotation_review"
     },
     {
       "id": "d103",
@@ -5807,7 +6868,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": false,
@@ -5816,7 +6878,10 @@
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=1771516558",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d104",
@@ -5853,7 +6918,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": true
       },
       "liveProbe": {
         "ok": false,
@@ -5862,7 +6928,10 @@
         "finalUrl": "https://www.coupang.com/vp/products/8874782036?itemId=25896029282&vendorItemId=92904466881",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "seller_access_protected_manual_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d105",
@@ -5899,7 +6968,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": true
       },
       "liveProbe": {
         "ok": false,
@@ -5908,7 +6978,10 @@
         "finalUrl": "https://www.coupang.com/vp/products/6133165754",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "seller_access_protected_manual_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d106",
@@ -5942,19 +7015,23 @@
         "unavailableText": false,
         "liveProbeOk": false,
         "titleMetaChecked": true,
-        "titleSimilarity": 0,
-        "contentMatch": false,
+        "titleSimilarity": 20,
+        "contentMatch": true,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": false,
         "status": 403,
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2763212387",
-        "titleSimilarity": 0,
-        "contentMatch": false
-      }
+        "titleSimilarity": 20,
+        "contentMatch": true
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d107",
@@ -5991,7 +7068,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": false,
@@ -6000,7 +7078,10 @@
         "finalUrl": "https://item.gmarket.co.kr/Item?goodsCode=4261528217",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d108",
@@ -6037,7 +7118,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": false,
@@ -6046,7 +7128,10 @@
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=4236933731",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d109",
@@ -6083,7 +7168,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": false,
@@ -6092,7 +7178,10 @@
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2745012476",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d110",
@@ -6129,7 +7218,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": true
       },
       "liveProbe": {
         "ok": false,
@@ -6138,7 +7228,10 @@
         "finalUrl": "https://www.coupang.com/vp/products/9358422?itemId=19687297735&vendorItemId=90791761130",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "seller_access_protected_manual_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d111",
@@ -6175,7 +7268,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": false,
@@ -6184,7 +7278,10 @@
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=3560262554",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d112",
@@ -6221,7 +7318,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -6231,8 +7329,12 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
-      }
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 65,
+      "revalidationReason": "accessible_content_mismatch_review"
     },
     {
       "id": "d113",
@@ -6269,7 +7371,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": true
       },
       "liveProbe": {
         "ok": false,
@@ -6278,7 +7381,10 @@
         "finalUrl": "https://www.coupang.com/vp/products/186524064",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "seller_access_protected_manual_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d114",
@@ -6315,7 +7421,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": false,
@@ -6324,7 +7431,10 @@
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2667091230",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d115",
@@ -6361,7 +7471,8 @@
         "titleSimilarity": 50,
         "contentMatch": true,
         "priceSignal": true,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -6371,8 +7482,12 @@
         "titleSimilarity": 50,
         "contentMatch": true,
         "priceSignal": true,
-        "purchaseActionSignal": false
-      }
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "live_content_confirmed",
+      "revalidationPriority": 20,
+      "revalidationReason": "routine_rotation_review"
     },
     {
       "id": "d116",
@@ -6409,7 +7524,8 @@
         "titleSimilarity": 17,
         "contentMatch": true,
         "priceSignal": true,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -6419,8 +7535,12 @@
         "titleSimilarity": 17,
         "contentMatch": true,
         "priceSignal": true,
-        "purchaseActionSignal": false
-      }
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "live_content_confirmed",
+      "revalidationPriority": 20,
+      "revalidationReason": "routine_rotation_review"
     },
     {
       "id": "d117",
@@ -6457,7 +7577,8 @@
         "titleSimilarity": 40,
         "contentMatch": true,
         "priceSignal": true,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -6467,8 +7588,12 @@
         "titleSimilarity": 40,
         "contentMatch": true,
         "priceSignal": true,
-        "purchaseActionSignal": false
-      }
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "live_content_confirmed",
+      "revalidationPriority": 20,
+      "revalidationReason": "routine_rotation_review"
     },
     {
       "id": "d118",
@@ -6505,7 +7630,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": false,
@@ -6514,7 +7640,10 @@
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2910475736",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d119",
@@ -6551,7 +7680,8 @@
         "titleSimilarity": 83,
         "contentMatch": true,
         "priceSignal": true,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -6561,8 +7691,12 @@
         "titleSimilarity": 83,
         "contentMatch": true,
         "priceSignal": true,
-        "purchaseActionSignal": false
-      }
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "live_content_confirmed",
+      "revalidationPriority": 20,
+      "revalidationReason": "routine_rotation_review"
     },
     {
       "id": "d120",
@@ -6599,7 +7733,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": false,
@@ -6608,7 +7743,10 @@
         "finalUrl": "https://item.gmarket.co.kr/Item?goodsCode=4285817639",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d121",
@@ -6645,7 +7783,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": true
       },
       "liveProbe": {
         "ok": false,
@@ -6654,7 +7793,10 @@
         "finalUrl": "https://www.coupang.com/vp/products/4739246363",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "seller_access_protected_manual_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d122",
@@ -6691,7 +7833,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": false,
@@ -6700,7 +7843,10 @@
         "finalUrl": "https://item.gmarket.co.kr/Item?goodsCode=4412121040",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d123",
@@ -6737,7 +7883,8 @@
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": true,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -6747,8 +7894,12 @@
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": true,
-        "purchaseActionSignal": false
-      }
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "live_content_confirmed",
+      "revalidationPriority": 20,
+      "revalidationReason": "routine_rotation_review"
     },
     {
       "id": "d124",
@@ -6767,7 +7918,7 @@
       "validationCode": "valid",
       "validationReason": "passed",
       "lastCheckedAt": "2026-06-02T05:20:00.000Z",
-      "priorityScore": 99,
+      "priorityScore": 100,
       "isHidden": false,
       "publishable": true,
       "host": "oliveyoung.co.kr",
@@ -6780,21 +7931,28 @@
         "productDetailUrl": true,
         "officialBenefitUrl": false,
         "unavailableText": false,
-        "liveProbeOk": false,
+        "liveProbeOk": true,
         "titleMetaChecked": true,
-        "titleSimilarity": 0,
-        "contentMatch": false,
+        "titleSimilarity": 13,
+        "contentMatch": true,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": true,
+        "accessGuard": false
       },
       "liveProbe": {
-        "ok": false,
-        "status": 403,
-        "reason": "robots_or_access_blocked",
-        "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000230063",
-        "titleSimilarity": 0,
-        "contentMatch": false
-      }
+        "ok": true,
+        "bodyChecked": true,
+        "title": "올리브영 온라인몰",
+        "metaDescription": "대한민국 NO.1 헬스&뷰티 스토어 OLIVEYOUNG",
+        "titleSimilarity": 13,
+        "contentMatch": true,
+        "priceSignal": false,
+        "purchaseActionSignal": true,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "live_content_confirmed",
+      "revalidationPriority": 20,
+      "revalidationReason": "routine_rotation_review"
     },
     {
       "id": "d125",
@@ -6831,7 +7989,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": false,
@@ -6840,7 +7999,10 @@
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000032939693",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 65,
+      "revalidationReason": "accessible_content_mismatch_review"
     },
     {
       "id": "d126",
@@ -6877,7 +8039,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": true
       },
       "liveProbe": {
         "ok": false,
@@ -6886,7 +8049,10 @@
         "finalUrl": "https://www.coupang.com/vp/products/169280610?itemId=18366710784&vendorItemId=85510322367",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "seller_access_protected_manual_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d127",
@@ -6923,7 +8089,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": false,
@@ -6932,7 +8099,10 @@
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2349292374",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d128",
@@ -6969,7 +8139,8 @@
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": true,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -6979,8 +8150,12 @@
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": true,
-        "purchaseActionSignal": false
-      }
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "live_content_confirmed",
+      "revalidationPriority": 20,
+      "revalidationReason": "routine_rotation_review"
     },
     {
       "id": "d129",
@@ -7017,7 +8192,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": false,
@@ -7026,7 +8202,10 @@
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=2097001847275",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 65,
+      "revalidationReason": "accessible_content_mismatch_review"
     },
     {
       "id": "d130",
@@ -7063,7 +8242,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": true
       },
       "liveProbe": {
         "ok": false,
@@ -7072,7 +8252,10 @@
         "finalUrl": "https://www.coupang.com/vp/products/8286305822",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "seller_access_protected_manual_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d131",
@@ -7109,7 +8292,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": true
       },
       "liveProbe": {
         "ok": false,
@@ -7118,7 +8302,10 @@
         "finalUrl": "https://www.coupang.com/vp/products/7689270513?itemId=20877904748&vendorItemId=87945140914",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "seller_access_protected_manual_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d132",
@@ -7155,7 +8342,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": false,
@@ -7164,7 +8352,10 @@
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2571643785",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d133",
@@ -7201,7 +8392,8 @@
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": true,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -7211,8 +8403,12 @@
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": true,
-        "purchaseActionSignal": false
-      }
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "live_content_confirmed",
+      "revalidationPriority": 20,
+      "revalidationReason": "routine_rotation_review"
     },
     {
       "id": "d134",
@@ -7249,7 +8445,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": false,
@@ -7258,7 +8455,10 @@
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000625953830",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 65,
+      "revalidationReason": "accessible_content_mismatch_review"
     },
     {
       "id": "d135",
@@ -7295,7 +8495,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": false,
@@ -7304,7 +8505,10 @@
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=3055540533",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d136",
@@ -7341,7 +8545,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": true
       },
       "liveProbe": {
         "ok": false,
@@ -7350,7 +8555,10 @@
         "finalUrl": "https://www.coupang.com/vp/products/5594587350",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "seller_access_protected_manual_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d137",
@@ -7387,7 +8595,8 @@
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": true,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": true,
@@ -7397,8 +8606,12 @@
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": true,
-        "purchaseActionSignal": false
-      }
+        "purchaseActionSignal": false,
+        "accessGuard": false
+      },
+      "verificationEvidenceTier": "live_content_confirmed",
+      "revalidationPriority": 20,
+      "revalidationReason": "routine_rotation_review"
     },
     {
       "id": "d138",
@@ -7435,7 +8648,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": false,
@@ -7444,7 +8658,10 @@
         "finalUrl": "https://www.ssg.com/item/itemView.ssg?itemId=1000588225854",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 65,
+      "revalidationReason": "accessible_content_mismatch_review"
     },
     {
       "id": "d139",
@@ -7481,7 +8698,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": true
       },
       "liveProbe": {
         "ok": false,
@@ -7490,7 +8708,10 @@
         "finalUrl": "https://www.coupang.com/vp/products/7430740821?vendorItemId=70327608949",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "seller_access_protected_manual_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     },
     {
       "id": "d140",
@@ -7527,7 +8748,8 @@
         "titleSimilarity": 0,
         "contentMatch": false,
         "priceSignal": false,
-        "purchaseActionSignal": false
+        "purchaseActionSignal": false,
+        "accessGuard": false
       },
       "liveProbe": {
         "ok": false,
@@ -7536,7 +8758,10 @@
         "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=3534198074",
         "titleSimilarity": 0,
         "contentMatch": false
-      }
+      },
+      "verificationEvidenceTier": "manual_pattern_verified",
+      "revalidationPriority": 45,
+      "revalidationReason": "seller_access_protected_review"
     }
   ],
   "excludedReasonCounts": {},

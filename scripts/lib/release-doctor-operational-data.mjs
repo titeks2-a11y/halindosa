@@ -912,10 +912,25 @@ export async function checkOperationalDataSurfaces() {
     !("bodyChecked" in linkReport.contentSignalSummary) ||
     !("titleMetaChecked" in linkReport.contentSignalSummary) ||
     !("contentMismatch" in linkReport.contentSignalSummary) ||
+    !("accessibleContentMismatch" in linkReport.contentSignalSummary) ||
+    !("accessGuardBody" in linkReport.contentSignalSummary) ||
     !("priceSignal" in linkReport.contentSignalSummary) ||
     !("purchaseActionSignal" in linkReport.contentSignalSummary)
   ) {
     linkPolicyIssues.push("link-validation report should record live title/meta, price, purchase/action, and content-match signals when body probing is enabled");
+  }
+  if (
+    !linkReport.verificationEvidenceSummary ||
+    !linkReport.verificationEvidenceSummary.counts ||
+    !("liveConfirmed" in linkReport.verificationEvidenceSummary) ||
+    !("sellerAccessProtected" in linkReport.verificationEvidenceSummary) ||
+    !("manualPatternVerified" in linkReport.verificationEvidenceSummary) ||
+    !Array.isArray(linkReport.revalidationQueue)
+  ) {
+    linkPolicyIssues.push("link-validation report should include evidence tiers and a prioritized revalidation queue for access-protected or transient live checks");
+  }
+  if ((linkReport.verificationEvidenceSummary?.blocked ?? 0) !== 0) {
+    linkPolicyIssues.push("link-validation evidence summary should not include blocked publishable products");
   }
   if (
     linkReport.launchGate?.passed !== true ||
@@ -950,8 +965,14 @@ export async function checkOperationalDataSurfaces() {
   if (!verifyLinksLiveScript.includes("DEAL_LINK_LIVE_PROBE") || !verifyLinksLiveScript.includes("--strict") || !verifyLinksLiveScript.includes("--body") || !verifyLinksLiveScript.includes("--content-strict")) {
     linkPolicyIssues.push("verify:links:live should expose optional live probe, strict mode, body probe, and content-strict controls");
   }
-  if (!verifyLinksScript.includes("extractHtmlSignal") || !verifyLinksScript.includes("getContentSimilarity") || !verifyLinksScript.includes("contentSignalSummary")) {
-    linkPolicyIssues.push("verify-product-links should extract title/meta, price, purchase/action, and product-content similarity signals during body probes");
+  if (
+    !verifyLinksScript.includes("extractHtmlSignal") ||
+    !verifyLinksScript.includes("getContentSimilarity") ||
+    !verifyLinksScript.includes("contentSignalSummary") ||
+    !verifyLinksScript.includes("verificationEvidenceSummary") ||
+    !verifyLinksScript.includes("revalidationQueue")
+  ) {
+    linkPolicyIssues.push("verify-product-links should extract title/meta, price, purchase/action, product-content similarity, evidence tiers, and revalidation queue signals during body probes");
   }
   if (productReport.policy?.source !== "data/linkQualityPolicy.json") linkPolicyIssues.push("product-quality report should record policy source");
   if (!linkQualityRegressionScript.includes("coupang search blocked") || !linkQualityRegressionScript.includes("sold out evidence blocked") || !linkQualityRegressionScript.includes("official benefit allowed")) {
