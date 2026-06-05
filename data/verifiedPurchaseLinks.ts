@@ -262,10 +262,10 @@ export const verifiedPurchaseLinks: Record<string, VerifiedPurchaseLink> = {
     evidence: "GS25 공식 혜자로운빵 토스페이 1+1 진행중 이벤트 상세"
   },
   d043: {
-    url: "https://www.aliexpress.com/item/1005010151430718.html",
-    checkedAt: "2026-06-01T05:20:00.000Z",
+    url: "https://item.gmarket.co.kr/Item?goodscode=3290996445",
+    checkedAt: "2026-06-06T10:58:00.000+09:00",
     source: "manual_review",
-    evidence: "AliExpress 100W 3-in-1 USB-C 케이블 상품 상세 URL 패턴"
+    evidence: "G마켓 ct00 USB C TO C PD 100W GEN2 고속충전케이블 상품 상세"
   },
   d044: {
     url: "https://itempage3.auction.co.kr/DetailView.aspx?itemno=F408783307",

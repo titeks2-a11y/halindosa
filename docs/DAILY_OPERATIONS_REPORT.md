@@ -1,12 +1,12 @@
 # 할인도사 일일 운영 리포트
 
-- 생성 시각: 2026-06-05T15:38:51.654Z
+- 생성 시각: 2026-06-05T16:03:13.177Z
 - 운영 상태: 오늘 운영 가능
 - 상품 링크: 140/140 검증
 - 검색 링크 노출: 0건
 - 품절/종료 상품 노출: 0건
 - 고객 노출 상품: 140개
-- 숨김 리뷰 상품: 1개
+- 숨김 리뷰 상품: 0개
 - 공식 혜택 노출: 43개
 - refresh:all: 통과
 - release:doctor: 185/185
@@ -15,7 +15,7 @@
 
 | 게이트 | 상태 | 내용 | 실행 명령 |
 | --- | --- | --- | --- |
-| 검증 구매 링크 | passed | 상품 140개, 검증 링크 140개, 고객 노출 140개, 숨김 리뷰 1개, 검색 링크 0개, 품절 노출 0개 | npm run verify:links && npm run verify:products && npm run exposure:doctor |
+| 검증 구매 링크 | passed | 상품 140개, 검증 링크 140개, 고객 노출 140개, 숨김 리뷰 0개, 검색 링크 0개, 품절 노출 0개 | npm run verify:links && npm run verify:products && npm run exposure:doctor |
 | 공식 혜택 노출 | passed | 공식 혜택 43개, 숨김 0개, 종료 0개, 실패 0개 | npm run refresh:news && npm run verify:news |
 | refresh:all | passed | refresh:all ok=true, failed=0 | npm run refresh:all |
 | 공식 소스 준비도 | passed | 공식 소스 31개, launch gate=passed | npm run source:readiness:report |

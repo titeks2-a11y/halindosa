@@ -1,6 +1,6 @@
 # 할인도사 Link Verification Report
 
-Generated: 2026-06-05T15:38:47.612Z
+Generated: 2026-06-05T16:03:09.147Z
 
 ## Summary
 
@@ -8,11 +8,11 @@ Generated: 2026-06-05T15:38:47.612Z
 | --- | ---: |
 | 총 상품 수 | 140 |
 | 검증 대상 수 | 140 |
-| 직접 링크 통과 수 | 139 |
-| 노출 가능 상품 수 | 139 |
-| 최종 발행 가능 상품 수 | 139 |
-| 제외 상품 수 | 1 |
-| 실패 이슈 수 | 1 |
+| 직접 링크 통과 수 | 140 |
+| 노출 가능 상품 수 | 140 |
+| 최종 발행 가능 상품 수 | 140 |
+| 제외 상품 수 | 0 |
+| 실패 이슈 수 | 0 |
 | 상품 상세 URL | 110 |
 | 공식 혜택/이벤트 URL | 30 |
 | 검색/카테고리 의심 | 0 |
@@ -22,16 +22,16 @@ Generated: 2026-06-05T15:38:47.612Z
 | 수동 검토 필요 | 0 |
 | Live probe 확인 | 140 |
 | Live probe 실패 | 80 |
-| Live probe robots/access 차단 | 63 |
+| Live probe robots/access 차단 | 64 |
 | Live probe rate limit | 13 |
 | Live probe timeout | 0 |
 | Live probe exposed hard failure | 0 |
-| Live probe hidden hard failure review | 1 |
+| Live probe hidden hard failure review | 0 |
 | Live probe transient network | 3 |
-| Live body 확인 | 136 |
-| Live 제목/메타 확인 | 132 |
+| Live body 확인 | 137 |
+| Live 제목/메타 확인 | 133 |
 | Live 콘텐츠 일치 신호 | 55 |
-| Live 콘텐츠 불일치 신호 | 81 |
+| Live 콘텐츠 불일치 신호 | 82 |
 | Live 접근 가능 본문 불일치 | 5 |
 | Live 접근 차단 본문 | 32 |
 | Live 가격 신호 | 26 |
@@ -46,27 +46,25 @@ Generated: 2026-06-05T15:38:47.612Z
 
 ## Live Probe Review
 
-- 상태: needs_review
-- 해석: Some URLs returned hard failure signals and should be reviewed before launch.
+- 상태: transient_network_review
+- 해석: Some URLs returned transient network signals; no exposed search, sold-out, 404, 410, or 5xx links were found.
 - 고객에게 노출되는 404/410/5xx/품절 본문 같은 강한 실패 신호: 0
-- 숨김 처리 후 보정 큐에 남은 강한 실패 신호: 1
+- 숨김 처리 후 보정 큐에 남은 강한 실패 신호: 0
 - timeout/request_failed 같은 일시 네트워크 신호: 3
-- 쇼핑몰 접근 보호 또는 robots/access 차단: 63
+- 쇼핑몰 접근 보호 또는 robots/access 차단: 64
 - 품절/판매종료 본문 감지: 0
 
 ## Verification Evidence
 
 - live_content_confirmed: 55
+- manual_pattern_verified: 32
 - seller_access_protected_manual_verified: 32
-- manual_pattern_verified: 31
 - seller_rate_limited_manual_verified: 13
 - client_rendered_detail_manual_verified: 5
 - transient_network_manual_verified: 3
-- blocked: 1
 
 ## Revalidation Queue
 
-- d043 · 알리익스프레스 · live_http_502 · priority 100
 - d051 · 인터파크투어 · request_failed · priority 75
 - d057 · T멤버십 · request_failed · priority 75
 - d073 · 현대카드 · request_failed · priority 75
@@ -96,21 +94,20 @@ Generated: 2026-06-05T15:38:47.612Z
 - d009 · 지마켓 · seller_access_protected_review · priority 45
 - d010 · 쿠팡 · seller_access_protected_review · priority 45
 - d012 · 올리브영 · seller_access_protected_review · priority 45
+- d014 · 쿠팡 · seller_access_protected_review · priority 45
 
 ### Live Probe Failure Reasons
 
-- robots_or_access_blocked: 63
+- robots_or_access_blocked: 64
 - http_429: 13
 - request_failed: 3
-- http_502: 1
 
 ### Live Probe Failed Hosts
 
-- item.gmarket.co.kr: 30
+- item.gmarket.co.kr: 31
 - coupang.com: 24
 - ssg.com: 13
 - oliveyoung.co.kr: 7
-- aliexpress.com: 1
 - hyundaicard.com: 1
 - itempage3.auction.co.kr: 1
 - store.ohou.se: 1
@@ -123,7 +120,7 @@ Generated: 2026-06-05T15:38:47.612Z
 
 ## Domain Distribution
 
-- item.gmarket.co.kr: 30
+- item.gmarket.co.kr: 31
 - coupang.com: 24
 - ssg.com: 14
 - 11st.co.kr: 9
@@ -135,7 +132,6 @@ Generated: 2026-06-05T15:38:47.612Z
 - m.gsshop.com: 2
 - mega-mgccoffee.com: 2
 - 7-eleven.co.kr: 1
-- aliexpress.com: 1
 - amoremall.com: 1
 - bccard.com: 1
 - benebedding.com: 1
@@ -153,6 +149,7 @@ Generated: 2026-06-05T15:38:47.612Z
 - korailtravel.com: 1
 - lfmall.co.kr: 1
 - lottecinema.co.kr: 1
+- lotteon.com: 1
 
 ## Issues
 

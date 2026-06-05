@@ -587,7 +587,12 @@ await check("admin exposure policy api", async () => {
     data.report.auditedItems.filter((item) => !item.isHidden).every((item) => item.finalUrl && item.validationStatus === "passed"),
     "Exposure policy visible rows should only expose passed final URLs"
   );
-  assert(data.report?.summary?.hiddenItems >= 1, "Exposure policy report should retain hidden mismatch rows for operations");
+  assert(data.report?.summary?.hiddenItems >= 0, "Exposure policy report should expose the hidden review queue count");
+  if (data.report.summary.hiddenItems > 0) {
+    assert(data.report.auditedItems.some((item) => item.isHidden), "Exposure policy report should retain hidden review rows when the queue is non-empty");
+  } else {
+    assert(data.report.auditedItems.every((item) => !item.isHidden), "Exposure policy report should prove a clean hidden review queue when hiddenItems is zero");
+  }
   assert(data.report?.summary?.badExposedItems === 0, "Exposure policy report should have zero bad exposed items");
   assert(data.report?.summary?.searchLinksExposed === 0, "Exposure policy report should have zero search links exposed");
   assert(data.report?.summary?.soldOutExposed === 0, "Exposure policy report should have zero sold-out links exposed");
@@ -632,7 +637,7 @@ await check("admin link launch gate api", async () => {
   assert(data.report?.ok === true, "Link launch gate report should pass");
   assert(data.report?.actual?.auditedItems >= 140, "Link launch gate should audit all products");
   assert(data.report?.actual?.exposedItems >= 120, "Link launch gate should expose the verified publishable product set");
-  assert(data.report?.actual?.hiddenItems >= 1, "Link launch gate should retain hidden mismatch products for review");
+  assert(data.report?.actual?.hiddenItems >= 0, "Link launch gate should expose the hidden product review count");
   assert(data.report?.actual?.verifiedPurchaseLinks >= data.report.actual.exposedItems, "Link launch gate should prove verified links cover exposed items");
   assert(data.report?.actual?.exposedSearchLinks === 0, "Link launch gate should expose zero search links");
   assert(data.report?.actual?.exposedSoldOutLinks === 0, "Link launch gate should expose zero sold-out links");

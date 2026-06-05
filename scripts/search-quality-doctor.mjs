@@ -56,8 +56,8 @@ const requiredSearches = [
     minMatches: 12
   },
   {
-    query: "알리",
-    expected: /알리익스프레스|해외직구|무료배송|전자기기/,
+    query: "충전케이블",
+    expected: /충전케이블|고속충전|USB|전자기기|G마켓/,
     minMatches: 1
   },
   {

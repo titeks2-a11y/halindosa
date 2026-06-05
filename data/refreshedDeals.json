@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-05T15:37:29.249Z",
+  "generatedAt": "2026-06-05T16:01:53.372Z",
   "schemaVersion": 1,
   "liveProbe": false,
   "deals": [],
@@ -46,6 +46,7 @@
     "d040",
     "d041",
     "d042",
+    "d043",
     "d044",
     "d045",
     "d046",
@@ -149,15 +150,7 @@
     "matchedCount": 0,
     "ids": []
   },
-  "hiddenDeals": [
-    {
-      "id": "d043",
-      "title": "d043",
-      "provider": "manual",
-      "finalUrl": "https://www.aliexpress.com/item/1005010151430718.html",
-      "reason": "live_http_502"
-    }
-  ],
+  "hiddenDeals": [],
   "providerStats": [
     {
       "provider": "manual",
@@ -168,8 +161,8 @@
       "errors": [],
       "normalizedCount": 140,
       "insertedCount": 0,
-      "updatedCount": 139,
-      "hiddenCount": 1,
+      "updatedCount": 140,
+      "hiddenCount": 0,
       "failedCount": 0
     },
     {

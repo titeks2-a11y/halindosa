@@ -302,7 +302,7 @@ export const mockDeals: Deal[] = [
   ,
   deal("d041", "이마트몰", "노브랜드 물티슈 100매 20팩", "편의점/마트", 29900, 31, 1.5, 16, { isHot: true, isNew: true, isEndingSoon: false }, ["마트딜", "생활필수", "무료배송"], 84),
   deal("d042", "GS25", "GS25 혜자로운빵 토스페이 1+1 행사", "편의점/마트", 4800, 50, 0.4, 5, { isHot: true, isNew: true, isEndingSoon: true }, ["1+1", "편의점", "토스페이", "마감임박"], 93),
-  deal("d043", "알리익스프레스", "USB-C 100W 멀티 충전 케이블 3팩", "전자기기", 15900, 62, 3, 36, { isHot: true, isNew: false, isEndingSoon: false }, ["해외직구", "무료배송", "인기"], 82),
+  deal("d043", "G마켓", "ct00 USB C TO C PD 100W GEN2 고속충전케이블", "전자기기", 20900, 18, 3, 36, { isHot: true, isNew: false, isEndingSoon: false }, ["고속충전", "오늘출발", "무료배송"], 82),
   deal("d044", "옥션", "국내산 냉동 블루베리 1kg", "식품", 18900, 42, 2, 13, { isHot: false, isNew: true, isEndingSoon: true }, ["쿠폰적용", "무료배송", "간편식"], 79),
   deal("d045", "SSG닷컴", "스타벅스 아메리카노 모바일 교환권", "쿠폰/이벤트", 4500, 100, 0.2, 6, { isHot: true, isNew: true, isEndingSoon: true }, ["0원딜", "쿠폰", "오늘만"], 96),
   deal("d046", "쿠팡", "탐사수 무라벨 2L 24병", "편의점/마트", 16800, 29, 1, 20, { isHot: false, isNew: true, isEndingSoon: false }, ["무료배송", "생활필수", "로켓배송"], 81, "", "https://www.coupang.com/vp/products/5625704601?vendorItemId=79548063314"),

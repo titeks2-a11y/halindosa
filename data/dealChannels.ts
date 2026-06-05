@@ -32,7 +32,6 @@ export const dealChannels: DealChannel[] = [
   { id: "11st", label: "11번가", group: "쇼핑몰", type: "mall", value: "11번가", description: "11번가 특가" },
   { id: "ssg", label: "SSG", group: "쇼핑몰", type: "mall", value: "SSG", description: "SSG/이마트 특가" },
   { id: "auction", label: "옥션", group: "쇼핑몰", type: "mall", value: "옥션", description: "옥션 쿠폰/특가" },
-  { id: "aliexpress", label: "알리", group: "쇼핑몰", type: "mall", value: "알리", description: "알리익스프레스 해외직구 특가" },
   { id: "lotteon", label: "롯데온", group: "쇼핑몰", type: "mall", value: "롯데온", description: "롯데온 타임딜" },
   { id: "interpark", label: "인터파크", group: "쇼핑몰", type: "mall", value: "인터파크", description: "인터파크 쇼핑/티켓 특가" },
   { id: "oliveyoung", label: "올리브영", group: "쇼핑몰", type: "mall", value: "올리브영", description: "올리브영 뷰티 특가" },

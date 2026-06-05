@@ -1,21 +1,6 @@
 {
-  "generatedAt": "2026-06-05T15:38:47.612Z",
+  "generatedAt": "2026-06-05T16:03:09.147Z",
   "sourceReport": "reports/link-validation.json",
-  "hiddenCount": 1,
-  "items": [
-    {
-      "id": "d043",
-      "title": "USB-C 100W 멀티 충전 케이블 3팩",
-      "mallName": "알리익스프레스",
-      "availability": "unknown",
-      "validationStatus": "failed",
-      "validationReason": "live_http_502",
-      "validationCode": "invalid",
-      "mismatchCategory": "",
-      "mismatchAction": "",
-      "evidenceTier": "blocked",
-      "revalidationReason": "live_http_502",
-      "finalUrl": "https://www.aliexpress.com/item/1005010151430718.html"
-    }
-  ]
+  "hiddenCount": 0,
+  "items": []
 }
