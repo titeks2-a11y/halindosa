@@ -3,7 +3,7 @@ import { buildBenefitSummary, inferDealBenefitType } from "@/lib/deals/benefits"
 import { buildBenefitClaimGuide } from "@/lib/deals/claimGuide";
 import { deriveProductImageUrlFromPurchaseUrl } from "@/lib/deals/imageResolver";
 import { validatePurchaseLink } from "@/lib/deals/linkValidator";
-import { getDealPriorityScore, resolveDealAvailability, resolveDealValidationStatus, shouldHideDeal } from "@/lib/deals/quality";
+import { getDealPriorityScore, getDealValidationCode, resolveDealAvailability, resolveDealValidationStatus, shouldHideDeal } from "@/lib/deals/quality";
 import { verifiedPurchaseLinks } from "./verifiedPurchaseLinks";
 
 const now = Date.now();
@@ -170,6 +170,8 @@ function deal(
   const validationReason = validation.reason;
   const lastCheckedAt = checkedAt;
   const isHidden = shouldHideDeal({ ...qualityInput, availability, validationStatus });
+  const validationCode = getDealValidationCode({ ...qualityInput, availability, validationStatus, isHidden });
+  const publishable = !isHidden && validationCode === "valid";
   const priorityScore = getDealPriorityScore({ ...qualityInput, availability, validationStatus, validationReason, lastCheckedAt, isHidden });
 
   return {
@@ -208,9 +210,11 @@ function deal(
     availability,
     validationStatus,
     validationReason,
+    validationCode,
     lastCheckedAt,
     priorityScore,
     isHidden,
+    publishable,
     verifiedAt: validation.linkVerified ? checkedAt : undefined,
     lastVerifiedAt: validation.linkVerified ? checkedAt : undefined,
     priceCheckedAt: checkedAt,

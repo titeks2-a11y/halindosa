@@ -17,6 +17,19 @@ export type DealLinkStatus = "verified" | "needs_review" | "broken" | "sold_out"
 export type DealPurchaseStatus = "available" | "needs_review" | "sold_out" | "broken";
 export type DealAvailability = "active" | "sold_out" | "ended" | "unknown";
 export type DealValidationStatus = "passed" | "failed" | "needs_review";
+export type DealValidationCode =
+  | "valid"
+  | "invalid"
+  | "stale"
+  | "sold_out"
+  | "search_link"
+  | "homepage_link"
+  | "community_link"
+  | "timeout"
+  | "mismatch"
+  | "missing_final_url"
+  | "unsafe_url"
+  | "hidden";
 export type DealBenefitType =
   | "discount"
   | "freebie"
@@ -66,9 +79,11 @@ export interface Deal {
   availability: DealAvailability;
   validationStatus: DealValidationStatus;
   validationReason: string;
+  validationCode: DealValidationCode;
   lastCheckedAt: string;
   priorityScore: number;
   isHidden: boolean;
+  publishable: boolean;
   verifiedAt?: string;
   lastVerifiedAt?: string;
   priceCheckedAt: string;

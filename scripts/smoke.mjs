@@ -55,7 +55,7 @@ await check("deals api", async () => {
   for (const field of ["mallName", "thumbnail", "shipping", "expireAt", "isFreeShipping", "productUrl", "searchUrl", "originalUrl", "clickCount", "likeCount", "isSoldOut", "updatedAt"]) {
     assert(field in data.deals[0], `Canonical Deal field missing: ${field}`);
   }
-  for (const field of ["linkVerified", "finalUrl", "checkedAt", "purchaseConfidence", "purchaseLinkVerified", "finalPurchaseUrl"]) {
+  for (const field of ["linkVerified", "finalUrl", "checkedAt", "purchaseConfidence", "purchaseLinkVerified", "finalPurchaseUrl", "validationCode", "publishable"]) {
     assert(field in data.deals[0], `Purchase link verification field missing: ${field}`);
   }
   for (const deal of data.deals) {
@@ -73,7 +73,10 @@ await check("news deals api", async () => {
   assert(response.status === 200, `Expected 200, got ${response.status}`);
   assert(data.ok === true, "News deals API ok should be true");
   assert(data.count >= 40, `Expected at least 40 official news/event benefits, got ${data.count}`);
-  assert(data.deals.every((deal) => deal.validationStatus === "passed" && deal.isHidden === false), "News deals API returned hidden or unverified items");
+  assert(
+    data.deals.every((deal) => deal.validationStatus === "passed" && deal.isHidden === false && deal.publishable === true),
+    "News deals API returned hidden, unverified, or non-publishable items"
+  );
   assert(data.deals.every((deal) => /^https?:\/\//.test(deal.finalUrl)), "News deals API returned invalid finalUrl");
   assert(data.deals.every((deal) => !/search|query=|keyword=|msearch|result/i.test(deal.finalUrl)), "News deals API returned a search/result URL");
   assert(["fresh", "due", "stale", "seed"].includes(data.freshnessStatus), "News deals API missing official benefit freshness status");
@@ -863,7 +866,9 @@ await check("deal link integrity", async () => {
     assert(["verified", "needs_review", "broken", "sold_out"].includes(deal.linkStatus), `${deal.id} invalid linkStatus`);
     assert(deal.availability === "active", `${deal.id} exposed a non-active deal: ${deal.availability}`);
     assert(deal.validationStatus === "passed", `${deal.id} exposed a non-passed deal: ${deal.validationStatus}`);
+    assert(deal.validationCode === "valid", `${deal.id} exposed a non-valid validation code: ${deal.validationCode}`);
     assert(deal.isHidden === false, `${deal.id} exposed a hidden deal`);
+    assert(deal.publishable === true, `${deal.id} exposed a non-publishable deal`);
     assert(typeof deal.linkVerified === "boolean", `${deal.id} linkVerified should be boolean`);
     assert(typeof deal.purchaseLinkVerified === "boolean", `${deal.id} purchaseLinkVerified should be boolean`);
     assert(typeof deal.purchaseConfidence === "number", `${deal.id} purchaseConfidence should be number`);

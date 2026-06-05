@@ -883,9 +883,11 @@ export async function checkOperationalDataSurfaces() {
     "availability",
     "validationStatus",
     "validationReason",
+    "validationCode",
     "lastCheckedAt",
     "priorityScore",
-    "isHidden"
+    "isHidden",
+    "publishable"
   ];
   const auditedItemsMissingFields = Array.isArray(linkReport.auditedItems)
     ? linkReport.auditedItems.filter((item) => requiredAuditFields.some((field) => !(field in item))).slice(0, 5)
@@ -895,6 +897,9 @@ export async function checkOperationalDataSurfaces() {
   }
   if (!linkReport.exposureAudit || linkReport.exposureAudit.searchItems !== 0 || linkReport.exposureAudit.soldOutItems !== 0) {
     linkPolicyIssues.push("link-validation report should include zero-search, zero-sold-out exposureAudit");
+  }
+  if ((linkReport.exposureAudit?.exposedNonPublishableItems ?? 0) !== 0) {
+    linkPolicyIssues.push("link-validation report should include zero non-publishable exposed items");
   }
   if (!linkReport.httpStatusSummary || !("http404" in linkReport.httpStatusSummary) || !("robotsBlocked" in linkReport.httpStatusSummary)) {
     linkPolicyIssues.push("link-validation report should record HTTP/redirect summary");

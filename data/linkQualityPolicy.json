@@ -164,6 +164,7 @@
     "availability": "active",
     "validationStatus": "passed",
     "isHidden": false,
+    "publishable": true,
     "blockedLinkTypes": [
       "search",
       "seller_search",

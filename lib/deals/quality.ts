@@ -10,6 +10,7 @@ export interface DealQualitySummary {
   total: number;
   verifiedLinks: number;
   directPurchaseLinks: number;
+  publishableLinks: number;
   needsReviewLinks: number;
   brokenLinks: number;
   soldOutLinks: number;
@@ -46,6 +47,7 @@ export interface DealExposureDecision {
   canExpose: boolean;
   availability: Deal["availability"];
   validationStatus: Deal["validationStatus"];
+  validationCode: Deal["validationCode"];
   hasDestination: boolean;
   destinationUrl: string;
   issues: string[];
@@ -129,6 +131,7 @@ type VisibilityInput = Pick<Deal, "linkStatus" | "linkType"> &
       | "lastCheckedAt"
       | "checkedAt"
       | "priceCheckedAt"
+      | "publishable"
     >
   >;
 
@@ -170,6 +173,7 @@ export function getDealExposureDecision(deal: VisibilityInput): DealExposureDeci
   const issues: string[] = [];
 
   if (deal.isHidden === true) issues.push("manual_hidden");
+  if (deal.publishable === false) issues.push("publishable_false");
   if (availability !== "active") issues.push(`availability_${availability}`);
   if (validationStatus !== "passed") issues.push(`validation_${validationStatus}`);
   if (deal.linkStatus !== "verified") issues.push(`link_status_${deal.linkStatus}`);
@@ -190,11 +194,13 @@ export function getDealExposureDecision(deal: VisibilityInput): DealExposureDeci
       if (isPolicySearchLikeUrl(parsedUrl)) issues.push("search_or_category_url");
     }
   }
+  const validationCode = getDealValidationCodeFromIssues(issues, availability, validationStatus);
 
   return {
     canExpose: issues.length === 0,
     availability,
     validationStatus,
+    validationCode,
     hasDestination,
     destinationUrl,
     issues
@@ -203,6 +209,30 @@ export function getDealExposureDecision(deal: VisibilityInput): DealExposureDeci
 
 export function shouldHideDeal(deal: VisibilityInput) {
   return !getDealExposureDecision(deal).canExpose;
+}
+
+function getDealValidationCodeFromIssues(
+  issues: string[],
+  availability: Deal["availability"],
+  validationStatus: Deal["validationStatus"]
+): Deal["validationCode"] {
+  if (!issues.length && availability === "active" && validationStatus === "passed") return "valid";
+  if (issues.includes("manual_hidden") || issues.includes("publishable_false")) return "hidden";
+  if (issues.includes("availability_sold_out")) return "sold_out";
+  if (issues.includes("availability_ended")) return "stale";
+  if (issues.some((issue) => issue === "link_type_search" || issue === "link_type_seller_search" || issue === "search_or_category_url")) {
+    return "search_link";
+  }
+  if (issues.includes("home_or_landing_url")) return "homepage_link";
+  if (issues.includes("blocked_or_community_host") || issues.includes("placeholder_host")) return "community_link";
+  if (issues.includes("missing_final_url")) return "missing_final_url";
+  if (issues.includes("unsafe_protocol_or_invalid_url")) return "unsafe_url";
+  if (validationStatus === "needs_review") return "mismatch";
+  return "invalid";
+}
+
+export function getDealValidationCode(deal: VisibilityInput) {
+  return getDealExposureDecision(deal).validationCode;
 }
 
 export function getDealPriorityScore(deal: VisibilityInput) {
@@ -333,6 +363,7 @@ export function summarizeDealQuality(deals: Deal[]): DealQualitySummary {
   const total = deals.length;
   const verifiedLinks = deals.filter(isVerifiedPurchaseLink).length;
   const directPurchaseLinks = deals.filter((deal) => deal.linkType === "direct_purchase" || deal.linkType === "affiliate").length;
+  const publishableLinks = deals.filter((deal) => deal.publishable === true && isPubliclyVisibleDeal(deal)).length;
   const needsReviewLinks = deals.filter(needsLinkReview).length;
   const brokenLinks = deals.filter((deal) => deal.linkStatus === "broken").length;
   const soldOutLinks = deals.filter((deal) => deal.linkStatus === "sold_out").length;
@@ -344,6 +375,7 @@ export function summarizeDealQuality(deals: Deal[]): DealQualitySummary {
     total,
     verifiedLinks,
     directPurchaseLinks,
+    publishableLinks,
     needsReviewLinks,
     brokenLinks,
     soldOutLinks,

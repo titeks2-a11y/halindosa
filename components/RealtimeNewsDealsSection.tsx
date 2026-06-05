@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import { useMemo } from "react";
-import { CalendarClock, ExternalLink, RefreshCw, Search, ShieldCheck, Sparkles, TicketPercent } from "lucide-react";
+import { CalendarClock, ExternalLink, RefreshCw, Search, ShieldCheck, TicketPercent } from "lucide-react";
 import { getRelativeTime, getTimeLeft } from "@/lib/format";
 import { rememberRecentNewsBenefitId } from "@/lib/recentNewsBenefits";
+import { OfficialBenefitIntentGroups } from "@/components/OfficialBenefitIntentGroups";
 import { CommerceBadge } from "@/components/ui/CommerceBadge";
 import { commerceButtonClassName } from "@/components/ui/CommerceButton";
 import { CommerceCard } from "@/components/ui/CommerceCard";
@@ -89,7 +90,6 @@ export function RealtimeNewsDealsSection({
   const visibleResultCount = typeof totalCount === "number" && totalCount >= deals.length ? totalCount : deals.length;
   const visibleRecommendedQueries = recommendedQueries.filter((item) => item.query && item.query !== trimmedQuery).slice(0, 8);
   const visibleTargetSections = targetSections.filter((item) => item.label && item.query && item.count > 0).slice(0, 8);
-  const visibleIntentGroups = intentGroups.filter((item) => item.label && item.query && item.count > 0).slice(0, 6);
   const intentRecommendedQueries = visibleRecommendedQueries.filter((item) => customerIntentNewsQuerySet.has(item.query)).slice(0, 6);
   const quickRecommendedQueries = (intentRecommendedQueries.length ? intentRecommendedQueries : visibleRecommendedQueries).slice(0, 6);
   const secondaryRecommendedQueries = visibleRecommendedQueries
@@ -199,41 +199,7 @@ export function RealtimeNewsDealsSection({
       <p className="mt-2 text-[11px] font-bold text-slate-500" aria-label="공식 혜택 신선도 안내">
         {freshnessDetail} · 검색 결과와 커뮤니티 원문은 제외하고 공식 혜택 링크만 유지합니다.
       </p>
-      {visibleIntentGroups.length ? (
-        <div className="mt-3 rounded-2xl border border-red-100 bg-white p-2.5 shadow-sm" aria-label="오늘 먼저 볼 공식 혜택 그룹">
-          <div className="flex items-center justify-between gap-2 px-1">
-            <p className="inline-flex items-center gap-1.5 text-[11px] font-black text-brand-red">
-              <Sparkles size={13} />
-              오늘 먼저 볼 혜택
-            </p>
-            <span className="text-[10px] font-black text-slate-400">무료·쿠폰·마트·카드</span>
-          </div>
-          <div className="mt-2 grid grid-cols-2 gap-1.5 sm:grid-cols-3">
-            {visibleIntentGroups.map((group, index) => (
-              <button
-                key={group.id}
-                type="button"
-                onClick={() => onSelectQuery?.(group.query)}
-                className={`min-h-[72px] rounded-2xl border px-3 py-2 text-left transition hover:-translate-y-0.5 ${
-                  index === 0
-                    ? "border-brand-red bg-gradient-to-br from-red-50 to-orange-50 shadow-sm"
-                    : "border-slate-100 bg-slate-50 hover:border-red-100 hover:bg-red-50"
-                }`}
-                aria-label={`${group.label} 공식 혜택 ${group.count}개 보기`}
-              >
-                <span className="flex items-center justify-between gap-2">
-                  <span className="truncate text-xs font-black text-slate-950">{group.label}</span>
-                  <span className="rounded-full bg-white px-2 py-0.5 text-[10px] font-black text-brand-red shadow-sm">{group.count}</span>
-                </span>
-                <span className="mt-1 block truncate text-[11px] font-bold text-slate-500">
-                  {group.urgentCount ? `마감임박 ${group.urgentCount}개` : group.topSources.slice(0, 2).join(" · ") || group.actionLabel}
-                </span>
-                <span className="mt-1 block truncate text-[10px] font-black text-slate-400">{group.actionLabel}</span>
-              </button>
-            ))}
-          </div>
-        </div>
-      ) : null}
+      <OfficialBenefitIntentGroups groups={intentGroups} onSelectQuery={onSelectQuery} />
       {visibleTargetSections.length ? (
         <div className="mt-3 rounded-2xl border border-slate-200 bg-white px-3 py-2 shadow-sm" aria-label="운영 추천 혜택 지도">
           <div className="flex items-center justify-between gap-2">

@@ -3,7 +3,7 @@ import { buildSellerSearchUrl } from "@/lib/affiliate";
 import { buildBenefitSummary, inferDealBenefitType } from "@/lib/deals/benefits";
 import { buildBenefitClaimGuide } from "@/lib/deals/claimGuide";
 import { validatePurchaseLink } from "@/lib/deals/linkValidator";
-import { getDealPriorityScore, resolveDealAvailability, resolveDealValidationStatus, shouldHideDeal } from "@/lib/deals/quality";
+import { getDealPriorityScore, getDealValidationCode, resolveDealAvailability, resolveDealValidationStatus, shouldHideDeal } from "@/lib/deals/quality";
 import {
   containsPolicyUnavailableText,
   isPolicyBlockedHost,
@@ -158,6 +158,8 @@ export function normalizeDeal(input: DealInput, source = input.source ?? "mock")
   const validationReason = input.validationReason ?? (hasUnavailableSignal ? "상품 정보에 품절/판매종료/이벤트 종료 신호가 있어 노출 제한 대상입니다." : linkValidation.reason);
   const lastCheckedAt = input.lastCheckedAt ?? checkedAt;
   const isHidden = input.isHidden ?? (hasUnavailableSignal || shouldHideDeal({ ...qualityInput, availability, validationStatus }));
+  const validationCode = input.validationCode ?? getDealValidationCode({ ...qualityInput, availability, validationStatus, isHidden });
+  const publishable = input.publishable ?? (!isHidden && validationCode === "valid");
   const priorityScore = input.priorityScore ?? getDealPriorityScore({ ...qualityInput, availability, validationStatus, validationReason, lastCheckedAt, isHidden });
   const conditionText = [input.title, input.category, ...tags].join(" ");
   const isFirstComeFirstServed = input.isFirstComeFirstServed ?? /선착순|한정수량|오늘만|마감임박/.test(conditionText);
@@ -213,9 +215,11 @@ export function normalizeDeal(input: DealInput, source = input.source ?? "mock")
     availability,
     validationStatus,
     validationReason,
+    validationCode,
     lastCheckedAt,
     priorityScore,
     isHidden,
+    publishable,
     verifiedAt: linkStatus === "verified" ? (input.verifiedAt ?? priceCheckedAt) : undefined,
     lastVerifiedAt: input.lastVerifiedAt ?? (linkStatus === "verified" ? (input.verifiedAt ?? priceCheckedAt) : undefined),
     priceCheckedAt,

@@ -49,6 +49,7 @@ export function checkNewsDealPipeline() {
     "app/api/admin/news-feed-live/route.ts",
     "app/api/admin/news-feed-preview/route.ts",
     "components/NewsFeedDryRunPanel.tsx",
+    "components/OfficialBenefitIntentGroups.tsx",
     "components/RealtimeNewsDealsSection.tsx"
   ];
   const issues = [];
@@ -141,6 +142,10 @@ export function checkNewsDealPipeline() {
     ? readFileSync(join(root, "scripts/official-benefit-source-config.mjs"), "utf8")
     : "";
   const realtimeNewsSection = existsSync(join(root, "components/RealtimeNewsDealsSection.tsx")) ? readFileSync(join(root, "components/RealtimeNewsDealsSection.tsx"), "utf8") : "";
+  const officialBenefitIntentGroups = existsSync(join(root, "components/OfficialBenefitIntentGroups.tsx"))
+    ? readFileSync(join(root, "components/OfficialBenefitIntentGroups.tsx"), "utf8")
+    : "";
+  const realtimeNewsUiSource = `${realtimeNewsSection}\n${officialBenefitIntentGroups}`;
   const homeOfficialBenefitAlertRail = existsSync(join(root, "components/HomeOfficialBenefitAlertRail.tsx"))
     ? readFileSync(join(root, "components/HomeOfficialBenefitAlertRail.tsx"), "utf8")
     : "";
@@ -167,7 +172,7 @@ export function checkNewsDealPipeline() {
   for (const phrase of ["buildPolicyRegressionScenarios", "news-regression-search-url", "news-regression-community-url", "news-regression-news-only-url", "news-regression-expired-event", "news-regression-unsafe-url"]) {
     if (!verifyScript.includes(phrase)) issues.push(`verify:news missing policy regression sample ${phrase}`);
   }
-  for (const field of ["source", "mallName", "originalUrl", "affiliateUrl", "eventUrl", "linkType", "availability", "validationReason", "priorityScore"]) {
+  for (const field of ["source", "mallName", "originalUrl", "affiliateUrl", "eventUrl", "linkType", "availability", "validationCode", "validationReason", "priorityScore", "publishable"]) {
     if (!newsDealTypes.includes(`${field}:`) && !newsDealTypes.includes(`${field}?:`)) {
       issues.push(`NewsDeal type missing launch quality field ${field}`);
     }
@@ -361,22 +366,22 @@ export function checkNewsDealPipeline() {
   ) {
     issues.push("news deals runtime should expose freshness status, result aggregations, recommended queries, target sections, intent groups, cadence, stale threshold, and seed fallback state");
   }
-  if (!realtimeNewsSection.includes("activeQuery") || !realtimeNewsSection.includes("공식 혜택 검색 결과 요약") || !realtimeNewsSection.includes("상품 검색어 기준으로 공식 혜택도 함께 좁혔습니다")) {
+  if (!realtimeNewsUiSource.includes("activeQuery") || !realtimeNewsUiSource.includes("공식 혜택 검색 결과 요약") || !realtimeNewsUiSource.includes("상품 검색어 기준으로 공식 혜택도 함께 좁혔습니다")) {
     issues.push("realtime official benefit section should explain search-filtered official benefit results");
   }
-  if (!realtimeNewsSection.includes("공식 혜택 신선도 안내") || !realtimeNewsSection.includes("freshnessLabel") || !realtimeNewsSection.includes("freshnessAgeMinutes")) {
+  if (!realtimeNewsUiSource.includes("공식 혜택 신선도 안내") || !realtimeNewsUiSource.includes("freshnessLabel") || !realtimeNewsUiSource.includes("freshnessAgeMinutes")) {
     issues.push("realtime official benefit section should surface freshness status without implying unverified realtime data");
   }
-  if (!homePage.includes("newsTotalCount") || !realtimeNewsSection.includes("visibleResultCount") || !realtimeNewsSection.includes("먼저 볼")) {
+  if (!homePage.includes("newsTotalCount") || !realtimeNewsUiSource.includes("visibleResultCount") || !realtimeNewsUiSource.includes("먼저 볼")) {
     issues.push("home realtime official benefit section should preserve total API result count even when rows are limited");
   }
-  if (!homePage.includes("newsRecommendedQueries") || !realtimeNewsSection.includes("공식 혜택 추천 검색어") || !realtimeNewsSection.includes("onSelectQuery")) {
+  if (!homePage.includes("newsRecommendedQueries") || !realtimeNewsUiSource.includes("공식 혜택 추천 검색어") || !realtimeNewsUiSource.includes("onSelectQuery")) {
     issues.push("home realtime official benefit section should expose recommended official benefit search chips");
   }
-  if (!homePage.includes("newsTargetSections") || !realtimeNewsSection.includes("운영 추천 혜택 지도") || !realtimeNewsSection.includes("targetSections")) {
+  if (!homePage.includes("newsTargetSections") || !realtimeNewsUiSource.includes("운영 추천 혜택 지도") || !realtimeNewsUiSource.includes("targetSections")) {
     issues.push("home realtime official benefit section should expose operator target section chips for free, coupon, mart, delivery, card, and public benefits");
   }
-  if (!homePage.includes("newsIntentGroups") || !realtimeNewsSection.includes("오늘 먼저 볼 혜택") || !realtimeNewsSection.includes("intentGroups")) {
+  if (!homePage.includes("newsIntentGroups") || !realtimeNewsUiSource.includes("오늘 먼저 볼 혜택") || !realtimeNewsUiSource.includes("intentGroups")) {
     issues.push("home realtime official benefit section should expose customer intent groups for free, coupon, mart, delivery, card, and public benefits");
   }
   if (
@@ -387,7 +392,7 @@ export function checkNewsDealPipeline() {
     issues.push("admin official benefit operations should expose source refresh windows and next refresh timing for operator handoff");
   }
   if (
-    !realtimeNewsSection.includes("/go/news/") ||
+    !realtimeNewsUiSource.includes("/go/news/") ||
     !newsRedirectRoute.includes("resolveNewsDealDestinationUrl") ||
     !newsRedirectRoute.includes("recordDealClick") ||
     !newsLinkPolicy.includes("approvedNewsHosts") ||
@@ -584,8 +589,13 @@ export function checkNewsDealPipeline() {
       issues.push("news-deals report should include a passing community URL policy regression sample");
     }
     if (!Array.isArray(report.recentLogs) || report.recentLogs.length < 5) issues.push("news-deals report should include recent collection logs");
-    if ((report.exposedSearchLinkCount ?? 0) !== 0 || (report.exposedNonOfficialLinkCount ?? 0) !== 0 || (report.activeVisibleCount ?? 0) !== (report.visibleCount ?? 0)) {
-      issues.push("news-deals report should expose only active official link types with zero search/non-official exposure");
+    if (
+      (report.exposedSearchLinkCount ?? 0) !== 0 ||
+      (report.exposedNonOfficialLinkCount ?? 0) !== 0 ||
+      (report.nonPublishableVisibleCount ?? 0) !== 0 ||
+      (report.activeVisibleCount ?? 0) !== (report.visibleCount ?? 0)
+    ) {
+      issues.push("news-deals report should expose only active, publishable official link types with zero search/non-official exposure");
     }
     if ((report.averagePriorityScore ?? 0) < 70) issues.push("news-deals report should keep average official benefit priority score above 70");
     if (!Array.isArray(report.manualActions) || report.manualActions.length < 3) issues.push("news-deals report should include manual hide/restore/revalidate actions");

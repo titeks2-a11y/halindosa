@@ -149,6 +149,18 @@ function classifyUrl(urlValue, evidence = "") {
   }
 }
 
+function getValidationCode({ classification, validationReason, ok }) {
+  if (ok && classification.availability === "active") return "valid";
+  if (classification.availability === "sold_out") return "sold_out";
+  if (classification.reason === "search_result_url") return "search_link";
+  if (classification.reason === "redirect_to_home") return "homepage_link";
+  if (classification.reason === "community_source") return "community_link";
+  if (classification.reason === "blocked_protocol" || classification.reason === "broken_url") return "unsafe_url";
+  if (validationReason === "timeout") return "timeout";
+  if (validationReason === "manual_review_needed") return "mismatch";
+  return "invalid";
+}
+
 async function fetchWithTimeout(url, options = {}, retry = 1) {
   for (let attempt = 0; attempt <= retry; attempt += 1) {
     const controller = new AbortController();
@@ -467,13 +479,6 @@ async function validateCollectedDeal(deal) {
     probe.finalUrl && probe.finalUrl !== deal.finalPurchaseUrl ? classifyUrl(probe.finalUrl, evidenceText) : classification;
   const ok = classification.ok && finalClassification.ok && probe.ok && !probe.unavailableText;
   const isHidden = !ok;
-  const priorityScore =
-    (finalClassification.linkType === "direct_purchase" ? 45 : 30) +
-    (deal.thumbnail ? 12 : -10) +
-    (deal.salePrice > 0 ? 12 : -20) +
-    (deal.discountRate > 0 ? 8 : 0) +
-    (finalClassification.availability === "active" ? 15 : -30) +
-    (probe.reason === "http_ok" || probe.reason === "static_validation_only" ? 8 : -12);
   const validationReason = ok
     ? probe.redirected
       ? `redirect_checked:${finalClassification.reason}`
@@ -481,6 +486,15 @@ async function validateCollectedDeal(deal) {
     : probe.ok
       ? finalClassification.reason
       : probe.reason;
+  const validationCode = getValidationCode({ classification: finalClassification, validationReason, ok });
+  const publishable = !isHidden && validationCode === "valid";
+  const priorityScore =
+    (finalClassification.linkType === "direct_purchase" ? 45 : 30) +
+    (deal.thumbnail ? 12 : -10) +
+    (deal.salePrice > 0 ? 12 : -20) +
+    (deal.discountRate > 0 ? 8 : 0) +
+    (finalClassification.availability === "active" ? 15 : -30) +
+    (probe.reason === "http_ok" || probe.reason === "static_validation_only" ? 8 : -12);
 
   return {
     ...deal,
@@ -489,8 +503,10 @@ async function validateCollectedDeal(deal) {
     linkType: finalClassification.linkType,
     availability: finalClassification.availability,
     validationStatus: ok ? "passed" : "failed",
+    validationCode,
     validationReason,
     isHidden,
+    publishable,
     priorityScore,
     lastCheckedAt: now,
     checkedAt: now,
@@ -534,6 +550,7 @@ const dedupedDeals = dedupeDeals(validatedDeals);
 const visibleDeals = dedupedDeals.filter(
   (deal) =>
     !deal.isHidden &&
+    deal.publishable === true &&
     deal.validationStatus === "passed" &&
     deal.availability === "active" &&
     deal.linkType !== "search" &&

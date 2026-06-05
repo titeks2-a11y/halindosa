@@ -987,7 +987,7 @@ async function checkPartnerFeedSafety() {
     pass("partner feed unsafe link guard", "Partner feed import rejects unsafe links and accepts canonical product URL, source, and benefit condition fields.");
   }
 
-  const requiredLinkFields = ["linkVerified", "finalUrl", "checkedAt", "purchaseConfidence", "purchaseLinkVerified", "finalPurchaseUrl"];
+  const requiredLinkFields = ["linkVerified", "finalUrl", "checkedAt", "purchaseConfidence", "purchaseLinkVerified", "finalPurchaseUrl", "validationCode", "publishable"];
   const missingTypeFields = requiredLinkFields.filter((field) => !types.includes(field));
   const missingSmokeFields = requiredLinkFields.filter((field) => !smoke.includes(field));
 

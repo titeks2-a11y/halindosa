@@ -54,9 +54,11 @@ const requiredTypeFields = [
   "availability",
   "validationStatus",
   "validationReason",
+  "validationCode",
   "lastCheckedAt",
   "priorityScore",
-  "isHidden"
+  "isHidden",
+  "publishable"
 ];
 
 for (const field of requiredTypeFields) {
@@ -95,6 +97,10 @@ for (const field of ["blockedHosts", "searchPatterns", "unavailableTextPatterns"
   if (!(field in linkQualityPolicy)) {
     issues.push(`linkQualityPolicy.json에 ${field} 필드가 없습니다.`);
   }
+}
+
+if (linkQualityPolicy.exposurePolicy?.publishable !== true) {
+  issues.push("linkQualityPolicy exposurePolicy는 publishable=true를 요구해야 합니다.");
 }
 
 if (!linkValidator.includes("linkQualityPolicy") || !providerTypes.includes("linkQualityPolicy")) {
@@ -152,9 +158,11 @@ if (!linkReport) {
     "availability",
     "validationStatus",
     "validationReason",
+    "validationCode",
     "lastCheckedAt",
     "priorityScore",
-    "isHidden"
+    "isHidden",
+    "publishable"
   ];
   const auditFieldMissingIds = auditedItems
     .filter((item) => requiredAuditFields.some((field) => !(field in item)))
@@ -196,6 +204,9 @@ if (!linkReport) {
     if ((linkReport.launchGate?.actual?.[field] ?? 0) !== 0) {
       issues.push(`출시 게이트에 노출 위험 항목이 남아 있습니다: ${field}=${linkReport.launchGate.actual[field]}`);
     }
+  }
+  if ((linkReport.launchGate?.actual?.exposedNonPublishableItems ?? 0) !== 0) {
+    issues.push(`출시 게이트에 publishable=false 노출 항목이 남아 있습니다: ${linkReport.launchGate.actual.exposedNonPublishableItems}`);
   }
 }
 
@@ -247,6 +258,8 @@ const report = {
   exposedSoldOutLinks: linkReport?.exposedSoldOutLinks ?? 0,
   exposedBrokenLinks: linkReport?.exposedBrokenLinks ?? 0,
   exposedInvalidUrls: linkReport?.exposedInvalidUrls ?? 0,
+  exposedNonPublishableItems: linkReport?.exposureAudit?.exposedNonPublishableItems ?? 0,
+  publishableProducts: linkReport?.exposureAudit?.publishableItems ?? 0,
   visibleProducts: issues.length ? 0 : visibleProducts,
   verifiedPurchaseLinks: verifiedLinkIds.size,
   missingVerifiedIds,

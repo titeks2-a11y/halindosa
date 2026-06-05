@@ -236,6 +236,20 @@ function getAuditPriorityScore({ linkType, validationStatus, availability, hasIm
   return Math.max(0, Math.min(100, Math.round(score)));
 }
 
+function getValidationCode({ linkType, validationStatus, availability, checks, liveProbeFailure, hasUrl }) {
+  if (!hasUrl) return "missing_final_url";
+  if (availability === "sold_out") return "sold_out";
+  if (availability === "ended") return "stale";
+  if (linkType === "search" || linkType === "seller_search" || checks?.searchLikeUrl) return "search_link";
+  if (checks?.homeOnlyUrl) return "homepage_link";
+  if (checks?.blockedHost) return "community_link";
+  if (checks?.httpUrl === false) return "unsafe_url";
+  if (liveProbeFailure?.reason === "timeout") return "timeout";
+  if (validationStatus === "passed" && availability === "active" && linkType !== "unavailable") return "valid";
+  if (validationStatus === "needs_review") return "mismatch";
+  return "invalid";
+}
+
 function buildAuditedItems({ dealIds, entryMap, metadataMap, dealMetadataMap, issues }) {
   return dealIds.map((id) => {
     const urlValue = entryMap.get(id) ?? "";
@@ -280,6 +294,14 @@ function buildAuditedItems({ dealIds, entryMap, metadataMap, dealMetadataMap, is
     const unavailableDetected = checks.unavailableText || liveProbeFailure?.reason === "sold_out_or_ended_text";
     const validationStatus = issueMessages.length ? "failed" : "passed";
     const availability = unavailableDetected ? "sold_out" : validationStatus === "passed" ? "active" : "unknown";
+    const validationCode = getValidationCode({
+      linkType,
+      validationStatus,
+      availability,
+      checks,
+      liveProbeFailure,
+      hasUrl: Boolean(urlValue)
+    });
     const isHidden =
       availability !== "active" ||
       validationStatus !== "passed" ||
@@ -287,6 +309,7 @@ function buildAuditedItems({ dealIds, entryMap, metadataMap, dealMetadataMap, is
       linkType === "seller_search" ||
       linkType === "unavailable" ||
       !urlValue;
+    const publishable = !isHidden && validationCode === "valid";
     const priorityScore = getAuditPriorityScore({
       linkType,
       validationStatus,
@@ -312,10 +335,12 @@ function buildAuditedItems({ dealIds, entryMap, metadataMap, dealMetadataMap, is
       linkType,
       availability,
       validationStatus,
+      validationCode,
       validationReason: issueMessages.length ? issueMessages.map((issue) => issue.replace(`${id}: `, "")).join(" | ") : "passed",
       lastCheckedAt: metadata?.checkedAt ?? "",
       priorityScore,
       isHidden,
+      publishable,
       host,
       evidence: metadata?.evidence ?? "",
       checks,
@@ -461,6 +486,7 @@ const auditedItems = buildAuditedItems({ dealIds, entryMap, metadataMap, dealMet
 const exposureAudit = {
   totalItems: auditedItems.length,
   exposedItems: auditedItems.filter((item) => !item.isHidden).length,
+  publishableItems: auditedItems.filter((item) => item.publishable).length,
   passedItems: auditedItems.filter((item) => item.validationStatus === "passed" && item.availability === "active" && !item.isHidden).length,
   hiddenItems: auditedItems.filter((item) => item.isHidden).length,
   searchItems: auditedItems.filter((item) => item.linkType === "search" || item.linkType === "seller_search").length,
@@ -470,6 +496,7 @@ const exposureAudit = {
   exposedSoldOutLinks: auditedItems.filter((item) => !item.isHidden && item.availability === "sold_out").length,
   exposedBrokenLinks: auditedItems.filter((item) => !item.isHidden && item.validationStatus === "failed").length,
   exposedInvalidUrls: auditedItems.filter((item) => !item.isHidden && item.checks?.httpUrl === false).length,
+  exposedNonPublishableItems: auditedItems.filter((item) => !item.isHidden && item.publishable !== true).length,
   averagePriorityScore: auditedItems.length ? Math.round(auditedItems.reduce((sum, item) => sum + item.priorityScore, 0) / auditedItems.length) : 0
 };
 const liveProbeReasonCounts = liveProbe.failures.reduce((counts, failure) => {
@@ -526,6 +553,7 @@ const launchGate = {
     exposureAudit.exposedSoldOutLinks === 0 &&
     exposureAudit.exposedBrokenLinks === 0 &&
     exposureAudit.exposedInvalidUrls === 0 &&
+    exposureAudit.exposedNonPublishableItems === 0 &&
     liveProbeReviewSummary.hardFailureCount === 0 &&
     liveProbeReviewSummary.sellerUnavailableSignals === 0 &&
     issues.length === 0,
@@ -534,6 +562,7 @@ const launchGate = {
     exposedSoldOutLinks: 0,
     exposedBrokenLinks: 0,
     exposedInvalidUrls: 0,
+    exposedNonPublishableItems: 0,
     liveHardFailures: 0,
     sellerUnavailableSignals: 0
   },
@@ -542,6 +571,7 @@ const launchGate = {
     exposedSoldOutLinks: exposureAudit.exposedSoldOutLinks,
     exposedBrokenLinks: exposureAudit.exposedBrokenLinks,
     exposedInvalidUrls: exposureAudit.exposedInvalidUrls,
+    exposedNonPublishableItems: exposureAudit.exposedNonPublishableItems,
     liveHardFailures: liveProbeReviewSummary.hardFailureCount,
     sellerUnavailableSignals: liveProbeReviewSummary.sellerUnavailableSignals
   }
@@ -553,6 +583,7 @@ const report = {
   verificationTargets: dealIds.length,
   passedDirectLinks: issues.length ? Math.max(0, entries.length - issues.length) : entries.length,
   visibleDeals: issues.length ? 0 : dealIds.length,
+  publishableDeals: exposureAudit.publishableItems,
   excludedDeals: issues.length ? new Set(issues.map((issue) => issue.match(/^(d\d+)/)?.[1]).filter(Boolean)).size : 0,
   failedCount: issues.length,
   productDetailUrls: productDetailCount,
@@ -568,6 +599,7 @@ const report = {
   exposedSoldOutLinks: exposureAudit.exposedSoldOutLinks,
   exposedBrokenLinks: exposureAudit.exposedBrokenLinks,
   exposedInvalidUrls: exposureAudit.exposedInvalidUrls,
+  exposedNonPublishableItems: exposureAudit.exposedNonPublishableItems,
   visibleCount: issues.length ? 0 : dealIds.length,
   liveProbe,
   httpStatusSummary: {
@@ -621,6 +653,7 @@ Generated: ${report.generatedAt}
 | 검증 대상 수 | ${report.verificationTargets} |
 | 직접 링크 통과 수 | ${report.passedDirectLinks} |
 | 노출 가능 상품 수 | ${report.visibleDeals} |
+| 최종 발행 가능 상품 수 | ${report.exposureAudit.publishableItems} |
 | 제외 상품 수 | ${report.excludedDeals} |
 | 실패 이슈 수 | ${report.failedCount} |
 | 상품 상세 URL | ${report.productDetailUrls} |
@@ -641,6 +674,7 @@ Generated: ${report.generatedAt}
 | 노출 품절/종료 링크 | ${report.exposedSoldOutLinks} |
 | 노출 깨진 링크 | ${report.exposedBrokenLinks} |
 | 노출 invalid URL | ${report.exposedInvalidUrls} |
+| 노출 publishable=false | ${report.exposureAudit.exposedNonPublishableItems} |
 
 ## Live Probe Review
 

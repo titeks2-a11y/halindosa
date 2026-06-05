@@ -97,12 +97,13 @@ export function isApprovedOfficialNewsUrl(value?: string) {
   }
 }
 
-export function canOpenNewsDealLink(deal: Pick<NewsDeal, "finalUrl" | "validationStatus" | "isHidden" | "endDate">) {
+export function canOpenNewsDealLink(deal: Pick<NewsDeal, "finalUrl" | "validationStatus" | "isHidden" | "endDate" | "publishable">) {
   const endsAt = Date.parse(deal.endDate);
 
   return (
     deal.validationStatus === "passed" &&
     !deal.isHidden &&
+    deal.publishable !== false &&
     (!Number.isFinite(endsAt) || endsAt >= Date.now()) &&
     isApprovedOfficialNewsUrl(deal.finalUrl)
   );

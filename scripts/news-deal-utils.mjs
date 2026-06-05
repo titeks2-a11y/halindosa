@@ -277,6 +277,18 @@ function resolveAvailability(endDate, now) {
   return endsAt < now ? "expired" : "active";
 }
 
+function getNewsValidationCode({ reasons, linkType, availability }) {
+  if (!reasons.length && availability === "active" && String(linkType).startsWith("official")) return "valid";
+  if (availability === "expired" || reasons.includes("expired_event")) return "stale";
+  if (reasons.includes("search_or_result_url") || linkType === "search") return "search_link";
+  if (reasons.includes("blocked_community_or_news_host") || linkType === "community") return "community_link";
+  if (reasons.includes("missing_final_url")) return "missing_final_url";
+  if (reasons.includes("not_approved_official_url") || linkType === "invalid") return "unsafe_url";
+  if (reasons.includes("low_confidence") || reasons.includes("unclear_benefit_condition")) return "mismatch";
+  if (reasons.includes("manual_hidden")) return "hidden";
+  return "invalid";
+}
+
 function scoreNewsDeal(deal, { reasons = [], availability = "unknown", linkType = "invalid", now = Date.now() } = {}) {
   const endsAt = Date.parse(deal.endDate);
   const daysLeft = Number.isFinite(endsAt) ? Math.max(0, Math.ceil((endsAt - now) / (24 * 60 * 60 * 1000))) : 999;
@@ -353,8 +365,10 @@ export function normalizeNewsDeal(raw, nowIso = new Date().toISOString()) {
     confidenceScore: toNumber(raw.confidenceScore, 50),
     priorityScore: toNumber(raw.priorityScore, 0),
     validationStatus: "needs_review",
+    validationCode: "mismatch",
     validationReason: "pending_validation",
     isHidden: false,
+    publishable: false,
     hiddenReason: "",
     lastCheckedAt: nowIso,
     provider,
@@ -384,6 +398,8 @@ export function validateNewsDeal(deal, now = Date.now()) {
   if (spamWords.some((word) => text.includes(word))) reasons.push("spam_or_ad_like_copy");
 
   const passed = reasons.length === 0;
+  const publishable = passed && availability === "active" && linkType.startsWith("official");
+  const validationCode = getNewsValidationCode({ reasons, linkType, availability });
   const host = normalizeHost(deal.finalUrl);
   const benefitSignal =
     deal.discountRate > 0 ||
@@ -411,8 +427,10 @@ export function validateNewsDeal(deal, now = Date.now()) {
     confidenceScore,
     priorityScore,
     validationStatus: passed ? "passed" : "failed",
+    validationCode,
     validationReason,
     isHidden: !passed,
+    publishable,
     hiddenReason: passed ? "" : validationReason,
     lastCheckedAt: new Date(now).toISOString(),
     linkType,
@@ -607,7 +625,7 @@ function buildSourceTrustScores(deals) {
 }
 
 export function summarizeNewsDeals(deals, generatedAt = new Date().toISOString(), providerStats = [], collectionStats = {}) {
-  const visible = deals.filter((deal) => !deal.isHidden && deal.validationStatus === "passed");
+  const visible = deals.filter((deal) => !deal.isHidden && deal.validationStatus === "passed" && deal.publishable === true);
   const hidden = deals.filter((deal) => deal.isHidden || deal.validationStatus !== "passed");
   const expired = deals.filter((deal) => deal.hiddenReason.includes("expired_event"));
   const officialMissing = deals.filter((deal) => deal.hiddenReason.includes("not_approved_official_url"));
@@ -616,6 +634,7 @@ export function summarizeNewsDeals(deals, generatedAt = new Date().toISOString()
   const nonOfficialLinks = deals.filter((deal) => ["news_only", "community", "invalid"].includes(deal.linkType));
   const exposedNonOfficialLinks = nonOfficialLinks.filter((deal) => !deal.isHidden && deal.validationStatus === "passed");
   const activeVisible = visible.filter((deal) => deal.availability === "active" && deal.linkType?.startsWith("official") && deal.priorityScore >= 70);
+  const nonPublishableVisible = deals.filter((deal) => !deal.isHidden && deal.validationStatus === "passed" && deal.publishable !== true);
   const failureReasons = {};
   for (const deal of hidden) {
     for (const reason of deal.hiddenReason.split(",").filter(Boolean)) {
@@ -660,6 +679,8 @@ export function summarizeNewsDeals(deals, generatedAt = new Date().toISOString()
     availability: deal.availability,
     priorityScore: deal.priorityScore,
     validationStatus: deal.validationStatus,
+    validationCode: deal.validationCode ?? "",
+    publishable: deal.publishable === true,
     validationReason: deal.validationReason,
     hiddenReason: deal.hiddenReason,
     lastCheckedAt: deal.lastCheckedAt,
@@ -708,7 +729,12 @@ export function summarizeNewsDeals(deals, generatedAt = new Date().toISOString()
   };
 
   return {
-    ok: hidden.length === 0 && activeVisible.length === visible.length && exposedSearchLinks.length === 0 && exposedNonOfficialLinks.length === 0,
+    ok:
+      hidden.length === 0 &&
+      activeVisible.length === visible.length &&
+      exposedSearchLinks.length === 0 &&
+      exposedNonOfficialLinks.length === 0 &&
+      nonPublishableVisible.length === 0,
     generatedAt,
     totalCount: deals.length,
     visibleCount: visible.length,
@@ -720,6 +746,7 @@ export function summarizeNewsDeals(deals, generatedAt = new Date().toISOString()
     nonOfficialLinkCount: nonOfficialLinks.length,
     exposedNonOfficialLinkCount: exposedNonOfficialLinks.length,
     activeVisibleCount: activeVisible.length,
+    nonPublishableVisibleCount: nonPublishableVisible.length,
     averagePriorityScore: visible.length ? Math.round(visible.reduce((sum, deal) => sum + Number(deal.priorityScore ?? 0), 0) / visible.length) : 0,
     failedCount: hidden.length,
     categoryCounts,
@@ -876,6 +903,8 @@ export function buildNewsPolicyRegressionScenarios({ now = Date.now(), generated
       linkType: validated.linkType,
       availability: validated.availability,
       validationStatus: validated.validationStatus,
+      validationCode: validated.validationCode,
+      publishable: validated.publishable === true,
       priorityScore: validated.priorityScore,
       ok: validated.isHidden === sample.expectedHidden && expectedReasonOk && linkTypeOk
     };

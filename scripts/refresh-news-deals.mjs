@@ -91,7 +91,7 @@ const summary = summarizeNewsDeals(validated, generatedAt, providerStats, {
 });
 const configuredFeedErrors = providerStats.filter((provider) => provider.configured === true && Number(provider.errorCount ?? 0) > 0);
 const policyRegression = buildNewsPolicyRegressionScenarios({ now, generatedAt });
-const visibleDeals = validated.filter((deal) => !deal.isHidden && deal.validationStatus === "passed");
+const visibleDeals = validated.filter((deal) => !deal.isHidden && deal.validationStatus === "passed" && deal.publishable === true);
 const snapshot = {
   generatedAt,
   schemaVersion: 1,

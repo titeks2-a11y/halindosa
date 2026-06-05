@@ -28,6 +28,7 @@ function getItemIssues(item) {
   const issues = [];
 
   if (item.isHidden === true) issues.push("hidden");
+  if (item.publishable !== true) issues.push("non_publishable");
   if (item.availability !== "active") issues.push(`availability:${item.availability ?? "missing"}`);
   if (item.validationStatus !== "passed") issues.push(`validation:${item.validationStatus ?? "missing"}`);
   if (["search", "seller_search", "unavailable"].includes(item.linkType)) issues.push(`linkType:${item.linkType}`);
@@ -64,6 +65,7 @@ const criteria = {
   exposedSoldOutLinks: 0,
   exposedBrokenLinks: 0,
   exposedInvalidUrls: 0,
+  exposedNonPublishableItems: 0,
   failedProducts: 0,
   hiddenProducts: 0,
   liveHardFailures: 0,
@@ -92,6 +94,11 @@ const actual = {
     productReport?.exposedInvalidUrls ??
     linkReport?.exposedInvalidUrls ??
     count(exposedItems, (item) => !isHttpUrl(item.finalUrl)),
+  exposedNonPublishableItems:
+    productReport?.exposedNonPublishableItems ??
+    linkReport?.exposedNonPublishableItems ??
+    exposureReport?.summary?.nonPublishableExposed ??
+    count(exposedItems, (item) => item.publishable !== true),
   failedProducts: productReport?.failedProducts ?? linkReport?.failedCount ?? 0,
   searchLinks: productReport?.searchLinks ?? linkReport?.searchLinks ?? 0,
   soldOutProducts: productReport?.soldOutProducts ?? linkReport?.soldOutOrEndedSuspected ?? 0,
@@ -113,13 +120,18 @@ if (actual.exposedSearchLinks !== criteria.exposedSearchLinks) issues.push("sear
 if (actual.exposedSoldOutLinks !== criteria.exposedSoldOutLinks) issues.push("sold_out_links_exposed");
 if (actual.exposedBrokenLinks !== criteria.exposedBrokenLinks) issues.push("broken_links_exposed");
 if (actual.exposedInvalidUrls !== criteria.exposedInvalidUrls) issues.push("invalid_urls_exposed");
+if (actual.exposedNonPublishableItems !== criteria.exposedNonPublishableItems) issues.push("non_publishable_items_exposed");
 if (actual.failedProducts !== criteria.failedProducts) issues.push("failed_products_present");
 if (actual.hiddenProducts !== criteria.hiddenProducts) issues.push("hidden_products_present");
 if (!actual.refreshOk || actual.refreshFailedCount !== 0) issues.push("refresh_pipeline_not_clean");
 if (actual.liveHardFailures !== criteria.liveHardFailures) issues.push("live_probe_hard_failures");
 if (actual.sellerUnavailableSignals !== criteria.sellerUnavailableSignals) issues.push("seller_unavailable_signals");
 if (failedExposureItems.length) issues.push("failed_exposure_items_present");
-if (policy?.exposurePolicy?.availability !== "active" || policy?.exposurePolicy?.validationStatus !== "passed") {
+if (
+  policy?.exposurePolicy?.availability !== "active" ||
+  policy?.exposurePolicy?.validationStatus !== "passed" ||
+  policy?.exposurePolicy?.publishable !== true
+) {
   issues.push("exposure_policy_not_strict");
 }
 
@@ -150,6 +162,8 @@ const report = {
     linkType: item.linkType,
     availability: item.availability,
     validationStatus: item.validationStatus,
+    validationCode: item.validationCode ?? "",
+    publishable: item.publishable === true,
     finalUrl: item.finalUrl,
     issues: item.issues
   })),
@@ -159,6 +173,8 @@ const report = {
     mallName: item.mallName,
     availability: item.availability,
     validationStatus: item.validationStatus,
+    validationCode: item.validationCode ?? "",
+    publishable: item.publishable === true,
     validationReason: item.validationReason
   })),
   issues
@@ -179,13 +195,14 @@ Status: ${report.ok ? "PASS" : "FAIL"}
 - Exposed sold-out links: ${actual.exposedSoldOutLinks}
 - Exposed broken links: ${actual.exposedBrokenLinks}
 - Exposed invalid URLs: ${actual.exposedInvalidUrls}
+- Exposed non-publishable items: ${actual.exposedNonPublishableItems}
 - Hidden products: ${actual.hiddenProducts}
 - Live hard failures: ${actual.liveHardFailures}
 - Seller unavailable signals: ${actual.sellerUnavailableSignals}
 
 ## Launch Rule
 
-Only deals with \`availability=active\`, \`validationStatus=passed\`, \`isHidden=false\`, non-search \`linkType\`, and a valid HTTP(S) \`finalUrl\` can be exposed.
+Only deals with \`availability=active\`, \`validationStatus=passed\`, \`isHidden=false\`, \`publishable=true\`, non-search \`linkType\`, and a valid HTTP(S) \`finalUrl\` can be exposed.
 
 ## Issues
 

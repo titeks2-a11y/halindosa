@@ -59,6 +59,7 @@ function isVisibleNewsDeal(deal: NewsDeal) {
   return (
     deal.validationStatus === "passed" &&
     !deal.isHidden &&
+    deal.publishable !== false &&
     Boolean(deal.finalUrl) &&
     availability === "active" &&
     linkType.startsWith("official") &&

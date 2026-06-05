@@ -63,6 +63,7 @@ function getSyntheticExposureDecision(item, policy) {
   const finalUrl = String(item.finalUrl ?? "").trim();
 
   if (item.isHidden === true) issues.push("manual_hidden");
+  if (item.publishable === false) issues.push("publishable_false");
   if (item.availability !== "active") issues.push(`availability_${item.availability ?? "missing"}`);
   if (item.validationStatus !== "passed") issues.push(`validation_${item.validationStatus ?? "missing"}`);
   if (item.linkStatus !== "verified") issues.push(`link_status_${item.linkStatus ?? "missing"}`);
@@ -96,6 +97,7 @@ function buildSyntheticExposureScenarios(policy) {
     availability: "active",
     validationStatus: "passed",
     isHidden: false,
+    publishable: true,
     finalUrl: "https://www.coupang.com/vp/products/130180913?itemId=383114455&vendorItemId=3930090438",
     expectedCanExpose: true
   };
@@ -180,6 +182,14 @@ function buildSyntheticExposureScenarios(policy) {
       finalUrl: "",
       expectedCanExpose: false,
       expectedIssue: "missing_final_url"
+    },
+    {
+      ...base,
+      id: "synthetic-non-publishable",
+      title: "publishable=false 차단 샘플",
+      publishable: false,
+      expectedCanExpose: false,
+      expectedIssue: "publishable_false"
     }
   ];
   const results = scenarios.map((scenario) => {
@@ -223,6 +233,7 @@ const badExposedItems = exposedItems.filter(
   (item) =>
     item.availability !== "active" ||
     item.validationStatus !== "passed" ||
+    item.publishable !== true ||
     item.linkType === "search" ||
     item.linkType === "seller_search" ||
     item.linkType === "unavailable" ||
@@ -258,6 +269,10 @@ if ((linkReport?.exposedSearchLinks ?? 0) !== 0 || badExposedItems.some((item) =
   issues.push("search or seller-search links are exposed.");
 }
 
+if ((linkReport?.exposureAudit?.exposedNonPublishableItems ?? 0) !== 0 || badExposedItems.some((item) => item.publishable !== true)) {
+  issues.push("non-publishable links are exposed.");
+}
+
 if ((linkReport?.exposedSoldOutLinks ?? 0) !== 0 || badExposedItems.some((item) => item.availability === "sold_out")) {
   issues.push("sold-out or ended links are exposed.");
 }
@@ -278,8 +293,13 @@ if ((linkReport?.homeOrMainSuspected ?? 0) !== 0 || (linkReport?.communitySuspec
   issues.push("home/community links remain in product link report.");
 }
 
-if (policy?.exposurePolicy?.availability !== "active" || policy?.exposurePolicy?.validationStatus !== "passed" || policy?.exposurePolicy?.isHidden !== false) {
-  issues.push("exposurePolicy must require availability=active, validationStatus=passed, and isHidden=false.");
+if (
+  policy?.exposurePolicy?.availability !== "active" ||
+  policy?.exposurePolicy?.validationStatus !== "passed" ||
+  policy?.exposurePolicy?.isHidden !== false ||
+  policy?.exposurePolicy?.publishable !== true
+) {
+  issues.push("exposurePolicy must require availability=active, validationStatus=passed, isHidden=false, and publishable=true.");
 }
 
 if (!dealApiRoute.includes("verifiedOnly") || !dealApiRoute.includes("isPubliclyVisibleDeal")) {
@@ -312,6 +332,7 @@ const report = {
     exposedItems: exposedItems.length,
     hiddenItems: hiddenItems.length,
     badExposedItems: badExposedItems.length,
+    nonPublishableExposed: exposedItems.filter((item) => item.publishable !== true).length,
     searchLinksExposed: exposedItems.filter((item) => item.linkType === "search" || item.linkType === "seller_search").length,
     soldOutExposed: exposedItems.filter((item) => item.availability === "sold_out").length,
     failedExposed: exposedItems.filter((item) => item.validationStatus !== "passed").length,
@@ -360,10 +381,12 @@ const report = {
     linkType: item.linkType,
     availability: item.availability,
     validationStatus: item.validationStatus,
+    validationCode: item.validationCode ?? "",
     validationReason: item.validationReason,
     lastCheckedAt: item.lastCheckedAt,
     priorityScore: item.priorityScore,
     isHidden: item.isHidden,
+    publishable: item.publishable === true,
     host: item.host,
     evidence: item.evidence,
     httpUrl: item.checks?.httpUrl ?? false,
@@ -379,6 +402,8 @@ const report = {
     linkType: item.linkType,
     availability: item.availability,
     validationStatus: item.validationStatus,
+    validationCode: item.validationCode ?? "",
+    publishable: item.publishable === true,
     finalUrl: item.finalUrl,
     validationReason: item.validationReason
   })),
@@ -387,6 +412,8 @@ const report = {
     linkType: item.linkType,
     availability: item.availability,
     validationStatus: item.validationStatus,
+    validationCode: item.validationCode ?? "",
+    publishable: item.publishable === true,
     validationReason: item.validationReason
   })),
   sourceReports: {

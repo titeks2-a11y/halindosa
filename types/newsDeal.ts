@@ -29,6 +29,19 @@ export type NewsDealCategory =
 export type NewsDealValidationStatus = "passed" | "failed" | "needs_review";
 export type NewsDealLinkType = "official_event" | "official_coupon" | "official_benefit" | "search" | "news_only" | "community" | "invalid";
 export type NewsDealAvailability = "active" | "expired" | "unknown";
+export type NewsDealValidationCode =
+  | "valid"
+  | "invalid"
+  | "stale"
+  | "sold_out"
+  | "search_link"
+  | "homepage_link"
+  | "community_link"
+  | "timeout"
+  | "mismatch"
+  | "missing_final_url"
+  | "unsafe_url"
+  | "hidden";
 
 export interface NewsDeal {
   id: string;
@@ -57,8 +70,10 @@ export interface NewsDeal {
   confidenceScore: number;
   priorityScore: number;
   validationStatus: NewsDealValidationStatus;
+  validationCode?: NewsDealValidationCode;
   validationReason: string;
   isHidden: boolean;
+  publishable?: boolean;
   hiddenReason: string;
   lastCheckedAt: string;
   provider: "news" | "event_news" | "official_event" | "public_coupon";

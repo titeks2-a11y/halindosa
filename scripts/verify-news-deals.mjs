@@ -37,20 +37,22 @@ const previousSourceConfig =
   Number(previousReport.sourceConfig.minimumRefreshCadenceMinutes ?? 0) > 0
     ? previousReport.sourceConfig
     : null;
-const searchLikeVisible = validated.filter((deal) => !deal.isHidden && /search|query=|keyword=|msearch|result/i.test(deal.finalUrl));
-const searchLinkTypeVisible = validated.filter((deal) => !deal.isHidden && deal.linkType === "search");
-const nonOfficialLinkTypeVisible = validated.filter((deal) => !deal.isHidden && ["news_only", "community", "invalid"].includes(deal.linkType));
-const inactiveVisible = validated.filter((deal) => !deal.isHidden && deal.availability !== "active");
-const lowPriorityVisible = validated.filter((deal) => !deal.isHidden && Number(deal.priorityScore ?? 0) < 70);
+const visibleCandidates = validated.filter((deal) => !deal.isHidden && deal.validationStatus === "passed" && deal.publishable === true);
+const searchLikeVisible = visibleCandidates.filter((deal) => /search|query=|keyword=|msearch|result/i.test(deal.finalUrl));
+const searchLinkTypeVisible = visibleCandidates.filter((deal) => deal.linkType === "search");
+const nonOfficialLinkTypeVisible = visibleCandidates.filter((deal) => ["news_only", "community", "invalid"].includes(deal.linkType));
+const inactiveVisible = visibleCandidates.filter((deal) => deal.availability !== "active");
+const lowPriorityVisible = visibleCandidates.filter((deal) => Number(deal.priorityScore ?? 0) < 70);
+const nonPublishableVisible = validated.filter((deal) => !deal.isHidden && deal.validationStatus === "passed" && deal.publishable !== true);
 const missingQualityFields = validated.filter((deal) =>
-  ["source", "mallName", "originalUrl", "affiliateUrl", "eventUrl", "linkType", "availability", "validationReason", "priorityScore"].some(
+  ["source", "mallName", "originalUrl", "affiliateUrl", "eventUrl", "linkType", "availability", "validationCode", "validationReason", "priorityScore", "publishable"].some(
     (field) => !(field in deal)
   )
 );
-const nonOfficialVisible = validated.filter((deal) => !deal.isHidden && deal.hiddenReason.includes("not_approved_official_url"));
-const expiredVisible = validated.filter((deal) => !deal.isHidden && Date.parse(deal.endDate) < now);
+const nonOfficialVisible = visibleCandidates.filter((deal) => deal.hiddenReason.includes("not_approved_official_url"));
+const expiredVisible = visibleCandidates.filter((deal) => Date.parse(deal.endDate) < now);
 const visibleCategoryCounts = validated
-  .filter((deal) => !deal.isHidden && deal.validationStatus === "passed")
+  .filter((deal) => !deal.isHidden && deal.validationStatus === "passed" && deal.publishable === true)
   .reduce((map, deal) => map.set(deal.category, (map.get(deal.category) ?? 0) + 1), new Map());
 const requiredCategories = ["식품/생필품", "마트/편의점", "디지털/가전", "패션/뷰티", "외식/배달", "여행/숙박", "영화/문화", "카드/멤버십", "무료혜택", "정부/공공혜택"];
 const minimumCategoryDealCount = 2;
@@ -191,6 +193,8 @@ function buildPolicyRegressionScenarios() {
       linkType: validated.linkType,
       availability: validated.availability,
       validationStatus: validated.validationStatus,
+      validationCode: validated.validationCode,
+      publishable: validated.publishable === true,
       priorityScore: validated.priorityScore,
       ok: validated.isHidden === sample.expectedHidden && expectedReasonOk && linkTypeOk
     };
@@ -215,6 +219,7 @@ const ok =
   inactiveVisible.length === 0 &&
   lowPriorityVisible.length === 0 &&
   missingQualityFields.length === 0 &&
+  nonPublishableVisible.length === 0 &&
   nonOfficialVisible.length === 0 &&
   expiredVisible.length === 0 &&
   missingCategories.length === 0 &&
@@ -236,6 +241,7 @@ const report = {
     lowPriorityExposure: lowPriorityVisible.length,
     missingQualityFieldCount: missingQualityFields.length,
     missingQualityFieldIds: missingQualityFields.map((deal) => deal.id).slice(0, 20),
+    nonPublishableExposure: nonPublishableVisible.length,
     nonOfficialExposure: nonOfficialVisible.length,
     expiredExposure: expiredVisible.length,
     hiddenExposure: summary.hiddenCount,

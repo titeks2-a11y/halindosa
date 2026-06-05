@@ -82,30 +82,30 @@ function classify(sample) {
     const evidence = sample.evidence ?? "";
 
     if (url.protocol !== "https:" && url.protocol !== "http:") {
-      return { linkType: "unavailable", availability: "unknown", validationStatus: "failed", isHidden: true, reason: "unsafe_protocol" };
+      return { linkType: "unavailable", availability: "unknown", validationStatus: "failed", isHidden: true, publishable: false, reason: "unsafe_protocol" };
     }
     if (hasBlockedHost(host)) {
-      return { linkType: "unavailable", availability: "unknown", validationStatus: "failed", isHidden: true, reason: "blocked_host" };
+      return { linkType: "unavailable", availability: "unknown", validationStatus: "failed", isHidden: true, publishable: false, reason: "blocked_host" };
     }
     if (isHomeUrl(url)) {
-      return { linkType: "unavailable", availability: "unknown", validationStatus: "failed", isHidden: true, reason: "home_or_landing_url" };
+      return { linkType: "unavailable", availability: "unknown", validationStatus: "failed", isHidden: true, publishable: false, reason: "home_or_landing_url" };
     }
     if (isSearchUrl(url)) {
-      return { linkType: "search", availability: "unknown", validationStatus: "failed", isHidden: true, reason: "search_url" };
+      return { linkType: "search", availability: "unknown", validationStatus: "failed", isHidden: true, publishable: false, reason: "search_url" };
     }
     if (containsUnavailableText(evidence)) {
-      return { linkType: "unavailable", availability: "sold_out", validationStatus: "failed", isHidden: true, reason: "sold_out_or_ended_text" };
+      return { linkType: "unavailable", availability: "sold_out", validationStatus: "failed", isHidden: true, publishable: false, reason: "sold_out_or_ended_text" };
     }
     if (hasProductSignal(url)) {
-      return { linkType: "direct_purchase", availability: "active", validationStatus: "passed", isHidden: false, reason: "product_detail" };
+      return { linkType: "direct_purchase", availability: "active", validationStatus: "passed", isHidden: false, publishable: true, reason: "product_detail" };
     }
     if (hasOfficialBenefitSignal(url, evidence)) {
-      return { linkType: "affiliate", availability: "active", validationStatus: "passed", isHidden: false, reason: "official_benefit" };
+      return { linkType: "affiliate", availability: "active", validationStatus: "passed", isHidden: false, publishable: true, reason: "official_benefit" };
     }
 
-    return { linkType: "unavailable", availability: "unknown", validationStatus: "failed", isHidden: true, reason: "missing_product_or_benefit_signal" };
+    return { linkType: "unavailable", availability: "unknown", validationStatus: "failed", isHidden: true, publishable: false, reason: "missing_product_or_benefit_signal" };
   } catch {
-    return { linkType: "unavailable", availability: "unknown", validationStatus: "failed", isHidden: true, reason: "invalid_url" };
+    return { linkType: "unavailable", availability: "unknown", validationStatus: "failed", isHidden: true, publishable: false, reason: "invalid_url" };
   }
 }
 
@@ -114,7 +114,7 @@ const samples = [
     name: "coupang product detail allowed",
     url: "https://www.coupang.com/vp/products/130180913?itemId=383114455&vendorItemId=3930090438",
     evidence: "쿠팡 상품 상세 수동 검수",
-    expected: { isHidden: false, validationStatus: "passed", availability: "active" }
+    expected: { isHidden: false, validationStatus: "passed", availability: "active", publishable: true }
   },
   {
     name: "coupang search blocked",
@@ -162,7 +162,7 @@ const samples = [
     name: "ending soon evidence stays visible",
     url: "https://item.gmarket.co.kr/Item?goodscode=3560262554",
     evidence: "마감임박 오늘만 한정수량",
-    expected: { isHidden: false, availability: "active", validationStatus: "passed" }
+    expected: { isHidden: false, availability: "active", validationStatus: "passed", publishable: true }
   },
   {
     name: "event ended evidence blocked",
@@ -180,7 +180,7 @@ const samples = [
     name: "official benefit allowed",
     url: "https://www.cgv.co.kr/culture-event/event/detailViewUnited.aspx?seq=12345",
     evidence: "공식 이벤트 무료 초대권 할인 혜택",
-    expected: { isHidden: false, validationStatus: "passed", availability: "active" }
+    expected: { isHidden: false, validationStatus: "passed", availability: "active", publishable: true }
   }
 ];
 
@@ -200,11 +200,11 @@ const sampleResults = samples.map((sample) => {
 const structuralChecks = [
   {
     name: "normalizer fills canonical link quality fields",
-    ok: ["originalUrl", "finalUrl", "affiliateUrl", "eventUrl", "availability", "validationStatus", "lastCheckedAt", "priorityScore", "isHidden"].every((field) => normalizer.includes(field))
+    ok: ["originalUrl", "finalUrl", "affiliateUrl", "eventUrl", "availability", "validationStatus", "validationCode", "lastCheckedAt", "priorityScore", "isHidden", "publishable"].every((field) => normalizer.includes(field))
   },
   {
     name: "quality gate blocks bad public exposure",
-    ok: ["isPubliclyVisibleDeal", "getDealExposureDecision", "isPolicySearchLikeUrl", "isPolicyHomeOnlyUrl", "isPolicyBlockedHost", "missing_final_url"].every((token) => quality.includes(token))
+    ok: ["isPubliclyVisibleDeal", "getDealExposureDecision", "getDealValidationCode", "isPolicySearchLikeUrl", "isPolicyHomeOnlyUrl", "isPolicyBlockedHost", "missing_final_url", "publishable_false"].every((token) => quality.includes(token))
   },
   {
     name: "link validator uses shared policy and live probe fields",
@@ -236,6 +236,10 @@ const reportChecks = [
   {
     name: "exposure report has zero bad exposed items",
     ok: (exposureReport.summary?.badExposedItems ?? 0) === 0
+  },
+  {
+    name: "exposure report has zero non-publishable exposed items",
+    ok: (exposureReport.summary?.nonPublishableExposed ?? 0) === 0
   }
 ];
 
@@ -254,7 +258,8 @@ const report = {
     reportPassed: reportChecks.filter((item) => item.ok).length,
     exposedSearchLinks: linkReport.exposedSearchLinks ?? linkReport.searchLinks ?? 0,
     exposedSoldOutLinks: linkReport.exposedSoldOutLinks ?? linkReport.soldOutOrEndedSuspected ?? 0,
-    badExposedItems: exposureReport.summary?.badExposedItems ?? 0
+    badExposedItems: exposureReport.summary?.badExposedItems ?? 0,
+    nonPublishableExposed: exposureReport.summary?.nonPublishableExposed ?? 0
   },
   issues
 };
@@ -272,3 +277,4 @@ console.log(`- Samples: ${report.summary.samplePassed}/${report.summary.sampleCo
 console.log(`- Exposed search links: ${report.summary.exposedSearchLinks}`);
 console.log(`- Exposed sold-out links: ${report.summary.exposedSoldOutLinks}`);
 console.log(`- Bad exposed items: ${report.summary.badExposedItems}`);
+console.log(`- Non-publishable exposed items: ${report.summary.nonPublishableExposed}`);

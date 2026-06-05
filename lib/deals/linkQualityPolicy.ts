@@ -15,6 +15,7 @@ export interface LinkQualityPolicy {
     availability: string;
     validationStatus: string;
     isHidden: boolean;
+    publishable?: boolean;
     blockedLinkTypes: string[];
     finalUrlRequired: boolean;
   };
