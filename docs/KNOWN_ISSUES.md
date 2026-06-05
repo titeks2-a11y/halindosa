@@ -1,8 +1,8 @@
 # 할인도사 Known Issues
 
-Generated: 2026-06-05T15:42:56.277Z
+Generated: 2026-06-05T16:05:59.329Z
 Branch: codex/12h-product-ux-growth-hardening
-Commit: e66001a
+Commit: b2400d1
 Working tree: M DEVICE_QA_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_SCREENSHOTS_REPORT.md;  M docs/DEVICE_QA_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/release-evidence.md
 
 ## Critical
@@ -11,17 +11,17 @@ Working tree: M DEVICE_QA_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MA
 
 ## Current Readiness Snapshot
 
-- Visible curated deals: 139
-- Direct product or official benefit links: 139/140
+- Visible curated deals: 140
+- Direct product or official benefit links: 140/140
 - Manual link review needed: 0
 - Explicit product images: 39
-- Fallback image backlog: 100
+- Fallback image backlog: 101
 - Public URL report: manual public-domain checks remain
 - Device QA report: manual device checks remain
 
 ## Operational Risks
 
-- 상품 이미지 중 실상품 이미지가 아닌 카테고리 fallback이 아직 많습니다. 현재 실상품 이미지 39개, fallback 100개 기준으로 관리하며, 앱 화면은 fallback 썸네일로 깨지지 않습니다.
+- 상품 이미지 중 실상품 이미지가 아닌 카테고리 fallback이 아직 많습니다. 현재 실상품 이미지 39개, fallback 101개 기준으로 관리하며, 앱 화면은 fallback 썸네일로 깨지지 않습니다.
 - 무료 혜택/쿠폰/이벤트는 공식 혜택 신청 페이지가 정상 목적지일 수 있습니다. 상품형 특가로 오인되지 않도록 카피와 dealType 구분을 유지해야 합니다.
 - Lighthouse 실측은 로컬 정적 하네스가 아니라 배포 URL 기준으로 추가 확인해야 합니다.
 - signed AAB 최종 업로드와 App Store/Play Store 심사 답변은 계정 소유자가 콘솔에서 직접 실행해야 합니다.
