@@ -1,5 +1,9 @@
-import { NextResponse } from "next/server";
+import { noStoreJson } from "@/lib/api/noStore";
 import { getVisibleNewsDeals } from "@/lib/deals/newsDeals";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+export const fetchCache = "force-no-store";
 
 export async function GET(request: Request) {
   try {
@@ -13,13 +17,13 @@ export async function GET(request: Request) {
       sort: searchParams.get("sort") ?? undefined
     });
 
-    return NextResponse.json({
+    return noStoreJson({
       ok: true,
       ...result,
       message: "검증된 공식 할인뉴스와 이벤트 혜택을 성공적으로 불러왔습니다."
     });
   } catch (error) {
-    return NextResponse.json(
+    return noStoreJson(
       {
         ok: false,
         deals: [],

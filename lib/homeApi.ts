@@ -74,7 +74,8 @@ export function buildDealsRequestUrl({
   mallFilter,
   priceBand,
   benefitFilter,
-  query
+  query,
+  timestamp = Date.now()
 }: {
   category: string;
   sort: DealSort;
@@ -86,6 +87,7 @@ export function buildDealsRequestUrl({
   priceBand: PriceBand;
   benefitFilter: "all" | DealBenefitType;
   query: string;
+  timestamp?: number;
 }) {
   const params = new URLSearchParams({
     category,
@@ -96,7 +98,8 @@ export function buildDealsRequestUrl({
     verifiedOnly: String(verifiedOnly),
     mall: mallFilter,
     priceBand,
-    dealType: benefitFilter
+    dealType: benefitFilter,
+    ts: String(timestamp)
   });
 
   if (query.trim()) params.set("q", query.trim());
@@ -104,10 +107,11 @@ export function buildDealsRequestUrl({
   return `/api/deals?${params.toString()}`;
 }
 
-export function buildHotSignalsRequestUrl({ category, query, limit = 9 }: { category: string; query: string; limit?: number }) {
+export function buildHotSignalsRequestUrl({ category, query, limit = 9, timestamp = Date.now() }: { category: string; query: string; limit?: number; timestamp?: number }) {
   const params = new URLSearchParams({
     category,
-    limit: String(limit)
+    limit: String(limit),
+    ts: String(timestamp)
   });
 
   if (query.trim()) params.set("q", query.trim());
@@ -116,18 +120,26 @@ export function buildHotSignalsRequestUrl({ category, query, limit = 9 }: { cate
 }
 
 export function buildLatestDealsRequestUrl() {
-  return "/api/deals?sort=latest";
+  return `/api/deals?sort=latest&ts=${Date.now()}`;
 }
 
 export function requestJson<T>(url: string): Promise<T> {
   if (typeof window !== "undefined" && typeof window.fetch === "function") {
-    return window.fetch(url, { cache: "no-store" }).then(async (response) => (await response.json()) as T);
+    return window.fetch(url, {
+      cache: "no-store",
+      credentials: "same-origin",
+      headers: {
+        Accept: "application/json",
+        "Cache-Control": "no-cache"
+      }
+    }).then(async (response) => (await response.json()) as T);
   }
 
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.open("GET", url, true);
     xhr.setRequestHeader("Accept", "application/json");
+    xhr.setRequestHeader("Cache-Control", "no-cache");
     xhr.onload = () => {
       try {
         resolve(JSON.parse(xhr.responseText) as T);

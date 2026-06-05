@@ -412,8 +412,8 @@ export default function Home() {
   }, []);
 
   const fetchDeals = useCallback(
-    async (toastMessage?: string) => {
-      setIsLoading(true);
+    async (toastMessage?: string, silent = false) => {
+      if (!silent) setIsLoading(true);
 
       try {
         if (await isNativeRuntime()) {
@@ -453,7 +453,7 @@ export default function Home() {
         setUpdatedAt(snapshot.updatedAt);
         showToast("데이터를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.");
       } finally {
-        setIsLoading(false);
+        if (!silent) setIsLoading(false);
       }
     },
     [homeDealFilters, isOffline, showToast]
@@ -467,6 +467,30 @@ export default function Home() {
     }, 180);
 
     return () => window.clearTimeout(handle);
+  }, [fetchDeals, hasAppliedInitialParams]);
+
+  useEffect(() => {
+    if (!hasAppliedInitialParams) return;
+
+    let active = true;
+    const refreshIfVisible = () => {
+      if (!active) return;
+      if (typeof document !== "undefined" && document.visibilityState === "hidden") return;
+      void fetchDeals(undefined, true);
+    };
+
+    const intervalHandle = window.setInterval(refreshIfVisible, 60_000);
+    const handleVisibility = () => {
+      if (document.visibilityState === "visible") refreshIfVisible();
+    };
+
+    document.addEventListener("visibilitychange", handleVisibility);
+
+    return () => {
+      active = false;
+      window.clearInterval(intervalHandle);
+      document.removeEventListener("visibilitychange", handleVisibility);
+    };
   }, [fetchDeals, hasAppliedInitialParams]);
 
   useEffect(() => {
@@ -524,9 +548,9 @@ export default function Home() {
     return () => cleanup?.();
   }, [activeView]);
 
-  useEffect(() => {
-    async function fetchSignals() {
-      setIsSignalLoading(true);
+  const fetchSignals = useCallback(
+    async (silent = false) => {
+      if (!silent) setIsSignalLoading(true);
 
       try {
         if (await isNativeRuntime()) {
@@ -545,13 +569,34 @@ export default function Home() {
       } catch {
         setHotSignals(mockHotSignals);
       } finally {
-        setIsSignalLoading(false);
+        if (!silent) setIsSignalLoading(false);
       }
-    }
+    },
+    [category, query]
+  );
 
-    const handle = window.setTimeout(fetchSignals, 250);
+  useEffect(() => {
+    const handle = window.setTimeout(() => {
+      void fetchSignals();
+    }, 250);
     return () => window.clearTimeout(handle);
-  }, [category, query]);
+  }, [fetchSignals]);
+
+  useEffect(() => {
+    let active = true;
+    const refreshIfVisible = () => {
+      if (!active) return;
+      if (typeof document !== "undefined" && document.visibilityState === "hidden") return;
+      void fetchSignals(true);
+    };
+
+    const intervalHandle = window.setInterval(refreshIfVisible, 90_000);
+
+    return () => {
+      active = false;
+      window.clearInterval(intervalHandle);
+    };
+  }, [fetchSignals]);
 
   useEffect(() => {
     async function fetchCatalog() {
@@ -777,6 +822,16 @@ export default function Home() {
     } catch {
       showToast("공유를 취소했습니다.");
     }
+  };
+
+  const refreshHomeNow = () => {
+    void Promise.all([
+      fetchDeals(undefined, false),
+      refreshNewsDeals({ notify: false }),
+      fetchSignals(false)
+    ]).then(() => {
+      showToast("최신 할인 정보를 다시 확인했습니다.");
+    });
   };
 
   const stats = useMemo(() => buildHomeStats(deals, favorites), [deals, favorites]);
@@ -1174,15 +1229,6 @@ export default function Home() {
             새로고침
           </button>
         </div>
-        <HomeStatusStrip
-          dealCount={deals.length}
-          verifiedDealCount={verifiedHomeDeals.length}
-          newDealCount={stats.newCount}
-          hotDealCount={stats.hotCount}
-          isOffline={isOffline}
-          providerSource={providerSource}
-          latestPriceCheckedAt={dataQuality.latestPriceCheckedAt}
-        />
         {activeView === "home" ? (
           <section className="rounded-2xl border border-red-100 bg-white p-2 shadow-sm sm:rounded-[28px] sm:p-4" aria-label="빠른 상품 검색">
             <div className="mb-2 hidden flex-col gap-1 sm:mb-3 sm:flex sm:flex-row sm:items-end sm:justify-between">
@@ -1438,6 +1484,63 @@ export default function Home() {
                 ))}
               </div>
             </div>
+          </section>
+        ) : null}
+        {activeView === "home" ? (
+          <HomeStatusStrip
+            dealCount={deals.length}
+            verifiedDealCount={verifiedHomeDeals.length}
+            newDealCount={stats.newCount}
+            hotDealCount={stats.hotCount}
+            isOffline={isOffline}
+            providerSource={providerSource}
+            latestPriceCheckedAt={dataQuality.latestPriceCheckedAt}
+            updatedAt={updatedAt || newsUpdatedAt}
+            isRefreshing={isLoading || isNewsRefreshing || isSignalLoading}
+            onRefresh={refreshHomeNow}
+          />
+        ) : null}
+        {activeView === "home" ? (
+          <section id="deal-list" className="scroll-mt-24 rounded-[24px] border border-slate-200 bg-white p-2 shadow-sm sm:p-3" aria-label="검증 특가 목록">
+            <div className="mb-2 flex items-center justify-between gap-2 px-1">
+              <div className="min-w-0">
+                <p className="text-xs font-black text-dossa-red">검증 특가</p>
+                <h3 className="truncate text-base font-black text-slate-950">
+                  {query.trim() ? `"${query.trim()}" 검색 결과` : "지금 바로 볼 수 있는 상품"}
+                </h3>
+              </div>
+              <div className="shrink-0 text-right">
+                <p className="text-[11px] font-black text-slate-500">현재 결과</p>
+                <p className="text-sm font-black text-dossa-red">{deals.length.toLocaleString("ko-KR")}개</p>
+              </div>
+            </div>
+            {isLoading && !deals.length ? (
+              <DealGridSkeleton />
+            ) : (
+              <HomeDealGrid
+                items={deals}
+                visibleCount={visibleDealCount}
+                loadStep={HOME_DEAL_LOAD_STEP}
+                favoriteIds={favorites}
+                emptyTitle="조건에 맞는 특가가 없습니다."
+                emptyDescription={freeShippingOnly || hotOnly || endingSoonOnly || verifiedOnly || priceBand !== "all"
+                  ? "선택한 필터를 줄이거나 다른 카테고리를 선택해보세요."
+                  : "검색어를 줄이거나 다른 카테고리를 선택해보세요."}
+                emptyAction={
+                  <HomeEmptyRecovery
+                    keywords={emptySearchRecoveryKeywords}
+                    deals={emptySearchRecoveryDeals}
+                    onResetFilters={resetFilters}
+                    onSelectKeyword={selectSearchKeyword}
+                    onOpenDeal={openDeal}
+                  />
+                }
+                onLoadMore={setVisibleDealCount}
+                onToggleFavorite={toggleFavorite}
+                onOpenDeal={openDeal}
+                onShareDeal={shareDeal}
+              />
+            )}
           </section>
         ) : null}
         {activeView === "home" && instantDealRail.length ? (
@@ -2868,33 +2971,6 @@ export default function Home() {
               </section>
             ) : null}
 
-            {isLoading && !deals.length ? (
-              <DealGridSkeleton />
-            ) : (
-              <HomeDealGrid
-                items={deals}
-                visibleCount={visibleDealCount}
-                loadStep={HOME_DEAL_LOAD_STEP}
-                favoriteIds={favorites}
-                emptyTitle="조건에 맞는 특가가 없습니다."
-                emptyDescription={freeShippingOnly || hotOnly || endingSoonOnly || verifiedOnly || priceBand !== "all"
-                  ? "선택한 필터를 줄이거나 다른 카테고리를 선택해보세요."
-                  : "검색어를 줄이거나 다른 카테고리를 선택해보세요."}
-                emptyAction={
-                  <HomeEmptyRecovery
-                    keywords={emptySearchRecoveryKeywords}
-                    deals={emptySearchRecoveryDeals}
-                    onResetFilters={resetFilters}
-                    onSelectKeyword={selectSearchKeyword}
-                    onOpenDeal={openDeal}
-                  />
-                }
-                onLoadMore={setVisibleDealCount}
-                onToggleFavorite={toggleFavorite}
-                onOpenDeal={openDeal}
-                onShareDeal={shareDeal}
-              />
-            )}
           </>
         ) : null}
 

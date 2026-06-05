@@ -9,6 +9,9 @@ interface HomeStatusStripProps {
   isOffline: boolean;
   providerSource: string;
   latestPriceCheckedAt?: string;
+  updatedAt?: string;
+  isRefreshing?: boolean;
+  onRefresh?: () => void;
 }
 
 export function HomeStatusStrip({
@@ -18,8 +21,12 @@ export function HomeStatusStrip({
   hotDealCount,
   isOffline,
   providerSource,
-  latestPriceCheckedAt
+  latestPriceCheckedAt,
+  updatedAt,
+  isRefreshing = false,
+  onRefresh
 }: HomeStatusStripProps) {
+  const freshnessLabel = updatedAt ? getRelativeTime(updatedAt) : "확인 대기";
   const statusCards = [
     { label: "오늘의 특가", value: `${dealCount}개`, tone: "text-brand-navy bg-brand-navySoft" },
     { label: "실시간 검증", value: `${verifiedDealCount}개`, tone: "text-emerald-700 bg-emerald-50" },
@@ -41,11 +48,24 @@ export function HomeStatusStrip({
         </div>
         <div className="mt-1.5 flex items-center justify-between gap-2 px-1 text-[11px] font-bold text-slate-500 sm:hidden">
           <span>{getProviderDisplayLabel(providerSource)}</span>
-          <span>{isOffline ? "오프라인" : "네트워크 정상"}</span>
+          <span>{isOffline ? "오프라인" : `업데이트 ${freshnessLabel}`}</span>
         </div>
-        <p className="mt-1.5 px-1 text-[11px] font-bold text-slate-500">
-          가격/재고 변동 가능 · 구매 전 판매처에서 최종 조건 확인
-        </p>
+        <div className="mt-1.5 flex items-center justify-between gap-2 px-1">
+          <p className="min-w-0 truncate text-[11px] font-bold text-slate-500">
+            실시간 검증됨 · 가격/재고는 구매 전 최종 확인
+          </p>
+          {onRefresh ? (
+            <button
+              type="button"
+              onClick={onRefresh}
+              disabled={isRefreshing}
+              className="inline-flex min-h-8 shrink-0 items-center justify-center rounded-full bg-dossa-red px-3 text-[11px] font-black text-white disabled:cursor-wait disabled:opacity-65"
+              aria-label="최신 특가 다시 확인"
+            >
+              {isRefreshing ? "확인 중" : "새로고침"}
+            </button>
+          ) : null}
+        </div>
       </div>
 
       <div className="hidden rounded-[22px] border border-slate-200 bg-white px-4 py-3 shadow-sm sm:block">
@@ -54,14 +74,26 @@ export function HomeStatusStrip({
             {isOffline ? "오프라인 상태입니다." : "네트워크 정상 · 최신 특가 확인 가능"}
           </p>
           <p className="text-xs font-bold text-slate-500">
-            최근 가격 기준 {latestPriceCheckedAt ? getRelativeTime(latestPriceCheckedAt) : "대기 중"}
+            최근 가격 기준 {latestPriceCheckedAt ? getRelativeTime(latestPriceCheckedAt) : "대기 중"} · 홈 업데이트 {freshnessLabel}
           </p>
         </div>
-        <p className="mt-1 text-xs font-semibold leading-5 text-slate-500">
-          {isOffline
-            ? "연결이 복구되면 새로고침으로 최신 특가를 다시 불러올 수 있습니다."
-            : "판매처의 최종 가격, 옵션가, 쿠폰 조건은 구매 전 다시 확인하세요."}
-        </p>
+        <div className="mt-1 flex items-center justify-between gap-3">
+          <p className="text-xs font-semibold leading-5 text-slate-500">
+            {isOffline
+              ? "연결이 복구되면 새로고침으로 최신 특가를 다시 불러올 수 있습니다."
+              : "판매처의 최종 가격, 옵션가, 쿠폰 조건은 구매 전 다시 확인하세요."}
+          </p>
+          {onRefresh ? (
+            <button
+              type="button"
+              onClick={onRefresh}
+              disabled={isRefreshing}
+              className="inline-flex min-h-9 shrink-0 items-center justify-center rounded-2xl bg-dossa-red px-3 text-xs font-black text-white transition hover:bg-slate-950 disabled:cursor-wait disabled:opacity-65"
+            >
+              {isRefreshing ? "다시 확인 중" : "최신 데이터 확인"}
+            </button>
+          ) : null}
+        </div>
       </div>
     </>
   );

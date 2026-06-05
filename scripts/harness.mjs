@@ -15,6 +15,7 @@ const steps = [
   ["test:search", ["run", "test:search"]],
   ["test:ui", ["run", "test:ui"]],
   ["test:mobile-ux", ["run", "test:mobile-ux"]],
+  ["home:realtime:doctor", ["run", "home:realtime:doctor"]],
   ["test:seo", ["run", "test:seo"]],
   ["test:perf", ["run", "test:perf"]],
   ["smoke:local", ["run", "smoke:local"]],

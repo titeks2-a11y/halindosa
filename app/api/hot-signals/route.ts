@@ -1,5 +1,9 @@
-import { NextResponse } from "next/server";
+import { noStoreJson } from "@/lib/api/noStore";
 import { fetchHotSignals } from "@/lib/hotSignalProvider";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+export const fetchCache = "force-no-store";
 
 export async function GET(request: Request) {
   try {
@@ -11,7 +15,7 @@ export async function GET(request: Request) {
       limit: Number(searchParams.get("limit") ?? 12)
     });
 
-    return NextResponse.json({
+    return noStoreJson({
       ok: true,
       signals,
       count: signals.length,
@@ -20,7 +24,7 @@ export async function GET(request: Request) {
       message: "할인도사 핫딜 신호를 성공적으로 불러왔습니다."
     });
   } catch (error) {
-    return NextResponse.json(
+    return noStoreJson(
       {
         ok: false,
         signals: [],

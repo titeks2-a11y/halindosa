@@ -84,6 +84,7 @@
     "purchase:navigation:doctor": "node scripts/purchase-navigation-doctor.mjs",
     "home:url-state:doctor": "node scripts/home-url-state-doctor.mjs",
     "home:list-scan:doctor": "node scripts/home-list-scan-doctor.mjs",
+    "home:realtime:doctor": "node scripts/home-realtime-doctor.mjs",
     "navigation:doctor": "node scripts/navigation-policy-doctor.mjs",
     "links:report": "node scripts/link-coverage-report.mjs",
     "store:metadata:doctor": "node scripts/store-metadata-doctor.mjs",

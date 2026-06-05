@@ -60,6 +60,7 @@ const coreTasks = [
   "navigation:doctor",
   "home:url-state:doctor",
   "home:list-scan:doctor",
+  "home:realtime:doctor",
   "smoke:local",
   "build",
   "release:doctor"

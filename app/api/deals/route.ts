@@ -1,8 +1,12 @@
-import { NextResponse } from "next/server";
 import { mockDeals } from "@/data/mockDeals";
+import { noStoreJson } from "@/lib/api/noStore";
 import { getDeals, normalizeSort } from "@/lib/dealService";
 import { normalizeDeals } from "@/lib/deals/normalizer";
 import { isPubliclyVisibleDeal, summarizeDealQuality } from "@/lib/deals/quality";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+export const fetchCache = "force-no-store";
 
 export async function GET(request: Request) {
   try {
@@ -26,7 +30,7 @@ export async function GET(request: Request) {
       dealType: searchParams.get("dealType")?.trim()
     });
 
-    return NextResponse.json({
+    return noStoreJson({
       ok: true,
       deals: result.deals,
       count: result.deals.length,
@@ -38,7 +42,7 @@ export async function GET(request: Request) {
   } catch (error) {
     const fallbackDeals = normalizeDeals(mockDeals, "mock").filter(isPubliclyVisibleDeal);
 
-    return NextResponse.json(
+    return noStoreJson(
       {
         ok: false,
         deals: fallbackDeals,

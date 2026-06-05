@@ -78,6 +78,15 @@ export async function checkUiAccessibility() {
   const roadmap = await text("docs/roadmap.md");
   const commerceBadge = await text("components/ui/CommerceBadge.tsx");
   const commerceButton = await text("components/ui/CommerceButton.tsx");
+  const imageCoverageMatch = harnessReport.match(/Image quality passed: (\d+)\/(\d+) deals have explicit images\./);
+  const explicitImageCount = imageCoverageMatch ? Number(imageCoverageMatch[1]) : 0;
+  const totalImageCount = imageCoverageMatch ? Number(imageCoverageMatch[2]) : 0;
+  const explicitImageRate = totalImageCount > 0 ? explicitImageCount / totalImageCount : 0;
+  const imageQualityEvidenceSynced =
+    imageCoverageMatch &&
+    imageQualityReport.includes(`| 전체 상품 수 | ${totalImageCount} |`) &&
+    imageQualityReport.includes(`| 명시 이미지 상품 수 | ${explicitImageCount} |`) &&
+    explicitImageRate >= 0.25;
   const commerceCard = await text("components/ui/CommerceCard.tsx");
   const commerceSectionHeader = await text("components/ui/CommerceSectionHeader.tsx");
   const realtimeNewsSection = await text("components/RealtimeNewsDealsSection.tsx");
@@ -457,11 +466,11 @@ export async function checkUiAccessibility() {
     !imageBacklogReport.includes("Mall request CSV") ||
     !imageBacklogReport.includes("이번 주 이미지 보강 배치") ||
     !imageBacklogReport.includes("판매처별 이미지 요청서") ||
-    !harnessReport.includes("Image quality passed: 39/140 deals have explicit images.")
+    !imageQualityEvidenceSynced
   ) {
     fail("deal image quality coverage gate", "Release QA should enforce the 25% explicit product image floor, record current coverage evidence, and keep an actionable fallback image backlog.");
   } else {
-    pass("deal image quality coverage gate", "QA, image operations doctor, and release evidence enforce the 25% explicit product image floor with 39/140 current coverage, an actionable fallback image backlog, and a 60% launch sourcing plan.");
+    pass("deal image quality coverage gate", `QA, image operations doctor, and release evidence enforce the 25% explicit product image floor with ${explicitImageCount}/${totalImageCount} current coverage, an actionable fallback image backlog, and a 60% launch sourcing plan.`);
   }
 
   if (
@@ -469,7 +478,7 @@ export async function checkUiAccessibility() {
     !harnessScript.includes('["test:mobile-ux", ["run", "test:mobile-ux"]]') ||
     !harnessScript.includes('writeFileSync(join(root, "docs", "HARNESS_REPORT.md")') ||
     !harnessScript.includes('writeFileSync(join(root, "HARNESS_REPORT.md")') ||
-    !harnessReport.includes("Image quality passed: 39/140 deals have explicit images.")
+    !imageQualityEvidenceSynced
   ) {
     fail("harness release gate coverage", "Harness should execute mobile UX, release:doctor, write root/docs reports, and preserve image-quality evidence.");
   } else {

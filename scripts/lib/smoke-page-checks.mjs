@@ -44,6 +44,28 @@ export async function runPageSmokeChecks() {
     assert(text.includes("aria-pressed="), "Home deal favorite buttons missing pressed state");
     assert(text.includes("판매처 이동 전 확인"), "Home deal open buttons missing accessible purchase label");
   });
+
+  await check("home realtime api cache policy", async () => {
+    const endpoints = [
+      "/api/deals?limit=3&verifiedOnly=true",
+      "/api/news-deals?limit=3",
+      "/api/hot-signals?limit=3",
+      "/api/home?limit=3&verifiedOnly=true"
+    ];
+
+    for (const endpoint of endpoints) {
+      const response = await fetch(`${baseUrl}${endpoint}`);
+      const data = await response.json();
+      const cacheControl = response.headers.get("cache-control") ?? "";
+      assert(response.status === 200, `Expected ${endpoint} 200, got ${response.status}`);
+      assert(cacheControl.includes("no-store"), `${endpoint} should return no-store cache-control, got ${cacheControl || "(missing)"}`);
+      assert(data.updatedAt, `${endpoint} should expose updatedAt for realtime trust copy`);
+      assert(data.ok === true || Array.isArray(data.deals) || Array.isArray(data.signals), `${endpoint} should return usable fallback data shape`);
+    }
+
+    assert(homeApiSource.includes("ts: String(timestamp)") && homeApiSource.includes('cache: "no-store"'), "Home API client should use cache busting and no-store fetch");
+    assert(homePageSource.includes("refreshHomeNow") && homePageSource.includes("window.setInterval(refreshIfVisible, 60_000)"), "Home page should expose manual and periodic product refresh");
+  });
   
   await check("customer navigation simplification", async () => {
     assert(bottomNavigationSource.includes("grid-cols-4"), "Bottom navigation should have exactly four tabs");
