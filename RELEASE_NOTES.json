@@ -1,14 +1,14 @@
 {
   "generatedBy": "npm run release:notes",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "3d0c115",
+  "commit": "1bd8432",
   "workingTree": "M DEVICE_QA_REPORT.md;  M KNOWN_ISSUES.md;  M PUBLIC_URL_REPORT.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_HANDOFF_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M docs/DEVICE_QA_REPORT.md;  M docs/KNOWN_ISSUES.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_HANDOFF_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md;  M docs/release-evidence.md",
   "version": "1.0.1",
   "appName": "할인도사",
   "packageName": "com.halindosa.app",
   "linkCoverage": {
-    "visibleDeals": 124,
-    "passedDirectLinks": 124,
+    "visibleDeals": 131,
+    "passedDirectLinks": 131,
     "verificationTargets": 140,
     "manualReviewNeeded": 0
   },
@@ -73,14 +73,14 @@
     }
   ],
   "recentCommits": [
+    "1bd8432 feat: recover verified direct purchase links",
+    "ab5d1e0 docs: refresh release evidence for link gate hardening",
     "3d0c115 feat: harden publishable link validation gates",
     "3ce8da2 feat: enforce live purchase link exposure policy",
     "defbe40 feat: expose link evidence in admin quality reports",
     "38e9d03 test: add link evidence tiers and revalidation queue",
     "b8f5be1 test: refresh live body link validation evidence",
-    "b85abf2 feat: strengthen live purchase link validation",
-    "d337d33 feat: prioritize reported links for revalidation",
-    "e18f1ee feat: enforce publishable link exposure gate"
+    "b85abf2 feat: strengthen live purchase link validation"
   ],
   "manualWorkThatMustNotBeFaked": [
     "Do not claim Play Console or App Store Connect submission has passed from this file.",
