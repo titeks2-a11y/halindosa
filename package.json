@@ -50,6 +50,7 @@
     "surface:publishable:doctor": "node scripts/publishable-surface-doctor.mjs",
     "link:launch:gate": "node scripts/link-launch-gate.mjs",
     "link:revalidation:report": "node scripts/link-revalidation-priority-report.mjs",
+    "live:probe:review": "node scripts/live-probe-review-report.mjs",
     "refresh:deals": "node scripts/refresh-deals.mjs",
     "refresh:news": "node scripts/refresh-news-deals.mjs",
     "refresh:freebies": "node scripts/refresh-official-benefit-slice.mjs freebies",

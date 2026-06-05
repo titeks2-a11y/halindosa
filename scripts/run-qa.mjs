@@ -30,6 +30,7 @@ const coreTasks = [
   "surface:publishable:doctor",
   "link:launch:gate",
   "link:revalidation:report",
+  "live:probe:review",
   "feed:transition:report",
   "source:catalog:report",
   "source:live:doctor",

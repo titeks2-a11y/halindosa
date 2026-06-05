@@ -1,10 +1,10 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-05T17:54:12.030Z",
+  "generatedAt": "2026-06-05T18:26:54.181Z",
   "mode": "freebies",
   "label": "무료혜택",
-  "sourceSnapshotGeneratedAt": "2026-06-05T17:53:46.483Z",
-  "sourceReportGeneratedAt": "2026-06-05T17:54:11.920Z",
+  "sourceSnapshotGeneratedAt": "2026-06-05T18:26:29.705Z",
+  "sourceReportGeneratedAt": "2026-06-05T18:26:54.077Z",
   "totalOfficialBenefits": 42,
   "matchedCount": 11,
   "visibleCount": 11,
@@ -62,7 +62,7 @@
       "finalUrl": "https://www.culture.go.kr/wday/main/main.do",
       "redirectUrl": "/go/news/news-culture-day-programs-2026",
       "endDate": "2026-12-30",
-      "lastCheckedAt": "2026-06-05T17:53:46.483Z"
+      "lastCheckedAt": "2026-06-05T18:26:29.705Z"
     },
     {
       "id": "news-culture-day-weekly-2026",
@@ -75,7 +75,7 @@
       "finalUrl": "https://www.culture.go.kr/local/wday/cltrDay.do",
       "redirectUrl": "/go/news/news-culture-day-weekly-2026",
       "endDate": "2026-12-30",
-      "lastCheckedAt": "2026-06-05T17:53:46.483Z"
+      "lastCheckedAt": "2026-06-05T18:26:29.705Z"
     },
     {
       "id": "news-cjone-official-mobile-events",
@@ -88,7 +88,7 @@
       "finalUrl": "https://www.cjone.com/cjmmobile/event/event.do",
       "redirectUrl": "/go/news/news-cjone-official-mobile-events",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-05T17:53:46.483Z"
+      "lastCheckedAt": "2026-06-05T18:26:29.705Z"
     },
     {
       "id": "news-oliveyoung-official-events",
@@ -101,7 +101,7 @@
       "finalUrl": "https://www.oliveyoung.co.kr/store/main/getEventList.do",
       "redirectUrl": "/go/news/news-oliveyoung-official-events",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-05T17:53:46.483Z"
+      "lastCheckedAt": "2026-06-05T18:26:29.705Z"
     },
     {
       "id": "news-naverpay-event-benefit",
@@ -114,7 +114,7 @@
       "finalUrl": "https://new-m.pay.naver.com/pcpay/eventbenefit",
       "redirectUrl": "/go/news/news-naverpay-event-benefit",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-05T17:53:46.483Z"
+      "lastCheckedAt": "2026-06-05T18:26:29.705Z"
     },
     {
       "id": "news-mnuri-official-benefit",
@@ -127,7 +127,7 @@
       "finalUrl": "https://www.mnuri.kr/main/main.do",
       "redirectUrl": "/go/news/news-mnuri-official-benefit",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-05T17:53:46.483Z"
+      "lastCheckedAt": "2026-06-05T18:26:29.705Z"
     },
     {
       "id": "news-mnuri-online-merchant-benefit",
@@ -140,7 +140,7 @@
       "finalUrl": "https://www.mnuri.kr/useOfCard/onlineMerchants.do",
       "redirectUrl": "/go/news/news-mnuri-online-merchant-benefit",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-05T17:53:46.483Z"
+      "lastCheckedAt": "2026-06-05T18:26:29.705Z"
     },
     {
       "id": "news-lpoint-official-benefits",
@@ -153,7 +153,7 @@
       "finalUrl": "https://m.lpoint.com/index.jsp?tabIndex=1",
       "redirectUrl": "/go/news/news-lpoint-official-benefits",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-05T17:53:46.483Z"
+      "lastCheckedAt": "2026-06-05T18:26:29.705Z"
     },
     {
       "id": "news-lpoint-card-events",
@@ -166,7 +166,7 @@
       "finalUrl": "https://m.lpoint.com/app/asset/LWCE100100.do?fnTapPmotC=85",
       "redirectUrl": "/go/news/news-lpoint-card-events",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-05T17:53:46.483Z"
+      "lastCheckedAt": "2026-06-05T18:26:29.705Z"
     },
     {
       "id": "news-visitkorea-travel-benefit",
@@ -179,7 +179,7 @@
       "finalUrl": "https://korean.visitkorea.or.kr/other/otherService.do?otdid=46a412aa-0b3b-11ea-869b-020027310001",
       "redirectUrl": "/go/news/news-visitkorea-travel-benefit",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-05T17:53:46.483Z"
+      "lastCheckedAt": "2026-06-05T18:26:29.705Z"
     },
     {
       "id": "news-baemin-academy-free-event",
@@ -192,7 +192,7 @@
       "finalUrl": "https://academy.baemin.com/event/list",
       "redirectUrl": "/go/news/news-baemin-academy-free-event",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-05T17:53:46.483Z"
+      "lastCheckedAt": "2026-06-05T18:26:29.705Z"
     }
   ],
   "blockedItems": [],

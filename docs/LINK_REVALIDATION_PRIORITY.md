@@ -1,6 +1,6 @@
 # Link Revalidation Priority
 
-Generated: 2026-06-05T17:53:08.714Z
+Generated: 2026-06-05T18:25:49.971Z
 
 Status: PASS
 
@@ -13,6 +13,7 @@ Status: PASS
 - Exposed sold-out links: 0
 - Exposed broken links: 0
 - Blocking revalidation items: 0
+- Quarantined hidden items: 0
 - User reported revalidation items: 0
 - Review items: 77
 - Watch items: 3

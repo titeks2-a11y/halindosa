@@ -849,9 +849,11 @@ export async function checkOperationalDataSurfaces() {
   const publishableSurfaceDoctorScript = await text("scripts/publishable-surface-doctor.mjs");
   const refreshDealsScript = await text("scripts/refresh-deals.mjs");
   const linkRevalidationPriorityScript = await text("scripts/link-revalidation-priority-report.mjs");
+  const liveProbeReviewScript = await text("scripts/live-probe-review-report.mjs");
   const linkRevalidationPriorityOperation = await text("lib/operations/linkRevalidationPriority.ts");
   const linkRevalidationPriorityRoute = await text("app/api/admin/link-revalidation-priority/route.ts");
   const linkRevalidationPriorityDoc = await text("docs/LINK_REVALIDATION_PRIORITY.md");
+  const liveProbeReviewDoc = await text("docs/LIVE_PROBE_REVIEW_REPORT.md");
   const linkReport = JSON.parse(await text("reports/link-validation.json"));
   const productReport = JSON.parse(await text("reports/product-quality.json"));
   const linkRegressionReportPath = join(root, "reports/link-quality-regression.json");
@@ -861,6 +863,7 @@ export async function checkOperationalDataSurfaces() {
   const exposureReport = JSON.parse(await text("reports/exposure-policy.json"));
   const publishableSurfaceReport = JSON.parse(await text("reports/publishable-surface.json"));
   const linkRevalidationPriorityReport = JSON.parse(await text("reports/link-revalidation-priority.json"));
+  const liveProbeReviewReport = JSON.parse(await text("reports/live-probe-review.json"));
   const linkPolicyIssues = [];
 
   for (const key of ["blockedHosts", "searchPatterns", "unavailableTextPatterns", "liveUnavailableTextPatterns", "clientRenderedDetailHosts", "productDetailSignals", "officialBenefitUrlSignals", "exposurePolicy", "launchGate"]) {
@@ -1113,6 +1116,48 @@ export async function checkOperationalDataSurfaces() {
     !linkRevalidationPriorityDoc.includes("Access-protected 403/429")
   ) {
     linkPolicyIssues.push("link revalidation priority docs should explain blocking, review, watch, and access-protected 403/429 handling");
+  }
+  if (
+    !liveProbeReviewScript.includes("reports/live-probe-review.json") ||
+    !liveProbeReviewScript.includes("LIVE_PROBE_REVIEW_REPORT.md") ||
+    !liveProbeReviewScript.includes("hardFailureCount") ||
+    !liveProbeReviewScript.includes("exposedHardFailureCount") ||
+    !liveProbeReviewScript.includes("official API") ||
+    !liveProbeReviewScript.includes("partner feed") ||
+    !liveProbeReviewScript.includes("manual device check") ||
+    !liveProbeReviewScript.includes("backoff retry")
+  ) {
+    linkPolicyIssues.push("live probe review script should generate JSON/docs and separate hard failures from official API, partner feed, manual device, and backoff retry queues");
+  }
+  if (
+    liveProbeReviewReport.ok !== true ||
+    (liveProbeReviewReport.summary?.totalDeals ?? 0) < 140 ||
+    (liveProbeReviewReport.summary?.publishableDeals ?? 0) < 140 ||
+    (liveProbeReviewReport.summary?.liveChecked ?? 0) < (liveProbeReviewReport.summary?.totalDeals ?? 0) ||
+    (liveProbeReviewReport.summary?.hardFailureCount ?? 1) !== 0 ||
+    (liveProbeReviewReport.summary?.exposedHardFailureCount ?? 1) !== 0 ||
+    (liveProbeReviewReport.summary?.unavailableTextCount ?? 1) !== 0 ||
+    (liveProbeReviewReport.summary?.exposedSearchLinks ?? 1) !== 0 ||
+    (liveProbeReviewReport.summary?.exposedSoldOutLinks ?? 1) !== 0 ||
+    (liveProbeReviewReport.summary?.exposedBrokenLinks ?? 1) !== 0 ||
+    (liveProbeReviewReport.summary?.exposedInvalidUrls ?? 1) !== 0 ||
+    (liveProbeReviewReport.summary?.exposedNonPublishableItems ?? 1) !== 0 ||
+    !Array.isArray(liveProbeReviewReport.reviewQueue) ||
+    !Array.isArray(liveProbeReviewReport.topHostActions) ||
+    !liveProbeReviewReport.reasonCounts ||
+    !liveProbeReviewReport.retryModeCounts
+  ) {
+    linkPolicyIssues.push("live probe review report should pass with zero hard/unavailable/search/sold-out/broken exposures and operator retry queues");
+  }
+  if (
+    !liveProbeReviewDoc.includes("Hard failures") ||
+    !liveProbeReviewDoc.includes("Exposed hard failures") ||
+    !liveProbeReviewDoc.includes("official API") ||
+    !liveProbeReviewDoc.includes("partner feed") ||
+    !liveProbeReviewDoc.includes("manual device check") ||
+    !liveProbeReviewDoc.includes("backoff retry")
+  ) {
+    linkPolicyIssues.push("live probe review docs should explain hard failures and official API/partner/manual/backoff handling");
   }
   if ((linkReport.exposedSearchLinks ?? 0) !== 0 || (productReport.searchLinks ?? 0) !== 0) linkPolicyIssues.push("search links should be zero");
   if ((linkReport.exposedSoldOutLinks ?? 0) !== 0 || (productReport.soldOutProducts ?? 0) !== 0) linkPolicyIssues.push("sold-out/ended links should be zero");

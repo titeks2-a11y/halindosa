@@ -34,6 +34,7 @@ pnpm-debug.log*
 # Generated verification reports
 reports/*
 !reports/.gitkeep
+!reports/live-probe-review.json
 
 # OS and editor files
 .DS_Store

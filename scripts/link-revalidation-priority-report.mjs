@@ -83,8 +83,8 @@ function classify(item, liveFailure, userReport) {
     item.linkType === "seller_search"
   ) {
     return {
-      severity: "block",
-      action: "노출 차단 상태를 유지하고 실제 구매/신청 상세 URL로 교체"
+      severity: "quarantine",
+      action: "사용자 노출 차단 상태를 유지하고 실제 구매/신청 상세 URL로 재검증 또는 교체"
     };
   }
 
@@ -130,6 +130,7 @@ function scoreFor(item, liveFailure, severity, userReport) {
 
   if (userReport) score += 850 + Math.min(120, Number(userReport.reportCount || 1) * 20);
   if (severity === "block") score += 1000;
+  if (severity === "quarantine") score += 900;
   if (severity === "review") score += 500;
   if (severity === "watch") score += 250;
   if (status === 404 || status === 410 || status >= 500) score += 300;
@@ -200,7 +201,7 @@ const counts = queue.reduce(
     if (item.host) acc.byHost[item.host] = (acc.byHost[item.host] ?? 0) + 1;
     return acc;
   },
-  { block: 0, review: 0, watch: 0, routine: 0, byReason: {}, byHost: {} }
+  { block: 0, quarantine: 0, review: 0, watch: 0, routine: 0, byReason: {}, byHost: {} }
 );
 
 const report = {
@@ -219,6 +220,7 @@ const report = {
     exposedSoldOutLinks: linkReport.exposedSoldOutLinks ?? 0,
     exposedBrokenLinks: linkReport.exposedBrokenLinks ?? 0,
     blockingRevalidationItems: counts.block,
+    quarantinedRevalidationItems: counts.quarantine,
     userReportedItems: userReportsById.size,
     reviewItems: counts.review,
     watchItems: counts.watch,
@@ -253,6 +255,7 @@ Status: ${report.ok ? "PASS" : "REVIEW REQUIRED"}
 - Exposed sold-out links: ${report.summary.exposedSoldOutLinks}
 - Exposed broken links: ${report.summary.exposedBrokenLinks}
 - Blocking revalidation items: ${report.summary.blockingRevalidationItems}
+- Quarantined hidden items: ${report.summary.quarantinedRevalidationItems}
 - User reported revalidation items: ${report.summary.userReportedItems}
 - Review items: ${report.summary.reviewItems}
 - Watch items: ${report.summary.watchItems}
