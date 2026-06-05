@@ -225,7 +225,7 @@ function RecentOfficialBenefitsPanel({
         {items.length ? items.map((deal) => (
           <a
             key={deal.id}
-            href={deal.finalUrl}
+            href={`/go/news/${deal.id}?from=mypage-recent-benefit`}
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => rememberRecentNewsBenefitId(deal.id)}

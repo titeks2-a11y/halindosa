@@ -139,6 +139,7 @@ const freebiesReport = readJson("reports/freebies-refresh.json", {});
 const eventsReport = readJson("reports/events-refresh.json", {});
 const refreshedDeals = readJson("data/refreshedDeals.json", {});
 const refreshedNews = readJson("data/refreshedNewsDeals.json", {});
+const accountPanelSource = readText("components/AccountPanel.tsx");
 
 const productCandidates = Array.isArray(linkReport.auditedItems) ? linkReport.auditedItems.filter((item) => item.isHidden !== true) : [];
 const newsSnapshotItems = Array.isArray(refreshedNews.allDeals) && refreshedNews.allDeals.length
@@ -164,6 +165,14 @@ assertSourceContains(sourceIssues, "lib/deals/newsDeals.ts", ["isVisibleNewsDeal
 assertSourceContains(sourceIssues, "app/go/[id]/route.ts", ["canOpenDealLink"], "product redirect");
 assertSourceContains(sourceIssues, "lib/deals/newsLinkPolicy.ts", ["canOpenNewsDealLink", "isHomeOnlyUrl"], "news link policy");
 assertSourceContains(sourceIssues, "app/go/news/[id]/route.ts", ["resolveNewsDealDestinationUrl"], "news redirect");
+
+if (accountPanelSource.includes("href={deal.finalUrl}")) {
+  sourceIssues.push("mypage recent official benefits must not bypass /go/news/[id] with direct finalUrl anchors");
+}
+
+if (!accountPanelSource.includes("mypage-recent-benefit") || !accountPanelSource.includes("/go/news/${deal.id}")) {
+  sourceIssues.push("mypage recent official benefits should route through /go/news/[id] for click logging and URL policy checks");
+}
 
 const sliceIssues = [];
 if (freebiesReport.ok !== true) sliceIssues.push("freebies report is not passing");

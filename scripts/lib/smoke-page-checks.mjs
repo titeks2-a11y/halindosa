@@ -9,6 +9,7 @@ const homeRuntimeSource = `${homePageSource}\n${homeApiSource}\n${homeDealGridSo
 const bottomNavigationSource = readFileSync(new URL("../../components/BottomNavigation.tsx", import.meta.url), "utf8");
 const topNavigationSource = readFileSync(new URL("../../components/TopNavigation.tsx", import.meta.url), "utf8");
 const mypageSource = readFileSync(new URL("../../app/mypage/page.tsx", import.meta.url), "utf8");
+const accountPanelSource = readFileSync(new URL("../../components/AccountPanel.tsx", import.meta.url), "utf8");
 
 export async function runPageSmokeChecks() {
   await check("home page", async () => {
@@ -82,6 +83,8 @@ export async function runPageSmokeChecks() {
     assert(text.includes("내 혜택 저장 루틴"), "Mypage missing benefit save routine");
     assert(text.includes("찜한 혜택 다시 보기") && text.includes("최근 본 상품 이어보기"), "Mypage missing saved and recent benefit routine actions");
     assert(text.includes("마이 최근 본 공식 혜택") && text.includes("공식 이벤트와 쿠폰 혜택도 다시 이어봅니다"), "Mypage missing recent official benefit panel");
+    assert(accountPanelSource.includes("mypage-recent-benefit") && accountPanelSource.includes("/go/news/${deal.id}"), "Mypage recent official benefits must use /go/news/[id] redirect");
+    assert(!accountPanelSource.includes("href={deal.finalUrl}"), "Mypage recent official benefits must not link directly to finalUrl");
     assert(text.includes("관심 카테고리 조정") && text.includes("가격 알림 조건 확인"), "Mypage missing interest and alert routine actions");
     assert(text.includes("마이 혜택 수령 난이도") && text.includes("오늘 먼저 챙길 혜택을 쉬운 순서로 정리"), "Mypage missing account claim effort board");
     assert(text.includes("간편 수령") && text.includes("조건 확인") && text.includes("마감 주의"), "Mypage missing account claim effort categories");

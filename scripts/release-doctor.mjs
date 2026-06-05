@@ -684,9 +684,11 @@ async function checkAuthSurface() {
     !accountPanel.includes("readRecentNewsBenefitIds") ||
     !accountPanel.includes("마이 최근 본 공식 혜택") ||
     !accountPanel.includes("공식 이벤트와 쿠폰 혜택도 다시 이어봅니다") ||
+    !accountPanel.includes("mypage-recent-benefit") ||
+    accountPanel.includes("href={deal.finalUrl}") ||
     !smoke.includes("Mypage missing recent official benefit panel")
   ) {
-    fail("member profile settings", "Mypage should let users continue official event/coupon benefits with local fallback.");
+    fail("member profile settings", "Mypage should let users continue official event/coupon benefits through /go/news/[id] with local fallback.");
   } else if (
     !accountPanel.includes("AccountClaimEffortBoard") ||
     !accountPanel.includes("buildClaimEffortSummary") ||
