@@ -661,6 +661,33 @@ await check("admin link launch gate csv", async () => {
   assert(text.includes("policy,exposure_policy") && text.includes("failed_exposure_item,none"), "Link launch gate CSV missing policy or clean failed item evidence");
 });
 
+await check("admin link revalidation priority api", async () => {
+  const { response, data } = await fetchJson("/api/admin/link-revalidation-priority");
+  assert(response.status === 200, `Expected 200, got ${response.status}`);
+  assert(data.ok === true, "Admin link revalidation priority API ok should be true");
+  assert(data.report?.ok === true, "Link revalidation priority report should pass");
+  assert(data.report?.summary?.auditedItems >= 140, "Link revalidation priority should audit all products");
+  assert(data.report?.summary?.publishableItems >= 140, "Link revalidation priority should include the publishable product set");
+  assert(data.report?.summary?.blockingRevalidationItems === 0, "Link revalidation priority should have zero blocking items");
+  assert(data.report?.summary?.exposedSearchLinks === 0, "Link revalidation priority should expose zero search links");
+  assert(data.report?.summary?.exposedSoldOutLinks === 0, "Link revalidation priority should expose zero sold-out links");
+  assert(data.report?.summary?.exposedBrokenLinks === 0, "Link revalidation priority should expose zero broken links");
+  assert(data.report?.summary?.queueItems >= data.report.summary.reviewItems, "Link revalidation priority should expose an operator queue");
+  assert(Array.isArray(data.report?.topQueue), "Link revalidation priority should include top queue rows");
+  assert(data.report?.counts?.byReason && typeof data.report.counts.byReason === "object", "Link revalidation priority should include reason counts");
+});
+
+await check("admin link revalidation priority csv", async () => {
+  const response = await fetch(`${baseUrl}/api/admin/link-revalidation-priority?format=csv`);
+  const text = await response.text();
+  assert(response.status === 200, `Expected 200, got ${response.status}`);
+  assert(response.headers.get("content-type")?.includes("text/csv"), "Link revalidation priority export is not CSV");
+  assert(response.headers.get("x-request-id"), "Link revalidation priority export missing request id");
+  assert(text.startsWith("section,key,label"), "Link revalidation priority CSV header missing");
+  assert(text.includes("summary,blocking_revalidation_items") && text.includes("summary,review_items"), "Link revalidation priority CSV missing summary rows");
+  assert(text.includes("revalidation_queue,") && text.includes("reason_count,"), "Link revalidation priority CSV missing queue or reason rows");
+});
+
 await check("admin notification campaigns api", async () => {
   const { response, data } = await fetchJson("/api/admin/notification-campaigns?includeRows=true");
   assert(response.status === 200, `Expected 200, got ${response.status}`);

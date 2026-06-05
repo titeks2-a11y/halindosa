@@ -74,6 +74,15 @@ export async function runAdminDashboardSmokeChecks() {
         text.includes("reports/link-launch-gate.json"),
       "Admin dashboard missing final link launch gate panel"
     );
+    assert(
+      text.includes("링크 재검증 우선순위") &&
+        text.includes("접근보호 403/429") &&
+        text.includes("재검증 JSON") &&
+        text.includes("재검증 CSV") &&
+        text.includes("오늘 처리할 링크 재검증 큐") &&
+        text.includes("reports/link-revalidation-priority.json"),
+      "Admin dashboard missing link revalidation priority panel"
+    );
     assert(text.includes("링크 검토 필요"), "Admin dashboard missing link review count card");
     assert(text.includes("오늘 처리할 링크 작업"), "Admin dashboard missing link review action summary");
     assert(text.includes("구매 링크 보강 우선순위"), "Admin dashboard missing link review priority summary");

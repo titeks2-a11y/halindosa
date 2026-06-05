@@ -37,6 +37,8 @@ export function buildAdminDashboardHrefs(token: string | null | undefined) {
     exposurePolicyCsvHref: adminHref("/api/admin/exposure-policy?format=csv", token),
     linkLaunchGateApiHref: adminHref("/api/admin/link-launch-gate", token),
     linkLaunchGateCsvHref: adminHref("/api/admin/link-launch-gate?format=csv", token),
+    linkRevalidationPriorityApiHref: adminHref("/api/admin/link-revalidation-priority", token),
+    linkRevalidationPriorityCsvHref: adminHref("/api/admin/link-revalidation-priority?format=csv", token),
     sourceLiveApiHref: adminHref("/api/admin/source-live", token),
     sourceLiveCsvHref: adminHref("/api/admin/source-live?format=csv", token),
     sourceOnboardingApiHref: adminHref("/api/admin/source-onboarding", token),

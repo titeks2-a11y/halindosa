@@ -41,6 +41,7 @@ export async function checkOperationalDataSurfaces() {
     await text("components/AdminNewsCollectionPanel.tsx"),
     await text("components/AdminExposurePolicyPanel.tsx"),
     await text("components/AdminLinkLaunchGatePanel.tsx"),
+    await text("components/AdminLinkRevalidationPriorityPanel.tsx"),
     await text("lib/adminDashboardDerivedData.ts"),
     await text("lib/adminDashboardHrefs.ts")
   ].join("\n");
@@ -846,6 +847,10 @@ export async function checkOperationalDataSurfaces() {
   const linkQualityRegressionScript = await text("scripts/link-quality-regression.mjs");
   const exposureDoctorScript = await text("scripts/exposure-policy-doctor.mjs");
   const refreshDealsScript = await text("scripts/refresh-deals.mjs");
+  const linkRevalidationPriorityScript = await text("scripts/link-revalidation-priority-report.mjs");
+  const linkRevalidationPriorityOperation = await text("lib/operations/linkRevalidationPriority.ts");
+  const linkRevalidationPriorityRoute = await text("app/api/admin/link-revalidation-priority/route.ts");
+  const linkRevalidationPriorityDoc = await text("docs/LINK_REVALIDATION_PRIORITY.md");
   const linkReport = JSON.parse(await text("reports/link-validation.json"));
   const productReport = JSON.parse(await text("reports/product-quality.json"));
   const linkRegressionReportPath = join(root, "reports/link-quality-regression.json");
@@ -853,6 +858,7 @@ export async function checkOperationalDataSurfaces() {
     ? JSON.parse(await text("reports/link-quality-regression.json"))
     : { ok: false, summary: {}, cases: [] };
   const exposureReport = JSON.parse(await text("reports/exposure-policy.json"));
+  const linkRevalidationPriorityReport = JSON.parse(await text("reports/link-revalidation-priority.json"));
   const linkPolicyIssues = [];
 
   for (const key of ["blockedHosts", "searchPatterns", "unavailableTextPatterns", "liveUnavailableTextPatterns", "clientRenderedDetailHosts", "productDetailSignals", "officialBenefitUrlSignals", "exposurePolicy", "launchGate"]) {
@@ -1033,6 +1039,50 @@ export async function checkOperationalDataSurfaces() {
     !exposureReport.syntheticExposureScenarios.results.some((item) => item.id === "synthetic-unsafe-url" && item.issues?.includes("unsafe_protocol_or_invalid_url"))
   ) {
     linkPolicyIssues.push("exposure-policy report should prove synthetic search, unsafe, sold-out, hidden, community, and missing-final-url samples are blocked");
+  }
+  if (
+    !linkRevalidationPriorityScript.includes("link-revalidation-priority.json") ||
+    !linkRevalidationPriorityScript.includes("LINK_REVALIDATION_PRIORITY.md") ||
+    !linkRevalidationPriorityScript.includes("blockingRevalidationItems") ||
+    !linkRevalidationPriorityScript.includes("robots_or_access_blocked") ||
+    !linkRevalidationPriorityScript.includes("http_429") ||
+    !linkRevalidationPriorityScript.includes("official API") ||
+    !linkRevalidationPriorityScript.includes("partner feed")
+  ) {
+    linkPolicyIssues.push("link revalidation priority script should generate JSON/docs and route access-protected links to official API or partner feed review");
+  }
+  if (
+    linkRevalidationPriorityReport.ok !== true ||
+    (linkRevalidationPriorityReport.summary?.auditedItems ?? 0) < 140 ||
+    (linkRevalidationPriorityReport.summary?.publishableItems ?? 0) < 140 ||
+    (linkRevalidationPriorityReport.summary?.blockingRevalidationItems ?? 1) !== 0 ||
+    (linkRevalidationPriorityReport.summary?.exposedSearchLinks ?? 1) !== 0 ||
+    (linkRevalidationPriorityReport.summary?.exposedSoldOutLinks ?? 1) !== 0 ||
+    (linkRevalidationPriorityReport.summary?.exposedBrokenLinks ?? 1) !== 0 ||
+    !Array.isArray(linkRevalidationPriorityReport.topQueue) ||
+    !linkRevalidationPriorityReport.counts?.byReason
+  ) {
+    linkPolicyIssues.push("link revalidation priority report should pass with zero blocking/search/sold-out/broken exposures and operator queue evidence");
+  }
+  if (
+    !linkRevalidationPriorityOperation.includes("getLinkRevalidationPriorityReport") ||
+    !linkRevalidationPriorityOperation.includes("buildLinkRevalidationPriorityCsv") ||
+    !linkRevalidationPriorityRoute.includes("admin-link-revalidation-priority") ||
+    !linkRevalidationPriorityRoute.includes("halindosa-link-revalidation-priority") ||
+    !adminPage.includes("AdminLinkRevalidationPriorityPanel") ||
+    !adminPage.includes("링크 재검증 우선순위") ||
+    !adminPage.includes("접근보호 403/429") ||
+    !adminPage.includes("reports/link-revalidation-priority.json")
+  ) {
+    linkPolicyIssues.push("admin dashboard should expose link revalidation priority JSON/CSV and access-protected review guidance");
+  }
+  if (
+    !linkRevalidationPriorityDoc.includes("Blocking revalidation items") ||
+    !linkRevalidationPriorityDoc.includes("Review items") ||
+    !linkRevalidationPriorityDoc.includes("Watch items") ||
+    !linkRevalidationPriorityDoc.includes("Access-protected 403/429")
+  ) {
+    linkPolicyIssues.push("link revalidation priority docs should explain blocking, review, watch, and access-protected 403/429 handling");
   }
   if ((linkReport.exposedSearchLinks ?? 0) !== 0 || (productReport.searchLinks ?? 0) !== 0) linkPolicyIssues.push("search links should be zero");
   if ((linkReport.exposedSoldOutLinks ?? 0) !== 0 || (productReport.soldOutProducts ?? 0) !== 0) linkPolicyIssues.push("sold-out/ended links should be zero");
