@@ -1,9 +1,9 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-05T17:11:49.658Z",
+  "generatedAt": "2026-06-05T17:30:26.714Z",
   "sourceReports": {
-    "newsDeals": "2026-06-05T17:10:55.159Z",
-    "newsFreshness": "2026-06-05T16:35:22.038Z",
+    "newsDeals": "2026-06-05T17:30:25.608Z",
+    "newsFreshness": "2026-06-05T17:30:26.181Z",
     "officialBenefitAlerts": "2026-06-05T16:38:21.138Z"
   },
   "summary": {
@@ -43,8 +43,8 @@
   "freshness": {
     "status": "fresh",
     "reportAgeHours": 0,
-    "nextRefreshDueAt": "2026-06-05T22:35:21.494Z",
-    "staleAfterAt": "2026-06-06T16:35:21.494Z",
+    "nextRefreshDueAt": "2026-06-05T23:30:25.608Z",
+    "staleAfterAt": "2026-06-06T17:30:25.608Z",
     "expiringWithin14DaysCount": 1,
     "expiringWithin30DaysCount": 5
   },
@@ -68,7 +68,7 @@
       "validationReason": "passed",
       "endDate": "2026-06-15",
       "daysLeft": 9.3,
-      "lastCheckedAt": "2026-06-05T17:10:54.620Z",
+      "lastCheckedAt": "2026-06-05T17:30:24.892Z",
       "severity": "review",
       "reason": "expires_within_14_days",
       "action": "공식 페이지 종료 여부를 확인하고 대체 혜택 후보를 준비하세요.",
@@ -93,7 +93,7 @@
       "validationReason": "passed",
       "endDate": "2026-06-30",
       "daysLeft": 24.3,
-      "lastCheckedAt": "2026-06-05T17:10:54.620Z",
+      "lastCheckedAt": "2026-06-05T17:30:24.892Z",
       "severity": "watch",
       "reason": "expires_within_30_days",
       "action": "30일 이내 종료 가능성이 있어 다음 refresh:news에서 우선 확인",
@@ -118,7 +118,7 @@
       "validationReason": "passed",
       "endDate": "2026-06-30",
       "daysLeft": 24.3,
-      "lastCheckedAt": "2026-06-05T17:10:54.620Z",
+      "lastCheckedAt": "2026-06-05T17:30:24.892Z",
       "severity": "watch",
       "reason": "expires_within_30_days",
       "action": "30일 이내 종료 가능성이 있어 다음 refresh:news에서 우선 확인",
@@ -143,7 +143,7 @@
       "validationReason": "passed",
       "endDate": "2026-06-30",
       "daysLeft": 24.3,
-      "lastCheckedAt": "2026-06-05T17:10:54.620Z",
+      "lastCheckedAt": "2026-06-05T17:30:24.892Z",
       "severity": "watch",
       "reason": "expires_within_30_days",
       "action": "30일 이내 종료 가능성이 있어 다음 refresh:news에서 우선 확인",
@@ -168,7 +168,7 @@
       "validationReason": "passed",
       "endDate": "2026-06-30",
       "daysLeft": 24.3,
-      "lastCheckedAt": "2026-06-05T17:10:54.620Z",
+      "lastCheckedAt": "2026-06-05T17:30:24.892Z",
       "severity": "watch",
       "reason": "expires_within_30_days",
       "action": "30일 이내 종료 가능성이 있어 다음 refresh:news에서 우선 확인",

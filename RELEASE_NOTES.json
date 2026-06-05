@@ -1,8 +1,8 @@
 {
   "generatedBy": "npm run release:notes",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "733744a",
-  "workingTree": "M DEVICE_QA_REPORT.md;  M KNOWN_ISSUES.md;  M PUBLIC_URL_REPORT.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_HANDOFF_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M docs/DEVICE_QA_REPORT.md;  M docs/KNOWN_ISSUES.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_HANDOFF_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md;  M docs/release-evidence.md",
+  "commit": "009d977",
+  "workingTree": "M DEVICE_QA_REPORT.md;  M EXTERNAL_LINK_REPORT.md;  M IMAGE_QUALITY_REPORT.md;  M KNOWN_ISSUES.md;  M LINK_VERIFICATION_REPORT.md;  M LINK_VERIFICATION_RESULT.json;  M PERFORMANCE_REPORT.md;  M PUBLIC_URL_REPORT.md;  M SEARCH_REPORT.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M data/linkValidationExposureOverrides.json;  M data/refreshedDeals.json;  M data/refreshedNewsDeals.json;  M docs/DAILY_OPERATIONS_REPORT.md;  M docs/DEVICE_QA_REPORT.md;  M docs/FEED_TRANSITION_REPORT.md;  M docs/HEALTH_READINESS_REPORT.md;  M docs/KNOWN_ISSUES.md;  M docs/LINK_REVALIDATION_PRIORITY.md;  M docs/NEWS_FEED_CANARY_REPORT.md;  M docs/NEWS_FEED_LIVE_PIPELINE.md;  M docs/NEWS_FEED_PREVIEW_REPORT.md;  M docs/NEWS_FRESHNESS_REPORT.md;  M docs/NEWS_REVALIDATION_PRIORITY.md;  M docs/OFFICIAL_BENEFIT_ALERTS_REPORT.md;  M docs/OFFICIAL_SOURCE_CATALOG.md;  M docs/OFFICIAL_SOURCE_LIVE_CHECK.md;  M docs/PERFORMANCE_REPORT.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/PUSH_DELIVERY_AUDIT.md;  M docs/PUSH_DELIVERY_POLICY.md;  M docs/PUSH_READINESS_REPORT.md;  M docs/SOURCE_FEED_ENV_REPORT.md;  M docs/SOURCE_ONBOARDING_PLAN.md;  M docs/SOURCE_READINESS_REPORT.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md;  M docs/release-evidence.md;  M reports/link-revalidation-priority.json;  M reports/news-revalidation-priority.json",
   "version": "1.0.1",
   "appName": "할인도사",
   "packageName": "com.halindosa.app",
@@ -34,27 +34,27 @@
     {
       "path": "docs/release-evidence.md",
       "status": "present",
-      "bytes": 7409
+      "bytes": 8448
     },
     {
       "path": "docs/STORE_CONSOLE_FIELDS.md",
       "status": "present",
-      "bytes": 3898
+      "bytes": 4833
     },
     {
       "path": "docs/STORE_MANUAL_CHECKLIST.md",
       "status": "present",
-      "bytes": 4382
+      "bytes": 5437
     },
     {
       "path": "docs/STORE_HANDOFF_REPORT.md",
       "status": "present",
-      "bytes": 4654
+      "bytes": 5701
     },
     {
       "path": "docs/STORE_SUBMISSION_REPORT.md",
       "status": "present",
-      "bytes": 4906
+      "bytes": 5986
     },
     {
       "path": "docs/DEVICE_QA_MANIFEST.md",
@@ -73,14 +73,14 @@
     }
   ],
   "recentCommits": [
+    "009d977 feat: add dedicated official benefit refresh slices",
+    "9cfb8ce docs: refresh release evidence for benefit revalidation gate",
     "733744a feat: add official benefit revalidation priority gate",
     "fb879cf docs: refresh release evidence for reported link queue",
     "8c96412 feat: prioritize reported links in revalidation queue",
     "21a436b docs: refresh release evidence for revalidation operations",
     "06714f8 feat: expose link revalidation priority operations",
-    "de34884 docs: refresh release evidence for revalidation report",
-    "38ac907 feat: add link revalidation priority report",
-    "919cdb9 docs: refresh release evidence after link stabilization"
+    "de34884 docs: refresh release evidence for revalidation report"
   ],
   "manualWorkThatMustNotBeFaked": [
     "Do not claim Play Console or App Store Connect submission has passed from this file.",

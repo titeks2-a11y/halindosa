@@ -4,10 +4,10 @@
 
 ## 기본 정보
 
-- 생성 시각: 2026-06-05T17:16:51.035Z
+- 생성 시각: 2026-06-05T17:41:11.192Z
 - Git 브랜치: codex/12h-product-ux-growth-hardening
-- 최신 커밋: 733744a
-- Git 상태: clean
+- 최신 커밋: 009d977
+- Git 상태: M EXTERNAL_LINK_REPORT.md;  M IMAGE_QUALITY_REPORT.md;  M LINK_VERIFICATION_REPORT.md;  M LINK_VERIFICATION_RESULT.json;  M PERFORMANCE_REPORT.md;  M SEARCH_REPORT.md;  M data/linkValidationExposureOverrides.json;  M data/refreshedDeals.json;  M data/refreshedNewsDeals.json;  M docs/DAILY_OPERATIONS_REPORT.md;  M docs/FEED_TRANSITION_REPORT.md;  M docs/HEALTH_READINESS_REPORT.md;  M docs/LINK_REVALIDATION_PRIORITY.md;  M docs/NEWS_FEED_CANARY_REPORT.md;  M docs/NEWS_FEED_LIVE_PIPELINE.md;  M docs/NEWS_FEED_PREVIEW_REPORT.md;  M docs/NEWS_FRESHNESS_REPORT.md;  M docs/NEWS_REVALIDATION_PRIORITY.md;  M docs/OFFICIAL_BENEFIT_ALERTS_REPORT.md;  M docs/OFFICIAL_SOURCE_CATALOG.md;  M docs/OFFICIAL_SOURCE_LIVE_CHECK.md;  M docs/PERFORMANCE_REPORT.md;  M docs/PUSH_DELIVERY_AUDIT.md;  M docs/PUSH_DELIVERY_POLICY.md;  M docs/PUSH_READINESS_REPORT.md;  M docs/SOURCE_FEED_ENV_REPORT.md;  M docs/SOURCE_ONBOARDING_PLAN.md;  M docs/SOURCE_READINESS_REPORT.md;  M reports/link-revalidation-priority.json;  M reports/news-revalidation-priority.json
 - 패키지 버전: 1.0.1
 - 앱 이름: 할인도사
 - 앱 ID / 패키지명: com.halindosa.app
@@ -46,13 +46,13 @@
 | Support playbook JSON | `SUPPORT_PLAYBOOK.json` | 5KB |
 | Known issues report | `docs/KNOWN_ISSUES.md` | 3KB |
 | Known issues report root copy | `KNOWN_ISSUES.md` | 3KB |
-| Store screenshot QA report | `docs/STORE_SCREENSHOTS_REPORT.md` | 3KB |
+| Store screenshot QA report | `docs/STORE_SCREENSHOTS_REPORT.md` | 4KB |
 | Store screenshot manifest | `docs/STORE_SCREENSHOT_MANIFEST.md` | 4KB |
 | Store screenshot manifest JSON | `STORE_SCREENSHOT_MANIFEST.json` | 5KB |
 | Harness report | `docs/HARNESS_REPORT.md` | 20KB |
 | Operational health readiness report | `docs/HEALTH_READINESS_REPORT.md` | 6KB |
 | Operational health readiness JSON | `reports/health-readiness.json` | 11KB |
-| Push readiness report | `docs/PUSH_READINESS_REPORT.md` | 6KB |
+| Push readiness report | `docs/PUSH_READINESS_REPORT.md` | 5KB |
 | Push readiness JSON | `reports/push-readiness.json` | 11KB |
 | Push delivery policy report | `docs/PUSH_DELIVERY_POLICY.md` | 3KB |
 | Push delivery policy JSON | `reports/push-delivery-policy.json` | 5KB |
@@ -62,7 +62,7 @@
 | Official source live check report | `docs/OFFICIAL_SOURCE_LIVE_CHECK.md` | 7KB |
 | Official source live check JSON | `reports/official-source-live-check.json` | 23KB |
 | Official source live check CSV | `reports/official-source-live-check.csv` | 11KB |
-| Official source onboarding plan | `docs/SOURCE_ONBOARDING_PLAN.md` | 13KB |
+| Official source onboarding plan | `docs/SOURCE_ONBOARDING_PLAN.md` | 12KB |
 | Official source onboarding JSON | `reports/source-onboarding-plan.json` | 46KB |
 | Official source onboarding CSV | `reports/source-onboarding-plan.csv` | 12KB |
 | Image backlog report | `docs/IMAGE_BACKLOG_REPORT.md` | 29KB |

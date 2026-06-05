@@ -1,6 +1,6 @@
 # Link Revalidation Priority
 
-Generated: 2026-06-05T16:48:15.905Z
+Generated: 2026-06-05T17:31:49.489Z
 
 Status: PASS
 
@@ -14,9 +14,9 @@ Status: PASS
 - Exposed broken links: 0
 - Blocking revalidation items: 0
 - User reported revalidation items: 0
-- Review items: 75
+- Review items: 77
 - Watch items: 3
-- Queue items: 78
+- Queue items: 80
 
 ## Operating Rule
 
@@ -38,12 +38,14 @@ Customer-visible links stay publishable only when the launch gate has zero expos
 | review | d016 | G마켓 | 농심 신라면 120g X 20봉 | 403 | robots_or_access_blocked | 공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인 |
 | review | d017 | G마켓 | 아이클레보 올인원 로봇청소기 Ultra 365 Max | 403 | robots_or_access_blocked | 공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인 |
 | review | d019 | 오늘의집 | 원목 수납장 3단 | 403 | robots_or_access_blocked | 공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인 |
+| review | d022 | 올리브영 | JMW BLDC 에어원 드라이어 MC4B03C | 403 | robots_or_access_blocked | 공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인 |
 | review | d025 | 올리브영 | 선크림 1+1 기획 | 403 | robots_or_access_blocked | 공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인 |
 | review | d028 | 쿠팡 | 워터픽 나노 패밀리팩 구강세정기 | 403 | robots_or_access_blocked | 공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인 |
 | review | d030 | 쿠팡 | Apple 2025 아이패드 A16 11세대 128GB Wi-Fi | 403 | robots_or_access_blocked | 공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인 |
 | review | d031 | 쿠팡 | 원목 수납장 3단 다용도 월넛 유리 거실장 | 403 | robots_or_access_blocked | 공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인 |
 | review | d034 | G마켓 | 국산 황사방역용 KF94 마스크 대형 100매 | 403 | robots_or_access_blocked | 공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인 |
 | review | d035 | 쿠팡 | 로켓프레시 친환경 토마토 2kg | 403 | robots_or_access_blocked | 공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인 |
+| review | d040 | 올리브영 | 아이보들 CCP 크림 1+1 기획 | 403 | robots_or_access_blocked | 공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인 |
 | review | d043 | G마켓 | ct00 USB C TO C PD 100W GEN2 고속충전케이블 | 403 | robots_or_access_blocked | 공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인 |
 | review | d044 | 옥션 | 국내산 냉동 블루베리 1kg | 403 | robots_or_access_blocked | 공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인 |
 | review | d046 | 쿠팡 | 탐사수 무라벨 2L 24병 | 403 | robots_or_access_blocked | 공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인 |
@@ -54,5 +56,3 @@ Customer-visible links stay publishable only when the launch gate has zero expos
 | review | d085 | 쿠팡 | 하기스 2024 매직컴포트 팬티형 기저귀 5단계 84매 | 403 | robots_or_access_blocked | 공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인 |
 | review | d087 | G마켓 | 맥심 모카골드 리필커피 오리지날 500g | 403 | robots_or_access_blocked | 공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인 |
 | review | d088 | 쿠팡 | 샤오미 미밴드 9 스마트밴드 | 403 | robots_or_access_blocked | 공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인 |
-| review | d089 | G마켓 | 홈매트 리퀴드 홈솔루션 훈증기 + 리필 2입 3개 | 403 | robots_or_access_blocked | 공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인 |
-| review | d091 | 쿠팡 | 탐사수 1L 12개입 생수 | 403 | robots_or_access_blocked | 공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인 |
