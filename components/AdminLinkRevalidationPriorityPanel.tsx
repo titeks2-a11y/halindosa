@@ -52,10 +52,10 @@ export function AdminLinkRevalidationPriorityPanel({ apiHref, csvHref, report }:
         {[
           ["노출 가능", report.summary.publishableItems, "고객 공개 후보"],
           ["차단 재검증", report.summary.blockingRevalidationItems, "항상 0"],
+          ["신고 우선", report.summary.userReportedItems ?? 0, "미처리 신고"],
           ["검토", report.summary.reviewItems, "403/429 등"],
           ["관찰", report.summary.watchItems, "일시 실패"],
-          ["운영 큐", report.summary.queueItems, "우선 처리"],
-          ["숨김", report.summary.hiddenItems, "복구 전 검증"]
+          ["운영 큐", report.summary.queueItems, "우선 처리"]
         ].map(([label, value, description]) => (
           <div key={label} className="rounded-2xl bg-amber-50 p-4">
             <p className="text-xs font-black text-amber-700">{label}</p>
@@ -119,6 +119,11 @@ export function AdminLinkRevalidationPriorityPanel({ apiHref, csvHref, report }:
                     <p className="mt-1 text-xs font-bold text-slate-500">
                       {item.mallName} · {item.host} · {item.liveStatus ?? "n/a"} · {item.liveReason}
                     </p>
+                    {item.userReportCount ? (
+                      <p className="mt-1 text-xs font-black text-dossa-red">
+                        사용자 신고 {item.userReportCount}건 · {item.userReportReason}
+                      </p>
+                    ) : null}
                   </div>
                   <span className={`shrink-0 rounded-full px-2.5 py-1 text-[11px] font-black ring-1 ${severityClassNames[item.severity] ?? severityClassNames.routine}`}>
                     {item.severity}

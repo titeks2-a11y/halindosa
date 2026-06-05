@@ -1043,6 +1043,8 @@ export async function checkOperationalDataSurfaces() {
   if (
     !linkRevalidationPriorityScript.includes("link-revalidation-priority.json") ||
     !linkRevalidationPriorityScript.includes("LINK_REVALIDATION_PRIORITY.md") ||
+    !linkRevalidationPriorityScript.includes("dealReports.local.json") ||
+    !linkRevalidationPriorityScript.includes("user_report_") ||
     !linkRevalidationPriorityScript.includes("blockingRevalidationItems") ||
     !linkRevalidationPriorityScript.includes("robots_or_access_blocked") ||
     !linkRevalidationPriorityScript.includes("http_429") ||
@@ -1059,6 +1061,7 @@ export async function checkOperationalDataSurfaces() {
     (linkRevalidationPriorityReport.summary?.exposedSearchLinks ?? 1) !== 0 ||
     (linkRevalidationPriorityReport.summary?.exposedSoldOutLinks ?? 1) !== 0 ||
     (linkRevalidationPriorityReport.summary?.exposedBrokenLinks ?? 1) !== 0 ||
+    typeof linkRevalidationPriorityReport.summary?.userReportedItems !== "number" ||
     !Array.isArray(linkRevalidationPriorityReport.topQueue) ||
     !linkRevalidationPriorityReport.counts?.byReason
   ) {
@@ -1071,6 +1074,7 @@ export async function checkOperationalDataSurfaces() {
     !linkRevalidationPriorityRoute.includes("halindosa-link-revalidation-priority") ||
     !adminPage.includes("AdminLinkRevalidationPriorityPanel") ||
     !adminPage.includes("링크 재검증 우선순위") ||
+    !adminPage.includes("신고 우선") ||
     !adminPage.includes("접근보호 403/429") ||
     !adminPage.includes("reports/link-revalidation-priority.json")
   ) {

@@ -17,6 +17,9 @@ export interface LinkRevalidationQueueItem {
   evidenceTier: string;
   liveStatus: number | null;
   liveReason: string;
+  userReportReason?: string;
+  userReportCount?: number;
+  userReportedAt?: string;
   contentMatch: boolean;
   priceSignal: boolean;
   purchaseActionSignal: boolean;
@@ -42,6 +45,7 @@ export interface LinkRevalidationPriorityReport {
     exposedSoldOutLinks: number;
     exposedBrokenLinks: number;
     blockingRevalidationItems: number;
+    userReportedItems?: number;
     reviewItems: number;
     watchItems: number;
     routineItems: number;
@@ -95,6 +99,7 @@ const fallbackReport: LinkRevalidationPriorityReport = {
     exposedSoldOutLinks: 0,
     exposedBrokenLinks: 0,
     blockingRevalidationItems: 0,
+    userReportedItems: 0,
     reviewItems: 0,
     watchItems: 0,
     routineItems: 0,
@@ -141,6 +146,7 @@ export function buildLinkRevalidationPriorityCsv(report: LinkRevalidationPriorit
     ["exposed_sold_out_links", "품절/종료 노출", report.summary.exposedSoldOutLinks, report.summary.exposedSoldOutLinks === 0 ? "pass" : "block", "품절/종료 링크 노출", "availability=sold_out"],
     ["exposed_broken_links", "깨진 링크 노출", report.summary.exposedBrokenLinks, report.summary.exposedBrokenLinks === 0 ? "pass" : "block", "404/5xx/invalid 노출", "상세 URL 교체"],
     ["blocking_revalidation_items", "차단 재검증", report.summary.blockingRevalidationItems, report.summary.blockingRevalidationItems === 0 ? "pass" : "block", "즉시 노출 차단 대상", "출시 전 처리"],
+    ["user_reported_items", "신고 우선 재검증", report.summary.userReportedItems ?? 0, (report.summary.userReportedItems ?? 0) === 0 ? "pass" : "review", "미처리 사용자 신고 기반 우선순위", "판매처 상세/품절/종료 우선 확인"],
     ["review_items", "검토 재검증", report.summary.reviewItems, report.summary.reviewItems === 0 ? "pass" : "review", "403/429 등 접근보호", "공식 API/제휴 피드/실기기 확인"],
     ["watch_items", "관찰 재검증", report.summary.watchItems, report.summary.watchItems === 0 ? "pass" : "watch", "일시 네트워크/timeout", "다음 refresh에서 우선 확인"],
     ["queue_items", "재검증 큐", report.summary.queueItems, report.ok ? "pass" : "review", "운영자 처리 후보", "우선순위 순 처리"]
@@ -159,6 +165,9 @@ export function buildLinkRevalidationPriorityCsv(report: LinkRevalidationPriorit
     severity: "",
     liveStatus: "",
     liveReason: "",
+    userReportReason: "",
+    userReportCount: "",
+    userReportedAt: "",
     finalUrl: "",
     generatedAt: report.generatedAt
   }));
@@ -175,6 +184,9 @@ export function buildLinkRevalidationPriorityCsv(report: LinkRevalidationPriorit
           finalUrl: "",
           liveStatus: null,
           liveReason: "",
+          userReportReason: "",
+          userReportCount: 0,
+          userReportedAt: "",
           priority: 0,
           severity: "routine",
           action: "현 상태 유지"
@@ -195,6 +207,9 @@ export function buildLinkRevalidationPriorityCsv(report: LinkRevalidationPriorit
     severity: item.severity,
     liveStatus: item.liveStatus ?? "",
     liveReason: item.liveReason,
+    userReportReason: item.userReportReason ?? "",
+    userReportCount: item.userReportCount ?? 0,
+    userReportedAt: item.userReportedAt ?? "",
     finalUrl: item.finalUrl,
     generatedAt: report.generatedAt
   }));
@@ -214,6 +229,9 @@ export function buildLinkRevalidationPriorityCsv(report: LinkRevalidationPriorit
     severity: "",
     liveStatus: "",
     liveReason: reason,
+    userReportReason: "",
+    userReportCount: "",
+    userReportedAt: "",
     finalUrl: "",
     generatedAt: report.generatedAt
   }));

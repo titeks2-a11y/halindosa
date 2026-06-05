@@ -26,7 +26,51 @@ function normalizeReason(value) {
   return String(value || "routine_rotation_review").trim() || "routine_rotation_review";
 }
 
-function classify(item, liveFailure) {
+function readOpenUserRevalidationReports() {
+  const localReports = readJson("data/dealReports.local.json")?.reports ?? [];
+  const operationOverrides = readJson("data/dealOperationOverrides.local.json") ?? {};
+  const candidates = new Map();
+  const revalidationReasons = new Set(["link_error", "sold_out", "expired"]);
+
+  for (const report of Array.isArray(localReports) ? localReports : []) {
+    const dealId = String(report.dealId || "").trim();
+    const reason = String(report.reason || "").trim();
+    const status = String(report.status || "open").trim();
+    if (!dealId || !revalidationReasons.has(reason) || !["open", "reviewing"].includes(status)) continue;
+
+    const previous = candidates.get(dealId);
+    candidates.set(dealId, {
+      id: dealId,
+      reason: `user_report_${reason}`,
+      status,
+      reportedAt: report.updatedAt || report.receivedAt || new Date().toISOString(),
+      reportCount: (previous?.reportCount ?? 0) + 1
+    });
+  }
+
+  for (const [dealId, entry] of Object.entries(operationOverrides.revalidate ?? {})) {
+    if (!dealId || operationOverrides.hidden?.[dealId]) continue;
+    const previous = candidates.get(dealId);
+    candidates.set(dealId, {
+      id: dealId,
+      reason: entry?.reason || previous?.reason || "operator_revalidation",
+      status: previous?.status || "reviewing",
+      reportedAt: entry?.updatedAt || previous?.reportedAt || new Date().toISOString(),
+      reportCount: previous?.reportCount ?? 1
+    });
+  }
+
+  return candidates;
+}
+
+function classify(item, liveFailure, userReport) {
+  if (userReport) {
+    return {
+      severity: "review",
+      action: "사용자 신고가 접수된 링크입니다. 판매처 상세 페이지, 품절/종료 여부, 최종 가격을 우선 재검증"
+    };
+  }
+
   const reason = normalizeReason(liveFailure?.reason || item.revalidationReason || item.validationReason);
   const status = Number(liveFailure?.status || item.liveProbe?.status || 0);
 
@@ -78,12 +122,13 @@ function classify(item, liveFailure) {
   };
 }
 
-function scoreFor(item, liveFailure, severity) {
+function scoreFor(item, liveFailure, severity, userReport) {
   const base = Number(item.revalidationPriority ?? item.priorityScore ?? 0);
   const status = Number(liveFailure?.status || item.liveProbe?.status || 0);
   const reason = normalizeReason(liveFailure?.reason || item.revalidationReason || item.validationReason);
   let score = 100 - Math.min(100, base);
 
+  if (userReport) score += 850 + Math.min(120, Number(userReport.reportCount || 1) * 20);
   if (severity === "block") score += 1000;
   if (severity === "review") score += 500;
   if (severity === "watch") score += 250;
@@ -109,12 +154,14 @@ if (!linkReport || !Array.isArray(linkReport.auditedItems)) {
 
 const liveFailuresById = new Map((linkReport.liveProbe?.failures ?? []).map((item) => [item.id, item]));
 const auditedItems = linkReport.auditedItems;
+const userReportsById = readOpenUserRevalidationReports();
 
 const queue = auditedItems
   .map((item) => {
     const liveFailure = liveFailuresById.get(item.id);
-    const classification = classify(item, liveFailure);
-    const reason = normalizeReason(liveFailure?.reason || item.revalidationReason || item.validationReason);
+    const userReport = userReportsById.get(item.id);
+    const classification = classify(item, liveFailure, userReport);
+    const reason = userReport?.reason || normalizeReason(liveFailure?.reason || item.revalidationReason || item.validationReason);
 
     return {
       id: item.id,
@@ -131,11 +178,14 @@ const queue = auditedItems
       evidenceTier: item.verificationEvidenceTier || "",
       liveStatus: liveFailure?.status ?? item.liveProbe?.status ?? null,
       liveReason: reason,
+      userReportReason: userReport?.reason ?? "",
+      userReportCount: userReport?.reportCount ?? 0,
+      userReportedAt: userReport?.reportedAt ?? "",
       contentMatch: item.checks?.contentMatch === true,
       priceSignal: item.checks?.priceSignal === true,
       purchaseActionSignal: item.checks?.purchaseActionSignal === true,
       lastCheckedAt: item.lastCheckedAt,
-      priority: scoreFor(item, liveFailure, classification.severity),
+      priority: scoreFor(item, liveFailure, classification.severity, userReport),
       severity: classification.severity,
       action: classification.action
     };
@@ -169,6 +219,7 @@ const report = {
     exposedSoldOutLinks: linkReport.exposedSoldOutLinks ?? 0,
     exposedBrokenLinks: linkReport.exposedBrokenLinks ?? 0,
     blockingRevalidationItems: counts.block,
+    userReportedItems: userReportsById.size,
     reviewItems: counts.review,
     watchItems: counts.watch,
     routineItems: counts.routine,
@@ -202,6 +253,7 @@ Status: ${report.ok ? "PASS" : "REVIEW REQUIRED"}
 - Exposed sold-out links: ${report.summary.exposedSoldOutLinks}
 - Exposed broken links: ${report.summary.exposedBrokenLinks}
 - Blocking revalidation items: ${report.summary.blockingRevalidationItems}
+- User reported revalidation items: ${report.summary.userReportedItems}
 - Review items: ${report.summary.reviewItems}
 - Watch items: ${report.summary.watchItems}
 - Queue items: ${report.summary.queueItems}

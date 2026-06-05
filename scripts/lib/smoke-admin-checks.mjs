@@ -79,6 +79,7 @@ export async function runAdminDashboardSmokeChecks() {
         text.includes("접근보호 403/429") &&
         text.includes("재검증 JSON") &&
         text.includes("재검증 CSV") &&
+        text.includes("신고 우선") &&
         text.includes("오늘 처리할 링크 재검증 큐") &&
         text.includes("reports/link-revalidation-priority.json"),
       "Admin dashboard missing link revalidation priority panel"

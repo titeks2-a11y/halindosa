@@ -669,6 +669,7 @@ await check("admin link revalidation priority api", async () => {
   assert(data.report?.summary?.auditedItems >= 140, "Link revalidation priority should audit all products");
   assert(data.report?.summary?.publishableItems >= 140, "Link revalidation priority should include the publishable product set");
   assert(data.report?.summary?.blockingRevalidationItems === 0, "Link revalidation priority should have zero blocking items");
+  assert(typeof data.report?.summary?.userReportedItems === "number", "Link revalidation priority should expose user-reported revalidation items");
   assert(data.report?.summary?.exposedSearchLinks === 0, "Link revalidation priority should expose zero search links");
   assert(data.report?.summary?.exposedSoldOutLinks === 0, "Link revalidation priority should expose zero sold-out links");
   assert(data.report?.summary?.exposedBrokenLinks === 0, "Link revalidation priority should expose zero broken links");
