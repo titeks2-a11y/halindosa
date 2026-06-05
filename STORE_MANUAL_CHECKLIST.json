@@ -1,8 +1,8 @@
 {
   "generatedBy": "npm run store:manual:checklist",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "5fc19fd",
-  "workingTree": "M DEVICE_QA_REPORT.md;  M STORE_SCREENSHOTS_REPORT.md;  M docs/DEVICE_QA_REPORT.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/release-evidence.md",
+  "commit": "6d81de3",
+  "workingTree": "M docs/release-evidence.md",
   "appName": "할인도사",
   "version": "1.0.1",
   "packageName": "com.halindosa.app",
@@ -101,7 +101,7 @@
     {
       "path": "docs/STORE_CONSOLE_FIELDS.md",
       "status": "present",
-      "bytes": 3731
+      "bytes": 3867
     },
     {
       "path": "docs/STORE_HANDOFF_REPORT.md",
@@ -111,7 +111,7 @@
     {
       "path": "docs/STORE_SUBMISSION_REPORT.md",
       "status": "present",
-      "bytes": 4806
+      "bytes": 4836
     },
     {
       "path": "docs/DEVICE_QA_MANIFEST.md",
@@ -126,7 +126,7 @@
     {
       "path": "docs/PUBLIC_URL_REPORT.md",
       "status": "present",
-      "bytes": 2405
+      "bytes": 2281
     },
     {
       "path": "docs/release-evidence.md",
