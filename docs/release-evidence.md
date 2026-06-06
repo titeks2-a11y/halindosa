@@ -4,9 +4,9 @@
 
 ## 기본 정보
 
-- 생성 시각: 2026-06-06T06:49:48.020Z
+- 생성 시각: 2026-06-06T07:15:00.984Z
 - Git 브랜치: codex/12h-product-ux-growth-hardening
-- 최신 커밋: b0c0d70
+- 최신 커밋: c68bf0f
 - Git 상태: clean
 - 패키지 버전: 1.0.1
 - 앱 이름: 할인도사
@@ -40,7 +40,7 @@
 | Store manual submission checklist | `docs/STORE_MANUAL_CHECKLIST.md` | 4KB |
 | Store manual submission checklist JSON | `STORE_MANUAL_CHECKLIST.json` | 5KB |
 | Store launch handoff report | `docs/STORE_HANDOFF_REPORT.md` | 5KB |
-| Release notes | `docs/RELEASE_NOTES.md` | 5KB |
+| Release notes | `docs/RELEASE_NOTES.md` | 4KB |
 | Release notes JSON | `RELEASE_NOTES.json` | 5KB |
 | Support playbook | `docs/SUPPORT_PLAYBOOK.md` | 6KB |
 | Support playbook JSON | `SUPPORT_PLAYBOOK.json` | 5KB |
@@ -60,11 +60,11 @@
 | Official benefit alert JSON | `reports/official-benefit-alerts.json` | 29KB |
 | Link quality regression JSON | `reports/link-quality-regression.json` | 7KB |
 | Official source live check report | `docs/OFFICIAL_SOURCE_LIVE_CHECK.md` | 7KB |
-| Official source live check JSON | `reports/official-source-live-check.json` | 23KB |
-| Official source live check CSV | `reports/official-source-live-check.csv` | 11KB |
-| Official source onboarding plan | `docs/SOURCE_ONBOARDING_PLAN.md` | 12KB |
-| Official source onboarding JSON | `reports/source-onboarding-plan.json` | 46KB |
-| Official source onboarding CSV | `reports/source-onboarding-plan.csv` | 12KB |
+| Official source live check JSON | `reports/official-source-live-check.json` | 26KB |
+| Official source live check CSV | `reports/official-source-live-check.csv` | 13KB |
+| Official source onboarding plan | `docs/SOURCE_ONBOARDING_PLAN.md` | 13KB |
+| Official source onboarding JSON | `reports/source-onboarding-plan.json` | 50KB |
+| Official source onboarding CSV | `reports/source-onboarding-plan.csv` | 13KB |
 | Image backlog report | `docs/IMAGE_BACKLOG_REPORT.md` | 29KB |
 | Image backlog CSV | `IMAGE_BACKLOG.csv` | 109KB |
 | Image backlog next batch CSV | `IMAGE_BACKLOG_NEXT_BATCH.csv` | 26KB |
