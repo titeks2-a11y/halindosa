@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-06T07:10:30.999Z",
+  "generatedAt": "2026-06-06T07:27:44.072Z",
   "criteria": {
     "reportsPresent": true,
     "minimumAuditedItems": 140,
@@ -69,11 +69,11 @@
     }
   },
   "sourceReports": {
-    "linkValidation": "2026-06-06T07:10:28.413Z",
-    "productQuality": "2026-06-06T07:10:28.946Z",
-    "exposurePolicy": "2026-06-06T07:10:30.004Z",
-    "refreshDeals": "2026-06-06T07:09:11.895Z",
-    "liveProbeReview": "2026-06-06T07:06:20.746Z"
+    "linkValidation": "2026-06-06T07:27:41.406Z",
+    "productQuality": "2026-06-06T07:27:41.948Z",
+    "exposurePolicy": "2026-06-06T07:27:43.014Z",
+    "refreshDeals": "2026-06-06T07:26:25.045Z",
+    "liveProbeReview": "2026-06-06T07:10:31.999Z"
   },
   "linkTypeCounts": {
     "direct_purchase": 110,

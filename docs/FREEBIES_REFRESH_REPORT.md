@@ -1,12 +1,12 @@
 # 무료혜택 Refresh Report
 
-Generated: 2026-06-06T07:11:33.695Z
+Generated: 2026-06-06T07:28:49.129Z
 
 ## Summary
 
 - Mode: freebies
-- Matched items: 12
-- Visible official items: 12
+- Matched items: 16
+- Visible official items: 16
 - Hidden/blocked items: 0
 - Exposed search links: 0
 - Exposed non-official links: 0
@@ -35,6 +35,9 @@ All visible rows must keep `/go/news/[id]` redirect tracking and must resolve to
 | news-lpoint-card-events | L.POINT 공식 카드 이벤트 | L.POINT 공식 이벤트 | 카드/멤버십 | m.lpoint.com | `/go/news/news-lpoint-card-events` |
 | news-visitkorea-travel-benefit | 한국관광공사 공식 여행 혜택 | 대한민국 구석구석 공식 혜택 | 정부/공공혜택 | korean.visitkorea.or.kr | `/go/news/news-visitkorea-travel-benefit` |
 | news-baemin-academy-free-event | 배민아카데미 공식 무료 교육 이벤트 | 배민아카데미 공식 이벤트 | 무료혜택 | academy.baemin.com | `/go/news/news-baemin-academy-free-event` |
+| news-happypoint-alliance-discount | 해피포인트 공식 제휴사 차감 할인 혜택 | 해피포인트 공식 제휴사 안내 | 카드/멤버십 | happypointcard.com | `/go/news/news-happypoint-alliance-discount` |
+| news-happypoint-mobile-coupon | 해피포인트 공식 모바일 쿠폰 안내 | 해피포인트 공식 쿠폰 | 무료혜택 | happypointcard.com | `/go/news/news-happypoint-mobile-coupon` |
+| news-okcashbag-point-event | OK캐쉬백 공식 포인트 이벤트 혜택 | OK캐쉬백 공식 이벤트 | 카드/멤버십 | okcashbag.com | `/go/news/news-okcashbag-point-event` |
 
 ## Blocked Items
 

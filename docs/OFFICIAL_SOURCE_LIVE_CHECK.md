@@ -2,10 +2,10 @@
 
 이 문서는 공식 이벤트/혜택 소스 후보의 현재 접근 상태를 non-strict 방식으로 기록합니다. 무단 크롤링을 수행하지 않으며, 보호된 페이지는 공식 API/RSS/제휴 feed 또는 수동 승인 데이터로 연결해야 합니다.
 
-- 생성 시각: 2026-06-06T07:10:34.205Z
+- 생성 시각: 2026-06-06T07:27:51.672Z
 - 모드: non_strict_live_readiness
-- 후보 소스: 35개
-- 접근 가능: 31개
+- 후보 소스: 40개
+- 접근 가능: 36개
 - 보호/권한 확인 필요: 4개
 - 검토 필요: 0개
 - timeout/network error: 0개
@@ -22,7 +22,7 @@
 
 | 상태 | 수 | 운영 액션 |
 | --- | ---: | --- |
-| reachable | 31 | 승인 feed 또는 공식 페이지 매핑 후보로 유지 |
+| reachable | 36 | 승인 feed 또는 공식 페이지 매핑 후보로 유지 |
 | guarded | 4 | 공식 API/RSS/제휴 feed 확인 |
 | needs_review | 0 | 최종 도메인과 응답 정책 수동 확인 |
 | timeout/network_error | 0 | 재시도 또는 담당자 확인 |
@@ -67,6 +67,11 @@
 | lotteeatz-monthly-coupon | official_event | high | reachable | 200 | lotteeatz.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | krispykreme-wednesday-event | official_event | medium | reachable | 200 | lotteeatz.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | baskinrobbins-events | official_event | medium | reachable | 200 | baskinrobbins.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| happypoint-alliance-benefits | public_coupon | high | reachable | 200 | happypointcard.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| happypoint-mobile-coupon | public_coupon | medium | reachable | 200 | happypointcard.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| okcashbag-event-benefits | public_coupon | high | reachable | 200 | okcashbag.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| okcashbag-brand-events | public_coupon | medium | reachable | 200 | okcashbag.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| parisbaguette-promotion | official_event | medium | reachable | 200 | paris.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 
 ## 다음 작업
 

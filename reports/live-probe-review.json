@@ -1,8 +1,8 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-06T07:10:31.999Z",
+  "generatedAt": "2026-06-06T07:27:45.115Z",
   "sourceReport": "reports/link-validation.json",
-  "sourceGeneratedAt": "2026-06-06T07:10:28.413Z",
+  "sourceGeneratedAt": "2026-06-06T07:27:41.406Z",
   "summary": {
     "totalDeals": 140,
     "publishableDeals": 140,
@@ -2280,7 +2280,7 @@
       "purchaseActionSignal": false,
       "lastCheckedAt": "2026-06-01T08:30:00.000Z",
       "manualEvidenceStatus": "fresh",
-      "manualEvidenceAgeDays": 4.9,
+      "manualEvidenceAgeDays": 5,
       "manualEvidenceFresh": true,
       "severity": "watch",
       "retryMode": "network_retry",

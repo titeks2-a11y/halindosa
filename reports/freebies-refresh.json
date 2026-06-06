@@ -1,35 +1,37 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-06T07:11:33.695Z",
+  "generatedAt": "2026-06-06T07:28:49.129Z",
   "mode": "freebies",
   "label": "무료혜택",
-  "sourceSnapshotGeneratedAt": "2026-06-06T07:11:08.072Z",
-  "sourceReportGeneratedAt": "2026-06-06T07:11:33.597Z",
-  "totalOfficialBenefits": 46,
-  "matchedCount": 12,
-  "visibleCount": 12,
+  "sourceSnapshotGeneratedAt": "2026-06-06T07:28:24.912Z",
+  "sourceReportGeneratedAt": "2026-06-06T07:28:49.034Z",
+  "totalOfficialBenefits": 51,
+  "matchedCount": 16,
+  "visibleCount": 16,
   "hiddenOrBlockedCount": 0,
   "exposedSearchLinks": 0,
   "exposedNonOfficialLinks": 0,
   "minimumVisible": 5,
   "categoryCounts": {
-    "카드/멤버십": 4,
+    "카드/멤버십": 6,
+    "무료혜택": 4,
     "정부/공공혜택": 3,
-    "무료혜택": 2,
     "영화/문화": 1,
     "외식/배달": 1,
     "패션/뷰티": 1
   },
   "benefitTypeCounts": {
+    "coupon": 4,
     "public": 4,
-    "coupon": 2,
-    "membership": 2,
+    "membership": 3,
     "card": 1,
     "culture": 1,
     "freebie": 1,
-    "freeShipping": 1
+    "freeShipping": 1,
+    "point": 1
   },
   "sourceCounts": {
+    "OK캐쉬백 공식 이벤트": 2,
     "네이버페이 공식 혜택": 1,
     "대한민국 구석구석 공식 혜택": 1,
     "문화가 있는 날 공식": 1,
@@ -38,6 +40,8 @@
     "배민아카데미 공식 이벤트": 1,
     "올리브영 공식 이벤트": 1,
     "지역문화통합정보시스템": 1,
+    "해피포인트 공식 제휴사 안내": 1,
+    "해피포인트 공식 쿠폰": 1,
     "CJ ONE 공식 이벤트": 1,
     "KFC 공식 프로모션": 1,
     "L.POINT 공식 이벤트": 1,
@@ -47,11 +51,13 @@
     "academy.baemin.com",
     "cjone.com",
     "culture.go.kr",
+    "happypointcard.com",
     "kfckorea.com",
     "korean.visitkorea.or.kr",
     "m.lpoint.com",
     "mnuri.kr",
     "new-m.pay.naver.com",
+    "okcashbag.com",
     "oliveyoung.co.kr"
   ],
   "topItems": [
@@ -66,7 +72,7 @@
       "finalUrl": "https://www.culture.go.kr/wday/main/main.do",
       "redirectUrl": "/go/news/news-culture-day-programs-2026",
       "endDate": "2026-12-30",
-      "lastCheckedAt": "2026-06-06T07:11:08.072Z"
+      "lastCheckedAt": "2026-06-06T07:28:24.912Z"
     },
     {
       "id": "news-culture-day-weekly-2026",
@@ -79,7 +85,7 @@
       "finalUrl": "https://www.culture.go.kr/local/wday/cltrDay.do",
       "redirectUrl": "/go/news/news-culture-day-weekly-2026",
       "endDate": "2026-12-30",
-      "lastCheckedAt": "2026-06-06T07:11:08.072Z"
+      "lastCheckedAt": "2026-06-06T07:28:24.912Z"
     },
     {
       "id": "news-cjone-official-mobile-events",
@@ -92,7 +98,7 @@
       "finalUrl": "https://www.cjone.com/cjmmobile/event/event.do",
       "redirectUrl": "/go/news/news-cjone-official-mobile-events",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-06T07:11:08.072Z"
+      "lastCheckedAt": "2026-06-06T07:28:24.912Z"
     },
     {
       "id": "news-oliveyoung-official-events",
@@ -105,7 +111,7 @@
       "finalUrl": "https://www.oliveyoung.co.kr/store/main/getEventList.do",
       "redirectUrl": "/go/news/news-oliveyoung-official-events",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-06T07:11:08.072Z"
+      "lastCheckedAt": "2026-06-06T07:28:24.912Z"
     },
     {
       "id": "news-kfc-delivery-free-official",
@@ -118,7 +124,7 @@
       "finalUrl": "https://www.kfckorea.com/promotion/promotionList/detail/1053",
       "redirectUrl": "/go/news/news-kfc-delivery-free-official",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-06T07:11:08.072Z"
+      "lastCheckedAt": "2026-06-06T07:28:24.912Z"
     },
     {
       "id": "news-naverpay-event-benefit",
@@ -131,7 +137,7 @@
       "finalUrl": "https://new-m.pay.naver.com/pcpay/eventbenefit",
       "redirectUrl": "/go/news/news-naverpay-event-benefit",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-06T07:11:08.072Z"
+      "lastCheckedAt": "2026-06-06T07:28:24.912Z"
     },
     {
       "id": "news-mnuri-official-benefit",
@@ -144,7 +150,7 @@
       "finalUrl": "https://www.mnuri.kr/main/main.do",
       "redirectUrl": "/go/news/news-mnuri-official-benefit",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-06T07:11:08.072Z"
+      "lastCheckedAt": "2026-06-06T07:28:24.912Z"
     },
     {
       "id": "news-mnuri-online-merchant-benefit",
@@ -157,7 +163,7 @@
       "finalUrl": "https://www.mnuri.kr/useOfCard/onlineMerchants.do",
       "redirectUrl": "/go/news/news-mnuri-online-merchant-benefit",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-06T07:11:08.072Z"
+      "lastCheckedAt": "2026-06-06T07:28:24.912Z"
     },
     {
       "id": "news-lpoint-official-benefits",
@@ -170,7 +176,7 @@
       "finalUrl": "https://m.lpoint.com/index.jsp?tabIndex=1",
       "redirectUrl": "/go/news/news-lpoint-official-benefits",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-06T07:11:08.072Z"
+      "lastCheckedAt": "2026-06-06T07:28:24.912Z"
     },
     {
       "id": "news-lpoint-card-events",
@@ -183,7 +189,7 @@
       "finalUrl": "https://m.lpoint.com/app/asset/LWCE100100.do?fnTapPmotC=85",
       "redirectUrl": "/go/news/news-lpoint-card-events",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-06T07:11:08.072Z"
+      "lastCheckedAt": "2026-06-06T07:28:24.912Z"
     },
     {
       "id": "news-visitkorea-travel-benefit",
@@ -196,7 +202,7 @@
       "finalUrl": "https://korean.visitkorea.or.kr/other/otherService.do?otdid=46a412aa-0b3b-11ea-869b-020027310001",
       "redirectUrl": "/go/news/news-visitkorea-travel-benefit",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-06T07:11:08.072Z"
+      "lastCheckedAt": "2026-06-06T07:28:24.912Z"
     },
     {
       "id": "news-baemin-academy-free-event",
@@ -209,7 +215,59 @@
       "finalUrl": "https://academy.baemin.com/event/list",
       "redirectUrl": "/go/news/news-baemin-academy-free-event",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-06T07:11:08.072Z"
+      "lastCheckedAt": "2026-06-06T07:28:24.912Z"
+    },
+    {
+      "id": "news-happypoint-alliance-discount",
+      "title": "해피포인트 공식 제휴사 차감 할인 혜택",
+      "merchant": "해피포인트",
+      "category": "카드/멤버십",
+      "benefitType": "membership",
+      "sourceName": "해피포인트 공식 제휴사 안내",
+      "host": "happypointcard.com",
+      "finalUrl": "https://www.happypointcard.com/alliance/service/guide.spc",
+      "redirectUrl": "/go/news/news-happypoint-alliance-discount",
+      "endDate": "2026-12-31",
+      "lastCheckedAt": "2026-06-06T07:28:24.912Z"
+    },
+    {
+      "id": "news-happypoint-mobile-coupon",
+      "title": "해피포인트 공식 모바일 쿠폰 안내",
+      "merchant": "해피포인트",
+      "category": "무료혜택",
+      "benefitType": "coupon",
+      "sourceName": "해피포인트 공식 쿠폰",
+      "host": "happypointcard.com",
+      "finalUrl": "https://www.happypointcard.com/coupon/coupon.spc",
+      "redirectUrl": "/go/news/news-happypoint-mobile-coupon",
+      "endDate": "2026-12-31",
+      "lastCheckedAt": "2026-06-06T07:28:24.912Z"
+    },
+    {
+      "id": "news-okcashbag-point-event",
+      "title": "OK캐쉬백 공식 포인트 이벤트 혜택",
+      "merchant": "OK캐쉬백",
+      "category": "카드/멤버십",
+      "benefitType": "point",
+      "sourceName": "OK캐쉬백 공식 이벤트",
+      "host": "okcashbag.com",
+      "finalUrl": "https://www.okcashbag.com/life/event/eventHome.do",
+      "redirectUrl": "/go/news/news-okcashbag-point-event",
+      "endDate": "2026-12-31",
+      "lastCheckedAt": "2026-06-06T07:28:24.912Z"
+    },
+    {
+      "id": "news-okcashbag-brand-coupon",
+      "title": "OK캐쉬백 공식 브랜드 쿠폰 이벤트",
+      "merchant": "OK캐쉬백",
+      "category": "무료혜택",
+      "benefitType": "coupon",
+      "sourceName": "OK캐쉬백 공식 이벤트",
+      "host": "okcashbag.com",
+      "finalUrl": "https://www.okcashbag.com/life/event/eventMain.do",
+      "redirectUrl": "/go/news/news-okcashbag-brand-coupon",
+      "endDate": "2026-12-31",
+      "lastCheckedAt": "2026-06-06T07:28:24.912Z"
     }
   ],
   "blockedItems": [],
