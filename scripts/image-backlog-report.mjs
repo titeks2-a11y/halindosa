@@ -6,6 +6,7 @@ const root = process.cwd();
 const docsDir = join(root, "docs");
 const mockDeals = readFileSync(join(root, "data", "mockDeals.ts"), "utf8");
 const verifiedPurchaseLinks = readFileSync(join(root, "data", "verifiedPurchaseLinks.ts"), "utf8");
+const verifiedProductImages = readFileSync(join(root, "data", "verifiedProductImages.ts"), "utf8");
 
 if (!existsSync(docsDir)) mkdirSync(docsDir, { recursive: true });
 
@@ -13,8 +14,13 @@ const dealLines = mockDeals.split(/\r?\n/).filter((line) => /deal\("d\d+"/.test(
 const verifiedUrlsById = new Map(
   [...verifiedPurchaseLinks.matchAll(/(d\d+):\s*\{[\s\S]*?url:\s*"([^"]+)"/g)].map((match) => [match[1], match[2]])
 );
+const verifiedImagesById = new Map(
+  [...verifiedProductImages.matchAll(/(d\d+):\s*\{[\s\S]*?url:\s*"([^"]+)"/g)].map((match) => [match[1], match[2]])
+);
 
 function hasExplicitImage(id, quotedValues) {
+  if (verifiedImagesById.has(id)) return true;
+
   const imageCandidates = quotedValues.filter((value) => {
     const lower = value.toLowerCase();
 
@@ -236,6 +242,7 @@ Status: ${fallbackDeals.length ? "ACTION_NEEDED" : "CLEAR"}
 
 - 카테고리 fallback 이미지는 화면 깨짐을 막는 안전장치이며, 출시 후 운영 품질 목표로 보지 않습니다.
 - 신규 운영 피드와 제휴 피드는 실제 상품 또는 공식 혜택 상세 이미지 URL을 함께 제공해야 합니다.
+- 이미 검증된 공식 상세 og:image/schema image/CDN 이미지는 \`data/verifiedProductImages.ts\`에서 관리하고 backlog에서 제외합니다.
 - 운영 ready 이미지는 공식/제휴 피드 또는 판매처 상품 상세에서 권리 확인 가능한 이미지여야 합니다.
 - 검색 결과 썸네일, 커뮤니티 캡처, 블로그 이미지, 무출처 이미지는 보강 완료로 인정하지 않습니다.
 - 이미지 보강 행은 \`sourceSafetyLevel=official_or_partner_only\`, \`imageReadyGate\`, \`requiredProviderFields\`, \`operatorChecklist\`, \`requestTemplate\`를 포함해야 합니다.

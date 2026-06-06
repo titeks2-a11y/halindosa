@@ -28,6 +28,7 @@ const quality = read("lib/deals/quality.ts");
 const ranking = read("lib/deals/ranking.ts");
 const mockDeals = read("data/mockDeals.ts");
 const verifiedPurchaseLinks = read("data/verifiedPurchaseLinks.ts");
+const verifiedProductImages = read("data/verifiedProductImages.ts");
 const imageSrc = read("lib/imageSrc.ts");
 const components = [
   ["QuickDealCard", "components/QuickDealCard.tsx"],
@@ -145,8 +146,25 @@ if (includesAll(imageSrc, ["proxiedHosts", "/api/image", "cdn.ppomppu.co.kr"])) 
   fail("local image proxy", "로컬 이미지 프록시 기준이 부족합니다.");
 }
 
+const verifiedUrlsById = new Map(
+  [...verifiedPurchaseLinks.matchAll(/(d\d+):\s*\{[\s\S]*?url:\s*"([^"]+)"/g)].map((match) => [match[1], match[2]])
+);
+const verifiedImagesById = new Map(
+  [...verifiedProductImages.matchAll(/(d\d+):\s*\{[\s\S]*?url:\s*"([^"]+)"/g)].map((match) => [match[1], match[2]])
+);
 const dealLines = mockDeals.split(/\r?\n/).filter((line) => /deal\("d\d+"/.test(line));
-const explicitImageLines = dealLines.filter((line) => /https?:\/\/|\/deal-images\/|\/images\//.test(line));
+const explicitImageLines = dealLines.filter((line) => {
+  const id = line.match(/deal\("(d\d+)"/)?.[1] ?? "";
+  const quotedValues = [...line.matchAll(/"([^"]*)"/g)].map((match) => match[1]);
+  const hasImageCandidate = quotedValues.some((value) => {
+    const lower = value.toLowerCase();
+
+    return value.startsWith("/deal-images/") || value.startsWith("/images/") || (/^https?:\/\//.test(value) && /\.(png|jpe?g|webp|avif)(?:[?#].*)?$/.test(lower));
+  });
+  const derivedImage = deriveProductImageUrlFromPurchaseUrl(verifiedUrlsById.get(id) ?? quotedValues.find((value) => /^https?:\/\//.test(value)));
+
+  return verifiedImagesById.has(id) || hasImageCandidate || Boolean(derivedImage);
+});
 const explicitImageRate = dealLines.length ? Math.round((explicitImageLines.length / dealLines.length) * 100) : 0;
 
 if (explicitImageRate >= 25) {
@@ -155,9 +173,6 @@ if (explicitImageRate >= 25) {
   fail("explicit image floor", `명시 이미지 커버리지가 ${explicitImageRate}%로 25% 기준보다 낮습니다.`);
 }
 
-const verifiedUrlsById = new Map(
-  [...verifiedPurchaseLinks.matchAll(/(d\d+):\s*\{[\s\S]*?url:\s*"([^"]+)"/g)].map((match) => [match[1], match[2]])
-);
 const fallbackAssetByCategory = new Map(fallbackAssets.map((item) => [item.category, item.asset]));
 const visibleImageAudit = {
   total: 0,
@@ -183,7 +198,8 @@ for (const line of dealLines) {
     const lower = value.toLowerCase();
     return value.startsWith("/deal-images/") || value.startsWith("/images/") || (/^https?:\/\//.test(value) && /\.(png|jpe?g|webp|avif)(?:[?#].*)?$/.test(lower));
   });
-  const explicitOfficialImage = imageCandidates.find((value) => !isCategoryFallbackImage(value)) ?? "";
+  const verifiedOfficialImage = verifiedImagesById.get(id) ?? "";
+  const explicitOfficialImage = verifiedOfficialImage || imageCandidates.find((value) => !isCategoryFallbackImage(value)) || "";
   const explicitGeneratedImage = imageCandidates.find((value) => isCategoryFallbackImage(value)) ?? "";
   const derivedImage = deriveProductImageUrlFromPurchaseUrl(verifiedUrlsById.get(id) ?? quotedValues.find((value) => /^https?:\/\//.test(value)));
   const generatedImage = explicitGeneratedImage || fallbackAssetByCategory.get(category) || fallbackAssetByCategory.get("기타") || "";
@@ -221,6 +237,12 @@ if (visibleImageAudit.officialImageRate >= 25) {
   pass("official image operating floor", `공식/파생 이미지 비율이 ${visibleImageAudit.officialImageRate}%입니다.`);
 } else {
   fail("official image operating floor", `공식/파생 이미지 비율이 ${visibleImageAudit.officialImageRate}%로 25% 기준보다 낮습니다.`);
+}
+
+if (includesAll(mockDeals, ["verifiedProductImages", "verifiedImage?.url", "deriveProductImageUrlFromPurchaseUrl"])) {
+  pass("verified product image priority", "검증된 공식 상품/혜택 이미지가 명시 이미지와 생성 placeholder보다 먼저 적용됩니다.");
+} else {
+  fail("verified product image priority", "mock 데이터 정규화가 verifiedProductImages를 우선 사용하지 않습니다.");
 }
 
 const finalFailed = checks.filter((check) => !check.ok);

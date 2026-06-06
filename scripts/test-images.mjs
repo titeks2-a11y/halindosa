@@ -5,6 +5,7 @@ import { deriveProductImageUrlFromPurchaseUrl } from "./image-url-utils.mjs";
 const root = process.cwd();
 const mockDeals = readFileSync(join(root, "data", "mockDeals.ts"), "utf8");
 const verifiedPurchaseLinks = readFileSync(join(root, "data", "verifiedPurchaseLinks.ts"), "utf8");
+const verifiedProductImages = readFileSync(join(root, "data", "verifiedProductImages.ts"), "utf8");
 const ranking = readFileSync(join(root, "lib", "deals", "ranking.ts"), "utf8");
 const homePage = readFileSync(join(root, "app", "page.tsx"), "utf8");
 const homeDealFilters = readFileSync(join(root, "lib", "homeDealFilters.ts"), "utf8");
@@ -28,6 +29,9 @@ const categoryFallbackAssets = [...mockDeals.matchAll(/"[^"]+":\s*"(?<asset>\/de
 const verifiedUrlsById = new Map(
   [...verifiedPurchaseLinks.matchAll(/(d\d+):\s*\{[\s\S]*?url:\s*"([^"]+)"/g)].map((match) => [match[1], match[2]])
 );
+const verifiedImagesById = new Map(
+  [...verifiedProductImages.matchAll(/(d\d+):\s*\{[\s\S]*?url:\s*"([^"]+)"/g)].map((match) => [match[1], match[2]])
+);
 
 for (const line of dealLines) {
   const quotedValues = [...line.matchAll(/"([^"]*)"/g)].map((match) => match[1]);
@@ -39,6 +43,10 @@ for (const line of dealLines) {
     const lower = value.toLowerCase();
     return value.startsWith("/deal-images/") || value.startsWith("/images/") || /^https?:\/\//.test(value) && /\.(png|jpe?g|webp|avif)(?:[?#].*)?$/.test(lower);
   });
+  const verifiedImage = verifiedImagesById.get(id);
+  if (verifiedImage && !imageCandidates.includes(verifiedImage)) {
+    imageCandidates.push(verifiedImage);
+  }
   const derivedImage = deriveProductImageUrlFromPurchaseUrl(verifiedUrlsById.get(id) ?? quotedValues.find((value) => /^https?:\/\//.test(value)));
 
   if (derivedImage && !imageCandidates.includes(derivedImage)) {
@@ -139,6 +147,7 @@ Status: ${issues.length ? "FAIL" : "PASS"}
 - 로컬 개발에서 일부 커뮤니티 CDN 이미지는 /api/image 프록시를 거칩니다.
 - 이미지가 없는 상품은 카테고리별 할인도사 브랜드 썸네일을 자동 적용하되, 실제 운영 데이터에서는 상품 이미지 보강을 우선합니다.
 - G마켓 검증 구매 상세 URL은 상품 코드 기반 공식 이미지 CDN URL을 자동 파생해 category fallback보다 먼저 사용합니다.
+- 공식 상세 페이지에서 검증한 og:image, schema image, 공식 CDN 이미지는 verifiedProductImages 매핑으로 category fallback보다 먼저 사용합니다.
 - 홈 상단 랭킹은 실상품 이미지 보유 상품에 가산점을 주고 카테고리 fallback 상품의 상단 쏠림을 줄입니다.
 
 ## Local Images

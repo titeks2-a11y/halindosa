@@ -66,6 +66,7 @@ export async function checkUiAccessibility() {
   const commercializationPage = await text("app/commercialization/page.tsx");
   const imageQualityReport = await text("IMAGE_QUALITY_REPORT.md");
   const imageBacklogReport = await text("docs/IMAGE_BACKLOG_REPORT.md");
+  const imageVerificationReport = await text("docs/IMAGE_VERIFICATION_REPORT.md");
   const mobileUxReport = await text("MOBILE_UX_REPORT.md");
   const imageTest = await text("scripts/test-images.mjs");
   const verifyImages = await text("scripts/verify-images.mjs");
@@ -79,14 +80,19 @@ export async function checkUiAccessibility() {
   const roadmap = await text("docs/roadmap.md");
   const commerceBadge = await text("components/ui/CommerceBadge.tsx");
   const commerceButton = await text("components/ui/CommerceButton.tsx");
-  const imageCoverageMatch = harnessReport.match(/Image quality passed: (\d+)\/(\d+) deals have explicit images\./);
-  const explicitImageCount = imageCoverageMatch ? Number(imageCoverageMatch[1]) : 0;
-  const totalImageCount = imageCoverageMatch ? Number(imageCoverageMatch[2]) : 0;
+  const harnessImageCoverageMatch = harnessReport.match(/Image quality passed: (\d+)\/(\d+) deals have explicit images\./);
+  const reportTotalImageMatch = imageQualityReport.match(/\| 전체 상품 수 \| (\d+) \|/);
+  const reportExplicitImageMatch = imageQualityReport.match(/\| 명시 이미지 상품 수 \| (\d+) \|/);
+  const explicitImageCount = Number(reportExplicitImageMatch?.[1] ?? harnessImageCoverageMatch?.[1] ?? 0);
+  const totalImageCount = Number(reportTotalImageMatch?.[1] ?? harnessImageCoverageMatch?.[2] ?? 0);
   const explicitImageRate = totalImageCount > 0 ? explicitImageCount / totalImageCount : 0;
   const imageQualityEvidenceSynced =
-    imageCoverageMatch &&
+    explicitImageCount > 0 &&
+    totalImageCount > 0 &&
     imageQualityReport.includes(`| 전체 상품 수 | ${totalImageCount} |`) &&
     imageQualityReport.includes(`| 명시 이미지 상품 수 | ${explicitImageCount} |`) &&
+    imageVerificationReport.includes(`| Official/derived images | ${explicitImageCount} |`) &&
+    imageVerificationReport.includes("verified product image priority") &&
     explicitImageRate >= 0.25;
   const commerceCard = await text("components/ui/CommerceCard.tsx");
   const commerceSectionHeader = await text("components/ui/CommerceSectionHeader.tsx");

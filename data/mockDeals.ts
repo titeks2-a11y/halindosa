@@ -5,6 +5,7 @@ import { deriveProductImageUrlFromPurchaseUrl, getDealImageType } from "@/lib/de
 import { validatePurchaseLink } from "@/lib/deals/linkValidator";
 import { getDealPriorityScore, getDealQualityScore, getDealValidationCode, resolveDealAvailability, resolveDealValidationStatus, shouldHideDeal } from "@/lib/deals/quality";
 import { verifiedPurchaseLinks } from "./verifiedPurchaseLinks";
+import { verifiedProductImages } from "./verifiedProductImages";
 
 const now = Date.now();
 const hour = 60 * 60 * 1000;
@@ -144,8 +145,9 @@ function deal(
     minimumOrderAmount,
     isStackable: /중복|카드할인|쿠폰적용/.test(text)
   });
+  const verifiedImage = verifiedProductImages[id];
   const derivedProductImageUrl = deriveProductImageUrlFromPurchaseUrl(validation.finalPurchaseUrl);
-  const displayImageUrl = imageUrl || derivedProductImageUrl || categoryFallbackImages[category] || categoryFallbackImages["기타"];
+  const displayImageUrl = verifiedImage?.url || imageUrl || derivedProductImageUrl || categoryFallbackImages[category] || categoryFallbackImages["기타"];
   const isSoldOut = validation.linkStatus === "sold_out";
   const qualityInput = {
     linkStatus: validation.linkStatus,
