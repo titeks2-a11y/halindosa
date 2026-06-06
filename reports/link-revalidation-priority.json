@@ -1,10 +1,10 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-06T18:49:50.005Z",
+  "generatedAt": "2026-06-06T19:27:21.197Z",
   "sourceReports": {
-    "linkValidation": "2026-06-06T18:49:46.764Z",
-    "exposurePolicy": "2026-06-06T18:49:48.398Z",
-    "linkLaunchGate": "2026-06-06T18:49:49.468Z"
+    "linkValidation": "2026-06-06T19:27:17.974Z",
+    "exposurePolicy": "2026-06-06T19:27:19.618Z",
+    "linkLaunchGate": "2026-06-06T19:27:20.667Z"
   },
   "summary": {
     "auditedItems": 140,
@@ -16,10 +16,10 @@
     "blockingRevalidationItems": 0,
     "quarantinedRevalidationItems": 0,
     "userReportedItems": 0,
-    "reviewItems": 76,
+    "reviewItems": 77,
     "watchItems": 3,
     "routineItems": 0,
-    "queueItems": 79
+    "queueItems": 80
   },
   "liveProbeReviewSummary": {
     "status": "transient_network_review",
@@ -27,7 +27,7 @@
     "exposedHardFailureCount": 0,
     "exposedSellerUnavailableSignals": 0,
     "transientNetworkCount": 3,
-    "accessProtectedCount": 63,
+    "accessProtectedCount": 64,
     "sellerUnavailableSignals": 0,
     "contentProbe": {
       "bodyChecked": 137,
@@ -35,9 +35,9 @@
       "contentMatched": 56,
       "contentMismatch": 81,
       "accessibleContentMismatch": 5,
-      "accessGuardBody": 31,
-      "priceSignal": 27,
-      "purchaseActionSignal": 15,
+      "accessGuardBody": 32,
+      "priceSignal": 26,
+      "purchaseActionSignal": 14,
       "strict": false
     },
     "interpretation": "Some URLs returned transient network signals; no exposed search, sold-out, 404, 410, or 5xx links were found."
@@ -45,18 +45,18 @@
   "counts": {
     "block": 0,
     "quarantine": 0,
-    "review": 76,
+    "review": 77,
     "watch": 3,
     "routine": 0,
     "byReason": {
-      "robots_or_access_blocked": 63,
+      "robots_or_access_blocked": 64,
       "http_429": 13,
       "request_failed": 3
     },
     "byHost": {
       "item.gmarket.co.kr": 31,
       "coupang.com": 24,
-      "oliveyoung.co.kr": 6,
+      "oliveyoung.co.kr": 7,
       "store.ohou.se": 1,
       "itempage3.auction.co.kr": 1,
       "ssg.com": 13,
@@ -400,6 +400,32 @@
       "priceSignal": false,
       "purchaseActionSignal": false,
       "lastCheckedAt": "2026-06-01T01:10:00.000Z",
+      "priority": 675,
+      "severity": "review",
+      "action": "공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인"
+    },
+    {
+      "id": "d025",
+      "title": "선크림 1+1 기획",
+      "mallName": "올리브영",
+      "category": "뷰티",
+      "host": "oliveyoung.co.kr",
+      "finalUrl": "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000163532",
+      "linkType": "direct_purchase",
+      "availability": "active",
+      "validationStatus": "passed",
+      "publishable": true,
+      "isHidden": false,
+      "evidenceTier": "seller_access_protected_manual_verified",
+      "liveStatus": 403,
+      "liveReason": "robots_or_access_blocked",
+      "userReportReason": "",
+      "userReportCount": 0,
+      "userReportedAt": "",
+      "contentMatch": false,
+      "priceSignal": false,
+      "purchaseActionSignal": false,
+      "lastCheckedAt": "2026-05-31T10:20:00.000Z",
       "priority": 675,
       "severity": "review",
       "action": "공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인"
@@ -1150,7 +1176,7 @@
       "userReportReason": "",
       "userReportCount": 0,
       "userReportedAt": "",
-      "contentMatch": false,
+      "contentMatch": true,
       "priceSignal": false,
       "purchaseActionSignal": false,
       "lastCheckedAt": "2026-06-02T01:10:00.000Z",
@@ -1336,32 +1362,6 @@
       "priceSignal": false,
       "purchaseActionSignal": false,
       "lastCheckedAt": "2026-06-02T02:30:00.000Z",
-      "priority": 675,
-      "severity": "review",
-      "action": "공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인"
-    },
-    {
-      "id": "d118",
-      "title": "제주 삼다수 2L 24병 생수",
-      "mallName": "G마켓",
-      "category": "식품",
-      "host": "item.gmarket.co.kr",
-      "finalUrl": "https://item.gmarket.co.kr/Item?goodscode=2910475736",
-      "linkType": "direct_purchase",
-      "availability": "active",
-      "validationStatus": "passed",
-      "publishable": true,
-      "isHidden": false,
-      "evidenceTier": "manual_pattern_verified",
-      "liveStatus": 403,
-      "liveReason": "robots_or_access_blocked",
-      "userReportReason": "",
-      "userReportCount": 0,
-      "userReportedAt": "",
-      "contentMatch": false,
-      "priceSignal": false,
-      "purchaseActionSignal": false,
-      "lastCheckedAt": "2026-06-02T04:10:00.000Z",
       "priority": 675,
       "severity": "review",
       "action": "공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인"

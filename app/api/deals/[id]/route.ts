@@ -1,6 +1,10 @@
-import { NextResponse } from "next/server";
 import { findDealByIdLive, getRelatedDeals } from "@/lib/dealService";
+import { noStoreJson } from "@/lib/api/noStore";
 import { getPriceHistory, getPriceInsight } from "@/lib/priceHistory";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+export const fetchCache = "force-no-store";
 
 export async function GET(
   _request: Request,
@@ -14,7 +18,7 @@ export async function GET(
   const deal = await findDealByIdLive(id);
 
   if (!deal) {
-    return NextResponse.json(
+    return noStoreJson(
       {
         ok: false,
         deal: null,
@@ -25,7 +29,7 @@ export async function GET(
     );
   }
 
-  return NextResponse.json({
+  return noStoreJson({
     ok: true,
     deal,
     relatedDeals: getRelatedDeals(id),

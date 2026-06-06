@@ -6,6 +6,14 @@
 
 ## 완료 작업
 
+### PHASE Runtime Snapshot Realtime Gate
+
+- `refresh:deals`가 갱신하는 `data/refreshedDeals.json`을 상품 provider가 정적 import로 보던 구조를 요청 시점 `readFileSync` 런타임 snapshot 읽기로 바꿔, 실행 중인 Next 서버에서도 수집 직후 `/api/home`, `/api/deals`, `/go/[id]`가 최신 검증 상품을 다시 보도록 개선했다.
+- 홈 클라이언트에 통합 `/api/home` snapshot 자동 갱신 루프를 추가해 상품 특가, 공식 혜택, 핫시그널이 45초 주기로 같은 기준 시각에서 동기화되며, 수동 새로고침도 같은 no-store snapshot을 사용한다.
+- `/api/deals/[id]`, `/go/[id]`, `/go/news/[id]`, `/api/redirect/[id]`를 `force-dynamic`, `revalidate=0`, `force-no-store`로 명시하고 redirect 응답에도 no-store 헤더를 붙여 구매 이동 직전 최신 링크 검증 상태가 적용되도록 했다.
+- 모바일 `QuickDealCard` 기본 높이와 썸네일 폭을 줄이고, 빈 상태 문구를 검증 특가 재확인 톤으로 바꿔 360~430px 화면에서 상품 리스트가 더 빨리 보이도록 정리했다.
+- `home:realtime:doctor`가 정적 import 회귀를 차단하고 `/api/home` 자동 snapshot 갱신을 확인하도록 13개 게이트로 확장했다.
+
 ### PHASE Official Benefit Image 60+ Gate
 
 - 공식 혜택 이미지 보강 스크립트를 개선해 `og:image` 첫 후보만 검사하던 방식에서 OG, Twitter, itemprop, JSON-LD, `image_src`, preload image, 고신뢰 inline 이미지 후보를 여러 개 수집하고 순서대로 검증하도록 바꿨다.

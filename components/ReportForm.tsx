@@ -4,7 +4,7 @@ import type { FormEvent } from "react";
 import { useState } from "react";
 import Link from "next/link";
 import { maxReportMessageLength } from "@/lib/reportConfig";
-import { getReportReasonLabel, getReportResolutionPlan } from "@/lib/reports";
+import { getReportReasonLabel, getReportResolutionPlan } from "@/lib/reportDisplay";
 import { getSupportMailto, supportEmail } from "@/lib/support";
 
 interface ReportFormProps {

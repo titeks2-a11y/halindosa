@@ -25,6 +25,7 @@
 - 링크 검증은 상품 상세 URL과 공식 혜택/이벤트 URL을 구분해 대표몰, 검색 결과, 커뮤니티 링크를 차단
 - 홈 데이터 API는 no-store + timestamp cache buster를 사용하고, 상품 특가·공식 혜택·핫시그널은 45초 자동 확인 주기로 다시 불러옴
 - 공식 혜택 데이터는 `source`, `updatedAt`, `verifiedAt`, `expiresAt`, `availability`를 함께 관리하고 `verify:news`에서 필드 누락을 차단
+- `refresh:deals` 산출물은 서버 요청 시점에 다시 읽히므로 실행 중인 로컬/배포 서버에서도 `/api/home`, `/api/deals`, `/go/[dealId]`가 최신 검증 상품을 반영
 - 상품 이미지가 깨지면 카테고리별 gradient/icon 생성 placeholder로 자동 전환되어 빈 이미지 없이 렌더링
 - 찜, 최근 본 상품, 관심 카테고리, 가격 알림 준비 구조
 - 무료 혜택 전용 페이지와 신고/종료/링크 오류 접수
@@ -108,6 +109,7 @@ npm run detail:navigation:doctor
 npm run navigation:doctor
 npm run home:url-state:doctor
 npm run home:list-scan:doctor
+npm run home:realtime:doctor
 npm run lint
 npm run smoke:local
 npm run build

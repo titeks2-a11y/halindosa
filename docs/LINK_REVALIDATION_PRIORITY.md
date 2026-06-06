@@ -1,6 +1,6 @@
 # Link Revalidation Priority
 
-Generated: 2026-06-06T18:49:50.005Z
+Generated: 2026-06-06T19:27:21.197Z
 
 Status: PASS
 
@@ -15,9 +15,9 @@ Status: PASS
 - Blocking revalidation items: 0
 - Quarantined hidden items: 0
 - User reported revalidation items: 0
-- Review items: 76
+- Review items: 77
 - Watch items: 3
-- Queue items: 79
+- Queue items: 80
 
 ## Operating Rule
 
@@ -40,6 +40,7 @@ Customer-visible links stay publishable only when the launch gate has zero expos
 | review | d017 | G마켓 | 아이클레보 올인원 로봇청소기 Ultra 365 Max | 403 | robots_or_access_blocked | 공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인 |
 | review | d019 | 오늘의집 | 원목 수납장 3단 | 403 | robots_or_access_blocked | 공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인 |
 | review | d022 | 올리브영 | JMW BLDC 에어원 드라이어 MC4B03C | 403 | robots_or_access_blocked | 공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인 |
+| review | d025 | 올리브영 | 선크림 1+1 기획 | 403 | robots_or_access_blocked | 공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인 |
 | review | d028 | 쿠팡 | 워터픽 나노 패밀리팩 구강세정기 | 403 | robots_or_access_blocked | 공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인 |
 | review | d030 | 쿠팡 | Apple 2025 아이패드 A16 11세대 128GB Wi-Fi | 403 | robots_or_access_blocked | 공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인 |
 | review | d031 | 쿠팡 | 원목 수납장 3단 다용도 월넛 유리 거실장 | 403 | robots_or_access_blocked | 공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인 |
@@ -56,4 +57,3 @@ Customer-visible links stay publishable only when the launch gate has zero expos
 | review | d085 | 쿠팡 | 하기스 2024 매직컴포트 팬티형 기저귀 5단계 84매 | 403 | robots_or_access_blocked | 공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인 |
 | review | d087 | G마켓 | 맥심 모카골드 리필커피 오리지날 500g | 403 | robots_or_access_blocked | 공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인 |
 | review | d088 | 쿠팡 | 샤오미 미밴드 9 스마트밴드 | 403 | robots_or_access_blocked | 공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인 |
-| review | d089 | G마켓 | 홈매트 리퀴드 홈솔루션 훈증기 + 리필 2입 3개 | 403 | robots_or_access_blocked | 공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인 |

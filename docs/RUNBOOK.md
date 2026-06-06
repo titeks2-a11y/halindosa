@@ -360,3 +360,4 @@ docker run --rm -p 3000:3000 --env-file .env.example halindosa
 - 신규 제휴/공식 피드는 `/api/admin/import` dry-run을 통과한 뒤 DB 저장 파이프라인에 연결합니다.
 - 네이버 쇼핑 공식 API를 쓰려면 `DEAL_DATA_MODE=hybrid`, `NAVER_CLIENT_ID`, `NAVER_CLIENT_SECRET`을 설정합니다. 키가 없거나 API 장애가 있으면 기본 큐레이션 fallback으로 화면을 유지합니다.
 - 별도 제휴 JSON 피드는 `DEAL_FEED_URLS=https://.../feed.json,https://.../feed2.json` 형태로 연결합니다.
+- `npm run refresh:deals` 또는 `npm run refresh:all` 실행 후 최신 상품이 화면에 안 보이면 먼저 `/api/home?verifiedOnly=true&ts=...`와 `/api/deals?verifiedOnly=true&ts=...` 응답의 `updatedAt`을 확인합니다. 상품 snapshot은 런타임 파일 읽기로 반영되며, API와 `/go/[dealId]` 이동 라우트는 `force-dynamic`, `revalidate=0`, `force-no-store` 정책을 유지해야 합니다.

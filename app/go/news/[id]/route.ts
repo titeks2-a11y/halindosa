@@ -1,9 +1,14 @@
 import { NextResponse } from "next/server";
 import { createAnalyticsEvent } from "@/lib/analytics";
+import { noStoreHeaders } from "@/lib/api/noStore";
 import { createRequestId, getClientKey, jsonHeaders, rateLimit, rateLimitHeaders } from "@/lib/apiGuards";
 import { recordDealClick } from "@/lib/clickStore";
 import { findVisibleNewsDealById } from "@/lib/deals/newsDeals";
 import { resolveNewsDealDestinationUrl } from "@/lib/deals/newsLinkPolicy";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+export const fetchCache = "force-no-store";
 
 export async function GET(
   request: Request,
@@ -84,6 +89,9 @@ export async function GET(
 
   return NextResponse.redirect(outboundUrl, {
     status: 302,
-    headers: rateLimitHeaders(limit, requestId)
+    headers: {
+      ...noStoreHeaders,
+      ...rateLimitHeaders(limit, requestId)
+    }
   });
 }

@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { AlertTriangle, CheckCircle2, Eye, EyeOff, Link2Off, PackageX, RefreshCw, RotateCcw, XCircle } from "lucide-react";
 import type { ReportSlaSummary } from "@/lib/reportSla";
-import { DealReport, getReportPriorityLabel, getReportReasonLabel, getReportStatusLabel } from "@/lib/reports";
+import type { DealReport } from "@/lib/reports";
+import { getReportPriorityLabel, getReportReasonLabel, getReportStatusLabel } from "@/lib/reportDisplay";
 
 interface ReportSummary {
   total: number;

@@ -860,15 +860,15 @@ export default function Home() {
                 ageMinutes: 0,
                 status: "fresh",
                 label: "방금 업데이트",
-                count: deals.length,
-                source: providerSource
+                count: mockDeals.length,
+                source: "android bundle"
               },
               newsDeals: {
                 updatedAt: generatedAt,
                 ageMinutes: 0,
                 status: "fresh",
                 label: "방금 업데이트",
-                count: newsDeals.length,
+                count: initialNewsSnapshot.deals?.length ?? 0,
                 source: "native"
               },
               hotSignals: {
@@ -876,7 +876,7 @@ export default function Home() {
                 ageMinutes: 0,
                 status: "fresh",
                 label: "방금 업데이트",
-                count: hotSignals.length,
+                count: mockHotSignals.length,
                 source: "native"
               }
             }
@@ -928,12 +928,37 @@ export default function Home() {
         }
       }
     },
-    [deals.length, fetchDeals, fetchSignals, homeDealFilters, hotSignals.length, newsDeals.length, providerSource, refreshNewsDeals, showToast]
+    [fetchDeals, fetchSignals, homeDealFilters, refreshNewsDeals, showToast]
   );
 
   const refreshHomeNow = () => {
     void refreshHomeSnapshot({ notify: true });
   };
+
+  useEffect(() => {
+    if (!hasAppliedInitialParams) return;
+
+    let active = true;
+    const refreshHomeIfVisible = () => {
+      if (!active) return;
+      if (typeof document !== "undefined" && document.visibilityState === "hidden") return;
+      void refreshHomeSnapshot({ silent: true });
+    };
+    const initialHandle = window.setTimeout(refreshHomeIfVisible, 320);
+    const intervalHandle = window.setInterval(refreshHomeIfVisible, HOME_REFRESH_INTERVAL_MS);
+    const handleVisibility = () => {
+      if (document.visibilityState === "visible") refreshHomeIfVisible();
+    };
+
+    document.addEventListener("visibilitychange", handleVisibility);
+
+    return () => {
+      active = false;
+      window.clearTimeout(initialHandle);
+      window.clearInterval(intervalHandle);
+      document.removeEventListener("visibilitychange", handleVisibility);
+    };
+  }, [hasAppliedInitialParams, refreshHomeSnapshot]);
 
   const stats = useMemo(() => buildHomeStats(deals, favorites), [deals, favorites]);
   const dataQuality = useMemo(() => buildHomeDataQuality(deals, catalog), [catalog, deals]);
@@ -1657,10 +1682,10 @@ export default function Home() {
                 visibleCount={visibleDealCount}
                 loadStep={HOME_DEAL_LOAD_STEP}
                 favoriteIds={favorites}
-                emptyTitle="조건에 맞는 특가가 없습니다."
-                emptyDescription={freeShippingOnly || hotOnly || endingSoonOnly || verifiedOnly || priceBand !== "all"
+                emptyTitle={loadError ? "현재 검증된 특가를 불러오는 중입니다." : "조건에 맞는 특가가 없습니다."}
+                emptyDescription={loadError || (freeShippingOnly || hotOnly || endingSoonOnly || verifiedOnly || priceBand !== "all"
                   ? "선택한 필터를 줄이거나 다른 카테고리를 선택해보세요."
-                  : "검색어를 줄이거나 다른 카테고리를 선택해보세요."}
+                  : "검색어를 줄이거나 다른 카테고리를 선택해보세요.")}
                 emptyAction={
                   <HomeEmptyRecovery
                     keywords={emptySearchRecoveryKeywords}

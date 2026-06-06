@@ -31,6 +31,7 @@ const homeRealtimeConfig = read("lib/homeRealtimeConfig.ts");
 const homePage = read("app/page.tsx");
 const homeStatusStrip = read("components/home/HomeStatusStrip.tsx");
 const hotSignalProvider = read("lib/hotSignalProvider.ts");
+const refreshedSnapshotProvider = read("lib/deals/providers/refreshedSnapshotProvider.ts");
 const packageJson = JSON.parse(read("package.json"));
 const qaRunner = read("scripts/run-qa.mjs");
 const harness = read("scripts/harness.mjs");
@@ -59,26 +60,43 @@ if (hotSignalProvider.includes('cache: "no-store"') && !hotSignalProvider.includ
 }
 
 if (
+  includesAll(refreshedSnapshotProvider, [
+    "readRefreshedSnapshot",
+    "readFileSync",
+    'join(process.cwd(), "data", "refreshedDeals.json")',
+    "JSON.parse"
+  ]) &&
+  !refreshedSnapshotProvider.includes('from "@/data/refreshedDeals.json"') &&
+  !refreshedSnapshotProvider.includes("from \"@/data/refreshedDeals.json\"")
+) {
+  pass("refreshed deals runtime snapshot", "refresh:deals 산출물은 정적 import가 아니라 요청 시점 파일 읽기로 홈/API에 즉시 반영됩니다.");
+} else {
+  fail("refreshed deals runtime snapshot", "data/refreshedDeals.json을 정적 import하면 실행 중인 서버에서 refresh:deals 결과가 즉시 반영되지 않을 수 있습니다.");
+}
+
+if (
   includesAll(homePage, [
     "HOME_REFRESH_INTERVAL_MS",
     "window.setInterval(refreshIfVisible, HOME_REFRESH_INTERVAL_MS)",
     "window.setInterval(refreshIfActive, HOME_REFRESH_INTERVAL_MS)",
     "refreshHomeNow",
     "refreshHomeSnapshot",
+    "refreshHomeIfVisible",
     "buildHomeRequestUrl",
     "buildCombinedHomeSnapshot",
     "setLastHomeSyncAt",
     "setHomeFreshness",
     "snapshot.freshness",
     "homeFreshnessLabel",
+    "refreshHomeSnapshot({ silent: true })",
     "fetchDeals(undefined, true)",
     "refreshNewsDeals({ silent: true })",
     "fetchSignals(true)"
   ])
 ) {
-  pass("home realtime refresh loop", "상품, 핫시그널, 공식 혜택이 동일한 운영 주기로 자동 갱신되고 수동 새로고침은 /api/home snapshot으로 한 번에 동기화됩니다.");
+  pass("home realtime refresh loop", "상품, 핫시그널, 공식 혜택이 동일한 운영 주기와 /api/home snapshot 자동 갱신으로 동기화됩니다.");
 } else {
-  fail("home realtime refresh loop", "홈 상품/뉴스/핫시그널 자동 갱신 또는 /api/home 수동 snapshot 연결이 부족합니다.");
+  fail("home realtime refresh loop", "홈 상품/뉴스/핫시그널 자동 갱신 또는 /api/home 자동 snapshot 연결이 부족합니다.");
 }
 
 const refreshIntervalMatch = homeRealtimeConfig.match(/HOME_REFRESH_INTERVAL_MS\s*=\s*([0-9_]+)/);
