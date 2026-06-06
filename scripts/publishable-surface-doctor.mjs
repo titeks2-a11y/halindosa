@@ -201,12 +201,12 @@ if (!hotSignalProviderSource.includes("buildHotSignalDiscoveryPath") || !hotSign
 
 const sliceIssues = [];
 if (freebiesReport.ok !== true) sliceIssues.push("freebies report is not passing");
-if ((freebiesReport.visibleCount ?? 0) < 8) sliceIssues.push("freebies report visible count is below launch floor");
+if ((freebiesReport.visibleCount ?? 0) < 27) sliceIssues.push("freebies report visible count is below launch floor");
 if ((freebiesReport.exposedSearchLinks ?? 999) !== 0 || (freebiesReport.exposedNonOfficialLinks ?? 999) !== 0) {
   sliceIssues.push("freebies report exposes search or non-official links");
 }
 if (eventsReport.ok !== true) sliceIssues.push("events report is not passing");
-if ((eventsReport.visibleCount ?? 0) < 55) sliceIssues.push("events report visible count is below launch floor");
+if ((eventsReport.visibleCount ?? 0) < 70) sliceIssues.push("events report visible count is below launch floor");
 if ((eventsReport.exposedSearchLinks ?? 999) !== 0 || (eventsReport.exposedNonOfficialLinks ?? 999) !== 0) {
   sliceIssues.push("events report exposes search or non-official links");
 }

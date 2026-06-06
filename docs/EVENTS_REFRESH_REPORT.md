@@ -1,16 +1,16 @@
 # Official Event Refresh Report
 
-Generated: 2026-06-06T13:19:51.939Z
+Generated: 2026-06-06T14:08:06.339Z
 
 ## Summary
 
 - Mode: events
-- Matched items: 63
-- Visible official items: 63
+- Matched items: 72
+- Visible official items: 72
 - Hidden/blocked items: 0
 - Exposed search links: 0
 - Exposed non-official links: 0
-- Required minimum: 60
+- Required minimum: 70
 - Status: PASS
 
 ## Operating Rule

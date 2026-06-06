@@ -326,7 +326,7 @@ export function checkNewsDealPipeline() {
     !feedLivePipelineFreshEnough ||
     typeof feedLivePipelineReport.configuredUrlCount !== "number" ||
     !["fresh", "due"].includes(feedLivePipelineReport.canary?.freshnessStatus) ||
-    Number(feedLivePipelineReport.officialBenefits?.visibleCount ?? 0) < 60 ||
+    Number(feedLivePipelineReport.officialBenefits?.visibleCount ?? 0) < 70 ||
     Number(feedLivePipelineReport.officialBenefits?.exposedSearchLinkCount ?? 1) !== 0 ||
     Number(feedLivePipelineReport.officialBenefits?.exposedNonOfficialLinkCount ?? 1) !== 0 ||
     Number(feedLivePipelineReport.officialBenefits?.expiredCount ?? 1) !== 0
@@ -577,7 +577,7 @@ export function checkNewsDealPipeline() {
   if (existsSync(join(root, "reports/news-deals.json"))) {
     const report = JSON.parse(readFileSync(join(root, "reports/news-deals.json"), "utf8"));
     if (report.ok !== true) issues.push("news-deals report should pass");
-    if ((report.visibleCount ?? 0) < 60) issues.push("news-deals report should include at least 60 visible official benefits across daily benefit categories");
+    if ((report.visibleCount ?? 0) < 70) issues.push("news-deals report should include at least 70 visible official benefits across daily benefit categories");
     const requiredNewsCategories = ["식품/생필품", "마트/편의점", "디지털/가전", "패션/뷰티", "외식/배달", "여행/숙박", "영화/문화", "카드/멤버십", "무료혜택", "정부/공공혜택"];
     const categoryCounts = report.categoryCounts ?? {};
     const missingCategories = requiredNewsCategories.filter((category) => !categoryCounts[category]);
@@ -644,7 +644,7 @@ export function checkNewsDealPipeline() {
   if (existsSync(join(root, "reports/news-freshness.json"))) {
     const report = JSON.parse(readFileSync(join(root, "reports/news-freshness.json"), "utf8"));
     if (report.ok !== true) issues.push("news-freshness report should pass");
-    if ((report.visibleCount ?? 0) < 60) issues.push("news-freshness report should include at least 60 visible official benefits");
+    if ((report.visibleCount ?? 0) < 70) issues.push("news-freshness report should include at least 70 visible official benefits");
     if ((report.expiredVisibleCount ?? 999) !== 0) issues.push("news-freshness report should show zero expired visible official benefits");
     if ((report.staleCheckedCount ?? 999) !== 0) issues.push("news-freshness report should show zero stale checked visible official benefits");
     if ((report.reportAgeHours ?? 999) > 24) issues.push("news-freshness report should be fresher than 24h");
@@ -671,7 +671,7 @@ export function checkNewsDealPipeline() {
   if (existsSync(join(root, "reports/freebies-refresh.json"))) {
     const report = freebiesReport;
     if (report.ok !== true) issues.push("freebies-refresh report should pass");
-    if ((report.visibleCount ?? 0) < 5) issues.push("freebies-refresh should expose at least 5 verified free/public/point benefits");
+    if ((report.visibleCount ?? 0) < 27) issues.push("freebies-refresh should expose at least 27 verified free/public/point benefits");
     if ((report.exposedSearchLinks ?? 999) !== 0 || (report.exposedNonOfficialLinks ?? 999) !== 0) {
       issues.push("freebies-refresh should expose zero search or non-official links");
     }
@@ -685,7 +685,7 @@ export function checkNewsDealPipeline() {
   if (existsSync(join(root, "reports/events-refresh.json"))) {
     const report = eventsReport;
     if (report.ok !== true) issues.push("events-refresh report should pass");
-    if ((report.visibleCount ?? 0) < 30) issues.push("events-refresh should expose at least 30 verified official event/coupon benefits");
+    if ((report.visibleCount ?? 0) < 70) issues.push("events-refresh should expose at least 70 verified official event/coupon benefits");
     if ((report.exposedSearchLinks ?? 999) !== 0 || (report.exposedNonOfficialLinks ?? 999) !== 0) {
       issues.push("events-refresh should expose zero search or non-official links");
     }
@@ -721,8 +721,8 @@ export function checkNewsDealPipeline() {
   if (existsSync(join(root, "reports/news-revalidation-priority.json"))) {
     const report = newsRevalidationReport;
     if (report.ok !== true) issues.push("news-revalidation-priority report should pass");
-    if ((report.summary?.visibleItems ?? 0) < 60) issues.push("news-revalidation-priority report should include at least 60 visible official benefits");
-    if ((report.summary?.activeOfficialBenefits ?? 0) < 60) issues.push("news-revalidation-priority report should include at least 60 active official benefits");
+    if ((report.summary?.visibleItems ?? 0) < 70) issues.push("news-revalidation-priority report should include at least 70 visible official benefits");
+    if ((report.summary?.activeOfficialBenefits ?? 0) < 70) issues.push("news-revalidation-priority report should include at least 70 active official benefits");
     if ((report.summary?.blockingItems ?? 999) !== 0) issues.push("news-revalidation-priority report should have zero blocking items");
     if ((report.summary?.exposedSearchLinks ?? 999) !== 0) issues.push("news-revalidation-priority report should expose zero search links");
     if ((report.summary?.exposedNonOfficialLinks ?? 999) !== 0) issues.push("news-revalidation-priority report should expose zero non-official links");
@@ -740,7 +740,7 @@ export function checkNewsDealPipeline() {
   if (existsSync(join(root, "reports/refresh-all.json"))) {
     const report = JSON.parse(readFileSync(join(root, "reports/refresh-all.json"), "utf8"));
     if (report.ok !== true) issues.push("refresh-all report should pass");
-    if ((report.newsDealsCount ?? 0) < 60) issues.push("refresh-all should include expanded official news/event benefits");
+    if ((report.newsDealsCount ?? 0) < 70) issues.push("refresh-all should include expanded official news/event benefits");
     if ((report.productDealsCount ?? 0) < 140) issues.push("refresh-all should preserve 140 verified product deals");
     if (!Array.isArray(report.providerStats?.news) || report.providerStats.news.length < 4) issues.push("refresh-all should preserve news provider stats");
   }

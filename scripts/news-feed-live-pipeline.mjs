@@ -116,7 +116,7 @@ const allStepsOk = steps.length === pipelineSteps.length && steps.every((step) =
 const canaryOk = feedCanary.ok === true && !["stale", "missing"].includes(String(feedCanary.freshnessStatus ?? ""));
 const exposureOk =
   newsDeals.ok !== false &&
-  Number(newsDeals.visibleCount ?? 0) >= 60 &&
+  Number(newsDeals.visibleCount ?? 0) >= 70 &&
   Number(newsDeals.exposedSearchLinkCount ?? 0) === 0 &&
   Number(newsDeals.exposedNonOfficialLinkCount ?? 0) === 0 &&
   Number(newsDeals.expiredCount ?? 0) === 0 &&

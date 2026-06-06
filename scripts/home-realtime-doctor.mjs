@@ -114,6 +114,9 @@ const realtimeReadyNewsDeals = refreshedNewsDeals.filter(
     Boolean(deal.verifiedAt) &&
     Boolean(deal.lastCheckedAt) &&
     Boolean(deal.source || deal.sourceName) &&
+    Boolean(deal.imageUrl) &&
+    ["official", "generated"].includes(deal.imageType) &&
+    Number(deal.qualityScore ?? 0) >= 70 &&
     typeof deal.finalUrl === "string" &&
     /^https?:\/\//.test(deal.finalUrl) &&
     !/\/search|search\?|query=|keyword=|msearch|\/result|\/find/i.test(deal.finalUrl)
@@ -122,9 +125,9 @@ const realtimeReadyNewsDeals = refreshedNewsDeals.filter(
 if (
   refreshedNews.generatedAt &&
   newsReport.generatedAt &&
-  refreshedNewsDeals.length >= 55 &&
+  refreshedNewsDeals.length >= 70 &&
   realtimeReadyNewsDeals.length === refreshedNewsDeals.length &&
-  Number(newsReport.visibleCount ?? 0) >= 55 &&
+  Number(newsReport.visibleCount ?? 0) >= 70 &&
   Number(newsReport.exposedSearchLinkCount ?? 0) === 0 &&
   Number(newsReport.exposedNonOfficialLinkCount ?? 0) === 0
 ) {

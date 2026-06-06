@@ -533,7 +533,7 @@ export async function checkOperationalDataSurfaces() {
     !adminPage.includes("officialAlertsCsvHref") ||
     !adminPage.includes("공식 혜택 알림 후보") ||
     officialBenefitAlertReport.ok !== true ||
-    (officialBenefitAlertReport.totals?.activeOfficialBenefits ?? 0) < 60 ||
+    (officialBenefitAlertReport.totals?.activeOfficialBenefits ?? 0) < 70 ||
     (officialBenefitAlertReport.defaultQueue?.recommendedBenefits ?? 0) < 6 ||
     officialBenefitAlertReport.redirectSafety?.ok !== true ||
     officialBenefitAlertReport.regression?.ok !== true ||
@@ -1062,10 +1062,10 @@ export async function checkOperationalDataSurfaces() {
     publishableSurfaceReport.ok !== true ||
     (publishableSurfaceReport.summary?.productCandidates ?? 0) < 140 ||
     (publishableSurfaceReport.summary?.productViolations ?? 1) !== 0 ||
-    (publishableSurfaceReport.summary?.newsCandidates ?? 0) < 60 ||
+    (publishableSurfaceReport.summary?.newsCandidates ?? 0) < 70 ||
     (publishableSurfaceReport.summary?.newsViolations ?? 1) !== 0 ||
-    (publishableSurfaceReport.summary?.freebiesVisible ?? 0) < 5 ||
-    (publishableSurfaceReport.summary?.eventsVisible ?? 0) < 30 ||
+    (publishableSurfaceReport.summary?.freebiesVisible ?? 0) < 27 ||
+    (publishableSurfaceReport.summary?.eventsVisible ?? 0) < 70 ||
     (publishableSurfaceReport.summary?.exposedSearchLinks ?? 1) !== 0 ||
     (publishableSurfaceReport.summary?.exposedSoldOutLinks ?? 1) !== 0 ||
     (publishableSurfaceReport.summary?.exposedNonOfficialLinks ?? 1) !== 0
@@ -1469,7 +1469,7 @@ export async function checkOperationalDataSurfaces() {
     sourceReadinessReport.ok !== true ||
     sourceReadinessReport.launchGateStatus !== "passed" ||
     (sourceReadinessReport.summary?.officialSourceCandidates ?? 0) < 30 ||
-    (sourceReadinessReport.summary?.visibleOfficialBenefits ?? 0) < 60 ||
+    (sourceReadinessReport.summary?.visibleOfficialBenefits ?? 0) < 70 ||
     (sourceReadinessReport.summary?.feedEnvFailedCount ?? 1) !== 0 ||
     (sourceReadinessReport.summary?.blockedLiveIssues ?? 1) !== 0 ||
     !Array.isArray(sourceReadinessReport.gates) ||

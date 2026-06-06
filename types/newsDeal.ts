@@ -29,6 +29,7 @@ export type NewsDealCategory =
 export type NewsDealValidationStatus = "passed" | "failed" | "needs_review";
 export type NewsDealLinkType = "official_event" | "official_coupon" | "official_benefit" | "search" | "news_only" | "community" | "invalid";
 export type NewsDealAvailability = "active" | "expired" | "unknown";
+export type NewsDealImageType = "official" | "generated" | "fallback";
 export type NewsDealValidationCode =
   | "valid"
   | "invalid"
@@ -70,7 +71,9 @@ export interface NewsDeal {
   linkType: NewsDealLinkType;
   availability: NewsDealAvailability;
   imageUrl: string;
+  imageType: NewsDealImageType;
   confidenceScore: number;
+  qualityScore: number;
   priorityScore: number;
   validationStatus: NewsDealValidationStatus;
   validationCode?: NewsDealValidationCode;

@@ -22,7 +22,9 @@ function includesAll(source, values) {
 }
 
 const dealType = read("types/deal.ts");
+const newsDealType = read("types/newsDeal.ts");
 const normalizer = read("lib/deals/normalizer.ts");
+const newsDealUtils = read("scripts/news-deal-utils.mjs");
 const imageResolver = read("lib/deals/imageResolver.ts");
 const quality = read("lib/deals/quality.ts");
 const ranking = read("lib/deals/ranking.ts");
@@ -48,6 +50,32 @@ if (
   pass("deal image schema", "Deal 표준 타입이 imageType과 qualityScore를 명시합니다.");
 } else {
   fail("deal image schema", "Deal 타입에 imageType 또는 qualityScore 표준 필드가 부족합니다.");
+}
+
+if (
+  includesAll(newsDealType, [
+    'NewsDealImageType = "official" | "generated" | "fallback"',
+    "imageType: NewsDealImageType",
+    "qualityScore: number"
+  ])
+) {
+  pass("official benefit image schema", "공식 혜택 타입이 imageType과 qualityScore를 명시합니다.");
+} else {
+  fail("official benefit image schema", "공식 혜택 타입에 imageType 또는 qualityScore가 부족합니다.");
+}
+
+if (
+  includesAll(newsDealUtils, [
+    "generatedNewsBenefitImages",
+    "resolveNewsBenefitImage",
+    "scoreNewsDealQuality",
+    "imageType",
+    "qualityScore"
+  ])
+) {
+  pass("official benefit image normalization", "공식 혜택 정규화 단계가 생성 placeholder와 qualityScore를 자동으로 채웁니다.");
+} else {
+  fail("official benefit image normalization", "공식 혜택 정규화 단계에 생성 placeholder 또는 qualityScore 연결이 부족합니다.");
 }
 
 if (
@@ -252,6 +280,55 @@ if (visibleImageAudit.officialImageRate >= 25) {
   fail("official image operating floor", `공식/파생 이미지 비율이 ${visibleImageAudit.officialImageRate}%로 25% 기준보다 낮습니다.`);
 }
 
+const refreshedNews = JSON.parse(read("data/refreshedNewsDeals.json"));
+const visibleNewsDeals = Array.isArray(refreshedNews.deals)
+  ? refreshedNews.deals.filter((deal) => deal.publishable && !deal.isHidden)
+  : [];
+const newsImageIssues = [];
+const newsImageAudit = {
+  total: visibleNewsDeals.length,
+  renderableImageCount: 0,
+  generatedPlaceholderCount: 0,
+  officialImageCount: 0,
+  missingImageCount: 0,
+  lowQualityCount: 0,
+  typeCounts: {
+    official: 0,
+    generated: 0,
+    fallback: 0
+  }
+};
+
+for (const deal of visibleNewsDeals) {
+  const imageType = deal.imageType || (isCategoryFallbackImage(deal.imageUrl) ? "generated" : deal.imageUrl ? "official" : "fallback");
+  const qualityScore = Number(deal.qualityScore ?? 0);
+
+  if (newsImageAudit.typeCounts[imageType] !== undefined) newsImageAudit.typeCounts[imageType] += 1;
+  if (imageType === "generated") newsImageAudit.generatedPlaceholderCount += 1;
+  if (imageType === "official") newsImageAudit.officialImageCount += 1;
+  if (deal.imageUrl && imageType !== "fallback") newsImageAudit.renderableImageCount += 1;
+  if (!deal.imageUrl || imageType === "fallback") {
+    newsImageAudit.missingImageCount += 1;
+    newsImageIssues.push(`${deal.id}: 이미지 없음`);
+  }
+  if (qualityScore < 70) {
+    newsImageAudit.lowQualityCount += 1;
+    newsImageIssues.push(`${deal.id}: qualityScore ${qualityScore}`);
+  }
+}
+
+if (newsImageAudit.total >= 70 && newsImageAudit.missingImageCount === 0 && newsImageAudit.lowQualityCount === 0) {
+  pass(
+    "official benefit image exposure audit",
+    `공식 혜택 ${newsImageAudit.total}개 모두 렌더 가능한 이미지와 qualityScore 70 이상을 갖습니다.`
+  );
+} else {
+  fail(
+    "official benefit image exposure audit",
+    `공식 혜택 이미지/품질 이슈: ${newsImageIssues.slice(0, 12).join("; ")}`
+  );
+}
+
 if (includesAll(mockDeals, ["verifiedProductImages", "verifiedImage?.url", "deriveProductImageUrlFromPurchaseUrl"])) {
   pass("verified product image priority", "검증된 공식 상품/혜택 이미지가 명시 이미지와 생성 placeholder보다 먼저 적용됩니다.");
 } else {
@@ -267,6 +344,7 @@ const report = {
   failedChecks: finalFailed.length,
   explicitImageRate,
   visibleImageAudit,
+  newsImageAudit,
   fallbackAssets,
   checks
 };
@@ -292,6 +370,9 @@ Status: ${report.ok ? "PASS" : "FAIL"}
 | Generated placeholders | ${visibleImageAudit.generatedPlaceholderCount} |
 | Missing image fallback | ${visibleImageAudit.fallbackMissingCount} |
 | Generated placeholder assets | ${fallbackAssets.length} |
+| Official benefit renderable images | ${newsImageAudit.renderableImageCount}/${newsImageAudit.total} |
+| Official benefit generated images | ${newsImageAudit.generatedPlaceholderCount} |
+| Official benefit low quality | ${newsImageAudit.lowQualityCount} |
 
 ## Checks
 

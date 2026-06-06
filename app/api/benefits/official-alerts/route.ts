@@ -34,7 +34,7 @@ export function GET(request: Request) {
   const url = new URL(request.url);
   const size = Number(url.searchParams.get("limit") ?? 6);
   const itemLimit = Number.isFinite(size) ? Math.max(1, Math.min(12, Math.floor(size))) : 6;
-  const officialBenefits = getVisibleNewsDeals({ limit: 60 });
+  const officialBenefits = getVisibleNewsDeals({ limit: 70 });
   const recommendations = buildOfficialBenefitAlertQueue(officialBenefits.deals, {
     interests: readList(url.searchParams, "interest"),
     recentNewsIds: readList(url.searchParams, "recentNewsId"),

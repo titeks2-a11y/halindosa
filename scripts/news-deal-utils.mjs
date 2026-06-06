@@ -101,6 +101,19 @@ const searchPatterns = [
 
 const spamWords = ["광고문의", "협찬", "체험단 모집 대행", "고수익 보장", "클릭만 하면", "무조건 지급"];
 const unclearWords = ["확인 필요", "추정", "소문", "커뮤니티", "제보", "단독 기사"];
+const generatedNewsBenefitImages = {
+  "식품/생필품": "/deal-images/category-food.svg",
+  "마트/편의점": "/deal-images/category-coupon.svg",
+  "디지털/가전": "/deal-images/category-digital.svg",
+  "패션/뷰티": "/deal-images/category-beauty.svg",
+  "외식/배달": "/deal-images/category-coupon.svg",
+  "여행/숙박": "/deal-images/category-travel.svg",
+  "영화/문화": "/deal-images/category-coupon.svg",
+  "카드/멤버십": "/deal-images/category-coupon.svg",
+  "무료혜택": "/deal-images/category-coupon.svg",
+  "정부/공공혜택": "/deal-images/category-etc.svg",
+  "기타": "/deal-images/category-etc.svg"
+};
 
 export function readJson(path, fallback) {
   const fullPath = join(root, path);
@@ -224,6 +237,31 @@ function toNumber(value, fallback = 0) {
   return Number.isFinite(numeric) && numeric >= 0 ? numeric : fallback;
 }
 
+function isGeneratedNewsBenefitImage(value) {
+  return /^\/deal-images\/category-[a-z-]+\.svg$/.test(String(value ?? ""));
+}
+
+function resolveNewsBenefitImage({ imageUrl, category, benefitType }) {
+  const cleanedImageUrl = cleanText(imageUrl);
+  if (cleanedImageUrl) {
+    return {
+      imageUrl: cleanedImageUrl,
+      imageType: isGeneratedNewsBenefitImage(cleanedImageUrl) ? "generated" : "official"
+    };
+  }
+
+  const generatedImage =
+    generatedNewsBenefitImages[category] ||
+    (benefitType === "travel" ? generatedNewsBenefitImages["여행/숙박"] : "") ||
+    (["card", "membership", "coupon", "point"].includes(benefitType) ? generatedNewsBenefitImages["카드/멤버십"] : "") ||
+    generatedNewsBenefitImages["기타"];
+
+  return {
+    imageUrl: generatedImage,
+    imageType: generatedImage ? "generated" : "fallback"
+  };
+}
+
 function normalizeHost(urlValue) {
   try {
     return new URL(urlValue).hostname.replace(/^www\./, "").toLowerCase();
@@ -327,6 +365,32 @@ function scoreNewsDeal(deal, { reasons = [], availability = "unknown", linkType 
   );
 }
 
+function scoreNewsDealQuality(deal, { reasons = [], availability = "unknown", linkType = "invalid", now = Date.now() } = {}) {
+  const verifiedAt = Date.parse(deal.verifiedAt);
+  const freshnessHours = Number.isFinite(verifiedAt) ? Math.max(0, (now - verifiedAt) / (60 * 60 * 1000)) : 999;
+  const imageBonus = deal.imageType === "official" ? 14 : deal.imageType === "generated" ? 8 : -25;
+  const linkBonus = linkType.startsWith("official") ? 18 : -45;
+  const availabilityBonus = availability === "active" ? 14 : -35;
+  const freshnessBonus = freshnessHours <= 24 ? 12 : freshnessHours <= 72 ? 8 : freshnessHours <= 168 ? 4 : -8;
+  const conditionBonus = deal.summary.length >= 30 && deal.sourceName && deal.endDate ? 8 : -6;
+
+  return Math.max(
+    0,
+    Math.min(
+      100,
+      Math.round(
+        Number(deal.confidenceScore ?? 50) +
+          imageBonus +
+          linkBonus +
+          availabilityBonus +
+          freshnessBonus +
+          conditionBonus -
+          reasons.length * 9
+      )
+    )
+  );
+}
+
 function canonicalKey(deal) {
   try {
     const url = new URL(deal.finalUrl);
@@ -348,6 +412,13 @@ export function normalizeNewsDeal(raw, nowIso = new Date().toISOString()) {
   const sourceName = cleanText(raw.sourceName) || merchant;
   const originalUrl = cleanText(raw.originalUrl ?? raw.sourceUrl ?? raw.url) || finalUrl;
   const eventUrl = cleanText(raw.eventUrl) || finalUrl;
+  const category = cleanText(raw.category) || "무료혜택";
+  const benefitType = cleanText(raw.benefitType) || "discount";
+  const resolvedImage = resolveNewsBenefitImage({
+    imageUrl: raw.imageUrl,
+    category,
+    benefitType
+  });
 
   return {
     id: cleanText(raw.id) || `news-${Buffer.from(`${merchant}-${title}-${finalUrl}`).toString("base64url").slice(0, 18)}`,
@@ -355,8 +426,8 @@ export function normalizeNewsDeal(raw, nowIso = new Date().toISOString()) {
     summary,
     merchant,
     mallName: merchant,
-    category: cleanText(raw.category) || "무료혜택",
-    benefitType: cleanText(raw.benefitType) || "discount",
+    category,
+    benefitType,
     discountRate: toNumber(raw.discountRate),
     price: toNumber(raw.price),
     originalPrice: toNumber(raw.originalPrice),
@@ -375,8 +446,10 @@ export function normalizeNewsDeal(raw, nowIso = new Date().toISOString()) {
     finalUrl,
     linkType: cleanText(raw.linkType) || "invalid",
     availability: cleanText(raw.availability) || "unknown",
-    imageUrl: cleanText(raw.imageUrl),
+    imageUrl: resolvedImage.imageUrl,
+    imageType: cleanText(raw.imageType) || resolvedImage.imageType,
     confidenceScore: toNumber(raw.confidenceScore, 50),
+    qualityScore: toNumber(raw.qualityScore, 0),
     priorityScore: toNumber(raw.priorityScore, 0),
     validationStatus: "needs_review",
     validationCode: "mismatch",
@@ -422,6 +495,7 @@ export function validateNewsDeal(deal, now = Date.now()) {
     ["freebie", "coupon", "freeShipping", "event", "membership", "card", "culture", "travel", "public", "point", "foodDelivery", "convenienceStore", "mart"].includes(deal.benefitType);
   const validationReason = passed ? "passed" : reasons.join(",");
   const priorityScore = scoreNewsDeal(deal, { reasons, availability, linkType, now });
+  const qualityScore = scoreNewsDealQuality(deal, { reasons, availability, linkType, now });
   const confidenceScore = Math.max(
     0,
     Math.min(
@@ -440,6 +514,7 @@ export function validateNewsDeal(deal, now = Date.now()) {
   return {
     ...deal,
     confidenceScore,
+    qualityScore,
     priorityScore,
     validationStatus: passed ? "passed" : "failed",
     validationCode,

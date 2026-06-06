@@ -56,7 +56,7 @@ const visibleCategoryCounts = validated
   .reduce((map, deal) => map.set(deal.category, (map.get(deal.category) ?? 0) + 1), new Map());
 const requiredCategories = ["식품/생필품", "마트/편의점", "디지털/가전", "패션/뷰티", "외식/배달", "여행/숙박", "영화/문화", "카드/멤버십", "무료혜택", "정부/공공혜택"];
 const minimumCategoryDealCount = 2;
-const minimumVisibleOfficialBenefits = 60;
+const minimumVisibleOfficialBenefits = 70;
 const missingCategories = requiredCategories.filter((category) => !visibleCategoryCounts.has(category));
 const thinCategories = requiredCategories.filter((category) => (visibleCategoryCounts.get(category) ?? 0) > 0 && (visibleCategoryCounts.get(category) ?? 0) < minimumCategoryDealCount);
 const newsRedirectRouteSource = existsSync(join(root, "app/go/news/[id]/route.ts"))

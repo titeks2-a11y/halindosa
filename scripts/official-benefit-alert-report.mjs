@@ -362,7 +362,7 @@ const benefitTypeCounts = countBy(activeBenefits.map((deal) => deal.benefitType)
 const sourceCounts = countBy(activeBenefits.map((deal) => deal.sourceName));
 const regression = buildRegressionScenarios();
 const issues = [
-  ...(activeBenefits.length >= 60 ? [] : [issue("active-official-benefits", `공식 혜택 후보가 ${activeBenefits.length}개입니다.`, "npm run refresh:news && npm run verify:news")]),
+  ...(activeBenefits.length >= 70 ? [] : [issue("active-official-benefits", `공식 혜택 후보가 ${activeBenefits.length}개입니다.`, "npm run refresh:news && npm run verify:news")]),
   ...(defaultQueue.summary.recommendedBenefits >= 6 ? [] : [issue("default-recommendations", `기본 알림 추천 후보가 ${defaultQueue.summary.recommendedBenefits}개입니다.`, "공식 혜택 seed 또는 approved feed를 보강하세요.")]),
   ...(defaultInterestCoverage.every((item) => item.matchedCount > 0)
     ? []

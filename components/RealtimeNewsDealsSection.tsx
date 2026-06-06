@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useMemo } from "react";
 import { CalendarClock, ExternalLink, RefreshCw, Search, ShieldCheck, TicketPercent } from "lucide-react";
 import { getRelativeTime, getTimeLeft } from "@/lib/format";
+import { getDealImageSrc } from "@/lib/imageSrc";
 import { rememberRecentNewsBenefitId } from "@/lib/recentNewsBenefits";
 import { OfficialBenefitIntentGroups } from "@/components/OfficialBenefitIntentGroups";
 import { CommerceBadge } from "@/components/ui/CommerceBadge";
@@ -206,8 +207,22 @@ export function RealtimeNewsDealsSection({
           return (
             <div key={deal.id} data-news-deal-card="true" className="rounded-2xl border border-slate-200 bg-white p-2.5 shadow-sm">
               <div className="flex items-start gap-2.5">
-                <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-red-50 text-brand-red">
-                  <TicketPercent size={17} />
+                <span className="relative inline-flex h-12 w-12 shrink-0 overflow-hidden rounded-2xl bg-red-50 text-brand-red">
+                  {deal.imageUrl ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={getDealImageSrc(deal.imageUrl)}
+                      alt=""
+                      loading="lazy"
+                      decoding="async"
+                      referrerPolicy="no-referrer"
+                      className="h-full w-full object-cover"
+                    />
+                  ) : (
+                    <span className="flex h-full w-full items-center justify-center">
+                      <TicketPercent size={17} />
+                    </span>
+                  )}
                 </span>
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-1.5">
@@ -405,8 +420,22 @@ export function RealtimeNewsDealsSection({
             className="min-h-[166px] w-[250px] shrink-0 snap-start rounded-2xl p-4 sm:w-auto"
           >
             <div className="flex items-start justify-between gap-3">
-              <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-white text-brand-red shadow-sm">
-                <TicketPercent size={19} />
+              <span className="relative inline-flex h-12 w-12 overflow-hidden rounded-2xl bg-white text-brand-red shadow-sm">
+                {deal.imageUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={getDealImageSrc(deal.imageUrl)}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                    referrerPolicy="no-referrer"
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  <span className="flex h-full w-full items-center justify-center">
+                    <TicketPercent size={19} />
+                  </span>
+                )}
               </span>
               <CommerceBadge tone="navy">
                 {benefitLabels[deal.benefitType]}

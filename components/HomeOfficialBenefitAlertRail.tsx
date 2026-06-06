@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { BellRing, ExternalLink, RotateCcw, ShieldCheck, Sparkles } from "lucide-react";
 import { getTimeLeft } from "@/lib/format";
+import { getDealImageSrc } from "@/lib/imageSrc";
 import { buildOfficialBenefitAlertQueue, defaultOfficialBenefitAlertInterests } from "@/lib/deals/officialBenefitAlertQueue";
 import {
   notificationPreferenceUpdatedEvent,
@@ -149,13 +150,30 @@ export function HomeOfficialBenefitAlertRail({ deals, onOpenNewsDeal }: HomeOffi
                 className="min-h-[132px] w-[228px] shrink-0 snap-start rounded-2xl border border-slate-100 bg-slate-50 p-3 transition hover:border-red-100 hover:bg-red-50 sm:w-auto"
                 aria-label={`${deal.title} 공식 페이지 새 탭으로 열기`}
               >
-                <span className="flex items-center justify-between gap-2">
-                  <span className="inline-flex rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-brand-red shadow-sm">
-                    {benefitLabel(deal)}
+                <span className="flex items-start gap-2">
+                  <span className="relative h-12 w-12 shrink-0 overflow-hidden rounded-2xl bg-white shadow-sm">
+                    {deal.imageUrl ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={getDealImageSrc(deal.imageUrl)}
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                        referrerPolicy="no-referrer"
+                        className="h-full w-full object-cover"
+                      />
+                    ) : null}
                   </span>
-                  <ExternalLink size={14} className="text-slate-400" />
+                  <span className="min-w-0 flex-1">
+                    <span className="flex items-center justify-between gap-2">
+                      <span className="inline-flex rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-brand-red shadow-sm">
+                        {benefitLabel(deal)}
+                      </span>
+                      <ExternalLink size={14} className="text-slate-400" />
+                    </span>
+                    <span className="mt-2 line-clamp-2 block min-h-10 text-xs font-black leading-5 text-slate-950">{deal.title}</span>
+                  </span>
                 </span>
-                <span className="mt-2 line-clamp-2 block min-h-10 text-xs font-black leading-5 text-slate-950">{deal.title}</span>
                 <span className="mt-1 line-clamp-1 block text-[11px] font-bold text-slate-500">
                   {officialHost} · {getTimeLeft(deal.endDate)}
                 </span>

@@ -129,7 +129,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const newsRevalidationPriority = getNewsRevalidationPriorityReport();
   const newsResult = getVisibleNewsDeals({ limit: 20 });
   const newsDeals = newsResult.deals;
-  const officialAlertNewsResult = getVisibleNewsDeals({ limit: 60 });
+  const officialAlertNewsResult = getVisibleNewsDeals({ limit: 70 });
   const officialBenefitAlertQueue = buildOfficialBenefitAlertQueue(officialAlertNewsResult.deals, { limit: 8 });
   const newsCategoryCounts = Array.from(
     newsDeals.reduce((map, deal) => map.set(deal.category, (map.get(deal.category) ?? 0) + 1), new Map<string, number>())
