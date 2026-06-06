@@ -1,6 +1,6 @@
 # 할인도사 Link Verification Report
 
-Generated: 2026-06-06T20:10:50.970Z
+Generated: 2026-06-06T20:27:09.793Z
 
 ## Summary
 
@@ -29,11 +29,11 @@ Generated: 2026-06-06T20:10:50.970Z
 | Live probe hidden hard failure review | 0 |
 | Live probe transient network | 3 |
 | Live body 확인 | 137 |
-| Live 제목/메타 확인 | 133 |
+| Live 제목/메타 확인 | 127 |
 | Live 콘텐츠 일치 신호 | 55 |
 | Live 콘텐츠 불일치 신호 | 82 |
 | Live 접근 가능 본문 불일치 | 5 |
-| Live 접근 차단 본문 | 32 |
+| Live 접근 차단 본문 | 26 |
 | Live 가격 신호 | 26 |
 | Live 구매/신청 버튼 신호 | 14 |
 | Live 종료 문구 재검토 신호 | 0 |
@@ -57,8 +57,8 @@ Generated: 2026-06-06T20:10:50.970Z
 ## Verification Evidence
 
 - live_content_confirmed: 55
-- manual_pattern_verified: 32
-- seller_access_protected_manual_verified: 32
+- manual_pattern_verified: 38
+- seller_access_protected_manual_verified: 26
 - seller_rate_limited_manual_verified: 13
 - client_rendered_detail_manual_verified: 5
 - transient_network_manual_verified: 3

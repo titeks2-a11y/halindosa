@@ -1,6 +1,6 @@
 # Publishable Surface Report
 
-- Generated at: 2026-06-06T20:05:49.354Z
+- Generated at: 2026-06-06T20:22:01.544Z
 - Status: PASS
 - Product customer candidates: 140
 - Product violations: 0
@@ -21,7 +21,7 @@ Products are visible only when they are active, passed, publishable, not hidden,
 
 Official benefits are visible only when they are active, passed, publishable, not hidden, official-link typed, high priority, and backed by a safe final URL.
 
-Refreshed product snapshots must include real titles, source names, updated/verified timestamps, a safe direct URL, and a launch-grade quality score before the home/API layer can use them.
+Refreshed product snapshots must include real titles, source names, updated/verified timestamps, a safe direct URL, renderable official/generated images, and a launch-grade quality score before the home/API layer can use them.
 
 All purchase or claim actions should continue to route through `/go/[id]` or `/go/news/[id]` so click logging, consent guardrails, and URL policy checks remain centralized.
 

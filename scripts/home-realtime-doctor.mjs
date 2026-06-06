@@ -87,6 +87,9 @@ const realtimeReadyProductDeals = refreshedProductDeals.filter(
     deal.validationStatus === "passed" &&
     deal.publishable === true &&
     deal.isHidden !== true &&
+    Boolean(deal.imageUrl || deal.thumbnail) &&
+    ["official", "generated"].includes(deal.imageType) &&
+    Number(deal.qualityScore ?? 0) >= 55 &&
     typeof deal.finalUrl === "string" &&
     /^https?:\/\//.test(deal.finalUrl) &&
     !/\/search|search\?|query=|keyword=|msearch|\/result|\/find/i.test(deal.finalUrl)
@@ -100,7 +103,7 @@ if (
 ) {
   pass(
     "product realtime data snapshot",
-    `refresh:deals 산출물 ${refreshedProductDeals.length}개가 updatedAt/verifiedAt/availability/finalUrl을 갖고 홈/API에 직접 반영됩니다.`
+    `refresh:deals 산출물 ${refreshedProductDeals.length}개가 updatedAt/verifiedAt/availability/finalUrl/imageType을 갖고 홈/API에 직접 반영됩니다.`
   );
 } else {
   fail(

@@ -3,6 +3,7 @@ import { spawnSync } from "node:child_process";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { getEnvFeedUrls } from "./feed-url-utils.mjs";
+import { deriveProductImageUrlFromPurchaseUrl, getDealImageType, getGeneratedDealImageSrc } from "./image-url-utils.mjs";
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const reportsDir = join(root, "reports");
@@ -520,6 +521,11 @@ function normalizeCollectedItem(raw, index) {
   const salePrice = toNumber(raw.salePrice ?? raw.price ?? raw.lprice);
   const originalPrice = Math.max(toNumber(raw.originalPrice ?? raw.listPrice ?? raw.hprice, salePrice), salePrice);
   const discountRate = toNumber(raw.discountRate, originalPrice > salePrice ? Math.round(((originalPrice - salePrice) / originalPrice) * 100) : 0);
+  const category = cleanText(raw.category) || "기타";
+  const rawImageUrl = cleanText(raw.thumbnail ?? raw.imageUrl ?? raw.image);
+  const derivedImageUrl = deriveProductImageUrlFromPurchaseUrl(finalUrl);
+  const imageUrl = rawImageUrl || derivedImageUrl || getGeneratedDealImageSrc(category);
+  const imageType = getDealImageType(imageUrl);
   const provider = cleanText(raw.sourceProvider ?? raw.provider ?? raw.source ?? "manual");
   const id = cleanText(raw.id ?? raw.externalId ?? `${provider}-${canonicalUrl(finalUrl) || normalizeKey(`${mallName}-${title}-${salePrice}`)}`) || `collected-${index}`;
 
@@ -538,12 +544,13 @@ function normalizeCollectedItem(raw, index) {
       id,
       title,
       mallName,
-      category: cleanText(raw.category) || "기타",
+      category,
       originalPrice,
       salePrice,
       discountRate,
-      thumbnail: cleanText(raw.thumbnail ?? raw.imageUrl ?? raw.image),
-      imageUrl: cleanText(raw.imageUrl ?? raw.thumbnail ?? raw.image),
+      thumbnail: imageUrl,
+      imageUrl,
+      imageType,
       finalUrl,
       finalPurchaseUrl: finalUrl,
       productUrl: cleanText(raw.productUrl) || cleanText(raw.verifiedProductUrl) || finalUrl,
@@ -585,9 +592,10 @@ async function validateCollectedDeal(deal) {
       : probe.reason;
   const validationCode = getValidationCode({ classification: finalClassification, validationReason, ok });
   const publishable = !isHidden && validationCode === "valid";
+  const imageScore = deal.imageType === "official" ? 12 : deal.imageType === "generated" ? 4 : -10;
   const priorityScore =
     (finalClassification.linkType === "direct_purchase" ? 45 : 30) +
-    (deal.thumbnail ? 12 : -10) +
+    imageScore +
     (deal.salePrice >= 0 ? 12 : -20) +
     (deal.discountRate > 0 ? 8 : 0) +
     (finalClassification.availability === "active" ? 15 : -30) +

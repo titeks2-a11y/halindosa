@@ -174,6 +174,8 @@ const refreshedProductSnapshotViolations = refreshedProductDeals
     if (!String(item.mallName ?? item.sourceName ?? "").trim()) issues.push("missing_source_name");
     if (!String(item.updatedAt ?? "").trim()) issues.push("missing_updated_at");
     if (!String(item.verifiedAt ?? item.lastCheckedAt ?? "").trim()) issues.push("missing_verified_at");
+    if (!String(item.imageUrl ?? item.thumbnail ?? "").trim()) issues.push("missing_image_url");
+    if (!["official", "generated"].includes(String(item.imageType ?? ""))) issues.push(`image_type_${item.imageType ?? "missing"}`);
     if (qualityScore < 55) issues.push("low_quality_score");
 
     return { item, issues };
@@ -311,7 +313,7 @@ Products are visible only when they are active, passed, publishable, not hidden,
 
 Official benefits are visible only when they are active, passed, publishable, not hidden, official-link typed, high priority, and backed by a safe final URL.
 
-Refreshed product snapshots must include real titles, source names, updated/verified timestamps, a safe direct URL, and a launch-grade quality score before the home/API layer can use them.
+Refreshed product snapshots must include real titles, source names, updated/verified timestamps, a safe direct URL, renderable official/generated images, and a launch-grade quality score before the home/API layer can use them.
 
 All purchase or claim actions should continue to route through \`/go/[id]\` or \`/go/news/[id]\` so click logging, consent guardrails, and URL policy checks remain centralized.
 
