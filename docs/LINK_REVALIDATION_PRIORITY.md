@@ -1,6 +1,6 @@
 # Link Revalidation Priority
 
-Generated: 2026-06-06T18:21:05.648Z
+Generated: 2026-06-06T18:49:50.005Z
 
 Status: PASS
 
@@ -34,12 +34,12 @@ Customer-visible links stay publishable only when the launch gate has zero expos
 | review | d007 | 토스 | 돼지목살 양념구이 600g X 4팩 | 403 | robots_or_access_blocked | 공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인 |
 | review | d009 | 지마켓 | 신라면+너구리+짜파게티+오징어짬뽕 총 20봉 | 403 | robots_or_access_blocked | 공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인 |
 | review | d010 | 쿠팡 | 알리사 급속 냉각 에어컨 무선 휴대용 선풍기 | 403 | robots_or_access_blocked | 공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인 |
+| review | d012 | 올리브영 | 세라마이드 보습 크림 기획세트 | 403 | robots_or_access_blocked | 공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인 |
 | review | d014 | 쿠팡 | 애플워치 호환 스포츠 밴드 | 403 | robots_or_access_blocked | 공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인 |
 | review | d016 | G마켓 | 농심 신라면 120g X 20봉 | 403 | robots_or_access_blocked | 공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인 |
 | review | d017 | G마켓 | 아이클레보 올인원 로봇청소기 Ultra 365 Max | 403 | robots_or_access_blocked | 공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인 |
 | review | d019 | 오늘의집 | 원목 수납장 3단 | 403 | robots_or_access_blocked | 공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인 |
 | review | d022 | 올리브영 | JMW BLDC 에어원 드라이어 MC4B03C | 403 | robots_or_access_blocked | 공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인 |
-| review | d025 | 올리브영 | 선크림 1+1 기획 | 403 | robots_or_access_blocked | 공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인 |
 | review | d028 | 쿠팡 | 워터픽 나노 패밀리팩 구강세정기 | 403 | robots_or_access_blocked | 공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인 |
 | review | d030 | 쿠팡 | Apple 2025 아이패드 A16 11세대 128GB Wi-Fi | 403 | robots_or_access_blocked | 공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인 |
 | review | d031 | 쿠팡 | 원목 수납장 3단 다용도 월넛 유리 거실장 | 403 | robots_or_access_blocked | 공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인 |

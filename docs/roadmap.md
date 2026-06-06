@@ -6,6 +6,14 @@
 
 ## 완료 작업
 
+### PHASE Official Benefit Image 60+ Gate
+
+- 공식 혜택 이미지 보강 스크립트를 개선해 `og:image` 첫 후보만 검사하던 방식에서 OG, Twitter, itemprop, JSON-LD, `image_src`, preload image, 고신뢰 inline 이미지 후보를 여러 개 수집하고 순서대로 검증하도록 바꿨다.
+- favicon, sprite, noimage, placeholder, tracking pixel 계열 이미지는 계속 제외하고, inline 이미지 후보는 이벤트/혜택/쿠폰/프로모션 등 강한 문맥 신호가 있는 경우만 사용하도록 제한해 공식 페이지 이미지를 우선하되 무출처 이미지를 섞지 않게 했다.
+- 공식 혜택 101개 중 OG/schema/공식 페이지 기반 이미지 매핑을 45개에서 64개로 올리고, 나머지 37개는 기존처럼 실제 상품 사진을 가장하지 않는 카테고리 생성 placeholder로 렌더링한다.
+- `verify:images`의 공식 혜택 이미지 매핑과 공식 혜택 이미지 운영 floor를 60개 기준으로 상향하고, release doctor가 이 기준 자체를 회귀 방지하도록 연결했다.
+- `refresh:news`, `verify:news`, `verify:images` 기준 공식 혜택 101/101 노출, 검색/비공식/종료 링크 0건, 렌더 가능한 공식 혜택 이미지 101/101, 공식 이미지 64/101 상태를 확인했다.
+
 ### PHASE Official Benefit 95+ Operating Gate
 
 - IKEA, 야놀자, 티웨이항공, 이스타항공, 에어부산, 롯데호텔, 교촌치킨, 롯데월드, 에버랜드, 아쿠아플라넷의 공식 혜택/프로모션 페이지를 seed와 official source catalog에 추가해 여행/숙박, 영화/문화, 외식/배달, 식품/생필품 카테고리의 운영 소스 폭을 넓혔다.

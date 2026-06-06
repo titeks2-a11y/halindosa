@@ -5,6 +5,7 @@ const root = process.cwd();
 const generatedAt = new Date().toISOString();
 const userAgent = "Mozilla/5.0 (compatible; HalindosaImageEnricher/1.0; +https://halindosa.com)";
 const blockedImageHints = /(favicon|sprite|blank|noimage|no_img|placeholder|loading|transparent|1x1|pixel)/i;
+const strongImageHints = /(event|benefit|coupon|promotion|promo|banner|visual|offer|sale|free|gift|main|notice|content|goods|product|thumbnail|thumb|hero|혜택|이벤트|쿠폰|프로모션|할인|무료)/i;
 
 function readJson(path, fallback) {
   try {
@@ -36,24 +37,101 @@ function absoluteImageUrl(value, baseUrl) {
   }
 }
 
-function extractMetaImage(html, baseUrl) {
-  const patterns = [
-    /<meta[^>]+property=["']og:image(?::secure_url)?["'][^>]+content=["']([^"']+)["'][^>]*>/i,
-    /<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:image(?::secure_url)?["'][^>]*>/i,
-    /<meta[^>]+name=["']twitter:image(?::src)?["'][^>]+content=["']([^"']+)["'][^>]*>/i,
-    /<meta[^>]+content=["']([^"']+)["'][^>]+name=["']twitter:image(?::src)?["'][^>]*>/i,
-    /<link[^>]+rel=["']image_src["'][^>]+href=["']([^"']+)["'][^>]*>/i,
-    /<link[^>]+href=["']([^"']+)["'][^>]+rel=["']image_src["'][^>]*>/i,
-    /"image"\s*:\s*"([^"]+)"/i
-  ];
+function unique(values) {
+  return [...new Set(values.filter(Boolean))];
+}
 
-  for (const pattern of patterns) {
-    const match = html.match(pattern);
-    const imageUrl = absoluteImageUrl(match?.[1], baseUrl);
-    if (imageUrl) return imageUrl;
+function extractJsonLdImages(html, baseUrl) {
+  const candidates = [];
+  const blocks = [...html.matchAll(/<script[^>]+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)];
+
+  function collect(value) {
+    if (!value) return;
+    if (typeof value === "string") {
+      const imageUrl = absoluteImageUrl(value, baseUrl);
+      if (imageUrl) candidates.push({ url: imageUrl, method: "json_ld_image" });
+      return;
+    }
+    if (Array.isArray(value)) {
+      value.forEach(collect);
+      return;
+    }
+    if (typeof value === "object") {
+      collect(value.url || value.contentUrl || value.thumbnailUrl);
+    }
   }
 
-  return "";
+  for (const [, rawJson] of blocks) {
+    try {
+      const parsed = JSON.parse(rawJson.trim());
+      const nodes = Array.isArray(parsed) ? parsed : [parsed, ...(Array.isArray(parsed?.["@graph"]) ? parsed["@graph"] : [])];
+      for (const node of nodes) {
+        collect(node?.image);
+        collect(node?.thumbnailUrl);
+      }
+    } catch {
+      // Ignore malformed JSON-LD. The page may still expose OG or inline candidates.
+    }
+  }
+
+  return candidates;
+}
+
+function extractImageCandidates(html, baseUrl) {
+  const candidates = [];
+  const patterns = [
+    { method: "og_image", pattern: /<meta[^>]+property=["']og:image(?::secure_url)?["'][^>]+content=["']([^"']+)["'][^>]*>/gi },
+    { method: "og_image", pattern: /<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:image(?::secure_url)?["'][^>]*>/gi },
+    { method: "twitter_image", pattern: /<meta[^>]+name=["']twitter:image(?::src)?["'][^>]+content=["']([^"']+)["'][^>]*>/gi },
+    { method: "twitter_image", pattern: /<meta[^>]+content=["']([^"']+)["'][^>]+name=["']twitter:image(?::src)?["'][^>]*>/gi },
+    { method: "itemprop_image", pattern: /<meta[^>]+itemprop=["']image["'][^>]+content=["']([^"']+)["'][^>]*>/gi },
+    { method: "itemprop_image", pattern: /<meta[^>]+content=["']([^"']+)["'][^>]+itemprop=["']image["'][^>]*>/gi },
+    { method: "image_src", pattern: /<link[^>]+rel=["'][^"']*image_src[^"']*["'][^>]+href=["']([^"']+)["'][^>]*>/gi },
+    { method: "image_src", pattern: /<link[^>]+href=["']([^"']+)["'][^>]+rel=["'][^"']*image_src[^"']*["'][^>]*>/gi },
+    { method: "preload_image", pattern: /<link[^>]+rel=["'][^"']*(?:preload|prefetch)[^"']*["'][^>]+as=["']image["'][^>]+href=["']([^"']+)["'][^>]*>/gi },
+    { method: "preload_image", pattern: /<link[^>]+href=["']([^"']+)["'][^>]+as=["']image["'][^>]+rel=["'][^"']*(?:preload|prefetch)[^"']*["'][^>]*>/gi },
+    { method: "inline_schema_image", pattern: /"image"\s*:\s*"([^"]+)"/gi }
+  ];
+
+  for (const { method, pattern } of patterns) {
+    for (const match of html.matchAll(pattern)) {
+      const imageUrl = absoluteImageUrl(match?.[1], baseUrl);
+      if (imageUrl) candidates.push({ url: imageUrl, method });
+    }
+  }
+
+  candidates.push(...extractJsonLdImages(html, baseUrl));
+
+  for (const match of html.matchAll(/<img[^>]+(?:src|data-src|data-original|data-lazy|data-url)=["']([^"']+)["'][^>]*>/gi)) {
+    const rawTag = match[0] ?? "";
+    const imageUrl = absoluteImageUrl(match?.[1], baseUrl);
+    if (imageUrl && strongImageHints.test(`${rawTag} ${imageUrl}`)) {
+      candidates.push({ url: imageUrl, method: "html_image_candidate" });
+    }
+  }
+
+  const priority = {
+    og_image: 100,
+    twitter_image: 95,
+    itemprop_image: 90,
+    json_ld_image: 88,
+    image_src: 85,
+    preload_image: 70,
+    inline_schema_image: 65,
+    html_image_candidate: 45
+  };
+
+  const byUrl = new Map();
+  for (const candidate of candidates) {
+    const current = byUrl.get(candidate.url);
+    if (!current || (priority[candidate.method] ?? 0) > (priority[current.method] ?? 0)) {
+      byUrl.set(candidate.url, candidate);
+    }
+  }
+
+  return unique([...byUrl.values()].map((candidate) => candidate.url))
+    .map((url) => byUrl.get(url))
+    .sort((a, b) => (priority[b.method] ?? 0) - (priority[a.method] ?? 0));
 }
 
 async function fetchWithTimeout(url, options = {}, timeoutMs = 8_000) {
@@ -121,8 +199,8 @@ async function probeDeal(deal) {
     }
 
     const html = (await response.text()).slice(0, 350_000);
-    const imageUrl = extractMetaImage(html, response.url || deal.finalUrl);
-    if (!imageUrl) {
+    const candidates = extractImageCandidates(html, response.url || deal.finalUrl).slice(0, 8);
+    if (!candidates.length) {
       return {
         id: deal.id,
         ok: false,
@@ -130,29 +208,43 @@ async function probeDeal(deal) {
       };
     }
 
-    const image = await validateImageUrl(imageUrl);
-    if (!image.ok) {
-      return {
-        id: deal.id,
-        ok: false,
-        reason: `image_${image.status || image.error || "invalid"}`,
-        imageUrl
-      };
+    const rejected = [];
+    for (const candidate of candidates) {
+      const image = await validateImageUrl(candidate.url);
+      const needsLargeAsset =
+        candidate.method === "html_image_candidate" &&
+        Number(image.contentLength ?? 0) > 0 &&
+        Number(image.contentLength ?? 0) < 4_000;
+
+      if (image.ok && !needsLargeAsset) {
+        return {
+          id: deal.id,
+          ok: true,
+          title: deal.title,
+          sourceName: deal.sourceName,
+          sourceUrl: deal.finalUrl,
+          url: candidate.url,
+          imageType: "official",
+          method: candidate.method,
+          checkedAt: generatedAt,
+          status: image.status,
+          contentType: image.contentType,
+          contentLength: image.contentLength
+        };
+      }
+
+      rejected.push({
+        method: candidate.method,
+        reason: needsLargeAsset ? "image_too_small" : `image_${image.status || image.error || "invalid"}`,
+        imageUrl: candidate.url
+      });
     }
 
     return {
       id: deal.id,
-      ok: true,
-      title: deal.title,
-      sourceName: deal.sourceName,
-      sourceUrl: deal.finalUrl,
-      url: imageUrl,
-      imageType: "official",
-      method: "og_or_schema_image",
-      checkedAt: generatedAt,
-      status: image.status,
-      contentType: image.contentType,
-      contentLength: image.contentLength
+      ok: false,
+      reason: rejected[0]?.reason ?? "image_invalid",
+      rejected
     };
   } catch (error) {
     return {

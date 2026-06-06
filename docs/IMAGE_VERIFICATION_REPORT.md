@@ -1,6 +1,6 @@
 # 할인도사 Image Verification Report
 
-Generated: 2026-06-06T18:34:25.923Z
+Generated: 2026-06-06T18:51:22.787Z
 Status: PASS
 
 ## Summary
@@ -16,9 +16,9 @@ Status: PASS
 | Missing image fallback | 0 |
 | Generated placeholder assets | 11 |
 | Official benefit renderable images | 101/101 |
-| Official benefit OG/schema mappings | 45 |
-| Official benefit official images | 45 |
-| Official benefit generated images | 56 |
+| Official benefit OG/schema mappings | 64 |
+| Official benefit official images | 64 |
+| Official benefit generated images | 37 |
 | Official benefit low quality | 0 |
 
 ## Checks
@@ -26,7 +26,7 @@ Status: PASS
 - PASS deal image schema: Deal 표준 타입이 imageType과 qualityScore를 명시합니다.
 - PASS official benefit image schema: 공식 혜택 타입이 imageType과 qualityScore를 명시합니다.
 - PASS official benefit image normalization: 공식 혜택 정규화 단계가 생성 placeholder와 qualityScore를 자동으로 채웁니다.
-- PASS official benefit verified image mapping: 공식 혜택 45개가 OG/schema 이미지 매핑을 우선 사용합니다.
+- PASS official benefit verified image mapping: 공식 혜택 64개가 OG/schema 이미지 매핑을 우선 사용합니다.
 - PASS normalizer image fields: 정규화 단계에서 imageType과 qualityScore를 모든 상품에 채우고 낮은 품질 항목을 publishable에서 제외합니다.
 - PASS image type resolver: 이미지 resolver가 공식/생성/fallback 이미지를 구분합니다.
 - PASS quality score image weighting: qualityScore가 최신성, 링크 검증, 이미지 타입, 신고/숨김 상태를 반영합니다.
@@ -40,5 +40,5 @@ Status: PASS
 - PASS publishable image exposure audit: 노출 상품 140개 모두 공식/파생/생성 이미지로 렌더링 가능합니다.
 - PASS official image operating floor: 공식/파생 이미지 비율이 66%입니다.
 - PASS official benefit image exposure audit: 공식 혜택 101개 모두 렌더 가능한 이미지와 qualityScore 70 이상을 갖습니다.
-- PASS official benefit image operating floor: 공식 혜택 45/101개가 공식 OG/schema 이미지를 사용합니다.
+- PASS official benefit image operating floor: 공식 혜택 64/101개가 공식 OG/schema 이미지를 사용합니다.
 - PASS verified product image priority: 검증된 공식 상품/혜택 이미지가 명시 이미지와 생성 placeholder보다 먼저 적용됩니다.

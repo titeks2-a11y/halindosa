@@ -4,6 +4,8 @@ import { deriveProductImageUrlFromPurchaseUrl, isCategoryFallbackImage } from ".
 
 const root = process.cwd();
 const checks = [];
+const minimumOfficialBenefitImageMappings = 60;
+const minimumOfficialBenefitOfficialImages = 60;
 
 function read(path) {
   return readFileSync(join(root, path), "utf8");
@@ -82,10 +84,14 @@ if (
 
 const verifiedNewsImageMapping = JSON.parse(verifiedNewsBenefitImages);
 const verifiedNewsImageCount = Object.keys(verifiedNewsImageMapping).length;
-if (verifiedNewsImageCount >= 25 && newsDealUtils.includes("getVerifiedNewsBenefitImage") && newsDealUtils.includes("isSafeOfficialNewsImageUrl")) {
+if (
+  verifiedNewsImageCount >= minimumOfficialBenefitImageMappings &&
+  newsDealUtils.includes("getVerifiedNewsBenefitImage") &&
+  newsDealUtils.includes("isSafeOfficialNewsImageUrl")
+) {
   pass("official benefit verified image mapping", `공식 혜택 ${verifiedNewsImageCount}개가 OG/schema 이미지 매핑을 우선 사용합니다.`);
 } else {
-  fail("official benefit verified image mapping", `공식 혜택 OG/schema 이미지 매핑이 ${verifiedNewsImageCount}개로 25개 기준보다 낮습니다.`);
+  fail("official benefit verified image mapping", `공식 혜택 OG/schema 이미지 매핑이 ${verifiedNewsImageCount}개로 ${minimumOfficialBenefitImageMappings}개 기준보다 낮습니다.`);
 }
 
 if (
@@ -339,10 +345,10 @@ if (newsImageAudit.total >= 70 && newsImageAudit.missingImageCount === 0 && news
   );
 }
 
-if (newsImageAudit.officialImageCount >= 25) {
+if (newsImageAudit.officialImageCount >= minimumOfficialBenefitOfficialImages) {
   pass("official benefit image operating floor", `공식 혜택 ${newsImageAudit.officialImageCount}/${newsImageAudit.total}개가 공식 OG/schema 이미지를 사용합니다.`);
 } else {
-  fail("official benefit image operating floor", `공식 혜택 공식 이미지가 ${newsImageAudit.officialImageCount}개로 25개 기준보다 낮습니다.`);
+  fail("official benefit image operating floor", `공식 혜택 공식 이미지가 ${newsImageAudit.officialImageCount}개로 ${minimumOfficialBenefitOfficialImages}개 기준보다 낮습니다.`);
 }
 
 if (includesAll(mockDeals, ["verifiedProductImages", "verifiedImage?.url", "deriveProductImageUrlFromPurchaseUrl"])) {

@@ -1,6 +1,6 @@
 # 할인도사 Performance Report
 
-Updated: 2026-06-06T18:34:37.381Z
+Updated: 2026-06-06T18:51:34.659Z
 
 ## Static Performance Budget
 

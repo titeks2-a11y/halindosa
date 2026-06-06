@@ -461,6 +461,8 @@ export async function checkUiAccessibility() {
     !packageJson.includes("image:operations:doctor") ||
     !verifyImages.includes("imageType") ||
     !verifyImages.includes("qualityScore") ||
+    !verifyImages.includes("minimumOfficialBenefitImageMappings = 60") ||
+    !verifyImages.includes("minimumOfficialBenefitOfficialImages = 60") ||
     !imageTest.includes("minimumExplicitImageRate = 25") ||
     !imageTest.includes("fallbackDealBacklog") ||
     !imageOperationsDoctor.includes("minimum explicit image gate") ||
