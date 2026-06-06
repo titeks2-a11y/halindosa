@@ -4,10 +4,10 @@
 
 ## 기본 정보
 
-- 생성 시각: 2026-06-06T11:27:26.166Z
+- 생성 시각: 2026-06-06T12:04:24.425Z
 - Git 브랜치: codex/12h-product-ux-growth-hardening
-- 최신 커밋: a893a263
-- Git 상태: M DEVICE_QA_REPORT.md;  M KNOWN_ISSUES.md;  M PUBLIC_URL_REPORT.md;  M RELEASE_NOTES.json;  M RELEASE_NOTES.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_HANDOFF_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_PACKET_REPORT.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M SUPPORT_PLAYBOOK.json;  M SUPPORT_PLAYBOOK.md;  M docs/DEVICE_QA_REPORT.md;  M docs/KNOWN_ISSUES.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/RELEASE_NOTES.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_HANDOFF_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_PACKET_REPORT.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md;  M docs/SUPPORT_PLAYBOOK.md
+- 최신 커밋: 5954dd00
+- Git 상태: clean
 - 패키지 버전: 1.0.1
 - 앱 이름: 할인도사
 - 앱 ID / 패키지명: com.halindosa.app
@@ -49,7 +49,7 @@
 | Store screenshot QA report | `docs/STORE_SCREENSHOTS_REPORT.md` | 3KB |
 | Store screenshot manifest | `docs/STORE_SCREENSHOT_MANIFEST.md` | 4KB |
 | Store screenshot manifest JSON | `STORE_SCREENSHOT_MANIFEST.json` | 5KB |
-| Harness report | `docs/HARNESS_REPORT.md` | 28KB |
+| Harness report | `docs/HARNESS_REPORT.md` | 29KB |
 | Operational health readiness report | `docs/HEALTH_READINESS_REPORT.md` | 6KB |
 | Operational health readiness JSON | `reports/health-readiness.json` | 11KB |
 | Push readiness report | `docs/PUSH_READINESS_REPORT.md` | 5KB |
@@ -59,12 +59,12 @@
 | Official benefit alert report | `docs/OFFICIAL_BENEFIT_ALERTS_REPORT.md` | 5KB |
 | Official benefit alert JSON | `reports/official-benefit-alerts.json` | 30KB |
 | Link quality regression JSON | `reports/link-quality-regression.json` | 7KB |
-| Official source live check report | `docs/OFFICIAL_SOURCE_LIVE_CHECK.md` | 8KB |
-| Official source live check JSON | `reports/official-source-live-check.json` | 30KB |
-| Official source live check CSV | `reports/official-source-live-check.csv` | 15KB |
-| Official source onboarding plan | `docs/SOURCE_ONBOARDING_PLAN.md` | 15KB |
-| Official source onboarding JSON | `reports/source-onboarding-plan.json` | 56KB |
-| Official source onboarding CSV | `reports/source-onboarding-plan.csv` | 16KB |
+| Official source live check report | `docs/OFFICIAL_SOURCE_LIVE_CHECK.md` | 9KB |
+| Official source live check JSON | `reports/official-source-live-check.json` | 33KB |
+| Official source live check CSV | `reports/official-source-live-check.csv` | 17KB |
+| Official source onboarding plan | `docs/SOURCE_ONBOARDING_PLAN.md` | 16KB |
+| Official source onboarding JSON | `reports/source-onboarding-plan.json` | 60KB |
+| Official source onboarding CSV | `reports/source-onboarding-plan.csv` | 17KB |
 | Image backlog report | `docs/IMAGE_BACKLOG_REPORT.md` | 25KB |
 | Image backlog CSV | `IMAGE_BACKLOG.csv` | 55KB |
 | Image backlog next batch CSV | `IMAGE_BACKLOG_NEXT_BATCH.csv` | 218B |
