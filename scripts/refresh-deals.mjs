@@ -130,6 +130,67 @@ function normalizeKey(value) {
     .trim();
 }
 
+function buildBenefitText(input) {
+  return [
+    input.title,
+    input.category,
+    input.shipping,
+    input.shippingInfo,
+    input.benefitSummary,
+    ...(Array.isArray(input.tags) ? input.tags : [])
+  ]
+    .map(cleanText)
+    .join(" ")
+    .toLowerCase();
+}
+
+function inferDealBenefitType(input) {
+  const text = buildBenefitText(input);
+  const salePrice = toNumber(input.salePrice ?? input.price, 1);
+
+  if (/배달|외식|요기요|배민|쿠팡이츠|식당|버거|치킨|피자|커피|음료/.test(text)) return "foodDelivery";
+  if (/편의점|gs25|cu|세븐일레븐|이마트24|1\+1|2\+1/.test(text)) return "convenienceStore";
+  if (/마트|이마트|홈플러스|롯데마트|장보기|노브랜드|쓱배송/.test(text)) return "mart";
+  if (/포인트|적립|앱테크|캐시백|페이|리워드|멤버십/.test(text)) return "point";
+  if (/체험|샘플|무료체험|테스터|초대권|시사회/.test(text)) return "experience";
+  if (/0원|무료|공짜|무상/.test(text) && salePrice <= 1000) return "freebie";
+  if (/쿠폰|교환권|청구할인|카드할인|첫 구매|1\+1|2\+1|이벤트/.test(text)) return "coupon";
+  if (/무료배송|무배|로켓배송|로켓프레시|네멤무료/.test(text)) return "freeShipping";
+  if (/행사|타임세일|오늘만|마감임박|한정수량/.test(text)) return "event";
+  return "discount";
+}
+
+function buildBenefitSummary(input, dealType) {
+  const salePrice = toNumber(input.salePrice ?? input.price);
+  const originalPrice = Math.max(toNumber(input.originalPrice ?? input.listPrice, salePrice), salePrice);
+  const discountRate = toNumber(input.discountRate, originalPrice > salePrice ? Math.round(((originalPrice - salePrice) / originalPrice) * 100) : 0);
+  const savings = Math.max(0, originalPrice - salePrice);
+
+  switch (dealType) {
+    case "freebie":
+      return "무료 또는 0원 조건으로 받을 수 있는 혜택입니다.";
+    case "coupon":
+      return "쿠폰, 교환권, 카드 혜택을 확인할 만한 절약 정보입니다.";
+    case "freeShipping":
+      return "배송비 부담을 줄일 수 있는 무료배송 특가입니다.";
+    case "experience":
+      return "체험단, 샘플, 무료 체험 조건을 확인할 수 있는 혜택입니다.";
+    case "event":
+      return "기간이 정해진 이벤트성 특가로 마감 시간을 확인하세요.";
+    case "point":
+      return "포인트 적립이나 앱테크형 생활비 절약 혜택입니다.";
+    case "convenienceStore":
+      return "편의점 1+1, 2+1, 모바일 쿠폰 조건을 확인할 수 있는 혜택입니다.";
+    case "mart":
+      return "마트 행사와 장보기 비용을 줄일 수 있는 생활 혜택입니다.";
+    case "foodDelivery":
+      return "배달, 외식, 음료 쿠폰으로 식비를 줄일 수 있는 혜택입니다.";
+    case "discount":
+    default:
+      return savings > 0 ? `${discountRate}% 할인, 약 ${savings.toLocaleString("ko-KR")}원 절약 가능한 특가입니다.` : "판매처에서 가격 조건을 확인할 만한 특가입니다.";
+  }
+}
+
 function isBlockedHost(host) {
   return blockedHosts.some((candidate) => host === candidate || host.endsWith(`.${candidate}`));
 }
@@ -528,6 +589,10 @@ function normalizeCollectedItem(raw, index) {
   const imageType = getDealImageType(imageUrl);
   const provider = cleanText(raw.sourceProvider ?? raw.provider ?? raw.source ?? "manual");
   const id = cleanText(raw.id ?? raw.externalId ?? `${provider}-${canonicalUrl(finalUrl) || normalizeKey(`${mallName}-${title}-${salePrice}`)}`) || `collected-${index}`;
+  const tags = Array.isArray(raw.tags) ? raw.tags.filter((tag) => typeof tag === "string") : [provider];
+  const shipping = cleanText(raw.shipping ?? raw.shippingInfo) || "판매처 조건 확인";
+  const dealType = cleanText(raw.dealType) || inferDealBenefitType({ ...raw, title, category, tags, shipping, salePrice, originalPrice, discountRate });
+  const benefitSummary = cleanText(raw.benefitSummary) || buildBenefitSummary({ ...raw, title, category, tags, shipping, salePrice, originalPrice, discountRate }, dealType);
 
   if (!title || !mallName || !finalUrl || salePrice < 0) {
     return {
@@ -559,14 +624,17 @@ function normalizeCollectedItem(raw, index) {
       originalUrl: cleanText(raw.originalUrl) || finalUrl,
       affiliateUrl: cleanText(raw.affiliateUrl),
       eventUrl: cleanText(raw.eventUrl),
-      shipping: cleanText(raw.shipping ?? raw.shippingInfo) || "판매처 조건 확인",
+      shipping,
       sourceProvider: provider,
       sourceName: cleanText(raw.sourceName) || provider,
       sourceUrl: cleanText(raw.sourceUrl) || finalUrl,
       evidence: cleanText(raw.evidence ?? raw.description ?? title),
       createdAt: cleanText(raw.createdAt) || now,
       expireAt: cleanText(raw.expireAt ?? raw.expiresAt) || new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
-      tags: Array.isArray(raw.tags) ? raw.tags.filter((tag) => typeof tag === "string") : [provider],
+      tags,
+      dealType,
+      benefitSummary,
+      isFreeShipping: Boolean(raw.isFreeShipping) || dealType === "freeShipping" || /무료배송|무배|로켓배송|로켓프레시|네멤무료/.test(buildBenefitText({ ...raw, title, category, tags, shipping })),
       lastCheckedAt: cleanText(raw.lastCheckedAt ?? raw.checkedAt ?? raw.verifiedAt) || now,
       checkedAt: cleanText(raw.checkedAt ?? raw.lastCheckedAt ?? raw.verifiedAt) || now,
       verifiedAt: cleanText(raw.verifiedAt ?? raw.checkedAt ?? raw.lastCheckedAt) || now,
@@ -753,9 +821,15 @@ const liveProbeSummary = {
 const manualVisibleCount = visibleDeals.filter((deal) => deal.sourceProvider === "manual").length;
 const insertedDeals = visibleDeals.filter((deal) => deal.sourceProvider !== "manual");
 const failureReasons = {};
+const benefitTypeCounts = {};
+const freeBenefitDealTypes = new Set(["freebie", "coupon", "freeShipping", "experience", "point", "convenienceStore", "mart", "foodDelivery"]);
 
 for (const failure of [...normalizationFailures.map((result) => result.reason), ...hiddenDeals.map((deal) => deal.validationReason)]) {
   failureReasons[failure] = (failureReasons[failure] ?? 0) + 1;
+}
+
+for (const deal of visibleDeals) {
+  benefitTypeCounts[deal.dealType || "unknown"] = (benefitTypeCounts[deal.dealType || "unknown"] ?? 0) + 1;
 }
 
 for (const stat of providerStats) {
@@ -773,6 +847,8 @@ const snapshot = {
   liveProbe: shouldLiveProbe,
   deals: visibleDeals,
   visibleDealIds: visibleDeals.map((deal) => deal.id),
+  benefitTypeCounts,
+  freeBenefitVisibleCount: visibleDeals.filter((deal) => freeBenefitDealTypes.has(deal.dealType) || deal.isFreeShipping).length,
   externalInsertedDealIds: insertedDeals.map((deal) => deal.id),
   revalidationQueue: {
     total: revalidationQueue.length,
@@ -801,6 +877,8 @@ const baseSummary = {
   hiddenCount: hiddenDeals.length,
   failedCount: normalizationFailures.length,
   visibleCount: visibleDeals.length,
+  benefitTypeCounts,
+  freeBenefitVisibleCount: visibleDeals.filter((deal) => freeBenefitDealTypes.has(deal.dealType) || deal.isFreeShipping).length,
   revalidationQueue: {
     total: revalidationQueue.length,
     matchedCount: revalidationQueue.filter((item) => exposureAdjustedDeals.some((deal) => deal.id === item.id)).length,

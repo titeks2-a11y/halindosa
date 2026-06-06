@@ -2,7 +2,7 @@
 
 이 문서는 공식 이벤트/혜택 소스 후보의 현재 접근 상태를 non-strict 방식으로 기록합니다. 무단 크롤링을 수행하지 않으며, 보호된 페이지는 공식 API/RSS/제휴 feed 또는 수동 승인 데이터로 연결해야 합니다.
 
-- 생성 시각: 2026-06-06T20:45:39.137Z
+- 생성 시각: 2026-06-06T21:10:18.083Z
 - 모드: non_strict_live_readiness
 - 후보 소스: 90개
 - 접근 가능: 78개
@@ -41,7 +41,7 @@
 | bhc-ecoupon | official_event | medium | reachable | 200 | bhc.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | starbucks-campaign | official_event | medium | reachable | 200 | starbucks.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | cjone-mobile-events | official_event | medium | reachable | 200 | cjone.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
-| oliveyoung-events | official_event | medium | reachable | 200 | oliveyoung.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| oliveyoung-events | official_event | medium | guarded | 403 | oliveyoung.co.kr | 무단 크롤링하지 말고 공식 API/RSS/제휴 feed 또는 수동 승인 매핑 사용 |
 | cgv-events | public_coupon | medium | guarded | 403 | cgv.co.kr | 무단 크롤링하지 말고 공식 API/RSS/제휴 feed 또는 수동 승인 매핑 사용 |
 | lottecinema-events | public_coupon | medium | reachable | 200 | lottecinema.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | megabox-events | public_coupon | medium | reachable | 200 | megabox.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
@@ -116,7 +116,7 @@
 | yanolja-official-promotion | official_event | medium | reachable | 200 | nol.yanolja.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | twayair-official-events | official_event | medium | reachable | 200 | twayair.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | eastarjet-official-events | official_event | medium | reachable | 200 | eastarjet.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
-| airbusan-official-events | official_event | medium | guarded | 403 | airbusan.com | 무단 크롤링하지 말고 공식 API/RSS/제휴 feed 또는 수동 승인 매핑 사용 |
+| airbusan-official-events | official_event | medium | reachable | 204 | airbusan.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | lottehotel-official-offers | official_event | medium | reachable | 200 | lottehotel.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | kyochon-official-events | official_event | medium | reachable | 200 | kyochon.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | lotteworld-official-benefits | official_event | medium | reachable | 200 | adventure.lotteworld.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |

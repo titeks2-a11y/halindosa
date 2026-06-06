@@ -112,6 +112,8 @@ const realtimeReadyProductDeals = refreshedProductDeals.filter(
     deal.validationStatus === "passed" &&
     deal.publishable === true &&
     deal.isHidden !== true &&
+    deal.dealType &&
+    deal.benefitSummary &&
     Boolean(deal.imageUrl || deal.thumbnail) &&
     ["official", "generated"].includes(deal.imageType) &&
     Number(deal.qualityScore ?? 0) >= 55 &&
@@ -123,17 +125,20 @@ const realtimeReadyProductDeals = refreshedProductDeals.filter(
 if (
   refreshedProducts.generatedAt &&
   refreshedProductDeals.length >= 100 &&
+  Number(refreshedProducts.freeBenefitVisibleCount ?? 0) >= 70 &&
+  refreshedProducts.benefitTypeCounts &&
+  !("unknown" in refreshedProducts.benefitTypeCounts) &&
   refreshedVisibleDealIds.length === refreshedProductDeals.length &&
   realtimeReadyProductDeals.length === refreshedProductDeals.length
 ) {
   pass(
     "product realtime data snapshot",
-    `refresh:deals 산출물 ${refreshedProductDeals.length}개가 updatedAt/verifiedAt/availability/finalUrl/imageType을 갖고 홈/API에 직접 반영됩니다.`
+    `refresh:deals 산출물 ${refreshedProductDeals.length}개가 updatedAt/verifiedAt/availability/finalUrl/imageType/dealType을 갖고, 무료/쿠폰/이벤트성 ${refreshedProducts.freeBenefitVisibleCount}개를 홈/API에 직접 반영합니다.`
   );
 } else {
   fail(
     "product realtime data snapshot",
-    `refresh:deals 산출물이 홈 직접 반영 기준을 충족하지 못했습니다. ready=${realtimeReadyProductDeals.length}/${refreshedProductDeals.length}, visibleIds=${refreshedVisibleDealIds.length}`
+    `refresh:deals 산출물이 홈 직접 반영 기준을 충족하지 못했습니다. ready=${realtimeReadyProductDeals.length}/${refreshedProductDeals.length}, visibleIds=${refreshedVisibleDealIds.length}, freeBenefitVisible=${refreshedProducts.freeBenefitVisibleCount ?? 0}`
   );
 }
 

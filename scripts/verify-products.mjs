@@ -37,6 +37,7 @@ const linkQualityPolicy = JSON.parse(read("data/linkQualityPolicy.json"));
 const packageJson = JSON.parse(read("package.json"));
 const linkReport = readJson("reports/link-validation.json") ?? readJson("LINK_VERIFICATION_RESULT.json");
 const refreshReport = readJson("reports/refresh-deals.json");
+const refreshedSnapshot = readJson("data/refreshedDeals.json");
 const dealIds = extractDealIds(mockDeals);
 const hiddenIssueIds = extractHiddenIssueIds(linkReport?.issues ?? []);
 const auditedItems = Array.isArray(linkReport?.auditedItems) ? linkReport.auditedItems : [];
@@ -231,6 +232,8 @@ const requiredRefreshFields = [
   "updatedCount",
   "hiddenCount",
   "failedCount",
+  "benefitTypeCounts",
+  "freeBenefitVisibleCount",
   "providerStats",
   "failureReasons",
   "generatedAt"
@@ -247,8 +250,32 @@ if (refreshReport) {
     issues.push("refresh-deals 리포트의 providerStats가 배열이 아닙니다.");
   }
 
+  const refreshBenefitTypes = Object.keys(refreshReport.benefitTypeCounts ?? {});
+  if (!refreshBenefitTypes.length || refreshBenefitTypes.includes("unknown")) {
+    issues.push("refresh-deals 리포트에 혜택 유형 분포가 없거나 unknown 유형이 포함되어 있습니다.");
+  }
+
+  if ((refreshReport.freeBenefitVisibleCount ?? 0) < 70) {
+    issues.push(`refresh-deals 무료/쿠폰/이벤트성 노출 수가 부족합니다: ${refreshReport.freeBenefitVisibleCount ?? 0}/70`);
+  }
+
   if ((refreshReport.reports?.linkValidation?.searchOrCategorySuspected ?? 0) !== 0) {
     issues.push("refresh-deals 리포트에 검색 링크 노출 의심 항목이 남아 있습니다.");
+  }
+}
+
+if (refreshedSnapshot) {
+  const refreshedDeals = Array.isArray(refreshedSnapshot.deals) ? refreshedSnapshot.deals : [];
+  const refreshedMissingBenefitTypeIds = refreshedDeals
+    .filter((deal) => !deal.dealType || deal.dealType === "unknown" || !deal.benefitSummary)
+    .map((deal) => deal.id ?? "unknown");
+
+  if (!refreshedDeals.length) {
+    issues.push("data/refreshedDeals.json에 노출 상품 스냅샷이 없습니다.");
+  }
+
+  if (refreshedMissingBenefitTypeIds.length) {
+    issues.push(`refresh 스냅샷에 dealType/benefitSummary가 누락된 상품이 있습니다: ${refreshedMissingBenefitTypeIds.slice(0, 10).join(", ")}`);
   }
 }
 
