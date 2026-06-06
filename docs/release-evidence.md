@@ -4,9 +4,9 @@
 
 ## 기본 정보
 
-- 생성 시각: 2026-06-06T07:15:00.984Z
+- 생성 시각: 2026-06-06T07:33:14.645Z
 - Git 브랜치: codex/12h-product-ux-growth-hardening
-- 최신 커밋: c68bf0f
+- 최신 커밋: 92d555a
 - Git 상태: clean
 - 패키지 버전: 1.0.1
 - 앱 이름: 할인도사
@@ -32,7 +32,7 @@
 | Store asset QA report | `docs/STORE_ASSETS_REPORT.md` | 1KB |
 | Device QA execution manifest | `docs/DEVICE_QA_MANIFEST.md` | 5KB |
 | Device QA execution manifest JSON | `DEVICE_QA_MANIFEST.json` | 6KB |
-| Device QA readiness report | `docs/DEVICE_QA_REPORT.md` | 4KB |
+| Device QA readiness report | `docs/DEVICE_QA_REPORT.md` | 3KB |
 | Store submission readiness report | `docs/STORE_SUBMISSION_REPORT.md` | 5KB |
 | Store submission packet QA report | `docs/STORE_PACKET_REPORT.md` | 6KB |
 | Store console fields manifest | `docs/STORE_CONSOLE_FIELDS.md` | 4KB |
@@ -57,14 +57,14 @@
 | Push delivery policy report | `docs/PUSH_DELIVERY_POLICY.md` | 3KB |
 | Push delivery policy JSON | `reports/push-delivery-policy.json` | 5KB |
 | Official benefit alert report | `docs/OFFICIAL_BENEFIT_ALERTS_REPORT.md` | 5KB |
-| Official benefit alert JSON | `reports/official-benefit-alerts.json` | 29KB |
+| Official benefit alert JSON | `reports/official-benefit-alerts.json` | 30KB |
 | Link quality regression JSON | `reports/link-quality-regression.json` | 7KB |
-| Official source live check report | `docs/OFFICIAL_SOURCE_LIVE_CHECK.md` | 7KB |
-| Official source live check JSON | `reports/official-source-live-check.json` | 26KB |
-| Official source live check CSV | `reports/official-source-live-check.csv` | 13KB |
-| Official source onboarding plan | `docs/SOURCE_ONBOARDING_PLAN.md` | 13KB |
-| Official source onboarding JSON | `reports/source-onboarding-plan.json` | 50KB |
-| Official source onboarding CSV | `reports/source-onboarding-plan.csv` | 13KB |
+| Official source live check report | `docs/OFFICIAL_SOURCE_LIVE_CHECK.md` | 8KB |
+| Official source live check JSON | `reports/official-source-live-check.json` | 30KB |
+| Official source live check CSV | `reports/official-source-live-check.csv` | 15KB |
+| Official source onboarding plan | `docs/SOURCE_ONBOARDING_PLAN.md` | 15KB |
+| Official source onboarding JSON | `reports/source-onboarding-plan.json` | 56KB |
+| Official source onboarding CSV | `reports/source-onboarding-plan.csv` | 16KB |
 | Image backlog report | `docs/IMAGE_BACKLOG_REPORT.md` | 29KB |
 | Image backlog CSV | `IMAGE_BACKLOG.csv` | 109KB |
 | Image backlog next batch CSV | `IMAGE_BACKLOG_NEXT_BATCH.csv` | 26KB |
