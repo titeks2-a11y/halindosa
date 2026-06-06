@@ -1,14 +1,19 @@
 # 할인도사 Image Verification Report
 
-Generated: 2026-06-06T07:57:33.433Z
+Generated: 2026-06-06T08:25:54.273Z
 Status: PASS
 
 ## Summary
 
 | Metric | Value |
 | --- | ---: |
-| Checks | 10/10 |
+| Checks | 12/12 |
 | Explicit image line rate | 75% |
+| Renderable visible image rate | 100% |
+| Official/derived image rate | 29% |
+| Official/derived images | 40 |
+| Generated placeholders | 100 |
+| Missing image fallback | 0 |
 | Generated placeholder assets | 11 |
 
 ## Checks
@@ -23,3 +28,5 @@ Status: PASS
 - PASS image rendering components: 주요 카드/피드 컴포넌트가 lazy loading, async decoding, object-cover, no-referrer를 유지합니다.
 - PASS local image proxy: 로컬 개발에서 차단 가능성이 높은 이미지 호스트는 프록시 유틸을 통과합니다.
 - PASS explicit image floor: 명시 이미지 또는 파생 가능 이미지 라인이 105/140개(75%)입니다.
+- PASS publishable image exposure audit: 노출 상품 140개 모두 공식/파생/생성 이미지로 렌더링 가능합니다.
+- PASS official image operating floor: 공식/파생 이미지 비율이 29%입니다.

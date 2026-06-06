@@ -1,5 +1,6 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
+import { deriveProductImageUrlFromPurchaseUrl, isCategoryFallbackImage } from "./image-url-utils.mjs";
 
 const root = process.cwd();
 const checks = [];
@@ -26,6 +27,7 @@ const imageResolver = read("lib/deals/imageResolver.ts");
 const quality = read("lib/deals/quality.ts");
 const ranking = read("lib/deals/ranking.ts");
 const mockDeals = read("data/mockDeals.ts");
+const verifiedPurchaseLinks = read("data/verifiedPurchaseLinks.ts");
 const imageSrc = read("lib/imageSrc.ts");
 const components = [
   ["QuickDealCard", "components/QuickDealCard.tsx"],
@@ -153,14 +155,83 @@ if (explicitImageRate >= 25) {
   fail("explicit image floor", `명시 이미지 커버리지가 ${explicitImageRate}%로 25% 기준보다 낮습니다.`);
 }
 
-const failed = checks.filter((check) => !check.ok);
+const verifiedUrlsById = new Map(
+  [...verifiedPurchaseLinks.matchAll(/(d\d+):\s*\{[\s\S]*?url:\s*"([^"]+)"/g)].map((match) => [match[1], match[2]])
+);
+const fallbackAssetByCategory = new Map(fallbackAssets.map((item) => [item.category, item.asset]));
+const visibleImageAudit = {
+  total: 0,
+  officialImageCount: 0,
+  generatedPlaceholderCount: 0,
+  fallbackMissingCount: 0,
+  renderableImageCount: 0,
+  renderableImageRate: 0,
+  officialImageRate: 0,
+  missingImageIds: [],
+  typeCounts: {
+    official: 0,
+    generated: 0,
+    fallback: 0
+  }
+};
+
+for (const line of dealLines) {
+  const quotedValues = [...line.matchAll(/"([^"]*)"/g)].map((match) => match[1]);
+  const id = quotedValues[0] ?? "";
+  const category = quotedValues[3] ?? "기타";
+  const imageCandidates = quotedValues.filter((value) => {
+    const lower = value.toLowerCase();
+    return value.startsWith("/deal-images/") || value.startsWith("/images/") || (/^https?:\/\//.test(value) && /\.(png|jpe?g|webp|avif)(?:[?#].*)?$/.test(lower));
+  });
+  const explicitOfficialImage = imageCandidates.find((value) => !isCategoryFallbackImage(value)) ?? "";
+  const explicitGeneratedImage = imageCandidates.find((value) => isCategoryFallbackImage(value)) ?? "";
+  const derivedImage = deriveProductImageUrlFromPurchaseUrl(verifiedUrlsById.get(id) ?? quotedValues.find((value) => /^https?:\/\//.test(value)));
+  const generatedImage = explicitGeneratedImage || fallbackAssetByCategory.get(category) || fallbackAssetByCategory.get("기타") || "";
+  const resolvedType = explicitOfficialImage || derivedImage ? "official" : generatedImage ? "generated" : "fallback";
+
+  visibleImageAudit.total += 1;
+  visibleImageAudit.typeCounts[resolvedType] += 1;
+
+  if (resolvedType === "official") visibleImageAudit.officialImageCount += 1;
+  if (resolvedType === "generated") visibleImageAudit.generatedPlaceholderCount += 1;
+  if (resolvedType === "fallback") {
+    visibleImageAudit.fallbackMissingCount += 1;
+    visibleImageAudit.missingImageIds.push(id);
+  } else {
+    visibleImageAudit.renderableImageCount += 1;
+  }
+}
+
+visibleImageAudit.renderableImageRate = visibleImageAudit.total ? Math.round((visibleImageAudit.renderableImageCount / visibleImageAudit.total) * 100) : 0;
+visibleImageAudit.officialImageRate = visibleImageAudit.total ? Math.round((visibleImageAudit.officialImageCount / visibleImageAudit.total) * 100) : 0;
+
+if (visibleImageAudit.renderableImageRate === 100 && visibleImageAudit.fallbackMissingCount === 0) {
+  pass(
+    "publishable image exposure audit",
+    `노출 상품 ${visibleImageAudit.total}개 모두 공식/파생/생성 이미지로 렌더링 가능합니다.`
+  );
+} else {
+  fail(
+    "publishable image exposure audit",
+    `이미지 없이 노출될 수 있는 상품이 ${visibleImageAudit.fallbackMissingCount}개 있습니다: ${visibleImageAudit.missingImageIds.join(", ")}`
+  );
+}
+
+if (visibleImageAudit.officialImageRate >= 25) {
+  pass("official image operating floor", `공식/파생 이미지 비율이 ${visibleImageAudit.officialImageRate}%입니다.`);
+} else {
+  fail("official image operating floor", `공식/파생 이미지 비율이 ${visibleImageAudit.officialImageRate}%로 25% 기준보다 낮습니다.`);
+}
+
+const finalFailed = checks.filter((check) => !check.ok);
 const report = {
   generatedAt: new Date().toISOString(),
-  ok: failed.length === 0,
+  ok: finalFailed.length === 0,
   totalChecks: checks.length,
-  passedChecks: checks.length - failed.length,
-  failedChecks: failed.length,
+  passedChecks: checks.length - finalFailed.length,
+  failedChecks: finalFailed.length,
   explicitImageRate,
+  visibleImageAudit,
   fallbackAssets,
   checks
 };
@@ -180,6 +251,11 @@ Status: ${report.ok ? "PASS" : "FAIL"}
 | --- | ---: |
 | Checks | ${report.passedChecks}/${report.totalChecks} |
 | Explicit image line rate | ${explicitImageRate}% |
+| Renderable visible image rate | ${visibleImageAudit.renderableImageRate}% |
+| Official/derived image rate | ${visibleImageAudit.officialImageRate}% |
+| Official/derived images | ${visibleImageAudit.officialImageCount} |
+| Generated placeholders | ${visibleImageAudit.generatedPlaceholderCount} |
+| Missing image fallback | ${visibleImageAudit.fallbackMissingCount} |
 | Generated placeholder assets | ${fallbackAssets.length} |
 
 ## Checks
@@ -193,8 +269,8 @@ for (const check of checks) {
   console.log(`${check.ok ? "PASS" : "FAIL"} ${check.name}${check.detail ? ` - ${check.detail}` : ""}`);
 }
 
-if (failed.length) {
-  console.error(`Image verification failed: ${failed.length}/${checks.length}`);
+if (finalFailed.length) {
+  console.error(`Image verification failed: ${finalFailed.length}/${checks.length}`);
   process.exit(1);
 }
 

@@ -1,8 +1,8 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-06T07:56:00.803Z",
+  "generatedAt": "2026-06-06T08:19:34.370Z",
   "sourceReport": "reports/link-validation.json",
-  "sourceGeneratedAt": "2026-06-06T07:55:56.995Z",
+  "sourceGeneratedAt": "2026-06-06T08:19:30.830Z",
   "summary": {
     "totalDeals": 140,
     "publishableDeals": 140,
@@ -606,7 +606,7 @@
       "purchaseActionSignal": false,
       "lastCheckedAt": "2026-06-05T18:20:00.000+09:00",
       "manualEvidenceStatus": "fresh",
-      "manualEvidenceAgeDays": 0.9,
+      "manualEvidenceAgeDays": 1,
       "manualEvidenceFresh": true,
       "severity": "review",
       "retryMode": "official_api_or_partner_feed",
@@ -1227,7 +1227,7 @@
       "purchaseActionSignal": false,
       "lastCheckedAt": "2026-06-06T10:58:00.000+09:00",
       "manualEvidenceStatus": "fresh",
-      "manualEvidenceAgeDays": 0.2,
+      "manualEvidenceAgeDays": 0.3,
       "manualEvidenceFresh": true,
       "severity": "review",
       "retryMode": "official_api_or_partner_feed",
