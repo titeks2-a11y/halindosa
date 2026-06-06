@@ -1,10 +1,10 @@
 # 공식 소스 통합 준비도
 
-- 생성 시각: 2026-06-06T21:46:12.009Z
+- 생성 시각: 2026-06-06T22:03:40.856Z
 - 준비 상태: seed launch ready / 공식 feed 연결 대기
 - 출시 게이트: passed
 - 공식 소스 후보: 90개
-- 접근 가능/보호 소스: 78개 / 12개
+- 접근 가능/보호 소스: 77개 / 13개
 - 설정된 공식 feed URL: 0개
 - 공식 혜택 노출 가능: 101개
 - 차단 이슈: 0개
@@ -20,7 +20,7 @@
 | 게이트 | 상태 | 내용 | 다음 작업 |
 | --- | --- | --- | --- |
 | official source catalog | passed | 90개 공식 소스 후보, 누락 카테고리 0개, 얇은 카테고리 0개 | npm run source:catalog:report |
-| official source live | passed | 접근 가능 78개, 보호 12개, 차단 이슈 0개 | npm run source:live:doctor |
+| official source live | passed | 접근 가능 77개, 보호 13개, 차단 이슈 0개 | npm run source:live:doctor |
 | source onboarding plan | passed | env 후보 5개, 상위 액션 10개 | npm run source:onboarding:plan |
 | source feed env safety | passed | 설정 URL 0개, 실패 0개, 정책 샘플 실패 0개 | npm run source:feed-env:doctor |
 | official benefit exposure | passed | 노출 101개, 숨김 0개, 종료 0개, 실패 0개 | npm run refresh:news && npm run verify:news |
@@ -30,9 +30,9 @@
 
 | Env key | 상태 | 후보 | 접근 가능 | 보호/승인 | 설정 URL | 다음 작업 |
 | --- | --- | ---: | ---: | ---: | ---: | --- |
-| OFFICIAL_EVENT_FEED_URLS | ready_to_connect | 73 | 65 | 8 | 0 | OFFICIAL_EVENT_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL을 줄바꿈 또는 쉼표로 입력 |
+| OFFICIAL_EVENT_FEED_URLS | ready_to_connect | 73 | 64 | 9 | 0 | OFFICIAL_EVENT_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL을 줄바꿈 또는 쉼표로 입력 |
 | PUBLIC_COUPON_FEED_URLS | ready_to_connect | 51 | 43 | 8 | 0 | PUBLIC_COUPON_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL을 줄바꿈 또는 쉼표로 입력 |
-| DEAL_EVENT_FEED_URLS | ready_to_connect | 31 | 28 | 3 | 0 | DEAL_EVENT_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL을 줄바꿈 또는 쉼표로 입력 |
+| DEAL_EVENT_FEED_URLS | ready_to_connect | 31 | 27 | 4 | 0 | DEAL_EVENT_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL을 줄바꿈 또는 쉼표로 입력 |
 | DEAL_EVENT_NEWS_FEED_URLS | ready_to_connect | 11 | 10 | 1 | 0 | DEAL_EVENT_NEWS_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL을 줄바꿈 또는 쉼표로 입력 |
 | DEAL_NEWS_FEED_URLS | ready_to_connect | 10 | 6 | 4 | 0 | DEAL_NEWS_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL을 줄바꿈 또는 쉼표로 입력 |
 

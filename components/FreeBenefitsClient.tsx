@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, AlertTriangle, CalendarDays, CheckCircle2, ExternalLink, Gift, Heart, Search, Share2, ShieldCheck, Sparkles, Timer, Truck } from "lucide-react";
+import { ArrowLeft, AlertTriangle, CalendarDays, CheckCircle2, ExternalLink, Gift, Heart, RotateCcw, Search, Share2, ShieldCheck, Sparkles, Timer, Truck } from "lucide-react";
 import { BenefitSavingsDiary } from "@/components/BenefitSavingsDiary";
 import { DealCard } from "@/components/DealCard";
 import { benefitReturnReservationUpdatedEvent, readBenefitReturnReservations, writeBenefitReturnReservations } from "@/lib/benefitReturnReservations";
@@ -13,7 +13,7 @@ import { buildBenefitDecisionGuide } from "@/lib/deals/benefitDecisionGuide";
 import { getClaimEffort, getClaimEffortLabel } from "@/lib/deals/claimEffort";
 import { buildPersonalizedBenefitQueue } from "@/lib/deals/personalizedBenefitQueue";
 import { buildWeeklyBenefitCalendar, WeeklyBenefitPreset } from "@/lib/deals/weeklyBenefitCalendar";
-import { buildNewsDealsRequestUrl, requestJson, type NewsDealsResponse } from "@/lib/homeApi";
+import { buildDealsRequestUrl, buildNewsDealsRequestUrl, requestJson, type DealsResponse, type NewsDealsResponse } from "@/lib/homeApi";
 import { getDealImageSrc } from "@/lib/imageSrc";
 import { formatPrice, getRelativeTime, getTimeLeft } from "@/lib/format";
 import {
@@ -67,6 +67,18 @@ const officialBenefitTypeLabels: Partial<Record<NewsBenefitType, string>> = {
   public: "공공"
 };
 
+const freeBenefitDealTypes = new Set<DealBenefitType>([
+  "coupon",
+  "freeShipping",
+  "freebie",
+  "experience",
+  "event",
+  "point",
+  "convenienceStore",
+  "mart",
+  "foodDelivery"
+]);
+
 function getOfficialBenefitLabel(deal: NewsDeal) {
   return officialBenefitTypeLabels[deal.benefitType] ?? deal.category;
 }
@@ -86,11 +98,28 @@ function isVisibleOfficialBenefit(deal: NewsDeal) {
   );
 }
 
-export function FreeBenefitsClient({ deals, officialBenefits = [], officialBenefitsUpdatedAt = "", officialBenefitFreshnessLabel = "최근 확인" }: FreeBenefitsClientProps) {
+function isVisibleFreeBenefitDeal(deal: Deal) {
+  return (
+    (freeBenefitDealTypes.has(deal.dealType) || deal.isFreeShipping) &&
+    deal.validationStatus === "passed" &&
+    deal.availability === "active" &&
+    deal.linkStatus === "verified" &&
+    deal.publishable !== false &&
+    !deal.isHidden &&
+    !deal.isSoldOut &&
+    !deal.isExpired &&
+    Boolean(deal.finalPurchaseUrl || deal.finalUrl)
+  );
+}
+
+export function FreeBenefitsClient({ deals: initialDeals, officialBenefits = [], officialBenefitsUpdatedAt = "", officialBenefitFreshnessLabel = "최근 확인" }: FreeBenefitsClientProps) {
   const [referenceNow, setReferenceNow] = useState(0);
+  const [deals, setDeals] = useState(initialDeals);
   const [liveOfficialBenefits, setLiveOfficialBenefits] = useState(officialBenefits);
   const [liveOfficialBenefitsUpdatedAt, setLiveOfficialBenefitsUpdatedAt] = useState(officialBenefitsUpdatedAt);
   const [liveOfficialBenefitFreshnessLabel, setLiveOfficialBenefitFreshnessLabel] = useState(officialBenefitFreshnessLabel);
+  const [lastBenefitsRefreshAt, setLastBenefitsRefreshAt] = useState(officialBenefitsUpdatedAt || initialDeals[0]?.updatedAt || "");
+  const [isRefreshingBenefits, setIsRefreshingBenefits] = useState(false);
   const [activeType, setActiveType] = useState<"all" | DealBenefitType>("all");
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState<BenefitSort>("recommended");
@@ -106,6 +135,64 @@ export function FreeBenefitsClient({ deals, officialBenefits = [], officialBenef
   const [visitStreak, setVisitStreak] = useState(emptyVisitStreak);
   const [favoriteCategories, setFavoriteCategories] = useState<string[]>([]);
   const [message, setMessage] = useState("");
+
+  const refreshFreeBenefitData = useCallback(async (showToast = false) => {
+    setIsRefreshingBenefits(true);
+
+    try {
+      const [dealsResponse, newsResponse] = await Promise.all([
+        requestJson<DealsResponse>(
+          buildDealsRequestUrl({
+            category: "all",
+            sort: "hot",
+            freeShippingOnly: false,
+            hotOnly: false,
+            endingSoonOnly: false,
+            verifiedOnly: true,
+            mallFilter: "all",
+            priceBand: "all",
+            benefitFilter: "all",
+            query: "",
+            timestamp: Date.now()
+          })
+        ),
+        requestJson<NewsDealsResponse>(
+          buildNewsDealsRequestUrl({
+            limit: 36,
+            query: "",
+            sort: "priority",
+            timestamp: Date.now()
+          })
+        )
+      ]);
+
+      if (dealsResponse.ok) {
+        const nextDeals = dealsResponse.deals.filter(isVisibleFreeBenefitDeal);
+        if (nextDeals.length) setDeals(nextDeals);
+      }
+
+      if (newsResponse.ok) {
+        setLiveOfficialBenefits(newsResponse.deals);
+        setLiveOfficialBenefitsUpdatedAt(newsResponse.updatedAt);
+        setLiveOfficialBenefitFreshnessLabel(newsResponse.freshnessLabel ?? "최근 확인");
+      }
+
+      const refreshedAt = newsResponse.updatedAt || dealsResponse.updatedAt || new Date().toISOString();
+      setLastBenefitsRefreshAt(refreshedAt);
+
+      if (showToast) {
+        setMessage("검증된 무료혜택을 다시 불러왔습니다.");
+        window.setTimeout(() => setMessage(""), 2500);
+      }
+    } catch {
+      if (showToast) {
+        setMessage("최신 혜택 확인에 실패해 기존 검증 목록을 유지합니다.");
+        window.setTimeout(() => setMessage(""), 2500);
+      }
+    } finally {
+      setIsRefreshingBenefits(false);
+    }
+  }, []);
 
   useEffect(() => {
     const refreshLocalState = () => {
@@ -136,36 +223,14 @@ export function FreeBenefitsClient({ deals, officialBenefits = [], officialBenef
   }, []);
 
   useEffect(() => {
-    let cancelled = false;
-
-    const refreshOfficialBenefits = async () => {
-      try {
-        const response = await requestJson<NewsDealsResponse>(
-          buildNewsDealsRequestUrl({
-            limit: 36,
-            query: "",
-            sort: "priority"
-          })
-        );
-
-        if (cancelled || !response.ok) return;
-
-        setLiveOfficialBenefits(response.deals);
-        setLiveOfficialBenefitsUpdatedAt(response.updatedAt);
-        setLiveOfficialBenefitFreshnessLabel(response.freshnessLabel ?? "최근 확인");
-      } catch {
-        // Keep the static export snapshot when the live API is unavailable, especially inside offline native bundles.
-      }
-    };
-
-    refreshOfficialBenefits();
-    const interval = window.setInterval(refreshOfficialBenefits, 60_000);
+    const handle = window.setTimeout(() => refreshFreeBenefitData(), 0);
+    const interval = window.setInterval(() => refreshFreeBenefitData(), 60_000);
 
     return () => {
-      cancelled = true;
+      window.clearTimeout(handle);
       window.clearInterval(interval);
     };
-  }, []);
+  }, [refreshFreeBenefitData]);
 
   const filteredDeals = useMemo(
     () =>
@@ -886,6 +951,22 @@ export function FreeBenefitsClient({ deals, officialBenefits = [], officialBenef
               <p className="mt-3 text-xs font-bold leading-5 text-slate-500">
                 종료·품절 가능 혜택 {needsFinalCheckCount}개는 자동으로 뒤쪽에 배치되며, 처음 보는 사용자는 진행 중만 보기로 안전하게 좁혀볼 수 있습니다.
               </p>
+              <div className="mt-4 flex flex-wrap items-center gap-2">
+                <span className="inline-flex min-h-9 items-center gap-1.5 rounded-full bg-slate-50 px-3 text-[11px] font-black text-slate-600">
+                  <ShieldCheck size={13} className="text-dossa-red" />
+                  {lastBenefitsRefreshAt ? `${getRelativeTime(lastBenefitsRefreshAt)} 최신 검증` : "최신 검증 대기"}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => refreshFreeBenefitData(true)}
+                  disabled={isRefreshingBenefits}
+                  className="inline-flex min-h-9 items-center gap-1.5 rounded-full bg-slate-950 px-3 text-[11px] font-black text-white transition hover:bg-dossa-red disabled:cursor-wait disabled:bg-slate-300"
+                  aria-label="무료혜택 새로고침"
+                >
+                  <RotateCcw size={13} className={isRefreshingBenefits ? "animate-spin" : ""} />
+                  {isRefreshingBenefits ? "확인 중" : "무료혜택 새로고침"}
+                </button>
+              </div>
             </div>
             <div className="flex min-h-64 items-center justify-center bg-dossa-red p-8 text-white">
               <div className="text-center">

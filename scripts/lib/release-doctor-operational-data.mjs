@@ -1645,6 +1645,10 @@ export async function checkOperationalDataSurfaces() {
     !freeBenefitsPage.includes("getVisibleNewsDeals") ||
     !freeBenefitsPage.includes("officialBenefits") ||
     !freeBenefitsClient.includes("officialBenefits") ||
+    !freeBenefitsClient.includes("refreshFreeBenefitData") ||
+    !freeBenefitsClient.includes("buildDealsRequestUrl") ||
+    !freeBenefitsClient.includes("무료혜택 새로고침") ||
+    !freeBenefitsClient.includes("검증된 무료혜택을 다시 불러왔습니다") ||
     !freeBenefitsClient.includes("공식 무료·쿠폰 혜택") ||
     !freeBenefitsClient.includes("공식 페이지로 바로 이동되는 혜택만 모았습니다") ||
     !freeBenefitsClient.includes("/go/news/") ||

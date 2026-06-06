@@ -1094,6 +1094,7 @@ await check("free benefits page", async () => {
       text.includes("검색 결과나 커뮤니티 글이 아니라 검증된 공식 이벤트"),
     "Free benefits page missing official verified benefit rail"
   );
+  assert(text.includes("무료혜택 새로고침") && text.includes("최신 검증"), "Free benefits page missing live refresh controls");
   assert(text.includes("무료 혜택 출석 기록") && text.includes("오늘도 혜택을 확인한 기록을 기기에 남겼습니다"), "Free benefits page missing visit streak record");
   assert(text.includes("연속 확인") && text.includes("누적 방문") && text.includes("무료 1개 챙기고 내일 볼 루틴 예약"), "Free benefits page missing visit streak cards");
   assert(
