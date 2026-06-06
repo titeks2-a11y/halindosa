@@ -1,14 +1,14 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-06T11:19:54.659Z",
+  "generatedAt": "2026-06-06T11:53:40.933Z",
   "sourceReports": {
-    "newsDeals": "2026-06-06T11:19:53.518Z",
-    "newsFreshness": "2026-06-06T11:19:54.090Z",
-    "officialBenefitAlerts": "2026-06-06T11:06:55.012Z"
+    "newsDeals": "2026-06-06T11:53:39.827Z",
+    "newsFreshness": "2026-06-06T11:53:40.401Z",
+    "officialBenefitAlerts": "2026-06-06T11:22:50.446Z"
   },
   "summary": {
-    "totalItems": 52,
-    "visibleItems": 52,
+    "totalItems": 56,
+    "visibleItems": 56,
     "activeOfficialBenefits": 52,
     "hiddenItems": 0,
     "expiredItems": 0,
@@ -18,36 +18,37 @@
     "exposedNonOfficialLinks": 0,
     "nonPublishableVisibleItems": 0,
     "renewalItems": 1,
-    "watchItems": 6,
+    "watchItems": 7,
     "manualRevalidationItems": 0,
     "blockingItems": 0,
     "reviewItems": 1,
-    "queueWatchItems": 5,
-    "queueItems": 6
+    "queueWatchItems": 6,
+    "queueItems": 7
   },
   "counts": {
     "block": 0,
     "review": 1,
-    "watch": 5,
+    "watch": 6,
     "routine": 0,
     "byReason": {
       "expires_within_14_days": 1,
-      "expires_within_30_days": 5
+      "expires_within_30_days": 6
     },
     "byHost": {
       "gs25.gsretail.com": 3,
       "lotteeatz.com": 1,
       "lotteon.com": 1,
+      "mcdonalds.co.kr": 1,
       "musinsa.com": 1
     }
   },
   "freshness": {
     "status": "fresh",
     "reportAgeHours": 0,
-    "nextRefreshDueAt": "2026-06-06T17:19:53.518Z",
-    "staleAfterAt": "2026-06-07T11:19:53.518Z",
+    "nextRefreshDueAt": "2026-06-06T17:53:39.827Z",
+    "staleAfterAt": "2026-06-07T11:53:39.827Z",
     "expiringWithin14DaysCount": 1,
-    "expiringWithin30DaysCount": 6
+    "expiringWithin30DaysCount": 7
   },
   "topQueue": [
     {
@@ -69,7 +70,7 @@
       "validationReason": "passed",
       "endDate": "2026-06-15",
       "daysLeft": 8.5,
-      "lastCheckedAt": "2026-06-06T11:19:52.813Z",
+      "lastCheckedAt": "2026-06-06T11:53:39.097Z",
       "severity": "review",
       "reason": "expires_within_14_days",
       "action": "공식 페이지 종료 여부를 확인하고 대체 혜택 후보를 준비하세요.",
@@ -94,7 +95,7 @@
       "validationReason": "passed",
       "endDate": "2026-06-30",
       "daysLeft": 23.5,
-      "lastCheckedAt": "2026-06-06T11:19:52.813Z",
+      "lastCheckedAt": "2026-06-06T11:53:39.097Z",
       "severity": "watch",
       "reason": "expires_within_30_days",
       "action": "30일 이내 종료 가능성이 있어 다음 refresh:news에서 우선 확인",
@@ -119,7 +120,7 @@
       "validationReason": "passed",
       "endDate": "2026-06-30",
       "daysLeft": 23.5,
-      "lastCheckedAt": "2026-06-06T11:19:52.813Z",
+      "lastCheckedAt": "2026-06-06T11:53:39.097Z",
       "severity": "watch",
       "reason": "expires_within_30_days",
       "action": "30일 이내 종료 가능성이 있어 다음 refresh:news에서 우선 확인",
@@ -144,7 +145,7 @@
       "validationReason": "passed",
       "endDate": "2026-06-30",
       "daysLeft": 23.5,
-      "lastCheckedAt": "2026-06-06T11:19:52.813Z",
+      "lastCheckedAt": "2026-06-06T11:53:39.097Z",
       "severity": "watch",
       "reason": "expires_within_30_days",
       "action": "30일 이내 종료 가능성이 있어 다음 refresh:news에서 우선 확인",
@@ -169,7 +170,32 @@
       "validationReason": "passed",
       "endDate": "2026-06-30",
       "daysLeft": 23.5,
-      "lastCheckedAt": "2026-06-06T11:19:52.813Z",
+      "lastCheckedAt": "2026-06-06T11:53:39.097Z",
+      "severity": "watch",
+      "reason": "expires_within_30_days",
+      "action": "30일 이내 종료 가능성이 있어 다음 refresh:news에서 우선 확인",
+      "priority": 430
+    },
+    {
+      "id": "news-mcdonalds-happy-snack-free-drink",
+      "title": "맥도날드 해피 스낵 무료 음료 혜택",
+      "merchant": "맥도날드",
+      "category": "무료혜택",
+      "benefitType": "freebie",
+      "sourceName": "맥도날드 공식 프로모션",
+      "provider": "public_coupon",
+      "host": "mcdonalds.co.kr",
+      "finalUrl": "https://www.mcdonalds.co.kr/kor/promotion/detail/E51CF9",
+      "linkType": "official_benefit",
+      "availability": "active",
+      "validationStatus": "passed",
+      "publishable": true,
+      "isHidden": false,
+      "validationCode": "valid",
+      "validationReason": "passed",
+      "endDate": "2026-06-21",
+      "daysLeft": 14.5,
+      "lastCheckedAt": "2026-06-06T11:53:39.097Z",
       "severity": "watch",
       "reason": "expires_within_30_days",
       "action": "30일 이내 종료 가능성이 있어 다음 refresh:news에서 우선 확인",
@@ -194,7 +220,7 @@
       "validationReason": "passed",
       "endDate": "2026-06-30",
       "daysLeft": 23.5,
-      "lastCheckedAt": "2026-06-06T11:19:52.813Z",
+      "lastCheckedAt": "2026-06-06T11:53:39.097Z",
       "severity": "watch",
       "reason": "expires_within_30_days",
       "action": "30일 이내 종료 가능성이 있어 다음 refresh:news에서 우선 확인",

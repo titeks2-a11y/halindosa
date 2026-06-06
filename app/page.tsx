@@ -1378,6 +1378,20 @@ export default function Home() {
                 </button>
               ))}
             </div>
+            <div className="mt-1 flex items-center justify-between gap-2 rounded-2xl bg-slate-50 px-2 py-1.5 text-[11px] font-bold text-slate-500 sm:hidden">
+              <span className="min-w-0 truncate">
+                실시간 검증됨 · {verifiedHomeDeals.length.toLocaleString("ko-KR")}개 · {getRelativeTime(lastHomeSyncAt || updatedAt || newsUpdatedAt)}
+              </span>
+              <button
+                type="button"
+                onClick={refreshHomeNow}
+                disabled={isLoading || isNewsRefreshing || isSignalLoading}
+                className="inline-flex min-h-8 shrink-0 items-center justify-center rounded-full bg-dossa-red px-3 text-[11px] font-black text-white disabled:cursor-wait disabled:opacity-65"
+                aria-label="최신 특가와 무료혜택 다시 확인"
+              >
+                {isLoading || isNewsRefreshing || isSignalLoading ? "확인 중" : "새로고침"}
+              </button>
+            </div>
             {activeFilterLabels.length ? (
               <button
                 type="button"
@@ -1545,19 +1559,21 @@ export default function Home() {
           </section>
         ) : null}
         {activeView === "home" ? (
-          <HomeStatusStrip
-            dealCount={deals.length}
-            verifiedDealCount={verifiedHomeDeals.length}
-            newDealCount={stats.newCount}
-            hotDealCount={stats.hotCount}
-            isOffline={isOffline}
-            providerSource={providerSource}
-            latestPriceCheckedAt={dataQuality.latestPriceCheckedAt}
-            updatedAt={lastHomeSyncAt || updatedAt || newsUpdatedAt}
-            isRefreshing={isLoading || isNewsRefreshing || isSignalLoading}
-            refreshIntervalSeconds={HOME_REFRESH_INTERVAL_SECONDS}
-            onRefresh={refreshHomeNow}
-          />
+          <div className="hidden sm:block">
+            <HomeStatusStrip
+              dealCount={deals.length}
+              verifiedDealCount={verifiedHomeDeals.length}
+              newDealCount={stats.newCount}
+              hotDealCount={stats.hotCount}
+              isOffline={isOffline}
+              providerSource={providerSource}
+              latestPriceCheckedAt={dataQuality.latestPriceCheckedAt}
+              updatedAt={lastHomeSyncAt || updatedAt || newsUpdatedAt}
+              isRefreshing={isLoading || isNewsRefreshing || isSignalLoading}
+              refreshIntervalSeconds={HOME_REFRESH_INTERVAL_SECONDS}
+              onRefresh={refreshHomeNow}
+            />
+          </div>
         ) : null}
         {activeView === "home" ? (
           <section id="deal-list" className="scroll-mt-24 rounded-[24px] border border-slate-200 bg-white p-2 shadow-sm sm:p-3" aria-label="검증 특가 목록">

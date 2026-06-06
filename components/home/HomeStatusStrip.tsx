@@ -50,13 +50,23 @@ export function HomeStatusStrip({
             </span>
           ))}
         </div>
-        <div className="mt-1.5 flex items-center justify-between gap-2 px-1 text-[11px] font-bold text-slate-500 sm:hidden">
-          <span>{getProviderDisplayLabel(providerSource)}</span>
-          <span>{isOffline ? "오프라인" : `${realtimeLabel} · ${autoRefreshLabel}`}</span>
+        <div className="mt-1 flex items-center justify-between gap-2 px-1 text-[11px] font-bold text-slate-500 sm:hidden">
+          <span className="min-w-0 truncate">{isOffline ? "오프라인" : `${realtimeLabel} · ${autoRefreshLabel}`}</span>
+          {onRefresh ? (
+            <button
+              type="button"
+              onClick={onRefresh}
+              disabled={isRefreshing}
+              className="inline-flex min-h-8 shrink-0 items-center justify-center rounded-full bg-dossa-red px-3 text-[11px] font-black text-white disabled:cursor-wait disabled:opacity-65"
+              aria-label="최신 특가 다시 확인"
+            >
+              {isRefreshing ? "확인 중" : "새로고침"}
+            </button>
+          ) : null}
         </div>
-        <div className="mt-1.5 flex items-center justify-between gap-2 px-1">
+        <div className="mt-1.5 hidden items-center justify-between gap-2 px-1 sm:flex">
           <p className="min-w-0 truncate text-[11px] font-bold text-slate-500">
-            실시간 검증됨 · {autoRefreshLabel} · 가격/재고는 구매 전 최종 확인
+            실시간 검증됨 · {getProviderDisplayLabel(providerSource)} · {autoRefreshLabel} · 가격/재고는 구매 전 최종 확인
           </p>
           {onRefresh ? (
             <button

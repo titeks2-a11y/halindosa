@@ -46,7 +46,7 @@ export function HomeDealGrid({
 
   return (
     <div className="space-y-2 sm:space-y-3">
-      <div className="grid grid-cols-1 gap-2 min-[430px]:grid-cols-2 sm:gap-3 md:gap-4 xl:grid-cols-3 2xl:grid-cols-4">
+      <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-3 md:gap-4 xl:grid-cols-3 2xl:grid-cols-4">
         {visibleItems.map((deal) => (
           <QuickDealCard
             key={deal.id}

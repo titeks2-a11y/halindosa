@@ -2,12 +2,12 @@
 
 이 문서는 할인도사에 연결할 수 있는 공식 이벤트, 공공 혜택, 제휴 JSON/RSS 후보를 정리합니다. 무단 크롤링 후보가 아니라 운영자가 승인 feed 또는 공식 페이지 매핑으로 전환할 때 쓰는 출발점입니다.
 
-- 생성 시각: 2026-06-06T11:21:19.386Z
+- 생성 시각: 2026-06-06T11:55:08.404Z
 - 상태: PASS
-- 후보 소스: 40개
-- 고우선순위 후보: 14개
+- 후보 소스: 44개
+- 고우선순위 후보: 18개
 - 현재 env feed 연결 후보: 0개
-- 공식 혜택 노출: 52개
+- 공식 혜택 노출: 56개
 - feed 전환 상태: seed_launch_ready
 - CSV 리포트: reports/official-source-catalog.csv
 
@@ -19,11 +19,11 @@
 | 마트/편의점 | 7 | 충분 |
 | 디지털/가전 | 2 | 충분 |
 | 패션/뷰티 | 4 | 충분 |
-| 외식/배달 | 14 | 충분 |
+| 외식/배달 | 18 | 충분 |
 | 여행/숙박 | 3 | 충분 |
 | 영화/문화 | 6 | 충분 |
-| 카드/멤버십 | 12 | 충분 |
-| 무료혜택 | 23 | 충분 |
+| 카드/멤버십 | 15 | 충분 |
+| 무료혜택 | 27 | 충분 |
 | 정부/공공혜택 | 3 | 충분 |
 
 ## Provider 커버리지
@@ -32,8 +32,8 @@
 | --- | ---: | --- |
 | news | 1 | 포함 |
 | event_news | 2 | 포함 |
-| official_event | 24 | 포함 |
-| public_coupon | 13 | 포함 |
+| official_event | 25 | 포함 |
+| public_coupon | 16 | 포함 |
 
 ## 후보 목록
 
@@ -79,6 +79,10 @@
 | okcashbag-event-benefits | public_coupon | 카드/멤버십, 무료혜택, 마트/편의점 | high | https://www.okcashbag.com/life/event/eventHome.do | PUBLIC_COUPON_FEED_URLS, OFFICIAL_EVENT_FEED_URLS |
 | okcashbag-brand-events | public_coupon | 카드/멤버십, 무료혜택 | medium | https://www.okcashbag.com/life/event/eventMain.do | PUBLIC_COUPON_FEED_URLS, DEAL_EVENT_FEED_URLS |
 | parisbaguette-promotion | official_event | 외식/배달, 무료혜택 | medium | https://www.paris.co.kr/promotion/ | OFFICIAL_EVENT_FEED_URLS, DEAL_EVENT_NEWS_FEED_URLS |
+| mcdonalds-happy-snack-free-drink | public_coupon | 외식/배달, 무료혜택 | high | https://www.mcdonalds.co.kr/kor/promotion/detail/E51CF9 | PUBLIC_COUPON_FEED_URLS, OFFICIAL_EVENT_FEED_URLS |
+| kfc-new-member-coupon-benefit | public_coupon | 외식/배달, 무료혜택, 카드/멤버십 | high | https://www.kfckorea.com/promotion/promotionList/detail/1040 | PUBLIC_COUPON_FEED_URLS, OFFICIAL_EVENT_FEED_URLS |
+| dominos-official-discount-benefits | official_event | 외식/배달, 무료혜택, 카드/멤버십 | high | https://web.dominos.co.kr/event/discount?todo=main | OFFICIAL_EVENT_FEED_URLS, DEAL_EVENT_FEED_URLS |
+| pizzahut-member-free-coupon-benefit | public_coupon | 외식/배달, 무료혜택, 카드/멤버십 | high | https://www.pizzahut.co.kr/misc/membership | PUBLIC_COUPON_FEED_URLS, OFFICIAL_EVENT_FEED_URLS |
 
 ## 다음 작업
 

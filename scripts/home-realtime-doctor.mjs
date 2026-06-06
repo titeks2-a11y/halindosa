@@ -33,6 +33,8 @@ const homeStatusStrip = read("components/home/HomeStatusStrip.tsx");
 const packageJson = JSON.parse(read("package.json"));
 const qaRunner = read("scripts/run-qa.mjs");
 const harness = read("scripts/harness.mjs");
+const refreshedNews = JSON.parse(read("data/refreshedNewsDeals.json"));
+const newsReport = JSON.parse(read("reports/news-deals.json"));
 
 for (const routePath of apiRoutes) {
   const route = read(routePath);
@@ -90,6 +92,41 @@ if (includesAll(homeRoute, ["newsMeta", "cachePolicy", 'mode: "no-store"', "reco
   pass("home snapshot metadata", "/api/home이 공식 혜택 추천, freshness, no-store 생성 메타를 함께 반환합니다.");
 } else {
   fail("home snapshot metadata", "/api/home 응답에 공식 혜택 추천/freshness/no-store 메타가 부족합니다.");
+}
+
+const refreshedNewsDeals = Array.isArray(refreshedNews.deals) ? refreshedNews.deals : [];
+const realtimeReadyNewsDeals = refreshedNewsDeals.filter(
+  (deal) =>
+    deal.publishable === true &&
+    deal.availability === "active" &&
+    deal.validationStatus === "passed" &&
+    Boolean(deal.updatedAt) &&
+    Boolean(deal.verifiedAt) &&
+    Boolean(deal.lastCheckedAt) &&
+    Boolean(deal.source || deal.sourceName) &&
+    typeof deal.finalUrl === "string" &&
+    /^https?:\/\//.test(deal.finalUrl) &&
+    !/\/search|search\?|query=|keyword=|msearch|\/result|\/find/i.test(deal.finalUrl)
+);
+
+if (
+  refreshedNews.generatedAt &&
+  newsReport.generatedAt &&
+  refreshedNewsDeals.length >= 55 &&
+  realtimeReadyNewsDeals.length === refreshedNewsDeals.length &&
+  Number(newsReport.visibleCount ?? 0) >= 55 &&
+  Number(newsReport.exposedSearchLinkCount ?? 0) === 0 &&
+  Number(newsReport.exposedNonOfficialLinkCount ?? 0) === 0
+) {
+  pass(
+    "home realtime data snapshot",
+    `수집 산출물 ${refreshedNewsDeals.length}개가 updatedAt/verifiedAt/availability/source/finalUrl을 갖고 홈 no-store API로 반영될 준비가 되어 있습니다.`
+  );
+} else {
+  fail(
+    "home realtime data snapshot",
+    `수집 산출물 또는 검증 리포트가 홈 실시간 반영 기준을 충족하지 못했습니다. ready=${realtimeReadyNewsDeals.length}/${refreshedNewsDeals.length}, visible=${newsReport.visibleCount ?? 0}`
+  );
 }
 
 if (includesAll(homeStatusStrip, ["실시간 검증됨", "업데이트", "새로고침", "onRefresh", "isRefreshing", "getRelativeTime(updatedAt)", "refreshIntervalSeconds", "자동 확인"])) {

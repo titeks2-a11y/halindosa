@@ -1,6 +1,6 @@
 # 할인도사 Link Verification Report
 
-Generated: 2026-06-06T11:22:47.602Z
+Generated: 2026-06-06T11:59:17.333Z
 
 ## Summary
 
@@ -30,8 +30,8 @@ Generated: 2026-06-06T11:22:47.602Z
 | Live probe transient network | 3 |
 | Live body 확인 | 137 |
 | Live 제목/메타 확인 | 133 |
-| Live 콘텐츠 일치 신호 | 55 |
-| Live 콘텐츠 불일치 신호 | 82 |
+| Live 콘텐츠 일치 신호 | 56 |
+| Live 콘텐츠 불일치 신호 | 81 |
 | Live 접근 가능 본문 불일치 | 5 |
 | Live 접근 차단 본문 | 32 |
 | Live 가격 신호 | 26 |

@@ -29,16 +29,16 @@ export function QuickDealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, 
   return (
     <article
       aria-label={`${deal.mallName} ${deal.title} 특가`}
-      className="group flex min-h-[128px] overflow-hidden rounded-2xl border border-brand-line bg-brand-surface shadow-lift transition hover:-translate-y-0.5 hover:border-orange-100 hover:shadow-commerce min-[430px]:block min-[430px]:min-h-0 min-[430px]:rounded-[20px]"
+      className="group flex min-h-[112px] overflow-hidden rounded-2xl border border-brand-line bg-brand-surface shadow-lift transition hover:-translate-y-0.5 hover:border-orange-100 hover:shadow-commerce sm:block sm:min-h-0 sm:rounded-[20px]"
     >
       <Link
         href={`/deals/${deal.id}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="block w-[32%] max-w-[104px] shrink-0 min-[430px]:w-full min-[430px]:max-w-none"
+        className="block w-[30%] max-w-[92px] shrink-0 sm:w-full sm:max-w-none"
         aria-label={`${deal.title} 상세 정보 새 탭으로 보기`}
       >
-        <span className="relative block h-full min-h-[128px] overflow-hidden bg-gradient-to-br from-brand-warm via-white to-orange-50 min-[430px]:aspect-[4/3] min-[430px]:h-auto min-[430px]:min-h-0">
+        <span className="relative block h-full min-h-[112px] overflow-hidden bg-gradient-to-br from-brand-warm via-white to-orange-50 sm:aspect-[4/3] sm:h-auto sm:min-h-0">
           {deal.imageUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
@@ -62,34 +62,34 @@ export function QuickDealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, 
             </span>
           )}
           <span
-            className={`absolute left-1.5 top-1.5 max-w-[82%] truncate rounded-full px-2 py-0.5 text-[11px] font-black text-white shadow-sm min-[430px]:left-2 min-[430px]:top-2 min-[430px]:px-2.5 min-[430px]:py-1 ${
+            className={`absolute left-1.5 top-1.5 max-w-[82%] truncate rounded-full px-2 py-0.5 text-[11px] font-black text-white shadow-sm sm:left-2 sm:top-2 sm:px-2.5 sm:py-1 ${
               isBenefitFocused ? "bg-brand-navy" : "commerce-gradient"
             }`}
           >
             {primaryBadge}
           </span>
           {deal.isHot ? (
-            <span className="absolute bottom-1.5 left-1.5 rounded-full bg-brand-navy px-2 py-0.5 text-[10px] font-black text-white shadow-sm min-[430px]:bottom-2 min-[430px]:left-2 min-[430px]:px-2.5 min-[430px]:py-1 min-[430px]:text-[11px]">HOT</span>
+            <span className="absolute bottom-1.5 left-1.5 rounded-full bg-brand-navy px-2 py-0.5 text-[10px] font-black text-white shadow-sm sm:bottom-2 sm:left-2 sm:px-2.5 sm:py-1 sm:text-[11px]">HOT</span>
           ) : null}
           {deal.isFreeShipping ? (
-            <span className="absolute bottom-1.5 right-1.5 rounded-full bg-white px-2 py-0.5 text-[10px] font-black text-dossa-red shadow-sm min-[430px]:bottom-2 min-[430px]:right-2 min-[430px]:px-2.5 min-[430px]:py-1 min-[430px]:text-[11px]">무료배송</span>
+            <span className="absolute bottom-1.5 right-1.5 rounded-full bg-white px-2 py-0.5 text-[10px] font-black text-dossa-red shadow-sm sm:bottom-2 sm:right-2 sm:px-2.5 sm:py-1 sm:text-[11px]">무료배송</span>
           ) : null}
         </span>
       </Link>
 
-      <div className="min-w-0 flex-1 space-y-1 p-2 min-[430px]:space-y-2 min-[430px]:p-2.5 sm:p-3">
+      <div className="min-w-0 flex-1 space-y-0.5 p-1.5 sm:space-y-2 sm:p-3">
         <div className="flex items-center justify-between gap-2 text-[11px] font-black">
           <span className="min-w-0 truncate text-dossa-red">{deal.mallName}</span>
           <span className="shrink-0 text-slate-400">{checkedAt}</span>
         </div>
 
         <Link href={`/deals/${deal.id}`} target="_blank" rel="noopener noreferrer" className="block" aria-label={`${deal.title} 상세 정보 새 탭으로 보기`}>
-          <h3 className="line-clamp-2 min-h-[2rem] text-[12px] font-black leading-4 text-slate-950 transition hover:text-dossa-red min-[430px]:min-h-[2.35rem] min-[430px]:leading-[1.18rem] sm:text-[15px] sm:leading-5">
+          <h3 className="line-clamp-2 min-h-[1.85rem] text-[12px] font-black leading-[0.95rem] text-slate-950 transition hover:text-dossa-red sm:min-h-[2.35rem] sm:text-[15px] sm:leading-5">
             {deal.title}
           </h3>
         </Link>
 
-        <div className="hidden rounded-2xl border border-brand-line bg-white/75 p-1.5 min-[430px]:block" aria-label={`${deal.title} 구매 전 한눈에`}>
+        <div className="hidden rounded-2xl border border-brand-line bg-white/75 p-1.5 sm:block" aria-label={`${deal.title} 구매 전 한눈에`}>
           <div className="mb-1 flex items-center justify-between gap-2 px-1">
             <p className="text-[10px] font-black text-slate-500">구매 전 한눈에</p>
             <p className="truncate text-[10px] font-bold text-slate-400">{deal.category}</p>
@@ -103,7 +103,7 @@ export function QuickDealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, 
           </div>
         </div>
 
-        <div className="hidden flex-wrap gap-1 min-[430px]:flex">
+        <div className="hidden flex-wrap gap-1 sm:flex">
           {verified ? (
             <CommerceBadge tone="success" className="px-2 py-0.5 text-[10px]">
               <CheckCircle2 size={12} />
@@ -126,29 +126,29 @@ export function QuickDealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, 
         </div>
 
         <div
-          className="rounded-xl border border-brand-line bg-gradient-to-br from-white via-white to-orange-50 px-2 py-1 min-[430px]:rounded-2xl min-[430px]:px-2.5 min-[430px]:py-2"
+          className="rounded-xl border border-brand-line bg-gradient-to-br from-white via-white to-orange-50 px-2 py-0.5 sm:rounded-2xl sm:px-2.5 sm:py-2"
           aria-label={`${deal.title} 가격 요약`}
         >
           <p className="sr-only">압축 가격 카드</p>
           <div className="flex items-center justify-between gap-2">
-            <span className="inline-flex shrink-0 rounded-full commerce-gradient px-2 py-0.5 text-[10px] font-black text-white shadow-sm min-[430px]:py-1 min-[430px]:text-[11px]">
+            <span className="inline-flex shrink-0 rounded-full commerce-gradient px-2 py-0.5 text-[10px] font-black text-white shadow-sm sm:py-1 sm:text-[11px]">
               {isBenefitFocused ? benefitLabel : `${deal.discountRate}% 할인`}
             </span>
-            <span className="min-w-0 truncate text-[10px] font-bold text-slate-400 line-through min-[430px]:text-[11px]">{formatPrice(deal.originalPrice)}</span>
+            <span className="min-w-0 truncate text-[10px] font-bold text-slate-400 line-through sm:text-[11px]">{formatPrice(deal.originalPrice)}</span>
           </div>
-          <div className="mt-0.5 flex items-end justify-between gap-2 min-[430px]:mt-1">
-            <strong className="min-w-0 truncate text-[15px] font-black text-slate-950 min-[430px]:text-[19px] sm:text-2xl">{formatPrice(deal.salePrice)}</strong>
-            <span className="hidden shrink-0 rounded-full bg-white px-2 py-1 text-[10px] font-black text-dossa-red shadow-sm min-[430px]:inline-flex">
+          <div className="mt-0.5 flex items-end justify-between gap-2 sm:mt-1">
+            <strong className="min-w-0 truncate text-[14px] font-black text-slate-950 sm:text-[19px] md:text-2xl">{formatPrice(deal.salePrice)}</strong>
+            <span className="hidden shrink-0 rounded-full bg-white px-2 py-1 text-[10px] font-black text-dossa-red shadow-sm sm:inline-flex">
               {formatPrice(deal.discountAmount)} 아낌
             </span>
           </div>
         </div>
 
-        <div className="grid grid-cols-[32px_32px_1fr] gap-1.5 min-[430px]:grid-cols-[40px_40px_1fr]">
+        <div className="grid grid-cols-[30px_30px_1fr] gap-1 sm:grid-cols-[40px_40px_1fr] sm:gap-1.5">
           <button
             type="button"
             onClick={() => onToggleFavorite(deal.id)}
-            className={`inline-flex min-h-9 items-center justify-center rounded-xl border transition min-[430px]:min-h-10 min-[430px]:rounded-2xl ${
+            className={`inline-flex min-h-9 items-center justify-center rounded-xl border transition sm:min-h-10 sm:rounded-2xl ${
               isFavorite ? "border-red-100 bg-red-50 text-dossa-red" : "border-slate-200 bg-white text-slate-500 hover:text-dossa-red"
             }`}
             aria-label={`${deal.title} ${isFavorite ? "찜 해제" : "찜하기"}`}
@@ -159,7 +159,7 @@ export function QuickDealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, 
           <button
             type="button"
             onClick={() => onShareDeal(deal)}
-            className="inline-flex min-h-9 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-500 transition hover:text-dossa-red min-[430px]:min-h-10 min-[430px]:rounded-2xl"
+            className="inline-flex min-h-9 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-500 transition hover:text-dossa-red sm:min-h-10 sm:rounded-2xl"
             aria-label={`${deal.title} 공유하기`}
           >
             <Share2 size={18} />
@@ -168,7 +168,7 @@ export function QuickDealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, 
             type="button"
             onClick={() => linkAvailable && onOpenDeal(deal)}
             disabled={!linkAvailable}
-            className="inline-flex min-h-9 items-center justify-center gap-1 rounded-xl bg-brand-navy px-2 text-[11px] font-black text-white transition hover:bg-brand-primary disabled:cursor-not-allowed disabled:bg-slate-300 min-[430px]:min-h-10 min-[430px]:gap-1.5 min-[430px]:rounded-2xl min-[430px]:px-3 min-[430px]:text-xs"
+            className="inline-flex min-h-9 items-center justify-center gap-1 rounded-xl bg-brand-navy px-2 text-[11px] font-black text-white transition hover:bg-brand-primary disabled:cursor-not-allowed disabled:bg-slate-300 sm:min-h-10 sm:gap-1.5 sm:rounded-2xl sm:px-3 sm:text-xs"
             aria-label={linkAvailable ? `${deal.title} 판매처 이동 전 확인` : `${deal.title} 링크 확인 필요`}
           >
             <span className="truncate">{primaryCta}</span>

@@ -722,3 +722,7 @@
 - `README.md`, `docs/RUNBOOK.md`, `docs/test-plan.md`의 QA/harness 설명을 실제 검증 체인과 맞춰 모바일 UX, 이미지, 외부 링크, 성능, smoke, release doctor 범위를 명확히 문서화했다.
 - `device:qa:doctor`와 실기기 QA 기록 템플릿을 보강해 기준 Git 커밋, Android/iOS 빌드, OAuth Provider, 외부 브라우저, 공유 시트, safe area, 구매 링크 샘플, 남은 Critical Issue, 민감정보 기록 금지 원칙이 빠지면 출시 게이트에서 잡히도록 강화했다.
 - `official:alerts:report`에 합성 회귀 샘플을 추가해 검색 링크, unsafe URL, 종료/숨김/판매 중단 공식 혜택이 알림 후보에 섞이지 않고, 날짜 형식 이상값도 큐 정렬을 깨지 않는지 release doctor까지 자동 확인하도록 강화했다.
+- 맥도날드 해피 스낵 무료 음료, KFC 신규 회원 쿠폰, 도미노피자 공식 할인, 피자헛 회원 무료 쿠폰 혜택을 공식 source catalog와 news seed에 추가해 공식 혜택 노출을 56개로 확대했다.
+- `refresh:freebies`와 `refresh:events`의 출시 하한을 각각 8개, 55개로 올리고, 공유 JSON 리포트를 동시에 읽을 때 빈 파일을 만나는 레이스를 재시도/fallback으로 보강했다.
+- `test:home-realtime`에 실제 수집 산출물 검사 게이트를 추가해 `updatedAt`, `verifiedAt`, `lastCheckedAt`, `availability`, `source`, `finalUrl`, 검색 링크 차단 상태가 홈 no-store API 반영 전부터 검증되도록 강화했다.
+- 모바일 특가 카드의 기본 높이, 썸네일 폭, 내부 여백을 줄여 360~430px 화면에서 상품 리스트가 더 빨리 보이도록 개선하되 찜/공유/구매 CTA 터치 영역은 유지했다.
