@@ -1,12 +1,12 @@
 # Official Event Refresh Report
 
-Generated: 2026-06-06T17:10:20.474Z
+Generated: 2026-06-06T17:49:36.238Z
 
 ## Summary
 
 - Mode: events
-- Matched items: 83
-- Visible official items: 83
+- Matched items: 87
+- Visible official items: 87
 - Hidden/blocked items: 0
 - Exposed search links: 0
 - Exposed non-official links: 0
@@ -24,6 +24,7 @@ All visible rows must keep `/go/news/[id]` redirect tracking and must resolve to
 | ID | Title | Source | Category | Host | Redirect |
 | --- | --- | --- | --- | --- | --- |
 | news-gs25-drinking-festa-2026 | GS25 드링킹 페스타 1+1·다량 구매 행사 | GS25 공식 이벤트 | 마트/편의점 | gs25.gsretail.com | `/go/news/news-gs25-drinking-festa-2026` |
+| news-dunkin-monthly-combo-coupon | 던킨 공식 이달의 콤보 쿠폰 혜택 | 던킨 공식 이벤트 | 외식/배달 | dunkindonuts.co.kr | `/go/news/news-dunkin-monthly-combo-coupon` |
 | news-mcdonalds-happy-snack-free-drink | 맥도날드 해피 스낵 무료 음료 혜택 | 맥도날드 공식 프로모션 | 무료혜택 | mcdonalds.co.kr | `/go/news/news-mcdonalds-happy-snack-free-drink` |
 | news-musinsa-fashion-festa | 무신사 패션 페스타 공식 혜택 | 무신사 공식 캠페인 | 패션/뷰티 | musinsa.com | `/go/news/news-musinsa-fashion-festa` |
 | news-lotteon-lohbs-coupon | 롯데ON 롭스 공식 쿠폰 이벤트 | 롯데ON 공식 이벤트 | 패션/뷰티 | lotteon.com | `/go/news/news-lotteon-lohbs-coupon` |
@@ -37,7 +38,6 @@ All visible rows must keep `/go/news/[id]` redirect tracking and must resolve to
 | news-hmall-official-shopping-event | 현대Hmall 공식 쇼핑 기획전 혜택 | 현대Hmall 공식 이벤트 | 패션/뷰티 | hyundaihmall.com | `/go/news/news-hmall-official-shopping-event` |
 | news-bccard-official-event-center | BC카드 공식 이벤트 혜택 모음 | BC카드 공식 이벤트 | 카드/멤버십 | bccard.com | `/go/news/news-bccard-official-event-center` |
 | news-cgv-official-events | CGV 공식 이벤트·쿠폰 혜택 | CGV 공식 이벤트 | 영화/문화 | cgv.co.kr | `/go/news/news-cgv-official-events` |
-| news-lottecinema-official-events | 롯데시네마 공식 이벤트 혜택 | 롯데시네마 공식 이벤트 | 영화/문화 | lottecinema.co.kr | `/go/news/news-lottecinema-official-events` |
 
 ## Blocked Items
 

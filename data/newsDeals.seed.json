@@ -22,7 +22,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "official_event",
-    "tags": ["편의점", "카드할인", "공식이벤트"]
+    "tags": [
+      "편의점",
+      "카드할인",
+      "공식이벤트"
+    ]
   },
   {
     "id": "news-gs25-drinking-festa-2026",
@@ -47,7 +51,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "official_event",
-    "tags": ["편의점", "1+1", "공식이벤트"]
+    "tags": [
+      "편의점",
+      "1+1",
+      "공식이벤트"
+    ]
   },
   {
     "id": "news-culture-day-weekly-2026",
@@ -72,7 +80,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "public_coupon",
-    "tags": ["공공혜택", "문화", "무료개방"]
+    "tags": [
+      "공공혜택",
+      "문화",
+      "무료개방"
+    ]
   },
   {
     "id": "news-culture-day-programs-2026",
@@ -97,7 +109,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "event_news",
-    "tags": ["문화", "할인", "공식혜택"]
+    "tags": [
+      "문화",
+      "할인",
+      "공식혜택"
+    ]
   },
   {
     "id": "news-gs25-event-goods",
@@ -122,7 +138,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "official_event",
-    "tags": ["편의점", "행사상품", "공식페이지"]
+    "tags": [
+      "편의점",
+      "행사상품",
+      "공식페이지"
+    ]
   },
   {
     "id": "news-tworld-membership-upgrade",
@@ -147,7 +167,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "official_event",
-    "tags": ["멤버십", "통신사", "공식혜택"]
+    "tags": [
+      "멤버십",
+      "통신사",
+      "공식혜택"
+    ]
   },
   {
     "id": "news-tworld-longterm-discount",
@@ -172,7 +196,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "official_event",
-    "tags": ["통신사", "요금할인", "공식혜택"]
+    "tags": [
+      "통신사",
+      "요금할인",
+      "공식혜택"
+    ]
   },
   {
     "id": "news-cgv-official-events",
@@ -197,7 +225,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "event_news",
-    "tags": ["영화", "문화", "공식이벤트"]
+    "tags": [
+      "영화",
+      "문화",
+      "공식이벤트"
+    ]
   },
   {
     "id": "news-lottecinema-official-events",
@@ -222,7 +254,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "event_news",
-    "tags": ["영화", "쿠폰", "공식이벤트"]
+    "tags": [
+      "영화",
+      "쿠폰",
+      "공식이벤트"
+    ]
   },
   {
     "id": "news-koreanair-promotion",
@@ -247,7 +283,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "official_event",
-    "tags": ["항공", "여행", "공식프로모션"]
+    "tags": [
+      "항공",
+      "여행",
+      "공식프로모션"
+    ]
   },
   {
     "id": "news-ssg-official-event-main",
@@ -272,7 +312,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "official_event",
-    "tags": ["장보기", "쿠폰", "공식이벤트"]
+    "tags": [
+      "장보기",
+      "쿠폰",
+      "공식이벤트"
+    ]
   },
   {
     "id": "news-emart-official-event-main",
@@ -297,7 +341,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "official_event",
-    "tags": ["마트", "장보기", "공식이벤트"]
+    "tags": [
+      "마트",
+      "장보기",
+      "공식이벤트"
+    ]
   },
   {
     "id": "news-homeplus-official-event",
@@ -322,7 +370,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "official_event",
-    "tags": ["마트", "쿠폰", "공식이벤트"]
+    "tags": [
+      "마트",
+      "쿠폰",
+      "공식이벤트"
+    ]
   },
   {
     "id": "news-yogiyo-official-event",
@@ -347,7 +399,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "official_event",
-    "tags": ["배달", "쿠폰", "공식이벤트"]
+    "tags": [
+      "배달",
+      "쿠폰",
+      "공식이벤트"
+    ]
   },
   {
     "id": "news-musinsa-fashion-festa",
@@ -372,7 +428,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "event_news",
-    "tags": ["패션", "쿠폰", "공식캠페인"]
+    "tags": [
+      "패션",
+      "쿠폰",
+      "공식캠페인"
+    ]
   },
   {
     "id": "news-lotteon-lohbs-coupon",
@@ -397,7 +457,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "event_news",
-    "tags": ["뷰티", "쿠폰", "공식이벤트"]
+    "tags": [
+      "뷰티",
+      "쿠폰",
+      "공식이벤트"
+    ]
   },
   {
     "id": "news-samsung-shop-official-event",
@@ -422,7 +486,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "official_event",
-    "tags": ["디지털", "가전", "카드혜택"]
+    "tags": [
+      "디지털",
+      "가전",
+      "카드혜택"
+    ]
   },
   {
     "id": "news-naverpay-event-benefit",
@@ -447,7 +515,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "public_coupon",
-    "tags": ["페이", "포인트", "공식혜택"]
+    "tags": [
+      "페이",
+      "포인트",
+      "공식혜택"
+    ]
   },
   {
     "id": "news-mnuri-official-benefit",
@@ -472,7 +544,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "public_coupon",
-    "tags": ["공공혜택", "문화", "무료혜택"]
+    "tags": [
+      "공공혜택",
+      "문화",
+      "무료혜택"
+    ]
   },
   {
     "id": "news-cu-plus-official-event",
@@ -497,7 +573,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "official_event",
-    "tags": ["편의점", "1+1", "공식페이지"]
+    "tags": [
+      "편의점",
+      "1+1",
+      "공식페이지"
+    ]
   },
   {
     "id": "news-ssg-earlymorning-food-event",
@@ -522,7 +602,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "official_event",
-    "tags": ["식품", "새벽배송", "공식이벤트"]
+    "tags": [
+      "식품",
+      "새벽배송",
+      "공식이벤트"
+    ]
   },
   {
     "id": "news-yogiyo-brand-coupon-event",
@@ -547,7 +631,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "official_event",
-    "tags": ["배달", "외식", "공식쿠폰"]
+    "tags": [
+      "배달",
+      "외식",
+      "공식쿠폰"
+    ]
   },
   {
     "id": "news-himart-digital-official-event",
@@ -572,7 +660,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "official_event",
-    "tags": ["가전", "디지털", "공식이벤트"]
+    "tags": [
+      "가전",
+      "디지털",
+      "공식이벤트"
+    ]
   },
   {
     "id": "news-koreanair-skypass-benefit",
@@ -597,7 +689,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "official_event",
-    "tags": ["항공", "여행", "멤버십"]
+    "tags": [
+      "항공",
+      "여행",
+      "멤버십"
+    ]
   },
   {
     "id": "news-naverpay-point-free-benefit",
@@ -622,7 +718,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "public_coupon",
-    "tags": ["포인트", "무료혜택", "공식혜택"]
+    "tags": [
+      "포인트",
+      "무료혜택",
+      "공식혜택"
+    ]
   },
   {
     "id": "news-mnuri-online-merchant-benefit",
@@ -647,7 +747,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "public_coupon",
-    "tags": ["공공혜택", "문화", "지원금"]
+    "tags": [
+      "공공혜택",
+      "문화",
+      "지원금"
+    ]
   },
   {
     "id": "news-kbcard-official-event-center",
@@ -672,7 +776,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "news",
-    "tags": ["카드", "캐시백", "공식이벤트"]
+    "tags": [
+      "카드",
+      "캐시백",
+      "공식이벤트"
+    ]
   },
   {
     "id": "news-kbcard-membership-benefit-center",
@@ -697,7 +805,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "news",
-    "tags": ["카드", "생활혜택", "공식혜택"]
+    "tags": [
+      "카드",
+      "생활혜택",
+      "공식혜택"
+    ]
   },
   {
     "id": "news-hmall-official-shopping-event",
@@ -722,7 +834,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "news",
-    "tags": ["쇼핑", "쿠폰", "공식이벤트"]
+    "tags": [
+      "쇼핑",
+      "쿠폰",
+      "공식이벤트"
+    ]
   },
   {
     "id": "news-bccard-official-event-center",
@@ -747,7 +863,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "news",
-    "tags": ["카드", "캐시백", "공식이벤트"]
+    "tags": [
+      "카드",
+      "캐시백",
+      "공식이벤트"
+    ]
   },
   {
     "id": "news-bhc-official-ecoupon",
@@ -772,7 +892,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "official_event",
-    "tags": ["외식", "e쿠폰", "공식구매"]
+    "tags": [
+      "외식",
+      "e쿠폰",
+      "공식구매"
+    ]
   },
   {
     "id": "news-starbucks-official-campaign",
@@ -797,7 +921,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "official_event",
-    "tags": ["카페", "리워드", "공식캠페인"]
+    "tags": [
+      "카페",
+      "리워드",
+      "공식캠페인"
+    ]
   },
   {
     "id": "news-cjone-official-mobile-events",
@@ -822,7 +950,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "official_event",
-    "tags": ["포인트", "멤버십", "공식이벤트"]
+    "tags": [
+      "포인트",
+      "멤버십",
+      "공식이벤트"
+    ]
   },
   {
     "id": "news-oliveyoung-official-events",
@@ -847,7 +979,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "official_event",
-    "tags": ["뷰티", "쿠폰", "공식이벤트"]
+    "tags": [
+      "뷰티",
+      "쿠폰",
+      "공식이벤트"
+    ]
   },
   {
     "id": "news-megabox-official-events",
@@ -872,7 +1008,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "public_coupon",
-    "tags": ["영화", "문화", "공식이벤트"]
+    "tags": [
+      "영화",
+      "문화",
+      "공식이벤트"
+    ]
   },
   {
     "id": "news-koreanair-boarding-pass-benefit",
@@ -897,7 +1037,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "event_news",
-    "tags": ["항공", "여행", "공식혜택"]
+    "tags": [
+      "항공",
+      "여행",
+      "공식혜택"
+    ]
   },
   {
     "id": "news-jejuair-official-events",
@@ -922,7 +1066,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "official_event",
-    "tags": ["항공", "여행", "공식이벤트"]
+    "tags": [
+      "항공",
+      "여행",
+      "공식이벤트"
+    ]
   },
   {
     "id": "news-himart-company-events",
@@ -947,7 +1095,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "official_event",
-    "tags": ["가전", "기획전", "공식이벤트"]
+    "tags": [
+      "가전",
+      "기획전",
+      "공식이벤트"
+    ]
   },
   {
     "id": "news-mcdonalds-happysnack",
@@ -972,7 +1124,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "official_event",
-    "tags": ["외식", "공식프로모션", "할인"]
+    "tags": [
+      "외식",
+      "공식프로모션",
+      "할인"
+    ]
   },
   {
     "id": "news-lpoint-official-benefits",
@@ -997,7 +1153,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "public_coupon",
-    "tags": ["포인트", "멤버십", "공식혜택"]
+    "tags": [
+      "포인트",
+      "멤버십",
+      "공식혜택"
+    ]
   },
   {
     "id": "news-lpoint-card-events",
@@ -1022,7 +1182,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "public_coupon",
-    "tags": ["카드", "포인트", "공식이벤트"]
+    "tags": [
+      "카드",
+      "포인트",
+      "공식이벤트"
+    ]
   },
   {
     "id": "news-visitkorea-travel-benefit",
@@ -1047,7 +1211,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "public_coupon",
-    "tags": ["여행", "공공혜택", "공식혜택"]
+    "tags": [
+      "여행",
+      "공공혜택",
+      "공식혜택"
+    ]
   },
   {
     "id": "news-baemin-academy-free-event",
@@ -1072,7 +1240,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "public_coupon",
-    "tags": ["무료교육", "외식", "공식이벤트"]
+    "tags": [
+      "무료교육",
+      "외식",
+      "공식이벤트"
+    ]
   },
   {
     "id": "news-kfc-delivery-free-official",
@@ -1097,7 +1269,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "official_event",
-    "tags": ["외식", "무료배송", "공식이벤트"]
+    "tags": [
+      "외식",
+      "무료배송",
+      "공식이벤트"
+    ]
   },
   {
     "id": "news-lotteeatz-june-coupon",
@@ -1122,7 +1298,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "official_event",
-    "tags": ["외식", "쿠폰", "공식이벤트"]
+    "tags": [
+      "외식",
+      "쿠폰",
+      "공식이벤트"
+    ]
   },
   {
     "id": "news-krispykreme-wednesday-event",
@@ -1147,7 +1327,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "official_event",
-    "tags": ["외식", "1+1", "공식이벤트"]
+    "tags": [
+      "외식",
+      "1+1",
+      "공식이벤트"
+    ]
   },
   {
     "id": "news-baskinrobbins-official-events",
@@ -1172,7 +1356,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "official_event",
-    "tags": ["디저트", "쿠폰", "공식이벤트"]
+    "tags": [
+      "디저트",
+      "쿠폰",
+      "공식이벤트"
+    ]
   },
   {
     "id": "news-happypoint-alliance-discount",
@@ -1197,7 +1385,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "public_coupon",
-    "tags": ["포인트", "멤버십", "공식혜택"]
+    "tags": [
+      "포인트",
+      "멤버십",
+      "공식혜택"
+    ]
   },
   {
     "id": "news-happypoint-mobile-coupon",
@@ -1222,7 +1414,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "public_coupon",
-    "tags": ["쿠폰", "포인트", "공식혜택"]
+    "tags": [
+      "쿠폰",
+      "포인트",
+      "공식혜택"
+    ]
   },
   {
     "id": "news-okcashbag-point-event",
@@ -1247,7 +1443,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "public_coupon",
-    "tags": ["포인트", "쿠폰", "공식이벤트"]
+    "tags": [
+      "포인트",
+      "쿠폰",
+      "공식이벤트"
+    ]
   },
   {
     "id": "news-okcashbag-brand-coupon",
@@ -1272,7 +1472,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "public_coupon",
-    "tags": ["캐시백", "쿠폰", "공식이벤트"]
+    "tags": [
+      "캐시백",
+      "쿠폰",
+      "공식이벤트"
+    ]
   },
   {
     "id": "news-parisbaguette-promotion-benefit",
@@ -1297,7 +1501,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "official_event",
-    "tags": ["외식", "쿠폰", "공식프로모션"]
+    "tags": [
+      "외식",
+      "쿠폰",
+      "공식프로모션"
+    ]
   },
   {
     "id": "news-mcdonalds-happy-snack-free-drink",
@@ -1322,7 +1530,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "public_coupon",
-    "tags": ["무료음료", "앱쿠폰", "공식프로모션"]
+    "tags": [
+      "무료음료",
+      "앱쿠폰",
+      "공식프로모션"
+    ]
   },
   {
     "id": "news-kfc-new-member-coupon-benefit",
@@ -1347,7 +1559,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "public_coupon",
-    "tags": ["신규회원", "무료쿠폰", "딜리버리쿠폰"]
+    "tags": [
+      "신규회원",
+      "무료쿠폰",
+      "딜리버리쿠폰"
+    ]
   },
   {
     "id": "news-dominos-official-discount-benefits",
@@ -1372,7 +1588,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "official_event",
-    "tags": ["외식", "제휴할인", "공식혜택"]
+    "tags": [
+      "외식",
+      "제휴할인",
+      "공식혜택"
+    ]
   },
   {
     "id": "news-pizzahut-member-free-coupon-benefit",
@@ -1397,7 +1617,11 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "public_coupon",
-    "tags": ["신규회원", "무료쿠폰", "멤버십"]
+    "tags": [
+      "신규회원",
+      "무료쿠폰",
+      "멤버십"
+    ]
   },
   {
     "id": "news-starbucks-rewards-official-benefit",
@@ -1422,7 +1646,12 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "public_coupon",
-    "tags": ["무료쿠폰", "별적립", "생일혜택", "공식멤버십"]
+    "tags": [
+      "무료쿠폰",
+      "별적립",
+      "생일혜택",
+      "공식멤버십"
+    ]
   },
   {
     "id": "news-megabox-membership-official-benefit",
@@ -1447,7 +1676,12 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "public_coupon",
-    "tags": ["영화", "포인트", "무료쿠폰", "공식멤버십"]
+    "tags": [
+      "영화",
+      "포인트",
+      "무료쿠폰",
+      "공식멤버십"
+    ]
   },
   {
     "id": "news-megabox-vip-lounge-official-benefit",
@@ -1472,7 +1706,12 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "public_coupon",
-    "tags": ["영화쿠폰", "VIP", "무료혜택", "공식멤버십"]
+    "tags": [
+      "영화쿠폰",
+      "VIP",
+      "무료혜택",
+      "공식멤버십"
+    ]
   },
   {
     "id": "news-lottecinema-lpoint-membership-benefit",
@@ -1497,7 +1736,12 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "public_coupon",
-    "tags": ["영화", "포인트", "멤버십", "공식혜택"]
+    "tags": [
+      "영화",
+      "포인트",
+      "멤버십",
+      "공식혜택"
+    ]
   },
   {
     "id": "news-samsung-members-official-benefit",
@@ -1522,7 +1766,12 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "official_event",
-    "tags": ["디지털", "멤버전용", "쿠폰", "공식혜택"]
+    "tags": [
+      "디지털",
+      "멤버전용",
+      "쿠폰",
+      "공식혜택"
+    ]
   },
   {
     "id": "news-homeplus-membership-official-coupon",
@@ -1547,7 +1796,12 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "official_event",
-    "tags": ["마트", "멤버십", "쿠폰", "공식혜택"]
+    "tags": [
+      "마트",
+      "멤버십",
+      "쿠폰",
+      "공식혜택"
+    ]
   },
   {
     "id": "news-bccard-benefit-official-center",
@@ -1572,7 +1826,12 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "public_coupon",
-    "tags": ["카드할인", "캐시백", "쿠폰", "공식혜택"]
+    "tags": [
+      "카드할인",
+      "캐시백",
+      "쿠폰",
+      "공식혜택"
+    ]
   },
   {
     "id": "news-cu-plus-official-monthly-benefit",
@@ -1597,7 +1856,12 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "official_event",
-    "tags": ["편의점", "1+1", "2+1", "공식행사"]
+    "tags": [
+      "편의점",
+      "1+1",
+      "2+1",
+      "공식행사"
+    ]
   },
   {
     "id": "news-ediya-official-event-coupon",
@@ -1622,7 +1886,12 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "public_coupon",
-    "tags": ["커피쿠폰", "외식", "앱혜택", "공식이벤트"]
+    "tags": [
+      "커피쿠폰",
+      "외식",
+      "앱혜택",
+      "공식이벤트"
+    ]
   },
   {
     "id": "news-naverplus-membership-official-benefit",
@@ -1647,7 +1916,12 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "public_coupon",
-    "tags": ["멤버십", "적립", "쿠폰", "공식혜택"]
+    "tags": [
+      "멤버십",
+      "적립",
+      "쿠폰",
+      "공식혜택"
+    ]
   },
   {
     "id": "news-samsungcard-official-event-benefit",
@@ -1672,7 +1946,12 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "public_coupon",
-    "tags": ["카드할인", "캐시백", "청구할인", "공식이벤트"]
+    "tags": [
+      "카드할인",
+      "캐시백",
+      "청구할인",
+      "공식이벤트"
+    ]
   },
   {
     "id": "news-lottecard-official-event-benefit",
@@ -1697,7 +1976,12 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "public_coupon",
-    "tags": ["카드할인", "포인트", "캐시백", "공식이벤트"]
+    "tags": [
+      "카드할인",
+      "포인트",
+      "캐시백",
+      "공식이벤트"
+    ]
   },
   {
     "id": "news-hanacard-official-event-benefit",
@@ -1722,7 +2006,12 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "public_coupon",
-    "tags": ["카드할인", "쿠폰", "포인트", "공식이벤트"]
+    "tags": [
+      "카드할인",
+      "쿠폰",
+      "포인트",
+      "공식이벤트"
+    ]
   },
   {
     "id": "news-kt-membership-official-benefit",
@@ -1747,7 +2036,12 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "public_coupon",
-    "tags": ["통신사", "멤버십", "할인", "공식혜택"]
+    "tags": [
+      "통신사",
+      "멤버십",
+      "할인",
+      "공식혜택"
+    ]
   },
   {
     "id": "news-uplus-membership-official-benefit",
@@ -1772,7 +2066,12 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "public_coupon",
-    "tags": ["통신사", "멤버십", "쿠폰", "공식혜택"]
+    "tags": [
+      "통신사",
+      "멤버십",
+      "쿠폰",
+      "공식혜택"
+    ]
   },
   {
     "id": "news-seoul-culture-official-free-events",
@@ -1797,7 +2096,12 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "public_coupon",
-    "tags": ["무료관람", "문화행사", "공공혜택", "공식혜택"]
+    "tags": [
+      "무료관람",
+      "문화행사",
+      "공공혜택",
+      "공식혜택"
+    ]
   },
   {
     "id": "news-national-museum-official-exhibition",
@@ -1822,7 +2126,12 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "public_coupon",
-    "tags": ["무료관람", "전시", "문화행사", "공식혜택"]
+    "tags": [
+      "무료관람",
+      "전시",
+      "문화행사",
+      "공식혜택"
+    ]
   },
   {
     "id": "news-innisfree-sample-market-official",
@@ -1847,7 +2156,12 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "public_coupon",
-    "tags": ["무료샘플", "체험", "뷰티", "공식혜택"]
+    "tags": [
+      "무료샘플",
+      "체험",
+      "뷰티",
+      "공식혜택"
+    ]
   },
   {
     "id": "news-innisfree-official-coupon-events",
@@ -1872,7 +2186,12 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "official_event",
-    "tags": ["뷰티쿠폰", "샘플", "멤버십", "공식이벤트"]
+    "tags": [
+      "뷰티쿠폰",
+      "샘플",
+      "멤버십",
+      "공식이벤트"
+    ]
   },
   {
     "id": "news-kurly-kiehls-sample-event",
@@ -1897,7 +2216,12 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "official_event",
-    "tags": ["뷰티", "증정", "쿠폰", "공식상품"]
+    "tags": [
+      "뷰티",
+      "증정",
+      "쿠폰",
+      "공식상품"
+    ]
   },
   {
     "id": "news-kurly-neoflam-free-shipping",
@@ -1922,7 +2246,12 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "official_event",
-    "tags": ["생활용품", "무료배송", "쿠폰적용가", "공식상품"]
+    "tags": [
+      "생활용품",
+      "무료배송",
+      "쿠폰적용가",
+      "공식상품"
+    ]
   },
   {
     "id": "news-kurly-escape-speaker-free-shipping",
@@ -1947,7 +2276,12 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "official_event",
-    "tags": ["디지털", "무료배송", "쿠폰", "공식상품"]
+    "tags": [
+      "디지털",
+      "무료배송",
+      "쿠폰",
+      "공식상품"
+    ]
   },
   {
     "id": "news-kurly-clove-fashion-free-shipping",
@@ -1972,7 +2306,12 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "official_event",
-    "tags": ["패션", "무료배송", "쿠폰적용가", "공식상품"]
+    "tags": [
+      "패션",
+      "무료배송",
+      "쿠폰적용가",
+      "공식상품"
+    ]
   },
   {
     "id": "news-hollys-official-event-coupon",
@@ -1997,7 +2336,12 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "official_event",
-    "tags": ["커피쿠폰", "멤버십", "공식이벤트", "외식"]
+    "tags": [
+      "커피쿠폰",
+      "멤버십",
+      "공식이벤트",
+      "외식"
+    ]
   },
   {
     "id": "news-momstouch-official-event-coupon",
@@ -2022,7 +2366,12 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "official_event",
-    "tags": ["버거쿠폰", "외식쿠폰", "공식이벤트", "배달"]
+    "tags": [
+      "버거쿠폰",
+      "외식쿠폰",
+      "공식이벤트",
+      "배달"
+    ]
   },
   {
     "id": "news-mega-mgc-official-event-coupon",
@@ -2047,7 +2396,12 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "official_event",
-    "tags": ["커피쿠폰", "이벤트", "공식혜택", "외식"]
+    "tags": [
+      "커피쿠폰",
+      "이벤트",
+      "공식혜택",
+      "외식"
+    ]
   },
   {
     "id": "news-subway-official-promotion",
@@ -2072,7 +2426,12 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "official_event",
-    "tags": ["외식쿠폰", "샌드위치", "공식이벤트", "쿠폰"]
+    "tags": [
+      "외식쿠폰",
+      "샌드위치",
+      "공식이벤트",
+      "쿠폰"
+    ]
   },
   {
     "id": "news-seven-eleven-official-events",
@@ -2097,7 +2456,12 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "official_event",
-    "tags": ["편의점", "1+1", "2+1", "공식이벤트"]
+    "tags": [
+      "편의점",
+      "1+1",
+      "2+1",
+      "공식이벤트"
+    ]
   },
   {
     "id": "news-emart24-official-events",
@@ -2122,6 +2486,221 @@
     "hiddenReason": "",
     "lastCheckedAt": "",
     "provider": "official_event",
-    "tags": ["편의점", "마트행사", "쿠폰", "공식이벤트"]
+    "tags": [
+      "편의점",
+      "마트행사",
+      "쿠폰",
+      "공식이벤트"
+    ]
+  },
+  {
+    "id": "news-pizzahut-luckydraw-coupon",
+    "title": "피자헛 공식 럭키드로우 쿠폰 이벤트",
+    "summary": "피자헛 공식 이벤트 상세에서 온라인 회원 전용 할인 쿠폰, SMS·앱푸시 수신동의, 적용 상품 조건을 확인할 수 있습니다.",
+    "merchant": "피자헛",
+    "category": "외식/배달",
+    "benefitType": "foodDelivery",
+    "discountRate": 0,
+    "price": 0,
+    "originalPrice": 0,
+    "couponAmount": 0,
+    "startDate": "2026-06-01",
+    "endDate": "2026-12-31",
+    "sourceName": "피자헛 공식 이벤트",
+    "sourceUrl": "https://www.pizzahut.co.kr/cs/event/extra/luckydraw",
+    "finalUrl": "https://www.pizzahut.co.kr/cs/event/extra/luckydraw",
+    "imageUrl": "",
+    "confidenceScore": 86,
+    "validationStatus": "needs_review",
+    "isHidden": false,
+    "hiddenReason": "",
+    "lastCheckedAt": "",
+    "provider": "official_event",
+    "tags": [
+      "피자쿠폰",
+      "외식쿠폰",
+      "앱쿠폰",
+      "공식이벤트"
+    ]
+  },
+  {
+    "id": "news-dunkin-monthly-combo-coupon",
+    "title": "던킨 공식 이달의 콤보 쿠폰 혜택",
+    "summary": "던킨 공식 이벤트 상세에서 이달의 콤보 할인 쿠폰, 매장 적용, 쿠폰함 사용 조건과 행사 기간을 확인할 수 있습니다.",
+    "merchant": "던킨",
+    "category": "외식/배달",
+    "benefitType": "coupon",
+    "discountRate": 20,
+    "price": 0,
+    "originalPrice": 0,
+    "couponAmount": 0,
+    "startDate": "2026-06-04",
+    "endDate": "2026-06-21",
+    "sourceName": "던킨 공식 이벤트",
+    "sourceUrl": "https://www.dunkindonuts.co.kr/event/view?id=5392",
+    "finalUrl": "https://www.dunkindonuts.co.kr/event/view?id=5392",
+    "imageUrl": "",
+    "confidenceScore": 88,
+    "validationStatus": "needs_review",
+    "isHidden": false,
+    "hiddenReason": "",
+    "lastCheckedAt": "",
+    "provider": "official_event",
+    "tags": [
+      "도넛쿠폰",
+      "커피쿠폰",
+      "공식이벤트",
+      "마감임박"
+    ]
+  },
+  {
+    "id": "news-dunkin-donut-fryday-coupon",
+    "title": "던킨 공식 DONUT FRYDAY 혜택",
+    "summary": "던킨 공식 이벤트 상세에서 매주 금요일 도넛팩 특가와 현장 구매, 준비 수량 소진, 중복 할인 제한 조건을 확인할 수 있습니다.",
+    "merchant": "던킨",
+    "category": "외식/배달",
+    "benefitType": "coupon",
+    "discountRate": 0,
+    "price": 7900,
+    "originalPrice": 0,
+    "couponAmount": 0,
+    "startDate": "2026-01-01",
+    "endDate": "2026-12-31",
+    "sourceName": "던킨 공식 이벤트",
+    "sourceUrl": "https://www.dunkindonuts.co.kr/index.php/event/view?id=5237",
+    "finalUrl": "https://www.dunkindonuts.co.kr/index.php/event/view?id=5237",
+    "imageUrl": "",
+    "confidenceScore": 86,
+    "validationStatus": "needs_review",
+    "isHidden": false,
+    "hiddenReason": "",
+    "lastCheckedAt": "",
+    "provider": "official_event",
+    "tags": [
+      "도넛특가",
+      "금요일혜택",
+      "공식이벤트",
+      "외식"
+    ]
+  },
+  {
+    "id": "news-dunkin-membership-partner-benefits",
+    "title": "던킨 공식 제휴·멤버십 혜택",
+    "summary": "던킨 공식 제휴혜택 페이지에서 T멤버십, KT 멤버십, 현대카드, 블루멤버스 등 상시 제휴 할인 조건을 확인할 수 있습니다.",
+    "merchant": "던킨",
+    "category": "카드/멤버십",
+    "benefitType": "membership",
+    "discountRate": 50,
+    "price": 0,
+    "originalPrice": 0,
+    "couponAmount": 0,
+    "startDate": "2026-01-01",
+    "endDate": "2026-12-31",
+    "sourceName": "던킨 공식 제휴혜택",
+    "sourceUrl": "https://www.dunkindonuts.co.kr/event?flag=B",
+    "finalUrl": "https://www.dunkindonuts.co.kr/event?flag=B",
+    "imageUrl": "",
+    "confidenceScore": 86,
+    "validationStatus": "needs_review",
+    "isHidden": false,
+    "hiddenReason": "",
+    "lastCheckedAt": "",
+    "provider": "official_event",
+    "tags": [
+      "멤버십",
+      "카드할인",
+      "제휴혜택",
+      "공식이벤트"
+    ]
+  },
+  {
+    "id": "news-gov24-benefit-alert-service",
+    "title": "정부24 혜택알리미 공식 지원 혜택",
+    "summary": "정부24 혜택알리미 공식 페이지에서 개인에게 맞는 공공지원, 보조금, 생활 혜택 안내와 신청 경로를 확인할 수 있습니다.",
+    "merchant": "정부24",
+    "category": "정부/공공혜택",
+    "benefitType": "public",
+    "discountRate": 0,
+    "price": 0,
+    "originalPrice": 0,
+    "couponAmount": 0,
+    "startDate": "2026-01-01",
+    "endDate": "2026-12-31",
+    "sourceName": "정부24 공식 혜택알리미",
+    "sourceUrl": "https://www.gov.kr/portal/rcvfvrSvc/main",
+    "finalUrl": "https://www.gov.kr/portal/rcvfvrSvc/main",
+    "imageUrl": "",
+    "confidenceScore": 86,
+    "validationStatus": "needs_review",
+    "isHidden": false,
+    "hiddenReason": "",
+    "lastCheckedAt": "",
+    "provider": "public_coupon",
+    "tags": [
+      "공공혜택",
+      "지원금",
+      "정부24",
+      "무료혜택"
+    ]
+  },
+  {
+    "id": "news-work24-employment-support",
+    "title": "고용24 공식 취업·고용 지원 혜택",
+    "summary": "고용24 공식 페이지에서 구직, 고용장려, 직업훈련, 취업지원 서비스와 온라인 신청 가능 혜택을 확인할 수 있습니다.",
+    "merchant": "고용24",
+    "category": "정부/공공혜택",
+    "benefitType": "public",
+    "discountRate": 0,
+    "price": 0,
+    "originalPrice": 0,
+    "couponAmount": 0,
+    "startDate": "2026-01-01",
+    "endDate": "2026-12-31",
+    "sourceName": "고용24 공식 지원",
+    "sourceUrl": "https://www.work24.go.kr/cm/main.do",
+    "finalUrl": "https://www.work24.go.kr/cm/main.do",
+    "imageUrl": "",
+    "confidenceScore": 84,
+    "validationStatus": "needs_review",
+    "isHidden": false,
+    "hiddenReason": "",
+    "lastCheckedAt": "",
+    "provider": "public_coupon",
+    "tags": [
+      "취업지원",
+      "직업훈련",
+      "공공혜택",
+      "무료혜택"
+    ]
+  },
+  {
+    "id": "news-kosaf-scholarship-support",
+    "title": "한국장학재단 공식 장학·학자금 지원",
+    "summary": "한국장학재단 공식 페이지에서 국가장학금, 학자금 지원, 생활비 대출, 청년 교육 혜택 신청 정보를 확인할 수 있습니다.",
+    "merchant": "한국장학재단",
+    "category": "정부/공공혜택",
+    "benefitType": "public",
+    "discountRate": 0,
+    "price": 0,
+    "originalPrice": 0,
+    "couponAmount": 0,
+    "startDate": "2026-01-01",
+    "endDate": "2026-12-31",
+    "sourceName": "한국장학재단 공식 지원",
+    "sourceUrl": "https://www.kosaf.go.kr/ko/main.do",
+    "finalUrl": "https://www.kosaf.go.kr/ko/main.do",
+    "imageUrl": "",
+    "confidenceScore": 84,
+    "validationStatus": "needs_review",
+    "isHidden": false,
+    "hiddenReason": "",
+    "lastCheckedAt": "",
+    "provider": "public_coupon",
+    "tags": [
+      "장학금",
+      "학자금",
+      "청년지원",
+      "공공혜택"
+    ]
   }
 ]

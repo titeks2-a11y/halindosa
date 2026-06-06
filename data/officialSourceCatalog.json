@@ -3,10 +3,16 @@
     "id": "gs25-event-goods",
     "label": "GS25 행사상품과 카드 할인",
     "provider": "official_event",
-    "category": ["마트/편의점", "무료혜택"],
+    "category": [
+      "마트/편의점",
+      "무료혜택"
+    ],
     "sourceType": "official_event_page",
     "officialUrl": "https://gs25.gsretail.com/gscvs/ko/products/event-goods",
-    "preferredEnvKeys": ["OFFICIAL_EVENT_FEED_URLS", "DEAL_EVENT_FEED_URLS"],
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "DEAL_EVENT_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "high",
     "refreshCadenceHours": 6,
@@ -18,10 +24,15 @@
     "id": "cu-plus-event",
     "label": "CU 편의점 1+1·2+1 행사",
     "provider": "official_event",
-    "category": ["마트/편의점"],
+    "category": [
+      "마트/편의점"
+    ],
     "sourceType": "official_event_page",
     "officialUrl": "https://cu.bgfretail.com/event/plus.do?category=event&depth2=1",
-    "preferredEnvKeys": ["OFFICIAL_EVENT_FEED_URLS", "DEAL_EVENT_FEED_URLS"],
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "DEAL_EVENT_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "high",
     "refreshCadenceHours": 6,
@@ -33,10 +44,16 @@
     "id": "ssg-event-main",
     "label": "SSG닷컴 공식 장보기 행사",
     "provider": "official_event",
-    "category": ["식품/생필품", "마트/편의점"],
+    "category": [
+      "식품/생필품",
+      "마트/편의점"
+    ],
     "sourceType": "official_event_page",
     "officialUrl": "https://www.ssg.com/event/eventMain.ssg",
-    "preferredEnvKeys": ["OFFICIAL_EVENT_FEED_URLS", "DEAL_EVENT_FEED_URLS"],
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "DEAL_EVENT_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "high",
     "refreshCadenceHours": 6,
@@ -48,10 +65,16 @@
     "id": "emart-event-main",
     "label": "이마트몰 공식 행사",
     "provider": "official_event",
-    "category": ["식품/생필품", "마트/편의점"],
+    "category": [
+      "식품/생필품",
+      "마트/편의점"
+    ],
     "sourceType": "official_event_page",
     "officialUrl": "https://emart.ssg.com/event/eventMain.ssg",
-    "preferredEnvKeys": ["OFFICIAL_EVENT_FEED_URLS", "DEAL_EVENT_FEED_URLS"],
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "DEAL_EVENT_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "medium",
     "refreshCadenceHours": 6,
@@ -63,10 +86,16 @@
     "id": "homeplus-event",
     "label": "홈플러스 공식 이벤트",
     "provider": "official_event",
-    "category": ["식품/생필품", "마트/편의점"],
+    "category": [
+      "식품/생필품",
+      "마트/편의점"
+    ],
     "sourceType": "official_event_page",
     "officialUrl": "https://front.homeplus.co.kr/event",
-    "preferredEnvKeys": ["OFFICIAL_EVENT_FEED_URLS", "DEAL_EVENT_FEED_URLS"],
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "DEAL_EVENT_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "medium",
     "refreshCadenceHours": 6,
@@ -78,10 +107,15 @@
     "id": "yogiyo-event",
     "label": "요기요 배달 쿠폰 이벤트",
     "provider": "event_news",
-    "category": ["외식/배달"],
+    "category": [
+      "외식/배달"
+    ],
     "sourceType": "official_event_page",
     "officialUrl": "https://www.yogiyo.co.kr/mobile/#/event/",
-    "preferredEnvKeys": ["DEAL_EVENT_NEWS_FEED_URLS", "OFFICIAL_EVENT_FEED_URLS"],
+    "preferredEnvKeys": [
+      "DEAL_EVENT_NEWS_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS"
+    ],
     "integrationMethod": "official_event_page_mapping",
     "priority": "high",
     "refreshCadenceHours": 6,
@@ -93,10 +127,15 @@
     "id": "bhc-ecoupon",
     "label": "BHC 공식 e쿠폰",
     "provider": "official_event",
-    "category": ["외식/배달"],
+    "category": [
+      "외식/배달"
+    ],
     "sourceType": "official_purchase_page",
     "officialUrl": "https://www.bhc.co.kr/eCoupon/purchase",
-    "preferredEnvKeys": ["OFFICIAL_EVENT_FEED_URLS", "DEAL_EVENT_FEED_URLS"],
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "DEAL_EVENT_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "medium",
     "refreshCadenceHours": 12,
@@ -108,10 +147,16 @@
     "id": "starbucks-campaign",
     "label": "스타벅스 공식 캠페인",
     "provider": "official_event",
-    "category": ["외식/배달", "무료혜택"],
+    "category": [
+      "외식/배달",
+      "무료혜택"
+    ],
     "sourceType": "official_event_page",
     "officialUrl": "https://www.starbucks.co.kr/whats_new/campaign_list.do",
-    "preferredEnvKeys": ["OFFICIAL_EVENT_FEED_URLS", "PUBLIC_COUPON_FEED_URLS"],
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "medium",
     "refreshCadenceHours": 12,
@@ -123,10 +168,18 @@
     "id": "cjone-mobile-events",
     "label": "CJ ONE 공식 이벤트",
     "provider": "official_event",
-    "category": ["카드/멤버십", "외식/배달", "영화/문화", "무료혜택"],
+    "category": [
+      "카드/멤버십",
+      "외식/배달",
+      "영화/문화",
+      "무료혜택"
+    ],
     "sourceType": "official_event_page",
     "officialUrl": "https://www.cjone.com/cjmmobile/event/event.do",
-    "preferredEnvKeys": ["OFFICIAL_EVENT_FEED_URLS", "PUBLIC_COUPON_FEED_URLS"],
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "medium",
     "refreshCadenceHours": 12,
@@ -138,14 +191,22 @@
     "id": "oliveyoung-events",
     "label": "올리브영 공식 이벤트",
     "provider": "official_event",
-    "category": ["패션/뷰티", "무료혜택"],
+    "category": [
+      "패션/뷰티",
+      "무료혜택"
+    ],
     "sourceType": "official_event_page",
     "officialUrl": "https://www.oliveyoung.co.kr/store/main/getEventList.do",
-    "preferredEnvKeys": ["OFFICIAL_EVENT_FEED_URLS", "DEAL_EVENT_FEED_URLS"],
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "DEAL_EVENT_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "medium",
     "refreshCadenceHours": 12,
-    "guardedHttpStatuses": [403],
+    "guardedHttpStatuses": [
+      403
+    ],
     "allowedUse": "올리브영 공식 쿠폰, 샘플, 뷰티 행사, 멤버십 혜택",
     "blockedUse": "비공식 뷰티 커뮤니티 글, 검색 결과",
     "notes": "보호 응답 시 무단 수집하지 않고 공식 API, 제휴 feed, 수동 승인 매핑으로 전환한다."
@@ -154,10 +215,16 @@
     "id": "cgv-events",
     "label": "CGV 공식 문화 이벤트",
     "provider": "public_coupon",
-    "category": ["영화/문화", "무료혜택"],
+    "category": [
+      "영화/문화",
+      "무료혜택"
+    ],
     "sourceType": "official_event_page",
     "officialUrl": "https://www.cgv.co.kr/culture-event/event/defaultNew.aspx",
-    "preferredEnvKeys": ["PUBLIC_COUPON_FEED_URLS", "OFFICIAL_EVENT_FEED_URLS"],
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "medium",
     "refreshCadenceHours": 12,
@@ -169,10 +236,15 @@
     "id": "lottecinema-events",
     "label": "롯데시네마 공식 이벤트",
     "provider": "public_coupon",
-    "category": ["영화/문화"],
+    "category": [
+      "영화/문화"
+    ],
     "sourceType": "official_event_page",
     "officialUrl": "https://www.lottecinema.co.kr/NLCHS/Event",
-    "preferredEnvKeys": ["PUBLIC_COUPON_FEED_URLS", "OFFICIAL_EVENT_FEED_URLS"],
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "medium",
     "refreshCadenceHours": 12,
@@ -184,10 +256,16 @@
     "id": "megabox-events",
     "label": "메가박스 공식 이벤트",
     "provider": "public_coupon",
-    "category": ["영화/문화", "무료혜택"],
+    "category": [
+      "영화/문화",
+      "무료혜택"
+    ],
     "sourceType": "official_event_page",
     "officialUrl": "https://www.megabox.co.kr/event",
-    "preferredEnvKeys": ["PUBLIC_COUPON_FEED_URLS", "OFFICIAL_EVENT_FEED_URLS"],
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "medium",
     "refreshCadenceHours": 12,
@@ -199,10 +277,17 @@
     "id": "culture-day",
     "label": "문화가 있는 날 공식 혜택",
     "provider": "public_coupon",
-    "category": ["영화/문화", "정부/공공혜택", "무료혜택"],
+    "category": [
+      "영화/문화",
+      "정부/공공혜택",
+      "무료혜택"
+    ],
     "sourceType": "public_official_page",
     "officialUrl": "https://www.culture.go.kr/wday/main/main.do",
-    "preferredEnvKeys": ["PUBLIC_COUPON_FEED_URLS", "DEAL_NEWS_FEED_URLS"],
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "DEAL_NEWS_FEED_URLS"
+    ],
     "integrationMethod": "official_public_feed_or_page",
     "priority": "high",
     "refreshCadenceHours": 12,
@@ -214,10 +299,15 @@
     "id": "mnuri-benefit",
     "label": "문화누리카드 공식 사용 혜택",
     "provider": "public_coupon",
-    "category": ["정부/공공혜택", "영화/문화"],
+    "category": [
+      "정부/공공혜택",
+      "영화/문화"
+    ],
     "sourceType": "public_official_page",
     "officialUrl": "https://www.mnuri.kr/main/main.do",
-    "preferredEnvKeys": ["PUBLIC_COUPON_FEED_URLS"],
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS"
+    ],
     "integrationMethod": "official_public_feed_or_page",
     "priority": "high",
     "refreshCadenceHours": 24,
@@ -229,10 +319,16 @@
     "id": "naverpay-benefit",
     "label": "네이버페이 공식 이벤트 혜택",
     "provider": "official_event",
-    "category": ["카드/멤버십", "무료혜택"],
+    "category": [
+      "카드/멤버십",
+      "무료혜택"
+    ],
     "sourceType": "official_event_page",
     "officialUrl": "https://new-m.pay.naver.com/pcpay/eventbenefit",
-    "preferredEnvKeys": ["OFFICIAL_EVENT_FEED_URLS", "PUBLIC_COUPON_FEED_URLS"],
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "high",
     "refreshCadenceHours": 6,
@@ -244,10 +340,15 @@
     "id": "kbcard-events",
     "label": "KB국민카드 공식 이벤트",
     "provider": "official_event",
-    "category": ["카드/멤버십"],
+    "category": [
+      "카드/멤버십"
+    ],
     "sourceType": "official_event_page",
     "officialUrl": "https://card.kbcard.com/BON/DVIEW/HBBMCXCRVNEC0001",
-    "preferredEnvKeys": ["OFFICIAL_EVENT_FEED_URLS", "DEAL_EVENT_FEED_URLS"],
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "DEAL_EVENT_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "medium",
     "refreshCadenceHours": 12,
@@ -259,10 +360,15 @@
     "id": "bccard-events",
     "label": "BC카드 공식 이벤트",
     "provider": "official_event",
-    "category": ["카드/멤버십"],
+    "category": [
+      "카드/멤버십"
+    ],
     "sourceType": "official_event_page",
     "officialUrl": "https://www.bccard.com/app/card/EventActn.do?menuId=64",
-    "preferredEnvKeys": ["OFFICIAL_EVENT_FEED_URLS", "DEAL_EVENT_FEED_URLS"],
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "DEAL_EVENT_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "medium",
     "refreshCadenceHours": 12,
@@ -274,10 +380,16 @@
     "id": "tworld-membership",
     "label": "T월드 멤버십 할인",
     "provider": "official_event",
-    "category": ["카드/멤버십", "외식/배달"],
+    "category": [
+      "카드/멤버십",
+      "외식/배달"
+    ],
     "sourceType": "official_benefit_page",
     "officialUrl": "https://www.tworld.co.kr/poc/html/product/TS3.7.1T.2.html",
-    "preferredEnvKeys": ["OFFICIAL_EVENT_FEED_URLS", "DEAL_EVENT_NEWS_FEED_URLS"],
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "DEAL_EVENT_NEWS_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "medium",
     "refreshCadenceHours": 12,
@@ -289,10 +401,15 @@
     "id": "koreanair-promotion",
     "label": "대한항공 공식 탑승권 제휴 혜택",
     "provider": "event_news",
-    "category": ["여행/숙박"],
+    "category": [
+      "여행/숙박"
+    ],
     "sourceType": "official_benefit_page",
     "officialUrl": "https://www.koreanair.com/contents/booking/get-to-know/boarding-pass-benefits/excellent-boarding-pass?hl=ko",
-    "preferredEnvKeys": ["DEAL_EVENT_NEWS_FEED_URLS", "OFFICIAL_EVENT_FEED_URLS"],
+    "preferredEnvKeys": [
+      "DEAL_EVENT_NEWS_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "medium",
     "refreshCadenceHours": 12,
@@ -304,14 +421,21 @@
     "id": "jejuair-events",
     "label": "제주항공 공식 진행 이벤트",
     "provider": "official_event",
-    "category": ["여행/숙박"],
+    "category": [
+      "여행/숙박"
+    ],
     "sourceType": "official_event_page",
     "officialUrl": "https://www.jejuair.net/ko/event/event.do",
-    "preferredEnvKeys": ["OFFICIAL_EVENT_FEED_URLS", "DEAL_EVENT_NEWS_FEED_URLS"],
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "DEAL_EVENT_NEWS_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "high",
     "refreshCadenceHours": 6,
-    "guardedHttpStatuses": [503],
+    "guardedHttpStatuses": [
+      503
+    ],
     "allowedUse": "제주항공 공식 진행 이벤트, 항공권 특가, 쿠폰, 여행 제휴 혜택",
     "blockedUse": "항공권 검색 결과, 메타검색 결과, 커뮤니티 후기, 종료 이벤트",
     "notes": "진행 중 이벤트만 후보로 저장하고 종료된 이벤트는 refresh:news에서 숨김 처리한다."
@@ -320,10 +444,15 @@
     "id": "samsung-shop-event",
     "label": "삼성닷컴 공식 이벤트",
     "provider": "official_event",
-    "category": ["디지털/가전"],
+    "category": [
+      "디지털/가전"
+    ],
     "sourceType": "official_event_page",
     "officialUrl": "https://www.samsung.com/sec/shop/event/",
-    "preferredEnvKeys": ["OFFICIAL_EVENT_FEED_URLS", "DEAL_EVENT_FEED_URLS"],
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "DEAL_EVENT_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "medium",
     "refreshCadenceHours": 12,
@@ -335,10 +464,15 @@
     "id": "himart-events",
     "label": "하이마트 공식 디지털 행사",
     "provider": "official_event",
-    "category": ["디지털/가전"],
+    "category": [
+      "디지털/가전"
+    ],
     "sourceType": "official_event_page",
     "officialUrl": "https://company.himart.co.kr/event/list",
-    "preferredEnvKeys": ["OFFICIAL_EVENT_FEED_URLS", "DEAL_EVENT_FEED_URLS"],
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "DEAL_EVENT_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "medium",
     "refreshCadenceHours": 12,
@@ -350,11 +484,20 @@
     "id": "hmall-official-events",
     "label": "현대Hmall 공식 쇼핑 기획전",
     "provider": "news",
-    "category": ["패션/뷰티", "식품/생필품"],
+    "category": [
+      "패션/뷰티",
+      "식품/생필품"
+    ],
     "sourceType": "official_event_page",
     "officialUrl": "https://www.hyundaihmall.com/front/evntSect.do",
-    "allowedFinalHosts": ["www.hmall.com", "hmall.com"],
-    "preferredEnvKeys": ["DEAL_NEWS_FEED_URLS", "DEAL_EVENT_NEWS_FEED_URLS"],
+    "allowedFinalHosts": [
+      "www.hmall.com",
+      "hmall.com"
+    ],
+    "preferredEnvKeys": [
+      "DEAL_NEWS_FEED_URLS",
+      "DEAL_EVENT_NEWS_FEED_URLS"
+    ],
     "integrationMethod": "approved_news_or_partner_json_feed",
     "priority": "medium",
     "refreshCadenceHours": 12,
@@ -366,10 +509,15 @@
     "id": "musinsa-fashion-festa",
     "label": "무신사 공식 패션 페스타",
     "provider": "official_event",
-    "category": ["패션/뷰티"],
+    "category": [
+      "패션/뷰티"
+    ],
     "sourceType": "official_event_page",
     "officialUrl": "https://www.musinsa.com/campaign/fashionfesta_1",
-    "preferredEnvKeys": ["OFFICIAL_EVENT_FEED_URLS", "DEAL_EVENT_FEED_URLS"],
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "DEAL_EVENT_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "medium",
     "refreshCadenceHours": 12,
@@ -381,10 +529,16 @@
     "id": "mcdonalds-happysnack",
     "label": "맥도날드 공식 해피스낵 프로모션",
     "provider": "official_event",
-    "category": ["외식/배달", "무료혜택"],
+    "category": [
+      "외식/배달",
+      "무료혜택"
+    ],
     "sourceType": "official_event_page",
     "officialUrl": "https://www.mcdonalds.co.kr/kor/promotion/detail.do?seq=593",
-    "preferredEnvKeys": ["OFFICIAL_EVENT_FEED_URLS", "DEAL_EVENT_NEWS_FEED_URLS"],
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "DEAL_EVENT_NEWS_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "medium",
     "refreshCadenceHours": 12,
@@ -396,10 +550,17 @@
     "id": "lpoint-benefits",
     "label": "L.POINT 공식 혜택",
     "provider": "public_coupon",
-    "category": ["카드/멤버십", "무료혜택", "마트/편의점"],
+    "category": [
+      "카드/멤버십",
+      "무료혜택",
+      "마트/편의점"
+    ],
     "sourceType": "official_benefit_page",
     "officialUrl": "https://m.lpoint.com/index.jsp?tabIndex=1",
-    "preferredEnvKeys": ["PUBLIC_COUPON_FEED_URLS", "OFFICIAL_EVENT_FEED_URLS"],
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "high",
     "refreshCadenceHours": 6,
@@ -411,10 +572,16 @@
     "id": "lpoint-card-events",
     "label": "L.POINT 공식 카드 이벤트",
     "provider": "public_coupon",
-    "category": ["카드/멤버십", "무료혜택"],
+    "category": [
+      "카드/멤버십",
+      "무료혜택"
+    ],
     "sourceType": "official_event_page",
     "officialUrl": "https://m.lpoint.com/app/asset/LWCE100100.do?fnTapPmotC=85",
-    "preferredEnvKeys": ["PUBLIC_COUPON_FEED_URLS", "DEAL_EVENT_FEED_URLS"],
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "DEAL_EVENT_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "medium",
     "refreshCadenceHours": 12,
@@ -426,10 +593,17 @@
     "id": "visitkorea-travel-week",
     "label": "한국관광공사 공식 여행 혜택",
     "provider": "public_coupon",
-    "category": ["여행/숙박", "정부/공공혜택", "무료혜택"],
+    "category": [
+      "여행/숙박",
+      "정부/공공혜택",
+      "무료혜택"
+    ],
     "sourceType": "public_official_page",
     "officialUrl": "https://korean.visitkorea.or.kr/other/otherService.do?otdid=46a412aa-0b3b-11ea-869b-020027310001",
-    "preferredEnvKeys": ["PUBLIC_COUPON_FEED_URLS", "DEAL_NEWS_FEED_URLS"],
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "DEAL_NEWS_FEED_URLS"
+    ],
     "integrationMethod": "official_public_feed_or_page",
     "priority": "high",
     "refreshCadenceHours": 12,
@@ -441,10 +615,16 @@
     "id": "baemin-academy-events",
     "label": "배민아카데미 공식 무료 교육 이벤트",
     "provider": "public_coupon",
-    "category": ["외식/배달", "무료혜택"],
+    "category": [
+      "외식/배달",
+      "무료혜택"
+    ],
     "sourceType": "official_event_page",
     "officialUrl": "https://academy.baemin.com/event/list",
-    "preferredEnvKeys": ["PUBLIC_COUPON_FEED_URLS", "DEAL_EVENT_NEWS_FEED_URLS"],
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "DEAL_EVENT_NEWS_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "medium",
     "refreshCadenceHours": 12,
@@ -456,10 +636,17 @@
     "id": "lotteon-lobs-share-event",
     "label": "롯데ON 공식 혜택 이벤트",
     "provider": "official_event",
-    "category": ["패션/뷰티", "무료혜택", "카드/멤버십"],
+    "category": [
+      "패션/뷰티",
+      "무료혜택",
+      "카드/멤버십"
+    ],
     "sourceType": "official_event_page",
     "officialUrl": "https://www.lotteon.com/event/onLohbsShare",
-    "preferredEnvKeys": ["OFFICIAL_EVENT_FEED_URLS", "DEAL_EVENT_FEED_URLS"],
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "DEAL_EVENT_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "medium",
     "refreshCadenceHours": 12,
@@ -471,10 +658,16 @@
     "id": "kfc-delivery-free",
     "label": "KFC 공식 딜리버리 무료배송 혜택",
     "provider": "official_event",
-    "category": ["외식/배달", "무료혜택"],
+    "category": [
+      "외식/배달",
+      "무료혜택"
+    ],
     "sourceType": "official_event_page",
     "officialUrl": "https://www.kfckorea.com/promotion/promotionList/detail/1053",
-    "preferredEnvKeys": ["OFFICIAL_EVENT_FEED_URLS", "DEAL_EVENT_NEWS_FEED_URLS"],
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "DEAL_EVENT_NEWS_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "high",
     "refreshCadenceHours": 6,
@@ -486,10 +679,16 @@
     "id": "lotteeatz-monthly-coupon",
     "label": "롯데잇츠 공식 월간 쿠폰 혜택",
     "provider": "official_event",
-    "category": ["외식/배달", "무료혜택"],
+    "category": [
+      "외식/배달",
+      "무료혜택"
+    ],
     "sourceType": "official_event_page",
     "officialUrl": "https://www.lotteeatz.com/event/main/selectEvent/17589",
-    "preferredEnvKeys": ["OFFICIAL_EVENT_FEED_URLS", "DEAL_EVENT_NEWS_FEED_URLS"],
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "DEAL_EVENT_NEWS_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "high",
     "refreshCadenceHours": 6,
@@ -501,10 +700,16 @@
     "id": "krispykreme-wednesday-event",
     "label": "크리스피크림 공식 수요일 1+1 혜택",
     "provider": "official_event",
-    "category": ["외식/배달", "무료혜택"],
+    "category": [
+      "외식/배달",
+      "무료혜택"
+    ],
     "sourceType": "official_event_page",
     "officialUrl": "https://www.lotteeatz.com/event/main/selectEvent/6769",
-    "preferredEnvKeys": ["OFFICIAL_EVENT_FEED_URLS", "DEAL_EVENT_NEWS_FEED_URLS"],
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "DEAL_EVENT_NEWS_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "medium",
     "refreshCadenceHours": 12,
@@ -516,10 +721,16 @@
     "id": "baskinrobbins-events",
     "label": "배스킨라빈스 공식 이벤트 혜택",
     "provider": "official_event",
-    "category": ["외식/배달", "무료혜택"],
+    "category": [
+      "외식/배달",
+      "무료혜택"
+    ],
     "sourceType": "official_event_page",
     "officialUrl": "https://www.baskinrobbins.co.kr/m/play/event/list.php",
-    "preferredEnvKeys": ["OFFICIAL_EVENT_FEED_URLS", "PUBLIC_COUPON_FEED_URLS"],
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "medium",
     "refreshCadenceHours": 12,
@@ -531,10 +742,17 @@
     "id": "happypoint-alliance-benefits",
     "label": "해피포인트 공식 제휴 할인 혜택",
     "provider": "public_coupon",
-    "category": ["카드/멤버십", "외식/배달", "무료혜택"],
+    "category": [
+      "카드/멤버십",
+      "외식/배달",
+      "무료혜택"
+    ],
     "sourceType": "official_benefit_page",
     "officialUrl": "https://www.happypointcard.com/alliance/service/guide.spc",
-    "preferredEnvKeys": ["PUBLIC_COUPON_FEED_URLS", "OFFICIAL_EVENT_FEED_URLS"],
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "high",
     "refreshCadenceHours": 12,
@@ -546,10 +764,17 @@
     "id": "happypoint-mobile-coupon",
     "label": "해피포인트 공식 모바일 쿠폰 안내",
     "provider": "public_coupon",
-    "category": ["카드/멤버십", "외식/배달", "무료혜택"],
+    "category": [
+      "카드/멤버십",
+      "외식/배달",
+      "무료혜택"
+    ],
     "sourceType": "official_benefit_page",
     "officialUrl": "https://www.happypointcard.com/coupon/coupon.spc",
-    "preferredEnvKeys": ["PUBLIC_COUPON_FEED_URLS", "OFFICIAL_EVENT_FEED_URLS"],
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "medium",
     "refreshCadenceHours": 12,
@@ -561,10 +786,17 @@
     "id": "okcashbag-event-benefits",
     "label": "OK캐쉬백 공식 이벤트 혜택",
     "provider": "public_coupon",
-    "category": ["카드/멤버십", "무료혜택", "마트/편의점"],
+    "category": [
+      "카드/멤버십",
+      "무료혜택",
+      "마트/편의점"
+    ],
     "sourceType": "official_event_page",
     "officialUrl": "https://www.okcashbag.com/life/event/eventHome.do",
-    "preferredEnvKeys": ["PUBLIC_COUPON_FEED_URLS", "OFFICIAL_EVENT_FEED_URLS"],
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "high",
     "refreshCadenceHours": 6,
@@ -576,10 +808,16 @@
     "id": "okcashbag-brand-events",
     "label": "OK캐쉬백 공식 브랜드 이벤트",
     "provider": "public_coupon",
-    "category": ["카드/멤버십", "무료혜택"],
+    "category": [
+      "카드/멤버십",
+      "무료혜택"
+    ],
     "sourceType": "official_event_page",
     "officialUrl": "https://www.okcashbag.com/life/event/eventMain.do",
-    "preferredEnvKeys": ["PUBLIC_COUPON_FEED_URLS", "DEAL_EVENT_FEED_URLS"],
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "DEAL_EVENT_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "medium",
     "refreshCadenceHours": 12,
@@ -591,10 +829,16 @@
     "id": "parisbaguette-promotion",
     "label": "파리바게뜨 공식 프로모션",
     "provider": "official_event",
-    "category": ["외식/배달", "무료혜택"],
+    "category": [
+      "외식/배달",
+      "무료혜택"
+    ],
     "sourceType": "official_event_page",
     "officialUrl": "https://www.paris.co.kr/promotion/",
-    "preferredEnvKeys": ["OFFICIAL_EVENT_FEED_URLS", "DEAL_EVENT_NEWS_FEED_URLS"],
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "DEAL_EVENT_NEWS_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "medium",
     "refreshCadenceHours": 12,
@@ -606,10 +850,16 @@
     "id": "mcdonalds-happy-snack-free-drink",
     "label": "맥도날드 공식 해피 스낵 무료 음료 혜택",
     "provider": "public_coupon",
-    "category": ["외식/배달", "무료혜택"],
+    "category": [
+      "외식/배달",
+      "무료혜택"
+    ],
     "sourceType": "official_event_page",
     "officialUrl": "https://www.mcdonalds.co.kr/kor/promotion/detail/E51CF9",
-    "preferredEnvKeys": ["PUBLIC_COUPON_FEED_URLS", "OFFICIAL_EVENT_FEED_URLS"],
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "high",
     "refreshCadenceHours": 6,
@@ -621,10 +871,17 @@
     "id": "kfc-new-member-coupon-benefit",
     "label": "KFC 공식 신규 회원 쿠폰 혜택",
     "provider": "public_coupon",
-    "category": ["외식/배달", "무료혜택", "카드/멤버십"],
+    "category": [
+      "외식/배달",
+      "무료혜택",
+      "카드/멤버십"
+    ],
     "sourceType": "official_event_page",
     "officialUrl": "https://www.kfckorea.com/promotion/promotionList/detail/1040",
-    "preferredEnvKeys": ["PUBLIC_COUPON_FEED_URLS", "OFFICIAL_EVENT_FEED_URLS"],
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "high",
     "refreshCadenceHours": 12,
@@ -636,10 +893,17 @@
     "id": "dominos-official-discount-benefits",
     "label": "도미노피자 공식 할인 및 제휴 혜택",
     "provider": "official_event",
-    "category": ["외식/배달", "무료혜택", "카드/멤버십"],
+    "category": [
+      "외식/배달",
+      "무료혜택",
+      "카드/멤버십"
+    ],
     "sourceType": "official_benefit_page",
     "officialUrl": "https://web.dominos.co.kr/event/discount?todo=main",
-    "preferredEnvKeys": ["OFFICIAL_EVENT_FEED_URLS", "DEAL_EVENT_FEED_URLS"],
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "DEAL_EVENT_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "high",
     "refreshCadenceHours": 12,
@@ -651,10 +915,17 @@
     "id": "pizzahut-member-free-coupon-benefit",
     "label": "피자헛 공식 회원 쿠폰 혜택",
     "provider": "public_coupon",
-    "category": ["외식/배달", "무료혜택", "카드/멤버십"],
+    "category": [
+      "외식/배달",
+      "무료혜택",
+      "카드/멤버십"
+    ],
     "sourceType": "official_benefit_page",
     "officialUrl": "https://www.pizzahut.co.kr/misc/membership",
-    "preferredEnvKeys": ["PUBLIC_COUPON_FEED_URLS", "OFFICIAL_EVENT_FEED_URLS"],
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "high",
     "refreshCadenceHours": 12,
@@ -666,10 +937,17 @@
     "id": "starbucks-rewards-official-benefit",
     "label": "스타벅스 리워드 공식 혜택",
     "provider": "public_coupon",
-    "category": ["외식/배달", "무료혜택", "카드/멤버십"],
+    "category": [
+      "외식/배달",
+      "무료혜택",
+      "카드/멤버십"
+    ],
     "sourceType": "official_benefit_page",
     "officialUrl": "https://www.starbucks.co.kr/msr/msreward/about.do",
-    "preferredEnvKeys": ["PUBLIC_COUPON_FEED_URLS", "OFFICIAL_EVENT_FEED_URLS"],
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "high",
     "refreshCadenceHours": 12,
@@ -681,10 +959,17 @@
     "id": "megabox-membership-official-benefit",
     "label": "메가박스 공식 멤버십 혜택",
     "provider": "public_coupon",
-    "category": ["영화/문화", "무료혜택", "카드/멤버십"],
+    "category": [
+      "영화/문화",
+      "무료혜택",
+      "카드/멤버십"
+    ],
     "sourceType": "official_benefit_page",
     "officialUrl": "https://www.megabox.co.kr/benefit/membership",
-    "preferredEnvKeys": ["PUBLIC_COUPON_FEED_URLS", "OFFICIAL_EVENT_FEED_URLS"],
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "medium",
     "refreshCadenceHours": 12,
@@ -696,10 +981,16 @@
     "id": "megabox-vip-lounge-official-benefit",
     "label": "메가박스 VIP 라운지 공식 혜택",
     "provider": "public_coupon",
-    "category": ["영화/문화", "무료혜택"],
+    "category": [
+      "영화/문화",
+      "무료혜택"
+    ],
     "sourceType": "official_benefit_page",
     "officialUrl": "https://www.megabox.co.kr/benefit/viplounge",
-    "preferredEnvKeys": ["PUBLIC_COUPON_FEED_URLS", "OFFICIAL_EVENT_FEED_URLS"],
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "medium",
     "refreshCadenceHours": 12,
@@ -711,10 +1002,16 @@
     "id": "lottecinema-lpoint-membership-benefit",
     "label": "롯데시네마 L.POINT 공식 멤버십 혜택",
     "provider": "public_coupon",
-    "category": ["영화/문화", "카드/멤버십"],
+    "category": [
+      "영화/문화",
+      "카드/멤버십"
+    ],
     "sourceType": "official_benefit_page",
     "officialUrl": "https://www.lottecinema.co.kr/NLCHS/Membership/l_point",
-    "preferredEnvKeys": ["PUBLIC_COUPON_FEED_URLS", "DEAL_NEWS_FEED_URLS"],
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "DEAL_NEWS_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "medium",
     "refreshCadenceHours": 12,
@@ -726,10 +1023,17 @@
     "id": "samsung-members-official-benefit",
     "label": "삼성 멤버스 공식 혜택",
     "provider": "official_event",
-    "category": ["디지털/가전", "무료혜택", "카드/멤버십"],
+    "category": [
+      "디지털/가전",
+      "무료혜택",
+      "카드/멤버십"
+    ],
     "sourceType": "official_benefit_page",
     "officialUrl": "https://www.samsung.com/sec/members/benefit/",
-    "preferredEnvKeys": ["OFFICIAL_EVENT_FEED_URLS", "DEAL_EVENT_FEED_URLS"],
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "DEAL_EVENT_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "medium",
     "refreshCadenceHours": 12,
@@ -741,10 +1045,17 @@
     "id": "homeplus-membership-official-coupon",
     "label": "홈플러스 공식 멤버십 쿠폰 혜택",
     "provider": "official_event",
-    "category": ["마트/편의점", "식품/생필품", "무료혜택"],
+    "category": [
+      "마트/편의점",
+      "식품/생필품",
+      "무료혜택"
+    ],
     "sourceType": "official_benefit_page",
     "officialUrl": "https://front.homeplus.co.kr/membership",
-    "preferredEnvKeys": ["OFFICIAL_EVENT_FEED_URLS", "DEAL_EVENT_FEED_URLS"],
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "DEAL_EVENT_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "medium",
     "refreshCadenceHours": 6,
@@ -756,10 +1067,16 @@
     "id": "bccard-benefit-official-center",
     "label": "BC카드 공식 혜택 안내",
     "provider": "public_coupon",
-    "category": ["카드/멤버십", "무료혜택"],
+    "category": [
+      "카드/멤버십",
+      "무료혜택"
+    ],
     "sourceType": "official_benefit_page",
     "officialUrl": "https://www.bccard.com/app/card/BenefitActn.do",
-    "preferredEnvKeys": ["PUBLIC_COUPON_FEED_URLS", "DEAL_NEWS_FEED_URLS"],
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "DEAL_NEWS_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "medium",
     "refreshCadenceHours": 12,
@@ -771,10 +1088,16 @@
     "id": "cu-plus-official-monthly-benefit",
     "label": "CU 공식 1+1·2+1 행사상품",
     "provider": "official_event",
-    "category": ["마트/편의점", "무료혜택"],
+    "category": [
+      "마트/편의점",
+      "무료혜택"
+    ],
     "sourceType": "official_event_page",
     "officialUrl": "https://cu.bgfretail.com/event/plus.do?category=event&depth2=1",
-    "preferredEnvKeys": ["OFFICIAL_EVENT_FEED_URLS", "DEAL_EVENT_FEED_URLS"],
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "DEAL_EVENT_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "high",
     "refreshCadenceHours": 6,
@@ -786,10 +1109,16 @@
     "id": "ediya-official-event-coupon",
     "label": "이디야커피 공식 이벤트·쿠폰",
     "provider": "public_coupon",
-    "category": ["외식/배달", "무료혜택"],
+    "category": [
+      "외식/배달",
+      "무료혜택"
+    ],
     "sourceType": "official_event_page",
     "officialUrl": "https://www.ediya.com/contents/event.html",
-    "preferredEnvKeys": ["PUBLIC_COUPON_FEED_URLS", "OFFICIAL_EVENT_FEED_URLS"],
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "medium",
     "refreshCadenceHours": 12,
@@ -801,10 +1130,16 @@
     "id": "naverplus-membership-official-benefit",
     "label": "네이버플러스 멤버십 공식 혜택",
     "provider": "public_coupon",
-    "category": ["카드/멤버십", "무료혜택"],
+    "category": [
+      "카드/멤버십",
+      "무료혜택"
+    ],
     "sourceType": "official_benefit_page",
     "officialUrl": "https://nid.naver.com/membership/join",
-    "preferredEnvKeys": ["PUBLIC_COUPON_FEED_URLS", "DEAL_NEWS_FEED_URLS"],
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "DEAL_NEWS_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "medium",
     "refreshCadenceHours": 12,
@@ -816,10 +1151,15 @@
     "id": "samsungcard-official-event-benefit",
     "label": "삼성카드 공식 이벤트·청구할인",
     "provider": "public_coupon",
-    "category": ["카드/멤버십"],
+    "category": [
+      "카드/멤버십"
+    ],
     "sourceType": "official_event_page",
     "officialUrl": "https://www.samsungcard.com/personal/event/ing/UHPPBE1401M0.jsp",
-    "preferredEnvKeys": ["PUBLIC_COUPON_FEED_URLS", "OFFICIAL_EVENT_FEED_URLS"],
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "medium",
     "refreshCadenceHours": 12,
@@ -831,10 +1171,15 @@
     "id": "lottecard-official-event-benefit",
     "label": "롯데카드 공식 이벤트·할인",
     "provider": "public_coupon",
-    "category": ["카드/멤버십"],
+    "category": [
+      "카드/멤버십"
+    ],
     "sourceType": "official_event_page",
     "officialUrl": "https://www.lottecard.co.kr/app/LPCDADA_V100.lc",
-    "preferredEnvKeys": ["PUBLIC_COUPON_FEED_URLS", "OFFICIAL_EVENT_FEED_URLS"],
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "medium",
     "refreshCadenceHours": 12,
@@ -846,10 +1191,15 @@
     "id": "hanacard-official-event-benefit",
     "label": "하나카드 공식 이벤트·쿠폰",
     "provider": "public_coupon",
-    "category": ["카드/멤버십"],
+    "category": [
+      "카드/멤버십"
+    ],
     "sourceType": "official_event_page",
     "officialUrl": "https://www.hanacard.co.kr/OPI35000000D.web",
-    "preferredEnvKeys": ["PUBLIC_COUPON_FEED_URLS", "OFFICIAL_EVENT_FEED_URLS"],
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "medium",
     "refreshCadenceHours": 12,
@@ -861,10 +1211,17 @@
     "id": "kt-membership-official-benefit",
     "label": "KT 멤버십 공식 할인·쿠폰",
     "provider": "public_coupon",
-    "category": ["카드/멤버십", "외식/배달", "영화/문화"],
+    "category": [
+      "카드/멤버십",
+      "외식/배달",
+      "영화/문화"
+    ],
     "sourceType": "official_benefit_page",
     "officialUrl": "https://membership.kt.com/main/MainInfo.do",
-    "preferredEnvKeys": ["PUBLIC_COUPON_FEED_URLS", "DEAL_NEWS_FEED_URLS"],
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "DEAL_NEWS_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "medium",
     "refreshCadenceHours": 12,
@@ -876,10 +1233,17 @@
     "id": "uplus-membership-official-benefit",
     "label": "U+ 멤버십 공식 제휴 할인",
     "provider": "public_coupon",
-    "category": ["카드/멤버십", "외식/배달", "영화/문화"],
+    "category": [
+      "카드/멤버십",
+      "외식/배달",
+      "영화/문화"
+    ],
     "sourceType": "official_benefit_page",
     "officialUrl": "https://www.lguplus.com/benefit-membership",
-    "preferredEnvKeys": ["PUBLIC_COUPON_FEED_URLS", "DEAL_NEWS_FEED_URLS"],
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "DEAL_NEWS_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "medium",
     "refreshCadenceHours": 12,
@@ -891,10 +1255,17 @@
     "id": "seoul-culture-official-free-events",
     "label": "서울문화포털 공식 무료·할인 문화행사",
     "provider": "public_coupon",
-    "category": ["영화/문화", "무료혜택", "정부/공공혜택"],
+    "category": [
+      "영화/문화",
+      "무료혜택",
+      "정부/공공혜택"
+    ],
     "sourceType": "official_public_benefit_page",
     "officialUrl": "https://culture.seoul.go.kr/culture/culture/cultureEvent/list.do",
-    "preferredEnvKeys": ["PUBLIC_COUPON_FEED_URLS", "DEAL_NEWS_FEED_URLS"],
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "DEAL_NEWS_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "high",
     "refreshCadenceHours": 12,
@@ -906,10 +1277,17 @@
     "id": "national-museum-official-exhibition",
     "label": "국립중앙박물관 공식 전시·문화 혜택",
     "provider": "public_coupon",
-    "category": ["영화/문화", "무료혜택", "정부/공공혜택"],
+    "category": [
+      "영화/문화",
+      "무료혜택",
+      "정부/공공혜택"
+    ],
     "sourceType": "official_public_benefit_page",
     "officialUrl": "https://www.museum.go.kr/MUSEUM/contents/M0202010000.do?menuId=current",
-    "preferredEnvKeys": ["PUBLIC_COUPON_FEED_URLS", "DEAL_NEWS_FEED_URLS"],
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "DEAL_NEWS_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "medium",
     "refreshCadenceHours": 12,
@@ -921,10 +1299,16 @@
     "id": "innisfree-sample-market",
     "label": "이니스프리 공식 샘플마켓",
     "provider": "public_coupon",
-    "category": ["무료혜택", "패션/뷰티"],
+    "category": [
+      "무료혜택",
+      "패션/뷰티"
+    ],
     "sourceType": "official_benefit_page",
     "officialUrl": "https://m.innisfree.com/kr/ko/dp/sample-market",
-    "preferredEnvKeys": ["PUBLIC_COUPON_FEED_URLS", "OFFICIAL_EVENT_FEED_URLS"],
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "high",
     "refreshCadenceHours": 6,
@@ -936,10 +1320,16 @@
     "id": "innisfree-event-coupon",
     "label": "이니스프리 공식 이벤트·쿠폰",
     "provider": "official_event",
-    "category": ["패션/뷰티", "무료혜택"],
+    "category": [
+      "패션/뷰티",
+      "무료혜택"
+    ],
     "sourceType": "official_event_page",
     "officialUrl": "https://www.innisfree.com/kr/ko/dp/posting-list",
-    "preferredEnvKeys": ["OFFICIAL_EVENT_FEED_URLS", "PUBLIC_COUPON_FEED_URLS"],
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "medium",
     "refreshCadenceHours": 6,
@@ -951,10 +1341,16 @@
     "id": "kurly-beauty-sample-product",
     "label": "컬리 공식 뷰티 증정 이벤트 상품",
     "provider": "official_event",
-    "category": ["패션/뷰티", "무료혜택"],
+    "category": [
+      "패션/뷰티",
+      "무료혜택"
+    ],
     "sourceType": "official_purchase_page",
     "officialUrl": "https://www.kurly.com/goods/1000120890",
-    "preferredEnvKeys": ["OFFICIAL_EVENT_FEED_URLS", "DEAL_EVENT_FEED_URLS"],
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "DEAL_EVENT_FEED_URLS"
+    ],
     "integrationMethod": "official_purchase_page_or_partner_json_feed",
     "priority": "medium",
     "refreshCadenceHours": 6,
@@ -966,10 +1362,16 @@
     "id": "kurly-living-free-shipping-product",
     "label": "컬리 공식 생활용품 무료배송 특가",
     "provider": "official_event",
-    "category": ["식품/생필품", "마트/편의점"],
+    "category": [
+      "식품/생필품",
+      "마트/편의점"
+    ],
     "sourceType": "official_purchase_page",
     "officialUrl": "https://www.kurly.com/goods/1001472154",
-    "preferredEnvKeys": ["OFFICIAL_EVENT_FEED_URLS", "DEAL_EVENT_FEED_URLS"],
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "DEAL_EVENT_FEED_URLS"
+    ],
     "integrationMethod": "official_purchase_page_or_partner_json_feed",
     "priority": "medium",
     "refreshCadenceHours": 6,
@@ -981,10 +1383,15 @@
     "id": "kurly-digital-free-shipping-product",
     "label": "컬리 공식 디지털 무료배송 특가",
     "provider": "official_event",
-    "category": ["디지털/가전"],
+    "category": [
+      "디지털/가전"
+    ],
     "sourceType": "official_purchase_page",
     "officialUrl": "https://www.kurly.com/goods/1000284019",
-    "preferredEnvKeys": ["OFFICIAL_EVENT_FEED_URLS", "DEAL_EVENT_FEED_URLS"],
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "DEAL_EVENT_FEED_URLS"
+    ],
     "integrationMethod": "official_purchase_page_or_partner_json_feed",
     "priority": "medium",
     "refreshCadenceHours": 6,
@@ -996,10 +1403,15 @@
     "id": "kurly-fashion-free-shipping-product",
     "label": "컬리 공식 패션 무료배송 특가",
     "provider": "official_event",
-    "category": ["패션/뷰티"],
+    "category": [
+      "패션/뷰티"
+    ],
     "sourceType": "official_purchase_page",
     "officialUrl": "https://www.kurly.com/goods/1002016097",
-    "preferredEnvKeys": ["OFFICIAL_EVENT_FEED_URLS", "DEAL_EVENT_FEED_URLS"],
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "DEAL_EVENT_FEED_URLS"
+    ],
     "integrationMethod": "official_purchase_page_or_partner_json_feed",
     "priority": "medium",
     "refreshCadenceHours": 6,
@@ -1011,10 +1423,17 @@
     "id": "hollys-official-event-coupon",
     "label": "할리스 공식 이벤트·쿠폰",
     "provider": "official_event",
-    "category": ["외식/배달", "무료혜택", "카드/멤버십"],
+    "category": [
+      "외식/배달",
+      "무료혜택",
+      "카드/멤버십"
+    ],
     "sourceType": "official_event_page",
     "officialUrl": "https://www.hollys.co.kr/news/event/list.do",
-    "preferredEnvKeys": ["OFFICIAL_EVENT_FEED_URLS", "PUBLIC_COUPON_FEED_URLS"],
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "medium",
     "refreshCadenceHours": 6,
@@ -1026,10 +1445,16 @@
     "id": "momstouch-official-event-coupon",
     "label": "맘스터치 공식 이벤트·쿠폰",
     "provider": "official_event",
-    "category": ["외식/배달", "무료혜택"],
+    "category": [
+      "외식/배달",
+      "무료혜택"
+    ],
     "sourceType": "official_event_page",
     "officialUrl": "https://momstouch.co.kr/board/event/list.php",
-    "preferredEnvKeys": ["OFFICIAL_EVENT_FEED_URLS", "PUBLIC_COUPON_FEED_URLS"],
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "medium",
     "refreshCadenceHours": 6,
@@ -1041,10 +1466,16 @@
     "id": "mega-mgc-official-event-coupon",
     "label": "메가MGC커피 공식 이벤트",
     "provider": "official_event",
-    "category": ["외식/배달", "무료혜택"],
+    "category": [
+      "외식/배달",
+      "무료혜택"
+    ],
     "sourceType": "official_event_page",
     "officialUrl": "https://www.mega-mgccoffee.com/bbs/board.php?bo_table=event",
-    "preferredEnvKeys": ["OFFICIAL_EVENT_FEED_URLS", "PUBLIC_COUPON_FEED_URLS"],
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "medium",
     "refreshCadenceHours": 6,
@@ -1056,10 +1487,15 @@
     "id": "subway-official-promotion",
     "label": "써브웨이 공식 이벤트·프로모션",
     "provider": "official_event",
-    "category": ["외식/배달"],
+    "category": [
+      "외식/배달"
+    ],
     "sourceType": "official_event_page",
     "officialUrl": "https://www.subway.co.kr/eventList",
-    "preferredEnvKeys": ["OFFICIAL_EVENT_FEED_URLS", "PUBLIC_COUPON_FEED_URLS"],
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "medium",
     "refreshCadenceHours": 6,
@@ -1071,10 +1507,16 @@
     "id": "seven-eleven-official-events",
     "label": "세븐일레븐 공식 진행 이벤트",
     "provider": "official_event",
-    "category": ["마트/편의점", "무료혜택"],
+    "category": [
+      "마트/편의점",
+      "무료혜택"
+    ],
     "sourceType": "official_event_page",
     "officialUrl": "https://www.7-eleven.co.kr/event/eventList.asp",
-    "preferredEnvKeys": ["OFFICIAL_EVENT_FEED_URLS", "DEAL_EVENT_FEED_URLS"],
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "DEAL_EVENT_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "high",
     "refreshCadenceHours": 6,
@@ -1086,15 +1528,165 @@
     "id": "emart24-official-events",
     "label": "이마트24 공식 이벤트·행사",
     "provider": "official_event",
-    "category": ["마트/편의점", "무료혜택"],
+    "category": [
+      "마트/편의점",
+      "무료혜택"
+    ],
     "sourceType": "official_event_page",
     "officialUrl": "https://emart24.co.kr/event",
-    "preferredEnvKeys": ["OFFICIAL_EVENT_FEED_URLS", "DEAL_EVENT_FEED_URLS"],
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "DEAL_EVENT_FEED_URLS"
+    ],
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "high",
     "refreshCadenceHours": 6,
     "allowedUse": "이마트24 공식 이벤트 페이지에서 편의점 행사, 앱 쿠폰, 증정 이벤트 조건이 확인되는 혜택",
     "blockedUse": "비공식 행사표, 검색 결과, 커뮤니티 글",
     "notes": "앱 전용 혜택은 회원 필요 여부와 재고 소진 가능성을 카드 유의사항에 남긴다."
+  },
+  {
+    "id": "pizzahut-luckydraw-coupon",
+    "label": "피자헛 공식 럭키드로우 쿠폰 이벤트",
+    "provider": "official_event",
+    "category": [
+      "외식/배달",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.pizzahut.co.kr/cs/event/extra/luckydraw",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 6,
+    "allowedUse": "피자헛 공식 이벤트 상세에서 쿠폰, 앱푸시/SMS 동의, 주문 조건이 확인되는 혜택",
+    "blockedUse": "피자 주문 검색 결과, 비공식 쿠폰 코드, 커뮤니티 글",
+    "notes": "앱 회원, 수신동의, M/L 사이즈 같은 조건은 claimWarning으로 분리 저장한다."
+  },
+  {
+    "id": "dunkin-monthly-combo-coupon",
+    "label": "던킨 공식 이달의 콤보 쿠폰",
+    "provider": "official_event",
+    "category": [
+      "외식/배달",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.dunkindonuts.co.kr/event/view?id=5392",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 6,
+    "allowedUse": "던킨 공식 이벤트 상세에서 쿠폰함, 매장 적용, 행사 기간, 제품 소진 조건이 확인되는 혜택",
+    "blockedUse": "비공식 쿠폰 캡처, 검색 결과, 종료된 이벤트",
+    "notes": "마감 임박 혜택은 종료일 전 대체 후보를 준비한다."
+  },
+  {
+    "id": "dunkin-donut-fryday-coupon",
+    "label": "던킨 공식 DONUT FRYDAY",
+    "provider": "official_event",
+    "category": [
+      "외식/배달",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.dunkindonuts.co.kr/index.php/event/view?id=5237",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 6,
+    "allowedUse": "던킨 공식 이벤트 상세에서 금요일 도넛팩 특가와 현장 구매 조건이 확인되는 혜택",
+    "blockedUse": "비공식 행사표, 검색 결과, 종료된 이벤트",
+    "notes": "매장별 준비 수량 소진 가능성을 안내한다."
+  },
+  {
+    "id": "dunkin-membership-partner-benefits",
+    "label": "던킨 공식 제휴·멤버십 혜택",
+    "provider": "official_event",
+    "category": [
+      "카드/멤버십",
+      "외식/배달"
+    ],
+    "sourceType": "official_benefit_page",
+    "officialUrl": "https://www.dunkindonuts.co.kr/event?flag=B",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 6,
+    "allowedUse": "던킨 공식 제휴혜택에서 통신사, 카드, 멤버십 할인 조건이 확인되는 항목",
+    "blockedUse": "비공식 제휴 할인 정리글, 검색 결과, 만료된 이벤트",
+    "notes": "멤버십 혜택은 등급, 바코드, 현장결제 조건을 분리 저장한다."
+  },
+  {
+    "id": "gov24-benefit-alert-service",
+    "label": "정부24 혜택알리미",
+    "provider": "public_coupon",
+    "category": [
+      "정부/공공혜택",
+      "무료혜택"
+    ],
+    "sourceType": "official_benefit_page",
+    "officialUrl": "https://www.gov.kr/portal/rcvfvrSvc/main",
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_public_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 12,
+    "allowedUse": "정부24 혜택알리미에서 확인되는 공공지원, 보조금, 생활 혜택 안내와 신청 경로",
+    "blockedUse": "블로그 요약, 뉴스 기사 단독, 비공식 지원금 홍보글",
+    "notes": "개인별 자격 확인이 필요한 혜택은 최종 신청 전 조건 확인 문구를 유지한다."
+  },
+  {
+    "id": "work24-employment-support",
+    "label": "고용24 공식 취업·고용 지원",
+    "provider": "public_coupon",
+    "category": [
+      "정부/공공혜택",
+      "무료혜택"
+    ],
+    "sourceType": "official_benefit_page",
+    "officialUrl": "https://www.work24.go.kr/cm/main.do",
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_public_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "고용24 공식 페이지에서 확인되는 구직, 직업훈련, 고용지원, 온라인 신청 가능 혜택",
+    "blockedUse": "비공식 취업지원 홍보글, 커뮤니티 후기, 검색 결과",
+    "notes": "자격과 신청 기간이 있는 공고는 종료일과 신청 조건을 분리한다."
+  },
+  {
+    "id": "kosaf-scholarship-support",
+    "label": "한국장학재단 공식 장학·학자금 지원",
+    "provider": "public_coupon",
+    "category": [
+      "정부/공공혜택",
+      "무료혜택"
+    ],
+    "sourceType": "official_benefit_page",
+    "officialUrl": "https://www.kosaf.go.kr/ko/main.do",
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_public_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "한국장학재단 공식 페이지에서 확인되는 국가장학금, 학자금, 생활비 지원 신청 정보",
+    "blockedUse": "비공식 장학금 홍보글, 검색 결과, 종료 공고",
+    "notes": "학기/학년/소득구간 조건은 사용자 안내 문구로 분리한다."
   }
 ]

@@ -2,12 +2,12 @@
 
 이 문서는 할인도사에 연결할 수 있는 공식 이벤트, 공공 혜택, 제휴 JSON/RSS 후보를 정리합니다. 무단 크롤링 후보가 아니라 운영자가 승인 feed 또는 공식 페이지 매핑으로 전환할 때 쓰는 출발점입니다.
 
-- 생성 시각: 2026-06-06T17:09:26.539Z
+- 생성 시각: 2026-06-06T17:48:41.010Z
 - 상태: PASS
-- 후보 소스: 73개
-- 고우선순위 후보: 24개
+- 후보 소스: 80개
+- 고우선순위 후보: 26개
 - 현재 env feed 연결 후보: 0개
-- 공식 혜택 노출: 84개
+- 공식 혜택 노출: 91개
 - feed 전환 상태: seed_launch_ready
 - CSV 리포트: reports/official-source-catalog.csv
 
@@ -19,12 +19,12 @@
 | 마트/편의점 | 12 | 충분 |
 | 디지털/가전 | 4 | 충분 |
 | 패션/뷰티 | 8 | 충분 |
-| 외식/배달 | 26 | 충분 |
+| 외식/배달 | 30 | 충분 |
 | 여행/숙박 | 3 | 충분 |
 | 영화/문화 | 13 | 충분 |
-| 카드/멤버십 | 27 | 충분 |
-| 무료혜택 | 46 | 충분 |
-| 정부/공공혜택 | 5 | 충분 |
+| 카드/멤버십 | 28 | 충분 |
+| 무료혜택 | 52 | 충분 |
+| 정부/공공혜택 | 8 | 충분 |
 
 ## Provider 커버리지
 
@@ -32,8 +32,8 @@
 | --- | ---: | --- |
 | news | 1 | 포함 |
 | event_news | 2 | 포함 |
-| official_event | 39 | 포함 |
-| public_coupon | 31 | 포함 |
+| official_event | 43 | 포함 |
+| public_coupon | 34 | 포함 |
 
 ## 후보 목록
 
@@ -112,6 +112,13 @@
 | subway-official-promotion | official_event | 외식/배달 | medium | https://www.subway.co.kr/eventList | OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS |
 | seven-eleven-official-events | official_event | 마트/편의점, 무료혜택 | high | https://www.7-eleven.co.kr/event/eventList.asp | OFFICIAL_EVENT_FEED_URLS, DEAL_EVENT_FEED_URLS |
 | emart24-official-events | official_event | 마트/편의점, 무료혜택 | high | https://emart24.co.kr/event | OFFICIAL_EVENT_FEED_URLS, DEAL_EVENT_FEED_URLS |
+| pizzahut-luckydraw-coupon | official_event | 외식/배달, 무료혜택 | medium | https://www.pizzahut.co.kr/cs/event/extra/luckydraw | OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS |
+| dunkin-monthly-combo-coupon | official_event | 외식/배달, 무료혜택 | high | https://www.dunkindonuts.co.kr/event/view?id=5392 | OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS |
+| dunkin-donut-fryday-coupon | official_event | 외식/배달, 무료혜택 | medium | https://www.dunkindonuts.co.kr/index.php/event/view?id=5237 | OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS |
+| dunkin-membership-partner-benefits | official_event | 카드/멤버십, 외식/배달 | medium | https://www.dunkindonuts.co.kr/event?flag=B | OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS |
+| gov24-benefit-alert-service | public_coupon | 정부/공공혜택, 무료혜택 | high | https://www.gov.kr/portal/rcvfvrSvc/main | PUBLIC_COUPON_FEED_URLS |
+| work24-employment-support | public_coupon | 정부/공공혜택, 무료혜택 | medium | https://www.work24.go.kr/cm/main.do | PUBLIC_COUPON_FEED_URLS |
+| kosaf-scholarship-support | public_coupon | 정부/공공혜택, 무료혜택 | medium | https://www.kosaf.go.kr/ko/main.do | PUBLIC_COUPON_FEED_URLS |
 
 ## 다음 작업
 

@@ -201,7 +201,7 @@ const gates = [
   ),
   buildGate(
     "공식 혜택 노출",
-    summary.visibleOfficialBenefits >= 80 && summary.hiddenOfficialBenefits === 0 && summary.expiredOfficialBenefits === 0 && summary.failedOfficialBenefits === 0,
+    summary.visibleOfficialBenefits >= 85 && summary.hiddenOfficialBenefits === 0 && summary.expiredOfficialBenefits === 0 && summary.failedOfficialBenefits === 0,
     `공식 혜택 ${summary.visibleOfficialBenefits}개, 숨김 ${summary.hiddenOfficialBenefits}개, 종료 ${summary.expiredOfficialBenefits}개, 실패 ${summary.failedOfficialBenefits}개`,
     "npm run refresh:news && npm run verify:news"
   ),

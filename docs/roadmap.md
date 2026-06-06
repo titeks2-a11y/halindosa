@@ -6,6 +6,14 @@
 
 ## 완료 작업
 
+### PHASE Official Benefit 85+ Trust Gate
+
+- 피자헛, 던킨, 정부24, 고용24, 한국장학재단 공식 혜택/공공 지원 소스를 seed와 official source catalog에 추가하고, 자동 live probe에서 `needs_review`로 분류된 크리스피크림/K-Startup 후보는 사용자 노출과 운영 카탈로그에서 제외해 수량보다 검증 가능한 최종 링크 품질을 우선했다.
+- `refresh:news` 기준 수집 92개, 중복 제거 후 사용자 노출 공식 혜택 91개를 확보하고, 숨김/종료/비공식/검색 링크 노출 0건을 `verify:news`, `refresh:freebies`, `refresh:events`, `source:readiness:report`로 재검증했다.
+- 공식 혜택 최소 노출 기준을 85개로 상향하고 `verify:news`, `smoke:local`, `release:doctor`, `health:readiness`, `source:readiness`, `cron:refresh:doctor`, `daily:operations:report`, `push:readiness:report`, `home:realtime:doctor`가 같은 85개 기준을 보도록 통일했다.
+- `home:realtime:doctor` 기준 `/api/home`, `/api/deals`, `/api/news-deals`, `/api/hot-signals`는 dynamic/no-store 정책과 45초 자동 갱신, 수동 새로고침, 최신성 배지를 유지하며, 공식 혜택 91개가 updatedAt/verifiedAt/availability/source/finalUrl을 가진 상태로 홈에 즉시 반영될 준비가 되어 있다.
+- 최종 검증에서 `lint`, `refresh:all`, `verify:links`, `verify:news`, `verify:images`, `smoke:local`, `qa`, `harness`, `release:doctor`, `build`, `build:android`, `cap:sync`, `workspace:doctor:strict`를 통과해 웹/Android 출시 파이프라인 기준을 유지했다.
+
 ### PHASE Official Benefit 80+ Launch Gate
 
 - 할리스, 맘스터치, 메가MGC커피, 써브웨이, 세븐일레븐, 이마트24 공식 이벤트/쿠폰 소스를 seed와 official source catalog에 추가해 `refresh:news` 기준 수집 85개, 중복 제거 후 사용자 노출 공식 혜택 84개를 확보했다.
