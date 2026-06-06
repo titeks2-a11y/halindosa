@@ -5,6 +5,7 @@ import { buildPersonalizedBenefitQueue } from "@/lib/deals/personalizedBenefitQu
 import { getLinkReviewQueue, summarizeDealQuality } from "@/lib/deals/quality";
 import { hasRealDealImage } from "@/lib/deals/ranking";
 import { buildImageSourcingOperation } from "@/lib/deals/imageSourcingPolicy";
+import { getGeneratedDealImageSrc } from "@/lib/imageSrc";
 import { getOperationalEnvReadiness } from "@/lib/operations/envReadiness";
 import { getPriceInsight } from "@/lib/priceHistory";
 import type { Deal, DealBenefitType } from "@/types/deal";
@@ -421,6 +422,8 @@ export function buildImageQualityReadiness(deals: Deal[]) {
 
   const buildImageSearchUrl = (deal: Deal) =>
     `https://search.shopping.naver.com/search/all?query=${encodeURIComponent(`${deal.mallName} ${deal.title} 상품 이미지`)}`;
+  const getCurrentImageUrl = (deal: Deal) => deal.thumbnail || deal.imageUrl || getGeneratedDealImageSrc(deal.category);
+  const getSourceUrl = (deal: Deal) => deal.sourceUrl || deal.finalPurchaseUrl || deal.finalUrl || deal.productUrl || deal.link;
 
   for (const deal of deals) {
     const current = byCategory.get(deal.category) ?? {
@@ -511,10 +514,10 @@ export function buildImageQualityReadiness(deals: Deal[]) {
         category: deal.category,
         mallName: deal.mallName,
         popularityScore: deal.popularityScore,
-        currentImageUrl: deal.thumbnail || deal.imageUrl,
+        currentImageUrl: getCurrentImageUrl(deal),
         sourceName: deal.sourceName ?? deal.mallName,
-        sourceUrl: deal.sourceUrl ?? deal.finalPurchaseUrl,
-        finalPurchaseUrl: deal.finalPurchaseUrl,
+        sourceUrl: getSourceUrl(deal),
+        finalPurchaseUrl: deal.finalPurchaseUrl || deal.finalUrl || deal.productUrl || deal.link,
         imageSearchUrl: buildImageSearchUrl(deal),
         imageField: "imageUrl",
         imageSourceHint: imagePolicy.recommendedImageSource,
@@ -552,7 +555,10 @@ export function buildImageQualityReadiness(deals: Deal[]) {
       title: deal.title,
       category: deal.category,
       mallName: deal.mallName,
-      finalPurchaseUrl: deal.finalPurchaseUrl,
+      currentImageUrl: getCurrentImageUrl(deal),
+      sourceName: deal.sourceName ?? deal.mallName,
+      sourceUrl: getSourceUrl(deal),
+      finalPurchaseUrl: deal.finalPurchaseUrl || deal.finalUrl || deal.productUrl || deal.link,
       imageSearchUrl: buildImageSearchUrl(deal),
       imagePolicyKey: imagePolicy.key,
       imageAcquisitionChannel: imagePolicy.acquisitionChannel,

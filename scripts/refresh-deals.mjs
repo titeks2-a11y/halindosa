@@ -317,24 +317,68 @@ function parseVerifiedEntries() {
   return entries;
 }
 
+function parseMockDealMetadata() {
+  const source = read("data/mockDeals.ts");
+  const entries = [];
+  const pattern =
+    /deal\("(?<id>d\d+)",\s*"(?<mallName>[^"]+)",\s*"(?<title>[^"]+)",\s*"(?<category>[^"]+)",\s*(?<originalPrice>[0-9.]+),\s*(?<discountRate>[0-9.]+),\s*(?<offsetHours>[0-9.]+),\s*(?<expiresInHours>[0-9.]+),\s*\{(?<flags>[^}]+)\},\s*\[(?<tags>[^\]]*)\],\s*(?<popularityScore>[0-9.]+)(?:,\s*"(?<imageUrl>[^"]*)")?(?:,\s*"(?<link>[^"]*)")?/g;
+  let match;
+
+  while ((match = pattern.exec(source))) {
+    const originalPrice = toNumber(match.groups?.originalPrice);
+    const discountRate = toNumber(match.groups?.discountRate);
+    const salePrice = Math.round((originalPrice * (100 - discountRate)) / 100 / 10) * 10;
+    const tags = [...String(match.groups?.tags ?? "").matchAll(/"([^"]+)"/g)].map((tagMatch) => tagMatch[1]);
+    const expiresInHours = Number(match.groups?.expiresInHours ?? 24);
+
+    entries.push({
+      id: match.groups?.id ?? "",
+      mallName: match.groups?.mallName ?? "",
+      title: match.groups?.title ?? "",
+      category: match.groups?.category ?? "기타",
+      originalPrice,
+      salePrice,
+      discountRate,
+      thumbnail: match.groups?.imageUrl ?? "",
+      imageUrl: match.groups?.imageUrl ?? "",
+      link: match.groups?.link ?? "",
+      tags,
+      sourceName: match.groups?.mallName ?? "",
+      sourceUrl: match.groups?.link ?? "",
+      expireAt: new Date(Date.now() + expiresInHours * 60 * 60 * 1000).toISOString(),
+      popularityScore: toNumber(match.groups?.popularityScore)
+    });
+  }
+
+  return entries;
+}
+
 function getManualProviderItems() {
-  const mockDeals = read("data/mockDeals.ts");
-  const dealIds = [...mockDeals.matchAll(/deal\("(d\d+)"/g)].map((match) => match[1]);
+  const mockDealMetadata = parseMockDealMetadata();
   const verifiedMap = new Map(parseVerifiedEntries().map((entry) => [entry.id, entry]));
 
-  return dealIds.map((id) => {
-    const verified = verifiedMap.get(id);
+  return mockDealMetadata.map((deal) => {
+    const verified = verifiedMap.get(deal.id);
+    const finalUrl = verified?.url || deal.link || "";
+    const checkedAt = verified?.checkedAt || new Date().toISOString();
+
     return {
       provider: "manual",
-      id,
-      title: id,
-      mallName: "manual",
-      salePrice: 1,
-      originalPrice: 1,
-      finalPurchaseUrl: verified?.url ?? "",
-      link: verified?.url ?? "",
-      evidence: verified?.evidence ?? "",
-      checkedAt: verified?.checkedAt ?? "",
+      ...deal,
+      finalPurchaseUrl: finalUrl,
+      finalUrl,
+      productUrl: finalUrl,
+      purchaseUrl: finalUrl,
+      originalUrl: finalUrl,
+      link: finalUrl,
+      evidence: verified?.evidence || `${deal.mallName} ${deal.title} 검증 상세`,
+      checkedAt,
+      lastCheckedAt: checkedAt,
+      verifiedAt: checkedAt,
+      updatedAt: checkedAt,
+      source: verified?.source ?? "manual_review",
+      sourceName: deal.mallName,
+      sourceUrl: finalUrl,
       sourceProvider: "manual"
     };
   });
@@ -479,7 +523,7 @@ function normalizeCollectedItem(raw, index) {
   const provider = cleanText(raw.sourceProvider ?? raw.provider ?? raw.source ?? "manual");
   const id = cleanText(raw.id ?? raw.externalId ?? `${provider}-${canonicalUrl(finalUrl) || normalizeKey(`${mallName}-${title}-${salePrice}`)}`) || `collected-${index}`;
 
-  if (!title || !mallName || !finalUrl || !salePrice) {
+  if (!title || !mallName || !finalUrl || salePrice < 0) {
     return {
       ok: false,
       reason: "missing_required_fields",
@@ -516,7 +560,10 @@ function normalizeCollectedItem(raw, index) {
       createdAt: cleanText(raw.createdAt) || now,
       expireAt: cleanText(raw.expireAt ?? raw.expiresAt) || new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
       tags: Array.isArray(raw.tags) ? raw.tags.filter((tag) => typeof tag === "string") : [provider],
-      lastCheckedAt: now
+      lastCheckedAt: cleanText(raw.lastCheckedAt ?? raw.checkedAt ?? raw.verifiedAt) || now,
+      checkedAt: cleanText(raw.checkedAt ?? raw.lastCheckedAt ?? raw.verifiedAt) || now,
+      verifiedAt: cleanText(raw.verifiedAt ?? raw.checkedAt ?? raw.lastCheckedAt) || now,
+      updatedAt: cleanText(raw.updatedAt ?? raw.checkedAt ?? raw.lastCheckedAt) || now
     }
   };
 }
@@ -541,10 +588,11 @@ async function validateCollectedDeal(deal) {
   const priorityScore =
     (finalClassification.linkType === "direct_purchase" ? 45 : 30) +
     (deal.thumbnail ? 12 : -10) +
-    (deal.salePrice > 0 ? 12 : -20) +
+    (deal.salePrice >= 0 ? 12 : -20) +
     (deal.discountRate > 0 ? 8 : 0) +
     (finalClassification.availability === "active" ? 15 : -30) +
     (probe.reason === "http_ok" || probe.reason === "static_validation_only" ? 8 : -12);
+  const qualityScore = Math.max(0, Math.min(100, Math.round(priorityScore)));
 
   return {
     ...deal,
@@ -558,8 +606,11 @@ async function validateCollectedDeal(deal) {
     isHidden,
     publishable,
     priorityScore,
+    qualityScore,
     lastCheckedAt: now,
     checkedAt: now,
+    verifiedAt: now,
+    updatedAt: now,
     linkVerified: ok,
     purchaseLinkVerified: ok,
     probeStatus: probe.status ?? 0,
@@ -581,6 +632,7 @@ function applyOperationOverrideToValidatedDeal(deal, overrides) {
       isHidden: true,
       publishable: false,
       priorityScore: Math.min(deal.priorityScore ?? 0, 10),
+      qualityScore: Math.min(deal.qualityScore ?? deal.priorityScore ?? 0, 10),
       lastCheckedAt: hiddenEntry.updatedAt || deal.lastCheckedAt || now
     };
   }
@@ -592,6 +644,7 @@ function applyOperationOverrideToValidatedDeal(deal, overrides) {
     ...deal,
     validationReason: `${deal.validationReason}; revalidation_queue:${revalidationEntry.reason || "report_revalidate"}`,
     priorityScore: Math.max(deal.priorityScore ?? 0, 92),
+    qualityScore: Math.max(deal.qualityScore ?? deal.priorityScore ?? 0, 92),
     revalidationQueued: true,
     revalidationReason: revalidationEntry.reason || "report_revalidate",
     revalidationQueuedAt: revalidationEntry.updatedAt || now
@@ -662,7 +715,8 @@ const exposureAdjustedDeals = dedupedDeals.map((deal) => {
     purchaseStatus: availability === "sold_out" ? "sold_out" : "needs_review",
     linkLabel: "운영 재검증 중",
     purchaseConfidence: Math.min(deal.purchaseConfidence ?? 0, 35),
-    reliabilityScore: Math.min(deal.reliabilityScore ?? 0, 45)
+    reliabilityScore: Math.min(deal.reliabilityScore ?? 0, 45),
+    qualityScore: Math.min(deal.qualityScore ?? deal.priorityScore ?? 0, 35)
   };
 });
 const visibleDeals = exposureAdjustedDeals.filter(
@@ -709,8 +763,9 @@ const snapshot = {
   generatedAt: now,
   schemaVersion: 1,
   liveProbe: shouldLiveProbe,
-  deals: insertedDeals,
+  deals: visibleDeals,
   visibleDealIds: visibleDeals.map((deal) => deal.id),
+  externalInsertedDealIds: insertedDeals.map((deal) => deal.id),
   revalidationQueue: {
     total: revalidationQueue.length,
     matchedCount: revalidationQueue.filter((item) => exposureAdjustedDeals.some((deal) => deal.id === item.id)).length,

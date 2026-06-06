@@ -147,6 +147,8 @@ const mockHotSignalsSource = readText("data/mockHotSignals.ts");
 const mockDealsSource = readText("data/mockDeals.ts");
 
 const productCandidates = Array.isArray(linkReport.auditedItems) ? linkReport.auditedItems.filter((item) => item.isHidden !== true) : [];
+const refreshedProductDeals = Array.isArray(refreshedDeals.deals) ? refreshedDeals.deals : [];
+const refreshedProductVisibleIds = Array.isArray(refreshedDeals.visibleDealIds) ? refreshedDeals.visibleDealIds : [];
 const newsSnapshotItems = Array.isArray(refreshedNews.allDeals) && refreshedNews.allDeals.length
   ? refreshedNews.allDeals
   : Array.isArray(refreshedNews.deals)
@@ -161,6 +163,23 @@ const newsViolations = newsCandidates
   .map((item) => ({ item, issues: getNewsExposureIssues(item, policy) }))
   .filter((entry) => entry.issues.length)
   .map((entry) => compactViolation(entry.item, entry.issues, "official_benefit"));
+const refreshedProductSnapshotViolations = refreshedProductDeals
+  .map((item) => {
+    const issues = getProductExposureIssues(item, policy);
+    const title = String(item.title ?? "").trim();
+    const qualityScore = Number(item.qualityScore ?? item.priorityScore ?? 0);
+
+    if (!title) issues.push("missing_title");
+    if (/^d\d+$/i.test(title)) issues.push("placeholder_title");
+    if (!String(item.mallName ?? item.sourceName ?? "").trim()) issues.push("missing_source_name");
+    if (!String(item.updatedAt ?? "").trim()) issues.push("missing_updated_at");
+    if (!String(item.verifiedAt ?? item.lastCheckedAt ?? "").trim()) issues.push("missing_verified_at");
+    if (qualityScore < 55) issues.push("low_quality_score");
+
+    return { item, issues };
+  })
+  .filter((entry) => entry.issues.length)
+  .map((entry) => compactViolation(entry.item, entry.issues, "refreshed_product_snapshot"));
 
 const sourceIssues = [];
 assertSourceContains(sourceIssues, "app/api/deals/route.ts", ["isPubliclyVisibleDeal", "verifiedOnly"], "product api");
@@ -200,6 +219,15 @@ if (!hotSignalProviderSource.includes("buildHotSignalDiscoveryPath") || !hotSign
 }
 
 const sliceIssues = [];
+if (refreshedProductDeals.length < 100) {
+  sliceIssues.push("refreshed product snapshot count is below launch floor");
+}
+if (refreshedProductVisibleIds.length !== refreshedProductDeals.length) {
+  sliceIssues.push("refreshed product visible id count does not match snapshot deal count");
+}
+if (refreshedProductSnapshotViolations.length) {
+  sliceIssues.push("refreshed product snapshot contains non-publishable or incomplete deals");
+}
 if (freebiesReport.ok !== true) sliceIssues.push("freebies report is not passing");
 if ((freebiesReport.visibleCount ?? 0) < 27) sliceIssues.push("freebies report visible count is below launch floor");
 if ((freebiesReport.exposedSearchLinks ?? 999) !== 0 || (freebiesReport.exposedNonOfficialLinks ?? 999) !== 0) {
@@ -213,6 +241,7 @@ if ((eventsReport.exposedSearchLinks ?? 999) !== 0 || (eventsReport.exposedNonOf
 
 const issues = [
   ...productViolations.map((item) => `product ${item.id}: ${item.issues.join(",")}`),
+  ...refreshedProductSnapshotViolations.map((item) => `refreshed product ${item.id}: ${item.issues.join(",")}`),
   ...newsViolations.map((item) => `official benefit ${item.id}: ${item.issues.join(",")}`),
   ...sourceIssues,
   ...sliceIssues
@@ -224,6 +253,9 @@ const report = {
   summary: {
     productCandidates: productCandidates.length,
     productViolations: productViolations.length,
+    refreshedProductSnapshotCount: refreshedProductDeals.length,
+    refreshedProductVisibleIds: refreshedProductVisibleIds.length,
+    refreshedProductSnapshotViolations: refreshedProductSnapshotViolations.length,
     newsCandidates: newsCandidates.length,
     newsViolations: newsViolations.length,
     freebiesVisible: freebiesReport.visibleCount ?? 0,
@@ -231,7 +263,6 @@ const report = {
     exposedSearchLinks: (linkReport.exposedSearchLinks ?? 0) + (newsReport.exposedSearchLinkCount ?? 0) + (freebiesReport.exposedSearchLinks ?? 0) + (eventsReport.exposedSearchLinks ?? 0),
     exposedSoldOutLinks: linkReport.exposedSoldOutLinks ?? 0,
     exposedNonOfficialLinks: (newsReport.exposedNonOfficialLinkCount ?? 0) + (freebiesReport.exposedNonOfficialLinks ?? 0) + (eventsReport.exposedNonOfficialLinks ?? 0),
-    refreshedProductSnapshotCount: Array.isArray(refreshedDeals.deals) ? refreshedDeals.deals.length : 0,
     refreshedNewsSnapshotCount: newsSnapshotItems.length
   },
   surfacePolicy: {
@@ -248,6 +279,7 @@ const report = {
     officialBenefitRedirect: "app/go/news/[id]/route.ts"
   },
   productViolations,
+  refreshedProductSnapshotViolations,
   newsViolations,
   sourceIssues,
   sliceIssues,
@@ -262,6 +294,9 @@ const docs = `# Publishable Surface Report
 - Status: ${report.ok ? "PASS" : "FAIL"}
 - Product customer candidates: ${report.summary.productCandidates}
 - Product violations: ${report.summary.productViolations}
+- Refreshed product snapshot count: ${report.summary.refreshedProductSnapshotCount}
+- Refreshed product visible ids: ${report.summary.refreshedProductVisibleIds}
+- Refreshed product snapshot violations: ${report.summary.refreshedProductSnapshotViolations}
 - Official benefit customer candidates: ${report.summary.newsCandidates}
 - Official benefit violations: ${report.summary.newsViolations}
 - Free benefit slice visible: ${report.summary.freebiesVisible}
@@ -275,6 +310,8 @@ const docs = `# Publishable Surface Report
 Products are visible only when they are active, passed, publishable, not hidden, non-search, and backed by a safe final URL.
 
 Official benefits are visible only when they are active, passed, publishable, not hidden, official-link typed, high priority, and backed by a safe final URL.
+
+Refreshed product snapshots must include real titles, source names, updated/verified timestamps, a safe direct URL, and a launch-grade quality score before the home/API layer can use them.
 
 All purchase or claim actions should continue to route through \`/go/[id]\` or \`/go/news/[id]\` so click logging, consent guardrails, and URL policy checks remain centralized.
 
@@ -293,6 +330,7 @@ if (!report.ok) {
 
 console.log("Publishable surface doctor passed.");
 console.log(`- Product candidates: ${report.summary.productCandidates}`);
+console.log(`- Refreshed product snapshot: ${report.summary.refreshedProductSnapshotCount}`);
 console.log(`- Official benefit candidates: ${report.summary.newsCandidates}`);
 console.log(`- Free benefits: ${report.summary.freebiesVisible}`);
 console.log(`- Official events: ${report.summary.eventsVisible}`);

@@ -6,6 +6,15 @@
 
 ## 완료 작업
 
+### PHASE Refresh Product Snapshot Quality Gate
+
+- `refresh:deals`가 `data/refreshedDeals.json`에 `visibleDealIds`만 남기던 상태를 실제 사용자 노출 가능한 140개 상품 전체 스냅샷으로 저장하도록 보강했다.
+- 수집 스냅샷은 `data/mockDeals.ts`의 실제 상품명, 판매처, 가격, 카테고리, 태그, 이미지 후보와 `data/verifiedPurchaseLinks.ts`의 검증 구매 상세 URL을 함께 정규화한다.
+- 0원/무료 혜택 상품도 `salePrice=0`을 정상 가격으로 인정하되, 음수 가격이나 누락 URL은 계속 차단한다.
+- refresh된 상품마다 `updatedAt`, `verifiedAt`, `availability`, `validationStatus`, `publishable`, `priorityScore`, `qualityScore`를 저장해 홈/API/redirect가 같은 품질 언어로 최신 상품을 판단하게 했다.
+- `refreshedSnapshotProvider`는 최신 스냅샷 파일을 런타임에 읽고, 과거 visible-id-only 스냅샷이 남아 있어도 `mockDeals`에서 안전하게 복구해 빈 홈 회귀를 막는다.
+- `home:realtime:doctor`와 `surface:publishable:doctor`가 refresh 상품 스냅샷 100개 이상, visible id 수 일치, 더미 제목 금지, 검증/갱신 시각, 안전 URL, 품질 점수를 출시 게이트로 검사한다.
+
 ### PHASE Runtime Snapshot Realtime Gate
 
 - `refresh:deals`가 갱신하는 `data/refreshedDeals.json`을 상품 provider가 정적 import로 보던 구조를 요청 시점 `readFileSync` 런타임 snapshot 읽기로 바꿔, 실행 중인 Next 서버에서도 수집 직후 `/api/home`, `/api/deals`, `/go/[id]`가 최신 검증 상품을 다시 보도록 개선했다.

@@ -1,6 +1,6 @@
 # Link Revalidation Priority
 
-Generated: 2026-06-06T19:27:21.197Z
+Generated: 2026-06-06T20:05:50.441Z
 
 Status: PASS
 

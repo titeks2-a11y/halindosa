@@ -1,9 +1,12 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-06T19:27:20.144Z",
+  "generatedAt": "2026-06-06T20:05:49.354Z",
   "summary": {
     "productCandidates": 140,
     "productViolations": 0,
+    "refreshedProductSnapshotCount": 140,
+    "refreshedProductVisibleIds": 140,
+    "refreshedProductSnapshotViolations": 0,
     "newsCandidates": 101,
     "newsViolations": 0,
     "freebiesVisible": 39,
@@ -11,7 +14,6 @@
     "exposedSearchLinks": 0,
     "exposedSoldOutLinks": 0,
     "exposedNonOfficialLinks": 0,
-    "refreshedProductSnapshotCount": 0,
     "refreshedNewsSnapshotCount": 101
   },
   "surfacePolicy": {
@@ -28,6 +30,7 @@
     "officialBenefitRedirect": "app/go/news/[id]/route.ts"
   },
   "productViolations": [],
+  "refreshedProductSnapshotViolations": [],
   "newsViolations": [],
   "sourceIssues": [],
   "sliceIssues": [],

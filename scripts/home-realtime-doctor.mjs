@@ -35,6 +35,7 @@ const refreshedSnapshotProvider = read("lib/deals/providers/refreshedSnapshotPro
 const packageJson = JSON.parse(read("package.json"));
 const qaRunner = read("scripts/run-qa.mjs");
 const harness = read("scripts/harness.mjs");
+const refreshedProducts = JSON.parse(read("data/refreshedDeals.json"));
 const refreshedNews = JSON.parse(read("data/refreshedNewsDeals.json"));
 const newsReport = JSON.parse(read("reports/news-deals.json"));
 
@@ -64,6 +65,8 @@ if (
     "readRefreshedSnapshot",
     "readFileSync",
     'join(process.cwd(), "data", "refreshedDeals.json")',
+    "visibleDealIds",
+    "mockDeals.filter",
     "JSON.parse"
   ]) &&
   !refreshedSnapshotProvider.includes('from "@/data/refreshedDeals.json"') &&
@@ -72,6 +75,38 @@ if (
   pass("refreshed deals runtime snapshot", "refresh:deals 산출물은 정적 import가 아니라 요청 시점 파일 읽기로 홈/API에 즉시 반영됩니다.");
 } else {
   fail("refreshed deals runtime snapshot", "data/refreshedDeals.json을 정적 import하면 실행 중인 서버에서 refresh:deals 결과가 즉시 반영되지 않을 수 있습니다.");
+}
+
+const refreshedProductDeals = Array.isArray(refreshedProducts.deals) ? refreshedProducts.deals : [];
+const refreshedVisibleDealIds = Array.isArray(refreshedProducts.visibleDealIds) ? refreshedProducts.visibleDealIds : [];
+const realtimeReadyProductDeals = refreshedProductDeals.filter(
+  (deal) =>
+    deal.updatedAt &&
+    deal.verifiedAt &&
+    deal.availability === "active" &&
+    deal.validationStatus === "passed" &&
+    deal.publishable === true &&
+    deal.isHidden !== true &&
+    typeof deal.finalUrl === "string" &&
+    /^https?:\/\//.test(deal.finalUrl) &&
+    !/\/search|search\?|query=|keyword=|msearch|\/result|\/find/i.test(deal.finalUrl)
+);
+
+if (
+  refreshedProducts.generatedAt &&
+  refreshedProductDeals.length >= 100 &&
+  refreshedVisibleDealIds.length === refreshedProductDeals.length &&
+  realtimeReadyProductDeals.length === refreshedProductDeals.length
+) {
+  pass(
+    "product realtime data snapshot",
+    `refresh:deals 산출물 ${refreshedProductDeals.length}개가 updatedAt/verifiedAt/availability/finalUrl을 갖고 홈/API에 직접 반영됩니다.`
+  );
+} else {
+  fail(
+    "product realtime data snapshot",
+    `refresh:deals 산출물이 홈 직접 반영 기준을 충족하지 못했습니다. ready=${realtimeReadyProductDeals.length}/${refreshedProductDeals.length}, visibleIds=${refreshedVisibleDealIds.length}`
+  );
 }
 
 if (
