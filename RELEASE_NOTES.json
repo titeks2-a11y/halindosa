@@ -1,7 +1,7 @@
 {
   "generatedBy": "npm run release:notes",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "4860992c",
+  "commit": "7bd9cbb3",
   "workingTree": "M DEVICE_QA_REPORT.md;  M PUBLIC_URL_REPORT.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_HANDOFF_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M docs/DEVICE_QA_REPORT.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_HANDOFF_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md",
   "version": "1.0.1",
   "appName": "할인도사",
@@ -73,14 +73,14 @@
     }
   ],
   "recentCommits": [
+    "7bd9cbb3 feat: persist refreshed deal benefit signals",
+    "d2d8dfdb docs: refresh store release handoff docs",
     "4860992c feat: bridge native app to live home data",
     "8c528f5d chore: refresh store release handoff docs",
     "9d160b1e feat: persist image-ready refreshed deal snapshots",
     "a20f1b0e chore: refresh store release handoff docs",
     "d31328a2 feat: harden refreshed product snapshot quality",
-    "6a2bef3e chore: refresh store release handoff docs",
-    "1ff6deea feat: make verified home data refresh live",
-    "058de21a docs: align known issues image readiness"
+    "6a2bef3e chore: refresh store release handoff docs"
   ],
   "manualWorkThatMustNotBeFaked": [
     "Do not claim Play Console or App Store Connect submission has passed from this file.",
