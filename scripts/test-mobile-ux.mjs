@@ -35,6 +35,7 @@ const homeDealGrid = read("components/home/HomeDealGrid.tsx");
 const homeFirstScreenSource = `${homePage}\n${homeDealGrid}`;
 const mobileHeader = read("components/MobileHeader.tsx");
 const categoryTabs = read("components/CategoryTabs.tsx");
+const realtimeNewsDealsSection = read("components/RealtimeNewsDealsSection.tsx");
 
 if (includesAll(appShell, ["max-w-[480px]", "pb-[calc(5rem+env(safe-area-inset-bottom))]", "lg:max-w-7xl"])) {
   pass("mobile shell width and safe area", "모바일 기본 폭과 하단 탭 겹침 방지 padding이 유지됩니다.");
@@ -94,6 +95,12 @@ if (includesAll(liveDealFeed, ["h-16 w-16", "pr-24", "absolute bottom-3 right-3"
   pass("live row compact actions", "라이브 행은 작은 썸네일, 오른쪽 action cluster, 2줄 제목을 유지합니다.");
 } else {
   fail("live row compact actions", "라이브 행의 compact action 배치가 예상과 다릅니다.");
+}
+
+if (includesAll(realtimeNewsDealsSection, ["모바일 공식 혜택 빠른 목록", "home-news-mobile", "sm:hidden", "hidden sm:block", "line-clamp-2", "공식 링크"])) {
+  pass("mobile official benefit quick list", "공식 혜택은 모바일에서 빠른 목록을 먼저 보여주고 상세 탐색 패널은 넓은 화면으로 분리합니다.");
+} else {
+  fail("mobile official benefit quick list", "공식 혜택 모바일 빠른 목록 또는 상세 패널 분기 기준이 부족합니다.");
 }
 
 if (includesAll(toast, ["top-[calc(0.75rem+env(safe-area-inset-top))]", "max-w-sm", "line-clamp-2", "sm:bottom-6"])) {

@@ -199,6 +199,55 @@ export function RealtimeNewsDealsSection({
       <p className="mt-2 text-[11px] font-bold text-slate-500" aria-label="공식 혜택 신선도 안내">
         {freshnessDetail} · 검색 결과와 커뮤니티 원문은 제외하고 공식 혜택 링크만 유지합니다.
       </p>
+      <div className="mt-3 space-y-2 sm:hidden" aria-label="모바일 공식 혜택 빠른 목록">
+        {trustedDeals.slice(0, 4).map((deal) => {
+          const sourceTrust = getNewsDealSourceTrust(deal, sourceTrustByKey);
+
+          return (
+            <div key={deal.id} data-news-deal-card="true" className="rounded-2xl border border-slate-200 bg-white p-2.5 shadow-sm">
+              <div className="flex items-start gap-2.5">
+                <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-red-50 text-brand-red">
+                  <TicketPercent size={17} />
+                </span>
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center gap-1.5">
+                    <CommerceBadge tone={deal.benefitType === "freebie" || deal.benefitType === "coupon" ? "gold" : "neutral"} className="px-2 py-0.5 text-[10px]">
+                      {benefitLabels[deal.benefitType]}
+                    </CommerceBadge>
+                    <span className="min-w-0 truncate text-[10px] font-black text-slate-400">{deal.sourceName}</span>
+                  </div>
+                  <p className="mt-1 line-clamp-2 text-[13px] font-black leading-[18px] text-slate-950">{deal.title}</p>
+                  <div className="mt-1.5 flex flex-wrap items-center gap-1.5 text-[10px] font-black text-slate-500">
+                    <span className="inline-flex items-center gap-1">
+                      <ShieldCheck size={11} />
+                      {sourceTrust?.status === "trusted" ? "신뢰 출처" : "공식 링크"}
+                    </span>
+                    <span className="inline-flex items-center gap-1">
+                      <CalendarClock size={11} />
+                      {getTimeLeft(deal.endDate)}
+                    </span>
+                  </div>
+                </div>
+                <Link
+                  href={`/go/news/${encodeURIComponent(deal.id)}?from=home-news-mobile`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => {
+                    rememberRecentNewsBenefitId(deal.id);
+                    onOpenNewsDeal?.(deal);
+                  }}
+                  className={commerceButtonClassName({ tone: "primary", size: "sm", className: "min-h-9 shrink-0 rounded-full px-3 text-[11px]" })}
+                  aria-label={`${deal.title} 공식 페이지 새 탭으로 열기`}
+                >
+                  보기
+                  <ExternalLink size={12} />
+                </Link>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      <div className="hidden sm:block">
       <OfficialBenefitIntentGroups groups={intentGroups} onSelectQuery={onSelectQuery} />
       {visibleTargetSections.length ? (
         <div className="mt-3 rounded-2xl border border-slate-200 bg-white px-3 py-2 shadow-sm" aria-label="운영 추천 혜택 지도">
@@ -343,7 +392,8 @@ export function RealtimeNewsDealsSection({
           ))}
         </div>
       ) : null}
-      <div className="mt-3 flex snap-x snap-mandatory gap-2 overflow-x-auto pb-1 [scrollbar-width:none] sm:grid sm:grid-cols-2 sm:gap-3 lg:grid-cols-3 [&::-webkit-scrollbar]:hidden">
+      </div>
+      <div className="mt-3 hidden snap-x snap-mandatory gap-2 overflow-x-auto pb-1 [scrollbar-width:none] sm:grid sm:grid-cols-2 sm:gap-3 lg:grid-cols-3 [&::-webkit-scrollbar]:hidden">
         {trustedDeals.slice(0, 8).map((deal) => {
           const sourceTrust = getNewsDealSourceTrust(deal, sourceTrustByKey);
 
