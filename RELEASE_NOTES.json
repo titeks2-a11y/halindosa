@@ -1,7 +1,7 @@
 {
   "generatedBy": "npm run release:notes",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "503365c",
+  "commit": "cad7d55",
   "workingTree": "M DEVICE_QA_REPORT.md;  M KNOWN_ISSUES.md;  M PUBLIC_URL_REPORT.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_HANDOFF_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M docs/DEVICE_QA_REPORT.md;  M docs/KNOWN_ISSUES.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_HANDOFF_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md",
   "version": "1.0.1",
   "appName": "할인도사",
@@ -34,7 +34,7 @@
     {
       "path": "docs/release-evidence.md",
       "status": "present",
-      "bytes": 7409
+      "bytes": 8119
     },
     {
       "path": "docs/STORE_CONSOLE_FIELDS.md",
@@ -73,14 +73,14 @@
     }
   ],
   "recentCommits": [
+    "cad7d55 test: strengthen image exposure verification",
+    "07df635 chore: refresh release evidence",
     "503365c feat: tighten realtime home refresh and mobile deal scan",
     "b269a9d chore: refresh release evidence",
     "92d555a feat: expand lifestyle benefit sources",
     "40a0c4b chore: refresh release evidence",
     "c68bf0f feat: expand official benefit sources",
-    "0b297ae chore: refresh release evidence",
-    "b0c0d70 feat: add image quality scoring gates",
-    "21183ea chore: refresh release evidence"
+    "0b297ae chore: refresh release evidence"
   ],
   "manualWorkThatMustNotBeFaked": [
     "Do not claim Play Console or App Store Connect submission has passed from this file.",
