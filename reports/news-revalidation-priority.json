@@ -1,14 +1,14 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-06T06:38:49.114Z",
+  "generatedAt": "2026-06-06T07:09:08.099Z",
   "sourceReports": {
-    "newsDeals": "2026-06-06T06:38:48.091Z",
-    "newsFreshness": "2026-06-06T06:38:48.608Z",
-    "officialBenefitAlerts": "2026-06-05T21:09:31.512Z"
+    "newsDeals": "2026-06-06T07:09:07.074Z",
+    "newsFreshness": "2026-06-06T07:09:07.598Z",
+    "officialBenefitAlerts": "2026-06-06T06:41:41.841Z"
   },
   "summary": {
-    "totalItems": 42,
-    "visibleItems": 42,
+    "totalItems": 46,
+    "visibleItems": 46,
     "activeOfficialBenefits": 42,
     "hiddenItems": 0,
     "expiredItems": 0,
@@ -18,24 +18,25 @@
     "exposedNonOfficialLinks": 0,
     "nonPublishableVisibleItems": 0,
     "renewalItems": 1,
-    "watchItems": 5,
+    "watchItems": 6,
     "manualRevalidationItems": 0,
     "blockingItems": 0,
     "reviewItems": 1,
-    "queueWatchItems": 4,
-    "queueItems": 5
+    "queueWatchItems": 5,
+    "queueItems": 6
   },
   "counts": {
     "block": 0,
     "review": 1,
-    "watch": 4,
+    "watch": 5,
     "routine": 0,
     "byReason": {
       "expires_within_14_days": 1,
-      "expires_within_30_days": 4
+      "expires_within_30_days": 5
     },
     "byHost": {
       "gs25.gsretail.com": 3,
+      "lotteeatz.com": 1,
       "lotteon.com": 1,
       "musinsa.com": 1
     }
@@ -43,10 +44,10 @@
   "freshness": {
     "status": "fresh",
     "reportAgeHours": 0,
-    "nextRefreshDueAt": "2026-06-06T12:38:48.091Z",
-    "staleAfterAt": "2026-06-07T06:38:48.091Z",
+    "nextRefreshDueAt": "2026-06-06T13:09:07.074Z",
+    "staleAfterAt": "2026-06-07T07:09:07.074Z",
     "expiringWithin14DaysCount": 1,
-    "expiringWithin30DaysCount": 5
+    "expiringWithin30DaysCount": 6
   },
   "topQueue": [
     {
@@ -68,7 +69,7 @@
       "validationReason": "passed",
       "endDate": "2026-06-15",
       "daysLeft": 8.7,
-      "lastCheckedAt": "2026-06-06T06:38:47.457Z",
+      "lastCheckedAt": "2026-06-06T07:09:06.412Z",
       "severity": "review",
       "reason": "expires_within_14_days",
       "action": "공식 페이지 종료 여부를 확인하고 대체 혜택 후보를 준비하세요.",
@@ -93,7 +94,7 @@
       "validationReason": "passed",
       "endDate": "2026-06-30",
       "daysLeft": 23.7,
-      "lastCheckedAt": "2026-06-06T06:38:47.457Z",
+      "lastCheckedAt": "2026-06-06T07:09:06.412Z",
       "severity": "watch",
       "reason": "expires_within_30_days",
       "action": "30일 이내 종료 가능성이 있어 다음 refresh:news에서 우선 확인",
@@ -118,7 +119,32 @@
       "validationReason": "passed",
       "endDate": "2026-06-30",
       "daysLeft": 23.7,
-      "lastCheckedAt": "2026-06-06T06:38:47.457Z",
+      "lastCheckedAt": "2026-06-06T07:09:06.412Z",
+      "severity": "watch",
+      "reason": "expires_within_30_days",
+      "action": "30일 이내 종료 가능성이 있어 다음 refresh:news에서 우선 확인",
+      "priority": 430
+    },
+    {
+      "id": "news-lotteeatz-june-coupon",
+      "title": "롯데잇츠 공식 외식 쿠폰 혜택",
+      "merchant": "롯데잇츠",
+      "category": "외식/배달",
+      "benefitType": "coupon",
+      "sourceName": "롯데잇츠 공식 이벤트",
+      "provider": "official_event",
+      "host": "lotteeatz.com",
+      "finalUrl": "https://www.lotteeatz.com/event/main/selectEvent/17589",
+      "linkType": "official_coupon",
+      "availability": "active",
+      "validationStatus": "passed",
+      "publishable": true,
+      "isHidden": false,
+      "validationCode": "valid",
+      "validationReason": "passed",
+      "endDate": "2026-06-30",
+      "daysLeft": 23.7,
+      "lastCheckedAt": "2026-06-06T07:09:06.412Z",
       "severity": "watch",
       "reason": "expires_within_30_days",
       "action": "30일 이내 종료 가능성이 있어 다음 refresh:news에서 우선 확인",
@@ -143,7 +169,7 @@
       "validationReason": "passed",
       "endDate": "2026-06-30",
       "daysLeft": 23.7,
-      "lastCheckedAt": "2026-06-06T06:38:47.457Z",
+      "lastCheckedAt": "2026-06-06T07:09:06.412Z",
       "severity": "watch",
       "reason": "expires_within_30_days",
       "action": "30일 이내 종료 가능성이 있어 다음 refresh:news에서 우선 확인",
@@ -168,7 +194,7 @@
       "validationReason": "passed",
       "endDate": "2026-06-30",
       "daysLeft": 23.7,
-      "lastCheckedAt": "2026-06-06T06:38:47.457Z",
+      "lastCheckedAt": "2026-06-06T07:09:06.412Z",
       "severity": "watch",
       "reason": "expires_within_30_days",
       "action": "30일 이내 종료 가능성이 있어 다음 refresh:news에서 우선 확인",

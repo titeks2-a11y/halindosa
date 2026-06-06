@@ -1,13 +1,13 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-06T06:41:14.422Z",
+  "generatedAt": "2026-06-06T07:11:33.695Z",
   "mode": "freebies",
   "label": "무료혜택",
-  "sourceSnapshotGeneratedAt": "2026-06-06T06:40:50.285Z",
-  "sourceReportGeneratedAt": "2026-06-06T06:41:14.326Z",
-  "totalOfficialBenefits": 42,
-  "matchedCount": 11,
-  "visibleCount": 11,
+  "sourceSnapshotGeneratedAt": "2026-06-06T07:11:08.072Z",
+  "sourceReportGeneratedAt": "2026-06-06T07:11:33.597Z",
+  "totalOfficialBenefits": 46,
+  "matchedCount": 12,
+  "visibleCount": 12,
   "hiddenOrBlockedCount": 0,
   "exposedSearchLinks": 0,
   "exposedNonOfficialLinks": 0,
@@ -17,6 +17,7 @@
     "정부/공공혜택": 3,
     "무료혜택": 2,
     "영화/문화": 1,
+    "외식/배달": 1,
     "패션/뷰티": 1
   },
   "benefitTypeCounts": {
@@ -25,7 +26,8 @@
     "membership": 2,
     "card": 1,
     "culture": 1,
-    "freebie": 1
+    "freebie": 1,
+    "freeShipping": 1
   },
   "sourceCounts": {
     "네이버페이 공식 혜택": 1,
@@ -37,6 +39,7 @@
     "올리브영 공식 이벤트": 1,
     "지역문화통합정보시스템": 1,
     "CJ ONE 공식 이벤트": 1,
+    "KFC 공식 프로모션": 1,
     "L.POINT 공식 이벤트": 1,
     "L.POINT 공식 혜택": 1
   },
@@ -44,6 +47,7 @@
     "academy.baemin.com",
     "cjone.com",
     "culture.go.kr",
+    "kfckorea.com",
     "korean.visitkorea.or.kr",
     "m.lpoint.com",
     "mnuri.kr",
@@ -62,7 +66,7 @@
       "finalUrl": "https://www.culture.go.kr/wday/main/main.do",
       "redirectUrl": "/go/news/news-culture-day-programs-2026",
       "endDate": "2026-12-30",
-      "lastCheckedAt": "2026-06-06T06:40:50.285Z"
+      "lastCheckedAt": "2026-06-06T07:11:08.072Z"
     },
     {
       "id": "news-culture-day-weekly-2026",
@@ -75,7 +79,7 @@
       "finalUrl": "https://www.culture.go.kr/local/wday/cltrDay.do",
       "redirectUrl": "/go/news/news-culture-day-weekly-2026",
       "endDate": "2026-12-30",
-      "lastCheckedAt": "2026-06-06T06:40:50.285Z"
+      "lastCheckedAt": "2026-06-06T07:11:08.072Z"
     },
     {
       "id": "news-cjone-official-mobile-events",
@@ -88,7 +92,7 @@
       "finalUrl": "https://www.cjone.com/cjmmobile/event/event.do",
       "redirectUrl": "/go/news/news-cjone-official-mobile-events",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-06T06:40:50.285Z"
+      "lastCheckedAt": "2026-06-06T07:11:08.072Z"
     },
     {
       "id": "news-oliveyoung-official-events",
@@ -101,7 +105,20 @@
       "finalUrl": "https://www.oliveyoung.co.kr/store/main/getEventList.do",
       "redirectUrl": "/go/news/news-oliveyoung-official-events",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-06T06:40:50.285Z"
+      "lastCheckedAt": "2026-06-06T07:11:08.072Z"
+    },
+    {
+      "id": "news-kfc-delivery-free-official",
+      "title": "KFC 공식 딜리버리 배달비 무료 혜택",
+      "merchant": "KFC",
+      "category": "외식/배달",
+      "benefitType": "freeShipping",
+      "sourceName": "KFC 공식 프로모션",
+      "host": "kfckorea.com",
+      "finalUrl": "https://www.kfckorea.com/promotion/promotionList/detail/1053",
+      "redirectUrl": "/go/news/news-kfc-delivery-free-official",
+      "endDate": "2026-12-31",
+      "lastCheckedAt": "2026-06-06T07:11:08.072Z"
     },
     {
       "id": "news-naverpay-event-benefit",
@@ -114,7 +131,7 @@
       "finalUrl": "https://new-m.pay.naver.com/pcpay/eventbenefit",
       "redirectUrl": "/go/news/news-naverpay-event-benefit",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-06T06:40:50.285Z"
+      "lastCheckedAt": "2026-06-06T07:11:08.072Z"
     },
     {
       "id": "news-mnuri-official-benefit",
@@ -127,7 +144,7 @@
       "finalUrl": "https://www.mnuri.kr/main/main.do",
       "redirectUrl": "/go/news/news-mnuri-official-benefit",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-06T06:40:50.285Z"
+      "lastCheckedAt": "2026-06-06T07:11:08.072Z"
     },
     {
       "id": "news-mnuri-online-merchant-benefit",
@@ -140,7 +157,7 @@
       "finalUrl": "https://www.mnuri.kr/useOfCard/onlineMerchants.do",
       "redirectUrl": "/go/news/news-mnuri-online-merchant-benefit",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-06T06:40:50.285Z"
+      "lastCheckedAt": "2026-06-06T07:11:08.072Z"
     },
     {
       "id": "news-lpoint-official-benefits",
@@ -153,7 +170,7 @@
       "finalUrl": "https://m.lpoint.com/index.jsp?tabIndex=1",
       "redirectUrl": "/go/news/news-lpoint-official-benefits",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-06T06:40:50.285Z"
+      "lastCheckedAt": "2026-06-06T07:11:08.072Z"
     },
     {
       "id": "news-lpoint-card-events",
@@ -166,7 +183,7 @@
       "finalUrl": "https://m.lpoint.com/app/asset/LWCE100100.do?fnTapPmotC=85",
       "redirectUrl": "/go/news/news-lpoint-card-events",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-06T06:40:50.285Z"
+      "lastCheckedAt": "2026-06-06T07:11:08.072Z"
     },
     {
       "id": "news-visitkorea-travel-benefit",
@@ -179,7 +196,7 @@
       "finalUrl": "https://korean.visitkorea.or.kr/other/otherService.do?otdid=46a412aa-0b3b-11ea-869b-020027310001",
       "redirectUrl": "/go/news/news-visitkorea-travel-benefit",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-06T06:40:50.285Z"
+      "lastCheckedAt": "2026-06-06T07:11:08.072Z"
     },
     {
       "id": "news-baemin-academy-free-event",
@@ -192,7 +209,7 @@
       "finalUrl": "https://academy.baemin.com/event/list",
       "redirectUrl": "/go/news/news-baemin-academy-free-event",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-06T06:40:50.285Z"
+      "lastCheckedAt": "2026-06-06T07:11:08.072Z"
     }
   ],
   "blockedItems": [],

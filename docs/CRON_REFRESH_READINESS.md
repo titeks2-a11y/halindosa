@@ -15,7 +15,7 @@ Status: ready
 | news:feed:live evidence | PASS |
 | Live feed status | seed_launch_ready |
 | Live feed configured URL | 0 |
-| Live feed official benefits | 42 |
+| Live feed official benefits | 46 |
 | Health cron status | manual_refresh_ready |
 | Actual cron report | not generated yet |
 
@@ -31,8 +31,8 @@ Status: ready
 | environment keys | PASS | .env.example documents cron secret and timeout knobs. |
 | operations report | PASS | Cron operations layer exposes last-run status and report path. |
 | health and admin surfaces | PASS | Health API and admin dashboard expose cron readiness. |
-| refresh-all evidence | PASS | refresh:all is healthy with 140 product deals and 42 official benefits. |
-| live feed evidence | PASS | news:feed:live is seed_launch_ready with 42 official benefits and zero unsafe exposed links. |
+| refresh-all evidence | PASS | refresh:all is healthy with 140 product deals and 46 official benefits. |
+| live feed evidence | PASS | news:feed:live is seed_launch_ready with 46 official benefits and zero unsafe exposed links. |
 | health readiness status | PASS | Health readiness marks cron refresh as manual_refresh_ready. |
 | runbook | PASS | RUNBOOK documents protected cron execution and report inspection. |
 
