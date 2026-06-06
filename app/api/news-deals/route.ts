@@ -1,9 +1,13 @@
-import { noStoreJson } from "@/lib/api/noStore";
+import { noStoreJson, noStoreOptions } from "@/lib/api/noStore";
 import { getVisibleNewsDeals } from "@/lib/deals/newsDeals";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 export const fetchCache = "force-no-store";
+
+export function OPTIONS() {
+  return noStoreOptions();
+}
 
 export async function GET(request: Request) {
   try {

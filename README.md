@@ -24,6 +24,7 @@
 - 실제 상품/혜택 상세 URL로 검수된 큐레이션 상품 140개와 100% 구매 링크 커버리지
 - 링크 검증은 상품 상세 URL과 공식 혜택/이벤트 URL을 구분해 대표몰, 검색 결과, 커뮤니티 링크를 차단
 - 홈 데이터 API는 no-store + timestamp cache buster를 사용하고, 상품 특가·공식 혜택·핫시그널은 45초 자동 확인 주기로 다시 불러옴
+- Android/iOS 정적 앱은 `NEXT_PUBLIC_API_BASE_URL` 또는 `NEXT_PUBLIC_SITE_URL`이 공개 HTTPS API로 설정되어 있으면 같은 no-store 홈 API를 호출하고, 설정이 없을 때만 번들 데이터를 fallback으로 사용
 - 공식 혜택 데이터는 `source`, `updatedAt`, `verifiedAt`, `expiresAt`, `availability`를 함께 관리하고 `verify:news`에서 필드 누락을 차단
 - `refresh:deals` 산출물은 서버 요청 시점에 다시 읽히므로 실행 중인 로컬/배포 서버에서도 `/api/home`, `/api/deals`, `/go/[dealId]`가 최신 검증 상품을 반영
 - `refresh:deals` 스냅샷은 140개 검증 상품 전체를 저장하고 `updatedAt`, `verifiedAt`, `availability`, `validationStatus`, `publishable`, `priorityScore`, `qualityScore`, `imageType`을 함께 남겨 빈 스냅샷, 더미 상품명, 이미지 누락 회귀를 QA에서 차단

@@ -36,6 +36,7 @@ Vercel Project Settings > Environment Variables에 아래 값을 등록합니다
 
 ```env
 NEXT_PUBLIC_SITE_URL=https://halindosa.com
+NEXT_PUBLIC_API_BASE_URL=https://halindosa.com
 NEXT_PUBLIC_APP_NAME=할인도사
 NEXT_PUBLIC_APP_ENV=production
 NEXT_PUBLIC_SUPPORT_EMAIL=support@halindosa.com
@@ -68,6 +69,7 @@ ADMIN_EXPORT_TOKEN=
 - `.env.local`은 Git에 커밋하지 않습니다.
 - API 키가 없는 값은 비워 두면 mock/fallback 구조로 동작합니다.
 - `NEXT_PUBLIC_SITE_URL`은 배포 도메인이 확정되면 반드시 실제 HTTPS 주소로 설정합니다.
+- `NEXT_PUBLIC_API_BASE_URL`은 Android/iOS Capacitor 앱이 최신 `/api/home`, `/api/deals`, `/api/news-deals`를 불러올 공개 HTTPS 주소입니다. 비워 두면 앱은 정적 번들 데이터를 fallback으로 사용합니다.
 - `NEXT_PUBLIC_SUPPORT_EMAIL`은 Play Store/App Store에 표시할 고객지원 이메일과 동일하게 맞춥니다.
 - `DEAL_DATA_MODE`와 `DEAL_PROVIDER`는 운영 전환 기간에는 같은 값으로 맞춰 둡니다.
 - 공식 혜택 feed는 `docs/news-feed-contract.md`를 통과하는 JSON만 연결합니다. 뉴스 기사/검색 결과/커뮤니티 원문은 사용자 이동 `finalUrl`로 쓰지 않습니다.
@@ -139,6 +141,7 @@ DNS 반영 후 확인:
 - `/api/health` 응답 확인
 - `/api/deals` 응답 확인
 - `/api/news-deals` 응답 확인
+- Android/iOS 앱 빌드 전 `NEXT_PUBLIC_API_BASE_URL`이 공개 HTTPS 배포 주소인지 확인
 - `docs/HEALTH_READINESS_REPORT.md`가 PASS이고 `reports/health-readiness.json`의 `score`가 100인지 확인
 - `/api/redirect/[id]`가 검증된 상품 상세 또는 공식 혜택 상세 페이지로 이동하는지 확인
 - `sitemap.xml`, `robots.txt`, `manifest.webmanifest` 확인

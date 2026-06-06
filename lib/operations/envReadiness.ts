@@ -21,6 +21,7 @@ const groups: Array<{
     description: "Vercel, OAuth, 앱 공유에 쓰는 공개 URL과 고객 문의 주소",
     requirements: [
       { key: "NEXT_PUBLIC_SITE_URL", label: "공개 사이트 URL", required: true },
+      { key: "NEXT_PUBLIC_API_BASE_URL", label: "앱 공개 API URL", required: false },
       { key: "NEXT_PUBLIC_AUTH_REDIRECT_URL", label: "OAuth 복귀 URL", required: true },
       { key: "NEXT_PUBLIC_APP_SCHEME", label: "앱 딥링크 스킴", required: true },
       { key: "NEXT_PUBLIC_SUPPORT_EMAIL", label: "고객 문의 이메일", required: true }

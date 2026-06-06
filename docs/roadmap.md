@@ -6,6 +6,16 @@
 
 ## 완료 작업
 
+### PHASE Native Live API & Mobile Density Gate
+
+- `lib/runtimeApi.ts`를 추가해 Android/iOS Capacitor 정적 앱도 `NEXT_PUBLIC_API_BASE_URL` 또는 `NEXT_PUBLIC_SITE_URL`이 공개 HTTPS API로 설정된 경우 `/api/home`, `/api/deals`, `/api/news-deals`, `/api/hot-signals`를 no-store 실시간 API로 호출하게 했다.
+- 공개 API base가 없는 네이티브 빌드는 기존처럼 번들 스냅샷 fallback을 사용해 오프라인/검수 환경에서 빈 화면이 나오지 않도록 유지했다.
+- 홈 API 요청 공통 로직은 `lib/homeApi.ts`에서 상대 API URL을 런타임에 절대 URL로 변환하고, cross-origin 요청은 불필요한 preflight를 피하도록 헤더/credentials를 분리했다.
+- `/api/home`, `/api/deals`, `/api/news-deals`, `/api/hot-signals`는 no-store 응답과 함께 CORS `OPTIONS`를 지원해 배포된 웹 API를 모바일 앱 WebView가 안정적으로 읽을 수 있게 했다.
+- `home:realtime:doctor`가 no-store, CORS, native live API bridge, 자동 갱신, 수동 새로고침, 최신성 문구를 함께 검사하도록 확장했다.
+- 모바일 상품 카드는 첫 화면에 더 많은 검증 특가가 보이도록 기본 높이, 썸네일 폭, 목록 간격을 줄이고 하단 탭 safe-area 여백은 유지했다.
+- 인앱 브라우저 확인 기준 홈은 `verifiedOnly=true`에서 검색창, 실시간 검증 문구, 구매 CTA, 하단 탭 여백, 위험한 `#`/검색 링크 0건을 확인했다.
+
 ### PHASE Refresh Product Snapshot Quality Gate
 
 - `refresh:deals`가 `data/refreshedDeals.json`에 `visibleDealIds`만 남기던 상태를 실제 사용자 노출 가능한 140개 상품 전체 스냅샷으로 저장하도록 보강했다.

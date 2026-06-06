@@ -29,16 +29,16 @@ export function QuickDealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, 
   return (
     <article
       aria-label={`${deal.mallName} ${deal.title} 특가`}
-      className="group flex min-h-[104px] overflow-hidden rounded-2xl border border-brand-line bg-brand-surface shadow-lift transition hover:-translate-y-0.5 hover:border-orange-100 hover:shadow-commerce sm:block sm:min-h-0 sm:rounded-[20px]"
+      className="group flex min-h-[92px] overflow-hidden rounded-2xl border border-brand-line bg-brand-surface shadow-lift transition hover:-translate-y-0.5 hover:border-orange-100 hover:shadow-commerce sm:block sm:min-h-0 sm:rounded-[20px]"
     >
       <Link
         href={`/deals/${deal.id}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="block w-[29%] max-w-[88px] shrink-0 sm:w-full sm:max-w-none"
+        className="block w-[26%] max-w-[76px] shrink-0 sm:w-full sm:max-w-none"
         aria-label={`${deal.title} 상세 정보 새 탭으로 보기`}
       >
-        <span className="relative block h-full min-h-[104px] overflow-hidden bg-gradient-to-br from-brand-warm via-white to-orange-50 sm:aspect-[4/3] sm:h-auto sm:min-h-0">
+        <span className="relative block h-full min-h-[92px] overflow-hidden bg-gradient-to-br from-brand-warm via-white to-orange-50 sm:aspect-[4/3] sm:h-auto sm:min-h-0">
           {deal.imageUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
@@ -84,7 +84,7 @@ export function QuickDealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, 
         </div>
 
         <Link href={`/deals/${deal.id}`} target="_blank" rel="noopener noreferrer" className="block" aria-label={`${deal.title} 상세 정보 새 탭으로 보기`}>
-          <h3 className="line-clamp-2 min-h-[1.7rem] text-[12px] font-black leading-[0.9rem] text-slate-950 transition hover:text-dossa-red sm:min-h-[2.35rem] sm:text-[15px] sm:leading-5">
+          <h3 className="line-clamp-2 min-h-[1.55rem] text-[12px] font-black leading-[0.82rem] text-slate-950 transition hover:text-dossa-red sm:min-h-[2.35rem] sm:text-[15px] sm:leading-5">
             {deal.title}
           </h3>
         </Link>
@@ -137,7 +137,7 @@ export function QuickDealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, 
             <span className="min-w-0 truncate text-[10px] font-bold text-slate-400 line-through sm:text-[11px]">{formatPrice(deal.originalPrice)}</span>
           </div>
           <div className="mt-0.5 flex items-end justify-between gap-2 sm:mt-1">
-            <strong className="min-w-0 truncate text-[14px] font-black text-slate-950 sm:text-[19px] md:text-2xl">{formatPrice(deal.salePrice)}</strong>
+            <strong className="min-w-0 truncate text-[13px] font-black text-slate-950 sm:text-[19px] md:text-2xl">{formatPrice(deal.salePrice)}</strong>
             <span className="hidden shrink-0 rounded-full bg-white px-2 py-1 text-[10px] font-black text-dossa-red shadow-sm sm:inline-flex">
               {formatPrice(deal.discountAmount)} 아낌
             </span>

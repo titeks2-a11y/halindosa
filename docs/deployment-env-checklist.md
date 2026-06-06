@@ -19,6 +19,7 @@ npm run test:env
 ## 필수 공개 환경변수
 
 - `NEXT_PUBLIC_SITE_URL`: 실제 공개 도메인. 예: `https://halindosa.com`
+- `NEXT_PUBLIC_API_BASE_URL`: Android/iOS 앱이 최신 홈/특가 API를 호출할 공개 HTTPS 주소. 웹 도메인과 같으면 `NEXT_PUBLIC_SITE_URL`과 동일하게 입력해도 됩니다.
 - `NEXT_PUBLIC_AUTH_REDIRECT_URL`: OAuth 완료 후 돌아올 URL. 예: `https://halindosa.com/auth/callback`
 - `NEXT_PUBLIC_APP_SCHEME`: 앱 딥링크 스킴. 기본값 `halindosa`
 - `NEXT_PUBLIC_SUPPORT_EMAIL`: 스토어와 앱에 표시할 실제 고객지원 이메일

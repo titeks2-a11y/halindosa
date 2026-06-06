@@ -27,10 +27,12 @@ const apiRoutes = [
   "app/api/home/route.ts"
 ];
 const homeApi = read("lib/homeApi.ts");
+const runtimeApi = read("lib/runtimeApi.ts");
 const homeRealtimeConfig = read("lib/homeRealtimeConfig.ts");
 const homePage = read("app/page.tsx");
 const homeStatusStrip = read("components/home/HomeStatusStrip.tsx");
 const hotSignalProvider = read("lib/hotSignalProvider.ts");
+const noStoreApi = read("lib/api/noStore.ts");
 const refreshedSnapshotProvider = read("lib/deals/providers/refreshedSnapshotProvider.ts");
 const packageJson = JSON.parse(read("package.json"));
 const qaRunner = read("scripts/run-qa.mjs");
@@ -41,17 +43,40 @@ const newsReport = JSON.parse(read("reports/news-deals.json"));
 
 for (const routePath of apiRoutes) {
   const route = read(routePath);
-  if (includesAll(route, ['dynamic = "force-dynamic"', "revalidate = 0", 'fetchCache = "force-no-store"', "noStoreJson"])) {
+  if (includesAll(route, ['dynamic = "force-dynamic"', "revalidate = 0", 'fetchCache = "force-no-store"', "noStoreJson", "OPTIONS", "noStoreOptions"])) {
     pass(`${routePath} no-store`, "실시간 홈 데이터 API가 동적/no-store 정책을 명시합니다.");
   } else {
-    fail(`${routePath} no-store`, "API 라우트에 force-dynamic, revalidate=0, force-no-store, noStoreJson 중 빠진 항목이 있습니다.");
+    fail(`${routePath} no-store`, "API 라우트에 force-dynamic, revalidate=0, force-no-store, noStoreJson, OPTIONS 중 빠진 항목이 있습니다.");
   }
+}
+
+if (includesAll(noStoreApi, ["Access-Control-Allow-Origin", "Access-Control-Allow-Methods", "GET, OPTIONS", "noStoreOptions"])) {
+  pass("public api cors no-store", "공개 홈 데이터 API는 Capacitor WebView와 웹에서 no-store/CORS/OPTIONS 응답을 함께 지원합니다.");
+} else {
+  fail("public api cors no-store", "공개 홈 데이터 API CORS 또는 OPTIONS no-store 응답 기준이 부족합니다.");
 }
 
 if (includesAll(homeApi, ["buildHomeRequestUrl", "/api/home?", "HomeResponse", "HomeFreshness", "ts: String(timestamp)", "Date.now()", 'cache: "no-store"', '"Cache-Control": "no-cache"', "buildLatestDealsRequestUrl"])) {
   pass("home api cache buster", "홈 API 요청이 /api/home snapshot, freshness, no-store, timestamp cache-buster를 함께 사용합니다.");
 } else {
   fail("home api cache buster", "홈 API 요청에 /api/home snapshot, freshness, timestamp 또는 no-store fetch 설정이 부족합니다.");
+}
+
+if (
+  includesAll(runtimeApi, [
+    "NEXT_PUBLIC_API_BASE_URL",
+    "NEXT_PUBLIC_SITE_URL",
+    "resolveRuntimeApiUrl",
+    "shouldUseLocalBundleData",
+    "isNativeRuntime",
+    'value.startsWith("/api/")'
+  ]) &&
+  includesAll(homeApi, ["resolveRuntimeApiUrl", "isCrossOriginApiRequest", 'credentials: crossOrigin ? "omit" : "same-origin"', "Cache-Control"]) &&
+  includesAll(homePage, ["shouldUseLocalBundleData", "buildHomeRequestUrl", "requestJson<HomeResponse>"])
+) {
+  pass("native live api bridge", "Capacitor 앱은 공개 API base URL이 있으면 /api/home no-store snapshot을 호출하고, 없을 때만 정적 번들 데이터를 fallback으로 사용합니다.");
+} else {
+  fail("native live api bridge", "Android/iOS 정적 앱이 공개 API base URL로 최신 홈 데이터를 불러오는 경로가 부족합니다.");
 }
 
 if (hotSignalProvider.includes('cache: "no-store"') && !hotSignalProvider.includes("revalidate: 120")) {

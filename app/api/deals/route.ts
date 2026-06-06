@@ -1,5 +1,5 @@
 import { mockDeals } from "@/data/mockDeals";
-import { noStoreJson } from "@/lib/api/noStore";
+import { noStoreJson, noStoreOptions } from "@/lib/api/noStore";
 import { getDeals, normalizeSort } from "@/lib/dealService";
 import { normalizeDeals } from "@/lib/deals/normalizer";
 import { isPubliclyVisibleDeal, summarizeDealQuality } from "@/lib/deals/quality";
@@ -7,6 +7,10 @@ import { isPubliclyVisibleDeal, summarizeDealQuality } from "@/lib/deals/quality
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 export const fetchCache = "force-no-store";
+
+export function OPTIONS() {
+  return noStoreOptions();
+}
 
 export async function GET(request: Request) {
   try {

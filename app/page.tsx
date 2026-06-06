@@ -123,6 +123,7 @@ import { buildDealRedirectUrl, buildNativeSafeDealUrl } from "@/lib/redirectUrl"
 import { rememberRecentNewsBenefitId } from "@/lib/recentNewsBenefits";
 import { buildPublicAppShareUrl, buildPublicDealShareUrl } from "@/lib/shareUrl";
 import { isNativeRuntime } from "@/lib/nativeRuntime";
+import { shouldUseLocalBundleData } from "@/lib/runtimeApi";
 import {
   clearRecentDealsSynced,
   fetchRemotePreferences,
@@ -233,7 +234,7 @@ export default function Home() {
   const refreshNewsDeals = useCallback(
     async ({ silent = false, notify = false }: { silent?: boolean; notify?: boolean } = {}) => {
       try {
-        if (await isNativeRuntime()) return;
+        if (await shouldUseLocalBundleData()) return;
         if (silent && typeof document !== "undefined" && document.visibilityState === "hidden") return;
 
         setIsNewsRefreshing(true);
@@ -425,7 +426,7 @@ export default function Home() {
       if (!silent) setIsLoading(true);
 
       try {
-        if (await isNativeRuntime()) {
+        if (await shouldUseLocalBundleData()) {
           const snapshot = buildLocalHomeDealsSnapshot(mockDeals, homeDealFilters, "android bundle");
           setDeals(snapshot.deals);
           setCatalog(snapshot.catalog);
@@ -562,7 +563,7 @@ export default function Home() {
       if (!silent) setIsSignalLoading(true);
 
       try {
-        if (await isNativeRuntime()) {
+        if (await shouldUseLocalBundleData()) {
           setHotSignals(mockHotSignals);
           return;
         }
@@ -610,7 +611,7 @@ export default function Home() {
   useEffect(() => {
     async function fetchCatalog() {
       try {
-        if (await isNativeRuntime()) {
+        if (await shouldUseLocalBundleData()) {
           setCatalog(mockDeals);
           return;
         }
@@ -842,7 +843,7 @@ export default function Home() {
       }
 
       try {
-        if (await isNativeRuntime()) {
+        if (await shouldUseLocalBundleData()) {
           await Promise.all([fetchDeals(undefined, true), refreshNewsDeals({ silent: true }), fetchSignals(true)]);
           const generatedAt = new Date().toISOString();
           setLastHomeSyncAt(generatedAt);

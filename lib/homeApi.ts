@@ -1,4 +1,5 @@
 import type { PriceBand } from "@/lib/homeDiscoveryConfig";
+import { isCrossOriginApiRequest, resolveRuntimeApiUrl } from "@/lib/runtimeApi";
 import type { Deal, DealBenefitType, DealSort } from "@/types/deal";
 import type { HotSignal } from "@/types/hotSignal";
 import type { NewsDeadlineSummary, NewsDeal, NewsDealSourceTrust, NewsIntentGroup, NewsTargetSection } from "@/types/newsDeal";
@@ -235,23 +236,26 @@ export function buildLatestDealsRequestUrl() {
   return `/api/deals?sort=latest&ts=${Date.now()}`;
 }
 
-export function requestJson<T>(url: string): Promise<T> {
+export async function requestJson<T>(url: string): Promise<T> {
+  const requestUrl = await resolveRuntimeApiUrl(url);
+  const crossOrigin = isCrossOriginApiRequest(requestUrl);
+
   if (typeof window !== "undefined" && typeof window.fetch === "function") {
-    return window.fetch(url, {
+    return window.fetch(requestUrl, {
       cache: "no-store",
-      credentials: "same-origin",
+      credentials: crossOrigin ? "omit" : "same-origin",
       headers: {
         Accept: "application/json",
-        "Cache-Control": "no-cache"
+        ...(crossOrigin ? {} : { "Cache-Control": "no-cache" })
       }
     }).then(async (response) => (await response.json()) as T);
   }
 
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
-    xhr.open("GET", url, true);
+    xhr.open("GET", requestUrl, true);
     xhr.setRequestHeader("Accept", "application/json");
-    xhr.setRequestHeader("Cache-Control", "no-cache");
+    if (!crossOrigin) xhr.setRequestHeader("Cache-Control", "no-cache");
     xhr.onload = () => {
       try {
         resolve(JSON.parse(xhr.responseText) as T);

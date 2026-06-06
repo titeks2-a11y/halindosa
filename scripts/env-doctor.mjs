@@ -28,7 +28,7 @@ const checks = [
   {
     group: "public web/app",
     required: ["NEXT_PUBLIC_SITE_URL", "NEXT_PUBLIC_AUTH_REDIRECT_URL", "NEXT_PUBLIC_APP_SCHEME", "NEXT_PUBLIC_SUPPORT_EMAIL"],
-    optional: ["NEXT_PUBLIC_APP_NAME", "NEXT_PUBLIC_APP_ENV"]
+    optional: ["NEXT_PUBLIC_API_BASE_URL", "NEXT_PUBLIC_APP_NAME", "NEXT_PUBLIC_APP_ENV"]
   },
   {
     group: "supabase auth",
@@ -49,7 +49,7 @@ const checks = [
 
 const placeholders = new Set(["", "replace-before-production", "replace-with-random-secret", "support@halindosa.com"]);
 const allowedDataModes = new Set(["mock", "staging", "production", "hybrid"]);
-const urlKeys = new Set(["NEXT_PUBLIC_SITE_URL", "NEXT_PUBLIC_AUTH_REDIRECT_URL", "NEXT_PUBLIC_SUPABASE_URL"]);
+const urlKeys = new Set(["NEXT_PUBLIC_SITE_URL", "NEXT_PUBLIC_API_BASE_URL", "NEXT_PUBLIC_AUTH_REDIRECT_URL", "NEXT_PUBLIC_SUPABASE_URL"]);
 const emailKeys = new Set(["NEXT_PUBLIC_SUPPORT_EMAIL"]);
 const rows = [];
 
