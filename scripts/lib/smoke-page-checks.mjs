@@ -43,6 +43,20 @@ export async function runPageSmokeChecks() {
     assert(!text.includes(">상업화<"), "Home page should not expose internal commercialization link in public footer");
     assert(text.includes("aria-pressed="), "Home deal favorite buttons missing pressed state");
     assert(text.includes("판매처 이동 전 확인"), "Home deal open buttons missing accessible purchase label");
+
+    const homePurchaseLinkCount = (text.match(/href="\/go\//g) ?? []).length;
+    const homeOfficialBenefitLinkCount = (text.match(/href="\/go\/news\//g) ?? []).length;
+    const unsafeRenderedLinks = [
+      /href="#"/,
+      /javascript:/i,
+      /ppomppu|zboard\/view|fmkorea|quasarzone|algumon/i,
+      /https?:[^"'<>]*(\/search|search\?|query=|keyword=|msearch|\/result|\/find)/i
+    ].filter((pattern) => pattern.test(text));
+
+    assert(homePurchaseLinkCount >= 12, `Home page should render at least 12 verified /go purchase links, got ${homePurchaseLinkCount}`);
+    assert(homeOfficialBenefitLinkCount >= 3, `Home page should render official benefit /go/news links, got ${homeOfficialBenefitLinkCount}`);
+    assert(text.includes("실시간 검증됨") && text.includes("노출가능"), "Home page missing realtime publishable exposure status copy");
+    assert(unsafeRenderedLinks.length === 0, "Home page rendered hash, javascript, community, search, or result URLs in customer-facing links");
   });
 
   await check("home realtime api cache policy", async () => {
