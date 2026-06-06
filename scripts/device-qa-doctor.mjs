@@ -8,6 +8,7 @@ const manifestScriptPath = join(root, "scripts/device-qa-manifest.mjs");
 const manifestJsonPath = join(root, "DEVICE_QA_MANIFEST.json");
 const manifestMdPath = join(root, "docs/DEVICE_QA_MANIFEST.md");
 const reportScriptPath = join(root, "scripts/device-qa-report.mjs");
+const runQaScriptPath = join(root, "scripts/run-qa.mjs");
 const testPlanPath = join(root, "docs/test-plan.md");
 const releaseChecklistPath = join(root, "docs/release-checklist.md");
 const packagePath = join(root, "package.json");
@@ -28,6 +29,7 @@ const manifestScript = read(manifestScriptPath, "scripts/device-qa-manifest.mjs"
 const manifestJsonText = read(manifestJsonPath, "DEVICE_QA_MANIFEST.json");
 const manifestMd = read(manifestMdPath, "docs/DEVICE_QA_MANIFEST.md");
 const reportScript = read(reportScriptPath, "scripts/device-qa-report.mjs");
+const runQaScript = read(runQaScriptPath, "scripts/run-qa.mjs");
 const testPlan = read(testPlanPath, "docs/test-plan.md");
 const releaseChecklist = read(releaseChecklistPath, "docs/release-checklist.md");
 const pkg = JSON.parse(read(packagePath, "package.json"));
@@ -171,8 +173,13 @@ if (missingManifestMdSnippets.length) {
   fail(`docs/DEVICE_QA_MANIFEST.md missing launch-critical sections: ${missingManifestMdSnippets.join(", ")}`);
 }
 
-if (!pkg.scripts?.["device:qa:manifest"] || !pkg.scripts?.["qa:release"]?.includes("device:qa:manifest")) {
-  fail("package.json should expose device:qa:manifest and include it in qa:release.");
+const qaReleaseScript = String(pkg.scripts?.["qa:release"] ?? "");
+const qaReleaseRunsManifest =
+  qaReleaseScript.includes("device:qa:manifest") ||
+  (qaReleaseScript.includes("run-qa.mjs") && qaReleaseScript.includes("--release") && runQaScript.includes('"device:qa:manifest"'));
+
+if (!pkg.scripts?.["device:qa:manifest"] || !qaReleaseRunsManifest) {
+  fail("package.json should expose device:qa:manifest and include it directly or through run-qa.mjs --release.");
 }
 
 const requiredReportSnippets = [
