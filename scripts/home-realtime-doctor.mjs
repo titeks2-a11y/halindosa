@@ -122,7 +122,7 @@ if (
 }
 
 const refreshedNewsDeals = Array.isArray(refreshedNews.deals) ? refreshedNews.deals : [];
-const minimumVisibleOfficialBenefits = 85;
+const minimumVisibleOfficialBenefits = 95;
 const realtimeReadyNewsDeals = refreshedNewsDeals.filter(
   (deal) =>
     deal.publishable === true &&

@@ -2,11 +2,11 @@
 
 이 문서는 공식 이벤트/혜택 소스 후보의 현재 접근 상태를 non-strict 방식으로 기록합니다. 무단 크롤링을 수행하지 않으며, 보호된 페이지는 공식 API/RSS/제휴 feed 또는 수동 승인 데이터로 연결해야 합니다.
 
-- 생성 시각: 2026-06-06T17:48:43.202Z
+- 생성 시각: 2026-06-06T18:21:09.475Z
 - 모드: non_strict_live_readiness
-- 후보 소스: 80개
-- 접근 가능: 68개
-- 보호/권한 확인 필요: 12개
+- 후보 소스: 90개
+- 접근 가능: 77개
+- 보호/권한 확인 필요: 13개
 - 검토 필요: 0개
 - timeout/network error: 0개
 - 404/410 교체 필요: 0개
@@ -22,8 +22,8 @@
 
 | 상태 | 수 | 운영 액션 |
 | --- | ---: | --- |
-| reachable | 68 | 승인 feed 또는 공식 페이지 매핑 후보로 유지 |
-| guarded | 12 | 공식 API/RSS/제휴 feed 확인 |
+| reachable | 77 | 승인 feed 또는 공식 페이지 매핑 후보로 유지 |
+| guarded | 13 | 공식 API/RSS/제휴 feed 확인 |
 | needs_review | 0 | 최종 도메인과 응답 정책 수동 확인 |
 | timeout/network_error | 0 | 재시도 또는 담당자 확인 |
 | stale_or_removed | 0 | 카탈로그 URL 교체 전 사용 금지 |
@@ -112,6 +112,16 @@
 | gov24-benefit-alert-service | public_coupon | high | reachable | 200 | plus.gov.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | work24-employment-support | public_coupon | medium | reachable | 200 | work24.go.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | kosaf-scholarship-support | public_coupon | medium | reachable | 200 | kosaf.go.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| ikea-official-offers | official_event | medium | reachable | 200 | ikea.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| yanolja-official-promotion | official_event | medium | reachable | 200 | nol.yanolja.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| twayair-official-events | official_event | medium | reachable | 200 | twayair.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| eastarjet-official-events | official_event | medium | reachable | 200 | eastarjet.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| airbusan-official-events | official_event | medium | guarded | 403 | airbusan.com | 무단 크롤링하지 말고 공식 API/RSS/제휴 feed 또는 수동 승인 매핑 사용 |
+| lottehotel-official-offers | official_event | medium | reachable | 200 | lottehotel.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| kyochon-official-events | official_event | medium | reachable | 200 | kyochon.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| lotteworld-official-benefits | official_event | medium | reachable | 200 | adventure.lotteworld.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| everland-official-special-offers | official_event | medium | reachable | 200 | everland.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| aquaplanet-official-events | official_event | medium | reachable | 200 | aquaplanet.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 
 ## 다음 작업
 

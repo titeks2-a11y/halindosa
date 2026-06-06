@@ -2,7 +2,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fail, pass, root, smokeSource, text } from "./release-doctor-harness.mjs";
 
-const MIN_OFFICIAL_BENEFITS = 85;
+const MIN_OFFICIAL_BENEFITS = 95;
 
 export async function checkOperationalDataSurfaces() {
   const dealsRoute = await text("app/api/deals/route.ts");

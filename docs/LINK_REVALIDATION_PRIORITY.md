@@ -1,6 +1,6 @@
 # Link Revalidation Priority
 
-Generated: 2026-06-06T17:48:39.434Z
+Generated: 2026-06-06T18:21:05.648Z
 
 Status: PASS
 
@@ -15,9 +15,9 @@ Status: PASS
 - Blocking revalidation items: 0
 - Quarantined hidden items: 0
 - User reported revalidation items: 0
-- Review items: 77
+- Review items: 76
 - Watch items: 3
-- Queue items: 80
+- Queue items: 79
 
 ## Operating Rule
 
@@ -34,7 +34,6 @@ Customer-visible links stay publishable only when the launch gate has zero expos
 | review | d007 | 토스 | 돼지목살 양념구이 600g X 4팩 | 403 | robots_or_access_blocked | 공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인 |
 | review | d009 | 지마켓 | 신라면+너구리+짜파게티+오징어짬뽕 총 20봉 | 403 | robots_or_access_blocked | 공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인 |
 | review | d010 | 쿠팡 | 알리사 급속 냉각 에어컨 무선 휴대용 선풍기 | 403 | robots_or_access_blocked | 공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인 |
-| review | d012 | 올리브영 | 세라마이드 보습 크림 기획세트 | 403 | robots_or_access_blocked | 공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인 |
 | review | d014 | 쿠팡 | 애플워치 호환 스포츠 밴드 | 403 | robots_or_access_blocked | 공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인 |
 | review | d016 | G마켓 | 농심 신라면 120g X 20봉 | 403 | robots_or_access_blocked | 공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인 |
 | review | d017 | G마켓 | 아이클레보 올인원 로봇청소기 Ultra 365 Max | 403 | robots_or_access_blocked | 공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인 |
@@ -57,3 +56,4 @@ Customer-visible links stay publishable only when the launch gate has zero expos
 | review | d085 | 쿠팡 | 하기스 2024 매직컴포트 팬티형 기저귀 5단계 84매 | 403 | robots_or_access_blocked | 공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인 |
 | review | d087 | G마켓 | 맥심 모카골드 리필커피 오리지날 500g | 403 | robots_or_access_blocked | 공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인 |
 | review | d088 | 쿠팡 | 샤오미 미밴드 9 스마트밴드 | 403 | robots_or_access_blocked | 공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인 |
+| review | d089 | G마켓 | 홈매트 리퀴드 홈솔루션 훈증기 + 리필 2입 3개 | 403 | robots_or_access_blocked | 공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인 |

@@ -6,6 +6,15 @@
 
 ## 완료 작업
 
+### PHASE Official Benefit 95+ Operating Gate
+
+- IKEA, 야놀자, 티웨이항공, 이스타항공, 에어부산, 롯데호텔, 교촌치킨, 롯데월드, 에버랜드, 아쿠아플라넷의 공식 혜택/프로모션 페이지를 seed와 official source catalog에 추가해 여행/숙박, 영화/문화, 외식/배달, 식품/생필품 카테고리의 운영 소스 폭을 넓혔다.
+- `refresh:news` 기준 수집 102개, 중복 제거 후 사용자 노출 공식 혜택 101개를 확보했고, `verify:news`, `refresh:freebies`, `refresh:events`, `publishable:surface:doctor` 기준 검색 링크, 비공식 링크, 종료/숨김 링크 노출은 0건으로 유지했다.
+- 공식 소스 후보를 90개로 확장하고 `source:catalog:report`, `source:live:doctor`, `source:readiness:report`가 카테고리 10/10, provider 4/4, stale_or_removed 0건을 확인하도록 재생성했다. 라이브 접근 보호/429/보안 페이지는 guarded 운영 큐로 분리하고 사용자 노출 차단 이슈로 보지 않는다.
+- 공식 혜택 최소 노출 기준을 95개로 상향해 `verify:news`, `smoke:local`, `release:doctor`, `health:readiness`, `source:readiness`, `cron:refresh:doctor`, `daily:operations:report`, `push:readiness:report`, `home:realtime:doctor`가 같은 운영 기준을 보도록 통일했다.
+- `home:realtime:doctor` 기준 `/api/home`, `/api/deals`, `/api/news-deals`, `/api/hot-signals`는 no-store/dynamic 정책과 45초 자동 갱신, 수동 새로고침, 최신성 배지를 유지하며, 공식 혜택 101개와 검증 상품 140개가 홈에 즉시 반영될 준비가 되어 있다.
+- 최종 검증에서 `lint`, `refresh:all`, `verify:links`, `verify:news`, `verify:images`, `test:mobile-compact`, `smoke:local`, `qa`, `release:doctor`, `build`, `build:android`, `cap:sync`를 통과해 웹/Android 동기화와 운영 출시 게이트를 유지했다.
+
 ### PHASE Official Benefit 85+ Trust Gate
 
 - 피자헛, 던킨, 정부24, 고용24, 한국장학재단 공식 혜택/공공 지원 소스를 seed와 official source catalog에 추가하고, 자동 live probe에서 `needs_review`로 분류된 크리스피크림/K-Startup 후보는 사용자 노출과 운영 카탈로그에서 제외해 수량보다 검증 가능한 최종 링크 품질을 우선했다.

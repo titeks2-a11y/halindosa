@@ -6,7 +6,7 @@ import { checkNewsDealPipeline } from "./lib/release-doctor-news-pipeline.mjs";
 import { checkUiAccessibility } from "./lib/release-doctor-ui-accessibility.mjs";
 import { checkOperationalDataSurfaces } from "./lib/release-doctor-operational-data.mjs";
 
-const MIN_OFFICIAL_BENEFITS = 85;
+const MIN_OFFICIAL_BENEFITS = 95;
 
 async function checkPackage() {
   const pkg = withQaRunnerScripts(JSON.parse(await text("package.json")));

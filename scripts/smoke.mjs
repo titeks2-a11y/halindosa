@@ -4,7 +4,7 @@ import { runPageSmokeChecks } from "./lib/smoke-page-checks.mjs";
 
 installSmokeFetch();
 
-const MIN_OFFICIAL_BENEFITS = 85;
+const MIN_OFFICIAL_BENEFITS = 95;
 
 await runPageSmokeChecks();
 await runAdminDashboardSmokeChecks();

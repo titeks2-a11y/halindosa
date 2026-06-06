@@ -1,12 +1,12 @@
 # 무료혜택 Refresh Report
 
-Generated: 2026-06-06T17:49:36.147Z
+Generated: 2026-06-06T18:22:06.955Z
 
 ## Summary
 
 - Mode: freebies
-- Matched items: 38
-- Visible official items: 38
+- Matched items: 39
+- Visible official items: 39
 - Hidden/blocked items: 0
 - Exposed search links: 0
 - Exposed non-official links: 0
@@ -35,9 +35,9 @@ All visible rows must keep `/go/news/[id]` redirect tracking and must resolve to
 | news-kurly-neoflam-free-shipping | 컬리 네오플램 소이 인덕션 편수 냄비 무료배송 특가 | 컬리 공식 상품 상세 | 식품/생필품 | kurly.com | `/go/news/news-kurly-neoflam-free-shipping` |
 | news-kurly-escape-speaker-free-shipping | 컬리 이스케이프 P6 Air 무료배송 쿠폰 특가 | 컬리 공식 상품 상세 | 디지털/가전 | kurly.com | `/go/news/news-kurly-escape-speaker-free-shipping` |
 | news-kurly-clove-fashion-free-shipping | 컬리 클로브 브이넥 니트 무료배송 쿠폰 특가 | 컬리 공식 상품 상세 | 패션/뷰티 | kurly.com | `/go/news/news-kurly-clove-fashion-free-shipping` |
+| news-aquaplanet-official-events | 아쿠아플라넷 공식 이벤트 혜택 | 아쿠아플라넷 공식 이벤트 | 영화/문화 | aquaplanet.co.kr | `/go/news/news-aquaplanet-official-events` |
 | news-naverpay-event-benefit | 네이버페이 공식 결제 혜택 | 네이버페이 공식 혜택 | 카드/멤버십 | new-m.pay.naver.com | `/go/news/news-naverpay-event-benefit` |
 | news-mnuri-official-benefit | 문화누리카드 공식 문화·여행 혜택 | 문화누리카드 공식 누리집 | 무료혜택 | mnuri.kr | `/go/news/news-mnuri-official-benefit` |
-| news-naverpay-point-free-benefit | 네이버페이 포인트 공식 적립 혜택 | 네이버페이 포인트 공식 | 무료혜택 | new-m.pay.naver.com | `/go/news/news-naverpay-point-free-benefit` |
 
 ## Blocked Items
 

@@ -1,18 +1,18 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-06T17:48:38.374Z",
+  "generatedAt": "2026-06-06T18:21:04.585Z",
   "summary": {
     "productCandidates": 140,
     "productViolations": 0,
-    "newsCandidates": 91,
+    "newsCandidates": 101,
     "newsViolations": 0,
-    "freebiesVisible": 38,
-    "eventsVisible": 87,
+    "freebiesVisible": 39,
+    "eventsVisible": 97,
     "exposedSearchLinks": 0,
     "exposedSoldOutLinks": 0,
     "exposedNonOfficialLinks": 0,
     "refreshedProductSnapshotCount": 0,
-    "refreshedNewsSnapshotCount": 91
+    "refreshedNewsSnapshotCount": 101
   },
   "surfacePolicy": {
     "products": "availability=active, validationStatus=passed, publishable=true, isHidden=false, non-search linkType, safe finalUrl",

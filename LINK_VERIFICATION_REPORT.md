@@ -1,6 +1,6 @@
 # 할인도사 Link Verification Report
 
-Generated: 2026-06-06T17:52:44.124Z
+Generated: 2026-06-06T18:22:32.617Z
 
 ## Summary
 
@@ -21,8 +21,8 @@ Generated: 2026-06-06T17:52:44.124Z
 | 커뮤니티 의심 | 0 |
 | 수동 검토 필요 | 0 |
 | Live probe 확인 | 140 |
-| Live probe 실패 | 80 |
-| Live probe robots/access 차단 | 64 |
+| Live probe 실패 | 79 |
+| Live probe robots/access 차단 | 63 |
 | Live probe rate limit | 13 |
 | Live probe timeout | 0 |
 | Live probe exposed hard failure | 0 |
@@ -30,13 +30,13 @@ Generated: 2026-06-06T17:52:44.124Z
 | Live probe transient network | 3 |
 | Live body 확인 | 137 |
 | Live 제목/메타 확인 | 133 |
-| Live 콘텐츠 일치 신호 | 55 |
-| Live 콘텐츠 불일치 신호 | 82 |
+| Live 콘텐츠 일치 신호 | 56 |
+| Live 콘텐츠 불일치 신호 | 81 |
 | Live 접근 가능 본문 불일치 | 5 |
-| Live 접근 차단 본문 | 32 |
+| Live 접근 차단 본문 | 31 |
 | Live 가격 신호 | 26 |
-| Live 구매/신청 버튼 신호 | 14 |
-| Live 종료 문구 재검토 신호 | 0 |
+| Live 구매/신청 버튼 신호 | 15 |
+| Live 종료 문구 재검토 신호 | 1 |
 | 출시 게이트 통과 | YES |
 | 노출 검색 링크 | 0 |
 | 노출 품절/종료 링크 | 0 |
@@ -51,14 +51,14 @@ Generated: 2026-06-06T17:52:44.124Z
 - 고객에게 노출되는 404/410/5xx/품절 본문 같은 강한 실패 신호: 0
 - 숨김 처리 후 보정 큐에 남은 강한 실패 신호: 0
 - timeout/request_failed 같은 일시 네트워크 신호: 3
-- 쇼핑몰 접근 보호 또는 robots/access 차단: 64
+- 쇼핑몰 접근 보호 또는 robots/access 차단: 63
 - 품절/판매종료 본문 감지: 0
 
 ## Verification Evidence
 
-- live_content_confirmed: 55
+- live_content_confirmed: 56
 - manual_pattern_verified: 32
-- seller_access_protected_manual_verified: 32
+- seller_access_protected_manual_verified: 31
 - seller_rate_limited_manual_verified: 13
 - client_rendered_detail_manual_verified: 5
 - transient_network_manual_verified: 3
@@ -93,12 +93,12 @@ Generated: 2026-06-06T17:52:44.124Z
 - d007 · 토스 · seller_access_protected_review · priority 45
 - d009 · 지마켓 · seller_access_protected_review · priority 45
 - d010 · 쿠팡 · seller_access_protected_review · priority 45
-- d012 · 올리브영 · seller_access_protected_review · priority 45
 - d014 · 쿠팡 · seller_access_protected_review · priority 45
+- d016 · G마켓 · seller_access_protected_review · priority 45
 
 ### Live Probe Failure Reasons
 
-- robots_or_access_blocked: 64
+- robots_or_access_blocked: 63
 - http_429: 13
 - request_failed: 3
 
@@ -107,7 +107,7 @@ Generated: 2026-06-06T17:52:44.124Z
 - item.gmarket.co.kr: 31
 - coupang.com: 24
 - ssg.com: 13
-- oliveyoung.co.kr: 7
+- oliveyoung.co.kr: 6
 - hyundaicard.com: 1
 - itempage3.auction.co.kr: 1
 - store.ohou.se: 1

@@ -1688,5 +1688,210 @@
     "allowedUse": "한국장학재단 공식 페이지에서 확인되는 국가장학금, 학자금, 생활비 지원 신청 정보",
     "blockedUse": "비공식 장학금 홍보글, 검색 결과, 종료 공고",
     "notes": "학기/학년/소득구간 조건은 사용자 안내 문구로 분리한다."
+  },
+  {
+    "id": "ikea-official-offers",
+    "label": "IKEA 공식 홈퍼니싱 오퍼",
+    "provider": "official_event",
+    "category": [
+      "식품/생필품",
+      "무료혜택"
+    ],
+    "sourceType": "official_offer_page",
+    "officialUrl": "https://www.ikea.com/kr/ko/offers/",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "DEAL_EVENT_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "IKEA 공식 오퍼 페이지에서 확인되는 홈퍼니싱, 주방, 수납, 생활용품 할인 혜택",
+    "blockedUse": "검색 결과, 비공식 커뮤니티 글, 종료된 전단 이미지",
+    "notes": "상품별 가격은 최종 구매 전 공식 페이지에서 다시 확인하도록 안내한다."
+  },
+  {
+    "id": "yanolja-official-promotion",
+    "label": "야놀자 공식 여행·숙박 프로모션",
+    "provider": "official_event",
+    "category": [
+      "여행/숙박",
+      "무료혜택"
+    ],
+    "sourceType": "official_promotion_page",
+    "officialUrl": "https://nol.yanolja.com/promotion",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "DEAL_EVENT_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "야놀자 공식 프로모션에서 확인되는 숙박, 레저, 여행 쿠폰 및 기간 한정 혜택",
+    "blockedUse": "검색 결과, 블로그 후기, 커뮤니티 제보, 종료된 쿠폰 코드",
+    "notes": "앱 전용 쿠폰은 사용 조건과 마감일을 분리해 안내한다."
+  },
+  {
+    "id": "twayair-official-events",
+    "label": "티웨이항공 공식 항공권 이벤트",
+    "provider": "official_event",
+    "category": [
+      "여행/숙박"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.twayair.com/app/promotion/event/retrieveEventList",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "DEAL_EVENT_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "티웨이항공 공식 이벤트에서 확인되는 항공권 특가, 쿠폰, 노선 프로모션",
+    "blockedUse": "항공권 검색 결과, 비공식 여행사 광고, 종료된 특가 캡처",
+    "notes": "항공권 총액과 탑승 기간은 공식 페이지 조건을 우선한다."
+  },
+  {
+    "id": "eastarjet-official-events",
+    "label": "이스타항공 공식 항공권 이벤트",
+    "provider": "official_event",
+    "category": [
+      "여행/숙박"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.eastarjet.com/newstar/PGWDA00001",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "DEAL_EVENT_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "이스타항공 공식 이벤트에서 확인되는 노선별 특가와 항공권 프로모션",
+    "blockedUse": "항공권 검색 결과, 커뮤니티 제보, 종료된 특가",
+    "notes": "출발일과 예매 기간을 분리해 운영 큐에서 점검한다."
+  },
+  {
+    "id": "airbusan-official-events",
+    "label": "에어부산 공식 항공권 이벤트",
+    "provider": "official_event",
+    "category": [
+      "여행/숙박"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.airbusan.com/content/individual/promotion/event",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "DEAL_EVENT_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "에어부산 공식 이벤트에서 확인되는 항공권 할인, 노선 특가, 여행 프로모션",
+    "blockedUse": "항공권 검색 결과, 비공식 광고, 종료 이벤트",
+    "notes": "204/동적 응답 가능성이 있어 공식 feed 연결 전 수동 확인 큐로 유지한다."
+  },
+  {
+    "id": "lottehotel-official-offers",
+    "label": "롯데호텔 공식 숙박 오퍼",
+    "provider": "official_event",
+    "category": [
+      "여행/숙박"
+    ],
+    "sourceType": "official_offer_page",
+    "officialUrl": "https://www.lottehotel.com/global/ko/offers.html",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "DEAL_EVENT_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "롯데호텔 공식 오퍼에서 확인되는 숙박 패키지, 객실 할인, 시즌 혜택",
+    "blockedUse": "호텔 검색 결과, 비공식 여행사 광고, 종료 패키지",
+    "notes": "호텔/기간/객실 조건은 최종 예약 전 공식 페이지 확인 문구를 유지한다."
+  },
+  {
+    "id": "kyochon-official-events",
+    "label": "교촌치킨 공식 이벤트·쿠폰",
+    "provider": "official_event",
+    "category": [
+      "외식/배달",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.kyochon.com/event/ing.asp",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "교촌치킨 공식 이벤트에서 확인되는 쿠폰, 멤버십, 외식 혜택",
+    "blockedUse": "배달앱 검색 결과, 커뮤니티 쿠폰 코드, 종료 이벤트",
+    "notes": "배달앱/멤버십 조건이 있으면 혜택 조건에 분리한다."
+  },
+  {
+    "id": "lotteworld-official-benefits",
+    "label": "롯데월드 공식 할인 혜택",
+    "provider": "official_event",
+    "category": [
+      "영화/문화",
+      "카드/멤버십"
+    ],
+    "sourceType": "official_benefit_page",
+    "officialUrl": "https://adventure.lotteworld.com/kor/price/benefit/list.do",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "롯데월드 공식 혜택에서 확인되는 입장권 할인, 제휴카드, 문화·레저 프로모션",
+    "blockedUse": "중고 티켓, 비공식 할인권 판매글, 종료된 제휴혜택",
+    "notes": "제휴카드 실적 조건은 공식 혜택 조건을 우선한다."
+  },
+  {
+    "id": "everland-official-special-offers",
+    "label": "에버랜드 공식 스페셜 프로모션",
+    "provider": "official_event",
+    "category": [
+      "영화/문화",
+      "여행/숙박"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.everland.com/everland/ticket/special.html",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "에버랜드 공식 프로모션에서 확인되는 입장권 할인, 시즌 행사, 문화·레저 혜택",
+    "blockedUse": "비공식 티켓 판매글, 커뮤니티 캡처, 종료된 프로모션",
+    "notes": "방문일/권종별 가격은 공식 페이지에서 최종 확인하게 한다."
+  },
+  {
+    "id": "aquaplanet-official-events",
+    "label": "아쿠아플라넷 공식 이벤트 혜택",
+    "provider": "official_event",
+    "category": [
+      "영화/문화"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.aquaplanet.co.kr/ilsan/event/eventList.do",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "아쿠아플라넷 공식 이벤트에서 확인되는 입장권 할인, 가족 체험, 문화·레저 혜택",
+    "blockedUse": "비공식 할인권 판매글, 검색 결과, 종료 이벤트",
+    "notes": "지점별 이벤트가 다를 수 있어 지점과 마감일을 운영 큐에서 확인한다."
   }
 ]
