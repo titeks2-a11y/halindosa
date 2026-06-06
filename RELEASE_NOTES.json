@@ -1,8 +1,8 @@
 {
   "generatedBy": "npm run release:notes",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "2be3584b",
-  "workingTree": "M DEVICE_QA_REPORT.md;  M KNOWN_ISSUES.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_HANDOFF_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_SCREENSHOTS_REPORT.md;  M docs/DEVICE_QA_REPORT.md;  M docs/KNOWN_ISSUES.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_HANDOFF_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/release-evidence.md",
+  "commit": "92441ace",
+  "workingTree": "M DEVICE_QA_REPORT.md;  M KNOWN_ISSUES.md;  M PUBLIC_URL_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_SCREENSHOTS_REPORT.md;  M docs/DEVICE_QA_REPORT.md;  M docs/KNOWN_ISSUES.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/release-evidence.md",
   "version": "1.0.1",
   "appName": "할인도사",
   "packageName": "com.halindosa.app",
@@ -34,12 +34,12 @@
     {
       "path": "docs/release-evidence.md",
       "status": "present",
-      "bytes": 7410
+      "bytes": 7437
     },
     {
       "path": "docs/STORE_CONSOLE_FIELDS.md",
       "status": "present",
-      "bytes": 3790
+      "bytes": 3868
     },
     {
       "path": "docs/STORE_MANUAL_CHECKLIST.md",
@@ -49,12 +49,12 @@
     {
       "path": "docs/STORE_HANDOFF_REPORT.md",
       "status": "present",
-      "bytes": 4425
+      "bytes": 4684
     },
     {
       "path": "docs/STORE_SUBMISSION_REPORT.md",
       "status": "present",
-      "bytes": 4946
+      "bytes": 4907
     },
     {
       "path": "docs/DEVICE_QA_MANIFEST.md",
@@ -73,14 +73,14 @@
     }
   ],
   "recentCommits": [
+    "92441ace chore: refresh harness verification reports",
+    "a563a948 chore: refresh store release handoff docs",
     "2be3584b fix: report full official benefit totals from home api",
     "ac892c8e chore: refresh store release handoff docs",
     "6f37c8bb feat: expose complete official benefit counts on home",
     "d052c7e1 chore: refresh store release handoff docs",
     "f3221220 feat: expand official benefit freshness gates",
-    "7b1fec3d chore: refresh store release handoff docs",
-    "4d14dc90 feat: surface live benefit strip on mobile home",
-    "639c777a chore: refresh store release handoff docs"
+    "7b1fec3d chore: refresh store release handoff docs"
   ],
   "manualWorkThatMustNotBeFaked": [
     "Do not claim Play Console or App Store Connect submission has passed from this file.",
