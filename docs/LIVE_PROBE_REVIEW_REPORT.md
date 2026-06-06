@@ -1,6 +1,6 @@
 # Live Probe Review Report
 
-Generated: 2026-06-06T10:19:41.262Z
+Generated: 2026-06-06T10:38:05.867Z
 
 Status: PASS
 
@@ -61,7 +61,7 @@ The app can expose only links that are already publishable and have zero hard fa
 | review | d046 | 쿠팡 | coupang.com | 403 | robots_or_access_blocked | official_api_or_partner_feed | fresh (6d) | official API 또는 partner feed로 상품 상세 존재를 확인하고, 필요 시 manual device check 수행 |
 | review | d050 | 올리브영 | oliveyoung.co.kr | 403 | robots_or_access_blocked | official_api_or_partner_feed | fresh (6d) | official API 또는 partner feed로 상품 상세 존재를 확인하고, 필요 시 manual device check 수행 |
 | review | d079 | 쿠팡 | coupang.com | 403 | robots_or_access_blocked | official_api_or_partner_feed | fresh (4.5d) | official API 또는 partner feed로 상품 상세 존재를 확인하고, 필요 시 manual device check 수행 |
-| review | d085 | 쿠팡 | coupang.com | 403 | robots_or_access_blocked | official_api_or_partner_feed | fresh (1d) | official API 또는 partner feed로 상품 상세 존재를 확인하고, 필요 시 manual device check 수행 |
+| review | d085 | 쿠팡 | coupang.com | 403 | robots_or_access_blocked | official_api_or_partner_feed | fresh (1.1d) | official API 또는 partner feed로 상품 상세 존재를 확인하고, 필요 시 manual device check 수행 |
 | review | d088 | 쿠팡 | coupang.com | 403 | robots_or_access_blocked | official_api_or_partner_feed | fresh (4.5d) | official API 또는 partner feed로 상품 상세 존재를 확인하고, 필요 시 manual device check 수행 |
 | review | d091 | 쿠팡 | coupang.com | 403 | robots_or_access_blocked | official_api_or_partner_feed | fresh (4.4d) | official API 또는 partner feed로 상품 상세 존재를 확인하고, 필요 시 manual device check 수행 |
 | review | d094 | 올리브영 | oliveyoung.co.kr | 403 | robots_or_access_blocked | official_api_or_partner_feed | fresh (0.4d) | official API 또는 partner feed로 상품 상세 존재를 확인하고, 필요 시 manual device check 수행 |
@@ -84,4 +84,4 @@ The app can expose only links that are already publishable and have zero hard fa
 | review | d016 | G마켓 | item.gmarket.co.kr | 403 | robots_or_access_blocked | official_api_or_partner_feed | fresh (6d) | official API 또는 partner feed로 상품 상세 존재를 확인하고, 필요 시 manual device check 수행 |
 | review | d017 | G마켓 | item.gmarket.co.kr | 403 | robots_or_access_blocked | official_api_or_partner_feed | fresh (5.4d) | official API 또는 partner feed로 상품 상세 존재를 확인하고, 필요 시 manual device check 수행 |
 | review | d034 | G마켓 | item.gmarket.co.kr | 403 | robots_or_access_blocked | official_api_or_partner_feed | fresh (6d) | official API 또는 partner feed로 상품 상세 존재를 확인하고, 필요 시 manual device check 수행 |
-| review | d043 | G마켓 | item.gmarket.co.kr | 403 | robots_or_access_blocked | official_api_or_partner_feed | fresh (0.3d) | official API 또는 partner feed로 상품 상세 존재를 확인하고, 필요 시 manual device check 수행 |
+| review | d043 | G마켓 | item.gmarket.co.kr | 403 | robots_or_access_blocked | official_api_or_partner_feed | fresh (0.4d) | official API 또는 partner feed로 상품 상세 존재를 확인하고, 필요 시 manual device check 수행 |

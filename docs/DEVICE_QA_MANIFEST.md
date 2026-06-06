@@ -9,8 +9,8 @@ This manifest turns the launch-device checklist into concrete targets, commands,
 | Item | Value |
 | --- | --- |
 | Branch | `codex/12h-product-ux-growth-hardening` |
-| Commit | `0af8afa` |
-| App version | `1.0.0` |
+| Commit | `e154b3f5` |
+| App version | `1.0.1` |
 | Record template | `docs/device-qa-record-template.md` |
 | Checklist | `docs/device-qa-checklist.md` |
 
@@ -18,10 +18,10 @@ This manifest turns the launch-device checklist into concrete targets, commands,
 
 | Artifact | Status | Bytes |
 | --- | --- | ---: |
-| `android/app/build/outputs/apk/debug/app-debug.apk` | present | 10610182 |
-| `android/app/build/outputs/bundle/release/app-release.aab` | present | 6500073 |
-| `MOBILE_UX_REPORT.md` | present | 2858 |
-| `docs/release-evidence.md` | present | 6389 |
+| `android/app/build/outputs/apk/debug/app-debug.apk` | missing | 0 |
+| `android/app/build/outputs/bundle/release/app-release.aab` | missing | 0 |
+| `MOBILE_UX_REPORT.md` | present | 3037 |
+| `docs/release-evidence.md` | present | 7409 |
 | `STORE_SCREENSHOT_MANIFEST.json` | present | 4818 |
 | `docs/STORE_SCREENSHOT_MANIFEST.md` | present | 4408 |
 

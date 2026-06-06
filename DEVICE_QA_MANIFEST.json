@@ -3,28 +3,28 @@
   "checklist": "docs/device-qa-checklist.md",
   "recordTemplate": "docs/device-qa-record-template.md",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "0af8afa",
-  "version": "1.0.0",
+  "commit": "e154b3f5",
+  "version": "1.0.1",
   "buildAndEvidence": [
     {
       "path": "android/app/build/outputs/apk/debug/app-debug.apk",
-      "status": "present",
-      "bytes": 10610182
+      "status": "missing",
+      "bytes": 0
     },
     {
       "path": "android/app/build/outputs/bundle/release/app-release.aab",
-      "status": "present",
-      "bytes": 6500073
+      "status": "missing",
+      "bytes": 0
     },
     {
       "path": "MOBILE_UX_REPORT.md",
       "status": "present",
-      "bytes": 2858
+      "bytes": 3037
     },
     {
       "path": "docs/release-evidence.md",
       "status": "present",
-      "bytes": 6389
+      "bytes": 7409
     },
     {
       "path": "STORE_SCREENSHOT_MANIFEST.json",
