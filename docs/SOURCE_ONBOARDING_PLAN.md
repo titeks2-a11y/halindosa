@@ -1,9 +1,9 @@
 # 공식 소스 온보딩 우선순위
 
-- 생성 시각: 2026-06-06T09:19:32.628Z
+- 생성 시각: 2026-06-06T09:49:24.739Z
 - 공식 소스 후보: 40개
-- 접근 가능: 36개
-- 보호/권한 확인 필요: 4개
+- 접근 가능: 37개
+- 보호/권한 확인 필요: 3개
 - 차단 live 이슈: 0개
 - feed 설정 완료 소스: 0개
 
@@ -34,9 +34,9 @@
 
 | Env key | 후보 | 접근 가능 | 보호/승인 필요 | 대표 후보 |
 | --- | ---: | ---: | ---: | --- |
-| OFFICIAL_EVENT_FEED_URLS | 33 | 29 | 4 | 해피포인트 공식 제휴 할인 혜택 / L.POINT 공식 혜택 / OK캐쉬백 공식 이벤트 혜택 / GS25 행사상품과 카드 할인 / KFC 공식 딜리버리 무료배송 혜택 |
+| OFFICIAL_EVENT_FEED_URLS | 33 | 30 | 3 | 해피포인트 공식 제휴 할인 혜택 / L.POINT 공식 혜택 / OK캐쉬백 공식 이벤트 혜택 / GS25 행사상품과 카드 할인 / KFC 공식 딜리버리 무료배송 혜택 |
 | PUBLIC_COUPON_FEED_URLS | 17 | 15 | 2 | 해피포인트 공식 제휴 할인 혜택 / L.POINT 공식 혜택 / OK캐쉬백 공식 이벤트 혜택 / 문화가 있는 날 공식 혜택 / 문화누리카드 공식 사용 혜택 |
-| DEAL_EVENT_FEED_URLS | 15 | 14 | 1 | GS25 행사상품과 카드 할인 / CU 편의점 1+1·2+1 행사 / SSG닷컴 공식 장보기 행사 / BHC 공식 e쿠폰 / 하이마트 공식 디지털 행사 |
+| DEAL_EVENT_FEED_URLS | 15 | 15 | 0 | GS25 행사상품과 카드 할인 / CU 편의점 1+1·2+1 행사 / SSG닷컴 공식 장보기 행사 / BHC 공식 e쿠폰 / 하이마트 공식 디지털 행사 |
 | DEAL_EVENT_NEWS_FEED_URLS | 11 | 10 | 1 | KFC 공식 딜리버리 무료배송 혜택 / 롯데잇츠 공식 월간 쿠폰 혜택 / 요기요 배달 쿠폰 이벤트 / 제주항공 공식 진행 이벤트 / 배민아카데미 공식 무료 교육 이벤트 |
 | DEAL_NEWS_FEED_URLS | 3 | 3 | 0 | 문화가 있는 날 공식 혜택 / 한국관광공사 공식 여행 혜택 / 현대Hmall 공식 쇼핑 기획전 |
 
@@ -47,7 +47,7 @@
 # 여러 URL은 줄바꿈, 쉼표, 세미콜론, JSON 배열 형식 중 하나로 관리할 수 있습니다.
 
 # OFFICIAL_EVENT_FEED_URLS
-# 후보 33개 · 접근 가능 29개 · 보호/승인 필요 4개
+# 후보 33개 · 접근 가능 30개 · 보호/승인 필요 3개
 # 대표 후보: 해피포인트 공식 제휴 할인 혜택 / L.POINT 공식 혜택 / OK캐쉬백 공식 이벤트 혜택 / GS25 행사상품과 카드 할인 / KFC 공식 딜리버리 무료배송 혜택
 OFFICIAL_EVENT_FEED_URLS=
 
@@ -57,7 +57,7 @@ OFFICIAL_EVENT_FEED_URLS=
 PUBLIC_COUPON_FEED_URLS=
 
 # DEAL_EVENT_FEED_URLS
-# 후보 15개 · 접근 가능 14개 · 보호/승인 필요 1개
+# 후보 15개 · 접근 가능 15개 · 보호/승인 필요 0개
 # 대표 후보: GS25 행사상품과 카드 할인 / CU 편의점 1+1·2+1 행사 / SSG닷컴 공식 장보기 행사 / BHC 공식 e쿠폰 / 하이마트 공식 디지털 행사
 DEAL_EVENT_FEED_URLS=
 
@@ -113,10 +113,10 @@ DEAL_NEWS_FEED_URLS=
 | 34 | homeplus-event | 식품/생필품 / 마트/편의점 | reachable | 200 | OFFICIAL_EVENT_FEED_URLS / DEAL_EVENT_FEED_URLS | 검색 결과·커뮤니티 원문·메인 페이지를 finalUrl로 쓰지 않기 |
 | 35 | kbcard-events | 카드/멤버십 | reachable | 200 | OFFICIAL_EVENT_FEED_URLS / DEAL_EVENT_FEED_URLS | 검색 결과·커뮤니티 원문·메인 페이지를 finalUrl로 쓰지 않기 |
 | 36 | lottecinema-events | 영화/문화 | reachable | 200 | PUBLIC_COUPON_FEED_URLS / OFFICIAL_EVENT_FEED_URLS | 검색 결과·커뮤니티 원문·메인 페이지를 finalUrl로 쓰지 않기 |
-| 37 | hmall-official-events | 패션/뷰티 / 식품/생필품 | reachable | 200 | DEAL_NEWS_FEED_URLS / DEAL_EVENT_NEWS_FEED_URLS | 검색 결과·커뮤니티 원문·메인 페이지를 finalUrl로 쓰지 않기 |
-| 38 | koreanair-promotion | 여행/숙박 | reachable | 200 | DEAL_EVENT_NEWS_FEED_URLS / OFFICIAL_EVENT_FEED_URLS | 검색 결과·커뮤니티 원문·메인 페이지를 finalUrl로 쓰지 않기 |
-| 39 | musinsa-fashion-festa | 패션/뷰티 | reachable | 200 | OFFICIAL_EVENT_FEED_URLS / DEAL_EVENT_FEED_URLS | 검색 결과·커뮤니티 원문·메인 페이지를 finalUrl로 쓰지 않기 |
-| 40 | oliveyoung-events | 패션/뷰티 / 무료혜택 | guarded | 403 | OFFICIAL_EVENT_FEED_URLS / DEAL_EVENT_FEED_URLS | 무단 크롤링 금지, 브라우저 자동 수집 금지, 승인 feed만 허용 |
+| 37 | oliveyoung-events | 패션/뷰티 / 무료혜택 | reachable | 200 | OFFICIAL_EVENT_FEED_URLS / DEAL_EVENT_FEED_URLS | 검색 결과·커뮤니티 원문·메인 페이지를 finalUrl로 쓰지 않기 |
+| 38 | hmall-official-events | 패션/뷰티 / 식품/생필품 | reachable | 200 | DEAL_NEWS_FEED_URLS / DEAL_EVENT_NEWS_FEED_URLS | 검색 결과·커뮤니티 원문·메인 페이지를 finalUrl로 쓰지 않기 |
+| 39 | koreanair-promotion | 여행/숙박 | reachable | 200 | DEAL_EVENT_NEWS_FEED_URLS / OFFICIAL_EVENT_FEED_URLS | 검색 결과·커뮤니티 원문·메인 페이지를 finalUrl로 쓰지 않기 |
+| 40 | musinsa-fashion-festa | 패션/뷰티 | reachable | 200 | OFFICIAL_EVENT_FEED_URLS / DEAL_EVENT_FEED_URLS | 검색 결과·커뮤니티 원문·메인 페이지를 finalUrl로 쓰지 않기 |
 
 ## 재생성
 
