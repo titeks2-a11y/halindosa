@@ -1,8 +1,8 @@
 {
   "generatedBy": "npm run release:notes",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "4da034a9",
-  "workingTree": "M DEVICE_QA_REPORT.md;  M PUBLIC_URL_REPORT.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_HANDOFF_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M docs/DEVICE_QA_REPORT.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_HANDOFF_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md;  M docs/release-evidence.md",
+  "commit": "b8566180",
+  "workingTree": "M DEVICE_QA_REPORT.md;  M PUBLIC_URL_REPORT.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_HANDOFF_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M docs/DEVICE_QA_REPORT.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_HANDOFF_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md",
   "version": "1.0.1",
   "appName": "할인도사",
   "packageName": "com.halindosa.app",
@@ -39,22 +39,22 @@
     {
       "path": "docs/STORE_CONSOLE_FIELDS.md",
       "status": "present",
-      "bytes": 3854
+      "bytes": 3728
     },
     {
       "path": "docs/STORE_MANUAL_CHECKLIST.md",
       "status": "present",
-      "bytes": 4383
+      "bytes": 4661
     },
     {
       "path": "docs/STORE_HANDOFF_REPORT.md",
       "status": "present",
-      "bytes": 4610
+      "bytes": 4581
     },
     {
       "path": "docs/STORE_SUBMISSION_REPORT.md",
       "status": "present",
-      "bytes": 4862
+      "bytes": 4736
     },
     {
       "path": "docs/DEVICE_QA_MANIFEST.md",
@@ -73,14 +73,14 @@
     }
   ],
   "recentCommits": [
+    "b8566180 feat: raise official benefit trust gate",
+    "524dfca1 feat: expand verified official benefit coverage",
+    "a2193cf4 chore: refresh store release handoff docs",
     "4da034a9 fix: align live probe evidence review gate",
     "cb510bac chore: refresh store release handoff docs",
     "92441ace chore: refresh harness verification reports",
     "a563a948 chore: refresh store release handoff docs",
-    "2be3584b fix: report full official benefit totals from home api",
-    "ac892c8e chore: refresh store release handoff docs",
-    "6f37c8bb feat: expose complete official benefit counts on home",
-    "d052c7e1 chore: refresh store release handoff docs"
+    "2be3584b fix: report full official benefit totals from home api"
   ],
   "manualWorkThatMustNotBeFaked": [
     "Do not claim Play Console or App Store Connect submission has passed from this file.",

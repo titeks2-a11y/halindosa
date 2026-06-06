@@ -4,10 +4,10 @@
 
 ## 기본 정보
 
-- 생성 시각: 2026-06-06T16:48:24.338Z
+- 생성 시각: 2026-06-06T18:03:24.197Z
 - Git 브랜치: codex/12h-product-ux-growth-hardening
-- 최신 커밋: 4da034a9
-- Git 상태: clean
+- 최신 커밋: b8566180
+- Git 상태: M DEVICE_QA_REPORT.md;  M KNOWN_ISSUES.md;  M PUBLIC_URL_REPORT.md;  M RELEASE_NOTES.json;  M RELEASE_NOTES.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_HANDOFF_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_PACKET_REPORT.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M SUPPORT_PLAYBOOK.json;  M SUPPORT_PLAYBOOK.md;  M docs/DEVICE_QA_REPORT.md;  M docs/KNOWN_ISSUES.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/RELEASE_NOTES.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_HANDOFF_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_PACKET_REPORT.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md;  M docs/SUPPORT_PLAYBOOK.md
 - 패키지 버전: 1.0.1
 - 앱 이름: 할인도사
 - 앱 ID / 패키지명: com.halindosa.app
@@ -32,16 +32,16 @@
 | Store asset QA report | `docs/STORE_ASSETS_REPORT.md` | 1KB |
 | Device QA execution manifest | `docs/DEVICE_QA_MANIFEST.md` | 5KB |
 | Device QA execution manifest JSON | `DEVICE_QA_MANIFEST.json` | 6KB |
-| Device QA readiness report | `docs/DEVICE_QA_REPORT.md` | 4KB |
+| Device QA readiness report | `docs/DEVICE_QA_REPORT.md` | 3KB |
 | Store submission readiness report | `docs/STORE_SUBMISSION_REPORT.md` | 5KB |
 | Store submission packet QA report | `docs/STORE_PACKET_REPORT.md` | 6KB |
 | Store console fields manifest | `docs/STORE_CONSOLE_FIELDS.md` | 4KB |
 | Store console fields manifest JSON | `STORE_CONSOLE_FIELDS.json` | 4KB |
-| Store manual submission checklist | `docs/STORE_MANUAL_CHECKLIST.md` | 4KB |
+| Store manual submission checklist | `docs/STORE_MANUAL_CHECKLIST.md` | 5KB |
 | Store manual submission checklist JSON | `STORE_MANUAL_CHECKLIST.json` | 5KB |
-| Store launch handoff report | `docs/STORE_HANDOFF_REPORT.md` | 5KB |
+| Store launch handoff report | `docs/STORE_HANDOFF_REPORT.md` | 4KB |
 | Release notes | `docs/RELEASE_NOTES.md` | 4KB |
-| Release notes JSON | `RELEASE_NOTES.json` | 4KB |
+| Release notes JSON | `RELEASE_NOTES.json` | 5KB |
 | Support playbook | `docs/SUPPORT_PLAYBOOK.md` | 6KB |
 | Support playbook JSON | `SUPPORT_PLAYBOOK.json` | 5KB |
 | Known issues report | `docs/KNOWN_ISSUES.md` | 3KB |
@@ -59,12 +59,12 @@
 | Official benefit alert report | `docs/OFFICIAL_BENEFIT_ALERTS_REPORT.md` | 5KB |
 | Official benefit alert JSON | `reports/official-benefit-alerts.json` | 32KB |
 | Link quality regression JSON | `reports/link-quality-regression.json` | 7KB |
-| Official source live check report | `docs/OFFICIAL_SOURCE_LIVE_CHECK.md` | 13KB |
-| Official source live check JSON | `reports/official-source-live-check.json` | 51KB |
-| Official source live check CSV | `reports/official-source-live-check.csv` | 26KB |
-| Official source onboarding plan | `docs/SOURCE_ONBOARDING_PLAN.md` | 21KB |
-| Official source onboarding JSON | `reports/source-onboarding-plan.json` | 84KB |
-| Official source onboarding CSV | `reports/source-onboarding-plan.csv` | 27KB |
+| Official source live check report | `docs/OFFICIAL_SOURCE_LIVE_CHECK.md` | 15KB |
+| Official source live check JSON | `reports/official-source-live-check.json` | 60KB |
+| Official source live check CSV | `reports/official-source-live-check.csv` | 31KB |
+| Official source onboarding plan | `docs/SOURCE_ONBOARDING_PLAN.md` | 24KB |
+| Official source onboarding JSON | `reports/source-onboarding-plan.json` | 97KB |
+| Official source onboarding CSV | `reports/source-onboarding-plan.csv` | 32KB |
 | Image backlog report | `docs/IMAGE_BACKLOG_REPORT.md` | 24KB |
 | Image backlog CSV | `IMAGE_BACKLOG.csv` | 51KB |
 | Image backlog next batch CSV | `IMAGE_BACKLOG_NEXT_BATCH.csv` | 218B |
