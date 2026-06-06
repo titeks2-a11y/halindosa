@@ -1,7 +1,7 @@
 {
   "generatedBy": "npm run release:notes",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "4d14dc90",
+  "commit": "f3221220",
   "workingTree": "M DEVICE_QA_REPORT.md;  M KNOWN_ISSUES.md;  M PUBLIC_URL_REPORT.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_HANDOFF_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M docs/DEVICE_QA_REPORT.md;  M docs/KNOWN_ISSUES.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_HANDOFF_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md;  M docs/release-evidence.md",
   "version": "1.0.1",
   "appName": "할인도사",
@@ -39,12 +39,12 @@
     {
       "path": "docs/STORE_CONSOLE_FIELDS.md",
       "status": "present",
-      "bytes": 3899
+      "bytes": 3868
     },
     {
       "path": "docs/STORE_MANUAL_CHECKLIST.md",
       "status": "present",
-      "bytes": 4383
+      "bytes": 4362
     },
     {
       "path": "docs/STORE_HANDOFF_REPORT.md",
@@ -73,14 +73,14 @@
     }
   ],
   "recentCommits": [
+    "f3221220 feat: expand official benefit freshness gates",
+    "7b1fec3d chore: refresh store release handoff docs",
     "4d14dc90 feat: surface live benefit strip on mobile home",
     "639c777a chore: refresh store release handoff docs",
     "92e60a34 feat: enrich official benefit images",
     "99cfd862 feat: strengthen realtime benefit quality",
     "d30b2a89 feat: expand official benefit coverage",
-    "0270e725 chore: refresh realtime release handoff docs",
-    "e49df991 feat: tighten realtime home freshness",
-    "d27b8459 chore: refresh store release handoff docs"
+    "0270e725 chore: refresh realtime release handoff docs"
   ],
   "manualWorkThatMustNotBeFaked": [
     "Do not claim Play Console or App Store Connect submission has passed from this file.",

@@ -4,9 +4,9 @@
 
 ## 기본 정보
 
-- 생성 시각: 2026-06-06T14:58:37.438Z
+- 생성 시각: 2026-06-06T15:42:45.399Z
 - Git 브랜치: codex/12h-product-ux-growth-hardening
-- 최신 커밋: 4d14dc90
+- 최신 커밋: f3221220
 - Git 상태: clean
 - 패키지 버전: 1.0.1
 - 앱 이름: 할인도사
@@ -57,14 +57,14 @@
 | Push delivery policy report | `docs/PUSH_DELIVERY_POLICY.md` | 3KB |
 | Push delivery policy JSON | `reports/push-delivery-policy.json` | 5KB |
 | Official benefit alert report | `docs/OFFICIAL_BENEFIT_ALERTS_REPORT.md` | 5KB |
-| Official benefit alert JSON | `reports/official-benefit-alerts.json` | 31KB |
+| Official benefit alert JSON | `reports/official-benefit-alerts.json` | 32KB |
 | Link quality regression JSON | `reports/link-quality-regression.json` | 7KB |
-| Official source live check report | `docs/OFFICIAL_SOURCE_LIVE_CHECK.md` | 12KB |
-| Official source live check JSON | `reports/official-source-live-check.json` | 46KB |
-| Official source live check CSV | `reports/official-source-live-check.csv` | 24KB |
-| Official source onboarding plan | `docs/SOURCE_ONBOARDING_PLAN.md` | 20KB |
-| Official source onboarding JSON | `reports/source-onboarding-plan.json` | 78KB |
-| Official source onboarding CSV | `reports/source-onboarding-plan.csv` | 24KB |
+| Official source live check report | `docs/OFFICIAL_SOURCE_LIVE_CHECK.md` | 13KB |
+| Official source live check JSON | `reports/official-source-live-check.json` | 51KB |
+| Official source live check CSV | `reports/official-source-live-check.csv` | 26KB |
+| Official source onboarding plan | `docs/SOURCE_ONBOARDING_PLAN.md` | 21KB |
+| Official source onboarding JSON | `reports/source-onboarding-plan.json` | 84KB |
+| Official source onboarding CSV | `reports/source-onboarding-plan.csv` | 27KB |
 | Image backlog report | `docs/IMAGE_BACKLOG_REPORT.md` | 24KB |
 | Image backlog CSV | `IMAGE_BACKLOG.csv` | 51KB |
 | Image backlog next batch CSV | `IMAGE_BACKLOG_NEXT_BATCH.csv` | 218B |
