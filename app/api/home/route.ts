@@ -194,6 +194,9 @@ export async function GET(request: Request) {
         source
       }),
       newsMeta: {
+        categoryCounts: news.categoryCounts,
+        benefitTypeCounts: news.benefitTypeCounts,
+        sourceCounts: news.sourceCounts,
         recommendedQueries: news.recommendedQueries,
         targetSections: news.targetSections,
         intentGroups: news.intentGroups,

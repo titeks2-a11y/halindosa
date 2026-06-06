@@ -26,6 +26,8 @@ interface HomeLiveBenefitStripProps {
   totalCount: number;
   updatedAt: string;
   freshnessLabel?: string;
+  freeBenefitCount?: number;
+  endingSoonTotalCount?: number;
   isRefreshing?: boolean;
   onRefresh?: () => void;
   onOpenNewsDeal?: (deal: NewsDeal) => void;
@@ -61,13 +63,15 @@ export function HomeLiveBenefitStrip({
   totalCount,
   updatedAt,
   freshnessLabel,
+  freeBenefitCount,
+  endingSoonTotalCount,
   isRefreshing = false,
   onRefresh,
   onOpenNewsDeal
 }: HomeLiveBenefitStripProps) {
   const visibleDeals = getVisibleBenefitDeals(deals);
-  const freeCount = deals.filter(isFreeBenefit).length;
-  const endingSoonCount = deals.filter(isEndingSoon).length;
+  const freeCount = typeof freeBenefitCount === "number" ? freeBenefitCount : deals.filter(isFreeBenefit).length;
+  const endingSoonCount = typeof endingSoonTotalCount === "number" ? endingSoonTotalCount : deals.filter(isEndingSoon).length;
   const checkedLabel = isRefreshing ? "검증 중" : freshnessLabel || (updatedAt ? getRelativeTime(updatedAt) : "확인 대기");
 
   return (

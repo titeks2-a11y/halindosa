@@ -4,6 +4,7 @@ import { dealMatchesPriceBand, filterLocalDeals, isFreeShippingDeal } from "@/li
 import type { PriceBand } from "@/lib/homeDiscoveryConfig";
 import type { DealsResponse, HomeResponse, NewsDealsResponse } from "@/lib/homeApi";
 import type { Deal, DealBenefitType, DealSort } from "@/types/deal";
+import type { NewsDeal } from "@/types/newsDeal";
 
 export interface HomeDealFilters {
   category: string;
@@ -18,12 +19,37 @@ export interface HomeDealFilters {
   benefitFilter: "all" | DealBenefitType;
 }
 
+const freeBenefitTypes = new Set(["coupon", "freebie", "freeShipping", "point", "event"]);
+
+function countNewsDealsBy<T extends string>(deals: NewsDeal[], select: (deal: NewsDeal) => T | undefined) {
+  return deals.reduce<Record<string, number>>((counts, deal) => {
+    const key = select(deal);
+    if (!key) return counts;
+    counts[key] = (counts[key] ?? 0) + 1;
+    return counts;
+  }, {});
+}
+
+export function getNewsFreeBenefitCount(benefitTypeCounts?: Record<string, number>, categoryCounts?: Record<string, number>, deals: NewsDeal[] = []) {
+  const safeBenefitCounts = benefitTypeCounts ?? countNewsDealsBy(deals, (deal) => deal.benefitType);
+  const safeCategoryCounts = categoryCounts ?? countNewsDealsBy(deals, (deal) => deal.category);
+  const benefitTypeTotal = Array.from(freeBenefitTypes).reduce((total, type) => total + (safeBenefitCounts[type] ?? 0), 0);
+
+  return Math.max(benefitTypeTotal, safeCategoryCounts["무료혜택"] ?? 0);
+}
+
 export function buildHomeNewsSnapshot(data: NewsDealsResponse) {
   const deals = Array.isArray(data.deals) ? data.deals : [];
+  const categoryCounts = data.categoryCounts ?? countNewsDealsBy(deals, (deal) => deal.category);
+  const benefitTypeCounts = data.benefitTypeCounts ?? countNewsDealsBy(deals, (deal) => deal.benefitType);
 
   return {
     deals,
     totalCount: Number.isFinite(data.count) ? data.count : deals.length,
+    categoryCounts,
+    benefitTypeCounts,
+    sourceCounts: data.sourceCounts ?? countNewsDealsBy(deals, (deal) => deal.sourceName),
+    freeBenefitCount: getNewsFreeBenefitCount(benefitTypeCounts, categoryCounts, deals),
     recommendedQueries: Array.isArray(data.recommendedQueries) ? data.recommendedQueries : [],
     targetSections: Array.isArray(data.targetSections) ? data.targetSections : [],
     intentGroups: Array.isArray(data.intentGroups) ? data.intentGroups : [],
@@ -104,6 +130,9 @@ export function buildCombinedHomeSnapshot(data: HomeResponse, filters: HomeDealF
     count: data.counts?.newsDeals ?? data.newsDeals?.length ?? 0,
     updatedAt: data.newsUpdatedAt || data.updatedAt,
     source: source.news,
+    categoryCounts: data.newsMeta?.categoryCounts,
+    benefitTypeCounts: data.newsMeta?.benefitTypeCounts,
+    sourceCounts: data.newsMeta?.sourceCounts,
     recommendedQueries: data.newsMeta?.recommendedQueries,
     targetSections: data.newsMeta?.targetSections,
     intentGroups: data.newsMeta?.intentGroups,

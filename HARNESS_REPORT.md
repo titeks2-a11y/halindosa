@@ -1,30 +1,30 @@
 # 할인도사 Harness Report
 
-Started: 2026-06-06T15:38:54.723Z
-Finished: 2026-06-06T15:41:14.780Z
+Started: 2026-06-06T15:55:55.684Z
+Finished: 2026-06-06T15:58:28.798Z
 Status: PASS
 
 ## Summary
 
 | Step | Result | Duration |
 | --- | --- | ---: |
-| lint | PASS | 14.9s |
-| build | PASS | 22.6s |
-| verify:links | PASS | 27.6s |
-| test:external-links | PASS | 0.6s |
+| lint | PASS | 16.2s |
+| build | PASS | 24.1s |
+| verify:links | PASS | 25.7s |
+| test:external-links | PASS | 0.7s |
 | test:images | PASS | 0.6s |
-| news:images:enrich | PASS | 9.0s |
+| news:images:enrich | PASS | 9.1s |
 | verify:images | PASS | 0.5s |
-| image:operations:doctor | PASS | 0.5s |
-| test:search | PASS | 7.3s |
+| image:operations:doctor | PASS | 0.6s |
+| test:search | PASS | 8.0s |
 | test:ui | PASS | 0.5s |
-| test:mobile-ux | PASS | 0.5s |
-| test:mobile-compact | PASS | 0.5s |
-| home:realtime:doctor | PASS | 0.5s |
-| test:home-realtime | PASS | 0.5s |
+| test:mobile-ux | PASS | 0.6s |
+| test:mobile-compact | PASS | 0.6s |
+| home:realtime:doctor | PASS | 0.6s |
+| test:home-realtime | PASS | 0.6s |
 | test:seo | PASS | 0.5s |
-| test:perf | PASS | 0.5s |
-| smoke:local | PASS | 51.0s |
+| test:perf | PASS | 0.6s |
+| smoke:local | PASS | 61.9s |
 | release:doctor | PASS | 1.8s |
 
 ## Step Output
@@ -45,15 +45,15 @@ Status: PASS
 ▲ Next.js 16.2.6 (Turbopack)
 
   Creating an optimized production build ...
-✓ Compiled successfully in 4.4s
+✓ Compiled successfully in 4.6s
   Running TypeScript ...
-  Finished TypeScript in 10.8s ...
+  Finished TypeScript in 11.5s ...
   Collecting page data using 23 workers ...
   Generating static pages using 23 workers (0/204) ...
   Generating static pages using 23 workers (51/204) 
   Generating static pages using 23 workers (102/204) 
   Generating static pages using 23 workers (153/204) 
-✓ Generating static pages using 23 workers (204/204) in 1660ms
+✓ Generating static pages using 23 workers (204/204) in 1855ms
   Finalizing page optimization ...
 
 Route (app)
@@ -355,7 +355,7 @@ PASS home api cache buster - 홈 API 요청이 /api/home snapshot, freshness, no
 PASS hot signal source no-store - 핫시그널 RSS/API/게시판 수집 fetch가 120초 route cache 대신 no-store로 최신 데이터를 요청합니다.
 PASS home realtime refresh loop - 상품, 핫시그널, 공식 혜택이 동일한 운영 주기로 자동 갱신되고 수동 새로고침은 /api/home snapshot으로 한 번에 동기화됩니다.
 PASS home realtime cadence - 홈 자동 갱신 주기가 45초이며 상품/공식혜택/핫시그널 채널을 함께 관리합니다.
-PASS home snapshot metadata - /api/home이 공식 혜택 추천, 채널별 freshness, no-store 생성 메타를 함께 반환합니다.
+PASS home snapshot metadata - /api/home이 공식 혜택 추천, 전체 혜택 분포, 채널별 freshness, no-store 생성 메타를 함께 반환합니다.
 PASS home realtime data snapshot - 수집 산출물 78개가 updatedAt/verifiedAt/availability/source/finalUrl을 갖고 홈 no-store API로 반영될 준비가 되어 있습니다.
 PASS home realtime status ux - 모바일 상태 배지에 최신성, 수동 새로고침, 진행 상태가 표시됩니다.
 PASS home realtime qa gate - home:realtime:doctor와 test:home-realtime이 package, QA, harness에 연결되어 있습니다.
@@ -376,7 +376,7 @@ PASS home api cache buster - 홈 API 요청이 /api/home snapshot, freshness, no
 PASS hot signal source no-store - 핫시그널 RSS/API/게시판 수집 fetch가 120초 route cache 대신 no-store로 최신 데이터를 요청합니다.
 PASS home realtime refresh loop - 상품, 핫시그널, 공식 혜택이 동일한 운영 주기로 자동 갱신되고 수동 새로고침은 /api/home snapshot으로 한 번에 동기화됩니다.
 PASS home realtime cadence - 홈 자동 갱신 주기가 45초이며 상품/공식혜택/핫시그널 채널을 함께 관리합니다.
-PASS home snapshot metadata - /api/home이 공식 혜택 추천, 채널별 freshness, no-store 생성 메타를 함께 반환합니다.
+PASS home snapshot metadata - /api/home이 공식 혜택 추천, 전체 혜택 분포, 채널별 freshness, no-store 생성 메타를 함께 반환합니다.
 PASS home realtime data snapshot - 수집 산출물 78개가 updatedAt/verifiedAt/availability/source/finalUrl을 갖고 홈 no-store API로 반영될 준비가 되어 있습니다.
 PASS home realtime status ux - 모바일 상태 배지에 최신성, 수동 새로고침, 진행 상태가 표시됩니다.
 PASS home realtime qa gate - home:realtime:doctor와 test:home-realtime이 package, QA, harness에 연결되어 있습니다.
@@ -417,127 +417,127 @@ Performance report written: C:\Users\titek\Documents\Codex\2026-05-29\goal-codex
 ### smoke:local
 
 ```text
- application-code: 14ms)
- GET /api/redirect/d132?from=smoke 302 in 15ms (next.js: 1507µs, application-code: 14ms)
- GET /api/redirect/d133?from=smoke 302 in 16ms (next.js: 1512µs, application-code: 14ms)
- GET /api/redirect/d134?from=smoke 302 in 16ms (next.js: 1558µs, application-code: 14ms)
- GET /api/redirect/d135?from=smoke 302 in 16ms (next.js: 1682µs, application-code: 14ms)
- GET /api/redirect/d136?from=smoke 302 in 17ms (next.js: 2ms, application-code: 15ms)
- GET /api/redirect/d137?from=smoke 302 in 17ms (next.js: 2ms, application-code: 15ms)
- GET /api/redirect/d138?from=smoke 302 in 16ms (next.js: 1721µs, application-code: 14ms)
- GET /api/redirect/d139?from=smoke 302 in 16ms (next.js: 1614µs, application-code: 14ms)
- GET /api/redirect/d140?from=smoke 302 in 16ms (next.js: 1631µs, application-code: 14ms)
- GET /api/redirect/d047?from=smoke 302 in 16ms (next.js: 1727µs, application-code: 14ms)
- GET /api/redirect/d054?from=smoke 302 in 16ms (next.js: 1627µs, application-code: 14ms)
- GET /api/redirect/d057?from=smoke 302 in 16ms (next.js: 1744µs, application-code: 14ms)
- GET /api/redirect/d061?from=smoke 302 in 16ms (next.js: 1737µs, application-code: 14ms)
- GET /api/redirect/d073?from=smoke 302 in 19ms (next.js: 1933µs, application-code: 17ms)
- GET /api/redirect/d074?from=smoke 302 in 33ms (next.js: 18ms, application-code: 15ms)
- GET /api/redirect/d115?from=smoke 302 in 17ms (next.js: 1829µs, application-code: 15ms)
- GET /api/affiliate/status 200 in 92ms (next.js: 88ms, application-code: 3ms)
- GET /api/admin/export 200 in 130ms (next.js: 111ms, application-code: 19ms)
- GET /api/admin/deal-quality?format=csv 200 in 106ms (next.js: 96ms, application-code: 10ms)
- POST /api/admin/deal-quality 200 in 17ms (next.js: 2ms, application-code: 15ms)
- GET /api/deals?limit=200 200 in 27ms (next.js: 5ms, application-code: 22ms)
- GET /api/redirect/d014?from=smoke-manual-hidden 404 in 17ms (next.js: 2ms, application-code: 15ms)
- POST /api/admin/deal-quality 200 in 17ms (next.js: 1943µs, application-code: 15ms)
- GET /api/redirect/d014?from=smoke-manual-restored 302 in 16ms (next.js: 1557µs, application-code: 14ms)
- GET /api/admin/image-queue?format=csv 200 in 17ms (next.js: 1637µs, application-code: 15ms)
- GET /manifest.webmanifest 200 in 120ms (next.js: 117ms, application-code: 4ms)
- GET /robots.txt 200 in 157ms (next.js: 153ms, application-code: 4ms)
- GET /sitemap.xml 200 in 201ms (next.js: 196ms, application-code: 4ms)
-PASS home page (3443ms)
-PASS home realtime api cache policy (1164ms)
+tion-code: 15ms)
+ GET /api/redirect/d132?from=smoke 302 in 18ms (next.js: 1886µs, application-code: 16ms)
+ GET /api/redirect/d133?from=smoke 302 in 17ms (next.js: 1772µs, application-code: 15ms)
+ GET /api/redirect/d134?from=smoke 302 in 21ms (next.js: 1836µs, application-code: 20ms)
+ GET /api/redirect/d135?from=smoke 302 in 18ms (next.js: 1807µs, application-code: 16ms)
+ GET /api/redirect/d136?from=smoke 302 in 18ms (next.js: 1875µs, application-code: 16ms)
+ GET /api/redirect/d137?from=smoke 302 in 18ms (next.js: 2ms, application-code: 16ms)
+ GET /api/redirect/d138?from=smoke 302 in 17ms (next.js: 1860µs, application-code: 15ms)
+ GET /api/redirect/d139?from=smoke 302 in 18ms (next.js: 2ms, application-code: 16ms)
+ GET /api/redirect/d140?from=smoke 302 in 18ms (next.js: 2ms, application-code: 15ms)
+ GET /api/redirect/d047?from=smoke 302 in 17ms (next.js: 1867µs, application-code: 15ms)
+ GET /api/redirect/d054?from=smoke 302 in 17ms (next.js: 1543µs, application-code: 15ms)
+ GET /api/redirect/d057?from=smoke 302 in 18ms (next.js: 2ms, application-code: 15ms)
+ GET /api/redirect/d061?from=smoke 302 in 38ms (next.js: 20ms, application-code: 18ms)
+ GET /api/redirect/d073?from=smoke 302 in 18ms (next.js: 1582µs, application-code: 16ms)
+ GET /api/redirect/d074?from=smoke 302 in 17ms (next.js: 1659µs, application-code: 16ms)
+ GET /api/redirect/d115?from=smoke 302 in 18ms (next.js: 2ms, application-code: 16ms)
+ GET /api/affiliate/status 200 in 104ms (next.js: 100ms, application-code: 4ms)
+ GET /api/admin/export 200 in 145ms (next.js: 120ms, application-code: 24ms)
+ GET /api/admin/deal-quality?format=csv 200 in 131ms (next.js: 120ms, application-code: 11ms)
+ POST /api/admin/deal-quality 200 in 18ms (next.js: 1594µs, application-code: 16ms)
+ GET /api/deals?limit=200 200 in 99ms (next.js: 70ms, application-code: 29ms)
+ GET /api/redirect/d014?from=smoke-manual-hidden 404 in 18ms (next.js: 1960µs, application-code: 16ms)
+ POST /api/admin/deal-quality 200 in 15ms (next.js: 1630µs, application-code: 14ms)
+ GET /api/redirect/d014?from=smoke-manual-restored 302 in 17ms (next.js: 1965µs, application-code: 15ms)
+ GET /api/admin/image-queue?format=csv 200 in 93ms (next.js: 71ms, application-code: 22ms)
+ GET /sitemap.xml 200 in 132ms (next.js: 127ms, application-code: 5ms)
+ GET /manifest.webmanifest 200 in 170ms (next.js: 166ms, application-code: 4ms)
+ GET /robots.txt 200 in 206ms (next.js: 202ms, application-code: 4ms)
+PASS home page (370ms)
+PASS home realtime api cache policy (574ms)
 PASS customer navigation simplification (0ms)
-PASS home query filters (297ms)
-PASS home empty search recovery (62ms)
-PASS mypage data controls (512ms)
-PASS auth pages (521ms)
-PASS oauth callback and onboarding pages (482ms)
-PASS account deletion guard (233ms)
-PASS service guide page (459ms)
+PASS home query filters (392ms)
+PASS home empty search recovery (61ms)
+PASS mypage data controls (591ms)
+PASS auth pages (514ms)
+PASS oauth callback and onboarding pages (518ms)
+PASS account deletion guard (257ms)
+PASS service guide page (508ms)
 PASS support page (347ms)
-PASS store screenshot preview (366ms)
-PASS not found page (304ms)
-PASS category and notification pages (5495ms)
-PASS admin dashboard quality cards (6808ms)
-PASS commercial launch readiness page (7470ms)
-PASS deals api (20ms)
-PASS news deals api (89ms)
-PASS hot signals api internal discovery links (239ms)
-PASS admin news operations api (145ms)
-PASS admin news feed canary api (111ms)
-PASS admin news feed live pipeline api (101ms)
-PASS admin news feed preview api (150ms)
-PASS admin source live readiness api (94ms)
-PASS admin source live readiness csv (11ms)
-PASS admin source onboarding plan api (90ms)
+PASS store screenshot preview (399ms)
+PASS not found page (102ms)
+PASS category and notification pages (5582ms)
+PASS admin dashboard quality cards (9320ms)
+PASS commercial launch readiness page (7840ms)
+PASS deals api (22ms)
+PASS news deals api (91ms)
+PASS hot signals api internal discovery links (228ms)
+PASS admin news operations api (140ms)
+PASS admin news feed canary api (127ms)
+PASS admin news feed live pipeline api (112ms)
+PASS admin news feed preview api (166ms)
+PASS admin source live readiness api (97ms)
+PASS admin source live readiness csv (6ms)
+PASS admin source onboarding plan api (97ms)
 PASS admin source onboarding plan csv (7ms)
-PASS admin source onboarding env template (7ms)
-PASS admin source feed env readiness api (92ms)
-PASS admin source readiness rollup api (92ms)
-PASS admin source readiness rollup csv (6ms)
-PASS admin daily operations api (94ms)
-PASS admin daily operations csv (6ms)
-PASS admin health readiness api (102ms)
-PASS cron refresh api guard (133ms)
-PASS admin exposure policy api (96ms)
-PASS admin exposure policy csv (10ms)
-PASS admin link launch gate api (93ms)
-PASS admin link launch gate csv (8ms)
-PASS admin link revalidation priority api (93ms)
-PASS admin link revalidation priority csv (7ms)
-PASS admin live probe review api (101ms)
-PASS admin live probe review csv (7ms)
-PASS admin news revalidation priority api (91ms)
-PASS admin news revalidation priority csv (6ms)
-PASS admin notification campaigns api (209ms)
-PASS admin push readiness api (160ms)
-PASS admin official benefit alerts api (106ms)
-PASS admin push dry-run api (97ms)
-PASS deals filters api (1819ms)
-PASS deal link integrity (29ms)
-PASS benefit type filter api (96ms)
-PASS free benefits page (1323ms)
-PASS verified direct purchase link coverage (28ms)
-PASS deal detail api (838ms)
-PASS health api (41ms)
-PASS today benefits api (120ms)
-PASS admin daily benefit queue api (120ms)
-PASS admin image queue api (130ms)
-PASS weekly benefit calendar api (117ms)
-PASS daily benefit briefing api (121ms)
-PASS daily benefit routine api (132ms)
-PASS benefit decision guide api (117ms)
-PASS benefit claim effort api (116ms)
-PASS personalized benefits api (120ms)
-PASS official benefit alerts api (123ms)
-PASS metrics api (150ms)
-PASS sources api (137ms)
-PASS sources csv export (27ms)
-PASS report api (124ms)
-PASS report page reason prefill (925ms)
+PASS admin source onboarding env template (6ms)
+PASS admin source feed env readiness api (95ms)
+PASS admin source readiness rollup api (98ms)
+PASS admin source readiness rollup csv (8ms)
+PASS admin daily operations api (103ms)
+PASS admin daily operations csv (14ms)
+PASS admin health readiness api (130ms)
+PASS cron refresh api guard (157ms)
+PASS admin exposure policy api (109ms)
+PASS admin exposure policy csv (11ms)
+PASS admin link launch gate api (105ms)
+PASS admin link launch gate csv (7ms)
+PASS admin link revalidation priority api (106ms)
+PASS admin link revalidation priority csv (8ms)
+PASS admin live probe review api (108ms)
+PASS admin live probe review csv (11ms)
+PASS admin news revalidation priority api (102ms)
+PASS admin news revalidation priority csv (8ms)
+PASS admin notification campaigns api (182ms)
+PASS admin push readiness api (157ms)
+PASS admin official benefit alerts api (110ms)
+PASS admin push dry-run api (104ms)
+PASS deals filters api (1920ms)
+PASS deal link integrity (30ms)
+PASS benefit type filter api (104ms)
+PASS free benefits page (1375ms)
+PASS verified direct purchase link coverage (30ms)
+PASS deal detail api (888ms)
+PASS health api (119ms)
+PASS today benefits api (138ms)
+PASS admin daily benefit queue api (141ms)
+PASS admin image queue api (148ms)
+PASS weekly benefit calendar api (133ms)
+PASS daily benefit briefing api (133ms)
+PASS daily benefit routine api (142ms)
+PASS benefit decision guide api (130ms)
+PASS benefit claim effort api (125ms)
+PASS personalized benefits api (128ms)
+PASS official benefit alerts api (140ms)
+PASS metrics api (155ms)
+PASS sources api (144ms)
+PASS sources csv export (29ms)
+PASS report api (137ms)
+PASS report page reason prefill (997ms)
 PASS report validation (7ms)
-PASS admin reports api (109ms)
-PASS admin report status update (32ms)
-PASS partner feed import dry-run (103ms)
-PASS partner feed sample validation api (9ms)
+PASS admin reports api (120ms)
+PASS admin report status update (35ms)
+PASS partner feed import dry-run (109ms)
+PASS partner feed sample validation api (16ms)
 PASS partner feed import blocks unsafe links (7ms)
-PASS partner feed import validation (6ms)
-PASS track api (117ms)
-PASS redirect api (832ms)
+PASS partner feed import validation (7ms)
+PASS track api (120ms)
+PASS redirect api (871ms)
 PASS redirect consent guard (37ms)
-PASS go purchase redirect (828ms)
-PASS go official news redirect (1240ms)
-PASS detail purchase consent guard (4447ms)
-PASS favorites page consent guard (440ms)
-PASS verified purchase redirect destinations (766ms)
-PASS affiliate status api (93ms)
-PASS admin export csv (131ms)
-PASS admin deal quality csv (107ms)
-PASS admin manual hide affects public exposure (118ms)
-PASS admin image queue csv (18ms)
-PASS seo files (202ms)
+PASS go purchase redirect (873ms)
+PASS go official news redirect (9879ms)
+PASS detail purchase consent guard (4889ms)
+PASS favorites page consent guard (533ms)
+PASS verified purchase redirect destinations (917ms)
+PASS affiliate status api (106ms)
+PASS admin export csv (152ms)
+PASS admin deal quality csv (132ms)
+PASS admin manual hide affects public exposure (188ms)
+PASS admin image queue csv (95ms)
+PASS seo files (216ms)
 Smoke test passed: 92/92
 ```
 
@@ -561,18 +561,18 @@ PASS store review notes content - docs/store-review-notes.md includes launch-cri
 PASS link coverage report content - docs/link-coverage-report.md includes launch-critical policy copy.
 PASS catalog quality report content - docs/catalog-quality-report.md includes launch-critical policy copy.
 PASS customer support guide content - docs/customer-support-guide.md includes launch-critical policy copy.
-PASS release evidence freshness - Working tree has pending changes; clean release candidates must refresh evidence after the final commit. Current document points at 4d14dc90.
-PASS store manual checklist freshness - Working tree has pending changes; clean release candidates must refresh docs/STORE_MANUAL_CHECKLIST.md after the final commit. Current document points at 4d14dc90.
-PASS device qa report freshness - Working tree has pending changes; clean release candidates must refresh docs/DEVICE_QA_REPORT.md after the final commit. Current document points at 4d14dc90.
-PASS store screenshots report freshness - Working tree has pending changes; clean release candidates must refresh docs/STORE_SCREENSHOTS_REPORT.md after the final commit. Current document points at 4d14dc90.
-PASS known issues freshness - Working tree has pending changes; clean release candidates must refresh docs/KNOWN_ISSUES.md after the final commit. Current document points at 4d14dc90.
-PASS public url report freshness - Working tree has pending changes; clean release candidates must refresh docs/PUBLIC_URL_REPORT.md after the final commit. Current document points at 4d14dc90.
-PASS store submission report freshness - Working tree has pending changes; clean release candidates must refresh docs/STORE_SUBMISSION_REPORT.md after the final commit. Current document points at 4d14dc90.
-PASS store console fields freshness - Working tree has pending changes; clean release candidates must refresh docs/STORE_CONSOLE_FIELDS.md after the final commit. Current document points at 4d14dc90.
-PASS store handoff report freshness - Working tree has pending changes; clean release candidates must refresh docs/STORE_HANDOFF_REPORT.md after the final commit. Current document points at 4d14dc90.
-PASS release notes freshness - Working tree has pending changes; clean release candidates must refresh docs/RELEASE_NOTES.md after the final commit. Current document points at 4d14dc90.
-PASS support playbook freshness - Working tree has pending changes; clean release candidates must refresh docs/SUPPORT_PLAYBOOK.md after the final commit. Current document points at 4d14dc90.
-PASS store packet report freshness - Working tree has pending changes; clean release candidates must refresh docs/STORE_PACKET_REPORT.md after the final commit. Current document points at 4d14dc90.
+PASS release evidence freshness - Working tree has pending changes; clean release candidates must refresh evidence after the final commit. Current document points at f3221220.
+PASS store manual checklist freshness - Working tree has pending changes; clean release candidates must refresh docs/STORE_MANUAL_CHECKLIST.md after the final commit. Current document points at f3221220.
+PASS device qa report freshness - Working tree has pending changes; clean release candidates must refresh docs/DEVICE_QA_REPORT.md after the final commit. Current document points at f3221220.
+PASS store screenshots report freshness - Working tree has pending changes; clean release candidates must refresh docs/STORE_SCREENSHOTS_REPORT.md after the final commit. Current document points at f3221220.
+PASS known issues freshness - Working tree has pending changes; clean release candidates must refresh docs/KNOWN_ISSUES.md after the final commit. Current document points at f3221220.
+PASS public url report freshness - Working tree has pending changes; clean release candidates must refresh docs/PUBLIC_URL_REPORT.md after the final commit. Current document points at f3221220.
+PASS store submission report freshness - Working tree has pending changes; clean release candidates must refresh docs/STORE_SUBMISSION_REPORT.md after the final commit. Current document points at f3221220.
+PASS store console fields freshness - Working tree has pending changes; clean release candidates must refresh docs/STORE_CONSOLE_FIELDS.md after the final commit. Current document points at f3221220.
+PASS store handoff report freshness - Working tree has pending changes; clean release candidates must refresh docs/STORE_HANDOFF_REPORT.md after the final commit. Current document points at f3221220.
+PASS release notes freshness - Working tree has pending changes; clean release candidates must refresh docs/RELEASE_NOTES.md after the final commit. Current document points at f3221220.
+PASS support playbook freshness - Working tree has pending changes; clean release candidates must refresh docs/SUPPORT_PLAYBOOK.md after the final commit. Current document points at f3221220.
+PASS store packet report freshness - Working tree has pending changes; clean release candidates must refresh docs/STORE_PACKET_REPORT.md after the final commit. Current document points at f3221220.
 PASS customer navigation simplification - Customer navigation is reduced to home/popular/categories/my and default deal API favors verified purchase links.
 PASS deal refresh pipeline - Provider collection, normalization, dedupe, validation, reports, snapshot, admin operations, and deal quality CSV export are wired.
 PASS news and official event pipeline - Approved news, official event, public coupon, refresh:news, verify:news, refresh:all, home section, admin status surfaces, and provider-risk CSV export are wired.

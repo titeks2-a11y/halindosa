@@ -64,6 +64,7 @@ export async function runPageSmokeChecks() {
       if (endpoint.startsWith("/api/home")) {
         assert(data.cachePolicy?.mode === "no-store", "/api/home should expose no-store snapshot metadata");
         assert(data.newsMeta?.freshnessStatus, "/api/home should expose official benefit freshness metadata");
+        assert(data.newsMeta?.categoryCounts && data.newsMeta?.benefitTypeCounts, "/api/home should expose full official benefit count metadata");
         assert(Array.isArray(data.deals) && Array.isArray(data.newsDeals) && Array.isArray(data.hotSignals), "/api/home should return product, official benefit, and signal arrays together");
       }
     }

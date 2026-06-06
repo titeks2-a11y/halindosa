@@ -75,7 +75,7 @@ import {
   type NewsDealsResponse,
   requestJson
 } from "@/lib/homeApi";
-import { buildCombinedHomeSnapshot, buildHomeDealsSnapshot, buildHomeNewsSnapshot, buildLocalHomeDealsSnapshot, type HomeDealFilters } from "@/lib/homeDataSnapshots";
+import { buildCombinedHomeSnapshot, buildHomeDealsSnapshot, buildHomeNewsSnapshot, buildLocalHomeDealsSnapshot, getNewsFreeBenefitCount, type HomeDealFilters } from "@/lib/homeDataSnapshots";
 import {
   buildFilterOutcomeCards,
   buildHomeActiveFilterChips,
@@ -176,6 +176,7 @@ export default function Home() {
   const [isSignalLoading, setIsSignalLoading] = useState(false);
   const [newsDeals, setNewsDeals] = useState<NewsDeal[]>(() => initialNewsSnapshot.deals ?? []);
   const [newsTotalCount, setNewsTotalCount] = useState(() => initialNewsSnapshot.deals?.length ?? 0);
+  const [newsFreeBenefitCount, setNewsFreeBenefitCount] = useState(() => getNewsFreeBenefitCount(undefined, undefined, initialNewsSnapshot.deals ?? []));
   const [newsRecommendedQueries, setNewsRecommendedQueries] = useState<Array<{ query: string; count: number }>>(() =>
     buildInitialNewsRecommendedQueries(initialNewsSnapshot.deals ?? [])
   );
@@ -245,6 +246,7 @@ export default function Home() {
         const snapshot = buildHomeNewsSnapshot(data);
         setNewsDeals(snapshot.deals);
         setNewsTotalCount(snapshot.totalCount);
+        setNewsFreeBenefitCount(snapshot.freeBenefitCount);
         setNewsRecommendedQueries(snapshot.recommendedQueries);
         setNewsTargetSections(snapshot.targetSections.length ? snapshot.targetSections : buildInitialNewsTargetSections(snapshot.deals));
         setNewsIntentGroups(snapshot.intentGroups.length ? snapshot.intentGroups : buildNewsIntentGroups(snapshot.deals));
@@ -898,6 +900,7 @@ export default function Home() {
 
         setNewsDeals(snapshot.news.deals);
         setNewsTotalCount(snapshot.news.totalCount);
+        setNewsFreeBenefitCount(snapshot.news.freeBenefitCount);
         setNewsRecommendedQueries(snapshot.news.recommendedQueries);
         setNewsTargetSections(snapshot.news.targetSections.length ? snapshot.news.targetSections : buildInitialNewsTargetSections(snapshot.news.deals));
         setNewsIntentGroups(snapshot.news.intentGroups.length ? snapshot.news.intentGroups : buildNewsIntentGroups(snapshot.news.deals));
@@ -1439,6 +1442,7 @@ export default function Home() {
               totalCount={newsTotalCount}
               updatedAt={newsUpdatedAt}
               freshnessLabel={newsFreshness.label}
+              freeBenefitCount={newsFreeBenefitCount}
               isRefreshing={isNewsRefreshing}
               onRefresh={() => {
                 void refreshNewsDeals({ notify: true });

@@ -105,10 +105,11 @@ if (includesAll(realtimeNewsDealsSection, ["모바일 공식 혜택 빠른 목�
 }
 
 if (
-  includesAll(homePage, ["<HomeLiveBenefitStrip", "newsTotalCount", "newsFreshness.label", "rememberRecentNewsBenefit"]) &&
+  includesAll(homePage, ["<HomeLiveBenefitStrip", "newsTotalCount", "newsFreeBenefitCount", "newsFreshness.label", "rememberRecentNewsBenefit"]) &&
   includesAll(homeLiveBenefitStrip, [
     'data-home-live-benefit-strip="true"',
     "방금 검증한 무료혜택",
+    "freeBenefitCount",
     "home-live-benefit-strip",
     "sm:hidden",
     "validationStatus === \"passed\"",

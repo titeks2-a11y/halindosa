@@ -88,6 +88,9 @@ export interface HomeResponse {
     | string;
   newsMeta?: Pick<
     NewsDealsResponse,
+    | "categoryCounts"
+    | "benefitTypeCounts"
+    | "sourceCounts"
     | "recommendedQueries"
     | "targetSections"
     | "intentGroups"

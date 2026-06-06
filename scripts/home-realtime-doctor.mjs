@@ -98,10 +98,27 @@ if (
 }
 
 const homeRoute = read("app/api/home/route.ts");
-if (includesAll(homeRoute, ["newsMeta", "cachePolicy", 'mode: "no-store"', "recommendedQueries", "freshnessStatus", "targetSections", "buildHomeFreshness", "oldestChannel", "nextRefreshAt", "staleChannelCount", "channels"])) {
-  pass("home snapshot metadata", "/api/home이 공식 혜택 추천, 채널별 freshness, no-store 생성 메타를 함께 반환합니다.");
+if (
+  includesAll(homeRoute, [
+    "newsMeta",
+    "cachePolicy",
+    'mode: "no-store"',
+    "recommendedQueries",
+    "categoryCounts",
+    "benefitTypeCounts",
+    "sourceCounts",
+    "freshnessStatus",
+    "targetSections",
+    "buildHomeFreshness",
+    "oldestChannel",
+    "nextRefreshAt",
+    "staleChannelCount",
+    "channels"
+  ])
+) {
+  pass("home snapshot metadata", "/api/home이 공식 혜택 추천, 전체 혜택 분포, 채널별 freshness, no-store 생성 메타를 함께 반환합니다.");
 } else {
-  fail("home snapshot metadata", "/api/home 응답에 공식 혜택 추천/채널별 freshness/no-store 메타가 부족합니다.");
+  fail("home snapshot metadata", "/api/home 응답에 공식 혜택 추천/전체 혜택 분포/채널별 freshness/no-store 메타가 부족합니다.");
 }
 
 const refreshedNewsDeals = Array.isArray(refreshedNews.deals) ? refreshedNews.deals : [];
