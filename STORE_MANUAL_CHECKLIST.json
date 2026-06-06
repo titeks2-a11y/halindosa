@@ -1,8 +1,8 @@
 {
   "generatedBy": "npm run store:manual:checklist",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "18b89aa2",
-  "workingTree": "clean",
+  "commit": "4c6784c3",
+  "workingTree": "M docs/release-evidence.md;  M scripts/release-doctor.mjs",
   "appName": "할인도사",
   "version": "1.0.1",
   "packageName": "com.halindosa.app",
@@ -131,7 +131,7 @@
     {
       "path": "docs/release-evidence.md",
       "status": "present",
-      "bytes": 7409
+      "bytes": 7432
     }
   ],
   "manualWorkThatMustNotBeFaked": [
