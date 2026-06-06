@@ -374,7 +374,15 @@ export function checkNewsDealPipeline() {
     issues.push("official benefit feed source config should let operators add approved providers with owner, cadence, next refresh window, target section, quality checklist, and allowed/blocked source policy");
   }
 
-  if (!homeRuntimeSource.includes("RealtimeNewsDealsSection") || !homeRuntimeSource.includes("/api/news-deals?${params.toString()}") || !homeRuntimeSource.includes("params.set(\"q\"") || !homeRuntimeSource.includes("activeQuery={query}") || !homeRuntimeSource.includes("refreshNewsDeals") || !homeRuntimeSource.includes("120_000")) {
+  if (
+    !homeRuntimeSource.includes("RealtimeNewsDealsSection") ||
+    !homeRuntimeSource.includes("/api/news-deals?${params.toString()}") ||
+    !homeRuntimeSource.includes("params.set(\"q\"") ||
+    !homeRuntimeSource.includes("activeQuery={query}") ||
+    !homeRuntimeSource.includes("refreshNewsDeals") ||
+    !homeRuntimeSource.includes("HOME_REFRESH_INTERVAL_MS") ||
+    !readFileSync(join(root, "lib/homeRealtimeConfig.ts"), "utf8").includes("HOME_REFRESH_INTERVAL_MS = 45_000")
+  ) {
     issues.push("home should show verified realtime discount news section from /api/news-deals with live refresh");
   }
   if (

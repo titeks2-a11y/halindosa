@@ -1,13 +1,13 @@
 # 할인도사 Image Verification Report
 
-Generated: 2026-06-06T09:50:49.499Z
+Generated: 2026-06-06T10:24:01.962Z
 Status: PASS
 
 ## Summary
 
 | Metric | Value |
 | --- | ---: |
-| Checks | 13/13 |
+| Checks | 14/14 |
 | Explicit image line rate | 64% |
 | Renderable visible image rate | 100% |
 | Official/derived image rate | 64% |
@@ -26,7 +26,8 @@ Status: PASS
 - PASS generated placeholder mapping: 11개 카테고리 생성 placeholder가 mock 데이터 fallback으로 연결되어 있습니다.
 - PASS generated placeholder assets: 생성 placeholder는 gradient/icon 기반 SVG이며 실제 상품 사진을 가장하지 않습니다.
 - PASS image rendering components: 주요 카드/피드 컴포넌트가 lazy loading, async decoding, object-cover, no-referrer를 유지합니다.
-- PASS local image proxy: 로컬 개발에서 차단 가능성이 높은 이미지 호스트는 프록시 유틸을 통과합니다.
+- PASS local image proxy: 로컬 개발에서 차단 가능성이 높은 이미지 호스트는 프록시 유틸을 통과하고, 깨진 이미지는 카테고리 생성 placeholder로 대체됩니다.
+- PASS runtime broken image fallback: 주요 카드/피드 컴포넌트가 이미지 로딩 실패 시 1회성 생성 placeholder로 자동 전환합니다.
 - PASS explicit image floor: 명시 이미지 또는 파생 가능 이미지 라인이 90/140개(64%)입니다.
 - PASS publishable image exposure audit: 노출 상품 140개 모두 공식/파생/생성 이미지로 렌더링 가능합니다.
 - PASS official image operating floor: 공식/파생 이미지 비율이 64%입니다.

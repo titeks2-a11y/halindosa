@@ -3,7 +3,7 @@ import { Clock, ExternalLink, Heart, Radio, Share2, ShoppingBag, Zap } from "luc
 import { canOpenDealLink, getDealLinkTrustLabel } from "@/lib/affiliate";
 import { isVerifiedPurchaseLink } from "@/lib/deals/quality";
 import { formatPrice, getRelativeTime, getTimeLeft } from "@/lib/format";
-import { getDealImageSrc } from "@/lib/imageSrc";
+import { getDealImageSrc, getGeneratedDealImageSrc } from "@/lib/imageSrc";
 import { Deal } from "@/types/deal";
 
 interface LiveDealFeedProps {
@@ -44,6 +44,12 @@ function LiveDealRow({ deal, isFavorite, onToggleFavorite, onOpenDeal, onShareDe
               loading="lazy"
               decoding="async"
               referrerPolicy="no-referrer"
+              onError={(event) => {
+                const image = event.currentTarget;
+                if (image.dataset.fallbackApplied === "true") return;
+                image.dataset.fallbackApplied = "true";
+                image.src = getGeneratedDealImageSrc(deal.category);
+              }}
               className="h-full w-full object-cover"
             />
           ) : (

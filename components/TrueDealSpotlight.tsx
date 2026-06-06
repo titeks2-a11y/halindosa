@@ -1,7 +1,7 @@
 import { CheckCircle2, ExternalLink, Heart, Share2, ShieldCheck, Sparkles, Timer, Truck } from "lucide-react";
 import { getBenefitTypeLabel } from "@/lib/deals/benefits";
 import { isVerifiedPurchaseLink } from "@/lib/deals/quality";
-import { getDealImageSrc } from "@/lib/imageSrc";
+import { getDealImageSrc, getGeneratedDealImageSrc } from "@/lib/imageSrc";
 import { formatPrice, getRelativeTime, getTimeLeft } from "@/lib/format";
 import type { Deal } from "@/types/deal";
 
@@ -82,6 +82,12 @@ export function TrueDealSpotlight({
                 loading="lazy"
                 decoding="async"
                 referrerPolicy="no-referrer"
+                onError={(event) => {
+                  const image = event.currentTarget;
+                  if (image.dataset.fallbackApplied === "true") return;
+                  image.dataset.fallbackApplied = "true";
+                  image.src = getGeneratedDealImageSrc(lead.category);
+                }}
                 className="h-full min-h-[260px] w-full object-cover"
               />
             ) : (
@@ -179,7 +185,20 @@ export function TrueDealSpotlight({
                 <span className="h-16 w-16 shrink-0 overflow-hidden rounded-2xl bg-red-50">
                   {deal.thumbnail ? (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img src={getDealImageSrc(deal.thumbnail)} alt={`${deal.title} 상품 이미지`} loading="lazy" decoding="async" referrerPolicy="no-referrer" className="h-full w-full object-cover" />
+                    <img
+                      src={getDealImageSrc(deal.thumbnail)}
+                      alt={`${deal.title} 상품 이미지`}
+                      loading="lazy"
+                      decoding="async"
+                      referrerPolicy="no-referrer"
+                      onError={(event) => {
+                        const image = event.currentTarget;
+                        if (image.dataset.fallbackApplied === "true") return;
+                        image.dataset.fallbackApplied = "true";
+                        image.src = getGeneratedDealImageSrc(deal.category);
+                      }}
+                      className="h-full w-full object-cover"
+                    />
                   ) : null}
                 </span>
                 <span className="min-w-0 flex-1">

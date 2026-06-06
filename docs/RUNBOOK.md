@@ -26,6 +26,11 @@ npm run smoke
   - CSV 점검표는 `GET /api/admin/daily-operations?format=csv&token=$ADMIN_EXPORT_TOKEN`로 내려받는다.
   - `npm run daily:operations:report`는 `reports/daily-operations.json`과 `docs/DAILY_OPERATIONS_REPORT.md`를 생성하고, 검증 구매 링크, 공식 혜택, `refresh:all`, 공식 소스 준비도, cron/push, `release:doctor`를 일일 운영 큐로 묶는다.
 - 실시간 특가 API: `GET /api/deals?q=노트북%20특가&sort=latest`
+- 홈 실시간 snapshot API: `GET /api/home?limit=24&verifiedOnly=true`
+  - 응답 헤더는 `Cache-Control: no-store`를 포함해야 한다.
+  - 응답의 `cachePolicy.mode`는 `no-store`, `newsMeta.freshnessStatus`는 `fresh`, `due`, `stale`, `seed` 중 하나여야 한다.
+  - 홈 클라이언트는 `lib/homeRealtimeConfig.ts`의 `HOME_REFRESH_INTERVAL_MS = 45_000` 기준으로 상품 특가, 공식 혜택, 핫시그널을 다시 확인한다.
+  - 새 공식 혜택 feed를 반영한 뒤에는 `npm run refresh:news && npm run verify:news && npm run test:home-realtime`을 실행해 `updatedAt`, `verifiedAt`, `expiresAt`, `availability`가 누락되지 않았는지 확인한다.
 - 헬스체크: `GET /api/health`
   - `officialBenefitFresh`, `officialBenefitFreshnessHours`, `officialBenefitVisibleCount`, `officialBenefitReadyCategories`, `officialBenefitRefreshAllOk`, `officialBenefitProviderRiskOk`, `officialBenefitProviderDangerCount`를 함께 확인한다.
   - `officialBenefitFeedTransitionStatus`, `officialBenefitFeedReadinessRate`, `officialBenefitFeedConfiguredProviders`, `officialBenefitFeedSeedOnlyProviders`, `officialBenefitFeedRecommendedEnvKeys`로 공식 혜택 feed가 seed fallback인지, 어떤 환경변수부터 연결해야 하는지 확인한다.

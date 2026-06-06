@@ -6,6 +6,15 @@
 
 ## 완료 작업
 
+### PHASE Realtime Freshness & Image Hardening
+
+- 홈 자동 갱신 주기를 `lib/homeRealtimeConfig.ts`의 `HOME_REFRESH_INTERVAL_MS = 45_000`으로 통합해 상품 특가, 공식 혜택, 핫시그널이 모두 30~60초 운영 기준 안에서 갱신되도록 정리했다.
+- `HomeStatusStrip`에 `45초 자동 확인` 문구를 추가해 모바일/데스크톱 모두 최신성, 수동 새로고침, 실시간 검증 상태를 바로 확인하도록 개선했다.
+- `home:realtime:doctor`를 강화해 `/api/home`, `/api/deals`, `/api/news-deals`, `/api/hot-signals`의 no-store 정책뿐 아니라 자동 갱신 주기가 30~60초 범위인지 직접 검증하도록 했다.
+- 공식 혜택 `NewsDeal`에 `expiresAt`, `updatedAt`, `verifiedAt` 운영 필드를 추가하고 `refresh:news`/`verify:news`가 이 필드 누락을 품질 오류로 잡도록 보강했다.
+- 주요 상품/핫시그널 카드 이미지가 런타임에서 깨질 경우 `getGeneratedDealImageSrc` 기반 카테고리 생성 SVG placeholder로 1회 자동 전환되도록 처리해 깨진 이미지 노출 위험을 줄였다.
+- `verify:images`를 강화해 lazy loading, async decoding, no-referrer뿐 아니라 런타임 broken image fallback과 생성 placeholder 연결까지 출시 게이트에서 확인하도록 했다.
+
 ### PHASE Realtime Official Benefit Pipeline
 
 - 공식 이벤트/보도자료/승인된 feed 기반 `NewsDeal` 모델을 추가하고, 검색 결과·커뮤니티 원문·종료 이벤트는 사용자 노출에서 제외하는 뉴스형 혜택 파이프라인을 구축했다.

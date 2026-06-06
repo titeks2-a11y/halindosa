@@ -4,7 +4,7 @@ import { useState } from "react";
 import { ExternalLink, Heart, Radio, Share2, ShoppingBag, Sparkles, TrendingUp } from "lucide-react";
 import { getRelativeTime } from "@/lib/format";
 import { buildPublicHotSignalDiscoveryUrl } from "@/lib/hotSignalNavigation";
-import { getDealImageSrc } from "@/lib/imageSrc";
+import { getDealImageSrc, getGeneratedDealImageSrc } from "@/lib/imageSrc";
 import { HotSignal } from "@/types/hotSignal";
 
 interface HotSignalSectionProps {
@@ -75,6 +75,12 @@ export function HotSignalSection({ signals, isLoading, onOpenSignal }: HotSignal
           loading="lazy"
           decoding="async"
           referrerPolicy="no-referrer"
+          onError={(event) => {
+            const image = event.currentTarget;
+            if (image.dataset.fallbackApplied === "true") return;
+            image.dataset.fallbackApplied = "true";
+            image.src = getGeneratedDealImageSrc(signal.category);
+          }}
           className="h-full w-full object-cover"
         />
       ) : (

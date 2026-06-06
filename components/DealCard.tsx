@@ -4,7 +4,7 @@ import { canOpenDealLink, getAffiliateDisclosure, getDealLinkTrustLabel } from "
 import { getBenefitTypeLabel } from "@/lib/deals/benefits";
 import { getDealQualityNotice, isVerifiedPurchaseLink } from "@/lib/deals/quality";
 import { getDealPurchaseConfidenceLabel } from "@/lib/deals/linkValidator";
-import { getDealImageSrc } from "@/lib/imageSrc";
+import { getDealImageSrc, getGeneratedDealImageSrc } from "@/lib/imageSrc";
 import { Deal } from "@/types/deal";
 import { formatPrice, getRelativeTime, getTimeLeft } from "@/lib/format";
 import { DealTrustBadge } from "@/components/DealTrustBadge";
@@ -67,6 +67,12 @@ export function DealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, onSha
             loading="lazy"
             decoding="async"
             referrerPolicy="no-referrer"
+            onError={(event) => {
+              const image = event.currentTarget;
+              if (image.dataset.fallbackApplied === "true") return;
+              image.dataset.fallbackApplied = "true";
+              image.src = getGeneratedDealImageSrc(deal.category);
+            }}
             className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
           />
         ) : (

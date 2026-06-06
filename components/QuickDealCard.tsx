@@ -3,7 +3,7 @@ import { CheckCircle2, Clock, ExternalLink, Heart, Share2, ShoppingBag, Truck } 
 import { canOpenDealLink } from "@/lib/affiliate";
 import { getBenefitTypeLabel } from "@/lib/deals/benefits";
 import { isVerifiedPurchaseLink } from "@/lib/deals/quality";
-import { getDealImageSrc } from "@/lib/imageSrc";
+import { getDealImageSrc, getGeneratedDealImageSrc } from "@/lib/imageSrc";
 import { formatPrice, getRelativeTime, getTimeLeft } from "@/lib/format";
 import { Deal } from "@/types/deal";
 import { CommerceBadge } from "@/components/ui/CommerceBadge";
@@ -47,6 +47,12 @@ export function QuickDealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, 
               loading="lazy"
               decoding="async"
               referrerPolicy="no-referrer"
+              onError={(event) => {
+                const image = event.currentTarget;
+                if (image.dataset.fallbackApplied === "true") return;
+                image.dataset.fallbackApplied = "true";
+                image.src = getGeneratedDealImageSrc(deal.category);
+              }}
               className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
             />
           ) : (

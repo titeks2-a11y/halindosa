@@ -60,6 +60,7 @@ import {
   toastMessages,
   type PriceBand
 } from "@/lib/homeDiscoveryConfig";
+import { HOME_REFRESH_INTERVAL_MS, HOME_REFRESH_INTERVAL_SECONDS } from "@/lib/homeRealtimeConfig";
 import {
   buildDealsRequestUrl,
   buildHomeRequestUrl,
@@ -482,7 +483,7 @@ export default function Home() {
       void fetchDeals(undefined, true);
     };
 
-    const intervalHandle = window.setInterval(refreshIfVisible, 60_000);
+    const intervalHandle = window.setInterval(refreshIfVisible, HOME_REFRESH_INTERVAL_MS);
     const handleVisibility = () => {
       if (document.visibilityState === "visible") refreshIfVisible();
     };
@@ -505,7 +506,7 @@ export default function Home() {
       void refreshNewsDeals({ silent: true });
     };
     const initialHandle = window.setTimeout(refreshIfActive, 260);
-    const intervalHandle = window.setInterval(refreshIfActive, 120_000);
+    const intervalHandle = window.setInterval(refreshIfActive, HOME_REFRESH_INTERVAL_MS);
     const handleVisibility = () => {
       if (document.visibilityState === "visible") refreshIfActive();
     };
@@ -593,7 +594,7 @@ export default function Home() {
       void fetchSignals(true);
     };
 
-    const intervalHandle = window.setInterval(refreshIfVisible, 90_000);
+    const intervalHandle = window.setInterval(refreshIfVisible, HOME_REFRESH_INTERVAL_MS);
 
     return () => {
       active = false;
@@ -1554,6 +1555,7 @@ export default function Home() {
             latestPriceCheckedAt={dataQuality.latestPriceCheckedAt}
             updatedAt={lastHomeSyncAt || updatedAt || newsUpdatedAt}
             isRefreshing={isLoading || isNewsRefreshing || isSignalLoading}
+            refreshIntervalSeconds={HOME_REFRESH_INTERVAL_SECONDS}
             onRefresh={refreshHomeNow}
           />
         ) : null}

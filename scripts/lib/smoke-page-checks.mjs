@@ -69,7 +69,12 @@ export async function runPageSmokeChecks() {
     }
 
     assert(homeApiSource.includes("buildHomeRequestUrl") && homeApiSource.includes("ts: String(timestamp)") && homeApiSource.includes('cache: "no-store"'), "Home API client should use /api/home cache busting and no-store fetch");
-    assert(homePageSource.includes("refreshHomeNow") && homePageSource.includes("window.setInterval(refreshIfVisible, 60_000)"), "Home page should expose manual and periodic product refresh");
+    assert(
+      homePageSource.includes("refreshHomeNow") &&
+        homePageSource.includes("HOME_REFRESH_INTERVAL_MS") &&
+        homePageSource.includes("window.setInterval(refreshIfVisible, HOME_REFRESH_INTERVAL_MS)"),
+      "Home page should expose manual refresh and the shared 30-60s realtime refresh cadence"
+    );
   });
   
   await check("customer navigation simplification", async () => {

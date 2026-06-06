@@ -45,7 +45,7 @@ const inactiveVisible = visibleCandidates.filter((deal) => deal.availability !==
 const lowPriorityVisible = visibleCandidates.filter((deal) => Number(deal.priorityScore ?? 0) < 70);
 const nonPublishableVisible = validated.filter((deal) => !deal.isHidden && deal.validationStatus === "passed" && deal.publishable !== true);
 const missingQualityFields = validated.filter((deal) =>
-  ["source", "mallName", "originalUrl", "affiliateUrl", "eventUrl", "linkType", "availability", "validationCode", "validationReason", "priorityScore", "publishable"].some(
+  ["source", "mallName", "originalUrl", "affiliateUrl", "eventUrl", "linkType", "availability", "validationCode", "validationReason", "priorityScore", "publishable", "updatedAt", "verifiedAt", "expiresAt"].some(
     (field) => !(field in deal)
   )
 );

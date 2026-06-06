@@ -27,6 +27,7 @@ const apiRoutes = [
   "app/api/home/route.ts"
 ];
 const homeApi = read("lib/homeApi.ts");
+const homeRealtimeConfig = read("lib/homeRealtimeConfig.ts");
 const homePage = read("app/page.tsx");
 const homeStatusStrip = read("components/home/HomeStatusStrip.tsx");
 const packageJson = JSON.parse(read("package.json"));
@@ -50,9 +51,9 @@ if (includesAll(homeApi, ["buildHomeRequestUrl", "/api/home?", "HomeResponse", "
 
 if (
   includesAll(homePage, [
-    "window.setInterval(refreshIfVisible, 60_000)",
-    "window.setInterval(refreshIfVisible, 90_000)",
-    "window.setInterval(refreshIfActive, 120_000)",
+    "HOME_REFRESH_INTERVAL_MS",
+    "window.setInterval(refreshIfVisible, HOME_REFRESH_INTERVAL_MS)",
+    "window.setInterval(refreshIfActive, HOME_REFRESH_INTERVAL_MS)",
     "refreshHomeNow",
     "refreshHomeSnapshot",
     "buildHomeRequestUrl",
@@ -63,9 +64,25 @@ if (
     "fetchSignals(true)"
   ])
 ) {
-  pass("home realtime refresh loop", "상품, 핫시그널, 공식 혜택이 개별 자동 갱신되고 수동 새로고침은 /api/home snapshot으로 한 번에 동기화됩니다.");
+  pass("home realtime refresh loop", "상품, 핫시그널, 공식 혜택이 동일한 운영 주기로 자동 갱신되고 수동 새로고침은 /api/home snapshot으로 한 번에 동기화됩니다.");
 } else {
   fail("home realtime refresh loop", "홈 상품/뉴스/핫시그널 자동 갱신 또는 /api/home 수동 snapshot 연결이 부족합니다.");
+}
+
+const refreshIntervalMatch = homeRealtimeConfig.match(/HOME_REFRESH_INTERVAL_MS\s*=\s*([0-9_]+)/);
+const refreshIntervalMs = refreshIntervalMatch ? Number(refreshIntervalMatch[1].replaceAll("_", "")) : Number.NaN;
+if (
+  Number.isFinite(refreshIntervalMs) &&
+  refreshIntervalMs >= 30_000 &&
+  refreshIntervalMs <= 60_000 &&
+  homeRealtimeConfig.includes("HOME_REFRESH_CHANNELS") &&
+  homeRealtimeConfig.includes("deals") &&
+  homeRealtimeConfig.includes("newsDeals") &&
+  homeRealtimeConfig.includes("hotSignals")
+) {
+  pass("home realtime cadence", `홈 자동 갱신 주기가 ${Math.round(refreshIntervalMs / 1000)}초이며 상품/공식혜택/핫시그널 채널을 함께 관리합니다.`);
+} else {
+  fail("home realtime cadence", "홈 자동 갱신 주기는 30~60초 범위여야 하며 deals/newsDeals/hotSignals 채널을 명시해야 합니다.");
 }
 
 const homeRoute = read("app/api/home/route.ts");
@@ -75,7 +92,7 @@ if (includesAll(homeRoute, ["newsMeta", "cachePolicy", 'mode: "no-store"', "reco
   fail("home snapshot metadata", "/api/home 응답에 공식 혜택 추천/freshness/no-store 메타가 부족합니다.");
 }
 
-if (includesAll(homeStatusStrip, ["실시간 검증됨", "업데이트", "새로고침", "onRefresh", "isRefreshing", "getRelativeTime(updatedAt)"])) {
+if (includesAll(homeStatusStrip, ["실시간 검증됨", "업데이트", "새로고침", "onRefresh", "isRefreshing", "getRelativeTime(updatedAt)", "refreshIntervalSeconds", "자동 확인"])) {
   pass("home realtime status ux", "모바일 상태 배지에 최신성, 수동 새로고침, 진행 상태가 표시됩니다.");
 } else {
   fail("home realtime status ux", "홈 상태 UI에 최신성 또는 수동 새로고침 표시가 부족합니다.");

@@ -57,6 +57,9 @@ export interface NewsDeal {
   couponAmount: number;
   startDate: string;
   endDate: string;
+  expiresAt: string;
+  updatedAt: string;
+  verifiedAt: string;
   sourceName: string;
   sourceUrl: string;
   source: string;

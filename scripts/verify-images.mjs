@@ -140,10 +140,23 @@ if (componentIssues.length) {
   pass("image rendering components", "주요 카드/피드 컴포넌트가 lazy loading, async decoding, object-cover, no-referrer를 유지합니다.");
 }
 
-if (includesAll(imageSrc, ["proxiedHosts", "/api/image", "cdn.ppomppu.co.kr"])) {
-  pass("local image proxy", "로컬 개발에서 차단 가능성이 높은 이미지 호스트는 프록시 유틸을 통과합니다.");
+if (includesAll(imageSrc, ["proxiedHosts", "/api/image", "cdn.ppomppu.co.kr", "getGeneratedDealImageSrc", "categoryFallbackImages"])) {
+  pass("local image proxy", "로컬 개발에서 차단 가능성이 높은 이미지 호스트는 프록시 유틸을 통과하고, 깨진 이미지는 카테고리 생성 placeholder로 대체됩니다.");
 } else {
-  fail("local image proxy", "로컬 이미지 프록시 기준이 부족합니다.");
+  fail("local image proxy", "로컬 이미지 프록시 또는 카테고리 생성 placeholder fallback 기준이 부족합니다.");
+}
+
+const runtimeFallbackIssues = [];
+for (const [name, , source] of components) {
+  if (!source.includes("getGeneratedDealImageSrc")) runtimeFallbackIssues.push(`${name}: 생성 placeholder fallback import 누락`);
+  if (!source.includes("onError")) runtimeFallbackIssues.push(`${name}: 이미지 로딩 실패 onError 처리 누락`);
+  if (!source.includes("fallbackApplied")) runtimeFallbackIssues.push(`${name}: 반복 fallback 방지 플래그 누락`);
+}
+
+if (runtimeFallbackIssues.length) {
+  fail("runtime broken image fallback", runtimeFallbackIssues.join("; "));
+} else {
+  pass("runtime broken image fallback", "주요 카드/피드 컴포넌트가 이미지 로딩 실패 시 1회성 생성 placeholder로 자동 전환합니다.");
 }
 
 const verifiedUrlsById = new Map(
