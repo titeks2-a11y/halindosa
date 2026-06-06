@@ -4,9 +4,9 @@
 
 ## 기본 정보
 
-- 생성 시각: 2026-06-06T23:05:13.716Z
+- 생성 시각: 2026-06-06T23:31:42.193Z
 - Git 브랜치: codex/12h-product-ux-growth-hardening
-- 최신 커밋: 38be7f23
+- 최신 커밋: 6a058c25
 - Git 상태: M DEVICE_QA_REPORT.md;  M KNOWN_ISSUES.md;  M PUBLIC_URL_REPORT.md;  M RELEASE_NOTES.json;  M RELEASE_NOTES.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_HANDOFF_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_PACKET_REPORT.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M SUPPORT_PLAYBOOK.json;  M SUPPORT_PLAYBOOK.md;  M docs/DEVICE_QA_REPORT.md;  M docs/KNOWN_ISSUES.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/RELEASE_NOTES.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_HANDOFF_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_PACKET_REPORT.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md;  M docs/SUPPORT_PLAYBOOK.md
 - 패키지 버전: 1.0.1
 - 앱 이름: 할인도사
@@ -62,8 +62,8 @@
 | Official source live check report | `docs/OFFICIAL_SOURCE_LIVE_CHECK.md` | 17KB |
 | Official source live check JSON | `reports/official-source-live-check.json` | 67KB |
 | Official source live check CSV | `reports/official-source-live-check.csv` | 34KB |
-| Official source onboarding plan | `docs/SOURCE_ONBOARDING_PLAN.md` | 26KB |
-| Official source onboarding JSON | `reports/source-onboarding-plan.json` | 107KB |
+| Official source onboarding plan | `docs/SOURCE_ONBOARDING_PLAN.md` | 33KB |
+| Official source onboarding JSON | `reports/source-onboarding-plan.json` | 139KB |
 | Official source onboarding CSV | `reports/source-onboarding-plan.csv` | 36KB |
 | Image backlog report | `docs/IMAGE_BACKLOG_REPORT.md` | 24KB |
 | Image backlog CSV | `IMAGE_BACKLOG.csv` | 51KB |
