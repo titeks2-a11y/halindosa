@@ -4,9 +4,9 @@
 
 ## 기본 정보
 
-- 생성 시각: 2026-06-06T09:03:04.701Z
+- 생성 시각: 2026-06-06T09:26:22.182Z
 - Git 브랜치: codex/12h-product-ux-growth-hardening
-- 최신 커밋: 7eff04a
+- 최신 커밋: 009781d
 - Git 상태: M DEVICE_QA_REPORT.md;  M KNOWN_ISSUES.md;  M PUBLIC_URL_REPORT.md;  M RELEASE_NOTES.json;  M RELEASE_NOTES.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_HANDOFF_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_PACKET_REPORT.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M SUPPORT_PLAYBOOK.json;  M SUPPORT_PLAYBOOK.md;  M docs/DEVICE_QA_REPORT.md;  M docs/KNOWN_ISSUES.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/RELEASE_NOTES.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_HANDOFF_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_PACKET_REPORT.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md;  M docs/SUPPORT_PLAYBOOK.md
 - 패키지 버전: 1.0.1
 - 앱 이름: 할인도사
@@ -65,10 +65,10 @@
 | Official source onboarding plan | `docs/SOURCE_ONBOARDING_PLAN.md` | 15KB |
 | Official source onboarding JSON | `reports/source-onboarding-plan.json` | 56KB |
 | Official source onboarding CSV | `reports/source-onboarding-plan.csv` | 16KB |
-| Image backlog report | `docs/IMAGE_BACKLOG_REPORT.md` | 28KB |
-| Image backlog CSV | `IMAGE_BACKLOG.csv` | 81KB |
-| Image backlog next batch CSV | `IMAGE_BACKLOG_NEXT_BATCH.csv` | 19KB |
-| Image backlog mall request CSV | `IMAGE_BACKLOG_MALL_REQUESTS.csv` | 30KB |
+| Image backlog report | `docs/IMAGE_BACKLOG_REPORT.md` | 25KB |
+| Image backlog CSV | `IMAGE_BACKLOG.csv` | 55KB |
+| Image backlog next batch CSV | `IMAGE_BACKLOG_NEXT_BATCH.csv` | 218B |
+| Image backlog mall request CSV | `IMAGE_BACKLOG_MALL_REQUESTS.csv` | 20KB |
 | Link coverage report | `docs/link-coverage-report.md` | 7KB |
 
 ## 제출 전 검증 명령
