@@ -2,12 +2,12 @@
 
 이 문서는 할인도사에 연결할 수 있는 공식 이벤트, 공공 혜택, 제휴 JSON/RSS 후보를 정리합니다. 무단 크롤링 후보가 아니라 운영자가 승인 feed 또는 공식 페이지 매핑으로 전환할 때 쓰는 출발점입니다.
 
-- 생성 시각: 2026-06-06T12:47:50.391Z
+- 생성 시각: 2026-06-06T13:18:46.895Z
 - 상태: PASS
-- 후보 소스: 44개
-- 고우선순위 후보: 18개
+- 후보 소스: 51개
+- 고우선순위 후보: 19개
 - 현재 env feed 연결 후보: 0개
-- 공식 혜택 노출: 56개
+- 공식 혜택 노출: 63개
 - feed 전환 상태: seed_launch_ready
 - CSV 리포트: reports/official-source-catalog.csv
 
@@ -15,15 +15,15 @@
 
 | 카테고리 | 후보 수 | 상태 |
 | --- | ---: | --- |
-| 식품/생필품 | 4 | 충분 |
-| 마트/편의점 | 7 | 충분 |
-| 디지털/가전 | 2 | 충분 |
+| 식품/생필품 | 5 | 충분 |
+| 마트/편의점 | 8 | 충분 |
+| 디지털/가전 | 3 | 충분 |
 | 패션/뷰티 | 4 | 충분 |
-| 외식/배달 | 18 | 충분 |
+| 외식/배달 | 19 | 충분 |
 | 여행/숙박 | 3 | 충분 |
-| 영화/문화 | 6 | 충분 |
-| 카드/멤버십 | 15 | 충분 |
-| 무료혜택 | 27 | 충분 |
+| 영화/문화 | 9 | 충분 |
+| 카드/멤버십 | 20 | 충분 |
+| 무료혜택 | 33 | 충분 |
 | 정부/공공혜택 | 3 | 충분 |
 
 ## Provider 커버리지
@@ -32,8 +32,8 @@
 | --- | ---: | --- |
 | news | 1 | 포함 |
 | event_news | 2 | 포함 |
-| official_event | 25 | 포함 |
-| public_coupon | 16 | 포함 |
+| official_event | 27 | 포함 |
+| public_coupon | 21 | 포함 |
 
 ## 후보 목록
 
@@ -83,6 +83,13 @@
 | kfc-new-member-coupon-benefit | public_coupon | 외식/배달, 무료혜택, 카드/멤버십 | high | https://www.kfckorea.com/promotion/promotionList/detail/1040 | PUBLIC_COUPON_FEED_URLS, OFFICIAL_EVENT_FEED_URLS |
 | dominos-official-discount-benefits | official_event | 외식/배달, 무료혜택, 카드/멤버십 | high | https://web.dominos.co.kr/event/discount?todo=main | OFFICIAL_EVENT_FEED_URLS, DEAL_EVENT_FEED_URLS |
 | pizzahut-member-free-coupon-benefit | public_coupon | 외식/배달, 무료혜택, 카드/멤버십 | high | https://www.pizzahut.co.kr/misc/membership | PUBLIC_COUPON_FEED_URLS, OFFICIAL_EVENT_FEED_URLS |
+| starbucks-rewards-official-benefit | public_coupon | 외식/배달, 무료혜택, 카드/멤버십 | high | https://www.starbucks.co.kr/msr/msreward/about.do | PUBLIC_COUPON_FEED_URLS, OFFICIAL_EVENT_FEED_URLS |
+| megabox-membership-official-benefit | public_coupon | 영화/문화, 무료혜택, 카드/멤버십 | medium | https://www.megabox.co.kr/benefit/membership | PUBLIC_COUPON_FEED_URLS, OFFICIAL_EVENT_FEED_URLS |
+| megabox-vip-lounge-official-benefit | public_coupon | 영화/문화, 무료혜택 | medium | https://www.megabox.co.kr/benefit/viplounge | PUBLIC_COUPON_FEED_URLS, OFFICIAL_EVENT_FEED_URLS |
+| lottecinema-lpoint-membership-benefit | public_coupon | 영화/문화, 카드/멤버십 | medium | https://www.lottecinema.co.kr/NLCHS/Membership/l_point | PUBLIC_COUPON_FEED_URLS, DEAL_NEWS_FEED_URLS |
+| samsung-members-official-benefit | official_event | 디지털/가전, 무료혜택, 카드/멤버십 | medium | https://www.samsung.com/sec/members/benefit/ | OFFICIAL_EVENT_FEED_URLS, DEAL_EVENT_FEED_URLS |
+| homeplus-membership-official-coupon | official_event | 마트/편의점, 식품/생필품, 무료혜택 | medium | https://front.homeplus.co.kr/membership | OFFICIAL_EVENT_FEED_URLS, DEAL_EVENT_FEED_URLS |
+| bccard-benefit-official-center | public_coupon | 카드/멤버십, 무료혜택 | medium | https://www.bccard.com/app/card/BenefitActn.do | PUBLIC_COUPON_FEED_URLS, DEAL_NEWS_FEED_URLS |
 
 ## 다음 작업
 

@@ -1,16 +1,16 @@
 # 무료혜택 Refresh Report
 
-Generated: 2026-06-06T12:48:53.655Z
+Generated: 2026-06-06T13:19:51.837Z
 
 ## Summary
 
 - Mode: freebies
-- Matched items: 20
-- Visible official items: 20
+- Matched items: 25
+- Visible official items: 25
 - Hidden/blocked items: 0
 - Exposed search links: 0
 - Exposed non-official links: 0
-- Required minimum: 8
+- Required minimum: 24
 - Status: PASS
 
 ## Operating Rule
@@ -29,6 +29,7 @@ All visible rows must keep `/go/news/[id]` redirect tracking and must resolve to
 | news-cjone-official-mobile-events | CJ ONE 공식 포인트·쿠폰 이벤트 | CJ ONE 공식 이벤트 | 카드/멤버십 | cjone.com | `/go/news/news-cjone-official-mobile-events` |
 | news-oliveyoung-official-events | 올리브영 공식 뷰티 이벤트 | 올리브영 공식 이벤트 | 패션/뷰티 | oliveyoung.co.kr | `/go/news/news-oliveyoung-official-events` |
 | news-kfc-delivery-free-official | KFC 공식 딜리버리 배달비 무료 혜택 | KFC 공식 프로모션 | 외식/배달 | kfckorea.com | `/go/news/news-kfc-delivery-free-official` |
+| news-homeplus-membership-official-coupon | 홈플러스 멤버십 공식 쿠폰·마트 혜택 | 홈플러스 공식 멤버십 | 마트/편의점 | front.homeplus.co.kr | `/go/news/news-homeplus-membership-official-coupon` |
 | news-naverpay-event-benefit | 네이버페이 공식 결제 혜택 | 네이버페이 공식 혜택 | 카드/멤버십 | new-m.pay.naver.com | `/go/news/news-naverpay-event-benefit` |
 | news-mnuri-official-benefit | 문화누리카드 공식 문화·여행 혜택 | 문화누리카드 공식 누리집 | 무료혜택 | mnuri.kr | `/go/news/news-mnuri-official-benefit` |
 | news-naverpay-point-free-benefit | 네이버페이 포인트 공식 적립 혜택 | 네이버페이 포인트 공식 | 무료혜택 | new-m.pay.naver.com | `/go/news/news-naverpay-point-free-benefit` |
@@ -37,7 +38,6 @@ All visible rows must keep `/go/news/[id]` redirect tracking and must resolve to
 | news-lpoint-card-events | L.POINT 공식 카드 이벤트 | L.POINT 공식 이벤트 | 카드/멤버십 | m.lpoint.com | `/go/news/news-lpoint-card-events` |
 | news-visitkorea-travel-benefit | 한국관광공사 공식 여행 혜택 | 대한민국 구석구석 공식 혜택 | 정부/공공혜택 | korean.visitkorea.or.kr | `/go/news/news-visitkorea-travel-benefit` |
 | news-baemin-academy-free-event | 배민아카데미 공식 무료 교육 이벤트 | 배민아카데미 공식 이벤트 | 무료혜택 | academy.baemin.com | `/go/news/news-baemin-academy-free-event` |
-| news-happypoint-alliance-discount | 해피포인트 공식 제휴사 차감 할인 혜택 | 해피포인트 공식 제휴사 안내 | 카드/멤버십 | happypointcard.com | `/go/news/news-happypoint-alliance-discount` |
 
 ## Blocked Items
 

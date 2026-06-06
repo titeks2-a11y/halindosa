@@ -194,9 +194,9 @@ const checks = [
   totalProductDeals >= 140 && visibleProductDeals >= 120
     ? pass("verified product base", `전체 감사 상품 ${totalProductDeals}개, 고객 노출 가능 상품 ${visibleProductDeals}개를 알림 후보로 사용할 수 있습니다.`)
     : fail("verified product base", `전체 감사 상품 ${totalProductDeals}개, 고객 노출 가능 상품 ${visibleProductDeals}개입니다. 노출 가능 상품은 120개 이상이어야 합니다.`),
-  Number(newsQuality.visibleCount ?? refreshAll.newsDealsCount ?? 0) >= 50
-    ? pass("official benefit base", "공식 혜택 50개 이상을 알림 후보로 사용할 수 있습니다.")
-    : fail("official benefit base", "공식 혜택 알림 후보가 50개 미만입니다."),
+  Number(newsQuality.visibleCount ?? refreshAll.newsDealsCount ?? 0) >= 60
+    ? pass("official benefit base", "공식 혜택 60개 이상을 알림 후보로 사용할 수 있습니다.")
+    : fail("official benefit base", "공식 혜택 알림 후보가 60개 미만입니다."),
   readySegments.length >= 10
     ? pass("interest segment coverage", `${readySegments.length}/${categories.length} 관심 세그먼트가 알림 후보를 가집니다.`)
     : fail("interest segment coverage", `${readySegments.length}/${categories.length} 관심 세그먼트만 준비됐습니다.`),

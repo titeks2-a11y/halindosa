@@ -14,7 +14,7 @@ const configs = {
     docsPath: "docs/FREEBIES_REFRESH_REPORT.md",
     title: "무료혜택 Refresh Report",
     label: "무료혜택",
-    minimumVisible: 8,
+    minimumVisible: 24,
     match(deal, searchable) {
       return deal.category === "무료혜택" || ["freebie", "point", "public"].includes(deal.benefitType) || /무료|0원|체험|샘플|포인트|지원|문화누리/.test(searchable);
     },
@@ -25,7 +25,7 @@ const configs = {
     docsPath: "docs/EVENTS_REFRESH_REPORT.md",
     title: "Official Event Refresh Report",
     label: "공식 이벤트·쿠폰",
-    minimumVisible: 55,
+    minimumVisible: 60,
     match(deal, searchable) {
       return (
         ["coupon", "discount", "card", "culture", "membership", "travel"].includes(deal.benefitType) ||

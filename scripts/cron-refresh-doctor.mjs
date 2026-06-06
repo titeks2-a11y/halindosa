@@ -45,7 +45,7 @@ const livePipeline = readJson("reports/news-feed-live-pipeline.json");
 const healthReadiness = readJson("reports/health-readiness.json");
 const cronReport = readJson("reports/cron-refresh.json", null);
 const cronConfig = Array.isArray(vercelConfig.crons) ? vercelConfig.crons.find((item) => item.path === "/api/cron/refresh") : null;
-const minimumVisibleOfficialBenefits = 50;
+const minimumVisibleOfficialBenefits = 60;
 
 const refreshAllOk = refreshAll.ok === true && Number(refreshAll.productDealsCount ?? 0) >= 140 && Number(refreshAll.newsDealsCount ?? 0) >= minimumVisibleOfficialBenefits && Number(refreshAll.failedCount ?? 0) === 0;
 const livePipelineOk =

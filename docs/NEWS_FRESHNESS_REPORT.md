@@ -2,47 +2,47 @@
 
 공식 혜택/할인뉴스가 오래된 정보나 종료된 이벤트를 사용자에게 노출하지 않도록 확인하는 운영 리포트입니다.
 
-- 생성 시각: 2026-06-06T12:46:27.031Z
-- 원본 리포트 생성 시각: 2026-06-06T12:46:26.449Z
+- 생성 시각: 2026-06-06T13:17:18.382Z
+- 원본 리포트 생성 시각: 2026-06-06T13:17:17.813Z
 - 상태: fresh
 - 리포트 나이: 0h
-- 노출 공식 혜택: 56개
+- 노출 공식 혜택: 63개
 - 종료 노출: 0개
 - 14일 이내 종료: 1개
-- 공식 소스 후보: 44개
+- 공식 소스 후보: 51개
 
 ## Checks
 
 | Check | Status | Detail |
 | --- | --- | --- |
-| visible official benefits | PASS | 56 visible official benefit deals are available. |
+| visible official benefits | PASS | 63 visible official benefit deals are available. |
 | report freshness | PASS | news-deals report age is 0h. |
 | deal check freshness | PASS | No visible official benefit has lastCheckedAt older than 24h. |
 | expired exposure | PASS | No expired official benefit is visible. |
 | category coverage | PASS | All 10 categories have at least 2 visible benefits. |
 | provider freshness queue | PASS | 4 providers have zero hidden/failed/expired/official-missing issues. |
-| official source catalog | PASS | 44 official source candidates are tracked. |
+| official source catalog | PASS | 51 official source candidates are tracked. |
 
 ## Category Coverage
 
 | Category | Count | Status |
 | --- | ---: | --- |
 | 식품/생필품 | 2 | ready |
-| 마트/편의점 | 6 | ready |
-| 디지털/가전 | 3 | ready |
+| 마트/편의점 | 7 | ready |
+| 디지털/가전 | 4 | ready |
 | 패션/뷰티 | 4 | ready |
 | 외식/배달 | 11 | ready |
 | 여행/숙박 | 4 | ready |
-| 영화/문화 | 4 | ready |
-| 카드/멤버십 | 11 | ready |
-| 무료혜택 | 8 | ready |
+| 영화/문화 | 6 | ready |
+| 카드/멤버십 | 12 | ready |
+| 무료혜택 | 10 | ready |
 | 정부/공공혜택 | 3 | ready |
 
 ## Renewal Queue
 
 | Deal | Merchant | End Date | Days Left | Action |
 | --- | --- | --- | ---: | --- |
-| GS25 드링킹 페스타 1+1·다량 구매 행사 | GS25 | 2026-06-15 | 8.5 | 공식 페이지 종료 여부를 확인하고 대체 혜택 후보를 준비하세요. |
+| GS25 드링킹 페스타 1+1·다량 구매 행사 | GS25 | 2026-06-15 | 8.4 | 공식 페이지 종료 여부를 확인하고 대체 혜택 후보를 준비하세요. |
 
 ## Next Actions
 

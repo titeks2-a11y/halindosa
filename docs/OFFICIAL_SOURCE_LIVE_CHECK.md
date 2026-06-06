@@ -2,11 +2,11 @@
 
 이 문서는 공식 이벤트/혜택 소스 후보의 현재 접근 상태를 non-strict 방식으로 기록합니다. 무단 크롤링을 수행하지 않으며, 보호된 페이지는 공식 API/RSS/제휴 feed 또는 수동 승인 데이터로 연결해야 합니다.
 
-- 생성 시각: 2026-06-06T12:47:51.746Z
+- 생성 시각: 2026-06-06T13:18:48.386Z
 - 모드: non_strict_live_readiness
-- 후보 소스: 44개
-- 접근 가능: 39개
-- 보호/권한 확인 필요: 5개
+- 후보 소스: 51개
+- 접근 가능: 42개
+- 보호/권한 확인 필요: 9개
 - 검토 필요: 0개
 - timeout/network error: 0개
 - 404/410 교체 필요: 0개
@@ -22,8 +22,8 @@
 
 | 상태 | 수 | 운영 액션 |
 | --- | ---: | --- |
-| reachable | 39 | 승인 feed 또는 공식 페이지 매핑 후보로 유지 |
-| guarded | 5 | 공식 API/RSS/제휴 feed 확인 |
+| reachable | 42 | 승인 feed 또는 공식 페이지 매핑 후보로 유지 |
+| guarded | 9 | 공식 API/RSS/제휴 feed 확인 |
 | needs_review | 0 | 최종 도메인과 응답 정책 수동 확인 |
 | timeout/network_error | 0 | 재시도 또는 담당자 확인 |
 | stale_or_removed | 0 | 카탈로그 URL 교체 전 사용 금지 |
@@ -76,6 +76,13 @@
 | kfc-new-member-coupon-benefit | public_coupon | high | reachable | 200 | kfckorea.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | dominos-official-discount-benefits | official_event | high | reachable | 200 | web.dominos.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | pizzahut-member-free-coupon-benefit | public_coupon | high | guarded | 200 | pizzahut.co.kr | 로그인/권한 페이지를 수집하지 말고 공식 API/RSS/제휴 feed 또는 수동 승인 매핑 사용 |
+| starbucks-rewards-official-benefit | public_coupon | high | reachable | 200 | starbucks.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| megabox-membership-official-benefit | public_coupon | medium | guarded | 200 | megabox.co.kr | 로그인/권한 페이지를 수집하지 말고 공식 API/RSS/제휴 feed 또는 수동 승인 매핑 사용 |
+| megabox-vip-lounge-official-benefit | public_coupon | medium | reachable | 200 | megabox.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| lottecinema-lpoint-membership-benefit | public_coupon | medium | guarded | 200 | lottecinema.co.kr | 로그인/권한 페이지를 수집하지 말고 공식 API/RSS/제휴 feed 또는 수동 승인 매핑 사용 |
+| samsung-members-official-benefit | official_event | medium | guarded | 200 | samsung.com | 로그인/권한 페이지를 수집하지 말고 공식 API/RSS/제휴 feed 또는 수동 승인 매핑 사용 |
+| homeplus-membership-official-coupon | official_event | medium | guarded | 200 | front.homeplus.co.kr | 로그인/권한 페이지를 수집하지 말고 공식 API/RSS/제휴 feed 또는 수동 승인 매핑 사용 |
+| bccard-benefit-official-center | public_coupon | medium | reachable | 200 | bccard.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 
 ## 다음 작업
 
