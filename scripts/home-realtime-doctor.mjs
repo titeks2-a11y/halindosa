@@ -259,6 +259,16 @@ if (includesAll(homeStatusStrip, ["실시간 검증됨", "노출가능", "공식
   fail("home realtime status ux", "홈 상태 UI에 최신성, 노출 품질 요약 또는 수동 새로고침 표시가 부족합니다.");
 }
 
+const badHomeStatusCopyLines = homeStatusStrip
+  .split(/\r?\n/)
+  .filter((line) => (line.includes("${staleHint}") && !line.includes("`")) || line.includes("품질 ${averageQualityScore}점"));
+
+if (!badHomeStatusCopyLines.length) {
+  pass("home realtime copy regression", "홈 최신성 문구가 JSX 문자열 보간 실수와 내부 품질 점수 노출 없이 표시됩니다.");
+} else {
+  fail("home realtime copy regression", `홈 최신성 문구에 문자 그대로 보이는 보간식 또는 내부 품질 점수 노출이 남아 있습니다. lines=${badHomeStatusCopyLines.length}`);
+}
+
 if (
   packageJson.scripts?.["home:realtime:doctor"] === "node scripts/home-realtime-doctor.mjs" &&
   packageJson.scripts?.["test:home-realtime"] === "node scripts/home-realtime-doctor.mjs" &&

@@ -23,8 +23,9 @@ export function QuickDealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, 
   const timeLeft = getTimeLeft(deal.expiresAt);
   const benefitLabel = getBenefitTypeLabel(deal.dealType);
   const isBenefitFocused = ["freebie", "coupon", "experience", "event", "point", "foodDelivery", "convenienceStore", "mart"].includes(deal.dealType);
+  const customerClaimCta = deal.claimCta && !/(판매처|확인)/.test(deal.claimCta) ? deal.claimCta : "";
   const primaryBadge = isBenefitFocused ? benefitLabel : `${deal.discountRate}%`;
-  const primaryCta = deal.claimCta || (isBenefitFocused ? "혜택 받기" : "구매하기");
+  const primaryCta = isBenefitFocused ? customerClaimCta || "혜택 받기" : "구매하기";
 
   return (
     <article

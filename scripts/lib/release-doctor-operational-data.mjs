@@ -1463,6 +1463,9 @@ export async function checkOperationalDataSurfaces() {
     sourceOnboardingPlanReport.topActions.length < 5 ||
     !Array.isArray(sourceOnboardingPlanReport.envPlan) ||
     sourceOnboardingPlanReport.envPlan.length < 5 ||
+    !Array.isArray(sourceOnboardingPlanReport.starterKits) ||
+    sourceOnboardingPlanReport.starterKits.length < 4 ||
+    sourceOnboardingPlanReport.starterKits.some((kit) => !Array.isArray(kit.candidates) || kit.candidates.length < 3 || !kit.envKeys?.length) ||
     !String(sourceOnboardingPlanReport.envTemplate ?? "").includes("OFFICIAL_EVENT_FEED_URLS") ||
     !sourceOnboardingEnvTemplate.includes("OFFICIAL_EVENT_FEED_URLS") ||
     !sourceOnboardingEnvTemplate.includes("검색 결과, 커뮤니티 원문") ||
@@ -1489,6 +1492,8 @@ export async function checkOperationalDataSurfaces() {
     !sourceOnboardingPlanDoc.includes("공식 소스 온보딩 우선순위") ||
     !sourceOnboardingPlanDoc.includes("다음 연결 우선순위 TOP 10") ||
     !sourceOnboardingPlanDoc.includes("환경변수 연결 템플릿") ||
+    !sourceOnboardingPlanDoc.includes("운영 시작 묶음") ||
+    !sourceOnboardingPlanDoc.includes("무료혜택·0원딜 우선 연결") ||
     !sourceFeedEnvDoc.includes("공식 feed 환경변수 안전성 리포트") ||
     !sourceFeedEnvDoc.includes("정책 회귀 샘플") ||
     !sourceFeedEnvDoc.includes("검색 결과, 커뮤니티 원문") ||

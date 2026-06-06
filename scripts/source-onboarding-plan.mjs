@@ -12,6 +12,40 @@ const envTemplatePath = join(root, "reports", "source-onboarding-env-template.en
 const docsPath = join(root, "docs", "SOURCE_ONBOARDING_PLAN.md");
 
 const strategicCategories = new Set(["무료혜택", "마트/편의점", "외식/배달", "영화/문화", "카드/멤버십"]);
+const starterKitSpecs = [
+  {
+    id: "free-benefit-starter",
+    title: "무료혜택·0원딜 우선 연결",
+    description: "무료샘플, 무료체험, 공공 무료 혜택, 멤버십 무료 쿠폰처럼 매일 방문 이유가 되는 feed 후보입니다.",
+    categories: ["무료혜택", "정부/공공혜택", "카드/멤버십"],
+    envKeys: ["PUBLIC_COUPON_FEED_URLS", "OFFICIAL_EVENT_FEED_URLS"],
+    keywords: ["무료", "샘플", "체험", "0원", "포인트", "멤버십", "쿠폰"]
+  },
+  {
+    id: "coupon-event-starter",
+    title: "쿠폰·브랜드 이벤트 우선 연결",
+    description: "첫 구매, 브랜드 쿠폰, 카드/멤버십, 외식/배달 쿠폰처럼 전환율이 높은 공식 이벤트 후보입니다.",
+    categories: ["외식/배달", "카드/멤버십", "패션/뷰티"],
+    envKeys: ["OFFICIAL_EVENT_FEED_URLS", "PUBLIC_COUPON_FEED_URLS", "DEAL_EVENT_NEWS_FEED_URLS"],
+    keywords: ["쿠폰", "첫", "이벤트", "멤버십", "배달", "외식", "브랜드"]
+  },
+  {
+    id: "convenience-mart-starter",
+    title: "편의점·마트 행사 우선 연결",
+    description: "1+1, 2+1, 장보기, 무료배송, 마트 행사처럼 반복 확인 수요가 큰 생활 밀착 feed 후보입니다.",
+    categories: ["마트/편의점", "식품/생필품", "무료혜택"],
+    envKeys: ["OFFICIAL_EVENT_FEED_URLS", "DEAL_EVENT_FEED_URLS"],
+    keywords: ["1+1", "2+1", "마트", "편의점", "장보기", "무료배송", "행사"]
+  },
+  {
+    id: "travel-culture-starter",
+    title: "여행·문화 무료/할인 우선 연결",
+    description: "항공권, 숙박, 영화, 전시, 문화 무료/할인 혜택처럼 쇼핑몰 밖 유입을 만들 수 있는 후보입니다.",
+    categories: ["여행/숙박", "영화/문화", "정부/공공혜택", "무료혜택"],
+    envKeys: ["PUBLIC_COUPON_FEED_URLS", "DEAL_NEWS_FEED_URLS", "OFFICIAL_EVENT_FEED_URLS"],
+    keywords: ["여행", "항공", "숙박", "영화", "문화", "무료", "전시"]
+  }
+];
 
 function readJson(path, fallback) {
   if (!existsSync(path)) return fallback;
@@ -121,6 +155,72 @@ function buildEnvTemplate(envPlan) {
   }
 
   return lines.join("\n");
+}
+
+function buildStarterKits(queue) {
+  return starterKitSpecs.map((spec) => {
+    const categorySet = new Set(spec.categories);
+    const envKeySet = new Set(spec.envKeys);
+    const keywords = spec.keywords.map((keyword) => keyword.toLowerCase());
+    const candidates = queue
+      .map((row) => {
+        const text = `${row.label} ${(row.category ?? []).join(" ")} ${row.provider} ${row.id}`.toLowerCase();
+        const categoryMatches = (row.category ?? []).filter((category) => categorySet.has(category)).length;
+        const envMatches = (row.recommendedEnvKeys ?? []).filter((envKey) => envKeySet.has(envKey)).length;
+        const keywordMatches = keywords.filter((keyword) => text.includes(keyword)).length;
+        const reachableBonus = row.liveStatus === "reachable" ? 5 : row.liveStatus === "guarded" ? 2 : -8;
+        const priorityBonus = row.priority === "high" ? 8 : row.priority === "medium" ? 4 : 0;
+        const kitScore = categoryMatches * 12 + envMatches * 8 + keywordMatches * 5 + reachableBonus + priorityBonus + Math.max(0, 100 - row.rank) / 20;
+
+        return {
+          ...row,
+          kitScore: Math.round(kitScore * 10) / 10,
+          kitMatchReasons: [
+            categoryMatches ? `category:${categoryMatches}` : "",
+            envMatches ? `env:${envMatches}` : "",
+            keywordMatches ? `keyword:${keywordMatches}` : "",
+            row.liveStatus
+          ].filter(Boolean)
+        };
+      })
+      .filter((row) => row.kitScore > 10)
+      .sort((a, b) => b.kitScore - a.kitScore || a.rank - b.rank)
+      .slice(0, 8);
+
+    const reachableCandidates = candidates.filter((row) => row.liveStatus === "reachable").length;
+    const guardedCandidates = candidates.filter((row) => row.liveStatus === "guarded").length;
+
+    return {
+      id: spec.id,
+      title: spec.title,
+      description: spec.description,
+      envKeys: spec.envKeys,
+      categories: spec.categories,
+      keywords: spec.keywords,
+      candidateCount: candidates.length,
+      reachableCandidates,
+      guardedCandidates,
+      nextAction:
+        reachableCandidates > 0
+          ? `${spec.envKeys[0]}부터 공식 JSON/RSS/Atom 또는 승인 파트너 feed 연결`
+          : "guarded 후보는 무단 크롤링하지 말고 담당자 승인 feed를 먼저 요청",
+      candidates: candidates.map((row) => ({
+        rank: row.rank,
+        id: row.id,
+        label: row.label,
+        provider: row.provider,
+        category: row.category,
+        liveStatus: row.liveStatus,
+        httpStatus: row.httpStatus,
+        recommendedEnvKeys: row.recommendedEnvKeys,
+        onboardingStatus: row.onboardingStatus,
+        kitScore: row.kitScore,
+        kitMatchReasons: row.kitMatchReasons,
+        officialUrl: row.officialUrl,
+        guardrail: row.guardrail
+      }))
+    };
+  });
 }
 
 function scoreSource(source, live, categoryCoverage) {
@@ -244,6 +344,7 @@ const statusCounts = queue.reduce((acc, row) => {
 }, {});
 const envPlan = buildEnvPlan(queue);
 const envTemplate = buildEnvTemplate(envPlan);
+const starterKits = buildStarterKits(queue);
 
 const topActions = queue.slice(0, 10).map((row) => ({
   rank: row.rank,
@@ -271,6 +372,7 @@ const report = {
   statusCounts,
   envPlan,
   envTemplate,
+  starterKits,
   topActions,
   guardrails: [
     "공식 API, RSS, 제휴 feed, 담당자 승인 JSON만 운영 feed로 연결합니다.",
@@ -315,6 +417,31 @@ const docsLines = [
   ...envTemplate.split("\n"),
   "```",
   "",
+  "## 운영 시작 묶음",
+  "",
+  "무료혜택, 쿠폰, 편의점/마트, 여행/문화처럼 사용자가 매일 확인할 이유가 큰 영역부터 공식 feed를 연결합니다.",
+  "",
+  "| 묶음 | 후보 | 접근 가능 | 보호/승인 필요 | 우선 env | 다음 액션 |",
+  "| --- | ---: | ---: | ---: | --- | --- |",
+  ...starterKits.map(
+    (kit) =>
+      `| ${kit.title} | ${kit.candidateCount} | ${kit.reachableCandidates} | ${kit.guardedCandidates} | ${kit.envKeys.join(" / ")} | ${kit.nextAction} |`
+  ),
+  "",
+  "### 묶음별 TOP 후보",
+  "",
+  ...starterKits.flatMap((kit) => [
+    `#### ${kit.title}`,
+    "",
+    kit.description,
+    "",
+    "| 순위 | 소스 | 카테고리 | Live | Env | Guardrail |",
+    "| --- | --- | --- | --- | --- | --- |",
+    ...kit.candidates
+      .slice(0, 5)
+      .map((row) => `| ${row.rank} | ${row.label} | ${row.category.join(" / ")} | ${row.liveStatus} | ${row.recommendedEnvKeys.join(" / ")} | ${row.guardrail} |`),
+    ""
+  ]),
   "## 전체 큐",
   "",
   "| 순위 | ID | 카테고리 | Live | HTTP | Env | Guardrail |",
