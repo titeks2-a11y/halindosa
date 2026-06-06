@@ -1,8 +1,8 @@
 {
   "total": 140,
-  "explicitImageCount": 90,
-  "fallbackImageCount": 50,
-  "explicitImageRate": 64,
+  "explicitImageCount": 93,
+  "fallbackImageCount": 47,
+  "explicitImageRate": 66,
   "launchTargetRate": 60,
   "targetExplicitImageCount": 84,
   "gapToLaunchTarget": 0,
@@ -90,22 +90,6 @@
       "prohibitedSource": "커뮤니티 캡처, 블로그 이미지, 검색 결과 썸네일 단독 사용 금지"
     },
     {
-      "mallName": "네이버쇼핑",
-      "fallbackCount": 1,
-      "recommendedAcquisition": "manual_review",
-      "operationOwner": "데일리 검수 담당",
-      "slaDays": 7,
-      "sampleIds": "d047",
-      "sampleTitles": "주유권 5만원권 카드 청구할인",
-      "requestAction": "네이버쇼핑 클릭 상위 상품부터 대표 이미지 수동 보강",
-      "requestTemplate": "네이버쇼핑 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외",
-      "feedRequestFields": "productUrl | imageUrl | thumbnail | imageRights | priceCheckedAt",
-      "sourceSafetyLevel": "official_or_partner_only",
-      "imageReadyGate": "productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보",
-      "operatorChecklist": "판매처 또는 승인 제휴 피드 이미지 | 상품명과 옵션이 현재 노출 상품과 일치 | 검색 결과 썸네일/커뮤니티/블로그 이미지 사용 금지 | 가격 기준 시각과 이미지 갱신 시각 기록",
-      "prohibitedSource": "커뮤니티 캡처, 블로그 이미지, 검색 결과 썸네일 단독 사용 금지"
-    },
-    {
       "mallName": "롯데시네마",
       "fallbackCount": 1,
       "recommendedAcquisition": "manual_review",
@@ -115,22 +99,6 @@
       "sampleTitles": "롯데시네마 시사회·영화 할인 이벤트",
       "requestAction": "롯데시네마 클릭 상위 상품부터 대표 이미지 수동 보강",
       "requestTemplate": "롯데시네마 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외",
-      "feedRequestFields": "productUrl | imageUrl | thumbnail | imageRights | priceCheckedAt",
-      "sourceSafetyLevel": "official_or_partner_only",
-      "imageReadyGate": "productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보",
-      "operatorChecklist": "판매처 또는 승인 제휴 피드 이미지 | 상품명과 옵션이 현재 노출 상품과 일치 | 검색 결과 썸네일/커뮤니티/블로그 이미지 사용 금지 | 가격 기준 시각과 이미지 갱신 시각 기록",
-      "prohibitedSource": "커뮤니티 캡처, 블로그 이미지, 검색 결과 썸네일 단독 사용 금지"
-    },
-    {
-      "mallName": "맘큐",
-      "fallbackCount": 1,
-      "recommendedAcquisition": "manual_review",
-      "operationOwner": "데일리 검수 담당",
-      "slaDays": 7,
-      "sampleIds": "d069",
-      "sampleTitles": "맘큐 육아용품 샘플팩·체험 이벤트",
-      "requestAction": "맘큐 클릭 상위 상품부터 대표 이미지 수동 보강",
-      "requestTemplate": "맘큐 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외",
       "feedRequestFields": "productUrl | imageUrl | thumbnail | imageRights | priceCheckedAt",
       "sourceSafetyLevel": "official_or_partner_only",
       "imageReadyGate": "productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보",
@@ -179,22 +147,6 @@
       "sampleTitles": "무신사 온라인 할인 쿠폰 2026",
       "requestAction": "무신사 공식 상세 페이지 이미지 후보를 배치 검수",
       "requestTemplate": "무신사 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외",
-      "feedRequestFields": "productUrl | imageUrl | thumbnail | imageRights | priceCheckedAt",
-      "sourceSafetyLevel": "official_or_partner_only",
-      "imageReadyGate": "productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보",
-      "operatorChecklist": "판매처 또는 승인 제휴 피드 이미지 | 상품명과 옵션이 현재 노출 상품과 일치 | 검색 결과 썸네일/커뮤니티/블로그 이미지 사용 금지 | 가격 기준 시각과 이미지 갱신 시각 기록",
-      "prohibitedSource": "커뮤니티 캡처, 블로그 이미지, 검색 결과 썸네일 단독 사용 금지"
-    },
-    {
-      "mallName": "세븐일레븐",
-      "fallbackCount": 1,
-      "recommendedAcquisition": "manual_review",
-      "operationOwner": "데일리 검수 담당",
-      "slaDays": 7,
-      "sampleIds": "d062",
-      "sampleTitles": "세븐일레븐 도시락 2+1 멤버십 행사",
-      "requestAction": "세븐일레븐 클릭 상위 상품부터 대표 이미지 수동 보강",
-      "requestTemplate": "세븐일레븐 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외",
       "feedRequestFields": "productUrl | imageUrl | thumbnail | imageRights | priceCheckedAt",
       "sourceSafetyLevel": "official_or_partner_only",
       "imageReadyGate": "productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보",
@@ -397,7 +349,7 @@
   "categorySummary": [
     [
       "쿠폰/이벤트",
-      14
+      13
     ],
     [
       "생활용품",
@@ -409,10 +361,6 @@
     ],
     [
       "뷰티",
-      4
-    ],
-    [
-      "편의점/마트",
       4
     ],
     [
@@ -428,12 +376,16 @@
       3
     ],
     [
+      "편의점/마트",
+      3
+    ],
+    [
       "가전",
       2
     ],
     [
       "육아",
-      2
+      1
     ]
   ],
   "mallSummary": [
@@ -458,15 +410,7 @@
       2
     ],
     [
-      "네이버쇼핑",
-      1
-    ],
-    [
       "롯데시네마",
-      1
-    ],
-    [
-      "맘큐",
       1
     ],
     [
@@ -479,10 +423,6 @@
     ],
     [
       "무신사",
-      1
-    ],
-    [
-      "세븐일레븐",
       1
     ],
     [
@@ -765,25 +705,6 @@
     },
     {
       "rank": 13,
-      "id": "d047",
-      "mallName": "네이버쇼핑",
-      "category": "쿠폰/이벤트",
-      "title": "주유권 5만원권 카드 청구할인",
-      "purchaseUrl": "https://card.pay.naver.com/home/promotion/event",
-      "imageField": "imageUrl",
-      "imageSourceHint": "판매처 상세 페이지 또는 공식 제휴 피드 대표 이미지",
-      "sourcingPriority": "medium",
-      "priorityReason": "60% 출시 이미지 목표 달성을 위한 fallback 보강 후보",
-      "imageSearchUrl": "https://search.shopping.naver.com/search/all?query=%EB%84%A4%EC%9D%B4%EB%B2%84%EC%87%BC%ED%95%91%20%EC%A3%BC%EC%9C%A0%EA%B6%8C%205%EB%A7%8C%EC%9B%90%EA%B6%8C%20%EC%B9%B4%EB%93%9C%20%EC%B2%AD%EA%B5%AC%ED%95%A0%EC%9D%B8%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80",
-      "batchWeek": 1,
-      "sourceSafetyLevel": "official_or_partner_only",
-      "imageReadyGate": "productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보",
-      "requiredProviderFields": "productUrl | imageUrl | thumbnail | imageRights | priceCheckedAt",
-      "operatorChecklist": "판매처 또는 승인 제휴 피드 이미지 | 상품명과 옵션이 현재 노출 상품과 일치 | 검색 결과 썸네일/커뮤니티/블로그 이미지 사용 금지 | 가격 기준 시각과 이미지 갱신 시각 기록",
-      "requestTemplate": "네이버쇼핑 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외"
-    },
-    {
-      "rank": 14,
       "id": "d050",
       "mallName": "올리브영",
       "category": "뷰티",
@@ -802,7 +723,7 @@
       "requestTemplate": "올리브영 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외"
     },
     {
-      "rank": 15,
+      "rank": 14,
       "id": "d053",
       "mallName": "BC카드",
       "category": "쿠폰/이벤트",
@@ -821,7 +742,7 @@
       "requestTemplate": "BC카드 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외"
     },
     {
-      "rank": 16,
+      "rank": 15,
       "id": "d054",
       "mallName": "카카오페이",
       "category": "쿠폰/이벤트",
@@ -840,7 +761,7 @@
       "requestTemplate": "카카오페이 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외"
     },
     {
-      "rank": 17,
+      "rank": 16,
       "id": "d057",
       "mallName": "T멤버십",
       "category": "쿠폰/이벤트",
@@ -859,7 +780,7 @@
       "requestTemplate": "T멤버십 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외"
     },
     {
-      "rank": 18,
+      "rank": 17,
       "id": "d058",
       "mallName": "맥도날드",
       "category": "쿠폰/이벤트",
@@ -878,7 +799,7 @@
       "requestTemplate": "맥도날드 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외"
     },
     {
-      "rank": 19,
+      "rank": 18,
       "id": "d060",
       "mallName": "메가박스",
       "category": "여행/티켓",
@@ -897,7 +818,7 @@
       "requestTemplate": "메가박스 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외"
     },
     {
-      "rank": 20,
+      "rank": 19,
       "id": "d061",
       "mallName": "CU",
       "category": "편의점/마트",
@@ -916,26 +837,7 @@
       "requestTemplate": "CU 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외"
     },
     {
-      "rank": 21,
-      "id": "d062",
-      "mallName": "세븐일레븐",
-      "category": "편의점/마트",
-      "title": "세븐일레븐 도시락 2+1 멤버십 행사",
-      "purchaseUrl": "https://www.7-eleven.co.kr/event/eventList.asp",
-      "imageField": "imageUrl",
-      "imageSourceHint": "판매처 상세 페이지 또는 공식 제휴 피드 대표 이미지",
-      "sourcingPriority": "medium",
-      "priorityReason": "60% 출시 이미지 목표 달성을 위한 fallback 보강 후보",
-      "imageSearchUrl": "https://search.shopping.naver.com/search/all?query=%EC%84%B8%EB%B8%90%EC%9D%BC%EB%A0%88%EB%B8%90%20%EC%84%B8%EB%B8%90%EC%9D%BC%EB%A0%88%EB%B8%90%20%EB%8F%84%EC%8B%9C%EB%9D%BD%202%2B1%20%EB%A9%A4%EB%B2%84%EC%8B%AD%20%ED%96%89%EC%82%AC%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80",
-      "batchWeek": 1,
-      "sourceSafetyLevel": "official_or_partner_only",
-      "imageReadyGate": "productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보",
-      "requiredProviderFields": "productUrl | imageUrl | thumbnail | imageRights | priceCheckedAt",
-      "operatorChecklist": "판매처 또는 승인 제휴 피드 이미지 | 상품명과 옵션이 현재 노출 상품과 일치 | 검색 결과 썸네일/커뮤니티/블로그 이미지 사용 금지 | 가격 기준 시각과 이미지 갱신 시각 기록",
-      "requestTemplate": "세븐일레븐 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외"
-    },
-    {
-      "rank": 22,
+      "rank": 20,
       "id": "d063",
       "mallName": "홈플러스",
       "category": "편의점/마트",
@@ -954,7 +856,7 @@
       "requestTemplate": "홈플러스 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외"
     },
     {
-      "rank": 23,
+      "rank": 21,
       "id": "d066",
       "mallName": "스타벅스",
       "category": "쿠폰/이벤트",
@@ -973,26 +875,7 @@
       "requestTemplate": "스타벅스 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외"
     },
     {
-      "rank": 24,
-      "id": "d069",
-      "mallName": "맘큐",
-      "category": "육아",
-      "title": "맘큐 육아용품 샘플팩·체험 이벤트",
-      "purchaseUrl": "https://www.momq.co.kr/event",
-      "imageField": "imageUrl",
-      "imageSourceHint": "판매처 상세 페이지 또는 공식 제휴 피드 대표 이미지",
-      "sourcingPriority": "medium",
-      "priorityReason": "60% 출시 이미지 목표 달성을 위한 fallback 보강 후보",
-      "imageSearchUrl": "https://search.shopping.naver.com/search/all?query=%EB%A7%98%ED%81%90%20%EB%A7%98%ED%81%90%20%EC%9C%A1%EC%95%84%EC%9A%A9%ED%92%88%20%EC%83%98%ED%94%8C%ED%8C%A9%C2%B7%EC%B2%B4%ED%97%98%20%EC%9D%B4%EB%B2%A4%ED%8A%B8%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80",
-      "batchWeek": 1,
-      "sourceSafetyLevel": "official_or_partner_only",
-      "imageReadyGate": "productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보",
-      "requiredProviderFields": "productUrl | imageUrl | thumbnail | imageRights | priceCheckedAt",
-      "operatorChecklist": "판매처 또는 승인 제휴 피드 이미지 | 상품명과 옵션이 현재 노출 상품과 일치 | 검색 결과 썸네일/커뮤니티/블로그 이미지 사용 금지 | 가격 기준 시각과 이미지 갱신 시각 기록",
-      "requestTemplate": "맘큐 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외"
-    },
-    {
-      "rank": 25,
+      "rank": 22,
       "id": "d071",
       "mallName": "카카오페이",
       "category": "쿠폰/이벤트",
@@ -1000,10 +883,10 @@
       "purchaseUrl": "https://www.kakaopay.com/services/life/membership",
       "imageField": "imageUrl",
       "imageSourceHint": "판매처 상세 페이지 또는 공식 제휴 피드 대표 이미지",
-      "sourcingPriority": "low",
+      "sourcingPriority": "medium",
       "priorityReason": "60% 출시 이미지 목표 달성을 위한 fallback 보강 후보",
       "imageSearchUrl": "https://search.shopping.naver.com/search/all?query=%EC%B9%B4%EC%B9%B4%EC%98%A4%ED%8E%98%EC%9D%B4%20%EC%B9%B4%EC%B9%B4%EC%98%A4%ED%8E%98%EC%9D%B4%20%EB%A9%A4%EB%B2%84%EC%8B%AD%20%EC%A0%81%EB%A6%BD%C2%B7%EC%BF%A0%ED%8F%B0%20%ED%98%9C%ED%83%9D%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80",
-      "batchWeek": 2,
+      "batchWeek": 1,
       "sourceSafetyLevel": "official_or_partner_only",
       "imageReadyGate": "productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보",
       "requiredProviderFields": "productUrl | imageUrl | thumbnail | imageRights | priceCheckedAt",
@@ -1011,7 +894,7 @@
       "requestTemplate": "카카오페이 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외"
     },
     {
-      "rank": 26,
+      "rank": 23,
       "id": "d073",
       "mallName": "현대카드",
       "category": "쿠폰/이벤트",
@@ -1019,10 +902,10 @@
       "purchaseUrl": "https://www.hyundaicard.com/cpc/cr/CPCCR0101_01.hc",
       "imageField": "imageUrl",
       "imageSourceHint": "판매처 상세 페이지 또는 공식 제휴 피드 대표 이미지",
-      "sourcingPriority": "low",
+      "sourcingPriority": "medium",
       "priorityReason": "60% 출시 이미지 목표 달성을 위한 fallback 보강 후보",
       "imageSearchUrl": "https://search.shopping.naver.com/search/all?query=%ED%98%84%EB%8C%80%EC%B9%B4%EB%93%9C%20%ED%98%84%EB%8C%80%EC%B9%B4%EB%93%9C%20M%ED%8F%AC%EC%9D%B8%ED%8A%B8%20%EC%99%B8%EC%8B%9D%C2%B7%EC%87%BC%ED%95%91%20%ED%95%A0%EC%9D%B8%20%ED%98%9C%ED%83%9D%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80",
-      "batchWeek": 2,
+      "batchWeek": 1,
       "sourceSafetyLevel": "official_or_partner_only",
       "imageReadyGate": "productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보",
       "requiredProviderFields": "productUrl | imageUrl | thumbnail | imageRights | priceCheckedAt",
@@ -1030,7 +913,7 @@
       "requestTemplate": "현대카드 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외"
     },
     {
-      "rank": 27,
+      "rank": 24,
       "id": "d074",
       "mallName": "신한카드",
       "category": "쿠폰/이벤트",
@@ -1038,10 +921,10 @@
       "purchaseUrl": "https://www.shinhancard.com/pconts/html/benefit/event/MOBFM220/MOBFM220R01.html",
       "imageField": "imageUrl",
       "imageSourceHint": "판매처 상세 페이지 또는 공식 제휴 피드 대표 이미지",
-      "sourcingPriority": "low",
+      "sourcingPriority": "medium",
       "priorityReason": "60% 출시 이미지 목표 달성을 위한 fallback 보강 후보",
       "imageSearchUrl": "https://search.shopping.naver.com/search/all?query=%EC%8B%A0%ED%95%9C%EC%B9%B4%EB%93%9C%20%EC%8B%A0%ED%95%9C%EC%B9%B4%EB%93%9C%20%EC%83%9D%ED%99%9C%EB%B9%84%20%EC%BA%90%EC%8B%9C%EB%B0%B1%20%EC%9D%B4%EB%B2%A4%ED%8A%B8%20%EB%AA%A8%EC%9D%8C%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80",
-      "batchWeek": 2,
+      "batchWeek": 1,
       "sourceSafetyLevel": "official_or_partner_only",
       "imageReadyGate": "productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보",
       "requiredProviderFields": "productUrl | imageUrl | thumbnail | imageRights | priceCheckedAt",
@@ -1049,7 +932,7 @@
       "requestTemplate": "신한카드 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외"
     },
     {
-      "rank": 28,
+      "rank": 25,
       "id": "d075",
       "mallName": "롯데시네마",
       "category": "여행/티켓",
@@ -1068,7 +951,7 @@
       "requestTemplate": "롯데시네마 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외"
     },
     {
-      "rank": 29,
+      "rank": 26,
       "id": "d076",
       "mallName": "메가MGC커피",
       "category": "쿠폰/이벤트",
@@ -1087,7 +970,7 @@
       "requestTemplate": "메가MGC커피 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외"
     },
     {
-      "rank": 30,
+      "rank": 27,
       "id": "d077",
       "mallName": "카카오톡 선물하기",
       "category": "쿠폰/이벤트",
@@ -1106,7 +989,7 @@
       "requestTemplate": "카카오톡 선물하기 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외"
     },
     {
-      "rank": 31,
+      "rank": 28,
       "id": "d078",
       "mallName": "티켓링크",
       "category": "여행/티켓",
@@ -1125,7 +1008,7 @@
       "requestTemplate": "티켓링크 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외"
     },
     {
-      "rank": 32,
+      "rank": 29,
       "id": "d079",
       "mallName": "쿠팡",
       "category": "생활용품",
@@ -1144,7 +1027,7 @@
       "requestTemplate": "쿠팡 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외"
     },
     {
-      "rank": 33,
+      "rank": 30,
       "id": "d084",
       "mallName": "하이마트",
       "category": "가전",
@@ -1163,7 +1046,7 @@
       "requestTemplate": "하이마트 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외"
     },
     {
-      "rank": 34,
+      "rank": 31,
       "id": "d085",
       "mallName": "쿠팡",
       "category": "육아",
@@ -1182,7 +1065,7 @@
       "requestTemplate": "쿠팡 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외"
     },
     {
-      "rank": 35,
+      "rank": 32,
       "id": "d088",
       "mallName": "쿠팡",
       "category": "전자기기",
@@ -1201,7 +1084,7 @@
       "requestTemplate": "쿠팡 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외"
     },
     {
-      "rank": 36,
+      "rank": 33,
       "id": "d091",
       "mallName": "쿠팡",
       "category": "식품",
@@ -1220,7 +1103,7 @@
       "requestTemplate": "쿠팡 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외"
     },
     {
-      "rank": 37,
+      "rank": 34,
       "id": "d100",
       "mallName": "쿠팡",
       "category": "생활용품",
@@ -1239,7 +1122,7 @@
       "requestTemplate": "쿠팡 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외"
     },
     {
-      "rank": 38,
+      "rank": 35,
       "id": "d104",
       "mallName": "쿠팡",
       "category": "생활용품",
@@ -1258,7 +1141,7 @@
       "requestTemplate": "쿠팡 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외"
     },
     {
-      "rank": 39,
+      "rank": 36,
       "id": "d105",
       "mallName": "쿠팡",
       "category": "기타",
@@ -1277,7 +1160,7 @@
       "requestTemplate": "쿠팡 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외"
     },
     {
-      "rank": 40,
+      "rank": 37,
       "id": "d110",
       "mallName": "쿠팡",
       "category": "기타",
@@ -1296,7 +1179,7 @@
       "requestTemplate": "쿠팡 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외"
     },
     {
-      "rank": 41,
+      "rank": 38,
       "id": "d113",
       "mallName": "쿠팡",
       "category": "기타",
@@ -1315,7 +1198,7 @@
       "requestTemplate": "쿠팡 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외"
     },
     {
-      "rank": 42,
+      "rank": 39,
       "id": "d115",
       "mallName": "BHC",
       "category": "쿠폰/이벤트",
@@ -1334,7 +1217,7 @@
       "requestTemplate": "BHC 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외"
     },
     {
-      "rank": 43,
+      "rank": 40,
       "id": "d116",
       "mallName": "무신사",
       "category": "쿠폰/이벤트",
@@ -1353,7 +1236,7 @@
       "requestTemplate": "무신사 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외"
     },
     {
-      "rank": 44,
+      "rank": 41,
       "id": "d117",
       "mallName": "메가MGC커피",
       "category": "쿠폰/이벤트",
@@ -1372,7 +1255,7 @@
       "requestTemplate": "메가MGC커피 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외"
     },
     {
-      "rank": 45,
+      "rank": 42,
       "id": "d121",
       "mallName": "쿠팡",
       "category": "생활용품",
@@ -1391,7 +1274,7 @@
       "requestTemplate": "쿠팡 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외"
     },
     {
-      "rank": 46,
+      "rank": 43,
       "id": "d126",
       "mallName": "쿠팡",
       "category": "생활용품",
@@ -1410,7 +1293,7 @@
       "requestTemplate": "쿠팡 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외"
     },
     {
-      "rank": 47,
+      "rank": 44,
       "id": "d130",
       "mallName": "쿠팡",
       "category": "생활용품",
@@ -1429,7 +1312,7 @@
       "requestTemplate": "쿠팡 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외"
     },
     {
-      "rank": 48,
+      "rank": 45,
       "id": "d131",
       "mallName": "쿠팡",
       "category": "식품",
@@ -1448,7 +1331,7 @@
       "requestTemplate": "쿠팡 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외"
     },
     {
-      "rank": 49,
+      "rank": 46,
       "id": "d136",
       "mallName": "쿠팡",
       "category": "식품",
@@ -1459,7 +1342,7 @@
       "sourcingPriority": "low",
       "priorityReason": "재방문 빈도가 높은 생활형 카테고리",
       "imageSearchUrl": "https://search.shopping.naver.com/search/all?query=%EC%BF%A0%ED%8C%A1%20%EC%BD%94%EC%B9%B4%EC%BD%9C%EB%9D%BC%20%EC%A0%9C%EB%A1%9C%EC%BD%9C%EB%9D%BC%2F%EC%8A%A4%ED%94%84%EB%9D%BC%EC%9D%B4%ED%8A%B8%20%EC%A0%9C%EB%A1%9C%20355ml%2024%EC%BA%94%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80",
-      "batchWeek": 3,
+      "batchWeek": 2,
       "sourceSafetyLevel": "official_or_partner_only",
       "imageReadyGate": "productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보",
       "requiredProviderFields": "productUrl | imageUrl | thumbnail | imageRights | priceCheckedAt",
@@ -1467,7 +1350,7 @@
       "requestTemplate": "쿠팡 이미지 보강 요청: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 필드를 공식/제휴 피드로 제공하고 검색 결과 썸네일은 제외"
     },
     {
-      "rank": 50,
+      "rank": 47,
       "id": "d139",
       "mallName": "쿠팡",
       "category": "식품",
@@ -1478,7 +1361,7 @@
       "sourcingPriority": "low",
       "priorityReason": "재방문 빈도가 높은 생활형 카테고리",
       "imageSearchUrl": "https://search.shopping.naver.com/search/all?query=%EC%BF%A0%ED%8C%A1%20%EB%8B%A5%ED%84%B0%EC%9C%A0%20%EC%A3%BC%EB%A8%B8%EB%8B%88%EC%8F%99%20%EB%8B%A8%EB%B0%B1%EC%A7%88%EB%B0%94%2034g%2012%EA%B0%9C%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80",
-      "batchWeek": 3,
+      "batchWeek": 2,
       "sourceSafetyLevel": "official_or_partner_only",
       "imageReadyGate": "productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보",
       "requiredProviderFields": "productUrl | imageUrl | thumbnail | imageRights | priceCheckedAt",

@@ -8,14 +8,14 @@ Status: ACTION_NEEDED
 | Metric | Value |
 | --- | ---: |
 | 전체 상품 수 | 140 |
-| 명시 실상품 이미지 상품 수 | 90 |
-| 보강 대기 상품 수 | 50 |
-| 명시 이미지 커버리지 | 64% |
+| 명시 실상품 이미지 상품 수 | 93 |
+| 보강 대기 상품 수 | 47 |
+| 명시 이미지 커버리지 | 66% |
 | 공개 운영 목표 커버리지 | 60% |
 | 목표까지 추가 보강 | 0 |
 | 주간 보강 목표 | 0 |
 | 주간 보강 배치 후보 | 0 |
-| 판매처별 요청서 행 | 24 |
+| 판매처별 요청서 행 | 21 |
 | 이미지 ready gate | productUrl + imageUrl/thumbnail + imageRights + priceCheckedAt |
 
 ## Operation Policy
@@ -36,16 +36,16 @@ Status: ACTION_NEEDED
 
 ## Backlog By Category
 
-- 쿠폰/이벤트: 14
+- 쿠폰/이벤트: 13
 - 생활용품: 9
 - 식품: 6
 - 뷰티: 4
-- 편의점/마트: 4
 - 기타: 3
 - 여행/티켓: 3
 - 전자기기: 3
+- 편의점/마트: 3
 - 가전: 2
-- 육아: 2
+- 육아: 1
 
 ## Backlog By Mall
 
@@ -54,13 +54,10 @@ Status: ACTION_NEEDED
 - 메가MGC커피: 2
 - 카카오페이: 2
 - 하이마트: 2
-- 네이버쇼핑: 1
 - 롯데시네마: 1
-- 맘큐: 1
 - 맥도날드: 1
 - 메가박스: 1
 - 무신사: 1
-- 세븐일레븐: 1
 - 스타벅스: 1
 - 신한카드: 1
 - 오늘의집: 1
@@ -69,6 +66,9 @@ Status: ACTION_NEEDED
 - 티켓링크: 1
 - 현대카드: 1
 - 홈플러스: 1
+- BC카드: 1
+- BHC: 1
+- CU: 1
 
 ## 이번 주 이미지 보강 배치
 
@@ -85,13 +85,10 @@ Status: ACTION_NEEDED
 | 메가MGC커피 | 2 | manual_review | 데일리 검수 담당 | 7 | d076 | d117 | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 메가MGC커피 클릭 상위 상품부터 대표 이미지 수동 보강 |
 | 카카오페이 | 2 | manual_review | 데일리 검수 담당 | 7 | d054 | d071 | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 카카오페이 클릭 상위 상품부터 대표 이미지 수동 보강 |
 | 하이마트 | 2 | official_batch | 상품 운영 담당 | 5 | d013 | d084 | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 하이마트 공식 상세 페이지 이미지 후보를 배치 검수 |
-| 네이버쇼핑 | 1 | manual_review | 데일리 검수 담당 | 7 | d047 | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 네이버쇼핑 클릭 상위 상품부터 대표 이미지 수동 보강 |
 | 롯데시네마 | 1 | manual_review | 데일리 검수 담당 | 7 | d075 | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 롯데시네마 클릭 상위 상품부터 대표 이미지 수동 보강 |
-| 맘큐 | 1 | manual_review | 데일리 검수 담당 | 7 | d069 | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 맘큐 클릭 상위 상품부터 대표 이미지 수동 보강 |
 | 맥도날드 | 1 | manual_review | 데일리 검수 담당 | 7 | d058 | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 맥도날드 클릭 상위 상품부터 대표 이미지 수동 보강 |
 | 메가박스 | 1 | manual_review | 데일리 검수 담당 | 7 | d060 | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 메가박스 클릭 상위 상품부터 대표 이미지 수동 보강 |
 | 무신사 | 1 | official_batch | 상품 운영 담당 | 5 | d116 | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 무신사 공식 상세 페이지 이미지 후보를 배치 검수 |
-| 세븐일레븐 | 1 | manual_review | 데일리 검수 담당 | 7 | d062 | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 세븐일레븐 클릭 상위 상품부터 대표 이미지 수동 보강 |
 | 스타벅스 | 1 | manual_review | 데일리 검수 담당 | 7 | d066 | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 스타벅스 클릭 상위 상품부터 대표 이미지 수동 보강 |
 | 신한카드 | 1 | manual_review | 데일리 검수 담당 | 7 | d074 | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 신한카드 클릭 상위 상품부터 대표 이미지 수동 보강 |
 | 오늘의집 | 1 | manual_review | 데일리 검수 담당 | 7 | d019 | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 오늘의집 클릭 상위 상품부터 대표 이미지 수동 보강 |
@@ -100,6 +97,9 @@ Status: ACTION_NEEDED
 | 티켓링크 | 1 | manual_review | 데일리 검수 담당 | 7 | d078 | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 티켓링크 클릭 상위 상품부터 대표 이미지 수동 보강 |
 | 현대카드 | 1 | manual_review | 데일리 검수 담당 | 7 | d073 | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 현대카드 클릭 상위 상품부터 대표 이미지 수동 보강 |
 | 홈플러스 | 1 | manual_review | 데일리 검수 담당 | 7 | d063 | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 홈플러스 클릭 상위 상품부터 대표 이미지 수동 보강 |
+| BC카드 | 1 | manual_review | 데일리 검수 담당 | 7 | d053 | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | BC카드 클릭 상위 상품부터 대표 이미지 수동 보강 |
+| BHC | 1 | manual_review | 데일리 검수 담당 | 7 | d115 | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | BHC 클릭 상위 상품부터 대표 이미지 수동 보강 |
+| CU | 1 | manual_review | 데일리 검수 담당 | 7 | d061 | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | CU 클릭 상위 상품부터 대표 이미지 수동 보강 |
 
 ## Priority Backlog
 
@@ -117,34 +117,34 @@ Status: ACTION_NEEDED
 | 10 | d040 | 올리브영 | 뷰티 | 아이보들 CCP 크림 1+1 기획 | high | 주간 보강 배치 상위 후보 | [검색](https://search.shopping.naver.com/search/all?query=%EC%98%AC%EB%A6%AC%EB%B8%8C%EC%98%81%20%EC%95%84%EC%9D%B4%EB%B3%B4%EB%93%A4%20CCP%20%ED%81%AC%EB%A6%BC%201%2B1%20%EA%B8%B0%ED%9A%8D%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
 | 11 | d044 | 옥션 | 식품 | 국내산 냉동 블루베리 1kg | high | 주간 보강 배치 상위 후보 | [검색](https://search.shopping.naver.com/search/all?query=%EC%98%A5%EC%85%98%20%EA%B5%AD%EB%82%B4%EC%82%B0%20%EB%83%89%EB%8F%99%20%EB%B8%94%EB%A3%A8%EB%B2%A0%EB%A6%AC%201kg%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
 | 12 | d046 | 쿠팡 | 편의점/마트 | 탐사수 무라벨 2L 24병 | high | 주간 보강 배치 상위 후보 | [검색](https://search.shopping.naver.com/search/all?query=%EC%BF%A0%ED%8C%A1%20%ED%83%90%EC%82%AC%EC%88%98%20%EB%AC%B4%EB%9D%BC%EB%B2%A8%202L%2024%EB%B3%91%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
-| 13 | d047 | 네이버쇼핑 | 쿠폰/이벤트 | 주유권 5만원권 카드 청구할인 | medium | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 | [검색](https://search.shopping.naver.com/search/all?query=%EB%84%A4%EC%9D%B4%EB%B2%84%EC%87%BC%ED%95%91%20%EC%A3%BC%EC%9C%A0%EA%B6%8C%205%EB%A7%8C%EC%9B%90%EA%B6%8C%20%EC%B9%B4%EB%93%9C%20%EC%B2%AD%EA%B5%AC%ED%95%A0%EC%9D%B8%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
-| 14 | d050 | 올리브영 | 뷰티 | 멀티비타민 90정 기획세트 | medium | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 | [검색](https://search.shopping.naver.com/search/all?query=%EC%98%AC%EB%A6%AC%EB%B8%8C%EC%98%81%20%EB%A9%80%ED%8B%B0%EB%B9%84%ED%83%80%EB%AF%BC%2090%EC%A0%95%20%EA%B8%B0%ED%9A%8D%EC%84%B8%ED%8A%B8%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
-| 15 | d053 | BC카드 | 쿠폰/이벤트 | BC카드 페이북 보너스 머니박스 이벤트 | medium | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 | [검색](https://search.shopping.naver.com/search/all?query=BC%EC%B9%B4%EB%93%9C%20BC%EC%B9%B4%EB%93%9C%20%ED%8E%98%EC%9D%B4%EB%B6%81%20%EB%B3%B4%EB%84%88%EC%8A%A4%20%EB%A8%B8%EB%8B%88%EB%B0%95%EC%8A%A4%20%EC%9D%B4%EB%B2%A4%ED%8A%B8%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
-| 16 | d054 | 카카오페이 | 쿠폰/이벤트 | 카카오페이 편의점 결제 2천원 쿠폰 | medium | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 | [검색](https://search.shopping.naver.com/search/all?query=%EC%B9%B4%EC%B9%B4%EC%98%A4%ED%8E%98%EC%9D%B4%20%EC%B9%B4%EC%B9%B4%EC%98%A4%ED%8E%98%EC%9D%B4%20%ED%8E%B8%EC%9D%98%EC%A0%90%20%EA%B2%B0%EC%A0%9C%202%EC%B2%9C%EC%9B%90%20%EC%BF%A0%ED%8F%B0%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
-| 17 | d057 | T멤버십 | 쿠폰/이벤트 | T멤버십 커피 무료 사이즈업 쿠폰 | medium | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 | [검색](https://search.shopping.naver.com/search/all?query=T%EB%A9%A4%EB%B2%84%EC%8B%AD%20T%EB%A9%A4%EB%B2%84%EC%8B%AD%20%EC%BB%A4%ED%94%BC%20%EB%AC%B4%EB%A3%8C%20%EC%82%AC%EC%9D%B4%EC%A6%88%EC%97%85%20%EC%BF%A0%ED%8F%B0%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
-| 18 | d058 | 맥도날드 | 쿠폰/이벤트 | 맥도날드 공식 해피스낵 프로모션 | medium | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 | [검색](https://search.shopping.naver.com/search/all?query=%EB%A7%A5%EB%8F%84%EB%82%A0%EB%93%9C%20%EB%A7%A5%EB%8F%84%EB%82%A0%EB%93%9C%20%EA%B3%B5%EC%8B%9D%20%ED%95%B4%ED%94%BC%EC%8A%A4%EB%82%B5%20%ED%94%84%EB%A1%9C%EB%AA%A8%EC%85%98%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
-| 19 | d060 | 메가박스 | 여행/티켓 | 메가박스 공식 영화·문화 이벤트 | medium | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 | [검색](https://search.shopping.naver.com/search/all?query=%EB%A9%94%EA%B0%80%EB%B0%95%EC%8A%A4%20%EB%A9%94%EA%B0%80%EB%B0%95%EC%8A%A4%20%EA%B3%B5%EC%8B%9D%20%EC%98%81%ED%99%94%C2%B7%EB%AC%B8%ED%99%94%20%EC%9D%B4%EB%B2%A4%ED%8A%B8%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
-| 20 | d061 | CU | 편의점/마트 | CU 커피·음료 1+1 모바일 쿠폰 행사 | medium | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 | [검색](https://search.shopping.naver.com/search/all?query=CU%20CU%20%EC%BB%A4%ED%94%BC%C2%B7%EC%9D%8C%EB%A3%8C%201%2B1%20%EB%AA%A8%EB%B0%94%EC%9D%BC%20%EC%BF%A0%ED%8F%B0%20%ED%96%89%EC%82%AC%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
-| 21 | d062 | 세븐일레븐 | 편의점/마트 | 세븐일레븐 도시락 2+1 멤버십 행사 | medium | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 | [검색](https://search.shopping.naver.com/search/all?query=%EC%84%B8%EB%B8%90%EC%9D%BC%EB%A0%88%EB%B8%90%20%EC%84%B8%EB%B8%90%EC%9D%BC%EB%A0%88%EB%B8%90%20%EB%8F%84%EC%8B%9C%EB%9D%BD%202%2B1%20%EB%A9%A4%EB%B2%84%EC%8B%AD%20%ED%96%89%EC%82%AC%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
-| 22 | d063 | 홈플러스 | 편의점/마트 | 홈플러스 AI 물가안정 프로젝트 장보기 특가 | medium | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 | [검색](https://search.shopping.naver.com/search/all?query=%ED%99%88%ED%94%8C%EB%9F%AC%EC%8A%A4%20%ED%99%88%ED%94%8C%EB%9F%AC%EC%8A%A4%20AI%20%EB%AC%BC%EA%B0%80%EC%95%88%EC%A0%95%20%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%20%EC%9E%A5%EB%B3%B4%EA%B8%B0%20%ED%8A%B9%EA%B0%80%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
-| 23 | d066 | 스타벅스 | 쿠폰/이벤트 | 스타벅스 앱 이벤트 음료 쿠폰 확인 | medium | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 | [검색](https://search.shopping.naver.com/search/all?query=%EC%8A%A4%ED%83%80%EB%B2%85%EC%8A%A4%20%EC%8A%A4%ED%83%80%EB%B2%85%EC%8A%A4%20%EC%95%B1%20%EC%9D%B4%EB%B2%A4%ED%8A%B8%20%EC%9D%8C%EB%A3%8C%20%EC%BF%A0%ED%8F%B0%20%ED%99%95%EC%9D%B8%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
-| 24 | d069 | 맘큐 | 육아 | 맘큐 육아용품 샘플팩·체험 이벤트 | medium | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 | [검색](https://search.shopping.naver.com/search/all?query=%EB%A7%98%ED%81%90%20%EB%A7%98%ED%81%90%20%EC%9C%A1%EC%95%84%EC%9A%A9%ED%92%88%20%EC%83%98%ED%94%8C%ED%8C%A9%C2%B7%EC%B2%B4%ED%97%98%20%EC%9D%B4%EB%B2%A4%ED%8A%B8%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
-| 25 | d071 | 카카오페이 | 쿠폰/이벤트 | 카카오페이 멤버십 적립·쿠폰 혜택 | low | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 | [검색](https://search.shopping.naver.com/search/all?query=%EC%B9%B4%EC%B9%B4%EC%98%A4%ED%8E%98%EC%9D%B4%20%EC%B9%B4%EC%B9%B4%EC%98%A4%ED%8E%98%EC%9D%B4%20%EB%A9%A4%EB%B2%84%EC%8B%AD%20%EC%A0%81%EB%A6%BD%C2%B7%EC%BF%A0%ED%8F%B0%20%ED%98%9C%ED%83%9D%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
-| 26 | d073 | 현대카드 | 쿠폰/이벤트 | 현대카드 M포인트 외식·쇼핑 할인 혜택 | low | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 | [검색](https://search.shopping.naver.com/search/all?query=%ED%98%84%EB%8C%80%EC%B9%B4%EB%93%9C%20%ED%98%84%EB%8C%80%EC%B9%B4%EB%93%9C%20M%ED%8F%AC%EC%9D%B8%ED%8A%B8%20%EC%99%B8%EC%8B%9D%C2%B7%EC%87%BC%ED%95%91%20%ED%95%A0%EC%9D%B8%20%ED%98%9C%ED%83%9D%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
-| 27 | d074 | 신한카드 | 쿠폰/이벤트 | 신한카드 생활비 캐시백 이벤트 모음 | low | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 | [검색](https://search.shopping.naver.com/search/all?query=%EC%8B%A0%ED%95%9C%EC%B9%B4%EB%93%9C%20%EC%8B%A0%ED%95%9C%EC%B9%B4%EB%93%9C%20%EC%83%9D%ED%99%9C%EB%B9%84%20%EC%BA%90%EC%8B%9C%EB%B0%B1%20%EC%9D%B4%EB%B2%A4%ED%8A%B8%20%EB%AA%A8%EC%9D%8C%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
-| 28 | d075 | 롯데시네마 | 여행/티켓 | 롯데시네마 시사회·영화 할인 이벤트 | low | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 | [검색](https://search.shopping.naver.com/search/all?query=%EB%A1%AF%EB%8D%B0%EC%8B%9C%EB%84%A4%EB%A7%88%20%EB%A1%AF%EB%8D%B0%EC%8B%9C%EB%84%A4%EB%A7%88%20%EC%8B%9C%EC%82%AC%ED%9A%8C%C2%B7%EC%98%81%ED%99%94%20%ED%95%A0%EC%9D%B8%20%EC%9D%B4%EB%B2%A4%ED%8A%B8%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
-| 29 | d076 | 메가MGC커피 | 쿠폰/이벤트 | 메가MGC커피 앱 쿠폰·음료 이벤트 | low | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 | [검색](https://search.shopping.naver.com/search/all?query=%EB%A9%94%EA%B0%80MGC%EC%BB%A4%ED%94%BC%20%EB%A9%94%EA%B0%80MGC%EC%BB%A4%ED%94%BC%20%EC%95%B1%20%EC%BF%A0%ED%8F%B0%C2%B7%EC%9D%8C%EB%A3%8C%20%EC%9D%B4%EB%B2%A4%ED%8A%B8%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
-| 30 | d077 | 카카오톡 선물하기 | 쿠폰/이벤트 | 카카오톡 선물하기 첫 구매 쿠폰 이벤트 | low | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 | [검색](https://search.shopping.naver.com/search/all?query=%EC%B9%B4%EC%B9%B4%EC%98%A4%ED%86%A1%20%EC%84%A0%EB%AC%BC%ED%95%98%EA%B8%B0%20%EC%B9%B4%EC%B9%B4%EC%98%A4%ED%86%A1%20%EC%84%A0%EB%AC%BC%ED%95%98%EA%B8%B0%20%EC%B2%AB%20%EA%B5%AC%EB%A7%A4%20%EC%BF%A0%ED%8F%B0%20%EC%9D%B4%EB%B2%A4%ED%8A%B8%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
-| 31 | d078 | 티켓링크 | 여행/티켓 | 티켓링크 전시·공연 할인 이벤트 | low | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 | [검색](https://search.shopping.naver.com/search/all?query=%ED%8B%B0%EC%BC%93%EB%A7%81%ED%81%AC%20%ED%8B%B0%EC%BC%93%EB%A7%81%ED%81%AC%20%EC%A0%84%EC%8B%9C%C2%B7%EA%B3%B5%EC%97%B0%20%ED%95%A0%EC%9D%B8%20%EC%9D%B4%EB%B2%A4%ED%8A%B8%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
-| 32 | d079 | 쿠팡 | 생활용품 | 탐사 고평량 종이컵 디자인 380ml 100개입 | low | 재방문 빈도가 높은 생활형 카테고리 | [검색](https://search.shopping.naver.com/search/all?query=%EC%BF%A0%ED%8C%A1%20%ED%83%90%EC%82%AC%20%EA%B3%A0%ED%8F%89%EB%9F%89%20%EC%A2%85%EC%9D%B4%EC%BB%B5%20%EB%94%94%EC%9E%90%EC%9D%B8%20380ml%20100%EA%B0%9C%EC%9E%85%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
-| 33 | d084 | 하이마트 | 가전 | LG 오브제 칸 스탠드에어컨 FQ18EK1HA1M | low | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 | [검색](https://search.shopping.naver.com/search/all?query=%ED%95%98%EC%9D%B4%EB%A7%88%ED%8A%B8%20LG%20%EC%98%A4%EB%B8%8C%EC%A0%9C%20%EC%B9%B8%20%EC%8A%A4%ED%83%A0%EB%93%9C%EC%97%90%EC%96%B4%EC%BB%A8%20FQ18EK1HA1M%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
-| 34 | d085 | 쿠팡 | 육아 | 하기스 2024 매직컴포트 팬티형 기저귀 5단계 84매 | low | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 | [검색](https://search.shopping.naver.com/search/all?query=%EC%BF%A0%ED%8C%A1%20%ED%95%98%EA%B8%B0%EC%8A%A4%202024%20%EB%A7%A4%EC%A7%81%EC%BB%B4%ED%8F%AC%ED%8A%B8%20%ED%8C%AC%ED%8B%B0%ED%98%95%20%EA%B8%B0%EC%A0%80%EA%B7%80%205%EB%8B%A8%EA%B3%84%2084%EB%A7%A4%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
-| 35 | d088 | 쿠팡 | 전자기기 | 샤오미 미밴드 9 스마트밴드 | low | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 | [검색](https://search.shopping.naver.com/search/all?query=%EC%BF%A0%ED%8C%A1%20%EC%83%A4%EC%98%A4%EB%AF%B8%20%EB%AF%B8%EB%B0%B4%EB%93%9C%209%20%EC%8A%A4%EB%A7%88%ED%8A%B8%EB%B0%B4%EB%93%9C%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
-| 36 | d091 | 쿠팡 | 식품 | 탐사수 1L 12개입 생수 | low | 재방문 빈도가 높은 생활형 카테고리 | [검색](https://search.shopping.naver.com/search/all?query=%EC%BF%A0%ED%8C%A1%20%ED%83%90%EC%82%AC%EC%88%98%201L%2012%EA%B0%9C%EC%9E%85%20%EC%83%9D%EC%88%98%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
-| 37 | d100 | 쿠팡 | 생활용품 | 트리오 항균 주방세제 3kg 2개 | low | 재방문 빈도가 높은 생활형 카테고리 | [검색](https://search.shopping.naver.com/search/all?query=%EC%BF%A0%ED%8C%A1%20%ED%8A%B8%EB%A6%AC%EC%98%A4%20%ED%95%AD%EA%B7%A0%20%EC%A3%BC%EB%B0%A9%EC%84%B8%EC%A0%9C%203kg%202%EA%B0%9C%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
-| 38 | d104 | 쿠팡 | 생활용품 | 습기타파 대용량 제습제 280g 24개 | low | 재방문 빈도가 높은 생활형 카테고리 | [검색](https://search.shopping.naver.com/search/all?query=%EC%BF%A0%ED%8C%A1%20%EC%8A%B5%EA%B8%B0%ED%83%80%ED%8C%8C%20%EB%8C%80%EC%9A%A9%EB%9F%89%20%EC%A0%9C%EC%8A%B5%EC%A0%9C%20280g%2024%EA%B0%9C%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
-| 39 | d105 | 쿠팡 | 기타 | 모나미 153 볼펜 0.5mm 블랙 12자루 | low | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 | [검색](https://search.shopping.naver.com/search/all?query=%EC%BF%A0%ED%8C%A1%20%EB%AA%A8%EB%82%98%EB%AF%B8%20153%20%EB%B3%BC%ED%8E%9C%200.5mm%20%EB%B8%94%EB%9E%99%2012%EC%9E%90%EB%A3%A8%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
-| 40 | d110 | 쿠팡 | 기타 | 모나미 153 볼펜 1.0mm Red 60개 | low | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 | [검색](https://search.shopping.naver.com/search/all?query=%EC%BF%A0%ED%8C%A1%20%EB%AA%A8%EB%82%98%EB%AF%B8%20153%20%EB%B3%BC%ED%8E%9C%201.0mm%20Red%2060%EA%B0%9C%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
+| 13 | d050 | 올리브영 | 뷰티 | 멀티비타민 90정 기획세트 | medium | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 | [검색](https://search.shopping.naver.com/search/all?query=%EC%98%AC%EB%A6%AC%EB%B8%8C%EC%98%81%20%EB%A9%80%ED%8B%B0%EB%B9%84%ED%83%80%EB%AF%BC%2090%EC%A0%95%20%EA%B8%B0%ED%9A%8D%EC%84%B8%ED%8A%B8%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
+| 14 | d053 | BC카드 | 쿠폰/이벤트 | BC카드 페이북 보너스 머니박스 이벤트 | medium | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 | [검색](https://search.shopping.naver.com/search/all?query=BC%EC%B9%B4%EB%93%9C%20BC%EC%B9%B4%EB%93%9C%20%ED%8E%98%EC%9D%B4%EB%B6%81%20%EB%B3%B4%EB%84%88%EC%8A%A4%20%EB%A8%B8%EB%8B%88%EB%B0%95%EC%8A%A4%20%EC%9D%B4%EB%B2%A4%ED%8A%B8%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
+| 15 | d054 | 카카오페이 | 쿠폰/이벤트 | 카카오페이 편의점 결제 2천원 쿠폰 | medium | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 | [검색](https://search.shopping.naver.com/search/all?query=%EC%B9%B4%EC%B9%B4%EC%98%A4%ED%8E%98%EC%9D%B4%20%EC%B9%B4%EC%B9%B4%EC%98%A4%ED%8E%98%EC%9D%B4%20%ED%8E%B8%EC%9D%98%EC%A0%90%20%EA%B2%B0%EC%A0%9C%202%EC%B2%9C%EC%9B%90%20%EC%BF%A0%ED%8F%B0%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
+| 16 | d057 | T멤버십 | 쿠폰/이벤트 | T멤버십 커피 무료 사이즈업 쿠폰 | medium | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 | [검색](https://search.shopping.naver.com/search/all?query=T%EB%A9%A4%EB%B2%84%EC%8B%AD%20T%EB%A9%A4%EB%B2%84%EC%8B%AD%20%EC%BB%A4%ED%94%BC%20%EB%AC%B4%EB%A3%8C%20%EC%82%AC%EC%9D%B4%EC%A6%88%EC%97%85%20%EC%BF%A0%ED%8F%B0%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
+| 17 | d058 | 맥도날드 | 쿠폰/이벤트 | 맥도날드 공식 해피스낵 프로모션 | medium | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 | [검색](https://search.shopping.naver.com/search/all?query=%EB%A7%A5%EB%8F%84%EB%82%A0%EB%93%9C%20%EB%A7%A5%EB%8F%84%EB%82%A0%EB%93%9C%20%EA%B3%B5%EC%8B%9D%20%ED%95%B4%ED%94%BC%EC%8A%A4%EB%82%B5%20%ED%94%84%EB%A1%9C%EB%AA%A8%EC%85%98%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
+| 18 | d060 | 메가박스 | 여행/티켓 | 메가박스 공식 영화·문화 이벤트 | medium | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 | [검색](https://search.shopping.naver.com/search/all?query=%EB%A9%94%EA%B0%80%EB%B0%95%EC%8A%A4%20%EB%A9%94%EA%B0%80%EB%B0%95%EC%8A%A4%20%EA%B3%B5%EC%8B%9D%20%EC%98%81%ED%99%94%C2%B7%EB%AC%B8%ED%99%94%20%EC%9D%B4%EB%B2%A4%ED%8A%B8%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
+| 19 | d061 | CU | 편의점/마트 | CU 커피·음료 1+1 모바일 쿠폰 행사 | medium | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 | [검색](https://search.shopping.naver.com/search/all?query=CU%20CU%20%EC%BB%A4%ED%94%BC%C2%B7%EC%9D%8C%EB%A3%8C%201%2B1%20%EB%AA%A8%EB%B0%94%EC%9D%BC%20%EC%BF%A0%ED%8F%B0%20%ED%96%89%EC%82%AC%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
+| 20 | d063 | 홈플러스 | 편의점/마트 | 홈플러스 AI 물가안정 프로젝트 장보기 특가 | medium | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 | [검색](https://search.shopping.naver.com/search/all?query=%ED%99%88%ED%94%8C%EB%9F%AC%EC%8A%A4%20%ED%99%88%ED%94%8C%EB%9F%AC%EC%8A%A4%20AI%20%EB%AC%BC%EA%B0%80%EC%95%88%EC%A0%95%20%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%20%EC%9E%A5%EB%B3%B4%EA%B8%B0%20%ED%8A%B9%EA%B0%80%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
+| 21 | d066 | 스타벅스 | 쿠폰/이벤트 | 스타벅스 앱 이벤트 음료 쿠폰 확인 | medium | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 | [검색](https://search.shopping.naver.com/search/all?query=%EC%8A%A4%ED%83%80%EB%B2%85%EC%8A%A4%20%EC%8A%A4%ED%83%80%EB%B2%85%EC%8A%A4%20%EC%95%B1%20%EC%9D%B4%EB%B2%A4%ED%8A%B8%20%EC%9D%8C%EB%A3%8C%20%EC%BF%A0%ED%8F%B0%20%ED%99%95%EC%9D%B8%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
+| 22 | d071 | 카카오페이 | 쿠폰/이벤트 | 카카오페이 멤버십 적립·쿠폰 혜택 | medium | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 | [검색](https://search.shopping.naver.com/search/all?query=%EC%B9%B4%EC%B9%B4%EC%98%A4%ED%8E%98%EC%9D%B4%20%EC%B9%B4%EC%B9%B4%EC%98%A4%ED%8E%98%EC%9D%B4%20%EB%A9%A4%EB%B2%84%EC%8B%AD%20%EC%A0%81%EB%A6%BD%C2%B7%EC%BF%A0%ED%8F%B0%20%ED%98%9C%ED%83%9D%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
+| 23 | d073 | 현대카드 | 쿠폰/이벤트 | 현대카드 M포인트 외식·쇼핑 할인 혜택 | medium | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 | [검색](https://search.shopping.naver.com/search/all?query=%ED%98%84%EB%8C%80%EC%B9%B4%EB%93%9C%20%ED%98%84%EB%8C%80%EC%B9%B4%EB%93%9C%20M%ED%8F%AC%EC%9D%B8%ED%8A%B8%20%EC%99%B8%EC%8B%9D%C2%B7%EC%87%BC%ED%95%91%20%ED%95%A0%EC%9D%B8%20%ED%98%9C%ED%83%9D%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
+| 24 | d074 | 신한카드 | 쿠폰/이벤트 | 신한카드 생활비 캐시백 이벤트 모음 | medium | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 | [검색](https://search.shopping.naver.com/search/all?query=%EC%8B%A0%ED%95%9C%EC%B9%B4%EB%93%9C%20%EC%8B%A0%ED%95%9C%EC%B9%B4%EB%93%9C%20%EC%83%9D%ED%99%9C%EB%B9%84%20%EC%BA%90%EC%8B%9C%EB%B0%B1%20%EC%9D%B4%EB%B2%A4%ED%8A%B8%20%EB%AA%A8%EC%9D%8C%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
+| 25 | d075 | 롯데시네마 | 여행/티켓 | 롯데시네마 시사회·영화 할인 이벤트 | low | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 | [검색](https://search.shopping.naver.com/search/all?query=%EB%A1%AF%EB%8D%B0%EC%8B%9C%EB%84%A4%EB%A7%88%20%EB%A1%AF%EB%8D%B0%EC%8B%9C%EB%84%A4%EB%A7%88%20%EC%8B%9C%EC%82%AC%ED%9A%8C%C2%B7%EC%98%81%ED%99%94%20%ED%95%A0%EC%9D%B8%20%EC%9D%B4%EB%B2%A4%ED%8A%B8%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
+| 26 | d076 | 메가MGC커피 | 쿠폰/이벤트 | 메가MGC커피 앱 쿠폰·음료 이벤트 | low | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 | [검색](https://search.shopping.naver.com/search/all?query=%EB%A9%94%EA%B0%80MGC%EC%BB%A4%ED%94%BC%20%EB%A9%94%EA%B0%80MGC%EC%BB%A4%ED%94%BC%20%EC%95%B1%20%EC%BF%A0%ED%8F%B0%C2%B7%EC%9D%8C%EB%A3%8C%20%EC%9D%B4%EB%B2%A4%ED%8A%B8%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
+| 27 | d077 | 카카오톡 선물하기 | 쿠폰/이벤트 | 카카오톡 선물하기 첫 구매 쿠폰 이벤트 | low | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 | [검색](https://search.shopping.naver.com/search/all?query=%EC%B9%B4%EC%B9%B4%EC%98%A4%ED%86%A1%20%EC%84%A0%EB%AC%BC%ED%95%98%EA%B8%B0%20%EC%B9%B4%EC%B9%B4%EC%98%A4%ED%86%A1%20%EC%84%A0%EB%AC%BC%ED%95%98%EA%B8%B0%20%EC%B2%AB%20%EA%B5%AC%EB%A7%A4%20%EC%BF%A0%ED%8F%B0%20%EC%9D%B4%EB%B2%A4%ED%8A%B8%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
+| 28 | d078 | 티켓링크 | 여행/티켓 | 티켓링크 전시·공연 할인 이벤트 | low | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 | [검색](https://search.shopping.naver.com/search/all?query=%ED%8B%B0%EC%BC%93%EB%A7%81%ED%81%AC%20%ED%8B%B0%EC%BC%93%EB%A7%81%ED%81%AC%20%EC%A0%84%EC%8B%9C%C2%B7%EA%B3%B5%EC%97%B0%20%ED%95%A0%EC%9D%B8%20%EC%9D%B4%EB%B2%A4%ED%8A%B8%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
+| 29 | d079 | 쿠팡 | 생활용품 | 탐사 고평량 종이컵 디자인 380ml 100개입 | low | 재방문 빈도가 높은 생활형 카테고리 | [검색](https://search.shopping.naver.com/search/all?query=%EC%BF%A0%ED%8C%A1%20%ED%83%90%EC%82%AC%20%EA%B3%A0%ED%8F%89%EB%9F%89%20%EC%A2%85%EC%9D%B4%EC%BB%B5%20%EB%94%94%EC%9E%90%EC%9D%B8%20380ml%20100%EA%B0%9C%EC%9E%85%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
+| 30 | d084 | 하이마트 | 가전 | LG 오브제 칸 스탠드에어컨 FQ18EK1HA1M | low | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 | [검색](https://search.shopping.naver.com/search/all?query=%ED%95%98%EC%9D%B4%EB%A7%88%ED%8A%B8%20LG%20%EC%98%A4%EB%B8%8C%EC%A0%9C%20%EC%B9%B8%20%EC%8A%A4%ED%83%A0%EB%93%9C%EC%97%90%EC%96%B4%EC%BB%A8%20FQ18EK1HA1M%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
+| 31 | d085 | 쿠팡 | 육아 | 하기스 2024 매직컴포트 팬티형 기저귀 5단계 84매 | low | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 | [검색](https://search.shopping.naver.com/search/all?query=%EC%BF%A0%ED%8C%A1%20%ED%95%98%EA%B8%B0%EC%8A%A4%202024%20%EB%A7%A4%EC%A7%81%EC%BB%B4%ED%8F%AC%ED%8A%B8%20%ED%8C%AC%ED%8B%B0%ED%98%95%20%EA%B8%B0%EC%A0%80%EA%B7%80%205%EB%8B%A8%EA%B3%84%2084%EB%A7%A4%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
+| 32 | d088 | 쿠팡 | 전자기기 | 샤오미 미밴드 9 스마트밴드 | low | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 | [검색](https://search.shopping.naver.com/search/all?query=%EC%BF%A0%ED%8C%A1%20%EC%83%A4%EC%98%A4%EB%AF%B8%20%EB%AF%B8%EB%B0%B4%EB%93%9C%209%20%EC%8A%A4%EB%A7%88%ED%8A%B8%EB%B0%B4%EB%93%9C%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
+| 33 | d091 | 쿠팡 | 식품 | 탐사수 1L 12개입 생수 | low | 재방문 빈도가 높은 생활형 카테고리 | [검색](https://search.shopping.naver.com/search/all?query=%EC%BF%A0%ED%8C%A1%20%ED%83%90%EC%82%AC%EC%88%98%201L%2012%EA%B0%9C%EC%9E%85%20%EC%83%9D%EC%88%98%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
+| 34 | d100 | 쿠팡 | 생활용품 | 트리오 항균 주방세제 3kg 2개 | low | 재방문 빈도가 높은 생활형 카테고리 | [검색](https://search.shopping.naver.com/search/all?query=%EC%BF%A0%ED%8C%A1%20%ED%8A%B8%EB%A6%AC%EC%98%A4%20%ED%95%AD%EA%B7%A0%20%EC%A3%BC%EB%B0%A9%EC%84%B8%EC%A0%9C%203kg%202%EA%B0%9C%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
+| 35 | d104 | 쿠팡 | 생활용품 | 습기타파 대용량 제습제 280g 24개 | low | 재방문 빈도가 높은 생활형 카테고리 | [검색](https://search.shopping.naver.com/search/all?query=%EC%BF%A0%ED%8C%A1%20%EC%8A%B5%EA%B8%B0%ED%83%80%ED%8C%8C%20%EB%8C%80%EC%9A%A9%EB%9F%89%20%EC%A0%9C%EC%8A%B5%EC%A0%9C%20280g%2024%EA%B0%9C%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
+| 36 | d105 | 쿠팡 | 기타 | 모나미 153 볼펜 0.5mm 블랙 12자루 | low | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 | [검색](https://search.shopping.naver.com/search/all?query=%EC%BF%A0%ED%8C%A1%20%EB%AA%A8%EB%82%98%EB%AF%B8%20153%20%EB%B3%BC%ED%8E%9C%200.5mm%20%EB%B8%94%EB%9E%99%2012%EC%9E%90%EB%A3%A8%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
+| 37 | d110 | 쿠팡 | 기타 | 모나미 153 볼펜 1.0mm Red 60개 | low | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 | [검색](https://search.shopping.naver.com/search/all?query=%EC%BF%A0%ED%8C%A1%20%EB%AA%A8%EB%82%98%EB%AF%B8%20153%20%EB%B3%BC%ED%8E%9C%201.0mm%20Red%2060%EA%B0%9C%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
+| 38 | d113 | 쿠팡 | 기타 | 코멧 자동 장우산 2개 세트 | low | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 | [검색](https://search.shopping.naver.com/search/all?query=%EC%BF%A0%ED%8C%A1%20%EC%BD%94%EB%A9%A7%20%EC%9E%90%EB%8F%99%20%EC%9E%A5%EC%9A%B0%EC%82%B0%202%EA%B0%9C%20%EC%84%B8%ED%8A%B8%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
+| 39 | d115 | BHC | 쿠폰/이벤트 | BHC 앱 치킨 첫 주문 5천원 할인 쿠폰 | low | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 | [검색](https://search.shopping.naver.com/search/all?query=BHC%20BHC%20%EC%95%B1%20%EC%B9%98%ED%82%A8%20%EC%B2%AB%20%EC%A3%BC%EB%AC%B8%205%EC%B2%9C%EC%9B%90%20%ED%95%A0%EC%9D%B8%20%EC%BF%A0%ED%8F%B0%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
+| 40 | d116 | 무신사 | 쿠폰/이벤트 | 무신사 온라인 할인 쿠폰 2026 | low | 60% 출시 이미지 목표 달성을 위한 fallback 보강 후보 | [검색](https://search.shopping.naver.com/search/all?query=%EB%AC%B4%EC%8B%A0%EC%82%AC%20%EB%AC%B4%EC%8B%A0%EC%82%AC%20%EC%98%A8%EB%9D%BC%EC%9D%B8%20%ED%95%A0%EC%9D%B8%20%EC%BF%A0%ED%8F%B0%202026%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
 
 ## Generated Files
 

@@ -1,6 +1,6 @@
 # 할인도사 Image Verification Report
 
-Generated: 2026-06-06T11:59:19.061Z
+Generated: 2026-06-06T12:31:37.690Z
 Status: PASS
 
 ## Summary
@@ -8,11 +8,11 @@ Status: PASS
 | Metric | Value |
 | --- | ---: |
 | Checks | 14/14 |
-| Explicit image line rate | 64% |
+| Explicit image line rate | 66% |
 | Renderable visible image rate | 100% |
-| Official/derived image rate | 64% |
-| Official/derived images | 90 |
-| Generated placeholders | 50 |
+| Official/derived image rate | 66% |
+| Official/derived images | 93 |
+| Generated placeholders | 47 |
 | Missing image fallback | 0 |
 | Generated placeholder assets | 11 |
 
@@ -28,7 +28,7 @@ Status: PASS
 - PASS image rendering components: 주요 카드/피드 컴포넌트가 lazy loading, async decoding, object-cover, no-referrer를 유지합니다.
 - PASS local image proxy: 로컬 개발에서 차단 가능성이 높은 이미지 호스트는 프록시 유틸을 통과하고, 깨진 이미지는 카테고리 생성 placeholder로 대체됩니다.
 - PASS runtime broken image fallback: 주요 카드/피드 컴포넌트가 이미지 로딩 실패 시 1회성 생성 placeholder로 자동 전환합니다.
-- PASS explicit image floor: 명시 이미지 또는 파생 가능 이미지 라인이 90/140개(64%)입니다.
+- PASS explicit image floor: 명시 이미지 또는 파생 가능 이미지 라인이 93/140개(66%)입니다.
 - PASS publishable image exposure audit: 노출 상품 140개 모두 공식/파생/생성 이미지로 렌더링 가능합니다.
-- PASS official image operating floor: 공식/파생 이미지 비율이 64%입니다.
+- PASS official image operating floor: 공식/파생 이미지 비율이 66%입니다.
 - PASS verified product image priority: 검증된 공식 상품/혜택 이미지가 명시 이미지와 생성 placeholder보다 먼저 적용됩니다.

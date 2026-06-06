@@ -99,6 +99,12 @@ export const verifiedProductImages: Record<string, VerifiedProductImage> = {
     source: "og_image",
     evidence: "GS25 공식 이벤트 상세 이미지"
   },
+  d047: {
+    url: "https://fs.pstatic.net/contents/contents/release/image/promotion/s8i4-ezvl-kfvp-cjtk/kyxmmzd9rg.png",
+    checkedAt: "2026-06-06T12:20:52.048Z",
+    source: "official_page_image",
+    evidence: "네이버페이 공식 프로모션 페이지 이미지 후보 검증"
+  },
   d048: {
     url: "https://cdn.011st.com/11dims/resize/600x600/quality/75/11src/dl/v2/8/3/2/7/7/0/LvAcF/1087832770_192188191.jpg",
     checkedAt: "2026-06-06T08:20:00.000Z",
@@ -129,6 +135,12 @@ export const verifiedProductImages: Record<string, VerifiedProductImage> = {
     source: "og_image",
     evidence: "아모레몰 공식 이벤트 상세 이미지"
   },
+  d062: {
+    url: "https://www.7-eleven.co.kr/front/img/event/temp/thumb_320x320_01.jpg",
+    checkedAt: "2026-06-06T12:20:52.048Z",
+    source: "official_page_image",
+    evidence: "세븐일레븐 공식 이벤트 페이지 이미지 후보 검증"
+  },
   d064: {
     url: "https://sui.ssgcdn.com/ui/grocery/img/service/event_top_banner.png",
     checkedAt: "2026-06-06T09:20:00.000Z",
@@ -152,6 +164,12 @@ export const verifiedProductImages: Record<string, VerifiedProductImage> = {
     checkedAt: "2026-06-06T09:20:00.000Z",
     source: "official_page_image",
     evidence: "U+멤버십 공식 혜택 페이지 이미지"
+  },
+  d069: {
+    url: "https://cdn.momq.co.kr/remote/asset/images/sideBanner/service_img01_v2.png",
+    checkedAt: "2026-06-06T12:20:52.048Z",
+    source: "official_page_image",
+    evidence: "맘큐 공식 이벤트 페이지 이미지 후보 검증"
   },
   d070: {
     url: "https://m.i-challenge.co.kr/Images/free/free_img01.jpg",

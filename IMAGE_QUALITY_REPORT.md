@@ -1,6 +1,6 @@
 # 할인도사 Image Quality Report
 
-Generated: 2026-06-06T11:59:18.499Z
+Generated: 2026-06-06T12:31:37.158Z
 Status: PASS
 
 ## Summary
@@ -8,14 +8,14 @@ Status: PASS
 | Metric | Value |
 | --- | ---: |
 | 전체 상품 수 | 140 |
-| 명시 이미지 상품 수 | 90 |
-| 이미지 없는 상품 수 | 50 |
-| 명시 이미지 커버리지 | 64% |
+| 명시 이미지 상품 수 | 93 |
+| 이미지 없는 상품 수 | 47 |
+| 명시 이미지 커버리지 | 66% |
 | 명시 이미지 최소 기준 | 25% |
 | 카테고리 fallback 적용 | 예 |
 | 실제 렌더링 이미지 커버리지 | 100% |
 | 로컬 이미지 수 | 20 |
-| 원격 이미지 수 | 86 |
+| 원격 이미지 수 | 89 |
 | fallback 카테고리 수 | 10 |
 
 ## Image Policy
@@ -52,16 +52,16 @@ Status: PASS
 
 ## Fallback By Category
 
-- 쿠폰/이벤트: 14
+- 쿠폰/이벤트: 13
 - 생활용품: 9
 - 식품: 6
 - 뷰티: 4
-- 편의점/마트: 4
 - 기타: 3
 - 여행/티켓: 3
 - 전자기기: 3
+- 편의점/마트: 3
 - 가전: 2
-- 육아: 2
+- 육아: 1
 
 ## Image Backlog
 
@@ -81,7 +81,6 @@ Status: PASS
 | d040 | 올리브영 | 뷰티 | 아이보들 CCP 크림 1+1 기획 | [검색](https://search.shopping.naver.com/search/all?query=%EC%98%AC%EB%A6%AC%EB%B8%8C%EC%98%81%20%EC%95%84%EC%9D%B4%EB%B3%B4%EB%93%A4%20CCP%20%ED%81%AC%EB%A6%BC%201%2B1%20%EA%B8%B0%ED%9A%8D%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
 | d044 | 옥션 | 식품 | 국내산 냉동 블루베리 1kg | [검색](https://search.shopping.naver.com/search/all?query=%EC%98%A5%EC%85%98%20%EA%B5%AD%EB%82%B4%EC%82%B0%20%EB%83%89%EB%8F%99%20%EB%B8%94%EB%A3%A8%EB%B2%A0%EB%A6%AC%201kg%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
 | d046 | 쿠팡 | 편의점/마트 | 탐사수 무라벨 2L 24병 | [검색](https://search.shopping.naver.com/search/all?query=%EC%BF%A0%ED%8C%A1%20%ED%83%90%EC%82%AC%EC%88%98%20%EB%AC%B4%EB%9D%BC%EB%B2%A8%202L%2024%EB%B3%91%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
-| d047 | 네이버쇼핑 | 쿠폰/이벤트 | 주유권 5만원권 카드 청구할인 | [검색](https://search.shopping.naver.com/search/all?query=%EB%84%A4%EC%9D%B4%EB%B2%84%EC%87%BC%ED%95%91%20%EC%A3%BC%EC%9C%A0%EA%B6%8C%205%EB%A7%8C%EC%9B%90%EA%B6%8C%20%EC%B9%B4%EB%93%9C%20%EC%B2%AD%EA%B5%AC%ED%95%A0%EC%9D%B8%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
 | d050 | 올리브영 | 뷰티 | 멀티비타민 90정 기획세트 | [검색](https://search.shopping.naver.com/search/all?query=%EC%98%AC%EB%A6%AC%EB%B8%8C%EC%98%81%20%EB%A9%80%ED%8B%B0%EB%B9%84%ED%83%80%EB%AF%BC%2090%EC%A0%95%20%EA%B8%B0%ED%9A%8D%EC%84%B8%ED%8A%B8%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
 | d053 | BC카드 | 쿠폰/이벤트 | BC카드 페이북 보너스 머니박스 이벤트 | [검색](https://search.shopping.naver.com/search/all?query=BC%EC%B9%B4%EB%93%9C%20BC%EC%B9%B4%EB%93%9C%20%ED%8E%98%EC%9D%B4%EB%B6%81%20%EB%B3%B4%EB%84%88%EC%8A%A4%20%EB%A8%B8%EB%8B%88%EB%B0%95%EC%8A%A4%20%EC%9D%B4%EB%B2%A4%ED%8A%B8%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
 | d054 | 카카오페이 | 쿠폰/이벤트 | 카카오페이 편의점 결제 2천원 쿠폰 | [검색](https://search.shopping.naver.com/search/all?query=%EC%B9%B4%EC%B9%B4%EC%98%A4%ED%8E%98%EC%9D%B4%20%EC%B9%B4%EC%B9%B4%EC%98%A4%ED%8E%98%EC%9D%B4%20%ED%8E%B8%EC%9D%98%EC%A0%90%20%EA%B2%B0%EC%A0%9C%202%EC%B2%9C%EC%9B%90%20%EC%BF%A0%ED%8F%B0%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
@@ -89,6 +88,7 @@ Status: PASS
 | d058 | 맥도날드 | 쿠폰/이벤트 | 맥도날드 공식 해피스낵 프로모션 | [검색](https://search.shopping.naver.com/search/all?query=%EB%A7%A5%EB%8F%84%EB%82%A0%EB%93%9C%20%EB%A7%A5%EB%8F%84%EB%82%A0%EB%93%9C%20%EA%B3%B5%EC%8B%9D%20%ED%95%B4%ED%94%BC%EC%8A%A4%EB%82%B5%20%ED%94%84%EB%A1%9C%EB%AA%A8%EC%85%98%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
 | d060 | 메가박스 | 여행/티켓 | 메가박스 공식 영화·문화 이벤트 | [검색](https://search.shopping.naver.com/search/all?query=%EB%A9%94%EA%B0%80%EB%B0%95%EC%8A%A4%20%EB%A9%94%EA%B0%80%EB%B0%95%EC%8A%A4%20%EA%B3%B5%EC%8B%9D%20%EC%98%81%ED%99%94%C2%B7%EB%AC%B8%ED%99%94%20%EC%9D%B4%EB%B2%A4%ED%8A%B8%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
 | d061 | CU | 편의점/마트 | CU 커피·음료 1+1 모바일 쿠폰 행사 | [검색](https://search.shopping.naver.com/search/all?query=CU%20CU%20%EC%BB%A4%ED%94%BC%C2%B7%EC%9D%8C%EB%A3%8C%201%2B1%20%EB%AA%A8%EB%B0%94%EC%9D%BC%20%EC%BF%A0%ED%8F%B0%20%ED%96%89%EC%82%AC%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
+| d063 | 홈플러스 | 편의점/마트 | 홈플러스 AI 물가안정 프로젝트 장보기 특가 | [검색](https://search.shopping.naver.com/search/all?query=%ED%99%88%ED%94%8C%EB%9F%AC%EC%8A%A4%20%ED%99%88%ED%94%8C%EB%9F%AC%EC%8A%A4%20AI%20%EB%AC%BC%EA%B0%80%EC%95%88%EC%A0%95%20%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%20%EC%9E%A5%EB%B3%B4%EA%B8%B0%20%ED%8A%B9%EA%B0%80%20%EC%83%81%ED%92%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80) |
 
 ## Issues
 
