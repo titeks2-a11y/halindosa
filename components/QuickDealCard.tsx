@@ -29,16 +29,16 @@ export function QuickDealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, 
   return (
     <article
       aria-label={`${deal.mallName} ${deal.title} 특가`}
-      className="group flex min-h-[148px] overflow-hidden rounded-2xl border border-brand-line bg-brand-surface shadow-lift transition hover:-translate-y-0.5 hover:border-orange-100 hover:shadow-commerce min-[430px]:block min-[430px]:min-h-0 min-[430px]:rounded-[20px]"
+      className="group flex min-h-[128px] overflow-hidden rounded-2xl border border-brand-line bg-brand-surface shadow-lift transition hover:-translate-y-0.5 hover:border-orange-100 hover:shadow-commerce min-[430px]:block min-[430px]:min-h-0 min-[430px]:rounded-[20px]"
     >
       <Link
         href={`/deals/${deal.id}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="block w-[34%] max-w-[118px] shrink-0 min-[430px]:w-full min-[430px]:max-w-none"
+        className="block w-[32%] max-w-[104px] shrink-0 min-[430px]:w-full min-[430px]:max-w-none"
         aria-label={`${deal.title} 상세 정보 새 탭으로 보기`}
       >
-        <span className="relative block h-full min-h-[148px] overflow-hidden bg-gradient-to-br from-brand-warm via-white to-orange-50 min-[430px]:aspect-[4/3] min-[430px]:h-auto min-[430px]:min-h-0">
+        <span className="relative block h-full min-h-[128px] overflow-hidden bg-gradient-to-br from-brand-warm via-white to-orange-50 min-[430px]:aspect-[4/3] min-[430px]:h-auto min-[430px]:min-h-0">
           {deal.imageUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
@@ -71,14 +71,14 @@ export function QuickDealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, 
         </span>
       </Link>
 
-      <div className="min-w-0 flex-1 space-y-1.5 p-2 min-[430px]:space-y-2 min-[430px]:p-2.5 sm:p-3">
+      <div className="min-w-0 flex-1 space-y-1 p-2 min-[430px]:space-y-2 min-[430px]:p-2.5 sm:p-3">
         <div className="flex items-center justify-between gap-2 text-[11px] font-black">
           <span className="min-w-0 truncate text-dossa-red">{deal.mallName}</span>
           <span className="shrink-0 text-slate-400">{checkedAt}</span>
         </div>
 
         <Link href={`/deals/${deal.id}`} target="_blank" rel="noopener noreferrer" className="block" aria-label={`${deal.title} 상세 정보 새 탭으로 보기`}>
-          <h3 className="line-clamp-2 min-h-[2.15rem] text-[13px] font-black leading-[1.08rem] text-slate-950 transition hover:text-dossa-red min-[430px]:min-h-[2.35rem] min-[430px]:leading-[1.18rem] sm:text-[15px] sm:leading-5">
+          <h3 className="line-clamp-2 min-h-[2rem] text-[12px] font-black leading-4 text-slate-950 transition hover:text-dossa-red min-[430px]:min-h-[2.35rem] min-[430px]:leading-[1.18rem] sm:text-[15px] sm:leading-5">
             {deal.title}
           </h3>
         </Link>
@@ -120,7 +120,7 @@ export function QuickDealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, 
         </div>
 
         <div
-          className="rounded-xl border border-brand-line bg-gradient-to-br from-white via-white to-orange-50 px-2 py-1.5 min-[430px]:rounded-2xl min-[430px]:px-2.5 min-[430px]:py-2"
+          className="rounded-xl border border-brand-line bg-gradient-to-br from-white via-white to-orange-50 px-2 py-1 min-[430px]:rounded-2xl min-[430px]:px-2.5 min-[430px]:py-2"
           aria-label={`${deal.title} 가격 요약`}
         >
           <p className="sr-only">압축 가격 카드</p>
@@ -131,14 +131,14 @@ export function QuickDealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, 
             <span className="min-w-0 truncate text-[10px] font-bold text-slate-400 line-through min-[430px]:text-[11px]">{formatPrice(deal.originalPrice)}</span>
           </div>
           <div className="mt-0.5 flex items-end justify-between gap-2 min-[430px]:mt-1">
-            <strong className="min-w-0 truncate text-[17px] font-black text-slate-950 min-[430px]:text-[19px] sm:text-2xl">{formatPrice(deal.salePrice)}</strong>
+            <strong className="min-w-0 truncate text-[15px] font-black text-slate-950 min-[430px]:text-[19px] sm:text-2xl">{formatPrice(deal.salePrice)}</strong>
             <span className="hidden shrink-0 rounded-full bg-white px-2 py-1 text-[10px] font-black text-dossa-red shadow-sm min-[430px]:inline-flex">
               {formatPrice(deal.discountAmount)} 아낌
             </span>
           </div>
         </div>
 
-        <div className="grid grid-cols-[34px_34px_1fr] gap-1.5 min-[430px]:grid-cols-[40px_40px_1fr]">
+        <div className="grid grid-cols-[32px_32px_1fr] gap-1.5 min-[430px]:grid-cols-[40px_40px_1fr]">
           <button
             type="button"
             onClick={() => onToggleFavorite(deal.id)}

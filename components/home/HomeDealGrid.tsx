@@ -45,8 +45,8 @@ export function HomeDealGrid({
   const remainingCount = Math.max(items.length - visibleItems.length, 0);
 
   return (
-    <div className="space-y-3">
-      <div className="grid grid-cols-1 gap-3 min-[430px]:grid-cols-2 md:gap-4 xl:grid-cols-3 2xl:grid-cols-4">
+    <div className="space-y-2 sm:space-y-3">
+      <div className="grid grid-cols-1 gap-2 min-[430px]:grid-cols-2 sm:gap-3 md:gap-4 xl:grid-cols-3 2xl:grid-cols-4">
         {visibleItems.map((deal) => (
           <QuickDealCard
             key={deal.id}

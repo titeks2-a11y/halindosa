@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-06T07:29:15.619Z",
+  "generatedAt": "2026-06-06T07:57:28.125Z",
   "totalDeals": 140,
   "verificationTargets": 140,
   "passedDirectLinks": 140,
@@ -716,7 +716,7 @@
         "finalUrl": "https://item.gmarket.co.kr/Item?goodsCode=4261528217",
         "status": 403,
         "reason": "robots_or_access_blocked",
-        "titleSimilarity": 0,
+        "titleSimilarity": 14,
         "contentMatch": false,
         "accessGuard": false,
         "rateLimited": false,
@@ -2107,13 +2107,13 @@
         "clientRenderedDetailShell": false
       },
       "liveProbe": {
-        "status": 200,
+        "status": 206,
         "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
         "title": "베네베딩 | 시원한 여름 냉감 침대 패드 쿨링 숙면",
         "metaDescription": "베네베딩 | 베네베딩 여름 냉감 침대 패드로 무더운 밤에도 쾌적한 숙면을 경험하세요. 프리미엄 기능성 소재가 선사하는 즉각적인 시원함과 안심할 수 있는 품질로 완성하는 여름 침실. MD가 추천하는 시원한 일상을 위한 필수 아이템입니다.",
-        "textSample": "베네베딩 | 시원한 여름 냉감 침대 패드 쿨링 숙면 회원가입시 전제품 평생 무료배송 구매 고객 전원 결제금액의 2% 적립 포토리뷰 작성시 1천원 포인트 지급 오늘 하루 보지 않기 YOUTUBE INSTAGRAM REVIEW 한국어 한국어 회원가입 로그인 주문조회 최근본상품 고객센터 자주 묻는 질문 상품문의하기 NEWS EVENT REVIEW SHOP TV 검색 인기검색어 1 매트리스방수커버 2 메모리폼베개 3 베개솜 4 베개커버 5 건빵베개 <path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M11.4872 3.53846C7.09639 3.53846 3.53846 7.09356 3.53846 11.4771C3.53846 15.8607 7.09639 19.4158 11.4872 19.4158C13.6777 19.4158 15.6599 18.5318 17.0983 17.1C18.5433 15.6617 19.4359 13.6742 19.4359 11.4",
+        "textSample": "베네베딩 | 시원한 여름 냉감 침대 패드 쿨링 숙면 회원가입시 전제품 평생 무료배송 구매 고객 전원 결제금액의 2% 적립 포토리뷰 작성시 1천원 포인트 지급 오늘 하루 보지 않기 YOUTUBE INSTAGRAM REVIEW 한국어 한국어 회원가입 로그인 주문조회 최근본상품 고객센터 자주 묻는 질문 상품문의하기 NEWS EVENT REVIEW SHOP TV 검색 인기검색어 <",
         "titleSimilarity": 100,
         "contentMatch": true,
         "priceSignal": false,
@@ -3204,7 +3204,7 @@
         "clientRenderedDetailShell": false
       },
       "liveProbe": {
-        "status": 200,
+        "status": 206,
         "reason": "http_ok",
         "ok": true,
         "bodyChecked": true,
@@ -5414,7 +5414,7 @@
         "bodyChecked": true,
         "title": "[결제] 아모레몰 결제혜택 모아보기 | 아모레몰",
         "metaDescription": "2026-04-01 ~ 2026-12-31",
-        "textSample": "[결제] 아모레몰 결제혜택 모아보기 | 아모레몰 window.AP = { WEBVIEW: \"\", PAYMENT_DEVICE: \"pc\", DEVICE: 'mo', REGION: 'kr', LANGUAGE: 'ko', CURRENCY_SYMBOL: '원', CURRENCY_CODE: 'KRW', DATE_FORMAT: 'YYYY.MM.DD', CURRENT_DATE: 1780730942055, //server date (milliseconds since 1970/01/01) LOGIN_USER: false, EMPLOYEE: \"\", DISPLAY_MENU_ID: \"event_detail\", ALLMENU: {\"CTG001001006\":{\"menuPageTypeCode\":\"ProdDisplayCate\",\"displayMenuId\":\"CTG001001006\",\"brandSn\":null,\"menuPageId\":\"M01_category3depth\",\"linkDisplayMenuTypeCode\"",
+        "textSample": "[결제] 아모레몰 결제혜택 모아보기 | 아모레몰 window.AP = { WEBVIEW: \"\", PAYMENT_DEVICE: \"pc\", DEVICE: 'mo', REGION: 'kr', LANGUAGE: 'ko', CURRENCY_SYMBOL: '원', CURRENCY_CODE: 'KRW', DATE_FORMAT: 'YYYY.MM.DD', CURRENT_DATE: 1780732635431, //server date (milliseconds since 1970/01/01) LOGIN_USER: false, EMPLOYEE: \"\", DISPLAY_MENU_ID: \"event_detail\", ALLMENU: {\"CTG001001006\":{\"menuPageTypeCode\":\"ProdDisplayCate\",\"displayMenuId\":\"CTG001001006\",\"brandSn\":null,\"menuPageId\":\"M01_category3depth\",\"linkDisplayMenuTypeCode\"",
         "titleSimilarity": 40,
         "contentMatch": true,
         "priceSignal": false,
@@ -8363,7 +8363,7 @@
         "unavailableText": false,
         "liveProbeOk": false,
         "titleMetaChecked": true,
-        "titleSimilarity": 0,
+        "titleSimilarity": 14,
         "contentMatch": false,
         "priceSignal": false,
         "purchaseActionSignal": false,
@@ -8379,7 +8379,7 @@
         "status": 403,
         "reason": "robots_or_access_blocked",
         "finalUrl": "https://item.gmarket.co.kr/Item?goodsCode=4261528217",
-        "titleSimilarity": 0,
+        "titleSimilarity": 14,
         "contentMatch": false,
         "accessGuard": false,
         "rateLimited": false

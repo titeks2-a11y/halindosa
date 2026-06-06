@@ -42,10 +42,10 @@ for (const routePath of apiRoutes) {
   }
 }
 
-if (includesAll(homeApi, ["ts: String(timestamp)", "Date.now()", 'cache: "no-store"', '"Cache-Control": "no-cache"', "buildLatestDealsRequestUrl"])) {
-  pass("home api cache buster", "홈 API 요청이 no-store와 timestamp cache-buster를 함께 사용합니다.");
+if (includesAll(homeApi, ["buildHomeRequestUrl", "/api/home?", "HomeResponse", "ts: String(timestamp)", "Date.now()", 'cache: "no-store"', '"Cache-Control": "no-cache"', "buildLatestDealsRequestUrl"])) {
+  pass("home api cache buster", "홈 API 요청이 /api/home snapshot, no-store, timestamp cache-buster를 함께 사용합니다.");
 } else {
-  fail("home api cache buster", "홈 API 요청에 timestamp 또는 no-store fetch 설정이 부족합니다.");
+  fail("home api cache buster", "홈 API 요청에 /api/home snapshot, timestamp 또는 no-store fetch 설정이 부족합니다.");
 }
 
 if (
@@ -54,14 +54,25 @@ if (
     "window.setInterval(refreshIfVisible, 90_000)",
     "window.setInterval(refreshIfActive, 120_000)",
     "refreshHomeNow",
+    "refreshHomeSnapshot",
+    "buildHomeRequestUrl",
+    "buildCombinedHomeSnapshot",
+    "setLastHomeSyncAt",
     "fetchDeals(undefined, true)",
-    "refreshNewsDeals({ notify: false })",
-    "fetchSignals(false)"
+    "refreshNewsDeals({ silent: true })",
+    "fetchSignals(true)"
   ])
 ) {
-  pass("home realtime refresh loop", "상품, 핫시그널, 공식 혜택이 각각 자동 갱신되고 수동 새로고침으로 묶입니다.");
+  pass("home realtime refresh loop", "상품, 핫시그널, 공식 혜택이 개별 자동 갱신되고 수동 새로고침은 /api/home snapshot으로 한 번에 동기화됩니다.");
 } else {
-  fail("home realtime refresh loop", "홈 상품/뉴스/핫시그널 자동 또는 수동 갱신 연결이 부족합니다.");
+  fail("home realtime refresh loop", "홈 상품/뉴스/핫시그널 자동 갱신 또는 /api/home 수동 snapshot 연결이 부족합니다.");
+}
+
+const homeRoute = read("app/api/home/route.ts");
+if (includesAll(homeRoute, ["newsMeta", "cachePolicy", 'mode: "no-store"', "recommendedQueries", "freshnessStatus", "targetSections"])) {
+  pass("home snapshot metadata", "/api/home이 공식 혜택 추천, freshness, no-store 생성 메타를 함께 반환합니다.");
+} else {
+  fail("home snapshot metadata", "/api/home 응답에 공식 혜택 추천/freshness/no-store 메타가 부족합니다.");
 }
 
 if (includesAll(homeStatusStrip, ["실시간 검증됨", "업데이트", "새로고침", "onRefresh", "isRefreshing", "getRelativeTime(updatedAt)"])) {

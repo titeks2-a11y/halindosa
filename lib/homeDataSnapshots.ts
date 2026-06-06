@@ -2,7 +2,7 @@ import { buildNewsDeadlineSummary } from "@/lib/deals/newsDeadlineInsights";
 import { isVerifiedPurchaseLink } from "@/lib/deals/quality";
 import { dealMatchesPriceBand, filterLocalDeals, isFreeShippingDeal } from "@/lib/homeDealFilters";
 import type { PriceBand } from "@/lib/homeDiscoveryConfig";
-import type { DealsResponse, NewsDealsResponse } from "@/lib/homeApi";
+import type { DealsResponse, HomeResponse, NewsDealsResponse } from "@/lib/homeApi";
 import type { Deal, DealBenefitType, DealSort } from "@/types/deal";
 
 export interface HomeDealFilters {
@@ -78,5 +78,49 @@ export function buildLocalHomeDealsSnapshot(deals: Deal[], filters: HomeDealFilt
     catalog: deals,
     updatedAt: new Date().toISOString(),
     providerSource
+  };
+}
+
+export function buildCombinedHomeSnapshot(data: HomeResponse, filters: HomeDealFilters) {
+  const source =
+    typeof data.source === "object"
+      ? data.source
+      : {
+          deals: data.source ?? "home",
+          news: data.source ?? "home",
+          hotSignals: data.source ?? "home"
+        };
+  const dealsResponse: DealsResponse = {
+    ok: data.ok,
+    deals: Array.isArray(data.deals) ? data.deals : [],
+    count: data.counts?.deals ?? data.deals?.length ?? 0,
+    updatedAt: data.dealUpdatedAt || data.updatedAt,
+    source: source.deals,
+    message: data.message
+  };
+  const newsResponse: NewsDealsResponse = {
+    ok: data.ok,
+    deals: Array.isArray(data.newsDeals) ? data.newsDeals : [],
+    count: data.counts?.newsDeals ?? data.newsDeals?.length ?? 0,
+    updatedAt: data.newsUpdatedAt || data.updatedAt,
+    source: source.news,
+    recommendedQueries: data.newsMeta?.recommendedQueries,
+    targetSections: data.newsMeta?.targetSections,
+    intentGroups: data.newsMeta?.intentGroups,
+    sourceTrustScores: data.newsMeta?.sourceTrustScores,
+    deadlineSummary: data.newsMeta?.deadlineSummary,
+    freshnessStatus: data.newsMeta?.freshnessStatus,
+    freshnessLabel: data.newsMeta?.freshnessLabel,
+    freshnessAgeMinutes: data.newsMeta?.freshnessAgeMinutes,
+    nextRefreshAt: data.newsMeta?.nextRefreshAt,
+    message: data.message
+  };
+
+  return {
+    deals: buildHomeDealsSnapshot(dealsResponse, filters),
+    news: buildHomeNewsSnapshot(newsResponse),
+    hotSignals: Array.isArray(data.hotSignals) ? data.hotSignals : [],
+    updatedAt: data.updatedAt,
+    source
   };
 }

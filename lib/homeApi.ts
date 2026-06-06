@@ -42,6 +42,91 @@ export interface NewsDealsResponse {
   message: string;
 }
 
+export interface HomeResponse {
+  ok: boolean;
+  deals: Deal[];
+  newsDeals: NewsDeal[];
+  hotSignals: HotSignal[];
+  counts: {
+    deals: number;
+    newsDeals: number;
+    hotSignals: number;
+  };
+  updatedAt: string;
+  dealUpdatedAt?: string;
+  newsUpdatedAt?: string;
+  source:
+    | {
+        deals: string;
+        news: string;
+        hotSignals: string;
+      }
+    | string;
+  newsMeta?: Pick<
+    NewsDealsResponse,
+    | "recommendedQueries"
+    | "targetSections"
+    | "intentGroups"
+    | "sourceTrustScores"
+    | "deadlineSummary"
+    | "freshnessStatus"
+    | "freshnessLabel"
+    | "freshnessAgeMinutes"
+    | "nextRefreshAt"
+  >;
+  cachePolicy?: {
+    mode: "no-store";
+    generatedAt: string;
+  };
+  message: string;
+}
+
+export function buildHomeRequestUrl({
+  category,
+  sort,
+  freeShippingOnly,
+  hotOnly,
+  endingSoonOnly,
+  verifiedOnly,
+  mallFilter,
+  priceBand,
+  benefitFilter,
+  query,
+  limit = 12,
+  timestamp = Date.now()
+}: {
+  category: string;
+  sort: DealSort;
+  freeShippingOnly: boolean;
+  hotOnly: boolean;
+  endingSoonOnly: boolean;
+  verifiedOnly: boolean;
+  mallFilter: string;
+  priceBand: PriceBand;
+  benefitFilter: "all" | DealBenefitType;
+  query: string;
+  limit?: number;
+  timestamp?: number;
+}) {
+  const params = new URLSearchParams({
+    category,
+    sort,
+    limit: String(limit),
+    freeShippingOnly: String(freeShippingOnly),
+    hotOnly: String(hotOnly),
+    endingSoonOnly: String(endingSoonOnly),
+    verifiedOnly: String(verifiedOnly),
+    mall: mallFilter,
+    priceBand,
+    dealType: benefitFilter,
+    ts: String(timestamp)
+  });
+
+  if (query.trim()) params.set("q", query.trim());
+
+  return `/api/home?${params.toString()}`;
+}
+
 export function buildNewsDealsRequestUrl({
   query,
   limit = 8,

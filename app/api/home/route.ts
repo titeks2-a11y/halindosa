@@ -60,6 +60,21 @@ export async function GET(request: Request) {
         news: news.source,
         hotSignals: "rss"
       },
+      newsMeta: {
+        recommendedQueries: news.recommendedQueries,
+        targetSections: news.targetSections,
+        intentGroups: news.intentGroups,
+        sourceTrustScores: news.sourceTrustScores,
+        deadlineSummary: news.deadlineSummary,
+        freshnessStatus: news.freshnessStatus,
+        freshnessLabel: news.freshnessLabel,
+        freshnessAgeMinutes: news.freshnessAgeMinutes,
+        nextRefreshAt: news.nextRefreshAt
+      },
+      cachePolicy: {
+        mode: "no-store",
+        generatedAt: new Date().toISOString()
+      },
       message: "할인도사 홈 최신 데이터를 no-store 정책으로 불러왔습니다."
     });
   } catch (error) {

@@ -62,15 +62,17 @@ import {
 } from "@/lib/homeDiscoveryConfig";
 import {
   buildDealsRequestUrl,
+  buildHomeRequestUrl,
   buildHotSignalsRequestUrl,
   buildLatestDealsRequestUrl,
   buildNewsDealsRequestUrl,
   type DealsResponse,
+  type HomeResponse,
   type HotSignalsResponse,
   type NewsDealsResponse,
   requestJson
 } from "@/lib/homeApi";
-import { buildHomeDealsSnapshot, buildHomeNewsSnapshot, buildLocalHomeDealsSnapshot, type HomeDealFilters } from "@/lib/homeDataSnapshots";
+import { buildCombinedHomeSnapshot, buildHomeDealsSnapshot, buildHomeNewsSnapshot, buildLocalHomeDealsSnapshot, type HomeDealFilters } from "@/lib/homeDataSnapshots";
 import {
   buildFilterOutcomeCards,
   buildHomeActiveFilterChips,
@@ -161,6 +163,7 @@ export default function Home() {
   const [priceBand, setPriceBand] = useState<PriceBand>("all");
   const [benefitFilter, setBenefitFilter] = useState<"all" | DealBenefitType>("all");
   const [updatedAt, setUpdatedAt] = useState("");
+  const [lastHomeSyncAt, setLastHomeSyncAt] = useState("");
   const [providerSource, setProviderSource] = useState("mock");
   const [isLoading, setIsLoading] = useState(false);
   const [loadError, setLoadError] = useState("");
@@ -824,14 +827,68 @@ export default function Home() {
     }
   };
 
+  const refreshHomeSnapshot = useCallback(
+    async ({ notify = false, silent = false }: { notify?: boolean; silent?: boolean } = {}) => {
+      if (!silent) {
+        setIsLoading(true);
+        setIsNewsRefreshing(true);
+        setIsSignalLoading(true);
+      }
+
+      try {
+        if (await isNativeRuntime()) {
+          await Promise.all([fetchDeals(undefined, true), refreshNewsDeals({ silent: true }), fetchSignals(true)]);
+          setLastHomeSyncAt(new Date().toISOString());
+          if (notify) showToast("최신 할인 정보를 다시 확인했습니다.");
+          return;
+        }
+
+        const data = await requestJson<HomeResponse>(
+          buildHomeRequestUrl({
+            ...homeDealFilters,
+            limit: 0
+          })
+        );
+        const snapshot = buildCombinedHomeSnapshot(data, homeDealFilters);
+
+        setDeals(snapshot.deals.deals);
+        setUpdatedAt(snapshot.deals.updatedAt);
+        setProviderSource(snapshot.deals.providerSource);
+        if (snapshot.deals.catalog) setCatalog(snapshot.deals.catalog);
+
+        setNewsDeals(snapshot.news.deals);
+        setNewsTotalCount(snapshot.news.totalCount);
+        setNewsRecommendedQueries(snapshot.news.recommendedQueries);
+        setNewsTargetSections(snapshot.news.targetSections.length ? snapshot.news.targetSections : buildInitialNewsTargetSections(snapshot.news.deals));
+        setNewsIntentGroups(snapshot.news.intentGroups.length ? snapshot.news.intentGroups : buildNewsIntentGroups(snapshot.news.deals));
+        setNewsSourceTrustScores(snapshot.news.sourceTrustScores);
+        setNewsDeadlineSummary(snapshot.news.deadlineSummary);
+        setNewsUpdatedAt(snapshot.news.updatedAt);
+        setNewsFreshness(snapshot.news.freshness);
+
+        setHotSignals(snapshot.hotSignals.length ? snapshot.hotSignals : mockHotSignals);
+        setLastHomeSyncAt(snapshot.updatedAt);
+        setLoadError("");
+        setNewsRefreshError("");
+        if (notify) showToast("최신 할인 정보를 다시 확인했습니다.");
+      } catch {
+        setLoadError("최신 홈 데이터를 한 번에 불러오지 못해 기존 특가를 유지합니다.");
+        setNewsRefreshError("공식 혜택 갱신이 지연되어 기존 혜택을 유지합니다.");
+        await Promise.allSettled([fetchDeals(undefined, true), refreshNewsDeals({ silent: true }), fetchSignals(true)]);
+        if (notify) showToast("일부 데이터를 다시 확인하지 못했습니다.");
+      } finally {
+        if (!silent) {
+          setIsLoading(false);
+          setIsNewsRefreshing(false);
+          setIsSignalLoading(false);
+        }
+      }
+    },
+    [fetchDeals, fetchSignals, homeDealFilters, refreshNewsDeals, showToast]
+  );
+
   const refreshHomeNow = () => {
-    void Promise.all([
-      fetchDeals(undefined, false),
-      refreshNewsDeals({ notify: false }),
-      fetchSignals(false)
-    ]).then(() => {
-      showToast("최신 할인 정보를 다시 확인했습니다.");
-    });
+    void refreshHomeSnapshot({ notify: true });
   };
 
   const stats = useMemo(() => buildHomeStats(deals, favorites), [deals, favorites]);
@@ -1495,7 +1552,7 @@ export default function Home() {
             isOffline={isOffline}
             providerSource={providerSource}
             latestPriceCheckedAt={dataQuality.latestPriceCheckedAt}
-            updatedAt={updatedAt || newsUpdatedAt}
+            updatedAt={lastHomeSyncAt || updatedAt || newsUpdatedAt}
             isRefreshing={isLoading || isNewsRefreshing || isSignalLoading}
             onRefresh={refreshHomeNow}
           />

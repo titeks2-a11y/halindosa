@@ -61,9 +61,14 @@ export async function runPageSmokeChecks() {
       assert(cacheControl.includes("no-store"), `${endpoint} should return no-store cache-control, got ${cacheControl || "(missing)"}`);
       assert(data.updatedAt, `${endpoint} should expose updatedAt for realtime trust copy`);
       assert(data.ok === true || Array.isArray(data.deals) || Array.isArray(data.signals), `${endpoint} should return usable fallback data shape`);
+      if (endpoint.startsWith("/api/home")) {
+        assert(data.cachePolicy?.mode === "no-store", "/api/home should expose no-store snapshot metadata");
+        assert(data.newsMeta?.freshnessStatus, "/api/home should expose official benefit freshness metadata");
+        assert(Array.isArray(data.deals) && Array.isArray(data.newsDeals) && Array.isArray(data.hotSignals), "/api/home should return product, official benefit, and signal arrays together");
+      }
     }
 
-    assert(homeApiSource.includes("ts: String(timestamp)") && homeApiSource.includes('cache: "no-store"'), "Home API client should use cache busting and no-store fetch");
+    assert(homeApiSource.includes("buildHomeRequestUrl") && homeApiSource.includes("ts: String(timestamp)") && homeApiSource.includes('cache: "no-store"'), "Home API client should use /api/home cache busting and no-store fetch");
     assert(homePageSource.includes("refreshHomeNow") && homePageSource.includes("window.setInterval(refreshIfVisible, 60_000)"), "Home page should expose manual and periodic product refresh");
   });
   
