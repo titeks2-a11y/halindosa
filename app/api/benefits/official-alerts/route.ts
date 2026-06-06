@@ -1,7 +1,19 @@
 import { NextResponse } from "next/server";
 import { createRequestId, getClientKey, rateLimit, rateLimitHeaders } from "@/lib/apiGuards";
+import { noStoreHeaders } from "@/lib/api/noStore";
 import { buildOfficialBenefitAlertQueue } from "@/lib/deals/officialBenefitAlertQueue";
 import { getVisibleNewsDeals } from "@/lib/deals/newsDeals";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+export const fetchCache = "force-no-store";
+
+function responseHeaders(limit: ReturnType<typeof rateLimit>, requestId: string) {
+  return {
+    ...noStoreHeaders,
+    ...rateLimitHeaders(limit, requestId)
+  };
+}
 
 function readList(searchParams: URLSearchParams, key: string) {
   return searchParams
@@ -27,14 +39,14 @@ export function GET(request: Request) {
         requestId,
         message: "공식 혜택 알림 후보 요청이 너무 많습니다. 잠시 후 다시 시도해주세요."
       },
-      { status: 429, headers: rateLimitHeaders(limit, requestId) }
+      { status: 429, headers: responseHeaders(limit, requestId) }
     );
   }
 
   const url = new URL(request.url);
   const size = Number(url.searchParams.get("limit") ?? 6);
   const itemLimit = Number.isFinite(size) ? Math.max(1, Math.min(12, Math.floor(size))) : 6;
-  const officialBenefits = getVisibleNewsDeals({ limit: 70 });
+  const officialBenefits = getVisibleNewsDeals();
   const recommendations = buildOfficialBenefitAlertQueue(officialBenefits.deals, {
     interests: readList(url.searchParams, "interest"),
     recentNewsIds: readList(url.searchParams, "recentNewsId"),
@@ -47,9 +59,10 @@ export function GET(request: Request) {
       requestId,
       source: officialBenefits.source,
       updatedAt: officialBenefits.updatedAt,
+      totalActiveBenefits: recommendations.summary.totalActiveBenefits,
       recommendations,
       message: "공식 혜택 알림 후보를 불러왔습니다."
     },
-    { headers: rateLimitHeaders(limit, requestId) }
+    { headers: responseHeaders(limit, requestId) }
   );
 }

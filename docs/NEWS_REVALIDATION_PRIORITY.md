@@ -1,14 +1,14 @@
 # Official Benefit Revalidation Priority
 
-Generated: 2026-06-06T14:49:55.931Z
+Generated: 2026-06-06T15:33:08.718Z
 
 Status: PASS
 
 ## Summary
 
-- Total official benefit items: 72
-- Visible official benefits: 72
-- Active official benefits: 72
+- Total official benefit items: 78
+- Visible official benefits: 78
+- Active official benefits: 78
 - Hidden items: 0
 - Expired items: 0
 - Failed items: 0

@@ -1,12 +1,12 @@
 # 무료혜택 Refresh Report
 
-Generated: 2026-06-06T14:52:21.421Z
+Generated: 2026-06-06T15:35:26.671Z
 
 ## Summary
 
 - Mode: freebies
-- Matched items: 29
-- Visible official items: 29
+- Matched items: 35
+- Visible official items: 35
 - Hidden/blocked items: 0
 - Exposed search links: 0
 - Exposed non-official links: 0
@@ -30,14 +30,14 @@ All visible rows must keep `/go/news/[id]` redirect tracking and must resolve to
 | news-oliveyoung-official-events | 올리브영 공식 뷰티 이벤트 | 올리브영 공식 이벤트 | 패션/뷰티 | oliveyoung.co.kr | `/go/news/news-oliveyoung-official-events` |
 | news-kfc-delivery-free-official | KFC 공식 딜리버리 배달비 무료 혜택 | KFC 공식 프로모션 | 외식/배달 | kfckorea.com | `/go/news/news-kfc-delivery-free-official` |
 | news-homeplus-membership-official-coupon | 홈플러스 멤버십 공식 쿠폰·마트 혜택 | 홈플러스 공식 멤버십 | 마트/편의점 | front.homeplus.co.kr | `/go/news/news-homeplus-membership-official-coupon` |
+| news-innisfree-official-coupon-events | 이니스프리 공식 이벤트·쿠폰존 혜택 | 이니스프리 공식 이벤트 | 패션/뷰티 | innisfree.com | `/go/news/news-innisfree-official-coupon-events` |
+| news-kurly-kiehls-sample-event | 컬리 키엘 비타민C 에센스 쿠폰·증정 혜택 | 컬리 공식 상품 상세 | 패션/뷰티 | kurly.com | `/go/news/news-kurly-kiehls-sample-event` |
+| news-kurly-neoflam-free-shipping | 컬리 네오플램 소이 인덕션 편수 냄비 무료배송 특가 | 컬리 공식 상품 상세 | 식품/생필품 | kurly.com | `/go/news/news-kurly-neoflam-free-shipping` |
+| news-kurly-escape-speaker-free-shipping | 컬리 이스케이프 P6 Air 무료배송 쿠폰 특가 | 컬리 공식 상품 상세 | 디지털/가전 | kurly.com | `/go/news/news-kurly-escape-speaker-free-shipping` |
+| news-kurly-clove-fashion-free-shipping | 컬리 클로브 브이넥 니트 무료배송 쿠폰 특가 | 컬리 공식 상품 상세 | 패션/뷰티 | kurly.com | `/go/news/news-kurly-clove-fashion-free-shipping` |
 | news-naverpay-event-benefit | 네이버페이 공식 결제 혜택 | 네이버페이 공식 혜택 | 카드/멤버십 | new-m.pay.naver.com | `/go/news/news-naverpay-event-benefit` |
 | news-mnuri-official-benefit | 문화누리카드 공식 문화·여행 혜택 | 문화누리카드 공식 누리집 | 무료혜택 | mnuri.kr | `/go/news/news-mnuri-official-benefit` |
 | news-naverpay-point-free-benefit | 네이버페이 포인트 공식 적립 혜택 | 네이버페이 포인트 공식 | 무료혜택 | new-m.pay.naver.com | `/go/news/news-naverpay-point-free-benefit` |
-| news-mnuri-online-merchant-benefit | 문화누리카드 온라인 이용처 공식 혜택 | 문화누리카드 공식 이용처 | 정부/공공혜택 | mnuri.kr | `/go/news/news-mnuri-online-merchant-benefit` |
-| news-lpoint-official-benefits | L.POINT 공식 혜택·적립 이벤트 | L.POINT 공식 혜택 | 카드/멤버십 | m.lpoint.com | `/go/news/news-lpoint-official-benefits` |
-| news-lpoint-card-events | L.POINT 공식 카드 이벤트 | L.POINT 공식 이벤트 | 카드/멤버십 | m.lpoint.com | `/go/news/news-lpoint-card-events` |
-| news-visitkorea-travel-benefit | 한국관광공사 공식 여행 혜택 | 대한민국 구석구석 공식 혜택 | 정부/공공혜택 | korean.visitkorea.or.kr | `/go/news/news-visitkorea-travel-benefit` |
-| news-baemin-academy-free-event | 배민아카데미 공식 무료 교육 이벤트 | 배민아카데미 공식 이벤트 | 무료혜택 | academy.baemin.com | `/go/news/news-baemin-academy-free-event` |
 
 ## Blocked Items
 

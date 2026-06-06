@@ -2,13 +2,13 @@
 
 공식 API/RSS/Atom/제휴 JSON feed를 할인도사에 연결한 뒤 사용자 노출 전 반드시 실행하는 end-to-end 검증 리포트입니다.
 
-- 생성 시각: 2026-06-06T14:51:33.307Z
+- 생성 시각: 2026-06-06T15:34:37.059Z
 - 상태: seed_launch_ready
 - 전체 결과: 통과
 - 설정 feed URL: 0개
 - feed env 실패: 0개
 - canary: seed_fallback_only · fresh · 후보 0개
-- 공식 혜택 노출: 72개
+- 공식 혜택 노출: 78개
 - 검색/비공식/종료 노출: 0/0/0
 
 ## 실행 Step

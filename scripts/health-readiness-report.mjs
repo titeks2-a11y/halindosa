@@ -207,7 +207,7 @@ const officialBenefitProviderRiskSummary = {
 };
 const sourceReadinessFailedGates = Array.isArray(sourceReadiness.gates) ? sourceReadiness.gates.filter((gate) => gate.ok !== true) : [];
 const sourceReadinessSummary = sourceReadiness.summary ?? {};
-const minimumVisibleOfficialBenefits = 70;
+const minimumVisibleOfficialBenefits = 75;
 const sourceReadinessOk =
   sourceReadiness.ok === true &&
   sourceReadiness.launchGateStatus === "passed" &&

@@ -105,6 +105,7 @@ if (includesAll(homeRoute, ["newsMeta", "cachePolicy", 'mode: "no-store"', "reco
 }
 
 const refreshedNewsDeals = Array.isArray(refreshedNews.deals) ? refreshedNews.deals : [];
+const minimumVisibleOfficialBenefits = 75;
 const realtimeReadyNewsDeals = refreshedNewsDeals.filter(
   (deal) =>
     deal.publishable === true &&
@@ -125,9 +126,9 @@ const realtimeReadyNewsDeals = refreshedNewsDeals.filter(
 if (
   refreshedNews.generatedAt &&
   newsReport.generatedAt &&
-  refreshedNewsDeals.length >= 70 &&
+  refreshedNewsDeals.length >= minimumVisibleOfficialBenefits &&
   realtimeReadyNewsDeals.length === refreshedNewsDeals.length &&
-  Number(newsReport.visibleCount ?? 0) >= 70 &&
+  Number(newsReport.visibleCount ?? 0) >= minimumVisibleOfficialBenefits &&
   Number(newsReport.exposedSearchLinkCount ?? 0) === 0 &&
   Number(newsReport.exposedNonOfficialLinkCount ?? 0) === 0
 ) {

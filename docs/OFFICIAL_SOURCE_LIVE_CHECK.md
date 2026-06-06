@@ -2,10 +2,10 @@
 
 이 문서는 공식 이벤트/혜택 소스 후보의 현재 접근 상태를 non-strict 방식으로 기록합니다. 무단 크롤링을 수행하지 않으며, 보호된 페이지는 공식 API/RSS/제휴 feed 또는 수동 승인 데이터로 연결해야 합니다.
 
-- 생성 시각: 2026-06-06T14:51:23.825Z
+- 생성 시각: 2026-06-06T15:34:34.968Z
 - 모드: non_strict_live_readiness
-- 후보 소스: 61개
-- 접근 가능: 49개
+- 후보 소스: 67개
+- 접근 가능: 55개
 - 보호/권한 확인 필요: 12개
 - 검토 필요: 0개
 - timeout/network error: 0개
@@ -22,7 +22,7 @@
 
 | 상태 | 수 | 운영 액션 |
 | --- | ---: | --- |
-| reachable | 49 | 승인 feed 또는 공식 페이지 매핑 후보로 유지 |
+| reachable | 55 | 승인 feed 또는 공식 페이지 매핑 후보로 유지 |
 | guarded | 12 | 공식 API/RSS/제휴 feed 확인 |
 | needs_review | 0 | 최종 도메인과 응답 정책 수동 확인 |
 | timeout/network_error | 0 | 재시도 또는 담당자 확인 |
@@ -93,6 +93,12 @@
 | uplus-membership-official-benefit | public_coupon | medium | guarded | 200 | lguplus.com | 로그인/권한 페이지를 수집하지 말고 공식 API/RSS/제휴 feed 또는 수동 승인 매핑 사용 |
 | seoul-culture-official-free-events | public_coupon | high | reachable | 200 | culture.seoul.go.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | national-museum-official-exhibition | public_coupon | medium | reachable | 200 | museum.go.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| innisfree-sample-market | public_coupon | high | reachable | 200 | m.innisfree.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| innisfree-event-coupon | official_event | medium | reachable | 200 | innisfree.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| kurly-beauty-sample-product | official_event | medium | reachable | 200 | kurly.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| kurly-living-free-shipping-product | official_event | medium | reachable | 200 | kurly.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| kurly-digital-free-shipping-product | official_event | medium | reachable | 200 | kurly.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| kurly-fashion-free-shipping-product | official_event | medium | reachable | 200 | kurly.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 
 ## 다음 작업
 

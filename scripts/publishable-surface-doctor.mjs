@@ -206,7 +206,7 @@ if ((freebiesReport.exposedSearchLinks ?? 999) !== 0 || (freebiesReport.exposedN
   sliceIssues.push("freebies report exposes search or non-official links");
 }
 if (eventsReport.ok !== true) sliceIssues.push("events report is not passing");
-if ((eventsReport.visibleCount ?? 0) < 70) sliceIssues.push("events report visible count is below launch floor");
+if ((eventsReport.visibleCount ?? 0) < 75) sliceIssues.push("events report visible count is below launch floor");
 if ((eventsReport.exposedSearchLinks ?? 999) !== 0 || (eventsReport.exposedNonOfficialLinks ?? 999) !== 0) {
   sliceIssues.push("events report exposes search or non-official links");
 }
