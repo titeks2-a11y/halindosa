@@ -732,15 +732,22 @@ await check("admin live probe review api", async () => {
   assert(data.report?.reasonCounts && typeof data.report.reasonCounts === "object", "Live probe review should include reason counts");
   assert(data.report?.retryModeCounts && typeof data.report.retryModeCounts === "object", "Live probe review should include retry mode counts");
   assert(data.report?.manualEvidenceSummary?.maxAgeDays === 7, "Live probe review should enforce a 7-day manual evidence freshness window");
+  const manualEvidenceRequiredCount = data.report?.summary?.manualEvidenceRequiredCount ?? data.report?.manualEvidenceSummary?.reviewedQueueItems;
   assert(
-    data.report?.manualEvidenceSummary?.reviewedQueueItems === data.report?.summary?.reviewQueueCount,
-    "Live probe review should require manual evidence for every protected/rate-limited queue item"
+    data.report?.manualEvidenceSummary?.reviewedQueueItems === manualEvidenceRequiredCount,
+    "Live probe review should require manual evidence for every protected/rate-limited/retry queue item"
   );
   assert(data.report?.manualEvidenceSummary?.staleManualEvidenceCount === 0, "Live probe review should have zero stale manual evidence items");
   assert(data.report?.manualEvidenceSummary?.missingManualEvidenceCount === 0, "Live probe review should have zero missing manual evidence items");
+  const evidenceRequiredQueue = data.report?.reviewQueue.filter((item) => item.retryMode !== "remove_or_replace") ?? [];
   assert(
-    data.report?.reviewQueue.every((item) => item.manualEvidenceFresh === true && item.manualEvidenceStatus === "fresh"),
-    "Live probe review queue should expose only fresh manual evidence"
+    evidenceRequiredQueue.every((item) => item.manualEvidenceFresh === true && item.manualEvidenceStatus === "fresh"),
+    "Live probe review evidence-required queue should expose only fresh manual evidence"
+  );
+  const quarantinedQueue = data.report?.reviewQueue.filter((item) => item.retryMode === "remove_or_replace" || item.severity === "quarantine") ?? [];
+  assert(
+    quarantinedQueue.every((item) => item.publishable === false || item.isHidden === true),
+    "Live probe review quarantined hard failures should stay hidden from public surfaces"
   );
 });
 

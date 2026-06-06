@@ -1129,6 +1129,7 @@ export async function checkOperationalDataSurfaces() {
     !liveProbeReviewScript.includes("exposedHardFailureCount") ||
     !liveProbeReviewScript.includes("manualEvidenceSummary") ||
     !liveProbeReviewScript.includes("DEAL_MANUAL_EVIDENCE_MAX_AGE_DAYS") ||
+    !liveProbeReviewScript.includes("manualEvidenceRequiredCount") ||
     !liveProbeReviewScript.includes("staleManualEvidenceCount") ||
     !liveProbeReviewScript.includes("missingManualEvidenceCount") ||
     !liveProbeReviewScript.includes("official API") ||
@@ -1152,10 +1153,16 @@ export async function checkOperationalDataSurfaces() {
     (liveProbeReviewReport.summary?.exposedInvalidUrls ?? 1) !== 0 ||
     (liveProbeReviewReport.summary?.exposedNonPublishableItems ?? 1) !== 0 ||
     (liveProbeReviewReport.manualEvidenceSummary?.maxAgeDays ?? 0) !== 7 ||
-    (liveProbeReviewReport.manualEvidenceSummary?.reviewedQueueItems ?? -1) !== (liveProbeReviewReport.summary?.reviewQueueCount ?? 0) ||
+    (liveProbeReviewReport.manualEvidenceSummary?.reviewedQueueItems ?? -1) !==
+      (liveProbeReviewReport.summary?.manualEvidenceRequiredCount ?? liveProbeReviewReport.summary?.reviewQueueCount ?? 0) ||
     (liveProbeReviewReport.manualEvidenceSummary?.staleManualEvidenceCount ?? 1) !== 0 ||
     (liveProbeReviewReport.manualEvidenceSummary?.missingManualEvidenceCount ?? 1) !== 0 ||
-    !liveProbeReviewReport.reviewQueue?.every((item) => item.manualEvidenceFresh === true && item.manualEvidenceStatus === "fresh") ||
+    liveProbeReviewReport.reviewQueue
+      ?.filter((item) => item.retryMode !== "remove_or_replace")
+      .every((item) => item.manualEvidenceFresh === true && item.manualEvidenceStatus === "fresh") !== true ||
+    liveProbeReviewReport.reviewQueue
+      ?.filter((item) => item.retryMode === "remove_or_replace" || item.severity === "quarantine")
+      .every((item) => item.publishable === false || item.isHidden === true) !== true ||
     !Array.isArray(liveProbeReviewReport.reviewQueue) ||
     !Array.isArray(liveProbeReviewReport.topHostActions) ||
     !liveProbeReviewReport.reasonCounts ||

@@ -42,6 +42,7 @@ export interface LiveProbeReviewReport {
     livePassed: number;
     liveFailed: number;
     reviewQueueCount: number;
+    manualEvidenceRequiredCount?: number;
     hardFailureCount: number;
     quarantinedFailureCount?: number;
     exposedHardFailureCount: number;
@@ -98,6 +99,7 @@ const fallbackReport: LiveProbeReviewReport = {
     livePassed: 0,
     liveFailed: 0,
     reviewQueueCount: 0,
+    manualEvidenceRequiredCount: 0,
     hardFailureCount: 0,
     quarantinedFailureCount: 0,
     exposedHardFailureCount: 0,
@@ -162,6 +164,14 @@ export function buildLiveProbeReviewCsv(report: LiveProbeReviewReport) {
     ["unavailable_text", "품절/종료 문구", report.summary.unavailableTextCount, report.summary.unavailableTextCount === 0 ? "pass" : "block", "본문 품절/종료 감지", "노출 차단"],
     ["protected_or_rate_limited", "접근보호/429", report.summary.protectedOrRateLimitedCount, "review", "판매처 자동 차단", "official API/partner feed/manual device check"],
     ["transient_network", "일시 네트워크", report.summary.transientNetworkCount, report.summary.transientNetworkCount === 0 ? "pass" : "watch", "request_failed 등", "backoff retry"],
+    [
+      "manual_evidence_required",
+      "수동 검수 필요",
+      report.summary.manualEvidenceRequiredCount ?? report.manualEvidenceSummary?.reviewedQueueItems ?? 0,
+      (report.manualEvidenceSummary?.staleManualEvidenceCount ?? 0) === 0 && (report.manualEvidenceSummary?.missingManualEvidenceCount ?? 0) === 0 ? "pass" : "block",
+      "접근보호/429/네트워크 재시도 큐",
+      "fresh evidence 유지"
+    ],
     [
       "fresh_manual_evidence",
       "신선한 수동 검수 증거",

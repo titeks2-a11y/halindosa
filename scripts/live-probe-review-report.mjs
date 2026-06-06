@@ -199,9 +199,10 @@ const topHostActions = Object.entries(byHost)
   });
 
 const manualEvidenceItems = reviewQueue.filter((item) => ["official_api_or_partner_feed", "backoff_retry", "network_retry", "manual_device_check"].includes(item.retryMode));
+const manualEvidenceRequiredCount = manualEvidenceItems.length;
 const manualEvidenceSummary = {
   maxAgeDays: manualEvidenceMaxAgeDays,
-  reviewedQueueItems: manualEvidenceItems.length,
+  reviewedQueueItems: manualEvidenceRequiredCount,
   freshManualEvidenceCount: manualEvidenceItems.filter((item) => item.manualEvidenceStatus === "fresh").length,
   staleManualEvidenceCount: manualEvidenceItems.filter((item) => item.manualEvidenceStatus === "stale").length,
   missingManualEvidenceCount: manualEvidenceItems.filter((item) => item.manualEvidenceStatus === "missing").length,
@@ -224,6 +225,7 @@ const summary = {
   livePassed: Number(linkReport.liveProbe?.passed ?? 0),
   liveFailed: Number(linkReport.liveProbe?.failed ?? 0),
   reviewQueueCount: reviewQueue.length,
+  manualEvidenceRequiredCount,
   hardFailureCount: hardFailures.length,
   quarantinedFailureCount: quarantinedFailures.length,
   exposedHardFailureCount: Number(linkReport.liveProbeReviewSummary?.exposedHardFailureCount ?? 0),
@@ -299,6 +301,7 @@ Status: ${report.ok ? "PASS" : "BLOCKED"}
 - Live probe checked: ${summary.liveChecked}
 - Live probe passed: ${summary.livePassed}
 - Live probe review queue: ${summary.reviewQueueCount}
+- Manual evidence required: ${summary.manualEvidenceRequiredCount}
 - Hard failures: ${summary.hardFailureCount}
 - Quarantined hidden failures: ${summary.quarantinedFailureCount}
 - Exposed hard failures: ${summary.exposedHardFailureCount}
