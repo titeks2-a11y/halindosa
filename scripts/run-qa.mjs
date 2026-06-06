@@ -66,6 +66,9 @@ const coreTasks = [
   "home:list-scan:doctor",
   "home:realtime:doctor",
   "smoke:local",
+  "surface:publishable:doctor",
+  "link:revalidation:report",
+  "live:probe:review",
   "build",
   "release:doctor"
 ];

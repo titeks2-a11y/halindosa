@@ -70,6 +70,7 @@ import {
   buildNewsDealsRequestUrl,
   type DealsResponse,
   type HomeFreshness,
+  type HomeQualitySummary,
   type HomeResponse,
   type HotSignalsResponse,
   type NewsDealsResponse,
@@ -169,6 +170,7 @@ export default function Home() {
   const [updatedAt, setUpdatedAt] = useState("");
   const [lastHomeSyncAt, setLastHomeSyncAt] = useState("");
   const [homeFreshness, setHomeFreshness] = useState<HomeFreshness | null>(null);
+  const [homeQuality, setHomeQuality] = useState<HomeQualitySummary | null>(null);
   const [providerSource, setProviderSource] = useState("mock");
   const [isLoading, setIsLoading] = useState(false);
   const [loadError, setLoadError] = useState("");
@@ -847,6 +849,7 @@ export default function Home() {
           await Promise.all([fetchDeals(undefined, true), refreshNewsDeals({ silent: true }), fetchSignals(true)]);
           const generatedAt = new Date().toISOString();
           setLastHomeSyncAt(generatedAt);
+          setHomeQuality(null);
           setHomeFreshness({
             generatedAt,
             status: "fresh",
@@ -913,6 +916,7 @@ export default function Home() {
         setHotSignals(snapshot.hotSignals.length ? snapshot.hotSignals : mockHotSignals);
         setLastHomeSyncAt(snapshot.updatedAt);
         setHomeFreshness(snapshot.freshness ?? null);
+        setHomeQuality(snapshot.quality ?? null);
         setLoadError("");
         setNewsRefreshError("");
         if (notify) showToast("최신 할인 정보를 다시 확인했습니다.");
@@ -1646,6 +1650,9 @@ export default function Home() {
             <HomeStatusStrip
               dealCount={deals.length}
               verifiedDealCount={verifiedHomeDeals.length}
+              publishableDealCount={homeQuality?.productDeals.publishableLinks ?? dataQuality.verifiedLinkCount}
+              officialBenefitCount={newsTotalCount || homeQuality?.officialBenefits.publishable}
+              averageQualityScore={homeQuality?.exposure.averageQualityScore ?? 0}
               newDealCount={stats.newCount}
               hotDealCount={stats.hotCount}
               isOffline={isOffline}

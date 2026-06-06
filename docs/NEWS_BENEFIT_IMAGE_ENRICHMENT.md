@@ -1,13 +1,13 @@
 # Official Benefit Image Enrichment Report
 
-Generated: 2026-06-06T22:07:36.732Z
+Generated: 2026-06-06T22:52:43.476Z
 
 | Metric | Value |
 | --- | ---: |
 | Visible official benefits | 101 |
-| Newly found official images | 64 |
+| Newly found official images | 63 |
 | Retained official image mappings | 64 |
-| Failed probes | 37 |
+| Failed probes | 38 |
 
 ## Failure Reasons
 
@@ -15,9 +15,9 @@ Generated: 2026-06-06T22:07:36.732Z
 - page_403_text/html; charset=UTF-8: 3
 - image_too_small: 5
 - page_404_text/html; charset=UTF-8: 1
+- page_403_text/html: 2
 - page_200_unknown: 2
 - image_200: 2
-- page_403_text/html: 1
 - image_404: 3
 - AbortError: 3
 

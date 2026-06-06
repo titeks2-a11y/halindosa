@@ -56,10 +56,10 @@ if (includesAll(noStoreApi, ["Access-Control-Allow-Origin", "Access-Control-Allo
   fail("public api cors no-store", "공개 홈 데이터 API CORS 또는 OPTIONS no-store 응답 기준이 부족합니다.");
 }
 
-if (includesAll(homeApi, ["buildHomeRequestUrl", "/api/home?", "HomeResponse", "HomeFreshness", "ts: String(timestamp)", "Date.now()", 'cache: "no-store"', '"Cache-Control": "no-cache"', "buildLatestDealsRequestUrl"])) {
+if (includesAll(homeApi, ["buildHomeRequestUrl", "/api/home?", "HomeResponse", "HomeFreshness", "HomeQualitySummary", "ts: String(timestamp)", "Date.now()", 'cache: "no-store"', '"Cache-Control": "no-cache"', "buildLatestDealsRequestUrl"])) {
   pass("home api cache buster", "홈 API 요청이 /api/home snapshot, freshness, no-store, timestamp cache-buster를 함께 사용합니다.");
 } else {
-  fail("home api cache buster", "홈 API 요청에 /api/home snapshot, freshness, timestamp 또는 no-store fetch 설정이 부족합니다.");
+  fail("home api cache buster", "홈 API 요청에 /api/home snapshot, freshness, quality, timestamp 또는 no-store fetch 설정이 부족합니다.");
 }
 
 if (
@@ -196,15 +196,22 @@ if (
     "freshnessStatus",
     "targetSections",
     "buildHomeFreshness",
+    "summarizeDealQuality",
+    "buildOfficialBenefitQuality",
+    "quality",
+    "productDeals",
+    "officialBenefits",
+    "publishableTotal",
+    "averageQualityScore",
     "oldestChannel",
     "nextRefreshAt",
     "staleChannelCount",
     "channels"
   ])
 ) {
-  pass("home snapshot metadata", "/api/home이 공식 혜택 추천, 전체 혜택 분포, 채널별 freshness, no-store 생성 메타를 함께 반환합니다.");
+  pass("home snapshot metadata", "/api/home이 공식 혜택 추천, 전체 혜택 분포, 채널별 freshness, no-store 생성 메타, 노출 품질 요약을 함께 반환합니다.");
 } else {
-  fail("home snapshot metadata", "/api/home 응답에 공식 혜택 추천/전체 혜택 분포/채널별 freshness/no-store 메타가 부족합니다.");
+  fail("home snapshot metadata", "/api/home 응답에 공식 혜택 추천/전체 혜택 분포/채널별 freshness/no-store/quality 메타가 부족합니다.");
 }
 
 const refreshedNewsDeals = Array.isArray(refreshedNews.deals) ? refreshedNews.deals : [];
@@ -246,10 +253,10 @@ if (
   );
 }
 
-if (includesAll(homeStatusStrip, ["실시간 검증됨", "업데이트", "새로고침", "onRefresh", "isRefreshing", "freshnessLabel", "staleChannelCount", "oldestChannel", "refreshIntervalSeconds", "자동 확인"])) {
+if (includesAll(homeStatusStrip, ["실시간 검증됨", "노출가능", "공식혜택", "품질", "업데이트", "새로고침", "onRefresh", "isRefreshing", "freshnessLabel", "staleChannelCount", "oldestChannel", "refreshIntervalSeconds", "자동 확인"])) {
   pass("home realtime status ux", "모바일 상태 배지에 최신성, 수동 새로고침, 진행 상태가 표시됩니다.");
 } else {
-  fail("home realtime status ux", "홈 상태 UI에 최신성 또는 수동 새로고침 표시가 부족합니다.");
+  fail("home realtime status ux", "홈 상태 UI에 최신성, 노출 품질 요약 또는 수동 새로고침 표시가 부족합니다.");
 }
 
 if (

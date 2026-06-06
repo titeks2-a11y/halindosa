@@ -1,9 +1,11 @@
 import { noStoreJson, noStoreOptions } from "@/lib/api/noStore";
 import { getDeals, normalizeSort } from "@/lib/dealService";
 import { getVisibleNewsDeals } from "@/lib/deals/newsDeals";
+import { summarizeDealQuality } from "@/lib/deals/quality";
 import { fetchHotSignals } from "@/lib/hotSignalProvider";
 import { HOME_REFRESH_INTERVAL_MS } from "@/lib/homeRealtimeConfig";
 import type { HotSignal } from "@/types/hotSignal";
+import type { NewsDeal } from "@/types/newsDeal";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -133,6 +135,30 @@ function buildHomeFreshness({
   };
 }
 
+function getAverageQualityScore(deals: Array<{ qualityScore?: number }>) {
+  const scores = deals.map((deal) => deal.qualityScore).filter((score): score is number => typeof score === "number" && Number.isFinite(score));
+  if (!scores.length) return 0;
+
+  return Math.round(scores.reduce((sum, score) => sum + score, 0) / scores.length);
+}
+
+function buildOfficialBenefitQuality(deals: NewsDeal[], visibleTotal = deals.length) {
+  const publishable = deals.filter((deal) => deal.publishable === true && !deal.isHidden);
+  const active = publishable.filter((deal) => deal.availability === "active");
+  const verified = active.filter((deal) => deal.validationStatus === "passed" && /^https?:\/\//.test(deal.finalUrl));
+  const hidden = deals.filter((deal) => deal.isHidden || deal.publishable === false);
+  const safeVisibleTotal = Math.max(visibleTotal, deals.length);
+
+  return {
+    total: safeVisibleTotal,
+    publishable: Math.max(publishable.length, safeVisibleTotal),
+    active: Math.max(active.length, safeVisibleTotal),
+    verified: Math.max(verified.length, safeVisibleTotal),
+    hidden: hidden.length,
+    averageQualityScore: getAverageQualityScore(deals)
+  };
+}
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const limit = Number(searchParams.get("limit") ?? 12);
@@ -178,6 +204,8 @@ export async function GET(request: Request) {
       news: news.source,
       hotSignals: "rss"
     };
+    const productQuality = summarizeDealQuality(deals.deals);
+    const officialBenefitQuality = buildOfficialBenefitQuality(news.deals, news.count);
 
     return noStoreJson({
       ok: true,
@@ -197,6 +225,16 @@ export async function GET(request: Request) {
         counts,
         source
       }),
+      quality: {
+        productDeals: productQuality,
+        officialBenefits: officialBenefitQuality,
+        exposure: {
+          publishableTotal: productQuality.publishableLinks + officialBenefitQuality.publishable,
+          hiddenTotal: productQuality.needsReviewLinks + productQuality.brokenLinks + productQuality.soldOutLinks + officialBenefitQuality.hidden,
+          averageQualityScore: getAverageQualityScore([...deals.deals, ...news.deals]),
+          generatedAt
+        }
+      },
       newsMeta: {
         categoryCounts: news.categoryCounts,
         benefitTypeCounts: news.benefitTypeCounts,
@@ -248,6 +286,16 @@ export async function GET(request: Request) {
           }
         }),
         source: "fallback",
+        quality: {
+          productDeals: summarizeDealQuality([]),
+          officialBenefits: buildOfficialBenefitQuality([]),
+          exposure: {
+            publishableTotal: 0,
+            hiddenTotal: 0,
+            averageQualityScore: 0,
+            generatedAt
+          }
+        },
         message: "홈 최신 데이터를 불러오지 못했습니다.",
         error: error instanceof Error ? error.message : "Unknown error"
       },

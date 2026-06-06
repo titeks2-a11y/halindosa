@@ -1,5 +1,6 @@
 import type { PriceBand } from "@/lib/homeDiscoveryConfig";
 import { isCrossOriginApiRequest, resolveRuntimeApiUrl } from "@/lib/runtimeApi";
+import type { DealQualitySummary } from "@/lib/deals/quality";
 import type { Deal, DealBenefitType, DealSort } from "@/types/deal";
 import type { HotSignal } from "@/types/hotSignal";
 import type { NewsDeadlineSummary, NewsDeal, NewsDealSourceTrust, NewsIntentGroup, NewsTargetSection } from "@/types/newsDeal";
@@ -66,6 +67,28 @@ export interface HomeFreshness {
   channels: Record<HomeFreshnessChannelKey, HomeFreshnessChannel>;
 }
 
+export interface HomeOfficialBenefitQualitySummary {
+  total: number;
+  publishable: number;
+  active: number;
+  verified: number;
+  hidden: number;
+  averageQualityScore: number;
+}
+
+export interface HomeExposureQualitySummary {
+  publishableTotal: number;
+  hiddenTotal: number;
+  averageQualityScore: number;
+  generatedAt: string;
+}
+
+export interface HomeQualitySummary {
+  productDeals: DealQualitySummary;
+  officialBenefits: HomeOfficialBenefitQualitySummary;
+  exposure: HomeExposureQualitySummary;
+}
+
 export interface HomeResponse {
   ok: boolean;
   deals: Deal[];
@@ -106,6 +129,7 @@ export interface HomeResponse {
     mode: "no-store";
     generatedAt: string;
   };
+  quality?: HomeQualitySummary;
   message: string;
 }
 

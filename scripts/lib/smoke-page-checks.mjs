@@ -65,6 +65,9 @@ export async function runPageSmokeChecks() {
         assert(data.cachePolicy?.mode === "no-store", "/api/home should expose no-store snapshot metadata");
         assert(data.newsMeta?.freshnessStatus, "/api/home should expose official benefit freshness metadata");
         assert(data.newsMeta?.categoryCounts && data.newsMeta?.benefitTypeCounts, "/api/home should expose full official benefit count metadata");
+        assert(data.quality?.productDeals?.publishableLinks >= 0, "/api/home should expose product publishable quality metadata");
+        assert(data.quality?.officialBenefits?.publishable >= 0, "/api/home should expose official benefit publishable quality metadata");
+        assert(data.quality?.exposure?.publishableTotal >= data.quality?.officialBenefits?.publishable, "/api/home should expose combined publishable exposure quality metadata");
         assert(data.counts?.newsDeals >= data.newsDeals.length, "/api/home official benefit total count should not be limited to returned rows");
         assert(Array.isArray(data.deals) && Array.isArray(data.newsDeals) && Array.isArray(data.hotSignals), "/api/home should return product, official benefit, and signal arrays together");
       }
