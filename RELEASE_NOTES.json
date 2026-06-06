@@ -1,7 +1,7 @@
 {
   "generatedBy": "npm run release:notes",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "34422d36",
+  "commit": "eef5dd08",
   "workingTree": "M DEVICE_QA_REPORT.md;  M PUBLIC_URL_REPORT.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_HANDOFF_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M docs/DEVICE_QA_REPORT.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_HANDOFF_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md",
   "version": "1.0.1",
   "appName": "할인도사",
@@ -73,14 +73,14 @@
     }
   ],
   "recentCommits": [
+    "eef5dd08 feat: improve official benefit image enrichment",
+    "b80b9de9 chore: refresh store release handoff docs",
     "34422d36 test: refresh launch harness evidence",
     "3e01e9ee chore: refresh store release handoff docs",
     "2707149d feat: expand official benefit source coverage",
     "d82c6850 chore: refresh store release handoff docs",
     "b8566180 feat: raise official benefit trust gate",
-    "524dfca1 feat: expand verified official benefit coverage",
-    "a2193cf4 chore: refresh store release handoff docs",
-    "4da034a9 fix: align live probe evidence review gate"
+    "524dfca1 feat: expand verified official benefit coverage"
   ],
   "manualWorkThatMustNotBeFaked": [
     "Do not claim Play Console or App Store Connect submission has passed from this file.",
