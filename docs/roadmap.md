@@ -6,6 +6,13 @@
 
 ## 완료 작업
 
+### PHASE Official Benefit 80+ Launch Gate
+
+- 할리스, 맘스터치, 메가MGC커피, 써브웨이, 세븐일레븐, 이마트24 공식 이벤트/쿠폰 소스를 seed와 official source catalog에 추가해 `refresh:news` 기준 수집 85개, 중복 제거 후 사용자 노출 공식 혜택 84개를 확보했다.
+- 공식 혜택 노출 최소 기준을 80개로 상향하고 `verify:news`, `smoke:local`, `release:doctor`, `health:readiness`, `source:readiness`, `cron:refresh:doctor`, `daily:operations:report`, `push:readiness:report`, `home:realtime:doctor`가 같은 80개 기준을 보도록 통일했다.
+- `refresh:all`, `news:feed:live`, `source:readiness:report`, `official:alerts:report`, `daily:operations:report` 리포트를 재생성해 공식 혜택 84/84, 숨김/종료/비공식/검색 링크 0건, 상품 구매 링크 140/140 검증 상태를 운영 증거로 남겼다.
+- 브라우저 홈 확인에서 `실시간 검증됨 · 140개`, `공식 링크 84개`, 구매/받기 CTA가 정상 표시되는 것을 확인해 최신 데이터가 no-store `/api/home`을 통해 화면에 즉시 반영되는 상태를 점검했다.
+
 ### PHASE Official Benefit 50+ Realtime Gate
 
 - 네이버페이 공식 혜택 seed 중 같은 최종 URL로 중복 제거되던 항목을 별도 공식 혜택 URL로 보정해 `refresh:news` 기준 공식 혜택 52개가 모두 노출되도록 정리했다.

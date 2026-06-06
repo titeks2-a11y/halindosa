@@ -1,13 +1,13 @@
 # Publishable Surface Report
 
-- Generated at: 2026-06-06T16:40:27.469Z
+- Generated at: 2026-06-06T17:09:23.950Z
 - Status: PASS
 - Product customer candidates: 140
 - Product violations: 0
-- Official benefit customer candidates: 78
+- Official benefit customer candidates: 84
 - Official benefit violations: 0
 - Free benefit slice visible: 35
-- Official event slice visible: 77
+- Official event slice visible: 83
 - Exposed search links: 0
 - Exposed sold-out links: 0
 - Exposed non-official benefit links: 0

@@ -2,12 +2,12 @@
 
 이 문서는 할인도사에 연결할 수 있는 공식 이벤트, 공공 혜택, 제휴 JSON/RSS 후보를 정리합니다. 무단 크롤링 후보가 아니라 운영자가 승인 feed 또는 공식 페이지 매핑으로 전환할 때 쓰는 출발점입니다.
 
-- 생성 시각: 2026-06-06T16:40:30.117Z
+- 생성 시각: 2026-06-06T17:09:26.539Z
 - 상태: PASS
-- 후보 소스: 67개
-- 고우선순위 후보: 22개
+- 후보 소스: 73개
+- 고우선순위 후보: 24개
 - 현재 env feed 연결 후보: 0개
-- 공식 혜택 노출: 78개
+- 공식 혜택 노출: 84개
 - feed 전환 상태: seed_launch_ready
 - CSV 리포트: reports/official-source-catalog.csv
 
@@ -16,14 +16,14 @@
 | 카테고리 | 후보 수 | 상태 |
 | --- | ---: | --- |
 | 식품/생필품 | 6 | 충분 |
-| 마트/편의점 | 10 | 충분 |
+| 마트/편의점 | 12 | 충분 |
 | 디지털/가전 | 4 | 충분 |
 | 패션/뷰티 | 8 | 충분 |
-| 외식/배달 | 22 | 충분 |
+| 외식/배달 | 26 | 충분 |
 | 여행/숙박 | 3 | 충분 |
 | 영화/문화 | 13 | 충분 |
-| 카드/멤버십 | 26 | 충분 |
-| 무료혜택 | 41 | 충분 |
+| 카드/멤버십 | 27 | 충분 |
+| 무료혜택 | 46 | 충분 |
 | 정부/공공혜택 | 5 | 충분 |
 
 ## Provider 커버리지
@@ -32,7 +32,7 @@
 | --- | ---: | --- |
 | news | 1 | 포함 |
 | event_news | 2 | 포함 |
-| official_event | 33 | 포함 |
+| official_event | 39 | 포함 |
 | public_coupon | 31 | 포함 |
 
 ## 후보 목록
@@ -106,6 +106,12 @@
 | kurly-living-free-shipping-product | official_event | 식품/생필품, 마트/편의점 | medium | https://www.kurly.com/goods/1001472154 | OFFICIAL_EVENT_FEED_URLS, DEAL_EVENT_FEED_URLS |
 | kurly-digital-free-shipping-product | official_event | 디지털/가전 | medium | https://www.kurly.com/goods/1000284019 | OFFICIAL_EVENT_FEED_URLS, DEAL_EVENT_FEED_URLS |
 | kurly-fashion-free-shipping-product | official_event | 패션/뷰티 | medium | https://www.kurly.com/goods/1002016097 | OFFICIAL_EVENT_FEED_URLS, DEAL_EVENT_FEED_URLS |
+| hollys-official-event-coupon | official_event | 외식/배달, 무료혜택, 카드/멤버십 | medium | https://www.hollys.co.kr/news/event/list.do | OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS |
+| momstouch-official-event-coupon | official_event | 외식/배달, 무료혜택 | medium | https://momstouch.co.kr/board/event/list.php | OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS |
+| mega-mgc-official-event-coupon | official_event | 외식/배달, 무료혜택 | medium | https://www.mega-mgccoffee.com/bbs/board.php?bo_table=event | OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS |
+| subway-official-promotion | official_event | 외식/배달 | medium | https://www.subway.co.kr/eventList | OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS |
+| seven-eleven-official-events | official_event | 마트/편의점, 무료혜택 | high | https://www.7-eleven.co.kr/event/eventList.asp | OFFICIAL_EVENT_FEED_URLS, DEAL_EVENT_FEED_URLS |
+| emart24-official-events | official_event | 마트/편의점, 무료혜택 | high | https://emart24.co.kr/event | OFFICIAL_EVENT_FEED_URLS, DEAL_EVENT_FEED_URLS |
 
 ## 다음 작업
 

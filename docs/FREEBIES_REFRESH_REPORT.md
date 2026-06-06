@@ -1,6 +1,6 @@
 # 무료혜택 Refresh Report
 
-Generated: 2026-06-06T16:41:31.586Z
+Generated: 2026-06-06T17:10:20.384Z
 
 ## Summary
 

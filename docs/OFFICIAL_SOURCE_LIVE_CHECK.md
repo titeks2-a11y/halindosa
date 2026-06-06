@@ -2,10 +2,10 @@
 
 이 문서는 공식 이벤트/혜택 소스 후보의 현재 접근 상태를 non-strict 방식으로 기록합니다. 무단 크롤링을 수행하지 않으며, 보호된 페이지는 공식 API/RSS/제휴 feed 또는 수동 승인 데이터로 연결해야 합니다.
 
-- 생성 시각: 2026-06-06T16:40:32.026Z
+- 생성 시각: 2026-06-06T17:09:28.534Z
 - 모드: non_strict_live_readiness
-- 후보 소스: 67개
-- 접근 가능: 55개
+- 후보 소스: 73개
+- 접근 가능: 61개
 - 보호/권한 확인 필요: 12개
 - 검토 필요: 0개
 - timeout/network error: 0개
@@ -22,7 +22,7 @@
 
 | 상태 | 수 | 운영 액션 |
 | --- | ---: | --- |
-| reachable | 55 | 승인 feed 또는 공식 페이지 매핑 후보로 유지 |
+| reachable | 61 | 승인 feed 또는 공식 페이지 매핑 후보로 유지 |
 | guarded | 12 | 공식 API/RSS/제휴 feed 확인 |
 | needs_review | 0 | 최종 도메인과 응답 정책 수동 확인 |
 | timeout/network_error | 0 | 재시도 또는 담당자 확인 |
@@ -99,6 +99,12 @@
 | kurly-living-free-shipping-product | official_event | medium | reachable | 200 | kurly.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | kurly-digital-free-shipping-product | official_event | medium | reachable | 200 | kurly.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | kurly-fashion-free-shipping-product | official_event | medium | reachable | 200 | kurly.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| hollys-official-event-coupon | official_event | medium | reachable | 200 | hollys.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| momstouch-official-event-coupon | official_event | medium | reachable | 200 | momstouch.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| mega-mgc-official-event-coupon | official_event | medium | reachable | 200 | mega-mgccoffee.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| subway-official-promotion | official_event | medium | reachable | 200 | subway.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| seven-eleven-official-events | official_event | high | reachable | 200 | 7-eleven.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| emart24-official-events | official_event | high | reachable | 200 | emart24.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 
 ## 다음 작업
 
