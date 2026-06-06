@@ -4,10 +4,10 @@
 
 ## 기본 정보
 
-- 생성 시각: 2026-06-06T12:14:20.608Z
+- 생성 시각: 2026-06-06T12:33:20.985Z
 - Git 브랜치: codex/12h-product-ux-growth-hardening
-- 최신 커밋: bc4e7130
-- Git 상태: M LINK_VERIFICATION_REPORT.md;  M LINK_VERIFICATION_RESULT.json;  M data/linkValidationExposureOverrides.json;  M data/refreshedDeals.json;  M data/refreshedNewsDeals.json
+- 최신 커밋: 7855866f
+- Git 상태: clean
 - 패키지 버전: 1.0.1
 - 앱 이름: 할인도사
 - 앱 ID / 패키지명: com.halindosa.app
@@ -40,7 +40,7 @@
 | Store manual submission checklist | `docs/STORE_MANUAL_CHECKLIST.md` | 4KB |
 | Store manual submission checklist JSON | `STORE_MANUAL_CHECKLIST.json` | 5KB |
 | Store launch handoff report | `docs/STORE_HANDOFF_REPORT.md` | 5KB |
-| Release notes | `docs/RELEASE_NOTES.md` | 4KB |
+| Release notes | `docs/RELEASE_NOTES.md` | 5KB |
 | Release notes JSON | `RELEASE_NOTES.json` | 5KB |
 | Support playbook | `docs/SUPPORT_PLAYBOOK.md` | 6KB |
 | Support playbook JSON | `SUPPORT_PLAYBOOK.json` | 5KB |
@@ -65,10 +65,10 @@
 | Official source onboarding plan | `docs/SOURCE_ONBOARDING_PLAN.md` | 16KB |
 | Official source onboarding JSON | `reports/source-onboarding-plan.json` | 60KB |
 | Official source onboarding CSV | `reports/source-onboarding-plan.csv` | 17KB |
-| Image backlog report | `docs/IMAGE_BACKLOG_REPORT.md` | 25KB |
-| Image backlog CSV | `IMAGE_BACKLOG.csv` | 55KB |
+| Image backlog report | `docs/IMAGE_BACKLOG_REPORT.md` | 24KB |
+| Image backlog CSV | `IMAGE_BACKLOG.csv` | 51KB |
 | Image backlog next batch CSV | `IMAGE_BACKLOG_NEXT_BATCH.csv` | 218B |
-| Image backlog mall request CSV | `IMAGE_BACKLOG_MALL_REQUESTS.csv` | 20KB |
+| Image backlog mall request CSV | `IMAGE_BACKLOG_MALL_REQUESTS.csv` | 18KB |
 | Link coverage report | `docs/link-coverage-report.md` | 7KB |
 
 ## 제출 전 검증 명령
