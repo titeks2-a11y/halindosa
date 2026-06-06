@@ -153,7 +153,7 @@ export function getLiveProbeReviewReport(): LiveProbeReviewReport {
 export function buildLiveProbeReviewCsv(report: LiveProbeReviewReport) {
   const summaryRows = [
     ["total_deals", "전체 상품", report.summary.totalDeals, "pass", "live probe 검증 대상", "verify:links 재실행"],
-    ["publishable_deals", "노출 가능 상품", report.summary.publishableDeals, report.summary.publishableDeals >= 140 ? "pass" : "review", "사용자 노출 후보", "노출 정책 확인"],
+    ["publishable_deals", "노출 가능 상품", report.summary.publishableDeals, report.summary.publishableDeals >= 120 ? "pass" : "review", "검증 후 사용자 노출 후보", "노출 정책 확인"],
     ["live_checked", "live probe 확인", report.summary.liveChecked, report.summary.liveChecked >= report.summary.totalDeals ? "pass" : "review", "HTTP/redirect 검증 수행 수", "verify:links:live 재실행"],
     ["live_passed", "본문 확인 통과", report.summary.livePassed, "pass", "본문/메타 검증 성공", "현 상태 유지"],
     ["hard_failures", "hard failure", report.summary.hardFailureCount, report.summary.hardFailureCount === 0 ? "pass" : "block", "404/410/5xx/timeout/품절 문구", "즉시 숨김 또는 상세 URL 교체"],

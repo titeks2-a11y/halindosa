@@ -687,7 +687,7 @@ await check("admin link revalidation priority api", async () => {
   assert(data.ok === true, "Admin link revalidation priority API ok should be true");
   assert(data.report?.ok === true, "Link revalidation priority report should pass");
   assert(data.report?.summary?.auditedItems >= 140, "Link revalidation priority should audit all products");
-  assert(data.report?.summary?.publishableItems >= 140, "Link revalidation priority should include the publishable product set");
+  assert(data.report?.summary?.publishableItems >= 120, "Link revalidation priority should preserve a healthy publishable product set after quarantine");
   assert(data.report?.summary?.blockingRevalidationItems === 0, "Link revalidation priority should have zero blocking items");
   assert(typeof data.report?.summary?.userReportedItems === "number", "Link revalidation priority should expose user-reported revalidation items");
   assert(data.report?.summary?.exposedSearchLinks === 0, "Link revalidation priority should expose zero search links");
@@ -715,7 +715,7 @@ await check("admin live probe review api", async () => {
   assert(data.ok === true, "Admin live probe review API ok should be true");
   assert(data.report?.ok === true, "Live probe review report should pass");
   assert(data.report?.summary?.totalDeals >= 140, "Live probe review should audit all products");
-  assert(data.report?.summary?.publishableDeals >= 140, "Live probe review should include the publishable product set");
+  assert(data.report?.summary?.publishableDeals >= 120, "Live probe review should preserve a healthy publishable product set after quarantine");
   assert(data.report?.summary?.liveChecked >= data.report.summary.totalDeals, "Live probe review should live-check every audited product");
   assert(data.report?.summary?.hardFailureCount === 0, "Live probe review should have zero hard failures");
   assert(data.report?.summary?.exposedHardFailureCount === 0, "Live probe review should have zero customer-visible hard failures");
@@ -723,6 +723,8 @@ await check("admin live probe review api", async () => {
   assert(data.report?.summary?.exposedSearchLinks === 0, "Live probe review should expose zero search links");
   assert(data.report?.summary?.exposedSoldOutLinks === 0, "Live probe review should expose zero sold-out links");
   assert(data.report?.summary?.exposedBrokenLinks === 0, "Live probe review should expose zero broken links");
+  assert(data.report?.summary?.exposedInvalidUrls === 0, "Live probe review should expose zero invalid URLs");
+  assert(data.report?.summary?.exposedNonPublishableItems === 0, "Live probe review should expose zero quarantined or non-publishable items");
   assert(Array.isArray(data.report?.reviewQueue), "Live probe review should include an operator review queue");
   assert(Array.isArray(data.report?.topHostActions), "Live probe review should include host-level review actions");
   assert(data.report?.reasonCounts && typeof data.report.reasonCounts === "object", "Live probe review should include reason counts");

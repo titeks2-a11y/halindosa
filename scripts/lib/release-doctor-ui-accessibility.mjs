@@ -68,6 +68,7 @@ export async function checkUiAccessibility() {
   const imageBacklogReport = await text("docs/IMAGE_BACKLOG_REPORT.md");
   const mobileUxReport = await text("MOBILE_UX_REPORT.md");
   const imageTest = await text("scripts/test-images.mjs");
+  const verifyImages = await text("scripts/verify-images.mjs");
   const imageOperationsDoctor = await text("scripts/image-operations-doctor.mjs");
   const harnessReport = await text("HARNESS_REPORT.md");
   const harnessScript = await text("scripts/harness.mjs");
@@ -445,11 +446,15 @@ export async function checkUiAccessibility() {
 
   if (
     !packageJson.includes('"test:images"') ||
+    !packageJson.includes('"verify:images"') ||
     !packageJson.includes('"image:backlog:report"') ||
     !packageJson.includes('"image:operations:doctor"') ||
     !packageJson.includes("test:images") ||
+    !packageJson.includes("verify:images") ||
     !packageJson.includes("image:backlog:report") ||
     !packageJson.includes("image:operations:doctor") ||
+    !verifyImages.includes("imageType") ||
+    !verifyImages.includes("qualityScore") ||
     !imageTest.includes("minimumExplicitImageRate = 25") ||
     !imageTest.includes("fallbackDealBacklog") ||
     !imageOperationsDoctor.includes("minimum explicit image gate") ||
@@ -476,6 +481,9 @@ export async function checkUiAccessibility() {
   if (
     !harnessScript.includes('["release:doctor", ["run", "release:doctor"]]') ||
     !harnessScript.includes('["test:mobile-ux", ["run", "test:mobile-ux"]]') ||
+    !harnessScript.includes('["test:mobile-compact", ["run", "test:mobile-compact"]]') ||
+    !harnessScript.includes('["verify:images", ["run", "verify:images"]]') ||
+    !harnessScript.includes('["test:home-realtime", ["run", "test:home-realtime"]]') ||
     !harnessScript.includes('writeFileSync(join(root, "docs", "HARNESS_REPORT.md")') ||
     !harnessScript.includes('writeFileSync(join(root, "HARNESS_REPORT.md")') ||
     !imageQualityEvidenceSynced

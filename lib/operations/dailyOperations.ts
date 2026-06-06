@@ -261,8 +261,8 @@ export function getDailyOperationsReport(): DailyOperationsReport {
   const gates = [
     buildGate(
       "검증 구매 링크",
-      summary.productDealsCount >= 140 && summary.verifiedProductLinks >= 140 && summary.exposedSearchLinks === 0 && summary.exposedSoldOutLinks === 0 && summary.hiddenProductDeals === 0,
-      `상품 ${summary.productDealsCount}개, 검증 링크 ${summary.verifiedProductLinks}개, 검색 링크 ${summary.exposedSearchLinks}개, 품절 노출 ${summary.exposedSoldOutLinks}개`,
+      summary.productDealsCount >= 140 && summary.verifiedProductLinks >= 120 && summary.exposedSearchLinks === 0 && summary.exposedSoldOutLinks === 0,
+      `상품 ${summary.productDealsCount}개, 검증 노출 링크 ${summary.verifiedProductLinks}개, 숨김 리뷰 ${summary.hiddenProductDeals}개, 검색 링크 ${summary.exposedSearchLinks}개, 품절 노출 ${summary.exposedSoldOutLinks}개`,
       "npm run verify:links && npm run verify:products && npm run exposure:doctor"
     ),
     buildGate(

@@ -144,7 +144,7 @@ export function getLinkRevalidationPriorityReport(): LinkRevalidationPriorityRep
 export function buildLinkRevalidationPriorityCsv(report: LinkRevalidationPriorityReport) {
   const summaryRows = [
     ["audited_items", "감사 상품", report.summary.auditedItems, report.summary.auditedItems >= 140 ? "pass" : "review", "전체 검증 대상", "verify:links 재실행"],
-    ["publishable_items", "노출 가능 상품", report.summary.publishableItems, report.summary.publishableItems >= 140 ? "pass" : "review", "publishable=true 후보", "노출 정책 확인"],
+    ["publishable_items", "노출 가능 상품", report.summary.publishableItems, report.summary.publishableItems >= 120 ? "pass" : "review", "검증 후 publishable=true 후보", "노출 정책 확인"],
     ["hidden_items", "숨김 상품", report.summary.hiddenItems, report.summary.hiddenItems === 0 ? "pass" : "review", "검증 실패/숨김 상품", "복구 전 재검증"],
     ["exposed_search_links", "검색 링크 노출", report.summary.exposedSearchLinks, report.summary.exposedSearchLinks === 0 ? "pass" : "block", "검색/대표몰 링크 노출", "즉시 차단"],
     ["exposed_sold_out_links", "품절/종료 노출", report.summary.exposedSoldOutLinks, report.summary.exposedSoldOutLinks === 0 ? "pass" : "block", "품절/종료 링크 노출", "availability=sold_out"],

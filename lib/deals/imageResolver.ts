@@ -42,3 +42,9 @@ export function isCategoryFallbackImage(value?: string) {
 export function isRealDealImageUrl(value?: string) {
   return Boolean(value && !isCategoryFallbackImage(value));
 }
+
+export function getDealImageType(value?: string) {
+  if (!value) return "fallback";
+  if (isCategoryFallbackImage(value)) return "generated";
+  return "official";
+}

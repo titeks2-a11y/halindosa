@@ -2,8 +2,9 @@ import { Deal, DealCategory } from "@/types/deal";
 import { buildSellerSearchUrl } from "@/lib/affiliate";
 import { buildBenefitSummary, inferDealBenefitType } from "@/lib/deals/benefits";
 import { buildBenefitClaimGuide } from "@/lib/deals/claimGuide";
+import { getDealImageType } from "@/lib/deals/imageResolver";
 import { validatePurchaseLink } from "@/lib/deals/linkValidator";
-import { getDealPriorityScore, getDealValidationCode, resolveDealAvailability, resolveDealValidationStatus, shouldHideDeal } from "@/lib/deals/quality";
+import { getDealPriorityScore, getDealQualityScore, getDealValidationCode, resolveDealAvailability, resolveDealValidationStatus, shouldHideDeal } from "@/lib/deals/quality";
 import {
   containsPolicyUnavailableText,
   isPolicyBlockedHost,
@@ -39,6 +40,8 @@ export type DealInput = Partial<Deal> & {
   validationReason?: string;
   lastCheckedAt?: string;
   priorityScore?: number;
+  qualityScore?: number;
+  imageType?: Deal["imageType"];
   isHidden?: boolean;
   linkVerified?: boolean;
   purchaseLinkVerified?: boolean;
@@ -159,8 +162,25 @@ export function normalizeDeal(input: DealInput, source = input.source ?? "mock")
   const lastCheckedAt = input.lastCheckedAt ?? checkedAt;
   const isHidden = input.isHidden ?? (hasUnavailableSignal || shouldHideDeal({ ...qualityInput, availability, validationStatus }));
   const validationCode = input.validationCode ?? getDealValidationCode({ ...qualityInput, availability, validationStatus, isHidden });
-  const publishable = input.publishable ?? (!isHidden && validationCode === "valid");
   const priorityScore = input.priorityScore ?? getDealPriorityScore({ ...qualityInput, availability, validationStatus, validationReason, lastCheckedAt, isHidden });
+  const imageType = input.imageType ?? getDealImageType(thumbnail);
+  const qualityScore = input.qualityScore ?? getDealQualityScore({
+    ...qualityInput,
+    availability,
+    validationStatus,
+    validationReason,
+    lastCheckedAt,
+    isHidden,
+    priorityScore,
+    imageType,
+    source,
+    sourceName: input.sourceName,
+    sourceUrl: publicSourceUrl,
+    verifiedAt: input.verifiedAt,
+    updatedAt: input.updatedAt,
+    reportCount: input.reportCount
+  });
+  const publishable = input.publishable ?? (!isHidden && validationCode === "valid" && qualityScore >= 55);
   const conditionText = [input.title, input.category, ...tags].join(" ");
   const isFirstComeFirstServed = input.isFirstComeFirstServed ?? /선착순|한정수량|오늘만|마감임박/.test(conditionText);
   const requiresSignup = input.requiresSignup ?? /첫 구매|신규 가입|체험단|포인트|앱테크|무료체험/.test(conditionText);
@@ -218,6 +238,7 @@ export function normalizeDeal(input: DealInput, source = input.source ?? "mock")
     validationCode,
     lastCheckedAt,
     priorityScore,
+    qualityScore,
     isHidden,
     publishable,
     verifiedAt: linkStatus === "verified" ? (input.verifiedAt ?? priceCheckedAt) : undefined,
@@ -262,6 +283,7 @@ export function normalizeDeal(input: DealInput, source = input.source ?? "mock")
     updatedAt: input.updatedAt ?? priceCheckedAt,
     mall: mallName,
     imageUrl: thumbnail,
+    imageType,
     shippingInfo: shipping,
     expiresAt: expireAt
   };

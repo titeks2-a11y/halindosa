@@ -17,6 +17,7 @@ export type DealLinkStatus = "verified" | "needs_review" | "broken" | "sold_out"
 export type DealPurchaseStatus = "available" | "needs_review" | "sold_out" | "broken";
 export type DealAvailability = "active" | "sold_out" | "ended" | "unknown";
 export type DealValidationStatus = "passed" | "failed" | "needs_review";
+export type DealImageType = "official" | "generated" | "fallback";
 export type DealValidationCode =
   | "valid"
   | "invalid"
@@ -82,6 +83,7 @@ export interface Deal {
   validationCode: DealValidationCode;
   lastCheckedAt: string;
   priorityScore: number;
+  qualityScore: number;
   isHidden: boolean;
   publishable: boolean;
   verifiedAt?: string;
@@ -124,6 +126,7 @@ export interface Deal {
   updatedAt: string;
   mall: string;
   imageUrl: string;
+  imageType: DealImageType;
   shippingInfo: string;
   expiresAt: string;
 }

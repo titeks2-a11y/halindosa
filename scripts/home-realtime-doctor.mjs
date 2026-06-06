@@ -70,10 +70,17 @@ if (includesAll(homeStatusStrip, ["실시간 검증됨", "업데이트", "새로
   fail("home realtime status ux", "홈 상태 UI에 최신성 또는 수동 새로고침 표시가 부족합니다.");
 }
 
-if (packageJson.scripts?.["home:realtime:doctor"] === "node scripts/home-realtime-doctor.mjs" && qaRunner.includes("home:realtime:doctor") && harness.includes("home:realtime:doctor")) {
-  pass("home realtime qa gate", "home:realtime:doctor가 package, QA, harness에 연결되어 있습니다.");
+if (
+  packageJson.scripts?.["home:realtime:doctor"] === "node scripts/home-realtime-doctor.mjs" &&
+  packageJson.scripts?.["test:home-realtime"] === "node scripts/home-realtime-doctor.mjs" &&
+  qaRunner.includes("home:realtime:doctor") &&
+  qaRunner.includes("test:home-realtime") &&
+  harness.includes("home:realtime:doctor") &&
+  harness.includes("test:home-realtime")
+) {
+  pass("home realtime qa gate", "home:realtime:doctor와 test:home-realtime이 package, QA, harness에 연결되어 있습니다.");
 } else {
-  fail("home realtime qa gate", "home:realtime:doctor 스크립트가 package, QA, harness 중 일부에 연결되지 않았습니다.");
+  fail("home realtime qa gate", "home:realtime:doctor 또는 test:home-realtime 스크립트가 package, QA, harness 중 일부에 연결되지 않았습니다.");
 }
 
 const failed = checks.filter((check) => !check.ok);

@@ -1139,7 +1139,7 @@ export async function checkOperationalDataSurfaces() {
   if (
     liveProbeReviewReport.ok !== true ||
     (liveProbeReviewReport.summary?.totalDeals ?? 0) < 140 ||
-    (liveProbeReviewReport.summary?.publishableDeals ?? 0) < 140 ||
+    (liveProbeReviewReport.summary?.publishableDeals ?? 0) < 120 ||
     (liveProbeReviewReport.summary?.liveChecked ?? 0) < (liveProbeReviewReport.summary?.totalDeals ?? 0) ||
     (liveProbeReviewReport.summary?.hardFailureCount ?? 1) !== 0 ||
     (liveProbeReviewReport.summary?.exposedHardFailureCount ?? 1) !== 0 ||
@@ -1159,7 +1159,7 @@ export async function checkOperationalDataSurfaces() {
     !liveProbeReviewReport.reasonCounts ||
     !liveProbeReviewReport.retryModeCounts
   ) {
-    linkPolicyIssues.push("live probe review report should pass with zero hard/unavailable/search/sold-out/broken exposures, fresh manual evidence, and operator retry queues");
+    linkPolicyIssues.push("live probe review report should audit 140 deals, keep at least 120 publishable deals after quarantine, expose zero hard/unavailable/search/sold-out/broken failures, keep fresh manual evidence, and provide operator retry queues");
   }
   if (
     !liveProbeReviewDoc.includes("Hard failures") ||

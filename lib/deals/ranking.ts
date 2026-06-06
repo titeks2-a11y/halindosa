@@ -17,6 +17,7 @@ export function getCommercialDealScore(deal: Deal, now = Date.now()) {
   return (
     getLinkQualityScore(deal) +
     getDealImageQualityScore(deal) +
+    (deal.qualityScore ?? 0) * 0.35 +
     Number(deal.isHot) * 40 +
     Number(deal.isFreeShipping) * 12 +
     deal.popularityScore +

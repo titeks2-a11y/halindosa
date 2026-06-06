@@ -1,9 +1,9 @@
 import { Deal } from "@/types/deal";
 import { buildBenefitSummary, inferDealBenefitType } from "@/lib/deals/benefits";
 import { buildBenefitClaimGuide } from "@/lib/deals/claimGuide";
-import { deriveProductImageUrlFromPurchaseUrl } from "@/lib/deals/imageResolver";
+import { deriveProductImageUrlFromPurchaseUrl, getDealImageType } from "@/lib/deals/imageResolver";
 import { validatePurchaseLink } from "@/lib/deals/linkValidator";
-import { getDealPriorityScore, getDealValidationCode, resolveDealAvailability, resolveDealValidationStatus, shouldHideDeal } from "@/lib/deals/quality";
+import { getDealPriorityScore, getDealQualityScore, getDealValidationCode, resolveDealAvailability, resolveDealValidationStatus, shouldHideDeal } from "@/lib/deals/quality";
 import { verifiedPurchaseLinks } from "./verifiedPurchaseLinks";
 
 const now = Date.now();
@@ -173,8 +173,25 @@ function deal(
   const lastCheckedAt = checkedAt;
   const isHidden = shouldHideDeal({ ...qualityInput, availability, validationStatus });
   const validationCode = getDealValidationCode({ ...qualityInput, availability, validationStatus, isHidden });
-  const publishable = !isHidden && validationCode === "valid";
   const priorityScore = getDealPriorityScore({ ...qualityInput, availability, validationStatus, validationReason, lastCheckedAt, isHidden });
+  const imageType = getDealImageType(displayImageUrl);
+  const qualityScore = getDealQualityScore({
+    ...qualityInput,
+    availability,
+    validationStatus,
+    validationReason,
+    lastCheckedAt,
+    isHidden,
+    priorityScore,
+    imageType,
+    source: "mock",
+    sourceName: isCommunitySource(rawSourceUrl) ? "할인도사 원문 확인" : mall,
+    sourceUrl: publicSourceUrl,
+    verifiedAt: validation.linkVerified ? checkedAt : undefined,
+    updatedAt: checkedAt,
+    reportCount: validation.linkVerified ? 0 : 1
+  });
+  const publishable = !isHidden && validationCode === "valid" && qualityScore >= 55;
 
   return {
     id,
@@ -215,6 +232,7 @@ function deal(
     validationCode,
     lastCheckedAt,
     priorityScore,
+    qualityScore,
     isHidden,
     publishable,
     verifiedAt: validation.linkVerified ? checkedAt : undefined,
@@ -255,6 +273,7 @@ function deal(
     updatedAt: checkedAt,
     mall,
     imageUrl: displayImageUrl,
+    imageType,
     shippingInfo,
     expiresAt
   };

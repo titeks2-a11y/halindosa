@@ -5,6 +5,7 @@ import {
   isPolicyPlaceholderHost,
   isPolicySearchLikeUrl
 } from "@/lib/deals/linkQualityPolicy";
+import { getDealImageType } from "@/lib/deals/imageResolver";
 
 export interface DealQualitySummary {
   total: number;
@@ -253,6 +254,48 @@ export function getDealPriorityScore(deal: VisibilityInput) {
   if (deal.linkStatus === "sold_out" || deal.isSoldOut) score -= 60;
   if (deal.isExpired) score -= 55;
   if (shouldHideDeal(deal)) score -= 20;
+
+  return Math.max(0, Math.min(100, Math.round(score)));
+}
+
+export function getDealQualityScore(
+  deal: VisibilityInput &
+    Partial<
+      Pick<
+        Deal,
+        | "source"
+        | "sourceName"
+        | "sourceUrl"
+        | "verifiedAt"
+        | "updatedAt"
+        | "reportCount"
+        | "qualityScore"
+        | "imageType"
+        | "priorityScore"
+      >
+    >
+) {
+  if (typeof deal.qualityScore === "number") return Math.max(0, Math.min(100, Math.round(deal.qualityScore)));
+
+  const priorityScore = typeof deal.priorityScore === "number" ? deal.priorityScore : getDealPriorityScore(deal);
+  const imageType = deal.imageType ?? getDealImageType(deal.thumbnail || deal.imageUrl);
+  const checkedAt = Date.parse(`${deal.verifiedAt || deal.lastCheckedAt || deal.checkedAt || deal.priceCheckedAt || deal.updatedAt || ""}`);
+  const freshnessHours = Number.isFinite(checkedAt) ? Math.max(0, (Date.now() - checkedAt) / (60 * 60 * 1000)) : 999;
+  let score = Math.round(priorityScore * 0.62);
+
+  if (isVerifiedPurchaseLink(deal)) score += 14;
+  if (deal.purchaseLinkVerified || deal.linkVerified) score += 8;
+  if (deal.availability === "active") score += 6;
+  if (deal.validationStatus === "passed") score += 6;
+  if (imageType === "official") score += 10;
+  if (imageType === "generated") score += 4;
+  if (imageType === "fallback") score -= 8;
+  if (deal.sourceName || deal.sourceUrl || deal.source) score += 4;
+  if (freshnessHours <= 2) score += 5;
+  else if (freshnessHours <= 24) score += 3;
+  else if (freshnessHours > 72) score -= 10;
+  if ((deal.reportCount ?? 0) > 0) score -= Math.min(12, (deal.reportCount ?? 0) * 4);
+  if (shouldHideDeal(deal)) score -= 50;
 
   return Math.max(0, Math.min(100, Math.round(score)));
 }
