@@ -1,9 +1,9 @@
 # 할인도사 Known Issues
 
-Generated: 2026-06-06T18:54:38.660Z
+Generated: 2026-06-06T19:00:36.853Z
 Branch: codex/12h-product-ux-growth-hardening
-Commit: eef5dd08
-Working tree: M DEVICE_QA_REPORT.md;  M PUBLIC_URL_REPORT.md;  M RELEASE_NOTES.json;  M RELEASE_NOTES.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_HANDOFF_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M SUPPORT_PLAYBOOK.json;  M SUPPORT_PLAYBOOK.md;  M docs/DEVICE_QA_REPORT.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/RELEASE_NOTES.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_HANDOFF_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md;  M docs/SUPPORT_PLAYBOOK.md
+Commit: f45d0e5b
+Working tree: M KNOWN_ISSUES.md;  M docs/KNOWN_ISSUES.md;  M scripts/known-issues-report.mjs;  M scripts/release-doctor.mjs
 
 ## Critical
 
@@ -14,14 +14,16 @@ Working tree: M DEVICE_QA_REPORT.md;  M PUBLIC_URL_REPORT.md;  M RELEASE_NOTES.j
 - Visible curated deals: 140
 - Direct product or official benefit links: 140/140
 - Manual link review needed: 0
-- Explicit product images: 39
-- Fallback image backlog: 101
+- Explicit product images: 93/140 (66%)
+- Fallback image backlog: 47
+- Official benefit official images: 64/101
 - Public URL report: manual public-domain checks remain
 - Device QA report: manual device checks remain
 
 ## Operational Risks
 
-- 상품 이미지 중 실상품 이미지가 아닌 카테고리 fallback이 아직 많습니다. 현재 실상품 이미지 39개, fallback 101개 기준으로 관리하며, 앱 화면은 fallback 썸네일로 깨지지 않습니다.
+- 상품 이미지 중 실상품 이미지가 아닌 카테고리 fallback이 남아 있습니다. 현재 명시/파생 상품 이미지 93/140개(66%), fallback 47개이며, 운영 목표 60%까지 추가 보강 0개 기준으로 관리합니다.
+- 공식 혜택 이미지는 공식 OG/schema/페이지 이미지 64/101개, 생성 placeholder 37개 기준입니다. placeholder는 실제 상품 사진처럼 보이지 않는 안전 썸네일입니다.
 - 무료 혜택/쿠폰/이벤트는 공식 혜택 신청 페이지가 정상 목적지일 수 있습니다. 상품형 특가로 오인되지 않도록 카피와 dealType 구분을 유지해야 합니다.
 - Lighthouse 실측은 로컬 정적 하네스가 아니라 배포 URL 기준으로 추가 확인해야 합니다.
 - signed AAB 최종 업로드와 App Store/Play Store 심사 답변은 계정 소유자가 콘솔에서 직접 실행해야 합니다.

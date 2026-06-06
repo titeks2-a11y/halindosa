@@ -35,7 +35,8 @@ const generatedAt = new Date().toISOString();
 
 const linkResult = readJson("LINK_VERIFICATION_RESULT.json") ?? {};
 const imageResult = readJson("IMAGE_QUALITY_RESULT.json") ?? {};
-const imageBacklog = readJson("IMAGE_BACKLOG.json") ?? [];
+const imageBacklog = readJson("IMAGE_BACKLOG.json") ?? {};
+const newsBenefitImages = readJson("reports/news-benefit-images.json") ?? {};
 const deviceReport = readText("docs/DEVICE_QA_REPORT.md");
 const publicUrlReport = readText("docs/PUBLIC_URL_REPORT.md");
 
@@ -43,14 +44,36 @@ const visibleDeals = linkResult.visibleDeals ?? "unknown";
 const directLinks = linkResult.passedDirectLinks ?? "unknown";
 const targetLinks = linkResult.verificationTargets ?? "unknown";
 const manualReviewNeeded = linkResult.manualReviewNeeded ?? 0;
-const explicitImages = imageResult.explicitProductImages ?? imageResult.explicitImages ?? 39;
-const totalImages = imageResult.totalDeals ?? imageResult.total ?? visibleDeals;
+const explicitImages =
+  imageResult.explicitProductImages ??
+  imageResult.explicitImages ??
+  imageBacklog.explicitImageCount ??
+  0;
+const totalImages =
+  imageResult.totalDeals ??
+  imageResult.total ??
+  imageBacklog.total ??
+  visibleDeals;
 const fallbackImages =
   typeof totalImages === "number" && typeof explicitImages === "number"
     ? Math.max(totalImages - explicitImages, 0)
     : Array.isArray(imageBacklog)
       ? imageBacklog.length
       : "unknown";
+const explicitImageRate =
+  imageResult.explicitImageRate ??
+  imageBacklog.explicitImageRate ??
+  (typeof totalImages === "number" && totalImages > 0 && typeof explicitImages === "number"
+    ? Math.round((explicitImages / totalImages) * 100)
+    : "unknown");
+const imageLaunchTargetRate = imageBacklog.launchTargetRate ?? 60;
+const imageGapToLaunchTarget = imageBacklog.gapToLaunchTarget ?? "unknown";
+const officialBenefitImageTotal = newsBenefitImages.total ?? "unknown";
+const officialBenefitOfficialImages = newsBenefitImages.retained ?? "unknown";
+const officialBenefitGeneratedImages =
+  typeof officialBenefitImageTotal === "number" && typeof officialBenefitOfficialImages === "number"
+    ? Math.max(officialBenefitImageTotal - officialBenefitOfficialImages, 0)
+    : "unknown";
 
 const criticalIssues = [];
 if (manualReviewNeeded > 0) {
@@ -61,7 +84,8 @@ if ((linkResult.searchOrCategorySuspected ?? 0) > 0 || (linkResult.communitySusp
 }
 
 const operationalRisks = [
-  `상품 이미지 중 실상품 이미지가 아닌 카테고리 fallback이 아직 많습니다. 현재 실상품 이미지 ${explicitImages}개, fallback ${fallbackImages}개 기준으로 관리하며, 앱 화면은 fallback 썸네일로 깨지지 않습니다.`,
+  `상품 이미지 중 실상품 이미지가 아닌 카테고리 fallback이 남아 있습니다. 현재 명시/파생 상품 이미지 ${explicitImages}/${totalImages}개(${explicitImageRate}%), fallback ${fallbackImages}개이며, 운영 목표 ${imageLaunchTargetRate}%까지 추가 보강 ${imageGapToLaunchTarget}개 기준으로 관리합니다.`,
+  `공식 혜택 이미지는 공식 OG/schema/페이지 이미지 ${officialBenefitOfficialImages}/${officialBenefitImageTotal}개, 생성 placeholder ${officialBenefitGeneratedImages}개 기준입니다. placeholder는 실제 상품 사진처럼 보이지 않는 안전 썸네일입니다.`,
   "무료 혜택/쿠폰/이벤트는 공식 혜택 신청 페이지가 정상 목적지일 수 있습니다. 상품형 특가로 오인되지 않도록 카피와 dealType 구분을 유지해야 합니다.",
   "Lighthouse 실측은 로컬 정적 하네스가 아니라 배포 URL 기준으로 추가 확인해야 합니다.",
   "signed AAB 최종 업로드와 App Store/Play Store 심사 답변은 계정 소유자가 콘솔에서 직접 실행해야 합니다.",
@@ -94,8 +118,9 @@ const markdown = [
   `- Visible curated deals: ${visibleDeals}`,
   `- Direct product or official benefit links: ${directLinks}/${targetLinks}`,
   `- Manual link review needed: ${manualReviewNeeded}`,
-  `- Explicit product images: ${explicitImages}`,
+  `- Explicit product images: ${explicitImages}/${totalImages} (${explicitImageRate}%)`,
   `- Fallback image backlog: ${fallbackImages}`,
+  `- Official benefit official images: ${officialBenefitOfficialImages}/${officialBenefitImageTotal}`,
   `- Public URL report: ${publicUrlReport.includes("Pending manual check") ? "manual public-domain checks remain" : "report present"}`,
   `- Device QA report: ${deviceReport.includes("Pending manual check") ? "manual device checks remain" : "report present"}`,
   "",

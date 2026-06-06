@@ -1519,7 +1519,7 @@ async function checkPolicyAndStoreDocs() {
     {
       name: "known issues content",
       file: "docs/KNOWN_ISSUES.md",
-      phrases: ["할인도사 Known Issues", "Critical", "Current Readiness Snapshot", "Operational Risks", "Next Improvements", "Sensitive Data Rule", "Direct product or official benefit links", "Fallback image backlog", "manual device checks remain", "keystore password", "OAuth client secret", "Supabase service-role key"]
+      phrases: ["할인도사 Known Issues", "Critical", "Current Readiness Snapshot", "Operational Risks", "Next Improvements", "Sensitive Data Rule", "Direct product or official benefit links", "Explicit product images", "Fallback image backlog", "Official benefit official images", "manual device checks remain", "keystore password", "OAuth client secret", "Supabase service-role key"]
     },
     {
       name: "store packet qa report content",
