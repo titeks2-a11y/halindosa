@@ -1,7 +1,7 @@
 {
   "generatedBy": "npm run release:notes",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "b8566180",
+  "commit": "2707149d",
   "workingTree": "M DEVICE_QA_REPORT.md;  M PUBLIC_URL_REPORT.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_HANDOFF_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M docs/DEVICE_QA_REPORT.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_HANDOFF_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md",
   "version": "1.0.1",
   "appName": "할인도사",
@@ -34,7 +34,7 @@
     {
       "path": "docs/release-evidence.md",
       "status": "present",
-      "bytes": 7410
+      "bytes": 8120
     },
     {
       "path": "docs/STORE_CONSOLE_FIELDS.md",
@@ -73,14 +73,14 @@
     }
   ],
   "recentCommits": [
+    "2707149d feat: expand official benefit source coverage",
+    "d82c6850 chore: refresh store release handoff docs",
     "b8566180 feat: raise official benefit trust gate",
     "524dfca1 feat: expand verified official benefit coverage",
     "a2193cf4 chore: refresh store release handoff docs",
     "4da034a9 fix: align live probe evidence review gate",
     "cb510bac chore: refresh store release handoff docs",
-    "92441ace chore: refresh harness verification reports",
-    "a563a948 chore: refresh store release handoff docs",
-    "2be3584b fix: report full official benefit totals from home api"
+    "92441ace chore: refresh harness verification reports"
   ],
   "manualWorkThatMustNotBeFaked": [
     "Do not claim Play Console or App Store Connect submission has passed from this file.",
