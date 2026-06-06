@@ -6,6 +6,14 @@
 
 ## 완료 작업
 
+### PHASE Official Benefit 50+ Realtime Gate
+
+- 네이버페이 공식 혜택 seed 중 같은 최종 URL로 중복 제거되던 항목을 별도 공식 혜택 URL로 보정해 `refresh:news` 기준 공식 혜택 52개가 모두 노출되도록 정리했다.
+- 공식 혜택 최소 노출 기준을 40개에서 50개로 상향하고 `verify:news`, `smoke:local`, `release:doctor`, `health:readiness`, `source:readiness`, `cron:refresh:doctor`, `daily:operations:report`, `push:readiness:report`, `/api/health`가 같은 기준을 보도록 통일했다.
+- `/api/news-deals`, `/api/deals`, `/api/home`은 `force-dynamic`, `revalidate = 0`, `force-no-store`, `noStoreJson` 정책을 유지해 빌드 시점 데이터 고정 없이 홈 화면이 최신 검증 혜택을 다시 불러오도록 확인했다.
+- `home:realtime:doctor`와 `test:home-realtime` 기준을 유지해 홈 자동 갱신 주기, no-store API 정책, 수동 새로고침 UX가 함께 회귀 방지되도록 했다.
+- 공식 혜택 리포트와 운영 헬스 리포트는 52/52 공식 혜택 노출, 검색/커뮤니티/종료 링크 0건, 6시간 갱신 권장과 24시간 stale 기준을 출시 전 점검 증거로 남긴다.
+
 ### PHASE Realtime Freshness & Image Hardening
 
 - 홈 자동 갱신 주기를 `lib/homeRealtimeConfig.ts`의 `HOME_REFRESH_INTERVAL_MS = 45_000`으로 통합해 상품 특가, 공식 혜택, 핫시그널이 모두 30~60초 운영 기준 안에서 갱신되도록 정리했다.

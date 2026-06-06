@@ -20,7 +20,7 @@ const requiredCategories = [
   "정부/공공혜택"
 ];
 const minimumCategoryCount = 2;
-const minimumVisibleOfficialBenefits = 40;
+const minimumVisibleOfficialBenefits = 50;
 const refreshCadenceHours = 6;
 const staleAfterHours = 24;
 const renewalWindowDays = 14;

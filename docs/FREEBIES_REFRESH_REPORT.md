@@ -1,12 +1,12 @@
 # 무료혜택 Refresh Report
 
-Generated: 2026-06-06T10:39:06.379Z
+Generated: 2026-06-06T11:22:21.330Z
 
 ## Summary
 
 - Mode: freebies
-- Matched items: 16
-- Visible official items: 16
+- Matched items: 17
+- Visible official items: 17
 - Hidden/blocked items: 0
 - Exposed search links: 0
 - Exposed non-official links: 0
@@ -30,6 +30,7 @@ All visible rows must keep `/go/news/[id]` redirect tracking and must resolve to
 | news-kfc-delivery-free-official | KFC 공식 딜리버리 배달비 무료 혜택 | KFC 공식 프로모션 | 외식/배달 | kfckorea.com | `/go/news/news-kfc-delivery-free-official` |
 | news-naverpay-event-benefit | 네이버페이 공식 결제 혜택 | 네이버페이 공식 혜택 | 카드/멤버십 | new-m.pay.naver.com | `/go/news/news-naverpay-event-benefit` |
 | news-mnuri-official-benefit | 문화누리카드 공식 문화·여행 혜택 | 문화누리카드 공식 누리집 | 무료혜택 | mnuri.kr | `/go/news/news-mnuri-official-benefit` |
+| news-naverpay-point-free-benefit | 네이버페이 포인트 공식 적립 혜택 | 네이버페이 포인트 공식 | 무료혜택 | new-m.pay.naver.com | `/go/news/news-naverpay-point-free-benefit` |
 | news-mnuri-online-merchant-benefit | 문화누리카드 온라인 이용처 공식 혜택 | 문화누리카드 공식 이용처 | 정부/공공혜택 | mnuri.kr | `/go/news/news-mnuri-online-merchant-benefit` |
 | news-lpoint-official-benefits | L.POINT 공식 혜택·적립 이벤트 | L.POINT 공식 혜택 | 카드/멤버십 | m.lpoint.com | `/go/news/news-lpoint-official-benefits` |
 | news-lpoint-card-events | L.POINT 공식 카드 이벤트 | L.POINT 공식 이벤트 | 카드/멤버십 | m.lpoint.com | `/go/news/news-lpoint-card-events` |
@@ -37,7 +38,6 @@ All visible rows must keep `/go/news/[id]` redirect tracking and must resolve to
 | news-baemin-academy-free-event | 배민아카데미 공식 무료 교육 이벤트 | 배민아카데미 공식 이벤트 | 무료혜택 | academy.baemin.com | `/go/news/news-baemin-academy-free-event` |
 | news-happypoint-alliance-discount | 해피포인트 공식 제휴사 차감 할인 혜택 | 해피포인트 공식 제휴사 안내 | 카드/멤버십 | happypointcard.com | `/go/news/news-happypoint-alliance-discount` |
 | news-happypoint-mobile-coupon | 해피포인트 공식 모바일 쿠폰 안내 | 해피포인트 공식 쿠폰 | 무료혜택 | happypointcard.com | `/go/news/news-happypoint-mobile-coupon` |
-| news-okcashbag-point-event | OK캐쉬백 공식 포인트 이벤트 혜택 | OK캐쉬백 공식 이벤트 | 카드/멤버십 | okcashbag.com | `/go/news/news-okcashbag-point-event` |
 
 ## Blocked Items
 

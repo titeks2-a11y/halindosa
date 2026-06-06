@@ -264,8 +264,8 @@ const report = {
   ok:
     newsReport.ok === true &&
     freshnessReport?.ok === true &&
-    summary.visibleItems >= 40 &&
-    summary.activeOfficialBenefits >= 40 &&
+    summary.visibleItems >= 50 &&
+    summary.activeOfficialBenefits >= 50 &&
     summary.hiddenItems === 0 &&
     summary.expiredItems === 0 &&
     summary.failedItems === 0 &&

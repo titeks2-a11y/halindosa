@@ -139,9 +139,9 @@ export function getNewsRevalidationPriorityReport(): NewsRevalidationPriorityRep
 
 export function buildNewsRevalidationPriorityCsv(report: NewsRevalidationPriorityReport) {
   const summaryRows = [
-    ["total_items", "전체 공식 혜택", report.summary.totalItems, report.summary.totalItems >= 40 ? "pass" : "review", "검증 대상 공식 혜택", "refresh:news 재실행"],
-    ["visible_items", "노출 공식 혜택", report.summary.visibleItems, report.summary.visibleItems >= 40 ? "pass" : "review", "사용자 공개 후보", "카테고리 커버리지 확인"],
-    ["active_official_benefits", "활성 공식 혜택", report.summary.activeOfficialBenefits, report.summary.activeOfficialBenefits >= 40 ? "pass" : "review", "알림/추천 후보", "official:alerts:report 재실행"],
+    ["total_items", "전체 공식 혜택", report.summary.totalItems, report.summary.totalItems >= 50 ? "pass" : "review", "검증 대상 공식 혜택", "refresh:news 재실행"],
+    ["visible_items", "노출 공식 혜택", report.summary.visibleItems, report.summary.visibleItems >= 50 ? "pass" : "review", "사용자 공개 후보", "카테고리 커버리지 확인"],
+    ["active_official_benefits", "활성 공식 혜택", report.summary.activeOfficialBenefits, report.summary.activeOfficialBenefits >= 50 ? "pass" : "review", "알림/추천 후보", "official:alerts:report 재실행"],
     ["hidden_items", "숨김 혜택", report.summary.hiddenItems, report.summary.hiddenItems === 0 ? "pass" : "review", "숨김/수동 차단 항목", "복구 전 재검증"],
     ["expired_items", "종료 혜택", report.summary.expiredItems, report.summary.expiredItems === 0 ? "pass" : "block", "종료 이벤트 노출", "대체 공식 혜택 준비"],
     ["failed_items", "검증 실패", report.summary.failedItems, report.summary.failedItems === 0 ? "pass" : "block", "검증 실패 공식 혜택", "finalUrl/조건 수정"],

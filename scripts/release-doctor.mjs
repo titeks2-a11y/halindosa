@@ -1902,7 +1902,7 @@ function checkHealthReadinessReport() {
   if ((report.product?.productVerificationRate ?? 0) < 99) issues.push("health readiness product verification rate should be >=99%");
   if ((report.product?.searchLinks ?? 0) !== 0) issues.push("health readiness should show zero search links");
   if ((report.product?.soldOutProducts ?? 0) !== 0) issues.push("health readiness should show zero sold-out product exposure");
-  if ((report.officialBenefits?.visibleCount ?? 0) < 40) issues.push("health readiness should show at least 40 official benefits");
+  if ((report.officialBenefits?.visibleCount ?? 0) < 50) issues.push("health readiness should show at least 50 official benefits");
   if (!Array.isArray(report.officialBenefits?.activeProviders) || report.officialBenefits.activeProviders.length < 4) {
     issues.push("health readiness should expose active official benefit providers");
   }
@@ -1952,7 +1952,7 @@ function checkHealthReadinessReport() {
   if (report.sourceReadiness?.ok !== true || report.sourceReadiness?.launchGateStatus !== "passed") {
     issues.push("health readiness should include a passing official source readiness gate");
   }
-  if ((report.sourceReadiness?.officialSourceCandidates ?? 0) < 30 || (report.sourceReadiness?.visibleOfficialBenefits ?? 0) < 40) {
+  if ((report.sourceReadiness?.officialSourceCandidates ?? 0) < 30 || (report.sourceReadiness?.visibleOfficialBenefits ?? 0) < 50) {
     issues.push("health readiness source readiness summary should preserve official source and benefit counts");
   }
   if ((report.sourceReadiness?.blockedLiveIssues ?? 1) !== 0 || (report.sourceReadiness?.feedEnvFailedCount ?? 1) !== 0 || (report.sourceReadiness?.failedGateCount ?? 1) !== 0) {
@@ -1974,7 +1974,7 @@ function checkHealthReadinessReport() {
   if (report.cronRefresh?.protected !== true || report.cronRefresh?.schedule !== "0 */6 * * *" || report.cronRefresh?.reportPath !== "reports/cron-refresh.json") {
     issues.push("health readiness should expose protected 6-hour cron refresh report metadata");
   }
-  if ((report.cronRefresh?.productDealsCount ?? 0) < 140 || (report.cronRefresh?.newsDealsCount ?? 0) < 40) {
+  if ((report.cronRefresh?.productDealsCount ?? 0) < 140 || (report.cronRefresh?.newsDealsCount ?? 0) < 50) {
     issues.push("health readiness cron refresh summary should preserve product/news counts");
   }
 
@@ -2045,7 +2045,7 @@ function checkDailyOperationsReport() {
   if ((report.summary?.verifiedProductLinks ?? 0) < 140) issues.push("daily operations should preserve verified product links");
   if ((report.summary?.exposedSearchLinks ?? 1) !== 0) issues.push("daily operations should show zero exposed search links");
   if ((report.summary?.exposedSoldOutLinks ?? 1) !== 0) issues.push("daily operations should show zero exposed sold-out links");
-  if ((report.summary?.visibleOfficialBenefits ?? 0) < 40) issues.push("daily operations should show at least 40 official benefits");
+  if ((report.summary?.visibleOfficialBenefits ?? 0) < 50) issues.push("daily operations should show at least 50 official benefits");
   if (report.summary?.refreshAllOk !== true || (report.summary?.refreshAllFailedCount ?? 1) !== 0) {
     issues.push("daily operations should require passing refresh:all with zero failures");
   }
@@ -2119,7 +2119,7 @@ function checkCronRefreshPipeline() {
   if (cronReadinessReport?.ok !== true || cronReadinessReport?.endpoint !== "/api/cron/refresh" || cronReadinessReport?.schedule !== "0 */6 * * *") {
     issues.push("reports/cron-refresh-readiness.json should prove protected 6-hour cron readiness");
   }
-  if (cronReadinessReport?.livePipelineOk !== true || (cronReadinessReport?.livePipelineOfficialBenefits ?? 0) < 40) {
+  if (cronReadinessReport?.livePipelineOk !== true || (cronReadinessReport?.livePipelineOfficialBenefits ?? 0) < 50) {
     issues.push("reports/cron-refresh-readiness.json should prove live feed pipeline evidence");
   }
   if (!cronReadinessDocs.includes("Cron Refresh Readiness") || !cronReadinessDocs.includes("dryRun=true") || !cronReadinessDocs.includes("mode=liveFeed") || !cronReadinessDocs.includes("CRON_SECRET")) {

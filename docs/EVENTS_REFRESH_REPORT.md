@@ -1,12 +1,12 @@
 # Official Event Refresh Report
 
-Generated: 2026-06-06T10:39:06.467Z
+Generated: 2026-06-06T11:22:21.426Z
 
 ## Summary
 
 - Mode: events
-- Matched items: 51
-- Visible official items: 51
+- Matched items: 52
+- Visible official items: 52
 - Hidden/blocked items: 0
 - Exposed search links: 0
 - Exposed non-official links: 0

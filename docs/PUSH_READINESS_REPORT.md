@@ -2,11 +2,11 @@
 
 할인도사의 실제 FCM 발송 전 준비 상태를 파일로 남기는 운영 리포트입니다. V1은 사용자 권한 요청 없이 앱 안의 알림 큐와 dry-run을 먼저 운영합니다.
 
-- 생성 시각: 2026-06-06T10:39:32.224Z
+- 생성 시각: 2026-06-06T11:22:48.823Z
 - 상태: dry_run_ready
 - 준비도: 100/100
 - 검증 상품 후보: 140
-- 공식 혜택 후보: 51
+- 공식 혜택 후보: 52
 - 캠페인 후보: 9/9
 - 큐 후보 행: 46
 - 관심 세그먼트: 14/14
@@ -17,7 +17,7 @@
 | Check | Status | Detail |
 | --- | --- | --- |
 | verified product base | PASS | 전체 감사 상품 140개, 고객 노출 가능 상품 140개를 알림 후보로 사용할 수 있습니다. |
-| official benefit base | PASS | 공식 혜택 40개 이상을 알림 후보로 사용할 수 있습니다. |
+| official benefit base | PASS | 공식 혜택 50개 이상을 알림 후보로 사용할 수 있습니다. |
 | interest segment coverage | PASS | 14/14 관심 세그먼트가 알림 후보를 가집니다. |
 | push queue candidate rows | PASS | 46개 dry-run 큐 후보가 있습니다. |
 | database schema | PASS | push_subscriptions, push_notification_queue, price_drop_alerts와 RLS가 준비됐습니다. |
