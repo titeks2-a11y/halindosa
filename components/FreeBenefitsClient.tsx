@@ -13,7 +13,9 @@ import { buildBenefitDecisionGuide } from "@/lib/deals/benefitDecisionGuide";
 import { getClaimEffort, getClaimEffortLabel } from "@/lib/deals/claimEffort";
 import { buildPersonalizedBenefitQueue } from "@/lib/deals/personalizedBenefitQueue";
 import { buildWeeklyBenefitCalendar, WeeklyBenefitPreset } from "@/lib/deals/weeklyBenefitCalendar";
-import { formatPrice } from "@/lib/format";
+import { buildNewsDealsRequestUrl, requestJson, type NewsDealsResponse } from "@/lib/homeApi";
+import { getDealImageSrc } from "@/lib/imageSrc";
+import { formatPrice, getRelativeTime, getTimeLeft } from "@/lib/format";
 import {
   buildClaimEffortSummary,
   buildFilteredFreeBenefits,
@@ -37,16 +39,58 @@ import {
   getPriorityReason
 } from "@/lib/freeBenefitsConfig";
 import { readLocalFavoriteIds, readLocalPreferences, writeLocalFavoriteIds } from "@/lib/memberSync";
+import { rememberRecentNewsBenefitId } from "@/lib/recentNewsBenefits";
 import { buildDealRedirectUrl, buildNativeSafeDealUrl } from "@/lib/redirectUrl";
 import { buildPublicDealShareUrl } from "@/lib/shareUrl";
 import { Deal, DealBenefitType } from "@/types/deal";
+import type { NewsBenefitType, NewsDeal } from "@/types/newsDeal";
 
 interface FreeBenefitsClientProps {
   deals: Deal[];
+  officialBenefits?: NewsDeal[];
+  officialBenefitsUpdatedAt?: string;
+  officialBenefitFreshnessLabel?: string;
 }
 
-export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
+const officialBenefitTypeLabels: Partial<Record<NewsBenefitType, string>> = {
+  card: "카드",
+  convenienceStore: "편의점",
+  coupon: "쿠폰",
+  culture: "문화",
+  event: "이벤트",
+  foodDelivery: "배달",
+  freeShipping: "무배",
+  freebie: "무료",
+  mart: "마트",
+  membership: "멤버십",
+  point: "포인트",
+  public: "공공"
+};
+
+function getOfficialBenefitLabel(deal: NewsDeal) {
+  return officialBenefitTypeLabels[deal.benefitType] ?? deal.category;
+}
+
+function buildOfficialBenefitHref(deal: NewsDeal) {
+  return `/go/news/${encodeURIComponent(deal.id)}?from=free-benefits-official`;
+}
+
+function isVisibleOfficialBenefit(deal: NewsDeal) {
+  return (
+    deal.validationStatus === "passed" &&
+    deal.availability === "active" &&
+    !deal.isHidden &&
+    deal.publishable !== false &&
+    Boolean(deal.finalUrl) &&
+    deal.linkType.startsWith("official")
+  );
+}
+
+export function FreeBenefitsClient({ deals, officialBenefits = [], officialBenefitsUpdatedAt = "", officialBenefitFreshnessLabel = "최근 확인" }: FreeBenefitsClientProps) {
   const [referenceNow, setReferenceNow] = useState(0);
+  const [liveOfficialBenefits, setLiveOfficialBenefits] = useState(officialBenefits);
+  const [liveOfficialBenefitsUpdatedAt, setLiveOfficialBenefitsUpdatedAt] = useState(officialBenefitsUpdatedAt);
+  const [liveOfficialBenefitFreshnessLabel, setLiveOfficialBenefitFreshnessLabel] = useState(officialBenefitFreshnessLabel);
   const [activeType, setActiveType] = useState<"all" | DealBenefitType>("all");
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState<BenefitSort>("recommended");
@@ -88,6 +132,38 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
       window.removeEventListener(claimedBenefitUpdatedEvent, refreshLocalState);
       window.removeEventListener(benefitReturnReservationUpdatedEvent, refreshLocalState);
       window.removeEventListener("focus", refreshLocalState);
+    };
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const refreshOfficialBenefits = async () => {
+      try {
+        const response = await requestJson<NewsDealsResponse>(
+          buildNewsDealsRequestUrl({
+            limit: 36,
+            query: "",
+            sort: "priority"
+          })
+        );
+
+        if (cancelled || !response.ok) return;
+
+        setLiveOfficialBenefits(response.deals);
+        setLiveOfficialBenefitsUpdatedAt(response.updatedAt);
+        setLiveOfficialBenefitFreshnessLabel(response.freshnessLabel ?? "최근 확인");
+      } catch {
+        // Keep the static export snapshot when the live API is unavailable, especially inside offline native bundles.
+      }
+    };
+
+    refreshOfficialBenefits();
+    const interval = window.setInterval(refreshOfficialBenefits, 60_000);
+
+    return () => {
+      cancelled = true;
+      window.clearInterval(interval);
     };
   }, []);
 
@@ -648,6 +724,15 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
         .slice(0, 4),
     [deals]
   );
+  const visibleOfficialBenefits = useMemo(() => liveOfficialBenefits.filter(isVisibleOfficialBenefit).slice(0, 10), [liveOfficialBenefits]);
+  const officialBenefitSummary = useMemo(
+    () => ({
+      sources: new Set(visibleOfficialBenefits.map((deal) => deal.sourceName)).size,
+      urgent: visibleOfficialBenefits.filter((deal) => Date.parse(deal.endDate) - referenceNow <= 3 * 24 * 60 * 60 * 1000).length,
+      freeOrCoupon: visibleOfficialBenefits.filter((deal) => ["freebie", "coupon", "freeShipping", "point", "event"].includes(deal.benefitType)).length
+    }),
+    [referenceNow, visibleOfficialBenefits]
+  );
 
   const toggleFavorite = (id: string) => {
     setFavorites((current) => {
@@ -688,6 +773,24 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
       }
     } catch {
       setMessage("공유를 완료하지 못했습니다.");
+      window.setTimeout(() => setMessage(""), 2500);
+    }
+  };
+
+  const shareOfficialBenefit = async (deal: NewsDeal) => {
+    const path = buildOfficialBenefitHref(deal);
+    const url = typeof window === "undefined" ? path : `${window.location.origin}${path}`;
+
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: deal.title, text: deal.summary, url });
+      } else {
+        await navigator.clipboard.writeText(url);
+        setMessage("공식 혜택 링크를 복사했습니다.");
+        window.setTimeout(() => setMessage(""), 2500);
+      }
+    } catch {
+      setMessage("공식 혜택 공유를 완료하지 못했습니다.");
       window.setTimeout(() => setMessage(""), 2500);
     }
   };
@@ -792,6 +895,103 @@ export function FreeBenefitsClient({ deals }: FreeBenefitsClientProps) {
               </div>
             </div>
           </div>
+        </section>
+
+        <section className="rounded-[28px] border border-red-100 bg-white p-4 shadow-sm sm:p-5" aria-label="공식 무료·쿠폰 혜택">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-black text-dossa-red">공식 무료·쿠폰 혜택</p>
+              <h2 className="mt-1 text-2xl font-black tracking-tight text-slate-950">공식 페이지로 바로 이동되는 혜택만 모았습니다</h2>
+              <p className="mt-2 max-w-2xl text-sm font-bold leading-6 text-slate-500">
+                검색 결과나 커뮤니티 글이 아니라 검증된 공식 이벤트·쿠폰·신청 페이지를 무료혜택 화면에도 직접 연결합니다.
+              </p>
+            </div>
+            <div className="grid grid-cols-3 gap-2 text-center text-[11px] font-black sm:min-w-[320px]">
+              <span className="rounded-2xl bg-red-50 px-3 py-2 text-dossa-red">공식 {visibleOfficialBenefits.length}개</span>
+              <span className="rounded-2xl bg-slate-50 px-3 py-2 text-slate-700">출처 {officialBenefitSummary.sources}곳</span>
+              <span className="rounded-2xl bg-amber-50 px-3 py-2 text-amber-800">마감 {officialBenefitSummary.urgent}개</span>
+            </div>
+          </div>
+
+          <div className="mt-3 flex flex-wrap items-center gap-2 text-[11px] font-black">
+            <span className="inline-flex items-center gap-1 rounded-full bg-red-50 px-2.5 py-1 text-dossa-red">
+              <ShieldCheck size={12} />
+              {liveOfficialBenefitFreshnessLabel}
+            </span>
+            <span className="rounded-full bg-slate-100 px-2.5 py-1 text-slate-600">
+              {liveOfficialBenefitsUpdatedAt ? `${getRelativeTime(liveOfficialBenefitsUpdatedAt)} 검증` : "검증 시간 확인 중"}
+            </span>
+            <span className="rounded-full bg-slate-100 px-2.5 py-1 text-slate-600">
+              무료·쿠폰·포인트 {officialBenefitSummary.freeOrCoupon}개
+            </span>
+          </div>
+
+          {visibleOfficialBenefits.length ? (
+            <div className="mt-4 flex snap-x snap-mandatory gap-2 overflow-x-auto pb-1 [scrollbar-width:none] md:grid md:grid-cols-2 xl:grid-cols-4 [&::-webkit-scrollbar]:hidden">
+              {visibleOfficialBenefits.map((deal) => (
+                <article key={deal.id} className="w-[232px] shrink-0 snap-start rounded-3xl border border-slate-100 bg-slate-50 p-3 md:w-auto">
+                  <div className="flex gap-3">
+                    <div className="h-16 w-16 shrink-0 overflow-hidden rounded-2xl bg-white shadow-sm">
+                      {deal.imageUrl ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={getDealImageSrc(deal.imageUrl)}
+                          alt=""
+                          loading="lazy"
+                          decoding="async"
+                          referrerPolicy="no-referrer"
+                          className="h-full w-full object-cover"
+                        />
+                      ) : (
+                        <div className="flex h-full w-full items-center justify-center bg-red-50 text-dossa-red">
+                          <Gift size={20} />
+                        </div>
+                      )}
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-dossa-red shadow-sm">{getOfficialBenefitLabel(deal)}</span>
+                        <span className="rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-slate-500 shadow-sm">{deal.sourceName}</span>
+                      </div>
+                      <h3 className="mt-2 line-clamp-2 text-sm font-black leading-5 text-slate-950">{deal.title}</h3>
+                    </div>
+                  </div>
+                  <p className="mt-3 line-clamp-2 min-h-10 text-xs font-bold leading-5 text-slate-500">{deal.summary}</p>
+                  <div className="mt-3 grid grid-cols-2 gap-2 text-[11px] font-black text-slate-600">
+                    <span className="rounded-2xl bg-white px-2.5 py-2">마감 {getTimeLeft(deal.endDate)}</span>
+                    <span className="rounded-2xl bg-white px-2.5 py-2">검증 {getRelativeTime(deal.verifiedAt || deal.lastCheckedAt)}</span>
+                  </div>
+                  <div className="mt-3 grid grid-cols-[1fr_auto] gap-2">
+                    <Link
+                      href={buildOfficialBenefitHref(deal)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => rememberRecentNewsBenefitId(deal.id)}
+                      className="inline-flex min-h-10 items-center justify-center gap-1.5 rounded-2xl bg-dossa-red px-3 text-xs font-black text-white"
+                      aria-label={`${deal.title} 공식 혜택 페이지 새 탭으로 열기`}
+                    >
+                      바로 받기
+                      <ExternalLink size={14} />
+                    </Link>
+                    <button
+                      type="button"
+                      onClick={() => shareOfficialBenefit(deal)}
+                      className="inline-flex min-h-10 items-center justify-center rounded-2xl bg-white px-3 text-xs font-black text-slate-600 shadow-sm"
+                      aria-label={`${deal.title} 공식 혜택 공유`}
+                    >
+                      <Share2 size={14} />
+                    </button>
+                  </div>
+                </article>
+              ))}
+            </div>
+          ) : (
+            <div className="mt-4 rounded-3xl border border-dashed border-slate-300 bg-slate-50 p-6 text-center">
+              <ShieldCheck className="mx-auto text-dossa-red" size={34} />
+              <p className="mt-3 text-sm font-black text-slate-950">공식 혜택 링크를 다시 검증하고 있습니다.</p>
+              <p className="mt-2 text-xs font-bold text-slate-500">검색 링크나 종료된 이벤트는 이 화면에 노출하지 않습니다.</p>
+            </div>
+          )}
         </section>
 
         <section className="rounded-[28px] border border-red-100 bg-white p-4 shadow-sm sm:p-5" aria-label="무료 혜택 출석 기록">
