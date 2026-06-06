@@ -1,7 +1,7 @@
 {
   "generatedBy": "npm run store:console:fields",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "e12a59ac",
+  "commit": "699bf251",
   "workingTree": "M DEVICE_QA_REPORT.md;  M PUBLIC_URL_REPORT.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M docs/DEVICE_QA_REPORT.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md",
   "playConsole": {
     "appName": "할인도사",
