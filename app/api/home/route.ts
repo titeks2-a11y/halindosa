@@ -166,7 +166,7 @@ export async function GET(request: Request) {
     const generatedAt = new Date().toISOString();
     const counts = {
       deals: deals.deals.length,
-      newsDeals: news.deals.length,
+      newsDeals: news.count,
       hotSignals: signals.length
     };
     const source = {
