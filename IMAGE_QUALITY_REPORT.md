@@ -1,6 +1,6 @@
 # 할인도사 Image Quality Report
 
-Generated: 2026-06-06T14:32:11.310Z
+Generated: 2026-06-06T14:56:22.084Z
 Status: PASS
 
 ## Summary

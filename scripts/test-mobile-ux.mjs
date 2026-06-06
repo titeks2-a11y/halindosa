@@ -32,6 +32,7 @@ const liveDealFeed = read("components/LiveDealFeed.tsx");
 const toast = read("components/Toast.tsx");
 const homePage = read("app/page.tsx");
 const homeDealGrid = read("components/home/HomeDealGrid.tsx");
+const homeLiveBenefitStrip = read("components/home/HomeLiveBenefitStrip.tsx");
 const homeFirstScreenSource = `${homePage}\n${homeDealGrid}`;
 const mobileHeader = read("components/MobileHeader.tsx");
 const categoryTabs = read("components/CategoryTabs.tsx");
@@ -101,6 +102,23 @@ if (includesAll(realtimeNewsDealsSection, ["모바일 공식 혜택 빠른 목�
   pass("mobile official benefit quick list", "공식 혜택은 모바일에서 빠른 목록을 먼저 보여주고 상세 탐색 패널은 넓은 화면으로 분리합니다.");
 } else {
   fail("mobile official benefit quick list", "공식 혜택 모바일 빠른 목록 또는 상세 패널 분기 기준이 부족합니다.");
+}
+
+if (
+  includesAll(homePage, ["<HomeLiveBenefitStrip", "newsTotalCount", "newsFreshness.label", "rememberRecentNewsBenefit"]) &&
+  includesAll(homeLiveBenefitStrip, [
+    'data-home-live-benefit-strip="true"',
+    "방금 검증한 무료혜택",
+    "home-live-benefit-strip",
+    "sm:hidden",
+    "validationStatus === \"passed\"",
+    "deal.finalUrl",
+    "availability === \"active\""
+  ])
+) {
+  pass("mobile live benefit strip", "모바일 첫 화면에서 검증된 공식 무료혜택 요약과 바로가기 rail을 보여주며 invalid/search/community 링크를 제외합니다.");
+} else {
+  fail("mobile live benefit strip", "모바일 공식 혜택 요약 rail, 검증 필터, 또는 최근 본 혜택 연결 기준이 부족합니다.");
 }
 
 if (includesAll(toast, ["top-[calc(0.75rem+env(safe-area-inset-top))]", "max-w-sm", "line-clamp-2", "sm:bottom-6"])) {

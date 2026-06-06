@@ -17,6 +17,7 @@ Status: PASS
 | quick card scanability | PASS | compact 카드가 이미지 비율, 2줄 제목, 터치 CTA, 직접 링크/혜택 신호를 유지합니다. |
 | live row compact actions | PASS | 라이브 행은 작은 썸네일, 오른쪽 action cluster, 2줄 제목을 유지합니다. |
 | mobile official benefit quick list | PASS | 공식 혜택은 모바일에서 빠른 목록을 먼저 보여주고 상세 탐색 패널은 넓은 화면으로 분리합니다. |
+| mobile live benefit strip | PASS | 모바일 첫 화면에서 검증된 공식 무료혜택 요약과 바로가기 rail을 보여주며 invalid/search/community 링크를 제외합니다. |
 | toast does not cover bottom nav | PASS | 토스트는 모바일 상단에 떠 하단 탭과 상품 CTA를 가리지 않습니다. |
 
 ## Scope

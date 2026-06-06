@@ -18,6 +18,7 @@ import { LiveDealFeed } from "@/components/LiveDealFeed";
 import { HomeOfficialBenefitAlertRail } from "@/components/HomeOfficialBenefitAlertRail";
 import { HomeDealGrid } from "@/components/home/HomeDealGrid";
 import { HomeEmptyRecovery } from "@/components/home/HomeEmptyRecovery";
+import { HomeLiveBenefitStrip } from "@/components/home/HomeLiveBenefitStrip";
 import { HomeStatusStrip } from "@/components/home/HomeStatusStrip";
 import { NotificationPreferences } from "@/components/NotificationPreferences";
 import { PriceAlertList } from "@/components/PriceAlertList";
@@ -1433,6 +1434,17 @@ export default function Home() {
                 {isLoading || isNewsRefreshing || isSignalLoading ? "확인 중" : "새로고침"}
               </button>
             </div>
+            <HomeLiveBenefitStrip
+              deals={newsDeals}
+              totalCount={newsTotalCount}
+              updatedAt={newsUpdatedAt}
+              freshnessLabel={newsFreshness.label}
+              isRefreshing={isNewsRefreshing}
+              onRefresh={() => {
+                void refreshNewsDeals({ notify: true });
+              }}
+              onOpenNewsDeal={rememberRecentNewsBenefit}
+            />
             {activeFilterLabels.length ? (
               <button
                 type="button"

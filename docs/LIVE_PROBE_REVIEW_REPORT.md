@@ -1,6 +1,6 @@
 # Live Probe Review Report
 
-Generated: 2026-06-06T14:27:54.523Z
+Generated: 2026-06-06T14:51:20.387Z
 
 Status: PASS
 
@@ -9,15 +9,15 @@ Status: PASS
 - Total deals: 140
 - Publishable deals: 140
 - Live probe checked: 140
-- Live probe passed: 60
-- Live probe review queue: 80
+- Live probe passed: 61
+- Live probe review queue: 79
 - Hard failures: 0
 - Quarantined hidden failures: 0
 - Exposed hard failures: 0
 - Unavailable text signals: 0
-- Protected or rate-limited checks: 77
+- Protected or rate-limited checks: 76
 - Transient network checks: 3
-- Fresh manual evidence: 80/80
+- Fresh manual evidence: 79/79
 - Stale manual evidence: 0
 - Missing manual evidence: 0
 - Exposed search links: 0
@@ -34,7 +34,7 @@ The app can expose only links that are already publishable and have zero hard fa
 | item.gmarket.co.kr | 31 | official_api_or_partner_feed | official API, partner feed, manual device check 순서로 상세 링크 재확인 |
 | coupang.com | 24 | official_api_or_partner_feed | official API, partner feed, manual device check 순서로 상세 링크 재확인 |
 | ssg.com | 13 | backoff_retry | 요청 간격을 늘린 backoff retry 후 official API 또는 partner feed로 대조 |
-| oliveyoung.co.kr | 7 | official_api_or_partner_feed | official API, partner feed, manual device check 순서로 상세 링크 재확인 |
+| oliveyoung.co.kr | 6 | official_api_or_partner_feed | official API, partner feed, manual device check 순서로 상세 링크 재확인 |
 | hyundaicard.com | 1 | network_retry | official API, partner feed, manual device check 순서로 상세 링크 재확인 |
 | itempage3.auction.co.kr | 1 | official_api_or_partner_feed | official API, partner feed, manual device check 순서로 상세 링크 재확인 |
 | store.ohou.se | 1 | official_api_or_partner_feed | official API, partner feed, manual device check 순서로 상세 링크 재확인 |
@@ -51,11 +51,10 @@ The app can expose only links that are already publishable and have zero hard fa
 | review | d012 | 올리브영 | oliveyoung.co.kr | 403 | robots_or_access_blocked | official_api_or_partner_feed | fresh (6.2d) | official API 또는 partner feed로 상품 상세 존재를 확인하고, 필요 시 manual device check 수행 |
 | review | d014 | 쿠팡 | coupang.com | 403 | robots_or_access_blocked | official_api_or_partner_feed | fresh (6.2d) | official API 또는 partner feed로 상품 상세 존재를 확인하고, 필요 시 manual device check 수행 |
 | review | d019 | 오늘의집 | store.ohou.se | 403 | robots_or_access_blocked | official_api_or_partner_feed | fresh (5.6d) | official API 또는 partner feed로 상품 상세 존재를 확인하고, 필요 시 manual device check 수행 |
-| review | d022 | 올리브영 | oliveyoung.co.kr | 403 | robots_or_access_blocked | official_api_or_partner_feed | fresh (5.6d) | official API 또는 partner feed로 상품 상세 존재를 확인하고, 필요 시 manual device check 수행 |
 | review | d025 | 올리브영 | oliveyoung.co.kr | 403 | robots_or_access_blocked | official_api_or_partner_feed | fresh (6.2d) | official API 또는 partner feed로 상품 상세 존재를 확인하고, 필요 시 manual device check 수행 |
 | review | d028 | 쿠팡 | coupang.com | 403 | robots_or_access_blocked | official_api_or_partner_feed | fresh (5.6d) | official API 또는 partner feed로 상품 상세 존재를 확인하고, 필요 시 manual device check 수행 |
 | review | d030 | 쿠팡 | coupang.com | 403 | robots_or_access_blocked | official_api_or_partner_feed | fresh (6d) | official API 또는 partner feed로 상품 상세 존재를 확인하고, 필요 시 manual device check 수행 |
-| review | d031 | 쿠팡 | coupang.com | 403 | robots_or_access_blocked | official_api_or_partner_feed | fresh (6.1d) | official API 또는 partner feed로 상품 상세 존재를 확인하고, 필요 시 manual device check 수행 |
+| review | d031 | 쿠팡 | coupang.com | 403 | robots_or_access_blocked | official_api_or_partner_feed | fresh (6.2d) | official API 또는 partner feed로 상품 상세 존재를 확인하고, 필요 시 manual device check 수행 |
 | review | d035 | 쿠팡 | coupang.com | 403 | robots_or_access_blocked | official_api_or_partner_feed | fresh (6.1d) | official API 또는 partner feed로 상품 상세 존재를 확인하고, 필요 시 manual device check 수행 |
 | review | d040 | 올리브영 | oliveyoung.co.kr | 403 | robots_or_access_blocked | official_api_or_partner_feed | fresh (5.5d) | official API 또는 partner feed로 상품 상세 존재를 확인하고, 필요 시 manual device check 수행 |
 | review | d046 | 쿠팡 | coupang.com | 403 | robots_or_access_blocked | official_api_or_partner_feed | fresh (6.2d) | official API 또는 partner feed로 상품 상세 존재를 확인하고, 필요 시 manual device check 수행 |
@@ -83,5 +82,6 @@ The app can expose only links that are already publishable and have zero hard fa
 | review | d009 | 지마켓 | item.gmarket.co.kr | 403 | robots_or_access_blocked | official_api_or_partner_feed | fresh (6.2d) | official API 또는 partner feed로 상품 상세 존재를 확인하고, 필요 시 manual device check 수행 |
 | review | d016 | G마켓 | item.gmarket.co.kr | 403 | robots_or_access_blocked | official_api_or_partner_feed | fresh (6.2d) | official API 또는 partner feed로 상품 상세 존재를 확인하고, 필요 시 manual device check 수행 |
 | review | d017 | G마켓 | item.gmarket.co.kr | 403 | robots_or_access_blocked | official_api_or_partner_feed | fresh (5.6d) | official API 또는 partner feed로 상품 상세 존재를 확인하고, 필요 시 manual device check 수행 |
-| review | d034 | G마켓 | item.gmarket.co.kr | 403 | robots_or_access_blocked | official_api_or_partner_feed | fresh (6.1d) | official API 또는 partner feed로 상품 상세 존재를 확인하고, 필요 시 manual device check 수행 |
+| review | d034 | G마켓 | item.gmarket.co.kr | 403 | robots_or_access_blocked | official_api_or_partner_feed | fresh (6.2d) | official API 또는 partner feed로 상품 상세 존재를 확인하고, 필요 시 manual device check 수행 |
 | review | d043 | G마켓 | item.gmarket.co.kr | 403 | robots_or_access_blocked | official_api_or_partner_feed | fresh (0.5d) | official API 또는 partner feed로 상품 상세 존재를 확인하고, 필요 시 manual device check 수행 |
+| review | d044 | 옥션 | itempage3.auction.co.kr | 403 | robots_or_access_blocked | official_api_or_partner_feed | fresh (6.2d) | official API 또는 partner feed로 상품 상세 존재를 확인하고, 필요 시 manual device check 수행 |
