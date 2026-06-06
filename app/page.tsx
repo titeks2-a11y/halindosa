@@ -68,6 +68,7 @@ import {
   buildLatestDealsRequestUrl,
   buildNewsDealsRequestUrl,
   type DealsResponse,
+  type HomeFreshness,
   type HomeResponse,
   type HotSignalsResponse,
   type NewsDealsResponse,
@@ -165,6 +166,7 @@ export default function Home() {
   const [benefitFilter, setBenefitFilter] = useState<"all" | DealBenefitType>("all");
   const [updatedAt, setUpdatedAt] = useState("");
   const [lastHomeSyncAt, setLastHomeSyncAt] = useState("");
+  const [homeFreshness, setHomeFreshness] = useState<HomeFreshness | null>(null);
   const [providerSource, setProviderSource] = useState("mock");
   const [isLoading, setIsLoading] = useState(false);
   const [loadError, setLoadError] = useState("");
@@ -839,7 +841,43 @@ export default function Home() {
       try {
         if (await isNativeRuntime()) {
           await Promise.all([fetchDeals(undefined, true), refreshNewsDeals({ silent: true }), fetchSignals(true)]);
-          setLastHomeSyncAt(new Date().toISOString());
+          const generatedAt = new Date().toISOString();
+          setLastHomeSyncAt(generatedAt);
+          setHomeFreshness({
+            generatedAt,
+            status: "fresh",
+            label: "방금 업데이트",
+            ageMinutes: 0,
+            oldestChannel: "deals",
+            nextRefreshAt: new Date(Date.now() + HOME_REFRESH_INTERVAL_MS).toISOString(),
+            staleChannelCount: 0,
+            channels: {
+              deals: {
+                updatedAt: generatedAt,
+                ageMinutes: 0,
+                status: "fresh",
+                label: "방금 업데이트",
+                count: deals.length,
+                source: providerSource
+              },
+              newsDeals: {
+                updatedAt: generatedAt,
+                ageMinutes: 0,
+                status: "fresh",
+                label: "방금 업데이트",
+                count: newsDeals.length,
+                source: "native"
+              },
+              hotSignals: {
+                updatedAt: generatedAt,
+                ageMinutes: 0,
+                status: "fresh",
+                label: "방금 업데이트",
+                count: hotSignals.length,
+                source: "native"
+              }
+            }
+          });
           if (notify) showToast("최신 할인 정보를 다시 확인했습니다.");
           return;
         }
@@ -869,6 +907,7 @@ export default function Home() {
 
         setHotSignals(snapshot.hotSignals.length ? snapshot.hotSignals : mockHotSignals);
         setLastHomeSyncAt(snapshot.updatedAt);
+        setHomeFreshness(snapshot.freshness ?? null);
         setLoadError("");
         setNewsRefreshError("");
         if (notify) showToast("최신 할인 정보를 다시 확인했습니다.");
@@ -885,7 +924,7 @@ export default function Home() {
         }
       }
     },
-    [fetchDeals, fetchSignals, homeDealFilters, refreshNewsDeals, showToast]
+    [deals.length, fetchDeals, fetchSignals, homeDealFilters, hotSignals.length, newsDeals.length, providerSource, refreshNewsDeals, showToast]
   );
 
   const refreshHomeNow = () => {
@@ -894,6 +933,8 @@ export default function Home() {
 
   const stats = useMemo(() => buildHomeStats(deals, favorites), [deals, favorites]);
   const dataQuality = useMemo(() => buildHomeDataQuality(deals, catalog), [catalog, deals]);
+  const homeFreshnessLabel = homeFreshness?.label ?? getRelativeTime(lastHomeSyncAt || updatedAt || newsUpdatedAt);
+  const homeFreshnessUpdatedAt = homeFreshness?.generatedAt || lastHomeSyncAt || updatedAt || newsUpdatedAt;
 
   const alertDeals = useMemo(
     () => catalog.filter((deal) => deal.isHot || deal.isNew || deal.isEndingSoon).slice(0, 8),
@@ -1380,7 +1421,7 @@ export default function Home() {
             </div>
             <div className="mt-1 flex items-center justify-between gap-2 rounded-2xl bg-slate-50 px-2 py-1.5 text-[11px] font-bold text-slate-500 sm:hidden">
               <span className="min-w-0 truncate">
-                실시간 검증됨 · {verifiedHomeDeals.length.toLocaleString("ko-KR")}개 · {getRelativeTime(lastHomeSyncAt || updatedAt || newsUpdatedAt)}
+                실시간 검증됨 · {verifiedHomeDeals.length.toLocaleString("ko-KR")}개 · {homeFreshnessLabel}
               </span>
               <button
                 type="button"
@@ -1568,7 +1609,10 @@ export default function Home() {
               isOffline={isOffline}
               providerSource={providerSource}
               latestPriceCheckedAt={dataQuality.latestPriceCheckedAt}
-              updatedAt={lastHomeSyncAt || updatedAt || newsUpdatedAt}
+              updatedAt={homeFreshnessUpdatedAt}
+              freshnessLabel={homeFreshness?.label}
+              staleChannelCount={homeFreshness?.staleChannelCount}
+              oldestChannel={homeFreshness?.oldestChannel}
               isRefreshing={isLoading || isNewsRefreshing || isSignalLoading}
               refreshIntervalSeconds={HOME_REFRESH_INTERVAL_SECONDS}
               onRefresh={refreshHomeNow}

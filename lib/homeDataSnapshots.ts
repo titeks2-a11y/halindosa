@@ -121,6 +121,7 @@ export function buildCombinedHomeSnapshot(data: HomeResponse, filters: HomeDealF
     news: buildHomeNewsSnapshot(newsResponse),
     hotSignals: Array.isArray(data.hotSignals) ? data.hotSignals : [],
     updatedAt: data.updatedAt,
+    freshness: data.freshness,
     source
   };
 }

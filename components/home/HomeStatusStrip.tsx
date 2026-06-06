@@ -10,6 +10,9 @@ interface HomeStatusStripProps {
   providerSource: string;
   latestPriceCheckedAt?: string;
   updatedAt?: string;
+  freshnessLabel?: string;
+  staleChannelCount?: number;
+  oldestChannel?: string;
   isRefreshing?: boolean;
   refreshIntervalSeconds?: number;
   onRefresh?: () => void;
@@ -24,13 +27,25 @@ export function HomeStatusStrip({
   providerSource,
   latestPriceCheckedAt,
   updatedAt,
+  freshnessLabel: freshnessLabelOverride,
+  staleChannelCount = 0,
+  oldestChannel,
   isRefreshing = false,
   refreshIntervalSeconds = 45,
   onRefresh
 }: HomeStatusStripProps) {
+  const channelLabel =
+    oldestChannel === "deals"
+      ? "특가"
+      : oldestChannel === "newsDeals"
+        ? "공식 혜택"
+        : oldestChannel === "hotSignals"
+          ? "인기 신호"
+          : "";
   const freshnessLabel = updatedAt ? getRelativeTime(updatedAt) : "확인 대기";
-  const realtimeLabel = updatedAt ? (freshnessLabel === "방금 전" ? "방금 업데이트" : `${freshnessLabel} 확인`) : "최신 확인 대기";
+  const realtimeLabel = freshnessLabelOverride ?? (updatedAt ? (freshnessLabel === "방금 전" ? "방금 업데이트" : `${freshnessLabel} 확인`) : "최신 확인 대기");
   const autoRefreshLabel = `${refreshIntervalSeconds}초 자동 확인`;
+  const staleHint = staleChannelCount > 0 && channelLabel ? ` · ${channelLabel} 재확인 중` : "";
   const statusCards = [
     { label: "오늘의 특가", value: `${dealCount}개`, tone: "text-brand-navy bg-brand-navySoft" },
     { label: "실시간 검증", value: `${verifiedDealCount}개`, tone: "text-emerald-700 bg-emerald-50" },
@@ -51,7 +66,7 @@ export function HomeStatusStrip({
           ))}
         </div>
         <div className="mt-1 flex items-center justify-between gap-2 px-1 text-[11px] font-bold text-slate-500 sm:hidden">
-          <span className="min-w-0 truncate">{isOffline ? "오프라인" : `${realtimeLabel} · ${autoRefreshLabel}`}</span>
+          <span className="min-w-0 truncate">{isOffline ? "오프라인" : `${realtimeLabel}${staleHint} · ${autoRefreshLabel}`}</span>
           {onRefresh ? (
             <button
               type="button"
@@ -66,7 +81,7 @@ export function HomeStatusStrip({
         </div>
         <div className="mt-1.5 hidden items-center justify-between gap-2 px-1 sm:flex">
           <p className="min-w-0 truncate text-[11px] font-bold text-slate-500">
-            실시간 검증됨 · {getProviderDisplayLabel(providerSource)} · {autoRefreshLabel} · 가격/재고는 구매 전 최종 확인
+            실시간 검증됨 · {getProviderDisplayLabel(providerSource)} · {realtimeLabel}${staleHint} · {autoRefreshLabel} · 가격/재고는 구매 전 최종 확인
           </p>
           {onRefresh ? (
             <button
@@ -88,7 +103,7 @@ export function HomeStatusStrip({
             {isOffline ? "오프라인 상태입니다." : "네트워크 정상 · 최신 특가 확인 가능"}
           </p>
           <p className="text-xs font-bold text-slate-500">
-            최근 가격 기준 {latestPriceCheckedAt ? getRelativeTime(latestPriceCheckedAt) : "대기 중"} · {realtimeLabel} · {autoRefreshLabel}
+            최근 가격 기준 {latestPriceCheckedAt ? getRelativeTime(latestPriceCheckedAt) : "대기 중"} · {realtimeLabel}${staleHint} · {autoRefreshLabel}
           </p>
         </div>
         <div className="mt-1 flex items-center justify-between gap-3">

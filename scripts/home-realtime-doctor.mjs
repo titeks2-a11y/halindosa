@@ -30,6 +30,7 @@ const homeApi = read("lib/homeApi.ts");
 const homeRealtimeConfig = read("lib/homeRealtimeConfig.ts");
 const homePage = read("app/page.tsx");
 const homeStatusStrip = read("components/home/HomeStatusStrip.tsx");
+const hotSignalProvider = read("lib/hotSignalProvider.ts");
 const packageJson = JSON.parse(read("package.json"));
 const qaRunner = read("scripts/run-qa.mjs");
 const harness = read("scripts/harness.mjs");
@@ -45,10 +46,16 @@ for (const routePath of apiRoutes) {
   }
 }
 
-if (includesAll(homeApi, ["buildHomeRequestUrl", "/api/home?", "HomeResponse", "ts: String(timestamp)", "Date.now()", 'cache: "no-store"', '"Cache-Control": "no-cache"', "buildLatestDealsRequestUrl"])) {
-  pass("home api cache buster", "홈 API 요청이 /api/home snapshot, no-store, timestamp cache-buster를 함께 사용합니다.");
+if (includesAll(homeApi, ["buildHomeRequestUrl", "/api/home?", "HomeResponse", "HomeFreshness", "ts: String(timestamp)", "Date.now()", 'cache: "no-store"', '"Cache-Control": "no-cache"', "buildLatestDealsRequestUrl"])) {
+  pass("home api cache buster", "홈 API 요청이 /api/home snapshot, freshness, no-store, timestamp cache-buster를 함께 사용합니다.");
 } else {
-  fail("home api cache buster", "홈 API 요청에 /api/home snapshot, timestamp 또는 no-store fetch 설정이 부족합니다.");
+  fail("home api cache buster", "홈 API 요청에 /api/home snapshot, freshness, timestamp 또는 no-store fetch 설정이 부족합니다.");
+}
+
+if (hotSignalProvider.includes('cache: "no-store"') && !hotSignalProvider.includes("revalidate: 120")) {
+  pass("hot signal source no-store", "핫시그널 RSS/API/게시판 수집 fetch가 120초 route cache 대신 no-store로 최신 데이터를 요청합니다.");
+} else {
+  fail("hot signal source no-store", "핫시그널 수집 내부 fetch에 revalidate cache가 남아 있거나 no-store가 부족합니다.");
 }
 
 if (
@@ -61,6 +68,9 @@ if (
     "buildHomeRequestUrl",
     "buildCombinedHomeSnapshot",
     "setLastHomeSyncAt",
+    "setHomeFreshness",
+    "snapshot.freshness",
+    "homeFreshnessLabel",
     "fetchDeals(undefined, true)",
     "refreshNewsDeals({ silent: true })",
     "fetchSignals(true)"
@@ -88,10 +98,10 @@ if (
 }
 
 const homeRoute = read("app/api/home/route.ts");
-if (includesAll(homeRoute, ["newsMeta", "cachePolicy", 'mode: "no-store"', "recommendedQueries", "freshnessStatus", "targetSections"])) {
-  pass("home snapshot metadata", "/api/home이 공식 혜택 추천, freshness, no-store 생성 메타를 함께 반환합니다.");
+if (includesAll(homeRoute, ["newsMeta", "cachePolicy", 'mode: "no-store"', "recommendedQueries", "freshnessStatus", "targetSections", "buildHomeFreshness", "oldestChannel", "nextRefreshAt", "staleChannelCount", "channels"])) {
+  pass("home snapshot metadata", "/api/home이 공식 혜택 추천, 채널별 freshness, no-store 생성 메타를 함께 반환합니다.");
 } else {
-  fail("home snapshot metadata", "/api/home 응답에 공식 혜택 추천/freshness/no-store 메타가 부족합니다.");
+  fail("home snapshot metadata", "/api/home 응답에 공식 혜택 추천/채널별 freshness/no-store 메타가 부족합니다.");
 }
 
 const refreshedNewsDeals = Array.isArray(refreshedNews.deals) ? refreshedNews.deals : [];
@@ -129,7 +139,7 @@ if (
   );
 }
 
-if (includesAll(homeStatusStrip, ["실시간 검증됨", "업데이트", "새로고침", "onRefresh", "isRefreshing", "getRelativeTime(updatedAt)", "refreshIntervalSeconds", "자동 확인"])) {
+if (includesAll(homeStatusStrip, ["실시간 검증됨", "업데이트", "새로고침", "onRefresh", "isRefreshing", "freshnessLabel", "staleChannelCount", "oldestChannel", "refreshIntervalSeconds", "자동 확인"])) {
   pass("home realtime status ux", "모바일 상태 배지에 최신성, 수동 새로고침, 진행 상태가 표시됩니다.");
 } else {
   fail("home realtime status ux", "홈 상태 UI에 최신성 또는 수동 새로고침 표시가 부족합니다.");

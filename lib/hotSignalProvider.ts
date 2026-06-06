@@ -200,7 +200,7 @@ async function fetchFeed(source: FeedSource) {
       Accept: "application/rss+xml, application/atom+xml, application/xml, text/xml",
       "User-Agent": "HalindosaBot/0.1 (+local MVP; contact: owner)"
     },
-    next: { revalidate: 120 }
+    cache: "no-store"
   });
 
   if (!response.ok) {
@@ -242,7 +242,7 @@ async function fetchNaverNewsSignals() {
           "X-Naver-Client-Id": clientId,
           "X-Naver-Client-Secret": clientSecret
         },
-        next: { revalidate: 120 }
+        cache: "no-store"
       });
 
       if (!response.ok) {
@@ -284,7 +284,7 @@ async function fetchPublicBoardSignals() {
       "User-Agent": "Mozilla/5.0 (compatible; Halindosa/1.0)",
       Accept: "text/html,application/xhtml+xml"
     },
-    next: { revalidate: 120 }
+    cache: "no-store"
   });
 
   if (!response.ok) {

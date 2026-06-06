@@ -42,6 +42,29 @@ export interface NewsDealsResponse {
   message: string;
 }
 
+export type HomeFreshnessStatus = "fresh" | "due" | "stale" | "seed";
+export type HomeFreshnessChannelKey = "deals" | "newsDeals" | "hotSignals";
+
+export interface HomeFreshnessChannel {
+  updatedAt: string;
+  ageMinutes: number | null;
+  status: HomeFreshnessStatus;
+  label: string;
+  count: number;
+  source: string;
+}
+
+export interface HomeFreshness {
+  generatedAt: string;
+  status: HomeFreshnessStatus;
+  label: string;
+  ageMinutes: number | null;
+  oldestChannel: HomeFreshnessChannelKey;
+  nextRefreshAt: string;
+  staleChannelCount: number;
+  channels: Record<HomeFreshnessChannelKey, HomeFreshnessChannel>;
+}
+
 export interface HomeResponse {
   ok: boolean;
   deals: Deal[];
@@ -55,6 +78,7 @@ export interface HomeResponse {
   updatedAt: string;
   dealUpdatedAt?: string;
   newsUpdatedAt?: string;
+  freshness?: HomeFreshness;
   source:
     | {
         deals: string;
