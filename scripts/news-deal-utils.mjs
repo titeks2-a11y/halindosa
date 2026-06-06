@@ -125,6 +125,8 @@ export function writeJson(path, payload) {
   writeFileSync(join(root, path), `${JSON.stringify(payload, null, 2)}\n`, "utf8");
 }
 
+const verifiedNewsBenefitImages = readJson("data/verifiedNewsBenefitImages.json", {});
+
 function cleanText(value) {
   return String(value ?? "")
     .replace(/<[^>]+>/g, "")
@@ -241,12 +243,43 @@ function isGeneratedNewsBenefitImage(value) {
   return /^\/deal-images\/category-[a-z-]+\.svg$/.test(String(value ?? ""));
 }
 
-function resolveNewsBenefitImage({ imageUrl, category, benefitType }) {
+function isSafeOfficialNewsImageUrl(value) {
+  const cleaned = cleanText(value);
+  if (!cleaned || isGeneratedNewsBenefitImage(cleaned)) return false;
+
+  try {
+    const url = new URL(cleaned);
+    const host = url.hostname.replace(/^www\./, "").toLowerCase();
+    if (url.protocol !== "https:" && url.protocol !== "http:") return false;
+    if (blockedHosts.some((blocked) => host === blocked || host.endsWith(`.${blocked}`))) return false;
+    return !/(favicon|sprite|blank|noimage|no_img|placeholder|loading|transparent|1x1|pixel)/i.test(url.href);
+  } catch {
+    return false;
+  }
+}
+
+function getVerifiedNewsBenefitImage({ id, finalUrl }) {
+  const direct = verifiedNewsBenefitImages?.[id];
+  if (direct?.url && isSafeOfficialNewsImageUrl(direct.url)) return direct.url;
+
+  const byFinalUrl = Object.values(verifiedNewsBenefitImages ?? {}).find((item) => item?.sourceUrl === finalUrl);
+  return byFinalUrl?.url && isSafeOfficialNewsImageUrl(byFinalUrl.url) ? byFinalUrl.url : "";
+}
+
+function resolveNewsBenefitImage({ id, imageUrl, category, benefitType, finalUrl }) {
   const cleanedImageUrl = cleanText(imageUrl);
-  if (cleanedImageUrl) {
+  if (isSafeOfficialNewsImageUrl(cleanedImageUrl) || isGeneratedNewsBenefitImage(cleanedImageUrl)) {
     return {
       imageUrl: cleanedImageUrl,
       imageType: isGeneratedNewsBenefitImage(cleanedImageUrl) ? "generated" : "official"
+    };
+  }
+
+  const verifiedImageUrl = getVerifiedNewsBenefitImage({ id, finalUrl });
+  if (verifiedImageUrl) {
+    return {
+      imageUrl: verifiedImageUrl,
+      imageType: "official"
     };
   }
 
@@ -414,14 +447,17 @@ export function normalizeNewsDeal(raw, nowIso = new Date().toISOString()) {
   const eventUrl = cleanText(raw.eventUrl) || finalUrl;
   const category = cleanText(raw.category) || "무료혜택";
   const benefitType = cleanText(raw.benefitType) || "discount";
+  const id = cleanText(raw.id) || `news-${Buffer.from(`${merchant}-${title}-${finalUrl}`).toString("base64url").slice(0, 18)}`;
   const resolvedImage = resolveNewsBenefitImage({
+    id,
     imageUrl: raw.imageUrl,
     category,
-    benefitType
+    benefitType,
+    finalUrl
   });
 
   return {
-    id: cleanText(raw.id) || `news-${Buffer.from(`${merchant}-${title}-${finalUrl}`).toString("base64url").slice(0, 18)}`,
+    id,
     title,
     summary,
     merchant,

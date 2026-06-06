@@ -31,6 +31,7 @@ const ranking = read("lib/deals/ranking.ts");
 const mockDeals = read("data/mockDeals.ts");
 const verifiedPurchaseLinks = read("data/verifiedPurchaseLinks.ts");
 const verifiedProductImages = read("data/verifiedProductImages.ts");
+const verifiedNewsBenefitImages = read("data/verifiedNewsBenefitImages.json");
 const imageSrc = read("lib/imageSrc.ts");
 const components = [
   ["QuickDealCard", "components/QuickDealCard.tsx"],
@@ -67,6 +68,7 @@ if (
 if (
   includesAll(newsDealUtils, [
     "generatedNewsBenefitImages",
+    "verifiedNewsBenefitImages",
     "resolveNewsBenefitImage",
     "scoreNewsDealQuality",
     "imageType",
@@ -76,6 +78,14 @@ if (
   pass("official benefit image normalization", "공식 혜택 정규화 단계가 생성 placeholder와 qualityScore를 자동으로 채웁니다.");
 } else {
   fail("official benefit image normalization", "공식 혜택 정규화 단계에 생성 placeholder 또는 qualityScore 연결이 부족합니다.");
+}
+
+const verifiedNewsImageMapping = JSON.parse(verifiedNewsBenefitImages);
+const verifiedNewsImageCount = Object.keys(verifiedNewsImageMapping).length;
+if (verifiedNewsImageCount >= 25 && newsDealUtils.includes("getVerifiedNewsBenefitImage") && newsDealUtils.includes("isSafeOfficialNewsImageUrl")) {
+  pass("official benefit verified image mapping", `공식 혜택 ${verifiedNewsImageCount}개가 OG/schema 이미지 매핑을 우선 사용합니다.`);
+} else {
+  fail("official benefit verified image mapping", `공식 혜택 OG/schema 이미지 매핑이 ${verifiedNewsImageCount}개로 25개 기준보다 낮습니다.`);
 }
 
 if (
@@ -329,6 +339,12 @@ if (newsImageAudit.total >= 70 && newsImageAudit.missingImageCount === 0 && news
   );
 }
 
+if (newsImageAudit.officialImageCount >= 25) {
+  pass("official benefit image operating floor", `공식 혜택 ${newsImageAudit.officialImageCount}/${newsImageAudit.total}개가 공식 OG/schema 이미지를 사용합니다.`);
+} else {
+  fail("official benefit image operating floor", `공식 혜택 공식 이미지가 ${newsImageAudit.officialImageCount}개로 25개 기준보다 낮습니다.`);
+}
+
 if (includesAll(mockDeals, ["verifiedProductImages", "verifiedImage?.url", "deriveProductImageUrlFromPurchaseUrl"])) {
   pass("verified product image priority", "검증된 공식 상품/혜택 이미지가 명시 이미지와 생성 placeholder보다 먼저 적용됩니다.");
 } else {
@@ -371,6 +387,8 @@ Status: ${report.ok ? "PASS" : "FAIL"}
 | Missing image fallback | ${visibleImageAudit.fallbackMissingCount} |
 | Generated placeholder assets | ${fallbackAssets.length} |
 | Official benefit renderable images | ${newsImageAudit.renderableImageCount}/${newsImageAudit.total} |
+| Official benefit OG/schema mappings | ${verifiedNewsImageCount} |
+| Official benefit official images | ${newsImageAudit.officialImageCount} |
 | Official benefit generated images | ${newsImageAudit.generatedPlaceholderCount} |
 | Official benefit low quality | ${newsImageAudit.lowQualityCount} |
 

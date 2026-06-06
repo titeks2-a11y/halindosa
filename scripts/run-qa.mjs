@@ -12,6 +12,7 @@ const coreTasks = [
   "link:policy:regression",
   "refresh:deals",
   "refresh:news",
+  "news:images:enrich",
   "refresh:freebies",
   "refresh:events",
   "verify:news",
