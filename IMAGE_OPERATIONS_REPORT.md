@@ -18,6 +18,7 @@ Status: PASS
 | minimum explicit image gate | PASS | 명시 실상품 이미지 커버리지는 현재 달성한 25% 이상 기준을 자동 검사해야 합니다. |
 | image backlog report | PASS | 이미지 품질 리포트는 fallback 상품별 보강 후보와 검색 URL을 남겨야 합니다. |
 | full image backlog export | PASS | 전체 이미지 보강 큐는 전체 CSV, 주간 배치 CSV, 판매처 요청 CSV, JSON, 문서 리포트로 생성되고 QA 흐름에 연결되어야 합니다. |
+| official image candidate discovery | PASS | 운영자는 남은 fallback 상품에서 공식 상세/혜택 페이지 이미지 후보를 자동 수집하되, 앱 데이터는 권리 확인 후 수동 반영해야 합니다. |
 | admin image operations queue | PASS | 관리자 화면에서 카테고리별/상품별 이미지 보강 대상을 바로 볼 수 있어야 합니다. |
 | image sourcing execution plan | PASS | 이미지 보강 큐는 공개 운영 목표, 보강 갭, 주간 처리 목표를 API와 관리자 화면에 노출해야 합니다. |
 | public copy safety | PASS | 운영 화면 문구는 내부 개발 티를 줄이고 실제 운영 액션 중심이어야 합니다. |

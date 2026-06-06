@@ -104,6 +104,7 @@
     "test:images": "node scripts/test-images.mjs",
     "verify:images": "node scripts/verify-images.mjs",
     "image:backlog:report": "node scripts/image-backlog-report.mjs",
+    "image:candidates": "node scripts/verified-product-image-candidates.mjs",
     "image:operations:doctor": "node scripts/image-operations-doctor.mjs",
     "test:external-links": "node scripts/test-external-links.mjs",
     "test:search": "node scripts/search-quality-doctor.mjs",

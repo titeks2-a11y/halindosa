@@ -14,6 +14,7 @@ const mockDeals = readFileSync(join(root, "data", "mockDeals.ts"), "utf8");
 const partnerFeedValidator = readFileSync(join(root, "scripts", "validate-partner-feed.mjs"), "utf8");
 const imageTest = readFileSync(join(root, "scripts", "test-images.mjs"), "utf8");
 const imageBacklogReportScript = readFileSync(join(root, "scripts", "image-backlog-report.mjs"), "utf8");
+const imageCandidateReportScript = readFileSync(join(root, "scripts", "verified-product-image-candidates.mjs"), "utf8");
 const imageQualityReport = readFileSync(join(root, "IMAGE_QUALITY_REPORT.md"), "utf8");
 const imageBacklogReport = readFileSync(join(root, "docs", "IMAGE_BACKLOG_REPORT.md"), "utf8");
 const smoke = [
@@ -185,6 +186,18 @@ const checks = [
       imageBacklogReport.includes("Mall request CSV") &&
       imageBacklogReport.includes("Root JSON"),
     message: "전체 이미지 보강 큐는 전체 CSV, 주간 배치 CSV, 판매처 요청 CSV, JSON, 문서 리포트로 생성되고 QA 흐름에 연결되어야 합니다."
+  },
+  {
+    name: "official image candidate discovery",
+    ok:
+      packageJson.scripts?.["image:candidates"] === "node scripts/verified-product-image-candidates.mjs" &&
+      imageCandidateReportScript.includes("verified-product-image-candidates.json") &&
+      imageCandidateReportScript.includes("VERIFIED_PRODUCT_IMAGE_CANDIDATES.md") &&
+      imageCandidateReportScript.includes("candidateConfidence") &&
+      imageCandidateReportScript.includes("검색 결과 썸네일, 커뮤니티 캡처, 블로그 이미지, 무출처 이미지는 후보에서 제외") &&
+      imageCandidateReportScript.includes("data/verifiedProductImages.ts") &&
+      imageCandidateReportScript.includes("official_page_image"),
+    message: "운영자는 남은 fallback 상품에서 공식 상세/혜택 페이지 이미지 후보를 자동 수집하되, 앱 데이터는 권리 확인 후 수동 반영해야 합니다."
   },
   {
     name: "admin image operations queue",

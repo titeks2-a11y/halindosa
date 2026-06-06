@@ -1,7 +1,7 @@
 export interface VerifiedProductImage {
   url: string;
   checkedAt: string;
-  source: "official_cdn" | "og_image" | "schema_image";
+  source: "official_cdn" | "og_image" | "schema_image" | "official_page_image";
   evidence: string;
 }
 
@@ -57,6 +57,18 @@ export const verifiedProductImages: Record<string, VerifiedProductImage> = {
     source: "og_image",
     evidence: "하이마트 상품 상세 og:image"
   },
+  d027: {
+    url: "https://static.m-gs.kr/planprd/banner_NEW_SUB/827815711_01.png",
+    checkedAt: "2026-06-06T09:20:00.000Z",
+    source: "official_page_image",
+    evidence: "GS SHOP 공식 기획전 상세 이미지"
+  },
+  d033: {
+    url: "http://www.korailtravel.com/images/good_img/KQ01215936/KQ01215936_006A.jpg",
+    checkedAt: "2026-06-06T09:20:00.000Z",
+    source: "official_page_image",
+    evidence: "코레일관광 공식 여행 상품 상세 이미지"
+  },
   d036: {
     url: "https://static1.e-himart.co.kr/contents/goods/00/41/36/50/90/0041365090__A20173622__M_220_220.jpg",
     checkedAt: "2026-06-06T08:20:00.000Z",
@@ -68,6 +80,18 @@ export const verifiedProductImages: Record<string, VerifiedProductImage> = {
     checkedAt: "2026-06-06T08:20:00.000Z",
     source: "og_image",
     evidence: "무신사 상품 상세 대표 이미지"
+  },
+  d038: {
+    url: "https://static.m-gs.kr/planprd/banner_NEW_SUB/827815711_01.png",
+    checkedAt: "2026-06-06T09:20:00.000Z",
+    source: "official_page_image",
+    evidence: "GS SHOP 공식 기획전 상세 이미지"
+  },
+  d039: {
+    url: "https://ticketimage.interpark.com/TicketImage/notice_poster/20/2026052617475727.jpg",
+    checkedAt: "2026-06-06T09:20:00.000Z",
+    source: "official_page_image",
+    evidence: "인터파크 티켓 공식 공연 포스터 이미지"
   },
   d042: {
     url: "https://hpsimg.gsretail.com/medias/sys_master/images/images/h8d/he4/9141109162014.png",
@@ -93,11 +117,53 @@ export const verifiedProductImages: Record<string, VerifiedProductImage> = {
     source: "og_image",
     evidence: "토스 공식 혜택 상세 이미지"
   },
+  d056: {
+    url: "https://www.cjone.com/cjmweb/upfile/20260511_19e14795bc941.jpg",
+    checkedAt: "2026-06-06T09:20:00.000Z",
+    source: "official_page_image",
+    evidence: "CJ ONE 공식 이벤트 상세 이미지"
+  },
   d059: {
     url: "https://images-kr.amoremall.com/fileupload/plandisplay/2023/03/31/MO_HM_BANNER_6438_2304_1w.jpg",
     checkedAt: "2026-06-06T08:20:00.000Z",
     source: "og_image",
     evidence: "아모레몰 공식 이벤트 상세 이미지"
+  },
+  d064: {
+    url: "https://sui.ssgcdn.com/ui/grocery/img/service/event_top_banner.png",
+    checkedAt: "2026-06-06T09:20:00.000Z",
+    source: "official_page_image",
+    evidence: "이마트몰 공식 쓱배송 이벤트 페이지 이미지"
+  },
+  d065: {
+    url: "https://www.yogiyo.co.kr/mobile/image/app_img_560x292_v2.png",
+    checkedAt: "2026-06-06T09:20:00.000Z",
+    source: "og_image",
+    evidence: "요기요 공식 혜택 페이지 og:image"
+  },
+  d067: {
+    url: "https://membership.kt.com/pc/images/membership/kt_membership_og_image.png",
+    checkedAt: "2026-06-06T09:20:00.000Z",
+    source: "og_image",
+    evidence: "KT멤버십 공식 혜택 페이지 og:image"
+  },
+  d068: {
+    url: "https://www.lguplus.com/static/pc-static/indv/images/contents/mem-grade-5-v2.png",
+    checkedAt: "2026-06-06T09:20:00.000Z",
+    source: "official_page_image",
+    evidence: "U+멤버십 공식 혜택 페이지 이미지"
+  },
+  d070: {
+    url: "https://m.i-challenge.co.kr/Images/free/free_img01.jpg",
+    checkedAt: "2026-06-06T09:20:00.000Z",
+    source: "official_page_image",
+    evidence: "아이챌린지 공식 무료체험 페이지 이미지"
+  },
+  d072: {
+    url: "https://ssl.pstatic.net/static/nid/membership/membershipOG_241022.png",
+    checkedAt: "2026-06-06T09:20:00.000Z",
+    source: "og_image",
+    evidence: "네이버플러스 멤버십 공식 혜택 og:image"
   },
   d081: {
     url: "https://cdn.011st.com/11dims/resize/600x600/quality/75/11src/product/2463145821/B.webp?464982105",

@@ -1,10 +1,10 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-06T08:55:17.614Z",
+  "generatedAt": "2026-06-06T09:19:21.843Z",
   "sourceReports": {
-    "linkValidation": "2026-06-06T08:55:14.479Z",
-    "exposurePolicy": "2026-06-06T08:55:16.059Z",
-    "linkLaunchGate": "2026-06-06T08:55:17.084Z"
+    "linkValidation": "2026-06-06T09:19:18.650Z",
+    "exposurePolicy": "2026-06-06T09:19:20.273Z",
+    "linkLaunchGate": "2026-06-06T09:19:21.326Z"
   },
   "summary": {
     "auditedItems": 140,
