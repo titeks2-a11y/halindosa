@@ -50,8 +50,8 @@ if (includesAll(bottomNavigation, ["fixed bottom-0", "h-14", "min-h-[48px]", "gr
   fail("bottom nav compactness", "하단 탭 높이, 터치 영역, safe-area 기준이 예상과 다릅니다.");
 }
 
-if (includesAll(searchBar, ['placeholder="상품명·쇼핑몰 검색"', "h-10", "focus:ring-4", "현재 결과", "추천 검색어"])) {
-  pass("compact search", "검색창은 짧은 placeholder, 40px 모바일 높이, 결과 수, 추천 검색어를 유지합니다.");
+if (includesAll(searchBar, ['placeholder="상품명·쇼핑몰 검색"', "h-10", "focus:ring-4", "현재 결과", "추천 검색어", "hidden shrink-0 text-xs font-black text-slate-500 sm:block"])) {
+  pass("compact search", "검색창은 짧은 placeholder, 40px 모바일 높이, 데스크톱 결과 수, 추천 검색어를 유지하고 모바일에서는 결과 보조 줄을 줄입니다.");
 } else {
   fail("compact search", "검색창 compact 모바일 기준 또는 결과/추천 검색어 표시가 부족합니다.");
 }
@@ -108,20 +108,22 @@ if (
   includesAll(homePage, ["<HomeLiveBenefitStrip", "newsTotalCount", "newsFreeBenefitCount", "newsFreshness.label", "rememberRecentNewsBenefit"]) &&
   includesAll(homeLiveBenefitStrip, [
     'data-home-live-benefit-strip="true"',
-    "방금 검증한 무료혜택",
+    "방금 검증한 혜택",
     "freeBenefitCount",
     "home-live-benefit-strip",
     "sm:hidden",
-    "grid grid-cols-2",
-    ".slice(0, 4)",
+    "overflow-x-auto",
+    ".slice(0, 2)",
+    "min-h-[2.35rem]",
+    "line-clamp-1",
     "validationStatus === \"passed\"",
     "deal.finalUrl",
     "availability === \"active\""
   ])
 ) {
-  pass("mobile live benefit strip", "모바일 첫 화면에서 검증된 공식 무료혜택 4개를 2열 compact grid로 보여주며 invalid/search/community 링크를 제외합니다.");
+  pass("mobile live benefit strip", "모바일 첫 화면에서 검증된 공식 혜택 2개를 초압축 가로 레일로 보여주며 invalid/search/community 링크를 제외합니다.");
 } else {
-  fail("mobile live benefit strip", "모바일 공식 혜택 compact grid, 검증 필터, 또는 최근 본 혜택 연결 기준이 부족합니다.");
+  fail("mobile live benefit strip", "모바일 공식 혜택 compact rail, 검증 필터, 또는 최근 본 혜택 연결 기준이 부족합니다.");
 }
 
 if (includesAll(toast, ["top-[calc(0.75rem+env(safe-area-inset-top))]", "max-w-sm", "line-clamp-2", "sm:bottom-6"])) {
@@ -151,7 +153,7 @@ ${checks.map((check) => `| ${check.name} | ${check.ok ? "PASS" : "FAIL"} | ${che
 - 심화 혜택 루틴은 첫 화면 인터랙티브 요소 수를 줄이기 위해 사용자가 더보기를 누른 뒤 렌더링하는 구조를 검사합니다.
 - 데스크톱 상세 필터와 결과 분석 패널도 기본 DOM에 올리지 않고 사용자가 펼친 뒤 렌더링하는 구조를 검사합니다.
 - 상단 "오늘 바로 볼 특가" 레일은 손가락 스크롤이 어중간하게 멈추지 않도록 snap-x/snap-start 구조와 오른쪽 fade/넘기기 신호를 검사합니다.
-- 모바일 공식 혜택 strip은 2열 compact grid로 검증 혜택 4개를 바로 보여주고, 구매/신청 이동은 \`/go/news/[id]\` 새 탭 경로를 유지합니다.
+- 모바일 공식 혜택 strip은 초압축 가로 rail로 검증 혜택 2개를 먼저 보여주고, 구매/신청 이동은 \`/go/news/[id]\` 새 탭 경로를 유지합니다.
 - Playwright 도입 전까지 \`npm run test:mobile-ux\`와 \`npm run harness\`가 모바일 UX 안전망 역할을 합니다.
 `;
 

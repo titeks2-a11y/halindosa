@@ -72,7 +72,7 @@ export function SearchBar({ value, onChange, suggestions = [], resultCount, onSe
             </div>
           ) : null}
           {typeof resultCount === "number" ? (
-            <p className="shrink-0 text-xs font-black text-slate-500" role="status" aria-live="polite">
+            <p className="hidden shrink-0 text-xs font-black text-slate-500 sm:block" role="status" aria-live="polite">
               현재 결과 <span className="text-dossa-red">{resultCount}</span>개
             </p>
           ) : null}

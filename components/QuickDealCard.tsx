@@ -81,7 +81,9 @@ export function QuickDealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, 
       <div className="min-w-0 flex-1 space-y-0.5 p-1.5 sm:space-y-2 sm:p-3">
         <div className="flex items-center justify-between gap-2 text-[11px] font-black">
           <span className="min-w-0 truncate text-dossa-red">{deal.mallName}</span>
-          <span className="shrink-0 text-slate-400">{checkedAt}</span>
+          <span className="shrink-0 text-slate-400" suppressHydrationWarning>
+            {checkedAt}
+          </span>
         </div>
 
         <Link href={`/deals/${deal.id}`} target="_blank" rel="noopener noreferrer" className="block" aria-label={`${deal.title} 상세 정보 새 탭으로 보기`}>
@@ -100,7 +102,9 @@ export function QuickDealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, 
               {verified ? "직접링크" : "확인 필요"}
             </span>
             <span className="rounded-xl bg-white px-1.5 py-1.5 text-slate-600">{deal.shipping}</span>
-            <span className="rounded-xl bg-white px-1.5 py-1.5 text-slate-600">{timeLeft}</span>
+            <span className="rounded-xl bg-white px-1.5 py-1.5 text-slate-600" suppressHydrationWarning>
+              {timeLeft}
+            </span>
           </div>
         </div>
 
@@ -122,7 +126,7 @@ export function QuickDealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, 
           </CommerceBadge>
           <CommerceBadge tone={deal.isEndingSoon ? "warning" : "neutral"} className="px-2 py-0.5 text-[10px]">
             <Clock size={12} />
-            {timeLeft}
+            <span suppressHydrationWarning>{timeLeft}</span>
           </CommerceBadge>
         </div>
 

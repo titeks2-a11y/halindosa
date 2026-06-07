@@ -967,6 +967,10 @@ export default function Home() {
     [benefitFilter, category, endingSoonOnly, freeShippingOnly, hotOnly, mallFilter, priceBand, query, sort, verifiedOnly]
   );
   const activeFilterLabels = useMemo(() => activeFilterChips.map((chip) => chip.label), [activeFilterChips]);
+  const hasMobileVisibleFilterReset = useMemo(
+    () => activeFilterChips.some((chip) => chip.id !== "verified"),
+    [activeFilterChips]
+  );
 
   const filterOutcomeCards = useMemo(() => buildFilterOutcomeCards(deals, activeFilterLabels), [activeFilterLabels, deals]);
 
@@ -1374,7 +1378,7 @@ export default function Home() {
             </div>
             <div className="mt-1 flex items-center justify-between gap-2 rounded-2xl bg-slate-50 px-2 py-1.5 text-[11px] font-bold text-slate-500 sm:hidden">
               <span className="min-w-0 truncate">
-                실시간 검증됨 · {verifiedHomeDeals.length.toLocaleString("ko-KR")}개 · {homeFreshnessLabel}
+                실시간 검증됨 · {verifiedHomeDeals.length.toLocaleString("ko-KR")}개 · 무료/쿠폰 {newsFreeBenefitCount.toLocaleString("ko-KR")}개 · {homeFreshnessLabel}
               </span>
               <button
                 type="button"
@@ -1386,19 +1390,7 @@ export default function Home() {
                 {isLoading || isNewsRefreshing || isSignalLoading ? "확인 중" : "새로고침"}
               </button>
             </div>
-            <HomeLiveBenefitStrip
-              deals={newsDeals}
-              totalCount={newsTotalCount}
-              updatedAt={newsUpdatedAt}
-              freshnessLabel={newsFreshness.label}
-              freeBenefitCount={newsFreeBenefitCount}
-              isRefreshing={isNewsRefreshing}
-              onRefresh={() => {
-                void refreshNewsDeals({ notify: true });
-              }}
-              onOpenNewsDeal={rememberRecentNewsBenefit}
-            />
-            {activeFilterLabels.length ? (
+            {hasMobileVisibleFilterReset ? (
               <button
                 type="button"
                 onClick={resetFilters}
@@ -1629,6 +1621,20 @@ export default function Home() {
               />
             )}
           </section>
+        ) : null}
+        {activeView === "home" ? (
+          <HomeLiveBenefitStrip
+            deals={newsDeals}
+            totalCount={newsTotalCount}
+            updatedAt={newsUpdatedAt}
+            freshnessLabel={newsFreshness.label}
+            freeBenefitCount={newsFreeBenefitCount}
+            isRefreshing={isNewsRefreshing}
+            onRefresh={() => {
+              void refreshNewsDeals({ notify: true });
+            }}
+            onOpenNewsDeal={rememberRecentNewsBenefit}
+          />
         ) : null}
         {activeView === "home" && instantDealRail.length ? (
           <section className="rounded-2xl border border-slate-200 bg-white p-2 shadow-sm sm:rounded-[28px] sm:p-4" aria-label="오늘 바로 볼 특가">

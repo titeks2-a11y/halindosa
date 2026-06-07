@@ -55,7 +55,7 @@ function getVisibleBenefitDeals(deals: NewsDeal[]) {
         !["search", "community", "invalid", "news_only"].includes(deal.linkType)
     )
     .sort((a, b) => b.qualityScore - a.qualityScore || b.priorityScore - a.priorityScore)
-    .slice(0, 4);
+    .slice(0, 2);
 }
 
 export function HomeLiveBenefitStrip({
@@ -77,16 +77,16 @@ export function HomeLiveBenefitStrip({
   return (
     <div
       data-home-live-benefit-strip="true"
-      className="mt-1.5 rounded-2xl border border-red-100 bg-gradient-to-r from-red-50 via-white to-orange-50 px-2 py-2 sm:hidden"
+      className="mt-1 rounded-2xl border border-red-100 bg-gradient-to-r from-red-50 via-white to-orange-50 px-2 py-1.5 sm:hidden"
       aria-label="모바일 공식 혜택 실시간 요약"
     >
       <div className="flex items-center justify-between gap-2">
         <div className="min-w-0">
-          <p className="flex items-center gap-1 text-[11px] font-black text-dossa-red">
+          <p className="flex items-center gap-1 text-[10px] font-black text-dossa-red">
             <Gift size={13} />
-            방금 검증한 무료혜택
+            방금 검증한 혜택
           </p>
-          <p className="mt-0.5 truncate text-[10px] font-bold text-slate-500">
+          <p className="mt-0.5 truncate text-[9px] font-bold text-slate-500">
             공식 링크 {totalCount.toLocaleString("ko-KR")}개 · 무료/쿠폰 {freeCount.toLocaleString("ko-KR")}개 · {checkedLabel}
           </p>
         </div>
@@ -103,7 +103,7 @@ export function HomeLiveBenefitStrip({
         ) : null}
       </div>
 
-      <div className="mt-1.5 grid grid-cols-2 gap-1" aria-label="검증된 공식 혜택 바로가기">
+      <div className="mt-1 flex gap-1 overflow-x-auto pb-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" aria-label="검증된 공식 혜택 바로가기">
         {visibleDeals.length ? (
           visibleDeals.map((deal) => (
             <Link
@@ -112,7 +112,7 @@ export function HomeLiveBenefitStrip({
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => onOpenNewsDeal?.(deal)}
-              className="inline-flex min-h-[3.05rem] min-w-0 items-center justify-between gap-1.5 rounded-xl border border-white bg-white px-2 text-left shadow-sm"
+              className="inline-flex min-h-[2.35rem] min-w-[11rem] max-w-[12rem] shrink-0 items-center justify-between gap-1.5 rounded-xl border border-white bg-white px-2 text-left shadow-sm"
               aria-label={`${deal.title} 공식 혜택 새 탭으로 열기`}
             >
               <span className="min-w-0">
@@ -132,18 +132,18 @@ export function HomeLiveBenefitStrip({
                     </span>
                   )}
                 </span>
-                <span className="mt-0.5 line-clamp-2 text-[10px] font-black leading-[0.83rem] text-slate-950">{deal.title}</span>
+                <span className="mt-0.5 line-clamp-1 text-[10px] font-black leading-[0.83rem] text-slate-950">{deal.title}</span>
               </span>
               <ExternalLink size={11} className="shrink-0 text-dossa-red" />
             </Link>
           ))
         ) : (
-          <p className="col-span-2 rounded-xl bg-white px-3 py-2 text-[11px] font-bold text-slate-500">현재 검증된 무료혜택을 불러오는 중입니다.</p>
+          <p className="min-h-[2.35rem] flex-1 rounded-xl bg-white px-3 py-2 text-[11px] font-bold text-slate-500">현재 검증된 무료혜택을 불러오는 중입니다.</p>
         )}
       </div>
 
       {endingSoonCount ? (
-        <p className="mt-1 text-[10px] font-bold text-amber-700">마감 임박 공식 혜택 {endingSoonCount.toLocaleString("ko-KR")}개를 우선 확인하세요.</p>
+        <p className="sr-only">마감 임박 공식 혜택 {endingSoonCount.toLocaleString("ko-KR")}개를 우선 확인하세요.</p>
       ) : null}
     </div>
   );

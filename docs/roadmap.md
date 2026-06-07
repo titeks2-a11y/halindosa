@@ -13,7 +13,7 @@
 - `refresh:news` 기준 수집 107개, 중복 제거 후 사용자 노출 공식 혜택 105개를 확보했고, `verify:news`, `refresh:freebies`, `refresh:events` 기준 검색 링크, 비공식 링크, 종료/숨김 링크 노출은 0건으로 유지했다.
 - `source:catalog:report`, `source:live:doctor`, `source:onboarding:plan`, `source:feed-env:doctor`, `source:readiness:report`를 재생성해 공식 소스 95개, 카테고리 10/10, provider 4/4, reachable 82개, guarded 13개, blocked live issue 0건을 확인했다.
 - 공식 혜택 이미지 enrichment와 `verify:images` 기준 공식 혜택 105/105개가 렌더 가능한 이미지와 qualityScore 70 이상을 갖고, 공식 OG/schema 이미지는 67/105개로 유지된다.
-- 모바일 `HomeLiveBenefitStrip`을 큰 가로 카드 rail에서 2열 compact grid로 바꿔 검증된 공식 무료혜택 4개가 첫 화면에서 더 빠르게 보이도록 개선했고, `test:mobile-compact`가 `grid-cols-2`, 4개 노출, `/go/news/[id]` 새 탭 이동, invalid/search/community 차단 조건을 회귀 테스트로 검사한다.
+- 모바일 `HomeLiveBenefitStrip`을 2개 초압축 공식 혜택 rail로 줄여 검색/상태/카테고리 아래에서 검증 특가 목록이 더 빨리 올라오도록 개선했고, `test:mobile-compact`가 가로 rail, `/go/news/[id]` 새 탭 이동, invalid/search/community 차단 조건을 회귀 테스트로 검사한다.
 
 ### PHASE Refreshed Deal Benefit Type Gate
 

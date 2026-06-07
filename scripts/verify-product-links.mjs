@@ -517,7 +517,7 @@ function getValidationCode({ linkType, validationStatus, availability, checks, l
   if (checks?.blockedHost) return "community_link";
   if (checks?.httpUrl === false) return "unsafe_url";
   if (checks?.accessibleContentMismatch && !checks?.clientRenderedDetailShell) return "mismatch";
-  if (liveProbeFailure?.reason === "timeout") return "timeout";
+  if (liveProbeStrict && liveProbeFailure?.reason === "timeout") return "timeout";
   if (validationStatus === "passed" && availability === "active" && linkType !== "unavailable") return "valid";
   if (validationStatus === "needs_review") return "mismatch";
   return "invalid";
