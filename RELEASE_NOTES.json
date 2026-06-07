@@ -1,8 +1,8 @@
 {
   "generatedBy": "npm run release:notes",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "ea901781",
-  "workingTree": "M DEVICE_QA_REPORT.md;  M PUBLIC_URL_REPORT.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M docs/DEVICE_QA_REPORT.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md",
+  "commit": "9b51cb92",
+  "workingTree": "M DEVICE_QA_REPORT.md;  M KNOWN_ISSUES.md;  M PUBLIC_URL_REPORT.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M docs/DEVICE_QA_REPORT.md;  M docs/KNOWN_ISSUES.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_HANDOFF_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md;  M docs/SUPPORT_PLAYBOOK.md;  M docs/release-evidence.md",
   "version": "1.0.1",
   "appName": "할인도사",
   "packageName": "com.halindosa.app",
@@ -34,27 +34,27 @@
     {
       "path": "docs/release-evidence.md",
       "status": "present",
-      "bytes": 8413
+      "bytes": 7565
     },
     {
       "path": "docs/STORE_CONSOLE_FIELDS.md",
       "status": "present",
-      "bytes": 3665
+      "bytes": 3903
     },
     {
       "path": "docs/STORE_MANUAL_CHECKLIST.md",
       "status": "present",
-      "bytes": 4661
+      "bytes": 4362
     },
     {
       "path": "docs/STORE_HANDOFF_REPORT.md",
       "status": "present",
-      "bytes": 4581
+      "bytes": 4655
     },
     {
       "path": "docs/STORE_SUBMISSION_REPORT.md",
       "status": "present",
-      "bytes": 4799
+      "bytes": 4807
     },
     {
       "path": "docs/DEVICE_QA_MANIFEST.md",
@@ -73,14 +73,14 @@
     }
   ],
   "recentCommits": [
+    "9b51cb92 fix: stabilize realtime home hydration",
+    "7c59d8a5 docs: refresh release evidence after hydration fix",
     "ea901781 fix: stabilize home hydration and live probe review",
     "d811923d fix: stabilize realtime home deployment",
     "88126203 fix: stabilize client hydration state",
     "0c9cfeae fix: make vercel cron hobby compatible",
     "86272e5e ci: add vercel production deployment workflow",
-    "793be1d9 chore: refresh deployment verification reports",
-    "279f86af chore: refresh vercel release evidence snapshot",
-    "95c4c17c chore: add vercel deployment doctor"
+    "793be1d9 chore: refresh deployment verification reports"
   ],
   "manualWorkThatMustNotBeFaked": [
     "Do not claim Play Console or App Store Connect submission has passed from this file.",
