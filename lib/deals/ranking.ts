@@ -11,7 +11,18 @@ export function getDealImageQualityScore(deal: Pick<Deal, "imageUrl" | "thumbnai
   return hasRealDealImage(deal) ? 14 : -4;
 }
 
-export function getCommercialDealScore(deal: Deal, now = Date.now()) {
+function getStableRankingReferenceTime(deal: Deal) {
+  const candidates = [deal.verifiedAt, deal.priceCheckedAt, deal.checkedAt, deal.updatedAt, deal.createdAt];
+
+  for (const value of candidates) {
+    const timestamp = Date.parse(String(value ?? ""));
+    if (Number.isFinite(timestamp)) return timestamp;
+  }
+
+  return Date.parse("2026-06-07T00:00:00.000Z");
+}
+
+export function getCommercialDealScore(deal: Deal, now = getStableRankingReferenceTime(deal)) {
   const expireHours = Math.max(1, (new Date(deal.expireAt).getTime() - now) / (60 * 60 * 1000));
 
   return (

@@ -31,6 +31,7 @@ const runtimeApi = read("lib/runtimeApi.ts");
 const homeRealtimeConfig = read("lib/homeRealtimeConfig.ts");
 const homePage = read("app/page.tsx");
 const homeStatusStrip = read("components/home/HomeStatusStrip.tsx");
+const ranking = read("lib/deals/ranking.ts");
 const hotSignalProvider = read("lib/hotSignalProvider.ts");
 const noStoreApi = read("lib/api/noStore.ts");
 const refreshedSnapshotProvider = read("lib/deals/providers/refreshedSnapshotProvider.ts");
@@ -263,6 +264,15 @@ if (includesAll(homeStatusStrip, ["실시간 검증됨", "노출가능", "공식
   pass("home realtime status ux", "모바일 상태 배지에 최신성, 수동 새로고침, 진행 상태가 표시됩니다.");
 } else {
   fail("home realtime status ux", "홈 상태 UI에 최신성, 노출 품질 요약 또는 수동 새로고침 표시가 부족합니다.");
+}
+
+if (
+  includesAll(ranking, ["getStableRankingReferenceTime", "deal.verifiedAt", "deal.priceCheckedAt", "deal.checkedAt", "deal.updatedAt", "deal.createdAt"]) &&
+  !ranking.includes("getCommercialDealScore(deal: Deal, now = Date.now())")
+) {
+  pass("home ranking hydration stability", "홈 인기/추천 정렬은 상품 검증 시각을 기본 기준으로 사용해 서버/클라이언트 첫 렌더 순서가 흔들리지 않습니다.");
+} else {
+  fail("home ranking hydration stability", "홈 인기/추천 정렬 기본값이 Date.now()에 의존하면 hydration 시 상품 순서가 바뀔 수 있습니다.");
 }
 
 const badHomeStatusCopyLines = homeStatusStrip

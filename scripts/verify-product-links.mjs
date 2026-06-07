@@ -439,20 +439,76 @@ function hasClaimOrBenefitSignal(url, evidence) {
   return urlLooksLikeBenefit && evidenceLooksLikeBenefit;
 }
 
+function normalizeEvidenceUrl(value) {
+  try {
+    const url = new URL(String(value ?? ""));
+    url.hash = "";
+    return url.toString().replace(/\/$/, "");
+  } catch {
+    return String(value ?? "").trim().replace(/\/$/, "");
+  }
+}
+
+function getLatestIsoDate(...values) {
+  const latest = values
+    .map((value) => {
+      const timestamp = Date.parse(String(value ?? ""));
+      return Number.isFinite(timestamp) ? new Date(timestamp).toISOString() : "";
+    })
+    .filter(Boolean)
+    .sort((a, b) => Date.parse(b) - Date.parse(a))[0];
+
+  return latest ?? "";
+}
+
+function parseRefreshSnapshotEvidence() {
+  try {
+    const snapshot = JSON.parse(readFileSync(join(root, "data/refreshedDeals.json"), "utf8"));
+    const deals = Array.isArray(snapshot?.deals) ? snapshot.deals : [];
+    return new Map(
+      deals
+        .map((deal) => {
+          const id = String(deal?.id ?? "");
+          const url =
+            deal?.finalPurchaseUrl ??
+            deal?.finalUrl ??
+            deal?.purchaseUrl ??
+            deal?.productUrl ??
+            deal?.originalUrl ??
+            "";
+          const checkedAt = getLatestIsoDate(deal?.lastCheckedAt, deal?.checkedAt, deal?.verifiedAt, deal?.updatedAt);
+
+          return id && url && checkedAt ? [id, { url, checkedAt }] : null;
+        })
+        .filter(Boolean)
+    );
+  } catch {
+    return new Map();
+  }
+}
+
 function parseVerifiedEntries() {
   const entries = [];
   const pattern = /^\s*(d\d+):\s*\{(?<body>[\s\S]*?)^\s*\},?/gm;
+  const refreshEvidence = parseRefreshSnapshotEvidence();
   let match;
 
   while ((match = pattern.exec(verifiedLinks))) {
     const body = match.groups?.body ?? "";
-    entries.push({
+    const entry = {
       id: match[1],
       url: body.match(/url:\s*"([^"]+)"/)?.[1] ?? "",
       checkedAt: body.match(/checkedAt:\s*"([^"]+)"/)?.[1] ?? "",
       source: body.match(/source:\s*"([^"]+)"/)?.[1] ?? "",
       evidence: body.match(/evidence:\s*"([^"]+)"/)?.[1] ?? ""
-    });
+    };
+    const refreshed = refreshEvidence.get(entry.id);
+
+    if (refreshed && normalizeEvidenceUrl(refreshed.url) === normalizeEvidenceUrl(entry.url)) {
+      entry.checkedAt = getLatestIsoDate(entry.checkedAt, refreshed.checkedAt);
+    }
+
+    entries.push(entry);
   }
 
   return entries;
