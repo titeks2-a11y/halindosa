@@ -2327,6 +2327,13 @@ writeFileSync(join(root, "reports", "release-doctor.json"), `${JSON.stringify(re
 
 if (failures.length) {
   console.error(`Release doctor failed: ${failures.length}/${checks.length}`);
+  for (const failure of failures) {
+    const message = `${failure.name}: ${failure.detail ?? "No detail"}`
+      .replace(/%/g, "%25")
+      .replace(/\r/g, "%0D")
+      .replace(/\n/g, "%0A");
+    console.error(`::error title=Release doctor failure::${message}`);
+  }
   process.exit(1);
 }
 

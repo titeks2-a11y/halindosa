@@ -157,6 +157,8 @@ jobs:
             LINK_VERIFICATION_RESULT.json
             reports/health-readiness.json
             reports/official-benefit-alerts.json
+            reports/release-doctor.json
+            reports/release-prepare-reports.json
             MOBILE_UX_REPORT.md
             PERFORMANCE_REPORT.md
             SEARCH_REPORT.md
