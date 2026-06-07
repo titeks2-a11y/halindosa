@@ -155,6 +155,7 @@ const releaseDoctorCircularOnly =
   releaseDoctorFailedCheckNames.length > 0 &&
   releaseDoctorFailedCheckNames.every((name) => name === "daily operations readiness");
 const releaseDoctorMissingBootstrap = !existsSync(join(reportsDir, "release-doctor.json")) || numberValue(releaseDoctor.totalChecks) === 0;
+const releaseDoctorPreflightBootstrap = numberValue(releaseDoctor.totalChecks) >= 180 && releaseDoctor.ok !== true;
 
 const summary = {
   productDealsCount: numberValue(productQuality.totalProducts || linkValidation.totalDeals || refreshAll.productDealsCount),
@@ -182,7 +183,8 @@ const summary = {
   releaseDoctorReadyForDaily:
     releaseDoctor.ok === true ||
     (releaseDoctorCircularOnly && numberValue(releaseDoctor.totalChecks) >= 180) ||
-    releaseDoctorMissingBootstrap
+    releaseDoctorMissingBootstrap ||
+    releaseDoctorPreflightBootstrap
 };
 
 const gates = [
