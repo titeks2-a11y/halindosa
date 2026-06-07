@@ -48,9 +48,6 @@ jobs:
       - name: Store submission readiness report
         run: npm run store:submission:report
 
-      - name: Store packet readiness report
-        run: npm run store:packet:doctor
-
       - name: Store console field manifest
         run: npm run store:console:fields
 
@@ -83,6 +80,9 @@ jobs:
 
       - name: Official benefit alert readiness report
         run: npm run official:alerts:report
+
+      - name: Store packet readiness report
+        run: npm run store:packet:doctor
 
       - name: Launch harness
         run: npm run harness
