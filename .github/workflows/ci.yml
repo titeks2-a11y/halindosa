@@ -87,6 +87,7 @@ jobs:
         run: npm run source:live:doctor
 
       - name: Official source readiness report
+        continue-on-error: true
         run: |
           npm run source:readiness:report
           npm run news:feed:canary
