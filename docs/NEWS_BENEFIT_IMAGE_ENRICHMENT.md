@@ -1,6 +1,6 @@
 # Official Benefit Image Enrichment Report
 
-Generated: 2026-06-07T15:11:59.717Z
+Generated: 2026-06-07T15:48:33.563Z
 
 | Metric | Value |
 | --- | ---: |
@@ -12,8 +12,8 @@ Generated: 2026-06-07T15:11:59.717Z
 ## Failure Reasons
 
 - no_meta_image: 17
-- page_403_text/html; charset=UTF-8: 3
 - image_too_small: 4
+- page_403_text/html; charset=UTF-8: 3
 - page_404_text/html; charset=UTF-8: 1
 - page_403_text/html: 2
 - page_200_unknown: 3

@@ -1,9 +1,9 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-07T14:33:06.025Z",
+  "generatedAt": "2026-06-07T15:24:00.756Z",
   "origin": "https://halindosa.com",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "d811923d",
+  "commit": "7c59d8a5",
   "workingTree": "clean",
   "project": {
     "linked": false
@@ -75,40 +75,40 @@
       "url": "https://halindosa.com/",
       "status": 200,
       "ok": true,
-      "elapsedMs": 188,
-      "cacheControl": "public, max-age=0, must-revalidate",
+      "elapsedMs": 1040,
+      "cacheControl": "private, no-cache, no-store, max-age=0, must-revalidate",
       "contentType": "text/html; charset=utf-8",
       "location": "",
-      "xVercelId": "icn1::wlr5h-1780842784786-71685f20a9e8",
-      "bodyPreview": "<!DOCTYPE html><html lang=\"ko\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover\"/><link rel=\"preload\" as=\"image\" href=\"/halindosa-icon-192.png\"/><link rel=\""
+      "xVercelId": "icn1::iad1::49wzs-1780845838138-4c66bd1b2dee",
+      "bodyPreview": "<!DOCTYPE html><html lang=\"ko\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover\"/><link rel=\"stylesheet\" href=\"/_next/static/chunks/10afauau2do5b.css\" data-"
     },
     "homeApi": {
       "url": "https://halindosa.com/api/home?limit=3&verifiedOnly=true",
       "status": 200,
       "ok": true,
-      "elapsedMs": 1659,
+      "elapsedMs": 1587,
       "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
       "contentType": "application/json",
       "location": "",
-      "xVercelId": "icn1::iad1::wlr5h-1780842784832-7121ee73508e",
+      "xVercelId": "icn1::iad1::49wzs-1780845838970-c0a897d37a88",
       "bodyPreview": "{\"ok\":true,\"deals\":[{\"id\":\"d001\",\"title\":\"삼성 86인치 4K 스마트 UHD TV\",\"description\":\"롯데온에서 확인된 삼성 86인치 4K 스마트 UHD TV 특가입니다.\",\"price\":889000,\"originalPrice\":1201350,\"salePrice\":889000,\"discountRate\":26,\"mallName\":\"롯데온\",\"subCategory\":\"실시간\",\"catego"
     },
     "dealsApi": {
       "url": "https://halindosa.com/api/deals?limit=3&verifiedOnly=true",
       "status": 200,
       "ok": true,
-      "elapsedMs": 278,
+      "elapsedMs": 286,
       "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
       "contentType": "application/json",
       "location": "",
-      "xVercelId": "icn1::iad1::wlr5h-1780842786494-1839acf94d80",
+      "xVercelId": "icn1::iad1::49wzs-1780845840570-7f449e2dd23c",
       "bodyPreview": "{\"ok\":true,\"deals\":[{\"id\":\"d001\",\"title\":\"삼성 86인치 4K 스마트 UHD TV\",\"description\":\"롯데온에서 확인된 삼성 86인치 4K 스마트 UHD TV 특가입니다.\",\"price\":889000,\"originalPrice\":1201350,\"salePrice\":889000,\"discountRate\":26,\"mallName\":\"롯데온\",\"subCategory\":\"실시간\",\"catego"
     },
     "goRedirect": {
       "url": "https://halindosa.com/go/d014?from=vercel-doctor",
       "status": 302,
       "ok": false,
-      "elapsedMs": 279,
+      "elapsedMs": 945,
       "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
       "contentType": "",
       "location": "https://www.coupang.com/vp/products/7687552147",
@@ -118,17 +118,17 @@
           "status": 307,
           "location": "https://www.halindosa.com/go/d014?from=vercel-doctor",
           "cacheControl": "public, max-age=0, must-revalidate",
-          "xVercelId": "icn1::qxzmj-1780842786757-2e03e9d535a0"
+          "xVercelId": "icn1::jqhwm-1780845840831-b47558ab680f"
         },
         {
           "url": "https://www.halindosa.com/go/d014?from=vercel-doctor",
           "status": 302,
           "location": "https://www.coupang.com/vp/products/7687552147",
           "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
-          "xVercelId": "icn1::iad1::wlr5h-1780842786772-fff406e52b16"
+          "xVercelId": "icn1::iad1::49wzs-1780845840846-528792d0352b"
         }
       ],
-      "xVercelId": "icn1::iad1::wlr5h-1780842786772-fff406e52b16",
+      "xVercelId": "icn1::iad1::49wzs-1780845840846-528792d0352b",
       "bodyPreview": ""
     }
   }

@@ -150,10 +150,18 @@ interface HomeClientProps {
   initialNow?: string;
 }
 
+function getStableInitialClockNow(initialNow: string) {
+  const snapshotTime = Date.parse(initialNewsSnapshot.generatedAt ?? "");
+  if (Number.isFinite(snapshotTime)) return snapshotTime;
+
+  const requestedTime = Date.parse(initialNow);
+  return Number.isFinite(requestedTime) ? requestedTime : 0;
+}
+
 export default function Home({ initialNow = "" }: HomeClientProps) {
   const { configured: authConfigured, user, nickname } = useAuth();
   const userId = user?.id;
-  const initialClockNow = Number.isFinite(Date.parse(initialNow)) ? Date.parse(initialNow) : 0;
+  const initialClockNow = getStableInitialClockNow(initialNow);
   const [clockNow, setClockNow] = useState(initialClockNow);
   const [hasAppliedInitialParams, setHasAppliedInitialParams] = useState(false);
   const [deals, setDeals] = useState<Deal[]>(mockDeals);
@@ -192,7 +200,9 @@ export default function Home({ initialNow = "" }: HomeClientProps) {
   const [newsTargetSections, setNewsTargetSections] = useState<NewsTargetSection[]>(() => buildInitialNewsTargetSections(initialNewsSnapshot.deals ?? []));
   const [newsIntentGroups, setNewsIntentGroups] = useState<NewsIntentGroup[]>(() => initialNewsSnapshot.intentGroups ?? buildNewsIntentGroups(initialNewsSnapshot.deals ?? []));
   const [newsSourceTrustScores, setNewsSourceTrustScores] = useState<NewsDealSourceTrust[]>(() => initialNewsSnapshot.sourceTrustScores ?? []);
-  const [newsDeadlineSummary, setNewsDeadlineSummary] = useState<NewsDeadlineSummary>(() => buildNewsDeadlineSummary(initialNewsSnapshot.deals ?? []));
+  const [newsDeadlineSummary, setNewsDeadlineSummary] = useState<NewsDeadlineSummary>(() =>
+    buildNewsDeadlineSummary(initialNewsSnapshot.deals ?? [], initialClockNow)
+  );
   const [newsUpdatedAt, setNewsUpdatedAt] = useState(initialNewsSnapshot.generatedAt ?? "");
   const [newsFreshness, setNewsFreshness] = useState<{
     status: "fresh" | "due" | "stale" | "seed";
