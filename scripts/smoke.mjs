@@ -553,7 +553,7 @@ await check("admin health readiness api", async () => {
   assert(data.report?.refreshAll?.ok === true, "Admin health readiness should show refresh:all success");
   assert(["healthy", "manual_refresh_ready", "stale", "failed"].includes(data.report?.cronRefresh?.status), "Admin health readiness should expose cron refresh status");
   assert(data.report?.cronRefresh?.protected === true, "Admin health readiness should expose protected cron refresh evidence");
-  assert(data.report?.cronRefresh?.schedule === "0 */6 * * *", "Admin health readiness should expose 6-hour cron refresh schedule");
+  assert(data.report?.cronRefresh?.schedule === "0 18 * * *", "Admin health readiness should expose daily Hobby-compatible cron refresh schedule");
   assert(data.report?.cronRefresh?.productDealsCount >= 140, "Admin health readiness should expose cron product count");
   assert(data.report?.cronRefresh?.newsDealsCount >= MIN_OFFICIAL_BENEFITS, "Admin health readiness should expose cron news count");
   assert(Array.isArray(data.report?.checks) && data.report.checks.every((check) => check.ok), "Admin health readiness checks should all pass");
@@ -1266,7 +1266,7 @@ await check("health api", async () => {
   assert(data.checks?.officialSourceFailedGateCount === 0, "Health API found source readiness failed gates");
   assert(["healthy", "manual_refresh_ready", "stale", "failed"].includes(data.checks?.cronRefreshStatus), "Health API missing cron refresh status");
   assert(data.checks?.cronRefreshProtected === true, "Health API missing protected cron refresh evidence");
-  assert(data.checks?.cronRefreshSchedule === "0 */6 * * *", "Health API missing 6-hour cron refresh schedule");
+  assert(data.checks?.cronRefreshSchedule === "0 18 * * *", "Health API missing daily Hobby-compatible cron refresh schedule");
   assert(data.checks?.cronRefreshReportPath === "reports/cron-refresh.json", "Health API missing cron refresh report path");
   assert(data.checks?.cronRefreshLiveCommand === "node scripts/news-feed-live-pipeline.mjs", "Health API missing cron live feed command");
   assert(data.checks?.cronRefreshLivePipelineReportPath === "reports/news-feed-live-pipeline.json", "Health API missing cron live feed report path");

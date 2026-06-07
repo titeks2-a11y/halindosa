@@ -75,7 +75,7 @@ export interface CronRefreshOperationsReport {
 }
 
 const endpoint = "/api/cron/refresh";
-const schedule = "0 */6 * * *";
+const schedule = "0 18 * * *";
 const command = "node scripts/refresh-all.mjs";
 const liveCommand = "node scripts/news-feed-live-pipeline.mjs";
 const reportPath = "reports/cron-refresh.json";
@@ -133,7 +133,7 @@ export function getCronRefreshOperationsReport(): CronRefreshOperationsReport {
           : "cron 실패 확인";
   const nextAction =
     status === "healthy"
-      ? "6시간 Vercel Cron과 reports/cron-refresh.json을 유지하면서 provider 실패 사유를 확인하세요."
+      ? "일 1회 Vercel Cron과 reports/cron-refresh.json을 유지하면서 provider 실패 사유를 확인하세요."
       : status === "manual_refresh_ready"
         ? "배포 환경에 CRON_SECRET을 설정한 뒤 /api/cron/refresh를 1회 실행해 cron 리포트를 생성하세요."
         : status === "stale"

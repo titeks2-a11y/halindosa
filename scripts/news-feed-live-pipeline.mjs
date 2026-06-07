@@ -133,7 +133,7 @@ const status = ok
 const nextActions = ok
   ? configuredUrlCount > 0
     ? [
-        "운영 feed가 연결된 상태입니다. 6시간마다 news:feed:live 또는 배포 cron으로 freshness를 갱신하세요.",
+        "운영 feed가 연결된 상태입니다. Vercel Hobby에서는 daily cron을 사용하고, 더 짧은 freshness는 외부 스케줄러나 수동 news:feed:live로 갱신하세요.",
         "새 provider를 추가할 때는 source:feed-env:doctor와 news:feed:canary를 먼저 통과시킨 뒤 refresh:all을 실행하세요."
       ]
     : [

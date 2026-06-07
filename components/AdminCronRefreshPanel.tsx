@@ -13,7 +13,7 @@ export function AdminCronRefreshPanel({ dryRunHref, liveFeedDryRunHref, report }
       <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
         <div>
           <p className="text-xs font-black text-brand-red">자동 refresh cron 운영</p>
-          <h2 className="mt-1 text-xl font-black text-slate-950">6시간마다 검증 데이터 갱신 상태를 확인합니다</h2>
+          <h2 className="mt-1 text-xl font-black text-slate-950">매일 검증 데이터 갱신 상태를 확인합니다</h2>
           <p className="mt-1 text-sm font-semibold leading-6 text-slate-500">
             Vercel Cron이 `/api/cron/refresh`를 호출하고, 결과는 `reports/cron-refresh.json`에 남습니다. 명시 호출 시 `mode=liveFeed`로 공식 feed 라이브 파이프라인까지 점검합니다.
           </p>

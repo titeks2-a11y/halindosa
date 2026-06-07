@@ -142,7 +142,7 @@ export async function runAdminDashboardSmokeChecks() {
     assert(text.includes("source readiness JSON") && text.includes("source readiness CSV") && text.includes("통합 게이트") && text.includes("운영 다음 액션"), "Admin dashboard missing official source readiness API, CSV, and gate controls");
     assert(text.includes("공식 소스 보류 증빙") && text.includes("HTTP 상태") && text.includes("운영 사유") && text.includes("officialUrl") && text.includes("finalUrl"), "Admin dashboard missing source readiness guarded-source evidence table");
     assert(text.includes("운영 피드 전환 준비도") && text.includes("공식 API·제휴 피드로 바꿀 때 볼 품질 기준"), "Admin dashboard missing source readiness operation board");
-    assert(text.includes("자동 refresh cron 운영") && text.includes("6시간마다 검증 데이터 갱신 상태를 확인합니다"), "Admin dashboard missing cron refresh operation board");
+    assert(text.includes("자동 refresh cron 운영") && text.includes("매일 검증 데이터 갱신 상태를 확인합니다"), "Admin dashboard missing cron refresh operation board");
     assert(text.includes("CRON_SECRET") && text.includes("reports/cron-refresh.json") && text.includes("dry-run 확인"), "Admin dashboard missing cron refresh secret/report/dry-run guidance");
     assert(text.includes("liveFeed dry-run") && text.includes("node scripts/news-feed-live-pipeline.mjs"), "Admin dashboard missing live feed cron dry-run guidance");
     assert(text.includes("파트너 피드 사전 검수 리포트") && text.includes("ready / needs_fix 행을 먼저 분리합니다"), "Admin dashboard missing partner feed validation report board");

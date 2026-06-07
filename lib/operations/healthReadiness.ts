@@ -257,7 +257,7 @@ const fallbackReport: HealthReadinessReport = {
     generatedAt: "",
     ageHours: null,
     command: "node scripts/refresh-all.mjs",
-    schedule: "0 */6 * * *",
+    schedule: "0 18 * * *",
     protected: true,
     durationMs: 0,
     productDealsCount: 0,

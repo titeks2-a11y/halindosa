@@ -239,7 +239,7 @@ const report = {
     buildCard("benefits", "공식 혜택", gates[1].ok ? "good" : "danger", `${summary.visibleOfficialBenefits}개`, "무료, 쿠폰, 카드, 문화, 공공 혜택의 공식 링크 노출 상태입니다.", "npm run verify:news", "/api/admin/news-operations"),
     buildCard("refresh", "수집 파이프라인", gates[2].ok ? "good" : "danger", summary.refreshAllOk ? "정상" : "점검", "상품과 혜택 refresh가 같은 증적 흐름으로 갱신되는지 봅니다.", "npm run refresh:all", "/api/admin/health-readiness"),
     buildCard("sources", "공식 소스", gates[3].ok ? "good" : "watch", `${summary.officialSourceCandidates}개`, "향후 API/RSS/제휴 feed 전환 후보와 정책 게이트입니다.", "npm run source:readiness:report", "/api/admin/source-readiness"),
-    buildCard("cron", "자동 운영", gates[4].ok ? "good" : "watch", summary.cronRefreshStatus, "6시간 refresh와 푸시 준비 상태를 점검합니다.", "npm run cron:refresh:doctor", "/api/cron/refresh?dryRun=true"),
+    buildCard("cron", "자동 운영", gates[4].ok ? "good" : "watch", summary.cronRefreshStatus, "daily refresh와 푸시 준비 상태를 점검합니다.", "npm run cron:refresh:doctor", "/api/cron/refresh?dryRun=true"),
     buildCard("release", "출시 게이트", gates[5].ok ? "good" : "danger", `${summary.releaseDoctorPassedChecks}/${summary.releaseDoctorTotalChecks}`, "스토어 제출 전 회귀 게이트입니다.", "npm run release:doctor", "/admin")
   ],
   priorityQueue: buildPriorityQueue(summary, gates),

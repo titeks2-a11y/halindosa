@@ -43,7 +43,7 @@ npm run smoke
   - `officialBenefitFeedTransitionReadiness`는 provider별 `seed_fallback`/`external_feed` 모드, 필요한 env key, 허용 소스, 다음 액션을 반환한다. 외부 feed URL을 붙인 뒤 이 값과 `/admin`의 `공식 피드 전환 준비도`가 함께 갱신되는지 확인한다.
   - 운영자가 스프레드시트로 후보를 검수해야 하면 `GET /api/sources?format=csv`를 내려받는다. CSV는 `source_catalog`, `feed_transition`, `next_action` 행을 포함하며 공식 URL, 후보 provider, 우선 연결 env key, 현재 feed URL 수, 다음 액션을 한 파일로 정리한다.
 - 자동 refresh cron: `GET /api/cron/refresh`
-  - Vercel Cron은 `vercel.json` 기준 6시간마다 `/api/cron/refresh`를 호출한다.
+  - Vercel Hobby 배포 호환을 위해 Vercel Cron은 `vercel.json` 기준 매일 1회 `/api/cron/refresh`를 호출한다. 더 짧은 주기가 필요하면 Pro 플랜 또는 외부 스케줄러에서 같은 보호 API를 호출한다.
   - 운영 환경에는 `CRON_SECRET`을 반드시 설정한다. 호출은 `Authorization: Bearer $CRON_SECRET`, `x-cron-secret`, 또는 관리자 `token` 중 하나가 맞아야 실행된다.
   - 로컬 점검은 `GET /api/cron/refresh?dryRun=true&token=local-admin`으로 현재 `reports/refresh-all.json` 상태를 확인한다.
   - 공식 API/RSS/제휴 JSON feed까지 한 번에 점검하려면 `GET /api/cron/refresh?dryRun=true&mode=liveFeed&token=local-admin`으로 dry-run을 확인한 뒤, 운영 환경에서 `mode=liveFeed`를 명시 호출한다. 이 경로는 `node scripts/news-feed-live-pipeline.mjs`를 실행하고 `reports/news-feed-live-pipeline.json` 상태를 함께 반환한다.

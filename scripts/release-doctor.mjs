@@ -2026,8 +2026,8 @@ function checkHealthReadinessReport() {
   if (!["healthy", "manual_refresh_ready"].includes(report.cronRefresh?.status) || report.cronRefresh?.ok !== true) {
     issues.push(`health readiness should show cron refresh launch-safe status, got ${report.cronRefresh?.status ?? "missing"}`);
   }
-  if (report.cronRefresh?.protected !== true || report.cronRefresh?.schedule !== "0 */6 * * *" || report.cronRefresh?.reportPath !== "reports/cron-refresh.json") {
-    issues.push("health readiness should expose protected 6-hour cron refresh report metadata");
+  if (report.cronRefresh?.protected !== true || report.cronRefresh?.schedule !== "0 18 * * *" || report.cronRefresh?.reportPath !== "reports/cron-refresh.json") {
+    issues.push("health readiness should expose protected daily cron refresh report metadata");
   }
   if ((report.cronRefresh?.productDealsCount ?? 0) < 140 || (report.cronRefresh?.newsDealsCount ?? 0) < MIN_OFFICIAL_BENEFITS) {
     issues.push("health readiness cron refresh summary should preserve product/news counts");
@@ -2157,8 +2157,8 @@ function checkCronRefreshPipeline() {
   }
 
   const cron = Array.isArray(vercelConfig.crons) ? vercelConfig.crons.find((item) => item.path === "/api/cron/refresh") : null;
-  if (!cron || cron.schedule !== "0 */6 * * *") {
-    issues.push("vercel.json should schedule /api/cron/refresh every 6 hours");
+  if (!cron || cron.schedule !== "0 18 * * *") {
+    issues.push("vercel.json should schedule /api/cron/refresh once daily for Vercel Hobby compatibility");
   }
 
   for (const key of ["CRON_SECRET", "CRON_REFRESH_TIMEOUT_MS"]) {
@@ -2171,8 +2171,8 @@ function checkCronRefreshPipeline() {
   if (!cronDoctor.includes("cron-refresh-readiness.json") || !cronDoctor.includes("CRON_REFRESH_READINESS.md") || !cronDoctor.includes("refresh-all evidence") || !cronDoctor.includes("live feed evidence")) {
     issues.push("cron refresh doctor should write JSON/docs readiness evidence and verify refresh:all plus live feed evidence");
   }
-  if (cronReadinessReport?.ok !== true || cronReadinessReport?.endpoint !== "/api/cron/refresh" || cronReadinessReport?.schedule !== "0 */6 * * *") {
-    issues.push("reports/cron-refresh-readiness.json should prove protected 6-hour cron readiness");
+  if (cronReadinessReport?.ok !== true || cronReadinessReport?.endpoint !== "/api/cron/refresh" || cronReadinessReport?.schedule !== "0 18 * * *") {
+    issues.push("reports/cron-refresh-readiness.json should prove protected daily cron readiness");
   }
   if (cronReadinessReport?.livePipelineOk !== true || (cronReadinessReport?.livePipelineOfficialBenefits ?? 0) < MIN_OFFICIAL_BENEFITS) {
     issues.push("reports/cron-refresh-readiness.json should prove live feed pipeline evidence");
@@ -2205,7 +2205,7 @@ function checkCronRefreshPipeline() {
   }
 
   if (issues.length) fail("cron refresh automation", issues.join("; "));
-  else pass("cron refresh automation", "Protected 6-hour cron refresh endpoint, explicit live feed mode, Vercel schedule, dry-run smoke guard, env keys, and runbook guidance are wired.");
+  else pass("cron refresh automation", "Protected daily cron refresh endpoint, explicit live feed mode, Vercel Hobby-compatible schedule, dry-run smoke guard, env keys, and runbook guidance are wired.");
 }
 
 function checkAdminAuthHardening() {
