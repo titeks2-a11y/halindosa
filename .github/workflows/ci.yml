@@ -88,9 +88,11 @@ jobs:
 
       - name: Official source readiness report
         continue-on-error: true
-        run: |
-          npm run source:readiness:report
-          npm run news:feed:canary
+        run: npm run source:readiness:report
+
+      - name: Official feed canary advisory
+        continue-on-error: true
+        run: npm run news:feed:canary
 
       - name: Operational health readiness report
         run: npm run health:readiness
