@@ -4,9 +4,9 @@
 
 ## 기본 정보
 
-- 생성 시각: 2026-06-07T00:42:36.724Z
+- 생성 시각: 2026-06-07T00:49:05.313Z
 - Git 브랜치: codex/12h-product-ux-growth-hardening
-- 최신 커밋: fa7dd0f0
+- 최신 커밋: 0393cf59
 - Git 상태: clean
 - 패키지 버전: 1.0.1
 - 앱 이름: 할인도사
@@ -39,8 +39,8 @@
 | Store console fields manifest JSON | `STORE_CONSOLE_FIELDS.json` | 4KB |
 | Store manual submission checklist | `docs/STORE_MANUAL_CHECKLIST.md` | 4KB |
 | Store manual submission checklist JSON | `STORE_MANUAL_CHECKLIST.json` | 5KB |
-| Store launch handoff report | `docs/STORE_HANDOFF_REPORT.md` | 4KB |
-| Release notes | `docs/RELEASE_NOTES.md` | 5KB |
+| Store launch handoff report | `docs/STORE_HANDOFF_REPORT.md` | 5KB |
+| Release notes | `docs/RELEASE_NOTES.md` | 4KB |
 | Release notes JSON | `RELEASE_NOTES.json` | 5KB |
 | Support playbook | `docs/SUPPORT_PLAYBOOK.md` | 6KB |
 | Support playbook JSON | `SUPPORT_PLAYBOOK.json` | 5KB |
