@@ -1,7 +1,7 @@
 {
   "generatedBy": "npm run release:notes",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "59e06837",
+  "commit": "cfd80bfa",
   "workingTree": "M DEVICE_QA_REPORT.md;  M PUBLIC_URL_REPORT.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_HANDOFF_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_PACKET_REPORT.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M docs/DEVICE_QA_REPORT.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_HANDOFF_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_PACKET_REPORT.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md",
   "version": "1.0.1",
   "appName": "할인도사",
@@ -73,14 +73,14 @@
     }
   ],
   "recentCommits": [
+    "cfd80bfa perf: parallelize live purchase link probes",
+    "d2a10e65 docs: refresh store release handoff docs",
     "59e06837 ci: timebox launch data refresh gate",
     "e6c2ce01 docs: refresh store release handoff docs",
     "9445c0a7 docs: refresh store release handoff docs",
     "45ddb79c ci: refresh launch data before health gate",
     "412bd2dc docs: refresh store release handoff docs",
-    "8a5b4945 docs: refresh store release handoff docs",
-    "29225fd3 docs: refresh store release handoff docs",
-    "96cf2334 test: strengthen vercel deployment quality gates"
+    "8a5b4945 docs: refresh store release handoff docs"
   ],
   "manualWorkThatMustNotBeFaked": [
     "Do not claim Play Console or App Store Connect submission has passed from this file.",
