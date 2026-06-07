@@ -23,6 +23,7 @@ function includesAll(source, values) {
 const apiRoutes = [
   "app/api/deals/route.ts",
   "app/api/news-deals/route.ts",
+  "app/api/freebies/route.ts",
   "app/api/hot-signals/route.ts",
   "app/api/home/route.ts"
 ];
@@ -57,8 +58,8 @@ if (includesAll(noStoreApi, ["Access-Control-Allow-Origin", "Access-Control-Allo
   fail("public api cors no-store", "공개 홈 데이터 API CORS 또는 OPTIONS no-store 응답 기준이 부족합니다.");
 }
 
-if (includesAll(homeApi, ["buildHomeRequestUrl", "/api/home?", "HomeResponse", "HomeFreshness", "HomeQualitySummary", "ts: String(timestamp)", "Date.now()", 'cache: "no-store"', '"Cache-Control": "no-cache"', "buildLatestDealsRequestUrl"])) {
-  pass("home api cache buster", "홈 API 요청이 /api/home snapshot, freshness, no-store, timestamp cache-buster를 함께 사용합니다.");
+if (includesAll(homeApi, ["buildHomeRequestUrl", "/api/home?", "buildFreebiesRequestUrl", "/api/freebies?", "HomeResponse", "HomeFreshness", "HomeQualitySummary", "ts: String(timestamp)", "Date.now()", 'cache: "no-store"', '"Cache-Control": "no-cache"', "buildLatestDealsRequestUrl"])) {
+  pass("home api cache buster", "홈 API 요청이 /api/home 및 /api/freebies snapshot, freshness, no-store, timestamp cache-buster를 함께 사용합니다.");
 } else {
   fail("home api cache buster", "홈 API 요청에 /api/home snapshot, freshness, quality, timestamp 또는 no-store fetch 설정이 부족합니다.");
 }
@@ -194,6 +195,8 @@ const homeRoute = read("app/api/home/route.ts");
 if (
   includesAll(homeRoute, [
     "newsMeta",
+    "freebiesMeta",
+    "selectHomeFreebies",
     "cachePolicy",
     'mode: "no-store"',
     "recommendedQueries",

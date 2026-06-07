@@ -56,6 +56,7 @@
     "refresh:freebies": "node scripts/refresh-official-benefit-slice.mjs freebies",
     "refresh:events": "node scripts/refresh-official-benefit-slice.mjs events",
     "verify:news": "node scripts/verify-news-deals.mjs",
+    "verify:freebies": "node scripts/verify-freebies.mjs",
     "news:images:enrich": "node scripts/enrich-news-benefit-images.mjs",
     "news:freshness:doctor": "node scripts/news-freshness-doctor.mjs",
     "news:revalidation:report": "node scripts/news-revalidation-priority-report.mjs",

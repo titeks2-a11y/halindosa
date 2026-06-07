@@ -33,7 +33,8 @@ const toast = read("components/Toast.tsx");
 const homePage = `${read("app/page.tsx")}\n${read("components/HomeClient.tsx")}`;
 const homeDealGrid = read("components/home/HomeDealGrid.tsx");
 const homeLiveBenefitStrip = read("components/home/HomeLiveBenefitStrip.tsx");
-const homeFirstScreenSource = `${homePage}\n${homeDealGrid}`;
+const homeFreebieHero = read("components/home/HomeFreebieHero.tsx");
+const homeFirstScreenSource = `${homePage}\n${homeDealGrid}\n${homeFreebieHero}`;
 const mobileHeader = read("components/MobileHeader.tsx");
 const categoryTabs = read("components/CategoryTabs.tsx");
 const realtimeNewsDealsSection = read("components/RealtimeNewsDealsSection.tsx");
@@ -102,6 +103,26 @@ if (includesAll(realtimeNewsDealsSection, ["모바일 공식 혜택 빠른 목�
   pass("mobile official benefit quick list", "공식 혜택은 모바일에서 빠른 목록을 먼저 보여주고 상세 탐색 패널은 넓은 화면으로 분리합니다.");
 } else {
   fail("mobile official benefit quick list", "공식 혜택 모바일 빠른 목록 또는 상세 패널 분기 기준이 부족합니다.");
+}
+
+if (
+  includesAll(homePage, ["<HomeFreebieHero", "homeFreebies", "homeFreebieSummary", "refreshNewsDeals", "rememberRecentNewsBenefit"]) &&
+  includesAll(homeFreebieHero, [
+    'data-home-freebie-hero="true"',
+    "무료혜택 먼저 보기",
+    "오늘 챙길 쿠폰·0원딜",
+    "grid grid-cols-2",
+    "무료/0원",
+    "오늘마감",
+    "home-freebie-hero",
+    "target=\"_blank\"",
+    "rel=\"noopener noreferrer\"",
+    "검증 가능한 혜택 수집 중"
+  ])
+) {
+  pass("mobile freebie hero priority", "모바일 홈 첫 화면에서 무료/쿠폰/0원/무배 혜택 히어로를 상품 리스트보다 먼저 압축 노출합니다.");
+} else {
+  fail("mobile freebie hero priority", "무료혜택 히어로가 홈 첫 화면 우선순위, 새 탭 이동, 빈 상태 기준을 충족하지 못했습니다.");
 }
 
 if (

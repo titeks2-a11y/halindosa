@@ -44,6 +44,35 @@ export interface NewsDealsResponse {
   message: string;
 }
 
+export interface FreebiesResponse {
+  ok: boolean;
+  freebies: NewsDeal[];
+  deals: NewsDeal[];
+  count: number;
+  totalCount: number;
+  updatedAt: string;
+  sourceUpdatedAt?: string;
+  source: string;
+  freshnessStatus?: "fresh" | "due" | "stale" | "seed";
+  freshnessLabel?: string;
+  freshnessAgeMinutes?: number | null;
+  nextRefreshAt?: string;
+  summary?: {
+    total: number;
+    zeroCost: number;
+    coupon: number;
+    freeShipping: number;
+    endingToday: number;
+    sourceCount: number;
+    averageQualityScore: number;
+  };
+  cachePolicy?: {
+    mode: "no-store";
+    generatedAt: string;
+  };
+  message: string;
+}
+
 export type HomeFreshnessStatus = "fresh" | "due" | "stale" | "seed";
 export type HomeFreshnessChannelKey = "deals" | "newsDeals" | "hotSignals";
 
@@ -93,10 +122,12 @@ export interface HomeResponse {
   ok: boolean;
   deals: Deal[];
   newsDeals: NewsDeal[];
+  freebies?: NewsDeal[];
   hotSignals: HotSignal[];
   counts: {
     deals: number;
     newsDeals: number;
+    freebies?: number;
     hotSignals: number;
   };
   updatedAt: string;
@@ -125,6 +156,7 @@ export interface HomeResponse {
     | "freshnessAgeMinutes"
     | "nextRefreshAt"
   >;
+  freebiesMeta?: Pick<FreebiesResponse, "summary" | "freshnessStatus" | "freshnessLabel" | "freshnessAgeMinutes" | "nextRefreshAt" | "totalCount">;
   cachePolicy?: {
     mode: "no-store";
     generatedAt: string;
@@ -199,6 +231,28 @@ export function buildNewsDealsRequestUrl({
   if (query.trim()) params.set("q", query.trim());
 
   return `/api/news-deals?${params.toString()}`;
+}
+
+export function buildFreebiesRequestUrl({
+  query,
+  limit = 16,
+  sort = "priority",
+  timestamp = Date.now()
+}: {
+  query: string;
+  limit?: number;
+  sort?: "priority" | "endingSoon" | "latest" | "discount";
+  timestamp?: number;
+}) {
+  const params = new URLSearchParams({
+    limit: String(limit),
+    sort,
+    ts: String(timestamp)
+  });
+
+  if (query.trim()) params.set("q", query.trim());
+
+  return `/api/freebies?${params.toString()}`;
 }
 
 export function buildDealsRequestUrl({

@@ -1,6 +1,6 @@
 # 할인도사 Link Verification Report
 
-Generated: 2026-06-07T17:03:33.349Z
+Generated: 2026-06-07T17:33:22.682Z
 
 ## Summary
 
@@ -21,22 +21,22 @@ Generated: 2026-06-07T17:03:33.349Z
 | 커뮤니티 의심 | 0 |
 | 수동 검토 필요 | 0 |
 | Live probe 확인 | 140 |
-| Live probe 실패 | 78 |
-| Live probe robots/access 차단 | 61 |
-| Live probe rate limit | 14 |
+| Live probe 실패 | 81 |
+| Live probe robots/access 차단 | 64 |
+| Live probe rate limit | 13 |
 | Live probe timeout | 1 |
 | Live probe exposed hard failure | 0 |
 | Live probe hidden hard failure review | 0 |
 | Live probe transient network | 4 |
 | Live body 확인 | 136 |
 | Live 제목/메타 확인 | 132 |
-| Live 콘텐츠 일치 신호 | 57 |
-| Live 콘텐츠 불일치 신호 | 79 |
+| Live 콘텐츠 일치 신호 | 54 |
+| Live 콘텐츠 불일치 신호 | 82 |
 | Live 접근 가능 본문 불일치 | 5 |
-| Live 접근 차단 본문 | 29 |
-| Live 가격 신호 | 27 |
-| Live 구매/신청 버튼 신호 | 16 |
-| Live 종료 문구 재검토 신호 | 1 |
+| Live 접근 차단 본문 | 32 |
+| Live 가격 신호 | 26 |
+| Live 구매/신청 버튼 신호 | 13 |
+| Live 종료 문구 재검토 신호 | 0 |
 | 출시 게이트 통과 | YES |
 | 노출 검색 링크 | 0 |
 | 노출 품절/종료 링크 | 0 |
@@ -51,24 +51,24 @@ Generated: 2026-06-07T17:03:33.349Z
 - 고객에게 노출되는 404/410/5xx/품절 본문 같은 강한 실패 신호: 0
 - 숨김 처리 후 보정 큐에 남은 강한 실패 신호: 0
 - timeout/request_failed 같은 일시 네트워크 신호: 4
-- 쇼핑몰 접근 보호 또는 robots/access 차단: 61
+- 쇼핑몰 접근 보호 또는 robots/access 차단: 64
 - 품절/판매종료 본문 감지: 0
 
 ## Verification Evidence
 
-- live_content_confirmed: 57
+- live_content_confirmed: 54
 - manual_pattern_verified: 32
-- seller_access_protected_manual_verified: 29
+- seller_access_protected_manual_verified: 32
 - seller_rate_limited_manual_verified: 13
 - client_rendered_detail_manual_verified: 5
 - transient_network_manual_verified: 4
 
 ## Revalidation Queue
 
+- d001 · 롯데온 · timeout · priority 75
 - d051 · 인터파크투어 · request_failed · priority 75
 - d057 · T멤버십 · request_failed · priority 75
 - d073 · 현대카드 · request_failed · priority 75
-- d131 · 쿠팡 · timeout · priority 75
 - d008 · LF몰 · client_rendered_detail_periodic_review · priority 60
 - d013 · 하이마트 · client_rendered_detail_periodic_review · priority 60
 - d058 · 맥도날드 · client_rendered_detail_periodic_review · priority 60
@@ -94,11 +94,11 @@ Generated: 2026-06-07T17:03:33.349Z
 - d007 · 토스 · seller_access_protected_review · priority 45
 - d009 · 지마켓 · seller_access_protected_review · priority 45
 - d010 · 쿠팡 · seller_access_protected_review · priority 45
-- d014 · 쿠팡 · seller_access_protected_review · priority 45
+- d012 · 올리브영 · seller_access_protected_review · priority 45
 
 ### Live Probe Failure Reasons
 
-- robots_or_access_blocked: 61
+- robots_or_access_blocked: 64
 - http_429: 13
 - request_failed: 3
 - timeout: 1
@@ -108,9 +108,10 @@ Generated: 2026-06-07T17:03:33.349Z
 - item.gmarket.co.kr: 31
 - coupang.com: 24
 - ssg.com: 13
-- oliveyoung.co.kr: 5
+- oliveyoung.co.kr: 7
 - hyundaicard.com: 1
 - itempage3.auction.co.kr: 1
+- lotteon.com: 1
 - store.ohou.se: 1
 - tmembership.co.kr: 1
 - tour.interpark.com: 1

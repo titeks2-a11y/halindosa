@@ -3,6 +3,7 @@ import { getDeals, normalizeSort } from "@/lib/dealService";
 import { getVisibleNewsDeals } from "@/lib/deals/newsDeals";
 import { summarizeDealQuality } from "@/lib/deals/quality";
 import { fetchHotSignals } from "@/lib/hotSignalProvider";
+import { buildHomeFreebieSummary, selectHomeFreebies } from "@/lib/homeFreebies";
 import { HOME_REFRESH_INTERVAL_MS } from "@/lib/homeRealtimeConfig";
 import type { HotSignal } from "@/types/hotSignal";
 import type { NewsDeal } from "@/types/newsDeal";
@@ -197,8 +198,12 @@ export async function GET(request: Request) {
     const counts = {
       deals: deals.deals.length,
       newsDeals: news.count,
+      freebies: 0,
       hotSignals: signals.length
     };
+    const homeFreebies = selectHomeFreebies(news.deals, Math.min(Math.max(limit, 8), 16), Date.parse(generatedAt));
+    const freebiesSummary = buildHomeFreebieSummary(news.deals, Date.parse(generatedAt));
+    counts.freebies = homeFreebies.length;
     const source = {
       deals: deals.source,
       news: news.source,
@@ -211,6 +216,7 @@ export async function GET(request: Request) {
       ok: true,
       deals: deals.deals,
       newsDeals: news.deals,
+      freebies: homeFreebies,
       hotSignals: signals,
       counts,
       updatedAt: generatedAt,
@@ -249,6 +255,14 @@ export async function GET(request: Request) {
         freshnessAgeMinutes: news.freshnessAgeMinutes,
         nextRefreshAt: news.nextRefreshAt
       },
+      freebiesMeta: {
+        totalCount: freebiesSummary.total,
+        summary: freebiesSummary,
+        freshnessStatus: news.freshnessStatus,
+        freshnessLabel: news.freshnessLabel,
+        freshnessAgeMinutes: news.freshnessAgeMinutes,
+        nextRefreshAt: news.nextRefreshAt
+      },
       cachePolicy: {
         mode: "no-store",
         generatedAt
@@ -262,10 +276,12 @@ export async function GET(request: Request) {
         ok: false,
         deals: [],
         newsDeals: [],
+        freebies: [],
         hotSignals: [],
         counts: {
           deals: 0,
           newsDeals: 0,
+          freebies: 0,
           hotSignals: 0
         },
         updatedAt: generatedAt,

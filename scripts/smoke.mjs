@@ -139,6 +139,21 @@ await check("news deals api", async () => {
   }
 });
 
+await check("freebies api", async () => {
+  const { response, data } = await fetchJson("/api/freebies?limit=12");
+  assert(response.status === 200, `Expected freebies API 200, got ${response.status}`);
+  assert(data.ok === true, "Freebies API ok should be true");
+  assert(Array.isArray(data.freebies) && data.freebies.length >= 4, "Freebies API should return visible official freebies");
+  assert(data.totalCount >= 27, `Freebies API should keep at least 27 verified freebies, got ${data.totalCount}`);
+  assert(data.summary?.zeroCost >= 1 || data.summary?.coupon >= 1 || data.summary?.freeShipping >= 1, "Freebies API summary missing free/coupon/free shipping counts");
+  assert(data.freebies.every((deal) => deal.validationStatus === "passed" && deal.publishable === true && deal.availability === "active"), "Freebies API returned non-publishable items");
+  assert(data.freebies.every((deal) => String(deal.linkType || "").startsWith("official")), "Freebies API returned non-official link types");
+  assert(data.freebies.every((deal) => /^https?:\/\//.test(deal.finalUrl)), "Freebies API returned invalid finalUrl");
+  assert(data.freebies.every((deal) => !/\/search|search\?|query=|keyword=|shopping\/search|msearch|\/find|\/result|ppomppu|fmkorea|quasarzone|algumon|blog\.naver|news\.naver/i.test(deal.finalUrl)), "Freebies API returned a search, community, or news URL");
+  assert(data.cachePolicy?.mode === "no-store", "Freebies API should expose no-store cache policy");
+  assert(["fresh", "due", "stale", "seed"].includes(data.freshnessStatus), "Freebies API missing freshness status");
+});
+
 await check("hot signals api internal discovery links", async () => {
   const { response, data } = await fetchJson("/api/hot-signals?limit=8");
   assert(response.status === 200, `Expected hot signals 200, got ${response.status}`);

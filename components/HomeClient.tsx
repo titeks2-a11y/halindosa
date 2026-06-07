@@ -18,6 +18,7 @@ import { LiveDealFeed } from "@/components/LiveDealFeed";
 import { HomeOfficialBenefitAlertRail } from "@/components/HomeOfficialBenefitAlertRail";
 import { HomeDealGrid } from "@/components/home/HomeDealGrid";
 import { HomeEmptyRecovery } from "@/components/home/HomeEmptyRecovery";
+import { HomeFreebieHero } from "@/components/home/HomeFreebieHero";
 import { HomeLiveBenefitStrip } from "@/components/home/HomeLiveBenefitStrip";
 import { HomeStatusStrip } from "@/components/home/HomeStatusStrip";
 import { NotificationPreferences } from "@/components/NotificationPreferences";
@@ -62,6 +63,7 @@ import {
   type PriceBand
 } from "@/lib/homeDiscoveryConfig";
 import { HOME_REFRESH_INTERVAL_MS, HOME_REFRESH_INTERVAL_SECONDS } from "@/lib/homeRealtimeConfig";
+import { buildHomeFreebieSummary, selectHomeFreebies } from "@/lib/homeFreebies";
 import {
   buildDealsRequestUrl,
   buildHomeRequestUrl,
@@ -194,6 +196,8 @@ export default function Home({ initialNow = "" }: HomeClientProps) {
   const [newsDeals, setNewsDeals] = useState<NewsDeal[]>(() => initialNewsSnapshot.deals ?? []);
   const [newsTotalCount, setNewsTotalCount] = useState(() => initialNewsSnapshot.deals?.length ?? 0);
   const [newsFreeBenefitCount, setNewsFreeBenefitCount] = useState(() => getNewsFreeBenefitCount(undefined, undefined, initialNewsSnapshot.deals ?? []));
+  const [homeFreebies, setHomeFreebies] = useState<NewsDeal[]>(() => selectHomeFreebies(initialNewsSnapshot.deals ?? [], 12, initialClockNow || Date.now()));
+  const [homeFreebieSummary, setHomeFreebieSummary] = useState(() => buildHomeFreebieSummary(initialNewsSnapshot.deals ?? [], initialClockNow || Date.now()));
   const [newsRecommendedQueries, setNewsRecommendedQueries] = useState<Array<{ query: string; count: number }>>(() =>
     buildInitialNewsRecommendedQueries(initialNewsSnapshot.deals ?? [])
   );
@@ -260,9 +264,13 @@ export default function Home({ initialNow = "" }: HomeClientProps) {
           })
         );
         const snapshot = buildHomeNewsSnapshot(data);
+        const referenceNow = Date.now();
+        const nextFreebies = selectHomeFreebies(snapshot.deals, 12, referenceNow);
         setNewsDeals(snapshot.deals);
         setNewsTotalCount(snapshot.totalCount);
         setNewsFreeBenefitCount(snapshot.freeBenefitCount);
+        setHomeFreebies(nextFreebies);
+        setHomeFreebieSummary(buildHomeFreebieSummary(snapshot.deals, referenceNow));
         setNewsRecommendedQueries(snapshot.recommendedQueries);
         setNewsTargetSections(snapshot.targetSections.length ? snapshot.targetSections : buildInitialNewsTargetSections(snapshot.deals));
         setNewsIntentGroups(snapshot.intentGroups.length ? snapshot.intentGroups : buildNewsIntentGroups(snapshot.deals));
@@ -794,6 +802,9 @@ export default function Home({ initialNow = "" }: HomeClientProps) {
         if (await shouldUseLocalBundleData()) {
           await Promise.all([fetchDeals(undefined, true), refreshNewsDeals({ silent: true }), fetchSignals(true)]);
           const generatedAt = new Date().toISOString();
+          const referenceNow = Date.now();
+          setHomeFreebies(selectHomeFreebies(initialNewsSnapshot.deals ?? [], 12, referenceNow));
+          setHomeFreebieSummary(buildHomeFreebieSummary(initialNewsSnapshot.deals ?? [], referenceNow));
           setLastHomeSyncAt(generatedAt);
           setHomeQuality(null);
           setHomeFreshness({
@@ -858,6 +869,8 @@ export default function Home({ initialNow = "" }: HomeClientProps) {
         setNewsDeadlineSummary(snapshot.news.deadlineSummary);
         setNewsUpdatedAt(snapshot.news.updatedAt);
         setNewsFreshness(snapshot.news.freshness);
+        setHomeFreebies(snapshot.freebies.deals.length ? snapshot.freebies.deals : selectHomeFreebies(snapshot.news.deals, 12, Date.now()));
+        setHomeFreebieSummary(snapshot.freebies.summary ?? buildHomeFreebieSummary(snapshot.news.deals, Date.now()));
 
         setHotSignals(snapshot.hotSignals.length ? snapshot.hotSignals : mockHotSignals);
         setLastHomeSyncAt(snapshot.updatedAt);
@@ -1608,6 +1621,21 @@ export default function Home({ initialNow = "" }: HomeClientProps) {
           </div>
         ) : null}
         {activeView === "home" ? (
+          <HomeFreebieHero
+            deals={homeFreebies}
+            totalCount={homeFreebieSummary.total || newsFreeBenefitCount}
+            updatedAt={newsUpdatedAt}
+            freshnessLabel={newsFreshness.label}
+            summary={homeFreebieSummary}
+            isRefreshing={isNewsRefreshing}
+            onRefresh={() => {
+              void refreshNewsDeals({ notify: true });
+            }}
+            onOpenNewsDeal={rememberRecentNewsBenefit}
+            referenceNow={clockNow}
+          />
+        ) : null}
+        {activeView === "home" ? (
           <section id="deal-list" className="scroll-mt-24 rounded-[24px] border border-slate-200 bg-white p-2 shadow-sm sm:p-3" aria-label="검증 특가 목록">
             <div className="mb-2 flex items-center justify-between gap-2 px-1">
               <div className="min-w-0">
@@ -1653,8 +1681,8 @@ export default function Home({ initialNow = "" }: HomeClientProps) {
         ) : null}
         {activeView === "home" ? (
           <HomeLiveBenefitStrip
-            deals={newsDeals}
-            totalCount={newsTotalCount}
+            deals={homeFreebies.length ? homeFreebies : newsDeals}
+            totalCount={homeFreebieSummary.total || newsTotalCount}
             updatedAt={newsUpdatedAt}
             freshnessLabel={newsFreshness.label}
             freeBenefitCount={newsFreeBenefitCount}

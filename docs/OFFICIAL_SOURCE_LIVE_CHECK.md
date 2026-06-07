@@ -2,7 +2,7 @@
 
 이 문서는 공식 이벤트/혜택 소스 후보의 현재 접근 상태를 non-strict 방식으로 기록합니다. 무단 크롤링을 수행하지 않으며, 보호된 페이지는 공식 API/RSS/제휴 feed 또는 수동 승인 데이터로 연결해야 합니다.
 
-- 생성 시각: 2026-06-07T17:03:49.497Z
+- 생성 시각: 2026-06-07T17:30:14.182Z
 - 모드: non_strict_live_readiness
 - 후보 소스: 95개
 - 접근 가능: 82개
@@ -115,7 +115,7 @@
 | ikea-official-offers | official_event | medium | reachable | 200 | ikea.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | yanolja-official-promotion | official_event | medium | reachable | 200 | nol.yanolja.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | twayair-official-events | official_event | medium | reachable | 200 | twayair.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
-| eastarjet-official-events | official_event | medium | reachable | 200 | parking.eastarjet.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| eastarjet-official-events | official_event | medium | reachable | 200 | eastarjet.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | airbusan-official-events | official_event | medium | guarded | 403 | airbusan.com | 무단 크롤링하지 말고 공식 API/RSS/제휴 feed 또는 수동 승인 매핑 사용 |
 | lottehotel-official-offers | official_event | medium | reachable | 200 | lottehotel.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | kyochon-official-events | official_event | medium | reachable | 200 | kyochon.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |

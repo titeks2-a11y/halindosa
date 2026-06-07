@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-07T16:20:01.877Z",
+  "generatedAt": "2026-06-07T17:30:09.501Z",
   "criteria": {
     "reportsPresent": true,
     "minimumAuditedItems": 140,
@@ -39,8 +39,8 @@
     "refreshFailedCount": 0,
     "liveHardFailures": 0,
     "sellerUnavailableSignals": 0,
-    "manualEvidenceReviewedItems": 81,
-    "freshManualEvidence": 81,
+    "manualEvidenceReviewedItems": 80,
+    "freshManualEvidence": 80,
     "staleManualEvidence": 0,
     "missingManualEvidence": 0,
     "manualEvidenceMaxAgeDays": 7
@@ -69,11 +69,11 @@
     }
   },
   "sourceReports": {
-    "linkValidation": "2026-06-07T16:19:59.054Z",
-    "productQuality": "2026-06-07T16:19:59.646Z",
-    "exposurePolicy": "2026-06-07T16:20:00.772Z",
-    "refreshDeals": "2026-06-07T16:18:44.048Z",
-    "liveProbeReview": "2026-06-07T15:46:42.718Z"
+    "linkValidation": "2026-06-07T17:30:06.834Z",
+    "productQuality": "2026-06-07T17:30:07.362Z",
+    "exposurePolicy": "2026-06-07T17:30:08.393Z",
+    "refreshDeals": "2026-06-07T17:29:54.657Z",
+    "liveProbeReview": "2026-06-07T16:22:47.766Z"
   },
   "linkTypeCounts": {
     "direct_purchase": 110,
@@ -108,12 +108,12 @@
   },
   "manualEvidenceSummary": {
     "maxAgeDays": 7,
-    "reviewedQueueItems": 81,
-    "freshManualEvidenceCount": 81,
+    "reviewedQueueItems": 80,
+    "freshManualEvidenceCount": 80,
     "staleManualEvidenceCount": 0,
     "missingManualEvidenceCount": 0,
-    "oldestCheckedAt": "2026-06-07T15:43:57.032Z",
-    "newestCheckedAt": "2026-06-07T15:43:57.032Z"
+    "oldestCheckedAt": "2026-06-07T16:20:16.682Z",
+    "newestCheckedAt": "2026-06-07T16:20:16.682Z"
   },
   "failedExposureItems": [],
   "hiddenItems": [],

@@ -148,6 +148,22 @@ export function buildCombinedHomeSnapshot(data: HomeResponse, filters: HomeDealF
   return {
     deals: buildHomeDealsSnapshot(dealsResponse, filters),
     news: buildHomeNewsSnapshot(newsResponse),
+    freebies: {
+      deals: Array.isArray(data.freebies) ? data.freebies : [],
+      totalCount: data.freebiesMeta?.totalCount ?? data.counts?.freebies ?? data.freebies?.length ?? 0,
+      summary: data.freebiesMeta?.summary,
+      freshness: {
+        status: data.freebiesMeta?.freshnessStatus ?? data.newsMeta?.freshnessStatus ?? "seed",
+        label: data.freebiesMeta?.freshnessLabel ?? data.newsMeta?.freshnessLabel ?? "최근 확인",
+        ageMinutes:
+          typeof data.freebiesMeta?.freshnessAgeMinutes === "number"
+            ? data.freebiesMeta.freshnessAgeMinutes
+            : typeof data.newsMeta?.freshnessAgeMinutes === "number"
+              ? data.newsMeta.freshnessAgeMinutes
+              : null,
+        nextRefreshAt: data.freebiesMeta?.nextRefreshAt ?? data.newsMeta?.nextRefreshAt ?? ""
+      }
+    },
     hotSignals: Array.isArray(data.hotSignals) ? data.hotSignals : [],
     updatedAt: data.updatedAt,
     freshness: data.freshness,
