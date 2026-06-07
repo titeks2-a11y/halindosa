@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ArrowRight, BellRing, Heart, Sparkles } from "lucide-react";
@@ -8,6 +8,7 @@ import { useAuth } from "@/components/AuthProvider";
 
 const profileStorageKey = "halindosa:member-preferences";
 const categoryOptions = ["식품", "생활용품", "디지털", "육아", "패션", "뷰티", "여행", "무료/체험"];
+const defaultPreferences: MemberPreferences = { favoriteCategories: [], marketingConsent: false, notificationConsent: false };
 
 interface MemberPreferences {
   favoriteCategories: string[];
@@ -16,19 +17,27 @@ interface MemberPreferences {
 }
 
 function readPreferences(): MemberPreferences {
-  if (typeof window === "undefined") return { favoriteCategories: [], marketingConsent: false, notificationConsent: false };
+  if (typeof window === "undefined") return defaultPreferences;
   try {
     const stored = window.localStorage.getItem(profileStorageKey);
-    return stored ? { favoriteCategories: [], marketingConsent: false, notificationConsent: false, ...JSON.parse(stored) } : { favoriteCategories: [], marketingConsent: false, notificationConsent: false };
+    return stored ? { ...defaultPreferences, ...JSON.parse(stored) } : defaultPreferences;
   } catch {
-    return { favoriteCategories: [], marketingConsent: false, notificationConsent: false };
+    return defaultPreferences;
   }
 }
 
 export default function OnboardingPage() {
   const router = useRouter();
   const { configured, user, nickname } = useAuth();
-  const [preferences, setPreferences] = useState<MemberPreferences>(() => readPreferences());
+  const [preferences, setPreferences] = useState<MemberPreferences>(defaultPreferences);
+
+  useEffect(() => {
+    const handle = window.setTimeout(() => {
+      setPreferences(readPreferences());
+    }, 0);
+
+    return () => window.clearTimeout(handle);
+  }, []);
 
   const toggleCategory = (category: string) => {
     setPreferences((current) => {

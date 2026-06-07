@@ -38,7 +38,7 @@ const defaultReservationActions = [
 ];
 
 export function BenefitReturnReservationList() {
-  const [reservations, setReservations] = useState<BenefitReturnReservation[]>(() => readBenefitReturnReservations());
+  const [reservations, setReservations] = useState<BenefitReturnReservation[]>([]);
 
   const visibleReservations = useMemo(() => reservations.slice(0, 5), [reservations]);
   const todayRoutineSummary = useMemo(

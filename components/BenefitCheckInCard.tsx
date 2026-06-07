@@ -1,11 +1,14 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { BellRing, CalendarCheck2, Gift, Sparkles, Timer } from "lucide-react";
 import type { BenefitPreset } from "@/components/BenefitPlaybook";
 import { getPreviousDateKey, getTodayKey, readBenefitCheckInState, writeBenefitCheckInState } from "@/lib/benefitCheckIn";
+import type { BenefitCheckInState } from "@/lib/benefitCheckIn";
 import type { Deal } from "@/types/deal";
+
+const defaultCheckInState: BenefitCheckInState = { lastDate: "", streak: 0, completedMissions: [] };
 
 interface BenefitCheckInCardProps {
   deals: Deal[];
@@ -16,10 +19,19 @@ interface BenefitCheckInCardProps {
 }
 
 export function BenefitCheckInCard({ deals, favoriteCount, recentCount, onApplyPreset, onOpenAlerts }: BenefitCheckInCardProps) {
-  const [checkIn, setCheckIn] = useState(() => readBenefitCheckInState());
-  const [todayKey] = useState(() => getTodayKey());
-  const checkedToday = checkIn.lastDate === todayKey;
+  const [checkIn, setCheckIn] = useState(defaultCheckInState);
+  const [todayKey, setTodayKey] = useState("");
+  const checkedToday = Boolean(todayKey) && checkIn.lastDate === todayKey;
   const completedMissions = checkedToday ? checkIn.completedMissions ?? [] : [];
+
+  useEffect(() => {
+    const handle = window.setTimeout(() => {
+      setTodayKey(getTodayKey());
+      setCheckIn(readBenefitCheckInState());
+    }, 0);
+
+    return () => window.clearTimeout(handle);
+  }, []);
 
   const stats = useMemo(
     () => ({
@@ -34,28 +46,32 @@ export function BenefitCheckInCard({ deals, favoriteCount, recentCount, onApplyP
   const completeCheckIn = () => {
     if (checkedToday) return;
 
-    const previousDateKey = getPreviousDateKey(todayKey);
+    const currentTodayKey = todayKey || getTodayKey();
+    const previousDateKey = getPreviousDateKey(currentTodayKey);
     const nextStreak = checkIn.lastDate === previousDateKey ? checkIn.streak + 1 : 1;
-    const nextState = { lastDate: todayKey, streak: nextStreak, completedMissions: [] };
+    const nextState = { lastDate: currentTodayKey, streak: nextStreak, completedMissions: [] };
 
     writeBenefitCheckInState(nextState);
+    setTodayKey(currentTodayKey);
     setCheckIn(nextState);
   };
 
   const toggleMission = (missionId: string) => {
-    const previousDateKey = getPreviousDateKey(todayKey);
+    const currentTodayKey = todayKey || getTodayKey();
+    const previousDateKey = getPreviousDateKey(currentTodayKey);
     const nextStreak = checkedToday ? checkIn.streak : checkIn.lastDate === previousDateKey ? checkIn.streak + 1 : 1;
     const currentMissions = checkedToday ? checkIn.completedMissions ?? [] : [];
     const nextMissions = currentMissions.includes(missionId)
       ? currentMissions.filter((item) => item !== missionId)
       : [...currentMissions, missionId];
     const nextState = {
-      lastDate: todayKey,
+      lastDate: currentTodayKey,
       streak: nextStreak,
       completedMissions: nextMissions
     };
 
     writeBenefitCheckInState(nextState);
+    setTodayKey(currentTodayKey);
     setCheckIn(nextState);
   };
 

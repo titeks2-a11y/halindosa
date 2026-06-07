@@ -1,10 +1,10 @@
 {
-  "ok": false,
-  "generatedAt": "2026-06-07T13:30:20.848Z",
+  "ok": true,
+  "generatedAt": "2026-06-07T13:49:48.698Z",
   "origin": "https://halindosa.com",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "86272e5e",
-  "workingTree": "clean",
+  "commit": "0c9cfeae",
+  "workingTree": "M docs/VERCEL_DEPLOYMENT_REPORT.md;  M reports/vercel-deployment.json",
   "project": {
     "linked": false
   },
@@ -15,13 +15,13 @@
   },
   "summary": {
     "totalChecks": 9,
-    "passedChecks": 4,
-    "failedChecks": 5,
+    "passedChecks": 9,
+    "failedChecks": 0,
     "rootStatus": 200,
-    "homeApiStatus": 404,
+    "homeApiStatus": 200,
     "dealsApiStatus": 200,
     "goRedirectStatus": 302,
-    "homeApiCacheControl": "public, max-age=0, must-revalidate"
+    "homeApiCacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate"
   },
   "checks": [
     {
@@ -31,23 +31,23 @@
     },
     {
       "name": "home api status",
-      "ok": false,
-      "detail": "/api/home should return 200 JSON; got 404."
+      "ok": true,
+      "detail": "/api/home returned 200 JSON with ok=true."
     },
     {
       "name": "home api no-store",
-      "ok": false,
-      "detail": "/api/home should include no-store Cache-Control; got \"public, max-age=0, must-revalidate\"."
+      "ok": true,
+      "detail": "Cache-Control=no-store, no-cache, must-revalidate, proxy-revalidate"
     },
     {
       "name": "home api deals",
-      "ok": false,
-      "detail": "/api/home did not return visible deals."
+      "ok": true,
+      "detail": "/api/home returned 3 deals."
     },
     {
       "name": "home api official benefits",
-      "ok": false,
-      "detail": "/api/home did not return visible official benefits/news deals."
+      "ok": true,
+      "detail": "/api/home returned 8 official benefits/news deals."
     },
     {
       "name": "deals api status",
@@ -56,8 +56,8 @@
     },
     {
       "name": "deals publishable policy",
-      "ok": false,
-      "detail": "3 invalid deal(s) leaked from /api/deals."
+      "ok": true,
+      "detail": "No search, homepage, community, sold-out, or non-publishable deal leaked from /api/deals."
     },
     {
       "name": "go redirect status",
@@ -75,41 +75,41 @@
       "url": "https://halindosa.com/",
       "status": 200,
       "ok": true,
-      "elapsedMs": 165,
+      "elapsedMs": 1225,
       "cacheControl": "public, max-age=0, must-revalidate",
       "contentType": "text/html; charset=utf-8",
       "location": "",
-      "xVercelId": "icn1::xt8st-1780839020100-75483498d2e8",
+      "xVercelId": "icn1::qxzmj-1780840184811-c5c1661819c5",
       "bodyPreview": "<!DOCTYPE html><html lang=\"ko\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover\"/><link rel=\"preload\" as=\"image\" href=\"/halindosa-icon-192.png\"/><link rel=\""
     },
     "homeApi": {
       "url": "https://halindosa.com/api/home?limit=3&verifiedOnly=true",
-      "status": 404,
-      "ok": false,
-      "elapsedMs": 30,
-      "cacheControl": "public, max-age=0, must-revalidate",
-      "contentType": "text/html; charset=utf-8",
+      "status": 200,
+      "ok": true,
+      "elapsedMs": 2601,
+      "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
+      "contentType": "application/json",
       "location": "",
-      "xVercelId": "icn1::xt8st-1780839020157-4535fd49ce46",
-      "bodyPreview": "<!DOCTYPE html><html lang=\"ko\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover\"/><link rel=\"preload\" as=\"image\" href=\"/halindosa-icon-192.png\"/><link rel=\""
+      "xVercelId": "icn1::iad1::xfpg4-1780840185970-af2190d5a8f0",
+      "bodyPreview": "{\"ok\":true,\"deals\":[{\"id\":\"d001\",\"title\":\"삼성 86인치 4K 스마트 UHD TV\",\"description\":\"롯데온에서 확인된 삼성 86인치 4K 스마트 UHD TV 특가입니다.\",\"price\":889000,\"originalPrice\":1201350,\"salePrice\":889000,\"discountRate\":26,\"mallName\":\"롯데온\",\"subCategory\":\"실시간\",\"catego"
     },
     "dealsApi": {
       "url": "https://halindosa.com/api/deals?limit=3&verifiedOnly=true",
       "status": 200,
       "ok": true,
-      "elapsedMs": 1424,
-      "cacheControl": "public, max-age=0, must-revalidate",
+      "elapsedMs": 804,
+      "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
       "contentType": "application/json",
       "location": "",
-      "xVercelId": "icn1::iad1::xt8st-1780839020193-09190b977eb7",
-      "bodyPreview": "{\"ok\":true,\"deals\":[{\"id\":\"d001\",\"title\":\"삼성 86인치 4K 스마트 UHD TV\",\"description\":\"롯데온에서 확인된 삼성 86인치 4K 스마트 UHD TV 특가입니다. 할인율, 배송 조건, 쿠폰 적용 여부를 함께 비교해 볼 만한 상품입니다.\",\"brand\":\"롯데온\",\"price\":889000,\"originalPrice\":1201350,\"salePrice\":889000,\"discou"
+      "xVercelId": "icn1::iad1::48pn7-1780840188537-68c8f2853382",
+      "bodyPreview": "{\"ok\":true,\"deals\":[{\"id\":\"d001\",\"title\":\"삼성 86인치 4K 스마트 UHD TV\",\"description\":\"롯데온에서 확인된 삼성 86인치 4K 스마트 UHD TV 특가입니다.\",\"price\":889000,\"originalPrice\":1201350,\"salePrice\":889000,\"discountRate\":26,\"mallName\":\"롯데온\",\"subCategory\":\"실시간\",\"catego"
     },
     "goRedirect": {
       "url": "https://halindosa.com/go/d014?from=vercel-doctor",
       "status": 302,
       "ok": false,
-      "elapsedMs": 250,
-      "cacheControl": "public, max-age=0, must-revalidate",
+      "elapsedMs": 543,
+      "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
       "contentType": "",
       "location": "https://www.coupang.com/vp/products/7687552147",
       "redirectChain": [
@@ -118,17 +118,17 @@
           "status": 307,
           "location": "https://www.halindosa.com/go/d014?from=vercel-doctor",
           "cacheControl": "public, max-age=0, must-revalidate",
-          "xVercelId": "icn1::8ztsl-1780839021602-6cbb466a2c48"
+          "xVercelId": "icn1::57774-1780840189154-2101ba876a59"
         },
         {
           "url": "https://www.halindosa.com/go/d014?from=vercel-doctor",
           "status": 302,
           "location": "https://www.coupang.com/vp/products/7687552147",
-          "cacheControl": "public, max-age=0, must-revalidate",
-          "xVercelId": "icn1::iad1::xt8st-1780839021613-8001871f5b6f"
+          "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
+          "xVercelId": "icn1::iad1::48pn7-1780840189173-cabf846018d4"
         }
       ],
-      "xVercelId": "icn1::iad1::xt8st-1780839021613-8001871f5b6f",
+      "xVercelId": "icn1::iad1::48pn7-1780840189173-cabf846018d4",
       "bodyPreview": ""
     }
   }

@@ -75,7 +75,7 @@ export default function FavoritesPage() {
   const [message, setMessage] = useState("");
   const [catalog, setCatalog] = useState<Deal[]>(mockDeals);
   const [isCatalogLoading, setIsCatalogLoading] = useState(false);
-  const [favorites, setFavorites] = useState<string[]>(() => readLocalFavoriteIds());
+  const [favorites, setFavorites] = useState<string[]>([]);
   const [favoriteFilter, setFavoriteFilter] = useState<FavoriteFilter>("all");
   const [favoriteSort, setFavoriteSort] = useState<FavoriteSort>("saved");
 

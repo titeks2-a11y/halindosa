@@ -201,16 +201,13 @@ export default function Home() {
   });
   const [isNewsRefreshing, setIsNewsRefreshing] = useState(false);
   const [newsRefreshError, setNewsRefreshError] = useState("");
-  const [favorites, setFavorites] = useState<string[]>(() => readLocalFavoriteIds());
+  const [favorites, setFavorites] = useState<string[]>([]);
   const [recentDealIds, setRecentDealIds] = useState<string[]>([]);
-  const [favoriteCategories, setFavoriteCategories] = useState<string[]>(() => readLocalPreferences().favoriteCategories);
+  const [favoriteCategories, setFavoriteCategories] = useState<string[]>(fallbackInterestCategories);
   const [toast, setToast] = useState("");
   const [pendingPurchaseDeal, setPendingPurchaseDeal] = useState<Deal | null>(null);
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
-  const [consent, setConsent] = useState<ConsentState | null>(() => {
-    if (typeof window === "undefined") return null;
-    return readStoredConsent();
-  });
+  const [consent, setConsent] = useState<ConsentState | null>(null);
 
   const showToast = useCallback((message: string) => {
     setToast(message);
@@ -268,6 +265,14 @@ export default function Home() {
     },
     [query, showToast]
   );
+
+  useEffect(() => {
+    const handle = window.setTimeout(() => {
+      setConsent(readStoredConsent());
+    }, 0);
+
+    return () => window.clearTimeout(handle);
+  }, []);
 
   useEffect(() => {
     let active = true;

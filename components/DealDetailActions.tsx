@@ -19,9 +19,7 @@ export function DealDetailActions({ deal }: { deal: Deal }) {
   const [showPurchaseConfirm, setShowPurchaseConfirm] = useState(false);
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
   const [message, setMessage] = useState("");
-  const [isFavorite, setIsFavorite] = useState(() => {
-    return readLocalFavoriteIds().includes(deal.id);
-  });
+  const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
     let active = true;

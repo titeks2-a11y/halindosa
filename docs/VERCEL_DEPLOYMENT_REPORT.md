@@ -1,38 +1,38 @@
 # Vercel Deployment Doctor
 
-Generated: 2026-06-07T13:30:20.848Z
+Generated: 2026-06-07T13:49:48.698Z
 
-Status: BLOCKED
+Status: PASS
 
 ## Target
 
 - Origin: `https://halindosa.com`
 - Branch: `codex/12h-product-ux-growth-hardening`
-- Commit: `86272e5e`
-- Working tree: clean
+- Commit: `0c9cfeae`
+- Working tree: M docs/VERCEL_DEPLOYMENT_REPORT.md;  M reports/vercel-deployment.json
 - Vercel project linked locally: no
 - Vercel token present in shell: no
 
 ## Summary
 
-- Checks: 4/9
+- Checks: 9/9
 - Root: 200
-- Home API: 404
+- Home API: 200
 - Deals API: 200
 - /go redirect: 302
-- Home API Cache-Control: `public, max-age=0, must-revalidate`
+- Home API Cache-Control: `no-store, no-cache, must-revalidate, proxy-revalidate`
 
 ## Checks
 
 | Result | Check | Detail |
 | --- | --- | --- |
 | PASS | root page | 200 HTML response from https://halindosa.com. |
-| FAIL | home api status | /api/home should return 200 JSON; got 404. |
-| FAIL | home api no-store | /api/home should include no-store Cache-Control; got "public, max-age=0, must-revalidate". |
-| FAIL | home api deals | /api/home did not return visible deals. |
-| FAIL | home api official benefits | /api/home did not return visible official benefits/news deals. |
+| PASS | home api status | /api/home returned 200 JSON with ok=true. |
+| PASS | home api no-store | Cache-Control=no-store, no-cache, must-revalidate, proxy-revalidate |
+| PASS | home api deals | /api/home returned 3 deals. |
+| PASS | home api official benefits | /api/home returned 8 official benefits/news deals. |
 | PASS | deals api status | /api/deals returned 3 verified deals. |
-| FAIL | deals publishable policy | 3 invalid deal(s) leaked from /api/deals. |
+| PASS | deals publishable policy | No search, homepage, community, sold-out, or non-publishable deal leaked from /api/deals. |
 | PASS | go redirect status | /go/d014 reached an external destination after 2 hop(s). |
 | PASS | go redirect destination | Destination host=www.coupang.com |
 

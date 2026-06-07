@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ExternalLink, Heart, Radio, Share2, ShoppingBag, Sparkles, TrendingUp } from "lucide-react";
 import { getRelativeTime } from "@/lib/format";
 import { buildPublicHotSignalDiscoveryUrl } from "@/lib/hotSignalNavigation";
@@ -26,15 +26,20 @@ export function HotSignalSection({ signals, isLoading, onOpenSignal }: HotSignal
   const restSignals = signals.slice(1, 9);
   const freeCount = signals.filter((signal) => /무료|공짜|무료배포|무료입장|무료개방/.test(`${signal.title} ${signal.summary}`)).length;
   const limitedCount = signals.filter((signal) => /기간한정|오늘만|마감|쿠폰|역대가|반값|1\+1/.test(`${signal.title} ${signal.summary}`)).length;
-  const [favoriteSignals, setFavoriteSignals] = useState<string[]>(() => {
-    if (typeof window === "undefined") return [];
-    try {
-      const stored = window.localStorage.getItem(signalFavoriteKey);
-      return stored ? (JSON.parse(stored) as string[]) : [];
-    } catch {
-      return [];
-    }
-  });
+  const [favoriteSignals, setFavoriteSignals] = useState<string[]>([]);
+
+  useEffect(() => {
+    const handle = window.setTimeout(() => {
+      try {
+        const stored = window.localStorage.getItem(signalFavoriteKey);
+        setFavoriteSignals(stored ? (JSON.parse(stored) as string[]) : []);
+      } catch {
+        setFavoriteSignals([]);
+      }
+    }, 0);
+
+    return () => window.clearTimeout(handle);
+  }, []);
 
   const toggleSignalFavorite = (id: string) => {
     setFavoriteSignals((current) => {
