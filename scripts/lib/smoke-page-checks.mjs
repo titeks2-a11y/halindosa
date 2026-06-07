@@ -88,11 +88,14 @@ export async function runPageSmokeChecks() {
     }
 
     assert(homeApiSource.includes("buildHomeRequestUrl") && homeApiSource.includes("ts: String(timestamp)") && homeApiSource.includes('cache: "no-store"'), "Home API client should use /api/home cache busting and no-store fetch");
+    const homeRefreshIntervalUsages = [...homePageSource.matchAll(/window\.setInterval\(([^,]+), HOME_REFRESH_INTERVAL_MS\)/g)].map((match) => match[1].trim());
     assert(
       homePageSource.includes("refreshHomeNow") &&
         homePageSource.includes("HOME_REFRESH_INTERVAL_MS") &&
-        homePageSource.includes("window.setInterval(refreshIfVisible, HOME_REFRESH_INTERVAL_MS)"),
-      "Home page should expose manual refresh and the shared 30-60s realtime refresh cadence"
+        homePageSource.includes("window.setInterval(refreshHomeIfVisible, HOME_REFRESH_INTERVAL_MS)") &&
+        homeRefreshIntervalUsages.length === 1 &&
+        homeRefreshIntervalUsages[0] === "refreshHomeIfVisible",
+      `Home page should expose manual refresh and use a single /api/home realtime refresh cadence, got ${homeRefreshIntervalUsages.join(", ") || "none"}`
     );
   });
   

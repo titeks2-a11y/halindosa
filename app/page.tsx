@@ -472,64 +472,6 @@ export default function Home() {
   );
 
   useEffect(() => {
-    if (!hasAppliedInitialParams) return;
-
-    const handle = window.setTimeout(() => {
-      fetchDeals();
-    }, 180);
-
-    return () => window.clearTimeout(handle);
-  }, [fetchDeals, hasAppliedInitialParams]);
-
-  useEffect(() => {
-    if (!hasAppliedInitialParams) return;
-
-    let active = true;
-    const refreshIfVisible = () => {
-      if (!active) return;
-      if (typeof document !== "undefined" && document.visibilityState === "hidden") return;
-      void fetchDeals(undefined, true);
-    };
-
-    const intervalHandle = window.setInterval(refreshIfVisible, HOME_REFRESH_INTERVAL_MS);
-    const handleVisibility = () => {
-      if (document.visibilityState === "visible") refreshIfVisible();
-    };
-
-    document.addEventListener("visibilitychange", handleVisibility);
-
-    return () => {
-      active = false;
-      window.clearInterval(intervalHandle);
-      document.removeEventListener("visibilitychange", handleVisibility);
-    };
-  }, [fetchDeals, hasAppliedInitialParams]);
-
-  useEffect(() => {
-    if (!hasAppliedInitialParams) return;
-
-    let active = true;
-    const refreshIfActive = () => {
-      if (!active) return;
-      void refreshNewsDeals({ silent: true });
-    };
-    const initialHandle = window.setTimeout(refreshIfActive, 260);
-    const intervalHandle = window.setInterval(refreshIfActive, HOME_REFRESH_INTERVAL_MS);
-    const handleVisibility = () => {
-      if (document.visibilityState === "visible") refreshIfActive();
-    };
-
-    document.addEventListener("visibilitychange", handleVisibility);
-
-    return () => {
-      active = false;
-      window.clearTimeout(initialHandle);
-      window.clearInterval(intervalHandle);
-      document.removeEventListener("visibilitychange", handleVisibility);
-    };
-  }, [hasAppliedInitialParams, refreshNewsDeals]);
-
-  useEffect(() => {
     let cleanup: (() => void) | undefined;
 
     async function registerBackButton() {
@@ -586,29 +528,6 @@ export default function Home() {
     },
     [category, query]
   );
-
-  useEffect(() => {
-    const handle = window.setTimeout(() => {
-      void fetchSignals();
-    }, 250);
-    return () => window.clearTimeout(handle);
-  }, [fetchSignals]);
-
-  useEffect(() => {
-    let active = true;
-    const refreshIfVisible = () => {
-      if (!active) return;
-      if (typeof document !== "undefined" && document.visibilityState === "hidden") return;
-      void fetchSignals(true);
-    };
-
-    const intervalHandle = window.setInterval(refreshIfVisible, HOME_REFRESH_INTERVAL_MS);
-
-    return () => {
-      active = false;
-      window.clearInterval(intervalHandle);
-    };
-  }, [fetchSignals]);
 
   useEffect(() => {
     async function fetchCatalog() {

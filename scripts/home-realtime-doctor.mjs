@@ -142,11 +142,12 @@ if (
   );
 }
 
+const homeRefreshIntervalUsages = [...homePage.matchAll(/window\.setInterval\(([^,]+), HOME_REFRESH_INTERVAL_MS\)/g)].map((match) => match[1].trim());
+
 if (
   includesAll(homePage, [
     "HOME_REFRESH_INTERVAL_MS",
-    "window.setInterval(refreshIfVisible, HOME_REFRESH_INTERVAL_MS)",
-    "window.setInterval(refreshIfActive, HOME_REFRESH_INTERVAL_MS)",
+    "window.setInterval(refreshHomeIfVisible, HOME_REFRESH_INTERVAL_MS)",
     "refreshHomeNow",
     "refreshHomeSnapshot",
     "refreshHomeIfVisible",
@@ -160,11 +161,16 @@ if (
     "fetchDeals(undefined, true)",
     "refreshNewsDeals({ silent: true })",
     "fetchSignals(true)"
-  ])
+  ]) &&
+  homeRefreshIntervalUsages.length === 1 &&
+  homeRefreshIntervalUsages[0] === "refreshHomeIfVisible"
 ) {
-  pass("home realtime refresh loop", "상품, 핫시그널, 공식 혜택이 동일한 운영 주기와 /api/home snapshot 자동 갱신으로 동기화됩니다.");
+  pass("home realtime refresh loop", "상품, 핫시그널, 공식 혜택이 단일 /api/home no-store snapshot 주기로 동기화됩니다.");
 } else {
-  fail("home realtime refresh loop", "홈 상품/뉴스/핫시그널 자동 갱신 또는 /api/home 자동 snapshot 연결이 부족합니다.");
+  fail(
+    "home realtime refresh loop",
+    `홈 자동 갱신은 /api/home 단일 interval이어야 합니다. intervalUsages=${homeRefreshIntervalUsages.join(", ") || "none"}`
+  );
 }
 
 const refreshIntervalMatch = homeRealtimeConfig.match(/HOME_REFRESH_INTERVAL_MS\s*=\s*([0-9_]+)/);
