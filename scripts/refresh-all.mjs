@@ -5,24 +5,36 @@ import { writeJson } from "./news-deal-utils.mjs";
 
 const root = process.cwd();
 const generatedAt = new Date().toISOString();
+const defaultStepTimeoutMs = Number(process.env.REFRESH_ALL_STEP_TIMEOUT_MS ?? 180_000);
+const linkVerificationTimeoutMs = Number(process.env.REFRESH_ALL_LINK_TIMEOUT_MS ?? 720_000);
 
-function runStep(name, command, args) {
+function runStep(name, command, args, options = {}) {
   const startedAt = new Date().toISOString();
+  const timeoutMs = Number(options.timeoutMs ?? defaultStepTimeoutMs);
   const result = spawnSync(command, args, {
     cwd: root,
+    env: {
+      ...process.env,
+      ...(options.env ?? {})
+    },
     encoding: "utf8",
-    shell: false
+    shell: false,
+    timeout: timeoutMs
   });
+  const timedOut = result.error?.code === "ETIMEDOUT";
 
   return {
     name,
     command: `${command} ${args.join(" ")}`,
-    ok: result.status === 0,
+    ok: result.status === 0 && !timedOut,
     status: result.status,
+    signal: result.signal ?? null,
+    timedOut,
+    timeoutMs,
     startedAt,
     finishedAt: new Date().toISOString(),
-    stdout: result.stdout.trim(),
-    stderr: result.stderr.trim()
+    stdout: result.stdout?.trim() ?? "",
+    stderr: timedOut ? `Step timed out after ${timeoutMs}ms.` : (result.stderr?.trim() ?? "")
   };
 }
 
@@ -35,7 +47,9 @@ function readJson(path, fallback) {
 const steps = [
   runStep("refresh:deals", process.execPath, ["scripts/refresh-deals.mjs"]),
   runStep("refresh:news", process.execPath, ["scripts/refresh-news-deals.mjs"]),
-  runStep("verify:links", process.execPath, ["scripts/verify-product-links-live.mjs", "--body"]),
+  runStep("verify:links", process.execPath, ["scripts/verify-product-links-live.mjs", "--body"], {
+    timeoutMs: linkVerificationTimeoutMs
+  }),
   runStep("verify:products", process.execPath, ["scripts/verify-products.mjs"]),
   runStep("verify:news", process.execPath, ["scripts/verify-news-deals.mjs"]),
   runStep("refresh:freebies", process.execPath, ["scripts/refresh-official-benefit-slice.mjs", "freebies", "--no-refresh"]),

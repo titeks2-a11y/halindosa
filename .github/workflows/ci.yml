@@ -76,6 +76,10 @@ jobs:
         run: npm run store:screenshots:doctor
 
       - name: Refresh launch data snapshots
+        timeout-minutes: 14
+        env:
+          DEAL_LINK_TIMEOUT_MS: "2500"
+          REFRESH_ALL_LINK_TIMEOUT_MS: "780000"
         run: npm run refresh:all
 
       - name: Official source readiness report
