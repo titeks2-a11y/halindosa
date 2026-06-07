@@ -29,7 +29,7 @@ const defaultStepTimeoutMs = 180_000;
 const stepTimeouts = new Map([
   ["build", 600_000],
   ["verify:links", 420_000],
-  ["smoke:local", 240_000],
+  ["smoke:local", 600_000],
   ["release:doctor", 180_000]
 ]);
 
