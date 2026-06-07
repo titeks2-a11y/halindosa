@@ -1,4 +1,4 @@
-import { execFileSync } from "node:child_process";
+import { spawnSync } from "node:child_process";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
@@ -34,43 +34,46 @@ const stepTimeouts = new Map([
 ]);
 
 const results = [];
+const npmCommand = process.platform === "win32" ? "npm.cmd" : "npm";
 
 function runStep(name, args) {
   const stepStartedAt = Date.now();
-  const command = `npm ${args.join(" ")}`;
   console.log(`RUN ${name}`);
-  try {
-    const output = execFileSync(command, {
+  const result = spawnSync(npmCommand, args, {
       cwd: root,
       encoding: "utf8",
-      shell: true,
-      stdio: ["ignore", "pipe", "pipe"],
+      stdio: "inherit",
       timeout: stepTimeouts.get(name) ?? defaultStepTimeoutMs,
       env: {
         ...process.env,
         DEAL_LINK_TIMEOUT_MS: process.env.DEAL_LINK_TIMEOUT_MS ?? "2500"
       }
     });
+
+  if (result.status === 0) {
     results.push({
       name,
       ok: true,
       durationMs: Date.now() - stepStartedAt,
-      output: output.trim()
+      output: "See streamed console output."
     });
     console.log(`PASS ${name}`);
-  } catch (error) {
-    const timedOut = error.signal === "SIGTERM" || /ETIMEDOUT|timed out/i.test(String(error.message ?? ""));
-    const output = `${error.stdout ?? ""}\n${error.stderr ?? ""}\n${timedOut ? `Step timed out after ${stepTimeouts.get(name) ?? defaultStepTimeoutMs}ms.` : ""}`.trim();
-    results.push({
-      name,
-      ok: false,
-      durationMs: Date.now() - stepStartedAt,
-      output
-    });
-    console.error(`FAIL ${name}`);
-    writeReport();
-    process.exit(error.status || 1);
+    return;
   }
+
+  const timedOut = result.signal === "SIGTERM" || /ETIMEDOUT|timed out/i.test(String(result.error?.message ?? ""));
+  const output = timedOut
+    ? `Step timed out after ${stepTimeouts.get(name) ?? defaultStepTimeoutMs}ms.`
+    : `Command exited with status ${result.status ?? "unknown"}.`;
+  results.push({
+    name,
+    ok: false,
+    durationMs: Date.now() - stepStartedAt,
+    output
+  });
+  console.error(`FAIL ${name}`);
+  writeReport();
+  process.exit(result.status || 1);
 }
 
 function writeReport() {
