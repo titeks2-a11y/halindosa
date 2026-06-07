@@ -1,6 +1,6 @@
 # 할인도사 Link Verification Report
 
-Generated: 2026-06-07T16:52:50.054Z
+Generated: 2026-06-07T17:03:33.349Z
 
 ## Summary
 
@@ -21,22 +21,22 @@ Generated: 2026-06-07T16:52:50.054Z
 | 커뮤니티 의심 | 0 |
 | 수동 검토 필요 | 0 |
 | Live probe 확인 | 140 |
-| Live probe 실패 | 76 |
-| Live probe robots/access 차단 | 60 |
-| Live probe rate limit | 13 |
-| Live probe timeout | 0 |
+| Live probe 실패 | 78 |
+| Live probe robots/access 차단 | 61 |
+| Live probe rate limit | 14 |
+| Live probe timeout | 1 |
 | Live probe exposed hard failure | 0 |
 | Live probe hidden hard failure review | 0 |
-| Live probe transient network | 3 |
-| Live body 확인 | 137 |
-| Live 제목/메타 확인 | 133 |
-| Live 콘텐츠 일치 신호 | 59 |
-| Live 콘텐츠 불일치 신호 | 78 |
+| Live probe transient network | 4 |
+| Live body 확인 | 136 |
+| Live 제목/메타 확인 | 132 |
+| Live 콘텐츠 일치 신호 | 57 |
+| Live 콘텐츠 불일치 신호 | 79 |
 | Live 접근 가능 본문 불일치 | 5 |
-| Live 접근 차단 본문 | 28 |
-| Live 가격 신호 | 28 |
-| Live 구매/신청 버튼 신호 | 18 |
-| Live 종료 문구 재검토 신호 | 2 |
+| Live 접근 차단 본문 | 29 |
+| Live 가격 신호 | 27 |
+| Live 구매/신청 버튼 신호 | 16 |
+| Live 종료 문구 재검토 신호 | 1 |
 | 출시 게이트 통과 | YES |
 | 노출 검색 링크 | 0 |
 | 노출 품절/종료 링크 | 0 |
@@ -50,24 +50,25 @@ Generated: 2026-06-07T16:52:50.054Z
 - 해석: Some URLs returned transient network signals; no exposed search, sold-out, 404, 410, or 5xx links were found.
 - 고객에게 노출되는 404/410/5xx/품절 본문 같은 강한 실패 신호: 0
 - 숨김 처리 후 보정 큐에 남은 강한 실패 신호: 0
-- timeout/request_failed 같은 일시 네트워크 신호: 3
-- 쇼핑몰 접근 보호 또는 robots/access 차단: 60
+- timeout/request_failed 같은 일시 네트워크 신호: 4
+- 쇼핑몰 접근 보호 또는 robots/access 차단: 61
 - 품절/판매종료 본문 감지: 0
 
 ## Verification Evidence
 
-- live_content_confirmed: 59
+- live_content_confirmed: 57
 - manual_pattern_verified: 32
-- seller_access_protected_manual_verified: 28
+- seller_access_protected_manual_verified: 29
 - seller_rate_limited_manual_verified: 13
 - client_rendered_detail_manual_verified: 5
-- transient_network_manual_verified: 3
+- transient_network_manual_verified: 4
 
 ## Revalidation Queue
 
 - d051 · 인터파크투어 · request_failed · priority 75
 - d057 · T멤버십 · request_failed · priority 75
 - d073 · 현대카드 · request_failed · priority 75
+- d131 · 쿠팡 · timeout · priority 75
 - d008 · LF몰 · client_rendered_detail_periodic_review · priority 60
 - d013 · 하이마트 · client_rendered_detail_periodic_review · priority 60
 - d058 · 맥도날드 · client_rendered_detail_periodic_review · priority 60
@@ -94,20 +95,20 @@ Generated: 2026-06-07T16:52:50.054Z
 - d009 · 지마켓 · seller_access_protected_review · priority 45
 - d010 · 쿠팡 · seller_access_protected_review · priority 45
 - d014 · 쿠팡 · seller_access_protected_review · priority 45
-- d016 · G마켓 · seller_access_protected_review · priority 45
 
 ### Live Probe Failure Reasons
 
-- robots_or_access_blocked: 60
+- robots_or_access_blocked: 61
 - http_429: 13
 - request_failed: 3
+- timeout: 1
 
 ### Live Probe Failed Hosts
 
 - item.gmarket.co.kr: 31
 - coupang.com: 24
 - ssg.com: 13
-- oliveyoung.co.kr: 3
+- oliveyoung.co.kr: 5
 - hyundaicard.com: 1
 - itempage3.auction.co.kr: 1
 - store.ohou.se: 1

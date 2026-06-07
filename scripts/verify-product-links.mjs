@@ -21,11 +21,13 @@ const liveProbeEnabled = process.env.DEAL_LINK_LIVE_PROBE === "true" || process.
 const liveProbeStrict = process.env.DEAL_LINK_LIVE_STRICT === "true";
 const bodyProbeEnabled = process.env.DEAL_LINK_BODY_PROBE === "true";
 const probeTimeoutMs = Number(process.env.DEAL_LINK_TIMEOUT_MS ?? 3500);
+const liveProbeConcurrency = Math.max(1, Number(process.env.DEAL_LINK_CONCURRENCY ?? 8));
 const liveProbe = {
   enabled: liveProbeEnabled,
   strict: liveProbeStrict,
   bodyProbe: bodyProbeEnabled,
   timeoutMs: probeTimeoutMs,
+  concurrency: liveProbeConcurrency,
   checked: 0,
   passed: 0,
   failed: 0,
@@ -366,6 +368,23 @@ async function probeLiveUrl(urlValue, context = {}) {
     result.reason = error instanceof Error && error.name === "AbortError" ? "timeout" : "request_failed";
     return result;
   }
+}
+
+async function mapWithConcurrency(items, concurrency, mapper) {
+  const results = new Array(items.length);
+  let nextIndex = 0;
+
+  async function worker() {
+    while (nextIndex < items.length) {
+      const currentIndex = nextIndex;
+      nextIndex += 1;
+      results[currentIndex] = await mapper(items[currentIndex], currentIndex);
+    }
+  }
+
+  const workerCount = Math.min(Math.max(1, concurrency), items.length);
+  await Promise.all(Array.from({ length: workerCount }, worker));
+  return results;
 }
 
 function recordLiveProbeResult(id, urlValue, probe) {
@@ -783,6 +802,7 @@ const issues = [];
 const hosts = new Set();
 const domainCounts = new Map();
 const excludedReasonCounts = new Map();
+const liveProbeJobs = [];
 let productDetailCount = 0;
 let claimBenefitCount = 0;
 let soldOutOrEndedCount = 0;
@@ -859,31 +879,46 @@ for (const id of dealIds) {
     }
 
     if (liveProbeEnabled && !isBlockedHost(host) && !isHomeOnly(url) && !isSearchLike(url)) {
-      const probe = await probeLiveUrl(urlValue, dealMetadataMap.get(id) ?? {});
-      recordLiveProbeResult(id, urlValue, probe);
+      liveProbeJobs.push({ id, urlValue, dealMeta: dealMetadataMap.get(id) ?? {} });
+    }
+  } catch {
+    issues.push(`${id}: 올바른 URL이 아닙니다. ${urlValue}`);
+    addExcludedReason("broken_url");
+  }
+}
 
-      if (probe.finalUrl && probe.finalUrl !== urlValue) {
+if (liveProbeJobs.length) {
+  const liveProbeResults = await mapWithConcurrency(liveProbeJobs, liveProbeConcurrency, async (job) => ({
+    ...job,
+    probe: await probeLiveUrl(job.urlValue, job.dealMeta)
+  }));
+
+  for (const { id, urlValue, probe } of liveProbeResults) {
+    recordLiveProbeResult(id, urlValue, probe);
+
+    if (probe.finalUrl && probe.finalUrl !== urlValue) {
+      try {
         const finalUrl = new URL(probe.finalUrl);
         if (isHomeOnly(finalUrl) || isSearchLike(finalUrl)) {
           issues.push(`${id}: redirect 후 최종 URL이 검색/대표 페이지입니다. ${probe.finalUrl}`);
           addExcludedReason("redirect_to_search_or_home");
         }
-      }
-
-      if (probe.reason === "sold_out_or_ended_text") {
-        issues.push(`${id}: live probe 본문에서 품절/판매종료 문구가 탐지되었습니다. ${probe.finalUrl}`);
-        soldOutOrEndedCount += 1;
-        addExcludedReason("sold_out_or_ended");
-      }
-
-      if (liveProbeStrict && !probe.ok) {
-        issues.push(`${id}: live probe 실패: ${probe.reason} (${probe.status || "no_status"})`);
-        addExcludedReason(probe.reason);
+      } catch {
+        issues.push(`${id}: redirect 후 최종 URL이 올바르지 않습니다. ${probe.finalUrl}`);
+        addExcludedReason("broken_url");
       }
     }
-  } catch {
-    issues.push(`${id}: 올바른 URL이 아닙니다. ${urlValue}`);
-    addExcludedReason("broken_url");
+
+    if (probe.reason === "sold_out_or_ended_text") {
+      issues.push(`${id}: live probe 본문에서 품절/판매종료 문구가 탐지되었습니다. ${probe.finalUrl}`);
+      soldOutOrEndedCount += 1;
+      addExcludedReason("sold_out_or_ended");
+    }
+
+    if (liveProbeStrict && !probe.ok) {
+      issues.push(`${id}: live probe 실패: ${probe.reason} (${probe.status || "no_status"})`);
+      addExcludedReason(probe.reason);
+    }
   }
 }
 
