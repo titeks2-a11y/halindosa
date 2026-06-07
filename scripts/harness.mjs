@@ -28,7 +28,7 @@ const fullSteps = [
 const ciSteps = [
   ["lint", ["run", "lint"]],
   ["test:mobile-ux", ["run", "test:mobile-ux"]],
-  ["test:home-realtime", ["run", "test:home-realtime"]],
+  ["home:realtime:doctor", ["run", "home:realtime:doctor"]],
   ["test:seo", ["run", "test:seo"]],
   ["test:perf", ["run", "test:perf"]]
 ];

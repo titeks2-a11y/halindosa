@@ -1,18 +1,18 @@
 # 할인도사 Harness Report
 
-Started: 2026-06-07T19:47:13.193Z
-Finished: 2026-06-07T19:47:35.164Z
+Started: 2026-06-07T19:54:25.821Z
+Finished: 2026-06-07T19:54:43.739Z
 Status: PASS
 
 ## Summary
 
 | Step | Result | Duration |
 | --- | --- | ---: |
-| lint | PASS | 15.6s |
-| test:mobile-ux | PASS | 0.6s |
-| test:home-realtime | PASS | 4.7s |
-| test:seo | PASS | 0.6s |
-| test:perf | PASS | 0.5s |
+| lint | PASS | 15.7s |
+| test:mobile-ux | PASS | 0.5s |
+| home:realtime:doctor | PASS | 0.6s |
+| test:seo | PASS | 0.5s |
+| test:perf | PASS | 0.6s |
 
 ## Step Output
 
@@ -28,7 +28,7 @@ See streamed console output.
 See streamed console output.
 ```
 
-### test:home-realtime
+### home:realtime:doctor
 
 ```text
 See streamed console output.
