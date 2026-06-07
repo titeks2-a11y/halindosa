@@ -21,7 +21,7 @@ function countMatches(value, pattern) {
 }
 
 const bottomNavigation = read("components/BottomNavigation.tsx");
-const homePage = read("app/page.tsx");
+const homePage = `${read("app/page.tsx")}\n${read("components/HomeClient.tsx")}`;
 const dealCard = read("components/DealCard.tsx");
 const liveDealFeed = read("components/LiveDealFeed.tsx");
 const quickDealCard = read("components/QuickDealCard.tsx");

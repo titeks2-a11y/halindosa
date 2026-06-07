@@ -1,4 +1,4 @@
-import { fail, pass, smokeSource, text } from "./release-doctor-harness.mjs";
+import { fail, homeSource, pass, smokeSource, text } from "./release-doctor-harness.mjs";
 
 export async function checkUiAccessibility() {
   const dealCard = await text("components/DealCard.tsx");
@@ -43,7 +43,7 @@ export async function checkUiAccessibility() {
   const benefitCheckIn = await text("lib/benefitCheckIn.ts");
   const priceAlertList = await text("components/PriceAlertList.tsx");
   const priceAlerts = await text("lib/priceAlerts.ts");
-  const homePage = await text("app/page.tsx");
+  const homePage = await homeSource();
   const homeDealGrid = await text("components/home/HomeDealGrid.tsx");
   const homeEmptyRecovery = await text("components/home/HomeEmptyRecovery.tsx");
   const claimedBenefitHomeSummary = await text("components/ClaimedBenefitHomeSummary.tsx");

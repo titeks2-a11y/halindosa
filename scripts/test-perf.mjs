@@ -22,7 +22,7 @@ function countMatches(value, pattern) {
   return [...value.matchAll(pattern)].length;
 }
 
-const homePage = read("app/page.tsx");
+const homePage = `${read("app/page.tsx")}\n${read("components/HomeClient.tsx")}`;
 const dealCard = read("components/DealCard.tsx");
 const liveDealFeed = read("components/LiveDealFeed.tsx");
 const appShell = read("components/AppShell.tsx");

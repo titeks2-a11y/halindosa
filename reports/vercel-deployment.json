@@ -1,10 +1,10 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-07T13:49:48.698Z",
+  "generatedAt": "2026-06-07T14:03:09.060Z",
   "origin": "https://halindosa.com",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "0c9cfeae",
-  "workingTree": "M docs/VERCEL_DEPLOYMENT_REPORT.md;  M reports/vercel-deployment.json",
+  "commit": "88126203",
+  "workingTree": "clean",
   "project": {
     "linked": false
   },
@@ -75,40 +75,40 @@
       "url": "https://halindosa.com/",
       "status": 200,
       "ok": true,
-      "elapsedMs": 1225,
+      "elapsedMs": 1286,
       "cacheControl": "public, max-age=0, must-revalidate",
       "contentType": "text/html; charset=utf-8",
       "location": "",
-      "xVercelId": "icn1::qxzmj-1780840184811-c5c1661819c5",
+      "xVercelId": "icn1::wj55p-1780840985400-653b79cf2e4b",
       "bodyPreview": "<!DOCTYPE html><html lang=\"ko\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover\"/><link rel=\"preload\" as=\"image\" href=\"/halindosa-icon-192.png\"/><link rel=\""
     },
     "homeApi": {
       "url": "https://halindosa.com/api/home?limit=3&verifiedOnly=true",
       "status": 200,
       "ok": true,
-      "elapsedMs": 2601,
+      "elapsedMs": 2384,
       "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
       "contentType": "application/json",
       "location": "",
-      "xVercelId": "icn1::iad1::xfpg4-1780840185970-af2190d5a8f0",
+      "xVercelId": "icn1::iad1::pq4tr-1780840986509-7a6026b16c11",
       "bodyPreview": "{\"ok\":true,\"deals\":[{\"id\":\"d001\",\"title\":\"삼성 86인치 4K 스마트 UHD TV\",\"description\":\"롯데온에서 확인된 삼성 86인치 4K 스마트 UHD TV 특가입니다.\",\"price\":889000,\"originalPrice\":1201350,\"salePrice\":889000,\"discountRate\":26,\"mallName\":\"롯데온\",\"subCategory\":\"실시간\",\"catego"
     },
     "dealsApi": {
       "url": "https://halindosa.com/api/deals?limit=3&verifiedOnly=true",
       "status": 200,
       "ok": true,
-      "elapsedMs": 804,
+      "elapsedMs": 709,
       "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
       "contentType": "application/json",
       "location": "",
-      "xVercelId": "icn1::iad1::48pn7-1780840188537-68c8f2853382",
+      "xVercelId": "icn1::iad1::pq4tr-1780840988603-1111f6bd83ab",
       "bodyPreview": "{\"ok\":true,\"deals\":[{\"id\":\"d001\",\"title\":\"삼성 86인치 4K 스마트 UHD TV\",\"description\":\"롯데온에서 확인된 삼성 86인치 4K 스마트 UHD TV 특가입니다.\",\"price\":889000,\"originalPrice\":1201350,\"salePrice\":889000,\"discountRate\":26,\"mallName\":\"롯데온\",\"subCategory\":\"실시간\",\"catego"
     },
     "goRedirect": {
       "url": "https://halindosa.com/go/d014?from=vercel-doctor",
       "status": 302,
       "ok": false,
-      "elapsedMs": 543,
+      "elapsedMs": 773,
       "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
       "contentType": "",
       "location": "https://www.coupang.com/vp/products/7687552147",
@@ -118,17 +118,17 @@
           "status": 307,
           "location": "https://www.halindosa.com/go/d014?from=vercel-doctor",
           "cacheControl": "public, max-age=0, must-revalidate",
-          "xVercelId": "icn1::57774-1780840189154-2101ba876a59"
+          "xVercelId": "icn1::49wzs-1780840989297-fdf00d19dfce"
         },
         {
           "url": "https://www.halindosa.com/go/d014?from=vercel-doctor",
           "status": 302,
           "location": "https://www.coupang.com/vp/products/7687552147",
           "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
-          "xVercelId": "icn1::iad1::48pn7-1780840189173-cabf846018d4"
+          "xVercelId": "icn1::iad1::wxfv5-1780840989308-af21d9af5464"
         }
       ],
-      "xVercelId": "icn1::iad1::48pn7-1780840189173-cabf846018d4",
+      "xVercelId": "icn1::iad1::wxfv5-1780840989308-af21d9af5464",
       "bodyPreview": ""
     }
   }

@@ -9,7 +9,7 @@ function read(path) {
 }
 
 const files = {
-  home: read("app/page.tsx"),
+  home: `${read("app/page.tsx")}\n${read("components/HomeClient.tsx")}`,
   detail: read("components/DealDetailActions.tsx"),
   favorites: read("app/favorites/page.tsx"),
   freeBenefits: read("components/FreeBenefitsClient.tsx"),

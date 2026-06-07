@@ -1,6 +1,9 @@
 import fs from "node:fs";
 
-const homePage = fs.readFileSync("app/page.tsx", "utf8");
+const homePage = [
+  fs.readFileSync("app/page.tsx", "utf8"),
+  fs.readFileSync("components/HomeClient.tsx", "utf8")
+].join("\n");
 const homeUrlState = fs.readFileSync("lib/homeUrlState.ts", "utf8");
 const packageJson = fs.readFileSync("package.json", "utf8");
 const smoke = [

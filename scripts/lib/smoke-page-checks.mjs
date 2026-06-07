@@ -1,7 +1,8 @@
 import { readFileSync } from "node:fs";
 import { assert, baseUrl, check, fetchJson, isMallHomeOnlyUrl, isUnsafeDealUrl } from "./smoke-harness.mjs";
+import { homeSourceSync } from "./release-doctor-harness.mjs";
 
-const homePageSource = readFileSync(new URL("../../app/page.tsx", import.meta.url), "utf8");
+const homePageSource = homeSourceSync();
 const homeApiSource = readFileSync(new URL("../../lib/homeApi.ts", import.meta.url), "utf8");
 const homeDealGridSource = readFileSync(new URL("../../components/home/HomeDealGrid.tsx", import.meta.url), "utf8");
 const homeEmptyRecoverySource = readFileSync(new URL("../../components/home/HomeEmptyRecovery.tsx", import.meta.url), "utf8");

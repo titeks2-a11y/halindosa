@@ -4,7 +4,10 @@ import { fileURLToPath } from "node:url";
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const mockDeals = readFileSync(join(root, "data/mockDeals.ts"), "utf8");
-const homePage = readFileSync(join(root, "app/page.tsx"), "utf8");
+const homePage = [
+  readFileSync(join(root, "app/page.tsx"), "utf8"),
+  readFileSync(join(root, "components/HomeClient.tsx"), "utf8")
+].join("\n");
 const homeDiscoveryConfig = readFileSync(join(root, "lib/homeDiscoveryConfig.ts"), "utf8");
 const homeSearchSource = `${homePage}\n${homeDiscoveryConfig}`;
 const searchAliases = JSON.parse(readFileSync(join(root, "data/searchAliases.json"), "utf8"));

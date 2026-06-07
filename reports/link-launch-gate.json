@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-07T12:45:40.605Z",
+  "generatedAt": "2026-06-07T14:23:55.681Z",
   "criteria": {
     "reportsPresent": true,
     "minimumAuditedItems": 140,
@@ -69,11 +69,11 @@
     }
   },
   "sourceReports": {
-    "linkValidation": "2026-06-07T12:45:37.852Z",
-    "productQuality": "2026-06-07T12:45:38.413Z",
-    "exposurePolicy": "2026-06-07T12:45:39.501Z",
-    "refreshDeals": "2026-06-07T12:44:04.119Z",
-    "liveProbeReview": "2026-06-07T12:42:24.697Z"
+    "linkValidation": "2026-06-07T14:23:52.916Z",
+    "productQuality": "2026-06-07T14:23:53.488Z",
+    "exposurePolicy": "2026-06-07T14:23:54.589Z",
+    "refreshDeals": "2026-06-07T14:22:38.452Z",
+    "liveProbeReview": "2026-06-07T12:48:23.426Z"
   },
   "linkTypeCounts": {
     "direct_purchase": 110,
@@ -112,8 +112,8 @@
     "freshManualEvidenceCount": 80,
     "staleManualEvidenceCount": 0,
     "missingManualEvidenceCount": 0,
-    "oldestCheckedAt": "2026-06-07T12:35:39.464Z",
-    "newestCheckedAt": "2026-06-07T12:35:39.464Z"
+    "oldestCheckedAt": "2026-06-07T12:45:55.223Z",
+    "newestCheckedAt": "2026-06-07T12:45:55.223Z"
   },
   "failedExposureItems": [],
   "hiddenItems": [],

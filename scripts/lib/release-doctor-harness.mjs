@@ -23,6 +23,15 @@ export async function optionalText(path) {
   return existsSync(fullPath) ? readFile(fullPath, "utf8") : "";
 }
 
+export async function homeSource() {
+  const sources = await Promise.all([
+    optionalText("app/page.tsx"),
+    optionalText("components/HomeClient.tsx")
+  ]);
+
+  return sources.join("\n");
+}
+
 export async function smokeSource() {
   const sources = await Promise.all([
     optionalText("scripts/smoke.mjs"),
@@ -36,6 +45,13 @@ export async function smokeSource() {
 export function optionalTextSync(path) {
   const fullPath = join(root, path);
   return existsSync(fullPath) ? readFileSync(fullPath, "utf8") : "";
+}
+
+export function homeSourceSync() {
+  return [
+    optionalTextSync("app/page.tsx"),
+    optionalTextSync("components/HomeClient.tsx")
+  ].join("\n");
 }
 
 export function smokeSourceSync() {

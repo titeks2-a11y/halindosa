@@ -7,7 +7,10 @@ const mockDeals = readFileSync(join(root, "data", "mockDeals.ts"), "utf8");
 const verifiedPurchaseLinks = readFileSync(join(root, "data", "verifiedPurchaseLinks.ts"), "utf8");
 const verifiedProductImages = readFileSync(join(root, "data", "verifiedProductImages.ts"), "utf8");
 const ranking = readFileSync(join(root, "lib", "deals", "ranking.ts"), "utf8");
-const homePage = readFileSync(join(root, "app", "page.tsx"), "utf8");
+const homePage = [
+  readFileSync(join(root, "app", "page.tsx"), "utf8"),
+  readFileSync(join(root, "components", "HomeClient.tsx"), "utf8")
+].join("\n");
 const homeDealFilters = readFileSync(join(root, "lib", "homeDealFilters.ts"), "utf8");
 const components = [
   ["QuickDealCard", join(root, "components", "QuickDealCard.tsx")],

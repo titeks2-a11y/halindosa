@@ -1,6 +1,6 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { checks, fail, fileSize, pass, root, run, smokeSource, smokeSourceSync, text, withQaRunnerScripts } from "./lib/release-doctor-harness.mjs";
+import { checks, fail, fileSize, homeSource, pass, root, run, smokeSource, smokeSourceSync, text, withQaRunnerScripts } from "./lib/release-doctor-harness.mjs";
 import { checkSigningAndArtifacts, checkStoreAssets } from "./lib/release-doctor-native-assets.mjs";
 import { checkNewsDealPipeline } from "./lib/release-doctor-news-pipeline.mjs";
 import { checkUiAccessibility } from "./lib/release-doctor-ui-accessibility.mjs";
@@ -662,6 +662,7 @@ async function checkEnvExample() {
 async function checkPublicContact() {
   const publicFiles = [
     "app/page.tsx",
+    "components/HomeClient.tsx",
     "app/mypage/page.tsx",
     "app/support/page.tsx",
     "app/privacy/page.tsx",
@@ -836,6 +837,7 @@ async function checkAuthSurface() {
 async function checkPublicClaimCopy() {
   const publicFiles = [
     "app/page.tsx",
+    "components/HomeClient.tsx",
     "app/admin/page.tsx",
     "app/deals/[id]/page.tsx",
     "components/FeaturedDealSections.tsx",
@@ -864,6 +866,7 @@ async function checkPublicClaimCopy() {
 
   const customerFacingFiles = [
     "app/page.tsx",
+    "components/HomeClient.tsx",
     "app/mypage/page.tsx",
     "app/guide/page.tsx",
     "app/support/page.tsx",
@@ -920,6 +923,7 @@ async function checkPublicClaimCopy() {
     "README_DEPLOY.md",
     "app/guide/page.tsx",
     "app/page.tsx",
+    "components/HomeClient.tsx",
     "data/mockDeals.ts",
     "docs/RUNBOOK.md",
     "docs/app-store-checklist.md",
@@ -960,6 +964,7 @@ async function checkPublicClaimCopy() {
 
   const accountModelFiles = [
     "app/page.tsx",
+    "components/HomeClient.tsx",
     "app/mypage/page.tsx",
     "app/guide/page.tsx",
     "components/LocalDataControls.tsx",
@@ -1119,7 +1124,7 @@ async function checkPartnerFeedSafety() {
 async function checkSearchAndPurchaseFlow() {
   const search = await text("lib/deals/search.ts");
   const repository = await text("lib/deals/dealRepository.ts");
-  const homePage = await text("app/page.tsx");
+  const homePage = await homeSource();
   const smoke = await smokeSource();
   const verifyLinks = await text("scripts/verify-product-links.mjs");
   const catalogDoctor = await text("scripts/catalog-quality-doctor.mjs");

@@ -1,6 +1,6 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
-import { fail, pass, root, smokeSourceSync, withQaRunnerScripts } from "./release-doctor-harness.mjs";
+import { fail, homeSourceSync, pass, root, smokeSourceSync, withQaRunnerScripts } from "./release-doctor-harness.mjs";
 
 const MIN_OFFICIAL_BENEFITS = 95;
 
@@ -133,7 +133,7 @@ export function checkNewsDealPipeline() {
   const officialEventProvider = existsSync(join(root, "lib/deals/providers/officialEventProvider.ts")) ? readFileSync(join(root, "lib/deals/providers/officialEventProvider.ts"), "utf8") : "";
   const publicCouponProvider = existsSync(join(root, "lib/deals/providers/publicCouponProvider.ts")) ? readFileSync(join(root, "lib/deals/providers/publicCouponProvider.ts"), "utf8") : "";
   const newsFeedContract = existsSync(join(root, "docs/news-feed-contract.md")) ? readFileSync(join(root, "docs/news-feed-contract.md"), "utf8") : "";
-  const homePage = readFileSync(join(root, "app/page.tsx"), "utf8");
+  const homePage = homeSourceSync();
   const homeApi = existsSync(join(root, "lib/homeApi.ts")) ? readFileSync(join(root, "lib/homeApi.ts"), "utf8") : "";
   const homeRuntimeSource = `${homePage}\n${homeApi}`;
   const adminPage = [

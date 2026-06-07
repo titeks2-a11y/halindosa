@@ -1,12 +1,12 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
-import { fail, pass, root, smokeSource, text } from "./release-doctor-harness.mjs";
+import { fail, homeSource, pass, root, smokeSource, text } from "./release-doctor-harness.mjs";
 
 const MIN_OFFICIAL_BENEFITS = 95;
 
 export async function checkOperationalDataSurfaces() {
   const dealsRoute = await text("app/api/deals/route.ts");
-  const homePage = await text("app/page.tsx");
+  const homePage = await homeSource();
   const claimedBenefitHomeSummary = await text("components/ClaimedBenefitHomeSummary.tsx");
   const homeFeatureSource = `${homePage}\n${claimedBenefitHomeSummary}`;
   const sitemap = await text("app/sitemap.ts");
