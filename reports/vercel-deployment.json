@@ -1,0 +1,135 @@
+{
+  "ok": false,
+  "generatedAt": "2026-06-07T13:08:16.418Z",
+  "origin": "https://halindosa.com",
+  "branch": "codex/12h-product-ux-growth-hardening",
+  "commit": "367e4eee",
+  "workingTree": "M README_DEPLOY.md;  M package.json; ?? docs/VERCEL_DEPLOYMENT_REPORT.md; ?? scripts/vercel-deployment-doctor.mjs",
+  "project": {
+    "linked": false
+  },
+  "environment": {
+    "vercelTokenPresent": false,
+    "vercelOrgIdPresent": false,
+    "vercelProjectIdPresent": false
+  },
+  "summary": {
+    "totalChecks": 9,
+    "passedChecks": 4,
+    "failedChecks": 5,
+    "rootStatus": 200,
+    "homeApiStatus": 404,
+    "dealsApiStatus": 200,
+    "goRedirectStatus": 302,
+    "homeApiCacheControl": "public, max-age=0, must-revalidate"
+  },
+  "checks": [
+    {
+      "name": "root page",
+      "ok": true,
+      "detail": "200 HTML response from https://halindosa.com."
+    },
+    {
+      "name": "home api status",
+      "ok": false,
+      "detail": "/api/home should return 200 JSON; got 404."
+    },
+    {
+      "name": "home api no-store",
+      "ok": false,
+      "detail": "/api/home should include no-store Cache-Control; got \"public, max-age=0, must-revalidate\"."
+    },
+    {
+      "name": "home api deals",
+      "ok": false,
+      "detail": "/api/home did not return visible deals."
+    },
+    {
+      "name": "home api official benefits",
+      "ok": false,
+      "detail": "/api/home did not return visible official benefits/news deals."
+    },
+    {
+      "name": "deals api status",
+      "ok": true,
+      "detail": "/api/deals returned 3 verified deals."
+    },
+    {
+      "name": "deals publishable policy",
+      "ok": false,
+      "detail": "3 invalid deal(s) leaked from /api/deals."
+    },
+    {
+      "name": "go redirect status",
+      "ok": true,
+      "detail": "/go/d014 reached an external destination after 2 hop(s)."
+    },
+    {
+      "name": "go redirect destination",
+      "ok": true,
+      "detail": "Destination host=www.coupang.com"
+    }
+  ],
+  "probes": {
+    "root": {
+      "url": "https://halindosa.com/",
+      "status": 200,
+      "ok": true,
+      "elapsedMs": 221,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "contentType": "text/html; charset=utf-8",
+      "location": "",
+      "xVercelId": "icn1::xt8st-1780837696566-c46db1539df8",
+      "bodyPreview": "<!DOCTYPE html><html lang=\"ko\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover\"/><link rel=\"preload\" as=\"image\" href=\"/halindosa-icon-192.png\"/><link rel=\""
+    },
+    "homeApi": {
+      "url": "https://halindosa.com/api/home?limit=3&verifiedOnly=true",
+      "status": 404,
+      "ok": false,
+      "elapsedMs": 99,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "contentType": "text/html; charset=utf-8",
+      "location": "",
+      "xVercelId": "icn1::xt8st-1780837696729-d7e5f8f13d94",
+      "bodyPreview": "<!DOCTYPE html><html lang=\"ko\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover\"/><link rel=\"preload\" as=\"image\" href=\"/halindosa-icon-192.png\"/><link rel=\""
+    },
+    "dealsApi": {
+      "url": "https://halindosa.com/api/deals?limit=3&verifiedOnly=true",
+      "status": 200,
+      "ok": true,
+      "elapsedMs": 358,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "contentType": "application/json",
+      "location": "",
+      "xVercelId": "icn1::iad1::xt8st-1780837696804-7bf2a001d417",
+      "bodyPreview": "{\"ok\":true,\"deals\":[{\"id\":\"d001\",\"title\":\"삼성 86인치 4K 스마트 UHD TV\",\"description\":\"롯데온에서 확인된 삼성 86인치 4K 스마트 UHD TV 특가입니다. 할인율, 배송 조건, 쿠폰 적용 여부를 함께 비교해 볼 만한 상품입니다.\",\"brand\":\"롯데온\",\"price\":889000,\"originalPrice\":1201350,\"salePrice\":889000,\"discou"
+    },
+    "goRedirect": {
+      "url": "https://halindosa.com/go/d014?from=vercel-doctor",
+      "status": 302,
+      "ok": false,
+      "elapsedMs": 265,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "contentType": "",
+      "location": "https://www.coupang.com/vp/products/7687552147",
+      "redirectChain": [
+        {
+          "url": "https://halindosa.com/go/d014?from=vercel-doctor",
+          "status": 307,
+          "location": "https://www.halindosa.com/go/d014?from=vercel-doctor",
+          "cacheControl": "public, max-age=0, must-revalidate",
+          "xVercelId": "icn1::x5v59-1780837697149-db2c26c08e14"
+        },
+        {
+          "url": "https://www.halindosa.com/go/d014?from=vercel-doctor",
+          "status": 302,
+          "location": "https://www.coupang.com/vp/products/7687552147",
+          "cacheControl": "public, max-age=0, must-revalidate",
+          "xVercelId": "icn1::iad1::xt8st-1780837697166-f6dec611357d"
+        }
+      ],
+      "xVercelId": "icn1::iad1::xt8st-1780837697166-f6dec611357d",
+      "bodyPreview": ""
+    }
+  }
+}

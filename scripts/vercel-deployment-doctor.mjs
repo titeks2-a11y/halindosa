@@ -1,0 +1,317 @@
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { execFileSync } from "node:child_process";
+import { join } from "node:path";
+
+const root = process.cwd();
+const reportsDir = join(root, "reports");
+const docsDir = join(root, "docs");
+const defaultOrigin = "https://halindosa.com";
+const origin = normalizeOrigin(process.env.VERCEL_DEPLOYMENT_URL || process.env.NEXT_PUBLIC_SITE_URL || defaultOrigin);
+const apiHomePath = "/api/home?limit=3&verifiedOnly=true";
+const apiDealsPath = "/api/deals?limit=3&verifiedOnly=true";
+const redirectProbePath = "/go/d014?from=vercel-doctor";
+
+mkdirSync(reportsDir, { recursive: true });
+mkdirSync(docsDir, { recursive: true });
+
+function normalizeOrigin(value) {
+  const input = String(value || defaultOrigin).trim().replace(/\/+$/, "");
+  if (!/^https?:\/\//i.test(input)) return `https://${input}`;
+  return input;
+}
+
+function run(command, args) {
+  try {
+    return execFileSync(command, args, { cwd: root, encoding: "utf8" }).trim();
+  } catch {
+    return "";
+  }
+}
+
+function getVercelProjectInfo() {
+  const projectPath = join(root, ".vercel", "project.json");
+  if (!existsSync(projectPath)) return { linked: false };
+
+  try {
+    const project = JSON.parse(readFileSync(projectPath, "utf8"));
+    return {
+      linked: true,
+      orgIdPresent: Boolean(project.orgId),
+      projectIdPresent: Boolean(project.projectId)
+    };
+  } catch {
+    return { linked: false, invalidProjectJson: true };
+  }
+}
+
+function isBadExternalUrl(value) {
+  try {
+    const url = new URL(value);
+    const host = url.hostname.replace(/^www\./, "").toLowerCase();
+    const pathAndSearch = `${url.pathname}${url.search}`.toLowerCase();
+
+    if (pathAndSearch === "/" || pathAndSearch === "" || pathAndSearch === "/main") return true;
+    if (/community|ppomppu|fmkorea|quasarzone|clien|ruliweb|dcinside|blog\.naver|news\.naver/i.test(host)) return true;
+    if (/\/search|\/np\/search|query=|keyword=|shopping\/search|msearch|result/i.test(pathAndSearch)) return true;
+    return false;
+  } catch {
+    return true;
+  }
+}
+
+async function fetchText(path, options = {}) {
+  const url = path.startsWith("http") ? path : `${origin}${path}`;
+  const startedAt = Date.now();
+  const response = await fetch(url, {
+    method: "GET",
+    redirect: options.redirect ?? "follow",
+    headers: {
+      "user-agent": "halindosa-vercel-deployment-doctor/1.0"
+    },
+    signal: AbortSignal.timeout(Number(process.env.VERCEL_DOCTOR_TIMEOUT_MS ?? 15000))
+  });
+  const text = await response.text();
+
+  return {
+    url,
+    ok: response.ok,
+    status: response.status,
+    elapsedMs: Date.now() - startedAt,
+    cacheControl: response.headers.get("cache-control") ?? "",
+    contentType: response.headers.get("content-type") ?? "",
+    location: response.headers.get("location") ?? "",
+    xVercelId: response.headers.get("x-vercel-id") ?? "",
+    bodyPreview: text.slice(0, 240),
+    text
+  };
+}
+
+function isSameDeploymentHost(value) {
+  try {
+    const target = new URL(value);
+    const deployment = new URL(origin);
+    const clean = (host) => host.replace(/^www\./, "").toLowerCase();
+    return clean(target.hostname) === clean(deployment.hostname);
+  } catch {
+    return false;
+  }
+}
+
+async function fetchRedirectChain(path) {
+  const chain = [];
+  let current = `${origin}${path}`;
+
+  for (let index = 0; index < 5; index += 1) {
+    const probe = await fetchText(current, { redirect: "manual" });
+    chain.push({
+      url: probe.url,
+      status: probe.status,
+      location: probe.location,
+      cacheControl: probe.cacheControl,
+      xVercelId: probe.xVercelId
+    });
+
+    if (![301, 302, 303, 307, 308].includes(probe.status) || !probe.location) {
+      return { probe, chain, finalLocation: probe.location || current };
+    }
+
+    const next = new URL(probe.location, current).toString();
+    if (!isSameDeploymentHost(next)) return { probe, chain, finalLocation: next };
+    current = next;
+  }
+
+  return { probe: null, chain, finalLocation: current, exhausted: true };
+}
+
+function parseJsonProbe(probe) {
+  try {
+    return JSON.parse(probe.text);
+  } catch {
+    return null;
+  }
+}
+
+function pass(name, detail) {
+  return { name, ok: true, detail };
+}
+
+function fail(name, detail) {
+  return { name, ok: false, detail };
+}
+
+const checks = [];
+const probes = {};
+const project = getVercelProjectInfo();
+const branch = run("git", ["branch", "--show-current"]);
+const commit = run("git", ["rev-parse", "--short", "HEAD"]);
+const status = (run("git", ["status", "--short"]) || "clean").replace(/\r?\n/g, "; ");
+
+probes.root = await fetchText("/");
+checks.push(
+  probes.root.ok && /text\/html/i.test(probes.root.contentType)
+    ? pass("root page", `${probes.root.status} HTML response from ${origin}.`)
+    : fail("root page", `Expected 200 HTML, got ${probes.root.status}.`)
+);
+
+probes.homeApi = await fetchText(apiHomePath);
+const homeJson = parseJsonProbe(probes.homeApi);
+checks.push(
+  probes.homeApi.ok && homeJson?.ok === true
+    ? pass("home api status", `/api/home returned 200 JSON with ok=true.`)
+    : fail("home api status", `/api/home should return 200 JSON; got ${probes.homeApi.status}.`)
+);
+checks.push(
+  /no-store/i.test(probes.homeApi.cacheControl)
+    ? pass("home api no-store", `Cache-Control=${probes.homeApi.cacheControl}`)
+    : fail("home api no-store", `/api/home should include no-store Cache-Control; got "${probes.homeApi.cacheControl || "(missing)"}".`)
+);
+checks.push(
+  Array.isArray(homeJson?.deals) && homeJson.deals.length > 0
+    ? pass("home api deals", `/api/home returned ${homeJson.deals.length} deals.`)
+    : fail("home api deals", "/api/home did not return visible deals.")
+);
+checks.push(
+  Array.isArray(homeJson?.newsDeals) && homeJson.newsDeals.length > 0
+    ? pass("home api official benefits", `/api/home returned ${homeJson.newsDeals.length} official benefits/news deals.`)
+    : fail("home api official benefits", "/api/home did not return visible official benefits/news deals.")
+);
+
+probes.dealsApi = await fetchText(apiDealsPath);
+const dealsJson = parseJsonProbe(probes.dealsApi);
+const deals = Array.isArray(dealsJson?.deals) ? dealsJson.deals : [];
+const invalidDeals = deals.filter(
+  (deal) =>
+    deal?.publishable !== true ||
+    deal?.availability !== "active" ||
+    deal?.validationStatus !== "passed" ||
+    isBadExternalUrl(deal?.finalPurchaseUrl || deal?.finalUrl || deal?.purchaseUrl || deal?.productUrl || "")
+);
+checks.push(
+  probes.dealsApi.ok && deals.length > 0
+    ? pass("deals api status", `/api/deals returned ${deals.length} verified deals.`)
+    : fail("deals api status", `/api/deals should return verified deals; got ${probes.dealsApi.status}.`)
+);
+checks.push(
+  invalidDeals.length === 0
+    ? pass("deals publishable policy", "No search, homepage, community, sold-out, or non-publishable deal leaked from /api/deals.")
+    : fail("deals publishable policy", `${invalidDeals.length} invalid deal(s) leaked from /api/deals.`)
+);
+
+const redirectChain = await fetchRedirectChain(redirectProbePath);
+probes.goRedirect = {
+  ...(redirectChain.probe ?? {}),
+  url: `${origin}${redirectProbePath}`,
+  status: redirectChain.probe?.status ?? 0,
+  location: redirectChain.finalLocation,
+  chain: redirectChain.chain
+};
+checks.push(
+  probes.goRedirect.location && !isSameDeploymentHost(probes.goRedirect.location)
+    ? pass("go redirect status", `/go/d014 reached an external destination after ${redirectChain.chain.length} hop(s).`)
+    : fail("go redirect status", `/go/d014 should reach an external verified destination; got ${probes.goRedirect.status}.`)
+);
+checks.push(
+  probes.goRedirect.location && !isBadExternalUrl(probes.goRedirect.location)
+    ? pass("go redirect destination", `Destination host=${new URL(probes.goRedirect.location).hostname}`)
+    : fail("go redirect destination", `Bad or missing destination: ${probes.goRedirect.location || "(missing)"}`)
+);
+
+const ok = checks.every((check) => check.ok);
+const report = {
+  ok,
+  generatedAt: new Date().toISOString(),
+  origin,
+  branch,
+  commit,
+  workingTree: status,
+  project,
+  environment: {
+    vercelTokenPresent: Boolean(process.env.VERCEL_TOKEN),
+    vercelOrgIdPresent: Boolean(process.env.VERCEL_ORG_ID),
+    vercelProjectIdPresent: Boolean(process.env.VERCEL_PROJECT_ID)
+  },
+  summary: {
+    totalChecks: checks.length,
+    passedChecks: checks.filter((check) => check.ok).length,
+    failedChecks: checks.filter((check) => !check.ok).length,
+    rootStatus: probes.root.status,
+    homeApiStatus: probes.homeApi.status,
+    dealsApiStatus: probes.dealsApi.status,
+    goRedirectStatus: probes.goRedirect.status,
+    homeApiCacheControl: probes.homeApi.cacheControl
+  },
+  checks,
+  probes: Object.fromEntries(
+    Object.entries(probes).map(([key, probe]) => [
+      key,
+      {
+        url: probe.url,
+        status: probe.status,
+        ok: probe.ok,
+        elapsedMs: probe.elapsedMs,
+        cacheControl: probe.cacheControl,
+        contentType: probe.contentType,
+        location: probe.location,
+        redirectChain: probe.chain ?? undefined,
+        xVercelId: probe.xVercelId,
+        bodyPreview: probe.bodyPreview
+      }
+    ])
+  )
+};
+
+const rows = checks.map((check) => `| ${check.ok ? "PASS" : "FAIL"} | ${check.name} | ${check.detail.replace(/\|/g, "\\|")} |`).join("\n");
+const markdown = `# Vercel Deployment Doctor
+
+Generated: ${report.generatedAt}
+
+Status: ${ok ? "PASS" : "BLOCKED"}
+
+## Target
+
+- Origin: \`${origin}\`
+- Branch: \`${branch}\`
+- Commit: \`${commit}\`
+- Working tree: ${status}
+- Vercel project linked locally: ${project.linked ? "yes" : "no"}
+- Vercel token present in shell: ${process.env.VERCEL_TOKEN ? "yes" : "no"}
+
+## Summary
+
+- Checks: ${report.summary.passedChecks}/${report.summary.totalChecks}
+- Root: ${report.summary.rootStatus}
+- Home API: ${report.summary.homeApiStatus}
+- Deals API: ${report.summary.dealsApiStatus}
+- /go redirect: ${report.summary.goRedirectStatus}
+- Home API Cache-Control: \`${report.summary.homeApiCacheControl || "(missing)"}\`
+
+## Checks
+
+| Result | Check | Detail |
+| --- | --- | --- |
+${rows}
+
+## Required Fix If Blocked
+
+If \`/api/home\` returns 404 while the root page returns 200, the public domain is serving an older/static deployment. Link this GitHub repository to the Vercel project, set Framework Preset to Next.js, Build Command to \`npm run build\`, leave Output Directory empty, configure production environment variables, and redeploy \`main\`.
+`;
+
+writeFileSync(join(reportsDir, "vercel-deployment.json"), `${JSON.stringify(report, null, 2)}\n`, "utf8");
+writeFileSync(join(docsDir, "VERCEL_DEPLOYMENT_REPORT.md"), markdown, "utf8");
+
+if (!ok) {
+  console.error("Vercel deployment doctor blocked.");
+  for (const check of checks.filter((item) => !item.ok)) {
+    console.error(`- ${check.name}: ${check.detail}`);
+  }
+  console.error("- reports/vercel-deployment.json");
+  console.error("- docs/VERCEL_DEPLOYMENT_REPORT.md");
+  process.exit(1);
+}
+
+console.log("Vercel deployment doctor passed.");
+console.log(`- Origin: ${origin}`);
+console.log(`- Checks: ${report.summary.passedChecks}/${report.summary.totalChecks}`);
+console.log(`- Home API Cache-Control: ${report.summary.homeApiCacheControl}`);
+console.log("- reports/vercel-deployment.json");
+console.log("- docs/VERCEL_DEPLOYMENT_REPORT.md");

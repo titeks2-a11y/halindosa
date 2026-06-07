@@ -50,6 +50,8 @@ const artifacts = [
   ["Commercial audit report", "docs/AUDIT_REPORT.md"],
   ["Environment doctor report", "docs/ENV_DOCTOR_REPORT.md"],
   ["Public URL submission report", "docs/PUBLIC_URL_REPORT.md"],
+  ["Vercel deployment doctor report", "docs/VERCEL_DEPLOYMENT_REPORT.md"],
+  ["Vercel deployment doctor JSON", "reports/vercel-deployment.json"],
   ["Store metadata QA report", "docs/STORE_METADATA_REPORT.md"],
   ["Store asset QA report", "docs/STORE_ASSETS_REPORT.md"],
   ["Device QA execution manifest", "docs/DEVICE_QA_MANIFEST.md"],

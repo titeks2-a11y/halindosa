@@ -101,6 +101,7 @@
     "store:screenshots:manifest": "node scripts/store-screenshot-manifest.mjs",
     "store:screenshots:doctor": "node scripts/store-screenshots-doctor.mjs",
     "public:url:doctor": "node scripts/public-url-doctor.mjs",
+    "vercel:doctor": "node scripts/vercel-deployment-doctor.mjs",
     "perf:budget": "node scripts/performance-budget.mjs",
     "test:links": "node scripts/verify-product-links-live.mjs --body",
     "test:images": "node scripts/test-images.mjs",

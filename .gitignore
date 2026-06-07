@@ -35,6 +35,7 @@ pnpm-debug.log*
 reports/*
 !reports/.gitkeep
 !reports/live-probe-review.json
+!reports/vercel-deployment.json
 
 # OS and editor files
 .DS_Store

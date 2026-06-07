@@ -134,6 +134,7 @@ DNS 반영 후 확인:
 ## 6. 배포 후 체크리스트
 
 - 홈 페이지가 정상 표시되는지 확인
+- `npm run vercel:doctor`로 실제 공개 URL의 `/api/home?limit=3&verifiedOnly=true` 200 응답, `Cache-Control: no-store`, `/api/deals` 검증 상품, `/go` 구매 이동을 확인
 - 홈 상단 `빠른 상품 검색`에서 검색어 입력, 쇼핑몰 선택, 오늘특가/무료배송/마감임박/직접구매 필터가 화면 점프 없이 적용되는지 확인
 - `/?q=애플%20워치`처럼 검색 query 진입 시 결과가 유지되는지 확인
 - `/categories`, `/notifications`, `/favorites`, `/mypage` 이동 확인
@@ -149,6 +150,8 @@ DNS 반영 후 확인:
 - PC 화면에서 상단 네비게이션 확인
 - Vercel Environment Variables가 production에 반영되었는지 확인
 - `npm run verify:links`로 커뮤니티/검색/대표몰 링크가 상품 DB에 섞이지 않았는지 확인
+
+`npm run vercel:doctor`에서 루트 페이지는 200인데 `/api/home`이 404라면, 공개 도메인이 오래된 정적 배포를 보고 있는 상태입니다. Vercel Project가 GitHub `main` 브랜치에 연결되어 있는지, Framework Preset이 Next.js인지, Build Command가 `npm run build`인지, Output Directory가 비어 있는지 확인한 뒤 production redeploy를 실행합니다.
 
 ## 6-1. 상품 DB와 링크 검증
 
