@@ -117,7 +117,7 @@ jobs:
 
       - name: Prepare release doctor reports
         timeout-minutes: 12
-        run: npm run release:prepare:reports
+        run: npm run release:prepare:reports:ci
 
       - name: Release doctor
         run: npm run release:doctor
