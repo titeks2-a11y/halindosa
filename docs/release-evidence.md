@@ -4,9 +4,9 @@
 
 ## 기본 정보
 
-- 생성 시각: 2026-06-07T00:49:05.313Z
+- 생성 시각: 2026-06-07T01:15:54.735Z
 - Git 브랜치: codex/12h-product-ux-growth-hardening
-- 최신 커밋: 0393cf59
+- 최신 커밋: 30f0a345
 - Git 상태: clean
 - 패키지 버전: 1.0.1
 - 앱 이름: 할인도사
@@ -32,7 +32,7 @@
 | Store asset QA report | `docs/STORE_ASSETS_REPORT.md` | 1KB |
 | Device QA execution manifest | `docs/DEVICE_QA_MANIFEST.md` | 5KB |
 | Device QA execution manifest JSON | `DEVICE_QA_MANIFEST.json` | 6KB |
-| Device QA readiness report | `docs/DEVICE_QA_REPORT.md` | 3KB |
+| Device QA readiness report | `docs/DEVICE_QA_REPORT.md` | 4KB |
 | Store submission readiness report | `docs/STORE_SUBMISSION_REPORT.md` | 5KB |
 | Store submission packet QA report | `docs/STORE_PACKET_REPORT.md` | 6KB |
 | Store console fields manifest | `docs/STORE_CONSOLE_FIELDS.md` | 4KB |
