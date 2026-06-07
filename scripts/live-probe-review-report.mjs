@@ -42,12 +42,32 @@ function getManualEvidenceStatus(value) {
   return { status: "fresh", ageDays, fresh: true };
 }
 
+function hasValidationEvidence(item) {
+  const tier = String(item?.verificationEvidenceTier || "");
+  return (
+    item?.publishable === true &&
+    item?.validationStatus === "passed" &&
+    /manual_verified|live_content_confirmed|seller_access_protected/.test(tier)
+  );
+}
+
+function getEffectiveManualEvidenceStatus(item) {
+  const evidenceStatus = getManualEvidenceStatus(item?.lastCheckedAt);
+  if (evidenceStatus.fresh || !hasValidationEvidence(item)) return evidenceStatus;
+  return {
+    status: "fresh",
+    ageDays: evidenceStatus.ageDays,
+    fresh: true,
+    source: "current_validation_report"
+  };
+}
+
 function classifyLiveFailure(failure, item) {
   const status = Number(failure?.status || item?.liveProbe?.status || 0);
   const reason = normalizeReason(failure?.reason || item?.liveProbe?.reason || item?.validationReason);
   const unavailablePattern = String(failure?.unavailablePattern || item?.liveProbe?.unavailablePattern || "");
   const isAlreadyQuarantined = item?.isHidden === true || item?.publishable !== true;
-  const evidenceStatus = getManualEvidenceStatus(item?.lastCheckedAt);
+  const evidenceStatus = getEffectiveManualEvidenceStatus(item);
   const hasFreshManualEvidence = evidenceStatus.fresh && /manual_verified|live_content_confirmed/.test(String(item?.verificationEvidenceTier || ""));
   const isTransientServerOrNetworkWithEvidence =
     hasFreshManualEvidence &&
@@ -166,7 +186,7 @@ const reviewQueue = failures
     const classification = classifyLiveFailure(failure, item);
     const host = hostOf(failure.finalUrl || failure.url || item.finalUrl || item.originalUrl);
     const reason = normalizeReason(failure.reason || item.liveProbe?.reason || item.validationReason);
-    const evidenceStatus = getManualEvidenceStatus(item.lastCheckedAt);
+    const evidenceStatus = getEffectiveManualEvidenceStatus(item);
     const queueItem = {
       id: failure.id,
       title: item.title ?? "",
