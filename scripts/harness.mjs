@@ -5,7 +5,7 @@ import { join } from "node:path";
 const root = process.cwd();
 const startedAt = new Date();
 
-const steps = [
+const fullSteps = [
   ["lint", ["run", "lint"]],
   ["build", ["run", "build"]],
   ["verify:links", ["run", "verify:links", "--", "--no-body"]],
@@ -25,6 +25,15 @@ const steps = [
   ["smoke:local", ["run", "smoke:local"]],
   ["release:doctor", ["run", "release:doctor"]]
 ];
+const ciSteps = [
+  ["lint", ["run", "lint"]],
+  ["test:mobile-ux", ["run", "test:mobile-ux"]],
+  ["test:home-realtime", ["run", "test:home-realtime"]],
+  ["test:seo", ["run", "test:seo"]],
+  ["test:perf", ["run", "test:perf"]],
+  ["release:doctor", ["run", "release:doctor"]]
+];
+const steps = process.env.HALINDOSA_HARNESS_MODE === "ci" ? ciSteps : fullSteps;
 const defaultStepTimeoutMs = 180_000;
 const stepTimeouts = new Map([
   ["build", 600_000],
@@ -34,12 +43,19 @@ const stepTimeouts = new Map([
 ]);
 
 const results = [];
-const npmCommand = process.platform === "win32" ? "npm.cmd" : "npm";
+
+function buildNpmInvocation(args) {
+  if (process.platform === "win32") {
+    return { command: "cmd.exe", args: ["/d", "/s", "/c", "npm", ...args] };
+  }
+  return { command: "npm", args };
+}
 
 function runStep(name, args) {
   const stepStartedAt = Date.now();
   console.log(`RUN ${name}`);
-  const result = spawnSync(npmCommand, args, {
+  const invocation = buildNpmInvocation(args);
+  const result = spawnSync(invocation.command, invocation.args, {
       cwd: root,
       encoding: "utf8",
       stdio: "inherit",

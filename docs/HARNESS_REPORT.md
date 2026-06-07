@@ -1,30 +1,18 @@
 # 할인도사 Harness Report
 
-Started: 2026-06-07T19:17:28.982Z
-Finished: 2026-06-07T19:19:25.237Z
+Started: 2026-06-07T19:31:15.171Z
+Finished: 2026-06-07T19:31:38.900Z
 Status: PASS
 
 ## Summary
 
 | Step | Result | Duration |
 | --- | --- | ---: |
-| lint | PASS | 15.2s |
-| build | PASS | 25.9s |
-| verify:links | PASS | 3.0s |
-| test:external-links | PASS | 0.6s |
-| test:images | PASS | 0.6s |
-| news:images:enrich | PASS | 9.1s |
-| verify:images | PASS | 0.5s |
-| image:operations:doctor | PASS | 0.5s |
-| test:search | PASS | 7.6s |
-| test:ui | PASS | 0.5s |
-| test:mobile-ux | PASS | 0.5s |
-| test:mobile-compact | PASS | 0.5s |
-| home:realtime:doctor | PASS | 0.5s |
-| test:home-realtime | PASS | 4.7s |
-| test:seo | PASS | 0.5s |
-| test:perf | PASS | 0.6s |
-| smoke:local | PASS | 43.8s |
+| lint | PASS | 15.6s |
+| test:mobile-ux | PASS | 0.6s |
+| test:home-realtime | PASS | 4.8s |
+| test:seo | PASS | 0.6s |
+| test:perf | PASS | 0.5s |
 | release:doctor | PASS | 1.7s |
 
 ## Step Output
@@ -35,73 +23,7 @@ Status: PASS
 See streamed console output.
 ```
 
-### build
-
-```text
-See streamed console output.
-```
-
-### verify:links
-
-```text
-See streamed console output.
-```
-
-### test:external-links
-
-```text
-See streamed console output.
-```
-
-### test:images
-
-```text
-See streamed console output.
-```
-
-### news:images:enrich
-
-```text
-See streamed console output.
-```
-
-### verify:images
-
-```text
-See streamed console output.
-```
-
-### image:operations:doctor
-
-```text
-See streamed console output.
-```
-
-### test:search
-
-```text
-See streamed console output.
-```
-
-### test:ui
-
-```text
-See streamed console output.
-```
-
 ### test:mobile-ux
-
-```text
-See streamed console output.
-```
-
-### test:mobile-compact
-
-```text
-See streamed console output.
-```
-
-### home:realtime:doctor
 
 ```text
 See streamed console output.
@@ -120,12 +42,6 @@ See streamed console output.
 ```
 
 ### test:perf
-
-```text
-See streamed console output.
-```
-
-### smoke:local
 
 ```text
 See streamed console output.
