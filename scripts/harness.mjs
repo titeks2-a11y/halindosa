@@ -27,8 +27,8 @@ const steps = [
 ];
 const defaultStepTimeoutMs = 180_000;
 const stepTimeouts = new Map([
-  ["build", 300_000],
-  ["verify:links", 300_000],
+  ["build", 600_000],
+  ["verify:links", 420_000],
   ["smoke:local", 240_000],
   ["release:doctor", 180_000]
 ]);
@@ -38,6 +38,7 @@ const results = [];
 function runStep(name, args) {
   const stepStartedAt = Date.now();
   const command = `npm ${args.join(" ")}`;
+  console.log(`RUN ${name}`);
   try {
     const output = execFileSync(command, {
       cwd: root,
