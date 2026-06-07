@@ -5,6 +5,7 @@ import { buildBenefitClaimGuide } from "@/lib/deals/claimGuide";
 import { getDealImageType } from "@/lib/deals/imageResolver";
 import { validatePurchaseLink } from "@/lib/deals/linkValidator";
 import { getDealPriorityScore, getDealQualityScore, getDealValidationCode, resolveDealAvailability, resolveDealValidationStatus, shouldHideDeal } from "@/lib/deals/quality";
+import { getGeneratedDealImageSrc } from "@/lib/imageSrc";
 import {
   containsPolicyUnavailableText,
   isPolicyBlockedHost,
@@ -80,7 +81,7 @@ function sanitizePublicAuxiliaryUrl(value?: string) {
 
 export function normalizeDeal(input: DealInput, source = input.source ?? "mock"): Deal {
   const mallName = input.mallName ?? input.mall ?? "할인도사";
-  const thumbnail = input.thumbnail ?? input.imageUrl ?? "";
+  const rawThumbnail = input.thumbnail ?? input.imageUrl ?? "";
   const shipping = input.shipping ?? input.shippingInfo ?? "판매처 조건 확인";
   const expireAt = input.expireAt ?? input.expiresAt ?? new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
   const createdAt = input.createdAt ?? new Date().toISOString();
@@ -128,7 +129,9 @@ export function normalizeDeal(input: DealInput, source = input.source ?? "mock")
   const linkType = input.linkType ?? linkValidation.linkType;
   const linkVerified = input.linkVerified ?? linkValidation.linkVerified;
   const purchaseConfidence = input.purchaseConfidence ?? linkValidation.purchaseConfidence;
-  const dealType = input.dealType ?? inferDealBenefitType({ title: input.title, category: input.category, tags, shipping, salePrice: input.salePrice, originalPrice: input.originalPrice, discountRate });
+  const category = input.category ?? "기타";
+  const dealType = input.dealType ?? inferDealBenefitType({ title: input.title, category, tags, shipping, salePrice: input.salePrice, originalPrice: input.originalPrice, discountRate });
+  const thumbnail = rawThumbnail || getGeneratedDealImageSrc(category, dealType);
   const isExpired = input.isExpired ?? new Date(expireAt).getTime() <= Date.now();
   const reliabilityScore = input.reliabilityScore ?? Math.min(100, Math.round(purchaseConfidence + (linkVerified ? 8 : 0) + ((input.popularityScore ?? 0) >= 85 ? 3 : 0)));
   const purchaseLinkVerified = input.purchaseLinkVerified ?? linkValidation.purchaseLinkVerified;
@@ -211,7 +214,7 @@ export function normalizeDeal(input: DealInput, source = input.source ?? "mock")
     discountRate,
     mallName,
     subCategory: input.subCategory ?? tags[0],
-    category: input.category ?? "기타",
+    category,
     thumbnail,
     link,
     url: input.url ?? link,
@@ -245,7 +248,7 @@ export function normalizeDeal(input: DealInput, source = input.source ?? "mock")
     lastVerifiedAt: input.lastVerifiedAt ?? (linkStatus === "verified" ? (input.verifiedAt ?? priceCheckedAt) : undefined),
     priceCheckedAt,
     dealType,
-    benefitSummary: input.benefitSummary ?? buildBenefitSummary({ title: input.title, category: input.category, tags, shipping, salePrice: input.salePrice, originalPrice: input.originalPrice, discountRate }, dealType),
+    benefitSummary: input.benefitSummary ?? buildBenefitSummary({ title: input.title, category, tags, shipping, salePrice: input.salePrice, originalPrice: input.originalPrice, discountRate }, dealType),
     reliabilityScore,
     isVerified: input.isVerified ?? linkVerified,
     isExpired,

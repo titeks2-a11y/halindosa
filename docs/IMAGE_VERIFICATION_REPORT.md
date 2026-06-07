@@ -1,20 +1,21 @@
 # 할인도사 Image Verification Report
 
-Generated: 2026-06-06T23:23:06.250Z
+Generated: 2026-06-06T23:59:25.424Z
 Status: PASS
 
 ## Summary
 
 | Metric | Value |
 | --- | ---: |
-| Checks | 19/19 |
+| Checks | 20/20 |
 | Explicit image line rate | 66% |
 | Renderable visible image rate | 100% |
 | Official/derived image rate | 66% |
 | Official/derived images | 93 |
 | Generated placeholders | 47 |
 | Missing image fallback | 0 |
-| Generated placeholder assets | 11 |
+| Refreshed benefit generated placeholders | 83/140 |
+| Generated placeholder assets | 20 |
 | Official benefit renderable images | 101/101 |
 | Official benefit OG/schema mappings | 64 |
 | Official benefit official images | 64 |
@@ -31,14 +32,15 @@ Status: PASS
 - PASS image type resolver: 이미지 resolver가 공식/생성/fallback 이미지를 구분합니다.
 - PASS quality score image weighting: qualityScore가 최신성, 링크 검증, 이미지 타입, 신고/숨김 상태를 반영합니다.
 - PASS ranking quality score: 홈/추천 랭킹에 qualityScore가 반영됩니다.
-- PASS generated placeholder mapping: 11개 카테고리 생성 placeholder가 mock 데이터 fallback으로 연결되어 있습니다.
+- PASS generated placeholder mapping: 20개 카테고리/혜택 생성 placeholder가 mock 데이터 fallback으로 연결되어 있습니다.
 - PASS generated placeholder assets: 생성 placeholder는 gradient/icon 기반 SVG이며 실제 상품 사진을 가장하지 않습니다.
 - PASS image rendering components: 주요 카드/피드 컴포넌트가 lazy loading, async decoding, object-cover, no-referrer를 유지합니다.
-- PASS local image proxy: 로컬 개발에서 차단 가능성이 높은 이미지 호스트는 프록시 유틸을 통과하고, 깨진 이미지는 카테고리 생성 placeholder로 대체됩니다.
+- PASS local image proxy: 로컬 개발에서 차단 가능성이 높은 이미지 호스트는 프록시 유틸을 통과하고, 깨진 이미지는 혜택/카테고리 생성 placeholder로 대체됩니다.
 - PASS runtime broken image fallback: 주요 카드/피드 컴포넌트가 이미지 로딩 실패 시 1회성 생성 placeholder로 자동 전환합니다.
 - PASS explicit image floor: 명시 이미지 또는 파생 가능 이미지 라인이 93/140개(66%)입니다.
 - PASS publishable image exposure audit: 노출 상품 140개 모두 공식/파생/생성 이미지로 렌더링 가능합니다.
 - PASS official image operating floor: 공식/파생 이미지 비율이 66%입니다.
+- PASS refreshed benefit placeholder exposure: refresh:deals 산출물 83/140개가 혜택 유형별 generated placeholder를 사용합니다.
 - PASS official benefit image exposure audit: 공식 혜택 101개 모두 렌더 가능한 이미지와 qualityScore 70 이상을 갖습니다.
 - PASS official benefit image operating floor: 공식 혜택 64/101개가 공식 OG/schema 이미지를 사용합니다.
 - PASS verified product image priority: 검증된 공식 상품/혜택 이미지가 명시 이미지와 생성 placeholder보다 먼저 적용됩니다.

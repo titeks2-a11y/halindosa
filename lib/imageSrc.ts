@@ -1,3 +1,5 @@
+import type { DealBenefitType } from "@/types/deal";
+
 const proxiedHosts = ["cdn.ppomppu.co.kr", "cdn2.ppomppu.co.kr", "cdn3.ppomppu.co.kr"];
 
 const categoryFallbackImages: Record<string, string> = {
@@ -18,6 +20,18 @@ const categoryFallbackImages: Record<string, string> = {
   "기타": "/deal-images/category-etc.svg"
 };
 
+const benefitFallbackImages: Partial<Record<DealBenefitType, string>> = {
+  freebie: "/deal-images/benefit-freebie.svg",
+  coupon: "/deal-images/benefit-coupon.svg",
+  point: "/deal-images/benefit-point.svg",
+  foodDelivery: "/deal-images/benefit-delivery.svg",
+  convenienceStore: "/deal-images/benefit-mart.svg",
+  mart: "/deal-images/benefit-mart.svg",
+  experience: "/deal-images/benefit-experience.svg",
+  event: "/deal-images/benefit-coupon.svg",
+  freeShipping: "/deal-images/benefit-delivery.svg"
+};
+
 export function getDealImageSrc(imageUrl: string) {
   if (!imageUrl || typeof window === "undefined") return imageUrl;
 
@@ -35,6 +49,8 @@ export function getDealImageSrc(imageUrl: string) {
   }
 }
 
-export function getGeneratedDealImageSrc(category = "기타") {
+export function getGeneratedDealImageSrc(category = "기타", dealType?: DealBenefitType) {
+  if (dealType && benefitFallbackImages[dealType]) return benefitFallbackImages[dealType];
+
   return categoryFallbackImages[category] ?? categoryFallbackImages["기타"];
 }

@@ -583,15 +583,15 @@ function normalizeCollectedItem(raw, index) {
   const originalPrice = Math.max(toNumber(raw.originalPrice ?? raw.listPrice ?? raw.hprice, salePrice), salePrice);
   const discountRate = toNumber(raw.discountRate, originalPrice > salePrice ? Math.round(((originalPrice - salePrice) / originalPrice) * 100) : 0);
   const category = cleanText(raw.category) || "기타";
+  const tags = Array.isArray(raw.tags) ? raw.tags.filter((tag) => typeof tag === "string") : [cleanText(raw.sourceProvider ?? raw.provider ?? raw.source ?? "manual")];
+  const shipping = cleanText(raw.shipping ?? raw.shippingInfo) || "판매처 조건 확인";
+  const dealType = cleanText(raw.dealType) || inferDealBenefitType({ ...raw, title, category, tags, shipping, salePrice, originalPrice, discountRate });
   const rawImageUrl = cleanText(raw.thumbnail ?? raw.imageUrl ?? raw.image);
   const derivedImageUrl = deriveProductImageUrlFromPurchaseUrl(finalUrl);
-  const imageUrl = rawImageUrl || derivedImageUrl || getGeneratedDealImageSrc(category);
+  const imageUrl = rawImageUrl || derivedImageUrl || getGeneratedDealImageSrc(category, dealType);
   const imageType = getDealImageType(imageUrl);
   const provider = cleanText(raw.sourceProvider ?? raw.provider ?? raw.source ?? "manual");
   const id = cleanText(raw.id ?? raw.externalId ?? `${provider}-${canonicalUrl(finalUrl) || normalizeKey(`${mallName}-${title}-${salePrice}`)}`) || `collected-${index}`;
-  const tags = Array.isArray(raw.tags) ? raw.tags.filter((tag) => typeof tag === "string") : [provider];
-  const shipping = cleanText(raw.shipping ?? raw.shippingInfo) || "판매처 조건 확인";
-  const dealType = cleanText(raw.dealType) || inferDealBenefitType({ ...raw, title, category, tags, shipping, salePrice, originalPrice, discountRate });
   const benefitSummary = cleanText(raw.benefitSummary) || buildBenefitSummary({ ...raw, title, category, tags, shipping, salePrice, originalPrice, discountRate }, dealType);
 
   if (!title || !mallName || !finalUrl || salePrice < 0) {

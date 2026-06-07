@@ -1,4 +1,4 @@
-import { Deal } from "@/types/deal";
+import { Deal, DealBenefitType } from "@/types/deal";
 import { buildBenefitSummary, inferDealBenefitType } from "@/lib/deals/benefits";
 import { buildBenefitClaimGuide } from "@/lib/deals/claimGuide";
 import { deriveProductImageUrlFromPurchaseUrl, getDealImageType } from "@/lib/deals/imageResolver";
@@ -88,6 +88,22 @@ const categoryFallbackImages: Record<Deal["category"], string> = {
   "기타": "/deal-images/category-etc.svg"
 };
 
+const benefitFallbackImages: Partial<Record<DealBenefitType, string>> = {
+  freebie: "/deal-images/benefit-freebie.svg",
+  coupon: "/deal-images/benefit-coupon.svg",
+  point: "/deal-images/benefit-point.svg",
+  foodDelivery: "/deal-images/benefit-delivery.svg",
+  convenienceStore: "/deal-images/benefit-mart.svg",
+  mart: "/deal-images/benefit-mart.svg",
+  experience: "/deal-images/benefit-experience.svg",
+  event: "/deal-images/benefit-coupon.svg",
+  freeShipping: "/deal-images/benefit-delivery.svg"
+};
+
+function getGeneratedFallbackImage(category: Deal["category"], dealType: DealBenefitType) {
+  return benefitFallbackImages[dealType] || categoryFallbackImages[category] || categoryFallbackImages["기타"];
+}
+
 function deal(
   id: string,
   mall: string,
@@ -147,7 +163,7 @@ function deal(
   });
   const verifiedImage = verifiedProductImages[id];
   const derivedProductImageUrl = deriveProductImageUrlFromPurchaseUrl(validation.finalPurchaseUrl);
-  const displayImageUrl = verifiedImage?.url || imageUrl || derivedProductImageUrl || categoryFallbackImages[category] || categoryFallbackImages["기타"];
+  const displayImageUrl = verifiedImage?.url || imageUrl || derivedProductImageUrl || getGeneratedFallbackImage(category, dealType);
   const isSoldOut = validation.linkStatus === "sold_out";
   const qualityInput = {
     linkStatus: validation.linkStatus,

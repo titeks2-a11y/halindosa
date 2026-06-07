@@ -34,6 +34,7 @@ const mockDeals = read("data/mockDeals.ts");
 const verifiedPurchaseLinks = read("data/verifiedPurchaseLinks.ts");
 const verifiedProductImages = read("data/verifiedProductImages.ts");
 const verifiedNewsBenefitImages = read("data/verifiedNewsBenefitImages.json");
+const refreshedDeals = JSON.parse(read("data/refreshedDeals.json"));
 const imageSrc = read("lib/imageSrc.ts");
 const components = [
   ["QuickDealCard", "components/QuickDealCard.tsx"],
@@ -135,15 +136,21 @@ if (ranking.includes("(deal.qualityScore ?? 0)")) {
   fail("ranking quality score", "랭킹이 qualityScore를 반영하지 않습니다.");
 }
 
-const fallbackAssets = [...mockDeals.matchAll(/"(?<category>[^"]+)":\s*"(?<asset>\/deal-images\/category-[^"]+\.svg)"/g)].map((match) => ({
-  category: match.groups.category,
+const fallbackAssets = [...mockDeals.matchAll(/(?:"(?<category>[^"]+)"|(?<bareCategory>[A-Za-z][A-Za-z0-9_]*)):\s*"(?<asset>\/deal-images\/(?:category|benefit)-[^"]+\.svg)"/g)].map((match) => ({
+  category: match.groups.category || match.groups.bareCategory,
   asset: match.groups.asset
 }));
 
-if (fallbackAssets.length >= 8 && mockDeals.includes("categoryFallbackImages") && mockDeals.includes("displayImageUrl")) {
-  pass("generated placeholder mapping", `${fallbackAssets.length}개 카테고리 생성 placeholder가 mock 데이터 fallback으로 연결되어 있습니다.`);
+if (
+  fallbackAssets.length >= 14 &&
+  mockDeals.includes("categoryFallbackImages") &&
+  mockDeals.includes("benefitFallbackImages") &&
+  mockDeals.includes("getGeneratedFallbackImage") &&
+  mockDeals.includes("displayImageUrl")
+) {
+  pass("generated placeholder mapping", `${fallbackAssets.length}개 카테고리/혜택 생성 placeholder가 mock 데이터 fallback으로 연결되어 있습니다.`);
 } else {
-  fail("generated placeholder mapping", "카테고리별 생성 placeholder 매핑이 부족합니다.");
+  fail("generated placeholder mapping", "카테고리/혜택 유형별 생성 placeholder 매핑이 부족합니다.");
 }
 
 const assetIssues = [];
@@ -184,10 +191,10 @@ if (componentIssues.length) {
   pass("image rendering components", "주요 카드/피드 컴포넌트가 lazy loading, async decoding, object-cover, no-referrer를 유지합니다.");
 }
 
-if (includesAll(imageSrc, ["proxiedHosts", "/api/image", "cdn.ppomppu.co.kr", "getGeneratedDealImageSrc", "categoryFallbackImages"])) {
-  pass("local image proxy", "로컬 개발에서 차단 가능성이 높은 이미지 호스트는 프록시 유틸을 통과하고, 깨진 이미지는 카테고리 생성 placeholder로 대체됩니다.");
+if (includesAll(imageSrc, ["proxiedHosts", "/api/image", "cdn.ppomppu.co.kr", "getGeneratedDealImageSrc", "categoryFallbackImages", "benefitFallbackImages"])) {
+  pass("local image proxy", "로컬 개발에서 차단 가능성이 높은 이미지 호스트는 프록시 유틸을 통과하고, 깨진 이미지는 혜택/카테고리 생성 placeholder로 대체됩니다.");
 } else {
-  fail("local image proxy", "로컬 이미지 프록시 또는 카테고리 생성 placeholder fallback 기준이 부족합니다.");
+  fail("local image proxy", "로컬 이미지 프록시 또는 혜택/카테고리 생성 placeholder fallback 기준이 부족합니다.");
 }
 
 const runtimeFallbackIssues = [];
@@ -195,6 +202,9 @@ for (const [name, , source] of components) {
   if (!source.includes("getGeneratedDealImageSrc")) runtimeFallbackIssues.push(`${name}: 생성 placeholder fallback import 누락`);
   if (!source.includes("onError")) runtimeFallbackIssues.push(`${name}: 이미지 로딩 실패 onError 처리 누락`);
   if (!source.includes("fallbackApplied")) runtimeFallbackIssues.push(`${name}: 반복 fallback 방지 플래그 누락`);
+  if ((name === "QuickDealCard" || name === "DealCard" || name === "LiveDealFeed") && !source.includes("getGeneratedDealImageSrc(deal.category, deal.dealType)")) {
+    runtimeFallbackIssues.push(`${name}: 혜택 유형별 생성 placeholder 선택 누락`);
+  }
 }
 
 if (runtimeFallbackIssues.length) {
@@ -296,6 +306,25 @@ if (visibleImageAudit.officialImageRate >= 25) {
   fail("official image operating floor", `공식/파생 이미지 비율이 ${visibleImageAudit.officialImageRate}%로 25% 기준보다 낮습니다.`);
 }
 
+const refreshedVisibleDeals = Array.isArray(refreshedDeals.deals)
+  ? refreshedDeals.deals.filter((deal) => deal.publishable && !deal.isHidden)
+  : [];
+const refreshedBenefitGeneratedDeals = refreshedVisibleDeals.filter(
+  (deal) => deal.imageType === "generated" && /\/deal-images\/benefit-[a-z-]+\.svg$/.test(`${deal.thumbnail || deal.imageUrl || ""}`)
+);
+
+if (refreshedVisibleDeals.length >= 100 && refreshedBenefitGeneratedDeals.length >= 40) {
+  pass(
+    "refreshed benefit placeholder exposure",
+    `refresh:deals 산출물 ${refreshedBenefitGeneratedDeals.length}/${refreshedVisibleDeals.length}개가 혜택 유형별 generated placeholder를 사용합니다.`
+  );
+} else {
+  fail(
+    "refreshed benefit placeholder exposure",
+    `refresh:deals 산출물의 혜택 유형별 generated placeholder가 부족합니다: ${refreshedBenefitGeneratedDeals.length}/${refreshedVisibleDeals.length}`
+  );
+}
+
 const refreshedNews = JSON.parse(read("data/refreshedNewsDeals.json"));
 const visibleNewsDeals = Array.isArray(refreshedNews.deals)
   ? refreshedNews.deals.filter((deal) => deal.publishable && !deal.isHidden)
@@ -391,6 +420,7 @@ Status: ${report.ok ? "PASS" : "FAIL"}
 | Official/derived images | ${visibleImageAudit.officialImageCount} |
 | Generated placeholders | ${visibleImageAudit.generatedPlaceholderCount} |
 | Missing image fallback | ${visibleImageAudit.fallbackMissingCount} |
+| Refreshed benefit generated placeholders | ${refreshedBenefitGeneratedDeals.length}/${refreshedVisibleDeals.length} |
 | Generated placeholder assets | ${fallbackAssets.length} |
 | Official benefit renderable images | ${newsImageAudit.renderableImageCount}/${newsImageAudit.total} |
 | Official benefit OG/schema mappings | ${verifiedNewsImageCount} |

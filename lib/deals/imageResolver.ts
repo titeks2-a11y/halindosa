@@ -1,4 +1,4 @@
-const categoryFallbackPattern = /\/deal-images\/category-[a-z-]+\.svg$/;
+const generatedFallbackPattern = /\/deal-images\/(?:category|benefit)-[a-z-]+\.svg$/;
 
 function getCaseInsensitiveParam(url: URL, name: string) {
   const target = name.toLowerCase();
@@ -53,7 +53,7 @@ export function deriveProductImageUrlFromPurchaseUrl(value?: string) {
 }
 
 export function isCategoryFallbackImage(value?: string) {
-  return Boolean(value && categoryFallbackPattern.test(value));
+  return Boolean(value && generatedFallbackPattern.test(value));
 }
 
 export function isRealDealImageUrl(value?: string) {

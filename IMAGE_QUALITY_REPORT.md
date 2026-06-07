@@ -1,6 +1,6 @@
 # 할인도사 Image Quality Report
 
-Generated: 2026-06-06T23:22:56.569Z
+Generated: 2026-06-06T23:59:15.751Z
 Status: PASS
 
 ## Summary
@@ -13,8 +13,9 @@ Status: PASS
 | 명시 이미지 커버리지 | 66% |
 | 명시 이미지 최소 기준 | 25% |
 | 카테고리 fallback 적용 | 예 |
+| 혜택 유형 fallback 적용 | 예 |
 | 실제 렌더링 이미지 커버리지 | 100% |
-| 로컬 이미지 수 | 20 |
+| 로컬 이미지 수 | 26 |
 | 원격 이미지 수 | 89 |
 | fallback 카테고리 수 | 10 |
 
@@ -29,6 +30,12 @@ Status: PASS
 
 ## Local Images
 
+- /deal-images/benefit-coupon.svg
+- /deal-images/benefit-delivery.svg
+- /deal-images/benefit-experience.svg
+- /deal-images/benefit-freebie.svg
+- /deal-images/benefit-mart.svg
+- /deal-images/benefit-point.svg
 - /deal-images/category-appliance.svg
 - /deal-images/category-baby.svg
 - /deal-images/category-beauty.svg

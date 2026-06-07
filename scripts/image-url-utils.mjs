@@ -1,4 +1,4 @@
-const categoryFallbackPattern = /\/deal-images\/category-[a-z-]+\.svg$/;
+const categoryFallbackPattern = /\/deal-images\/(?:category|benefit)-[a-z-]+\.svg$/;
 const categoryFallbackImages = {
   "식품": "/deal-images/category-food.svg",
   "전자기기": "/deal-images/category-digital.svg",
@@ -15,6 +15,18 @@ const categoryFallbackImages = {
   "무료혜택": "/deal-images/category-coupon.svg",
   "쿠폰/이벤트": "/deal-images/category-coupon.svg",
   "기타": "/deal-images/category-etc.svg"
+};
+
+const benefitFallbackImages = {
+  freebie: "/deal-images/benefit-freebie.svg",
+  coupon: "/deal-images/benefit-coupon.svg",
+  point: "/deal-images/benefit-point.svg",
+  foodDelivery: "/deal-images/benefit-delivery.svg",
+  convenienceStore: "/deal-images/benefit-mart.svg",
+  mart: "/deal-images/benefit-mart.svg",
+  experience: "/deal-images/benefit-experience.svg",
+  event: "/deal-images/benefit-coupon.svg",
+  freeShipping: "/deal-images/benefit-delivery.svg"
 };
 
 function getCaseInsensitiveParam(url, name) {
@@ -76,7 +88,9 @@ export function isRealDealImageUrl(value) {
   return Boolean(value && !isCategoryFallbackImage(value));
 }
 
-export function getGeneratedDealImageSrc(category = "기타") {
+export function getGeneratedDealImageSrc(category = "기타", dealType) {
+  if (dealType && benefitFallbackImages[dealType]) return benefitFallbackImages[dealType];
+
   return categoryFallbackImages[category] ?? categoryFallbackImages["기타"];
 }
 

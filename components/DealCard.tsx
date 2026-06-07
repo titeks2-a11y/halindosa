@@ -71,7 +71,7 @@ export function DealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, onSha
               const image = event.currentTarget;
               if (image.dataset.fallbackApplied === "true") return;
               image.dataset.fallbackApplied = "true";
-              image.src = getGeneratedDealImageSrc(deal.category);
+                image.src = getGeneratedDealImageSrc(deal.category, deal.dealType);
             }}
             className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
           />

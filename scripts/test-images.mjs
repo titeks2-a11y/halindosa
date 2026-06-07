@@ -25,7 +25,8 @@ let dealsWithoutExplicitImage = 0;
 const hasCategoryFallback = /categoryFallbackImages/.test(mockDeals) && /displayImageUrl\s*=/.test(mockDeals);
 const fallbackCategoryCounts = new Map();
 const fallbackDealBacklog = [];
-const categoryFallbackAssets = [...mockDeals.matchAll(/"[^"]+":\s*"(?<asset>\/deal-images\/category-[^"]+\.svg)"/g)].map((match) => match.groups?.asset).filter(Boolean);
+const categoryFallbackAssets = [...mockDeals.matchAll(/(?:"[^"]+"|[A-Za-z][A-Za-z0-9_]*):\s*"(?<asset>\/deal-images\/(?:category|benefit)-[^"]+\.svg)"/g)].map((match) => match.groups?.asset).filter(Boolean);
+const hasBenefitFallback = /benefitFallbackImages/.test(mockDeals) && /getGeneratedFallbackImage/.test(mockDeals);
 const verifiedUrlsById = new Map(
   [...verifiedPurchaseLinks.matchAll(/(d\d+):\s*\{[\s\S]*?url:\s*"([^"]+)"/g)].map((match) => [match[1], match[2]])
 );
@@ -106,6 +107,10 @@ if (!hasCategoryFallback && explicitImageRate < 70) {
   warnings.push(`명시 이미지 커버리지가 낮습니다: ${explicitImageRate}%. 이미지 없는 상품은 카드 fallback이 사용됩니다.`);
 }
 
+if (!hasBenefitFallback) {
+  issues.push("무료/쿠폰/포인트/배달/마트/체험 혜택 유형별 generated placeholder 매핑이 필요합니다.");
+}
+
 if (explicitImageRate < minimumExplicitImageRate) {
   issues.push(
     `명시 이미지 커버리지가 운영 기준보다 낮습니다: ${explicitImageRate}%. 최소 ${minimumExplicitImageRate}% 이상을 유지해야 합니다.`
@@ -136,6 +141,7 @@ Status: ${issues.length ? "FAIL" : "PASS"}
 | 명시 이미지 커버리지 | ${explicitImageRate}% |
 | 명시 이미지 최소 기준 | ${minimumExplicitImageRate}% |
 | 카테고리 fallback 적용 | ${hasCategoryFallback ? "예" : "아니오"} |
+| 혜택 유형 fallback 적용 | ${hasBenefitFallback ? "예" : "아니오"} |
 | 실제 렌더링 이미지 커버리지 | ${effectiveImageRate}% |
 | 로컬 이미지 수 | ${localImages.size} |
 | 원격 이미지 수 | ${remoteImages.size} |
