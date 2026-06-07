@@ -82,9 +82,18 @@ jobs:
           REFRESH_ALL_LINK_TIMEOUT_MS: "780000"
         run: npm run refresh:all
 
+      - name: Official source catalog report
+        run: npm run source:catalog:report
+
       - name: Official source live advisory
         continue-on-error: true
         run: npm run source:live:doctor
+
+      - name: Official source onboarding plan
+        run: npm run source:onboarding:plan
+
+      - name: Official source feed env safety
+        run: npm run source:feed-env:doctor
 
       - name: Official source readiness report
         continue-on-error: true
