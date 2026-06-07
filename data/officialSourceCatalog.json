@@ -1893,5 +1893,109 @@
     "allowedUse": "아쿠아플라넷 공식 이벤트에서 확인되는 입장권 할인, 가족 체험, 문화·레저 혜택",
     "blockedUse": "비공식 할인권 판매글, 검색 결과, 종료 이벤트",
     "notes": "지점별 이벤트가 다를 수 있어 지점과 마감일을 운영 큐에서 확인한다."
+  },
+  {
+    "id": "cjthemarket-official-events",
+    "label": "CJ더마켓 공식 이벤트·쿠폰",
+    "provider": "official_event",
+    "category": [
+      "식품/생필품",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.cjthemarket.com/pc/event/eventMain",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "DEAL_EVENT_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 6,
+    "allowedUse": "CJ더마켓 공식 이벤트에서 확인되는 식품 쿠폰, 무료배송, 적립, 브랜드 행사",
+    "blockedUse": "비공식 쿠폰 공유글, 검색 결과, 종료 이벤트",
+    "notes": "식품/간편식 혜택은 공식 이벤트 기간과 쿠폰 조건을 함께 확인한다."
+  },
+  {
+    "id": "ediya-official-events",
+    "label": "이디야커피 공식 이벤트·쿠폰",
+    "provider": "official_event",
+    "category": [
+      "외식/배달",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.ediya.com/contents/event.html",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "이디야 공식 이벤트에서 확인되는 음료 쿠폰, 멤버십, 무료 증정, 외식 혜택",
+    "blockedUse": "비공식 쿠폰 이미지, 커뮤니티 제보, 종료 이벤트",
+    "notes": "앱 전용 쿠폰과 매장 행사 조건을 분리해 표시한다."
+  },
+  {
+    "id": "tenbyten-official-events",
+    "label": "텐바이텐 공식 이벤트·쿠폰",
+    "provider": "official_event",
+    "category": [
+      "패션/뷰티",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.10x10.co.kr/event/eventmain.asp",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "DEAL_EVENT_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "텐바이텐 공식 이벤트에서 확인되는 라이프스타일 쿠폰, 무료배송, 브랜드 기획전",
+    "blockedUse": "검색 결과, 비공식 쿠폰 공유, 종료 이벤트",
+    "notes": "생활/디자인 상품은 앱 카테고리 정책상 패션/뷰티 또는 무료혜택 intent로 연결한다."
+  },
+  {
+    "id": "apple-certified-refurbished",
+    "label": "Apple 공식 인증 리퍼비쉬 할인",
+    "provider": "official_event",
+    "category": [
+      "디지털/가전"
+    ],
+    "sourceType": "official_benefit_page",
+    "officialUrl": "https://www.apple.com/kr/shop/refurbished",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "DEAL_EVENT_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "Apple 공식 인증 리퍼비쉬 스토어에서 확인되는 디지털/가전 할인 상품",
+    "blockedUse": "중고 거래글, 비공식 판매처, 검색 결과",
+    "notes": "재고 변동이 빠르므로 가격과 재고는 구매 전 공식 페이지에서 최종 확인하게 한다."
+  },
+  {
+    "id": "elevenst-official-shocking-deal",
+    "label": "11번가 공식 쇼킹딜",
+    "provider": "official_event",
+    "category": [
+      "식품/생필품",
+      "디지털/가전"
+    ],
+    "sourceType": "official_deal_page",
+    "officialUrl": "https://www.11st.co.kr/browsing/DealAction.tmall",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "DEAL_EVENT_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 6,
+    "allowedUse": "11번가 공식 쇼킹딜에서 확인되는 직접 구매 가능한 특가와 쿠폰 혜택",
+    "blockedUse": "검색 결과, 카테고리 목록만 있는 링크, 커뮤니티 핫딜 글",
+    "notes": "개별 상품 상세 URL을 확보하면 product deal로 승격하고, 목록형 링크는 공식 혜택 카드로만 사용한다."
   }
 ]

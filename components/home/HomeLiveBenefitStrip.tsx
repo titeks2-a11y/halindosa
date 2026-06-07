@@ -55,7 +55,7 @@ function getVisibleBenefitDeals(deals: NewsDeal[]) {
         !["search", "community", "invalid", "news_only"].includes(deal.linkType)
     )
     .sort((a, b) => b.qualityScore - a.qualityScore || b.priorityScore - a.priorityScore)
-    .slice(0, 3);
+    .slice(0, 4);
 }
 
 export function HomeLiveBenefitStrip({
@@ -103,7 +103,7 @@ export function HomeLiveBenefitStrip({
         ) : null}
       </div>
 
-      <div className="mt-1.5 flex gap-1 overflow-x-auto pb-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" aria-label="검증된 공식 혜택 바로가기">
+      <div className="mt-1.5 grid grid-cols-2 gap-1" aria-label="검증된 공식 혜택 바로가기">
         {visibleDeals.length ? (
           visibleDeals.map((deal) => (
             <Link
@@ -112,18 +112,18 @@ export function HomeLiveBenefitStrip({
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => onOpenNewsDeal?.(deal)}
-              className="inline-flex min-h-9 w-[74%] shrink-0 items-center justify-between gap-2 rounded-xl border border-white bg-white px-2.5 text-left shadow-sm"
+              className="inline-flex min-h-[3.05rem] min-w-0 items-center justify-between gap-1.5 rounded-xl border border-white bg-white px-2 text-left shadow-sm"
               aria-label={`${deal.title} 공식 혜택 새 탭으로 열기`}
             >
               <span className="min-w-0">
-                <span className="flex items-center gap-1">
+                <span className="flex min-w-0 items-center gap-1">
                   <CommerceBadge tone={isFreeBenefit(deal) ? "gold" : "neutral"} className="px-1.5 py-0.5 text-[9px]">
                     {benefitLabels[deal.benefitType]}
                   </CommerceBadge>
                   {isEndingSoon(deal) ? (
-                    <span className="inline-flex items-center gap-0.5 rounded-full bg-amber-50 px-1.5 py-0.5 text-[9px] font-black text-amber-700">
+                    <span className="inline-flex min-w-0 items-center gap-0.5 rounded-full bg-amber-50 px-1.5 py-0.5 text-[9px] font-black text-amber-700">
                       <CalendarClock size={10} />
-                      {getTimeLeft(deal.expiresAt || deal.endDate)}
+                      <span className="truncate">{getTimeLeft(deal.expiresAt || deal.endDate)}</span>
                     </span>
                   ) : (
                     <span className="inline-flex items-center gap-0.5 rounded-full bg-emerald-50 px-1.5 py-0.5 text-[9px] font-black text-emerald-700">
@@ -132,13 +132,13 @@ export function HomeLiveBenefitStrip({
                     </span>
                   )}
                 </span>
-                <span className="mt-0.5 line-clamp-1 text-[11px] font-black leading-4 text-slate-950">{deal.title}</span>
+                <span className="mt-0.5 line-clamp-2 text-[10px] font-black leading-[0.83rem] text-slate-950">{deal.title}</span>
               </span>
-              <ExternalLink size={12} className="shrink-0 text-dossa-red" />
+              <ExternalLink size={11} className="shrink-0 text-dossa-red" />
             </Link>
           ))
         ) : (
-          <p className="rounded-xl bg-white px-3 py-2 text-[11px] font-bold text-slate-500">현재 검증된 무료혜택을 불러오는 중입니다.</p>
+          <p className="col-span-2 rounded-xl bg-white px-3 py-2 text-[11px] font-bold text-slate-500">현재 검증된 무료혜택을 불러오는 중입니다.</p>
         )}
       </div>
 

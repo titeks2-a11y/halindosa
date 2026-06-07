@@ -112,14 +112,16 @@ if (
     "freeBenefitCount",
     "home-live-benefit-strip",
     "sm:hidden",
+    "grid grid-cols-2",
+    ".slice(0, 4)",
     "validationStatus === \"passed\"",
     "deal.finalUrl",
     "availability === \"active\""
   ])
 ) {
-  pass("mobile live benefit strip", "모바일 첫 화면에서 검증된 공식 무료혜택 요약과 바로가기 rail을 보여주며 invalid/search/community 링크를 제외합니다.");
+  pass("mobile live benefit strip", "모바일 첫 화면에서 검증된 공식 무료혜택 4개를 2열 compact grid로 보여주며 invalid/search/community 링크를 제외합니다.");
 } else {
-  fail("mobile live benefit strip", "모바일 공식 혜택 요약 rail, 검증 필터, 또는 최근 본 혜택 연결 기준이 부족합니다.");
+  fail("mobile live benefit strip", "모바일 공식 혜택 compact grid, 검증 필터, 또는 최근 본 혜택 연결 기준이 부족합니다.");
 }
 
 if (includesAll(toast, ["top-[calc(0.75rem+env(safe-area-inset-top))]", "max-w-sm", "line-clamp-2", "sm:bottom-6"])) {
@@ -149,6 +151,7 @@ ${checks.map((check) => `| ${check.name} | ${check.ok ? "PASS" : "FAIL"} | ${che
 - 심화 혜택 루틴은 첫 화면 인터랙티브 요소 수를 줄이기 위해 사용자가 더보기를 누른 뒤 렌더링하는 구조를 검사합니다.
 - 데스크톱 상세 필터와 결과 분석 패널도 기본 DOM에 올리지 않고 사용자가 펼친 뒤 렌더링하는 구조를 검사합니다.
 - 상단 "오늘 바로 볼 특가" 레일은 손가락 스크롤이 어중간하게 멈추지 않도록 snap-x/snap-start 구조와 오른쪽 fade/넘기기 신호를 검사합니다.
+- 모바일 공식 혜택 strip은 2열 compact grid로 검증 혜택 4개를 바로 보여주고, 구매/신청 이동은 \`/go/news/[id]\` 새 탭 경로를 유지합니다.
 - Playwright 도입 전까지 \`npm run test:mobile-ux\`와 \`npm run harness\`가 모바일 UX 안전망 역할을 합니다.
 `;
 

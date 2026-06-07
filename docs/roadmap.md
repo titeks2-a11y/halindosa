@@ -6,6 +6,15 @@
 
 ## 완료 작업
 
+### PHASE Official Source 105 + Mobile Compact Grid Gate
+
+- CJ더마켓, 이디야커피, 텐바이텐, Apple 공식 인증 리퍼비쉬, 11번가 쇼킹딜의 공식 혜택/이벤트 소스를 seed와 official source catalog에 추가해 식품/생필품, 외식/배달, 패션/뷰티, 디지털/가전 카테고리 보강을 진행했다.
+- 라이브 소스 점검에서 404 또는 로그인 리다이렉트가 확인된 컬리 이벤트 후보와 삼성 갤럭시 캠퍼스 후보는 공식 소스 카탈로그와 seed 노출에서 제외해 stale/server-error 후보가 사용자 화면에 섞이지 않도록 했다.
+- `refresh:news` 기준 수집 107개, 중복 제거 후 사용자 노출 공식 혜택 105개를 확보했고, `verify:news`, `refresh:freebies`, `refresh:events` 기준 검색 링크, 비공식 링크, 종료/숨김 링크 노출은 0건으로 유지했다.
+- `source:catalog:report`, `source:live:doctor`, `source:onboarding:plan`, `source:feed-env:doctor`, `source:readiness:report`를 재생성해 공식 소스 95개, 카테고리 10/10, provider 4/4, reachable 82개, guarded 13개, blocked live issue 0건을 확인했다.
+- 공식 혜택 이미지 enrichment와 `verify:images` 기준 공식 혜택 105/105개가 렌더 가능한 이미지와 qualityScore 70 이상을 갖고, 공식 OG/schema 이미지는 67/105개로 유지된다.
+- 모바일 `HomeLiveBenefitStrip`을 큰 가로 카드 rail에서 2열 compact grid로 바꿔 검증된 공식 무료혜택 4개가 첫 화면에서 더 빠르게 보이도록 개선했고, `test:mobile-compact`가 `grid-cols-2`, 4개 노출, `/go/news/[id]` 새 탭 이동, invalid/search/community 차단 조건을 회귀 테스트로 검사한다.
+
 ### PHASE Refreshed Deal Benefit Type Gate
 
 - `refresh:deals`가 검증 상품 스냅샷에 `dealType`, `benefitSummary`, `isFreeShipping`, `benefitTypeCounts`, `freeBenefitVisibleCount`를 직접 저장하도록 보강했다.

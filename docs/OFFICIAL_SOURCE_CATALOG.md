@@ -2,12 +2,12 @@
 
 이 문서는 할인도사에 연결할 수 있는 공식 이벤트, 공공 혜택, 제휴 JSON/RSS 후보를 정리합니다. 무단 크롤링 후보가 아니라 운영자가 승인 feed 또는 공식 페이지 매핑으로 전환할 때 쓰는 출발점입니다.
 
-- 생성 시각: 2026-06-07T01:11:14.813Z
+- 생성 시각: 2026-06-07T01:41:00.780Z
 - 상태: PASS
-- 후보 소스: 90개
-- 고우선순위 후보: 26개
+- 후보 소스: 95개
+- 고우선순위 후보: 27개
 - 현재 env feed 연결 후보: 0개
-- 공식 혜택 노출: 101개
+- 공식 혜택 노출: 105개
 - feed 전환 상태: seed_launch_ready
 - CSV 리포트: reports/official-source-catalog.csv
 
@@ -15,15 +15,15 @@
 
 | 카테고리 | 후보 수 | 상태 |
 | --- | ---: | --- |
-| 식품/생필품 | 7 | 충분 |
+| 식품/생필품 | 9 | 충분 |
 | 마트/편의점 | 12 | 충분 |
-| 디지털/가전 | 4 | 충분 |
-| 패션/뷰티 | 8 | 충분 |
-| 외식/배달 | 31 | 충분 |
+| 디지털/가전 | 6 | 충분 |
+| 패션/뷰티 | 9 | 충분 |
+| 외식/배달 | 32 | 충분 |
 | 여행/숙박 | 9 | 충분 |
 | 영화/문화 | 16 | 충분 |
 | 카드/멤버십 | 29 | 충분 |
-| 무료혜택 | 55 | 충분 |
+| 무료혜택 | 58 | 충분 |
 | 정부/공공혜택 | 8 | 충분 |
 
 ## Provider 커버리지
@@ -32,7 +32,7 @@
 | --- | ---: | --- |
 | news | 1 | 포함 |
 | event_news | 2 | 포함 |
-| official_event | 53 | 포함 |
+| official_event | 58 | 포함 |
 | public_coupon | 34 | 포함 |
 
 ## 후보 목록
@@ -129,6 +129,11 @@
 | lotteworld-official-benefits | official_event | 영화/문화, 카드/멤버십 | medium | https://adventure.lotteworld.com/kor/price/benefit/list.do | OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS |
 | everland-official-special-offers | official_event | 영화/문화, 여행/숙박 | medium | https://www.everland.com/everland/ticket/special.html | OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS |
 | aquaplanet-official-events | official_event | 영화/문화 | medium | https://www.aquaplanet.co.kr/ilsan/event/eventList.do | OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS |
+| cjthemarket-official-events | official_event | 식품/생필품, 무료혜택 | high | https://www.cjthemarket.com/pc/event/eventMain | OFFICIAL_EVENT_FEED_URLS, DEAL_EVENT_FEED_URLS |
+| ediya-official-events | official_event | 외식/배달, 무료혜택 | medium | https://www.ediya.com/contents/event.html | OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS |
+| tenbyten-official-events | official_event | 패션/뷰티, 무료혜택 | medium | https://www.10x10.co.kr/event/eventmain.asp | OFFICIAL_EVENT_FEED_URLS, DEAL_EVENT_FEED_URLS |
+| apple-certified-refurbished | official_event | 디지털/가전 | medium | https://www.apple.com/kr/shop/refurbished | OFFICIAL_EVENT_FEED_URLS, DEAL_EVENT_FEED_URLS |
+| elevenst-official-shocking-deal | official_event | 식품/생필품, 디지털/가전 | medium | https://www.11st.co.kr/browsing/DealAction.tmall | OFFICIAL_EVENT_FEED_URLS, DEAL_EVENT_FEED_URLS |
 
 ## 다음 작업
 

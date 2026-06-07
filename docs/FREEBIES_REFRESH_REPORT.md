@@ -1,12 +1,12 @@
 # 무료혜택 Refresh Report
 
-Generated: 2026-06-07T01:12:17.619Z
+Generated: 2026-06-07T01:42:03.866Z
 
 ## Summary
 
 - Mode: freebies
-- Matched items: 39
-- Visible official items: 39
+- Matched items: 42
+- Visible official items: 42
 - Hidden/blocked items: 0
 - Exposed search links: 0
 - Exposed non-official links: 0
@@ -36,8 +36,8 @@ All visible rows must keep `/go/news/[id]` redirect tracking and must resolve to
 | news-kurly-escape-speaker-free-shipping | 컬리 이스케이프 P6 Air 무료배송 쿠폰 특가 | 컬리 공식 상품 상세 | 디지털/가전 | kurly.com | `/go/news/news-kurly-escape-speaker-free-shipping` |
 | news-kurly-clove-fashion-free-shipping | 컬리 클로브 브이넥 니트 무료배송 쿠폰 특가 | 컬리 공식 상품 상세 | 패션/뷰티 | kurly.com | `/go/news/news-kurly-clove-fashion-free-shipping` |
 | news-aquaplanet-official-events | 아쿠아플라넷 공식 이벤트 혜택 | 아쿠아플라넷 공식 이벤트 | 영화/문화 | aquaplanet.co.kr | `/go/news/news-aquaplanet-official-events` |
-| news-naverpay-event-benefit | 네이버페이 공식 결제 혜택 | 네이버페이 공식 혜택 | 카드/멤버십 | new-m.pay.naver.com | `/go/news/news-naverpay-event-benefit` |
-| news-mnuri-official-benefit | 문화누리카드 공식 문화·여행 혜택 | 문화누리카드 공식 누리집 | 무료혜택 | mnuri.kr | `/go/news/news-mnuri-official-benefit` |
+| news-cjthemarket-official-events | CJ더마켓 공식 이벤트·쿠폰 | CJ더마켓 공식 이벤트 | 식품/생필품 | cjthemarket.com | `/go/news/news-cjthemarket-official-events` |
+| news-ediya-official-events | 이디야커피 공식 이벤트·쿠폰 | 이디야커피 공식 이벤트 | 외식/배달 | ediya.com | `/go/news/news-ediya-official-events` |
 
 ## Blocked Items
 
