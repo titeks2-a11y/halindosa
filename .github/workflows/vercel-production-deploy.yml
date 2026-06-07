@@ -33,7 +33,8 @@ jobs:
             echo "ready=true" >> "$GITHUB_OUTPUT"
           else
             echo "ready=false" >> "$GITHUB_OUTPUT"
-            echo "::notice::Vercel deployment skipped. Add VERCEL_TOKEN, VERCEL_ORG_ID, and VERCEL_PROJECT_ID repository secrets to enable production deploys."
+            echo "::error::Vercel deployment blocked. Add VERCEL_TOKEN, VERCEL_ORG_ID, and VERCEL_PROJECT_ID repository secrets so production deploys cannot silently skip."
+            exit 1
           fi
 
       - name: Checkout

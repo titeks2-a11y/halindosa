@@ -122,7 +122,7 @@ VERCEL_ORG_ID
 VERCEL_PROJECT_ID
 ```
 
-Secrets가 없으면 워크플로는 실패하지 않고 배포를 건너뛰며 안내 notice만 남깁니다. 값이 설정되면 `npm run lint`, `npm run refresh:news`, `npm run verify:news`, `npm run refresh:deals`, `npm run verify:links`, `npm run test:home-realtime`, `npm run test:mobile-compact`, `npm run smoke:local`, `npm run release:doctor`를 실행한 뒤 `vercel pull/build/deploy --prod`와 `npm run vercel:doctor`까지 수행합니다.
+Secrets가 없으면 워크플로는 실패 처리됩니다. 배포가 조용히 건너뛰면 공개 사이트가 이전 번들을 계속 서빙할 수 있으므로, production deploy는 반드시 위 3개 secrets가 설정된 상태에서만 성공해야 합니다. 값이 설정되면 `npm run lint`, `npm run refresh:news`, `npm run verify:news`, `npm run refresh:deals`, `npm run verify:links`, `npm run test:home-realtime`, `npm run test:mobile-compact`, `npm run smoke:local`, `npm run release:doctor`를 실행한 뒤 `vercel pull/build/deploy --prod`와 `npm run vercel:doctor`까지 수행합니다.
 
 Vercel Project ID는 현재 프로젝트 Deploy Hook에서 확인된 `prj_hWg9KLlQnIRSIyuVl3a56qWURKMX`입니다. `VERCEL_ORG_ID`와 `VERCEL_TOKEN`은 Vercel Dashboard > Account/Team Settings 또는 CLI login 후 `.vercel/project.json`/token 발급 화면에서 확인합니다. 토큰과 Deploy Hook URL은 절대 Git에 커밋하지 않습니다.
 
