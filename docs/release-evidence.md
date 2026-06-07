@@ -4,9 +4,9 @@
 
 ## 기본 정보
 
-- 생성 시각: 2026-06-07T12:57:12.232Z
+- 생성 시각: 2026-06-07T13:11:28.494Z
 - Git 브랜치: codex/12h-product-ux-growth-hardening
-- 최신 커밋: 9e6aec61
+- 최신 커밋: 95c4c17c
 - Git 상태: M DEVICE_QA_REPORT.md;  M KNOWN_ISSUES.md;  M PUBLIC_URL_REPORT.md;  M RELEASE_NOTES.json;  M RELEASE_NOTES.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_HANDOFF_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_PACKET_REPORT.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M SUPPORT_PLAYBOOK.json;  M SUPPORT_PLAYBOOK.md;  M docs/DEVICE_QA_REPORT.md;  M docs/KNOWN_ISSUES.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/RELEASE_NOTES.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_HANDOFF_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_PACKET_REPORT.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md;  M docs/SUPPORT_PLAYBOOK.md
 - 패키지 버전: 1.0.1
 - 앱 이름: 할인도사
@@ -25,9 +25,11 @@
 | Feature graphic | `assets/store/feature-graphic-1024x500.png` | 47KB |
 | iOS App icon | `ios/App/App/Assets.xcassets/AppIcon.appiconset/AppIcon-512@2x.png` | 61KB |
 | iOS privacy manifest | `ios/App/App/PrivacyInfo.xcprivacy` | 373B |
-| Commercial audit report | `docs/AUDIT_REPORT.md` | 291B |
-| Environment doctor report | `docs/ENV_DOCTOR_REPORT.md` | 581B |
+| Commercial audit report | `docs/AUDIT_REPORT.md` | 305B |
+| Environment doctor report | `docs/ENV_DOCTOR_REPORT.md` | 594B |
 | Public URL submission report | `docs/PUBLIC_URL_REPORT.md` | 2KB |
+| Vercel deployment doctor report | `docs/VERCEL_DEPLOYMENT_REPORT.md` | 2KB |
+| Vercel deployment doctor JSON | `reports/vercel-deployment.json` | 5KB |
 | Store metadata QA report | `docs/STORE_METADATA_REPORT.md` | 2KB |
 | Store asset QA report | `docs/STORE_ASSETS_REPORT.md` | 1KB |
 | Device QA execution manifest | `docs/DEVICE_QA_MANIFEST.md` | 5KB |
@@ -49,10 +51,10 @@
 | Store screenshot QA report | `docs/STORE_SCREENSHOTS_REPORT.md` | 3KB |
 | Store screenshot manifest | `docs/STORE_SCREENSHOT_MANIFEST.md` | 4KB |
 | Store screenshot manifest JSON | `STORE_SCREENSHOT_MANIFEST.json` | 5KB |
-| Harness report | `docs/HARNESS_REPORT.md` | 33KB |
+| Harness report | `docs/HARNESS_REPORT.md` | 34KB |
 | Operational health readiness report | `docs/HEALTH_READINESS_REPORT.md` | 6KB |
 | Operational health readiness JSON | `reports/health-readiness.json` | 11KB |
-| Push readiness report | `docs/PUSH_READINESS_REPORT.md` | 5KB |
+| Push readiness report | `docs/PUSH_READINESS_REPORT.md` | 6KB |
 | Push readiness JSON | `reports/push-readiness.json` | 11KB |
 | Push delivery policy report | `docs/PUSH_DELIVERY_POLICY.md` | 3KB |
 | Push delivery policy JSON | `reports/push-delivery-policy.json` | 5KB |

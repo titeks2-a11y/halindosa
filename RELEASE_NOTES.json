@@ -1,7 +1,7 @@
 {
   "generatedBy": "npm run release:notes",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "9e6aec61",
+  "commit": "95c4c17c",
   "workingTree": "M DEVICE_QA_REPORT.md;  M KNOWN_ISSUES.md;  M PUBLIC_URL_REPORT.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_HANDOFF_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M docs/DEVICE_QA_REPORT.md;  M docs/KNOWN_ISSUES.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_HANDOFF_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md",
   "version": "1.0.1",
   "appName": "할인도사",
@@ -34,12 +34,12 @@
     {
       "path": "docs/release-evidence.md",
       "status": "present",
-      "bytes": 7411
+      "bytes": 8257
     },
     {
       "path": "docs/STORE_CONSOLE_FIELDS.md",
       "status": "present",
-      "bytes": 3773
+      "bytes": 3777
     },
     {
       "path": "docs/STORE_MANUAL_CHECKLIST.md",
@@ -59,28 +59,28 @@
     {
       "path": "docs/DEVICE_QA_MANIFEST.md",
       "status": "present",
-      "bytes": 4611
+      "bytes": 4701
     },
     {
       "path": "docs/STORE_SCREENSHOT_MANIFEST.md",
       "status": "present",
-      "bytes": 4408
+      "bytes": 4496
     },
     {
       "path": "docs/link-coverage-report.md",
       "status": "present",
-      "bytes": 7313
+      "bytes": 7495
     }
   ],
   "recentCommits": [
+    "95c4c17c chore: add vercel deployment doctor",
+    "367e4eee chore: refresh release evidence snapshot",
     "9e6aec61 fix: stabilize live deal freshness gates",
     "2667295b docs: refresh launch handoff evidence",
     "407f2555 feat: improve realtime verified mobile home",
     "461313f7 docs: refresh launch handoff after image queue update",
     "99fe1ba3 feat: add image operating target queue",
-    "9bf65ca6 docs: refresh launch handoff after benefit expansion",
-    "a09d3f8a feat: expand official benefits and compact mobile strip",
-    "1661af05 docs: refresh store release handoff docs"
+    "9bf65ca6 docs: refresh launch handoff after benefit expansion"
   ],
   "manualWorkThatMustNotBeFaked": [
     "Do not claim Play Console or App Store Connect submission has passed from this file.",

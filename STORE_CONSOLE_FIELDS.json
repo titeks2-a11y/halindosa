@@ -1,7 +1,7 @@
 {
   "generatedBy": "npm run store:console:fields",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "9e6aec61",
+  "commit": "95c4c17c",
   "workingTree": "M DEVICE_QA_REPORT.md;  M KNOWN_ISSUES.md;  M PUBLIC_URL_REPORT.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M docs/DEVICE_QA_REPORT.md;  M docs/KNOWN_ISSUES.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md",
   "playConsole": {
     "appName": "할인도사",
@@ -11,7 +11,7 @@
     "longDescriptionSource": "docs/play-store-listing.md",
     "privacyPolicyUrl": "https://halindosa.com/privacy",
     "supportUrl": "https://halindosa.com/support",
-    "appAccess": "비회원으로 대부분의 기능을 사용할 수 있습니다. 로그인은 찜한 특가와 관심 카테고리를 계정으로 이어보기 위한 선택 기능입니다. 심사자는 별도 계정 없이 홈, 검색, 카테고리, 상세, 찜, 알림, 마이 화면을 확인할 수 있습니다.\n\n테스트 계정은 필요하지 않습니다. Play Console 앱 액세스 항목에는 “앱의 주요 기능은 로그인 없이 검토 가능하며, 로그인은 선택 기능입니다”라고 입력합니다. 심사자가 로그인을 시도하지 않아도 구매 이동 전 확인 화면과 개인정보처리방침, 이용약관, 서비스 안내를 확인할 수 있습니다.",
+    "appAccess": "비회원으로 대부분의 기능을 사용할 수 있습니다. 로그인은 찜한 특가와 관심 카테고리를 계정으로 이어보기 위한 선택 기능입니다. 심사자는 별도 계정 없이 홈, 검색, 카테고리, 상세, 찜, 알림, 마이 화면을 확인할 수 있습니다.\r\n\r\n테스트 계정은 필요하지 않습니다. Play Console 앱 액세스 항목에는 “앱의 주요 기능은 로그인 없이 검토 가능하며, 로그인은 선택 기능입니다”라고 입력합니다. 심사자가 로그인을 시도하지 않아도 구매 이동 전 확인 화면과 개인정보처리방침, 이용약관, 서비스 안내를 확인할 수 있습니다.",
     "reviewerNotesSource": "docs/store-review-notes.md",
     "dataSafetySource": "docs/data-safety-guide.md",
     "contentRatingSource": "docs/content-rating-guide.md",
@@ -27,7 +27,7 @@
     "price": "Free",
     "privacyPolicyUrl": "https://halindosa.com/privacy",
     "supportUrl": "https://halindosa.com/support",
-    "reviewNotes": "The app can be reviewed without a required account. Login is optional and only used to sync saved deals, recent views, and preferred categories. The app does not sell products or process payments directly. Purchase buttons show a confirmation sheet first, then open an external seller page in the browser. The app does not request camera, microphone, location, contacts, photo library, or tracking permissions in V1.\n\nNo demo account is required. If social login providers are not enabled in the review environment, reviewers can still access the core app as a guest: Home, Search, Categories, Deal Detail, Favorites local state, Notifications overview, My Page, Privacy Policy, Terms, and external seller confirmation.",
+    "reviewNotes": "The app can be reviewed without a required account. Login is optional and only used to sync saved deals, recent views, and preferred categories. The app does not sell products or process payments directly. Purchase buttons show a confirmation sheet first, then open an external seller page in the browser. The app does not request camera, microphone, location, contacts, photo library, or tracking permissions in V1.\r\n\r\nNo demo account is required. If social login providers are not enabled in the review environment, reviewers can still access the core app as a guest: Home, Search, Categories, Deal Detail, Favorites local state, Notifications overview, My Page, Privacy Policy, Terms, and external seller confirmation.",
     "demoAccount": "No demo account is required",
     "appPrivacySource": "docs/app-store-checklist.md",
     "screenshotSource": "docs/STORE_SCREENSHOT_MANIFEST.md"
