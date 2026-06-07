@@ -4,9 +4,9 @@
 
 ## 기본 정보
 
-- 생성 시각: 2026-06-07T21:06:49.305Z
+- 생성 시각: 2026-06-07T21:14:48.189Z
 - Git 브랜치: codex/12h-product-ux-growth-hardening
-- 최신 커밋: 85e39650
+- 최신 커밋: b2c482ea
 - Git 상태: clean
 - 패키지 버전: 1.0.1
 - 앱 이름: 할인도사
@@ -27,28 +27,28 @@
 | iOS privacy manifest | `ios/App/App/PrivacyInfo.xcprivacy` | 373B |
 | Commercial audit report | `docs/AUDIT_REPORT.md` | 305B |
 | Environment doctor report | `docs/ENV_DOCTOR_REPORT.md` | 594B |
-| Public URL submission report | `docs/PUBLIC_URL_REPORT.md` | 4KB |
+| Public URL submission report | `docs/PUBLIC_URL_REPORT.md` | 2KB |
 | Vercel deployment doctor report | `docs/VERCEL_DEPLOYMENT_REPORT.md` | 2KB |
 | Vercel deployment doctor JSON | `reports/vercel-deployment.json` | 7KB |
 | Store metadata QA report | `docs/STORE_METADATA_REPORT.md` | 2KB |
 | Store asset QA report | `docs/STORE_ASSETS_REPORT.md` | 1KB |
 | Device QA execution manifest | `docs/DEVICE_QA_MANIFEST.md` | 5KB |
 | Device QA execution manifest JSON | `DEVICE_QA_MANIFEST.json` | 6KB |
-| Device QA readiness report | `docs/DEVICE_QA_REPORT.md` | 5KB |
-| Store submission readiness report | `docs/STORE_SUBMISSION_REPORT.md` | 6KB |
-| Store submission packet QA report | `docs/STORE_PACKET_REPORT.md` | 7KB |
-| Store console fields manifest | `docs/STORE_CONSOLE_FIELDS.md` | 5KB |
-| Store console fields manifest JSON | `STORE_CONSOLE_FIELDS.json` | 5KB |
-| Store manual submission checklist | `docs/STORE_MANUAL_CHECKLIST.md` | 6KB |
-| Store manual submission checklist JSON | `STORE_MANUAL_CHECKLIST.json` | 7KB |
-| Store launch handoff report | `docs/STORE_HANDOFF_REPORT.md` | 6KB |
-| Release notes | `docs/RELEASE_NOTES.md` | 6KB |
-| Release notes JSON | `RELEASE_NOTES.json` | 6KB |
-| Support playbook | `docs/SUPPORT_PLAYBOOK.md` | 8KB |
-| Support playbook JSON | `SUPPORT_PLAYBOOK.json` | 7KB |
-| Known issues report | `docs/KNOWN_ISSUES.md` | 5KB |
-| Known issues report root copy | `KNOWN_ISSUES.md` | 5KB |
-| Store screenshot QA report | `docs/STORE_SCREENSHOTS_REPORT.md` | 4KB |
+| Device QA readiness report | `docs/DEVICE_QA_REPORT.md` | 4KB |
+| Store submission readiness report | `docs/STORE_SUBMISSION_REPORT.md` | 5KB |
+| Store submission packet QA report | `docs/STORE_PACKET_REPORT.md` | 6KB |
+| Store console fields manifest | `docs/STORE_CONSOLE_FIELDS.md` | 4KB |
+| Store console fields manifest JSON | `STORE_CONSOLE_FIELDS.json` | 4KB |
+| Store manual submission checklist | `docs/STORE_MANUAL_CHECKLIST.md` | 4KB |
+| Store manual submission checklist JSON | `STORE_MANUAL_CHECKLIST.json` | 5KB |
+| Store launch handoff report | `docs/STORE_HANDOFF_REPORT.md` | 5KB |
+| Release notes | `docs/RELEASE_NOTES.md` | 4KB |
+| Release notes JSON | `RELEASE_NOTES.json` | 5KB |
+| Support playbook | `docs/SUPPORT_PLAYBOOK.md` | 6KB |
+| Support playbook JSON | `SUPPORT_PLAYBOOK.json` | 5KB |
+| Known issues report | `docs/KNOWN_ISSUES.md` | 3KB |
+| Known issues report root copy | `KNOWN_ISSUES.md` | 3KB |
+| Store screenshot QA report | `docs/STORE_SCREENSHOTS_REPORT.md` | 3KB |
 | Store screenshot manifest | `docs/STORE_SCREENSHOT_MANIFEST.md` | 4KB |
 | Store screenshot manifest JSON | `STORE_SCREENSHOT_MANIFEST.json` | 5KB |
 | Harness report | `docs/HARNESS_REPORT.md` | 1KB |
