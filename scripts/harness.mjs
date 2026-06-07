@@ -30,8 +30,7 @@ const ciSteps = [
   ["test:mobile-ux", ["run", "test:mobile-ux"]],
   ["test:home-realtime", ["run", "test:home-realtime"]],
   ["test:seo", ["run", "test:seo"]],
-  ["test:perf", ["run", "test:perf"]],
-  ["release:doctor", ["run", "release:doctor"]]
+  ["test:perf", ["run", "test:perf"]]
 ];
 const isCiHarness = process.env.HALINDOSA_HARNESS_MODE === "ci" || process.argv.includes("--ci");
 const steps = isCiHarness ? ciSteps : fullSteps;
