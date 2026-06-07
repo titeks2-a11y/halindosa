@@ -119,6 +119,7 @@
     "test:seo": "node scripts/test-seo.mjs",
     "test:perf": "node scripts/test-perf.mjs",
     "harness": "node scripts/harness.mjs",
+    "harness:ci": "node scripts/harness.mjs --ci",
     "release:evidence": "node scripts/release-evidence.mjs",
     "release:notes": "node scripts/release-notes.mjs",
     "release:doctor": "node scripts/release-doctor.mjs",

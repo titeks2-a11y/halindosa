@@ -33,7 +33,8 @@ const ciSteps = [
   ["test:perf", ["run", "test:perf"]],
   ["release:doctor", ["run", "release:doctor"]]
 ];
-const steps = process.env.HALINDOSA_HARNESS_MODE === "ci" ? ciSteps : fullSteps;
+const isCiHarness = process.env.HALINDOSA_HARNESS_MODE === "ci" || process.argv.includes("--ci");
+const steps = isCiHarness ? ciSteps : fullSteps;
 const defaultStepTimeoutMs = 180_000;
 const stepTimeouts = new Map([
   ["build", 600_000],

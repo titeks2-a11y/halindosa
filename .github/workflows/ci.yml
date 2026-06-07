@@ -113,9 +113,7 @@ jobs:
         run: npm run store:packet:doctor
 
       - name: Launch harness
-        env:
-          HALINDOSA_HARNESS_MODE: "ci"
-        run: npm run harness
+        run: npm run harness:ci
 
       - name: Release doctor
         run: npm run release:doctor
