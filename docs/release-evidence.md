@@ -4,10 +4,10 @@
 
 ## 기본 정보
 
-- 생성 시각: 2026-06-07T13:11:28.494Z
+- 생성 시각: 2026-06-07T15:22:23.981Z
 - Git 브랜치: codex/12h-product-ux-growth-hardening
-- 최신 커밋: 95c4c17c
-- Git 상태: M DEVICE_QA_REPORT.md;  M KNOWN_ISSUES.md;  M PUBLIC_URL_REPORT.md;  M RELEASE_NOTES.json;  M RELEASE_NOTES.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_HANDOFF_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_PACKET_REPORT.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M SUPPORT_PLAYBOOK.json;  M SUPPORT_PLAYBOOK.md;  M docs/DEVICE_QA_REPORT.md;  M docs/KNOWN_ISSUES.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/RELEASE_NOTES.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_HANDOFF_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_PACKET_REPORT.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md;  M docs/SUPPORT_PLAYBOOK.md
+- 최신 커밋: ea901781
+- Git 상태: M DEVICE_QA_REPORT.md;  M PUBLIC_URL_REPORT.md;  M RELEASE_NOTES.json;  M RELEASE_NOTES.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_HANDOFF_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M SUPPORT_PLAYBOOK.json;  M SUPPORT_PLAYBOOK.md;  M docs/DEVICE_QA_REPORT.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/RELEASE_NOTES.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_HANDOFF_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md;  M docs/SUPPORT_PLAYBOOK.md
 - 패키지 버전: 1.0.1
 - 앱 이름: 할인도사
 - 앱 ID / 패키지명: com.halindosa.app
@@ -41,9 +41,9 @@
 | Store console fields manifest JSON | `STORE_CONSOLE_FIELDS.json` | 4KB |
 | Store manual submission checklist | `docs/STORE_MANUAL_CHECKLIST.md` | 5KB |
 | Store manual submission checklist JSON | `STORE_MANUAL_CHECKLIST.json` | 5KB |
-| Store launch handoff report | `docs/STORE_HANDOFF_REPORT.md` | 5KB |
+| Store launch handoff report | `docs/STORE_HANDOFF_REPORT.md` | 4KB |
 | Release notes | `docs/RELEASE_NOTES.md` | 4KB |
-| Release notes JSON | `RELEASE_NOTES.json` | 5KB |
+| Release notes JSON | `RELEASE_NOTES.json` | 4KB |
 | Support playbook | `docs/SUPPORT_PLAYBOOK.md` | 6KB |
 | Support playbook JSON | `SUPPORT_PLAYBOOK.json` | 5KB |
 | Known issues report | `docs/KNOWN_ISSUES.md` | 3KB |
@@ -51,10 +51,10 @@
 | Store screenshot QA report | `docs/STORE_SCREENSHOTS_REPORT.md` | 3KB |
 | Store screenshot manifest | `docs/STORE_SCREENSHOT_MANIFEST.md` | 4KB |
 | Store screenshot manifest JSON | `STORE_SCREENSHOT_MANIFEST.json` | 5KB |
-| Harness report | `docs/HARNESS_REPORT.md` | 34KB |
+| Harness report | `docs/HARNESS_REPORT.md` | 33KB |
 | Operational health readiness report | `docs/HEALTH_READINESS_REPORT.md` | 6KB |
 | Operational health readiness JSON | `reports/health-readiness.json` | 11KB |
-| Push readiness report | `docs/PUSH_READINESS_REPORT.md` | 6KB |
+| Push readiness report | `docs/PUSH_READINESS_REPORT.md` | 5KB |
 | Push readiness JSON | `reports/push-readiness.json` | 11KB |
 | Push delivery policy report | `docs/PUSH_DELIVERY_POLICY.md` | 3KB |
 | Push delivery policy JSON | `reports/push-delivery-policy.json` | 5KB |

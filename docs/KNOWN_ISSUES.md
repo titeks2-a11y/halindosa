@@ -1,9 +1,9 @@
 # 할인도사 Known Issues
 
-Generated: 2026-06-07T13:11:21.265Z
+Generated: 2026-06-07T15:22:24.073Z
 Branch: codex/12h-product-ux-growth-hardening
-Commit: 95c4c17c
-Working tree: M DEVICE_QA_REPORT.md;  M PUBLIC_URL_REPORT.md;  M STORE_SCREENSHOTS_REPORT.md;  M docs/DEVICE_QA_REPORT.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/STORE_SCREENSHOTS_REPORT.md
+Commit: ea901781
+Working tree: M DEVICE_QA_REPORT.md;  M PUBLIC_URL_REPORT.md;  M RELEASE_NOTES.json;  M RELEASE_NOTES.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_HANDOFF_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M SUPPORT_PLAYBOOK.json;  M SUPPORT_PLAYBOOK.md;  M docs/DEVICE_QA_REPORT.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/RELEASE_NOTES.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_HANDOFF_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md;  M docs/SUPPORT_PLAYBOOK.md;  M docs/release-evidence.md
 
 ## Critical
 
@@ -16,14 +16,14 @@ Working tree: M DEVICE_QA_REPORT.md;  M PUBLIC_URL_REPORT.md;  M STORE_SCREENSHO
 - Manual link review needed: 0
 - Explicit product images: 93/140 (66%)
 - Fallback image backlog: 47
-- Official benefit official images: 69/105
+- Official benefit official images: 70/105
 - Public URL report: manual public-domain checks remain
 - Device QA report: manual device checks remain
 
 ## Operational Risks
 
 - 상품 이미지 중 실상품 이미지가 아닌 카테고리 fallback이 남아 있습니다. 현재 명시/파생 상품 이미지 93/140개(66%), fallback 47개이며, 운영 목표 60%까지 추가 보강 0개 기준으로 관리합니다.
-- 공식 혜택 이미지는 공식 OG/schema/페이지 이미지 69/105개, 생성 placeholder 36개 기준입니다. placeholder는 실제 상품 사진처럼 보이지 않는 안전 썸네일입니다.
+- 공식 혜택 이미지는 공식 OG/schema/페이지 이미지 70/105개, 생성 placeholder 35개 기준입니다. placeholder는 실제 상품 사진처럼 보이지 않는 안전 썸네일입니다.
 - 무료 혜택/쿠폰/이벤트는 공식 혜택 신청 페이지가 정상 목적지일 수 있습니다. 상품형 특가로 오인되지 않도록 카피와 dealType 구분을 유지해야 합니다.
 - Lighthouse 실측은 로컬 정적 하네스가 아니라 배포 URL 기준으로 추가 확인해야 합니다.
 - signed AAB 최종 업로드와 App Store/Play Store 심사 답변은 계정 소유자가 콘솔에서 직접 실행해야 합니다.
