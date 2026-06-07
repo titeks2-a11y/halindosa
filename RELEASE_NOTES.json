@@ -1,7 +1,7 @@
 {
   "generatedBy": "npm run release:notes",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "99fe1ba3",
+  "commit": "407f2555",
   "workingTree": "M DEVICE_QA_REPORT.md;  M KNOWN_ISSUES.md;  M PUBLIC_URL_REPORT.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_HANDOFF_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M docs/DEVICE_QA_REPORT.md;  M docs/KNOWN_ISSUES.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_HANDOFF_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md;  M docs/release-evidence.md",
   "version": "1.0.1",
   "appName": "할인도사",
@@ -73,14 +73,14 @@
     }
   ],
   "recentCommits": [
+    "407f2555 feat: improve realtime verified mobile home",
+    "461313f7 docs: refresh launch handoff after image queue update",
     "99fe1ba3 feat: add image operating target queue",
     "9bf65ca6 docs: refresh launch handoff after benefit expansion",
     "a09d3f8a feat: expand official benefits and compact mobile strip",
     "1661af05 docs: refresh store release handoff docs",
     "30f0a345 test: add home runtime snapshot refresh gate",
-    "970596c4 docs: refresh store release handoff docs",
-    "0393cf59 test: refresh harness verification reports",
-    "9a8b321c docs: refresh store release handoff docs"
+    "970596c4 docs: refresh store release handoff docs"
   ],
   "manualWorkThatMustNotBeFaked": [
     "Do not claim Play Console or App Store Connect submission has passed from this file.",
