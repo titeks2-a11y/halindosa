@@ -227,6 +227,53 @@ async function checkCiWorkflow() {
     pass("github ci workflow", "GitHub Actions runs commercial audit, env regression, public URL doctor, harness, release doctor, and uploads verification reports on main and codex branches.");
   }
 
+  const vercelWorkflowPath = ".github/workflows/vercel-production-deploy.yml";
+  if (!existsSync(join(root, vercelWorkflowPath))) {
+    fail("vercel production deploy workflow", "Missing .github/workflows/vercel-production-deploy.yml.");
+  } else {
+    const vercelWorkflow = await text(vercelWorkflowPath);
+    const deployGuide = await text("README_DEPLOY.md");
+    const requiredVercelWorkflowSnippets = [
+      'branches: ["main"]',
+      "VERCEL_TOKEN",
+      "VERCEL_ORG_ID",
+      "VERCEL_PROJECT_ID",
+      "npm run refresh:news",
+      "npm run verify:news",
+      "npm run refresh:deals",
+      "npm run verify:links",
+      "npm run test:home-realtime",
+      "npm run test:mobile-compact",
+      "npm run smoke:local",
+      "npm run release:doctor",
+      "npx vercel pull --yes --environment=production",
+      "npx vercel build --prod",
+      "npx vercel deploy --prebuilt --prod",
+      "npm run vercel:doctor",
+      "vercel-production-deployment-evidence"
+    ];
+    const requiredDeployGuideSnippets = [
+      "GitHub Actions 자동 프로덕션 배포",
+      "VERCEL_TOKEN",
+      "VERCEL_ORG_ID",
+      "VERCEL_PROJECT_ID",
+      "Vercel Project ID",
+      "npm run vercel:doctor",
+      "/api/home?limit=3&verifiedOnly=true"
+    ];
+    const missingVercelWorkflow = requiredVercelWorkflowSnippets.filter((snippet) => !vercelWorkflow.includes(snippet));
+    const missingDeployGuide = requiredDeployGuideSnippets.filter((snippet) => !deployGuide.includes(snippet));
+
+    if (missingVercelWorkflow.length || missingDeployGuide.length) {
+      fail(
+        "vercel production deploy workflow",
+        `Production deploy workflow should validate launch gates, deploy with Vercel secrets, and run vercel:doctor. Missing workflow: ${missingVercelWorkflow.join(", ") || "none"}; guide: ${missingDeployGuide.join(", ") || "none"}`
+      );
+    } else {
+      pass("vercel production deploy workflow", "GitHub Actions production deploy workflow validates launch gates, deploys Vercel with repository secrets, and runs vercel:doctor evidence checks.");
+    }
+  }
+
   const prTemplatePath = ".github/pull_request_template.md";
   if (!existsSync(join(root, prTemplatePath))) {
     fail("github pr template", "Missing .github/pull_request_template.md.");

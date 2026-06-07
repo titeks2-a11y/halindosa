@@ -110,6 +110,30 @@ vercel --prod
 
 Android 앱용 정적 export는 Vercel 빌드가 아니라 `npm run build:android`에서 별도로 생성합니다. 웹 배포와 Android export가 서로 충돌하지 않도록 `scripts/build-android.mjs`가 앱 전용 빌드에서만 API 라우트를 임시 제외합니다.
 
+### GitHub Actions 자동 프로덕션 배포
+
+저장소에는 `.github/workflows/vercel-production-deploy.yml`이 준비되어 있습니다. GitHub `main`에 push되면 아래 launch gate를 통과한 뒤 Vercel production deploy를 실행합니다.
+
+필수 GitHub Repository Secrets:
+
+```text
+VERCEL_TOKEN
+VERCEL_ORG_ID
+VERCEL_PROJECT_ID
+```
+
+Secrets가 없으면 워크플로는 실패하지 않고 배포를 건너뛰며 안내 notice만 남깁니다. 값이 설정되면 `npm run lint`, `npm run refresh:news`, `npm run verify:news`, `npm run refresh:deals`, `npm run verify:links`, `npm run test:home-realtime`, `npm run test:mobile-compact`, `npm run smoke:local`, `npm run release:doctor`를 실행한 뒤 `vercel pull/build/deploy --prod`와 `npm run vercel:doctor`까지 수행합니다.
+
+Vercel Project ID는 현재 프로젝트 Deploy Hook에서 확인된 `prj_hWg9KLlQnIRSIyuVl3a56qWURKMX`입니다. `VERCEL_ORG_ID`와 `VERCEL_TOKEN`은 Vercel Dashboard > Account/Team Settings 또는 CLI login 후 `.vercel/project.json`/token 발급 화면에서 확인합니다. 토큰과 Deploy Hook URL은 절대 Git에 커밋하지 않습니다.
+
+현재처럼 GitHub `main`은 최신인데 Vercel Production Deployment가 오래된 커밋을 보고 있으면 다음 순서로 복구합니다.
+
+1. Vercel Project > Settings > Git에서 `titeks2-a11y/halindosa`가 연결되어 있는지 확인합니다.
+2. Project > Settings > Build and Deployment에서 Production Branch가 `main`인지 확인합니다.
+3. GitHub Repository Secrets에 위 3개 값을 등록합니다.
+4. GitHub Actions > `Vercel Production Deploy`를 `workflow_dispatch`로 수동 실행합니다.
+5. 완료 후 로컬에서 `npm run vercel:doctor`를 실행해 `/api/home?limit=3&verifiedOnly=true` 200, `Cache-Control: no-store`, publishable deals, `/go` 구매 이동을 확인합니다.
+
 ## 5. 도메인 연결
 
 예시 도메인:

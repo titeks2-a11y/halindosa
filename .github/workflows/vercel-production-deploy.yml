@@ -1,0 +1,96 @@
+name: Vercel Production Deploy
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+concurrency:
+  group: vercel-production-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Verify and deploy production
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      NEXT_PUBLIC_SITE_URL: https://halindosa.com
+      NEXT_PUBLIC_API_BASE_URL: https://halindosa.com
+      NEXT_PUBLIC_APP_ENV: production
+      DEAL_DATA_MODE: hybrid
+      DEAL_PROVIDER: hybrid
+
+    steps:
+      - name: Check deployment secrets
+        id: secrets
+        shell: bash
+        run: |
+          if [[ -n "$VERCEL_TOKEN" && -n "$VERCEL_ORG_ID" && -n "$VERCEL_PROJECT_ID" ]]; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Vercel deployment skipped. Add VERCEL_TOKEN, VERCEL_ORG_ID, and VERCEL_PROJECT_ID repository secrets to enable production deploys."
+          fi
+
+      - name: Checkout
+        if: steps.secrets.outputs.ready == 'true'
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        if: steps.secrets.outputs.ready == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: "npm"
+
+      - name: Install
+        if: steps.secrets.outputs.ready == 'true'
+        run: npm ci
+
+      - name: Launch verification gates
+        if: steps.secrets.outputs.ready == 'true'
+        run: |
+          npm run lint
+          npm run refresh:news
+          npm run verify:news
+          npm run refresh:deals
+          npm run verify:links
+          npm run test:home-realtime
+          npm run test:mobile-compact
+          npm run smoke:local
+          npm run release:doctor
+
+      - name: Pull Vercel environment
+        if: steps.secrets.outputs.ready == 'true'
+        run: npx vercel pull --yes --environment=production --token="$VERCEL_TOKEN"
+
+      - name: Build Vercel production artifact
+        if: steps.secrets.outputs.ready == 'true'
+        run: npx vercel build --prod --token="$VERCEL_TOKEN"
+
+      - name: Deploy Vercel production artifact
+        if: steps.secrets.outputs.ready == 'true'
+        run: |
+          npx vercel deploy --prebuilt --prod --token="$VERCEL_TOKEN" > deployment-url.txt
+          cat deployment-url.txt
+
+      - name: Verify deployed URL
+        if: steps.secrets.outputs.ready == 'true'
+        run: |
+          export VERCEL_DEPLOYMENT_URL="$(cat deployment-url.txt)"
+          npm run vercel:doctor
+
+      - name: Upload Vercel deployment evidence
+        if: always() && steps.secrets.outputs.ready == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: vercel-production-deployment-evidence
+          if-no-files-found: ignore
+          path: |
+            deployment-url.txt
+            reports/vercel-deployment.json
+            docs/VERCEL_DEPLOYMENT_REPORT.md
