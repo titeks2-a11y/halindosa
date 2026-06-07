@@ -4,10 +4,10 @@
 
 ## 기본 정보
 
-- 생성 시각: 2026-06-07T17:04:33.073Z
+- 생성 시각: 2026-06-07T20:45:44.897Z
 - Git 브랜치: codex/12h-product-ux-growth-hardening
-- 최신 커밋: cfd80bfa
-- Git 상태: M DEVICE_QA_REPORT.md;  M KNOWN_ISSUES.md;  M PUBLIC_URL_REPORT.md;  M RELEASE_NOTES.json;  M RELEASE_NOTES.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_HANDOFF_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_PACKET_REPORT.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M SUPPORT_PLAYBOOK.json;  M SUPPORT_PLAYBOOK.md;  M docs/DEVICE_QA_REPORT.md;  M docs/KNOWN_ISSUES.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/RELEASE_NOTES.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_HANDOFF_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_PACKET_REPORT.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md;  M docs/SUPPORT_PLAYBOOK.md
+- 최신 커밋: f8d9e3ed
+- Git 상태: M EXTERNAL_LINK_REPORT.md;  M HARNESS_REPORT.md;  M IMAGE_QUALITY_REPORT.md;  M LINK_VERIFICATION_REPORT.md;  M LINK_VERIFICATION_RESULT.json;  M PERFORMANCE_REPORT.md;  M SEARCH_REPORT.md;  M data/linkValidationExposureOverrides.json;  M data/refreshedDeals.json;  M data/refreshedNewsDeals.json;  M data/verifiedNewsBenefitImages.json;  M docs/DAILY_OPERATIONS_REPORT.md;  M docs/EVENTS_REFRESH_REPORT.md;  M docs/FEED_TRANSITION_REPORT.md;  M docs/FREEBIES_REFRESH_REPORT.md;  M docs/FREEBIES_VERIFICATION_REPORT.md;  M docs/HARNESS_REPORT.md;  M docs/HEALTH_READINESS_REPORT.md;  M docs/HOME_RUNTIME_SNAPSHOT_REPORT.md;  M docs/IMAGE_VERIFICATION_REPORT.md;  M docs/LINK_REVALIDATION_PRIORITY.md;  M docs/LIVE_PROBE_REVIEW_REPORT.md;  M docs/NEWS_BENEFIT_IMAGE_ENRICHMENT.md;  M docs/NEWS_FEED_CANARY_REPORT.md;  M docs/NEWS_FEED_LIVE_PIPELINE.md;  M docs/NEWS_FEED_PREVIEW_REPORT.md;  M docs/NEWS_FRESHNESS_REPORT.md;  M docs/NEWS_REVALIDATION_PRIORITY.md;  M docs/OFFICIAL_BENEFIT_ALERTS_REPORT.md;  M docs/OFFICIAL_SOURCE_CATALOG.md;  M docs/OFFICIAL_SOURCE_LIVE_CHECK.md;  M docs/PERFORMANCE_REPORT.md;  M docs/PUBLISHABLE_SURFACE_REPORT.md;  M docs/PUSH_DELIVERY_AUDIT.md;  M docs/PUSH_DELIVERY_POLICY.md;  M docs/PUSH_READINESS_REPORT.md;  M docs/SOURCE_FEED_ENV_REPORT.md;  M docs/SOURCE_ONBOARDING_PLAN.md;  M docs/SOURCE_READINESS_REPORT.md;  M reports/LINK_LAUNCH_GATE.md;  M reports/events-refresh.json;  M reports/freebies-refresh.json;  M reports/link-launch-gate.json;  M reports/link-revalidation-priority.json;  M reports/live-probe-review.json;  M reports/news-revalidation-priority.json;  M reports/publishable-surface.json
 - 패키지 버전: 1.0.1
 - 앱 이름: 할인도사
 - 앱 ID / 패키지명: com.halindosa.app
@@ -36,7 +36,7 @@
 | Device QA execution manifest JSON | `DEVICE_QA_MANIFEST.json` | 6KB |
 | Device QA readiness report | `docs/DEVICE_QA_REPORT.md` | 3KB |
 | Store submission readiness report | `docs/STORE_SUBMISSION_REPORT.md` | 5KB |
-| Store submission packet QA report | `docs/STORE_PACKET_REPORT.md` | 6KB |
+| Store submission packet QA report | `docs/STORE_PACKET_REPORT.md` | 5KB |
 | Store console fields manifest | `docs/STORE_CONSOLE_FIELDS.md` | 4KB |
 | Store console fields manifest JSON | `STORE_CONSOLE_FIELDS.json` | 4KB |
 | Store manual submission checklist | `docs/STORE_MANUAL_CHECKLIST.md` | 5KB |
@@ -51,7 +51,7 @@
 | Store screenshot QA report | `docs/STORE_SCREENSHOTS_REPORT.md` | 3KB |
 | Store screenshot manifest | `docs/STORE_SCREENSHOT_MANIFEST.md` | 4KB |
 | Store screenshot manifest JSON | `STORE_SCREENSHOT_MANIFEST.json` | 5KB |
-| Harness report | `docs/HARNESS_REPORT.md` | 33KB |
+| Harness report | `docs/HARNESS_REPORT.md` | 1KB |
 | Operational health readiness report | `docs/HEALTH_READINESS_REPORT.md` | 6KB |
 | Operational health readiness JSON | `reports/health-readiness.json` | 11KB |
 | Push readiness report | `docs/PUSH_READINESS_REPORT.md` | 5KB |
