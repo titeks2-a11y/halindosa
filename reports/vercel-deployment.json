@@ -1,10 +1,10 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-07T15:24:00.756Z",
+  "generatedAt": "2026-06-07T16:14:38.536Z",
   "origin": "https://halindosa.com",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "7c59d8a5",
-  "workingTree": "clean",
+  "commit": "37a9c379",
+  "workingTree": "M docs/VERCEL_DEPLOYMENT_REPORT.md;  M reports/vercel-deployment.json;  M scripts/vercel-deployment-doctor.mjs",
   "project": {
     "linked": false
   },
@@ -14,14 +14,17 @@
     "vercelProjectIdPresent": false
   },
   "summary": {
-    "totalChecks": 9,
-    "passedChecks": 9,
+    "totalChecks": 14,
+    "passedChecks": 14,
     "failedChecks": 0,
     "rootStatus": 200,
     "homeApiStatus": 200,
     "dealsApiStatus": 200,
     "goRedirectStatus": 302,
-    "homeApiCacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate"
+    "officialBenefitRedirectStatus": 302,
+    "homeApiCacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
+    "homeProductDeals": 8,
+    "homeOfficialBenefits": 8
   },
   "checks": [
     {
@@ -42,7 +45,7 @@
     {
       "name": "home api deals",
       "ok": true,
-      "detail": "/api/home returned 3 deals."
+      "detail": "/api/home returned 8 deals."
     },
     {
       "name": "home api official benefits",
@@ -50,14 +53,29 @@
       "detail": "/api/home returned 8 official benefits/news deals."
     },
     {
+      "name": "home api realtime metadata",
+      "ok": true,
+      "detail": "/api/home exposes cachePolicy=no-store and channel freshness metadata."
+    },
+    {
+      "name": "home product exposure policy",
+      "ok": true,
+      "detail": "No invalid, hidden, stale, search, homepage, community, low-quality, or image-less product deal leaked from /api/home."
+    },
+    {
+      "name": "home official benefit exposure policy",
+      "ok": true,
+      "detail": "No invalid, hidden, stale, search, homepage, community, low-quality, or image-less official benefit leaked from /api/home."
+    },
+    {
       "name": "deals api status",
       "ok": true,
-      "detail": "/api/deals returned 3 verified deals."
+      "detail": "/api/deals returned 8 verified deals."
     },
     {
       "name": "deals publishable policy",
       "ok": true,
-      "detail": "No search, homepage, community, sold-out, or non-publishable deal leaked from /api/deals."
+      "detail": "No search, homepage, community, sold-out, low-quality, image-less, or non-publishable deal leaked from /api/deals."
     },
     {
       "name": "go redirect status",
@@ -68,6 +86,16 @@
       "name": "go redirect destination",
       "ok": true,
       "detail": "Destination host=www.coupang.com"
+    },
+    {
+      "name": "official benefit redirect status",
+      "ok": true,
+      "detail": "/go/news/news-gs25-drinking-festa-2026 reached an external official destination after 2 hop(s)."
+    },
+    {
+      "name": "official benefit redirect destination",
+      "ok": true,
+      "detail": "Destination host=gs25.gsretail.com"
     }
   ],
   "probes": {
@@ -75,40 +103,40 @@
       "url": "https://halindosa.com/",
       "status": 200,
       "ok": true,
-      "elapsedMs": 1040,
+      "elapsedMs": 947,
       "cacheControl": "private, no-cache, no-store, max-age=0, must-revalidate",
       "contentType": "text/html; charset=utf-8",
       "location": "",
-      "xVercelId": "icn1::iad1::49wzs-1780845838138-4c66bd1b2dee",
+      "xVercelId": "icn1::iad1::57774-1780848876020-f9abebe02cf9",
       "bodyPreview": "<!DOCTYPE html><html lang=\"ko\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover\"/><link rel=\"stylesheet\" href=\"/_next/static/chunks/10afauau2do5b.css\" data-"
     },
     "homeApi": {
-      "url": "https://halindosa.com/api/home?limit=3&verifiedOnly=true",
+      "url": "https://halindosa.com/api/home?limit=8&verifiedOnly=true",
       "status": 200,
       "ok": true,
-      "elapsedMs": 1587,
+      "elapsedMs": 1598,
       "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
       "contentType": "application/json",
       "location": "",
-      "xVercelId": "icn1::iad1::49wzs-1780845838970-c0a897d37a88",
+      "xVercelId": "icn1::iad1::57774-1780848876870-96fac8b281d3",
       "bodyPreview": "{\"ok\":true,\"deals\":[{\"id\":\"d001\",\"title\":\"삼성 86인치 4K 스마트 UHD TV\",\"description\":\"롯데온에서 확인된 삼성 86인치 4K 스마트 UHD TV 특가입니다.\",\"price\":889000,\"originalPrice\":1201350,\"salePrice\":889000,\"discountRate\":26,\"mallName\":\"롯데온\",\"subCategory\":\"실시간\",\"catego"
     },
     "dealsApi": {
-      "url": "https://halindosa.com/api/deals?limit=3&verifiedOnly=true",
+      "url": "https://halindosa.com/api/deals?limit=8&verifiedOnly=true",
       "status": 200,
       "ok": true,
-      "elapsedMs": 286,
+      "elapsedMs": 278,
       "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
       "contentType": "application/json",
       "location": "",
-      "xVercelId": "icn1::iad1::49wzs-1780845840570-7f449e2dd23c",
+      "xVercelId": "icn1::iad1::57774-1780848878473-ece9b2da9135",
       "bodyPreview": "{\"ok\":true,\"deals\":[{\"id\":\"d001\",\"title\":\"삼성 86인치 4K 스마트 UHD TV\",\"description\":\"롯데온에서 확인된 삼성 86인치 4K 스마트 UHD TV 특가입니다.\",\"price\":889000,\"originalPrice\":1201350,\"salePrice\":889000,\"discountRate\":26,\"mallName\":\"롯데온\",\"subCategory\":\"실시간\",\"catego"
     },
     "goRedirect": {
       "url": "https://halindosa.com/go/d014?from=vercel-doctor",
       "status": 302,
       "ok": false,
-      "elapsedMs": 945,
+      "elapsedMs": 271,
       "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
       "contentType": "",
       "location": "https://www.coupang.com/vp/products/7687552147",
@@ -118,17 +146,44 @@
           "status": 307,
           "location": "https://www.halindosa.com/go/d014?from=vercel-doctor",
           "cacheControl": "public, max-age=0, must-revalidate",
-          "xVercelId": "icn1::jqhwm-1780845840831-b47558ab680f"
+          "xVercelId": "icn1::vcrml-1780848878738-f6ba7141e82a"
         },
         {
           "url": "https://www.halindosa.com/go/d014?from=vercel-doctor",
           "status": 302,
           "location": "https://www.coupang.com/vp/products/7687552147",
           "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
-          "xVercelId": "icn1::iad1::49wzs-1780845840846-528792d0352b"
+          "xVercelId": "icn1::iad1::57774-1780848878753-eca42fe785e0"
         }
       ],
-      "xVercelId": "icn1::iad1::49wzs-1780845840846-528792d0352b",
+      "xVercelId": "icn1::iad1::57774-1780848878753-eca42fe785e0",
+      "bodyPreview": ""
+    },
+    "officialBenefitRedirect": {
+      "url": "https://halindosa.com/go/news/news-gs25-drinking-festa-2026?from=vercel-doctor",
+      "status": 302,
+      "ok": false,
+      "elapsedMs": 550,
+      "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
+      "contentType": "",
+      "location": "https://gs25.gsretail.com/gscvs/ko/customer-engagement/event/detail/publishing?eventCode=8842885844512&pageNum=1&uiel=Mobile",
+      "redirectChain": [
+        {
+          "url": "https://halindosa.com/go/news/news-gs25-drinking-festa-2026?from=vercel-doctor",
+          "status": 307,
+          "location": "https://www.halindosa.com/go/news/news-gs25-drinking-festa-2026?from=vercel-doctor",
+          "cacheControl": "public, max-age=0, must-revalidate",
+          "xVercelId": "icn1::vcrml-1780848879021-784106097315"
+        },
+        {
+          "url": "https://www.halindosa.com/go/news/news-gs25-drinking-festa-2026?from=vercel-doctor",
+          "status": 302,
+          "location": "https://gs25.gsretail.com/gscvs/ko/customer-engagement/event/detail/publishing?eventCode=8842885844512&pageNum=1&uiel=Mobile",
+          "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
+          "xVercelId": "icn1::iad1::57774-1780848879029-b08abf260fef"
+        }
+      ],
+      "xVercelId": "icn1::iad1::57774-1780848879029-b08abf260fef",
       "bodyPreview": ""
     }
   }

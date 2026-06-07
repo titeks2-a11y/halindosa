@@ -1,6 +1,6 @@
 # Vercel Deployment Doctor
 
-Generated: 2026-06-07T15:24:00.756Z
+Generated: 2026-06-07T16:14:38.536Z
 
 Status: PASS
 
@@ -8,19 +8,22 @@ Status: PASS
 
 - Origin: `https://halindosa.com`
 - Branch: `codex/12h-product-ux-growth-hardening`
-- Commit: `7c59d8a5`
-- Working tree: clean
+- Commit: `37a9c379`
+- Working tree: M docs/VERCEL_DEPLOYMENT_REPORT.md;  M reports/vercel-deployment.json;  M scripts/vercel-deployment-doctor.mjs
 - Vercel project linked locally: no
 - Vercel token present in shell: no
 
 ## Summary
 
-- Checks: 9/9
+- Checks: 14/14
 - Root: 200
 - Home API: 200
 - Deals API: 200
 - /go redirect: 302
+- Official benefit /go redirect: 302
 - Home API Cache-Control: `no-store, no-cache, must-revalidate, proxy-revalidate`
+- Home product deals checked: 8
+- Home official benefits checked: 8
 
 ## Checks
 
@@ -29,12 +32,17 @@ Status: PASS
 | PASS | root page | 200 HTML response from https://halindosa.com. |
 | PASS | home api status | /api/home returned 200 JSON with ok=true. |
 | PASS | home api no-store | Cache-Control=no-store, no-cache, must-revalidate, proxy-revalidate |
-| PASS | home api deals | /api/home returned 3 deals. |
+| PASS | home api deals | /api/home returned 8 deals. |
 | PASS | home api official benefits | /api/home returned 8 official benefits/news deals. |
-| PASS | deals api status | /api/deals returned 3 verified deals. |
-| PASS | deals publishable policy | No search, homepage, community, sold-out, or non-publishable deal leaked from /api/deals. |
+| PASS | home api realtime metadata | /api/home exposes cachePolicy=no-store and channel freshness metadata. |
+| PASS | home product exposure policy | No invalid, hidden, stale, search, homepage, community, low-quality, or image-less product deal leaked from /api/home. |
+| PASS | home official benefit exposure policy | No invalid, hidden, stale, search, homepage, community, low-quality, or image-less official benefit leaked from /api/home. |
+| PASS | deals api status | /api/deals returned 8 verified deals. |
+| PASS | deals publishable policy | No search, homepage, community, sold-out, low-quality, image-less, or non-publishable deal leaked from /api/deals. |
 | PASS | go redirect status | /go/d014 reached an external destination after 2 hop(s). |
 | PASS | go redirect destination | Destination host=www.coupang.com |
+| PASS | official benefit redirect status | /go/news/news-gs25-drinking-festa-2026 reached an external official destination after 2 hop(s). |
+| PASS | official benefit redirect destination | Destination host=gs25.gsretail.com |
 
 ## Required Fix If Blocked
 

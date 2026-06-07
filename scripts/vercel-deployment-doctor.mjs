@@ -7,8 +7,8 @@ const reportsDir = join(root, "reports");
 const docsDir = join(root, "docs");
 const defaultOrigin = "https://halindosa.com";
 const origin = normalizeOrigin(process.env.VERCEL_DEPLOYMENT_URL || process.env.NEXT_PUBLIC_SITE_URL || defaultOrigin);
-const apiHomePath = "/api/home?limit=3&verifiedOnly=true";
-const apiDealsPath = "/api/deals?limit=3&verifiedOnly=true";
+const apiHomePath = "/api/home?limit=8&verifiedOnly=true";
+const apiDealsPath = "/api/deals?limit=8&verifiedOnly=true";
 const redirectProbePath = "/go/d014?from=vercel-doctor";
 
 mkdirSync(reportsDir, { recursive: true });
@@ -57,6 +57,48 @@ function isBadExternalUrl(value) {
   } catch {
     return true;
   }
+}
+
+function getDestinationUrl(item) {
+  return String(item?.finalPurchaseUrl || item?.finalUrl || item?.purchaseUrl || item?.productUrl || item?.eventUrl || item?.affiliateUrl || item?.link || "").trim();
+}
+
+function hasRenderableImage(item) {
+  const imageUrl = String(item?.thumbnail || item?.imageUrl || "").trim();
+  if (!imageUrl) return false;
+  if (imageUrl.startsWith("/deal-images/")) return true;
+  if (imageUrl.startsWith("/images/")) return true;
+  return /^https?:\/\//i.test(imageUrl);
+}
+
+function isPublishableProductDeal(deal) {
+  const destination = getDestinationUrl(deal);
+
+  return (
+    deal?.publishable === true &&
+    deal?.availability === "active" &&
+    deal?.validationStatus === "passed" &&
+    deal?.isHidden !== true &&
+    Number(deal?.qualityScore ?? 0) >= 55 &&
+    hasRenderableImage(deal) &&
+    /^https?:\/\//i.test(destination) &&
+    !isBadExternalUrl(destination)
+  );
+}
+
+function isPublishableNewsDeal(deal) {
+  const destination = getDestinationUrl(deal);
+
+  return (
+    deal?.publishable === true &&
+    deal?.availability === "active" &&
+    deal?.validationStatus === "passed" &&
+    deal?.isHidden !== true &&
+    Number(deal?.qualityScore ?? 0) >= 70 &&
+    hasRenderableImage(deal) &&
+    /^https?:\/\//i.test(destination) &&
+    !isBadExternalUrl(destination)
+  );
 }
 
 async function fetchText(path, options = {}) {
@@ -175,17 +217,30 @@ checks.push(
     ? pass("home api official benefits", `/api/home returned ${homeJson.newsDeals.length} official benefits/news deals.`)
     : fail("home api official benefits", "/api/home did not return visible official benefits/news deals.")
 );
+checks.push(
+  homeJson?.cachePolicy?.mode === "no-store" && homeJson?.freshness?.generatedAt && homeJson?.freshness?.channels
+    ? pass("home api realtime metadata", `/api/home exposes cachePolicy=no-store and channel freshness metadata.`)
+    : fail("home api realtime metadata", "/api/home should expose cachePolicy=no-store and freshness.channels metadata.")
+);
+const homeDeals = Array.isArray(homeJson?.deals) ? homeJson.deals : [];
+const homeNewsDeals = Array.isArray(homeJson?.newsDeals) ? homeJson.newsDeals : [];
+const invalidHomeDeals = homeDeals.filter((deal) => !isPublishableProductDeal(deal));
+const invalidHomeNewsDeals = homeNewsDeals.filter((deal) => !isPublishableNewsDeal(deal));
+checks.push(
+  invalidHomeDeals.length === 0
+    ? pass("home product exposure policy", "No invalid, hidden, stale, search, homepage, community, low-quality, or image-less product deal leaked from /api/home.")
+    : fail("home product exposure policy", `${invalidHomeDeals.length} invalid product deal(s) leaked from /api/home: ${invalidHomeDeals.map((deal) => deal.id).join(", ")}`)
+);
+checks.push(
+  invalidHomeNewsDeals.length === 0
+    ? pass("home official benefit exposure policy", "No invalid, hidden, stale, search, homepage, community, low-quality, or image-less official benefit leaked from /api/home.")
+    : fail("home official benefit exposure policy", `${invalidHomeNewsDeals.length} invalid official benefit(s) leaked from /api/home: ${invalidHomeNewsDeals.map((deal) => deal.id).join(", ")}`)
+);
 
 probes.dealsApi = await fetchText(apiDealsPath);
 const dealsJson = parseJsonProbe(probes.dealsApi);
 const deals = Array.isArray(dealsJson?.deals) ? dealsJson.deals : [];
-const invalidDeals = deals.filter(
-  (deal) =>
-    deal?.publishable !== true ||
-    deal?.availability !== "active" ||
-    deal?.validationStatus !== "passed" ||
-    isBadExternalUrl(deal?.finalPurchaseUrl || deal?.finalUrl || deal?.purchaseUrl || deal?.productUrl || "")
-);
+const invalidDeals = deals.filter((deal) => !isPublishableProductDeal(deal));
 checks.push(
   probes.dealsApi.ok && deals.length > 0
     ? pass("deals api status", `/api/deals returned ${deals.length} verified deals.`)
@@ -193,8 +248,8 @@ checks.push(
 );
 checks.push(
   invalidDeals.length === 0
-    ? pass("deals publishable policy", "No search, homepage, community, sold-out, or non-publishable deal leaked from /api/deals.")
-    : fail("deals publishable policy", `${invalidDeals.length} invalid deal(s) leaked from /api/deals.`)
+    ? pass("deals publishable policy", "No search, homepage, community, sold-out, low-quality, image-less, or non-publishable deal leaked from /api/deals.")
+    : fail("deals publishable policy", `${invalidDeals.length} invalid deal(s) leaked from /api/deals: ${invalidDeals.map((deal) => deal.id).join(", ")}`)
 );
 
 const redirectChain = await fetchRedirectChain(redirectProbePath);
@@ -215,6 +270,30 @@ checks.push(
     ? pass("go redirect destination", `Destination host=${new URL(probes.goRedirect.location).hostname}`)
     : fail("go redirect destination", `Bad or missing destination: ${probes.goRedirect.location || "(missing)"}`)
 );
+
+const firstOfficialBenefit = homeNewsDeals.find((deal) => typeof deal?.id === "string" && deal.id);
+if (firstOfficialBenefit) {
+  const officialRedirectChain = await fetchRedirectChain(`/go/news/${encodeURIComponent(firstOfficialBenefit.id)}?from=vercel-doctor`);
+  probes.officialBenefitRedirect = {
+    ...(officialRedirectChain.probe ?? {}),
+    url: `${origin}/go/news/${firstOfficialBenefit.id}?from=vercel-doctor`,
+    status: officialRedirectChain.probe?.status ?? 0,
+    location: officialRedirectChain.finalLocation,
+    chain: officialRedirectChain.chain
+  };
+  checks.push(
+    probes.officialBenefitRedirect.location && !isSameDeploymentHost(probes.officialBenefitRedirect.location)
+      ? pass("official benefit redirect status", `/go/news/${firstOfficialBenefit.id} reached an external official destination after ${officialRedirectChain.chain.length} hop(s).`)
+      : fail("official benefit redirect status", `/go/news/${firstOfficialBenefit.id} should reach an external official destination; got ${probes.officialBenefitRedirect.status}.`)
+  );
+  checks.push(
+    probes.officialBenefitRedirect.location && !isBadExternalUrl(probes.officialBenefitRedirect.location)
+      ? pass("official benefit redirect destination", `Destination host=${new URL(probes.officialBenefitRedirect.location).hostname}`)
+      : fail("official benefit redirect destination", `Bad or missing official benefit destination: ${probes.officialBenefitRedirect.location || "(missing)"}`)
+  );
+} else {
+  checks.push(fail("official benefit redirect status", "/api/home did not expose an official benefit id to probe through /go/news."));
+}
 
 const ok = checks.every((check) => check.ok);
 const report = {
@@ -238,7 +317,10 @@ const report = {
     homeApiStatus: probes.homeApi.status,
     dealsApiStatus: probes.dealsApi.status,
     goRedirectStatus: probes.goRedirect.status,
-    homeApiCacheControl: probes.homeApi.cacheControl
+    officialBenefitRedirectStatus: probes.officialBenefitRedirect?.status ?? 0,
+    homeApiCacheControl: probes.homeApi.cacheControl,
+    homeProductDeals: homeDeals.length,
+    homeOfficialBenefits: homeNewsDeals.length
   },
   checks,
   probes: Object.fromEntries(
@@ -283,7 +365,10 @@ Status: ${ok ? "PASS" : "BLOCKED"}
 - Home API: ${report.summary.homeApiStatus}
 - Deals API: ${report.summary.dealsApiStatus}
 - /go redirect: ${report.summary.goRedirectStatus}
+- Official benefit /go redirect: ${report.summary.officialBenefitRedirectStatus}
 - Home API Cache-Control: \`${report.summary.homeApiCacheControl || "(missing)"}\`
+- Home product deals checked: ${report.summary.homeProductDeals}
+- Home official benefits checked: ${report.summary.homeOfficialBenefits}
 
 ## Checks
 

@@ -1,6 +1,6 @@
 # 할인도사 Link Verification Report
 
-Generated: 2026-06-07T15:48:31.836Z
+Generated: 2026-06-07T16:25:22.754Z
 
 ## Summary
 
@@ -21,17 +21,17 @@ Generated: 2026-06-07T15:48:31.836Z
 | 커뮤니티 의심 | 0 |
 | 수동 검토 필요 | 0 |
 | Live probe 확인 | 140 |
-| Live probe 실패 | 81 |
+| Live probe 실패 | 80 |
 | Live probe robots/access 차단 | 64 |
 | Live probe rate limit | 13 |
-| Live probe timeout | 1 |
+| Live probe timeout | 0 |
 | Live probe exposed hard failure | 0 |
 | Live probe hidden hard failure review | 0 |
-| Live probe transient network | 4 |
-| Live body 확인 | 136 |
-| Live 제목/메타 확인 | 132 |
+| Live probe transient network | 3 |
+| Live body 확인 | 137 |
+| Live 제목/메타 확인 | 133 |
 | Live 콘텐츠 일치 신호 | 55 |
-| Live 콘텐츠 불일치 신호 | 81 |
+| Live 콘텐츠 불일치 신호 | 82 |
 | Live 접근 가능 본문 불일치 | 5 |
 | Live 접근 차단 본문 | 32 |
 | Live 가격 신호 | 26 |
@@ -50,24 +50,23 @@ Generated: 2026-06-07T15:48:31.836Z
 - 해석: Some URLs returned transient network signals; no exposed search, sold-out, 404, 410, or 5xx links were found.
 - 고객에게 노출되는 404/410/5xx/품절 본문 같은 강한 실패 신호: 0
 - 숨김 처리 후 보정 큐에 남은 강한 실패 신호: 0
-- timeout/request_failed 같은 일시 네트워크 신호: 4
+- timeout/request_failed 같은 일시 네트워크 신호: 3
 - 쇼핑몰 접근 보호 또는 robots/access 차단: 64
 - 품절/판매종료 본문 감지: 0
 
 ## Verification Evidence
 
-- live_content_confirmed: 54
+- live_content_confirmed: 55
 - manual_pattern_verified: 32
 - seller_access_protected_manual_verified: 32
 - seller_rate_limited_manual_verified: 13
 - client_rendered_detail_manual_verified: 5
-- transient_network_manual_verified: 4
+- transient_network_manual_verified: 3
 
 ## Revalidation Queue
 
 - d051 · 인터파크투어 · request_failed · priority 75
 - d057 · T멤버십 · request_failed · priority 75
-- d059 · 아모레몰 · timeout · priority 75
 - d073 · 현대카드 · request_failed · priority 75
 - d008 · LF몰 · client_rendered_detail_periodic_review · priority 60
 - d013 · 하이마트 · client_rendered_detail_periodic_review · priority 60
@@ -95,13 +94,13 @@ Generated: 2026-06-07T15:48:31.836Z
 - d009 · 지마켓 · seller_access_protected_review · priority 45
 - d010 · 쿠팡 · seller_access_protected_review · priority 45
 - d012 · 올리브영 · seller_access_protected_review · priority 45
+- d014 · 쿠팡 · seller_access_protected_review · priority 45
 
 ### Live Probe Failure Reasons
 
 - robots_or_access_blocked: 64
 - http_429: 13
 - request_failed: 3
-- timeout: 1
 
 ### Live Probe Failed Hosts
 
@@ -109,7 +108,6 @@ Generated: 2026-06-07T15:48:31.836Z
 - coupang.com: 24
 - ssg.com: 13
 - oliveyoung.co.kr: 7
-- amoremall.com: 1
 - hyundaicard.com: 1
 - itempage3.auction.co.kr: 1
 - store.ohou.se: 1
