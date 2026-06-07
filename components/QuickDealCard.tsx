@@ -14,13 +14,14 @@ interface QuickDealCardProps {
   onToggleFavorite: (id: string) => void;
   onOpenDeal: (deal: Deal) => void;
   onShareDeal: (deal: Deal) => void;
+  referenceNow?: number;
 }
 
-export function QuickDealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, onShareDeal }: QuickDealCardProps) {
+export function QuickDealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, onShareDeal, referenceNow }: QuickDealCardProps) {
   const linkAvailable = canOpenDealLink(deal);
   const verified = isVerifiedPurchaseLink(deal);
-  const checkedAt = getRelativeTime(deal.priceCheckedAt);
-  const timeLeft = getTimeLeft(deal.expiresAt);
+  const checkedAt = getRelativeTime(deal.priceCheckedAt, referenceNow);
+  const timeLeft = getTimeLeft(deal.expiresAt, referenceNow);
   const benefitLabel = getBenefitTypeLabel(deal.dealType);
   const isBenefitFocused = ["freebie", "coupon", "experience", "event", "point", "foodDelivery", "convenienceStore", "mart"].includes(deal.dealType);
   const customerClaimCta = deal.claimCta && !/(판매처|확인)/.test(deal.claimCta) ? deal.claimCta : "";

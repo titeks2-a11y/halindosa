@@ -1,6 +1,6 @@
 # Live Probe Review Report
 
-Generated: 2026-06-07T14:26:38.465Z
+Generated: 2026-06-07T15:16:47.716Z
 
 Status: PASS
 
@@ -9,16 +9,16 @@ Status: PASS
 - Total deals: 140
 - Publishable deals: 140
 - Live probe checked: 140
-- Live probe passed: 60
-- Live probe review queue: 80
-- Manual evidence required: 80
+- Live probe passed: 59
+- Live probe review queue: 81
+- Manual evidence required: 81
 - Hard failures: 0
 - Quarantined hidden failures: 0
 - Exposed hard failures: 0
 - Unavailable text signals: 0
 - Protected or rate-limited checks: 77
-- Transient network checks: 3
-- Fresh manual evidence: 80/80
+- Transient network checks: 4
+- Fresh manual evidence: 81/81
 - Stale manual evidence: 0
 - Missing manual evidence: 0
 - Exposed search links: 0
@@ -36,6 +36,7 @@ The app can expose only links that are already publishable and have zero hard fa
 | coupang.com | 24 | official_api_or_partner_feed | official API, partner feed, manual device check 순서로 상세 링크 재확인 |
 | ssg.com | 13 | backoff_retry | 요청 간격을 늘린 backoff retry 후 official API 또는 partner feed로 대조 |
 | oliveyoung.co.kr | 7 | official_api_or_partner_feed | official API, partner feed, manual device check 순서로 상세 링크 재확인 |
+| amoremall.com | 1 | network_retry | official API, partner feed, manual device check 순서로 상세 링크 재확인 |
 | hyundaicard.com | 1 | network_retry | official API, partner feed, manual device check 순서로 상세 링크 재확인 |
 | itempage3.auction.co.kr | 1 | official_api_or_partner_feed | official API, partner feed, manual device check 순서로 상세 링크 재확인 |
 | store.ohou.se | 1 | official_api_or_partner_feed | official API, partner feed, manual device check 순서로 상세 링크 재확인 |

@@ -10,6 +10,7 @@ interface BenefitDiscoverySectionsProps {
   onSelectBenefit: (type: DealBenefitType) => void;
   onSelectCategory: (id: string) => void;
   onOpenDeal: (deal: Deal) => void;
+  referenceNow?: number;
 }
 
 interface DailyClaimPlanItem {
@@ -332,13 +333,15 @@ function BenefitTopList({
   description,
   deals,
   accent,
-  onOpenDeal
+  onOpenDeal,
+  referenceNow
 }: {
   title: string;
   description: string;
   deals: Deal[];
   accent: "red" | "slate";
   onOpenDeal: (deal: Deal) => void;
+  referenceNow?: number;
 }) {
   const accentClasses =
     accent === "red"
@@ -378,7 +381,7 @@ function BenefitTopList({
             <span className="min-w-0">
               <span className="block truncate text-sm font-black text-slate-950">{deal.title}</span>
               <span className="mt-0.5 block truncate text-xs font-bold text-slate-500">
-                {deal.mallName} · {getBenefitTypeLabel(deal.dealType)} · {getTimeLeft(deal.expireAt)}
+                {deal.mallName} · {getBenefitTypeLabel(deal.dealType)} · {getTimeLeft(deal.expireAt, referenceNow)}
               </span>
             </span>
             <span className={`shrink-0 text-xs font-black ${accentClasses.cta}`}>{deal.claimCta}</span>
@@ -395,7 +398,8 @@ export function BenefitDiscoverySections({
   favoriteCount,
   onSelectBenefit,
   onSelectCategory,
-  onOpenDeal
+  onOpenDeal,
+  referenceNow
 }: BenefitDiscoverySectionsProps) {
   const source = deals.length ? deals : [];
   const freeDeals = sortByBenefitScore(source.filter((deal) => ["freebie", "coupon", "freeShipping", "point", "experience", "convenienceStore", "mart", "foodDelivery"].includes(deal.dealType))).slice(0, 6);
@@ -745,6 +749,7 @@ export function BenefitDiscoverySections({
           deals={freeTop}
           accent="red"
           onOpenDeal={onOpenDeal}
+          referenceNow={referenceNow}
         />
         <BenefitTopList
           title="쿠폰·앱테크 TOP 5"
@@ -752,6 +757,7 @@ export function BenefitDiscoverySections({
           deals={couponTop}
           accent="slate"
           onOpenDeal={onOpenDeal}
+          referenceNow={referenceNow}
         />
       </section>
 
@@ -854,7 +860,7 @@ export function BenefitDiscoverySections({
                 </span>
                 <span className="min-w-0 flex-1">
                   <span className="block truncate text-sm font-black text-slate-950">{deal.title}</span>
-                  <span className="block text-xs font-bold text-dossa-red">{getTimeLeft(deal.expireAt)} · {formatPrice(deal.savingsAmount)} 절약</span>
+                  <span className="block text-xs font-bold text-dossa-red">{getTimeLeft(deal.expireAt, referenceNow)} · {formatPrice(deal.savingsAmount)} 절약</span>
                 </span>
               </button>
             ))}

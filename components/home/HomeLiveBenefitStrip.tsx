@@ -29,6 +29,7 @@ interface HomeLiveBenefitStripProps {
   freeBenefitCount?: number;
   endingSoonTotalCount?: number;
   isRefreshing?: boolean;
+  referenceNow?: number;
   onRefresh?: () => void;
   onOpenNewsDeal?: (deal: NewsDeal) => void;
 }
@@ -37,10 +38,10 @@ function isFreeBenefit(deal: NewsDeal) {
   return ["freebie", "coupon", "freeShipping", "point", "event"].includes(deal.benefitType) || deal.category === "무료혜택";
 }
 
-function isEndingSoon(deal: NewsDeal) {
+function isEndingSoon(deal: NewsDeal, referenceNow?: number) {
   const endTime = Date.parse(deal.expiresAt || deal.endDate);
   if (!Number.isFinite(endTime)) return false;
-  const hoursLeft = (endTime - Date.now()) / 3_600_000;
+  const hoursLeft = (endTime - (referenceNow ?? Date.now())) / 3_600_000;
   return hoursLeft >= 0 && hoursLeft <= 72;
 }
 
@@ -66,13 +67,14 @@ export function HomeLiveBenefitStrip({
   freeBenefitCount,
   endingSoonTotalCount,
   isRefreshing = false,
+  referenceNow,
   onRefresh,
   onOpenNewsDeal
 }: HomeLiveBenefitStripProps) {
   const visibleDeals = getVisibleBenefitDeals(deals);
   const freeCount = typeof freeBenefitCount === "number" ? freeBenefitCount : deals.filter(isFreeBenefit).length;
-  const endingSoonCount = typeof endingSoonTotalCount === "number" ? endingSoonTotalCount : deals.filter(isEndingSoon).length;
-  const checkedLabel = isRefreshing ? "검증 중" : freshnessLabel || (updatedAt ? getRelativeTime(updatedAt) : "확인 대기");
+  const endingSoonCount = typeof endingSoonTotalCount === "number" ? endingSoonTotalCount : deals.filter((deal) => isEndingSoon(deal, referenceNow)).length;
+  const checkedLabel = isRefreshing ? "검증 중" : freshnessLabel || (updatedAt ? getRelativeTime(updatedAt, referenceNow) : "확인 대기");
 
   return (
     <div
@@ -123,7 +125,7 @@ export function HomeLiveBenefitStrip({
                   {isEndingSoon(deal) ? (
                     <span className="inline-flex min-w-0 items-center gap-0.5 rounded-full bg-amber-50 px-1.5 py-0.5 text-[9px] font-black text-amber-700">
                       <CalendarClock size={10} />
-                      <span className="truncate">{getTimeLeft(deal.expiresAt || deal.endDate)}</span>
+                      <span className="truncate">{getTimeLeft(deal.expiresAt || deal.endDate, referenceNow)}</span>
                     </span>
                   ) : (
                     <span className="inline-flex items-center gap-0.5 rounded-full bg-emerald-50 px-1.5 py-0.5 text-[9px] font-black text-emerald-700">

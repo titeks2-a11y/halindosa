@@ -1,6 +1,6 @@
 # Link Revalidation Priority
 
-Generated: 2026-06-07T14:26:37.922Z
+Generated: 2026-06-07T15:16:47.155Z
 
 Status: PASS
 
@@ -16,8 +16,8 @@ Status: PASS
 - Quarantined hidden items: 0
 - User reported revalidation items: 0
 - Review items: 77
-- Watch items: 3
-- Queue items: 80
+- Watch items: 4
+- Queue items: 81
 
 ## Operating Rule
 

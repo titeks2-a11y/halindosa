@@ -11,6 +11,7 @@ interface HotSignalSectionProps {
   signals: HotSignal[];
   isLoading: boolean;
   onOpenSignal: (signal: HotSignal) => void;
+  referenceNow?: number;
 }
 
 const signalFavoriteKey = "halindosa:signal-favorites";
@@ -21,7 +22,7 @@ function getSignalLabel(signal: HotSignal) {
   return "특가 감지";
 }
 
-export function HotSignalSection({ signals, isLoading, onOpenSignal }: HotSignalSectionProps) {
+export function HotSignalSection({ signals, isLoading, onOpenSignal, referenceNow }: HotSignalSectionProps) {
   const leadSignal = signals[0];
   const restSignals = signals.slice(1, 9);
   const freeCount = signals.filter((signal) => /무료|공짜|무료배포|무료입장|무료개방/.test(`${signal.title} ${signal.summary}`)).length;
@@ -217,7 +218,7 @@ export function HotSignalSection({ signals, isLoading, onOpenSignal }: HotSignal
                     </span>
                   ))}
                 </div>
-                <p className="mt-4 truncate text-xs font-bold text-slate-300">실시간 확인 · {getRelativeTime(leadSignal.publishedAt)}</p>
+                <p className="mt-4 truncate text-xs font-bold text-slate-300">실시간 확인 · {getRelativeTime(leadSignal.publishedAt, referenceNow)}</p>
               </div>
               {renderActions(leadSignal, true)}
             </article>
@@ -263,7 +264,7 @@ export function HotSignalSection({ signals, isLoading, onOpenSignal }: HotSignal
                     ))}
                   </div>
                   <p className="mt-3 truncate text-xs font-semibold text-slate-500">
-                    실시간 확인 · {getRelativeTime(signal.publishedAt)}
+                    실시간 확인 · {getRelativeTime(signal.publishedAt, referenceNow)}
                   </p>
                 </div>
                 {renderActions(signal)}

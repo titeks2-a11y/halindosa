@@ -6,8 +6,17 @@ export function formatPrice(value: number) {
   }).format(value);
 }
 
-export function getRelativeTime(isoDate: string) {
-  const diffMs = Date.now() - new Date(isoDate).getTime();
+type ReferenceTime = number | string | Date;
+
+function getReferenceTime(referenceTime?: ReferenceTime) {
+  if (referenceTime instanceof Date) return referenceTime.getTime();
+  if (typeof referenceTime === "string") return new Date(referenceTime).getTime();
+  if (typeof referenceTime === "number") return referenceTime;
+  return Date.now();
+}
+
+export function getRelativeTime(isoDate: string, referenceTime?: ReferenceTime) {
+  const diffMs = getReferenceTime(referenceTime) - new Date(isoDate).getTime();
   const minutes = Math.max(0, Math.floor(diffMs / 60000));
 
   if (minutes < 1) return "방금 전";
@@ -19,8 +28,8 @@ export function getRelativeTime(isoDate: string) {
   return `${Math.floor(hours / 24)}일 전`;
 }
 
-export function getTimeLeft(isoDate: string) {
-  const diffMs = new Date(isoDate).getTime() - Date.now();
+export function getTimeLeft(isoDate: string, referenceTime?: ReferenceTime) {
+  const diffMs = new Date(isoDate).getTime() - getReferenceTime(referenceTime);
 
   if (diffMs <= 0) return "마감";
 

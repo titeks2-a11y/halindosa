@@ -1,6 +1,6 @@
 # Link Launch Gate
 
-Generated: 2026-06-07T14:23:55.681Z
+Generated: 2026-06-07T15:13:52.668Z
 
 Status: PASS
 
@@ -17,7 +17,7 @@ Status: PASS
 - Hidden products: 0
 - Exposed live hard failures: 0
 - Exposed seller unavailable signals: 0
-- Fresh manual evidence: 80/80
+- Fresh manual evidence: 81/81
 - Stale manual evidence: 0
 - Missing manual evidence: 0
 

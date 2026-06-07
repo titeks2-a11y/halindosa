@@ -8,6 +8,7 @@ interface PurchaseLinkOverviewProps {
   latestPriceCheckedAt: string;
   onShowVerified: () => void;
   onShowReview: () => void;
+  referenceNow?: number;
 }
 
 export function PurchaseLinkOverview({
@@ -16,7 +17,8 @@ export function PurchaseLinkOverview({
   reviewLinkCount,
   latestPriceCheckedAt,
   onShowVerified,
-  onShowReview
+  onShowReview,
+  referenceNow
 }: PurchaseLinkOverviewProps) {
   return (
     <section className="rounded-[26px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5" aria-label="구매 이동 안내">
@@ -33,7 +35,7 @@ export function PurchaseLinkOverview({
           </p>
         </div>
         <p className="shrink-0 rounded-full bg-slate-50 px-3 py-2 text-xs font-black text-slate-600">
-          가격 기준 {latestPriceCheckedAt ? getRelativeTime(latestPriceCheckedAt) : "확인 중"}
+          가격 기준 {latestPriceCheckedAt ? getRelativeTime(latestPriceCheckedAt, referenceNow) : "확인 중"}
         </p>
       </div>
 

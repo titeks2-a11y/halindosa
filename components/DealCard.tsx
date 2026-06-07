@@ -15,17 +15,18 @@ interface DealCardProps {
   onToggleFavorite: (id: string) => void;
   onOpenDeal: (deal: Deal) => void;
   onShareDeal: (deal: Deal) => void;
+  referenceNow?: number;
 }
 
-export function DealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, onShareDeal }: DealCardProps) {
+export function DealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, onShareDeal, referenceNow }: DealCardProps) {
   const linkAvailable = canOpenDealLink(deal);
   const linkVerified = isVerifiedPurchaseLink(deal);
   const qualityNotice = getDealQualityNotice(deal);
   const LinkTrustIcon = linkVerified ? CheckCircle2 : AlertTriangle;
   const purchaseCheckItems = [
     { label: "링크", value: getDealLinkTrustLabel(deal) },
-    { label: "가격", value: getRelativeTime(deal.priceCheckedAt) },
-    { label: "마감", value: getTimeLeft(deal.expiresAt) }
+    { label: "가격", value: getRelativeTime(deal.priceCheckedAt, referenceNow) },
+    { label: "마감", value: getTimeLeft(deal.expiresAt, referenceNow) }
   ];
   const benefitConditionItems = [
     {
@@ -150,11 +151,11 @@ export function DealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, onSha
           </span>
           <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-black text-slate-600">
             <Clock size={12} />
-            {getTimeLeft(deal.expiresAt)}
+            {getTimeLeft(deal.expiresAt, referenceNow)}
           </span>
         </div>
         <p className="text-[11px] font-bold text-slate-500">
-          {getDealPurchaseConfidenceLabel(deal)} · 가격 기준 {getRelativeTime(deal.priceCheckedAt)}
+          {getDealPurchaseConfidenceLabel(deal)} · 가격 기준 {getRelativeTime(deal.priceCheckedAt, referenceNow)}
         </p>
 
         <div className="hidden grid-cols-2 gap-1.5 rounded-2xl border border-slate-100 bg-white p-2 shadow-[0_8px_24px_rgba(15,23,42,0.04)] sm:grid" aria-label={`${deal.title} 출처와 신고 상태`}>
@@ -247,12 +248,12 @@ export function DealCard({ deal, isFavorite, onToggleFavorite, onOpenDeal, onSha
         </div>
 
         <div className="grid grid-cols-1 gap-1 text-[11px] font-semibold text-slate-500 sm:grid-cols-2 sm:gap-2 sm:text-xs">
-          <span>{getRelativeTime(deal.createdAt)} 등록</span>
+          <span>{getRelativeTime(deal.createdAt, referenceNow)} 등록</span>
           <span className="inline-flex items-center justify-end gap-1 text-right">
             <Clock size={13} />
-            {getTimeLeft(deal.expiresAt)}
+            {getTimeLeft(deal.expiresAt, referenceNow)}
           </span>
-          <span className="sm:col-span-2">가격 기준 {getRelativeTime(deal.priceCheckedAt)}</span>
+          <span className="sm:col-span-2">가격 기준 {getRelativeTime(deal.priceCheckedAt, referenceNow)}</span>
         </div>
 
         <p className="hidden line-clamp-2 rounded-2xl bg-white px-0 py-0 text-xs font-bold leading-5 text-slate-500 sm:block">

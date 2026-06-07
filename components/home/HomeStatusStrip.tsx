@@ -18,6 +18,7 @@ interface HomeStatusStripProps {
   oldestChannel?: string;
   isRefreshing?: boolean;
   refreshIntervalSeconds?: number;
+  referenceNow?: number;
   onRefresh?: () => void;
 }
 
@@ -38,6 +39,7 @@ export function HomeStatusStrip({
   oldestChannel,
   isRefreshing = false,
   refreshIntervalSeconds = 45,
+  referenceNow,
   onRefresh
 }: HomeStatusStripProps) {
   const channelLabel =
@@ -48,7 +50,7 @@ export function HomeStatusStrip({
         : oldestChannel === "hotSignals"
           ? "인기 신호"
           : "";
-  const freshnessLabel = updatedAt ? getRelativeTime(updatedAt) : "확인 대기";
+  const freshnessLabel = updatedAt ? getRelativeTime(updatedAt, referenceNow) : "확인 대기";
   const realtimeLabel = freshnessLabelOverride ?? (updatedAt ? (freshnessLabel === "방금 전" ? "방금 업데이트" : `${freshnessLabel} 확인`) : "최신 확인 대기");
   const autoRefreshLabel = `${refreshIntervalSeconds}초 자동 확인`;
   const staleHint = staleChannelCount > 0 && channelLabel ? ` · ${channelLabel} 재확인 중` : "";
@@ -113,7 +115,7 @@ export function HomeStatusStrip({
             {isOffline ? "오프라인 상태입니다." : "네트워크 정상 · 최신 특가 확인 가능"}
           </p>
           <p className="text-xs font-bold text-slate-500">
-            최근 가격 기준 {latestPriceCheckedAt ? getRelativeTime(latestPriceCheckedAt) : "대기 중"} · 공식혜택 {officialBenefitCount}개{qualityLabel} · {realtimeLabel}
+            최근 가격 기준 {latestPriceCheckedAt ? getRelativeTime(latestPriceCheckedAt, referenceNow) : "대기 중"} · 공식혜택 {officialBenefitCount}개{qualityLabel} · {realtimeLabel}
             {staleHint} · {autoRefreshLabel}
           </p>
         </div>

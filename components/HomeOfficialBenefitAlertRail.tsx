@@ -20,6 +20,7 @@ import type { NewsDeal } from "@/types/newsDeal";
 
 interface HomeOfficialBenefitAlertRailProps {
   deals: NewsDeal[];
+  referenceNow?: number;
   onOpenNewsDeal?: (deal: NewsDeal) => void;
 }
 
@@ -32,7 +33,7 @@ function benefitLabel(deal: NewsDeal) {
   return deal.category;
 }
 
-export function HomeOfficialBenefitAlertRail({ deals, onOpenNewsDeal }: HomeOfficialBenefitAlertRailProps) {
+export function HomeOfficialBenefitAlertRail({ deals, referenceNow, onOpenNewsDeal }: HomeOfficialBenefitAlertRailProps) {
   const [categories, setCategories] = useState<string[]>(defaultOfficialBenefitAlertInterests);
   const [recentIds, setRecentIds] = useState<string[]>([]);
 
@@ -175,7 +176,7 @@ export function HomeOfficialBenefitAlertRail({ deals, onOpenNewsDeal }: HomeOffi
                   </span>
                 </span>
                 <span className="mt-1 line-clamp-1 block text-[11px] font-bold text-slate-500">
-                  {officialHost} · {getTimeLeft(deal.endDate)}
+                  {officialHost} · {getTimeLeft(deal.endDate, referenceNow)}
                 </span>
                 <span className="mt-2 line-clamp-1 block text-[11px] font-black text-brand-red">{reason}</span>
                 <span className="mt-3 inline-flex min-h-8 items-center justify-center rounded-full bg-slate-950 px-3 text-[11px] font-black text-white">

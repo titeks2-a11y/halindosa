@@ -10,6 +10,7 @@ interface FeaturedDealSectionsProps {
   onToggleFavorite: (id: string) => void;
   onOpenDeal: (deal: Deal) => void;
   onShareDeal: (deal: Deal) => void;
+  referenceNow?: number;
 }
 
 function sectionScore(deal: Deal) {
@@ -78,7 +79,7 @@ const sections = [
   }
 ] as const;
 
-export function FeaturedDealSections({ deals, favorites, onToggleFavorite, onOpenDeal, onShareDeal }: FeaturedDealSectionsProps) {
+export function FeaturedDealSections({ deals, favorites, onToggleFavorite, onOpenDeal, onShareDeal, referenceNow }: FeaturedDealSectionsProps) {
   return (
     <div className="space-y-5">
       {sections.map((section) => {
@@ -113,6 +114,7 @@ export function FeaturedDealSections({ deals, favorites, onToggleFavorite, onOpe
                   onToggleFavorite={onToggleFavorite}
                   onOpenDeal={onOpenDeal}
                   onShareDeal={onShareDeal}
+                  referenceNow={referenceNow}
                 />
               ))}
             </div>

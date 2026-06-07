@@ -12,6 +12,7 @@ interface LiveDealFeedProps {
   onToggleFavorite: (id: string) => void;
   onOpenDeal: (deal: Deal) => void;
   onShareDeal: (deal: Deal) => void;
+  referenceNow?: number;
 }
 
 interface LiveDealRowProps {
@@ -20,6 +21,7 @@ interface LiveDealRowProps {
   onToggleFavorite: (id: string) => void;
   onOpenDeal: (deal: Deal) => void;
   onShareDeal: (deal: Deal) => void;
+  referenceNow?: number;
 }
 
 function getLinkTrustClassName(deal: Deal) {
@@ -28,7 +30,7 @@ function getLinkTrustClassName(deal: Deal) {
   return "bg-amber-50 text-amber-700";
 }
 
-function LiveDealRow({ deal, isFavorite, onToggleFavorite, onOpenDeal, onShareDeal }: LiveDealRowProps) {
+function LiveDealRow({ deal, isFavorite, onToggleFavorite, onOpenDeal, onShareDeal, referenceNow }: LiveDealRowProps) {
   const linkAvailable = canOpenDealLink(deal);
   const linkTrustClassName = getLinkTrustClassName(deal);
 
@@ -71,7 +73,7 @@ function LiveDealRow({ deal, isFavorite, onToggleFavorite, onOpenDeal, onShareDe
           </p>
           <p className="mt-1 inline-flex items-center gap-1 text-[11px] font-semibold text-slate-400">
             <Clock size={12} />
-            {getRelativeTime(deal.createdAt)} · {getTimeLeft(deal.expiresAt)}
+            {getRelativeTime(deal.createdAt, referenceNow)} · {getTimeLeft(deal.expiresAt, referenceNow)}
           </p>
         </div>
       </div>
@@ -91,7 +93,7 @@ function LiveDealRow({ deal, isFavorite, onToggleFavorite, onOpenDeal, onShareDe
         </Link>
         <p className="mt-1 inline-flex items-center gap-1 text-xs font-semibold text-slate-500">
           <Clock size={13} />
-          {getRelativeTime(deal.createdAt)} 등록 · {getTimeLeft(deal.expiresAt)}
+          {getRelativeTime(deal.createdAt, referenceNow)} 등록 · {getTimeLeft(deal.expiresAt, referenceNow)}
         </p>
       </div>
 
@@ -141,7 +143,8 @@ export function LiveDealFeed({
   favorites,
   onToggleFavorite,
   onOpenDeal,
-  onShareDeal
+  onShareDeal,
+  referenceNow
 }: LiveDealFeedProps) {
   const leadDeals = [...deals]
     .sort((a, b) => Number(isVerifiedPurchaseLink(b)) - Number(isVerifiedPurchaseLink(a)) || Number(b.isHot) - Number(a.isHot))
@@ -187,6 +190,7 @@ export function LiveDealFeed({
             onToggleFavorite={onToggleFavorite}
             onOpenDeal={onOpenDeal}
             onShareDeal={onShareDeal}
+            referenceNow={referenceNow}
           />
         ))}
       </div>

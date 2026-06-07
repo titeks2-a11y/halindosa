@@ -64,6 +64,7 @@ export function RealtimeNewsDealsSection({
   nextRefreshAt = "",
   isRefreshing = false,
   refreshError = "",
+  referenceNow,
   onRefresh,
   onOpenNewsDeal,
   onSelectQuery
@@ -83,6 +84,7 @@ export function RealtimeNewsDealsSection({
   nextRefreshAt?: string;
   isRefreshing?: boolean;
   refreshError?: string;
+  referenceNow?: number;
   onRefresh?: () => void;
   onOpenNewsDeal?: (deal: NewsDeal) => void;
   onSelectQuery?: (query: string) => void;
@@ -112,14 +114,14 @@ export function RealtimeNewsDealsSection({
     [deals, sourceTrustByKey]
   );
   const freshnessTone = refreshError || freshnessStatus === "stale" ? "warning" : freshnessStatus === "fresh" ? "success" : "neutral";
-  const freshnessText = isRefreshing ? "갱신 중" : freshnessLabel || (updatedAt ? getRelativeTime(updatedAt) : "seed 기준");
+  const freshnessText = isRefreshing ? "갱신 중" : freshnessLabel || (updatedAt ? getRelativeTime(updatedAt, referenceNow) : "seed 기준");
   const freshnessDetail =
     typeof freshnessAgeMinutes === "number"
       ? freshnessAgeMinutes < 60
         ? `${freshnessAgeMinutes}분 전 확인`
         : `${Math.floor(freshnessAgeMinutes / 60)}시간 전 확인`
       : nextRefreshAt
-        ? `다음 확인 ${getRelativeTime(nextRefreshAt)}`
+        ? `다음 확인 ${getRelativeTime(nextRefreshAt, referenceNow)}`
         : "공식 링크 기준";
   const highlightCounts = useMemo(
     () =>
@@ -157,7 +159,7 @@ export function RealtimeNewsDealsSection({
         trailing={
           <div className="hidden items-center gap-1.5 sm:flex">
             <CommerceBadge tone={refreshError ? "gold" : "neutral"}>
-              {updatedAt ? getRelativeTime(updatedAt) : freshnessText}
+              {updatedAt ? getRelativeTime(updatedAt, referenceNow) : freshnessText}
             </CommerceBadge>
             <CommerceBadge tone={freshnessTone}>
               {freshnessText}
@@ -178,7 +180,7 @@ export function RealtimeNewsDealsSection({
       />
       <div className="mt-2 flex items-center justify-between gap-2 sm:hidden">
         <CommerceBadge tone={refreshError ? "gold" : "neutral"}>
-          {updatedAt ? getRelativeTime(updatedAt) : freshnessText}
+          {updatedAt ? getRelativeTime(updatedAt, referenceNow) : freshnessText}
         </CommerceBadge>
         <CommerceBadge tone={freshnessTone}>
           {freshnessText}
@@ -239,7 +241,7 @@ export function RealtimeNewsDealsSection({
                     </span>
                     <span className="inline-flex items-center gap-1">
                       <CalendarClock size={11} />
-                      {getTimeLeft(deal.endDate)}
+                      {getTimeLeft(deal.endDate, referenceNow)}
                     </span>
                   </div>
                 </div>
@@ -302,11 +304,11 @@ export function RealtimeNewsDealsSection({
                 className="rounded-full bg-white px-2.5 py-1 text-[10px] font-black text-amber-700 shadow-sm transition hover:text-brand-red"
                 aria-label="마감임박 공식 혜택 검색"
               >
-                {getTimeLeft(effectiveDeadlineSummary.nearestEndDate)}
+                {getTimeLeft(effectiveDeadlineSummary.nearestEndDate, referenceNow)}
               </button>
             ) : effectiveDeadlineSummary.nearestEndDate ? (
               <span className="rounded-full bg-white px-2.5 py-1 text-[10px] font-black text-amber-700 shadow-sm">
-                가장 빠른 마감 {getTimeLeft(effectiveDeadlineSummary.nearestEndDate)}
+                가장 빠른 마감 {getTimeLeft(effectiveDeadlineSummary.nearestEndDate, referenceNow)}
               </span>
             ) : null}
           </div>
@@ -450,7 +452,7 @@ export function RealtimeNewsDealsSection({
               </CommerceBadge>
               <CommerceBadge tone="neutral" className="bg-white shadow-sm">
                 <CalendarClock size={12} />
-                {getTimeLeft(deal.endDate)}
+                {getTimeLeft(deal.endDate, referenceNow)}
               </CommerceBadge>
             </div>
             <div className="mt-3 flex items-center justify-between gap-2">

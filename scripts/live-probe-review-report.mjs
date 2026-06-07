@@ -47,7 +47,25 @@ function classifyLiveFailure(failure, item) {
   const reason = normalizeReason(failure?.reason || item?.liveProbe?.reason || item?.validationReason);
   const unavailablePattern = String(failure?.unavailablePattern || item?.liveProbe?.unavailablePattern || "");
   const isAlreadyQuarantined = item?.isHidden === true || item?.publishable !== true;
-  const isHardFailure = status === 404 || status === 410 || status >= 500 || reason === "timeout" || reason.includes("sold_out") || reason.includes("unavailable") || Boolean(unavailablePattern);
+  const evidenceStatus = getManualEvidenceStatus(item?.lastCheckedAt);
+  const hasFreshManualEvidence = evidenceStatus.fresh && /manual_verified|live_content_confirmed/.test(String(item?.verificationEvidenceTier || ""));
+  const isTransientTimeoutWithEvidence = reason === "timeout" && status === 0 && hasFreshManualEvidence;
+  const isHardFailure =
+    status === 404 ||
+    status === 410 ||
+    status >= 500 ||
+    (reason === "timeout" && !isTransientTimeoutWithEvidence) ||
+    reason.includes("sold_out") ||
+    reason.includes("unavailable") ||
+    Boolean(unavailablePattern);
+
+  if (isTransientTimeoutWithEvidence) {
+    return {
+      severity: "watch",
+      retryMode: "network_retry",
+      recommendedAction: "일시 timeout입니다. fresh manual evidence를 유지하되 다음 refresh:deals에서 우선 재시도"
+    };
+  }
 
   if (isHardFailure && isAlreadyQuarantined) {
     return {

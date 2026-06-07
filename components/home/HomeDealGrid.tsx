@@ -15,6 +15,7 @@ interface HomeDealGridProps {
   onToggleFavorite: (id: string) => void;
   onOpenDeal: (deal: Deal) => void;
   onShareDeal: (deal: Deal) => void;
+  referenceNow?: number;
 }
 
 export function HomeDealGrid({
@@ -28,7 +29,8 @@ export function HomeDealGrid({
   onLoadMore,
   onToggleFavorite,
   onOpenDeal,
-  onShareDeal
+  onShareDeal,
+  referenceNow
 }: HomeDealGridProps) {
   if (!items.length) {
     return (
@@ -55,6 +57,7 @@ export function HomeDealGrid({
             onToggleFavorite={onToggleFavorite}
             onOpenDeal={onOpenDeal}
             onShareDeal={onShareDeal}
+            referenceNow={referenceNow}
           />
         ))}
       </div>

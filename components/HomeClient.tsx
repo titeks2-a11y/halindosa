@@ -146,9 +146,15 @@ const INITIAL_HOME_DEAL_LIMIT = 12;
 const HOME_DEAL_LOAD_STEP = 12;
 const initialNewsSnapshot = refreshedNewsSnapshot as { generatedAt?: string; deals?: NewsDeal[]; sourceTrustScores?: NewsDealSourceTrust[]; intentGroups?: NewsIntentGroup[] };
 
-export default function Home() {
+interface HomeClientProps {
+  initialNow?: string;
+}
+
+export default function Home({ initialNow = "" }: HomeClientProps) {
   const { configured: authConfigured, user, nickname } = useAuth();
   const userId = user?.id;
+  const initialClockNow = Number.isFinite(Date.parse(initialNow)) ? Date.parse(initialNow) : 0;
+  const [clockNow, setClockNow] = useState(initialClockNow);
   const [hasAppliedInitialParams, setHasAppliedInitialParams] = useState(false);
   const [deals, setDeals] = useState<Deal[]>(mockDeals);
   const [catalog, setCatalog] = useState<Deal[]>(mockDeals);
@@ -265,6 +271,12 @@ export default function Home() {
     },
     [query, showToast]
   );
+
+  useEffect(() => {
+    const handle = window.setInterval(() => setClockNow(Date.now()), 60_000);
+
+    return () => window.clearInterval(handle);
+  }, []);
 
   useEffect(() => {
     const handle = window.setTimeout(() => {
@@ -891,7 +903,7 @@ export default function Home() {
 
   const stats = useMemo(() => buildHomeStats(deals, favorites), [deals, favorites]);
   const dataQuality = useMemo(() => buildHomeDataQuality(deals, catalog), [catalog, deals]);
-  const homeFreshnessLabel = homeFreshness?.label ?? getRelativeTime(lastHomeSyncAt || updatedAt || newsUpdatedAt);
+  const homeFreshnessLabel = homeFreshness?.label ?? getRelativeTime(lastHomeSyncAt || updatedAt || newsUpdatedAt, clockNow);
   const homeFreshnessUpdatedAt = homeFreshness?.generatedAt || lastHomeSyncAt || updatedAt || newsUpdatedAt;
 
   const alertDeals = useMemo(
@@ -1004,7 +1016,7 @@ export default function Home() {
     [deals, freeShippingOnly, hotOnly, sort, verifiedOnly]
   );
 
-  const listComparisonCards = useMemo(() => buildListComparisonCards(deals), [deals]);
+  const listComparisonCards = useMemo(() => buildListComparisonCards(deals, clockNow), [clockNow, deals]);
 
   const listRefinementChips = useMemo(
     () =>
@@ -1071,7 +1083,7 @@ export default function Home() {
     const source = catalog.length ? catalog : deals;
     return buildBenefitDecisionGuide(source);
   }, [catalog, deals]);
-  const dailyBenefitBriefing = useMemo(() => buildDailyBenefitBriefing(catalog.length ? catalog : deals, new Date(), 3), [catalog, deals]);
+  const dailyBenefitBriefing = useMemo(() => buildDailyBenefitBriefing(catalog.length ? catalog : deals, new Date(clockNow), 3), [catalog, clockNow, deals]);
   const dailyRoutinePlan = useMemo(() => buildDailyRoutinePlan(catalog.length ? catalog : deals, 2), [catalog, deals]);
 
   const searchPurposeCards = useMemo(() => buildSearchPurposeCards(catalog, deals), [catalog, deals]);
@@ -1278,7 +1290,7 @@ export default function Home() {
             <p className="text-xs font-black text-dossa-red lg:text-sm">실시간 특가 모아보기</p>
             <h2 className="text-xl font-black text-slate-950 lg:text-3xl">{viewTitle}</h2>
             <p className="mt-1 text-[11px] font-bold text-slate-400 lg:text-xs">
-              마지막 업데이트 {updatedAt ? new Intl.DateTimeFormat("ko-KR", { hour: "2-digit", minute: "2-digit" }).format(new Date(updatedAt)) : "대기 중"}
+              마지막 업데이트 {updatedAt ? new Intl.DateTimeFormat("ko-KR", { hour: "2-digit", minute: "2-digit", timeZone: "Asia/Seoul" }).format(new Date(updatedAt)) : "대기 중"}
             </p>
           </div>
           <button
@@ -1580,6 +1592,7 @@ export default function Home() {
               oldestChannel={homeFreshness?.oldestChannel}
               isRefreshing={isLoading || isNewsRefreshing || isSignalLoading}
               refreshIntervalSeconds={HOME_REFRESH_INTERVAL_SECONDS}
+              referenceNow={clockNow}
               onRefresh={refreshHomeNow}
             />
           </div>
@@ -1623,6 +1636,7 @@ export default function Home() {
                 onToggleFavorite={toggleFavorite}
                 onOpenDeal={openDeal}
                 onShareDeal={shareDeal}
+                referenceNow={clockNow}
               />
             )}
           </section>
@@ -1639,6 +1653,7 @@ export default function Home() {
               void refreshNewsDeals({ notify: true });
             }}
             onOpenNewsDeal={rememberRecentNewsBenefit}
+            referenceNow={clockNow}
           />
         ) : null}
         {activeView === "home" && instantDealRail.length ? (
@@ -1691,7 +1706,7 @@ export default function Home() {
                       <span className="block space-y-1 p-2 sm:space-y-1.5 sm:p-3">
                         <span className="flex items-center justify-between gap-2 text-[11px] font-black">
                           <span className="truncate text-dossa-red">{deal.mallName}</span>
-                          <span className="hidden shrink-0 text-slate-400 sm:inline">{getRelativeTime(deal.priceCheckedAt)}</span>
+                          <span className="hidden shrink-0 text-slate-400 sm:inline">{getRelativeTime(deal.priceCheckedAt, clockNow)}</span>
                         </span>
                         <span className="line-clamp-2 min-h-8 text-xs font-black leading-4 text-slate-950 sm:min-h-10 sm:text-sm sm:leading-5">{deal.title}</span>
                         <span className="hidden text-[11px] font-bold text-slate-400 line-through sm:block">{formatPrice(deal.originalPrice)}</span>
@@ -1754,9 +1769,10 @@ export default function Home() {
               setQuery(nextQuery);
               setActiveView("home");
             }}
+            referenceNow={clockNow}
           />
         ) : null}
-        {activeView === "home" ? <HomeOfficialBenefitAlertRail deals={newsDeals} onOpenNewsDeal={rememberRecentNewsBenefit} /> : null}
+        {activeView === "home" ? <HomeOfficialBenefitAlertRail deals={newsDeals} onOpenNewsDeal={rememberRecentNewsBenefit} referenceNow={clockNow} /> : null}
         {activeView === "home" ? (
           <section className="grid gap-2 sm:gap-4 lg:grid-cols-[1fr_0.9fr]" aria-label="홈 핵심 특가 요약">
             <div className="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm sm:rounded-[28px] sm:p-5">
@@ -1818,7 +1834,7 @@ export default function Home() {
                     </span>
                     <span className="min-w-0 flex-1">
                       <span className="block truncate text-xs font-black text-slate-950 sm:text-sm">{deal.title}</span>
-                      <span className="mt-0.5 block truncate text-[11px] font-bold text-slate-500 sm:text-xs">{deal.mallName} · {getTimeLeft(deal.expireAt)}</span>
+                      <span className="mt-0.5 block truncate text-[11px] font-bold text-slate-500 sm:text-xs">{deal.mallName} · {getTimeLeft(deal.expireAt, clockNow)}</span>
                     </span>
                     <ExternalLink size={16} className="shrink-0 text-slate-400" />
                   </a>
@@ -2074,6 +2090,7 @@ export default function Home() {
               onSelectBenefit={openBenefitFilter}
               onSelectCategory={openCategory}
               onOpenDeal={openDeal}
+              referenceNow={clockNow}
             />
 
             <DailyBenefitChecklist
@@ -2102,6 +2119,7 @@ export default function Home() {
               onToggleFavorite={toggleFavorite}
               onShareDeal={shareDeal}
               onShowVerified={() => openQuickDiscovery("verified")}
+              referenceNow={clockNow}
             />
 
             <PurchaseLinkOverview
@@ -2111,6 +2129,7 @@ export default function Home() {
               latestPriceCheckedAt={dataQuality.latestPriceCheckedAt}
               onShowVerified={() => openQuickDiscovery("verified")}
               onShowReview={openReviewNeededDeals}
+              referenceNow={clockNow}
             />
 
             <section className="rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5" aria-label="오늘 바로 볼 할인 지도">
@@ -2462,7 +2481,7 @@ export default function Home() {
               </div>
             </section>
 
-            <HotSignalSection signals={hotSignals} isLoading={isSignalLoading} onOpenSignal={openHotSignal} />
+            <HotSignalSection signals={hotSignals} isLoading={isSignalLoading} onOpenSignal={openHotSignal} referenceNow={clockNow} />
 
             <LiveDealFeed
               deals={deals.slice(0, INITIAL_HOME_DEAL_LIMIT)}
@@ -2470,6 +2489,7 @@ export default function Home() {
               onToggleFavorite={toggleFavorite}
               onOpenDeal={openDeal}
               onShareDeal={shareDeal}
+              referenceNow={clockNow}
             />
 
             <FeaturedDealSections
@@ -2478,6 +2498,7 @@ export default function Home() {
               onToggleFavorite={toggleFavorite}
               onOpenDeal={openDeal}
               onShareDeal={shareDeal}
+              referenceNow={clockNow}
             />
               </div>
             </details>
@@ -3154,6 +3175,7 @@ export default function Home() {
               onToggleFavorite={toggleFavorite}
               onOpenDeal={openDeal}
               onShareDeal={shareDeal}
+              referenceNow={clockNow}
             />
           )
           : null}

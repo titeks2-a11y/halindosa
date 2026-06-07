@@ -12,6 +12,7 @@ interface TrueDealSpotlightProps {
   onToggleFavorite: (id: string) => void;
   onShareDeal: (deal: Deal) => void;
   onShowVerified: () => void;
+  referenceNow?: number;
 }
 
 function scoreDeal(deal: Deal) {
@@ -41,7 +42,8 @@ export function TrueDealSpotlight({
   onOpenDeal,
   onToggleFavorite,
   onShareDeal,
-  onShowVerified
+  onShowVerified,
+  referenceNow
 }: TrueDealSpotlightProps) {
   const spotlightDeals = pickTrueDeals(deals);
   const lead = spotlightDeals[0];
@@ -134,8 +136,8 @@ export function TrueDealSpotlight({
               </div>
 
               <div className="mt-3 grid grid-cols-3 gap-2 text-[11px] font-black text-slate-600">
-                <span className="rounded-2xl bg-red-50 px-3 py-2 text-dossa-red">마감 {getTimeLeft(lead.expireAt)}</span>
-                <span className="rounded-2xl bg-slate-50 px-3 py-2">가격 {getRelativeTime(lead.priceCheckedAt)}</span>
+                <span className="rounded-2xl bg-red-50 px-3 py-2 text-dossa-red">마감 {getTimeLeft(lead.expireAt, referenceNow)}</span>
+                <span className="rounded-2xl bg-slate-50 px-3 py-2">가격 {getRelativeTime(lead.priceCheckedAt, referenceNow)}</span>
                 <span className="rounded-2xl bg-slate-50 px-3 py-2">{lead.shipping}</span>
               </div>
             </div>
@@ -209,7 +211,7 @@ export function TrueDealSpotlight({
                     <Truck size={12} />
                     {deal.shipping}
                     <Timer size={12} />
-                    {getTimeLeft(deal.expireAt)}
+                    {getTimeLeft(deal.expireAt, referenceNow)}
                   </span>
                 </span>
               </button>
