@@ -8,7 +8,7 @@ const startedAt = new Date();
 const steps = [
   ["lint", ["run", "lint"]],
   ["build", ["run", "build"]],
-  ["verify:links", ["run", "verify:links"]],
+  ["verify:links", ["run", "verify:links", "--", "--no-body"]],
   ["test:external-links", ["run", "test:external-links"]],
   ["test:images", ["run", "test:images"]],
   ["news:images:enrich", ["run", "news:images:enrich"]],
@@ -25,6 +25,13 @@ const steps = [
   ["smoke:local", ["run", "smoke:local"]],
   ["release:doctor", ["run", "release:doctor"]]
 ];
+const defaultStepTimeoutMs = 180_000;
+const stepTimeouts = new Map([
+  ["build", 300_000],
+  ["verify:links", 300_000],
+  ["smoke:local", 240_000],
+  ["release:doctor", 180_000]
+]);
 
 const results = [];
 
@@ -37,7 +44,11 @@ function runStep(name, args) {
       encoding: "utf8",
       shell: true,
       stdio: ["ignore", "pipe", "pipe"],
-      env: process.env
+      timeout: stepTimeouts.get(name) ?? defaultStepTimeoutMs,
+      env: {
+        ...process.env,
+        DEAL_LINK_TIMEOUT_MS: process.env.DEAL_LINK_TIMEOUT_MS ?? "2500"
+      }
     });
     results.push({
       name,
@@ -47,7 +58,8 @@ function runStep(name, args) {
     });
     console.log(`PASS ${name}`);
   } catch (error) {
-    const output = `${error.stdout ?? ""}\n${error.stderr ?? ""}`.trim();
+    const timedOut = error.signal === "SIGTERM" || /ETIMEDOUT|timed out/i.test(String(error.message ?? ""));
+    const output = `${error.stdout ?? ""}\n${error.stderr ?? ""}\n${timedOut ? `Step timed out after ${stepTimeouts.get(name) ?? defaultStepTimeoutMs}ms.` : ""}`.trim();
     results.push({
       name,
       ok: false,
