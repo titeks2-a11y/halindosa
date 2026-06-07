@@ -49,15 +49,29 @@ function classifyLiveFailure(failure, item) {
   const isAlreadyQuarantined = item?.isHidden === true || item?.publishable !== true;
   const evidenceStatus = getManualEvidenceStatus(item?.lastCheckedAt);
   const hasFreshManualEvidence = evidenceStatus.fresh && /manual_verified|live_content_confirmed/.test(String(item?.verificationEvidenceTier || ""));
+  const isTransientServerOrNetworkWithEvidence =
+    hasFreshManualEvidence &&
+    (status === 0 || status >= 500 || reason === "request_failed" || reason === "timeout" || reason === "fetch_error");
   const isTransientTimeoutWithEvidence = reason === "timeout" && status === 0 && hasFreshManualEvidence;
   const isHardFailure =
     status === 404 ||
     status === 410 ||
-    status >= 500 ||
+    (status >= 500 && !isTransientServerOrNetworkWithEvidence) ||
     (reason === "timeout" && !isTransientTimeoutWithEvidence) ||
     reason.includes("sold_out") ||
     reason.includes("unavailable") ||
     Boolean(unavailablePattern);
+
+  if (isTransientServerOrNetworkWithEvidence) {
+    return {
+      severity: "watch",
+      retryMode: status >= 500 ? "backoff_retry" : "network_retry",
+      recommendedAction:
+        status >= 500
+          ? "일시 서버 오류입니다. fresh manual evidence를 유지하고 backoff retry 후 official API 또는 partner feed로 대조"
+          : "일시 네트워크 실패입니다. fresh manual evidence를 유지하되 다음 refresh:deals에서 우선 재시도"
+    };
+  }
 
   if (isTransientTimeoutWithEvidence) {
     return {

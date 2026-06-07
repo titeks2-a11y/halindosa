@@ -131,10 +131,9 @@ async function probeUrl(url, method, timeoutOverrideMs = timeoutMs) {
 
 function classify(source, result) {
   if (!result.ok) {
-    const timeout = result.error === "timeout";
     return {
-      status: timeout ? "timeout" : "network_error",
-      reason: timeout ? "timeout" : "network_error",
+      status: "guarded",
+      reason: result.error === "timeout" ? "timeout" : "network_error",
       operatorAction: "공식 feed 연결 전 브라우저/제휴 담당자 확인 필요"
     };
   }
@@ -187,7 +186,7 @@ function classify(source, result) {
 
   if (httpStatus >= 500) {
     return {
-      status: "server_error",
+      status: "guarded",
       reason: "source_server_error",
       operatorAction: "일시 장애 여부를 재확인하고 노출 데이터는 기존 검증 feed만 유지"
     };
