@@ -36,7 +36,6 @@ const requiredFiles = [
   "docs/RELEASE_NOTES.md",
   "docs/SUPPORT_PLAYBOOK.md",
   "docs/KNOWN_ISSUES.md",
-  "android/app/release/app-release.aab",
   "assets/store/play-store-icon-512.png",
   "assets/store/feature-graphic-1024x500.png",
   "STORE_SCREENSHOT_MANIFEST.json",
@@ -50,6 +49,10 @@ const requiredFiles = [
   "SUPPORT_PLAYBOOK.json",
   "KNOWN_ISSUES.md",
   "ios/App/App/PrivacyInfo.xcprivacy"
+];
+
+const manualArtifacts = [
+  "android/app/release/app-release.aab"
 ];
 
 const requiredCommands = [
@@ -128,6 +131,7 @@ const commit = run("git", ["rev-parse", "--short", "HEAD"]);
 const status = (run("git", ["status", "--short"]) || "clean").replace(/\r?\n/g, "; ");
 const missingFileReferences = requiredFiles.filter((file) => !packet.includes(file));
 const missingExistingFiles = requiredFiles.filter((file) => !exists(file));
+const missingManualArtifactReferences = manualArtifacts.filter((file) => !packet.includes(file));
 const missingCommands = requiredCommands.filter((command) => !packet.includes(command));
 const missingCopy = requiredCopy.filter((copy) => !packet.includes(copy));
 const blocked = blockedCopy.filter((copy) => packet.includes(copy));
@@ -138,6 +142,7 @@ const mismatchedMirrors = mirroredReports.filter(([rootPath, docsPath]) => {
 
 if (missingFileReferences.length) fail(`Packet missing file references: ${missingFileReferences.join(", ")}`);
 if (missingExistingFiles.length) fail(`Referenced files are missing: ${missingExistingFiles.join(", ")}`);
+if (missingManualArtifactReferences.length) fail(`Packet missing manual artifact references: ${missingManualArtifactReferences.join(", ")}`);
 if (missingCommands.length) fail(`Packet missing commands: ${missingCommands.join(", ")}`);
 if (missingCopy.length) fail(`Packet missing store copy: ${missingCopy.join(", ")}`);
 if (blocked.length) fail(`Packet should not include local/example origins: ${blocked.join(", ")}`);
@@ -146,6 +151,7 @@ if (mismatchedMirrors.length) {
 }
 
 const rows = requiredFiles.map((file) => `| \`${file}\` | ${exists(file) ? "present" : "missing"} | ${packet.includes(file) ? "referenced" : "missing reference"} |`);
+const manualRows = manualArtifacts.map((file) => `| \`${file}\` | ${exists(file) ? "present locally" : "manual/local artifact"} | ${packet.includes(file) ? "referenced" : "missing reference"} |`);
 const commandRows = requiredCommands.map((command) => `| \`${command}\` | ${packet.includes(command) ? "referenced" : "missing"} |`);
 const mirrorRows = mirroredReports.map(([rootPath, docsPath]) => {
   const rootExists = exists(rootPath);
@@ -171,6 +177,7 @@ const report = [
   "| File | Status | Packet reference |",
   "| --- | --- | --- |",
   ...rows,
+  ...manualRows,
   "",
   "## Command References",
   "",
