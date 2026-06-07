@@ -1,5 +1,5 @@
 import { readFileSync } from "node:fs";
-import { assert, baseUrl, check, fetchJson } from "./smoke-harness.mjs";
+import { assert, baseUrl, check, fetchJson, isMallHomeOnlyUrl, isUnsafeDealUrl } from "./smoke-harness.mjs";
 
 const homePageSource = readFileSync(new URL("../../app/page.tsx", import.meta.url), "utf8");
 const homeApiSource = readFileSync(new URL("../../lib/homeApi.ts", import.meta.url), "utf8");
@@ -84,6 +84,45 @@ export async function runPageSmokeChecks() {
         assert(data.quality?.exposure?.publishableTotal >= data.quality?.officialBenefits?.publishable, "/api/home should expose combined publishable exposure quality metadata");
         assert(data.counts?.newsDeals >= data.newsDeals.length, "/api/home official benefit total count should not be limited to returned rows");
         assert(Array.isArray(data.deals) && Array.isArray(data.newsDeals) && Array.isArray(data.hotSignals), "/api/home should return product, official benefit, and signal arrays together");
+        assert(
+          data.deals.every(
+            (deal) =>
+              deal.publishable === true &&
+              deal.availability === "active" &&
+              deal.validationStatus === "passed" &&
+              deal.isHidden !== true &&
+              typeof deal.finalUrl === "string" &&
+              /^https?:\/\//.test(deal.finalUrl) &&
+              !isUnsafeDealUrl(deal.finalUrl) &&
+              !isMallHomeOnlyUrl(deal.finalUrl) &&
+              !/\/search|search\?|query=|keyword=|msearch|\/result|\/find/i.test(deal.finalUrl) &&
+              Boolean(deal.updatedAt) &&
+              Boolean(deal.verifiedAt) &&
+              ["official", "generated"].includes(deal.imageType) &&
+              Number(deal.qualityScore ?? 0) >= 55
+          ),
+          "/api/home product deals must all be active, publishable, verified, directly linkable, image-ready, and quality-scored"
+        );
+        assert(
+          data.newsDeals.every(
+            (deal) =>
+              deal.publishable === true &&
+              deal.availability === "active" &&
+              deal.validationStatus === "passed" &&
+              deal.isHidden !== true &&
+              typeof deal.finalUrl === "string" &&
+              /^https?:\/\//.test(deal.finalUrl) &&
+              !isUnsafeDealUrl(deal.finalUrl) &&
+              !isMallHomeOnlyUrl(deal.finalUrl) &&
+              !/\/search|search\?|query=|keyword=|msearch|\/result|\/find/i.test(deal.finalUrl) &&
+              Boolean(deal.updatedAt) &&
+              Boolean(deal.verifiedAt) &&
+              Boolean(deal.source || deal.sourceName) &&
+              ["official", "generated"].includes(deal.imageType) &&
+              Number(deal.qualityScore ?? 0) >= 70
+          ),
+          "/api/home official benefits must all be active, publishable, verified, source-labeled, directly linkable, image-ready, and quality-scored"
+        );
       }
     }
 
