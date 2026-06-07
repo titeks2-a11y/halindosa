@@ -328,7 +328,7 @@ async function checkSecurityPolicy() {
 }
 
 function isGeneratedReleaseSnapshotCommit(subject) {
-  return /refresh .*release evidence/i.test(subject) || /refresh .*store release handoff docs/i.test(subject);
+  return /refresh .*release evidence/i.test(subject) || /refresh .*store release handoff docs/i.test(subject) || /refresh .*launch handoff/i.test(subject);
 }
 
 async function checkReleaseEvidenceFreshness() {
