@@ -4,6 +4,11 @@ import { fail, homeSource, pass, root, smokeSource, text } from "./release-docto
 
 const MIN_OFFICIAL_BENEFITS = 95;
 
+async function readOptionalJson(path, fallback) {
+  if (!existsSync(join(root, path))) return fallback;
+  return JSON.parse(await text(path));
+}
+
 export async function checkOperationalDataSurfaces() {
   const dealsRoute = await text("app/api/deals/route.ts");
   const homePage = await homeSource();
@@ -859,16 +864,16 @@ export async function checkOperationalDataSurfaces() {
   const linkRevalidationPriorityRoute = await text("app/api/admin/link-revalidation-priority/route.ts");
   const linkRevalidationPriorityDoc = await text("docs/LINK_REVALIDATION_PRIORITY.md");
   const liveProbeReviewDoc = await text("docs/LIVE_PROBE_REVIEW_REPORT.md");
-  const linkReport = JSON.parse(await text("reports/link-validation.json"));
-  const productReport = JSON.parse(await text("reports/product-quality.json"));
+  const linkReport = await readOptionalJson("reports/link-validation.json", {});
+  const productReport = await readOptionalJson("reports/product-quality.json", {});
   const linkRegressionReportPath = join(root, "reports/link-quality-regression.json");
   const linkRegressionReport = existsSync(linkRegressionReportPath)
     ? JSON.parse(await text("reports/link-quality-regression.json"))
     : { ok: false, summary: {}, cases: [] };
-  const exposureReport = JSON.parse(await text("reports/exposure-policy.json"));
-  const publishableSurfaceReport = JSON.parse(await text("reports/publishable-surface.json"));
-  const linkRevalidationPriorityReport = JSON.parse(await text("reports/link-revalidation-priority.json"));
-  const liveProbeReviewReport = JSON.parse(await text("reports/live-probe-review.json"));
+  const exposureReport = await readOptionalJson("reports/exposure-policy.json", {});
+  const publishableSurfaceReport = await readOptionalJson("reports/publishable-surface.json", {});
+  const linkRevalidationPriorityReport = await readOptionalJson("reports/link-revalidation-priority.json", {});
+  const liveProbeReviewReport = await readOptionalJson("reports/live-probe-review.json", {});
   const linkPolicyIssues = [];
 
   for (const key of ["blockedHosts", "searchPatterns", "unavailableTextPatterns", "liveUnavailableTextPatterns", "clientRenderedDetailHosts", "productDetailSignals", "officialBenefitUrlSignals", "exposurePolicy", "launchGate"]) {

@@ -115,6 +115,10 @@ jobs:
       - name: Launch harness
         run: npm run harness:ci
 
+      - name: Prepare release doctor reports
+        timeout-minutes: 12
+        run: npm run release:prepare:reports
+
       - name: Release doctor
         run: npm run release:doctor
 

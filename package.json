@@ -122,6 +122,7 @@
     "harness:ci": "node scripts/harness.mjs --ci",
     "release:evidence": "node scripts/release-evidence.mjs",
     "release:notes": "node scripts/release-notes.mjs",
+    "release:prepare:reports": "npm run admin:auth:doctor && npm run verify:links -- --no-body && npm run verify:products && npm run link:policy:regression && npm run exposure:doctor && npm run surface:publishable:doctor && npm run link:launch:gate && npm run link:revalidation:report && npm run live:probe:review && npm run news:freshness:doctor && npm run news:feed:live && npm run cron:refresh:doctor && npm run push:readiness:report && npm run push:delivery:doctor && npm run push:delivery:audit && npm run daily:operations:report",
     "release:doctor": "node scripts/release-doctor.mjs",
     "support:playbook": "node scripts/support-playbook.mjs",
     "known:issues": "node scripts/known-issues-report.mjs",

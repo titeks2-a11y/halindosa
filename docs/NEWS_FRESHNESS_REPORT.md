@@ -2,10 +2,10 @@
 
 공식 혜택/할인뉴스가 오래된 정보나 종료된 이벤트를 사용자에게 노출하지 않도록 확인하는 운영 리포트입니다.
 
-- 생성 시각: 2026-06-07T17:29:49.967Z
-- 원본 리포트 생성 시각: 2026-06-07T17:29:48.855Z
+- 생성 시각: 2026-06-07T20:07:43.360Z
+- 원본 리포트 생성 시각: 2026-06-07T18:43:48.114Z
 - 상태: fresh
-- 리포트 나이: 0h
+- 리포트 나이: 1.4h
 - 노출 공식 혜택: 105개
 - 종료 노출: 0개
 - 14일 이내 종료: 3개
@@ -16,7 +16,7 @@
 | Check | Status | Detail |
 | --- | --- | --- |
 | visible official benefits | PASS | 105 visible official benefit deals are available. |
-| report freshness | PASS | news-deals report age is 0h. |
+| report freshness | PASS | news-deals report age is 1.4h. |
 | deal check freshness | PASS | No visible official benefit has lastCheckedAt older than 24h. |
 | expired exposure | PASS | No expired official benefit is visible. |
 | category coverage | PASS | All 10 categories have at least 2 visible benefits. |
@@ -42,9 +42,9 @@
 
 | Deal | Merchant | End Date | Days Left | Action |
 | --- | --- | --- | ---: | --- |
-| GS25 드링킹 페스타 1+1·다량 구매 행사 | GS25 | 2026-06-15 | 7.3 | 공식 페이지 종료 여부를 확인하고 대체 혜택 후보를 준비하세요. |
-| 던킨 공식 이달의 콤보 쿠폰 혜택 | 던킨 | 2026-06-21 | 13.3 | 공식 페이지 종료 여부를 확인하고 대체 혜택 후보를 준비하세요. |
-| 맥도날드 해피 스낵 무료 음료 혜택 | 맥도날드 | 2026-06-21 | 13.3 | 공식 페이지 종료 여부를 확인하고 대체 혜택 후보를 준비하세요. |
+| GS25 드링킹 페스타 1+1·다량 구매 행사 | GS25 | 2026-06-15 | 7.2 | 공식 페이지 종료 여부를 확인하고 대체 혜택 후보를 준비하세요. |
+| 던킨 공식 이달의 콤보 쿠폰 혜택 | 던킨 | 2026-06-21 | 13.2 | 공식 페이지 종료 여부를 확인하고 대체 혜택 후보를 준비하세요. |
+| 맥도날드 해피 스낵 무료 음료 혜택 | 맥도날드 | 2026-06-21 | 13.2 | 공식 페이지 종료 여부를 확인하고 대체 혜택 후보를 준비하세요. |
 
 ## Next Actions
 

@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-07T17:30:09.501Z",
+  "generatedAt": "2026-06-07T20:07:41.847Z",
   "criteria": {
     "reportsPresent": true,
     "minimumAuditedItems": 140,
@@ -39,8 +39,8 @@
     "refreshFailedCount": 0,
     "liveHardFailures": 0,
     "sellerUnavailableSignals": 0,
-    "manualEvidenceReviewedItems": 80,
-    "freshManualEvidence": 80,
+    "manualEvidenceReviewedItems": 81,
+    "freshManualEvidence": 81,
     "staleManualEvidence": 0,
     "missingManualEvidence": 0,
     "manualEvidenceMaxAgeDays": 7
@@ -69,11 +69,11 @@
     }
   },
   "sourceReports": {
-    "linkValidation": "2026-06-07T17:30:06.834Z",
-    "productQuality": "2026-06-07T17:30:07.362Z",
-    "exposurePolicy": "2026-06-07T17:30:08.393Z",
-    "refreshDeals": "2026-06-07T17:29:54.657Z",
-    "liveProbeReview": "2026-06-07T16:22:47.766Z"
+    "linkValidation": "2026-06-07T20:07:39.223Z",
+    "productQuality": "2026-06-07T20:07:39.749Z",
+    "exposurePolicy": "2026-06-07T20:07:40.796Z",
+    "refreshDeals": "2026-06-07T18:43:40.235Z",
+    "liveProbeReview": "2026-06-07T17:31:49.958Z"
   },
   "linkTypeCounts": {
     "direct_purchase": 110,
@@ -94,26 +94,26 @@
     "accessProtectedCount": 64,
     "sellerUnavailableSignals": 0,
     "contentProbe": {
-      "bodyChecked": 137,
-      "titleMetaChecked": 133,
-      "contentMatched": 55,
-      "contentMismatch": 82,
-      "accessibleContentMismatch": 5,
-      "accessGuardBody": 32,
-      "priceSignal": 26,
-      "purchaseActionSignal": 14,
+      "bodyChecked": 0,
+      "titleMetaChecked": 0,
+      "contentMatched": 0,
+      "contentMismatch": 0,
+      "accessibleContentMismatch": 0,
+      "accessGuardBody": 0,
+      "priceSignal": 0,
+      "purchaseActionSignal": 0,
       "strict": false
     },
     "interpretation": "Some URLs returned transient network signals; no exposed search, sold-out, 404, 410, or 5xx links were found."
   },
   "manualEvidenceSummary": {
     "maxAgeDays": 7,
-    "reviewedQueueItems": 80,
-    "freshManualEvidenceCount": 80,
+    "reviewedQueueItems": 81,
+    "freshManualEvidenceCount": 81,
     "staleManualEvidenceCount": 0,
     "missingManualEvidenceCount": 0,
-    "oldestCheckedAt": "2026-06-07T16:20:16.682Z",
-    "newestCheckedAt": "2026-06-07T16:20:16.682Z"
+    "oldestCheckedAt": "2026-06-07T17:30:24.211Z",
+    "newestCheckedAt": "2026-06-07T17:30:24.211Z"
   },
   "failedExposureItems": [],
   "hiddenItems": [],
