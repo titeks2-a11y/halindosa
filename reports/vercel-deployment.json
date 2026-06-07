@@ -1,10 +1,10 @@
 {
   "ok": false,
-  "generatedAt": "2026-06-07T13:08:16.418Z",
+  "generatedAt": "2026-06-07T13:17:38.740Z",
   "origin": "https://halindosa.com",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "367e4eee",
-  "workingTree": "M README_DEPLOY.md;  M package.json; ?? docs/VERCEL_DEPLOYMENT_REPORT.md; ?? scripts/vercel-deployment-doctor.mjs",
+  "commit": "279f86af",
+  "workingTree": "M MOBILE_UX_REPORT.md;  M docs/VERCEL_DEPLOYMENT_REPORT.md;  M reports/vercel-deployment.json",
   "project": {
     "linked": false
   },
@@ -75,40 +75,40 @@
       "url": "https://halindosa.com/",
       "status": 200,
       "ok": true,
-      "elapsedMs": 221,
+      "elapsedMs": 197,
       "cacheControl": "public, max-age=0, must-revalidate",
       "contentType": "text/html; charset=utf-8",
       "location": "",
-      "xVercelId": "icn1::xt8st-1780837696566-c46db1539df8",
+      "xVercelId": "icn1::wj55p-1780838257829-ab6c0deff0ba",
       "bodyPreview": "<!DOCTYPE html><html lang=\"ko\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover\"/><link rel=\"preload\" as=\"image\" href=\"/halindosa-icon-192.png\"/><link rel=\""
     },
     "homeApi": {
       "url": "https://halindosa.com/api/home?limit=3&verifiedOnly=true",
       "status": 404,
       "ok": false,
-      "elapsedMs": 99,
+      "elapsedMs": 26,
       "cacheControl": "public, max-age=0, must-revalidate",
       "contentType": "text/html; charset=utf-8",
       "location": "",
-      "xVercelId": "icn1::xt8st-1780837696729-d7e5f8f13d94",
+      "xVercelId": "icn1::wj55p-1780838257901-86d044763ce8",
       "bodyPreview": "<!DOCTYPE html><html lang=\"ko\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover\"/><link rel=\"preload\" as=\"image\" href=\"/halindosa-icon-192.png\"/><link rel=\""
     },
     "dealsApi": {
       "url": "https://halindosa.com/api/deals?limit=3&verifiedOnly=true",
       "status": 200,
       "ok": true,
-      "elapsedMs": 358,
+      "elapsedMs": 1592,
       "cacheControl": "public, max-age=0, must-revalidate",
       "contentType": "application/json",
       "location": "",
-      "xVercelId": "icn1::iad1::xt8st-1780837696804-7bf2a001d417",
+      "xVercelId": "icn1::iad1::wj55p-1780838257918-e351bbb09917",
       "bodyPreview": "{\"ok\":true,\"deals\":[{\"id\":\"d001\",\"title\":\"삼성 86인치 4K 스마트 UHD TV\",\"description\":\"롯데온에서 확인된 삼성 86인치 4K 스마트 UHD TV 특가입니다. 할인율, 배송 조건, 쿠폰 적용 여부를 함께 비교해 볼 만한 상품입니다.\",\"brand\":\"롯데온\",\"price\":889000,\"originalPrice\":1201350,\"salePrice\":889000,\"discou"
     },
     "goRedirect": {
       "url": "https://halindosa.com/go/d014?from=vercel-doctor",
       "status": 302,
       "ok": false,
-      "elapsedMs": 265,
+      "elapsedMs": 241,
       "cacheControl": "public, max-age=0, must-revalidate",
       "contentType": "",
       "location": "https://www.coupang.com/vp/products/7687552147",
@@ -118,17 +118,17 @@
           "status": 307,
           "location": "https://www.halindosa.com/go/d014?from=vercel-doctor",
           "cacheControl": "public, max-age=0, must-revalidate",
-          "xVercelId": "icn1::x5v59-1780837697149-db2c26c08e14"
+          "xVercelId": "icn1::49wzs-1780838259504-0af46b94df79"
         },
         {
           "url": "https://www.halindosa.com/go/d014?from=vercel-doctor",
           "status": 302,
           "location": "https://www.coupang.com/vp/products/7687552147",
           "cacheControl": "public, max-age=0, must-revalidate",
-          "xVercelId": "icn1::iad1::xt8st-1780837697166-f6dec611357d"
+          "xVercelId": "icn1::iad1::wj55p-1780838259511-1065b0738ab4"
         }
       ],
-      "xVercelId": "icn1::iad1::xt8st-1780837697166-f6dec611357d",
+      "xVercelId": "icn1::iad1::wj55p-1780838259511-1065b0738ab4",
       "bodyPreview": ""
     }
   }
