@@ -75,6 +75,15 @@ jobs:
       - name: Store screenshot readiness report
         run: npm run store:screenshots:doctor
 
+      - name: Refresh launch data snapshots
+        run: npm run refresh:all
+
+      - name: Official source readiness report
+        run: |
+          npm run source:live:doctor
+          npm run source:readiness:report
+          npm run news:feed:canary
+
       - name: Operational health readiness report
         run: npm run health:readiness
 
