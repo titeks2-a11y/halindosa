@@ -12,9 +12,11 @@ Status: ACTION_NEEDED
 | 보강 대기 상품 수 | 47 |
 | 명시 이미지 커버리지 | 66% |
 | 공개 운영 목표 커버리지 | 60% |
+| 운영 성장 목표 커버리지 | 80% |
 | 목표까지 추가 보강 | 0 |
-| 주간 보강 목표 | 0 |
-| 주간 보강 배치 후보 | 0 |
+| 운영 성장 목표까지 추가 보강 | 19 |
+| 주간 보강 목표 | 12 |
+| 주간 보강 배치 후보 | 12 |
 | 판매처별 요청서 행 | 21 |
 | 이미지 ready gate | productUrl + imageUrl/thumbnail + imageRights + priceCheckedAt |
 
@@ -26,12 +28,12 @@ Status: ACTION_NEEDED
 - 운영 ready 이미지는 공식/제휴 피드 또는 판매처 상품 상세에서 권리 확인 가능한 이미지여야 합니다.
 - 검색 결과 썸네일, 커뮤니티 캡처, 블로그 이미지, 무출처 이미지는 보강 완료로 인정하지 않습니다.
 - 이미지 보강 행은 `sourceSafetyLevel=official_or_partner_only`, `imageReadyGate`, `requiredProviderFields`, `operatorChecklist`, `requestTemplate`를 포함해야 합니다.
-- 공개 운영 전 목표는 명시 실상품 이미지 60% 이상이며, 목표 도달까지 매주 클릭 상위 fallback 상품 대기 없음개를 먼저 보강합니다.
+- 공개 출시 최소선은 명시 실상품 이미지 60% 이상이고, 운영 성장 목표는 80%입니다. 최소선을 넘은 뒤에도 fallback 상품이 남아 있으면 매주 최대 12개를 보강합니다.
 - 판매처별 backlog가 많은 경우 수동 이미지 검색보다 제휴/운영 피드의 `imageUrl`, 이미지 사용 권한, 최신 가격 기준 시각을 함께 확보합니다.
 - 보강 우선순위는 클릭/찜이 많은 상품, 무료 혜택 상단 노출 상품, 카테고리 대표 상품 순서입니다.
 - 이미지는 판매처 상세 페이지, 공식 제휴 피드, 브랜드가 제공한 이미지처럼 사용 권한을 확인할 수 있는 출처에서 확보합니다.
 - `IMAGE_BACKLOG.csv`는 전체 보강 큐이며, 운영자는 `imageUrl` 또는 `thumbnail` 필드에 대표 이미지를 저장합니다.
-- `IMAGE_BACKLOG_NEXT_BATCH.csv`는 이번 주 먼저 처리할 0개 상품만 분리한 실행 배치입니다.
+- `IMAGE_BACKLOG_NEXT_BATCH.csv`는 이번 주 먼저 처리할 12개 상품만 분리한 실행 배치입니다.
 - `IMAGE_BACKLOG_MALL_REQUESTS.csv`는 판매처별 imageUrl 확보 요청서이며, 제휴/운영 피드 담당자가 우선 처리할 판매처와 SLA를 정리합니다.
 
 ## Backlog By Category
@@ -74,7 +76,18 @@ Status: ACTION_NEEDED
 
 | Rank | ID | 판매처 | 상품명 | 우선순위 | Ready Gate | 운영 사유 |
 | ---: | --- | --- | --- | --- | --- | --- |
-| - | - | - | 보강 대기 상품 없음 | - | - | - |
+| 1 | d013 | 하이마트 | 삼성 55형 4K UHD TV | high | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 주간 보강 배치 상위 후보 |
+| 2 | d014 | 쿠팡 | 애플워치 호환 스포츠 밴드 | high | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 주간 보강 배치 상위 후보 |
+| 3 | d019 | 오늘의집 | 원목 수납장 3단 | high | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 주간 보강 배치 상위 후보 |
+| 4 | d022 | 올리브영 | JMW BLDC 에어원 드라이어 MC4B03C | high | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 주간 보강 배치 상위 후보 |
+| 5 | d025 | 올리브영 | 선크림 1+1 기획 | high | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 주간 보강 배치 상위 후보 |
+| 6 | d028 | 쿠팡 | 워터픽 나노 패밀리팩 구강세정기 | high | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 주간 보강 배치 상위 후보 |
+| 7 | d030 | 쿠팡 | Apple 2025 아이패드 A16 11세대 128GB Wi-Fi | high | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 주간 보강 배치 상위 후보 |
+| 8 | d031 | 쿠팡 | 원목 수납장 3단 다용도 월넛 유리 거실장 | high | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 주간 보강 배치 상위 후보 |
+| 9 | d035 | 쿠팡 | 로켓프레시 친환경 토마토 2kg | high | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 주간 보강 배치 상위 후보 |
+| 10 | d040 | 올리브영 | 아이보들 CCP 크림 1+1 기획 | high | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 주간 보강 배치 상위 후보 |
+| 11 | d044 | 옥션 | 국내산 냉동 블루베리 1kg | high | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 주간 보강 배치 상위 후보 |
+| 12 | d046 | 쿠팡 | 탐사수 무라벨 2L 24병 | high | productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 | 주간 보강 배치 상위 후보 |
 
 ## 판매처별 이미지 요청서
 

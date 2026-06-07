@@ -1,10 +1,10 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-07T01:43:38.710Z",
+  "generatedAt": "2026-06-07T02:12:55.345Z",
   "sourceReports": {
-    "linkValidation": "2026-06-07T01:42:28.309Z",
-    "exposurePolicy": "2026-06-07T01:40:57.590Z",
-    "linkLaunchGate": "2026-06-07T01:40:58.664Z"
+    "linkValidation": "2026-06-07T02:11:39.364Z",
+    "exposurePolicy": "2026-06-07T02:10:08.104Z",
+    "linkLaunchGate": "2026-06-07T02:10:09.181Z"
   },
   "summary": {
     "auditedItems": 140,
@@ -32,8 +32,8 @@
     "contentProbe": {
       "bodyChecked": 137,
       "titleMetaChecked": 133,
-      "contentMatched": 56,
-      "contentMismatch": 81,
+      "contentMatched": 55,
+      "contentMismatch": 82,
       "accessibleContentMismatch": 5,
       "accessGuardBody": 32,
       "priceSignal": 26,
@@ -1176,7 +1176,7 @@
       "userReportReason": "",
       "userReportCount": 0,
       "userReportedAt": "",
-      "contentMatch": true,
+      "contentMatch": false,
       "priceSignal": false,
       "purchaseActionSignal": false,
       "lastCheckedAt": "2026-06-02T01:10:00.000Z",

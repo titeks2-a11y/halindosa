@@ -174,8 +174,12 @@ const checks = [
       imageBacklogReportScript.includes("IMAGE_BACKLOG_NEXT_BATCH.csv") &&
       imageBacklogReportScript.includes("IMAGE_BACKLOG_MALL_REQUESTS.csv") &&
       imageBacklogReportScript.includes("IMAGE_BACKLOG.json") &&
+      imageBacklogReportScript.includes("operatingTargetRate = 80") &&
+      imageBacklogReportScript.includes("weeklyOperatingBatchSize = 12") &&
       imageBacklogReportScript.includes("docs/IMAGE_BACKLOG_REPORT.md") &&
       imageBacklogReport.includes("Image Backlog Report") &&
+      imageBacklogReport.includes("운영 성장 목표 커버리지") &&
+      imageBacklogReport.includes("운영 성장 목표까지 추가 보강") &&
       imageBacklogReport.includes("Backlog By Category") &&
       imageBacklogReport.includes("이번 주 이미지 보강 배치") &&
       imageBacklogReport.includes("판매처별 이미지 요청서") &&
@@ -226,7 +230,10 @@ const checks = [
     name: "image sourcing execution plan",
     ok:
       analytics.includes("launchTargetRate = 60") &&
+      analytics.includes("operatingTargetRate = 80") &&
       analytics.includes("gapToLaunchTarget") &&
+      analytics.includes("gapToOperatingTarget") &&
+      analytics.includes("weeklyOperatingBatchSize = 12") &&
       analytics.includes("weeklySourcingTarget") &&
       analytics.includes("feedRequirement") &&
       analytics.includes("recommendedAcquisition") &&
@@ -235,12 +242,17 @@ const checks = [
       analytics.includes("priorityReason") &&
       analytics.includes("sourcingPriority") &&
       imageQueueRoute.includes("launchTargetRate") &&
+      imageQueueRoute.includes("operatingTargetRate") &&
+      imageQueueRoute.includes("gapToOperatingTarget") &&
+      imageQueueRoute.includes("weeklyOperatingBatchSize") &&
       imageQueueRoute.includes("weeklySourcingTarget") &&
       imageQueueRoute.includes("primaryMallAcquisition") &&
       imageQueueRoute.includes("primaryMallOwner") &&
       imageQueueRoute.includes("primaryMallSlaDays") &&
       imageQueueRoute.includes("priorityReason") &&
       smoke.includes("Admin image queue missing 60% launch image target") &&
+      smoke.includes("Admin image queue missing 80% operating image target") &&
+      smoke.includes("Admin image queue missing 12 item weekly operating batch size") &&
       smoke.includes("Admin image queue missing weekly image sourcing batch details") &&
       smoke.includes("Admin image mall queue missing acquisition, owner, SLA, or sample IDs") &&
       smoke.includes("Admin dashboard missing image sourcing execution plan"),

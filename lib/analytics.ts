@@ -541,10 +541,18 @@ export function buildImageQualityReadiness(deals: Deal[]) {
 
   const realImageRate = deals.length ? Math.round((realImageDeals.length / deals.length) * 100) : 0;
   const launchTargetRate = 60;
+  const operatingTargetRate = 80;
+  const weeklyOperatingBatchSize = 12;
   const targetRealImageCount = Math.ceil(deals.length * (launchTargetRate / 100));
+  const operatingTargetRealImageCount = Math.ceil(deals.length * (operatingTargetRate / 100));
   const gapToLaunchTarget = Math.max(0, targetRealImageCount - realImageDeals.length);
-  const weeklySourcingTarget = Math.min(24, gapToLaunchTarget);
-  const nextBatchDeals = sortedFallbackDeals.slice(0, weeklySourcingTarget || Math.min(8, sortedFallbackDeals.length));
+  const gapToOperatingTarget = Math.max(0, operatingTargetRealImageCount - realImageDeals.length);
+  const weeklySourcingTarget = Math.min(
+    weeklyOperatingBatchSize,
+    Math.max(gapToLaunchTarget, gapToOperatingTarget, sortedFallbackDeals.length ? 1 : 0),
+    sortedFallbackDeals.length
+  );
+  const nextBatchDeals = sortedFallbackDeals.slice(0, weeklySourcingTarget);
   const nextBatchOperationDeals = nextBatchDeals.slice(0, 24).map((deal, index) => {
     const imageOperation = buildImageSourcingOperation(deal.mallName);
     const imagePolicy = imageOperation.policy;
@@ -630,15 +638,21 @@ export function buildImageQualityReadiness(deals: Deal[]) {
     .slice(0, 8);
   const sourcingPlan = {
     launchTargetRate,
+    operatingTargetRate,
     targetRealImageCount,
+    operatingTargetRealImageCount,
     gapToLaunchTarget,
+    gapToOperatingTarget,
+    weeklyOperatingBatchSize,
     weeklySourcingTarget,
     nextBatchCount: nextBatchDeals.length,
-    riskLevel: gapToLaunchTarget > 45 ? "high" : gapToLaunchTarget > 20 ? "medium" : "low",
+    riskLevel: gapToLaunchTarget > 45 ? "high" : gapToLaunchTarget > 0 ? "medium" : gapToOperatingTarget > 0 ? "low" : "low",
     nextBatchIds: nextBatchDeals.map((deal) => deal.id),
     operationCadence: gapToLaunchTarget
-      ? `매주 클릭 상위 fallback 상품 ${weeklySourcingTarget}개를 판매처/제휴 피드 이미지로 보강`
-      : "신규 피드 등록 시 imageUrl 누락을 차단하고 현재 커버리지를 유지",
+      ? `출시 최소 ${launchTargetRate}%까지 매주 클릭 상위 fallback 상품 ${weeklySourcingTarget}개를 판매처/제휴 피드 이미지로 보강`
+      : gapToOperatingTarget
+        ? `운영 목표 ${operatingTargetRate}%까지 매주 클릭 상위 fallback 상품 ${weeklySourcingTarget}개를 판매처/제휴 피드 이미지로 보강`
+        : "신규 피드 등록 시 imageUrl 누락을 차단하고 현재 커버리지를 유지",
     feedRequirement: "운영 피드는 imageUrl 또는 thumbnail 없이 ready 상태로 승격하지 않습니다."
   };
 

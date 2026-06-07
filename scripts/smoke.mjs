@@ -1336,7 +1336,10 @@ await check("admin image queue api", async () => {
     "Admin image mall queue missing official image ready gate"
   );
   assert(data.imageQuality?.sourcingPlan?.launchTargetRate === 60, "Admin image queue missing 60% launch image target");
+  assert(data.imageQuality?.sourcingPlan?.operatingTargetRate === 80, "Admin image queue missing 80% operating image target");
   assert(data.imageQuality.sourcingPlan.gapToLaunchTarget >= 0, "Admin image queue missing image launch gap");
+  assert(data.imageQuality.sourcingPlan.gapToOperatingTarget >= 0, "Admin image queue missing image operating gap");
+  assert(data.imageQuality.sourcingPlan.weeklyOperatingBatchSize === 12, "Admin image queue missing 12 item weekly operating batch size");
   assert(data.imageQuality.sourcingPlan.weeklySourcingTarget >= 0, "Admin image queue missing weekly image sourcing target");
   assert(Array.isArray(data.imageQuality?.nextBatchDeals) && data.imageQuality.nextBatchDeals.length >= 1, "Admin image queue missing weekly image sourcing batch details");
   assert(Array.isArray(data.imageQuality?.priorityDeals) && data.imageQuality.priorityDeals.length >= 1, "Admin image queue missing priority deals");

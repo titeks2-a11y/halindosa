@@ -116,9 +116,13 @@ const mallSummary = [...mallCounts.entries()].sort((a, b) => b[1] - a[1] || a[0]
 const explicitImageCount = dealLines.length - fallbackDeals.length;
 const explicitImageRate = dealLines.length ? Math.round((explicitImageCount / dealLines.length) * 100) : 0;
 const launchTargetRate = 60;
+const operatingTargetRate = 80;
+const weeklyOperatingBatchSize = 12;
 const targetExplicitImageCount = Math.ceil(dealLines.length * (launchTargetRate / 100));
+const operatingTargetExplicitImageCount = Math.ceil(dealLines.length * (operatingTargetRate / 100));
 const gapToLaunchTarget = Math.max(0, targetExplicitImageCount - explicitImageCount);
-const weeklySourcingTarget = Math.min(24, gapToLaunchTarget);
+const gapToOperatingTarget = Math.max(0, operatingTargetExplicitImageCount - explicitImageCount);
+const weeklySourcingTarget = Math.min(weeklyOperatingBatchSize, Math.max(gapToLaunchTarget, gapToOperatingTarget, fallbackDeals.length ? 1 : 0), fallbackDeals.length);
 const nextBatchDeals = fallbackDeals.slice(0, weeklySourcingTarget);
 
 function getMallAcquisitionPlan(mallName, fallbackCount) {
@@ -232,7 +236,9 @@ Status: ${fallbackDeals.length ? "ACTION_NEEDED" : "CLEAR"}
 | 보강 대기 상품 수 | ${fallbackDeals.length} |
 | 명시 이미지 커버리지 | ${explicitImageRate}% |
 | 공개 운영 목표 커버리지 | ${launchTargetRate}% |
+| 운영 성장 목표 커버리지 | ${operatingTargetRate}% |
 | 목표까지 추가 보강 | ${gapToLaunchTarget} |
+| 운영 성장 목표까지 추가 보강 | ${gapToOperatingTarget} |
 | 주간 보강 목표 | ${weeklySourcingTarget} |
 | 주간 보강 배치 후보 | ${nextBatchDeals.length} |
 | 판매처별 요청서 행 | ${mallRequestRows.length} |
@@ -246,7 +252,7 @@ Status: ${fallbackDeals.length ? "ACTION_NEEDED" : "CLEAR"}
 - 운영 ready 이미지는 공식/제휴 피드 또는 판매처 상품 상세에서 권리 확인 가능한 이미지여야 합니다.
 - 검색 결과 썸네일, 커뮤니티 캡처, 블로그 이미지, 무출처 이미지는 보강 완료로 인정하지 않습니다.
 - 이미지 보강 행은 \`sourceSafetyLevel=official_or_partner_only\`, \`imageReadyGate\`, \`requiredProviderFields\`, \`operatorChecklist\`, \`requestTemplate\`를 포함해야 합니다.
-- 공개 운영 전 목표는 명시 실상품 이미지 ${launchTargetRate}% 이상이며, 목표 도달까지 매주 클릭 상위 fallback 상품 ${weeklySourcingTarget || "대기 없음"}개를 먼저 보강합니다.
+- 공개 출시 최소선은 명시 실상품 이미지 ${launchTargetRate}% 이상이고, 운영 성장 목표는 ${operatingTargetRate}%입니다. 최소선을 넘은 뒤에도 fallback 상품이 남아 있으면 매주 최대 ${weeklyOperatingBatchSize}개를 보강합니다.
 - 판매처별 backlog가 많은 경우 수동 이미지 검색보다 제휴/운영 피드의 \`imageUrl\`, 이미지 사용 권한, 최신 가격 기준 시각을 함께 확보합니다.
 - 보강 우선순위는 클릭/찜이 많은 상품, 무료 혜택 상단 노출 상품, 카테고리 대표 상품 순서입니다.
 - 이미지는 판매처 상세 페이지, 공식 제휴 피드, 브랜드가 제공한 이미지처럼 사용 권한을 확인할 수 있는 출처에서 확보합니다.
@@ -292,7 +298,7 @@ ${fallbackDeals.length ? fallbackDeals.slice(0, 40).map((deal) => `| ${deal.rank
 writeFileSync(join(root, "IMAGE_BACKLOG.csv"), `${csvRows.join("\n")}\n`, "utf8");
 writeFileSync(join(root, "IMAGE_BACKLOG_NEXT_BATCH.csv"), `${nextBatchCsvRows.join("\n")}\n`, "utf8");
 writeFileSync(join(root, "IMAGE_BACKLOG_MALL_REQUESTS.csv"), `${mallRequestCsvRows.join("\n")}\n`, "utf8");
-writeFileSync(join(root, "IMAGE_BACKLOG.json"), `${JSON.stringify({ total: dealLines.length, explicitImageCount, fallbackImageCount: fallbackDeals.length, explicitImageRate, launchTargetRate, targetExplicitImageCount, gapToLaunchTarget, weeklySourcingTarget, nextBatchDeals, mallRequestRows, categorySummary, mallSummary, fallbackDeals }, null, 2)}\n`, "utf8");
+writeFileSync(join(root, "IMAGE_BACKLOG.json"), `${JSON.stringify({ total: dealLines.length, explicitImageCount, fallbackImageCount: fallbackDeals.length, explicitImageRate, launchTargetRate, operatingTargetRate, targetExplicitImageCount, operatingTargetExplicitImageCount, gapToLaunchTarget, gapToOperatingTarget, weeklySourcingTarget, weeklyOperatingBatchSize, nextBatchDeals, mallRequestRows, categorySummary, mallSummary, fallbackDeals }, null, 2)}\n`, "utf8");
 writeFileSync(join(docsDir, "IMAGE_BACKLOG_REPORT.md"), markdown, "utf8");
 
 console.log(`Image backlog report written: ${fallbackDeals.length}/${dealLines.length} deals need explicit product images.`);

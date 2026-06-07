@@ -1396,8 +1396,8 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                 <p className="mt-1 text-lg font-black text-slate-950">{imageQuality.renderImageRate}%</p>
               </div>
               <div className="rounded-2xl bg-amber-50 px-3 py-3">
-                <p className="text-[11px] font-black text-amber-700">60% 목표까지</p>
-                <p className="mt-1 text-lg font-black text-slate-950">{imageQuality.sourcingPlan.gapToLaunchTarget}개</p>
+                <p className="text-[11px] font-black text-amber-700">80% 운영 목표까지</p>
+                <p className="mt-1 text-lg font-black text-slate-950">{imageQuality.sourcingPlan.gapToOperatingTarget}개</p>
               </div>
             </div>
           </div>
@@ -1409,7 +1409,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                   {imageQuality.sourcingPlan.operationCadence} · {imageQuality.sourcingPlan.feedRequirement}
                 </p>
                 <p className="mt-1 text-xs font-bold leading-5 text-slate-500">
-                  운영 ready 조건: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 · 검색 결과 썸네일/커뮤니티 이미지는 금지
+                  출시 최소 {imageQuality.sourcingPlan.launchTargetRate}% · 운영 목표 {imageQuality.sourcingPlan.operatingTargetRate}% · 운영 ready 조건: productUrl, imageUrl/thumbnail, imageRights, priceCheckedAt 동시 확보 · 검색 결과 썸네일/커뮤니티 이미지는 금지
                 </p>
               </div>
               <span className="w-fit rounded-full bg-white px-3 py-1 text-xs font-black text-amber-700">
