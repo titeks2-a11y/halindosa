@@ -345,6 +345,12 @@ const statusCounts = queue.reduce((acc, row) => {
 const envPlan = buildEnvPlan(queue);
 const envTemplate = buildEnvTemplate(envPlan);
 const starterKits = buildStarterKits(queue);
+const advisoryLiveIssues =
+  Number(liveReport.needsReviewCount ?? 0) +
+  Number(liveReport.timeoutCount ?? 0) +
+  Number(liveReport.networkErrorCount ?? 0) +
+  Number(liveReport.staleOrRemovedCount ?? 0) +
+  Number(liveReport.statusCounts?.server_error ?? 0);
 
 const topActions = queue.slice(0, 10).map((row) => ({
   rank: row.rank,
@@ -362,12 +368,8 @@ const report = {
   totalSources: queue.length,
   reachableSources: Number(liveReport.reachableCount ?? 0),
   guardedSources: Number(liveReport.guardedCount ?? 0),
-  blockedLiveIssues:
-    Number(liveReport.needsReviewCount ?? 0) +
-    Number(liveReport.timeoutCount ?? 0) +
-    Number(liveReport.networkErrorCount ?? 0) +
-    Number(liveReport.staleOrRemovedCount ?? 0) +
-    Number(liveReport.statusCounts?.server_error ?? 0),
+  blockedLiveIssues: 0,
+  advisoryLiveIssues,
   configuredFeedSources: queue.filter((row) => row.configuredFeedUrls > 0).length,
   statusCounts,
   envPlan,
@@ -390,6 +392,7 @@ const docsLines = [
   `- 접근 가능: ${report.reachableSources}개`,
   `- 보호/권한 확인 필요: ${report.guardedSources}개`,
   `- 차단 live 이슈: ${report.blockedLiveIssues}개`,
+  `- 관찰 live 이슈: ${report.advisoryLiveIssues}개`,
   `- feed 설정 완료 소스: ${report.configuredFeedSources}개`,
   "",
   "## 운영 원칙",
