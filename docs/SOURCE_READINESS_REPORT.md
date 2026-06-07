@@ -1,6 +1,6 @@
 # 공식 소스 통합 준비도
 
-- 생성 시각: 2026-06-07T17:30:23.023Z
+- 생성 시각: 2026-06-07T17:42:45.034Z
 - 준비 상태: seed launch ready / 공식 feed 연결 대기
 - 출시 게이트: passed
 - 공식 소스 후보: 95개
@@ -20,7 +20,7 @@
 | 게이트 | 상태 | 내용 | 다음 작업 |
 | --- | --- | --- | --- |
 | official source catalog | passed | 95개 공식 소스 후보, 누락 카테고리 0개, 얇은 카테고리 0개 | npm run source:catalog:report |
-| official source live | passed | 접근 가능 82개, 보호 13개, 차단 이슈 0개 | npm run source:live:doctor |
+| official source live | passed | 접근 가능 82개, 보호 13개, 차단 이슈 0개, 네트워크 점검 0개 | npm run source:live:doctor |
 | source onboarding plan | passed | env 후보 5개, 상위 액션 10개 | npm run source:onboarding:plan |
 | source feed env safety | passed | 설정 URL 0개, 실패 0개, 정책 샘플 실패 0개 | npm run source:feed-env:doctor |
 | official benefit exposure | passed | 노출 105개, 숨김 0개, 종료 0개, 실패 0개 | npm run refresh:news && npm run verify:news |

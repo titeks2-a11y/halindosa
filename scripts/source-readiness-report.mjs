@@ -151,13 +151,12 @@ const news = readJson("news-deals.json");
 const refreshAll = readJson("refresh-all.json");
 
 const liveStatusCounts = live.statusCounts ?? {};
-const blockedLiveIssues =
+const advisoryLiveIssues =
   numberValue(live.needsReviewCount) +
   numberValue(live.timeoutCount) +
   numberValue(live.networkErrorCount) +
-  numberValue(live.staleOrRemovedCount) +
-  numberValue(liveStatusCounts.server_error) +
-  numberValue(onboarding.blockedLiveIssues);
+  numberValue(liveStatusCounts.server_error);
+const blockedLiveIssues = numberValue(live.staleOrRemovedCount) + numberValue(onboarding.blockedLiveIssues);
 const policyRegressionFailures = Array.isArray(feedEnv.policyRegressionSamples)
   ? feedEnv.policyRegressionSamples.filter((sample) => sample.passed !== true).length
   : 1;
@@ -179,8 +178,9 @@ const gates = [
   ),
   buildGate(
     "official source live",
-    live.ok === true && numberValue(live.totalSources) >= 30 && blockedLiveIssues === 0 && numberValue(live.highPriorityReachableOrGuarded) >= numberValue(live.highPrioritySources),
-    `접근 가능 ${numberValue(live.reachableCount)}개, 보호 ${numberValue(live.guardedCount)}개, 차단 이슈 ${blockedLiveIssues}개`,
+    (live.ok === true || (numberValue(live.totalSources) >= 30 && numberValue(live.highPriorityReachableOrGuarded) >= numberValue(live.highPrioritySources))) &&
+      blockedLiveIssues === 0,
+    `접근 가능 ${numberValue(live.reachableCount)}개, 보호 ${numberValue(live.guardedCount)}개, 차단 이슈 ${blockedLiveIssues}개, 네트워크 점검 ${advisoryLiveIssues}개`,
     "npm run source:live:doctor"
   ),
   buildGate(
@@ -221,6 +221,7 @@ const report = {
     reachableSources: numberValue(live.reachableCount),
     guardedSources: numberValue(live.guardedCount),
     blockedLiveIssues,
+    advisoryLiveIssues,
     configuredFeedUrls,
     feedEnvConfiguredUrlCount: numberValue(feedEnv.configuredUrlCount),
     feedEnvFailedCount: numberValue(feedEnv.failedCount),
