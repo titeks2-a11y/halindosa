@@ -9,6 +9,8 @@
 ### PHASE Refreshed Deal Benefit Type Gate
 
 - `refresh:deals`가 검증 상품 스냅샷에 `dealType`, `benefitSummary`, `isFreeShipping`, `benefitTypeCounts`, `freeBenefitVisibleCount`를 직접 저장하도록 보강했다.
+- `test:home-realtime`에 런타임 스냅샷 변조 검증을 추가해 실행 중인 서버에서 `data/refreshedDeals.json`에 임시 검증 상품을 넣으면 `/api/home`에 즉시 나타나고, 원복 후 다시 사라지는지 확인한다.
+- 런타임 검증 결과는 `docs/HOME_RUNTIME_SNAPSHOT_REPORT.md`에 남기며, 현재 기준 `/api/home`은 `Cache-Control: no-store, no-cache, must-revalidate, proxy-revalidate`와 서버 재시작 없는 스냅샷 반영을 통과했다.
 - 상품 수집 직후 무료혜택, 쿠폰, 무료배송, 체험/샘플, 포인트, 편의점/마트, 배달/외식, 이벤트, 일반 특가를 같은 기준으로 분류해 홈, 무료혜택 탭, 검색/필터, 운영 리포트가 같은 혜택 언어를 보도록 했다.
 - `verify:products`는 `reports/refresh-deals.json`과 `data/refreshedDeals.json`의 혜택 유형 분포, `unknown` 유형 금지, 무료/쿠폰/이벤트성 노출 70개 이상, `dealType`/`benefitSummary` 누락 0건을 검사한다.
 - `home:realtime:doctor`는 product realtime snapshot 기준에 `dealType`, `benefitSummary`, `freeBenefitVisibleCount`, `benefitTypeCounts`를 추가해 실시간 홈 API가 실제로 무료혜택 큐를 유지하는지 검증한다.

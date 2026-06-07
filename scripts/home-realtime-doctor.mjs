@@ -277,15 +277,17 @@ if (!badHomeStatusCopyLines.length) {
 
 if (
   packageJson.scripts?.["home:realtime:doctor"] === "node scripts/home-realtime-doctor.mjs" &&
-  packageJson.scripts?.["test:home-realtime"] === "node scripts/home-realtime-doctor.mjs" &&
+  packageJson.scripts?.["home:runtime-snapshot:doctor"] === "node scripts/home-runtime-snapshot-doctor.mjs" &&
+  packageJson.scripts?.["test:home-realtime"]?.includes("home-realtime-doctor.mjs") &&
+  packageJson.scripts?.["test:home-realtime"]?.includes("home-runtime-snapshot-doctor.mjs") &&
   qaRunner.includes("home:realtime:doctor") &&
   qaRunner.includes("test:home-realtime") &&
   harness.includes("home:realtime:doctor") &&
   harness.includes("test:home-realtime")
 ) {
-  pass("home realtime qa gate", "home:realtime:doctor와 test:home-realtime이 package, QA, harness에 연결되어 있습니다.");
+  pass("home realtime qa gate", "home:realtime:doctor, 런타임 스냅샷 검증, test:home-realtime이 package, QA, harness에 연결되어 있습니다.");
 } else {
-  fail("home realtime qa gate", "home:realtime:doctor 또는 test:home-realtime 스크립트가 package, QA, harness 중 일부에 연결되지 않았습니다.");
+  fail("home realtime qa gate", "home:realtime:doctor, 런타임 스냅샷 검증, test:home-realtime 중 일부가 package, QA, harness에 연결되지 않았습니다.");
 }
 
 const failed = checks.filter((check) => !check.ok);

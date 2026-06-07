@@ -30,6 +30,7 @@ npm run smoke
   - 응답 헤더는 `Cache-Control: no-store`를 포함해야 한다.
   - 응답의 `cachePolicy.mode`는 `no-store`, `newsMeta.freshnessStatus`는 `fresh`, `due`, `stale`, `seed` 중 하나여야 한다.
   - 홈 클라이언트는 `lib/homeRealtimeConfig.ts`의 `HOME_REFRESH_INTERVAL_MS = 45_000` 기준으로 상품 특가, 공식 혜택, 핫시그널을 다시 확인한다.
+  - `npm run test:home-realtime`은 정적 정책 검사에 더해 실행 중인 서버에서 `data/refreshedDeals.json` 임시 검증 상품을 추가/원복하며 `/api/home` 즉시 반영 여부를 확인한다. 결과는 `docs/HOME_RUNTIME_SNAPSHOT_REPORT.md`에 남는다.
   - 새 공식 혜택 feed를 반영한 뒤에는 `npm run refresh:news && npm run verify:news && npm run test:home-realtime`을 실행해 `updatedAt`, `verifiedAt`, `expiresAt`, `availability`가 누락되지 않았는지 확인한다.
 - 헬스체크: `GET /api/health`
   - `officialBenefitFresh`, `officialBenefitFreshnessHours`, `officialBenefitVisibleCount`, `officialBenefitReadyCategories`, `officialBenefitRefreshAllOk`, `officialBenefitProviderRiskOk`, `officialBenefitProviderDangerCount`를 함께 확인한다.
