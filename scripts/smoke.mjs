@@ -552,6 +552,33 @@ await check("admin free benefit source feed handoff markdown", async () => {
   assert(text.includes("Vercel Environment Variables") && text.includes("공식 HTML 이벤트 페이지를 무단 스크래핑하지 않는다"), "Admin source feed handoff markdown missing Vercel env or anti-scraping guidance");
 });
 
+await check("admin free benefit source feed activation api", async () => {
+  const { response, data } = await fetchJson("/api/admin/source-feed-activation");
+  assert(response.status === 200, `Expected source feed activation 200, got ${response.status}`);
+  assert(data.ok === true, "Admin source feed activation API ok should be true");
+  assert(data.report?.ok === true, "Admin source feed activation report should pass");
+  assert(["seed_ready", "live_feed_ready"].includes(data.report?.status), "Admin source feed activation status should be seed_ready or live_feed_ready");
+  assert(Array.isArray(data.report?.requiredActivationCommands) && data.report.requiredActivationCommands.includes("npm run test:home-realtime"), "Admin source feed activation missing home realtime command");
+  assert(Array.isArray(data.report?.checks) && data.report.checks.length >= 6, "Admin source feed activation missing checks");
+  assert(data.report.checks.every((check) => check.ok === true), "Admin source feed activation checks should all pass");
+});
+
+await check("admin free benefit source feed activation csv", async () => {
+  const response = await fetch(`${baseUrl}/api/admin/source-feed-activation?format=csv`);
+  const text = await response.text();
+  assert(response.status === 200, `Expected source feed activation CSV 200, got ${response.status}`);
+  assert(response.headers.get("content-type")?.includes("text/csv"), "Admin source feed activation CSV should use text/csv content type");
+  assert(text.includes("name") && text.includes("action") && text.includes("home realtime reflection"), "Admin source feed activation CSV missing check headers or home realtime row");
+});
+
+await check("admin free benefit source feed activation markdown", async () => {
+  const response = await fetch(`${baseUrl}/api/admin/source-feed-activation?format=md`);
+  const text = await response.text();
+  assert(response.status === 200, `Expected source feed activation markdown 200, got ${response.status}`);
+  assert(response.headers.get("content-type")?.includes("text/markdown"), "Admin source feed activation markdown should use text/markdown content type");
+  assert(text.includes("무료혜택 Feed Activation 리포트") && text.includes("seed_ready") && text.includes("live_feed_ready"), "Admin source feed activation markdown missing activation readiness states");
+});
+
 await check("admin source feed env readiness api", async () => {
   const { response, data } = await fetchJson("/api/admin/source-feed-env");
   assert(response.status === 200, `Expected source feed env 200, got ${response.status}`);

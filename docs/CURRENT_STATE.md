@@ -12,8 +12,8 @@
 
 - Branch: `codex/12h-product-ux-growth-hardening`
 - Remote: `origin/codex/12h-product-ux-growth-hardening`
-- 기준 커밋: `3437c354 feat: expose free benefit feed handoff operations`
-- 이 상태 문서에 포함된 최신 작업: 무료혜택 feed activation doctor 추가.
+- 기준 커밋: `8268aa81 test: add free benefit feed activation gate`
+- 이 상태 문서에 포함된 최신 작업: 무료혜택 feed activation 운영 API와 관리자 대시보드 노출.
 
 ## 최근 완료 작업
 
@@ -54,6 +54,24 @@
 - 현재 feed URL 0개 상태는 `seed_ready`로 통과한다.
 - 나중에 운영 feed URL이 설정되면 canary가 `live_feed_ready`이고 홈 실시간 반영(`test:home-realtime`)도 통과해야 activation이 통과한다.
 
+### 무료혜택 feed activation 운영 노출
+
+- `lib/operations/sourceFeedActivation.ts`
+- `app/api/admin/source-feed-activation/route.ts`
+- `lib/adminDashboardHrefs.ts`
+- `app/admin/page.tsx`
+- `scripts/smoke.mjs`
+- `scripts/release-doctor.mjs`
+- `scripts/lib/release-doctor-operational-data.mjs`
+
+구현 요약:
+
+- `reports/source-feed-activation.json`과 `docs/SOURCE_FEED_ACTIVATION.md`를 읽는 운영 helper를 추가했다.
+- `/api/admin/source-feed-activation` 관리자 route를 추가했다.
+- JSON, CSV, Markdown 다운로드 형식을 지원한다.
+- 관리자 대시보드에 `무료혜택 feed activation` 섹션을 추가했다.
+- smoke/release doctor가 activation API, CSV, Markdown, admin page 문구를 검사한다.
+
 ## 마지막으로 확인한 명령
 
 - `npm run lint` 성공
@@ -66,6 +84,8 @@
 - `npm run cap:sync` 성공
 - `npm run workspace:doctor:strict` 성공, 재생성 산출물 0B
 - `npm run source:activation:doctor` 성공, `seed_ready`
+- `npm run smoke:local` 103/103 통과, activation API/CSV/Markdown 포함
+- `npm run qa` 74/74 통과, activation doctor 포함
 - `npm run source:prepare` 성공
 - `npm run test:home-realtime` 성공, 20/20 및 runtime snapshot 4/4 통과
 - `npm run security:check` 성공, 10/10 통과
@@ -85,7 +105,7 @@
 ## 다음 세션에서 바로 할 일
 
 1. 최신 커밋과 원격 push 상태를 확인한다.
-2. 실제 운영 feed URL을 Vercel env에 연결하려면 `docs/FREE_BENEFIT_FEED_HANDOFF.md`, `docs/SOURCE_FEED_ACTIVATION.md`, `/api/admin/source-feed-handoff`를 기준으로 진행한다.
+2. 실제 운영 feed URL을 Vercel env에 연결하려면 `docs/FREE_BENEFIT_FEED_HANDOFF.md`, `docs/SOURCE_FEED_ACTIVATION.md`, `/api/admin/source-feed-handoff`, `/api/admin/source-feed-activation`을 기준으로 진행한다.
 3. 운영 feed 연결 후 `npm run source:feed-env:doctor && npm run news:feed:canary && npm run refresh:benefits && npm run verify:benefits && npm run test:home-realtime && npm run source:activation:doctor` 순서로 검증한다.
 4. Android web assets는 strict workspace 정리를 위해 삭제되어 있을 수 있다. 앱 반영이 필요하면 `npm run build:android && npm run cap:sync`를 다시 실행한다.
 

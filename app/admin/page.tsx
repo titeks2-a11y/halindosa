@@ -60,6 +60,7 @@ import { getLinkRevalidationPriorityReport } from "@/lib/operations/linkRevalida
 import { getLiveProbeReviewReport } from "@/lib/operations/liveProbeReview";
 import { getNewsFeedPreviewReport } from "@/lib/operations/newsFeedPreview";
 import { getNewsRevalidationPriorityReport } from "@/lib/operations/newsRevalidationPriority";
+import { getFreeBenefitSourceFeedActivation } from "@/lib/operations/sourceFeedActivation";
 import { getOfficialSourceFeedEnvReadiness } from "@/lib/operations/sourceFeedEnvReadiness";
 import { getFreeBenefitSourceFeedHandoff } from "@/lib/operations/sourceFeedHandoff";
 import { getOfficialSourceLiveReport } from "@/lib/operations/sourceLiveReadiness";
@@ -122,6 +123,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const sourceOnboardingPlan = getOfficialSourceOnboardingPlan();
   const sourceStarterPack = getFreeBenefitSourceStarterPack();
   const sourceFeedHandoff = getFreeBenefitSourceFeedHandoff();
+  const sourceFeedActivation = getFreeBenefitSourceFeedActivation();
   const sourceFeedEnvReadiness = getOfficialSourceFeedEnvReadiness();
   const officialSourceReadiness = getOfficialSourceReadiness();
   const cronRefresh = getCronRefreshOperationsReport();
@@ -189,6 +191,9 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
     sourceFeedHandoffApiHref,
     sourceFeedHandoffCsvHref,
     sourceFeedHandoffMarkdownHref,
+    sourceFeedActivationApiHref,
+    sourceFeedActivationCsvHref,
+    sourceFeedActivationMarkdownHref,
     sourceFeedEnvApiHref,
     sourceReadinessApiHref,
     sourceReadinessCsvHref,
@@ -206,6 +211,8 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   ).slice(0, 8);
   const sourceFeedHandoffRows = sourceFeedHandoff.lanes.slice(0, 8);
   const sourceFeedHandoffCommands = sourceFeedHandoff.verificationCommands.slice(0, 8);
+  const sourceFeedActivationChecks = sourceFeedActivation.checks.slice(0, 8);
+  const sourceFeedActivationNextActions = sourceFeedActivation.nextActions.slice(0, 6);
   const sourceFeedEnvFailures = sourceFeedEnvReadiness.rows.filter((row) => row.status !== "passed");
   const sourceFeedEnvRegressionFailures = sourceFeedEnvReadiness.policyRegressionSamples.filter((sample) => !sample.passed);
   const sourceFeedEnvRows = (sourceFeedEnvFailures.length ? sourceFeedEnvFailures : sourceFeedEnvReadiness.rows).slice(0, 4);
@@ -1252,6 +1259,93 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                 <p className="mt-1 text-xs font-bold leading-5 text-slate-500">{lane.firstAction}</p>
               </div>
             ))}
+          </div>
+        </section>
+
+        <section className="rounded-3xl border border-emerald-100 bg-white p-5 shadow-sm" aria-label="무료혜택 feed activation">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-black text-emerald-700">무료혜택 feed activation</p>
+              <h2 className="mt-1 text-xl font-black text-slate-950">seed_ready에서 live_feed_ready로 전환하는 마지막 게이트</h2>
+              <p className="mt-1 text-sm font-semibold leading-6 text-slate-500">
+                운영 feed URL을 연결한 뒤 canary, refresh:benefits, verify:benefits, test:home-realtime까지 통과했는지 확인합니다.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <a href={sourceFeedActivationApiHref} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-2xl bg-slate-950 px-4 py-3 text-sm font-black text-white">
+                <DatabaseZap size={17} />
+                activation JSON
+              </a>
+              <a href={sourceFeedActivationCsvHref} className="inline-flex items-center gap-2 rounded-2xl border border-emerald-100 bg-white px-4 py-3 text-sm font-black text-emerald-700">
+                <Download size={17} />
+                activation CSV
+              </a>
+              <a href={sourceFeedActivationMarkdownHref} className="inline-flex items-center gap-2 rounded-2xl border border-slate-100 bg-white px-4 py-3 text-sm font-black text-slate-700">
+                <Download size={17} />
+                activation MD
+              </a>
+            </div>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-4">
+            <div className="rounded-2xl bg-emerald-50 p-4">
+              <p className="text-xs font-black text-emerald-700">activation 상태</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">{sourceFeedActivation.status}</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-emerald-900/70">{sourceFeedActivation.ok ? "운영 게이트 통과" : "조치 필요"}</p>
+            </div>
+            <div className="rounded-2xl bg-blue-50 p-4">
+              <p className="text-xs font-black text-blue-700">feed URL</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">{sourceFeedActivation.configuredFeedUrls}개</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-blue-900/70">0이면 seed_ready</p>
+            </div>
+            <div className="rounded-2xl bg-amber-50 p-4">
+              <p className="text-xs font-black text-amber-700">canary 후보</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">{sourceFeedActivation.visibleCandidates}개</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-amber-900/70">{sourceFeedActivation.canaryStatus}</p>
+            </div>
+            <div className="rounded-2xl bg-violet-50 p-4">
+              <p className="text-xs font-black text-violet-700">체크 통과</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">
+                {sourceFeedActivation.checks.filter((check) => check.ok).length}/{sourceFeedActivation.checks.length}
+              </p>
+              <p className="mt-1 text-xs font-bold leading-5 text-violet-900/70">홈 실시간 반영 포함</p>
+            </div>
+          </div>
+          <div className="mt-4 grid gap-3 xl:grid-cols-[0.95fr_1.05fr]">
+            <div className="rounded-2xl border border-emerald-100 bg-emerald-50 p-4">
+              <p className="text-sm font-black text-slate-950">다음 운영 액션</p>
+              <div className="mt-3 space-y-2">
+                {(sourceFeedActivationNextActions.length ? sourceFeedActivationNextActions : ["npm run source:activation:doctor 실행"]).map((action, index) => (
+                  <div key={`${action}-${index}`} className="rounded-2xl bg-white p-3 text-xs font-black leading-5 text-slate-700 shadow-sm">
+                    {action}
+                  </div>
+                ))}
+              </div>
+              <p className="mt-3 text-xs font-bold leading-5 text-emerald-900/70">
+                seed_ready는 안전한 seed fallback 상태입니다. live_feed_ready는 실제 운영 feed가 홈 실시간 반영까지 통과한 상태입니다.
+              </p>
+            </div>
+            <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
+              <p className="text-sm font-black text-slate-950">activation 검사표</p>
+              <div className="mt-3 grid gap-2 md:grid-cols-2">
+                {(sourceFeedActivationChecks.length ? sourceFeedActivationChecks : [{
+                  name: "activation-report",
+                  ok: false,
+                  detail: "리포트 없음",
+                  action: "npm run source:activation:doctor 실행"
+                }]).map((check) => (
+                  <div key={check.name} className="rounded-2xl bg-white p-3 shadow-sm">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className={`rounded-full px-2.5 py-1 text-[11px] font-black ${check.ok ? "bg-emerald-50 text-emerald-700" : "bg-red-50 text-dossa-red"}`}>
+                        {check.ok ? "통과" : "점검"}
+                      </span>
+                      <span className="rounded-full bg-slate-50 px-2.5 py-1 text-[11px] font-black text-slate-500">{check.name}</span>
+                    </div>
+                    <p className="mt-2 text-xs font-bold leading-5 text-slate-600">{check.detail}</p>
+                    <p className="mt-2 text-[11px] font-black leading-5 text-emerald-700">{check.action}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </section>
 

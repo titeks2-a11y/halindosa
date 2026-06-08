@@ -128,11 +128,13 @@ export async function checkOperationalDataSurfaces() {
   const sourceOnboardingPlanReadiness = await text("lib/operations/sourceOnboardingPlan.ts");
   const sourceStarterPackReadiness = await text("lib/operations/sourceStarterPack.ts");
   const sourceFeedHandoffReadiness = await text("lib/operations/sourceFeedHandoff.ts");
+  const sourceFeedActivationReadiness = await text("lib/operations/sourceFeedActivation.ts");
   const sourceFeedEnvReadiness = await text("lib/operations/sourceFeedEnvReadiness.ts");
   const sourceReadinessReportReadiness = await text("lib/operations/sourceReadiness.ts");
   const adminSourceOnboardingRoute = await text("app/api/admin/source-onboarding/route.ts");
   const adminSourceStarterPackRoute = await text("app/api/admin/source-starter-pack/route.ts");
   const adminSourceFeedHandoffRoute = await text("app/api/admin/source-feed-handoff/route.ts");
+  const adminSourceFeedActivationRoute = await text("app/api/admin/source-feed-activation/route.ts");
   const adminSourceFeedEnvRoute = await text("app/api/admin/source-feed-env/route.ts");
   const adminSourceReadinessRoute = await text("app/api/admin/source-readiness/route.ts");
   const sourceOnboardingPlanDoc = existsSync(join(root, "docs/SOURCE_ONBOARDING_PLAN.md"))
@@ -1438,6 +1440,9 @@ export async function checkOperationalDataSurfaces() {
     !sourceFeedHandoffReadiness.includes("getFreeBenefitSourceFeedHandoff") ||
     !sourceFeedHandoffReadiness.includes("free-benefit-feed-handoff.json") ||
     !sourceFeedHandoffReadiness.includes("FREE_BENEFIT_FEED_HANDOFF.md") ||
+    !sourceFeedActivationReadiness.includes("getFreeBenefitSourceFeedActivation") ||
+    !sourceFeedActivationReadiness.includes("source-feed-activation.json") ||
+    !sourceFeedActivationReadiness.includes("SOURCE_FEED_ACTIVATION.md") ||
     !sourceFeedEnvReadiness.includes("getOfficialSourceFeedEnvReadiness") ||
     !sourceFeedEnvReadiness.includes("SourceFeedEnvReadinessReport") ||
     !sourceFeedEnvReadiness.includes("source-feed-env-readiness.json") ||
@@ -1459,6 +1464,11 @@ export async function checkOperationalDataSurfaces() {
     !adminSourceFeedHandoffRoute.includes("format === \"csv\"") ||
     !adminSourceFeedHandoffRoute.includes("format === \"md\"") ||
     !adminSourceFeedHandoffRoute.includes("halindosa-free-benefit-feed-handoff.md") ||
+    !adminSourceFeedActivationRoute.includes("canAccessAdminRequest") ||
+    !adminSourceFeedActivationRoute.includes("admin-source-feed-activation") ||
+    !adminSourceFeedActivationRoute.includes("format === \"csv\"") ||
+    !adminSourceFeedActivationRoute.includes("format === \"md\"") ||
+    !adminSourceFeedActivationRoute.includes("halindosa-free-benefit-feed-activation.md") ||
     !adminSourceFeedEnvRoute.includes("canAccessAdminRequest") ||
     !adminSourceFeedEnvRoute.includes("admin-source-feed-env") ||
     !adminSourceFeedEnvRoute.includes("getOfficialSourceFeedEnvReadiness") ||
@@ -1488,6 +1498,10 @@ export async function checkOperationalDataSurfaces() {
     !adminPage.includes("Vercel env 연결 전 마지막 확인표") ||
     !adminPage.includes("/api/admin/source-feed-handoff") ||
     !adminPage.includes("handoff MD") ||
+    !adminPage.includes("무료혜택 feed activation") ||
+    !adminPage.includes("seed_ready") ||
+    !adminPage.includes("/api/admin/source-feed-activation") ||
+    !adminPage.includes("activation MD") ||
     !adminPage.includes("공식 feed 환경변수 안전성") ||
     !adminPage.includes("feed env JSON") ||
     !adminPage.includes("/api/admin/source-feed-env") ||
@@ -1511,6 +1525,9 @@ export async function checkOperationalDataSurfaces() {
     !smoke.includes("admin free benefit source feed handoff api") ||
     !smoke.includes("Admin source feed handoff report should pass") ||
     !smoke.includes("admin free benefit source feed handoff markdown") ||
+    !smoke.includes("admin free benefit source feed activation api") ||
+    !smoke.includes("Admin source feed activation report should pass") ||
+    !smoke.includes("admin free benefit source feed activation markdown") ||
     !smoke.includes("admin source feed env readiness api") ||
     !smoke.includes("Admin source feed env report should pass") ||
     !smoke.includes("admin source readiness rollup api") ||
