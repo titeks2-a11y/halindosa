@@ -61,6 +61,7 @@ import { getLiveProbeReviewReport } from "@/lib/operations/liveProbeReview";
 import { getNewsFeedPreviewReport } from "@/lib/operations/newsFeedPreview";
 import { getNewsRevalidationPriorityReport } from "@/lib/operations/newsRevalidationPriority";
 import { getOfficialSourceFeedEnvReadiness } from "@/lib/operations/sourceFeedEnvReadiness";
+import { getFreeBenefitSourceFeedHandoff } from "@/lib/operations/sourceFeedHandoff";
 import { getOfficialSourceLiveReport } from "@/lib/operations/sourceLiveReadiness";
 import { getOfficialSourceOnboardingPlan } from "@/lib/operations/sourceOnboardingPlan";
 import { getOfficialSourceReadiness } from "@/lib/operations/sourceReadiness";
@@ -120,6 +121,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const sourceLiveReport = getOfficialSourceLiveReport();
   const sourceOnboardingPlan = getOfficialSourceOnboardingPlan();
   const sourceStarterPack = getFreeBenefitSourceStarterPack();
+  const sourceFeedHandoff = getFreeBenefitSourceFeedHandoff();
   const sourceFeedEnvReadiness = getOfficialSourceFeedEnvReadiness();
   const officialSourceReadiness = getOfficialSourceReadiness();
   const cronRefresh = getCronRefreshOperationsReport();
@@ -184,6 +186,9 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
     sourceStarterPackApiHref,
     sourceStarterPackCsvHref,
     sourceStarterPackEnvHref,
+    sourceFeedHandoffApiHref,
+    sourceFeedHandoffCsvHref,
+    sourceFeedHandoffMarkdownHref,
     sourceFeedEnvApiHref,
     sourceReadinessApiHref,
     sourceReadinessCsvHref,
@@ -199,6 +204,8 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const sourceStarterPackTopCandidates = sourceStarterPack.packs.flatMap((pack) =>
     pack.candidates.slice(0, 2).map((candidate) => ({ ...candidate, laneLabel: pack.label, laneEnvKeys: pack.envKeys }))
   ).slice(0, 8);
+  const sourceFeedHandoffRows = sourceFeedHandoff.lanes.slice(0, 8);
+  const sourceFeedHandoffCommands = sourceFeedHandoff.verificationCommands.slice(0, 8);
   const sourceFeedEnvFailures = sourceFeedEnvReadiness.rows.filter((row) => row.status !== "passed");
   const sourceFeedEnvRegressionFailures = sourceFeedEnvReadiness.policyRegressionSamples.filter((sample) => !sample.passed);
   const sourceFeedEnvRows = (sourceFeedEnvFailures.length ? sourceFeedEnvFailures : sourceFeedEnvReadiness.rows).slice(0, 4);
@@ -1149,6 +1156,102 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                 )}
               </div>
             </div>
+          </div>
+        </section>
+
+        <section className="rounded-3xl border border-blue-100 bg-white p-5 shadow-sm" aria-label="무료혜택 feed 운영 핸드오프">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-black text-blue-700">무료혜택 feed 운영 핸드오프</p>
+              <h2 className="mt-1 text-xl font-black text-slate-950">Vercel env 연결 전 마지막 확인표</h2>
+              <p className="mt-1 text-sm font-semibold leading-6 text-slate-500">
+                starter pack을 실제 운영 feed로 옮길 때 필요한 환경변수, 승인 host, cron secret, 검증 명령을 한 번에 확인합니다.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <a href={sourceFeedHandoffApiHref} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-2xl bg-slate-950 px-4 py-3 text-sm font-black text-white">
+                <DatabaseZap size={17} />
+                handoff JSON
+              </a>
+              <a href={sourceFeedHandoffCsvHref} className="inline-flex items-center gap-2 rounded-2xl border border-blue-100 bg-white px-4 py-3 text-sm font-black text-blue-700">
+                <Download size={17} />
+                handoff CSV
+              </a>
+              <a href={sourceFeedHandoffMarkdownHref} className="inline-flex items-center gap-2 rounded-2xl border border-slate-100 bg-white px-4 py-3 text-sm font-black text-slate-700">
+                <Download size={17} />
+                handoff MD
+              </a>
+            </div>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-4">
+            <div className="rounded-2xl bg-blue-50 p-4">
+              <p className="text-xs font-black text-blue-700">운영 상태</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">{sourceFeedHandoff.ok ? "정상" : "점검"}</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-blue-900/70">{sourceFeedHandoff.canary.status}</p>
+            </div>
+            <div className="rounded-2xl bg-emerald-50 p-4">
+              <p className="text-xs font-black text-emerald-700">연결 env</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">{sourceFeedHandoff.envKeys.length}개</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-emerald-900/70">Vercel 환경변수</p>
+            </div>
+            <div className="rounded-2xl bg-amber-50 p-4">
+              <p className="text-xs font-black text-amber-700">현재 feed</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">{sourceFeedHandoff.feedEnv.configuredFeedUrls}개</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-amber-900/70">0이면 seed fallback</p>
+            </div>
+            <div className="rounded-2xl bg-violet-50 p-4">
+              <p className="text-xs font-black text-violet-700">검증 명령</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">{sourceFeedHandoff.verificationCommands.length}개</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-violet-900/70">연결 후 순서대로 실행</p>
+            </div>
+          </div>
+          <div className="mt-4 grid gap-3 xl:grid-cols-[0.95fr_1.05fr]">
+            <div className="rounded-2xl border border-blue-100 bg-blue-50 p-4">
+              <p className="text-sm font-black text-slate-950">Vercel에 넣을 핵심 env</p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {(sourceFeedHandoff.envKeys.length ? sourceFeedHandoff.envKeys : ["BENEFIT_REFRESH_FEED_URLS", "PUBLIC_COUPON_FEED_URLS", "OFFICIAL_EVENT_FEED_URLS", "CRON_SECRET"]).map((envKey) => (
+                  <span key={envKey} className="rounded-full bg-white px-3 py-1.5 text-xs font-black text-blue-700 shadow-sm">
+                    {envKey}
+                  </span>
+                ))}
+              </div>
+              <p className="mt-3 text-xs font-bold leading-5 text-blue-900/70">
+                officialUrl은 기준 URL입니다. 운영 env에는 공식 API, RSS, Atom, 승인 JSON feed endpoint만 입력합니다.
+              </p>
+            </div>
+            <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
+              <p className="text-sm font-black text-slate-950">연결 후 검증 순서</p>
+              <div className="mt-3 grid gap-2 md:grid-cols-2">
+                {(sourceFeedHandoffCommands.length ? sourceFeedHandoffCommands : ["npm run source:feed:handoff"]).map((command, index) => (
+                  <div key={command} className="rounded-2xl bg-white p-3 shadow-sm">
+                    <p className="text-[11px] font-black text-slate-400">STEP {index + 1}</p>
+                    <p className="mt-1 break-all text-xs font-black text-slate-900">{command}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+          <div className="mt-4 grid gap-2 md:grid-cols-2">
+            {(sourceFeedHandoffRows.length ? sourceFeedHandoffRows : [{
+              id: "missing",
+              label: "handoff 없음",
+              envKeys: ["source:feed:handoff"],
+              candidateCount: 0,
+              reachableCount: 0,
+              guardedCount: 0,
+              firstAction: "npm run source:feed:handoff 실행",
+              firstReachableCandidates: []
+            }]).map((lane) => (
+              <div key={lane.id} className="rounded-2xl border border-slate-100 bg-white p-3 shadow-sm">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="rounded-full bg-blue-50 px-2.5 py-1 text-[11px] font-black text-blue-700">{lane.envKeys[0] ?? "env 미정"}</span>
+                  <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-[11px] font-black text-emerald-700">접근 {lane.reachableCount}</span>
+                  <span className="rounded-full bg-amber-50 px-2.5 py-1 text-[11px] font-black text-amber-700">승인 {lane.guardedCount}</span>
+                </div>
+                <p className="mt-2 text-sm font-black text-slate-950">{lane.label}</p>
+                <p className="mt-1 text-xs font-bold leading-5 text-slate-500">{lane.firstAction}</p>
+              </div>
+            ))}
           </div>
         </section>
 

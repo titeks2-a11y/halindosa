@@ -126,10 +126,12 @@ export async function checkOperationalDataSurfaces() {
   const sourceReadinessReportScript = await text("scripts/source-readiness-report.mjs");
   const sourceOnboardingPlanReadiness = await text("lib/operations/sourceOnboardingPlan.ts");
   const sourceStarterPackReadiness = await text("lib/operations/sourceStarterPack.ts");
+  const sourceFeedHandoffReadiness = await text("lib/operations/sourceFeedHandoff.ts");
   const sourceFeedEnvReadiness = await text("lib/operations/sourceFeedEnvReadiness.ts");
   const sourceReadinessReportReadiness = await text("lib/operations/sourceReadiness.ts");
   const adminSourceOnboardingRoute = await text("app/api/admin/source-onboarding/route.ts");
   const adminSourceStarterPackRoute = await text("app/api/admin/source-starter-pack/route.ts");
+  const adminSourceFeedHandoffRoute = await text("app/api/admin/source-feed-handoff/route.ts");
   const adminSourceFeedEnvRoute = await text("app/api/admin/source-feed-env/route.ts");
   const adminSourceReadinessRoute = await text("app/api/admin/source-readiness/route.ts");
   const sourceOnboardingPlanDoc = existsSync(join(root, "docs/SOURCE_ONBOARDING_PLAN.md"))
@@ -1421,6 +1423,9 @@ export async function checkOperationalDataSurfaces() {
     !sourceStarterPackReadiness.includes("getFreeBenefitSourceStarterPack") ||
     !sourceStarterPackReadiness.includes("free-benefit-feed-starter-pack.json") ||
     !sourceStarterPackReadiness.includes("free-benefit-feed-starter-pack.env") ||
+    !sourceFeedHandoffReadiness.includes("getFreeBenefitSourceFeedHandoff") ||
+    !sourceFeedHandoffReadiness.includes("free-benefit-feed-handoff.json") ||
+    !sourceFeedHandoffReadiness.includes("FREE_BENEFIT_FEED_HANDOFF.md") ||
     !sourceFeedEnvReadiness.includes("getOfficialSourceFeedEnvReadiness") ||
     !sourceFeedEnvReadiness.includes("SourceFeedEnvReadinessReport") ||
     !sourceFeedEnvReadiness.includes("source-feed-env-readiness.json") ||
@@ -1437,6 +1442,11 @@ export async function checkOperationalDataSurfaces() {
     !adminSourceStarterPackRoute.includes("format === \"csv\"") ||
     !adminSourceStarterPackRoute.includes("format === \"env\"") ||
     !adminSourceStarterPackRoute.includes("halindosa-free-benefit-feed-starter-pack.env") ||
+    !adminSourceFeedHandoffRoute.includes("canAccessAdminRequest") ||
+    !adminSourceFeedHandoffRoute.includes("admin-source-feed-handoff") ||
+    !adminSourceFeedHandoffRoute.includes("format === \"csv\"") ||
+    !adminSourceFeedHandoffRoute.includes("format === \"md\"") ||
+    !adminSourceFeedHandoffRoute.includes("halindosa-free-benefit-feed-handoff.md") ||
     !adminSourceFeedEnvRoute.includes("canAccessAdminRequest") ||
     !adminSourceFeedEnvRoute.includes("admin-source-feed-env") ||
     !adminSourceFeedEnvRoute.includes("getOfficialSourceFeedEnvReadiness") ||
@@ -1462,6 +1472,10 @@ export async function checkOperationalDataSurfaces() {
     !adminPage.includes("오늘 받을 혜택부터 연결할 운영 묶음") ||
     !adminPage.includes("/api/admin/source-starter-pack") ||
     !adminPage.includes("starter env") ||
+    !adminPage.includes("무료혜택 feed 운영 핸드오프") ||
+    !adminPage.includes("Vercel env 연결 전 마지막 확인표") ||
+    !adminPage.includes("/api/admin/source-feed-handoff") ||
+    !adminPage.includes("handoff MD") ||
     !adminPage.includes("공식 feed 환경변수 안전성") ||
     !adminPage.includes("feed env JSON") ||
     !adminPage.includes("/api/admin/source-feed-env") ||
@@ -1482,6 +1496,9 @@ export async function checkOperationalDataSurfaces() {
     !smoke.includes("admin free benefit source starter pack api") ||
     !smoke.includes("Admin source starter pack report should pass") ||
     !smoke.includes("admin free benefit source starter pack env") ||
+    !smoke.includes("admin free benefit source feed handoff api") ||
+    !smoke.includes("Admin source feed handoff report should pass") ||
+    !smoke.includes("admin free benefit source feed handoff markdown") ||
     !smoke.includes("admin source feed env readiness api") ||
     !smoke.includes("Admin source feed env report should pass") ||
     !smoke.includes("admin source readiness rollup api") ||

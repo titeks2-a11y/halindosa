@@ -525,6 +525,33 @@ await check("admin free benefit source starter pack env", async () => {
   assert(text.includes("공식 이벤트 HTML 페이지는 참고 URL") && text.includes("검색 결과, 커뮤니티 글"), "Admin source starter pack env missing anti-scraping or unsafe-link guardrails");
 });
 
+await check("admin free benefit source feed handoff api", async () => {
+  const { response, data } = await fetchJson("/api/admin/source-feed-handoff");
+  assert(response.status === 200, `Expected source feed handoff 200, got ${response.status}`);
+  assert(data.ok === true, "Admin source feed handoff API ok should be true");
+  assert(data.report?.ok === true, "Admin source feed handoff report should pass");
+  assert(data.report?.starterPack?.laneCount >= 8, "Admin source feed handoff missing starter lanes");
+  assert(data.report?.starterPack?.totalCandidates >= 50, "Admin source feed handoff missing candidate coverage");
+  assert(Array.isArray(data.report?.envKeys) && data.report.envKeys.includes("CRON_SECRET"), "Admin source feed handoff missing cron secret env guidance");
+  assert(Array.isArray(data.report?.verificationCommands) && data.report.verificationCommands.includes("npm run refresh:benefits"), "Admin source feed handoff missing refresh verification command");
+});
+
+await check("admin free benefit source feed handoff csv", async () => {
+  const response = await fetch(`${baseUrl}/api/admin/source-feed-handoff?format=csv`);
+  const text = await response.text();
+  assert(response.status === 200, `Expected source feed handoff CSV 200, got ${response.status}`);
+  assert(response.headers.get("content-type")?.includes("text/csv"), "Admin source feed handoff CSV should use text/csv content type");
+  assert(text.includes("lane") && text.includes("firstAction") && text.includes("firstCandidateUrl"), "Admin source feed handoff CSV missing lane, action, or URL fields");
+});
+
+await check("admin free benefit source feed handoff markdown", async () => {
+  const response = await fetch(`${baseUrl}/api/admin/source-feed-handoff?format=md`);
+  const text = await response.text();
+  assert(response.status === 200, `Expected source feed handoff markdown 200, got ${response.status}`);
+  assert(response.headers.get("content-type")?.includes("text/markdown"), "Admin source feed handoff markdown should use text/markdown content type");
+  assert(text.includes("Vercel Environment Variables") && text.includes("공식 HTML 이벤트 페이지를 무단 스크래핑하지 않는다"), "Admin source feed handoff markdown missing Vercel env or anti-scraping guidance");
+});
+
 await check("admin source feed env readiness api", async () => {
   const { response, data } = await fetchJson("/api/admin/source-feed-env");
   assert(response.status === 200, `Expected source feed env 200, got ${response.status}`);

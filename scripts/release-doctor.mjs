@@ -2289,6 +2289,7 @@ function checkAdminAuthHardening() {
     "app/api/admin/reports/route.ts",
     "app/api/admin/source-live/route.ts",
     "app/api/admin/source-onboarding/route.ts",
+    "app/api/admin/source-feed-handoff/route.ts",
     "app/api/admin/source-starter-pack/route.ts",
     "app/api/cron/refresh/route.ts"
   ];
