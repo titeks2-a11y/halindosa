@@ -6,6 +6,14 @@
 
 ## 완료 작업
 
+### PHASE Free Benefit Source Breadth Gate
+
+- `source:breadth:doctor`를 추가해 무료혜택 플랫폼이 반드시 확보해야 하는 12개 수집 축을 출시/QA 게이트로 고정했다.
+- 필수 축은 통신사, 편의점, 뷰티·헬스, 카페·프랜차이즈, 배달·외식 쿠폰, 금융·페이·포인트, 대형마트·장보기, 오픈마켓·쇼핑몰, 문화·공공기관, 교육 무료체험, 반려동물 샘플, 체험단·샘플이다.
+- `reports/free-benefit-source-breadth.json`과 `docs/FREE_BENEFIT_SOURCE_BREADTH.md`를 생성해 각 축의 기준, 활성 소스 수, stale URL 여부, 운영 원칙을 기록한다.
+- `qa`와 `release:doctor`가 새 doctor를 요구하도록 연결해 향후 소스 카탈로그가 특정 쇼핑몰/상품 링크 중심으로 되돌아가는 회귀를 차단한다.
+- 최신 기준 공식 소스 102개, 필수 수집 축 12/12 통과, stale_or_removed 0개를 확인했다.
+
 ### PHASE Official Source 102 Free Benefit Expansion
 
 - SKT T멤버십, 고용24, K-MOOC, 복지로, 서울문화포털, 로얄캐닌, 파우더룸 공식/승인 혜택 후보를 official source catalog에 추가해 통신사 멤버십, 교육 무료체험, 공공 지원, 문화 행사, 반려동물 캠페인, 뷰티 체험단 수집 축을 보강했다.
