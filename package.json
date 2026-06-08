@@ -73,6 +73,7 @@
     "source:breadth:doctor": "node scripts/free-benefit-source-breadth-doctor.mjs",
     "source:starter:pack": "node scripts/free-benefit-feed-starter-pack.mjs",
     "source:feed:handoff": "node scripts/free-benefit-feed-handoff.mjs",
+    "source:activation:doctor": "node scripts/source-feed-activation-doctor.mjs",
     "source:onboarding:plan": "node scripts/source-onboarding-plan.mjs",
     "source:feed-env:doctor": "node scripts/source-feed-env-doctor.mjs",
     "source:readiness:report": "node scripts/source-readiness-report.mjs",
@@ -140,7 +141,7 @@
     "qa:list": "node scripts/run-qa.mjs --list",
     "wait:health": "node scripts/wait-for-health.mjs",
     "detail:navigation:doctor": "node scripts/detail-navigation-doctor.mjs",
-    "source:prepare": "npm run source:catalog:report && npm run source:onboarding:plan && npm run source:starter:pack && npm run source:feed-env:doctor && npm run source:feed:handoff"
+    "source:prepare": "npm run source:catalog:report && npm run source:onboarding:plan && npm run source:starter:pack && npm run source:feed-env:doctor && npm run source:feed:handoff && npm run source:activation:doctor"
   },
   "dependencies": {
     "@capacitor/android": "^8.3.4",

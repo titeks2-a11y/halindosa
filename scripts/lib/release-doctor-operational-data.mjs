@@ -122,6 +122,7 @@ export async function checkOperationalDataSurfaces() {
   const sourceOnboardingPlanScript = await text("scripts/source-onboarding-plan.mjs");
   const sourceStarterPackScript = await text("scripts/free-benefit-feed-starter-pack.mjs");
   const sourceFeedHandoffScript = await text("scripts/free-benefit-feed-handoff.mjs");
+  const sourceFeedActivationScript = await text("scripts/source-feed-activation-doctor.mjs");
   const sourceFeedEnvDoctorScript = await text("scripts/source-feed-env-doctor.mjs");
   const sourceReadinessReportScript = await text("scripts/source-readiness-report.mjs");
   const sourceOnboardingPlanReadiness = await text("lib/operations/sourceOnboardingPlan.ts");
@@ -151,6 +152,12 @@ export async function checkOperationalDataSurfaces() {
     : {};
   const sourceFeedHandoffDoc = existsSync(join(root, "docs/FREE_BENEFIT_FEED_HANDOFF.md"))
     ? readFileSync(join(root, "docs/FREE_BENEFIT_FEED_HANDOFF.md"), "utf8")
+    : "";
+  const sourceFeedActivationReport = existsSync(join(root, "reports/source-feed-activation.json"))
+    ? JSON.parse(readFileSync(join(root, "reports/source-feed-activation.json"), "utf8"))
+    : {};
+  const sourceFeedActivationDoc = existsSync(join(root, "docs/SOURCE_FEED_ACTIVATION.md"))
+    ? readFileSync(join(root, "docs/SOURCE_FEED_ACTIVATION.md"), "utf8")
     : "";
   const sourceFeedEnvReport = existsSync(join(root, "reports/source-feed-env-readiness.json"))
     ? JSON.parse(readFileSync(join(root, "reports/source-feed-env-readiness.json"), "utf8"))
@@ -1402,6 +1409,11 @@ export async function checkOperationalDataSurfaces() {
     !sourceFeedHandoffScript.includes("Vercel Environment Variables") ||
     !sourceFeedHandoffScript.includes("CRON_SECRET") ||
     !sourceFeedHandoffScript.includes("검색 결과, 커뮤니티 글") ||
+    !sourceFeedActivationScript.includes("source-feed-activation.json") ||
+    !sourceFeedActivationScript.includes("SOURCE_FEED_ACTIVATION.md") ||
+    !sourceFeedActivationScript.includes("live_feed_ready") ||
+    !sourceFeedActivationScript.includes("test:home-realtime") ||
+    !sourceFeedActivationScript.includes("refresh:benefits") ||
     !sourceFeedEnvDoctorScript.includes("source-feed-env-readiness.json") ||
     !sourceFeedEnvDoctorScript.includes("HALINDOSA_APPROVED_FEED_HOSTS") ||
     !sourceFeedEnvDoctorScript.includes("not_machine_readable_feed") ||
@@ -1551,6 +1563,18 @@ export async function checkOperationalDataSurfaces() {
     !sourceFeedHandoffDoc.includes("BENEFIT_REFRESH_FEED_URLS") ||
     !sourceFeedHandoffDoc.includes("CRON_SECRET") ||
     !sourceFeedHandoffDoc.includes("공식 HTML 이벤트 페이지를 무단 스크래핑하지 않는다") ||
+    sourceFeedActivationReport.ok !== true ||
+    !["seed_ready", "live_feed_ready"].includes(sourceFeedActivationReport.status) ||
+    !Array.isArray(sourceFeedActivationReport.requiredActivationCommands) ||
+    !sourceFeedActivationReport.requiredActivationCommands.includes("npm run source:feed-env:doctor") ||
+    !sourceFeedActivationReport.requiredActivationCommands.includes("npm run test:home-realtime") ||
+    !Array.isArray(sourceFeedActivationReport.checks) ||
+    sourceFeedActivationReport.checks.length < 6 ||
+    sourceFeedActivationReport.checks.some((check) => check.ok !== true) ||
+    !sourceFeedActivationDoc.includes("무료혜택 Feed Activation 리포트") ||
+    !sourceFeedActivationDoc.includes("seed_ready") ||
+    !sourceFeedActivationDoc.includes("live_feed_ready") ||
+    !sourceFeedActivationDoc.includes("npm run test:home-realtime") ||
     sourceFeedEnvReport.ok !== true ||
     !Array.isArray(sourceFeedEnvReport.checkedKeys) ||
     sourceFeedEnvReport.checkedKeys.length < 6 ||

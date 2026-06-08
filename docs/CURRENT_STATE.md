@@ -12,14 +12,12 @@
 
 - Branch: `codex/12h-product-ux-growth-hardening`
 - Remote: `origin/codex/12h-product-ux-growth-hardening`
-- 기준 커밋: `d823be54 docs: add free benefit feed handoff workflow`
-- 이 상태 문서에 포함된 최신 작업: 무료혜택 feed handoff 관리자 노출 작업.
+- 기준 커밋: `3437c354 feat: expose free benefit feed handoff operations`
+- 이 상태 문서에 포함된 최신 작업: 무료혜택 feed activation doctor 추가.
 
-## 미커밋 변경 내용
+## 최근 완료 작업
 
-이번 작업은 “무료혜택 feed 운영 handoff를 관리자/API에서 확인할 수 있게 노출”하는 것이다.
-
-변경/추가 파일:
+### 무료혜택 feed handoff 운영 노출
 
 - `lib/operations/sourceFeedHandoff.ts`
 - `app/api/admin/source-feed-handoff/route.ts`
@@ -28,7 +26,6 @@
 - `scripts/smoke.mjs`
 - `scripts/release-doctor.mjs`
 - `scripts/lib/release-doctor-operational-data.mjs`
-- `docs/FREE_BENEFIT_FEED_HANDOFF.md`
 
 구현 요약:
 
@@ -38,12 +35,29 @@
 - 관리자 대시보드에 `무료혜택 feed 운영 핸드오프` 섹션을 추가했다.
 - smoke/release doctor에 새 관리자 route, CSV, Markdown, admin page 문구 검사를 추가했다.
 
+### 무료혜택 feed activation doctor
+
+- `scripts/source-feed-activation-doctor.mjs`
+- `docs/SOURCE_FEED_ACTIVATION.md`
+- `reports/source-feed-activation.json`
+- `package.json`
+- `scripts/run-qa.mjs`
+- `scripts/release-doctor.mjs`
+- `scripts/lib/release-doctor-operational-data.mjs`
+
+구현 요약:
+
+- `source:activation:doctor` 명령을 추가했다.
+- `source:prepare` 마지막 단계에 activation doctor를 연결했다.
+- QA task 목록에 activation doctor를 추가했다.
+- release doctor의 package/source readiness 조건이 activation script, report, docs를 확인하게 했다.
+- 현재 feed URL 0개 상태는 `seed_ready`로 통과한다.
+- 나중에 운영 feed URL이 설정되면 canary가 `live_feed_ready`이고 홈 실시간 반영(`test:home-realtime`)도 통과해야 activation이 통과한다.
+
 ## 마지막으로 확인한 명령
 
-이번 작업에서 통과한 명령:
-
-- `npm run lint`
-- `npm run source:feed:handoff`
+- `npm run lint` 성공
+- `npm run source:feed:handoff` 성공
 - `npm run smoke:local` 100/100 통과
 - `npm run release:doctor` 187/187 통과
 - `npm run qa` 73/73 통과
@@ -51,24 +65,10 @@
 - `npm run build:android` 성공
 - `npm run cap:sync` 성공
 - `npm run workspace:doctor:strict` 성공, 재생성 산출물 0B
-
-커밋 전 마지막 정리:
-
-- `git diff --check`
-- 커밋 및 push
-
-## 이전 안정 상태
-
-최신 push 커밋 `d823be54` 기준으로 확인된 주요 검증:
-
-- `npm run source:starter:pack`
-- `npm run source:feed-env:doctor`
-- `npm run source:feed:handoff`
-- `npm run lint`
-- `npm run security:check`
-- `npm run release:doctor` 187/187 통과
-- `npm run qa` 73/73 통과
-- `npm run workspace:doctor:strict`
+- `npm run source:activation:doctor` 성공, `seed_ready`
+- `npm run source:prepare` 성공
+- `npm run test:home-realtime` 성공, 20/20 및 runtime snapshot 4/4 통과
+- `npm run security:check` 성공, 10/10 통과
 
 ## 현재 제품 방향
 
@@ -79,18 +79,18 @@
 1. 공식 무료혜택, 쿠폰, 샘플, 체험, 전원증정 이벤트 노출
 2. 검색 링크, 대표몰 메인, 커뮤니티 글, 종료/품절/미검증 링크 차단
 3. 모바일 첫 화면에서 무료혜택을 가장 먼저 보여주는 UI 유지
-4. 운영자가 공식 feed URL을 쉽게 연결할 수 있는 handoff/관리자 구조 강화
+4. 운영자가 공식 feed URL을 쉽게 연결할 수 있는 handoff/activation 구조 강화
 5. Vercel env, cron, QA, release doctor, Android sync 품질 유지
 
 ## 다음 세션에서 바로 할 일
 
 1. 최신 커밋과 원격 push 상태를 확인한다.
-2. 실제 운영 feed URL을 Vercel env에 연결하려면 `docs/FREE_BENEFIT_FEED_HANDOFF.md`와 `/api/admin/source-feed-handoff`를 기준으로 진행한다.
-3. 운영 feed 연결 후 `npm run source:feed-env:doctor && npm run news:feed:canary && npm run refresh:benefits && npm run verify:benefits` 순서로 검증한다.
+2. 실제 운영 feed URL을 Vercel env에 연결하려면 `docs/FREE_BENEFIT_FEED_HANDOFF.md`, `docs/SOURCE_FEED_ACTIVATION.md`, `/api/admin/source-feed-handoff`를 기준으로 진행한다.
+3. 운영 feed 연결 후 `npm run source:feed-env:doctor && npm run news:feed:canary && npm run refresh:benefits && npm run verify:benefits && npm run test:home-realtime && npm run source:activation:doctor` 순서로 검증한다.
 4. Android web assets는 strict workspace 정리를 위해 삭제되어 있을 수 있다. 앱 반영이 필요하면 `npm run build:android && npm run cap:sync`를 다시 실행한다.
 
 ## 주의
 
-- 이번 변경은 smoke/release doctor/qa/build/android sync까지 통과했다.
-- `docs/FREE_BENEFIT_FEED_HANDOFF.md`는 `source:feed:handoff` 실행 시 timestamp가 바뀔 수 있다. 이번 라운드에서는 timestamp-only 변경을 원복했다.
+- `reports/source-feed-activation.json`은 `reports/*` ignore 규칙에 걸리지만 release doctor 증거라서 `git add -f`로 추적해야 한다.
+- `docs/FREE_BENEFIT_FEED_HANDOFF.md`는 `source:feed:handoff` 실행 시 timestamp가 바뀔 수 있다. 내용 변경이 timestamp뿐이면 커밋 전 노이즈 여부를 확인한다.
 - QA/build가 `.next`, `out`, Android web assets를 만들 수 있으니 마지막에 strict workspace doctor 기준으로 정리한다.

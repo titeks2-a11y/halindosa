@@ -1,0 +1,65 @@
+{
+  "ok": true,
+  "generatedAt": "2026-06-08T23:32:15.532Z",
+  "status": "seed_ready",
+  "configuredFeedUrls": 0,
+  "configuredProviders": 0,
+  "visibleCandidates": 0,
+  "canaryStatus": "seed_fallback_only",
+  "requiredActivationCommands": [
+    "npm run source:feed-env:doctor",
+    "npm run news:feed:canary",
+    "npm run refresh:benefits",
+    "npm run verify:benefits",
+    "npm run test:home-realtime",
+    "npm run health:readiness"
+  ],
+  "nextActions": [
+    "운영 feed URL이 아직 없습니다. 공식 API/RSS/Atom 또는 승인 JSON endpoint를 Vercel env에 연결하세요.",
+    "연결 전에는 seed fallback과 공식 source catalog만 사용자에게 노출합니다."
+  ],
+  "checks": [
+    {
+      "name": "feed env safety",
+      "ok": true,
+      "detail": "configured=0, failed=0",
+      "action": "Run npm run source:feed-env:doctor and fix any unsafe, search, community, private, or non-machine-readable feed URL."
+    },
+    {
+      "name": "feed handoff readiness",
+      "ok": true,
+      "detail": "lanes=8, commands=8",
+      "action": "Run npm run source:feed:handoff so Vercel env keys and verification commands stay current."
+    },
+    {
+      "name": "feed canary activation",
+      "ok": true,
+      "detail": "status=seed_fallback_only, configured=0, providers=0, visible=0",
+      "action": "Seed fallback is allowed until approved JSON/RSS/Atom feeds are connected. Connect OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS, or BENEFIT_REFRESH_FEED_URLS next."
+    },
+    {
+      "name": "home realtime reflection",
+      "ok": true,
+      "detail": "homeChecks=20/20",
+      "action": "Run npm run test:home-realtime after each feed activation to prove /api/home reflects refreshed snapshots without restart."
+    },
+    {
+      "name": "free benefit refresh command",
+      "ok": true,
+      "detail": "refresh:benefits is present and QA keeps it in the free-benefit pipeline.",
+      "action": "Keep refresh:benefits in QA so freebies/events/verify steps remain release-blocking."
+    },
+    {
+      "name": "benefit cron route",
+      "ok": true,
+      "detail": "Vercel cron includes dedicated benefits refresh and full refresh routes.",
+      "action": "Keep /api/cron/benefits for free-benefit-first refresh and /api/cron/refresh for full refresh."
+    },
+    {
+      "name": "official benefit floor",
+      "ok": true,
+      "detail": "visible=105, threshold=95",
+      "action": "Run npm run health:readiness after activation to confirm visible official benefits and freshness."
+    }
+  ]
+}
