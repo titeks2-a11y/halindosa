@@ -6,9 +6,9 @@
 
 - Branch: `codex/12h-product-ux-growth-hardening`
 - Remote: `origin/codex/12h-product-ux-growth-hardening`
-- 최근 원격 반영 커밋: `1a845932 docs: add free benefit feed starter pack`
-- 현재 작업 트리: 무료혜택 운영 feed starter pack을 관리자 화면/API/스모크/릴리즈 닥터에 노출하는 커밋 전 변경 있음
-- 최신 검증: `npm run lint` 성공, `npm run smoke:local` 97/97 통과, `npm run release:doctor` 187/187 통과, `npm run qa` 72/72 통과, `npm run workspace:doctor:strict` 통과
+- 최근 원격 반영 커밋: `4e19f077 feat: expose free benefit feed starter pack operations`
+- 현재 작업 트리: starter pack 관리자 화면/API/스모크/릴리즈 닥터 노출 작업 커밋 및 push 완료
+- 최신 검증: `npm run lint` 성공, `npm run smoke:local` 97/97 통과, `npm run release:doctor` 187/187 통과, `npm run qa` 72/72 통과, `npm run build` 성공, `npm run build:android` 성공, `npm run cap:sync` 성공, `npm run workspace:doctor:strict` 통과
 
 ## 이번 세션에서 진행한 핵심 변경
 
@@ -66,6 +66,9 @@
 - `npm run source:starter:pack`: 2026-06-09 재실행 성공, starter lane 8개, 연결 후보 64개, env key 6개.
 - `npm run smoke:local`: 2026-06-09 재실행 성공, 97/97 통과. 새 `/api/admin/source-starter-pack` JSON/CSV/env route 포함.
 - `npm run qa`: 2026-06-09 재실행 성공, 72/72 통과.
+- `npm run build`: 2026-06-09 단독 재실행 성공.
+- `npm run build:android`: 2026-06-09 재실행 성공.
+- `npm run cap:sync`: 2026-06-09 `build:android`로 `out` 생성 후 재실행 성공.
 - `npm run workspace:doctor:strict`: 2026-06-09 `.next` 정리 후 성공, 재생성 산출물 0B.
 - `npm run source:live:doctor`: 성공, reachable 88개, guarded 14개, stale_or_removed 0개.
 - `npm run news:feed:doctor`: 성공.
@@ -106,12 +109,11 @@
 
 ## 다음 세션에서 바로 할 일
 
-1. 현재 커밋 전 변경을 마무리하려면 `npm run smoke:local`, `npm run qa`, `npm run workspace:doctor:strict`를 추가 실행한 뒤 커밋/push한다.
-2. Vercel/GitHub 배포가 필요하면 push 이후 배포 상태를 확인한다.
-3. 실제 외부 공식 feed URL을 `BENEFIT_REFRESH_FEED_URLS`, `PUBLIC_COUPON_FEED_URLS`, `OFFICIAL_EVENT_FEED_URLS`에 연결해 seed fallback 비율을 낮춘다.
-4. 운영 feed 연결 후 `npm run source:feed-env:doctor && npm run news:feed:canary && npm run refresh:news && npm run verify:news` 순서로 검증한다.
-5. Vercel production 환경에서는 `CRON_SECRET`을 설정하고 `/api/cron/refresh`, `/api/cron/benefits` 두 cron이 실행되는지 deployment logs에서 확인한다.
-6. `/free-benefits`의 나머지 긴 루틴/운영 섹션도 점진적으로 카드 단위 컴포넌트로 분리해 파일 크기를 줄인다.
+1. Vercel/GitHub 배포가 필요하면 `codex/12h-product-ux-growth-hardening` 최신 push 이후 배포 상태를 확인한다.
+2. 실제 외부 공식 feed URL을 `BENEFIT_REFRESH_FEED_URLS`, `PUBLIC_COUPON_FEED_URLS`, `OFFICIAL_EVENT_FEED_URLS`에 연결해 seed fallback 비율을 낮춘다.
+3. 운영 feed 연결 후 `npm run source:feed-env:doctor && npm run news:feed:canary && npm run refresh:news && npm run verify:news` 순서로 검증한다.
+4. Vercel production 환경에서는 `CRON_SECRET`을 설정하고 `/api/cron/refresh`, `/api/cron/benefits` 두 cron이 실행되는지 deployment logs에서 확인한다.
+5. `/free-benefits`의 나머지 긴 루틴/운영 섹션도 점진적으로 카드 단위 컴포넌트로 분리해 파일 크기를 줄인다.
 
 ## 주의할 파일
 
