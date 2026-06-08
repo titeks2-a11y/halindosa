@@ -120,12 +120,15 @@ export async function checkOperationalDataSurfaces() {
     ? JSON.parse(readFileSync(join(root, "reports/official-source-live-check.json"), "utf8"))
     : {};
   const sourceOnboardingPlanScript = await text("scripts/source-onboarding-plan.mjs");
+  const sourceStarterPackScript = await text("scripts/free-benefit-feed-starter-pack.mjs");
   const sourceFeedEnvDoctorScript = await text("scripts/source-feed-env-doctor.mjs");
   const sourceReadinessReportScript = await text("scripts/source-readiness-report.mjs");
   const sourceOnboardingPlanReadiness = await text("lib/operations/sourceOnboardingPlan.ts");
+  const sourceStarterPackReadiness = await text("lib/operations/sourceStarterPack.ts");
   const sourceFeedEnvReadiness = await text("lib/operations/sourceFeedEnvReadiness.ts");
   const sourceReadinessReportReadiness = await text("lib/operations/sourceReadiness.ts");
   const adminSourceOnboardingRoute = await text("app/api/admin/source-onboarding/route.ts");
+  const adminSourceStarterPackRoute = await text("app/api/admin/source-starter-pack/route.ts");
   const adminSourceFeedEnvRoute = await text("app/api/admin/source-feed-env/route.ts");
   const adminSourceReadinessRoute = await text("app/api/admin/source-readiness/route.ts");
   const sourceOnboardingPlanDoc = existsSync(join(root, "docs/SOURCE_ONBOARDING_PLAN.md"))
@@ -136,6 +139,9 @@ export async function checkOperationalDataSurfaces() {
     : "";
   const sourceOnboardingPlanReport = existsSync(join(root, "reports/source-onboarding-plan.json"))
     ? JSON.parse(readFileSync(join(root, "reports/source-onboarding-plan.json"), "utf8"))
+    : {};
+  const sourceStarterPackReport = existsSync(join(root, "reports/free-benefit-feed-starter-pack.json"))
+    ? JSON.parse(readFileSync(join(root, "reports/free-benefit-feed-starter-pack.json"), "utf8"))
     : {};
   const sourceFeedEnvReport = existsSync(join(root, "reports/source-feed-env-readiness.json"))
     ? JSON.parse(readFileSync(join(root, "reports/source-feed-env-readiness.json"), "utf8"))
@@ -1378,6 +1384,10 @@ export async function checkOperationalDataSurfaces() {
     !sourceOnboardingPlanScript.includes("buildEnvPlan") ||
     !sourceOnboardingPlanScript.includes("buildEnvTemplate") ||
     !sourceOnboardingPlanScript.includes("공식 API, RSS, 제휴 feed") ||
+    !sourceStarterPackScript.includes("free-benefit-feed-starter-pack.json") ||
+    !sourceStarterPackScript.includes("free-benefit-feed-starter-pack.env") ||
+    !sourceStarterPackScript.includes("공식 API, RSS, Atom, 승인 파트너 JSON") ||
+    !sourceStarterPackScript.includes("검색 결과, 커뮤니티 글") ||
     !sourceFeedEnvDoctorScript.includes("source-feed-env-readiness.json") ||
     !sourceFeedEnvDoctorScript.includes("HALINDOSA_APPROVED_FEED_HOSTS") ||
     !sourceFeedEnvDoctorScript.includes("not_machine_readable_feed") ||
@@ -1396,6 +1406,9 @@ export async function checkOperationalDataSurfaces() {
     !sourceOnboardingPlanReadiness.includes("envPlan") ||
     !sourceOnboardingPlanReadiness.includes("envTemplate") ||
     !sourceOnboardingPlanReadiness.includes("getOfficialSourceOnboardingPlan") ||
+    !sourceStarterPackReadiness.includes("getFreeBenefitSourceStarterPack") ||
+    !sourceStarterPackReadiness.includes("free-benefit-feed-starter-pack.json") ||
+    !sourceStarterPackReadiness.includes("free-benefit-feed-starter-pack.env") ||
     !sourceFeedEnvReadiness.includes("getOfficialSourceFeedEnvReadiness") ||
     !sourceFeedEnvReadiness.includes("SourceFeedEnvReadinessReport") ||
     !sourceFeedEnvReadiness.includes("source-feed-env-readiness.json") ||
@@ -1407,6 +1420,11 @@ export async function checkOperationalDataSurfaces() {
     !adminSourceOnboardingRoute.includes("format === \"env\"") ||
     !adminSourceOnboardingRoute.includes("source-onboarding-plan.csv") ||
     !adminSourceOnboardingRoute.includes("halindosa-source-feed-template.env") ||
+    !adminSourceStarterPackRoute.includes("canAccessAdminRequest") ||
+    !adminSourceStarterPackRoute.includes("admin-source-starter-pack") ||
+    !adminSourceStarterPackRoute.includes("format === \"csv\"") ||
+    !adminSourceStarterPackRoute.includes("format === \"env\"") ||
+    !adminSourceStarterPackRoute.includes("halindosa-free-benefit-feed-starter-pack.env") ||
     !adminSourceFeedEnvRoute.includes("canAccessAdminRequest") ||
     !adminSourceFeedEnvRoute.includes("admin-source-feed-env") ||
     !adminSourceFeedEnvRoute.includes("getOfficialSourceFeedEnvReadiness") ||
@@ -1428,6 +1446,10 @@ export async function checkOperationalDataSurfaces() {
     !adminPage.includes("다음 연결 우선순위 TOP 10") ||
     !adminPage.includes("/api/admin/source-onboarding") ||
     !adminPage.includes("feed env") ||
+    !adminPage.includes("무료혜택 운영 feed starter pack") ||
+    !adminPage.includes("오늘 받을 혜택부터 연결할 운영 묶음") ||
+    !adminPage.includes("/api/admin/source-starter-pack") ||
+    !adminPage.includes("starter env") ||
     !adminPage.includes("공식 feed 환경변수 안전성") ||
     !adminPage.includes("feed env JSON") ||
     !adminPage.includes("/api/admin/source-feed-env") ||
@@ -1445,6 +1467,9 @@ export async function checkOperationalDataSurfaces() {
     !smoke.includes("admin source onboarding plan api") ||
     !smoke.includes("Admin source onboarding plan should pass") ||
     !smoke.includes("admin source onboarding env template") ||
+    !smoke.includes("admin free benefit source starter pack api") ||
+    !smoke.includes("Admin source starter pack report should pass") ||
+    !smoke.includes("admin free benefit source starter pack env") ||
     !smoke.includes("admin source feed env readiness api") ||
     !smoke.includes("Admin source feed env report should pass") ||
     !smoke.includes("admin source readiness rollup api") ||
@@ -1474,6 +1499,13 @@ export async function checkOperationalDataSurfaces() {
     !String(sourceOnboardingPlanReport.envTemplate ?? "").includes("OFFICIAL_EVENT_FEED_URLS") ||
     !sourceOnboardingEnvTemplate.includes("OFFICIAL_EVENT_FEED_URLS") ||
     !sourceOnboardingEnvTemplate.includes("검색 결과, 커뮤니티 원문") ||
+    sourceStarterPackReport.ok !== true ||
+    (sourceStarterPackReport.catalogCount ?? 0) < 100 ||
+    (sourceStarterPackReport.summary?.totalCandidates ?? 0) < 50 ||
+    (sourceStarterPackReport.summary?.reachableCandidates ?? 0) < 40 ||
+    !Array.isArray(sourceStarterPackReport.packs) ||
+    sourceStarterPackReport.packs.length < 8 ||
+    sourceStarterPackReport.packs.some((pack) => !pack.envKeys?.length || !pack.firstAction || (pack.candidateCount ?? 0) < 3) ||
     sourceFeedEnvReport.ok !== true ||
     !Array.isArray(sourceFeedEnvReport.checkedKeys) ||
     sourceFeedEnvReport.checkedKeys.length < 6 ||

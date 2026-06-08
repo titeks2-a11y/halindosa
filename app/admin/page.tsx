@@ -64,6 +64,7 @@ import { getOfficialSourceFeedEnvReadiness } from "@/lib/operations/sourceFeedEn
 import { getOfficialSourceLiveReport } from "@/lib/operations/sourceLiveReadiness";
 import { getOfficialSourceOnboardingPlan } from "@/lib/operations/sourceOnboardingPlan";
 import { getOfficialSourceReadiness } from "@/lib/operations/sourceReadiness";
+import { getFreeBenefitSourceStarterPack } from "@/lib/operations/sourceStarterPack";
 
 function formatAdminDateTime(isoDate?: string) {
   if (!isoDate) return "미정";
@@ -118,6 +119,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const healthReadiness = getHealthReadinessReport();
   const sourceLiveReport = getOfficialSourceLiveReport();
   const sourceOnboardingPlan = getOfficialSourceOnboardingPlan();
+  const sourceStarterPack = getFreeBenefitSourceStarterPack();
   const sourceFeedEnvReadiness = getOfficialSourceFeedEnvReadiness();
   const officialSourceReadiness = getOfficialSourceReadiness();
   const cronRefresh = getCronRefreshOperationsReport();
@@ -179,6 +181,9 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
     sourceOnboardingApiHref,
     sourceOnboardingCsvHref,
     sourceOnboardingEnvHref,
+    sourceStarterPackApiHref,
+    sourceStarterPackCsvHref,
+    sourceStarterPackEnvHref,
     sourceFeedEnvApiHref,
     sourceReadinessApiHref,
     sourceReadinessCsvHref,
@@ -190,6 +195,10 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const sourceReadiness = getDealSourceReadiness(deals);
   const sourceLiveRiskRows = sourceLiveReport.sources.filter((item) => item.status !== "reachable").slice(0, 5);
   const sourceOnboardingTopQueue = sourceOnboardingPlan.queue.slice(0, 8);
+  const sourceStarterPackRows = sourceStarterPack.packs.slice(0, 8);
+  const sourceStarterPackTopCandidates = sourceStarterPack.packs.flatMap((pack) =>
+    pack.candidates.slice(0, 2).map((candidate) => ({ ...candidate, laneLabel: pack.label, laneEnvKeys: pack.envKeys }))
+  ).slice(0, 8);
   const sourceFeedEnvFailures = sourceFeedEnvReadiness.rows.filter((row) => row.status !== "passed");
   const sourceFeedEnvRegressionFailures = sourceFeedEnvReadiness.policyRegressionSamples.filter((sample) => !sample.passed);
   const sourceFeedEnvRows = (sourceFeedEnvFailures.length ? sourceFeedEnvFailures : sourceFeedEnvReadiness.rows).slice(0, 4);
@@ -1035,6 +1044,109 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                     </span>
                   ))}
                 </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="rounded-3xl border border-rose-100 bg-white p-5 shadow-sm" aria-label="무료혜택 운영 feed starter pack">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-black text-dossa-red">무료혜택 운영 feed starter pack</p>
+              <h2 className="mt-1 text-xl font-black text-slate-950">오늘 받을 혜택부터 연결할 운영 묶음</h2>
+              <p className="mt-1 text-sm font-semibold leading-6 text-slate-500">
+                무료혜택, 편의점, 뷰티 샘플, 카페 쿠폰, 포인트, 공공 문화, 교육, 체험단 후보를 공식 API·RSS·승인 JSON feed로 전환하기 위한 작업표입니다.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <a href={sourceStarterPackApiHref} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-2xl bg-slate-950 px-4 py-3 text-sm font-black text-white">
+                <DatabaseZap size={17} />
+                starter JSON
+              </a>
+              <a href={sourceStarterPackCsvHref} className="inline-flex items-center gap-2 rounded-2xl border border-rose-100 bg-white px-4 py-3 text-sm font-black text-dossa-red">
+                <Download size={17} />
+                starter CSV
+              </a>
+              <a href={sourceStarterPackEnvHref} className="inline-flex items-center gap-2 rounded-2xl border border-emerald-100 bg-white px-4 py-3 text-sm font-black text-emerald-700">
+                <Download size={17} />
+                starter env
+              </a>
+            </div>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-4">
+            <div className="rounded-2xl bg-rose-50 p-4">
+              <p className="text-xs font-black text-dossa-red">운영 묶음</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">{sourceStarterPack.packs.length}개</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-red-900/70">무료혜택 중심</p>
+            </div>
+            <div className="rounded-2xl bg-emerald-50 p-4">
+              <p className="text-xs font-black text-emerald-700">연결 후보</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">{sourceStarterPack.summary.totalCandidates}개</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-emerald-900/70">공식 URL 확인 기준</p>
+            </div>
+            <div className="rounded-2xl bg-blue-50 p-4">
+              <p className="text-xs font-black text-blue-700">접근 가능</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">{sourceStarterPack.summary.reachableCandidates}개</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-blue-900/70">승인 feed 전환 우선</p>
+            </div>
+            <div className="rounded-2xl bg-amber-50 p-4">
+              <p className="text-xs font-black text-amber-700">승인 필요</p>
+              <p className="mt-2 text-2xl font-black text-slate-950">{sourceStarterPack.summary.guardedCandidates}개</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-amber-900/70">무단 수집 금지</p>
+            </div>
+          </div>
+          <div className="mt-4 grid gap-3 xl:grid-cols-[1.05fr_0.95fr]">
+            <div className="rounded-2xl border border-rose-100 bg-rose-50 p-4">
+              <div className="flex items-center justify-between gap-2">
+                <p className="text-sm font-black text-slate-950">운영 묶음별 첫 작업</p>
+                <span className={`rounded-full px-3 py-1.5 text-xs font-black shadow-sm ${sourceStarterPack.ok ? "bg-white text-dossa-red" : "bg-red-100 text-dossa-red"}`}>
+                  {sourceStarterPack.ok ? "starter pack 정상" : "재생성 필요"}
+                </span>
+              </div>
+              <div className="mt-3 grid gap-2 md:grid-cols-2">
+                {(sourceStarterPackRows.length ? sourceStarterPackRows : [{
+                  id: "missing",
+                  label: "starter pack 없음",
+                  candidateCount: 0,
+                  reachableCount: 0,
+                  guardedCount: 0,
+                  envKeys: ["source:starter:pack"],
+                  firstAction: "npm run source:starter:pack 실행"
+                }]).map((pack) => (
+                  <div key={pack.id} className="rounded-2xl bg-white p-3 shadow-sm">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="rounded-full bg-rose-50 px-2.5 py-1 text-[11px] font-black text-dossa-red">{pack.candidateCount}개 후보</span>
+                      <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-[11px] font-black text-emerald-700">접근 {pack.reachableCount}</span>
+                      <span className="rounded-full bg-amber-50 px-2.5 py-1 text-[11px] font-black text-amber-700">승인 {pack.guardedCount}</span>
+                    </div>
+                    <p className="mt-2 text-sm font-black text-slate-950">{pack.label}</p>
+                    <p className="mt-1 text-xs font-bold leading-5 text-slate-500">{pack.firstAction}</p>
+                    <p className="mt-2 line-clamp-1 text-[11px] font-black text-dossa-red">{pack.envKeys.join(", ")}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
+              <p className="text-sm font-black text-slate-950">바로 확인할 대표 후보</p>
+              <div className="mt-3 space-y-2">
+                {sourceStarterPackTopCandidates.length ? (
+                  sourceStarterPackTopCandidates.map((candidate) => (
+                    <div key={`${candidate.laneLabel}-${candidate.id}`} className="rounded-2xl bg-white p-3 shadow-sm">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="rounded-full bg-rose-50 px-2.5 py-1 text-[11px] font-black text-dossa-red">{candidate.laneLabel}</span>
+                        <span className={`rounded-full px-2.5 py-1 text-[11px] font-black ${candidate.liveStatus === "reachable" ? "bg-emerald-50 text-emerald-700" : "bg-amber-50 text-amber-700"}`}>
+                          {candidate.liveStatus === "reachable" ? "접근 가능" : "승인 필요"}
+                        </span>
+                      </div>
+                      <p className="mt-2 text-sm font-black text-slate-950">{candidate.label}</p>
+                      <p className="mt-1 line-clamp-1 text-xs font-bold text-slate-500">{candidate.officialUrl}</p>
+                    </div>
+                  ))
+                ) : (
+                  <p className="rounded-2xl bg-white px-3 py-3 text-sm font-black text-slate-600 shadow-sm">
+                    starter pack 리포트가 없습니다. npm run source:starter:pack을 실행하세요.
+                  </p>
+                )}
               </div>
             </div>
           </div>

@@ -491,6 +491,40 @@ await check("admin source onboarding env template", async () => {
   assert(text.includes("검색 결과, 커뮤니티 원문") && text.includes("담당자 승인 JSON"), "Admin source onboarding env template missing safe source guardrails");
 });
 
+await check("admin free benefit source starter pack api", async () => {
+  const { response, data } = await fetchJson("/api/admin/source-starter-pack");
+  assert(response.status === 200, `Expected source starter pack 200, got ${response.status}`);
+  assert(data.ok === true, "Admin source starter pack API ok should be true");
+  assert(data.report?.ok === true, "Admin source starter pack report should pass");
+  assert(data.report?.catalogCount >= 100, "Admin source starter pack missing official source catalog coverage");
+  assert(data.report?.summary?.totalCandidates >= 50, "Admin source starter pack missing starter candidates");
+  assert(data.report?.summary?.reachableCandidates >= 40, "Admin source starter pack missing reachable candidates");
+  assert(Array.isArray(data.report?.summary?.envKeys) && data.report.summary.envKeys.includes("BENEFIT_REFRESH_FEED_URLS"), "Admin source starter pack missing benefit refresh env key");
+  assert(Array.isArray(data.report?.packs) && data.report.packs.length >= 8, "Admin source starter pack missing operating lanes");
+  assert(
+    data.report.packs.every((pack) => pack.label && pack.firstAction && pack.candidateCount >= 3 && pack.envKeys?.length && pack.candidates?.length >= 3),
+    "Admin source starter pack lanes missing first action, env keys, or candidates"
+  );
+  assert(String(data.report?.envTemplate ?? "").includes("공식 API, RSS, Atom, 승인 파트너 JSON"), "Admin source starter pack missing safe feed env guidance");
+});
+
+await check("admin free benefit source starter pack csv", async () => {
+  const response = await fetch(`${baseUrl}/api/admin/source-starter-pack?format=csv`);
+  const text = await response.text();
+  assert(response.status === 200, `Expected source starter pack CSV 200, got ${response.status}`);
+  assert(response.headers.get("content-type")?.includes("text/csv"), "Admin source starter pack CSV should use text/csv content type");
+  assert(text.includes("lane") && text.includes("feedConnectionAction") && text.includes("guardrail"), "Admin source starter pack CSV missing lane, action, or guardrail fields");
+});
+
+await check("admin free benefit source starter pack env", async () => {
+  const response = await fetch(`${baseUrl}/api/admin/source-starter-pack?format=env`);
+  const text = await response.text();
+  assert(response.status === 200, `Expected source starter pack env 200, got ${response.status}`);
+  assert(response.headers.get("content-type")?.includes("text/plain"), "Admin source starter pack env should use text/plain content type");
+  assert(text.includes("BENEFIT_REFRESH_FEED_URLS=") && text.includes("PUBLIC_COUPON_FEED_URLS="), "Admin source starter pack env missing free benefit feed keys");
+  assert(text.includes("공식 이벤트 HTML 페이지는 참고 URL") && text.includes("검색 결과, 커뮤니티 글"), "Admin source starter pack env missing anti-scraping or unsafe-link guardrails");
+});
+
 await check("admin source feed env readiness api", async () => {
   const { response, data } = await fetchJson("/api/admin/source-feed-env");
   assert(response.status === 200, `Expected source feed env 200, got ${response.status}`);
