@@ -14,7 +14,8 @@ const feedKeys = [
   "DEAL_EVENT_NEWS_FEED_URLS",
   "OFFICIAL_EVENT_FEED_URLS",
   "DEAL_EVENT_FEED_URLS",
-  "PUBLIC_COUPON_FEED_URLS"
+  "PUBLIC_COUPON_FEED_URLS",
+  "BENEFIT_REFRESH_FEED_URLS"
 ];
 
 const communityHostPatterns = [
@@ -44,8 +45,22 @@ const searchPathPatterns = [
   /\/results(?:[./?]|$)/i
 ];
 
+const privateHostPatterns = [
+  /^localhost$/i,
+  /^127\./,
+  /^10\./,
+  /^172\.(1[6-9]|2\d|3[0-1])\./,
+  /^192\.168\./,
+  /^169\.254\./,
+  /^0\.0\.0\.0$/i,
+  /\.local$/i,
+  /^metadata\.google$/i,
+  /^169\.254\.169\.254$/i
+];
+
 const machineReadablePatterns = [
   /\.json(?:$|\?)/i,
+  /\.ndjson(?:$|\?)/i,
   /\.xml(?:$|\?)/i,
   /\.rss(?:$|\?)/i,
   /\.atom(?:$|\?)/i,
@@ -86,7 +101,7 @@ function readEnvFile(fileName) {
     const match = trimmed.match(/^(?:export\s+)?([A-Z0-9_]+)\s*=\s*(.*)$/);
     if (!match) continue;
     const [, key, rawValue] = match;
-    if (!feedKeys.includes(key) && key !== "HALINDOSA_APPROVED_FEED_HOSTS" && key !== "HALINDOSA_ALLOW_DATA_FEED_URLS") continue;
+    if (!feedKeys.includes(key) && key !== "HALINDOSA_APPROVED_FEED_HOSTS" && key !== "BENEFIT_REFRESH_APPROVED_HOSTS" && key !== "HALINDOSA_ALLOW_DATA_FEED_URLS") continue;
     values[key] = stripEnvQuotes(rawValue);
   }
 
@@ -114,7 +129,9 @@ function getEnvValue(key) {
 }
 
 function getApprovedExtraHosts() {
-  const value = getEnvValue("HALINDOSA_APPROVED_FEED_HOSTS");
+  const value = [getEnvValue("HALINDOSA_APPROVED_FEED_HOSTS"), getEnvValue("BENEFIT_REFRESH_APPROVED_HOSTS")]
+    .filter(Boolean)
+    .join(",");
   return new Set(
     String(value ?? "")
       .split(/[,\s;]+/g)
@@ -208,6 +225,7 @@ function classifyUrl(envKey, rawUrl, catalogHostMap, approvedExtraHosts, allowDa
   const isApprovedExtraHost = approvedExtraHosts.has(host);
   const isCommunityHost = communityHostPatterns.some((pattern) => host === pattern || host.endsWith(`.${pattern}`));
   const isSearchUrl = searchPathPatterns.some((pattern) => pattern.test(pathAndSearch));
+  const isPrivateHost = privateHostPatterns.some((pattern) => pattern.test(host));
   const isMachineReadable = machineReadablePatterns.some((pattern) => pattern.test(pathAndSearch));
 
   if (!["http:", "https:"].includes(parsed.protocol)) {
@@ -225,6 +243,15 @@ function classifyUrl(envKey, rawUrl, catalogHostMap, approvedExtraHosts, allowDa
       host,
       reason: "http_not_https",
       action: "운영 feed는 HTTPS만 허용합니다."
+    };
+  }
+
+  if (isPrivateHost) {
+    return {
+      ...base,
+      host,
+      reason: "private_or_metadata_host",
+      action: "내부망, localhost, link-local, cloud metadata 주소는 SSRF 위험 때문에 feed로 사용할 수 없습니다."
     };
   }
 
@@ -299,6 +326,7 @@ function buildMarkdown(report) {
     "- 공식 API, RSS, Atom, 승인된 JSON/파트너 feed만 연결합니다.",
     "- 검색 결과, 커뮤니티 원문, 블로그, 쇼핑몰 메인 또는 HTML 이벤트 페이지 직접 수집은 금지합니다.",
     "- 승인된 외부 feed host는 `HALINDOSA_APPROVED_FEED_HOSTS`에 host만 기록하고, 토큰·query 값은 리포트에 남기지 않습니다.",
+    "- 무료혜택 전용 feed는 `BENEFIT_REFRESH_FEED_URLS`에 연결하고, 별도 승인 host는 `BENEFIT_REFRESH_APPROVED_HOSTS`에 host만 기록합니다.",
     "",
     "## 검사 결과",
     "",
@@ -366,6 +394,11 @@ const policyRegressionSamples = [
     label: "unsafe_protocol_blocked",
     url: "file:///tmp/feed.json",
     expectedReason: "unsafe_protocol"
+  },
+  {
+    label: "private_host_blocked",
+    url: "https://127.0.0.1/feed.json",
+    expectedReason: "private_or_metadata_host"
   }
 ].map((sample) => {
   const result = classifyUrl("OFFICIAL_EVENT_FEED_URLS", sample.url, catalogHostMap, new Set(), false);
@@ -398,7 +431,8 @@ const report = {
     machineReadableFeedRequired: true,
     officialCatalogHostOrApprovedPartnerHostRequired: true,
     blockedCommunityAndBlogHosts: communityHostPatterns,
-    blockedSearchUrlPatterns: searchPathPatterns.map((pattern) => pattern.source)
+    blockedSearchUrlPatterns: searchPathPatterns.map((pattern) => pattern.source),
+    blockedPrivateHostPatterns: privateHostPatterns.map((pattern) => pattern.source)
   },
   policyRegressionSamples,
   rows

@@ -1,7 +1,7 @@
 # 공식 feed 환경변수 안전성 리포트
 
-- 생성 시각: 2026-06-08T20:46:49.365Z
-- 검사한 env key: DEAL_NEWS_FEED_URLS, DEAL_NEWS_RSS_URLS, DEAL_EVENT_NEWS_FEED_URLS, OFFICIAL_EVENT_FEED_URLS, DEAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS
+- 생성 시각: 2026-06-08T20:57:19.659Z
+- 검사한 env key: DEAL_NEWS_FEED_URLS, DEAL_NEWS_RSS_URLS, DEAL_EVENT_NEWS_FEED_URLS, OFFICIAL_EVENT_FEED_URLS, DEAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS
 - 설정된 feed URL: 0개
 - 통과: 0개
 - 실패: 0개
@@ -12,6 +12,7 @@
 - 공식 API, RSS, Atom, 승인된 JSON/파트너 feed만 연결합니다.
 - 검색 결과, 커뮤니티 원문, 블로그, 쇼핑몰 메인 또는 HTML 이벤트 페이지 직접 수집은 금지합니다.
 - 승인된 외부 feed host는 `HALINDOSA_APPROVED_FEED_HOSTS`에 host만 기록하고, 토큰·query 값은 리포트에 남기지 않습니다.
+- 무료혜택 전용 feed는 `BENEFIT_REFRESH_FEED_URLS`에 연결하고, 별도 승인 host는 `BENEFIT_REFRESH_APPROVED_HOSTS`에 host만 기록합니다.
 
 ## 검사 결과
 
@@ -29,6 +30,7 @@
 | official_html_page_blocked | failed | not_machine_readable_feed | failed | not_machine_readable_feed | pass |
 | unlisted_host_blocked | failed | unlisted_feed_host | failed | unlisted_feed_host | pass |
 | unsafe_protocol_blocked | failed | unsafe_protocol | failed | unsafe_protocol | pass |
+| private_host_blocked | failed | private_or_metadata_host | failed | private_or_metadata_host | pass |
 
 ## 재검증
 

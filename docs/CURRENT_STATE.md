@@ -6,8 +6,8 @@
 
 - Branch: `codex/12h-product-ux-growth-hardening`
 - Remote: `origin/codex/12h-product-ux-growth-hardening`
-- 최근 안정 커밋: `ca19a2da feat: prioritize free benefit discovery on home`
-- 현재 작업 트리: 무료혜택 이벤트 API 추가 및 검증 리포트 갱신 후 커밋 전 변경 있음
+- 최근 안정 커밋: `9adf4980 test: cover benefit events realtime api`
+- 현재 작업 트리: 공식 feed 환경변수 doctor 보안 보강 후 커밋 전 변경 있음
 
 ## 이번 세션에서 진행한 핵심 변경
 
@@ -19,6 +19,7 @@
 - `lib/freeBenefitEvents.ts`가 `imageUrl`을 정규화함.
 - `app/api/benefits/events/route.ts`를 추가해 표준 `FreeBenefitEvent`만 반환하는 no-store/rate-limit 공개 API를 제공함.
 - `scripts/smoke.mjs`, `scripts/security-check.mjs`, `scripts/release-doctor.mjs`에 `/api/benefits/events` 회귀 검사를 추가함.
+- `scripts/source-feed-env-doctor.mjs`가 `BENEFIT_REFRESH_FEED_URLS`와 `BENEFIT_REFRESH_APPROVED_HOSTS`를 검사하고, 내부망/metadata 주소를 `private_or_metadata_host`로 차단함.
 - `scripts/test-ui-rules.mjs`, `scripts/test-mobile-ux.mjs`, `scripts/lib/smoke-page-checks.mjs`, `scripts/release-doctor.mjs`의 검사 문구를 무료혜택 중심 구조에 맞게 갱신 중.
 - README와 출시/QA 문서의 옛 `오늘 바로 볼 특가` 표현을 `무료혜택 다음에 볼 상품`으로 전환 중.
 
@@ -29,6 +30,8 @@
 - `npm run release:doctor`: 성공, 187/187 통과.
 - `npm run qa`: 성공, 70/70 통과.
 - `npm run security:check`: 성공, 10/10 통과.
+- `npm run source:feed-env:doctor`: 성공, 7개 feed env key 검사.
+- `npm run source:readiness:report`: 성공.
 - `npm run lint`: 성공.
 - `npm run build`: 성공.
 - `npm run harness`: 성공.
@@ -52,6 +55,7 @@
 - 무료혜택 이벤트 API: `/api/benefits/events?limit=12&type=all` smoke 통과, publishable-only 정책과 no-store 정책 노출.
 - 무료혜택 이벤트 검증: active official events 102개, sources 92개, hosts 74개.
 - 공식 소스 카탈로그: 95개 소스, 10/10 카테고리 커버리지.
+- 공식 feed env doctor: 7개 키 검사, 설정된 feed URL 0개, 실패 0개, SSRF/private host 회귀 샘플 차단.
 - 모바일 UX: 하단 safe-area, compact 검색, 필터 칩, 무료혜택 히어로, 공식 혜택 strip, 토스트 위치 모두 통과.
 
 ## 다음 세션에서 바로 할 일
@@ -73,6 +77,7 @@
 - `scripts/release-doctor.mjs`
 - `scripts/security-check.mjs`
 - `scripts/smoke.mjs`
+- `scripts/source-feed-env-doctor.mjs`
 - `README.md`
 - `docs/RUNBOOK.md`
 - `docs/test-plan.md`
