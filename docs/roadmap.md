@@ -6,6 +6,13 @@
 
 ## 완료 작업
 
+### PHASE Official Source 102 Free Benefit Expansion
+
+- SKT T멤버십, 고용24, K-MOOC, 복지로, 서울문화포털, 로얄캐닌, 파우더룸 공식/승인 혜택 후보를 official source catalog에 추가해 통신사 멤버십, 교육 무료체험, 공공 지원, 문화 행사, 반려동물 캠페인, 뷰티 체험단 수집 축을 보강했다.
+- `BENEFIT_REFRESH_FEED_URLS`를 official source catalog의 preferred env key로 허용해 무료혜택 전용 feed가 카탈로그, source readiness, feed env doctor, 운영 리포트에서 같은 전환 경로로 추적되게 했다.
+- K-MOOC와 로얄캐닌의 404 범용 URL은 공식 상세 URL로 교체하고, 안정 공식 URL을 확인하지 못한 퓨리나 후보는 사용자 노출과 운영 카탈로그에서 제외해 수량보다 공식 링크 신뢰도를 우선했다.
+- `source:catalog:report` 기준 공식 소스 102개, 카테고리 10/10, provider 4/4를 확보했고, `source:live:doctor` 기준 reachable 88개, guarded 14개, stale_or_removed 0개를 확인했다.
+
 ### PHASE Official Source 105 + Mobile Compact Grid Gate
 
 - CJ더마켓, 이디야커피, 텐바이텐, Apple 공식 인증 리퍼비쉬, 11번가 쇼킹딜의 공식 혜택/이벤트 소스를 seed와 official source catalog에 추가해 식품/생필품, 외식/배달, 패션/뷰티, 디지털/가전 카테고리 보강을 진행했다.

@@ -1997,5 +1997,160 @@
     "allowedUse": "11번가 공식 쇼킹딜에서 확인되는 직접 구매 가능한 특가와 쿠폰 혜택",
     "blockedUse": "검색 결과, 카테고리 목록만 있는 링크, 커뮤니티 핫딜 글",
     "notes": "개별 상품 상세 URL을 확보하면 product deal로 승격하고, 목록형 링크는 공식 혜택 카드로만 사용한다."
+  },
+  {
+    "id": "skt-tmembership-official-benefits",
+    "label": "SKT T멤버십 공식 할인·무료 혜택",
+    "provider": "official_event",
+    "category": [
+      "카드/멤버십",
+      "무료혜택",
+      "외식/배달",
+      "영화/문화"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.tworld.co.kr/web/html/tmembership/index.html",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 6,
+    "allowedUse": "SKT T멤버십 공식 혜택, VIP PICK, T day, 제휴 쿠폰처럼 공식 페이지 또는 승인 feed에서 조건과 기간이 확인되는 항목만 노출",
+    "blockedUse": "통신사 혜택 정리 블로그, 커뮤니티 캡처, 앱 내부에서만 확인되는 혜택을 외부 CTA로 오인시키는 링크",
+    "notes": "앱 전용 혜택은 참여 조건에 T멤버십 앱 필요를 표시하고 finalUrl은 공식 안내 페이지로만 둔다."
+  },
+  {
+    "id": "work24-training-support-official",
+    "label": "고용24 직업훈련·국민내일배움카드 공식 지원",
+    "provider": "public_coupon",
+    "category": [
+      "정부/공공혜택",
+      "무료혜택"
+    ],
+    "sourceType": "public_benefit_page",
+    "officialUrl": "https://www.work24.go.kr/cm/main.do",
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS",
+      "DEAL_NEWS_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 12,
+    "allowedUse": "고용24/HRD-Net 공식 훈련비 지원, 무료 교육, 국민내일배움카드 안내 중 신청 경로와 대상 조건이 확인되는 항목",
+    "blockedUse": "사설 교육기관 광고 랜딩, 교육비 지원을 과장한 블로그, 신청 경로가 불분명한 링크",
+    "notes": "무료 또는 지원금 혜택은 자부담 여부, 신청 자격, 접수 기간을 rewardText와 cautionText에 남긴다."
+  },
+  {
+    "id": "kmooc-official-free-courses",
+    "label": "K-MOOC 공식 무료 온라인 강좌 예시",
+    "provider": "public_coupon",
+    "category": [
+      "정부/공공혜택",
+      "무료혜택"
+    ],
+    "sourceType": "public_benefit_page",
+    "officialUrl": "https://www.kmooc.kr/view/course/detail/18713",
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 12,
+    "allowedUse": "K-MOOC 공식 강좌 상세 또는 승인 feed에서 무료 수강, 수강신청 기간, 운영 기간이 확인되는 교육 혜택",
+    "blockedUse": "대학/블로그의 단순 홍보 글, 수강신청이 불가능한 과거 강좌, 비공식 강좌 모음",
+    "notes": "대표 목록 URL이 404를 반환하는 경우가 있어 운영 feed 연결 전에는 공식 강좌 상세 또는 승인 JSON feed만 사용한다."
+  },
+  {
+    "id": "bokjiro-official-welfare-services",
+    "label": "복지로 공식 복지서비스·신청 혜택",
+    "provider": "public_coupon",
+    "category": [
+      "정부/공공혜택",
+      "무료혜택"
+    ],
+    "sourceType": "public_benefit_page",
+    "officialUrl": "https://www.bokjiro.go.kr/ssis-tbu/index.do",
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS",
+      "DEAL_NEWS_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 12,
+    "allowedUse": "복지로 공식 복지서비스, 신청 가능 지원, 생애주기별 공공 혜택 중 대상 조건과 신청 경로가 확인되는 항목",
+    "blockedUse": "복지 혜택을 요약한 개인 블로그, 광고성 상담 랜딩, 신청 경로가 복지로가 아닌 중개 페이지",
+    "notes": "지원 대상과 신청 기간이 명확하지 않으면 사용자 카드에 노출하지 않는다."
+  },
+  {
+    "id": "culture-seoul-official-events",
+    "label": "서울문화포털 공식 무료·할인 문화행사",
+    "provider": "public_coupon",
+    "category": [
+      "영화/문화",
+      "정부/공공혜택",
+      "무료혜택"
+    ],
+    "sourceType": "public_benefit_page",
+    "officialUrl": "https://culture.seoul.go.kr/culture/culture/cultureEvent/list.do",
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS",
+      "DEAL_EVENT_NEWS_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "서울문화포털 공식 무료 공연, 전시, 문화행사, 시민 참여 이벤트 중 기간과 장소가 확인되는 항목",
+    "blockedUse": "행사 홍보 기사 단독 링크, 종료된 행사, 예매/신청 경로가 없는 목록만 있는 링크",
+    "notes": "무료 입장, 사전 예약, 선착순 조건을 participationCondition에 반영한다."
+  },
+  {
+    "id": "royalcanin-kr-official-events",
+    "label": "로얄캐닌 코리아 공식 반려동물 캠페인",
+    "provider": "official_event",
+    "category": [
+      "식품/생필품",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.royalcanin.com/kr/about-us/news/sol4-campaign",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "로얄캐닌 공식 뉴스/캠페인에서 응모 기간, 리워드, 공식 참여 조건이 확인되는 반려동물 이벤트",
+    "blockedUse": "반려동물 샘플 모음 글, 체험단 대행 광고, 공식 이벤트가 아닌 판매자 프로모션",
+    "notes": "범용 /events 경로가 404를 반환하므로 공식 캠페인 상세 또는 승인 feed로만 운영한다."
+  },
+  {
+    "id": "powderroom-review-event",
+    "label": "파우더룸 공식 뷰티 체험단",
+    "provider": "public_coupon",
+    "category": [
+      "패션/뷰티",
+      "무료혜택"
+    ],
+    "sourceType": "approved_public_benefit_page",
+    "officialUrl": "https://www.powderroom.co.kr/review",
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "approved_public_page_or_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "운영자가 승인한 체험단 플랫폼에서 브랜드 제공 상품, 모집 기간, 참여 조건이 확인되는 체험 혜택을 발견용으로 사용",
+    "blockedUse": "광고성 중간 페이지를 finalUrl로 사용, 조건이 불명확한 모집글, 공식 브랜드/플랫폼 확인이 안 되는 체험단",
+    "notes": "사용자 CTA는 가능하면 브랜드 공식 이벤트 또는 플랫폼의 개별 모집 상세로 보강하고, 목록/검색 페이지는 노출하지 않는다."
   }
 ]

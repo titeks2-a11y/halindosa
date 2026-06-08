@@ -6,8 +6,8 @@
 
 - Branch: `codex/12h-product-ux-growth-hardening`
 - Remote: `origin/codex/12h-product-ux-growth-hardening`
-- 최근 안정 커밋: `c71c0ba7 feat: strengthen free benefit event ranking`
-- 현재 작업 트리: `/free-benefits` 전용 페이지를 FreeBenefitEvent API 우선 구조로 전환 후 커밋 전 변경 있음
+- 최근 안정 커밋: `8de57734 feat: prioritize benefit events page`
+- 현재 작업 트리: 공식 무료혜택 수집 소스 후보 확장 후 커밋 전 변경 있음
 
 ## 이번 세션에서 진행한 핵심 변경
 
@@ -33,6 +33,9 @@
 - `/free-benefits` 전용 페이지가 서버 초기 렌더링과 60초 클라이언트 refresh 모두에서 `/api/benefits/events`를 직접 사용하도록 전환됨.
 - `components/FreeBenefitsClient.tsx` 공식 혜택 섹션은 `FreeBenefitEvent` 카드, 전용 혜택 유형 칩, 구매조건 낮음 카운트, 추천 이유, 마감 라벨, 신뢰 배지, 혜택 유형별 CTA를 우선 표시함.
 - `lib/homeApi.ts`에 `/api/benefits/events` 요청 builder와 응답 타입을 추가해 홈/전용 페이지가 같은 무료혜택 이벤트 계약을 재사용할 수 있게 함.
+- `data/officialSourceCatalog.json`에 SKT T멤버십, 고용24, K-MOOC, 복지로, 서울문화포털, 로얄캐닌, 파우더룸 등 통신사/교육/공공/반려동물/체험단 무료혜택 후보 7개를 추가함.
+- `scripts/official-source-catalog-report.mjs`가 `BENEFIT_REFRESH_FEED_URLS`를 공식 소스 카탈로그 preferred env key로 허용하도록 갱신됨.
+- stale URL로 확인된 K-MOOC 목록 URL과 로얄캐닌 범용 이벤트 URL은 공식 상세 URL로 교체했고, 퓨리나 이벤트 후보는 안정 공식 URL을 확인할 때까지 카탈로그에서 제외함.
 - `scripts/test-ui-rules.mjs`, `scripts/test-mobile-ux.mjs`, `scripts/lib/smoke-page-checks.mjs`, `scripts/release-doctor.mjs`의 검사 문구를 무료혜택 중심 구조에 맞게 갱신 중.
 - README와 출시/QA 문서의 옛 `오늘 바로 볼 특가` 표현을 `무료혜택 다음에 볼 상품`으로 전환 중.
 
@@ -47,6 +50,8 @@
 - `npm run harness`: 성공.
 - 참고: 이번 라운드에서 `qa`의 첫 실행은 180초 제한으로 중단됐고, 300초 제한 단독 재실행은 70/70 통과함.
 - `npm run source:feed-env:doctor`: 성공, 7개 feed env key 검사.
+- `npm run source:catalog:report`: 성공, 공식 소스 102개, 카테고리 10/10, provider 4/4.
+- `npm run source:live:doctor`: 성공, reachable 88개, guarded 14개, stale_or_removed 0개.
 - `npm run news:feed:doctor`: 성공.
 - `npm run news:feed:canary`: 성공, seed_fallback_only.
 - `npm run feed:transition:report`: 성공, seed_launch_ready.
@@ -74,7 +79,7 @@
 - 무료혜택 이벤트 API: `sort=noPurchase&noPurchaseOnly=true` smoke 통과, 구매 필요 이벤트를 제외한 공식 혜택만 반환.
 - 무료혜택 이벤트 API 계약: 모든 노출 이벤트가 `claimCtaLabel`, `urgencyLabel`, `rankingReason`, `trustBadges`를 포함.
 - 무료혜택 이벤트 검증: active official events 102개, sources 92개, hosts 74개.
-- 공식 소스 카탈로그: 95개 소스, 10/10 카테고리 커버리지.
+- 공식 소스 카탈로그: 102개 소스, 10/10 카테고리 커버리지, provider 4/4, stale_or_removed 0개.
 - 공식 feed env doctor: 7개 키 검사, 설정된 feed URL 0개, 실패 0개, SSRF/private host 회귀 샘플 차단.
 - 공식 feed 전환 상태: `BENEFIT_REFRESH_FEED_URLS` 포함, 현재 seed fallback 운영 가능 상태. 실제 운영에서는 승인된 JSON/RSS/Atom feed URL과 승인 host를 Vercel env에 연결하면 됨.
 - 무료혜택 cron: `/api/cron/benefits?dryRun=true&token=local-admin` smoke 통과. 무토큰 호출은 401, 토큰 dry-run은 200.
