@@ -110,6 +110,7 @@ export function toFreeBenefitEvent(deal: NewsDeal, referenceNow = Date.now()): F
     eventUrl: deal.eventUrl || deal.finalUrl,
     officialUrl: deal.sourceUrl || deal.finalUrl,
     finalUrl: isSafeBenefitEventUrl(deal.finalUrl) ? deal.finalUrl : "",
+    imageUrl: deal.imageUrl || "",
     sourceName: sanitizeBenefitText(deal.sourceName || deal.merchant, 50),
     sourceType: inferSourceType(deal.provider),
     sourceUrl: deal.sourceUrl,

@@ -27,8 +27,8 @@ Play Store 내부 테스트와 비공개 테스트에서 앱이 쇼핑 정보 �
 - [x] 자동 검증: 실시간 할인 정보와 특가 카드가 보인다.
 - [x] 자동 검증: `오늘 바로 볼 할인 지도`에서 검수 완료 구매 링크, 무료배송, 마감임박, 인기 급상승으로 바로 좁혀볼 수 있다.
 - [x] 자동 검증: 오늘의 추천, 인기 특가, 마감 임박, 무료배송 특가 섹션이 보인다.
-- [x] 자동 검증: `오늘 바로 볼 특가` 레일은 스냅 스크롤, 오른쪽 fade, `옆으로 넘기기` 신호를 유지한다.
-- [ ] 수동 확인: 실제 Android/iOS 터치 스크롤에서 `오늘 바로 볼 특가` 가로 레일이 카드 단위로 자연스럽게 멈추고 상품 CTA를 가리지 않는다.
+- [x] 자동 검증: `무료혜택 다음에 볼 상품` 레일은 스냅 스크롤, 오른쪽 fade, `옆으로 넘기기` 신호를 유지한다.
+- [ ] 수동 확인: 실제 Android/iOS 터치 스크롤에서 `무료혜택 다음에 볼 상품` 가로 레일이 카드 단위로 자연스럽게 멈추고 상품 CTA를 가리지 않는다.
 - [ ] 수동 확인: 상품 이미지 비율이 실제 Android WebView에서 깨지지 않는다.
 
 ### 검색/필터
@@ -149,7 +149,7 @@ npm run smoke
 `env:doctor`는 공개 URL, OAuth redirect, Supabase, 데이터 공급, 운영 토큰 환경변수의 누락과 placeholder 값을 점검합니다.
 `perf:budget`은 정적 export, JS/CSS, APK/AAB, 스토어 이미지가 출시 예산을 넘으면 실패합니다.
 `release:evidence`는 커밋, 앱 버전, APK/AAB, 스토어 이미지, 남은 수동 확인을 `docs/release-evidence.md`에 기록합니다.
-`test:mobile-ux`는 360~430px 모바일 기준으로 safe-area, compact 검색, 홈 검색 중복 방지, 카테고리/필터 가로 칩, `오늘 바로 볼 특가` 스냅 레일과 오른쪽 fade/넘기기 신호, compact 카드, 하단 탭을 가리지 않는 토스트를 10개 게이트로 확인하고 `MOBILE_UX_REPORT.md`를 갱신합니다.
+`test:mobile-ux`는 360~430px 모바일 기준으로 safe-area, compact 검색, 홈 검색 중복 방지, 카테고리/필터 가로 칩, `무료혜택 다음에 볼 상품` 스냅 레일과 오른쪽 fade/넘기기 신호, compact 카드, 하단 탭을 가리지 않는 토스트를 13개 게이트로 확인하고 `MOBILE_UX_REPORT.md`를 갱신합니다.
 `release:doctor`는 Android/iOS 패키징, OAuth/딥링크, Supabase 회원 데이터 동기화, 상업화 준비 화면, 상품/공식 혜택 상세 링크 140개 및 100% 보강률, 내부 점수 비노출, 모바일 UX 게이트/보고서 연결, 출시 증빙 최신 커밋 일치 여부, 출시 당일 체크리스트, 스크린샷 스토리보드, 보관/위탁/삭제 정책 문구, 스토어 산출물까지 확인합니다.
 `qa:release`는 `qa`, `audit:commercial`, Android 정적 빌드, Android/iOS Capacitor sync, `perf:budget`, release doctor를 한 번에 실행하는 출시 후보 검증입니다.
 
@@ -157,7 +157,7 @@ npm run smoke
 
 - [ ] 최소 3명 이상 설치 테스트
 - [ ] 실제 기기 2종 이상 확인
-- [ ] 홈 `오늘 바로 볼 특가` 가로 레일의 터치 스크롤, 오른쪽 fade, `옆으로 넘기기` 안내 확인
+- [ ] 홈 `무료혜택 다음에 볼 상품` 가로 레일의 터치 스크롤, 오른쪽 fade, `옆으로 넘기기` 안내 확인
 - [ ] 외부 링크 열기 확인
 - [ ] 앱 삭제 후 재설치 확인
 - [ ] Play Console pre-launch report 확인

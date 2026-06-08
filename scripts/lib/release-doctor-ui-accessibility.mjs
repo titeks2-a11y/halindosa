@@ -514,7 +514,7 @@ export async function checkUiAccessibility() {
     "quick card scanability",
     "live row compact actions",
     "toast does not cover bottom nav",
-    "상단 \"오늘 바로 볼 특가\" 레일",
+    "상단 \"무료혜택 다음에 볼 상품\" 레일",
     "snap-x/snap-start",
     "오른쪽 fade/넘기기 신호"
   ];
@@ -523,7 +523,7 @@ export async function checkUiAccessibility() {
   if (mobileUxMissing.length || mobileUxReport.includes("Generated: 2026-")) {
     fail("mobile ux report coverage", `Mobile UX report should be stable and include all compact mobile gates. Missing: ${mobileUxMissing.join(", ") || "none"}`);
   } else {
-    pass("mobile ux report coverage", "Mobile UX report records the stable 10-gate compact first-screen regression suite.");
+    pass("mobile ux report coverage", "Mobile UX report records the stable 13-gate compact first-screen regression suite.");
   }
 
   if (

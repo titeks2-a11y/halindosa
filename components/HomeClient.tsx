@@ -64,6 +64,7 @@ import {
 } from "@/lib/homeDiscoveryConfig";
 import { HOME_REFRESH_INTERVAL_MS, HOME_REFRESH_INTERVAL_SECONDS } from "@/lib/homeRealtimeConfig";
 import { buildHomeFreebieSummary, selectHomeFreebies } from "@/lib/homeFreebies";
+import { selectPublishableFreeBenefitEvents } from "@/lib/freeBenefitEvents";
 import {
   buildDealsRequestUrl,
   buildHomeRequestUrl,
@@ -140,6 +141,7 @@ import {
 } from "@/lib/memberSync";
 import { getSupportMailto, supportEmail } from "@/lib/support";
 import { Deal, DealBenefitType, DealSort } from "@/types/deal";
+import type { FreeBenefitEvent } from "@/types/freeBenefitEvent";
 import { HotSignal } from "@/types/hotSignal";
 import type { NewsDeadlineSummary, NewsDeal, NewsDealSourceTrust, NewsIntentGroup, NewsTargetSection } from "@/types/newsDeal";
 
@@ -197,6 +199,9 @@ export default function Home({ initialNow = "" }: HomeClientProps) {
   const [newsTotalCount, setNewsTotalCount] = useState(() => initialNewsSnapshot.deals?.length ?? 0);
   const [newsFreeBenefitCount, setNewsFreeBenefitCount] = useState(() => getNewsFreeBenefitCount(undefined, undefined, initialNewsSnapshot.deals ?? []));
   const [homeFreebies, setHomeFreebies] = useState<NewsDeal[]>(() => selectHomeFreebies(initialNewsSnapshot.deals ?? [], 12, initialClockNow || Date.now()));
+  const [homeFreeBenefitEvents, setHomeFreeBenefitEvents] = useState<FreeBenefitEvent[]>(() =>
+    selectPublishableFreeBenefitEvents(initialNewsSnapshot.deals ?? [], 24, initialClockNow || Date.now())
+  );
   const [homeFreebieSummary, setHomeFreebieSummary] = useState(() => buildHomeFreebieSummary(initialNewsSnapshot.deals ?? [], initialClockNow || Date.now()));
   const [newsRecommendedQueries, setNewsRecommendedQueries] = useState<Array<{ query: string; count: number }>>(() =>
     buildInitialNewsRecommendedQueries(initialNewsSnapshot.deals ?? [])
@@ -266,10 +271,12 @@ export default function Home({ initialNow = "" }: HomeClientProps) {
         const snapshot = buildHomeNewsSnapshot(data);
         const referenceNow = Date.now();
         const nextFreebies = selectHomeFreebies(snapshot.deals, 12, referenceNow);
+        const nextEvents = selectPublishableFreeBenefitEvents(snapshot.deals, 24, referenceNow);
         setNewsDeals(snapshot.deals);
         setNewsTotalCount(snapshot.totalCount);
         setNewsFreeBenefitCount(snapshot.freeBenefitCount);
         setHomeFreebies(nextFreebies);
+        setHomeFreeBenefitEvents(nextEvents);
         setHomeFreebieSummary(buildHomeFreebieSummary(snapshot.deals, referenceNow));
         setNewsRecommendedQueries(snapshot.recommendedQueries);
         setNewsTargetSections(snapshot.targetSections.length ? snapshot.targetSections : buildInitialNewsTargetSections(snapshot.deals));
@@ -804,6 +811,7 @@ export default function Home({ initialNow = "" }: HomeClientProps) {
           const generatedAt = new Date().toISOString();
           const referenceNow = Date.now();
           setHomeFreebies(selectHomeFreebies(initialNewsSnapshot.deals ?? [], 12, referenceNow));
+          setHomeFreeBenefitEvents(selectPublishableFreeBenefitEvents(initialNewsSnapshot.deals ?? [], 24, referenceNow));
           setHomeFreebieSummary(buildHomeFreebieSummary(initialNewsSnapshot.deals ?? [], referenceNow));
           setLastHomeSyncAt(generatedAt);
           setHomeQuality(null);
@@ -870,6 +878,9 @@ export default function Home({ initialNow = "" }: HomeClientProps) {
         setNewsUpdatedAt(snapshot.news.updatedAt);
         setNewsFreshness(snapshot.news.freshness);
         setHomeFreebies(snapshot.freebies.deals.length ? snapshot.freebies.deals : selectHomeFreebies(snapshot.news.deals, 12, Date.now()));
+        setHomeFreeBenefitEvents(
+          snapshot.freebies.events.length ? snapshot.freebies.events : selectPublishableFreeBenefitEvents(snapshot.news.deals, 24, Date.now())
+        );
         setHomeFreebieSummary(snapshot.freebies.summary ?? buildHomeFreebieSummary(snapshot.news.deals, Date.now()));
 
         setHotSignals(snapshot.hotSignals.length ? snapshot.hotSignals : mockHotSignals);
@@ -1326,6 +1337,22 @@ export default function Home({ initialNow = "" }: HomeClientProps) {
           </button>
         </div>
         {activeView === "home" ? (
+          <HomeFreebieHero
+            deals={homeFreebies}
+            events={homeFreeBenefitEvents}
+            totalCount={Math.max(homeFreebieSummary.total || newsFreeBenefitCount, homeFreeBenefitEvents.length)}
+            updatedAt={newsUpdatedAt}
+            freshnessLabel={newsFreshness.label}
+            summary={homeFreebieSummary}
+            isRefreshing={isNewsRefreshing}
+            onRefresh={() => {
+              void refreshNewsDeals({ notify: true });
+            }}
+            onOpenNewsDeal={rememberRecentNewsBenefit}
+            referenceNow={clockNow}
+          />
+        ) : null}
+        {activeView === "home" ? (
           <section className="rounded-2xl border border-red-100 bg-white p-2 shadow-sm sm:rounded-[28px] sm:p-4" aria-label="빠른 상품 검색">
             <div className="mb-2 hidden flex-col gap-1 sm:mb-3 sm:flex sm:flex-row sm:items-end sm:justify-between">
               <div>
@@ -1621,65 +1648,6 @@ export default function Home({ initialNow = "" }: HomeClientProps) {
           </div>
         ) : null}
         {activeView === "home" ? (
-          <HomeFreebieHero
-            deals={homeFreebies}
-            totalCount={homeFreebieSummary.total || newsFreeBenefitCount}
-            updatedAt={newsUpdatedAt}
-            freshnessLabel={newsFreshness.label}
-            summary={homeFreebieSummary}
-            isRefreshing={isNewsRefreshing}
-            onRefresh={() => {
-              void refreshNewsDeals({ notify: true });
-            }}
-            onOpenNewsDeal={rememberRecentNewsBenefit}
-            referenceNow={clockNow}
-          />
-        ) : null}
-        {activeView === "home" ? (
-          <section id="deal-list" className="scroll-mt-24 rounded-[24px] border border-slate-200 bg-white p-2 shadow-sm sm:p-3" aria-label="검증 특가 목록">
-            <div className="mb-2 flex items-center justify-between gap-2 px-1">
-              <div className="min-w-0">
-                <p className="text-xs font-black text-dossa-red">검증 특가</p>
-                <h3 className="truncate text-base font-black text-slate-950">
-                  {query.trim() ? `"${query.trim()}" 검색 결과` : "지금 바로 볼 수 있는 상품"}
-                </h3>
-              </div>
-              <div className="shrink-0 text-right">
-                <p className="text-[11px] font-black text-slate-500">현재 결과</p>
-                <p className="text-sm font-black text-dossa-red">{deals.length.toLocaleString("ko-KR")}개</p>
-              </div>
-            </div>
-            {isLoading && !deals.length ? (
-              <DealGridSkeleton />
-            ) : (
-              <HomeDealGrid
-                items={deals}
-                visibleCount={visibleDealCount}
-                loadStep={HOME_DEAL_LOAD_STEP}
-                favoriteIds={favorites}
-                emptyTitle={loadError ? "현재 검증된 특가를 불러오는 중입니다." : "조건에 맞는 특가가 없습니다."}
-                emptyDescription={loadError || (freeShippingOnly || hotOnly || endingSoonOnly || verifiedOnly || priceBand !== "all"
-                  ? "선택한 필터를 줄이거나 다른 카테고리를 선택해보세요."
-                  : "검색어를 줄이거나 다른 카테고리를 선택해보세요.")}
-                emptyAction={
-                  <HomeEmptyRecovery
-                    keywords={emptySearchRecoveryKeywords}
-                    deals={emptySearchRecoveryDeals}
-                    onResetFilters={resetFilters}
-                    onSelectKeyword={selectSearchKeyword}
-                    onOpenDeal={openDeal}
-                  />
-                }
-                onLoadMore={setVisibleDealCount}
-                onToggleFavorite={toggleFavorite}
-                onOpenDeal={openDeal}
-                onShareDeal={shareDeal}
-                referenceNow={clockNow}
-              />
-            )}
-          </section>
-        ) : null}
-        {activeView === "home" ? (
           <HomeLiveBenefitStrip
             deals={homeFreebies.length ? homeFreebies : newsDeals}
             totalCount={homeFreebieSummary.total || newsTotalCount}
@@ -1695,11 +1663,11 @@ export default function Home({ initialNow = "" }: HomeClientProps) {
           />
         ) : null}
         {activeView === "home" && instantDealRail.length ? (
-          <section className="rounded-2xl border border-slate-200 bg-white p-2 shadow-sm sm:rounded-[28px] sm:p-4" aria-label="오늘 바로 볼 특가">
+          <section className="rounded-2xl border border-slate-200 bg-white p-2 shadow-sm sm:rounded-[28px] sm:p-4" aria-label="무료혜택 다음에 볼 추가 할인 상품">
             <div className="flex items-center justify-between gap-2 sm:gap-3">
               <div>
-                <p className="text-xs font-black text-dossa-red">오늘 바로 볼 특가</p>
-                <h3 className="text-base font-black text-slate-950 sm:mt-1 sm:text-xl">먼저 확인할 상품</h3>
+                <p className="text-xs font-black text-dossa-red">추가 할인 상품</p>
+                <h3 className="text-base font-black text-slate-950 sm:mt-1 sm:text-xl">무료혜택 다음에 볼 상품</h3>
               </div>
               <p className="rounded-full bg-slate-50 px-2.5 py-1 text-[11px] font-black text-slate-500 sm:bg-transparent sm:px-0 sm:text-xs sm:font-bold">
                 옆으로 넘기기
@@ -1708,7 +1676,7 @@ export default function Home({ initialNow = "" }: HomeClientProps) {
             <div className="relative">
               <div
                 className="mt-2 flex snap-x snap-mandatory gap-2 overflow-x-auto scroll-px-2 pb-1 pr-8 [scrollbar-width:none] sm:mt-3 sm:gap-3 sm:scroll-px-3 sm:pr-10 [&::-webkit-scrollbar]:hidden"
-                aria-label="오늘 바로 볼 특가 가로 목록"
+                aria-label="추가 할인 상품 가로 목록"
               >
                 {instantDealRail.map((deal) => (
                   <article
@@ -1811,6 +1779,50 @@ export default function Home({ initialNow = "" }: HomeClientProps) {
           />
         ) : null}
         {activeView === "home" ? <HomeOfficialBenefitAlertRail deals={newsDeals} onOpenNewsDeal={rememberRecentNewsBenefit} referenceNow={clockNow} /> : null}
+        {activeView === "home" ? (
+          <section id="deal-list" className="scroll-mt-24 rounded-[24px] border border-slate-200 bg-white p-2 shadow-sm sm:p-3" aria-label="추가 할인 상품 보조 목록">
+            <div className="mb-2 flex items-center justify-between gap-2 px-1">
+              <div className="min-w-0">
+                <p className="text-xs font-black text-dossa-red">추가 할인 상품</p>
+                <h3 className="truncate text-base font-black text-slate-950">
+                  {query.trim() ? `"${query.trim()}" 검색 결과` : "무료혜택 다음에 비교할 상품"}
+                </h3>
+              </div>
+              <div className="shrink-0 text-right">
+                <p className="text-[11px] font-black text-slate-500">현재 결과</p>
+                <p className="text-sm font-black text-dossa-red">{deals.length.toLocaleString("ko-KR")}개</p>
+              </div>
+            </div>
+            {isLoading && !deals.length ? (
+              <DealGridSkeleton />
+            ) : (
+              <HomeDealGrid
+                items={deals}
+                visibleCount={visibleDealCount}
+                loadStep={HOME_DEAL_LOAD_STEP}
+                favoriteIds={favorites}
+                emptyTitle={loadError ? "현재 검증된 특가를 불러오는 중입니다." : "조건에 맞는 추가 할인 상품이 없습니다."}
+                emptyDescription={loadError || (freeShippingOnly || hotOnly || endingSoonOnly || verifiedOnly || priceBand !== "all"
+                  ? "선택한 필터를 줄이거나 다른 카테고리를 선택해보세요."
+                  : "검색어를 줄이거나 다른 카테고리를 선택해보세요.")}
+                emptyAction={
+                  <HomeEmptyRecovery
+                    keywords={emptySearchRecoveryKeywords}
+                    deals={emptySearchRecoveryDeals}
+                    onResetFilters={resetFilters}
+                    onSelectKeyword={selectSearchKeyword}
+                    onOpenDeal={openDeal}
+                  />
+                }
+                onLoadMore={setVisibleDealCount}
+                onToggleFavorite={toggleFavorite}
+                onOpenDeal={openDeal}
+                onShareDeal={shareDeal}
+                referenceNow={clockNow}
+              />
+            )}
+          </section>
+        ) : null}
         {activeView === "home" ? (
           <section className="grid gap-2 sm:gap-4 lg:grid-cols-[1fr_0.9fr]" aria-label="홈 핵심 특가 요약">
             <div className="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm sm:rounded-[28px] sm:p-5">

@@ -29,6 +29,7 @@ export interface FreeBenefitEvent {
   eventUrl: string;
   officialUrl: string;
   finalUrl: string;
+  imageUrl: string;
   sourceName: string;
   sourceType: FreeBenefitSourceType;
   sourceUrl: string;

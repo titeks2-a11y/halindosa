@@ -5,6 +5,7 @@ import { CalendarClock, ExternalLink, Gift, RefreshCw, ShieldCheck, TicketPercen
 import { getRelativeTime, getTimeLeft } from "@/lib/format";
 import { getDealImageSrc } from "@/lib/imageSrc";
 import { getHomeFreebieBenefitLabel } from "@/lib/homeFreebies";
+import type { FreeBenefitEvent, FreeBenefitEventType } from "@/types/freeBenefitEvent";
 import type { NewsDeal } from "@/types/newsDeal";
 
 const benefitToneClassNames: Record<string, string> = {
@@ -26,6 +27,40 @@ function getBenefitTone(type: NewsDeal["benefitType"]) {
   return benefitToneClassNames[type] ?? "bg-slate-100 text-slate-700";
 }
 
+const eventBenefitLabels: Record<FreeBenefitEventType, string> = {
+  all: "전체",
+  everyone: "전원증정",
+  firstCome: "선착순",
+  coupon: "쿠폰",
+  sample: "샘플",
+  freeTrial: "무료체험",
+  gifticon: "기프티콘",
+  pointCashback: "포인트",
+  checkIn: "출석체크",
+  signup: "신규가입",
+  publicFree: "공공무료",
+  experiencePanel: "체험단",
+  freeShipping: "무배",
+  brandEvent: "공식이벤트"
+};
+
+const eventToneClassNames: Record<FreeBenefitEventType, string> = {
+  all: "bg-slate-100 text-slate-700",
+  everyone: "bg-emerald-50 text-emerald-700",
+  firstCome: "bg-orange-50 text-orange-700",
+  coupon: "bg-yellow-50 text-yellow-700",
+  sample: "bg-teal-50 text-teal-700",
+  freeTrial: "bg-sky-50 text-sky-700",
+  gifticon: "bg-pink-50 text-pink-700",
+  pointCashback: "bg-violet-50 text-violet-700",
+  checkIn: "bg-indigo-50 text-indigo-700",
+  signup: "bg-rose-50 text-rose-700",
+  publicFree: "bg-blue-50 text-blue-700",
+  experiencePanel: "bg-purple-50 text-purple-700",
+  freeShipping: "bg-cyan-50 text-cyan-700",
+  brandEvent: "bg-red-50 text-dossa-red"
+};
+
 function isEndingSoon(deal: NewsDeal, referenceNow?: number) {
   const endTime = Date.parse(deal.expiresAt || deal.endDate);
   if (!Number.isFinite(endTime)) return false;
@@ -33,8 +68,16 @@ function isEndingSoon(deal: NewsDeal, referenceNow?: number) {
   return hoursLeft >= 0 && hoursLeft <= 24;
 }
 
+function isEventEndingSoon(event: FreeBenefitEvent, referenceNow?: number) {
+  const endTime = Date.parse(event.endAt);
+  if (!Number.isFinite(endTime)) return false;
+  const hoursLeft = (endTime - (referenceNow ?? Date.now())) / 3_600_000;
+  return hoursLeft >= 0 && hoursLeft <= 24;
+}
+
 interface HomeFreebieHeroProps {
   deals: NewsDeal[];
+  events?: FreeBenefitEvent[];
   totalCount: number;
   updatedAt: string;
   freshnessLabel?: string;
@@ -54,6 +97,7 @@ interface HomeFreebieHeroProps {
 
 export function HomeFreebieHero({
   deals,
+  events = [],
   totalCount,
   updatedAt,
   freshnessLabel,
@@ -64,13 +108,21 @@ export function HomeFreebieHero({
   onOpenNewsDeal
 }: HomeFreebieHeroProps) {
   const visibleDeals = deals.slice(0, 4);
+  const visibleEvents = events.slice(0, 4);
   const checkedLabel = isRefreshing ? "검증 중" : freshnessLabel || (updatedAt ? getRelativeTime(updatedAt, referenceNow) : "확인 대기");
-  const quickStats = [
-    { label: "무료/0원", value: summary?.zeroCost ?? visibleDeals.filter((deal) => deal.benefitType === "freebie" || deal.price === 0).length, className: "bg-emerald-50 text-emerald-700" },
-    { label: "쿠폰", value: summary?.coupon ?? visibleDeals.filter((deal) => deal.benefitType === "coupon").length, className: "bg-yellow-50 text-yellow-700" },
-    { label: "무배", value: summary?.freeShipping ?? visibleDeals.filter((deal) => deal.benefitType === "freeShipping").length, className: "bg-sky-50 text-sky-700" },
-    { label: "오늘마감", value: summary?.endingToday ?? visibleDeals.filter((deal) => isEndingSoon(deal, referenceNow)).length, className: "bg-orange-50 text-orange-700" }
-  ];
+  const quickStats = visibleEvents.length
+    ? [
+        { label: "전원", value: events.filter((event) => event.isEveryoneReward).length, className: "bg-emerald-50 text-emerald-700" },
+        { label: "선착순", value: events.filter((event) => event.isFirstComeFirstServed).length, className: "bg-orange-50 text-orange-700" },
+        { label: "쿠폰", value: events.filter((event) => event.benefitType === "coupon").length, className: "bg-yellow-50 text-yellow-700" },
+        { label: "오늘마감", value: events.filter((event) => isEventEndingSoon(event, referenceNow)).length, className: "bg-rose-50 text-rose-700" }
+      ]
+    : [
+        { label: "무료/0원", value: summary?.zeroCost ?? visibleDeals.filter((deal) => deal.benefitType === "freebie" || deal.price === 0).length, className: "bg-emerald-50 text-emerald-700" },
+        { label: "쿠폰", value: summary?.coupon ?? visibleDeals.filter((deal) => deal.benefitType === "coupon").length, className: "bg-yellow-50 text-yellow-700" },
+        { label: "무배", value: summary?.freeShipping ?? visibleDeals.filter((deal) => deal.benefitType === "freeShipping").length, className: "bg-sky-50 text-sky-700" },
+        { label: "오늘마감", value: summary?.endingToday ?? visibleDeals.filter((deal) => isEndingSoon(deal, referenceNow)).length, className: "bg-orange-50 text-orange-700" }
+      ];
 
   return (
     <section
@@ -121,7 +173,65 @@ export function HomeFreebieHero({
         ))}
       </div>
 
-      {visibleDeals.length ? (
+      {visibleEvents.length ? (
+        <div className="mt-2 grid grid-cols-2 gap-2 sm:mt-3 sm:grid-cols-4" aria-label="공식 무료혜택 이벤트 카드">
+          {visibleEvents.map((event) => (
+            <article key={event.id} data-home-free-benefit-event-card="true" className="min-w-0 rounded-2xl border border-slate-100 bg-slate-50 p-2">
+              <div className="flex items-start gap-2 sm:block">
+                <span className="relative inline-flex h-12 w-12 shrink-0 overflow-hidden rounded-2xl bg-white text-emerald-700 sm:h-20 sm:w-full">
+                  {event.imageUrl ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={getDealImageSrc(event.imageUrl)}
+                      alt=""
+                      loading="lazy"
+                      decoding="async"
+                      referrerPolicy="no-referrer"
+                      className="h-full w-full object-cover"
+                    />
+                  ) : (
+                    <span className="flex h-full w-full items-center justify-center">
+                      <Gift size={18} />
+                    </span>
+                  )}
+                </span>
+                <div className="min-w-0 flex-1 sm:mt-2">
+                  <div className="flex min-w-0 items-center gap-1">
+                    <span className={`shrink-0 rounded-full px-1.5 py-0.5 text-[9px] font-black ${eventToneClassNames[event.benefitType]}`}>
+                      {eventBenefitLabels[event.benefitType]}
+                    </span>
+                    <span className="truncate text-[9px] font-black text-slate-400">{event.brandName}</span>
+                  </div>
+                  <h3 className="mt-1 line-clamp-2 min-h-[2.1rem] text-[12px] font-black leading-[17px] text-slate-950 sm:text-[13px]">
+                    {event.title}
+                  </h3>
+                </div>
+              </div>
+              <p className="mt-1 line-clamp-1 text-[10px] font-black text-emerald-700">{event.rewardText}</p>
+              <div className="mt-1 flex flex-wrap items-center gap-1 text-[9px] font-black text-slate-500">
+                <span className="inline-flex items-center gap-0.5">
+                  <ShieldCheck size={10} />
+                  공식
+                </span>
+                <span className="inline-flex items-center gap-0.5">
+                  <CalendarClock size={10} />
+                  {getTimeLeft(event.endAt, referenceNow)}
+                </span>
+              </div>
+              <Link
+                href={`/go/news/${encodeURIComponent(event.id)}?from=home-free-benefit-event`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-2 inline-flex min-h-8 w-full items-center justify-center gap-1 rounded-xl bg-gradient-to-r from-[#ff2b2b] to-[#ff6a3d] px-2 text-[11px] font-black text-white"
+                aria-label={`${event.title} 공식 혜택 페이지 새 탭으로 열기`}
+              >
+                무료 혜택 받기
+                <ExternalLink size={12} />
+              </Link>
+            </article>
+          ))}
+        </div>
+      ) : visibleDeals.length ? (
         <div className="mt-2 grid grid-cols-2 gap-2 sm:mt-3 sm:grid-cols-4" aria-label="공식 무료혜택 카드">
           {visibleDeals.map((deal) => (
             <article key={deal.id} data-home-freebie-card="true" className="min-w-0 rounded-2xl border border-slate-100 bg-slate-50 p-2">

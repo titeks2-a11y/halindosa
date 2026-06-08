@@ -27,7 +27,10 @@ export async function runPageSmokeChecks() {
     assert(text.includes("빠른 상품 검색") || text.includes("상품명·쇼핑몰 검색"), "Home page missing compact search");
     assert(text.includes("카테고리 바로가기") || text.includes("전체상품"), "Home page missing category shortcuts");
     assert(text.includes("상품 목록 빠른 스캔") && text.includes("목록 안에서 많이 나온 기준"), "Home page missing product list scan shortcuts");
-    assert(text.includes("오늘 놓치면 아쉬운 혜택") || text.includes("오늘 바로 볼 특가"), "Home page missing benefit-first discovery");
+    assert(
+      text.includes("오늘 챙길 쿠폰·0원딜") || text.includes("무료혜택 먼저 보기") || text.includes("오늘 놓치면 아쉬운 혜택"),
+      "Home page missing benefit-first discovery"
+    );
     assert(text.includes("무료혜택") || text.includes("쿠폰"), "Home page missing free or coupon discovery");
     assert(text.includes("오늘의 실시간 할인뉴스") && text.includes("공식"), "Home page missing official benefit section");
     assert(text.includes("신뢰 공식출처 우선") && text.includes("신뢰 출처"), "Home page missing trusted official source prioritization");
@@ -164,7 +167,10 @@ export async function runPageSmokeChecks() {
     const result = await fetchJson(`/api/deals?q=${encodeURIComponent("zzznomatch987")}&verifiedOnly=true&limit=20`);
     assert(result.response.status === 200, `Expected 200, got ${result.response.status}`);
     assert(result.data.deals.length === 0, "Impossible search query should return no API deals");
-    assert(homePageSource.includes("조건에 맞는 특가가 없습니다."), "Home source missing empty result title");
+    assert(
+      homePageSource.includes("조건에 맞는 추가 할인 상품이 없습니다.") || homePageSource.includes("조건에 맞는 특가가 없습니다."),
+      "Home source missing empty result title"
+    );
     assert(homeRuntimeSource.includes("검색 결과 없음 복구"), "Home source missing recovery region");
     assert(homeRuntimeSource.includes("바로 다시 찾아볼 검색어"), "Home source missing recovery keyword suggestions");
     assert(homeRuntimeSource.includes("먼저 볼 만한 검증 특가"), "Home source missing verified deal recovery suggestions");

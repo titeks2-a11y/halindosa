@@ -81,7 +81,9 @@ if (visibleDevelopmentCopy.length) {
 }
 
 const mobileHomeGuard =
-  homePage.includes("먼저 확인할 상품") &&
+  homePage.includes("무료혜택 다음에 볼 상품") &&
+  homePage.includes("추가 할인 상품 보조 목록") &&
+  homePage.indexOf("<HomeFreebieHero") < homePage.indexOf("추가 할인 상품 보조 목록") &&
   searchBar.includes("상품명·쇼핑몰 검색") &&
   homePage.includes("상세 필터와 결과 분석 접기") &&
   homePage.includes("group hidden overflow-hidden") &&

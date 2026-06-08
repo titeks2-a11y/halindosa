@@ -1,22 +1,90 @@
 # 할인도사 Harness Report
 
-Started: 2026-06-07T20:38:46.438Z
-Finished: 2026-06-07T20:39:05.507Z
+Started: 2026-06-08T20:33:43.279Z
+Finished: 2026-06-08T20:35:44.510Z
 Status: PASS
 
 ## Summary
 
 | Step | Result | Duration |
 | --- | --- | ---: |
-| lint | PASS | 16.9s |
+| lint | PASS | 15.9s |
+| build | PASS | 27.4s |
+| verify:links | PASS | 3.1s |
+| test:external-links | PASS | 0.6s |
+| test:images | PASS | 0.5s |
+| news:images:enrich | PASS | 9.2s |
+| verify:images | PASS | 0.6s |
+| image:operations:doctor | PASS | 0.5s |
+| test:search | PASS | 7.6s |
+| test:ui | PASS | 0.6s |
 | test:mobile-ux | PASS | 0.6s |
-| home:realtime:doctor | PASS | 0.6s |
+| test:mobile-compact | PASS | 0.5s |
+| home:realtime:doctor | PASS | 0.5s |
+| test:home-realtime | PASS | 4.9s |
 | test:seo | PASS | 0.6s |
-| test:perf | PASS | 0.5s |
+| test:perf | PASS | 0.6s |
+| security:check | PASS | 0.8s |
+| smoke:local | PASS | 45.0s |
+| release:doctor | PASS | 1.8s |
 
 ## Step Output
 
 ### lint
+
+```text
+See streamed console output.
+```
+
+### build
+
+```text
+See streamed console output.
+```
+
+### verify:links
+
+```text
+See streamed console output.
+```
+
+### test:external-links
+
+```text
+See streamed console output.
+```
+
+### test:images
+
+```text
+See streamed console output.
+```
+
+### news:images:enrich
+
+```text
+See streamed console output.
+```
+
+### verify:images
+
+```text
+See streamed console output.
+```
+
+### image:operations:doctor
+
+```text
+See streamed console output.
+```
+
+### test:search
+
+```text
+See streamed console output.
+```
+
+### test:ui
 
 ```text
 See streamed console output.
@@ -28,7 +96,19 @@ See streamed console output.
 See streamed console output.
 ```
 
+### test:mobile-compact
+
+```text
+See streamed console output.
+```
+
 ### home:realtime:doctor
+
+```text
+See streamed console output.
+```
+
+### test:home-realtime
 
 ```text
 See streamed console output.
@@ -41,6 +121,24 @@ See streamed console output.
 ```
 
 ### test:perf
+
+```text
+See streamed console output.
+```
+
+### security:check
+
+```text
+See streamed console output.
+```
+
+### smoke:local
+
+```text
+See streamed console output.
+```
+
+### release:doctor
 
 ```text
 See streamed console output.

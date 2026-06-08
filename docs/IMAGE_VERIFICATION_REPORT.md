@@ -1,6 +1,6 @@
 # 할인도사 Image Verification Report
 
-Generated: 2026-06-08T12:19:10.288Z
+Generated: 2026-06-08T20:34:40.572Z
 Status: PASS
 
 ## Summary
