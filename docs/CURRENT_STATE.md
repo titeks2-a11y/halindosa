@@ -6,9 +6,9 @@
 
 - Branch: `codex/12h-product-ux-growth-hardening`
 - Remote: `origin/codex/12h-product-ux-growth-hardening`
-- 최근 원격 반영 커밋: `4e19f077 feat: expose free benefit feed starter pack operations`
-- 현재 작업 트리: starter pack 관리자 화면/API/스모크/릴리즈 닥터 노출 작업 커밋 및 push 완료
-- 최신 검증: `npm run lint` 성공, `npm run smoke:local` 97/97 통과, `npm run release:doctor` 187/187 통과, `npm run qa` 72/72 통과, `npm run build` 성공, `npm run build:android` 성공, `npm run cap:sync` 성공, `npm run workspace:doctor:strict` 통과
+- 최근 원격 반영 커밋: `159c127f docs: update current state after starter pack operations`
+- 현재 작업 트리: 무료혜택 feed 운영 handoff 스크립트/문서 추가 후 커밋 전 변경 있음
+- 최신 검증: `npm run lint` 성공, `npm run source:feed:handoff` 성공, `npm run security:check` 10/10 통과, `npm run release:doctor` 187/187 통과, `npm run qa` 73/73 통과
 
 ## 이번 세션에서 진행한 핵심 변경
 
@@ -48,6 +48,9 @@
 - `app/admin/page.tsx`에 `무료혜택 운영 feed starter pack` 섹션을 추가해 운영 묶음, 연결 후보, 접근 가능 후보, 승인 필요 후보, 대표 후보를 바로 확인할 수 있게 함.
 - `lib/operations/sourceStarterPack.ts`가 `reports/free-benefit-feed-starter-pack.json`과 `.env` 산출물을 읽어 관리자/API에 제공함.
 - `scripts/smoke.mjs`, `scripts/release-doctor.mjs`, `scripts/lib/release-doctor-operational-data.mjs`가 starter pack 관리자 API, CSV, env 다운로드, admin auth hardening을 검사하도록 확장됨.
+- `scripts/free-benefit-feed-handoff.mjs`를 추가해 starter pack, feed env readiness, canary, transition 리포트를 바탕으로 Vercel Environment Variables 연결 핸드오프 문서를 생성함.
+- `docs/FREE_BENEFIT_FEED_HANDOFF.md`는 `BENEFIT_REFRESH_FEED_URLS`, `PUBLIC_COUPON_FEED_URLS`, `OFFICIAL_EVENT_FEED_URLS`, 승인 host, `CRON_SECRET`, 검증 명령 순서를 한 장으로 정리함.
+- `source:feed:handoff`를 `package.json`, `source:prepare`, `qa`, `release:doctor`에 연결해 운영 feed 전환 문서가 회귀되지 않게 함.
 
 ## 검증 결과
 
@@ -70,6 +73,10 @@
 - `npm run build:android`: 2026-06-09 재실행 성공.
 - `npm run cap:sync`: 2026-06-09 `build:android`로 `out` 생성 후 재실행 성공.
 - `npm run workspace:doctor:strict`: 2026-06-09 `.next` 정리 후 성공, 재생성 산출물 0B.
+- `npm run source:feed:handoff`: 2026-06-09 성공, 8개 lane/9개 env key/0개 configured feed URL 기록.
+- `npm run security:check`: 2026-06-09 성공, 10/10 통과.
+- `npm run release:doctor`: 2026-06-09 handoff 게이트 추가 후 성공, 187/187 통과.
+- `npm run qa`: 2026-06-09 handoff 포함 후 성공, 73/73 통과.
 - `npm run source:live:doctor`: 성공, reachable 88개, guarded 14개, stale_or_removed 0개.
 - `npm run news:feed:doctor`: 성공.
 - `npm run news:feed:canary`: 성공, seed_fallback_only.
@@ -101,6 +108,7 @@
 - 공식 소스 카탈로그: 102개 소스, 10/10 카테고리 커버리지, provider 4/4, stale_or_removed 0개.
 - 무료혜택 소스 축: 통신사, 편의점, 뷰티, 카페·프랜차이즈, 배달, 금융·페이·포인트, 마트, 오픈마켓, 문화·공공, 교육, 반려동물, 체험단 12/12 통과.
 - 무료혜택 feed starter pack: 8개 운영 묶음, 64개 연결 후보, 접근 가능 56개, 보호/승인 필요 8개.
+- 무료혜택 feed handoff: 8개 starter lane, 9개 운영 env key, configured feed URL 0개, canary `seed_fallback_only`.
 - 공식 feed env doctor: 7개 키 검사, 설정된 feed URL 0개, 실패 0개, SSRF/private host 회귀 샘플 차단.
 - 공식 feed 전환 상태: `BENEFIT_REFRESH_FEED_URLS` 포함, 현재 seed fallback 운영 가능 상태. 실제 운영에서는 승인된 JSON/RSS/Atom feed URL과 승인 host를 Vercel env에 연결하면 됨.
 - 무료혜택 cron: `/api/cron/benefits?dryRun=true&token=local-admin` smoke 통과. 무토큰 호출은 401, 토큰 dry-run은 200.
@@ -111,9 +119,10 @@
 
 1. Vercel/GitHub 배포가 필요하면 `codex/12h-product-ux-growth-hardening` 최신 push 이후 배포 상태를 확인한다.
 2. 실제 외부 공식 feed URL을 `BENEFIT_REFRESH_FEED_URLS`, `PUBLIC_COUPON_FEED_URLS`, `OFFICIAL_EVENT_FEED_URLS`에 연결해 seed fallback 비율을 낮춘다.
-3. 운영 feed 연결 후 `npm run source:feed-env:doctor && npm run news:feed:canary && npm run refresh:news && npm run verify:news` 순서로 검증한다.
-4. Vercel production 환경에서는 `CRON_SECRET`을 설정하고 `/api/cron/refresh`, `/api/cron/benefits` 두 cron이 실행되는지 deployment logs에서 확인한다.
-5. `/free-benefits`의 나머지 긴 루틴/운영 섹션도 점진적으로 카드 단위 컴포넌트로 분리해 파일 크기를 줄인다.
+3. 운영 feed 연결 전 `npm run source:feed:handoff`로 Vercel env 연결 순서를 확인한다.
+4. 운영 feed 연결 후 `npm run source:feed-env:doctor && npm run news:feed:canary && npm run refresh:news && npm run verify:news` 순서로 검증한다.
+5. Vercel production 환경에서는 `CRON_SECRET`을 설정하고 `/api/cron/refresh`, `/api/cron/benefits` 두 cron이 실행되는지 deployment logs에서 확인한다.
+6. `/free-benefits`의 나머지 긴 루틴/운영 섹션도 점진적으로 카드 단위 컴포넌트로 분리해 파일 크기를 줄인다.
 
 ## 주의할 파일
 
@@ -136,10 +145,12 @@
 - `scripts/source-feed-env-doctor.mjs`
 - `scripts/free-benefit-source-breadth-doctor.mjs`
 - `scripts/free-benefit-feed-starter-pack.mjs`
+- `scripts/free-benefit-feed-handoff.mjs`
 - `lib/operations/sourceStarterPack.ts`
 - `app/api/admin/source-starter-pack/route.ts`
 - `docs/FREE_BENEFIT_SOURCE_BREADTH.md`
 - `docs/FREE_BENEFIT_FEED_STARTER_PACK.md`
+- `docs/FREE_BENEFIT_FEED_HANDOFF.md`
 - `README.md`
 - `docs/RUNBOOK.md`
 - `docs/test-plan.md`

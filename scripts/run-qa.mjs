@@ -42,6 +42,7 @@ const coreTasks = [
   "source:live:doctor",
   "source:onboarding:plan",
   "source:feed-env:doctor",
+  "source:feed:handoff",
   "source:readiness:report",
   "news:feed:live",
   "cron:refresh:doctor",

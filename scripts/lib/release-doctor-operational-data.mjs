@@ -121,6 +121,7 @@ export async function checkOperationalDataSurfaces() {
     : {};
   const sourceOnboardingPlanScript = await text("scripts/source-onboarding-plan.mjs");
   const sourceStarterPackScript = await text("scripts/free-benefit-feed-starter-pack.mjs");
+  const sourceFeedHandoffScript = await text("scripts/free-benefit-feed-handoff.mjs");
   const sourceFeedEnvDoctorScript = await text("scripts/source-feed-env-doctor.mjs");
   const sourceReadinessReportScript = await text("scripts/source-readiness-report.mjs");
   const sourceOnboardingPlanReadiness = await text("lib/operations/sourceOnboardingPlan.ts");
@@ -143,6 +144,12 @@ export async function checkOperationalDataSurfaces() {
   const sourceStarterPackReport = existsSync(join(root, "reports/free-benefit-feed-starter-pack.json"))
     ? JSON.parse(readFileSync(join(root, "reports/free-benefit-feed-starter-pack.json"), "utf8"))
     : {};
+  const sourceFeedHandoffReport = existsSync(join(root, "reports/free-benefit-feed-handoff.json"))
+    ? JSON.parse(readFileSync(join(root, "reports/free-benefit-feed-handoff.json"), "utf8"))
+    : {};
+  const sourceFeedHandoffDoc = existsSync(join(root, "docs/FREE_BENEFIT_FEED_HANDOFF.md"))
+    ? readFileSync(join(root, "docs/FREE_BENEFIT_FEED_HANDOFF.md"), "utf8")
+    : "";
   const sourceFeedEnvReport = existsSync(join(root, "reports/source-feed-env-readiness.json"))
     ? JSON.parse(readFileSync(join(root, "reports/source-feed-env-readiness.json"), "utf8"))
     : {};
@@ -1388,6 +1395,11 @@ export async function checkOperationalDataSurfaces() {
     !sourceStarterPackScript.includes("free-benefit-feed-starter-pack.env") ||
     !sourceStarterPackScript.includes("공식 API, RSS, Atom, 승인 파트너 JSON") ||
     !sourceStarterPackScript.includes("검색 결과, 커뮤니티 글") ||
+    !sourceFeedHandoffScript.includes("free-benefit-feed-handoff.json") ||
+    !sourceFeedHandoffScript.includes("FREE_BENEFIT_FEED_HANDOFF.md") ||
+    !sourceFeedHandoffScript.includes("Vercel Environment Variables") ||
+    !sourceFeedHandoffScript.includes("CRON_SECRET") ||
+    !sourceFeedHandoffScript.includes("검색 결과, 커뮤니티 글") ||
     !sourceFeedEnvDoctorScript.includes("source-feed-env-readiness.json") ||
     !sourceFeedEnvDoctorScript.includes("HALINDOSA_APPROVED_FEED_HOSTS") ||
     !sourceFeedEnvDoctorScript.includes("not_machine_readable_feed") ||
@@ -1506,6 +1518,22 @@ export async function checkOperationalDataSurfaces() {
     !Array.isArray(sourceStarterPackReport.packs) ||
     sourceStarterPackReport.packs.length < 8 ||
     sourceStarterPackReport.packs.some((pack) => !pack.envKeys?.length || !pack.firstAction || (pack.candidateCount ?? 0) < 3) ||
+    sourceFeedHandoffReport.ok !== true ||
+    (sourceFeedHandoffReport.starterPack?.laneCount ?? 0) < 8 ||
+    (sourceFeedHandoffReport.starterPack?.totalCandidates ?? 0) < 50 ||
+    !Array.isArray(sourceFeedHandoffReport.envKeys) ||
+    !sourceFeedHandoffReport.envKeys.includes("BENEFIT_REFRESH_FEED_URLS") ||
+    !sourceFeedHandoffReport.envKeys.includes("PUBLIC_COUPON_FEED_URLS") ||
+    !sourceFeedHandoffReport.envKeys.includes("OFFICIAL_EVENT_FEED_URLS") ||
+    !sourceFeedHandoffReport.envKeys.includes("CRON_SECRET") ||
+    !Array.isArray(sourceFeedHandoffReport.verificationCommands) ||
+    !sourceFeedHandoffReport.verificationCommands.includes("npm run source:feed-env:doctor") ||
+    !sourceFeedHandoffReport.verificationCommands.includes("npm run refresh:benefits") ||
+    !sourceFeedHandoffDoc.includes("무료혜택 Feed 운영 핸드오프") ||
+    !sourceFeedHandoffDoc.includes("Vercel Environment Variables") ||
+    !sourceFeedHandoffDoc.includes("BENEFIT_REFRESH_FEED_URLS") ||
+    !sourceFeedHandoffDoc.includes("CRON_SECRET") ||
+    !sourceFeedHandoffDoc.includes("공식 HTML 이벤트 페이지를 무단 스크래핑하지 않는다") ||
     sourceFeedEnvReport.ok !== true ||
     !Array.isArray(sourceFeedEnvReport.checkedKeys) ||
     sourceFeedEnvReport.checkedKeys.length < 6 ||
