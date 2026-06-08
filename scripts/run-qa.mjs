@@ -38,6 +38,7 @@ const coreTasks = [
   "feed:transition:report",
   "source:catalog:report",
   "source:breadth:doctor",
+  "source:starter:pack",
   "source:live:doctor",
   "source:onboarding:plan",
   "source:feed-env:doctor",

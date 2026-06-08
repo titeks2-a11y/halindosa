@@ -71,6 +71,7 @@
     "feed:transition:report": "node scripts/feed-transition-report.mjs",
     "source:catalog:report": "node scripts/official-source-catalog-report.mjs",
     "source:breadth:doctor": "node scripts/free-benefit-source-breadth-doctor.mjs",
+    "source:starter:pack": "node scripts/free-benefit-feed-starter-pack.mjs",
     "source:onboarding:plan": "node scripts/source-onboarding-plan.mjs",
     "source:feed-env:doctor": "node scripts/source-feed-env-doctor.mjs",
     "source:readiness:report": "node scripts/source-readiness-report.mjs",

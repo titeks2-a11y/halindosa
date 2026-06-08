@@ -14,6 +14,14 @@
 - `qa`와 `release:doctor`가 새 doctor를 요구하도록 연결해 향후 소스 카탈로그가 특정 쇼핑몰/상품 링크 중심으로 되돌아가는 회귀를 차단한다.
 - 최신 기준 공식 소스 102개, 필수 수집 축 12/12 통과, stale_or_removed 0개를 확인했다.
 
+### PHASE Free Benefit Feed Starter Pack
+
+- `source:starter:pack`을 추가해 공식 소스 카탈로그와 live check 결과를 바탕으로 운영자가 바로 Vercel env 연결 계획을 세울 수 있는 starter pack을 생성한다.
+- starter pack은 오늘의 무료혜택, 편의점 1+1·2+1, 뷰티 샘플·체험, 카페·외식 쿠폰, 페이·포인트·캐시백, 공공·문화 무료, 교육 무료체험, 반려동물·체험단 8개 운영 묶음으로 구성된다.
+- `docs/FREE_BENEFIT_FEED_STARTER_PACK.md`와 `reports/free-benefit-feed-starter-pack.env`는 공식 확인 URL을 사람이 검토하고, 실제 운영 env에는 공식 API/RSS/Atom/승인 파트너 JSON feed만 넣도록 안내한다.
+- 검색 결과, 커뮤니티 글, 블로그, 쇼핑몰 메인, HTML 랜딩만 있는 URL은 운영 feed로 쓰지 않는 원칙을 starter pack 문서와 env 템플릿에 명시했다.
+- 최신 기준 starter lane 8개, 연결 후보 64개, 접근 가능 59개, 보호/승인 필요 5개를 확보했다.
+
 ### PHASE Official Source 102 Free Benefit Expansion
 
 - SKT T멤버십, 고용24, K-MOOC, 복지로, 서울문화포털, 로얄캐닌, 파우더룸 공식/승인 혜택 후보를 official source catalog에 추가해 통신사 멤버십, 교육 무료체험, 공공 지원, 문화 행사, 반려동물 캠페인, 뷰티 체험단 수집 축을 보강했다.

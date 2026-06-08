@@ -41,6 +41,8 @@
 - `scripts/free-benefit-source-breadth-doctor.mjs`를 추가해 통신사, 편의점, 뷰티, 카페·프랜차이즈, 배달, 금융·페이·포인트, 마트, 오픈마켓, 문화·공공, 교육, 반려동물, 체험단 12개 무료혜택 수집 축이 공식 소스 카탈로그에 충분히 확보됐는지 검사함.
 - `source:breadth:doctor`를 `package.json`, `qa`, `release:doctor`에 연결해 무료혜택 플랫폼 방향에 필요한 소스 다양성이 회귀되지 않도록 출시 게이트에 포함함.
 - `reports/free-benefit-source-breadth.json`과 `docs/FREE_BENEFIT_SOURCE_BREADTH.md`를 생성해 lane별 기준, 활성 소스 수, stale 여부, 운영 원칙을 기록함.
+- `scripts/free-benefit-feed-starter-pack.mjs`를 추가해 공식 소스 카탈로그와 live check를 바탕으로 무료혜택 운영 feed starter pack을 생성함.
+- `source:starter:pack`은 오늘의 무료혜택, 편의점, 뷰티 샘플, 카페·외식, 페이·포인트, 공공·문화, 교육, 반려동물·체험단 8개 연결 묶음과 Vercel env 템플릿을 생성하며, HTML 직접 스크래핑 대신 공식 API/RSS/Atom/승인 JSON feed 연결을 안내함.
 
 ## 검증 결과
 
@@ -55,6 +57,7 @@
 - `npm run source:feed-env:doctor`: 성공, 7개 feed env key 검사.
 - `npm run source:catalog:report`: 성공, 공식 소스 102개, 카테고리 10/10, provider 4/4.
 - `npm run source:breadth:doctor`: 성공, 무료혜택 필수 수집 축 12/12 통과.
+- `npm run source:starter:pack`: 성공, starter lane 8개, 연결 후보 64개, env key 6개.
 - `npm run source:live:doctor`: 성공, reachable 88개, guarded 14개, stale_or_removed 0개.
 - `npm run news:feed:doctor`: 성공.
 - `npm run news:feed:canary`: 성공, seed_fallback_only.
@@ -85,6 +88,7 @@
 - 무료혜택 이벤트 검증: active official events 102개, sources 92개, hosts 74개.
 - 공식 소스 카탈로그: 102개 소스, 10/10 카테고리 커버리지, provider 4/4, stale_or_removed 0개.
 - 무료혜택 소스 축: 통신사, 편의점, 뷰티, 카페·프랜차이즈, 배달, 금융·페이·포인트, 마트, 오픈마켓, 문화·공공, 교육, 반려동물, 체험단 12/12 통과.
+- 무료혜택 feed starter pack: 8개 운영 묶음, 64개 연결 후보, 접근 가능 59개, 보호/승인 필요 5개.
 - 공식 feed env doctor: 7개 키 검사, 설정된 feed URL 0개, 실패 0개, SSRF/private host 회귀 샘플 차단.
 - 공식 feed 전환 상태: `BENEFIT_REFRESH_FEED_URLS` 포함, 현재 seed fallback 운영 가능 상태. 실제 운영에서는 승인된 JSON/RSS/Atom feed URL과 승인 host를 Vercel env에 연결하면 됨.
 - 무료혜택 cron: `/api/cron/benefits?dryRun=true&token=local-admin` smoke 통과. 무토큰 호출은 401, 토큰 dry-run은 200.
@@ -120,7 +124,9 @@
 - `scripts/smoke.mjs`
 - `scripts/source-feed-env-doctor.mjs`
 - `scripts/free-benefit-source-breadth-doctor.mjs`
+- `scripts/free-benefit-feed-starter-pack.mjs`
 - `docs/FREE_BENEFIT_SOURCE_BREADTH.md`
+- `docs/FREE_BENEFIT_FEED_STARTER_PACK.md`
 - `README.md`
 - `docs/RUNBOOK.md`
 - `docs/test-plan.md`
