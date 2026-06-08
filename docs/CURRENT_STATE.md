@@ -6,8 +6,8 @@
 
 - Branch: `codex/12h-product-ux-growth-hardening`
 - Remote: `origin/codex/12h-product-ux-growth-hardening`
-- 최근 안정 커밋: `00d6a207 feat: add free benefit event security pipeline`
-- 현재 작업 트리: 커밋 전 변경 있음
+- 최근 안정 커밋: `ca19a2da feat: prioritize free benefit discovery on home`
+- 현재 작업 트리: 무료혜택 이벤트 API 추가 및 검증 리포트 갱신 후 커밋 전 변경 있음
 
 ## 이번 세션에서 진행한 핵심 변경
 
@@ -17,16 +17,18 @@
 - `components/home/HomeFreebieHero.tsx`가 `FreeBenefitEvent[]`를 직접 받아 공식 무료혜택 이벤트 카드를 먼저 렌더링하도록 확장됨.
 - `types/freeBenefitEvent.ts`에 `imageUrl` 필드가 추가됨.
 - `lib/freeBenefitEvents.ts`가 `imageUrl`을 정규화함.
+- `app/api/benefits/events/route.ts`를 추가해 표준 `FreeBenefitEvent`만 반환하는 no-store/rate-limit 공개 API를 제공함.
+- `scripts/smoke.mjs`, `scripts/security-check.mjs`, `scripts/release-doctor.mjs`에 `/api/benefits/events` 회귀 검사를 추가함.
 - `scripts/test-ui-rules.mjs`, `scripts/test-mobile-ux.mjs`, `scripts/lib/smoke-page-checks.mjs`, `scripts/release-doctor.mjs`의 검사 문구를 무료혜택 중심 구조에 맞게 갱신 중.
 - README와 출시/QA 문서의 옛 `오늘 바로 볼 특가` 표현을 `무료혜택 다음에 볼 상품`으로 전환 중.
 
 ## 검증 결과
 
 - `npm run test:mobile-ux`: 성공, 13/13 통과.
-- `npm run smoke:local`: 성공, 93/93 통과.
+- `npm run smoke:local`: 성공, 94/94 통과.
 - `npm run release:doctor`: 성공, 187/187 통과.
 - `npm run qa`: 성공, 70/70 통과.
-- `npm run security:check`: 성공, 9/9 통과.
+- `npm run security:check`: 성공, 10/10 통과.
 - `npm run lint`: 성공.
 - `npm run build`: 성공.
 - `npm run harness`: 성공.
@@ -47,6 +49,7 @@
 - 상품 구매 링크: 140/140 검증 통과.
 - 공식 뉴스/혜택 링크: 105/105 검증 통과.
 - 무료혜택 API: 101/101 visible, 검색 링크 0, 비공식 링크 0, 깨진 이미지 0.
+- 무료혜택 이벤트 API: `/api/benefits/events?limit=12&type=all` smoke 통과, publishable-only 정책과 no-store 정책 노출.
 - 무료혜택 이벤트 검증: active official events 102개, sources 92개, hosts 74개.
 - 공식 소스 카탈로그: 95개 소스, 10/10 카테고리 커버리지.
 - 모바일 UX: 하단 safe-area, compact 검색, 필터 칩, 무료혜택 히어로, 공식 혜택 strip, 토스트 위치 모두 통과.
@@ -54,9 +57,8 @@
 ## 다음 세션에서 바로 할 일
 
 1. 변경 사항을 커밋하고 push한다.
-2. 앱 확인이 필요하면 `npm run build:android && npm run cap:sync`를 다시 실행한다. 현재 clean 단계에서 Android web assets는 재생성 산출물로 정리되어 있으며, `cap:sync`는 이미 성공 검증됨.
-3. Vercel/GitHub 배포가 필요하면 push 이후 배포 상태를 확인한다.
-4. 다음 개발은 실제 외부 공식 feed URL을 운영 환경변수에 연결해 seed fallback 비율을 낮추는 방향으로 진행한다.
+2. Vercel/GitHub 배포가 필요하면 push 이후 배포 상태를 확인한다.
+3. 다음 개발은 실제 외부 공식 feed URL을 운영 환경변수에 연결해 seed fallback 비율을 낮추는 방향으로 진행한다.
 
 ## 주의할 파일
 
@@ -64,10 +66,13 @@
 - `components/home/HomeFreebieHero.tsx`
 - `types/freeBenefitEvent.ts`
 - `lib/freeBenefitEvents.ts`
+- `app/api/benefits/events/route.ts`
 - `scripts/test-ui-rules.mjs`
 - `scripts/test-mobile-ux.mjs`
 - `scripts/lib/smoke-page-checks.mjs`
 - `scripts/release-doctor.mjs`
+- `scripts/security-check.mjs`
+- `scripts/smoke.mjs`
 - `README.md`
 - `docs/RUNBOOK.md`
 - `docs/test-plan.md`

@@ -1157,6 +1157,7 @@ async function checkSearchAndPurchaseFlow() {
   const liveFeed = await text("components/LiveDealFeed.tsx");
   const homeDealGrid = await text("components/home/HomeDealGrid.tsx");
   const quickDealCard = await text("components/QuickDealCard.tsx");
+  const benefitEventsRoute = await text("app/api/benefits/events/route.ts");
   const homeRuntimeSource = `${homePage}\n${homeDealGrid}\n${quickDealCard}`;
 
   if (
@@ -1226,11 +1227,17 @@ async function checkSearchAndPurchaseFlow() {
     !quickDealCard.includes('target="_blank"') ||
     !homeRuntimeSource.includes("상품 이동은 모두 새 탭") ||
     !homeRuntimeSource.includes("카테고리 바로가기") ||
-    !homeRuntimeSource.includes("quickCategoryShortcuts")
+    !homeRuntimeSource.includes("quickCategoryShortcuts") ||
+    !benefitEventsRoute.includes("isPublishableFreeBenefitEvent") ||
+    !benefitEventsRoute.includes("getClientKey(request, \"benefit-events\")") ||
+    !benefitEventsRoute.includes("BENEFIT_EVENTS_LOAD_FAILED") ||
+    !benefitEventsRoute.includes("publishableOnly: true") ||
+    !smoke.includes("free benefit events api") ||
+    !smoke.includes("/api/benefits/events?limit=12&type=all")
   ) {
-    fail("purchase link new-tab guard", "Verified product link script, catalog quality doctor, detail new-tab doctor, URL state doctor, top quick search, and scroll-free purchase discovery links should be present.");
+    fail("purchase link new-tab guard", "Verified product link script, catalog quality doctor, detail new-tab doctor, URL state doctor, top quick search, free benefit event API, and scroll-free purchase discovery links should be present.");
   } else {
-    pass("purchase link new-tab guard", "Verified product link, catalog quality, purchase navigation, detail new-tab, and URL state scripts are present; top search is visible and product discovery CTAs avoid hash-scroll links.");
+    pass("purchase link new-tab guard", "Verified product link, catalog quality, purchase navigation, detail new-tab, URL state, and free benefit event API scripts are present; top search is visible and product discovery CTAs avoid hash-scroll links.");
   }
 }
 

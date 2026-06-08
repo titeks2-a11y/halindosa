@@ -59,6 +59,7 @@ function addCheck(checks, name, ok, detail) {
 const packageJson = JSON.parse(read(join(root, "package.json")) || "{}");
 const envExample = read(join(root, ".env.example"));
 const freebiesApi = read(join(root, "app", "api", "freebies", "route.ts"));
+const benefitEventsApi = read(join(root, "app", "api", "benefits", "events", "route.ts"));
 const freeBenefitEvents = read(join(root, "lib", "freeBenefitEvents.ts"));
 const newsLinkPolicy = read(join(root, "lib", "deals", "newsLinkPolicy.ts"));
 const goNewsRoute = read(join(root, "app", "go", "news", "[id]", "route.ts"));
@@ -100,6 +101,19 @@ addCheck(
     !freebiesApi.includes("error.message") &&
     freebiesApi.includes("FREEBIES_LOAD_FAILED"),
   "Public freebies API has rate limiting, request IDs, and generic error output."
+);
+
+addCheck(
+  checks,
+  "free benefit events api guard",
+  benefitEventsApi.includes("rateLimit(") &&
+    benefitEventsApi.includes("getClientKey(request, \"benefit-events\")") &&
+    benefitEventsApi.includes("requestId") &&
+    benefitEventsApi.includes("isPublishableFreeBenefitEvent") &&
+    benefitEventsApi.includes("BENEFIT_EVENTS_LOAD_FAILED") &&
+    benefitEventsApi.includes("mode: \"no-store\"") &&
+    !benefitEventsApi.includes("error.message"),
+  "Public free benefit event API has rate limiting, request IDs, publishable-only filtering, no-store cache policy, and generic error output."
 );
 
 addCheck(

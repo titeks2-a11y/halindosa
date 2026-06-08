@@ -154,6 +154,21 @@ await check("freebies api", async () => {
   assert(["fresh", "due", "stale", "seed"].includes(data.freshnessStatus), "Freebies API missing freshness status");
 });
 
+await check("free benefit events api", async () => {
+  const { response, data } = await fetchJson("/api/benefits/events?limit=12&type=all");
+  assert(response.status === 200, `Expected free benefit events API 200, got ${response.status}`);
+  assert(data.ok === true, "Free benefit events API ok should be true");
+  assert(Array.isArray(data.events) && data.events.length >= 8, "Free benefit events API should return official active events");
+  assert(data.totalCount >= 100, `Free benefit events API should keep at least 100 publishable events, got ${data.totalCount}`);
+  assert(Array.isArray(data.categories) && data.categories.some((category) => category.id === "everyone"), "Free benefit events API missing event category metadata");
+  assert(data.summary?.noPurchase >= 1 || data.summary?.everyone >= 1 || data.summary?.firstCome >= 1, "Free benefit events API summary missing free-benefit counters");
+  assert(data.events.every((event) => event.status === "active" && event.validationStatus === "passed" && event.isHidden === false), "Free benefit events API returned non-publishable events");
+  assert(data.events.every((event) => /^https?:\/\//.test(event.finalUrl)), "Free benefit events API returned invalid finalUrl");
+  assert(data.events.every((event) => !/\/search|search\?|query=|keyword=|shopping\/search|msearch|\/find|\/result|ppomppu|fmkorea|quasarzone|algumon|blog\.naver|news\.naver/i.test(event.finalUrl)), "Free benefit events API returned a search, community, or news URL");
+  assert(data.policy?.publishableOnly === true, "Free benefit events API should expose publishable-only policy");
+  assert(data.cachePolicy?.mode === "no-store", "Free benefit events API should expose no-store cache policy");
+});
+
 await check("hot signals api internal discovery links", async () => {
   const { response, data } = await fetchJson("/api/hot-signals?limit=8");
   assert(response.status === 200, `Expected hot signals 200, got ${response.status}`);
