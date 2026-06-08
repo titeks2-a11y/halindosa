@@ -101,6 +101,26 @@ async function checkPackage() {
     pass("package scripts", "Android, iOS, environment, mobile UX, commercial security, and performance release command flow is available.");
   }
 
+  const benefitSecurityGateMissing = [
+    ["refresh:benefits", "refresh-benefits.mjs"],
+    ["verify:benefits", "verify-benefit-events.mjs"],
+    ["security:check", "security-check.mjs"]
+  ].filter(([scriptName, expected]) => !String(pkg.scripts?.[scriptName] ?? "").includes(expected));
+  if (
+    benefitSecurityGateMissing.length ||
+    !String(pkg.scripts?.qa ?? "").includes("refresh:benefits") ||
+    !String(pkg.scripts?.qa ?? "").includes("verify:benefits") ||
+    !String(pkg.scripts?.qa ?? "").includes("security:check") ||
+    !harness.includes("security:check")
+  ) {
+    fail(
+      "free benefit security gates",
+      `Missing free-benefit/security launch gates: ${benefitSecurityGateMissing.map(([scriptName]) => scriptName).join(", ") || "qa/harness wiring"}`
+    );
+  } else {
+    pass("free benefit security gates", "refresh:benefits, verify:benefits, and security:check are wired into qa, harness, and release doctor policy.");
+  }
+
   if (!pkg.dependencies?.["@capacitor/ios"]) fail("Capacitor iOS dependency", "Missing @capacitor/ios.");
   else pass("Capacitor iOS dependency", pkg.dependencies["@capacitor/ios"]);
 

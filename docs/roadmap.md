@@ -701,6 +701,9 @@
 
 ## 최근 진행
 
+- `FreeBenefitEvent` 표준 타입과 `lib/freeBenefitEvents.ts` 정규화 계층을 추가해 공식 이벤트/쿠폰/샘플/무료체험/전원증정 데이터를 구매상품과 분리된 무료혜택 모델로 다루도록 했다.
+- `/api/freebies`와 `/api/home`에 표준 무료혜택 이벤트 배열, 요청 제한, request id, 일반화된 에러 코드를 추가해 실시간 무료혜택 API의 보안과 운영 추적성을 강화했다.
+- `npm run refresh:benefits`, `npm run verify:benefits`, `npm run security:check`를 추가하고 QA/harness/release doctor 정책에 연결해 공식 무료혜택 100개 이상, 검색/커뮤니티/대표몰 링크 차단, secret/SSRF/XSS/API guard 점검을 출시 게이트로 올렸다.
 - Next 내부 PostCSS 취약점 감사 항목을 안전한 `postcss@8.5.15` override로 해소하고, `npm audit --omit=dev`, `npm run audit:commercial`, `npm run build`, `npm run lint`, `npm run release:doctor` 통과를 확인했다.
 - Supabase OAuth, 딥링크, 회원 탈퇴, 찜/최근 본 상품 DB 동기화 구조를 release doctor 75개 항목과 smoke 34개 항목으로 검증하도록 출시 게이트를 확장했다.
 - `/auth/callback`, `/onboarding`, `/api/account/delete` guard를 smoke에 추가해 소셜 로그인 진입, 온보딩, 탈퇴 보안 실패 흐름을 자동 확인한다.

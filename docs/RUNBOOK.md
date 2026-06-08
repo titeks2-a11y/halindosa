@@ -46,6 +46,7 @@ npm run smoke
   - Vercel Hobby 배포 호환을 위해 Vercel Cron은 `vercel.json` 기준 매일 1회 `/api/cron/refresh`를 호출한다. 더 짧은 주기가 필요하면 Pro 플랜 또는 외부 스케줄러에서 같은 보호 API를 호출한다.
   - 운영 환경에는 `CRON_SECRET`을 반드시 설정한다. 호출은 `Authorization: Bearer $CRON_SECRET`, `x-cron-secret`, 또는 관리자 `token` 중 하나가 맞아야 실행된다.
   - 로컬 점검은 `GET /api/cron/refresh?dryRun=true&token=local-admin`으로 현재 `reports/refresh-all.json` 상태를 확인한다.
+  - 무료 혜택만 빠르게 갱신할 때는 `GET /api/cron/refresh?dryRun=true&mode=benefits&token=local-admin`으로 사전 확인한 뒤 운영 환경에서 `mode=benefits`를 실행한다. 이 경로는 `npm run refresh:benefits`와 같은 흐름으로 `reports/benefits-refresh.json`, `reports/free-benefit-events.json`을 갱신한다.
   - 공식 API/RSS/제휴 JSON feed까지 한 번에 점검하려면 `GET /api/cron/refresh?dryRun=true&mode=liveFeed&token=local-admin`으로 dry-run을 확인한 뒤, 운영 환경에서 `mode=liveFeed`를 명시 호출한다. 이 경로는 `node scripts/news-feed-live-pipeline.mjs`를 실행하고 `reports/news-feed-live-pipeline.json` 상태를 함께 반환한다.
   - 기본 실제 실행은 `node scripts/refresh-all.mjs`를 호출하고 `reports/refresh-all.json`, `reports/cron-refresh.json`에 결과를 남긴다. 실패하면 JSON은 500으로 반환되며 `stderrTail`과 단계별 로그를 먼저 확인한다.
   - 운영자는 `/admin`의 `자동 refresh cron 운영` 카드와 `/api/health`의 `cronRefreshStatus`, `cronRefreshLivePipelineStatus`, `cronRefreshProtected`, `cronRefreshProductDealsCount` 값을 함께 확인한다.
@@ -224,6 +225,8 @@ npm run harness
 12. release doctor
 
 결과는 `docs/HARNESS_REPORT.md`에 남습니다. 모바일 UX 결과는 `MOBILE_UX_REPORT.md`, 성능 예산은 `docs/PERFORMANCE_REPORT.md`에 별도로 기록됩니다.
+
+`npm run security:check`는 무료혜택 API rate limit, secret 분리, 공식 URL allowlist, SSRF/private host 차단, XSS 위험 렌더링을 정적 점검하고 `reports/security-check.json`, `docs/SECURITY_CHECK_REPORT.md`를 갱신합니다.
 
 UI 규칙은 하단 탭 4개 유지, 무료혜택/알림/찜 단독 탭 제거, 금지 href 차단, 구매 링크 새 탭 정책, 검증 링크 기본 노출, 마이페이지 개발 문구 제거를 확인합니다.
 

@@ -2,6 +2,7 @@ import type { PriceBand } from "@/lib/homeDiscoveryConfig";
 import { isCrossOriginApiRequest, resolveRuntimeApiUrl } from "@/lib/runtimeApi";
 import type { DealQualitySummary } from "@/lib/deals/quality";
 import type { Deal, DealBenefitType, DealSort } from "@/types/deal";
+import type { FreeBenefitEvent } from "@/types/freeBenefitEvent";
 import type { HotSignal } from "@/types/hotSignal";
 import type { NewsDeadlineSummary, NewsDeal, NewsDealSourceTrust, NewsIntentGroup, NewsTargetSection } from "@/types/newsDeal";
 
@@ -48,7 +49,9 @@ export interface FreebiesResponse {
   ok: boolean;
   freebies: NewsDeal[];
   deals: NewsDeal[];
+  events?: FreeBenefitEvent[];
   count: number;
+  eventCount?: number;
   totalCount: number;
   updatedAt: string;
   sourceUpdatedAt?: string;
@@ -123,6 +126,7 @@ export interface HomeResponse {
   deals: Deal[];
   newsDeals: NewsDeal[];
   freebies?: NewsDeal[];
+  freeBenefitEvents?: FreeBenefitEvent[];
   hotSignals: HotSignal[];
   counts: {
     deals: number;
@@ -156,7 +160,7 @@ export interface HomeResponse {
     | "freshnessAgeMinutes"
     | "nextRefreshAt"
   >;
-  freebiesMeta?: Pick<FreebiesResponse, "summary" | "freshnessStatus" | "freshnessLabel" | "freshnessAgeMinutes" | "nextRefreshAt" | "totalCount">;
+  freebiesMeta?: Pick<FreebiesResponse, "summary" | "freshnessStatus" | "freshnessLabel" | "freshnessAgeMinutes" | "nextRefreshAt" | "totalCount" | "eventCount">;
   cachePolicy?: {
     mode: "no-store";
     generatedAt: string;

@@ -1,5 +1,7 @@
 import { noStoreJson, noStoreOptions } from "@/lib/api/noStore";
+import { createRequestId, getClientKey, rateLimit, rateLimitHeaders } from "@/lib/apiGuards";
 import { getVisibleNewsDeals } from "@/lib/deals/newsDeals";
+import { selectPublishableFreeBenefitEvents } from "@/lib/freeBenefitEvents";
 import { buildHomeFreebieSummary, selectHomeFreebies } from "@/lib/homeFreebies";
 
 export const dynamic = "force-dynamic";
@@ -11,7 +13,31 @@ export function OPTIONS() {
 }
 
 export async function GET(request: Request) {
+  const requestId = createRequestId();
   const generatedAt = new Date().toISOString();
+  const limitResult = rateLimit({
+    key: getClientKey(request, "freebies"),
+    limit: 120,
+    windowMs: 60_000
+  });
+
+  if (!limitResult.allowed) {
+    return noStoreJson(
+      {
+        ok: false,
+        requestId,
+        freebies: [],
+        deals: [],
+        events: [],
+        count: 0,
+        totalCount: 0,
+        updatedAt: generatedAt,
+        source: "rate_limited",
+        message: "요청이 너무 많습니다. 잠시 후 다시 시도해주세요."
+      },
+      { status: 429, headers: rateLimitHeaders(limitResult, requestId) }
+    );
+  }
 
   try {
     const { searchParams } = new URL(request.url);
@@ -23,13 +49,17 @@ export async function GET(request: Request) {
       sort: searchParams.get("sort") ?? "priority"
     });
     const freebies = selectHomeFreebies(news.deals, Math.min(Math.max(limit, 1), 48), Date.parse(generatedAt));
+    const events = selectPublishableFreeBenefitEvents(news.deals, Math.min(Math.max(limit, 1), 48), Date.parse(generatedAt));
     const summary = buildHomeFreebieSummary(news.deals, Date.parse(generatedAt));
 
     return noStoreJson({
       ok: true,
+      requestId,
       freebies,
       deals: freebies,
+      events,
       count: freebies.length,
+      eventCount: events.length,
       totalCount: summary.total,
       updatedAt: generatedAt,
       sourceUpdatedAt: news.updatedAt,
@@ -44,14 +74,18 @@ export async function GET(request: Request) {
         generatedAt
       },
       message: "검증된 무료혜택, 쿠폰, 0원딜, 무료배송 혜택을 성공적으로 불러왔습니다."
-    });
+    }, { headers: rateLimitHeaders(limitResult, requestId) });
   } catch (error) {
+    void error;
     return noStoreJson(
       {
         ok: false,
+        requestId,
         freebies: [],
         deals: [],
+        events: [],
         count: 0,
+        eventCount: 0,
         totalCount: 0,
         updatedAt: generatedAt,
         source: "fallback",
@@ -60,9 +94,9 @@ export async function GET(request: Request) {
           generatedAt
         },
         message: "무료혜택 데이터를 불러오지 못했습니다.",
-        error: error instanceof Error ? error.message : "Unknown error"
+        error: "FREEBIES_LOAD_FAILED"
       },
-      { status: 200 }
+      { status: 200, headers: rateLimitHeaders(limitResult, requestId) }
     );
   }
 }

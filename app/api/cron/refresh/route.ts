@@ -15,7 +15,7 @@ const livePipelineReportPath = join(reportsDir, "news-feed-live-pipeline.json");
 const cronReportRelativePath = "reports/cron-refresh.json";
 const cronReportPath = join(process.cwd(), cronReportRelativePath);
 
-type CronPipelineMode = "refreshAll" | "liveFeed";
+type CronPipelineMode = "refreshAll" | "liveFeed" | "benefits";
 
 function tail(value: string, maxLength = 4000) {
   if (value.length <= maxLength) return value;
@@ -51,14 +51,17 @@ function canRunCronRefresh(request: Request, url: URL) {
 
 function resolvePipelineMode(url: URL): CronPipelineMode {
   const mode = (url.searchParams.get("mode") ?? url.searchParams.get("pipeline") ?? "").trim();
+  if (mode === "benefits" || mode === "freeBenefits") return "benefits";
   return mode === "liveFeed" || mode === "newsFeedLive" ? "liveFeed" : "refreshAll";
 }
 
 function commandForMode(mode: CronPipelineMode) {
+  if (mode === "benefits") return "node scripts/refresh-benefits.mjs";
   return mode === "liveFeed" ? "node scripts/news-feed-live-pipeline.mjs" : "node scripts/refresh-all.mjs";
 }
 
 function scriptArgsForMode(mode: CronPipelineMode) {
+  if (mode === "benefits") return ["scripts/refresh-benefits.mjs"];
   return mode === "liveFeed" ? ["scripts/news-feed-live-pipeline.mjs"] : ["scripts/refresh-all.mjs"];
 }
 
@@ -77,7 +80,9 @@ function buildDryRunReport(requestId: string, mode: CronPipelineMode) {
     refreshAll,
     livePipeline,
     message:
-      mode === "liveFeed"
+      mode === "benefits"
+        ? "cron benefits dry-run 상태입니다. 실제 무료혜택 갱신은 dryRun=false와 mode=benefits에서 실행됩니다."
+        : mode === "liveFeed"
         ? "cron liveFeed dry-run 상태입니다. 실제 공식 feed 라이브 검증은 dryRun=false와 mode=liveFeed에서 실행됩니다."
         : "cron refresh dry-run 상태입니다. 실제 갱신은 dryRun=false 또는 Vercel Cron 호출에서 실행됩니다."
   };
@@ -116,10 +121,14 @@ function runRefreshPipeline(requestId: string, mode: CronPipelineMode) {
     livePipeline,
     message:
       result.status === 0
-        ? mode === "liveFeed"
+        ? mode === "benefits"
+          ? "cron benefits 무료혜택 파이프라인이 정상 완료되었습니다."
+          : mode === "liveFeed"
           ? "cron liveFeed 공식 feed 파이프라인이 정상 완료되었습니다."
           : "cron refresh가 정상 완료되었습니다."
-        : mode === "liveFeed"
+        : mode === "benefits"
+          ? "cron benefits가 실패했습니다. stderrTail과 reports/benefits-refresh.json을 확인하세요."
+          : mode === "liveFeed"
           ? "cron liveFeed가 실패했습니다. stderrTail과 reports/news-feed-live-pipeline.json을 확인하세요."
           : "cron refresh가 실패했습니다. stderrTail과 reports/refresh-all.json을 확인하세요."
   };
