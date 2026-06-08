@@ -42,6 +42,10 @@ export interface FreeBenefitEvent {
   isFirstComeFirstServed: boolean;
   rewardText: string;
   cautionText: string;
+  claimCtaLabel: string;
+  urgencyLabel: string;
+  rankingReason: string;
+  trustBadges: string[];
   collectedAt: string;
   updatedAt: string;
   verifiedAt: string;

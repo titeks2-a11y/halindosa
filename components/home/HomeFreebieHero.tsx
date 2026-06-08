@@ -208,6 +208,7 @@ export function HomeFreebieHero({
                 </div>
               </div>
               <p className="mt-1 line-clamp-1 text-[10px] font-black text-emerald-700">{event.rewardText}</p>
+              <p className="mt-0.5 line-clamp-1 text-[9px] font-bold text-slate-500">{event.rankingReason}</p>
               <div className="mt-1 flex flex-wrap items-center gap-1 text-[9px] font-black text-slate-500">
                 <span className="inline-flex items-center gap-0.5">
                   <ShieldCheck size={10} />
@@ -215,8 +216,13 @@ export function HomeFreebieHero({
                 </span>
                 <span className="inline-flex items-center gap-0.5">
                   <CalendarClock size={10} />
-                  {getTimeLeft(event.endAt, referenceNow)}
+                  {event.urgencyLabel || getTimeLeft(event.endAt, referenceNow)}
                 </span>
+                {event.trustBadges.slice(1, 3).map((badge) => (
+                  <span key={badge} className="rounded-full bg-white px-1.5 py-0.5 text-[9px] font-black text-slate-500">
+                    {badge}
+                  </span>
+                ))}
               </div>
               <Link
                 href={`/go/news/${encodeURIComponent(event.id)}?from=home-free-benefit-event`}
@@ -225,7 +231,7 @@ export function HomeFreebieHero({
                 className="mt-2 inline-flex min-h-8 w-full items-center justify-center gap-1 rounded-xl bg-gradient-to-r from-[#ff2b2b] to-[#ff6a3d] px-2 text-[11px] font-black text-white"
                 aria-label={`${event.title} 공식 혜택 페이지 새 탭으로 열기`}
               >
-                무료 혜택 받기
+                {event.claimCtaLabel || "무료 혜택 받기"}
                 <ExternalLink size={12} />
               </Link>
             </article>

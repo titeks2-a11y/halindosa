@@ -95,37 +95,105 @@ function inferStatus(deal: NewsDeal, text: string, referenceNow: number): FreeBe
   return "unknown";
 }
 
+function getEventUrgencyLabel(endAt: string, referenceNow: number) {
+  const endsAt = Date.parse(endAt);
+  if (!Number.isFinite(endsAt)) return "기간 확인";
+  const minutesLeft = Math.floor((endsAt - referenceNow) / 60_000);
+  if (minutesLeft < 0) return "종료";
+  if (minutesLeft <= 60) return "곧 마감";
+  if (minutesLeft <= 24 * 60) return "오늘 마감";
+  if (minutesLeft <= 3 * 24 * 60) return "마감 임박";
+  return "진행 중";
+}
+
+function getClaimCtaLabel(type: FreeBenefitEventType) {
+  if (type === "coupon" || type === "signup") return "쿠폰 받기";
+  if (type === "sample") return "샘플 신청";
+  if (type === "freeTrial" || type === "experiencePanel") return "무료 체험 신청";
+  if (type === "gifticon") return "기프티콘 받기";
+  if (type === "pointCashback" || type === "checkIn") return "포인트 받기";
+  if (type === "publicFree") return "공공 혜택 보기";
+  if (type === "freeShipping") return "무료배송 확인";
+  return "무료 혜택 받기";
+}
+
+function buildTrustBadges(event: Pick<FreeBenefitEvent, "sourceType" | "requiresLogin" | "requiresPurchase" | "isEveryoneReward" | "isFirstComeFirstServed">) {
+  return [
+    event.sourceType === "official" ? "공식" : "승인소스",
+    event.isEveryoneReward ? "전원증정" : "",
+    event.isFirstComeFirstServed ? "선착순" : "",
+    event.requiresLogin ? "로그인 필요" : "비회원 확인 가능",
+    event.requiresPurchase ? "구매 필요" : "구매 전 무료 확인"
+  ].filter(Boolean);
+}
+
+export function getFreeBenefitEventScore(event: FreeBenefitEvent, referenceNow = Date.now()) {
+  const endAt = Date.parse(event.endAt);
+  const hoursLeft = Number.isFinite(endAt) ? Math.max(0, (endAt - referenceNow) / 3_600_000) : 999;
+  const urgencyBoost = hoursLeft <= 24 ? 18 : hoursLeft <= 72 ? 9 : 0;
+
+  return (
+    event.qualityScore +
+    event.priorityScore * 0.5 +
+    (event.isEveryoneReward ? 18 : 0) +
+    (event.isFirstComeFirstServed ? 9 : 0) +
+    (event.requiresPurchase ? -18 : 8) +
+    (event.requiresLogin ? -4 : 4) +
+    urgencyBoost
+  );
+}
+
+function getRankingReason(event: FreeBenefitEvent, referenceNow: number) {
+  if (event.isEveryoneReward && !event.requiresPurchase) return "전원증정이고 구매 조건이 낮아 먼저 볼 만한 혜택";
+  if (event.benefitType === "coupon" && !event.requiresPurchase) return "쿠폰을 바로 받을 가능성이 높은 공식 혜택";
+  if (event.benefitType === "sample" || event.benefitType === "freeTrial") return "돈 쓰기 전 체험해볼 수 있는 무료 혜택";
+  if (getEventUrgencyLabel(event.endAt, referenceNow).includes("마감")) return "마감이 가까워 지금 확인할 혜택";
+  if (event.requiresPurchase) return "구매 조건을 확인하면 받을 수 있는 공식 혜택";
+  return "공식 링크 검증을 통과한 무료 혜택";
+}
+
 export function toFreeBenefitEvent(deal: NewsDeal, referenceNow = Date.now()): FreeBenefitEvent {
   const combinedText = sanitizeBenefitText([deal.title, deal.summary, deal.category, deal.sourceName, deal.tags.join(" ")].join(" "), 600);
   const status = inferStatus(deal, combinedText, referenceNow);
   const rewardText = sanitizeBenefitText(deal.summary || deal.title, 120);
   const validationStatus = status === "blocked" ? "blocked" : deal.validationStatus === "passed" ? "passed" : deal.validationStatus === "failed" ? "failed" : "needs_review";
+  const benefitType = inferEventType(deal, combinedText);
+  const sourceType = inferSourceType(deal.provider);
+  const requiresLogin = loginPattern.test(combinedText);
+  const requiresPurchase = purchasePattern.test(combinedText);
+  const isEveryoneReward = everyoneRewardPattern.test(combinedText);
+  const isFirstComeFirstServed = firstComePattern.test(combinedText);
+  const endAt = deal.expiresAt || deal.endDate;
 
-  return {
+  const event: FreeBenefitEvent = {
     id: deal.id,
     title: sanitizeBenefitText(deal.title, 90),
     brandName: sanitizeBenefitText(deal.merchant || deal.mallName || deal.sourceName, 40),
-    benefitType: inferEventType(deal, combinedText),
+    benefitType,
     legacyBenefitType: deal.benefitType,
     eventUrl: deal.eventUrl || deal.finalUrl,
     officialUrl: deal.sourceUrl || deal.finalUrl,
     finalUrl: isSafeBenefitEventUrl(deal.finalUrl) ? deal.finalUrl : "",
     imageUrl: deal.imageUrl || "",
     sourceName: sanitizeBenefitText(deal.sourceName || deal.merchant, 50),
-    sourceType: inferSourceType(deal.provider),
+    sourceType,
     sourceUrl: deal.sourceUrl,
     startAt: deal.startDate,
-    endAt: deal.expiresAt || deal.endDate,
+    endAt,
     participationCondition: sanitizeBenefitText(
-      deal.tags.find((tag) => /조건|회원|로그인|구매|앱|선착순|전원/.test(tag)) || (purchasePattern.test(combinedText) ? "구매/주문 조건 확인 필요" : "공식 페이지 조건 확인"),
+      deal.tags.find((tag) => /조건|회원|로그인|구매|앱|선착순|전원/.test(tag)) || (requiresPurchase ? "구매/주문 조건 확인 필요" : "공식 페이지 조건 확인"),
       90
     ),
-    requiresLogin: loginPattern.test(combinedText),
-    requiresPurchase: purchasePattern.test(combinedText),
-    isEveryoneReward: everyoneRewardPattern.test(combinedText),
-    isFirstComeFirstServed: firstComePattern.test(combinedText),
+    requiresLogin,
+    requiresPurchase,
+    isEveryoneReward,
+    isFirstComeFirstServed,
     rewardText,
     cautionText: sanitizeBenefitText(status === "active" ? "공식 페이지에서 최종 참여 조건과 잔여 수량을 확인하세요." : "종료 또는 검증 실패 가능성이 있어 노출에서 제외됩니다.", 120),
+    claimCtaLabel: getClaimCtaLabel(benefitType),
+    urgencyLabel: getEventUrgencyLabel(endAt, referenceNow),
+    rankingReason: "",
+    trustBadges: [],
     collectedAt: deal.updatedAt || deal.startDate,
     updatedAt: deal.updatedAt,
     verifiedAt: deal.verifiedAt || deal.lastCheckedAt,
@@ -138,6 +206,10 @@ export function toFreeBenefitEvent(deal: NewsDeal, referenceNow = Date.now()): F
     hiddenReason: sanitizeBenefitText(deal.hiddenReason || (status === "active" ? "" : status), 80),
     tags: deal.tags.map((tag) => sanitizeBenefitText(tag, 24)).filter(Boolean).slice(0, 8)
   };
+
+  event.trustBadges = buildTrustBadges(event).slice(0, 5);
+  event.rankingReason = getRankingReason(event, referenceNow);
+  return event;
 }
 
 export function isPublishableFreeBenefitEvent(event: FreeBenefitEvent, referenceNow = Date.now()) {
@@ -166,14 +238,7 @@ export function buildFreeBenefitEvents(deals: NewsDeal[], referenceNow = Date.no
     }
   }
 
-  return Array.from(deduped.values()).sort(
-    (a, b) =>
-      Number(b.isEveryoneReward) - Number(a.isEveryoneReward) ||
-      Number(a.requiresPurchase) - Number(b.requiresPurchase) ||
-      b.qualityScore - a.qualityScore ||
-      b.priorityScore - a.priorityScore ||
-      Date.parse(a.endAt) - Date.parse(b.endAt)
-  );
+  return Array.from(deduped.values()).sort((a, b) => getFreeBenefitEventScore(b, referenceNow) - getFreeBenefitEventScore(a, referenceNow) || Date.parse(a.endAt) - Date.parse(b.endAt));
 }
 
 export function selectPublishableFreeBenefitEvents(deals: NewsDeal[], limit = 24, referenceNow = Date.now()) {

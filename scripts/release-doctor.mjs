@@ -1232,8 +1232,13 @@ async function checkSearchAndPurchaseFlow() {
     !benefitEventsRoute.includes("getClientKey(request, \"benefit-events\")") ||
     !benefitEventsRoute.includes("BENEFIT_EVENTS_LOAD_FAILED") ||
     !benefitEventsRoute.includes("publishableOnly: true") ||
+    !benefitEventsRoute.includes("rankingPolicy") ||
+    !benefitEventsRoute.includes("claimCtaLabel") ||
+    !benefitEventsRoute.includes("trustBadges") ||
+    !benefitEventsRoute.includes("noPurchaseOnly") ||
     !smoke.includes("free benefit events api") ||
-    !smoke.includes("/api/benefits/events?limit=12&type=all")
+    !smoke.includes("/api/benefits/events?limit=12&type=all") ||
+    !smoke.includes("sort=noPurchase&noPurchaseOnly=true")
   ) {
     fail("purchase link new-tab guard", "Verified product link script, catalog quality doctor, detail new-tab doctor, URL state doctor, top quick search, free benefit event API, and scroll-free purchase discovery links should be present.");
   } else {

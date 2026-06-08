@@ -88,8 +88,10 @@ addCheck(
     freeBenefitEvents.includes("sanitizeBenefitText") &&
     freeBenefitEvents.includes("normalizeBenefitTitle") &&
     freeBenefitEvents.includes("isSafeBenefitEventUrl") &&
-    freeBenefitEvents.includes("privateHostPattern"),
-  "FreeBenefitEvent model, sanitizer, dedupe title normalizer, official URL guard, and SSRF private host guard are present."
+    freeBenefitEvents.includes("privateHostPattern") &&
+    freeBenefitEvents.includes("claimCtaLabel") &&
+    freeBenefitEvents.includes("trustBadges"),
+  "FreeBenefitEvent model, sanitizer, dedupe title normalizer, official URL guard, SSRF private host guard, claim CTA, and trust badges are present."
 );
 
 addCheck(
@@ -110,6 +112,8 @@ addCheck(
     benefitEventsApi.includes("getClientKey(request, \"benefit-events\")") &&
     benefitEventsApi.includes("requestId") &&
     benefitEventsApi.includes("isPublishableFreeBenefitEvent") &&
+    benefitEventsApi.includes("rankingPolicy") &&
+    benefitEventsApi.includes("noPurchaseOnly") &&
     benefitEventsApi.includes("BENEFIT_EVENTS_LOAD_FAILED") &&
     benefitEventsApi.includes("mode: \"no-store\"") &&
     !benefitEventsApi.includes("error.message"),

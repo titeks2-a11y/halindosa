@@ -1,6 +1,6 @@
 # 무료혜택 Verification Report
 
-Generated: 2026-06-08T21:15:15.013Z
+Generated: 2026-06-08T21:31:19.850Z
 
 ## Summary
 

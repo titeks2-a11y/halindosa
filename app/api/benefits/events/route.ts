@@ -4,6 +4,7 @@ import { getVisibleNewsDeals } from "@/lib/deals/newsDeals";
 import {
   buildFreeBenefitEvents,
   freeBenefitEventCategories,
+  getFreeBenefitEventScore,
   isPublishableFreeBenefitEvent,
   sanitizeBenefitText
 } from "@/lib/freeBenefitEvents";
@@ -26,6 +27,11 @@ function parseBoolean(value: string | null) {
   if (value === "true") return true;
   if (value === "false") return false;
   return null;
+}
+
+function parseSort(value: string | null) {
+  if (value === "endingSoon" || value === "latest" || value === "noPurchase" || value === "quality") return value;
+  return "recommended";
 }
 
 function includesQuery(event: FreeBenefitEvent, query: string) {
@@ -53,6 +59,7 @@ function filterEvents(events: FreeBenefitEvent[], request: Request, referenceNow
   const requiresPurchase = parseBoolean(searchParams.get("requiresPurchase"));
   const requiresLogin = parseBoolean(searchParams.get("requiresLogin"));
   const endingSoonOnly = searchParams.get("endingSoonOnly") === "true";
+  const noPurchaseOnly = searchParams.get("noPurchaseOnly") === "true";
   const sevenDaysMs = 7 * 24 * 60 * 60 * 1000;
 
   return events.filter((event) => {
@@ -60,6 +67,7 @@ function filterEvents(events: FreeBenefitEvent[], request: Request, referenceNow
     if (benefitTypeIds.has(type) && type !== "all" && event.benefitType !== type) return false;
     if (requiresPurchase !== null && event.requiresPurchase !== requiresPurchase) return false;
     if (requiresLogin !== null && event.requiresLogin !== requiresLogin) return false;
+    if (noPurchaseOnly && event.requiresPurchase) return false;
     if (endingSoonOnly) {
       const endAt = Date.parse(event.endAt);
       if (!Number.isFinite(endAt) || endAt - referenceNow > sevenDaysMs) return false;
@@ -68,7 +76,19 @@ function filterEvents(events: FreeBenefitEvent[], request: Request, referenceNow
   });
 }
 
+function sortEvents(events: FreeBenefitEvent[], sort: ReturnType<typeof parseSort>, referenceNow: number) {
+  return [...events].sort((a, b) => {
+    if (sort === "endingSoon") return Date.parse(a.endAt) - Date.parse(b.endAt);
+    if (sort === "latest") return Date.parse(b.updatedAt || b.collectedAt) - Date.parse(a.updatedAt || a.collectedAt);
+    if (sort === "noPurchase") return Number(a.requiresPurchase) - Number(b.requiresPurchase) || getFreeBenefitEventScore(b, referenceNow) - getFreeBenefitEventScore(a, referenceNow);
+    if (sort === "quality") return b.qualityScore - a.qualityScore || b.priorityScore - a.priorityScore;
+    return getFreeBenefitEventScore(b, referenceNow) - getFreeBenefitEventScore(a, referenceNow);
+  });
+}
+
 function summarizeEvents(events: FreeBenefitEvent[]) {
+  const endingSoonMs = 3 * 24 * 60 * 60 * 1000;
+  const now = Date.now();
   return {
     total: events.length,
     noPurchase: events.filter((event) => !event.requiresPurchase).length,
@@ -76,6 +96,11 @@ function summarizeEvents(events: FreeBenefitEvent[]) {
     loginRequired: events.filter((event) => event.requiresLogin).length,
     everyone: events.filter((event) => event.isEveryoneReward).length,
     firstCome: events.filter((event) => event.isFirstComeFirstServed).length,
+    endingSoon: events.filter((event) => {
+      const endAt = Date.parse(event.endAt);
+      return Number.isFinite(endAt) && endAt >= now && endAt - now <= endingSoonMs;
+    }).length,
+    officialSourceCount: new Set(events.map((event) => event.sourceName).filter(Boolean)).size,
     byType: events.reduce<Record<string, number>>((counts, event) => {
       counts[event.benefitType] = (counts[event.benefitType] ?? 0) + 1;
       return counts;
@@ -116,13 +141,14 @@ export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const limit = parseLimit(searchParams.get("limit"));
+    const sort = parseSort(searchParams.get("sort"));
     const news = getVisibleNewsDeals({
       limit: 0,
       q: searchParams.get("q")?.trim(),
       sort: "priority"
     });
     const allEvents = buildFreeBenefitEvents(news.deals, referenceNow);
-    const filteredEvents = filterEvents(allEvents, request, referenceNow);
+    const filteredEvents = sortEvents(filterEvents(allEvents, request, referenceNow), sort, referenceNow);
     const events = filteredEvents.slice(0, limit);
 
     return noStoreJson(
@@ -135,6 +161,22 @@ export async function GET(request: Request) {
         sourceTotalCount: allEvents.length,
         categories: freeBenefitEventCategories,
         summary: summarizeEvents(filteredEvents),
+        filters: {
+          type: searchParams.get("type") ?? "all",
+          q: searchParams.get("q") ?? "",
+          sort,
+          requiresPurchase: parseBoolean(searchParams.get("requiresPurchase")),
+          requiresLogin: parseBoolean(searchParams.get("requiresLogin")),
+          noPurchaseOnly: searchParams.get("noPurchaseOnly") === "true",
+          endingSoonOnly: searchParams.get("endingSoonOnly") === "true"
+        },
+        rankingPolicy: {
+          primary: "recommended",
+          prioritizes: ["전원증정", "구매 조건 낮음", "공식 검증 링크", "마감 임박", "높은 품질 점수"],
+          demotes: ["구매 필요", "로그인 필요", "낮은 품질 점수"],
+          ctaField: "claimCtaLabel",
+          trustField: "trustBadges"
+        },
         updatedAt: generatedAt,
         sourceUpdatedAt: news.updatedAt,
         source: news.source,

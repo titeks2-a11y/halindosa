@@ -1,31 +1,31 @@
 # 할인도사 Harness Report
 
-Started: 2026-06-08T21:18:01.337Z
-Finished: 2026-06-08T21:20:06.280Z
+Started: 2026-06-08T21:34:14.344Z
+Finished: 2026-06-08T21:36:15.374Z
 Status: PASS
 
 ## Summary
 
 | Step | Result | Duration |
 | --- | --- | ---: |
-| lint | PASS | 15.7s |
-| build | PASS | 26.0s |
-| verify:links | PASS | 9.3s |
+| lint | PASS | 16.1s |
+| build | PASS | 27.2s |
+| verify:links | PASS | 2.9s |
 | test:external-links | PASS | 0.6s |
 | test:images | PASS | 0.5s |
 | news:images:enrich | PASS | 9.1s |
 | verify:images | PASS | 0.6s |
-| image:operations:doctor | PASS | 0.6s |
+| image:operations:doctor | PASS | 0.5s |
 | test:search | PASS | 7.6s |
-| test:ui | PASS | 0.5s |
+| test:ui | PASS | 0.6s |
 | test:mobile-ux | PASS | 0.5s |
 | test:mobile-compact | PASS | 0.5s |
-| home:realtime:doctor | PASS | 0.5s |
-| test:home-realtime | PASS | 4.7s |
-| test:seo | PASS | 0.5s |
+| home:realtime:doctor | PASS | 0.6s |
+| test:home-realtime | PASS | 4.8s |
+| test:seo | PASS | 0.6s |
 | test:perf | PASS | 0.5s |
 | security:check | PASS | 0.8s |
-| smoke:local | PASS | 44.6s |
+| smoke:local | PASS | 45.2s |
 | release:doctor | PASS | 1.8s |
 
 ## Step Output

@@ -162,11 +162,19 @@ await check("free benefit events api", async () => {
   assert(data.totalCount >= 100, `Free benefit events API should keep at least 100 publishable events, got ${data.totalCount}`);
   assert(Array.isArray(data.categories) && data.categories.some((category) => category.id === "everyone"), "Free benefit events API missing event category metadata");
   assert(data.summary?.noPurchase >= 1 || data.summary?.everyone >= 1 || data.summary?.firstCome >= 1, "Free benefit events API summary missing free-benefit counters");
+  assert(data.summary?.officialSourceCount >= 50, "Free benefit events API summary missing official source diversity counter");
+  assert(data.filters?.sort === "recommended", "Free benefit events API should expose selected sort state");
+  assert(data.rankingPolicy?.ctaField === "claimCtaLabel" && data.rankingPolicy?.trustField === "trustBadges", "Free benefit events API missing customer-facing ranking policy");
   assert(data.events.every((event) => event.status === "active" && event.validationStatus === "passed" && event.isHidden === false), "Free benefit events API returned non-publishable events");
   assert(data.events.every((event) => /^https?:\/\//.test(event.finalUrl)), "Free benefit events API returned invalid finalUrl");
   assert(data.events.every((event) => !/\/search|search\?|query=|keyword=|shopping\/search|msearch|\/find|\/result|ppomppu|fmkorea|quasarzone|algumon|blog\.naver|news\.naver/i.test(event.finalUrl)), "Free benefit events API returned a search, community, or news URL");
+  assert(data.events.every((event) => event.claimCtaLabel && event.urgencyLabel && event.rankingReason && Array.isArray(event.trustBadges) && event.trustBadges.length >= 2), "Free benefit events API missing claim CTA, urgency, ranking reason, or trust badges");
   assert(data.policy?.publishableOnly === true, "Free benefit events API should expose publishable-only policy");
   assert(data.cachePolicy?.mode === "no-store", "Free benefit events API should expose no-store cache policy");
+  const noPurchase = await fetchJson("/api/benefits/events?limit=8&type=all&sort=noPurchase&noPurchaseOnly=true");
+  assert(noPurchase.response.status === 200, `Expected no-purchase benefit event search 200, got ${noPurchase.response.status}`);
+  assert(noPurchase.data.events.length >= 4, "No-purchase benefit event filter should return visible official benefits");
+  assert(noPurchase.data.events.every((event) => event.requiresPurchase === false), "No-purchase benefit event filter returned purchase-required event");
 });
 
 await check("hot signals api internal discovery links", async () => {

@@ -1,6 +1,6 @@
 # Security Check Report
 
-Generated: 2026-06-08T21:19:19.844Z
+Generated: 2026-06-08T21:35:28.338Z
 
 | Metric | Value |
 | --- | ---: |
@@ -12,7 +12,7 @@ Generated: 2026-06-08T21:19:19.844Z
 
 - PASS env example coverage: Client/public and server-only env keys are documented.
 - PASS security scripts wired: refresh:benefits, verify:benefits, and security:check are wired into QA/harness.
-- PASS free benefit model: FreeBenefitEvent model, sanitizer, dedupe title normalizer, official URL guard, and SSRF private host guard are present.
+- PASS free benefit model: FreeBenefitEvent model, sanitizer, dedupe title normalizer, official URL guard, SSRF private host guard, claim CTA, and trust badges are present.
 - PASS freebies api guard: Public freebies API has rate limiting, request IDs, and generic error output.
 - PASS free benefit events api guard: Public free benefit event API has rate limiting, request IDs, publishable-only filtering, no-store cache policy, and generic error output.
 - PASS cron secret guard: Cron refresh route requires secret/admin auth and rate limit.

@@ -1,10 +1,10 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-08T21:15:58.217Z",
+  "generatedAt": "2026-06-08T21:32:05.763Z",
   "mode": "freebies",
   "label": "무료혜택",
-  "sourceSnapshotGeneratedAt": "2026-06-08T21:15:53.697Z",
-  "sourceReportGeneratedAt": "2026-06-08T21:15:58.091Z",
+  "sourceSnapshotGeneratedAt": "2026-06-08T21:32:01.922Z",
+  "sourceReportGeneratedAt": "2026-06-08T21:32:05.643Z",
   "totalOfficialBenefits": 105,
   "matchedCount": 42,
   "visibleCount": 42,
@@ -118,7 +118,7 @@
       "finalUrl": "https://www.mcdonalds.co.kr/kor/promotion/detail/E51CF9",
       "redirectUrl": "/go/news/news-mcdonalds-happy-snack-free-drink",
       "endDate": "2026-06-21",
-      "lastCheckedAt": "2026-06-08T21:15:53.697Z"
+      "lastCheckedAt": "2026-06-08T21:32:01.922Z"
     },
     {
       "id": "news-culture-day-programs-2026",
@@ -131,7 +131,7 @@
       "finalUrl": "https://www.culture.go.kr/wday/main/main.do",
       "redirectUrl": "/go/news/news-culture-day-programs-2026",
       "endDate": "2026-12-30",
-      "lastCheckedAt": "2026-06-08T21:15:53.697Z"
+      "lastCheckedAt": "2026-06-08T21:32:01.922Z"
     },
     {
       "id": "news-culture-day-weekly-2026",
@@ -144,7 +144,7 @@
       "finalUrl": "https://www.culture.go.kr/local/wday/cltrDay.do",
       "redirectUrl": "/go/news/news-culture-day-weekly-2026",
       "endDate": "2026-12-30",
-      "lastCheckedAt": "2026-06-08T21:15:53.697Z"
+      "lastCheckedAt": "2026-06-08T21:32:01.922Z"
     },
     {
       "id": "news-cjone-official-mobile-events",
@@ -157,7 +157,7 @@
       "finalUrl": "https://www.cjone.com/cjmmobile/event/event.do",
       "redirectUrl": "/go/news/news-cjone-official-mobile-events",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-08T21:15:53.697Z"
+      "lastCheckedAt": "2026-06-08T21:32:01.922Z"
     },
     {
       "id": "news-oliveyoung-official-events",
@@ -170,7 +170,7 @@
       "finalUrl": "https://www.oliveyoung.co.kr/store/main/getEventList.do",
       "redirectUrl": "/go/news/news-oliveyoung-official-events",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-08T21:15:53.697Z"
+      "lastCheckedAt": "2026-06-08T21:32:01.922Z"
     },
     {
       "id": "news-kfc-delivery-free-official",
@@ -183,7 +183,7 @@
       "finalUrl": "https://www.kfckorea.com/promotion/promotionList/detail/1053",
       "redirectUrl": "/go/news/news-kfc-delivery-free-official",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-08T21:15:53.697Z"
+      "lastCheckedAt": "2026-06-08T21:32:01.922Z"
     },
     {
       "id": "news-homeplus-membership-official-coupon",
@@ -196,7 +196,7 @@
       "finalUrl": "https://front.homeplus.co.kr/membership",
       "redirectUrl": "/go/news/news-homeplus-membership-official-coupon",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-08T21:15:53.697Z"
+      "lastCheckedAt": "2026-06-08T21:32:01.922Z"
     },
     {
       "id": "news-innisfree-official-coupon-events",
@@ -209,7 +209,7 @@
       "finalUrl": "https://www.innisfree.com/kr/ko/dp/posting-list",
       "redirectUrl": "/go/news/news-innisfree-official-coupon-events",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-08T21:15:53.697Z"
+      "lastCheckedAt": "2026-06-08T21:32:01.922Z"
     },
     {
       "id": "news-kurly-kiehls-sample-event",
@@ -222,7 +222,7 @@
       "finalUrl": "https://www.kurly.com/goods/1000120890",
       "redirectUrl": "/go/news/news-kurly-kiehls-sample-event",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-08T21:15:53.697Z"
+      "lastCheckedAt": "2026-06-08T21:32:01.922Z"
     },
     {
       "id": "news-kurly-neoflam-free-shipping",
@@ -235,7 +235,7 @@
       "finalUrl": "https://www.kurly.com/goods/1001472154",
       "redirectUrl": "/go/news/news-kurly-neoflam-free-shipping",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-08T21:15:53.697Z"
+      "lastCheckedAt": "2026-06-08T21:32:01.922Z"
     },
     {
       "id": "news-kurly-escape-speaker-free-shipping",
@@ -248,7 +248,7 @@
       "finalUrl": "https://www.kurly.com/goods/1000284019",
       "redirectUrl": "/go/news/news-kurly-escape-speaker-free-shipping",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-08T21:15:53.697Z"
+      "lastCheckedAt": "2026-06-08T21:32:01.922Z"
     },
     {
       "id": "news-kurly-clove-fashion-free-shipping",
@@ -261,7 +261,7 @@
       "finalUrl": "https://www.kurly.com/goods/1002016097",
       "redirectUrl": "/go/news/news-kurly-clove-fashion-free-shipping",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-08T21:15:53.697Z"
+      "lastCheckedAt": "2026-06-08T21:32:01.922Z"
     },
     {
       "id": "news-aquaplanet-official-events",
@@ -274,7 +274,7 @@
       "finalUrl": "https://www.aquaplanet.co.kr/ilsan/event/eventList.do",
       "redirectUrl": "/go/news/news-aquaplanet-official-events",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-08T21:15:53.697Z"
+      "lastCheckedAt": "2026-06-08T21:32:01.922Z"
     },
     {
       "id": "news-cjthemarket-official-events",
@@ -287,7 +287,7 @@
       "finalUrl": "https://www.cjthemarket.com/pc/event/eventMain",
       "redirectUrl": "/go/news/news-cjthemarket-official-events",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-08T21:15:53.697Z"
+      "lastCheckedAt": "2026-06-08T21:32:01.922Z"
     },
     {
       "id": "news-ediya-official-events",
@@ -300,7 +300,7 @@
       "finalUrl": "https://www.ediya.com/contents/event.html",
       "redirectUrl": "/go/news/news-ediya-official-events",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-08T21:15:53.697Z"
+      "lastCheckedAt": "2026-06-08T21:32:01.922Z"
     },
     {
       "id": "news-tenbyten-official-events",
@@ -313,7 +313,7 @@
       "finalUrl": "https://www.10x10.co.kr/event/eventmain.asp",
       "redirectUrl": "/go/news/news-tenbyten-official-events",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-08T21:15:53.697Z"
+      "lastCheckedAt": "2026-06-08T21:32:01.922Z"
     },
     {
       "id": "news-naverpay-event-benefit",
@@ -326,7 +326,7 @@
       "finalUrl": "https://new-m.pay.naver.com/pcpay/eventbenefit",
       "redirectUrl": "/go/news/news-naverpay-event-benefit",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-08T21:15:53.697Z"
+      "lastCheckedAt": "2026-06-08T21:32:01.922Z"
     },
     {
       "id": "news-mnuri-official-benefit",
@@ -339,7 +339,7 @@
       "finalUrl": "https://www.mnuri.kr/main/main.do",
       "redirectUrl": "/go/news/news-mnuri-official-benefit",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-08T21:15:53.697Z"
+      "lastCheckedAt": "2026-06-08T21:32:01.922Z"
     },
     {
       "id": "news-naverpay-point-free-benefit",
@@ -352,7 +352,7 @@
       "finalUrl": "https://new-m.pay.naver.com/pcpay/eventbenefit?category=all",
       "redirectUrl": "/go/news/news-naverpay-point-free-benefit",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-08T21:15:53.697Z"
+      "lastCheckedAt": "2026-06-08T21:32:01.922Z"
     },
     {
       "id": "news-mnuri-online-merchant-benefit",
@@ -365,7 +365,7 @@
       "finalUrl": "https://www.mnuri.kr/useOfCard/onlineMerchants.do",
       "redirectUrl": "/go/news/news-mnuri-online-merchant-benefit",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-08T21:15:53.697Z"
+      "lastCheckedAt": "2026-06-08T21:32:01.922Z"
     }
   ],
   "blockedItems": [],
