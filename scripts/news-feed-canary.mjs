@@ -21,7 +21,7 @@ const providerSpecs = [
   { provider: "news", label: "뉴스·보도자료", env: ["DEAL_NEWS_FEED_URLS", "DEAL_NEWS_RSS_URLS"] },
   { provider: "event_news", label: "이벤트 뉴스", env: ["DEAL_EVENT_NEWS_FEED_URLS"] },
   { provider: "official_event", label: "공식 이벤트·혜택", env: ["OFFICIAL_EVENT_FEED_URLS", "DEAL_EVENT_FEED_URLS"] },
-  { provider: "public_coupon", label: "공공·쿠폰·무료혜택", env: ["PUBLIC_COUPON_FEED_URLS"] }
+  { provider: "public_coupon", label: "공공·쿠폰·무료혜택", env: ["PUBLIC_COUPON_FEED_URLS", "BENEFIT_REFRESH_FEED_URLS"] }
 ];
 
 function sanitizeFeedUrl(value) {
@@ -180,7 +180,7 @@ const report = {
       ]
     : [
         "아직 운영 feed URL이 없어 seed fallback만 검사했습니다.",
-        "OFFICIAL_EVENT_FEED_URLS 또는 PUBLIC_COUPON_FEED_URLS에 공식 JSON/RSS/Atom feed를 연결한 뒤 npm run news:feed:canary를 다시 실행하세요.",
+        "OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS 또는 BENEFIT_REFRESH_FEED_URLS에 공식 JSON/RSS/Atom feed를 연결한 뒤 npm run news:feed:canary를 다시 실행하세요.",
         "무단 HTML 크롤링 대신 공식 API, RSS, Atom, 승인된 파트너 JSON만 연결하세요."
       ]
 };

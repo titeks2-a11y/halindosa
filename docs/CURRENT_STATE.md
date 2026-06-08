@@ -6,8 +6,8 @@
 
 - Branch: `codex/12h-product-ux-growth-hardening`
 - Remote: `origin/codex/12h-product-ux-growth-hardening`
-- 최근 안정 커밋: `9adf4980 test: cover benefit events realtime api`
-- 현재 작업 트리: 공식 feed 환경변수 doctor 보안 보강 후 커밋 전 변경 있음
+- 최근 안정 커밋: `47673b2f test: harden official benefit feed env checks`
+- 현재 작업 트리: `BENEFIT_REFRESH_FEED_URLS`를 실제 public_coupon provider/리포트/계약 검사에 연결한 뒤 커밋 전 변경 있음
 
 ## 이번 세션에서 진행한 핵심 변경
 
@@ -20,6 +20,8 @@
 - `app/api/benefits/events/route.ts`를 추가해 표준 `FreeBenefitEvent`만 반환하는 no-store/rate-limit 공개 API를 제공함.
 - `scripts/smoke.mjs`, `scripts/security-check.mjs`, `scripts/release-doctor.mjs`에 `/api/benefits/events` 회귀 검사를 추가함.
 - `scripts/source-feed-env-doctor.mjs`가 `BENEFIT_REFRESH_FEED_URLS`와 `BENEFIT_REFRESH_APPROVED_HOSTS`를 검사하고, 내부망/metadata 주소를 `private_or_metadata_host`로 차단함.
+- `BENEFIT_REFRESH_FEED_URLS`가 이제 `public_coupon` 런타임 provider, `data/officialBenefitFeedSources.json`, feed canary/preview/transition report, news feed contract doctor, release doctor, 관리자 운영 리포트에 연결됨.
+- 무료혜택 전용 feed는 `PUBLIC_COUPON_FEED_URLS`와 같은 공식 링크 차단 기준을 따르며, 검색/메인/커뮤니티/비공식 URL은 노출되지 않음.
 - `scripts/test-ui-rules.mjs`, `scripts/test-mobile-ux.mjs`, `scripts/lib/smoke-page-checks.mjs`, `scripts/release-doctor.mjs`의 검사 문구를 무료혜택 중심 구조에 맞게 갱신 중.
 - README와 출시/QA 문서의 옛 `오늘 바로 볼 특가` 표현을 `무료혜택 다음에 볼 상품`으로 전환 중.
 
@@ -31,6 +33,9 @@
 - `npm run qa`: 성공, 70/70 통과.
 - `npm run security:check`: 성공, 10/10 통과.
 - `npm run source:feed-env:doctor`: 성공, 7개 feed env key 검사.
+- `npm run news:feed:doctor`: 성공.
+- `npm run news:feed:canary`: 성공, seed_fallback_only.
+- `npm run feed:transition:report`: 성공, seed_launch_ready.
 - `npm run source:readiness:report`: 성공.
 - `npm run lint`: 성공.
 - `npm run build`: 성공.
@@ -56,13 +61,15 @@
 - 무료혜택 이벤트 검증: active official events 102개, sources 92개, hosts 74개.
 - 공식 소스 카탈로그: 95개 소스, 10/10 카테고리 커버리지.
 - 공식 feed env doctor: 7개 키 검사, 설정된 feed URL 0개, 실패 0개, SSRF/private host 회귀 샘플 차단.
+- 공식 feed 전환 상태: `BENEFIT_REFRESH_FEED_URLS` 포함, 현재 seed fallback 운영 가능 상태. 실제 운영에서는 승인된 JSON/RSS/Atom feed URL과 승인 host를 Vercel env에 연결하면 됨.
 - 모바일 UX: 하단 safe-area, compact 검색, 필터 칩, 무료혜택 히어로, 공식 혜택 strip, 토스트 위치 모두 통과.
 
 ## 다음 세션에서 바로 할 일
 
 1. 변경 사항을 커밋하고 push한다.
 2. Vercel/GitHub 배포가 필요하면 push 이후 배포 상태를 확인한다.
-3. 다음 개발은 실제 외부 공식 feed URL을 운영 환경변수에 연결해 seed fallback 비율을 낮추는 방향으로 진행한다.
+3. 실제 외부 공식 feed URL을 `BENEFIT_REFRESH_FEED_URLS`, `PUBLIC_COUPON_FEED_URLS`, `OFFICIAL_EVENT_FEED_URLS`에 연결해 seed fallback 비율을 낮춘다.
+4. 운영 feed 연결 후 `npm run source:feed-env:doctor && npm run news:feed:canary && npm run refresh:news && npm run verify:news` 순서로 검증한다.
 
 ## 주의할 파일
 

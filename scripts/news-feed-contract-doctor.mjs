@@ -60,7 +60,8 @@ const envKeys = [
   "DEAL_EVENT_NEWS_FEED_URLS",
   "OFFICIAL_EVENT_FEED_URLS",
   "DEAL_EVENT_FEED_URLS",
-  "PUBLIC_COUPON_FEED_URLS"
+  "PUBLIC_COUPON_FEED_URLS",
+  "BENEFIT_REFRESH_FEED_URLS"
 ];
 
 for (const key of envKeys) {
@@ -84,7 +85,7 @@ for (const phrase of ["공식 승인 도메인", "검색 결과 URL", "커뮤니
 
 const refreshContractSource = `${refreshScript}\n${sourceConfigScript}\n${sourceConfigData}`;
 
-for (const phrase of ["fetchNewsFeed", "DEAL_NEWS_FEED_URLS", "DEAL_NEWS_RSS_URLS", "DEAL_EVENT_NEWS_FEED_URLS", "OFFICIAL_EVENT_FEED_URLS", "PUBLIC_COUPON_FEED_URLS"]) {
+for (const phrase of ["fetchNewsFeed", "DEAL_NEWS_FEED_URLS", "DEAL_NEWS_RSS_URLS", "DEAL_EVENT_NEWS_FEED_URLS", "OFFICIAL_EVENT_FEED_URLS", "PUBLIC_COUPON_FEED_URLS", "BENEFIT_REFRESH_FEED_URLS"]) {
   if (!refreshContractSource.includes(phrase)) issues.push(`refresh-news-deals source config missing ${phrase}`);
 }
 

@@ -56,7 +56,8 @@ const fallbackReport: SourceFeedEnvReadinessReport = {
     "DEAL_EVENT_NEWS_FEED_URLS",
     "OFFICIAL_EVENT_FEED_URLS",
     "DEAL_EVENT_FEED_URLS",
-    "PUBLIC_COUPON_FEED_URLS"
+    "PUBLIC_COUPON_FEED_URLS",
+    "BENEFIT_REFRESH_FEED_URLS"
   ],
   configuredUrlCount: 0,
   configuredKeyCount: 0,

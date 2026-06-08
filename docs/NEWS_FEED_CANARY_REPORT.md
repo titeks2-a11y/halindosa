@@ -2,7 +2,7 @@
 
 운영 환경변수에 연결된 실시간 공식 feed가 실제로 살아 있고, 사용자 노출 가능한 공식 혜택 후보를 만들 수 있는지 확인하는 canary 리포트입니다.
 
-- 생성 시각: 2026-06-08T20:46:49.554Z
+- 생성 시각: 2026-06-08T21:03:25.871Z
 - 상태: seed_fallback_only
 - 신선도: fresh · age 0h · stale 기준 24h
 - Provider: 4개
@@ -26,7 +26,7 @@
 ## 다음 액션
 
 - 아직 운영 feed URL이 없어 seed fallback만 검사했습니다.
-- OFFICIAL_EVENT_FEED_URLS 또는 PUBLIC_COUPON_FEED_URLS에 공식 JSON/RSS/Atom feed를 연결한 뒤 npm run news:feed:canary를 다시 실행하세요.
+- OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS 또는 BENEFIT_REFRESH_FEED_URLS에 공식 JSON/RSS/Atom feed를 연결한 뒤 npm run news:feed:canary를 다시 실행하세요.
 - 무단 HTML 크롤링 대신 공식 API, RSS, Atom, 승인된 파트너 JSON만 연결하세요.
 
 ## 운영 API

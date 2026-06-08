@@ -62,7 +62,7 @@
     "source": "public_coupon_and_culture_benefit_feed",
     "enabled": true,
     "seed": true,
-    "env": ["PUBLIC_COUPON_FEED_URLS"],
+    "env": ["PUBLIC_COUPON_FEED_URLS", "BENEFIT_REFRESH_FEED_URLS"],
     "categories": ["무료혜택", "정부 지원/문화 혜택", "쿠폰"],
     "benefitTypes": ["freebie", "coupon", "culture", "public", "point"],
     "recommendedQueries": ["무료 쿠폰", "무료 체험", "문화 초대권", "포인트 적립"],

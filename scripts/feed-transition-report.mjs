@@ -36,7 +36,7 @@ const feedProfiles = [
   {
     provider: "public_coupon",
     label: "공공·쿠폰·무료혜택",
-    envKeys: ["PUBLIC_COUPON_FEED_URLS"],
+    envKeys: ["PUBLIC_COUPON_FEED_URLS", "BENEFIT_REFRESH_FEED_URLS"],
     acceptedSources: "공공기관, 브랜드, 쿠폰 제공처의 공식 혜택 feed",
     nextAction: "무료·쿠폰·포인트 혜택은 공식 수령 페이지가 있는 feed만 연결",
     priority: "high"

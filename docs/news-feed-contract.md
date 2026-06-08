@@ -11,6 +11,7 @@
 - `DEAL_EVENT_NEWS_FEED_URLS`: 공식 이벤트 뉴스 feed
 - `OFFICIAL_EVENT_FEED_URLS`: 쇼핑몰, 편의점, 마트, 통신사, 카드사 공식 이벤트 feed
 - `PUBLIC_COUPON_FEED_URLS`: 공공 쿠폰, 문화 혜택, 무료 체험 feed
+- `BENEFIT_REFRESH_FEED_URLS`: 무료혜택, 샘플, 전원증정, 출석체크, 신규가입 쿠폰처럼 홈 최상단에 바로 반영할 전용 공식 feed
 
 각 feed는 `Deal[]`, `{ "items": Deal[] }`, `{ "deals": Deal[] }`, `{ "newsDeals": Deal[] }`, `{ "events": Deal[] }`, `{ "coupons": Deal[] }`, `{ "benefits": Deal[] }` 중 하나를 반환할 수 있다.
 

@@ -28,7 +28,7 @@ GET /api/metrics
 ```
 
 `/api/sources`는 공급원별 상태, 신뢰도, 현재 deal 수, 운영 피드 전환 준비도, 허용/차단 데이터 정책을 반환한다.
-`/api/sources?format=csv`는 같은 데이터를 `source_catalog`, `feed_transition`, `next_action` 행으로 내려보내며, 운영자가 공식 API/RSS/제휴 JSON 후보를 스프레드시트에서 검수하고 `OFFICIAL_EVENT_FEED_URLS`, `PUBLIC_COUPON_FEED_URLS` 연결 순서를 정할 때 사용한다.
+`/api/sources?format=csv`는 같은 데이터를 `source_catalog`, `feed_transition`, `next_action` 행으로 내려보내며, 운영자가 공식 API/RSS/제휴 JSON 후보를 스프레드시트에서 검수하고 `OFFICIAL_EVENT_FEED_URLS`, `PUBLIC_COUPON_FEED_URLS`, `BENEFIT_REFRESH_FEED_URLS` 연결 순서를 정할 때 사용한다.
 서버 없이 파일로 검수하려면 `npm run source:catalog:report`를 실행해 `reports/official-source-catalog.csv`를 생성한다.
 
 ## Official Benefit Feed Env Guard
@@ -49,14 +49,15 @@ npm run source:feed-env:doctor
 - `OFFICIAL_EVENT_FEED_URLS`
 - `DEAL_EVENT_FEED_URLS`
 - `PUBLIC_COUPON_FEED_URLS`
+- `BENEFIT_REFRESH_FEED_URLS`
 
 검사 기준:
 
 - HTTPS URL만 허용한다.
 - JSON, RSS, Atom, 공식 API, 승인된 partner feed endpoint만 허용한다.
-- 공식 소스 카탈로그 host 또는 `HALINDOSA_APPROVED_FEED_HOSTS`에 등록한 승인 host만 허용한다.
+- 공식 소스 카탈로그 host, `HALINDOSA_APPROVED_FEED_HOSTS` 또는 무료혜택 전용 `BENEFIT_REFRESH_APPROVED_HOSTS`에 등록한 승인 host만 허용한다.
 - 검색 결과, 커뮤니티 원문, 블로그, 쇼핑몰 메인, HTML 이벤트 랜딩 페이지 직접 수집 URL은 실패 처리한다.
-- `HALINDOSA_APPROVED_FEED_HOSTS`에는 host만 적고 full URL, token, query 값은 기록하지 않는다.
+- `HALINDOSA_APPROVED_FEED_HOSTS`와 `BENEFIT_REFRESH_APPROVED_HOSTS`에는 host만 적고 full URL, token, query 값은 기록하지 않는다.
 
 리포트:
 

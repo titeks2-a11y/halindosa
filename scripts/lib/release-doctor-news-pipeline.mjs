@@ -181,7 +181,7 @@ export function checkNewsDealPipeline() {
   const newsLinkPolicy = existsSync(join(root, "lib/deals/newsLinkPolicy.ts")) ? readFileSync(join(root, "lib/deals/newsLinkPolicy.ts"), "utf8") : "";
   const smokeScript = smokeSourceSync();
 
-  for (const key of ["DEAL_NEWS_FEED_URLS", "DEAL_NEWS_RSS_URLS", "DEAL_EVENT_NEWS_FEED_URLS", "OFFICIAL_EVENT_FEED_URLS", "DEAL_EVENT_FEED_URLS", "PUBLIC_COUPON_FEED_URLS"]) {
+  for (const key of ["DEAL_NEWS_FEED_URLS", "DEAL_NEWS_RSS_URLS", "DEAL_EVENT_NEWS_FEED_URLS", "OFFICIAL_EVENT_FEED_URLS", "DEAL_EVENT_FEED_URLS", "PUBLIC_COUPON_FEED_URLS", "BENEFIT_REFRESH_FEED_URLS"]) {
     if (!envExample.includes(key)) issues.push(`env example missing ${key}`);
   }
 
@@ -230,6 +230,7 @@ export function checkNewsDealPipeline() {
     !officialEventProvider.includes("OFFICIAL_EVENT_FEED_URLS") ||
     !officialEventProvider.includes("DEAL_EVENT_FEED_URLS") ||
     !publicCouponProvider.includes("PUBLIC_COUPON_FEED_URLS") ||
+    !publicCouponProvider.includes("BENEFIT_REFRESH_FEED_URLS") ||
     !feedDoctorScript.includes("data/newsFeed.sample.json") ||
     !feedDoctorScript.includes("data/newsFeed.sample.rss.xml") ||
     !feedDoctorScript.includes("sample-rss-news-with-official-link") ||

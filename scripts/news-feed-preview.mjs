@@ -20,7 +20,7 @@ const providerSpecs = [
   { provider: "news", label: "뉴스/보도자료", env: ["DEAL_NEWS_FEED_URLS", "DEAL_NEWS_RSS_URLS"] },
   { provider: "event_news", label: "이벤트 뉴스", env: ["DEAL_EVENT_NEWS_FEED_URLS"] },
   { provider: "official_event", label: "공식 이벤트", env: ["OFFICIAL_EVENT_FEED_URLS", "DEAL_EVENT_FEED_URLS"] },
-  { provider: "public_coupon", label: "공공/쿠폰 혜택", env: ["PUBLIC_COUPON_FEED_URLS"] }
+  { provider: "public_coupon", label: "공공/쿠폰 혜택", env: ["PUBLIC_COUPON_FEED_URLS", "BENEFIT_REFRESH_FEED_URLS"] }
 ];
 
 function argValue(name) {

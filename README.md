@@ -152,7 +152,7 @@ npm run refresh:all
 npm run health:readiness
 ```
 
-`data/newsFeed.sample.json`은 운영자가 새 feed를 만들 때 복제할 수 있는 안전한 샘플입니다. `DEAL_NEWS_FEED_URLS`, `DEAL_EVENT_NEWS_FEED_URLS`, `OFFICIAL_EVENT_FEED_URLS`, `PUBLIC_COUPON_FEED_URLS`에 연결한 feed도 같은 계약과 링크 차단 기준을 통과해야 사용자 화면에 노출됩니다.
+`data/newsFeed.sample.json`은 운영자가 새 feed를 만들 때 복제할 수 있는 안전한 샘플입니다. `DEAL_NEWS_FEED_URLS`, `DEAL_EVENT_NEWS_FEED_URLS`, `OFFICIAL_EVENT_FEED_URLS`, `PUBLIC_COUPON_FEED_URLS`, `BENEFIT_REFRESH_FEED_URLS`에 연결한 feed도 같은 계약과 링크 차단 기준을 통과해야 사용자 화면에 노출됩니다.
 
 공식 소스 후보와 feed 전환 작업표는 `GET /api/sources`에서 JSON으로 확인하고, 스프레드시트 검토가 필요하면 `GET /api/sources?format=csv`를 내려받습니다. CSV는 공식 URL, provider, 카테고리, 우선 연결 env key, 현재 feed URL 수, 다음 운영 액션을 `source_catalog`, `feed_transition`, `next_action` 행으로 정리합니다.
 서버를 띄우지 않는 운영 점검에서는 `npm run source:catalog:report`로 같은 목적의 `reports/official-source-catalog.csv` 파일을 생성할 수 있습니다.
