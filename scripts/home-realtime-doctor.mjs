@@ -24,6 +24,7 @@ const apiRoutes = [
   "app/api/deals/route.ts",
   "app/api/news-deals/route.ts",
   "app/api/freebies/route.ts",
+  "app/api/benefits/events/route.ts",
   "app/api/hot-signals/route.ts",
   "app/api/home/route.ts"
 ];
