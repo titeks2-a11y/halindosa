@@ -76,6 +76,36 @@ export interface FreebiesResponse {
   message: string;
 }
 
+export interface FreeBenefitEventsResponse {
+  ok: boolean;
+  events: FreeBenefitEvent[];
+  count: number;
+  totalCount: number;
+  updatedAt: string;
+  sourceUpdatedAt?: string;
+  source: string;
+  freshnessStatus?: "fresh" | "due" | "stale" | "seed";
+  freshnessLabel?: string;
+  freshnessAgeMinutes?: number | null;
+  nextRefreshAt?: string;
+  summary?: {
+    total: number;
+    noPurchase: number;
+    purchaseRequired: number;
+    loginRequired: number;
+    everyone: number;
+    firstCome: number;
+    endingSoon: number;
+    officialSourceCount: number;
+    byType: Record<string, number>;
+  };
+  cachePolicy?: {
+    mode: "no-store";
+    generatedAt: string;
+  };
+  message: string;
+}
+
 export type HomeFreshnessStatus = "fresh" | "due" | "stale" | "seed";
 export type HomeFreshnessChannelKey = "deals" | "newsDeals" | "hotSignals";
 
@@ -257,6 +287,37 @@ export function buildFreebiesRequestUrl({
   if (query.trim()) params.set("q", query.trim());
 
   return `/api/freebies?${params.toString()}`;
+}
+
+export function buildFreeBenefitEventsRequestUrl({
+  query,
+  limit = 24,
+  type = "all",
+  sort = "recommended",
+  noPurchaseOnly = false,
+  endingSoonOnly = false,
+  timestamp = Date.now()
+}: {
+  query: string;
+  limit?: number;
+  type?: string;
+  sort?: "recommended" | "endingSoon" | "latest" | "noPurchase" | "quality";
+  noPurchaseOnly?: boolean;
+  endingSoonOnly?: boolean;
+  timestamp?: number;
+}) {
+  const params = new URLSearchParams({
+    limit: String(limit),
+    type,
+    sort,
+    noPurchaseOnly: String(noPurchaseOnly),
+    endingSoonOnly: String(endingSoonOnly),
+    ts: String(timestamp)
+  });
+
+  if (query.trim()) params.set("q", query.trim());
+
+  return `/api/benefits/events?${params.toString()}`;
 }
 
 export function buildDealsRequestUrl({

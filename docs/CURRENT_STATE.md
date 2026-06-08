@@ -6,8 +6,8 @@
 
 - Branch: `codex/12h-product-ux-growth-hardening`
 - Remote: `origin/codex/12h-product-ux-growth-hardening`
-- 최근 안정 커밋: `f6f59199 feat: add dedicated benefits cron refresh`
-- 현재 작업 트리: 무료혜택 이벤트 추천/신뢰 UX 강화 후 커밋 전 변경 있음
+- 최근 안정 커밋: `c71c0ba7 feat: strengthen free benefit event ranking`
+- 현재 작업 트리: `/free-benefits` 전용 페이지를 FreeBenefitEvent API 우선 구조로 전환 후 커밋 전 변경 있음
 
 ## 이번 세션에서 진행한 핵심 변경
 
@@ -30,6 +30,9 @@
 - `/api/benefits/events`가 `sort=recommended|endingSoon|latest|noPurchase|quality`, `noPurchaseOnly=true` 필터, `rankingPolicy`, `filters`, `officialSourceCount`를 반환하도록 강화됨.
 - `components/home/HomeFreebieHero.tsx`의 공식 이벤트 카드가 추천 이유, 마감/진행 라벨, 신뢰 배지, 혜택 유형별 CTA 문구를 표시함.
 - `scripts/smoke.mjs`, `scripts/security-check.mjs`, `scripts/release-doctor.mjs`가 새 무료혜택 이벤트 API 계약을 회귀 검사함.
+- `/free-benefits` 전용 페이지가 서버 초기 렌더링과 60초 클라이언트 refresh 모두에서 `/api/benefits/events`를 직접 사용하도록 전환됨.
+- `components/FreeBenefitsClient.tsx` 공식 혜택 섹션은 `FreeBenefitEvent` 카드, 전용 혜택 유형 칩, 구매조건 낮음 카운트, 추천 이유, 마감 라벨, 신뢰 배지, 혜택 유형별 CTA를 우선 표시함.
+- `lib/homeApi.ts`에 `/api/benefits/events` 요청 builder와 응답 타입을 추가해 홈/전용 페이지가 같은 무료혜택 이벤트 계약을 재사용할 수 있게 함.
 - `scripts/test-ui-rules.mjs`, `scripts/test-mobile-ux.mjs`, `scripts/lib/smoke-page-checks.mjs`, `scripts/release-doctor.mjs`의 검사 문구를 무료혜택 중심 구조에 맞게 갱신 중.
 - README와 출시/QA 문서의 옛 `오늘 바로 볼 특가` 표현을 `무료혜택 다음에 볼 상품`으로 전환 중.
 
@@ -42,7 +45,7 @@
 - `npm run release:doctor`: 성공, 187/187 통과.
 - `npm run qa`: 성공, 70/70 통과.
 - `npm run harness`: 성공.
-- 참고: `qa`를 `build:android`와 병렬 실행한 첫 시도는 admin route 스캔이 0개로 잡히는 빌드 경합으로 실패했고, Android 빌드 완료 후 단독 재실행은 70/70 통과함.
+- 참고: 이번 라운드에서 `qa`의 첫 실행은 180초 제한으로 중단됐고, 300초 제한 단독 재실행은 70/70 통과함.
 - `npm run source:feed-env:doctor`: 성공, 7개 feed env key 검사.
 - `npm run news:feed:doctor`: 성공.
 - `npm run news:feed:canary`: 성공, seed_fallback_only.
@@ -82,17 +85,19 @@
 
 1. 변경 사항을 커밋하고 push한다.
 2. Vercel/GitHub 배포가 필요하면 push 이후 배포 상태를 확인한다.
-3. `/free-benefits` 전용 페이지도 `FreeBenefitEvent` API를 직접 사용하도록 점진 전환해 홈과 동일한 전용 카테고리/무구매 우선 필터를 제공한다.
-4. 실제 외부 공식 feed URL을 `BENEFIT_REFRESH_FEED_URLS`, `PUBLIC_COUPON_FEED_URLS`, `OFFICIAL_EVENT_FEED_URLS`에 연결해 seed fallback 비율을 낮춘다.
-5. 운영 feed 연결 후 `npm run source:feed-env:doctor && npm run news:feed:canary && npm run refresh:news && npm run verify:news` 순서로 검증한다.
-6. Vercel production 환경에서는 `CRON_SECRET`을 설정하고 `/api/cron/refresh`, `/api/cron/benefits` 두 cron이 실행되는지 deployment logs에서 확인한다.
+3. 실제 외부 공식 feed URL을 `BENEFIT_REFRESH_FEED_URLS`, `PUBLIC_COUPON_FEED_URLS`, `OFFICIAL_EVENT_FEED_URLS`에 연결해 seed fallback 비율을 낮춘다.
+4. 운영 feed 연결 후 `npm run source:feed-env:doctor && npm run news:feed:canary && npm run refresh:news && npm run verify:news` 순서로 검증한다.
+5. Vercel production 환경에서는 `CRON_SECRET`을 설정하고 `/api/cron/refresh`, `/api/cron/benefits` 두 cron이 실행되는지 deployment logs에서 확인한다.
+6. `/free-benefits`의 나머지 긴 루틴/운영 섹션도 점진적으로 카드 단위 컴포넌트로 분리해 파일 크기를 줄인다.
 
 ## 주의할 파일
 
 - `components/HomeClient.tsx`
 - `components/home/HomeFreebieHero.tsx`
+- `components/FreeBenefitsClient.tsx`
 - `types/freeBenefitEvent.ts`
 - `lib/freeBenefitEvents.ts`
+- `lib/homeApi.ts`
 - `app/api/benefits/events/route.ts`
 - `app/api/cron/benefits/route.ts`
 - `vercel.json`

@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-08T21:31:43.438Z",
+  "generatedAt": "2026-06-08T21:50:42.132Z",
   "criteria": {
     "reportsPresent": true,
     "minimumAuditedItems": 140,
@@ -69,11 +69,11 @@
     }
   },
   "sourceReports": {
-    "linkValidation": "2026-06-08T21:31:40.631Z",
-    "productQuality": "2026-06-08T21:31:41.189Z",
-    "exposurePolicy": "2026-06-08T21:31:42.293Z",
-    "refreshDeals": "2026-06-08T21:31:25.617Z",
-    "liveProbeReview": "2026-06-08T21:17:18.993Z"
+    "linkValidation": "2026-06-08T21:50:39.425Z",
+    "productQuality": "2026-06-08T21:50:40.036Z",
+    "exposurePolicy": "2026-06-08T21:50:41.048Z",
+    "refreshDeals": "2026-06-08T21:50:27.579Z",
+    "liveProbeReview": "2026-06-08T21:49:11.877Z"
   },
   "linkTypeCounts": {
     "direct_purchase": 110,
@@ -96,8 +96,8 @@
     "contentProbe": {
       "bodyChecked": 137,
       "titleMetaChecked": 133,
-      "contentMatched": 56,
-      "contentMismatch": 81,
+      "contentMatched": 55,
+      "contentMismatch": 82,
       "accessibleContentMismatch": 5,
       "accessGuardBody": 32,
       "priceSignal": 26,
@@ -112,8 +112,8 @@
     "freshManualEvidenceCount": 80,
     "staleManualEvidenceCount": 0,
     "missingManualEvidenceCount": 0,
-    "oldestCheckedAt": "2026-06-08T21:15:49.844Z",
-    "newestCheckedAt": "2026-06-08T21:15:49.844Z"
+    "oldestCheckedAt": "2026-06-08T21:47:45.713Z",
+    "newestCheckedAt": "2026-06-08T21:47:45.713Z"
   },
   "failedExposureItems": [],
   "hiddenItems": [],

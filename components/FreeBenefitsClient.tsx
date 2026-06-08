@@ -13,7 +13,15 @@ import { buildBenefitDecisionGuide } from "@/lib/deals/benefitDecisionGuide";
 import { getClaimEffort, getClaimEffortLabel } from "@/lib/deals/claimEffort";
 import { buildPersonalizedBenefitQueue } from "@/lib/deals/personalizedBenefitQueue";
 import { buildWeeklyBenefitCalendar, WeeklyBenefitPreset } from "@/lib/deals/weeklyBenefitCalendar";
-import { buildDealsRequestUrl, buildNewsDealsRequestUrl, requestJson, type DealsResponse, type NewsDealsResponse } from "@/lib/homeApi";
+import {
+  buildDealsRequestUrl,
+  buildFreeBenefitEventsRequestUrl,
+  buildNewsDealsRequestUrl,
+  requestJson,
+  type DealsResponse,
+  type FreeBenefitEventsResponse,
+  type NewsDealsResponse
+} from "@/lib/homeApi";
 import { getDealImageSrc } from "@/lib/imageSrc";
 import { formatPrice, getRelativeTime, getTimeLeft } from "@/lib/format";
 import {
@@ -43,11 +51,13 @@ import { rememberRecentNewsBenefitId } from "@/lib/recentNewsBenefits";
 import { buildDealRedirectUrl, buildNativeSafeDealUrl } from "@/lib/redirectUrl";
 import { buildPublicDealShareUrl } from "@/lib/shareUrl";
 import { Deal, DealBenefitType } from "@/types/deal";
+import type { FreeBenefitEvent, FreeBenefitEventType } from "@/types/freeBenefitEvent";
 import type { NewsBenefitType, NewsDeal } from "@/types/newsDeal";
 
 interface FreeBenefitsClientProps {
   deals: Deal[];
   officialBenefits?: NewsDeal[];
+  officialBenefitEvents?: FreeBenefitEvent[];
   officialBenefitsUpdatedAt?: string;
   officialBenefitFreshnessLabel?: string;
 }
@@ -79,12 +89,35 @@ const freeBenefitDealTypes = new Set<DealBenefitType>([
   "foodDelivery"
 ]);
 
+const freeBenefitEventTypeOptions: Array<{ id: FreeBenefitEventType; label: string }> = [
+  { id: "all", label: "전체" },
+  { id: "everyone", label: "전원증정" },
+  { id: "firstCome", label: "선착순" },
+  { id: "coupon", label: "쿠폰" },
+  { id: "sample", label: "샘플" },
+  { id: "freeTrial", label: "무료체험" },
+  { id: "gifticon", label: "기프티콘" },
+  { id: "pointCashback", label: "포인트" },
+  { id: "checkIn", label: "출석체크" },
+  { id: "signup", label: "신규가입" },
+  { id: "publicFree", label: "공공무료" },
+  { id: "experiencePanel", label: "체험단" }
+];
+
 function getOfficialBenefitLabel(deal: NewsDeal) {
   return officialBenefitTypeLabels[deal.benefitType] ?? deal.category;
 }
 
 function buildOfficialBenefitHref(deal: NewsDeal) {
   return `/go/news/${encodeURIComponent(deal.id)}?from=free-benefits-official`;
+}
+
+function buildOfficialBenefitEventHref(event: FreeBenefitEvent) {
+  return `/go/news/${encodeURIComponent(event.id)}?from=free-benefits-event`;
+}
+
+function getFreeBenefitEventTypeLabel(type: FreeBenefitEventType) {
+  return freeBenefitEventTypeOptions.find((option) => option.id === type)?.label ?? "무료혜택";
 }
 
 function isVisibleOfficialBenefit(deal: NewsDeal) {
@@ -96,6 +129,37 @@ function isVisibleOfficialBenefit(deal: NewsDeal) {
     Boolean(deal.finalUrl) &&
     deal.linkType.startsWith("official")
   );
+}
+
+function isVisibleFreeBenefitEvent(event: FreeBenefitEvent) {
+  return (
+    event.status === "active" &&
+    event.validationStatus === "passed" &&
+    !event.isHidden &&
+    Boolean(event.finalUrl) &&
+    event.sourceType !== "seed"
+  );
+}
+
+function matchesFreeBenefitEventQuery(event: FreeBenefitEvent, query: string) {
+  const trimmedQuery = query.trim().toLowerCase();
+  if (!trimmedQuery) return true;
+
+  const searchableText = [
+    event.title,
+    event.brandName,
+    event.sourceName,
+    event.rewardText,
+    event.participationCondition,
+    event.tags.join(" "),
+    getFreeBenefitEventTypeLabel(event.benefitType)
+  ]
+    .join(" ")
+    .toLowerCase()
+    .replace(/\s+/g, "");
+  const normalizedQuery = trimmedQuery.replace(/\s+/g, "");
+
+  return searchableText.includes(trimmedQuery) || searchableText.includes(normalizedQuery);
 }
 
 function isVisibleFreeBenefitDeal(deal: Deal) {
@@ -112,14 +176,22 @@ function isVisibleFreeBenefitDeal(deal: Deal) {
   );
 }
 
-export function FreeBenefitsClient({ deals: initialDeals, officialBenefits = [], officialBenefitsUpdatedAt = "", officialBenefitFreshnessLabel = "최근 확인" }: FreeBenefitsClientProps) {
+export function FreeBenefitsClient({
+  deals: initialDeals,
+  officialBenefits = [],
+  officialBenefitEvents = [],
+  officialBenefitsUpdatedAt = "",
+  officialBenefitFreshnessLabel = "최근 확인"
+}: FreeBenefitsClientProps) {
   const [referenceNow, setReferenceNow] = useState(0);
   const [deals, setDeals] = useState(initialDeals);
   const [liveOfficialBenefits, setLiveOfficialBenefits] = useState(officialBenefits);
+  const [liveOfficialBenefitEvents, setLiveOfficialBenefitEvents] = useState(officialBenefitEvents);
   const [liveOfficialBenefitsUpdatedAt, setLiveOfficialBenefitsUpdatedAt] = useState(officialBenefitsUpdatedAt);
   const [liveOfficialBenefitFreshnessLabel, setLiveOfficialBenefitFreshnessLabel] = useState(officialBenefitFreshnessLabel);
   const [lastBenefitsRefreshAt, setLastBenefitsRefreshAt] = useState(officialBenefitsUpdatedAt || initialDeals[0]?.updatedAt || "");
   const [isRefreshingBenefits, setIsRefreshingBenefits] = useState(false);
+  const [activeEventType, setActiveEventType] = useState<FreeBenefitEventType>("all");
   const [activeType, setActiveType] = useState<"all" | DealBenefitType>("all");
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState<BenefitSort>("recommended");
@@ -140,7 +212,7 @@ export function FreeBenefitsClient({ deals: initialDeals, officialBenefits = [],
     setIsRefreshingBenefits(true);
 
     try {
-      const [dealsResponse, newsResponse] = await Promise.all([
+      const [dealsResponse, eventsResponse, newsResponse] = await Promise.all([
         requestJson<DealsResponse>(
           buildDealsRequestUrl({
             category: "all",
@@ -153,6 +225,17 @@ export function FreeBenefitsClient({ deals: initialDeals, officialBenefits = [],
             priceBand: "all",
             benefitFilter: "all",
             query: "",
+            timestamp: Date.now()
+          })
+        ),
+        requestJson<FreeBenefitEventsResponse>(
+          buildFreeBenefitEventsRequestUrl({
+            limit: 40,
+            query: "",
+            type: "all",
+            sort: "recommended",
+            noPurchaseOnly: false,
+            endingSoonOnly: false,
             timestamp: Date.now()
           })
         ),
@@ -173,11 +256,18 @@ export function FreeBenefitsClient({ deals: initialDeals, officialBenefits = [],
 
       if (newsResponse.ok) {
         setLiveOfficialBenefits(newsResponse.deals);
+      }
+
+      if (eventsResponse.ok) {
+        setLiveOfficialBenefitEvents(eventsResponse.events);
+        setLiveOfficialBenefitsUpdatedAt(eventsResponse.updatedAt);
+        setLiveOfficialBenefitFreshnessLabel(eventsResponse.freshnessLabel ?? "최근 확인");
+      } else if (newsResponse.ok) {
         setLiveOfficialBenefitsUpdatedAt(newsResponse.updatedAt);
         setLiveOfficialBenefitFreshnessLabel(newsResponse.freshnessLabel ?? "최근 확인");
       }
 
-      const refreshedAt = newsResponse.updatedAt || dealsResponse.updatedAt || new Date().toISOString();
+      const refreshedAt = eventsResponse.updatedAt || newsResponse.updatedAt || dealsResponse.updatedAt || new Date().toISOString();
       setLastBenefitsRefreshAt(refreshedAt);
 
       if (showToast) {
@@ -789,14 +879,42 @@ export function FreeBenefitsClient({ deals: initialDeals, officialBenefits = [],
         .slice(0, 4),
     [deals]
   );
+  const visibleOfficialBenefitEvents = useMemo(
+    () =>
+      liveOfficialBenefitEvents
+        .filter(isVisibleFreeBenefitEvent)
+        .filter((event) => activeEventType === "all" || event.benefitType === activeEventType)
+        .filter((event) => matchesFreeBenefitEventQuery(event, query))
+        .sort((a, b) => b.priorityScore - a.priorityScore || b.qualityScore - a.qualityScore || Date.parse(a.endAt) - Date.parse(b.endAt))
+        .slice(0, 12),
+    [activeEventType, liveOfficialBenefitEvents, query]
+  );
+  const officialEventCounts = useMemo(() => {
+    const visibleEvents = liveOfficialBenefitEvents.filter(isVisibleFreeBenefitEvent);
+    const byType = visibleEvents.reduce<Record<string, number>>(
+      (accumulator, event) => {
+        accumulator[event.benefitType] = (accumulator[event.benefitType] ?? 0) + 1;
+        return accumulator;
+      },
+      { all: visibleEvents.length }
+    );
+
+    return {
+      total: visibleEvents.length,
+      byType,
+      noPurchase: visibleEvents.filter((event) => !event.requiresPurchase).length,
+      urgent: visibleEvents.filter((event) => Date.parse(event.endAt) - referenceNow <= 3 * 24 * 60 * 60 * 1000).length,
+      sources: new Set(visibleEvents.map((event) => event.sourceName)).size
+    };
+  }, [liveOfficialBenefitEvents, referenceNow]);
   const visibleOfficialBenefits = useMemo(() => liveOfficialBenefits.filter(isVisibleOfficialBenefit).slice(0, 10), [liveOfficialBenefits]);
   const officialBenefitSummary = useMemo(
     () => ({
-      sources: new Set(visibleOfficialBenefits.map((deal) => deal.sourceName)).size,
-      urgent: visibleOfficialBenefits.filter((deal) => Date.parse(deal.endDate) - referenceNow <= 3 * 24 * 60 * 60 * 1000).length,
-      freeOrCoupon: visibleOfficialBenefits.filter((deal) => ["freebie", "coupon", "freeShipping", "point", "event"].includes(deal.benefitType)).length
+      sources: officialEventCounts.sources || new Set(visibleOfficialBenefits.map((deal) => deal.sourceName)).size,
+      urgent: officialEventCounts.urgent || visibleOfficialBenefits.filter((deal) => Date.parse(deal.endDate) - referenceNow <= 3 * 24 * 60 * 60 * 1000).length,
+      freeOrCoupon: visibleOfficialBenefitEvents.length || visibleOfficialBenefits.filter((deal) => ["freebie", "coupon", "freeShipping", "point", "event"].includes(deal.benefitType)).length
     }),
-    [referenceNow, visibleOfficialBenefits]
+    [officialEventCounts.sources, officialEventCounts.urgent, referenceNow, visibleOfficialBenefitEvents.length, visibleOfficialBenefits]
   );
 
   const toggleFavorite = (id: string) => {
@@ -856,6 +974,24 @@ export function FreeBenefitsClient({ deals: initialDeals, officialBenefits = [],
       }
     } catch {
       setMessage("공식 혜택 공유를 완료하지 못했습니다.");
+      window.setTimeout(() => setMessage(""), 2500);
+    }
+  };
+
+  const shareOfficialBenefitEvent = async (event: FreeBenefitEvent) => {
+    const path = buildOfficialBenefitEventHref(event);
+    const url = typeof window === "undefined" ? path : `${window.location.origin}${path}`;
+
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: event.title, text: event.rewardText, url });
+      } else {
+        await navigator.clipboard.writeText(url);
+        setMessage("공식 무료혜택 링크를 복사했습니다.");
+        window.setTimeout(() => setMessage(""), 2500);
+      }
+    } catch {
+      setMessage("공식 무료혜택 공유를 완료하지 못했습니다.");
       window.setTimeout(() => setMessage(""), 2500);
     }
   };
@@ -988,7 +1124,7 @@ export function FreeBenefitsClient({ deals: initialDeals, officialBenefits = [],
               </p>
             </div>
             <div className="grid grid-cols-3 gap-2 text-center text-[11px] font-black sm:min-w-[320px]">
-              <span className="rounded-2xl bg-red-50 px-3 py-2 text-dossa-red">공식 {visibleOfficialBenefits.length}개</span>
+              <span className="rounded-2xl bg-red-50 px-3 py-2 text-dossa-red">공식 {officialEventCounts.total || visibleOfficialBenefits.length}개</span>
               <span className="rounded-2xl bg-slate-50 px-3 py-2 text-slate-700">출처 {officialBenefitSummary.sources}곳</span>
               <span className="rounded-2xl bg-amber-50 px-3 py-2 text-amber-800">마감 {officialBenefitSummary.urgent}개</span>
             </div>
@@ -1005,9 +1141,105 @@ export function FreeBenefitsClient({ deals: initialDeals, officialBenefits = [],
             <span className="rounded-full bg-slate-100 px-2.5 py-1 text-slate-600">
               무료·쿠폰·포인트 {officialBenefitSummary.freeOrCoupon}개
             </span>
+            <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-emerald-700">
+              구매조건 낮음 {officialEventCounts.noPurchase}개
+            </span>
           </div>
 
-          {visibleOfficialBenefits.length ? (
+          <div className="mt-3 flex snap-x gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" aria-label="공식 무료혜택 유형 필터">
+            {freeBenefitEventTypeOptions.map((option) => {
+              const isActive = activeEventType === option.id;
+              const count = option.id === "all" ? officialEventCounts.total : officialEventCounts.byType[option.id] ?? 0;
+
+              return (
+                <button
+                  key={option.id}
+                  type="button"
+                  onClick={() => setActiveEventType(option.id)}
+                  className={`inline-flex min-h-9 shrink-0 snap-start items-center gap-1.5 rounded-full border px-3 text-[11px] font-black transition ${
+                    isActive
+                      ? "border-dossa-red bg-dossa-red text-white shadow-sm"
+                      : "border-slate-200 bg-white text-slate-600 hover:border-red-200 hover:bg-red-50 hover:text-dossa-red"
+                  }`}
+                  aria-pressed={isActive}
+                >
+                  {option.label}
+                  <span className={`rounded-full px-1.5 py-0.5 text-[10px] ${isActive ? "bg-white/20 text-white" : "bg-slate-100 text-slate-500"}`}>
+                    {count}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          {visibleOfficialBenefitEvents.length ? (
+            <div className="mt-4 flex snap-x snap-mandatory gap-2 overflow-x-auto pb-1 [scrollbar-width:none] md:grid md:grid-cols-2 xl:grid-cols-4 [&::-webkit-scrollbar]:hidden">
+              {visibleOfficialBenefitEvents.map((event) => (
+                <article key={event.id} className="w-[238px] shrink-0 snap-start rounded-3xl border border-slate-100 bg-slate-50 p-3 md:w-auto">
+                  <div className="flex gap-3">
+                    <div className="h-16 w-16 shrink-0 overflow-hidden rounded-2xl bg-white shadow-sm">
+                      {event.imageUrl ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={getDealImageSrc(event.imageUrl)}
+                          alt=""
+                          loading="lazy"
+                          decoding="async"
+                          referrerPolicy="no-referrer"
+                          className="h-full w-full object-cover"
+                        />
+                      ) : (
+                        <div className="flex h-full w-full items-center justify-center bg-red-50 text-dossa-red">
+                          <Gift size={20} />
+                        </div>
+                      )}
+                    </div>
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-center justify-between gap-2">
+                        <span className="rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-dossa-red shadow-sm">{getFreeBenefitEventTypeLabel(event.benefitType)}</span>
+                        <span className="rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-slate-500 shadow-sm">{event.sourceName}</span>
+                      </div>
+                      <h3 className="mt-2 line-clamp-2 text-sm font-black leading-5 text-slate-950">{event.title}</h3>
+                    </div>
+                  </div>
+                  <p className="mt-3 line-clamp-2 min-h-10 text-xs font-bold leading-5 text-slate-500">{event.rewardText}</p>
+                  <p className="mt-2 line-clamp-1 text-[11px] font-black text-dossa-red">{event.rankingReason}</p>
+                  <div className="mt-2 flex flex-wrap gap-1">
+                    {event.trustBadges.slice(0, 3).map((badge) => (
+                      <span key={badge} className="rounded-full bg-white px-2 py-1 text-[10px] font-black text-slate-500 shadow-sm">
+                        {badge}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="mt-3 grid grid-cols-2 gap-2 text-[11px] font-black text-slate-600">
+                    <span className="rounded-2xl bg-white px-2.5 py-2">{event.urgencyLabel || `마감 ${getTimeLeft(event.endAt)}`}</span>
+                    <span className="rounded-2xl bg-white px-2.5 py-2">검증 {getRelativeTime(event.verifiedAt || event.updatedAt)}</span>
+                  </div>
+                  <div className="mt-3 grid grid-cols-[1fr_auto] gap-2">
+                    <Link
+                      href={buildOfficialBenefitEventHref(event)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => rememberRecentNewsBenefitId(event.id)}
+                      className="inline-flex min-h-10 items-center justify-center gap-1.5 rounded-2xl bg-dossa-red px-3 text-xs font-black text-white"
+                      aria-label={`${event.title} 공식 무료혜택 페이지 새 탭으로 열기`}
+                    >
+                      {event.claimCtaLabel}
+                      <ExternalLink size={14} />
+                    </Link>
+                    <button
+                      type="button"
+                      onClick={() => shareOfficialBenefitEvent(event)}
+                      className="inline-flex min-h-10 items-center justify-center rounded-2xl bg-white px-3 text-xs font-black text-slate-600 shadow-sm"
+                      aria-label={`${event.title} 공식 무료혜택 공유`}
+                    >
+                      <Share2 size={14} />
+                    </button>
+                  </div>
+                </article>
+              ))}
+            </div>
+          ) : visibleOfficialBenefits.length ? (
             <div className="mt-4 flex snap-x snap-mandatory gap-2 overflow-x-auto pb-1 [scrollbar-width:none] md:grid md:grid-cols-2 xl:grid-cols-4 [&::-webkit-scrollbar]:hidden">
               {visibleOfficialBenefits.map((deal) => (
                 <article key={deal.id} className="w-[232px] shrink-0 snap-start rounded-3xl border border-slate-100 bg-slate-50 p-3 md:w-auto">

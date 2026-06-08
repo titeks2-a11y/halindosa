@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { FreeBenefitsClient } from "@/components/FreeBenefitsClient";
 import { getDeals } from "@/lib/dealService";
 import { getVisibleNewsDeals } from "@/lib/deals/newsDeals";
+import { selectPublishableFreeBenefitEvents } from "@/lib/freeBenefitEvents";
 import type { Deal } from "@/types/deal";
 import type { NewsBenefitType } from "@/types/newsDeal";
 
@@ -31,11 +32,13 @@ export default async function FreeBenefitsPage() {
   const freeBenefitDeals = deals.filter((deal: Deal) => benefitTypes.has(deal.dealType) || deal.isFreeShipping);
   const officialBenefitsResult = getVisibleNewsDeals({ limit: 36, sort: "priority" });
   const officialBenefits = officialBenefitsResult.deals.filter((deal) => officialBenefitTypes.has(deal.benefitType) || deal.category === "무료혜택");
+  const officialBenefitEvents = selectPublishableFreeBenefitEvents(officialBenefitsResult.deals, 32);
 
   return (
     <FreeBenefitsClient
       deals={freeBenefitDeals}
       officialBenefits={officialBenefits}
+      officialBenefitEvents={officialBenefitEvents}
       officialBenefitsUpdatedAt={officialBenefitsResult.updatedAt}
       officialBenefitFreshnessLabel={officialBenefitsResult.freshnessLabel}
     />
