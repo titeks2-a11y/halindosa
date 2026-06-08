@@ -611,6 +611,17 @@ await check("cron refresh api guard", async () => {
   assert(["seed_launch_ready", "live_feed_ready"].includes(liveFeed.data.livePipeline?.status), "Cron liveFeed dry-run missing live pipeline status");
   assert(liveFeed.data.livePipeline?.officialBenefits?.visibleCount >= MIN_OFFICIAL_BENEFITS, "Cron liveFeed dry-run missing official benefits count");
 
+  const benefitsDenied = await fetchJson("/api/cron/benefits?dryRun=true");
+  assert(benefitsDenied.response.status === 401, `Expected cron benefits without token to be 401, got ${benefitsDenied.response.status}`);
+
+  const benefits = await fetchJson("/api/cron/benefits?dryRun=true&token=local-admin");
+  assert(benefits.response.status === 200, `Expected cron benefits dry-run 200, got ${benefits.response.status}`);
+  assert(benefits.data.ok === true, "Cron benefits dry-run should be ok");
+  assert(benefits.data.mode === "dry_run", "Cron benefits dry-run should not execute refresh scripts");
+  assert(benefits.data.pipelineMode === "benefits", "Cron benefits dry-run missing pipeline mode");
+  assert(benefits.data.command === "node scripts/refresh-benefits.mjs", "Cron benefits dry-run missing benefits refresh command");
+  assert(benefits.data.freeBenefitEvents?.visibleActiveEvents >= 100, "Cron benefits dry-run missing active free benefit event count");
+
   if (smokeAdminToken) {
     const headerAuth = await fetchJson("/api/cron/refresh?dryRun=true", {
       headers: {

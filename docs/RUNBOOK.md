@@ -44,8 +44,10 @@ npm run smoke
   - 운영자가 스프레드시트로 후보를 검수해야 하면 `GET /api/sources?format=csv`를 내려받는다. CSV는 `source_catalog`, `feed_transition`, `next_action` 행을 포함하며 공식 URL, 후보 provider, 우선 연결 env key, 현재 feed URL 수, 다음 액션을 한 파일로 정리한다.
 - 자동 refresh cron: `GET /api/cron/refresh`
   - Vercel Hobby 배포 호환을 위해 Vercel Cron은 `vercel.json` 기준 매일 1회 `/api/cron/refresh`를 호출한다. 더 짧은 주기가 필요하면 Pro 플랜 또는 외부 스케줄러에서 같은 보호 API를 호출한다.
+  - 무료혜택 우선 갱신은 같은 Hobby 한도 안에서 `GET /api/cron/benefits`를 별도 daily cron으로 호출한다. 이 경로는 `refresh:benefits`만 실행해 홈 상단 무료혜택, 쿠폰, 샘플, 전원증정 이벤트 리포트를 빠르게 최신화한다.
   - 운영 환경에는 `CRON_SECRET`을 반드시 설정한다. 호출은 `Authorization: Bearer $CRON_SECRET`, `x-cron-secret`, 또는 관리자 `token` 중 하나가 맞아야 실행된다.
   - 로컬 점검은 `GET /api/cron/refresh?dryRun=true&token=local-admin`으로 현재 `reports/refresh-all.json` 상태를 확인한다.
+  - 무료혜택 전용 cron 점검은 `GET /api/cron/benefits?dryRun=true&token=local-admin`으로 확인하며, 실행 결과는 `reports/cron-benefits.json`, `reports/benefits-refresh.json`, `reports/free-benefit-events.json`에 남는다.
   - 무료 혜택만 빠르게 갱신할 때는 `GET /api/cron/refresh?dryRun=true&mode=benefits&token=local-admin`으로 사전 확인한 뒤 운영 환경에서 `mode=benefits`를 실행한다. 이 경로는 `npm run refresh:benefits`와 같은 흐름으로 `reports/benefits-refresh.json`, `reports/free-benefit-events.json`을 갱신한다.
   - 공식 API/RSS/제휴 JSON feed까지 한 번에 점검하려면 `GET /api/cron/refresh?dryRun=true&mode=liveFeed&token=local-admin`으로 dry-run을 확인한 뒤, 운영 환경에서 `mode=liveFeed`를 명시 호출한다. 이 경로는 `node scripts/news-feed-live-pipeline.mjs`를 실행하고 `reports/news-feed-live-pipeline.json` 상태를 함께 반환한다.
   - 기본 실제 실행은 `node scripts/refresh-all.mjs`를 호출하고 `reports/refresh-all.json`, `reports/cron-refresh.json`에 결과를 남긴다. 실패하면 JSON은 500으로 반환되며 `stderrTail`과 단계별 로그를 먼저 확인한다.

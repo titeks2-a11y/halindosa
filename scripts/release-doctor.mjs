@@ -2163,6 +2163,8 @@ function checkCronRefreshPipeline() {
   const issues = [];
   const routePath = join(root, "app/api/cron/refresh/route.ts");
   const route = existsSync(routePath) ? readFileSync(routePath, "utf8") : "";
+  const benefitsRoutePath = join(root, "app/api/cron/benefits/route.ts");
+  const benefitsRoute = existsSync(benefitsRoutePath) ? readFileSync(benefitsRoutePath, "utf8") : "";
   const cronOperations = existsSync(join(root, "lib/operations/cronRefresh.ts")) ? readFileSync(join(root, "lib/operations/cronRefresh.ts"), "utf8") : "";
   const healthRoute = existsSync(join(root, "app/api/health/route.ts")) ? readFileSync(join(root, "app/api/health/route.ts"), "utf8") : "";
   const adminPage = [
@@ -2187,10 +2189,21 @@ function checkCronRefreshPipeline() {
       if (!route.includes(phrase)) issues.push(`cron refresh route missing ${phrase}`);
     }
   }
+  if (!benefitsRoute) {
+    issues.push("cron benefits route is missing");
+  } else {
+    for (const phrase of ["CRON_SECRET", "canRunBenefitsCron", "spawnSync", "scripts/refresh-benefits.mjs", "dry_run", "rateLimit", "reports/cron-benefits.json", "reports/free-benefit-events.json"]) {
+      if (!benefitsRoute.includes(phrase)) issues.push(`cron benefits route missing ${phrase}`);
+    }
+  }
 
   const cron = Array.isArray(vercelConfig.crons) ? vercelConfig.crons.find((item) => item.path === "/api/cron/refresh") : null;
   if (!cron || cron.schedule !== "0 18 * * *") {
     issues.push("vercel.json should schedule /api/cron/refresh once daily for Vercel Hobby compatibility");
+  }
+  const benefitsCron = Array.isArray(vercelConfig.crons) ? vercelConfig.crons.find((item) => item.path === "/api/cron/benefits") : null;
+  if (!benefitsCron || benefitsCron.schedule !== "0 21 * * *") {
+    issues.push("vercel.json should schedule /api/cron/benefits once daily for Vercel Hobby compatibility");
   }
 
   for (const key of ["CRON_SECRET", "CRON_REFRESH_TIMEOUT_MS"]) {
@@ -2200,7 +2213,7 @@ function checkCronRefreshPipeline() {
   if (packageJson.scripts?.["cron:refresh:doctor"] !== "node scripts/cron-refresh-doctor.mjs" || !packageJson.scripts?.qa?.includes("cron:refresh:doctor")) {
     issues.push("package scripts should expose cron:refresh:doctor and include it in qa");
   }
-  if (!cronDoctor.includes("cron-refresh-readiness.json") || !cronDoctor.includes("CRON_REFRESH_READINESS.md") || !cronDoctor.includes("refresh-all evidence") || !cronDoctor.includes("live feed evidence")) {
+  if (!cronDoctor.includes("cron-refresh-readiness.json") || !cronDoctor.includes("CRON_REFRESH_READINESS.md") || !cronDoctor.includes("refresh-all evidence") || !cronDoctor.includes("live feed evidence") || !cronDoctor.includes("/api/cron/benefits")) {
     issues.push("cron refresh doctor should write JSON/docs readiness evidence and verify refresh:all plus live feed evidence");
   }
   if (cronReadinessReport?.ok !== true || cronReadinessReport?.endpoint !== "/api/cron/refresh" || cronReadinessReport?.schedule !== "0 18 * * *") {
@@ -2209,8 +2222,8 @@ function checkCronRefreshPipeline() {
   if (cronReadinessReport?.livePipelineOk !== true || (cronReadinessReport?.livePipelineOfficialBenefits ?? 0) < MIN_OFFICIAL_BENEFITS) {
     issues.push("reports/cron-refresh-readiness.json should prove live feed pipeline evidence");
   }
-  if (!cronReadinessDocs.includes("Cron Refresh Readiness") || !cronReadinessDocs.includes("dryRun=true") || !cronReadinessDocs.includes("mode=liveFeed") || !cronReadinessDocs.includes("CRON_SECRET")) {
-    issues.push("docs/CRON_REFRESH_READINESS.md should document dry-run, mode=liveFeed, and CRON_SECRET operation");
+  if (!cronReadinessDocs.includes("Cron Refresh Readiness") || !cronReadinessDocs.includes("dryRun=true") || !cronReadinessDocs.includes("mode=liveFeed") || !cronReadinessDocs.includes("/api/cron/benefits") || !cronReadinessDocs.includes("CRON_SECRET")) {
+    issues.push("docs/CRON_REFRESH_READINESS.md should document dry-run, mode=liveFeed, /api/cron/benefits, and CRON_SECRET operation");
   }
 
   if (!cronOperations.includes("getCronRefreshOperationsReport") || !cronOperations.includes("reports/cron-refresh.json") || !cronOperations.includes("reports/news-feed-live-pipeline.json") || !cronOperations.includes("livePipelineOk") || !cronOperations.includes("manual_refresh_ready")) {
@@ -2223,21 +2236,21 @@ function checkCronRefreshPipeline() {
     issues.push("Admin dashboard should expose cron refresh operation status, liveFeed dry-run, and auth guidance");
   }
 
-  if (!smokeScript.includes("cron refresh api guard") || !smokeScript.includes("/api/cron/refresh?dryRun=true") || !smokeScript.includes("/api/cron/refresh?dryRun=true&mode=liveFeed") || !smokeScript.includes("Expected cron refresh without token to be 401")) {
-    issues.push("smoke should verify cron refresh auth guard, default dry-run, and liveFeed dry-run response");
+  if (!smokeScript.includes("cron refresh api guard") || !smokeScript.includes("/api/cron/refresh?dryRun=true") || !smokeScript.includes("/api/cron/refresh?dryRun=true&mode=liveFeed") || !smokeScript.includes("/api/cron/benefits?dryRun=true") || !smokeScript.includes("Expected cron refresh without token to be 401")) {
+    issues.push("smoke should verify cron refresh auth guard, default dry-run, liveFeed dry-run, and benefits dry-run response");
   }
   if (!smokeScript.includes("Admin dashboard missing cron refresh operation board") || !smokeScript.includes("Health API missing cron refresh status") || !smokeScript.includes("Health API missing cron live feed pipeline status")) {
     issues.push("smoke should verify cron refresh admin, health, and live feed visibility");
   }
-  if (!runbook.includes("/api/cron/refresh") || !runbook.includes("mode=liveFeed") || !runbook.includes("CRON_SECRET") || !runbook.includes("reports/cron-refresh.json")) {
-    issues.push("RUNBOOK should document protected cron refresh and live feed operation");
+  if (!runbook.includes("/api/cron/refresh") || !runbook.includes("/api/cron/benefits") || !runbook.includes("mode=liveFeed") || !runbook.includes("CRON_SECRET") || !runbook.includes("reports/cron-refresh.json")) {
+    issues.push("RUNBOOK should document protected cron refresh, benefits refresh, and live feed operation");
   }
   if (!roadmap.includes("cron refresh") && !roadmap.includes("Cron refresh")) {
     issues.push("roadmap should document cron refresh automation");
   }
 
   if (issues.length) fail("cron refresh automation", issues.join("; "));
-  else pass("cron refresh automation", "Protected daily cron refresh endpoint, explicit live feed mode, Vercel Hobby-compatible schedule, dry-run smoke guard, env keys, and runbook guidance are wired.");
+  else pass("cron refresh automation", "Protected daily cron refresh endpoint, dedicated benefits cron endpoint, explicit live feed mode, Vercel Hobby-compatible schedules, dry-run smoke guard, env keys, and runbook guidance are wired.");
 }
 
 function checkAdminAuthHardening() {

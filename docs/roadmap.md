@@ -147,6 +147,7 @@
 - 보호된 `/api/cron/refresh`와 `vercel.json` 6시간 cron refresh를 추가해 `refresh:all` 파이프라인을 배포 환경에서 정기 실행할 수 있게 하고, `CRON_SECRET`, dry-run smoke, `reports/cron-refresh.json`, release doctor로 공개 호출/무단 실행 회귀를 막았다.
 - cron refresh 운영 리포트를 `lib/operations/cronRefresh.ts`로 분리하고 `/api/health`와 `/admin`에 마지막 실행, 보호 상태, 상품/뉴스 갱신 수, dry-run 링크를 노출해 배포 후 자동 갱신 상태를 운영자가 바로 확인할 수 있게 했다.
 - `/api/cron/refresh?mode=liveFeed` 명시 실행 모드를 추가해 기본 6시간 `refresh:all` 안정성은 유지하면서, 공식 API/RSS/제휴 JSON feed 검증이 필요한 시점에는 `news:feed:live` 전체 파이프라인을 cron auth와 같은 보호 경로로 실행할 수 있게 했다.
+- `/api/cron/benefits` 전용 보호 route와 Vercel daily cron을 추가해 무료혜택, 쿠폰, 샘플, 전원증정 이벤트만 빠르게 갱신하는 경로를 분리했다. 같은 `CRON_SECRET` 보호와 dry-run smoke 기준을 사용한다.
 - 홈의 공식 혜택/할인뉴스 섹션에 2분 간격의 가벼운 자동 재조회, 화면 복귀 시 재확인, 수동 `새로고침` 버튼, 실패 시 기존 혜택 유지 문구를 추가해 사용자가 앱을 켜둔 상태에서도 검증된 공식 혜택을 자연스럽게 갱신할 수 있게 했다.
 - `/api/news-deals`에 `q` 통합 검색과 `priority/latest/endingSoon/discount` 정렬을 추가해 공식 혜택 feed가 늘어난 뒤에도 무료, 쿠폰, 문화, 배달 같은 키워드로 검증 혜택만 빠르게 탐색할 수 있게 했다.
 - 홈 검색어를 공식 혜택/할인뉴스 자동 새로고침에도 전달해 사용자가 `쿠폰`, `문화`, `배달`처럼 입력하면 상품 목록과 공식 혜택 섹션이 같은 의도로 좁혀지고, 검색 중에는 마감임박순으로 먼저 보여주도록 연결했다.

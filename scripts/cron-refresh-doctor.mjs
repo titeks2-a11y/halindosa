@@ -31,6 +31,7 @@ function fail(name, detail) {
 const packageJson = readJson("package.json");
 const vercelConfig = readJson("vercel.json");
 const route = readText("app/api/cron/refresh/route.ts");
+const benefitsRoute = readText("app/api/cron/benefits/route.ts");
 const cronOperations = readText("lib/operations/cronRefresh.ts");
 const healthRoute = readText("app/api/health/route.ts");
 const adminPage = [
@@ -45,6 +46,7 @@ const livePipeline = readJson("reports/news-feed-live-pipeline.json");
 const healthReadiness = readJson("reports/health-readiness.json");
 const cronReport = readJson("reports/cron-refresh.json", null);
 const cronConfig = Array.isArray(vercelConfig.crons) ? vercelConfig.crons.find((item) => item.path === "/api/cron/refresh") : null;
+const benefitsCronConfig = Array.isArray(vercelConfig.crons) ? vercelConfig.crons.find((item) => item.path === "/api/cron/benefits") : null;
 const minimumVisibleOfficialBenefits = 95;
 
 const refreshAllOk = refreshAll.ok === true && Number(refreshAll.productDealsCount ?? 0) >= 140 && Number(refreshAll.newsDealsCount ?? 0) >= minimumVisibleOfficialBenefits && Number(refreshAll.failedCount ?? 0) === 0;
@@ -69,9 +71,15 @@ const checks = [
   route.includes("resolvePipelineMode") && route.includes("mode=liveFeed") && route.includes("scripts/news-feed-live-pipeline.mjs") && smoke.includes("/api/cron/refresh?dryRun=true&mode=liveFeed")
     ? pass("live feed mode", "Cron route supports an explicit mode=liveFeed dry-run and execution path for official feed operations.")
     : fail("live feed mode", "Cron route should expose a guarded mode=liveFeed path and smoke should test its dry-run."),
+  benefitsRoute.includes("canRunBenefitsCron") && benefitsRoute.includes("CRON_SECRET") && benefitsRoute.includes("scripts/refresh-benefits.mjs") && benefitsRoute.includes("reports/cron-benefits.json") && smoke.includes("/api/cron/benefits?dryRun=true")
+    ? pass("benefits cron route", "Dedicated cron benefits endpoint refreshes official free benefit events with the same auth guard.")
+    : fail("benefits cron route", "Cron benefits endpoint should refresh official free benefit events and be smoke-tested."),
   cronConfig?.schedule === "0 18 * * *"
     ? pass("vercel schedule", "Vercel schedules /api/cron/refresh once daily for Hobby plan compatibility.")
     : fail("vercel schedule", "vercel.json should schedule /api/cron/refresh once daily for Vercel Hobby compatibility."),
+  benefitsCronConfig?.schedule === "0 21 * * *"
+    ? pass("vercel benefits schedule", "Vercel schedules /api/cron/benefits once daily for free-benefit-first operations.")
+    : fail("vercel benefits schedule", "vercel.json should schedule /api/cron/benefits once daily for Vercel Hobby compatibility."),
   envExample.includes("CRON_SECRET=") && envExample.includes("CRON_REFRESH_TIMEOUT_MS=")
     ? pass("environment keys", ".env.example documents cron secret and timeout knobs.")
     : fail("environment keys", ".env.example should document CRON_SECRET and CRON_REFRESH_TIMEOUT_MS."),
@@ -101,7 +109,9 @@ const report = {
   generatedAt: new Date().toISOString(),
   status: failures.length ? "needs_fix" : "ready",
   endpoint: "/api/cron/refresh",
+  benefitsEndpoint: "/api/cron/benefits",
   schedule: cronConfig?.schedule ?? "",
+  benefitsSchedule: benefitsCronConfig?.schedule ?? "",
   packageScript: packageJson.scripts?.["cron:refresh:doctor"] ?? "",
   routeProtected: checks[0].ok,
   dryRunGuarded: checks[1].ok,
@@ -128,7 +138,9 @@ Status: ${report.status}
 | Metric | Value |
 | --- | --- |
 | Endpoint | ${report.endpoint} |
+| Benefits endpoint | ${report.benefitsEndpoint} |
 | Schedule | ${report.schedule || "not configured"} |
+| Benefits schedule | ${report.benefitsSchedule || "not configured"} |
 | Protected route | ${report.routeProtected ? "PASS" : "FAIL"} |
 | Dry-run guard | ${report.dryRunGuarded ? "PASS" : "FAIL"} |
 | refresh:all evidence | ${report.refreshAllOk ? "PASS" : "FAIL"} |
@@ -148,6 +160,7 @@ ${checks.map((check) => `| ${check.name} | ${check.ok ? "PASS" : "FAIL"} | ${che
 ## Operation Notes
 
 - 실제 배포 환경에서는 \`CRON_SECRET\` 설정 후 Vercel Cron이 \`/api/cron/refresh\`를 호출합니다.
+- 무료혜택 우선 갱신은 Vercel Cron이 \`/api/cron/benefits\`를 별도로 호출하며, 같은 \`CRON_SECRET\` 보호를 사용합니다.
 - \`dryRun=true\`는 리포트 상태만 확인하고 수집 스크립트를 실행하지 않습니다.
 - 공식 API/RSS/제휴 JSON feed를 점검할 때는 \`/api/cron/refresh?mode=liveFeed\`를 명시 호출합니다. 기본 daily cron은 기존 \`refresh:all\` 경로를 유지합니다.
 - \`reports/cron-refresh.json\`은 실제 실행 증거이므로 오래된 파일을 커밋해 출시 게이트를 흔들지 않습니다.
