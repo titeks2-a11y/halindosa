@@ -34,6 +34,7 @@ const homePage = `${read("app/page.tsx")}\n${read("components/HomeClient.tsx")}`
 const homeDealGrid = read("components/home/HomeDealGrid.tsx");
 const homeLiveBenefitStrip = read("components/home/HomeLiveBenefitStrip.tsx");
 const homeFreebieHero = read("components/home/HomeFreebieHero.tsx");
+const freeBenefitEvents = read("lib/freeBenefitEvents.ts");
 const homeFirstScreenSource = `${homePage}\n${homeDealGrid}\n${homeFreebieHero}`;
 const mobileHeader = read("components/MobileHeader.tsx");
 const categoryTabs = read("components/CategoryTabs.tsx");
@@ -135,6 +136,45 @@ if (
 }
 
 if (
+  includesAll(homeFreebieHero, [
+    "전원증정",
+    "선착순",
+    "쿠폰",
+    "무료체험",
+    "샘플",
+    "기프티콘",
+    "포인트",
+    "출석체크",
+    "신규가입",
+    "공공무료",
+    "체험단",
+    "마감임박",
+    "로그인 필요",
+    "구매 필요",
+    "비회원 확인",
+    "구매조건 낮음"
+  ]) &&
+  includesAll(freeBenefitEvents, [
+    '{ id: "all", label: "전체" }',
+    '{ id: "everyone", label: "전원증정" }',
+    '{ id: "firstCome", label: "선착순" }',
+    '{ id: "coupon", label: "쿠폰" }',
+    '{ id: "sample", label: "샘플" }',
+    '{ id: "freeTrial", label: "무료체험" }',
+    '{ id: "gifticon", label: "기프티콘" }',
+    '{ id: "pointCashback", label: "포인트/캐시백" }',
+    '{ id: "checkIn", label: "출석체크" }',
+    '{ id: "signup", label: "신규가입" }',
+    '{ id: "publicFree", label: "공공무료" }',
+    '{ id: "experiencePanel", label: "체험단" }'
+  ])
+) {
+  pass("free benefit category and condition chips", "모바일 무료혜택 히어로와 전용 데이터 모델이 12개 필터, 마감임박, 로그인/구매 조건 배지를 유지합니다.");
+} else {
+  fail("free benefit category and condition chips", "무료혜택 전용 필터 칩 또는 로그인/구매 조건 배지 기준이 부족합니다.");
+}
+
+if (
   includesAll(homePage, ["<HomeLiveBenefitStrip", "newsTotalCount", "newsFreeBenefitCount", "newsFreshness.label", "rememberRecentNewsBenefit"]) &&
   includesAll(homeLiveBenefitStrip, [
     'data-home-live-benefit-strip="true"',
@@ -184,6 +224,7 @@ ${checks.map((check) => `| ${check.name} | ${check.ok ? "PASS" : "FAIL"} | ${che
 - 데스크톱 상세 필터와 결과 분석 패널도 기본 DOM에 올리지 않고 사용자가 펼친 뒤 렌더링하는 구조를 검사합니다.
 - 상단 "무료혜택 다음에 볼 상품" 레일은 손가락 스크롤이 어중간하게 멈추지 않도록 snap-x/snap-start 구조와 오른쪽 fade/넘기기 신호를 검사합니다.
 - 모바일 공식 혜택 strip은 초압축 가로 rail로 검증 혜택 2개를 먼저 보여주고, 구매/신청 이동은 \`/go/news/[id]\` 새 탭 경로를 유지합니다.
+- 무료혜택 필터는 전체, 전원증정, 선착순, 쿠폰, 샘플, 무료체험, 기프티콘, 포인트/캐시백, 출석체크, 신규가입, 공공무료, 체험단 계약을 유지하고, 홈 히어로는 로그인 필요/구매 필요 조건 배지를 노출합니다.
 - Playwright 도입 전까지 \`npm run test:mobile-ux\`와 \`npm run harness\`가 모바일 UX 안전망 역할을 합니다.
 `;
 

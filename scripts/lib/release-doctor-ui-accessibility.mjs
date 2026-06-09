@@ -509,6 +509,7 @@ export async function checkUiAccessibility() {
     "compact search",
     "single home search entry",
     "home first screen budget",
+    "free benefit category and condition chips",
     "category rail compactness",
     "filter rail consolidation",
     "quick card scanability",
@@ -516,14 +517,15 @@ export async function checkUiAccessibility() {
     "toast does not cover bottom nav",
     "상단 \"무료혜택 다음에 볼 상품\" 레일",
     "snap-x/snap-start",
-    "오른쪽 fade/넘기기 신호"
+    "오른쪽 fade/넘기기 신호",
+    "로그인 필요/구매 필요 조건 배지"
   ];
   const mobileUxMissing = mobileUxReportRequired.filter((phrase) => !mobileUxReport.includes(phrase));
 
   if (mobileUxMissing.length || mobileUxReport.includes("Generated: 2026-")) {
     fail("mobile ux report coverage", `Mobile UX report should be stable and include all compact mobile gates. Missing: ${mobileUxMissing.join(", ") || "none"}`);
   } else {
-    pass("mobile ux report coverage", "Mobile UX report records the stable 14-gate compact first-screen regression suite.");
+    pass("mobile ux report coverage", "Mobile UX report records the stable 15-gate compact first-screen regression suite.");
   }
 
   if (
