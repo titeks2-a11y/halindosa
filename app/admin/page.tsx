@@ -216,6 +216,8 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const sourceFeedEnvFailures = sourceFeedEnvReadiness.rows.filter((row) => row.status !== "passed");
   const sourceFeedEnvRegressionFailures = sourceFeedEnvReadiness.policyRegressionSamples.filter((sample) => !sample.passed);
   const sourceFeedEnvRows = (sourceFeedEnvFailures.length ? sourceFeedEnvFailures : sourceFeedEnvReadiness.rows).slice(0, 4);
+  const sourceFeedEnvActivationLanes = sourceFeedEnvReadiness.activationReadiness.recommendedFirstLanes.slice(0, 6);
+  const sourceFeedEnvChecklist = sourceFeedEnvReadiness.activationReadiness.operatorChecklist.slice(0, 4);
   const sourceReadinessFailedGates = officialSourceReadiness.gates.filter((gate) => !gate.ok);
   const sourceReadinessNextActions = officialSourceReadiness.operatorNextActions.slice(0, 5);
   const sourceReadinessRiskRows = officialSourceReadiness.riskySources.slice(0, 6);
@@ -1344,6 +1346,58 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                     <p className="mt-2 text-[11px] font-black leading-5 text-emerald-700">{check.action}</p>
                   </div>
                 ))}
+              </div>
+            </div>
+          </div>
+          <div className="mt-4 grid gap-3 xl:grid-cols-[1.1fr_0.9fr]">
+            <div className="rounded-2xl border border-amber-100 bg-amber-50 p-4">
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <p className="text-sm font-black text-slate-950">다음 Feed 활성화 큐</p>
+                  <p className="mt-1 text-xs font-bold leading-5 text-amber-900/70">
+                    starter pack 기준으로 어떤 무료혜택 lane을 어떤 env에 먼저 연결할지 보여줍니다.
+                  </p>
+                </div>
+                <span className="rounded-full bg-white px-3 py-1.5 text-xs font-black text-amber-700 shadow-sm">
+                  {sourceFeedEnvReadiness.activationReadiness.status}
+                </span>
+              </div>
+              <div className="mt-3 grid gap-2 md:grid-cols-2">
+                {sourceFeedEnvActivationLanes.length ? (
+                  sourceFeedEnvActivationLanes.map((lane) => (
+                    <div key={lane.id} className="rounded-2xl bg-white p-3 shadow-sm">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="rounded-full bg-amber-100 px-2.5 py-1 text-[11px] font-black text-amber-800">{lane.label}</span>
+                        <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-[11px] font-black text-emerald-700">접근 {lane.reachableCount}/{lane.candidateCount}</span>
+                        {lane.guardedCount ? (
+                          <span className="rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-black text-slate-600">보호 {lane.guardedCount}</span>
+                        ) : null}
+                      </div>
+                      <p className="mt-2 text-xs font-bold leading-5 text-slate-500">{lane.firstAction}</p>
+                      <p className="mt-1 line-clamp-1 text-[11px] font-black text-slate-400">{lane.envKeys.join(" / ")}</p>
+                    </div>
+                  ))
+                ) : (
+                  <p className="rounded-2xl bg-white p-3 text-xs font-black text-amber-700 shadow-sm">
+                    starter pack이 없습니다. npm run source:starter:pack을 먼저 실행하세요.
+                  </p>
+                )}
+              </div>
+            </div>
+            <div className="rounded-2xl border border-blue-100 bg-blue-50 p-4">
+              <p className="text-sm font-black text-slate-950">운영자 체크리스트</p>
+              <div className="mt-3 space-y-2">
+                {sourceFeedEnvChecklist.length ? (
+                  sourceFeedEnvChecklist.map((item) => (
+                    <p key={item} className="rounded-2xl bg-white px-3 py-2 text-xs font-bold leading-5 text-slate-600 shadow-sm">
+                      {item}
+                    </p>
+                  ))
+                ) : (
+                  <p className="rounded-2xl bg-white px-3 py-2 text-xs font-bold leading-5 text-slate-600 shadow-sm">
+                    공식 JSON/RSS/API feed 연결 전 source:feed-env:doctor를 실행하세요.
+                  </p>
+                )}
               </div>
             </div>
           </div>

@@ -26,6 +26,23 @@ export type SourceFeedEnvRegressionSample = {
   passed: boolean;
 };
 
+export type SourceFeedActivationLane = {
+  id: string;
+  label: string;
+  envKeys: string[];
+  candidateCount: number;
+  reachableCount: number;
+  guardedCount: number;
+  firstAction: string;
+  firstCandidates: Array<{
+    id: string;
+    label: string;
+    officialUrl: string;
+    liveStatus: string;
+    recommendedEnvKeys: string[];
+  }>;
+};
+
 export type SourceFeedEnvReadinessReport = {
   ok: boolean;
   generatedAt: string;
@@ -36,6 +53,13 @@ export type SourceFeedEnvReadinessReport = {
   failedCount: number;
   allowedCatalogHosts: string[];
   approvedExtraHosts: string[];
+  activationReadiness: {
+    status: "seed_fallback_only" | "feed_configured" | string;
+    starterPackAvailable: boolean;
+    recommendedLaneCount: number;
+    recommendedFirstLanes: SourceFeedActivationLane[];
+    operatorChecklist: string[];
+  };
   policy: {
     httpsOnly: boolean;
     machineReadableFeedRequired: boolean;
@@ -65,6 +89,13 @@ const fallbackReport: SourceFeedEnvReadinessReport = {
   failedCount: 0,
   allowedCatalogHosts: [],
   approvedExtraHosts: [],
+  activationReadiness: {
+    status: "seed_fallback_only",
+    starterPackAvailable: false,
+    recommendedLaneCount: 0,
+    recommendedFirstLanes: [],
+    operatorChecklist: []
+  },
   policy: {
     httpsOnly: true,
     machineReadableFeedRequired: true,
@@ -89,6 +120,12 @@ export function getOfficialSourceFeedEnvReadiness(): SourceFeedEnvReadinessRepor
       checkedKeys: Array.isArray(report.checkedKeys) ? report.checkedKeys : fallbackReport.checkedKeys,
       allowedCatalogHosts: Array.isArray(report.allowedCatalogHosts) ? report.allowedCatalogHosts : [],
       approvedExtraHosts: Array.isArray(report.approvedExtraHosts) ? report.approvedExtraHosts : [],
+      activationReadiness: {
+        ...fallbackReport.activationReadiness,
+        ...(report.activationReadiness ?? {}),
+        recommendedFirstLanes: Array.isArray(report.activationReadiness?.recommendedFirstLanes) ? report.activationReadiness.recommendedFirstLanes : [],
+        operatorChecklist: Array.isArray(report.activationReadiness?.operatorChecklist) ? report.activationReadiness.operatorChecklist : []
+      },
       policy: {
         ...fallbackReport.policy,
         ...(report.policy ?? {}),

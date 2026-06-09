@@ -138,6 +138,7 @@ export async function runAdminDashboardSmokeChecks() {
     assert(text.includes("feed 연결 후보") && text.includes("제휴 확인") && text.includes("차단 이슈"), "Admin dashboard missing official source onboarding summary cards");
     assert(text.includes("공식 feed 환경변수 안전성") && text.includes("운영 env에 검색·커뮤니티 링크가 들어가기 전 차단"), "Admin dashboard missing source feed env readiness panel");
     assert(text.includes("feed env JSON") && text.includes("정책 회귀 샘플 모두 통과"), "Admin dashboard missing source feed env API and regression status controls");
+    assert(text.includes("다음 Feed 활성화 큐") && text.includes("starter pack 기준") && text.includes("운영자 체크리스트"), "Admin dashboard missing source feed activation queue and operator checklist");
     assert(text.includes("공식 소스 통합 준비도") && text.includes("오늘 공식 feed 전환 판단"), "Admin dashboard missing official source readiness rollup panel");
     assert(text.includes("source readiness JSON") && text.includes("source readiness CSV") && text.includes("통합 게이트") && text.includes("운영 다음 액션"), "Admin dashboard missing official source readiness API, CSV, and gate controls");
     assert(text.includes("공식 소스 보류 증빙") && text.includes("HTTP 상태") && text.includes("운영 사유") && text.includes("officialUrl") && text.includes("finalUrl"), "Admin dashboard missing source readiness guarded-source evidence table");

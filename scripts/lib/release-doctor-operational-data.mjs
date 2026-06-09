@@ -1517,6 +1517,9 @@ export async function checkOperationalDataSurfaces() {
     !adminPage.includes("activation MD") ||
     !adminPage.includes("공식 feed 환경변수 안전성") ||
     !adminPage.includes("feed env JSON") ||
+    !adminPage.includes("다음 Feed 활성화 큐") ||
+    !adminPage.includes("starter pack 기준") ||
+    !adminPage.includes("운영자 체크리스트") ||
     !adminPage.includes("/api/admin/source-feed-env") ||
     !adminPage.includes("공식 소스 통합 준비도") ||
     !adminPage.includes("오늘 공식 feed 전환 판단") ||
