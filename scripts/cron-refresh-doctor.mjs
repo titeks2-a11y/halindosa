@@ -43,8 +43,11 @@ const runbook = readText("docs/RUNBOOK.md");
 const envExample = readText(".env.example");
 const refreshAll = readJson("reports/refresh-all.json");
 const livePipeline = readJson("reports/news-feed-live-pipeline.json");
+const benefitsRefresh = readJson("reports/benefits-refresh.json");
+const freeBenefitEvents = readJson("reports/free-benefit-events.json");
 const healthReadiness = readJson("reports/health-readiness.json");
 const cronReport = readJson("reports/cron-refresh.json", null);
+const benefitsCronReport = readJson("reports/cron-benefits.json", null);
 const cronConfig = Array.isArray(vercelConfig.crons) ? vercelConfig.crons.find((item) => item.path === "/api/cron/refresh") : null;
 const benefitsCronConfig = Array.isArray(vercelConfig.crons) ? vercelConfig.crons.find((item) => item.path === "/api/cron/benefits") : null;
 const minimumVisibleOfficialBenefits = 95;
@@ -56,6 +59,12 @@ const livePipelineOk =
   Number(livePipeline.officialBenefits?.visibleCount ?? 0) >= minimumVisibleOfficialBenefits &&
   Number(livePipeline.officialBenefits?.exposedSearchLinkCount ?? 0) === 0 &&
   Number(livePipeline.officialBenefits?.exposedNonOfficialLinkCount ?? 0) === 0;
+const benefitsRefreshOk = benefitsRefresh.ok === true && Number(benefitsRefresh.failedSteps ?? 0) === 0;
+const freeBenefitEventsOk =
+  freeBenefitEvents.ok === true &&
+  Number(freeBenefitEvents.visibleActiveEvents ?? 0) >= Math.max(100, Number(freeBenefitEvents.minimumVisibleEvents ?? 0)) &&
+  Number(freeBenefitEvents.sourceCount ?? 0) >= 90 &&
+  Number(freeBenefitEvents.hostCount ?? 0) >= 70;
 const healthCronStatus = healthReadiness.cronRefresh?.status ?? "";
 const healthCronOk = healthReadiness.cronRefresh?.ok === true;
 const checks = [
@@ -86,15 +95,24 @@ const checks = [
   cronOperations.includes("getCronRefreshOperationsReport") && cronOperations.includes("reports/cron-refresh.json")
     ? pass("operations report", "Cron operations layer exposes last-run status and report path.")
     : fail("operations report", "Cron operations layer should summarize last-run status."),
-  healthRoute.includes("cronRefreshStatus") && adminPage.includes("자동 refresh cron 운영")
-    ? pass("health and admin surfaces", "Health API and admin dashboard expose cron readiness.")
-    : fail("health and admin surfaces", "Health API and admin dashboard should expose cron readiness."),
+  cronOperations.includes("benefitsEndpoint") && cronOperations.includes("reports/cron-benefits.json") && cronOperations.includes("reports/free-benefit-events.json")
+    ? pass("benefits operations report", "Cron operations layer exposes dedicated benefits cron status and event evidence.")
+    : fail("benefits operations report", "Cron operations layer should summarize benefits cron status and event evidence."),
+  healthRoute.includes("cronRefreshStatus") && healthRoute.includes("cronBenefitsStatus") && adminPage.includes("자동 refresh cron 운영")
+    ? pass("health and admin surfaces", "Health API and admin dashboard expose refresh and benefits cron readiness.")
+    : fail("health and admin surfaces", "Health API and admin dashboard should expose refresh and benefits cron readiness."),
   refreshAllOk
     ? pass("refresh-all evidence", `refresh:all is healthy with ${refreshAll.productDealsCount} product deals and ${refreshAll.newsDealsCount} official benefits.`)
     : fail("refresh-all evidence", "reports/refresh-all.json should show a passing product/news refresh."),
   livePipelineOk
     ? pass("live feed evidence", `news:feed:live is ${livePipeline.status} with ${livePipeline.officialBenefits?.visibleCount} official benefits and zero unsafe exposed links.`)
     : fail("live feed evidence", "reports/news-feed-live-pipeline.json should show a passing live feed pipeline with official benefits and zero unsafe exposed links."),
+  benefitsRefreshOk
+    ? pass("benefits refresh evidence", `refresh:benefits is healthy with ${benefitsRefresh.passedSteps}/${benefitsRefresh.totalSteps} passing steps.`)
+    : fail("benefits refresh evidence", "reports/benefits-refresh.json should show a passing benefits refresh."),
+  freeBenefitEventsOk
+    ? pass("free benefit event evidence", `free benefit events expose ${freeBenefitEvents.visibleActiveEvents} active events across ${freeBenefitEvents.sourceCount} sources and ${freeBenefitEvents.hostCount} hosts.`)
+    : fail("free benefit event evidence", "reports/free-benefit-events.json should show at least 100 visible active events with broad source and host coverage."),
   ["healthy", "manual_refresh_ready"].includes(healthCronStatus) && healthCronOk
     ? pass("health readiness status", `Health readiness marks cron refresh as ${healthCronStatus}.`)
     : fail("health readiness status", `Health readiness cron status is ${healthCronStatus || "missing"}.`),
@@ -120,10 +138,19 @@ const report = {
   livePipelineStatus: livePipeline.status ?? "",
   livePipelineOfficialBenefits: Number(livePipeline.officialBenefits?.visibleCount ?? 0),
   livePipelineConfiguredUrlCount: Number(livePipeline.configuredUrlCount ?? 0),
+  benefitsRefreshOk,
+  freeBenefitEventsOk,
+  freeBenefitVisibleActiveEvents: Number(freeBenefitEvents.visibleActiveEvents ?? 0),
+  freeBenefitMinimumVisibleEvents: Number(freeBenefitEvents.minimumVisibleEvents ?? 0),
+  freeBenefitSourceCount: Number(freeBenefitEvents.sourceCount ?? 0),
+  freeBenefitHostCount: Number(freeBenefitEvents.hostCount ?? 0),
   healthCronStatus,
   cronReportExists: Boolean(cronReport),
   cronReportGeneratedAt: cronReport?.generatedAt ?? "",
+  benefitsCronReportExists: Boolean(benefitsCronReport),
+  benefitsCronReportGeneratedAt: benefitsCronReport?.generatedAt ?? "",
   reportPath: "reports/cron-refresh.json",
+  benefitsReportPath: "reports/cron-benefits.json",
   readinessReportPath: "reports/cron-refresh-readiness.json",
   checks
 };
@@ -148,8 +175,14 @@ Status: ${report.status}
 | Live feed status | ${report.livePipelineStatus || "missing"} |
 | Live feed configured URL | ${report.livePipelineConfiguredUrlCount} |
 | Live feed official benefits | ${report.livePipelineOfficialBenefits} |
+| refresh:benefits evidence | ${report.benefitsRefreshOk ? "PASS" : "FAIL"} |
+| Free benefit events evidence | ${report.freeBenefitEventsOk ? "PASS" : "FAIL"} |
+| Free benefit visible active events | ${report.freeBenefitVisibleActiveEvents} |
+| Free benefit source count | ${report.freeBenefitSourceCount} |
+| Free benefit host count | ${report.freeBenefitHostCount} |
 | Health cron status | ${report.healthCronStatus || "missing"} |
 | Actual cron report | ${report.cronReportExists ? report.cronReportGeneratedAt : "not generated yet"} |
+| Actual benefits cron report | ${report.benefitsCronReportExists ? report.benefitsCronReportGeneratedAt : "not generated yet"} |
 
 ## Checks
 
@@ -161,6 +194,7 @@ ${checks.map((check) => `| ${check.name} | ${check.ok ? "PASS" : "FAIL"} | ${che
 
 - 실제 배포 환경에서는 \`CRON_SECRET\` 설정 후 Vercel Cron이 \`/api/cron/refresh\`를 호출합니다.
 - 무료혜택 우선 갱신은 Vercel Cron이 \`/api/cron/benefits\`를 별도로 호출하며, 같은 \`CRON_SECRET\` 보호를 사용합니다.
+- \`/api/health\`는 \`cronBenefitsStatus\`, \`cronBenefitsVisibleActiveEvents\`, \`cronBenefitsSourceCount\`를 노출해 무료혜택 자동 갱신 상태를 별도로 확인합니다.
 - \`dryRun=true\`는 리포트 상태만 확인하고 수집 스크립트를 실행하지 않습니다.
 - 공식 API/RSS/제휴 JSON feed를 점검할 때는 \`/api/cron/refresh?mode=liveFeed\`를 명시 호출합니다. 기본 daily cron은 기존 \`refresh:all\` 경로를 유지합니다.
 - \`reports/cron-refresh.json\`은 실제 실행 증거이므로 오래된 파일을 커밋해 출시 게이트를 흔들지 않습니다.

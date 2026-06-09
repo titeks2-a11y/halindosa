@@ -2263,8 +2263,14 @@ function checkCronRefreshPipeline() {
   if (!cronOperations.includes("getCronRefreshOperationsReport") || !cronOperations.includes("reports/cron-refresh.json") || !cronOperations.includes("reports/news-feed-live-pipeline.json") || !cronOperations.includes("livePipelineOk") || !cronOperations.includes("manual_refresh_ready")) {
     issues.push("cron refresh operations report should summarize last run, live feed evidence, fallback manual readiness, and report path");
   }
+  if (!cronOperations.includes("benefitsEndpoint") || !cronOperations.includes("reports/cron-benefits.json") || !cronOperations.includes("reports/benefits-refresh.json") || !cronOperations.includes("reports/free-benefit-events.json") || !cronOperations.includes("benefitsVisibleActiveEvents")) {
+    issues.push("cron refresh operations report should expose dedicated benefits cron status, reports, and visible active event evidence");
+  }
   if (!healthRoute.includes("getCronRefreshOperationsReport") || !healthRoute.includes("cronRefreshStatus") || !healthRoute.includes("cronRefreshProtected") || !healthRoute.includes("cronRefreshProductDealsCount") || !healthRoute.includes("cronRefreshLivePipelineStatus")) {
     issues.push("Health API should expose cron refresh status, protection evidence, deal counts, and live feed status");
+  }
+  if (!healthRoute.includes("cronBenefitsStatus") || !healthRoute.includes("cronBenefitsProtected") || !healthRoute.includes("cronBenefitsVisibleActiveEvents") || !healthRoute.includes("cronBenefitsSourceCount")) {
+    issues.push("Health API should expose dedicated cron benefits status, protection evidence, active event count, and source breadth");
   }
   if (!adminPage.includes("자동 refresh cron 운영") || !adminPage.includes("cronRefreshDryRunHref") || !adminPage.includes("cronLiveFeedDryRunHref") || !adminPage.includes("liveFeed dry-run") || !adminPage.includes("CRON_SECRET")) {
     issues.push("Admin dashboard should expose cron refresh operation status, liveFeed dry-run, and auth guidance");
@@ -2273,8 +2279,8 @@ function checkCronRefreshPipeline() {
   if (!smokeScript.includes("cron refresh api guard") || !smokeScript.includes("/api/cron/refresh?dryRun=true") || !smokeScript.includes("/api/cron/refresh?dryRun=true&mode=liveFeed") || !smokeScript.includes("/api/cron/benefits?dryRun=true") || !smokeScript.includes("Expected cron refresh without token to be 401")) {
     issues.push("smoke should verify cron refresh auth guard, default dry-run, liveFeed dry-run, and benefits dry-run response");
   }
-  if (!smokeScript.includes("Admin dashboard missing cron refresh operation board") || !smokeScript.includes("Health API missing cron refresh status") || !smokeScript.includes("Health API missing cron live feed pipeline status")) {
-    issues.push("smoke should verify cron refresh admin, health, and live feed visibility");
+  if (!smokeScript.includes("Admin dashboard missing cron refresh operation board") || !smokeScript.includes("Health API missing cron refresh status") || !smokeScript.includes("Health API missing cron live feed pipeline status") || !smokeScript.includes("Health API missing cron benefits status")) {
+    issues.push("smoke should verify cron refresh admin, health, live feed, and benefits cron visibility");
   }
   if (!runbook.includes("/api/cron/refresh") || !runbook.includes("/api/cron/benefits") || !runbook.includes("mode=liveFeed") || !runbook.includes("CRON_SECRET") || !runbook.includes("reports/cron-refresh.json")) {
     issues.push("RUNBOOK should document protected cron refresh, benefits refresh, and live feed operation");

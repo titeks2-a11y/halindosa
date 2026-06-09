@@ -18,8 +18,14 @@ Status: ready
 | Live feed status | seed_launch_ready |
 | Live feed configured URL | 0 |
 | Live feed official benefits | 105 |
+| refresh:benefits evidence | PASS |
+| Free benefit events evidence | PASS |
+| Free benefit visible active events | 102 |
+| Free benefit source count | 92 |
+| Free benefit host count | 74 |
 | Health cron status | manual_refresh_ready |
 | Actual cron report | not generated yet |
+| Actual benefits cron report | not generated yet |
 
 ## Checks
 
@@ -34,9 +40,12 @@ Status: ready
 | vercel benefits schedule | PASS | Vercel schedules /api/cron/benefits once daily for free-benefit-first operations. |
 | environment keys | PASS | .env.example documents cron secret and timeout knobs. |
 | operations report | PASS | Cron operations layer exposes last-run status and report path. |
-| health and admin surfaces | PASS | Health API and admin dashboard expose cron readiness. |
+| benefits operations report | PASS | Cron operations layer exposes dedicated benefits cron status and event evidence. |
+| health and admin surfaces | PASS | Health API and admin dashboard expose refresh and benefits cron readiness. |
 | refresh-all evidence | PASS | refresh:all is healthy with 140 product deals and 105 official benefits. |
 | live feed evidence | PASS | news:feed:live is seed_launch_ready with 105 official benefits and zero unsafe exposed links. |
+| benefits refresh evidence | PASS | refresh:benefits is healthy with 4/4 passing steps. |
+| free benefit event evidence | PASS | free benefit events expose 102 active events across 92 sources and 74 hosts. |
 | health readiness status | PASS | Health readiness marks cron refresh as manual_refresh_ready. |
 | runbook | PASS | RUNBOOK documents protected cron execution and report inspection. |
 
@@ -44,6 +53,7 @@ Status: ready
 
 - 실제 배포 환경에서는 `CRON_SECRET` 설정 후 Vercel Cron이 `/api/cron/refresh`를 호출합니다.
 - 무료혜택 우선 갱신은 Vercel Cron이 `/api/cron/benefits`를 별도로 호출하며, 같은 `CRON_SECRET` 보호를 사용합니다.
+- `/api/health`는 `cronBenefitsStatus`, `cronBenefitsVisibleActiveEvents`, `cronBenefitsSourceCount`를 노출해 무료혜택 자동 갱신 상태를 별도로 확인합니다.
 - `dryRun=true`는 리포트 상태만 확인하고 수집 스크립트를 실행하지 않습니다.
 - 공식 API/RSS/제휴 JSON feed를 점검할 때는 `/api/cron/refresh?mode=liveFeed`를 명시 호출합니다. 기본 daily cron은 기존 `refresh:all` 경로를 유지합니다.
 - `reports/cron-refresh.json`은 실제 실행 증거이므로 오래된 파일을 커밋해 출시 게이트를 흔들지 않습니다.

@@ -67,6 +67,13 @@ npm run workspace:doctor:strict
 - 공식 소스 카탈로그는 동일 `officialUrl` 중복을 `duplicate_official_url`로 실패 처리한다.
 - `security:check`는 공식 소스 카탈로그가 검색/커뮤니티/비공식/약한 CTA 정책을 포함하지 않는지도 검사한다.
 - `release:doctor`는 보안 게이트, 무료혜택 계약, 홈 노출 순서, 모바일 필터 evidence를 검사한다.
+- `/api/health`는 `/api/cron/refresh`뿐 아니라 `/api/cron/benefits` 상태도 별도로 노출한다.
+  - `cronBenefitsStatus`
+  - `cronBenefitsVisibleActiveEvents`
+  - `cronBenefitsSourceCount`
+  - `cronBenefitsRefreshReportPath`
+  - `cronBenefitsEventsReportPath`
+- `smoke:local`, `release:doctor`, `cron:refresh:doctor`는 무료혜택 cron 상태와 100개 이상 active official benefit evidence를 검사한다.
 - source feed env readiness 구조가 있다.
   - `lib/operations/sourceFeedEnvReadiness.ts`
   - `scripts/source-feed-env-doctor.mjs`
@@ -118,10 +125,10 @@ npm run workspace:doctor:strict
 
 ## 새 세션에서 이어서 하면 좋은 작업
 
-1. `/api/health`에 `/api/cron/benefits` 전용 상태를 추가한다.
-2. `lib/operations/cronRefresh.ts`에 benefits cron 상태, report freshness, visible active events 수를 노출한다.
-3. `scripts/smoke.mjs`, `scripts/release-doctor.mjs`, `scripts/cron-refresh-doctor.mjs`가 benefits cron health evidence를 검사하게 강화한다.
-4. 검증 후 필요한 파일만 stage하고 작게 commit/push한다.
+1. Vercel Production에서 `CRON_SECRET`이 설정된 상태로 `/api/cron/benefits?dryRun=true`와 `/api/health`를 확인한다.
+2. 공식 feed URL을 실제 환경변수에 연결하기 전 `source:feed-env:doctor`, `news:feed:canary`, `refresh:benefits` 순서로 검증한다.
+3. 공공/교육/카페/반려동물 무료혜택 후보를 추가하되 공식 상세 또는 신청 URL만 CTA로 사용한다.
+4. release evidence dirty 파일은 최종 release candidate 직전에만 새 커밋 기준으로 재생성한다.
 
 ## 주의
 

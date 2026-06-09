@@ -13,6 +13,26 @@ interface RefreshAllReport {
   failedCount?: number;
 }
 
+interface BenefitsRefreshReport {
+  ok?: boolean;
+  generatedAt?: string;
+  totalSteps?: number;
+  passedSteps?: number;
+  failedSteps?: number;
+}
+
+interface FreeBenefitEventsReport {
+  ok?: boolean;
+  generatedAt?: string;
+  visibleActiveEvents?: number;
+  minimumVisibleEvents?: number;
+  blockedEvents?: number;
+  expiredEvents?: number;
+  duplicateMergedCount?: number;
+  sourceCount?: number;
+  hostCount?: number;
+}
+
 interface CronRefreshFileReport {
   ok?: boolean;
   mode?: string;
@@ -37,6 +57,17 @@ interface CronRefreshFileReport {
       expiredVisibleCount?: number;
     };
   };
+  message?: string;
+}
+
+interface CronBenefitsFileReport {
+  ok?: boolean;
+  generatedAt?: string;
+  command?: string;
+  reportPath?: string;
+  durationMs?: number;
+  benefitsRefresh?: BenefitsRefreshReport;
+  freeBenefitEvents?: FreeBenefitEventsReport;
   message?: string;
 }
 
@@ -69,6 +100,29 @@ export interface CronRefreshOperationsReport {
   hiddenCount: number;
   expiredCount: number;
   failedCount: number;
+  benefitsEndpoint: string;
+  benefitsSchedule: string;
+  benefitsCommand: string;
+  benefitsReportPath: string;
+  benefitsRefreshReportPath: string;
+  benefitsEventsReportPath: string;
+  benefitsCronReportExists: boolean;
+  benefitsRefreshReportExists: boolean;
+  benefitsEventsReportExists: boolean;
+  benefitsGeneratedAt: string;
+  benefitsAgeHours: number | null;
+  benefitsDurationMs: number;
+  benefitsOk: boolean;
+  benefitsStatus: CronRefreshStatus;
+  benefitsRefreshOk: boolean;
+  benefitsEventsOk: boolean;
+  benefitsVisibleActiveEvents: number;
+  benefitsMinimumVisibleEvents: number;
+  benefitsBlockedEvents: number;
+  benefitsExpiredEvents: number;
+  benefitsDuplicateMergedCount: number;
+  benefitsSourceCount: number;
+  benefitsHostCount: number;
   message: string;
   nextAction: string;
   guardrails: string[];
@@ -80,9 +134,18 @@ const command = "node scripts/refresh-all.mjs";
 const liveCommand = "node scripts/news-feed-live-pipeline.mjs";
 const reportPath = "reports/cron-refresh.json";
 const livePipelineReportPath = "reports/news-feed-live-pipeline.json";
+const benefitsEndpoint = "/api/cron/benefits";
+const benefitsSchedule = "0 21 * * *";
+const benefitsCommand = "node scripts/refresh-benefits.mjs";
+const benefitsReportPath = "reports/cron-benefits.json";
+const benefitsRefreshReportPath = "reports/benefits-refresh.json";
+const benefitsEventsReportPath = "reports/free-benefit-events.json";
 const cronReportFullPath = join(process.cwd(), "reports", "cron-refresh.json");
 const refreshAllReportFullPath = join(process.cwd(), "reports", "refresh-all.json");
 const livePipelineReportFullPath = join(process.cwd(), "reports", "news-feed-live-pipeline.json");
+const benefitsCronReportFullPath = join(process.cwd(), "reports", "cron-benefits.json");
+const benefitsRefreshReportFullPath = join(process.cwd(), "reports", "benefits-refresh.json");
+const benefitsEventsReportFullPath = join(process.cwd(), "reports", "free-benefit-events.json");
 const staleHours = 12;
 
 function readJson<T>(fullPath: string, fallback: T): T {
@@ -105,11 +168,19 @@ export function getCronRefreshOperationsReport(): CronRefreshOperationsReport {
   const cronReportExists = existsSync(cronReportFullPath);
   const refreshAllReportExists = existsSync(refreshAllReportFullPath);
   const livePipelineReportExists = existsSync(livePipelineReportFullPath);
+  const benefitsCronReportExists = existsSync(benefitsCronReportFullPath);
+  const benefitsRefreshReportExists = existsSync(benefitsRefreshReportFullPath);
+  const benefitsEventsReportExists = existsSync(benefitsEventsReportFullPath);
   const cronReport = readJson<CronRefreshFileReport>(cronReportFullPath, {});
   const refreshAllReport = readJson<RefreshAllReport>(refreshAllReportFullPath, {});
   const livePipelineReport = readJson<NonNullable<CronRefreshFileReport["livePipeline"]>>(livePipelineReportFullPath, {});
+  const benefitsCronReport = readJson<CronBenefitsFileReport>(benefitsCronReportFullPath, {});
+  const benefitsRefreshReport = readJson<BenefitsRefreshReport>(benefitsRefreshReportFullPath, {});
+  const benefitsEventsReport = readJson<FreeBenefitEventsReport>(benefitsEventsReportFullPath, {});
   const refreshAll = cronReport.refreshAll ?? refreshAllReport;
   const livePipeline = cronReport.livePipeline ?? livePipelineReport;
+  const benefitsRefresh = benefitsCronReport.benefitsRefresh ?? benefitsRefreshReport;
+  const benefitsEvents = benefitsCronReport.freeBenefitEvents ?? benefitsEventsReport;
   const generatedAt = cronReport.generatedAt ?? "";
   const ageHours = getAgeHours(generatedAt);
   const refreshAllOk = refreshAll.ok === true;
@@ -131,6 +202,25 @@ export function getCronRefreshOperationsReport(): CronRefreshOperationsReport {
         : status === "stale"
           ? "cron 재실행 필요"
           : "cron 실패 확인";
+  const benefitsGeneratedAt = benefitsCronReport.generatedAt ?? benefitsEvents.generatedAt ?? benefitsRefresh.generatedAt ?? "";
+  const benefitsAgeHours = getAgeHours(benefitsGeneratedAt);
+  const benefitsRefreshOk = benefitsRefresh.ok === true;
+  const benefitsEventsOk = benefitsEvents.ok === true;
+  const benefitsVisibleActiveEvents = Number(benefitsEvents.visibleActiveEvents ?? 0);
+  const benefitsMinimumVisibleEvents = Number(benefitsEvents.minimumVisibleEvents ?? 0);
+  const benefitsManualReady = benefitsRefreshOk && benefitsEventsOk && benefitsVisibleActiveEvents >= Math.max(1, benefitsMinimumVisibleEvents);
+  const benefitsCronOk = benefitsCronReport.ok === true;
+  const benefitsHasRecentCronRun = benefitsCronReportExists && benefitsAgeHours !== null && benefitsAgeHours <= staleHours;
+  const benefitsStatus: CronRefreshStatus = !benefitsCronReportExists
+    ? benefitsManualReady
+      ? "manual_refresh_ready"
+      : "failed"
+    : !benefitsCronOk
+      ? "failed"
+      : !benefitsHasRecentCronRun
+        ? "stale"
+        : "healthy";
+  const benefitsOk = (benefitsStatus === "healthy" || benefitsStatus === "manual_refresh_ready") && benefitsManualReady;
   const nextAction =
     status === "healthy"
       ? "일 1회 Vercel Cron과 reports/cron-refresh.json을 유지하면서 provider 실패 사유를 확인하세요."
@@ -169,11 +259,35 @@ export function getCronRefreshOperationsReport(): CronRefreshOperationsReport {
     hiddenCount: Number(refreshAll.hiddenCount ?? 0),
     expiredCount: Number(refreshAll.expiredCount ?? 0),
     failedCount: Number(refreshAll.failedCount ?? 0),
+    benefitsEndpoint,
+    benefitsSchedule,
+    benefitsCommand: benefitsCronReport.command ?? benefitsCommand,
+    benefitsReportPath: benefitsCronReport.reportPath ?? benefitsReportPath,
+    benefitsRefreshReportPath,
+    benefitsEventsReportPath,
+    benefitsCronReportExists,
+    benefitsRefreshReportExists,
+    benefitsEventsReportExists,
+    benefitsGeneratedAt,
+    benefitsAgeHours,
+    benefitsDurationMs: Number(benefitsCronReport.durationMs ?? 0),
+    benefitsOk,
+    benefitsStatus,
+    benefitsRefreshOk,
+    benefitsEventsOk,
+    benefitsVisibleActiveEvents,
+    benefitsMinimumVisibleEvents,
+    benefitsBlockedEvents: Number(benefitsEvents.blockedEvents ?? 0),
+    benefitsExpiredEvents: Number(benefitsEvents.expiredEvents ?? 0),
+    benefitsDuplicateMergedCount: Number(benefitsEvents.duplicateMergedCount ?? 0),
+    benefitsSourceCount: Number(benefitsEvents.sourceCount ?? 0),
+    benefitsHostCount: Number(benefitsEvents.hostCount ?? 0),
     message: cronReport.message ?? "아직 cron 직접 실행 리포트는 없지만 refresh:all 수동 리포트는 확인할 수 있습니다.",
     nextAction,
     guardrails: [
       "CRON_SECRET 없이는 실제 refresh를 실행하지 않습니다.",
       "dryRun=true는 기존 refresh:all/live feed 리포트만 읽고 수집 스크립트를 실행하지 않습니다.",
+      "무료혜택 우선 갱신은 /api/cron/benefits와 reports/free-benefit-events.json 기준으로 별도 감시합니다.",
       "mode=liveFeed는 공식 RSS/API/제휴 JSON feed 검증을 포함한 news:feed:live 파이프라인만 명시 호출 시 실행합니다.",
       "실패 시 사용자 노출 데이터는 마지막 통과 리포트와 검증 snapshot을 유지합니다."
     ]

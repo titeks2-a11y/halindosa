@@ -1419,6 +1419,21 @@ await check("health api", async () => {
   assert(data.checks?.cronRefreshLivePipelineOfficialBenefitsCount >= MIN_OFFICIAL_BENEFITS, "Health API missing cron live feed official benefit count");
   assert(data.checks?.cronRefreshProductDealsCount >= 140, "Health API missing cron refresh product count");
   assert(data.checks?.cronRefreshNewsDealsCount >= MIN_OFFICIAL_BENEFITS, "Health API missing cron refresh news count");
+  assert(["healthy", "manual_refresh_ready", "stale", "failed"].includes(data.checks?.cronBenefitsStatus), "Health API missing cron benefits status");
+  assert(data.checks?.cronBenefitsProtected === true, "Health API missing protected cron benefits evidence");
+  assert(data.checks?.cronBenefitsSchedule === "0 21 * * *", "Health API missing daily Hobby-compatible cron benefits schedule");
+  assert(data.checks?.cronBenefitsCommand === "node scripts/refresh-benefits.mjs", "Health API missing cron benefits command");
+  assert(data.checks?.cronBenefitsReportPath === "reports/cron-benefits.json", "Health API missing cron benefits report path");
+  assert(data.checks?.cronBenefitsRefreshReportPath === "reports/benefits-refresh.json", "Health API missing benefits refresh report path");
+  assert(data.checks?.cronBenefitsEventsReportPath === "reports/free-benefit-events.json", "Health API missing free benefit events report path");
+  assert(data.checks?.cronBenefitsRefreshReportExists === true, "Health API missing benefits refresh report evidence");
+  assert(data.checks?.cronBenefitsEventsReportExists === true, "Health API missing free benefit events report evidence");
+  assert(data.checks?.cronBenefitsRefreshOk === true, "Health API missing passing benefits refresh evidence");
+  assert(data.checks?.cronBenefitsEventsOk === true, "Health API missing passing free benefit events evidence");
+  assert(data.checks?.cronBenefitsVisibleActiveEvents >= data.checks?.cronBenefitsMinimumVisibleEvents, "Health API missing minimum visible active benefits evidence");
+  assert(data.checks?.cronBenefitsVisibleActiveEvents >= 100, "Health API should expose at least 100 visible active free benefits");
+  assert(data.checks?.cronBenefitsSourceCount >= 90, "Health API missing free benefit source breadth evidence");
+  assert(data.checks?.cronBenefitsHostCount >= 70, "Health API missing free benefit host breadth evidence");
 });
 
 await check("today benefits api", async () => {
