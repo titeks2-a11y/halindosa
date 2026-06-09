@@ -106,8 +106,9 @@ const requiredHomeQuickFilterParams = [
   "eventType=checkIn",
   "eventType=roulette",
   "eventType=signup",
-  "eventType=publicFree",
   "eventType=experiencePanel",
+  "eventType=freeShipping",
+  "eventType=brandEvent",
   "endingSoon=true"
 ];
 
@@ -255,8 +256,9 @@ const checks = [
       "출석체크",
       "룰렛",
       "신규가입",
-      "공공무료",
       "체험단",
+      "무료배송",
+      "브랜드",
       "마감임박",
       ...requiredHomeQuickFilterParams
     ]).length === 0 &&
@@ -275,7 +277,7 @@ const checks = [
         "initialUrlState.firstComeOnly",
         "event.benefitType === activeEventType"
       ]).length === 0,
-    "Home should expose mobile quick filters for the main free-benefit intents and /free-benefits should hydrate those filters from URL params."
+    "Home should expose mobile quick filters for consumer-first free-benefit intents and /free-benefits should hydrate the full filter set, including publicFree, from URL params."
   ),
   check(
     "home event cards expose claim conditions",

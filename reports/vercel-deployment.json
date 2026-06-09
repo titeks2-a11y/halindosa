@@ -1,11 +1,11 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-09T15:22:58.490Z",
+  "generatedAt": "2026-06-09T15:49:09.963Z",
   "origin": "https://halindosa.com",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "b3e014cb",
-  "workingTree": "86 changed file(s): M DEVICE_QA_REPORT.md; M EXTERNAL_LINK_REPORT.md; M HARNESS_REPORT.md; M IMAGE_QUALITY_REPORT.md; M KNOWN_ISSUES.md; M LINK_VERIFICATION_REPORT.md; M LINK_VERIFICATION_RESULT.json; M PERFORMANCE_REPORT.md; ... +78 more",
-  "workingTreeChangedFileCount": 86,
+  "commit": "de3ce36e",
+  "workingTree": "87 changed file(s): M .github/workflows/vercel-production-deploy.yml; M DEVICE_QA_REPORT.md; M EXTERNAL_LINK_REPORT.md; M HARNESS_REPORT.md; M IMAGE_QUALITY_REPORT.md; M KNOWN_ISSUES.md; M LINK_VERIFICATION_REPORT.md; M LINK_VERIFICATION_RESULT.json; ... +79 more",
+  "workingTreeChangedFileCount": 87,
   "project": {
     "linked": false
   },
@@ -15,8 +15,8 @@
     "vercelProjectIdPresent": false
   },
   "summary": {
-    "totalChecks": 19,
-    "passedChecks": 19,
+    "totalChecks": 20,
+    "passedChecks": 20,
     "failedChecks": 0,
     "rootStatus": 200,
     "homeApiStatus": 200,
@@ -29,7 +29,8 @@
     "homeProductDeals": 8,
     "homeOfficialBenefits": 8,
     "freebies": 12,
-    "freebieEvents": 12
+    "freebieEvents": 12,
+    "publicPolicyFreebies": 0
   },
   "checks": [
     {
@@ -108,6 +109,11 @@
       "detail": "No search, homepage, community, expired, hidden, low-quality, image-less, or non-publishable free benefit leaked from /api/freebies."
     },
     {
+      "name": "freebies consumer-first default policy",
+      "ok": true,
+      "detail": "Default /api/freebies response excludes public/policy benefits unless explicitly requested."
+    },
+    {
       "name": "go redirect status",
       "ok": true,
       "detail": "/go/d014 reached an external destination after 2 hop(s)."
@@ -133,51 +139,51 @@
       "url": "https://halindosa.com/",
       "status": 200,
       "ok": true,
-      "elapsedMs": 1759,
+      "elapsedMs": 1554,
       "cacheControl": "private, no-cache, no-store, max-age=0, must-revalidate",
       "contentType": "text/html; charset=utf-8",
       "location": "",
-      "xVercelId": "icn1::iad1::dt6df-1781018574278-45e7d5b342c2",
-      "bodyPreview": "<!DOCTYPE html><html lang=\"ko\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover\"/><link rel=\"stylesheet\" href=\"/_next/static/chunks/0l-kgj-jd77wb.css\" data-"
+      "xVercelId": "icn1::iad1::tjbsj-1781020145350-091e57f78976",
+      "bodyPreview": "<!DOCTYPE html><html lang=\"ko\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover\"/><link rel=\"stylesheet\" href=\"/_next/static/chunks/0vof34frpah5h.css\" data-"
     },
     "homeApi": {
       "url": "https://halindosa.com/api/home?limit=8&verifiedOnly=true",
       "status": 200,
       "ok": true,
-      "elapsedMs": 1627,
+      "elapsedMs": 1635,
       "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
       "contentType": "application/json",
       "location": "",
-      "xVercelId": "icn1::iad1::dt6df-1781018575936-31e9533ba445",
+      "xVercelId": "icn1::iad1::tjbsj-1781020146821-ce9e4f4918fe",
       "bodyPreview": "{\"ok\":true,\"deals\":[{\"id\":\"d001\",\"title\":\"삼성 86인치 4K 스마트 UHD TV\",\"description\":\"롯데온에서 확인된 삼성 86인치 4K 스마트 UHD TV 특가입니다.\",\"price\":889000,\"originalPrice\":1201350,\"salePrice\":889000,\"discountRate\":26,\"mallName\":\"롯데온\",\"subCategory\":\"실시간\",\"catego"
     },
     "dealsApi": {
       "url": "https://halindosa.com/api/deals?limit=8&verifiedOnly=true",
       "status": 200,
       "ok": true,
-      "elapsedMs": 285,
+      "elapsedMs": 535,
       "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
       "contentType": "application/json",
       "location": "",
-      "xVercelId": "icn1::iad1::dt6df-1781018577571-144000a12310",
+      "xVercelId": "icn1::iad1::tjbsj-1781020148455-7f2ca8ee6255",
       "bodyPreview": "{\"ok\":true,\"deals\":[{\"id\":\"d001\",\"title\":\"삼성 86인치 4K 스마트 UHD TV\",\"description\":\"롯데온에서 확인된 삼성 86인치 4K 스마트 UHD TV 특가입니다.\",\"price\":889000,\"originalPrice\":1201350,\"salePrice\":889000,\"discountRate\":26,\"mallName\":\"롯데온\",\"subCategory\":\"실시간\",\"catego"
     },
     "freebiesApi": {
       "url": "https://halindosa.com/api/freebies?limit=12",
       "status": 200,
       "ok": true,
-      "elapsedMs": 427,
+      "elapsedMs": 294,
       "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
       "contentType": "application/json",
       "location": "",
-      "xVercelId": "icn1::iad1::dt6df-1781018577961-489a509c4954",
-      "bodyPreview": "{\"ok\":true,\"requestId\":\"87aad7c5-a0d6-41e2-92b5-ffd8cd89148f\",\"freebies\":[{\"id\":\"news-amoremall-try-before-buy-sample\",\"title\":\"아모레몰 써봐야안다 공식 샘플 체험 혜택\",\"summary\":\"아모레몰 공식 써봐야안다 이벤트에서 회원 대상 샘플 체험과 참여 조건을 확인할 수 있습니다.\",\"merchant\":\"아모레몰\",\"mallN"
+      "xVercelId": "icn1::iad1::tjbsj-1781020148993-43708619154c",
+      "bodyPreview": "{\"ok\":true,\"requestId\":\"3f3953ae-f81a-4066-a837-53b9c048ad42\",\"freebies\":[{\"id\":\"news-amoremall-try-before-buy-sample\",\"title\":\"아모레몰 써봐야안다 공식 샘플 체험 혜택\",\"summary\":\"아모레몰 공식 써봐야안다 이벤트에서 회원 대상 샘플 체험과 참여 조건을 확인할 수 있습니다.\",\"merchant\":\"아모레몰\",\"mallN"
     },
     "goRedirect": {
       "url": "https://halindosa.com/go/d014?from=vercel-doctor",
       "status": 302,
       "ok": false,
-      "elapsedMs": 286,
+      "elapsedMs": 561,
       "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
       "contentType": "",
       "location": "https://www.coupang.com/vp/products/7687552147",
@@ -187,24 +193,24 @@
           "status": 307,
           "location": "https://www.halindosa.com/go/d014?from=vercel-doctor",
           "cacheControl": "public, max-age=0, must-revalidate",
-          "xVercelId": "icn1::dghml-1781018578270-9f0df16a1f67"
+          "xVercelId": "icn1::z8d7s-1781020149275-0cab1426c088"
         },
         {
           "url": "https://www.halindosa.com/go/d014?from=vercel-doctor",
           "status": 302,
           "location": "https://www.coupang.com/vp/products/7687552147",
           "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
-          "xVercelId": "icn1::iad1::7vssp-1781018578280-08ed7dbc1826"
+          "xVercelId": "icn1::iad1::tjbsj-1781020149284-f31f52b78463"
         }
       ],
-      "xVercelId": "icn1::iad1::7vssp-1781018578280-08ed7dbc1826",
+      "xVercelId": "icn1::iad1::tjbsj-1781020149284-f31f52b78463",
       "bodyPreview": ""
     },
     "officialBenefitRedirect": {
       "url": "https://halindosa.com/go/news/news-dunkin-monthly-combo-coupon?from=vercel-doctor",
       "status": 302,
       "ok": false,
-      "elapsedMs": 321,
+      "elapsedMs": 519,
       "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
       "contentType": "",
       "location": "https://www.dunkindonuts.co.kr/event/view?id=5392",
@@ -214,17 +220,17 @@
           "status": 307,
           "location": "https://www.halindosa.com/go/news/news-dunkin-monthly-combo-coupon?from=vercel-doctor",
           "cacheControl": "public, max-age=0, must-revalidate",
-          "xVercelId": "icn1::r56v2-1781018578565-0d1df1d35aeb"
+          "xVercelId": "icn1::bf7xt-1781020149845-475158a2a73a"
         },
         {
           "url": "https://www.halindosa.com/go/news/news-dunkin-monthly-combo-coupon?from=vercel-doctor",
           "status": 302,
           "location": "https://www.dunkindonuts.co.kr/event/view?id=5392",
           "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
-          "xVercelId": "icn1::iad1::hwsjf-1781018578575-3602e8ced4e7"
+          "xVercelId": "icn1::iad1::tjbsj-1781020149854-81653cf6b682"
         }
       ],
-      "xVercelId": "icn1::iad1::hwsjf-1781018578575-3602e8ced4e7",
+      "xVercelId": "icn1::iad1::tjbsj-1781020149854-81653cf6b682",
       "bodyPreview": ""
     }
   }

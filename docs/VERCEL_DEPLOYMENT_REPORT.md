@@ -1,6 +1,6 @@
 # Vercel Deployment Doctor
 
-Generated: 2026-06-09T15:22:58.490Z
+Generated: 2026-06-09T15:49:09.963Z
 
 Status: PASS
 
@@ -8,14 +8,14 @@ Status: PASS
 
 - Origin: `https://halindosa.com`
 - Branch: `codex/12h-product-ux-growth-hardening`
-- Commit: `b3e014cb`
-- Working tree: 86 changed file(s): M DEVICE_QA_REPORT.md; M EXTERNAL_LINK_REPORT.md; M HARNESS_REPORT.md; M IMAGE_QUALITY_REPORT.md; M KNOWN_ISSUES.md; M LINK_VERIFICATION_REPORT.md; M LINK_VERIFICATION_RESULT.json; M PERFORMANCE_REPORT.md; ... +78 more
+- Commit: `de3ce36e`
+- Working tree: 87 changed file(s): M .github/workflows/vercel-production-deploy.yml; M DEVICE_QA_REPORT.md; M EXTERNAL_LINK_REPORT.md; M HARNESS_REPORT.md; M IMAGE_QUALITY_REPORT.md; M KNOWN_ISSUES.md; M LINK_VERIFICATION_REPORT.md; M LINK_VERIFICATION_RESULT.json; ... +79 more
 - Vercel project linked locally: no
 - Vercel token present in shell: no
 
 ## Summary
 
-- Checks: 19/19
+- Checks: 20/20
 - Root: 200
 - Home API: 200
 - Deals API: 200
@@ -28,6 +28,7 @@ Status: PASS
 - Home official benefits checked: 8
 - Freebies checked: 12
 - Freebie events checked: 12
+- Public/policy freebies in default response: 0
 
 ## Checks
 
@@ -48,6 +49,7 @@ Status: PASS
 | PASS | freebies api data | /api/freebies returned 12 freebie cards and 12 event cards. |
 | PASS | freebies api realtime metadata | /api/freebies exposes cachePolicy=no-store, freshness label, and next refresh metadata. |
 | PASS | freebies publishable policy | No search, homepage, community, expired, hidden, low-quality, image-less, or non-publishable free benefit leaked from /api/freebies. |
+| PASS | freebies consumer-first default policy | Default /api/freebies response excludes public/policy benefits unless explicitly requested. |
 | PASS | go redirect status | /go/d014 reached an external destination after 2 hop(s). |
 | PASS | go redirect destination | Destination host=www.coupang.com |
 | PASS | official benefit redirect status | /go/news/news-dunkin-monthly-combo-coupon reached an external official destination after 2 hop(s). |
