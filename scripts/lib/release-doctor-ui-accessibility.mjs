@@ -527,7 +527,7 @@ export async function checkUiAccessibility() {
   if (mobileUxMissing.length || mobileUxReport.includes("Generated: 2026-")) {
     fail("mobile ux report coverage", `Mobile UX report should be stable and include all compact mobile gates. Missing: ${mobileUxMissing.join(", ") || "none"}`);
   } else {
-    pass("mobile ux report coverage", "Mobile UX report records the stable 15-gate compact first-screen regression suite with 13 free-benefit filters including roulette.");
+    pass("mobile ux report coverage", "Mobile UX report records the stable 16-gate compact first-screen regression suite with 13 free-benefit filters including roulette and small viewport freebie fit.");
   }
 
   if (

@@ -10,8 +10,12 @@
 
 - 이전 대화는 새 세션에서 resume하지 않는다. 새 `codex` 세션은 `AGENTS.md`, 이 파일, 현재 워크트리만 기준으로 시작한다.
 - 현재 브랜치는 `codex/12h-product-ux-growth-hardening`이다.
-- 최신 푸시된 안정 커밋은 `213160fd feat: expand payco official benefit sources`다.
-- 현재 워크트리에는 카카오페이 공식 결제·쿠폰·멤버십 혜택 소스 3개 보강 결과와 QA/리포트 재생성 산출물이 남아 있다.
+- 최신 푸시된 안정 커밋은 `f48772a7 feat: clarify free benefit participation conditions`다.
+- 현재 워크트리에는 모바일 무료혜택 첫 화면 375/390/430px 회귀 게이트 보강과 QA/리포트 재생성 산출물이 남아 있다.
+- 최신 모바일 게이트 보강:
+  - `npm run test:mobile-ux`가 16개 게이트를 검사한다.
+  - 375px, 390px, 430px 폭에서 무료혜택 히어로가 2열 4카드, 48px 썸네일, 2줄 제목, 전체 폭 CTA, safe-area 하단 여백을 유지하는지 검사한다.
+  - `MOBILE_UX_REPORT.md`는 새 16-gate 결과로 재생성됐다.
 - 카카오페이 보강 결과:
   - 공식 소스 후보 `151`개
   - `refresh:news` 기준 노출 공식 혜택 `118`개
@@ -65,7 +69,7 @@
   - `FreeBenefitEvent` 변환에서 샘플 혜택을 체험단보다 먼저 분류하도록 조정했다.
   - 태그가 약한 공식 혜택도 구매/로그인/선착순/전원증정/샘플/공공무료 조건을 조합해 `participationCondition`에 더 명확히 표시한다.
   - `benefit:event:contract`, `refresh:benefits`, `security:check`, `lint`, `release:doctor`가 통과했다.
-- 새 세션에서 커밋이 필요하면 `git add .`를 쓰지 말고 카카오페이 보강 관련 파일만 명시적으로 stage한다.
+- 새 세션에서 커밋이 필요하면 `git add .`를 쓰지 말고 이번 작업 관련 파일만 명시적으로 stage한다.
 
 ## 새 세션 시작 규칙
 
@@ -255,6 +259,24 @@ npm run workspace:doctor:strict
 ```
 
 ## 최근 검증 상태
+
+이번 모바일 게이트 보강 라운드에서 아래 명령이 통과했다.
+
+```bash
+npm run test:mobile-ux
+npm run security:check
+npm run benefit:event:contract
+npm run lint
+npm run release:doctor
+```
+
+검증 결과:
+
+- `test:mobile-ux`: 16/16 통과
+- `security:check`: 13/13 통과
+- `benefit:event:contract`: 16/16 통과
+- `release:doctor`: 188/188 통과
+- `lint`: 성공
 
 최근 안정 라운드에서 아래 명령이 통과했다.
 
