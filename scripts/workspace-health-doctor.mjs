@@ -161,6 +161,31 @@ function printRows(title, rows, limit = rows.length) {
   }
 }
 
+function dirtyReportGroup(pathname) {
+  if (pathname.startsWith("reports/")) return "reports/";
+  if (pathname.startsWith("docs/")) return "docs evidence";
+  if (pathname.startsWith("data/")) return "data snapshots";
+  return "root evidence";
+}
+
+function summarizeDirtyReports(rows) {
+  const summary = new Map();
+  for (const row of rows) {
+    const group = dirtyReportGroup(row.path);
+    const current = summary.get(group) ?? { path: group, count: 0, size: 0 };
+    current.count += 1;
+    current.size += row.size;
+    summary.set(group, current);
+  }
+
+  return [...summary.values()]
+    .sort((a, b) => b.size - a.size || b.count - a.count)
+    .map((row) => ({
+      path: `${row.path} (${row.count} file${row.count === 1 ? "" : "s"})`,
+      size: row.size
+    }));
+}
+
 const [generated, topLevelDirs, largeFiles] = await Promise.all([
   inspectGeneratedTargets(),
   inspectTopLevelDirectories(),
@@ -182,6 +207,7 @@ console.log(
 );
 
 printRows("Regenerable artifacts", generated);
+printRows("Dirty regenerated report/data summary", summarizeDirtyReports(dirtyReports.rows));
 printRows("Dirty regenerated report/data files", dirtyReports.rows, 20);
 printRows("Largest top-level directories", topLevelDirs, 10);
 printRows("Largest workspace files", largeFiles, 15);
@@ -198,6 +224,7 @@ if (dirtyReports.available && dirtyReports.count) {
   console.log("- Do not use `git add .` while report/data outputs are dirty.");
   console.log("- Commit only the evidence files needed for the current change.");
   console.log("- If reports are not needed, leave them unstaged or regenerate a clean release evidence set after the final commit.");
+  console.log("- Use the summary above to distinguish root evidence, docs evidence, reports/, and refreshed data snapshot churn.");
 }
 
 if (strict && generated.length) {

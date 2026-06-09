@@ -126,7 +126,7 @@ npm run release:doctor
 
 로컬 작업 폴더가 무거워지면 먼저 `npm run workspace:doctor`로 큰 폴더와 재생성 가능한 산출물을 확인합니다. 삭제 전에는 `npm run clean:artifacts:mobile:dry` 또는 `npm run clean:workspace:dry`로 삭제 대상을 확인한 뒤 필요한 정리 명령을 실행합니다. `clean:reports`는 검증 명령이 다시 생성하는 `reports/` JSON/CSV/MD 리포트만 정리하며, `reports/` 내용은 Git에 커밋하지 않습니다. `clean:artifacts:mobile`은 `npx cap sync android`가 다시 복사할 수 있는 `android/app/src/main/assets/public`도 함께 지웁니다. 더 깊게 정리할 때는 `npm run clean:artifacts:deep`을 사용하며, Next/Capacitor/Android/iOS가 다시 생성할 수 있는 산출물만 지웁니다.
 
-검증을 많이 실행한 뒤에는 `npm run workspace:doctor`의 `Dirty regenerated report/data files` 항목을 먼저 봅니다. 이 숫자가 높으면 기능 코드가 바뀐 것이 아니라 리포트와 refreshed 데이터가 재생성된 상태일 수 있으므로, 커밋할 파일만 명시적으로 stage하고 리포트는 출시 증빙으로 필요한 경우에만 선별 커밋합니다.
+검증을 많이 실행한 뒤에는 `npm run workspace:doctor`의 `Dirty regenerated report/data summary`와 `Dirty regenerated report/data files` 항목을 먼저 봅니다. 요약은 루트 증빙, `docs` 증빙, `reports/`, `data` snapshot churn을 나눠 보여줍니다. 숫자가 높으면 기능 코드가 바뀐 것이 아니라 리포트와 refreshed 데이터가 재생성된 상태일 수 있으므로, 커밋할 파일만 명시적으로 stage하고 리포트는 출시 증빙으로 필요한 경우에만 선별 커밋합니다.
 
 `npm run source:live:doctor`는 `data/officialSourceCatalog.json`의 공식 소스 후보 URL을 non-strict로 점검해 `reports/official-source-live-check.json`, `reports/official-source-live-check.csv`, [docs/OFFICIAL_SOURCE_LIVE_CHECK.md](docs/OFFICIAL_SOURCE_LIVE_CHECK.md)를 생성합니다. 이 점검은 무단 크롤링이 아니라 접근 가능, WAF/권한 보호, 404/410 교체 필요 상태를 운영자가 보는 리포트이며 사용자 노출 데이터를 자동 변경하지 않습니다.
 
