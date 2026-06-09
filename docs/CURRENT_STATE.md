@@ -1,5 +1,22 @@
 # 할인도사 현재 상태
 
+## 2026-06-10 마무리 상태
+
+- 최신 확인 커밋: `c888aec9 feat: prioritize consumer benefit discovery`
+- `origin/main`과 `origin/codex/12h-product-ux-growth-hardening` 모두 `c888aec9`로 push 완료 상태다.
+- 운영 도메인 `https://www.halindosa.com` 확인 결과:
+  - `/api/home?limit=12&verifiedOnly=true`: HTTP 200
+  - `/api/freebies`: HTTP 200
+  - `/`: HTTP 200
+- `npm run vercel:doctor`: 14/14 통과, Home API `Cache-Control`은 `no-store, no-cache, must-revalidate, proxy-revalidate`.
+- `npm run public:url:doctor`: 통과.
+- `npm run lint`: 통과.
+- `npm run build`: 통과.
+- `npm run build:android`: 통과.
+- `npm run cap:sync`: 통과.
+- `npm run release:doctor`: 188/188 통과.
+- 로컬에는 QA/릴리즈 검증으로 재생성된 report/data 산출물 변경이 다수 남아 있다. 코드는 최신 커밋 기준으로 push되어 있으며, 산출물은 다음 작업에서 필요한 것만 선별 커밋한다.
+
 작성 시점: 2026-06-09 22:04:46 +09:00, Asia/Seoul
 
 이 문서는 새 `codex` 세션에서 이전 긴 대화를 resume하지 않고 현재 워크트리만 기준으로 시작하기 위한 핸드오프 문서다.
