@@ -1,6 +1,6 @@
 # 할인도사 현재 상태
 
-작성 시점: 2026-06-09 21:16:23 +09:00, Asia/Seoul
+작성 시점: 2026-06-09 21:32:53 +09:00, Asia/Seoul
 
 이 문서는 새 `codex` 세션에서 이전 긴 대화를 resume하지 않고 현재 워크트리만 기준으로 시작하기 위한 핸드오프 문서다.
 
@@ -15,9 +15,10 @@
 
 - Branch: `codex/12h-product-ux-growth-hardening`
 - Remote tracking: `origin/codex/12h-product-ux-growth-hardening`
-- 현재 확인 HEAD: `c6f68099 feat: add seoul public free benefit details`
+- 현재 확인 HEAD: `74343ba4 fix: correct seoul benefit metadata`
 - 최신 HEAD는 새 세션 시작 시 `git log -1 --oneline`으로 다시 확인한다.
 - 최근 커밋:
+  - `74343ba4 fix: correct seoul benefit metadata`
   - `c6f68099 feat: add seoul public free benefit details`
   - `e2ea3d14 feat: add verified kmooc benefit details`
   - `43337c0f feat: add musinsa official coupon benefit`
