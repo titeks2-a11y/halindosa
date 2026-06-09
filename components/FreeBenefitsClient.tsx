@@ -913,6 +913,15 @@ export function FreeBenefitsClient({
         .slice(0, 4),
     [deals]
   );
+  const cultureInviteOfficialBenefits = useMemo(
+    () =>
+      liveOfficialBenefits
+        .filter((deal) => deal.validationStatus === "passed" && deal.availability === "active" && !deal.isHidden)
+        .filter((deal) => /영화|시사회|전시|공연|초대권|티켓|문화/.test(`${deal.title} ${deal.summary} ${deal.category} ${deal.benefitType} ${deal.tags.join(" ")}`))
+        .sort((a, b) => Date.parse(a.endDate) - Date.parse(b.endDate) || b.priorityScore - a.priorityScore)
+        .slice(0, Math.max(0, 4 - cultureInviteDeals.length)),
+    [cultureInviteDeals.length, liveOfficialBenefits]
+  );
   const visibleOfficialBenefitEvents = useMemo(
     () =>
       liveOfficialBenefitEvents
@@ -1710,7 +1719,7 @@ export function FreeBenefitsClient({
               시사회, 전시, 공연, 티켓 이벤트는 응모 기간과 당첨 조건이 짧습니다. 무료 초대권과 문화 할인 혜택을 먼저 확인하세요.
             </p>
           </div>
-          {cultureInviteDeals.length ? (
+          {cultureInviteDeals.length || cultureInviteOfficialBenefits.length ? (
             <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
               {cultureInviteDeals.map((deal) => (
                 <article key={deal.id} className="flex min-h-[210px] flex-col rounded-3xl border border-slate-100 bg-slate-50 p-4">
@@ -1754,6 +1763,63 @@ export function FreeBenefitsClient({
                     <button
                       type="button"
                       onClick={() => shareDeal(deal)}
+                      className="inline-flex min-h-10 items-center justify-center rounded-2xl bg-white px-3 text-xs font-black text-slate-600 shadow-sm"
+                      aria-label={`${deal.title} 문화 혜택 공유`}
+                    >
+                      <Share2 size={14} />
+                    </button>
+                  </div>
+                  <div className="mt-2 grid grid-cols-2 gap-2">
+                    <Link
+                      href={`/reports?dealId=${deal.id}&reason=expired`}
+                      className="inline-flex min-h-9 items-center justify-center rounded-2xl border border-slate-200 bg-white px-3 text-[11px] font-black text-slate-600"
+                      aria-label={`${deal.title} 문화 초대권 종료 신고`}
+                    >
+                      종료 신고
+                    </Link>
+                    <Link
+                      href={`/reports?dealId=${deal.id}&reason=link_error`}
+                      className="inline-flex min-h-9 items-center justify-center rounded-2xl border border-red-100 bg-white px-3 text-[11px] font-black text-dossa-red"
+                      aria-label={`${deal.title} 문화 초대권 링크 오류 신고`}
+                    >
+                      링크 오류 신고
+                    </Link>
+                  </div>
+                </article>
+              ))}
+              {cultureInviteOfficialBenefits.map((deal) => (
+                <article key={deal.id} className="flex min-h-[210px] flex-col rounded-3xl border border-purple-100 bg-purple-50/60 p-4">
+                  <div className="flex items-start justify-between gap-3">
+                    <span className="rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-dossa-red shadow-sm">
+                      무료 초대권
+                    </span>
+                    <span className="rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-slate-500 shadow-sm">
+                      {Date.parse(deal.endDate) - referenceNow <= 3 * 24 * 60 * 60 * 1000 ? "마감임박" : "진행 중"}
+                    </span>
+                  </div>
+                  <h3 className="mt-4 line-clamp-2 text-sm font-black leading-snug text-slate-950">{deal.title}</h3>
+                  <p className="mt-2 line-clamp-2 text-xs font-bold leading-5 text-slate-500">{deal.summary}</p>
+                  <div className="mt-3 grid grid-cols-2 gap-2 text-[11px] font-black text-slate-600">
+                    <span className="rounded-2xl bg-white px-3 py-2">제공처: {deal.sourceName}</span>
+                    <span className="rounded-2xl bg-white px-3 py-2">마감: {getTimeLeft(deal.endDate)}</span>
+                    <span className="rounded-2xl bg-white px-3 py-2">검증: {getRelativeTime(deal.verifiedAt || deal.lastCheckedAt)}</span>
+                    <span className="rounded-2xl bg-white px-3 py-2">링크: 확인됨</span>
+                  </div>
+                  <div className="mt-auto grid grid-cols-[1fr_auto] gap-2 pt-4">
+                    <Link
+                      href={buildOfficialBenefitHref(deal)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => rememberRecentNewsBenefitId(deal.id)}
+                      className="inline-flex min-h-10 items-center justify-center gap-1.5 rounded-2xl bg-dossa-red px-3 text-xs font-black text-white"
+                      aria-label={`${deal.title} 문화 혜택 바로 확인`}
+                    >
+                      바로 받기
+                      <ExternalLink size={14} />
+                    </Link>
+                    <button
+                      type="button"
+                      onClick={() => shareOfficialBenefit(deal)}
                       className="inline-flex min-h-10 items-center justify-center rounded-2xl bg-white px-3 text-xs font-black text-slate-600 shadow-sm"
                       aria-label={`${deal.title} 문화 혜택 공유`}
                     >

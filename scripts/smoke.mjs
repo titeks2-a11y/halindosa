@@ -2138,7 +2138,7 @@ await check("verified purchase redirect destinations", async () => {
     ["d016", "gmarket.co.kr"],
     ["d015", "11st.co.kr"],
     ["d012", "oliveyoung.co.kr"],
-    ["d020", "musinsa.com"],
+    ["d116", "musinsa.com"],
     ["d041", "ssg.com"],
     ["d044", "auction.co.kr"],
     ["d118", "gmarket.co.kr"],

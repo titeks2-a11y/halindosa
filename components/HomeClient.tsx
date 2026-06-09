@@ -2,20 +2,16 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { BellRing, CheckCircle2, ExternalLink, Flame, Share2, ShieldCheck, SlidersHorizontal, Store, Timer, Truck, UserRound } from "lucide-react";
-import { BenefitCheckInCard } from "@/components/BenefitCheckInCard";
-import { BenefitDiscoverySections } from "@/components/BenefitDiscoverySections";
-import { BenefitPlaybook, BenefitPreset } from "@/components/BenefitPlaybook";
+import type { BenefitPreset } from "@/components/BenefitPlaybook";
 import { CategoryTabs } from "@/components/CategoryTabs";
-import { ClaimedBenefitHomeSummary } from "@/components/ClaimedBenefitHomeSummary";
 import { CommercialFooter } from "@/components/CommercialFooter";
 import { ConsentSettings } from "@/components/ConsentSettings";
-import { DailyBenefitChecklist } from "@/components/DailyBenefitChecklist";
 import { FeaturedDealSections } from "@/components/FeaturedDealSections";
 import { HotSignalSection } from "@/components/HotSignalSection";
 import { LoginPromptSheet } from "@/components/LoginPromptSheet";
 import { LiveDealFeed } from "@/components/LiveDealFeed";
-import { HomeOfficialBenefitAlertRail } from "@/components/HomeOfficialBenefitAlertRail";
 import { HomeDealGrid } from "@/components/home/HomeDealGrid";
 import { HomeEmptyRecovery } from "@/components/home/HomeEmptyRecovery";
 import { HomeFreebieHero } from "@/components/home/HomeFreebieHero";
@@ -36,7 +32,6 @@ import { useAuth } from "@/components/AuthProvider";
 import { getDealChannel, getProviderCategory } from "@/data/dealChannels";
 import { mockHotSignals } from "@/data/mockHotSignals";
 import { mockDeals } from "@/data/mockDeals";
-import refreshedNewsSnapshot from "@/data/refreshedNewsDeals.json";
 import { ConsentState, hasAffiliateConsent, hasAnalyticsConsent, readStoredConsent } from "@/lib/consent";
 import { canOpenDealLink } from "@/lib/affiliate";
 import { buildBenefitDecisionGuide } from "@/lib/deals/benefitDecisionGuide";
@@ -148,13 +143,60 @@ import type { NewsDeadlineSummary, NewsDeal, NewsDealSourceTrust, NewsIntentGrou
 type AppView = "home" | "categories" | "alerts" | "favorites" | "my";
 const INITIAL_HOME_DEAL_LIMIT = 12;
 const HOME_DEAL_LOAD_STEP = 12;
-const initialNewsSnapshot = refreshedNewsSnapshot as { generatedAt?: string; deals?: NewsDeal[]; sourceTrustScores?: NewsDealSourceTrust[]; intentGroups?: NewsIntentGroup[] };
+
+type InitialNewsSnapshot = { generatedAt?: string; deals?: NewsDeal[]; sourceTrustScores?: NewsDealSourceTrust[]; intentGroups?: NewsIntentGroup[] };
+
+const emptyInitialNewsSnapshot: InitialNewsSnapshot = { deals: [] };
+
+const HomeOfficialBenefitAlertRail = dynamic(() =>
+  import("@/components/HomeOfficialBenefitAlertRail").then((mod) => mod.HomeOfficialBenefitAlertRail)
+);
+
+const BenefitDiscoverySections = dynamic(() =>
+  import("@/components/BenefitDiscoverySections").then((mod) => mod.BenefitDiscoverySections),
+  { loading: () => <BenefitSectionLoading label="혜택 분석을 준비하는 중" /> }
+);
+
+const DailyBenefitChecklist = dynamic(() =>
+  import("@/components/DailyBenefitChecklist").then((mod) => mod.DailyBenefitChecklist),
+  { loading: () => <BenefitSectionLoading label="오늘 체크리스트를 준비하는 중" /> }
+);
+
+const BenefitCheckInCard = dynamic(() =>
+  import("@/components/BenefitCheckInCard").then((mod) => mod.BenefitCheckInCard),
+  { loading: () => <BenefitSectionLoading label="개인 혜택 루틴을 준비하는 중" /> }
+);
+
+const ClaimedBenefitHomeSummary = dynamic(() =>
+  import("@/components/ClaimedBenefitHomeSummary").then((mod) => mod.ClaimedBenefitHomeSummary),
+  { loading: () => <BenefitSectionLoading label="저장 혜택 요약을 준비하는 중" /> }
+);
+
+const BenefitPlaybook = dynamic(() =>
+  import("@/components/BenefitPlaybook").then((mod) => mod.BenefitPlaybook),
+  { loading: () => <BenefitSectionLoading label="혜택 루틴을 준비하는 중" /> }
+);
 
 interface HomeClientProps {
   initialNow?: string;
+  initialNewsSnapshot?: InitialNewsSnapshot;
 }
 
-function getStableInitialClockNow(initialNow: string) {
+function BenefitSectionLoading({ label }: { label: string }) {
+  return (
+    <section className="rounded-[24px] border border-slate-200 bg-white p-3 shadow-sm sm:p-4" aria-label={label}>
+      <div className="flex items-center gap-3">
+        <span className="h-9 w-9 shrink-0 animate-pulse rounded-2xl bg-red-50" />
+        <div className="min-w-0 flex-1">
+          <p className="h-3 w-28 animate-pulse rounded-full bg-slate-100" />
+          <p className="mt-2 h-4 w-4/5 animate-pulse rounded-full bg-slate-100" />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function getStableInitialClockNow(initialNow: string, initialNewsSnapshot: InitialNewsSnapshot) {
   const snapshotTime = Date.parse(initialNewsSnapshot.generatedAt ?? "");
   if (Number.isFinite(snapshotTime)) return snapshotTime;
 
@@ -162,10 +204,11 @@ function getStableInitialClockNow(initialNow: string) {
   return Number.isFinite(requestedTime) ? requestedTime : 0;
 }
 
-export default function Home({ initialNow = "" }: HomeClientProps) {
+export default function Home({ initialNow = "", initialNewsSnapshot = emptyInitialNewsSnapshot }: HomeClientProps) {
   const { configured: authConfigured, user, nickname } = useAuth();
   const userId = user?.id;
-  const initialClockNow = getStableInitialClockNow(initialNow);
+  const initialClockNow = getStableInitialClockNow(initialNow, initialNewsSnapshot);
+  const initialNewsDeals = useMemo(() => initialNewsSnapshot.deals ?? [], [initialNewsSnapshot.deals]);
   const [clockNow, setClockNow] = useState(initialClockNow);
   const [hasAppliedInitialParams, setHasAppliedInitialParams] = useState(false);
   const [deals, setDeals] = useState<Deal[]>(mockDeals);
@@ -195,25 +238,25 @@ export default function Home({ initialNow = "" }: HomeClientProps) {
   const [isOffline, setIsOffline] = useState(false);
   const [hotSignals, setHotSignals] = useState<HotSignal[]>(mockHotSignals);
   const [isSignalLoading, setIsSignalLoading] = useState(false);
-  const [newsDeals, setNewsDeals] = useState<NewsDeal[]>(() => initialNewsSnapshot.deals ?? []);
-  const [newsTotalCount, setNewsTotalCount] = useState(() => initialNewsSnapshot.deals?.length ?? 0);
-  const [newsFreeBenefitCount, setNewsFreeBenefitCount] = useState(() => getNewsFreeBenefitCount(undefined, undefined, initialNewsSnapshot.deals ?? []));
-  const [homeFreebies, setHomeFreebies] = useState<NewsDeal[]>(() => selectHomeFreebies(initialNewsSnapshot.deals ?? [], 12, initialClockNow || Date.now()));
+  const [newsDeals, setNewsDeals] = useState<NewsDeal[]>(() => initialNewsDeals);
+  const [newsTotalCount, setNewsTotalCount] = useState(() => initialNewsDeals.length);
+  const [newsFreeBenefitCount, setNewsFreeBenefitCount] = useState(() => getNewsFreeBenefitCount(undefined, undefined, initialNewsDeals));
+  const [homeFreebies, setHomeFreebies] = useState<NewsDeal[]>(() => selectHomeFreebies(initialNewsDeals, 12, initialClockNow || Date.now()));
   const [homeFreeBenefitEvents, setHomeFreeBenefitEvents] = useState<FreeBenefitEvent[]>(() =>
-    selectPublishableFreeBenefitEvents(initialNewsSnapshot.deals ?? [], 24, initialClockNow || Date.now())
+    selectPublishableFreeBenefitEvents(initialNewsDeals, 24, initialClockNow || Date.now())
   );
   const [homeFreeBenefitEventCategoryCounts, setHomeFreeBenefitEventCategoryCounts] = useState<FreeBenefitEventCategoryCount[]>(() =>
-    buildFreeBenefitEventCategoryCounts(selectPublishableFreeBenefitEvents(initialNewsSnapshot.deals ?? [], 24, initialClockNow || Date.now()))
+    buildFreeBenefitEventCategoryCounts(selectPublishableFreeBenefitEvents(initialNewsDeals, 24, initialClockNow || Date.now()))
   );
-  const [homeFreebieSummary, setHomeFreebieSummary] = useState(() => buildHomeFreebieSummary(initialNewsSnapshot.deals ?? [], initialClockNow || Date.now()));
+  const [homeFreebieSummary, setHomeFreebieSummary] = useState(() => buildHomeFreebieSummary(initialNewsDeals, initialClockNow || Date.now()));
   const [newsRecommendedQueries, setNewsRecommendedQueries] = useState<Array<{ query: string; count: number }>>(() =>
-    buildInitialNewsRecommendedQueries(initialNewsSnapshot.deals ?? [])
+    buildInitialNewsRecommendedQueries(initialNewsDeals)
   );
-  const [newsTargetSections, setNewsTargetSections] = useState<NewsTargetSection[]>(() => buildInitialNewsTargetSections(initialNewsSnapshot.deals ?? []));
-  const [newsIntentGroups, setNewsIntentGroups] = useState<NewsIntentGroup[]>(() => initialNewsSnapshot.intentGroups ?? buildNewsIntentGroups(initialNewsSnapshot.deals ?? []));
+  const [newsTargetSections, setNewsTargetSections] = useState<NewsTargetSection[]>(() => buildInitialNewsTargetSections(initialNewsDeals));
+  const [newsIntentGroups, setNewsIntentGroups] = useState<NewsIntentGroup[]>(() => initialNewsSnapshot.intentGroups ?? buildNewsIntentGroups(initialNewsDeals));
   const [newsSourceTrustScores, setNewsSourceTrustScores] = useState<NewsDealSourceTrust[]>(() => initialNewsSnapshot.sourceTrustScores ?? []);
   const [newsDeadlineSummary, setNewsDeadlineSummary] = useState<NewsDeadlineSummary>(() =>
-    buildNewsDeadlineSummary(initialNewsSnapshot.deals ?? [], initialClockNow)
+    buildNewsDeadlineSummary(initialNewsDeals, initialClockNow)
   );
   const [newsUpdatedAt, setNewsUpdatedAt] = useState(initialNewsSnapshot.generatedAt ?? "");
   const [newsFreshness, setNewsFreshness] = useState<{
@@ -814,10 +857,10 @@ export default function Home({ initialNow = "" }: HomeClientProps) {
           await Promise.all([fetchDeals(undefined, true), refreshNewsDeals({ silent: true }), fetchSignals(true)]);
           const generatedAt = new Date().toISOString();
           const referenceNow = Date.now();
-          setHomeFreebies(selectHomeFreebies(initialNewsSnapshot.deals ?? [], 12, referenceNow));
-          setHomeFreeBenefitEvents(selectPublishableFreeBenefitEvents(initialNewsSnapshot.deals ?? [], 24, referenceNow));
-          setHomeFreeBenefitEventCategoryCounts(buildFreeBenefitEventCategoryCounts(selectPublishableFreeBenefitEvents(initialNewsSnapshot.deals ?? [], 24, referenceNow)));
-          setHomeFreebieSummary(buildHomeFreebieSummary(initialNewsSnapshot.deals ?? [], referenceNow));
+          setHomeFreebies(selectHomeFreebies(initialNewsDeals, 12, referenceNow));
+          setHomeFreeBenefitEvents(selectPublishableFreeBenefitEvents(initialNewsDeals, 24, referenceNow));
+          setHomeFreeBenefitEventCategoryCounts(buildFreeBenefitEventCategoryCounts(selectPublishableFreeBenefitEvents(initialNewsDeals, 24, referenceNow)));
+          setHomeFreebieSummary(buildHomeFreebieSummary(initialNewsDeals, referenceNow));
           setLastHomeSyncAt(generatedAt);
           setHomeQuality(null);
           setHomeFreshness({
@@ -842,7 +885,7 @@ export default function Home({ initialNow = "" }: HomeClientProps) {
                 ageMinutes: 0,
                 status: "fresh",
                 label: "방금 업데이트",
-                count: initialNewsSnapshot.deals?.length ?? 0,
+                count: initialNewsDeals.length,
                 source: "native"
               },
               hotSignals: {
@@ -908,7 +951,7 @@ export default function Home({ initialNow = "" }: HomeClientProps) {
         }
       }
     },
-    [fetchDeals, fetchSignals, homeDealFilters, refreshNewsDeals, showToast]
+    [fetchDeals, fetchSignals, homeDealFilters, initialNewsDeals, refreshNewsDeals, showToast]
   );
 
   const refreshHomeNow = () => {
