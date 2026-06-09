@@ -110,10 +110,10 @@ function inferEventType(deal: NewsDeal, text: string): FreeBenefitEventType {
   if (/신규|첫\s*구매|첫\s*가입|웰컴/i.test(text)) return "signup";
   if (/기프티콘|교환권|모바일\s*쿠폰|음료권/i.test(text)) return "gifticon";
   if (/포인트|캐시백|적립|페이/i.test(text)) return "pointCashback";
-  if (/공공|정부|지원|문화가\s*있는\s*날|서울시|복지|교육/i.test(text) || deal.benefitType === "public") return "publicFree";
-  if (/체험단|리뷰단|무료\s*체험/i.test(text) || deal.benefitType === "freebie") return "experiencePanel";
-  if (/무료\s*체험|trial|구독\s*체험/i.test(text)) return "freeTrial";
   if (samplePattern.test(text)) return "sample";
+  if (/공공|정부|지원|문화가\s*있는\s*날|서울시|복지|교육/i.test(text) || deal.benefitType === "public") return "publicFree";
+  if (/무료\s*체험|trial|구독\s*체험/i.test(text)) return "freeTrial";
+  if (/체험단|리뷰단/i.test(text) || deal.benefitType === "freebie") return "experiencePanel";
   if (/무배|무료배송|배송비\s*무료/i.test(text) || deal.benefitType === "freeShipping") return "freeShipping";
   if (/쿠폰|할인권|바우처/i.test(text) || deal.benefitType === "coupon") return "coupon";
   return "brandEvent";
@@ -166,6 +166,39 @@ function buildTrustBadges(event: Pick<FreeBenefitEvent, "sourceType" | "requires
     event.requiresLogin ? "로그인 필요" : "비회원 확인 가능",
     event.requiresPurchase ? "구매 필요" : "구매 전 무료 확인"
   ].filter(Boolean);
+}
+
+function buildParticipationCondition({
+  deal,
+  benefitType,
+  requiresLogin,
+  requiresPurchase,
+  isEveryoneReward,
+  isFirstComeFirstServed
+}: {
+  deal: NewsDeal;
+  benefitType: FreeBenefitEventType;
+  requiresLogin: boolean;
+  requiresPurchase: boolean;
+  isEveryoneReward: boolean;
+  isFirstComeFirstServed: boolean;
+}) {
+  const explicitTag = deal.tags.find((tag) => /조건|회원|로그인|구매|결제|주문|앱|선착순|전원|신규|가입|무료|응모|신청/.test(tag));
+  if (explicitTag) return sanitizeBenefitText(explicitTag, 90);
+
+  const conditions = [
+    requiresPurchase ? "구매/결제 조건 확인 필요" : "구매 없이 조건 확인",
+    requiresLogin ? "로그인/회원가입 필요" : "비회원도 조건 확인 가능",
+    isEveryoneReward ? "전원증정 조건 확인" : "",
+    isFirstComeFirstServed ? "선착순/수량 소진 가능" : "",
+    benefitType === "sample" ? "샘플 신청 조건 확인" : "",
+    benefitType === "freeTrial" || benefitType === "experiencePanel" ? "체험 신청 조건 확인" : "",
+    benefitType === "coupon" || benefitType === "signup" ? "쿠폰 발급 조건 확인" : "",
+    benefitType === "pointCashback" || benefitType === "checkIn" || benefitType === "roulette" ? "포인트 적립 조건 확인" : "",
+    benefitType === "publicFree" ? "대상 자격 확인" : ""
+  ].filter(Boolean);
+
+  return sanitizeBenefitText(conditions.slice(0, 3).join(" · ") || "공식 페이지 조건 확인", 90);
 }
 
 export function getFreeBenefitEventScore(event: FreeBenefitEvent, referenceNow = Date.now()) {
@@ -221,10 +254,7 @@ export function toFreeBenefitEvent(deal: NewsDeal, referenceNow = Date.now()): F
     sourceUrl: deal.sourceUrl,
     startAt: deal.startDate,
     endAt,
-    participationCondition: sanitizeBenefitText(
-      deal.tags.find((tag) => /조건|회원|로그인|구매|앱|선착순|전원/.test(tag)) || (requiresPurchase ? "구매/주문 조건 확인 필요" : "공식 페이지 조건 확인"),
-      90
-    ),
+    participationCondition: buildParticipationCondition({ deal, benefitType, requiresLogin, requiresPurchase, isEveryoneReward, isFirstComeFirstServed }),
     requiresLogin,
     requiresPurchase,
     isEveryoneReward,

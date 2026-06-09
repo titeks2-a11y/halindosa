@@ -61,6 +61,10 @@
   - `refresh:benefits` 기준 active 무료혜택 이벤트 `132`개
   - 신규 8개 혜택 모두 `publishable=true`, `validationStatus=passed`, `availability=active`
   - `refresh:benefits` 기준 무료혜택 `67/67`, 공식 이벤트 `129/129`, 검색 링크 노출 `0`, 비공식 링크 노출 `0`
+- 최신 조건 표시 보강 결과:
+  - `FreeBenefitEvent` 변환에서 샘플 혜택을 체험단보다 먼저 분류하도록 조정했다.
+  - 태그가 약한 공식 혜택도 구매/로그인/선착순/전원증정/샘플/공공무료 조건을 조합해 `participationCondition`에 더 명확히 표시한다.
+  - `benefit:event:contract`, `refresh:benefits`, `security:check`, `lint`, `release:doctor`가 통과했다.
 - 새 세션에서 커밋이 필요하면 `git add .`를 쓰지 말고 카카오페이 보강 관련 파일만 명시적으로 stage한다.
 
 ## 새 세션 시작 규칙

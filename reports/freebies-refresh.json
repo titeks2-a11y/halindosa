@@ -1,10 +1,10 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-09T08:18:35.935Z",
+  "generatedAt": "2026-06-09T08:25:20.157Z",
   "mode": "freebies",
   "label": "무료혜택",
-  "sourceSnapshotGeneratedAt": "2026-06-09T08:18:35.770Z",
-  "sourceReportGeneratedAt": "2026-06-09T08:18:35.886Z",
+  "sourceSnapshotGeneratedAt": "2026-06-09T08:25:19.998Z",
+  "sourceReportGeneratedAt": "2026-06-09T08:25:20.109Z",
   "totalOfficialBenefits": 135,
   "matchedCount": 67,
   "visibleCount": 67,
@@ -163,7 +163,7 @@
       "finalUrl": "https://www.kmooc.kr/view/course/detail/19048",
       "redirectUrl": "/go/news/news-kmooc-blockchain-digital-asset-free-course",
       "endDate": "2026-06-14",
-      "lastCheckedAt": "2026-06-09T08:18:35.770Z"
+      "lastCheckedAt": "2026-06-09T08:25:19.998Z"
     },
     {
       "id": "news-mcdonalds-happy-snack-free-drink",
@@ -176,7 +176,7 @@
       "finalUrl": "https://www.mcdonalds.co.kr/kor/promotion/detail/E51CF9",
       "redirectUrl": "/go/news/news-mcdonalds-happy-snack-free-drink",
       "endDate": "2026-06-21",
-      "lastCheckedAt": "2026-06-09T08:18:35.770Z"
+      "lastCheckedAt": "2026-06-09T08:25:19.998Z"
     },
     {
       "id": "news-culture-day-programs-2026",
@@ -189,7 +189,7 @@
       "finalUrl": "https://www.culture.go.kr/wday/main/main.do",
       "redirectUrl": "/go/news/news-culture-day-programs-2026",
       "endDate": "2026-12-30",
-      "lastCheckedAt": "2026-06-09T08:18:35.770Z"
+      "lastCheckedAt": "2026-06-09T08:25:19.998Z"
     },
     {
       "id": "news-culture-day-weekly-2026",
@@ -202,7 +202,7 @@
       "finalUrl": "https://www.culture.go.kr/local/wday/cltrDay.do",
       "redirectUrl": "/go/news/news-culture-day-weekly-2026",
       "endDate": "2026-12-30",
-      "lastCheckedAt": "2026-06-09T08:18:35.770Z"
+      "lastCheckedAt": "2026-06-09T08:25:19.998Z"
     },
     {
       "id": "news-cjone-official-mobile-events",
@@ -215,7 +215,7 @@
       "finalUrl": "https://www.cjone.com/cjmmobile/event/event.do",
       "redirectUrl": "/go/news/news-cjone-official-mobile-events",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-09T08:18:35.770Z"
+      "lastCheckedAt": "2026-06-09T08:25:19.998Z"
     },
     {
       "id": "news-oliveyoung-official-events",
@@ -228,7 +228,7 @@
       "finalUrl": "https://www.oliveyoung.co.kr/store/main/getEventList.do",
       "redirectUrl": "/go/news/news-oliveyoung-official-events",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-09T08:18:35.770Z"
+      "lastCheckedAt": "2026-06-09T08:25:19.998Z"
     },
     {
       "id": "news-kfc-delivery-free-official",
@@ -241,7 +241,7 @@
       "finalUrl": "https://www.kfckorea.com/promotion/promotionList/detail/1053",
       "redirectUrl": "/go/news/news-kfc-delivery-free-official",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-09T08:18:35.770Z"
+      "lastCheckedAt": "2026-06-09T08:25:19.998Z"
     },
     {
       "id": "news-homeplus-membership-official-coupon",
@@ -254,7 +254,7 @@
       "finalUrl": "https://front.homeplus.co.kr/membership",
       "redirectUrl": "/go/news/news-homeplus-membership-official-coupon",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-09T08:18:35.770Z"
+      "lastCheckedAt": "2026-06-09T08:25:19.998Z"
     },
     {
       "id": "news-innisfree-official-coupon-events",
@@ -267,7 +267,7 @@
       "finalUrl": "https://www.innisfree.com/kr/ko/dp/posting-list",
       "redirectUrl": "/go/news/news-innisfree-official-coupon-events",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-09T08:18:35.770Z"
+      "lastCheckedAt": "2026-06-09T08:25:19.998Z"
     },
     {
       "id": "news-amoremall-official-event-list",
@@ -280,7 +280,7 @@
       "finalUrl": "https://www.amoremall.com/kr/ko/display/event",
       "redirectUrl": "/go/news/news-amoremall-official-event-list",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-09T08:18:35.770Z"
+      "lastCheckedAt": "2026-06-09T08:25:19.998Z"
     },
     {
       "id": "news-amoremall-try-before-buy-sample",
@@ -293,7 +293,7 @@
       "finalUrl": "https://www.amoremall.com/kr/ko/display/event_detail?planDisplaySn=5277",
       "redirectUrl": "/go/news/news-amoremall-try-before-buy-sample",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-09T08:18:35.770Z"
+      "lastCheckedAt": "2026-06-09T08:25:19.998Z"
     },
     {
       "id": "news-amoremall-payment-benefit-official",
@@ -306,7 +306,7 @@
       "finalUrl": "https://www.amoremall.com/kr/ko/display/event_detail?planDisplaySn=6438",
       "redirectUrl": "/go/news/news-amoremall-payment-benefit-official",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-09T08:18:35.770Z"
+      "lastCheckedAt": "2026-06-09T08:25:19.998Z"
     },
     {
       "id": "news-kurly-kiehls-sample-event",
@@ -319,7 +319,7 @@
       "finalUrl": "https://www.kurly.com/goods/1000120890",
       "redirectUrl": "/go/news/news-kurly-kiehls-sample-event",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-09T08:18:35.770Z"
+      "lastCheckedAt": "2026-06-09T08:25:19.998Z"
     },
     {
       "id": "news-kurly-neoflam-free-shipping",
@@ -332,7 +332,7 @@
       "finalUrl": "https://www.kurly.com/goods/1001472154",
       "redirectUrl": "/go/news/news-kurly-neoflam-free-shipping",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-09T08:18:35.770Z"
+      "lastCheckedAt": "2026-06-09T08:25:19.998Z"
     },
     {
       "id": "news-kurly-escape-speaker-free-shipping",
@@ -345,7 +345,7 @@
       "finalUrl": "https://www.kurly.com/goods/1000284019",
       "redirectUrl": "/go/news/news-kurly-escape-speaker-free-shipping",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-09T08:18:35.770Z"
+      "lastCheckedAt": "2026-06-09T08:25:19.998Z"
     },
     {
       "id": "news-kurly-clove-fashion-free-shipping",
@@ -358,7 +358,7 @@
       "finalUrl": "https://www.kurly.com/goods/1002016097",
       "redirectUrl": "/go/news/news-kurly-clove-fashion-free-shipping",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-09T08:18:35.770Z"
+      "lastCheckedAt": "2026-06-09T08:25:19.998Z"
     },
     {
       "id": "news-aquaplanet-official-events",
@@ -371,7 +371,7 @@
       "finalUrl": "https://www.aquaplanet.co.kr/ilsan/event/eventList.do",
       "redirectUrl": "/go/news/news-aquaplanet-official-events",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-09T08:18:35.770Z"
+      "lastCheckedAt": "2026-06-09T08:25:19.998Z"
     },
     {
       "id": "news-cjthemarket-official-events",
@@ -384,7 +384,7 @@
       "finalUrl": "https://www.cjthemarket.com/pc/event/eventMain",
       "redirectUrl": "/go/news/news-cjthemarket-official-events",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-09T08:18:35.770Z"
+      "lastCheckedAt": "2026-06-09T08:25:19.998Z"
     },
     {
       "id": "news-ediya-official-events",
@@ -397,7 +397,7 @@
       "finalUrl": "https://www.ediya.com/contents/event.html",
       "redirectUrl": "/go/news/news-ediya-official-events",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-09T08:18:35.770Z"
+      "lastCheckedAt": "2026-06-09T08:25:19.998Z"
     },
     {
       "id": "news-tenbyten-official-events",
@@ -410,7 +410,7 @@
       "finalUrl": "https://www.10x10.co.kr/event/eventmain.asp",
       "redirectUrl": "/go/news/news-tenbyten-official-events",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-09T08:18:35.770Z"
+      "lastCheckedAt": "2026-06-09T08:25:19.998Z"
     }
   ],
   "blockedItems": [],
@@ -420,8 +420,8 @@
       "command": "C:\\Program Files\\nodejs\\node.exe scripts/refresh-news-deals.mjs",
       "ok": true,
       "status": 0,
-      "startedAt": "2026-06-09T08:18:35.689Z",
-      "finishedAt": "2026-06-09T08:18:35.814Z",
+      "startedAt": "2026-06-09T08:25:19.928Z",
+      "finishedAt": "2026-06-09T08:25:20.039Z",
       "stdout": "News/event deal refresh completed.\n- collectedCount: 138\n- normalizedCount: 138\n- duplicateRemovedCount: 3\n- visibleCount: 135\n- hiddenCount: 0\n- failedCount: 0\n- data/refreshedNewsDeals.json\n- reports/news-deals.json",
       "stderr": ""
     },
@@ -430,8 +430,8 @@
       "command": "C:\\Program Files\\nodejs\\node.exe scripts/verify-news-deals.mjs",
       "ok": true,
       "status": 0,
-      "startedAt": "2026-06-09T08:18:35.814Z",
-      "finishedAt": "2026-06-09T08:18:35.929Z",
+      "startedAt": "2026-06-09T08:25:20.039Z",
+      "finishedAt": "2026-06-09T08:25:20.151Z",
       "stdout": "PASS news deals verified: 135/135 official benefit links",
       "stderr": ""
     }
