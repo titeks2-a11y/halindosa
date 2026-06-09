@@ -3902,5 +3902,67 @@
       "선착순",
       "예약필요"
     ]
+  },
+  {
+    "id": "news-cjthemarket-welcome-coupon-free-shipping-2026",
+    "title": "CJ더마켓 신규가입 무료배송·첫구매 쿠폰 혜택",
+    "summary": "CJ더마켓 공식 쿠폰&혜택 상세에서 신규가입 고객 첫구매 쿠폰, 수신동의 무료배송 쿠폰, APP 혜택 받기 조건을 확인할 수 있습니다.",
+    "merchant": "CJ더마켓",
+    "category": "식품/생필품",
+    "benefitType": "coupon",
+    "discountRate": 100,
+    "price": 0,
+    "originalPrice": 0,
+    "couponAmount": 0,
+    "startDate": "2026-01-01",
+    "endDate": "2026-12-31",
+    "sourceName": "CJ더마켓",
+    "sourceUrl": "https://vod.cjthemarket.com/pc/bnf/coupon",
+    "finalUrl": "https://vod.cjthemarket.com/pc/bnf/coupon",
+    "imageUrl": "",
+    "confidenceScore": 90,
+    "validationStatus": "needs_review",
+    "isHidden": false,
+    "hiddenReason": "",
+    "lastCheckedAt": "",
+    "provider": "official_event",
+    "tags": [
+      "신규가입",
+      "무료배송",
+      "쿠폰",
+      "APP혜택",
+      "식품"
+    ]
+  },
+  {
+    "id": "news-cjthemarket-random-lucky-coupon-daily-2026",
+    "title": "CJ더마켓 랜덤 럭키 쿠폰 100% 당첨 혜택",
+    "summary": "CJ더마켓 공식 이벤트 상세에서 ID당 하루 1회 참여 가능한 100% 당첨 럭키 중복쿠폰, 무료배송 쿠폰 당첨, 쿠폰 사용 조건을 확인할 수 있습니다.",
+    "merchant": "CJ더마켓",
+    "category": "식품/생필품",
+    "benefitType": "coupon",
+    "discountRate": 100,
+    "price": 0,
+    "originalPrice": 0,
+    "couponAmount": 0,
+    "startDate": "2026-06-01",
+    "endDate": "2026-12-31",
+    "sourceName": "CJ더마켓",
+    "sourceUrl": "https://m.cjthemarket.com/mo/event/new/randomCouponEvnt",
+    "finalUrl": "https://m.cjthemarket.com/mo/event/new/randomCouponEvnt",
+    "imageUrl": "",
+    "confidenceScore": 89,
+    "validationStatus": "needs_review",
+    "isHidden": false,
+    "hiddenReason": "",
+    "lastCheckedAt": "",
+    "provider": "official_event",
+    "tags": [
+      "쿠폰",
+      "룰렛",
+      "100%당첨",
+      "무료배송",
+      "APP혜택"
+    ]
   }
 ]
