@@ -13,12 +13,13 @@
 
 - Branch: `codex/12h-product-ux-growth-hardening`
 - 최근 커밋:
+  - `d3241d4c test: guard official source catalog security`
+  - `d1392c27 docs: refresh current state handoff`
   - `1aaa7370 feat: add momq official benefit sources`
   - `6815d251 feat: surface feed activation queue in admin`
   - `8d916e3f feat: add feed env activation readiness queue`
-  - `a99fda8d docs: refresh final release reports`
-  - `ff03ce8a docs: refresh release evidence after source expansion`
-- 현재 워크트리는 release evidence 문서와 feed activation/admin 관련 파일이 수정된 상태다.
+- 현재 워크트리는 release evidence, refresh 데이터, 리포트 산출물이 dirty 상태로 남아 있을 수 있다.
+- 코드 커밋 시 `git add .`를 피하고 필요한 파일만 명시적으로 stage한다.
 - 새 세션 시작 시 먼저 실행:
 
 ```bash
@@ -61,9 +62,10 @@ npm run workspace:doctor:strict
   - `docs/SOURCE_FEED_ENV_REPORT.md`
 - 관리자 화면에는 `다음 Feed 활성화 큐`, `starter pack 기준`, `운영자 체크리스트`가 노출되고 smoke/release doctor가 이를 검사한다.
 
-## 현재 수정 중인 핵심 파일
+## 현재 dirty 파일 성격
 
 - release evidence 문서 다수
+- refresh/verification으로 재생성된 `data/*`, `reports/*`, 루트 QA 리포트
 
 주의:
 
@@ -83,7 +85,7 @@ npm run security:check
 npm run lint
 ```
 
-최근 커밋 `1aaa7370` 이후 아래 검증이 통과했다.
+최근 커밋 `d3241d4c` 기준 아래 검증이 통과했다.
 
 ```bash
 npm run lint
