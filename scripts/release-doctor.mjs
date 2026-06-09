@@ -231,7 +231,14 @@ async function checkCiWorkflow() {
     "npm run audit:commercial",
     "npm run test:env",
     "npm run public:url:doctor",
-    "npm run harness",
+    "npm run lint",
+    "npm run test:mobile-ux",
+    "npm run home:realtime:doctor",
+    "npm run security:check",
+    "npm run benefit:priority:doctor",
+    "npm run benefit:event:contract",
+    "npm run test:seo",
+    "npm run test:perf",
     "npm run release:prepare:reports:ci",
     "npm run release:doctor",
     "npm run build",
@@ -287,10 +294,10 @@ async function checkCiWorkflow() {
   if (missingWorkflowSnippets.length || missingRunbookSnippets.length) {
     fail(
       "github ci workflow",
-      `CI should run commercial audit, env regression, public URL doctor, launch harness, release report preparation, release doctor, production build, and upload verification reports on main/codex branches. Missing workflow: ${missingWorkflowSnippets.join(", ") || "none"}; runbook: ${missingRunbookSnippets.join(", ") || "none"}`
+      `CI should run commercial audit, env regression, public URL doctor, launch regression gates, release report preparation, release doctor, production build, and upload verification reports on main/codex branches. Missing workflow: ${missingWorkflowSnippets.join(", ") || "none"}; runbook: ${missingRunbookSnippets.join(", ") || "none"}`
     );
   } else {
-    pass("github ci workflow", "GitHub Actions runs commercial audit, env regression, public URL doctor, launch harness, release report preparation, release doctor, production build, and uploads verification reports on main and codex branches.");
+    pass("github ci workflow", "GitHub Actions runs commercial audit, env regression, public URL doctor, launch regression gates, release report preparation, release doctor, production build, and uploads verification reports on main and codex branches.");
   }
 
   const vercelWorkflowPath = ".github/workflows/vercel-production-deploy.yml";

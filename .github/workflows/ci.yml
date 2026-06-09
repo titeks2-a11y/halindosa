@@ -37,8 +37,29 @@ jobs:
       - name: Public URL readiness
         run: npm run public:url:doctor
 
-      - name: Launch harness
-        run: npm run harness:ci
+      - name: Lint
+        run: npm run lint
+
+      - name: Mobile UX regression
+        run: npm run test:mobile-ux
+
+      - name: Home realtime regression
+        run: npm run home:realtime:doctor
+
+      - name: Security regression
+        run: npm run security:check
+
+      - name: Consumer benefit priority regression
+        run: npm run benefit:priority:doctor
+
+      - name: Free benefit event contract
+        run: npm run benefit:event:contract
+
+      - name: SEO regression
+        run: npm run test:seo
+
+      - name: Performance regression
+        run: npm run test:perf
 
       - name: Prepare release doctor reports
         timeout-minutes: 12
