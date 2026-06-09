@@ -100,6 +100,8 @@ function buildMarkdown(report) {
     `- 설정된 공식 feed URL: ${report.summary.configuredFeedUrls}개`,
     `- 공식 혜택 노출 가능: ${report.summary.visibleOfficialBenefits}개`,
     `- 차단 이슈: ${report.summary.blockedLiveIssues + report.summary.feedEnvFailedCount + report.summary.newsFailedCount}개`,
+    `- 소비자형 공식 혜택 소스: ${report.summary.consumerBenefitSourceCount}개 (${report.summary.consumerSourceRate}%)`,
+    `- 공공/정책성 기본 처리: ${report.summary.publicPolicyDefaultHandling}`,
     "",
     "## 운영 원칙",
     "",
@@ -149,6 +151,8 @@ const onboarding = readJson("source-onboarding-plan.json");
 const feedEnv = readJson("source-feed-env-readiness.json");
 const news = readJson("news-deals.json");
 const refreshAll = readJson("refresh-all.json");
+const sourceBreadth = readJson("free-benefit-source-breadth.json");
+const consumerFirstPolicy = sourceBreadth.consumerFirstPolicy ?? {};
 
 const liveStatusCounts = live.statusCounts ?? {};
 const advisoryLiveIssues =
@@ -206,6 +210,15 @@ const gates = [
     refreshAllOk && numberValue(refreshAll.productDealsCount) >= 140 && numberValue(refreshAll.newsDealsCount) >= 95 && numberValue(refreshAll.failedCount) === 0,
     `상품 ${numberValue(refreshAll.productDealsCount)}개, 공식 혜택 ${numberValue(refreshAll.newsDealsCount)}개, 실패 ${numberValue(refreshAll.failedCount)}개`,
     "npm run refresh:all"
+  ),
+  buildGate(
+    "consumer first source mix",
+    sourceBreadth.ok === true &&
+      consumerFirstPolicy.ok === true &&
+      numberValue(consumerFirstPolicy.consumerSourceRate) >= numberValue(consumerFirstPolicy.minimumConsumerSourceRate) &&
+      numberValue(consumerFirstPolicy.publicPolicySourceRate) <= numberValue(consumerFirstPolicy.maximumPublicPolicySourceRate),
+    `소비자형 ${numberValue(consumerFirstPolicy.consumerSourceRate)}%, 공공/정책성 ${numberValue(consumerFirstPolicy.publicPolicySourceRate)}%, high priority 소비자형 ${numberValue(consumerFirstPolicy.highPriorityConsumerSourceCount)}개`,
+    "npm run source:breadth:doctor"
   )
 ];
 
@@ -232,7 +245,15 @@ const report = {
     newsFailedCount: numberValue(news.failedCount),
     refreshAllOk,
     productDealsCount: numberValue(refreshAll.productDealsCount),
-    newsDealsCount: numberValue(refreshAll.newsDealsCount)
+    newsDealsCount: numberValue(refreshAll.newsDealsCount),
+    consumerBenefitSourceCount: numberValue(consumerFirstPolicy.consumerBenefitSourceCount),
+    consumerSourceRate: numberValue(consumerFirstPolicy.consumerSourceRate),
+    highPriorityConsumerSourceCount: numberValue(consumerFirstPolicy.highPriorityConsumerSourceCount),
+    publicPolicySourceCount: numberValue(consumerFirstPolicy.publicPolicySourceCount),
+    publicPolicySourceRate: numberValue(consumerFirstPolicy.publicPolicySourceRate),
+    publicPolicyDefaultHandling: String(
+      consumerFirstPolicy.publicPolicyDefaultHandling ?? "excluded_from_default_home_and_freebies_unless_explicitly_requested"
+    )
   },
   gates,
   envPlan: Array.isArray(onboarding.envPlan) ? onboarding.envPlan : [],
@@ -245,6 +266,7 @@ const report = {
     "npm run source:live:doctor",
     "npm run source:onboarding:plan",
     "npm run source:feed-env:doctor",
+    "npm run source:breadth:doctor",
     "npm run source:readiness:report",
     "npm run refresh:all"
   ]

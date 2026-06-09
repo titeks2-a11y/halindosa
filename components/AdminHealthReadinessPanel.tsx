@@ -235,6 +235,9 @@ export function AdminHealthReadinessPanel({ report, apiHref }: AdminHealthReadin
             <p className="mt-1 text-[11px] font-bold leading-5 text-slate-500">
               공식 feed URL {report.sourceReadiness.configuredFeedUrls}개 · feed env 실패 {report.sourceReadiness.feedEnvFailedCount}개 · 차단 이슈 {sourceReadinessIssueCount}개
             </p>
+            <p className="mt-1 text-[11px] font-bold leading-5 text-slate-500">
+              소비자형 소스 {report.sourceReadiness.consumerBenefitSourceCount}개 · 소비자형 비율 {report.sourceReadiness.consumerSourceRate}% · 공공/정책성 {report.sourceReadiness.publicPolicySourceRate}%
+            </p>
             <div className="mt-2 space-y-1.5">
               {(report.sourceReadiness.operatorNextActions.length ? report.sourceReadiness.operatorNextActions.slice(0, 3) : ["npm run source:readiness:report 실행 후 health:readiness를 다시 실행하세요."]).map((action) => (
                 <p key={action} className="rounded-2xl bg-slate-50 px-3 py-2 text-[11px] font-bold leading-5 text-slate-600">

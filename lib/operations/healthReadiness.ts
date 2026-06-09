@@ -173,6 +173,12 @@ export interface HealthReadinessReport {
     guardedSources: number;
     configuredFeedUrls: number;
     visibleOfficialBenefits: number;
+    consumerBenefitSourceCount: number;
+    consumerSourceRate: number;
+    highPriorityConsumerSourceCount: number;
+    publicPolicySourceCount: number;
+    publicPolicySourceRate: number;
+    publicPolicyDefaultHandling: string;
     blockedLiveIssues: number;
     feedEnvFailedCount: number;
     failedGateCount: number;
@@ -312,6 +318,12 @@ const fallbackReport: HealthReadinessReport = {
     guardedSources: 0,
     configuredFeedUrls: 0,
     visibleOfficialBenefits: 0,
+    consumerBenefitSourceCount: 0,
+    consumerSourceRate: 0,
+    highPriorityConsumerSourceCount: 0,
+    publicPolicySourceCount: 0,
+    publicPolicySourceRate: 0,
+    publicPolicyDefaultHandling: "excluded_from_default_home_and_freebies_unless_explicitly_requested",
     blockedLiveIssues: 0,
     feedEnvFailedCount: 0,
     failedGateCount: 1,

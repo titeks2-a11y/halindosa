@@ -482,6 +482,14 @@ const report = {
     guardedSources: Number(sourceReadinessSummary.guardedSources ?? 0),
     configuredFeedUrls: Number(sourceReadinessSummary.configuredFeedUrls ?? 0),
     visibleOfficialBenefits: Number(sourceReadinessSummary.visibleOfficialBenefits ?? 0),
+    consumerBenefitSourceCount: Number(sourceReadinessSummary.consumerBenefitSourceCount ?? 0),
+    consumerSourceRate: Number(sourceReadinessSummary.consumerSourceRate ?? 0),
+    highPriorityConsumerSourceCount: Number(sourceReadinessSummary.highPriorityConsumerSourceCount ?? 0),
+    publicPolicySourceCount: Number(sourceReadinessSummary.publicPolicySourceCount ?? 0),
+    publicPolicySourceRate: Number(sourceReadinessSummary.publicPolicySourceRate ?? 0),
+    publicPolicyDefaultHandling: String(
+      sourceReadinessSummary.publicPolicyDefaultHandling ?? "excluded_from_default_home_and_freebies_unless_explicitly_requested"
+    ),
     blockedLiveIssues: Number(sourceReadinessSummary.blockedLiveIssues ?? 0),
     advisoryLiveIssues: Number(sourceReadinessSummary.advisoryLiveIssues ?? 0),
     feedEnvFailedCount: Number(sourceReadinessSummary.feedEnvFailedCount ?? 0),

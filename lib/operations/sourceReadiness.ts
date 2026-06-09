@@ -53,6 +53,12 @@ export type SourceReadinessReport = {
     refreshAllOk: boolean;
     productDealsCount: number;
     newsDealsCount: number;
+    consumerBenefitSourceCount: number;
+    consumerSourceRate: number;
+    highPriorityConsumerSourceCount: number;
+    publicPolicySourceCount: number;
+    publicPolicySourceRate: number;
+    publicPolicyDefaultHandling: string;
   };
   gates: SourceReadinessGate[];
   envPlan: SourceReadinessEnvPlan[];
@@ -82,7 +88,13 @@ const fallbackReport: SourceReadinessReport = {
     newsFailedCount: 0,
     refreshAllOk: false,
     productDealsCount: 0,
-    newsDealsCount: 0
+    newsDealsCount: 0,
+    consumerBenefitSourceCount: 0,
+    consumerSourceRate: 0,
+    highPriorityConsumerSourceCount: 0,
+    publicPolicySourceCount: 0,
+    publicPolicySourceRate: 0,
+    publicPolicyDefaultHandling: "excluded_from_default_home_and_freebies_unless_explicitly_requested"
   },
   gates: [
     {
