@@ -166,6 +166,7 @@ export async function GET(request: Request) {
   const limit = Number(searchParams.get("limit") ?? 12);
   const q = searchParams.get("q")?.trim();
   const category = searchParams.get("category")?.trim();
+  const includePublicPolicy = searchParams.get("includePublic") === "true" || category === "정부/공공혜택";
 
   try {
     const [deals, news, signals] = await Promise.all([
@@ -186,7 +187,8 @@ export async function GET(request: Request) {
         limit: Math.min(Math.max(limit, 8), 24),
         category,
         q,
-        sort: q ? "endingSoon" : "priority"
+        sort: q ? "endingSoon" : "priority",
+        includePublicPolicy
       }),
       fetchHotSignals({
         category,

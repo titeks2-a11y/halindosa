@@ -1,7 +1,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import seedNewsDeals from "@/data/newsDeals.seed.json";
-import { getConsumerBenefitPriorityScore } from "@/lib/consumerBenefitPriority";
+import { getConsumerBenefitPriorityScore, isPublicPolicyBenefit } from "@/lib/consumerBenefitPriority";
 import { applyNewsDealOverrides } from "@/lib/deals/newsOverrides";
 import { buildNewsDeadlineSummary } from "@/lib/deals/newsDeadlineInsights";
 import { buildInitialNewsTargetSections, buildNewsIntentGroups } from "@/lib/deals/newsRecommendedQueries";
@@ -267,7 +267,7 @@ function buildRecommendedNewsQueries(deals: NewsDeal[], configuredQueries = buil
     .map(({ query, count }) => ({ query, count }));
 }
 
-export function getVisibleNewsDeals(options: { limit?: number; category?: string; benefitType?: string; q?: string; sort?: string } = {}) {
+export function getVisibleNewsDeals(options: { limit?: number; category?: string; benefitType?: string; q?: string; sort?: string; includePublicPolicy?: boolean } = {}) {
   const snapshot = readSnapshot();
   const sourceDeals = snapshot?.deals?.length ? snapshot.deals : (seedNewsDeals as NewsDeal[]);
   const now = Date.now();
@@ -284,6 +284,7 @@ export function getVisibleNewsDeals(options: { limit?: number; category?: string
     })
     .filter((deal) => !options.category || options.category === "all" || deal.category === options.category)
     .filter((deal) => !options.benefitType || options.benefitType === "all" || deal.benefitType === options.benefitType)
+    .filter((deal) => options.includePublicPolicy !== false || !isPublicPolicyBenefit(deal))
     .filter((deal) => matchesNewsDealQuery(deal, options.q));
   const sorted = sortNewsDeals(filtered, sort);
 

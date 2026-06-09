@@ -1,6 +1,6 @@
 # Consumer Benefit Priority Report
 
-Generated: 2026-06-09T15:10:22.299Z
+Generated: 2026-06-09T17:41:41.672Z
 
 - Status: PASS
 - Visible benefits: 130
@@ -8,6 +8,7 @@ Generated: 2026-06-09T15:10:22.299Z
 - Top 8 public/policy: 0/8
 - Top 12 consumer-facing: 12/12
 - Top 12 public/policy: 0/12
+- Default consumer-first API wiring: yes
 
 ## Top Items
 

@@ -91,6 +91,9 @@ function score(deal, now) {
 const now = Date.now();
 const snapshot = readJson("data/refreshedNewsDeals.json", {});
 const source = Array.isArray(snapshot.deals) ? snapshot.deals : Array.isArray(snapshot.allDeals) ? snapshot.allDeals : [];
+const newsDealsSource = readFileSync(join(root, "lib", "deals", "newsDeals.ts"), "utf8");
+const homeRouteSource = readFileSync(join(root, "app", "api", "home", "route.ts"), "utf8");
+const freebiesRouteSource = readFileSync(join(root, "app", "api", "freebies", "route.ts"), "utf8");
 const visible = source.filter((deal) => isVisible(deal, now));
 const ranked = visible
   .map((deal) => ({
@@ -112,7 +115,14 @@ const top8Consumer = top8.filter((item) => item.consumerFacing).length;
 const top8Public = top8.filter((item) => item.publicPolicy).length;
 const top12Consumer = top12.filter((item) => item.consumerFacing).length;
 const top12Public = top12.filter((item) => item.publicPolicy).length;
-const ok = visible.length >= 80 && top8Consumer >= 6 && top8Public <= 2 && top12Consumer >= 9 && top12Public <= 3;
+const defaultConsumerFirstWired =
+  newsDealsSource.includes("includePublicPolicy?: boolean") &&
+  newsDealsSource.includes("options.includePublicPolicy !== false") &&
+  homeRouteSource.includes("includePublicPolicy") &&
+  homeRouteSource.includes('category === "정부/공공혜택"') &&
+  freebiesRouteSource.includes("includePublicPolicy: includePublic") &&
+  freebiesRouteSource.includes("publicPolicyBenefits");
+const ok = visible.length >= 80 && top8Consumer >= 6 && top8Public <= 2 && top12Consumer >= 9 && top12Public <= 3 && defaultConsumerFirstWired;
 
 const report = {
   ok,
@@ -123,6 +133,7 @@ const report = {
   top8Public,
   top12Consumer,
   top12Public,
+  defaultConsumerFirstWired,
   policy: {
     top8ConsumerMinimum: 6,
     top8PublicMaximum: 2,
@@ -144,6 +155,7 @@ const markdown = [
   `- Top 8 public/policy: ${top8Public}/8`,
   `- Top 12 consumer-facing: ${top12Consumer}/12`,
   `- Top 12 public/policy: ${top12Public}/12`,
+  `- Default consumer-first API wiring: ${defaultConsumerFirstWired ? "yes" : "no"}`,
   "",
   "## Top Items",
   "",

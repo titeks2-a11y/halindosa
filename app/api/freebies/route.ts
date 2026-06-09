@@ -1,6 +1,5 @@
 import { noStoreJson, noStoreOptions } from "@/lib/api/noStore";
 import { createRequestId, getClientKey, rateLimit, rateLimitHeaders } from "@/lib/apiGuards";
-import { isPublicPolicyBenefit } from "@/lib/consumerBenefitPriority";
 import { getVisibleNewsDeals } from "@/lib/deals/newsDeals";
 import { selectPublishableFreeBenefitEvents } from "@/lib/freeBenefitEvents";
 import { buildHomeFreebieSummary, selectHomeFreebies } from "@/lib/homeFreebies";
@@ -48,9 +47,10 @@ export async function GET(request: Request) {
     const news = getVisibleNewsDeals({
       limit: 0,
       q,
-      sort: searchParams.get("sort") ?? "priority"
+      sort: searchParams.get("sort") ?? "priority",
+      includePublicPolicy: includePublic
     });
-    const defaultDeals = includePublic ? news.deals : news.deals.filter((deal) => !isPublicPolicyBenefit(deal));
+    const defaultDeals = news.deals;
     const freebies = selectHomeFreebies(defaultDeals, Math.min(Math.max(limit, 1), 48), Date.parse(generatedAt));
     const events = selectPublishableFreeBenefitEvents(defaultDeals, Math.min(Math.max(limit, 1), 48), Date.parse(generatedAt));
     const summary = buildHomeFreebieSummary(defaultDeals, Date.parse(generatedAt));
