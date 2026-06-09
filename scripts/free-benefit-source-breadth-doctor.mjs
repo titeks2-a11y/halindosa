@@ -68,7 +68,7 @@ const requiredLanes = [
     id: "education",
     label: "교육 무료체험",
     minimum: 2,
-    patterns: [/kmooc|k-mooc|work24|고용24|hrd|내일배움|교육|강좌|훈련/i]
+    patterns: [/kmooc|k-mooc|kocw|work24|고용24|hrd|내일배움|ebs|교육|강좌|훈련/i]
   },
   {
     id: "pet",
@@ -131,6 +131,8 @@ const requiredBrandSignals = [
   { id: "bokjiro", label: "복지로", patterns: [/bokjiro|복지로/i] },
   { id: "hrd", label: "HRD-Net/고용24", patterns: [/hrd|work24|고용24|내일배움/i] },
   { id: "kmooc", label: "K-MOOC", patterns: [/kmooc|k-mooc/i] },
+  { id: "ebs", label: "EBS 무료 학습", patterns: [/ebs|ebsi|평생학교/i] },
+  { id: "kocw", label: "KOCW 대학공개강의", patterns: [/kocw|대학공개강의/i] },
   { id: "royalcanin", label: "반려동물 샘플", patterns: [/royalcanin|로얄캐닌|반려|pet/i] },
   { id: "experience-panel", label: "체험단/샘플 플랫폼", patterns: [/powderroom|파우더룸|체험단|샘플|review/i] }
 ];

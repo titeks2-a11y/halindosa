@@ -2,10 +2,10 @@
 
 이 문서는 할인도사에 연결할 수 있는 공식 이벤트, 공공 혜택, 제휴 JSON/RSS 후보를 정리합니다. 무단 크롤링 후보가 아니라 운영자가 승인 feed 또는 공식 페이지 매핑으로 전환할 때 쓰는 출발점입니다.
 
-- 생성 시각: 2026-06-09T02:04:20.222Z
+- 생성 시각: 2026-06-09T02:14:08.131Z
 - 상태: PASS
-- 후보 소스: 128개
-- 고우선순위 후보: 35개
+- 후보 소스: 133개
+- 고우선순위 후보: 37개
 - 현재 env feed 연결 후보: 0개
 - 공식 혜택 노출: 105개
 - feed 전환 상태: seed_launch_ready
@@ -21,10 +21,10 @@
 | 패션/뷰티 | 17 | 충분 |
 | 외식/배달 | 41 | 충분 |
 | 여행/숙박 | 9 | 충분 |
-| 영화/문화 | 19 | 충분 |
+| 영화/문화 | 20 | 충분 |
 | 카드/멤버십 | 39 | 충분 |
-| 무료혜택 | 91 | 충분 |
-| 정부/공공혜택 | 12 | 충분 |
+| 무료혜택 | 96 | 충분 |
+| 정부/공공혜택 | 16 | 충분 |
 
 ## Provider 커버리지
 
@@ -32,8 +32,8 @@
 | --- | ---: | --- |
 | news | 1 | 포함 |
 | event_news | 2 | 포함 |
-| official_event | 84 | 포함 |
-| public_coupon | 41 | 포함 |
+| official_event | 85 | 포함 |
+| public_coupon | 45 | 포함 |
 
 ## 후보 목록
 
@@ -167,6 +167,11 @@
 | happy-point-official-coupons | official_event | 카드/멤버십, 외식/배달, 무료혜택 | high | https://www.happypointcard.com/coupon/coupon.spc | OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
 | okcashbag-welcome-point-event | official_event | 카드/멤버십, 무료혜택 | high | https://www.okcashbag.com/event/newwelcomeback | OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
 | lpoint-official-daily-missions | official_event | 카드/멤버십, 무료혜택 | medium | https://www.lpoint.com/app/common/LHZZ300300.do | OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| ebs-family-free-learning-services | public_coupon | 정부/공공혜택, 무료혜택 | high | https://m.ebs.co.kr/familyService | PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS, OFFICIAL_EVENT_FEED_URLS |
+| ebs-lifelong-school-free-courses | public_coupon | 정부/공공혜택, 무료혜택, 영화/문화 | medium | https://lifelongschool.ebs.co.kr/lifelongschool/subject/introduce | PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS, OFFICIAL_EVENT_FEED_URLS |
+| kocw-official-open-course | public_coupon | 정부/공공혜택, 무료혜택 | medium | https://www.kocw.net/home/cview.do?cid=6315ee4acf8a5ca8 | PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS, OFFICIAL_EVENT_FEED_URLS |
+| work24-training-card-issue-guide | public_coupon | 정부/공공혜택, 무료혜택 | high | https://m.work24.go.kr/hr/h/a/1100/selectIssuGudn.do | PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS, OFFICIAL_EVENT_FEED_URLS |
+| royalcanin-start-of-life-campaign | official_event | 무료혜택 | medium | https://www.royalcanin.com/kr/about-us/events/start-of-life-campaign | OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
 
 ## 다음 작업
 

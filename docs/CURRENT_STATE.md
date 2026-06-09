@@ -13,7 +13,7 @@
 
 - Branch: `codex/12h-product-ux-growth-hardening`
 - Remote: `origin/codex/12h-product-ux-growth-hardening`
-- 현재 최신 원격 반영 커밋: `7852c351 feat: make home search benefit first`
+- 현재 최신 원격 반영 커밋: `d1713437 feat: expand official free benefit sources`
 - 현재 워크트리에는 공식 무료혜택 소스 카탈로그를 확장하고 검증 리포트를 갱신한 변경이 있으며, 아직 커밋 전이다.
 
 ## 현재 제품 방향
@@ -37,60 +37,53 @@
 - G마켓, 옥션, 이벤트하우스 공식/보조 무료혜택 소스 신호 추가: `b570bb98`
 - 홈 API 내부 오류 메시지 노출 방지: `3b9dae86`
 - 홈 검색 UX를 무료혜택·쿠폰 중심으로 전환: `7852c351`
+- 배스킨라빈스, 던킨, 파리바게뜨, 해피포인트, OK캐쉬백, L.POINT 공식 혜택 소스 확장: `d1713437`
 - `benefit:event:contract`는 홈과 `/free-benefits`의 조건/검증 배지를 회귀 검사한다.
 - 최근 안정 검증: `source:catalog:report`, `source:breadth:doctor`, `refresh:benefits`, `verify:benefits`, `benefit:event:contract`, `security:check`, `lint`, `test:mobile-compact`, `release:doctor`, `build`, `smoke:local`, `harness`, `qa`, `build:android`, `cap:sync` 성공.
 
 ## 현재 커밋 전 변경 요약
 
-공식 무료혜택 소스 카탈로그를 더 넓혔다. 구매 상품 중심이 아니라 디저트, 베이커리, 포인트, 멤버십 앱에서 매일 확인할 수 있는 쿠폰/제휴/무료 혜택 후보를 강화했다.
+공식 무료혜택 소스 카탈로그를 더 넓혔다. 구매 상품 중심이 아니라 공공/교육/평생학습/반려동물 캠페인에서 무료 수강, 무료 서비스, 공식 신청형 혜택 후보를 강화했다.
 
 변경 내용:
 
-- `data/officialSourceCatalog.json`에 배스킨라빈스, 던킨, 파리바게뜨, 해피포인트, OK캐쉬백, L.POINT 공식 혜택 후보를 추가했다.
-- `scripts/free-benefit-source-breadth-doctor.mjs`에 배스킨라빈스, 던킨, 파리바게뜨 브랜드 신호를 추가해 카탈로그 회귀를 막는다.
-- `scripts/test-ui-rules.mjs`와 `scripts/lib/smoke-page-checks.mjs`를 무료혜택 중심 검색 문구 기준으로 갱신했다.
-- 공식 소스 후보는 128개로 늘었고, source breadth doctor는 12/12 수집 축을 통과한다.
+- `data/officialSourceCatalog.json`에 EBS 패밀리 서비스, EBS 평생학교, KOCW 대학공개강의, 고용24 국민내일배움카드 안내, 로얄캐닌 성장기 반려동물 캠페인 공식 혜택 후보를 추가했다.
+- `scripts/free-benefit-source-breadth-doctor.mjs`에 EBS, KOCW 교육/공공 혜택 신호를 추가해 카탈로그 회귀를 막는다.
+- 공식 소스 후보는 133개로 늘었고, source breadth doctor는 12/12 수집 축을 통과한다.
+- source live doctor 기준 공식 후보 113/133개 reachable, 20개 guarded, stale_or_removed 0건이다.
 - `refresh:benefits` 기준 공식 active 혜택은 102/100 기준을 통과했고, 검색 링크/비공식 링크 노출은 0건이다.
 
 주의:
 
 - 이벤트하우스는 보조 발견 소스다. 사용자 CTA는 이벤트하우스 글이 아니라 원 브랜드 공식 이벤트·신청 URL로만 연결한다.
 - G마켓/옥션도 검색 결과, 대표몰 메인, 상품 리스트가 아니라 공식 이벤트 상세와 조건 확인 항목만 publishable로 전환한다.
-- 배스킨라빈스/던킨/파리바게뜨/해피포인트 계열은 공식 상세 URL과 기간/조건이 확인된 항목만 publishable로 전환한다.
+- EBS/KOCW/고용24/로얄캐닌 계열은 공식 상세 URL과 무료 이용/신청 조건이 확인된 항목만 publishable로 전환한다.
 
 변경 파일:
 
 - `data/officialSourceCatalog.json`
 - `scripts/free-benefit-source-breadth-doctor.mjs`
-- `scripts/test-ui-rules.mjs`
-- `scripts/lib/smoke-page-checks.mjs`
 - 공식 소스/무료혜택/검증 관련 리포트와 문서들
 - `docs/CURRENT_STATE.md`
 
 검증 결과:
 
-- `npm run source:catalog:report` 성공, 공식 소스 후보 128개
+- `npm run source:catalog:report` 성공, 공식 소스 후보 133개
 - `npm run source:breadth:doctor` 성공, 12/12
+- `npm run source:live:doctor` 성공, reachable 113/133, guarded 20, stale_or_removed 0
 - `npm run refresh:benefits` 성공, freebies 42/42, events 101/101, 검색 링크 0, 비공식 링크 0
 - `npm run verify:benefits` 성공, active official events 102/100
-- `npm run benefit:event:contract` 성공, 16/16
 - `npm run security:check` 성공, 11/11
 - `npm run lint` 성공
 - `npm run test:mobile-compact` 성공, 14/14
 - `npm run release:doctor` 성공, 188/188
-- `npm run build` 성공
-- `npm run smoke:local` 성공, 103/103
-- `npm run harness` 성공
-- `npm run qa` 성공, 75/75
-- `npm run build:android` 성공
-- `npm run cap:sync` 성공
 
 ## 다음 세션에서 바로 할 일
 
 1. `git status --short --branch`로 현재 변경 상태를 확인한다.
 2. 필요하면 `npm run workspace:doctor:strict`를 실행해 재생성 산출물 상태를 확인한다.
-3. 공식 무료혜택 소스 확장 변경을 커밋한다.
-   - 권장 커밋 메시지: `feat: expand official free benefit sources`
+3. 공공/교육/반려동물 공식 무료혜택 소스 확장 변경을 커밋한다.
+   - 권장 커밋 메시지: `feat: expand public education benefit sources`
 4. 가능하면 원격 브랜치에 push한다.
 5. 이어서 실제 운영 feed URL 연결, 공공/교육/반려동물 무료혜택 후보 확대, Vercel env feed 연결 검증을 진행한다.
 

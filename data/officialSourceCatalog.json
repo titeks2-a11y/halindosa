@@ -2735,5 +2735,115 @@
     "allowedUse": "L.POINT 공식 앱 미션, 출석체크, 룰렛, 포인트 적립 혜택 중 공식 안내와 참여 조건이 확인되는 항목",
     "blockedUse": "엘포인트 메인만 있는 링크, PDF 영업자료, 비공식 포인트 적립 팁 글",
     "notes": "앱 기반 혜택은 앱 설치·로그인 필요 배지를 표시하고, 실제 이벤트 또는 미션 경로가 확인된 경우만 CTA로 연결한다."
+  },
+  {
+    "id": "ebs-family-free-learning-services",
+    "label": "EBS 공식 무료 학습 서비스 모음",
+    "provider": "public_coupon",
+    "category": [
+      "정부/공공혜택",
+      "무료혜택"
+    ],
+    "sourceType": "official_benefit_page",
+    "officialUrl": "https://m.ebs.co.kr/familyService",
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 24,
+    "allowedUse": "EBS 공식 초등, 중학, 수능, 영어, 무료 앱·웹 학습 서비스 중 무료 제공 범위와 공식 서비스 URL이 확인되는 항목",
+    "blockedUse": "비공식 공부법 블로그, 광고성 학원 랜딩, 유료 교재 판매 페이지, 검색 결과",
+    "notes": "무료 학습 서비스는 서비스별 공식 URL과 무료 이용 범위가 확인된 경우에만 공공무료 혜택 카드로 전환한다."
+  },
+  {
+    "id": "ebs-lifelong-school-free-courses",
+    "label": "EBS 평생학교 공식 무료 강좌",
+    "provider": "public_coupon",
+    "category": [
+      "정부/공공혜택",
+      "무료혜택",
+      "영화/문화"
+    ],
+    "sourceType": "official_benefit_page",
+    "officialUrl": "https://lifelongschool.ebs.co.kr/lifelongschool/subject/introduce",
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 24,
+    "allowedUse": "EBS 평생학교 공식 과목 소개와 무료 다시보기·강좌 참여 경로가 확인되는 항목",
+    "blockedUse": "EBS 메인만 있는 링크, 방송 소개만 있는 페이지, 유료 구독 안내만 있는 페이지, 비공식 강좌 정리글",
+    "notes": "강좌별 수강 가능 여부와 로그인 필요 여부를 확인해 publicFree 또는 freeTrial 혜택으로 분류한다."
+  },
+  {
+    "id": "kocw-official-open-course",
+    "label": "KOCW 공식 대학공개강의 무료 수강",
+    "provider": "public_coupon",
+    "category": [
+      "정부/공공혜택",
+      "무료혜택"
+    ],
+    "sourceType": "official_benefit_page",
+    "officialUrl": "https://www.kocw.net/home/cview.do?cid=6315ee4acf8a5ca8",
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 24,
+    "allowedUse": "KOCW 공식 공개 강의, 무료 수강 가능 강좌, 수강확인증 가능 강좌 중 공식 강의 상세 URL이 확인되는 항목",
+    "blockedUse": "강의 검색 결과, 비공식 블로그 추천글, PDF 강의계획서 단독 링크, 접근 불가 강좌",
+    "notes": "최종 CTA는 KOCW 공식 강의 상세 또는 수강 페이지로만 연결하고, 검색 결과 페이지는 숨김 처리한다."
+  },
+  {
+    "id": "work24-training-card-issue-guide",
+    "label": "고용24 국민내일배움카드 공식 발급 안내",
+    "provider": "public_coupon",
+    "category": [
+      "정부/공공혜택",
+      "무료혜택"
+    ],
+    "sourceType": "official_application_page",
+    "officialUrl": "https://m.work24.go.kr/hr/h/a/1100/selectIssuGudn.do",
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 24,
+    "allowedUse": "고용24 공식 국민내일배움카드 발급, 훈련비 지원, 무료/국비 교육 신청 안내 중 공식 신청 경로가 확인되는 항목",
+    "blockedUse": "사설 교육기관 광고 랜딩, 비공식 후기글, 검색 결과, 과정 가격만 있는 페이지",
+    "notes": "지원 조건, 로그인 필요, 신청 단계가 명확한 경우에만 공공무료 또는 무료체험 혜택으로 노출한다."
+  },
+  {
+    "id": "royalcanin-start-of-life-campaign",
+    "label": "로얄캐닌 공식 성장기 반려동물 캠페인",
+    "provider": "official_event",
+    "category": [
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.royalcanin.com/kr/about-us/events/start-of-life-campaign",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 24,
+    "allowedUse": "로얄캐닌 공식 반려동물 성장기 캠페인, 체험, 샘플, 이벤트 안내 중 공식 참여 조건이 확인되는 항목",
+    "blockedUse": "제품 카탈로그만 있는 페이지, 비공식 체험단 글, 검색 결과, 종료된 모델 모집 이벤트",
+    "notes": "반려동물 샘플/체험 혜택은 공식 캠페인 상세와 현재 진행 여부가 확인될 때만 노출한다."
   }
 ]
