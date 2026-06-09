@@ -454,6 +454,10 @@ function isGeneratedReleaseSnapshotCommit(subject) {
   return /refresh .*release evidence/i.test(subject) || /refresh .*store release handoff docs/i.test(subject) || /refresh .*launch handoff/i.test(subject);
 }
 
+function isCiOnlyCommit(subject) {
+  return /^ci(?:\(.+\))?:/i.test(subject);
+}
+
 async function checkReleaseEvidenceFreshness() {
   const evidencePath = "docs/release-evidence.md";
   if (!existsSync(join(root, evidencePath))) {
@@ -468,6 +472,7 @@ async function checkReleaseEvidenceFreshness() {
   const status = run("git", ["status", "--short"]);
   const evidenceCommit = evidence.match(/최신 커밋:\s*([a-f0-9]+)/)?.[1] ?? "";
   const isSnapshotCommit = isGeneratedReleaseSnapshotCommit(currentSubject);
+  const isCiCommit = isCiOnlyCommit(currentSubject);
 
   if (!currentCommit || !evidenceCommit) {
     fail("release evidence freshness", "Release evidence should include the current short git commit.");
@@ -475,6 +480,8 @@ async function checkReleaseEvidenceFreshness() {
     pass("release evidence freshness", `Working tree has pending changes; clean release candidates must refresh evidence after the final commit. Current document points at ${evidenceCommit}.`);
   } else if (isSnapshotCommit && evidenceCommit === parentCommit) {
     pass("release evidence freshness", `Release evidence snapshot was refreshed for parent release commit ${parentCommit}.`);
+  } else if (isCiCommit) {
+    pass("release evidence freshness", `CI-only commit ${currentCommit} does not require regenerating store evidence; document points at ${evidenceCommit}.`);
   } else if (currentCommit !== evidenceCommit) {
     fail("release evidence freshness", `Release evidence is stale: document has ${evidenceCommit}, current commit is ${currentCommit}. Run npm run release:evidence after final QA.`);
   } else {
@@ -557,6 +564,7 @@ async function checkGeneratedReportFreshness() {
   const currentSubject = run("git", ["log", "-1", "--pretty=%s"]);
   const status = run("git", ["status", "--short"]);
   const isRefreshCommit = isGeneratedReleaseSnapshotCommit(currentSubject);
+  const isCiCommit = isCiOnlyCommit(currentSubject);
 
   for (const report of reports) {
     if (!existsSync(join(root, report.file))) {
@@ -573,6 +581,8 @@ async function checkGeneratedReportFreshness() {
       pass(report.name, `Working tree has pending changes; clean release candidates must refresh ${report.file} after the final commit. Current document points at ${reportCommit}.`);
     } else if (isRefreshCommit && reportCommit === parentCommit) {
       pass(report.name, `${report.file} snapshot was refreshed for parent release commit ${parentCommit}.`);
+    } else if (isCiCommit) {
+      pass(report.name, `CI-only commit ${currentCommit} does not require regenerating ${report.file}; document points at ${reportCommit}.`);
     } else if (currentCommit !== reportCommit) {
       fail(report.name, `${report.file} is stale: document has ${reportCommit}, current commit is ${currentCommit}. Run ${report.command} after final QA.`);
     } else {
