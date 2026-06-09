@@ -13,8 +13,8 @@
 
 - Branch: `codex/12h-product-ux-growth-hardening`
 - Remote: `origin/codex/12h-product-ux-growth-hardening`
-- 현재 최신 원격 반영 커밋: `4631e5c6 feat: expand public education benefit sources`
-- 현재 워크트리에는 공식 무료혜택 소스 카탈로그를 확장하고 검증 리포트를 갱신한 변경이 있으며, 아직 커밋 전이다.
+- 현재 최신 원격 반영 커밋: `d08168cb feat: expand civic free benefit sources`
+- 현재 워크트리는 clean 상태다.
 
 ## 현재 제품 방향
 
@@ -39,10 +39,11 @@
 - 홈 검색 UX를 무료혜택·쿠폰 중심으로 전환: `7852c351`
 - 배스킨라빈스, 던킨, 파리바게뜨, 해피포인트, OK캐쉬백, L.POINT 공식 혜택 소스 확장: `d1713437`
 - EBS, KOCW, 고용24, 로얄캐닌 공공·교육·반려동물 혜택 소스 확장: `4631e5c6`
+- 서울청년, 서울런4050, 한강공원, 보조금24 공공 무료혜택 소스 확장: `d08168cb`
 - `benefit:event:contract`는 홈과 `/free-benefits`의 조건/검증 배지를 회귀 검사한다.
 - 최근 안정 검증: `source:catalog:report`, `source:breadth:doctor`, `refresh:benefits`, `verify:benefits`, `benefit:event:contract`, `security:check`, `lint`, `test:mobile-compact`, `release:doctor`, `build`, `smoke:local`, `harness`, `qa`, `build:android`, `cap:sync` 성공.
 
-## 현재 커밋 전 변경 요약
+## 최근 완료된 변경 요약
 
 공식 무료혜택 소스 카탈로그를 더 넓혔다. 구매 상품 중심이 아니라 서울 청년 무료지원, 서울런4050 평생학습, 한강공원 무료 행사, 보조금24 공식 안내처럼 공공 무료 혜택 후보를 강화했다.
 
@@ -90,10 +91,8 @@
 
 1. `git status --short --branch`로 현재 변경 상태를 확인한다.
 2. 필요하면 `npm run workspace:doctor:strict`를 실행해 재생성 산출물 상태를 확인한다.
-3. 서울 공공 무료지원 공식 소스 확장 변경을 커밋한다.
-   - 권장 커밋 메시지: `feat: expand civic free benefit sources`
-4. 가능하면 원격 브랜치에 push한다.
-5. 이어서 실제 운영 feed URL 연결, 공공/교육/반려동물 무료혜택 후보 확대, Vercel env feed 연결 검증을 진행한다.
+3. 이어서 실제 운영 feed URL 연결, 공공/교육/반려동물 무료혜택 후보 확대, Vercel env feed 연결 검증을 진행한다.
+4. 새 공식 후보를 추가하면 `source:catalog:report`, `source:live:doctor`, `source:breadth:doctor`, `refresh:benefits`, `verify:benefits`를 먼저 통과시킨 뒤 커밋한다.
 
 ## 운영 feed 연결 순서
 
