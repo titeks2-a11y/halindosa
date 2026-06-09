@@ -1,6 +1,6 @@
 # FreeBenefitEvent 계약
 
-Generated: 2026-06-09T03:15:57.739Z
+Generated: 2026-06-09T03:24:07.600Z
 
 Status: PASS
 
@@ -67,7 +67,7 @@ Status: PASS
 | benefits events API is runtime no-store | PASS | Free benefit events API should avoid static cache and expose no-store cache policy. |
 | benefits events API is guarded and filterable | PASS | API should rate-limit and support q, type, purchase/login, ending-soon, no-purchase, sorting, category counts, and summary. |
 | benefits events API exposes trust policy | PASS | API response should tell clients that only active, passed, non-search, non-homepage, non-community events are publishable. |
-| home and freebies surfaces share publishable event selector | PASS | Home and /api/freebies should use the same publishable selector as the benefits events API. |
+| home and freebies surfaces share publishable event selector | PASS | Home and /api/freebies should use the same publishable selector as the benefits events API, and home should expose event category counts. |
 | home exposes free benefit quick filters | PASS | Home should expose mobile quick filters for the main free-benefit intents and /free-benefits should hydrate those filters from URL params. |
 | home event cards expose claim conditions | PASS | Home free-benefit event cards should show participation condition, login/purchase requirement, and validation state in compact trust badges. |
 | free benefits event cards expose claim conditions | PASS | /free-benefits event cards should show participation condition, login/purchase requirement, and validation state in compact trust badges. |

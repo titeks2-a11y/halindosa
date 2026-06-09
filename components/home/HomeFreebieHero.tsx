@@ -6,6 +6,7 @@ import { getRelativeTime, getTimeLeft } from "@/lib/format";
 import { getFreeBenefitEventLabel } from "@/lib/freeBenefitEvents";
 import { getDealImageSrc } from "@/lib/imageSrc";
 import { getHomeFreebieBenefitLabel } from "@/lib/homeFreebies";
+import type { FreeBenefitEventCategoryCount } from "@/lib/freeBenefitEvents";
 import type { FreeBenefitEvent, FreeBenefitEventType } from "@/types/freeBenefitEvent";
 import type { NewsDeal } from "@/types/newsDeal";
 
@@ -92,6 +93,7 @@ function getEventConditionBadges(event: FreeBenefitEvent) {
 interface HomeFreebieHeroProps {
   deals: NewsDeal[];
   events?: FreeBenefitEvent[];
+  eventCategoryCounts?: FreeBenefitEventCategoryCount[];
   totalCount: number;
   updatedAt: string;
   freshnessLabel?: string;
@@ -112,6 +114,7 @@ interface HomeFreebieHeroProps {
 export function HomeFreebieHero({
   deals,
   events = [],
+  eventCategoryCounts = [],
   totalCount,
   updatedAt,
   freshnessLabel,
@@ -141,7 +144,7 @@ export function HomeFreebieHero({
     if (!visibleEvents.length) return null;
     if (filter.label === "마감임박") return events.filter((event) => isEventEndingSoon(event, referenceNow)).length;
     if (!filter.eventType) return null;
-    return events.filter((event) => event.benefitType === filter.eventType).length;
+    return eventCategoryCounts.find((category) => category.id === filter.eventType)?.count ?? events.filter((event) => event.benefitType === filter.eventType).length;
   };
 
   return (

@@ -196,7 +196,9 @@ export interface HomeResponse {
     | "freshnessAgeMinutes"
     | "nextRefreshAt"
   >;
-  freebiesMeta?: Pick<FreebiesResponse, "summary" | "freshnessStatus" | "freshnessLabel" | "freshnessAgeMinutes" | "nextRefreshAt" | "totalCount" | "eventCount">;
+  freebiesMeta?: Pick<FreebiesResponse, "summary" | "freshnessStatus" | "freshnessLabel" | "freshnessAgeMinutes" | "nextRefreshAt" | "totalCount" | "eventCount"> & {
+    categoryCounts?: FreeBenefitEventCategoryCount[];
+  };
   cachePolicy?: {
     mode: "no-store";
     generatedAt: string;

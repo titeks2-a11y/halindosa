@@ -153,6 +153,7 @@ export function buildCombinedHomeSnapshot(data: HomeResponse, filters: HomeDealF
       events: Array.isArray(data.freeBenefitEvents) ? data.freeBenefitEvents : [],
       totalCount: data.freebiesMeta?.totalCount ?? data.counts?.freebies ?? data.freebies?.length ?? 0,
       eventCount: data.freebiesMeta?.eventCount ?? data.freeBenefitEvents?.length ?? 0,
+      categoryCounts: data.freebiesMeta?.categoryCounts ?? [],
       summary: data.freebiesMeta?.summary,
       freshness: {
         status: data.freebiesMeta?.freshnessStatus ?? data.newsMeta?.freshnessStatus ?? "seed",

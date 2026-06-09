@@ -26,6 +26,23 @@ export const freeBenefitEventCategories: Array<{ id: FreeBenefitEventType; label
   { id: "experiencePanel", label: "체험단" }
 ];
 
+export type FreeBenefitEventCategoryCount = (typeof freeBenefitEventCategories)[number] & { count: number };
+
+export function buildFreeBenefitEventCategoryCounts(events: FreeBenefitEvent[]): FreeBenefitEventCategoryCount[] {
+  const counts = events.reduce<Record<string, number>>(
+    (acc, event) => {
+      acc[event.benefitType] = (acc[event.benefitType] ?? 0) + 1;
+      return acc;
+    },
+    { all: events.length }
+  );
+
+  return freeBenefitEventCategories.map((category) => ({
+    ...category,
+    count: category.id === "all" ? events.length : counts[category.id] ?? 0
+  }));
+}
+
 export const freeBenefitEventLabelMap: Record<FreeBenefitEventType, string> = {
   all: "전체",
   everyone: "전원증정",

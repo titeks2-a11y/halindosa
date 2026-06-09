@@ -48,6 +48,7 @@ npm run workspace:doctor:strict
   - 전체, 전원증정, 선착순, 쿠폰, 샘플, 무료체험, 기프티콘, 포인트/캐시백, 출석체크, 신규가입, 공공무료, 체험단
 - `/api/benefits/events`는 위 12개 필터의 active publishable 카운트를 `categories`, `categoryCounts`, `filteredCategoryCounts`로 함께 내려준다.
 - `/free-benefits` 화면은 API 제공 카테고리 카운트를 우선 사용하고, 0개 필터는 비활성화 톤으로 표시한다.
+- `/api/home`과 홈 상단 무료혜택 히어로도 같은 카테고리 카운트를 사용해 첫 화면 빠른 필터 숫자를 맞춘다.
 - 홈 빠른 필터는 URL 파라미터로 `/free-benefits` 필터 상태를 복원한다.
 - 무료혜택 CTA는 공식 이벤트/신청 URL만 통과시키는 정책으로 운영한다.
 - source feed starter pack은 12개 lane 기준으로 확장되어 있다.
@@ -87,7 +88,7 @@ npm run cap:sync
 
 1. 실제 운영 feed URL을 Vercel env에 연결하기 전 `docs/FREE_BENEFIT_FEED_HANDOFF.md`와 `docs/SOURCE_FEED_ACTIVATION.md` 기준으로 검증한다.
 2. 공공/교육/반려동물/문화 무료혜택 후보를 추가하되, 사용자 CTA는 공식 상세 또는 신청 페이지가 active이고 무료 조건이 확인된 경우에만 연결한다.
-3. 홈 히어로에도 서버 카운트를 전달해 첫 화면 빠른 필터의 숫자를 `/free-benefits`와 완전히 맞춘다.
+3. 홈 히어로 빠른 필터에서 0개 카테고리를 숨길지, 비활성화 톤으로 둘지 모바일 실제 사용성을 확인한다.
 4. 새 공식 후보를 추가하면 아래 순서로 먼저 검증한다.
 
 ```bash

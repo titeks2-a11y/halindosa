@@ -202,7 +202,7 @@ const checks = [
       "requiresLogin",
       "includesQuery",
       "sortEvents",
-      "buildCategoryCounts",
+      "buildFreeBenefitEventCategoryCounts",
       "publishableTotalCount",
       "categoryCounts",
       "filteredCategoryCounts",
@@ -228,14 +228,17 @@ const checks = [
   check(
     "home and freebies surfaces share publishable event selector",
     homeRouteSource.includes("selectPublishableFreeBenefitEvents") &&
+      homeRouteSource.includes("buildFreeBenefitEventCategoryCounts") &&
+      homeRouteSource.includes("categoryCounts") &&
       freebiesRouteSource.includes("selectPublishableFreeBenefitEvents"),
-    "Home and /api/freebies should use the same publishable selector as the benefits events API."
+    "Home and /api/freebies should use the same publishable selector as the benefits events API, and home should expose event category counts."
   ),
   check(
     "home exposes free benefit quick filters",
-    hasAll(homeFreebieHeroSource, [
-      "data-home-free-benefit-quick-filters",
-      "전원증정",
+      hasAll(homeFreebieHeroSource, [
+        "data-home-free-benefit-quick-filters",
+        "eventCategoryCounts",
+        "전원증정",
       "선착순",
       "쿠폰",
       "무료체험",
