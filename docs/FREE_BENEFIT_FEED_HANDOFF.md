@@ -1,10 +1,10 @@
 # 무료혜택 Feed 운영 핸드오프
 
-- 생성 시각: 2026-06-08T23:01:33.043Z
+- 생성 시각: 2026-06-09T00:07:29.072Z
 - starter lane: 8개
 - 연결 후보: 64개
-- 접근 가능 후보: 56개
-- 보호/승인 필요 후보: 8개
+- 접근 가능 후보: 60개
+- 보호/승인 필요 후보: 4개
 - 현재 설정된 feed URL: 0개
 - canary 상태: seed_fallback_only
 
@@ -47,22 +47,22 @@ npm run smoke:local
 
 | Lane | Env | 후보 | 접근 가능 | 승인 필요 | 첫 작업 |
 | --- | --- | ---: | ---: | ---: | --- |
-| 오늘의 무료혜택 | BENEFIT_REFRESH_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS | 8 | 6 | 2 | BENEFIT_REFRESH_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
+| 오늘의 무료혜택 | BENEFIT_REFRESH_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS | 8 | 8 | 0 | BENEFIT_REFRESH_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 편의점 1+1·2+1 | OFFICIAL_EVENT_FEED_URLS<br>DEAL_EVENT_FEED_URLS | 8 | 8 | 0 | OFFICIAL_EVENT_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 뷰티 샘플·체험 | OFFICIAL_EVENT_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS | 8 | 7 | 1 | OFFICIAL_EVENT_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 카페·외식 쿠폰 | OFFICIAL_EVENT_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS<br>DEAL_EVENT_NEWS_FEED_URLS | 8 | 8 | 0 | OFFICIAL_EVENT_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 페이·포인트·캐시백 | PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS | 8 | 6 | 2 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
-| 공공·문화 무료 | PUBLIC_COUPON_FEED_URLS<br>DEAL_NEWS_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS | 8 | 7 | 1 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
-| 교육 무료체험 | PUBLIC_COUPON_FEED_URLS<br>DEAL_NEWS_FEED_URLS | 8 | 7 | 1 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
+| 공공·문화 무료 | PUBLIC_COUPON_FEED_URLS<br>DEAL_NEWS_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS | 8 | 8 | 0 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
+| 교육 무료체험 | PUBLIC_COUPON_FEED_URLS<br>DEAL_NEWS_FEED_URLS | 8 | 8 | 0 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 반려동물·체험단 | BENEFIT_REFRESH_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS | 8 | 7 | 1 | BENEFIT_REFRESH_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 
 ## 바로 확인할 후보
 
 ### 오늘의 무료혜택
 
+- 아모레몰 공식 뷰티포인트·샘플 이벤트: https://www.amoremall.com/kr/ko/main.html
+- PAYCO 공식 이벤트·쿠폰 혜택: https://www.payco.com/event.nhn
 - 고용24 직업훈련·국민내일배움카드 공식 지원: https://www.work24.go.kr/cm/main.do
-- K-MOOC 공식 무료 온라인 강좌 예시: https://www.kmooc.kr/view/course/detail/18713
-- 해피포인트 공식 제휴 할인 혜택: https://www.happypointcard.com/alliance/service/guide.spc
 
 ### 편의점 1+1·2+1
 
@@ -72,9 +72,9 @@ npm run smoke:local
 
 ### 뷰티 샘플·체험
 
+- 라운드랩 공식 이벤트 게시판: https://roundlab.co.kr/board/gallery/list.html?board_no=8
 - 이니스프리 공식 샘플마켓: https://m.innisfree.com/kr/ko/dp/sample-market
 - 이니스프리 공식 이벤트·쿠폰: https://www.innisfree.com/kr/ko/dp/posting-list
-- 롯데ON 공식 혜택 이벤트: https://www.lotteon.com/event/onLohbsShare
 
 ### 카페·외식 쿠폰
 
@@ -84,9 +84,9 @@ npm run smoke:local
 
 ### 페이·포인트·캐시백
 
+- PAYCO 공식 이벤트·쿠폰 혜택: https://www.payco.com/event.nhn
 - OK캐쉬백 공식 이벤트 혜택: https://www.okcashbag.com/life/event/eventHome.do
-- OK캐쉬백 공식 브랜드 이벤트: https://www.okcashbag.com/life/event/eventMain.do
-- 스타벅스 리워드 공식 혜택: https://www.starbucks.co.kr/msr/msreward/about.do
+- LG U+ 공식 라이프케어 혜택 이벤트: https://www.lguplus.com/benefit-event/lifecare/home/81776
 
 ### 공공·문화 무료
 
@@ -98,13 +98,13 @@ npm run smoke:local
 
 - 고용24 직업훈련·국민내일배움카드 공식 지원: https://www.work24.go.kr/cm/main.do
 - K-MOOC 공식 무료 온라인 강좌 예시: https://www.kmooc.kr/view/course/detail/18713
-- 서울문화포털 공식 무료·할인 문화행사: https://culture.seoul.go.kr/culture/culture/cultureEvent/list.do
+- 복지로 공식 복지서비스·신청 혜택: https://www.bokjiro.go.kr/ssis-tbu/index.do
 
 ### 반려동물·체험단
 
+- 아모레몰 공식 뷰티포인트·샘플 이벤트: https://www.amoremall.com/kr/ko/main.html
 - 이니스프리 공식 샘플마켓: https://m.innisfree.com/kr/ko/dp/sample-market
-- 로얄캐닌 코리아 공식 반려동물 캠페인: https://www.royalcanin.com/kr/about-us/news/sol4-campaign
-- 이니스프리 공식 이벤트·쿠폰: https://www.innisfree.com/kr/ko/dp/posting-list
+- 라운드랩 공식 이벤트 게시판: https://roundlab.co.kr/board/gallery/list.html?board_no=8
 
 ## 금지 원칙
 

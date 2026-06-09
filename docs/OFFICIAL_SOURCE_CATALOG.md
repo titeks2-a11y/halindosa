@@ -2,10 +2,10 @@
 
 이 문서는 할인도사에 연결할 수 있는 공식 이벤트, 공공 혜택, 제휴 JSON/RSS 후보를 정리합니다. 무단 크롤링 후보가 아니라 운영자가 승인 feed 또는 공식 페이지 매핑으로 전환할 때 쓰는 출발점입니다.
 
-- 생성 시각: 2026-06-08T22:02:13.866Z
+- 생성 시각: 2026-06-09T00:07:16.726Z
 - 상태: PASS
-- 후보 소스: 102개
-- 고우선순위 후보: 31개
+- 후보 소스: 110개
+- 고우선순위 후보: 33개
 - 현재 env feed 연결 후보: 0개
 - 공식 혜택 노출: 105개
 - feed 전환 상태: seed_launch_ready
@@ -15,15 +15,15 @@
 
 | 카테고리 | 후보 수 | 상태 |
 | --- | ---: | --- |
-| 식품/생필품 | 10 | 충분 |
+| 식품/생필품 | 11 | 충분 |
 | 마트/편의점 | 12 | 충분 |
-| 디지털/가전 | 6 | 충분 |
-| 패션/뷰티 | 10 | 충분 |
+| 디지털/가전 | 7 | 충분 |
+| 패션/뷰티 | 13 | 충분 |
 | 외식/배달 | 33 | 충분 |
 | 여행/숙박 | 9 | 충분 |
 | 영화/문화 | 18 | 충분 |
-| 카드/멤버십 | 30 | 충분 |
-| 무료혜택 | 65 | 충분 |
+| 카드/멤버십 | 33 | 충분 |
+| 무료혜택 | 73 | 충분 |
 | 정부/공공혜택 | 12 | 충분 |
 
 ## Provider 커버리지
@@ -32,8 +32,8 @@
 | --- | ---: | --- |
 | news | 1 | 포함 |
 | event_news | 2 | 포함 |
-| official_event | 60 | 포함 |
-| public_coupon | 39 | 포함 |
+| official_event | 67 | 포함 |
+| public_coupon | 40 | 포함 |
 
 ## 후보 목록
 
@@ -141,6 +141,14 @@
 | culture-seoul-official-events | public_coupon | 영화/문화, 정부/공공혜택, 무료혜택 | medium | https://culture.seoul.go.kr/culture/culture/cultureEvent/list.do | PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS, DEAL_EVENT_NEWS_FEED_URLS |
 | royalcanin-kr-official-events | official_event | 식품/생필품, 무료혜택 | medium | https://www.royalcanin.com/kr/about-us/news/sol4-campaign | OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
 | powderroom-review-event | public_coupon | 패션/뷰티, 무료혜택 | medium | https://www.powderroom.co.kr/review | PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| lguplus-lifecare-benefit-event | official_event | 카드/멤버십, 무료혜택 | high | https://www.lguplus.com/benefit-event/lifecare/home/81776 | OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| amoremall-official-benefit-events | official_event | 패션/뷰티, 무료혜택 | high | https://www.amoremall.com/kr/ko/main.html | OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| roundlab-official-event-board | official_event | 패션/뷰티, 무료혜택 | medium | https://roundlab.co.kr/board/gallery/list.html?board_no=8 | OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| kakaopay-membership-benefits | official_event | 카드/멤버십, 무료혜택 | medium | https://www.kakaopay.com/services/life/membership | OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| payco-official-benefit-events | official_event | 카드/멤버십, 무료혜택 | medium | https://www.payco.com/event.nhn | OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| lotteon-lohbs-official-event | official_event | 식품/생필품, 패션/뷰티, 무료혜택 | medium | https://www.lotteon.com/event/onLohbsShare | OFFICIAL_EVENT_FEED_URLS, DEAL_EVENT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| danawa-official-events | official_event | 디지털/가전, 무료혜택 | medium | https://event.danawa.com/main/index.php | OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| suto-approved-event-discovery | public_coupon | 무료혜택 | low | https://www.suto.co.kr/bbs/board.php?bo_table=cpevent | PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
 
 ## 다음 작업
 

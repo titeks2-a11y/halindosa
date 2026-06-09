@@ -84,6 +84,43 @@ const requiredLanes = [
   }
 ];
 
+const requiredBrandSignals = [
+  { id: "skt", label: "SKT T멤버십", patterns: [/skt|t멤버십|tmembership/i] },
+  { id: "kt", label: "KT 멤버십", patterns: [/\bkt\b|kt멤버십|kt membership/i] },
+  { id: "lguplus", label: "LG U+", patterns: [/lg u\+|lguplus|uplus|유플러스/i] },
+  { id: "cu", label: "CU", patterns: [/\bcu\b|cu-|bgfretail/i] },
+  { id: "gs25", label: "GS25", patterns: [/gs25|gsretail/i] },
+  { id: "seven-eleven", label: "세븐일레븐", patterns: [/세븐일레븐|7-eleven|7eleven/i] },
+  { id: "emart24", label: "이마트24", patterns: [/emart24|이마트24/i] },
+  { id: "oliveyoung", label: "올리브영", patterns: [/oliveyoung|올리브영/i] },
+  { id: "amore", label: "아모레몰", patterns: [/amore|아모레/i] },
+  { id: "roundlab", label: "라운드랩", patterns: [/roundlab|라운드랩/i] },
+  { id: "starbucks", label: "스타벅스", patterns: [/starbucks|스타벅스/i] },
+  { id: "ediya", label: "이디야", patterns: [/ediya|이디야/i] },
+  { id: "baemin", label: "배민", patterns: [/baemin|배민/i] },
+  { id: "yogiyo", label: "요기요", patterns: [/yogiyo|요기요/i] },
+  { id: "naverpay", label: "네이버페이", patterns: [/naverpay|네이버페이/i] },
+  { id: "kakaopay", label: "카카오페이", patterns: [/kakaopay|카카오페이/i] },
+  { id: "payco", label: "PAYCO", patterns: [/payco|페이코/i] },
+  { id: "okcashbag", label: "OK캐쉬백", patterns: [/okcashbag|ok캐쉬백/i] },
+  { id: "cjone", label: "CJ ONE", patterns: [/cjone|cj one/i] },
+  { id: "happypoint", label: "해피포인트", patterns: [/happy.?point|해피포인트/i] },
+  { id: "emart", label: "이마트", patterns: [/emart|이마트/i] },
+  { id: "homeplus", label: "홈플러스", patterns: [/homeplus|홈플러스/i] },
+  { id: "ssg", label: "SSG", patterns: [/ssg/i] },
+  { id: "lotteon", label: "롯데ON", patterns: [/lotteon|롯데on|롯데온/i] },
+  { id: "elevenst", label: "11번가", patterns: [/11st|11번가/i] },
+  { id: "danawa", label: "다나와", patterns: [/danawa|다나와/i] },
+  { id: "culture-day", label: "문화가 있는 날", patterns: [/문화가.?있는.?날|mnuri/i] },
+  { id: "seoul-culture", label: "서울시 문화행사", patterns: [/culture\.seoul|서울문화|서울시/i] },
+  { id: "gov24", label: "정부24", patterns: [/gov24|정부24/i] },
+  { id: "bokjiro", label: "복지로", patterns: [/bokjiro|복지로/i] },
+  { id: "hrd", label: "HRD-Net/고용24", patterns: [/hrd|work24|고용24|내일배움/i] },
+  { id: "kmooc", label: "K-MOOC", patterns: [/kmooc|k-mooc/i] },
+  { id: "royalcanin", label: "반려동물 샘플", patterns: [/royalcanin|로얄캐닌|반려|pet/i] },
+  { id: "experience-panel", label: "체험단/샘플 플랫폼", patterns: [/powderroom|파우더룸|체험단|샘플|review/i] }
+];
+
 function readJson(path, fallback) {
   if (!existsSync(path)) return fallback;
   try {
@@ -158,15 +195,45 @@ const lanes = requiredLanes.map((lane) => {
   };
 });
 
+const brandSignals = requiredBrandSignals.map((brand) => {
+  const matches = (Array.isArray(catalog) ? catalog : [])
+    .filter((source) => brand.patterns.some((pattern) => pattern.test(sourceText(source))))
+    .map((source) => {
+      const live = liveRowsById.get(source.id);
+      return {
+        id: source.id,
+        label: source.label,
+        officialUrl: source.officialUrl,
+        liveStatus: live?.status ?? "not_checked",
+        liveReason: live?.reason ?? ""
+      };
+    });
+  const activeMatches = matches.filter((source) => source.liveStatus !== "stale_or_removed");
+  const ok = activeMatches.length > 0;
+  if (!ok) issues.push(`${brand.label} 핵심 브랜드 후보가 공식 소스 카탈로그에 없습니다.`);
+
+  return {
+    id: brand.id,
+    label: brand.label,
+    matchedCount: matches.length,
+    activeCount: activeMatches.length,
+    ok,
+    sources: activeMatches.slice(0, 6)
+  };
+});
+
 const report = {
   ok: issues.length === 0,
   generatedAt: new Date().toISOString(),
   catalogCount: Array.isArray(catalog) ? catalog.length : 0,
   requiredLaneCount: requiredLanes.length,
   passedLaneCount: lanes.filter((lane) => lane.ok).length,
+  requiredBrandSignalCount: requiredBrandSignals.length,
+  passedBrandSignalCount: brandSignals.filter((brand) => brand.ok).length,
   minimumTotalActiveSources: requiredLanes.reduce((total, lane) => total + lane.minimum, 0),
   liveReportStatus: liveReport.ok === true ? "available" : "missing_or_not_ok",
   lanes,
+  brandSignals,
   issues,
   operatorNextActions: [
     "새 무료혜택 source를 추가할 때는 이 doctor가 요구하는 수집 축 중 어느 축을 보강하는지 확인합니다.",
@@ -185,6 +252,7 @@ const docs = [
   `- 생성 시각: ${report.generatedAt}`,
   `- 공식 소스 후보: ${report.catalogCount}개`,
   `- 필수 수집 축: ${report.passedLaneCount}/${report.requiredLaneCount} 통과`,
+  `- 핵심 브랜드 신호: ${report.passedBrandSignalCount}/${report.requiredBrandSignalCount} 통과`,
   `- live report: ${report.liveReportStatus}`,
   "",
   "| 수집 축 | 기준 | 활성 소스 | 상태 | 대표 소스 |",
@@ -192,6 +260,15 @@ const docs = [
   ...lanes.map((lane) => {
     const examples = lane.sources.slice(0, 4).map((source) => source.label || source.id).join(", ");
     return `| ${lane.label} | ${lane.minimum} | ${lane.activeCount} | ${lane.ok ? "PASS" : "FAIL"} | ${examples || "-"} |`;
+  }),
+  "",
+  "## 핵심 브랜드 신호",
+  "",
+  "| 브랜드/기관 | 활성 후보 | 상태 | 대표 소스 |",
+  "| --- | ---: | --- | --- |",
+  ...brandSignals.map((brand) => {
+    const examples = brand.sources.slice(0, 3).map((source) => source.label || source.id).join(", ");
+    return `| ${brand.label} | ${brand.activeCount} | ${brand.ok ? "PASS" : "FAIL"} | ${examples || "-"} |`;
   }),
   "",
   "## 운영 원칙",

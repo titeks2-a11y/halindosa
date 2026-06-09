@@ -12,8 +12,8 @@
 
 - Branch: `codex/12h-product-ux-growth-hardening`
 - Remote: `origin/codex/12h-product-ux-growth-hardening`
-- 기준 커밋: `8268aa81 test: add free benefit feed activation gate`
-- 이 상태 문서에 포함된 최신 작업: 무료혜택 feed activation 운영 API와 관리자 대시보드 노출.
+- 기준 커밋: `491709d2 feat: expose free benefit feed activation operations`
+- 이 상태 문서에 포함된 최신 작업: 공식 무료혜택 소스 카탈로그와 핵심 브랜드 신호 게이트 강화.
 
 ## 최근 완료 작업
 
@@ -72,6 +72,20 @@
 - 관리자 대시보드에 `무료혜택 feed activation` 섹션을 추가했다.
 - smoke/release doctor가 activation API, CSV, Markdown, admin page 문구를 검사한다.
 
+### 공식 무료혜택 소스 카탈로그 확장
+
+- `data/officialSourceCatalog.json`
+- `scripts/free-benefit-source-breadth-doctor.mjs`
+- `scripts/lib/release-doctor-operational-data.mjs`
+
+구현 요약:
+
+- LG U+, 아모레몰, 라운드랩, 카카오페이, PAYCO, 롯데ON, 다나와, 슈퍼투데이 승인 발견 소스를 추가했다.
+- 공식 소스 후보가 102개에서 110개로 늘었다.
+- live 접근성은 94개 reachable, 16개 guarded, stale 0개로 유지된다.
+- `source:breadth:doctor`가 12개 수집 축뿐 아니라 핵심 브랜드 신호 34개를 검사한다.
+- release doctor가 핵심 브랜드 신호 누락을 차단한다.
+
 ## 마지막으로 확인한 명령
 
 - `npm run lint` 성공
@@ -89,6 +103,9 @@
 - `npm run source:prepare` 성공
 - `npm run test:home-realtime` 성공, 20/20 및 runtime snapshot 4/4 통과
 - `npm run security:check` 성공, 10/10 통과
+- `npm run source:catalog:report` 성공, 공식 소스 110개
+- `npm run source:live:doctor` 성공, reachable 94개, guarded 16개, stale 0개
+- `npm run source:breadth:doctor` 성공, 수집 축 12/12 및 핵심 브랜드 신호 34/34 통과
 
 ## 현재 제품 방향
 
@@ -99,8 +116,9 @@
 1. 공식 무료혜택, 쿠폰, 샘플, 체험, 전원증정 이벤트 노출
 2. 검색 링크, 대표몰 메인, 커뮤니티 글, 종료/품절/미검증 링크 차단
 3. 모바일 첫 화면에서 무료혜택을 가장 먼저 보여주는 UI 유지
-4. 운영자가 공식 feed URL을 쉽게 연결할 수 있는 handoff/activation 구조 강화
-5. Vercel env, cron, QA, release doctor, Android sync 품질 유지
+4. 핵심 브랜드/기관 소스 신호 34개를 유지하며 공식 feed 전환 준비
+5. 운영자가 공식 feed URL을 쉽게 연결할 수 있는 handoff/activation 구조 강화
+6. Vercel env, cron, QA, release doctor, Android sync 품질 유지
 
 ## 다음 세션에서 바로 할 일
 

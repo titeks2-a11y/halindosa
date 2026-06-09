@@ -2152,5 +2152,192 @@
     "allowedUse": "운영자가 승인한 체험단 플랫폼에서 브랜드 제공 상품, 모집 기간, 참여 조건이 확인되는 체험 혜택을 발견용으로 사용",
     "blockedUse": "광고성 중간 페이지를 finalUrl로 사용, 조건이 불명확한 모집글, 공식 브랜드/플랫폼 확인이 안 되는 체험단",
     "notes": "사용자 CTA는 가능하면 브랜드 공식 이벤트 또는 플랫폼의 개별 모집 상세로 보강하고, 목록/검색 페이지는 노출하지 않는다."
+  },
+  {
+    "id": "lguplus-lifecare-benefit-event",
+    "label": "LG U+ 공식 라이프케어 혜택 이벤트",
+    "provider": "official_event",
+    "category": [
+      "카드/멤버십",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.lguplus.com/benefit-event/lifecare/home/81776",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 12,
+    "allowedUse": "LG U+ 공식 멤버십, 라이프케어, 쿠폰, 무료/할인 혜택 중 참여 조건과 공식 신청 경로가 확인되는 항목",
+    "blockedUse": "통신사 혜택 모음 블로그, 중고 쿠폰 거래, 공식 신청 페이지가 아닌 검색 결과",
+    "notes": "앱/회원 전용 혜택은 로그인 필요 여부와 등급 조건을 participationCondition에 저장한다."
+  },
+  {
+    "id": "amoremall-official-benefit-events",
+    "label": "아모레몰 공식 뷰티포인트·샘플 이벤트",
+    "provider": "official_event",
+    "category": [
+      "패션/뷰티",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.amoremall.com/kr/ko/main.html",
+    "allowedFinalHosts": [
+      "maintenance.amoremall.com",
+      "www.amoremall.com"
+    ],
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 12,
+    "allowedUse": "아모레몰 공식 이벤트, 출석체크, 신상 체험, 샘플, 뷰티포인트 혜택 중 공식 상세와 기간이 확인되는 항목",
+    "blockedUse": "검색 결과, 비공식 뷰티 커뮤니티 글, 공식몰 장애/점검 페이지를 사용자 CTA로 직접 노출",
+    "notes": "공식몰 점검 페이지로 리다이렉트되면 guarded로 보관하고 승인 feed나 수동 승인 상세 URL로 보강한다."
+  },
+  {
+    "id": "roundlab-official-event-board",
+    "label": "라운드랩 공식 이벤트 게시판",
+    "provider": "official_event",
+    "category": [
+      "패션/뷰티",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://roundlab.co.kr/board/gallery/list.html?board_no=8",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "라운드랩 공식 이벤트, 샘플, 체험, 쿠폰 혜택 중 상세 게시글과 기간이 확인되는 항목",
+    "blockedUse": "올리브영 판매자 행사만 있는 링크, 비공식 SNS 캡처, 검색 결과",
+    "notes": "목록 URL은 운영 후보로만 쓰고 사용자 CTA는 개별 공식 이벤트 상세로 보강한다."
+  },
+  {
+    "id": "kakaopay-membership-benefits",
+    "label": "카카오페이 공식 멤버십·포인트 혜택",
+    "provider": "official_event",
+    "category": [
+      "카드/멤버십",
+      "무료혜택"
+    ],
+    "sourceType": "official_benefit_page",
+    "officialUrl": "https://www.kakaopay.com/services/life/membership",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "카카오페이 공식 멤버십, 적립, 포인트, 제휴 혜택 중 공식 서비스 페이지와 조건이 확인되는 항목",
+    "blockedUse": "카카오페이 포인트 사용법 블로그, 광고성 금융 중개 랜딩, 검색 결과",
+    "notes": "혜택이 결제/멤버십 가입을 요구하면 purchaseRequired 또는 loginRequired를 명확히 표시한다."
+  },
+  {
+    "id": "payco-official-benefit-events",
+    "label": "PAYCO 공식 이벤트·쿠폰 혜택",
+    "provider": "official_event",
+    "category": [
+      "카드/멤버십",
+      "무료혜택"
+    ],
+    "sourceType": "official_benefit_page",
+    "officialUrl": "https://www.payco.com/event.nhn",
+    "allowedFinalHosts": [
+      "www.payco.com",
+      "payco.com"
+    ],
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "PAYCO 공식 이벤트, 쿠폰, 포인트, 제휴 결제 혜택 중 조건과 기간이 확인되는 항목",
+    "blockedUse": "비공식 포인트 적립 방법 글, 광고성 리워드앱 랜딩, 검색 결과",
+    "notes": "공식 페이지가 통합 메인으로 리다이렉트되면 사용자 CTA에는 개별 이벤트 상세만 연결한다."
+  },
+  {
+    "id": "lotteon-lohbs-official-event",
+    "label": "롯데ON 공식 롭스·뷰티 이벤트",
+    "provider": "official_event",
+    "category": [
+      "식품/생필품",
+      "패션/뷰티",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.lotteon.com/event/onLohbsShare",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "DEAL_EVENT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "롯데ON 공식 이벤트, 뷰티 쿠폰, 샘플, 무료배송 혜택 중 공식 상세 페이지가 확인되는 항목",
+    "blockedUse": "롯데ON 검색 결과, 대표 쇼핑몰 메인, 커뮤니티 특가 글",
+    "notes": "종료된 이벤트는 expired로 숨기고, 공식 이벤트 상세 URL만 finalUrl에 사용한다."
+  },
+  {
+    "id": "danawa-official-events",
+    "label": "다나와 공식 이벤트",
+    "provider": "official_event",
+    "category": [
+      "디지털/가전",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://event.danawa.com/main/index.php",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "다나와 공식 이벤트, 경품, 체험, 댓글/응모 혜택 중 공식 상세와 기간이 확인되는 항목",
+    "blockedUse": "가격비교 검색 결과, 커뮤니티 이벤트 공유글, 광고성 중간 페이지",
+    "notes": "사용자 CTA는 개별 다나와 이벤트 상세 또는 공식 신청 페이지로만 연결한다."
+  },
+  {
+    "id": "suto-approved-event-discovery",
+    "label": "슈퍼투데이 승인 이벤트 발견 소스",
+    "provider": "public_coupon",
+    "category": [
+      "무료혜택"
+    ],
+    "sourceType": "approved_public_benefit_page",
+    "officialUrl": "https://www.suto.co.kr/bbs/board.php?bo_table=cpevent",
+    "guardedHttpStatuses": [
+      403,
+      429
+    ],
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "approved_public_page_or_json_feed",
+    "priority": "low",
+    "refreshCadenceHours": 24,
+    "allowedUse": "운영자가 승인한 공개 이벤트 발견용 소스로만 사용하고, 최종 CTA는 브랜드/기관 공식 이벤트 상세로 보강",
+    "blockedUse": "슈퍼투데이 게시글을 사용자 최종 CTA로 연결, 비공식 이벤트만 단독 노출, 검색 결과 대체",
+    "notes": "비공식 모음 사이트이므로 사용자 노출 URL이 아니라 공식 URL 보강 큐 생성용으로만 사용한다."
   }
 ]

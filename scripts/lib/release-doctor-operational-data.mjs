@@ -149,6 +149,12 @@ export async function checkOperationalDataSurfaces() {
   const sourceStarterPackReport = existsSync(join(root, "reports/free-benefit-feed-starter-pack.json"))
     ? JSON.parse(readFileSync(join(root, "reports/free-benefit-feed-starter-pack.json"), "utf8"))
     : {};
+  const sourceBreadthReport = existsSync(join(root, "reports/free-benefit-source-breadth.json"))
+    ? JSON.parse(readFileSync(join(root, "reports/free-benefit-source-breadth.json"), "utf8"))
+    : {};
+  const sourceBreadthDoc = existsSync(join(root, "docs/FREE_BENEFIT_SOURCE_BREADTH.md"))
+    ? readFileSync(join(root, "docs/FREE_BENEFIT_SOURCE_BREADTH.md"), "utf8")
+    : "";
   const sourceFeedHandoffReport = existsSync(join(root, "reports/free-benefit-feed-handoff.json"))
     ? JSON.parse(readFileSync(join(root, "reports/free-benefit-feed-handoff.json"), "utf8"))
     : {};
@@ -1564,6 +1570,18 @@ export async function checkOperationalDataSurfaces() {
     !Array.isArray(sourceStarterPackReport.packs) ||
     sourceStarterPackReport.packs.length < 8 ||
     sourceStarterPackReport.packs.some((pack) => !pack.envKeys?.length || !pack.firstAction || (pack.candidateCount ?? 0) < 3) ||
+    sourceBreadthReport.ok !== true ||
+    (sourceBreadthReport.catalogCount ?? 0) < 100 ||
+    (sourceBreadthReport.passedLaneCount ?? 0) < 12 ||
+    (sourceBreadthReport.requiredLaneCount ?? 0) < 12 ||
+    (sourceBreadthReport.passedBrandSignalCount ?? 0) < 30 ||
+    (sourceBreadthReport.requiredBrandSignalCount ?? 0) < 30 ||
+    !Array.isArray(sourceBreadthReport.brandSignals) ||
+    sourceBreadthReport.brandSignals.some((brand) => brand.ok !== true) ||
+    !sourceBreadthDoc.includes("핵심 브랜드 신호") ||
+    !sourceBreadthDoc.includes("LG U+") ||
+    !sourceBreadthDoc.includes("카카오페이") ||
+    !sourceBreadthDoc.includes("다나와") ||
     sourceFeedHandoffReport.ok !== true ||
     (sourceFeedHandoffReport.starterPack?.laneCount ?? 0) < 8 ||
     (sourceFeedHandoffReport.starterPack?.totalCandidates ?? 0) < 50 ||
