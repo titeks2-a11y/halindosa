@@ -16,6 +16,8 @@
 - Branch: `codex/12h-product-ux-growth-hardening`
 - Remote tracking: `origin/codex/12h-product-ux-growth-hardening`
 - 최신 확인 커밋:
+  - `02a8d818 feat: add official pet sample benefit`
+  - `9696e102 fix: block homepage-like official benefit links`
   - `e98e0ee0 feat: expand seoul public free service benefits`
   - `c70ab1ae feat: add seoul public free benefit events`
   - `cc1b72ff feat: prioritize low-friction free benefits`
@@ -36,6 +38,7 @@
 
 ## 데이터 상태
 
+- 현재 HEAD: `02a8d818`
 - 공식 소스 후보: `172`
 - 뉴스/혜택 seed: `146`
 - `data/refreshedNewsDeals.json` 기준 refreshed 항목: `143`
@@ -101,6 +104,7 @@
 - 2026-06-09 추가 보강: 서울시 공공서비스예약의 무료 공공서비스 상세 4건과 로얄캐닌 반려동물 샘플 체험키트 공식 캠페인을 추가했고, 공식 혜택 143개와 무료혜택 이벤트 140개 기준으로 `qa`, `harness`, `build`, `build:android`, `cap:sync`가 통과했다.
 - 2026-06-09 추가 보강: 사용자 CTA에 직접 노출되던 대표/메인 성격의 공식 혜택 seed 5건을 제거했다. 제거 항목은 문화누리카드 메인, L.POINT 혜택 메인, 고용24 메인, 한국장학재단 메인, 서울시 공공서비스예약 메인이다.
 - 2026-06-09 추가 보강: 노출 공식 혜택의 `finalUrl` 중 root/main/index 계열 대표 URL은 0건으로 확인됐다.
+- 2026-06-09 추가 보강: 로얄캐닌 코리아 공식 성장기 반려동물 샘플 체험키트 혜택을 추가했고 `refresh:news`, `verify:news`, `refresh:benefits`, `security:check`, `qa`, `harness`, `build`, `build:android`, `cap:sync`, `workspace:doctor:strict`가 통과했다.
 - 2026-06-09 확인: `next-env.d.ts`는 `./.next/dev/types/routes.d.ts` 경로를 참조하는 정상 상태다.
 
 새 세션에서는 필요한 명령을 다시 실행해 실제 현재 상태를 확인한 뒤 진행한다.
@@ -109,6 +113,7 @@
 
 - refresh, verification, release evidence 산출물 때문에 워크트리가 dirty일 수 있다.
 - 현재 워크트리에는 QA/harness/refresh 실행으로 갱신된 report/data 산출물이 많이 남아 있을 수 있다. 새 세션은 먼저 `git status --short --branch`로 실제 dirty 범위를 확인한다.
+- 2026-06-09 현재 확인 기준으로 소스 변경은 최신 커밋까지 push되어 있고, dirty 항목 대부분은 `reports/`, 루트 리포트, `docs/*REPORT*`, `data/refreshedDeals.json`, `data/verifiedNewsBenefitImages.json`, `data/linkValidationExposureOverrides.json` 같은 재생성 산출물이다.
 - `git add .`를 쓰지 말고 이번 작업 관련 파일만 명시적으로 stage한다.
 - 빌드 후 `next-env.d.ts`가 `./.next/types/routes.d.ts`로 바뀌면 `./.next/dev/types/routes.d.ts`로 되돌린다.
 - 정상 동작 중인 Vercel, Android/Capacitor, 환경변수, Supabase 설정을 깨뜨리지 않는다.
