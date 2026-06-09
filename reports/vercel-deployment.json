@@ -1,11 +1,11 @@
 {
   "ok": false,
-  "generatedAt": "2026-06-09T17:58:13.042Z",
+  "generatedAt": "2026-06-09T18:10:39.192Z",
   "origin": "https://halindosa.com",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "cd154936",
-  "workingTree": "82 changed file(s): M DEVICE_QA_REPORT.md; M EXTERNAL_LINK_REPORT.md; M HARNESS_REPORT.md; M IMAGE_QUALITY_REPORT.md; M KNOWN_ISSUES.md; M LINK_VERIFICATION_REPORT.md; M LINK_VERIFICATION_RESULT.json; M PERFORMANCE_REPORT.md; ... +74 more",
-  "workingTreeChangedFileCount": 82,
+  "commit": "8d30962f",
+  "workingTree": "84 changed file(s): M DEVICE_QA_REPORT.md; M EXTERNAL_LINK_REPORT.md; M HARNESS_REPORT.md; M IMAGE_QUALITY_REPORT.md; M KNOWN_ISSUES.md; M LINK_VERIFICATION_REPORT.md; M LINK_VERIFICATION_RESULT.json; M PERFORMANCE_REPORT.md; ... +76 more",
+  "workingTreeChangedFileCount": 84,
   "project": {
     "linked": false
   },
@@ -15,22 +15,24 @@
     "vercelProjectIdPresent": false
   },
   "summary": {
-    "totalChecks": 26,
+    "totalChecks": 27,
     "passedChecks": 24,
-    "failedChecks": 2,
+    "failedChecks": 3,
     "rootStatus": 200,
     "homeApiStatus": 200,
     "dealsApiStatus": 200,
     "freebiesApiStatus": 200,
     "homeApiRequestId": "",
     "dealsApiRequestId": "",
-    "freebiesApiRequestId": "53d84043-9872-4bad-a991-68320f5a4a2a",
+    "freebiesApiRequestId": "55861f70-bb5f-452d-974a-0dedb3566f57",
     "goRedirectStatus": 302,
     "officialBenefitRedirectStatus": 302,
     "homeApiCacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
     "freebiesApiCacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
     "cronRefreshGuardStatus": 401,
     "cronBenefitsGuardStatus": 401,
+    "canonicalOriginCount": 2,
+    "canonicalOriginContractPassed": false,
     "homeProductDeals": 8,
     "homeOfficialBenefits": 8,
     "freebies": 12,
@@ -139,6 +141,11 @@
       "detail": "Default /api/freebies response excludes public/policy benefits unless explicitly requested."
     },
     {
+      "name": "canonical production api contracts",
+      "ok": false,
+      "detail": "At least one production origin is stale or missing requestId/rate-limit headers: https://halindosa.com, https://www.halindosa.com"
+    },
+    {
       "name": "cron refresh public guard",
       "ok": true,
       "detail": "/api/cron/refresh rejects unauthenticated dry-run probes on the public deployment."
@@ -174,7 +181,7 @@
       "url": "https://halindosa.com/",
       "status": 200,
       "ok": true,
-      "elapsedMs": 947,
+      "elapsedMs": 1208,
       "cacheControl": "private, no-cache, no-store, max-age=0, must-revalidate",
       "contentType": "text/html; charset=utf-8",
       "contentSecurityPolicy": "default-src 'self'; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; form-action 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https: http: data: blob:; font-src 'self' data:; connect-src 'self' https:; worker-src 'self' blob:; manifest-src 'self'",
@@ -186,14 +193,14 @@
       "requestId": "",
       "rateLimitRemaining": "",
       "location": "",
-      "xVercelId": "icn1::iad1::6dvrr-1781027889516-0694c71f6697",
+      "xVercelId": "icn1::iad1::66mkk-1781028632362-cd465bc3499e",
       "bodyPreview": "<!DOCTYPE html><html lang=\"ko\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover\"/><link rel=\"stylesheet\" href=\"/_next/static/chunks/0vof34frpah5h.css\" data-"
     },
     "homeApi": {
       "url": "https://halindosa.com/api/home?limit=8&verifiedOnly=true",
       "status": 200,
       "ok": true,
-      "elapsedMs": 1580,
+      "elapsedMs": 1769,
       "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
       "contentType": "application/json",
       "contentSecurityPolicy": "default-src 'self'; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; form-action 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https: http: data: blob:; font-src 'self' data:; connect-src 'self' https:; worker-src 'self' blob:; manifest-src 'self'",
@@ -205,14 +212,14 @@
       "requestId": "",
       "rateLimitRemaining": "",
       "location": "",
-      "xVercelId": "icn1::iad1::6dvrr-1781027890347-c6b1f8653b45",
+      "xVercelId": "icn1::iad1::rtlks-1781028633509-af7f25f8e2a5",
       "bodyPreview": "{\"ok\":true,\"deals\":[{\"id\":\"d001\",\"title\":\"삼성 86인치 4K 스마트 UHD TV\",\"description\":\"롯데온에서 확인된 삼성 86인치 4K 스마트 UHD TV 특가입니다.\",\"price\":889000,\"originalPrice\":1201350,\"salePrice\":889000,\"discountRate\":26,\"mallName\":\"롯데온\",\"subCategory\":\"실시간\",\"catego"
     },
     "dealsApi": {
       "url": "https://halindosa.com/api/deals?limit=8&verifiedOnly=true",
       "status": 200,
       "ok": true,
-      "elapsedMs": 262,
+      "elapsedMs": 298,
       "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
       "contentType": "application/json",
       "contentSecurityPolicy": "default-src 'self'; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; form-action 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https: http: data: blob:; font-src 'self' data:; connect-src 'self' https:; worker-src 'self' blob:; manifest-src 'self'",
@@ -224,14 +231,14 @@
       "requestId": "",
       "rateLimitRemaining": "",
       "location": "",
-      "xVercelId": "icn1::iad1::6dvrr-1781027891923-8c6e4b587eca",
+      "xVercelId": "icn1::iad1::rtlks-1781028635253-d82a1b11ba54",
       "bodyPreview": "{\"ok\":true,\"deals\":[{\"id\":\"d001\",\"title\":\"삼성 86인치 4K 스마트 UHD TV\",\"description\":\"롯데온에서 확인된 삼성 86인치 4K 스마트 UHD TV 특가입니다.\",\"price\":889000,\"originalPrice\":1201350,\"salePrice\":889000,\"discountRate\":26,\"mallName\":\"롯데온\",\"subCategory\":\"실시간\",\"catego"
     },
     "freebiesApi": {
       "url": "https://halindosa.com/api/freebies?limit=12",
       "status": 200,
       "ok": true,
-      "elapsedMs": 293,
+      "elapsedMs": 323,
       "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
       "contentType": "application/json",
       "contentSecurityPolicy": "default-src 'self'; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; form-action 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https: http: data: blob:; font-src 'self' data:; connect-src 'self' https:; worker-src 'self' blob:; manifest-src 'self'",
@@ -240,17 +247,102 @@
       "xContentTypeOptions": "nosniff",
       "referrerPolicy": "strict-origin-when-cross-origin",
       "permissionsPolicy": "camera=(), microphone=(), geolocation=(), payment=()",
-      "requestId": "53d84043-9872-4bad-a991-68320f5a4a2a",
+      "requestId": "55861f70-bb5f-452d-974a-0dedb3566f57",
       "rateLimitRemaining": "119",
       "location": "",
-      "xVercelId": "icn1::iad1::lxwc7-1781027892184-81392c16328b",
-      "bodyPreview": "{\"ok\":true,\"requestId\":\"53d84043-9872-4bad-a991-68320f5a4a2a\",\"freebies\":[{\"id\":\"news-lotteon-lohbs-coupon\",\"title\":\"롯데ON 롭스 공식 쿠폰 이벤트\",\"summary\":\"롯데ON 공식 이벤트 페이지에서 뷰티·생활 상품 쿠폰과 행사 조건을 확인할 수 있습니다.\",\"merchant\":\"롯데ON\",\"mallName\":\"롯데ON\",\"categ"
+      "xVercelId": "icn1::iad1::rtlks-1781028635567-163c40376b4d",
+      "bodyPreview": "{\"ok\":true,\"requestId\":\"55861f70-bb5f-452d-974a-0dedb3566f57\",\"freebies\":[{\"id\":\"news-amoremall-try-before-buy-sample\",\"title\":\"아모레몰 써봐야안다 공식 샘플 체험 혜택\",\"summary\":\"아모레몰 공식 써봐야안다 이벤트에서 회원 대상 샘플 체험과 참여 조건을 확인할 수 있습니다.\",\"merchant\":\"아모레몰\",\"mallN"
+    },
+    "canonicalOriginApis": {
+      "url": "https://halindosa.com, https://www.halindosa.com",
+      "status": 0,
+      "ok": false,
+      "rows": [
+        {
+          "origin": "https://halindosa.com",
+          "home": {
+            "origin": "https://halindosa.com",
+            "status": 200,
+            "ok": true,
+            "requestId": "",
+            "rateLimitRemaining": "",
+            "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
+            "xVercelId": "icn1::iad1::qm4mw-1781028635875-fab93f6ba326",
+            "bodyOk": true,
+            "bodyRequestId": "",
+            "bodyPreview": "{\"ok\":true,\"deals\":[{\"id\":\"d001\",\"title\":\"삼성 86인치 4K 스마트 UHD TV\",\"description\":\"롯데온에서 확인된 삼성 86인치 4K 스마트 UHD TV 특가입니다.\",\"price\":889000,\"originalPrice\":1201350,\"salePrice\":889000,\"discountRate\":26,\"mallName\":\"롯데온\",\"subCategory\":\"실시간\",\"catego"
+          },
+          "deals": {
+            "origin": "https://halindosa.com",
+            "status": 200,
+            "ok": true,
+            "requestId": "",
+            "rateLimitRemaining": "",
+            "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
+            "xVercelId": "icn1::iad1::lxwc7-1781028635913-4eafe7b708d4",
+            "bodyOk": true,
+            "bodyRequestId": "",
+            "bodyPreview": "{\"ok\":true,\"deals\":[{\"id\":\"d001\",\"title\":\"삼성 86인치 4K 스마트 UHD TV\",\"description\":\"롯데온에서 확인된 삼성 86인치 4K 스마트 UHD TV 특가입니다.\",\"price\":889000,\"originalPrice\":1201350,\"salePrice\":889000,\"discountRate\":26,\"mallName\":\"롯데온\",\"subCategory\":\"실시간\",\"catego"
+          },
+          "freebies": {
+            "origin": "https://halindosa.com",
+            "status": 200,
+            "ok": true,
+            "requestId": "c6d96c67-2aa2-4b96-b0e0-61237f79b9dc",
+            "rateLimitRemaining": "119",
+            "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
+            "xVercelId": "icn1::iad1::rtlks-1781028635907-bf9cb0093a12",
+            "bodyOk": true,
+            "bodyRequestId": "c6d96c67-2aa2-4b96-b0e0-61237f79b9dc",
+            "bodyPreview": "{\"ok\":true,\"requestId\":\"c6d96c67-2aa2-4b96-b0e0-61237f79b9dc\",\"freebies\":[{\"id\":\"news-amoremall-try-before-buy-sample\",\"title\":\"아모레몰 써봐야안다 공식 샘플 체험 혜택\",\"summary\":\"아모레몰 공식 써봐야안다 이벤트에서 회원 대상 샘플 체험과 참여 조건을 확인할 수 있습니다.\",\"merchant\":\"아모레몰\",\"mallN"
+          }
+        },
+        {
+          "origin": "https://www.halindosa.com",
+          "home": {
+            "origin": "https://www.halindosa.com",
+            "status": 200,
+            "ok": true,
+            "requestId": "",
+            "rateLimitRemaining": "",
+            "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
+            "xVercelId": "icn1::iad1::qm4mw-1781028637582-7f870252cf0b",
+            "bodyOk": true,
+            "bodyRequestId": "",
+            "bodyPreview": "{\"ok\":true,\"deals\":[{\"id\":\"d001\",\"title\":\"삼성 86인치 4K 스마트 UHD TV\",\"description\":\"롯데온에서 확인된 삼성 86인치 4K 스마트 UHD TV 특가입니다.\",\"price\":889000,\"originalPrice\":1201350,\"salePrice\":889000,\"discountRate\":26,\"mallName\":\"롯데온\",\"subCategory\":\"실시간\",\"catego"
+          },
+          "deals": {
+            "origin": "https://www.halindosa.com",
+            "status": 200,
+            "ok": true,
+            "requestId": "",
+            "rateLimitRemaining": "",
+            "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
+            "xVercelId": "icn1::iad1::qm4mw-1781028637581-08388cfe30ed",
+            "bodyOk": true,
+            "bodyRequestId": "",
+            "bodyPreview": "{\"ok\":true,\"deals\":[{\"id\":\"d001\",\"title\":\"삼성 86인치 4K 스마트 UHD TV\",\"description\":\"롯데온에서 확인된 삼성 86인치 4K 스마트 UHD TV 특가입니다.\",\"price\":889000,\"originalPrice\":1201350,\"salePrice\":889000,\"discountRate\":26,\"mallName\":\"롯데온\",\"subCategory\":\"실시간\",\"catego"
+          },
+          "freebies": {
+            "origin": "https://www.halindosa.com",
+            "status": 200,
+            "ok": true,
+            "requestId": "8658a560-ef39-4ce4-baa8-afc6d12a280b",
+            "rateLimitRemaining": "119",
+            "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
+            "xVercelId": "icn1::iad1::66mkk-1781028637581-6fb3df848f57",
+            "bodyOk": true,
+            "bodyRequestId": "8658a560-ef39-4ce4-baa8-afc6d12a280b",
+            "bodyPreview": "{\"ok\":true,\"requestId\":\"8658a560-ef39-4ce4-baa8-afc6d12a280b\",\"freebies\":[{\"id\":\"news-amoremall-try-before-buy-sample\",\"title\":\"아모레몰 써봐야안다 공식 샘플 체험 혜택\",\"summary\":\"아모레몰 공식 써봐야안다 이벤트에서 회원 대상 샘플 체험과 참여 조건을 확인할 수 있습니다.\",\"merchant\":\"아모레몰\",\"mallN"
+          }
+        }
+      ]
     },
     "cronRefreshGuard": {
       "url": "https://halindosa.com/api/cron/refresh?dryRun=true",
       "status": 401,
       "ok": false,
-      "elapsedMs": 234,
+      "elapsedMs": 227,
       "cacheControl": "public, max-age=0, must-revalidate",
       "contentType": "application/json",
       "contentSecurityPolicy": "default-src 'self'; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; form-action 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https: http: data: blob:; font-src 'self' data:; connect-src 'self' https:; worker-src 'self' blob:; manifest-src 'self'",
@@ -259,17 +351,17 @@
       "xContentTypeOptions": "nosniff",
       "referrerPolicy": "strict-origin-when-cross-origin",
       "permissionsPolicy": "camera=(), microphone=(), geolocation=(), payment=()",
-      "requestId": "b7d09f1a-b300-460b-9211-bd15ea73d3d8",
-      "rateLimitRemaining": "5",
+      "requestId": "7b7395c7-e1f5-406d-b8a0-d8b540c937f7",
+      "rateLimitRemaining": "3",
       "location": "",
-      "xVercelId": "icn1::iad1::lxwc7-1781027892477-63a28a914aa0",
-      "bodyPreview": "{\"ok\":false,\"requestId\":\"b7d09f1a-b300-460b-9211-bd15ea73d3d8\",\"message\":\"cron refresh 권한이 없습니다.\"}"
+      "xVercelId": "icn1::iad1::qm4mw-1781028638625-185b9a19dd81",
+      "bodyPreview": "{\"ok\":false,\"requestId\":\"7b7395c7-e1f5-406d-b8a0-d8b540c937f7\",\"message\":\"cron refresh 권한이 없습니다.\"}"
     },
     "cronBenefitsGuard": {
       "url": "https://halindosa.com/api/cron/benefits?dryRun=true",
       "status": 401,
       "ok": false,
-      "elapsedMs": 233,
+      "elapsedMs": 229,
       "cacheControl": "public, max-age=0, must-revalidate",
       "contentType": "application/json",
       "contentSecurityPolicy": "default-src 'self'; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; form-action 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https: http: data: blob:; font-src 'self' data:; connect-src 'self' https:; worker-src 'self' blob:; manifest-src 'self'",
@@ -278,17 +370,17 @@
       "xContentTypeOptions": "nosniff",
       "referrerPolicy": "strict-origin-when-cross-origin",
       "permissionsPolicy": "camera=(), microphone=(), geolocation=(), payment=()",
-      "requestId": "73ff2415-9188-4dc7-a2d6-df795c2bd32b",
-      "rateLimitRemaining": "5",
+      "requestId": "022958a3-e23e-4063-bdf7-031fca3e05c8",
+      "rateLimitRemaining": "3",
       "location": "",
-      "xVercelId": "icn1::iad1::lxwc7-1781027892715-15238f38230d",
-      "bodyPreview": "{\"ok\":false,\"requestId\":\"73ff2415-9188-4dc7-a2d6-df795c2bd32b\",\"message\":\"cron benefits 권한이 없습니다.\"}"
+      "xVercelId": "icn1::iad1::qm4mw-1781028638861-334f4c12882a",
+      "bodyPreview": "{\"ok\":false,\"requestId\":\"022958a3-e23e-4063-bdf7-031fca3e05c8\",\"message\":\"cron benefits 권한이 없습니다.\"}"
     },
     "goRedirect": {
       "url": "https://halindosa.com/go/d014?from=vercel-doctor",
       "status": 302,
       "ok": false,
-      "elapsedMs": 260,
+      "elapsedMs": 263,
       "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
       "contentType": "",
       "contentSecurityPolicy": "default-src 'self'; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; form-action 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https: http: data: blob:; font-src 'self' data:; connect-src 'self' https:; worker-src 'self' blob:; manifest-src 'self'",
@@ -297,7 +389,7 @@
       "xContentTypeOptions": "nosniff",
       "referrerPolicy": "strict-origin-when-cross-origin",
       "permissionsPolicy": "camera=(), microphone=(), geolocation=(), payment=()",
-      "requestId": "f052e3cf-26f3-42b9-8392-1d689751a4f3",
+      "requestId": "b8099db9-72f4-4c15-9248-3bd2bf71fead",
       "rateLimitRemaining": "179",
       "location": "https://www.coupang.com/vp/products/7687552147",
       "redirectChain": [
@@ -306,24 +398,24 @@
           "status": 307,
           "location": "https://www.halindosa.com/go/d014?from=vercel-doctor",
           "cacheControl": "public, max-age=0, must-revalidate",
-          "xVercelId": "icn1::km6cm-1781027892935-c42587fd71c3"
+          "xVercelId": "icn1::9q9z6-1781028639072-4a3648aca2df"
         },
         {
           "url": "https://www.halindosa.com/go/d014?from=vercel-doctor",
           "status": 302,
           "location": "https://www.coupang.com/vp/products/7687552147",
           "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
-          "xVercelId": "icn1::iad1::dt6df-1781027892949-bebe88129217"
+          "xVercelId": "icn1::iad1::rtlks-1781028639086-e047cd6d9a27"
         }
       ],
-      "xVercelId": "icn1::iad1::dt6df-1781027892949-bebe88129217",
+      "xVercelId": "icn1::iad1::rtlks-1781028639086-e047cd6d9a27",
       "bodyPreview": ""
     },
     "officialBenefitRedirect": {
       "url": "https://halindosa.com/go/news/news-dunkin-monthly-combo-coupon?from=vercel-doctor",
       "status": 302,
       "ok": false,
-      "elapsedMs": 256,
+      "elapsedMs": 267,
       "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
       "contentType": "",
       "contentSecurityPolicy": "default-src 'self'; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; form-action 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https: http: data: blob:; font-src 'self' data:; connect-src 'self' https:; worker-src 'self' blob:; manifest-src 'self'",
@@ -332,7 +424,7 @@
       "xContentTypeOptions": "nosniff",
       "referrerPolicy": "strict-origin-when-cross-origin",
       "permissionsPolicy": "camera=(), microphone=(), geolocation=(), payment=()",
-      "requestId": "6f43ca3a-4fa3-4820-b5bd-20b0bd1b40b6",
+      "requestId": "4e51d3ee-2cab-4789-ad71-8e38c7430ff8",
       "rateLimitRemaining": "179",
       "location": "https://www.dunkindonuts.co.kr/event/view?id=5392",
       "redirectChain": [
@@ -341,17 +433,17 @@
           "status": 307,
           "location": "https://www.halindosa.com/go/news/news-dunkin-monthly-combo-coupon?from=vercel-doctor",
           "cacheControl": "public, max-age=0, must-revalidate",
-          "xVercelId": "icn1::km6cm-1781027893208-4f8df769a21e"
+          "xVercelId": "icn1::z8d7s-1781028639350-a59b3c118dc6"
         },
         {
           "url": "https://www.halindosa.com/go/news/news-dunkin-monthly-combo-coupon?from=vercel-doctor",
           "status": 302,
           "location": "https://www.dunkindonuts.co.kr/event/view?id=5392",
           "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
-          "xVercelId": "icn1::iad1::dt6df-1781027893217-ac78185c5f93"
+          "xVercelId": "icn1::iad1::bf7xt-1781028639357-853956e1feff"
         }
       ],
-      "xVercelId": "icn1::iad1::dt6df-1781027893217-ac78185c5f93",
+      "xVercelId": "icn1::iad1::bf7xt-1781028639357-853956e1feff",
       "bodyPreview": ""
     }
   }

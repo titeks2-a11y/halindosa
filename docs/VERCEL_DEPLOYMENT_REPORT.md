@@ -1,6 +1,6 @@
 # Vercel Deployment Doctor
 
-Generated: 2026-06-09T17:58:13.042Z
+Generated: 2026-06-09T18:10:39.192Z
 
 Status: BLOCKED
 
@@ -8,27 +8,28 @@ Status: BLOCKED
 
 - Origin: `https://halindosa.com`
 - Branch: `codex/12h-product-ux-growth-hardening`
-- Commit: `cd154936`
-- Working tree: 82 changed file(s): M DEVICE_QA_REPORT.md; M EXTERNAL_LINK_REPORT.md; M HARNESS_REPORT.md; M IMAGE_QUALITY_REPORT.md; M KNOWN_ISSUES.md; M LINK_VERIFICATION_REPORT.md; M LINK_VERIFICATION_RESULT.json; M PERFORMANCE_REPORT.md; ... +74 more
+- Commit: `8d30962f`
+- Working tree: 84 changed file(s): M DEVICE_QA_REPORT.md; M EXTERNAL_LINK_REPORT.md; M HARNESS_REPORT.md; M IMAGE_QUALITY_REPORT.md; M KNOWN_ISSUES.md; M LINK_VERIFICATION_REPORT.md; M LINK_VERIFICATION_RESULT.json; M PERFORMANCE_REPORT.md; ... +76 more
 - Vercel project linked locally: no
 - Vercel token present in shell: no
 
 ## Summary
 
-- Checks: 24/26
+- Checks: 24/27
 - Root: 200
 - Home API: 200
 - Deals API: 200
 - Freebies API: 200
 - Home API Request ID: (missing)
 - Deals API Request ID: (missing)
-- Freebies API Request ID: 53d84043-9872-4bad-a991-68320f5a4a2a
+- Freebies API Request ID: 55861f70-bb5f-452d-974a-0dedb3566f57
 - /go redirect: 302
 - Official benefit /go redirect: 302
 - Home API Cache-Control: `no-store, no-cache, must-revalidate, proxy-revalidate`
 - Freebies API Cache-Control: `no-store, no-cache, must-revalidate, proxy-revalidate`
 - Cron refresh public guard: 401
 - Cron benefits public guard: 401
+- Canonical production API contracts: blocked (2 origin(s))
 - Home product deals checked: 8
 - Home official benefits checked: 8
 - Freebies checked: 12
@@ -59,6 +60,7 @@ Status: BLOCKED
 | PASS | freebies api abuse guard | /api/freebies exposes requestId and rate-limit headers on the public deployment. |
 | PASS | freebies publishable policy | No search, homepage, community, expired, hidden, low-quality, image-less, or non-publishable free benefit leaked from /api/freebies. |
 | PASS | freebies consumer-first default policy | Default /api/freebies response excludes public/policy benefits unless explicitly requested. |
+| FAIL | canonical production api contracts | At least one production origin is stale or missing requestId/rate-limit headers: https://halindosa.com, https://www.halindosa.com |
 | PASS | cron refresh public guard | /api/cron/refresh rejects unauthenticated dry-run probes on the public deployment. |
 | PASS | cron benefits public guard | /api/cron/benefits rejects unauthenticated dry-run probes on the public deployment. |
 | PASS | go redirect status | /go/d014 reached an external destination after 2 hop(s). |
@@ -68,4 +70,4 @@ Status: BLOCKED
 
 ## Required Fix If Blocked
 
-If `/api/home` returns 404 while the root page returns 200, the public domain is serving an older/static deployment. Link this GitHub repository to the Vercel project, set Framework Preset to Next.js, Build Command to `npm run build`, leave Output Directory empty, configure production environment variables, and redeploy `main`.
+If `/api/home` is missing `requestId`, `X-Request-Id`, or `X-RateLimit-Remaining`, the public domain is serving an older deployment even if GitHub Actions reported a green deploy. Link this GitHub repository to the Vercel project, set Framework Preset to Next.js, Build Command to `npm run build`, leave Output Directory empty, configure production environment variables, and redeploy `main`.

@@ -7,6 +7,7 @@ const reportsDir = join(root, "reports");
 const docsDir = join(root, "docs");
 const defaultOrigin = "https://halindosa.com";
 const origin = normalizeOrigin(process.env.VERCEL_DEPLOYMENT_URL || process.env.NEXT_PUBLIC_SITE_URL || defaultOrigin);
+const canonicalOrigins = getCanonicalOrigins(origin);
 const apiHomePath = "/api/home?limit=8&verifiedOnly=true";
 const apiDealsPath = "/api/deals?limit=8&verifiedOnly=true";
 const apiFreebiesPath = "/api/freebies?limit=12";
@@ -21,6 +22,10 @@ function normalizeOrigin(value) {
   const input = String(value || defaultOrigin).trim().replace(/\/+$/, "");
   if (!/^https?:\/\//i.test(input)) return `https://${input}`;
   return input;
+}
+
+function getCanonicalOrigins(primaryOrigin) {
+  return Array.from(new Set([primaryOrigin, "https://halindosa.com", "https://www.halindosa.com"].map(normalizeOrigin)));
 }
 
 function run(command, args) {
@@ -159,6 +164,37 @@ async function fetchText(path, options = {}) {
     bodyPreview: text.slice(0, 240),
     text
   };
+}
+
+async function fetchJsonFromOrigin(candidateOrigin, path) {
+  const target = `${candidateOrigin}${path}`;
+  try {
+    const probe = await fetchText(target);
+    const body = parseJsonProbe(probe);
+    return {
+      origin: candidateOrigin,
+      status: probe.status,
+      ok: probe.ok,
+      requestId: probe.requestId,
+      rateLimitRemaining: probe.rateLimitRemaining,
+      cacheControl: probe.cacheControl,
+      xVercelId: probe.xVercelId,
+      bodyOk: body?.ok === true,
+      bodyRequestId: body?.requestId ?? "",
+      bodyPreview: probe.bodyPreview
+    };
+  } catch (error) {
+    return {
+      origin: candidateOrigin,
+      status: 0,
+      ok: false,
+      error: error instanceof Error ? error.message : String(error)
+    };
+  }
+}
+
+function hasLiveApiContract(row) {
+  return Boolean(row?.ok && row?.bodyOk === true && row?.bodyRequestId && row?.requestId && row?.rateLimitRemaining && /no-store/i.test(row?.cacheControl || ""));
 }
 
 function isSameDeploymentHost(value) {
@@ -366,6 +402,35 @@ checks.push(
       )
 );
 
+probes.canonicalOriginApis = {
+  url: canonicalOrigins.join(", "),
+  status: 0,
+  ok: false,
+  rows: []
+};
+for (const candidateOrigin of canonicalOrigins) {
+  const [homeRow, dealsRow, freebiesRow] = await Promise.all([
+    fetchJsonFromOrigin(candidateOrigin, `${apiHomePath}&originProbe=canonical`),
+    fetchJsonFromOrigin(candidateOrigin, `${apiDealsPath}&originProbe=canonical`),
+    fetchJsonFromOrigin(candidateOrigin, `${apiFreebiesPath}&originProbe=canonical`)
+  ]);
+  probes.canonicalOriginApis.rows.push({ origin: candidateOrigin, home: homeRow, deals: dealsRow, freebies: freebiesRow });
+}
+probes.canonicalOriginApis.ok = probes.canonicalOriginApis.rows.every(
+  (row) => hasLiveApiContract(row.home) && hasLiveApiContract(row.deals) && hasLiveApiContract(row.freebies)
+);
+checks.push(
+  probes.canonicalOriginApis.ok
+    ? pass("canonical production api contracts", `Apex/www production APIs expose requestId, rate-limit headers, and no-store responses on ${canonicalOrigins.length} origin(s).`)
+    : fail(
+        "canonical production api contracts",
+        `At least one production origin is stale or missing requestId/rate-limit headers: ${probes.canonicalOriginApis.rows
+          .filter((row) => !hasLiveApiContract(row.home) || !hasLiveApiContract(row.deals) || !hasLiveApiContract(row.freebies))
+          .map((row) => row.origin)
+          .join(", ")}`
+      )
+);
+
 probes.cronRefreshGuard = await fetchText(cronRefreshDryRunPath);
 checks.push(
   probes.cronRefreshGuard.status === 401
@@ -455,6 +520,8 @@ const report = {
     freebiesApiCacheControl: probes.freebiesApi.cacheControl,
     cronRefreshGuardStatus: probes.cronRefreshGuard.status,
     cronBenefitsGuardStatus: probes.cronBenefitsGuard.status,
+    canonicalOriginCount: probes.canonicalOriginApis.rows.length,
+    canonicalOriginContractPassed: probes.canonicalOriginApis.ok,
     homeProductDeals: homeDeals.length,
     homeOfficialBenefits: homeNewsDeals.length,
     freebies: freebies.length,
@@ -483,7 +550,8 @@ const report = {
         location: probe.location,
         redirectChain: probe.chain ?? undefined,
         xVercelId: probe.xVercelId,
-        bodyPreview: probe.bodyPreview
+        bodyPreview: probe.bodyPreview,
+        rows: probe.rows
       }
     ])
   )
@@ -521,6 +589,7 @@ Status: ${ok ? "PASS" : "BLOCKED"}
 - Freebies API Cache-Control: \`${report.summary.freebiesApiCacheControl || "(missing)"}\`
 - Cron refresh public guard: ${report.summary.cronRefreshGuardStatus}
 - Cron benefits public guard: ${report.summary.cronBenefitsGuardStatus}
+- Canonical production API contracts: ${report.summary.canonicalOriginContractPassed ? "passed" : "blocked"} (${report.summary.canonicalOriginCount} origin(s))
 - Home product deals checked: ${report.summary.homeProductDeals}
 - Home official benefits checked: ${report.summary.homeOfficialBenefits}
 - Freebies checked: ${report.summary.freebies}
@@ -535,7 +604,7 @@ ${rows}
 
 ## Required Fix If Blocked
 
-If \`/api/home\` returns 404 while the root page returns 200, the public domain is serving an older/static deployment. Link this GitHub repository to the Vercel project, set Framework Preset to Next.js, Build Command to \`npm run build\`, leave Output Directory empty, configure production environment variables, and redeploy \`main\`.
+If \`/api/home\` is missing \`requestId\`, \`X-Request-Id\`, or \`X-RateLimit-Remaining\`, the public domain is serving an older deployment even if GitHub Actions reported a green deploy. Link this GitHub repository to the Vercel project, set Framework Preset to Next.js, Build Command to \`npm run build\`, leave Output Directory empty, configure production environment variables, and redeploy \`main\`.
 `;
 
 writeFileSync(join(reportsDir, "vercel-deployment.json"), `${JSON.stringify(report, null, 2)}\n`, "utf8");
