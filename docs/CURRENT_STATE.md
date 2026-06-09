@@ -30,6 +30,8 @@
 
 ## 최근 완료된 안정 상태
 
+- 문화포털 공식 문화초대이벤트 소스 확장: 이번 변경
+- source feed activation gate 강화: `5ca74917`
 - 공공 무료혜택 소스 확장 후 현재 상태 저장: `3ad2c2ac`
 - 홈 무료혜택 빠른 필터 추가: `72d79c57`
 - 홈 무료혜택 카드 조건/신뢰 배지 추가: `30173ddf`
@@ -105,6 +107,36 @@ source feed activation gate를 더 엄격하게 만들었다. 운영 feed URL �
 - `npm run build` 성공
 - `npm run clean:artifacts` 성공
 - `npm run workspace:doctor:strict` 성공, 재생성 산출물 0B
+
+## 현재 진행 중인 무료혜택 소스 확장
+
+문화포털 공식 문화초대이벤트를 무료 초대권/응모형 혜택 후보로 추가했다.
+
+변경 내용:
+
+- `data/officialSourceCatalog.json`에 `culture-portal-invite-events` 추가
+- `scripts/free-benefit-source-breadth-doctor.mjs`에 `문화포털 문화초대이벤트` 핵심 신호 추가
+- 카탈로그 후보는 138개, 고우선순위 후보는 39개로 증가
+- source live doctor 기준 공식 후보 118/138개 reachable, 20개 guarded, stale_or_removed 0건
+- source breadth doctor 기준 12/12 수집 축, 55/55 핵심 브랜드/기관 신호 통과
+
+검증:
+
+- `npm run source:catalog:report` 성공
+- `npm run source:breadth:doctor` 성공
+- `npm run source:live:doctor` 성공
+- `npm run refresh:benefits` 성공, visible freebies 42/42, events 101/101, 검색 링크 0, 비공식 링크 0
+- `npm run verify:benefits` 성공, active official events 102/100
+- `npm run benefit:event:contract` 성공, 16/16
+- `npm run source:activation:doctor` 성공
+- `npm run lint` 성공
+- `npm run release:doctor` 성공, 188/188
+- `npm run build` 성공
+
+주의:
+
+- 문화포털 목록은 발견 소스로만 사용한다. 사용자 CTA는 개별 문화초대 이벤트 상세 또는 응모 페이지가 active이고 무료 조건이 확인된 경우에만 연결한다.
+- 문화포털 메인, 검색 결과, 종료된 초대 이벤트, 비공식 공연 홍보글, 커뮤니티 당첨 후기는 노출하지 않는다.
 
 ## 다음 세션에서 바로 할 일
 

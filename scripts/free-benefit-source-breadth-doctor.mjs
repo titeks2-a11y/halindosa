@@ -126,6 +126,7 @@ const requiredBrandSignals = [
   { id: "daiso", label: "다이소몰", patterns: [/daiso|다이소/i] },
   { id: "eventhouse", label: "이벤트하우스", patterns: [/eventhouse|이벤트하우스/i] },
   { id: "culture-day", label: "문화가 있는 날", patterns: [/문화가.?있는.?날|mnuri/i] },
+  { id: "culture-portal-invite", label: "문화포털 문화초대이벤트", patterns: [/culture\.go\.kr|문화포털|문화초대/i] },
   { id: "seoul-culture", label: "서울시 문화행사", patterns: [/culture\.seoul|서울문화|서울시/i] },
   { id: "seoul-youth", label: "서울청년 무료지원", patterns: [/youth\.seoul|서울청년|취업날개|AI면접/i] },
   { id: "seoul-lifelong-learning", label: "서울런4050", patterns: [/sll\.seoul|서울런4050|평생학습포털/i] },
