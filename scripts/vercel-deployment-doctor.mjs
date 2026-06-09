@@ -119,6 +119,11 @@ function isPublishableFreebie(item) {
   );
 }
 
+function isPublicPolicyFreebie(item) {
+  const text = [item?.title, item?.summary, item?.category, item?.benefitType, item?.sourceName, item?.brandName, item?.sourceType, item?.tags?.join?.(" ")].join(" ");
+  return /정부|공공|지자체|복지|정책|지원사업|서울시|공공서비스|K-MOOC|케이무크|문화가\s*있는\s*날|HRD|정부24|복지로|publicFree|approved_public/i.test(text);
+}
+
 async function fetchText(path, options = {}) {
   const url = path.startsWith("http") ? path : `${origin}${path}`;
   const startedAt = Date.now();
@@ -284,6 +289,7 @@ const freebies = Array.isArray(freebiesJson?.freebies) ? freebiesJson.freebies :
 const events = Array.isArray(freebiesJson?.events) ? freebiesJson.events : [];
 const invalidFreebies = freebies.filter((item) => !isPublishableFreebie(item));
 const invalidFreebieEvents = events.filter((item) => !isPublishableFreebie(item));
+const publicPolicyFreebies = [...freebies, ...events].filter((item) => isPublicPolicyFreebie(item));
 checks.push(
   probes.freebiesApi.ok && freebiesJson?.ok === true
     ? pass("freebies api status", `/api/freebies returned 200 JSON with ok=true.`)
@@ -312,6 +318,14 @@ checks.push(
         `${invalidFreebies.length + invalidFreebieEvents.length} invalid free benefit item(s) leaked from /api/freebies: ${[...invalidFreebies, ...invalidFreebieEvents]
           .map((item) => item.id)
           .join(", ")}`
+      )
+);
+checks.push(
+  publicPolicyFreebies.length === 0 && freebiesJson?.exposurePolicy?.publicPolicyBenefits === "excluded_from_default"
+    ? pass("freebies consumer-first default policy", "Default /api/freebies response excludes public/policy benefits unless explicitly requested.")
+    : fail(
+        "freebies consumer-first default policy",
+        `Default /api/freebies leaked ${publicPolicyFreebies.length} public/policy item(s) or did not expose the exclusion policy.`
       )
 );
 
@@ -388,7 +402,8 @@ const report = {
     homeProductDeals: homeDeals.length,
     homeOfficialBenefits: homeNewsDeals.length,
     freebies: freebies.length,
-    freebieEvents: events.length
+    freebieEvents: events.length,
+    publicPolicyFreebies: publicPolicyFreebies.length
   },
   checks,
   probes: Object.fromEntries(
@@ -441,6 +456,7 @@ Status: ${ok ? "PASS" : "BLOCKED"}
 - Home official benefits checked: ${report.summary.homeOfficialBenefits}
 - Freebies checked: ${report.summary.freebies}
 - Freebie events checked: ${report.summary.freebieEvents}
+- Public/policy freebies in default response: ${report.summary.publicPolicyFreebies}
 
 ## Checks
 

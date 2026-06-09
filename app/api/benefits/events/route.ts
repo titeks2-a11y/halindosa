@@ -57,6 +57,7 @@ function filterEvents(events: FreeBenefitEvent[], request: Request, referenceNow
   const { searchParams } = new URL(request.url);
   const type = sanitizeBenefitText(searchParams.get("type") ?? "all", 32) as FreeBenefitEventType;
   const q = sanitizeBenefitText(searchParams.get("q") ?? "", 80);
+  const includePublic = type === "publicFree" || searchParams.get("includePublic") === "true";
   const requiresPurchase = parseBoolean(searchParams.get("requiresPurchase"));
   const requiresLogin = parseBoolean(searchParams.get("requiresLogin"));
   const endingSoonOnly = searchParams.get("endingSoonOnly") === "true";
@@ -65,6 +66,7 @@ function filterEvents(events: FreeBenefitEvent[], request: Request, referenceNow
 
   return events.filter((event) => {
     if (!isPublishableFreeBenefitEvent(event, referenceNow)) return false;
+    if (!includePublic && (event.benefitType === "publicFree" || event.sourceType === "approved_public")) return false;
     if (benefitTypeIds.has(type) && type !== "all" && event.benefitType !== type) return false;
     if (requiresPurchase !== null && event.requiresPurchase !== requiresPurchase) return false;
     if (requiresLogin !== null && event.requiresLogin !== requiresLogin) return false;
@@ -197,6 +199,8 @@ export async function GET(request: Request) {
         },
         policy: {
           publishableOnly: true,
+          defaultConsumerFirst: searchParams.get("type") !== "publicFree" && searchParams.get("includePublic") !== "true",
+          publicPolicyBenefits: searchParams.get("type") === "publicFree" || searchParams.get("includePublic") === "true" ? "included_by_request" : "excluded_from_default",
           allowedStatuses: ["active"],
           allowedValidationStatuses: ["passed"],
           blocked: ["search_link", "homepage_link", "community_link", "expired", "sold_out", "unapproved_host"]

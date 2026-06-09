@@ -1,5 +1,6 @@
 import { noStoreJson, noStoreOptions } from "@/lib/api/noStore";
 import { createRequestId, getClientKey, rateLimit, rateLimitHeaders } from "@/lib/apiGuards";
+import { isPublicPolicyBenefit } from "@/lib/consumerBenefitPriority";
 import { getVisibleNewsDeals } from "@/lib/deals/newsDeals";
 import { selectPublishableFreeBenefitEvents } from "@/lib/freeBenefitEvents";
 import { buildHomeFreebieSummary, selectHomeFreebies } from "@/lib/homeFreebies";
@@ -43,14 +44,16 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const limit = Number(searchParams.get("limit") ?? 16);
     const q = searchParams.get("q")?.trim();
+    const includePublic = searchParams.get("includePublic") === "true";
     const news = getVisibleNewsDeals({
       limit: 0,
       q,
       sort: searchParams.get("sort") ?? "priority"
     });
-    const freebies = selectHomeFreebies(news.deals, Math.min(Math.max(limit, 1), 48), Date.parse(generatedAt));
-    const events = selectPublishableFreeBenefitEvents(news.deals, Math.min(Math.max(limit, 1), 48), Date.parse(generatedAt));
-    const summary = buildHomeFreebieSummary(news.deals, Date.parse(generatedAt));
+    const defaultDeals = includePublic ? news.deals : news.deals.filter((deal) => !isPublicPolicyBenefit(deal));
+    const freebies = selectHomeFreebies(defaultDeals, Math.min(Math.max(limit, 1), 48), Date.parse(generatedAt));
+    const events = selectPublishableFreeBenefitEvents(defaultDeals, Math.min(Math.max(limit, 1), 48), Date.parse(generatedAt));
+    const summary = buildHomeFreebieSummary(defaultDeals, Date.parse(generatedAt));
 
     return noStoreJson({
       ok: true,
@@ -72,6 +75,10 @@ export async function GET(request: Request) {
       cachePolicy: {
         mode: "no-store",
         generatedAt
+      },
+      exposurePolicy: {
+        defaultConsumerFirst: !includePublic,
+        publicPolicyBenefits: includePublic ? "included_by_request" : "excluded_from_default"
       },
       message: "검증된 무료혜택, 쿠폰, 0원딜, 무료배송 혜택을 성공적으로 불러왔습니다."
     }, { headers: rateLimitHeaders(limitResult, requestId) });
