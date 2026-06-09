@@ -1,11 +1,11 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-09T15:49:09.963Z",
+  "generatedAt": "2026-06-09T15:51:47.580Z",
   "origin": "https://halindosa.com",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "de3ce36e",
-  "workingTree": "87 changed file(s): M .github/workflows/vercel-production-deploy.yml; M DEVICE_QA_REPORT.md; M EXTERNAL_LINK_REPORT.md; M HARNESS_REPORT.md; M IMAGE_QUALITY_REPORT.md; M KNOWN_ISSUES.md; M LINK_VERIFICATION_REPORT.md; M LINK_VERIFICATION_RESULT.json; ... +79 more",
-  "workingTreeChangedFileCount": 87,
+  "commit": "970c1147",
+  "workingTree": "84 changed file(s): M .github/workflows/vercel-production-deploy.yml; M DEVICE_QA_REPORT.md; M EXTERNAL_LINK_REPORT.md; M HARNESS_REPORT.md; M IMAGE_QUALITY_REPORT.md; M KNOWN_ISSUES.md; M LINK_VERIFICATION_REPORT.md; M LINK_VERIFICATION_RESULT.json; ... +76 more",
+  "workingTreeChangedFileCount": 84,
   "project": {
     "linked": false
   },
@@ -139,51 +139,51 @@
       "url": "https://halindosa.com/",
       "status": 200,
       "ok": true,
-      "elapsedMs": 1554,
+      "elapsedMs": 762,
       "cacheControl": "private, no-cache, no-store, max-age=0, must-revalidate",
       "contentType": "text/html; charset=utf-8",
       "location": "",
-      "xVercelId": "icn1::iad1::tjbsj-1781020145350-091e57f78976",
+      "xVercelId": "icn1::iad1::lxwc7-1781020304553-725404b3792a",
       "bodyPreview": "<!DOCTYPE html><html lang=\"ko\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover\"/><link rel=\"stylesheet\" href=\"/_next/static/chunks/0vof34frpah5h.css\" data-"
     },
     "homeApi": {
       "url": "https://halindosa.com/api/home?limit=8&verifiedOnly=true",
       "status": 200,
       "ok": true,
-      "elapsedMs": 1635,
+      "elapsedMs": 1642,
       "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
       "contentType": "application/json",
       "location": "",
-      "xVercelId": "icn1::iad1::tjbsj-1781020146821-ce9e4f4918fe",
+      "xVercelId": "icn1::iad1::lxwc7-1781020305229-16dbec2c89fe",
       "bodyPreview": "{\"ok\":true,\"deals\":[{\"id\":\"d001\",\"title\":\"삼성 86인치 4K 스마트 UHD TV\",\"description\":\"롯데온에서 확인된 삼성 86인치 4K 스마트 UHD TV 특가입니다.\",\"price\":889000,\"originalPrice\":1201350,\"salePrice\":889000,\"discountRate\":26,\"mallName\":\"롯데온\",\"subCategory\":\"실시간\",\"catego"
     },
     "dealsApi": {
       "url": "https://halindosa.com/api/deals?limit=8&verifiedOnly=true",
       "status": 200,
       "ok": true,
-      "elapsedMs": 535,
+      "elapsedMs": 290,
       "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
       "contentType": "application/json",
       "location": "",
-      "xVercelId": "icn1::iad1::tjbsj-1781020148455-7f2ca8ee6255",
+      "xVercelId": "icn1::iad1::lxwc7-1781020306880-80ca4e8ae2f0",
       "bodyPreview": "{\"ok\":true,\"deals\":[{\"id\":\"d001\",\"title\":\"삼성 86인치 4K 스마트 UHD TV\",\"description\":\"롯데온에서 확인된 삼성 86인치 4K 스마트 UHD TV 특가입니다.\",\"price\":889000,\"originalPrice\":1201350,\"salePrice\":889000,\"discountRate\":26,\"mallName\":\"롯데온\",\"subCategory\":\"실시간\",\"catego"
     },
     "freebiesApi": {
       "url": "https://halindosa.com/api/freebies?limit=12",
       "status": 200,
       "ok": true,
-      "elapsedMs": 294,
+      "elapsedMs": 289,
       "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
       "contentType": "application/json",
       "location": "",
-      "xVercelId": "icn1::iad1::tjbsj-1781020148993-43708619154c",
-      "bodyPreview": "{\"ok\":true,\"requestId\":\"3f3953ae-f81a-4066-a837-53b9c048ad42\",\"freebies\":[{\"id\":\"news-amoremall-try-before-buy-sample\",\"title\":\"아모레몰 써봐야안다 공식 샘플 체험 혜택\",\"summary\":\"아모레몰 공식 써봐야안다 이벤트에서 회원 대상 샘플 체험과 참여 조건을 확인할 수 있습니다.\",\"merchant\":\"아모레몰\",\"mallN"
+      "xVercelId": "icn1::iad1::lxwc7-1781020307162-d0877bac35c6",
+      "bodyPreview": "{\"ok\":true,\"requestId\":\"833f5c37-d996-47e0-b2a2-cf778198da04\",\"freebies\":[{\"id\":\"news-amoremall-try-before-buy-sample\",\"title\":\"아모레몰 써봐야안다 공식 샘플 체험 혜택\",\"summary\":\"아모레몰 공식 써봐야안다 이벤트에서 회원 대상 샘플 체험과 참여 조건을 확인할 수 있습니다.\",\"merchant\":\"아모레몰\",\"mallN"
     },
     "goRedirect": {
       "url": "https://halindosa.com/go/d014?from=vercel-doctor",
       "status": 302,
       "ok": false,
-      "elapsedMs": 561,
+      "elapsedMs": 256,
       "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
       "contentType": "",
       "location": "https://www.coupang.com/vp/products/7687552147",
@@ -193,24 +193,24 @@
           "status": 307,
           "location": "https://www.halindosa.com/go/d014?from=vercel-doctor",
           "cacheControl": "public, max-age=0, must-revalidate",
-          "xVercelId": "icn1::z8d7s-1781020149275-0cab1426c088"
+          "xVercelId": "icn1::9rts4-1781020307444-51c4ccd35f2f"
         },
         {
           "url": "https://www.halindosa.com/go/d014?from=vercel-doctor",
           "status": 302,
           "location": "https://www.coupang.com/vp/products/7687552147",
           "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
-          "xVercelId": "icn1::iad1::tjbsj-1781020149284-f31f52b78463"
+          "xVercelId": "icn1::iad1::lxwc7-1781020307461-e85d68f03c66"
         }
       ],
-      "xVercelId": "icn1::iad1::tjbsj-1781020149284-f31f52b78463",
+      "xVercelId": "icn1::iad1::lxwc7-1781020307461-e85d68f03c66",
       "bodyPreview": ""
     },
     "officialBenefitRedirect": {
       "url": "https://halindosa.com/go/news/news-dunkin-monthly-combo-coupon?from=vercel-doctor",
       "status": 302,
       "ok": false,
-      "elapsedMs": 519,
+      "elapsedMs": 267,
       "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
       "contentType": "",
       "location": "https://www.dunkindonuts.co.kr/event/view?id=5392",
@@ -220,17 +220,17 @@
           "status": 307,
           "location": "https://www.halindosa.com/go/news/news-dunkin-monthly-combo-coupon?from=vercel-doctor",
           "cacheControl": "public, max-age=0, must-revalidate",
-          "xVercelId": "icn1::bf7xt-1781020149845-475158a2a73a"
+          "xVercelId": "icn1::vnshv-1781020307716-b172d6405c91"
         },
         {
           "url": "https://www.halindosa.com/go/news/news-dunkin-monthly-combo-coupon?from=vercel-doctor",
           "status": 302,
           "location": "https://www.dunkindonuts.co.kr/event/view?id=5392",
           "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
-          "xVercelId": "icn1::iad1::tjbsj-1781020149854-81653cf6b682"
+          "xVercelId": "icn1::iad1::lxwc7-1781020307723-9e05355a5acb"
         }
       ],
-      "xVercelId": "icn1::iad1::tjbsj-1781020149854-81653cf6b682",
+      "xVercelId": "icn1::iad1::lxwc7-1781020307723-9e05355a5acb",
       "bodyPreview": ""
     }
   }
