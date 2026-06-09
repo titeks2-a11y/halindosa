@@ -2065,24 +2065,13 @@ await check("go purchase redirect", async () => {
 });
 
 await check("go official news redirect", async () => {
-  const cases = [
-    ["news-homeplus-official-event", "homeplus.co.kr"],
-    ["news-yogiyo-official-event", "yogiyo.co.kr"],
-    ["news-samsung-shop-official-event", "samsung.com"],
-    ["news-seoul-worldcup-silkworm-free-experience-202606", "yeyak.seoul.go.kr"],
-    ["news-bhc-official-ecoupon", "bhc.co.kr"],
-    ["news-starbucks-official-campaign", "starbucks.co.kr"],
-    ["news-cjone-official-mobile-events", "cjone.com"],
-    ["news-jejuair-official-events", "jejuair.net"],
-    ["news-himart-company-events", "himart.co.kr"],
-    ["news-cgv-official-events", "cgv.co.kr"],
-    ["news-megabox-official-events", "megabox.co.kr"],
-    ["news-seoul-plant-hospital-free-care-202606", "yeyak.seoul.go.kr"],
-    ["news-lpoint-card-events", "lpoint.com"],
-    ["news-visitkorea-travel-benefit", "visitkorea.or.kr"],
-    ["news-baemin-academy-free-event", "baemin.com"],
-    ["news-mcdonalds-happysnack", "mcdonalds.co.kr"]
-  ];
+  const { data } = await fetchJson("/api/news-deals?limit=20&sort=priority");
+  const cases = data.deals
+    .filter((deal) => deal.publishable === true && deal.validationStatus === "passed" && /^https?:\/\//.test(deal.finalUrl))
+    .slice(0, 12)
+    .map((deal) => [deal.id, new URL(deal.finalUrl).hostname.replace(/^www\./, "")]);
+
+  assert(cases.length >= 8, `Expected at least 8 current official benefit redirect samples, got ${cases.length}`);
 
   for (const [dealId, expectedHost] of cases) {
     const response = await fetch(`${baseUrl}/go/news/${dealId}?from=smoke-news`, {

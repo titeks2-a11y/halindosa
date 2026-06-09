@@ -1283,9 +1283,9 @@ export async function checkOperationalDataSurfaces() {
     '["d073", "hyundaicard.com"]',
     '["d074", "shinhancard.com"]',
     '["d115", "bhc.co.kr"]',
-    '["news-cgv-official-events", "cgv.co.kr"]',
-    '["news-homeplus-official-event", "homeplus.co.kr"]',
-    '["news-yogiyo-official-event", "yogiyo.co.kr"]'
+    '"/api/news-deals?limit=20&sort=priority"',
+    "Expected at least 8 current official benefit redirect samples",
+    "/go/news/${dealId}?from=smoke-news"
   ];
   const missingOfficialSmokeSnippets = requiredOfficialSmokeSnippets.filter((snippet) => !smoke.includes(snippet));
 

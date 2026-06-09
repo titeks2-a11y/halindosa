@@ -2,12 +2,12 @@
 
 이 문서는 할인도사에 연결할 수 있는 공식 이벤트, 공공 혜택, 제휴 JSON/RSS 후보를 정리합니다. 무단 크롤링 후보가 아니라 운영자가 승인 feed 또는 공식 페이지 매핑으로 전환할 때 쓰는 출발점입니다.
 
-- 생성 시각: 2026-06-09T11:16:26.137Z
+- 생성 시각: 2026-06-09T11:51:28.681Z
 - 상태: PASS
-- 후보 소스: 175개
-- 고우선순위 후보: 58개
+- 후보 소스: 180개
+- 고우선순위 후보: 63개
 - 현재 env feed 연결 후보: 0개
-- 공식 혜택 노출: 147개
+- 공식 혜택 노출: 121개
 - feed 전환 상태: seed_launch_ready
 - CSV 리포트: reports/official-source-catalog.csv
 
@@ -23,8 +23,8 @@
 | 여행/숙박 | 9 | 충분 |
 | 영화/문화 | 25 | 충분 |
 | 카드/멤버십 | 59 | 충분 |
-| 무료혜택 | 139 | 충분 |
-| 정부/공공혜택 | 31 | 충분 |
+| 무료혜택 | 144 | 충분 |
+| 정부/공공혜택 | 36 | 충분 |
 
 ## Provider 커버리지
 
@@ -33,7 +33,7 @@
 | news | 1 | 포함 |
 | event_news | 2 | 포함 |
 | official_event | 115 | 포함 |
-| public_coupon | 57 | 포함 |
+| public_coupon | 62 | 포함 |
 
 ## 후보 목록
 
@@ -214,6 +214,11 @@
 | ichallenge-baby-free-trial-kit-202606 | official_event | 무료혜택 | high | https://m.i-challenge.co.kr/event/freetrial_r1/index.asp | OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
 | gs25-hyeja-bread-tosspay-plusone-202606 | official_event | 마트/편의점, 무료혜택 | medium | https://gs25.gsretail.com/gscvs/ko/customer-engagement/event/detail/publishing?eventCode=8842754706976&pageNum=1 | OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
 | musinsa-online-coupon-2026 | official_event | 패션/뷰티, 무료혜택 | medium | https://www.musinsa.com/coupon-service/coupon/coupon_online | OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| kmooc-art-face-emotion-free-course-202606 | public_coupon | 정부/공공혜택, 무료혜택 | high | https://www.kmooc.kr/view/course/detail/19060 | PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| kmooc-dynamics-free-course-202606 | public_coupon | 정부/공공혜택, 무료혜택 | high | https://www.kmooc.kr/view/course/detail/18013 | PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| kmooc-computer-graphics-free-course-202606 | public_coupon | 정부/공공혜택, 무료혜택 | high | https://www.kmooc.kr/view/course/detail/19266 | PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| kmooc-machine-learning-free-course-202606 | public_coupon | 정부/공공혜택, 무료혜택 | high | https://www.kmooc.kr/view/course/detail/19382 | PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| kmooc-media-literacy-free-course-202606 | public_coupon | 정부/공공혜택, 무료혜택 | high | https://www.kmooc.kr/view/course/detail/19037 | PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
 
 ## 다음 작업
 

@@ -15,19 +15,14 @@
 
 - Branch: `codex/12h-product-ux-growth-hardening`
 - Remote tracking: `origin/codex/12h-product-ux-growth-hardening`
-- 최신 확인 커밋:
+- 최신 확인 HEAD:
+  - `43337c0f feat: add musinsa official coupon benefit`
+- 최근 커밋:
+  - `43337c0f feat: add musinsa official coupon benefit`
+  - `49227568 feat: add gs25 official convenience benefit`
+  - `89da3421 feat: add official checkin and free trial benefits`
+  - `96261ee0 docs: update current handoff state`
   - `02a8d818 feat: add official pet sample benefit`
-  - `9696e102 fix: block homepage-like official benefit links`
-  - `e98e0ee0 feat: expand seoul public free service benefits`
-  - `c70ab1ae feat: add seoul public free benefit events`
-  - `cc1b72ff feat: prioritize low-friction free benefits`
-  - `ec97d6b2 feat: add shinhancard official benefit events`
-  - `37e0f517 test: guard home-like official benefit sources`
-  - `1df27b8f docs: save current handoff state`
-  - `0051cac0 feat: expand official public and food benefit sources`
-  - `077489b4 test: enforce small mobile freebie viewport gate`
-  - `f48772a7 feat: clarify free benefit participation conditions`
-  - `44bc7444 feat: promote official public benefit seeds`
 
 ## 제품 방향
 
@@ -57,6 +52,8 @@
   - 아이챌린지 공식 베이비 월령별 무료체험교재 신청 혜택
   - GS25 공식 혜자로운빵 토스페이 1+1 개별 이벤트 상세 혜택
   - 무신사 공식 온라인 할인 쿠폰 받기 혜택
+  - K-MOOC 공식 강좌 상세 2건: 예술적 얼굴과 감정조절 무료강좌, 동역학 무료강좌
+  - K-MOOC 공식 강좌 상세 3건 추가: 컴퓨터그래픽스, 지식발견머신러닝, 미디어리터러시 무료강좌
 
 ## 품질 정책
 
@@ -112,6 +109,14 @@
 - 2026-06-09 추가 보강: 토스 공식 출석체크·포인트 혜택과 아이챌린지 공식 무료체험교재 혜택을 무료혜택 seed로 승격했고, 아이챌린지를 공식 소스 카탈로그에 추가했다. 현재 공식 혜택 145개, 무료혜택 이벤트 142개 기준으로 `lint`, `verify:news`, `refresh:benefits`, `security:check`, `qa`, `harness`, `build`, `build:android`, `cap:sync`, `workspace:doctor:strict`가 통과했다.
 - 2026-06-09 추가 보강: GS25 공식 혜자로운빵 토스페이 1+1 개별 이벤트 상세를 추가했고, 현재 공식 혜택 146개와 공식 소스 후보 174개 기준으로 `lint`, `verify:news`, `refresh:benefits`, `security:check`, `test:mobile-ux`, `build`, `release:doctor`, `qa`, `build:android`, `cap:sync`, `workspace:doctor:strict`가 통과했다.
 - 2026-06-09 추가 보강: 무신사 공식 온라인 할인 쿠폰 받기 페이지를 추가했고, 현재 공식 혜택 147개와 공식 소스 후보 175개 기준으로 `lint`, `verify:news`, `refresh:benefits`, `security:check`, `test:mobile-ux`, `build`, `release:doctor`, `qa`, `build:android`, `cap:sync`, `workspace:doctor:strict`가 통과했다.
+- 2026-06-09 추가 보강: 사용자 CTA에서 이벤트 목록/혜택 허브/카테고리성 링크 31건을 제거했다. 대표 제거 유형은 CGV/롯데시네마 이벤트 목록, SSG/이마트/홈플러스 이벤트 메인, 항공사 이벤트 목록, 네이버페이 이벤트 허브, 멤버십 범용 안내 페이지 등이다.
+- 2026-06-09 추가 보강: K-MOOC 공식 무료강좌 상세 2건을 추가했다. 현재 `refresh:news` 기준 공식 혜택 노출 118개, 숨김 0개, 실패 0개이며 이벤트 목록/허브 후보 노출은 0건이다.
+- 2026-06-09 추가 보강: `verify:news`는 118/118 공식 혜택 링크 검증 통과, `refresh:benefits`는 무료혜택 65/65, 공식 이벤트 104/104, FreeBenefitEvents 116/100 active official events, 96 sources, 74 hosts로 통과했다.
+- 2026-06-09 추가 보강: K-MOOC 공식 무료강좌 상세 3건을 추가했다. 추가 항목은 컴퓨터그래픽스, 지식발견머신러닝, 미디어리터러시이며 모두 검색/목록이 아닌 공식 강좌 상세 URL이다.
+- 2026-06-09 추가 보강: 공식 소스 카탈로그는 180개 소스, 카테고리 커버리지 10/10, provider 커버리지 4/4로 통과했다.
+- 2026-06-09 추가 보강: `refresh:news`는 124개 수집, 중복 제거 후 121개 노출, 숨김 0개, 실패 0개로 통과했다.
+- 2026-06-09 추가 보강: `verify:news`는 121/121 공식 혜택 링크 검증 통과, `refresh:benefits`는 무료혜택 68/68, 공식 이벤트 104/104, FreeBenefitEvents 119/100 active official events, 96 sources, 74 hosts로 통과했다.
+- 2026-06-09 추가 보강: `security:check` 14/14, `test:mobile-ux` 17/17 통과 상태다.
 - 2026-06-09 확인: `next-env.d.ts`는 `./.next/dev/types/routes.d.ts` 경로를 참조하는 정상 상태다.
 
 새 세션에서는 필요한 명령을 다시 실행해 실제 현재 상태를 확인한 뒤 진행한다.
@@ -119,11 +124,18 @@
 ## 워크트리 주의사항
 
 - refresh, verification, release evidence 산출물 때문에 워크트리가 dirty일 수 있다.
-- 현재 워크트리에는 QA/harness/refresh 실행으로 갱신된 report/data 산출물이 많이 남아 있을 수 있다. 새 세션은 먼저 `git status --short --branch`로 실제 dirty 범위를 확인한다.
+- 2026-06-09 현재 확인 기준으로 워크트리는 HEAD와 remote가 일치하지만, QA/harness/refresh 실행으로 갱신된 report/data 산출물이 많이 남아 있다. 새 세션은 먼저 `git status --short --branch`로 실제 dirty 범위를 확인한다.
 - 2026-06-09 현재 확인 기준으로 소스 변경은 최신 커밋까지 push되어 있고, dirty 항목 대부분은 `reports/`, 루트 리포트, `docs/*REPORT*`, `data/refreshedDeals.json`, `data/verifiedNewsBenefitImages.json`, `data/linkValidationExposureOverrides.json` 같은 재생성 산출물이다.
 - `git add .`를 쓰지 말고 이번 작업 관련 파일만 명시적으로 stage한다.
 - 빌드 후 `next-env.d.ts`가 `./.next/types/routes.d.ts`로 바뀌면 `./.next/dev/types/routes.d.ts`로 되돌린다.
 - 정상 동작 중인 Vercel, Android/Capacitor, 환경변수, Supabase 설정을 깨뜨리지 않는다.
+
+## 세션 전환 지시
+
+- 기존 긴 대화는 `/exit`로 닫는다.
+- 새 작업은 새 `codex` 세션에서 시작한다.
+- 새 세션에서는 이전 대화를 resume하지 않는다.
+- 새 세션의 기준 자료는 `AGENTS.md`, `docs/CURRENT_STATE.md`, 현재 워크트리, 실제 명령 결과뿐이다.
 
 ## 다음 추천 작업
 
