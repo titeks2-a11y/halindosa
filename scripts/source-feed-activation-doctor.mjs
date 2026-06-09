@@ -37,6 +37,9 @@ function check(name, ok, detail, action) {
 const feedEnv = readJson(join(reportsDir, "source-feed-env-readiness.json"), {});
 const canary = readJson(join(reportsDir, "news-feed-canary.json"), {});
 const handoff = readJson(join(reportsDir, "free-benefit-feed-handoff.json"), {});
+const sourceLive = readJson(join(reportsDir, "official-source-live-check.json"), {});
+const sourceBreadth = readJson(join(reportsDir, "free-benefit-source-breadth.json"), {});
+const eventContract = readJson(join(reportsDir, "free-benefit-event-contract.json"), {});
 const health = readJson(join(reportsDir, "health-readiness.json"), {});
 const homeRealtime = readJson(join(reportsDir, "home-realtime.json"), {});
 const runtimeSnapshotDoc = readText(join(docsDir, "HOME_RUNTIME_SNAPSHOT_REPORT.md"));
@@ -67,6 +70,26 @@ const checks = [
     handoff.ok === true && Number(handoff.starterPack?.laneCount ?? 0) >= 8 && Array.isArray(handoff.verificationCommands) && handoff.verificationCommands.includes("npm run refresh:benefits"),
     `lanes=${Number(handoff.starterPack?.laneCount ?? 0)}, commands=${Array.isArray(handoff.verificationCommands) ? handoff.verificationCommands.length : 0}`,
     "Run npm run source:feed:handoff so Vercel env keys and verification commands stay current."
+  ),
+  check(
+    "official source live readiness",
+    sourceLive.ok === true && Number(sourceLive.summary?.staleOrRemovedCount ?? sourceLive.staleOrRemovedCount ?? 0) === 0,
+    `reachable=${Number(sourceLive.summary?.reachableCount ?? sourceLive.reachableCount ?? 0)}, guarded=${Number(sourceLive.summary?.guardedCount ?? sourceLive.guardedCount ?? 0)}, stale=${Number(sourceLive.summary?.staleOrRemovedCount ?? sourceLive.staleOrRemovedCount ?? 0)}`,
+    "Run npm run source:live:doctor and replace or remove any stale_or_removed official source before feed activation."
+  ),
+  check(
+    "official source breadth readiness",
+    sourceBreadth.ok === true &&
+      Number(sourceBreadth.passedLaneCount ?? 0) >= Number(sourceBreadth.requiredLaneCount ?? 12) &&
+      Number(sourceBreadth.passedBrandSignalCount ?? 0) >= Number(sourceBreadth.requiredBrandSignalCount ?? 0),
+    `lanes=${Number(sourceBreadth.passedLaneCount ?? 0)}/${Number(sourceBreadth.requiredLaneCount ?? 0)}, brandSignals=${Number(sourceBreadth.passedBrandSignalCount ?? 0)}/${Number(sourceBreadth.requiredBrandSignalCount ?? 0)}`,
+    "Run npm run source:breadth:doctor so telecom, convenience, beauty, cafe, delivery, pay, mart, open-market, public, education, pet, and sample lanes stay covered."
+  ),
+  check(
+    "free benefit event contract",
+    eventContract.ok === true && Array.isArray(eventContract.checks) && eventContract.checks.every((item) => item.ok === true),
+    `checks=${Array.isArray(eventContract.checks) ? eventContract.checks.filter((item) => item.ok === true).length : 0}/${Array.isArray(eventContract.checks) ? eventContract.checks.length : 0}`,
+    "Run npm run benefit:event:contract so FreeBenefitEvent fields, sanitizer, publishable gate, no-store API, filters, and card trust badges remain enforced."
   ),
   check(
     "feed canary activation",
@@ -116,10 +139,14 @@ const report = {
   visibleCandidates,
   canaryStatus,
   requiredActivationCommands: [
+    "npm run source:catalog:report",
+    "npm run source:live:doctor",
+    "npm run source:breadth:doctor",
     "npm run source:feed-env:doctor",
     "npm run news:feed:canary",
     "npm run refresh:benefits",
     "npm run verify:benefits",
+    "npm run benefit:event:contract",
     "npm run test:home-realtime",
     "npm run health:readiness"
   ],

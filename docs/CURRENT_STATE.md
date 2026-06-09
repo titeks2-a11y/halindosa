@@ -13,8 +13,8 @@
 
 - Branch: `codex/12h-product-ux-growth-hardening`
 - Remote: `origin/codex/12h-product-ux-growth-hardening`
-- 현재 최신 원격 반영 커밋: `d08168cb feat: expand civic free benefit sources`
-- 현재 워크트리는 clean 상태다.
+- 최근 안정 커밋: `test: tighten source feed activation gates`
+- 현재 워크트리는 이 문서 기준으로 clean이어야 한다. 새 세션 시작 시 반드시 `git status --short --branch`로 확인한다.
 
 ## 현재 제품 방향
 
@@ -30,6 +30,7 @@
 
 ## 최근 완료된 안정 상태
 
+- 공공 무료혜택 소스 확장 후 현재 상태 저장: `3ad2c2ac`
 - 홈 무료혜택 빠른 필터 추가: `72d79c57`
 - 홈 무료혜택 카드 조건/신뢰 배지 추가: `30173ddf`
 - 무료혜택 전용 화면 카드 조건/신뢰 배지 추가: `dae76931`
@@ -86,6 +87,24 @@
 - `npm run build` 성공
 - `npm run build:android` 성공
 - `npm run cap:sync` 성공
+
+## 최근 완료된 activation gate 강화
+
+source feed activation gate를 더 엄격하게 만들었다. 운영 feed URL 연결 전 검증 단계에서 단순 handoff만 보는 것이 아니라 아래 조건도 함께 확인하도록 확장했다.
+
+- `source:live:doctor` 결과: 공식 소스 live readiness, reachable 117, guarded 20, stale 0 확인
+- `source:breadth:doctor` 결과: lanes 12/12, brandSignals 54/54 확인
+- `benefit:event:contract` 결과: FreeBenefitEvent UI/contract 16/16 확인
+- `source:activation:doctor` 운영 연결 순서에 `source:live:doctor`, `source:breadth:doctor`, `benefit:event:contract`를 추가
+
+검증:
+
+- `npm run lint` 성공
+- `npm run source:activation:doctor` 성공, status `seed_ready`, configured feed URLs 0
+- `npm run release:doctor` 성공, 188/188
+- `npm run build` 성공
+- `npm run clean:artifacts` 성공
+- `npm run workspace:doctor:strict` 성공, 재생성 산출물 0B
 
 ## 다음 세션에서 바로 할 일
 

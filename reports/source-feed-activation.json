@@ -1,16 +1,20 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-09T02:32:09.402Z",
+  "generatedAt": "2026-06-09T02:44:28.754Z",
   "status": "seed_ready",
   "configuredFeedUrls": 0,
   "configuredProviders": 0,
   "visibleCandidates": 0,
   "canaryStatus": "seed_fallback_only",
   "requiredActivationCommands": [
+    "npm run source:catalog:report",
+    "npm run source:live:doctor",
+    "npm run source:breadth:doctor",
     "npm run source:feed-env:doctor",
     "npm run news:feed:canary",
     "npm run refresh:benefits",
     "npm run verify:benefits",
+    "npm run benefit:event:contract",
     "npm run test:home-realtime",
     "npm run health:readiness"
   ],
@@ -30,6 +34,24 @@
       "ok": true,
       "detail": "lanes=8, commands=8",
       "action": "Run npm run source:feed:handoff so Vercel env keys and verification commands stay current."
+    },
+    {
+      "name": "official source live readiness",
+      "ok": true,
+      "detail": "reachable=117, guarded=20, stale=0",
+      "action": "Run npm run source:live:doctor and replace or remove any stale_or_removed official source before feed activation."
+    },
+    {
+      "name": "official source breadth readiness",
+      "ok": true,
+      "detail": "lanes=12/12, brandSignals=54/54",
+      "action": "Run npm run source:breadth:doctor so telecom, convenience, beauty, cafe, delivery, pay, mart, open-market, public, education, pet, and sample lanes stay covered."
+    },
+    {
+      "name": "free benefit event contract",
+      "ok": true,
+      "detail": "checks=16/16",
+      "action": "Run npm run benefit:event:contract so FreeBenefitEvent fields, sanitizer, publishable gate, no-store API, filters, and card trust badges remain enforced."
     },
     {
       "name": "feed canary activation",

@@ -1,6 +1,6 @@
 # 무료혜택 Feed Activation 리포트
 
-- 생성 시각: 2026-06-09T02:32:09.402Z
+- 생성 시각: 2026-06-09T02:44:28.754Z
 - 상태: seed_ready
 - 설정 feed URL: 0개
 - 설정 provider: 0개
@@ -19,6 +19,9 @@
 | --- | --- | --- | --- |
 | feed env safety | PASS | configured=0, failed=0 | Run npm run source:feed-env:doctor and fix any unsafe, search, community, private, or non-machine-readable feed URL. |
 | feed handoff readiness | PASS | lanes=8, commands=8 | Run npm run source:feed:handoff so Vercel env keys and verification commands stay current. |
+| official source live readiness | PASS | reachable=117, guarded=20, stale=0 | Run npm run source:live:doctor and replace or remove any stale_or_removed official source before feed activation. |
+| official source breadth readiness | PASS | lanes=12/12, brandSignals=54/54 | Run npm run source:breadth:doctor so telecom, convenience, beauty, cafe, delivery, pay, mart, open-market, public, education, pet, and sample lanes stay covered. |
+| free benefit event contract | PASS | checks=16/16 | Run npm run benefit:event:contract so FreeBenefitEvent fields, sanitizer, publishable gate, no-store API, filters, and card trust badges remain enforced. |
 | feed canary activation | PASS | status=seed_fallback_only, configured=0, providers=0, visible=0 | Seed fallback is allowed until approved JSON/RSS/Atom feeds are connected. Connect OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS, or BENEFIT_REFRESH_FEED_URLS next. |
 | home realtime reflection | PASS | homeChecks=20/20 | Run npm run test:home-realtime after each feed activation to prove /api/home reflects refreshed snapshots without restart. |
 | free benefit refresh command | PASS | refresh:benefits is present and QA keeps it in the free-benefit pipeline. | Keep refresh:benefits in QA so freebies/events/verify steps remain release-blocking. |
@@ -28,10 +31,14 @@
 ## 운영 연결 순서
 
 ```bash
+npm run source:catalog:report
+npm run source:live:doctor
+npm run source:breadth:doctor
 npm run source:feed-env:doctor
 npm run news:feed:canary
 npm run refresh:benefits
 npm run verify:benefits
+npm run benefit:event:contract
 npm run test:home-realtime
 npm run health:readiness
 ```
