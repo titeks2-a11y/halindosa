@@ -3004,5 +3004,50 @@
     "allowedUse": "던킨 공식 프로모션 목록 중 해피포인트, 해피오더, 쿠폰, 무료 또는 할인 혜택의 공식 상세와 기간, 참여 조건이 확인되는 항목",
     "blockedUse": "제품 소개, 매장 찾기, 검색 결과, 비공식 커뮤니티 글, 종료된 프로모션, 공식 상세가 아닌 광고 중간 페이지",
     "notes": "이미 등록된 개별 던킨 상세 소스를 보완하는 공식 목록 소스다. 사용자 CTA는 개별 공식 프로모션 상세가 active이고 조건이 확인된 경우에만 연결한다."
+  },
+  {
+    "id": "momq-official-event-list",
+    "label": "맘큐 공식 육아 샘플·이벤트 목록",
+    "provider": "official_event",
+    "category": [
+      "무료혜택",
+      "식품/생필품",
+      "패션/뷰티"
+    ],
+    "sourceType": "official_event_listing",
+    "officialUrl": "https://www.momq.co.kr/event",
+    "preferredEnvKeys": [
+      "BENEFIT_REFRESH_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 12,
+    "allowedUse": "맘큐 공식 이벤트 목록 중 샘플팩, 웰컴혜택, 선착순 쿠폰, 포인트, 육아용품 체험처럼 공식 상세와 기간, 참여 조건이 확인되는 항목",
+    "blockedUse": "맘큐 검색 결과, 쇼핑 기획전 메인, 커뮤니티 후기, 종료/래플 마감 이벤트, 개인정보 제공 조건을 설명할 수 없는 이벤트",
+    "notes": "목록은 발견 소스로만 사용한다. 사용자 CTA는 맘큐 공식 이벤트 상세, 샘플 신청, 쿠폰 받기 페이지가 active이고 로그인/구매 필요 조건이 확인된 경우에만 연결한다."
+  },
+  {
+    "id": "momq-new-member-welcome-benefit",
+    "label": "맘큐 공식 신규회원 웰컴혜택",
+    "provider": "official_event",
+    "category": [
+      "무료혜택",
+      "식품/생필품",
+      "카드/멤버십"
+    ],
+    "sourceType": "official_event_detail",
+    "officialUrl": "https://www.momq.co.kr/event/202601290003",
+    "preferredEnvKeys": [
+      "BENEFIT_REFRESH_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 24,
+    "allowedUse": "맘큐 공식 신규회원 웰컴혜택 상세에서 쿠폰팩, 포인트, 가입 조건, 기간이 확인되는 항목",
+    "blockedUse": "가입 조건이 불명확한 홍보 이미지, 검색 결과, 종료된 신규회원 이벤트, 구매상품 상세를 웰컴혜택처럼 노출",
+    "notes": "회원가입 필요 혜택으로 분류하고 무료혜택 메인 랭킹에서는 구매 필요 이벤트보다 높지만 전원증정/샘플보다 낮게 정렬한다."
   }
 ]
