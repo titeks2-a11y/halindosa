@@ -13,8 +13,8 @@
 
 - Branch: `codex/12h-product-ux-growth-hardening`
 - Remote: `origin/codex/12h-product-ux-growth-hardening`
-- 현재 최신 커밋: `dae76931 feat: show free benefits page claim conditions`
-- 현재 워크트리에는 공식 무료혜택 소스 카탈로그 확장 변경이 있으며, 아직 커밋 전이다.
+- 현재 최신 원격 반영 커밋: `c77953ca feat: expand free benefit source signals`
+- 현재 워크트리에는 G마켓, 옥션, 이벤트하우스 무료혜택 소스 보강 변경이 있으며, 아직 커밋 전이다.
 
 ## 현재 제품 방향
 
@@ -33,20 +33,24 @@
 - 홈 무료혜택 빠른 필터 추가: `72d79c57`
 - 홈 무료혜택 카드 조건/신뢰 배지 추가: `30173ddf`
 - 무료혜택 전용 화면 카드 조건/신뢰 배지 추가: `dae76931`
+- 투썸플레이스, 메가MGC커피, 쿠팡이츠, 롯데마트, 다이소몰 공식 무료혜택 소스 신호 추가: `c77953ca`
 - `benefit:event:contract`는 홈과 `/free-benefits`의 조건/검증 배지를 회귀 검사한다.
 - 최근 안정 검증: `lint`, `benefit:event:contract`, `test:mobile-compact`, `security:check`, `release:doctor`, `build`, `build:android`, `cap:sync`, `workspace:doctor:strict` 성공.
 
 ## 현재 커밋 전 변경 요약
 
-공식 무료혜택 소스 카탈로그를 114개에서 119개로 확장했다.
+공식 무료혜택 소스 카탈로그를 119개에서 122개로 확장했다.
 
 추가한 공식 소스 후보:
 
-- 투썸플레이스 공식 앱·멤버십 혜택
-- 메가MGC커피 공식 이벤트·쿠폰
-- 쿠팡이츠 공식 무료배달·쿠폰 혜택
-- 롯데마트 공식 행사·쿠폰 혜택
-- 다이소몰 공식 이벤트·쿠폰
+- G마켓 공식 쿠폰·프로모션 혜택
+- 옥션 공식 e쿠폰·프로모션 혜택
+- 이벤트하우스 공개 경품·무료 이벤트 발견 소스
+
+주의:
+
+- 이벤트하우스는 보조 발견 소스다. 사용자 CTA는 이벤트하우스 글이 아니라 원 브랜드 공식 이벤트·신청 URL로만 연결한다.
+- G마켓/옥션도 검색 결과, 대표몰 메인, 상품 리스트가 아니라 공식 이벤트 상세와 조건 확인 항목만 publishable로 전환한다.
 
 변경 파일:
 
@@ -55,20 +59,24 @@
 - `scripts/lib/release-doctor-operational-data.mjs`
 - `docs/OFFICIAL_SOURCE_CATALOG.md`
 - `docs/FREE_BENEFIT_SOURCE_BREADTH.md`
+- `docs/FREE_BENEFIT_EVENT_CONTRACT.md`
+- `docs/SECURITY_CHECK_REPORT.md`
 
 검증 결과:
 
-- `npm run source:catalog:report` 성공, 공식 소스 119개, 카테고리 10/10, provider 4/4
-- `npm run source:breadth:doctor` 성공, 수집 축 12/12, 핵심 브랜드 신호 42/42
+- `npm run source:catalog:report` 성공, 공식 소스 122개, 카테고리 10/10, provider 4/4
+- `npm run source:breadth:doctor` 성공, 수집 축 12/12, 핵심 브랜드 신호 45/45
+- `npm run benefit:event:contract` 성공, 16/16
 - `npm run lint` 성공
+- `npm run security:check` 성공, 10/10
 - `npm run release:doctor` 성공, 188/188
 
 ## 다음 세션에서 바로 할 일
 
 1. `git status --short --branch`로 현재 변경 상태를 확인한다.
 2. 필요하면 `npm run workspace:doctor:strict`를 실행해 재생성 산출물 상태를 확인한다.
-3. 위 공식 소스 확장 변경을 커밋한다.
-   - 권장 커밋 메시지: `feat: expand free benefit source signals`
+3. 위 G마켓/옥션/이벤트하우스 소스 확장 변경을 커밋한다.
+   - 권장 커밋 메시지: `feat: broaden official free benefit source coverage`
 4. 가능하면 원격 브랜치에 push한다.
 5. 이어서 실제 운영 feed URL 연결 또는 무료혜택 수집량 확대 작업을 진행한다.
 

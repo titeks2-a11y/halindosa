@@ -1581,8 +1581,8 @@ export async function checkOperationalDataSurfaces() {
     (sourceBreadthReport.catalogCount ?? 0) < 100 ||
     (sourceBreadthReport.passedLaneCount ?? 0) < 12 ||
     (sourceBreadthReport.requiredLaneCount ?? 0) < 12 ||
-    (sourceBreadthReport.passedBrandSignalCount ?? 0) < 42 ||
-    (sourceBreadthReport.requiredBrandSignalCount ?? 0) < 42 ||
+    (sourceBreadthReport.passedBrandSignalCount ?? 0) < 45 ||
+    (sourceBreadthReport.requiredBrandSignalCount ?? 0) < 45 ||
     !Array.isArray(sourceBreadthReport.brandSignals) ||
     sourceBreadthReport.brandSignals.some((brand) => brand.ok !== true) ||
     !sourceBreadthDoc.includes("핵심 브랜드 신호") ||
@@ -1596,6 +1596,9 @@ export async function checkOperationalDataSurfaces() {
     !sourceBreadthDoc.includes("쿠팡이츠") ||
     !sourceBreadthDoc.includes("롯데마트") ||
     !sourceBreadthDoc.includes("다이소몰") ||
+    !sourceBreadthDoc.includes("G마켓") ||
+    !sourceBreadthDoc.includes("옥션") ||
+    !sourceBreadthDoc.includes("이벤트하우스") ||
     !sourceBreadthDoc.includes("다나와") ||
     sourceFeedHandoffReport.ok !== true ||
     (sourceFeedHandoffReport.starterPack?.laneCount ?? 0) < 8 ||

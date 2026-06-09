@@ -2,9 +2,9 @@
 
 이 문서는 할인도사에 연결할 수 있는 공식 이벤트, 공공 혜택, 제휴 JSON/RSS 후보를 정리합니다. 무단 크롤링 후보가 아니라 운영자가 승인 feed 또는 공식 페이지 매핑으로 전환할 때 쓰는 출발점입니다.
 
-- 생성 시각: 2026-06-09T01:28:48.474Z
+- 생성 시각: 2026-06-09T01:33:52.320Z
 - 상태: PASS
-- 후보 소스: 119개
+- 후보 소스: 122개
 - 고우선순위 후보: 33개
 - 현재 env feed 연결 후보: 0개
 - 공식 혜택 노출: 105개
@@ -18,12 +18,12 @@
 | 식품/생필품 | 12 | 충분 |
 | 마트/편의점 | 14 | 충분 |
 | 디지털/가전 | 7 | 충분 |
-| 패션/뷰티 | 16 | 충분 |
-| 외식/배달 | 36 | 충분 |
+| 패션/뷰티 | 17 | 충분 |
+| 외식/배달 | 37 | 충분 |
 | 여행/숙박 | 9 | 충분 |
-| 영화/문화 | 18 | 충분 |
+| 영화/문화 | 19 | 충분 |
 | 카드/멤버십 | 34 | 충분 |
-| 무료혜택 | 82 | 충분 |
+| 무료혜택 | 85 | 충분 |
 | 정부/공공혜택 | 12 | 충분 |
 
 ## Provider 커버리지
@@ -32,8 +32,8 @@
 | --- | ---: | --- |
 | news | 1 | 포함 |
 | event_news | 2 | 포함 |
-| official_event | 76 | 포함 |
-| public_coupon | 40 | 포함 |
+| official_event | 78 | 포함 |
+| public_coupon | 41 | 포함 |
 
 ## 후보 목록
 
@@ -158,6 +158,9 @@
 | coupang-eats-official-benefits | official_event | 외식/배달, 무료혜택 | low | https://www.coupangeats.com/home/ | OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
 | lottemart-official-benefits | official_event | 식품/생필품, 마트/편의점, 무료혜택 | medium | https://company.lottemart.com/mobiledowa/event/event_list.asp | OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
 | daisomall-official-events | official_event | 마트/편의점, 무료혜택 | medium | https://www.daisomall.co.kr/ds/spexhbt/C211?exbtNo=787 | OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| gmarket-official-coupon-event | official_event | 패션/뷰티, 무료혜택 | medium | https://www.gmarket.co.kr/e/spt/amorepacific | OFFICIAL_EVENT_FEED_URLS, DEAL_EVENT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| auction-official-ecoupon-event | official_event | 외식/배달, 무료혜택 | medium | https://promotion.auction.co.kr/promotion/MD/eventview.aspx?txtMD=088B0E6DDE%28pc%29 | OFFICIAL_EVENT_FEED_URLS, DEAL_EVENT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| eventhouse-approved-event-discovery | public_coupon | 무료혜택, 영화/문화 | low | https://www.eventhouse.kr/mobile/ | PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
 
 ## 다음 작업
 

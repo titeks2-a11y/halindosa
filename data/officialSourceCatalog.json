@@ -2535,5 +2535,70 @@
     "allowedUse": "다이소몰 공식 이벤트, 쿠폰, 무료배송, 신규가입 혜택 중 공식 상세와 조건이 확인되는 항목",
     "blockedUse": "다이소몰 메인만 있는 링크, 검색 결과, 비공식 쇼핑몰 후기, 종료 이벤트",
     "notes": "공식 이벤트 상세 또는 쿠폰 받기 경로가 확인된 항목만 사용자 화면에 노출한다."
+  },
+  {
+    "id": "gmarket-official-coupon-event",
+    "label": "G마켓 공식 쿠폰·프로모션 혜택",
+    "provider": "official_event",
+    "category": [
+      "패션/뷰티",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.gmarket.co.kr/e/spt/amorepacific",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "DEAL_EVENT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 6,
+    "allowedUse": "G마켓 공식 프로모션, 쿠폰 받기, 스마일캐시, 무료배송, 브랜드 혜택 중 공식 상세 URL과 참여 조건이 확인되는 항목",
+    "blockedUse": "G마켓 검색 결과, 메인 페이지, 상품 리스트만 있는 링크, 비공식 블로그 가격 정리, 종료된 쿠폰 이벤트",
+    "notes": "G마켓은 rpp/기획전 URL이 검색·목록성으로 보일 수 있어 쿠폰 받기 또는 공식 이벤트 상세가 확인된 항목만 publishable로 전환한다."
+  },
+  {
+    "id": "auction-official-ecoupon-event",
+    "label": "옥션 공식 e쿠폰·프로모션 혜택",
+    "provider": "official_event",
+    "category": [
+      "외식/배달",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://promotion.auction.co.kr/promotion/MD/eventview.aspx?txtMD=088B0E6DDE%28pc%29",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "DEAL_EVENT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 6,
+    "allowedUse": "옥션 공식 e쿠폰, 브랜드관, 무료배송, 캐시/쿠폰 혜택 중 공식 이벤트 상세와 참여 조건이 확인되는 항목",
+    "blockedUse": "옥션 검색 결과, 카테고리 목록, 메인 페이지, 비공식 바로가기 페이지, 품절·판매종료 상품 페이지",
+    "notes": "옥션 프로모션 상세는 이벤트 종료 문구를 반드시 검사하고, 종료 또는 판매 불가 문구가 잡히면 사용자 노출에서 제외한다."
+  },
+  {
+    "id": "eventhouse-approved-event-discovery",
+    "label": "이벤트하우스 공개 경품·무료 이벤트 발견 소스",
+    "provider": "public_coupon",
+    "category": [
+      "무료혜택",
+      "영화/문화"
+    ],
+    "sourceType": "public_event_discovery_page",
+    "officialUrl": "https://www.eventhouse.kr/mobile/",
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "public_discovery_then_official_source_review",
+    "priority": "low",
+    "refreshCadenceHours": 12,
+    "allowedUse": "공식 브랜드 이벤트를 발견하기 위한 보조 수집 후보. 최종 CTA는 이벤트하우스가 아니라 원 브랜드 공식 이벤트·신청 URL로만 연결한다.",
+    "blockedUse": "이벤트하우스 글 자체를 무료혜택 CTA로 쓰는 행위, 광고성 중간 페이지, 커뮤니티 댓글 이벤트 원문만 있는 링크, 종료된 응모",
+    "notes": "비공식 모음 성격이 있으므로 사용자 화면에는 직접 노출하지 않고, 공식 주최사 URL을 확인한 뒤 originalUrl/finalUrl을 교체한 항목만 publishable로 전환한다."
   }
 ]
