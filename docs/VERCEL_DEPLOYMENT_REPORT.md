@@ -1,6 +1,6 @@
 # Vercel Deployment Doctor
 
-Generated: 2026-06-09T15:51:47.580Z
+Generated: 2026-06-09T15:59:48.476Z
 
 Status: PASS
 
@@ -8,14 +8,14 @@ Status: PASS
 
 - Origin: `https://halindosa.com`
 - Branch: `codex/12h-product-ux-growth-hardening`
-- Commit: `970c1147`
-- Working tree: 84 changed file(s): M .github/workflows/vercel-production-deploy.yml; M DEVICE_QA_REPORT.md; M EXTERNAL_LINK_REPORT.md; M HARNESS_REPORT.md; M IMAGE_QUALITY_REPORT.md; M KNOWN_ISSUES.md; M LINK_VERIFICATION_REPORT.md; M LINK_VERIFICATION_RESULT.json; ... +76 more
+- Commit: `a5331fdb`
+- Working tree: 83 changed file(s): M DEVICE_QA_REPORT.md; M EXTERNAL_LINK_REPORT.md; M HARNESS_REPORT.md; M IMAGE_QUALITY_REPORT.md; M KNOWN_ISSUES.md; M LINK_VERIFICATION_REPORT.md; M LINK_VERIFICATION_RESULT.json; M PERFORMANCE_REPORT.md; ... +75 more
 - Vercel project linked locally: no
 - Vercel token present in shell: no
 
 ## Summary
 
-- Checks: 20/20
+- Checks: 22/22
 - Root: 200
 - Home API: 200
 - Deals API: 200
@@ -24,6 +24,8 @@ Status: PASS
 - Official benefit /go redirect: 302
 - Home API Cache-Control: `no-store, no-cache, must-revalidate, proxy-revalidate`
 - Freebies API Cache-Control: `no-store, no-cache, must-revalidate, proxy-revalidate`
+- Cron refresh public guard: 401
+- Cron benefits public guard: 401
 - Home product deals checked: 8
 - Home official benefits checked: 8
 - Freebies checked: 12
@@ -50,6 +52,8 @@ Status: PASS
 | PASS | freebies api realtime metadata | /api/freebies exposes cachePolicy=no-store, freshness label, and next refresh metadata. |
 | PASS | freebies publishable policy | No search, homepage, community, expired, hidden, low-quality, image-less, or non-publishable free benefit leaked from /api/freebies. |
 | PASS | freebies consumer-first default policy | Default /api/freebies response excludes public/policy benefits unless explicitly requested. |
+| PASS | cron refresh public guard | /api/cron/refresh rejects unauthenticated dry-run probes on the public deployment. |
+| PASS | cron benefits public guard | /api/cron/benefits rejects unauthenticated dry-run probes on the public deployment. |
 | PASS | go redirect status | /go/d014 reached an external destination after 2 hop(s). |
 | PASS | go redirect destination | Destination host=www.coupang.com |
 | PASS | official benefit redirect status | /go/news/news-dunkin-monthly-combo-coupon reached an external official destination after 2 hop(s). |

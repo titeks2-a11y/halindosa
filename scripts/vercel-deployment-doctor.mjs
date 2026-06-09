@@ -10,6 +10,8 @@ const origin = normalizeOrigin(process.env.VERCEL_DEPLOYMENT_URL || process.env.
 const apiHomePath = "/api/home?limit=8&verifiedOnly=true";
 const apiDealsPath = "/api/deals?limit=8&verifiedOnly=true";
 const apiFreebiesPath = "/api/freebies?limit=12";
+const cronRefreshDryRunPath = "/api/cron/refresh?dryRun=true";
+const cronBenefitsDryRunPath = "/api/cron/benefits?dryRun=true";
 const redirectProbePath = "/go/d014?from=vercel-doctor";
 
 mkdirSync(reportsDir, { recursive: true });
@@ -329,6 +331,20 @@ checks.push(
       )
 );
 
+probes.cronRefreshGuard = await fetchText(cronRefreshDryRunPath);
+checks.push(
+  probes.cronRefreshGuard.status === 401
+    ? pass("cron refresh public guard", "/api/cron/refresh rejects unauthenticated dry-run probes on the public deployment.")
+    : fail("cron refresh public guard", `/api/cron/refresh should return 401 without CRON_SECRET or admin token; got ${probes.cronRefreshGuard.status}.`)
+);
+
+probes.cronBenefitsGuard = await fetchText(cronBenefitsDryRunPath);
+checks.push(
+  probes.cronBenefitsGuard.status === 401
+    ? pass("cron benefits public guard", "/api/cron/benefits rejects unauthenticated dry-run probes on the public deployment.")
+    : fail("cron benefits public guard", `/api/cron/benefits should return 401 without CRON_SECRET or admin token; got ${probes.cronBenefitsGuard.status}.`)
+);
+
 const redirectChain = await fetchRedirectChain(redirectProbePath);
 probes.goRedirect = {
   ...(redirectChain.probe ?? {}),
@@ -399,6 +415,8 @@ const report = {
     officialBenefitRedirectStatus: probes.officialBenefitRedirect?.status ?? 0,
     homeApiCacheControl: probes.homeApi.cacheControl,
     freebiesApiCacheControl: probes.freebiesApi.cacheControl,
+    cronRefreshGuardStatus: probes.cronRefreshGuard.status,
+    cronBenefitsGuardStatus: probes.cronBenefitsGuard.status,
     homeProductDeals: homeDeals.length,
     homeOfficialBenefits: homeNewsDeals.length,
     freebies: freebies.length,
@@ -452,6 +470,8 @@ Status: ${ok ? "PASS" : "BLOCKED"}
 - Official benefit /go redirect: ${report.summary.officialBenefitRedirectStatus}
 - Home API Cache-Control: \`${report.summary.homeApiCacheControl || "(missing)"}\`
 - Freebies API Cache-Control: \`${report.summary.freebiesApiCacheControl || "(missing)"}\`
+- Cron refresh public guard: ${report.summary.cronRefreshGuardStatus}
+- Cron benefits public guard: ${report.summary.cronBenefitsGuardStatus}
 - Home product deals checked: ${report.summary.homeProductDeals}
 - Home official benefits checked: ${report.summary.homeOfficialBenefits}
 - Freebies checked: ${report.summary.freebies}
