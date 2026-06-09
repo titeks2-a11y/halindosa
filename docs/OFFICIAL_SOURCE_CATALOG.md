@@ -2,12 +2,12 @@
 
 이 문서는 할인도사에 연결할 수 있는 공식 이벤트, 공공 혜택, 제휴 JSON/RSS 후보를 정리합니다. 무단 크롤링 후보가 아니라 운영자가 승인 feed 또는 공식 페이지 매핑으로 전환할 때 쓰는 출발점입니다.
 
-- 생성 시각: 2026-06-09T11:51:28.681Z
+- 생성 시각: 2026-06-09T12:05:58.989Z
 - 상태: PASS
-- 후보 소스: 180개
-- 고우선순위 후보: 63개
+- 후보 소스: 183개
+- 고우선순위 후보: 66개
 - 현재 env feed 연결 후보: 0개
-- 공식 혜택 노출: 121개
+- 공식 혜택 노출: 124개
 - feed 전환 상태: seed_launch_ready
 - CSV 리포트: reports/official-source-catalog.csv
 
@@ -23,8 +23,8 @@
 | 여행/숙박 | 9 | 충분 |
 | 영화/문화 | 25 | 충분 |
 | 카드/멤버십 | 59 | 충분 |
-| 무료혜택 | 144 | 충분 |
-| 정부/공공혜택 | 36 | 충분 |
+| 무료혜택 | 147 | 충분 |
+| 정부/공공혜택 | 39 | 충분 |
 
 ## Provider 커버리지
 
@@ -33,7 +33,7 @@
 | news | 1 | 포함 |
 | event_news | 2 | 포함 |
 | official_event | 115 | 포함 |
-| public_coupon | 62 | 포함 |
+| public_coupon | 65 | 포함 |
 
 ## 후보 목록
 
@@ -219,6 +219,9 @@
 | kmooc-computer-graphics-free-course-202606 | public_coupon | 정부/공공혜택, 무료혜택 | high | https://www.kmooc.kr/view/course/detail/19266 | PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
 | kmooc-machine-learning-free-course-202606 | public_coupon | 정부/공공혜택, 무료혜택 | high | https://www.kmooc.kr/view/course/detail/19382 | PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
 | kmooc-media-literacy-free-course-202606 | public_coupon | 정부/공공혜택, 무료혜택 | high | https://www.kmooc.kr/view/course/detail/19037 | PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| seoul-life-museum-ompang-free-kids-2026 | public_coupon | 정부/공공혜택, 무료혜택 | high | https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?rsv_svc_id=S251118144705678859 | PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| seoul-dongdaemun-forest-family-free-2026 | public_coupon | 정부/공공혜택, 무료혜택 | high | https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?rsv_svc_id=S260421215619744831 | PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| seoul-arisunara-free-kids-experience-202606 | public_coupon | 정부/공공혜택, 무료혜택 | high | https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?reSvc=Y&rsv_svc_id=S221208131717851016 | PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
 
 ## 다음 작업
 

@@ -15,14 +15,13 @@
 
 - Branch: `codex/12h-product-ux-growth-hardening`
 - Remote tracking: `origin/codex/12h-product-ux-growth-hardening`
-- 최신 확인 HEAD:
-  - `43337c0f feat: add musinsa official coupon benefit`
+- 최신 HEAD는 새 세션 시작 시 `git log -1 --oneline`으로 다시 확인한다.
 - 최근 커밋:
+  - `e2ea3d14 feat: add verified kmooc benefit details`
   - `43337c0f feat: add musinsa official coupon benefit`
   - `49227568 feat: add gs25 official convenience benefit`
   - `89da3421 feat: add official checkin and free trial benefits`
   - `96261ee0 docs: update current handoff state`
-  - `02a8d818 feat: add official pet sample benefit`
 
 ## 제품 방향
 
@@ -54,6 +53,7 @@
   - 무신사 공식 온라인 할인 쿠폰 받기 혜택
   - K-MOOC 공식 강좌 상세 2건: 예술적 얼굴과 감정조절 무료강좌, 동역학 무료강좌
   - K-MOOC 공식 강좌 상세 3건 추가: 컴퓨터그래픽스, 지식발견머신러닝, 미디어리터러시 무료강좌
+  - 서울시 공공서비스예약 공식 상세 3건 추가: 서울생활사박물관 어린이체험실 옴팡, 동대문구 유아숲체험원 가족 숲 교육, 아리수나라 어린이 체험 무료 예약
 
 ## 품질 정책
 
@@ -116,6 +116,11 @@
 - 2026-06-09 추가 보강: 공식 소스 카탈로그는 180개 소스, 카테고리 커버리지 10/10, provider 커버리지 4/4로 통과했다.
 - 2026-06-09 추가 보강: `refresh:news`는 124개 수집, 중복 제거 후 121개 노출, 숨김 0개, 실패 0개로 통과했다.
 - 2026-06-09 추가 보강: `verify:news`는 121/121 공식 혜택 링크 검증 통과, `refresh:benefits`는 무료혜택 68/68, 공식 이벤트 104/104, FreeBenefitEvents 119/100 active official events, 96 sources, 74 hosts로 통과했다.
+- 2026-06-09 추가 보강: `security:check` 14/14, `test:mobile-ux` 17/17 통과 상태다.
+- 2026-06-09 추가 보강: 서울시 공공서비스예약 공식 상세 무료 체험 3건을 추가했다. 추가 항목은 서울생활사박물관 어린이체험실 옴팡, 동대문구 유아숲체험원 가족 숲 교육, 아리수나라 어린이 체험 예약이며 모두 검색/목록이 아닌 서울시 공식 상세 URL이다.
+- 2026-06-09 추가 보강: 공식 소스 카탈로그는 183개 소스, 카테고리 커버리지 10/10, provider 커버리지 4/4로 통과했다.
+- 2026-06-09 추가 보강: `refresh:news`는 127개 수집, 중복 제거 후 124개 노출, 숨김 0개, 실패 0개로 통과했다.
+- 2026-06-09 추가 보강: `verify:news`는 124/124 공식 혜택 링크 검증 통과, `refresh:benefits`는 무료혜택 71/71, 공식 이벤트 104/104, FreeBenefitEvents 122/100 active official events, 97 sources, 74 hosts로 통과했다.
 - 2026-06-09 추가 보강: `security:check` 14/14, `test:mobile-ux` 17/17 통과 상태다.
 - 2026-06-09 확인: `next-env.d.ts`는 `./.next/dev/types/routes.d.ts` 경로를 참조하는 정상 상태다.
 
