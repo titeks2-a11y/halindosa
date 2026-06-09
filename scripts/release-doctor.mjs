@@ -16,12 +16,21 @@ async function checkPackage() {
   const harness = await text("scripts/harness.mjs");
   const audit = await text("scripts/audit.mjs");
   const securityCheck = await text("scripts/security-check.mjs");
+  const workspaceDoctor = await text("scripts/workspace-health-doctor.mjs");
+  const readme = await text("README.md");
+  const runbook = await text("docs/RUNBOOK.md");
   const securityCheckReport = existsSync(join(root, "docs/SECURITY_CHECK_REPORT.md"))
     ? readFileSync(join(root, "docs/SECURITY_CHECK_REPORT.md"), "utf8")
     : "";
   const requiredScripts = [
     "build",
     "build:android",
+    "workspace:doctor",
+    "workspace:doctor:strict",
+    "clean:artifacts:dry",
+    "clean:artifacts",
+    "clean:reports:dry",
+    "clean:reports",
     "cap:sync",
     "cap:sync:ios",
     "cap:open",
@@ -108,6 +117,23 @@ async function checkPackage() {
     fail("package scripts", "qa, harness, and qa:release should include admin auth doctor, refresh:all, health readiness, mobile UX, commercial security audit, device QA manifest/doctor/report, Android signing doctor, public URL doctor, partner feed validator, production feed doctor, store metadata doctor, store submission/packet/console/handoff reports, store asset doctor, store screenshot manifest/doctor, and performance budget before store submission.");
   } else {
     pass("package scripts", "Android, iOS, environment, mobile UX, commercial security, and performance release command flow is available.");
+  }
+
+  if (
+    !String(pkg.scripts?.["workspace:doctor"] ?? "").includes("workspace-health-doctor.mjs") ||
+    !String(pkg.scripts?.["workspace:doctor:strict"] ?? "").includes("--strict") ||
+    !String(pkg.scripts?.["clean:reports"] ?? "").includes("--delete --reports") ||
+    !workspaceDoctor.includes("Dirty regenerated report/data summary") ||
+    !workspaceDoctor.includes("data snapshots") ||
+    !workspaceDoctor.includes("root evidence") ||
+    !workspaceDoctor.includes("docs evidence") ||
+    !workspaceDoctor.includes("reports/") ||
+    !readme.includes("Dirty regenerated report/data summary") ||
+    !runbook.includes("Dirty regenerated report/data summary")
+  ) {
+    fail("workspace hygiene tooling", "Workspace doctor and cleanup docs must summarize regenerated report/data churn by root evidence, docs evidence, reports/, and data snapshots.");
+  } else {
+    pass("workspace hygiene tooling", "Workspace doctor, cleanup scripts, README, and runbook distinguish generated report/data churn before staging.");
   }
 
   const benefitSecurityGateMissing = [
