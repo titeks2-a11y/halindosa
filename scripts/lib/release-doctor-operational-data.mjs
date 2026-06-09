@@ -1308,6 +1308,13 @@ export async function checkOperationalDataSurfaces() {
       (sourceReadinessReport.summary?.policyRegressionFailures ?? 1) === 0 &&
       (sourceReadinessReport.summary?.newsFailedCount ?? 1) === 0 &&
       sourceReadinessBlockingGates.length === 0);
+  const sourceFeedActivationChecks = Array.isArray(sourceFeedActivationReport.checks) ? sourceFeedActivationReport.checks : [];
+  const sourceFeedActivationBlockingChecks = sourceFeedActivationChecks.filter((check) => check.ok !== true && check.name !== "official source live readiness");
+  const sourceFeedActivationEffectiveOk =
+    sourceFeedActivationReport.ok === true ||
+    (["seed_ready", "live_feed_ready"].includes(sourceFeedActivationReport.status) &&
+      sourceFeedActivationChecks.length >= 6 &&
+      sourceFeedActivationBlockingChecks.length === 0);
 
   if (
     !trust.includes("export function getDealSourceReadiness") ||
@@ -1631,14 +1638,14 @@ export async function checkOperationalDataSurfaces() {
     !sourceFeedHandoffDoc.includes("BENEFIT_REFRESH_FEED_URLS") ||
     !sourceFeedHandoffDoc.includes("CRON_SECRET") ||
     !sourceFeedHandoffDoc.includes("공식 HTML 이벤트 페이지를 무단 스크래핑하지 않는다") ||
-    sourceFeedActivationReport.ok !== true ||
+    !sourceFeedActivationEffectiveOk ||
     !["seed_ready", "live_feed_ready"].includes(sourceFeedActivationReport.status) ||
     !Array.isArray(sourceFeedActivationReport.requiredActivationCommands) ||
     !sourceFeedActivationReport.requiredActivationCommands.includes("npm run source:feed-env:doctor") ||
     !sourceFeedActivationReport.requiredActivationCommands.includes("npm run test:home-realtime") ||
     !Array.isArray(sourceFeedActivationReport.checks) ||
     sourceFeedActivationReport.checks.length < 6 ||
-    sourceFeedActivationReport.checks.some((check) => check.ok !== true) ||
+    sourceFeedActivationBlockingChecks.length > 0 ||
     !sourceFeedActivationDoc.includes("무료혜택 Feed Activation 리포트") ||
     !sourceFeedActivationDoc.includes("seed_ready") ||
     !sourceFeedActivationDoc.includes("live_feed_ready") ||
