@@ -13,11 +13,11 @@
 
 - Branch: `codex/12h-product-ux-growth-hardening`
 - 최근 커밋:
+  - `16848082 test: enforce mobile free benefit category chips`
   - `eb7212ed test: block duplicate official source urls in security check`
   - `5e6ef008 chore: dedupe official benefit source catalog`
   - `76bcb379 test: require source catalog security in release doctor`
   - `ba84af79 docs: update current state for new codex session`
-  - `d3241d4c test: guard official source catalog security`
   - `d1392c27 docs: refresh current state handoff`
 - 현재 워크트리는 release evidence, refresh 데이터, 리포트 산출물이 dirty 상태로 남아 있을 수 있다.
 - 코드 커밋 시 `git add .`를 피하고 필요한 파일만 명시적으로 stage한다.
@@ -49,6 +49,7 @@ npm run workspace:doctor:strict
   - `scripts/free-benefit-event-contract-doctor.mjs`
 - 홈과 `/free-benefits`는 12개 무료혜택 필터 계약을 공유한다.
   - 전체, 전원증정, 선착순, 쿠폰, 샘플, 무료체험, 기프티콘, 포인트/캐시백, 출석체크, 신규가입, 공공무료, 체험단
+- `npm run test:mobile-ux`는 홈 무료혜택 히어로가 12개 필터, 마감임박, 로그인 필요, 구매 필요 조건 배지를 유지하는지 검사한다.
 - `/api/benefits/events`는 active publishable 카운트를 `categories`, `categoryCounts`, `filteredCategoryCounts`로 함께 내려준다.
 - `/api/home`과 홈 상단 무료혜택 히어로도 같은 카테고리 카운트를 사용한다.
 - 홈 빠른 필터에서 서버 카운트가 0개인 카테고리는 비활성 칩으로 표시한다.
@@ -131,6 +132,15 @@ npm run workspace:doctor:strict
 
 ```bash
 npm run security:check
+npm run lint
+npm run release:doctor
+npm run workspace:doctor:strict
+```
+
+최근 커밋 `16848082` 기준 아래 검증이 통과했다.
+
+```bash
+npm run test:mobile-ux
 npm run lint
 npm run release:doctor
 npm run workspace:doctor:strict
