@@ -142,6 +142,39 @@ async function inspectDirtyGeneratedReports() {
   };
 }
 
+async function inspectTrackedIgnoredFiles() {
+  let output = "";
+  try {
+    output = execFileSync("git", ["ls-files", "-c", "-i", "--exclude-standard"], {
+      cwd: root,
+      encoding: "utf8"
+    });
+  } catch {
+    return {
+      available: false,
+      rows: [],
+      count: 0
+    };
+  }
+
+  const rows = await Promise.all(
+    output
+      .split(/\r?\n/)
+      .map((line) => line.trim())
+      .filter(Boolean)
+      .map(async (pathname) => ({
+        path: pathname.replaceAll("\\", "/"),
+        size: await getSizeBytes(path.join(root, pathname))
+      }))
+  );
+
+  return {
+    available: true,
+    rows,
+    count: rows.length
+  };
+}
+
 function formatBytes(bytes) {
   if (!bytes) return "0B";
   if (bytes >= 1024 * 1024) return `${(bytes / 1024 / 1024).toFixed(1)}MB`;
@@ -192,6 +225,7 @@ const [generated, topLevelDirs, largeFiles] = await Promise.all([
   inspectLargeFiles()
 ]);
 const dirtyReports = await inspectDirtyGeneratedReports();
+const trackedIgnored = await inspectTrackedIgnoredFiles();
 
 const generatedSize = generated.reduce((sum, item) => sum + item.size, 0);
 const sourceSize = topLevelDirs.reduce((sum, item) => sum + item.size, 0);
@@ -205,10 +239,16 @@ console.log(
     dirtyReports.available ? dirtyReports.count : "unknown (git unavailable)"
   }`
 );
+console.log(
+  `- Tracked files matched by .gitignore: ${
+    trackedIgnored.available ? trackedIgnored.count : "unknown (git unavailable)"
+  }`
+);
 
 printRows("Regenerable artifacts", generated);
 printRows("Dirty regenerated report/data summary", summarizeDirtyReports(dirtyReports.rows));
 printRows("Dirty regenerated report/data files", dirtyReports.rows, 20);
+printRows("Tracked files matched by .gitignore", trackedIgnored.rows, 20);
 printRows("Largest top-level directories", topLevelDirs, 10);
 printRows("Largest workspace files", largeFiles, 15);
 
@@ -227,6 +267,13 @@ if (dirtyReports.available && dirtyReports.count) {
   console.log("- Use the summary above to distinguish root evidence, docs evidence, reports/, and refreshed data snapshot churn.");
   console.log("- Treat dirty report/data files as generated evidence unless the current change explicitly updates release evidence.");
   console.log("- Review source changes separately with `git status --short -- app components lib scripts types data/*.ts docs/CURRENT_STATE.md README.md`.");
+}
+
+if (trackedIgnored.available && trackedIgnored.count) {
+  console.log("\nTracked ignored-file guidance");
+  console.log("- These files are already tracked, so .gitignore cannot suppress their diffs.");
+  console.log("- Keep them only when they are intentional release evidence.");
+  console.log("- To retire one safely, use `git rm --cached <path>` in a dedicated cleanup commit after confirming no release doctor depends on it.");
 }
 
 if (strict && generated.length) {
