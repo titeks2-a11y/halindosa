@@ -2424,5 +2424,116 @@
     "allowedUse": "토스 공식 혜택/포인트/이벤트 안내 중 앱 내 받을 수 있는 혜택과 공식 상세가 확인되는 항목",
     "blockedUse": "토스 메인, 검색 결과, 비공식 금융 블로그, 혜택 조건이 확인되지 않는 기사형 콘텐츠",
     "notes": "토스 앱 내 혜택은 직접 딥링크 또는 공식 상세 URL이 확인될 때만 사용자 CTA로 노출한다."
+  },
+  {
+    "id": "twosome-heart-app-membership",
+    "label": "투썸플레이스 공식 앱·멤버십 혜택",
+    "provider": "official_event",
+    "category": [
+      "외식/배달",
+      "무료혜택"
+    ],
+    "sourceType": "official_notice_page",
+    "officialUrl": "https://twosome.co.kr/eng/html/mo/twMobileIntro.html",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_notice_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "투썸하트 공식 앱/멤버십 안내에서 스탬프, 쿠폰, 무료 음료, 기프트 혜택 조건이 확인되는 항목",
+    "blockedUse": "투썸 브랜드 메인, 검색 결과, 비공식 쿠폰 판매글, 모바일 상품권 구매 상세만 있는 링크",
+    "notes": "TLS/접근 제한이 있을 수 있어 guarded 후보로 관리하고, 사용자 CTA는 공식 앱/멤버십 또는 이벤트 상세 확인 시에만 연결한다."
+  },
+  {
+    "id": "mega-mgc-official-events",
+    "label": "메가MGC커피 공식 이벤트·쿠폰",
+    "provider": "official_event",
+    "category": [
+      "외식/배달",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.mega-mgccoffee.com/bbs/?bbs_category=3",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "메가MGC커피 공식 이벤트, 앱 프리퀀시, PAYCO 적립/할인, 쿠폰 혜택 중 공식 소식 또는 상세 URL이 확인되는 항목",
+    "blockedUse": "뉴스 기사 단독, 검색 결과, 매장 찾기, 비공식 SNS 캡처",
+    "notes": "공식 홈페이지 이벤트 소식에서 상세 URL을 추출해 finalUrl로 저장하고, 홈 루트만 있는 항목은 운영 검토 상태로 둔다."
+  },
+  {
+    "id": "coupang-eats-official-benefits",
+    "label": "쿠팡이츠 공식 무료배달·쿠폰 혜택",
+    "provider": "official_event",
+    "category": [
+      "외식/배달",
+      "무료혜택"
+    ],
+    "sourceType": "official_notice_page",
+    "officialUrl": "https://www.coupangeats.com/home/",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_notice_or_partner_json_feed",
+    "priority": "low",
+    "refreshCadenceHours": 12,
+    "allowedUse": "쿠팡이츠 공식 무료배달, 포장, 쿠폰, 앱 혜택 중 공식 안내와 참여 조건이 확인되는 항목",
+    "blockedUse": "쿠팡이츠 메인만 있는 링크, 앱스토어 설명 단독, 블로그 쿠폰 정리글, 광고 랜딩",
+    "notes": "공식 이벤트 상세 또는 앱 내 딥링크가 확인되지 않으면 사용자 CTA로 노출하지 않고 운영 후보로만 보관한다."
+  },
+  {
+    "id": "lottemart-official-benefits",
+    "label": "롯데마트 공식 행사·쿠폰 혜택",
+    "provider": "official_event",
+    "category": [
+      "식품/생필품",
+      "마트/편의점",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://company.lottemart.com/mobiledowa/event/event_list.asp",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 6,
+    "allowedUse": "롯데마트 공식 행사, 쿠폰, 멤버십, 장보기 혜택 중 공식 상세와 기간이 확인되는 항목",
+    "blockedUse": "마트 메인만 있는 링크, 비공식 전단지 모음, 검색 결과, 커뮤니티 가격 제보",
+    "notes": "공식몰에서 이벤트 상세 URL을 확보한 항목만 publishable로 전환하고, 홈 URL은 소스 발견 후보로만 사용한다."
+  },
+  {
+    "id": "daisomall-official-events",
+    "label": "다이소몰 공식 이벤트·쿠폰",
+    "provider": "official_event",
+    "category": [
+      "마트/편의점",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.daisomall.co.kr/ds/spexhbt/C211?exbtNo=787",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "다이소몰 공식 이벤트, 쿠폰, 무료배송, 신규가입 혜택 중 공식 상세와 조건이 확인되는 항목",
+    "blockedUse": "다이소몰 메인만 있는 링크, 검색 결과, 비공식 쇼핑몰 후기, 종료 이벤트",
+    "notes": "공식 이벤트 상세 또는 쿠폰 받기 경로가 확인된 항목만 사용자 화면에 노출한다."
   }
 ]

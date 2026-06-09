@@ -1581,8 +1581,8 @@ export async function checkOperationalDataSurfaces() {
     (sourceBreadthReport.catalogCount ?? 0) < 100 ||
     (sourceBreadthReport.passedLaneCount ?? 0) < 12 ||
     (sourceBreadthReport.requiredLaneCount ?? 0) < 12 ||
-    (sourceBreadthReport.passedBrandSignalCount ?? 0) < 37 ||
-    (sourceBreadthReport.requiredBrandSignalCount ?? 0) < 37 ||
+    (sourceBreadthReport.passedBrandSignalCount ?? 0) < 42 ||
+    (sourceBreadthReport.requiredBrandSignalCount ?? 0) < 42 ||
     !Array.isArray(sourceBreadthReport.brandSignals) ||
     sourceBreadthReport.brandSignals.some((brand) => brand.ok !== true) ||
     !sourceBreadthDoc.includes("핵심 브랜드 신호") ||
@@ -1591,6 +1591,11 @@ export async function checkOperationalDataSurfaces() {
     !sourceBreadthDoc.includes("LG생활건강") ||
     !sourceBreadthDoc.includes("카카오페이") ||
     !sourceBreadthDoc.includes("토스") ||
+    !sourceBreadthDoc.includes("투썸플레이스") ||
+    !sourceBreadthDoc.includes("메가MGC커피") ||
+    !sourceBreadthDoc.includes("쿠팡이츠") ||
+    !sourceBreadthDoc.includes("롯데마트") ||
+    !sourceBreadthDoc.includes("다이소몰") ||
     !sourceBreadthDoc.includes("다나와") ||
     sourceFeedHandoffReport.ok !== true ||
     (sourceFeedHandoffReport.starterPack?.laneCount ?? 0) < 8 ||
