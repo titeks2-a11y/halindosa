@@ -3969,5 +3969,47 @@
     "allowedUse": "서울시 공공서비스예약 공식 상세에서 서울역사박물관 전시해설, 무료 관람료, 선착순 예약 기간과 운영 조건이 확인되는 공공 전시해설 혜택",
     "blockedUse": "서울시 공공서비스예약 검색 결과, 다른 이용자가 함께 본 서비스 목록, 예약마감 상세, 비공식 체험 소개글, 유료 해설 프로그램",
     "notes": "서울역사박물관 공식 예약 상세로, 2026년 12월 31일까지 접수/서비스 기간을 확인하고 종료 후에는 자동 숨김 후보가 된다."
+  },
+  {
+    "id": "seoul-baekje-kids-museum-free-exhibit-202606",
+    "label": "서울백제어린이박물관 상설전시 무료 관람 예약",
+    "provider": "public_coupon",
+    "category": [
+      "정부/공공혜택",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?rsv_svc_id=S240429112658694635",
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 12,
+    "allowedUse": "서울시 공공서비스예약 공식 상세에서 서울백제어린이박물관 상설전시, 무료 이용요금, 예약 기간, 어린이·가족·단체 관람 조건이 확인되는 공공 무료전시 혜택",
+    "blockedUse": "서울시 공공서비스예약 검색 결과, 추천 서비스 목록, 예약마감 상세, 비공식 박물관 소개글, 유료 교육 프로그램",
+    "notes": "서비스 기간은 2026년 7월 2일까지이며, 신청 마감 또는 접수 종료 문구가 감지되면 자동 숨김 후보가 된다."
+  },
+  {
+    "id": "seoul-history-kids-museum-free-visit-2026",
+    "label": "서울역사박물관 어린이박물관 개인 관람 무료 예약",
+    "provider": "public_coupon",
+    "category": [
+      "정부/공공혜택",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?locale=ko&rsv_svc_id=S260320170624732091",
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 12,
+    "allowedUse": "서울시 공공서비스예약 공식 상세에서 서울역사박물관 어린이박물관 개인 관람, 무료 이용요금, 가족 대상 조건, 선착순 예약 기간이 확인되는 공공 무료관람 혜택",
+    "blockedUse": "서울시 공공서비스예약 검색 결과, 예약불가 과거 상세, 관련 서비스 목록, 비공식 체험 소개글, 유료 박물관 프로그램",
+    "notes": "2026년 어린이박물관 개인 관람 공식 예약 상세로, 접수 종료 또는 마감 문구가 감지되면 사용자 CTA에서 제외한다."
   }
 ]

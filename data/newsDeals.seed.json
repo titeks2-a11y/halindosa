@@ -3778,5 +3778,67 @@
       "선착순",
       "예약필요"
     ]
+  },
+  {
+    "id": "news-seoul-baekje-kids-museum-free-exhibit-202606",
+    "title": "서울백제어린이박물관 상설전시 무료 관람 예약",
+    "summary": "서울시 공공서비스예약 공식 상세에서 서울백제어린이박물관 상설전시 관람, 무료 이용요금, 선착순 예약 기간과 가족·단체 관람 조건을 확인할 수 있습니다.",
+    "merchant": "서울백제어린이박물관",
+    "category": "정부/공공혜택",
+    "benefitType": "public_free",
+    "discountRate": 100,
+    "price": 0,
+    "originalPrice": 0,
+    "couponAmount": 0,
+    "startDate": "2026-01-02",
+    "endDate": "2026-07-02",
+    "sourceName": "서울시 공공서비스예약",
+    "sourceUrl": "https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?rsv_svc_id=S240429112658694635",
+    "finalUrl": "https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?rsv_svc_id=S240429112658694635",
+    "imageUrl": "",
+    "confidenceScore": 92,
+    "validationStatus": "needs_review",
+    "isHidden": false,
+    "hiddenReason": "",
+    "lastCheckedAt": "",
+    "provider": "public_coupon",
+    "tags": [
+      "공공무료",
+      "어린이박물관",
+      "전시관람",
+      "선착순",
+      "예약필요"
+    ]
+  },
+  {
+    "id": "news-seoul-history-kids-museum-free-visit-2026",
+    "title": "서울역사박물관 어린이박물관 개인 관람 무료 예약",
+    "summary": "서울시 공공서비스예약 공식 상세에서 서울역사박물관 어린이박물관 개인 관람, 무료 이용요금, 가족 대상 조건과 선착순 예약 기간을 확인할 수 있습니다.",
+    "merchant": "서울역사박물관",
+    "category": "정부/공공혜택",
+    "benefitType": "public_free",
+    "discountRate": 100,
+    "price": 0,
+    "originalPrice": 0,
+    "couponAmount": 0,
+    "startDate": "2026-03-27",
+    "endDate": "2026-12-31",
+    "sourceName": "서울시 공공서비스예약",
+    "sourceUrl": "https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?locale=ko&rsv_svc_id=S260320170624732091",
+    "finalUrl": "https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?locale=ko&rsv_svc_id=S260320170624732091",
+    "imageUrl": "",
+    "confidenceScore": 94,
+    "validationStatus": "needs_review",
+    "isHidden": false,
+    "hiddenReason": "",
+    "lastCheckedAt": "",
+    "provider": "public_coupon",
+    "tags": [
+      "공공무료",
+      "어린이박물관",
+      "전시관람",
+      "가족체험",
+      "예약필요"
+    ]
   }
 ]
