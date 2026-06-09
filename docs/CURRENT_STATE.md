@@ -1,6 +1,6 @@
 # 할인도사 현재 상태
 
-작성 시점: 2026-06-09, Asia/Seoul
+작성 시점: 2026-06-09 21:16:23 +09:00, Asia/Seoul
 
 이 문서는 새 `codex` 세션에서 이전 긴 대화를 resume하지 않고 현재 워크트리만 기준으로 시작하기 위한 핸드오프 문서다.
 
@@ -15,8 +15,10 @@
 
 - Branch: `codex/12h-product-ux-growth-hardening`
 - Remote tracking: `origin/codex/12h-product-ux-growth-hardening`
+- 현재 확인 HEAD: `c6f68099 feat: add seoul public free benefit details`
 - 최신 HEAD는 새 세션 시작 시 `git log -1 --oneline`으로 다시 확인한다.
 - 최근 커밋:
+  - `c6f68099 feat: add seoul public free benefit details`
   - `e2ea3d14 feat: add verified kmooc benefit details`
   - `43337c0f feat: add musinsa official coupon benefit`
   - `49227568 feat: add gs25 official convenience benefit`
@@ -53,7 +55,7 @@
   - 무신사 공식 온라인 할인 쿠폰 받기 혜택
   - K-MOOC 공식 강좌 상세 2건: 예술적 얼굴과 감정조절 무료강좌, 동역학 무료강좌
   - K-MOOC 공식 강좌 상세 3건 추가: 컴퓨터그래픽스, 지식발견머신러닝, 미디어리터러시 무료강좌
-  - 서울시 공공서비스예약 공식 상세 3건 추가: 서울생활사박물관 어린이체험실 옴팡, 동대문구 유아숲체험원 가족 숲 교육, 아리수나라 어린이 체험 무료 예약
+  - 서울시 공공서비스예약 공식 상세 3건 추가: 서울생활사박물관 어린이체험실 옴팡, 동대문구 유아숲체험원 가족 숲 교육, 서울역사박물관 전시해설 무료 예약
 
 ## 품질 정책
 
@@ -117,7 +119,7 @@
 - 2026-06-09 추가 보강: `refresh:news`는 124개 수집, 중복 제거 후 121개 노출, 숨김 0개, 실패 0개로 통과했다.
 - 2026-06-09 추가 보강: `verify:news`는 121/121 공식 혜택 링크 검증 통과, `refresh:benefits`는 무료혜택 68/68, 공식 이벤트 104/104, FreeBenefitEvents 119/100 active official events, 96 sources, 74 hosts로 통과했다.
 - 2026-06-09 추가 보강: `security:check` 14/14, `test:mobile-ux` 17/17 통과 상태다.
-- 2026-06-09 추가 보강: 서울시 공공서비스예약 공식 상세 무료 체험 3건을 추가했다. 추가 항목은 서울생활사박물관 어린이체험실 옴팡, 동대문구 유아숲체험원 가족 숲 교육, 아리수나라 어린이 체험 예약이며 모두 검색/목록이 아닌 서울시 공식 상세 URL이다.
+- 2026-06-09 추가 보강: 서울시 공공서비스예약 공식 상세 무료 체험 3건을 추가했다. 추가 항목은 서울생활사박물관 어린이체험실 옴팡, 동대문구 유아숲체험원 가족 숲 교육, 서울역사박물관 전시해설 예약이며 모두 검색/목록이 아닌 서울시 공식 상세 URL이다.
 - 2026-06-09 추가 보강: 공식 소스 카탈로그는 183개 소스, 카테고리 커버리지 10/10, provider 커버리지 4/4로 통과했다.
 - 2026-06-09 추가 보강: `refresh:news`는 127개 수집, 중복 제거 후 124개 노출, 숨김 0개, 실패 0개로 통과했다.
 - 2026-06-09 추가 보강: `verify:news`는 124/124 공식 혜택 링크 검증 통과, `refresh:benefits`는 무료혜택 71/71, 공식 이벤트 104/104, FreeBenefitEvents 122/100 active official events, 97 sources, 74 hosts로 통과했다.
@@ -129,6 +131,7 @@
 ## 워크트리 주의사항
 
 - refresh, verification, release evidence 산출물 때문에 워크트리가 dirty일 수 있다.
+- 2026-06-09 21:16 기준 `git status --short --branch` 확인 결과, HEAD와 remote는 일치하지만 루트 리포트, `docs/*REPORT*`, `reports/*.json`, `data/refreshedDeals.json`, `data/linkValidationExposureOverrides.json` 등 재생성 산출물이 다수 modified 상태다.
 - 2026-06-09 현재 확인 기준으로 워크트리는 HEAD와 remote가 일치하지만, QA/harness/refresh 실행으로 갱신된 report/data 산출물이 많이 남아 있다. 새 세션은 먼저 `git status --short --branch`로 실제 dirty 범위를 확인한다.
 - 2026-06-09 현재 확인 기준으로 소스 변경은 최신 커밋까지 push되어 있고, dirty 항목 대부분은 `reports/`, 루트 리포트, `docs/*REPORT*`, `data/refreshedDeals.json`, `data/verifiedNewsBenefitImages.json`, `data/linkValidationExposureOverrides.json` 같은 재생성 산출물이다.
 - `git add .`를 쓰지 말고 이번 작업 관련 파일만 명시적으로 stage한다.
@@ -141,6 +144,12 @@
 - 새 작업은 새 `codex` 세션에서 시작한다.
 - 새 세션에서는 이전 대화를 resume하지 않는다.
 - 새 세션의 기준 자료는 `AGENTS.md`, `docs/CURRENT_STATE.md`, 현재 워크트리, 실제 명령 결과뿐이다.
+
+## 다음 세션 최우선 점검
+
+- `S221208131717851016` 서울시 공공서비스예약 URL은 공식 상세 확인 결과 `서울역사박물관 전시해설 예약`이다.
+- seed/catalog 문구를 `아리수나라 어린이 체험`에서 `서울역사박물관 전시해설 무료 예약`으로 정정했다.
+- 할인도사 정책상 제목/혜택명과 공식 상세 페이지 내용이 맞지 않는 항목은 `publishable` 노출 대상이 되면 안 된다.
 
 ## 다음 추천 작업
 

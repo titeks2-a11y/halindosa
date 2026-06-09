@@ -2,7 +2,7 @@
 
 이 문서는 할인도사에 연결할 수 있는 공식 이벤트, 공공 혜택, 제휴 JSON/RSS 후보를 정리합니다. 무단 크롤링 후보가 아니라 운영자가 승인 feed 또는 공식 페이지 매핑으로 전환할 때 쓰는 출발점입니다.
 
-- 생성 시각: 2026-06-09T12:05:58.989Z
+- 생성 시각: 2026-06-09T12:21:41.686Z
 - 상태: PASS
 - 후보 소스: 183개
 - 고우선순위 후보: 66개
@@ -221,7 +221,7 @@
 | kmooc-media-literacy-free-course-202606 | public_coupon | 정부/공공혜택, 무료혜택 | high | https://www.kmooc.kr/view/course/detail/19037 | PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
 | seoul-life-museum-ompang-free-kids-2026 | public_coupon | 정부/공공혜택, 무료혜택 | high | https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?rsv_svc_id=S251118144705678859 | PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
 | seoul-dongdaemun-forest-family-free-2026 | public_coupon | 정부/공공혜택, 무료혜택 | high | https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?rsv_svc_id=S260421215619744831 | PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
-| seoul-arisunara-free-kids-experience-202606 | public_coupon | 정부/공공혜택, 무료혜택 | high | https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?reSvc=Y&rsv_svc_id=S221208131717851016 | PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| seoul-history-museum-guide-free-2026 | public_coupon | 정부/공공혜택, 무료혜택 | high | https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?reSvc=Y&rsv_svc_id=S221208131717851016 | PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
 
 ## 다음 작업
 

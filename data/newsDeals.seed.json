@@ -3749,18 +3749,18 @@
     ]
   },
   {
-    "id": "news-seoul-arisunara-free-kids-experience-202606",
-    "title": "아리수나라 어린이 체험 무료 예약",
-    "summary": "서울시 공공서비스예약 공식 상세에서 아리수나라 어린이 체험, 무료 이용요금, 선착순 예약 기간과 이용 기간을 확인할 수 있습니다.",
-    "merchant": "아리수나라",
+    "id": "news-seoul-history-museum-guide-free-2026",
+    "title": "서울역사박물관 전시해설 무료 예약",
+    "summary": "서울시 공공서비스예약 공식 상세에서 서울역사박물관 전시해설, 무료 관람료, 선착순 예약 기간과 운영 조건을 확인할 수 있습니다.",
+    "merchant": "서울역사박물관",
     "category": "정부/공공혜택",
     "benefitType": "public_free",
     "discountRate": 100,
     "price": 0,
     "originalPrice": 0,
     "couponAmount": 0,
-    "startDate": "2025-06-02",
-    "endDate": "2026-06-30",
+    "startDate": "2023-01-01",
+    "endDate": "2026-12-31",
     "sourceName": "서울시 공공서비스예약",
     "sourceUrl": "https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?reSvc=Y&rsv_svc_id=S221208131717851016",
     "finalUrl": "https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?reSvc=Y&rsv_svc_id=S221208131717851016",
@@ -3773,8 +3773,8 @@
     "provider": "public_coupon",
     "tags": [
       "공공무료",
-      "어린이체험",
-      "전시관람",
+      "전시해설",
+      "박물관",
       "선착순",
       "예약필요"
     ]
