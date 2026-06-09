@@ -1,10 +1,10 @@
 # 무료혜택 Feed 운영 핸드오프
 
-- 생성 시각: 2026-06-09T03:47:46.464Z
+- 생성 시각: 2026-06-09T20:23:16.134Z
 - starter lane: 12개
 - 연결 후보: 96개
-- 접근 가능 후보: 88개
-- 보호/승인 필요 후보: 8개
+- 접근 가능 후보: 96개
+- 보호/승인 필요 후보: 0개
 - 현재 설정된 feed URL: 0개
 - canary 상태: seed_fallback_only
 
@@ -49,24 +49,24 @@ npm run smoke:local
 | --- | --- | ---: | ---: | ---: | --- |
 | 오늘의 무료혜택 | BENEFIT_REFRESH_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS | 8 | 8 | 0 | BENEFIT_REFRESH_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 편의점 1+1·2+1 | OFFICIAL_EVENT_FEED_URLS<br>DEAL_EVENT_FEED_URLS | 8 | 8 | 0 | OFFICIAL_EVENT_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
-| 뷰티 샘플·체험 | OFFICIAL_EVENT_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS | 8 | 7 | 1 | OFFICIAL_EVENT_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
+| 뷰티 샘플·체험 | OFFICIAL_EVENT_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS | 8 | 8 | 0 | OFFICIAL_EVENT_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 카페·외식 쿠폰 | OFFICIAL_EVENT_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS<br>DEAL_EVENT_NEWS_FEED_URLS | 8 | 8 | 0 | OFFICIAL_EVENT_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
-| 페이·포인트·캐시백 | PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS | 8 | 7 | 1 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
+| 페이·포인트·캐시백 | PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS | 8 | 8 | 0 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 전원증정·선착순 | BENEFIT_REFRESH_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS | 8 | 8 | 0 | BENEFIT_REFRESH_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
-| 출석체크·룰렛·미션 | PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS | 8 | 7 | 1 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
-| 신규가입·웰컴 쿠폰 | PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS | 8 | 6 | 2 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
-| 기프티콘·문화초대권 | PUBLIC_COUPON_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS | 8 | 7 | 1 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
-| 공공·문화 무료 | PUBLIC_COUPON_FEED_URLS<br>DEAL_NEWS_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS | 8 | 7 | 1 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
-| 교육 무료체험 | PUBLIC_COUPON_FEED_URLS<br>DEAL_NEWS_FEED_URLS | 8 | 7 | 1 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
+| 출석체크·룰렛·미션 | PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS | 8 | 8 | 0 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
+| 신규가입·웰컴 쿠폰 | PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS | 8 | 8 | 0 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
+| 기프티콘·문화초대권 | PUBLIC_COUPON_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS | 8 | 8 | 0 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
+| 공공·문화 무료 | PUBLIC_COUPON_FEED_URLS<br>DEAL_NEWS_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS | 8 | 8 | 0 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
+| 교육 무료체험 | PUBLIC_COUPON_FEED_URLS<br>DEAL_NEWS_FEED_URLS | 8 | 8 | 0 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 반려동물·체험단 | BENEFIT_REFRESH_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS | 8 | 8 | 0 | BENEFIT_REFRESH_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 
 ## 바로 확인할 후보
 
 ### 오늘의 무료혜택
 
+- LG전자 공식 혜택·이벤트 허브: https://www.lge.co.kr/benefits
+- 맘큐 공식 신규회원 웰컴혜택: https://www.momq.co.kr/event/202601290003
 - 고용24 국민내일배움카드 공식 발급 안내: https://m.work24.go.kr/hr/h/a/1100/selectIssuGudn.do
-- 서울청년 정책사용설명 공식 무료지원 안내: https://youth.seoul.go.kr/infoData/sprtInfo/list.do?key=2309130006
-- 해피포인트 공식 쿠폰·모바일 혜택: https://www.happypointcard.com/coupon/coupon.spc
 
 ### 편의점 1+1·2+1
 
@@ -77,8 +77,8 @@ npm run smoke:local
 ### 뷰티 샘플·체험
 
 - 라운드랩 공식 이벤트 게시판: https://roundlab.co.kr/board/gallery/list.html?board_no=8
-- 이니스프리 공식 샘플마켓: https://m.innisfree.com/kr/ko/dp/sample-market
-- 이니스프리 공식 이벤트·쿠폰: https://www.innisfree.com/kr/ko/dp/posting-list
+- 맘큐 공식 육아 샘플·이벤트 목록: https://www.momq.co.kr/event
+- 아모레몰 공식 이벤트·체험단 목록: https://www.amoremall.com/kr/ko/display/event
 
 ### 카페·외식 쿠폰
 
@@ -89,38 +89,38 @@ npm run smoke:local
 ### 페이·포인트·캐시백
 
 - OK캐쉬백 공식 앱 설치·포인트 이벤트: https://www.okcashbag.com/event/newwelcomeback
-- PAYCO 공식 이벤트·쿠폰 혜택: https://www.payco.com/event.nhn
-- 해피포인트 공식 쿠폰·모바일 혜택: https://www.happypointcard.com/coupon/coupon.spc
+- 카카오페이 공식 결제 포인트 혜택: https://www.kakaopay.com/services/life/payment?t_ch=main&t_src=homepage
+- OK캐쉬백 공식 쇼핑적립 포인트 혜택: https://okcashbag.com/shopping
 
 ### 전원증정·선착순
 
-- L.POINT 공식 혜택: https://m.lpoint.com/index.jsp?tabIndex=1
-- OK캐쉬백 공식 이벤트 혜택: https://www.okcashbag.com/life/event/eventHome.do
-- 닥터지 공식 이벤트·샘플 혜택: https://www.dr-g.co.kr/event
+- 네이버페이 공식 온라인 쿠폰함: https://pay.naver.com/coupon/home/online
+- 맘큐 공식 신규회원 웰컴혜택: https://www.momq.co.kr/event/202601290003
+- KT 공식 요고 모바일 가입 혜택: https://shop.kt.com/unify/yogoEvent.do
 
 ### 출석체크·룰렛·미션
 
+- 요기요 공식 룰렛 쿠폰 프로모션: https://www.yogiyo.co.kr/promotion/roulette/
 - L.POINT 공식 미션·룰렛·출석 혜택: https://www.lpoint.com/app/common/LHZZ300300.do
 - 해피포인트 공식 쿠폰·모바일 혜택: https://www.happypointcard.com/coupon/coupon.spc
-- OK캐쉬백 공식 앱 설치·포인트 이벤트: https://www.okcashbag.com/event/newwelcomeback
 
 ### 신규가입·웰컴 쿠폰
 
 - KFC 공식 신규 회원 쿠폰 혜택: https://www.kfckorea.com/promotion/promotionList/detail/1040
-- 해피포인트 공식 쿠폰·모바일 혜택: https://www.happypointcard.com/coupon/coupon.spc
-- 스타벅스 리워드 공식 혜택: https://www.starbucks.co.kr/msr/msreward/about.do
+- 네이버페이 공식 온라인 쿠폰함: https://pay.naver.com/coupon/home/online
+- 요기요 공식 룰렛 쿠폰 프로모션: https://www.yogiyo.co.kr/promotion/roulette/
 
 ### 기프티콘·문화초대권
 
 - 문화포털 공식 문화초대이벤트: https://www.culture.go.kr/portal/cltBnf/cltInvEvt/list.do?menuNo=200106
-- 서울문화포털 공식 무료·할인 문화행사: https://culture.seoul.go.kr/culture/culture/cultureEvent/list.do
+- 서울시 한양도성 역사 무료 해설 체험: https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?rsv_svc_id=S260522131054795847
 - 서울 한강공원 공식 무료 행사·공연: https://hangang.seoul.go.kr/www/eventMng/list.do?mid=53
 
 ### 공공·문화 무료
 
-- 서울문화포털 공식 무료·할인 문화행사: https://culture.seoul.go.kr/culture/culture/cultureEvent/list.do
+- 서울시 공공서비스예약 무료 체험·교육: https://yeyak.seoul.go.kr/web/main.do
+- 서울시 한양도성 역사 무료 해설 체험: https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?rsv_svc_id=S260522131054795847
 - 국립중앙박물관 공식 전시·문화 혜택: https://www.museum.go.kr/MUSEUM/contents/M0202010000.do?menuId=current
-- EBS 평생학교 공식 무료 강좌: https://lifelongschool.ebs.co.kr/lifelongschool/subject/introduce
 
 ### 교육 무료체험
 
@@ -130,9 +130,9 @@ npm run smoke:local
 
 ### 반려동물·체험단
 
+- 아모레몰 공식 이벤트·체험단 목록: https://www.amoremall.com/kr/ko/display/event
+- 맘큐 공식 육아 샘플·이벤트 목록: https://www.momq.co.kr/event
 - 아모레몰 공식 뷰티포인트·샘플 이벤트: https://www.amoremall.com/kr/ko/main.html
-- 이니스프리 공식 샘플마켓: https://m.innisfree.com/kr/ko/dp/sample-market
-- 닥터지 공식 이벤트·샘플 혜택: https://www.dr-g.co.kr/event
 
 ## 금지 원칙
 

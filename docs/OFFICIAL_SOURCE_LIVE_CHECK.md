@@ -2,11 +2,11 @@
 
 이 문서는 공식 이벤트/혜택 소스 후보의 현재 접근 상태를 non-strict 방식으로 기록합니다. 무단 크롤링을 수행하지 않으며, 보호된 페이지는 공식 API/RSS/제휴 feed 또는 수동 승인 데이터로 연결해야 합니다.
 
-- 생성 시각: 2026-06-09T08:10:08.456Z
+- 생성 시각: 2026-06-09T20:36:33.252Z
 - 모드: non_strict_live_readiness
-- 후보 소스: 160개
-- 접근 가능: 135개
-- 보호/권한 확인 필요: 25개
+- 후보 소스: 189개
+- 접근 가능: 165개
+- 보호/권한 확인 필요: 24개
 - 검토 필요: 0개
 - timeout/network error: 0개
 - 404/410 교체 필요: 0개
@@ -22,8 +22,8 @@
 
 | 상태 | 수 | 운영 액션 |
 | --- | ---: | --- |
-| reachable | 135 | 승인 feed 또는 공식 페이지 매핑 후보로 유지 |
-| guarded | 25 | 공식 API/RSS/제휴 feed 확인 |
+| reachable | 165 | 승인 feed 또는 공식 페이지 매핑 후보로 유지 |
+| guarded | 24 | 공식 API/RSS/제휴 feed 확인 |
 | needs_review | 0 | 최종 도메인과 응답 정책 수동 확인 |
 | timeout/network_error | 0 | 재시도 또는 담당자 확인 |
 | stale_or_removed | 0 | 카탈로그 URL 교체 전 사용 금지 |
@@ -55,7 +55,7 @@
 | samsung-shop-event | official_event | medium | reachable | 200 | samsung.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | himart-events | official_event | medium | reachable | 200 | company.himart.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | hmall-official-events | news | medium | reachable | 200 | hmall.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
-| musinsa-fashion-festa | official_event | medium | reachable | 200 | musinsa.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| musinsa-fashion-festa | official_event | medium | reachable | 200 | denied.musinsa.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | mcdonalds-happysnack | official_event | medium | reachable | 200 | mcdonalds.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | lpoint-benefits | public_coupon | high | reachable | 200 | m.lpoint.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | lpoint-card-events | public_coupon | medium | reachable | 200 | m.lpoint.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
@@ -161,7 +161,7 @@
 | lpoint-official-daily-missions | official_event | medium | reachable | 200 | m.lpoint.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | ebs-family-free-learning-services | public_coupon | high | reachable | 200 | m.ebs.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | ebs-lifelong-school-free-courses | public_coupon | medium | reachable | 200 | lifelongschool.ebs.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
-| kocw-official-open-course | public_coupon | medium | guarded | 0 | kocw.net | 공식 feed 연결 전 브라우저/제휴 담당자 확인 필요 |
+| kocw-official-open-course | public_coupon | medium | reachable | 200 | kocw.net | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | work24-training-card-issue-guide | public_coupon | high | reachable | 200 | m.work24.go.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | royalcanin-start-of-life-campaign | official_event | medium | reachable | 200 | royalcanin.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | seoul-youth-policy-free-support-guide | public_coupon | high | reachable | 200 | youth.seoul.go.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
@@ -192,6 +192,35 @@
 | culture-day-monthly-official-program-list | official_event | high | reachable | 200 | culture.go.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | kmooc-blockchain-digital-asset-free-course | official_event | medium | reachable | 200 | kmooc.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | kmooc-ai-teaching-innovation-free-course | official_event | medium | reachable | 200 | kmooc.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| popeyes-official-event-coupon | official_event | medium | reachable | 200 | popeyes.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| seoul-public-reservation-free-experience | public_coupon | high | reachable | 200 | yeyak.seoul.go.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| seoul-worldcup-silkworm-free-experience-202606 | public_coupon | high | reachable | 200 | yeyak.seoul.go.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| seoul-dongdaemun-water-sports-free-class-202606 | public_coupon | high | reachable | 200 | yeyak.seoul.go.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| seoul-hanyangdoseong-free-history-tour-202606 | public_coupon | high | reachable | 200 | yeyak.seoul.go.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| seoul-futurelab-battlebot-free-experience-202606 | public_coupon | high | reachable | 200 | yeyak.seoul.go.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| seoul-plant-hospital-free-care-202606 | public_coupon | high | reachable | 200 | yeyak.seoul.go.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| seoul-ujangsan-forest-healing-free-202606 | public_coupon | high | reachable | 200 | yeyak.seoul.go.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| seoul-seoseoul-lake-green-free-kids-202606 | public_coupon | high | reachable | 200 | yeyak.seoul.go.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| seoul-sagajeong-forest-play-free-202606 | public_coupon | high | reachable | 200 | yeyak.seoul.go.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| shinhancard-annual-fee-cashback-202606 | official_event | medium | reachable | 200 | shinhancard.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| shinhancard-utility-autopay-cashback-202606 | official_event | medium | reachable | 200 | shinhancard.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| ichallenge-baby-free-trial-kit-202606 | official_event | high | reachable | 200 | m.i-challenge.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| gs25-hyeja-bread-tosspay-plusone-202606 | official_event | medium | reachable | 200 | gs25.gsretail.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| musinsa-online-coupon-2026 | official_event | medium | reachable | 200 | denied.musinsa.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| kmooc-art-face-emotion-free-course-202606 | public_coupon | high | reachable | 200 | kmooc.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| kmooc-dynamics-free-course-202606 | public_coupon | high | reachable | 200 | kmooc.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| kmooc-computer-graphics-free-course-202606 | public_coupon | high | reachable | 200 | kmooc.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| kmooc-machine-learning-free-course-202606 | public_coupon | high | reachable | 200 | kmooc.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| kmooc-media-literacy-free-course-202606 | public_coupon | high | reachable | 200 | kmooc.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| seoul-life-museum-ompang-free-kids-2026 | public_coupon | high | reachable | 200 | yeyak.seoul.go.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| seoul-dongdaemun-forest-family-free-2026 | public_coupon | high | reachable | 200 | yeyak.seoul.go.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| seoul-history-museum-guide-free-2026 | public_coupon | high | reachable | 200 | yeyak.seoul.go.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| seoul-baekje-kids-museum-free-exhibit-202606 | public_coupon | high | reachable | 200 | yeyak.seoul.go.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| seoul-history-kids-museum-free-visit-2026 | public_coupon | high | reachable | 200 | yeyak.seoul.go.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| hansung-baekje-conservation-family-free-202607 | public_coupon | high | reachable | 200 | yeyak.seoul.go.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| guro-picnic-garden-free-reservation-202606 | public_coupon | high | reachable | 200 | yeyak.seoul.go.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| cjthemarket-welcome-coupon-free-shipping-2026 | official_event | high | reachable | 200 | vod.cjthemarket.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| cjthemarket-random-lucky-coupon-daily-2026 | official_event | high | reachable | 200 | m.cjthemarket.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 
 ## 다음 작업
 

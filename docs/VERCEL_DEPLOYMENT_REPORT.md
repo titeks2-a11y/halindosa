@@ -1,6 +1,6 @@
 # Vercel Deployment Doctor
 
-Generated: 2026-06-09T18:32:47.580Z
+Generated: 2026-06-09T20:29:26.028Z
 
 Status: PASS
 
@@ -8,8 +8,8 @@ Status: PASS
 
 - Origin: `https://halindosa.com`
 - Branch: `codex/12h-product-ux-growth-hardening`
-- Commit: `66366b25`
-- Working tree: 83 changed file(s): M DEVICE_QA_REPORT.md; M EXTERNAL_LINK_REPORT.md; M HARNESS_REPORT.md; M IMAGE_QUALITY_REPORT.md; M KNOWN_ISSUES.md; M LINK_VERIFICATION_REPORT.md; M LINK_VERIFICATION_RESULT.json; M PERFORMANCE_REPORT.md; ... +75 more
+- Commit: `0f8c44f1`
+- Working tree: 85 changed file(s): M DEVICE_QA_REPORT.md; M EXTERNAL_LINK_REPORT.md; M HARNESS_REPORT.md; M IMAGE_QUALITY_REPORT.md; M KNOWN_ISSUES.md; M LINK_VERIFICATION_REPORT.md; M LINK_VERIFICATION_RESULT.json; M PERFORMANCE_REPORT.md; ... +77 more
 - Vercel project linked locally: no
 - Vercel token present in shell: no
 
@@ -20,9 +20,9 @@ Status: PASS
 - Home API: 200
 - Deals API: 200
 - Freebies API: 200
-- Home API Request ID: 8c216cdc-a495-460f-b6d0-956ff0dfb587
-- Deals API Request ID: 243e59c3-3a72-43c3-ae2d-3724230ff12f
-- Freebies API Request ID: c13c9b2c-a865-424e-8ae6-78fc874f4ba3
+- Home API Request ID: 227e828e-2694-4066-aeaa-4cb820476420
+- Deals API Request ID: f642d5b8-bda8-4606-8b37-805d9cb22136
+- Freebies API Request ID: 1f1ac734-d571-45e2-bb9e-597a5fbc8bee
 - /go redirect: 302
 - Official benefit /go redirect: 302
 - Home API Cache-Control: `no-store, no-cache, must-revalidate, proxy-revalidate`

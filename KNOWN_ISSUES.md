@@ -1,9 +1,9 @@
 # 할인도사 Known Issues
 
-Generated: 2026-06-09T04:09:42.829Z
+Generated: 2026-06-09T20:37:36.640Z
 Branch: codex/12h-product-ux-growth-hardening
-Commit: ff03ce8a
-Working tree: M STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SCREENSHOTS_REPORT.md
+Commit: 0f8c44f1
+Working tree: M AUDIT_REPORT.md;  M DEVICE_QA_MANIFEST.json;  M DEVICE_QA_REPORT.md;  M ENV_DOCTOR_REPORT.md;  M EXTERNAL_LINK_REPORT.md;  M HARNESS_REPORT.md;  M IMAGE_QUALITY_REPORT.md;  M KNOWN_ISSUES.md;  M LINK_VERIFICATION_REPORT.md;  M LINK_VERIFICATION_RESULT.json;  M PERFORMANCE_REPORT.md;  M PUBLIC_URL_REPORT.md;  M RELEASE_NOTES.json;  M RELEASE_NOTES.md;  M SEARCH_REPORT.md;  M STORE_ASSETS_REPORT.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_HANDOFF_REPORT.md;  M STORE_MANUAL_CHECKLIST.json;  M STORE_MANUAL_CHECKLIST.md;  M STORE_METADATA_REPORT.md;  M STORE_PACKET_REPORT.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M SUPPORT_PLAYBOOK.json;  M SUPPORT_PLAYBOOK.md;  M data/linkValidationExposureOverrides.json;  M data/refreshedDeals.json;  M data/refreshedNewsDeals.json;  M data/verifiedNewsBenefitImages.json;  M docs/AUDIT_REPORT.md;  M docs/CONSUMER_BENEFIT_PRIORITY_REPORT.md;  M docs/DAILY_OPERATIONS_REPORT.md;  M docs/DEVICE_QA_MANIFEST.md;  M docs/DEVICE_QA_REPORT.md;  M docs/ENV_DOCTOR_REPORT.md;  M docs/EVENTS_REFRESH_REPORT.md;  M docs/FEED_TRANSITION_REPORT.md;  M docs/FREEBIES_REFRESH_REPORT.md;  M docs/FREEBIES_VERIFICATION_REPORT.md;  M docs/FREE_BENEFIT_EVENTS_REPORT.md;  M docs/FREE_BENEFIT_EVENT_CONTRACT.md;  M docs/FREE_BENEFIT_FEED_HANDOFF.md;  M docs/FREE_BENEFIT_FEED_STARTER_PACK.md;  M docs/FREE_BENEFIT_SOURCE_BREADTH.md;  M docs/HARNESS_REPORT.md;  M docs/HEALTH_READINESS_REPORT.md;  M docs/HOME_RUNTIME_SNAPSHOT_REPORT.md;  M docs/IMAGE_VERIFICATION_REPORT.md;  M docs/KNOWN_ISSUES.md;  M docs/LINK_REVALIDATION_PRIORITY.md;  M docs/LIVE_PROBE_REVIEW_REPORT.md;  M docs/NEWS_BENEFIT_IMAGE_ENRICHMENT.md;  M docs/NEWS_FEED_CANARY_REPORT.md;  M docs/NEWS_FEED_LIVE_PIPELINE.md;  M docs/NEWS_FEED_PREVIEW_REPORT.md;  M docs/NEWS_FRESHNESS_REPORT.md;  M docs/NEWS_REVALIDATION_PRIORITY.md;  M docs/OFFICIAL_BENEFIT_ALERTS_REPORT.md;  M docs/OFFICIAL_SOURCE_CATALOG.md;  M docs/OFFICIAL_SOURCE_LIVE_CHECK.md;  M docs/PERFORMANCE_REPORT.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/PUBLISHABLE_SURFACE_REPORT.md;  M docs/PUSH_DELIVERY_AUDIT.md;  M docs/PUSH_DELIVERY_POLICY.md;  M docs/PUSH_READINESS_REPORT.md;  M docs/RELEASE_NOTES.md;  M docs/SECURITY_CHECK_REPORT.md;  M docs/SOURCE_FEED_ACTIVATION.md;  M docs/SOURCE_FEED_ENV_REPORT.md;  M docs/SOURCE_ONBOARDING_PLAN.md;  M docs/SOURCE_READINESS_REPORT.md;  M docs/STORE_ASSETS_REPORT.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_HANDOFF_REPORT.md;  M docs/STORE_MANUAL_CHECKLIST.md;  M docs/STORE_METADATA_REPORT.md;  M docs/STORE_PACKET_REPORT.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md;  M docs/SUPPORT_PLAYBOOK.md;  M docs/VERCEL_DEPLOYMENT_REPORT.md;  M docs/release-evidence.md;  M reports/LINK_LAUNCH_GATE.md;  M reports/events-refresh.json;  M reports/freebies-refresh.json;  M reports/link-launch-gate.json;  M reports/link-revalidation-priority.json;  M reports/live-probe-review.json;  M reports/news-revalidation-priority.json;  M reports/publishable-surface.json;  M reports/source-feed-activation.json;  M reports/vercel-deployment.json
 
 ## Critical
 
@@ -11,19 +11,19 @@ Working tree: M STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SCREENSHOTS_REPORT.md
 
 ## Current Readiness Snapshot
 
-- Visible curated deals: 140
-- Direct product or official benefit links: 140/140
+- Visible curated deals: 136
+- Direct product or official benefit links: 136/140
 - Manual link review needed: 0
 - Explicit product images: 93/140 (66%)
 - Fallback image backlog: 47
-- Official benefit official images: 70/105
+- Official benefit official images: 109/130
 - Public URL report: manual public-domain checks remain
 - Device QA report: manual device checks remain
 
 ## Operational Risks
 
 - 상품 이미지 중 실상품 이미지가 아닌 카테고리 fallback이 남아 있습니다. 현재 명시/파생 상품 이미지 93/140개(66%), fallback 47개이며, 운영 목표 60%까지 추가 보강 0개 기준으로 관리합니다.
-- 공식 혜택 이미지는 공식 OG/schema/페이지 이미지 70/105개, 생성 placeholder 35개 기준입니다. placeholder는 실제 상품 사진처럼 보이지 않는 안전 썸네일입니다.
+- 공식 혜택 이미지는 공식 OG/schema/페이지 이미지 109/130개, 생성 placeholder 21개 기준입니다. placeholder는 실제 상품 사진처럼 보이지 않는 안전 썸네일입니다.
 - 무료 혜택/쿠폰/이벤트는 공식 혜택 신청 페이지가 정상 목적지일 수 있습니다. 상품형 특가로 오인되지 않도록 카피와 dealType 구분을 유지해야 합니다.
 - Lighthouse 실측은 로컬 정적 하네스가 아니라 배포 URL 기준으로 추가 확인해야 합니다.
 - signed AAB 최종 업로드와 App Store/Play Store 심사 답변은 계정 소유자가 콘솔에서 직접 실행해야 합니다.

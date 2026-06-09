@@ -2,14 +2,14 @@
 
 이 문서는 상품 링크, 공식 혜택, refresh 파이프라인이 실제 출시 운영 기준을 만족하는지 요약합니다.
 
-- 생성 시각: 2026-06-09T16:52:38.450Z
+- 생성 시각: 2026-06-09T20:37:39.920Z
 - 운영 준비 점수: 100/100
 - 상태: PASS
 
 ## 핵심 지표
 
 - 상품 특가: 140개
-- 검증된 상품 링크: 140개 (100%)
+- 검증된 상품 링크: 140개 (102.9%)
 - 검색 링크 노출: 0개
 - 품절/종료 의심 노출: 0개
 - 공식 혜택: 130개
@@ -17,12 +17,12 @@
 - 공식 혜택 Provider: 4개 (feed 연결 0개)
 - 공식 혜택 source mix: seed 133개 · 외부 feed 0개 · 성공 feed 0/0
 - 공식 혜택 설정 feed 공백: 0개 (없음)
-- 공식 feed canary: seed_fallback_only · fresh · 2시간 · 연결 0개 · 후보 0개
+- 공식 feed canary: seed_fallback_only · fresh · 0시간 · 연결 0개 · 후보 0개
 - 공식 혜택 Provider 위험도: 정상 0개 · 관찰 4개 · 즉시 점검 0개
 - 공식 소스 통합 준비도: seed launch ready / 공식 feed 연결 대기
 - 공식 소스 후보/노출 혜택: 189개 / 130개
 - 공식 소스 차단 이슈: 0개
-- 공식 혜택 리포트 신선도: 2시간
+- 공식 혜택 리포트 신선도: 0시간
 - refresh:all 상태: PASS
 - cron refresh 상태: 수동 갱신 기준 정상 (manual_refresh_ready)
 - 무료혜택 cron 상태: manual_refresh_ready · active 128개 · source 98개 · host 76개
@@ -103,21 +103,21 @@
 | 게이트 | 상태 | 상세 |
 | --- | --- | --- |
 | product count floor | PASS | 140 verified product deals are available. |
-| product verification rate | PASS | 100% product links are verified. |
+| product verification rate | PASS | 102.9% product links are verified. |
 | search link exposure | PASS | No search/result URLs are exposed. |
 | sold out exposure | PASS | No sold-out or ended product links are exposed. |
-| product hidden/failed queue | PASS | Customer exposure is clean with 140 visible deals; 0 hidden deals stay in the operator review queue. |
+| product hidden/failed queue | PASS | Customer exposure is clean with 136 visible deals; 4 hidden deals stay in the operator review queue. |
 | official benefit count floor | PASS | 130 official benefit deals are visible. |
 | official benefit category coverage | PASS | All 10 required categories have at least 2 visible benefits. |
 | official benefit hidden/failed queue | PASS | No hidden, expired, non-official, or failed official benefit links are exposed. |
-| official benefit freshness | PASS | Official benefit report freshness is 2h. |
+| official benefit freshness | PASS | Official benefit report freshness is 0h. |
 | refresh all pipeline | PASS | refresh:all completed successfully. |
 | cron refresh operations | PASS | Cron refresh status=manual_refresh_ready; report=manual refresh fallback. |
 | cron benefits operations | PASS | Cron benefits status=manual_refresh_ready; active=128; sources=98; hosts=76. |
 | provider stats coverage | PASS | Product providers=6, news providers=4. |
 | official feed source mix counters | PASS | seed=133, feed=0, success=0/0. |
 | configured empty feed watch | PASS | configured-empty=0; providers=none. |
-| official feed canary | PASS | PASS status=seed_fallback_only; freshness=fresh; age=2h; configured=0; visible=0. Customer-visible official benefits remain covered by hard gates above. |
+| official feed canary | PASS | PASS status=seed_fallback_only; freshness=fresh; age=0h; configured=0; visible=0. Customer-visible official benefits remain covered by hard gates above. |
 | provider risk gate | PASS | PASS Official benefit providers danger=0, watch=4. Customer-visible official benefits remain covered by hard gates above. |
 | official source readiness gate | PASS | PASS 189 official source candidates, 130 visible official benefits, blocking failed gates=0, advisory failed gates=0. Customer-visible official benefits remain covered by hard gates above. |
 

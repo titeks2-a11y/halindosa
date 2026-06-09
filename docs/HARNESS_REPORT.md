@@ -1,91 +1,25 @@
 # 할인도사 Harness Report
 
-Started: 2026-06-09T03:42:12.650Z
-Finished: 2026-06-09T03:44:22.689Z
+Started: 2026-06-09T20:36:04.134Z
+Finished: 2026-06-09T20:36:25.149Z
 Status: PASS
 
 ## Summary
 
 | Step | Result | Duration |
 | --- | --- | ---: |
-| lint | PASS | 16.2s |
-| build | PASS | 23.4s |
-| verify:links | PASS | 3.1s |
-| test:external-links | PASS | 0.6s |
-| test:images | PASS | 0.5s |
-| news:images:enrich | PASS | 9.1s |
-| verify:images | PASS | 0.6s |
-| image:operations:doctor | PASS | 0.5s |
-| test:search | PASS | 7.6s |
-| test:ui | PASS | 0.5s |
+| lint | PASS | 17.0s |
 | test:mobile-ux | PASS | 0.6s |
-| test:mobile-compact | PASS | 0.5s |
 | home:realtime:doctor | PASS | 0.5s |
-| test:home-realtime | PASS | 4.7s |
+| security:check | PASS | 0.8s |
+| benefit:priority:doctor | PASS | 0.5s |
+| benefit:event:contract | PASS | 0.5s |
 | test:seo | PASS | 0.5s |
 | test:perf | PASS | 0.5s |
-| security:check | PASS | 0.8s |
-| benefit:event:contract | PASS | 0.5s |
-| smoke:local | PASS | 57.5s |
-| release:doctor | PASS | 1.7s |
 
 ## Step Output
 
 ### lint
-
-```text
-See streamed console output.
-```
-
-### build
-
-```text
-See streamed console output.
-```
-
-### verify:links
-
-```text
-See streamed console output.
-```
-
-### test:external-links
-
-```text
-See streamed console output.
-```
-
-### test:images
-
-```text
-See streamed console output.
-```
-
-### news:images:enrich
-
-```text
-See streamed console output.
-```
-
-### verify:images
-
-```text
-See streamed console output.
-```
-
-### image:operations:doctor
-
-```text
-See streamed console output.
-```
-
-### test:search
-
-```text
-See streamed console output.
-```
-
-### test:ui
 
 ```text
 See streamed console output.
@@ -97,19 +31,25 @@ See streamed console output.
 See streamed console output.
 ```
 
-### test:mobile-compact
-
-```text
-See streamed console output.
-```
-
 ### home:realtime:doctor
 
 ```text
 See streamed console output.
 ```
 
-### test:home-realtime
+### security:check
+
+```text
+See streamed console output.
+```
+
+### benefit:priority:doctor
+
+```text
+See streamed console output.
+```
+
+### benefit:event:contract
 
 ```text
 See streamed console output.
@@ -127,30 +67,6 @@ See streamed console output.
 See streamed console output.
 ```
 
-### security:check
-
-```text
-See streamed console output.
-```
-
-### benefit:event:contract
-
-```text
-See streamed console output.
-```
-
-### smoke:local
-
-```text
-See streamed console output.
-```
-
-### release:doctor
-
-```text
-See streamed console output.
-```
-
 
 ## Policy
 
@@ -160,3 +76,4 @@ See streamed console output.
 - 상품 이미지는 고정 비율, lazy loading, fallback 정책을 검사합니다.
 - 하단 탭은 홈, 인기, 카테고리, 마이 4개만 유지합니다.
 - 모바일 첫 화면은 검색, compact 필터, 핵심 특가 리스트를 우선합니다.
+- 홈 상단 혜택은 쇼핑몰, 브랜드, 쿠폰, 샘플, 편의점/마트, 포인트처럼 사용자가 바로 클릭할 소비자형 혜택을 우선하고 공공/정책성 혜택은 낮은 우선순위로 분리합니다.

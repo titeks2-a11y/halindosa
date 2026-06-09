@@ -1,12 +1,12 @@
 # 무료혜택 Verification Report
 
-Generated: 2026-06-09T09:11:56.132Z
+Generated: 2026-06-09T20:36:47.290Z
 
 ## Summary
 
 - Status: PASS
-- Visible official freebies: 135
-- Candidate freebies: 135
+- Visible official freebies: 126
+- Candidate freebies: 126
 - Blocked freebies: 0
 - Exposed search links: 0
 - Exposed non-official links: 0
@@ -22,8 +22,16 @@ Generated: 2026-06-09T09:11:56.132Z
 | --- | --- | --- | --- | --- |
 | news-kmooc-blockchain-digital-asset-free-course | K-MOOC 블록체인·디지털 자산 공식 무료강좌 | K-MOOC 공식 강좌 상세 | education | `/go/news/news-kmooc-blockchain-digital-asset-free-course` |
 | news-gs25-drinking-festa-2026 | GS25 드링킹 페스타 1+1·다량 구매 행사 | GS25 공식 이벤트 | discount | `/go/news/news-gs25-drinking-festa-2026` |
+| news-kmooc-dynamics-free-course-202606 | K-MOOC 동역학 공식 무료강좌 | K-MOOC 공식 강좌 | education | `/go/news/news-kmooc-dynamics-free-course-202606` |
+| news-kmooc-art-face-emotion-free-course-202606 | K-MOOC 예술적 얼굴과 감정조절 공식 무료강좌 | K-MOOC 공식 강좌 | education | `/go/news/news-kmooc-art-face-emotion-free-course-202606` |
 | news-dunkin-monthly-combo-coupon | 던킨 공식 이달의 콤보 쿠폰 혜택 | 던킨 공식 이벤트 | coupon | `/go/news/news-dunkin-monthly-combo-coupon` |
 | news-mcdonalds-happy-snack-free-drink | 맥도날드 해피 스낵 무료 음료 혜택 | 맥도날드 공식 프로모션 | freebie | `/go/news/news-mcdonalds-happy-snack-free-drink` |
+| news-kmooc-computer-graphics-free-course-202606 | K-MOOC 컴퓨터그래픽스 공식 무료강좌 | K-MOOC 공식 강좌 | education | `/go/news/news-kmooc-computer-graphics-free-course-202606` |
+| news-seoul-seoseoul-lake-green-free-kids-202606 | 서서울호수공원 유아 자연체험 6월 무료 예약 | 서울시 공공서비스예약 공식 | public_free | `/go/news/news-seoul-seoseoul-lake-green-free-kids-202606` |
+| news-seoul-ujangsan-forest-healing-free-202606 | 우장산 청년 숲마실 힐링체험 5~6월 무료 예약 | 서울시 공공서비스예약 공식 | public_free | `/go/news/news-seoul-ujangsan-forest-healing-free-202606` |
+| news-seoul-worldcup-silkworm-free-experience-202606 | 월드컵공원 누에 생태 체험 6월 무료 예약 | 서울시 공공서비스예약 공식 | public_free | `/go/news/news-seoul-worldcup-silkworm-free-experience-202606` |
+| news-seoul-dongdaemun-water-sports-free-class-202606 | 동대문구 수상스포츠 체험교육 6월 무료 예약 | 서울시 공공서비스예약 공식 | public_free | `/go/news/news-seoul-dongdaemun-water-sports-free-class-202606` |
+| news-seoul-hanyangdoseong-free-history-tour-202606 | 한양도성 역사 해설 체험 6월 무료 예약 | 서울시 공공서비스예약 공식 | public_free | `/go/news/news-seoul-hanyangdoseong-free-history-tour-202606` |
 | news-musinsa-fashion-festa | 무신사 패션 페스타 공식 혜택 | 무신사 공식 캠페인 | coupon | `/go/news/news-musinsa-fashion-festa` |
 | news-lotteon-lohbs-coupon | 롯데ON 롭스 공식 쿠폰 이벤트 | 롯데ON 공식 이벤트 | coupon | `/go/news/news-lotteon-lohbs-coupon` |
 | news-gs25-card-june-2026 | GS25 6월 신용카드 현장 할인 혜택 | GS25 공식 이벤트 | card | `/go/news/news-gs25-card-june-2026` |
@@ -31,13 +39,5 @@ Generated: 2026-06-09T09:11:56.132Z
 | news-lotteeatz-june-coupon | 롯데잇츠 공식 외식 쿠폰 혜택 | 롯데잇츠 공식 이벤트 | coupon | `/go/news/news-lotteeatz-june-coupon` |
 | news-shinhancard-annual-fee-cashback-202606 | 신한카드 신규 고객 첫 연회비 전액 캐시백 | 신한카드 공식 이벤트 | card | `/go/news/news-shinhancard-annual-fee-cashback-202606` |
 | news-shinhancard-utility-autopay-cashback-202606 | 신한카드 생활요금 자동납부 캐시백·경품 혜택 | 신한카드 공식 이벤트 | card | `/go/news/news-shinhancard-utility-autopay-cashback-202606` |
-| news-culture-day-programs-2026 | 이번 주 문화가 있는 날 프로그램 | 문화가 있는 날 공식 | culture | `/go/news/news-culture-day-programs-2026` |
-| news-culture-day-weekly-2026 | 문화가 있는 날 매주 수요일 문화 혜택 | 지역문화통합정보시스템 | public | `/go/news/news-culture-day-weekly-2026` |
-| news-kbcard-official-event-center | KB국민카드 공식 이벤트 혜택 모음 | KB국민카드 공식 이벤트 | card | `/go/news/news-kbcard-official-event-center` |
-| news-kbcard-membership-benefit-center | KB국민카드 공식 생활 할인 혜택 | KB국민카드 공식 혜택 | card | `/go/news/news-kbcard-membership-benefit-center` |
-| news-hmall-official-shopping-event | 현대Hmall 공식 쇼핑 기획전 혜택 | 현대Hmall 공식 이벤트 | coupon | `/go/news/news-hmall-official-shopping-event` |
-| news-bccard-official-event-center | BC카드 공식 이벤트 혜택 모음 | BC카드 공식 이벤트 | card | `/go/news/news-bccard-official-event-center` |
-| news-cgv-official-events | CGV 공식 이벤트·쿠폰 혜택 | CGV 공식 이벤트 | culture | `/go/news/news-cgv-official-events` |
-| news-lottecinema-official-events | 롯데시네마 공식 이벤트 혜택 | 롯데시네마 공식 이벤트 | culture | `/go/news/news-lottecinema-official-events` |
-| news-tworld-membership-upgrade | T 멤버십 장기고객 등급 업그레이드 혜택 | T world 공식 혜택 | membership | `/go/news/news-tworld-membership-upgrade` |
+| news-gs25-hyeja-bread-tosspay-plusone-202606 | GS25 혜자로운빵 토스페이 1+1 공식 행사 | GS25 공식 이벤트 | convenienceStore | `/go/news/news-gs25-hyeja-bread-tosspay-plusone-202606` |
 

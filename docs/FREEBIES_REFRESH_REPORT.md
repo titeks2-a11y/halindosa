@@ -1,12 +1,12 @@
 # 무료혜택 Refresh Report
 
-Generated: 2026-06-09T09:11:37.365Z
+Generated: 2026-06-09T20:36:47.101Z
 
 ## Summary
 
 - Mode: freebies
-- Matched items: 68
-- Visible official items: 68
+- Matched items: 77
+- Visible official items: 77
 - Hidden/blocked items: 0
 - Exposed search links: 0
 - Exposed non-official links: 0
@@ -24,20 +24,20 @@ All visible rows must keep `/go/news/[id]` redirect tracking and must resolve to
 | ID | Title | Source | Category | Host | Redirect |
 | --- | --- | --- | --- | --- | --- |
 | news-kmooc-blockchain-digital-asset-free-course | K-MOOC 블록체인·디지털 자산 공식 무료강좌 | K-MOOC 공식 강좌 상세 | 정부/공공혜택 | kmooc.kr | `/go/news/news-kmooc-blockchain-digital-asset-free-course` |
+| news-kmooc-dynamics-free-course-202606 | K-MOOC 동역학 공식 무료강좌 | K-MOOC 공식 강좌 | 정부/공공혜택 | kmooc.kr | `/go/news/news-kmooc-dynamics-free-course-202606` |
+| news-kmooc-art-face-emotion-free-course-202606 | K-MOOC 예술적 얼굴과 감정조절 공식 무료강좌 | K-MOOC 공식 강좌 | 정부/공공혜택 | kmooc.kr | `/go/news/news-kmooc-art-face-emotion-free-course-202606` |
 | news-mcdonalds-happy-snack-free-drink | 맥도날드 해피 스낵 무료 음료 혜택 | 맥도날드 공식 프로모션 | 무료혜택 | mcdonalds.co.kr | `/go/news/news-mcdonalds-happy-snack-free-drink` |
-| news-culture-day-programs-2026 | 이번 주 문화가 있는 날 프로그램 | 문화가 있는 날 공식 | 영화/문화 | culture.go.kr | `/go/news/news-culture-day-programs-2026` |
-| news-culture-day-weekly-2026 | 문화가 있는 날 매주 수요일 문화 혜택 | 지역문화통합정보시스템 | 정부/공공혜택 | culture.go.kr | `/go/news/news-culture-day-weekly-2026` |
-| news-cjone-official-mobile-events | CJ ONE 공식 포인트·쿠폰 이벤트 | CJ ONE 공식 이벤트 | 카드/멤버십 | cjone.com | `/go/news/news-cjone-official-mobile-events` |
-| news-oliveyoung-official-events | 올리브영 공식 뷰티 이벤트 | 올리브영 공식 이벤트 | 패션/뷰티 | oliveyoung.co.kr | `/go/news/news-oliveyoung-official-events` |
-| news-kfc-delivery-free-official | KFC 공식 딜리버리 배달비 무료 혜택 | KFC 공식 프로모션 | 외식/배달 | kfckorea.com | `/go/news/news-kfc-delivery-free-official` |
-| news-homeplus-membership-official-coupon | 홈플러스 멤버십 공식 쿠폰·마트 혜택 | 홈플러스 공식 멤버십 | 마트/편의점 | front.homeplus.co.kr | `/go/news/news-homeplus-membership-official-coupon` |
-| news-innisfree-official-coupon-events | 이니스프리 공식 이벤트·쿠폰존 혜택 | 이니스프리 공식 이벤트 | 패션/뷰티 | innisfree.com | `/go/news/news-innisfree-official-coupon-events` |
-| news-amoremall-official-event-list | 아모레몰 공식 이벤트·체험단 혜택 | 아모레몰 공식 이벤트 | 패션/뷰티 | amoremall.com | `/go/news/news-amoremall-official-event-list` |
-| news-amoremall-try-before-buy-sample | 아모레몰 써봐야안다 공식 샘플 체험 혜택 | 아모레몰 공식 써봐야안다 | 무료혜택 | amoremall.com | `/go/news/news-amoremall-try-before-buy-sample` |
-| news-amoremall-payment-benefit-official | 아모레몰 공식 결제·포인트 혜택 모음 | 아모레몰 공식 결제 혜택 | 카드/멤버십 | amoremall.com | `/go/news/news-amoremall-payment-benefit-official` |
-| news-kurly-kiehls-sample-event | 컬리 키엘 비타민C 에센스 쿠폰·증정 혜택 | 컬리 공식 상품 상세 | 패션/뷰티 | kurly.com | `/go/news/news-kurly-kiehls-sample-event` |
-| news-kurly-neoflam-free-shipping | 컬리 네오플램 소이 인덕션 편수 냄비 무료배송 특가 | 컬리 공식 상품 상세 | 식품/생필품 | kurly.com | `/go/news/news-kurly-neoflam-free-shipping` |
-| news-kurly-escape-speaker-free-shipping | 컬리 이스케이프 P6 Air 무료배송 쿠폰 특가 | 컬리 공식 상품 상세 | 디지털/가전 | kurly.com | `/go/news/news-kurly-escape-speaker-free-shipping` |
+| news-kmooc-computer-graphics-free-course-202606 | K-MOOC 컴퓨터그래픽스 공식 무료강좌 | K-MOOC 공식 강좌 | 정부/공공혜택 | kmooc.kr | `/go/news/news-kmooc-computer-graphics-free-course-202606` |
+| news-seoul-seoseoul-lake-green-free-kids-202606 | 서서울호수공원 유아 자연체험 6월 무료 예약 | 서울시 공공서비스예약 공식 | 정부/공공혜택 | yeyak.seoul.go.kr | `/go/news/news-seoul-seoseoul-lake-green-free-kids-202606` |
+| news-seoul-ujangsan-forest-healing-free-202606 | 우장산 청년 숲마실 힐링체험 5~6월 무료 예약 | 서울시 공공서비스예약 공식 | 정부/공공혜택 | yeyak.seoul.go.kr | `/go/news/news-seoul-ujangsan-forest-healing-free-202606` |
+| news-seoul-worldcup-silkworm-free-experience-202606 | 월드컵공원 누에 생태 체험 6월 무료 예약 | 서울시 공공서비스예약 공식 | 정부/공공혜택 | yeyak.seoul.go.kr | `/go/news/news-seoul-worldcup-silkworm-free-experience-202606` |
+| news-seoul-dongdaemun-water-sports-free-class-202606 | 동대문구 수상스포츠 체험교육 6월 무료 예약 | 서울시 공공서비스예약 공식 | 정부/공공혜택 | yeyak.seoul.go.kr | `/go/news/news-seoul-dongdaemun-water-sports-free-class-202606` |
+| news-seoul-hanyangdoseong-free-history-tour-202606 | 한양도성 역사 해설 체험 6월 무료 예약 | 서울시 공공서비스예약 공식 | 영화/문화 | yeyak.seoul.go.kr | `/go/news/news-seoul-hanyangdoseong-free-history-tour-202606` |
+| news-seoul-futurelab-battlebot-free-experience-202606 | 서울퓨처랩 배틀봇 워리어스 6월 무료 체험 | 서울시 공공서비스예약 공식 | 정부/공공혜택 | yeyak.seoul.go.kr | `/go/news/news-seoul-futurelab-battlebot-free-experience-202606` |
+| news-seoul-plant-hospital-free-care-202606 | 서울시 광역반려식물병원 5~6월 무료 진단 예약 | 서울시 공공서비스예약 공식 | 정부/공공혜택 | yeyak.seoul.go.kr | `/go/news/news-seoul-plant-hospital-free-care-202606` |
+| news-seoul-sagajeong-forest-play-free-202606 | 사가정공원 유아숲 생태놀이 6월 무료 예약 | 서울시 공공서비스예약 공식 | 정부/공공혜택 | yeyak.seoul.go.kr | `/go/news/news-seoul-sagajeong-forest-play-free-202606` |
+| news-kmooc-machine-learning-free-course-202606 | K-MOOC 지식발견머신러닝 공식 무료강좌 | K-MOOC 공식 강좌 | 정부/공공혜택 | kmooc.kr | `/go/news/news-kmooc-machine-learning-free-course-202606` |
+| news-kmooc-media-literacy-free-course-202606 | K-MOOC 미디어리터러시 공식 무료강좌 | K-MOOC 공식 강좌 | 정부/공공혜택 | kmooc.kr | `/go/news/news-kmooc-media-literacy-free-course-202606` |
 
 ## Blocked Items
 

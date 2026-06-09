@@ -1,12 +1,12 @@
 # Official Event Refresh Report
 
-Generated: 2026-06-09T09:11:37.461Z
+Generated: 2026-06-09T20:36:47.194Z
 
 ## Summary
 
 - Mode: events
-- Matched items: 132
-- Visible official items: 132
+- Matched items: 106
+- Visible official items: 106
 - Hidden/blocked items: 0
 - Exposed search links: 0
 - Exposed non-official links: 0
@@ -34,10 +34,10 @@ All visible rows must keep `/go/news/[id]` redirect tracking and must resolve to
 | news-lotteeatz-june-coupon | 롯데잇츠 공식 외식 쿠폰 혜택 | 롯데잇츠 공식 이벤트 | 외식/배달 | lotteeatz.com | `/go/news/news-lotteeatz-june-coupon` |
 | news-shinhancard-annual-fee-cashback-202606 | 신한카드 신규 고객 첫 연회비 전액 캐시백 | 신한카드 공식 이벤트 | 카드/멤버십 | shinhancard.com | `/go/news/news-shinhancard-annual-fee-cashback-202606` |
 | news-shinhancard-utility-autopay-cashback-202606 | 신한카드 생활요금 자동납부 캐시백·경품 혜택 | 신한카드 공식 이벤트 | 카드/멤버십 | shinhancard.com | `/go/news/news-shinhancard-utility-autopay-cashback-202606` |
+| news-gs25-hyeja-bread-tosspay-plusone-202606 | GS25 혜자로운빵 토스페이 1+1 공식 행사 | GS25 공식 이벤트 | 마트/편의점 | gs25.gsretail.com | `/go/news/news-gs25-hyeja-bread-tosspay-plusone-202606` |
+| news-royalcanin-start-of-life-sample-kit-202606 | 로얄캐닌 건강한 시작 반려동물 샘플 체험키트 캠페인 | 로얄캐닌 코리아 공식 캠페인 | 무료혜택 | royalcanin.com | `/go/news/news-royalcanin-start-of-life-sample-kit-202606` |
 | news-culture-day-programs-2026 | 이번 주 문화가 있는 날 프로그램 | 문화가 있는 날 공식 | 영화/문화 | culture.go.kr | `/go/news/news-culture-day-programs-2026` |
 | news-culture-day-weekly-2026 | 문화가 있는 날 매주 수요일 문화 혜택 | 지역문화통합정보시스템 | 정부/공공혜택 | culture.go.kr | `/go/news/news-culture-day-weekly-2026` |
-| news-kbcard-official-event-center | KB국민카드 공식 이벤트 혜택 모음 | KB국민카드 공식 이벤트 | 카드/멤버십 | card.kbcard.com | `/go/news/news-kbcard-official-event-center` |
-| news-kbcard-membership-benefit-center | KB국민카드 공식 생활 할인 혜택 | KB국민카드 공식 혜택 | 카드/멤버십 | card.kbcard.com | `/go/news/news-kbcard-membership-benefit-center` |
 
 ## Blocked Items
 
