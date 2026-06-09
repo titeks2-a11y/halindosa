@@ -3840,5 +3840,67 @@
       "가족체험",
       "예약필요"
     ]
+  },
+  {
+    "id": "news-hansung-baekje-conservation-family-free-202607",
+    "title": "한성백제박물관 문화유산 보존 연구소 무료 가족교육 예약",
+    "summary": "서울시 공공서비스예약 공식 상세에서 한성백제박물관 주말가족교육 문화유산 보존 연구소, 무료 참가비, 선착순 접수 기간과 가족 참여 조건을 확인할 수 있습니다.",
+    "merchant": "한성백제박물관",
+    "category": "정부/공공혜택",
+    "benefitType": "public_free",
+    "discountRate": 100,
+    "price": 0,
+    "originalPrice": 0,
+    "couponAmount": 0,
+    "startDate": "2026-03-14",
+    "endDate": "2026-07-04",
+    "sourceName": "서울시 공공서비스예약",
+    "sourceUrl": "https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?rsv_svc_id=S260223140354039679",
+    "finalUrl": "https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?rsv_svc_id=S260223140354039679",
+    "imageUrl": "",
+    "confidenceScore": 93,
+    "validationStatus": "needs_review",
+    "isHidden": false,
+    "hiddenReason": "",
+    "lastCheckedAt": "",
+    "provider": "public_coupon",
+    "tags": [
+      "공공무료",
+      "가족교육",
+      "박물관체험",
+      "선착순",
+      "예약필요"
+    ]
+  },
+  {
+    "id": "news-guro-picnic-garden-free-reservation-202606",
+    "title": "구로 피크닉 가든 무료 이용 예약",
+    "summary": "서울시 공공서비스예약 공식 상세에서 안양천 수변감성 피크닉장 구로 피크닉 가든, 무료 이용요금, 선착순 예약 기간과 이용 조건을 확인할 수 있습니다.",
+    "merchant": "구로구",
+    "category": "정부/공공혜택",
+    "benefitType": "public_free",
+    "discountRate": 100,
+    "price": 0,
+    "originalPrice": 0,
+    "couponAmount": 0,
+    "startDate": "2026-05-25",
+    "endDate": "2026-06-30",
+    "sourceName": "서울시 공공서비스예약",
+    "sourceUrl": "https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?rsv_svc_id=S250417160236520990",
+    "finalUrl": "https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?rsv_svc_id=S250417160236520990",
+    "imageUrl": "",
+    "confidenceScore": 91,
+    "validationStatus": "needs_review",
+    "isHidden": false,
+    "hiddenReason": "",
+    "lastCheckedAt": "",
+    "provider": "public_coupon",
+    "tags": [
+      "공공무료",
+      "피크닉",
+      "공간예약",
+      "선착순",
+      "예약필요"
+    ]
   }
 ]
