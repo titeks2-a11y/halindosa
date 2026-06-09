@@ -52,8 +52,10 @@ const steps = [
   }),
   runStep("verify:products", process.execPath, ["scripts/verify-products.mjs"]),
   runStep("verify:news", process.execPath, ["scripts/verify-news-deals.mjs"]),
-  runStep("refresh:freebies", process.execPath, ["scripts/refresh-official-benefit-slice.mjs", "freebies", "--no-refresh"]),
-  runStep("refresh:events", process.execPath, ["scripts/refresh-official-benefit-slice.mjs", "events", "--no-refresh"])
+  // refresh:benefits wraps refresh-official-benefit-slice.mjs for freebies/events and writes the health reports used by CI.
+  runStep("refresh:benefits", process.execPath, ["scripts/refresh-benefits.mjs"], {
+    timeoutMs: Number(process.env.REFRESH_ALL_BENEFITS_TIMEOUT_MS ?? 600_000)
+  })
 ];
 
 const refreshDeals = readJson("reports/refresh-deals.json", {});
