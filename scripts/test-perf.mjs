@@ -23,6 +23,8 @@ function countMatches(value, pattern) {
 }
 
 const homePage = `${read("app/page.tsx")}\n${read("components/HomeClient.tsx")}`;
+const freeBenefitsPage = read("app/free-benefits/page.tsx");
+const freeBenefitsClient = read("components/FreeBenefitsClient.tsx");
 const dealCard = read("components/DealCard.tsx");
 const liveDealFeed = read("components/LiveDealFeed.tsx");
 const appShell = read("components/AppShell.tsx");
@@ -53,6 +55,17 @@ if (homePage.includes("INITIAL_HOME_DEAL_LIMIT") && homePage.includes(".slice(0,
   pass("initial render cap", "초기 상품 렌더 수 제한 코드가 있습니다.");
 } else {
   fail("initial render cap", "초기 렌더 상품 수 제한 기준을 찾지 못했습니다.");
+}
+
+if (
+  freeBenefitsPage.includes("initialFreeBenefitDealLimit = 24") &&
+  freeBenefitsPage.includes("initialOfficialBenefitLimit = 24") &&
+  freeBenefitsPage.includes("initialOfficialBenefitEventLimit = 16") &&
+  freeBenefitsClient.includes("limit: 72")
+) {
+  pass("free benefits initial payload cap", "무료혜택 페이지는 초기 HTML payload를 줄이고 no-store API 갱신으로 목록을 보강합니다.");
+} else {
+  fail("free benefits initial payload cap", "무료혜택 페이지 초기 데이터 제한 또는 클라이언트 갱신 limit 기준이 부족합니다.");
 }
 
 if (homePage.includes("hidden") && homePage.includes("상세 필터와 결과 분석 접기")) {
