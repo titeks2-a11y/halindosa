@@ -28,6 +28,7 @@ npm run smoke
 - 실시간 특가 API: `GET /api/deals?q=노트북%20특가&sort=latest`
 - 홈 실시간 snapshot API: `GET /api/home?limit=24&verifiedOnly=true`
   - 응답 헤더는 `Cache-Control: no-store`를 포함해야 한다.
+  - 공개 배포 최신성 확인 시 응답 본문 `requestId`, 헤더 `X-Request-Id`, `X-RateLimit-Remaining`이 함께 있어야 한다. 이 값이 없으면 GitHub `main`은 최신이어도 Vercel 공개 도메인이 이전 서버 코드를 보고 있는 stale 배포로 판단하고, Vercel Git 연결 또는 `VERCEL_TOKEN`/`VERCEL_ORG_ID`/`VERCEL_PROJECT_ID` secrets를 복구한다.
   - 응답의 `cachePolicy.mode`는 `no-store`, `newsMeta.freshnessStatus`는 `fresh`, `due`, `stale`, `seed` 중 하나여야 한다.
   - 홈 클라이언트는 `lib/homeRealtimeConfig.ts`의 `HOME_REFRESH_INTERVAL_MS = 45_000` 기준으로 상품 특가, 공식 혜택, 핫시그널을 다시 확인한다.
   - `npm run test:home-realtime`은 정적 정책 검사에 더해 실행 중인 서버에서 `data/refreshedDeals.json` 임시 검증 상품을 추가/원복하며 `/api/home` 즉시 반영 여부를 확인한다. 결과는 `docs/HOME_RUNTIME_SNAPSHOT_REPORT.md`에 남는다.
