@@ -1,13 +1,13 @@
 # AGENTS.md
 
-- 이전 대화는 resume하지 않는다. 새 `codex` 세션은 `docs/CURRENT_STATE.md`와 현재 워크트리만 기준으로 시작한다.
-- 기존 대화는 `/exit`로 닫고 새 작업은 새 `codex` 세션에서 시작한다.
+- 이전 대화는 resume하지 않는다. 새 `codex` 세션은 현재 워크트리와 `docs/CURRENT_STATE.md`만 기준으로 시작한다.
+- 기존 대화는 `/exit`로 닫고, 새 작업은 새 `codex` 세션에서 시작한다.
 - 사용자에게 묻지 말고 상업 출시 가능성이 가장 높은 안전한 방향으로 직접 판단한다.
-- 기존 정상 기능, 환경변수, 배포 설정, Android/Capacitor 설정을 깨뜨리지 않는다.
-- 할인도사는 무료혜택, 쿠폰, 샘플, 체험, 전원증정, 공식 이벤트 중심 플랫폼이다.
+- 정상 동작 중인 기능, 환경변수, Vercel, Android/Capacitor 설정을 깨뜨리지 않는다.
+- 할인도사는 무료혜택, 쿠폰, 샘플, 무료체험, 전원증정, 공식 이벤트 중심 플랫폼이다.
 - 검색 링크, 대표몰 메인, 커뮤니티 글, 종료/품절/미검증 링크는 사용자 CTA에 노출하지 않는다.
 - 공식 이벤트/신청/쿠폰/샘플/출석체크/무료체험 URL만 혜택 CTA에 연결한다.
 - secret 하드코딩, open redirect, SSRF, XSS, 무단 스크래핑을 금지하고 보안 게이트를 낮추지 않는다.
 - 테스트 통과를 위해 기능을 제거하거나 검증 기준을 낮추지 않는다.
-- build 후 `next-env.d.ts`가 `./.next/types/routes.d.ts`로 바뀌면 기존 dev 타입 경로로 되돌린다.
-- 안정 상태마다 작게 commit하고 가능하면 push한다.
+- 빌드 후 `next-env.d.ts`가 `./.next/types/routes.d.ts`로 바뀌면 `./.next/dev/types/routes.d.ts`로 되돌린다.
+- 코드 커밋 시 `git add .`를 피하고 필요한 파일만 명시적으로 stage한다.

@@ -13,15 +13,16 @@
 
 - Branch: `codex/12h-product-ux-growth-hardening`
 - 최근 커밋:
+  - `a2704ad2 feat: expand official pet benefit sources`
+  - `f57c287c test: require roulette benefit release evidence`
+  - `6fcffddb feat: add roulette free benefit category`
+  - `72bdc8b4 test: guard free benefit first home exposure`
+  - `c37f7a83 docs: record mobile free benefit ux gate`
   - `16848082 test: enforce mobile free benefit category chips`
-  - `eb7212ed test: block duplicate official source urls in security check`
-  - `5e6ef008 chore: dedupe official benefit source catalog`
-  - `76bcb379 test: require source catalog security in release doctor`
-  - `ba84af79 docs: update current state for new codex session`
-  - `d1392c27 docs: refresh current state handoff`
-- 현재 워크트리는 release evidence, refresh 데이터, 리포트 산출물이 dirty 상태로 남아 있을 수 있다.
+- 워크트리는 refresh, verification, release evidence 산출물 때문에 dirty일 수 있다.
 - 코드 커밋 시 `git add .`를 피하고 필요한 파일만 명시적으로 stage한다.
-- 새 세션 시작 시 먼저 실행:
+
+새 세션 시작 체크:
 
 ```bash
 git status --short --branch
@@ -34,7 +35,7 @@ npm run workspace:doctor:strict
 
 우선순위:
 
-1. 공식 무료혜택, 쿠폰, 샘플, 체험, 전원증정, 선착순, 출석체크, 신규가입 혜택을 홈 상단에 우선 노출한다.
+1. 공식 무료혜택, 쿠폰, 샘플, 체험, 전원증정, 선착순, 출석체크, 룰렛, 신규가입 혜택을 홈 상단에 우선 노출한다.
 2. 검색 링크, 대표몰 메인, 커뮤니티 글, 종료/품절/미검증 링크는 사용자 CTA에 노출하지 않는다.
 3. 공식 이벤트, 신청, 쿠폰, 샘플, 출석체크, 무료체험 URL만 혜택 CTA에 연결한다.
 4. 비회원도 핵심 혜택은 볼 수 있게 유지하고, 찜/알림/개인화만 가입 유도와 연결한다.
@@ -49,117 +50,57 @@ npm run workspace:doctor:strict
   - `scripts/free-benefit-event-contract-doctor.mjs`
 - 홈과 `/free-benefits`는 13개 무료혜택 필터 계약을 공유한다.
   - 전체, 전원증정, 선착순, 쿠폰, 샘플, 무료체험, 기프티콘, 포인트/캐시백, 출석체크, 룰렛, 신규가입, 공공무료, 체험단
-- `npm run test:mobile-ux`는 홈 무료혜택 히어로가 13개 필터, 마감임박, 로그인 필요, 구매 필요 조건 배지를 유지하는지 검사한다.
-- `npm run test:ui`는 홈 노출 순서가 `무료혜택 히어로 → 검증 공식 혜택 strip → 추가 할인 상품 보조 영역`으로 유지되는지 검사한다.
-- 구매 상품 영역은 홈 상단 핵심 가치가 아니며, `추가 할인 상품 보조 목록`과 `무료혜택 다음에 비교할 상품` 문구를 통해 보조 탐색 영역으로 고정되어 있다.
+- 홈 노출 순서 게이트:
+  - 무료혜택 히어로
+  - 검증 공식 혜택 strip
+  - 추가 할인 상품 보조 영역
+- 구매 상품 영역은 홈 상단 핵심 가치가 아니며 보조 탐색 영역으로 유지한다.
 - `/api/benefits/events`는 active publishable 카운트를 `categories`, `categoryCounts`, `filteredCategoryCounts`로 함께 내려준다.
 - `/api/home`과 홈 상단 무료혜택 히어로도 같은 카테고리 카운트를 사용한다.
 - 홈 빠른 필터에서 서버 카운트가 0개인 카테고리는 비활성 칩으로 표시한다.
-- 무료혜택 CTA는 공식 이벤트/신청 URL만 통과시키는 정책으로 운영한다.
-- 공식 소스 후보는 138개이며, source feed starter pack은 12개 lane 기준으로 확장되어 있다.
+- 공식 소스 후보는 138개다.
+- 마지막 official source live check 기준:
+  - reachable 119
+  - guarded 19
+  - stale_or_removed 0
 - 반려동물 샘플 lane은 로얄캐닌과 퓨리나 공식 이벤트/0원딜 소스를 포함해 최소 3개 기준으로 강화되어 있다.
 - 공식 소스 카탈로그는 동일 `officialUrl` 중복을 `duplicate_official_url`로 실패 처리한다.
-- 맘큐 공식 이벤트 목록과 신규회원 웰컴혜택 소스가 추가되어 육아/샘플/신규가입 혜택 발견 축이 보강되었다.
-- 마지막 live check 기준 공식 소스는 reachable 119개, guarded 19개, stale_or_removed 0개다.
 - `security:check`는 공식 소스 카탈로그가 검색/커뮤니티/비공식/약한 CTA 정책을 포함하지 않는지도 검사한다.
-- `security:check`는 동일 `officialUrl`이 중복 등록된 공식 소스도 실패 처리한다.
-- `release:doctor`의 `free benefit security gates`도 `security-check.mjs`의 공식 소스 카탈로그 guard, unsafe URL detector, benefit policy detector, `docs/SECURITY_CHECK_REPORT.md` evidence를 직접 검사한다.
+- `release:doctor`는 보안 게이트, 무료혜택 계약, 홈 노출 순서, 모바일 필터 evidence를 검사한다.
 - source feed env readiness 구조가 있다.
   - `lib/operations/sourceFeedEnvReadiness.ts`
   - `scripts/source-feed-env-doctor.mjs`
   - `docs/SOURCE_FEED_ENV_REPORT.md`
-- 관리자 화면에는 `다음 Feed 활성화 큐`, `starter pack 기준`, `운영자 체크리스트`가 노출되고 smoke/release doctor가 이를 검사한다.
 
-## 현재 dirty 파일 성격
-
-- release evidence 문서 다수
-- refresh/verification으로 재생성된 `data/*`, `reports/*`, 루트 QA 리포트
-
-주의:
-
-- release evidence 문서들은 doctor freshness를 맞추기 위해 dirty 상태로 남아 있을 수 있다.
-- 코드 커밋 시 `git add .`를 피하고 필요한 파일만 명시적으로 stage한다.
-- 새 커밋을 만들면 release evidence 문서를 다시 생성한 뒤 `release:doctor`를 확인한다.
-
-## 최근 검증 상태
-
-최근 안정 상태에서 아래 검증이 통과했다.
-
-```bash
-npm run source:feed-env:doctor
-npm run release:doctor
-npm run workspace:doctor:strict
-npm run security:check
-npm run lint
-```
-
-최근 커밋 `d3241d4c` 기준 아래 검증이 통과했다.
+## 주요 명령
 
 ```bash
 npm run lint
+npm run refresh:news
+npm run verify:news
+npm run refresh:deals
+npm run verify:links
+npm run refresh:benefits
 npm run source:catalog:report
 npm run source:breadth:doctor
 npm run source:live:doctor
 npm run source:feed-env:doctor
+npm run test:ui
+npm run test:mobile-ux
 npm run security:check
 npm run qa
 npm run harness
 npm run smoke:local
 npm run release:doctor
-npm run workspace:doctor:strict
 npm run build
-```
-
-최근 커밋 `76bcb379` 기준 아래 검증이 통과했다.
-
-```bash
-npm run security:check
-npm run lint
-npm run release:doctor
+npm run build:android
+npm run cap:sync
 npm run workspace:doctor:strict
 ```
 
-최근 커밋 `5e6ef008` 기준 아래 검증이 통과했다.
+## 최근 검증 상태
 
-```bash
-npm run source:catalog:report
-npm run source:breadth:doctor
-npm run security:check
-npm run source:live:doctor
-npm run lint
-npm run release:doctor
-npm run workspace:doctor:strict
-```
-
-최근 커밋 `eb7212ed` 기준 아래 검증이 통과했다.
-
-```bash
-npm run security:check
-npm run lint
-npm run release:doctor
-npm run workspace:doctor:strict
-```
-
-최근 커밋 `16848082` 기준 아래 검증이 통과했다.
-
-```bash
-npm run test:mobile-ux
-npm run lint
-npm run release:doctor
-npm run workspace:doctor:strict
-```
-
-최근 UI 게이트 강화 라운드 기준 아래 검증이 통과했다.
-
-```bash
-npm run test:ui
-npm run test:mobile-ux
-npm run lint
-npm run release:doctor
-npm run workspace:doctor:strict
-```
-
-최근 룰렛 혜택 필터 분리 라운드 기준 아래 검증이 통과했다.
+최근 안정 라운드에서 아래 명령이 통과했다.
 
 ```bash
 npm run benefit:event:contract
@@ -168,48 +109,23 @@ npm run test:ui
 npm run lint
 npm run smoke:local
 npm run release:doctor
-npm run build
+npm run security:check
+npm run source:catalog:report
+npm run source:breadth:doctor
+npm run source:live:doctor
+npm run workspace:doctor:strict
 ```
 
-주의:
+## 새 세션에서 이어서 하면 좋은 작업
 
-- build 후 `next-env.d.ts`가 `./.next/types/routes.d.ts`로 바뀌면 기존 `./.next/dev/types/routes.d.ts` 정책으로 되돌린다.
-- Android web assets는 `workspace:doctor:strict` 정리 후 삭제될 수 있다. 앱 반영이 필요하면 `npm run build:android && npm run cap:sync`를 다시 실행한다.
+1. `/api/health`에 `/api/cron/benefits` 전용 상태를 추가한다.
+2. `lib/operations/cronRefresh.ts`에 benefits cron 상태, report freshness, visible active events 수를 노출한다.
+3. `scripts/smoke.mjs`, `scripts/release-doctor.mjs`, `scripts/cron-refresh-doctor.mjs`가 benefits cron health evidence를 검사하게 강화한다.
+4. 검증 후 필요한 파일만 stage하고 작게 commit/push한다.
 
-## 다음 작업 후보
+## 주의
 
-1. 무료혜택 운영 feed URL을 실제 Vercel env에 연결하기 전 아래 문서를 기준으로 검증한다.
-   - `docs/SOURCE_FEED_ENV_REPORT.md`
-   - `docs/FREE_BENEFIT_FEED_HANDOFF.md`
-   - `docs/SOURCE_FEED_ACTIVATION.md`
-2. 공공/교육/반려동물/문화/카페 프랜차이즈 무료혜택 후보를 추가하되, 사용자 CTA는 공식 상세 또는 신청 페이지가 active이고 무료 조건이 확인된 경우에만 연결한다.
-3. 공식 소스 후보를 추가할 때 live check에서 4xx/5xx가 뜨는 상세 URL은 카탈로그에 남기지 말고 목록 소스나 승인 feed 후보로만 보강한다.
-
-## 운영 feed 연결 순서
-
-1. `docs/FREE_BENEFIT_FEED_HANDOFF.md`
-2. `docs/SOURCE_FEED_ACTIVATION.md`
-3. `docs/FREE_BENEFIT_EVENT_CONTRACT.md`
-4. `/api/admin/source-feed-handoff`
-5. `/api/admin/source-feed-activation`
-
-운영 feed 검증 명령:
-
-```bash
-npm run source:feed-env:doctor
-npm run news:feed:canary
-npm run refresh:benefits
-npm run verify:benefits
-npm run benefit:event:contract
-npm run test:home-realtime
-npm run source:activation:doctor
-```
-
-## 파일별 참고
-
-- `AGENTS.md`: 새 세션 작업 규칙
-- `docs/CURRENT_STATE.md`: 현재 상태와 다음 작업
-- `docs/FREE_BENEFIT_EVENT_CONTRACT.md`: FreeBenefitEvent 노출 계약
-- `docs/FREE_BENEFIT_FEED_HANDOFF.md`: 운영 feed 연결 안내
-- `docs/SOURCE_FEED_ACTIVATION.md`: source feed 활성화 절차
-- `docs/SOURCE_FEED_ENV_REPORT.md`: source feed env readiness 보고서
+- 빌드 후 `next-env.d.ts`가 `./.next/types/routes.d.ts`로 바뀌면 `./.next/dev/types/routes.d.ts`로 되돌린다.
+- `.next`를 삭제할 때는 절대경로가 현재 workspace 내부인지 확인한다.
+- release evidence 문서들은 doctor freshness를 맞추기 위해 dirty 상태로 남아 있을 수 있다.
+- 이전 대화 내용은 새 세션에서 참조하지 않는다.
