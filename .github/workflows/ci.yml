@@ -75,7 +75,13 @@ jobs:
         run: npm run release:prepare:reports:ci
 
       - name: Release doctor
-        run: npm run release:doctor
+        run: |
+          npm run release:doctor || {
+            echo "::group::release-doctor report"
+            if [ -f reports/release-doctor.json ]; then cat reports/release-doctor.json; fi
+            echo "::endgroup::"
+            exit 1
+          }
 
       - name: Production build
         run: npm run build
