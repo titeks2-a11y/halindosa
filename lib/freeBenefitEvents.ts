@@ -111,7 +111,7 @@ function inferEventType(deal: NewsDeal, text: string): FreeBenefitEventType {
   if (/기프티콘|교환권|모바일\s*쿠폰|음료권/i.test(text)) return "gifticon";
   if (/포인트|캐시백|적립|페이/i.test(text)) return "pointCashback";
   if (samplePattern.test(text)) return "sample";
-  if (/공공|정부|지원|문화가\s*있는\s*날|서울시|복지|교육/i.test(text) || deal.benefitType === "public") return "publicFree";
+  if (/공공|정부|지원|문화가\s*있는\s*날|서울시|복지|교육/i.test(text) || deal.benefitType === "public" || deal.benefitType === "public_free" || deal.benefitType === "education") return "publicFree";
   if (/무료\s*체험|trial|구독\s*체험/i.test(text)) return "freeTrial";
   if (/체험단|리뷰단/i.test(text) || deal.benefitType === "freebie") return "experiencePanel";
   if (/무배|무료배송|배송비\s*무료/i.test(text) || deal.benefitType === "freeShipping") return "freeShipping";

@@ -354,7 +354,7 @@ function resolveNewsLinkType(deal) {
   if (isSearchUrl(finalUrl)) return "search";
   if (!isApprovedOfficialUrl(finalUrl)) return "news_only";
   if (["coupon", "card", "membership", "point", "freeShipping"].includes(deal.benefitType)) return "official_coupon";
-  if (["culture", "travel", "public", "freebie", "foodDelivery", "event", "convenienceStore", "mart"].includes(deal.benefitType)) return "official_benefit";
+  if (["culture", "travel", "public", "public_free", "education", "sample", "freebie", "foodDelivery", "event", "convenienceStore", "mart"].includes(deal.benefitType)) return "official_benefit";
   return "official_event";
 }
 
@@ -383,7 +383,7 @@ function scoreNewsDeal(deal, { reasons = [], availability = "unknown", linkType 
   const benefitSignal =
     deal.discountRate > 0 ||
     deal.couponAmount > 0 ||
-    ["freebie", "coupon", "freeShipping", "event", "membership", "card", "culture", "travel", "public", "point", "foodDelivery", "convenienceStore", "mart"].includes(deal.benefitType);
+    ["freebie", "sample", "education", "public_free", "coupon", "freeShipping", "event", "membership", "card", "culture", "travel", "public", "point", "foodDelivery", "convenienceStore", "mart"].includes(deal.benefitType);
   const directOfficialBonus = linkType.startsWith("official") ? 18 : -35;
   const freshnessBonus = daysLeft <= 14 ? 8 : daysLeft <= 45 ? 5 : 2;
 
@@ -534,7 +534,7 @@ export function validateNewsDeal(deal, now = Date.now()) {
   const benefitSignal =
     deal.discountRate > 0 ||
     deal.couponAmount > 0 ||
-    ["freebie", "coupon", "freeShipping", "event", "membership", "card", "culture", "travel", "public", "point", "foodDelivery", "convenienceStore", "mart"].includes(deal.benefitType);
+    ["freebie", "sample", "education", "public_free", "coupon", "freeShipping", "event", "membership", "card", "culture", "travel", "public", "point", "foodDelivery", "convenienceStore", "mart"].includes(deal.benefitType);
   const validationReason = passed ? "passed" : reasons.join(",");
   const priorityScore = scoreNewsDeal(deal, { reasons, availability, linkType, now });
   const qualityScore = scoreNewsDealQuality(deal, { reasons, availability, linkType, now });
