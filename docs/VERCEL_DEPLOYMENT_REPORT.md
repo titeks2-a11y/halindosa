@@ -1,25 +1,28 @@
 # Vercel Deployment Doctor
 
-Generated: 2026-06-09T16:32:06.499Z
+Generated: 2026-06-09T17:58:13.042Z
 
-Status: PASS
+Status: BLOCKED
 
 ## Target
 
 - Origin: `https://halindosa.com`
 - Branch: `codex/12h-product-ux-growth-hardening`
-- Commit: `c5f9882f`
-- Working tree: 81 changed file(s): M DEVICE_QA_REPORT.md; M EXTERNAL_LINK_REPORT.md; M HARNESS_REPORT.md; M IMAGE_QUALITY_REPORT.md; M KNOWN_ISSUES.md; M LINK_VERIFICATION_REPORT.md; M LINK_VERIFICATION_RESULT.json; M PERFORMANCE_REPORT.md; ... +73 more
+- Commit: `cd154936`
+- Working tree: 82 changed file(s): M DEVICE_QA_REPORT.md; M EXTERNAL_LINK_REPORT.md; M HARNESS_REPORT.md; M IMAGE_QUALITY_REPORT.md; M KNOWN_ISSUES.md; M LINK_VERIFICATION_REPORT.md; M LINK_VERIFICATION_RESULT.json; M PERFORMANCE_REPORT.md; ... +74 more
 - Vercel project linked locally: no
 - Vercel token present in shell: no
 
 ## Summary
 
-- Checks: 23/23
+- Checks: 24/26
 - Root: 200
 - Home API: 200
 - Deals API: 200
 - Freebies API: 200
+- Home API Request ID: (missing)
+- Deals API Request ID: (missing)
+- Freebies API Request ID: 53d84043-9872-4bad-a991-68320f5a4a2a
 - /go redirect: 302
 - Official benefit /go redirect: 302
 - Home API Cache-Control: `no-store, no-cache, must-revalidate, proxy-revalidate`
@@ -43,14 +46,17 @@ Status: PASS
 | PASS | home api deals | /api/home returned 8 deals. |
 | PASS | home api official benefits | /api/home returned 8 official benefits/news deals. |
 | PASS | home api realtime metadata | /api/home exposes cachePolicy=no-store and channel freshness metadata. |
+| FAIL | home api abuse guard | /api/home is not serving the latest requestId/rate-limit contract; production may be stale. |
 | PASS | home product exposure policy | No invalid, hidden, stale, search, homepage, community, low-quality, or image-less product deal leaked from /api/home. |
 | PASS | home official benefit exposure policy | No invalid, hidden, stale, search, homepage, community, low-quality, or image-less official benefit leaked from /api/home. |
 | PASS | deals api status | /api/deals returned 8 verified deals. |
+| FAIL | deals api abuse guard | /api/deals is not serving the latest requestId/rate-limit contract; production may be stale. |
 | PASS | deals publishable policy | No search, homepage, community, sold-out, low-quality, image-less, or non-publishable deal leaked from /api/deals. |
 | PASS | freebies api status | /api/freebies returned 200 JSON with ok=true. |
 | PASS | freebies api no-store | Cache-Control=no-store, no-cache, must-revalidate, proxy-revalidate |
 | PASS | freebies api data | /api/freebies returned 12 freebie cards and 12 event cards. |
 | PASS | freebies api realtime metadata | /api/freebies exposes cachePolicy=no-store, freshness label, and next refresh metadata. |
+| PASS | freebies api abuse guard | /api/freebies exposes requestId and rate-limit headers on the public deployment. |
 | PASS | freebies publishable policy | No search, homepage, community, expired, hidden, low-quality, image-less, or non-publishable free benefit leaked from /api/freebies. |
 | PASS | freebies consumer-first default policy | Default /api/freebies response excludes public/policy benefits unless explicitly requested. |
 | PASS | cron refresh public guard | /api/cron/refresh rejects unauthenticated dry-run probes on the public deployment. |

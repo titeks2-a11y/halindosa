@@ -152,6 +152,8 @@ async function fetchText(path, options = {}) {
     xContentTypeOptions: response.headers.get("x-content-type-options") ?? "",
     referrerPolicy: response.headers.get("referrer-policy") ?? "",
     permissionsPolicy: response.headers.get("permissions-policy") ?? "",
+    requestId: response.headers.get("x-request-id") ?? "",
+    rateLimitRemaining: response.headers.get("x-ratelimit-remaining") ?? "",
     location: response.headers.get("location") ?? "",
     xVercelId: response.headers.get("x-vercel-id") ?? "",
     bodyPreview: text.slice(0, 240),
@@ -273,6 +275,11 @@ checks.push(
     ? pass("home api realtime metadata", `/api/home exposes cachePolicy=no-store and channel freshness metadata.`)
     : fail("home api realtime metadata", "/api/home should expose cachePolicy=no-store and freshness.channels metadata.")
 );
+checks.push(
+  homeJson?.requestId && probes.homeApi.requestId && probes.homeApi.rateLimitRemaining
+    ? pass("home api abuse guard", "/api/home exposes requestId and rate-limit headers on the public deployment.")
+    : fail("home api abuse guard", "/api/home is not serving the latest requestId/rate-limit contract; production may be stale.")
+);
 const homeDeals = Array.isArray(homeJson?.deals) ? homeJson.deals : [];
 const homeNewsDeals = Array.isArray(homeJson?.newsDeals) ? homeJson.newsDeals : [];
 const invalidHomeDeals = homeDeals.filter((deal) => !isPublishableProductDeal(deal));
@@ -296,6 +303,11 @@ checks.push(
   probes.dealsApi.ok && deals.length > 0
     ? pass("deals api status", `/api/deals returned ${deals.length} verified deals.`)
     : fail("deals api status", `/api/deals should return verified deals; got ${probes.dealsApi.status}.`)
+);
+checks.push(
+  dealsJson?.requestId && probes.dealsApi.requestId && probes.dealsApi.rateLimitRemaining
+    ? pass("deals api abuse guard", "/api/deals exposes requestId and rate-limit headers on the public deployment.")
+    : fail("deals api abuse guard", "/api/deals is not serving the latest requestId/rate-limit contract; production may be stale.")
 );
 checks.push(
   invalidDeals.length === 0
@@ -329,6 +341,11 @@ checks.push(
   freebiesJson?.cachePolicy?.mode === "no-store" && freebiesJson?.freshnessLabel && freebiesJson?.nextRefreshAt
     ? pass("freebies api realtime metadata", `/api/freebies exposes cachePolicy=no-store, freshness label, and next refresh metadata.`)
     : fail("freebies api realtime metadata", "/api/freebies should expose no-store cache policy and freshness metadata.")
+);
+checks.push(
+  freebiesJson?.requestId && probes.freebiesApi.requestId && probes.freebiesApi.rateLimitRemaining
+    ? pass("freebies api abuse guard", "/api/freebies exposes requestId and rate-limit headers on the public deployment.")
+    : fail("freebies api abuse guard", "/api/freebies is not serving requestId/rate-limit headers.")
 );
 checks.push(
   invalidFreebies.length === 0 && invalidFreebieEvents.length === 0
@@ -429,6 +446,9 @@ const report = {
     homeApiStatus: probes.homeApi.status,
     dealsApiStatus: probes.dealsApi.status,
     freebiesApiStatus: probes.freebiesApi.status,
+    homeApiRequestId: probes.homeApi.requestId,
+    dealsApiRequestId: probes.dealsApi.requestId,
+    freebiesApiRequestId: probes.freebiesApi.requestId,
     goRedirectStatus: probes.goRedirect.status,
     officialBenefitRedirectStatus: probes.officialBenefitRedirect?.status ?? 0,
     homeApiCacheControl: probes.homeApi.cacheControl,
@@ -458,6 +478,8 @@ const report = {
         xContentTypeOptions: probe.xContentTypeOptions,
         referrerPolicy: probe.referrerPolicy,
         permissionsPolicy: probe.permissionsPolicy,
+        requestId: probe.requestId,
+        rateLimitRemaining: probe.rateLimitRemaining,
         location: probe.location,
         redirectChain: probe.chain ?? undefined,
         xVercelId: probe.xVercelId,
@@ -490,6 +512,9 @@ Status: ${ok ? "PASS" : "BLOCKED"}
 - Home API: ${report.summary.homeApiStatus}
 - Deals API: ${report.summary.dealsApiStatus}
 - Freebies API: ${report.summary.freebiesApiStatus}
+- Home API Request ID: ${report.summary.homeApiRequestId || "(missing)"}
+- Deals API Request ID: ${report.summary.dealsApiRequestId || "(missing)"}
+- Freebies API Request ID: ${report.summary.freebiesApiRequestId || "(missing)"}
 - /go redirect: ${report.summary.goRedirectStatus}
 - Official benefit /go redirect: ${report.summary.officialBenefitRedirectStatus}
 - Home API Cache-Control: \`${report.summary.homeApiCacheControl || "(missing)"}\`
