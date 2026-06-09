@@ -47,9 +47,9 @@ npm run workspace:doctor:strict
   - `types/freeBenefitEvent.ts`
   - `lib/freeBenefitEvents.ts`
   - `scripts/free-benefit-event-contract-doctor.mjs`
-- 홈과 `/free-benefits`는 12개 무료혜택 필터 계약을 공유한다.
-  - 전체, 전원증정, 선착순, 쿠폰, 샘플, 무료체험, 기프티콘, 포인트/캐시백, 출석체크, 신규가입, 공공무료, 체험단
-- `npm run test:mobile-ux`는 홈 무료혜택 히어로가 12개 필터, 마감임박, 로그인 필요, 구매 필요 조건 배지를 유지하는지 검사한다.
+- 홈과 `/free-benefits`는 13개 무료혜택 필터 계약을 공유한다.
+  - 전체, 전원증정, 선착순, 쿠폰, 샘플, 무료체험, 기프티콘, 포인트/캐시백, 출석체크, 룰렛, 신규가입, 공공무료, 체험단
+- `npm run test:mobile-ux`는 홈 무료혜택 히어로가 13개 필터, 마감임박, 로그인 필요, 구매 필요 조건 배지를 유지하는지 검사한다.
 - `npm run test:ui`는 홈 노출 순서가 `무료혜택 히어로 → 검증 공식 혜택 strip → 추가 할인 상품 보조 영역`으로 유지되는지 검사한다.
 - 구매 상품 영역은 홈 상단 핵심 가치가 아니며, `추가 할인 상품 보조 목록`과 `무료혜택 다음에 비교할 상품` 문구를 통해 보조 탐색 영역으로 고정되어 있다.
 - `/api/benefits/events`는 active publishable 카운트를 `categories`, `categoryCounts`, `filteredCategoryCounts`로 함께 내려준다.
@@ -156,6 +156,18 @@ npm run test:mobile-ux
 npm run lint
 npm run release:doctor
 npm run workspace:doctor:strict
+```
+
+최근 룰렛 혜택 필터 분리 라운드 기준 아래 검증이 통과했다.
+
+```bash
+npm run benefit:event:contract
+npm run test:mobile-ux
+npm run test:ui
+npm run lint
+npm run smoke:local
+npm run release:doctor
+npm run build
 ```
 
 주의:

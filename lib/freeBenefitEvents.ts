@@ -21,6 +21,7 @@ export const freeBenefitEventCategories: Array<{ id: FreeBenefitEventType; label
   { id: "gifticon", label: "기프티콘" },
   { id: "pointCashback", label: "포인트/캐시백" },
   { id: "checkIn", label: "출석체크" },
+  { id: "roulette", label: "룰렛" },
   { id: "signup", label: "신규가입" },
   { id: "publicFree", label: "공공무료" },
   { id: "experiencePanel", label: "체험단" }
@@ -53,6 +54,7 @@ export const freeBenefitEventLabelMap: Record<FreeBenefitEventType, string> = {
   gifticon: "기프티콘",
   pointCashback: "포인트/캐시백",
   checkIn: "출석체크",
+  roulette: "룰렛",
   signup: "신규가입",
   publicFree: "공공무료",
   experiencePanel: "체험단",
@@ -103,7 +105,8 @@ export function isSafeBenefitEventUrl(value?: string) {
 function inferEventType(deal: NewsDeal, text: string): FreeBenefitEventType {
   if (everyoneRewardPattern.test(text)) return "everyone";
   if (firstComePattern.test(text)) return "firstCome";
-  if (/출석|체크인|매일\s*참여|룰렛|스탬프/i.test(text)) return "checkIn";
+  if (/룰렛|랜덤\s*박스|뽑기|응모권|스크래치/i.test(text)) return "roulette";
+  if (/출석|체크인|매일\s*참여|스탬프/i.test(text)) return "checkIn";
   if (/신규|첫\s*구매|첫\s*가입|웰컴/i.test(text)) return "signup";
   if (/기프티콘|교환권|모바일\s*쿠폰|음료권/i.test(text)) return "gifticon";
   if (/포인트|캐시백|적립|페이/i.test(text)) return "pointCashback";
@@ -149,7 +152,7 @@ function getClaimCtaLabel(type: FreeBenefitEventType) {
   if (type === "sample") return "샘플 신청";
   if (type === "freeTrial" || type === "experiencePanel") return "무료 체험 신청";
   if (type === "gifticon") return "기프티콘 받기";
-  if (type === "pointCashback" || type === "checkIn") return "포인트 받기";
+  if (type === "pointCashback" || type === "checkIn" || type === "roulette") return "포인트 받기";
   if (type === "publicFree") return "공공 혜택 보기";
   if (type === "freeShipping") return "무료배송 확인";
   return "무료 혜택 받기";

@@ -10,6 +10,7 @@ export type FreeBenefitEventType =
   | "gifticon"
   | "pointCashback"
   | "checkIn"
+  | "roulette"
   | "signup"
   | "publicFree"
   | "experiencePanel"

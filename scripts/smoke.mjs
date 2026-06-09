@@ -160,7 +160,7 @@ await check("free benefit events api", async () => {
   assert(data.ok === true, "Free benefit events API ok should be true");
   assert(Array.isArray(data.events) && data.events.length >= 8, "Free benefit events API should return official active events");
   assert(data.totalCount >= 100, `Free benefit events API should keep at least 100 publishable events, got ${data.totalCount}`);
-  const expectedBenefitCategories = ["all", "everyone", "firstCome", "coupon", "sample", "freeTrial", "gifticon", "pointCashback", "checkIn", "signup", "publicFree", "experiencePanel"];
+  const expectedBenefitCategories = ["all", "everyone", "firstCome", "coupon", "sample", "freeTrial", "gifticon", "pointCashback", "checkIn", "roulette", "signup", "publicFree", "experiencePanel"];
   assert(Array.isArray(data.categories) && data.categories.some((category) => category.id === "everyone"), "Free benefit events API missing event category metadata");
   assert(
     expectedBenefitCategories.every((id) => data.categories.some((category) => category.id === id && typeof category.count === "number")),

@@ -19,7 +19,7 @@ Status: PASS
 | live row compact actions | PASS | 라이브 행은 작은 썸네일, 오른쪽 action cluster, 2줄 제목을 유지합니다. |
 | mobile official benefit quick list | PASS | 공식 혜택은 모바일에서 빠른 목록을 먼저 보여주고 상세 탐색 패널은 넓은 화면으로 분리합니다. |
 | mobile freebie hero priority | PASS | 모바일 홈 첫 화면에서 무료/쿠폰/0원/무배 혜택 히어로를 상품 리스트보다 먼저 압축 노출합니다. |
-| free benefit category and condition chips | PASS | 모바일 무료혜택 히어로와 전용 데이터 모델이 12개 필터, 마감임박, 로그인/구매 조건 배지를 유지합니다. |
+| free benefit category and condition chips | PASS | 모바일 무료혜택 히어로와 전용 데이터 모델이 13개 필터, 마감임박, 로그인/구매 조건 배지를 유지합니다. |
 | mobile live benefit strip | PASS | 모바일 첫 화면에서 검증된 공식 혜택 2개를 초압축 가로 레일로 보여주며 invalid/search/community 링크를 제외합니다. |
 | toast does not cover bottom nav | PASS | 토스트는 모바일 상단에 떠 하단 탭과 상품 CTA를 가리지 않습니다. |
 
@@ -33,5 +33,5 @@ Status: PASS
 - 데스크톱 상세 필터와 결과 분석 패널도 기본 DOM에 올리지 않고 사용자가 펼친 뒤 렌더링하는 구조를 검사합니다.
 - 상단 "무료혜택 다음에 볼 상품" 레일은 손가락 스크롤이 어중간하게 멈추지 않도록 snap-x/snap-start 구조와 오른쪽 fade/넘기기 신호를 검사합니다.
 - 모바일 공식 혜택 strip은 초압축 가로 rail로 검증 혜택 2개를 먼저 보여주고, 구매/신청 이동은 `/go/news/[id]` 새 탭 경로를 유지합니다.
-- 무료혜택 필터는 전체, 전원증정, 선착순, 쿠폰, 샘플, 무료체험, 기프티콘, 포인트/캐시백, 출석체크, 신규가입, 공공무료, 체험단 계약을 유지하고, 홈 히어로는 로그인 필요/구매 필요 조건 배지를 노출합니다.
+- 무료혜택 필터는 전체, 전원증정, 선착순, 쿠폰, 샘플, 무료체험, 기프티콘, 포인트/캐시백, 출석체크, 룰렛, 신규가입, 공공무료, 체험단 계약을 유지하고, 홈 히어로는 로그인 필요/구매 필요 조건 배지를 노출합니다.
 - Playwright 도입 전까지 `npm run test:mobile-ux`와 `npm run harness`가 모바일 UX 안전망 역할을 합니다.
