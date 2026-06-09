@@ -231,25 +231,10 @@ async function checkCiWorkflow() {
     "npm run audit:commercial",
     "npm run test:env",
     "npm run public:url:doctor",
-    "npm run store:metadata:doctor",
-    "npm run store:assets:doctor",
-    "npm run device:qa:manifest",
-    "npm run device:qa:report",
-    "npm run store:submission:report",
-    "npm run store:packet:doctor",
-    "npm run store:console:fields",
-    "npm run store:manual:checklist",
-    "npm run store:manual:doctor",
-    "npm run store:handoff:report",
-    "npm run release:notes",
-    "npm run support:playbook",
-    "npm run known:issues",
-    "npm run store:screenshots:manifest",
-    "npm run store:screenshots:doctor",
-    "npm run health:readiness",
-    "npm run official:alerts:report",
     "npm run harness",
+    "npm run release:prepare:reports:ci",
     "npm run release:doctor",
+    "npm run build",
     "actions/upload-artifact@v4",
     "halindosa-verification-reports",
     "AUDIT_REPORT.md",
@@ -302,10 +287,10 @@ async function checkCiWorkflow() {
   if (missingWorkflowSnippets.length || missingRunbookSnippets.length) {
     fail(
       "github ci workflow",
-      `CI should run commercial audit, env regression, public URL doctor, harness, release doctor, and upload verification reports on main/codex branches. Missing workflow: ${missingWorkflowSnippets.join(", ") || "none"}; runbook: ${missingRunbookSnippets.join(", ") || "none"}`
+      `CI should run commercial audit, env regression, public URL doctor, launch harness, release report preparation, release doctor, production build, and upload verification reports on main/codex branches. Missing workflow: ${missingWorkflowSnippets.join(", ") || "none"}; runbook: ${missingRunbookSnippets.join(", ") || "none"}`
     );
   } else {
-    pass("github ci workflow", "GitHub Actions runs commercial audit, env regression, public URL doctor, harness, release doctor, and uploads verification reports on main and codex branches.");
+    pass("github ci workflow", "GitHub Actions runs commercial audit, env regression, public URL doctor, launch harness, release report preparation, release doctor, production build, and uploads verification reports on main and codex branches.");
   }
 
   const vercelWorkflowPath = ".github/workflows/vercel-production-deploy.yml";

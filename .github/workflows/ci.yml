@@ -37,94 +37,21 @@ jobs:
       - name: Public URL readiness
         run: npm run public:url:doctor
 
-      - name: Store metadata readiness report
-        run: npm run store:metadata:doctor
-
-      - name: Store asset readiness report
-        run: npm run store:assets:doctor
-
-      - name: Device QA execution manifest
-        run: npm run device:qa:manifest
-
-      - name: Device QA readiness report
-        run: npm run device:qa:report
-
-      - name: Store submission readiness report
-        run: npm run store:submission:report
-
-      - name: Store console field manifest
-        run: npm run store:console:fields
-
-      - name: Store manual submission checklist
-        run: npm run store:manual:checklist
-
-      - name: Store manual submission checklist doctor
-        run: npm run store:manual:doctor
-
-      - name: Store launch handoff report
-        run: npm run store:handoff:report
-
-      - name: Release notes
-        run: npm run release:notes
-
-      - name: Support playbook
-        run: npm run support:playbook
-
-      - name: Known issues report
-        run: npm run known:issues
-
-      - name: Store screenshot capture manifest
-        run: npm run store:screenshots:manifest
-
-      - name: Store screenshot readiness report
-        run: npm run store:screenshots:doctor
-
-      - name: Refresh launch data snapshots
-        timeout-minutes: 14
-        env:
-          DEAL_LINK_TIMEOUT_MS: "2500"
-          REFRESH_ALL_LINK_TIMEOUT_MS: "780000"
-        run: npm run refresh:all
-
-      - name: Official source catalog report
-        run: npm run source:catalog:report
-
-      - name: Official source live advisory
-        continue-on-error: true
-        run: npm run source:live:doctor
-
-      - name: Official source onboarding plan
-        run: npm run source:onboarding:plan
-
-      - name: Official source feed env safety
-        run: npm run source:feed-env:doctor
-
-      - name: Official source readiness report
-        continue-on-error: true
-        run: npm run source:readiness:report
-
-      - name: Official feed canary advisory
-        continue-on-error: true
-        run: npm run news:feed:canary
-
-      - name: Operational health readiness report
-        run: npm run health:readiness
-
-      - name: Official benefit alert readiness report
-        run: npm run official:alerts:report
-
-      - name: Store packet readiness report
-        run: npm run store:packet:doctor
-
       - name: Launch harness
         run: npm run harness:ci
 
       - name: Prepare release doctor reports
         timeout-minutes: 12
+        env:
+          DEAL_LINK_TIMEOUT_MS: "2500"
+          REFRESH_ALL_LINK_TIMEOUT_MS: "780000"
         run: npm run release:prepare:reports:ci
 
       - name: Release doctor
         run: npm run release:doctor
+
+      - name: Production build
+        run: npm run build
 
       - name: Upload verification reports
         if: always()
