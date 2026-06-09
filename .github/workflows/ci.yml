@@ -43,6 +43,12 @@ jobs:
       - name: Mobile UX regression
         run: npm run test:mobile-ux
 
+      - name: Refresh official benefit snapshot
+        run: npm run refresh:news
+
+      - name: Verify official benefit snapshot
+        run: npm run verify:news
+
       - name: Home realtime regression
         run: npm run home:realtime:doctor
 
