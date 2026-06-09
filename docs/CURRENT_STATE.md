@@ -13,6 +13,7 @@
 
 - Branch: `codex/12h-product-ux-growth-hardening`
 - 최근 커밋:
+  - `eb7212ed test: block duplicate official source urls in security check`
   - `5e6ef008 chore: dedupe official benefit source catalog`
   - `76bcb379 test: require source catalog security in release doctor`
   - `ba84af79 docs: update current state for new codex session`
@@ -57,6 +58,7 @@ npm run workspace:doctor:strict
 - 맘큐 공식 이벤트 목록과 신규회원 웰컴혜택 소스가 추가되어 육아/샘플/신규가입 혜택 발견 축이 보강되었다.
 - 마지막 live check 기준 공식 소스는 reachable 117개, guarded 19개, stale_or_removed 0개다.
 - `security:check`는 공식 소스 카탈로그가 검색/커뮤니티/비공식/약한 CTA 정책을 포함하지 않는지도 검사한다.
+- `security:check`는 동일 `officialUrl`이 중복 등록된 공식 소스도 실패 처리한다.
 - `release:doctor`의 `free benefit security gates`도 `security-check.mjs`의 공식 소스 카탈로그 guard, unsafe URL detector, benefit policy detector, `docs/SECURITY_CHECK_REPORT.md` evidence를 직접 검사한다.
 - source feed env readiness 구조가 있다.
   - `lib/operations/sourceFeedEnvReadiness.ts`
@@ -120,6 +122,15 @@ npm run source:catalog:report
 npm run source:breadth:doctor
 npm run security:check
 npm run source:live:doctor
+npm run lint
+npm run release:doctor
+npm run workspace:doctor:strict
+```
+
+최근 커밋 `eb7212ed` 기준 아래 검증이 통과했다.
+
+```bash
+npm run security:check
 npm run lint
 npm run release:doctor
 npm run workspace:doctor:strict
