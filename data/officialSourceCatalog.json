@@ -21,26 +21,6 @@
     "notes": "finalUrl은 GS25 공식 행사상품 또는 이벤트 상세 페이지여야 한다."
   },
   {
-    "id": "cu-plus-event",
-    "label": "CU 편의점 1+1·2+1 행사",
-    "provider": "official_event",
-    "category": [
-      "마트/편의점"
-    ],
-    "sourceType": "official_event_page",
-    "officialUrl": "https://cu.bgfretail.com/event/plus.do?category=event&depth2=1",
-    "preferredEnvKeys": [
-      "OFFICIAL_EVENT_FEED_URLS",
-      "DEAL_EVENT_FEED_URLS"
-    ],
-    "integrationMethod": "official_page_or_partner_json_feed",
-    "priority": "high",
-    "refreshCadenceHours": 6,
-    "allowedUse": "CU 공식 행사 페이지의 상품 행사 정보",
-    "blockedUse": "비공식 블로그, 커뮤니티 캡처, 검색 결과",
-    "notes": "혜택 기간과 행사 유형이 확인되는 항목만 앱 카드로 변환한다."
-  },
-  {
     "id": "ssg-event-main",
     "label": "SSG닷컴 공식 장보기 행사",
     "provider": "official_event",
@@ -633,28 +613,6 @@
     "notes": "사업자 대상 혜택은 대상 조건을 명확히 표시하고 일반 소비자 혜택과 섞어 과장하지 않는다."
   },
   {
-    "id": "lotteon-lobs-share-event",
-    "label": "롯데ON 공식 혜택 이벤트",
-    "provider": "official_event",
-    "category": [
-      "패션/뷰티",
-      "무료혜택",
-      "카드/멤버십"
-    ],
-    "sourceType": "official_event_page",
-    "officialUrl": "https://www.lotteon.com/event/onLohbsShare",
-    "preferredEnvKeys": [
-      "OFFICIAL_EVENT_FEED_URLS",
-      "DEAL_EVENT_FEED_URLS"
-    ],
-    "integrationMethod": "official_page_or_partner_json_feed",
-    "priority": "medium",
-    "refreshCadenceHours": 12,
-    "allowedUse": "롯데ON 공식 이벤트 페이지에서 혜택 기간, 대상, 쿠폰 또는 참여 조건이 확인되는 항목",
-    "blockedUse": "롯데ON 검색 결과, 쇼핑몰 메인, 비공식 공유글, 종료 이벤트",
-    "notes": "현재 공식 이벤트 후보 URL로만 관리한다. 사용자 노출 feed로 승격하려면 운영자가 공식 JSON/RSS/API 또는 승인 feed에 title, summary, endDate, finalUrl을 명시한다."
-  },
-  {
     "id": "kfc-delivery-free",
     "label": "KFC 공식 딜리버리 무료배송 혜택",
     "provider": "official_event",
@@ -759,28 +717,6 @@
     "allowedUse": "해피포인트 공식 제휴사 안내에서 포인트 차감 할인, 적립, 제휴 브랜드 조건이 확인되는 혜택",
     "blockedUse": "비공식 쿠폰 공유글, 포인트 거래 글, 검색 결과",
     "notes": "제휴 혜택은 보유 포인트, 사용 단위, 온라인/오프라인 가능 여부를 함께 저장한다."
-  },
-  {
-    "id": "happypoint-mobile-coupon",
-    "label": "해피포인트 공식 모바일 쿠폰 안내",
-    "provider": "public_coupon",
-    "category": [
-      "카드/멤버십",
-      "외식/배달",
-      "무료혜택"
-    ],
-    "sourceType": "official_benefit_page",
-    "officialUrl": "https://www.happypointcard.com/coupon/coupon.spc",
-    "preferredEnvKeys": [
-      "PUBLIC_COUPON_FEED_URLS",
-      "OFFICIAL_EVENT_FEED_URLS"
-    ],
-    "integrationMethod": "official_page_or_partner_json_feed",
-    "priority": "medium",
-    "refreshCadenceHours": 12,
-    "allowedUse": "해피포인트 공식 모바일 쿠폰 안내에서 쿠폰 등록, 사용, 브랜드 조건이 확인되는 혜택",
-    "blockedUse": "쿠폰 번호 공유글, 중고 쿠폰 거래, 비공식 캡처",
-    "notes": "쿠폰 혜택은 수령/등록 방식과 제휴 브랜드 조건을 분리해 저장한다."
   },
   {
     "id": "okcashbag-event-benefits",
@@ -1106,27 +1042,6 @@
     "notes": "행사상품 목록은 매월 변동되므로 lastCheckedAt과 마감 기준을 refresh에서 갱신한다."
   },
   {
-    "id": "ediya-official-event-coupon",
-    "label": "이디야커피 공식 이벤트·쿠폰",
-    "provider": "public_coupon",
-    "category": [
-      "외식/배달",
-      "무료혜택"
-    ],
-    "sourceType": "official_event_page",
-    "officialUrl": "https://www.ediya.com/contents/event.html",
-    "preferredEnvKeys": [
-      "PUBLIC_COUPON_FEED_URLS",
-      "OFFICIAL_EVENT_FEED_URLS"
-    ],
-    "integrationMethod": "official_page_or_partner_json_feed",
-    "priority": "medium",
-    "refreshCadenceHours": 12,
-    "allowedUse": "이디야 공식 이벤트 페이지에서 앱 쿠폰, 음료 행사, 회원 혜택 조건이 확인되는 혜택",
-    "blockedUse": "비공식 쿠폰 이미지, 중고 쿠폰 거래, 검색 결과",
-    "notes": "커피 쿠폰 혜택은 앱 회원 여부와 매장 사용 조건을 claimRequirements에 분리한다."
-  },
-  {
     "id": "naverplus-membership-official-benefit",
     "label": "네이버플러스 멤버십 공식 혜택",
     "provider": "public_coupon",
@@ -1250,28 +1165,6 @@
     "allowedUse": "LG유플러스 공식 멤버십 페이지에서 제휴 할인, 쿠폰, 등급 혜택 조건이 확인되는 혜택",
     "blockedUse": "비공식 제휴 혜택 요약, 검색 결과, 종료된 이벤트",
     "notes": "멤버십 할인은 사용자 통신사와 등급 조건을 안내한다."
-  },
-  {
-    "id": "seoul-culture-official-free-events",
-    "label": "서울문화포털 공식 무료·할인 문화행사",
-    "provider": "public_coupon",
-    "category": [
-      "영화/문화",
-      "무료혜택",
-      "정부/공공혜택"
-    ],
-    "sourceType": "official_public_benefit_page",
-    "officialUrl": "https://culture.seoul.go.kr/culture/culture/cultureEvent/list.do",
-    "preferredEnvKeys": [
-      "PUBLIC_COUPON_FEED_URLS",
-      "DEAL_NEWS_FEED_URLS"
-    ],
-    "integrationMethod": "official_page_or_partner_json_feed",
-    "priority": "high",
-    "refreshCadenceHours": 12,
-    "allowedUse": "서울문화포털 공식 행사 목록에서 무료 전시, 공연, 문화 행사 신청 조건이 확인되는 혜택",
-    "blockedUse": "문화 행사 후기글, 블로그 요약, 검색 결과",
-    "notes": "공공 문화행사는 신청 기간과 무료 여부를 마감 정보로 저장한다."
   },
   {
     "id": "national-museum-official-exhibition",
@@ -1648,26 +1541,6 @@
     "allowedUse": "정부24 혜택알리미에서 확인되는 공공지원, 보조금, 생활 혜택 안내와 신청 경로",
     "blockedUse": "블로그 요약, 뉴스 기사 단독, 비공식 지원금 홍보글",
     "notes": "개인별 자격 확인이 필요한 혜택은 최종 신청 전 조건 확인 문구를 유지한다."
-  },
-  {
-    "id": "work24-employment-support",
-    "label": "고용24 공식 취업·고용 지원",
-    "provider": "public_coupon",
-    "category": [
-      "정부/공공혜택",
-      "무료혜택"
-    ],
-    "sourceType": "official_benefit_page",
-    "officialUrl": "https://www.work24.go.kr/cm/main.do",
-    "preferredEnvKeys": [
-      "PUBLIC_COUPON_FEED_URLS"
-    ],
-    "integrationMethod": "official_page_or_public_json_feed",
-    "priority": "medium",
-    "refreshCadenceHours": 12,
-    "allowedUse": "고용24 공식 페이지에서 확인되는 구직, 직업훈련, 고용지원, 온라인 신청 가능 혜택",
-    "blockedUse": "비공식 취업지원 홍보글, 커뮤니티 후기, 검색 결과",
-    "notes": "자격과 신청 기간이 있는 공고는 종료일과 신청 조건을 분리한다."
   },
   {
     "id": "kosaf-scholarship-support",

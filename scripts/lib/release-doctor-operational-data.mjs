@@ -1328,6 +1328,7 @@ export async function checkOperationalDataSurfaces() {
     !officialSourceCatalogReportScript.includes("blocked_or_placeholder_host") ||
     !officialSourceCatalogReportScript.includes("search_or_result_url") ||
     !officialSourceCatalogReportScript.includes("home_or_landing_url") ||
+    !officialSourceCatalogReportScript.includes("duplicate_official_url") ||
     !officialSourceCatalogReportScript.includes("getEnvFeedUrls") ||
     !feedTransitionReportScript.includes("getEnvFeedUrls") ||
     !officialSourceCatalogDoc.includes("공식 소스 카탈로그") ||
@@ -1680,9 +1681,9 @@ export async function checkOperationalDataSurfaces() {
     !smoke.includes("Admin dashboard missing feed dry-run export actions") ||
     !smoke.includes("partner feed sample validation api")
   ) {
-    fail("source readiness operation", "Sources API, official source catalog, live source accessibility report, production provider, docs, production feed doctor, and admin dashboard should expose source readiness, official benefit provider readiness, safe production JSON feed loading, allowed source policy, blocked source policy, verified link quality, at least 30 official source candidates, no thin categories, no stale/timeout/network/server-error source candidates, and high-priority source coverage for production feed transition.");
+    fail("source readiness operation", "Sources API, official source catalog, live source accessibility report, production provider, docs, production feed doctor, and admin dashboard should expose source readiness, official benefit provider readiness, safe production JSON feed loading, allowed source policy, blocked source policy, duplicate URL detection, verified link quality, at least 30 official source candidates, no thin categories, no stale/timeout/network/server-error source candidates, and high-priority source coverage for production feed transition.");
   } else {
-    pass("source readiness operation", "Sources API, official source catalog, live source accessibility report, production provider, docs, production feed doctor, and admin dashboard expose source readiness, official benefit provider readiness, safe production JSON feed policy, 30+ official source candidates, and clean live accessibility gates for official API, RSS, and partner feed transition.");
+    pass("source readiness operation", "Sources API, official source catalog, live source accessibility report, production provider, docs, production feed doctor, and admin dashboard expose source readiness, official benefit provider readiness, safe production JSON feed policy, duplicate URL detection, 30+ official source candidates, and clean live accessibility gates for official API, RSS, and partner feed transition.");
   }
 
   if (

@@ -2,10 +2,10 @@
 
 이 문서는 공식 이벤트/혜택 소스 후보의 현재 접근 상태를 non-strict 방식으로 기록합니다. 무단 크롤링을 수행하지 않으며, 보호된 페이지는 공식 API/RSS/제휴 feed 또는 수동 승인 데이터로 연결해야 합니다.
 
-- 생성 시각: 2026-06-09T04:35:36.694Z
+- 생성 시각: 2026-06-09T04:59:01.336Z
 - 모드: non_strict_live_readiness
-- 후보 소스: 142개
-- 접근 가능: 123개
+- 후보 소스: 136개
+- 접근 가능: 117개
 - 보호/권한 확인 필요: 19개
 - 검토 필요: 0개
 - timeout/network error: 0개
@@ -22,7 +22,7 @@
 
 | 상태 | 수 | 운영 액션 |
 | --- | ---: | --- |
-| reachable | 123 | 승인 feed 또는 공식 페이지 매핑 후보로 유지 |
+| reachable | 117 | 승인 feed 또는 공식 페이지 매핑 후보로 유지 |
 | guarded | 19 | 공식 API/RSS/제휴 feed 확인 |
 | needs_review | 0 | 최종 도메인과 응답 정책 수동 확인 |
 | timeout/network_error | 0 | 재시도 또는 담당자 확인 |
@@ -33,7 +33,6 @@
 | ID | Provider | 우선순위 | 상태 | HTTP | 최종 호스트 | 운영 액션 |
 | --- | --- | --- | --- | ---: | --- | --- |
 | gs25-event-goods | official_event | high | reachable | 200 | gs25.gsretail.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
-| cu-plus-event | official_event | high | reachable | 200 | cu.bgfretail.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | ssg-event-main | official_event | high | reachable | 200 | ssg.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | emart-event-main | official_event | medium | reachable | 200 | emart.ssg.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | homeplus-event | official_event | medium | reachable | 200 | front.homeplus.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
@@ -62,13 +61,11 @@
 | lpoint-card-events | public_coupon | medium | reachable | 200 | m.lpoint.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | visitkorea-travel-week | public_coupon | high | reachable | 200 | korean.visitkorea.or.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | baemin-academy-events | public_coupon | medium | reachable | 200 | academy.baemin.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
-| lotteon-lobs-share-event | official_event | medium | reachable | 200 | lotteon.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | kfc-delivery-free | official_event | high | reachable | 200 | kfckorea.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | lotteeatz-monthly-coupon | official_event | high | reachable | 200 | lotteeatz.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | krispykreme-wednesday-event | official_event | medium | reachable | 200 | lotteeatz.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | baskinrobbins-events | official_event | medium | reachable | 200 | baskinrobbins.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | happypoint-alliance-benefits | public_coupon | high | reachable | 200 | happypointcard.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
-| happypoint-mobile-coupon | public_coupon | medium | reachable | 200 | happypointcard.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | okcashbag-event-benefits | public_coupon | high | reachable | 200 | okcashbag.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | okcashbag-brand-events | public_coupon | medium | reachable | 200 | okcashbag.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | parisbaguette-promotion | official_event | medium | reachable | 200 | paris.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
@@ -84,14 +81,12 @@
 | homeplus-membership-official-coupon | official_event | medium | guarded | 200 | front.homeplus.co.kr | 로그인/권한 페이지를 수집하지 말고 공식 API/RSS/제휴 feed 또는 수동 승인 매핑 사용 |
 | bccard-benefit-official-center | public_coupon | medium | reachable | 200 | bccard.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | cu-plus-official-monthly-benefit | official_event | high | reachable | 200 | cu.bgfretail.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
-| ediya-official-event-coupon | public_coupon | medium | reachable | 200 | ediya.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | naverplus-membership-official-benefit | public_coupon | medium | guarded | 200 | nid.naver.com | 로그인/권한 페이지를 수집하지 말고 공식 API/RSS/제휴 feed 또는 수동 승인 매핑 사용 |
 | samsungcard-official-event-benefit | public_coupon | medium | reachable | 200 | samsungcard.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | lottecard-official-event-benefit | public_coupon | medium | reachable | 200 | lottecard.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | hanacard-official-event-benefit | public_coupon | medium | reachable | 200 | hanacard.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | kt-membership-official-benefit | public_coupon | medium | guarded | 200 | membership.kt.com | 로그인/권한 페이지를 수집하지 말고 공식 API/RSS/제휴 feed 또는 수동 승인 매핑 사용 |
 | uplus-membership-official-benefit | public_coupon | medium | guarded | 200 | lguplus.com | 로그인/권한 페이지를 수집하지 말고 공식 API/RSS/제휴 feed 또는 수동 승인 매핑 사용 |
-| seoul-culture-official-free-events | public_coupon | high | reachable | 200 | culture.seoul.go.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | national-museum-official-exhibition | public_coupon | medium | reachable | 200 | museum.go.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | innisfree-sample-market | public_coupon | high | reachable | 200 | m.innisfree.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | innisfree-event-coupon | official_event | medium | reachable | 200 | innisfree.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
@@ -110,7 +105,6 @@
 | dunkin-donut-fryday-coupon | official_event | medium | reachable | 200 | dunkindonuts.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | dunkin-membership-partner-benefits | official_event | medium | reachable | 200 | dunkindonuts.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | gov24-benefit-alert-service | public_coupon | high | reachable | 200 | plus.gov.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
-| work24-employment-support | public_coupon | medium | reachable | 200 | work24.go.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | kosaf-scholarship-support | public_coupon | medium | reachable | 200 | kosaf.go.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | ikea-official-offers | official_event | medium | reachable | 200 | ikea.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | yanolja-official-promotion | official_event | medium | reachable | 200 | nol.yanolja.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
