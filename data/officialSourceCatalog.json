@@ -2958,5 +2958,51 @@
     "allowedUse": "문화포털 공식 문화초대이벤트 중 무료 초대권, 응모, 관람 혜택의 공식 상세와 응모 조건이 확인되는 항목",
     "blockedUse": "문화포털 메인, 검색 결과, 종료된 초대 이벤트, 비공식 공연 홍보글, 커뮤니티 당첨 후기",
     "notes": "목록은 발견 소스로만 사용한다. 사용자 CTA는 문화포털 공식 초대 이벤트 상세 또는 응모 페이지가 active이고 무료 조건이 확인된 경우에만 연결한다."
+  },
+  {
+    "id": "pascucci-official-event-list",
+    "label": "파스쿠찌 공식 이벤트·제휴 혜택",
+    "provider": "official_event",
+    "category": [
+      "외식/배달",
+      "카드/멤버십",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_listing",
+    "officialUrl": "https://www.pascucci.co.kr/event/eventList.asp",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "DEAL_EVENT_NEWS_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "파스쿠찌 공식 이벤트 목록 중 해피앱, 제휴카드, 통신사, 픽업/배달 할인처럼 공식 상세와 기간, 참여 조건이 확인되는 항목",
+    "blockedUse": "가맹사업 안내, 메뉴/매장 소개, 검색 결과, 비공식 블로그, 종료된 이벤트, 공식 상세가 아닌 이미지 단독 홍보",
+    "notes": "목록은 발견 소스로만 사용한다. 사용자 CTA는 파스쿠찌 공식 자세히보기 상세 또는 해피앱/제휴 공식 신청 경로가 active이고 조건이 확인된 경우에만 연결한다."
+  },
+  {
+    "id": "dunkin-official-promotion-list",
+    "label": "던킨 공식 프로모션 목록",
+    "provider": "official_event",
+    "category": [
+      "외식/배달",
+      "카드/멤버십",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_listing",
+    "officialUrl": "https://www.dunkindonuts.co.kr/event?flag=A",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "DEAL_EVENT_NEWS_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "던킨 공식 프로모션 목록 중 해피포인트, 해피오더, 쿠폰, 무료 또는 할인 혜택의 공식 상세와 기간, 참여 조건이 확인되는 항목",
+    "blockedUse": "제품 소개, 매장 찾기, 검색 결과, 비공식 커뮤니티 글, 종료된 프로모션, 공식 상세가 아닌 광고 중간 페이지",
+    "notes": "이미 등록된 개별 던킨 상세 소스를 보완하는 공식 목록 소스다. 사용자 CTA는 개별 공식 프로모션 상세가 active이고 조건이 확인된 경우에만 연결한다."
   }
 ]

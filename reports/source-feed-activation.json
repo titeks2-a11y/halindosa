@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-09T03:47:46.992Z",
+  "generatedAt": "2026-06-09T04:04:10.325Z",
   "status": "seed_ready",
   "configuredFeedUrls": 0,
   "configuredProviders": 0,
@@ -38,13 +38,13 @@
     {
       "name": "official source live readiness",
       "ok": true,
-      "detail": "reachable=118, guarded=20, stale=0",
+      "detail": "reachable=120, guarded=20, stale=0",
       "action": "Run npm run source:live:doctor and replace or remove any stale_or_removed official source before feed activation."
     },
     {
       "name": "official source breadth readiness",
       "ok": true,
-      "detail": "lanes=12/12, brandSignals=55/55",
+      "detail": "lanes=12/12, brandSignals=56/56",
       "action": "Run npm run source:breadth:doctor so telecom, convenience, beauty, cafe, delivery, pay, mart, open-market, public, education, pet, and sample lanes stay covered."
     },
     {
