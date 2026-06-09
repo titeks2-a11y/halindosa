@@ -17,6 +17,8 @@
 
 - Branch: `codex/12h-product-ux-growth-hardening`
 - 최근 안정 커밋:
+  - `0365f635 feat: expand telecom free benefit sources`
+  - `b8685ae9 chore: harden cron refresh security guards`
   - `91080983 feat: expand official free benefit sources`
   - `bf620a86 docs: update current state after cron readiness commit`
   - `0cfb6f41 test: surface benefits cron readiness in admin`
@@ -38,6 +40,7 @@
   - LG U+ 공식 진행 이벤트 혜택
 - 공식 소스 후보는 145개, `refresh:news` 기준 노출 공식 혜택은 112개, `refresh:benefits` 기준 active 무료혜택 이벤트는 109개다.
 - 새 통신사 혜택 3개는 모두 `publishable=true`, `validationStatus=passed`, `availability=active`로 확인됐다.
+- 이 변경은 `0365f635 feat: expand telecom free benefit sources`로 커밋/푸시했다.
 
 - 보호된 cron refresh API 보안을 강화했다.
   - `/api/cron/refresh`, `/api/cron/benefits`는 Origin 헤더가 있는 브라우저 요청에 대해 신뢰된 origin만 허용한다.
