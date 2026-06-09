@@ -53,6 +53,7 @@ import { buildPublicDealShareUrl } from "@/lib/shareUrl";
 import { Deal, DealBenefitType } from "@/types/deal";
 import type { FreeBenefitEvent, FreeBenefitEventType } from "@/types/freeBenefitEvent";
 import type { NewsBenefitType, NewsDeal } from "@/types/newsDeal";
+import { freeBenefitEventCategories, getFreeBenefitEventLabel } from "@/lib/freeBenefitEvents";
 
 interface FreeBenefitsClientProps {
   deals: Deal[];
@@ -89,20 +90,7 @@ const freeBenefitDealTypes = new Set<DealBenefitType>([
   "foodDelivery"
 ]);
 
-const freeBenefitEventTypeOptions: Array<{ id: FreeBenefitEventType; label: string }> = [
-  { id: "all", label: "전체" },
-  { id: "everyone", label: "전원증정" },
-  { id: "firstCome", label: "선착순" },
-  { id: "coupon", label: "쿠폰" },
-  { id: "sample", label: "샘플" },
-  { id: "freeTrial", label: "무료체험" },
-  { id: "gifticon", label: "기프티콘" },
-  { id: "pointCashback", label: "포인트" },
-  { id: "checkIn", label: "출석체크" },
-  { id: "signup", label: "신규가입" },
-  { id: "publicFree", label: "공공무료" },
-  { id: "experiencePanel", label: "체험단" }
-];
+const freeBenefitEventTypeOptions = freeBenefitEventCategories;
 const freeBenefitEventTypeIds = new Set<FreeBenefitEventType>(freeBenefitEventTypeOptions.map((option) => option.id));
 
 function parseFreeBenefitEventType(value: string | null) {
@@ -148,7 +136,7 @@ function buildOfficialBenefitEventHref(event: FreeBenefitEvent) {
 }
 
 function getFreeBenefitEventTypeLabel(type: FreeBenefitEventType) {
-  return freeBenefitEventTypeOptions.find((option) => option.id === type)?.label ?? "무료혜택";
+  return getFreeBenefitEventLabel(type);
 }
 
 function getFreeBenefitEventConditionBadges(event: FreeBenefitEvent) {

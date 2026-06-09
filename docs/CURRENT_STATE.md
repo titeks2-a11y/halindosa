@@ -30,6 +30,7 @@
 
 ## 최근 완료된 안정 상태
 
+- 홈/무료혜택 12개 필터 계약 공유 및 회귀 검사 강화: 커밋 예정
 - 무료혜택 운영 feed starter pack 12개 lane 확장: 커밋 예정
 - 문화포털 공식 문화초대이벤트 소스 확장: 이번 변경
 - source feed activation gate 강화: `5ca74917`
@@ -171,6 +172,30 @@ source feed activation gate를 더 엄격하게 만들었다. 운영 feed URL �
 
 - starter pack의 officialUrl은 사람이 확인하는 기준 URL이다. 운영 env에는 공식 API/RSS/Atom/승인 JSON feed endpoint만 넣는다.
 - 공식 HTML 이벤트 페이지를 무단 수집 대상으로 쓰지 않는다.
+
+## 현재 진행 중인 무료혜택 UI/계약 정리
+
+무료혜택 필터 체계가 타입, 홈 히어로, `/free-benefits` 화면, contract doctor에서 같은 기준을 쓰도록 정리했다.
+
+변경 내용:
+
+- `lib/freeBenefitEvents.ts`에 `freeBenefitEventLabelMap`, `getFreeBenefitEventLabel` 추가
+- `components/FreeBenefitsClient.tsx`가 로컬 중복 배열 대신 `freeBenefitEventCategories` 공통 정의를 사용
+- `components/home/HomeFreebieHero.tsx`의 빠른 필터를 쿠폰, 포인트, 공공무료, 체험단까지 확장
+- `scripts/free-benefit-event-contract-doctor.mjs`가 12개 무료혜택 필터와 홈 빠른 필터 URL 파라미터를 회귀 검사
+
+검증:
+
+- `npm run benefit:event:contract` 성공, 16/16
+- `npm run lint` 성공
+- `npm run test:mobile-compact` 성공, 14/14
+- `npm run release:doctor` 성공, 188/188
+- `npm run build` 성공
+
+주의:
+
+- 홈 빠른 필터는 모바일 첫 화면 높이를 늘리지 않도록 가로 스크롤 칩으로 유지한다.
+- `/free-benefits?eventType=...` 링크는 공식 혜택 이벤트 필터 상태를 바로 복원해야 한다.
 
 ## 다음 세션에서 바로 할 일
 

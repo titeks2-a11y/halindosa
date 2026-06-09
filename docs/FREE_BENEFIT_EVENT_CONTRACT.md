@@ -1,6 +1,6 @@
 # FreeBenefitEvent 계약
 
-Generated: 2026-06-09T02:31:22.318Z
+Generated: 2026-06-09T03:00:55.295Z
 
 Status: PASS
 
@@ -58,7 +58,7 @@ Status: PASS
 | Check | Result | Detail |
 | --- | --- | --- |
 | FreeBenefitEvent canonical fields | PASS | Missing fields: none |
-| FreeBenefitEvent category coverage | PASS | Missing benefit types: none |
+| FreeBenefitEvent category coverage | PASS | Missing benefit types: none; missing labels: none |
 | FreeBenefitEvent status contract | PASS | Event status and validation status should distinguish active, expired, blocked, unknown, passed, failed, and needs_review. |
 | normalizer sanitizes and blocks unsafe URLs | PASS | Normalizer should sanitize external text and reject search, community, news, private-network, and ended-link signals. |
 | normalizer infers real benefit conditions | PASS | Normalizer should expose login, purchase, everyone reward, first-come, condition, CTA, and trust metadata. |

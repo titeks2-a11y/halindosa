@@ -77,6 +77,36 @@ const requiredBenefitTypes = [
   '"brandEvent"'
 ];
 
+const requiredFilterLabels = [
+  "전체",
+  "전원증정",
+  "선착순",
+  "쿠폰",
+  "샘플",
+  "무료체험",
+  "기프티콘",
+  "포인트/캐시백",
+  "출석체크",
+  "신규가입",
+  "공공무료",
+  "체험단"
+];
+
+const requiredHomeQuickFilterParams = [
+  "eventType=everyone",
+  "eventType=firstCome",
+  "eventType=coupon",
+  "eventType=sample",
+  "eventType=freeTrial",
+  "eventType=gifticon",
+  "eventType=pointCashback",
+  "eventType=checkIn",
+  "eventType=signup",
+  "eventType=publicFree",
+  "eventType=experiencePanel",
+  "endingSoon=true"
+];
+
 const checks = [
   check(
     "FreeBenefitEvent canonical fields",
@@ -85,8 +115,11 @@ const checks = [
   ),
   check(
     "FreeBenefitEvent category coverage",
-    hasAll(typeSource, requiredBenefitTypes).length === 0,
-    `Missing benefit types: ${hasAll(typeSource, requiredBenefitTypes).join(", ") || "none"}`
+    hasAll(typeSource, requiredBenefitTypes).length === 0 &&
+      hasAll(normalizerSource, requiredFilterLabels).length === 0 &&
+      normalizerSource.includes("freeBenefitEventCategories") &&
+      normalizerSource.includes("getFreeBenefitEventLabel"),
+    `Missing benefit types: ${hasAll(typeSource, requiredBenefitTypes).join(", ") || "none"}; missing labels: ${hasAll(normalizerSource, requiredFilterLabels).join(", ") || "none"}`
   ),
   check(
     "FreeBenefitEvent status contract",
@@ -200,16 +233,21 @@ const checks = [
       "data-home-free-benefit-quick-filters",
       "전원증정",
       "선착순",
+      "쿠폰",
       "무료체험",
       "샘플",
       "기프티콘",
+      "포인트",
       "출석체크",
       "신규가입",
+      "공공무료",
+      "체험단",
       "마감임박",
-      "eventType=everyone",
-      "eventType=sample"
+      ...requiredHomeQuickFilterParams
     ]).length === 0 &&
       hasAll(freeBenefitsClientSource, [
+        "freeBenefitEventCategories",
+        "getFreeBenefitEventLabel",
         "parseFreeBenefitEventType",
         "getInitialFreeBenefitUrlState",
         "new URLSearchParams(window.location.search)",

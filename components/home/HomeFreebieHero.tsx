@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { CalendarClock, ExternalLink, Gift, RefreshCw, ShieldCheck, TicketPercent, Truck } from "lucide-react";
 import { getRelativeTime, getTimeLeft } from "@/lib/format";
+import { getFreeBenefitEventLabel } from "@/lib/freeBenefitEvents";
 import { getDealImageSrc } from "@/lib/imageSrc";
 import { getHomeFreebieBenefitLabel } from "@/lib/homeFreebies";
 import type { FreeBenefitEvent, FreeBenefitEventType } from "@/types/freeBenefitEvent";
@@ -26,23 +27,6 @@ const benefitToneClassNames: Record<string, string> = {
 function getBenefitTone(type: NewsDeal["benefitType"]) {
   return benefitToneClassNames[type] ?? "bg-slate-100 text-slate-700";
 }
-
-const eventBenefitLabels: Record<FreeBenefitEventType, string> = {
-  all: "전체",
-  everyone: "전원증정",
-  firstCome: "선착순",
-  coupon: "쿠폰",
-  sample: "샘플",
-  freeTrial: "무료체험",
-  gifticon: "기프티콘",
-  pointCashback: "포인트",
-  checkIn: "출석체크",
-  signup: "신규가입",
-  publicFree: "공공무료",
-  experiencePanel: "체험단",
-  freeShipping: "무배",
-  brandEvent: "공식이벤트"
-};
 
 const eventToneClassNames: Record<FreeBenefitEventType, string> = {
   all: "bg-slate-100 text-slate-700",
@@ -69,11 +53,15 @@ const heroQuickFilters: Array<{
 }> = [
   { label: "전원증정", href: "/free-benefits?eventType=everyone", eventType: "everyone", className: "border-emerald-100 bg-emerald-50 text-emerald-700" },
   { label: "선착순", href: "/free-benefits?eventType=firstCome&firstComeOnly=true", eventType: "firstCome", className: "border-orange-100 bg-orange-50 text-orange-700" },
+  { label: "쿠폰", href: "/free-benefits?eventType=coupon", eventType: "coupon", className: "border-yellow-100 bg-yellow-50 text-yellow-700" },
   { label: "무료체험", href: "/free-benefits?eventType=freeTrial", eventType: "freeTrial", className: "border-sky-100 bg-sky-50 text-sky-700" },
   { label: "샘플", href: "/free-benefits?eventType=sample", eventType: "sample", className: "border-teal-100 bg-teal-50 text-teal-700" },
   { label: "기프티콘", href: "/free-benefits?eventType=gifticon", eventType: "gifticon", className: "border-pink-100 bg-pink-50 text-pink-700" },
+  { label: "포인트", href: "/free-benefits?eventType=pointCashback", eventType: "pointCashback", className: "border-violet-100 bg-violet-50 text-violet-700" },
   { label: "출석체크", href: "/free-benefits?eventType=checkIn", eventType: "checkIn", className: "border-indigo-100 bg-indigo-50 text-indigo-700" },
   { label: "신규가입", href: "/free-benefits?eventType=signup", eventType: "signup", className: "border-rose-100 bg-rose-50 text-rose-700" },
+  { label: "공공무료", href: "/free-benefits?eventType=publicFree", eventType: "publicFree", className: "border-blue-100 bg-blue-50 text-blue-700" },
+  { label: "체험단", href: "/free-benefits?eventType=experiencePanel", eventType: "experiencePanel", className: "border-purple-100 bg-purple-50 text-purple-700" },
   { label: "마감임박", href: "/free-benefits?endingSoon=true", className: "border-amber-100 bg-amber-50 text-amber-800" }
 ];
 
@@ -258,7 +246,7 @@ export function HomeFreebieHero({
                 <div className="min-w-0 flex-1 sm:mt-2">
                   <div className="flex min-w-0 items-center gap-1">
                     <span className={`shrink-0 rounded-full px-1.5 py-0.5 text-[9px] font-black ${eventToneClassNames[event.benefitType]}`}>
-                      {eventBenefitLabels[event.benefitType]}
+                      {getFreeBenefitEventLabel(event.benefitType)}
                     </span>
                     <span className="truncate text-[9px] font-black text-slate-400">{event.brandName}</span>
                   </div>

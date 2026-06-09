@@ -26,6 +26,27 @@ export const freeBenefitEventCategories: Array<{ id: FreeBenefitEventType; label
   { id: "experiencePanel", label: "체험단" }
 ];
 
+export const freeBenefitEventLabelMap: Record<FreeBenefitEventType, string> = {
+  all: "전체",
+  everyone: "전원증정",
+  firstCome: "선착순",
+  coupon: "쿠폰",
+  sample: "샘플",
+  freeTrial: "무료체험",
+  gifticon: "기프티콘",
+  pointCashback: "포인트/캐시백",
+  checkIn: "출석체크",
+  signup: "신규가입",
+  publicFree: "공공무료",
+  experiencePanel: "체험단",
+  freeShipping: "무배",
+  brandEvent: "공식이벤트"
+};
+
+export function getFreeBenefitEventLabel(type: FreeBenefitEventType) {
+  return freeBenefitEventLabelMap[type] ?? "무료혜택";
+}
+
 export function sanitizeBenefitText(value: unknown, maxLength = 180) {
   return String(value ?? "")
     .normalize("NFKC")
