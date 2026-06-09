@@ -4,9 +4,9 @@
 
 ## 기본 정보
 
-- 생성 시각: 2026-06-09T03:52:39.365Z
+- 생성 시각: 2026-06-09T04:06:48.208Z
 - Git 브랜치: codex/12h-product-ux-growth-hardening
-- 최신 커밋: d6f075fe
+- 최신 커밋: 7ff30b06
 - Git 상태: clean
 - 패키지 버전: 1.0.1
 - 앱 이름: 할인도사
@@ -61,9 +61,9 @@
 | Official benefit alert report | `docs/OFFICIAL_BENEFIT_ALERTS_REPORT.md` | 5KB |
 | Official benefit alert JSON | `reports/official-benefit-alerts.json` | 33KB |
 | Link quality regression JSON | `reports/link-quality-regression.json` | 7KB |
-| Official source live check report | `docs/OFFICIAL_SOURCE_LIVE_CHECK.md` | 25KB |
-| Official source live check JSON | `reports/official-source-live-check.json` | 104KB |
-| Official source live check CSV | `reports/official-source-live-check.csv` | 53KB |
+| Official source live check report | `docs/OFFICIAL_SOURCE_LIVE_CHECK.md` | 26KB |
+| Official source live check JSON | `reports/official-source-live-check.json` | 105KB |
+| Official source live check CSV | `reports/official-source-live-check.csv` | 54KB |
 | Official source onboarding plan | `docs/SOURCE_ONBOARDING_PLAN.md` | 46KB |
 | Official source onboarding JSON | `reports/source-onboarding-plan.json` | 194KB |
 | Official source onboarding CSV | `reports/source-onboarding-plan.csv` | 57KB |

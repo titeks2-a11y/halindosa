@@ -2,11 +2,11 @@
 
 이 문서는 공식 이벤트/혜택 소스 후보의 현재 접근 상태를 non-strict 방식으로 기록합니다. 무단 크롤링을 수행하지 않으며, 보호된 페이지는 공식 API/RSS/제휴 feed 또는 수동 승인 데이터로 연결해야 합니다.
 
-- 생성 시각: 2026-06-09T04:04:00.432Z
+- 생성 시각: 2026-06-09T04:07:25.986Z
 - 모드: non_strict_live_readiness
 - 후보 소스: 140개
-- 접근 가능: 120개
-- 보호/권한 확인 필요: 20개
+- 접근 가능: 121개
+- 보호/권한 확인 필요: 19개
 - 검토 필요: 0개
 - timeout/network error: 0개
 - 404/410 교체 필요: 0개
@@ -22,8 +22,8 @@
 
 | 상태 | 수 | 운영 액션 |
 | --- | ---: | --- |
-| reachable | 120 | 승인 feed 또는 공식 페이지 매핑 후보로 유지 |
-| guarded | 20 | 공식 API/RSS/제휴 feed 확인 |
+| reachable | 121 | 승인 feed 또는 공식 페이지 매핑 후보로 유지 |
+| guarded | 19 | 공식 API/RSS/제휴 feed 확인 |
 | needs_review | 0 | 최종 도메인과 응답 정책 수동 확인 |
 | timeout/network_error | 0 | 재시도 또는 담당자 확인 |
 | stale_or_removed | 0 | 카탈로그 URL 교체 전 사용 금지 |
@@ -130,7 +130,7 @@
 | skt-tmembership-official-benefits | official_event | high | guarded | 401 | tworld.co.kr | 무단 크롤링하지 말고 공식 API/RSS/제휴 feed 또는 수동 승인 매핑 사용 |
 | work24-training-support-official | public_coupon | high | reachable | 200 | work24.go.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | kmooc-official-free-courses | public_coupon | high | reachable | 200 | kmooc.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
-| bokjiro-official-welfare-services | public_coupon | high | guarded | 0 | bokjiro.go.kr | 공식 feed 연결 전 브라우저/제휴 담당자 확인 필요 |
+| bokjiro-official-welfare-services | public_coupon | high | reachable | 200 | bokjiro.go.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | culture-seoul-official-events | public_coupon | medium | reachable | 200 | culture.seoul.go.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | royalcanin-kr-official-events | official_event | medium | reachable | 200 | royalcanin.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | powderroom-review-event | public_coupon | medium | reachable | 200 | powderroom.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |

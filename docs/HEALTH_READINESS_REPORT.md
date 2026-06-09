@@ -2,7 +2,7 @@
 
 이 문서는 상품 링크, 공식 혜택, refresh 파이프라인이 실제 출시 운영 기준을 만족하는지 요약합니다.
 
-- 생성 시각: 2026-06-09T03:48:03.715Z
+- 생성 시각: 2026-06-09T04:07:45.335Z
 - 운영 준비 점수: 100/100
 - 상태: PASS
 
@@ -20,7 +20,7 @@
 - 공식 feed canary: seed_fallback_only · fresh · 0시간 · 연결 0개 · 후보 0개
 - 공식 혜택 Provider 위험도: 정상 0개 · 관찰 4개 · 즉시 점검 0개
 - 공식 소스 통합 준비도: seed launch ready / 공식 feed 연결 대기
-- 공식 소스 후보/노출 혜택: 138개 / 105개
+- 공식 소스 후보/노출 혜택: 140개 / 105개
 - 공식 소스 차단 이슈: 0개
 - 공식 혜택 리포트 신선도: 0시간
 - refresh:all 상태: PASS
@@ -62,8 +62,8 @@
 ## 공식 소스 통합 준비도
 
 - 상태: seed launch ready / 공식 feed 연결 대기 (passed)
-- 공식 소스 후보: 138개
-- 접근 가능/보호 소스: 118개 / 20개
+- 공식 소스 후보: 140개
+- 접근 가능/보호 소스: 121개 / 19개
 - 설정된 공식 feed URL: 0개
 - 공식 혜택 노출 가능: 105개
 - 차단 이슈: 0개
@@ -106,7 +106,7 @@
 | configured empty feed watch | PASS | configured-empty=0; providers=none. |
 | official feed canary | PASS | status=seed_fallback_only; freshness=fresh; age=0h; configured=0; visible=0. |
 | provider risk gate | PASS | Official benefit providers danger=0, watch=4. |
-| official source readiness gate | PASS | 138 official source candidates, 105 visible official benefits, blocking failed gates=0, advisory failed gates=0. |
+| official source readiness gate | PASS | 140 official source candidates, 105 visible official benefits, blocking failed gates=0, advisory failed gates=0. |
 
 ## 운영 조치
 

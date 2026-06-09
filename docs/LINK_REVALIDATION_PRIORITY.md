@@ -1,6 +1,6 @@
 # Link Revalidation Priority
 
-Generated: 2026-06-09T03:49:25.574Z
+Generated: 2026-06-09T04:07:03.973Z
 
 Status: PASS
 
@@ -17,7 +17,7 @@ Status: PASS
 - User reported revalidation items: 0
 - Review items: 77
 - Watch items: 3
-- Queue items: 80
+- Queue items: 140
 
 ## Operating Rule
 
