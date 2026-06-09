@@ -36,7 +36,10 @@ const benefitLabels: Record<NewsDeal["benefitType"], string> = {
   point: "포인트",
   foodDelivery: "배달",
   convenienceStore: "편의점",
-  mart: "마트"
+  mart: "마트",
+  sample: "샘플",
+  education: "교육",
+  public_free: "공공혜택"
 };
 
 const categoryHighlights = [

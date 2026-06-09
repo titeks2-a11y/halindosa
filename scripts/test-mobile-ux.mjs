@@ -34,6 +34,7 @@ const homePage = `${read("app/page.tsx")}\n${read("components/HomeClient.tsx")}`
 const homeDealGrid = read("components/home/HomeDealGrid.tsx");
 const homeLiveBenefitStrip = read("components/home/HomeLiveBenefitStrip.tsx");
 const homeFreebieHero = read("components/home/HomeFreebieHero.tsx");
+const homeFreebies = read("lib/homeFreebies.ts");
 const freeBenefitEvents = read("lib/freeBenefitEvents.ts");
 const homeFirstScreenSource = `${homePage}\n${homeDealGrid}\n${homeFreebieHero}`;
 const mobileHeader = read("components/MobileHeader.tsx");
@@ -191,6 +192,26 @@ if (
   pass("free benefit category and condition chips", "모바일 무료혜택 히어로와 전용 데이터 모델이 13개 필터, 마감임박, 로그인/구매 조건 배지를 유지합니다.");
 } else {
   fail("free benefit category and condition chips", "무료혜택 전용 필터 칩 또는 로그인/구매 조건 배지 기준이 부족합니다.");
+}
+
+if (
+  includesAll(homeFreebies, [
+    "purchaseConditionPattern",
+    "lowFrictionBenefitPattern",
+    "hasPurchaseCondition",
+    "hasLowFrictionBenefitSignal",
+    "conditionAdjustment",
+    "requiresPurchase ? -48 : 20",
+    "lowFriction ? 18 : 0",
+    'deal.benefitType === "card"',
+    'deal.benefitType === "sample"',
+    'deal.benefitType === "education"',
+    'deal.benefitType === "public_free"'
+  ])
+) {
+  pass("home freebie ranking favors low-friction benefits", "홈 무료혜택 점수는 카드발급/구매/결제 조건형 혜택을 낮추고 샘플, 무료교육, 공공무료, 쿠폰, 포인트처럼 바로 확인 가능한 혜택을 올립니다.");
+} else {
+  fail("home freebie ranking favors low-friction benefits", "홈 무료혜택 랭킹이 구매 필요 혜택을 충분히 낮추거나 샘플/교육/공공무료 혜택을 올리는 기준이 부족합니다.");
 }
 
 if (

@@ -53,6 +53,7 @@
 - 데이터는 `publishable=true`, `availability=active`, `validationStatus=passed` 조건을 우선 적용한다.
 - 공식 소스라도 검색 결과, 홈 URL, 카테고리 URL, 의미 없는 랜딩이면 노출하지 않는다.
 - 홈/랜딩 성격의 공식 소스 후보는 `priority=low`와 “사용자 CTA 직접 노출 금지” 정책 문구가 있을 때만 카탈로그에 남길 수 있다.
+- 홈 무료혜택 랭킹은 카드발급/구매/결제 조건형 혜택을 낮추고, 샘플/무료교육/공공무료/쿠폰/포인트처럼 바로 확인 가능한 혜택을 올린다.
 - 링크 품질 문제를 UI 문구로 덮지 않는다.
 
 ## 주요 명령
@@ -80,7 +81,7 @@
 - `npm run verify:news`: 139/139 공식 혜택 링크 검증
 - `npm run verify:freebies`: 135/135 통과
 - `npm run qa`: 75/75 통과
-- `npm run test:mobile-ux`: 16/16 통과
+- `npm run test:mobile-ux`: 17/17 통과
 - `npm run release:doctor`: 188/188 통과
 - 검색 링크 노출: 0
 - 비공식 링크 노출: 0

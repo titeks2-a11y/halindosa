@@ -12,7 +12,10 @@ export type NewsBenefitType =
   | "point"
   | "foodDelivery"
   | "convenienceStore"
-  | "mart";
+  | "mart"
+  | "sample"
+  | "education"
+  | "public_free";
 
 export type NewsDealCategory =
   | "식품/생필품"

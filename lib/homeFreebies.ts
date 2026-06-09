@@ -7,6 +7,9 @@ export const homeFreebieBenefitTypes = new Set<NewsBenefitType>([
   "event",
   "point",
   "public",
+  "sample",
+  "education",
+  "public_free",
   "membership",
   "card",
   "culture",
@@ -15,9 +18,23 @@ export const homeFreebieBenefitTypes = new Set<NewsBenefitType>([
   "foodDelivery"
 ]);
 
-const strictFreeBenefitTypes = new Set<NewsBenefitType>(["coupon", "freebie", "freeShipping", "event", "point", "public"]);
+const strictFreeBenefitTypes = new Set<NewsBenefitType>(["coupon", "freebie", "freeShipping", "event", "point", "public", "sample", "education", "public_free"]);
 const blockedUrlPattern = /\/search|search\?|query=|keyword=|shopping\/search|msearch|\/find|\/result|ppomppu|fmkorea|quasarzone|algumon|blog\.naver|news\.naver|v\.daum|news\.daum/i;
 const freeIntentPattern = /무료|0원|무배|무료배송|쿠폰|포인트|샘플|체험|초대|지원|증정|1\+1|2\+1|행사|이벤트|리워드|멤버십|카드|배달|편의점|마트/;
+const purchaseConditionPattern = /구매|주문|결제|최소\s*주문|이상\s*구매|장바구니|배송비|카드\s*발급|신규\s*발급|자동\s*납부|자동이체|연회비/i;
+const lowFrictionBenefitPattern = /무료\s*강좌|무료\s*체험|샘플|쿠폰|포인트|출석|룰렛|공공|문화|기프티콘|0원|전원\s*증정/i;
+
+function getSearchText(deal: NewsDeal) {
+  return [deal.title, deal.summary, deal.category, deal.benefitType, deal.sourceName, deal.tags.join(" ")].join(" ");
+}
+
+export function hasPurchaseCondition(deal: NewsDeal) {
+  return purchaseConditionPattern.test(getSearchText(deal));
+}
+
+export function hasLowFrictionBenefitSignal(deal: NewsDeal) {
+  return lowFrictionBenefitPattern.test(getSearchText(deal));
+}
 
 export function isHttpOfficialBenefitUrl(value: string) {
   try {
@@ -31,7 +48,7 @@ export function isHttpOfficialBenefitUrl(value: string) {
 export function isPublishableOfficialFreebie(deal: NewsDeal, referenceNow = Date.now()) {
   const endTime = Date.parse(deal.expiresAt || deal.endDate);
   const expired = Number.isFinite(endTime) && endTime < referenceNow;
-  const searchable = [deal.title, deal.summary, deal.category, deal.benefitType, deal.sourceName, deal.tags.join(" ")].join(" ");
+  const searchable = getSearchText(deal);
   const isFreeIntent =
     strictFreeBenefitTypes.has(deal.benefitType) ||
     deal.category === "무료혜택" ||
@@ -74,18 +91,25 @@ function hoursSince(value: string, referenceNow: number) {
 export function getHomeFreebieScore(deal: NewsDeal, referenceNow = Date.now()) {
   const endingHours = hoursUntil(deal.expiresAt || deal.endDate, referenceNow);
   const checkedHours = hoursSince(deal.verifiedAt || deal.lastCheckedAt || deal.updatedAt, referenceNow);
+  const requiresPurchase = hasPurchaseCondition(deal);
+  const lowFriction = hasLowFrictionBenefitSignal(deal);
   const typeBoost =
-    deal.benefitType === "freebie"
+    deal.benefitType === "sample"
+      ? 38
+      : deal.benefitType === "freebie"
       ? 34
       : deal.benefitType === "coupon"
         ? 30
         : deal.benefitType === "freeShipping"
           ? 28
-          : deal.benefitType === "point" || deal.benefitType === "public"
+          : deal.benefitType === "point" || deal.benefitType === "public" || deal.benefitType === "public_free" || deal.benefitType === "education" || deal.benefitType === "culture"
             ? 24
-            : 16;
+            : deal.benefitType === "card"
+              ? 6
+              : 16;
   const urgencyBoost = endingHours <= 12 ? 28 : endingHours <= 24 ? 22 : endingHours <= 72 ? 12 : 0;
   const freshnessBoost = checkedHours <= 1 ? 16 : checkedHours <= 6 ? 10 : checkedHours <= 24 ? 5 : 0;
+  const conditionAdjustment = (requiresPurchase ? -48 : 20) + (lowFriction ? 18 : 0);
 
   return Math.round(
     Number(deal.priorityScore ?? 0) * 1.2 +
@@ -93,6 +117,7 @@ export function getHomeFreebieScore(deal: NewsDeal, referenceNow = Date.now()) {
       typeBoost +
       urgencyBoost +
       freshnessBoost +
+      conditionAdjustment +
       (deal.imageUrl ? 5 : 0)
   );
 }
@@ -172,7 +197,10 @@ export function getHomeFreebieBenefitLabel(type: NewsBenefitType) {
     point: "포인트",
     foodDelivery: "배달",
     convenienceStore: "편의점",
-    mart: "마트"
+    mart: "마트",
+    sample: "샘플",
+    education: "교육",
+    public_free: "공공"
   };
 
   return labels[type] ?? "혜택";
