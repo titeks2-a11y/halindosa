@@ -2,10 +2,10 @@
 
 이 문서는 할인도사에 연결할 수 있는 공식 이벤트, 공공 혜택, 제휴 JSON/RSS 후보를 정리합니다. 무단 크롤링 후보가 아니라 운영자가 승인 feed 또는 공식 페이지 매핑으로 전환할 때 쓰는 출발점입니다.
 
-- 생성 시각: 2026-06-09T04:58:32.268Z
+- 생성 시각: 2026-06-09T05:23:37.762Z
 - 상태: PASS
-- 후보 소스: 136개
-- 고우선순위 후보: 38개
+- 후보 소스: 138개
+- 고우선순위 후보: 40개
 - 현재 env feed 연결 후보: 0개
 - 공식 혜택 노출: 105개
 - feed 전환 상태: seed_launch_ready
@@ -15,7 +15,7 @@
 
 | 카테고리 | 후보 수 | 상태 |
 | --- | ---: | --- |
-| 식품/생필품 | 14 | 충분 |
+| 식품/생필품 | 16 | 충분 |
 | 마트/편의점 | 13 | 충분 |
 | 디지털/가전 | 7 | 충분 |
 | 패션/뷰티 | 17 | 충분 |
@@ -23,7 +23,7 @@
 | 여행/숙박 | 9 | 충분 |
 | 영화/문화 | 21 | 충분 |
 | 카드/멤버십 | 40 | 충분 |
-| 무료혜택 | 100 | 충분 |
+| 무료혜택 | 102 | 충분 |
 | 정부/공공혜택 | 19 | 충분 |
 
 ## Provider 커버리지
@@ -32,7 +32,7 @@
 | --- | ---: | --- |
 | news | 1 | 포함 |
 | event_news | 2 | 포함 |
-| official_event | 87 | 포함 |
+| official_event | 89 | 포함 |
 | public_coupon | 46 | 포함 |
 
 ## 후보 목록
@@ -134,6 +134,8 @@
 | bokjiro-official-welfare-services | public_coupon | 정부/공공혜택, 무료혜택 | high | https://www.bokjiro.go.kr/ssis-tbu/index.do | PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS, DEAL_NEWS_FEED_URLS |
 | culture-seoul-official-events | public_coupon | 영화/문화, 정부/공공혜택, 무료혜택 | medium | https://culture.seoul.go.kr/culture/culture/cultureEvent/list.do | PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS, DEAL_EVENT_NEWS_FEED_URLS |
 | royalcanin-kr-official-events | official_event | 식품/생필품, 무료혜택 | medium | https://www.royalcanin.com/kr/about-us/news/sol4-campaign | OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| purina-official-event-list | official_event | 무료혜택, 식품/생필품 | high | https://www.purinapetcare.co.kr/shop/event_list.php | OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| purina-zero-won-official-event | official_event | 무료혜택, 식품/생필품 | high | https://www.purinapetcare.co.kr/shop/event_view.php?stx=&stx=&wi_idx=427 | OFFICIAL_EVENT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
 | powderroom-review-event | public_coupon | 패션/뷰티, 무료혜택 | medium | https://www.powderroom.co.kr/review | PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
 | lguplus-lifecare-benefit-event | official_event | 카드/멤버십, 무료혜택 | high | https://www.lguplus.com/benefit-event/lifecare/home/81776 | OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
 | amoremall-official-benefit-events | official_event | 패션/뷰티, 무료혜택 | high | https://www.amoremall.com/kr/ko/main.html | OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |

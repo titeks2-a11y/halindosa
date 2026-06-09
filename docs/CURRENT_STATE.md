@@ -56,10 +56,11 @@ npm run workspace:doctor:strict
 - `/api/home`과 홈 상단 무료혜택 히어로도 같은 카테고리 카운트를 사용한다.
 - 홈 빠른 필터에서 서버 카운트가 0개인 카테고리는 비활성 칩으로 표시한다.
 - 무료혜택 CTA는 공식 이벤트/신청 URL만 통과시키는 정책으로 운영한다.
-- 공식 소스 후보는 136개이며, source feed starter pack은 12개 lane 기준으로 확장되어 있다.
+- 공식 소스 후보는 138개이며, source feed starter pack은 12개 lane 기준으로 확장되어 있다.
+- 반려동물 샘플 lane은 로얄캐닌과 퓨리나 공식 이벤트/0원딜 소스를 포함해 최소 3개 기준으로 강화되어 있다.
 - 공식 소스 카탈로그는 동일 `officialUrl` 중복을 `duplicate_official_url`로 실패 처리한다.
 - 맘큐 공식 이벤트 목록과 신규회원 웰컴혜택 소스가 추가되어 육아/샘플/신규가입 혜택 발견 축이 보강되었다.
-- 마지막 live check 기준 공식 소스는 reachable 117개, guarded 19개, stale_or_removed 0개다.
+- 마지막 live check 기준 공식 소스는 reachable 119개, guarded 19개, stale_or_removed 0개다.
 - `security:check`는 공식 소스 카탈로그가 검색/커뮤니티/비공식/약한 CTA 정책을 포함하지 않는지도 검사한다.
 - `security:check`는 동일 `officialUrl`이 중복 등록된 공식 소스도 실패 처리한다.
 - `release:doctor`의 `free benefit security gates`도 `security-check.mjs`의 공식 소스 카탈로그 guard, unsafe URL detector, benefit policy detector, `docs/SECURITY_CHECK_REPORT.md` evidence를 직접 검사한다.

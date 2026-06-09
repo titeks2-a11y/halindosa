@@ -73,7 +73,7 @@ const requiredLanes = [
   {
     id: "pet",
     label: "반려동물 샘플",
-    minimum: 1,
+    minimum: 3,
     patterns: [/royalcanin|로얄캐닌|purina|퓨리나|pet|반려|강아지|고양이/i]
   },
   {
@@ -140,6 +140,7 @@ const requiredBrandSignals = [
   { id: "ebs", label: "EBS 무료 학습", patterns: [/ebs|ebsi|평생학교/i] },
   { id: "kocw", label: "KOCW 대학공개강의", patterns: [/kocw|대학공개강의/i] },
   { id: "royalcanin", label: "반려동물 샘플", patterns: [/royalcanin|로얄캐닌|반려|pet/i] },
+  { id: "purina-petcare", label: "퓨리나 반려동물 혜택", patterns: [/purina|퓨리나|purinapetcare/i] },
   { id: "experience-panel", label: "체험단/샘플 플랫폼", patterns: [/powderroom|파우더룸|체험단|샘플|review/i] }
 ];
 

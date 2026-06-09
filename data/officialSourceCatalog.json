@@ -2006,6 +2006,49 @@
     "notes": "범용 /events 경로가 404를 반환하므로 공식 캠페인 상세 또는 승인 feed로만 운영한다."
   },
   {
+    "id": "purina-official-event-list",
+    "label": "퓨리나 공식 반려동물 이벤트 목록",
+    "provider": "official_event",
+    "category": [
+      "무료혜택",
+      "식품/생필품"
+    ],
+    "sourceType": "official_event_listing",
+    "officialUrl": "https://www.purinapetcare.co.kr/shop/event_list.php",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 12,
+    "allowedUse": "퓨리나 공식 이벤트 목록 중 체험단, 샘플, 0원딜, 룰렛, 신규회원 선물세트처럼 공식 상세와 기간, 참여 조건이 확인되는 반려동물 혜택",
+    "blockedUse": "퓨리나 검색 결과, 상품 카테고리 목록, 비공식 반려동물 체험단 글, 종료된 이벤트, 공식 상세가 아닌 쇼핑 메인",
+    "notes": "목록은 발견 소스로만 사용한다. 사용자 CTA는 퓨리나 공식 이벤트 상세 또는 쿠폰/신청 페이지가 active이고 로그인/구매 필요 조건이 확인된 경우에만 연결한다."
+  },
+  {
+    "id": "purina-zero-won-official-event",
+    "label": "퓨리나 공식 0원딜 이벤트",
+    "provider": "official_event",
+    "category": [
+      "무료혜택",
+      "식품/생필품"
+    ],
+    "sourceType": "official_event_detail",
+    "officialUrl": "https://www.purinapetcare.co.kr/shop/event_view.php?stx=&stx=&wi_idx=427",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 12,
+    "allowedUse": "퓨리나 공식 0원딜 상세에서 기간, 대상 상품, 쿠폰/신청 조건, 로그인 필요 여부가 확인되는 반려동물 혜택",
+    "blockedUse": "0원딜 검색 결과, 가격만 있는 상품 목록, 커뮤니티 공유글, 종료되었거나 참여 조건이 확인되지 않는 상세",
+    "notes": "0원딜은 무료혜택으로 분류하되 배송비, 로그인, 구매 조건이 있으면 participationCondition과 requiresPurchase/requiresLogin에 반드시 반영한다."
+  },
+  {
     "id": "powderroom-review-event",
     "label": "파우더룸 공식 뷰티 체험단",
     "provider": "public_coupon",
