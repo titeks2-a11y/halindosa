@@ -15,6 +15,10 @@ async function checkPackage() {
   const iosProject = await text("ios/App/App.xcodeproj/project.pbxproj");
   const harness = await text("scripts/harness.mjs");
   const audit = await text("scripts/audit.mjs");
+  const securityCheck = await text("scripts/security-check.mjs");
+  const securityCheckReport = existsSync(join(root, "docs/SECURITY_CHECK_REPORT.md"))
+    ? readFileSync(join(root, "docs/SECURITY_CHECK_REPORT.md"), "utf8")
+    : "";
   const requiredScripts = [
     "build",
     "build:android",
@@ -111,8 +115,19 @@ async function checkPackage() {
     ["benefit:event:contract", "free-benefit-event-contract-doctor.mjs"],
     ["security:check", "security-check.mjs"]
   ].filter(([scriptName, expected]) => !String(pkg.scripts?.[scriptName] ?? "").includes(expected));
+  const benefitSecurityPolicyMissing = [
+    ["source catalog data", "data\", \"officialSourceCatalog.json"],
+    ["official source catalog guard", "official source catalog guard"],
+    ["unsafe source URL detector", "hasUnsafeOfficialSourceUrl"],
+    ["official benefit policy detector", "hasOfficialBenefitPolicyText"],
+    ["security report catalog evidence", "official source catalog guard"]
+  ].filter(([, expected], index) => {
+    const source = index === 4 ? securityCheckReport : securityCheck;
+    return !source.includes(expected);
+  });
   if (
     benefitSecurityGateMissing.length ||
+    benefitSecurityPolicyMissing.length ||
     !String(pkg.scripts?.qa ?? "").includes("refresh:benefits") ||
     !String(pkg.scripts?.qa ?? "").includes("verify:benefits") ||
     !String(pkg.scripts?.qa ?? "").includes("benefit:event:contract") ||
@@ -122,10 +137,15 @@ async function checkPackage() {
   ) {
     fail(
       "free benefit security gates",
-      `Missing free-benefit/security launch gates: ${benefitSecurityGateMissing.map(([scriptName]) => scriptName).join(", ") || "qa/harness wiring"}`
+      `Missing free-benefit/security launch gates: ${
+        [
+          ...benefitSecurityGateMissing.map(([scriptName]) => scriptName),
+          ...benefitSecurityPolicyMissing.map(([name]) => name)
+        ].join(", ") || "qa/harness wiring"
+      }`
     );
   } else {
-    pass("free benefit security gates", "refresh:benefits, verify:benefits, benefit:event:contract, and security:check are wired into qa, harness, and release doctor policy.");
+    pass("free benefit security gates", "refresh:benefits, verify:benefits, benefit:event:contract, official source catalog security guard, and security:check are wired into qa, harness, and release doctor policy.");
   }
 
   if (!pkg.dependencies?.["@capacitor/ios"]) fail("Capacitor iOS dependency", "Missing @capacitor/ios.");
