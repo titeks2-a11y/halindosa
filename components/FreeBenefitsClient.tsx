@@ -151,6 +151,16 @@ function getFreeBenefitEventTypeLabel(type: FreeBenefitEventType) {
   return freeBenefitEventTypeOptions.find((option) => option.id === type)?.label ?? "무료혜택";
 }
 
+function getFreeBenefitEventConditionBadges(event: FreeBenefitEvent) {
+  return [
+    event.isEveryoneReward ? "전원증정" : "",
+    event.isFirstComeFirstServed ? "선착순" : "",
+    event.requiresLogin ? "로그인 필요" : "비회원 확인",
+    event.requiresPurchase ? "구매 필요" : "구매조건 낮음",
+    event.validationStatus === "passed" ? "검증 완료" : ""
+  ].filter(Boolean);
+}
+
 function isVisibleOfficialBenefit(deal: NewsDeal) {
   return (
     deal.validationStatus === "passed" &&
@@ -1239,6 +1249,7 @@ export function FreeBenefitsClient({
                     </div>
                   </div>
                   <p className="mt-3 line-clamp-2 min-h-10 text-xs font-bold leading-5 text-slate-500">{event.rewardText}</p>
+                  <p className="mt-2 line-clamp-1 text-[11px] font-bold text-slate-500">{event.participationCondition}</p>
                   <p className="mt-2 line-clamp-1 text-[11px] font-black text-dossa-red">{event.rankingReason}</p>
                   <div className="mt-2 flex flex-wrap gap-1">
                     {event.trustBadges.slice(0, 3).map((badge) => (
@@ -1246,6 +1257,13 @@ export function FreeBenefitsClient({
                         {badge}
                       </span>
                     ))}
+                    {getFreeBenefitEventConditionBadges(event)
+                      .slice(0, 4)
+                      .map((badge) => (
+                        <span key={badge} className="rounded-full bg-white px-2 py-1 text-[10px] font-black text-slate-500 shadow-sm">
+                          {badge}
+                        </span>
+                      ))}
                   </div>
                   <div className="mt-3 grid grid-cols-2 gap-2 text-[11px] font-black text-slate-600">
                     <span className="rounded-2xl bg-white px-2.5 py-2">{event.urgencyLabel || `마감 ${getTimeLeft(event.endAt)}`}</span>

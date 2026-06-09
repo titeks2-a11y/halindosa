@@ -235,6 +235,20 @@ const checks = [
     "Home free-benefit event cards should show participation condition, login/purchase requirement, and validation state in compact trust badges."
   ),
   check(
+    "free benefits event cards expose claim conditions",
+    hasAll(freeBenefitsClientSource, [
+      "getFreeBenefitEventConditionBadges",
+      "event.participationCondition",
+      "로그인 필요",
+      "비회원 확인",
+      "구매 필요",
+      "구매조건 낮음",
+      "검증 완료",
+      "event.validationStatus"
+    ]).length === 0,
+    "/free-benefits event cards should show participation condition, login/purchase requirement, and validation state in compact trust badges."
+  ),
+  check(
     "verify benefits enforces official active event floor",
     hasAll(verifySource, [
       "minimumVisibleEvents",

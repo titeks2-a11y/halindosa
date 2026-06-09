@@ -12,8 +12,8 @@
 
 - Branch: `codex/12h-product-ux-growth-hardening`
 - Remote: `origin/codex/12h-product-ux-growth-hardening`
-- 기준 커밋: `72d79c57 feat: add free benefit quick filters`
-- 이 상태 문서에 포함된 최신 작업: 공식 무료혜택 소스 카탈로그, 핵심 브랜드 신호 게이트, FreeBenefitEvent 계약 검증 게이트 강화, 뷰티/금융 공식 혜택 소스 확장, 닥터지/LG생활건강/토스 공식 혜택 소스 추가, 홈 무료혜택 빠른 필터와 URL 진입 필터 보강, 홈 무료혜택 카드 조건/신뢰 배지 보강.
+- 기준 커밋: `30173ddf feat: show free benefit claim conditions`
+- 이 상태 문서에 포함된 최신 작업: 공식 무료혜택 소스 카탈로그, 핵심 브랜드 신호 게이트, FreeBenefitEvent 계약 검증 게이트 강화, 뷰티/금융 공식 혜택 소스 확장, 닥터지/LG생활건강/토스 공식 혜택 소스 추가, 홈 무료혜택 빠른 필터와 URL 진입 필터 보강, 홈 및 무료혜택 전용 화면 카드 조건/신뢰 배지 보강.
 
 ## 최근 완료 작업
 
@@ -149,6 +149,19 @@
 - 사용자가 무료혜택을 누르기 전에 로그인/구매 조건과 검증 상태를 알 수 있게 했다.
 - `benefit:event:contract`가 홈 이벤트 카드의 참여 조건/로그인/구매/검증 배지가 빠지지 않도록 15번째 회귀 검사를 수행한다.
 
+### 무료혜택 전용 화면 카드 조건/신뢰 배지
+
+- `components/FreeBenefitsClient.tsx`
+- `scripts/free-benefit-event-contract-doctor.mjs`
+- `docs/FREE_BENEFIT_EVENT_CONTRACT.md`
+
+구현 요약:
+
+- `/free-benefits` 공식 무료혜택 이벤트 카드에도 참여 조건 한 줄을 추가했다.
+- 전용 화면 카드 배지에 `전원증정`, `선착순`, `로그인 필요`, `비회원 확인`, `구매 필요`, `구매조건 낮음`, `검증 완료` 상태를 표시한다.
+- 홈에서 빠른 필터로 들어간 뒤에도 사용자가 같은 기준으로 혜택 조건을 판단할 수 있게 했다.
+- `benefit:event:contract`가 전용 화면 이벤트 카드의 조건/검증 배지가 빠지지 않도록 16번째 회귀 검사를 수행한다.
+
 ## 마지막으로 확인한 명령
 
 - `npm run lint` 성공
@@ -160,6 +173,13 @@
 - `npm run build:android` 성공
 - `npm run cap:sync` 성공
 - `npm run workspace:doctor:strict` 성공, 재생성 산출물 0B
+- `npm run lint` 성공
+- `npm run benefit:event:contract` 성공, 16/16 통과
+- `npm run test:mobile-compact` 성공, 13/13 통과
+- `npm run release:doctor` 성공, 188/188 통과
+- `npm run build` 성공
+- `npm run build:android` 성공
+- `npm run cap:sync` 성공
 - `npm run source:activation:doctor` 성공, `seed_ready`
 - `npm run smoke:local` 103/103 통과, activation API/CSV/Markdown 포함
 - `npm run qa` 74/74 통과, activation doctor 포함
