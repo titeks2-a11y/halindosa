@@ -3736,5 +3736,26 @@
     "allowedUse": "신한카드 공식 이벤트 상세에서 생활요금 자동납부 응모기간, 납부기간, 캐시백 금액, 경품 조건이 확인되는 혜택",
     "blockedUse": "카드사 메인, 이벤트 목록만 있는 링크, 뉴스 기사, 제휴 광고 중간 페이지, 종료된 자동납부 이벤트",
     "notes": "생활요금 자동납부 신청과 카드 결제가 필요한 조건형 혜택으로, CTA는 신한카드 공식 이벤트 상세에만 연결한다."
+  },
+  {
+    "id": "ichallenge-baby-free-trial-kit-202606",
+    "label": "아이챌린지 베이비 공식 무료체험교재",
+    "provider": "official_event",
+    "category": [
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://m.i-challenge.co.kr/event/freetrial_r1/index.asp",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 12,
+    "allowedUse": "아이챌린지 공식 무료체험 상세에서 돌아기 월령별 무료체험교재, 놀이책, 신청 조건이 확인되는 혜택",
+    "blockedUse": "아이챌린지 메인, 검색 결과, 육아 커뮤니티 후기, 종료된 체험 신청, 유료 구독 상품 상세만 있는 페이지",
+    "notes": "구매 필요 없는 교육 무료체험 혜택으로 공식 신청 상세 URL만 사용자 CTA 후보로 사용한다."
   }
 ]

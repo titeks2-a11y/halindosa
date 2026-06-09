@@ -2,12 +2,12 @@
 
 이 문서는 할인도사에 연결할 수 있는 공식 이벤트, 공공 혜택, 제휴 JSON/RSS 후보를 정리합니다. 무단 크롤링 후보가 아니라 운영자가 승인 feed 또는 공식 페이지 매핑으로 전환할 때 쓰는 출발점입니다.
 
-- 생성 시각: 2026-06-09T09:11:37.011Z
+- 생성 시각: 2026-06-09T10:53:06.563Z
 - 상태: PASS
-- 후보 소스: 164개
-- 고우선순위 후보: 49개
+- 후보 소스: 173개
+- 고우선순위 후보: 58개
 - 현재 env feed 연결 후보: 0개
-- 공식 혜택 노출: 137개
+- 공식 혜택 노출: 145개
 - feed 전환 상태: seed_launch_ready
 - CSV 리포트: reports/official-source-catalog.csv
 
@@ -17,14 +17,14 @@
 | --- | ---: | --- |
 | 식품/생필품 | 17 | 충분 |
 | 마트/편의점 | 13 | 충분 |
-| 디지털/가전 | 11 | 충분 |
+| 디지털/가전 | 12 | 충분 |
 | 패션/뷰티 | 21 | 충분 |
 | 외식/배달 | 44 | 충분 |
 | 여행/숙박 | 9 | 충분 |
-| 영화/문화 | 24 | 충분 |
+| 영화/문화 | 25 | 충분 |
 | 카드/멤버십 | 59 | 충분 |
-| 무료혜택 | 128 | 충분 |
-| 정부/공공혜택 | 23 | 충분 |
+| 무료혜택 | 137 | 충분 |
+| 정부/공공혜택 | 31 | 충분 |
 
 ## Provider 커버리지
 
@@ -32,8 +32,8 @@
 | --- | ---: | --- |
 | news | 1 | 포함 |
 | event_news | 2 | 포함 |
-| official_event | 112 | 포함 |
-| public_coupon | 49 | 포함 |
+| official_event | 113 | 포함 |
+| public_coupon | 57 | 포함 |
 
 ## 후보 목록
 
@@ -201,8 +201,17 @@
 | kmooc-ai-teaching-innovation-free-course | official_event | 정부/공공혜택, 무료혜택 | medium | https://www.kmooc.kr/view/course/detail/19997 | OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
 | popeyes-official-event-coupon | official_event | 외식/배달, 무료혜택 | medium | https://www.popeyes.co.kr/event | OFFICIAL_EVENT_FEED_URLS, DEAL_EVENT_FEED_URLS |
 | seoul-public-reservation-free-experience | public_coupon | 정부/공공혜택, 영화/문화, 무료혜택 | high | https://yeyak.seoul.go.kr/web/main.do | PUBLIC_COUPON_FEED_URLS, OFFICIAL_EVENT_FEED_URLS |
+| seoul-worldcup-silkworm-free-experience-202606 | public_coupon | 정부/공공혜택, 무료혜택 | high | https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?rsv_svc_id=S260520140256572900 | PUBLIC_COUPON_FEED_URLS, OFFICIAL_EVENT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| seoul-dongdaemun-water-sports-free-class-202606 | public_coupon | 정부/공공혜택, 무료혜택 | high | https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?locale=ko&rsv_svc_id=S260512102120511430 | PUBLIC_COUPON_FEED_URLS, OFFICIAL_EVENT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| seoul-hanyangdoseong-free-history-tour-202606 | public_coupon | 정부/공공혜택, 영화/문화, 무료혜택 | high | https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?rsv_svc_id=S260522131054795847 | PUBLIC_COUPON_FEED_URLS, OFFICIAL_EVENT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| seoul-futurelab-battlebot-free-experience-202606 | public_coupon | 정부/공공혜택, 디지털/가전, 무료혜택 | high | https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?rsv_svc_id=S260509143239234573 | PUBLIC_COUPON_FEED_URLS, OFFICIAL_EVENT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| seoul-plant-hospital-free-care-202606 | public_coupon | 정부/공공혜택, 무료혜택 | high | https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?rsv_svc_id=S250103153915708411 | PUBLIC_COUPON_FEED_URLS, OFFICIAL_EVENT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| seoul-ujangsan-forest-healing-free-202606 | public_coupon | 정부/공공혜택, 무료혜택 | high | https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?rsv_svc_id=S260430141839376361 | PUBLIC_COUPON_FEED_URLS, OFFICIAL_EVENT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| seoul-seoseoul-lake-green-free-kids-202606 | public_coupon | 정부/공공혜택, 무료혜택 | high | https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?rsv_svc_id=S260529131642855996 | PUBLIC_COUPON_FEED_URLS, OFFICIAL_EVENT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| seoul-sagajeong-forest-play-free-202606 | public_coupon | 정부/공공혜택, 무료혜택 | high | https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?rsv_svc_id=S260519152853080472 | PUBLIC_COUPON_FEED_URLS, OFFICIAL_EVENT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
 | shinhancard-annual-fee-cashback-202606 | official_event | 카드/멤버십, 무료혜택 | medium | https://www.shinhancard.com/pconts/html/benefit/event/1239025_2239.html | OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
 | shinhancard-utility-autopay-cashback-202606 | official_event | 카드/멤버십, 무료혜택 | medium | https://www.shinhancard.com/pconts/html/benefit/event/1239015_2239.html | OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| ichallenge-baby-free-trial-kit-202606 | official_event | 무료혜택 | high | https://m.i-challenge.co.kr/event/freetrial_r1/index.asp | OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
 
 ## 다음 작업
 

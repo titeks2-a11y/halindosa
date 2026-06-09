@@ -38,11 +38,11 @@
 
 ## 데이터 상태
 
-- 현재 HEAD: `02a8d818`
-- 공식 소스 후보: `172`
-- 뉴스/혜택 seed: `146`
-- `data/refreshedNewsDeals.json` 기준 refreshed 항목: `143`
-- `publishable=true`, `validationStatus=passed`, `availability=active` 기준 노출 가능 항목: `143`
+- 이번 보강 작업 시작 기준 HEAD: `96261ee0`
+- 공식 소스 후보: `173`
+- 뉴스/혜택 seed: `148`
+- `data/refreshedNewsDeals.json` 기준 refreshed 항목: `145`
+- `publishable=true`, `validationStatus=passed`, `availability=active` 기준 노출 가능 항목: `145`
 - 최근 보강 소스:
   - 파파이스 공식 이벤트·쿠폰 혜택
   - 서울시 공공서비스예약 무료 체험·교육 혜택
@@ -53,6 +53,8 @@
   - 서울시 공공서비스예약 공식 상세 무료 체험 4건: 월드컵공원 누에 생태 체험, 동대문구 수상스포츠 체험교육, 한양도성 역사 해설 체험, 서울퓨처랩 배틀봇 체험
   - 서울시 공공서비스예약 공식 상세 무료 서비스 4건: 광역반려식물병원 무료 진단, 우장산 청년 숲마실, 서서울호수공원 유아 자연체험, 사가정공원 유아숲 생태놀이
   - 로얄캐닌 코리아 공식 성장기 반려동물 캠페인: 6월 샘플 체험키트 증정과 모델 선발 이벤트 조건을 공식 상세 URL로 노출
+  - 토스 공식 토스피드 출석체크·포인트 혜택
+  - 아이챌린지 공식 베이비 월령별 무료체험교재 신청 혜택
 
 ## 품질 정책
 
@@ -84,10 +86,10 @@
 
 최근 안정 커밋 기준으로 다음 게이트가 통과한 상태로 기록되어 있다.
 
-- `npm run refresh:news`: 146개 수집, 중복 제거 후 143개 노출
-- `npm run refresh:benefits`: active 공식 무료혜택 이벤트 140개, 121개 소스, 92개 호스트
-- `npm run verify:news`: 143/143 공식 혜택 링크 검증
-- `npm run verify:freebies`: 139/139 통과
+- `npm run refresh:news`: 148개 수집, 중복 제거 후 145개 노출
+- `npm run refresh:benefits`: active 공식 무료혜택 이벤트 142개, 123개 소스, 94개 호스트
+- `npm run verify:news`: 145/145 공식 혜택 링크 검증
+- `npm run verify:freebies`: 141/141 통과
 - `npm run qa`: 75/75 통과
 - `npm run harness`: 통과
 - `npm run test:mobile-ux`: 17/17 통과
@@ -105,6 +107,7 @@
 - 2026-06-09 추가 보강: 사용자 CTA에 직접 노출되던 대표/메인 성격의 공식 혜택 seed 5건을 제거했다. 제거 항목은 문화누리카드 메인, L.POINT 혜택 메인, 고용24 메인, 한국장학재단 메인, 서울시 공공서비스예약 메인이다.
 - 2026-06-09 추가 보강: 노출 공식 혜택의 `finalUrl` 중 root/main/index 계열 대표 URL은 0건으로 확인됐다.
 - 2026-06-09 추가 보강: 로얄캐닌 코리아 공식 성장기 반려동물 샘플 체험키트 혜택을 추가했고 `refresh:news`, `verify:news`, `refresh:benefits`, `security:check`, `qa`, `harness`, `build`, `build:android`, `cap:sync`, `workspace:doctor:strict`가 통과했다.
+- 2026-06-09 추가 보강: 토스 공식 출석체크·포인트 혜택과 아이챌린지 공식 무료체험교재 혜택을 무료혜택 seed로 승격했고, 아이챌린지를 공식 소스 카탈로그에 추가했다. 현재 공식 혜택 145개, 무료혜택 이벤트 142개 기준으로 `lint`, `verify:news`, `refresh:benefits`, `security:check`, `qa`, `harness`, `build`, `build:android`, `cap:sync`, `workspace:doctor:strict`가 통과했다.
 - 2026-06-09 확인: `next-env.d.ts`는 `./.next/dev/types/routes.d.ts` 경로를 참조하는 정상 상태다.
 
 새 세션에서는 필요한 명령을 다시 실행해 실제 현재 상태를 확인한 뒤 진행한다.

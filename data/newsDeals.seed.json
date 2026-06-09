@@ -4320,5 +4320,67 @@
       "선착순",
       "공식캠페인"
     ]
+  },
+  {
+    "id": "news-toss-pay-checkin-point-202606",
+    "title": "토스페이 혜택 출석체크·포인트 적립 안내",
+    "summary": "토스 공식 토스피드 상세에서 토스페이 혜택, 출석체크, 포인트 적립과 쿠폰 사용 조건을 확인할 수 있습니다.",
+    "merchant": "토스",
+    "category": "카드/멤버십",
+    "benefitType": "point",
+    "discountRate": 0,
+    "price": 0,
+    "originalPrice": 0,
+    "couponAmount": 0,
+    "startDate": "2026-01-01",
+    "endDate": "2026-12-31",
+    "sourceName": "토스 공식 혜택 콘텐츠",
+    "sourceUrl": "https://toss.im/tossfeed/article/tosspay-2025-02",
+    "finalUrl": "https://toss.im/tossfeed/article/tosspay-2025-02",
+    "imageUrl": "https://static.toss.im/illusts/img-tosspay-tossfeed.jpg",
+    "confidenceScore": 88,
+    "validationStatus": "needs_review",
+    "isHidden": false,
+    "hiddenReason": "",
+    "lastCheckedAt": "",
+    "provider": "official_event",
+    "tags": [
+      "출석체크",
+      "포인트",
+      "앱테크",
+      "쿠폰",
+      "공식혜택"
+    ]
+  },
+  {
+    "id": "news-ichallenge-baby-free-trial-kit-202606",
+    "title": "아이챌린지 베이비 월령별 무료체험교재 신청",
+    "summary": "아이챌린지 공식 무료체험 상세에서 돌아기 월령별 무료체험교재, 놀이책과 신청 조건을 확인할 수 있습니다.",
+    "merchant": "아이챌린지",
+    "category": "무료혜택",
+    "benefitType": "education",
+    "discountRate": 100,
+    "price": 0,
+    "originalPrice": 12000,
+    "couponAmount": 0,
+    "startDate": "2026-01-01",
+    "endDate": "2026-12-31",
+    "sourceName": "아이챌린지 공식 무료체험",
+    "sourceUrl": "https://m.i-challenge.co.kr/event/freetrial_r1/index.asp",
+    "finalUrl": "https://m.i-challenge.co.kr/event/freetrial_r1/index.asp",
+    "imageUrl": "https://m.i-challenge.co.kr/Images/free/free_img01.jpg",
+    "confidenceScore": 90,
+    "validationStatus": "needs_review",
+    "isHidden": false,
+    "hiddenReason": "",
+    "lastCheckedAt": "",
+    "provider": "official_event",
+    "tags": [
+      "무료체험",
+      "육아",
+      "교재신청",
+      "샘플",
+      "공식신청"
+    ]
   }
 ]
