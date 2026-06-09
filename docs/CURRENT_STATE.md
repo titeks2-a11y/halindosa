@@ -14,12 +14,12 @@
 - Branch: `codex/12h-product-ux-growth-hardening`
 - Remote: `origin/codex/12h-product-ux-growth-hardening`
 - 최근 커밋:
+  - `59341f5d docs: refresh launch handoff evidence`
+  - `d6f075fe feat: disable empty home free benefit filters`
+  - `d8e9a8fe docs: refresh current state handoff`
   - `44c129c3 test: cover home free benefit counts`
   - `c3f70882 feat: share free benefit counts with home hero`
   - `fad0394d feat: use server free benefit counts in filters`
-  - `9340b23e feat: expose free benefit category counts`
-  - `537ac4c7 docs: save current state for fresh session`
-  - `0e8ece1d feat: align free benefit filter contract`
 - 새 세션 시작 시 먼저 실행:
 
 ```bash
@@ -51,7 +51,7 @@ npm run workspace:doctor:strict
 - `/free-benefits` 화면은 API 제공 카테고리 카운트를 우선 사용하고, 0개 필터는 비활성화 톤으로 표시한다.
 - `/api/home`과 홈 상단 무료혜택 히어로도 같은 카테고리 카운트를 사용해 첫 화면 빠른 필터 숫자를 맞춘다.
 - 홈 빠른 필터는 URL 파라미터로 `/free-benefits` 필터 상태를 복원한다.
-- 홈 빠른 필터에서 서버 카운트가 0개인 카테고리는 링크 대신 비활성 칩으로 표시해 빈 결과 화면으로 이동하지 않게 한다.
+- 홈 빠른 필터에서 서버 카운트가 0개인 카테고리는 링크 대신 `aria-disabled="true"` 비활성 칩으로 표시해 빈 결과 화면으로 이동하지 않게 한다.
 - 무료혜택 CTA는 공식 이벤트/신청 URL만 통과시키는 정책으로 운영한다.
 - source feed starter pack은 12개 lane 기준으로 확장되어 있다.
 - 공식 소스 후보는 문화포털 문화초대이벤트까지 포함해 138개 수준이다.
@@ -79,12 +79,14 @@ npm run qa
 npm run build
 npm run build:android
 npm run cap:sync
+npm run workspace:doctor:strict
 ```
 
 주의:
 
 - build 후 `next-env.d.ts`가 `./.next/types/routes.d.ts`로 바뀌면 기존 `./.next/dev/types/routes.d.ts` 정책으로 되돌린다.
 - Android web assets는 `workspace:doctor:strict` 정리 후 삭제될 수 있다. 앱 반영이 필요하면 `npm run build:android && npm run cap:sync`를 다시 실행한다.
+- 마지막 안정 상태에서는 `workspace:doctor:strict`가 재생성 산출물 `0B`로 통과했다.
 
 ## 다음 작업 후보
 
