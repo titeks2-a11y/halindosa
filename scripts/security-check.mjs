@@ -62,6 +62,7 @@ const freebiesApi = read(join(root, "app", "api", "freebies", "route.ts"));
 const benefitEventsApi = read(join(root, "app", "api", "benefits", "events", "route.ts"));
 const homeApi = read(join(root, "app", "api", "home", "route.ts"));
 const apiGuards = read(join(root, "lib", "apiGuards.ts"));
+const nextConfig = read(join(root, "next.config.mjs"));
 const freeBenefitEvents = read(join(root, "lib", "freeBenefitEvents.ts"));
 const newsLinkPolicy = read(join(root, "lib", "deals", "newsLinkPolicy.ts"));
 const goNewsRoute = read(join(root, "app", "go", "news", "[id]", "route.ts"));
@@ -238,6 +239,24 @@ addCheck(
     !homeApi.includes("error.message") &&
     !homeApi.includes("Unknown error"),
   "Home API keeps no-store runtime data and returns generic errors without exposing internal exception messages."
+);
+
+addCheck(
+  checks,
+  "security response headers",
+  nextConfig.includes("Content-Security-Policy") &&
+    nextConfig.includes("Strict-Transport-Security") &&
+    nextConfig.includes("frame-ancestors 'none'") &&
+    nextConfig.includes("object-src 'none'") &&
+    nextConfig.includes("base-uri 'self'") &&
+    nextConfig.includes("form-action 'self'") &&
+    nextConfig.includes("X-Frame-Options") &&
+    nextConfig.includes("X-Content-Type-Options") &&
+    nextConfig.includes("Referrer-Policy") &&
+    nextConfig.includes("Permissions-Policy") &&
+    nextConfig.includes("isCapacitorBuild") &&
+    nextConfig.includes("headers()"),
+  "Web deployment applies CSP, HSTS, clickjacking, MIME, referrer, and permissions headers while leaving Capacitor static export untouched."
 );
 
 addCheck(

@@ -146,6 +146,12 @@ async function fetchText(path, options = {}) {
     elapsedMs: Date.now() - startedAt,
     cacheControl: response.headers.get("cache-control") ?? "",
     contentType: response.headers.get("content-type") ?? "",
+    contentSecurityPolicy: response.headers.get("content-security-policy") ?? "",
+    strictTransportSecurity: response.headers.get("strict-transport-security") ?? "",
+    xFrameOptions: response.headers.get("x-frame-options") ?? "",
+    xContentTypeOptions: response.headers.get("x-content-type-options") ?? "",
+    referrerPolicy: response.headers.get("referrer-policy") ?? "",
+    permissionsPolicy: response.headers.get("permissions-policy") ?? "",
     location: response.headers.get("location") ?? "",
     xVercelId: response.headers.get("x-vercel-id") ?? "",
     bodyPreview: text.slice(0, 240),
@@ -226,6 +232,18 @@ checks.push(
   probes.root.ok && /text\/html/i.test(probes.root.contentType)
     ? pass("root page", `${probes.root.status} HTML response from ${origin}.`)
     : fail("root page", `Expected 200 HTML, got ${probes.root.status}.`)
+);
+checks.push(
+  /default-src 'self'/i.test(probes.root.contentSecurityPolicy) &&
+    /frame-ancestors 'none'/i.test(probes.root.contentSecurityPolicy) &&
+    /object-src 'none'/i.test(probes.root.contentSecurityPolicy) &&
+    /max-age=63072000/i.test(probes.root.strictTransportSecurity) &&
+    probes.root.xFrameOptions === "DENY" &&
+    probes.root.xContentTypeOptions === "nosniff" &&
+    /strict-origin-when-cross-origin/i.test(probes.root.referrerPolicy) &&
+    /camera=\(\)/i.test(probes.root.permissionsPolicy)
+    ? pass("root security headers", "Production HTML response includes CSP, HSTS, frame, MIME, referrer, and permissions headers.")
+    : fail("root security headers", "Production HTML response is missing one or more required security headers.")
 );
 
 probes.homeApi = await fetchText(apiHomePath);
@@ -434,6 +452,12 @@ const report = {
         elapsedMs: probe.elapsedMs,
         cacheControl: probe.cacheControl,
         contentType: probe.contentType,
+        contentSecurityPolicy: probe.contentSecurityPolicy,
+        strictTransportSecurity: probe.strictTransportSecurity,
+        xFrameOptions: probe.xFrameOptions,
+        xContentTypeOptions: probe.xContentTypeOptions,
+        referrerPolicy: probe.referrerPolicy,
+        permissionsPolicy: probe.permissionsPolicy,
         location: probe.location,
         redirectChain: probe.chain ?? undefined,
         xVercelId: probe.xVercelId,
