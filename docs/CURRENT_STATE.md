@@ -17,6 +17,7 @@
 
 - Branch: `codex/12h-product-ux-growth-hardening`
 - 최근 안정 커밋:
+  - 최신 저장 작업: PAYCO 공식 쿠폰·포인트 혜택 소스 3개 보강, 검증 완료
   - `0365f635 feat: expand telecom free benefit sources`
   - `b8685ae9 chore: harden cron refresh security guards`
   - `91080983 feat: expand official free benefit sources`
@@ -33,6 +34,14 @@
 - 코드 커밋 시 `git add .`를 피하고 필요한 파일만 명시적으로 stage한다.
 
 최근 완료 작업:
+
+- PAYCO 공식 쿠폰·포인트 혜택 소스를 추가했다.
+  - PAYCO 공식 리워드 포인트 혜택
+  - PAYCO 공식 모여서 쿠폰 쓰기 참여 가이드
+  - PAYCO 공식 프로모션 코드·쿠폰 등록 안내
+- 공식 소스 후보는 148개, `refresh:news` 기준 노출 공식 혜택은 115개, `refresh:benefits` 기준 active 무료혜택 이벤트는 112개다.
+- 새 PAYCO 혜택 3개는 모두 `publishable=true`, `validationStatus=passed`, `availability=active`, `linkType=official_coupon`으로 확인됐다.
+- 최신 source live check 기준 reachable 126개, guarded 22개, stale_or_removed 0개다.
 
 - 통신사 공식 무료혜택 소스를 추가했다.
   - LG U+ 공식 멤버십 제휴사 혜택

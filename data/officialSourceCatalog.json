@@ -3127,5 +3127,71 @@
     "allowedUse": "LG U+ 공식 진행 이벤트에서 콘텐츠, 멤버십, 구독, 쿠폰, 무료 또는 할인 혜택 조건과 기간이 확인되는 항목",
     "blockedUse": "지난 이벤트, LG U+ 메인, 검색 결과, 블로그 이벤트 요약, 조건 확인이 불가능한 이미지 단독 링크",
     "notes": "진행 이벤트 상세만 허용한다. 종료 문구가 확인되면 expired/hidden 처리하고 사용자 CTA를 제거한다."
+  },
+  {
+    "id": "payco-reward-official-point-benefit",
+    "label": "PAYCO 공식 리워드 포인트 혜택",
+    "provider": "official_event",
+    "category": [
+      "카드/멤버십",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.payco.com/point/reward.nhn",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "PAYCO 공식 리워드 포인트 적립 안내와 앱 기반 혜택 조건만 노출",
+    "blockedUse": "비공식 카드 혜택 글, 검색 결과, 앱 설치 유도만 있고 혜택 조건이 없는 링크",
+    "notes": "finalUrl은 PAYCO 공식 리워드 또는 포인트 혜택 상세 페이지여야 한다."
+  },
+  {
+    "id": "payco-partyplus-coupon-guide",
+    "label": "PAYCO 공식 모여서 쿠폰 쓰기 참여 가이드",
+    "provider": "official_event",
+    "category": [
+      "카드/멤버십",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://events.payco.com/partyplus/guide",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 6,
+    "allowedUse": "PAYCO 공식 쿠폰 모임 참여 방법과 쿠폰 발급 조건을 공식 URL로만 노출",
+    "blockedUse": "초대 링크 단독, 비공식 공유글, 쿠폰 사용처 검색 결과",
+    "notes": "쿠폰 발급 또는 참여 방법이 명확한 공식 PAYCO 이벤트 URL만 CTA로 사용한다."
+  },
+  {
+    "id": "payco-promotion-code-official-guide",
+    "label": "PAYCO 공식 프로모션 코드·쿠폰 등록 안내",
+    "provider": "official_event",
+    "category": [
+      "카드/멤버십",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.payco.com/payco/guidepromotion.nhn",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 24,
+    "allowedUse": "PAYCO 공식 프로모션 코드, 상품권, 쿠폰 등록 방법과 사용 조건 안내",
+    "blockedUse": "쿠폰 번호 공유글, 중고거래성 PIN 판매글, 비공식 블로그 안내",
+    "notes": "사용자에게는 공식 쿠폰 등록 안내와 앱 내 확인 경로를 함께 표시한다."
   }
 ]

@@ -1,12 +1,12 @@
 # 공식 소스 통합 준비도
 
-- 생성 시각: 2026-06-09T06:52:52.343Z
+- 생성 시각: 2026-06-09T07:09:08.920Z
 - 준비 상태: seed launch ready / 공식 feed 연결 대기
 - 출시 게이트: passed
-- 공식 소스 후보: 145개
-- 접근 가능/보호 소스: 123개 / 22개
+- 공식 소스 후보: 148개
+- 접근 가능/보호 소스: 126개 / 22개
 - 설정된 공식 feed URL: 0개
-- 공식 혜택 노출 가능: 112개
+- 공식 혜택 노출 가능: 115개
 - 차단 이슈: 0개
 
 ## 운영 원칙
@@ -19,20 +19,20 @@
 
 | 게이트 | 상태 | 내용 | 다음 작업 |
 | --- | --- | --- | --- |
-| official source catalog | passed | 145개 공식 소스 후보, 누락 카테고리 0개, 얇은 카테고리 0개 | npm run source:catalog:report |
-| official source live | passed | 접근 가능 123개, 보호 22개, 차단 이슈 0개, 네트워크 점검 0개 | npm run source:live:doctor |
+| official source catalog | passed | 148개 공식 소스 후보, 누락 카테고리 0개, 얇은 카테고리 0개 | npm run source:catalog:report |
+| official source live | passed | 접근 가능 126개, 보호 22개, 차단 이슈 0개, 네트워크 점검 0개 | npm run source:live:doctor |
 | source onboarding plan | passed | env 후보 6개, 상위 액션 10개 | npm run source:onboarding:plan |
 | source feed env safety | passed | 설정 URL 0개, 실패 0개, 정책 샘플 실패 0개 | npm run source:feed-env:doctor |
-| official benefit exposure | passed | 노출 112개, 숨김 0개, 종료 0개, 실패 0개 | npm run refresh:news && npm run verify:news |
-| refresh all pipeline | passed | 상품 140개, 공식 혜택 112개, 실패 0개 | npm run refresh:all |
+| official benefit exposure | passed | 노출 115개, 숨김 0개, 종료 0개, 실패 0개 | npm run refresh:news && npm run verify:news |
+| refresh all pipeline | passed | 상품 140개, 공식 혜택 115개, 실패 0개 | npm run refresh:all |
 
 ## 공식 feed env 연결 후보
 
 | Env key | 상태 | 후보 | 접근 가능 | 보호/승인 | 설정 URL | 다음 작업 |
 | --- | --- | ---: | ---: | ---: | ---: | --- |
-| OFFICIAL_EVENT_FEED_URLS | ready_to_connect | 123 | 106 | 17 | 0 | OFFICIAL_EVENT_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL을 줄바꿈 또는 쉼표로 입력 |
-| PUBLIC_COUPON_FEED_URLS | ready_to_connect | 91 | 76 | 15 | 0 | PUBLIC_COUPON_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL을 줄바꿈 또는 쉼표로 입력 |
-| BENEFIT_REFRESH_FEED_URLS | ready_to_connect | 56 | 47 | 9 | 0 | BENEFIT_REFRESH_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL을 줄바꿈 또는 쉼표로 입력 |
+| OFFICIAL_EVENT_FEED_URLS | ready_to_connect | 126 | 109 | 17 | 0 | OFFICIAL_EVENT_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL을 줄바꿈 또는 쉼표로 입력 |
+| PUBLIC_COUPON_FEED_URLS | ready_to_connect | 94 | 79 | 15 | 0 | PUBLIC_COUPON_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL을 줄바꿈 또는 쉼표로 입력 |
+| BENEFIT_REFRESH_FEED_URLS | ready_to_connect | 59 | 50 | 9 | 0 | BENEFIT_REFRESH_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL을 줄바꿈 또는 쉼표로 입력 |
 | DEAL_EVENT_FEED_URLS | ready_to_connect | 37 | 31 | 6 | 0 | DEAL_EVENT_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL을 줄바꿈 또는 쉼표로 입력 |
 | DEAL_EVENT_NEWS_FEED_URLS | ready_to_connect | 15 | 14 | 1 | 0 | DEAL_EVENT_NEWS_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL을 줄바꿈 또는 쉼표로 입력 |
 | DEAL_NEWS_FEED_URLS | ready_to_connect | 11 | 7 | 4 | 0 | DEAL_NEWS_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL을 줄바꿈 또는 쉼표로 입력 |
