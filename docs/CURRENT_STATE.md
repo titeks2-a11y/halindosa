@@ -1,6 +1,6 @@
 # 할인도사 현재 상태
 
-작성 시점: 2026-06-09 21:49:40 +09:00, Asia/Seoul
+작성 시점: 2026-06-09 21:57:36 +09:00, Asia/Seoul
 
 이 문서는 새 `codex` 세션에서 이전 긴 대화를 resume하지 않고 현재 워크트리만 기준으로 시작하기 위한 핸드오프 문서다.
 
@@ -15,9 +15,10 @@
 
 - Branch: `codex/12h-product-ux-growth-hardening`
 - Remote tracking: `origin/codex/12h-product-ux-growth-hardening`
-- 현재 확인 HEAD: `453728a4 feat: add verified seoul museum free benefits`
+- 현재 확인 HEAD: `2a230694 feat: add seoul public free activity benefits`
 - 최신 HEAD는 새 세션 시작 시 `git log -1 --oneline`으로 다시 확인한다.
 - 최근 커밋:
+  - `2a230694 feat: add seoul public free activity benefits`
   - `453728a4 feat: add verified seoul museum free benefits`
   - `0b945972 docs: update current handoff state`
   - `74343ba4 fix: correct seoul benefit metadata`
@@ -38,10 +39,10 @@
 ## 데이터 상태
 
 - 이번 보강 작업 시작 기준 HEAD: `49227568`
-- 공식 소스 후보: `185`
-- 뉴스/혜택 seed: `129`
-- `data/refreshedNewsDeals.json` 기준 refreshed 항목: `126`
-- `publishable=true`, `validationStatus=passed`, `availability=active` 기준 노출 가능 항목: `126`
+- 공식 소스 후보: `187`
+- 뉴스/혜택 seed: `131`
+- `data/refreshedNewsDeals.json` 기준 refreshed 항목: `128`
+- `publishable=true`, `validationStatus=passed`, `availability=active` 기준 노출 가능 항목: `128`
 - 최근 보강 소스:
   - 파파이스 공식 이벤트·쿠폰 혜택
   - 서울시 공공서비스예약 무료 체험·교육 혜택
@@ -60,6 +61,7 @@
   - K-MOOC 공식 강좌 상세 3건 추가: 컴퓨터그래픽스, 지식발견머신러닝, 미디어리터러시 무료강좌
   - 서울시 공공서비스예약 공식 상세 3건 추가: 서울생활사박물관 어린이체험실 옴팡, 동대문구 유아숲체험원 가족 숲 교육, 서울역사박물관 전시해설 무료 예약
   - 서울시 공공서비스예약 공식 상세 2건 추가: 서울백제어린이박물관 상설전시 무료 관람, 서울역사박물관 어린이박물관 개인 관람 무료 예약
+  - 서울시 공공서비스예약 공식 상세 2건 추가: 한성백제박물관 문화유산 보존 연구소 무료 가족교육, 구로 피크닉 가든 무료 이용 예약
 
 ## 품질 정책
 
@@ -134,6 +136,11 @@
 - 2026-06-09 추가 검증: `refresh:news`는 129개 수집, 중복 제거 후 126개 노출, 숨김 0개, 실패 0개로 통과했다.
 - 2026-06-09 추가 검증: `verify:news`는 126/126 공식 혜택 링크 검증 통과, `refresh:benefits`는 무료혜택 73/73, 공식 이벤트 104/104, FreeBenefitEvents 124/100 active official events, 97 sources, 74 hosts로 통과했다.
 - 2026-06-09 추가 검증: `lint`, `security:check` 14/14, `test:mobile-ux` 17/17, `release:doctor` 188/188, `qa` 75/75, `build`, `build:android`, `cap:sync`, `workspace:doctor:strict`가 통과했다.
+- 2026-06-09 추가 보강: 서울시 공공서비스예약 공식 상세 2건을 추가했다. 추가 항목은 한성백제박물관 문화유산 보존 연구소 무료 가족교육 예약, 구로 피크닉 가든 무료 이용 예약이며 모두 검색/목록이 아닌 서울시 공식 상세 URL이다.
+- 2026-06-09 추가 검증: 공식 소스 카탈로그는 187개 소스, 카테고리 커버리지 10/10, provider 커버리지 4/4로 통과했다.
+- 2026-06-09 추가 검증: `refresh:news`는 131개 수집, 중복 제거 후 128개 노출, 숨김 0개, 실패 0개로 통과했다.
+- 2026-06-09 추가 검증: `verify:news`는 128/128 공식 혜택 링크 검증 통과, `refresh:benefits`는 무료혜택 75/75, 공식 이벤트 104/104, FreeBenefitEvents 126/100 active official events, 97 sources, 74 hosts로 통과했다.
+- 2026-06-09 추가 검증: `security:check` 14/14, `test:mobile-ux` 17/17, `lint`, `release:doctor` 188/188, `build`, `build:android`, `cap:sync`, `workspace:doctor:strict`가 통과했다.
 
 새 세션에서는 필요한 명령을 다시 실행해 실제 현재 상태를 확인한 뒤 진행한다.
 
