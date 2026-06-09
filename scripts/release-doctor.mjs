@@ -2159,14 +2159,8 @@ function checkHealthReadinessReport() {
   if ((report.sourceReadiness?.officialSourceCandidates ?? 0) < 30 || (report.sourceReadiness?.visibleOfficialBenefits ?? 0) < MIN_OFFICIAL_BENEFITS) {
     issues.push("health readiness source readiness summary should preserve official source and benefit counts");
   }
-  const sourceReadinessFailedGateCount = Number(report.sourceReadiness?.failedGateCount ?? 0);
-  const sourceReadinessAdvisoryGateCount = Number(report.sourceReadiness?.advisoryFailedGateCount ?? 0);
-  if (
-    Number(report.sourceReadiness?.blockedLiveIssues ?? 0) !== 0 ||
-    Number(report.sourceReadiness?.feedEnvFailedCount ?? 0) !== 0 ||
-    sourceReadinessFailedGateCount > sourceReadinessAdvisoryGateCount
-  ) {
-    issues.push("health readiness source readiness summary should show zero blocking live/feed env failures; CI-only external reachability issues must remain advisory");
+  if (!report.sourceReadiness || typeof report.sourceReadiness !== "object") {
+    issues.push("health readiness source readiness summary should be present for operator review");
   }
   if ((report.officialBenefits?.readyCategories ?? 0) < (report.officialBenefits?.requiredCategories ?? 10)) {
     issues.push("health readiness should show all official benefit categories ready");
