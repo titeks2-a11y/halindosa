@@ -2,7 +2,7 @@ import type { PriceBand } from "@/lib/homeDiscoveryConfig";
 import { isCrossOriginApiRequest, resolveRuntimeApiUrl } from "@/lib/runtimeApi";
 import type { DealQualitySummary } from "@/lib/deals/quality";
 import type { Deal, DealBenefitType, DealSort } from "@/types/deal";
-import type { FreeBenefitEvent } from "@/types/freeBenefitEvent";
+import type { FreeBenefitEvent, FreeBenefitEventType } from "@/types/freeBenefitEvent";
 import type { HotSignal } from "@/types/hotSignal";
 import type { NewsDeadlineSummary, NewsDeal, NewsDealSourceTrust, NewsIntentGroup, NewsTargetSection } from "@/types/newsDeal";
 
@@ -81,9 +81,13 @@ export interface FreeBenefitEventsResponse {
   events: FreeBenefitEvent[];
   count: number;
   totalCount: number;
+  publishableTotalCount?: number;
   updatedAt: string;
   sourceUpdatedAt?: string;
   source: string;
+  categories?: Array<{ id: FreeBenefitEventType; label: string; count: number }>;
+  categoryCounts?: Array<{ id: FreeBenefitEventType; label: string; count: number }>;
+  filteredCategoryCounts?: Array<{ id: FreeBenefitEventType; label: string; count: number }>;
   freshnessStatus?: "fresh" | "due" | "stale" | "seed";
   freshnessLabel?: string;
   freshnessAgeMinutes?: number | null;

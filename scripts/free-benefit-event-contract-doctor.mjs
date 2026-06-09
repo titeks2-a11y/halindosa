@@ -202,9 +202,13 @@ const checks = [
       "requiresLogin",
       "includesQuery",
       "sortEvents",
+      "buildCategoryCounts",
+      "publishableTotalCount",
+      "categoryCounts",
+      "filteredCategoryCounts",
       "summary"
     ]).length === 0,
-    "API should rate-limit and support q, type, purchase/login, ending-soon, no-purchase, sorting, and summary."
+    "API should rate-limit and support q, type, purchase/login, ending-soon, no-purchase, sorting, category counts, and summary."
   ),
   check(
     "benefits events API exposes trust policy",
@@ -305,12 +309,16 @@ const checks = [
     hasAll(smokeSource, [
       "free benefit events api",
       "/api/benefits/events?limit=12&type=all",
+      "expectedBenefitCategories",
+      "publishableTotalCount",
+      "categoryCounts",
+      "filteredCategoryCounts",
       "sort=noPurchase&noPurchaseOnly=true",
       "publishableOnly",
       "claimCtaLabel",
       "trustBadges"
     ]).length === 0,
-    "Smoke should hit the events API and assert publishable policy, CTA, trust badges, and no-purchase filtering."
+    "Smoke should hit the events API and assert publishable policy, category counts, CTA, trust badges, and no-purchase filtering."
   )
 ];
 

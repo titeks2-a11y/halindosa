@@ -16,6 +16,21 @@ export const fetchCache = "force-no-store";
 
 const benefitTypeIds = new Set<FreeBenefitEventType>(freeBenefitEventCategories.map((category) => category.id));
 
+function buildCategoryCounts(events: FreeBenefitEvent[]) {
+  const counts = events.reduce<Record<string, number>>(
+    (acc, event) => {
+      acc[event.benefitType] = (acc[event.benefitType] ?? 0) + 1;
+      return acc;
+    },
+    { all: events.length }
+  );
+
+  return freeBenefitEventCategories.map((category) => ({
+    ...category,
+    count: category.id === "all" ? events.length : counts[category.id] ?? 0
+  }));
+}
+
 function parseLimit(value: string | null) {
   const limit = Number(value ?? 24);
   if (!Number.isFinite(limit)) return 24;
@@ -148,8 +163,11 @@ export async function GET(request: Request) {
       sort: "priority"
     });
     const allEvents = buildFreeBenefitEvents(news.deals, referenceNow);
+    const publishableEvents = allEvents.filter((event) => isPublishableFreeBenefitEvent(event, referenceNow));
     const filteredEvents = sortEvents(filterEvents(allEvents, request, referenceNow), sort, referenceNow);
     const events = filteredEvents.slice(0, limit);
+    const categoryCounts = buildCategoryCounts(publishableEvents);
+    const filteredCategoryCounts = buildCategoryCounts(filteredEvents);
 
     return noStoreJson(
       {
@@ -159,7 +177,10 @@ export async function GET(request: Request) {
         count: events.length,
         totalCount: filteredEvents.length,
         sourceTotalCount: allEvents.length,
-        categories: freeBenefitEventCategories,
+        publishableTotalCount: publishableEvents.length,
+        categories: categoryCounts,
+        categoryCounts,
+        filteredCategoryCounts,
         summary: summarizeEvents(filteredEvents),
         filters: {
           type: searchParams.get("type") ?? "all",

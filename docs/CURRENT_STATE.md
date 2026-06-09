@@ -46,6 +46,7 @@ npm run workspace:doctor:strict
   - `scripts/free-benefit-event-contract-doctor.mjs`
 - 홈과 `/free-benefits`는 12개 무료혜택 필터 계약을 공유한다.
   - 전체, 전원증정, 선착순, 쿠폰, 샘플, 무료체험, 기프티콘, 포인트/캐시백, 출석체크, 신규가입, 공공무료, 체험단
+- `/api/benefits/events`는 위 12개 필터의 active publishable 카운트를 `categories`, `categoryCounts`, `filteredCategoryCounts`로 함께 내려준다.
 - 홈 빠른 필터는 URL 파라미터로 `/free-benefits` 필터 상태를 복원한다.
 - 무료혜택 CTA는 공식 이벤트/신청 URL만 통과시키는 정책으로 운영한다.
 - source feed starter pack은 12개 lane 기준으로 확장되어 있다.
@@ -83,9 +84,9 @@ npm run cap:sync
 
 ## 다음 작업 후보
 
-1. `/api/benefits/events` 응답에 active publishable 카테고리별 count를 명시해 모바일 필터와 API 계약을 더 강하게 맞춘다.
-2. 실제 운영 feed URL을 Vercel env에 연결하기 전 `docs/FREE_BENEFIT_FEED_HANDOFF.md`와 `docs/SOURCE_FEED_ACTIVATION.md` 기준으로 검증한다.
-3. 공공/교육/반려동물/문화 무료혜택 후보를 추가하되, 사용자 CTA는 공식 상세 또는 신청 페이지가 active이고 무료 조건이 확인된 경우에만 연결한다.
+1. 실제 운영 feed URL을 Vercel env에 연결하기 전 `docs/FREE_BENEFIT_FEED_HANDOFF.md`와 `docs/SOURCE_FEED_ACTIVATION.md` 기준으로 검증한다.
+2. 공공/교육/반려동물/문화 무료혜택 후보를 추가하되, 사용자 CTA는 공식 상세 또는 신청 페이지가 active이고 무료 조건이 확인된 경우에만 연결한다.
+3. 홈/무료혜택 화면에서 API 제공 카테고리 카운트를 사용해 빈 필터로 이동하는 동선을 더 줄인다.
 4. 새 공식 후보를 추가하면 아래 순서로 먼저 검증한다.
 
 ```bash
@@ -124,4 +125,3 @@ npm run source:activation:doctor
 - `docs/FREE_BENEFIT_EVENT_CONTRACT.md`: FreeBenefitEvent 노출 계약
 - `docs/FREE_BENEFIT_FEED_HANDOFF.md`: 운영 feed 연결 안내
 - `docs/SOURCE_FEED_ACTIVATION.md`: source feed 활성화 절차
-

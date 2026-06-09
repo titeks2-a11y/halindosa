@@ -160,7 +160,15 @@ await check("free benefit events api", async () => {
   assert(data.ok === true, "Free benefit events API ok should be true");
   assert(Array.isArray(data.events) && data.events.length >= 8, "Free benefit events API should return official active events");
   assert(data.totalCount >= 100, `Free benefit events API should keep at least 100 publishable events, got ${data.totalCount}`);
+  const expectedBenefitCategories = ["all", "everyone", "firstCome", "coupon", "sample", "freeTrial", "gifticon", "pointCashback", "checkIn", "signup", "publicFree", "experiencePanel"];
   assert(Array.isArray(data.categories) && data.categories.some((category) => category.id === "everyone"), "Free benefit events API missing event category metadata");
+  assert(
+    expectedBenefitCategories.every((id) => data.categories.some((category) => category.id === id && typeof category.count === "number")),
+    "Free benefit events API categories should expose active publishable counts for every mobile filter"
+  );
+  assert(Array.isArray(data.categoryCounts) && Array.isArray(data.filteredCategoryCounts), "Free benefit events API missing global and filtered category count arrays");
+  assert(data.categoryCounts.find((category) => category.id === "all")?.count === data.publishableTotalCount, "Free benefit events API global all count should match publishableTotalCount");
+  assert(data.filteredCategoryCounts.find((category) => category.id === "all")?.count === data.totalCount, "Free benefit events API filtered all count should match totalCount");
   assert(data.summary?.noPurchase >= 1 || data.summary?.everyone >= 1 || data.summary?.firstCome >= 1, "Free benefit events API summary missing free-benefit counters");
   assert(data.summary?.officialSourceCount >= 50, "Free benefit events API summary missing official source diversity counter");
   assert(data.filters?.sort === "recommended", "Free benefit events API should expose selected sort state");
