@@ -6,6 +6,20 @@
 
 이 파일은 새 `codex` 세션에서 이전 긴 대화를 resume하지 않고 현재 프로젝트 상태만 파악하기 위한 시작 문서다.
 
+## 최신 핸드오프 요약
+
+- 이전 대화는 새 세션에서 resume하지 않는다. 새 `codex` 세션은 `AGENTS.md`, 이 파일, 현재 워크트리만 기준으로 시작한다.
+- 현재 브랜치는 `codex/12h-product-ux-growth-hardening`이다.
+- 최신 푸시된 안정 커밋은 `213160fd feat: expand payco official benefit sources`다.
+- 현재 워크트리에는 카카오페이 공식 결제·쿠폰·멤버십 혜택 소스 3개 보강 결과와 QA/리포트 재생성 산출물이 남아 있다.
+- 카카오페이 보강 결과:
+  - 공식 소스 후보 `151`개
+  - `refresh:news` 기준 노출 공식 혜택 `118`개
+  - `refresh:benefits` 기준 active 무료혜택 이벤트 `115`개
+  - 새 카카오페이 혜택 3개 모두 `publishable=true`, `validationStatus=passed`, `availability=active`, `linkType=official_coupon`
+  - 최신 source live check 기준 reachable `129`, guarded `22`, stale_or_removed `0`
+- 새 세션에서 커밋이 필요하면 `git add .`를 쓰지 말고 카카오페이 보강 관련 파일만 명시적으로 stage한다.
+
 ## 새 세션 시작 규칙
 
 - 이전 대화는 resume하지 않는다.
@@ -17,6 +31,7 @@
 
 - Branch: `codex/12h-product-ux-growth-hardening`
 - 최근 안정 커밋:
+  - 최신 검증 작업: 카카오페이 공식 결제·쿠폰·멤버십 혜택 소스 3개 보강, 검증 완료
   - 최신 저장 작업: PAYCO 공식 쿠폰·포인트 혜택 소스 3개 보강, 검증 완료
   - `0365f635 feat: expand telecom free benefit sources`
   - `b8685ae9 chore: harden cron refresh security guards`
@@ -34,6 +49,14 @@
 - 코드 커밋 시 `git add .`를 피하고 필요한 파일만 명시적으로 stage한다.
 
 최근 완료 작업:
+
+- 카카오페이 공식 결제·쿠폰·멤버십 혜택 소스를 추가했다.
+  - 카카오페이 공식 결제 포인트 혜택
+  - 카카오페이 공식 혜택·쿠폰 고객센터 안내
+  - 카카오페이 공식 멤버십 적립 사용 가이드
+- 공식 소스 후보는 151개, `refresh:news` 기준 노출 공식 혜택은 118개, `refresh:benefits` 기준 active 무료혜택 이벤트는 115개다.
+- 새 카카오페이 혜택 3개는 모두 `publishable=true`, `validationStatus=passed`, `availability=active`, `linkType=official_coupon`으로 확인됐다.
+- 최신 source live check 기준 reachable 129개, guarded 22개, stale_or_removed 0개다.
 
 - PAYCO 공식 쿠폰·포인트 혜택 소스를 추가했다.
   - PAYCO 공식 리워드 포인트 혜택

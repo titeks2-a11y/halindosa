@@ -3193,5 +3193,71 @@
     "allowedUse": "PAYCO 공식 프로모션 코드, 상품권, 쿠폰 등록 방법과 사용 조건 안내",
     "blockedUse": "쿠폰 번호 공유글, 중고거래성 PIN 판매글, 비공식 블로그 안내",
     "notes": "사용자에게는 공식 쿠폰 등록 안내와 앱 내 확인 경로를 함께 표시한다."
+  },
+  {
+    "id": "kakaopay-payment-point-official-benefit",
+    "label": "카카오페이 공식 결제 포인트 혜택",
+    "provider": "official_event",
+    "category": [
+      "카드/멤버십",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.kakaopay.com/services/life/payment?t_ch=main&t_src=homepage",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "카카오페이 공식 결제 페이지에서 포인트 적립 또는 결제 혜택 조건이 확인되는 항목",
+    "blockedUse": "카카오페이 메인, 비공식 혜택 글, 검색 결과, 포인트 조건이 불명확한 광고성 링크",
+    "notes": "finalUrl은 카카오페이 공식 서비스/혜택 설명 또는 앱 내 혜택 경로가 명확한 페이지여야 한다."
+  },
+  {
+    "id": "kakaopay-benefits-faq-official-coupon",
+    "label": "카카오페이 공식 혜택·쿠폰 고객센터 안내",
+    "provider": "official_event",
+    "category": [
+      "카드/멤버십",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://support.kakaopay.com/inapp/faq-list/CUSTOMER_CENTER_FAQ_BENEFITS?qna=all",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 24,
+    "allowedUse": "카카오페이 공식 고객센터에서 쿠폰 등록, 포인트 확인, 혜택 이용 경로가 확인되는 안내",
+    "blockedUse": "비공식 쿠폰 번호 공유, 개인 블로그 안내, 고객센터 검색 결과만 있는 링크",
+    "notes": "쿠폰 등록과 포인트 확인 경로를 안내하는 공식 FAQ만 운영 보조 혜택으로 사용한다."
+  },
+  {
+    "id": "kakaopay-membership-usage-official-guide",
+    "label": "카카오페이 공식 멤버십 적립 사용 가이드",
+    "provider": "official_event",
+    "category": [
+      "카드/멤버십",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://contents.kakaopay.com/contents/909",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 24,
+    "allowedUse": "카카오페이 공식 콘텐츠에서 멤버십 연결, 자동 적립, 제휴 멤버십 사용법이 확인되는 안내",
+    "blockedUse": "비공식 사용 후기, 광고성 제휴 글, 링크가 없는 이미지 캡처",
+    "notes": "사용자 CTA는 카카오페이 공식 콘텐츠 또는 서비스 페이지로만 연결한다."
   }
 ]
