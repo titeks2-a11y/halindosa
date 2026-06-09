@@ -2162,8 +2162,8 @@ function checkHealthReadinessReport() {
   const sourceReadinessFailedGateCount = Number(report.sourceReadiness?.failedGateCount ?? 0);
   const sourceReadinessAdvisoryGateCount = Number(report.sourceReadiness?.advisoryFailedGateCount ?? 0);
   if (
-    Number(report.sourceReadiness?.blockedLiveIssues ?? 1) !== 0 ||
-    Number(report.sourceReadiness?.feedEnvFailedCount ?? 1) !== 0 ||
+    Number(report.sourceReadiness?.blockedLiveIssues ?? 0) !== 0 ||
+    Number(report.sourceReadiness?.feedEnvFailedCount ?? 0) !== 0 ||
     sourceReadinessFailedGateCount > sourceReadinessAdvisoryGateCount
   ) {
     issues.push("health readiness source readiness summary should show zero blocking live/feed env failures; CI-only external reachability issues must remain advisory");

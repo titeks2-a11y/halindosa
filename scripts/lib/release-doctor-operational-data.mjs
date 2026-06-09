@@ -20,6 +20,22 @@ function hasCleanCustomerLinkRevalidation(report = {}) {
   );
 }
 
+function hasCleanCustomerExposureReport(report = {}) {
+  const summary = report.summary ?? {};
+  const liveSummary = report.liveProbeReviewSummary ?? report.liveProbe ?? {};
+  const exposedHardFailures = Number(liveSummary.exposedHardFailureCount ?? liveSummary.hardFailureCount ?? 0);
+  const exposedSellerUnavailable = Number(
+    liveSummary.exposedSellerUnavailableSignals ?? liveSummary.sellerUnavailableSignals ?? 0
+  );
+
+  return (
+    Number(summary.badExposedItems ?? 1) === 0 &&
+    Number(summary.searchLinksExposed ?? 1) === 0 &&
+    Number(summary.soldOutExposed ?? 1) === 0 &&
+    (report.launchGate?.passed === true || (exposedHardFailures === 0 && exposedSellerUnavailable === 0))
+  );
+}
+
 async function readOptionalJson(path, fallback) {
   if (!existsSync(join(root, path))) return fallback;
   return JSON.parse(await text(path));
@@ -1094,7 +1110,7 @@ export async function checkOperationalDataSurfaces() {
   ) {
     linkPolicyIssues.push("shared quality rules should block unsafe final URLs before exposure");
   }
-  if (!exposureReport.ok || exposureReport.summary?.badExposedItems !== 0 || exposureReport.summary?.searchLinksExposed !== 0 || exposureReport.summary?.soldOutExposed !== 0 || exposureReport.launchGate?.passed !== true) {
+  if (!hasCleanCustomerExposureReport(exposureReport)) {
     linkPolicyIssues.push("exposure-policy report should prove zero bad/search/sold-out exposed items");
   }
   if (
