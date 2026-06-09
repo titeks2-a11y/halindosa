@@ -1,3 +1,4 @@
+import { getConsumerBenefitPriorityAdjustment, isPublicPolicyBenefit } from "@/lib/consumerBenefitPriority";
 import type { NewsDeal, NewsBenefitType } from "@/types/newsDeal";
 
 export const homeFreebieBenefitTypes = new Set<NewsBenefitType>([
@@ -22,7 +23,7 @@ const strictFreeBenefitTypes = new Set<NewsBenefitType>(["coupon", "freebie", "f
 const blockedUrlPattern = /\/search|search\?|query=|keyword=|shopping\/search|msearch|\/find|\/result|ppomppu|fmkorea|quasarzone|algumon|blog\.naver|news\.naver|v\.daum|news\.daum/i;
 const freeIntentPattern = /무료|0원|무배|무료배송|쿠폰|포인트|샘플|체험|초대|지원|증정|1\+1|2\+1|행사|이벤트|리워드|멤버십|카드|배달|편의점|마트/;
 const purchaseConditionPattern = /구매|주문|결제|최소\s*주문|이상\s*구매|장바구니|배송비|카드\s*발급|신규\s*발급|자동\s*납부|자동이체|연회비/i;
-const lowFrictionBenefitPattern = /무료\s*강좌|무료\s*체험|샘플|쿠폰|포인트|출석|룰렛|공공|문화|기프티콘|0원|전원\s*증정/i;
+const lowFrictionBenefitPattern = /무료\s*체험|샘플|쿠폰|포인트|출석|룰렛|기프티콘|0원|전원\s*증정/i;
 
 function getSearchText(deal: NewsDeal) {
   return [deal.title, deal.summary, deal.category, deal.benefitType, deal.sourceName, deal.tags.join(" ")].join(" ");
@@ -93,6 +94,7 @@ export function getHomeFreebieScore(deal: NewsDeal, referenceNow = Date.now()) {
   const checkedHours = hoursSince(deal.verifiedAt || deal.lastCheckedAt || deal.updatedAt, referenceNow);
   const requiresPurchase = hasPurchaseCondition(deal);
   const lowFriction = hasLowFrictionBenefitSignal(deal);
+  const publicPolicyPenalty = isPublicPolicyBenefit(deal) ? -110 : 0;
   const typeBoost =
     deal.benefitType === "sample"
       ? 38
@@ -102,8 +104,10 @@ export function getHomeFreebieScore(deal: NewsDeal, referenceNow = Date.now()) {
         ? 30
         : deal.benefitType === "freeShipping"
           ? 28
-          : deal.benefitType === "point" || deal.benefitType === "public" || deal.benefitType === "public_free" || deal.benefitType === "education" || deal.benefitType === "culture"
+          : deal.benefitType === "point"
             ? 24
+            : deal.benefitType === "public" || deal.benefitType === "public_free" || deal.benefitType === "education" || deal.benefitType === "culture"
+              ? 4
             : deal.benefitType === "card"
               ? 6
               : 16;
@@ -118,6 +122,8 @@ export function getHomeFreebieScore(deal: NewsDeal, referenceNow = Date.now()) {
       urgencyBoost +
       freshnessBoost +
       conditionAdjustment +
+      getConsumerBenefitPriorityAdjustment(deal) +
+      publicPolicyPenalty +
       (deal.imageUrl ? 5 : 0)
   );
 }

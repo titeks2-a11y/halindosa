@@ -205,10 +205,23 @@ export function getFreeBenefitEventScore(event: FreeBenefitEvent, referenceNow =
   const endAt = Date.parse(event.endAt);
   const hoursLeft = Number.isFinite(endAt) ? Math.max(0, (endAt - referenceNow) / 3_600_000) : 999;
   const urgencyBoost = hoursLeft <= 24 ? 18 : hoursLeft <= 72 ? 9 : 0;
+  const consumerTypeBoost =
+    event.benefitType === "coupon"
+      ? 24
+      : event.benefitType === "sample" || event.benefitType === "freeTrial" || event.benefitType === "experiencePanel"
+        ? 22
+        : event.benefitType === "gifticon" || event.benefitType === "pointCashback" || event.benefitType === "checkIn" || event.benefitType === "roulette"
+          ? 18
+          : event.benefitType === "freeShipping" || event.benefitType === "brandEvent"
+            ? 14
+            : 0;
+  const publicPolicyPenalty = event.benefitType === "publicFree" || event.sourceType === "approved_public" ? -90 : 0;
 
   return (
     event.qualityScore +
     event.priorityScore * 0.5 +
+    consumerTypeBoost +
+    publicPolicyPenalty +
     (event.isEveryoneReward ? 18 : 0) +
     (event.isFirstComeFirstServed ? 9 : 0) +
     (event.requiresPurchase ? -18 : 8) +

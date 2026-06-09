@@ -1,6 +1,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import seedNewsDeals from "@/data/newsDeals.seed.json";
+import { getConsumerBenefitPriorityScore } from "@/lib/consumerBenefitPriority";
 import { applyNewsDealOverrides } from "@/lib/deals/newsOverrides";
 import { buildNewsDeadlineSummary } from "@/lib/deals/newsDeadlineInsights";
 import { buildInitialNewsTargetSections, buildNewsIntentGroups } from "@/lib/deals/newsRecommendedQueries";
@@ -109,14 +110,14 @@ function sortNewsDeals(deals: NewsDeal[], sort: NewsDealSort) {
 
   switch (sort) {
     case "endingSoon":
-      return sorted.sort((a, b) => Date.parse(a.endDate) - Date.parse(b.endDate) || (b.priorityScore ?? b.confidenceScore) - (a.priorityScore ?? a.confidenceScore));
+      return sorted.sort((a, b) => Date.parse(a.endDate) - Date.parse(b.endDate) || getConsumerBenefitPriorityScore(b) - getConsumerBenefitPriorityScore(a));
     case "latest":
       return sorted.sort((a, b) => Date.parse(b.lastCheckedAt || b.startDate) - Date.parse(a.lastCheckedAt || a.startDate));
     case "discount":
       return sorted.sort((a, b) => (b.discountRate + Math.floor((b.couponAmount ?? 0) / 1000)) - (a.discountRate + Math.floor((a.couponAmount ?? 0) / 1000)));
     case "priority":
     default:
-      return sorted.sort((a, b) => (b.priorityScore ?? b.confidenceScore) - (a.priorityScore ?? a.confidenceScore) || Date.parse(a.endDate) - Date.parse(b.endDate));
+      return sorted.sort((a, b) => getConsumerBenefitPriorityScore(b) - getConsumerBenefitPriorityScore(a) || Date.parse(a.endDate) - Date.parse(b.endDate));
   }
 }
 
@@ -160,7 +161,7 @@ function buildConfiguredNewsQuerySeeds() {
   const fromConfig = readOfficialBenefitSourceSpecs()
     .filter((spec) => spec.enabled !== false)
     .flatMap((spec) => (Array.isArray(spec.recommendedQueries) ? spec.recommendedQueries : []));
-  const baseline = ["오늘의 무료", "쿠폰", "마트 행사", "편의점 1+1", "배달 쿠폰", "카드 혜택", "정부 지원", "문화 혜택"];
+  const baseline = ["오늘의 무료", "쿠폰", "마트 행사", "편의점 1+1", "배달 쿠폰", "카드 혜택", "무료 샘플", "브랜드 이벤트"];
 
   return Array.from(new Set([...fromConfig, ...baseline].map((query) => query.trim()).filter(Boolean)));
 }
@@ -169,7 +170,7 @@ function buildConfiguredNewsTargetSections() {
   const fromConfig = readOfficialBenefitSourceSpecs()
     .filter((spec) => spec.enabled !== false)
     .flatMap((spec) => (Array.isArray(spec.targetSections) ? spec.targetSections : []));
-  const baseline = ["오늘의 무료", "쿠폰", "마트 행사", "편의점 1+1", "배달 쿠폰", "카드 혜택", "정부 지원/문화 혜택", "마감임박"];
+  const baseline = ["오늘의 무료", "쿠폰", "마트 행사", "편의점 1+1", "배달 쿠폰", "카드 혜택", "무료 샘플", "마감임박"];
 
   return Array.from(new Set([...fromConfig, ...baseline].map((section) => section.trim()).filter(Boolean)));
 }
@@ -219,8 +220,8 @@ function buildRecommendedNewsQueries(deals: NewsDeal[], configuredQueries = buil
     { query: "편의점 1+1", score: 16 },
     { query: "배달 쿠폰", score: 15 },
     { query: "카드 혜택", score: 15 },
-    { query: "정부 지원", score: 14 },
-    { query: "문화 혜택", score: 14 },
+    { query: "무료 샘플", score: 14 },
+    { query: "브랜드 이벤트", score: 14 },
     { query: "마감임박", score: 13 },
     { query: "무료배송", score: 13 }
   ];

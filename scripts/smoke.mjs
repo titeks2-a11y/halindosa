@@ -115,7 +115,10 @@ await check("news deals api", async () => {
   assert(typeof data.deadlineSummary?.nearestEndDate === "string" && data.deadlineSummary.nearestEndDate.length > 0, "News deals API missing official benefit deadline summary");
   assert(Array.isArray(data.deadlineSummary?.buckets) && data.deadlineSummary.buckets.some((bucket) => bucket.id === "sevenDays"), "News deals API missing deadline bucket rows");
   assert(data.deals.some((deal) => deal.category === "마트/편의점"), "News deals API missing mart/convenience official benefits");
-  assert(data.deals.some((deal) => deal.category === "영화/문화" || deal.category === "정부/공공혜택"), "News deals API missing culture/public official benefits");
+  assert(
+    data.deals.slice(0, 12).some((deal) => ["쿠폰", "sample", "freebie", "freeShipping", "foodDelivery", "convenienceStore", "mart", "point"].includes(deal.benefitType)),
+    "News deals API default ranking should prioritize consumer coupon, sample, delivery, mart, point, or free-shipping benefits"
+  );
   const full = await fetchJson("/api/news-deals");
   assert(full.data.count >= MIN_OFFICIAL_BENEFITS, `News deals API should keep at least ${MIN_OFFICIAL_BENEFITS} visible official benefits, got ${full.data.count}`);
   const couponSearch = await fetchJson("/api/news-deals?q=쿠폰&sort=endingSoon&limit=10");
