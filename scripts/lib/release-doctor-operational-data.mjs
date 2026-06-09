@@ -1633,6 +1633,12 @@ export async function checkOperationalDataSurfaces() {
     sourceFeedEnvReport.checkedKeys.length < 6 ||
     !sourceFeedEnvReport.policy?.machineReadableFeedRequired ||
     !sourceFeedEnvReport.policy?.officialCatalogHostOrApprovedPartnerHostRequired ||
+    !sourceFeedEnvReport.activationReadiness ||
+    !["seed_fallback_only", "feed_configured"].includes(sourceFeedEnvReport.activationReadiness.status) ||
+    !Array.isArray(sourceFeedEnvReport.activationReadiness.recommendedFirstLanes) ||
+    sourceFeedEnvReport.activationReadiness.recommendedFirstLanes.length < 12 ||
+    !Array.isArray(sourceFeedEnvReport.activationReadiness.operatorChecklist) ||
+    sourceFeedEnvReport.activationReadiness.operatorChecklist.length < 4 ||
     !Array.isArray(sourceFeedEnvReport.allowedCatalogHosts) ||
     sourceFeedEnvReport.allowedCatalogHosts.length < 25 ||
     !Array.isArray(sourceFeedEnvReport.policyRegressionSamples) ||
@@ -1654,6 +1660,9 @@ export async function checkOperationalDataSurfaces() {
     !sourceOnboardingPlanDoc.includes("운영 시작 묶음") ||
     !sourceOnboardingPlanDoc.includes("무료혜택·0원딜 우선 연결") ||
     !sourceFeedEnvDoc.includes("공식 feed 환경변수 안전성 리포트") ||
+    !sourceFeedEnvDoc.includes("다음 Feed 활성화 큐") ||
+    !sourceFeedEnvDoc.includes("우선 검토 후보") ||
+    !sourceFeedEnvDoc.includes("운영자 체크리스트") ||
     !sourceFeedEnvDoc.includes("정책 회귀 샘플") ||
     !sourceFeedEnvDoc.includes("검색 결과, 커뮤니티 원문") ||
     !sourceReadinessDoc.includes("공식 소스 통합 준비도") ||

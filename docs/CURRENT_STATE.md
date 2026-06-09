@@ -56,6 +56,7 @@ npm run workspace:doctor:strict
 - source feed starter pack은 12개 lane 기준으로 확장되어 있다.
 - 공식 소스 후보는 파스쿠찌 공식 이벤트 목록과 던킨 공식 프로모션 목록까지 포함해 140개 수준이다.
 - source activation gate는 live doctor, breadth doctor, benefit event contract를 함께 본다.
+- `source:feed-env:doctor`는 starter pack을 읽어 12개 lane의 다음 feed 활성화 큐, 우선 검토 후보, 운영자 체크리스트를 `docs/SOURCE_FEED_ENV_REPORT.md`에 함께 남긴다.
 
 ## 최근 검증 상태
 
@@ -90,7 +91,7 @@ npm run workspace:doctor:strict
 
 ## 다음 작업 후보
 
-1. 실제 운영 feed URL을 Vercel env에 연결하기 전 `docs/FREE_BENEFIT_FEED_HANDOFF.md`와 `docs/SOURCE_FEED_ACTIVATION.md` 기준으로 검증한다.
+1. 실제 운영 feed URL을 Vercel env에 연결하기 전 `docs/SOURCE_FEED_ENV_REPORT.md`, `docs/FREE_BENEFIT_FEED_HANDOFF.md`, `docs/SOURCE_FEED_ACTIVATION.md` 기준으로 검증한다.
 2. 공공/교육/반려동물/문화/카페 프랜차이즈 무료혜택 후보를 추가하되, 사용자 CTA는 공식 상세 또는 신청 페이지가 active이고 무료 조건이 확인된 경우에만 연결한다.
 3. 홈 히어로 빠른 필터는 현재 0개 카테고리를 비활성화 톤으로 표시한다. 다음에는 실제 모바일 화면에서 노출 순서와 숨김/비활성 정책 중 어느 쪽이 전환율이 좋은지 확인한다.
 4. 새 공식 후보를 추가하면 아래 순서로 먼저 검증한다.

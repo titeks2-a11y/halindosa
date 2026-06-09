@@ -7,6 +7,7 @@ const reportsDir = join(root, "reports");
 const docsDir = join(root, "docs");
 const reportPath = join(reportsDir, "source-feed-env-readiness.json");
 const docsPath = join(docsDir, "SOURCE_FEED_ENV_REPORT.md");
+const starterPackPath = join(reportsDir, "free-benefit-feed-starter-pack.json");
 
 const feedKeys = [
   "DEAL_NEWS_FEED_URLS",
@@ -185,6 +186,42 @@ function sanitizeUrl(url) {
   }
 }
 
+function buildActivationReadiness(configuredUrlCount) {
+  const starterPack = readJson(starterPackPath, {});
+  const packs = Array.isArray(starterPack.packs) ? starterPack.packs : [];
+  const recommendedFirstLanes = packs
+    .map((pack) => ({
+      id: pack.id,
+      label: pack.label,
+      envKeys: Array.isArray(pack.envKeys) ? pack.envKeys.slice(0, 3) : [],
+      candidateCount: Number(pack.candidateCount ?? 0),
+      reachableCount: Number(pack.reachableCount ?? 0),
+      guardedCount: Number(pack.guardedCount ?? 0),
+      firstAction: pack.firstAction ?? "공식 JSON/RSS/API feed endpoint를 승인 후 연결",
+      firstCandidates: (Array.isArray(pack.candidates) ? pack.candidates : []).slice(0, 3).map((candidate) => ({
+        id: candidate.id,
+        label: candidate.label,
+        officialUrl: candidate.officialUrl,
+        liveStatus: candidate.liveStatus,
+        recommendedEnvKeys: Array.isArray(candidate.preferredEnvKeys) ? candidate.preferredEnvKeys.slice(0, 3) : []
+      }))
+    }))
+    .slice(0, 12);
+
+  return {
+    status: configuredUrlCount > 0 ? "feed_configured" : "seed_fallback_only",
+    starterPackAvailable: packs.length > 0,
+    recommendedLaneCount: recommendedFirstLanes.length,
+    recommendedFirstLanes,
+    operatorChecklist: [
+      "공식 URL은 검토 기준으로만 사용하고, env에는 JSON/RSS/Atom/API/승인 파트너 feed endpoint만 넣습니다.",
+      "HTML 이벤트 목록, 검색 결과, 커뮤니티/블로그 URL, 대표 홈페이지 URL은 source:feed-env:doctor에서 차단되어야 합니다.",
+      "새 host가 카탈로그에 없으면 host만 HALINDOSA_APPROVED_FEED_HOSTS 또는 BENEFIT_REFRESH_APPROVED_HOSTS에 추가하고 계약/승인 근거를 문서화합니다.",
+      "feed 연결 후 source:feed-env:doctor, news:feed:canary, refresh:news, verify:news, refresh:benefits, security:check 순서로 확인합니다."
+    ]
+  };
+}
+
 function classifyUrl(envKey, rawUrl, catalogHostMap, approvedExtraHosts, allowDataUrls) {
   const base = {
     envKey,
@@ -310,6 +347,20 @@ function buildMarkdown(report) {
     (sample) =>
       `| ${sample.label} | ${sample.expectedStatus} | ${sample.expectedReason} | ${sample.actualStatus} | ${sample.actualReason} | ${sample.passed ? "pass" : "fail"} |`
   );
+  const activationRows = report.activationReadiness.recommendedFirstLanes.length
+    ? report.activationReadiness.recommendedFirstLanes.map(
+        (lane) =>
+          `| ${lane.label} | ${lane.envKeys.join("<br>")} | ${lane.candidateCount} | ${lane.reachableCount} | ${lane.guardedCount} | ${lane.firstAction} |`
+      )
+    : ["| - | - | 0 | 0 | 0 | `npm run source:starter:pack`으로 starter pack을 먼저 생성합니다. |"];
+  const candidateRows = report.activationReadiness.recommendedFirstLanes
+    .flatMap((lane) =>
+      lane.firstCandidates.map(
+        (candidate) =>
+          `| ${lane.label} | ${candidate.label} | ${candidate.liveStatus} | ${candidate.recommendedEnvKeys.join("<br>")} | ${candidate.officialUrl} |`
+      )
+    )
+    .slice(0, 24);
 
   return [
     "# 공식 feed 환경변수 안전성 리포트",
@@ -327,12 +378,29 @@ function buildMarkdown(report) {
     "- 검색 결과, 커뮤니티 원문, 블로그, 쇼핑몰 메인 또는 HTML 이벤트 페이지 직접 수집은 금지합니다.",
     "- 승인된 외부 feed host는 `HALINDOSA_APPROVED_FEED_HOSTS`에 host만 기록하고, 토큰·query 값은 리포트에 남기지 않습니다.",
     "- 무료혜택 전용 feed는 `BENEFIT_REFRESH_FEED_URLS`에 연결하고, 별도 승인 host는 `BENEFIT_REFRESH_APPROVED_HOSTS`에 host만 기록합니다.",
+    `- 현재 활성화 상태: ${report.activationReadiness.status}`,
     "",
     "## 검사 결과",
     "",
     "| Env key | URL(민감 query 제거) | Host | 상태 | 사유 | 다음 작업 |",
     "| --- | --- | --- | --- | --- | --- |",
     ...rows,
+    "",
+    "## 다음 Feed 활성화 큐",
+    "",
+    "| Lane | 우선 Env | 후보 | 접근 가능 | 보호/승인 필요 | 첫 작업 |",
+    "| --- | --- | ---: | ---: | ---: | --- |",
+    ...activationRows,
+    "",
+    "## 우선 검토 후보",
+    "",
+    "| Lane | 공식 소스 후보 | Live 상태 | 추천 Env | 공식 기준 URL |",
+    "| --- | --- | --- | --- | --- |",
+    ...(candidateRows.length ? candidateRows : ["| - | - | - | - | - |"]),
+    "",
+    "## 운영자 체크리스트",
+    "",
+    ...report.activationReadiness.operatorChecklist.map((item) => `- ${item}`),
     "",
     "## 정책 회귀 샘플",
     "",
@@ -416,6 +484,7 @@ const policyRegressionSamples = [
 
 const failedRows = rows.filter((row) => row.status !== "passed");
 const failedRegressionSamples = policyRegressionSamples.filter((sample) => !sample.passed);
+const activationReadiness = buildActivationReadiness(rows.length);
 const report = {
   ok: failedRows.length === 0 && failedRegressionSamples.length === 0,
   generatedAt: new Date().toISOString(),
@@ -426,6 +495,7 @@ const report = {
   failedCount: failedRows.length,
   allowedCatalogHosts: [...catalogHostMap.keys()].sort(),
   approvedExtraHosts: [...approvedExtraHosts].sort(),
+  activationReadiness,
   policy: {
     httpsOnly: true,
     machineReadableFeedRequired: true,
