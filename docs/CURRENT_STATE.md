@@ -13,11 +13,11 @@
 
 - Branch: `codex/12h-product-ux-growth-hardening`
 - 최근 커밋:
+  - `76bcb379 test: require source catalog security in release doctor`
+  - `ba84af79 docs: update current state for new codex session`
   - `d3241d4c test: guard official source catalog security`
   - `d1392c27 docs: refresh current state handoff`
   - `1aaa7370 feat: add momq official benefit sources`
-  - `6815d251 feat: surface feed activation queue in admin`
-  - `8d916e3f feat: add feed env activation readiness queue`
 - 현재 워크트리는 release evidence, refresh 데이터, 리포트 산출물이 dirty 상태로 남아 있을 수 있다.
 - 코드 커밋 시 `git add .`를 피하고 필요한 파일만 명시적으로 stage한다.
 - 새 세션 시작 시 먼저 실행:
@@ -56,6 +56,7 @@ npm run workspace:doctor:strict
 - 맘큐 공식 이벤트 목록과 신규회원 웰컴혜택 소스가 추가되어 육아/샘플/신규가입 혜택 발견 축이 보강되었다.
 - 마지막 live check 기준 공식 소스는 reachable 123개, guarded 19개, stale_or_removed 0개다.
 - `security:check`는 공식 소스 카탈로그가 검색/커뮤니티/비공식/약한 CTA 정책을 포함하지 않는지도 검사한다.
+- `release:doctor`의 `free benefit security gates`도 `security-check.mjs`의 공식 소스 카탈로그 guard, unsafe URL detector, benefit policy detector, `docs/SECURITY_CHECK_REPORT.md` evidence를 직접 검사한다.
 - source feed env readiness 구조가 있다.
   - `lib/operations/sourceFeedEnvReadiness.ts`
   - `scripts/source-feed-env-doctor.mjs`
@@ -100,6 +101,15 @@ npm run smoke:local
 npm run release:doctor
 npm run workspace:doctor:strict
 npm run build
+```
+
+최근 커밋 `76bcb379` 기준 아래 검증이 통과했다.
+
+```bash
+npm run security:check
+npm run lint
+npm run release:doctor
+npm run workspace:doctor:strict
 ```
 
 주의:
