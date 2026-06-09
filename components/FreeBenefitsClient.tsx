@@ -257,6 +257,7 @@ export function FreeBenefitsClient({
             priceBand: "all",
             benefitFilter: "all",
             query: "",
+            limit: 72,
             timestamp: Date.now()
           })
         ),

@@ -339,6 +339,7 @@ export function buildDealsRequestUrl({
   priceBand,
   benefitFilter,
   query,
+  limit,
   timestamp = Date.now()
 }: {
   category: string;
@@ -351,6 +352,7 @@ export function buildDealsRequestUrl({
   priceBand: PriceBand;
   benefitFilter: "all" | DealBenefitType;
   query: string;
+  limit?: number;
   timestamp?: number;
 }) {
   const params = new URLSearchParams({
@@ -366,6 +368,7 @@ export function buildDealsRequestUrl({
     ts: String(timestamp)
   });
 
+  if (limit) params.set("limit", String(limit));
   if (query.trim()) params.set("q", query.trim());
 
   return `/api/deals?${params.toString()}`;

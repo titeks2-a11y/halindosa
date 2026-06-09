@@ -26,13 +26,18 @@ const officialBenefitTypes = new Set<NewsBenefitType>([
   "convenienceStore",
   "mart"
 ]);
+const initialFreeBenefitDealLimit = 24;
+const initialOfficialBenefitLimit = 24;
+const initialOfficialBenefitEventLimit = 16;
 
 export default async function FreeBenefitsPage() {
   const { deals } = await getDeals({ sort: "hot" });
-  const freeBenefitDeals = deals.filter((deal: Deal) => benefitTypes.has(deal.dealType) || deal.isFreeShipping);
-  const officialBenefitsResult = getVisibleNewsDeals({ limit: 36, sort: "priority" });
+  const freeBenefitDeals = deals
+    .filter((deal: Deal) => benefitTypes.has(deal.dealType) || deal.isFreeShipping)
+    .slice(0, initialFreeBenefitDealLimit);
+  const officialBenefitsResult = getVisibleNewsDeals({ limit: initialOfficialBenefitLimit, sort: "priority" });
   const officialBenefits = officialBenefitsResult.deals.filter((deal) => officialBenefitTypes.has(deal.benefitType) || deal.category === "무료혜택");
-  const officialBenefitEvents = selectPublishableFreeBenefitEvents(officialBenefitsResult.deals, 32);
+  const officialBenefitEvents = selectPublishableFreeBenefitEvents(officialBenefitsResult.deals, initialOfficialBenefitEventLimit);
 
   return (
     <FreeBenefitsClient
