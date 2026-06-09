@@ -69,6 +69,7 @@ const cronRoute = read(join(root, "app", "api", "cron", "refresh", "route.ts"));
 const cronBenefitsRoute = read(join(root, "app", "api", "cron", "benefits", "route.ts"));
 const cronOutput = read(join(root, "lib", "cronOutput.ts"));
 const sourceCatalog = read(join(root, "data", "officialSourceCatalog.json"));
+const refreshedNewsDeals = read(join(root, "data", "refreshedNewsDeals.json"));
 const harness = read(join(root, "scripts", "harness.mjs"));
 const runQa = read(join(root, "scripts", "run-qa.mjs"));
 const files = walk(root);
@@ -124,6 +125,22 @@ function hasCandidateOnlyHomePagePolicy(source) {
     /후보|보관|발견|review|검토|딥링크|공식.*확인/.test(text) &&
     /CTA|사용자.*노출|직접.*노출|노출하지|연결하지|교체|메인.*링크/.test(text)
   );
+}
+
+function isExposedHomeLikeUrl(value) {
+  try {
+    const url = new URL(value);
+    const path = url.pathname.replace(/\/+$/, "").toLowerCase();
+    const rootLikePaths = new Set(["", "/", "/main", "/home", "/index", "/main.do", "/home.do", "/index.do", "/index.jsp", "/index.html", "/index.htm"]);
+    const knownGenericMainPaths = new Set(["/web/main.do", "/cm/main.do", "/ko/main.do", "/main/main.do"]);
+    return (
+      rootLikePaths.has(path) ||
+      knownGenericMainPaths.has(path) ||
+      /^\/mall\/index\.jsp$/.test(path)
+    );
+  } catch {
+    return true;
+  }
 }
 
 function hasOfficialBenefitPolicyText(source) {
@@ -286,6 +303,18 @@ addCheck(
   unsafeCatalogRows.length || weakPolicyRows.length || duplicateOfficialUrlRows.length || unguardedHomeLikeRows.length
     ? `Unsafe/weak/duplicate/unguarded home-like official source catalog rows: ${[...unsafeCatalogRows, ...weakPolicyRows, ...duplicateOfficialUrlRows, ...unguardedHomeLikeRows].slice(0, 12).map((source) => source.id ?? String(source)).join(", ")}`
     : `Official source catalog has ${Array.isArray(catalogRows) ? catalogRows.length : 0} safe, non-duplicate candidates with explicit CTA policy text and guarded home-like discovery URLs.`
+);
+
+const refreshedNewsRows = readJsonText(refreshedNewsDeals, {});
+const visibleNewsDeals = Array.isArray(refreshedNewsRows?.deals) ? refreshedNewsRows.deals : [];
+const exposedHomeLikeNewsDeals = visibleNewsDeals.filter((deal) => isExposedHomeLikeUrl(deal.finalUrl));
+addCheck(
+  checks,
+  "official benefit exposed homepage guard",
+  visibleNewsDeals.length >= 100 && exposedHomeLikeNewsDeals.length === 0,
+  exposedHomeLikeNewsDeals.length
+    ? `Visible official benefit rows use homepage-like URLs: ${exposedHomeLikeNewsDeals.slice(0, 12).map((deal) => deal.id ?? deal.finalUrl).join(", ")}`
+    : `Visible official benefit rows avoid homepage/main/index URLs (${visibleNewsDeals.length} rows checked).`
 );
 
 const riskyHtml = files

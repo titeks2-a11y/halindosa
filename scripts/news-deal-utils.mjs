@@ -330,7 +330,13 @@ function isHomeOnlyUrl(urlValue) {
   try {
     const url = new URL(urlValue);
     const path = url.pathname.replace(/\/+$/, "").toLowerCase();
-    return ["", "/", "/main", "/index"].includes(path);
+    const rootLikePaths = new Set(["", "/", "/main", "/home", "/index", "/main.do", "/home.do", "/index.do", "/index.jsp", "/index.html", "/index.htm"]);
+    const knownGenericMainPaths = new Set(["/web/main.do", "/cm/main.do", "/ko/main.do", "/main/main.do"]);
+    return (
+      rootLikePaths.has(path) ||
+      knownGenericMainPaths.has(path) ||
+      /^\/mall\/index\.jsp$/.test(path)
+    );
   } catch {
     return true;
   }
