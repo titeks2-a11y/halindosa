@@ -85,7 +85,7 @@ function readJsonText(text, fallback) {
 function hasUnsafeOfficialSourceUrl(source) {
   try {
     const url = new URL(source.officialUrl);
-    const value = `${url.hostname}${url.pathname}${url.search}`.toLowerCase();
+    const value = `${url.hostname}${url.pathname}${url.search}${url.hash}`.toLowerCase();
     return (
       !["http:", "https:"].includes(url.protocol) ||
       /ppomppu|fmkorea|quasarzone|algumon|clien|ruliweb|dcinside|theqoo|instiz/.test(value) ||
@@ -94,6 +94,36 @@ function hasUnsafeOfficialSourceUrl(source) {
   } catch {
     return true;
   }
+}
+
+function isHomeLikeOfficialSourceUrl(source) {
+  try {
+    const url = new URL(source.officialUrl);
+    const path = url.pathname.replace(/\/+$/, "").toLowerCase();
+    const hash = url.hash.toLowerCase();
+    const hasEventHash = /event|coupon|benefit|promotion|promo|혜택|쿠폰|이벤트/.test(hash);
+
+    if (hasEventHash) return false;
+
+    return (
+      path === "" ||
+      path === "/" ||
+      /^\/(home|main|index|mobile)$/.test(path) ||
+      /^\/mall\/index\.jsp$/.test(path)
+    );
+  } catch {
+    return true;
+  }
+}
+
+function hasCandidateOnlyHomePagePolicy(source) {
+  const text = `${source.allowedUse ?? ""} ${source.blockedUse ?? ""} ${source.notes ?? ""}`;
+
+  return (
+    source.priority === "low" &&
+    /후보|보관|발견|review|검토|딥링크|공식.*확인/.test(text) &&
+    /CTA|사용자.*노출|직접.*노출|노출하지|연결하지|교체|메인.*링크/.test(text)
+  );
 }
 
 function hasOfficialBenefitPolicyText(source) {
@@ -241,6 +271,9 @@ const weakPolicyRows = Array.isArray(catalogRows)
   ? catalogRows.filter((source) => source.category?.includes?.("무료혜택") && !hasOfficialBenefitPolicyText(source))
   : ["invalid_catalog"];
 const duplicateOfficialUrlRows = Array.isArray(catalogRows) ? findDuplicateOfficialSourceUrls(catalogRows) : ["invalid_catalog"];
+const unguardedHomeLikeRows = Array.isArray(catalogRows)
+  ? catalogRows.filter((source) => isHomeLikeOfficialSourceUrl(source) && !hasCandidateOnlyHomePagePolicy(source))
+  : ["invalid_catalog"];
 addCheck(
   checks,
   "official source catalog guard",
@@ -248,10 +281,11 @@ addCheck(
     catalogRows.length >= 100 &&
     unsafeCatalogRows.length === 0 &&
     weakPolicyRows.length === 0 &&
-    duplicateOfficialUrlRows.length === 0,
-  unsafeCatalogRows.length || weakPolicyRows.length || duplicateOfficialUrlRows.length
-    ? `Unsafe/weak/duplicate official source catalog rows: ${[...unsafeCatalogRows, ...weakPolicyRows, ...duplicateOfficialUrlRows].slice(0, 12).map((source) => source.id ?? String(source)).join(", ")}`
-    : `Official source catalog has ${Array.isArray(catalogRows) ? catalogRows.length : 0} safe, non-duplicate candidates with explicit CTA policy text.`
+    duplicateOfficialUrlRows.length === 0 &&
+    unguardedHomeLikeRows.length === 0,
+  unsafeCatalogRows.length || weakPolicyRows.length || duplicateOfficialUrlRows.length || unguardedHomeLikeRows.length
+    ? `Unsafe/weak/duplicate/unguarded home-like official source catalog rows: ${[...unsafeCatalogRows, ...weakPolicyRows, ...duplicateOfficialUrlRows, ...unguardedHomeLikeRows].slice(0, 12).map((source) => source.id ?? String(source)).join(", ")}`
+    : `Official source catalog has ${Array.isArray(catalogRows) ? catalogRows.length : 0} safe, non-duplicate candidates with explicit CTA policy text and guarded home-like discovery URLs.`
 );
 
 const riskyHtml = files

@@ -1,6 +1,6 @@
 # Security Check Report
 
-Generated: 2026-06-09T06:41:54.219Z
+Generated: 2026-06-09T09:06:56.566Z
 
 | Metric | Value |
 | --- | ---: |
@@ -19,7 +19,7 @@ Generated: 2026-06-09T06:41:54.219Z
 - PASS cron secret guard: Cron refresh and benefits routes require secret/admin auth, trusted browser origins, and rate limits.
 - PASS cron output redaction: Cron process output is sanitized before API/report exposure and public failure messages avoid stack/log detail hints.
 - PASS official redirect allowlist: Official benefit redirects use visible deal lookup and approved-host destination policy.
-- PASS official source catalog guard: Official source catalog has 142 safe, non-duplicate candidates with explicit CTA policy text.
+- PASS official source catalog guard: Official source catalog has 162 safe, non-duplicate candidates with explicit CTA policy text and guarded home-like discovery URLs.
 - PASS xss rendering guard: No unsafe HTML rendering found; JSON-LD escapes '<'.
 - PASS public env secret separation: No NEXT_PUBLIC server-secret style variables found.
 - PASS hardcoded secret scan: No common high-risk token patterns found in tracked source files.
