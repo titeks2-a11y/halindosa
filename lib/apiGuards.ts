@@ -10,6 +10,11 @@ interface RateLimitRecord {
 }
 
 const buckets = new Map<string, RateLimitRecord>();
+const noStoreApiHeaders = {
+  "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+  Pragma: "no-cache",
+  Expires: "0"
+};
 
 export function createRequestId() {
   return crypto.randomUUID();
@@ -60,6 +65,7 @@ export function rateLimit({ key, limit, windowMs }: RateLimitOptions) {
 
 export function rateLimitHeaders(result: ReturnType<typeof rateLimit>, requestId: string) {
   return {
+    ...noStoreApiHeaders,
     "X-Request-Id": requestId,
     "X-RateLimit-Limit": String(result.limit),
     "X-RateLimit-Remaining": String(result.remaining),
@@ -101,6 +107,7 @@ export function isTrustedRequestOrigin(request: Request) {
 
 export function jsonHeaders(requestId: string) {
   return {
+    ...noStoreApiHeaders,
     "X-Request-Id": requestId
   };
 }
