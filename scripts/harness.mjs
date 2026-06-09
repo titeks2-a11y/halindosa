@@ -23,6 +23,7 @@ const fullSteps = [
   ["test:seo", ["run", "test:seo"]],
   ["test:perf", ["run", "test:perf"]],
   ["security:check", ["run", "security:check"]],
+  ["benefit:event:contract", ["run", "benefit:event:contract"]],
   ["smoke:local", ["run", "smoke:local"]],
   ["release:doctor", ["run", "release:doctor"]]
 ];
@@ -31,6 +32,7 @@ const ciSteps = [
   ["test:mobile-ux", ["run", "test:mobile-ux"]],
   ["home:realtime:doctor", ["run", "home:realtime:doctor"]],
   ["security:check", ["run", "security:check"]],
+  ["benefit:event:contract", ["run", "benefit:event:contract"]],
   ["test:seo", ["run", "test:seo"]],
   ["test:perf", ["run", "test:perf"]]
 ];

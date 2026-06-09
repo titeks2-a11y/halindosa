@@ -12,8 +12,8 @@
 
 - Branch: `codex/12h-product-ux-growth-hardening`
 - Remote: `origin/codex/12h-product-ux-growth-hardening`
-- 기준 커밋: `491709d2 feat: expose free benefit feed activation operations`
-- 이 상태 문서에 포함된 최신 작업: 공식 무료혜택 소스 카탈로그와 핵심 브랜드 신호 게이트 강화.
+- 기준 커밋: `7fa65767 feat: expand official free benefit source coverage`
+- 이 상태 문서에 포함된 최신 작업: 공식 무료혜택 소스 카탈로그, 핵심 브랜드 신호 게이트, FreeBenefitEvent 계약 검증 게이트 강화.
 
 ## 최근 완료 작업
 
@@ -86,6 +86,24 @@
 - `source:breadth:doctor`가 12개 수집 축뿐 아니라 핵심 브랜드 신호 34개를 검사한다.
 - release doctor가 핵심 브랜드 신호 누락을 차단한다.
 
+### FreeBenefitEvent 계약 검증 게이트
+
+- `scripts/free-benefit-event-contract-doctor.mjs`
+- `docs/FREE_BENEFIT_EVENT_CONTRACT.md`
+- `package.json`
+- `scripts/run-qa.mjs`
+- `scripts/harness.mjs`
+- `scripts/release-doctor.mjs`
+- `scripts/lib/release-doctor-operational-data.mjs`
+
+구현 요약:
+
+- `benefit:event:contract` 명령을 추가했다.
+- FreeBenefitEvent 필수 필드, 무료혜택 유형, 상태값, URL 안전성, 종료 문구 차단, dedupe, publishable 조건을 13개 계약 검사로 고정했다.
+- `/api/benefits/events`가 no-store, rate limit, q/type/조건/정렬 필터, publishableOnly 정책, trust badge/CTA 필드를 유지하는지 검사한다.
+- 홈과 `/api/freebies`가 같은 `selectPublishableFreeBenefitEvents` 기준을 쓰는지 검사한다.
+- QA, harness, release doctor에 연결해 무료혜택 이벤트 계약이 출시 검증에서 빠지지 않게 했다.
+
 ## 마지막으로 확인한 명령
 
 - `npm run lint` 성공
@@ -106,6 +124,10 @@
 - `npm run source:catalog:report` 성공, 공식 소스 110개
 - `npm run source:live:doctor` 성공, reachable 94개, guarded 16개, stale 0개
 - `npm run source:breadth:doctor` 성공, 수집 축 12/12 및 핵심 브랜드 신호 34/34 통과
+- `npm run benefit:event:contract` 성공, 13/13 통과
+- `npm run release:doctor` 성공, 188/188 통과
+- `npm run smoke:local` 성공, 103/103 통과
+- `npm run qa` 성공, 75/75 통과
 
 ## 현재 제품 방향
 
@@ -123,8 +145,8 @@
 ## 다음 세션에서 바로 할 일
 
 1. 최신 커밋과 원격 push 상태를 확인한다.
-2. 실제 운영 feed URL을 Vercel env에 연결하려면 `docs/FREE_BENEFIT_FEED_HANDOFF.md`, `docs/SOURCE_FEED_ACTIVATION.md`, `/api/admin/source-feed-handoff`, `/api/admin/source-feed-activation`을 기준으로 진행한다.
-3. 운영 feed 연결 후 `npm run source:feed-env:doctor && npm run news:feed:canary && npm run refresh:benefits && npm run verify:benefits && npm run test:home-realtime && npm run source:activation:doctor` 순서로 검증한다.
+2. 실제 운영 feed URL을 Vercel env에 연결하려면 `docs/FREE_BENEFIT_FEED_HANDOFF.md`, `docs/SOURCE_FEED_ACTIVATION.md`, `docs/FREE_BENEFIT_EVENT_CONTRACT.md`, `/api/admin/source-feed-handoff`, `/api/admin/source-feed-activation`을 기준으로 진행한다.
+3. 운영 feed 연결 후 `npm run source:feed-env:doctor && npm run news:feed:canary && npm run refresh:benefits && npm run verify:benefits && npm run benefit:event:contract && npm run test:home-realtime && npm run source:activation:doctor` 순서로 검증한다.
 4. Android web assets는 strict workspace 정리를 위해 삭제되어 있을 수 있다. 앱 반영이 필요하면 `npm run build:android && npm run cap:sync`를 다시 실행한다.
 
 ## 주의

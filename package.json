@@ -59,6 +59,7 @@
     "verify:news": "node scripts/verify-news-deals.mjs",
     "verify:freebies": "node scripts/verify-freebies.mjs",
     "verify:benefits": "node scripts/verify-benefit-events.mjs",
+    "benefit:event:contract": "node scripts/free-benefit-event-contract-doctor.mjs",
     "news:images:enrich": "node scripts/enrich-news-benefit-images.mjs",
     "news:freshness:doctor": "node scripts/news-freshness-doctor.mjs",
     "news:revalidation:report": "node scripts/news-revalidation-priority-report.mjs",

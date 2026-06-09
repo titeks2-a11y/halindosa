@@ -179,6 +179,13 @@ export async function checkOperationalDataSurfaces() {
   const sourceReadinessDoc = existsSync(join(root, "docs/SOURCE_READINESS_REPORT.md"))
     ? readFileSync(join(root, "docs/SOURCE_READINESS_REPORT.md"), "utf8")
     : "";
+  const freeBenefitEventTypes = await text("types/freeBenefitEvent.ts");
+  const freeBenefitEventsLib = await text("lib/freeBenefitEvents.ts");
+  const benefitEventsRoute = await text("app/api/benefits/events/route.ts");
+  const freeBenefitEventContractScript = await text("scripts/free-benefit-event-contract-doctor.mjs");
+  const freeBenefitEventContractDoc = existsSync(join(root, "docs/FREE_BENEFIT_EVENT_CONTRACT.md"))
+    ? readFileSync(join(root, "docs/FREE_BENEFIT_EVENT_CONTRACT.md"), "utf8")
+    : "";
   const envExample = existsSync(join(root, ".env.example")) ? readFileSync(join(root, ".env.example"), "utf8") : "";
   const officialSourceStatusCounts = officialSourceLiveReport.statusCounts ?? {};
   const officialSourceBlockingLiveCount =
@@ -1653,6 +1660,51 @@ export async function checkOperationalDataSurfaces() {
     fail("source readiness operation", "Sources API, official source catalog, live source accessibility report, production provider, docs, production feed doctor, and admin dashboard should expose source readiness, official benefit provider readiness, safe production JSON feed loading, allowed source policy, blocked source policy, verified link quality, at least 30 official source candidates, no thin categories, no stale/timeout/network/server-error source candidates, and high-priority source coverage for production feed transition.");
   } else {
     pass("source readiness operation", "Sources API, official source catalog, live source accessibility report, production provider, docs, production feed doctor, and admin dashboard expose source readiness, official benefit provider readiness, safe production JSON feed policy, 30+ official source candidates, and clean live accessibility gates for official API, RSS, and partner feed transition.");
+  }
+
+  if (
+    !freeBenefitEventTypes.includes("interface FreeBenefitEvent") ||
+    !freeBenefitEventTypes.includes("eventUrl") ||
+    !freeBenefitEventTypes.includes("officialUrl") ||
+    !freeBenefitEventTypes.includes("participationCondition") ||
+    !freeBenefitEventTypes.includes("requiresLogin") ||
+    !freeBenefitEventTypes.includes("requiresPurchase") ||
+    !freeBenefitEventTypes.includes("isEveryoneReward") ||
+    !freeBenefitEventTypes.includes("isFirstComeFirstServed") ||
+    !freeBenefitEventTypes.includes("collectedAt") ||
+    !freeBenefitEventTypes.includes("verifiedAt") ||
+    !freeBenefitEventTypes.includes("validationStatus") ||
+    !freeBenefitEventsLib.includes("sanitizeBenefitText") ||
+    !freeBenefitEventsLib.includes("normalizeBenefitTitle") ||
+    !freeBenefitEventsLib.includes("isSafeBenefitEventUrl") ||
+    !freeBenefitEventsLib.includes("isApprovedOfficialNewsUrl") ||
+    !freeBenefitEventsLib.includes("searchOrJunkUrlPattern") ||
+    !freeBenefitEventsLib.includes("privateHostPattern") ||
+    !freeBenefitEventsLib.includes("endedTextPattern") ||
+    !freeBenefitEventsLib.includes("isPublishableFreeBenefitEvent") ||
+    !freeBenefitEventsLib.includes('event.status === "active"') ||
+    !freeBenefitEventsLib.includes('event.validationStatus === "passed"') ||
+    !freeBenefitEventsLib.includes("event.qualityScore >= 70") ||
+    !freeBenefitEventsLib.includes("normalizeBenefitTitle(event.title)") ||
+    !benefitEventsRoute.includes('dynamic = "force-dynamic"') ||
+    !benefitEventsRoute.includes('fetchCache = "force-no-store"') ||
+    !benefitEventsRoute.includes("rateLimit") ||
+    !benefitEventsRoute.includes("noPurchaseOnly") ||
+    !benefitEventsRoute.includes("endingSoonOnly") ||
+    !benefitEventsRoute.includes("rankingPolicy") ||
+    !benefitEventsRoute.includes("publishableOnly: true") ||
+    !benefitEventsRoute.includes("search_link") ||
+    !benefitEventsRoute.includes("homepage_link") ||
+    !benefitEventsRoute.includes("community_link") ||
+    !freeBenefitEventContractScript.includes("FreeBenefitEvent contract doctor passed") ||
+    !freeBenefitEventContractScript.includes("FREE_BENEFIT_EVENT_CONTRACT.md") ||
+    !freeBenefitEventContractScript.includes("free-benefit-event-contract.json") ||
+    !freeBenefitEventContractDoc.includes("FreeBenefitEvent 계약") ||
+    !freeBenefitEventContractDoc.includes("노출 조건")
+  ) {
+    fail("free benefit event contract", "FreeBenefitEvent should preserve official event URL fields, participation conditions, publishable-only filtering, no-store API behavior, unsafe URL blocking, dedupe, and contract documentation.");
+  } else {
+    pass("free benefit event contract", "FreeBenefitEvent fields, sanitizer, publishable gate, no-store filterable API, unsafe URL blocking, dedupe, and contract documentation are enforced.");
   }
 
   if (!dealRepository.includes("export async function findDealByIdLive") || /findDealByIdLive[\s\S]{0,180}findDealById\(id\)[\s\S]{0,80}await getDeals/.test(dealRepository)) {
