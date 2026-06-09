@@ -4413,5 +4413,36 @@
       "공식이벤트",
       "구매필요"
     ]
+  },
+  {
+    "id": "news-musinsa-online-coupon-2026",
+    "title": "무신사 온라인 할인 쿠폰 2026 공식 쿠폰 받기",
+    "summary": "무신사 공식 쿠폰 페이지에서 온라인 할인 쿠폰, 적용 조건, 사용 기간과 쿠폰 받기 동선을 확인할 수 있습니다.",
+    "merchant": "무신사",
+    "category": "패션/뷰티",
+    "benefitType": "coupon",
+    "discountRate": 0,
+    "price": 0,
+    "originalPrice": 0,
+    "couponAmount": 0,
+    "startDate": "2026-01-01",
+    "endDate": "2026-12-31",
+    "sourceName": "무신사 공식 쿠폰",
+    "sourceUrl": "https://www.musinsa.com/coupon-service/coupon/coupon_online",
+    "finalUrl": "https://www.musinsa.com/coupon-service/coupon/coupon_online",
+    "imageUrl": "",
+    "confidenceScore": 88,
+    "validationStatus": "needs_review",
+    "isHidden": false,
+    "hiddenReason": "",
+    "lastCheckedAt": "",
+    "provider": "official_event",
+    "tags": [
+      "패션",
+      "쿠폰",
+      "무료쿠폰",
+      "공식혜택",
+      "쿠폰받기"
+    ]
   }
 ]

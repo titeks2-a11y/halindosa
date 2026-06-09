@@ -38,11 +38,11 @@
 
 ## 데이터 상태
 
-- 이번 보강 작업 시작 기준 HEAD: `89da3421`
-- 공식 소스 후보: `174`
-- 뉴스/혜택 seed: `149`
-- `data/refreshedNewsDeals.json` 기준 refreshed 항목: `146`
-- `publishable=true`, `validationStatus=passed`, `availability=active` 기준 노출 가능 항목: `146`
+- 이번 보강 작업 시작 기준 HEAD: `49227568`
+- 공식 소스 후보: `175`
+- 뉴스/혜택 seed: `150`
+- `data/refreshedNewsDeals.json` 기준 refreshed 항목: `147`
+- `publishable=true`, `validationStatus=passed`, `availability=active` 기준 노출 가능 항목: `147`
 - 최근 보강 소스:
   - 파파이스 공식 이벤트·쿠폰 혜택
   - 서울시 공공서비스예약 무료 체험·교육 혜택
@@ -56,6 +56,7 @@
   - 토스 공식 토스피드 출석체크·포인트 혜택
   - 아이챌린지 공식 베이비 월령별 무료체험교재 신청 혜택
   - GS25 공식 혜자로운빵 토스페이 1+1 개별 이벤트 상세 혜택
+  - 무신사 공식 온라인 할인 쿠폰 받기 혜택
 
 ## 품질 정책
 
@@ -87,10 +88,10 @@
 
 최근 안정 커밋 기준으로 다음 게이트가 통과한 상태로 기록되어 있다.
 
-- `npm run refresh:news`: 149개 수집, 중복 제거 후 146개 노출
-- `npm run refresh:benefits`: active 공식 무료혜택 이벤트 143개, 123개 소스, 94개 호스트
-- `npm run verify:news`: 146/146 공식 혜택 링크 검증
-- `npm run verify:freebies`: 142/142 통과
+- `npm run refresh:news`: 150개 수집, 중복 제거 후 147개 노출
+- `npm run refresh:benefits`: active 공식 무료혜택 이벤트 144개, 124개 소스, 94개 호스트
+- `npm run verify:news`: 147/147 공식 혜택 링크 검증
+- `npm run verify:freebies`: 143/143 통과
 - `npm run qa`: 75/75 통과
 - `npm run harness`: 통과
 - `npm run test:mobile-ux`: 17/17 통과
@@ -110,6 +111,7 @@
 - 2026-06-09 추가 보강: 로얄캐닌 코리아 공식 성장기 반려동물 샘플 체험키트 혜택을 추가했고 `refresh:news`, `verify:news`, `refresh:benefits`, `security:check`, `qa`, `harness`, `build`, `build:android`, `cap:sync`, `workspace:doctor:strict`가 통과했다.
 - 2026-06-09 추가 보강: 토스 공식 출석체크·포인트 혜택과 아이챌린지 공식 무료체험교재 혜택을 무료혜택 seed로 승격했고, 아이챌린지를 공식 소스 카탈로그에 추가했다. 현재 공식 혜택 145개, 무료혜택 이벤트 142개 기준으로 `lint`, `verify:news`, `refresh:benefits`, `security:check`, `qa`, `harness`, `build`, `build:android`, `cap:sync`, `workspace:doctor:strict`가 통과했다.
 - 2026-06-09 추가 보강: GS25 공식 혜자로운빵 토스페이 1+1 개별 이벤트 상세를 추가했고, 현재 공식 혜택 146개와 공식 소스 후보 174개 기준으로 `lint`, `verify:news`, `refresh:benefits`, `security:check`, `test:mobile-ux`, `build`, `release:doctor`, `qa`, `build:android`, `cap:sync`, `workspace:doctor:strict`가 통과했다.
+- 2026-06-09 추가 보강: 무신사 공식 온라인 할인 쿠폰 받기 페이지를 추가했고, 현재 공식 혜택 147개와 공식 소스 후보 175개 기준으로 `lint`, `verify:news`, `refresh:benefits`, `security:check`, `test:mobile-ux`, `build`, `release:doctor`, `qa`, `build:android`, `cap:sync`, `workspace:doctor:strict`가 통과했다.
 - 2026-06-09 확인: `next-env.d.ts`는 `./.next/dev/types/routes.d.ts` 경로를 참조하는 정상 상태다.
 
 새 세션에서는 필요한 명령을 다시 실행해 실제 현재 상태를 확인한 뒤 진행한다.
