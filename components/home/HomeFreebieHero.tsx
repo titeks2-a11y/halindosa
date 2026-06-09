@@ -91,6 +91,16 @@ function isEventEndingSoon(event: FreeBenefitEvent, referenceNow?: number) {
   return hoursLeft >= 0 && hoursLeft <= 24;
 }
 
+function getEventConditionBadges(event: FreeBenefitEvent) {
+  return [
+    event.isEveryoneReward ? "전원증정" : "",
+    event.isFirstComeFirstServed ? "선착순" : "",
+    event.requiresLogin ? "로그인 필요" : "비회원 확인",
+    event.requiresPurchase ? "구매 필요" : "구매조건 낮음",
+    event.validationStatus === "passed" ? "검증 완료" : ""
+  ].filter(Boolean);
+}
+
 interface HomeFreebieHeroProps {
   deals: NewsDeal[];
   events?: FreeBenefitEvent[];
@@ -258,6 +268,7 @@ export function HomeFreebieHero({
                 </div>
               </div>
               <p className="mt-1 line-clamp-1 text-[10px] font-black text-emerald-700">{event.rewardText}</p>
+              <p className="mt-0.5 line-clamp-1 text-[9px] font-bold text-slate-500">{event.participationCondition}</p>
               <p className="mt-0.5 line-clamp-1 text-[9px] font-bold text-slate-500">{event.rankingReason}</p>
               <div className="mt-1 flex flex-wrap items-center gap-1 text-[9px] font-black text-slate-500">
                 <span className="inline-flex items-center gap-0.5">
@@ -273,6 +284,13 @@ export function HomeFreebieHero({
                     {badge}
                   </span>
                 ))}
+                {getEventConditionBadges(event)
+                  .slice(0, 3)
+                  .map((badge) => (
+                    <span key={badge} className="rounded-full bg-white px-1.5 py-0.5 text-[9px] font-black text-slate-500">
+                      {badge}
+                    </span>
+                  ))}
               </div>
               <Link
                 href={`/go/news/${encodeURIComponent(event.id)}?from=home-free-benefit-event`}

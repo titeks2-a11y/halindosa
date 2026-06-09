@@ -221,6 +221,20 @@ const checks = [
     "Home should expose mobile quick filters for the main free-benefit intents and /free-benefits should hydrate those filters from URL params."
   ),
   check(
+    "home event cards expose claim conditions",
+    hasAll(homeFreebieHeroSource, [
+      "getEventConditionBadges",
+      "event.participationCondition",
+      "로그인 필요",
+      "비회원 확인",
+      "구매 필요",
+      "구매조건 낮음",
+      "검증 완료",
+      "event.validationStatus"
+    ]).length === 0,
+    "Home free-benefit event cards should show participation condition, login/purchase requirement, and validation state in compact trust badges."
+  ),
+  check(
     "verify benefits enforces official active event floor",
     hasAll(verifySource, [
       "minimumVisibleEvents",
