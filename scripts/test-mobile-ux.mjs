@@ -51,19 +51,25 @@ if (includesAll(bottomNavigation, ["fixed bottom-0", "h-14", "min-h-[48px]", "gr
   fail("bottom nav compactness", "하단 탭 높이, 터치 영역, safe-area 기준이 예상과 다릅니다.");
 }
 
-if (includesAll(searchBar, ['placeholder="상품명·쇼핑몰 검색"', "h-10", "focus:ring-4", "현재 결과", "추천 검색어", "hidden shrink-0 text-xs font-black text-slate-500 sm:block"])) {
-  pass("compact search", "검색창은 짧은 placeholder, 40px 모바일 높이, 데스크톱 결과 수, 추천 검색어를 유지하고 모바일에서는 결과 보조 줄을 줄입니다.");
+if (includesAll(searchBar, ['placeholder="혜택·브랜드 검색"', "무료혜택, 쿠폰, 브랜드, 쇼핑몰 검색", "h-10", "focus:ring-4", "현재 결과", "추천 검색어", "hidden shrink-0 text-xs font-black text-slate-500 sm:block"])) {
+  pass("compact search", "검색창은 무료혜택 중심 placeholder, 40px 모바일 높이, 데스크톱 결과 수, 추천 검색어를 유지하고 모바일에서는 결과 보조 줄을 줄입니다.");
 } else {
-  fail("compact search", "검색창 compact 모바일 기준 또는 결과/추천 검색어 표시가 부족합니다.");
+  fail("compact search", "무료혜택 중심 검색창 compact 모바일 기준 또는 결과/추천 검색어 표시가 부족합니다.");
 }
 
 if (
   countMatches(homePage, /<SearchBar\b/g) <= 2 &&
-  includesAll(mobileHeader, ['const showHeaderSearch = pathname !== "/"', 'placeholder="상품명·쇼핑몰 검색"', "h-9"])
+  includesAll(mobileHeader, ['const showHeaderSearch = pathname !== "/"', 'placeholder="혜택·브랜드 검색"', "무료혜택 빠른 탐색", "h-9"])
 ) {
-  pass("single home search entry", "모바일 홈에는 빠른 검색 1개만 보이고, 하위 화면 헤더 검색과 데스크톱 상세 검색은 compact/hidden 기준을 유지합니다.");
+  pass("single home search entry", "모바일 홈에는 혜택 검색 1개만 보이고, 하위 화면 헤더 검색과 데스크톱 상세 검색은 compact/hidden 기준을 유지합니다.");
 } else {
   fail("single home search entry", "홈 검색창이 중복되었거나 하위 화면 보조 검색 compact 기준이 깨졌습니다.");
+}
+
+if (includesAll(homePage, ["혜택 검색", "무료혜택·쿠폰부터 바로 좁혀보세요", "무료혜택, 쿠폰, 브랜드, 쇼핑몰 통합 검색"])) {
+  pass("home search benefit-first copy", "홈 검색 영역은 상품 구매보다 무료혜택과 쿠폰 탐색을 먼저 설명합니다.");
+} else {
+  fail("home search benefit-first copy", "홈 검색 영역 문구가 무료혜택 중심이 아닙니다.");
 }
 
 if (includesAll(homeFirstScreenSource, ["INITIAL_HOME_DEAL_LIMIT = 12", "HOME_DEAL_LOAD_STEP = 12", "visibleItems = items.slice(0, visibleCount)", "특가 더보기", "showDeepBenefitSections", "혜택 루틴 더보기", "showAdvancedFilterPanel", "상세 필터와 결과 분석 열기", "상세 필터와 결과 분석 접기", "무료혜택 다음에 볼 상품", "snap-x snap-mandatory", "추가 할인 상품 가로 목록", "옆으로 넘기기", "bg-gradient-to-l from-white"])) {

@@ -1353,13 +1353,13 @@ export default function Home({ initialNow = "" }: HomeClientProps) {
           />
         ) : null}
         {activeView === "home" ? (
-          <section className="rounded-2xl border border-red-100 bg-white p-2 shadow-sm sm:rounded-[28px] sm:p-4" aria-label="빠른 상품 검색">
+          <section className="rounded-2xl border border-red-100 bg-white p-2 shadow-sm sm:rounded-[28px] sm:p-4" aria-label="무료혜택과 추가 할인 검색">
             <div className="mb-2 hidden flex-col gap-1 sm:mb-3 sm:flex sm:flex-row sm:items-end sm:justify-between">
               <div>
-                <p className="text-xs font-black text-dossa-red">빠른 상품 검색</p>
-                <h3 className="text-lg font-black text-slate-950 sm:text-xl">찾고 싶은 특가를 바로 좁혀보세요</h3>
+                <p className="text-xs font-black text-dossa-red">혜택 검색</p>
+                <h3 className="text-lg font-black text-slate-950 sm:text-xl">무료혜택·쿠폰부터 바로 좁혀보세요</h3>
               </div>
-              <p className="text-xs font-bold text-slate-500">검색, 쇼핑몰, 정렬, 핵심 필터를 한 번에 적용합니다.</p>
+              <p className="text-xs font-bold text-slate-500">혜택 유형, 브랜드, 쇼핑몰, 정렬을 한 번에 적용합니다.</p>
             </div>
             <div className="flex flex-col gap-2 sm:gap-3 lg:flex-row lg:items-center">
               <div className="min-w-0 flex-1">
@@ -1579,7 +1579,7 @@ export default function Home({ initialNow = "" }: HomeClientProps) {
               <p className="text-sm font-black text-slate-950">
                 현재 결과 {deals.length}개
                 <span className="ml-2 text-xs font-bold text-slate-500">
-                  {query ? `"${query}" 검색 중` : "상품명, 브랜드, 쇼핑몰, 카테고리 통합 검색"}
+                  {query ? `"${query}" 검색 중` : "무료혜택, 쿠폰, 브랜드, 쇼핑몰 통합 검색"}
                 </span>
               </p>
               <p className="text-xs font-bold text-slate-500">

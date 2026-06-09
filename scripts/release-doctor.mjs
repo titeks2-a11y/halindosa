@@ -1224,7 +1224,8 @@ async function checkSearchAndPurchaseFlow() {
     liveFeed.includes('href="#all-deals"') ||
     homePage.includes('getElementById("all-deals")') ||
     homePage.includes('href="#all-deals"') ||
-    !homePage.includes("빠른 상품 검색") ||
+    !homePage.includes("혜택 검색") ||
+    !homePage.includes("무료혜택·쿠폰부터 바로 좁혀보세요") ||
     !homePage.includes("refreshHomeNow") ||
     !homePage.includes("fetchDeals(undefined, true)") ||
     !homePage.includes("무료혜택 다음에 볼 상품") ||

@@ -523,11 +523,12 @@ export async function checkUiAccessibility() {
   if (mobileUxMissing.length || mobileUxReport.includes("Generated: 2026-")) {
     fail("mobile ux report coverage", `Mobile UX report should be stable and include all compact mobile gates. Missing: ${mobileUxMissing.join(", ") || "none"}`);
   } else {
-    pass("mobile ux report coverage", "Mobile UX report records the stable 13-gate compact first-screen regression suite.");
+    pass("mobile ux report coverage", "Mobile UX report records the stable 14-gate compact first-screen regression suite.");
   }
 
   if (
-    !searchBar.includes('aria-label="상품명, 쇼핑몰, 카테고리 검색"') ||
+    !searchBar.includes('aria-label="무료혜택, 쿠폰, 브랜드, 쇼핑몰 검색"') ||
+    !searchBar.includes('placeholder="혜택·브랜드 검색"') ||
     !searchBar.includes('type="search"') ||
     !searchBar.includes('enterKeyHint="search"') ||
     !searchBar.includes('role="status"') ||

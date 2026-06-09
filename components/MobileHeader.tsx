@@ -19,7 +19,7 @@ export function MobileHeader() {
             </span>
             <span className="min-w-0">
               <span className="block truncate text-[15px] font-black leading-5 text-slate-950">할인도사</span>
-              <span className="block truncate text-[10px] font-bold text-slate-500">검증 특가 빠른 탐색</span>
+              <span className="block truncate text-[10px] font-bold text-slate-500">무료혜택 빠른 탐색</span>
             </span>
           </Link>
           <div className="flex shrink-0 items-center gap-1">
@@ -45,7 +45,7 @@ export function MobileHeader() {
             <Search className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
             <input
               name="q"
-              placeholder="상품명·쇼핑몰 검색"
+              placeholder="혜택·브랜드 검색"
               className="h-9 w-full rounded-full border border-slate-200 bg-slate-50 pl-9 pr-3 text-[13px] font-bold outline-none focus:border-red-200 focus:bg-white focus:ring-4 focus:ring-red-50"
             />
           </form>

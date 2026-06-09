@@ -9,8 +9,9 @@ Status: PASS
 | --- | --- | --- |
 | mobile shell width and safe area | PASS | 모바일 기본 폭과 하단 탭 겹침 방지 padding이 유지됩니다. |
 | bottom nav compactness | PASS | 하단 탭은 4개 탭, 56px rail, 48px 이상 터치 영역을 유지합니다. |
-| compact search | PASS | 검색창은 짧은 placeholder, 40px 모바일 높이, 데스크톱 결과 수, 추천 검색어를 유지하고 모바일에서는 결과 보조 줄을 줄입니다. |
-| single home search entry | PASS | 모바일 홈에는 빠른 검색 1개만 보이고, 하위 화면 헤더 검색과 데스크톱 상세 검색은 compact/hidden 기준을 유지합니다. |
+| compact search | PASS | 검색창은 무료혜택 중심 placeholder, 40px 모바일 높이, 데스크톱 결과 수, 추천 검색어를 유지하고 모바일에서는 결과 보조 줄을 줄입니다. |
+| single home search entry | PASS | 모바일 홈에는 혜택 검색 1개만 보이고, 하위 화면 헤더 검색과 데스크톱 상세 검색은 compact/hidden 기준을 유지합니다. |
+| home search benefit-first copy | PASS | 홈 검색 영역은 상품 구매보다 무료혜택과 쿠폰 탐색을 먼저 설명합니다. |
 | home first screen budget | PASS | 초기 렌더 12개 제한, 더보기 확장, 심화 혜택/상세 필터 지연 렌더링, 추가 할인 상품 스냅 레일과 스크롤 신호가 유지됩니다. |
 | category rail compactness | PASS | 핵심 카테고리는 모바일 가로 칩으로 유지되고 선택 상태를 스크린리더에 전달합니다. |
 | filter rail consolidation | PASS | 쇼핑몰, 가격대, 혜택 필터가 큰 섹션 대신 compact chip rail로 유지됩니다. |

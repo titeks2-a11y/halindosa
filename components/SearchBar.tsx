@@ -23,8 +23,8 @@ export function SearchBar({ value, onChange, suggestions = [], resultCount, onSe
           onKeyDown={(event) => {
             if (event.key === "Escape" && value) onChange("");
           }}
-          aria-label="상품명, 쇼핑몰, 카테고리 검색"
-          placeholder="상품명·쇼핑몰 검색"
+          aria-label="무료혜택, 쿠폰, 브랜드, 쇼핑몰 검색"
+          placeholder="혜택·브랜드 검색"
           className="h-10 w-full rounded-xl border border-slate-200 bg-white py-2 pl-10 pr-10 text-sm font-semibold text-slate-900 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-dossa-red focus:ring-4 focus:ring-red-100 sm:h-13 sm:rounded-2xl sm:py-4 sm:pl-12 sm:pr-12 sm:text-base"
         />
         {value ? (

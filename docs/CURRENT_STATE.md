@@ -13,8 +13,8 @@
 
 - Branch: `codex/12h-product-ux-growth-hardening`
 - Remote: `origin/codex/12h-product-ux-growth-hardening`
-- 현재 최신 원격 반영 커밋: `b570bb98 feat: broaden official free benefit source coverage`
-- 현재 워크트리에는 홈 API generic error 보안 보강 변경이 있으며, 아직 커밋 전이다.
+- 현재 최신 원격 반영 커밋: `3b9dae86 fix: hide home api internal errors`
+- 현재 워크트리에는 홈 검색 UX를 무료혜택 중심으로 바꾸는 변경이 있으며, 아직 커밋 전이다.
 
 ## 현재 제품 방향
 
@@ -35,18 +35,21 @@
 - 무료혜택 전용 화면 카드 조건/신뢰 배지 추가: `dae76931`
 - 투썸플레이스, 메가MGC커피, 쿠팡이츠, 롯데마트, 다이소몰 공식 무료혜택 소스 신호 추가: `c77953ca`
 - G마켓, 옥션, 이벤트하우스 공식/보조 무료혜택 소스 신호 추가: `b570bb98`
+- 홈 API 내부 오류 메시지 노출 방지: `3b9dae86`
 - `benefit:event:contract`는 홈과 `/free-benefits`의 조건/검증 배지를 회귀 검사한다.
 - 최근 안정 검증: `lint`, `benefit:event:contract`, `test:mobile-compact`, `security:check`, `release:doctor`, `build`, `build:android`, `cap:sync`, `workspace:doctor:strict` 성공.
 
 ## 현재 커밋 전 변경 요약
 
-홈 API 실패 응답이 내부 예외 메시지를 노출하지 않도록 generic error code로 고정했다.
+홈 검색 영역을 상품 구매 중심에서 무료혜택·쿠폰 중심으로 바꿨다.
 
 변경 내용:
 
-- `/api/home` 실패 응답에서 `error.message`와 `Unknown error`를 제거하고 `HOME_LOAD_FAILED`만 반환한다.
-- `security:check`에 `home api generic error guard`를 추가했다.
-- 보안 체크 수가 10/10에서 11/11로 늘었다.
+- 공통 검색창 placeholder를 `혜택·브랜드 검색`으로 변경했다.
+- 검색 접근성 라벨을 `무료혜택, 쿠폰, 브랜드, 쇼핑몰 검색`으로 변경했다.
+- 모바일 헤더 보조 문구를 `무료혜택 빠른 탐색`으로 변경했다.
+- 홈 검색 섹션 제목을 `혜택 검색`, 설명을 `무료혜택·쿠폰부터 바로 좁혀보세요`로 변경했다.
+- `test:mobile-compact`와 `release:doctor`가 새 무료혜택 중심 문구를 회귀 검사한다.
 
 주의:
 
@@ -55,17 +58,21 @@
 
 변경 파일:
 
-- `app/api/home/route.ts`
-- `scripts/security-check.mjs`
-- `docs/FREE_BENEFIT_EVENT_CONTRACT.md`
+- `components/SearchBar.tsx`
+- `components/MobileHeader.tsx`
+- `components/HomeClient.tsx`
+- `scripts/test-mobile-ux.mjs`
+- `scripts/release-doctor.mjs`
+- `scripts/lib/release-doctor-ui-accessibility.mjs`
+- `MOBILE_UX_REPORT.md`
 - `docs/SECURITY_CHECK_REPORT.md`
 - `docs/CURRENT_STATE.md`
 
 검증 결과:
 
-- `npm run security:check` 성공, 11/11
+- `npm run test:mobile-compact` 성공, 14/14
 - `npm run lint` 성공
-- `npm run benefit:event:contract` 성공, 16/16
+- `npm run security:check` 성공, 11/11
 - `npm run release:doctor` 성공, 188/188
 - `npm run build` 성공
 - `npm run workspace:doctor:strict` 성공, 재생성 산출물 0B
@@ -74,8 +81,8 @@
 
 1. `git status --short --branch`로 현재 변경 상태를 확인한다.
 2. 필요하면 `npm run workspace:doctor:strict`를 실행해 재생성 산출물 상태를 확인한다.
-3. 위 홈 API 보안 변경을 커밋한다.
-   - 권장 커밋 메시지: `fix: hide home api internal errors`
+3. 위 홈 검색 UX 변경을 커밋한다.
+   - 권장 커밋 메시지: `feat: make home search benefit first`
 4. 가능하면 원격 브랜치에 push한다.
 5. 이어서 실제 운영 feed URL 연결 또는 무료혜택 수집량 확대 작업을 진행한다.
 
