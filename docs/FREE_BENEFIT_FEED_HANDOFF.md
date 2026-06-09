@@ -1,6 +1,6 @@
 # 무료혜택 Feed 운영 핸드오프
 
-- 생성 시각: 2026-06-09T02:04:44.392Z
+- 생성 시각: 2026-06-09T02:32:08.891Z
 - starter lane: 8개
 - 연결 후보: 64개
 - 접근 가능 후보: 62개
@@ -60,9 +60,9 @@ npm run smoke:local
 
 ### 오늘의 무료혜택
 
+- 고용24 국민내일배움카드 공식 발급 안내: https://m.work24.go.kr/hr/h/a/1100/selectIssuGudn.do
+- 서울청년 정책사용설명 공식 무료지원 안내: https://youth.seoul.go.kr/infoData/sprtInfo/list.do?key=2309130006
 - 해피포인트 공식 쿠폰·모바일 혜택: https://www.happypointcard.com/coupon/coupon.spc
-- OK캐쉬백 공식 앱 설치·포인트 이벤트: https://www.okcashbag.com/event/newwelcomeback
-- 아모레몰 공식 뷰티포인트·샘플 이벤트: https://www.amoremall.com/kr/ko/main.html
 
 ### 편의점 1+1·2+1
 
@@ -92,13 +92,13 @@ npm run smoke:local
 
 - 서울문화포털 공식 무료·할인 문화행사: https://culture.seoul.go.kr/culture/culture/cultureEvent/list.do
 - 국립중앙박물관 공식 전시·문화 혜택: https://www.museum.go.kr/MUSEUM/contents/M0202010000.do?menuId=current
-- 문화가 있는 날 공식 혜택: https://www.culture.go.kr/wday/main/main.do
+- EBS 평생학교 공식 무료 강좌: https://lifelongschool.ebs.co.kr/lifelongschool/subject/introduce
 
 ### 교육 무료체험
 
 - 고용24 직업훈련·국민내일배움카드 공식 지원: https://www.work24.go.kr/cm/main.do
+- 고용24 국민내일배움카드 공식 발급 안내: https://m.work24.go.kr/hr/h/a/1100/selectIssuGudn.do
 - K-MOOC 공식 무료 온라인 강좌 예시: https://www.kmooc.kr/view/course/detail/18713
-- 복지로 공식 복지서비스·신청 혜택: https://www.bokjiro.go.kr/ssis-tbu/index.do
 
 ### 반려동물·체험단
 

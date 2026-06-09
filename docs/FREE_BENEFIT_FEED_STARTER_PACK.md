@@ -1,7 +1,7 @@
 # 무료혜택 운영 Feed Starter Pack
 
-- 생성 시각: 2026-06-09T02:04:21.318Z
-- 공식 소스 후보: 128개
+- 생성 시각: 2026-06-09T02:31:46.057Z
+- 공식 소스 후보: 137개
 - starter lane: 8개
 - 연결 후보: 64개
 - 접근 가능 후보: 62개
@@ -36,12 +36,12 @@
 
 | 후보 | 상태 | 권장 작업 | 공식 확인 URL |
 | --- | --- | --- | --- |
+| 고용24 국민내일배움카드 공식 발급 안내 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://m.work24.go.kr/hr/h/a/1100/selectIssuGudn.do |
+| 서울청년 정책사용설명 공식 무료지원 안내 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://youth.seoul.go.kr/infoData/sprtInfo/list.do?key=2309130006 |
 | 해피포인트 공식 쿠폰·모바일 혜택 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.happypointcard.com/coupon/coupon.spc |
 | OK캐쉬백 공식 앱 설치·포인트 이벤트 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.okcashbag.com/event/newwelcomeback |
 | 아모레몰 공식 뷰티포인트·샘플 이벤트 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.amoremall.com/kr/ko/main.html |
-| 토스 공식 혜택 콘텐츠 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://toss.im/tossfeed/topic/%ED%98%9C%ED%83%9D |
-| L.POINT 공식 미션·룰렛·출석 혜택 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.lpoint.com/app/common/LHZZ300300.do |
-| PAYCO 공식 이벤트·쿠폰 혜택 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.payco.com/event.nhn |
+| 서울 한강공원 공식 무료 행사·공연 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://hangang.seoul.go.kr/www/eventMng/list.do?mid=53 |
 
 ### 편의점 1+1·2+1
 
@@ -108,10 +108,10 @@
 | --- | --- | --- | --- |
 | 서울문화포털 공식 무료·할인 문화행사 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://culture.seoul.go.kr/culture/culture/cultureEvent/list.do |
 | 국립중앙박물관 공식 전시·문화 혜택 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.museum.go.kr/MUSEUM/contents/M0202010000.do?menuId=current |
+| EBS 평생학교 공식 무료 강좌 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://lifelongschool.ebs.co.kr/lifelongschool/subject/introduce |
+| 서울 한강공원 공식 무료 행사·공연 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://hangang.seoul.go.kr/www/eventMng/list.do?mid=53 |
 | 문화가 있는 날 공식 혜택 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.culture.go.kr/wday/main/main.do |
 | 복지로 공식 복지서비스·신청 혜택 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.bokjiro.go.kr/ssis-tbu/index.do |
-| 고용24 직업훈련·국민내일배움카드 공식 지원 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.work24.go.kr/cm/main.do |
-| 정부24 혜택알리미 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.gov.kr/portal/rcvfvrSvc/main |
 
 ### 교육 무료체험
 
@@ -121,11 +121,11 @@
 | 후보 | 상태 | 권장 작업 | 공식 확인 URL |
 | --- | --- | --- | --- |
 | 고용24 직업훈련·국민내일배움카드 공식 지원 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.work24.go.kr/cm/main.do |
+| 고용24 국민내일배움카드 공식 발급 안내 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://m.work24.go.kr/hr/h/a/1100/selectIssuGudn.do |
 | K-MOOC 공식 무료 온라인 강좌 예시 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.kmooc.kr/view/course/detail/18713 |
 | 복지로 공식 복지서비스·신청 혜택 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.bokjiro.go.kr/ssis-tbu/index.do |
+| 서울런4050 공식 평생학습·직업전환 지원 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://sll.seoul.go.kr/main/doIntroView.do?main_se=jce&mnid=202412257900 |
 | 서울문화포털 공식 무료·할인 문화행사 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://culture.seoul.go.kr/culture/culture/cultureEvent/list.do |
-| 국립중앙박물관 공식 전시·문화 혜택 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.museum.go.kr/MUSEUM/contents/M0202010000.do?menuId=current |
-| 문화가 있는 날 공식 혜택 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.culture.go.kr/wday/main/main.do |
 
 ### 반려동물·체험단
 

@@ -2845,5 +2845,95 @@
     "allowedUse": "로얄캐닌 공식 반려동물 성장기 캠페인, 체험, 샘플, 이벤트 안내 중 공식 참여 조건이 확인되는 항목",
     "blockedUse": "제품 카탈로그만 있는 페이지, 비공식 체험단 글, 검색 결과, 종료된 모델 모집 이벤트",
     "notes": "반려동물 샘플/체험 혜택은 공식 캠페인 상세와 현재 진행 여부가 확인될 때만 노출한다."
+  },
+  {
+    "id": "seoul-youth-policy-free-support-guide",
+    "label": "서울청년 정책사용설명 공식 무료지원 안내",
+    "provider": "public_coupon",
+    "category": [
+      "정부/공공혜택",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_listing",
+    "officialUrl": "https://youth.seoul.go.kr/infoData/sprtInfo/list.do?key=2309130006",
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 24,
+    "preferredProbeMethod": "GET",
+    "allowedUse": "서울청년 공식 청년지원정보 중 취업날개, AI면접체험, 무료 교육, 공간·창업 지원처럼 무료 지원 조건과 공식 상세/신청 경로가 확인되는 항목",
+    "blockedUse": "정책 홍보 기사, 민간 대행 광고, 외부 폼 단독 링크, 신청 경로가 없는 요약글, 서울시 메인 페이지",
+    "notes": "목록은 발견 소스로만 사용한다. 사용자 CTA는 청년몽땅정보통 공식 상세 또는 서울시 공식 신청 페이지가 active이고 조건이 확인될 때만 연결한다."
+  },
+  {
+    "id": "seoul-lifelong-learning-4050-intro",
+    "label": "서울런4050 공식 평생학습·직업전환 지원",
+    "provider": "public_coupon",
+    "category": [
+      "정부/공공혜택",
+      "무료혜택"
+    ],
+    "sourceType": "official_benefit_page",
+    "officialUrl": "https://sll.seoul.go.kr/main/doIntroView.do?main_se=jce&mnid=202412257900",
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 24,
+    "allowedUse": "서울시평생학습포털 공식 온라인학습, 서울런4050, 직업전환 교육, 무료 또는 환급형 강좌 중 수강 조건이 확인되는 항목",
+    "blockedUse": "민간 블로그 신청방법, 유료 강좌 판매 랜딩, 단순 서울시평생학습포털 홈, 검색 결과",
+    "notes": "무료·환급 조건과 대상자 조건이 명확한 강좌만 공공무료 또는 무료체험 혜택으로 분류한다."
+  },
+  {
+    "id": "hangang-seoul-official-free-events",
+    "label": "서울 한강공원 공식 무료 행사·공연",
+    "provider": "public_coupon",
+    "category": [
+      "영화/문화",
+      "정부/공공혜택",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_listing",
+    "officialUrl": "https://hangang.seoul.go.kr/www/eventMng/list.do?mid=53",
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "서울 한강공원 공식 행사·공연 상세 중 무료 관람, 무료 체험, 시민 참여 조건과 행사 기간이 확인되는 항목",
+    "blockedUse": "지난 행사, 장소 소개만 있는 페이지, 검색 결과, 민간 행사 대행 글, 유료 행사만 있는 상세",
+    "notes": "목록은 발견 소스로만 사용하고, 사용자 CTA는 개별 공식 상세 페이지가 active이고 무료 조건이 확인될 때만 연결한다."
+  },
+  {
+    "id": "mois-subsidy24-official-guide",
+    "label": "행정안전부 보조금24 공식 혜택 안내",
+    "provider": "public_coupon",
+    "category": [
+      "정부/공공혜택",
+      "무료혜택"
+    ],
+    "sourceType": "official_benefit_page",
+    "officialUrl": "https://www.mois.go.kr/frt/bbs/type002/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000205&nttId=97408",
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 24,
+    "allowedUse": "행정안전부 공식 보조금24 안내, 맞춤 혜택 조회, 로그인 필요 여부, 신청 경로가 명확한 정부 지원 혜택",
+    "blockedUse": "민간 보조금 조회 광고, 비공식 지원금 블로그, 정부24 검색 결과, 신청 경로가 없는 뉴스 요약",
+    "notes": "보조금24는 개인 조건별 혜택이므로 앱에서는 공식 안내와 조회 경로를 설명하고, 개별 금액 보장은 하지 않는다."
   }
 ]

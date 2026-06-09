@@ -2,14 +2,14 @@
 
 공식 혜택/할인뉴스가 오래된 정보나 종료된 이벤트를 사용자에게 노출하지 않도록 확인하는 운영 리포트입니다.
 
-- 생성 시각: 2026-06-09T02:03:58.219Z
-- 원본 리포트 생성 시각: 2026-06-09T02:03:56.084Z
+- 생성 시각: 2026-06-09T02:31:22.904Z
+- 원본 리포트 생성 시각: 2026-06-09T02:31:20.698Z
 - 상태: fresh
 - 리포트 나이: 0h
 - 노출 공식 혜택: 105개
 - 종료 노출: 0개
 - 14일 이내 종료: 3개
-- 공식 소스 후보: 128개
+- 공식 소스 후보: 137개
 
 ## Checks
 
@@ -21,7 +21,7 @@
 | expired exposure | PASS | No expired official benefit is visible. |
 | category coverage | PASS | All 10 categories have at least 2 visible benefits. |
 | provider freshness queue | PASS | 4 providers have zero hidden/failed/expired/official-missing issues. |
-| official source catalog | PASS | 128 official source candidates are tracked. |
+| official source catalog | PASS | 137 official source candidates are tracked. |
 
 ## Category Coverage
 

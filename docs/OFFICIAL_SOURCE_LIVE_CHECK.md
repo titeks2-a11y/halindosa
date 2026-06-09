@@ -2,10 +2,10 @@
 
 이 문서는 공식 이벤트/혜택 소스 후보의 현재 접근 상태를 non-strict 방식으로 기록합니다. 무단 크롤링을 수행하지 않으며, 보호된 페이지는 공식 API/RSS/제휴 feed 또는 수동 승인 데이터로 연결해야 합니다.
 
-- 생성 시각: 2026-06-09T02:14:41.352Z
+- 생성 시각: 2026-06-09T02:32:07.204Z
 - 모드: non_strict_live_readiness
-- 후보 소스: 133개
-- 접근 가능: 113개
+- 후보 소스: 137개
+- 접근 가능: 117개
 - 보호/권한 확인 필요: 20개
 - 검토 필요: 0개
 - timeout/network error: 0개
@@ -22,7 +22,7 @@
 
 | 상태 | 수 | 운영 액션 |
 | --- | ---: | --- |
-| reachable | 113 | 승인 feed 또는 공식 페이지 매핑 후보로 유지 |
+| reachable | 117 | 승인 feed 또는 공식 페이지 매핑 후보로 유지 |
 | guarded | 20 | 공식 API/RSS/제휴 feed 확인 |
 | needs_review | 0 | 최종 도메인과 응답 정책 수동 확인 |
 | timeout/network_error | 0 | 재시도 또는 담당자 확인 |
@@ -165,6 +165,10 @@
 | kocw-official-open-course | public_coupon | medium | reachable | 200 | kocw.net | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | work24-training-card-issue-guide | public_coupon | high | reachable | 200 | m.work24.go.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | royalcanin-start-of-life-campaign | official_event | medium | reachable | 200 | royalcanin.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| seoul-youth-policy-free-support-guide | public_coupon | high | reachable | 200 | youth.seoul.go.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| seoul-lifelong-learning-4050-intro | public_coupon | medium | reachable | 200 | sll.seoul.go.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| hangang-seoul-official-free-events | public_coupon | medium | reachable | 200 | hangang.seoul.go.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| mois-subsidy24-official-guide | public_coupon | medium | reachable | 200 | mois.go.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 
 ## 다음 작업
 
