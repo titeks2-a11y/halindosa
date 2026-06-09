@@ -2,10 +2,10 @@
 
 이 문서는 할인도사에 연결할 수 있는 공식 이벤트, 공공 혜택, 제휴 JSON/RSS 후보를 정리합니다. 무단 크롤링 후보가 아니라 운영자가 승인 feed 또는 공식 페이지 매핑으로 전환할 때 쓰는 출발점입니다.
 
-- 생성 시각: 2026-06-09T05:23:37.762Z
+- 생성 시각: 2026-06-09T06:16:46.624Z
 - 상태: PASS
-- 후보 소스: 138개
-- 고우선순위 후보: 40개
+- 후보 소스: 142개
+- 고우선순위 후보: 43개
 - 현재 env feed 연결 후보: 0개
 - 공식 혜택 노출: 105개
 - feed 전환 상태: seed_launch_ready
@@ -15,15 +15,15 @@
 
 | 카테고리 | 후보 수 | 상태 |
 | --- | ---: | --- |
-| 식품/생필품 | 16 | 충분 |
+| 식품/생필품 | 17 | 충분 |
 | 마트/편의점 | 13 | 충분 |
-| 디지털/가전 | 7 | 충분 |
-| 패션/뷰티 | 17 | 충분 |
-| 외식/배달 | 41 | 충분 |
+| 디지털/가전 | 9 | 충분 |
+| 패션/뷰티 | 18 | 충분 |
+| 외식/배달 | 42 | 충분 |
 | 여행/숙박 | 9 | 충분 |
 | 영화/문화 | 21 | 충분 |
-| 카드/멤버십 | 40 | 충분 |
-| 무료혜택 | 102 | 충분 |
+| 카드/멤버십 | 44 | 충분 |
+| 무료혜택 | 106 | 충분 |
 | 정부/공공혜택 | 19 | 충분 |
 
 ## Provider 커버리지
@@ -32,8 +32,8 @@
 | --- | ---: | --- |
 | news | 1 | 포함 |
 | event_news | 2 | 포함 |
-| official_event | 89 | 포함 |
-| public_coupon | 46 | 포함 |
+| official_event | 91 | 포함 |
+| public_coupon | 48 | 포함 |
 
 ## 후보 목록
 
@@ -177,6 +177,10 @@
 | dunkin-official-promotion-list | official_event | 외식/배달, 카드/멤버십, 무료혜택 | medium | https://www.dunkindonuts.co.kr/event?flag=A | OFFICIAL_EVENT_FEED_URLS, DEAL_EVENT_NEWS_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
 | momq-official-event-list | official_event | 무료혜택, 식품/생필품, 패션/뷰티 | high | https://www.momq.co.kr/event | BENEFIT_REFRESH_FEED_URLS, OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS |
 | momq-new-member-welcome-benefit | official_event | 무료혜택, 식품/생필품, 카드/멤버십 | medium | https://www.momq.co.kr/event/202601290003 | BENEFIT_REFRESH_FEED_URLS, OFFICIAL_EVENT_FEED_URLS |
+| naverpay-online-coupon-home | public_coupon | 카드/멤버십, 무료혜택, 식품/생필품, 패션/뷰티 | high | https://pay.naver.com/coupon/home/online | PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS, OFFICIAL_EVENT_FEED_URLS |
+| yogiyo-official-roulette-promotion | official_event | 외식/배달, 무료혜택, 카드/멤버십 | high | https://www.yogiyo.co.kr/promotion/roulette/ | OFFICIAL_EVENT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS, PUBLIC_COUPON_FEED_URLS |
+| lge-official-benefit-event-hub | official_event | 디지털/가전, 무료혜택, 카드/멤버십 | high | https://www.lge.co.kr/benefits | OFFICIAL_EVENT_FEED_URLS, DEAL_EVENT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| himart-lpoint-membership-benefit | public_coupon | 디지털/가전, 카드/멤버십, 무료혜택 | medium | https://company.himart.co.kr/membership/intro | PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS, OFFICIAL_EVENT_FEED_URLS |
 
 ## 다음 작업
 

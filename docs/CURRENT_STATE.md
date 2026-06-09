@@ -79,11 +79,18 @@ npm run release:doctor
 - `/api/benefits/events`는 active publishable 카운트를 `categories`, `categoryCounts`, `filteredCategoryCounts`로 함께 내려준다.
 - `/api/home`과 홈 상단 무료혜택 히어로도 같은 카테고리 카운트를 사용한다.
 - 홈 빠른 필터에서 서버 카운트가 0개인 카테고리는 비활성 칩으로 표시한다.
-- 공식 소스 후보는 138개다.
+- 공식 소스 후보는 142개다.
 - 마지막 official source live check 기준:
   - reachable 119
   - guarded 19
   - stale_or_removed 0
+- 최신 보강 라운드에서 공식 소스 후보는 142개, live check 기준 reachable 122개, guarded 20개, stale_or_removed 0개까지 확인했다.
+- `refresh:news` 기준 공식 혜택은 109개, `refresh:benefits` 기준 active 무료혜택은 106개, source 96개, host 76개다.
+- 새로 보강한 공식 소스:
+  - 네이버페이 공식 온라인 쿠폰함
+  - 요기요 공식 룰렛 쿠폰 프로모션
+  - LG전자 공식 혜택·이벤트 허브
+  - 롯데하이마트 공식 L.POINT 멤버십 혜택
 - 반려동물 샘플 lane은 로얄캐닌과 퓨리나 공식 이벤트/0원딜 소스를 포함해 최소 3개 기준으로 강화되어 있다.
 - 공식 소스 카탈로그는 동일 `officialUrl` 중복을 `duplicate_official_url`로 실패 처리한다.
 - `security:check`는 공식 소스 카탈로그가 검색/커뮤니티/비공식/약한 CTA 정책을 포함하지 않는지도 검사한다.

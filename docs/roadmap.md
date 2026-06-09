@@ -6,6 +6,13 @@
 
 ## 완료 작업
 
+### PHASE Official Source 142 Benefit Expansion
+
+- 네이버페이 공식 온라인 쿠폰함, 요기요 공식 룰렛 프로모션, LG전자 공식 혜택·이벤트, 롯데하이마트 L.POINT 멤버십 혜택을 official source catalog에 추가해 무료혜택, 외식/배달, 카드/멤버십, 디지털/가전 축을 보강했다.
+- 같은 공식 URL을 seed 혜택에도 반영해 `refresh:news` 기준 수집 112개, 중복 제거 후 사용자 노출 공식 혜택 109개로 확대했다.
+- `refresh:benefits` 기준 무료혜택 active 106개, source 96개, host 76개를 확인했고 검색 링크, 비공식 링크, 깨진 이미지 노출은 0건으로 유지했다.
+- `source:catalog:report`, `source:live:doctor`, `source:readiness:report`, `health:readiness`, `smoke:local`, `release:doctor`로 새 공식 소스가 운영 게이트를 깨지 않는지 검증했다.
+
 ### PHASE Free Benefit Source Breadth Gate
 
 - `source:breadth:doctor`를 추가해 무료혜택 플랫폼이 반드시 확보해야 하는 12개 수집 축을 출시/QA 게이트로 고정했다.

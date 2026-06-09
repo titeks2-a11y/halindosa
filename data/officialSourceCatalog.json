@@ -2965,5 +2965,98 @@
     "allowedUse": "맘큐 공식 신규회원 웰컴혜택 상세에서 쿠폰팩, 포인트, 가입 조건, 기간이 확인되는 항목",
     "blockedUse": "가입 조건이 불명확한 홍보 이미지, 검색 결과, 종료된 신규회원 이벤트, 구매상품 상세를 웰컴혜택처럼 노출",
     "notes": "회원가입 필요 혜택으로 분류하고 무료혜택 메인 랭킹에서는 구매 필요 이벤트보다 높지만 전원증정/샘플보다 낮게 정렬한다."
+  },
+  {
+    "id": "naverpay-online-coupon-home",
+    "label": "네이버페이 공식 온라인 쿠폰함",
+    "provider": "public_coupon",
+    "category": [
+      "카드/멤버십",
+      "무료혜택",
+      "식품/생필품",
+      "패션/뷰티"
+    ],
+    "sourceType": "official_coupon_page",
+    "officialUrl": "https://pay.naver.com/coupon/home/online",
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 6,
+    "allowedUse": "네이버페이 공식 쿠폰함에서 발급 조건, 사용처, 쿠폰 상세가 확인되는 온라인 쿠폰 혜택",
+    "blockedUse": "네이버 검색 결과, 블로그 쿠폰 모음, 제휴몰 메인만 있는 링크, 사용 조건이 확인되지 않는 캡처 이미지",
+    "notes": "쿠폰 상세 또는 공식 쿠폰함 URL만 발견 소스로 사용한다. 사용자 CTA는 네이버페이 공식 쿠폰 받기/상세 페이지가 active일 때만 연결한다."
+  },
+  {
+    "id": "yogiyo-official-roulette-promotion",
+    "label": "요기요 공식 룰렛 쿠폰 프로모션",
+    "provider": "official_event",
+    "category": [
+      "외식/배달",
+      "무료혜택",
+      "카드/멤버십"
+    ],
+    "sourceType": "official_event_detail",
+    "officialUrl": "https://www.yogiyo.co.kr/promotion/roulette/",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 6,
+    "allowedUse": "요기요 공식 룰렛, 쿠폰, 포인트, 배달 할인처럼 공식 프로모션 페이지에서 참여 버튼과 조건이 확인되는 혜택",
+    "blockedUse": "요기요 검색 결과, 배달 가맹점 목록, 커뮤니티 쿠폰 공유글, 종료되었거나 앱 내부 조건을 설명할 수 없는 이벤트",
+    "notes": "앱 로그인 필요 여부를 반드시 저장하고, 마감 또는 종료 문구가 확인되면 hidden 처리한다."
+  },
+  {
+    "id": "lge-official-benefit-event-hub",
+    "label": "LG전자 공식 혜택·이벤트 허브",
+    "provider": "official_event",
+    "category": [
+      "디지털/가전",
+      "무료혜택",
+      "카드/멤버십"
+    ],
+    "sourceType": "official_event_listing",
+    "officialUrl": "https://www.lge.co.kr/benefits",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "DEAL_EVENT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 12,
+    "allowedUse": "LG전자 공식 혜택/이벤트에서 멤버십 포인트, 모바일상품권, 사은품, 구독·가전 혜택 조건이 확인되는 항목",
+    "blockedUse": "LG전자 제품 카테고리 메인, 검색 결과, 비공식 대리점, 구매 조건이 불명확한 광고 이미지",
+    "notes": "가전 혜택은 구매 필요 배지를 달고 무료혜택 메인 랭킹에서는 샘플/전원증정보다 낮게 정렬한다."
+  },
+  {
+    "id": "himart-lpoint-membership-benefit",
+    "label": "롯데하이마트 공식 L.POINT 멤버십 혜택",
+    "provider": "public_coupon",
+    "category": [
+      "디지털/가전",
+      "카드/멤버십",
+      "무료혜택"
+    ],
+    "sourceType": "official_membership_page",
+    "officialUrl": "https://company.himart.co.kr/membership/intro",
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 24,
+    "allowedUse": "롯데하이마트 공식 멤버십 안내에서 L.POINT 적립, 추가포인트, 이벤트 참여 기회가 확인되는 혜택",
+    "blockedUse": "하이마트 상품 검색 결과, 매장 소개, 비공식 가격 비교 글, 멤버십 조건이 확인되지 않는 홍보 링크",
+    "notes": "상시 멤버십 혜택은 source discovery로 사용하고, 사용자 CTA는 멤버십 가입/혜택 안내 공식 페이지 또는 개별 이벤트 상세가 확인될 때만 연결한다."
   }
 ]
