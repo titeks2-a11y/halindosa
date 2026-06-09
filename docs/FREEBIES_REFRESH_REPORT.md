@@ -1,12 +1,12 @@
 # 무료혜택 Refresh Report
 
-Generated: 2026-06-09T07:57:48.569Z
+Generated: 2026-06-09T08:09:16.299Z
 
 ## Summary
 
 - Mode: freebies
-- Matched items: 56
-- Visible official items: 56
+- Matched items: 59
+- Visible official items: 59
 - Hidden/blocked items: 0
 - Exposed search links: 0
 - Exposed non-official links: 0
@@ -32,12 +32,12 @@ All visible rows must keep `/go/news/[id]` redirect tracking and must resolve to
 | news-kfc-delivery-free-official | KFC 공식 딜리버리 배달비 무료 혜택 | KFC 공식 프로모션 | 외식/배달 | kfckorea.com | `/go/news/news-kfc-delivery-free-official` |
 | news-homeplus-membership-official-coupon | 홈플러스 멤버십 공식 쿠폰·마트 혜택 | 홈플러스 공식 멤버십 | 마트/편의점 | front.homeplus.co.kr | `/go/news/news-homeplus-membership-official-coupon` |
 | news-innisfree-official-coupon-events | 이니스프리 공식 이벤트·쿠폰존 혜택 | 이니스프리 공식 이벤트 | 패션/뷰티 | innisfree.com | `/go/news/news-innisfree-official-coupon-events` |
+| news-amoremall-official-event-list | 아모레몰 공식 이벤트·체험단 혜택 | 아모레몰 공식 이벤트 | 패션/뷰티 | amoremall.com | `/go/news/news-amoremall-official-event-list` |
+| news-amoremall-try-before-buy-sample | 아모레몰 써봐야안다 공식 샘플 체험 혜택 | 아모레몰 공식 써봐야안다 | 무료혜택 | amoremall.com | `/go/news/news-amoremall-try-before-buy-sample` |
+| news-amoremall-payment-benefit-official | 아모레몰 공식 결제·포인트 혜택 모음 | 아모레몰 공식 결제 혜택 | 카드/멤버십 | amoremall.com | `/go/news/news-amoremall-payment-benefit-official` |
 | news-kurly-kiehls-sample-event | 컬리 키엘 비타민C 에센스 쿠폰·증정 혜택 | 컬리 공식 상품 상세 | 패션/뷰티 | kurly.com | `/go/news/news-kurly-kiehls-sample-event` |
 | news-kurly-neoflam-free-shipping | 컬리 네오플램 소이 인덕션 편수 냄비 무료배송 특가 | 컬리 공식 상품 상세 | 식품/생필품 | kurly.com | `/go/news/news-kurly-neoflam-free-shipping` |
 | news-kurly-escape-speaker-free-shipping | 컬리 이스케이프 P6 Air 무료배송 쿠폰 특가 | 컬리 공식 상품 상세 | 디지털/가전 | kurly.com | `/go/news/news-kurly-escape-speaker-free-shipping` |
-| news-kurly-clove-fashion-free-shipping | 컬리 클로브 브이넥 니트 무료배송 쿠폰 특가 | 컬리 공식 상품 상세 | 패션/뷰티 | kurly.com | `/go/news/news-kurly-clove-fashion-free-shipping` |
-| news-aquaplanet-official-events | 아쿠아플라넷 공식 이벤트 혜택 | 아쿠아플라넷 공식 이벤트 | 영화/문화 | aquaplanet.co.kr | `/go/news/news-aquaplanet-official-events` |
-| news-cjthemarket-official-events | CJ더마켓 공식 이벤트·쿠폰 | CJ더마켓 공식 이벤트 | 식품/생필품 | cjthemarket.com | `/go/news/news-cjthemarket-official-events` |
 
 ## Blocked Items
 

@@ -122,6 +122,7 @@ const configuredEnvKeys = new Map();
 const catalogRows = [];
 const blockedHosts = [...(linkPolicy.blockedHosts ?? []), ...(linkPolicy.placeholderHosts ?? [])];
 const searchPatterns = linkPolicy.searchPatterns ?? [];
+const officialBenefitUrlSignals = linkPolicy.officialBenefitUrlSignals ?? [];
 
 if (!Array.isArray(catalog)) {
   issues.push(`${catalogPath} should be an array.`);
@@ -164,11 +165,13 @@ for (const source of Array.isArray(catalog) ? catalog : []) {
   if (url) {
     host = url.hostname.replace(/^www\./, "").toLowerCase();
     const value = `${url.hostname}${url.pathname}${url.search}`.toLowerCase();
+    const benefitValue = `${url.pathname}${url.search}${url.hash}`.toLowerCase();
     const normalizedOfficialUrl = url.href.replace(/\/$/, "");
     const existingSourceId = officialUrls.get(normalizedOfficialUrl);
     if (existingSourceId) rowIssues.push(`duplicate_official_url_${existingSourceId}`);
     officialUrls.set(normalizedOfficialUrl, source.id);
-    searchLike = searchPatterns.some((pattern) => value.includes(pattern));
+    const officialBenefitLike = officialBenefitUrlSignals.some((signal) => benefitValue.includes(String(signal).toLowerCase()));
+    searchLike = !officialBenefitLike && searchPatterns.some((pattern) => value.includes(pattern));
     blockedHost = blockedHosts.some((candidate) => hostMatches(host, candidate));
     homeLike = ["", "/", "/main", "/index"].includes(url.pathname.replace(/\/+$/, "").toLowerCase());
     if (searchLike) rowIssues.push("search_or_result_url");

@@ -2118,6 +2118,85 @@
     "notes": "공식몰 점검 페이지로 리다이렉트되면 guarded로 보관하고 승인 feed나 수동 승인 상세 URL로 보강한다."
   },
   {
+    "id": "amoremall-official-event-list",
+    "label": "아모레몰 공식 이벤트·체험단 목록",
+    "provider": "official_event",
+    "category": [
+      "패션/뷰티",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.amoremall.com/kr/ko/display/event",
+    "allowedFinalHosts": [
+      "maintenance.amoremall.com",
+      "www.amoremall.com"
+    ],
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 12,
+    "allowedUse": "아모레몰 공식 이벤트 목록에서 확인되는 샘플증정, 체험단, 쿠폰, 결제 혜택 중 공식 상세와 조건이 확인되는 항목",
+    "blockedUse": "검색 결과, 비공식 뷰티 커뮤니티 글, 공식 상세가 아닌 광고성 중간 페이지",
+    "notes": "사용자 CTA는 가능하면 개별 이벤트 상세 URL로 보강하고, 목록 URL은 공식 혜택 발견용으로 사용한다."
+  },
+  {
+    "id": "amoremall-try-before-buy-sample",
+    "label": "아모레몰 공식 써봐야안다 샘플 혜택",
+    "provider": "official_event",
+    "category": [
+      "패션/뷰티",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.amoremall.com/kr/ko/display/event_detail?planDisplaySn=5277",
+    "allowedFinalHosts": [
+      "maintenance.amoremall.com",
+      "www.amoremall.com"
+    ],
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 12,
+    "allowedUse": "아모레몰 공식 써봐야안다 이벤트의 샘플, 무료체험, 회원 참여 조건이 확인되는 항목",
+    "blockedUse": "비공식 후기, 검색 결과, 샘플 신청 조건이 확인되지 않는 중간 페이지",
+    "notes": "회원 전용 또는 주기 제한 조건은 participationCondition에 저장한다."
+  },
+  {
+    "id": "amoremall-official-payment-benefit",
+    "label": "아모레몰 공식 결제 혜택 모음",
+    "provider": "official_event",
+    "category": [
+      "패션/뷰티",
+      "카드/멤버십",
+      "무료혜택"
+    ],
+    "sourceType": "official_benefit_page",
+    "officialUrl": "https://www.amoremall.com/kr/ko/display/event_detail?planDisplaySn=6438",
+    "allowedFinalHosts": [
+      "maintenance.amoremall.com",
+      "www.amoremall.com"
+    ],
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "아모레몰 공식 결제 혜택 상세에서 확인되는 카드, 페이, 포인트, 쿠폰 조건",
+    "blockedUse": "비공식 카드 혜택 모음, 검색 결과, 결제 조건이 확인되지 않는 랜딩 페이지",
+    "notes": "결제 수단별 쿠폰/포인트 조건은 rewardText와 participationCondition에 분리 저장한다."
+  },
+  {
     "id": "roundlab-official-event-board",
     "label": "라운드랩 공식 이벤트 게시판",
     "provider": "official_event",

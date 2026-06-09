@@ -36,6 +36,17 @@
   - `refresh:benefits` 기준 active 무료혜택 이벤트 `121`개
   - 신규 공공/교육 혜택 3개 모두 `publishable=true`, `validationStatus=passed`, `availability=active`, `linkType=official_event`
   - 최신 source live check 기준 reachable `132`, guarded `25`, stale_or_removed `0`
+- 최신 뷰티/샘플 보강 결과:
+  - 아모레몰 공식 이벤트·체험단 혜택 목록
+  - 아모레몰 공식 써봐야안다 샘플 체험 혜택
+  - 아모레몰 공식 결제·포인트 혜택 모음
+  - 공식 소스 후보 `160`개
+  - `refresh:news` 기준 노출 공식 혜택 `127`개
+  - `refresh:benefits` 기준 active 무료혜택 이벤트 `124`개
+  - 신규 아모레몰 혜택 3개 모두 `publishable=true`, `validationStatus=passed`, `availability=active`
+  - `refresh:benefits` 기준 무료혜택 `59/59`, 공식 이벤트 `123/123`, 검색 링크 노출 `0`, 비공식 링크 노출 `0`
+  - 최신 source live check 기준 reachable `135`, guarded `25`, stale_or_removed `0`
+  - 아모레몰 `display/event` 계열 공식 혜택 URL이 검색 결과 URL로 오탐되지 않도록 공식 혜택 신호 기반 카탈로그 검사를 정밀화했다.
 - 새 세션에서 커밋이 필요하면 `git add .`를 쓰지 말고 카카오페이 보강 관련 파일만 명시적으로 stage한다.
 
 ## 새 세션 시작 규칙
