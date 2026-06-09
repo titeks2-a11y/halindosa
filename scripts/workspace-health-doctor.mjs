@@ -1,4 +1,5 @@
 import { readdir, stat } from "node:fs/promises";
+import { execFileSync } from "node:child_process";
 import path from "node:path";
 
 const root = process.cwd();
@@ -25,6 +26,8 @@ const generatedTargets = [
   "ios/App/DerivedData",
   "ios/build"
 ];
+const generatedReportPathPattern =
+  /^(reports\/|docs\/.*(?:REPORT|CHECKLIST|PLAYBOOK|NOTES|EVIDENCE|CATALOG|READINESS|HANDOFF|FRESHNESS|REVALIDATION|SUBMISSION|CONSOLE|PACKET|SCREENSHOT|SOURCE|FEED|PUSH|SECURITY|PERFORMANCE|KNOWN|DAILY|HEALTH|EVENT|FREEBIES|BENEFIT).*\.(?:md|json|csv|env)$|[A-Z0-9_]*(?:REPORT|CHECKLIST|PLAYBOOK|NOTES|RESULT|FIELDS|PACKET|SUBMISSION|SUPPORT|KNOWN)[A-Z0-9_]*\.(?:md|json|csv)$|data\/(?:refreshed|verified|linkValidation).*\.(?:json|csv)$)/;
 
 function resolveInsideWorkspace(target) {
   const resolved = path.resolve(root, target);
@@ -101,6 +104,44 @@ async function inspectGeneratedTargets() {
   return rows.sort((a, b) => b.size - a.size);
 }
 
+async function inspectDirtyGeneratedReports() {
+  let output = "";
+  try {
+    output = execFileSync("git", ["status", "--porcelain"], {
+      cwd: root,
+      encoding: "utf8"
+    });
+  } catch {
+    return {
+      available: false,
+      rows: [],
+      count: 0
+    };
+  }
+
+  const rows = await Promise.all(
+    output
+    .split(/\r?\n/)
+    .map((line) => line.trimEnd())
+    .filter(Boolean)
+    .map((line) => ({
+      status: line.slice(0, 2).trim(),
+      path: line.slice(3).replaceAll("\\", "/")
+    }))
+    .filter((row) => generatedReportPathPattern.test(row.path))
+    .map(async (row) => ({
+      ...row,
+      size: await getSizeBytes(path.join(root, row.path))
+    }))
+  );
+
+  return {
+    available: true,
+    rows,
+    count: rows.length
+  };
+}
+
 function formatBytes(bytes) {
   if (!bytes) return "0B";
   if (bytes >= 1024 * 1024) return `${(bytes / 1024 / 1024).toFixed(1)}MB`;
@@ -125,6 +166,7 @@ const [generated, topLevelDirs, largeFiles] = await Promise.all([
   inspectTopLevelDirectories(),
   inspectLargeFiles()
 ]);
+const dirtyReports = await inspectDirtyGeneratedReports();
 
 const generatedSize = generated.reduce((sum, item) => sum + item.size, 0);
 const sourceSize = topLevelDirs.reduce((sum, item) => sum + item.size, 0);
@@ -133,8 +175,14 @@ console.log("Workspace health");
 console.log(`- Source/runtime footprint excluding .git and node_modules: ${formatBytes(sourceSize)}`);
 console.log(`- Regenerable artifact footprint: ${formatBytes(generatedSize)}`);
 console.log(`- Regenerable artifact count: ${generated.length}`);
+console.log(
+  `- Dirty regenerated report/data files: ${
+    dirtyReports.available ? dirtyReports.count : "unknown (git unavailable)"
+  }`
+);
 
 printRows("Regenerable artifacts", generated);
+printRows("Dirty regenerated report/data files", dirtyReports.rows, 20);
 printRows("Largest top-level directories", topLevelDirs, 10);
 printRows("Largest workspace files", largeFiles, 15);
 
@@ -143,6 +191,13 @@ if (generated.length) {
   console.log("- npm run clean:artifacts");
   console.log("- npm run clean:artifacts:mobile");
   console.log("- npm run clean:artifacts:deep");
+}
+
+if (dirtyReports.available && dirtyReports.count) {
+  console.log("\nReport/data churn guidance");
+  console.log("- Do not use `git add .` while report/data outputs are dirty.");
+  console.log("- Commit only the evidence files needed for the current change.");
+  console.log("- If reports are not needed, leave them unstaged or regenerate a clean release evidence set after the final commit.");
 }
 
 if (strict && generated.length) {

@@ -116,6 +116,7 @@ npm run smoke
   - 이미지 큐 JSON/CSV는 `sourcingPriority`, `priorityReason`, `nextBatchDeals`, `mallRequestRows`를 포함한다. 운영자는 먼저 `IMAGE_BACKLOG_NEXT_BATCH.csv`의 주간 배치 상위 후보를 처리하고, backlog가 많은 판매처는 `IMAGE_BACKLOG_MALL_REQUESTS.csv`로 제휴/운영 피드 담당자에게 `imageUrl` 또는 `thumbnail` 확보를 요청한다.
 - 로컬 workspace 정리:
   - `npm run workspace:doctor`는 `.next`, `out`, Android/iOS build cache처럼 다시 생성 가능한 산출물과 큰 폴더/파일을 먼저 요약한다.
+  - 같은 출력의 `Dirty regenerated report/data files`는 QA/report/data 산출물이 현재 Git에서 얼마나 dirty인지 보여준다. 이 값이 높으면 `git add .`를 쓰지 말고 이번 변경과 직접 관련된 파일만 선별 stage한다.
   - `npm run workspace:doctor:strict`는 재생성 가능한 산출물이 남아 있으면 실패하므로 커밋 전 깨끗한 작업 폴더 확인에 쓴다.
   - `npm run clean:artifacts:mobile:dry`는 Next/Android/iOS가 다시 생성할 수 있는 산출물 삭제 대상을 먼저 보여준다.
   - `npm run clean:artifacts:mobile`은 `.next`, `out`, Android build cache, Android WebView 복사본 `android/app/src/main/assets/public`, iOS `App/App/public` export를 삭제한다.
