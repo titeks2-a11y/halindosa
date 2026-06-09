@@ -18,6 +18,15 @@
   - `refresh:benefits` 기준 active 무료혜택 이벤트 `115`개
   - 새 카카오페이 혜택 3개 모두 `publishable=true`, `validationStatus=passed`, `availability=active`, `linkType=official_coupon`
   - 최신 source live check 기준 reachable `129`, guarded `22`, stale_or_removed `0`
+- 최신 추가 보강 결과:
+  - OK캐쉬백 공식 쇼핑적립 포인트 혜택
+  - OK캐쉬백 공식 포인트·이벤트 서비스 안내
+  - 해피포인트 공식 멤버십 등급 혜택 안내
+  - 공식 소스 후보 `154`개
+  - `refresh:news` 기준 노출 공식 혜택 `121`개
+  - `refresh:benefits` 기준 active 무료혜택 이벤트 `118`개
+  - 새 OK캐쉬백/해피포인트 혜택 3개 모두 `publishable=true`, `validationStatus=passed`, `availability=active`, `linkType=official_coupon`
+  - `refresh:benefits` 기준 무료혜택 `53/53`, 공식 이벤트 `117/117`, 검색 링크 노출 `0`, 비공식 링크 노출 `0`
 - 새 세션에서 커밋이 필요하면 `git add .`를 쓰지 말고 카카오페이 보강 관련 파일만 명시적으로 stage한다.
 
 ## 새 세션 시작 규칙
@@ -57,6 +66,13 @@
 - 공식 소스 후보는 151개, `refresh:news` 기준 노출 공식 혜택은 118개, `refresh:benefits` 기준 active 무료혜택 이벤트는 115개다.
 - 새 카카오페이 혜택 3개는 모두 `publishable=true`, `validationStatus=passed`, `availability=active`, `linkType=official_coupon`으로 확인됐다.
 - 최신 source live check 기준 reachable 129개, guarded 22개, stale_or_removed 0개다.
+
+- OK캐쉬백/해피포인트 공식 멤버십·포인트 혜택 소스를 추가했다.
+  - OK캐쉬백 공식 쇼핑적립 포인트 혜택
+  - OK캐쉬백 공식 포인트·이벤트 서비스 안내
+  - 해피포인트 공식 멤버십 등급 혜택 안내
+- 공식 소스 후보는 154개, `refresh:news` 기준 노출 공식 혜택은 121개, `refresh:benefits` 기준 active 무료혜택 이벤트는 118개다.
+- 새 OK캐쉬백/해피포인트 혜택 3개는 모두 `publishable=true`, `validationStatus=passed`, `availability=active`, `linkType=official_coupon`으로 확인됐다.
 
 - PAYCO 공식 쿠폰·포인트 혜택 소스를 추가했다.
   - PAYCO 공식 리워드 포인트 혜택

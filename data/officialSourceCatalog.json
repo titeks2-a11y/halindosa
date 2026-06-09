@@ -3259,5 +3259,71 @@
     "allowedUse": "카카오페이 공식 콘텐츠에서 멤버십 연결, 자동 적립, 제휴 멤버십 사용법이 확인되는 안내",
     "blockedUse": "비공식 사용 후기, 광고성 제휴 글, 링크가 없는 이미지 캡처",
     "notes": "사용자 CTA는 카카오페이 공식 콘텐츠 또는 서비스 페이지로만 연결한다."
+  },
+  {
+    "id": "okcashbag-shopping-point-official-benefit",
+    "label": "OK캐쉬백 공식 쇼핑적립 포인트 혜택",
+    "provider": "official_event",
+    "category": [
+      "카드/멤버십",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://okcashbag.com/shopping",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "OK캐쉬백 공식 쇼핑적립 페이지에서 제휴 쇼핑몰별 포인트 적립률과 참여 경로가 확인되는 혜택",
+    "blockedUse": "검색 결과, 비공식 적립률 비교글, 제휴몰 메인으로만 보내는 링크, 커뮤니티 후기",
+    "notes": "사용자 CTA는 OK캐쉬백 공식 쇼핑적립 안내 또는 앱 내 적립 경로가 확인되는 페이지로만 연결한다."
+  },
+  {
+    "id": "okcashbag-service-official-point-guide",
+    "label": "OK캐쉬백 공식 포인트·이벤트 서비스 안내",
+    "provider": "official_event",
+    "category": [
+      "카드/멤버십",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://okcashbag.kr/utility/okcashbagInfo.do",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 24,
+    "allowedUse": "OK캐쉬백 공식 서비스 안내에서 포인트 적립, 쿠폰 적립, 이벤트 참여 혜택이 확인되는 항목",
+    "blockedUse": "비공식 사용법 글, 개인 블로그, 오래된 약관 PDF, 혜택 조건이 불명확한 광고 링크",
+    "notes": "포인트 적립·사용·이벤트 참여 조건을 설명하는 공식 안내로 운영 보조 혜택에 사용한다."
+  },
+  {
+    "id": "happypoint-membership-official-benefit-guide",
+    "label": "해피포인트 공식 멤버십 등급 혜택 안내",
+    "provider": "official_event",
+    "category": [
+      "카드/멤버십",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.happypointcard.com/page/presentation/membership.spc",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 24,
+    "allowedUse": "해피포인트 공식 멤버십 페이지에서 등급별 혜택과 시즌 조건이 확인되는 안내",
+    "blockedUse": "등급 후기, 비공식 혜택표, 오래된 캡처 이미지, 로그인 뒤에만 확인 가능한 미확인 쿠폰",
+    "notes": "멤버십 등급 조건과 공식 혜택 안내를 사용자에게 설명하는 보조 혜택으로 사용한다."
   }
 ]

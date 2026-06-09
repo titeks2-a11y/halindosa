@@ -1,12 +1,12 @@
 # 공식 소스 통합 준비도
 
-- 생성 시각: 2026-06-09T07:27:43.557Z
+- 생성 시각: 2026-06-09T07:46:37.787Z
 - 준비 상태: seed launch ready / 공식 feed 연결 대기
 - 출시 게이트: passed
-- 공식 소스 후보: 151개
-- 접근 가능/보호 소스: 129개 / 22개
+- 공식 소스 후보: 154개
+- 접근 가능/보호 소스: 131개 / 23개
 - 설정된 공식 feed URL: 0개
-- 공식 혜택 노출 가능: 118개
+- 공식 혜택 노출 가능: 121개
 - 차단 이슈: 0개
 
 ## 운영 원칙
@@ -19,11 +19,11 @@
 
 | 게이트 | 상태 | 내용 | 다음 작업 |
 | --- | --- | --- | --- |
-| official source catalog | passed | 151개 공식 소스 후보, 누락 카테고리 0개, 얇은 카테고리 0개 | npm run source:catalog:report |
-| official source live | passed | 접근 가능 129개, 보호 22개, 차단 이슈 0개, 네트워크 점검 0개 | npm run source:live:doctor |
+| official source catalog | passed | 154개 공식 소스 후보, 누락 카테고리 0개, 얇은 카테고리 0개 | npm run source:catalog:report |
+| official source live | passed | 접근 가능 131개, 보호 23개, 차단 이슈 0개, 네트워크 점검 0개 | npm run source:live:doctor |
 | source onboarding plan | passed | env 후보 6개, 상위 액션 10개 | npm run source:onboarding:plan |
 | source feed env safety | passed | 설정 URL 0개, 실패 0개, 정책 샘플 실패 0개 | npm run source:feed-env:doctor |
-| official benefit exposure | passed | 노출 118개, 숨김 0개, 종료 0개, 실패 0개 | npm run refresh:news && npm run verify:news |
+| official benefit exposure | passed | 노출 121개, 숨김 0개, 종료 0개, 실패 0개 | npm run refresh:news && npm run verify:news |
 | refresh all pipeline | passed | 상품 140개, 공식 혜택 118개, 실패 0개 | npm run refresh:all |
 
 ## 공식 feed env 연결 후보
