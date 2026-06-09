@@ -63,6 +63,7 @@ const dealsApi = read(join(root, "app", "api", "deals", "route.ts"));
 const newsDealsApi = read(join(root, "app", "api", "news-deals", "route.ts"));
 const benefitEventsApi = read(join(root, "app", "api", "benefits", "events", "route.ts"));
 const homeApi = read(join(root, "app", "api", "home", "route.ts"));
+const imageApi = read(join(root, "app", "api", "image", "route.ts"));
 const apiGuards = read(join(root, "lib", "apiGuards.ts"));
 const nextConfig = read(join(root, "next.config.mjs"));
 const freeBenefitEvents = read(join(root, "lib", "freeBenefitEvents.ts"));
@@ -263,6 +264,21 @@ addCheck(
     !homeApi.includes("error.message") &&
     !homeApi.includes("Unknown error"),
   "Home API keeps no-store runtime data and returns generic errors without exposing internal exception messages."
+);
+
+addCheck(
+  checks,
+  "image proxy abuse guard",
+  imageApi.includes("rateLimit(") &&
+    imageApi.includes('getClientKey(request, "image")') &&
+    imageApi.includes("AbortSignal.timeout") &&
+    imageApi.includes("isAllowedImageUrl(response.url)") &&
+    imageApi.includes('contentType.toLowerCase().startsWith("image/")') &&
+    imageApi.includes("maxImageBytes") &&
+    imageApi.includes('"X-Content-Type-Options": "nosniff"') &&
+    !imageApi.includes("error.message") &&
+    !imageApi.includes("Unknown error"),
+  "Image proxy rate-limits requests, validates initial and redirected hosts, rejects non-image/oversized responses, sets nosniff, and returns generic errors."
 );
 
 addCheck(
