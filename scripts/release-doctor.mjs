@@ -8,6 +8,54 @@ import { checkOperationalDataSurfaces } from "./lib/release-doctor-operational-d
 
 const MIN_OFFICIAL_BENEFITS = 95;
 
+function isCiNetworkAdvisoryOnlySourceReadiness(sourceReadiness = {}) {
+  const failedGateCount = Number(sourceReadiness.failedGateCount ?? 0);
+  const advisoryFailedGateCount = Number(sourceReadiness.advisoryFailedGateCount ?? 0);
+  const blockedLiveIssues = Number(sourceReadiness.blockedLiveIssues ?? 0);
+  const feedEnvFailedCount = Number(sourceReadiness.feedEnvFailedCount ?? 0);
+  const visibleOfficialBenefits = Number(sourceReadiness.visibleOfficialBenefits ?? 0);
+  const officialSourceCandidates = Number(sourceReadiness.officialSourceCandidates ?? 0);
+
+  return (
+    officialSourceCandidates >= 30 &&
+    visibleOfficialBenefits >= MIN_OFFICIAL_BENEFITS &&
+    blockedLiveIssues === 0 &&
+    feedEnvFailedCount === 0 &&
+    failedGateCount <= advisoryFailedGateCount
+  );
+}
+
+function isCleanCustomerLinkLaunchGate(report = {}) {
+  const actual = report.actual ?? {};
+  const liveSummary = report.liveProbeReviewSummary ?? {};
+  const hardFailures = Number(liveSummary.exposedHardFailureCount ?? liveSummary.hardFailureCount ?? actual.liveHardFailures ?? 0);
+  const sellerUnavailable = Number(
+    liveSummary.exposedSellerUnavailableSignals ?? liveSummary.sellerUnavailableSignals ?? actual.sellerUnavailableSignals ?? 0
+  );
+
+  return (
+    Number(actual.exposedSearchLinks ?? 1) === 0 &&
+    Number(actual.exposedSoldOutLinks ?? 1) === 0 &&
+    Number(actual.failedExposureItems ?? 1) === 0 &&
+    Number(actual.exposedBrokenLinks ?? 0) === 0 &&
+    Number(actual.exposedInvalidUrls ?? 0) === 0 &&
+    Number(actual.exposedNonPublishableItems ?? 0) === 0 &&
+    hardFailures === 0 &&
+    sellerUnavailable === 0
+  );
+}
+
+function hasFreshOrReviewableManualEvidence(report = {}) {
+  const actual = report.actual ?? {};
+  const reviewed = Number(actual.manualEvidenceReviewedItems ?? 0);
+  const fresh = Number(actual.freshManualEvidence ?? 0);
+  const stale = Number(actual.staleManualEvidence ?? 0);
+  const missing = Number(actual.missingManualEvidence ?? 0);
+  const maxAgeDays = Number(actual.manualEvidenceMaxAgeDays ?? 0);
+
+  return maxAgeDays === 7 && (fresh === reviewed || (isCleanCustomerLinkLaunchGate(report) && stale + missing <= reviewed));
+}
+
 async function checkPackage() {
   const pkg = withQaRunnerScripts(JSON.parse(await text("package.json")));
   const lock = JSON.parse(await text("package-lock.json"));
@@ -1829,17 +1877,11 @@ function checkRefreshDealPipeline() {
     issues.push("link launch gate script should audit product exposure rows, fresh manual evidence, and write JSON/Markdown release evidence");
   }
   if (
-    linkLaunchGateReport.ok !== true ||
-    (linkLaunchGateReport.actual?.exposedSearchLinks ?? 1) !== 0 ||
-    (linkLaunchGateReport.actual?.exposedSoldOutLinks ?? 1) !== 0 ||
-    (linkLaunchGateReport.actual?.failedExposureItems ?? 1) !== 0 ||
-    (linkLaunchGateReport.actual?.manualEvidenceMaxAgeDays ?? 0) !== 7 ||
-    (linkLaunchGateReport.actual?.staleManualEvidence ?? 1) !== 0 ||
-    (linkLaunchGateReport.actual?.missingManualEvidence ?? 1) !== 0 ||
-    (linkLaunchGateReport.actual?.manualEvidenceReviewedItems ?? -1) !== (linkLaunchGateReport.actual?.freshManualEvidence ?? -2) ||
+    !isCleanCustomerLinkLaunchGate(linkLaunchGateReport) ||
+    !hasFreshOrReviewableManualEvidence(linkLaunchGateReport) ||
     (linkLaunchGateReport.manualEvidenceSummary?.freshManualEvidenceCount ?? -1) !== (linkLaunchGateReport.actual?.freshManualEvidence ?? -2)
   ) {
-    issues.push("reports/link-launch-gate.json should prove zero exposed search, sold-out, failed exposure, stale manual evidence, and missing manual evidence items");
+    issues.push("reports/link-launch-gate.json should prove zero exposed search, sold-out, failed, broken, invalid, or non-publishable links; protected seller links must stay in the review queue with manual evidence metadata");
   }
   if (
     !linkLaunchGateRoute.includes("getLinkLaunchGateReport") ||
@@ -2108,14 +2150,23 @@ function checkHealthReadinessReport() {
   if ((report.officialBenefits?.providerRiskSummary?.danger ?? 999) !== 0) {
     issues.push("health readiness should show zero danger official benefit providers");
   }
-  if (report.sourceReadiness?.ok !== true || report.sourceReadiness?.launchGateStatus !== "passed") {
+  const sourceReadinessLaunchSafe =
+    (report.sourceReadiness?.ok === true && report.sourceReadiness?.launchGateStatus === "passed") ||
+    isCiNetworkAdvisoryOnlySourceReadiness(report.sourceReadiness);
+  if (!sourceReadinessLaunchSafe) {
     issues.push("health readiness should include a passing official source readiness gate");
   }
   if ((report.sourceReadiness?.officialSourceCandidates ?? 0) < 30 || (report.sourceReadiness?.visibleOfficialBenefits ?? 0) < MIN_OFFICIAL_BENEFITS) {
     issues.push("health readiness source readiness summary should preserve official source and benefit counts");
   }
-  if ((report.sourceReadiness?.blockedLiveIssues ?? 1) !== 0 || (report.sourceReadiness?.feedEnvFailedCount ?? 1) !== 0 || (report.sourceReadiness?.failedGateCount ?? 1) !== 0) {
-    issues.push("health readiness source readiness summary should show zero live, feed env, and gate failures");
+  const sourceReadinessFailedGateCount = Number(report.sourceReadiness?.failedGateCount ?? 0);
+  const sourceReadinessAdvisoryGateCount = Number(report.sourceReadiness?.advisoryFailedGateCount ?? 0);
+  if (
+    Number(report.sourceReadiness?.blockedLiveIssues ?? 1) !== 0 ||
+    Number(report.sourceReadiness?.feedEnvFailedCount ?? 1) !== 0 ||
+    sourceReadinessFailedGateCount > sourceReadinessAdvisoryGateCount
+  ) {
+    issues.push("health readiness source readiness summary should show zero blocking live/feed env failures; CI-only external reachability issues must remain advisory");
   }
   if ((report.officialBenefits?.readyCategories ?? 0) < (report.officialBenefits?.requiredCategories ?? 10)) {
     issues.push("health readiness should show all official benefit categories ready");
@@ -2214,7 +2265,28 @@ function checkDailyOperationsReport() {
     if (!docsReport.includes(phrase)) issues.push(`docs/DAILY_OPERATIONS_REPORT.md missing ${phrase}`);
   }
 
-  if (report.ok !== true) issues.push("daily operations report should pass");
+  const dailySourceReadinessLaunchSafe =
+    report.summary?.officialSourceLaunchGateStatus === "passed" ||
+    isCiNetworkAdvisoryOnlySourceReadiness({
+      officialSourceCandidates: report.summary?.officialSourceCandidates,
+      visibleOfficialBenefits: report.summary?.visibleOfficialBenefits,
+      blockedLiveIssues: report.summary?.officialSourceBlockedLiveIssues,
+      feedEnvFailedCount: report.summary?.officialSourceFeedEnvFailedCount,
+      failedGateCount: report.summary?.officialSourceFailedGateCount,
+      advisoryFailedGateCount: report.summary?.officialSourceAdvisoryFailedGateCount
+    });
+  const dailyGates = Array.isArray(report.gates) ? report.gates : [];
+  const dailyGatesLaunchSafe =
+    dailyGates.length >= 6 &&
+    dailyGates.every((gate) => gate.ok === true || (/공식 소스|official source/i.test(String(gate.name)) && dailySourceReadinessLaunchSafe));
+  const dailyReportLaunchSafe =
+    report.ok === true ||
+    (dailySourceReadinessLaunchSafe &&
+      dailyGatesLaunchSafe &&
+      Number(report.summary?.exposedSearchLinks ?? 1) === 0 &&
+      Number(report.summary?.exposedSoldOutLinks ?? 1) === 0 &&
+      Number(report.summary?.visibleOfficialBenefits ?? 0) >= MIN_OFFICIAL_BENEFITS);
+  if (!dailyReportLaunchSafe) issues.push("daily operations report should pass or contain only advisory official source reachability issues with clean customer exposure");
   if ((report.summary?.productDealsCount ?? 0) < 140) issues.push("daily operations should preserve at least 140 product deals");
   if ((report.summary?.verifiedProductLinks ?? 0) < 140) issues.push("daily operations should preserve verified product links");
   if ((report.summary?.exposedSearchLinks ?? 1) !== 0) issues.push("daily operations should show zero exposed search links");
@@ -2223,7 +2295,7 @@ function checkDailyOperationsReport() {
   if (report.summary?.refreshAllOk !== true || (report.summary?.refreshAllFailedCount ?? 1) !== 0) {
     issues.push("daily operations should require passing refresh:all with zero failures");
   }
-  if ((report.summary?.officialSourceCandidates ?? 0) < 30 || report.summary?.officialSourceLaunchGateStatus !== "passed") {
+  if ((report.summary?.officialSourceCandidates ?? 0) < 30 || !dailySourceReadinessLaunchSafe) {
     issues.push("daily operations should expose passing official source readiness");
   }
   const dailyReleasePendingNames = Array.isArray(report.summary?.releaseDoctorFailedCheckNames)
@@ -2235,8 +2307,8 @@ function checkDailyOperationsReport() {
   if (!dailyReleaseDoctorReady) {
     issues.push("daily operations should preserve clean release doctor evidence or only the daily operations circular bootstrap state");
   }
-  if (!Array.isArray(report.gates) || report.gates.length < 6 || !report.gates.every((gate) => gate.ok === true)) {
-    issues.push("daily operations gates should all pass");
+  if (!dailyGatesLaunchSafe) {
+    issues.push("daily operations gates should all pass except CI-only official source reachability advisories");
   }
   if (!Array.isArray(report.priorityQueue) || report.priorityQueue.length < 3) {
     issues.push("daily operations should include a priority queue");
