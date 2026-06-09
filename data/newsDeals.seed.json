@@ -4382,5 +4382,36 @@
       "샘플",
       "공식신청"
     ]
+  },
+  {
+    "id": "news-gs25-hyeja-bread-tosspay-plusone-202606",
+    "title": "GS25 혜자로운빵 토스페이 1+1 공식 행사",
+    "summary": "GS25 공식 이벤트 상세에서 혜자로운빵 토스페이 1+1 행사 조건, 대상 상품과 참여 방법을 확인할 수 있습니다.",
+    "merchant": "GS25",
+    "category": "마트/편의점",
+    "benefitType": "convenienceStore",
+    "discountRate": 50,
+    "price": 0,
+    "originalPrice": 0,
+    "couponAmount": 0,
+    "startDate": "2026-06-01",
+    "endDate": "2026-06-30",
+    "sourceName": "GS25 공식 이벤트",
+    "sourceUrl": "https://gs25.gsretail.com/gscvs/ko/customer-engagement/event/detail/publishing?eventCode=8842754706976&pageNum=1",
+    "finalUrl": "https://gs25.gsretail.com/gscvs/ko/customer-engagement/event/detail/publishing?eventCode=8842754706976&pageNum=1",
+    "imageUrl": "",
+    "confidenceScore": 88,
+    "validationStatus": "needs_review",
+    "isHidden": false,
+    "hiddenReason": "",
+    "lastCheckedAt": "",
+    "provider": "official_event",
+    "tags": [
+      "편의점",
+      "1+1",
+      "토스페이",
+      "공식이벤트",
+      "구매필요"
+    ]
   }
 ]

@@ -3757,5 +3757,27 @@
     "allowedUse": "아이챌린지 공식 무료체험 상세에서 돌아기 월령별 무료체험교재, 놀이책, 신청 조건이 확인되는 혜택",
     "blockedUse": "아이챌린지 메인, 검색 결과, 육아 커뮤니티 후기, 종료된 체험 신청, 유료 구독 상품 상세만 있는 페이지",
     "notes": "구매 필요 없는 교육 무료체험 혜택으로 공식 신청 상세 URL만 사용자 CTA 후보로 사용한다."
+  },
+  {
+    "id": "gs25-hyeja-bread-tosspay-plusone-202606",
+    "label": "GS25 혜자로운빵 토스페이 1+1 공식 이벤트",
+    "provider": "official_event",
+    "category": [
+      "마트/편의점",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://gs25.gsretail.com/gscvs/ko/customer-engagement/event/detail/publishing?eventCode=8842754706976&pageNum=1",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 6,
+    "allowedUse": "GS25 공식 이벤트 상세에서 eventCode, 행사 상품, 결제 조건, 1+1 참여 조건이 확인되는 편의점 혜택",
+    "blockedUse": "GS25 이벤트 목록, 검색 결과, 상품 카테고리, 비공식 편의점 행사 요약, 종료된 행사 상세",
+    "notes": "구매 필요 조건형 편의점 혜택이므로 구매 필요 배지를 달고, 공식 이벤트 상세 URL만 CTA 후보로 사용한다."
   }
 ]
