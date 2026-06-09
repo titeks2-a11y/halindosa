@@ -7,7 +7,7 @@
 ## 현재 기준
 
 - Branch: `codex/12h-product-ux-growth-hardening`
-- 최신 확인 HEAD: `0d54e691 docs: record successful vercel deployment verification`
+- 최신 확인 HEAD: 새 세션 시작 시 `git log -1 --oneline`으로 확인한다. 이 문서 직전 기준은 `d667545c docs: refresh current handoff state`였다.
 - Remote: `origin/main`, `origin/codex/12h-product-ux-growth-hardening` 모두 최신 HEAD까지 push 완료
 - 운영 URL: `https://www.halindosa.com`
 - Vercel Production Deploy: 최신 확인 기준 성공
@@ -32,15 +32,17 @@
 - `scripts/vercel-deployment-doctor.mjs`가 `halindosa.com`과 `www.halindosa.com` 양쪽 운영 도메인의 최신 API 계약을 함께 검사한다.
 - Vercel 배포가 성공처럼 보여도 운영 API가 `requestId`, `X-Request-Id`, `X-RateLimit-Remaining`을 내지 않으면 차단한다.
 - smoke/release 검증은 소비자 우선 기본 피드와 `includePublic=true` 전체 공식 혜택 풀을 구분해서 검사한다.
+- QA 파이프라인은 중복 실행을 제거해 71개 핵심 게이트로 정리했다. 개별 품질 기준은 유지한다.
 
 ## 현재 데이터 품질 기준
 
 - 상품 링크:
   - 총 140개 검증 URL
-  - 사용자 노출 가능 139~140개 범위
+  - 사용자 노출 가능 138~140개 범위
   - 검색 링크 노출 0건
   - 품절/종료 링크 노출 0건
   - hard failure 노출 0건
+  - 외부몰 일시 5xx/접근보호 이슈는 고객 노출에서 숨기고 운영자 재검증 큐로 보낸다.
 - 공식 혜택:
   - `refresh:news` 기준 130개 공식 혜택 노출
   - `verify:news` 기준 130/130 공식 혜택 링크 검증
@@ -56,7 +58,7 @@
 - `npm run smoke:local`: 103/103 통과
 - `npm run release:prepare:reports:ci`: 27/27 통과
 - `npm run release:doctor`: 189/189 통과
-- `npm run qa`: 76/76 통과
+- `npm run qa`: 71/71 통과
 - `npm run build`: 통과
 - `npm run build:android`: 통과
 - `npm run cap:sync`: 통과

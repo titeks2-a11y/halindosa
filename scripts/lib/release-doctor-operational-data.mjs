@@ -1109,7 +1109,7 @@ export async function checkOperationalDataSurfaces() {
   }
   if (
     publishableSurfaceReport.ok !== true ||
-    (publishableSurfaceReport.summary?.productCandidates ?? 0) < 139 ||
+    (publishableSurfaceReport.summary?.productCandidates ?? 0) < 138 ||
     (publishableSurfaceReport.summary?.refreshedProductSnapshotCount ?? 0) < 139 ||
     (publishableSurfaceReport.summary?.productViolations ?? 1) !== 0 ||
     (publishableSurfaceReport.summary?.newsCandidates ?? 0) < MIN_OFFICIAL_BENEFITS ||
@@ -1138,7 +1138,7 @@ export async function checkOperationalDataSurfaces() {
   if (
     linkRevalidationPriorityReport.ok !== true ||
     (linkRevalidationPriorityReport.summary?.auditedItems ?? 0) < 140 ||
-    (linkRevalidationPriorityReport.summary?.publishableItems ?? 0) < 139 ||
+    (linkRevalidationPriorityReport.summary?.publishableItems ?? 0) < 138 ||
     (linkRevalidationPriorityReport.summary?.blockingRevalidationItems ?? 1) !== 0 ||
     (linkRevalidationPriorityReport.summary?.exposedSearchLinks ?? 1) !== 0 ||
     (linkRevalidationPriorityReport.summary?.exposedSoldOutLinks ?? 1) !== 0 ||

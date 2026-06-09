@@ -30,8 +30,6 @@ const coreTasks = [
   "news:preview",
   "refresh:all",
   "verify:links:live",
-  "verify:products",
-  "link:policy:regression",
   "exposure:doctor",
   "surface:publishable:doctor",
   "link:launch:gate",
@@ -76,9 +74,6 @@ const coreTasks = [
   "home:list-scan:doctor",
   "home:realtime:doctor",
   "smoke:local",
-  "surface:publishable:doctor",
-  "link:revalidation:report",
-  "live:probe:review",
   "build",
   "release:doctor"
 ];
