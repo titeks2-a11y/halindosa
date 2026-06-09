@@ -2,7 +2,7 @@
 
 이 문서는 공식 이벤트/혜택 소스 후보의 현재 접근 상태를 non-strict 방식으로 기록합니다. 무단 크롤링을 수행하지 않으며, 보호된 페이지는 공식 API/RSS/제휴 feed 또는 수동 승인 데이터로 연결해야 합니다.
 
-- 생성 시각: 2026-06-09T02:47:54.201Z
+- 생성 시각: 2026-06-09T03:47:44.822Z
 - 모드: non_strict_live_readiness
 - 후보 소스: 138개
 - 접근 가능: 118개
@@ -152,7 +152,7 @@
 | lottemart-official-benefits | official_event | medium | reachable | 200 | company.lottemart.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | daisomall-official-events | official_event | medium | reachable | 200 | daisomall.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | gmarket-official-coupon-event | official_event | medium | guarded | 403 | gmarket.co.kr | 무단 크롤링하지 말고 공식 API/RSS/제휴 feed 또는 수동 승인 매핑 사용 |
-| auction-official-ecoupon-event | official_event | medium | reachable | 200 | promotion.auction.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| auction-official-ecoupon-event | official_event | medium | guarded | 0 | promotion.auction.co.kr | 공식 feed 연결 전 브라우저/제휴 담당자 확인 필요 |
 | eventhouse-approved-event-discovery | public_coupon | low | reachable | 200 | eventhouse.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | baskinrobbins-official-event-list | official_event | medium | reachable | 200 | baskinrobbins.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | dunkin-official-event-benefits | official_event | medium | reachable | 200 | dunkindonuts.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
@@ -162,7 +162,7 @@
 | lpoint-official-daily-missions | official_event | medium | reachable | 200 | m.lpoint.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | ebs-family-free-learning-services | public_coupon | high | reachable | 200 | m.ebs.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | ebs-lifelong-school-free-courses | public_coupon | medium | reachable | 200 | lifelongschool.ebs.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
-| kocw-official-open-course | public_coupon | medium | guarded | 0 | kocw.net | 공식 feed 연결 전 브라우저/제휴 담당자 확인 필요 |
+| kocw-official-open-course | public_coupon | medium | reachable | 200 | kocw.net | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | work24-training-card-issue-guide | public_coupon | high | reachable | 200 | m.work24.go.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | royalcanin-start-of-life-campaign | official_event | medium | reachable | 200 | royalcanin.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | seoul-youth-policy-free-support-guide | public_coupon | high | reachable | 200 | youth.seoul.go.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |

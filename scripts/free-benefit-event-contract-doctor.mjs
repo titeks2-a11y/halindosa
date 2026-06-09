@@ -239,6 +239,9 @@ const checks = [
       hasAll(homeFreebieHeroSource, [
         "data-home-free-benefit-quick-filters",
         "eventCategoryCounts",
+        "isEmptyFilter",
+        'aria-disabled="true"',
+        "현재 검증된 혜택이 없습니다",
         "전원증정",
       "선착순",
       "쿠폰",

@@ -204,20 +204,43 @@ export function HomeFreebieHero({
         <div className="flex snap-x gap-1.5 pb-1">
           {heroQuickFilters.map((filter) => {
             const count = getHeroQuickFilterCount(filter);
+            const isEmptyFilter = count === 0;
+            const chipClassName = `inline-flex min-h-8 shrink-0 snap-start items-center gap-1 rounded-full border px-2.5 text-[10px] font-black sm:text-[11px] ${
+              isEmptyFilter ? "border-slate-100 bg-slate-50 text-slate-300" : filter.className
+            }`;
+            const chipContent = (
+              <>
+                {filter.label}
+                {count !== null ? (
+                  <span className={`rounded-full px-1.5 py-0.5 text-[9px] ${isEmptyFilter ? "bg-white text-slate-300" : "bg-white/70 text-slate-600"}`}>
+                    {count.toLocaleString("ko-KR")}
+                  </span>
+                ) : null}
+              </>
+            );
+
+            if (isEmptyFilter) {
+              return (
+                <span
+                  key={filter.label}
+                  className={chipClassName}
+                  aria-disabled="true"
+                  aria-label={`${filter.label} 무료혜택은 현재 검증된 항목이 없습니다`}
+                  title="현재 검증된 혜택이 없습니다"
+                >
+                  {chipContent}
+                </span>
+              );
+            }
 
             return (
               <Link
                 key={filter.label}
                 href={filter.href}
-                className={`inline-flex min-h-8 shrink-0 snap-start items-center gap-1 rounded-full border px-2.5 text-[10px] font-black sm:text-[11px] ${filter.className}`}
+                className={chipClassName}
                 aria-label={`${filter.label} 무료혜택 바로 보기`}
               >
-                {filter.label}
-                {count !== null ? (
-                  <span className="rounded-full bg-white/70 px-1.5 py-0.5 text-[9px] text-slate-600">
-                    {count.toLocaleString("ko-KR")}
-                  </span>
-                ) : null}
+                {chipContent}
               </Link>
             );
           })}

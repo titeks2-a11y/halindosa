@@ -1,6 +1,6 @@
 # 무료혜택 Feed Activation 리포트
 
-- 생성 시각: 2026-06-09T02:55:18.426Z
+- 생성 시각: 2026-06-09T03:47:46.992Z
 - 상태: seed_ready
 - 설정 feed URL: 0개
 - 설정 provider: 0개
