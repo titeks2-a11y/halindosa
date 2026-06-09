@@ -1,5 +1,6 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
+import { buildConsumerFirstPolicy, sourceText } from "./lib/consumer-source-policy.mjs";
 
 const root = process.cwd();
 const reportsDir = join(root, "reports");
@@ -144,25 +145,6 @@ const requiredBrandSignals = [
   { id: "experience-panel", label: "체험단/샘플 플랫폼", patterns: [/powderroom|파우더룸|체험단|샘플|review/i] }
 ];
 
-const publicPolicyPatterns = [
-  /gov|정부|보조금|복지|bokjiro|공공|공기관|지자체|정책/i,
-  /서울|seoul|청년|한강|공원|평생학습|yeyak\.seoul|youth\.seoul|sll\.seoul/i,
-  /culture\.go|문화가.?있는.?날|문화포털|mnuri|visitkorea/i,
-  /hrd|work24|고용24|내일배움|kmooc|k-mooc|kocw|ebs|교육|훈련/i
-];
-
-const publicPolicySourceTypes = new Set([
-  "approved_public",
-  "approved_public_benefit_page",
-  "public_benefit_page",
-  "public_official_page"
-]);
-
-function isPublicPolicySource(source) {
-  const text = sourceText(source);
-  return publicPolicySourceTypes.has(String(source.sourceType ?? "")) || publicPolicyPatterns.some((pattern) => pattern.test(text));
-}
-
 function readJson(path, fallback) {
   if (!existsSync(path)) return fallback;
   try {
@@ -170,22 +152,6 @@ function readJson(path, fallback) {
   } catch {
     return fallback;
   }
-}
-
-function sourceText(source) {
-  return [
-    source.id,
-    source.label,
-    source.provider,
-    source.sourceType,
-    source.officialUrl,
-    Array.isArray(source.category) ? source.category.join(" ") : source.category,
-    source.allowedUse,
-    source.blockedUse,
-    source.notes
-  ]
-    .filter(Boolean)
-    .join(" ");
 }
 
 const catalog = readJson(catalogPath, []);
@@ -197,41 +163,18 @@ if (!Array.isArray(catalog)) {
   issues.push("data/officialSourceCatalog.json must be an array.");
 }
 
-const activeCatalog = (Array.isArray(catalog) ? catalog : []).filter((source) => liveRowsById.get(source.id)?.status !== "stale_or_removed");
-const publicPolicySources = activeCatalog.filter(isPublicPolicySource);
-const consumerBenefitSources = activeCatalog.filter((source) => !isPublicPolicySource(source));
-const highPriorityConsumerSources = consumerBenefitSources.filter((source) => source.priority === "high");
-const consumerSourceRate = activeCatalog.length ? Math.round((consumerBenefitSources.length / activeCatalog.length) * 100) : 0;
-const publicPolicySourceRate = activeCatalog.length ? Math.round((publicPolicySources.length / activeCatalog.length) * 100) : 0;
+const consumerFirstPolicy = buildConsumerFirstPolicy(catalog, liveRowsById);
 
-const consumerFirstPolicy = {
-  minimumConsumerSourceRate: 70,
-  minimumHighPriorityConsumerSources: 30,
-  maximumPublicPolicySourceRate: 35,
-  activeSourceCount: activeCatalog.length,
-  consumerBenefitSourceCount: consumerBenefitSources.length,
-  consumerSourceRate,
-  highPriorityConsumerSourceCount: highPriorityConsumerSources.length,
-  publicPolicySourceCount: publicPolicySources.length,
-  publicPolicySourceRate,
-  defaultExposure: "consumer_first_public_policy_opt_in",
-  publicPolicyDefaultHandling: "excluded_from_default_home_and_freebies_unless_explicitly_requested",
-  ok:
-    consumerSourceRate >= 70 &&
-    highPriorityConsumerSources.length >= 30 &&
-    publicPolicySourceRate <= 35
-};
-
-if (consumerSourceRate < consumerFirstPolicy.minimumConsumerSourceRate) {
-  issues.push(`Consumer benefit source rate must be ${consumerFirstPolicy.minimumConsumerSourceRate}%+, got ${consumerSourceRate}%.`);
+if (consumerFirstPolicy.consumerSourceRate < consumerFirstPolicy.minimumConsumerSourceRate) {
+  issues.push(`Consumer benefit source rate must be ${consumerFirstPolicy.minimumConsumerSourceRate}%+, got ${consumerFirstPolicy.consumerSourceRate}%.`);
 }
 
-if (highPriorityConsumerSources.length < consumerFirstPolicy.minimumHighPriorityConsumerSources) {
-  issues.push(`High-priority consumer benefit sources must be ${consumerFirstPolicy.minimumHighPriorityConsumerSources}+, got ${highPriorityConsumerSources.length}.`);
+if (consumerFirstPolicy.highPriorityConsumerSourceCount < consumerFirstPolicy.minimumHighPriorityConsumerSources) {
+  issues.push(`High-priority consumer benefit sources must be ${consumerFirstPolicy.minimumHighPriorityConsumerSources}+, got ${consumerFirstPolicy.highPriorityConsumerSourceCount}.`);
 }
 
-if (publicPolicySourceRate > consumerFirstPolicy.maximumPublicPolicySourceRate) {
-  issues.push(`Public/policy source rate must stay <= ${consumerFirstPolicy.maximumPublicPolicySourceRate}% for the default catalog mix, got ${publicPolicySourceRate}%.`);
+if (consumerFirstPolicy.publicPolicySourceRate > consumerFirstPolicy.maximumPublicPolicySourceRate) {
+  issues.push(`Public/policy source rate must stay <= ${consumerFirstPolicy.maximumPublicPolicySourceRate}% for the default catalog mix, got ${consumerFirstPolicy.publicPolicySourceRate}%.`);
 }
 
 const lanes = requiredLanes.map((lane) => {
