@@ -63,7 +63,8 @@ const heroQuickFilters: Array<{
   { label: "출석체크", href: "/free-benefits?eventType=checkIn", eventType: "checkIn", className: "border-indigo-100 bg-indigo-50 text-indigo-700" },
   { label: "룰렛", href: "/free-benefits?eventType=roulette", eventType: "roulette", className: "border-fuchsia-100 bg-fuchsia-50 text-fuchsia-700" },
   { label: "신규가입", href: "/free-benefits?eventType=signup", eventType: "signup", className: "border-rose-100 bg-rose-50 text-rose-700" },
-  { label: "공공무료", href: "/free-benefits?eventType=publicFree", eventType: "publicFree", className: "border-blue-100 bg-blue-50 text-blue-700" },
+  { label: "무료배송", href: "/free-benefits?eventType=freeShipping", eventType: "freeShipping", className: "border-cyan-100 bg-cyan-50 text-cyan-700" },
+  { label: "브랜드", href: "/free-benefits?eventType=brandEvent", eventType: "brandEvent", className: "border-red-100 bg-red-50 text-dossa-red" },
   { label: "체험단", href: "/free-benefits?eventType=experiencePanel", eventType: "experiencePanel", className: "border-purple-100 bg-purple-50 text-purple-700" },
   { label: "마감임박", href: "/free-benefits?endingSoon=true", className: "border-amber-100 bg-amber-50 text-amber-800" }
 ];
