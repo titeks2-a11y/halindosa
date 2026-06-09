@@ -18,7 +18,8 @@ export async function GET(request: Request) {
       category: searchParams.get("category") ?? undefined,
       benefitType: searchParams.get("benefitType") ?? undefined,
       q: searchParams.get("q") ?? undefined,
-      sort: searchParams.get("sort") ?? undefined
+      sort: searchParams.get("sort") ?? undefined,
+      includePublicPolicy: searchParams.get("includePublic") === "true" || searchParams.get("category") === "정부/공공혜택"
     });
 
     return noStoreJson({

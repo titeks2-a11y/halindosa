@@ -94,6 +94,7 @@ const source = Array.isArray(snapshot.deals) ? snapshot.deals : Array.isArray(sn
 const newsDealsSource = readFileSync(join(root, "lib", "deals", "newsDeals.ts"), "utf8");
 const homeRouteSource = readFileSync(join(root, "app", "api", "home", "route.ts"), "utf8");
 const freebiesRouteSource = readFileSync(join(root, "app", "api", "freebies", "route.ts"), "utf8");
+const newsDealsRouteSource = readFileSync(join(root, "app", "api", "news-deals", "route.ts"), "utf8");
 const visible = source.filter((deal) => isVisible(deal, now));
 const ranked = visible
   .map((deal) => ({
@@ -121,7 +122,9 @@ const defaultConsumerFirstWired =
   homeRouteSource.includes("includePublicPolicy") &&
   homeRouteSource.includes('category === "정부/공공혜택"') &&
   freebiesRouteSource.includes("includePublicPolicy: includePublic") &&
-  freebiesRouteSource.includes("publicPolicyBenefits");
+  freebiesRouteSource.includes("publicPolicyBenefits") &&
+  newsDealsRouteSource.includes("includePublicPolicy") &&
+  newsDealsRouteSource.includes("includePublic");
 const ok = visible.length >= 80 && top8Consumer >= 6 && top8Public <= 2 && top12Consumer >= 9 && top12Public <= 3 && defaultConsumerFirstWired;
 
 const report = {
