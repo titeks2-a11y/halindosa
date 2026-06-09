@@ -13,11 +13,11 @@
 
 - Branch: `codex/12h-product-ux-growth-hardening`
 - 최근 커밋:
+  - `1aaa7370 feat: add momq official benefit sources`
+  - `6815d251 feat: surface feed activation queue in admin`
   - `8d916e3f feat: add feed env activation readiness queue`
   - `a99fda8d docs: refresh final release reports`
   - `ff03ce8a docs: refresh release evidence after source expansion`
-  - `7ff30b06 feat: add official cafe benefit sources`
-  - `5274ce9a docs: save fresh session handoff state`
 - 현재 워크트리는 release evidence 문서와 feed activation/admin 관련 파일이 수정된 상태다.
 - 새 세션 시작 시 먼저 실행:
 
@@ -51,21 +51,17 @@ npm run workspace:doctor:strict
 - `/api/home`과 홈 상단 무료혜택 히어로도 같은 카테고리 카운트를 사용한다.
 - 홈 빠른 필터에서 서버 카운트가 0개인 카테고리는 비활성 칩으로 표시한다.
 - 무료혜택 CTA는 공식 이벤트/신청 URL만 통과시키는 정책으로 운영한다.
-- 공식 소스 후보는 140개 수준이며, source feed starter pack은 12개 lane 기준으로 확장되어 있다.
+- 공식 소스 후보는 142개이며, source feed starter pack은 12개 lane 기준으로 확장되어 있다.
+- 맘큐 공식 이벤트 목록과 신규회원 웰컴혜택 소스가 추가되어 육아/샘플/신규가입 혜택 발견 축이 보강되었다.
+- 마지막 live check 기준 공식 소스는 reachable 123개, guarded 19개, stale_or_removed 0개다.
 - source feed env readiness 구조가 있다.
   - `lib/operations/sourceFeedEnvReadiness.ts`
   - `scripts/source-feed-env-doctor.mjs`
   - `docs/SOURCE_FEED_ENV_REPORT.md`
-- 현재 추가 작업 중인 내용:
-  - 관리자 화면에 `다음 Feed 활성화 큐`, `starter pack 기준`, `운영자 체크리스트` 노출
-  - smoke/release doctor에서 위 관리자 UI 문구 검사
+- 관리자 화면에는 `다음 Feed 활성화 큐`, `starter pack 기준`, `운영자 체크리스트`가 노출되고 smoke/release doctor가 이를 검사한다.
 
 ## 현재 수정 중인 핵심 파일
 
-- `app/admin/page.tsx`
-- `lib/operations/sourceFeedEnvReadiness.ts`
-- `scripts/lib/smoke-admin-checks.mjs`
-- `scripts/lib/release-doctor-operational-data.mjs`
 - release evidence 문서 다수
 
 주의:
@@ -86,9 +82,14 @@ npm run security:check
 npm run lint
 ```
 
-현재 in-progress 변경 후에는 `npm run lint`가 통과했다. 다음 검증 후보:
+최근 커밋 `1aaa7370` 이후 아래 검증이 통과했다.
 
 ```bash
+npm run lint
+npm run source:catalog:report
+npm run source:breadth:doctor
+npm run source:live:doctor
+npm run source:feed-env:doctor
 npm run smoke:local
 npm run release:doctor
 npm run workspace:doctor:strict
@@ -102,21 +103,12 @@ npm run build
 
 ## 다음 작업 후보
 
-1. 현재 in-progress feed activation admin UI 작업을 검증한다.
-   - `npm run smoke:local`
-   - `npm run release:doctor`
-   - `npm run workspace:doctor:strict`
-2. 문제 없으면 아래 파일만 명시적으로 stage하고 commit한다.
-   - `app/admin/page.tsx`
-   - `lib/operations/sourceFeedEnvReadiness.ts`
-   - `scripts/lib/smoke-admin-checks.mjs`
-   - `scripts/lib/release-doctor-operational-data.mjs`
-3. 커밋 후 release evidence freshness 문서를 새 HEAD 기준으로 재생성한다.
-4. 무료혜택 운영 feed URL을 실제 Vercel env에 연결하기 전 아래 문서를 기준으로 검증한다.
+1. 무료혜택 운영 feed URL을 실제 Vercel env에 연결하기 전 아래 문서를 기준으로 검증한다.
    - `docs/SOURCE_FEED_ENV_REPORT.md`
    - `docs/FREE_BENEFIT_FEED_HANDOFF.md`
    - `docs/SOURCE_FEED_ACTIVATION.md`
-5. 공공/교육/반려동물/문화/카페 프랜차이즈 무료혜택 후보를 추가하되, 사용자 CTA는 공식 상세 또는 신청 페이지가 active이고 무료 조건이 확인된 경우에만 연결한다.
+2. 공공/교육/반려동물/문화/카페 프랜차이즈 무료혜택 후보를 추가하되, 사용자 CTA는 공식 상세 또는 신청 페이지가 active이고 무료 조건이 확인된 경우에만 연결한다.
+3. 공식 소스 후보를 추가할 때 live check에서 4xx/5xx가 뜨는 상세 URL은 카탈로그에 남기지 말고 목록 소스나 승인 feed 후보로만 보강한다.
 
 ## 운영 feed 연결 순서
 
