@@ -1,11 +1,11 @@
 # Security Check Report
 
-Generated: 2026-06-09T05:02:19.746Z
+Generated: 2026-06-09T06:41:54.219Z
 
 | Metric | Value |
 | --- | ---: |
-| Checks | 12 |
-| Passed | 12 |
+| Checks | 13 |
+| Passed | 13 |
 | Failed | 0 |
 
 ## Checks
@@ -16,9 +16,10 @@ Generated: 2026-06-09T05:02:19.746Z
 - PASS freebies api guard: Public freebies API has rate limiting, request IDs, and generic error output.
 - PASS free benefit events api guard: Public free benefit event API has rate limiting, request IDs, publishable-only filtering, no-store cache policy, and generic error output.
 - PASS home api generic error guard: Home API keeps no-store runtime data and returns generic errors without exposing internal exception messages.
-- PASS cron secret guard: Cron refresh route requires secret/admin auth and rate limit.
+- PASS cron secret guard: Cron refresh and benefits routes require secret/admin auth, trusted browser origins, and rate limits.
+- PASS cron output redaction: Cron process output is sanitized before API/report exposure and public failure messages avoid stack/log detail hints.
 - PASS official redirect allowlist: Official benefit redirects use visible deal lookup and approved-host destination policy.
-- PASS official source catalog guard: Official source catalog has 136 safe, non-duplicate candidates with explicit CTA policy text.
+- PASS official source catalog guard: Official source catalog has 142 safe, non-duplicate candidates with explicit CTA policy text.
 - PASS xss rendering guard: No unsafe HTML rendering found; JSON-LD escapes '<'.
 - PASS public env secret separation: No NEXT_PUBLIC server-secret style variables found.
 - PASS hardcoded secret scan: No common high-risk token patterns found in tracked source files.

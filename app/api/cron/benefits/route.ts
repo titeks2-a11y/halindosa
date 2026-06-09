@@ -3,7 +3,8 @@ import { spawnSync } from "node:child_process";
 import { join } from "node:path";
 import { NextResponse } from "next/server";
 import { canAccessAdminRequest, getAdminTokenFromRequest } from "@/lib/adminAuth";
-import { createRequestId, getClientKey, rateLimit, rateLimitHeaders } from "@/lib/apiGuards";
+import { createRequestId, getClientKey, isTrustedRequestOrigin, rateLimit, rateLimitHeaders } from "@/lib/apiGuards";
+import { sanitizedProcessTail } from "@/lib/cronOutput";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -16,10 +17,6 @@ const freeBenefitEventsReportRelativePath = "reports/free-benefit-events.json";
 const cronBenefitsReportPath = join(process.cwd(), cronBenefitsReportRelativePath);
 const benefitsRefreshReportPath = join(process.cwd(), benefitsRefreshReportRelativePath);
 const freeBenefitEventsReportPath = join(process.cwd(), freeBenefitEventsReportRelativePath);
-
-function tail(value: string, maxLength = 4000) {
-  return value.length <= maxLength ? value : value.slice(value.length - maxLength);
-}
 
 function readJson<T>(path: string, fallback: T): T {
   try {
@@ -94,13 +91,13 @@ function runBenefitsPipeline(requestId: string) {
     status: result.status,
     signal: result.signal,
     durationMs: Date.now() - startedAt,
-    stdoutTail: tail(result.stdout ?? ""),
-    stderrTail: tail(result.stderr ?? ""),
+    stdoutTail: sanitizedProcessTail(result.stdout ?? ""),
+    stderrTail: sanitizedProcessTail(result.stderr ?? ""),
     ...readBenefitEvidence(),
     message:
       result.status === 0
         ? "cron benefits 무료혜택 파이프라인이 정상 완료되었습니다."
-        : "cron benefits가 실패했습니다. stderrTail과 reports/benefits-refresh.json을 확인하세요."
+        : "cron benefits가 실패했습니다. 상세 로그는 서버 운영 리포트에서 확인하세요."
   };
 
   writeFileSync(cronBenefitsReportPath, `${JSON.stringify(report, null, 2)}\n`, "utf8");
@@ -117,6 +114,10 @@ async function handleBenefitsCron(request: Request) {
 
   if (!limit.allowed) {
     return NextResponse.json({ ok: false, requestId, message: "cron benefits 요청이 너무 많습니다." }, { status: 429, headers: rateLimitHeaders(limit, requestId) });
+  }
+
+  if (!isTrustedRequestOrigin(request)) {
+    return NextResponse.json({ ok: false, requestId, message: "허용되지 않은 요청 출처입니다." }, { status: 403, headers: rateLimitHeaders(limit, requestId) });
   }
 
   const url = new URL(request.url);

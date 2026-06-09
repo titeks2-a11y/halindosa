@@ -61,10 +61,13 @@ const envExample = read(join(root, ".env.example"));
 const freebiesApi = read(join(root, "app", "api", "freebies", "route.ts"));
 const benefitEventsApi = read(join(root, "app", "api", "benefits", "events", "route.ts"));
 const homeApi = read(join(root, "app", "api", "home", "route.ts"));
+const apiGuards = read(join(root, "lib", "apiGuards.ts"));
 const freeBenefitEvents = read(join(root, "lib", "freeBenefitEvents.ts"));
 const newsLinkPolicy = read(join(root, "lib", "deals", "newsLinkPolicy.ts"));
 const goNewsRoute = read(join(root, "app", "go", "news", "[id]", "route.ts"));
 const cronRoute = read(join(root, "app", "api", "cron", "refresh", "route.ts"));
+const cronBenefitsRoute = read(join(root, "app", "api", "cron", "benefits", "route.ts"));
+const cronOutput = read(join(root, "lib", "cronOutput.ts"));
 const sourceCatalog = read(join(root, "data", "officialSourceCatalog.json"));
 const harness = read(join(root, "scripts", "harness.mjs"));
 const runQa = read(join(root, "scripts", "run-qa.mjs"));
@@ -193,8 +196,32 @@ addCheck(
 addCheck(
   checks,
   "cron secret guard",
-  cronRoute.includes("CRON_SECRET") && /authorization/i.test(cronRoute) && cronRoute.includes("x-cron-secret") && cronRoute.includes("rateLimit("),
-  "Cron refresh route requires secret/admin auth and rate limit."
+  cronRoute.includes("CRON_SECRET") &&
+    cronBenefitsRoute.includes("CRON_SECRET") &&
+    apiGuards.includes("isTrustedRequestOrigin") &&
+    cronRoute.includes("isTrustedRequestOrigin(request)") &&
+    cronBenefitsRoute.includes("isTrustedRequestOrigin(request)") &&
+    /authorization/i.test(cronRoute) &&
+    /authorization/i.test(cronBenefitsRoute) &&
+    cronRoute.includes("x-cron-secret") &&
+    cronBenefitsRoute.includes("x-cron-secret") &&
+    cronRoute.includes("rateLimit(") &&
+    cronBenefitsRoute.includes("rateLimit("),
+  "Cron refresh and benefits routes require secret/admin auth, trusted browser origins, and rate limits."
+);
+
+addCheck(
+  checks,
+  "cron output redaction",
+  cronOutput.includes("redactSensitiveText") &&
+    cronOutput.includes("sanitizedProcessTail") &&
+    cronOutput.includes("sensitiveEnvKeyPattern") &&
+    cronOutput.includes("process.cwd()") &&
+    cronRoute.includes("sanitizedProcessTail") &&
+    cronBenefitsRoute.includes("sanitizedProcessTail") &&
+    !cronRoute.includes("stderrTail과") &&
+    !cronBenefitsRoute.includes("stderrTail과"),
+  "Cron process output is sanitized before API/report exposure and public failure messages avoid stack/log detail hints."
 );
 
 addCheck(

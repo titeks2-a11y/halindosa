@@ -67,6 +67,38 @@ export function rateLimitHeaders(result: ReturnType<typeof rateLimit>, requestId
   };
 }
 
+function normalizeHost(value: string) {
+  return value.trim().toLowerCase().replace(/^https?:\/\//, "").replace(/\/.*$/, "").replace(/:\d+$/, "");
+}
+
+function trustedOriginHosts() {
+  const hosts = new Set(["halindosa.com", "www.halindosa.com", "localhost", "127.0.0.1"]);
+
+  for (const value of [process.env.NEXT_PUBLIC_SITE_URL, process.env.VERCEL_URL]) {
+    if (!value?.trim()) continue;
+    try {
+      const url = value.startsWith("http") ? new URL(value) : new URL(`https://${value}`);
+      hosts.add(normalizeHost(url.host));
+    } catch {
+      hosts.add(normalizeHost(value));
+    }
+  }
+
+  return hosts;
+}
+
+export function isTrustedRequestOrigin(request: Request) {
+  const origin = request.headers.get("origin");
+  if (!origin) return true;
+
+  try {
+    const host = normalizeHost(new URL(origin).host);
+    return trustedOriginHosts().has(host);
+  } catch {
+    return false;
+  }
+}
+
 export function jsonHeaders(requestId: string) {
   return {
     "X-Request-Id": requestId

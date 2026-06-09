@@ -1,6 +1,7 @@
 # AGENTS.md
 
 - 이전 대화는 resume하지 않는다. 새 `codex` 세션은 현재 워크트리와 `docs/CURRENT_STATE.md`만 기준으로 시작한다.
+- 새 세션 첫 행동은 `docs/CURRENT_STATE.md` 확인, `git status --short --branch` 확인, 필요한 최소 검증 실행이다.
 - 기존 대화는 `/exit`로 닫고, 새 작업은 새 `codex` 세션에서 시작한다.
 - 사용자에게 묻지 말고 상업 출시 가능성이 가장 높은 안전한 방향으로 직접 판단한다.
 - 정상 동작 중인 기능, 환경변수, Vercel, Android/Capacitor 설정을 깨뜨리지 않는다.

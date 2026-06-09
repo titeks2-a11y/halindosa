@@ -32,6 +32,8 @@ const packageJson = readJson("package.json");
 const vercelConfig = readJson("vercel.json");
 const route = readText("app/api/cron/refresh/route.ts");
 const benefitsRoute = readText("app/api/cron/benefits/route.ts");
+const apiGuards = readText("lib/apiGuards.ts");
+const cronOutput = readText("lib/cronOutput.ts");
 const cronOperations = readText("lib/operations/cronRefresh.ts");
 const healthRoute = readText("app/api/health/route.ts");
 const adminPage = [
@@ -71,6 +73,18 @@ const checks = [
   route.includes("canRunCronRefresh") && route.includes("CRON_SECRET") && route.includes("x-cron-secret")
     ? pass("protected route", "Cron endpoint requires CRON_SECRET, bearer/header secret, or admin token.")
     : fail("protected route", "Cron endpoint should reject unauthenticated refresh attempts."),
+  apiGuards.includes("isTrustedRequestOrigin") &&
+    route.includes("isTrustedRequestOrigin(request)") &&
+    benefitsRoute.includes("isTrustedRequestOrigin(request)")
+    ? pass("trusted origin guard", "Cron refresh and benefits endpoints reject untrusted browser origins while allowing server cron calls.")
+    : fail("trusted origin guard", "Cron refresh and benefits endpoints should check trusted browser origins."),
+  cronOutput.includes("sanitizedProcessTail") &&
+    route.includes("sanitizedProcessTail") &&
+    benefitsRoute.includes("sanitizedProcessTail") &&
+    !route.includes("stderrTail과") &&
+    !benefitsRoute.includes("stderrTail과")
+    ? pass("sanitized process output", "Cron process output is redacted before it can appear in API/report payloads.")
+    : fail("sanitized process output", "Cron process output should be redacted and failure messages should avoid stderr hints."),
   route.includes("dryRun") && route.includes("buildDryRunReport") && smoke.includes("/api/cron/refresh?dryRun=true")
     ? pass("dry-run guard", "Dry-run path is smoke-tested and does not execute refresh scripts.")
     : fail("dry-run guard", "Dry-run path should be tested before release."),
@@ -122,6 +136,7 @@ const checks = [
 ];
 
 const failures = checks.filter((check) => !check.ok);
+const checkOk = (name) => checks.find((check) => check.name === name)?.ok === true;
 const report = {
   ok: failures.length === 0,
   generatedAt: new Date().toISOString(),
@@ -131,8 +146,10 @@ const report = {
   schedule: cronConfig?.schedule ?? "",
   benefitsSchedule: benefitsCronConfig?.schedule ?? "",
   packageScript: packageJson.scripts?.["cron:refresh:doctor"] ?? "",
-  routeProtected: checks[0].ok,
-  dryRunGuarded: checks[1].ok,
+  routeProtected: checkOk("protected route"),
+  trustedOriginGuarded: checkOk("trusted origin guard"),
+  processOutputSanitized: checkOk("sanitized process output"),
+  dryRunGuarded: checkOk("dry-run guard"),
   refreshAllOk,
   livePipelineOk,
   livePipelineStatus: livePipeline.status ?? "",

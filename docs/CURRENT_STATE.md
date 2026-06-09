@@ -4,6 +4,8 @@
 
 최종 정리 시점: 2026-06-09 15시대, Asia/Seoul
 
+이 파일은 새 `codex` 세션에서 이전 긴 대화를 resume하지 않고 현재 프로젝트 상태만 파악하기 위한 시작 문서다.
+
 ## 새 세션 시작 규칙
 
 - 이전 대화는 resume하지 않는다.
@@ -15,6 +17,8 @@
 
 - Branch: `codex/12h-product-ux-growth-hardening`
 - 최근 안정 커밋:
+  - `91080983 feat: expand official free benefit sources`
+  - `bf620a86 docs: update current state after cron readiness commit`
   - `0cfb6f41 test: surface benefits cron readiness in admin`
   - `cb899921 test: expose benefits cron health gates`
   - `a2704ad2 feat: expand official pet benefit sources`
@@ -27,6 +31,19 @@
 - 코드 커밋 시 `git add .`를 피하고 필요한 파일만 명시적으로 stage한다.
 
 최근 완료 작업:
+
+- 보호된 cron refresh API 보안을 강화했다.
+  - `/api/cron/refresh`, `/api/cron/benefits`는 Origin 헤더가 있는 브라우저 요청에 대해 신뢰된 origin만 허용한다.
+  - cron 실행 결과의 `stdoutTail`, `stderrTail`은 secret, token, 로컬 경로, stack trace성 라인을 제거한 뒤 리포트/API payload에 남긴다.
+  - `security:check`와 `cron:refresh:doctor`가 이 보안 기준을 검사한다.
+
+- 공식 무료혜택 소스 후보를 확장했다.
+  - 네이버페이 온라인 쿠폰함
+  - 요기요 룰렛 쿠폰 프로모션
+  - LG전자 혜택 이벤트 허브
+  - 롯데하이마트 L.POINT 멤버십 혜택
+- `data/newsDeals.seed.json`, `data/officialSourceCatalog.json`, refresh/verification 관련 docs와 reports를 갱신했다.
+- 이 변경은 `91080983 feat: expand official free benefit sources`로 커밋/푸시했다.
 
 - 관리자 화면에 무료혜택 cron 상태와 `benefits dry-run` 링크를 노출했다.
   - `app/admin/page.tsx`
