@@ -3,6 +3,7 @@ import { join } from "node:path";
 import { fail, homeSource, pass, root, smokeSource, text } from "./release-doctor-harness.mjs";
 
 const MIN_OFFICIAL_BENEFITS = 95;
+const MIN_LINK_POLICY_PRODUCT_POOL = 120;
 
 async function readOptionalJson(path, fallback) {
   if (!existsSync(join(root, path))) return fallback;
@@ -1109,8 +1110,8 @@ export async function checkOperationalDataSurfaces() {
   }
   if (
     publishableSurfaceReport.ok !== true ||
-    (publishableSurfaceReport.summary?.productCandidates ?? 0) < 138 ||
-    (publishableSurfaceReport.summary?.refreshedProductSnapshotCount ?? 0) < 139 ||
+    (publishableSurfaceReport.summary?.productCandidates ?? 0) < MIN_LINK_POLICY_PRODUCT_POOL ||
+    (publishableSurfaceReport.summary?.refreshedProductSnapshotCount ?? 0) < MIN_LINK_POLICY_PRODUCT_POOL ||
     (publishableSurfaceReport.summary?.productViolations ?? 1) !== 0 ||
     (publishableSurfaceReport.summary?.newsCandidates ?? 0) < MIN_OFFICIAL_BENEFITS ||
     (publishableSurfaceReport.summary?.newsViolations ?? 1) !== 0 ||
@@ -1138,7 +1139,7 @@ export async function checkOperationalDataSurfaces() {
   if (
     linkRevalidationPriorityReport.ok !== true ||
     (linkRevalidationPriorityReport.summary?.auditedItems ?? 0) < 140 ||
-    (linkRevalidationPriorityReport.summary?.publishableItems ?? 0) < 138 ||
+    (linkRevalidationPriorityReport.summary?.publishableItems ?? 0) < MIN_LINK_POLICY_PRODUCT_POOL ||
     (linkRevalidationPriorityReport.summary?.blockingRevalidationItems ?? 1) !== 0 ||
     (linkRevalidationPriorityReport.summary?.exposedSearchLinks ?? 1) !== 0 ||
     (linkRevalidationPriorityReport.summary?.exposedSoldOutLinks ?? 1) !== 0 ||
