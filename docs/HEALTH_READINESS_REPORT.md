@@ -2,14 +2,14 @@
 
 이 문서는 상품 링크, 공식 혜택, refresh 파이프라인이 실제 출시 운영 기준을 만족하는지 요약합니다.
 
-- 생성 시각: 2026-06-09T20:37:39.920Z
+- 생성 시각: 2026-06-09T21:18:14.620Z
 - 운영 준비 점수: 100/100
 - 상태: PASS
 
 ## 핵심 지표
 
 - 상품 특가: 140개
-- 검증된 상품 링크: 140개 (102.9%)
+- 검증된 상품 링크: 140개 (100%)
 - 검색 링크 노출: 0개
 - 품절/종료 의심 노출: 0개
 - 공식 혜택: 130개
@@ -64,7 +64,7 @@
 
 - 상태: seed launch ready / 공식 feed 연결 대기 (passed)
 - 공식 소스 후보: 189개
-- 접근 가능/보호 소스: 165개 / 24개
+- 접근 가능/보호 소스: 163개 / 26개
 - 설정된 공식 feed URL: 0개
 - 공식 혜택 노출 가능: 130개
 - 차단 이슈: 0개
@@ -103,10 +103,10 @@
 | 게이트 | 상태 | 상세 |
 | --- | --- | --- |
 | product count floor | PASS | 140 verified product deals are available. |
-| product verification rate | PASS | 102.9% product links are verified. |
+| product verification rate | PASS | 100% product links are verified. |
 | search link exposure | PASS | No search/result URLs are exposed. |
 | sold out exposure | PASS | No sold-out or ended product links are exposed. |
-| product hidden/failed queue | PASS | Customer exposure is clean with 136 visible deals; 4 hidden deals stay in the operator review queue. |
+| product hidden/failed queue | PASS | Customer exposure is clean with 140 visible deals; 0 hidden deals stay in the operator review queue. |
 | official benefit count floor | PASS | 130 official benefit deals are visible. |
 | official benefit category coverage | PASS | All 10 required categories have at least 2 visible benefits. |
 | official benefit hidden/failed queue | PASS | No hidden, expired, non-official, or failed official benefit links are exposed. |

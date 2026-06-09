@@ -1,10 +1,10 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-09T20:36:10.884Z",
+  "generatedAt": "2026-06-09T21:17:32.139Z",
   "sourceReports": {
-    "linkValidation": "2026-06-09T20:36:07.440Z",
-    "exposurePolicy": "2026-06-09T20:36:09.149Z",
-    "linkLaunchGate": "2026-06-09T20:36:10.301Z"
+    "linkValidation": "2026-06-09T21:17:28.882Z",
+    "exposurePolicy": "2026-06-09T21:17:30.522Z",
+    "linkLaunchGate": "2026-06-09T21:17:31.610Z"
   },
   "summary": {
     "auditedItems": 140,
@@ -126,7 +126,7 @@
       "contentMatch": false,
       "priceSignal": false,
       "purchaseActionSignal": false,
-      "lastCheckedAt": "2026-06-09T20:35:47.053Z",
+      "lastCheckedAt": "2026-06-09T20:36:39.792Z",
       "priority": 675,
       "severity": "review",
       "action": "공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인"
@@ -152,7 +152,7 @@
       "contentMatch": false,
       "priceSignal": false,
       "purchaseActionSignal": false,
-      "lastCheckedAt": "2026-06-09T20:35:47.053Z",
+      "lastCheckedAt": "2026-06-09T20:36:39.792Z",
       "priority": 675,
       "severity": "review",
       "action": "공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인"
@@ -178,7 +178,7 @@
       "contentMatch": false,
       "priceSignal": false,
       "purchaseActionSignal": false,
-      "lastCheckedAt": "2026-06-09T20:35:47.053Z",
+      "lastCheckedAt": "2026-06-09T20:36:39.792Z",
       "priority": 675,
       "severity": "review",
       "action": "공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인"
@@ -204,7 +204,7 @@
       "contentMatch": false,
       "priceSignal": false,
       "purchaseActionSignal": false,
-      "lastCheckedAt": "2026-06-09T20:35:47.053Z",
+      "lastCheckedAt": "2026-06-09T20:36:39.792Z",
       "priority": 675,
       "severity": "review",
       "action": "공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인"
@@ -230,7 +230,7 @@
       "contentMatch": false,
       "priceSignal": false,
       "purchaseActionSignal": false,
-      "lastCheckedAt": "2026-06-09T20:35:47.053Z",
+      "lastCheckedAt": "2026-06-09T20:36:39.792Z",
       "priority": 675,
       "severity": "review",
       "action": "공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인"
@@ -256,7 +256,7 @@
       "contentMatch": false,
       "priceSignal": false,
       "purchaseActionSignal": false,
-      "lastCheckedAt": "2026-06-09T20:35:47.053Z",
+      "lastCheckedAt": "2026-06-09T20:36:39.792Z",
       "priority": 675,
       "severity": "review",
       "action": "공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인"
@@ -282,7 +282,7 @@
       "contentMatch": false,
       "priceSignal": false,
       "purchaseActionSignal": false,
-      "lastCheckedAt": "2026-06-09T20:35:47.053Z",
+      "lastCheckedAt": "2026-06-09T20:36:39.792Z",
       "priority": 675,
       "severity": "review",
       "action": "공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인"
@@ -308,7 +308,7 @@
       "contentMatch": false,
       "priceSignal": false,
       "purchaseActionSignal": false,
-      "lastCheckedAt": "2026-06-09T20:35:47.053Z",
+      "lastCheckedAt": "2026-06-09T20:36:39.792Z",
       "priority": 675,
       "severity": "review",
       "action": "공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인"
@@ -334,7 +334,7 @@
       "contentMatch": false,
       "priceSignal": false,
       "purchaseActionSignal": false,
-      "lastCheckedAt": "2026-06-09T20:35:47.053Z",
+      "lastCheckedAt": "2026-06-09T20:36:39.792Z",
       "priority": 675,
       "severity": "review",
       "action": "공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인"
@@ -360,7 +360,7 @@
       "contentMatch": false,
       "priceSignal": false,
       "purchaseActionSignal": false,
-      "lastCheckedAt": "2026-06-09T20:35:47.053Z",
+      "lastCheckedAt": "2026-06-09T20:36:39.792Z",
       "priority": 675,
       "severity": "review",
       "action": "공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인"
@@ -386,7 +386,7 @@
       "contentMatch": false,
       "priceSignal": false,
       "purchaseActionSignal": false,
-      "lastCheckedAt": "2026-06-09T20:35:47.053Z",
+      "lastCheckedAt": "2026-06-09T20:36:39.792Z",
       "priority": 675,
       "severity": "review",
       "action": "공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인"
@@ -412,7 +412,7 @@
       "contentMatch": false,
       "priceSignal": false,
       "purchaseActionSignal": false,
-      "lastCheckedAt": "2026-06-09T20:35:47.053Z",
+      "lastCheckedAt": "2026-06-09T20:36:39.792Z",
       "priority": 675,
       "severity": "review",
       "action": "공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인"
@@ -438,7 +438,7 @@
       "contentMatch": false,
       "priceSignal": false,
       "purchaseActionSignal": false,
-      "lastCheckedAt": "2026-06-09T20:35:47.053Z",
+      "lastCheckedAt": "2026-06-09T20:36:39.792Z",
       "priority": 675,
       "severity": "review",
       "action": "공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인"
@@ -464,7 +464,7 @@
       "contentMatch": false,
       "priceSignal": false,
       "purchaseActionSignal": false,
-      "lastCheckedAt": "2026-06-09T20:35:47.053Z",
+      "lastCheckedAt": "2026-06-09T20:36:39.792Z",
       "priority": 675,
       "severity": "review",
       "action": "공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인"
@@ -490,7 +490,7 @@
       "contentMatch": false,
       "priceSignal": false,
       "purchaseActionSignal": false,
-      "lastCheckedAt": "2026-06-09T20:35:47.053Z",
+      "lastCheckedAt": "2026-06-09T20:36:39.792Z",
       "priority": 675,
       "severity": "review",
       "action": "공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인"
@@ -516,7 +516,7 @@
       "contentMatch": false,
       "priceSignal": false,
       "purchaseActionSignal": false,
-      "lastCheckedAt": "2026-06-09T20:35:47.053Z",
+      "lastCheckedAt": "2026-06-09T20:36:39.792Z",
       "priority": 675,
       "severity": "review",
       "action": "공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인"
@@ -542,7 +542,7 @@
       "contentMatch": false,
       "priceSignal": false,
       "purchaseActionSignal": false,
-      "lastCheckedAt": "2026-06-09T20:35:47.053Z",
+      "lastCheckedAt": "2026-06-09T20:36:39.792Z",
       "priority": 675,
       "severity": "review",
       "action": "공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인"
@@ -568,7 +568,7 @@
       "contentMatch": false,
       "priceSignal": false,
       "purchaseActionSignal": false,
-      "lastCheckedAt": "2026-06-09T20:35:47.053Z",
+      "lastCheckedAt": "2026-06-09T20:36:39.792Z",
       "priority": 675,
       "severity": "review",
       "action": "공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인"
@@ -594,7 +594,7 @@
       "contentMatch": false,
       "priceSignal": false,
       "purchaseActionSignal": false,
-      "lastCheckedAt": "2026-06-09T20:35:47.053Z",
+      "lastCheckedAt": "2026-06-09T20:36:39.792Z",
       "priority": 675,
       "severity": "review",
       "action": "공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인"
@@ -620,7 +620,7 @@
       "contentMatch": false,
       "priceSignal": false,
       "purchaseActionSignal": false,
-      "lastCheckedAt": "2026-06-09T20:35:47.053Z",
+      "lastCheckedAt": "2026-06-09T20:36:39.792Z",
       "priority": 675,
       "severity": "review",
       "action": "공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인"
@@ -646,7 +646,7 @@
       "contentMatch": false,
       "priceSignal": false,
       "purchaseActionSignal": false,
-      "lastCheckedAt": "2026-06-09T20:35:47.053Z",
+      "lastCheckedAt": "2026-06-09T20:36:39.792Z",
       "priority": 675,
       "severity": "review",
       "action": "공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인"
@@ -672,7 +672,7 @@
       "contentMatch": false,
       "priceSignal": false,
       "purchaseActionSignal": false,
-      "lastCheckedAt": "2026-06-09T20:35:47.053Z",
+      "lastCheckedAt": "2026-06-09T20:36:39.792Z",
       "priority": 675,
       "severity": "review",
       "action": "공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인"
@@ -698,7 +698,7 @@
       "contentMatch": false,
       "priceSignal": false,
       "purchaseActionSignal": false,
-      "lastCheckedAt": "2026-06-09T20:35:47.053Z",
+      "lastCheckedAt": "2026-06-09T20:36:39.792Z",
       "priority": 675,
       "severity": "review",
       "action": "공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인"
@@ -724,7 +724,7 @@
       "contentMatch": false,
       "priceSignal": false,
       "purchaseActionSignal": false,
-      "lastCheckedAt": "2026-06-09T20:35:47.053Z",
+      "lastCheckedAt": "2026-06-09T20:36:39.792Z",
       "priority": 675,
       "severity": "review",
       "action": "공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인"
@@ -750,7 +750,7 @@
       "contentMatch": false,
       "priceSignal": false,
       "purchaseActionSignal": false,
-      "lastCheckedAt": "2026-06-09T20:35:47.053Z",
+      "lastCheckedAt": "2026-06-09T20:36:39.792Z",
       "priority": 675,
       "severity": "review",
       "action": "공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인"
@@ -776,7 +776,7 @@
       "contentMatch": false,
       "priceSignal": false,
       "purchaseActionSignal": false,
-      "lastCheckedAt": "2026-06-09T20:35:47.053Z",
+      "lastCheckedAt": "2026-06-09T20:36:39.792Z",
       "priority": 675,
       "severity": "review",
       "action": "공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인"
@@ -802,7 +802,7 @@
       "contentMatch": false,
       "priceSignal": false,
       "purchaseActionSignal": false,
-      "lastCheckedAt": "2026-06-09T20:35:47.053Z",
+      "lastCheckedAt": "2026-06-09T20:36:39.792Z",
       "priority": 675,
       "severity": "review",
       "action": "공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인"
@@ -828,7 +828,7 @@
       "contentMatch": false,
       "priceSignal": false,
       "purchaseActionSignal": false,
-      "lastCheckedAt": "2026-06-09T20:35:47.053Z",
+      "lastCheckedAt": "2026-06-09T20:36:39.792Z",
       "priority": 675,
       "severity": "review",
       "action": "공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인"
@@ -854,7 +854,7 @@
       "contentMatch": false,
       "priceSignal": false,
       "purchaseActionSignal": false,
-      "lastCheckedAt": "2026-06-09T20:35:47.053Z",
+      "lastCheckedAt": "2026-06-09T20:36:39.792Z",
       "priority": 675,
       "severity": "review",
       "action": "공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인"
@@ -880,7 +880,7 @@
       "contentMatch": false,
       "priceSignal": false,
       "purchaseActionSignal": false,
-      "lastCheckedAt": "2026-06-09T20:35:47.053Z",
+      "lastCheckedAt": "2026-06-09T20:36:39.792Z",
       "priority": 675,
       "severity": "review",
       "action": "공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인"
@@ -906,7 +906,7 @@
       "contentMatch": false,
       "priceSignal": false,
       "purchaseActionSignal": false,
-      "lastCheckedAt": "2026-06-09T20:35:47.053Z",
+      "lastCheckedAt": "2026-06-09T20:36:39.792Z",
       "priority": 675,
       "severity": "review",
       "action": "공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인"
@@ -932,7 +932,7 @@
       "contentMatch": false,
       "priceSignal": false,
       "purchaseActionSignal": false,
-      "lastCheckedAt": "2026-06-09T20:35:47.053Z",
+      "lastCheckedAt": "2026-06-09T20:36:39.792Z",
       "priority": 675,
       "severity": "review",
       "action": "공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인"
@@ -958,7 +958,7 @@
       "contentMatch": false,
       "priceSignal": false,
       "purchaseActionSignal": false,
-      "lastCheckedAt": "2026-06-09T20:35:47.053Z",
+      "lastCheckedAt": "2026-06-09T20:36:39.792Z",
       "priority": 675,
       "severity": "review",
       "action": "공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인"
@@ -984,7 +984,7 @@
       "contentMatch": false,
       "priceSignal": false,
       "purchaseActionSignal": false,
-      "lastCheckedAt": "2026-06-09T20:35:47.053Z",
+      "lastCheckedAt": "2026-06-09T20:36:39.792Z",
       "priority": 675,
       "severity": "review",
       "action": "공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인"
@@ -1010,7 +1010,7 @@
       "contentMatch": false,
       "priceSignal": false,
       "purchaseActionSignal": false,
-      "lastCheckedAt": "2026-06-09T20:35:47.053Z",
+      "lastCheckedAt": "2026-06-09T20:36:39.792Z",
       "priority": 675,
       "severity": "review",
       "action": "공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인"
@@ -1036,7 +1036,7 @@
       "contentMatch": false,
       "priceSignal": false,
       "purchaseActionSignal": false,
-      "lastCheckedAt": "2026-06-09T20:35:47.053Z",
+      "lastCheckedAt": "2026-06-09T20:36:39.792Z",
       "priority": 675,
       "severity": "review",
       "action": "공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인"
@@ -1062,7 +1062,7 @@
       "contentMatch": false,
       "priceSignal": false,
       "purchaseActionSignal": false,
-      "lastCheckedAt": "2026-06-09T20:35:47.053Z",
+      "lastCheckedAt": "2026-06-09T20:36:39.792Z",
       "priority": 675,
       "severity": "review",
       "action": "공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인"
@@ -1088,7 +1088,7 @@
       "contentMatch": false,
       "priceSignal": false,
       "purchaseActionSignal": false,
-      "lastCheckedAt": "2026-06-09T20:35:47.053Z",
+      "lastCheckedAt": "2026-06-09T20:36:39.792Z",
       "priority": 675,
       "severity": "review",
       "action": "공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인"
@@ -1114,7 +1114,7 @@
       "contentMatch": false,
       "priceSignal": false,
       "purchaseActionSignal": false,
-      "lastCheckedAt": "2026-06-09T20:35:47.053Z",
+      "lastCheckedAt": "2026-06-09T20:36:39.792Z",
       "priority": 675,
       "severity": "review",
       "action": "공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인"
@@ -1140,7 +1140,7 @@
       "contentMatch": false,
       "priceSignal": false,
       "purchaseActionSignal": false,
-      "lastCheckedAt": "2026-06-09T20:35:47.053Z",
+      "lastCheckedAt": "2026-06-09T20:36:39.792Z",
       "priority": 675,
       "severity": "review",
       "action": "공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인"
@@ -1166,7 +1166,7 @@
       "contentMatch": false,
       "priceSignal": false,
       "purchaseActionSignal": false,
-      "lastCheckedAt": "2026-06-09T20:35:47.053Z",
+      "lastCheckedAt": "2026-06-09T20:36:39.792Z",
       "priority": 675,
       "severity": "review",
       "action": "공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인"
@@ -1192,7 +1192,7 @@
       "contentMatch": false,
       "priceSignal": false,
       "purchaseActionSignal": false,
-      "lastCheckedAt": "2026-06-09T20:35:47.053Z",
+      "lastCheckedAt": "2026-06-09T20:36:39.792Z",
       "priority": 675,
       "severity": "review",
       "action": "공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인"
@@ -1218,7 +1218,7 @@
       "contentMatch": false,
       "priceSignal": false,
       "purchaseActionSignal": false,
-      "lastCheckedAt": "2026-06-09T20:35:47.053Z",
+      "lastCheckedAt": "2026-06-09T20:36:39.792Z",
       "priority": 675,
       "severity": "review",
       "action": "공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인"
@@ -1244,7 +1244,7 @@
       "contentMatch": false,
       "priceSignal": false,
       "purchaseActionSignal": false,
-      "lastCheckedAt": "2026-06-09T20:35:47.053Z",
+      "lastCheckedAt": "2026-06-09T20:36:39.792Z",
       "priority": 675,
       "severity": "review",
       "action": "공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인"
@@ -1270,7 +1270,7 @@
       "contentMatch": false,
       "priceSignal": false,
       "purchaseActionSignal": false,
-      "lastCheckedAt": "2026-06-09T20:35:47.053Z",
+      "lastCheckedAt": "2026-06-09T20:36:39.792Z",
       "priority": 675,
       "severity": "review",
       "action": "공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인"
@@ -1296,7 +1296,7 @@
       "contentMatch": false,
       "priceSignal": false,
       "purchaseActionSignal": false,
-      "lastCheckedAt": "2026-06-09T20:35:47.053Z",
+      "lastCheckedAt": "2026-06-09T20:36:39.792Z",
       "priority": 675,
       "severity": "review",
       "action": "공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인"
@@ -1322,7 +1322,7 @@
       "contentMatch": false,
       "priceSignal": false,
       "purchaseActionSignal": false,
-      "lastCheckedAt": "2026-06-09T20:35:47.053Z",
+      "lastCheckedAt": "2026-06-09T20:36:39.792Z",
       "priority": 675,
       "severity": "review",
       "action": "공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인"
@@ -1348,7 +1348,7 @@
       "contentMatch": false,
       "priceSignal": false,
       "purchaseActionSignal": false,
-      "lastCheckedAt": "2026-06-09T20:35:47.053Z",
+      "lastCheckedAt": "2026-06-09T20:36:39.792Z",
       "priority": 675,
       "severity": "review",
       "action": "공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인"
@@ -1374,7 +1374,7 @@
       "contentMatch": false,
       "priceSignal": false,
       "purchaseActionSignal": false,
-      "lastCheckedAt": "2026-06-09T20:35:47.053Z",
+      "lastCheckedAt": "2026-06-09T20:36:39.792Z",
       "priority": 675,
       "severity": "review",
       "action": "공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인"
@@ -1400,7 +1400,7 @@
       "contentMatch": false,
       "priceSignal": false,
       "purchaseActionSignal": false,
-      "lastCheckedAt": "2026-06-09T20:35:47.053Z",
+      "lastCheckedAt": "2026-06-09T20:36:39.792Z",
       "priority": 675,
       "severity": "review",
       "action": "공식 API, 제휴 피드, 실기기 수동 확인으로 상세 링크 유지 여부 확인"

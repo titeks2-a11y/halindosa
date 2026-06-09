@@ -1,6 +1,6 @@
 # 할인도사 Link Verification Report
 
-Generated: 2026-06-09T20:36:50.794Z
+Generated: 2026-06-09T21:18:13.395Z
 
 ## Summary
 
@@ -8,11 +8,11 @@ Generated: 2026-06-09T20:36:50.794Z
 | --- | ---: |
 | 총 상품 수 | 140 |
 | 검증 대상 수 | 140 |
-| 직접 링크 통과 수 | 136 |
-| 노출 가능 상품 수 | 136 |
-| 최종 발행 가능 상품 수 | 136 |
-| 제외 상품 수 | 4 |
-| 실패 이슈 수 | 4 |
+| 직접 링크 통과 수 | 140 |
+| 노출 가능 상품 수 | 140 |
+| 최종 발행 가능 상품 수 | 140 |
+| 제외 상품 수 | 0 |
+| 실패 이슈 수 | 0 |
 | 상품 상세 URL | 110 |
 | 공식 혜택/이벤트 URL | 30 |
 | 검색/카테고리 의심 | 0 |
@@ -30,12 +30,12 @@ Generated: 2026-06-09T20:36:50.794Z
 | Live probe transient network | 3 |
 | Live body 확인 | 137 |
 | Live 제목/메타 확인 | 133 |
-| Live 콘텐츠 일치 신호 | 51 |
-| Live 콘텐츠 불일치 신호 | 86 |
-| Live 접근 가능 본문 불일치 | 9 |
+| Live 콘텐츠 일치 신호 | 55 |
+| Live 콘텐츠 불일치 신호 | 82 |
+| Live 접근 가능 본문 불일치 | 5 |
 | Live 접근 차단 본문 | 32 |
-| Live 가격 신호 | 24 |
-| Live 구매/신청 버튼 신호 | 13 |
+| Live 가격 신호 | 26 |
+| Live 구매/신청 버튼 신호 | 14 |
 | Live 종료 문구 재검토 신호 | 0 |
 | 출시 게이트 통과 | YES |
 | 노출 검색 링크 | 0 |
@@ -56,20 +56,15 @@ Generated: 2026-06-09T20:36:50.794Z
 
 ## Verification Evidence
 
-- live_content_confirmed: 51
+- live_content_confirmed: 55
 - manual_pattern_verified: 32
 - seller_access_protected_manual_verified: 32
 - seller_rate_limited_manual_verified: 13
 - client_rendered_detail_manual_verified: 5
-- blocked: 4
 - transient_network_manual_verified: 3
 
 ## Revalidation Queue
 
-- d020 · 무신사 · wrong_product_or_benefit · priority 100
-- d037 · 무신사 · wrong_product_or_benefit · priority 100
-- d086 · 무신사 · wrong_product_or_benefit · priority 100
-- d112 · 무신사 · wrong_product_or_benefit · priority 100
 - d051 · 인터파크투어 · request_failed · priority 75
 - d057 · T멤버십 · request_failed · priority 75
 - d073 · 현대카드 · request_failed · priority 75
@@ -96,6 +91,10 @@ Generated: 2026-06-09T20:36:50.794Z
 - d004 · 쿠팡 · seller_access_protected_review · priority 45
 - d006 · 쿠팡 · seller_access_protected_review · priority 45
 - d007 · 토스 · seller_access_protected_review · priority 45
+- d009 · 지마켓 · seller_access_protected_review · priority 45
+- d010 · 쿠팡 · seller_access_protected_review · priority 45
+- d012 · 올리브영 · seller_access_protected_review · priority 45
+- d014 · 쿠팡 · seller_access_protected_review · priority 45
 
 ### Live Probe Failure Reasons
 

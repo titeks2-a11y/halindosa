@@ -1,63 +1,6 @@
 {
-  "generatedAt": "2026-06-09T20:36:50.794Z",
+  "generatedAt": "2026-06-09T21:18:13.395Z",
   "sourceReport": "reports/link-validation.json",
-  "hiddenCount": 4,
-  "items": [
-    {
-      "id": "d020",
-      "title": "아웃도어 프로덕츠 3PACK 티셔츠",
-      "mallName": "무신사",
-      "availability": "unknown",
-      "validationStatus": "failed",
-      "validationReason": "wrong_product_or_benefit",
-      "validationCode": "mismatch",
-      "mismatchCategory": "wrong_product_or_benefit",
-      "mismatchAction": "페이지 title/meta가 상품명과 맞는 직접 상세 URL로 교체",
-      "evidenceTier": "blocked",
-      "revalidationReason": "wrong_product_or_benefit",
-      "finalUrl": "https://www.musinsa.com/products/1893766"
-    },
-    {
-      "id": "d037",
-      "title": "더니트컴퍼니 수피마 에센셜 티셔츠 3PACK",
-      "mallName": "무신사",
-      "availability": "unknown",
-      "validationStatus": "failed",
-      "validationReason": "wrong_product_or_benefit",
-      "validationCode": "mismatch",
-      "mismatchCategory": "wrong_product_or_benefit",
-      "mismatchAction": "페이지 title/meta가 상품명과 맞는 직접 상세 URL로 교체",
-      "evidenceTier": "blocked",
-      "revalidationReason": "wrong_product_or_benefit",
-      "finalUrl": "https://www.musinsa.com/products/1455894"
-    },
-    {
-      "id": "d086",
-      "title": "빈폴 멘 Essential 피케 칼라넥 반소매 티셔츠",
-      "mallName": "무신사",
-      "availability": "unknown",
-      "validationStatus": "failed",
-      "validationReason": "wrong_product_or_benefit",
-      "validationCode": "mismatch",
-      "mismatchCategory": "wrong_product_or_benefit",
-      "mismatchAction": "페이지 title/meta가 상품명과 맞는 직접 상세 URL로 교체",
-      "evidenceTier": "blocked",
-      "revalidationReason": "wrong_product_or_benefit",
-      "finalUrl": "https://www.musinsa.com/products/6092416"
-    },
-    {
-      "id": "d112",
-      "title": "커버낫 X 미즈노 쿨 코튼 모티베이션 그래픽 티셔츠",
-      "mallName": "무신사",
-      "availability": "unknown",
-      "validationStatus": "failed",
-      "validationReason": "wrong_product_or_benefit",
-      "validationCode": "mismatch",
-      "mismatchCategory": "wrong_product_or_benefit",
-      "mismatchAction": "페이지 title/meta가 상품명과 맞는 직접 상세 URL로 교체",
-      "evidenceTier": "blocked",
-      "revalidationReason": "wrong_product_or_benefit",
-      "finalUrl": "https://www.musinsa.com/products/6245413"
-    }
-  ]
+  "hiddenCount": 0,
+  "items": []
 }
