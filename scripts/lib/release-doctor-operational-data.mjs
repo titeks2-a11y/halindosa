@@ -1300,6 +1300,13 @@ export async function checkOperationalDataSurfaces() {
 
   const sourceReadinessGates = Array.isArray(sourceReadinessReport.gates) ? sourceReadinessReport.gates : [];
   const sourceReadinessBlockingGates = sourceReadinessGates.filter((gate) => gate.ok !== true && gate.name !== "official source live");
+  const consumerFirstPolicy = sourceBreadthReport.consumerFirstPolicy ?? {};
+  const consumerFirstSourceMixOk =
+    sourceBreadthReport.ok === true &&
+    consumerFirstPolicy.ok === true &&
+    (consumerFirstPolicy.consumerSourceRate ?? 0) >= (consumerFirstPolicy.minimumConsumerSourceRate ?? 70) &&
+    (consumerFirstPolicy.highPriorityConsumerSourceCount ?? 0) >= (consumerFirstPolicy.minimumHighPriorityConsumerSources ?? 30) &&
+    (consumerFirstPolicy.publicPolicySourceRate ?? 100) <= (consumerFirstPolicy.maximumPublicPolicySourceRate ?? 35);
   const sourceReadinessLaunchOk =
     sourceReadinessReport.ok === true ||
     ((sourceReadinessReport.summary?.officialSourceCandidates ?? 0) >= 30 &&
@@ -1605,8 +1612,17 @@ export async function checkOperationalDataSurfaces() {
     (sourceBreadthReport.requiredLaneCount ?? 0) < 12 ||
     (sourceBreadthReport.passedBrandSignalCount ?? 0) < 45 ||
     (sourceBreadthReport.requiredBrandSignalCount ?? 0) < 45 ||
+    !consumerFirstSourceMixOk ||
     !Array.isArray(sourceBreadthReport.brandSignals) ||
     sourceBreadthReport.brandSignals.some((brand) => brand.ok !== true) ||
+    !sourceBreadthDoc.includes("소비자형 우선 정책") ||
+    !sourceBreadthDoc.includes("소비자형 공식 혜택 소스 비율") ||
+    !sourceBreadthDoc.includes("공공/정책성 소스 비율") ||
+    !sourceReadinessReportScript.includes("consumerFirstPolicy") ||
+    !sourceReadinessReportScript.includes("consumer first source mix") ||
+    !sourceReadinessReportScript.includes("source:breadth:doctor") ||
+    !sourceReadinessDoc.includes("소비자형 공식 혜택 소스") ||
+    !sourceReadinessDoc.includes("공공/정책성 기본 처리") ||
     !sourceBreadthDoc.includes("핵심 브랜드 신호") ||
     !sourceBreadthDoc.includes("LG U+") ||
     !sourceBreadthDoc.includes("닥터지") ||

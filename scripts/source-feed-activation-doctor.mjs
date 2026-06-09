@@ -39,6 +39,7 @@ const canary = readJson(join(reportsDir, "news-feed-canary.json"), {});
 const handoff = readJson(join(reportsDir, "free-benefit-feed-handoff.json"), {});
 const sourceLive = readJson(join(reportsDir, "official-source-live-check.json"), {});
 const sourceBreadth = readJson(join(reportsDir, "free-benefit-source-breadth.json"), {});
+const consumerFirstPolicy = sourceBreadth.consumerFirstPolicy ?? {};
 const eventContract = readJson(join(reportsDir, "free-benefit-event-contract.json"), {});
 const health = readJson(join(reportsDir, "health-readiness.json"), {});
 const homeRealtime = readJson(join(reportsDir, "home-realtime.json"), {});
@@ -81,9 +82,12 @@ const checks = [
     "official source breadth readiness",
     sourceBreadth.ok === true &&
       Number(sourceBreadth.passedLaneCount ?? 0) >= Number(sourceBreadth.requiredLaneCount ?? 12) &&
-      Number(sourceBreadth.passedBrandSignalCount ?? 0) >= Number(sourceBreadth.requiredBrandSignalCount ?? 0),
-    `lanes=${Number(sourceBreadth.passedLaneCount ?? 0)}/${Number(sourceBreadth.requiredLaneCount ?? 0)}, brandSignals=${Number(sourceBreadth.passedBrandSignalCount ?? 0)}/${Number(sourceBreadth.requiredBrandSignalCount ?? 0)}`,
-    "Run npm run source:breadth:doctor so telecom, convenience, beauty, cafe, delivery, pay, mart, open-market, public, education, pet, and sample lanes stay covered."
+      Number(sourceBreadth.passedBrandSignalCount ?? 0) >= Number(sourceBreadth.requiredBrandSignalCount ?? 0) &&
+      consumerFirstPolicy.ok === true &&
+      Number(consumerFirstPolicy.consumerSourceRate ?? 0) >= Number(consumerFirstPolicy.minimumConsumerSourceRate ?? 70) &&
+      Number(consumerFirstPolicy.publicPolicySourceRate ?? 100) <= Number(consumerFirstPolicy.maximumPublicPolicySourceRate ?? 35),
+    `lanes=${Number(sourceBreadth.passedLaneCount ?? 0)}/${Number(sourceBreadth.requiredLaneCount ?? 0)}, brandSignals=${Number(sourceBreadth.passedBrandSignalCount ?? 0)}/${Number(sourceBreadth.requiredBrandSignalCount ?? 0)}, consumer=${Number(consumerFirstPolicy.consumerSourceRate ?? 0)}%, publicPolicy=${Number(consumerFirstPolicy.publicPolicySourceRate ?? 0)}%`,
+    "Run npm run source:breadth:doctor so telecom, convenience, beauty, cafe, delivery, pay, mart, open-market, public, education, pet, sample lanes, and consumer-first source mix stay covered."
   ),
   check(
     "free benefit event contract",

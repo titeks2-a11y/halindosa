@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-09T04:17:07.809Z",
+  "generatedAt": "2026-06-09T16:58:18.963Z",
   "status": "seed_ready",
   "configuredFeedUrls": 0,
   "configuredProviders": 0,
@@ -38,14 +38,14 @@
     {
       "name": "official source live readiness",
       "ok": true,
-      "detail": "reachable=121, guarded=19, stale=0",
+      "detail": "reachable=165, guarded=24, stale=0",
       "action": "Run npm run source:live:doctor and replace or remove any stale_or_removed official source before feed activation."
     },
     {
       "name": "official source breadth readiness",
       "ok": true,
-      "detail": "lanes=12/12, brandSignals=56/56",
-      "action": "Run npm run source:breadth:doctor so telecom, convenience, beauty, cafe, delivery, pay, mart, open-market, public, education, pet, and sample lanes stay covered."
+      "detail": "lanes=12/12, brandSignals=57/57, consumer=75%, publicPolicy=25%",
+      "action": "Run npm run source:breadth:doctor so telecom, convenience, beauty, cafe, delivery, pay, mart, open-market, public, education, pet, sample lanes, and consumer-first source mix stay covered."
     },
     {
       "name": "free benefit event contract",
@@ -80,7 +80,7 @@
     {
       "name": "official benefit floor",
       "ok": true,
-      "detail": "visible=105, threshold=95",
+      "detail": "visible=130, threshold=95",
       "action": "Run npm run health:readiness after activation to confirm visible official benefits and freshness."
     }
   ]

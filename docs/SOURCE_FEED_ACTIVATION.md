@@ -1,6 +1,6 @@
 # 무료혜택 Feed Activation 리포트
 
-- 생성 시각: 2026-06-09T04:17:07.809Z
+- 생성 시각: 2026-06-09T16:58:18.963Z
 - 상태: seed_ready
 - 설정 feed URL: 0개
 - 설정 provider: 0개
@@ -19,14 +19,14 @@
 | --- | --- | --- | --- |
 | feed env safety | PASS | configured=0, failed=0 | Run npm run source:feed-env:doctor and fix any unsafe, search, community, private, or non-machine-readable feed URL. |
 | feed handoff readiness | PASS | lanes=12, commands=8 | Run npm run source:feed:handoff so Vercel env keys and verification commands stay current. |
-| official source live readiness | PASS | reachable=121, guarded=19, stale=0 | Run npm run source:live:doctor and replace or remove any stale_or_removed official source before feed activation. |
-| official source breadth readiness | PASS | lanes=12/12, brandSignals=56/56 | Run npm run source:breadth:doctor so telecom, convenience, beauty, cafe, delivery, pay, mart, open-market, public, education, pet, and sample lanes stay covered. |
+| official source live readiness | PASS | reachable=165, guarded=24, stale=0 | Run npm run source:live:doctor and replace or remove any stale_or_removed official source before feed activation. |
+| official source breadth readiness | PASS | lanes=12/12, brandSignals=57/57, consumer=75%, publicPolicy=25% | Run npm run source:breadth:doctor so telecom, convenience, beauty, cafe, delivery, pay, mart, open-market, public, education, pet, sample lanes, and consumer-first source mix stay covered. |
 | free benefit event contract | PASS | checks=16/16 | Run npm run benefit:event:contract so FreeBenefitEvent fields, sanitizer, publishable gate, no-store API, filters, and card trust badges remain enforced. |
 | feed canary activation | PASS | status=seed_fallback_only, configured=0, providers=0, visible=0 | Seed fallback is allowed until approved JSON/RSS/Atom feeds are connected. Connect OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS, or BENEFIT_REFRESH_FEED_URLS next. |
 | home realtime reflection | PASS | homeChecks=20/20 | Run npm run test:home-realtime after each feed activation to prove /api/home reflects refreshed snapshots without restart. |
 | free benefit refresh command | PASS | refresh:benefits is present and QA keeps it in the free-benefit pipeline. | Keep refresh:benefits in QA so freebies/events/verify steps remain release-blocking. |
 | benefit cron route | PASS | Vercel cron includes dedicated benefits refresh and full refresh routes. | Keep /api/cron/benefits for free-benefit-first refresh and /api/cron/refresh for full refresh. |
-| official benefit floor | PASS | visible=105, threshold=95 | Run npm run health:readiness after activation to confirm visible official benefits and freshness. |
+| official benefit floor | PASS | visible=130, threshold=95 | Run npm run health:readiness after activation to confirm visible official benefits and freshness. |
 
 ## 운영 연결 순서
 
