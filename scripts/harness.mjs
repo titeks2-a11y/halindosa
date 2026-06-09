@@ -23,6 +23,7 @@ const fullSteps = [
   ["test:seo", ["run", "test:seo"]],
   ["test:perf", ["run", "test:perf"]],
   ["security:check", ["run", "security:check"]],
+  ["benefit:priority:doctor", ["run", "benefit:priority:doctor"]],
   ["benefit:event:contract", ["run", "benefit:event:contract"]],
   ["smoke:local", ["run", "smoke:local"]],
   ["release:doctor", ["run", "release:doctor"]]
@@ -32,6 +33,7 @@ const ciSteps = [
   ["test:mobile-ux", ["run", "test:mobile-ux"]],
   ["home:realtime:doctor", ["run", "home:realtime:doctor"]],
   ["security:check", ["run", "security:check"]],
+  ["benefit:priority:doctor", ["run", "benefit:priority:doctor"]],
   ["benefit:event:contract", ["run", "benefit:event:contract"]],
   ["test:seo", ["run", "test:seo"]],
   ["test:perf", ["run", "test:perf"]]
@@ -129,6 +131,7 @@ ${result.output.slice(-6000) || "(no output)"}
 - 상품 이미지는 고정 비율, lazy loading, fallback 정책을 검사합니다.
 - 하단 탭은 홈, 인기, 카테고리, 마이 4개만 유지합니다.
 - 모바일 첫 화면은 검색, compact 필터, 핵심 특가 리스트를 우선합니다.
+- 홈 상단 혜택은 쇼핑몰, 브랜드, 쿠폰, 샘플, 편의점/마트, 포인트처럼 사용자가 바로 클릭할 소비자형 혜택을 우선하고 공공/정책성 혜택은 낮은 우선순위로 분리합니다.
 `;
 
   writeFileSync(join(root, "docs", "HARNESS_REPORT.md"), report, "utf8");

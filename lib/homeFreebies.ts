@@ -1,4 +1,4 @@
-import { getConsumerBenefitPriorityAdjustment, isPublicPolicyBenefit } from "@/lib/consumerBenefitPriority";
+import { getConsumerBenefitPriorityAdjustment, getMainFeedConsumerPriorityPenalty } from "@/lib/consumerBenefitPriority";
 import type { NewsDeal, NewsBenefitType } from "@/types/newsDeal";
 
 export const homeFreebieBenefitTypes = new Set<NewsBenefitType>([
@@ -94,7 +94,6 @@ export function getHomeFreebieScore(deal: NewsDeal, referenceNow = Date.now()) {
   const checkedHours = hoursSince(deal.verifiedAt || deal.lastCheckedAt || deal.updatedAt, referenceNow);
   const requiresPurchase = hasPurchaseCondition(deal);
   const lowFriction = hasLowFrictionBenefitSignal(deal);
-  const publicPolicyPenalty = isPublicPolicyBenefit(deal) ? -110 : 0;
   const typeBoost =
     deal.benefitType === "sample"
       ? 38
@@ -123,7 +122,7 @@ export function getHomeFreebieScore(deal: NewsDeal, referenceNow = Date.now()) {
       freshnessBoost +
       conditionAdjustment +
       getConsumerBenefitPriorityAdjustment(deal) +
-      publicPolicyPenalty +
+      getMainFeedConsumerPriorityPenalty(deal) +
       (deal.imageUrl ? 5 : 0)
   );
 }

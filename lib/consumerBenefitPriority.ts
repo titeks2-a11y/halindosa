@@ -19,12 +19,35 @@ const strongConsumerTypes = new Set([
 
 const publicTypes = new Set(["public", "public_free", "education"]);
 
+const highIntentConsumerTypes = new Set([
+  "coupon",
+  "sample",
+  "freebie",
+  "freeShipping",
+  "point",
+  "foodDelivery",
+  "convenienceStore",
+  "mart"
+]);
+
+const consumerFacingCategoryPattern = /무료혜택|마트\/편의점|외식\/배달|패션\/뷰티|카드\/멤버십|식품\/생필품|디지털\/가전|여행\/숙박/i;
+
 function getNewsDealText(deal: NewsDeal) {
   return [deal.title, deal.summary, deal.merchant, deal.mallName, deal.category, deal.benefitType, deal.sourceName, deal.tags.join(" ")].join(" ");
 }
 
 export function isPublicPolicyBenefit(deal: NewsDeal) {
   return publicTypes.has(deal.benefitType) || deal.category === "정부/공공혜택" || publicBenefitPattern.test(getNewsDealText(deal));
+}
+
+export function isConsumerFacingBenefit(deal: NewsDeal) {
+  const text = getNewsDealText(deal);
+  return highIntentConsumerTypes.has(deal.benefitType) || consumerFacingCategoryPattern.test(deal.category) || consumerBenefitPattern.test(text);
+}
+
+export function getMainFeedConsumerPriorityPenalty(deal: NewsDeal) {
+  if (!isPublicPolicyBenefit(deal)) return 0;
+  return isConsumerFacingBenefit(deal) ? -70 : -140;
 }
 
 export function getConsumerBenefitPriorityAdjustment(deal: NewsDeal) {
@@ -36,7 +59,7 @@ export function getConsumerBenefitPriorityAdjustment(deal: NewsDeal) {
   if (/무료|0원|전원\s*증정|샘플|기프티콘|쿠폰/.test(text)) score += 14;
   if (/구매|결제|최소\s*주문|카드\s*발급|자동\s*납부|배송비/.test(text)) score -= 10;
 
-  if (isPublicPolicyBenefit(deal)) score -= 95;
+  score += getMainFeedConsumerPriorityPenalty(deal);
 
   return score;
 }

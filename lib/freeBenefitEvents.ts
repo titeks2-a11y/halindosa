@@ -1,4 +1,5 @@
 import { isApprovedOfficialNewsUrl } from "@/lib/deals/newsLinkPolicy";
+import { getMainFeedConsumerPriorityPenalty, isConsumerFacingBenefit } from "@/lib/consumerBenefitPriority";
 import type { FreeBenefitEvent, FreeBenefitEventStatus, FreeBenefitEventType, FreeBenefitSourceType } from "@/types/freeBenefitEvent";
 import type { NewsDeal } from "@/types/newsDeal";
 
@@ -230,6 +231,17 @@ export function getFreeBenefitEventScore(event: FreeBenefitEvent, referenceNow =
   );
 }
 
+function getConsumerEventScoreAdjustment(event: FreeBenefitEvent) {
+  const text = [event.title, event.rewardText, event.brandName, event.sourceName, event.tags.join(" ")].join(" ");
+  let score = 0;
+
+  if (/쿠폰|샘플|무료\s*체험|기프티콘|포인트|캐시백|출석|룰렛|전원\s*증정|선착순|편의점|마트|배달|카페|뷰티|브랜드/i.test(text)) score += 24;
+  if (/정부|공공|지자체|복지|정책|지원사업|서울시|공공서비스|K-MOOC|문화가\s*있는\s*날/i.test(text)) score -= 80;
+  if (event.requiresPurchase) score -= 12;
+
+  return score;
+}
+
 function getRankingReason(event: FreeBenefitEvent, referenceNow: number) {
   if (event.isEveryoneReward && !event.requiresPurchase) return "전원증정이고 구매 조건이 낮아 먼저 볼 만한 혜택";
   if (event.benefitType === "coupon" && !event.requiresPurchase) return "쿠폰을 바로 받을 가능성이 높은 공식 혜택";
@@ -285,7 +297,10 @@ export function toFreeBenefitEvent(deal: NewsDeal, referenceNow = Date.now()): F
     validationStatus,
     validationReason: sanitizeBenefitText(deal.validationReason || (status === "active" ? "공식 혜택 링크 검증 통과" : "노출 정책 미통과"), 100),
     qualityScore: Number(deal.qualityScore ?? 0),
-    priorityScore: Number(deal.priorityScore ?? deal.confidenceScore ?? 0),
+    priorityScore:
+      Number(deal.priorityScore ?? deal.confidenceScore ?? 0) +
+      getMainFeedConsumerPriorityPenalty(deal) +
+      (isConsumerFacingBenefit(deal) ? 12 : 0),
     isHidden: deal.isHidden || status !== "active" || validationStatus !== "passed",
     hiddenReason: sanitizeBenefitText(deal.hiddenReason || (status === "active" ? "" : status), 80),
     tags: deal.tags.map((tag) => sanitizeBenefitText(tag, 24)).filter(Boolean).slice(0, 8)
@@ -322,7 +337,13 @@ export function buildFreeBenefitEvents(deals: NewsDeal[], referenceNow = Date.no
     }
   }
 
-  return Array.from(deduped.values()).sort((a, b) => getFreeBenefitEventScore(b, referenceNow) - getFreeBenefitEventScore(a, referenceNow) || Date.parse(a.endAt) - Date.parse(b.endAt));
+  return Array.from(deduped.values()).sort(
+    (a, b) =>
+      getFreeBenefitEventScore(b, referenceNow) +
+        getConsumerEventScoreAdjustment(b) -
+        (getFreeBenefitEventScore(a, referenceNow) + getConsumerEventScoreAdjustment(a)) ||
+      Date.parse(a.endAt) - Date.parse(b.endAt)
+  );
 }
 
 export function selectPublishableFreeBenefitEvents(deals: NewsDeal[], limit = 24, referenceNow = Date.now()) {

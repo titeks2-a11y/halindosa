@@ -58,6 +58,7 @@
     "refresh:benefits": "node scripts/refresh-benefits.mjs",
     "verify:news": "node scripts/verify-news-deals.mjs",
     "verify:freebies": "node scripts/verify-freebies.mjs",
+    "benefit:priority:doctor": "node scripts/consumer-benefit-priority-doctor.mjs",
     "verify:benefits": "node scripts/verify-benefit-events.mjs",
     "benefit:event:contract": "node scripts/free-benefit-event-contract-doctor.mjs",
     "news:images:enrich": "node scripts/enrich-news-benefit-images.mjs",

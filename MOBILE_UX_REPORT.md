@@ -21,7 +21,7 @@ Status: PASS
 | mobile official benefit quick list | PASS | 공식 혜택은 모바일에서 빠른 목록을 먼저 보여주고 상세 탐색 패널은 넓은 화면으로 분리합니다. |
 | mobile freebie hero priority | PASS | 모바일 홈 첫 화면에서 무료/쿠폰/0원/무배 혜택 히어로를 상품 리스트보다 먼저 압축 노출합니다. |
 | free benefit category and condition chips | PASS | 모바일 무료혜택 히어로와 전용 데이터 모델이 13개 필터, 마감임박, 로그인/구매 조건 배지를 유지합니다. |
-| home freebie ranking favors low-friction benefits | PASS | 홈 무료혜택 점수는 카드발급/구매/결제 조건형 혜택을 낮추고 샘플, 무료교육, 공공무료, 쿠폰, 포인트처럼 바로 확인 가능한 혜택을 올립니다. |
+| home freebie ranking favors low-friction consumer benefits | PASS | 홈 무료혜택 점수는 카드발급/구매/결제 조건형 혜택과 공공/정책성 혜택을 낮추고 샘플, 쿠폰, 포인트, 편의점/마트, 브랜드 혜택을 먼저 올립니다. |
 | mobile live benefit strip | PASS | 모바일 첫 화면에서 검증된 공식 혜택 2개를 초압축 가로 레일로 보여주며 invalid/search/community 링크를 제외합니다. |
 | toast does not cover bottom nav | PASS | 토스트는 모바일 상단에 떠 하단 탭과 상품 CTA를 가리지 않습니다. |
 

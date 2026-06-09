@@ -203,15 +203,17 @@ if (
     "conditionAdjustment",
     "requiresPurchase ? -48 : 20",
     "lowFriction ? 18 : 0",
+    "getMainFeedConsumerPriorityPenalty",
     'deal.benefitType === "card"',
     'deal.benefitType === "sample"',
     'deal.benefitType === "education"',
     'deal.benefitType === "public_free"'
-  ])
+  ]) &&
+  includesAll(read("lib/consumerBenefitPriority.ts"), ["isConsumerFacingBenefit", "getMainFeedConsumerPriorityPenalty", "return isConsumerFacingBenefit(deal) ? -70 : -140"])
 ) {
-  pass("home freebie ranking favors low-friction benefits", "홈 무료혜택 점수는 카드발급/구매/결제 조건형 혜택을 낮추고 샘플, 무료교육, 공공무료, 쿠폰, 포인트처럼 바로 확인 가능한 혜택을 올립니다.");
+  pass("home freebie ranking favors low-friction consumer benefits", "홈 무료혜택 점수는 카드발급/구매/결제 조건형 혜택과 공공/정책성 혜택을 낮추고 샘플, 쿠폰, 포인트, 편의점/마트, 브랜드 혜택을 먼저 올립니다.");
 } else {
-  fail("home freebie ranking favors low-friction benefits", "홈 무료혜택 랭킹이 구매 필요 혜택을 충분히 낮추거나 샘플/교육/공공무료 혜택을 올리는 기준이 부족합니다.");
+  fail("home freebie ranking favors low-friction consumer benefits", "홈 무료혜택 랭킹이 구매 필요 또는 공공/정책성 혜택을 충분히 낮추거나 샘플/쿠폰/브랜드 혜택을 올리는 기준이 부족합니다.");
 }
 
 if (

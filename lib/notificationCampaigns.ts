@@ -1,4 +1,5 @@
 import { isPubliclyVisibleDeal } from "@/lib/deals/quality";
+import { getConsumerBenefitPriorityScore, isConsumerFacingBenefit, isPublicPolicyBenefit } from "@/lib/consumerBenefitPriority";
 import type { Deal, DealBenefitType } from "@/types/deal";
 import type { NewsDeal, NewsDealCategory } from "@/types/newsDeal";
 
@@ -167,10 +168,12 @@ function hoursUntilNewsBenefit(deal: NewsDeal, now: number) {
 
 function scoreNewsBenefit(deal: NewsDeal, now: number) {
   const endingBoost = Math.max(0, 72 - hoursUntilNewsBenefit(deal, now));
-  const benefitBoost = deal.benefitType === "freebie" || deal.benefitType === "coupon" ? 30 : 0;
-  const categoryBoost = deal.category === "무료혜택" || deal.category === "정부/공공혜택" ? 18 : 0;
+  const benefitBoost = deal.benefitType === "freebie" || deal.benefitType === "coupon" || deal.benefitType === "sample" ? 34 : 0;
+  const categoryBoost = deal.category === "무료혜택" ? 22 : deal.category === "정부/공공혜택" ? -60 : 0;
+  const consumerBoost = isConsumerFacingBenefit(deal) ? 28 : 0;
+  const publicPenalty = isPublicPolicyBenefit(deal) ? -90 : 0;
 
-  return deal.confidenceScore + deal.discountRate + deal.couponAmount / 1000 + endingBoost + benefitBoost + categoryBoost;
+  return getConsumerBenefitPriorityScore(deal) + deal.discountRate + deal.couponAmount / 1000 + endingBoost + benefitBoost + categoryBoost + consumerBoost + publicPenalty;
 }
 
 function isVisibleOfficialBenefit(deal: NewsDeal, now: number) {

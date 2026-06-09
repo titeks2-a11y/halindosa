@@ -490,6 +490,7 @@ export async function checkUiAccessibility() {
     !harnessScript.includes('["release:doctor", ["run", "release:doctor"]]') ||
     !harnessScript.includes('["test:mobile-ux", ["run", "test:mobile-ux"]]') ||
     !harnessScript.includes('["test:mobile-compact", ["run", "test:mobile-compact"]]') ||
+    !harnessScript.includes('["benefit:priority:doctor", ["run", "benefit:priority:doctor"]]') ||
     !harnessScript.includes('["verify:images", ["run", "verify:images"]]') ||
     !harnessScript.includes('["test:home-realtime", ["run", "test:home-realtime"]]') ||
     !harnessScript.includes('writeFileSync(join(root, "docs", "HARNESS_REPORT.md")') ||
@@ -510,7 +511,7 @@ export async function checkUiAccessibility() {
     "single home search entry",
     "home first screen budget",
     "free benefit category and condition chips",
-    "home freebie ranking favors low-friction benefits",
+    "home freebie ranking favors low-friction consumer benefits",
     "category rail compactness",
     "filter rail consolidation",
     "quick card scanability",
@@ -522,14 +523,14 @@ export async function checkUiAccessibility() {
     "13개 필터",
     "룰렛",
     "로그인 필요/구매 필요 조건 배지",
-    "카드발급/구매/결제 조건형 혜택을 낮추고"
+    "공공/정책성 혜택을 낮추고"
   ];
   const mobileUxMissing = mobileUxReportRequired.filter((phrase) => !mobileUxReport.includes(phrase));
 
   if (mobileUxMissing.length || mobileUxReport.includes("Generated: 2026-")) {
     fail("mobile ux report coverage", `Mobile UX report should be stable and include all compact mobile gates. Missing: ${mobileUxMissing.join(", ") || "none"}`);
   } else {
-    pass("mobile ux report coverage", "Mobile UX report records the stable 17-gate compact first-screen regression suite with low-friction benefit ranking, 13 free-benefit filters including roulette, and small viewport freebie fit.");
+    pass("mobile ux report coverage", "Mobile UX report records the stable 17-gate compact first-screen regression suite with consumer-first benefit ranking, 13 free-benefit filters including roulette, and small viewport freebie fit.");
   }
 
   if (
