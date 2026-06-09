@@ -145,10 +145,12 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const limit = parseLimit(searchParams.get("limit"));
     const sort = parseSort(searchParams.get("sort"));
+    const includePublicPolicy = searchParams.get("type") === "publicFree" || searchParams.get("includePublic") === "true";
     const news = getVisibleNewsDeals({
       limit: 0,
       q: searchParams.get("q")?.trim(),
-      sort: "priority"
+      sort: "priority",
+      includePublicPolicy
     });
     const allEvents = buildFreeBenefitEvents(news.deals, referenceNow);
     const publishableEvents = allEvents.filter((event) => isPublishableFreeBenefitEvent(event, referenceNow));

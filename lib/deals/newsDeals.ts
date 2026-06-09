@@ -284,7 +284,7 @@ export function getVisibleNewsDeals(options: { limit?: number; category?: string
     })
     .filter((deal) => !options.category || options.category === "all" || deal.category === options.category)
     .filter((deal) => !options.benefitType || options.benefitType === "all" || deal.benefitType === options.benefitType)
-    .filter((deal) => options.includePublicPolicy !== false || !isPublicPolicyBenefit(deal))
+    .filter((deal) => options.includePublicPolicy === true || !isPublicPolicyBenefit(deal))
     .filter((deal) => matchesNewsDealQuery(deal, options.q));
   const sorted = sortNewsDeals(filtered, sort);
 

@@ -118,7 +118,7 @@ const top12Consumer = top12.filter((item) => item.consumerFacing).length;
 const top12Public = top12.filter((item) => item.publicPolicy).length;
 const defaultConsumerFirstWired =
   newsDealsSource.includes("includePublicPolicy?: boolean") &&
-  newsDealsSource.includes("options.includePublicPolicy !== false") &&
+  newsDealsSource.includes("options.includePublicPolicy === true") &&
   homeRouteSource.includes("includePublicPolicy") &&
   homeRouteSource.includes('category === "정부/공공혜택"') &&
   freebiesRouteSource.includes("includePublicPolicy: includePublic") &&
