@@ -224,6 +224,9 @@ async function checkCiWorkflow() {
   const runbook = await text("docs/RUNBOOK.md");
   const requiredWorkflowSnippets = [
     'branches: ["main", "codex/**"]',
+    "concurrency:",
+    "group: ci-${{ github.workflow }}-${{ github.ref }}",
+    "cancel-in-progress: true",
     "npm ci",
     "npm run audit:commercial",
     "npm run test:env",
@@ -293,7 +296,7 @@ async function checkCiWorkflow() {
     "docs/release-evidence.md"
   ];
   const missingWorkflowSnippets = requiredWorkflowSnippets.filter((snippet) => !workflow.includes(snippet));
-  const requiredRunbookSnippets = ["codex/**", "AUDIT_REPORT.md", "npm run test:env", "ENV_DOCTOR_REPORT.md", "PUBLIC_URL_REPORT.md", "npm run store:metadata:doctor", "STORE_METADATA_REPORT.md", "npm run store:assets:doctor", "STORE_ASSETS_REPORT.md", "npm run store:packet:doctor", "STORE_PACKET_REPORT.md", "npm run store:console:fields", "STORE_CONSOLE_FIELDS", "npm run store:manual:checklist", "STORE_MANUAL_CHECKLIST", "npm run store:manual:doctor", "npm run store:handoff:report", "STORE_HANDOFF_REPORT.md", "npm run release:notes", "RELEASE_NOTES", "npm run support:playbook", "SUPPORT_PLAYBOOK", "npm run known:issues", "KNOWN_ISSUES", "npm run store:screenshots:manifest", "STORE_SCREENSHOT_MANIFEST", "npm run store:screenshots:doctor", "STORE_SCREENSHOTS_REPORT.md", "npm run health:readiness", "HEALTH_READINESS_REPORT.md", "reports/health-readiness.json", "npm run exposure:doctor", "reports/exposure-policy.json", "npm run device:qa:manifest", "DEVICE_QA_MANIFEST", "npm run device:qa:report", "DEVICE_QA_REPORT.md", "npm run store:submission:report", "STORE_SUBMISSION_REPORT.md", "npm run public:url:doctor", "npm run harness", "npm run release:doctor", "halindosa-verification-reports"];
+  const requiredRunbookSnippets = ["codex/**", "AUDIT_REPORT.md", "npm run test:env", "ENV_DOCTOR_REPORT.md", "PUBLIC_URL_REPORT.md", "npm run store:metadata:doctor", "STORE_METADATA_REPORT.md", "npm run store:assets:doctor", "STORE_ASSETS_REPORT.md", "npm run store:packet:doctor", "STORE_PACKET_REPORT.md", "npm run store:console:fields", "STORE_CONSOLE_FIELDS", "npm run store:manual:checklist", "STORE_MANUAL_CHECKLIST", "npm run store:manual:doctor", "npm run store:handoff:report", "STORE_HANDOFF_REPORT.md", "npm run release:notes", "RELEASE_NOTES", "npm run support:playbook", "SUPPORT_PLAYBOOK", "npm run known:issues", "KNOWN_ISSUES", "npm run store:screenshots:manifest", "STORE_SCREENSHOT_MANIFEST", "npm run store:screenshots:doctor", "STORE_SCREENSHOTS_REPORT.md", "npm run health:readiness", "HEALTH_READINESS_REPORT.md", "reports/health-readiness.json", "npm run exposure:doctor", "reports/exposure-policy.json", "npm run device:qa:manifest", "DEVICE_QA_MANIFEST", "npm run device:qa:report", "DEVICE_QA_REPORT.md", "npm run store:submission:report", "STORE_SUBMISSION_REPORT.md", "npm run public:url:doctor", "npm run harness", "npm run release:doctor", "halindosa-verification-reports", "GitHub Actions `CI`", "Vercel Production Deploy", "자동 취소"];
   const missingRunbookSnippets = requiredRunbookSnippets.filter((snippet) => !runbook.includes(snippet));
 
   if (missingWorkflowSnippets.length || missingRunbookSnippets.length) {
@@ -313,6 +316,9 @@ async function checkCiWorkflow() {
     const deployGuide = await text("README_DEPLOY.md");
     const requiredVercelWorkflowSnippets = [
       'branches: ["main"]',
+      "concurrency:",
+      "group: vercel-production-${{ github.ref }}",
+      "cancel-in-progress: true",
       "VERCEL_TOKEN",
       "VERCEL_ORG_ID",
       "VERCEL_PROJECT_ID",
