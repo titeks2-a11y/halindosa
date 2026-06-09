@@ -2,11 +2,11 @@
 
 이 문서는 공식 이벤트/혜택 소스 후보의 현재 접근 상태를 non-strict 방식으로 기록합니다. 무단 크롤링을 수행하지 않으며, 보호된 페이지는 공식 API/RSS/제휴 feed 또는 수동 승인 데이터로 연결해야 합니다.
 
-- 생성 시각: 2026-06-09T07:46:06.835Z
+- 생성 시각: 2026-06-09T07:59:08.744Z
 - 모드: non_strict_live_readiness
-- 후보 소스: 154개
-- 접근 가능: 131개
-- 보호/권한 확인 필요: 23개
+- 후보 소스: 157개
+- 접근 가능: 132개
+- 보호/권한 확인 필요: 25개
 - 검토 필요: 0개
 - timeout/network error: 0개
 - 404/410 교체 필요: 0개
@@ -22,8 +22,8 @@
 
 | 상태 | 수 | 운영 액션 |
 | --- | ---: | --- |
-| reachable | 131 | 승인 feed 또는 공식 페이지 매핑 후보로 유지 |
-| guarded | 23 | 공식 API/RSS/제휴 feed 확인 |
+| reachable | 132 | 승인 feed 또는 공식 페이지 매핑 후보로 유지 |
+| guarded | 25 | 공식 API/RSS/제휴 feed 확인 |
 | needs_review | 0 | 최종 도메인과 응답 정책 수동 확인 |
 | timeout/network_error | 0 | 재시도 또는 담당자 확인 |
 | stale_or_removed | 0 | 카탈로그 URL 교체 전 사용 금지 |
@@ -148,7 +148,7 @@
 | lottemart-official-benefits | official_event | medium | reachable | 200 | company.lottemart.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | daisomall-official-events | official_event | medium | reachable | 200 | daisomall.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | gmarket-official-coupon-event | official_event | medium | guarded | 403 | gmarket.co.kr | 무단 크롤링하지 말고 공식 API/RSS/제휴 feed 또는 수동 승인 매핑 사용 |
-| auction-official-ecoupon-event | official_event | medium | reachable | 200 | promotion.auction.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| auction-official-ecoupon-event | official_event | medium | guarded | 0 | promotion.auction.co.kr | 공식 feed 연결 전 브라우저/제휴 담당자 확인 필요 |
 | eventhouse-approved-event-discovery | public_coupon | low | reachable | 200 | eventhouse.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | baskinrobbins-official-event-list | official_event | medium | reachable | 200 | baskinrobbins.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | dunkin-official-event-benefits | official_event | medium | reachable | 200 | dunkindonuts.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
@@ -158,7 +158,7 @@
 | lpoint-official-daily-missions | official_event | medium | reachable | 200 | m.lpoint.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | ebs-family-free-learning-services | public_coupon | high | reachable | 200 | m.ebs.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | ebs-lifelong-school-free-courses | public_coupon | medium | reachable | 200 | lifelongschool.ebs.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
-| kocw-official-open-course | public_coupon | medium | reachable | 200 | kocw.net | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| kocw-official-open-course | public_coupon | medium | guarded | 0 | kocw.net | 공식 feed 연결 전 브라우저/제휴 담당자 확인 필요 |
 | work24-training-card-issue-guide | public_coupon | high | reachable | 200 | m.work24.go.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | royalcanin-start-of-life-campaign | official_event | medium | reachable | 200 | royalcanin.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | seoul-youth-policy-free-support-guide | public_coupon | high | reachable | 200 | youth.seoul.go.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
@@ -186,6 +186,9 @@
 | okcashbag-shopping-point-official-benefit | official_event | medium | reachable | 200 | okcashbag.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | okcashbag-service-official-point-guide | official_event | medium | guarded | 0 | okcashbag.kr | 공식 feed 연결 전 브라우저/제휴 담당자 확인 필요 |
 | happypoint-membership-official-benefit-guide | official_event | medium | guarded | 200 | happypointcard.com | 로그인/권한 페이지를 수집하지 말고 공식 API/RSS/제휴 feed 또는 수동 승인 매핑 사용 |
+| culture-day-monthly-official-program-list | official_event | high | reachable | 200 | culture.go.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| kmooc-blockchain-digital-asset-free-course | official_event | medium | reachable | 200 | kmooc.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| kmooc-ai-teaching-innovation-free-course | official_event | medium | reachable | 200 | kmooc.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 
 ## 다음 작업
 

@@ -27,6 +27,15 @@
   - `refresh:benefits` 기준 active 무료혜택 이벤트 `118`개
   - 새 OK캐쉬백/해피포인트 혜택 3개 모두 `publishable=true`, `validationStatus=passed`, `availability=active`, `linkType=official_coupon`
   - `refresh:benefits` 기준 무료혜택 `53/53`, 공식 이벤트 `117/117`, 검색 링크 노출 `0`, 비공식 링크 노출 `0`
+- 최신 공공/교육 보강 결과:
+  - 문화가 있는 날 공식 월간 무료·할인 프로그램
+  - K-MOOC 공식 블록체인·디지털 자산 무료강좌
+  - K-MOOC 공식 AI 수업 혁신 무료강좌
+  - 공식 소스 후보 `157`개
+  - `refresh:news` 기준 노출 공식 혜택 `124`개
+  - `refresh:benefits` 기준 active 무료혜택 이벤트 `121`개
+  - 신규 공공/교육 혜택 3개 모두 `publishable=true`, `validationStatus=passed`, `availability=active`, `linkType=official_event`
+  - 최신 source live check 기준 reachable `132`, guarded `25`, stale_or_removed `0`
 - 새 세션에서 커밋이 필요하면 `git add .`를 쓰지 말고 카카오페이 보강 관련 파일만 명시적으로 stage한다.
 
 ## 새 세션 시작 규칙
@@ -73,6 +82,14 @@
   - 해피포인트 공식 멤버십 등급 혜택 안내
 - 공식 소스 후보는 154개, `refresh:news` 기준 노출 공식 혜택은 121개, `refresh:benefits` 기준 active 무료혜택 이벤트는 118개다.
 - 새 OK캐쉬백/해피포인트 혜택 3개는 모두 `publishable=true`, `validationStatus=passed`, `availability=active`, `linkType=official_coupon`으로 확인됐다.
+
+- 공공/교육 무료혜택 소스를 추가했다.
+  - 문화가 있는 날 공식 월간 프로그램 목록
+  - K-MOOC 블록체인·디지털 자산 공식 무료강좌
+  - K-MOOC AI 수업 혁신 공식 무료강좌
+- 공식 소스 후보는 157개, `refresh:news` 기준 노출 공식 혜택은 124개, `refresh:benefits` 기준 active 무료혜택 이벤트는 121개다.
+- 신규 공공/교육 혜택 3개는 모두 `publishable=true`, `validationStatus=passed`, `availability=active`, `linkType=official_event`로 확인됐다.
+- 서울시 평생학습포털과 GSEEK 루트 URL은 홈/랜딩 URL로 분류되어 이번 커밋에는 넣지 않았다. 상세 강좌 또는 공식 신청 상세 URL을 확보한 뒤 추가한다.
 
 - PAYCO 공식 쿠폰·포인트 혜택 소스를 추가했다.
   - PAYCO 공식 리워드 포인트 혜택

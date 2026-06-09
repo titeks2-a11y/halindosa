@@ -3325,5 +3325,72 @@
     "allowedUse": "해피포인트 공식 멤버십 페이지에서 등급별 혜택과 시즌 조건이 확인되는 안내",
     "blockedUse": "등급 후기, 비공식 혜택표, 오래된 캡처 이미지, 로그인 뒤에만 확인 가능한 미확인 쿠폰",
     "notes": "멤버십 등급 조건과 공식 혜택 안내를 사용자에게 설명하는 보조 혜택으로 사용한다."
+  },
+  {
+    "id": "culture-day-monthly-official-program-list",
+    "label": "문화가 있는 날 공식 월간 프로그램 목록",
+    "provider": "official_event",
+    "category": [
+      "영화/문화",
+      "정부/공공혜택",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.culture.go.kr/local/wday/mnthCltrLctnYList.do",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 12,
+    "allowedUse": "문화가 있는 날 공식 월간 프로그램 목록에서 무료관람, 할인, 지역 문화 프로그램 일정과 참여 조건이 확인되는 혜택",
+    "blockedUse": "문화가 있는 날 후기 블로그, 뉴스 요약, 검색 결과, 기관별 종료 공지 또는 신청 경로가 없는 소개글",
+    "notes": "문화가 있는 날 월간 목록은 무료관람과 할인 혜택을 공식 프로그램 단위로 확인하는 공공무료 핵심 소스로 사용한다."
+  },
+  {
+    "id": "kmooc-blockchain-digital-asset-free-course",
+    "label": "K-MOOC 공식 블록체인·디지털 자산 무료강좌",
+    "provider": "official_event",
+    "category": [
+      "정부/공공혜택",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.kmooc.kr/view/course/detail/19048",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 24,
+    "allowedUse": "K-MOOC 공식 강좌 상세에서 수강신청기간, 강좌운영기간, 이수증 발급, 무료 온라인 수강 조건이 확인되는 교육 혜택",
+    "blockedUse": "K-MOOC 검색 결과, 대학 홍보 PDF, 비공식 수강 후기, 신청 기간이 종료된 강좌, 유료 교육 광고",
+    "notes": "수강신청 가능 기간과 강좌운영기간이 공식 상세에서 확인되는 강좌만 active 후보로 유지한다."
+  },
+  {
+    "id": "kmooc-ai-teaching-innovation-free-course",
+    "label": "K-MOOC 공식 AI 수업 혁신 무료강좌",
+    "provider": "official_event",
+    "category": [
+      "정부/공공혜택",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.kmooc.kr/view/course/detail/19997",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 24,
+    "allowedUse": "K-MOOC 공식 강좌 상세에서 AI 교육 활용 강좌, 수강신청, 운영기간, 이수 조건이 확인되는 무료 학습 혜택",
+    "blockedUse": "비공식 강좌 소개글, 검색 결과, 종료된 강좌, 유료 컨설팅 랜딩, 기관 홍보 PDF 단독 링크",
+    "notes": "교사·학습자를 위한 무료 온라인 강좌로, 공식 상세 페이지의 신청 가능 여부를 기준으로 노출한다."
   }
 ]

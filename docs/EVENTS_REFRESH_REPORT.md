@@ -1,12 +1,12 @@
 # Official Event Refresh Report
 
-Generated: 2026-06-09T07:44:30.546Z
+Generated: 2026-06-09T07:57:48.664Z
 
 ## Summary
 
 - Mode: events
-- Matched items: 117
-- Visible official items: 117
+- Matched items: 120
+- Visible official items: 120
 - Hidden/blocked items: 0
 - Exposed search links: 0
 - Exposed non-official links: 0
@@ -23,6 +23,7 @@ All visible rows must keep `/go/news/[id]` redirect tracking and must resolve to
 
 | ID | Title | Source | Category | Host | Redirect |
 | --- | --- | --- | --- | --- | --- |
+| news-kmooc-blockchain-digital-asset-free-course | K-MOOC 블록체인·디지털 자산 공식 무료강좌 | K-MOOC 공식 강좌 상세 | 정부/공공혜택 | kmooc.kr | `/go/news/news-kmooc-blockchain-digital-asset-free-course` |
 | news-gs25-drinking-festa-2026 | GS25 드링킹 페스타 1+1·다량 구매 행사 | GS25 공식 이벤트 | 마트/편의점 | gs25.gsretail.com | `/go/news/news-gs25-drinking-festa-2026` |
 | news-dunkin-monthly-combo-coupon | 던킨 공식 이달의 콤보 쿠폰 혜택 | 던킨 공식 이벤트 | 외식/배달 | dunkindonuts.co.kr | `/go/news/news-dunkin-monthly-combo-coupon` |
 | news-mcdonalds-happy-snack-free-drink | 맥도날드 해피 스낵 무료 음료 혜택 | 맥도날드 공식 프로모션 | 무료혜택 | mcdonalds.co.kr | `/go/news/news-mcdonalds-happy-snack-free-drink` |
@@ -37,7 +38,6 @@ All visible rows must keep `/go/news/[id]` redirect tracking and must resolve to
 | news-kbcard-membership-benefit-center | KB국민카드 공식 생활 할인 혜택 | KB국민카드 공식 혜택 | 카드/멤버십 | card.kbcard.com | `/go/news/news-kbcard-membership-benefit-center` |
 | news-hmall-official-shopping-event | 현대Hmall 공식 쇼핑 기획전 혜택 | 현대Hmall 공식 이벤트 | 패션/뷰티 | hyundaihmall.com | `/go/news/news-hmall-official-shopping-event` |
 | news-bccard-official-event-center | BC카드 공식 이벤트 혜택 모음 | BC카드 공식 이벤트 | 카드/멤버십 | bccard.com | `/go/news/news-bccard-official-event-center` |
-| news-cgv-official-events | CGV 공식 이벤트·쿠폰 혜택 | CGV 공식 이벤트 | 영화/문화 | cgv.co.kr | `/go/news/news-cgv-official-events` |
 
 ## Blocked Items
 

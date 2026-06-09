@@ -2,12 +2,12 @@
 
 이 문서는 할인도사에 연결할 수 있는 공식 이벤트, 공공 혜택, 제휴 JSON/RSS 후보를 정리합니다. 무단 크롤링 후보가 아니라 운영자가 승인 feed 또는 공식 페이지 매핑으로 전환할 때 쓰는 출발점입니다.
 
-- 생성 시각: 2026-06-09T07:43:53.488Z
+- 생성 시각: 2026-06-09T07:57:34.714Z
 - 상태: PASS
-- 후보 소스: 154개
-- 고우선순위 후보: 45개
+- 후보 소스: 157개
+- 고우선순위 후보: 46개
 - 현재 env feed 연결 후보: 0개
-- 공식 혜택 노출: 118개
+- 공식 혜택 노출: 122개
 - feed 전환 상태: seed_launch_ready
 - CSV 리포트: reports/official-source-catalog.csv
 
@@ -21,10 +21,10 @@
 | 패션/뷰티 | 18 | 충분 |
 | 외식/배달 | 43 | 충분 |
 | 여행/숙박 | 9 | 충분 |
-| 영화/문화 | 22 | 충분 |
+| 영화/문화 | 23 | 충분 |
 | 카드/멤버십 | 56 | 충분 |
-| 무료혜택 | 118 | 충분 |
-| 정부/공공혜택 | 19 | 충분 |
+| 무료혜택 | 121 | 충분 |
+| 정부/공공혜택 | 22 | 충분 |
 
 ## Provider 커버리지
 
@@ -32,7 +32,7 @@
 | --- | ---: | --- |
 | news | 1 | 포함 |
 | event_news | 2 | 포함 |
-| official_event | 103 | 포함 |
+| official_event | 106 | 포함 |
 | public_coupon | 48 | 포함 |
 
 ## 후보 목록
@@ -193,6 +193,9 @@
 | okcashbag-shopping-point-official-benefit | official_event | 카드/멤버십, 무료혜택 | medium | https://okcashbag.com/shopping | OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
 | okcashbag-service-official-point-guide | official_event | 카드/멤버십, 무료혜택 | medium | https://okcashbag.kr/utility/okcashbagInfo.do | OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
 | happypoint-membership-official-benefit-guide | official_event | 카드/멤버십, 무료혜택 | medium | https://www.happypointcard.com/page/presentation/membership.spc | OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| culture-day-monthly-official-program-list | official_event | 영화/문화, 정부/공공혜택, 무료혜택 | high | https://www.culture.go.kr/local/wday/mnthCltrLctnYList.do | OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| kmooc-blockchain-digital-asset-free-course | official_event | 정부/공공혜택, 무료혜택 | medium | https://www.kmooc.kr/view/course/detail/19048 | OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| kmooc-ai-teaching-innovation-free-course | official_event | 정부/공공혜택, 무료혜택 | medium | https://www.kmooc.kr/view/course/detail/19997 | OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
 
 ## 다음 작업
 

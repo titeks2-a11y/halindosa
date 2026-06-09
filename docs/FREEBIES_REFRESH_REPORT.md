@@ -1,12 +1,12 @@
 # 무료혜택 Refresh Report
 
-Generated: 2026-06-09T07:44:30.451Z
+Generated: 2026-06-09T07:57:48.569Z
 
 ## Summary
 
 - Mode: freebies
-- Matched items: 53
-- Visible official items: 53
+- Matched items: 56
+- Visible official items: 56
 - Hidden/blocked items: 0
 - Exposed search links: 0
 - Exposed non-official links: 0
@@ -23,6 +23,7 @@ All visible rows must keep `/go/news/[id]` redirect tracking and must resolve to
 
 | ID | Title | Source | Category | Host | Redirect |
 | --- | --- | --- | --- | --- | --- |
+| news-kmooc-blockchain-digital-asset-free-course | K-MOOC 블록체인·디지털 자산 공식 무료강좌 | K-MOOC 공식 강좌 상세 | 정부/공공혜택 | kmooc.kr | `/go/news/news-kmooc-blockchain-digital-asset-free-course` |
 | news-mcdonalds-happy-snack-free-drink | 맥도날드 해피 스낵 무료 음료 혜택 | 맥도날드 공식 프로모션 | 무료혜택 | mcdonalds.co.kr | `/go/news/news-mcdonalds-happy-snack-free-drink` |
 | news-culture-day-programs-2026 | 이번 주 문화가 있는 날 프로그램 | 문화가 있는 날 공식 | 영화/문화 | culture.go.kr | `/go/news/news-culture-day-programs-2026` |
 | news-culture-day-weekly-2026 | 문화가 있는 날 매주 수요일 문화 혜택 | 지역문화통합정보시스템 | 정부/공공혜택 | culture.go.kr | `/go/news/news-culture-day-weekly-2026` |
@@ -37,7 +38,6 @@ All visible rows must keep `/go/news/[id]` redirect tracking and must resolve to
 | news-kurly-clove-fashion-free-shipping | 컬리 클로브 브이넥 니트 무료배송 쿠폰 특가 | 컬리 공식 상품 상세 | 패션/뷰티 | kurly.com | `/go/news/news-kurly-clove-fashion-free-shipping` |
 | news-aquaplanet-official-events | 아쿠아플라넷 공식 이벤트 혜택 | 아쿠아플라넷 공식 이벤트 | 영화/문화 | aquaplanet.co.kr | `/go/news/news-aquaplanet-official-events` |
 | news-cjthemarket-official-events | CJ더마켓 공식 이벤트·쿠폰 | CJ더마켓 공식 이벤트 | 식품/생필품 | cjthemarket.com | `/go/news/news-cjthemarket-official-events` |
-| news-ediya-official-events | 이디야커피 공식 이벤트·쿠폰 | 이디야커피 공식 이벤트 | 외식/배달 | ediya.com | `/go/news/news-ediya-official-events` |
 
 ## Blocked Items
 

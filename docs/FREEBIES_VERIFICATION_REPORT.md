@@ -1,12 +1,12 @@
 # 무료혜택 Verification Report
 
-Generated: 2026-06-09T07:44:30.636Z
+Generated: 2026-06-09T07:57:48.756Z
 
 ## Summary
 
 - Status: PASS
-- Visible official freebies: 117
-- Candidate freebies: 117
+- Visible official freebies: 120
+- Candidate freebies: 120
 - Blocked freebies: 0
 - Exposed search links: 0
 - Exposed non-official links: 0
@@ -20,6 +20,7 @@ Generated: 2026-06-09T07:44:30.636Z
 
 | ID | Title | Source | Type | Redirect |
 | --- | --- | --- | --- | --- |
+| news-kmooc-blockchain-digital-asset-free-course | K-MOOC 블록체인·디지털 자산 공식 무료강좌 | K-MOOC 공식 강좌 상세 | education | `/go/news/news-kmooc-blockchain-digital-asset-free-course` |
 | news-gs25-drinking-festa-2026 | GS25 드링킹 페스타 1+1·다량 구매 행사 | GS25 공식 이벤트 | discount | `/go/news/news-gs25-drinking-festa-2026` |
 | news-dunkin-monthly-combo-coupon | 던킨 공식 이달의 콤보 쿠폰 혜택 | 던킨 공식 이벤트 | coupon | `/go/news/news-dunkin-monthly-combo-coupon` |
 | news-mcdonalds-happy-snack-free-drink | 맥도날드 해피 스낵 무료 음료 혜택 | 맥도날드 공식 프로모션 | freebie | `/go/news/news-mcdonalds-happy-snack-free-drink` |
@@ -39,5 +40,4 @@ Generated: 2026-06-09T07:44:30.636Z
 | news-tworld-membership-upgrade | T 멤버십 장기고객 등급 업그레이드 혜택 | T world 공식 혜택 | membership | `/go/news/news-tworld-membership-upgrade` |
 | news-tworld-longterm-discount | T world 장기고객 요금할인 안내 | T world 공식 혜택 | membership | `/go/news/news-tworld-longterm-discount` |
 | news-koreanair-promotion | 대한항공 공식 항공권 프로모션 | 대한항공 공식 프로모션 | travel | `/go/news/news-koreanair-promotion` |
-| news-ssg-official-event-main | SSG닷컴 공식 장보기·생활 행사 | SSG닷컴 공식 이벤트 | coupon | `/go/news/news-ssg-official-event-main` |
 
