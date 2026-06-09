@@ -14,11 +14,12 @@
 - Branch: `codex/12h-product-ux-growth-hardening`
 - Remote: `origin/codex/12h-product-ux-growth-hardening`
 - 최근 커밋:
+  - `44c129c3 test: cover home free benefit counts`
+  - `c3f70882 feat: share free benefit counts with home hero`
+  - `fad0394d feat: use server free benefit counts in filters`
+  - `9340b23e feat: expose free benefit category counts`
+  - `537ac4c7 docs: save current state for fresh session`
   - `0e8ece1d feat: align free benefit filter contract`
-  - `532a3a88 feat: expand free benefit feed starter lanes`
-  - `db46e359 feat: add culture portal free invitation source`
-  - `5ca74917 test: tighten source feed activation gates`
-  - `3ad2c2ac docs: update current state after civic source expansion`
 - 새 세션 시작 시 먼저 실행:
 
 ```bash
@@ -88,7 +89,7 @@ npm run cap:sync
 
 1. 실제 운영 feed URL을 Vercel env에 연결하기 전 `docs/FREE_BENEFIT_FEED_HANDOFF.md`와 `docs/SOURCE_FEED_ACTIVATION.md` 기준으로 검증한다.
 2. 공공/교육/반려동물/문화 무료혜택 후보를 추가하되, 사용자 CTA는 공식 상세 또는 신청 페이지가 active이고 무료 조건이 확인된 경우에만 연결한다.
-3. 홈 히어로 빠른 필터에서 0개 카테고리를 숨길지, 비활성화 톤으로 둘지 모바일 실제 사용성을 확인한다.
+3. 홈 히어로 빠른 필터에서 0개 카테고리를 숨길지, 비활성화 톤으로 둘지 모바일 실제 사용성을 확인한다. 현재 `/free-benefits`는 0개 필터를 비활성화 톤으로 표시하며, 홈 히어로는 서버 카운트를 받아 숫자를 맞춘다.
 4. 새 공식 후보를 추가하면 아래 순서로 먼저 검증한다.
 
 ```bash
