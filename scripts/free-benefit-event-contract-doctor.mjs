@@ -22,6 +22,8 @@ const normalizerSource = read("lib/freeBenefitEvents.ts");
 const eventsRouteSource = read("app/api/benefits/events/route.ts");
 const freebiesRouteSource = read("app/api/freebies/route.ts");
 const homeRouteSource = read("app/api/home/route.ts");
+const homeFreebieHeroSource = read("components/home/HomeFreebieHero.tsx");
+const freeBenefitsClientSource = read("components/FreeBenefitsClient.tsx");
 const verifySource = read("scripts/verify-benefit-events.mjs");
 const smokeSource = read("scripts/smoke.mjs");
 
@@ -193,6 +195,32 @@ const checks = [
     "Home and /api/freebies should use the same publishable selector as the benefits events API."
   ),
   check(
+    "home exposes free benefit quick filters",
+    hasAll(homeFreebieHeroSource, [
+      "data-home-free-benefit-quick-filters",
+      "전원증정",
+      "선착순",
+      "무료체험",
+      "샘플",
+      "기프티콘",
+      "출석체크",
+      "신규가입",
+      "마감임박",
+      "eventType=everyone",
+      "eventType=sample"
+    ]).length === 0 &&
+      hasAll(freeBenefitsClientSource, [
+        "parseFreeBenefitEventType",
+        "getInitialFreeBenefitUrlState",
+        "new URLSearchParams(window.location.search)",
+        "initialUrlState.activeEventType",
+        "initialUrlState.endingSoonOnly",
+        "initialUrlState.firstComeOnly",
+        "event.benefitType === activeEventType"
+      ]).length === 0,
+    "Home should expose mobile quick filters for the main free-benefit intents and /free-benefits should hydrate those filters from URL params."
+  ),
+  check(
     "verify benefits enforces official active event floor",
     hasAll(verifySource, [
       "minimumVisibleEvents",
@@ -230,6 +258,8 @@ const report = {
     "app/api/benefits/events/route.ts",
     "app/api/freebies/route.ts",
     "app/api/home/route.ts",
+    "components/home/HomeFreebieHero.tsx",
+    "components/FreeBenefitsClient.tsx",
     "scripts/verify-benefit-events.mjs",
     "scripts/smoke.mjs"
   ],

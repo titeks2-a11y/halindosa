@@ -12,8 +12,8 @@
 
 - Branch: `codex/12h-product-ux-growth-hardening`
 - Remote: `origin/codex/12h-product-ux-growth-hardening`
-- 기준 커밋: `139bec47 feat: expand official benefit source coverage`
-- 이 상태 문서에 포함된 최신 작업: 공식 무료혜택 소스 카탈로그, 핵심 브랜드 신호 게이트, FreeBenefitEvent 계약 검증 게이트 강화, 뷰티/금융 공식 혜택 소스 확장, 닥터지/LG생활건강/토스 공식 혜택 소스 추가.
+- 기준 커밋: `25aefc76 docs: save current session handoff state`
+- 이 상태 문서에 포함된 최신 작업: 공식 무료혜택 소스 카탈로그, 핵심 브랜드 신호 게이트, FreeBenefitEvent 계약 검증 게이트 강화, 뷰티/금융 공식 혜택 소스 확장, 닥터지/LG생활건강/토스 공식 혜택 소스 추가, 홈 무료혜택 빠른 필터와 URL 진입 필터 보강.
 
 ## 최근 완료 작업
 
@@ -121,6 +121,21 @@
 - 홈과 `/api/freebies`가 같은 `selectPublishableFreeBenefitEvents` 기준을 쓰는지 검사한다.
 - QA, harness, release doctor에 연결해 무료혜택 이벤트 계약이 출시 검증에서 빠지지 않게 했다.
 
+### 홈 무료혜택 빠른 필터
+
+- `components/home/HomeFreebieHero.tsx`
+- `components/FreeBenefitsClient.tsx`
+- `scripts/free-benefit-event-contract-doctor.mjs`
+- `docs/FREE_BENEFIT_EVENT_CONTRACT.md`
+
+구현 요약:
+
+- 홈 상단 무료혜택 히어로에 `전원증정`, `선착순`, `무료체험`, `샘플`, `기프티콘`, `출석체크`, `신규가입`, `마감임박` 빠른 필터 레일을 추가했다.
+- 각 필터는 `/free-benefits` URL 파라미터로 연결된다.
+- `/free-benefits`는 `eventType`, `endingSoon`, `firstComeOnly`, `noSignupOnly`, `activeOnly`, `q` 파라미터를 초기 상태로 읽어 바로 필터링된 화면을 보여준다.
+- 공식 무료혜택 이벤트 목록도 마감임박, 선착순, 로그인 없는 혜택 조건을 반영해 필터링한다.
+- `benefit:event:contract`가 홈 빠른 필터와 URL 진입 필터가 빠지지 않도록 14번째 회귀 검사를 수행한다.
+
 ## 마지막으로 확인한 명령
 
 - `npm run lint` 성공
@@ -149,6 +164,17 @@
 - `npm run source:live:doctor` 성공, reachable 98개, guarded 16개, stale 0개
 - `npm run source:breadth:doctor` 성공, 수집 축 12/12 및 핵심 브랜드 신호 37/37 통과
 - `npm run release:doctor` 성공, 188/188 통과
+- `npm run lint` 성공
+- `npm run benefit:event:contract` 성공, 14/14 통과
+- `npm run smoke:local` 성공, 103/103 통과
+- `npm run release:doctor` 성공, 188/188 통과
+- `npm run build` 성공
+- `npm run build:android` 성공
+- `npm run cap:sync` 성공
+- `npm run test:mobile-compact` 성공, 13/13 통과
+- `npm run security:check` 성공, 10/10 통과
+- `npm run qa` 성공, 75/75 통과
+- `npm run workspace:doctor:strict` 성공, 재생성 산출물 0B
 
 ## 현재 제품 방향
 

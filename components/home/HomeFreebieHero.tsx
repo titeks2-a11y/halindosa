@@ -61,6 +61,22 @@ const eventToneClassNames: Record<FreeBenefitEventType, string> = {
   brandEvent: "bg-red-50 text-dossa-red"
 };
 
+const heroQuickFilters: Array<{
+  label: string;
+  href: string;
+  eventType?: FreeBenefitEventType;
+  className: string;
+}> = [
+  { label: "전원증정", href: "/free-benefits?eventType=everyone", eventType: "everyone", className: "border-emerald-100 bg-emerald-50 text-emerald-700" },
+  { label: "선착순", href: "/free-benefits?eventType=firstCome&firstComeOnly=true", eventType: "firstCome", className: "border-orange-100 bg-orange-50 text-orange-700" },
+  { label: "무료체험", href: "/free-benefits?eventType=freeTrial", eventType: "freeTrial", className: "border-sky-100 bg-sky-50 text-sky-700" },
+  { label: "샘플", href: "/free-benefits?eventType=sample", eventType: "sample", className: "border-teal-100 bg-teal-50 text-teal-700" },
+  { label: "기프티콘", href: "/free-benefits?eventType=gifticon", eventType: "gifticon", className: "border-pink-100 bg-pink-50 text-pink-700" },
+  { label: "출석체크", href: "/free-benefits?eventType=checkIn", eventType: "checkIn", className: "border-indigo-100 bg-indigo-50 text-indigo-700" },
+  { label: "신규가입", href: "/free-benefits?eventType=signup", eventType: "signup", className: "border-rose-100 bg-rose-50 text-rose-700" },
+  { label: "마감임박", href: "/free-benefits?endingSoon=true", className: "border-amber-100 bg-amber-50 text-amber-800" }
+];
+
 function isEndingSoon(deal: NewsDeal, referenceNow?: number) {
   const endTime = Date.parse(deal.expiresAt || deal.endDate);
   if (!Number.isFinite(endTime)) return false;
@@ -123,6 +139,12 @@ export function HomeFreebieHero({
         { label: "무배", value: summary?.freeShipping ?? visibleDeals.filter((deal) => deal.benefitType === "freeShipping").length, className: "bg-sky-50 text-sky-700" },
         { label: "오늘마감", value: summary?.endingToday ?? visibleDeals.filter((deal) => isEndingSoon(deal, referenceNow)).length, className: "bg-orange-50 text-orange-700" }
       ];
+  const getHeroQuickFilterCount = (filter: (typeof heroQuickFilters)[number]) => {
+    if (!visibleEvents.length) return null;
+    if (filter.label === "마감임박") return events.filter((event) => isEventEndingSoon(event, referenceNow)).length;
+    if (!filter.eventType) return null;
+    return events.filter((event) => event.benefitType === filter.eventType).length;
+  };
 
   return (
     <section
@@ -172,6 +194,34 @@ export function HomeFreebieHero({
           </div>
         ))}
       </div>
+
+      <nav
+        data-home-free-benefit-quick-filters="true"
+        className="-mx-2 mt-2 overflow-x-auto px-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        aria-label="무료혜택 빠른 필터"
+      >
+        <div className="flex snap-x gap-1.5 pb-1">
+          {heroQuickFilters.map((filter) => {
+            const count = getHeroQuickFilterCount(filter);
+
+            return (
+              <Link
+                key={filter.label}
+                href={filter.href}
+                className={`inline-flex min-h-8 shrink-0 snap-start items-center gap-1 rounded-full border px-2.5 text-[10px] font-black sm:text-[11px] ${filter.className}`}
+                aria-label={`${filter.label} 무료혜택 바로 보기`}
+              >
+                {filter.label}
+                {count !== null ? (
+                  <span className="rounded-full bg-white/70 px-1.5 py-0.5 text-[9px] text-slate-600">
+                    {count.toLocaleString("ko-KR")}
+                  </span>
+                ) : null}
+              </Link>
+            );
+          })}
+        </div>
+      </nav>
 
       {visibleEvents.length ? (
         <div className="mt-2 grid grid-cols-2 gap-2 sm:mt-3 sm:grid-cols-4" aria-label="공식 무료혜택 이벤트 카드">

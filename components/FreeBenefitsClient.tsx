@@ -103,6 +103,37 @@ const freeBenefitEventTypeOptions: Array<{ id: FreeBenefitEventType; label: stri
   { id: "publicFree", label: "공공무료" },
   { id: "experiencePanel", label: "체험단" }
 ];
+const freeBenefitEventTypeIds = new Set<FreeBenefitEventType>(freeBenefitEventTypeOptions.map((option) => option.id));
+
+function parseFreeBenefitEventType(value: string | null) {
+  if (!value) return null;
+  return freeBenefitEventTypeIds.has(value as FreeBenefitEventType) ? (value as FreeBenefitEventType) : null;
+}
+
+function getInitialFreeBenefitUrlState() {
+  const initialState = {
+    activeEventType: "all" as FreeBenefitEventType,
+    query: "",
+    endingSoonOnly: false,
+    firstComeOnly: false,
+    noSignupOnly: false,
+    activeOnly: false
+  };
+
+  if (typeof window === "undefined") return initialState;
+
+  const params = new URLSearchParams(window.location.search);
+  const eventType = parseFreeBenefitEventType(params.get("eventType"));
+
+  return {
+    activeEventType: eventType ?? initialState.activeEventType,
+    query: params.get("q")?.trim().slice(0, 80) ?? "",
+    endingSoonOnly: params.get("endingSoon") === "true",
+    firstComeOnly: params.get("firstComeOnly") === "true",
+    noSignupOnly: params.get("noSignupOnly") === "true",
+    activeOnly: params.get("activeOnly") === "true"
+  };
+}
 
 function getOfficialBenefitLabel(deal: NewsDeal) {
   return officialBenefitTypeLabels[deal.benefitType] ?? deal.category;
@@ -183,6 +214,7 @@ export function FreeBenefitsClient({
   officialBenefitsUpdatedAt = "",
   officialBenefitFreshnessLabel = "최근 확인"
 }: FreeBenefitsClientProps) {
+  const initialUrlState = useMemo(() => getInitialFreeBenefitUrlState(), []);
   const [referenceNow, setReferenceNow] = useState(0);
   const [deals, setDeals] = useState(initialDeals);
   const [liveOfficialBenefits, setLiveOfficialBenefits] = useState(officialBenefits);
@@ -191,15 +223,15 @@ export function FreeBenefitsClient({
   const [liveOfficialBenefitFreshnessLabel, setLiveOfficialBenefitFreshnessLabel] = useState(officialBenefitFreshnessLabel);
   const [lastBenefitsRefreshAt, setLastBenefitsRefreshAt] = useState(officialBenefitsUpdatedAt || initialDeals[0]?.updatedAt || "");
   const [isRefreshingBenefits, setIsRefreshingBenefits] = useState(false);
-  const [activeEventType, setActiveEventType] = useState<FreeBenefitEventType>("all");
+  const [activeEventType, setActiveEventType] = useState<FreeBenefitEventType>(initialUrlState.activeEventType);
   const [activeType, setActiveType] = useState<"all" | DealBenefitType>("all");
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(initialUrlState.query);
   const [sort, setSort] = useState<BenefitSort>("recommended");
-  const [endingSoonOnly, setEndingSoonOnly] = useState(false);
+  const [endingSoonOnly, setEndingSoonOnly] = useState(initialUrlState.endingSoonOnly);
   const [freeShippingOnly, setFreeShippingOnly] = useState(false);
-  const [noSignupOnly, setNoSignupOnly] = useState(false);
-  const [firstComeOnly, setFirstComeOnly] = useState(false);
-  const [activeOnly, setActiveOnly] = useState(false);
+  const [noSignupOnly, setNoSignupOnly] = useState(initialUrlState.noSignupOnly);
+  const [firstComeOnly, setFirstComeOnly] = useState(initialUrlState.firstComeOnly);
+  const [activeOnly, setActiveOnly] = useState(initialUrlState.activeOnly);
   const [claimEffortFilter, setClaimEffortFilter] = useState<ClaimEffortFilter>("all");
   const [favorites, setFavorites] = useState<string[]>([]);
   const [claimedBenefits, setClaimedBenefits] = useState<ReturnType<typeof readClaimedBenefits>>([]);
@@ -884,10 +916,14 @@ export function FreeBenefitsClient({
       liveOfficialBenefitEvents
         .filter(isVisibleFreeBenefitEvent)
         .filter((event) => activeEventType === "all" || event.benefitType === activeEventType)
+        .filter((event) => !endingSoonOnly || Date.parse(event.endAt) - referenceNow <= 3 * 24 * 60 * 60 * 1000)
+        .filter((event) => !firstComeOnly || event.isFirstComeFirstServed)
+        .filter((event) => !noSignupOnly || !event.requiresLogin)
+        .filter((event) => !activeOnly || event.status === "active")
         .filter((event) => matchesFreeBenefitEventQuery(event, query))
         .sort((a, b) => b.priorityScore - a.priorityScore || b.qualityScore - a.qualityScore || Date.parse(a.endAt) - Date.parse(b.endAt))
         .slice(0, 12),
-    [activeEventType, liveOfficialBenefitEvents, query]
+    [activeEventType, activeOnly, endingSoonOnly, firstComeOnly, liveOfficialBenefitEvents, noSignupOnly, query, referenceNow]
   );
   const officialEventCounts = useMemo(() => {
     const visibleEvents = liveOfficialBenefitEvents.filter(isVisibleFreeBenefitEvent);

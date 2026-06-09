@@ -1,6 +1,6 @@
 # FreeBenefitEvent 계약
 
-Generated: 2026-06-09T00:27:29.595Z
+Generated: 2026-06-09T01:01:41.822Z
 
 Status: PASS
 
@@ -68,6 +68,7 @@ Status: PASS
 | benefits events API is guarded and filterable | PASS | API should rate-limit and support q, type, purchase/login, ending-soon, no-purchase, sorting, and summary. |
 | benefits events API exposes trust policy | PASS | API response should tell clients that only active, passed, non-search, non-homepage, non-community events are publishable. |
 | home and freebies surfaces share publishable event selector | PASS | Home and /api/freebies should use the same publishable selector as the benefits events API. |
+| home exposes free benefit quick filters | PASS | Home should expose mobile quick filters for the main free-benefit intents and /free-benefits should hydrate those filters from URL params. |
 | verify benefits enforces official active event floor | PASS | verify:benefits should produce JSON/Markdown evidence and fail low official active/source/host coverage. |
 | smoke covers benefits events API contract | PASS | Smoke should hit the events API and assert publishable policy, CTA, trust badges, and no-purchase filtering. |
 
