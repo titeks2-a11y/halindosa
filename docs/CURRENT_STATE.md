@@ -34,10 +34,10 @@
 
 ## 데이터 상태
 
-- 공식 소스 후보: `168`
-- 뉴스/혜택 seed: `146`
-- `data/refreshedNewsDeals.json` 기준 refreshed 항목: `143`
-- `publishable=true`, `validationStatus=passed`, `availability=active` 기준 노출 가능 항목: `143`
+- 공식 소스 후보: `172`
+- 뉴스/혜택 seed: `150`
+- `data/refreshedNewsDeals.json` 기준 refreshed 항목: `147`
+- `publishable=true`, `validationStatus=passed`, `availability=active` 기준 노출 가능 항목: `147`
 - 최근 보강 소스:
   - 파파이스 공식 이벤트·쿠폰 혜택
   - 서울시 공공서비스예약 무료 체험·교육 혜택
@@ -46,6 +46,7 @@
   - 카카오페이, OK캐쉬백, 해피포인트 등 포인트/멤버십 혜택
   - 신한카드 공식 신규 고객 연회비 캐시백, 생활요금 자동납부 캐시백 혜택
   - 서울시 공공서비스예약 공식 상세 무료 체험 4건: 월드컵공원 누에 생태 체험, 동대문구 수상스포츠 체험교육, 한양도성 역사 해설 체험, 서울퓨처랩 배틀봇 체험
+  - 서울시 공공서비스예약 공식 상세 무료 서비스 4건: 광역반려식물병원 무료 진단, 우장산 청년 숲마실, 서서울호수공원 유아 자연체험, 사가정공원 유아숲 생태놀이
 
 ## 품질 정책
 
@@ -77,10 +78,10 @@
 
 최근 안정 커밋 기준으로 다음 게이트가 통과한 상태로 기록되어 있다.
 
-- `npm run refresh:news`: 146개 수집, 143개 노출
-- `npm run refresh:benefits`: active 공식 무료혜택 이벤트 140개
-- `npm run verify:news`: 143/143 공식 혜택 링크 검증
-- `npm run verify:freebies`: 139/139 통과
+- `npm run refresh:news`: 150개 수집, 147개 노출
+- `npm run refresh:benefits`: active 공식 무료혜택 이벤트 144개
+- `npm run verify:news`: 147/147 공식 혜택 링크 검증
+- `npm run verify:freebies`: 143/143 통과
 - `npm run qa`: 75/75 통과
 - `npm run test:mobile-ux`: 17/17 통과
 - `npm run release:doctor`: 188/188 통과
@@ -89,6 +90,7 @@
 - 2026-06-09 추가 보강: `security:check`가 홈/랜딩 성격의 공식 소스 후보를 CTA 금지 정책 없이 허용하지 않도록 강화되었고, 현재 13/13 통과했다.
 - 2026-06-09 추가 보강: 홈 무료혜택 랭킹에서 구매/카드발급/결제 조건형 혜택을 낮추고, 샘플/무료교육/공공무료/쿠폰/포인트처럼 바로 확인 가능한 혜택을 우선 노출하도록 조정했다.
 - 2026-06-09 추가 보강: 서울시 공공서비스예약의 개별 무료 예약 상세 4건을 seed/catalog에 추가했고 모두 `publishable=true`, `validationStatus=passed`, `availability=active`로 검증됐다.
+- 2026-06-09 추가 보강: 서울시 공공서비스예약의 무료 공공서비스 상세 4건을 추가했고, 공식 혜택 147개와 무료혜택 이벤트 144개 기준으로 `qa`, `harness`, `build`, `build:android`, `cap:sync`가 통과했다.
 - 2026-06-09 확인: `next-env.d.ts`는 `./.next/dev/types/routes.d.ts` 경로를 참조하는 정상 상태다.
 
 새 세션에서는 필요한 명령을 다시 실행해 실제 현재 상태를 확인한 뒤 진행한다.
