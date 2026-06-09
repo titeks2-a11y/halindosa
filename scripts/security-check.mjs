@@ -102,6 +102,31 @@ function hasOfficialBenefitPolicyText(source) {
   );
 }
 
+function findDuplicateOfficialSourceUrls(sources) {
+  const seenUrls = new Map();
+  const duplicates = [];
+
+  for (const source of sources) {
+    try {
+      const normalizedUrl = new URL(source.officialUrl).href.replace(/\/$/, "");
+      const existingSourceId = seenUrls.get(normalizedUrl);
+      if (existingSourceId) {
+        duplicates.push({
+          id: source.id,
+          duplicateOf: existingSourceId,
+          officialUrl: normalizedUrl
+        });
+      } else {
+        seenUrls.set(normalizedUrl, source.id);
+      }
+    } catch {
+      // Invalid URLs are reported by hasUnsafeOfficialSourceUrl.
+    }
+  }
+
+  return duplicates;
+}
+
 const missingEnv = requiredEnvKeys.filter((key) => !new RegExp(`^${key}=`, "m").test(envExample));
 addCheck(checks, "env example coverage", missingEnv.length === 0, missingEnv.length ? `Missing env keys: ${missingEnv.join(", ")}` : "Client/public and server-only env keys are documented.");
 
@@ -188,13 +213,18 @@ const unsafeCatalogRows = Array.isArray(catalogRows) ? catalogRows.filter(hasUns
 const weakPolicyRows = Array.isArray(catalogRows)
   ? catalogRows.filter((source) => source.category?.includes?.("무료혜택") && !hasOfficialBenefitPolicyText(source))
   : ["invalid_catalog"];
+const duplicateOfficialUrlRows = Array.isArray(catalogRows) ? findDuplicateOfficialSourceUrls(catalogRows) : ["invalid_catalog"];
 addCheck(
   checks,
   "official source catalog guard",
-  Array.isArray(catalogRows) && catalogRows.length >= 100 && unsafeCatalogRows.length === 0 && weakPolicyRows.length === 0,
-  unsafeCatalogRows.length || weakPolicyRows.length
-    ? `Unsafe/weak official source catalog rows: ${[...unsafeCatalogRows, ...weakPolicyRows].slice(0, 12).map((source) => source.id ?? String(source)).join(", ")}`
-    : `Official source catalog has ${Array.isArray(catalogRows) ? catalogRows.length : 0} safe candidates with explicit CTA policy text.`
+  Array.isArray(catalogRows) &&
+    catalogRows.length >= 100 &&
+    unsafeCatalogRows.length === 0 &&
+    weakPolicyRows.length === 0 &&
+    duplicateOfficialUrlRows.length === 0,
+  unsafeCatalogRows.length || weakPolicyRows.length || duplicateOfficialUrlRows.length
+    ? `Unsafe/weak/duplicate official source catalog rows: ${[...unsafeCatalogRows, ...weakPolicyRows, ...duplicateOfficialUrlRows].slice(0, 12).map((source) => source.id ?? String(source)).join(", ")}`
+    : `Official source catalog has ${Array.isArray(catalogRows) ? catalogRows.length : 0} safe, non-duplicate candidates with explicit CTA policy text.`
 );
 
 const riskyHtml = files

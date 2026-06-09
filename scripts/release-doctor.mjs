@@ -120,9 +120,10 @@ async function checkPackage() {
     ["official source catalog guard", "official source catalog guard"],
     ["unsafe source URL detector", "hasUnsafeOfficialSourceUrl"],
     ["official benefit policy detector", "hasOfficialBenefitPolicyText"],
+    ["duplicate official URL detector", "findDuplicateOfficialSourceUrls"],
     ["security report catalog evidence", "official source catalog guard"]
   ].filter(([, expected], index) => {
-    const source = index === 4 ? securityCheckReport : securityCheck;
+    const source = index === 5 ? securityCheckReport : securityCheck;
     return !source.includes(expected);
   });
   if (
