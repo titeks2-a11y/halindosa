@@ -30,6 +30,7 @@
 
 ## 최근 완료된 안정 상태
 
+- 무료혜택 운영 feed starter pack 12개 lane 확장: 커밋 예정
 - 문화포털 공식 문화초대이벤트 소스 확장: 이번 변경
 - source feed activation gate 강화: `5ca74917`
 - 공공 무료혜택 소스 확장 후 현재 상태 저장: `3ad2c2ac`
@@ -137,6 +138,39 @@ source feed activation gate를 더 엄격하게 만들었다. 운영 feed URL �
 
 - 문화포털 목록은 발견 소스로만 사용한다. 사용자 CTA는 개별 문화초대 이벤트 상세 또는 응모 페이지가 active이고 무료 조건이 확인된 경우에만 연결한다.
 - 문화포털 메인, 검색 결과, 종료된 초대 이벤트, 비공식 공연 홍보글, 커뮤니티 당첨 후기는 노출하지 않는다.
+
+## 현재 진행 중인 운영 feed starter pack 확장
+
+운영 feed를 Vercel env에 연결하기 전, 무료혜택 카테고리를 더 명확하게 분리하도록 starter pack을 확장했다.
+
+추가/강화된 lane:
+
+- 전원증정·선착순
+- 출석체크·룰렛·미션
+- 신규가입·웰컴 쿠폰
+- 기프티콘·문화초대권
+
+변경 내용:
+
+- `scripts/free-benefit-feed-starter-pack.mjs`의 starter lane을 8개에서 12개로 확장
+- `scripts/free-benefit-feed-handoff.mjs`에서 12개 필수 lane 누락을 차단
+- `scripts/source-feed-activation-doctor.mjs`의 handoff readiness 기준을 12개 lane 이상으로 강화
+- `scripts/lib/release-doctor-operational-data.mjs`의 release gate 기준도 12개 lane 이상으로 강화
+- starter pack 후보는 96개, env key는 6개, handoff env key는 9개
+
+검증:
+
+- `npm run source:starter:pack` 성공, lanes 12, candidates 96
+- `npm run source:feed:handoff` 성공, lanes 12
+- `npm run source:activation:doctor` 성공
+- `npm run lint` 성공
+- `npm run release:doctor` 성공, 188/188
+- `npm run build` 성공
+
+주의:
+
+- starter pack의 officialUrl은 사람이 확인하는 기준 URL이다. 운영 env에는 공식 API/RSS/Atom/승인 JSON feed endpoint만 넣는다.
+- 공식 HTML 이벤트 페이지를 무단 수집 대상으로 쓰지 않는다.
 
 ## 다음 세션에서 바로 할 일
 

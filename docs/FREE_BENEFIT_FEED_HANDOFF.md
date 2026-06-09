@@ -1,10 +1,10 @@
 # 무료혜택 Feed 운영 핸드오프
 
-- 생성 시각: 2026-06-09T02:32:08.891Z
-- starter lane: 8개
-- 연결 후보: 64개
-- 접근 가능 후보: 62개
-- 보호/승인 필요 후보: 2개
+- 생성 시각: 2026-06-09T02:55:18.279Z
+- starter lane: 12개
+- 연결 후보: 96개
+- 접근 가능 후보: 88개
+- 보호/승인 필요 후보: 8개
 - 현재 설정된 feed URL: 0개
 - canary 상태: seed_fallback_only
 
@@ -52,8 +52,12 @@ npm run smoke:local
 | 뷰티 샘플·체험 | OFFICIAL_EVENT_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS | 8 | 7 | 1 | OFFICIAL_EVENT_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 카페·외식 쿠폰 | OFFICIAL_EVENT_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS<br>DEAL_EVENT_NEWS_FEED_URLS | 8 | 8 | 0 | OFFICIAL_EVENT_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 페이·포인트·캐시백 | PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS | 8 | 7 | 1 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
-| 공공·문화 무료 | PUBLIC_COUPON_FEED_URLS<br>DEAL_NEWS_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS | 8 | 8 | 0 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
-| 교육 무료체험 | PUBLIC_COUPON_FEED_URLS<br>DEAL_NEWS_FEED_URLS | 8 | 8 | 0 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
+| 전원증정·선착순 | BENEFIT_REFRESH_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS | 8 | 8 | 0 | BENEFIT_REFRESH_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
+| 출석체크·룰렛·미션 | PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS | 8 | 7 | 1 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
+| 신규가입·웰컴 쿠폰 | PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS | 8 | 6 | 2 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
+| 기프티콘·문화초대권 | PUBLIC_COUPON_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS | 8 | 7 | 1 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
+| 공공·문화 무료 | PUBLIC_COUPON_FEED_URLS<br>DEAL_NEWS_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS | 8 | 7 | 1 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
+| 교육 무료체험 | PUBLIC_COUPON_FEED_URLS<br>DEAL_NEWS_FEED_URLS | 8 | 7 | 1 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 반려동물·체험단 | BENEFIT_REFRESH_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS | 8 | 8 | 0 | BENEFIT_REFRESH_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 
 ## 바로 확인할 후보
@@ -87,6 +91,30 @@ npm run smoke:local
 - OK캐쉬백 공식 앱 설치·포인트 이벤트: https://www.okcashbag.com/event/newwelcomeback
 - PAYCO 공식 이벤트·쿠폰 혜택: https://www.payco.com/event.nhn
 - 해피포인트 공식 쿠폰·모바일 혜택: https://www.happypointcard.com/coupon/coupon.spc
+
+### 전원증정·선착순
+
+- L.POINT 공식 혜택: https://m.lpoint.com/index.jsp?tabIndex=1
+- OK캐쉬백 공식 이벤트 혜택: https://www.okcashbag.com/life/event/eventHome.do
+- 닥터지 공식 이벤트·샘플 혜택: https://www.dr-g.co.kr/event
+
+### 출석체크·룰렛·미션
+
+- L.POINT 공식 미션·룰렛·출석 혜택: https://www.lpoint.com/app/common/LHZZ300300.do
+- 해피포인트 공식 쿠폰·모바일 혜택: https://www.happypointcard.com/coupon/coupon.spc
+- OK캐쉬백 공식 앱 설치·포인트 이벤트: https://www.okcashbag.com/event/newwelcomeback
+
+### 신규가입·웰컴 쿠폰
+
+- KFC 공식 신규 회원 쿠폰 혜택: https://www.kfckorea.com/promotion/promotionList/detail/1040
+- 해피포인트 공식 쿠폰·모바일 혜택: https://www.happypointcard.com/coupon/coupon.spc
+- 스타벅스 리워드 공식 혜택: https://www.starbucks.co.kr/msr/msreward/about.do
+
+### 기프티콘·문화초대권
+
+- 문화포털 공식 문화초대이벤트: https://www.culture.go.kr/portal/cltBnf/cltInvEvt/list.do?menuNo=200106
+- 서울문화포털 공식 무료·할인 문화행사: https://culture.seoul.go.kr/culture/culture/cultureEvent/list.do
+- 서울 한강공원 공식 무료 행사·공연: https://hangang.seoul.go.kr/www/eventMng/list.do?mid=53
 
 ### 공공·문화 무료
 

@@ -26,6 +26,20 @@ const canary = readJson(join(reportsDir, "news-feed-canary.json"), {});
 const transition = readJson(join(reportsDir, "feed-transition.json"), {});
 
 const packs = Array.isArray(starterPack.packs) ? starterPack.packs : [];
+const requiredLaneIds = [
+  "free-now",
+  "convenience",
+  "beauty-sample",
+  "food-cafe",
+  "pay-point",
+  "all-user-first-come",
+  "attendance-mission",
+  "signup-welcome",
+  "culture-invite",
+  "public-culture",
+  "education",
+  "pet-experience"
+];
 const envKeys = unique([
   ...(Array.isArray(starterPack.summary?.envKeys) ? starterPack.summary.envKeys : []),
   "BENEFIT_REFRESH_FEED_URLS",
@@ -57,7 +71,10 @@ const lanes = packs.map((pack) => ({
 
 const issues = [];
 if (starterPack.ok !== true) issues.push("source:starter:pack 리포트가 통과 상태가 아닙니다.");
-if (packs.length < 8) issues.push("무료혜택 starter lane이 8개 미만입니다.");
+if (packs.length < requiredLaneIds.length) issues.push(`무료혜택 starter lane이 ${requiredLaneIds.length}개 미만입니다.`);
+for (const laneId of requiredLaneIds) {
+  if (!packs.some((pack) => pack.id === laneId)) issues.push(`무료혜택 starter lane 누락: ${laneId}`);
+}
 if (!envKeys.includes("BENEFIT_REFRESH_FEED_URLS")) issues.push("BENEFIT_REFRESH_FEED_URLS 안내가 누락됐습니다.");
 if (!envKeys.includes("PUBLIC_COUPON_FEED_URLS")) issues.push("PUBLIC_COUPON_FEED_URLS 안내가 누락됐습니다.");
 if (!envKeys.includes("OFFICIAL_EVENT_FEED_URLS")) issues.push("OFFICIAL_EVENT_FEED_URLS 안내가 누락됐습니다.");
@@ -91,6 +108,7 @@ const report = {
     launchBlockingCount: transition.launchBlockingCount ?? 0
   },
   envKeys,
+  requiredLaneIds,
   lanes,
   verificationCommands: [
     "npm run source:starter:pack",

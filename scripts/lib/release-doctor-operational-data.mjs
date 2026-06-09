@@ -1575,7 +1575,7 @@ export async function checkOperationalDataSurfaces() {
     (sourceStarterPackReport.summary?.totalCandidates ?? 0) < 50 ||
     (sourceStarterPackReport.summary?.reachableCandidates ?? 0) < 40 ||
     !Array.isArray(sourceStarterPackReport.packs) ||
-    sourceStarterPackReport.packs.length < 8 ||
+    sourceStarterPackReport.packs.length < 12 ||
     sourceStarterPackReport.packs.some((pack) => !pack.envKeys?.length || !pack.firstAction || (pack.candidateCount ?? 0) < 3) ||
     sourceBreadthReport.ok !== true ||
     (sourceBreadthReport.catalogCount ?? 0) < 100 ||
@@ -1601,7 +1601,7 @@ export async function checkOperationalDataSurfaces() {
     !sourceBreadthDoc.includes("이벤트하우스") ||
     !sourceBreadthDoc.includes("다나와") ||
     sourceFeedHandoffReport.ok !== true ||
-    (sourceFeedHandoffReport.starterPack?.laneCount ?? 0) < 8 ||
+    (sourceFeedHandoffReport.starterPack?.laneCount ?? 0) < 12 ||
     (sourceFeedHandoffReport.starterPack?.totalCandidates ?? 0) < 50 ||
     !Array.isArray(sourceFeedHandoffReport.envKeys) ||
     !sourceFeedHandoffReport.envKeys.includes("BENEFIT_REFRESH_FEED_URLS") ||

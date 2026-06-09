@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-09T02:49:10.987Z",
+  "generatedAt": "2026-06-09T02:55:18.426Z",
   "status": "seed_ready",
   "configuredFeedUrls": 0,
   "configuredProviders": 0,
@@ -32,7 +32,7 @@
     {
       "name": "feed handoff readiness",
       "ok": true,
-      "detail": "lanes=8, commands=8",
+      "detail": "lanes=12, commands=8",
       "action": "Run npm run source:feed:handoff so Vercel env keys and verification commands stay current."
     },
     {

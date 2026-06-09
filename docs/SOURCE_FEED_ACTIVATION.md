@@ -1,6 +1,6 @@
 # 무료혜택 Feed Activation 리포트
 
-- 생성 시각: 2026-06-09T02:49:10.987Z
+- 생성 시각: 2026-06-09T02:55:18.426Z
 - 상태: seed_ready
 - 설정 feed URL: 0개
 - 설정 provider: 0개
@@ -18,7 +18,7 @@
 | 검사 | 결과 | 근거 | 다음 작업 |
 | --- | --- | --- | --- |
 | feed env safety | PASS | configured=0, failed=0 | Run npm run source:feed-env:doctor and fix any unsafe, search, community, private, or non-machine-readable feed URL. |
-| feed handoff readiness | PASS | lanes=8, commands=8 | Run npm run source:feed:handoff so Vercel env keys and verification commands stay current. |
+| feed handoff readiness | PASS | lanes=12, commands=8 | Run npm run source:feed:handoff so Vercel env keys and verification commands stay current. |
 | official source live readiness | PASS | reachable=118, guarded=20, stale=0 | Run npm run source:live:doctor and replace or remove any stale_or_removed official source before feed activation. |
 | official source breadth readiness | PASS | lanes=12/12, brandSignals=55/55 | Run npm run source:breadth:doctor so telecom, convenience, beauty, cafe, delivery, pay, mart, open-market, public, education, pet, and sample lanes stay covered. |
 | free benefit event contract | PASS | checks=16/16 | Run npm run benefit:event:contract so FreeBenefitEvent fields, sanitizer, publishable gate, no-store API, filters, and card trust badges remain enforced. |

@@ -67,7 +67,7 @@ const checks = [
   ),
   check(
     "feed handoff readiness",
-    handoff.ok === true && Number(handoff.starterPack?.laneCount ?? 0) >= 8 && Array.isArray(handoff.verificationCommands) && handoff.verificationCommands.includes("npm run refresh:benefits"),
+    handoff.ok === true && Number(handoff.starterPack?.laneCount ?? 0) >= 12 && Array.isArray(handoff.verificationCommands) && handoff.verificationCommands.includes("npm run refresh:benefits"),
     `lanes=${Number(handoff.starterPack?.laneCount ?? 0)}, commands=${Array.isArray(handoff.verificationCommands) ? handoff.verificationCommands.length : 0}`,
     "Run npm run source:feed:handoff so Vercel env keys and verification commands stay current."
   ),

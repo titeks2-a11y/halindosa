@@ -47,6 +47,34 @@ const lanes = [
     keywords: ["페이", "포인트", "캐시백", "멤버십", "카드", "적립"]
   },
   {
+    id: "all-user-first-come",
+    label: "전원증정·선착순",
+    envKeys: ["BENEFIT_REFRESH_FEED_URLS", "OFFICIAL_EVENT_FEED_URLS"],
+    categories: ["무료혜택", "카드/멤버십", "마트/편의점", "패션/뷰티"],
+    keywords: ["전원", "선착순", "증정", "샘플", "쿠폰", "0원", "무료"]
+  },
+  {
+    id: "attendance-mission",
+    label: "출석체크·룰렛·미션",
+    envKeys: ["PUBLIC_COUPON_FEED_URLS", "BENEFIT_REFRESH_FEED_URLS"],
+    categories: ["카드/멤버십", "무료혜택", "외식/배달"],
+    keywords: ["출석", "룰렛", "미션", "포인트", "캐시백", "적립", "앱"]
+  },
+  {
+    id: "signup-welcome",
+    label: "신규가입·웰컴 쿠폰",
+    envKeys: ["PUBLIC_COUPON_FEED_URLS", "BENEFIT_REFRESH_FEED_URLS", "OFFICIAL_EVENT_FEED_URLS"],
+    categories: ["무료혜택", "카드/멤버십", "외식/배달", "패션/뷰티"],
+    keywords: ["신규", "가입", "웰컴", "welcome", "첫구매", "앱 설치", "쿠폰"]
+  },
+  {
+    id: "culture-invite",
+    label: "기프티콘·문화초대권",
+    envKeys: ["PUBLIC_COUPON_FEED_URLS", "OFFICIAL_EVENT_FEED_URLS"],
+    categories: ["영화/문화", "무료혜택", "정부/공공혜택"],
+    keywords: ["문화초대", "초대", "기프티콘", "무료", "공연", "전시", "영화", "응모"]
+  },
+  {
     id: "public-culture",
     label: "공공·문화 무료",
     envKeys: ["PUBLIC_COUPON_FEED_URLS", "DEAL_NEWS_FEED_URLS", "OFFICIAL_EVENT_FEED_URLS"],
