@@ -119,7 +119,7 @@ await check("news deals api", async () => {
     data.deals.slice(0, 12).some((deal) => ["쿠폰", "sample", "freebie", "freeShipping", "foodDelivery", "convenienceStore", "mart", "point"].includes(deal.benefitType)),
     "News deals API default ranking should prioritize consumer coupon, sample, delivery, mart, point, or free-shipping benefits"
   );
-  const full = await fetchJson("/api/news-deals");
+  const full = await fetchJson("/api/news-deals?includePublic=true");
   assert(full.data.count >= MIN_OFFICIAL_BENEFITS, `News deals API should keep at least ${MIN_OFFICIAL_BENEFITS} visible official benefits, got ${full.data.count}`);
   const couponSearch = await fetchJson("/api/news-deals?q=쿠폰&sort=endingSoon&limit=10");
   assert(couponSearch.response.status === 200, `Expected coupon news search 200, got ${couponSearch.response.status}`);
@@ -158,7 +158,7 @@ await check("freebies api", async () => {
 });
 
 await check("free benefit events api", async () => {
-  const { response, data } = await fetchJson("/api/benefits/events?limit=12&type=all");
+  const { response, data } = await fetchJson("/api/benefits/events?limit=12&type=all&includePublic=true");
   assert(response.status === 200, `Expected free benefit events API 200, got ${response.status}`);
   assert(data.ok === true, "Free benefit events API ok should be true");
   assert(Array.isArray(data.events) && data.events.length >= 8, "Free benefit events API should return official active events");
