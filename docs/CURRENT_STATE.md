@@ -47,6 +47,20 @@
   - `refresh:benefits` 기준 무료혜택 `59/59`, 공식 이벤트 `123/123`, 검색 링크 노출 `0`, 비공식 링크 노출 `0`
   - 최신 source live check 기준 reachable `135`, guarded `25`, stale_or_removed `0`
   - 아모레몰 `display/event` 계열 공식 혜택 URL이 검색 결과 URL로 오탐되지 않도록 공식 혜택 신호 기반 카탈로그 검사를 정밀화했다.
+- 최신 공식 seed 승격 결과:
+  - SKT T멤버십 공식 할인·무료 혜택
+  - 복지로 공식 복지서비스·신청 혜택
+  - 퓨리나 공식 반려동물 0원딜 혜택
+  - OK캐쉬백 공식 앱 설치·웰컴 포인트 혜택
+  - EBS 공식 무료 학습 서비스 모음
+  - 고용24 국민내일배움카드 공식 발급 안내
+  - 문화포털 공식 문화초대이벤트
+  - 맘큐 공식 신규회원 웰컴혜택
+  - 공식 소스 후보 `160`개
+  - `refresh:news` 기준 노출 공식 혜택 `135`개
+  - `refresh:benefits` 기준 active 무료혜택 이벤트 `132`개
+  - 신규 8개 혜택 모두 `publishable=true`, `validationStatus=passed`, `availability=active`
+  - `refresh:benefits` 기준 무료혜택 `67/67`, 공식 이벤트 `129/129`, 검색 링크 노출 `0`, 비공식 링크 노출 `0`
 - 새 세션에서 커밋이 필요하면 `git add .`를 쓰지 말고 카카오페이 보강 관련 파일만 명시적으로 stage한다.
 
 ## 새 세션 시작 규칙

@@ -2,7 +2,7 @@
 
 이 문서는 상품 링크, 공식 혜택, refresh 파이프라인이 실제 출시 운영 기준을 만족하는지 요약합니다.
 
-- 생성 시각: 2026-06-09T08:09:47.738Z
+- 생성 시각: 2026-06-09T08:19:56.621Z
 - 운영 준비 점수: 100/100
 - 상태: PASS
 
@@ -12,20 +12,20 @@
 - 검증된 상품 링크: 140개 (100%)
 - 검색 링크 노출: 0개
 - 품절/종료 의심 노출: 0개
-- 공식 혜택: 127개
+- 공식 혜택: 135개
 - 공식 혜택 카테고리 커버리지: 10/10
 - 공식 혜택 Provider: 4개 (feed 연결 0개)
 - 공식 혜택 source mix: seed 121개 · 외부 feed 0개 · 성공 feed 0/0
 - 공식 혜택 설정 feed 공백: 0개 (없음)
-- 공식 feed canary: seed_fallback_only · fresh · 0.7시간 · 연결 0개 · 후보 0개
+- 공식 feed canary: seed_fallback_only · fresh · 0.9시간 · 연결 0개 · 후보 0개
 - 공식 혜택 Provider 위험도: 정상 0개 · 관찰 4개 · 즉시 점검 0개
 - 공식 소스 통합 준비도: seed launch ready / 공식 feed 연결 대기
-- 공식 소스 후보/노출 혜택: 160개 / 127개
+- 공식 소스 후보/노출 혜택: 160개 / 135개
 - 공식 소스 차단 이슈: 0개
 - 공식 혜택 리포트 신선도: 0시간
 - refresh:all 상태: PASS
 - cron refresh 상태: 수동 갱신 기준 정상 (manual_refresh_ready)
-- 무료혜택 cron 상태: manual_refresh_ready · active 124개 · source 113개 · host 85개
+- 무료혜택 cron 상태: manual_refresh_ready · active 132개 · source 121개 · host 90개
 
 ## 카테고리 커버리지
 
@@ -37,10 +37,10 @@
 | 패션/뷰티 | 9 | 2 | PASS |
 | 외식/배달 | 21 | 2 | PASS |
 | 여행/숙박 | 9 | 2 | PASS |
-| 영화/문화 | 12 | 2 | PASS |
-| 카드/멤버십 | 32 | 2 | PASS |
-| 무료혜택 | 12 | 2 | PASS |
-| 정부/공공혜택 | 8 | 2 | PASS |
+| 영화/문화 | 13 | 2 | PASS |
+| 카드/멤버십 | 34 | 2 | PASS |
+| 무료혜택 | 14 | 2 | PASS |
+| 정부/공공혜택 | 11 | 2 | PASS |
 
 ## 공식 혜택 Provider 상태
 
@@ -64,9 +64,9 @@
 
 - 상태: seed launch ready / 공식 feed 연결 대기 (passed)
 - 공식 소스 후보: 160개
-- 접근 가능/보호 소스: 132개 / 25개
+- 접근 가능/보호 소스: 135개 / 25개
 - 설정된 공식 feed URL: 0개
-- 공식 혜택 노출 가능: 127개
+- 공식 혜택 노출 가능: 135개
 - 차단 이슈: 0개
 
 ### 공식 소스 다음 액션
@@ -95,8 +95,8 @@
 - 리포트: reports/cron-benefits.json (아직 없음)
 - refresh 리포트: reports/benefits-refresh.json (PASS)
 - 이벤트 리포트: reports/free-benefit-events.json (PASS)
-- active 무료혜택: 124개
-- source/host: 113개 / 85개
+- active 무료혜택: 132개
+- source/host: 121개 / 90개
 
 ## 게이트
 
@@ -107,19 +107,19 @@
 | search link exposure | PASS | No search/result URLs are exposed. |
 | sold out exposure | PASS | No sold-out or ended product links are exposed. |
 | product hidden/failed queue | PASS | Customer exposure is clean with 140 visible deals; 0 hidden deals stay in the operator review queue. |
-| official benefit count floor | PASS | 127 official benefit deals are visible. |
+| official benefit count floor | PASS | 135 official benefit deals are visible. |
 | official benefit category coverage | PASS | All 10 required categories have at least 2 visible benefits. |
 | official benefit hidden/failed queue | PASS | No hidden, expired, non-official, or failed official benefit links are exposed. |
 | official benefit freshness | PASS | Official benefit report freshness is 0h. |
 | refresh all pipeline | PASS | refresh:all completed successfully. |
 | cron refresh operations | PASS | Cron refresh status=manual_refresh_ready; report=manual refresh fallback. |
-| cron benefits operations | PASS | Cron benefits status=manual_refresh_ready; active=124; sources=113; hosts=85. |
+| cron benefits operations | PASS | Cron benefits status=manual_refresh_ready; active=132; sources=121; hosts=90. |
 | provider stats coverage | PASS | Product providers=6, news providers=4. |
 | official feed source mix counters | PASS | seed=121, feed=0, success=0/0. |
 | configured empty feed watch | PASS | configured-empty=0; providers=none. |
-| official feed canary | PASS | status=seed_fallback_only; freshness=fresh; age=0.7h; configured=0; visible=0. |
+| official feed canary | PASS | status=seed_fallback_only; freshness=fresh; age=0.9h; configured=0; visible=0. |
 | provider risk gate | PASS | Official benefit providers danger=0, watch=4. |
-| official source readiness gate | PASS | 160 official source candidates, 127 visible official benefits, blocking failed gates=0, advisory failed gates=0. |
+| official source readiness gate | PASS | 160 official source candidates, 135 visible official benefits, blocking failed gates=0, advisory failed gates=0. |
 
 ## 운영 조치
 

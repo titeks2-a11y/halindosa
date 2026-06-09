@@ -1,46 +1,46 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-09T08:09:16.394Z",
+  "generatedAt": "2026-06-09T08:18:36.033Z",
   "mode": "events",
   "label": "공식 이벤트·쿠폰",
-  "sourceSnapshotGeneratedAt": "2026-06-09T08:09:16.134Z",
-  "sourceReportGeneratedAt": "2026-06-09T08:09:16.251Z",
-  "totalOfficialBenefits": 127,
-  "matchedCount": 123,
-  "visibleCount": 123,
+  "sourceSnapshotGeneratedAt": "2026-06-09T08:18:35.770Z",
+  "sourceReportGeneratedAt": "2026-06-09T08:18:35.886Z",
+  "totalOfficialBenefits": 135,
+  "matchedCount": 129,
+  "visibleCount": 129,
   "hiddenOrBlockedCount": 0,
   "exposedSearchLinks": 0,
   "exposedNonOfficialLinks": 0,
   "minimumVisible": 70,
   "categoryCounts": {
-    "카드/멤버십": 32,
+    "카드/멤버십": 34,
     "외식/배달": 21,
-    "영화/문화": 12,
-    "무료혜택": 11,
+    "무료혜택": 13,
+    "영화/문화": 13,
     "디지털/가전": 10,
     "마트/편의점": 9,
     "여행/숙박": 9,
     "패션/뷰티": 9,
-    "식품/생필품": 5,
-    "정부/공공혜택": 5
+    "정부/공공혜택": 6,
+    "식품/생필품": 5
   },
   "benefitTypeCounts": {
-    "coupon": 38,
-    "membership": 16,
+    "coupon": 39,
+    "membership": 17,
     "card": 12,
     "culture": 9,
+    "point": 9,
     "travel": 9,
     "discount": 8,
-    "point": 8,
-    "freebie": 4,
+    "freebie": 5,
     "freeShipping": 4,
     "public": 4,
-    "education": 2,
+    "education": 3,
     "event": 2,
     "foodDelivery": 2,
     "mart": 2,
+    "public_free": 2,
     "convenienceStore": 1,
-    "public_free": 1,
     "sample": 1
   },
   "sourceCounts": {
@@ -56,6 +56,7 @@
     "OK캐쉬백 공식 이벤트": 2,
     "T world 공식 혜택": 2,
     "11번가 공식 쇼킹딜": 1,
+    "고용24 국민내일배움카드 공식 안내": 1,
     "교촌치킨 공식 이벤트": 1,
     "국립중앙박물관 공식 전시": 1,
     "네이버페이 공식 쿠폰": 1,
@@ -76,6 +77,7 @@
     "롯데호텔 공식 오퍼": 1,
     "롯데ON 공식 이벤트": 1,
     "맘스터치 공식 이벤트": 1,
+    "맘큐 공식 신규회원 혜택": 1,
     "메가박스 공식 멤버십": 1,
     "메가박스 공식 이벤트": 1,
     "메가박스 VIP 라운지": 1,
@@ -85,6 +87,7 @@
     "문화가 있는 날 공식 월간 프로그램": 1,
     "문화누리카드 공식 누리집": 1,
     "문화누리카드 공식 이용처": 1,
+    "문화포털 공식 문화초대이벤트": 1,
     "배민아카데미 공식 이벤트": 1,
     "배스킨라빈스 공식 이벤트": 1,
     "삼성 멤버스 공식 혜택": 1,
@@ -117,6 +120,7 @@
     "텐바이텐 공식 이벤트": 1,
     "티웨이항공 공식 이벤트": 1,
     "파리바게뜨 공식 프로모션": 1,
+    "퓨리나 공식 0원딜": 1,
     "피자헛 공식 멤버십": 1,
     "피자헛 공식 이벤트": 1,
     "하나카드 공식 이벤트": 1,
@@ -149,9 +153,11 @@
     "LG전자 공식 혜택": 1,
     "OK캐쉬백 공식 서비스 안내": 1,
     "OK캐쉬백 공식 쇼핑적립": 1,
+    "OK캐쉬백 공식 웰컴 이벤트": 1,
     "PAYCO 공식 리워드": 1,
     "PAYCO 공식 쿠폰 가이드": 1,
     "PAYCO 공식 쿠폰 등록 안내": 1,
+    "SKT T멤버십 공식 혜택": 1,
     "SSG 새벽배송 공식 이벤트": 1,
     "SSG닷컴 공식 이벤트": 1
   },
@@ -210,11 +216,13 @@
     "lottehotel.com",
     "lotteon.com",
     "m.lpoint.com",
+    "m.work24.go.kr",
     "mcdonalds.co.kr",
     "mega-mgccoffee.com",
     "megabox.co.kr",
     "membership.kt.com",
     "mnuri.kr",
+    "momq.co.kr",
     "momstouch.co.kr",
     "museum.go.kr",
     "musinsa.com",
@@ -228,6 +236,7 @@
     "pay.naver.com",
     "payco.com",
     "pizzahut.co.kr",
+    "purinapetcare.co.kr",
     "samsung.com",
     "samsungcard.com",
     "shop.kt.com",
@@ -252,7 +261,7 @@
       "finalUrl": "https://www.kmooc.kr/view/course/detail/19048",
       "redirectUrl": "/go/news/news-kmooc-blockchain-digital-asset-free-course",
       "endDate": "2026-06-14",
-      "lastCheckedAt": "2026-06-09T08:09:16.134Z"
+      "lastCheckedAt": "2026-06-09T08:18:35.770Z"
     },
     {
       "id": "news-gs25-drinking-festa-2026",
@@ -265,7 +274,7 @@
       "finalUrl": "https://gs25.gsretail.com/gscvs/ko/customer-engagement/event/detail/publishing?eventCode=8842885844512&pageNum=1&uiel=Mobile",
       "redirectUrl": "/go/news/news-gs25-drinking-festa-2026",
       "endDate": "2026-06-15",
-      "lastCheckedAt": "2026-06-09T08:09:16.134Z"
+      "lastCheckedAt": "2026-06-09T08:18:35.770Z"
     },
     {
       "id": "news-dunkin-monthly-combo-coupon",
@@ -278,7 +287,7 @@
       "finalUrl": "https://www.dunkindonuts.co.kr/event/view?id=5392",
       "redirectUrl": "/go/news/news-dunkin-monthly-combo-coupon",
       "endDate": "2026-06-21",
-      "lastCheckedAt": "2026-06-09T08:09:16.134Z"
+      "lastCheckedAt": "2026-06-09T08:18:35.770Z"
     },
     {
       "id": "news-mcdonalds-happy-snack-free-drink",
@@ -291,7 +300,7 @@
       "finalUrl": "https://www.mcdonalds.co.kr/kor/promotion/detail/E51CF9",
       "redirectUrl": "/go/news/news-mcdonalds-happy-snack-free-drink",
       "endDate": "2026-06-21",
-      "lastCheckedAt": "2026-06-09T08:09:16.134Z"
+      "lastCheckedAt": "2026-06-09T08:18:35.770Z"
     },
     {
       "id": "news-musinsa-fashion-festa",
@@ -304,7 +313,7 @@
       "finalUrl": "https://www.musinsa.com/campaign/fashionfesta_1",
       "redirectUrl": "/go/news/news-musinsa-fashion-festa",
       "endDate": "2026-06-30",
-      "lastCheckedAt": "2026-06-09T08:09:16.134Z"
+      "lastCheckedAt": "2026-06-09T08:18:35.770Z"
     },
     {
       "id": "news-lotteon-lohbs-coupon",
@@ -317,7 +326,7 @@
       "finalUrl": "https://www.lotteon.com/event/onLohbsShare",
       "redirectUrl": "/go/news/news-lotteon-lohbs-coupon",
       "endDate": "2026-06-30",
-      "lastCheckedAt": "2026-06-09T08:09:16.134Z"
+      "lastCheckedAt": "2026-06-09T08:18:35.770Z"
     },
     {
       "id": "news-gs25-card-june-2026",
@@ -330,7 +339,7 @@
       "finalUrl": "https://gs25.gsretail.com/gscvs/ko/customer-engagement/event/detail/publishing?eventCode=8842885778976&pageNum=1",
       "redirectUrl": "/go/news/news-gs25-card-june-2026",
       "endDate": "2026-06-30",
-      "lastCheckedAt": "2026-06-09T08:09:16.134Z"
+      "lastCheckedAt": "2026-06-09T08:18:35.770Z"
     },
     {
       "id": "news-gs25-event-goods",
@@ -343,7 +352,7 @@
       "finalUrl": "https://gs25.gsretail.com/gscvs/ko/products/event-goods",
       "redirectUrl": "/go/news/news-gs25-event-goods",
       "endDate": "2026-06-30",
-      "lastCheckedAt": "2026-06-09T08:09:16.134Z"
+      "lastCheckedAt": "2026-06-09T08:18:35.770Z"
     },
     {
       "id": "news-lotteeatz-june-coupon",
@@ -356,7 +365,7 @@
       "finalUrl": "https://www.lotteeatz.com/event/main/selectEvent/17589",
       "redirectUrl": "/go/news/news-lotteeatz-june-coupon",
       "endDate": "2026-06-30",
-      "lastCheckedAt": "2026-06-09T08:09:16.134Z"
+      "lastCheckedAt": "2026-06-09T08:18:35.770Z"
     },
     {
       "id": "news-culture-day-programs-2026",
@@ -369,7 +378,7 @@
       "finalUrl": "https://www.culture.go.kr/wday/main/main.do",
       "redirectUrl": "/go/news/news-culture-day-programs-2026",
       "endDate": "2026-12-30",
-      "lastCheckedAt": "2026-06-09T08:09:16.134Z"
+      "lastCheckedAt": "2026-06-09T08:18:35.770Z"
     },
     {
       "id": "news-culture-day-weekly-2026",
@@ -382,7 +391,7 @@
       "finalUrl": "https://www.culture.go.kr/local/wday/cltrDay.do",
       "redirectUrl": "/go/news/news-culture-day-weekly-2026",
       "endDate": "2026-12-30",
-      "lastCheckedAt": "2026-06-09T08:09:16.134Z"
+      "lastCheckedAt": "2026-06-09T08:18:35.770Z"
     },
     {
       "id": "news-kbcard-official-event-center",
@@ -395,7 +404,7 @@
       "finalUrl": "https://card.kbcard.com/BON/DVIEW/HBBMCXCRVNEC0002",
       "redirectUrl": "/go/news/news-kbcard-official-event-center",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-09T08:09:16.134Z"
+      "lastCheckedAt": "2026-06-09T08:18:35.770Z"
     },
     {
       "id": "news-kbcard-membership-benefit-center",
@@ -408,7 +417,7 @@
       "finalUrl": "https://card.kbcard.com/BON/DVIEW/HBBMCXCRVNEC0001",
       "redirectUrl": "/go/news/news-kbcard-membership-benefit-center",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-09T08:09:16.134Z"
+      "lastCheckedAt": "2026-06-09T08:18:35.770Z"
     },
     {
       "id": "news-hmall-official-shopping-event",
@@ -421,7 +430,7 @@
       "finalUrl": "https://www.hyundaihmall.com/front/evntSect.do",
       "redirectUrl": "/go/news/news-hmall-official-shopping-event",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-09T08:09:16.134Z"
+      "lastCheckedAt": "2026-06-09T08:18:35.770Z"
     },
     {
       "id": "news-bccard-official-event-center",
@@ -434,7 +443,7 @@
       "finalUrl": "https://www.bccard.com/app/card/EventActn.do?menuId=64",
       "redirectUrl": "/go/news/news-bccard-official-event-center",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-09T08:09:16.134Z"
+      "lastCheckedAt": "2026-06-09T08:18:35.770Z"
     },
     {
       "id": "news-cgv-official-events",
@@ -447,7 +456,7 @@
       "finalUrl": "https://www.cgv.co.kr/culture-event/event/defaultNew.aspx",
       "redirectUrl": "/go/news/news-cgv-official-events",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-09T08:09:16.134Z"
+      "lastCheckedAt": "2026-06-09T08:18:35.770Z"
     },
     {
       "id": "news-lottecinema-official-events",
@@ -460,7 +469,7 @@
       "finalUrl": "https://www.lottecinema.co.kr/NLCHS/Event",
       "redirectUrl": "/go/news/news-lottecinema-official-events",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-09T08:09:16.134Z"
+      "lastCheckedAt": "2026-06-09T08:18:35.770Z"
     },
     {
       "id": "news-koreanair-boarding-pass-benefit",
@@ -473,7 +482,7 @@
       "finalUrl": "https://www.koreanair.com/contents/booking/get-to-know/boarding-pass-benefits/excellent-boarding-pass?hl=ko",
       "redirectUrl": "/go/news/news-koreanair-boarding-pass-benefit",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-09T08:09:16.134Z"
+      "lastCheckedAt": "2026-06-09T08:18:35.770Z"
     },
     {
       "id": "news-tworld-membership-upgrade",
@@ -486,7 +495,7 @@
       "finalUrl": "https://www.tworld.co.kr/poc/html/product/TS3.7.1T.2.html",
       "redirectUrl": "/go/news/news-tworld-membership-upgrade",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-09T08:09:16.134Z"
+      "lastCheckedAt": "2026-06-09T08:18:35.770Z"
     },
     {
       "id": "news-tworld-longterm-discount",
@@ -499,7 +508,7 @@
       "finalUrl": "https://www.tworld.co.kr/poc/html/product/TS3.3.1T.8.html",
       "redirectUrl": "/go/news/news-tworld-longterm-discount",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-09T08:09:16.134Z"
+      "lastCheckedAt": "2026-06-09T08:18:35.770Z"
     }
   ],
   "blockedItems": [],
