@@ -110,6 +110,8 @@ export interface FreeBenefitEventsResponse {
   message: string;
 }
 
+export type FreeBenefitEventCategoryCount = NonNullable<FreeBenefitEventsResponse["categoryCounts"]>[number];
+
 export type HomeFreshnessStatus = "fresh" | "due" | "stale" | "seed";
 export type HomeFreshnessChannelKey = "deals" | "newsDeals" | "hotSignals";
 

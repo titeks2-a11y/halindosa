@@ -252,6 +252,10 @@ const checks = [
       hasAll(freeBenefitsClientSource, [
         "freeBenefitEventCategories",
         "getFreeBenefitEventLabel",
+        "FreeBenefitEventCategoryCount",
+        "liveOfficialBenefitEventCategoryCounts",
+        "eventsResponse.categoryCounts",
+        "serverByType",
         "parseFreeBenefitEventType",
         "getInitialFreeBenefitUrlState",
         "new URLSearchParams(window.location.search)",

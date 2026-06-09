@@ -19,6 +19,7 @@ import {
   buildNewsDealsRequestUrl,
   requestJson,
   type DealsResponse,
+  type FreeBenefitEventCategoryCount,
   type FreeBenefitEventsResponse,
   type NewsDealsResponse
 } from "@/lib/homeApi";
@@ -217,6 +218,7 @@ export function FreeBenefitsClient({
   const [deals, setDeals] = useState(initialDeals);
   const [liveOfficialBenefits, setLiveOfficialBenefits] = useState(officialBenefits);
   const [liveOfficialBenefitEvents, setLiveOfficialBenefitEvents] = useState(officialBenefitEvents);
+  const [liveOfficialBenefitEventCategoryCounts, setLiveOfficialBenefitEventCategoryCounts] = useState<FreeBenefitEventCategoryCount[]>([]);
   const [liveOfficialBenefitsUpdatedAt, setLiveOfficialBenefitsUpdatedAt] = useState(officialBenefitsUpdatedAt);
   const [liveOfficialBenefitFreshnessLabel, setLiveOfficialBenefitFreshnessLabel] = useState(officialBenefitFreshnessLabel);
   const [lastBenefitsRefreshAt, setLastBenefitsRefreshAt] = useState(officialBenefitsUpdatedAt || initialDeals[0]?.updatedAt || "");
@@ -290,6 +292,7 @@ export function FreeBenefitsClient({
 
       if (eventsResponse.ok) {
         setLiveOfficialBenefitEvents(eventsResponse.events);
+        setLiveOfficialBenefitEventCategoryCounts(eventsResponse.categoryCounts ?? eventsResponse.categories ?? []);
         setLiveOfficialBenefitsUpdatedAt(eventsResponse.updatedAt);
         setLiveOfficialBenefitFreshnessLabel(eventsResponse.freshnessLabel ?? "최근 확인");
       } else if (newsResponse.ok) {
@@ -925,6 +928,10 @@ export function FreeBenefitsClient({
   );
   const officialEventCounts = useMemo(() => {
     const visibleEvents = liveOfficialBenefitEvents.filter(isVisibleFreeBenefitEvent);
+    const serverByType = liveOfficialBenefitEventCategoryCounts.reduce<Record<string, number>>((accumulator, category) => {
+      accumulator[category.id] = category.count;
+      return accumulator;
+    }, {});
     const byType = visibleEvents.reduce<Record<string, number>>(
       (accumulator, event) => {
         accumulator[event.benefitType] = (accumulator[event.benefitType] ?? 0) + 1;
@@ -934,13 +941,13 @@ export function FreeBenefitsClient({
     );
 
     return {
-      total: visibleEvents.length,
-      byType,
+      total: serverByType.all ?? visibleEvents.length,
+      byType: Object.keys(serverByType).length ? { ...byType, ...serverByType } : byType,
       noPurchase: visibleEvents.filter((event) => !event.requiresPurchase).length,
       urgent: visibleEvents.filter((event) => Date.parse(event.endAt) - referenceNow <= 3 * 24 * 60 * 60 * 1000).length,
       sources: new Set(visibleEvents.map((event) => event.sourceName)).size
     };
-  }, [liveOfficialBenefitEvents, referenceNow]);
+  }, [liveOfficialBenefitEventCategoryCounts, liveOfficialBenefitEvents, referenceNow]);
   const visibleOfficialBenefits = useMemo(() => liveOfficialBenefits.filter(isVisibleOfficialBenefit).slice(0, 10), [liveOfficialBenefits]);
   const officialBenefitSummary = useMemo(
     () => ({
@@ -1184,18 +1191,23 @@ export function FreeBenefitsClient({
             {freeBenefitEventTypeOptions.map((option) => {
               const isActive = activeEventType === option.id;
               const count = option.id === "all" ? officialEventCounts.total : officialEventCounts.byType[option.id] ?? 0;
+              const isEmpty = count === 0 && !isActive;
 
               return (
                 <button
                   key={option.id}
                   type="button"
+                  disabled={isEmpty}
                   onClick={() => setActiveEventType(option.id)}
                   className={`inline-flex min-h-9 shrink-0 snap-start items-center gap-1.5 rounded-full border px-3 text-[11px] font-black transition ${
                     isActive
                       ? "border-dossa-red bg-dossa-red text-white shadow-sm"
+                      : isEmpty
+                        ? "cursor-not-allowed border-slate-100 bg-slate-50 text-slate-300"
                       : "border-slate-200 bg-white text-slate-600 hover:border-red-200 hover:bg-red-50 hover:text-dossa-red"
                   }`}
                   aria-pressed={isActive}
+                  aria-disabled={isEmpty}
                 >
                   {option.label}
                   <span className={`rounded-full px-1.5 py-0.5 text-[10px] ${isActive ? "bg-white/20 text-white" : "bg-slate-100 text-slate-500"}`}>
