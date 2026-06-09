@@ -4,10 +4,20 @@ import type { CronRefreshOperationsReport } from "@/lib/operations/cronRefresh";
 interface AdminCronRefreshPanelProps {
   dryRunHref: string;
   liveFeedDryRunHref: string;
+  benefitsDryRunHref: string;
   report: CronRefreshOperationsReport;
 }
 
-export function AdminCronRefreshPanel({ dryRunHref, liveFeedDryRunHref, report }: AdminCronRefreshPanelProps) {
+export function AdminCronRefreshPanel({ dryRunHref, liveFeedDryRunHref, benefitsDryRunHref, report }: AdminCronRefreshPanelProps) {
+  const benefitsStatusLabel =
+    report.benefitsStatus === "healthy"
+      ? "무료혜택 cron 정상"
+      : report.benefitsStatus === "manual_refresh_ready"
+        ? "무료혜택 cron 수동 기준 정상"
+        : report.benefitsStatus === "stale"
+          ? "무료혜택 cron 재실행"
+          : "무료혜택 cron 점검";
+
   return (
     <section className="rounded-3xl border border-brand-line bg-white p-5 shadow-lift" aria-label="자동 refresh cron 운영 상태">
       <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
@@ -28,6 +38,9 @@ export function AdminCronRefreshPanel({ dryRunHref, liveFeedDryRunHref, report }
           <span className={`rounded-full px-3 py-1 text-xs font-black ${report.secretConfigured ? "bg-emerald-50 text-emerald-700" : "bg-amber-50 text-amber-700"}`}>
             CRON_SECRET {report.secretConfigured ? "설정됨" : "배포 전 설정"}
           </span>
+          <span className={`rounded-full px-3 py-1 text-xs font-black ${report.benefitsOk ? "bg-emerald-50 text-emerald-700" : "bg-amber-50 text-amber-700"}`}>
+            {benefitsStatusLabel}
+          </span>
         </div>
       </div>
 
@@ -35,7 +48,8 @@ export function AdminCronRefreshPanel({ dryRunHref, liveFeedDryRunHref, report }
         {[
           ["상품 특가", report.productDealsCount],
           ["공식 혜택", report.newsDealsCount],
-          ["live feed 혜택", report.livePipelineOfficialBenefitsCount],
+          ["무료혜택 active", report.benefitsVisibleActiveEvents],
+          ["무료혜택 source", report.benefitsSourceCount],
           ["숨김 처리", report.hiddenCount],
           ["실패", report.failedCount]
         ].map(([label, value]) => (
@@ -57,6 +71,12 @@ export function AdminCronRefreshPanel({ dryRunHref, liveFeedDryRunHref, report }
           </p>
           <p className="mt-1 text-xs font-black text-slate-500">
             live feed {report.livePipelineStatus} · URL {report.livePipelineConfiguredUrlCount}개 · {report.livePipelineOk ? "리포트 정상" : "점검 필요"}
+          </p>
+          <p className="mt-1 text-xs font-black text-emerald-700">
+            무료혜택 {report.benefitsStatus} · active {report.benefitsVisibleActiveEvents}개 · source {report.benefitsSourceCount}개 · host {report.benefitsHostCount}개
+          </p>
+          <p className="mt-1 text-[11px] font-bold leading-5 text-slate-500">
+            {report.benefitsEventsReportPath} · {report.benefitsRefreshOk && report.benefitsEventsOk ? "refresh:benefits 리포트 정상" : "refresh:benefits 점검 필요"}
           </p>
           <p className="mt-2 text-[11px] font-bold leading-5 text-slate-500">{report.message}</p>
         </div>
@@ -80,8 +100,17 @@ export function AdminCronRefreshPanel({ dryRunHref, liveFeedDryRunHref, report }
             >
               liveFeed dry-run
             </a>
+            <a
+              href={benefitsDryRunHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-2xl bg-emerald-600 px-4 py-2 text-xs font-black text-white"
+            >
+              benefits dry-run
+            </a>
             <code className="rounded-2xl bg-white px-3 py-2 text-[11px] font-black text-slate-700">{report.command}</code>
             <code className="rounded-2xl bg-white px-3 py-2 text-[11px] font-black text-slate-700">{report.liveCommand}</code>
+            <code className="rounded-2xl bg-white px-3 py-2 text-[11px] font-black text-slate-700">{report.benefitsCommand}</code>
           </div>
           <p className="mt-3 text-[11px] font-bold leading-5 text-red-900/70">
             {report.guardrails[0]} · {report.guardrails[1]}

@@ -2,6 +2,8 @@
 
 작성 시점: 2026-06-09, Asia/Seoul
 
+최종 정리 시점: 2026-06-09 15시대, Asia/Seoul
+
 ## 새 세션 시작 규칙
 
 - 이전 대화는 resume하지 않는다.
@@ -12,7 +14,8 @@
 ## Git 상태
 
 - Branch: `codex/12h-product-ux-growth-hardening`
-- 최근 커밋:
+- 최근 안정 커밋:
+  - `cb899921 test: expose benefits cron health gates`
   - `a2704ad2 feat: expand official pet benefit sources`
   - `f57c287c test: require roulette benefit release evidence`
   - `6fcffddb feat: add roulette free benefit category`
@@ -22,11 +25,29 @@
 - 워크트리는 refresh, verification, release evidence 산출물 때문에 dirty일 수 있다.
 - 코드 커밋 시 `git add .`를 피하고 필요한 파일만 명시적으로 stage한다.
 
+현재 미커밋 작업:
+
+- 관리자 화면에 무료혜택 cron 상태와 `benefits dry-run` 링크를 노출하는 변경이 들어가 있다.
+  - `app/admin/page.tsx`
+  - `components/AdminCronRefreshPanel.tsx`
+  - `lib/adminDashboardHrefs.ts`
+- 운영 헬스 리포트에 `cronBenefits` 항목을 추가하는 변경이 들어가 있다.
+  - `lib/operations/healthReadiness.ts`
+  - `scripts/health-readiness-report.mjs`
+  - `docs/HEALTH_READINESS_REPORT.md`
+  - `reports/health-readiness.json`
+- smoke/release doctor가 무료혜택 cron 운영 상태를 검사하도록 보강되어 있다.
+  - `scripts/lib/smoke-admin-checks.mjs`
+  - `scripts/release-doctor.mjs`
+- 이 변경은 아직 커밋하지 않았다. 새 세션에서 검증 후 필요한 파일만 stage해서 커밋한다.
+
 새 세션 시작 체크:
 
 ```bash
 git status --short --branch
-npm run workspace:doctor:strict
+npm run lint
+npm run smoke:local
+npm run release:doctor
 ```
 
 ## 제품 방향
@@ -110,6 +131,7 @@ npm run workspace:doctor:strict
 최근 안정 라운드에서 아래 명령이 통과했다.
 
 ```bash
+npm run health:readiness
 npm run benefit:event:contract
 npm run test:mobile-ux
 npm run test:ui
@@ -122,6 +144,31 @@ npm run source:breadth:doctor
 npm run source:live:doctor
 npm run workspace:doctor:strict
 ```
+
+현재 미커밋 cronBenefits 관리자/헬스 변경 후 확인한 명령:
+
+```bash
+npm run lint
+npm run health:readiness
+npm run smoke:local
+npm run release:doctor
+npm run build
+npm run security:check
+npm run qa
+npm run harness
+npm run build:android
+npm run cap:sync
+npm run workspace:doctor:strict
+```
+
+검증 결과:
+
+- `qa`: 75/75 통과
+- `harness`: 통과
+- `workspace:doctor:strict`: 재생성 산출물 0B 통과
+- `build:android`: 성공
+- `cap:sync`: 성공 후 `out`, `android/app/src/main/assets/public`, `android/app/src/main/assets/capacitor.config.json`은 재생성 산출물이라 삭제했다.
+- `npm run build`와 `npm run build:android` 이후 `next-env.d.ts`는 `./.next/dev/types/routes.d.ts`로 되돌려 두었다.
 
 ## 새 세션에서 이어서 하면 좋은 작업
 

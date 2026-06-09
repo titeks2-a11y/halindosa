@@ -1986,7 +1986,7 @@ function checkHealthReadinessReport() {
   if (!String(packageJson.scripts?.["qa:release"] ?? "").includes("health:readiness")) {
     issues.push("qa:release should include health:readiness before release submission reports");
   }
-  for (const phrase of ["productVerificationRate", "official benefit category coverage", "official feed source mix counters", "configured empty feed watch", "official feed canary", "provider risk gate", "official source readiness gate", "source-readiness.json", "refresh all pipeline", "cron refresh operations", "reports/health-readiness.json", "docs/HEALTH_READINESS_REPORT.md"]) {
+  for (const phrase of ["productVerificationRate", "official benefit category coverage", "official feed source mix counters", "configured empty feed watch", "official feed canary", "provider risk gate", "official source readiness gate", "source-readiness.json", "refresh all pipeline", "cron refresh operations", "cron benefits operations", "reports/health-readiness.json", "docs/HEALTH_READINESS_REPORT.md"]) {
     if (!healthScript.includes(phrase)) issues.push(`health readiness script missing ${phrase}`);
   }
   if (!publicHealthRoute.includes("getOfficialSourceReadiness") || !publicHealthRoute.includes("officialSourceReadinessOk") || !publicHealthRoute.includes("officialSourceCandidates") || !publicHealthRoute.includes("officialBenefitFeedExternalItemCount") || !publicHealthRoute.includes("officialBenefitFeedSeedCount") || !publicHealthRoute.includes("officialBenefitFeedConfiguredEmptyCount") || !publicHealthRoute.includes("officialBenefitFeedCanaryStatus")) {
@@ -2001,7 +2001,7 @@ function checkHealthReadinessReport() {
   for (const phrase of ["운영 헬스 리포트", "검증 상품·공식 혜택 출시 게이트", "공식 혜택 카테고리 커버리지", "공식 혜택 Provider 위험도", "공식 소스 통합 준비도", "source mix", "외부 feed", "feed 공백", "feed canary", "refresh:all", "cron refresh"]) {
     if (!adminHealthPanel.includes(phrase)) issues.push(`admin health readiness panel missing ${phrase}`);
   }
-  if (!smokeScript.includes("admin health readiness api") || !smokeScript.includes("/api/admin/health-readiness") || !smokeScript.includes("운영 헬스 리포트") || !smokeScript.includes("Health API missing official external feed item count") || !smokeScript.includes("Health API missing configured empty feed count") || !smokeScript.includes("Health API missing official feed canary status") || !smokeScript.includes("Admin health readiness should expose cron refresh status") || !smokeScript.includes("Admin health readiness should expose passing source readiness")) {
+  if (!smokeScript.includes("admin health readiness api") || !smokeScript.includes("/api/admin/health-readiness") || !smokeScript.includes("운영 헬스 리포트") || !smokeScript.includes("Health API missing official external feed item count") || !smokeScript.includes("Health API missing configured empty feed count") || !smokeScript.includes("Health API missing official feed canary status") || !smokeScript.includes("Admin health readiness should expose cron refresh status") || !smokeScript.includes("Admin health readiness should expose passing source readiness") || !smokeScript.includes("Admin dashboard missing cron benefits operation status")) {
     issues.push("smoke tests should cover admin health readiness API and dashboard panel");
   }
   if (!releaseEvidence.includes("HEALTH_READINESS_REPORT.md") || !releaseEvidence.includes("health-readiness.json")) {
@@ -2013,8 +2013,8 @@ function checkHealthReadinessReport() {
   if (!roadmap.includes("운영 헬스 리포트") || !roadmap.includes("health:readiness")) {
     issues.push("roadmap should document the operational health readiness gate");
   }
-  if (!docsReport.includes("운영 헬스 리포트") || !docsReport.includes("검색 링크 노출") || !docsReport.includes("카테고리 커버리지") || !docsReport.includes("공식 혜택 source mix") || !docsReport.includes("공식 feed canary") || !docsReport.includes("공식 혜택 Provider 상태") || !docsReport.includes("공식 혜택 Provider 위험도") || !docsReport.includes("공식 소스 통합 준비도") || !docsReport.includes("자동 refresh cron 운영")) {
-    issues.push("docs/HEALTH_READINESS_REPORT.md should summarize search exposure, category coverage, official benefit source mix, official benefit provider status, source readiness, provider risk, and cron refresh operation");
+  if (!docsReport.includes("운영 헬스 리포트") || !docsReport.includes("검색 링크 노출") || !docsReport.includes("카테고리 커버리지") || !docsReport.includes("공식 혜택 source mix") || !docsReport.includes("공식 feed canary") || !docsReport.includes("공식 혜택 Provider 상태") || !docsReport.includes("공식 혜택 Provider 위험도") || !docsReport.includes("공식 소스 통합 준비도") || !docsReport.includes("자동 refresh cron 운영") || !docsReport.includes("무료혜택 cron 운영")) {
+    issues.push("docs/HEALTH_READINESS_REPORT.md should summarize search exposure, category coverage, official benefit source mix, official benefit provider status, source readiness, provider risk, cron refresh, and benefits cron operation");
   }
 
   if (report.ok !== true) issues.push("health readiness report should pass");
@@ -2098,9 +2098,24 @@ function checkHealthReadinessReport() {
   if ((report.cronRefresh?.productDealsCount ?? 0) < 140 || (report.cronRefresh?.newsDealsCount ?? 0) < MIN_OFFICIAL_BENEFITS) {
     issues.push("health readiness cron refresh summary should preserve product/news counts");
   }
+  if (!["healthy", "manual_refresh_ready"].includes(report.cronBenefits?.status) || report.cronBenefits?.ok !== true) {
+    issues.push(`health readiness should show cron benefits launch-safe status, got ${report.cronBenefits?.status ?? "missing"}`);
+  }
+  if (
+    report.cronBenefits?.protected !== true ||
+    report.cronBenefits?.schedule !== "0 21 * * *" ||
+    report.cronBenefits?.reportPath !== "reports/cron-benefits.json" ||
+    report.cronBenefits?.refreshReportPath !== "reports/benefits-refresh.json" ||
+    report.cronBenefits?.eventsReportPath !== "reports/free-benefit-events.json"
+  ) {
+    issues.push("health readiness should expose protected daily cron benefits report metadata");
+  }
+  if ((report.cronBenefits?.visibleActiveEvents ?? 0) < 100 || (report.cronBenefits?.sourceCount ?? 0) < 90 || (report.cronBenefits?.hostCount ?? 0) < 70) {
+    issues.push("health readiness cron benefits summary should preserve active event, source, and host counts");
+  }
 
   if (issues.length) fail("operational health readiness", issues.join("; "));
-  else pass("operational health readiness", "Health readiness report proves product links, official benefits, category coverage, provider risk, freshness, refresh:all, and cron refresh status are launch-ready.");
+  else pass("operational health readiness", "Health readiness report proves product links, official benefits, category coverage, provider risk, freshness, refresh:all, cron refresh, and benefits cron status are launch-ready.");
 }
 
 function checkDailyOperationsReport() {
@@ -2272,8 +2287,8 @@ function checkCronRefreshPipeline() {
   if (!healthRoute.includes("cronBenefitsStatus") || !healthRoute.includes("cronBenefitsProtected") || !healthRoute.includes("cronBenefitsVisibleActiveEvents") || !healthRoute.includes("cronBenefitsSourceCount")) {
     issues.push("Health API should expose dedicated cron benefits status, protection evidence, active event count, and source breadth");
   }
-  if (!adminPage.includes("자동 refresh cron 운영") || !adminPage.includes("cronRefreshDryRunHref") || !adminPage.includes("cronLiveFeedDryRunHref") || !adminPage.includes("liveFeed dry-run") || !adminPage.includes("CRON_SECRET")) {
-    issues.push("Admin dashboard should expose cron refresh operation status, liveFeed dry-run, and auth guidance");
+  if (!adminPage.includes("자동 refresh cron 운영") || !adminPage.includes("cronRefreshDryRunHref") || !adminPage.includes("cronLiveFeedDryRunHref") || !adminPage.includes("cronBenefitsDryRunHref") || !adminPage.includes("liveFeed dry-run") || !adminPage.includes("benefits dry-run") || !adminPage.includes("CRON_SECRET")) {
+    issues.push("Admin dashboard should expose cron refresh operation status, liveFeed dry-run, benefits dry-run, and auth guidance");
   }
 
   if (!smokeScript.includes("cron refresh api guard") || !smokeScript.includes("/api/cron/refresh?dryRun=true") || !smokeScript.includes("/api/cron/refresh?dryRun=true&mode=liveFeed") || !smokeScript.includes("/api/cron/benefits?dryRun=true") || !smokeScript.includes("Expected cron refresh without token to be 401")) {

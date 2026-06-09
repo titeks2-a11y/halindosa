@@ -7,6 +7,9 @@ const docsDir = join(root, "docs");
 const reportJsonPath = "reports/health-readiness.json";
 const reportDocsPath = "docs/HEALTH_READINESS_REPORT.md";
 const cronReportPath = "reports/cron-refresh.json";
+const cronBenefitsReportPath = "reports/cron-benefits.json";
+const benefitsRefreshReportPath = "reports/benefits-refresh.json";
+const freeBenefitEventsReportPath = "reports/free-benefit-events.json";
 
 const requiredNewsCategories = [
   "식품/생필품",
@@ -67,6 +70,9 @@ const newsQuality = readJson("reports/news-deals.json", {});
 const refreshAll = readJson("reports/refresh-all.json", {});
 const refreshDeals = readJson("reports/refresh-deals.json", {});
 const cronRefreshReport = readJson(cronReportPath, {});
+const cronBenefitsReport = readJson(cronBenefitsReportPath, {});
+const benefitsRefreshReport = readJson(benefitsRefreshReportPath, {});
+const freeBenefitEventsReport = readJson(freeBenefitEventsReportPath, {});
 const sourceReadiness = readJson("reports/source-readiness.json", {});
 const newsFeedCanary = readJson("reports/news-feed-canary.json", {});
 
@@ -113,6 +119,28 @@ const cronRefreshLabel =
       : cronRefreshStatus === "stale"
         ? "cron 재실행 필요"
         : "cron 실패 확인";
+const cronBenefitsReportExists = existsSync(join(root, cronBenefitsReportPath));
+const cronBenefitsGeneratedAt = cronBenefitsReport.generatedAt ?? freeBenefitEventsReport.generatedAt ?? benefitsRefreshReport.generatedAt ?? "";
+const cronBenefitsAgeHours = hoursSince(cronBenefitsGeneratedAt);
+const benefitsRefreshOk = benefitsRefreshReport.ok === true && Number(benefitsRefreshReport.failedSteps ?? 0) === 0;
+const freeBenefitEventsVisibleActive = Number(freeBenefitEventsReport.visibleActiveEvents ?? 0);
+const freeBenefitEventsMinimumVisible = Number(freeBenefitEventsReport.minimumVisibleEvents ?? 100);
+const freeBenefitEventsOk =
+  freeBenefitEventsReport.ok === true &&
+  freeBenefitEventsVisibleActive >= Math.max(100, freeBenefitEventsMinimumVisible) &&
+  Number(freeBenefitEventsReport.sourceCount ?? 0) >= 90 &&
+  Number(freeBenefitEventsReport.hostCount ?? 0) >= 70;
+const cronBenefitsManualReady = benefitsRefreshOk && freeBenefitEventsOk;
+const cronBenefitsStatus = !cronBenefitsReportExists
+  ? cronBenefitsManualReady
+    ? "manual_refresh_ready"
+    : "failed"
+  : cronBenefitsReport.ok === false
+    ? "failed"
+    : cronBenefitsAgeHours > cronRefreshStaleHours
+      ? "stale"
+      : "healthy";
+const cronBenefitsOk = ["healthy", "manual_refresh_ready"].includes(cronBenefitsStatus) && cronBenefitsManualReady;
 const providerStats = {
   product: Array.isArray(refreshAll.providerStats?.product) ? refreshAll.providerStats.product : Array.isArray(refreshDeals.providerStats) ? refreshDeals.providerStats : [],
   news: Array.isArray(refreshAll.providerStats?.news) ? refreshAll.providerStats.news : Array.isArray(newsQuality.providerStats) ? newsQuality.providerStats : []
@@ -286,6 +314,9 @@ const checks = [
   cronRefreshOk
     ? pass("cron refresh operations", `Cron refresh status=${cronRefreshStatus}; report=${cronRefreshReportExists ? cronReportPath : "manual refresh fallback"}.`)
     : fail("cron refresh operations", `Cron refresh status=${cronRefreshStatus}; run /api/cron/refresh or check ${cronReportPath}.`),
+  cronBenefitsOk
+    ? pass("cron benefits operations", `Cron benefits status=${cronBenefitsStatus}; active=${freeBenefitEventsVisibleActive}; sources=${Number(freeBenefitEventsReport.sourceCount ?? 0)}; hosts=${Number(freeBenefitEventsReport.hostCount ?? 0)}.`)
+    : fail("cron benefits operations", `Cron benefits status=${cronBenefitsStatus}; run npm run refresh:benefits or check ${freeBenefitEventsReportPath}.`),
   providerStats.product.length >= 4 && providerStats.news.length >= 4
     ? pass("provider stats coverage", `Product providers=${providerStats.product.length}, news providers=${providerStats.news.length}.`)
     : fail("provider stats coverage", `Product providers=${providerStats.product.length}, news providers=${providerStats.news.length}.`),
@@ -411,6 +442,25 @@ const report = {
     failedCount: Number((cronRefreshReport.refreshAll ?? refreshAll).failedCount ?? 0),
     message: cronRefreshReport.message ?? "아직 cron 직접 실행 리포트는 없지만 refresh:all 수동 리포트는 정상입니다."
   },
+  cronBenefits: {
+    ok: cronBenefitsOk,
+    status: cronBenefitsStatus,
+    reportPath: cronBenefitsReportPath,
+    refreshReportPath: benefitsRefreshReportPath,
+    eventsReportPath: freeBenefitEventsReportPath,
+    reportExists: cronBenefitsReportExists,
+    generatedAt: cronBenefitsGeneratedAt,
+    ageHours: Number.isFinite(cronBenefitsAgeHours) ? cronBenefitsAgeHours : null,
+    command: cronBenefitsReport.command ?? "node scripts/refresh-benefits.mjs",
+    schedule: "0 21 * * *",
+    protected: true,
+    visibleActiveEvents: freeBenefitEventsVisibleActive,
+    minimumVisibleEvents: freeBenefitEventsMinimumVisible,
+    sourceCount: Number(freeBenefitEventsReport.sourceCount ?? 0),
+    hostCount: Number(freeBenefitEventsReport.hostCount ?? 0),
+    blockedEvents: Number(freeBenefitEventsReport.blockedEvents ?? 0),
+    expiredEvents: Number(freeBenefitEventsReport.expiredEvents ?? 0)
+  },
   sourceReadiness: {
     ok: sourceReadinessOk,
     readinessLabel: sourceReadiness.readinessLabel ?? "통합 준비도 리포트 생성 필요",
@@ -462,6 +512,7 @@ const docsLines = [
   `- 공식 혜택 리포트 신선도: ${formatValue(newsFreshnessHours)}시간`,
   `- refresh:all 상태: ${refreshAll.ok === true ? "PASS" : "FAIL"}`,
   `- cron refresh 상태: ${cronRefreshLabel} (${cronRefreshStatus})`,
+  `- 무료혜택 cron 상태: ${cronBenefitsStatus} · active ${freeBenefitEventsVisibleActive}개 · source ${Number(freeBenefitEventsReport.sourceCount ?? 0)}개 · host ${Number(freeBenefitEventsReport.hostCount ?? 0)}개`,
   "",
   "## 카테고리 커버리지",
   "",
@@ -514,6 +565,17 @@ const docsLines = [
   `- 마지막 실행: ${cronRefreshReport.generatedAt ?? "직접 실행 전"}`,
   `- 상품/뉴스 건수: ${Number((cronRefreshReport.refreshAll ?? refreshAll).productDealsCount ?? productDealsCount)} / ${Number((cronRefreshReport.refreshAll ?? refreshAll).newsDealsCount ?? newsVisibleCount)}`,
   `- 메시지: ${cronRefreshReport.message ?? "아직 cron 직접 실행 리포트는 없지만 refresh:all 수동 리포트는 정상입니다."}`,
+  "",
+  "## 무료혜택 cron 운영",
+  "",
+  `- 상태: ${cronBenefitsStatus}`,
+  `- 스케줄: 0 21 * * *`,
+  `- 보호 여부: CRON_SECRET 또는 관리자 토큰 필요`,
+  `- 리포트: ${cronBenefitsReportPath} (${cronBenefitsReportExists ? "존재" : "아직 없음"})`,
+  `- refresh 리포트: ${benefitsRefreshReportPath} (${benefitsRefreshOk ? "PASS" : "점검"})`,
+  `- 이벤트 리포트: ${freeBenefitEventsReportPath} (${freeBenefitEventsOk ? "PASS" : "점검"})`,
+  `- active 무료혜택: ${freeBenefitEventsVisibleActive}개`,
+  `- source/host: ${Number(freeBenefitEventsReport.sourceCount ?? 0)}개 / ${Number(freeBenefitEventsReport.hostCount ?? 0)}개`,
   "",
   "## 게이트",
   "",

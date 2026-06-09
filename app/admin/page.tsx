@@ -170,6 +170,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
     healthReadinessApiHref,
     cronRefreshDryRunHref,
     cronLiveFeedDryRunHref,
+    cronBenefitsDryRunHref,
     dailyOperationsApiHref,
     dailyOperationsCsvHref,
     exposurePolicyApiHref,
@@ -340,7 +341,12 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
 
         <AdminHealthReadinessPanel report={healthReadiness} apiHref={healthReadinessApiHref} />
 
-        <AdminCronRefreshPanel report={cronRefresh} dryRunHref={cronRefreshDryRunHref} liveFeedDryRunHref={cronLiveFeedDryRunHref} />
+        <AdminCronRefreshPanel
+          report={cronRefresh}
+          dryRunHref={cronRefreshDryRunHref}
+          liveFeedDryRunHref={cronLiveFeedDryRunHref}
+          benefitsDryRunHref={cronBenefitsDryRunHref}
+        />
 
         <AdminNewsCollectionPanel
           token={token}

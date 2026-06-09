@@ -145,6 +145,25 @@ export interface HealthReadinessReport {
     failedCount: number;
     message: string;
   };
+  cronBenefits: {
+    ok: boolean;
+    status: "healthy" | "manual_refresh_ready" | "stale" | "failed" | string;
+    reportPath: string;
+    refreshReportPath: string;
+    eventsReportPath: string;
+    reportExists: boolean;
+    generatedAt: string;
+    ageHours: number | null;
+    command: string;
+    schedule: string;
+    protected: boolean;
+    visibleActiveEvents: number;
+    minimumVisibleEvents: number;
+    sourceCount: number;
+    hostCount: number;
+    blockedEvents: number;
+    expiredEvents: number;
+  };
   sourceReadiness: {
     ok: boolean;
     readinessLabel: string;
@@ -265,6 +284,25 @@ const fallbackReport: HealthReadinessReport = {
     failedCount: 0,
     message: "Run npm run refresh:all && npm run health:readiness before release review."
   },
+  cronBenefits: {
+    ok: false,
+    status: "manual_refresh_ready",
+    reportPath: "reports/cron-benefits.json",
+    refreshReportPath: "reports/benefits-refresh.json",
+    eventsReportPath: "reports/free-benefit-events.json",
+    reportExists: false,
+    generatedAt: "",
+    ageHours: null,
+    command: "node scripts/refresh-benefits.mjs",
+    schedule: "0 21 * * *",
+    protected: true,
+    visibleActiveEvents: 0,
+    minimumVisibleEvents: 100,
+    sourceCount: 0,
+    hostCount: 0,
+    blockedEvents: 0,
+    expiredEvents: 0
+  },
   sourceReadiness: {
     ok: false,
     readinessLabel: "통합 준비도 리포트 생성 필요",
@@ -303,6 +341,7 @@ export function getHealthReadinessReport(): HealthReadinessReport {
       officialBenefits: { ...fallbackReport.officialBenefits, ...report.officialBenefits },
       refreshAll: { ...fallbackReport.refreshAll, ...report.refreshAll },
       cronRefresh: { ...fallbackReport.cronRefresh, ...report.cronRefresh },
+      cronBenefits: { ...fallbackReport.cronBenefits, ...report.cronBenefits },
       sourceReadiness: { ...fallbackReport.sourceReadiness, ...report.sourceReadiness },
       checks: Array.isArray(report.checks) ? report.checks : fallbackReport.checks
     };
