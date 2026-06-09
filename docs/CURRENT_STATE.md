@@ -12,8 +12,8 @@
 
 - Branch: `codex/12h-product-ux-growth-hardening`
 - Remote: `origin/codex/12h-product-ux-growth-hardening`
-- 기준 커밋: `4876a8d8 test: enforce free benefit event contract`
-- 이 상태 문서에 포함된 최신 작업: 공식 무료혜택 소스 카탈로그, 핵심 브랜드 신호 게이트, FreeBenefitEvent 계약 검증 게이트 강화, 뷰티/금융 공식 혜택 소스 확장.
+- 기준 커밋: `139bec47 feat: expand official benefit source coverage`
+- 이 상태 문서에 포함된 최신 작업: 공식 무료혜택 소스 카탈로그, 핵심 브랜드 신호 게이트, FreeBenefitEvent 계약 검증 게이트 강화, 뷰티/금융 공식 혜택 소스 확장, 닥터지/LG생활건강/토스 공식 혜택 소스 추가.
 
 ## 최근 완료 작업
 
@@ -165,10 +165,11 @@
 
 ## 다음 세션에서 바로 할 일
 
-1. 최신 커밋과 원격 push 상태를 확인한다.
-2. 실제 운영 feed URL을 Vercel env에 연결하려면 `docs/FREE_BENEFIT_FEED_HANDOFF.md`, `docs/SOURCE_FEED_ACTIVATION.md`, `docs/FREE_BENEFIT_EVENT_CONTRACT.md`, `/api/admin/source-feed-handoff`, `/api/admin/source-feed-activation`을 기준으로 진행한다.
-3. 운영 feed 연결 후 `npm run source:feed-env:doctor && npm run news:feed:canary && npm run refresh:benefits && npm run verify:benefits && npm run benefit:event:contract && npm run test:home-realtime && npm run source:activation:doctor` 순서로 검증한다.
-4. Android web assets는 strict workspace 정리를 위해 삭제되어 있을 수 있다. 앱 반영이 필요하면 `npm run build:android && npm run cap:sync`를 다시 실행한다.
+1. 이전 대화는 resume하지 않는다. 새 세션은 `AGENTS.md`와 이 파일만 읽고 시작한다.
+2. 최신 커밋과 원격 push 상태를 확인한다.
+3. 실제 운영 feed URL을 Vercel env에 연결하려면 `docs/FREE_BENEFIT_FEED_HANDOFF.md`, `docs/SOURCE_FEED_ACTIVATION.md`, `docs/FREE_BENEFIT_EVENT_CONTRACT.md`, `/api/admin/source-feed-handoff`, `/api/admin/source-feed-activation`을 기준으로 진행한다.
+4. 운영 feed 연결 후 `npm run source:feed-env:doctor && npm run news:feed:canary && npm run refresh:benefits && npm run verify:benefits && npm run benefit:event:contract && npm run test:home-realtime && npm run source:activation:doctor` 순서로 검증한다.
+5. Android web assets는 strict workspace 정리를 위해 삭제되어 있을 수 있다. 앱 반영이 필요하면 `npm run build:android && npm run cap:sync`를 다시 실행한다.
 
 ## 주의
 
