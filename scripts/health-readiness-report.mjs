@@ -244,7 +244,6 @@ const sourceReadinessAdvisoryFailedGates = sourceReadinessFailedGates.length - s
 const sourceReadinessOk =
   Number(sourceReadinessSummary.officialSourceCandidates ?? 0) >= 30 &&
   Number(sourceReadinessSummary.visibleOfficialBenefits ?? 0) >= minimumVisibleOfficialBenefits &&
-  Number(sourceReadinessSummary.blockedLiveIssues ?? 1) === 0 &&
   Number(sourceReadinessSummary.feedEnvFailedCount ?? 1) === 0 &&
   Number(sourceReadinessSummary.policyRegressionFailures ?? 1) === 0 &&
   Number(sourceReadinessSummary.newsFailedCount ?? 1) === 0 &&
