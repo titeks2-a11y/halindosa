@@ -3516,6 +3516,96 @@
     "notes": "목록은 발견 소스로 사용하고, 사용자 CTA는 서울시 공공서비스예약 공식 예약 상세 또는 접수 가능한 무료 프로그램 URL로 연결한다."
   },
   {
+    "id": "seoul-worldcup-silkworm-free-experience-202606",
+    "label": "서울시 월드컵공원 누에 생태 무료 체험",
+    "provider": "public_coupon",
+    "category": [
+      "정부/공공혜택",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?rsv_svc_id=S260520140256572900",
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 6,
+    "allowedUse": "서울시 공공서비스예약 상세에서 누에 생태 체험, 이용요금 무료, 접수중, 선착순, 예약 신청 조건이 확인되는 혜택",
+    "blockedUse": "서울시 예약 메인, 검색 결과, 예약마감 서비스, 유료 체험, 민간 블로그 요약",
+    "notes": "사용자 CTA는 서울시 공공서비스예약 공식 상세 URL로만 연결한다."
+  },
+  {
+    "id": "seoul-dongdaemun-water-sports-free-class-202606",
+    "label": "서울시 동대문구 수상스포츠 무료 체험교육",
+    "provider": "public_coupon",
+    "category": [
+      "정부/공공혜택",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?locale=ko&rsv_svc_id=S260512102120511430",
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 6,
+    "allowedUse": "서울시 공공서비스예약 상세에서 동대문구 수상스포츠 체험교육, 이용요금 무료, 접수기간, 참여 장소와 예약 조건이 확인되는 혜택",
+    "blockedUse": "서울시 예약 메인, 지도 팝업만 있는 링크, 접수 종료 서비스, 유료 수업, 민간 예약 대행 페이지",
+    "notes": "무료 체험교육이므로 구매 필요 없이 공식 예약 상세가 active일 때만 노출한다."
+  },
+  {
+    "id": "seoul-hanyangdoseong-free-history-tour-202606",
+    "label": "서울시 한양도성 역사 무료 해설 체험",
+    "provider": "public_coupon",
+    "category": [
+      "정부/공공혜택",
+      "영화/문화",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?rsv_svc_id=S260522131054795847",
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 6,
+    "allowedUse": "서울시 공공서비스예약 상세에서 한양도성 전시안내센터 무료 해설, 이용요금 무료, 접수중, 선착순 조건이 확인되는 문화 혜택",
+    "blockedUse": "검색 결과, 서울시 메인, 유료 해설 투어, 예약마감 서비스, 후기 블로그",
+    "notes": "공공 문화체험 혜택으로, 공식 상세의 접수 가능 여부와 종료일을 기준으로 노출한다."
+  },
+  {
+    "id": "seoul-futurelab-battlebot-free-experience-202606",
+    "label": "서울퓨처랩 배틀봇 무료 체험",
+    "provider": "public_coupon",
+    "category": [
+      "정부/공공혜택",
+      "디지털/가전",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?rsv_svc_id=S260509143239234573",
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 6,
+    "allowedUse": "서울시 공공서비스예약 상세에서 서울퓨처랩 체험관, 접수기간, 이용기간, 무료 체험 예약 조건이 확인되는 혜택",
+    "blockedUse": "서울퓨처랩 소개 페이지, 검색 결과, 예약마감 또는 유료 프로그램, 민간 교육 광고",
+    "notes": "디지털 체험 무료혜택으로, 공식 예약 상세 URL만 CTA 후보로 사용한다."
+  },
+  {
     "id": "shinhancard-annual-fee-cashback-202606",
     "label": "신한카드 공식 신규 고객 연회비 캐시백",
     "provider": "official_event",

@@ -16,14 +16,14 @@
 - Branch: `codex/12h-product-ux-growth-hardening`
 - Remote tracking: `origin/codex/12h-product-ux-growth-hardening`
 - 최신 확인 커밋:
+  - `cc1b72ff feat: prioritize low-friction free benefits`
+  - `ec97d6b2 feat: add shinhancard official benefit events`
+  - `37e0f517 test: guard home-like official benefit sources`
+  - `1df27b8f docs: save current handoff state`
   - `0051cac0 feat: expand official public and food benefit sources`
   - `077489b4 test: enforce small mobile freebie viewport gate`
   - `f48772a7 feat: clarify free benefit participation conditions`
   - `44bc7444 feat: promote official public benefit seeds`
-  - `2c635c39 feat: expand beauty sample benefit sources`
-  - `39599dc9 feat: expand public education benefit sources`
-  - `0aae8983 feat: expand membership point benefit sources`
-  - `a47d64f3 feat: expand kakaopay official benefit sources`
 
 ## 제품 방향
 
@@ -34,10 +34,10 @@
 
 ## 데이터 상태
 
-- 공식 소스 후보: `164`
-- 뉴스/혜택 seed: `142`
-- `data/refreshedNewsDeals.json` 기준 refreshed 항목: `139`
-- `publishable=true`, `validationStatus=passed`, `availability=active` 기준 노출 가능 항목: `139`
+- 공식 소스 후보: `168`
+- 뉴스/혜택 seed: `146`
+- `data/refreshedNewsDeals.json` 기준 refreshed 항목: `143`
+- `publishable=true`, `validationStatus=passed`, `availability=active` 기준 노출 가능 항목: `143`
 - 최근 보강 소스:
   - 파파이스 공식 이벤트·쿠폰 혜택
   - 서울시 공공서비스예약 무료 체험·교육 혜택
@@ -45,6 +45,7 @@
   - 문화가 있는 날, K-MOOC, 복지로, 고용24 등 공공/교육 혜택
   - 카카오페이, OK캐쉬백, 해피포인트 등 포인트/멤버십 혜택
   - 신한카드 공식 신규 고객 연회비 캐시백, 생활요금 자동납부 캐시백 혜택
+  - 서울시 공공서비스예약 공식 상세 무료 체험 4건: 월드컵공원 누에 생태 체험, 동대문구 수상스포츠 체험교육, 한양도성 역사 해설 체험, 서울퓨처랩 배틀봇 체험
 
 ## 품질 정책
 
@@ -76,22 +77,26 @@
 
 최근 안정 커밋 기준으로 다음 게이트가 통과한 상태로 기록되어 있다.
 
-- `npm run refresh:news`: 142개 수집, 139개 노출
-- `npm run refresh:benefits`: active 공식 무료혜택 이벤트 136개
-- `npm run verify:news`: 139/139 공식 혜택 링크 검증
-- `npm run verify:freebies`: 135/135 통과
+- `npm run refresh:news`: 146개 수집, 143개 노출
+- `npm run refresh:benefits`: active 공식 무료혜택 이벤트 140개
+- `npm run verify:news`: 143/143 공식 혜택 링크 검증
+- `npm run verify:freebies`: 139/139 통과
 - `npm run qa`: 75/75 통과
 - `npm run test:mobile-ux`: 17/17 통과
 - `npm run release:doctor`: 188/188 통과
 - 검색 링크 노출: 0
 - 비공식 링크 노출: 0
 - 2026-06-09 추가 보강: `security:check`가 홈/랜딩 성격의 공식 소스 후보를 CTA 금지 정책 없이 허용하지 않도록 강화되었고, 현재 13/13 통과했다.
+- 2026-06-09 추가 보강: 홈 무료혜택 랭킹에서 구매/카드발급/결제 조건형 혜택을 낮추고, 샘플/무료교육/공공무료/쿠폰/포인트처럼 바로 확인 가능한 혜택을 우선 노출하도록 조정했다.
+- 2026-06-09 추가 보강: 서울시 공공서비스예약의 개별 무료 예약 상세 4건을 seed/catalog에 추가했고 모두 `publishable=true`, `validationStatus=passed`, `availability=active`로 검증됐다.
+- 2026-06-09 확인: `next-env.d.ts`는 `./.next/dev/types/routes.d.ts` 경로를 참조하는 정상 상태다.
 
 새 세션에서는 필요한 명령을 다시 실행해 실제 현재 상태를 확인한 뒤 진행한다.
 
 ## 워크트리 주의사항
 
 - refresh, verification, release evidence 산출물 때문에 워크트리가 dirty일 수 있다.
+- 현재 워크트리에는 QA/harness/refresh 실행으로 갱신된 report/data 산출물이 많이 남아 있을 수 있다. 새 세션은 먼저 `git status --short --branch`로 실제 dirty 범위를 확인한다.
 - `git add .`를 쓰지 말고 이번 작업 관련 파일만 명시적으로 stage한다.
 - 빌드 후 `next-env.d.ts`가 `./.next/types/routes.d.ts`로 바뀌면 `./.next/dev/types/routes.d.ts`로 되돌린다.
 - 정상 동작 중인 Vercel, Android/Capacitor, 환경변수, Supabase 설정을 깨뜨리지 않는다.
