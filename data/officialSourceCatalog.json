@@ -3471,5 +3471,48 @@
     "allowedUse": "K-MOOC 공식 강좌 상세에서 AI 교육 활용 강좌, 수강신청, 운영기간, 이수 조건이 확인되는 무료 학습 혜택",
     "blockedUse": "비공식 강좌 소개글, 검색 결과, 종료된 강좌, 유료 컨설팅 랜딩, 기관 홍보 PDF 단독 링크",
     "notes": "교사·학습자를 위한 무료 온라인 강좌로, 공식 상세 페이지의 신청 가능 여부를 기준으로 노출한다."
+  },
+  {
+    "id": "popeyes-official-event-coupon",
+    "label": "파파이스 공식 이벤트·쿠폰 혜택",
+    "provider": "official_event",
+    "category": [
+      "외식/배달",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.popeyes.co.kr/event",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "DEAL_EVENT_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 6,
+    "allowedUse": "파파이스 공식 이벤트 페이지에서 기간, 쿠폰, 메뉴 프로모션, 앱/매장 참여 조건이 확인되는 혜택",
+    "blockedUse": "파파이스 메인, 메뉴판만 있는 페이지, 비공식 쿠폰 거래글, 배달앱 검색 결과, 종료된 이벤트",
+    "notes": "사용자 CTA는 파파이스 공식 이벤트 목록 또는 공식 이벤트 상세 URL이 active이고 조건이 확인된 경우에만 연결한다."
+  },
+  {
+    "id": "seoul-public-reservation-free-experience",
+    "label": "서울시 공공서비스예약 무료 체험·교육",
+    "provider": "public_coupon",
+    "category": [
+      "정부/공공혜택",
+      "영화/문화",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://yeyak.seoul.go.kr/web/main.do",
+    "preferredEnvKeys": [
+      "PUBLIC_COUPON_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 6,
+    "allowedUse": "서울시 공공서비스예약 공식 페이지에서 접수중, 무료, 선착순, 문화체험, 교육강좌, 예약 신청 조건이 확인되는 혜택",
+    "blockedUse": "서울시 메인, 민간 소개글, 검색 결과, 접수 종료 서비스, 유료 시설대관 단독 링크, 신청 버튼이 없는 요약글",
+    "notes": "목록은 발견 소스로 사용하고, 사용자 CTA는 서울시 공공서비스예약 공식 예약 상세 또는 접수 가능한 무료 프로그램 URL로 연결한다."
   }
 ]

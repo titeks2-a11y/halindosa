@@ -16,6 +16,14 @@
   - `npm run test:mobile-ux`가 16개 게이트를 검사한다.
   - 375px, 390px, 430px 폭에서 무료혜택 히어로가 2열 4카드, 48px 썸네일, 2줄 제목, 전체 폭 CTA, safe-area 하단 여백을 유지하는지 검사한다.
   - `MOBILE_UX_REPORT.md`는 새 16-gate 결과로 재생성됐다.
+- 최신 공식 소스 보강 결과:
+  - 파파이스 공식 이벤트·쿠폰 혜택
+  - 서울시 공공서비스예약 무료 체험·교육 혜택
+  - 공식 소스 후보 `162`개
+  - `refresh:news` 기준 노출 공식 혜택 `137`개
+  - `refresh:benefits` 기준 active 무료혜택 이벤트 `134`개
+  - 신규 2개 혜택 모두 `publishable=true`, `validationStatus=passed`, `availability=active`
+  - `refresh:benefits` 기준 무료혜택 검증 `133/133`, 검색 링크 노출 `0`, 비공식 링크 노출 `0`
 - 카카오페이 보강 결과:
   - 공식 소스 후보 `151`개
   - `refresh:news` 기준 노출 공식 혜택 `118`개
@@ -266,6 +274,10 @@ npm run workspace:doctor:strict
 npm run test:mobile-ux
 npm run security:check
 npm run benefit:event:contract
+npm run source:catalog:report
+npm run refresh:news
+npm run refresh:benefits
+npm run verify:news
 npm run lint
 npm run release:doctor
 ```
@@ -275,6 +287,10 @@ npm run release:doctor
 - `test:mobile-ux`: 16/16 통과
 - `security:check`: 13/13 통과
 - `benefit:event:contract`: 16/16 통과
+- `source:catalog:report`: 공식 소스 162개, 카테고리 10/10, provider 4/4 통과
+- `refresh:news`: 140개 수집, 137개 노출
+- `refresh:benefits`: 4/4 단계 통과, active official events 134개
+- `verify:news`: 137/137 공식 혜택 링크 검증 통과
 - `release:doctor`: 188/188 통과
 - `lint`: 성공
 

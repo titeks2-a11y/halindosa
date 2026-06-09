@@ -4075,5 +4075,64 @@
       "쿠폰팩",
       "공식혜택"
     ]
+  },
+  {
+    "id": "news-popeyes-official-event-coupon",
+    "title": "파파이스 공식 이벤트·쿠폰 혜택",
+    "summary": "파파이스 공식 이벤트 페이지에서 메뉴 프로모션, 쿠폰, 매장 참여 이벤트와 기간 조건을 확인할 수 있습니다.",
+    "merchant": "파파이스",
+    "category": "외식/배달",
+    "benefitType": "coupon",
+    "discountRate": 20,
+    "price": 0,
+    "originalPrice": 0,
+    "couponAmount": 0,
+    "startDate": "2026-06-01",
+    "endDate": "2026-12-31",
+    "sourceName": "파파이스 공식 이벤트",
+    "sourceUrl": "https://www.popeyes.co.kr/event",
+    "finalUrl": "https://www.popeyes.co.kr/event",
+    "imageUrl": "",
+    "confidenceScore": 86,
+    "validationStatus": "needs_review",
+    "isHidden": false,
+    "hiddenReason": "",
+    "lastCheckedAt": "",
+    "provider": "official_event",
+    "tags": [
+      "외식",
+      "쿠폰",
+      "공식이벤트"
+    ]
+  },
+  {
+    "id": "news-seoul-public-reservation-free-experience",
+    "title": "서울시 공공서비스예약 무료 체험·교육 혜택",
+    "summary": "서울시 공공서비스예약 공식 페이지에서 접수중인 무료 문화체험, 교육강좌, 공공 프로그램과 선착순 신청 조건을 확인할 수 있습니다.",
+    "merchant": "서울특별시 공공서비스예약",
+    "category": "정부/공공혜택",
+    "benefitType": "public",
+    "discountRate": 100,
+    "price": 0,
+    "originalPrice": 0,
+    "couponAmount": 0,
+    "startDate": "2026-06-01",
+    "endDate": "2026-12-31",
+    "sourceName": "서울시 공공서비스예약 공식",
+    "sourceUrl": "https://yeyak.seoul.go.kr/web/main.do",
+    "finalUrl": "https://yeyak.seoul.go.kr/web/main.do",
+    "imageUrl": "",
+    "confidenceScore": 92,
+    "validationStatus": "needs_review",
+    "isHidden": false,
+    "hiddenReason": "",
+    "lastCheckedAt": "",
+    "provider": "public_coupon",
+    "tags": [
+      "공공무료",
+      "문화체험",
+      "선착순",
+      "공식신청"
+    ]
   }
 ]
