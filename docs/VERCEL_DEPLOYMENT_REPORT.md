@@ -1,6 +1,6 @@
 # Vercel Deployment Doctor
 
-Generated: 2026-06-07T16:29:40.643Z
+Generated: 2026-06-09T15:22:58.490Z
 
 Status: PASS
 
@@ -8,22 +8,26 @@ Status: PASS
 
 - Origin: `https://halindosa.com`
 - Branch: `codex/12h-product-ux-growth-hardening`
-- Commit: `29225fd3`
-- Working tree: clean
+- Commit: `b3e014cb`
+- Working tree: 86 changed file(s): M DEVICE_QA_REPORT.md; M EXTERNAL_LINK_REPORT.md; M HARNESS_REPORT.md; M IMAGE_QUALITY_REPORT.md; M KNOWN_ISSUES.md; M LINK_VERIFICATION_REPORT.md; M LINK_VERIFICATION_RESULT.json; M PERFORMANCE_REPORT.md; ... +78 more
 - Vercel project linked locally: no
 - Vercel token present in shell: no
 
 ## Summary
 
-- Checks: 14/14
+- Checks: 19/19
 - Root: 200
 - Home API: 200
 - Deals API: 200
+- Freebies API: 200
 - /go redirect: 302
 - Official benefit /go redirect: 302
 - Home API Cache-Control: `no-store, no-cache, must-revalidate, proxy-revalidate`
+- Freebies API Cache-Control: `no-store, no-cache, must-revalidate, proxy-revalidate`
 - Home product deals checked: 8
 - Home official benefits checked: 8
+- Freebies checked: 12
+- Freebie events checked: 12
 
 ## Checks
 
@@ -39,10 +43,15 @@ Status: PASS
 | PASS | home official benefit exposure policy | No invalid, hidden, stale, search, homepage, community, low-quality, or image-less official benefit leaked from /api/home. |
 | PASS | deals api status | /api/deals returned 8 verified deals. |
 | PASS | deals publishable policy | No search, homepage, community, sold-out, low-quality, image-less, or non-publishable deal leaked from /api/deals. |
+| PASS | freebies api status | /api/freebies returned 200 JSON with ok=true. |
+| PASS | freebies api no-store | Cache-Control=no-store, no-cache, must-revalidate, proxy-revalidate |
+| PASS | freebies api data | /api/freebies returned 12 freebie cards and 12 event cards. |
+| PASS | freebies api realtime metadata | /api/freebies exposes cachePolicy=no-store, freshness label, and next refresh metadata. |
+| PASS | freebies publishable policy | No search, homepage, community, expired, hidden, low-quality, image-less, or non-publishable free benefit leaked from /api/freebies. |
 | PASS | go redirect status | /go/d014 reached an external destination after 2 hop(s). |
 | PASS | go redirect destination | Destination host=www.coupang.com |
-| PASS | official benefit redirect status | /go/news/news-gs25-drinking-festa-2026 reached an external official destination after 2 hop(s). |
-| PASS | official benefit redirect destination | Destination host=gs25.gsretail.com |
+| PASS | official benefit redirect status | /go/news/news-dunkin-monthly-combo-coupon reached an external official destination after 2 hop(s). |
+| PASS | official benefit redirect destination | Destination host=www.dunkindonuts.co.kr |
 
 ## Required Fix If Blocked
 

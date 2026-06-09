@@ -9,6 +9,7 @@ const defaultOrigin = "https://halindosa.com";
 const origin = normalizeOrigin(process.env.VERCEL_DEPLOYMENT_URL || process.env.NEXT_PUBLIC_SITE_URL || defaultOrigin);
 const apiHomePath = "/api/home?limit=8&verifiedOnly=true";
 const apiDealsPath = "/api/deals?limit=8&verifiedOnly=true";
+const apiFreebiesPath = "/api/freebies?limit=12";
 const redirectProbePath = "/go/d014?from=vercel-doctor";
 
 mkdirSync(reportsDir, { recursive: true });
@@ -101,6 +102,23 @@ function isPublishableNewsDeal(deal) {
   );
 }
 
+function isPublishableFreebie(item) {
+  const destination = getDestinationUrl(item);
+  const activeStatus = item?.status === "active" || item?.availability === "active";
+  const explicitPublishable = item?.publishable !== false;
+
+  return (
+    activeStatus &&
+    item?.validationStatus === "passed" &&
+    item?.isHidden !== true &&
+    explicitPublishable &&
+    Number(item?.qualityScore ?? 0) >= 70 &&
+    hasRenderableImage(item) &&
+    /^https?:\/\//i.test(destination) &&
+    !isBadExternalUrl(destination)
+  );
+}
+
 async function fetchText(path, options = {}) {
   const url = path.startsWith("http") ? path : `${origin}${path}`;
   const startedAt = Date.now();
@@ -186,7 +204,15 @@ const probes = {};
 const project = getVercelProjectInfo();
 const branch = run("git", ["branch", "--show-current"]);
 const commit = run("git", ["rev-parse", "--short", "HEAD"]);
-const status = (run("git", ["status", "--short"]) || "clean").replace(/\r?\n/g, "; ");
+const rawStatus = run("git", ["status", "--short"]);
+const statusLines = rawStatus ? rawStatus.split(/\r?\n/).filter(Boolean) : [];
+const status =
+  statusLines.length === 0
+    ? "clean"
+    : `${statusLines.length} changed file(s): ${statusLines
+        .slice(0, 8)
+        .map((line) => line.trim())
+        .join("; ")}${statusLines.length > 8 ? `; ... +${statusLines.length - 8} more` : ""}`;
 
 probes.root = await fetchText("/");
 checks.push(
@@ -252,6 +278,43 @@ checks.push(
     : fail("deals publishable policy", `${invalidDeals.length} invalid deal(s) leaked from /api/deals: ${invalidDeals.map((deal) => deal.id).join(", ")}`)
 );
 
+probes.freebiesApi = await fetchText(apiFreebiesPath);
+const freebiesJson = parseJsonProbe(probes.freebiesApi);
+const freebies = Array.isArray(freebiesJson?.freebies) ? freebiesJson.freebies : [];
+const events = Array.isArray(freebiesJson?.events) ? freebiesJson.events : [];
+const invalidFreebies = freebies.filter((item) => !isPublishableFreebie(item));
+const invalidFreebieEvents = events.filter((item) => !isPublishableFreebie(item));
+checks.push(
+  probes.freebiesApi.ok && freebiesJson?.ok === true
+    ? pass("freebies api status", `/api/freebies returned 200 JSON with ok=true.`)
+    : fail("freebies api status", `/api/freebies should return 200 JSON; got ${probes.freebiesApi.status}.`)
+);
+checks.push(
+  /no-store/i.test(probes.freebiesApi.cacheControl)
+    ? pass("freebies api no-store", `Cache-Control=${probes.freebiesApi.cacheControl}`)
+    : fail("freebies api no-store", `/api/freebies should include no-store Cache-Control; got "${probes.freebiesApi.cacheControl || "(missing)"}".`)
+);
+checks.push(
+  freebies.length > 0 && events.length > 0
+    ? pass("freebies api data", `/api/freebies returned ${freebies.length} freebie cards and ${events.length} event cards.`)
+    : fail("freebies api data", "/api/freebies did not return visible freebie and event cards.")
+);
+checks.push(
+  freebiesJson?.cachePolicy?.mode === "no-store" && freebiesJson?.freshnessLabel && freebiesJson?.nextRefreshAt
+    ? pass("freebies api realtime metadata", `/api/freebies exposes cachePolicy=no-store, freshness label, and next refresh metadata.`)
+    : fail("freebies api realtime metadata", "/api/freebies should expose no-store cache policy and freshness metadata.")
+);
+checks.push(
+  invalidFreebies.length === 0 && invalidFreebieEvents.length === 0
+    ? pass("freebies publishable policy", "No search, homepage, community, expired, hidden, low-quality, image-less, or non-publishable free benefit leaked from /api/freebies.")
+    : fail(
+        "freebies publishable policy",
+        `${invalidFreebies.length + invalidFreebieEvents.length} invalid free benefit item(s) leaked from /api/freebies: ${[...invalidFreebies, ...invalidFreebieEvents]
+          .map((item) => item.id)
+          .join(", ")}`
+      )
+);
+
 const redirectChain = await fetchRedirectChain(redirectProbePath);
 probes.goRedirect = {
   ...(redirectChain.probe ?? {}),
@@ -303,6 +366,7 @@ const report = {
   branch,
   commit,
   workingTree: status,
+  workingTreeChangedFileCount: statusLines.length,
   project,
   environment: {
     vercelTokenPresent: Boolean(process.env.VERCEL_TOKEN),
@@ -316,11 +380,15 @@ const report = {
     rootStatus: probes.root.status,
     homeApiStatus: probes.homeApi.status,
     dealsApiStatus: probes.dealsApi.status,
+    freebiesApiStatus: probes.freebiesApi.status,
     goRedirectStatus: probes.goRedirect.status,
     officialBenefitRedirectStatus: probes.officialBenefitRedirect?.status ?? 0,
     homeApiCacheControl: probes.homeApi.cacheControl,
+    freebiesApiCacheControl: probes.freebiesApi.cacheControl,
     homeProductDeals: homeDeals.length,
-    homeOfficialBenefits: homeNewsDeals.length
+    homeOfficialBenefits: homeNewsDeals.length,
+    freebies: freebies.length,
+    freebieEvents: events.length
   },
   checks,
   probes: Object.fromEntries(
@@ -364,11 +432,15 @@ Status: ${ok ? "PASS" : "BLOCKED"}
 - Root: ${report.summary.rootStatus}
 - Home API: ${report.summary.homeApiStatus}
 - Deals API: ${report.summary.dealsApiStatus}
+- Freebies API: ${report.summary.freebiesApiStatus}
 - /go redirect: ${report.summary.goRedirectStatus}
 - Official benefit /go redirect: ${report.summary.officialBenefitRedirectStatus}
 - Home API Cache-Control: \`${report.summary.homeApiCacheControl || "(missing)"}\`
+- Freebies API Cache-Control: \`${report.summary.freebiesApiCacheControl || "(missing)"}\`
 - Home product deals checked: ${report.summary.homeProductDeals}
 - Home official benefits checked: ${report.summary.homeOfficialBenefits}
+- Freebies checked: ${report.summary.freebies}
+- Freebie events checked: ${report.summary.freebieEvents}
 
 ## Checks
 

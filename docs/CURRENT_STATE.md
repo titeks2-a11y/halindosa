@@ -8,7 +8,7 @@
   - `/api/home?limit=12&verifiedOnly=true`: HTTP 200
   - `/api/freebies`: HTTP 200
   - `/`: HTTP 200
-- `npm run vercel:doctor`: 14/14 통과, Home API `Cache-Control`은 `no-store, no-cache, must-revalidate, proxy-revalidate`.
+- `npm run vercel:doctor`: 19/19 통과. Home API와 Freebies API 모두 `no-store` 캐시 정책, 운영 URL 200, publishable 노출 정책을 확인한다.
 - `npm run public:url:doctor`: 통과.
 - `npm run lint`: 통과.
 - `npm run build`: 통과.
