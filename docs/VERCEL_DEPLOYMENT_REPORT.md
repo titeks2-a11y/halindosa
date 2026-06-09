@@ -1,6 +1,6 @@
 # Vercel Deployment Doctor
 
-Generated: 2026-06-09T15:59:48.476Z
+Generated: 2026-06-09T16:19:16.722Z
 
 Status: PASS
 
@@ -8,14 +8,14 @@ Status: PASS
 
 - Origin: `https://halindosa.com`
 - Branch: `codex/12h-product-ux-growth-hardening`
-- Commit: `a5331fdb`
-- Working tree: 83 changed file(s): M DEVICE_QA_REPORT.md; M EXTERNAL_LINK_REPORT.md; M HARNESS_REPORT.md; M IMAGE_QUALITY_REPORT.md; M KNOWN_ISSUES.md; M LINK_VERIFICATION_REPORT.md; M LINK_VERIFICATION_RESULT.json; M PERFORMANCE_REPORT.md; ... +75 more
+- Commit: `4c636e25`
+- Working tree: 82 changed file(s): M DEVICE_QA_REPORT.md; M EXTERNAL_LINK_REPORT.md; M HARNESS_REPORT.md; M IMAGE_QUALITY_REPORT.md; M KNOWN_ISSUES.md; M LINK_VERIFICATION_REPORT.md; M LINK_VERIFICATION_RESULT.json; M PERFORMANCE_REPORT.md; ... +74 more
 - Vercel project linked locally: no
 - Vercel token present in shell: no
 
 ## Summary
 
-- Checks: 22/22
+- Checks: 23/23
 - Root: 200
 - Home API: 200
 - Deals API: 200
@@ -37,6 +37,7 @@ Status: PASS
 | Result | Check | Detail |
 | --- | --- | --- |
 | PASS | root page | 200 HTML response from https://halindosa.com. |
+| PASS | root security headers | Production HTML response includes CSP, HSTS, frame, MIME, referrer, and permissions headers. |
 | PASS | home api status | /api/home returned 200 JSON with ok=true. |
 | PASS | home api no-store | Cache-Control=no-store, no-cache, must-revalidate, proxy-revalidate |
 | PASS | home api deals | /api/home returned 8 deals. |
