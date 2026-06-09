@@ -28,6 +28,8 @@ const quickDealCard = read("components/QuickDealCard.tsx");
 const myPage = read("app/mypage/page.tsx");
 const appShell = read("components/AppShell.tsx");
 const searchBar = read("components/SearchBar.tsx");
+const homeFreebieHero = read("components/home/HomeFreebieHero.tsx");
+const homeDealGrid = read("components/home/HomeDealGrid.tsx");
 
 const navItemCount = countMatches(bottomNavigation, /href:\s*"\//g);
 if (navItemCount === 4 && bottomNavigation.includes("홈") && bottomNavigation.includes("인기") && bottomNavigation.includes("카테고리") && bottomNavigation.includes("마이")) {
@@ -92,6 +94,27 @@ const mobileHomeGuard =
 
 if (mobileHomeGuard) pass("mobile compact home", "모바일 홈은 단일 검색, compact 필터, 안전 하단 여백 기준을 갖습니다.");
 else fail("mobile compact home", "모바일 compact 홈 구조가 예상과 다릅니다.");
+
+const freebieFirstExposureGuard =
+  homePage.includes("<HomeFreebieHero") &&
+  homePage.includes("<HomeLiveBenefitStrip") &&
+  homePage.includes('aria-label="추가 할인 상품 보조 목록"') &&
+  homePage.includes('aria-label="무료혜택 다음에 볼 추가 할인 상품"') &&
+  homePage.indexOf("<HomeFreebieHero") < homePage.indexOf("<HomeLiveBenefitStrip") &&
+  homePage.indexOf("<HomeLiveBenefitStrip") < homePage.indexOf('aria-label="추가 할인 상품 보조 목록"') &&
+  homePage.includes("무료혜택 다음에 비교할 상품") &&
+  homePage.includes("추가 할인 상품") &&
+  homeFreebieHero.includes("무료 혜택 받기") &&
+  homeFreebieHero.includes('target="_blank"') &&
+  homeFreebieHero.includes('rel="noopener noreferrer"') &&
+  homePage.includes("조건에 맞는 추가 할인 상품이 없습니다.") &&
+  homeDealGrid.includes("가격과 재고는 판매처에서 변동될 수 있으므로 구매 전 최종 조건을 다시 확인하세요.");
+
+if (freebieFirstExposureGuard) {
+  pass("freebie-first exposure order", "홈 노출 순서는 무료혜택 히어로, 검증 공식 혜택, 추가 할인 상품 보조 영역 순서로 고정되어 있습니다.");
+} else {
+  fail("freebie-first exposure order", "구매 상품이 홈 상단 핵심 가치보다 먼저 노출되거나 무료혜택 CTA/보조 상품 빈 상태 기준이 부족합니다.");
+}
 
 for (const check of checks) {
   const prefix = check.ok ? "PASS" : "FAIL";
