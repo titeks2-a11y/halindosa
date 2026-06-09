@@ -2,9 +2,9 @@
 
 이 문서는 할인도사에 연결할 수 있는 공식 이벤트, 공공 혜택, 제휴 JSON/RSS 후보를 정리합니다. 무단 크롤링 후보가 아니라 운영자가 승인 feed 또는 공식 페이지 매핑으로 전환할 때 쓰는 출발점입니다.
 
-- 생성 시각: 2026-06-09T00:07:16.726Z
+- 생성 시각: 2026-06-09T00:33:40.956Z
 - 상태: PASS
-- 후보 소스: 110개
+- 후보 소스: 114개
 - 고우선순위 후보: 33개
 - 현재 env feed 연결 후보: 0개
 - 공식 혜택 노출: 105개
@@ -18,12 +18,12 @@
 | 식품/생필품 | 11 | 충분 |
 | 마트/편의점 | 12 | 충분 |
 | 디지털/가전 | 7 | 충분 |
-| 패션/뷰티 | 13 | 충분 |
+| 패션/뷰티 | 16 | 충분 |
 | 외식/배달 | 33 | 충분 |
 | 여행/숙박 | 9 | 충분 |
 | 영화/문화 | 18 | 충분 |
-| 카드/멤버십 | 33 | 충분 |
-| 무료혜택 | 73 | 충분 |
+| 카드/멤버십 | 34 | 충분 |
+| 무료혜택 | 77 | 충분 |
 | 정부/공공혜택 | 12 | 충분 |
 
 ## Provider 커버리지
@@ -32,7 +32,7 @@
 | --- | ---: | --- |
 | news | 1 | 포함 |
 | event_news | 2 | 포함 |
-| official_event | 67 | 포함 |
+| official_event | 71 | 포함 |
 | public_coupon | 40 | 포함 |
 
 ## 후보 목록
@@ -149,6 +149,10 @@
 | lotteon-lohbs-official-event | official_event | 식품/생필품, 패션/뷰티, 무료혜택 | medium | https://www.lotteon.com/event/onLohbsShare | OFFICIAL_EVENT_FEED_URLS, DEAL_EVENT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
 | danawa-official-events | official_event | 디지털/가전, 무료혜택 | medium | https://event.danawa.com/main/index.php | OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
 | suto-approved-event-discovery | public_coupon | 무료혜택 | low | https://www.suto.co.kr/bbs/board.php?bo_table=cpevent | PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| drg-official-event-board | official_event | 패션/뷰티, 무료혜택 | medium | https://www.dr-g.co.kr/event | OFFICIAL_EVENT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| thefaceshop-official-events | official_event | 패션/뷰티, 무료혜택 | medium | https://www.thefaceshop.com/mall/event/event.jsp | OFFICIAL_EVENT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| naturecollection-official-events | official_event | 패션/뷰티, 무료혜택 | medium | https://www.naturecollection.com/mall/event/event.jsp | OFFICIAL_EVENT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| toss-official-benefit-feed | official_event | 카드/멤버십, 무료혜택 | medium | https://toss.im/tossfeed/topic/%ED%98%9C%ED%83%9D | OFFICIAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
 
 ## 다음 작업
 

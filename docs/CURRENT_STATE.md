@@ -12,8 +12,8 @@
 
 - Branch: `codex/12h-product-ux-growth-hardening`
 - Remote: `origin/codex/12h-product-ux-growth-hardening`
-- 기준 커밋: `7fa65767 feat: expand official free benefit source coverage`
-- 이 상태 문서에 포함된 최신 작업: 공식 무료혜택 소스 카탈로그, 핵심 브랜드 신호 게이트, FreeBenefitEvent 계약 검증 게이트 강화.
+- 기준 커밋: `4876a8d8 test: enforce free benefit event contract`
+- 이 상태 문서에 포함된 최신 작업: 공식 무료혜택 소스 카탈로그, 핵심 브랜드 신호 게이트, FreeBenefitEvent 계약 검증 게이트 강화, 뷰티/금융 공식 혜택 소스 확장.
 
 ## 최근 완료 작업
 
@@ -86,6 +86,23 @@
 - `source:breadth:doctor`가 12개 수집 축뿐 아니라 핵심 브랜드 신호 34개를 검사한다.
 - release doctor가 핵심 브랜드 신호 누락을 차단한다.
 
+### 뷰티/금융 공식 혜택 소스 확장
+
+- `data/officialSourceCatalog.json`
+- `scripts/free-benefit-source-breadth-doctor.mjs`
+- `scripts/lib/release-doctor-operational-data.mjs`
+- `docs/OFFICIAL_SOURCE_CATALOG.md`
+- `docs/OFFICIAL_SOURCE_LIVE_CHECK.md`
+- `docs/FREE_BENEFIT_SOURCE_BREADTH.md`
+
+구현 요약:
+
+- 닥터지 공식 이벤트, LG생활건강 더페이스샵, LG생활건강 네이처컬렉션, 토스 공식 혜택 콘텐츠를 공식/공지성 소스 후보로 추가했다.
+- 공식 소스 후보가 110개에서 114개로 늘었다.
+- live 접근성은 98개 reachable, 16개 guarded, stale 0개로 유지된다.
+- `source:breadth:doctor`가 핵심 브랜드 신호 37개를 검사한다.
+- release doctor가 닥터지, LG생활건강, 토스 신호 누락을 차단한다.
+
 ### FreeBenefitEvent 계약 검증 게이트
 
 - `scripts/free-benefit-event-contract-doctor.mjs`
@@ -128,6 +145,10 @@
 - `npm run release:doctor` 성공, 188/188 통과
 - `npm run smoke:local` 성공, 103/103 통과
 - `npm run qa` 성공, 75/75 통과
+- `npm run source:catalog:report` 성공, 공식 소스 114개
+- `npm run source:live:doctor` 성공, reachable 98개, guarded 16개, stale 0개
+- `npm run source:breadth:doctor` 성공, 수집 축 12/12 및 핵심 브랜드 신호 37/37 통과
+- `npm run release:doctor` 성공, 188/188 통과
 
 ## 현재 제품 방향
 

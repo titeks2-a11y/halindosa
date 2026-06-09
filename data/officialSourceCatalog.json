@@ -2339,5 +2339,90 @@
     "allowedUse": "운영자가 승인한 공개 이벤트 발견용 소스로만 사용하고, 최종 CTA는 브랜드/기관 공식 이벤트 상세로 보강",
     "blockedUse": "슈퍼투데이 게시글을 사용자 최종 CTA로 연결, 비공식 이벤트만 단독 노출, 검색 결과 대체",
     "notes": "비공식 모음 사이트이므로 사용자 노출 URL이 아니라 공식 URL 보강 큐 생성용으로만 사용한다."
+  },
+  {
+    "id": "drg-official-event-board",
+    "label": "닥터지 공식 이벤트·샘플 혜택",
+    "provider": "official_event",
+    "category": [
+      "패션/뷰티",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.dr-g.co.kr/event",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "닥터지 공식 이벤트, 샘플, 무료 체험, 회원 쿠폰 중 공식 상세와 기간이 확인되는 항목",
+    "blockedUse": "검색 결과, 블로그 체험 후기, 커뮤니티 모집글, 종료 이벤트 상세",
+    "notes": "닥터지 공식몰 종료 공지가 있으므로 stale 감지 시 네이버 브랜드스토어 공식 이벤트 URL로 교체한다."
+  },
+  {
+    "id": "thefaceshop-official-events",
+    "label": "LG생활건강 더페이스샵 공식 이벤트",
+    "provider": "official_event",
+    "category": [
+      "패션/뷰티",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.thefaceshop.com/mall/event/event.jsp",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "더페이스샵 공식 이벤트, 쿠폰, 샘플, 회원 혜택 중 이벤트 상세와 참여 조건이 확인되는 항목",
+    "blockedUse": "브랜드 메인, 검색 결과, 비공식 뷰티 커뮤니티 글",
+    "notes": "LG생활건강 계열 뷰티 혜택 feed 후보로 관리하며 사용자 CTA는 공식 이벤트 상세로만 연결한다."
+  },
+  {
+    "id": "naturecollection-official-events",
+    "label": "LG생활건강 네이처컬렉션 공식 이벤트",
+    "provider": "official_event",
+    "category": [
+      "패션/뷰티",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.naturecollection.com/mall/event/event.jsp",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "네이처컬렉션 공식 쿠폰, 샘플, 브랜드 행사, 회원 혜택 중 공식 이벤트 상세가 확인되는 항목",
+    "blockedUse": "브랜드 메인, 검색 결과, 블로그 이벤트 정리글",
+    "notes": "LG생활건강 뷰티 이벤트 보강 후보이며 finalUrl은 공식 이벤트 상세 또는 쿠폰 받기 URL만 허용한다."
+  },
+  {
+    "id": "toss-official-benefit-feed",
+    "label": "토스 공식 혜택 콘텐츠",
+    "provider": "official_event",
+    "category": [
+      "카드/멤버십",
+      "무료혜택"
+    ],
+    "sourceType": "official_notice_page",
+    "officialUrl": "https://toss.im/tossfeed/topic/%ED%98%9C%ED%83%9D",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_notice_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "토스 공식 혜택/포인트/이벤트 안내 중 앱 내 받을 수 있는 혜택과 공식 상세가 확인되는 항목",
+    "blockedUse": "토스 메인, 검색 결과, 비공식 금융 블로그, 혜택 조건이 확인되지 않는 기사형 콘텐츠",
+    "notes": "토스 앱 내 혜택은 직접 딥링크 또는 공식 상세 URL이 확인될 때만 사용자 CTA로 노출한다."
   }
 ]
