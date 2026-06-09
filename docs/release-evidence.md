@@ -4,10 +4,10 @@
 
 ## 기본 정보
 
-- 생성 시각: 2026-06-09T04:06:48.208Z
+- 생성 시각: 2026-06-09T04:10:45.022Z
 - Git 브랜치: codex/12h-product-ux-growth-hardening
-- 최신 커밋: 7ff30b06
-- Git 상태: clean
+- 최신 커밋: ff03ce8a
+- Git 상태: M KNOWN_ISSUES.md;  M PUBLIC_URL_REPORT.md;  M RELEASE_NOTES.json;  M RELEASE_NOTES.md;  M STORE_CONSOLE_FIELDS.json;  M STORE_HANDOFF_REPORT.md;  M STORE_PACKET_REPORT.md;  M STORE_SCREENSHOTS_REPORT.md;  M STORE_SUBMISSION_REPORT.md;  M SUPPORT_PLAYBOOK.json;  M SUPPORT_PLAYBOOK.md;  M docs/KNOWN_ISSUES.md;  M docs/PUBLIC_URL_REPORT.md;  M docs/RELEASE_NOTES.md;  M docs/STORE_CONSOLE_FIELDS.md;  M docs/STORE_HANDOFF_REPORT.md;  M docs/STORE_PACKET_REPORT.md;  M docs/STORE_SCREENSHOTS_REPORT.md;  M docs/STORE_SUBMISSION_REPORT.md;  M docs/SUPPORT_PLAYBOOK.md
 - 패키지 버전: 1.0.1
 - 앱 이름: 할인도사
 - 앱 ID / 패키지명: com.halindosa.app
@@ -36,14 +36,14 @@
 | Device QA execution manifest JSON | `DEVICE_QA_MANIFEST.json` | 6KB |
 | Device QA readiness report | `docs/DEVICE_QA_REPORT.md` | 4KB |
 | Store submission readiness report | `docs/STORE_SUBMISSION_REPORT.md` | 5KB |
-| Store submission packet QA report | `docs/STORE_PACKET_REPORT.md` | 6KB |
+| Store submission packet QA report | `docs/STORE_PACKET_REPORT.md` | 5KB |
 | Store console fields manifest | `docs/STORE_CONSOLE_FIELDS.md` | 4KB |
 | Store console fields manifest JSON | `STORE_CONSOLE_FIELDS.json` | 4KB |
-| Store manual submission checklist | `docs/STORE_MANUAL_CHECKLIST.md` | 4KB |
-| Store manual submission checklist JSON | `STORE_MANUAL_CHECKLIST.json` | 5KB |
-| Store launch handoff report | `docs/STORE_HANDOFF_REPORT.md` | 5KB |
+| Store manual submission checklist | `docs/STORE_MANUAL_CHECKLIST.md` | 5KB |
+| Store manual submission checklist JSON | `STORE_MANUAL_CHECKLIST.json` | 6KB |
+| Store launch handoff report | `docs/STORE_HANDOFF_REPORT.md` | 4KB |
 | Release notes | `docs/RELEASE_NOTES.md` | 4KB |
-| Release notes JSON | `RELEASE_NOTES.json` | 5KB |
+| Release notes JSON | `RELEASE_NOTES.json` | 4KB |
 | Support playbook | `docs/SUPPORT_PLAYBOOK.md` | 6KB |
 | Support playbook JSON | `SUPPORT_PLAYBOOK.json` | 5KB |
 | Known issues report | `docs/KNOWN_ISSUES.md` | 3KB |
@@ -65,8 +65,8 @@
 | Official source live check JSON | `reports/official-source-live-check.json` | 105KB |
 | Official source live check CSV | `reports/official-source-live-check.csv` | 54KB |
 | Official source onboarding plan | `docs/SOURCE_ONBOARDING_PLAN.md` | 46KB |
-| Official source onboarding JSON | `reports/source-onboarding-plan.json` | 194KB |
-| Official source onboarding CSV | `reports/source-onboarding-plan.csv` | 57KB |
+| Official source onboarding JSON | `reports/source-onboarding-plan.json` | 196KB |
+| Official source onboarding CSV | `reports/source-onboarding-plan.csv` | 58KB |
 | Image backlog report | `docs/IMAGE_BACKLOG_REPORT.md` | 27KB |
 | Image backlog CSV | `IMAGE_BACKLOG.csv` | 51KB |
 | Image backlog next batch CSV | `IMAGE_BACKLOG_NEXT_BATCH.csv` | 13KB |
