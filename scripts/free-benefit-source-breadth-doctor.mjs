@@ -144,6 +144,25 @@ const requiredBrandSignals = [
   { id: "experience-panel", label: "체험단/샘플 플랫폼", patterns: [/powderroom|파우더룸|체험단|샘플|review/i] }
 ];
 
+const publicPolicyPatterns = [
+  /gov|정부|보조금|복지|bokjiro|공공|공기관|지자체|정책/i,
+  /서울|seoul|청년|한강|공원|평생학습|yeyak\.seoul|youth\.seoul|sll\.seoul/i,
+  /culture\.go|문화가.?있는.?날|문화포털|mnuri|visitkorea/i,
+  /hrd|work24|고용24|내일배움|kmooc|k-mooc|kocw|ebs|교육|훈련/i
+];
+
+const publicPolicySourceTypes = new Set([
+  "approved_public",
+  "approved_public_benefit_page",
+  "public_benefit_page",
+  "public_official_page"
+]);
+
+function isPublicPolicySource(source) {
+  const text = sourceText(source);
+  return publicPolicySourceTypes.has(String(source.sourceType ?? "")) || publicPolicyPatterns.some((pattern) => pattern.test(text));
+}
+
 function readJson(path, fallback) {
   if (!existsSync(path)) return fallback;
   try {
@@ -176,6 +195,43 @@ const issues = [];
 
 if (!Array.isArray(catalog)) {
   issues.push("data/officialSourceCatalog.json must be an array.");
+}
+
+const activeCatalog = (Array.isArray(catalog) ? catalog : []).filter((source) => liveRowsById.get(source.id)?.status !== "stale_or_removed");
+const publicPolicySources = activeCatalog.filter(isPublicPolicySource);
+const consumerBenefitSources = activeCatalog.filter((source) => !isPublicPolicySource(source));
+const highPriorityConsumerSources = consumerBenefitSources.filter((source) => source.priority === "high");
+const consumerSourceRate = activeCatalog.length ? Math.round((consumerBenefitSources.length / activeCatalog.length) * 100) : 0;
+const publicPolicySourceRate = activeCatalog.length ? Math.round((publicPolicySources.length / activeCatalog.length) * 100) : 0;
+
+const consumerFirstPolicy = {
+  minimumConsumerSourceRate: 70,
+  minimumHighPriorityConsumerSources: 30,
+  maximumPublicPolicySourceRate: 35,
+  activeSourceCount: activeCatalog.length,
+  consumerBenefitSourceCount: consumerBenefitSources.length,
+  consumerSourceRate,
+  highPriorityConsumerSourceCount: highPriorityConsumerSources.length,
+  publicPolicySourceCount: publicPolicySources.length,
+  publicPolicySourceRate,
+  defaultExposure: "consumer_first_public_policy_opt_in",
+  publicPolicyDefaultHandling: "excluded_from_default_home_and_freebies_unless_explicitly_requested",
+  ok:
+    consumerSourceRate >= 70 &&
+    highPriorityConsumerSources.length >= 30 &&
+    publicPolicySourceRate <= 35
+};
+
+if (consumerSourceRate < consumerFirstPolicy.minimumConsumerSourceRate) {
+  issues.push(`Consumer benefit source rate must be ${consumerFirstPolicy.minimumConsumerSourceRate}%+, got ${consumerSourceRate}%.`);
+}
+
+if (highPriorityConsumerSources.length < consumerFirstPolicy.minimumHighPriorityConsumerSources) {
+  issues.push(`High-priority consumer benefit sources must be ${consumerFirstPolicy.minimumHighPriorityConsumerSources}+, got ${highPriorityConsumerSources.length}.`);
+}
+
+if (publicPolicySourceRate > consumerFirstPolicy.maximumPublicPolicySourceRate) {
+  issues.push(`Public/policy source rate must stay <= ${consumerFirstPolicy.maximumPublicPolicySourceRate}% for the default catalog mix, got ${publicPolicySourceRate}%.`);
 }
 
 const lanes = requiredLanes.map((lane) => {
@@ -255,6 +311,7 @@ const report = {
   passedBrandSignalCount: brandSignals.filter((brand) => brand.ok).length,
   minimumTotalActiveSources: requiredLanes.reduce((total, lane) => total + lane.minimum, 0),
   liveReportStatus: liveReport.ok === true ? "available" : "missing_or_not_ok",
+  consumerFirstPolicy,
   lanes,
   brandSignals,
   issues,
@@ -277,6 +334,18 @@ const docs = [
   `- 필수 수집 축: ${report.passedLaneCount}/${report.requiredLaneCount} 통과`,
   `- 핵심 브랜드 신호: ${report.passedBrandSignalCount}/${report.requiredBrandSignalCount} 통과`,
   `- live report: ${report.liveReportStatus}`,
+  `- 소비자형 공식 혜택 소스: ${consumerFirstPolicy.consumerBenefitSourceCount}/${consumerFirstPolicy.activeSourceCount}개 (${consumerFirstPolicy.consumerSourceRate}%)`,
+  `- 공공/정책성 소스 기본 처리: ${consumerFirstPolicy.publicPolicyDefaultHandling}`,
+  "",
+  "## 소비자형 우선 정책",
+  "",
+  "| 지표 | 기준 | 현재 | 상태 |",
+  "| --- | ---: | ---: | --- |",
+  `| 소비자형 공식 혜택 소스 비율 | ${consumerFirstPolicy.minimumConsumerSourceRate}% 이상 | ${consumerFirstPolicy.consumerSourceRate}% | ${consumerFirstPolicy.consumerSourceRate >= consumerFirstPolicy.minimumConsumerSourceRate ? "PASS" : "FAIL"} |`,
+  `| high priority 소비자형 소스 | ${consumerFirstPolicy.minimumHighPriorityConsumerSources}개 이상 | ${consumerFirstPolicy.highPriorityConsumerSourceCount}개 | ${consumerFirstPolicy.highPriorityConsumerSourceCount >= consumerFirstPolicy.minimumHighPriorityConsumerSources ? "PASS" : "FAIL"} |`,
+  `| 공공/정책성 소스 비율 | ${consumerFirstPolicy.maximumPublicPolicySourceRate}% 이하 | ${consumerFirstPolicy.publicPolicySourceRate}% | ${consumerFirstPolicy.publicPolicySourceRate <= consumerFirstPolicy.maximumPublicPolicySourceRate ? "PASS" : "FAIL"} |`,
+  "",
+  "기본 홈/무료혜택 feed는 쇼핑몰, 브랜드, 편의점, 뷰티, 카페, 배달, 페이/포인트, 체험단 같은 소비자형 혜택을 먼저 보여줍니다. 공공/정책성 혜택은 별도 요청 또는 전용 필터에서만 다루는 방향을 유지합니다.",
   "",
   "| 수집 축 | 기준 | 활성 소스 | 상태 | 대표 소스 |",
   "| --- | ---: | ---: | --- | --- |",
