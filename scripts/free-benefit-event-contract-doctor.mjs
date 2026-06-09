@@ -26,6 +26,7 @@ const homeFreebieHeroSource = read("components/home/HomeFreebieHero.tsx");
 const freeBenefitsClientSource = read("components/FreeBenefitsClient.tsx");
 const verifySource = read("scripts/verify-benefit-events.mjs");
 const smokeSource = read("scripts/smoke.mjs");
+const smokePageChecksSource = read("scripts/lib/smoke-page-checks.mjs");
 
 const requiredTypeFields = [
   "title",
@@ -324,8 +325,14 @@ const checks = [
       "publishableOnly",
       "claimCtaLabel",
       "trustBadges"
-    ]).length === 0,
-    "Smoke should hit the events API and assert publishable policy, category counts, CTA, trust badges, and no-purchase filtering."
+    ]).length === 0 &&
+      hasAll(smokePageChecksSource, [
+        "expectedFreeBenefitEventCategories",
+        "data.freebiesMeta?.categoryCounts",
+        "data.freeBenefitEvents.length",
+        "home quick filter"
+      ]).length === 0,
+    "Smoke should hit the events API and home API, then assert publishable policy, category counts, CTA, trust badges, and no-purchase filtering."
   )
 ];
 
@@ -342,7 +349,8 @@ const report = {
     "components/home/HomeFreebieHero.tsx",
     "components/FreeBenefitsClient.tsx",
     "scripts/verify-benefit-events.mjs",
-    "scripts/smoke.mjs"
+    "scripts/smoke.mjs",
+    "scripts/lib/smoke-page-checks.mjs"
   ],
   checks
 };

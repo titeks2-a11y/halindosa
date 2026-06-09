@@ -83,6 +83,17 @@ export async function runPageSmokeChecks() {
         assert(data.cachePolicy?.mode === "no-store", "/api/home should expose no-store snapshot metadata");
         assert(data.newsMeta?.freshnessStatus, "/api/home should expose official benefit freshness metadata");
         assert(data.newsMeta?.categoryCounts && data.newsMeta?.benefitTypeCounts, "/api/home should expose full official benefit count metadata");
+        const expectedFreeBenefitEventCategories = ["all", "everyone", "firstCome", "coupon", "sample", "freeTrial", "gifticon", "pointCashback", "checkIn", "signup", "publicFree", "experiencePanel"];
+        assert(Array.isArray(data.freeBenefitEvents) && data.freeBenefitEvents.length >= 4, "/api/home should expose publishable free benefit events for the home hero");
+        assert(
+          Array.isArray(data.freebiesMeta?.categoryCounts) &&
+            expectedFreeBenefitEventCategories.every((id) => data.freebiesMeta.categoryCounts.some((category) => category.id === id && typeof category.count === "number")),
+          "/api/home should expose active free benefit event category counts for every home quick filter"
+        );
+        assert(
+          data.freebiesMeta.categoryCounts.find((category) => category.id === "all")?.count === data.freeBenefitEvents.length,
+          "/api/home free benefit all-count should match returned home free benefit event rows"
+        );
         assert(data.quality?.productDeals?.publishableLinks >= 0, "/api/home should expose product publishable quality metadata");
         assert(data.quality?.officialBenefits?.publishable >= 0, "/api/home should expose official benefit publishable quality metadata");
         assert(data.quality?.exposure?.publishableTotal >= data.quality?.officialBenefits?.publishable, "/api/home should expose combined publishable exposure quality metadata");

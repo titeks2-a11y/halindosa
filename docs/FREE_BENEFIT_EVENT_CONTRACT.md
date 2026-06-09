@@ -1,6 +1,6 @@
 # FreeBenefitEvent 계약
 
-Generated: 2026-06-09T03:24:07.600Z
+Generated: 2026-06-09T03:29:14.405Z
 
 Status: PASS
 
@@ -72,5 +72,5 @@ Status: PASS
 | home event cards expose claim conditions | PASS | Home free-benefit event cards should show participation condition, login/purchase requirement, and validation state in compact trust badges. |
 | free benefits event cards expose claim conditions | PASS | /free-benefits event cards should show participation condition, login/purchase requirement, and validation state in compact trust badges. |
 | verify benefits enforces official active event floor | PASS | verify:benefits should produce JSON/Markdown evidence and fail low official active/source/host coverage. |
-| smoke covers benefits events API contract | PASS | Smoke should hit the events API and assert publishable policy, category counts, CTA, trust badges, and no-purchase filtering. |
+| smoke covers benefits events API contract | PASS | Smoke should hit the events API and home API, then assert publishable policy, category counts, CTA, trust badges, and no-purchase filtering. |
 
