@@ -518,6 +518,8 @@ export async function checkUiAccessibility() {
     "상단 \"무료혜택 다음에 볼 상품\" 레일",
     "snap-x/snap-start",
     "오른쪽 fade/넘기기 신호",
+    "13개 필터",
+    "룰렛",
     "로그인 필요/구매 필요 조건 배지"
   ];
   const mobileUxMissing = mobileUxReportRequired.filter((phrase) => !mobileUxReport.includes(phrase));
@@ -525,7 +527,7 @@ export async function checkUiAccessibility() {
   if (mobileUxMissing.length || mobileUxReport.includes("Generated: 2026-")) {
     fail("mobile ux report coverage", `Mobile UX report should be stable and include all compact mobile gates. Missing: ${mobileUxMissing.join(", ") || "none"}`);
   } else {
-    pass("mobile ux report coverage", "Mobile UX report records the stable 15-gate compact first-screen regression suite.");
+    pass("mobile ux report coverage", "Mobile UX report records the stable 15-gate compact first-screen regression suite with 13 free-benefit filters including roulette.");
   }
 
   if (

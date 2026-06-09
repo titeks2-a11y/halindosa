@@ -1724,7 +1724,8 @@ export async function checkOperationalDataSurfaces() {
     !freeBenefitEventContractScript.includes("FREE_BENEFIT_EVENT_CONTRACT.md") ||
     !freeBenefitEventContractScript.includes("free-benefit-event-contract.json") ||
     !freeBenefitEventContractDoc.includes("FreeBenefitEvent 계약") ||
-    !freeBenefitEventContractDoc.includes("노출 조건")
+    !freeBenefitEventContractDoc.includes("노출 조건") ||
+    !freeBenefitEventContractDoc.includes("룰렛")
   ) {
     fail("free benefit event contract", "FreeBenefitEvent should preserve official event URL fields, participation conditions, publishable-only filtering, no-store API behavior, unsafe URL blocking, dedupe, and contract documentation.");
   } else {
