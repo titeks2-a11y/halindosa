@@ -32,7 +32,7 @@ const requiredLanes = [
     id: "cafe-franchise",
     label: "카페·프랜차이즈",
     minimum: 6,
-    patterns: [/starbucks|스타벅스|twosome|투썸|ediya|이디야|megacoffee|mega.?mgc|메가커피|메가mgc|mcdonald|맥도날드|kfc|bhc|domino|도미노|pizza|피자|subway|써브웨이/i]
+    patterns: [/starbucks|스타벅스|twosome|투썸|ediya|이디야|megacoffee|mega.?mgc|메가커피|메가mgc|mcdonald|맥도날드|kfc|bhc|domino|도미노|pizza|피자|subway|써브웨이|baskin|배스킨|던킨|dunkin|paris|파리바게뜨/i]
   },
   {
     id: "delivery",
@@ -101,6 +101,9 @@ const requiredBrandSignals = [
   { id: "twosome", label: "투썸플레이스", patterns: [/twosome|투썸/i] },
   { id: "ediya", label: "이디야", patterns: [/ediya|이디야/i] },
   { id: "mega-mgc", label: "메가MGC커피", patterns: [/mega.?mgc|megacoffee|메가mgc|메가커피/i] },
+  { id: "baskinrobbins", label: "배스킨라빈스", patterns: [/baskin|배스킨|배라/i] },
+  { id: "dunkin", label: "던킨", patterns: [/dunkin|던킨/i] },
+  { id: "parisbaguette", label: "파리바게뜨", patterns: [/parisbaguette|paris.?baguette|파리바게뜨|파바/i] },
   { id: "baemin", label: "배민", patterns: [/baemin|배민/i] },
   { id: "yogiyo", label: "요기요", patterns: [/yogiyo|요기요/i] },
   { id: "coupang-eats", label: "쿠팡이츠", patterns: [/coupang.?eats|쿠팡이츠/i] },

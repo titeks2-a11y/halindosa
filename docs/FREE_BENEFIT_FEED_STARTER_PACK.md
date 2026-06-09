@@ -1,11 +1,11 @@
 # 무료혜택 운영 Feed Starter Pack
 
-- 생성 시각: 2026-06-09T00:07:17.811Z
-- 공식 소스 후보: 110개
+- 생성 시각: 2026-06-09T02:04:21.318Z
+- 공식 소스 후보: 128개
 - starter lane: 8개
 - 연결 후보: 64개
-- 접근 가능 후보: 60개
-- 보호/승인 필요 후보: 4개
+- 접근 가능 후보: 62개
+- 보호/승인 필요 후보: 2개
 
 ## 사용 방법
 
@@ -22,10 +22,10 @@
 | 편의점 1+1·2+1 | OFFICIAL_EVENT_FEED_URLS<br>DEAL_EVENT_FEED_URLS | 8 | 8 | 0 | OFFICIAL_EVENT_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 뷰티 샘플·체험 | OFFICIAL_EVENT_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS | 8 | 7 | 1 | OFFICIAL_EVENT_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 카페·외식 쿠폰 | OFFICIAL_EVENT_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS<br>DEAL_EVENT_NEWS_FEED_URLS | 8 | 8 | 0 | OFFICIAL_EVENT_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
-| 페이·포인트·캐시백 | PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS | 8 | 6 | 2 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
+| 페이·포인트·캐시백 | PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS | 8 | 7 | 1 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 공공·문화 무료 | PUBLIC_COUPON_FEED_URLS<br>DEAL_NEWS_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS | 8 | 8 | 0 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 교육 무료체험 | PUBLIC_COUPON_FEED_URLS<br>DEAL_NEWS_FEED_URLS | 8 | 8 | 0 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
-| 반려동물·체험단 | BENEFIT_REFRESH_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS | 8 | 7 | 1 | BENEFIT_REFRESH_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
+| 반려동물·체험단 | BENEFIT_REFRESH_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS | 8 | 8 | 0 | BENEFIT_REFRESH_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 
 ## 우선 후보
 
@@ -36,12 +36,12 @@
 
 | 후보 | 상태 | 권장 작업 | 공식 확인 URL |
 | --- | --- | --- | --- |
+| 해피포인트 공식 쿠폰·모바일 혜택 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.happypointcard.com/coupon/coupon.spc |
+| OK캐쉬백 공식 앱 설치·포인트 이벤트 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.okcashbag.com/event/newwelcomeback |
 | 아모레몰 공식 뷰티포인트·샘플 이벤트 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.amoremall.com/kr/ko/main.html |
+| 토스 공식 혜택 콘텐츠 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://toss.im/tossfeed/topic/%ED%98%9C%ED%83%9D |
+| L.POINT 공식 미션·룰렛·출석 혜택 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.lpoint.com/app/common/LHZZ300300.do |
 | PAYCO 공식 이벤트·쿠폰 혜택 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.payco.com/event.nhn |
-| 고용24 직업훈련·국민내일배움카드 공식 지원 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.work24.go.kr/cm/main.do |
-| 복지로 공식 복지서비스·신청 혜택 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.bokjiro.go.kr/ssis-tbu/index.do |
-| K-MOOC 공식 무료 온라인 강좌 예시 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.kmooc.kr/view/course/detail/18713 |
-| LG U+ 공식 라이프케어 혜택 이벤트 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.lguplus.com/benefit-event/lifecare/home/81776 |
 
 ### 편의점 1+1·2+1
 
@@ -68,8 +68,8 @@
 | 이니스프리 공식 샘플마켓 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://m.innisfree.com/kr/ko/dp/sample-market |
 | 이니스프리 공식 이벤트·쿠폰 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.innisfree.com/kr/ko/dp/posting-list |
 | 아모레몰 공식 뷰티포인트·샘플 이벤트 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.amoremall.com/kr/ko/main.html |
+| 닥터지 공식 이벤트·샘플 혜택 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.dr-g.co.kr/event |
 | 올리브영 공식 이벤트 | guarded | 무단 수집하지 말고 브랜드/제휴 담당자 승인 JSON/RSS/API feed로 연결 | https://www.oliveyoung.co.kr/store/main/getEventList.do |
-| 롯데ON 공식 롭스·뷰티 이벤트 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.lotteon.com/event/onLohbsShare |
 
 ### 카페·외식 쿠폰
 
@@ -81,9 +81,9 @@
 | 스타벅스 리워드 공식 혜택 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.starbucks.co.kr/msr/msreward/about.do |
 | KFC 공식 딜리버리 무료배송 혜택 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.kfckorea.com/promotion/promotionList/detail/1053 |
 | 메가MGC커피 공식 이벤트 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.mega-mgccoffee.com/bbs/board.php?bo_table=event |
+| 메가MGC커피 공식 이벤트·쿠폰 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.mega-mgccoffee.com/bbs/?bbs_category=3 |
 | 스타벅스 공식 캠페인 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.starbucks.co.kr/whats_new/campaign_list.do |
 | 이디야커피 공식 이벤트·쿠폰 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.ediya.com/contents/event.html |
-| 던킨 공식 이달의 콤보 쿠폰 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.dunkindonuts.co.kr/event/view?id=5392 |
 
 ### 페이·포인트·캐시백
 
@@ -92,12 +92,12 @@
 
 | 후보 | 상태 | 권장 작업 | 공식 확인 URL |
 | --- | --- | --- | --- |
+| OK캐쉬백 공식 앱 설치·포인트 이벤트 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.okcashbag.com/event/newwelcomeback |
 | PAYCO 공식 이벤트·쿠폰 혜택 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.payco.com/event.nhn |
+| 해피포인트 공식 쿠폰·모바일 혜택 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.happypointcard.com/coupon/coupon.spc |
 | OK캐쉬백 공식 이벤트 혜택 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.okcashbag.com/life/event/eventHome.do |
 | 카카오페이 공식 멤버십·포인트 혜택 | guarded | 무단 수집하지 말고 브랜드/제휴 담당자 승인 JSON/RSS/API feed로 연결 | https://www.kakaopay.com/services/life/membership |
-| LG U+ 공식 라이프케어 혜택 이벤트 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.lguplus.com/benefit-event/lifecare/home/81776 |
-| OK캐쉬백 공식 브랜드 이벤트 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.okcashbag.com/life/event/eventMain.do |
-| 네이버페이 공식 이벤트 혜택 | guarded | 무단 수집하지 말고 브랜드/제휴 담당자 승인 JSON/RSS/API feed로 연결 | https://new-m.pay.naver.com/pcpay/eventbenefit |
+| L.POINT 공식 미션·룰렛·출석 혜택 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.lpoint.com/app/common/LHZZ300300.do |
 
 ### 공공·문화 무료
 
@@ -136,10 +136,10 @@
 | --- | --- | --- | --- |
 | 아모레몰 공식 뷰티포인트·샘플 이벤트 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.amoremall.com/kr/ko/main.html |
 | 이니스프리 공식 샘플마켓 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://m.innisfree.com/kr/ko/dp/sample-market |
+| 닥터지 공식 이벤트·샘플 혜택 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.dr-g.co.kr/event |
 | 라운드랩 공식 이벤트 게시판 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://roundlab.co.kr/board/gallery/list.html?board_no=8 |
 | 롯데ON 공식 롭스·뷰티 이벤트 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.lotteon.com/event/onLohbsShare |
-| 로얄캐닌 코리아 공식 반려동물 캠페인 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.royalcanin.com/kr/about-us/news/sol4-campaign |
-| 이니스프리 공식 이벤트·쿠폰 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.innisfree.com/kr/ko/dp/posting-list |
+| LG생활건강 네이처컬렉션 공식 이벤트 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.naturecollection.com/mall/event/event.jsp |
 
 ## 금지 원칙
 

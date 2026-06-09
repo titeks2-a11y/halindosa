@@ -2,11 +2,11 @@
 
 이 문서는 공식 이벤트/혜택 소스 후보의 현재 접근 상태를 non-strict 방식으로 기록합니다. 무단 크롤링을 수행하지 않으며, 보호된 페이지는 공식 API/RSS/제휴 feed 또는 수동 승인 데이터로 연결해야 합니다.
 
-- 생성 시각: 2026-06-09T00:33:44.766Z
+- 생성 시각: 2026-06-09T02:04:42.725Z
 - 모드: non_strict_live_readiness
-- 후보 소스: 114개
-- 접근 가능: 98개
-- 보호/권한 확인 필요: 16개
+- 후보 소스: 128개
+- 접근 가능: 109개
+- 보호/권한 확인 필요: 19개
 - 검토 필요: 0개
 - timeout/network error: 0개
 - 404/410 교체 필요: 0개
@@ -22,8 +22,8 @@
 
 | 상태 | 수 | 운영 액션 |
 | --- | ---: | --- |
-| reachable | 98 | 승인 feed 또는 공식 페이지 매핑 후보로 유지 |
-| guarded | 16 | 공식 API/RSS/제휴 feed 확인 |
+| reachable | 109 | 승인 feed 또는 공식 페이지 매핑 후보로 유지 |
+| guarded | 19 | 공식 API/RSS/제휴 feed 확인 |
 | needs_review | 0 | 최종 도메인과 응답 정책 수동 확인 |
 | timeout/network_error | 0 | 재시도 또는 담당자 확인 |
 | stale_or_removed | 0 | 카탈로그 URL 교체 전 사용 금지 |
@@ -146,6 +146,20 @@
 | thefaceshop-official-events | official_event | medium | reachable | 200 | thefaceshop.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | naturecollection-official-events | official_event | medium | reachable | 200 | naturecollection.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | toss-official-benefit-feed | official_event | medium | reachable | 200 | toss.im | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| twosome-heart-app-membership | official_event | medium | guarded | 403 | twosome.co.kr | 무단 크롤링하지 말고 공식 API/RSS/제휴 feed 또는 수동 승인 매핑 사용 |
+| mega-mgc-official-events | official_event | medium | reachable | 200 | mega-mgccoffee.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| coupang-eats-official-benefits | official_event | low | reachable | 200 | coupangeats.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| lottemart-official-benefits | official_event | medium | reachable | 200 | company.lottemart.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| daisomall-official-events | official_event | medium | reachable | 200 | daisomall.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| gmarket-official-coupon-event | official_event | medium | guarded | 403 | gmarket.co.kr | 무단 크롤링하지 말고 공식 API/RSS/제휴 feed 또는 수동 승인 매핑 사용 |
+| auction-official-ecoupon-event | official_event | medium | guarded | 0 | promotion.auction.co.kr | 공식 feed 연결 전 브라우저/제휴 담당자 확인 필요 |
+| eventhouse-approved-event-discovery | public_coupon | low | reachable | 200 | eventhouse.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| baskinrobbins-official-event-list | official_event | medium | reachable | 200 | baskinrobbins.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| dunkin-official-event-benefits | official_event | medium | reachable | 200 | dunkindonuts.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| parisbaguette-official-promotions | official_event | medium | reachable | 200 | paris.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| happy-point-official-coupons | official_event | high | reachable | 200 | happypointcard.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| okcashbag-welcome-point-event | official_event | high | reachable | 200 | okcashbag.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| lpoint-official-daily-missions | official_event | medium | reachable | 200 | m.lpoint.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 
 ## 다음 작업
 

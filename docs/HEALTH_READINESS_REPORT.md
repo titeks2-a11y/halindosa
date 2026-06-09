@@ -2,7 +2,7 @@
 
 이 문서는 상품 링크, 공식 혜택, refresh 파이프라인이 실제 출시 운영 기준을 만족하는지 요약합니다.
 
-- 생성 시각: 2026-06-08T21:51:11.375Z
+- 생성 시각: 2026-06-09T02:05:02.617Z
 - 운영 준비 점수: 100/100
 - 상태: PASS
 
@@ -20,7 +20,7 @@
 - 공식 feed canary: seed_fallback_only · fresh · 0시간 · 연결 0개 · 후보 0개
 - 공식 혜택 Provider 위험도: 정상 0개 · 관찰 4개 · 즉시 점검 0개
 - 공식 소스 통합 준비도: seed launch ready / 공식 feed 연결 대기
-- 공식 소스 후보/노출 혜택: 95개 / 105개
+- 공식 소스 후보/노출 혜택: 128개 / 105개
 - 공식 소스 차단 이슈: 0개
 - 공식 혜택 리포트 신선도: 0시간
 - refresh:all 상태: PASS
@@ -62,8 +62,8 @@
 ## 공식 소스 통합 준비도
 
 - 상태: seed launch ready / 공식 feed 연결 대기 (passed)
-- 공식 소스 후보: 95개
-- 접근 가능/보호 소스: 82개 / 13개
+- 공식 소스 후보: 128개
+- 접근 가능/보호 소스: 109개 / 19개
 - 설정된 공식 feed URL: 0개
 - 공식 혜택 노출 가능: 105개
 - 차단 이슈: 0개
@@ -74,7 +74,7 @@
 - 새 후보를 추가할 때는 공식 URL, 허용 사용 범위, 차단 사용 범위, env key를 함께 기록합니다.
 - 사용자 finalUrl은 검색 결과, 커뮤니티 원문, 쇼핑몰 메인이 아니라 공식 이벤트·혜택·구매 상세 페이지여야 합니다.
 - OFFICIAL_EVENT_FEED_URLS 또는 DEAL_EVENT_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL 연결
-- PUBLIC_COUPON_FEED_URLS 또는 OFFICIAL_EVENT_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL 연결
+- OFFICIAL_EVENT_FEED_URLS 또는 PUBLIC_COUPON_FEED_URLS 또는 BENEFIT_REFRESH_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL 연결
 
 ## 자동 refresh cron 운영
 
@@ -106,7 +106,7 @@
 | configured empty feed watch | PASS | configured-empty=0; providers=none. |
 | official feed canary | PASS | status=seed_fallback_only; freshness=fresh; age=0h; configured=0; visible=0. |
 | provider risk gate | PASS | Official benefit providers danger=0, watch=4. |
-| official source readiness gate | PASS | 95 official source candidates, 105 visible official benefits, blocking failed gates=0, advisory failed gates=0. |
+| official source readiness gate | PASS | 128 official source candidates, 105 visible official benefits, blocking failed gates=0, advisory failed gates=0. |
 
 ## 운영 조치
 

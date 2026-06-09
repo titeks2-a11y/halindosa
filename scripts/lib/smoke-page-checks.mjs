@@ -24,7 +24,7 @@ export async function runPageSmokeChecks() {
     assert(text.includes("샤오미 86인치") || text.includes("새우깡"), "Home page missing initial deal cards");
     assert(text.includes("네트워크 정상") || text.includes("오프라인 상태"), "Home page missing compact network status");
     assert(text.includes("구매 전 판매처 확인") || text.includes("판매처 확인"), "Home page missing purchase verification guidance");
-    assert(text.includes("빠른 상품 검색") || text.includes("상품명·쇼핑몰 검색"), "Home page missing compact search");
+    assert(text.includes("혜택 검색") || text.includes("혜택·브랜드 검색"), "Home page missing compact benefit search");
     assert(text.includes("카테고리 바로가기") || text.includes("전체상품"), "Home page missing category shortcuts");
     assert(text.includes("상품 목록 빠른 스캔") && text.includes("목록 안에서 많이 나온 기준"), "Home page missing product list scan shortcuts");
     assert(

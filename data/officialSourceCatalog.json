@@ -2600,5 +2600,140 @@
     "allowedUse": "공식 브랜드 이벤트를 발견하기 위한 보조 수집 후보. 최종 CTA는 이벤트하우스가 아니라 원 브랜드 공식 이벤트·신청 URL로만 연결한다.",
     "blockedUse": "이벤트하우스 글 자체를 무료혜택 CTA로 쓰는 행위, 광고성 중간 페이지, 커뮤니티 댓글 이벤트 원문만 있는 링크, 종료된 응모",
     "notes": "비공식 모음 성격이 있으므로 사용자 화면에는 직접 노출하지 않고, 공식 주최사 URL을 확인한 뒤 originalUrl/finalUrl을 교체한 항목만 publishable로 전환한다."
+  },
+  {
+    "id": "baskinrobbins-official-event-list",
+    "label": "배스킨라빈스 공식 이벤트·제휴혜택",
+    "provider": "official_event",
+    "category": [
+      "외식/배달",
+      "카드/멤버십",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.baskinrobbins.co.kr/play/event/list.php?category=C",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "배스킨라빈스 공식 이벤트, 제휴 할인, 앱 쿠폰, 멤버십 혜택 중 공식 상세와 기간이 확인되는 항목",
+    "blockedUse": "배스킨라빈스 메인, 매장 검색, 비공식 쿠폰 판매글, 커뮤니티 캡처, 종료된 제휴혜택",
+    "notes": "공식 이벤트 목록에서 상세 URL을 확보한 항목만 사용자 CTA로 연결하고, 소진 시 종료 문구가 있으면 숨김 처리한다."
+  },
+  {
+    "id": "dunkin-official-event-benefits",
+    "label": "던킨 공식 이벤트·쿠폰 혜택",
+    "provider": "official_event",
+    "category": [
+      "외식/배달",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.dunkindonuts.co.kr/index.php/event/view?id=4516",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "던킨 공식 이벤트, 앱 쿠폰, 제휴 할인, 무료 증정 혜택 중 공식 상세와 참여 조건이 확인되는 항목",
+    "blockedUse": "던킨 브랜드 메인, 상품 소개만 있는 페이지, 검색 결과, 비공식 쿠폰 공유글",
+    "notes": "공식 상세 URL 단위로 수집하며, 홈 루트만 있는 항목은 운영 후보에만 보관한다."
+  },
+  {
+    "id": "parisbaguette-official-promotions",
+    "label": "파리바게뜨 공식 프로모션",
+    "provider": "official_event",
+    "category": [
+      "외식/배달",
+      "카드/멤버십",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.paris.co.kr/promotion/pb-with-lafc/",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "파리바게뜨 공식 프로모션, 팬 이벤트, 제휴 혜택, 앱 쿠폰 중 공식 상세와 기간이 확인되는 항목",
+    "blockedUse": "파리바게뜨 홈페이지 메인, 제품 상세만 있는 페이지, 뉴스 기사, 비공식 이벤트 정리글",
+    "notes": "프로모션 상세에서 기간과 참여 조건을 추출하고, 일반 상품 소개는 무료혜택 랭킹에서 제외한다."
+  },
+  {
+    "id": "happy-point-official-coupons",
+    "label": "해피포인트 공식 쿠폰·모바일 혜택",
+    "provider": "official_event",
+    "category": [
+      "카드/멤버십",
+      "외식/배달",
+      "무료혜택"
+    ],
+    "sourceType": "official_coupon_page",
+    "officialUrl": "https://www.happypointcard.com/coupon/coupon.spc",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 6,
+    "allowedUse": "해피포인트 공식 쿠폰, 모바일 쿠폰, 제휴 브랜드 혜택 중 공식 수령 또는 안내 페이지가 확인되는 항목",
+    "blockedUse": "중고 쿠폰 거래, 비공식 쿠폰 번호 공유, 캡처 이미지 단독 노출",
+    "notes": "회원·앱 필요 여부를 requiresLogin에 남기고, 실제 쿠폰 받기 경로가 불명확하면 publishable로 전환하지 않는다."
+  },
+  {
+    "id": "okcashbag-welcome-point-event",
+    "label": "OK캐쉬백 공식 앱 설치·포인트 이벤트",
+    "provider": "official_event",
+    "category": [
+      "카드/멤버십",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.okcashbag.com/event/newwelcomeback",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 6,
+    "allowedUse": "OK캐쉬백 공식 포인트, 앱 설치, 제휴 브랜드 적립, 미션 이벤트 중 공식 조건이 확인되는 항목",
+    "blockedUse": "광고성 앱 다운로드 중간 페이지, 비공식 추천인 공유글, 포인트 판매글",
+    "notes": "SMS/앱 설치가 필요한 이벤트는 참여 조건과 개인정보 이동 고지를 카드 조건에 명확히 남긴다."
+  },
+  {
+    "id": "lpoint-official-daily-missions",
+    "label": "L.POINT 공식 미션·룰렛·출석 혜택",
+    "provider": "official_event",
+    "category": [
+      "카드/멤버십",
+      "무료혜택"
+    ],
+    "sourceType": "official_benefit_page",
+    "officialUrl": "https://www.lpoint.com/app/common/LHZZ300300.do",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "L.POINT 공식 앱 미션, 출석체크, 룰렛, 포인트 적립 혜택 중 공식 안내와 참여 조건이 확인되는 항목",
+    "blockedUse": "엘포인트 메인만 있는 링크, PDF 영업자료, 비공식 포인트 적립 팁 글",
+    "notes": "앱 기반 혜택은 앱 설치·로그인 필요 배지를 표시하고, 실제 이벤트 또는 미션 경로가 확인된 경우만 CTA로 연결한다."
   }
 ]

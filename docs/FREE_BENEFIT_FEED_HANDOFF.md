@@ -1,10 +1,10 @@
 # 무료혜택 Feed 운영 핸드오프
 
-- 생성 시각: 2026-06-09T00:07:29.072Z
+- 생성 시각: 2026-06-09T02:04:44.392Z
 - starter lane: 8개
 - 연결 후보: 64개
-- 접근 가능 후보: 60개
-- 보호/승인 필요 후보: 4개
+- 접근 가능 후보: 62개
+- 보호/승인 필요 후보: 2개
 - 현재 설정된 feed URL: 0개
 - canary 상태: seed_fallback_only
 
@@ -51,18 +51,18 @@ npm run smoke:local
 | 편의점 1+1·2+1 | OFFICIAL_EVENT_FEED_URLS<br>DEAL_EVENT_FEED_URLS | 8 | 8 | 0 | OFFICIAL_EVENT_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 뷰티 샘플·체험 | OFFICIAL_EVENT_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS | 8 | 7 | 1 | OFFICIAL_EVENT_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 카페·외식 쿠폰 | OFFICIAL_EVENT_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS<br>DEAL_EVENT_NEWS_FEED_URLS | 8 | 8 | 0 | OFFICIAL_EVENT_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
-| 페이·포인트·캐시백 | PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS | 8 | 6 | 2 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
+| 페이·포인트·캐시백 | PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS | 8 | 7 | 1 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 공공·문화 무료 | PUBLIC_COUPON_FEED_URLS<br>DEAL_NEWS_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS | 8 | 8 | 0 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 교육 무료체험 | PUBLIC_COUPON_FEED_URLS<br>DEAL_NEWS_FEED_URLS | 8 | 8 | 0 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
-| 반려동물·체험단 | BENEFIT_REFRESH_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS | 8 | 7 | 1 | BENEFIT_REFRESH_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
+| 반려동물·체험단 | BENEFIT_REFRESH_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS | 8 | 8 | 0 | BENEFIT_REFRESH_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 
 ## 바로 확인할 후보
 
 ### 오늘의 무료혜택
 
+- 해피포인트 공식 쿠폰·모바일 혜택: https://www.happypointcard.com/coupon/coupon.spc
+- OK캐쉬백 공식 앱 설치·포인트 이벤트: https://www.okcashbag.com/event/newwelcomeback
 - 아모레몰 공식 뷰티포인트·샘플 이벤트: https://www.amoremall.com/kr/ko/main.html
-- PAYCO 공식 이벤트·쿠폰 혜택: https://www.payco.com/event.nhn
-- 고용24 직업훈련·국민내일배움카드 공식 지원: https://www.work24.go.kr/cm/main.do
 
 ### 편의점 1+1·2+1
 
@@ -84,9 +84,9 @@ npm run smoke:local
 
 ### 페이·포인트·캐시백
 
+- OK캐쉬백 공식 앱 설치·포인트 이벤트: https://www.okcashbag.com/event/newwelcomeback
 - PAYCO 공식 이벤트·쿠폰 혜택: https://www.payco.com/event.nhn
-- OK캐쉬백 공식 이벤트 혜택: https://www.okcashbag.com/life/event/eventHome.do
-- LG U+ 공식 라이프케어 혜택 이벤트: https://www.lguplus.com/benefit-event/lifecare/home/81776
+- 해피포인트 공식 쿠폰·모바일 혜택: https://www.happypointcard.com/coupon/coupon.spc
 
 ### 공공·문화 무료
 
@@ -104,7 +104,7 @@ npm run smoke:local
 
 - 아모레몰 공식 뷰티포인트·샘플 이벤트: https://www.amoremall.com/kr/ko/main.html
 - 이니스프리 공식 샘플마켓: https://m.innisfree.com/kr/ko/dp/sample-market
-- 라운드랩 공식 이벤트 게시판: https://roundlab.co.kr/board/gallery/list.html?board_no=8
+- 닥터지 공식 이벤트·샘플 혜택: https://www.dr-g.co.kr/event
 
 ## 금지 원칙
 

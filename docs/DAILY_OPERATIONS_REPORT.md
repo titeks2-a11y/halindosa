@@ -1,6 +1,6 @@
 # 할인도사 일일 운영 리포트
 
-- 생성 시각: 2026-06-08T21:51:11.900Z
+- 생성 시각: 2026-06-09T02:05:03.153Z
 - 운영 상태: 오늘 운영 가능
 - 상품 링크: 140/140 검증
 - 검색 링크 노출: 0건
@@ -9,7 +9,7 @@
 - 숨김 리뷰 상품: 0개
 - 공식 혜택 노출: 105개
 - refresh:all: 통과
-- release:doctor: 187/187
+- release:doctor: 188/188
 
 ## 오늘 운영 게이트
 
@@ -18,9 +18,9 @@
 | 검증 구매 링크 | passed | 상품 140개, 검증 링크 140개, 고객 노출 140개, 숨김 리뷰 0개, 검색 링크 0개, 품절 노출 0개 | npm run verify:links && npm run verify:products && npm run exposure:doctor |
 | 공식 혜택 노출 | passed | 공식 혜택 105개, 숨김 0개, 종료 0개, 실패 0개 | npm run refresh:news && npm run verify:news |
 | refresh:all | passed | refresh:all ok=true, failed=0 | npm run refresh:all |
-| 공식 소스 준비도 | passed | 공식 소스 95개, launch gate=passed | npm run source:readiness:report |
+| 공식 소스 준비도 | passed | 공식 소스 128개, launch gate=passed | npm run source:readiness:report |
 | cron/push 운영 준비 | passed | cron=ready, push readiness=100 | npm run cron:refresh:doctor && npm run push:readiness:report |
-| release doctor | passed | 187/187 checks | npm run release:doctor |
+| release doctor | passed | 188/188 checks | npm run release:doctor |
 
 ## 운영 카드
 
@@ -29,9 +29,9 @@
 | 구매 링크 | good | 140/140 | 검색, 대표몰, 품절 링크를 노출하지 않고 mismatch는 숨김 리뷰 큐로 보냅니다. | npm run verify:links |
 | 공식 혜택 | good | 105개 | 무료, 쿠폰, 카드, 문화, 공공 혜택의 공식 링크 노출 상태입니다. | npm run verify:news |
 | 수집 파이프라인 | good | 정상 | 상품과 혜택 refresh가 같은 증적 흐름으로 갱신되는지 봅니다. | npm run refresh:all |
-| 공식 소스 | good | 95개 | 향후 API/RSS/제휴 feed 전환 후보와 정책 게이트입니다. | npm run source:readiness:report |
+| 공식 소스 | good | 128개 | 향후 API/RSS/제휴 feed 전환 후보와 정책 게이트입니다. | npm run source:readiness:report |
 | 자동 운영 | good | ready | daily refresh와 푸시 준비 상태를 점검합니다. | npm run cron:refresh:doctor |
-| 출시 게이트 | good | 187/187 | 스토어 제출 전 회귀 게이트입니다. | npm run release:doctor |
+| 출시 게이트 | good | 188/188 | 스토어 제출 전 회귀 게이트입니다. | npm run release:doctor |
 
 ## 우선 처리 큐
 

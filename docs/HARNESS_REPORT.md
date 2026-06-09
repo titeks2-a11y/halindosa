@@ -1,31 +1,32 @@
 # 할인도사 Harness Report
 
-Started: 2026-06-08T21:34:14.344Z
-Finished: 2026-06-08T21:36:15.374Z
+Started: 2026-06-09T02:01:01.834Z
+Finished: 2026-06-09T02:03:05.051Z
 Status: PASS
 
 ## Summary
 
 | Step | Result | Duration |
 | --- | --- | ---: |
-| lint | PASS | 16.1s |
-| build | PASS | 27.2s |
-| verify:links | PASS | 2.9s |
+| lint | PASS | 16.0s |
+| build | PASS | 27.1s |
+| verify:links | PASS | 3.1s |
 | test:external-links | PASS | 0.6s |
 | test:images | PASS | 0.5s |
 | news:images:enrich | PASS | 9.1s |
 | verify:images | PASS | 0.6s |
 | image:operations:doctor | PASS | 0.5s |
 | test:search | PASS | 7.6s |
-| test:ui | PASS | 0.6s |
+| test:ui | PASS | 0.5s |
 | test:mobile-ux | PASS | 0.5s |
 | test:mobile-compact | PASS | 0.5s |
-| home:realtime:doctor | PASS | 0.6s |
-| test:home-realtime | PASS | 4.8s |
+| home:realtime:doctor | PASS | 0.5s |
+| test:home-realtime | PASS | 4.4s |
 | test:seo | PASS | 0.6s |
 | test:perf | PASS | 0.5s |
 | security:check | PASS | 0.8s |
-| smoke:local | PASS | 45.2s |
+| benefit:event:contract | PASS | 0.5s |
+| smoke:local | PASS | 47.6s |
 | release:doctor | PASS | 1.8s |
 
 ## Step Output
@@ -127,6 +128,12 @@ See streamed console output.
 ```
 
 ### security:check
+
+```text
+See streamed console output.
+```
+
+### benefit:event:contract
 
 ```text
 See streamed console output.
