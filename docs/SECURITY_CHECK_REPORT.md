@@ -1,11 +1,11 @@
 # Security Check Report
 
-Generated: 2026-06-09T01:34:29.023Z
+Generated: 2026-06-09T01:37:04.747Z
 
 | Metric | Value |
 | --- | ---: |
-| Checks | 10 |
-| Passed | 10 |
+| Checks | 11 |
+| Passed | 11 |
 | Failed | 0 |
 
 ## Checks
@@ -15,6 +15,7 @@ Generated: 2026-06-09T01:34:29.023Z
 - PASS free benefit model: FreeBenefitEvent model, sanitizer, dedupe title normalizer, official URL guard, SSRF private host guard, claim CTA, and trust badges are present.
 - PASS freebies api guard: Public freebies API has rate limiting, request IDs, and generic error output.
 - PASS free benefit events api guard: Public free benefit event API has rate limiting, request IDs, publishable-only filtering, no-store cache policy, and generic error output.
+- PASS home api generic error guard: Home API keeps no-store runtime data and returns generic errors without exposing internal exception messages.
 - PASS cron secret guard: Cron refresh route requires secret/admin auth and rate limit.
 - PASS official redirect allowlist: Official benefit redirects use visible deal lookup and approved-host destination policy.
 - PASS xss rendering guard: No unsafe HTML rendering found; JSON-LD escapes '<'.

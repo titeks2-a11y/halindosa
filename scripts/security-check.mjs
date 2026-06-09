@@ -60,6 +60,7 @@ const packageJson = JSON.parse(read(join(root, "package.json")) || "{}");
 const envExample = read(join(root, ".env.example"));
 const freebiesApi = read(join(root, "app", "api", "freebies", "route.ts"));
 const benefitEventsApi = read(join(root, "app", "api", "benefits", "events", "route.ts"));
+const homeApi = read(join(root, "app", "api", "home", "route.ts"));
 const freeBenefitEvents = read(join(root, "lib", "freeBenefitEvents.ts"));
 const newsLinkPolicy = read(join(root, "lib", "deals", "newsLinkPolicy.ts"));
 const goNewsRoute = read(join(root, "app", "go", "news", "[id]", "route.ts"));
@@ -118,6 +119,18 @@ addCheck(
     benefitEventsApi.includes("mode: \"no-store\"") &&
     !benefitEventsApi.includes("error.message"),
   "Public free benefit event API has rate limiting, request IDs, publishable-only filtering, no-store cache policy, and generic error output."
+);
+
+addCheck(
+  checks,
+  "home api generic error guard",
+  homeApi.includes("force-no-store") &&
+    homeApi.includes("cachePolicy") &&
+    homeApi.includes("freeBenefitEvents") &&
+    homeApi.includes("HOME_LOAD_FAILED") &&
+    !homeApi.includes("error.message") &&
+    !homeApi.includes("Unknown error"),
+  "Home API keeps no-store runtime data and returns generic errors without exposing internal exception messages."
 );
 
 addCheck(

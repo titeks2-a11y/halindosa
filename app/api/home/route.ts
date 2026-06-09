@@ -273,7 +273,7 @@ export async function GET(request: Request) {
       },
       message: "할인도사 홈 최신 데이터를 no-store 정책으로 불러왔습니다."
     });
-  } catch (error) {
+  } catch {
     const generatedAt = new Date().toISOString();
     return noStoreJson(
       {
@@ -318,7 +318,7 @@ export async function GET(request: Request) {
           }
         },
         message: "홈 최신 데이터를 불러오지 못했습니다.",
-        error: error instanceof Error ? error.message : "Unknown error"
+        error: "HOME_LOAD_FAILED"
       },
       { status: 200 }
     );
