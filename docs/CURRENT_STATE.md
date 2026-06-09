@@ -34,16 +34,17 @@
 
 ## 데이터 상태
 
-- 공식 소스 후보: `162`
-- 뉴스/혜택 seed: `140`
-- `data/refreshedNewsDeals.json` 기준 refreshed 항목: `137`
-- `publishable=true`, `validationStatus=passed`, `availability=active` 기준 노출 가능 항목: `137`
+- 공식 소스 후보: `164`
+- 뉴스/혜택 seed: `142`
+- `data/refreshedNewsDeals.json` 기준 refreshed 항목: `139`
+- `publishable=true`, `validationStatus=passed`, `availability=active` 기준 노출 가능 항목: `139`
 - 최근 보강 소스:
   - 파파이스 공식 이벤트·쿠폰 혜택
   - 서울시 공공서비스예약 무료 체험·교육 혜택
   - 아모레몰 체험/샘플/포인트 혜택
   - 문화가 있는 날, K-MOOC, 복지로, 고용24 등 공공/교육 혜택
   - 카카오페이, OK캐쉬백, 해피포인트 등 포인트/멤버십 혜택
+  - 신한카드 공식 신규 고객 연회비 캐시백, 생활요금 자동납부 캐시백 혜택
 
 ## 품질 정책
 
@@ -74,10 +75,10 @@
 
 최근 안정 커밋 기준으로 다음 게이트가 통과한 상태로 기록되어 있다.
 
-- `npm run refresh:news`: 140개 수집, 137개 노출
-- `npm run refresh:benefits`: active 공식 무료혜택 이벤트 134개
-- `npm run verify:news`: 137/137 공식 혜택 링크 검증
-- `npm run verify:freebies`: 133/133 통과
+- `npm run refresh:news`: 142개 수집, 139개 노출
+- `npm run refresh:benefits`: active 공식 무료혜택 이벤트 136개
+- `npm run verify:news`: 139/139 공식 혜택 링크 검증
+- `npm run verify:freebies`: 135/135 통과
 - `npm run qa`: 75/75 통과
 - `npm run test:mobile-ux`: 16/16 통과
 - `npm run release:doctor`: 188/188 통과

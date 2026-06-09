@@ -1,12 +1,12 @@
 # Official Event Refresh Report
 
-Generated: 2026-06-09T08:50:51.455Z
+Generated: 2026-06-09T09:11:37.461Z
 
 ## Summary
 
 - Mode: events
-- Matched items: 130
-- Visible official items: 130
+- Matched items: 132
+- Visible official items: 132
 - Hidden/blocked items: 0
 - Exposed search links: 0
 - Exposed non-official links: 0
@@ -32,12 +32,12 @@ All visible rows must keep `/go/news/[id]` redirect tracking and must resolve to
 | news-gs25-card-june-2026 | GS25 6월 신용카드 현장 할인 혜택 | GS25 공식 이벤트 | 마트/편의점 | gs25.gsretail.com | `/go/news/news-gs25-card-june-2026` |
 | news-gs25-event-goods | GS25 행사상품 공식 목록 | GS25 공식 행사상품 | 마트/편의점 | gs25.gsretail.com | `/go/news/news-gs25-event-goods` |
 | news-lotteeatz-june-coupon | 롯데잇츠 공식 외식 쿠폰 혜택 | 롯데잇츠 공식 이벤트 | 외식/배달 | lotteeatz.com | `/go/news/news-lotteeatz-june-coupon` |
+| news-shinhancard-annual-fee-cashback-202606 | 신한카드 신규 고객 첫 연회비 전액 캐시백 | 신한카드 공식 이벤트 | 카드/멤버십 | shinhancard.com | `/go/news/news-shinhancard-annual-fee-cashback-202606` |
+| news-shinhancard-utility-autopay-cashback-202606 | 신한카드 생활요금 자동납부 캐시백·경품 혜택 | 신한카드 공식 이벤트 | 카드/멤버십 | shinhancard.com | `/go/news/news-shinhancard-utility-autopay-cashback-202606` |
 | news-culture-day-programs-2026 | 이번 주 문화가 있는 날 프로그램 | 문화가 있는 날 공식 | 영화/문화 | culture.go.kr | `/go/news/news-culture-day-programs-2026` |
 | news-culture-day-weekly-2026 | 문화가 있는 날 매주 수요일 문화 혜택 | 지역문화통합정보시스템 | 정부/공공혜택 | culture.go.kr | `/go/news/news-culture-day-weekly-2026` |
 | news-kbcard-official-event-center | KB국민카드 공식 이벤트 혜택 모음 | KB국민카드 공식 이벤트 | 카드/멤버십 | card.kbcard.com | `/go/news/news-kbcard-official-event-center` |
 | news-kbcard-membership-benefit-center | KB국민카드 공식 생활 할인 혜택 | KB국민카드 공식 혜택 | 카드/멤버십 | card.kbcard.com | `/go/news/news-kbcard-membership-benefit-center` |
-| news-hmall-official-shopping-event | 현대Hmall 공식 쇼핑 기획전 혜택 | 현대Hmall 공식 이벤트 | 패션/뷰티 | hyundaihmall.com | `/go/news/news-hmall-official-shopping-event` |
-| news-bccard-official-event-center | BC카드 공식 이벤트 혜택 모음 | BC카드 공식 이벤트 | 카드/멤버십 | bccard.com | `/go/news/news-bccard-official-event-center` |
 
 ## Blocked Items
 

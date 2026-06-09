@@ -3514,5 +3514,49 @@
     "allowedUse": "서울시 공공서비스예약 공식 페이지에서 접수중, 무료, 선착순, 문화체험, 교육강좌, 예약 신청 조건이 확인되는 혜택",
     "blockedUse": "서울시 메인, 민간 소개글, 검색 결과, 접수 종료 서비스, 유료 시설대관 단독 링크, 신청 버튼이 없는 요약글",
     "notes": "목록은 발견 소스로 사용하고, 사용자 CTA는 서울시 공공서비스예약 공식 예약 상세 또는 접수 가능한 무료 프로그램 URL로 연결한다."
+  },
+  {
+    "id": "shinhancard-annual-fee-cashback-202606",
+    "label": "신한카드 공식 신규 고객 연회비 캐시백",
+    "provider": "official_event",
+    "category": [
+      "카드/멤버십",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.shinhancard.com/pconts/html/benefit/event/1239025_2239.html",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "신한카드 공식 이벤트 상세에서 응모기간, 신규 발급 조건, 마케팅 동의, 이용금액, 연회비 캐시백 조건이 확인되는 혜택",
+    "blockedUse": "신한카드 이벤트 검색 결과, 카드 상품 안내만 있는 페이지, 블로그 요약글, 종료된 이벤트, 응모 버튼이나 기간 조건이 확인되지 않는 링크",
+    "notes": "구매/카드 발급 조건이 있으므로 무료혜택 메인 랭킹에서는 구매 필요 배지를 달고 우선순위를 낮춘다."
+  },
+  {
+    "id": "shinhancard-utility-autopay-cashback-202606",
+    "label": "신한카드 공식 생활요금 자동납부 캐시백",
+    "provider": "official_event",
+    "category": [
+      "카드/멤버십",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.shinhancard.com/pconts/html/benefit/event/1239015_2239.html",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "신한카드 공식 이벤트 상세에서 생활요금 자동납부 응모기간, 납부기간, 캐시백 금액, 경품 조건이 확인되는 혜택",
+    "blockedUse": "카드사 메인, 이벤트 목록만 있는 링크, 뉴스 기사, 제휴 광고 중간 페이지, 종료된 자동납부 이벤트",
+    "notes": "생활요금 자동납부 신청과 카드 결제가 필요한 조건형 혜택으로, CTA는 신한카드 공식 이벤트 상세에만 연결한다."
   }
 ]

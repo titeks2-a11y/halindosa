@@ -4134,5 +4134,67 @@
       "선착순",
       "공식신청"
     ]
+  },
+  {
+    "id": "news-shinhancard-annual-fee-cashback-202606",
+    "title": "신한카드 신규 고객 첫 연회비 전액 캐시백",
+    "summary": "신한카드 공식 이벤트 상세에서 대상 카드 신규 발급, 마케팅 동의, 이용금액 조건을 충족하면 첫 연회비 전액 캐시백 혜택을 확인할 수 있습니다.",
+    "merchant": "신한카드",
+    "category": "카드/멤버십",
+    "benefitType": "card",
+    "discountRate": 100,
+    "price": 0,
+    "originalPrice": 0,
+    "couponAmount": 0,
+    "startDate": "2026-06-01",
+    "endDate": "2026-06-30",
+    "sourceName": "신한카드 공식 이벤트",
+    "sourceUrl": "https://www.shinhancard.com/pconts/html/benefit/event/1239025_2239.html",
+    "finalUrl": "https://www.shinhancard.com/pconts/html/benefit/event/1239025_2239.html",
+    "imageUrl": "",
+    "confidenceScore": 89,
+    "validationStatus": "needs_review",
+    "isHidden": false,
+    "hiddenReason": "",
+    "lastCheckedAt": "",
+    "provider": "official_event",
+    "tags": [
+      "카드",
+      "캐시백",
+      "신규가입",
+      "구매필요",
+      "공식이벤트"
+    ]
+  },
+  {
+    "id": "news-shinhancard-utility-autopay-cashback-202606",
+    "title": "신한카드 생활요금 자동납부 캐시백·경품 혜택",
+    "summary": "신한카드 공식 이벤트 상세에서 아파트관리비, 도시가스, 전화요금, 전기요금 자동납부 신청 후 캐시백과 경품 참여 조건을 확인할 수 있습니다.",
+    "merchant": "신한카드",
+    "category": "카드/멤버십",
+    "benefitType": "card",
+    "discountRate": 100,
+    "price": 0,
+    "originalPrice": 0,
+    "couponAmount": 0,
+    "startDate": "2026-06-01",
+    "endDate": "2026-06-30",
+    "sourceName": "신한카드 공식 이벤트",
+    "sourceUrl": "https://www.shinhancard.com/pconts/html/benefit/event/1239015_2239.html",
+    "finalUrl": "https://www.shinhancard.com/pconts/html/benefit/event/1239015_2239.html",
+    "imageUrl": "",
+    "confidenceScore": 87,
+    "validationStatus": "needs_review",
+    "isHidden": false,
+    "hiddenReason": "",
+    "lastCheckedAt": "",
+    "provider": "official_event",
+    "tags": [
+      "카드",
+      "캐시백",
+      "생활요금",
+      "구매필요",
+      "공식이벤트"
+    ]
   }
 ]

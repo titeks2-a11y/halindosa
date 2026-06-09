@@ -1,12 +1,12 @@
 # 무료혜택 Verification Report
 
-Generated: 2026-06-09T08:50:10.663Z
+Generated: 2026-06-09T09:11:56.132Z
 
 ## Summary
 
 - Status: PASS
-- Visible official freebies: 133
-- Candidate freebies: 133
+- Visible official freebies: 135
+- Candidate freebies: 135
 - Blocked freebies: 0
 - Exposed search links: 0
 - Exposed non-official links: 0
@@ -29,6 +29,8 @@ Generated: 2026-06-09T08:50:10.663Z
 | news-gs25-card-june-2026 | GS25 6월 신용카드 현장 할인 혜택 | GS25 공식 이벤트 | card | `/go/news/news-gs25-card-june-2026` |
 | news-gs25-event-goods | GS25 행사상품 공식 목록 | GS25 공식 행사상품 | discount | `/go/news/news-gs25-event-goods` |
 | news-lotteeatz-june-coupon | 롯데잇츠 공식 외식 쿠폰 혜택 | 롯데잇츠 공식 이벤트 | coupon | `/go/news/news-lotteeatz-june-coupon` |
+| news-shinhancard-annual-fee-cashback-202606 | 신한카드 신규 고객 첫 연회비 전액 캐시백 | 신한카드 공식 이벤트 | card | `/go/news/news-shinhancard-annual-fee-cashback-202606` |
+| news-shinhancard-utility-autopay-cashback-202606 | 신한카드 생활요금 자동납부 캐시백·경품 혜택 | 신한카드 공식 이벤트 | card | `/go/news/news-shinhancard-utility-autopay-cashback-202606` |
 | news-culture-day-programs-2026 | 이번 주 문화가 있는 날 프로그램 | 문화가 있는 날 공식 | culture | `/go/news/news-culture-day-programs-2026` |
 | news-culture-day-weekly-2026 | 문화가 있는 날 매주 수요일 문화 혜택 | 지역문화통합정보시스템 | public | `/go/news/news-culture-day-weekly-2026` |
 | news-kbcard-official-event-center | KB국민카드 공식 이벤트 혜택 모음 | KB국민카드 공식 이벤트 | card | `/go/news/news-kbcard-official-event-center` |
@@ -38,6 +40,4 @@ Generated: 2026-06-09T08:50:10.663Z
 | news-cgv-official-events | CGV 공식 이벤트·쿠폰 혜택 | CGV 공식 이벤트 | culture | `/go/news/news-cgv-official-events` |
 | news-lottecinema-official-events | 롯데시네마 공식 이벤트 혜택 | 롯데시네마 공식 이벤트 | culture | `/go/news/news-lottecinema-official-events` |
 | news-tworld-membership-upgrade | T 멤버십 장기고객 등급 업그레이드 혜택 | T world 공식 혜택 | membership | `/go/news/news-tworld-membership-upgrade` |
-| news-tworld-longterm-discount | T world 장기고객 요금할인 안내 | T world 공식 혜택 | membership | `/go/news/news-tworld-longterm-discount` |
-| news-koreanair-promotion | 대한항공 공식 항공권 프로모션 | 대한항공 공식 프로모션 | travel | `/go/news/news-koreanair-promotion` |
 
