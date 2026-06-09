@@ -1,11 +1,11 @@
 # Security Check Report
 
-Generated: 2026-06-09T04:04:10.583Z
+Generated: 2026-06-09T04:47:22.024Z
 
 | Metric | Value |
 | --- | ---: |
-| Checks | 11 |
-| Passed | 11 |
+| Checks | 12 |
+| Passed | 12 |
 | Failed | 0 |
 
 ## Checks
@@ -18,6 +18,7 @@ Generated: 2026-06-09T04:04:10.583Z
 - PASS home api generic error guard: Home API keeps no-store runtime data and returns generic errors without exposing internal exception messages.
 - PASS cron secret guard: Cron refresh route requires secret/admin auth and rate limit.
 - PASS official redirect allowlist: Official benefit redirects use visible deal lookup and approved-host destination policy.
+- PASS official source catalog guard: Official source catalog has 142 safe candidates with explicit CTA policy text.
 - PASS xss rendering guard: No unsafe HTML rendering found; JSON-LD escapes '<'.
 - PASS public env secret separation: No NEXT_PUBLIC server-secret style variables found.
 - PASS hardcoded secret scan: No common high-risk token patterns found in tracked source files.

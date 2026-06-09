@@ -65,10 +65,42 @@ const freeBenefitEvents = read(join(root, "lib", "freeBenefitEvents.ts"));
 const newsLinkPolicy = read(join(root, "lib", "deals", "newsLinkPolicy.ts"));
 const goNewsRoute = read(join(root, "app", "go", "news", "[id]", "route.ts"));
 const cronRoute = read(join(root, "app", "api", "cron", "refresh", "route.ts"));
+const sourceCatalog = read(join(root, "data", "officialSourceCatalog.json"));
 const harness = read(join(root, "scripts", "harness.mjs"));
 const runQa = read(join(root, "scripts", "run-qa.mjs"));
 const files = walk(root);
 const checks = [];
+
+function readJsonText(text, fallback) {
+  try {
+    return JSON.parse(text);
+  } catch {
+    return fallback;
+  }
+}
+
+function hasUnsafeOfficialSourceUrl(source) {
+  try {
+    const url = new URL(source.officialUrl);
+    const value = `${url.hostname}${url.pathname}${url.search}`.toLowerCase();
+    return (
+      !["http:", "https:"].includes(url.protocol) ||
+      /ppomppu|fmkorea|quasarzone|algumon|clien|ruliweb|dcinside|theqoo|instiz/.test(value) ||
+      /\/search|search\?|query=|keyword=|msearch|totalsearch|searchresult|\/result|\/find/.test(value)
+    );
+  } catch {
+    return true;
+  }
+}
+
+function hasOfficialBenefitPolicyText(source) {
+  const text = `${source.allowedUse ?? ""} ${source.blockedUse ?? ""} ${source.notes ?? ""}`;
+  return (
+    /공식|승인|상세|신청|쿠폰|이벤트|혜택|샘플|초대권/.test(text) &&
+    /검색|커뮤니티|비공식|종료|마감|메인|기사|거래 글|광고|블로그|중개|판매자|유료/.test(text) &&
+    /조건|feed|매핑|claim|finalUrl|사용자|노출|연결|공식 상세|신청|기록|전환|안내|카드|분류|확인|cautionText|rewardText/.test(text)
+  );
+}
 
 const missingEnv = requiredEnvKeys.filter((key) => !new RegExp(`^${key}=`, "m").test(envExample));
 addCheck(checks, "env example coverage", missingEnv.length === 0, missingEnv.length ? `Missing env keys: ${missingEnv.join(", ")}` : "Client/public and server-only env keys are documented.");
@@ -149,6 +181,20 @@ addCheck(
     goNewsRoute.includes("resolveNewsDealDestinationUrl") &&
     goNewsRoute.includes("findVisibleNewsDealById"),
   "Official benefit redirects use visible deal lookup and approved-host destination policy."
+);
+
+const catalogRows = readJsonText(sourceCatalog, []);
+const unsafeCatalogRows = Array.isArray(catalogRows) ? catalogRows.filter(hasUnsafeOfficialSourceUrl) : ["invalid_catalog"];
+const weakPolicyRows = Array.isArray(catalogRows)
+  ? catalogRows.filter((source) => source.category?.includes?.("무료혜택") && !hasOfficialBenefitPolicyText(source))
+  : ["invalid_catalog"];
+addCheck(
+  checks,
+  "official source catalog guard",
+  Array.isArray(catalogRows) && catalogRows.length >= 100 && unsafeCatalogRows.length === 0 && weakPolicyRows.length === 0,
+  unsafeCatalogRows.length || weakPolicyRows.length
+    ? `Unsafe/weak official source catalog rows: ${[...unsafeCatalogRows, ...weakPolicyRows].slice(0, 12).map((source) => source.id ?? String(source)).join(", ")}`
+    : `Official source catalog has ${Array.isArray(catalogRows) ? catalogRows.length : 0} safe candidates with explicit CTA policy text.`
 );
 
 const riskyHtml = files

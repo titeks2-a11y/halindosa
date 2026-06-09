@@ -54,6 +54,7 @@ npm run workspace:doctor:strict
 - 공식 소스 후보는 142개이며, source feed starter pack은 12개 lane 기준으로 확장되어 있다.
 - 맘큐 공식 이벤트 목록과 신규회원 웰컴혜택 소스가 추가되어 육아/샘플/신규가입 혜택 발견 축이 보강되었다.
 - 마지막 live check 기준 공식 소스는 reachable 123개, guarded 19개, stale_or_removed 0개다.
+- `security:check`는 공식 소스 카탈로그가 검색/커뮤니티/비공식/약한 CTA 정책을 포함하지 않는지도 검사한다.
 - source feed env readiness 구조가 있다.
   - `lib/operations/sourceFeedEnvReadiness.ts`
   - `scripts/source-feed-env-doctor.mjs`
@@ -90,6 +91,9 @@ npm run source:catalog:report
 npm run source:breadth:doctor
 npm run source:live:doctor
 npm run source:feed-env:doctor
+npm run security:check
+npm run qa
+npm run harness
 npm run smoke:local
 npm run release:doctor
 npm run workspace:doctor:strict
