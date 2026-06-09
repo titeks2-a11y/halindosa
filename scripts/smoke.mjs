@@ -2279,6 +2279,23 @@ await check("admin image queue csv", async () => {
   assert(text.includes("sourceSafetyLevel") && text.includes("imageReadyGate") && text.includes("requiredFeedFields") && text.includes("operatorChecklist") && text.includes("requestTemplate"), "Image queue CSV missing official image ready gate fields");
 });
 
+await check("image proxy abuse guard", async () => {
+  const unsafeCases = [
+    ["/api/image", 400],
+    ["/api/image?url=javascript%3Aalert(1)", 400],
+    ["/api/image?url=https%3A%2F%2Fexample.com%2Fimage.jpg", 400],
+    ["/api/image?url=http%3A%2F%2F127.0.0.1%2Fimage.jpg", 400]
+  ];
+
+  for (const [path, expectedStatus] of unsafeCases) {
+    const response = await fetch(`${baseUrl}${path}`);
+    const text = await response.text();
+    assert(response.status === expectedStatus, `Expected ${path} to return ${expectedStatus}, got ${response.status}`);
+    assert(response.headers.get("x-request-id"), `${path} missing request id`);
+    assert(!text.includes("Unknown error") && !text.includes("Error:"), `${path} exposed internal error details`);
+  }
+});
+
 await check("seo files", async () => {
   const [sitemap, robots, manifest] = await Promise.all([
     fetch(`${baseUrl}/sitemap.xml`).then((response) => response.text()),
