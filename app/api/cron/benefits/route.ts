@@ -8,6 +8,8 @@ import { sanitizedProcessTail } from "@/lib/cronOutput";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
+export const fetchCache = "force-no-store";
 export const maxDuration = 60;
 
 const reportsDir = join(process.cwd(), "reports");

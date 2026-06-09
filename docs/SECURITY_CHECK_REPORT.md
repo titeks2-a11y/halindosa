@@ -1,11 +1,11 @@
 # Security Check Report
 
-Generated: 2026-06-09T17:53:03.946Z
+Generated: 2026-06-09T19:45:32.496Z
 
 | Metric | Value |
 | --- | ---: |
-| Checks | 16 |
-| Passed | 16 |
+| Checks | 17 |
+| Passed | 17 |
 | Failed | 0 |
 
 ## Checks
@@ -17,6 +17,7 @@ Generated: 2026-06-09T17:53:03.946Z
 - PASS core public api rate limits: Home, news benefits, and product deals APIs expose request IDs, no-store responses, rate-limit abuse protection, and generic error output.
 - PASS free benefit events api guard: Public free benefit event API has rate limiting, request IDs, publishable-only filtering, no-store cache policy, and generic error output.
 - PASS home api generic error guard: Home API keeps no-store runtime data and returns generic errors without exposing internal exception messages.
+- PASS image proxy abuse guard: Image proxy rate-limits requests, validates initial and redirected hosts, rejects non-image/oversized responses, sets nosniff, and returns generic errors.
 - PASS security response headers: Web deployment applies CSP, HSTS, clickjacking, MIME, referrer, and permissions headers while leaving Capacitor static export untouched.
 - PASS cron secret guard: Cron refresh and benefits routes require secret/admin auth, trusted browser origins, and rate limits.
 - PASS cron output redaction: Cron process output is sanitized before API/report exposure and public failure messages avoid stack/log detail hints.

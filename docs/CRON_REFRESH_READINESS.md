@@ -12,16 +12,17 @@ Status: ready
 | Schedule | 0 18 * * * |
 | Benefits schedule | 0 21 * * * |
 | Protected route | PASS |
+| No-store route policy | PASS |
 | Dry-run guard | PASS |
 | refresh:all evidence | PASS |
 | news:feed:live evidence | PASS |
 | Live feed status | seed_launch_ready |
 | Live feed configured URL | 0 |
-| Live feed official benefits | 109 |
+| Live feed official benefits | 130 |
 | refresh:benefits evidence | PASS |
 | Free benefit events evidence | PASS |
-| Free benefit visible active events | 106 |
-| Free benefit source count | 96 |
+| Free benefit visible active events | 128 |
+| Free benefit source count | 98 |
 | Free benefit host count | 76 |
 | Health cron status | manual_refresh_ready |
 | Actual cron report | not generated yet |
@@ -31,6 +32,7 @@ Status: ready
 
 | Check | Result | Detail |
 | --- | --- | --- |
+| cron no-store route policy | PASS | Cron refresh and benefits endpoints explicitly opt out of static rendering and fetch caching. |
 | protected route | PASS | Cron endpoint requires CRON_SECRET, bearer/header secret, or admin token. |
 | trusted origin guard | PASS | Cron refresh and benefits endpoints reject untrusted browser origins while allowing server cron calls. |
 | sanitized process output | PASS | Cron process output is redacted before it can appear in API/report payloads. |
@@ -44,10 +46,10 @@ Status: ready
 | operations report | PASS | Cron operations layer exposes last-run status and report path. |
 | benefits operations report | PASS | Cron operations layer exposes dedicated benefits cron status and event evidence. |
 | health and admin surfaces | PASS | Health API and admin dashboard expose refresh and benefits cron readiness. |
-| refresh-all evidence | PASS | refresh:all is healthy with 140 product deals and 109 official benefits. |
-| live feed evidence | PASS | news:feed:live is seed_launch_ready with 109 official benefits and zero unsafe exposed links. |
+| refresh-all evidence | PASS | refresh:all is healthy with 140 product deals and 130 official benefits. |
+| live feed evidence | PASS | news:feed:live is seed_launch_ready with 130 official benefits and zero unsafe exposed links. |
 | benefits refresh evidence | PASS | refresh:benefits is healthy with 4/4 passing steps. |
-| free benefit event evidence | PASS | free benefit events expose 106 active events across 96 sources and 76 hosts. |
+| free benefit event evidence | PASS | free benefit events expose 128 active events across 98 sources and 76 hosts. |
 | health readiness status | PASS | Health readiness marks cron refresh as manual_refresh_ready. |
 | runbook | PASS | RUNBOOK documents protected cron execution and report inspection. |
 

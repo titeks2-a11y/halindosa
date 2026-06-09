@@ -70,6 +70,14 @@ const freeBenefitEventsOk =
 const healthCronStatus = healthReadiness.cronRefresh?.status ?? "";
 const healthCronOk = healthReadiness.cronRefresh?.ok === true;
 const checks = [
+  route.includes('dynamic = "force-dynamic"') &&
+    route.includes("revalidate = 0") &&
+    route.includes('fetchCache = "force-no-store"') &&
+    benefitsRoute.includes('dynamic = "force-dynamic"') &&
+    benefitsRoute.includes("revalidate = 0") &&
+    benefitsRoute.includes('fetchCache = "force-no-store"')
+    ? pass("cron no-store route policy", "Cron refresh and benefits endpoints explicitly opt out of static rendering and fetch caching.")
+    : fail("cron no-store route policy", "Cron refresh and benefits endpoints should declare force-dynamic, revalidate=0, and force-no-store."),
   route.includes("canRunCronRefresh") && route.includes("CRON_SECRET") && route.includes("x-cron-secret")
     ? pass("protected route", "Cron endpoint requires CRON_SECRET, bearer/header secret, or admin token.")
     : fail("protected route", "Cron endpoint should reject unauthenticated refresh attempts."),
@@ -149,6 +157,7 @@ const report = {
   routeProtected: checkOk("protected route"),
   trustedOriginGuarded: checkOk("trusted origin guard"),
   processOutputSanitized: checkOk("sanitized process output"),
+  noStoreRoutePolicy: checkOk("cron no-store route policy"),
   dryRunGuarded: checkOk("dry-run guard"),
   refreshAllOk,
   livePipelineOk,
@@ -186,6 +195,7 @@ Status: ${report.status}
 | Schedule | ${report.schedule || "not configured"} |
 | Benefits schedule | ${report.benefitsSchedule || "not configured"} |
 | Protected route | ${report.routeProtected ? "PASS" : "FAIL"} |
+| No-store route policy | ${report.noStoreRoutePolicy ? "PASS" : "FAIL"} |
 | Dry-run guard | ${report.dryRunGuarded ? "PASS" : "FAIL"} |
 | refresh:all evidence | ${report.refreshAllOk ? "PASS" : "FAIL"} |
 | news:feed:live evidence | ${report.livePipelineOk ? "PASS" : "FAIL"} |
