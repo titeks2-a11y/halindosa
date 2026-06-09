@@ -1,5 +1,6 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
+import { isPublicPolicyText } from "./lib/consumer-source-policy.mjs";
 
 const root = process.cwd();
 const reportsDir = join(root, "reports");
@@ -16,7 +17,6 @@ function readJson(path, fallback) {
 
 const consumerPattern =
   /쿠폰|무료\s*샘플|샘플|기프티콘|교환권|전원\s*증정|선착순|출석|룰렛|포인트|캐시백|무료배송|무배|1\+1|2\+1|편의점|마트|배달|카페|뷰티|올리브영|무신사|컬리|SSG|롯데온|G마켓|11번가|쿠팡|이마트|홈플러스|브랜드|던킨|맥도날드|배스킨|GS25|CU|CJ더마켓|로얄캐닌/i;
-const publicPolicyPattern = /정부|공공|지자체|복지|정책|지원사업|보조금|서울시|공공서비스|K-MOOC|케이무크|문화가\s*있는\s*날|HRD|정부24|복지로/i;
 const purchaseConditionPattern = /구매|주문|결제|최소\s*주문|이상\s*구매|장바구니|배송비|카드\s*발급|신규\s*발급|자동\s*납부|자동이체|연회비/i;
 const lowFrictionPattern = /무료\s*체험|샘플|쿠폰|포인트|출석|룰렛|기프티콘|0원|전원\s*증정|선착순/i;
 const blockedUrlPattern = /\/search|search\?|query=|keyword=|shopping\/search|msearch|\/find|\/result|ppomppu|fmkorea|quasarzone|algumon|blog\.naver|news\.naver|v\.daum|news\.daum/i;
@@ -56,7 +56,7 @@ function isConsumerBenefit(deal) {
 }
 
 function isPublicPolicyBenefit(deal) {
-  return publicTypes.has(deal.benefitType) || deal.category === "정부/공공혜택" || publicPolicyPattern.test(textOf(deal));
+  return publicTypes.has(deal.benefitType) || deal.category === "정부/공공혜택" || isPublicPolicyText(textOf(deal));
 }
 
 function hoursUntil(value, now) {

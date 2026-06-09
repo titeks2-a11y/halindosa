@@ -37,7 +37,11 @@ export function sourceText(source) {
 }
 
 export function isPublicPolicySource(source) {
-  return publicPolicySourceTypes.has(String(source.sourceType ?? "")) || publicPolicyPatterns.some((pattern) => pattern.test(sourceText(source)));
+  return publicPolicySourceTypes.has(String(source.sourceType ?? "")) || isPublicPolicyText(sourceText(source));
+}
+
+export function isPublicPolicyText(value) {
+  return publicPolicyPatterns.some((pattern) => pattern.test(String(value ?? "")));
 }
 
 export function buildConsumerFirstPolicy(catalog, liveRowsById = new Map(), overrides = {}) {
