@@ -125,6 +125,7 @@ export async function checkOperationalDataSurfaces() {
   const sourceFeedActivationScript = await text("scripts/source-feed-activation-doctor.mjs");
   const sourceFeedEnvDoctorScript = await text("scripts/source-feed-env-doctor.mjs");
   const sourceBreadthReportScript = await text("scripts/free-benefit-source-breadth-doctor.mjs");
+  const consumerBenefitPriorityScript = await text("scripts/consumer-benefit-priority-doctor.mjs");
   const sourceReadinessReportScript = await text("scripts/source-readiness-report.mjs");
   const sourceOnboardingPlanReadiness = await text("lib/operations/sourceOnboardingPlan.ts");
   const sourceStarterPackReadiness = await text("lib/operations/sourceStarterPack.ts");
@@ -1624,9 +1625,12 @@ export async function checkOperationalDataSurfaces() {
     !sourceBreadthDoc.includes("공공/정책성 소스 비율") ||
     !consumerSourcePolicyScript.includes("buildConsumerFirstPolicy") ||
     !consumerSourcePolicyScript.includes("isPublicPolicySource") ||
+    !consumerSourcePolicyScript.includes("isPublicPolicyText") ||
     !consumerSourcePolicyScript.includes("CONSUMER_FIRST_POLICY_DEFAULTS") ||
     !sourceBreadthReportScript.includes("buildConsumerFirstPolicy") ||
     !sourceBreadthReportScript.includes("./lib/consumer-source-policy.mjs") ||
+    !consumerBenefitPriorityScript.includes("isPublicPolicyText") ||
+    !consumerBenefitPriorityScript.includes("./lib/consumer-source-policy.mjs") ||
     !sourceReadinessReportScript.includes("consumerFirstPolicy") ||
     !sourceReadinessReportScript.includes("consumer first source mix") ||
     !sourceReadinessReportScript.includes("source:breadth:doctor") ||
