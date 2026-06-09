@@ -59,6 +59,8 @@ function addCheck(checks, name, ok, detail) {
 const packageJson = JSON.parse(read(join(root, "package.json")) || "{}");
 const envExample = read(join(root, ".env.example"));
 const freebiesApi = read(join(root, "app", "api", "freebies", "route.ts"));
+const dealsApi = read(join(root, "app", "api", "deals", "route.ts"));
+const newsDealsApi = read(join(root, "app", "api", "news-deals", "route.ts"));
 const benefitEventsApi = read(join(root, "app", "api", "benefits", "events", "route.ts"));
 const homeApi = read(join(root, "app", "api", "home", "route.ts"));
 const apiGuards = read(join(root, "lib", "apiGuards.ts"));
@@ -212,6 +214,28 @@ addCheck(
     !freebiesApi.includes("error.message") &&
     freebiesApi.includes("FREEBIES_LOAD_FAILED"),
   "Public freebies API has rate limiting, request IDs, and generic error output."
+);
+
+addCheck(
+  checks,
+  "core public api rate limits",
+  homeApi.includes("rateLimit(") &&
+    homeApi.includes('getClientKey(request, "home")') &&
+    homeApi.includes("requestId") &&
+    homeApi.includes("rate_limited") &&
+    newsDealsApi.includes("rateLimit(") &&
+    newsDealsApi.includes('getClientKey(request, "news-deals")') &&
+    newsDealsApi.includes("requestId") &&
+    newsDealsApi.includes("rate_limited") &&
+    newsDealsApi.includes("NEWS_DEALS_LOAD_FAILED") &&
+    !newsDealsApi.includes("error.message") &&
+    dealsApi.includes("rateLimit(") &&
+    dealsApi.includes('getClientKey(request, "deals")') &&
+    dealsApi.includes("requestId") &&
+    dealsApi.includes("rate_limited") &&
+    dealsApi.includes("DEALS_LOAD_FAILED") &&
+    !dealsApi.includes("error.message"),
+  "Home, news benefits, and product deals APIs expose request IDs, no-store responses, rate-limit abuse protection, and generic error output."
 );
 
 addCheck(

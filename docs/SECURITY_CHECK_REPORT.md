@@ -1,11 +1,11 @@
 # Security Check Report
 
-Generated: 2026-06-09T16:32:01.295Z
+Generated: 2026-06-09T17:53:03.946Z
 
 | Metric | Value |
 | --- | ---: |
-| Checks | 15 |
-| Passed | 15 |
+| Checks | 16 |
+| Passed | 16 |
 | Failed | 0 |
 
 ## Checks
@@ -14,6 +14,7 @@ Generated: 2026-06-09T16:32:01.295Z
 - PASS security scripts wired: refresh:benefits, verify:benefits, and security:check are wired into QA/harness.
 - PASS free benefit model: FreeBenefitEvent model, sanitizer, dedupe title normalizer, official URL guard, SSRF private host guard, claim CTA, and trust badges are present.
 - PASS freebies api guard: Public freebies API has rate limiting, request IDs, and generic error output.
+- PASS core public api rate limits: Home, news benefits, and product deals APIs expose request IDs, no-store responses, rate-limit abuse protection, and generic error output.
 - PASS free benefit events api guard: Public free benefit event API has rate limiting, request IDs, publishable-only filtering, no-store cache policy, and generic error output.
 - PASS home api generic error guard: Home API keeps no-store runtime data and returns generic errors without exposing internal exception messages.
 - PASS security response headers: Web deployment applies CSP, HSTS, clickjacking, MIME, referrer, and permissions headers while leaving Capacitor static export untouched.

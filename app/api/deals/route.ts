@@ -1,5 +1,6 @@
 import { mockDeals } from "@/data/mockDeals";
 import { noStoreJson, noStoreOptions } from "@/lib/api/noStore";
+import { createRequestId, getClientKey, rateLimit, rateLimitHeaders } from "@/lib/apiGuards";
 import { getDeals, normalizeSort } from "@/lib/dealService";
 import { normalizeDeals } from "@/lib/deals/normalizer";
 import { isPubliclyVisibleDeal, summarizeDealQuality } from "@/lib/deals/quality";
@@ -13,6 +14,30 @@ export function OPTIONS() {
 }
 
 export async function GET(request: Request) {
+  const requestId = createRequestId();
+  const limitResult = rateLimit({
+    key: getClientKey(request, "deals"),
+    limit: 160,
+    windowMs: 60_000
+  });
+  const rateHeaders = rateLimitHeaders(limitResult, requestId);
+
+  if (!limitResult.allowed) {
+    return noStoreJson(
+      {
+        ok: false,
+        requestId,
+        deals: [],
+        count: 0,
+        quality: summarizeDealQuality([]),
+        updatedAt: new Date().toISOString(),
+        source: "rate_limited",
+        message: "요청이 너무 많습니다. 잠시 후 다시 시도해주세요."
+      },
+      { status: 429, headers: rateHeaders }
+    );
+  }
+
   try {
     const { searchParams } = new URL(request.url);
     const limit = Number(searchParams.get("limit") ?? 0);
@@ -36,28 +61,30 @@ export async function GET(request: Request) {
 
     return noStoreJson({
       ok: true,
+      requestId,
       deals: result.deals,
       count: result.deals.length,
       quality: summarizeDealQuality(result.deals),
       updatedAt: result.updatedAt,
       source: result.source,
       message: "할인도사 특가 데이터를 성공적으로 불러왔습니다."
-    });
-  } catch (error) {
+    }, { headers: rateHeaders });
+  } catch {
     const fallbackDeals = normalizeDeals(mockDeals, "mock").filter(isPubliclyVisibleDeal);
 
     return noStoreJson(
       {
         ok: false,
+        requestId,
         deals: fallbackDeals,
         count: fallbackDeals.length,
         quality: summarizeDealQuality(fallbackDeals),
         updatedAt: new Date().toISOString(),
         source: "mock",
         message: "특가 데이터를 불러오는 중 문제가 발생해 기본 큐레이션 데이터로 대체했습니다.",
-        error: error instanceof Error ? error.message : "Unknown error"
+        error: "DEALS_LOAD_FAILED"
       },
-      { status: 200 }
+      { status: 200, headers: rateHeaders }
     );
   }
 }

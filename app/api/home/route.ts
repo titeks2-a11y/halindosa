@@ -1,4 +1,5 @@
 import { noStoreJson, noStoreOptions } from "@/lib/api/noStore";
+import { createRequestId, getClientKey, rateLimit, rateLimitHeaders } from "@/lib/apiGuards";
 import { getDeals, normalizeSort } from "@/lib/dealService";
 import { getVisibleNewsDeals } from "@/lib/deals/newsDeals";
 import { summarizeDealQuality } from "@/lib/deals/quality";
@@ -162,6 +163,38 @@ function buildOfficialBenefitQuality(deals: NewsDeal[], visibleTotal = deals.len
 }
 
 export async function GET(request: Request) {
+  const requestId = createRequestId();
+  const limitResult = rateLimit({
+    key: getClientKey(request, "home"),
+    limit: 180,
+    windowMs: 60_000
+  });
+  const rateHeaders = rateLimitHeaders(limitResult, requestId);
+
+  if (!limitResult.allowed) {
+    return noStoreJson(
+      {
+        ok: false,
+        requestId,
+        deals: [],
+        newsDeals: [],
+        freebies: [],
+        freeBenefitEvents: [],
+        hotSignals: [],
+        counts: {
+          deals: 0,
+          newsDeals: 0,
+          freebies: 0,
+          hotSignals: 0
+        },
+        updatedAt: new Date().toISOString(),
+        source: "rate_limited",
+        message: "요청이 너무 많습니다. 잠시 후 다시 시도해주세요."
+      },
+      { status: 429, headers: rateHeaders }
+    );
+  }
+
   const { searchParams } = new URL(request.url);
   const limit = Number(searchParams.get("limit") ?? 12);
   const q = searchParams.get("q")?.trim();
@@ -219,6 +252,7 @@ export async function GET(request: Request) {
 
     return noStoreJson({
       ok: true,
+      requestId,
       deals: deals.deals,
       newsDeals: news.deals,
       freebies: homeFreebies,
@@ -276,12 +310,13 @@ export async function GET(request: Request) {
         generatedAt
       },
       message: "할인도사 홈 최신 데이터를 no-store 정책으로 불러왔습니다."
-    });
+    }, { headers: rateHeaders });
   } catch {
     const generatedAt = new Date().toISOString();
     return noStoreJson(
       {
         ok: false,
+        requestId,
         deals: [],
         newsDeals: [],
         freebies: [],
@@ -324,7 +359,7 @@ export async function GET(request: Request) {
         message: "홈 최신 데이터를 불러오지 못했습니다.",
         error: "HOME_LOAD_FAILED"
       },
-      { status: 200 }
+      { status: 200, headers: rateHeaders }
     );
   }
 }
