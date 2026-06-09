@@ -225,6 +225,8 @@ if (dirtyReports.available && dirtyReports.count) {
   console.log("- Commit only the evidence files needed for the current change.");
   console.log("- If reports are not needed, leave them unstaged or regenerate a clean release evidence set after the final commit.");
   console.log("- Use the summary above to distinguish root evidence, docs evidence, reports/, and refreshed data snapshot churn.");
+  console.log("- Treat dirty report/data files as generated evidence unless the current change explicitly updates release evidence.");
+  console.log("- Review source changes separately with `git status --short -- app components lib scripts types data/*.ts docs/CURRENT_STATE.md README.md`.");
 }
 
 if (strict && generated.length) {

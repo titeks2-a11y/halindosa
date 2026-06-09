@@ -128,6 +128,8 @@ npm run release:doctor
 
 검증을 많이 실행한 뒤에는 `npm run workspace:doctor`의 `Dirty regenerated report/data summary`와 `Dirty regenerated report/data files` 항목을 먼저 봅니다. 요약은 루트 증빙, `docs` 증빙, `reports/`, `data` snapshot churn을 나눠 보여줍니다. 숫자가 높으면 기능 코드가 바뀐 것이 아니라 리포트와 refreshed 데이터가 재생성된 상태일 수 있으므로, 커밋할 파일만 명시적으로 stage하고 리포트는 출시 증빙으로 필요한 경우에만 선별 커밋합니다.
 
+소스 변경만 빠르게 확인할 때는 `git status --short -- app components lib scripts types data/*.ts docs/CURRENT_STATE.md README.md`처럼 코드/운영 문서 범위만 좁혀 봅니다. QA가 만든 루트 리포트, `docs/*REPORT*`, `reports/*.json`, `data/refreshed*.json`은 이번 변경의 출시 증빙으로 명시적으로 필요한 경우에만 stage합니다.
+
 `npm run source:live:doctor`는 `data/officialSourceCatalog.json`의 공식 소스 후보 URL을 non-strict로 점검해 `reports/official-source-live-check.json`, `reports/official-source-live-check.csv`, [docs/OFFICIAL_SOURCE_LIVE_CHECK.md](docs/OFFICIAL_SOURCE_LIVE_CHECK.md)를 생성합니다. 이 점검은 무단 크롤링이 아니라 접근 가능, WAF/권한 보호, 404/410 교체 필요 상태를 운영자가 보는 리포트이며 사용자 노출 데이터를 자동 변경하지 않습니다.
 
 `npm run source:onboarding:plan`은 공식 소스 카탈로그와 live 점검 결과를 합쳐 `reports/source-onboarding-plan.json`, `reports/source-onboarding-plan.csv`, [docs/SOURCE_ONBOARDING_PLAN.md](docs/SOURCE_ONBOARDING_PLAN.md)를 생성합니다. 운영자는 이 파일에서 공식 API/RSS/제휴 feed를 어느 소스부터 연결할지, guarded 소스는 어떤 담당자 확인이 필요한지 우선순위로 확인합니다.
