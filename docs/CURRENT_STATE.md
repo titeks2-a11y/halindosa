@@ -32,6 +32,13 @@
 
 최근 완료 작업:
 
+- 통신사 공식 무료혜택 소스를 추가했다.
+  - LG U+ 공식 멤버십 제휴사 혜택
+  - KT 공식 요고 모바일 가입 혜택
+  - LG U+ 공식 진행 이벤트 혜택
+- 공식 소스 후보는 145개, `refresh:news` 기준 노출 공식 혜택은 112개, `refresh:benefits` 기준 active 무료혜택 이벤트는 109개다.
+- 새 통신사 혜택 3개는 모두 `publishable=true`, `validationStatus=passed`, `availability=active`로 확인됐다.
+
 - 보호된 cron refresh API 보안을 강화했다.
   - `/api/cron/refresh`, `/api/cron/benefits`는 Origin 헤더가 있는 브라우저 요청에 대해 신뢰된 origin만 허용한다.
   - cron 실행 결과의 `stdoutTail`, `stderrTail`은 secret, token, 로컬 경로, stack trace성 라인을 제거한 뒤 리포트/API payload에 남긴다.

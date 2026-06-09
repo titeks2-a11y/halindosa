@@ -1,26 +1,26 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-09T04:07:40.211Z",
+  "generatedAt": "2026-06-09T06:53:01.185Z",
   "mode": "freebies",
   "label": "무료혜택",
-  "sourceSnapshotGeneratedAt": "2026-06-09T04:07:36.277Z",
-  "sourceReportGeneratedAt": "2026-06-09T04:07:40.103Z",
-  "totalOfficialBenefits": 105,
-  "matchedCount": 42,
-  "visibleCount": 42,
+  "sourceSnapshotGeneratedAt": "2026-06-09T06:52:57.425Z",
+  "sourceReportGeneratedAt": "2026-06-09T06:53:01.077Z",
+  "totalOfficialBenefits": 112,
+  "matchedCount": 45,
+  "visibleCount": 45,
   "hiddenOrBlockedCount": 0,
   "exposedSearchLinks": 0,
   "exposedNonOfficialLinks": 0,
   "minimumVisible": 27,
   "categoryCounts": {
     "무료혜택": 11,
-    "카드/멤버십": 8,
+    "카드/멤버십": 9,
     "영화/문화": 6,
     "정부/공공혜택": 6,
     "패션/뷰티": 5,
+    "디지털/가전": 3,
     "식품/생필품": 2,
     "외식/배달": 2,
-    "디지털/가전": 1,
     "마트/편의점": 1
   },
   "benefitTypeCounts": {
@@ -30,8 +30,9 @@
     "freebie": 5,
     "culture": 4,
     "freeShipping": 4,
+    "point": 4,
     "card": 3,
-    "point": 2,
+    "event": 1,
     "mart": 1
   },
   "sourceCounts": {
@@ -45,6 +46,7 @@
     "대한민국 구석구석 공식 혜택": 1,
     "롯데시네마 공식 멤버십": 1,
     "롯데카드 공식 이벤트": 1,
+    "롯데하이마트 공식 멤버십": 1,
     "맥도날드 공식 프로모션": 1,
     "메가박스 공식 멤버십": 1,
     "메가박스 VIP 라운지": 1,
@@ -71,7 +73,9 @@
     "CJ ONE 공식 이벤트": 1,
     "CJ더마켓 공식 이벤트": 1,
     "L.POINT 공식 이벤트": 1,
-    "L.POINT 공식 혜택": 1
+    "L.POINT 공식 혜택": 1,
+    "LG U+ 공식 멤버십": 1,
+    "LG전자 공식 혜택": 1
   },
   "hosts": [
     "10x10.co.kr",
@@ -79,6 +83,7 @@
     "aquaplanet.co.kr",
     "cjone.com",
     "cjthemarket.com",
+    "company.himart.co.kr",
     "culture.go.kr",
     "culture.seoul.go.kr",
     "ediya.com",
@@ -91,6 +96,8 @@
     "korean.visitkorea.or.kr",
     "kosaf.go.kr",
     "kurly.com",
+    "lge.co.kr",
+    "lguplus.com",
     "lottecard.co.kr",
     "lottecinema.co.kr",
     "m.innisfree.com",
@@ -118,7 +125,7 @@
       "finalUrl": "https://www.mcdonalds.co.kr/kor/promotion/detail/E51CF9",
       "redirectUrl": "/go/news/news-mcdonalds-happy-snack-free-drink",
       "endDate": "2026-06-21",
-      "lastCheckedAt": "2026-06-09T04:07:36.277Z"
+      "lastCheckedAt": "2026-06-09T06:52:57.425Z"
     },
     {
       "id": "news-culture-day-programs-2026",
@@ -131,7 +138,7 @@
       "finalUrl": "https://www.culture.go.kr/wday/main/main.do",
       "redirectUrl": "/go/news/news-culture-day-programs-2026",
       "endDate": "2026-12-30",
-      "lastCheckedAt": "2026-06-09T04:07:36.277Z"
+      "lastCheckedAt": "2026-06-09T06:52:57.425Z"
     },
     {
       "id": "news-culture-day-weekly-2026",
@@ -144,7 +151,7 @@
       "finalUrl": "https://www.culture.go.kr/local/wday/cltrDay.do",
       "redirectUrl": "/go/news/news-culture-day-weekly-2026",
       "endDate": "2026-12-30",
-      "lastCheckedAt": "2026-06-09T04:07:36.277Z"
+      "lastCheckedAt": "2026-06-09T06:52:57.425Z"
     },
     {
       "id": "news-cjone-official-mobile-events",
@@ -157,7 +164,7 @@
       "finalUrl": "https://www.cjone.com/cjmmobile/event/event.do",
       "redirectUrl": "/go/news/news-cjone-official-mobile-events",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-09T04:07:36.277Z"
+      "lastCheckedAt": "2026-06-09T06:52:57.425Z"
     },
     {
       "id": "news-oliveyoung-official-events",
@@ -170,7 +177,7 @@
       "finalUrl": "https://www.oliveyoung.co.kr/store/main/getEventList.do",
       "redirectUrl": "/go/news/news-oliveyoung-official-events",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-09T04:07:36.277Z"
+      "lastCheckedAt": "2026-06-09T06:52:57.425Z"
     },
     {
       "id": "news-kfc-delivery-free-official",
@@ -183,7 +190,7 @@
       "finalUrl": "https://www.kfckorea.com/promotion/promotionList/detail/1053",
       "redirectUrl": "/go/news/news-kfc-delivery-free-official",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-09T04:07:36.277Z"
+      "lastCheckedAt": "2026-06-09T06:52:57.425Z"
     },
     {
       "id": "news-homeplus-membership-official-coupon",
@@ -196,7 +203,7 @@
       "finalUrl": "https://front.homeplus.co.kr/membership",
       "redirectUrl": "/go/news/news-homeplus-membership-official-coupon",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-09T04:07:36.277Z"
+      "lastCheckedAt": "2026-06-09T06:52:57.425Z"
     },
     {
       "id": "news-innisfree-official-coupon-events",
@@ -209,7 +216,7 @@
       "finalUrl": "https://www.innisfree.com/kr/ko/dp/posting-list",
       "redirectUrl": "/go/news/news-innisfree-official-coupon-events",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-09T04:07:36.277Z"
+      "lastCheckedAt": "2026-06-09T06:52:57.425Z"
     },
     {
       "id": "news-kurly-kiehls-sample-event",
@@ -222,7 +229,7 @@
       "finalUrl": "https://www.kurly.com/goods/1000120890",
       "redirectUrl": "/go/news/news-kurly-kiehls-sample-event",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-09T04:07:36.277Z"
+      "lastCheckedAt": "2026-06-09T06:52:57.425Z"
     },
     {
       "id": "news-kurly-neoflam-free-shipping",
@@ -235,7 +242,7 @@
       "finalUrl": "https://www.kurly.com/goods/1001472154",
       "redirectUrl": "/go/news/news-kurly-neoflam-free-shipping",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-09T04:07:36.277Z"
+      "lastCheckedAt": "2026-06-09T06:52:57.425Z"
     },
     {
       "id": "news-kurly-escape-speaker-free-shipping",
@@ -248,7 +255,7 @@
       "finalUrl": "https://www.kurly.com/goods/1000284019",
       "redirectUrl": "/go/news/news-kurly-escape-speaker-free-shipping",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-09T04:07:36.277Z"
+      "lastCheckedAt": "2026-06-09T06:52:57.425Z"
     },
     {
       "id": "news-kurly-clove-fashion-free-shipping",
@@ -261,7 +268,7 @@
       "finalUrl": "https://www.kurly.com/goods/1002016097",
       "redirectUrl": "/go/news/news-kurly-clove-fashion-free-shipping",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-09T04:07:36.277Z"
+      "lastCheckedAt": "2026-06-09T06:52:57.425Z"
     },
     {
       "id": "news-aquaplanet-official-events",
@@ -274,7 +281,7 @@
       "finalUrl": "https://www.aquaplanet.co.kr/ilsan/event/eventList.do",
       "redirectUrl": "/go/news/news-aquaplanet-official-events",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-09T04:07:36.277Z"
+      "lastCheckedAt": "2026-06-09T06:52:57.425Z"
     },
     {
       "id": "news-cjthemarket-official-events",
@@ -287,7 +294,7 @@
       "finalUrl": "https://www.cjthemarket.com/pc/event/eventMain",
       "redirectUrl": "/go/news/news-cjthemarket-official-events",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-09T04:07:36.277Z"
+      "lastCheckedAt": "2026-06-09T06:52:57.425Z"
     },
     {
       "id": "news-ediya-official-events",
@@ -300,7 +307,7 @@
       "finalUrl": "https://www.ediya.com/contents/event.html",
       "redirectUrl": "/go/news/news-ediya-official-events",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-09T04:07:36.277Z"
+      "lastCheckedAt": "2026-06-09T06:52:57.425Z"
     },
     {
       "id": "news-tenbyten-official-events",
@@ -313,7 +320,33 @@
       "finalUrl": "https://www.10x10.co.kr/event/eventmain.asp",
       "redirectUrl": "/go/news/news-tenbyten-official-events",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-09T04:07:36.277Z"
+      "lastCheckedAt": "2026-06-09T06:52:57.425Z"
+    },
+    {
+      "id": "news-lge-official-benefit-event-hub",
+      "title": "LG전자 공식 혜택·이벤트",
+      "merchant": "LG전자",
+      "category": "디지털/가전",
+      "benefitType": "event",
+      "sourceName": "LG전자 공식 혜택",
+      "host": "lge.co.kr",
+      "finalUrl": "https://www.lge.co.kr/benefits",
+      "redirectUrl": "/go/news/news-lge-official-benefit-event-hub",
+      "endDate": "2026-12-31",
+      "lastCheckedAt": "2026-06-09T06:52:57.425Z"
+    },
+    {
+      "id": "news-lguplus-membership-affiliate-perks",
+      "title": "LG U+ 공식 멤버십 제휴사 혜택",
+      "merchant": "LG U+",
+      "category": "카드/멤버십",
+      "benefitType": "point",
+      "sourceName": "LG U+ 공식 멤버십",
+      "host": "lguplus.com",
+      "finalUrl": "https://www.lguplus.com/benefit-membership/affiliate-perks",
+      "redirectUrl": "/go/news/news-lguplus-membership-affiliate-perks",
+      "endDate": "2026-12-31",
+      "lastCheckedAt": "2026-06-09T06:52:57.425Z"
     },
     {
       "id": "news-naverpay-event-benefit",
@@ -326,7 +359,7 @@
       "finalUrl": "https://new-m.pay.naver.com/pcpay/eventbenefit",
       "redirectUrl": "/go/news/news-naverpay-event-benefit",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-09T04:07:36.277Z"
+      "lastCheckedAt": "2026-06-09T06:52:57.425Z"
     },
     {
       "id": "news-mnuri-official-benefit",
@@ -339,33 +372,7 @@
       "finalUrl": "https://www.mnuri.kr/main/main.do",
       "redirectUrl": "/go/news/news-mnuri-official-benefit",
       "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-09T04:07:36.277Z"
-    },
-    {
-      "id": "news-naverpay-point-free-benefit",
-      "title": "네이버페이 포인트 공식 적립 혜택",
-      "merchant": "네이버페이",
-      "category": "무료혜택",
-      "benefitType": "point",
-      "sourceName": "네이버페이 포인트 공식",
-      "host": "new-m.pay.naver.com",
-      "finalUrl": "https://new-m.pay.naver.com/pcpay/eventbenefit?category=all",
-      "redirectUrl": "/go/news/news-naverpay-point-free-benefit",
-      "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-09T04:07:36.277Z"
-    },
-    {
-      "id": "news-mnuri-online-merchant-benefit",
-      "title": "문화누리카드 온라인 이용처 공식 혜택",
-      "merchant": "문화누리카드",
-      "category": "정부/공공혜택",
-      "benefitType": "public",
-      "sourceName": "문화누리카드 공식 이용처",
-      "host": "mnuri.kr",
-      "finalUrl": "https://www.mnuri.kr/useOfCard/onlineMerchants.do",
-      "redirectUrl": "/go/news/news-mnuri-online-merchant-benefit",
-      "endDate": "2026-12-31",
-      "lastCheckedAt": "2026-06-09T04:07:36.277Z"
+      "lastCheckedAt": "2026-06-09T06:52:57.425Z"
     }
   ],
   "blockedItems": [],

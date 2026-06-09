@@ -3058,5 +3058,74 @@
     "allowedUse": "롯데하이마트 공식 멤버십 안내에서 L.POINT 적립, 추가포인트, 이벤트 참여 기회가 확인되는 혜택",
     "blockedUse": "하이마트 상품 검색 결과, 매장 소개, 비공식 가격 비교 글, 멤버십 조건이 확인되지 않는 홍보 링크",
     "notes": "상시 멤버십 혜택은 source discovery로 사용하고, 사용자 CTA는 멤버십 가입/혜택 안내 공식 페이지 또는 개별 이벤트 상세가 확인될 때만 연결한다."
+  },
+  {
+    "id": "lguplus-membership-affiliate-perks",
+    "label": "LG U+ 공식 멤버십 제휴사 혜택",
+    "provider": "official_event",
+    "category": [
+      "카드/멤버십",
+      "무료혜택",
+      "외식/배달",
+      "영화/문화"
+    ],
+    "sourceType": "official_benefit_page",
+    "officialUrl": "https://www.lguplus.com/benefit-membership/affiliate-perks",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 12,
+    "allowedUse": "LG U+ 공식 멤버십 제휴사 혜택에서 데이터 선물, 무료/할인 쿠폰, 제휴처 조건과 로그인 필요 여부가 확인되는 항목",
+    "blockedUse": "LG U+ 메인, 검색 결과, 비공식 제휴 할인 정리글, 종료된 이벤트, 멤버십 조건이 확인되지 않는 광고 랜딩",
+    "notes": "상시 멤버십 혜택은 source discovery로 사용하고, 사용자 CTA는 공식 혜택 상세 또는 앱 내 쿠폰 수령 경로가 확인될 때만 연결한다."
+  },
+  {
+    "id": "kt-yogo-mobile-official-benefit",
+    "label": "KT 공식 요고 모바일 가입 혜택",
+    "provider": "official_event",
+    "category": [
+      "카드/멤버십",
+      "무료혜택",
+      "디지털/가전"
+    ],
+    "sourceType": "official_event_detail",
+    "officialUrl": "https://shop.kt.com/unify/yogoEvent.do",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "DEAL_EVENT_NEWS_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 24,
+    "allowedUse": "KT 공식 온라인샵 요고 모바일 가입 혜택에서 멤버십, 페이, 데이터, 쿠폰 등 가입 조건과 기간이 확인되는 항목",
+    "blockedUse": "KT 검색 결과, 휴대폰 상품 검색, 비공식 요금제 비교글, 가입 조건이 불명확한 대리점 광고",
+    "notes": "가입 필요 혜택으로 분류하고 무료혜택 메인 랭킹에서는 전원증정/샘플보다 낮게 정렬한다."
+  },
+  {
+    "id": "lguplus-ongoing-membership-event",
+    "label": "LG U+ 공식 진행 이벤트 혜택",
+    "provider": "official_event",
+    "category": [
+      "카드/멤버십",
+      "무료혜택",
+      "디지털/가전"
+    ],
+    "sourceType": "official_event_detail",
+    "officialUrl": "https://www.lguplus.com/benefit-event/ongoing/80995",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 24,
+    "allowedUse": "LG U+ 공식 진행 이벤트에서 콘텐츠, 멤버십, 구독, 쿠폰, 무료 또는 할인 혜택 조건과 기간이 확인되는 항목",
+    "blockedUse": "지난 이벤트, LG U+ 메인, 검색 결과, 블로그 이벤트 요약, 조건 확인이 불가능한 이미지 단독 링크",
+    "notes": "진행 이벤트 상세만 허용한다. 종료 문구가 확인되면 expired/hidden 처리하고 사용자 CTA를 제거한다."
   }
 ]

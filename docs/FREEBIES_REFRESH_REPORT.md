@@ -1,12 +1,12 @@
 # 무료혜택 Refresh Report
 
-Generated: 2026-06-09T06:16:57.829Z
+Generated: 2026-06-09T06:53:01.185Z
 
 ## Summary
 
 - Mode: freebies
-- Matched items: 44
-- Visible official items: 44
+- Matched items: 45
+- Visible official items: 45
 - Hidden/blocked items: 0
 - Exposed search links: 0
 - Exposed non-official links: 0
