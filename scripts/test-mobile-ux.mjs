@@ -245,6 +245,10 @@ if (
     "highRecognitionConsumerBrandPattern",
     "instantClaimBenefitPattern",
     "highFrictionConditionPattern",
+    "getFreeBenefitDiversityLane",
+    "laneCounts",
+    "firstScreenDiversityBoost",
+    "brandRepeat * (selected.length < 12 ? 24 : 10)",
     "잘 알려진 브랜드에서 바로 받을 수 있는 공식 혜택",
     "신규가입으로 받을 수 있는 공식 웰컴 혜택"
   ]) &&

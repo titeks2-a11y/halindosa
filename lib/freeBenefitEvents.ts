@@ -459,12 +459,26 @@ function isPublicFreeBenefitEvent(event: FreeBenefitEvent) {
   return event.benefitType === "publicFree";
 }
 
+function getFreeBenefitDiversityLane(event: FreeBenefitEvent) {
+  const text = [event.title, event.rewardText, event.brandName, event.sourceName, event.sourceDomain, event.tags.join(" ")].join(" ");
+
+  if (/GS25|CU|세븐일레븐|이마트24|편의점/i.test(text)) return "convenience";
+  if (/스타벅스|메가|이디야|투썸|커피|카페|롯데잇츠|롯데리아|배민|요기요|쿠팡이츠|피자|치킨|외식|배달/i.test(text)) return "food";
+  if (/올리브영|무신사|아모레|이니스프리|닥터지|라운드랩|뷰티|패션|화장품/i.test(text)) return "beauty-fashion";
+  if (/네이버페이|카카오페이|PAYCO|페이코|토스|KB|신한|H\.?Point|해피포인트|CJ\s*ONE|멤버십|포인트|캐시백/i.test(text)) return "membership-point";
+  if (/다이소|이마트|홈플러스|롯데마트|SSG|컬리|마트|생활용품|생필품/i.test(text)) return "mart-living";
+  if (event.benefitType === "sample" || event.benefitType === "freeTrial" || event.benefitType === "experiencePanel") return "sample-trial";
+  if (event.benefitType === "coupon" || event.benefitType === "signup") return "coupon-signup";
+  return "brand-event";
+}
+
 function selectDiverseFreeBenefitEvents(events: FreeBenefitEvent[], limit: number, referenceNow: number) {
   const remaining = [...events];
   const selected: FreeBenefitEvent[] = [];
   const sourceCounts = new Map<string, number>();
   const benefitTypeCounts = new Map<string, number>();
   const brandCounts = new Map<string, number>();
+  const laneCounts = new Map<string, number>();
 
   while (remaining.length && selected.length < limit) {
     let bestIndex = 0;
@@ -475,9 +489,16 @@ function selectDiverseFreeBenefitEvents(events: FreeBenefitEvent[], limit: numbe
       const sourceRepeat = sourceCounts.get(event.sourceDomain) ?? 0;
       const typeRepeat = benefitTypeCounts.get(event.benefitType) ?? 0;
       const brandRepeat = brandCounts.get(event.brandName) ?? 0;
-      const diversityPenalty = sourceRepeat * 14 + typeRepeat * 6 + brandRepeat * 5;
+      const lane = getFreeBenefitDiversityLane(event);
+      const laneRepeat = laneCounts.get(lane) ?? 0;
+      const firstScreenDiversityBoost = selected.length < 12 && brandRepeat === 0 && laneRepeat === 0 ? 14 : 0;
+      const diversityPenalty =
+        sourceRepeat * 16 +
+        typeRepeat * 7 +
+        brandRepeat * (selected.length < 12 ? 24 : 10) +
+        laneRepeat * (selected.length < 12 ? 13 : 5);
       const urgencyReserveBoost = event.isEveryoneReward || event.isFirstComeFirstServed || event.urgencyLabel.includes("마감") ? 4 : 0;
-      const score = getFreeBenefitEventScore(event, referenceNow) + getConsumerEventScoreAdjustment(event) + urgencyReserveBoost - diversityPenalty;
+      const score = getFreeBenefitEventScore(event, referenceNow) + getConsumerEventScoreAdjustment(event) + urgencyReserveBoost + firstScreenDiversityBoost - diversityPenalty;
 
       if (score > bestScore) {
         bestScore = score;
@@ -490,6 +511,8 @@ function selectDiverseFreeBenefitEvents(events: FreeBenefitEvent[], limit: numbe
     sourceCounts.set(picked.sourceDomain, (sourceCounts.get(picked.sourceDomain) ?? 0) + 1);
     benefitTypeCounts.set(picked.benefitType, (benefitTypeCounts.get(picked.benefitType) ?? 0) + 1);
     brandCounts.set(picked.brandName, (brandCounts.get(picked.brandName) ?? 0) + 1);
+    const pickedLane = getFreeBenefitDiversityLane(picked);
+    laneCounts.set(pickedLane, (laneCounts.get(pickedLane) ?? 0) + 1);
   }
 
   return selected;
