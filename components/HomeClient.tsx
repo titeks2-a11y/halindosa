@@ -149,7 +149,7 @@ import type { NewsDeadlineSummary, NewsDeal, NewsDealSourceTrust, NewsIntentGrou
 type AppView = "home" | "categories" | "alerts" | "favorites" | "my";
 const INITIAL_HOME_DEAL_LIMIT = 12;
 const HOME_DEAL_LOAD_STEP = 12;
-const HOME_FREEBIE_EVENT_LIMIT = 72;
+const HOME_FREEBIE_EVENT_LIMIT = 128;
 
 type InitialNewsSnapshot = { generatedAt?: string; deals?: NewsDeal[]; sourceTrustScores?: NewsDealSourceTrust[]; intentGroups?: NewsIntentGroup[] };
 
@@ -921,7 +921,9 @@ export default function Home({ initialNow = "", initialNewsSnapshot = emptyIniti
         const data = await requestJson<HomeResponse>(
           buildHomeRequestUrl({
             ...homeDealFilters,
-            limit: 0
+            limit: 0,
+            newsLimit: 192,
+            freeBenefitLimit: HOME_FREEBIE_EVENT_LIMIT
           })
         );
         const snapshot = buildCombinedHomeSnapshot(data, homeDealFilters);

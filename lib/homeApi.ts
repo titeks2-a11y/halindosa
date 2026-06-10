@@ -222,6 +222,8 @@ export function buildHomeRequestUrl({
   benefitFilter,
   query,
   limit = 12,
+  newsLimit,
+  freeBenefitLimit,
   timestamp = Date.now()
 }: {
   category: string;
@@ -235,6 +237,8 @@ export function buildHomeRequestUrl({
   benefitFilter: "all" | DealBenefitType;
   query: string;
   limit?: number;
+  newsLimit?: number;
+  freeBenefitLimit?: number;
   timestamp?: number;
 }) {
   const params = new URLSearchParams({
@@ -251,6 +255,8 @@ export function buildHomeRequestUrl({
     ts: String(timestamp)
   });
 
+  if (newsLimit) params.set("newsLimit", String(newsLimit));
+  if (freeBenefitLimit) params.set("freeBenefitLimit", String(freeBenefitLimit));
   if (query.trim()) params.set("q", query.trim());
 
   return `/api/home?${params.toString()}`;

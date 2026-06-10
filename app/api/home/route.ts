@@ -197,8 +197,10 @@ export async function GET(request: Request) {
 
   const { searchParams } = new URL(request.url);
   const limit = Number(searchParams.get("limit") ?? 12);
-  const newsLimit = Math.min(Math.max(limit * 10, 120), 192);
-  const freeBenefitLimit = Math.min(Math.max(limit * 6, 72), 128);
+  const requestedNewsLimit = Number(searchParams.get("newsLimit"));
+  const requestedFreeBenefitLimit = Number(searchParams.get("freeBenefitLimit"));
+  const newsLimit = Math.min(Math.max(Number.isFinite(requestedNewsLimit) && requestedNewsLimit > 0 ? requestedNewsLimit : limit * 10, 160), 240);
+  const freeBenefitLimit = Math.min(Math.max(Number.isFinite(requestedFreeBenefitLimit) && requestedFreeBenefitLimit > 0 ? requestedFreeBenefitLimit : limit * 6, 120), 160);
   const q = searchParams.get("q")?.trim();
   const category = searchParams.get("category")?.trim();
   const includePublicPolicy = searchParams.get("includePublic") === "true" || category === "정부/공공혜택";
