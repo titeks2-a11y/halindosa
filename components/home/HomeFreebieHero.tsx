@@ -232,6 +232,43 @@ export function HomeFreebieHero({
       brandName: firstEvent?.brandName || "공식 혜택"
     };
   });
+  const discoveryLanes = [
+    {
+      label: "전원증정",
+      href: "/free-benefits?eventType=everyone",
+      className: "border-emerald-100 bg-emerald-50 text-emerald-700",
+      matches: (event: FreeBenefitEvent) => event.isEveryoneReward || event.benefitType === "everyone"
+    },
+    {
+      label: "쿠폰",
+      href: "/free-benefits?eventType=coupon",
+      className: "border-yellow-100 bg-yellow-50 text-yellow-700",
+      matches: (event: FreeBenefitEvent) => event.benefitType === "coupon" || event.benefitType === "signup"
+    },
+    {
+      label: "샘플·체험",
+      href: "/free-benefits?eventType=sample",
+      className: "border-teal-100 bg-teal-50 text-teal-700",
+      matches: (event: FreeBenefitEvent) => event.benefitType === "sample" || event.benefitType === "freeTrial" || event.benefitType === "experiencePanel"
+    },
+    {
+      label: "포인트",
+      href: "/free-benefits?eventType=pointCashback",
+      className: "border-violet-100 bg-violet-50 text-violet-700",
+      matches: (event: FreeBenefitEvent) => event.benefitType === "pointCashback" || event.benefitType === "checkIn" || event.benefitType === "roulette"
+    }
+  ]
+    .map((lane) => {
+      const matchedEvents = events.filter((event) => event.status === "active" && event.validationStatus === "passed" && lane.matches(event));
+      const firstEvent = matchedEvents[0];
+      return {
+        ...lane,
+        count: matchedEvents.length,
+        brandName: firstEvent?.brandName || "공식 혜택",
+        ctaLabel: firstEvent?.claimCtaLabel || "바로 확인"
+      };
+    })
+    .filter((lane) => lane.count > 0);
   const quickStats = visibleEvents.length
     ? [
         { label: "전원", value: everyoneRewardCount, className: "bg-emerald-50 text-emerald-700" },
@@ -336,6 +373,30 @@ export function HomeFreebieHero({
             <span key={brand} className="shrink-0 rounded-full bg-white px-2 py-1 text-[10px] font-black text-slate-700 shadow-sm">
               {brand}
             </span>
+          ))}
+        </div>
+      ) : null}
+
+      {discoveryLanes.length ? (
+        <div
+          data-home-free-benefit-discovery-lanes="true"
+          className="mt-2 grid grid-cols-2 gap-1.5 sm:grid-cols-4"
+          aria-label="무료혜택 유형별 빠른 발견"
+        >
+          {discoveryLanes.map((lane) => (
+            <Link
+              key={lane.label}
+              href={lane.href}
+              className={`min-w-0 rounded-2xl border px-2 py-1.5 ${lane.className}`}
+              aria-label={`${lane.label} 무료혜택 ${lane.count.toLocaleString("ko-KR")}개 보기`}
+            >
+              <div className="flex items-baseline justify-between gap-1">
+                <span className="truncate text-[10px] font-black">{lane.label}</span>
+                <span className="text-xs font-black">{lane.count.toLocaleString("ko-KR")}</span>
+              </div>
+              <p className="mt-0.5 truncate text-[9px] font-bold opacity-80">{lane.brandName}</p>
+              <p className="mt-0.5 truncate text-[9px] font-black opacity-90">{lane.ctaLabel}</p>
+            </Link>
           ))}
         </div>
       ) : null}
