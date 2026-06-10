@@ -1952,7 +1952,9 @@ export default function Home({ initialNow = "", initialNewsSnapshot = emptyIniti
                     </span>
                     <span className="min-w-0 flex-1">
                       <span className="block truncate text-xs font-black text-slate-950 sm:text-sm">{deal.title}</span>
-                      <span className="mt-0.5 block truncate text-[11px] font-bold text-slate-500 sm:text-xs">{deal.mallName} · {getTimeLeft(deal.expireAt, clockNow)}</span>
+                      <span className="mt-0.5 block truncate text-[11px] font-bold text-slate-500 sm:text-xs" suppressHydrationWarning>
+                        {deal.mallName} · {getTimeLeft(deal.expireAt, clockNow)}
+                      </span>
                     </span>
                     <ExternalLink size={16} className="shrink-0 text-slate-400" />
                   </a>
