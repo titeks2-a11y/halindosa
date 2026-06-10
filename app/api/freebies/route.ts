@@ -1,7 +1,7 @@
 import { noStoreJson, noStoreOptions } from "@/lib/api/noStore";
 import { createRequestId, getClientKey, rateLimit, rateLimitHeaders } from "@/lib/apiGuards";
 import { getVisibleNewsDeals } from "@/lib/deals/newsDeals";
-import { selectPublishableFreeBenefitEvents } from "@/lib/freeBenefitEvents";
+import { buildFreeBenefitEventCategoryCounts, selectPublishableFreeBenefitEvents } from "@/lib/freeBenefitEvents";
 import { buildHomeFreebieSummary, selectHomeFreebies } from "@/lib/homeFreebies";
 
 export const dynamic = "force-dynamic";
@@ -44,6 +44,7 @@ export async function GET(request: Request) {
     const limit = Number(searchParams.get("limit") ?? 16);
     const q = searchParams.get("q")?.trim();
     const includePublic = searchParams.get("includePublic") === "true";
+    const safeLimit = Math.min(Math.max(limit, 1), 96);
     const news = getVisibleNewsDeals({
       limit: 0,
       q,
@@ -51,11 +52,12 @@ export async function GET(request: Request) {
       includePublicPolicy: includePublic
     });
     const defaultDeals = news.deals;
-    const freebies = selectHomeFreebies(defaultDeals, Math.min(Math.max(limit, 1), 48), Date.parse(generatedAt));
-    const events = selectPublishableFreeBenefitEvents(defaultDeals, Math.min(Math.max(limit, 1), 48), Date.parse(generatedAt), {
+    const freebies = selectHomeFreebies(defaultDeals, Math.min(safeLimit, 64), Date.parse(generatedAt));
+    const events = selectPublishableFreeBenefitEvents(defaultDeals, safeLimit, Date.parse(generatedAt), {
       includePublic
     });
     const summary = buildHomeFreebieSummary(defaultDeals, Date.parse(generatedAt));
+    const categoryCounts = buildFreeBenefitEventCategoryCounts(events);
 
     return noStoreJson({
       ok: true,
@@ -73,6 +75,7 @@ export async function GET(request: Request) {
       freshnessLabel: news.freshnessLabel,
       freshnessAgeMinutes: news.freshnessAgeMinutes,
       nextRefreshAt: news.nextRefreshAt,
+      categoryCounts,
       summary,
       cachePolicy: {
         mode: "no-store",

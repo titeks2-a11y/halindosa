@@ -60,6 +60,7 @@ export interface FreebiesResponse {
   freshnessLabel?: string;
   freshnessAgeMinutes?: number | null;
   nextRefreshAt?: string;
+  categoryCounts?: Array<{ id: FreeBenefitEventType; label: string; count: number }>;
   summary?: {
     total: number;
     zeroCost: number;
