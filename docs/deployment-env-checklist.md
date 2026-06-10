@@ -74,3 +74,21 @@ Google, Kakao, Naver Provider 설정은 `docs/OAUTH_SETUP.md`와 `docs/DEEPLINK_
 - [ ] 공개 개인정보처리방침 URL이 Play Console/App Store Connect에 입력됨
 - [ ] `docs/device-qa-checklist.md` 기준 실기기 QA 완료
 - [ ] `npm run qa:release`와 `npm run release:doctor` 성공
+
+## Vercel 운영 배포 연결
+
+현재 할인도사 운영 도메인은 최신 GitHub `main` 커밋을 자동 반영해야 한다. 운영 도메인의 `/api/home` 응답에 `deployment.shortCommit`이 없거나 로컬 최신 무료혜택 수와 다르면 Vercel 배포 연결이 끊긴 상태로 본다.
+
+필수 조치:
+
+- GitHub Repository Secrets에 `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`를 입력한다.
+- 또는 Vercel Dashboard에서 GitHub `titeks2-a11y/halindosa` 저장소의 `main` 브랜치 자동 배포 연결을 복구한다.
+- 로컬 CLI로 배포하려면 먼저 프로젝트 루트에서 `npx vercel link`를 실행해 `.vercel/project.json`을 만들고, 로그인 후 `npx vercel --prod` 또는 `npx vercel build --prod && npx vercel deploy --prebuilt --prod`를 실행한다.
+- 배포 후 `REQUIRE_DEPLOY_COMMIT=true EXPECTED_DEPLOY_COMMIT=<최신커밋> npm run vercel:doctor`로 운영 도메인이 실제 최신 커밋을 서빙하는지 확인한다.
+
+최신 로컬 기준으로 운영 도메인에 반영되어야 하는 핵심 수치:
+
+- 공식 혜택: 190개
+- `/api/freebies` total: 152개
+- 무료혜택 검증: 186/186 visible
+- 검색 링크/비공식 링크/깨진 이미지: 0건

@@ -7,7 +7,7 @@
 ## 현재 기준
 
 - Branch: `codex/12h-product-ux-growth-hardening`
-- 최신 확인 HEAD: 새 세션 시작 시 `git log -1 --oneline`으로 확인한다. 이 문서 직전 기준은 `929fda6a feat: diversify free benefit hero recommendations`였다.
+- 최신 확인 HEAD: `5b7a954f feat: expand free benefit discovery`
 - Remote: `origin/main`, `origin/codex/12h-product-ux-growth-hardening` 모두 최신 HEAD까지 push 완료
 - 운영 URL: `https://www.halindosa.com`
 - Vercel Production Deploy: 최신 확인 기준 실패. GitHub Actions에 `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID` Secrets가 없어 Vercel CLI 배포 단계가 skip되고, 기존 운영 URL만 확인하다가 최신 커밋 메타데이터가 없어 차단된다.
@@ -18,7 +18,7 @@
   - `X-Request-Id` 헤더 존재
   - `X-RateLimit-Remaining` 헤더 존재
   - `Cache-Control`은 no-store 계열
-  - 단, 운영 API는 아직 이전 배포 기준으로 `newsDeals=120`, `freeBenefitEvents=72`, `deployment.shortCommit` 없음. 로컬 최신 기준은 `newsDeals=151`, `freeBenefitEvents=128`, 무료혜택 검증 181/181이다.
+  - 단, 운영 API는 아직 이전 배포 기준으로 `newsDeals=120`, `freeBenefitEvents=72`, `deployment.shortCommit` 없음. 로컬 최신 기준은 `newsDeals=190`, `/api/freebies total=152`, 무료혜택 검증 186/186이다.
 
 ## 제품 방향
 
@@ -37,6 +37,8 @@
 - QA 파이프라인은 중복 실행을 제거해 71개 핵심 게이트로 정리했다. 개별 품질 기준은 유지한다.
 - `/api/home`과 `/api/health`가 비밀이 아닌 deployment commit metadata를 반환한다. `vercel:doctor`는 `REQUIRE_DEPLOY_COMMIT=true`일 때 운영 도메인이 최신 커밋을 실제로 서빙하지 않으면 실패한다.
 - 홈 무료혜택 히어로는 브랜드 키를 정규화해 같은 브랜드 샘플/쿠폰이 첫 화면에 반복 노출되는 문제를 줄인다.
+- 홈 무료혜택 히어로는 `오늘마감`과 `마감임박`을 분리하고, 공식 무료혜택 카드 16개와 즉시 수령 카드 8개를 모바일 첫 화면 우선 영역으로 노출한다.
+- `scripts/home-runtime-snapshot-doctor.mjs`는 `localhost:3000`을 먼저 확인하고, 다른 앱이 `127.0.0.1:3000`을 점유해도 할인도사 런타임 스냅샷 검증이 잘못 실패하지 않게 했다.
 
 ## 현재 데이터 품질 기준
 
@@ -48,20 +50,21 @@
   - hard failure 노출 0건
   - 외부몰 일시 5xx/접근보호 이슈는 고객 노출에서 숨기고 운영자 재검증 큐로 보낸다.
 - 공식 혜택:
-  - `refresh:news` 기준 185개 공식 혜택 노출
-  - `verify:news` 기준 185/185 공식 혜택 링크 검증
+  - `refresh:news` 기준 190개 공식 혜택 노출
+  - `verify:news` 기준 190/190 공식 혜택 링크 검증
   - 기본 top consumer feed는 공공정책성 혜택 0건
 - 무료혜택:
-  - `refresh:benefits` 기준 무료혜택 109/109, 공식 이벤트 162/162
-  - `verify:freebies` 기준 181/181 visible, 검색 링크 0, 비공식 링크 0, 깨진 이미지 0
-  - FreeBenefitEvent 기준 active official events 177개, sources 141개, hosts 107개
+  - `refresh:benefits` 기준 무료혜택 110/110, 공식 이벤트 167/167
+  - `verify:freebies` 기준 186/186 visible, 검색 링크 0, 비공식 링크 0, 깨진 이미지 0
+  - `verify:freebies`는 공식 도메인 109개, 브랜드 111개, 구매조건 낮은 혜택 147개 기준도 함께 검사한다.
+  - FreeBenefitEvent 기준 active official events 181개, sources 144개, hosts 107개
   - 공식 소스 후보 212개, reachable/guarded 186/26 분리 관리
 
 ## 최근 통과한 로컬 검증
 
 - `npm run lint`: 통과
 - `npm run test:mobile-ux`: 17/17 통과
-- `npm run verify:freebies`: 181/181 통과
+- `npm run verify:freebies`: 186/186 통과
 - `npm run smoke:local`: 103/103 통과
 - `npm run release:prepare:reports:ci`: 27/27 통과
 - `npm run release:doctor`: 189/189 통과
@@ -76,6 +79,7 @@
 - 최신 Vercel Production Deploy는 실패가 맞다. 최신 커밋이 운영 도메인에 실제 반영되지 않은 상태를 엄격 검증이 잡아낸 것이다.
 - GitHub Actions job에서 `Launch verification gates`, `Pull Vercel environment`, `Build Vercel production artifact`, `Deploy Vercel production artifact`, `Verify deployed URL` 단계가 skipped이면 Vercel Secrets가 없다는 뜻이다.
 - 해결: GitHub Repository Secrets에 `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`를 설정하거나, Vercel 프로젝트의 GitHub main 브랜치 자동 배포 연결을 복구한 뒤 최신 main을 redeploy한다.
+- 로컬 Vercel CLI 상태: `.vercel/project.json`이 없어서 현재 워크스페이스는 Vercel 프로젝트에 연결되어 있지 않다. `npx vercel whoami`는 로그인 대기/타임아웃 상태였으므로 이 세션에서는 직접 운영 배포를 수행하지 못했다.
 - GitHub CI는 concurrency 때문에 이전 커밋의 실패/취소 기록이 남아 있을 수 있다.
 - CI가 실패하면 먼저 실패 job의 마지막 단계가 `Release doctor`인지 확인한다.
 - 로컬 재현 순서:
