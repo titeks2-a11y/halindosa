@@ -1,6 +1,6 @@
 # FreeBenefitEvent 계약
 
-Generated: 2026-06-09T20:36:24.067Z
+Generated: 2026-06-10T12:09:07.055Z
 
 Status: PASS
 

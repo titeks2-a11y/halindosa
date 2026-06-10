@@ -324,6 +324,10 @@ export function isPublishableFreeBenefitEvent(event: FreeBenefitEvent, reference
   );
 }
 
+function isPublicFreeBenefitEvent(event: FreeBenefitEvent) {
+  return event.benefitType === "publicFree" || event.sourceType === "approved_public";
+}
+
 export function buildFreeBenefitEvents(deals: NewsDeal[], referenceNow = Date.now()) {
   const deduped = new Map<string, FreeBenefitEvent>();
 
@@ -346,8 +350,14 @@ export function buildFreeBenefitEvents(deals: NewsDeal[], referenceNow = Date.no
   );
 }
 
-export function selectPublishableFreeBenefitEvents(deals: NewsDeal[], limit = 24, referenceNow = Date.now()) {
+export function selectPublishableFreeBenefitEvents(
+  deals: NewsDeal[],
+  limit = 24,
+  referenceNow = Date.now(),
+  options: { includePublic?: boolean } = {}
+) {
   return buildFreeBenefitEvents(deals, referenceNow)
     .filter((event) => isPublishableFreeBenefitEvent(event, referenceNow))
+    .filter((event) => options.includePublic === true || !isPublicFreeBenefitEvent(event))
     .slice(0, limit);
 }

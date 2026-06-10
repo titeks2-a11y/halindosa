@@ -28,7 +28,11 @@ export async function runPageSmokeChecks() {
     assert(text.includes("카테고리 바로가기") || text.includes("전체상품"), "Home page missing category shortcuts");
     assert(text.includes("상품 목록 빠른 스캔") && text.includes("목록 안에서 많이 나온 기준"), "Home page missing product list scan shortcuts");
     assert(
-      text.includes("오늘 챙길 쿠폰·0원딜") || text.includes("무료혜택 먼저 보기") || text.includes("오늘 놓치면 아쉬운 혜택"),
+      text.includes("오늘 받을 무료 혜택") ||
+        text.includes("무료혜택 메인") ||
+        text.includes("오늘 챙길 쿠폰·0원딜") ||
+        text.includes("무료혜택 먼저 보기") ||
+        text.includes("오늘 놓치면 아쉬운 혜택"),
       "Home page missing benefit-first discovery"
     );
     assert(text.includes("무료혜택") || text.includes("쿠폰"), "Home page missing free or coupon discovery");

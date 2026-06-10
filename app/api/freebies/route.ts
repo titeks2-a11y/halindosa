@@ -52,7 +52,9 @@ export async function GET(request: Request) {
     });
     const defaultDeals = news.deals;
     const freebies = selectHomeFreebies(defaultDeals, Math.min(Math.max(limit, 1), 48), Date.parse(generatedAt));
-    const events = selectPublishableFreeBenefitEvents(defaultDeals, Math.min(Math.max(limit, 1), 48), Date.parse(generatedAt));
+    const events = selectPublishableFreeBenefitEvents(defaultDeals, Math.min(Math.max(limit, 1), 48), Date.parse(generatedAt), {
+      includePublic
+    });
     const summary = buildHomeFreebieSummary(defaultDeals, Date.parse(generatedAt));
 
     return noStoreJson({

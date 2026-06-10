@@ -127,8 +127,8 @@ export function HomeFreebieHero({
   onRefresh,
   onOpenNewsDeal
 }: HomeFreebieHeroProps) {
-  const visibleDeals = deals.slice(0, 4);
-  const visibleEvents = events.slice(0, 4);
+  const visibleDeals = deals.slice(0, 6);
+  const visibleEvents = events.slice(0, 6);
   const checkedLabel = isRefreshing ? "검증 중" : freshnessLabel || (updatedAt ? getRelativeTime(updatedAt, referenceNow) : "확인 대기");
   const quickStats = visibleEvents.length
     ? [
@@ -160,10 +160,10 @@ export function HomeFreebieHero({
         <div className="min-w-0">
           <p className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-1 text-[10px] font-black text-emerald-700 sm:text-xs">
             <Gift size={13} />
-            무료혜택 먼저 보기
+            무료혜택 메인
           </p>
           <h2 className="mt-1 text-[17px] font-black leading-5 text-slate-950 sm:text-2xl">
-            오늘 챙길 쿠폰·0원딜
+            오늘 받을 무료 혜택
           </h2>
           <p className="mt-1 line-clamp-1 text-[11px] font-bold text-slate-500 sm:text-xs">
             공식 링크 {totalCount.toLocaleString("ko-KR")}개 · {checkedLabel}
@@ -251,7 +251,7 @@ export function HomeFreebieHero({
       </nav>
 
       {visibleEvents.length ? (
-        <div className="mt-2 grid grid-cols-2 gap-2 sm:mt-3 sm:grid-cols-4" aria-label="공식 무료혜택 이벤트 카드">
+        <div className="mt-2 grid grid-cols-2 gap-2 sm:mt-3 sm:grid-cols-3 lg:grid-cols-6" aria-label="공식 무료혜택 이벤트 카드">
           {visibleEvents.map((event) => (
             <article key={event.id} data-home-free-benefit-event-card="true" className="min-w-0 rounded-2xl border border-slate-100 bg-slate-50 p-2">
               <div className="flex items-start gap-2 sm:block">
@@ -323,7 +323,7 @@ export function HomeFreebieHero({
           ))}
         </div>
       ) : visibleDeals.length ? (
-        <div className="mt-2 grid grid-cols-2 gap-2 sm:mt-3 sm:grid-cols-4" aria-label="공식 무료혜택 카드">
+        <div className="mt-2 grid grid-cols-2 gap-2 sm:mt-3 sm:grid-cols-3 lg:grid-cols-6" aria-label="공식 무료혜택 카드">
           {visibleDeals.map((deal) => (
             <article key={deal.id} data-home-freebie-card="true" className="min-w-0 rounded-2xl border border-slate-100 bg-slate-50 p-2">
               <div className="flex items-start gap-2 sm:block">

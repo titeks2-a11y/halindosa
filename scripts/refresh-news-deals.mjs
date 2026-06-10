@@ -23,7 +23,9 @@ function envUrls(...keys) {
 }
 
 const providerSpecs = getOfficialBenefitProviderSpecs();
-const seed = readJson("data/newsDeals.seed.json", []);
+const baseSeed = readJson("data/newsDeals.seed.json", []);
+const consumerFreeBenefitSeed = readJson("data/consumerFreeBenefits.seed.json", []);
+const seed = [...baseSeed, ...consumerFreeBenefitSeed];
 const collected = [];
 const providerStats = [];
 
@@ -130,6 +132,7 @@ writeJson("reports/news-deals.json", {
   ],
   sourceFiles: {
     seed: existsSync(join(root, "data/newsDeals.seed.json")),
+    consumerFreeBenefitsSeed: existsSync(join(root, "data/consumerFreeBenefits.seed.json")),
     refreshed: existsSync(join(dataDir, "refreshedNewsDeals.json")),
     report: true
   }

@@ -1,4 +1,4 @@
-import { getConsumerBenefitPriorityAdjustment, getMainFeedConsumerPriorityPenalty } from "@/lib/consumerBenefitPriority";
+import { getConsumerBenefitPriorityAdjustment, getMainFeedConsumerPriorityPenalty, isPublicPolicyBenefit } from "@/lib/consumerBenefitPriority";
 import type { NewsDeal, NewsBenefitType } from "@/types/newsDeal";
 
 export const homeFreebieBenefitTypes = new Set<NewsBenefitType>([
@@ -19,7 +19,19 @@ export const homeFreebieBenefitTypes = new Set<NewsBenefitType>([
   "foodDelivery"
 ]);
 
-const strictFreeBenefitTypes = new Set<NewsBenefitType>(["coupon", "freebie", "freeShipping", "event", "point", "public", "sample", "education", "public_free"]);
+const strictFreeBenefitTypes = new Set<NewsBenefitType>([
+  "coupon",
+  "freebie",
+  "freeShipping",
+  "event",
+  "point",
+  "sample",
+  "membership",
+  "card",
+  "convenienceStore",
+  "mart",
+  "foodDelivery"
+]);
 const blockedUrlPattern = /\/search|search\?|query=|keyword=|shopping\/search|msearch|\/find|\/result|ppomppu|fmkorea|quasarzone|algumon|blog\.naver|news\.naver|v\.daum|news\.daum/i;
 const freeIntentPattern = /무료|0원|무배|무료배송|쿠폰|포인트|샘플|체험|초대|지원|증정|1\+1|2\+1|행사|이벤트|리워드|멤버십|카드|배달|편의점|마트/;
 const purchaseConditionPattern = /구매|주문|결제|최소\s*주문|이상\s*구매|장바구니|배송비|카드\s*발급|신규\s*발급|자동\s*납부|자동이체|연회비/i;
@@ -57,6 +69,7 @@ export function isPublishableOfficialFreebie(deal: NewsDeal, referenceNow = Date
 
   return (
     isFreeIntent &&
+    !isPublicPolicyBenefit(deal) &&
     deal.publishable === true &&
     deal.isHidden !== true &&
     deal.validationStatus === "passed" &&
