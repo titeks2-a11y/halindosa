@@ -295,6 +295,9 @@ export function getFreeBenefitEventScore(event: FreeBenefitEvent, referenceNow =
   const endAt = Date.parse(event.endAt);
   const hoursLeft = Number.isFinite(endAt) ? Math.max(0, (endAt - referenceNow) / 3_600_000) : 999;
   const urgencyBoost = hoursLeft <= 24 ? 18 : hoursLeft <= 72 ? 9 : 0;
+  const freshnessAt = Date.parse(event.verifiedAt || event.updatedAt || event.collectedAt);
+  const ageDays = Number.isFinite(freshnessAt) ? Math.max(0, (referenceNow - freshnessAt) / 86_400_000) : 999;
+  const freshnessBoost = ageDays <= 1 ? 10 : ageDays <= 3 ? 5 : ageDays > 30 ? -22 : ageDays > 14 ? -10 : 0;
   const consumerTypeBoost =
     event.benefitType === "coupon"
       ? 24
@@ -318,7 +321,8 @@ export function getFreeBenefitEventScore(event: FreeBenefitEvent, referenceNow =
     (event.isFirstComeFirstServed ? 9 : 0) +
     (event.requiresPurchase ? -18 : 8) +
     (event.requiresLogin ? -4 : 4) +
-    urgencyBoost
+    urgencyBoost +
+    freshnessBoost
   );
 }
 
@@ -425,6 +429,42 @@ function isPublicFreeBenefitEvent(event: FreeBenefitEvent) {
   return event.benefitType === "publicFree" || event.sourceType === "approved_public";
 }
 
+function selectDiverseFreeBenefitEvents(events: FreeBenefitEvent[], limit: number, referenceNow: number) {
+  const remaining = [...events];
+  const selected: FreeBenefitEvent[] = [];
+  const sourceCounts = new Map<string, number>();
+  const benefitTypeCounts = new Map<string, number>();
+  const brandCounts = new Map<string, number>();
+
+  while (remaining.length && selected.length < limit) {
+    let bestIndex = 0;
+    let bestScore = Number.NEGATIVE_INFINITY;
+
+    for (let index = 0; index < remaining.length; index += 1) {
+      const event = remaining[index];
+      const sourceRepeat = sourceCounts.get(event.sourceDomain) ?? 0;
+      const typeRepeat = benefitTypeCounts.get(event.benefitType) ?? 0;
+      const brandRepeat = brandCounts.get(event.brandName) ?? 0;
+      const diversityPenalty = sourceRepeat * 14 + typeRepeat * 6 + brandRepeat * 5;
+      const urgencyReserveBoost = event.isEveryoneReward || event.isFirstComeFirstServed || event.urgencyLabel.includes("마감") ? 4 : 0;
+      const score = getFreeBenefitEventScore(event, referenceNow) + getConsumerEventScoreAdjustment(event) + urgencyReserveBoost - diversityPenalty;
+
+      if (score > bestScore) {
+        bestScore = score;
+        bestIndex = index;
+      }
+    }
+
+    const [picked] = remaining.splice(bestIndex, 1);
+    selected.push(picked);
+    sourceCounts.set(picked.sourceDomain, (sourceCounts.get(picked.sourceDomain) ?? 0) + 1);
+    benefitTypeCounts.set(picked.benefitType, (benefitTypeCounts.get(picked.benefitType) ?? 0) + 1);
+    brandCounts.set(picked.brandName, (brandCounts.get(picked.brandName) ?? 0) + 1);
+  }
+
+  return selected;
+}
+
 export function buildFreeBenefitEvents(deals: NewsDeal[], referenceNow = Date.now()) {
   const deduped = new Map<string, FreeBenefitEvent>();
 
@@ -453,8 +493,9 @@ export function selectPublishableFreeBenefitEvents(
   referenceNow = Date.now(),
   options: { includePublic?: boolean } = {}
 ) {
-  return buildFreeBenefitEvents(deals, referenceNow)
+  const publishableEvents = buildFreeBenefitEvents(deals, referenceNow)
     .filter((event) => isPublishableFreeBenefitEvent(event, referenceNow))
-    .filter((event) => options.includePublic === true || !isPublicFreeBenefitEvent(event))
-    .slice(0, limit);
+    .filter((event) => options.includePublic === true || !isPublicFreeBenefitEvent(event));
+
+  return selectDiverseFreeBenefitEvents(publishableEvents, limit, referenceNow);
 }

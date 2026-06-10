@@ -90,6 +90,18 @@ export async function runPageSmokeChecks() {
         const expectedFreeBenefitEventCategories = ["all", "everyone", "firstCome", "coupon", "sample", "freeTrial", "gifticon", "pointCashback", "checkIn", "roulette", "signup", "publicFree", "experiencePanel"];
         assert(Array.isArray(data.freeBenefitEvents) && data.freeBenefitEvents.length >= 48, `/api/home should expose a broad publishable free benefit event pool for the home hero, got ${data.freeBenefitEvents?.length ?? 0}`);
         assert(
+          data.freebiesMeta?.eventSummary?.sourceDomainCount >= 30,
+          `/api/home should expose broad official source domain coverage for free benefits, got ${data.freebiesMeta?.eventSummary?.sourceDomainCount ?? 0}`
+        );
+        assert(
+          new Set(data.freeBenefitEvents.map((event) => event.benefitType)).size >= 8,
+          "/api/home free benefit event pool should mix coupon, sample, point, first-come, everyone, shipping, and brand/event styles"
+        );
+        assert(
+          Array.isArray(data.freebiesMeta?.eventSummary?.topSourceDomains) && data.freebiesMeta.eventSummary.topSourceDomains.length >= 5,
+          "/api/home should expose top official source domains for the free benefit hero trust strip"
+        );
+        assert(
           Array.isArray(data.freebiesMeta?.categoryCounts) &&
             expectedFreeBenefitEventCategories.every((id) => data.freebiesMeta.categoryCounts.some((category) => category.id === id && typeof category.count === "number")),
           "/api/home should expose active free benefit event category counts for every home quick filter"
@@ -148,6 +160,8 @@ export async function runPageSmokeChecks() {
     const freebiePool = await fetchJson("/api/freebies?limit=96");
     assert(freebiePool.response.status === 200, `Expected /api/freebies 200, got ${freebiePool.response.status}`);
     assert(Array.isArray(freebiePool.data.events) && freebiePool.data.events.length >= 48, `/api/freebies should expose 48+ publishable official free benefit events, got ${freebiePool.data.events?.length ?? 0}`);
+    assert(freebiePool.data.eventSummary?.sourceDomainCount >= 30, `/api/freebies should expose broad official source domain coverage, got ${freebiePool.data.eventSummary?.sourceDomainCount ?? 0}`);
+    assert(new Set(freebiePool.data.events.map((event) => event.benefitType)).size >= 8, "/api/freebies events should preserve mixed benefit-type discovery");
     assert(Array.isArray(freebiePool.data.categoryCounts), "/api/freebies should expose free benefit event category counts");
     assert(
       freebiePool.data.categoryCounts.find((category) => category.id === "all")?.count === freebiePool.data.events.length,
