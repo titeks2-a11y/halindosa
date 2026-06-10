@@ -127,8 +127,9 @@ function isPublishableFreebie(item) {
 }
 
 function isPublicPolicyFreebie(item) {
-  const text = [item?.title, item?.summary, item?.category, item?.benefitType, item?.sourceName, item?.brandName, item?.sourceType, item?.tags?.join?.(" ")].join(" ");
-  return /정부|공공|지자체|복지|정책|지원사업|서울시|공공서비스|K-MOOC|케이무크|문화가\s*있는\s*날|HRD|정부24|복지로|publicFree|approved_public/i.test(text);
+  if (item?.benefitType === "publicFree" || item?.benefitType === "public_free" || item?.benefitType === "education") return true;
+  const text = [item?.title, item?.summary, item?.category, item?.sourceName, item?.brandName, item?.tags?.join?.(" ")].join(" ");
+  return /정부|공공|지자체|복지|정책|지원사업|서울시|공공서비스|K-MOOC|케이무크|문화가\s*있는\s*날|HRD|정부24|복지로/i.test(text);
 }
 
 async function fetchText(path, options = {}) {
