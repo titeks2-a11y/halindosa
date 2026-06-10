@@ -2,12 +2,12 @@
 
 이 문서는 할인도사에 연결할 수 있는 공식 이벤트, 공공 혜택, 제휴 JSON/RSS 후보를 정리합니다. 무단 크롤링 후보가 아니라 운영자가 승인 feed 또는 공식 페이지 매핑으로 전환할 때 쓰는 출발점입니다.
 
-- 생성 시각: 2026-06-09T21:17:33.204Z
+- 생성 시각: 2026-06-10T13:56:53.950Z
 - 상태: PASS
-- 후보 소스: 189개
-- 고우선순위 후보: 72개
+- 후보 소스: 195개
+- 고우선순위 후보: 76개
 - 현재 env feed 연결 후보: 0개
-- 공식 혜택 노출: 130개
+- 공식 혜택 노출: 149개
 - feed 전환 상태: seed_launch_ready
 - CSV 리포트: reports/official-source-catalog.csv
 
@@ -15,15 +15,15 @@
 
 | 카테고리 | 후보 수 | 상태 |
 | --- | ---: | --- |
-| 식품/생필품 | 19 | 충분 |
+| 식품/생필품 | 21 | 충분 |
 | 마트/편의점 | 14 | 충분 |
-| 디지털/가전 | 12 | 충분 |
+| 디지털/가전 | 14 | 충분 |
 | 패션/뷰티 | 22 | 충분 |
-| 외식/배달 | 44 | 충분 |
+| 외식/배달 | 45 | 충분 |
 | 여행/숙박 | 9 | 충분 |
 | 영화/문화 | 25 | 충분 |
-| 카드/멤버십 | 59 | 충분 |
-| 무료혜택 | 153 | 충분 |
+| 카드/멤버십 | 62 | 충분 |
+| 무료혜택 | 159 | 충분 |
 | 정부/공공혜택 | 43 | 충분 |
 
 ## Provider 커버리지
@@ -32,7 +32,7 @@
 | --- | ---: | --- |
 | news | 1 | 포함 |
 | event_news | 2 | 포함 |
-| official_event | 117 | 포함 |
+| official_event | 123 | 포함 |
 | public_coupon | 69 | 포함 |
 
 ## 후보 목록
@@ -228,6 +228,12 @@
 | guro-picnic-garden-free-reservation-202606 | public_coupon | 정부/공공혜택, 무료혜택 | high | https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?rsv_svc_id=S250417160236520990 | PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
 | cjthemarket-welcome-coupon-free-shipping-2026 | official_event | 식품/생필품, 무료혜택 | high | https://vod.cjthemarket.com/pc/bnf/coupon | OFFICIAL_EVENT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
 | cjthemarket-random-lucky-coupon-daily-2026 | official_event | 식품/생필품, 무료혜택 | high | https://m.cjthemarket.com/mo/event/new/randomCouponEvnt | OFFICIAL_EVENT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| coupang-official-benefit-coupon-center | official_event | 무료혜택, 식품/생필품, 디지털/가전 | high | https://www.coupang.com/np/coupangbenefit | OFFICIAL_EVENT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| naver-official-event-hub | official_event | 무료혜택, 카드/멤버십 | high | https://mkt.naver.com/promotion | OFFICIAL_EVENT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| naverpay-official-campaign-all | official_event | 무료혜택, 카드/멤버십 | high | https://m-campaign.naver.com/npay-event-all/ | OFFICIAL_EVENT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| baemin-official-free-delivery-club-event | official_event | 무료혜택, 외식/배달 | high | https://event-view.baemin.com/apps/9ikdKTU?mode=no-lottie | OFFICIAL_EVENT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| todayhouse-official-season-promotion | official_event | 무료혜택, 식품/생필품, 디지털/가전 | medium | https://events.ohou.se/promotions/o-season-week | OFFICIAL_EVENT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| tossfeed-tosspay-official-promotion | official_event | 무료혜택, 카드/멤버십 | medium | https://toss.im/tossfeed/article/tosspay-promotion | OFFICIAL_EVENT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
 
 ## 다음 작업
 

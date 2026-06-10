@@ -1,33 +1,33 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-10T12:09:47.748Z",
+  "generatedAt": "2026-06-10T13:58:23.352Z",
   "mode": "freebies",
   "label": "무료혜택",
-  "sourceSnapshotGeneratedAt": "2026-06-10T12:09:47.586Z",
-  "sourceReportGeneratedAt": "2026-06-10T12:09:47.700Z",
-  "totalOfficialBenefits": 143,
-  "matchedCount": 81,
-  "visibleCount": 81,
+  "sourceSnapshotGeneratedAt": "2026-06-10T13:58:23.167Z",
+  "sourceReportGeneratedAt": "2026-06-10T13:58:23.294Z",
+  "totalOfficialBenefits": 149,
+  "matchedCount": 87,
+  "visibleCount": 87,
   "hiddenOrBlockedCount": 0,
   "exposedSearchLinks": 0,
   "exposedNonOfficialLinks": 0,
   "minimumVisible": 27,
   "categoryCounts": {
     "정부/공공혜택": 28,
-    "카드/멤버십": 19,
-    "무료혜택": 12,
+    "카드/멤버십": 22,
+    "무료혜택": 13,
     "영화/문화": 7,
     "패션/뷰티": 7,
-    "식품/생필품": 4,
+    "식품/생필품": 5,
     "디지털/가전": 2,
-    "마트/편의점": 1,
-    "외식/배달": 1
+    "외식/배달": 2,
+    "마트/편의점": 1
   },
   "benefitTypeCounts": {
     "public_free": 16,
-    "coupon": 13,
+    "coupon": 15,
+    "point": 12,
     "education": 11,
-    "point": 9,
     "membership": 6,
     "freebie": 5,
     "public": 5,
@@ -35,6 +35,7 @@
     "freeShipping": 4,
     "card": 3,
     "culture": 3,
+    "foodDelivery": 1,
     "mart": 1
   },
   "sourceCounts": {
@@ -47,6 +48,8 @@
     "KFC 공식 프로모션": 2,
     "고용24 국민내일배움카드 공식 안내": 1,
     "국립중앙박물관 공식 전시": 1,
+    "네이버 공식 이벤트": 1,
+    "네이버페이 공식 캠페인": 1,
     "대한민국 구석구석 공식 혜택": 1,
     "라운드랩 공식 이벤트": 1,
     "로얄캐닌 공식 캠페인": 1,
@@ -62,6 +65,7 @@
     "문화가 있는 날 공식 월간 프로그램": 1,
     "문화누리카드 공식 이용처": 1,
     "문화포털 공식 문화초대이벤트": 1,
+    "배달의민족 공식 이벤트": 1,
     "배민아카데미 공식 이벤트": 1,
     "복지로 공식 복지서비스": 1,
     "서울문화포털 공식 행사": 1,
@@ -69,6 +73,7 @@
     "아모레몰 공식 결제 혜택": 1,
     "아모레몰 공식 써봐야안다": 1,
     "아이챌린지 공식 무료체험": 1,
+    "오늘의집 공식 이벤트": 1,
     "올리브영 공식 이벤트": 1,
     "이니스프리 공식 샘플마켓": 1,
     "이니스프리 공식 이벤트": 1,
@@ -77,6 +82,8 @@
     "카카오페이 공식 결제 혜택": 1,
     "카카오페이 공식 고객센터": 1,
     "카카오페이 공식 콘텐츠": 1,
+    "쿠팡 공식 혜택": 1,
+    "토스 공식 혜택 안내": 1,
     "토스 공식 혜택 콘텐츠": 1,
     "퓨리나 공식 0원딜": 1,
     "피자헛 공식 멤버십": 1,
@@ -104,8 +111,11 @@
     "cjone.com",
     "company.himart.co.kr",
     "contents.kakaopay.com",
+    "coupang.com",
     "culture.go.kr",
     "culture.seoul.go.kr",
+    "event-view.baemin.com",
+    "events.ohou.se",
     "events.payco.com",
     "front.homeplus.co.kr",
     "gov.kr",
@@ -121,6 +131,7 @@
     "lottecard.co.kr",
     "lottecinema.co.kr",
     "lpoint.com",
+    "m-campaign.naver.com",
     "m.cjthemarket.com",
     "m.ebs.co.kr",
     "m.i-challenge.co.kr",
@@ -129,6 +140,7 @@
     "m.work24.go.kr",
     "mcdonalds.co.kr",
     "megabox.co.kr",
+    "mkt.naver.com",
     "mnuri.kr",
     "momq.co.kr",
     "museum.go.kr",
@@ -160,7 +172,7 @@
       "finalUrl": "https://www.kmooc.kr/view/course/detail/19048",
       "redirectUrl": "/go/news/news-kmooc-blockchain-digital-asset-free-course",
       "endDate": "2026-06-14",
-      "lastCheckedAt": "2026-06-10T12:09:47.586Z"
+      "lastCheckedAt": "2026-06-10T13:58:23.167Z"
     },
     {
       "id": "news-kmooc-dynamics-free-course-202606",
@@ -173,7 +185,7 @@
       "finalUrl": "https://www.kmooc.kr/view/course/detail/18013",
       "redirectUrl": "/go/news/news-kmooc-dynamics-free-course-202606",
       "endDate": "2026-06-15",
-      "lastCheckedAt": "2026-06-10T12:09:47.586Z"
+      "lastCheckedAt": "2026-06-10T13:58:23.167Z"
     },
     {
       "id": "news-kmooc-art-face-emotion-free-course-202606",
@@ -186,7 +198,7 @@
       "finalUrl": "https://www.kmooc.kr/view/course/detail/19060",
       "redirectUrl": "/go/news/news-kmooc-art-face-emotion-free-course-202606",
       "endDate": "2026-06-18",
-      "lastCheckedAt": "2026-06-10T12:09:47.586Z"
+      "lastCheckedAt": "2026-06-10T13:58:23.167Z"
     },
     {
       "id": "news-mcdonalds-happy-snack-free-drink",
@@ -199,7 +211,7 @@
       "finalUrl": "https://www.mcdonalds.co.kr/kor/promotion/detail/E51CF9",
       "redirectUrl": "/go/news/news-mcdonalds-happy-snack-free-drink",
       "endDate": "2026-06-21",
-      "lastCheckedAt": "2026-06-10T12:09:47.586Z"
+      "lastCheckedAt": "2026-06-10T13:58:23.167Z"
     },
     {
       "id": "news-kmooc-computer-graphics-free-course-202606",
@@ -212,7 +224,7 @@
       "finalUrl": "https://www.kmooc.kr/view/course/detail/19266",
       "redirectUrl": "/go/news/news-kmooc-computer-graphics-free-course-202606",
       "endDate": "2026-06-21",
-      "lastCheckedAt": "2026-06-10T12:09:47.586Z"
+      "lastCheckedAt": "2026-06-10T13:58:23.167Z"
     },
     {
       "id": "news-seoul-seoseoul-lake-green-free-kids-202606",
@@ -225,7 +237,7 @@
       "finalUrl": "https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?rsv_svc_id=S260529131642855996",
       "redirectUrl": "/go/news/news-seoul-seoseoul-lake-green-free-kids-202606",
       "endDate": "2026-06-25",
-      "lastCheckedAt": "2026-06-10T12:09:47.586Z"
+      "lastCheckedAt": "2026-06-10T13:58:23.167Z"
     },
     {
       "id": "news-seoul-ujangsan-forest-healing-free-202606",
@@ -238,7 +250,7 @@
       "finalUrl": "https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?rsv_svc_id=S260430141839376361",
       "redirectUrl": "/go/news/news-seoul-ujangsan-forest-healing-free-202606",
       "endDate": "2026-06-28",
-      "lastCheckedAt": "2026-06-10T12:09:47.586Z"
+      "lastCheckedAt": "2026-06-10T13:58:23.167Z"
     },
     {
       "id": "news-seoul-worldcup-silkworm-free-experience-202606",
@@ -251,7 +263,7 @@
       "finalUrl": "https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?rsv_svc_id=S260520140256572900",
       "redirectUrl": "/go/news/news-seoul-worldcup-silkworm-free-experience-202606",
       "endDate": "2026-06-29",
-      "lastCheckedAt": "2026-06-10T12:09:47.586Z"
+      "lastCheckedAt": "2026-06-10T13:58:23.167Z"
     },
     {
       "id": "news-seoul-dongdaemun-water-sports-free-class-202606",
@@ -264,7 +276,7 @@
       "finalUrl": "https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?locale=ko&rsv_svc_id=S260512102120511430",
       "redirectUrl": "/go/news/news-seoul-dongdaemun-water-sports-free-class-202606",
       "endDate": "2026-06-29",
-      "lastCheckedAt": "2026-06-10T12:09:47.586Z"
+      "lastCheckedAt": "2026-06-10T13:58:23.167Z"
     },
     {
       "id": "news-seoul-hanyangdoseong-free-history-tour-202606",
@@ -277,7 +289,20 @@
       "finalUrl": "https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?rsv_svc_id=S260522131054795847",
       "redirectUrl": "/go/news/news-seoul-hanyangdoseong-free-history-tour-202606",
       "endDate": "2026-06-29",
-      "lastCheckedAt": "2026-06-10T12:09:47.586Z"
+      "lastCheckedAt": "2026-06-10T13:58:23.167Z"
+    },
+    {
+      "id": "news-tossfeed-tosspay-promotion-202606",
+      "title": "토스 공식 토스페이 할인·적립 혜택",
+      "merchant": "토스",
+      "category": "카드/멤버십",
+      "benefitType": "point",
+      "sourceName": "토스 공식 혜택 안내",
+      "host": "toss.im",
+      "finalUrl": "https://toss.im/tossfeed/article/tosspay-promotion",
+      "redirectUrl": "/go/news/news-tossfeed-tosspay-promotion-202606",
+      "endDate": "2026-06-30",
+      "lastCheckedAt": "2026-06-10T13:58:23.167Z"
     },
     {
       "id": "news-seoul-futurelab-battlebot-free-experience-202606",
@@ -290,7 +315,7 @@
       "finalUrl": "https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?rsv_svc_id=S260509143239234573",
       "redirectUrl": "/go/news/news-seoul-futurelab-battlebot-free-experience-202606",
       "endDate": "2026-06-30",
-      "lastCheckedAt": "2026-06-10T12:09:47.586Z"
+      "lastCheckedAt": "2026-06-10T13:58:23.167Z"
     },
     {
       "id": "news-seoul-plant-hospital-free-care-202606",
@@ -303,7 +328,7 @@
       "finalUrl": "https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?rsv_svc_id=S250103153915708411",
       "redirectUrl": "/go/news/news-seoul-plant-hospital-free-care-202606",
       "endDate": "2026-06-30",
-      "lastCheckedAt": "2026-06-10T12:09:47.586Z"
+      "lastCheckedAt": "2026-06-10T13:58:23.167Z"
     },
     {
       "id": "news-seoul-sagajeong-forest-play-free-202606",
@@ -316,7 +341,7 @@
       "finalUrl": "https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?rsv_svc_id=S260519152853080472",
       "redirectUrl": "/go/news/news-seoul-sagajeong-forest-play-free-202606",
       "endDate": "2026-06-30",
-      "lastCheckedAt": "2026-06-10T12:09:47.586Z"
+      "lastCheckedAt": "2026-06-10T13:58:23.167Z"
     },
     {
       "id": "news-kmooc-machine-learning-free-course-202606",
@@ -329,7 +354,7 @@
       "finalUrl": "https://www.kmooc.kr/view/course/detail/19382",
       "redirectUrl": "/go/news/news-kmooc-machine-learning-free-course-202606",
       "endDate": "2026-06-30",
-      "lastCheckedAt": "2026-06-10T12:09:47.586Z"
+      "lastCheckedAt": "2026-06-10T13:58:23.167Z"
     },
     {
       "id": "news-kmooc-media-literacy-free-course-202606",
@@ -342,7 +367,7 @@
       "finalUrl": "https://www.kmooc.kr/view/course/detail/19037",
       "redirectUrl": "/go/news/news-kmooc-media-literacy-free-course-202606",
       "endDate": "2026-06-30",
-      "lastCheckedAt": "2026-06-10T12:09:47.586Z"
+      "lastCheckedAt": "2026-06-10T13:58:23.167Z"
     },
     {
       "id": "news-guro-picnic-garden-free-reservation-202606",
@@ -355,7 +380,7 @@
       "finalUrl": "https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?rsv_svc_id=S250417160236520990",
       "redirectUrl": "/go/news/news-guro-picnic-garden-free-reservation-202606",
       "endDate": "2026-06-30",
-      "lastCheckedAt": "2026-06-10T12:09:47.586Z"
+      "lastCheckedAt": "2026-06-10T13:58:23.167Z"
     },
     {
       "id": "news-seoul-baekje-kids-museum-free-exhibit-202606",
@@ -368,7 +393,7 @@
       "finalUrl": "https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?rsv_svc_id=S240429112658694635",
       "redirectUrl": "/go/news/news-seoul-baekje-kids-museum-free-exhibit-202606",
       "endDate": "2026-07-02",
-      "lastCheckedAt": "2026-06-10T12:09:47.586Z"
+      "lastCheckedAt": "2026-06-10T13:58:23.167Z"
     },
     {
       "id": "news-hansung-baekje-conservation-family-free-202607",
@@ -381,7 +406,7 @@
       "finalUrl": "https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?rsv_svc_id=S260223140354039679",
       "redirectUrl": "/go/news/news-hansung-baekje-conservation-family-free-202607",
       "endDate": "2026-07-04",
-      "lastCheckedAt": "2026-06-10T12:09:47.586Z"
+      "lastCheckedAt": "2026-06-10T13:58:23.167Z"
     },
     {
       "id": "news-royalcanin-start-of-life-sample-kit-202606",
@@ -394,20 +419,7 @@
       "finalUrl": "https://www.royalcanin.com/kr/about-us/news/sol4-campaign",
       "redirectUrl": "/go/news/news-royalcanin-start-of-life-sample-kit-202606",
       "endDate": "2026-07-24",
-      "lastCheckedAt": "2026-06-10T12:09:47.586Z"
-    },
-    {
-      "id": "news-oliveyoung-official-event-coupon-202606",
-      "title": "올리브영 공식 쿠폰·이벤트 혜택",
-      "merchant": "올리브영",
-      "category": "패션/뷰티",
-      "benefitType": "coupon",
-      "sourceName": "올리브영 공식 이벤트",
-      "host": "oliveyoung.co.kr",
-      "finalUrl": "https://www.oliveyoung.co.kr/store/main/getEventList.do",
-      "redirectUrl": "/go/news/news-oliveyoung-official-event-coupon-202606",
-      "endDate": "2026-07-31",
-      "lastCheckedAt": "2026-06-10T12:09:47.586Z"
+      "lastCheckedAt": "2026-06-10T13:58:23.167Z"
     }
   ],
   "blockedItems": [],
@@ -417,9 +429,9 @@
       "command": "C:\\Program Files\\nodejs\\node.exe scripts/refresh-news-deals.mjs",
       "ok": true,
       "status": 0,
-      "startedAt": "2026-06-10T12:09:47.516Z",
-      "finishedAt": "2026-06-10T12:09:47.632Z",
-      "stdout": "News/event deal refresh completed.\n- collectedCount: 165\n- normalizedCount: 165\n- duplicateRemovedCount: 22\n- visibleCount: 143\n- hiddenCount: 0\n- failedCount: 0\n- data/refreshedNewsDeals.json\n- reports/news-deals.json",
+      "startedAt": "2026-06-10T13:58:23.080Z",
+      "finishedAt": "2026-06-10T13:58:23.219Z",
+      "stdout": "News/event deal refresh completed.\n- collectedCount: 172\n- normalizedCount: 172\n- duplicateRemovedCount: 23\n- visibleCount: 149\n- hiddenCount: 0\n- failedCount: 0\n- data/refreshedNewsDeals.json\n- reports/news-deals.json",
       "stderr": ""
     },
     {
@@ -427,9 +439,9 @@
       "command": "C:\\Program Files\\nodejs\\node.exe scripts/verify-news-deals.mjs",
       "ok": true,
       "status": 0,
-      "startedAt": "2026-06-10T12:09:47.632Z",
-      "finishedAt": "2026-06-10T12:09:47.742Z",
-      "stdout": "PASS news deals verified: 143/143 official benefit links",
+      "startedAt": "2026-06-10T13:58:23.219Z",
+      "finishedAt": "2026-06-10T13:58:23.345Z",
+      "stdout": "PASS news deals verified: 149/149 official benefit links",
       "stderr": ""
     }
   ],

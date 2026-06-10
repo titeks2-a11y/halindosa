@@ -4095,5 +4095,133 @@
     "allowedUse": "CJ더마켓 공식 이벤트 상세에서 ID당 하루 1회 100% 당첨 럭키 쿠폰, 무료배송 쿠폰 당첨, 발급 조건과 사용 기한이 확인되는 식품 쿠폰 이벤트",
     "blockedUse": "CJ더마켓 검색 결과, 카테고리 상품 목록, 앱 설치 광고만 있는 중간 페이지, 종료된 이벤트 복사본, 비공식 쿠폰 공유글",
     "notes": "APP 참여 조건과 발급 후 24시간 사용 조건을 혜택 조건에 표시하고, 종료 문구가 감지되면 숨김 후보로 돌린다."
+  },
+  {
+    "id": "coupang-official-benefit-coupon-center",
+    "label": "쿠팡 공식 이벤트·쿠폰 혜택 센터",
+    "provider": "official_event",
+    "category": [
+      "무료혜택",
+      "식품/생필품",
+      "디지털/가전"
+    ],
+    "sourceType": "official_coupon_page",
+    "officialUrl": "https://www.coupang.com/np/coupangbenefit",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 6,
+    "allowedUse": "쿠팡 공식 이벤트·쿠폰 페이지에서 바로 확인 가능한 쿠폰, 무료배송, 와우 회원 혜택, 반품마켓·착한상점 혜택만 노출",
+    "blockedUse": "쿠팡 검색 결과, 카테고리 목록, 상품광고 검색 랜딩, 커뮤니티 쿠폰 공유글, 쿠폰 코드만 있는 비공식 페이지",
+    "notes": "finalUrl은 쿠팡 공식 혜택 경로여야 하며 검색 URL은 linkType=search로 숨긴다."
+  },
+  {
+    "id": "naver-official-event-hub",
+    "label": "네이버 공식 이벤트 모아보기",
+    "provider": "official_event",
+    "category": [
+      "무료혜택",
+      "카드/멤버십"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://mkt.naver.com/promotion",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 6,
+    "allowedUse": "네이버 공식 이벤트 모아보기에서 확인 가능한 포인트, 알림신청, 무료 참여형 이벤트",
+    "blockedUse": "네이버 통합검색, 쇼핑 검색 결과, 블로그/카페 후기, 광고성 중간 페이지",
+    "notes": "네이버 공식 프로모션 허브로, 이벤트 상세 또는 공식 모아보기 페이지일 때만 혜택 카드로 사용한다."
+  },
+  {
+    "id": "naverpay-official-campaign-all",
+    "label": "네이버페이 공식 이벤트·포인트 혜택",
+    "provider": "official_event",
+    "category": [
+      "무료혜택",
+      "카드/멤버십"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://m-campaign.naver.com/npay-event-all/",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 6,
+    "allowedUse": "네이버페이 공식 캠페인 페이지의 브랜드뽑기, 포인트, 결제 혜택, 알림 신청 이벤트",
+    "blockedUse": "네이버페이 검색 결과, 비공식 쿠폰 모음, 종료된 카드 이벤트 복사본",
+    "notes": "포인트 지급·알림신청·쿠폰 조건을 benefitSummary에 저장하고 종료 문구가 감지되면 숨김 처리한다."
+  },
+  {
+    "id": "baemin-official-free-delivery-club-event",
+    "label": "배달의민족 공식 무료배달·쿠폰 이벤트",
+    "provider": "official_event",
+    "category": [
+      "무료혜택",
+      "외식/배달"
+    ],
+    "sourceType": "official_event_detail",
+    "officialUrl": "https://event-view.baemin.com/apps/9ikdKTU?mode=no-lottie",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 6,
+    "allowedUse": "배달의민족 공식 이벤트 뷰어에서 확인되는 무료배달, 선착순 쿠폰, 배민클럽 혜택",
+    "blockedUse": "배달 쿠폰 모음 사이트, 검색 결과, 종료된 제휴 카드 이벤트, 앱 설치 광고만 있는 랜딩",
+    "notes": "공식 event-view 도메인만 허용하고 쿠폰 조건·선착순 여부를 카드에 표시한다."
+  },
+  {
+    "id": "todayhouse-official-season-promotion",
+    "label": "오늘의집 공식 시즌 이벤트·쿠폰",
+    "provider": "official_event",
+    "category": [
+      "무료혜택",
+      "식품/생필품",
+      "디지털/가전"
+    ],
+    "sourceType": "official_event_detail",
+    "officialUrl": "https://events.ohou.se/promotions/o-season-week",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "오늘의집 공식 이벤트 상세에서 확인되는 쿠폰, 포인트, 무료배송, 시즌 프로모션 혜택",
+    "blockedUse": "오늘의집 검색 결과, 커뮤니티 집들이 글, 상품 목록만 있는 카테고리, 비공식 이벤트 요약",
+    "notes": "events.ohou.se 공식 프로모션 상세만 혜택 카드로 사용하고 검색 URL은 숨긴다."
+  },
+  {
+    "id": "tossfeed-tosspay-official-promotion",
+    "label": "토스 공식 토스페이 혜택 안내",
+    "provider": "official_event",
+    "category": [
+      "무료혜택",
+      "카드/멤버십"
+    ],
+    "sourceType": "official_benefit_page",
+    "officialUrl": "https://toss.im/tossfeed/article/tosspay-promotion",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "토스 공식 토스피드에서 확인 가능한 토스페이 자동 할인, 포인트, 쿠폰, 제휴 결제 혜택",
+    "blockedUse": "토스 메인, 비공식 카드 추천글, 검색 결과, 종료된 제휴 이벤트 복사본",
+    "notes": "공식 안내형 페이지이므로 혜택 조건과 월 기준을 함께 표시하고 종료/월 변경 시 최신 URL로 갱신한다."
   }
 ]
