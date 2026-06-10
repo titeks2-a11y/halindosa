@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-09T21:17:31.610Z",
+  "generatedAt": "2026-06-10T19:46:44.789Z",
   "criteria": {
     "reportsPresent": true,
     "minimumAuditedItems": 140,
@@ -35,7 +35,7 @@
     "visibleProducts": 140,
     "verifiedPurchaseLinks": 140,
     "refreshOk": true,
-    "refreshVisibleCount": 136,
+    "refreshVisibleCount": 140,
     "refreshFailedCount": 0,
     "liveHardFailures": 0,
     "sellerUnavailableSignals": 0,
@@ -69,11 +69,11 @@
     }
   },
   "sourceReports": {
-    "linkValidation": "2026-06-09T21:17:28.882Z",
-    "productQuality": "2026-06-09T21:17:29.441Z",
-    "exposurePolicy": "2026-06-09T21:17:30.522Z",
-    "refreshDeals": "2026-06-09T20:36:39.792Z",
-    "liveProbeReview": "2026-06-09T20:36:11.442Z"
+    "linkValidation": "2026-06-10T19:46:43.255Z",
+    "productQuality": "2026-06-10T19:46:38.647Z",
+    "exposurePolicy": "2026-06-10T19:46:43.785Z",
+    "refreshDeals": "2026-06-10T19:46:31.507Z",
+    "liveProbeReview": "2026-06-10T19:39:58.895Z"
   },
   "linkTypeCounts": {
     "direct_purchase": 110,
@@ -94,14 +94,14 @@
     "accessProtectedCount": 64,
     "sellerUnavailableSignals": 0,
     "contentProbe": {
-      "bodyChecked": 0,
-      "titleMetaChecked": 0,
-      "contentMatched": 0,
-      "contentMismatch": 0,
-      "accessibleContentMismatch": 0,
-      "accessGuardBody": 0,
-      "priceSignal": 0,
-      "purchaseActionSignal": 0,
+      "bodyChecked": 137,
+      "titleMetaChecked": 133,
+      "contentMatched": 55,
+      "contentMismatch": 82,
+      "accessibleContentMismatch": 5,
+      "accessGuardBody": 32,
+      "priceSignal": 26,
+      "purchaseActionSignal": 14,
       "strict": false
     },
     "interpretation": "Some URLs returned transient network signals; no exposed search, sold-out, 404, 410, or 5xx links were found."
@@ -112,8 +112,8 @@
     "freshManualEvidenceCount": 80,
     "staleManualEvidenceCount": 0,
     "missingManualEvidenceCount": 0,
-    "oldestCheckedAt": "2026-06-09T20:35:47.053Z",
-    "newestCheckedAt": "2026-06-09T20:35:47.053Z"
+    "oldestCheckedAt": "2026-06-10T19:39:44.593Z",
+    "newestCheckedAt": "2026-06-10T19:39:44.593Z"
   },
   "failedExposureItems": [],
   "hiddenItems": [],

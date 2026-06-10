@@ -1,6 +1,6 @@
 # 공식 feed 환경변수 안전성 리포트
 
-- 생성 시각: 2026-06-10T12:28:09.797Z
+- 생성 시각: 2026-06-10T19:46:57.976Z
 - 검사한 env key: DEAL_NEWS_FEED_URLS, DEAL_NEWS_RSS_URLS, DEAL_EVENT_NEWS_FEED_URLS, OFFICIAL_EVENT_FEED_URLS, DEAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS, OPTIONAL_PUBLIC_BENEFIT_FEED_URLS
 - 설정된 feed URL: 0개
 - 통과: 0개
@@ -32,7 +32,7 @@
 | 쇼핑몰·브랜드 쿠폰 | PUBLIC_COUPON_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS<br>DEAL_EVENT_FEED_URLS | 8 | 7 | 1 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 페이·포인트·캐시백 | PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS | 8 | 6 | 2 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 전원증정·선착순 | BENEFIT_REFRESH_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS | 8 | 8 | 0 | BENEFIT_REFRESH_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
-| 출석체크·룰렛·미션 | PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS | 8 | 8 | 0 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
+| 출석체크·룰렛·미션 | PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS | 8 | 7 | 1 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 신규가입·웰컴 쿠폰 | PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS | 8 | 8 | 0 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 기프티콘·문화초대권 | PUBLIC_COUPON_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS | 8 | 6 | 2 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 반려동물·체험단 | BENEFIT_REFRESH_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS | 8 | 8 | 0 | BENEFIT_REFRESH_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
@@ -56,13 +56,13 @@
 | 카페·외식 쿠폰 | KFC 공식 딜리버리 무료배송 혜택 | reachable | OFFICIAL_EVENT_FEED_URLS<br>DEAL_EVENT_NEWS_FEED_URLS | https://www.kfckorea.com/promotion/promotionList/detail/1053 |
 | 쇼핑몰·브랜드 쿠폰 | 롯데ON 공식 롭스·뷰티 이벤트 | reachable | OFFICIAL_EVENT_FEED_URLS<br>DEAL_EVENT_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS | https://www.lotteon.com/event/onLohbsShare |
 | 쇼핑몰·브랜드 쿠폰 | 맘큐 공식 육아 샘플·이벤트 목록 | reachable | BENEFIT_REFRESH_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS | https://www.momq.co.kr/event |
-| 쇼핑몰·브랜드 쿠폰 | 네이버페이 공식 온라인 쿠폰함 | reachable | PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS | https://pay.naver.com/coupon/home/online |
+| 쇼핑몰·브랜드 쿠폰 | 오늘의집 공식 시즌 이벤트·쿠폰 | reachable | OFFICIAL_EVENT_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS | https://events.ohou.se/promotions/o-season-week |
 | 페이·포인트·캐시백 | OK캐쉬백 공식 앱 설치·포인트 이벤트 | reachable | OFFICIAL_EVENT_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS | https://www.okcashbag.com/event/newwelcomeback |
 | 페이·포인트·캐시백 | 카카오페이 공식 결제 포인트 혜택 | reachable | OFFICIAL_EVENT_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS | https://www.kakaopay.com/services/life/payment?t_ch=main&t_src=homepage |
 | 페이·포인트·캐시백 | OK캐쉬백 공식 쇼핑적립 포인트 혜택 | reachable | OFFICIAL_EVENT_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS | https://okcashbag.com/shopping |
+| 전원증정·선착순 | LG생활건강 공식 이벤트 | reachable | OFFICIAL_EVENT_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS | https://www.lghnh.com:984/news/event.jsp |
 | 전원증정·선착순 | 네이버페이 공식 온라인 쿠폰함 | reachable | PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS | https://pay.naver.com/coupon/home/online |
 | 전원증정·선착순 | 맘큐 공식 신규회원 웰컴혜택 | reachable | BENEFIT_REFRESH_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS | https://www.momq.co.kr/event/202601290003 |
-| 전원증정·선착순 | KT 공식 요고 모바일 가입 혜택 | reachable | OFFICIAL_EVENT_FEED_URLS<br>DEAL_EVENT_NEWS_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS | https://shop.kt.com/unify/yogoEvent.do |
 | 출석체크·룰렛·미션 | 요기요 공식 룰렛 쿠폰 프로모션 | reachable | OFFICIAL_EVENT_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS | https://www.yogiyo.co.kr/promotion/roulette/ |
 | 출석체크·룰렛·미션 | L.POINT 공식 미션·룰렛·출석 혜택 | reachable | OFFICIAL_EVENT_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS | https://www.lpoint.com/app/common/LHZZ300300.do |
 | 출석체크·룰렛·미션 | 해피포인트 공식 쿠폰·모바일 혜택 | reachable | OFFICIAL_EVENT_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS | https://www.happypointcard.com/coupon/coupon.spc |

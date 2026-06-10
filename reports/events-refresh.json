@@ -1,38 +1,41 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-10T17:35:21.035Z",
+  "generatedAt": "2026-06-10T19:47:06.440Z",
   "mode": "events",
   "label": "공식 이벤트·쿠폰",
-  "sourceSnapshotGeneratedAt": "2026-06-10T17:35:20.749Z",
-  "sourceReportGeneratedAt": "2026-06-10T17:35:20.881Z",
-  "totalOfficialBenefits": 185,
-  "matchedCount": 162,
-  "visibleCount": 162,
+  "sourceSnapshotGeneratedAt": "2026-06-10T19:47:06.164Z",
+  "sourceReportGeneratedAt": "2026-06-10T19:47:06.291Z",
+  "totalOfficialBenefits": 199,
+  "matchedCount": 176,
+  "visibleCount": 176,
   "hiddenOrBlockedCount": 0,
   "exposedSearchLinks": 0,
   "exposedNonOfficialLinks": 0,
   "minimumVisible": 70,
   "categoryCounts": {
-    "카드/멤버십": 52,
-    "외식/배달": 28,
-    "패션/뷰티": 17,
-    "무료혜택": 12,
+    "카드/멤버십": 55,
+    "외식/배달": 30,
+    "패션/뷰티": 18,
+    "무료혜택": 11,
+    "식품/생필품": 11,
+    "영화/문화": 11,
     "마트/편의점": 10,
-    "식품/생필품": 10,
-    "영화/문화": 9,
-    "디지털/가전": 8,
+    "디지털/가전": 9,
     "정부/공공혜택": 6,
     "여행/숙박": 5,
+    "뷰티": 3,
     "편의점/마트": 3,
-    "쇼핑몰": 2
+    "쇼핑몰": 2,
+    "카페/디저트": 2
   },
   "benefitTypeCounts": {
-    "coupon": 55,
-    "point": 19,
+    "coupon": 65,
+    "point": 21,
     "membership": 17,
     "card": 13,
-    "discount": 8,
-    "sample": 8,
+    "sample": 9,
+    "discount": 7,
+    "freebie": 5,
     "freeShipping": 5,
     "mart": 5,
     "travel": 5,
@@ -40,27 +43,28 @@
     "culture": 4,
     "education": 4,
     "foodDelivery": 4,
-    "freebie": 4,
     "public": 3,
+    "event": 2,
     "public_free": 2,
-    "event": 1,
     "gifticon": 1
   },
   "sourceCounts": {
     "컬리 공식 상품 상세": 5,
+    "던킨 공식 이벤트": 3,
     "신한카드 공식 이벤트": 3,
     "요기요 공식 이벤트": 3,
     "GS25 공식 이벤트": 3,
+    "LG U+ 공식 이벤트": 3,
     "다이소몰 공식 이벤트": 2,
-    "던킨 공식 이벤트": 2,
     "롯데잇츠 공식 이벤트": 2,
     "맥도날드 공식 프로모션": 2,
+    "메가MGC커피 공식 이벤트": 2,
     "배스킨라빈스 공식 이벤트": 2,
+    "파리바게뜨 공식 프로모션": 2,
     "CJ더마켓": 2,
     "K-MOOC 공식 강좌 상세": 2,
     "KB국민카드 공식 이벤트": 2,
     "KFC 공식 프로모션": 2,
-    "LG U+ 공식 이벤트": 2,
     "T world 공식 혜택": 2,
     "11번가 공식 쇼킹딜": 1,
     "11번가 공식 쿠폰존": 1,
@@ -71,11 +75,15 @@
     "네이버페이 공식 카페 이벤트": 1,
     "네이버페이 공식 캠페인": 1,
     "네이버페이 공식 쿠폰": 1,
+    "네이버페이 공식 혜택": 1,
     "네이버플러스 공식 멤버십": 1,
+    "네이처컬렉션 공식 이벤트": 1,
+    "다나와 공식 이벤트": 1,
     "닥터지 공식 이벤트": 1,
     "대한민국 구석구석 공식 혜택": 1,
     "대한항공 공식 탑승권 혜택": 1,
     "대한항공 공식 프로모션": 1,
+    "더페이스샵 공식 이벤트": 1,
     "던킨 공식 혜택": 1,
     "도미노피자 공식 할인": 1,
     "라운드랩 공식 이벤트": 1,
@@ -83,6 +91,7 @@
     "로얄캐닌 코리아 공식 캠페인": 1,
     "롯데마트 공식 이벤트": 1,
     "롯데시네마 공식 멤버십": 1,
+    "롯데시네마 공식 이벤트": 1,
     "롯데월드 공식 이벤트": 1,
     "롯데잇츠 공식 쿠폰": 1,
     "롯데카드 공식 이벤트": 1,
@@ -92,8 +101,8 @@
     "맘스터치 공식 이벤트": 1,
     "맘큐 공식 신규회원 혜택": 1,
     "메가박스 공식 멤버십": 1,
+    "메가박스 공식 이벤트": 1,
     "메가박스 VIP 라운지": 1,
-    "메가MGC커피 공식 이벤트": 1,
     "무신사 공식 캠페인": 1,
     "무신사 공식 쿠폰": 1,
     "무신사 공식 쿠폰 안내": 1,
@@ -114,6 +123,7 @@
     "써브웨이 공식 이벤트": 1,
     "아모레몰 공식 결제 혜택": 1,
     "아모레몰 공식 써봐야안다": 1,
+    "아모레몰 공식 이벤트": 1,
     "아이챌린지 공식 무료체험": 1,
     "야놀자 공식 프로모션": 1,
     "에버랜드 공식 이벤트": 1,
@@ -138,10 +148,11 @@
     "텐바이텐 공식 이벤트": 1,
     "토스 공식 혜택 안내": 1,
     "토스 공식 혜택 콘텐츠": 1,
-    "파리바게뜨 공식 프로모션": 1,
     "파스쿠찌 공식 이벤트": 1,
+    "파우더룸 공식 리뷰": 1,
     "파우더룸 공식 캠페인": 1,
     "퓨리나 공식 0원딜": 1,
+    "퓨리나 공식 이벤트": 1,
     "피자헛 공식 멤버십": 1,
     "피자헛 공식 이벤트": 1,
     "하나카드 공식 이벤트": 1,
@@ -176,6 +187,7 @@
     "LG U+ 공식 멤버십": 1,
     "LG U+ 공식 유플투쁠": 1,
     "LG생활건강 공식 이벤트": 1,
+    "OK캐쉬백 공식 브랜드 이벤트": 1,
     "OK캐쉬백 공식 서비스 안내": 1,
     "OK캐쉬백 공식 쇼핑적립": 1,
     "OK캐쉬백 공식 웰컴 이벤트": 1,
@@ -218,6 +230,7 @@
     "emart.ssg.com",
     "emart24.co.kr",
     "event-view.baemin.com",
+    "event.danawa.com",
     "event.kt.com",
     "events.ohou.se",
     "events.payco.com",
@@ -267,6 +280,8 @@
     "momstouch.co.kr",
     "museum.go.kr",
     "musinsa.com",
+    "naturecollection.com",
+    "new-m.pay.naver.com",
     "nid.naver.com",
     "nol.yanolja.com",
     "okcashbag.com",
@@ -293,6 +308,7 @@
     "store.musinsa.com",
     "subway.co.kr",
     "support.kakaopay.com",
+    "thefaceshop.com",
     "toss.im",
     "tworld.co.kr",
     "vod.cjthemarket.com",
@@ -311,7 +327,7 @@
       "finalUrl": "https://www.kmooc.kr/view/course/detail/19048",
       "redirectUrl": "/go/news/news-kmooc-blockchain-digital-asset-free-course",
       "endDate": "2026-06-14",
-      "lastCheckedAt": "2026-06-10T17:35:20.749Z"
+      "lastCheckedAt": "2026-06-10T19:47:06.164Z"
     },
     {
       "id": "news-gs25-drinking-festa-2026",
@@ -324,7 +340,7 @@
       "finalUrl": "https://gs25.gsretail.com/gscvs/ko/customer-engagement/event/detail/publishing?eventCode=8842885844512&pageNum=1&uiel=Mobile",
       "redirectUrl": "/go/news/news-gs25-drinking-festa-2026",
       "endDate": "2026-06-15",
-      "lastCheckedAt": "2026-06-10T17:35:20.749Z"
+      "lastCheckedAt": "2026-06-10T19:47:06.164Z"
     },
     {
       "id": "news-dunkin-monthly-combo-coupon",
@@ -337,7 +353,7 @@
       "finalUrl": "https://www.dunkindonuts.co.kr/event/view?id=5392",
       "redirectUrl": "/go/news/news-dunkin-monthly-combo-coupon",
       "endDate": "2026-06-21",
-      "lastCheckedAt": "2026-06-10T17:35:20.749Z"
+      "lastCheckedAt": "2026-06-10T19:47:06.164Z"
     },
     {
       "id": "news-musinsa-fashion-festa",
@@ -350,7 +366,7 @@
       "finalUrl": "https://www.musinsa.com/campaign/fashionfesta_1",
       "redirectUrl": "/go/news/news-musinsa-fashion-festa",
       "endDate": "2026-06-30",
-      "lastCheckedAt": "2026-06-10T17:35:20.749Z"
+      "lastCheckedAt": "2026-06-10T19:47:06.164Z"
     },
     {
       "id": "news-lotteon-lohbs-coupon",
@@ -363,7 +379,7 @@
       "finalUrl": "https://www.lotteon.com/event/onLohbsShare",
       "redirectUrl": "/go/news/news-lotteon-lohbs-coupon",
       "endDate": "2026-06-30",
-      "lastCheckedAt": "2026-06-10T17:35:20.749Z"
+      "lastCheckedAt": "2026-06-10T19:47:06.164Z"
     },
     {
       "id": "news-gs25-card-june-2026",
@@ -376,7 +392,7 @@
       "finalUrl": "https://gs25.gsretail.com/gscvs/ko/customer-engagement/event/detail/publishing?eventCode=8842885778976&pageNum=1",
       "redirectUrl": "/go/news/news-gs25-card-june-2026",
       "endDate": "2026-06-30",
-      "lastCheckedAt": "2026-06-10T17:35:20.749Z"
+      "lastCheckedAt": "2026-06-10T19:47:06.164Z"
     },
     {
       "id": "news-gs25-event-goods",
@@ -389,7 +405,7 @@
       "finalUrl": "https://gs25.gsretail.com/gscvs/ko/products/event-goods",
       "redirectUrl": "/go/news/news-gs25-event-goods",
       "endDate": "2026-06-30",
-      "lastCheckedAt": "2026-06-10T17:35:20.749Z"
+      "lastCheckedAt": "2026-06-10T19:47:06.164Z"
     },
     {
       "id": "news-lotteeatz-june-coupon",
@@ -402,7 +418,7 @@
       "finalUrl": "https://www.lotteeatz.com/event/main/selectEvent/17589",
       "redirectUrl": "/go/news/news-lotteeatz-june-coupon",
       "endDate": "2026-06-30",
-      "lastCheckedAt": "2026-06-10T17:35:20.749Z"
+      "lastCheckedAt": "2026-06-10T19:47:06.164Z"
     },
     {
       "id": "news-shinhancard-annual-fee-cashback-202606",
@@ -415,7 +431,7 @@
       "finalUrl": "https://www.shinhancard.com/pconts/html/benefit/event/1239025_2239.html",
       "redirectUrl": "/go/news/news-shinhancard-annual-fee-cashback-202606",
       "endDate": "2026-06-30",
-      "lastCheckedAt": "2026-06-10T17:35:20.749Z"
+      "lastCheckedAt": "2026-06-10T19:47:06.164Z"
     },
     {
       "id": "news-shinhancard-utility-autopay-cashback-202606",
@@ -428,7 +444,7 @@
       "finalUrl": "https://www.shinhancard.com/pconts/html/benefit/event/1239015_2239.html",
       "redirectUrl": "/go/news/news-shinhancard-utility-autopay-cashback-202606",
       "endDate": "2026-06-30",
-      "lastCheckedAt": "2026-06-10T17:35:20.749Z"
+      "lastCheckedAt": "2026-06-10T19:47:06.164Z"
     },
     {
       "id": "news-gs25-hyeja-bread-tosspay-plusone-202606",
@@ -441,7 +457,7 @@
       "finalUrl": "https://gs25.gsretail.com/gscvs/ko/customer-engagement/event/detail/publishing?eventCode=8842754706976&pageNum=1",
       "redirectUrl": "/go/news/news-gs25-hyeja-bread-tosspay-plusone-202606",
       "endDate": "2026-06-30",
-      "lastCheckedAt": "2026-06-10T17:35:20.749Z"
+      "lastCheckedAt": "2026-06-10T19:47:06.164Z"
     },
     {
       "id": "news-tossfeed-tosspay-promotion-202606",
@@ -454,7 +470,7 @@
       "finalUrl": "https://toss.im/tossfeed/article/tosspay-promotion",
       "redirectUrl": "/go/news/news-tossfeed-tosspay-promotion-202606",
       "endDate": "2026-06-30",
-      "lastCheckedAt": "2026-06-10T17:35:20.749Z"
+      "lastCheckedAt": "2026-06-10T19:47:06.164Z"
     },
     {
       "id": "news-lotteeatz-coupon-center-202606",
@@ -467,7 +483,7 @@
       "finalUrl": "https://www.lotteeatz.com/coupon/main",
       "redirectUrl": "/go/news/news-lotteeatz-coupon-center-202606",
       "endDate": "2026-06-30",
-      "lastCheckedAt": "2026-06-10T17:35:20.749Z"
+      "lastCheckedAt": "2026-06-10T19:47:06.164Z"
     },
     {
       "id": "news-royalcanin-start-of-life-sample-kit-202606",
@@ -480,7 +496,7 @@
       "finalUrl": "https://www.royalcanin.com/kr/about-us/news/sol4-campaign",
       "redirectUrl": "/go/news/news-royalcanin-start-of-life-sample-kit-202606",
       "endDate": "2026-07-24",
-      "lastCheckedAt": "2026-06-10T17:35:20.749Z"
+      "lastCheckedAt": "2026-06-10T19:47:06.164Z"
     },
     {
       "id": "news-yogiyo-roulette-official-202606",
@@ -493,7 +509,7 @@
       "finalUrl": "https://www.yogiyo.co.kr/promotion/roulette/",
       "redirectUrl": "/go/news/news-yogiyo-roulette-official-202606",
       "endDate": "2026-07-31",
-      "lastCheckedAt": "2026-06-10T17:35:20.749Z"
+      "lastCheckedAt": "2026-06-10T19:47:06.164Z"
     },
     {
       "id": "news-starbucks-campaign-official-202606",
@@ -506,7 +522,7 @@
       "finalUrl": "https://www.starbucks.co.kr/whats_new/campaign_list.do",
       "redirectUrl": "/go/news/news-starbucks-campaign-official-202606",
       "endDate": "2026-07-31",
-      "lastCheckedAt": "2026-06-10T17:35:20.749Z"
+      "lastCheckedAt": "2026-06-10T19:47:06.164Z"
     },
     {
       "id": "news-ediya-official-event-coupon-202606",
@@ -519,7 +535,7 @@
       "finalUrl": "https://www.ediya.com/contents/event.html",
       "redirectUrl": "/go/news/news-ediya-official-event-coupon-202606",
       "endDate": "2026-07-31",
-      "lastCheckedAt": "2026-06-10T17:35:20.749Z"
+      "lastCheckedAt": "2026-06-10T19:47:06.164Z"
     },
     {
       "id": "news-mega-mgc-official-coupon-202606",
@@ -532,7 +548,7 @@
       "finalUrl": "https://www.mega-mgccoffee.com/bbs/board.php?bo_table=event",
       "redirectUrl": "/go/news/news-mega-mgc-official-coupon-202606",
       "endDate": "2026-07-31",
-      "lastCheckedAt": "2026-06-10T17:35:20.749Z"
+      "lastCheckedAt": "2026-06-10T19:47:06.164Z"
     },
     {
       "id": "news-hollys-official-event-coupon-202606",
@@ -545,7 +561,7 @@
       "finalUrl": "https://www.hollys.co.kr/news/event/list.do",
       "redirectUrl": "/go/news/news-hollys-official-event-coupon-202606",
       "endDate": "2026-07-31",
-      "lastCheckedAt": "2026-06-10T17:35:20.749Z"
+      "lastCheckedAt": "2026-06-10T19:47:06.164Z"
     },
     {
       "id": "news-baskin-official-event-202606",
@@ -558,7 +574,7 @@
       "finalUrl": "https://www.baskinrobbins.co.kr/play/event/list.php?category=C",
       "redirectUrl": "/go/news/news-baskin-official-event-202606",
       "endDate": "2026-07-31",
-      "lastCheckedAt": "2026-06-10T17:35:20.749Z"
+      "lastCheckedAt": "2026-06-10T19:47:06.164Z"
     }
   ],
   "blockedItems": [],

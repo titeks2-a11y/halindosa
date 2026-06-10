@@ -216,7 +216,6 @@ export function HomeFreebieHero({
   const visibleDeals = deals.slice(0, 8);
   const visibleEvents = events.slice(0, 16);
   const officialTotalCount = Math.max(totalCount, events.length || 0);
-  const officialEventCount = events.length;
   const sourceDomainCount = eventSourceSummary?.sourceDomainCount ?? new Set(events.map((event) => event.sourceDomain).filter(Boolean)).size;
   const priorityBrands = Array.from(
     new Set(
@@ -364,7 +363,7 @@ export function HomeFreebieHero({
             오늘 받을 무료 혜택
           </h2>
           <p className="mt-1 line-clamp-1 text-[11px] font-bold text-slate-500 sm:text-xs">
-            공식 혜택 {officialTotalCount.toLocaleString("ko-KR")}개 · 이벤트 {officialEventCount.toLocaleString("ko-KR")}개 · 출처 {sourceDomainCount.toLocaleString("ko-KR")}곳 · {checkedLabel}
+            공식 혜택 {officialTotalCount.toLocaleString("ko-KR")}개 · 쿠폰·샘플·무료체험·포인트 · 공식 출처 {sourceDomainCount.toLocaleString("ko-KR")}곳 · {checkedLabel}
           </p>
         </div>
         <div className="flex shrink-0 items-center gap-1.5">
@@ -405,7 +404,7 @@ export function HomeFreebieHero({
         >
           <div className="col-span-2 flex items-center justify-between rounded-2xl bg-slate-950 px-2.5 py-1.5 text-white">
             <span className="text-[10px] font-black">오늘 바로 받을 무료혜택</span>
-            <span className="text-[9px] font-bold text-white/70">공식 링크 확인</span>
+            <span className="text-[9px] font-bold text-white/70">검색·종료 링크 제외</span>
           </div>
           {quickClaimEvents.slice(0, 4).map((event, index) => (
             <Link
@@ -793,7 +792,7 @@ export function HomeFreebieHero({
       ) : (
         <div className="mt-2 rounded-2xl border border-dashed border-emerald-100 bg-emerald-50 px-3 py-4 text-center">
           <p className="text-sm font-black text-slate-950">검증 가능한 혜택 수집 중</p>
-          <p className="mt-1 text-xs font-bold text-slate-500">공식 신청·쿠폰·이벤트 상세 URL이 확인된 항목만 보여드립니다.</p>
+          <p className="mt-1 text-xs font-bold text-slate-500">공식 신청·쿠폰·샘플·무료체험 URL이 확인된 항목만 보여드립니다.</p>
         </div>
       )}
     </section>

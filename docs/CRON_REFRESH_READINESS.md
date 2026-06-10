@@ -18,12 +18,12 @@ Status: ready
 | news:feed:live evidence | PASS |
 | Live feed status | seed_launch_ready |
 | Live feed configured URL | 0 |
-| Live feed official benefits | 130 |
+| Live feed official benefits | 199 |
 | refresh:benefits evidence | PASS |
 | Free benefit events evidence | PASS |
-| Free benefit visible active events | 128 |
-| Free benefit source count | 98 |
-| Free benefit host count | 76 |
+| Free benefit visible active events | 190 |
+| Free benefit source count | 150 |
+| Free benefit host count | 111 |
 | Health cron status | manual_refresh_ready |
 | Actual cron report | not generated yet |
 | Actual benefits cron report | not generated yet |
@@ -46,10 +46,10 @@ Status: ready
 | operations report | PASS | Cron operations layer exposes last-run status and report path. |
 | benefits operations report | PASS | Cron operations layer exposes dedicated benefits cron status and event evidence. |
 | health and admin surfaces | PASS | Health API and admin dashboard expose refresh and benefits cron readiness. |
-| refresh-all evidence | PASS | refresh:all is healthy with 140 product deals and 130 official benefits. |
-| live feed evidence | PASS | news:feed:live is seed_launch_ready with 130 official benefits and zero unsafe exposed links. |
+| refresh-all evidence | PASS | refresh:all is healthy with 140 product deals and 199 official benefits. |
+| live feed evidence | PASS | news:feed:live is seed_launch_ready with 199 official benefits and zero unsafe exposed links. |
 | benefits refresh evidence | PASS | refresh:benefits is healthy with 4/4 passing steps. |
-| free benefit event evidence | PASS | free benefit events expose 128 active events across 98 sources and 76 hosts. |
+| free benefit event evidence | PASS | free benefit events expose 190 active events across 150 sources and 111 hosts. |
 | health readiness status | PASS | Health readiness marks cron refresh as manual_refresh_ready. |
 | runbook | PASS | RUNBOOK documents protected cron execution and report inspection. |
 

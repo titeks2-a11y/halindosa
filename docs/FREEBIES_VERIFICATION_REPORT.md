@@ -1,15 +1,15 @@
 # 무료혜택 Verification Report
 
-Generated: 2026-06-10T19:15:32.078Z
+Generated: 2026-06-10T19:47:06.522Z
 
 ## Summary
 
 - Status: PASS
-- Visible official freebies: 186
-- Official source domains: 109
-- Benefit brands: 111
-- Low-friction freebies: 147
-- Candidate freebies: 186
+- Visible official freebies: 195
+- Official source domains: 113
+- Benefit brands: 114
+- Low-friction freebies: 155
+- Candidate freebies: 195
 - Blocked freebies: 0
 - Exposed search links: 0
 - Exposed non-official links: 0
