@@ -338,6 +338,48 @@ export function HomeFreebieHero({
         ))}
       </div>
 
+      {quickClaimEvents.length ? (
+        <div
+          data-home-free-benefit-instant-board="true"
+          className="mt-2 grid grid-cols-2 gap-1.5"
+          aria-label="오늘 바로 받을 무료혜택"
+        >
+          <div className="col-span-2 flex items-center justify-between rounded-2xl bg-slate-950 px-2.5 py-1.5 text-white">
+            <span className="text-[10px] font-black">오늘 바로 받을 무료혜택</span>
+            <span className="text-[9px] font-bold text-white/70">공식 링크 확인</span>
+          </div>
+          {quickClaimEvents.slice(0, 4).map((event, index) => (
+            <Link
+              key={event.id}
+              href={`/go/news/${encodeURIComponent(event.id)}?from=home-free-benefit-instant`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`min-w-0 rounded-2xl border p-2 shadow-sm transition hover:border-red-100 ${
+                index === 0
+                  ? "border-red-100 bg-gradient-to-br from-red-50 via-white to-emerald-50"
+                  : "border-slate-100 bg-slate-50"
+              }`}
+              aria-label={`${event.title} ${event.claimCtaLabel || "무료 혜택 받기"} 새 탭으로 열기`}
+            >
+              <div className="flex min-w-0 items-center justify-between gap-1">
+                <span className={`shrink-0 rounded-full px-1.5 py-0.5 text-[9px] font-black ${eventToneClassNames[event.benefitType]}`}>
+                  {getFreeBenefitEventLabel(event.benefitType)}
+                </span>
+                <span className="truncate text-[9px] font-black text-slate-400">{event.urgencyLabel || getTimeLeft(event.endAt, referenceNow)}</span>
+              </div>
+              <p className="mt-1 line-clamp-2 min-h-[2rem] text-[11px] font-black leading-4 text-slate-950">{event.title}</p>
+              <div className="mt-1 flex min-w-0 items-center justify-between gap-1">
+                <span className="truncate text-[9px] font-black text-slate-500">{event.brandName}</span>
+                <span className="shrink-0 rounded-full bg-white px-1.5 py-0.5 text-[9px] font-black text-emerald-700">
+                  {getConditionLabel(event)}
+                </span>
+              </div>
+              <p className="mt-1 truncate text-[10px] font-black text-dossa-red">{event.claimCtaLabel || "무료 혜택 받기"}</p>
+            </Link>
+          ))}
+        </div>
+      ) : null}
+
       {visibleEvents.length ? (
         <div
           data-home-free-benefit-claim-lanes="true"
