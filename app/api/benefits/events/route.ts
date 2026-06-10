@@ -108,7 +108,7 @@ function summarizeEvents(events: FreeBenefitEvent[]) {
       counts[event.benefitType] = (counts[event.benefitType] ?? 0) + 1;
       return counts;
     }, {}),
-    ...buildFreeBenefitEventSourceSummary(events)
+    ...buildFreeBenefitEventSourceSummary(events, now)
   };
 }
 

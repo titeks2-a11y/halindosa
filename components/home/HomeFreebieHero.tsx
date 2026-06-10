@@ -175,7 +175,9 @@ export function HomeFreebieHero({
   const lowFrictionEventCount = eventSourceSummary?.noPurchaseCount ?? events.filter((event) => !event.requiresPurchase && event.status === "active").length;
   const noSignupEventCount = eventSourceSummary?.noLoginNoPurchaseCount ?? events.filter((event) => !event.requiresLogin && !event.requiresPurchase).length;
   const verifiedOfficialEventCount = eventSourceSummary?.officialSourceCount ?? events.filter((event) => event.validationStatus === "passed" && event.finalUrl).length;
-  const endingSoonEventCount = events.filter((event) => isEventEndingSoon(event, referenceNow)).length;
+  const everyoneRewardCount = eventSourceSummary?.everyoneRewardCount ?? events.filter((event) => event.isEveryoneReward).length;
+  const firstComeCount = eventSourceSummary?.firstComeCount ?? events.filter((event) => event.isFirstComeFirstServed).length;
+  const endingSoonEventCount = eventSourceSummary?.endingSoonCount ?? events.filter((event) => isEventEndingSoon(event, referenceNow)).length;
   const topSourceDomains = eventSourceSummary?.topSourceDomains?.slice(0, 5) ?? [];
   const quickClaimEvents = events
     .filter((event) => event.status === "active" && event.validationStatus === "passed" && event.finalUrl)
@@ -231,10 +233,10 @@ export function HomeFreebieHero({
   });
   const quickStats = visibleEvents.length
     ? [
-        { label: "전원", value: events.filter((event) => event.isEveryoneReward).length, className: "bg-emerald-50 text-emerald-700" },
-        { label: "선착순", value: events.filter((event) => event.isFirstComeFirstServed).length, className: "bg-orange-50 text-orange-700" },
+        { label: "전원", value: everyoneRewardCount, className: "bg-emerald-50 text-emerald-700" },
+        { label: "선착순", value: firstComeCount, className: "bg-orange-50 text-orange-700" },
         { label: "쿠폰", value: events.filter((event) => event.benefitType === "coupon").length, className: "bg-yellow-50 text-yellow-700" },
-        { label: "오늘마감", value: events.filter((event) => isEventEndingSoon(event, referenceNow)).length, className: "bg-rose-50 text-rose-700" }
+        { label: "오늘마감", value: endingSoonEventCount, className: "bg-rose-50 text-rose-700" }
       ]
     : [
         { label: "무료/0원", value: summary?.zeroCost ?? visibleDeals.filter((deal) => deal.benefitType === "freebie" || deal.price === 0).length, className: "bg-emerald-50 text-emerald-700" },
@@ -244,7 +246,7 @@ export function HomeFreebieHero({
       ];
   const getHeroQuickFilterCount = (filter: (typeof heroQuickFilters)[number]) => {
     if (!visibleEvents.length) return null;
-    if (filter.label === "마감임박") return events.filter((event) => isEventEndingSoon(event, referenceNow)).length;
+    if (filter.label === "마감임박") return endingSoonEventCount;
     if (!filter.eventType) return null;
     return eventCategoryCounts.find((category) => category.id === filter.eventType)?.count ?? events.filter((event) => event.benefitType === filter.eventType).length;
   };

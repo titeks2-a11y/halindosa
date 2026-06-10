@@ -2564,6 +2564,19 @@ export function FreeBenefitsClient({
           ))}
         </section>
 
+        <section className="rounded-3xl border border-emerald-100 bg-emerald-50 p-4 shadow-sm" aria-label="무료 혜택 액션 안내">
+          <div className="flex flex-wrap items-center gap-2">
+            {["혜택 받기", "쿠폰 받기", "판매처 확인", "종료 신고", "품절 신고", "링크 오류 신고"].map((label) => (
+              <span key={label} className="rounded-full bg-white px-3 py-1.5 text-xs font-black text-emerald-800 shadow-sm">
+                {label}
+              </span>
+            ))}
+          </div>
+          <p className="mt-3 text-xs font-bold leading-5 text-emerald-900">
+            무료 혜택은 공식 페이지에서 조건을 확인한 뒤 받도록 연결하며, 종료·품절·링크 오류가 보이면 같은 카드에서 바로 신고할 수 있습니다.
+          </p>
+        </section>
+
         {filteredDeals.length ? (
           <section className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
             {filteredDeals.map((deal) => (
@@ -2643,14 +2656,14 @@ export function FreeBenefitsClient({
                       className="inline-flex min-h-11 items-center justify-center rounded-2xl border border-slate-200 bg-white px-3 text-xs font-black text-slate-600 transition hover:border-red-100 hover:text-dossa-red"
                       aria-label={`${deal.title} 종료 신고`}
                     >
-                      종료
+                      종료 신고
                     </Link>
                     <Link
                       href={`/reports?dealId=${deal.id}&reason=sold_out`}
                       className="inline-flex min-h-11 items-center justify-center rounded-2xl border border-slate-200 bg-white px-3 text-xs font-black text-slate-600 transition hover:border-red-100 hover:text-dossa-red"
                       aria-label={`${deal.title} 품절 신고`}
                     >
-                      품절
+                      품절 신고
                     </Link>
                     <Link
                       href={`/reports?dealId=${deal.id}&reason=link_error`}
@@ -2658,6 +2671,7 @@ export function FreeBenefitsClient({
                       aria-label={`${deal.title} 링크 오류 신고`}
                     >
                       <AlertTriangle size={15} />
+                      링크 오류 신고
                     </Link>
                   </div>
                 </div>

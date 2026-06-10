@@ -38,6 +38,9 @@ export interface FreeBenefitEventSourceSummary {
   easyClaimCount: number;
   noPurchaseCount: number;
   noLoginNoPurchaseCount: number;
+  everyoneRewardCount: number;
+  firstComeCount: number;
+  endingSoonCount: number;
   officialSourceCount: number;
   averageFreeConditionScore: number;
   averageInterestScore: number;
@@ -64,7 +67,7 @@ function averageScore(events: FreeBenefitEvent[], select: (event: FreeBenefitEve
   return Math.round(scores.reduce((sum, score) => sum + score, 0) / scores.length);
 }
 
-export function buildFreeBenefitEventSourceSummary(events: FreeBenefitEvent[]): FreeBenefitEventSourceSummary {
+export function buildFreeBenefitEventSourceSummary(events: FreeBenefitEvent[], referenceNow = Date.now()): FreeBenefitEventSourceSummary {
   const sourceDomainCounts = events.reduce<Record<string, number>>((counts, event) => {
     if (!event.sourceDomain) return counts;
     counts[event.sourceDomain] = (counts[event.sourceDomain] ?? 0) + 1;
@@ -80,6 +83,14 @@ export function buildFreeBenefitEventSourceSummary(events: FreeBenefitEvent[]): 
     easyClaimCount: events.filter((event) => event.freeConditionScore >= 75).length,
     noPurchaseCount: events.filter((event) => !event.requiresPurchase).length,
     noLoginNoPurchaseCount: events.filter((event) => !event.requiresLogin && !event.requiresPurchase).length,
+    everyoneRewardCount: events.filter((event) => event.isEveryoneReward).length,
+    firstComeCount: events.filter((event) => event.isFirstComeFirstServed).length,
+    endingSoonCount: events.filter((event) => {
+      const endsAt = Date.parse(event.endAt);
+      if (!Number.isFinite(endsAt)) return false;
+      const hoursLeft = (endsAt - referenceNow) / 3_600_000;
+      return hoursLeft >= 0 && hoursLeft <= 24;
+    }).length,
     officialSourceCount: events.filter((event) => event.sourceType === "official" || event.validationStatus === "passed").length,
     averageFreeConditionScore: averageScore(events, (event) => event.freeConditionScore),
     averageInterestScore: averageScore(events, (event) => event.interestScore)
@@ -199,7 +210,12 @@ function getEventUrgencyLabel(endAt: string, referenceNow: number) {
   return "진행 중";
 }
 
-function getClaimCtaLabel(type: FreeBenefitEventType) {
+function getClaimCtaLabel(
+  type: FreeBenefitEventType,
+  options: { isEveryoneReward?: boolean; isFirstComeFirstServed?: boolean } = {}
+) {
+  if (options.isFirstComeFirstServed) return "선착순 참여";
+  if (options.isEveryoneReward) return "전원 혜택 받기";
   if (type === "coupon" || type === "signup") return "쿠폰 받기";
   if (type === "sample") return "샘플 신청";
   if (type === "freeTrial" || type === "experiencePanel") return "무료 체험 신청";
@@ -339,6 +355,9 @@ function getConsumerEventScoreAdjustment(event: FreeBenefitEvent) {
 
 function getRankingReason(event: FreeBenefitEvent, referenceNow: number) {
   if (event.isEveryoneReward && !event.requiresPurchase) return "전원증정이고 구매 조건이 낮아 먼저 볼 만한 혜택";
+  if (event.isFirstComeFirstServed && !event.requiresPurchase) return "선착순이라 늦기 전에 먼저 확인할 혜택";
+  if (event.isEveryoneReward) return "전원증정 조건을 공식 페이지에서 확인할 혜택";
+  if (event.isFirstComeFirstServed) return "수량 소진 전에 조건을 확인할 혜택";
   if (event.benefitType === "coupon" && !event.requiresPurchase) return "쿠폰을 바로 받을 가능성이 높은 공식 혜택";
   if (event.benefitType === "sample" || event.benefitType === "freeTrial") return "돈 쓰기 전 체험해볼 수 있는 무료 혜택";
   if (getEventUrgencyLabel(event.endAt, referenceNow).includes("마감")) return "마감이 가까워 지금 확인할 혜택";
@@ -385,7 +404,7 @@ export function toFreeBenefitEvent(deal: NewsDeal, referenceNow = Date.now()): F
     isFirstComeFirstServed,
     rewardText,
     cautionText: sanitizeBenefitText(status === "active" ? "공식 페이지에서 최종 참여 조건과 잔여 수량을 확인하세요." : "종료 또는 검증 실패 가능성이 있어 노출에서 제외됩니다.", 120),
-    claimCtaLabel: getClaimCtaLabel(benefitType),
+    claimCtaLabel: getClaimCtaLabel(benefitType, { isEveryoneReward, isFirstComeFirstServed }),
     urgencyLabel: getEventUrgencyLabel(endAt, referenceNow),
     rankingReason: "",
     trustBadges: [],

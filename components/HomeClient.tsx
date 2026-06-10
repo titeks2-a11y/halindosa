@@ -256,7 +256,10 @@ export default function Home({ initialNow = "", initialNewsSnapshot = emptyIniti
     buildFreeBenefitEventCategoryCounts(selectPublishableFreeBenefitEvents(initialNewsDeals, HOME_FREEBIE_EVENT_LIMIT, initialClockNow || Date.now()))
   );
   const [homeFreeBenefitEventSourceSummary, setHomeFreeBenefitEventSourceSummary] = useState<FreeBenefitEventSourceSummary>(() =>
-    buildFreeBenefitEventSourceSummary(selectPublishableFreeBenefitEvents(initialNewsDeals, HOME_FREEBIE_EVENT_LIMIT, initialClockNow || Date.now()))
+    buildFreeBenefitEventSourceSummary(
+      selectPublishableFreeBenefitEvents(initialNewsDeals, HOME_FREEBIE_EVENT_LIMIT, initialClockNow || Date.now()),
+      initialClockNow || Date.now()
+    )
   );
   const [homeFreebieSummary, setHomeFreebieSummary] = useState(() => buildHomeFreebieSummary(initialNewsDeals, initialClockNow || Date.now()));
   const [newsRecommendedQueries, setNewsRecommendedQueries] = useState<Array<{ query: string; count: number }>>(() =>
@@ -334,7 +337,7 @@ export default function Home({ initialNow = "", initialNewsSnapshot = emptyIniti
         setHomeFreebies(nextFreebies);
         setHomeFreeBenefitEvents(nextEvents);
         setHomeFreeBenefitEventCategoryCounts(buildFreeBenefitEventCategoryCounts(nextEvents));
-        setHomeFreeBenefitEventSourceSummary(buildFreeBenefitEventSourceSummary(nextEvents));
+        setHomeFreeBenefitEventSourceSummary(buildFreeBenefitEventSourceSummary(nextEvents, referenceNow));
         setHomeFreebieSummary(buildHomeFreebieSummary(snapshot.deals, referenceNow));
         setNewsRecommendedQueries(snapshot.recommendedQueries);
         setNewsTargetSections(snapshot.targetSections.length ? snapshot.targetSections : buildInitialNewsTargetSections(snapshot.deals));
@@ -872,7 +875,7 @@ export default function Home({ initialNow = "", initialNewsSnapshot = emptyIniti
           setHomeFreebies(selectHomeFreebies(initialNewsDeals, 12, referenceNow));
           setHomeFreeBenefitEvents(nextBundleEvents);
           setHomeFreeBenefitEventCategoryCounts(buildFreeBenefitEventCategoryCounts(nextBundleEvents));
-          setHomeFreeBenefitEventSourceSummary(buildFreeBenefitEventSourceSummary(nextBundleEvents));
+          setHomeFreeBenefitEventSourceSummary(buildFreeBenefitEventSourceSummary(nextBundleEvents, referenceNow));
           setHomeFreebieSummary(buildHomeFreebieSummary(initialNewsDeals, referenceNow));
           setLastHomeSyncAt(generatedAt);
           setHomeQuality(null);
@@ -938,12 +941,13 @@ export default function Home({ initialNow = "", initialNewsSnapshot = emptyIniti
         setNewsDeadlineSummary(snapshot.news.deadlineSummary);
         setNewsUpdatedAt(snapshot.news.updatedAt);
         setNewsFreshness(snapshot.news.freshness);
-        setHomeFreebies(snapshot.freebies.deals.length ? snapshot.freebies.deals : selectHomeFreebies(snapshot.news.deals, 12, Date.now()));
-        const nextHomeFreeBenefitEvents = snapshot.freebies.events.length ? snapshot.freebies.events : selectPublishableFreeBenefitEvents(snapshot.news.deals, HOME_FREEBIE_EVENT_LIMIT, Date.now());
+        const referenceNow = Date.now();
+        setHomeFreebies(snapshot.freebies.deals.length ? snapshot.freebies.deals : selectHomeFreebies(snapshot.news.deals, 12, referenceNow));
+        const nextHomeFreeBenefitEvents = snapshot.freebies.events.length ? snapshot.freebies.events : selectPublishableFreeBenefitEvents(snapshot.news.deals, HOME_FREEBIE_EVENT_LIMIT, referenceNow);
         setHomeFreeBenefitEvents(nextHomeFreeBenefitEvents);
         setHomeFreeBenefitEventCategoryCounts(snapshot.freebies.categoryCounts?.length ? snapshot.freebies.categoryCounts : buildFreeBenefitEventCategoryCounts(nextHomeFreeBenefitEvents));
-        setHomeFreeBenefitEventSourceSummary(snapshot.freebies.eventSummary ?? buildFreeBenefitEventSourceSummary(nextHomeFreeBenefitEvents));
-        setHomeFreebieSummary(snapshot.freebies.summary ?? buildHomeFreebieSummary(snapshot.news.deals, Date.now()));
+        setHomeFreeBenefitEventSourceSummary(snapshot.freebies.eventSummary ?? buildFreeBenefitEventSourceSummary(nextHomeFreeBenefitEvents, referenceNow));
+        setHomeFreebieSummary(snapshot.freebies.summary ?? buildHomeFreebieSummary(snapshot.news.deals, referenceNow));
 
         setHotSignals(snapshot.hotSignals.length ? snapshot.hotSignals : mockHotSignals);
         setLastHomeSyncAt(snapshot.updatedAt);

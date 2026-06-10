@@ -58,7 +58,7 @@ export async function GET(request: Request) {
     });
     const summary = buildHomeFreebieSummary(defaultDeals, Date.parse(generatedAt));
     const categoryCounts = buildFreeBenefitEventCategoryCounts(events);
-    const eventSummary = buildFreeBenefitEventSourceSummary(events);
+    const eventSummary = buildFreeBenefitEventSourceSummary(events, Date.parse(generatedAt));
 
     return noStoreJson({
       ok: true,

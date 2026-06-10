@@ -242,7 +242,7 @@ export async function GET(request: Request) {
     const homeFreebies = selectHomeFreebies(news.deals, Math.min(Math.max(limit, 8), 16), Date.parse(generatedAt));
     const freeBenefitEvents = selectPublishableFreeBenefitEvents(news.deals, freeBenefitLimit, Date.parse(generatedAt));
     const freeBenefitEventCategoryCounts = buildFreeBenefitEventCategoryCounts(freeBenefitEvents);
-    const freeBenefitEventSummary = buildFreeBenefitEventSourceSummary(freeBenefitEvents);
+    const freeBenefitEventSummary = buildFreeBenefitEventSourceSummary(freeBenefitEvents, Date.parse(generatedAt));
     const freebiesSummary = buildHomeFreebieSummary(news.deals, Date.parse(generatedAt));
     counts.freebies = homeFreebies.length;
     const source = {
