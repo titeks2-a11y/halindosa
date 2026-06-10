@@ -59,6 +59,7 @@ if (
     'data-home-free-benefit-source-strip="true"',
     'data-home-free-benefit-instant-board="true"',
     'data-home-free-benefit-claim-rail="true"',
+    'data-home-free-benefit-preclaim="true"',
     "benefitPromiseCards",
     "claimLaneConfigs",
     "claimLanes",
@@ -203,7 +204,13 @@ if (
     "로그인 필요",
     "구매 필요",
     "비회원 확인",
-    "구매조건 낮음"
+    "구매조건 낮음",
+    "getPreClaimChecklist",
+    "공식 링크 확인",
+    "구매 조건 확인",
+    "구매 없이 확인",
+    "혜택 받기 전 확인 조건",
+    'data-home-free-benefit-preclaim="true"'
   ]) &&
   includesAll(freeBenefitEvents, [
     '{ id: "all", label: "전체" }',

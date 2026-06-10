@@ -223,6 +223,16 @@ export function HomeFreebieHero({
     if (!event.requiresPurchase) return "구매 없이 확인";
     return "조건 확인";
   };
+  const getPreClaimChecklist = (event: FreeBenefitEvent) =>
+    [
+      event.validationStatus === "passed" && event.finalUrl ? "공식 링크 확인" : "",
+      event.requiresLogin ? "로그인 필요" : "비회원 확인",
+      event.requiresPurchase ? "구매 조건 확인" : "구매 없이 확인",
+      event.isFirstComeFirstServed ? "선착순" : "",
+      event.urgencyLabel?.includes("마감") ? event.urgencyLabel : ""
+    ]
+      .filter(Boolean)
+      .slice(0, 4);
   const claimLanes = claimLaneConfigs.map((lane) => {
     const matchedEvents = events.filter((event) => event.status === "active" && event.validationStatus === "passed" && lane.matches(event));
     const firstEvent = matchedEvents[0];
@@ -374,6 +384,15 @@ export function HomeFreebieHero({
                   {getConditionLabel(event)}
                 </span>
               </div>
+              <div className="mt-1 flex min-w-0 gap-1 overflow-hidden" data-home-free-benefit-preclaim="true">
+                {getPreClaimChecklist(event)
+                  .slice(0, 2)
+                  .map((item) => (
+                    <span key={item} className="shrink-0 rounded-full bg-white px-1.5 py-0.5 text-[8px] font-black text-slate-500">
+                      {item}
+                    </span>
+                  ))}
+              </div>
               <p className="mt-1 truncate text-[10px] font-black text-dossa-red">{event.claimCtaLabel || "무료 혜택 받기"}</p>
             </Link>
           ))}
@@ -513,6 +532,9 @@ export function HomeFreebieHero({
                   <span className="truncate text-emerald-700">{event.claimCtaLabel || "무료 혜택 받기"}</span>
                   <span className="shrink-0 text-slate-400">{event.urgencyLabel || getTimeLeft(event.endAt, referenceNow)}</span>
                 </div>
+                <p className="mt-0.5 truncate text-[8px] font-black text-slate-400" data-home-free-benefit-preclaim="true">
+                  {getPreClaimChecklist(event).slice(0, 3).join(" · ")}
+                </p>
               </Link>
             ))}
           </div>
@@ -636,6 +658,17 @@ export function HomeFreebieHero({
                       {badge}
                     </span>
                   ))}
+              </div>
+              <div
+                className="mt-1 grid grid-cols-2 gap-1 rounded-xl bg-white/80 p-1 text-[9px] font-black text-slate-500"
+                data-home-free-benefit-preclaim="true"
+                aria-label={`${event.title} 혜택 받기 전 확인 조건`}
+              >
+                {getPreClaimChecklist(event).map((item) => (
+                  <span key={item} className="truncate rounded-lg bg-slate-50 px-1.5 py-1">
+                    {item}
+                  </span>
+                ))}
               </div>
               <Link
                 href={`/go/news/${encodeURIComponent(event.id)}?from=home-free-benefit-event`}
