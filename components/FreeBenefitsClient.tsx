@@ -73,6 +73,7 @@ const officialBenefitTypeLabels: Partial<Record<NewsBenefitType, string>> = {
   foodDelivery: "배달",
   freeShipping: "무배",
   freebie: "무료",
+  gifticon: "기프티콘",
   mart: "마트",
   membership: "멤버십",
   point: "포인트",

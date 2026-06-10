@@ -14,6 +14,7 @@ export type NewsBenefitType =
   | "convenienceStore"
   | "mart"
   | "sample"
+  | "gifticon"
   | "education"
   | "public_free";
 

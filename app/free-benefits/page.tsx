@@ -17,6 +17,7 @@ const officialBenefitTypes = new Set<NewsBenefitType>([
   "freebie",
   "freeShipping",
   "event",
+  "gifticon",
   "membership",
   "card",
   "culture",

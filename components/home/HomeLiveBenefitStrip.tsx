@@ -20,6 +20,7 @@ const benefitLabels: Record<NewsDeal["benefitType"], string> = {
   convenienceStore: "편의점",
   mart: "마트",
   sample: "샘플",
+  gifticon: "기프티콘",
   education: "교육",
   public_free: "공공"
 };

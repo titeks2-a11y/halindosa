@@ -9,6 +9,7 @@ export const homeFreebieBenefitTypes = new Set<NewsBenefitType>([
   "point",
   "public",
   "sample",
+  "gifticon",
   "education",
   "public_free",
   "membership",
@@ -26,6 +27,7 @@ const strictFreeBenefitTypes = new Set<NewsBenefitType>([
   "event",
   "point",
   "sample",
+  "gifticon",
   "membership",
   "card",
   "convenienceStore",
@@ -124,6 +126,8 @@ export function getHomeFreebieScore(deal: NewsDeal, referenceNow = Date.now()) {
     deal.benefitType === "sample"
       ? 38
       : deal.benefitType === "freebie"
+      ? 34
+      : deal.benefitType === "gifticon"
       ? 34
       : deal.benefitType === "coupon"
         ? 30
@@ -230,6 +234,7 @@ export function getHomeFreebieBenefitLabel(type: NewsBenefitType) {
     convenienceStore: "편의점",
     mart: "마트",
     sample: "샘플",
+    gifticon: "기프티콘",
     education: "교육",
     public_free: "공공"
   };
