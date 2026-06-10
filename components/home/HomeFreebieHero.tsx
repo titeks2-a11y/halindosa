@@ -323,13 +323,13 @@ export function HomeFreebieHero({
         { label: "전원", value: everyoneRewardCount, className: "bg-emerald-50 text-emerald-700" },
         { label: "선착순", value: firstComeCount, className: "bg-orange-50 text-orange-700" },
         { label: "쿠폰", value: events.filter((event) => event.benefitType === "coupon").length, className: "bg-yellow-50 text-yellow-700" },
-        { label: "오늘마감", value: endingSoonEventCount, className: "bg-rose-50 text-rose-700" }
+        { label: "마감임박", value: endingSoonEventCount, className: "bg-rose-50 text-rose-700" }
       ]
     : [
         { label: "무료/0원", value: summary?.zeroCost ?? visibleDeals.filter((deal) => deal.benefitType === "freebie" || deal.price === 0).length, className: "bg-emerald-50 text-emerald-700" },
         { label: "쿠폰", value: summary?.coupon ?? visibleDeals.filter((deal) => deal.benefitType === "coupon").length, className: "bg-yellow-50 text-yellow-700" },
         { label: "무배", value: summary?.freeShipping ?? visibleDeals.filter((deal) => deal.benefitType === "freeShipping").length, className: "bg-sky-50 text-sky-700" },
-        { label: "오늘마감", value: summary?.endingToday ?? visibleDeals.filter((deal) => isEndingSoon(deal, referenceNow)).length, className: "bg-orange-50 text-orange-700" }
+        { label: "마감임박", value: summary?.endingToday ?? visibleDeals.filter((deal) => isEndingSoon(deal, referenceNow)).length, className: "bg-orange-50 text-orange-700" }
       ];
   const getHeroQuickFilterCount = (filter: (typeof heroQuickFilters)[number]) => {
     if (!visibleEvents.length) return null;

@@ -197,9 +197,9 @@ export function selectHomeFreebies(deals: NewsDeal[], limit = 12, referenceNow =
 
 export function buildHomeFreebieSummary(deals: NewsDeal[], referenceNow = Date.now()) {
   const visible = deals.filter((deal) => isPublishableOfficialFreebie(deal, referenceNow));
-  const endingToday = visible.filter((deal) => {
+  const endingSoon = visible.filter((deal) => {
     const hours = hoursUntil(deal.expiresAt || deal.endDate, referenceNow);
-    return hours >= 0 && hours <= 24;
+    return hours >= 0 && hours <= 14 * 24;
   });
 
   return {
@@ -207,7 +207,7 @@ export function buildHomeFreebieSummary(deals: NewsDeal[], referenceNow = Date.n
     zeroCost: visible.filter((deal) => deal.price === 0 || deal.benefitType === "freebie" || /무료|0원|샘플|체험/.test(`${deal.title} ${deal.summary}`)).length,
     coupon: visible.filter((deal) => deal.benefitType === "coupon" || deal.couponAmount > 0 || /쿠폰/.test(`${deal.title} ${deal.summary}`)).length,
     freeShipping: visible.filter((deal) => deal.benefitType === "freeShipping" || /무료배송|무배/.test(`${deal.title} ${deal.summary}`)).length,
-    endingToday: endingToday.length,
+    endingToday: endingSoon.length,
     sourceCount: new Set(visible.map((deal) => deal.sourceName || deal.officialHost).filter(Boolean)).size,
     averageQualityScore: visible.length ? Math.round(visible.reduce((sum, deal) => sum + Number(deal.qualityScore ?? 0), 0) / visible.length) : 0
   };

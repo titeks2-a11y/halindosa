@@ -170,7 +170,7 @@ if (
     "home-free-benefit-quick-claim",
     "grid grid-cols-2",
     "전원",
-    "오늘마감",
+    "마감임박",
     "isEmptyFilter",
     'aria-disabled="true"',
     "현재 검증된 혜택이 없습니다",

@@ -92,7 +92,7 @@ export function buildFreeBenefitEventSourceSummary(events: FreeBenefitEvent[], r
       const endsAt = Date.parse(event.endAt);
       if (!Number.isFinite(endsAt)) return false;
       const hoursLeft = (endsAt - referenceNow) / 3_600_000;
-      return hoursLeft >= 0 && hoursLeft <= 24;
+      return hoursLeft >= 0 && hoursLeft <= 14 * 24;
     }).length,
     officialSourceCount: events.filter((event) => event.sourceType === "official" || event.validationStatus === "passed").length,
     averageFreeConditionScore: averageScore(events, (event) => event.freeConditionScore),
