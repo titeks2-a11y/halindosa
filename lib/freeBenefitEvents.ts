@@ -324,7 +324,7 @@ export function getFreeBenefitEventScore(event: FreeBenefitEvent, referenceNow =
           : event.benefitType === "freeShipping" || event.benefitType === "brandEvent"
             ? 14
             : 0;
-  const publicPolicyPenalty = event.benefitType === "publicFree" || event.sourceType === "approved_public" ? -90 : 0;
+  const publicPolicyPenalty = event.benefitType === "publicFree" ? -90 : 0;
 
   return (
     event.qualityScore +
@@ -445,7 +445,7 @@ export function isPublishableFreeBenefitEvent(event: FreeBenefitEvent, reference
 }
 
 function isPublicFreeBenefitEvent(event: FreeBenefitEvent) {
-  return event.benefitType === "publicFree" || event.sourceType === "approved_public";
+  return event.benefitType === "publicFree";
 }
 
 function selectDiverseFreeBenefitEvents(events: FreeBenefitEvent[], limit: number, referenceNow: number) {

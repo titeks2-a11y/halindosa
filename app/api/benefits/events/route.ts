@@ -67,7 +67,7 @@ function filterEvents(events: FreeBenefitEvent[], request: Request, referenceNow
 
   return events.filter((event) => {
     if (!isPublishableFreeBenefitEvent(event, referenceNow)) return false;
-    if (!includePublic && (event.benefitType === "publicFree" || event.sourceType === "approved_public")) return false;
+    if (!includePublic && event.benefitType === "publicFree") return false;
     if (benefitTypeIds.has(type) && type !== "all" && event.benefitType !== type) return false;
     if (requiresPurchase !== null && event.requiresPurchase !== requiresPurchase) return false;
     if (requiresLogin !== null && event.requiresLogin !== requiresLogin) return false;
