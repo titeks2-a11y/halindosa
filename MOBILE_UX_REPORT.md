@@ -8,7 +8,7 @@ Status: PASS
 | Check | Result | Detail |
 | --- | --- | --- |
 | mobile shell width and safe area | PASS | 모바일 기본 폭과 하단 탭 겹침 방지 padding이 유지됩니다. |
-| 375 390 430 viewport freebie fit | PASS | 375/390/430px 모바일 폭에서 무료혜택 히어로가 2열 8카드, 우선 확인 strip, 48px 썸네일, 2줄 제목, 전체 CTA로 압축됩니다. |
+| 375 390 430 viewport freebie fit | PASS | 375/390/430px 모바일 폭에서 무료혜택 히어로가 2열 12카드, 우선 확인 strip, 48px 썸네일, 2줄 제목, 전체 CTA로 압축됩니다. |
 | bottom nav compactness | PASS | 하단 탭은 4개 탭, 56px rail, 48px 이상 터치 영역을 유지합니다. |
 | compact search | PASS | 검색창은 무료혜택 중심 placeholder, 40px 모바일 높이, 데스크톱 결과 수, 추천 검색어를 유지하고 모바일에서는 결과 보조 줄을 줄입니다. |
 | single home search entry | PASS | 모바일 홈에는 혜택 검색 1개만 보이고, 하위 화면 헤더 검색과 데스크톱 상세 검색은 compact/hidden 기준을 유지합니다. |
@@ -21,7 +21,7 @@ Status: PASS
 | mobile official benefit quick list | PASS | 공식 혜택은 모바일에서 빠른 목록을 먼저 보여주고 상세 탐색 패널은 넓은 화면으로 분리합니다. |
 | mobile freebie hero priority | PASS | 모바일 홈 첫 화면에서 무료/쿠폰/0원/무배 혜택 히어로와 오늘 우선 확인 브랜드를 상품 리스트보다 먼저 압축 노출합니다. |
 | free benefit category and condition chips | PASS | 모바일 무료혜택 히어로는 소비자형 빠른 칩을 우선 노출하고, 전용 데이터 모델은 공공무료를 포함한 전체 계약과 로그인/구매 조건 배지를 유지합니다. |
-| home freebie ranking favors low-friction consumer benefits | PASS | 홈 무료혜택 점수는 카드발급/구매/결제 조건형 혜택과 공공/정책성 혜택을 낮추고 샘플, 쿠폰, 포인트, 편의점/마트, 브랜드 혜택을 먼저 올립니다. |
+| home freebie ranking favors low-friction consumer benefits | PASS | 홈 무료혜택 점수는 카드발급/구매/결제 조건형 혜택과 공공/정책성 혜택을 낮추고 샘플, 쿠폰, 포인트, 신규가입, 편의점/마트, 인지도 높은 브랜드 혜택을 먼저 올립니다. |
 | mobile live benefit strip | PASS | 모바일 첫 화면에서 검증된 공식 혜택 2개를 초압축 가로 레일로 보여주며 invalid/search/community 링크를 제외합니다. |
 | toast does not cover bottom nav | PASS | 토스트는 모바일 상단에 떠 하단 탭과 상품 CTA를 가리지 않습니다. |
 

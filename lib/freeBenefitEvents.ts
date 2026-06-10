@@ -11,6 +11,9 @@ const purchasePattern = /구매|주문|결제|최소\s*주문|이상\s*구매|�
 const samplePattern = /샘플|체험팩|무료\s*증정|전원\s*증정|기프티콘|초대권/i;
 const searchOrJunkUrlPattern = /\/search|search\?|query=|keyword=|shopping\/search|msearch|\/find|\/result|sword=|kwd=|ppomppu|fmkorea|quasarzone|algumon|blog\.naver|news\.naver|v\.daum|news\.daum|youtube/i;
 const privateHostPattern = /(^localhost$)|(^127\.)|(^10\.)|(^172\.(1[6-9]|2\d|3[0-1])\.)|(^192\.168\.)|(^169\.254\.)|(^0\.0\.0\.0$)|(\.local$)|metadata\.google|169\.254\.169\.254/i;
+const highRecognitionConsumerBrandPattern = /올리브영|무신사|스타벅스|배민|요기요|컬리|SSG|롯데온|롯데잇츠|H\.?Point|해피포인트|CJ\s*ONE|다이소|G마켓|옥션|11번가|쿠팡|네이버|GS25|CU|세븐일레븐|이마트24/i;
+const instantClaimBenefitPattern = /쿠폰\s*받기|쿠폰|샘플\s*신청|무료\s*체험|신규\s*가입|웰컴|포인트|캐시백|출석|룰렛|기프티콘|전원\s*증정|선착순/i;
+const highFrictionConditionPattern = /카드\s*발급|신규\s*발급|자동\s*납부|자동이체|최소\s*주문|이상\s*구매|연회비|배송비\s*결제/i;
 
 export const freeBenefitEventCategories: Array<{ id: FreeBenefitEventType; label: string }> = [
   { id: "all", label: "전체" },
@@ -257,7 +260,7 @@ function getFreeConditionScore({
   else score -= 4;
   if (isEveryoneReward) score += 14;
   if (isFirstComeFirstServed) score += 5;
-  if (benefitType === "coupon" || benefitType === "sample" || benefitType === "freeTrial" || benefitType === "gifticon" || benefitType === "pointCashback") score += 12;
+  if (benefitType === "coupon" || benefitType === "sample" || benefitType === "freeTrial" || benefitType === "gifticon" || benefitType === "pointCashback" || benefitType === "signup") score += 12;
   if (benefitType === "publicFree") score -= 40;
 
   return Math.max(0, Math.min(100, score));
@@ -267,8 +270,9 @@ function getInterestScore(deal: NewsDeal, benefitType: FreeBenefitEventType) {
   const text = [deal.title, deal.summary, deal.merchant, deal.mallName, deal.sourceName, deal.tags.join(" ")].join(" ");
   let score = Number(deal.priorityScore ?? deal.confidenceScore ?? 0);
 
-  if (/올리브영|무신사|스타벅스|배민|요기요|컬리|SSG|롯데|G마켓|옥션|11번가|쿠팡|네이버|GS25|CU|세븐일레븐|이마트24|다이소/i.test(text)) score += 18;
-  if (/무료|쿠폰|샘플|체험|전원|선착순|기프티콘|포인트|캐시백|출석|룰렛/i.test(text)) score += 16;
+  if (highRecognitionConsumerBrandPattern.test(text)) score += 20;
+  if (/무료|쿠폰|샘플|체험|전원|선착순|기프티콘|포인트|캐시백|출석|룰렛|신규\s*가입|웰컴/i.test(text)) score += 18;
+  if (instantClaimBenefitPattern.test(text) && !highFrictionConditionPattern.test(text)) score += 10;
   if (benefitType === "publicFree") score -= 60;
 
   return Math.max(0, Math.min(100, Math.round(score)));
@@ -346,14 +350,21 @@ function getConsumerEventScoreAdjustment(event: FreeBenefitEvent) {
   const text = [event.title, event.rewardText, event.brandName, event.sourceName, event.tags.join(" ")].join(" ");
   let score = 0;
 
-  if (/쿠폰|샘플|무료\s*체험|기프티콘|포인트|캐시백|출석|룰렛|전원\s*증정|선착순|편의점|마트|배달|카페|뷰티|브랜드/i.test(text)) score += 24;
+  if (/쿠폰|샘플|무료\s*체험|기프티콘|포인트|캐시백|출석|룰렛|전원\s*증정|선착순|신규\s*가입|웰컴|편의점|마트|배달|카페|뷰티|브랜드/i.test(text)) score += 24;
+  if (highRecognitionConsumerBrandPattern.test(text)) score += 10;
+  if (instantClaimBenefitPattern.test(text) && !highFrictionConditionPattern.test(text)) score += 12;
   if (/정부|공공|지자체|복지|정책|지원사업|서울시|공공서비스|K-MOOC|문화가\s*있는\s*날/i.test(text)) score -= 80;
-  if (event.requiresPurchase) score -= 12;
+  if (event.requiresPurchase) score -= 16;
+  if (highFrictionConditionPattern.test(text)) score -= 16;
 
   return score;
 }
 
 function getRankingReason(event: FreeBenefitEvent, referenceNow: number) {
+  const text = [event.title, event.rewardText, event.brandName, event.sourceName, event.tags.join(" ")].join(" ");
+  if (instantClaimBenefitPattern.test(text) && highRecognitionConsumerBrandPattern.test(text) && !event.requiresPurchase) return "잘 알려진 브랜드에서 바로 받을 수 있는 공식 혜택";
+  if (event.benefitType === "signup" && !event.requiresPurchase) return "신규가입으로 받을 수 있는 공식 웰컴 혜택";
+  if (event.benefitType === "pointCashback" && !event.requiresPurchase) return "앱에서 바로 확인할 포인트 적립 혜택";
   if (event.isEveryoneReward && !event.requiresPurchase) return "전원증정이고 구매 조건이 낮아 먼저 볼 만한 혜택";
   if (event.isFirstComeFirstServed && !event.requiresPurchase) return "선착순이라 늦기 전에 먼저 확인할 혜택";
   if (event.isEveryoneReward) return "전원증정 조건을 공식 페이지에서 확인할 혜택";

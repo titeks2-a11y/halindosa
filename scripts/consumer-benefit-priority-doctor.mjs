@@ -16,9 +16,9 @@ function readJson(path, fallback) {
 }
 
 const consumerPattern =
-  /쿠폰|무료\s*샘플|샘플|기프티콘|교환권|전원\s*증정|선착순|출석|룰렛|포인트|캐시백|무료배송|무배|1\+1|2\+1|편의점|마트|배달|카페|뷰티|올리브영|무신사|컬리|SSG|롯데온|G마켓|11번가|쿠팡|이마트|홈플러스|브랜드|던킨|맥도날드|배스킨|GS25|CU|CJ더마켓|로얄캐닌/i;
+  /쿠폰|무료\s*샘플|샘플|기프티콘|교환권|전원\s*증정|선착순|신규\s*가입|웰컴|출석|룰렛|포인트|캐시백|무료배송|무배|1\+1|2\+1|편의점|마트|배달|카페|뷰티|올리브영|무신사|컬리|SSG|롯데온|롯데잇츠|H\.?Point|해피포인트|G마켓|11번가|쿠팡|이마트|홈플러스|브랜드|던킨|맥도날드|배스킨|GS25|CU|CJ\s*ONE|CJ더마켓|다이소|로얄캐닌/i;
 const purchaseConditionPattern = /구매|주문|결제|최소\s*주문|이상\s*구매|장바구니|배송비|카드\s*발급|신규\s*발급|자동\s*납부|자동이체|연회비/i;
-const lowFrictionPattern = /무료\s*체험|샘플|쿠폰|포인트|출석|룰렛|기프티콘|0원|전원\s*증정|선착순/i;
+const lowFrictionPattern = /무료\s*체험|샘플|쿠폰|포인트|출석|룰렛|기프티콘|0원|전원\s*증정|선착순|신규\s*가입|웰컴/i;
 const blockedUrlPattern = /\/search|search\?|query=|keyword=|shopping\/search|msearch|\/find|\/result|ppomppu|fmkorea|quasarzone|algumon|blog\.naver|news\.naver|v\.daum|news\.daum/i;
 const publicTypes = new Set(["public", "public_free", "education", "culture"]);
 const consumerTypes = new Set(["coupon", "sample", "freebie", "freeShipping", "point", "foodDelivery", "convenienceStore", "mart", "membership", "card"]);
