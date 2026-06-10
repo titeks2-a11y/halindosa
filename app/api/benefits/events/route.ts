@@ -4,6 +4,7 @@ import { getVisibleNewsDeals } from "@/lib/deals/newsDeals";
 import {
   buildFreeBenefitEvents,
   buildFreeBenefitEventCategoryCounts,
+  buildFreeBenefitEventSourceSummary,
   freeBenefitEventCategories,
   getFreeBenefitEventScore,
   isPublishableFreeBenefitEvent,
@@ -103,11 +104,11 @@ function summarizeEvents(events: FreeBenefitEvent[]) {
       const endAt = Date.parse(event.endAt);
       return Number.isFinite(endAt) && endAt >= now && endAt - now <= endingSoonMs;
     }).length,
-    officialSourceCount: new Set(events.map((event) => event.sourceName).filter(Boolean)).size,
     byType: events.reduce<Record<string, number>>((counts, event) => {
       counts[event.benefitType] = (counts[event.benefitType] ?? 0) + 1;
       return counts;
-    }, {})
+    }, {}),
+    ...buildFreeBenefitEventSourceSummary(events)
   };
 }
 

@@ -32,6 +32,17 @@ export const freeBenefitEventCategories: Array<{ id: FreeBenefitEventType; label
 
 export type FreeBenefitEventCategoryCount = (typeof freeBenefitEventCategories)[number] & { count: number };
 
+export interface FreeBenefitEventSourceSummary {
+  sourceDomainCount: number;
+  topSourceDomains: Array<{ domain: string; count: number }>;
+  easyClaimCount: number;
+  noPurchaseCount: number;
+  noLoginNoPurchaseCount: number;
+  officialSourceCount: number;
+  averageFreeConditionScore: number;
+  averageInterestScore: number;
+}
+
 export function buildFreeBenefitEventCategoryCounts(events: FreeBenefitEvent[]): FreeBenefitEventCategoryCount[] {
   const counts = events.reduce<Record<string, number>>(
     (acc, event) => {
@@ -45,6 +56,34 @@ export function buildFreeBenefitEventCategoryCounts(events: FreeBenefitEvent[]):
     ...category,
     count: category.id === "all" ? events.length : counts[category.id] ?? 0
   }));
+}
+
+function averageScore(events: FreeBenefitEvent[], select: (event: FreeBenefitEvent) => number) {
+  const scores = events.map(select).filter((score) => Number.isFinite(score));
+  if (!scores.length) return 0;
+  return Math.round(scores.reduce((sum, score) => sum + score, 0) / scores.length);
+}
+
+export function buildFreeBenefitEventSourceSummary(events: FreeBenefitEvent[]): FreeBenefitEventSourceSummary {
+  const sourceDomainCounts = events.reduce<Record<string, number>>((counts, event) => {
+    if (!event.sourceDomain) return counts;
+    counts[event.sourceDomain] = (counts[event.sourceDomain] ?? 0) + 1;
+    return counts;
+  }, {});
+
+  return {
+    sourceDomainCount: Object.keys(sourceDomainCounts).length,
+    topSourceDomains: Object.entries(sourceDomainCounts)
+      .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+      .slice(0, 8)
+      .map(([domain, count]) => ({ domain, count })),
+    easyClaimCount: events.filter((event) => event.freeConditionScore >= 75).length,
+    noPurchaseCount: events.filter((event) => !event.requiresPurchase).length,
+    noLoginNoPurchaseCount: events.filter((event) => !event.requiresLogin && !event.requiresPurchase).length,
+    officialSourceCount: events.filter((event) => event.sourceType === "official" || event.validationStatus === "passed").length,
+    averageFreeConditionScore: averageScore(events, (event) => event.freeConditionScore),
+    averageInterestScore: averageScore(events, (event) => event.interestScore)
+  };
 }
 
 export const freeBenefitEventLabelMap: Record<FreeBenefitEventType, string> = {

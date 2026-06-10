@@ -3,7 +3,7 @@ import { createRequestId, getClientKey, rateLimit, rateLimitHeaders } from "@/li
 import { getDeals, normalizeSort } from "@/lib/dealService";
 import { getVisibleNewsDeals } from "@/lib/deals/newsDeals";
 import { summarizeDealQuality } from "@/lib/deals/quality";
-import { buildFreeBenefitEventCategoryCounts, selectPublishableFreeBenefitEvents } from "@/lib/freeBenefitEvents";
+import { buildFreeBenefitEventCategoryCounts, buildFreeBenefitEventSourceSummary, selectPublishableFreeBenefitEvents } from "@/lib/freeBenefitEvents";
 import { fetchHotSignals } from "@/lib/hotSignalProvider";
 import { buildHomeFreebieSummary, selectHomeFreebies } from "@/lib/homeFreebies";
 import { HOME_REFRESH_INTERVAL_MS } from "@/lib/homeRealtimeConfig";
@@ -242,6 +242,7 @@ export async function GET(request: Request) {
     const homeFreebies = selectHomeFreebies(news.deals, Math.min(Math.max(limit, 8), 16), Date.parse(generatedAt));
     const freeBenefitEvents = selectPublishableFreeBenefitEvents(news.deals, freeBenefitLimit, Date.parse(generatedAt));
     const freeBenefitEventCategoryCounts = buildFreeBenefitEventCategoryCounts(freeBenefitEvents);
+    const freeBenefitEventSummary = buildFreeBenefitEventSourceSummary(freeBenefitEvents);
     const freebiesSummary = buildHomeFreebieSummary(news.deals, Date.parse(generatedAt));
     counts.freebies = homeFreebies.length;
     const source = {
@@ -301,6 +302,7 @@ export async function GET(request: Request) {
         totalCount: freebiesSummary.total,
         eventCount: freeBenefitEvents.length,
         categoryCounts: freeBenefitEventCategoryCounts,
+        eventSummary: freeBenefitEventSummary,
         summary: freebiesSummary,
         freshnessStatus: news.freshnessStatus,
         freshnessLabel: news.freshnessLabel,

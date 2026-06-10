@@ -1,7 +1,7 @@
 import { noStoreJson, noStoreOptions } from "@/lib/api/noStore";
 import { createRequestId, getClientKey, rateLimit, rateLimitHeaders } from "@/lib/apiGuards";
 import { getVisibleNewsDeals } from "@/lib/deals/newsDeals";
-import { buildFreeBenefitEventCategoryCounts, selectPublishableFreeBenefitEvents } from "@/lib/freeBenefitEvents";
+import { buildFreeBenefitEventCategoryCounts, buildFreeBenefitEventSourceSummary, selectPublishableFreeBenefitEvents } from "@/lib/freeBenefitEvents";
 import { buildHomeFreebieSummary, selectHomeFreebies } from "@/lib/homeFreebies";
 
 export const dynamic = "force-dynamic";
@@ -58,6 +58,7 @@ export async function GET(request: Request) {
     });
     const summary = buildHomeFreebieSummary(defaultDeals, Date.parse(generatedAt));
     const categoryCounts = buildFreeBenefitEventCategoryCounts(events);
+    const eventSummary = buildFreeBenefitEventSourceSummary(events);
 
     return noStoreJson({
       ok: true,
@@ -77,6 +78,7 @@ export async function GET(request: Request) {
       nextRefreshAt: news.nextRefreshAt,
       categoryCounts,
       summary,
+      eventSummary,
       cachePolicy: {
         mode: "no-store",
         generatedAt

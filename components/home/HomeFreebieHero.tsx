@@ -130,6 +130,7 @@ export function HomeFreebieHero({
   const visibleDeals = deals.slice(0, 8);
   const visibleEvents = events.slice(0, 12);
   const officialTotalCount = Math.max(totalCount, events.length || 0);
+  const sourceDomainCount = new Set(events.map((event) => event.sourceDomain).filter(Boolean)).size;
   const priorityBrands = Array.from(
     new Set(
       visibleEvents
@@ -211,7 +212,7 @@ export function HomeFreebieHero({
             오늘 받을 무료 혜택
           </h2>
           <p className="mt-1 line-clamp-1 text-[11px] font-bold text-slate-500 sm:text-xs">
-            공식 혜택 {officialTotalCount.toLocaleString("ko-KR")}개 · {checkedLabel}
+            공식 혜택 {officialTotalCount.toLocaleString("ko-KR")}개 · 공식 출처 {sourceDomainCount.toLocaleString("ko-KR")}곳 · {checkedLabel}
           </p>
         </div>
         <div className="flex shrink-0 items-center gap-1.5">

@@ -3,6 +3,7 @@ import { isCrossOriginApiRequest, resolveRuntimeApiUrl } from "@/lib/runtimeApi"
 import type { DealQualitySummary } from "@/lib/deals/quality";
 import type { Deal, DealBenefitType, DealSort } from "@/types/deal";
 import type { FreeBenefitEvent, FreeBenefitEventType } from "@/types/freeBenefitEvent";
+import type { FreeBenefitEventSourceSummary } from "@/lib/freeBenefitEvents";
 import type { HotSignal } from "@/types/hotSignal";
 import type { NewsDeadlineSummary, NewsDeal, NewsDealSourceTrust, NewsIntentGroup, NewsTargetSection } from "@/types/newsDeal";
 
@@ -70,6 +71,7 @@ export interface FreebiesResponse {
     sourceCount: number;
     averageQualityScore: number;
   };
+  eventSummary?: FreeBenefitEventSourceSummary;
   cachePolicy?: {
     mode: "no-store";
     generatedAt: string;
@@ -103,7 +105,7 @@ export interface FreeBenefitEventsResponse {
     endingSoon: number;
     officialSourceCount: number;
     byType: Record<string, number>;
-  };
+  } & FreeBenefitEventSourceSummary;
   cachePolicy?: {
     mode: "no-store";
     generatedAt: string;
@@ -197,7 +199,7 @@ export interface HomeResponse {
     | "freshnessAgeMinutes"
     | "nextRefreshAt"
   >;
-  freebiesMeta?: Pick<FreebiesResponse, "summary" | "freshnessStatus" | "freshnessLabel" | "freshnessAgeMinutes" | "nextRefreshAt" | "totalCount" | "eventCount"> & {
+  freebiesMeta?: Pick<FreebiesResponse, "summary" | "eventSummary" | "freshnessStatus" | "freshnessLabel" | "freshnessAgeMinutes" | "nextRefreshAt" | "totalCount" | "eventCount"> & {
     categoryCounts?: FreeBenefitEventCategoryCount[];
   };
   cachePolicy?: {
