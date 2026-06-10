@@ -69,6 +69,36 @@ const heroQuickFilters: Array<{
   { label: "마감임박", href: "/free-benefits?endingSoon=true", className: "border-amber-100 bg-amber-50 text-amber-800" }
 ];
 
+const claimLaneConfigs: Array<{
+  label: string;
+  copy: string;
+  href: string;
+  className: string;
+  matches: (event: FreeBenefitEvent) => boolean;
+}> = [
+  {
+    label: "구매 없이",
+    copy: "조건 쉬운 무료혜택",
+    href: "/free-benefits?sort=noPurchase",
+    className: "border-emerald-100 bg-emerald-50 text-emerald-700",
+    matches: (event) => !event.requiresPurchase
+  },
+  {
+    label: "쿠폰 즉시",
+    copy: "받아서 바로 쓰는 혜택",
+    href: "/free-benefits?eventType=coupon",
+    className: "border-yellow-100 bg-yellow-50 text-yellow-700",
+    matches: (event) => event.benefitType === "coupon" || event.benefitType === "signup"
+  },
+  {
+    label: "샘플·체험",
+    copy: "무료 체험과 증정",
+    href: "/free-benefits?eventType=sample",
+    className: "border-teal-100 bg-teal-50 text-teal-700",
+    matches: (event) => event.benefitType === "sample" || event.benefitType === "freeTrial" || event.benefitType === "experiencePanel"
+  }
+];
+
 function isEndingSoon(deal: NewsDeal, referenceNow?: number) {
   const endTime = Date.parse(deal.expiresAt || deal.endDate);
   if (!Number.isFinite(endTime)) return false;
@@ -157,7 +187,7 @@ export function HomeFreebieHero({
         Number(b.isFirstComeFirstServed) - Number(a.isFirstComeFirstServed) ||
         b.priorityScore - a.priorityScore
     )
-    .slice(0, 4);
+    .slice(0, 6);
   const benefitPromiseCards = [
     {
       label: "구매 없이",
@@ -190,6 +220,15 @@ export function HomeFreebieHero({
     if (!event.requiresPurchase) return "구매 없이 확인";
     return "조건 확인";
   };
+  const claimLanes = claimLaneConfigs.map((lane) => {
+    const matchedEvents = events.filter((event) => event.status === "active" && event.validationStatus === "passed" && lane.matches(event));
+    const firstEvent = matchedEvents[0];
+    return {
+      ...lane,
+      count: matchedEvents.length,
+      brandName: firstEvent?.brandName || "공식 혜택"
+    };
+  });
   const quickStats = visibleEvents.length
     ? [
         { label: "전원", value: events.filter((event) => event.isEveryoneReward).length, className: "bg-emerald-50 text-emerald-700" },
@@ -258,6 +297,30 @@ export function HomeFreebieHero({
           </div>
         ))}
       </div>
+
+      {visibleEvents.length ? (
+        <div
+          data-home-free-benefit-claim-lanes="true"
+          className="mt-2 grid grid-cols-3 gap-1.5"
+          aria-label="오늘 바로 챙길 무료혜택 유형"
+        >
+          {claimLanes.map((lane) => (
+            <Link
+              key={lane.label}
+              href={lane.href}
+              className={`min-w-0 rounded-2xl border px-2 py-1.5 ${lane.className}`}
+              aria-label={`${lane.label} 무료혜택 ${lane.count.toLocaleString("ko-KR")}개 바로 보기`}
+            >
+              <div className="flex items-baseline justify-between gap-1">
+                <span className="truncate text-[10px] font-black">{lane.label}</span>
+                <span className="text-xs font-black">{lane.count.toLocaleString("ko-KR")}</span>
+              </div>
+              <p className="mt-0.5 truncate text-[9px] font-bold opacity-80">{lane.copy}</p>
+              <p className="mt-0.5 truncate text-[9px] font-black opacity-90">{lane.brandName}</p>
+            </Link>
+          ))}
+        </div>
+      ) : null}
 
       {priorityBrands.length ? (
         <div
@@ -330,7 +393,7 @@ export function HomeFreebieHero({
                 href={`/go/news/${encodeURIComponent(event.id)}?from=home-free-benefit-quick-claim`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="min-h-16 w-[10.25rem] shrink-0 snap-start rounded-2xl border border-white bg-white p-2 shadow-sm transition hover:border-red-100"
+                className="min-h-16 w-[9.65rem] shrink-0 snap-start rounded-2xl border border-white bg-white p-2 shadow-sm transition hover:border-red-100"
                 aria-label={`${event.title} ${event.claimCtaLabel || "무료 혜택 받기"}`}
               >
                 <div className="flex items-center gap-1">
