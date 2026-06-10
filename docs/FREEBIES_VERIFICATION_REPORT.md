@@ -1,12 +1,12 @@
 # 무료혜택 Verification Report
 
-Generated: 2026-06-10T14:47:58.066Z
+Generated: 2026-06-10T16:55:08.481Z
 
 ## Summary
 
 - Status: PASS
-- Visible official freebies: 154
-- Candidate freebies: 154
+- Visible official freebies: 176
+- Candidate freebies: 176
 - Blocked freebies: 0
 - Exposed search links: 0
 - Exposed non-official links: 0

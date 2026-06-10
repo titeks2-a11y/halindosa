@@ -1,12 +1,12 @@
 # Official Event Refresh Report
 
-Generated: 2026-06-10T14:47:57.968Z
+Generated: 2026-06-10T16:55:08.385Z
 
 ## Summary
 
 - Mode: events
-- Matched items: 135
-- Visible official items: 135
+- Matched items: 157
+- Visible official items: 157
 - Hidden/blocked items: 0
 - Exposed search links: 0
 - Exposed non-official links: 0
@@ -35,9 +35,9 @@ All visible rows must keep `/go/news/[id]` redirect tracking and must resolve to
 | news-shinhancard-utility-autopay-cashback-202606 | 신한카드 생활요금 자동납부 캐시백·경품 혜택 | 신한카드 공식 이벤트 | 카드/멤버십 | shinhancard.com | `/go/news/news-shinhancard-utility-autopay-cashback-202606` |
 | news-gs25-hyeja-bread-tosspay-plusone-202606 | GS25 혜자로운빵 토스페이 1+1 공식 행사 | GS25 공식 이벤트 | 마트/편의점 | gs25.gsretail.com | `/go/news/news-gs25-hyeja-bread-tosspay-plusone-202606` |
 | news-tossfeed-tosspay-promotion-202606 | 토스 공식 토스페이 할인·적립 혜택 | 토스 공식 혜택 안내 | 카드/멤버십 | toss.im | `/go/news/news-tossfeed-tosspay-promotion-202606` |
+| news-lotteeatz-coupon-center-202606 | 롯데잇츠 공식 받을 수 있는 쿠폰 | 롯데잇츠 공식 쿠폰 | 외식/배달 | lotteeatz.com | `/go/news/news-lotteeatz-coupon-center-202606` |
 | news-royalcanin-start-of-life-sample-kit-202606 | 로얄캐닌 건강한 시작 반려동물 샘플 체험키트 캠페인 | 로얄캐닌 코리아 공식 캠페인 | 무료혜택 | royalcanin.com | `/go/news/news-royalcanin-start-of-life-sample-kit-202606` |
 | news-yogiyo-roulette-official-202606 | 요기요 공식 룰렛 쿠폰 이벤트 | 요기요 공식 이벤트 | 외식/배달 | yogiyo.co.kr | `/go/news/news-yogiyo-roulette-official-202606` |
-| news-starbucks-campaign-official-202606 | 스타벅스 공식 캠페인·리워드 혜택 | 스타벅스 공식 캠페인 | 외식/배달 | starbucks.co.kr | `/go/news/news-starbucks-campaign-official-202606` |
 
 ## Blocked Items
 

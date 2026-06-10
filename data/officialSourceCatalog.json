@@ -4439,5 +4439,68 @@
     "allowedUse": "KB국민카드 공식 이벤트에서 KB Pay, 포인트리, 스탬프, 제휴 쿠폰의 공식 상세 또는 응모 CTA가 확인되는 항목",
     "blockedUse": "카드 발급 비교 사이트, 광고성 중간 페이지, 검색 결과, 종료된 이벤트",
     "notes": "목록에서 상세 이벤트가 확인되면 상세 URL을 finalUrl로 승격하고 카드 발급 필수 혜택은 무료혜택 메인 우선순위를 낮춘다."
+  },
+  {
+    "id": "hpoint-official-event-point-coupon",
+    "label": "H.Point 공식 이벤트·쿠폰·미션 혜택",
+    "provider": "official_event",
+    "category": [
+      "무료혜택",
+      "카드/멤버십"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.h-point.co.kr/benefit/evntDtl.nhd?evntId=181309",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "H.Point 공식 이벤트 상세에서 포인트 적립, 쿠폰, 미션, 제휴 이벤트 조건과 공식 참여 CTA가 확인되는 항목",
+    "blockedUse": "현대백화점 대표몰 검색 결과, 비공식 포인트 적립 글, 종료된 이벤트 캡처, 카드 발급 광고 중간 페이지",
+    "notes": "미션/쿠폰/포인트 혜택을 benefitType과 claimRequirements로 분리하고 구매 필수 혜택은 무료혜택 메인 우선순위를 낮춘다."
+  },
+  {
+    "id": "lotteeatz-coupon-center",
+    "label": "롯데잇츠 공식 받을 수 있는 쿠폰",
+    "provider": "official_event",
+    "category": [
+      "무료혜택",
+      "외식/배달"
+    ],
+    "sourceType": "official_coupon_page",
+    "officialUrl": "https://www.lotteeatz.com/coupon/main",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 6,
+    "allowedUse": "롯데잇츠 공식 쿠폰 페이지에서 브랜드별 쿠폰, 만료일, 쿠폰 받기 CTA가 확인되는 항목",
+    "blockedUse": "롯데잇츠 대표 홈, 스테이징 도메인, 비공식 쿠폰 이미지, 종료된 쿠폰",
+    "notes": "쿠폰 만료일을 expiresAt에 저장하고 브랜드별 조건을 rewardText와 cautionText로 분리한다."
+  },
+  {
+    "id": "daisomall-signup-benefit",
+    "label": "다이소몰 공식 신규 가입 혜택",
+    "provider": "official_event",
+    "category": [
+      "무료혜택",
+      "식품/생필품"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://prdm.daisomall.co.kr/ev/eva/SCR_EVA_0003?evtCd=EVT00286",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 12,
+    "allowedUse": "다이소몰 공식 이벤트 상세에서 신규 가입 쿠폰, 제휴 결제 이벤트, 회원 혜택 조건과 공식 참여 CTA가 확인되는 항목",
+    "blockedUse": "다이소몰 검색 결과, 상품 진열 페이지, 품절임박 상품 목록, 비공식 이벤트 공유글",
+    "notes": "신규가입 조건은 loginRequired와 claimRequirements에 기록하고 일반 상품 특가는 무료혜택 메인에서 제외한다."
   }
 ]

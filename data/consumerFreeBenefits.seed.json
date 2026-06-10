@@ -1800,5 +1800,71 @@
       "스탬프",
       "마감확인"
     ]
+  },
+  {
+    "id": "news-hpoint-official-event-point-coupon-202606",
+    "title": "H.Point 공식 이벤트·쿠폰·미션 혜택",
+    "summary": "현대백화점그룹 H.Point 공식 이벤트 상세에서 포인트 적립, 쿠폰, 미션, 제휴 이벤트 조건을 확인할 수 있습니다.",
+    "merchant": "H.Point",
+    "category": "카드/멤버십",
+    "benefitType": "point",
+    "startDate": "2026-06-01",
+    "endDate": "2026-07-31",
+    "sourceName": "H.Point 공식 이벤트",
+    "sourceUrl": "https://www.h-point.co.kr/benefit/evntDtl.nhd?evntId=181309",
+    "finalUrl": "https://www.h-point.co.kr/benefit/evntDtl.nhd?evntId=181309",
+    "confidenceScore": 88,
+    "provider": "official_event",
+    "tags": [
+      "공식",
+      "포인트",
+      "쿠폰",
+      "미션",
+      "멤버십"
+    ]
+  },
+  {
+    "id": "news-lotteeatz-coupon-center-202606",
+    "title": "롯데잇츠 공식 받을 수 있는 쿠폰",
+    "summary": "롯데잇츠 공식 쿠폰 페이지에서 롯데리아, 엔제리너스, 크리스피크림도넛 등 브랜드별 쿠폰과 만료일을 확인할 수 있습니다.",
+    "merchant": "롯데잇츠",
+    "category": "외식/배달",
+    "benefitType": "coupon",
+    "startDate": "2026-06-01",
+    "endDate": "2026-06-30",
+    "sourceName": "롯데잇츠 공식 쿠폰",
+    "sourceUrl": "https://www.lotteeatz.com/coupon/main",
+    "finalUrl": "https://www.lotteeatz.com/coupon/main",
+    "confidenceScore": 89,
+    "provider": "official_event",
+    "tags": [
+      "공식",
+      "쿠폰",
+      "외식",
+      "프랜차이즈",
+      "마감확인"
+    ]
+  },
+  {
+    "id": "news-daisomall-signup-benefit-202606",
+    "title": "다이소몰 공식 신규 가입 혜택",
+    "summary": "다이소몰 공식 신규 가입 혜택 페이지에서 회원가입 쿠폰과 진행 중인 제휴 이벤트를 확인할 수 있습니다.",
+    "merchant": "다이소몰",
+    "category": "식품/생필품",
+    "benefitType": "coupon",
+    "startDate": "2026-06-01",
+    "endDate": "2026-07-31",
+    "sourceName": "다이소몰 공식 이벤트",
+    "sourceUrl": "https://prdm.daisomall.co.kr/ev/eva/SCR_EVA_0003?evtCd=EVT00286",
+    "finalUrl": "https://prdm.daisomall.co.kr/ev/eva/SCR_EVA_0003?evtCd=EVT00286",
+    "confidenceScore": 90,
+    "provider": "official_event",
+    "tags": [
+      "공식",
+      "신규가입",
+      "쿠폰",
+      "생활용품",
+      "전원"
+    ]
   }
 ]
