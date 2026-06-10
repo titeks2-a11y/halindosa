@@ -31,14 +31,15 @@ const requiredLaneIds = [
   "convenience",
   "beauty-sample",
   "food-cafe",
+  "shopping-coupon",
   "pay-point",
   "all-user-first-come",
   "attendance-mission",
   "signup-welcome",
   "culture-invite",
-  "public-culture",
-  "education",
-  "pet-experience"
+  "pet-experience",
+  "optional-public-culture",
+  "optional-education"
 ];
 const envKeys = unique([
   ...(Array.isArray(starterPack.summary?.envKeys) ? starterPack.summary.envKeys : []),
@@ -54,6 +55,8 @@ const lanes = packs.map((pack) => ({
   id: pack.id,
   label: pack.label,
   envKeys: pack.envKeys ?? [],
+  audience: pack.audience ?? "consumer",
+  optional: pack.optional === true,
   candidateCount: pack.candidateCount ?? 0,
   reachableCount: pack.reachableCount ?? 0,
   guardedCount: pack.guardedCount ?? 0,
@@ -78,6 +81,7 @@ for (const laneId of requiredLaneIds) {
 if (!envKeys.includes("BENEFIT_REFRESH_FEED_URLS")) issues.push("BENEFIT_REFRESH_FEED_URLS 안내가 누락됐습니다.");
 if (!envKeys.includes("PUBLIC_COUPON_FEED_URLS")) issues.push("PUBLIC_COUPON_FEED_URLS 안내가 누락됐습니다.");
 if (!envKeys.includes("OFFICIAL_EVENT_FEED_URLS")) issues.push("OFFICIAL_EVENT_FEED_URLS 안내가 누락됐습니다.");
+if (!envKeys.includes("OPTIONAL_PUBLIC_BENEFIT_FEED_URLS")) issues.push("OPTIONAL_PUBLIC_BENEFIT_FEED_URLS 선택 운영 안내가 누락됐습니다.");
 if (!envKeys.includes("CRON_SECRET")) issues.push("CRON_SECRET 운영 안내가 누락됐습니다.");
 
 const configuredFeedUrls = Number(feedEnv.configuredFeedUrls ?? feedEnv.summary?.configuredFeedUrls ?? 0);
@@ -143,9 +147,10 @@ function buildDocs(data) {
     "",
     "| Key | 용도 | 입력 기준 |",
     "| --- | --- | --- |",
-    "| BENEFIT_REFRESH_FEED_URLS | 오늘의 무료혜택, 전원증정, 샘플, 체험단 우선 feed | 공식 API/RSS/Atom/승인 JSON endpoint만 입력 |",
-    "| PUBLIC_COUPON_FEED_URLS | 공공무료, 쿠폰, 포인트, 문화혜택 feed | 검색 결과, 커뮤니티 글, HTML 메인 페이지 금지 |",
+    "| BENEFIT_REFRESH_FEED_URLS | 오늘 바로 받는 무료혜택, 전원증정, 샘플, 체험단 우선 feed | 공식 API/RSS/Atom/승인 JSON endpoint만 입력 |",
+    "| PUBLIC_COUPON_FEED_URLS | 소비자 쿠폰, 포인트, 기프티콘, 멤버십 feed | 검색 결과, 커뮤니티 글, HTML 메인 페이지 금지 |",
     "| OFFICIAL_EVENT_FEED_URLS | 브랜드 공식 이벤트, 편의점, 뷰티, 외식 쿠폰 feed | 공식 이벤트 확인 페이지가 아니라 machine-readable feed endpoint 입력 |",
+    "| OPTIONAL_PUBLIC_BENEFIT_FEED_URLS | 공공·교육 무료혜택 선택 운영 feed | 기본 홈 feed에는 섞지 않고 명시 필터/별도 화면에서만 사용 |",
     "| BENEFIT_REFRESH_APPROVED_HOSTS | BENEFIT_REFRESH_FEED_URLS에 쓰는 승인 host | host 이름만 입력, 토큰/query 금지 |",
     "| HALINDOSA_APPROVED_FEED_HOSTS | 공통 승인 feed host allowlist | 공식 카탈로그에 없는 승인 feed host만 추가 |",
     "| CRON_SECRET | /api/cron/refresh, /api/cron/benefits 보호 | Vercel Cron과 서버에서만 쓰는 랜덤 secret |",
@@ -156,8 +161,9 @@ function buildDocs(data) {
     "2. `reports/free-benefit-feed-starter-pack.env`에서 필요한 키를 Vercel Environment Variables에 복사한다.",
     "3. officialUrl을 그대로 넣지 말고 담당자 승인 JSON/RSS/API feed endpoint만 넣는다.",
     "4. 새 host가 공식 소스 카탈로그에 없으면 host만 `BENEFIT_REFRESH_APPROVED_HOSTS` 또는 `HALINDOSA_APPROVED_FEED_HOSTS`에 추가한다.",
-    "5. `CRON_SECRET`을 Production/Preview에 설정하고 Vercel Cron이 `/api/cron/benefits`와 `/api/cron/refresh`를 호출하게 둔다.",
-    "6. 아래 검증 명령을 순서대로 실행한다.",
+    "5. 공공·교육 feed는 `OPTIONAL_PUBLIC_BENEFIT_FEED_URLS`에만 연결해 기본 소비자 홈 feed와 섞지 않는다.",
+    "6. `CRON_SECRET`을 Production/Preview에 설정하고 Vercel Cron이 `/api/cron/benefits`와 `/api/cron/refresh`를 호출하게 둔다.",
+    "7. 아래 검증 명령을 순서대로 실행한다.",
     "",
     "```bash",
     ...data.verificationCommands,
@@ -165,11 +171,11 @@ function buildDocs(data) {
     "",
     "## Starter Lane별 첫 연결",
     "",
-    "| Lane | Env | 후보 | 접근 가능 | 승인 필요 | 첫 작업 |",
-    "| --- | --- | ---: | ---: | ---: | --- |",
+    "| Lane | 운영 구분 | Env | 후보 | 접근 가능 | 승인 필요 | 첫 작업 |",
+    "| --- | --- | --- | ---: | ---: | ---: | --- |",
     ...data.lanes.map(
       (lane) =>
-        `| ${lane.label} | ${lane.envKeys.join("<br>")} | ${lane.candidateCount} | ${lane.reachableCount} | ${lane.guardedCount} | ${lane.firstAction} |`
+        `| ${lane.label} | ${lane.optional ? "선택" : "기본"} | ${lane.envKeys.join("<br>")} | ${lane.candidateCount} | ${lane.reachableCount} | ${lane.guardedCount} | ${lane.firstAction} |`
     ),
     "",
     "## 바로 확인할 후보",

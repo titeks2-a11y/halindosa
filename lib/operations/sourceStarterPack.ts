@@ -24,6 +24,8 @@ export type SourceStarterPackLane = {
   envKeys: string[];
   categories: string[];
   keywords: string[];
+  audience?: string;
+  optional?: boolean;
   candidateCount: number;
   reachableCount: number;
   guardedCount: number;
@@ -63,7 +65,8 @@ const fallbackReport: SourceStarterPackReport = {
     "# npm run source:starter:pack 실행 후 다시 확인하세요.",
     "BENEFIT_REFRESH_FEED_URLS=",
     "PUBLIC_COUPON_FEED_URLS=",
-    "OFFICIAL_EVENT_FEED_URLS="
+    "OFFICIAL_EVENT_FEED_URLS=",
+    "OPTIONAL_PUBLIC_BENEFIT_FEED_URLS="
   ].join("\n")
 };
 
