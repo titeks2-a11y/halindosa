@@ -203,6 +203,32 @@ function BenefitSectionLoading({ label }: { label: string }) {
   );
 }
 
+function HomeHydrationLoading() {
+  return (
+    <div className="space-y-3 px-3 py-3 sm:px-4 lg:px-0" aria-label="할인도사 홈을 준비하는 중">
+      <section className="rounded-[22px] border border-red-100 bg-white p-3 shadow-sm">
+        <div className="flex items-center justify-between gap-3">
+          <div className="min-w-0 flex-1">
+            <p className="h-3 w-24 animate-pulse rounded-full bg-red-100" />
+            <p className="mt-2 h-5 w-3/4 animate-pulse rounded-full bg-slate-100" />
+          </div>
+          <span className="h-9 w-9 shrink-0 animate-pulse rounded-2xl bg-red-50" />
+        </div>
+      </section>
+      <section className="grid grid-cols-2 gap-2" aria-label="무료혜택 카드 로딩">
+        {Array.from({ length: 4 }).map((_, index) => (
+          <article key={index} className="rounded-[18px] border border-slate-200 bg-white p-2.5 shadow-sm">
+            <div className="aspect-[4/3] animate-pulse rounded-2xl bg-slate-100" />
+            <div className="mt-2 h-3 w-16 animate-pulse rounded-full bg-red-100" />
+            <div className="mt-2 h-4 w-full animate-pulse rounded-full bg-slate-100" />
+            <div className="mt-1.5 h-3 w-2/3 animate-pulse rounded-full bg-slate-100" />
+          </article>
+        ))}
+      </section>
+    </div>
+  );
+}
+
 function getStableInitialClockNow(initialNow: string, initialNewsSnapshot: InitialNewsSnapshot) {
   const snapshotTime = Date.parse(initialNewsSnapshot.generatedAt ?? "");
   if (Number.isFinite(snapshotTime)) return snapshotTime;
@@ -215,6 +241,7 @@ export default function Home({ initialNow = "", initialNewsSnapshot = emptyIniti
   const { configured: authConfigured, user, nickname } = useAuth();
   const userId = user?.id;
   const initialClockNow = getStableInitialClockNow(initialNow, initialNewsSnapshot);
+  const [isClientReady, setIsClientReady] = useState(false);
   const initialNewsDeals = useMemo(() => initialNewsSnapshot.deals ?? [], [initialNewsSnapshot.deals]);
   const [clockNow, setClockNow] = useState(initialClockNow);
   const [hasAppliedInitialParams, setHasAppliedInitialParams] = useState(false);
@@ -357,6 +384,11 @@ export default function Home({ initialNow = "", initialNewsSnapshot = emptyIniti
     },
     [query, showToast]
   );
+
+  useEffect(() => {
+    const handle = window.setTimeout(() => setIsClientReady(true), 0);
+    return () => window.clearTimeout(handle);
+  }, []);
 
   useEffect(() => {
     const handle = window.setInterval(() => setClockNow(Date.now()), 60_000);
@@ -1118,7 +1150,7 @@ export default function Home({ initialNow = "", initialNewsSnapshot = emptyIniti
     [deals, freeShippingOnly, hotOnly, sort, verifiedOnly]
   );
 
-  const listComparisonCards = useMemo(() => buildListComparisonCards(deals, clockNow), [clockNow, deals]);
+  const listComparisonCards = useMemo(() => buildListComparisonCards(deals), [deals]);
 
   const listRefinementChips = useMemo(
     () =>
@@ -1379,6 +1411,10 @@ export default function Home({ initialNow = "", initialNewsSnapshot = emptyIniti
           : activeView === "favorites"
             ? "찜한 특가"
             : "마이";
+
+  if (!isClientReady) {
+    return <HomeHydrationLoading />;
+  }
 
   return (
     <div className="min-h-screen">
@@ -3196,7 +3232,9 @@ export default function Home({ initialNow = "", initialNewsSnapshot = emptyIniti
                       aria-label={item.deal ? `${item.label} ${item.deal.title} 판매처 확인` : `${item.label} 후보 없음`}
                     >
                       <span className="inline-flex rounded-full bg-red-50 px-2.5 py-1 text-[11px] font-black text-dossa-red">{item.label}</span>
-                      <strong className="mt-3 block truncate text-lg font-black text-slate-950">{item.value}</strong>
+                      <strong className="mt-3 block truncate text-lg font-black text-slate-950" suppressHydrationWarning>
+                        {item.value}
+                      </strong>
                       <span className="mt-1 line-clamp-2 block text-xs font-bold leading-5 text-slate-500">{item.helper}</span>
                       {item.deal ? (
                         <span className="mt-3 flex items-center justify-between gap-2">

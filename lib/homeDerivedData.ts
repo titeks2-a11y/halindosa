@@ -1,6 +1,6 @@
 import { dealChannels, dealMatchesChannel, getDealChannel } from "@/data/dealChannels";
 import { Deal, DealBenefitType, DealSort } from "@/types/deal";
-import { formatPrice, getTimeLeft } from "@/lib/format";
+import { formatPrice } from "@/lib/format";
 import {
   benefitFilters,
   highIntentSearchKeywords,
@@ -703,7 +703,7 @@ export function selectHomeEmptySearchRecoveryKeywords(deals: Deal[], query: stri
   return highIntentSearchKeywords.filter((keyword) => keyword !== query).slice(0, 8);
 }
 
-export function buildListComparisonCards(deals: Deal[], referenceNow?: number) {
+export function buildListComparisonCards(deals: Deal[]) {
   const availableDeals = deals.filter((deal) => !deal.isExpired && !deal.isSoldOut);
   const pickLowestPrice = availableDeals.reduce<Deal | null>((best, deal) => (!best || deal.salePrice < best.salePrice ? deal : best), null);
   const pickTopDiscount = availableDeals.reduce<Deal | null>((best, deal) => (!best || deal.discountRate > best.discountRate ? deal : best), null);
@@ -734,7 +734,7 @@ export function buildListComparisonCards(deals: Deal[], referenceNow?: number) {
     },
     {
       label: "마감 먼저",
-      value: pickEndingSoon ? getTimeLeft(pickEndingSoon.expiresAt ?? pickEndingSoon.expireAt, referenceNow) : "-",
+      value: pickEndingSoon ? "마감 가까움" : "-",
       helper: pickEndingSoon ? `${pickEndingSoon.mallName} · 구매 전 종료 시간을 확인하세요.` : "진행 중인 후보가 없습니다.",
       deal: pickEndingSoon
     }
