@@ -6,7 +6,7 @@ import { getRelativeTime, getTimeLeft } from "@/lib/format";
 import { getFreeBenefitEventLabel } from "@/lib/freeBenefitEvents";
 import { getDealImageSrc } from "@/lib/imageSrc";
 import { getHomeFreebieBenefitLabel } from "@/lib/homeFreebies";
-import type { FreeBenefitEventCategoryCount } from "@/lib/freeBenefitEvents";
+import type { FreeBenefitEventCategoryCount, FreeBenefitEventSourceSummary } from "@/lib/freeBenefitEvents";
 import type { FreeBenefitEvent, FreeBenefitEventType } from "@/types/freeBenefitEvent";
 import type { NewsDeal } from "@/types/newsDeal";
 
@@ -97,6 +97,7 @@ interface HomeFreebieHeroProps {
   deals: NewsDeal[];
   events?: FreeBenefitEvent[];
   eventCategoryCounts?: FreeBenefitEventCategoryCount[];
+  eventSourceSummary?: FreeBenefitEventSourceSummary;
   totalCount: number;
   updatedAt: string;
   freshnessLabel?: string;
@@ -118,6 +119,7 @@ export function HomeFreebieHero({
   deals,
   events = [],
   eventCategoryCounts = [],
+  eventSourceSummary,
   totalCount,
   updatedAt,
   freshnessLabel,
@@ -130,7 +132,7 @@ export function HomeFreebieHero({
   const visibleDeals = deals.slice(0, 8);
   const visibleEvents = events.slice(0, 12);
   const officialTotalCount = Math.max(totalCount, events.length || 0);
-  const sourceDomainCount = new Set(events.map((event) => event.sourceDomain).filter(Boolean)).size;
+  const sourceDomainCount = eventSourceSummary?.sourceDomainCount ?? new Set(events.map((event) => event.sourceDomain).filter(Boolean)).size;
   const priorityBrands = Array.from(
     new Set(
       visibleEvents
@@ -140,10 +142,11 @@ export function HomeFreebieHero({
     )
   );
   const checkedLabel = isRefreshing ? "검증 중" : freshnessLabel || (updatedAt ? getRelativeTime(updatedAt, referenceNow) : "확인 대기");
-  const lowFrictionEventCount = events.filter((event) => !event.requiresPurchase && event.status === "active").length;
-  const noSignupEventCount = events.filter((event) => !event.requiresLogin && !event.requiresPurchase).length;
-  const verifiedOfficialEventCount = events.filter((event) => event.validationStatus === "passed" && event.finalUrl).length;
+  const lowFrictionEventCount = eventSourceSummary?.noPurchaseCount ?? events.filter((event) => !event.requiresPurchase && event.status === "active").length;
+  const noSignupEventCount = eventSourceSummary?.noLoginNoPurchaseCount ?? events.filter((event) => !event.requiresLogin && !event.requiresPurchase).length;
+  const verifiedOfficialEventCount = eventSourceSummary?.officialSourceCount ?? events.filter((event) => event.validationStatus === "passed" && event.finalUrl).length;
   const endingSoonEventCount = events.filter((event) => isEventEndingSoon(event, referenceNow)).length;
+  const topSourceDomains = eventSourceSummary?.topSourceDomains?.slice(0, 5) ?? [];
   const benefitPromiseCards = [
     {
       label: "구매 없이",
@@ -274,6 +277,22 @@ export function HomeFreebieHero({
               </div>
               <p className="mt-0.5 truncate text-[9px] font-bold opacity-80">{item.copy}</p>
             </div>
+          ))}
+        </div>
+      ) : null}
+
+      {topSourceDomains.length ? (
+        <div
+          data-home-free-benefit-source-strip="true"
+          className="mt-2 flex min-h-8 items-center gap-1 overflow-x-auto rounded-2xl border border-blue-100 bg-blue-50 px-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          aria-label="검증된 무료혜택 공식 출처"
+        >
+          <span className="shrink-0 text-[10px] font-black text-blue-700">공식 출처</span>
+          {topSourceDomains.map((source) => (
+            <span key={source.domain} className="shrink-0 rounded-full bg-white px-2 py-1 text-[10px] font-black text-slate-700 shadow-sm">
+              {source.domain}
+              <span className="ml-1 text-blue-600">{source.count.toLocaleString("ko-KR")}</span>
+            </span>
           ))}
         </div>
       ) : null}
