@@ -88,7 +88,7 @@ export async function runPageSmokeChecks() {
         assert(data.newsMeta?.freshnessStatus, "/api/home should expose official benefit freshness metadata");
         assert(data.newsMeta?.categoryCounts && data.newsMeta?.benefitTypeCounts, "/api/home should expose full official benefit count metadata");
         const expectedFreeBenefitEventCategories = ["all", "everyone", "firstCome", "coupon", "sample", "freeTrial", "gifticon", "pointCashback", "checkIn", "roulette", "signup", "publicFree", "experiencePanel"];
-        assert(Array.isArray(data.freeBenefitEvents) && data.freeBenefitEvents.length >= 4, "/api/home should expose publishable free benefit events for the home hero");
+        assert(Array.isArray(data.freeBenefitEvents) && data.freeBenefitEvents.length >= 48, `/api/home should expose a broad publishable free benefit event pool for the home hero, got ${data.freeBenefitEvents?.length ?? 0}`);
         assert(
           Array.isArray(data.freebiesMeta?.categoryCounts) &&
             expectedFreeBenefitEventCategories.every((id) => data.freebiesMeta.categoryCounts.some((category) => category.id === id && typeof category.count === "number")),
@@ -144,6 +144,32 @@ export async function runPageSmokeChecks() {
         );
       }
     }
+
+    const freebiePool = await fetchJson("/api/freebies?limit=96");
+    assert(freebiePool.response.status === 200, `Expected /api/freebies 200, got ${freebiePool.response.status}`);
+    assert(Array.isArray(freebiePool.data.events) && freebiePool.data.events.length >= 48, `/api/freebies should expose 48+ publishable official free benefit events, got ${freebiePool.data.events?.length ?? 0}`);
+    assert(Array.isArray(freebiePool.data.categoryCounts), "/api/freebies should expose free benefit event category counts");
+    assert(
+      freebiePool.data.categoryCounts.find((category) => category.id === "all")?.count === freebiePool.data.events.length,
+      "/api/freebies category all-count should match returned free benefit event rows"
+    );
+    assert(
+      freebiePool.data.events.every(
+        (event) =>
+          event.status === "active" &&
+          event.validationStatus === "passed" &&
+          event.isHidden !== true &&
+          typeof event.finalUrl === "string" &&
+          /^https?:\/\//.test(event.finalUrl) &&
+          !isUnsafeDealUrl(event.finalUrl) &&
+          !isMallHomeOnlyUrl(event.finalUrl) &&
+          !/\/search|search\?|query=|keyword=|msearch|\/result|\/find/i.test(event.finalUrl) &&
+          Boolean(event.brandName) &&
+          Boolean(event.rewardText) &&
+          Boolean(event.participationCondition)
+      ),
+      "/api/freebies events must be active, verified, directly linkable, brand-labeled, and condition-labeled"
+    );
 
     assert(homeApiSource.includes("buildHomeRequestUrl") && homeApiSource.includes("ts: String(timestamp)") && homeApiSource.includes('cache: "no-store"'), "Home API client should use /api/home cache busting and no-store fetch");
     const homeRefreshIntervalUsages = [...homePageSource.matchAll(/window\.setInterval\(([^,]+), HOME_REFRESH_INTERVAL_MS\)/g)].map((match) => match[1].trim());
