@@ -23,6 +23,8 @@ jobs:
       NEXT_PUBLIC_APP_ENV: production
       DEAL_DATA_MODE: hybrid
       DEAL_PROVIDER: hybrid
+      EXPECTED_DEPLOY_COMMIT: ${{ github.sha }}
+      REQUIRE_DEPLOY_COMMIT: "true"
 
     steps:
       - name: Check deployment secrets

@@ -9,6 +9,7 @@ const defaultOrigin = "https://halindosa.com";
 const origin = normalizeOrigin(process.env.VERCEL_DEPLOYMENT_URL || process.env.NEXT_PUBLIC_SITE_URL || defaultOrigin);
 const canonicalOrigins = getCanonicalOrigins(origin);
 const apiHomePath = "/api/home?limit=8&verifiedOnly=true";
+const apiHealthPath = "/api/health";
 const apiDealsPath = "/api/deals?limit=8&verifiedOnly=true";
 const apiFreebiesPath = "/api/freebies?limit=12";
 const cronRefreshDryRunPath = "/api/cron/refresh?dryRun=true";
@@ -256,6 +257,8 @@ const probes = {};
 const project = getVercelProjectInfo();
 const branch = run("git", ["branch", "--show-current"]);
 const commit = run("git", ["rev-parse", "--short", "HEAD"]);
+const expectedDeployCommit = String(process.env.EXPECTED_DEPLOY_COMMIT || "").trim();
+const requireDeployCommit = /^(1|true|yes)$/i.test(String(process.env.REQUIRE_DEPLOY_COMMIT || ""));
 const rawStatus = run("git", ["status", "--short"]);
 const statusLines = rawStatus ? rawStatus.split(/\r?\n/).filter(Boolean) : [];
 const status =
@@ -287,6 +290,8 @@ checks.push(
 
 probes.homeApi = await fetchText(apiHomePath);
 const homeJson = parseJsonProbe(probes.homeApi);
+probes.healthApi = await fetchText(apiHealthPath);
+const healthJson = parseJsonProbe(probes.healthApi);
 checks.push(
   probes.homeApi.ok && homeJson?.ok === true
     ? pass("home api status", `/api/home returned 200 JSON with ok=true.`)
@@ -317,6 +322,33 @@ checks.push(
     ? pass("home api abuse guard", "/api/home exposes requestId and rate-limit headers on the public deployment.")
     : fail("home api abuse guard", "/api/home is not serving the latest requestId/rate-limit contract; production may be stale.")
 );
+const deployedCommit =
+  String(homeJson?.deployment?.commit || healthJson?.deployment?.commit || "").trim();
+const deployedShortCommit =
+  String(homeJson?.deployment?.shortCommit || healthJson?.deployment?.shortCommit || "").trim();
+const expectedShortCommit = expectedDeployCommit.slice(0, 8);
+checks.push(
+  deployedCommit || deployedShortCommit
+    ? pass("deployment commit metadata", `Public APIs expose deployed commit ${deployedShortCommit || deployedCommit.slice(0, 8)}.`)
+    : requireDeployCommit
+      ? fail("deployment commit metadata", "/api/home or /api/health must expose deployment.commit before production verification can prove the latest commit is live.")
+      : pass("deployment commit metadata", "Deployment commit metadata is not available on this public deployment yet; strict commit verification is disabled.")
+);
+if (expectedDeployCommit || requireDeployCommit) {
+  const matchesExpected =
+    Boolean(expectedShortCommit) &&
+    (deployedCommit.startsWith(expectedShortCommit) ||
+      deployedShortCommit === expectedShortCommit ||
+      expectedDeployCommit.startsWith(deployedShortCommit));
+  checks.push(
+    matchesExpected
+      ? pass("deployed commit matches expected", `Expected ${expectedShortCommit}; public deployment reports ${deployedShortCommit || deployedCommit.slice(0, 8)}.`)
+      : fail(
+          "deployed commit matches expected",
+          `Expected deployed commit ${expectedShortCommit || "(missing)"}, but public deployment reports ${deployedShortCommit || deployedCommit || "(missing)"}.`
+        )
+  );
+}
 const homeDeals = Array.isArray(homeJson?.deals) ? homeJson.deals : [];
 const homeNewsDeals = Array.isArray(homeJson?.newsDeals) ? homeJson.newsDeals : [];
 const invalidHomeDeals = homeDeals.filter((deal) => !isPublishableProductDeal(deal));
@@ -512,7 +544,10 @@ const report = {
     homeApiStatus: probes.homeApi.status,
     dealsApiStatus: probes.dealsApi.status,
     freebiesApiStatus: probes.freebiesApi.status,
+    healthApiStatus: probes.healthApi.status,
     homeApiRequestId: probes.homeApi.requestId,
+    deployedCommit: deployedShortCommit || (deployedCommit ? deployedCommit.slice(0, 8) : ""),
+    expectedDeployCommit: expectedShortCommit,
     dealsApiRequestId: probes.dealsApi.requestId,
     freebiesApiRequestId: probes.freebiesApi.requestId,
     goRedirectStatus: probes.goRedirect.status,
@@ -548,6 +583,7 @@ const report = {
         permissionsPolicy: probe.permissionsPolicy,
         requestId: probe.requestId,
         rateLimitRemaining: probe.rateLimitRemaining,
+        deploymentCommit: probe.deploymentCommit,
         location: probe.location,
         redirectChain: probe.chain ?? undefined,
         xVercelId: probe.xVercelId,
@@ -581,6 +617,9 @@ Status: ${ok ? "PASS" : "BLOCKED"}
 - Home API: ${report.summary.homeApiStatus}
 - Deals API: ${report.summary.dealsApiStatus}
 - Freebies API: ${report.summary.freebiesApiStatus}
+- Health API: ${report.summary.healthApiStatus}
+- Deployed commit: ${report.summary.deployedCommit || "(missing)"}
+- Expected deploy commit: ${report.summary.expectedDeployCommit || "(not enforced)"}
 - Home API Request ID: ${report.summary.homeApiRequestId || "(missing)"}
 - Deals API Request ID: ${report.summary.dealsApiRequestId || "(missing)"}
 - Freebies API Request ID: ${report.summary.freebiesApiRequestId || "(missing)"}

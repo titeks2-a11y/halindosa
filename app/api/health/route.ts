@@ -6,6 +6,7 @@ import { getNewsOperationsReport } from "@/lib/deals/newsOperations";
 import { getCronRefreshOperationsReport } from "@/lib/operations/cronRefresh";
 import { getOperationalEnvReadiness } from "@/lib/operations/envReadiness";
 import { getOfficialSourceReadiness } from "@/lib/operations/sourceReadiness";
+import { getDeploymentInfo } from "@/lib/deploymentInfo";
 
 export async function GET() {
   const startedAt = Date.now();
@@ -176,6 +177,7 @@ export async function GET() {
         activeDeals: activeDeals.length,
         freeBenefitDeals: freeBenefitDeals.length
       },
+      deployment: getDeploymentInfo(),
       latencyMs: Date.now() - startedAt,
       checkedAt: new Date().toISOString()
     });

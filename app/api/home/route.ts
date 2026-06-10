@@ -7,6 +7,7 @@ import { buildFreeBenefitEventCategoryCounts, buildFreeBenefitEventSourceSummary
 import { fetchHotSignals } from "@/lib/hotSignalProvider";
 import { buildHomeFreebieSummary, selectHomeFreebies } from "@/lib/homeFreebies";
 import { HOME_REFRESH_INTERVAL_MS } from "@/lib/homeRealtimeConfig";
+import { getDeploymentInfo } from "@/lib/deploymentInfo";
 import type { HotSignal } from "@/types/hotSignal";
 import type { NewsDeal } from "@/types/newsDeal";
 
@@ -315,6 +316,7 @@ export async function GET(request: Request) {
         mode: "no-store",
         generatedAt
       },
+      deployment: getDeploymentInfo(),
       message: "할인도사 홈 최신 데이터를 no-store 정책으로 불러왔습니다."
     }, { headers: rateHeaders });
   } catch {
