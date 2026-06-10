@@ -4223,5 +4223,135 @@
     "allowedUse": "토스 공식 토스피드에서 확인 가능한 토스페이 자동 할인, 포인트, 쿠폰, 제휴 결제 혜택",
     "blockedUse": "토스 메인, 비공식 카드 추천글, 검색 결과, 종료된 제휴 이벤트 복사본",
     "notes": "공식 안내형 페이지이므로 혜택 조건과 월 기준을 함께 표시하고 종료/월 변경 시 최신 URL로 갱신한다."
+  },
+  {
+    "id": "sktmembership-daily-mission-point",
+    "label": "T멤버십 공식 매일 혜택 미션",
+    "provider": "official_event",
+    "category": [
+      "무료혜택",
+      "카드/멤버십",
+      "외식/배달"
+    ],
+    "sourceType": "official_benefit_page",
+    "officialUrl": "https://m.tworld.co.kr/membership/submain",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 6,
+    "allowedUse": "T멤버십 공식 페이지에서 확인되는 출석 체크, 룰렛, 스탬프 미션, 포인트, 제휴 브랜드 혜택",
+    "blockedUse": "T멤버십 검색 결과, 비공식 쿠폰 모음, 통신사 비교 글, 종료된 이벤트 캡처",
+    "notes": "사용자 CTA는 공식 T멤버십 혜택 또는 제휴 브랜드 상세 페이지가 active일 때만 연결한다."
+  },
+  {
+    "id": "sktmembership-benefit-brand-list",
+    "label": "T멤버십 공식 제휴 브랜드 혜택 목록",
+    "provider": "official_event",
+    "category": [
+      "카드/멤버십",
+      "외식/배달",
+      "마트/편의점"
+    ],
+    "sourceType": "official_benefit_page",
+    "officialUrl": "https://sktmembership.tworld.co.kr/mps/pc-bff/benefitbrand/list-tab1.do",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "T멤버십 공식 제휴 브랜드 페이지에서 편의점, 카페, 베이커리, 외식 할인/쿠폰 조건이 확인되는 혜택",
+    "blockedUse": "대표 홈, 앱 설치 안내만 있는 페이지, 비공식 제휴처 캡처",
+    "notes": "브랜드별 제한 횟수와 멤버십 등급 조건을 claimRequirements에 분리한다."
+  },
+  {
+    "id": "kt-membership-daldal-benefit",
+    "label": "KT멤버십 공식 달달혜택",
+    "provider": "official_event",
+    "category": [
+      "무료혜택",
+      "카드/멤버십",
+      "외식/배달"
+    ],
+    "sourceType": "official_benefit_page",
+    "officialUrl": "https://membership.kt.com/discount/benefit/DaldalBenefit.do",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 6,
+    "allowedUse": "KT멤버십 공식 달달혜택에서 매월 공개되는 무료, 할인, 응모형 제휴 혜택",
+    "blockedUse": "KT 검색 결과, 비공식 멤버십 정리글, 종료된 제휴 이벤트 복사본",
+    "notes": "매월 15일경 갱신되는 혜택이므로 refresh:benefits 우선 후보로 유지한다."
+  },
+  {
+    "id": "kt-official-ongoing-event-list",
+    "label": "KT 공식 진행 중 이벤트",
+    "provider": "official_event",
+    "category": [
+      "카드/멤버십",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://event.kt.com/html/event/ongoing_event_list.html",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "KT 공식 진행 이벤트 목록에서 쿠폰, 포인트, 제휴 이벤트, 마감일이 확인되는 혜택",
+    "blockedUse": "KT 상품 가입 랜딩만 있는 페이지, 검색 결과, 종료 이벤트",
+    "notes": "이벤트 상세 URL이 발견되면 목록보다 상세를 finalUrl로 승격한다."
+  },
+  {
+    "id": "lguplus-official-ongoing-benefit-event",
+    "label": "LG U+ 공식 진행 중 혜택 이벤트",
+    "provider": "official_event",
+    "category": [
+      "무료혜택",
+      "카드/멤버십"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.lguplus.com/benefit-event/ongoing",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 6,
+    "allowedUse": "LG U+ 공식 진행 이벤트에서 무료이용권, 기프티콘, 쿠폰, 장기고객 혜택 조건이 확인되는 항목",
+    "blockedUse": "지난 이벤트, 비공식 SNS 캡처, 통신 상품 가입 설명만 있는 페이지",
+    "notes": "진행 중 이벤트 목록의 기간과 혜택 문구를 함께 저장한다."
+  },
+  {
+    "id": "lguplus-benefit-plus-monthly",
+    "label": "LG U+ 공식 유플투쁠 월간 혜택",
+    "provider": "official_event",
+    "category": [
+      "무료혜택",
+      "카드/멤버십",
+      "외식/배달"
+    ],
+    "sourceType": "official_benefit_page",
+    "officialUrl": "https://www.lguplus.com/benefit-plus",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 6,
+    "allowedUse": "LG U+ 공식 유플투쁠 페이지에서 월간 제휴 쿠폰, 무료/할인 혜택, 브랜드 이벤트가 확인되는 항목",
+    "blockedUse": "LG U+ 대표 홈, 비공식 쿠폰 모음, 종료된 월간 혜택 캡처",
+    "notes": "매월 갱신되는 소비자형 무료 혜택 레일 후보로 우선 노출한다."
   }
 ]

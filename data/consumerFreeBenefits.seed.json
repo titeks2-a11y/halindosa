@@ -14,7 +14,12 @@
     "finalUrl": "https://www.happypointcard.com/coupon/coupon.spc",
     "confidenceScore": 93,
     "provider": "public_coupon",
-    "tags": ["공식", "쿠폰", "멤버십", "비회원 확인 가능"]
+    "tags": [
+      "공식",
+      "쿠폰",
+      "멤버십",
+      "비회원 확인 가능"
+    ]
   },
   {
     "id": "news-okcashbag-welcome-point-202606",
@@ -30,7 +35,12 @@
     "finalUrl": "https://www.okcashbag.com/event/newwelcomeback",
     "confidenceScore": 94,
     "provider": "public_coupon",
-    "tags": ["공식", "포인트", "신규가입", "리워드"]
+    "tags": [
+      "공식",
+      "포인트",
+      "신규가입",
+      "리워드"
+    ]
   },
   {
     "id": "news-lpoint-daily-mission-202606",
@@ -46,7 +56,12 @@
     "finalUrl": "https://www.lpoint.com/app/common/LHZZ300300.do",
     "confidenceScore": 92,
     "provider": "public_coupon",
-    "tags": ["공식", "포인트", "출석체크", "미션"]
+    "tags": [
+      "공식",
+      "포인트",
+      "출석체크",
+      "미션"
+    ]
   },
   {
     "id": "news-payco-reward-point-202606",
@@ -62,7 +77,12 @@
     "finalUrl": "https://www.payco.com/point/reward.nhn",
     "confidenceScore": 92,
     "provider": "public_coupon",
-    "tags": ["공식", "포인트", "리워드", "앱혜택"]
+    "tags": [
+      "공식",
+      "포인트",
+      "리워드",
+      "앱혜택"
+    ]
   },
   {
     "id": "news-payco-partyplus-coupon-202606",
@@ -78,7 +98,12 @@
     "finalUrl": "https://events.payco.com/partyplus/guide",
     "confidenceScore": 91,
     "provider": "public_coupon",
-    "tags": ["공식", "쿠폰", "멤버십", "브랜드혜택"]
+    "tags": [
+      "공식",
+      "쿠폰",
+      "멤버십",
+      "브랜드혜택"
+    ]
   },
   {
     "id": "news-naverpay-online-coupon-202606",
@@ -94,7 +119,12 @@
     "finalUrl": "https://pay.naver.com/coupon/home/online",
     "confidenceScore": 94,
     "provider": "public_coupon",
-    "tags": ["공식", "쿠폰", "네이버페이", "온라인"]
+    "tags": [
+      "공식",
+      "쿠폰",
+      "네이버페이",
+      "온라인"
+    ]
   },
   {
     "id": "news-kakaopay-membership-benefits-202606",
@@ -110,7 +140,12 @@
     "finalUrl": "https://www.kakaopay.com/services/life/membership",
     "confidenceScore": 90,
     "provider": "public_coupon",
-    "tags": ["공식", "멤버십", "쿠폰", "브랜드혜택"]
+    "tags": [
+      "공식",
+      "멤버십",
+      "쿠폰",
+      "브랜드혜택"
+    ]
   },
   {
     "id": "news-yogiyo-roulette-official-202606",
@@ -126,7 +161,12 @@
     "finalUrl": "https://www.yogiyo.co.kr/promotion/roulette/",
     "confidenceScore": 92,
     "provider": "event_news",
-    "tags": ["공식", "쿠폰", "룰렛", "배달"]
+    "tags": [
+      "공식",
+      "쿠폰",
+      "룰렛",
+      "배달"
+    ]
   },
   {
     "id": "news-cjone-mobile-event-coupon-202606",
@@ -142,7 +182,12 @@
     "finalUrl": "https://www.cjone.com/cjmmobile/event/event.do",
     "confidenceScore": 91,
     "provider": "public_coupon",
-    "tags": ["공식", "쿠폰", "포인트", "멤버십"]
+    "tags": [
+      "공식",
+      "쿠폰",
+      "포인트",
+      "멤버십"
+    ]
   },
   {
     "id": "news-starbucks-campaign-official-202606",
@@ -158,7 +203,12 @@
     "finalUrl": "https://www.starbucks.co.kr/whats_new/campaign_list.do",
     "confidenceScore": 90,
     "provider": "event_news",
-    "tags": ["공식", "리워드", "쿠폰", "카페"]
+    "tags": [
+      "공식",
+      "리워드",
+      "쿠폰",
+      "카페"
+    ]
   },
   {
     "id": "news-ediya-official-event-coupon-202606",
@@ -174,7 +224,12 @@
     "finalUrl": "https://www.ediya.com/contents/event.html",
     "confidenceScore": 89,
     "provider": "event_news",
-    "tags": ["공식", "쿠폰", "카페", "이벤트"]
+    "tags": [
+      "공식",
+      "쿠폰",
+      "카페",
+      "이벤트"
+    ]
   },
   {
     "id": "news-mega-mgc-official-coupon-202606",
@@ -190,7 +245,12 @@
     "finalUrl": "https://www.mega-mgccoffee.com/bbs/board.php?bo_table=event",
     "confidenceScore": 89,
     "provider": "event_news",
-    "tags": ["공식", "쿠폰", "카페", "선착순"]
+    "tags": [
+      "공식",
+      "쿠폰",
+      "카페",
+      "선착순"
+    ]
   },
   {
     "id": "news-hollys-official-event-coupon-202606",
@@ -206,7 +266,12 @@
     "finalUrl": "https://www.hollys.co.kr/news/event/list.do",
     "confidenceScore": 88,
     "provider": "event_news",
-    "tags": ["공식", "쿠폰", "카페", "멤버십"]
+    "tags": [
+      "공식",
+      "쿠폰",
+      "카페",
+      "멤버십"
+    ]
   },
   {
     "id": "news-baskin-official-event-202606",
@@ -222,7 +287,12 @@
     "finalUrl": "https://www.baskinrobbins.co.kr/play/event/list.php?category=C",
     "confidenceScore": 90,
     "provider": "event_news",
-    "tags": ["공식", "쿠폰", "기프티콘", "외식"]
+    "tags": [
+      "공식",
+      "쿠폰",
+      "기프티콘",
+      "외식"
+    ]
   },
   {
     "id": "news-dunkin-membership-benefits-202606",
@@ -238,7 +308,12 @@
     "finalUrl": "https://www.dunkindonuts.co.kr/event?flag=B",
     "confidenceScore": 90,
     "provider": "event_news",
-    "tags": ["공식", "쿠폰", "멤버십", "외식"]
+    "tags": [
+      "공식",
+      "쿠폰",
+      "멤버십",
+      "외식"
+    ]
   },
   {
     "id": "news-parisbaguette-official-promotion-202606",
@@ -254,7 +329,12 @@
     "finalUrl": "https://www.paris.co.kr/promotion/",
     "confidenceScore": 88,
     "provider": "event_news",
-    "tags": ["공식", "쿠폰", "브랜드혜택", "외식"]
+    "tags": [
+      "공식",
+      "쿠폰",
+      "브랜드혜택",
+      "외식"
+    ]
   },
   {
     "id": "news-cu-plus-monthly-benefit-202606",
@@ -270,7 +350,12 @@
     "finalUrl": "https://cu.bgfretail.com/event/plus.do?category=event&depth2=1",
     "confidenceScore": 93,
     "provider": "official_event",
-    "tags": ["공식", "편의점", "전원증정", "1+1"]
+    "tags": [
+      "공식",
+      "편의점",
+      "전원증정",
+      "1+1"
+    ]
   },
   {
     "id": "news-seven-eleven-official-events-202606",
@@ -286,7 +371,12 @@
     "finalUrl": "https://www.7-eleven.co.kr/event/eventList.asp",
     "confidenceScore": 91,
     "provider": "official_event",
-    "tags": ["공식", "편의점", "쿠폰", "증정"]
+    "tags": [
+      "공식",
+      "편의점",
+      "쿠폰",
+      "증정"
+    ]
   },
   {
     "id": "news-emart24-official-events-202606",
@@ -302,7 +392,12 @@
     "finalUrl": "https://emart24.co.kr/event",
     "confidenceScore": 90,
     "provider": "official_event",
-    "tags": ["공식", "편의점", "선착순", "쿠폰"]
+    "tags": [
+      "공식",
+      "편의점",
+      "선착순",
+      "쿠폰"
+    ]
   },
   {
     "id": "news-oliveyoung-official-event-coupon-202606",
@@ -318,7 +413,12 @@
     "finalUrl": "https://www.oliveyoung.co.kr/store/main/getEventList.do",
     "confidenceScore": 93,
     "provider": "official_event",
-    "tags": ["공식", "쿠폰", "뷰티", "샘플"]
+    "tags": [
+      "공식",
+      "쿠폰",
+      "뷰티",
+      "샘플"
+    ]
   },
   {
     "id": "news-innisfree-sample-market-202606",
@@ -334,7 +434,12 @@
     "finalUrl": "https://m.innisfree.com/kr/ko/dp/sample-market",
     "confidenceScore": 94,
     "provider": "official_event",
-    "tags": ["공식", "샘플", "무료체험", "뷰티"]
+    "tags": [
+      "공식",
+      "샘플",
+      "무료체험",
+      "뷰티"
+    ]
   },
   {
     "id": "news-amoremall-try-before-buy-sample-202606",
@@ -350,7 +455,12 @@
     "finalUrl": "https://www.amoremall.com/kr/ko/display/event_detail?planDisplaySn=5277",
     "confidenceScore": 94,
     "provider": "official_event",
-    "tags": ["공식", "샘플", "무료체험", "전원증정"]
+    "tags": [
+      "공식",
+      "샘플",
+      "무료체험",
+      "전원증정"
+    ]
   },
   {
     "id": "news-roundlab-official-sample-event-202606",
@@ -366,7 +476,12 @@
     "finalUrl": "https://roundlab.co.kr/board/gallery/list.html?board_no=8",
     "confidenceScore": 88,
     "provider": "official_event",
-    "tags": ["공식", "샘플", "체험단", "뷰티"]
+    "tags": [
+      "공식",
+      "샘플",
+      "체험단",
+      "뷰티"
+    ]
   },
   {
     "id": "news-royalcanin-official-pet-sample-202606",
@@ -382,7 +497,12 @@
     "finalUrl": "https://www.royalcanin.com/kr/about-us/events/start-of-life-campaign",
     "confidenceScore": 92,
     "provider": "official_event",
-    "tags": ["공식", "샘플", "반려동물", "전원증정"]
+    "tags": [
+      "공식",
+      "샘플",
+      "반려동물",
+      "전원증정"
+    ]
   },
   {
     "id": "news-purina-zero-won-official-event-202606",
@@ -399,7 +519,12 @@
     "finalUrl": "https://www.purinapetcare.co.kr/shop/event_view.php?stx=&stx=&wi_idx=427",
     "confidenceScore": 92,
     "provider": "official_event",
-    "tags": ["공식", "0원", "샘플", "반려동물"]
+    "tags": [
+      "공식",
+      "0원",
+      "샘플",
+      "반려동물"
+    ]
   },
   {
     "id": "news-lotteon-lohbs-official-coupon-202606",
@@ -415,7 +540,12 @@
     "finalUrl": "https://www.lotteon.com/event/onLohbsShare",
     "confidenceScore": 94,
     "provider": "event_news",
-    "tags": ["공식", "쿠폰", "뷰티", "브랜드혜택"]
+    "tags": [
+      "공식",
+      "쿠폰",
+      "뷰티",
+      "브랜드혜택"
+    ]
   },
   {
     "id": "news-daisomall-official-event-202606",
@@ -431,7 +561,12 @@
     "finalUrl": "https://www.daisomall.co.kr/ds/spexhbt/C211?exbtNo=787",
     "confidenceScore": 89,
     "provider": "official_event",
-    "tags": ["공식", "쿠폰", "생활용품", "브랜드혜택"]
+    "tags": [
+      "공식",
+      "쿠폰",
+      "생활용품",
+      "브랜드혜택"
+    ]
   },
   {
     "id": "news-gmarket-amore-official-coupon-202606",
@@ -447,7 +582,12 @@
     "finalUrl": "https://www.gmarket.co.kr/e/spt/amorepacific",
     "confidenceScore": 90,
     "provider": "official_event",
-    "tags": ["공식", "쿠폰", "뷰티", "쇼핑몰"]
+    "tags": [
+      "공식",
+      "쿠폰",
+      "뷰티",
+      "쇼핑몰"
+    ]
   },
   {
     "id": "news-auction-ecoupon-official-202606",
@@ -463,7 +603,12 @@
     "finalUrl": "https://promotion.auction.co.kr/promotion/MD/eventview.aspx?txtMD=088B0E6DDE%28pc%29",
     "confidenceScore": 90,
     "provider": "official_event",
-    "tags": ["공식", "쿠폰", "e쿠폰", "쇼핑몰"]
+    "tags": [
+      "공식",
+      "쿠폰",
+      "e쿠폰",
+      "쇼핑몰"
+    ]
   },
   {
     "id": "news-momq-new-member-welcome-202606",
@@ -479,7 +624,12 @@
     "finalUrl": "https://www.momq.co.kr/event/202601290003",
     "confidenceScore": 90,
     "provider": "official_event",
-    "tags": ["공식", "쿠폰", "신규가입", "육아"]
+    "tags": [
+      "공식",
+      "쿠폰",
+      "신규가입",
+      "육아"
+    ]
   },
   {
     "id": "news-kt-yogo-mobile-benefit-202606",
@@ -495,7 +645,12 @@
     "finalUrl": "https://shop.kt.com/unify/yogoEvent.do",
     "confidenceScore": 89,
     "provider": "public_coupon",
-    "tags": ["공식", "멤버십", "쿠폰", "통신"]
+    "tags": [
+      "공식",
+      "멤버십",
+      "쿠폰",
+      "통신"
+    ]
   },
   {
     "id": "news-uplus-membership-affiliate-perks-202606",
@@ -511,7 +666,12 @@
     "finalUrl": "https://www.lguplus.com/benefit-membership/affiliate-perks",
     "confidenceScore": 89,
     "provider": "public_coupon",
-    "tags": ["공식", "멤버십", "쿠폰", "통신"]
+    "tags": [
+      "공식",
+      "멤버십",
+      "쿠폰",
+      "통신"
+    ]
   },
   {
     "id": "news-coupang-official-benefit-coupon-202606",
@@ -527,7 +687,12 @@
     "finalUrl": "https://www.coupang.com/np/coupangbenefit",
     "confidenceScore": 92,
     "provider": "official_event",
-    "tags": ["공식", "쿠폰", "무료배송", "와우"]
+    "tags": [
+      "공식",
+      "쿠폰",
+      "무료배송",
+      "와우"
+    ]
   },
   {
     "id": "news-naver-official-event-hub-202606",
@@ -543,7 +708,12 @@
     "finalUrl": "https://mkt.naver.com/promotion",
     "confidenceScore": 92,
     "provider": "official_event",
-    "tags": ["공식", "포인트", "이벤트", "알림신청"]
+    "tags": [
+      "공식",
+      "포인트",
+      "이벤트",
+      "알림신청"
+    ]
   },
   {
     "id": "news-naverpay-campaign-all-202606",
@@ -559,7 +729,12 @@
     "finalUrl": "https://m-campaign.naver.com/npay-event-all/",
     "confidenceScore": 93,
     "provider": "official_event",
-    "tags": ["공식", "포인트", "쿠폰", "선착순"]
+    "tags": [
+      "공식",
+      "포인트",
+      "쿠폰",
+      "선착순"
+    ]
   },
   {
     "id": "news-baemin-free-delivery-club-202606",
@@ -575,7 +750,12 @@
     "finalUrl": "https://event-view.baemin.com/apps/9ikdKTU?mode=no-lottie",
     "confidenceScore": 91,
     "provider": "official_event",
-    "tags": ["공식", "무료배달", "선착순", "쿠폰"]
+    "tags": [
+      "공식",
+      "무료배달",
+      "선착순",
+      "쿠폰"
+    ]
   },
   {
     "id": "news-todayhouse-season-coupon-202606",
@@ -591,7 +771,12 @@
     "finalUrl": "https://events.ohou.se/promotions/o-season-week",
     "confidenceScore": 90,
     "provider": "official_event",
-    "tags": ["공식", "쿠폰", "무료배송", "생활용품"]
+    "tags": [
+      "공식",
+      "쿠폰",
+      "무료배송",
+      "생활용품"
+    ]
   },
   {
     "id": "news-himart-official-event-list-202606",
@@ -607,7 +792,12 @@
     "finalUrl": "https://company.himart.co.kr/event/list",
     "confidenceScore": 89,
     "provider": "official_event",
-    "tags": ["공식", "쿠폰", "가전", "카드혜택"]
+    "tags": [
+      "공식",
+      "쿠폰",
+      "가전",
+      "카드혜택"
+    ]
   },
   {
     "id": "news-tossfeed-tosspay-promotion-202606",
@@ -623,7 +813,12 @@
     "finalUrl": "https://toss.im/tossfeed/article/tosspay-promotion",
     "confidenceScore": 88,
     "provider": "official_event",
-    "tags": ["공식", "포인트", "결제혜택", "쿠폰"]
+    "tags": [
+      "공식",
+      "포인트",
+      "결제혜택",
+      "쿠폰"
+    ]
   },
   {
     "id": "news-mcdonalds-happy-snack-drink-202606",
@@ -639,7 +834,12 @@
     "finalUrl": "https://www.mcdonalds.co.kr/kor/promotion/detail/E51CF9",
     "confidenceScore": 91,
     "provider": "official_event",
-    "tags": ["공식", "외식", "무료음료", "프로모션"]
+    "tags": [
+      "공식",
+      "외식",
+      "무료음료",
+      "프로모션"
+    ]
   },
   {
     "id": "news-kfc-delivery-free-shipping-202606",
@@ -655,7 +855,12 @@
     "finalUrl": "https://www.kfckorea.com/promotion/promotionList/detail/1053",
     "confidenceScore": 91,
     "provider": "official_event",
-    "tags": ["공식", "무료배송", "배달", "쿠폰"]
+    "tags": [
+      "공식",
+      "무료배송",
+      "배달",
+      "쿠폰"
+    ]
   },
   {
     "id": "news-kfc-new-member-coupon-202606",
@@ -671,7 +876,12 @@
     "finalUrl": "https://www.kfckorea.com/promotion/promotionList/detail/1040",
     "confidenceScore": 90,
     "provider": "official_event",
-    "tags": ["공식", "쿠폰", "신규가입", "외식"]
+    "tags": [
+      "공식",
+      "쿠폰",
+      "신규가입",
+      "외식"
+    ]
   },
   {
     "id": "news-subway-official-promotion-202606",
@@ -687,7 +897,12 @@
     "finalUrl": "https://www.subway.co.kr/eventList",
     "confidenceScore": 88,
     "provider": "official_event",
-    "tags": ["공식", "쿠폰", "외식", "이벤트"]
+    "tags": [
+      "공식",
+      "쿠폰",
+      "외식",
+      "이벤트"
+    ]
   },
   {
     "id": "news-pascucci-official-event-202606",
@@ -703,7 +918,12 @@
     "finalUrl": "https://www.pascucci.co.kr/event/eventList.asp",
     "confidenceScore": 88,
     "provider": "official_event",
-    "tags": ["공식", "쿠폰", "카페", "멤버십"]
+    "tags": [
+      "공식",
+      "쿠폰",
+      "카페",
+      "멤버십"
+    ]
   },
   {
     "id": "news-homeplus-membership-coupon-202606",
@@ -719,7 +939,12 @@
     "finalUrl": "https://front.homeplus.co.kr/membership",
     "confidenceScore": 89,
     "provider": "official_event",
-    "tags": ["공식", "쿠폰", "장보기", "멤버십"]
+    "tags": [
+      "공식",
+      "쿠폰",
+      "장보기",
+      "멤버십"
+    ]
   },
   {
     "id": "news-ssg-official-event-main-202606",
@@ -735,7 +960,12 @@
     "finalUrl": "https://www.ssg.com/event/eventMain.ssg",
     "confidenceScore": 89,
     "provider": "official_event",
-    "tags": ["공식", "쿠폰", "장보기", "무료배송"]
+    "tags": [
+      "공식",
+      "쿠폰",
+      "장보기",
+      "무료배송"
+    ]
   },
   {
     "id": "news-musinsa-online-coupon-202606",
@@ -751,7 +981,12 @@
     "finalUrl": "https://www.musinsa.com/coupon-service/coupon/coupon_online",
     "confidenceScore": 90,
     "provider": "official_event",
-    "tags": ["공식", "쿠폰", "패션", "신규가입"]
+    "tags": [
+      "공식",
+      "쿠폰",
+      "패션",
+      "신규가입"
+    ]
   },
   {
     "id": "news-cjthemarket-random-lucky-coupon-202606",
@@ -767,7 +1002,12 @@
     "finalUrl": "https://m.cjthemarket.com/mo/event/new/randomCouponEvnt",
     "confidenceScore": 90,
     "provider": "official_event",
-    "tags": ["공식", "쿠폰", "무료배송", "식품"]
+    "tags": [
+      "공식",
+      "쿠폰",
+      "무료배송",
+      "식품"
+    ]
   },
   {
     "id": "news-cjthemarket-welcome-coupon-202606",
@@ -783,7 +1023,12 @@
     "finalUrl": "https://vod.cjthemarket.com/pc/bnf/coupon",
     "confidenceScore": 90,
     "provider": "official_event",
-    "tags": ["공식", "무료배송", "신규가입", "쿠폰"]
+    "tags": [
+      "공식",
+      "무료배송",
+      "신규가입",
+      "쿠폰"
+    ]
   },
   {
     "id": "news-gs25-hyeja-bread-tosspay-plusone-202606",
@@ -799,7 +1044,12 @@
     "finalUrl": "https://gs25.gsretail.com/gscvs/ko/customer-engagement/event/detail/publishing?eventCode=8842754706976&pageNum=1",
     "confidenceScore": 91,
     "provider": "official_event",
-    "tags": ["공식", "편의점", "1+1", "전원증정"]
+    "tags": [
+      "공식",
+      "편의점",
+      "1+1",
+      "전원증정"
+    ]
   },
   {
     "id": "news-drg-official-sample-event-202606",
@@ -815,7 +1065,12 @@
     "finalUrl": "https://www.dr-g.co.kr/event",
     "confidenceScore": 88,
     "provider": "official_event",
-    "tags": ["공식", "샘플", "무료체험", "뷰티"]
+    "tags": [
+      "공식",
+      "샘플",
+      "무료체험",
+      "뷰티"
+    ]
   },
   {
     "id": "news-baemin-academy-free-education-202606",
@@ -831,7 +1086,12 @@
     "finalUrl": "https://academy.baemin.com/event/list",
     "confidenceScore": 87,
     "provider": "public_coupon",
-    "tags": ["공식", "무료교육", "무료체험", "외식"]
+    "tags": [
+      "공식",
+      "무료교육",
+      "무료체험",
+      "외식"
+    ]
   },
   {
     "id": "news-lottemart-official-coupon-event-202606",
@@ -847,7 +1107,12 @@
     "finalUrl": "https://company.lottemart.com/mobiledowa/event/event_list.asp",
     "confidenceScore": 87,
     "provider": "official_event",
-    "tags": ["공식", "쿠폰", "마트", "멤버십"]
+    "tags": [
+      "공식",
+      "쿠폰",
+      "마트",
+      "멤버십"
+    ]
   },
   {
     "id": "news-kurly-beauty-sample-gift-202606",
@@ -863,7 +1128,12 @@
     "finalUrl": "https://www.kurly.com/goods/1000120890",
     "confidenceScore": 88,
     "provider": "official_event",
-    "tags": ["공식", "샘플", "증정품", "뷰티"]
+    "tags": [
+      "공식",
+      "샘플",
+      "증정품",
+      "뷰티"
+    ]
   },
   {
     "id": "news-kurly-living-free-shipping-202606",
@@ -879,7 +1149,12 @@
     "finalUrl": "https://www.kurly.com/goods/1000161502",
     "confidenceScore": 87,
     "provider": "official_event",
-    "tags": ["공식", "무료배송", "생활용품", "쿠폰"]
+    "tags": [
+      "공식",
+      "무료배송",
+      "생활용품",
+      "쿠폰"
+    ]
   },
   {
     "id": "news-krispykreme-wednesday-plusone-202606",
@@ -895,7 +1170,12 @@
     "finalUrl": "https://www.lotteeatz.com/event/main/selectEvent/6769",
     "confidenceScore": 89,
     "provider": "official_event",
-    "tags": ["공식", "1+1", "외식", "선착순"]
+    "tags": [
+      "공식",
+      "1+1",
+      "외식",
+      "선착순"
+    ]
   },
   {
     "id": "news-cgv-official-culture-event-202606",
@@ -911,7 +1191,12 @@
     "finalUrl": "https://www.cgv.co.kr/culture-event/event/defaultNew.aspx",
     "confidenceScore": 88,
     "provider": "public_coupon",
-    "tags": ["공식", "영화", "쿠폰", "이벤트"]
+    "tags": [
+      "공식",
+      "영화",
+      "쿠폰",
+      "이벤트"
+    ]
   },
   {
     "id": "news-megabox-membership-benefit-202606",
@@ -927,7 +1212,12 @@
     "finalUrl": "https://www.megabox.co.kr/benefit/membership",
     "confidenceScore": 87,
     "provider": "public_coupon",
-    "tags": ["공식", "영화", "멤버십", "쿠폰"]
+    "tags": [
+      "공식",
+      "영화",
+      "멤버십",
+      "쿠폰"
+    ]
   },
   {
     "id": "news-starbucks-rewards-benefit-202606",
@@ -943,7 +1233,12 @@
     "finalUrl": "https://www.starbucks.co.kr/msr/msreward/about.do",
     "confidenceScore": 90,
     "provider": "public_coupon",
-    "tags": ["공식", "무료쿠폰", "멤버십", "카페"]
+    "tags": [
+      "공식",
+      "무료쿠폰",
+      "멤버십",
+      "카페"
+    ]
   },
   {
     "id": "news-okcashbag-official-event-home-202606",
@@ -959,7 +1254,12 @@
     "finalUrl": "https://www.okcashbag.com/life/event/eventHome.do",
     "confidenceScore": 90,
     "provider": "public_coupon",
-    "tags": ["공식", "포인트", "응모", "이벤트"]
+    "tags": [
+      "공식",
+      "포인트",
+      "응모",
+      "이벤트"
+    ]
   },
   {
     "id": "news-oliveyoung-mobile-event-reward-202606",
@@ -975,7 +1275,13 @@
     "finalUrl": "https://m.oliveyoung.co.kr/m/mtn?menu=event",
     "confidenceScore": 91,
     "provider": "official_event",
-    "tags": ["공식", "쿠폰", "포인트", "뷰티", "앱혜택"]
+    "tags": [
+      "공식",
+      "쿠폰",
+      "포인트",
+      "뷰티",
+      "앱혜택"
+    ]
   },
   {
     "id": "news-oliveyoung-coupon-lounge-202606",
@@ -991,7 +1297,12 @@
     "finalUrl": "https://www.oliveyoung.co.kr/store/main/getCouponList.do?couponMode=coupon",
     "confidenceScore": 91,
     "provider": "official_event",
-    "tags": ["공식", "쿠폰", "다운로드", "뷰티"]
+    "tags": [
+      "공식",
+      "쿠폰",
+      "다운로드",
+      "뷰티"
+    ]
   },
   {
     "id": "news-elevenst-coupon-zone-202606",
@@ -1007,7 +1318,12 @@
     "finalUrl": "https://www.11st.co.kr/browsing/CouponPlace.tmall?addCtgrNo=950089&method=getCouponZoneMain",
     "confidenceScore": 90,
     "provider": "official_event",
-    "tags": ["공식", "쿠폰", "전고객", "장바구니"]
+    "tags": [
+      "공식",
+      "쿠폰",
+      "전고객",
+      "장바구니"
+    ]
   },
   {
     "id": "news-gs25-current-events-202606",
@@ -1023,7 +1339,13 @@
     "finalUrl": "https://gs25.gsretail.com/customer-engagement/event/current-events?uiel=Mobile",
     "confidenceScore": 90,
     "provider": "official_event",
-    "tags": ["공식", "편의점", "1+1", "쿠폰", "선착순"]
+    "tags": [
+      "공식",
+      "편의점",
+      "1+1",
+      "쿠폰",
+      "선착순"
+    ]
   },
   {
     "id": "news-starbucks-rewards-detail-benefit-202606",
@@ -1039,7 +1361,13 @@
     "finalUrl": "https://www.starbucks.co.kr/whats_new/campaign_view.do?pro_seq=3365",
     "confidenceScore": 90,
     "provider": "official_event",
-    "tags": ["공식", "무료쿠폰", "멤버십", "카페", "생일쿠폰"]
+    "tags": [
+      "공식",
+      "무료쿠폰",
+      "멤버십",
+      "카페",
+      "생일쿠폰"
+    ]
   },
   {
     "id": "news-musinsa-coupon-register-guide-202606",
@@ -1055,7 +1383,12 @@
     "finalUrl": "https://store.musinsa.com/app/contents/coupon_offline",
     "confidenceScore": 89,
     "provider": "official_event",
-    "tags": ["공식", "쿠폰", "앱혜택", "패션"]
+    "tags": [
+      "공식",
+      "쿠폰",
+      "앱혜택",
+      "패션"
+    ]
   },
   {
     "id": "news-innisfree-official-event-coupon-202606",
@@ -1071,7 +1404,13 @@
     "finalUrl": "https://www.innisfree.com/kr/ko/dp/posting-list",
     "confidenceScore": 88,
     "provider": "official_event",
-    "tags": ["공식", "샘플", "쿠폰", "체험", "뷰티"]
+    "tags": [
+      "공식",
+      "샘플",
+      "쿠폰",
+      "체험",
+      "뷰티"
+    ]
   },
   {
     "id": "news-emart-official-event-coupon-202606",
@@ -1087,7 +1426,12 @@
     "finalUrl": "https://emart.ssg.com/event/eventMain.ssg",
     "confidenceScore": 88,
     "provider": "official_event",
-    "tags": ["공식", "마트", "쿠폰", "장보기"]
+    "tags": [
+      "공식",
+      "마트",
+      "쿠폰",
+      "장보기"
+    ]
   },
   {
     "id": "news-homeplus-official-event-coupon-202606",
@@ -1103,7 +1447,12 @@
     "finalUrl": "https://front.homeplus.co.kr/event",
     "confidenceScore": 88,
     "provider": "official_event",
-    "tags": ["공식", "마트", "쿠폰", "멤버십"]
+    "tags": [
+      "공식",
+      "마트",
+      "쿠폰",
+      "멤버십"
+    ]
   },
   {
     "id": "news-kakaopay-payment-point-benefit-202606",
@@ -1119,7 +1468,12 @@
     "finalUrl": "https://www.kakaopay.com/services/life/payment?t_ch=main&t_src=homepage",
     "confidenceScore": 87,
     "provider": "official_event",
-    "tags": ["공식", "포인트", "페이", "결제혜택"]
+    "tags": [
+      "공식",
+      "포인트",
+      "페이",
+      "결제혜택"
+    ]
   },
   {
     "id": "news-kakaopay-benefit-faq-coupon-202606",
@@ -1135,7 +1489,12 @@
     "finalUrl": "https://support.kakaopay.com/inapp/faq-list/CUSTOMER_CENTER_FAQ_BENEFITS?qna=all",
     "confidenceScore": 87,
     "provider": "official_event",
-    "tags": ["공식", "쿠폰", "포인트", "페이"]
+    "tags": [
+      "공식",
+      "쿠폰",
+      "포인트",
+      "페이"
+    ]
   },
   {
     "id": "news-payco-official-event-benefit-202606",
@@ -1151,7 +1510,12 @@
     "finalUrl": "https://www.payco.com/event.nhn",
     "confidenceScore": 88,
     "provider": "official_event",
-    "tags": ["공식", "포인트", "쿠폰", "앱혜택"]
+    "tags": [
+      "공식",
+      "포인트",
+      "쿠폰",
+      "앱혜택"
+    ]
   },
   {
     "id": "news-happypoint-alliance-coupon-202606",
@@ -1167,7 +1531,12 @@
     "finalUrl": "https://www.happypointcard.com/alliance/service/guide.spc",
     "confidenceScore": 87,
     "provider": "official_event",
-    "tags": ["공식", "멤버십", "쿠폰", "외식"]
+    "tags": [
+      "공식",
+      "멤버십",
+      "쿠폰",
+      "외식"
+    ]
   },
   {
     "id": "news-happypoint-membership-benefit-guide-202606",
@@ -1183,6 +1552,143 @@
     "finalUrl": "https://www.happypointcard.com/page/presentation/membership.spc",
     "confidenceScore": 87,
     "provider": "official_event",
-    "tags": ["공식", "멤버십", "포인트", "쿠폰"]
+    "tags": [
+      "공식",
+      "멤버십",
+      "포인트",
+      "쿠폰"
+    ]
+  },
+  {
+    "id": "news-sktmembership-daily-mission-point-202606",
+    "title": "T멤버십 공식 매일 혜택 미션",
+    "summary": "T멤버십 공식 혜택 페이지에서 출석 체크, 룰렛, 스탬프 미션과 제휴 브랜드 포인트 혜택을 확인할 수 있습니다.",
+    "merchant": "T멤버십",
+    "category": "카드/멤버십",
+    "benefitType": "point",
+    "startDate": "2026-06-01",
+    "endDate": "2026-07-31",
+    "sourceName": "T멤버십 공식 혜택",
+    "sourceUrl": "https://m.tworld.co.kr/membership/submain",
+    "finalUrl": "https://m.tworld.co.kr/membership/submain",
+    "confidenceScore": 90,
+    "provider": "official_event",
+    "tags": [
+      "공식",
+      "포인트",
+      "출석체크",
+      "룰렛",
+      "멤버십"
+    ]
+  },
+  {
+    "id": "news-sktmembership-benefit-brand-list-202606",
+    "title": "T멤버십 공식 제휴 브랜드 혜택",
+    "summary": "T멤버십 공식 제휴 브랜드 페이지에서 편의점, 카페, 베이커리, 외식 제휴 혜택과 사용 조건을 확인할 수 있습니다.",
+    "merchant": "T멤버십",
+    "category": "카드/멤버십",
+    "benefitType": "membership",
+    "startDate": "2026-06-01",
+    "endDate": "2026-07-31",
+    "sourceName": "T멤버십 공식 제휴 브랜드",
+    "sourceUrl": "https://sktmembership.tworld.co.kr/mps/pc-bff/benefitbrand/list-tab1.do",
+    "finalUrl": "https://sktmembership.tworld.co.kr/mps/pc-bff/benefitbrand/list-tab1.do",
+    "confidenceScore": 89,
+    "provider": "official_event",
+    "tags": [
+      "공식",
+      "멤버십",
+      "쿠폰",
+      "외식",
+      "편의점"
+    ]
+  },
+  {
+    "id": "news-kt-membership-daldal-benefit-202606",
+    "title": "KT멤버십 공식 달달혜택",
+    "summary": "KT멤버십 공식 달달혜택 페이지에서 매월 공개되는 무료, 할인, 응모형 제휴 혜택과 참여 조건을 확인할 수 있습니다.",
+    "merchant": "KT멤버십",
+    "category": "카드/멤버십",
+    "benefitType": "membership",
+    "startDate": "2026-06-01",
+    "endDate": "2026-07-31",
+    "sourceName": "KT멤버십 공식 달달혜택",
+    "sourceUrl": "https://membership.kt.com/discount/benefit/DaldalBenefit.do",
+    "finalUrl": "https://membership.kt.com/discount/benefit/DaldalBenefit.do",
+    "confidenceScore": 90,
+    "provider": "official_event",
+    "tags": [
+      "공식",
+      "멤버십",
+      "쿠폰",
+      "전원",
+      "매월혜택"
+    ]
+  },
+  {
+    "id": "news-kt-official-ongoing-events-202606",
+    "title": "KT 공식 진행 중 이벤트 혜택",
+    "summary": "KT 공식 진행 중 이벤트 페이지에서 멤버십 쿠폰, 포인트, 제휴 브랜드 이벤트와 마감일을 확인할 수 있습니다.",
+    "merchant": "KT",
+    "category": "카드/멤버십",
+    "benefitType": "coupon",
+    "startDate": "2026-06-01",
+    "endDate": "2026-07-31",
+    "sourceName": "KT 공식 진행 이벤트",
+    "sourceUrl": "https://event.kt.com/html/event/ongoing_event_list.html",
+    "finalUrl": "https://event.kt.com/html/event/ongoing_event_list.html",
+    "confidenceScore": 88,
+    "provider": "official_event",
+    "tags": [
+      "공식",
+      "쿠폰",
+      "멤버십",
+      "포인트",
+      "마감확인"
+    ]
+  },
+  {
+    "id": "news-lguplus-ongoing-benefit-event-202606",
+    "title": "LG U+ 공식 진행 중 혜택 이벤트",
+    "summary": "LG U+ 공식 진행 중 이벤트 페이지에서 무료이용권, 기프티콘, 쿠폰, 장기고객 혜택과 참여 조건을 확인할 수 있습니다.",
+    "merchant": "LG U+",
+    "category": "카드/멤버십",
+    "benefitType": "gifticon",
+    "startDate": "2026-06-01",
+    "endDate": "2026-07-31",
+    "sourceName": "LG U+ 공식 이벤트",
+    "sourceUrl": "https://www.lguplus.com/benefit-event/ongoing",
+    "finalUrl": "https://www.lguplus.com/benefit-event/ongoing",
+    "confidenceScore": 89,
+    "provider": "official_event",
+    "tags": [
+      "공식",
+      "기프티콘",
+      "무료이용권",
+      "선착순",
+      "멤버십"
+    ]
+  },
+  {
+    "id": "news-lguplus-benefit-plus-monthly-202606",
+    "title": "LG U+ 공식 유플투쁠 월간 혜택",
+    "summary": "LG U+ 공식 유플투쁠 페이지에서 월간 제휴 쿠폰, 무료·할인 혜택, 브랜드 이벤트 일정을 확인할 수 있습니다.",
+    "merchant": "LG U+",
+    "category": "카드/멤버십",
+    "benefitType": "coupon",
+    "startDate": "2026-06-01",
+    "endDate": "2026-07-31",
+    "sourceName": "LG U+ 공식 유플투쁠",
+    "sourceUrl": "https://www.lguplus.com/benefit-plus",
+    "finalUrl": "https://www.lguplus.com/benefit-plus",
+    "confidenceScore": 88,
+    "provider": "official_event",
+    "tags": [
+      "공식",
+      "쿠폰",
+      "멤버십",
+      "월간혜택",
+      "브랜드혜택"
+    ]
   }
 ]
