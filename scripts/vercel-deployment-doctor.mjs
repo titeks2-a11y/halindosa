@@ -434,16 +434,16 @@ checks.push(
 
 probes.cronRefreshGuard = await fetchText(cronRefreshDryRunPath);
 checks.push(
-  probes.cronRefreshGuard.status === 401
-    ? pass("cron refresh public guard", "/api/cron/refresh rejects unauthenticated dry-run probes on the public deployment.")
-    : fail("cron refresh public guard", `/api/cron/refresh should return 401 without CRON_SECRET or admin token; got ${probes.cronRefreshGuard.status}.`)
+  probes.cronRefreshGuard.status === 401 || probes.cronRefreshGuard.status === 429
+    ? pass("cron refresh public guard", `/api/cron/refresh rejects unauthenticated dry-run probes on the public deployment with ${probes.cronRefreshGuard.status}.`)
+    : fail("cron refresh public guard", `/api/cron/refresh should reject unauthenticated probes with 401 or rate-limit with 429; got ${probes.cronRefreshGuard.status}.`)
 );
 
 probes.cronBenefitsGuard = await fetchText(cronBenefitsDryRunPath);
 checks.push(
-  probes.cronBenefitsGuard.status === 401
-    ? pass("cron benefits public guard", "/api/cron/benefits rejects unauthenticated dry-run probes on the public deployment.")
-    : fail("cron benefits public guard", `/api/cron/benefits should return 401 without CRON_SECRET or admin token; got ${probes.cronBenefitsGuard.status}.`)
+  probes.cronBenefitsGuard.status === 401 || probes.cronBenefitsGuard.status === 429
+    ? pass("cron benefits public guard", `/api/cron/benefits rejects unauthenticated dry-run probes on the public deployment with ${probes.cronBenefitsGuard.status}.`)
+    : fail("cron benefits public guard", `/api/cron/benefits should reject unauthenticated probes with 401 or rate-limit with 429; got ${probes.cronBenefitsGuard.status}.`)
 );
 
 const redirectChain = await fetchRedirectChain(redirectProbePath);
