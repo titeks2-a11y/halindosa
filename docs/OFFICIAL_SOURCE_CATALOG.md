@@ -2,12 +2,12 @@
 
 이 문서는 할인도사에 연결할 수 있는 공식 이벤트, 공공 혜택, 제휴 JSON/RSS 후보를 정리합니다. 무단 크롤링 후보가 아니라 운영자가 승인 feed 또는 공식 페이지 매핑으로 전환할 때 쓰는 출발점입니다.
 
-- 생성 시각: 2026-06-10T16:54:59.494Z
+- 생성 시각: 2026-06-10T17:34:42.708Z
 - 상태: PASS
-- 후보 소스: 208개
-- 고우선순위 후보: 85개
+- 후보 소스: 212개
+- 고우선순위 후보: 87개
 - 현재 env feed 연결 후보: 0개
-- 공식 혜택 노출: 177개
+- 공식 혜택 노출: 185개
 - feed 전환 상태: seed_launch_ready
 - CSV 리포트: reports/official-source-catalog.csv
 
@@ -15,15 +15,15 @@
 
 | 카테고리 | 후보 수 | 상태 |
 | --- | ---: | --- |
-| 식품/생필품 | 22 | 충분 |
+| 식품/생필품 | 23 | 충분 |
 | 마트/편의점 | 15 | 충분 |
 | 디지털/가전 | 14 | 충분 |
-| 패션/뷰티 | 22 | 충분 |
+| 패션/뷰티 | 24 | 충분 |
 | 외식/배달 | 52 | 충분 |
-| 여행/숙박 | 9 | 충분 |
-| 영화/문화 | 25 | 충분 |
+| 여행/숙박 | 11 | 충분 |
+| 영화/문화 | 27 | 충분 |
 | 카드/멤버십 | 73 | 충분 |
-| 무료혜택 | 171 | 충분 |
+| 무료혜택 | 175 | 충분 |
 | 정부/공공혜택 | 43 | 충분 |
 
 ## Provider 커버리지
@@ -32,7 +32,7 @@
 | --- | ---: | --- |
 | news | 1 | 포함 |
 | event_news | 2 | 포함 |
-| official_event | 136 | 포함 |
+| official_event | 140 | 포함 |
 | public_coupon | 69 | 포함 |
 
 ## 후보 목록
@@ -247,6 +247,10 @@
 | hpoint-official-event-point-coupon | official_event | 무료혜택, 카드/멤버십 | medium | https://www.h-point.co.kr/benefit/evntDtl.nhd?evntId=181309 | OFFICIAL_EVENT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
 | lotteeatz-coupon-center | official_event | 무료혜택, 외식/배달 | high | https://www.lotteeatz.com/coupon/main | OFFICIAL_EVENT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
 | daisomall-signup-benefit | official_event | 무료혜택, 식품/생필품 | high | https://prdm.daisomall.co.kr/ev/eva/SCR_EVA_0003?evtCd=EVT00286 | OFFICIAL_EVENT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| lghnh-official-event | official_event | 무료혜택, 패션/뷰티, 식품/생필품 | high | https://www.lghnh.com:984/news/event.jsp | OFFICIAL_EVENT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| powderroom-official-campaign | official_event | 무료혜택, 패션/뷰티 | high | https://www.powderroom.co.kr/campaigns | OFFICIAL_EVENT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| lotteworld-official-benefit | official_event | 무료혜택, 영화/문화, 여행/숙박 | medium | https://www.lotteworld.com/contents/contents.asp?cmsCd=CM0029 | OFFICIAL_EVENT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| everland-official-event | official_event | 무료혜택, 영화/문화, 여행/숙박 | medium | https://www.everland.com/web/everland/now/news/1216661_10436.html | OFFICIAL_EVENT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
 
 ## 다음 작업
 

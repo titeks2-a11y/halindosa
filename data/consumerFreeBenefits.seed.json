@@ -1866,5 +1866,115 @@
       "생활용품",
       "전원"
     ]
+  },
+  {
+    "id": "news-lghnh-official-sample-coupon-202606",
+    "title": "LG생활건강 공식 샘플·쿠폰 이벤트",
+    "summary": "LG생활건강 공식 이벤트 페이지에서 뷰티·생활용품 샘플, 쿠폰, 브랜드 체험 이벤트와 참여 조건을 확인할 수 있습니다.",
+    "merchant": "LG생활건강",
+    "category": "패션/뷰티",
+    "benefitType": "sample",
+    "startDate": "2026-06-01",
+    "endDate": "2026-07-31",
+    "sourceName": "LG생활건강 공식 이벤트",
+    "sourceUrl": "https://www.lghnh.com:984/news/event.jsp",
+    "finalUrl": "https://www.lghnh.com:984/news/event.jsp",
+    "confidenceScore": 91,
+    "provider": "official_event",
+    "tags": [
+      "공식",
+      "샘플",
+      "쿠폰",
+      "뷰티",
+      "전원증정"
+    ]
+  },
+  {
+    "id": "news-tenbyten-official-coupon-checkin-202606",
+    "title": "텐바이텐 공식 쿠폰·출석 이벤트",
+    "summary": "텐바이텐 공식 이벤트 페이지에서 쿠폰, 출석, 사은 혜택과 마감 조건을 확인할 수 있습니다.",
+    "merchant": "텐바이텐",
+    "category": "식품/생필품",
+    "benefitType": "coupon",
+    "startDate": "2026-06-01",
+    "endDate": "2026-07-31",
+    "sourceName": "텐바이텐 공식 이벤트",
+    "sourceUrl": "https://www.10x10.co.kr/event/eventmain.asp",
+    "finalUrl": "https://www.10x10.co.kr/event/eventmain.asp",
+    "confidenceScore": 87,
+    "provider": "official_event",
+    "tags": [
+      "공식",
+      "쿠폰",
+      "출석체크",
+      "생활용품",
+      "사은혜택"
+    ]
+  },
+  {
+    "id": "news-powderroom-official-sample-campaign-202606",
+    "title": "파우더룸 공식 뷰티 체험단·샘플 캠페인",
+    "summary": "파우더룸 공식 캠페인 페이지에서 모집 중인 뷰티 체험단, 샘플 신청, 리뷰 캠페인과 신청 조건을 확인할 수 있습니다.",
+    "merchant": "파우더룸",
+    "category": "패션/뷰티",
+    "benefitType": "sample",
+    "startDate": "2026-06-01",
+    "endDate": "2026-07-31",
+    "sourceName": "파우더룸 공식 캠페인",
+    "sourceUrl": "https://www.powderroom.co.kr/campaigns",
+    "finalUrl": "https://www.powderroom.co.kr/campaigns",
+    "confidenceScore": 89,
+    "provider": "official_event",
+    "tags": [
+      "공식",
+      "체험단",
+      "샘플",
+      "뷰티",
+      "무료체험"
+    ]
+  },
+  {
+    "id": "news-lotteworld-official-culture-benefit-202606",
+    "title": "롯데월드 공식 이벤트·우대 혜택",
+    "summary": "롯데월드 공식 이벤트 페이지에서 제휴 쿠폰, 무료 초대, 시즌 이벤트와 참여 조건을 확인할 수 있습니다.",
+    "merchant": "롯데월드",
+    "category": "영화/문화",
+    "benefitType": "coupon",
+    "startDate": "2026-06-01",
+    "endDate": "2026-07-31",
+    "sourceName": "롯데월드 공식 이벤트",
+    "sourceUrl": "https://www.lotteworld.com/contents/contents.asp?cmsCd=CM0029",
+    "finalUrl": "https://www.lotteworld.com/contents/contents.asp?cmsCd=CM0029",
+    "confidenceScore": 86,
+    "provider": "official_event",
+    "tags": [
+      "공식",
+      "문화",
+      "쿠폰",
+      "초대권",
+      "마감확인"
+    ]
+  },
+  {
+    "id": "news-everland-official-event-coupon-202606",
+    "title": "에버랜드 공식 이벤트·쿠폰 혜택",
+    "summary": "에버랜드 공식 이벤트 상세에서 쿠폰, 제휴 프로모션, 무료 참여형 이벤트와 기간 조건을 확인할 수 있습니다.",
+    "merchant": "에버랜드",
+    "category": "영화/문화",
+    "benefitType": "coupon",
+    "startDate": "2026-06-01",
+    "endDate": "2026-07-31",
+    "sourceName": "에버랜드 공식 이벤트",
+    "sourceUrl": "https://www.everland.com/web/everland/now/news/1216661_10436.html",
+    "finalUrl": "https://www.everland.com/web/everland/now/news/1216661_10436.html",
+    "confidenceScore": 86,
+    "provider": "official_event",
+    "tags": [
+      "공식",
+      "문화",
+      "쿠폰",
+      "이벤트",
+      "마감확인"
+    ]
   }
 ]

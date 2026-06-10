@@ -1,10 +1,10 @@
 # 무료혜택 Feed 운영 핸드오프
 
-- 생성 시각: 2026-06-10T12:28:08.284Z
+- 생성 시각: 2026-06-10T17:35:07.164Z
 - starter lane: 13개
 - 연결 후보: 104개
-- 접근 가능 후보: 99개
-- 보호/승인 필요 후보: 5개
+- 접근 가능 후보: 98개
+- 보호/승인 필요 후보: 6개
 - 현재 설정된 feed URL: 0개
 - canary 상태: seed_fallback_only
 
@@ -56,7 +56,7 @@ npm run smoke:local
 | 쇼핑몰·브랜드 쿠폰 | 기본 | PUBLIC_COUPON_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS<br>DEAL_EVENT_FEED_URLS | 8 | 7 | 1 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 페이·포인트·캐시백 | 기본 | PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS | 8 | 6 | 2 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 전원증정·선착순 | 기본 | BENEFIT_REFRESH_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS | 8 | 8 | 0 | BENEFIT_REFRESH_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
-| 출석체크·룰렛·미션 | 기본 | PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS | 8 | 8 | 0 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
+| 출석체크·룰렛·미션 | 기본 | PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS | 8 | 7 | 1 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 신규가입·웰컴 쿠폰 | 기본 | PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS | 8 | 8 | 0 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 기프티콘·문화초대권 | 기본 | PUBLIC_COUPON_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS | 8 | 6 | 2 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 반려동물·체험단 | 기본 | BENEFIT_REFRESH_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS | 8 | 8 | 0 | BENEFIT_REFRESH_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
@@ -93,7 +93,7 @@ npm run smoke:local
 
 - 롯데ON 공식 롭스·뷰티 이벤트: https://www.lotteon.com/event/onLohbsShare
 - 맘큐 공식 육아 샘플·이벤트 목록: https://www.momq.co.kr/event
-- 네이버페이 공식 온라인 쿠폰함: https://pay.naver.com/coupon/home/online
+- 오늘의집 공식 시즌 이벤트·쿠폰: https://events.ohou.se/promotions/o-season-week
 
 ### 페이·포인트·캐시백
 
@@ -103,9 +103,9 @@ npm run smoke:local
 
 ### 전원증정·선착순
 
+- LG생활건강 공식 이벤트: https://www.lghnh.com:984/news/event.jsp
 - 네이버페이 공식 온라인 쿠폰함: https://pay.naver.com/coupon/home/online
 - 맘큐 공식 신규회원 웰컴혜택: https://www.momq.co.kr/event/202601290003
-- KT 공식 요고 모바일 가입 혜택: https://shop.kt.com/unify/yogoEvent.do
 
 ### 출석체크·룰렛·미션
 
@@ -115,9 +115,9 @@ npm run smoke:local
 
 ### 신규가입·웰컴 쿠폰
 
+- CJ ONE 공식 신규가입 축하 쿠폰: https://www.cjone.com/cjmweb/event-coupon/coupon.do
 - KFC 공식 신규 회원 쿠폰 혜택: https://www.kfckorea.com/promotion/promotionList/detail/1040
 - 네이버페이 공식 온라인 쿠폰함: https://pay.naver.com/coupon/home/online
-- 요기요 공식 룰렛 쿠폰 프로모션: https://www.yogiyo.co.kr/promotion/roulette/
 
 ### 기프티콘·문화초대권
 
@@ -127,9 +127,9 @@ npm run smoke:local
 
 ### 반려동물·체험단
 
+- LG생활건강 공식 이벤트: https://www.lghnh.com:984/news/event.jsp
 - 맘큐 공식 육아 샘플·이벤트 목록: https://www.momq.co.kr/event
-- 퓨리나 공식 반려동물 이벤트 목록: https://www.purinapetcare.co.kr/shop/event_list.php
-- 롯데ON 공식 롭스·뷰티 이벤트: https://www.lotteon.com/event/onLohbsShare
+- 파우더룸 공식 체험단·샘플 캠페인: https://www.powderroom.co.kr/campaigns
 
 ### 선택 운영: 공공·문화 무료
 

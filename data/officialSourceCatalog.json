@@ -4502,5 +4502,92 @@
     "allowedUse": "다이소몰 공식 이벤트 상세에서 신규 가입 쿠폰, 제휴 결제 이벤트, 회원 혜택 조건과 공식 참여 CTA가 확인되는 항목",
     "blockedUse": "다이소몰 검색 결과, 상품 진열 페이지, 품절임박 상품 목록, 비공식 이벤트 공유글",
     "notes": "신규가입 조건은 loginRequired와 claimRequirements에 기록하고 일반 상품 특가는 무료혜택 메인에서 제외한다."
+  },
+  {
+    "id": "lghnh-official-event",
+    "label": "LG생활건강 공식 이벤트",
+    "provider": "official_event",
+    "category": [
+      "무료혜택",
+      "패션/뷰티",
+      "식품/생필품"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.lghnh.com:984/news/event.jsp",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 12,
+    "allowedUse": "LG생활건강 공식 이벤트 페이지에서 샘플, 쿠폰, 브랜드 체험, 전원증정 조건과 공식 참여 CTA가 확인되는 항목",
+    "blockedUse": "비공식 체험단 모집글, 검색 결과, 제품 카테고리 목록, 종료된 이벤트",
+    "notes": "샘플/쿠폰/체험 이벤트만 무료혜택으로 노출하고 일반 제품 판매 링크는 보조 상품 영역으로 분리한다."
+  },
+  {
+    "id": "powderroom-official-campaign",
+    "label": "파우더룸 공식 체험단·샘플 캠페인",
+    "provider": "official_event",
+    "category": [
+      "무료혜택",
+      "패션/뷰티"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.powderroom.co.kr/campaigns",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 12,
+    "allowedUse": "파우더룸 공식 캠페인에서 모집 중인 체험단, 샘플, 리뷰 캠페인과 신청 CTA가 확인되는 항목",
+    "blockedUse": "광고 대행 랜딩, 모집 종료 캠페인, 비공식 SNS 공유글",
+    "notes": "모집 상태와 신청 마감일을 반드시 검증하고 종료 캠페인은 홈 노출에서 제외한다."
+  },
+  {
+    "id": "lotteworld-official-benefit",
+    "label": "롯데월드 공식 이벤트·우대 혜택",
+    "provider": "official_event",
+    "category": [
+      "무료혜택",
+      "영화/문화",
+      "여행/숙박"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.lotteworld.com/contents/contents.asp?cmsCd=CM0029",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "롯데월드 공식 이벤트와 우대 혜택 페이지에서 쿠폰, 무료 초대, 제휴 혜택 조건이 확인되는 항목",
+    "blockedUse": "티켓 검색 결과, 비공식 블로그, 종료된 제휴 혜택",
+    "notes": "무료 초대/쿠폰/제휴 이벤트는 혜택 카드로, 일반 입장권 할인은 보조 상품 영역으로 분리한다."
+  },
+  {
+    "id": "everland-official-event",
+    "label": "에버랜드 공식 이벤트·프로모션",
+    "provider": "official_event",
+    "category": [
+      "무료혜택",
+      "영화/문화",
+      "여행/숙박"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.everland.com/web/everland/now/news/1216661_10436.html",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "에버랜드 공식 이벤트 상세에서 쿠폰, 초대, 제휴 프로모션, 무료 참여 조건이 확인되는 항목",
+    "blockedUse": "대표 홈, 티켓 검색 결과, 커뮤니티 이벤트 공유글, 종료 공지",
+    "notes": "기간과 참여 조건이 명확한 이벤트만 무료혜택 또는 문화 혜택으로 노출한다."
   }
 ]
