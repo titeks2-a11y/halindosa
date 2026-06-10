@@ -4286,9 +4286,9 @@
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "high",
     "refreshCadenceHours": 6,
-    "allowedUse": "KT멤버십 공식 달달혜택에서 매월 공개되는 무료, 할인, 응모형 제휴 혜택",
+    "allowedUse": "KT멤버십 공식 달달혜택에서 매월 공개되는 공식 무료, 할인, 응모형 제휴 혜택을 확인하고, 개별 혜택 조건과 공식 상세 CTA가 확인된 항목만 사용자 카드 finalUrl로 연결",
     "blockedUse": "KT 검색 결과, 비공식 멤버십 정리글, 종료된 제휴 이벤트 복사본",
-    "notes": "매월 15일경 갱신되는 혜택이므로 refresh:benefits 우선 후보로 유지한다."
+    "notes": "매월 15일경 갱신되는 혜택이므로 refresh:benefits 우선 후보로 유지한다. feed 매핑 시 rewardText, cautionText, 로그인/구매 조건을 기록하고 공식 상세 또는 신청 링크가 없는 항목은 노출하지 않는다."
   },
   {
     "id": "kt-official-ongoing-event-list",
