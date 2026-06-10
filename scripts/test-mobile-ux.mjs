@@ -50,7 +50,9 @@ if (includesAll(appShell, ["max-w-[480px]", "pb-[calc(5rem+env(safe-area-inset-b
 if (
   includesAll(homeFreebieHero, [
     "grid grid-cols-2",
-    "visibleEvents = events.slice(0, 6)",
+    "visibleEvents = events.slice(0, 8)",
+    "priorityBrands",
+    'data-home-free-benefit-priority-strip="true"',
     "h-12 w-12",
     "text-[12px]",
     "line-clamp-2",
@@ -59,7 +61,7 @@ if (
   ]) &&
   includesAll(appShell, ["max-w-[480px]", "pb-[calc(5rem+env(safe-area-inset-bottom))]"])
 ) {
-  pass("375 390 430 viewport freebie fit", "375/390/430px 모바일 폭에서 무료혜택 히어로가 2열 6카드, 48px 썸네일, 2줄 제목, 전체 CTA로 압축됩니다.");
+  pass("375 390 430 viewport freebie fit", "375/390/430px 모바일 폭에서 무료혜택 히어로가 2열 8카드, 우선 확인 strip, 48px 썸네일, 2줄 제목, 전체 CTA로 압축됩니다.");
 } else {
   fail("375 390 430 viewport freebie fit", "375/390/430px 모바일 기준 무료혜택 히어로 카드 밀도, 썸네일, 제목 clamp, CTA 또는 safe-area 기준이 부족합니다.");
 }
@@ -136,6 +138,8 @@ if (
     'data-home-freebie-hero="true"',
     "무료혜택 메인",
     "오늘 받을 무료 혜택",
+    "공식 혜택",
+    "오늘 우선",
     "grid grid-cols-2",
     "전원",
     "오늘마감",
@@ -148,7 +152,7 @@ if (
     "검증 가능한 혜택 수집 중"
   ])
 ) {
-  pass("mobile freebie hero priority", "모바일 홈 첫 화면에서 무료/쿠폰/0원/무배 혜택 히어로를 상품 리스트보다 먼저 압축 노출합니다.");
+  pass("mobile freebie hero priority", "모바일 홈 첫 화면에서 무료/쿠폰/0원/무배 혜택 히어로와 오늘 우선 확인 브랜드를 상품 리스트보다 먼저 압축 노출합니다.");
 } else {
   fail("mobile freebie hero priority", "무료혜택 히어로가 홈 첫 화면 우선순위, 새 탭 이동, 빈 상태 기준을 충족하지 못했습니다.");
 }
@@ -260,7 +264,7 @@ ${checks.map((check) => `| ${check.name} | ${check.ok ? "PASS" : "FAIL"} | ${che
 ## Scope
 
 - 375px, 390px, 430px 모바일 화면에서 첫 화면 정보 밀도를 유지하기 위한 정적 회귀 테스트입니다.
-- 무료혜택 히어로는 작은 모바일 폭에서 2열 6카드, 48px 썸네일, 2줄 제목, 전체 폭 CTA를 유지해야 합니다.
+- 무료혜택 히어로는 작은 모바일 폭에서 2열 8카드, 오늘 우선 확인 strip, 48px 썸네일, 2줄 제목, 전체 폭 CTA를 유지해야 합니다.
 - 실제 Playwright 스크린샷을 대체하지는 않지만, 하단 탭 겹침, 과한 검색 영역, 긴 카드, CTA 터치 영역, 토스트 위치 회귀를 빠르게 잡습니다.
 - 홈 검색창 중복, 카테고리 칩 rail, 필터 chip rail, 하위 화면 보조 검색 compact 기준도 함께 검사합니다.
 - 상품 그리드는 모바일 초기 DOM을 줄이기 위해 12개 먼저 렌더링하고, 더보기로 12개씩 확장하는 구조를 검사합니다.

@@ -127,8 +127,17 @@ export function HomeFreebieHero({
   onRefresh,
   onOpenNewsDeal
 }: HomeFreebieHeroProps) {
-  const visibleDeals = deals.slice(0, 6);
-  const visibleEvents = events.slice(0, 6);
+  const visibleDeals = deals.slice(0, 8);
+  const visibleEvents = events.slice(0, 8);
+  const officialTotalCount = Math.max(totalCount, events.length || 0);
+  const priorityBrands = Array.from(
+    new Set(
+      visibleEvents
+        .map((event) => event.brandName)
+        .filter(Boolean)
+        .slice(0, 5)
+    )
+  );
   const checkedLabel = isRefreshing ? "검증 중" : freshnessLabel || (updatedAt ? getRelativeTime(updatedAt, referenceNow) : "확인 대기");
   const quickStats = visibleEvents.length
     ? [
@@ -166,7 +175,7 @@ export function HomeFreebieHero({
             오늘 받을 무료 혜택
           </h2>
           <p className="mt-1 line-clamp-1 text-[11px] font-bold text-slate-500 sm:text-xs">
-            공식 링크 {totalCount.toLocaleString("ko-KR")}개 · {checkedLabel}
+            공식 혜택 {officialTotalCount.toLocaleString("ko-KR")}개 · {checkedLabel}
           </p>
         </div>
         <div className="flex shrink-0 items-center gap-1.5">
@@ -198,6 +207,21 @@ export function HomeFreebieHero({
           </div>
         ))}
       </div>
+
+      {priorityBrands.length ? (
+        <div
+          data-home-free-benefit-priority-strip="true"
+          className="mt-2 flex min-h-9 items-center gap-1 overflow-x-auto rounded-2xl border border-emerald-100 bg-gradient-to-r from-emerald-50 via-white to-orange-50 px-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          aria-label="오늘 먼저 볼 무료혜택 브랜드"
+        >
+          <span className="shrink-0 text-[10px] font-black text-emerald-700">오늘 우선</span>
+          {priorityBrands.map((brand) => (
+            <span key={brand} className="shrink-0 rounded-full bg-white px-2 py-1 text-[10px] font-black text-slate-700 shadow-sm">
+              {brand}
+            </span>
+          ))}
+        </div>
+      ) : null}
 
       <nav
         data-home-free-benefit-quick-filters="true"
@@ -251,7 +275,7 @@ export function HomeFreebieHero({
       </nav>
 
       {visibleEvents.length ? (
-        <div className="mt-2 grid grid-cols-2 gap-2 sm:mt-3 sm:grid-cols-3 lg:grid-cols-6" aria-label="공식 무료혜택 이벤트 카드">
+        <div className="mt-2 grid grid-cols-2 gap-2 sm:mt-3 sm:grid-cols-4 xl:grid-cols-8" aria-label="공식 무료혜택 이벤트 카드">
           {visibleEvents.map((event) => (
             <article key={event.id} data-home-free-benefit-event-card="true" className="min-w-0 rounded-2xl border border-slate-100 bg-slate-50 p-2">
               <div className="flex items-start gap-2 sm:block">
@@ -323,7 +347,7 @@ export function HomeFreebieHero({
           ))}
         </div>
       ) : visibleDeals.length ? (
-        <div className="mt-2 grid grid-cols-2 gap-2 sm:mt-3 sm:grid-cols-3 lg:grid-cols-6" aria-label="공식 무료혜택 카드">
+        <div className="mt-2 grid grid-cols-2 gap-2 sm:mt-3 sm:grid-cols-4 xl:grid-cols-8" aria-label="공식 무료혜택 카드">
           {visibleDeals.map((deal) => (
             <article key={deal.id} data-home-freebie-card="true" className="min-w-0 rounded-2xl border border-slate-100 bg-slate-50 p-2">
               <div className="flex items-start gap-2 sm:block">
