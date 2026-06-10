@@ -149,7 +149,7 @@ import type { NewsDeadlineSummary, NewsDeal, NewsDealSourceTrust, NewsIntentGrou
 type AppView = "home" | "categories" | "alerts" | "favorites" | "my";
 const INITIAL_HOME_DEAL_LIMIT = 12;
 const HOME_DEAL_LOAD_STEP = 12;
-const HOME_FREEBIE_EVENT_LIMIT = 40;
+const HOME_FREEBIE_EVENT_LIMIT = 72;
 
 type InitialNewsSnapshot = { generatedAt?: string; deals?: NewsDeal[]; sourceTrustScores?: NewsDealSourceTrust[]; intentGroups?: NewsIntentGroup[] };
 
@@ -1413,9 +1413,7 @@ export default function Home({ initialNow = "", initialNewsSnapshot = emptyIniti
             freshnessLabel={newsFreshness.label}
             summary={homeFreebieSummary}
             isRefreshing={isNewsRefreshing}
-            onRefresh={() => {
-              void refreshNewsDeals({ notify: true });
-            }}
+            onRefresh={refreshHomeNow}
             onOpenNewsDeal={rememberRecentNewsBenefit}
             referenceNow={clockNow}
           />
