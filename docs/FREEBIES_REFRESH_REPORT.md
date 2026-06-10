@@ -1,6 +1,6 @@
 # 무료혜택 Refresh Report
 
-Generated: 2026-06-10T13:58:23.352Z
+Generated: 2026-06-10T14:14:35.997Z
 
 ## Summary
 
@@ -26,7 +26,6 @@ All visible rows must keep `/go/news/[id]` redirect tracking and must resolve to
 | news-kmooc-blockchain-digital-asset-free-course | K-MOOC 블록체인·디지털 자산 공식 무료강좌 | K-MOOC 공식 강좌 상세 | 정부/공공혜택 | kmooc.kr | `/go/news/news-kmooc-blockchain-digital-asset-free-course` |
 | news-kmooc-dynamics-free-course-202606 | K-MOOC 동역학 공식 무료강좌 | K-MOOC 공식 강좌 | 정부/공공혜택 | kmooc.kr | `/go/news/news-kmooc-dynamics-free-course-202606` |
 | news-kmooc-art-face-emotion-free-course-202606 | K-MOOC 예술적 얼굴과 감정조절 공식 무료강좌 | K-MOOC 공식 강좌 | 정부/공공혜택 | kmooc.kr | `/go/news/news-kmooc-art-face-emotion-free-course-202606` |
-| news-mcdonalds-happy-snack-free-drink | 맥도날드 해피 스낵 무료 음료 혜택 | 맥도날드 공식 프로모션 | 무료혜택 | mcdonalds.co.kr | `/go/news/news-mcdonalds-happy-snack-free-drink` |
 | news-kmooc-computer-graphics-free-course-202606 | K-MOOC 컴퓨터그래픽스 공식 무료강좌 | K-MOOC 공식 강좌 | 정부/공공혜택 | kmooc.kr | `/go/news/news-kmooc-computer-graphics-free-course-202606` |
 | news-seoul-seoseoul-lake-green-free-kids-202606 | 서서울호수공원 유아 자연체험 6월 무료 예약 | 서울시 공공서비스예약 공식 | 정부/공공혜택 | yeyak.seoul.go.kr | `/go/news/news-seoul-seoseoul-lake-green-free-kids-202606` |
 | news-seoul-ujangsan-forest-healing-free-202606 | 우장산 청년 숲마실 힐링체험 5~6월 무료 예약 | 서울시 공공서비스예약 공식 | 정부/공공혜택 | yeyak.seoul.go.kr | `/go/news/news-seoul-ujangsan-forest-healing-free-202606` |
@@ -38,6 +37,7 @@ All visible rows must keep `/go/news/[id]` redirect tracking and must resolve to
 | news-seoul-plant-hospital-free-care-202606 | 서울시 광역반려식물병원 5~6월 무료 진단 예약 | 서울시 공공서비스예약 공식 | 정부/공공혜택 | yeyak.seoul.go.kr | `/go/news/news-seoul-plant-hospital-free-care-202606` |
 | news-seoul-sagajeong-forest-play-free-202606 | 사가정공원 유아숲 생태놀이 6월 무료 예약 | 서울시 공공서비스예약 공식 | 정부/공공혜택 | yeyak.seoul.go.kr | `/go/news/news-seoul-sagajeong-forest-play-free-202606` |
 | news-kmooc-machine-learning-free-course-202606 | K-MOOC 지식발견머신러닝 공식 무료강좌 | K-MOOC 공식 강좌 | 정부/공공혜택 | kmooc.kr | `/go/news/news-kmooc-machine-learning-free-course-202606` |
+| news-kmooc-media-literacy-free-course-202606 | K-MOOC 미디어리터러시 공식 무료강좌 | K-MOOC 공식 강좌 | 정부/공공혜택 | kmooc.kr | `/go/news/news-kmooc-media-literacy-free-course-202606` |
 
 ## Blocked Items
 

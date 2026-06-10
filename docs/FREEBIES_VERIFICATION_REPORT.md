@@ -1,12 +1,12 @@
 # 무료혜택 Verification Report
 
-Generated: 2026-06-10T13:58:24.302Z
+Generated: 2026-06-10T14:14:36.810Z
 
 ## Summary
 
 - Status: PASS
-- Visible official freebies: 145
-- Candidate freebies: 145
+- Visible official freebies: 148
+- Candidate freebies: 148
 - Blocked freebies: 0
 - Exposed search links: 0
 - Exposed non-official links: 0
@@ -25,7 +25,6 @@ Generated: 2026-06-10T13:58:24.302Z
 | news-kmooc-dynamics-free-course-202606 | K-MOOC 동역학 공식 무료강좌 | K-MOOC 공식 강좌 | education | `/go/news/news-kmooc-dynamics-free-course-202606` |
 | news-kmooc-art-face-emotion-free-course-202606 | K-MOOC 예술적 얼굴과 감정조절 공식 무료강좌 | K-MOOC 공식 강좌 | education | `/go/news/news-kmooc-art-face-emotion-free-course-202606` |
 | news-dunkin-monthly-combo-coupon | 던킨 공식 이달의 콤보 쿠폰 혜택 | 던킨 공식 이벤트 | coupon | `/go/news/news-dunkin-monthly-combo-coupon` |
-| news-mcdonalds-happy-snack-free-drink | 맥도날드 해피 스낵 무료 음료 혜택 | 맥도날드 공식 프로모션 | freebie | `/go/news/news-mcdonalds-happy-snack-free-drink` |
 | news-kmooc-computer-graphics-free-course-202606 | K-MOOC 컴퓨터그래픽스 공식 무료강좌 | K-MOOC 공식 강좌 | education | `/go/news/news-kmooc-computer-graphics-free-course-202606` |
 | news-seoul-seoseoul-lake-green-free-kids-202606 | 서서울호수공원 유아 자연체험 6월 무료 예약 | 서울시 공공서비스예약 공식 | public_free | `/go/news/news-seoul-seoseoul-lake-green-free-kids-202606` |
 | news-seoul-ujangsan-forest-healing-free-202606 | 우장산 청년 숲마실 힐링체험 5~6월 무료 예약 | 서울시 공공서비스예약 공식 | public_free | `/go/news/news-seoul-ujangsan-forest-healing-free-202606` |
@@ -40,4 +39,5 @@ Generated: 2026-06-10T13:58:24.302Z
 | news-shinhancard-annual-fee-cashback-202606 | 신한카드 신규 고객 첫 연회비 전액 캐시백 | 신한카드 공식 이벤트 | card | `/go/news/news-shinhancard-annual-fee-cashback-202606` |
 | news-shinhancard-utility-autopay-cashback-202606 | 신한카드 생활요금 자동납부 캐시백·경품 혜택 | 신한카드 공식 이벤트 | card | `/go/news/news-shinhancard-utility-autopay-cashback-202606` |
 | news-gs25-hyeja-bread-tosspay-plusone-202606 | GS25 혜자로운빵 토스페이 1+1 공식 행사 | GS25 공식 이벤트 | convenienceStore | `/go/news/news-gs25-hyeja-bread-tosspay-plusone-202606` |
+| news-tossfeed-tosspay-promotion-202606 | 토스 공식 토스페이 할인·적립 혜택 | 토스 공식 혜택 안내 | point | `/go/news/news-tossfeed-tosspay-promotion-202606` |
 
