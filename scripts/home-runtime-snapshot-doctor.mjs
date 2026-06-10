@@ -225,8 +225,12 @@ async function main() {
   };
   const npmCommand = process.platform === "win32" ? process.env.ComSpec || "cmd.exe" : "npm";
   let port = 3000;
-  let baseUrl = "http://127.0.0.1:3000";
+  let baseUrl = "http://localhost:3000";
   let ready = await tryExistingApi(baseUrl);
+  if (!ready) {
+    baseUrl = "http://127.0.0.1:3000";
+    ready = await tryExistingApi(baseUrl);
+  }
   const childLogs = [];
 
   if (!ready) {

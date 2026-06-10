@@ -66,6 +66,7 @@ const heroQuickFilters: Array<{
   { label: "무료배송", href: "/free-benefits?eventType=freeShipping", eventType: "freeShipping", className: "border-cyan-100 bg-cyan-50 text-cyan-700" },
   { label: "브랜드", href: "/free-benefits?eventType=brandEvent", eventType: "brandEvent", className: "border-red-100 bg-red-50 text-dossa-red" },
   { label: "체험단", href: "/free-benefits?eventType=experiencePanel", eventType: "experiencePanel", className: "border-purple-100 bg-purple-50 text-purple-700" },
+  { label: "오늘마감", href: "/free-benefits?endingToday=true", className: "border-red-100 bg-red-50 text-red-700" },
   { label: "마감임박", href: "/free-benefits?endingSoon=true", className: "border-amber-100 bg-amber-50 text-amber-800" }
 ];
 
@@ -107,6 +108,13 @@ function isEndingSoon(deal: NewsDeal, referenceNow?: number) {
 }
 
 function isEventEndingSoon(event: FreeBenefitEvent, referenceNow?: number) {
+  const endTime = Date.parse(event.endAt);
+  if (!Number.isFinite(endTime)) return false;
+  const hoursLeft = (endTime - (referenceNow ?? Date.now())) / 3_600_000;
+  return hoursLeft >= 0 && hoursLeft <= 14 * 24;
+}
+
+function isEventEndingToday(event: FreeBenefitEvent, referenceNow?: number) {
   const endTime = Date.parse(event.endAt);
   if (!Number.isFinite(endTime)) return false;
   const hoursLeft = (endTime - (referenceNow ?? Date.now())) / 3_600_000;
@@ -206,7 +214,7 @@ export function HomeFreebieHero({
   onOpenNewsDeal
 }: HomeFreebieHeroProps) {
   const visibleDeals = deals.slice(0, 8);
-  const visibleEvents = events.slice(0, 12);
+  const visibleEvents = events.slice(0, 16);
   const officialTotalCount = Math.max(totalCount, events.length || 0);
   const officialEventCount = events.length;
   const sourceDomainCount = eventSourceSummary?.sourceDomainCount ?? new Set(events.map((event) => event.sourceDomain).filter(Boolean)).size;
@@ -224,12 +232,13 @@ export function HomeFreebieHero({
   const verifiedOfficialEventCount = eventSourceSummary?.officialSourceCount ?? events.filter((event) => event.validationStatus === "passed" && event.finalUrl).length;
   const everyoneRewardCount = eventSourceSummary?.everyoneRewardCount ?? events.filter((event) => event.isEveryoneReward).length;
   const firstComeCount = eventSourceSummary?.firstComeCount ?? events.filter((event) => event.isFirstComeFirstServed).length;
+  const endingTodayEventCount = events.filter((event) => isEventEndingToday(event, referenceNow)).length;
   const endingSoonEventCount = eventSourceSummary?.endingSoonCount ?? events.filter((event) => isEventEndingSoon(event, referenceNow)).length;
   const topSourceDomains = eventSourceSummary?.topSourceDomains?.slice(0, 5) ?? [];
   const quickClaimEvents = selectDiverseQuickClaimEvents(
     events.filter((event) => event.status === "active" && event.validationStatus === "passed" && event.finalUrl),
-    6
-  ).slice(0, 6);
+    8
+  ).slice(0, 8);
   const benefitPromiseCards = [
     {
       label: "구매 없이",
@@ -323,7 +332,7 @@ export function HomeFreebieHero({
         { label: "전원", value: everyoneRewardCount, className: "bg-emerald-50 text-emerald-700" },
         { label: "선착순", value: firstComeCount, className: "bg-orange-50 text-orange-700" },
         { label: "쿠폰", value: events.filter((event) => event.benefitType === "coupon").length, className: "bg-yellow-50 text-yellow-700" },
-        { label: "마감임박", value: endingSoonEventCount, className: "bg-rose-50 text-rose-700" }
+        { label: "오늘마감", value: endingTodayEventCount, className: "bg-rose-50 text-rose-700" }
       ]
     : [
         { label: "무료/0원", value: summary?.zeroCost ?? visibleDeals.filter((deal) => deal.benefitType === "freebie" || deal.price === 0).length, className: "bg-emerald-50 text-emerald-700" },
@@ -333,6 +342,7 @@ export function HomeFreebieHero({
       ];
   const getHeroQuickFilterCount = (filter: (typeof heroQuickFilters)[number]) => {
     if (!visibleEvents.length) return null;
+    if (filter.label === "오늘마감") return endingTodayEventCount;
     if (filter.label === "마감임박") return endingSoonEventCount;
     if (!filter.eventType) return null;
     return eventCategoryCounts.find((category) => category.id === filter.eventType)?.count ?? events.filter((event) => event.benefitType === filter.eventType).length;

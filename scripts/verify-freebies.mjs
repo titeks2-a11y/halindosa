@@ -70,7 +70,35 @@ const exposedSearchLinks = visible.filter((deal) => blockedUrlPattern.test(Strin
 const exposedNonOfficialLinks = visible.filter((deal) => !String(deal.linkType || "").startsWith("official")).length;
 const brokenImages = visible.filter((deal) => !deal.imageUrl || String(deal.imageUrl).includes("example.com")).length;
 const minimumVisible = 27;
-const ok = visible.length >= minimumVisible && exposedSearchLinks === 0 && exposedNonOfficialLinks === 0 && brokenImages === 0;
+const noPurchasePattern = /구매 없이|비회원|무료|쿠폰|포인트|출석|룰렛|샘플|체험|전원|선착순|멤버십|앱혜택/;
+const purchaseRequiredPattern = /구매|주문|결제|최소\s*주문|이상\s*구매|배송비\s*결제|카드\s*발급|자동\s*납부|연회비/;
+const officialSourceDomains = new Set(
+  visible
+    .map((deal) => {
+      try {
+        return new URL(deal.finalUrl).hostname.replace(/^www\./, "").toLowerCase();
+      } catch {
+        return "";
+      }
+    })
+    .filter(Boolean)
+);
+const brandNames = new Set(visible.map((deal) => String(deal.merchant || deal.mallName || deal.sourceName || "").trim()).filter(Boolean));
+const lowFrictionVisible = visible.filter((deal) => {
+  const text = [deal.title, deal.summary, deal.sourceName, (deal.tags ?? []).join(" ")].join(" ");
+  return noPurchasePattern.test(text) && !purchaseRequiredPattern.test(text);
+});
+const minimumSourceDomains = 35;
+const minimumBrandNames = 50;
+const minimumLowFriction = 50;
+const ok =
+  visible.length >= minimumVisible &&
+  officialSourceDomains.size >= minimumSourceDomains &&
+  brandNames.size >= minimumBrandNames &&
+  lowFrictionVisible.length >= minimumLowFriction &&
+  exposedSearchLinks === 0 &&
+  exposedNonOfficialLinks === 0 &&
+  brokenImages === 0;
 
 const report = {
   ok,
@@ -80,6 +108,12 @@ const report = {
   candidateCount: candidates.length,
   visibleCount: visible.length,
   blockedCount: blocked.length,
+  officialSourceDomainCount: officialSourceDomains.size,
+  brandCount: brandNames.size,
+  lowFrictionVisibleCount: lowFrictionVisible.length,
+  minimumSourceDomains,
+  minimumBrandNames,
+  minimumLowFriction,
   exposedSearchLinks,
   exposedNonOfficialLinks,
   brokenImages,
@@ -117,6 +151,9 @@ const docs = [
   "",
   `- Status: ${ok ? "PASS" : "FAIL"}`,
   `- Visible official freebies: ${visible.length}`,
+  `- Official source domains: ${officialSourceDomains.size}`,
+  `- Benefit brands: ${brandNames.size}`,
+  `- Low-friction freebies: ${lowFrictionVisible.length}`,
   `- Candidate freebies: ${candidates.length}`,
   `- Blocked freebies: ${blocked.length}`,
   `- Exposed search links: ${exposedSearchLinks}`,

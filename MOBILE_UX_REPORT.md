@@ -8,7 +8,7 @@ Status: PASS
 | Check | Result | Detail |
 | --- | --- | --- |
 | mobile shell width and safe area | PASS | 모바일 기본 폭과 하단 탭 겹침 방지 padding이 유지됩니다. |
-| 375 390 430 viewport freebie fit | PASS | 375/390/430px 모바일 폭에서 무료혜택 히어로가 2열 12카드, 우선 확인 strip, 48px 썸네일, 2줄 제목, 전체 CTA로 압축됩니다. |
+| 375 390 430 viewport freebie fit | PASS | 375/390/430px 모바일 폭에서 무료혜택 히어로가 2열 16카드, 우선 확인 strip, 48px 썸네일, 2줄 제목, 전체 CTA로 압축됩니다. |
 | bottom nav compactness | PASS | 하단 탭은 4개 탭, 56px rail, 48px 이상 터치 영역을 유지합니다. |
 | compact search | PASS | 검색창은 무료혜택 중심 placeholder, 40px 모바일 높이, 데스크톱 결과 수, 추천 검색어를 유지하고 모바일에서는 결과 보조 줄을 줄입니다. |
 | single home search entry | PASS | 모바일 홈에는 혜택 검색 1개만 보이고, 하위 화면 헤더 검색과 데스크톱 상세 검색은 compact/hidden 기준을 유지합니다. |
@@ -28,7 +28,7 @@ Status: PASS
 ## Scope
 
 - 375px, 390px, 430px 모바일 화면에서 첫 화면 정보 밀도를 유지하기 위한 정적 회귀 테스트입니다.
-- 무료혜택 히어로는 작은 모바일 폭에서 2열 8카드, 오늘 우선 확인 strip, 48px 썸네일, 2줄 제목, 전체 폭 CTA를 유지해야 합니다.
+- 무료혜택 히어로는 작은 모바일 폭에서 2열 16카드, 오늘 우선 확인 strip, 48px 썸네일, 2줄 제목, 전체 폭 CTA를 유지해야 합니다.
 - 실제 Playwright 스크린샷을 대체하지는 않지만, 하단 탭 겹침, 과한 검색 영역, 긴 카드, CTA 터치 영역, 토스트 위치 회귀를 빠르게 잡습니다.
 - 홈 검색창 중복, 카테고리 칩 rail, 필터 chip rail, 하위 화면 보조 검색 compact 기준도 함께 검사합니다.
 - 상품 그리드는 모바일 초기 DOM을 줄이기 위해 12개 먼저 렌더링하고, 더보기로 12개씩 확장하는 구조를 검사합니다.

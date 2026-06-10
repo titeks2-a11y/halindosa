@@ -1,20 +1,20 @@
 # Free Benefit Event Verification
 
-Generated: 2026-06-10T17:35:21.253Z
+Generated: 2026-06-10T19:15:32.203Z
 
 | Metric | Value |
 | --- | ---: |
-| Raw deals | 185 |
-| Candidate events | 185 |
-| Deduped events | 185 |
-| Visible active official events | 177 |
+| Raw deals | 190 |
+| Candidate events | 190 |
+| Deduped events | 190 |
+| Visible active official events | 181 |
 | Minimum visible events | 100 |
-| No-purchase visible events | 151 |
+| No-purchase visible events | 155 |
 | Purchase-required visible events | 26 |
 | Blocked events | 0 |
-| Expired events | 8 |
+| Expired events | 9 |
 | Duplicate merged | 0 |
-| Source diversity | 141 |
+| Source diversity | 144 |
 | Host diversity | 107 |
 
 ## Policy
