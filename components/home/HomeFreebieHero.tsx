@@ -147,6 +147,17 @@ export function HomeFreebieHero({
   const verifiedOfficialEventCount = eventSourceSummary?.officialSourceCount ?? events.filter((event) => event.validationStatus === "passed" && event.finalUrl).length;
   const endingSoonEventCount = events.filter((event) => isEventEndingSoon(event, referenceNow)).length;
   const topSourceDomains = eventSourceSummary?.topSourceDomains?.slice(0, 5) ?? [];
+  const quickClaimEvents = events
+    .filter((event) => event.status === "active" && event.validationStatus === "passed" && event.finalUrl)
+    .sort(
+      (a, b) =>
+        Number(a.requiresPurchase) - Number(b.requiresPurchase) ||
+        Number(a.requiresLogin) - Number(b.requiresLogin) ||
+        Number(b.isEveryoneReward) - Number(a.isEveryoneReward) ||
+        Number(b.isFirstComeFirstServed) - Number(a.isFirstComeFirstServed) ||
+        b.priorityScore - a.priorityScore
+    )
+    .slice(0, 4);
   const benefitPromiseCards = [
     {
       label: "구매 없이",
@@ -294,6 +305,48 @@ export function HomeFreebieHero({
               <span className="ml-1 text-blue-600">{source.count.toLocaleString("ko-KR")}</span>
             </span>
           ))}
+        </div>
+      ) : null}
+
+      {quickClaimEvents.length ? (
+        <div
+          data-home-free-benefit-claim-rail="true"
+          className="mt-2 rounded-2xl border border-red-100 bg-gradient-to-r from-red-50 via-white to-emerald-50 p-2"
+          aria-label="지금 바로 받을 무료혜택"
+        >
+          <div className="flex items-center justify-between gap-2">
+            <div className="min-w-0">
+              <p className="text-[10px] font-black text-dossa-red">지금 바로 받기</p>
+              <p className="line-clamp-1 text-[11px] font-bold text-slate-500">구매조건 낮고 공식 링크가 확인된 혜택만 먼저 보여드립니다.</p>
+            </div>
+            <Link href="/free-benefits?sort=noPurchase" className="shrink-0 rounded-full bg-white px-2 py-1 text-[10px] font-black text-dossa-red shadow-sm">
+              더보기
+            </Link>
+          </div>
+          <div className="mt-2 flex snap-x gap-1.5 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {quickClaimEvents.map((event) => (
+              <Link
+                key={event.id}
+                href={`/go/news/${encodeURIComponent(event.id)}?from=home-free-benefit-quick-claim`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="min-h-16 w-[10.25rem] shrink-0 snap-start rounded-2xl border border-white bg-white p-2 shadow-sm transition hover:border-red-100"
+                aria-label={`${event.title} ${event.claimCtaLabel || "무료 혜택 받기"}`}
+              >
+                <div className="flex items-center gap-1">
+                  <span className={`shrink-0 rounded-full px-1.5 py-0.5 text-[9px] font-black ${eventToneClassNames[event.benefitType]}`}>
+                    {getFreeBenefitEventLabel(event.benefitType)}
+                  </span>
+                  <span className="truncate text-[9px] font-black text-slate-400">{event.brandName}</span>
+                </div>
+                <p className="mt-1 line-clamp-2 min-h-[2rem] text-[11px] font-black leading-4 text-slate-950">{event.title}</p>
+                <div className="mt-1 flex items-center justify-between gap-1 text-[9px] font-black">
+                  <span className="truncate text-emerald-700">{event.claimCtaLabel || "무료 혜택 받기"}</span>
+                  <span className="shrink-0 text-slate-400">{event.urgencyLabel || getTimeLeft(event.endAt, referenceNow)}</span>
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
       ) : null}
 
