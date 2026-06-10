@@ -123,6 +123,52 @@ function getEventConditionBadges(event: FreeBenefitEvent) {
   ].filter(Boolean);
 }
 
+function normalizeEventBrandKey(value: string) {
+  const normalized = value.toLowerCase().replace(/\s+/g, "").replace(/코리아|공식|이벤트|혜택/g, "");
+  if (/royalcanin|로얄캐닌/.test(normalized)) return "royalcanin";
+  if (/oliveyoung|올리브영/.test(normalized)) return "oliveyoung";
+  if (/starbucks|스타벅스/.test(normalized)) return "starbucks";
+  if (/yogiyo|요기요/.test(normalized)) return "yogiyo";
+  if (/baemin|배민|배달의민족/.test(normalized)) return "baemin";
+  if (/musinsa|무신사/.test(normalized)) return "musinsa";
+  if (/daiso|다이소/.test(normalized)) return "daiso";
+  if (/cjthemarket|cj더마켓/.test(normalized)) return "cjthemarket";
+  return normalized || "unknown";
+}
+
+function selectDiverseQuickClaimEvents(events: FreeBenefitEvent[], limit = 6) {
+  const selected: FreeBenefitEvent[] = [];
+  const brandCounts = new Map<string, number>();
+  const typeCounts = new Map<string, number>();
+  const sorted = [...events].sort(
+    (a, b) =>
+      Number(a.requiresPurchase) - Number(b.requiresPurchase) ||
+      Number(a.requiresLogin) - Number(b.requiresLogin) ||
+      Number(b.isEveryoneReward) - Number(a.isEveryoneReward) ||
+      Number(b.isFirstComeFirstServed) - Number(a.isFirstComeFirstServed) ||
+      b.priorityScore - a.priorityScore
+  );
+
+  for (const event of sorted) {
+    const brandKey = normalizeEventBrandKey(event.brandName || event.sourceName || event.sourceDomain);
+    const brandRepeat = brandCounts.get(brandKey) ?? 0;
+    const typeRepeat = typeCounts.get(event.benefitType) ?? 0;
+    if (selected.length < 4 && (brandRepeat > 0 || typeRepeat >= 2)) continue;
+    selected.push(event);
+    brandCounts.set(brandKey, brandRepeat + 1);
+    typeCounts.set(event.benefitType, typeRepeat + 1);
+    if (selected.length >= limit) return selected;
+  }
+
+  for (const event of sorted) {
+    if (selected.some((item) => item.id === event.id)) continue;
+    selected.push(event);
+    if (selected.length >= limit) break;
+  }
+
+  return selected;
+}
+
 interface HomeFreebieHeroProps {
   deals: NewsDeal[];
   events?: FreeBenefitEvent[];
@@ -180,17 +226,10 @@ export function HomeFreebieHero({
   const firstComeCount = eventSourceSummary?.firstComeCount ?? events.filter((event) => event.isFirstComeFirstServed).length;
   const endingSoonEventCount = eventSourceSummary?.endingSoonCount ?? events.filter((event) => isEventEndingSoon(event, referenceNow)).length;
   const topSourceDomains = eventSourceSummary?.topSourceDomains?.slice(0, 5) ?? [];
-  const quickClaimEvents = events
-    .filter((event) => event.status === "active" && event.validationStatus === "passed" && event.finalUrl)
-    .sort(
-      (a, b) =>
-        Number(a.requiresPurchase) - Number(b.requiresPurchase) ||
-        Number(a.requiresLogin) - Number(b.requiresLogin) ||
-        Number(b.isEveryoneReward) - Number(a.isEveryoneReward) ||
-        Number(b.isFirstComeFirstServed) - Number(a.isFirstComeFirstServed) ||
-        b.priorityScore - a.priorityScore
-    )
-    .slice(0, 6);
+  const quickClaimEvents = selectDiverseQuickClaimEvents(
+    events.filter((event) => event.status === "active" && event.validationStatus === "passed" && event.finalUrl),
+    6
+  ).slice(0, 6);
   const benefitPromiseCards = [
     {
       label: "구매 없이",

@@ -90,6 +90,19 @@ function stableHash(value: string) {
   return hash >>> 0;
 }
 
+function normalizeFreebieBrandKey(value: string) {
+  const normalized = value.toLowerCase().replace(/\s+/g, "").replace(/코리아|공식|이벤트|혜택/g, "");
+  if (/royalcanin|로얄캐닌/.test(normalized)) return "royalcanin";
+  if (/oliveyoung|올리브영/.test(normalized)) return "oliveyoung";
+  if (/starbucks|스타벅스/.test(normalized)) return "starbucks";
+  if (/yogiyo|요기요/.test(normalized)) return "yogiyo";
+  if (/baemin|배민|배달의민족/.test(normalized)) return "baemin";
+  if (/musinsa|무신사/.test(normalized)) return "musinsa";
+  if (/daiso|다이소/.test(normalized)) return "daiso";
+  if (/cjthemarket|cj더마켓/.test(normalized)) return "cjthemarket";
+  return normalized || "unknown";
+}
+
 function hoursUntil(value: string, referenceNow: number) {
   const timestamp = Date.parse(value);
   if (!Number.isFinite(timestamp)) return Number.POSITIVE_INFINITY;
@@ -146,7 +159,7 @@ function withDiversity(items: NewsDeal[], limit: number) {
   const usedTypes = new Map<string, number>();
 
   for (const item of items) {
-    const sourceKey = item.sourceName || item.mallName || item.officialHost || "unknown";
+    const sourceKey = normalizeFreebieBrandKey(item.mallName || item.merchant || item.officialHost || item.sourceName || "unknown");
     const typeKey = item.benefitType || "unknown";
     const sourceCount = usedSources.get(sourceKey) ?? 0;
     const typeCount = usedTypes.get(typeKey) ?? 0;
