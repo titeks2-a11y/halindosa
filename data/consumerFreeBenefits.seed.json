@@ -1690,5 +1690,115 @@
       "월간혜택",
       "브랜드혜택"
     ]
+  },
+  {
+    "id": "news-naverpay-cafe-point-benefit-202606",
+    "title": "네이버페이 카페 현장결제 포인트 혜택",
+    "summary": "네이버페이 공식 카페 캠페인 페이지에서 요일별 포인트 적립, 첫 현장결제 혜택, 참여 카페 브랜드와 조건을 확인할 수 있습니다.",
+    "merchant": "네이버페이",
+    "category": "카드/멤버십",
+    "benefitType": "point",
+    "startDate": "2026-06-01",
+    "endDate": "2026-07-31",
+    "sourceName": "네이버페이 공식 카페 이벤트",
+    "sourceUrl": "https://campaign2.naver.com/npay/cafe/",
+    "finalUrl": "https://campaign2.naver.com/npay/cafe/",
+    "confidenceScore": 92,
+    "provider": "official_event",
+    "tags": [
+      "공식",
+      "포인트",
+      "카페",
+      "현장결제",
+      "요일혜택"
+    ]
+  },
+  {
+    "id": "news-naverpay-brand-draw-promotion-202606",
+    "title": "네이버페이 공식 브랜드뽑기·결제혜택",
+    "summary": "네이버페이 공식 프로모션 모음에서 브랜드뽑기, 포인트 적립, 결제 혜택 이벤트를 확인할 수 있습니다.",
+    "merchant": "네이버페이",
+    "category": "카드/멤버십",
+    "benefitType": "point",
+    "startDate": "2026-06-01",
+    "endDate": "2026-07-31",
+    "sourceName": "네이버페이 공식 프로모션",
+    "sourceUrl": "https://m-campaign.naver.com/npay-event-all/",
+    "finalUrl": "https://m-campaign.naver.com/npay-event-all/",
+    "confidenceScore": 90,
+    "provider": "official_event",
+    "tags": [
+      "공식",
+      "포인트",
+      "브랜드뽑기",
+      "쿠폰",
+      "선착순"
+    ]
+  },
+  {
+    "id": "news-cjone-signup-welcome-coupon-202606",
+    "title": "CJ ONE 공식 신규가입 축하 쿠폰",
+    "summary": "CJ ONE 공식 쿠폰 안내에서 신규회원 가입축하 쿠폰과 브랜드별 무료·할인 쿠폰 조건을 확인할 수 있습니다.",
+    "merchant": "CJ ONE",
+    "category": "카드/멤버십",
+    "benefitType": "coupon",
+    "startDate": "2026-06-01",
+    "endDate": "2026-12-31",
+    "sourceName": "CJ ONE 공식 쿠폰 안내",
+    "sourceUrl": "https://www.cjone.com/cjmweb/event-coupon/coupon.do",
+    "finalUrl": "https://www.cjone.com/cjmweb/event-coupon/coupon.do",
+    "confidenceScore": 91,
+    "provider": "official_event",
+    "tags": [
+      "공식",
+      "신규가입",
+      "쿠폰",
+      "외식",
+      "전원"
+    ]
+  },
+  {
+    "id": "news-shinhansolpay-first-signup-point-202606",
+    "title": "신한 SOL페이 첫 가입 5천 포인트 혜택",
+    "summary": "신한카드 공식 이벤트 페이지에서 SOL페이 최초 가입 대상 5천 포인트 즉시 지급 조건과 참여 방법을 확인할 수 있습니다.",
+    "merchant": "신한 SOL페이",
+    "category": "카드/멤버십",
+    "benefitType": "point",
+    "startDate": "2026-01-01",
+    "endDate": "2026-12-31",
+    "sourceName": "신한카드 공식 이벤트",
+    "sourceUrl": "https://www.shinhancard.com/pconts/html/benefit/event/1220118_2239.html",
+    "finalUrl": "https://www.shinhancard.com/pconts/html/benefit/event/1220118_2239.html",
+    "confidenceScore": 92,
+    "provider": "official_event",
+    "tags": [
+      "공식",
+      "신규가입",
+      "포인트",
+      "전원",
+      "앱혜택"
+    ]
+  },
+  {
+    "id": "news-kbpay-official-event-point-coupon-202606",
+    "title": "KB Pay 공식 이벤트·포인트리 혜택",
+    "summary": "KB국민카드 공식 이벤트 페이지에서 KB Pay, 포인트리, 스탬프, 제휴 쿠폰 이벤트와 마감일을 확인할 수 있습니다.",
+    "merchant": "KB Pay",
+    "category": "카드/멤버십",
+    "benefitType": "point",
+    "startDate": "2026-06-01",
+    "endDate": "2026-07-31",
+    "sourceName": "KB국민카드 공식 이벤트",
+    "sourceUrl": "https://m.kbcard.com/BON/DVIEW/MBBV0002",
+    "finalUrl": "https://m.kbcard.com/BON/DVIEW/MBBV0002",
+    "confidenceScore": 87,
+    "provider": "official_event",
+    "tags": [
+      "공식",
+      "포인트",
+      "쿠폰",
+      "스탬프",
+      "마감확인"
+    ]
   }
 ]

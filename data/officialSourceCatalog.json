@@ -4156,9 +4156,9 @@
     "integrationMethod": "official_page_or_partner_json_feed",
     "priority": "high",
     "refreshCadenceHours": 6,
-    "allowedUse": "네이버페이 공식 캠페인 페이지의 브랜드뽑기, 포인트, 결제 혜택, 알림 신청 이벤트",
-    "blockedUse": "네이버페이 검색 결과, 비공식 쿠폰 모음, 종료된 카드 이벤트 복사본",
-    "notes": "포인트 지급·알림신청·쿠폰 조건을 benefitSummary에 저장하고 종료 문구가 감지되면 숨김 처리한다."
+    "allowedUse": "네이버페이 공식 캠페인 페이지의 브랜드뽑기, 포인트, 결제 혜택, 알림 신청 이벤트 중 공식 상세 또는 신청 CTA와 혜택 조건이 확인되는 항목만 사용자 카드 finalUrl로 연결",
+    "blockedUse": "네이버페이 검색 결과, 비공식 쿠폰 모음, 종료된 카드 이벤트 복사본, 블로그 후기, 광고성 중간 페이지",
+    "notes": "포인트 지급, 알림신청, 쿠폰 조건을 rewardText와 cautionText에 저장하고 종료 문구가 감지되면 숨김 처리한다. 상세 이벤트 URL이 확인되면 목록보다 상세를 finalUrl로 승격한다."
   },
   {
     "id": "baemin-official-free-delivery-club-event",
@@ -4353,5 +4353,91 @@
     "allowedUse": "LG U+ 공식 유플투쁠 페이지에서 월간 제휴 쿠폰, 무료/할인 혜택, 브랜드 이벤트가 확인되는 항목",
     "blockedUse": "LG U+ 대표 홈, 비공식 쿠폰 모음, 종료된 월간 혜택 캡처",
     "notes": "매월 갱신되는 소비자형 무료 혜택 레일 후보로 우선 노출한다."
+  },
+  {
+    "id": "naverpay-cafe-point-benefit",
+    "label": "네이버페이 카페 현장결제 포인트 혜택",
+    "provider": "official_event",
+    "category": [
+      "무료혜택",
+      "카드/멤버십",
+      "외식/배달"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://campaign2.naver.com/npay/cafe/",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 6,
+    "allowedUse": "네이버페이 공식 카페 캠페인에서 요일별 포인트, 첫 현장결제 혜택, 참여 브랜드와 공식 상세 CTA가 확인되는 항목만 사용자 카드 finalUrl로 연결",
+    "blockedUse": "네이버 검색 결과, 블로그 후기, 결제 혜택이 아닌 일반 가맹점 소개, 종료된 캠페인 복사본",
+    "notes": "요일별 포인트와 첫 결제 조건을 rewardText, cautionText에 분리하고 카페 브랜드 조건을 태그로 저장한다."
+  },
+  {
+    "id": "cjone-signup-welcome-coupon",
+    "label": "CJ ONE 공식 신규가입 축하 쿠폰",
+    "provider": "official_event",
+    "category": [
+      "무료혜택",
+      "카드/멤버십",
+      "외식/배달"
+    ],
+    "sourceType": "official_benefit_page",
+    "officialUrl": "https://www.cjone.com/cjmweb/event-coupon/coupon.do",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 12,
+    "allowedUse": "CJ ONE 공식 쿠폰 안내에서 신규가입, 브랜드 쿠폰, 무료 제공 조건과 공식 발급 CTA가 확인되는 항목",
+    "blockedUse": "CJ ONE 대표 홈, 비공식 쿠폰 캡처, 구매 조건이 확인되지 않는 제휴 할인 소개",
+    "notes": "브랜드별 가입축하 쿠폰은 로그인/구매 조건을 개별 claimRequirements로 분리한다."
+  },
+  {
+    "id": "shinhansolpay-first-signup-point",
+    "label": "신한 SOL페이 첫 가입 포인트 이벤트",
+    "provider": "official_event",
+    "category": [
+      "무료혜택",
+      "카드/멤버십"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.shinhancard.com/pconts/html/benefit/event/1220118_2239.html",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 12,
+    "allowedUse": "신한카드 공식 이벤트에서 SOL페이 최초 가입, 마이신한포인트 지급 조건, 공식 참여 CTA가 확인되는 항목",
+    "blockedUse": "카드 발급 광고 중간 랜딩, 비공식 캐시백 비교글, 신한카드 검색 결과, 종료 이벤트",
+    "notes": "기존 가입자 제외 조건과 개인정보 동의 절차를 cautionText로 표시하고 포인트 지급 조건을 rewardText에 기록한다."
+  },
+  {
+    "id": "kbpay-official-event-point-coupon",
+    "label": "KB Pay 공식 이벤트·포인트리 혜택",
+    "provider": "official_event",
+    "category": [
+      "무료혜택",
+      "카드/멤버십"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://m.kbcard.com/BON/DVIEW/MBBV0002",
+    "preferredEnvKeys": [
+      "OFFICIAL_EVENT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "KB국민카드 공식 이벤트에서 KB Pay, 포인트리, 스탬프, 제휴 쿠폰의 공식 상세 또는 응모 CTA가 확인되는 항목",
+    "blockedUse": "카드 발급 비교 사이트, 광고성 중간 페이지, 검색 결과, 종료된 이벤트",
+    "notes": "목록에서 상세 이벤트가 확인되면 상세 URL을 finalUrl로 승격하고 카드 발급 필수 혜택은 무료혜택 메인 우선순위를 낮춘다."
   }
 ]
