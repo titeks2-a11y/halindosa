@@ -143,6 +143,7 @@ import type { NewsDeadlineSummary, NewsDeal, NewsDealSourceTrust, NewsIntentGrou
 type AppView = "home" | "categories" | "alerts" | "favorites" | "my";
 const INITIAL_HOME_DEAL_LIMIT = 12;
 const HOME_DEAL_LOAD_STEP = 12;
+const HOME_FREEBIE_EVENT_LIMIT = 40;
 
 type InitialNewsSnapshot = { generatedAt?: string; deals?: NewsDeal[]; sourceTrustScores?: NewsDealSourceTrust[]; intentGroups?: NewsIntentGroup[] };
 
@@ -243,10 +244,10 @@ export default function Home({ initialNow = "", initialNewsSnapshot = emptyIniti
   const [newsFreeBenefitCount, setNewsFreeBenefitCount] = useState(() => getNewsFreeBenefitCount(undefined, undefined, initialNewsDeals));
   const [homeFreebies, setHomeFreebies] = useState<NewsDeal[]>(() => selectHomeFreebies(initialNewsDeals, 12, initialClockNow || Date.now()));
   const [homeFreeBenefitEvents, setHomeFreeBenefitEvents] = useState<FreeBenefitEvent[]>(() =>
-    selectPublishableFreeBenefitEvents(initialNewsDeals, 24, initialClockNow || Date.now())
+    selectPublishableFreeBenefitEvents(initialNewsDeals, HOME_FREEBIE_EVENT_LIMIT, initialClockNow || Date.now())
   );
   const [homeFreeBenefitEventCategoryCounts, setHomeFreeBenefitEventCategoryCounts] = useState<FreeBenefitEventCategoryCount[]>(() =>
-    buildFreeBenefitEventCategoryCounts(selectPublishableFreeBenefitEvents(initialNewsDeals, 24, initialClockNow || Date.now()))
+    buildFreeBenefitEventCategoryCounts(selectPublishableFreeBenefitEvents(initialNewsDeals, HOME_FREEBIE_EVENT_LIMIT, initialClockNow || Date.now()))
   );
   const [homeFreebieSummary, setHomeFreebieSummary] = useState(() => buildHomeFreebieSummary(initialNewsDeals, initialClockNow || Date.now()));
   const [newsRecommendedQueries, setNewsRecommendedQueries] = useState<Array<{ query: string; count: number }>>(() =>
@@ -317,7 +318,7 @@ export default function Home({ initialNow = "", initialNewsSnapshot = emptyIniti
         const snapshot = buildHomeNewsSnapshot(data);
         const referenceNow = Date.now();
         const nextFreebies = selectHomeFreebies(snapshot.deals, 12, referenceNow);
-        const nextEvents = selectPublishableFreeBenefitEvents(snapshot.deals, 24, referenceNow);
+        const nextEvents = selectPublishableFreeBenefitEvents(snapshot.deals, HOME_FREEBIE_EVENT_LIMIT, referenceNow);
         setNewsDeals(snapshot.deals);
         setNewsTotalCount(snapshot.totalCount);
         setNewsFreeBenefitCount(snapshot.freeBenefitCount);
@@ -858,8 +859,8 @@ export default function Home({ initialNow = "", initialNewsSnapshot = emptyIniti
           const generatedAt = new Date().toISOString();
           const referenceNow = Date.now();
           setHomeFreebies(selectHomeFreebies(initialNewsDeals, 12, referenceNow));
-          setHomeFreeBenefitEvents(selectPublishableFreeBenefitEvents(initialNewsDeals, 24, referenceNow));
-          setHomeFreeBenefitEventCategoryCounts(buildFreeBenefitEventCategoryCounts(selectPublishableFreeBenefitEvents(initialNewsDeals, 24, referenceNow)));
+          setHomeFreeBenefitEvents(selectPublishableFreeBenefitEvents(initialNewsDeals, HOME_FREEBIE_EVENT_LIMIT, referenceNow));
+          setHomeFreeBenefitEventCategoryCounts(buildFreeBenefitEventCategoryCounts(selectPublishableFreeBenefitEvents(initialNewsDeals, HOME_FREEBIE_EVENT_LIMIT, referenceNow)));
           setHomeFreebieSummary(buildHomeFreebieSummary(initialNewsDeals, referenceNow));
           setLastHomeSyncAt(generatedAt);
           setHomeQuality(null);
@@ -926,7 +927,7 @@ export default function Home({ initialNow = "", initialNewsSnapshot = emptyIniti
         setNewsUpdatedAt(snapshot.news.updatedAt);
         setNewsFreshness(snapshot.news.freshness);
         setHomeFreebies(snapshot.freebies.deals.length ? snapshot.freebies.deals : selectHomeFreebies(snapshot.news.deals, 12, Date.now()));
-        const nextHomeFreeBenefitEvents = snapshot.freebies.events.length ? snapshot.freebies.events : selectPublishableFreeBenefitEvents(snapshot.news.deals, 24, Date.now());
+        const nextHomeFreeBenefitEvents = snapshot.freebies.events.length ? snapshot.freebies.events : selectPublishableFreeBenefitEvents(snapshot.news.deals, HOME_FREEBIE_EVENT_LIMIT, Date.now());
         setHomeFreeBenefitEvents(nextHomeFreeBenefitEvents);
         setHomeFreeBenefitEventCategoryCounts(snapshot.freebies.categoryCounts?.length ? snapshot.freebies.categoryCounts : buildFreeBenefitEventCategoryCounts(nextHomeFreeBenefitEvents));
         setHomeFreebieSummary(snapshot.freebies.summary ?? buildHomeFreebieSummary(snapshot.news.deals, Date.now()));

@@ -20,7 +20,7 @@ const benefitTypeIds = new Set<FreeBenefitEventType>(freeBenefitEventCategories.
 function parseLimit(value: string | null) {
   const limit = Number(value ?? 24);
   if (!Number.isFinite(limit)) return 24;
-  return Math.min(Math.max(Math.floor(limit), 1), 80);
+  return Math.min(Math.max(Math.floor(limit), 1), 128);
 }
 
 function parseBoolean(value: string | null) {

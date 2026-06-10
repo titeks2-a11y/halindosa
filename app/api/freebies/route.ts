@@ -44,7 +44,7 @@ export async function GET(request: Request) {
     const limit = Number(searchParams.get("limit") ?? 16);
     const q = searchParams.get("q")?.trim();
     const includePublic = searchParams.get("includePublic") === "true";
-    const safeLimit = Math.min(Math.max(limit, 1), 96);
+    const safeLimit = Math.min(Math.max(limit, 1), 128);
     const news = getVisibleNewsDeals({
       limit: 0,
       q,
@@ -52,7 +52,7 @@ export async function GET(request: Request) {
       includePublicPolicy: includePublic
     });
     const defaultDeals = news.deals;
-    const freebies = selectHomeFreebies(defaultDeals, Math.min(safeLimit, 64), Date.parse(generatedAt));
+    const freebies = selectHomeFreebies(defaultDeals, Math.min(safeLimit, 80), Date.parse(generatedAt));
     const events = selectPublishableFreeBenefitEvents(defaultDeals, safeLimit, Date.parse(generatedAt), {
       includePublic
     });

@@ -34,6 +34,7 @@ export interface FreeBenefitEvent {
   sourceName: string;
   sourceType: FreeBenefitSourceType;
   sourceUrl: string;
+  sourceDomain: string;
   startAt: string;
   endAt: string;
   participationCondition: string;
@@ -55,6 +56,8 @@ export interface FreeBenefitEvent {
   validationReason: string;
   qualityScore: number;
   priorityScore: number;
+  freeConditionScore: number;
+  interestScore: number;
   isHidden: boolean;
   hiddenReason: string;
   tags: string[];

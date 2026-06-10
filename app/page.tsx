@@ -2,7 +2,7 @@ import { headers } from "next/headers";
 import HomeClient from "@/components/HomeClient";
 import { getVisibleNewsDeals } from "@/lib/deals/newsDeals";
 
-const INITIAL_HOME_NEWS_LIMIT = 48;
+const INITIAL_HOME_NEWS_LIMIT = 96;
 
 export default async function Page() {
   const initialNow = new Date().toISOString();

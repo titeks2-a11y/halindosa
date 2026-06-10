@@ -50,7 +50,7 @@ if (includesAll(appShell, ["max-w-[480px]", "pb-[calc(5rem+env(safe-area-inset-b
 if (
   includesAll(homeFreebieHero, [
     "grid grid-cols-2",
-    "visibleEvents = events.slice(0, 8)",
+    "visibleEvents = events.slice(0, 12)",
     "priorityBrands",
     'data-home-free-benefit-priority-strip="true"',
     'data-home-free-benefit-promise-strip="true"',
@@ -63,7 +63,7 @@ if (
   ]) &&
   includesAll(appShell, ["max-w-[480px]", "pb-[calc(5rem+env(safe-area-inset-bottom))]"])
 ) {
-  pass("375 390 430 viewport freebie fit", "375/390/430px 모바일 폭에서 무료혜택 히어로가 2열 8카드, 우선 확인 strip, 48px 썸네일, 2줄 제목, 전체 CTA로 압축됩니다.");
+  pass("375 390 430 viewport freebie fit", "375/390/430px 모바일 폭에서 무료혜택 히어로가 2열 12카드, 우선 확인 strip, 48px 썸네일, 2줄 제목, 전체 CTA로 압축됩니다.");
 } else {
   fail("375 390 430 viewport freebie fit", "375/390/430px 모바일 기준 무료혜택 히어로 카드 밀도, 썸네일, 제목 clamp, CTA 또는 safe-area 기준이 부족합니다.");
 }

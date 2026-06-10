@@ -128,7 +128,7 @@ export function HomeFreebieHero({
   onOpenNewsDeal
 }: HomeFreebieHeroProps) {
   const visibleDeals = deals.slice(0, 8);
-  const visibleEvents = events.slice(0, 8);
+  const visibleEvents = events.slice(0, 12);
   const officialTotalCount = Math.max(totalCount, events.length || 0);
   const priorityBrands = Array.from(
     new Set(
@@ -169,6 +169,12 @@ export function HomeFreebieHero({
       className: "border-blue-100 bg-blue-50 text-blue-700"
     }
   ];
+  const getConditionLabel = (event: FreeBenefitEvent) => {
+    if (event.freeConditionScore >= 90) return "조건 매우 쉬움";
+    if (event.freeConditionScore >= 75) return "조건 쉬움";
+    if (!event.requiresPurchase) return "구매 없이 확인";
+    return "조건 확인";
+  };
   const quickStats = visibleEvents.length
     ? [
         { label: "전원", value: events.filter((event) => event.isEveryoneReward).length, className: "bg-emerald-50 text-emerald-700" },
@@ -323,7 +329,7 @@ export function HomeFreebieHero({
       </nav>
 
       {visibleEvents.length ? (
-        <div className="mt-2 grid grid-cols-2 gap-2 sm:mt-3 sm:grid-cols-4 xl:grid-cols-8" aria-label="공식 무료혜택 이벤트 카드">
+        <div className="mt-2 grid grid-cols-2 gap-2 sm:mt-3 sm:grid-cols-4 xl:grid-cols-6" aria-label="공식 무료혜택 이벤트 카드">
           {visibleEvents.map((event) => (
             <article key={event.id} data-home-free-benefit-event-card="true" className="min-w-0 rounded-2xl border border-slate-100 bg-slate-50 p-2">
               <div className="flex items-start gap-2 sm:block">
@@ -368,6 +374,14 @@ export function HomeFreebieHero({
                   <CalendarClock size={10} />
                   {event.urgencyLabel || getTimeLeft(event.endAt, referenceNow)}
                 </span>
+                <span className="rounded-full bg-white px-1.5 py-0.5 text-[9px] font-black text-emerald-700">
+                  {getConditionLabel(event)}
+                </span>
+                {event.sourceDomain ? (
+                  <span className="max-w-[7rem] truncate rounded-full bg-white px-1.5 py-0.5 text-[9px] font-black text-blue-700">
+                    {event.sourceDomain}
+                  </span>
+                ) : null}
                 {event.trustBadges.slice(1, 3).map((badge) => (
                   <span key={badge} className="rounded-full bg-white px-1.5 py-0.5 text-[9px] font-black text-slate-500">
                     {badge}

@@ -24,6 +24,8 @@ export const freeBenefitEventCategories: Array<{ id: FreeBenefitEventType; label
   { id: "checkIn", label: "출석체크" },
   { id: "roulette", label: "룰렛" },
   { id: "signup", label: "신규가입" },
+  { id: "freeShipping", label: "무료배송" },
+  { id: "brandEvent", label: "브랜드이벤트" },
   { id: "publicFree", label: "공공무료" },
   { id: "experiencePanel", label: "체험단" }
 ];
@@ -103,6 +105,16 @@ export function isSafeBenefitEventUrl(value?: string) {
   }
 }
 
+export function getBenefitEventSourceDomain(value?: string) {
+  if (!value) return "";
+
+  try {
+    return new URL(value).hostname.replace(/^www\./, "").toLowerCase();
+  } catch {
+    return "";
+  }
+}
+
 function inferEventType(deal: NewsDeal, text: string): FreeBenefitEventType {
   if (everyoneRewardPattern.test(text)) return "everyone";
   if (firstComePattern.test(text)) return "firstCome";
@@ -169,6 +181,44 @@ function buildTrustBadges(event: Pick<FreeBenefitEvent, "sourceType" | "requires
   ].filter(Boolean);
 }
 
+function getFreeConditionScore({
+  benefitType,
+  requiresLogin,
+  requiresPurchase,
+  isEveryoneReward,
+  isFirstComeFirstServed
+}: {
+  benefitType: FreeBenefitEventType;
+  requiresLogin: boolean;
+  requiresPurchase: boolean;
+  isEveryoneReward: boolean;
+  isFirstComeFirstServed: boolean;
+}) {
+  let score = 50;
+
+  if (!requiresPurchase) score += 22;
+  else score -= 24;
+  if (!requiresLogin) score += 10;
+  else score -= 4;
+  if (isEveryoneReward) score += 14;
+  if (isFirstComeFirstServed) score += 5;
+  if (benefitType === "coupon" || benefitType === "sample" || benefitType === "freeTrial" || benefitType === "gifticon" || benefitType === "pointCashback") score += 12;
+  if (benefitType === "publicFree") score -= 40;
+
+  return Math.max(0, Math.min(100, score));
+}
+
+function getInterestScore(deal: NewsDeal, benefitType: FreeBenefitEventType) {
+  const text = [deal.title, deal.summary, deal.merchant, deal.mallName, deal.sourceName, deal.tags.join(" ")].join(" ");
+  let score = Number(deal.priorityScore ?? deal.confidenceScore ?? 0);
+
+  if (/올리브영|무신사|스타벅스|배민|요기요|컬리|SSG|롯데|G마켓|옥션|11번가|쿠팡|네이버|GS25|CU|세븐일레븐|이마트24|다이소/i.test(text)) score += 18;
+  if (/무료|쿠폰|샘플|체험|전원|선착순|기프티콘|포인트|캐시백|출석|룰렛/i.test(text)) score += 16;
+  if (benefitType === "publicFree") score -= 60;
+
+  return Math.max(0, Math.min(100, Math.round(score)));
+}
+
 function buildParticipationCondition({
   deal,
   benefitType,
@@ -221,6 +271,8 @@ export function getFreeBenefitEventScore(event: FreeBenefitEvent, referenceNow =
   return (
     event.qualityScore +
     event.priorityScore * 0.5 +
+    event.freeConditionScore * 0.7 +
+    event.interestScore * 0.4 +
     consumerTypeBoost +
     publicPolicyPenalty +
     (event.isEveryoneReward ? 18 : 0) +
@@ -263,6 +315,9 @@ export function toFreeBenefitEvent(deal: NewsDeal, referenceNow = Date.now()): F
   const isEveryoneReward = everyoneRewardPattern.test(combinedText);
   const isFirstComeFirstServed = firstComePattern.test(combinedText);
   const endAt = deal.expiresAt || deal.endDate;
+  const sourceDomain = getBenefitEventSourceDomain(deal.finalUrl || deal.sourceUrl || deal.eventUrl);
+  const freeConditionScore = getFreeConditionScore({ benefitType, requiresLogin, requiresPurchase, isEveryoneReward, isFirstComeFirstServed });
+  const interestScore = getInterestScore(deal, benefitType);
 
   const event: FreeBenefitEvent = {
     id: deal.id,
@@ -277,6 +332,7 @@ export function toFreeBenefitEvent(deal: NewsDeal, referenceNow = Date.now()): F
     sourceName: sanitizeBenefitText(deal.sourceName || deal.merchant, 50),
     sourceType,
     sourceUrl: deal.sourceUrl,
+    sourceDomain,
     startAt: deal.startDate,
     endAt,
     participationCondition: buildParticipationCondition({ deal, benefitType, requiresLogin, requiresPurchase, isEveryoneReward, isFirstComeFirstServed }),
@@ -301,6 +357,8 @@ export function toFreeBenefitEvent(deal: NewsDeal, referenceNow = Date.now()): F
       Number(deal.priorityScore ?? deal.confidenceScore ?? 0) +
       getMainFeedConsumerPriorityPenalty(deal) +
       (isConsumerFacingBenefit(deal) ? 12 : 0),
+    freeConditionScore,
+    interestScore,
     isHidden: deal.isHidden || status !== "active" || validationStatus !== "passed",
     hiddenReason: sanitizeBenefitText(deal.hiddenReason || (status === "active" ? "" : status), 80),
     tags: deal.tags.map((tag) => sanitizeBenefitText(tag, 24)).filter(Boolean).slice(0, 8)
