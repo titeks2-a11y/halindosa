@@ -139,6 +139,36 @@ export function HomeFreebieHero({
     )
   );
   const checkedLabel = isRefreshing ? "검증 중" : freshnessLabel || (updatedAt ? getRelativeTime(updatedAt, referenceNow) : "확인 대기");
+  const lowFrictionEventCount = events.filter((event) => !event.requiresPurchase && event.status === "active").length;
+  const noSignupEventCount = events.filter((event) => !event.requiresLogin && !event.requiresPurchase).length;
+  const verifiedOfficialEventCount = events.filter((event) => event.validationStatus === "passed" && event.finalUrl).length;
+  const endingSoonEventCount = events.filter((event) => isEventEndingSoon(event, referenceNow)).length;
+  const benefitPromiseCards = [
+    {
+      label: "구매 없이",
+      value: lowFrictionEventCount,
+      copy: "먼저 받을 혜택",
+      className: "border-emerald-100 bg-emerald-50 text-emerald-700"
+    },
+    {
+      label: "가입 부담 낮음",
+      value: noSignupEventCount,
+      copy: "조건 쉬운 혜택",
+      className: "border-sky-100 bg-sky-50 text-sky-700"
+    },
+    {
+      label: "오늘 우선",
+      value: endingSoonEventCount,
+      copy: "마감 임박",
+      className: "border-orange-100 bg-orange-50 text-orange-700"
+    },
+    {
+      label: "공식 검증",
+      value: verifiedOfficialEventCount,
+      copy: "안전한 링크",
+      className: "border-blue-100 bg-blue-50 text-blue-700"
+    }
+  ];
   const quickStats = visibleEvents.length
     ? [
         { label: "전원", value: events.filter((event) => event.isEveryoneReward).length, className: "bg-emerald-50 text-emerald-700" },
@@ -219,6 +249,24 @@ export function HomeFreebieHero({
             <span key={brand} className="shrink-0 rounded-full bg-white px-2 py-1 text-[10px] font-black text-slate-700 shadow-sm">
               {brand}
             </span>
+          ))}
+        </div>
+      ) : null}
+
+      {visibleEvents.length ? (
+        <div
+          data-home-free-benefit-promise-strip="true"
+          className="mt-2 grid grid-cols-2 gap-1.5 sm:grid-cols-4"
+          aria-label="무료혜택 우선순위 신호"
+        >
+          {benefitPromiseCards.map((item) => (
+            <div key={item.label} className={`rounded-2xl border px-2 py-1.5 ${item.className}`}>
+              <div className="flex items-baseline justify-between gap-1">
+                <span className="truncate text-[10px] font-black">{item.label}</span>
+                <span className="text-xs font-black">{item.value.toLocaleString("ko-KR")}</span>
+              </div>
+              <p className="mt-0.5 truncate text-[9px] font-bold opacity-80">{item.copy}</p>
+            </div>
           ))}
         </div>
       ) : null}
