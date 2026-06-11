@@ -113,7 +113,9 @@ const requiredHomeQuickFilterParams = [
   "eventType=experiencePanel",
   "eventType=freeShipping",
   "eventType=brandEvent",
-  "endingSoon=true"
+  "deadline=today",
+  "deadline=week",
+  "deadline=soon"
 ];
 
 const checks = [

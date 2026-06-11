@@ -44,6 +44,7 @@
 - `docs/FREE_BENEFIT_SCORING.md`에 무료혜택 노출 조건과 점수 기준을 정리했다.
 - `benefit:category:doctor`를 추가해 전원증정, 선착순, 쿠폰, 무료 샘플, 무료체험, 기프티콘, 포인트/캐시백, 무료배송, 신규가입, 출석체크 카테고리별 최소 노출 수량을 출시 게이트에서 확인한다.
 - `/api/benefits/events`는 `deadline=today|week|soon`을 지원하며, `/free-benefits` 화면은 `오늘마감`, `이번주마감`, `마감 임박만` 칩으로 공식 무료혜택을 마감 기준으로 좁힐 수 있다.
+- 홈 무료혜택 히어로의 빠른 필터도 `deadline=today|week|soon` URL을 사용해 운영 API와 같은 마감 기준으로 이동한다.
 
 ## 현재 데이터 품질 기준
 
@@ -89,6 +90,16 @@
   - `npm run build`: 통과
   - `npm run build:android`: 통과
   - `npm run cap:sync`: 경고 없이 통과
+  - `npm run android:webview:doctor`: 13/13 통과
+  - `npm run workspace:doctor:strict`: 재생성 산출물 0B, 통과
+- 홈 히어로 deadline URL 정리 후 추가 확인:
+  - `npm run benefit:event:contract`: 17/17 통과
+  - `npm run lint`: 통과
+  - `npm run smoke:local`: 104/104 통과
+  - `npm run release:doctor`: 191/191 통과
+  - `npm run build`: 통과
+  - `npm run build:android`: 통과
+  - `npm run cap:sync`: 통과
   - `npm run android:webview:doctor`: 13/13 통과
   - `npm run workspace:doctor:strict`: 재생성 산출물 0B, 통과
 - `npm run build`: 통과
