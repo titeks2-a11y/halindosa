@@ -59,6 +59,18 @@ function isEndingSoon(deal: NewsDeal) {
   return Number.isFinite(endsAt) && endsAt - Date.now() <= 3 * 24 * 60 * 60 * 1000;
 }
 
+function isEndingToday(deal: NewsDeal) {
+  const endsAt = Date.parse(deal.endDate || deal.expiresAt);
+  const hoursLeft = (endsAt - Date.now()) / 3_600_000;
+  return Number.isFinite(endsAt) && hoursLeft >= 0 && hoursLeft <= 24;
+}
+
+function isEndingThisWeek(deal: NewsDeal) {
+  const endsAt = Date.parse(deal.endDate || deal.expiresAt);
+  const hoursLeft = (endsAt - Date.now()) / 3_600_000;
+  return Number.isFinite(endsAt) && hoursLeft >= 0 && hoursLeft <= 7 * 24;
+}
+
 function uniqueByMerchant(deals: NewsDeal[], limit: number) {
   const seen = new Set<string>();
   const firstPass: NewsDeal[] = [];
@@ -154,15 +166,16 @@ export default function Page() {
   const freshness = newsResult.freshnessAgeMinutes === null ? "최근 확인" : `${newsResult.freshnessAgeMinutes}분 전 확인`;
 
   const chips = [
-    { label: "전원증정", value: mainBenefits.filter((deal) => /전원|증정/.test([deal.title, deal.summary, ...deal.tags].join(" "))).length },
-    { label: "선착순", value: mainBenefits.filter((deal) => /선착순|한정/.test([deal.title, deal.summary, ...deal.tags].join(" "))).length },
-    { label: "쿠폰", value: statByType(mainBenefits, "coupon") },
-    { label: "샘플", value: statByType(mainBenefits, "sample") },
-    { label: "기프티콘", value: statByType(mainBenefits, "gifticon") },
-    { label: "포인트", value: statByType(mainBenefits, "point") },
-    { label: "무료체험", value: mainBenefits.filter((deal) => /무료\s*체험|체험단|체험팩/.test([deal.title, deal.summary, ...deal.tags].join(" "))).length },
-    { label: "무배", value: statByType(mainBenefits, "freeShipping") },
-    { label: "오늘마감", value: statByType(mainBenefits, "ending") }
+    { label: "전원증정", value: mainBenefits.filter((deal) => /전원|증정/.test([deal.title, deal.summary, ...deal.tags].join(" "))).length, href: "/free-benefits?eventType=everyone" },
+    { label: "선착순", value: mainBenefits.filter((deal) => /선착순|한정/.test([deal.title, deal.summary, ...deal.tags].join(" "))).length, href: "/free-benefits?eventType=firstCome&firstComeOnly=true" },
+    { label: "쿠폰", value: statByType(mainBenefits, "coupon"), href: "/free-benefits?eventType=coupon" },
+    { label: "샘플", value: statByType(mainBenefits, "sample"), href: "/free-benefits?eventType=sample" },
+    { label: "기프티콘", value: statByType(mainBenefits, "gifticon"), href: "/free-benefits?eventType=gifticon" },
+    { label: "포인트", value: statByType(mainBenefits, "point"), href: "/free-benefits?eventType=pointCashback" },
+    { label: "무료체험", value: mainBenefits.filter((deal) => /무료\s*체험|체험단|체험팩/.test([deal.title, deal.summary, ...deal.tags].join(" "))).length, href: "/free-benefits?eventType=freeTrial" },
+    { label: "무배", value: statByType(mainBenefits, "freeShipping"), href: "/free-benefits?eventType=freeShipping" },
+    { label: "오늘마감", value: mainBenefits.filter(isEndingToday).length, href: "/free-benefits?deadline=today" },
+    { label: "이번주마감", value: mainBenefits.filter(isEndingThisWeek).length, href: "/free-benefits?deadline=week" }
   ];
 
   return (
@@ -199,10 +212,10 @@ export default function Page() {
           </div>
         </section>
 
-        <section className="grid grid-cols-3 gap-1.5 lg:grid-cols-9" aria-label="카테고리 바로가기">
+        <section className="grid grid-cols-3 gap-1.5 lg:grid-cols-10" aria-label="카테고리 바로가기">
           <h2 className="sr-only">카테고리 바로가기</h2>
           {chips.map((chip) => (
-            <a key={chip.label} href={`/free-benefits?q=${encodeURIComponent(chip.label)}`} className="rounded-2xl border border-white bg-white px-2.5 py-2 text-center shadow-sm">
+            <a key={chip.label} href={chip.href} className="rounded-2xl border border-white bg-white px-2.5 py-2 text-center shadow-sm">
               <span className="block text-[11px] font-black text-slate-950">{chip.label}</span>
               <span className="mt-0.5 block text-xs font-black text-dossa-red">{chip.value}개</span>
             </a>

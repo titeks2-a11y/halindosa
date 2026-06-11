@@ -21,6 +21,7 @@ const typeSource = read("types/freeBenefitEvent.ts");
 const normalizerSource = read("lib/freeBenefitEvents.ts");
 const eventsRouteSource = read("app/api/benefits/events/route.ts");
 const freebiesRouteSource = read("app/api/freebies/route.ts");
+const appPageSource = read("app/page.tsx");
 const homeRouteSource = read("app/api/home/route.ts");
 const homeFreebieHeroSource = read("components/home/HomeFreebieHero.tsx");
 const freeBenefitsClientSource = read("components/FreeBenefitsClient.tsx");
@@ -118,6 +119,19 @@ const requiredHomeQuickFilterParams = [
   "deadline=soon"
 ];
 
+const requiredAppPageQuickFilterParams = [
+  "eventType=everyone",
+  "eventType=firstCome",
+  "eventType=coupon",
+  "eventType=sample",
+  "eventType=freeTrial",
+  "eventType=gifticon",
+  "eventType=pointCashback",
+  "eventType=freeShipping",
+  "deadline=today",
+  "deadline=week"
+];
+
 const checks = [
   check(
     "FreeBenefitEvent canonical fields",
@@ -131,6 +145,14 @@ const checks = [
       normalizerSource.includes("freeBenefitEventCategories") &&
       normalizerSource.includes("getFreeBenefitEventLabel"),
     `Missing benefit types: ${hasAll(typeSource, requiredBenefitTypes).join(", ") || "none"}; missing labels: ${hasAll(normalizerSource, requiredFilterLabels).join(", ") || "none"}`
+  ),
+  check(
+    "home page quick filters use canonical benefit and deadline params",
+    hasAll(appPageSource, requiredAppPageQuickFilterParams).length === 0 &&
+      appPageSource.includes("isEndingToday") &&
+      appPageSource.includes("isEndingThisWeek") &&
+      !appPageSource.includes("href={`/free-benefits?q=${encodeURIComponent(chip.label)}`"),
+    `Missing home page params: ${hasAll(appPageSource, requiredAppPageQuickFilterParams).join(", ") || "none"}`
   ),
   check(
     "FreeBenefitEvent status contract",
