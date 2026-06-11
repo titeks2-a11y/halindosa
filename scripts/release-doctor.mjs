@@ -1377,6 +1377,17 @@ async function checkCapacitor() {
   if (!config.includes("webDir: 'out'")) fail("capacitor webDir", "Expected out.");
   else pass("capacitor webDir", "out");
 
+  if (
+    !config.includes("defaultAppWebUrl = 'https://www.halindosa.com'") ||
+    !config.includes("url: appWeb.origin") ||
+    !config.includes("allowNavigation: ['halindosa.com', 'www.halindosa.com']") ||
+    !config.includes("errorPath: 'offline.html'")
+  ) {
+    fail("Capacitor production WebView", "Android/iOS app should load https://www.halindosa.com with a Halindosa-only navigation allowlist and local error fallback.");
+  } else {
+    pass("Capacitor production WebView", "Native shells load the production Halindosa web app and keep local export fallback.");
+  }
+
   if (!nextConfig.includes("isCapacitorBuild") || !nextConfig.includes("? {}") || !androidBuildScript.includes("DEAL_DATA_MODE")) {
     fail("Capacitor export stability", "Capacitor export should avoid unsupported headers and set DEAL_DATA_MODE.");
   } else {
@@ -1388,6 +1399,7 @@ async function checkAndroid() {
   const gradle = await text("android/app/build.gradle");
   const strings = await text("android/app/src/main/res/values/strings.xml");
   const manifest = await text("android/app/src/main/AndroidManifest.xml");
+  const androidConfigXml = await text("android/app/src/main/res/xml/config.xml");
 
   if (!gradle.includes('applicationId "com.halindosa.app"')) fail("Android applicationId", "Expected com.halindosa.app.");
   else pass("Android applicationId", "com.halindosa.app");
@@ -1409,6 +1421,18 @@ async function checkAndroid() {
   if (!hasInternet) fail("Android permissions", "INTERNET permission is required for external pages.");
   else if (forbiddenPermissions.length) fail("Android permissions", `Unexpected permissions: ${forbiddenPermissions.join(", ")}`);
   else pass("Android permissions", "Only expected network permission found.");
+
+  if (!manifest.includes('android:usesCleartextTraffic="false"') || !manifest.includes('android:networkSecurityConfig="@xml/network_security_config"')) {
+    fail("Android WebView network security", "Production app should disable cleartext traffic and reference network_security_config.");
+  } else if (!existsSync(join(root, "android/app/src/main/res/xml/network_security_config.xml"))) {
+    fail("Android WebView network security", "Missing network_security_config.xml.");
+  } else if (androidConfigXml.includes('<access origin="*"')) {
+    fail("Android WebView domain allowlist", "config.xml should not allow wildcard access origins.");
+  } else if (!androidConfigXml.includes("https://halindosa.com") || !androidConfigXml.includes("https://www.halindosa.com")) {
+    fail("Android WebView domain allowlist", "config.xml should allow only Halindosa HTTPS domains.");
+  } else {
+    pass("Android WebView network security", "HTTPS-only WebView access is restricted to Halindosa domains.");
+  }
 
   if (!manifest.includes('android:scheme="halindosa"') || !manifest.includes('android:host="auth"') || !manifest.includes('android:pathPrefix="/callback"')) {
     fail("Android auth deep link", "AndroidManifest should register halindosa://auth/callback.");

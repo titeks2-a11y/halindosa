@@ -826,28 +826,6 @@
     "notes": "회원가입 조건, 제외 매장, 쿠폰 유효기간을 claimWarning에 분리해 저장한다."
   },
   {
-    "id": "dominos-official-discount-benefits",
-    "label": "도미노피자 공식 할인 및 제휴 혜택",
-    "provider": "official_event",
-    "category": [
-      "외식/배달",
-      "무료혜택",
-      "카드/멤버십"
-    ],
-    "sourceType": "official_benefit_page",
-    "officialUrl": "https://web.dominos.co.kr/event/discount?todo=main",
-    "preferredEnvKeys": [
-      "OFFICIAL_EVENT_FEED_URLS",
-      "DEAL_EVENT_FEED_URLS"
-    ],
-    "integrationMethod": "official_page_or_partner_json_feed",
-    "priority": "high",
-    "refreshCadenceHours": 12,
-    "allowedUse": "도미노피자 공식 할인 및 제휴 페이지에서 통신사, 카드, 쿠폰 조건이 확인되는 혜택",
-    "blockedUse": "비공식 할인코드, 종료 이벤트, 검색 결과, 배너 이미지 단독",
-    "notes": "제휴 할인은 중복 적용 가능 여부와 온라인 주문 조건을 함께 저장한다."
-  },
-  {
     "id": "pizzahut-member-free-coupon-benefit",
     "label": "피자헛 공식 회원 쿠폰 혜택",
     "provider": "public_coupon",

@@ -2,10 +2,10 @@
 
 이 문서는 공식 이벤트/혜택 소스 후보의 현재 접근 상태를 non-strict 방식으로 기록합니다. 무단 크롤링을 수행하지 않으며, 보호된 페이지는 공식 API/RSS/제휴 feed 또는 수동 승인 데이터로 연결해야 합니다.
 
-- 생성 시각: 2026-06-10T19:46:54.839Z
+- 생성 시각: 2026-06-11T20:29:15.179Z
 - 모드: non_strict_live_readiness
-- 후보 소스: 212개
-- 접근 가능: 186개
+- 후보 소스: 211개
+- 접근 가능: 185개
 - 보호/권한 확인 필요: 26개
 - 검토 필요: 0개
 - timeout/network error: 0개
@@ -22,7 +22,7 @@
 
 | 상태 | 수 | 운영 액션 |
 | --- | ---: | --- |
-| reachable | 186 | 승인 feed 또는 공식 페이지 매핑 후보로 유지 |
+| reachable | 185 | 승인 feed 또는 공식 페이지 매핑 후보로 유지 |
 | guarded | 26 | 공식 API/RSS/제휴 feed 확인 |
 | needs_review | 0 | 최종 도메인과 응답 정책 수동 확인 |
 | timeout/network_error | 0 | 재시도 또는 담당자 확인 |
@@ -71,7 +71,6 @@
 | parisbaguette-promotion | official_event | medium | reachable | 200 | paris.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | mcdonalds-happy-snack-free-drink | public_coupon | high | reachable | 200 | mcdonalds.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | kfc-new-member-coupon-benefit | public_coupon | high | reachable | 200 | kfckorea.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
-| dominos-official-discount-benefits | official_event | high | reachable | 200 | web.dominos.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | pizzahut-member-free-coupon-benefit | public_coupon | high | guarded | 200 | pizzahut.co.kr | 로그인/권한 페이지를 수집하지 말고 공식 API/RSS/제휴 feed 또는 수동 승인 매핑 사용 |
 | starbucks-rewards-official-benefit | public_coupon | high | reachable | 200 | starbucks.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | megabox-membership-official-benefit | public_coupon | medium | guarded | 200 | megabox.co.kr | 로그인/권한 페이지를 수집하지 말고 공식 API/RSS/제휴 feed 또는 수동 승인 매핑 사용 |

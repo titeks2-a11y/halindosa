@@ -208,7 +208,7 @@ async function probeSource(source) {
     preferredMethod === "GET"
       ? await probeUrl(source.officialUrl, "GET", sourceTimeoutMs)
       : await probeUrl(source.officialUrl, "HEAD", sourceTimeoutMs);
-  if (preferredMethod !== "GET" && (!result.ok || [405, 403, 406, 429, 501].includes(Number(result.httpStatus ?? 0)))) {
+  if (preferredMethod !== "GET" && (!result.ok || [404, 405, 403, 406, 410, 429, 501].includes(Number(result.httpStatus ?? 0)))) {
     result = await probeUrl(source.officialUrl, "GET", sourceTimeoutMs);
   }
   if (!result.ok && result.error === "timeout" && retryTimeoutMs > sourceTimeoutMs) {
