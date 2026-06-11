@@ -58,6 +58,9 @@ jobs:
       - name: Consumer benefit priority regression
         run: npm run benefit:priority:doctor
 
+      - name: Free benefit category coverage
+        run: npm run benefit:category:doctor
+
       - name: Free benefit event contract
         run: npm run benefit:event:contract
 
@@ -120,6 +123,7 @@ jobs:
             LINK_VERIFICATION_REPORT.md
             LINK_VERIFICATION_RESULT.json
             reports/health-readiness.json
+            reports/free-benefit-category-coverage.json
             reports/official-benefit-alerts.json
             reports/release-doctor.json
             reports/release-prepare-reports.json

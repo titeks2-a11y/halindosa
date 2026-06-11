@@ -42,6 +42,7 @@
 - `scripts/home-runtime-snapshot-doctor.mjs`는 `localhost:3000`을 먼저 확인하고, 다른 앱이 `127.0.0.1:3000`을 점유해도 할인도사 런타임 스냅샷 검증이 잘못 실패하지 않게 했다.
 - `FreeBenefitEvent`는 `qualityScore`, `freshnessScore`, `officialScore`, `urgencyScore`, `rewardScore`를 함께 계산해 공식성, 최신성, 마감성, 보상 가치를 랭킹과 운영 리포트에 반영한다.
 - `docs/FREE_BENEFIT_SCORING.md`에 무료혜택 노출 조건과 점수 기준을 정리했다.
+- `benefit:category:doctor`를 추가해 전원증정, 선착순, 쿠폰, 무료 샘플, 무료체험, 기프티콘, 포인트/캐시백, 무료배송, 신규가입, 출석체크 카테고리별 최소 노출 수량을 출시 게이트에서 확인한다.
 
 ## 현재 데이터 품질 기준
 
@@ -62,6 +63,7 @@
   - `verify:freebies`는 공식 도메인 111개, 브랜드 112개, 구매조건 낮은 혜택 기준도 함께 검사한다.
   - FreeBenefitEvent 기준 active official events 188개, sources 148개, hosts 109개
   - FreeBenefitEvent 평균 점수: quality 100, freshness 100, official 96, urgency 41, reward 69
+  - `benefit:category:doctor` 기준 visible active benefits 193개, official hosts 111개, no-purchase 167개, 필수 카테고리 10/10 통과
   - 공식 소스 후보 211개 이상, reachable/guarded 분리 관리
 
 ## 최근 통과한 로컬 검증
@@ -70,6 +72,7 @@
 - `npm run test:mobile-ux`: 17/17 통과
 - `npm run verify:freebies`: 193/193 통과
 - `npm run refresh:benefits`: 4/4 통과
+- `npm run benefit:category:doctor`: 10/10 필수 무료혜택 카테고리 통과
 - `npm run benefit:event:contract`: 17/17 통과
 - `npm run smoke:local`: 104/104 통과
 - `npm run release:prepare:reports:ci`: 27/27 통과
@@ -100,6 +103,7 @@
 - 무료혜택 수집: `npm run refresh:benefits`
 - 뉴스 링크 검증: `npm run verify:news`
 - 무료혜택 검증: `npm run verify:freebies`
+- 무료혜택 카테고리 커버리지: `npm run benefit:category:doctor`
 - 모바일 UX 게이트: `npm run test:mobile-ux`
 - 보안 게이트: `npm run security:check`
 - QA 게이트: `npm run qa`

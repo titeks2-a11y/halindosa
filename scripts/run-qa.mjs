@@ -19,6 +19,7 @@ const coreTasks = [
   "verify:news",
   "verify:freebies",
   "benefit:priority:doctor",
+  "benefit:category:doctor",
   "verify:benefits",
   "benefit:event:contract",
   "news:freshness:doctor",

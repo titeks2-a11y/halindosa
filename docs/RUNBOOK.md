@@ -50,6 +50,7 @@ npm run smoke
   - 로컬 점검은 `GET /api/cron/refresh?dryRun=true&token=local-admin`으로 현재 `reports/refresh-all.json` 상태를 확인한다.
   - 무료혜택 전용 cron 점검은 `GET /api/cron/benefits?dryRun=true&token=local-admin`으로 확인하며, 실행 결과는 `reports/cron-benefits.json`, `reports/benefits-refresh.json`, `reports/free-benefit-events.json`에 남는다.
   - 무료 혜택만 빠르게 갱신할 때는 `GET /api/cron/refresh?dryRun=true&mode=benefits&token=local-admin`으로 사전 확인한 뒤 운영 환경에서 `mode=benefits`를 실행한다. 이 경로는 `npm run refresh:benefits`와 같은 흐름으로 `reports/benefits-refresh.json`, `reports/free-benefit-events.json`을 갱신한다.
+  - 배포 전 무료혜택 구성이 한쪽으로 쏠리지 않았는지는 `npm run benefit:category:doctor`로 확인한다. 이 명령은 `reports/free-benefit-category-coverage.json`과 `docs/FREE_BENEFIT_CATEGORY_COVERAGE.md`에 전원증정, 선착순, 쿠폰, 무료 샘플, 무료체험, 기프티콘, 포인트/캐시백, 무료배송, 신규가입, 출석체크 최소 수량과 오늘/이번주 마감 혜택 수를 남긴다.
   - 공식 API/RSS/제휴 JSON feed까지 한 번에 점검하려면 `GET /api/cron/refresh?dryRun=true&mode=liveFeed&token=local-admin`으로 dry-run을 확인한 뒤, 운영 환경에서 `mode=liveFeed`를 명시 호출한다. 이 경로는 `node scripts/news-feed-live-pipeline.mjs`를 실행하고 `reports/news-feed-live-pipeline.json` 상태를 함께 반환한다.
   - 기본 실제 실행은 `node scripts/refresh-all.mjs`를 호출하고 `reports/refresh-all.json`, `reports/cron-refresh.json`에 결과를 남긴다. 실패하면 JSON은 500으로 반환되며 `stderrTail`과 단계별 로그를 먼저 확인한다.
   - 운영자는 `/admin`의 `자동 refresh cron 운영` 카드와 `/api/health`의 `cronRefreshStatus`, `cronRefreshLivePipelineStatus`, `cronRefreshProtected`, `cronRefreshProductDealsCount` 값을 함께 확인한다.
@@ -232,6 +233,8 @@ npm run harness
 결과는 `docs/HARNESS_REPORT.md`에 남습니다. 모바일 UX 결과는 `MOBILE_UX_REPORT.md`, 성능 예산은 `docs/PERFORMANCE_REPORT.md`에 별도로 기록됩니다.
 
 `npm run security:check`는 무료혜택 API rate limit, secret 분리, 공식 URL allowlist, SSRF/private host 차단, XSS 위험 렌더링을 정적 점검하고 `reports/security-check.json`, `docs/SECURITY_CHECK_REPORT.md`를 갱신합니다.
+
+`npm run benefit:category:doctor`는 무료혜택 홈 상단에 쓸 수 있는 active/passed/공식 CTA 후보만 세어 카테고리별 최소 수량을 검사합니다. 검색 결과, 대표 홈페이지, 커뮤니티/뉴스 중계, 종료/품절/숨김/미검증 링크는 카운트하지 않으며, 오늘마감이 0건이면 실패가 아니라 advisory로 남겨 이번주 마감과 선착순 혜택을 대체 노출하도록 안내합니다.
 
 UI 규칙은 하단 탭 4개 유지, 무료혜택/알림/찜 단독 탭 제거, 금지 href 차단, 구매 링크 새 탭 정책, 검증 링크 기본 노출, 마이페이지 개발 문구 제거를 확인합니다.
 

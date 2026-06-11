@@ -6,6 +6,13 @@
 
 ## 완료 작업
 
+### PHASE Free Benefit Category Coverage Gate
+
+- `benefit:category:doctor`를 추가해 무료혜택이 단순히 많은 상태가 아니라 전원증정, 선착순, 쿠폰, 무료 샘플, 무료체험, 기프티콘, 포인트/캐시백, 무료배송, 신규가입, 출석체크로 고르게 노출되는지 검사한다.
+- 검증 기준은 active, validationStatus passed, 공식 CTA URL, 검색/대표홈/커뮤니티/뉴스 중계/종료/품절/숨김 링크 제외를 통과한 혜택만 카운트한다.
+- 최신 기준 visible active benefits 193개, no-purchase 167개, official hosts 111개, 필수 카테고리 10/10 통과를 `reports/free-benefit-category-coverage.json`과 `docs/FREE_BENEFIT_CATEGORY_COVERAGE.md`에 기록했다.
+- `qa`, `harness`, GitHub CI, `release:doctor`에 새 doctor를 연결해 홈 상단 무료혜택이 포인트나 공공 정보 한쪽으로 쏠리는 회귀를 차단한다.
+
 ### PHASE Official Source 142 Benefit Expansion
 
 - 네이버페이 공식 온라인 쿠폰함, 요기요 공식 룰렛 프로모션, LG전자 공식 혜택·이벤트, 롯데하이마트 L.POINT 멤버십 혜택을 official source catalog에 추가해 무료혜택, 외식/배달, 카드/멤버십, 디지털/가전 축을 보강했다.
