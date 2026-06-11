@@ -1,6 +1,6 @@
 # FreeBenefitEvent 계약
 
-Generated: 2026-06-11T21:53:23.180Z
+Generated: 2026-06-11T22:48:01.129Z
 
 Status: PASS
 
@@ -18,6 +18,15 @@ Status: PASS
 - 검색 링크, 대표 홈페이지, 커뮤니티 글, 뉴스 기사, private-network URL 아님
 - 종료일이 지났거나 종료/품절/마감 문구가 감지되지 않음
 - `qualityScore >= 70`
+
+## API 필터
+
+- `type=all|everyone|firstCome|coupon|sample|freeTrial|gifticon|pointCashback|checkIn|roulette|signup|publicFree|experiencePanel|freeShipping|brandEvent`
+- `deadline=today|week|soon`
+- `endingSoonOnly=true`는 기존 링크 호환용이며 `deadline=week`에 가까운 마감 필터로 처리합니다.
+- `noPurchaseOnly=true`, `requiresPurchase=true|false`, `requiresLogin=true|false`
+- `sort=recommended|endingSoon|latest|noPurchase|quality`
+- 응답 `summary`는 `endingToday`, `endingSoon`, `endingThisWeek`를 함께 제공합니다.
 
 ## 필수 필드
 

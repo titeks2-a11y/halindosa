@@ -94,6 +94,19 @@ const freeBenefitDealTypes = new Set<DealBenefitType>([
 
 const freeBenefitEventTypeOptions = freeBenefitEventCategories;
 const freeBenefitEventTypeIds = new Set<FreeBenefitEventType>(freeBenefitEventTypeOptions.map((option) => option.id));
+type DeadlineFilter = "all" | "today" | "week" | "soon";
+
+function parseDeadlineFilter(value: string | null): DeadlineFilter {
+  if (value === "today" || value === "week" || value === "soon") return value;
+  return "all";
+}
+
+function getDeadlineWindowMs(filter: DeadlineFilter) {
+  if (filter === "today") return 24 * 60 * 60 * 1000;
+  if (filter === "week") return 7 * 24 * 60 * 60 * 1000;
+  if (filter === "soon") return 3 * 24 * 60 * 60 * 1000;
+  return null;
+}
 
 function parseFreeBenefitEventType(value: string | null) {
   if (!value) return null;
@@ -104,6 +117,7 @@ function getInitialFreeBenefitUrlState() {
   const initialState = {
     activeEventType: "all" as FreeBenefitEventType,
     query: "",
+    deadlineFilter: "all" as DeadlineFilter,
     endingSoonOnly: false,
     firstComeOnly: false,
     noSignupOnly: false,
@@ -114,11 +128,14 @@ function getInitialFreeBenefitUrlState() {
 
   const params = new URLSearchParams(window.location.search);
   const eventType = parseFreeBenefitEventType(params.get("eventType"));
+  const legacyEndingSoon = params.get("endingSoon") === "true";
+  const deadlineFilter = parseDeadlineFilter(params.get("deadline"));
 
   return {
     activeEventType: eventType ?? initialState.activeEventType,
     query: params.get("q")?.trim().slice(0, 80) ?? "",
-    endingSoonOnly: params.get("endingSoon") === "true",
+    deadlineFilter: deadlineFilter === "all" && legacyEndingSoon ? "soon" : deadlineFilter,
+    endingSoonOnly: legacyEndingSoon,
     firstComeOnly: params.get("firstComeOnly") === "true",
     noSignupOnly: params.get("noSignupOnly") === "true",
     activeOnly: params.get("activeOnly") === "true"
@@ -228,6 +245,7 @@ export function FreeBenefitsClient({
   const [activeType, setActiveType] = useState<"all" | DealBenefitType>("all");
   const [query, setQuery] = useState(initialUrlState.query);
   const [sort, setSort] = useState<BenefitSort>("recommended");
+  const [deadlineFilter, setDeadlineFilter] = useState<DeadlineFilter>(initialUrlState.deadlineFilter);
   const [endingSoonOnly, setEndingSoonOnly] = useState(initialUrlState.endingSoonOnly);
   const [freeShippingOnly, setFreeShippingOnly] = useState(false);
   const [noSignupOnly, setNoSignupOnly] = useState(initialUrlState.noSignupOnly);
@@ -428,6 +446,7 @@ export function FreeBenefitsClient({
           }
 
           if (item.id === "endingSoon") {
+            setDeadlineFilter("soon");
             setEndingSoonOnly(true);
             setFirstComeOnly(true);
             setSort("endingSoon");
@@ -458,6 +477,7 @@ export function FreeBenefitsClient({
           }
 
           if (item.id === "deadline") {
+            setDeadlineFilter("soon");
             setEndingSoonOnly(true);
             setFirstComeOnly(true);
             setSort("endingSoon");
@@ -509,6 +529,7 @@ export function FreeBenefitsClient({
         status: benefitReturnReservations.length > 0 ? "예약됨" : "예약 전",
         onClick: () => {
           setActiveType("all");
+          setDeadlineFilter("soon");
           setEndingSoonOnly(true);
           setSort("endingSoon");
         }
@@ -584,6 +605,7 @@ export function FreeBenefitsClient({
         action: "마감순 보기",
         onClick: () => {
           setActiveType("all");
+          setDeadlineFilter("soon");
           setEndingSoonOnly(true);
           setFirstComeOnly(true);
           setSort("endingSoon");
@@ -629,6 +651,7 @@ export function FreeBenefitsClient({
         action: "마감 루틴 저장",
         onClick: () => {
           setActiveType("all");
+          setDeadlineFilter("soon");
           setEndingSoonOnly(true);
           setFirstComeOnly(true);
           setSort("endingSoon");
@@ -668,6 +691,7 @@ export function FreeBenefitsClient({
         action: "마감 전 확인",
         onClick: () => {
           setActiveType("all");
+          setDeadlineFilter("soon");
           setEndingSoonOnly(true);
           setFirstComeOnly(true);
           setSort("endingSoon");
@@ -723,6 +747,7 @@ export function FreeBenefitsClient({
         icon: ExternalLink,
         onClick: () => {
           setActiveOnly(true);
+          setDeadlineFilter("all");
           setEndingSoonOnly(false);
         }
       },
@@ -767,6 +792,7 @@ export function FreeBenefitsClient({
     if (id === "free") {
       setActiveType("freebie");
       setSort("recommended");
+      setDeadlineFilter("all");
       setEndingSoonOnly(false);
       setFreeShippingOnly(false);
       return;
@@ -775,6 +801,7 @@ export function FreeBenefitsClient({
     if (id === "coupon") {
       setActiveType("coupon");
       setSort("popular");
+      setDeadlineFilter("all");
       setEndingSoonOnly(false);
       setFreeShippingOnly(false);
       return;
@@ -783,6 +810,7 @@ export function FreeBenefitsClient({
     if (id === "endingSoon") {
       setActiveType("all");
       setSort("endingSoon");
+      setDeadlineFilter("soon");
       setEndingSoonOnly(true);
       setFreeShippingOnly(false);
       return;
@@ -790,6 +818,7 @@ export function FreeBenefitsClient({
 
     setActiveType("all");
     setSort("recommended");
+    setDeadlineFilter("all");
     setEndingSoonOnly(false);
     setFreeShippingOnly(false);
   };
@@ -824,6 +853,7 @@ export function FreeBenefitsClient({
         action: "선착순 보기",
         onClick: () => {
           setFirstComeOnly(true);
+          setDeadlineFilter("soon");
           setEndingSoonOnly(true);
           setSort("endingSoon");
         }
@@ -924,18 +954,25 @@ export function FreeBenefitsClient({
     [cultureInviteDeals.length, liveOfficialBenefits]
   );
   const visibleOfficialBenefitEvents = useMemo(
-    () =>
-      liveOfficialBenefitEvents
+    () => {
+      const deadlineWindowMs = getDeadlineWindowMs(deadlineFilter);
+      return liveOfficialBenefitEvents
         .filter(isVisibleFreeBenefitEvent)
         .filter((event) => activeEventType === "all" || event.benefitType === activeEventType)
-        .filter((event) => !endingSoonOnly || Date.parse(event.endAt) - referenceNow <= 3 * 24 * 60 * 60 * 1000)
+        .filter((event) => {
+          const effectiveWindowMs = deadlineWindowMs ?? (endingSoonOnly ? 3 * 24 * 60 * 60 * 1000 : null);
+          if (effectiveWindowMs === null) return true;
+          const timeLeft = Date.parse(event.endAt) - referenceNow;
+          return Number.isFinite(timeLeft) && timeLeft >= 0 && timeLeft <= effectiveWindowMs;
+        })
         .filter((event) => !firstComeOnly || event.isFirstComeFirstServed)
         .filter((event) => !noSignupOnly || !event.requiresLogin)
         .filter((event) => !activeOnly || event.status === "active")
         .filter((event) => matchesFreeBenefitEventQuery(event, query))
         .sort((a, b) => b.priorityScore - a.priorityScore || b.qualityScore - a.qualityScore || Date.parse(a.endAt) - Date.parse(b.endAt))
-        .slice(0, 12),
-    [activeEventType, activeOnly, endingSoonOnly, firstComeOnly, liveOfficialBenefitEvents, noSignupOnly, query, referenceNow]
+        .slice(0, 12);
+    },
+    [activeEventType, activeOnly, deadlineFilter, endingSoonOnly, firstComeOnly, liveOfficialBenefitEvents, noSignupOnly, query, referenceNow]
   );
   const officialEventCounts = useMemo(() => {
     const visibleEvents = liveOfficialBenefitEvents.filter(isVisibleFreeBenefitEvent);
@@ -955,7 +992,18 @@ export function FreeBenefitsClient({
       total: serverByType.all ?? visibleEvents.length,
       byType: Object.keys(serverByType).length ? { ...byType, ...serverByType } : byType,
       noPurchase: visibleEvents.filter((event) => !event.requiresPurchase).length,
-      urgent: visibleEvents.filter((event) => Date.parse(event.endAt) - referenceNow <= 3 * 24 * 60 * 60 * 1000).length,
+      today: visibleEvents.filter((event) => {
+        const timeLeft = Date.parse(event.endAt) - referenceNow;
+        return Number.isFinite(timeLeft) && timeLeft >= 0 && timeLeft <= 24 * 60 * 60 * 1000;
+      }).length,
+      urgent: visibleEvents.filter((event) => {
+        const timeLeft = Date.parse(event.endAt) - referenceNow;
+        return Number.isFinite(timeLeft) && timeLeft >= 0 && timeLeft <= 3 * 24 * 60 * 60 * 1000;
+      }).length,
+      week: visibleEvents.filter((event) => {
+        const timeLeft = Date.parse(event.endAt) - referenceNow;
+        return Number.isFinite(timeLeft) && timeLeft >= 0 && timeLeft <= 7 * 24 * 60 * 60 * 1000;
+      }).length,
       sources: new Set(visibleEvents.map((event) => event.sourceName)).size
     };
   }, [liveOfficialBenefitEventCategoryCounts, liveOfficialBenefitEvents, referenceNow]);
@@ -967,6 +1015,15 @@ export function FreeBenefitsClient({
       freeOrCoupon: visibleOfficialBenefitEvents.length || visibleOfficialBenefits.filter((deal) => ["freebie", "coupon", "freeShipping", "point", "event"].includes(deal.benefitType)).length
     }),
     [officialEventCounts.sources, officialEventCounts.urgent, referenceNow, visibleOfficialBenefitEvents.length, visibleOfficialBenefits]
+  );
+  const deadlineFilterOptions = useMemo(
+    () => [
+      { id: "all" as DeadlineFilter, label: "전체마감", count: officialEventCounts.total, tone: "border-slate-200 bg-white text-slate-600" },
+      { id: "today" as DeadlineFilter, label: "오늘마감", count: officialEventCounts.today, tone: "border-orange-200 bg-orange-50 text-orange-700" },
+      { id: "week" as DeadlineFilter, label: "이번주마감", count: officialEventCounts.week, tone: "border-amber-200 bg-amber-50 text-amber-700" },
+      { id: "soon" as DeadlineFilter, label: "마감 임박만", count: officialEventCounts.urgent, tone: "border-red-200 bg-red-50 text-dossa-red" }
+    ],
+    [officialEventCounts.today, officialEventCounts.total, officialEventCounts.urgent, officialEventCounts.week]
   );
 
   const toggleFavorite = (id: string) => {
@@ -1083,6 +1140,7 @@ export function FreeBenefitsClient({
     setQuery("");
     setActiveType("all");
     setSort("recommended");
+    setDeadlineFilter("all");
     setEndingSoonOnly(false);
     setFreeShippingOnly(false);
     setNoSignupOnly(false);
@@ -1095,6 +1153,7 @@ export function FreeBenefitsClient({
     setQuery(preset.query ?? "");
     setActiveType(preset.activeType);
     setSort(preset.sort);
+    setDeadlineFilter(preset.endingSoonOnly ? "soon" : "all");
     setEndingSoonOnly(Boolean(preset.endingSoonOnly));
     setFreeShippingOnly(Boolean(preset.freeShippingOnly));
     setNoSignupOnly(Boolean(preset.noSignupOnly));
@@ -1105,6 +1164,7 @@ export function FreeBenefitsClient({
   const applyChecklistPreset = (preset: FiveMinuteChecklistPreset) => {
     setQuery("");
     setSort(preset === "endingSoon" ? "endingSoon" : "recommended");
+    setDeadlineFilter(preset === "endingSoon" ? "soon" : "all");
     setEndingSoonOnly(preset === "endingSoon");
     setFreeShippingOnly(preset === "freeShipping");
     setNoSignupOnly(false);
@@ -2327,8 +2387,33 @@ export function FreeBenefitsClient({
             </label>
           </div>
           <div className="mt-3 flex gap-2 overflow-x-auto pb-1 hide-scrollbar">
+            {deadlineFilterOptions.map((item) => {
+              const isActive = deadlineFilter === item.id;
+              const isDisabled = item.id !== "all" && item.count === 0;
+              return (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => {
+                    if (isDisabled) return;
+                    const nextDeadline = isActive ? "all" : item.id;
+                    setDeadlineFilter(nextDeadline);
+                    setEndingSoonOnly(nextDeadline !== "all");
+                    if (nextDeadline !== "all") setSort("endingSoon");
+                  }}
+                  aria-pressed={isActive}
+                  aria-disabled={isDisabled}
+                  className={`inline-flex min-h-11 shrink-0 items-center gap-2 rounded-2xl border px-4 text-sm font-black transition ${
+                    isActive ? "border-red-200 bg-dossa-red text-white" : isDisabled ? "border-slate-100 bg-slate-50 text-slate-300" : item.tone
+                  }`}
+                >
+                  <Timer size={16} />
+                  {item.label}
+                  <span className={isActive ? "text-red-100" : "text-slate-400"}>{item.count}</span>
+                </button>
+              );
+            })}
             {[
-              ["ending", "마감 임박만", endingSoonOnly, () => setEndingSoonOnly((value) => !value), Timer],
               ["shipping", "배송비 무료", freeShippingOnly, () => setFreeShippingOnly((value) => !value), Truck],
               ["signup", "가입 없이 받기", noSignupOnly, () => setNoSignupOnly((value) => !value), Gift],
               ["first", "선착순 혜택", firstComeOnly, () => setFirstComeOnly((value) => !value), Sparkles],
@@ -2383,6 +2468,7 @@ export function FreeBenefitsClient({
                   setActiveOnly(true);
                   if (item.id === "deadline") {
                     setSort("endingSoon");
+                    setDeadlineFilter("soon");
                     setEndingSoonOnly(true);
                   }
                 }}

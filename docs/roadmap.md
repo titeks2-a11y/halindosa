@@ -6,6 +6,13 @@
 
 ## 완료 작업
 
+### PHASE Free Benefit Deadline Filters
+
+- `/api/benefits/events`에 `deadline=today|week|soon` 필터를 추가해 오늘마감, 이번주마감, 마감임박 무료혜택을 같은 publishable 게이트 안에서 조회한다.
+- 기존 `endingSoonOnly=true` 호환은 유지하되, 새 응답 `summary`에는 `endingToday`, `endingSoon`, `endingThisWeek` 카운트를 함께 제공한다.
+- `/free-benefits` 모바일 필터 rail에 `전체마감`, `오늘마감`, `이번주마감`, `마감 임박만` 칩을 추가해 무료혜택 사용자가 마감 기준으로 즉시 좁혀볼 수 있게 했다.
+- `benefit:event:contract` 문서/검사에 deadline 필터 계약을 추가했고, `lint`, `benefit:event:contract`, `benefit:category:doctor`, `smoke:local`, `qa`, `release:doctor`, `build`, `build:android`, `cap:sync`, `android:webview:doctor`, `workspace:doctor:strict`를 통과했다.
+
 ### PHASE Free Benefit Category Coverage Gate
 
 - `benefit:category:doctor`를 추가해 무료혜택이 단순히 많은 상태가 아니라 전원증정, 선착순, 쿠폰, 무료 샘플, 무료체험, 기프티콘, 포인트/캐시백, 무료배송, 신규가입, 출석체크로 고르게 노출되는지 검사한다.

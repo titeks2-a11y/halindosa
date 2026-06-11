@@ -102,7 +102,9 @@ export interface FreeBenefitEventsResponse {
     loginRequired: number;
     everyone: number;
     firstCome: number;
+    endingToday: number;
     endingSoon: number;
+    endingThisWeek: number;
     officialSourceCount: number;
     byType: Record<string, number>;
   } & FreeBenefitEventSourceSummary;
@@ -313,6 +315,7 @@ export function buildFreeBenefitEventsRequestUrl({
   sort = "recommended",
   noPurchaseOnly = false,
   endingSoonOnly = false,
+  deadline = "all",
   timestamp = Date.now()
 }: {
   query: string;
@@ -321,6 +324,7 @@ export function buildFreeBenefitEventsRequestUrl({
   sort?: "recommended" | "endingSoon" | "latest" | "noPurchase" | "quality";
   noPurchaseOnly?: boolean;
   endingSoonOnly?: boolean;
+  deadline?: "all" | "today" | "week" | "soon";
   timestamp?: number;
 }) {
   const params = new URLSearchParams({
@@ -332,6 +336,7 @@ export function buildFreeBenefitEventsRequestUrl({
     ts: String(timestamp)
   });
 
+  if (deadline !== "all") params.set("deadline", deadline);
   if (query.trim()) params.set("q", query.trim());
 
   return `/api/benefits/events?${params.toString()}`;

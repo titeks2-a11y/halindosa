@@ -36,6 +36,19 @@ function parseSort(value: string | null) {
   return "recommended";
 }
 
+function parseDeadline(value: string | null) {
+  if (value === "today" || value === "week" || value === "soon") return value;
+  return "all";
+}
+
+function getDeadlineWindowMs(deadline: ReturnType<typeof parseDeadline>, endingSoonOnly: boolean) {
+  if (deadline === "today") return 24 * 60 * 60 * 1000;
+  if (deadline === "week") return 7 * 24 * 60 * 60 * 1000;
+  if (deadline === "soon") return 3 * 24 * 60 * 60 * 1000;
+  if (endingSoonOnly) return 7 * 24 * 60 * 60 * 1000;
+  return null;
+}
+
 function includesQuery(event: FreeBenefitEvent, query: string) {
   if (!query) return true;
   const haystack = [
@@ -62,8 +75,9 @@ function filterEvents(events: FreeBenefitEvent[], request: Request, referenceNow
   const requiresPurchase = parseBoolean(searchParams.get("requiresPurchase"));
   const requiresLogin = parseBoolean(searchParams.get("requiresLogin"));
   const endingSoonOnly = searchParams.get("endingSoonOnly") === "true";
+  const deadline = parseDeadline(searchParams.get("deadline"));
+  const deadlineWindowMs = getDeadlineWindowMs(deadline, endingSoonOnly);
   const noPurchaseOnly = searchParams.get("noPurchaseOnly") === "true";
-  const sevenDaysMs = 7 * 24 * 60 * 60 * 1000;
 
   return events.filter((event) => {
     if (!isPublishableFreeBenefitEvent(event, referenceNow)) return false;
@@ -72,9 +86,11 @@ function filterEvents(events: FreeBenefitEvent[], request: Request, referenceNow
     if (requiresPurchase !== null && event.requiresPurchase !== requiresPurchase) return false;
     if (requiresLogin !== null && event.requiresLogin !== requiresLogin) return false;
     if (noPurchaseOnly && event.requiresPurchase) return false;
-    if (endingSoonOnly) {
+    if (deadlineWindowMs !== null) {
       const endAt = Date.parse(event.endAt);
-      if (!Number.isFinite(endAt) || endAt - referenceNow > sevenDaysMs) return false;
+      if (!Number.isFinite(endAt)) return false;
+      const timeLeft = endAt - referenceNow;
+      if (timeLeft < 0 || timeLeft > deadlineWindowMs) return false;
     }
     return includesQuery(event, q);
   });
@@ -90,9 +106,10 @@ function sortEvents(events: FreeBenefitEvent[], sort: ReturnType<typeof parseSor
   });
 }
 
-function summarizeEvents(events: FreeBenefitEvent[]) {
+function summarizeEvents(events: FreeBenefitEvent[], referenceNow = Date.now()) {
+  const todayMs = 24 * 60 * 60 * 1000;
   const endingSoonMs = 3 * 24 * 60 * 60 * 1000;
-  const now = Date.now();
+  const weekMs = 7 * 24 * 60 * 60 * 1000;
   return {
     total: events.length,
     noPurchase: events.filter((event) => !event.requiresPurchase).length,
@@ -100,15 +117,23 @@ function summarizeEvents(events: FreeBenefitEvent[]) {
     loginRequired: events.filter((event) => event.requiresLogin).length,
     everyone: events.filter((event) => event.isEveryoneReward).length,
     firstCome: events.filter((event) => event.isFirstComeFirstServed).length,
+    endingToday: events.filter((event) => {
+      const endAt = Date.parse(event.endAt);
+      return Number.isFinite(endAt) && endAt >= referenceNow && endAt - referenceNow <= todayMs;
+    }).length,
     endingSoon: events.filter((event) => {
       const endAt = Date.parse(event.endAt);
-      return Number.isFinite(endAt) && endAt >= now && endAt - now <= endingSoonMs;
+      return Number.isFinite(endAt) && endAt >= referenceNow && endAt - referenceNow <= endingSoonMs;
+    }).length,
+    endingThisWeek: events.filter((event) => {
+      const endAt = Date.parse(event.endAt);
+      return Number.isFinite(endAt) && endAt >= referenceNow && endAt - referenceNow <= weekMs;
     }).length,
     byType: events.reduce<Record<string, number>>((counts, event) => {
       counts[event.benefitType] = (counts[event.benefitType] ?? 0) + 1;
       return counts;
     }, {}),
-    ...buildFreeBenefitEventSourceSummary(events, now)
+    ...buildFreeBenefitEventSourceSummary(events, referenceNow)
   };
 }
 
@@ -146,6 +171,7 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const limit = parseLimit(searchParams.get("limit"));
     const sort = parseSort(searchParams.get("sort"));
+    const deadline = parseDeadline(searchParams.get("deadline"));
     const includePublicPolicy = searchParams.get("type") === "publicFree" || searchParams.get("includePublic") === "true";
     const news = getVisibleNewsDeals({
       limit: 0,
@@ -172,11 +198,12 @@ export async function GET(request: Request) {
         categories: categoryCounts,
         categoryCounts,
         filteredCategoryCounts,
-        summary: summarizeEvents(filteredEvents),
+        summary: summarizeEvents(filteredEvents, referenceNow),
         filters: {
           type: searchParams.get("type") ?? "all",
           q: searchParams.get("q") ?? "",
           sort,
+          deadline,
           requiresPurchase: parseBoolean(searchParams.get("requiresPurchase")),
           requiresLogin: parseBoolean(searchParams.get("requiresLogin")),
           noPurchaseOnly: searchParams.get("noPurchaseOnly") === "true",
