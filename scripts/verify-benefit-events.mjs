@@ -103,8 +103,7 @@ function toEvent(deal, allowedHosts, now) {
   const validationStatus = !urlCheck.ok ? "blocked" : deal.validationStatus === "passed" ? "passed" : "failed";
   const status = !urlCheck.ok || deal.isHidden || deal.publishable === false ? "blocked" : expired ? "expired" : deal.availability === "active" ? "active" : "unknown";
   const benefitType = allowedBenefitTypes.has(deal.benefitType) ? deal.benefitType : "event";
-
-  return {
+  const event = {
     id: deal.id,
     title: sanitize(deal.title, 90),
     brandName: sanitize(deal.merchant || deal.mallName || deal.sourceName, 40),
@@ -129,10 +128,18 @@ function toEvent(deal, allowedHosts, now) {
     sourceType: deal.provider,
     sourceUrl: deal.sourceUrl,
     qualityScore: Number(deal.qualityScore ?? 0),
+    freshnessScore: scoreFreshness(deal, now),
+    officialScore: scoreOfficial(deal, urlCheck),
+    urgencyScore: scoreUrgency(deal.expiresAt || deal.endDate, now),
     priorityScore: Number(deal.priorityScore ?? deal.confidenceScore ?? 0),
     hiddenReason: sanitize(deal.hiddenReason || (status === "active" ? "" : status), 80),
     tags: (deal.tags ?? []).map((tag) => sanitize(tag, 24)).filter(Boolean).slice(0, 8),
     host: urlCheck.host ?? ""
+  };
+
+  return {
+    ...event,
+    rewardScore: scoreReward(event)
   };
 }
 
@@ -142,6 +149,58 @@ function countBy(items, key) {
     counts[value] = (counts[value] ?? 0) + 1;
     return counts;
   }, {});
+}
+
+function average(items, key) {
+  const values = items.map((item) => Number(item[key] ?? 0)).filter((value) => Number.isFinite(value));
+  if (!values.length) return 0;
+  return Math.round(values.reduce((sum, value) => sum + value, 0) / values.length);
+}
+
+function scoreFreshness(deal, now) {
+  const checkedAt = Date.parse(deal.verifiedAt || deal.lastCheckedAt || deal.updatedAt || deal.startDate);
+  if (!Number.isFinite(checkedAt)) return 45;
+  const ageHours = Math.max(0, (now - checkedAt) / 3_600_000);
+  if (ageHours <= 6) return 100;
+  if (ageHours <= 24) return 92;
+  if (ageHours <= 72) return 78;
+  if (ageHours <= 168) return 62;
+  if (ageHours <= 336) return 45;
+  return 25;
+}
+
+function scoreOfficial(deal, urlCheck) {
+  let score = 0;
+  if (deal.provider === "official_event" || deal.provider === "public_coupon") score += 58;
+  if (deal.validationStatus === "passed") score += 20;
+  if (String(deal.linkType || "").startsWith("official")) score += 18;
+  if (urlCheck.ok) score += 12;
+  if (/blog|cafe|community|news|search/i.test(String(deal.linkType || ""))) score -= 70;
+  return Math.max(0, Math.min(100, Math.round(score)));
+}
+
+function scoreUrgency(endAt, now) {
+  const endsAt = Date.parse(endAt);
+  if (!Number.isFinite(endsAt)) return 45;
+  const hoursLeft = (endsAt - now) / 3_600_000;
+  if (hoursLeft < 0) return 0;
+  if (hoursLeft <= 24) return 100;
+  if (hoursLeft <= 72) return 86;
+  if (hoursLeft <= 7 * 24) return 68;
+  if (hoursLeft <= 14 * 24) return 54;
+  return 40;
+}
+
+function scoreReward(event) {
+  let score = 42;
+  if (!event.requiresPurchase) score += 18;
+  else score -= 18;
+  if (event.isEveryoneReward) score += 16;
+  if (event.isFirstComeFirstServed) score += 10;
+  if (["gifticon", "freebie", "event", "coupon", "point"].includes(event.benefitType)) score += 12;
+  if (/기프티콘|샘플|무료\s*체험|교환권|포인트|캐시백|전원|선착순|0원|무료배송/i.test(event.rewardText)) score += 10;
+  if (event.benefitType === "public") score -= 34;
+  return Math.max(0, Math.min(100, Math.round(score)));
 }
 
 const snapshot = readJson(snapshotPath, { deals: [], generatedAt: "" });
@@ -190,6 +249,13 @@ const report = {
   duplicateMergedCount: candidates.length - deduped.length,
   sourceCount,
   hostCount,
+  averageScores: {
+    quality: average(visible, "qualityScore"),
+    freshness: average(visible, "freshnessScore"),
+    official: average(visible, "officialScore"),
+    urgency: average(visible, "urgencyScore"),
+    reward: average(visible, "rewardScore")
+  },
   benefitTypeCounts: countBy(visible, "benefitType"),
   sourceTypeCounts: countBy(visible, "sourceType"),
   topEvents: visible.slice(0, 20).map((event) => ({
@@ -199,6 +265,11 @@ const report = {
     benefitType: event.benefitType,
     finalUrl: event.finalUrl,
     endAt: event.endAt,
+    qualityScore: event.qualityScore,
+    freshnessScore: event.freshnessScore,
+    officialScore: event.officialScore,
+    urgencyScore: event.urgencyScore,
+    rewardScore: event.rewardScore,
     requiresLogin: event.requiresLogin,
     requiresPurchase: event.requiresPurchase
   })),
@@ -230,6 +301,11 @@ Generated: ${report.generatedAt}
 | Duplicate merged | ${report.duplicateMergedCount} |
 | Source diversity | ${report.sourceCount} |
 | Host diversity | ${report.hostCount} |
+| Avg quality score | ${report.averageScores.quality} |
+| Avg freshness score | ${report.averageScores.freshness} |
+| Avg official score | ${report.averageScores.official} |
+| Avg urgency score | ${report.averageScores.urgency} |
+| Avg reward score | ${report.averageScores.reward} |
 
 ## Policy
 

@@ -55,6 +55,10 @@ export interface FreeBenefitEvent {
   validationStatus: FreeBenefitValidationStatus;
   validationReason: string;
   qualityScore: number;
+  freshnessScore: number;
+  officialScore: number;
+  urgencyScore: number;
+  rewardScore: number;
   priorityScore: number;
   freeConditionScore: number;
   interestScore: number;

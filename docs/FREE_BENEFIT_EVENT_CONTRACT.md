@@ -1,6 +1,6 @@
 # FreeBenefitEvent 계약
 
-Generated: 2026-06-10T19:51:25.288Z
+Generated: 2026-06-11T21:53:23.180Z
 
 Status: PASS
 
@@ -48,6 +48,10 @@ Status: PASS
 - `validationStatus`
 - `validationReason`
 - `qualityScore`
+- `freshnessScore`
+- `officialScore`
+- `urgencyScore`
+- `rewardScore`
 - `priorityScore`
 - `isHidden`
 - `hiddenReason`
@@ -62,6 +66,7 @@ Status: PASS
 | FreeBenefitEvent status contract | PASS | Event status and validation status should distinguish active, expired, blocked, unknown, passed, failed, and needs_review. |
 | normalizer sanitizes and blocks unsafe URLs | PASS | Normalizer should sanitize external text and reject search, community, news, private-network, and ended-link signals. |
 | normalizer infers real benefit conditions | PASS | Normalizer should expose login, purchase, everyone reward, first-come, condition, CTA, and trust metadata. |
+| normalizer computes ranking score dimensions | PASS | Normalizer should expose freshness, official source, urgency, and reward value score dimensions for ranking and operator reports. |
 | publishable gate hides invalid events | PASS | Publishable gate must require active, passed, visible, safe final URL, unexpired, and quality score. |
 | event dedupe uses brand title URL and end date | PASS | Deduplication should merge same brand/title/url/end-date events before publishing. |
 | benefits events API is runtime no-store | PASS | Free benefit events API should avoid static cache and expose no-store cache policy. |

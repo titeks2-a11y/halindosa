@@ -59,6 +59,12 @@ function countBy(items, key) {
   return Object.fromEntries(Array.from(counts.entries()).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], "ko")));
 }
 
+function average(items, key) {
+  const values = items.map((item) => Number(item[key] ?? 0)).filter((value) => Number.isFinite(value));
+  if (!values.length) return 0;
+  return Math.round(values.reduce((sum, value) => sum + value, 0) / values.length);
+}
+
 const now = Date.now();
 const generatedAt = new Date(now).toISOString();
 const snapshot = readJson("data/refreshedNewsDeals.json", {});
@@ -121,6 +127,11 @@ const report = {
   categoryCounts: countBy(visible, "category"),
   benefitTypeCounts: countBy(visible, "benefitType"),
   sourceCounts: countBy(visible, "sourceName"),
+  averageScores: {
+    quality: average(visible, "qualityScore"),
+    priority: average(visible, "priorityScore"),
+    confidence: average(visible, "confidenceScore")
+  },
   topItems: visible.slice(0, 20).map((deal) => ({
     id: deal.id,
     title: deal.title,
@@ -129,7 +140,9 @@ const report = {
     finalUrl: deal.finalUrl,
     redirectUrl: `/go/news/${deal.id}`,
     expiresAt: deal.expiresAt || deal.endDate,
-    verifiedAt: deal.verifiedAt || deal.lastCheckedAt
+    verifiedAt: deal.verifiedAt || deal.lastCheckedAt,
+    qualityScore: deal.qualityScore,
+    priorityScore: deal.priorityScore
   })),
   blockedItems: blocked.slice(0, 30).map((deal) => ({
     id: deal.id,
@@ -159,6 +172,8 @@ const docs = [
   `- Exposed search links: ${exposedSearchLinks}`,
   `- Exposed non-official links: ${exposedNonOfficialLinks}`,
   `- Broken images: ${brokenImages}`,
+  `- Average quality score: ${report.averageScores.quality}`,
+  `- Average priority score: ${report.averageScores.priority}`,
   "",
   "## Policy",
   "",

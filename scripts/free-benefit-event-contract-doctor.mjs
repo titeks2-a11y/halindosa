@@ -56,6 +56,10 @@ const requiredTypeFields = [
   "validationStatus",
   "validationReason",
   "qualityScore",
+  "freshnessScore",
+  "officialScore",
+  "urgencyScore",
+  "rewardScore",
   "priorityScore",
   "isHidden",
   "hiddenReason",
@@ -164,6 +168,20 @@ const checks = [
     "Normalizer should expose login, purchase, everyone reward, first-come, condition, CTA, and trust metadata."
   ),
   check(
+    "normalizer computes ranking score dimensions",
+    hasAll(normalizerSource, [
+      "getFreshnessScore",
+      "getOfficialScore",
+      "getUrgencyScore",
+      "getRewardScore",
+      "freshnessScore",
+      "officialScore",
+      "urgencyScore",
+      "rewardScore"
+    ]).length === 0,
+    "Normalizer should expose freshness, official source, urgency, and reward value score dimensions for ranking and operator reports."
+  ),
+  check(
     "publishable gate hides invalid events",
     hasAll(normalizerSource, [
       "isPublishableFreeBenefitEvent",
@@ -219,6 +237,7 @@ const checks = [
     "benefits events API exposes trust policy",
     hasAll(eventsRouteSource, [
       "rankingPolicy",
+      "scoreFields",
       "claimCtaLabel",
       "trustBadges",
       "publishableOnly: true",

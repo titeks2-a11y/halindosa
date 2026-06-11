@@ -47,6 +47,10 @@ export interface FreeBenefitEventSourceSummary {
   officialSourceCount: number;
   averageFreeConditionScore: number;
   averageInterestScore: number;
+  averageFreshnessScore: number;
+  averageOfficialScore: number;
+  averageUrgencyScore: number;
+  averageRewardScore: number;
 }
 
 export function buildFreeBenefitEventCategoryCounts(events: FreeBenefitEvent[]): FreeBenefitEventCategoryCount[] {
@@ -96,7 +100,11 @@ export function buildFreeBenefitEventSourceSummary(events: FreeBenefitEvent[], r
     }).length,
     officialSourceCount: events.filter((event) => event.sourceType === "official" || event.validationStatus === "passed").length,
     averageFreeConditionScore: averageScore(events, (event) => event.freeConditionScore),
-    averageInterestScore: averageScore(events, (event) => event.interestScore)
+    averageInterestScore: averageScore(events, (event) => event.interestScore),
+    averageFreshnessScore: averageScore(events, (event) => event.freshnessScore),
+    averageOfficialScore: averageScore(events, (event) => event.officialScore),
+    averageUrgencyScore: averageScore(events, (event) => event.urgencyScore),
+    averageRewardScore: averageScore(events, (event) => event.rewardScore)
   };
 }
 
@@ -278,6 +286,66 @@ function getInterestScore(deal: NewsDeal, benefitType: FreeBenefitEventType) {
   return Math.max(0, Math.min(100, Math.round(score)));
 }
 
+function getFreshnessScore(deal: NewsDeal, referenceNow: number) {
+  const checkedAt = Date.parse(deal.verifiedAt || deal.lastCheckedAt || deal.updatedAt || deal.startDate);
+  if (!Number.isFinite(checkedAt)) return 45;
+  const ageHours = Math.max(0, (referenceNow - checkedAt) / 3_600_000);
+  if (ageHours <= 6) return 100;
+  if (ageHours <= 24) return 92;
+  if (ageHours <= 72) return 78;
+  if (ageHours <= 168) return 62;
+  if (ageHours <= 336) return 45;
+  return 25;
+}
+
+function getOfficialScore(deal: NewsDeal, sourceType: FreeBenefitSourceType) {
+  let score = 0;
+  if (sourceType === "official") score += 58;
+  if (sourceType === "approved_public") score += 38;
+  if (deal.validationStatus === "passed") score += 20;
+  if (String(deal.linkType || "").startsWith("official")) score += 18;
+  if (isSafeBenefitEventUrl(deal.finalUrl)) score += 12;
+  if (/blog|cafe|community|news|search/i.test(String(deal.linkType || ""))) score -= 70;
+  return Math.max(0, Math.min(100, Math.round(score)));
+}
+
+function getUrgencyScore(endAt: string, referenceNow: number) {
+  const endsAt = Date.parse(endAt);
+  if (!Number.isFinite(endsAt)) return 45;
+  const hoursLeft = (endsAt - referenceNow) / 3_600_000;
+  if (hoursLeft < 0) return 0;
+  if (hoursLeft <= 24) return 100;
+  if (hoursLeft <= 72) return 86;
+  if (hoursLeft <= 7 * 24) return 68;
+  if (hoursLeft <= 14 * 24) return 54;
+  return 40;
+}
+
+function getRewardScore({
+  benefitType,
+  requiresPurchase,
+  isEveryoneReward,
+  isFirstComeFirstServed,
+  rewardText
+}: {
+  benefitType: FreeBenefitEventType;
+  requiresPurchase: boolean;
+  isEveryoneReward: boolean;
+  isFirstComeFirstServed: boolean;
+  rewardText: string;
+}) {
+  let score = 42;
+  if (!requiresPurchase) score += 18;
+  else score -= 18;
+  if (isEveryoneReward) score += 16;
+  if (isFirstComeFirstServed) score += 10;
+  if (benefitType === "gifticon" || benefitType === "sample" || benefitType === "freeTrial") score += 16;
+  if (benefitType === "coupon" || benefitType === "pointCashback" || benefitType === "signup") score += 12;
+  if (/기프티콘|샘플|무료\s*체험|교환권|포인트|캐시백|전원|선착순|0원|무료배송/i.test(rewardText)) score += 10;
+  if (benefitType === "publicFree") score -= 34;
+  return Math.max(0, Math.min(100, Math.round(score)));
+}
+
 function buildParticipationCondition({
   deal,
   benefitType,
@@ -312,12 +380,7 @@ function buildParticipationCondition({
 }
 
 export function getFreeBenefitEventScore(event: FreeBenefitEvent, referenceNow = Date.now()) {
-  const endAt = Date.parse(event.endAt);
-  const hoursLeft = Number.isFinite(endAt) ? Math.max(0, (endAt - referenceNow) / 3_600_000) : 999;
-  const urgencyBoost = hoursLeft <= 24 ? 18 : hoursLeft <= 72 ? 9 : 0;
-  const freshnessAt = Date.parse(event.verifiedAt || event.updatedAt || event.collectedAt);
-  const ageDays = Number.isFinite(freshnessAt) ? Math.max(0, (referenceNow - freshnessAt) / 86_400_000) : 999;
-  const freshnessBoost = ageDays <= 1 ? 10 : ageDays <= 3 ? 5 : ageDays > 30 ? -22 : ageDays > 14 ? -10 : 0;
+  void referenceNow;
   const consumerTypeBoost =
     event.benefitType === "coupon"
       ? 24
@@ -332,6 +395,10 @@ export function getFreeBenefitEventScore(event: FreeBenefitEvent, referenceNow =
 
   return (
     event.qualityScore +
+    event.freshnessScore * 0.24 +
+    event.officialScore * 0.28 +
+    event.urgencyScore * 0.18 +
+    event.rewardScore * 0.3 +
     event.priorityScore * 0.5 +
     event.freeConditionScore * 0.7 +
     event.interestScore * 0.4 +
@@ -340,9 +407,7 @@ export function getFreeBenefitEventScore(event: FreeBenefitEvent, referenceNow =
     (event.isEveryoneReward ? 18 : 0) +
     (event.isFirstComeFirstServed ? 9 : 0) +
     (event.requiresPurchase ? -18 : 8) +
-    (event.requiresLogin ? -4 : 4) +
-    urgencyBoost +
-    freshnessBoost
+    (event.requiresLogin ? -4 : 4)
   );
 }
 
@@ -391,6 +456,10 @@ export function toFreeBenefitEvent(deal: NewsDeal, referenceNow = Date.now()): F
   const sourceDomain = getBenefitEventSourceDomain(deal.finalUrl || deal.sourceUrl || deal.eventUrl);
   const freeConditionScore = getFreeConditionScore({ benefitType, requiresLogin, requiresPurchase, isEveryoneReward, isFirstComeFirstServed });
   const interestScore = getInterestScore(deal, benefitType);
+  const freshnessScore = getFreshnessScore(deal, referenceNow);
+  const officialScore = getOfficialScore(deal, sourceType);
+  const urgencyScore = getUrgencyScore(endAt, referenceNow);
+  const rewardScore = getRewardScore({ benefitType, requiresPurchase, isEveryoneReward, isFirstComeFirstServed, rewardText });
 
   const event: FreeBenefitEvent = {
     id: deal.id,
@@ -426,6 +495,10 @@ export function toFreeBenefitEvent(deal: NewsDeal, referenceNow = Date.now()): F
     validationStatus,
     validationReason: sanitizeBenefitText(deal.validationReason || (status === "active" ? "공식 혜택 링크 검증 통과" : "노출 정책 미통과"), 100),
     qualityScore: Number(deal.qualityScore ?? 0),
+    freshnessScore,
+    officialScore,
+    urgencyScore,
+    rewardScore,
     priorityScore:
       Number(deal.priorityScore ?? deal.confidenceScore ?? 0) +
       getMainFeedConsumerPriorityPenalty(deal) +

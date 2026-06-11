@@ -1,16 +1,17 @@
 # 할인도사 현재 상태
 
-작성 시점: 2026-06-11, Asia/Seoul
+작성 시점: 2026-06-12, Asia/Seoul
 
 이 문서는 새 Codex 세션이 이전 긴 대화에 의존하지 않고 현재 워크트리와 실제 명령 결과만으로 이어받기 위한 핸드오프 문서다.
 
 ## 현재 기준
 
 - Branch: `codex/12h-product-ux-growth-hardening`
-- 최신 확인 HEAD: `5b7a954f feat: expand free benefit discovery`
-- Remote: `origin/main`, `origin/codex/12h-product-ux-growth-hardening` 모두 최신 HEAD까지 push 완료
+- 최신 확인 HEAD: 이 문서가 포함된 무료혜택 점수 체계 보강 커밋 기준
+- Remote: `origin/main`, `origin/codex/12h-product-ux-growth-hardening`에 반영 대상
 - 운영 URL: `https://www.halindosa.com`
-- Vercel Production Deploy: 최신 확인 기준 실패. GitHub Actions에 `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID` Secrets가 없어 Vercel CLI 배포 단계가 skip되고, 기존 운영 URL만 확인하다가 최신 커밋 메타데이터가 없어 차단된다.
+- Vercel Production Deploy: 직전 WebView 전환 커밋 `da63cc6a` 기준 성공 확인, 이 문서가 포함된 새 커밋은 push 후 확인
+- GitHub CI: 직전 WebView 전환 커밋 `da63cc6a` 기준 성공 확인, 이 문서가 포함된 새 커밋은 push 후 확인
 - 로컬 최신 홈페이지: `http://127.0.0.1:3000/?verifiedOnly=true`
 - 운영 API 최신 계약 확인:
   - `/api/home?limit=1&verifiedOnly=true`: HTTP 200
@@ -18,7 +19,7 @@
   - `X-Request-Id` 헤더 존재
   - `X-RateLimit-Remaining` 헤더 존재
   - `Cache-Control`은 no-store 계열
-  - 단, 운영 API는 아직 이전 배포 기준으로 `newsDeals=120`, `freeBenefitEvents=72`, `deployment.shortCommit` 없음. 로컬 최신 기준은 `newsDeals=190`, `/api/freebies total=152`, 무료혜택 검증 186/186이다.
+  - WebView Android 앱은 `https://www.halindosa.com` 운영 웹을 직접 로드하므로 Vercel 배포가 성공하면 앱 화면에도 최신 무료혜택 홈이 반영된다.
 
 ## 제품 방향
 
@@ -39,6 +40,8 @@
 - 홈 무료혜택 히어로는 브랜드 키를 정규화해 같은 브랜드 샘플/쿠폰이 첫 화면에 반복 노출되는 문제를 줄인다.
 - 홈 무료혜택 히어로는 `오늘마감`과 `마감임박`을 분리하고, 공식 무료혜택 카드 16개와 즉시 수령 카드 8개를 모바일 첫 화면 우선 영역으로 노출한다.
 - `scripts/home-runtime-snapshot-doctor.mjs`는 `localhost:3000`을 먼저 확인하고, 다른 앱이 `127.0.0.1:3000`을 점유해도 할인도사 런타임 스냅샷 검증이 잘못 실패하지 않게 했다.
+- `FreeBenefitEvent`는 `qualityScore`, `freshnessScore`, `officialScore`, `urgencyScore`, `rewardScore`를 함께 계산해 공식성, 최신성, 마감성, 보상 가치를 랭킹과 운영 리포트에 반영한다.
+- `docs/FREE_BENEFIT_SCORING.md`에 무료혜택 노출 조건과 점수 기준을 정리했다.
 
 ## 현재 데이터 품질 기준
 
@@ -54,39 +57,38 @@
   - `verify:news` 기준 190/190 공식 혜택 링크 검증
   - 기본 top consumer feed는 공공정책성 혜택 0건
 - 무료혜택:
-  - `refresh:benefits` 기준 무료혜택 110/110, 공식 이벤트 167/167
-  - `verify:freebies` 기준 186/186 visible, 검색 링크 0, 비공식 링크 0, 깨진 이미지 0
-  - `verify:freebies`는 공식 도메인 109개, 브랜드 111개, 구매조건 낮은 혜택 147개 기준도 함께 검사한다.
-  - FreeBenefitEvent 기준 active official events 181개, sources 144개, hosts 107개
-  - 공식 소스 후보 212개, reachable/guarded 186/26 분리 관리
+  - `refresh:benefits` 기준 무료혜택 116/116, 공식 이벤트 174/174
+  - `verify:freebies` 기준 193/193 visible, 검색 링크 0, 비공식 링크 0, 깨진 이미지 0
+  - `verify:freebies`는 공식 도메인 111개, 브랜드 112개, 구매조건 낮은 혜택 기준도 함께 검사한다.
+  - FreeBenefitEvent 기준 active official events 188개, sources 148개, hosts 109개
+  - FreeBenefitEvent 평균 점수: quality 100, freshness 100, official 96, urgency 41, reward 69
+  - 공식 소스 후보 211개 이상, reachable/guarded 분리 관리
 
 ## 최근 통과한 로컬 검증
 
 - `npm run lint`: 통과
 - `npm run test:mobile-ux`: 17/17 통과
-- `npm run verify:freebies`: 186/186 통과
-- `npm run smoke:local`: 103/103 통과
+- `npm run verify:freebies`: 193/193 통과
+- `npm run refresh:benefits`: 4/4 통과
+- `npm run benefit:event:contract`: 17/17 통과
+- `npm run smoke:local`: 104/104 통과
 - `npm run release:prepare:reports:ci`: 27/27 통과
-- `npm run release:doctor`: 189/189 통과
+- `npm run release:doctor`: 191/191 통과
 - `npm run qa`: 71/71 통과
 - `npm run build`: 통과
 - `npm run build:android`: 통과
 - `npm run cap:sync`: 통과
-- `npm run vercel:doctor`: 기본 운영 계약 검증은 통과 가능. `REQUIRE_DEPLOY_COMMIT=true EXPECTED_DEPLOY_COMMIT=<latest_sha> npm run vercel:doctor`는 현재 운영 도메인이 이전 배포라 실패한다.
+- `npm run vercel:doctor`: 운영 계약 검증에 사용. 최신 커밋 반영 여부는 GitHub Actions Vercel Production Deploy 결과와 운영 `/api/health` 응답을 함께 본다.
 
 ## CI/Vercel 상태 해석
 
-- 최신 Vercel Production Deploy는 실패가 맞다. 최신 커밋이 운영 도메인에 실제 반영되지 않은 상태를 엄격 검증이 잡아낸 것이다.
-- GitHub Actions job에서 `Launch verification gates`, `Pull Vercel environment`, `Build Vercel production artifact`, `Deploy Vercel production artifact`, `Verify deployed URL` 단계가 skipped이면 Vercel Secrets가 없다는 뜻이다.
-- 해결: GitHub Repository Secrets에 `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`를 설정하거나, Vercel 프로젝트의 GitHub main 브랜치 자동 배포 연결을 복구한 뒤 최신 main을 redeploy한다.
-- 로컬 Vercel CLI 상태: `.vercel/project.json`이 없어서 현재 워크스페이스는 Vercel 프로젝트에 연결되어 있지 않다. `npx vercel whoami`는 로그인 대기/타임아웃 상태였으므로 이 세션에서는 직접 운영 배포를 수행하지 못했다.
-- GitHub CI는 concurrency 때문에 이전 커밋의 실패/취소 기록이 남아 있을 수 있다.
-- CI가 실패하면 먼저 실패 job의 마지막 단계가 `Release doctor`인지 확인한다.
+- `da63cc6a` 기준 GitHub CI와 Vercel Production Deploy가 모두 성공했다.
+- CI 실패가 다시 발생하면 먼저 실패 job의 마지막 단계를 확인한다.
 - 로컬 재현 순서:
   1. `npm run release:prepare:reports:ci`
   2. `npm run release:doctor`
   3. `npm run qa`
-- 위 순서가 로컬에서 통과하면, 새 커밋으로 CI를 다시 돌려 최신 기준으로 확인한다.
+- Vercel 배포 성공 후 운영 웹이 최신인지 확인하려면 `https://www.halindosa.com/api/health`와 `https://www.halindosa.com/api/freebies?limit=5`의 `Cache-Control`, `requestId`, 무료혜택 수를 확인한다.
 
 ## 주요 명령
 
@@ -115,7 +117,7 @@
 
 ## 다음 추천 작업
 
-1. CI가 최신 HEAD에서 최종 성공하는지 확인한다.
+1. 새 커밋 후 CI와 Vercel Production Deploy가 최신 HEAD에서 성공하는지 확인한다.
 2. `reports/`와 루트 리포트의 재생성 산출물 정책을 더 줄여 워크트리 노이즈를 낮춘다.
 3. 홈 화면의 무료혜택/쿠폰/샘플/체험 이벤트 카드 밀도를 더 높이고, 공공성 혜택은 명시 필터로만 보이게 유지한다.
 4. 공식 소스 feed URL이 실제로 연결되면 `news:feed:canary`가 seed fallback이 아닌 external feed 성공으로 바뀌는지 확인한다.
