@@ -60,10 +60,20 @@ const requiredFields = [
   "tags"
 ];
 
-if (includesAll(dto, ["export interface StandardFreeBenefit", "toStandardFreeBenefit", "toStandardFreeBenefits", ...requiredFields])) {
-  pass("standard free benefit dto", "API-ready free benefit fields are mapped from FreeBenefitEvent.");
+if (
+  includesAll(dto, [
+    "export interface StandardFreeBenefit",
+    "requiredStandardFreeBenefitFields",
+    "getMissingStandardFreeBenefitFields",
+    "isCompleteStandardFreeBenefit",
+    "toStandardFreeBenefit",
+    "toStandardFreeBenefits",
+    ...requiredFields
+  ])
+) {
+  pass("standard free benefit dto", "API-ready free benefit fields are mapped from FreeBenefitEvent and guarded by a shared completeness helper.");
 } else {
-  fail("standard free benefit dto", "StandardFreeBenefit is missing one or more required launch fields.");
+  fail("standard free benefit dto", "StandardFreeBenefit is missing one or more required launch fields or the shared completeness helper.");
 }
 
 if (includesAll(freebiesApi, ["toStandardFreeBenefits", "const freeBenefits = toStandardFreeBenefits(events)", "freeBenefits,"])) {
@@ -88,6 +98,12 @@ if (includesAll(homeTypes, ["StandardFreeBenefit", "freeBenefits?: StandardFreeB
   pass("client api types", "Shared home API response types include standard freeBenefits.");
 } else {
   fail("client api types", "Shared API response types do not include standard freeBenefits.");
+}
+
+if (includesAll(qa, ["benefit:api-contract", "benefit:model:doctor"])) {
+  pass("model contract pairing", "Standard API contract and runtime model doctors are both wired into QA.");
+} else {
+  fail("model contract pairing", "QA should run both benefit:api-contract and benefit:model:doctor.");
 }
 
 if (qa.includes("benefit:api-contract")) {

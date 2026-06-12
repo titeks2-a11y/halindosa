@@ -37,6 +37,33 @@ export interface StandardFreeBenefit {
   isFirstComeFirstServed: boolean;
 }
 
+export const requiredStandardFreeBenefitFields = [
+  "id",
+  "brand",
+  "title",
+  "description",
+  "benefitType",
+  "rewardValue",
+  "startDate",
+  "endDate",
+  "sourceUrl",
+  "officialUrl",
+  "imageUrl",
+  "status",
+  "isOfficial",
+  "isFree",
+  "isVerified",
+  "qualityScore",
+  "freshnessScore",
+  "officialScore",
+  "urgencyScore",
+  "rewardScore",
+  "lastCheckedAt",
+  "createdAt",
+  "updatedAt",
+  "tags"
+] satisfies Array<keyof StandardFreeBenefit>;
+
 export function toStandardFreeBenefit(event: FreeBenefitEvent): StandardFreeBenefit {
   return {
     id: event.id,
@@ -74,6 +101,20 @@ export function toStandardFreeBenefit(event: FreeBenefitEvent): StandardFreeBene
     isEveryoneReward: event.isEveryoneReward,
     isFirstComeFirstServed: event.isFirstComeFirstServed
   };
+}
+
+export function getMissingStandardFreeBenefitFields(benefit: StandardFreeBenefit) {
+  return requiredStandardFreeBenefitFields.filter((field) => {
+    const value = benefit[field];
+    if (typeof value === "boolean") return false;
+    if (typeof value === "number") return !Number.isFinite(value);
+    if (Array.isArray(value)) return value.length === 0;
+    return !String(value ?? "").trim();
+  });
+}
+
+export function isCompleteStandardFreeBenefit(benefit: StandardFreeBenefit) {
+  return getMissingStandardFreeBenefitFields(benefit).length === 0;
 }
 
 export function toStandardFreeBenefits(events: FreeBenefitEvent[]) {
