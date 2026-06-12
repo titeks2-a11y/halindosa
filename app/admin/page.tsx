@@ -132,6 +132,9 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const cronRefresh = getCronRefreshOperationsReport();
   const dailyOperations = getDailyOperationsReport();
   const freeBenefitOperations = getFreeBenefitOperationsReport();
+  const freeBenefitTodayEndingCount = Number(freeBenefitOperations.totals?.todayEndingVisibleItems ?? 0);
+  const freeBenefitWeekEndingCount = Number(freeBenefitOperations.totals?.thisWeekEndingVisibleItems ?? 0);
+  const freeBenefitDeadlineFallbackActive = freeBenefitTodayEndingCount === 0 && freeBenefitWeekEndingCount > 0;
   const exposurePolicy = getExposurePolicyReport();
   const linkLaunchGate = getLinkLaunchGateReport();
   const linkRevalidationPriority = getLinkRevalidationPriorityReport();
@@ -2265,11 +2268,17 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
             <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
               <p className="text-sm font-black text-slate-950">마감 운영 큐</p>
               <div className="mt-3 grid gap-2 text-xs font-black text-slate-700">
-                <Link href="/free-benefits?deadline=today" className="rounded-2xl bg-white px-3 py-3 shadow-sm">
-                  오늘 마감 {freeBenefitOperations.totals?.todayEndingVisibleItems ?? 0}개 확인
-                </Link>
+                {freeBenefitDeadlineFallbackActive ? (
+                  <Link href="/free-benefits?deadline=week" className="rounded-2xl bg-orange-50 px-3 py-3 text-orange-700 shadow-sm">
+                    오늘마감 0개 · 이번주 마감 {freeBenefitWeekEndingCount}개 우선 확인
+                  </Link>
+                ) : (
+                  <Link href="/free-benefits?deadline=today" className="rounded-2xl bg-white px-3 py-3 shadow-sm">
+                    오늘 마감 {freeBenefitTodayEndingCount}개 확인
+                  </Link>
+                )}
                 <Link href="/free-benefits?deadline=week" className="rounded-2xl bg-white px-3 py-3 shadow-sm">
-                  이번주 마감 {freeBenefitOperations.totals?.thisWeekEndingVisibleItems ?? 0}개 확인
+                  이번주 마감 {freeBenefitWeekEndingCount}개 확인
                 </Link>
                 <a href={freeBenefitOperationsCsvHref} className="rounded-2xl bg-white px-3 py-3 shadow-sm">
                   운영 CSV 내려받기

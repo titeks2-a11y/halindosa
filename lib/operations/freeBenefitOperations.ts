@@ -204,11 +204,11 @@ function buildOperatorActionQueue(report: FreeBenefitOperationsReport, visible: 
   if (todayCount === 0 && weekCount > 0) {
     actions.push({
       id: "promote-week-deadline",
-      priority: "medium",
+      priority: "low",
       area: "마감 편성",
-      title: "오늘마감 공백 시 이번주마감 대체 편성",
-      reason: "오늘마감 혜택이 없어서 홈 상단 마감 슬롯이 약해질 수 있습니다.",
-      action: "이번주마감 후보를 홈 마감임박 영역에 우선 편성하고 오늘마감 카피는 숨김",
+      title: "이번주마감 대체 편성 활성",
+      reason: "오늘마감 혜택은 0건이지만 이번주 마감 혜택이 있어 고객 화면은 대체 슬롯으로 유지됩니다.",
+      action: "이번주마감 후보를 홈 마감임박 영역에 유지하고 오늘마감 0건 카피는 숨김",
       href: "/free-benefits?deadline=week",
       evidence: `today=${todayCount}; week=${weekCount}`
     });
