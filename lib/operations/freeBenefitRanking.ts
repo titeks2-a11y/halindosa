@@ -40,6 +40,9 @@ export interface FreeBenefitRankingReport {
   publishableCount: number;
   consumerPublishableCount: number;
   noPurchaseCount: number;
+  claimReadyCount: number;
+  topClaimReadyCount: number;
+  topBenefitTypeDiversity: number;
   exactDuplicateGroupCount: number;
   fuzzyDuplicateGroupCount: number;
   maxTopBrandRepeat: number;
@@ -57,6 +60,7 @@ export interface FreeBenefitRankingReport {
   exactDuplicateGroups: RankingDuplicateGroup[];
   fuzzyDuplicateGroups: RankingDuplicateGroup[];
   topCandidates: RankingCandidate[];
+  claimReadyCandidates: RankingCandidate[];
   issues: string[];
 }
 
@@ -70,6 +74,10 @@ export interface RankingCandidate {
   qualityScore: number;
   freshnessScore: number;
   rewardScore: number;
+  isNoPurchase: boolean;
+  claimEaseScore: number;
+  claimUrgencyLabel: string;
+  endDate: string;
   finalUrl: string;
 }
 
@@ -194,6 +202,17 @@ function scoreReward(item: RankingSourceItem, benefitType: string, text: string)
   return Math.max(0, Math.min(100, score));
 }
 
+function getClaimUrgencyLabel(endDate: string, now: number) {
+  const endAt = Date.parse(endDate);
+  if (!Number.isFinite(endAt)) return "상시확인";
+  const hoursLeft = (endAt - now) / 3_600_000;
+  if (hoursLeft < 0) return "종료";
+  if (hoursLeft <= 24) return "오늘마감";
+  if (hoursLeft <= 168) return "이번주마감";
+  if (hoursLeft <= 336) return "마감임박";
+  return "여유있음";
+}
+
 interface InternalCandidate extends RankingCandidate {
   rewardValue: string;
   endDate: string;
@@ -227,6 +246,20 @@ function toCandidate(item: RankingSourceItem, now: number): InternalCandidate {
   const urgencyScore = scoreUrgency(endDate, now);
   const rewardScore = scoreReward(item, benefitType, text);
   const priorityScore = Number(item.priorityScore ?? 0);
+  const isNoPurchase = !purchaseRequiredPattern.test(text);
+  const claimEaseScore = Math.max(
+    0,
+    Math.min(
+      100,
+      Math.round(
+        qualityScore * 0.35 +
+          officialScore * 0.25 +
+          rewardScore * 0.2 +
+          freshnessScore * 0.1 +
+          (isNoPurchase ? 10 : -18)
+      )
+    )
+  );
   const publishable =
     item.publishable !== false &&
     item.isHidden !== true &&
@@ -252,12 +285,14 @@ function toCandidate(item: RankingSourceItem, now: number): InternalCandidate {
     officialUrl: normalizeUrl(item.officialUrl || item.sourceUrl || finalUrl),
     publishable,
     isConsumer: !publicBenefitPattern.test([brand, title, rewardValue].join(" ")),
-    isNoPurchase: !purchaseRequiredPattern.test(text),
+    isNoPurchase,
     qualityScore,
     freshnessScore,
     officialScore,
     urgencyScore,
     rewardScore,
+    claimEaseScore,
+    claimUrgencyLabel: getClaimUrgencyLabel(endDate, now),
     priorityScore,
     rankingScore: Math.round(qualityScore + freshnessScore * 0.24 + officialScore * 0.28 + urgencyScore * 0.18 + rewardScore * 0.3 + priorityScore * 0.12),
     exactDedupeKey: [normalizeText(brand, 60), normalizeText(title, 120), host, benefitType, normalizeText(rewardValue, 80), endDate.slice(0, 10), finalUrl].join("|"),
@@ -311,11 +346,36 @@ function topDuplicateGroups(groups: Map<string, InternalCandidate[]>, limit = 20
           qualityScore: kept.qualityScore,
           freshnessScore: kept.freshnessScore,
           rewardScore: kept.rewardScore,
+          isNoPurchase: kept.isNoPurchase,
+          claimEaseScore: kept.claimEaseScore,
+          claimUrgencyLabel: kept.claimUrgencyLabel,
+          endDate: kept.endDate,
           finalUrl: kept.finalUrl
         },
         mergedIds: rows.map((row) => row.id)
       };
     });
+}
+
+function selectDiverseCandidates(items: InternalCandidate[], limit: number) {
+  const sorted = [...items].sort((a, b) => b.rankingScore - a.rankingScore);
+  const selected: InternalCandidate[] = [];
+  const brandCounts = new Map<string, number>();
+  const typeCounts = new Map<string, number>();
+  const pushIfAllowed = (item: InternalCandidate, strict: boolean) => {
+    if (selected.some((selectedItem) => selectedItem.id === item.id)) return;
+    const brandCount = brandCounts.get(item.brand) ?? 0;
+    const typeCount = typeCounts.get(item.benefitType) ?? 0;
+    if (strict && (brandCount >= 3 || typeCount >= 4)) return;
+    selected.push(item);
+    brandCounts.set(item.brand, brandCount + 1);
+    typeCounts.set(item.benefitType, typeCount + 1);
+  };
+
+  for (const item of sorted) pushIfAllowed(item, true);
+  for (const item of sorted) pushIfAllowed(item, false);
+
+  return selected.slice(0, limit);
 }
 
 export function buildFreeBenefitRankingReport(referenceNow = Date.now()): FreeBenefitRankingReport {
@@ -324,7 +384,7 @@ export function buildFreeBenefitRankingReport(referenceNow = Date.now()): FreeBe
   const candidates = deals.map((deal) => toCandidate(deal, referenceNow));
   const publishable = candidates.filter((item) => item.publishable);
   const consumerPublishable = publishable.filter((item) => item.isConsumer);
-  const topConsumer = [...consumerPublishable].sort((a, b) => b.rankingScore - a.rankingScore).slice(0, 32);
+  const topConsumer = selectDiverseCandidates(consumerPublishable, 32);
   const exactDuplicateGroups = topDuplicateGroups(groupBy(publishable, (item) => item.exactDedupeKey));
   const fuzzyDuplicateGroups = topDuplicateGroups(groupBy(publishable, (item) => item.fuzzyDedupeKey));
   const topBrandCounts = countBy(topConsumer.slice(0, 24), (item) => item.brand);
@@ -332,6 +392,13 @@ export function buildFreeBenefitRankingReport(referenceNow = Date.now()): FreeBe
   const maxTopBrandRepeat = Math.max(0, ...Object.values(topBrandCounts));
   const maxTopDomainRepeat = Math.max(0, ...Object.values(topDomainCounts));
   const noPurchaseCount = publishable.filter((item) => item.isNoPurchase).length;
+  const claimReadyAll = [...consumerPublishable]
+    .filter((item) => item.isNoPurchase && item.qualityScore >= 90 && item.freshnessScore >= 70 && item.claimEaseScore >= 80)
+    .sort((a, b) => b.claimEaseScore - a.claimEaseScore || b.rankingScore - a.rankingScore);
+  const claimReadyCandidates = selectDiverseCandidates(claimReadyAll, 24);
+  const topWindow = topConsumer.slice(0, 24);
+  const topClaimReadyCount = topWindow.filter((item) => item.isNoPurchase && item.claimEaseScore >= 80).length;
+  const topBenefitTypeDiversity = new Set(topWindow.map((item) => item.benefitType)).size;
 
   const issues = [
     publishable.length < 120 ? `publishable 공식 무료혜택이 120개 미만입니다. 현재 ${publishable.length}개입니다.` : "",
@@ -339,6 +406,9 @@ export function buildFreeBenefitRankingReport(referenceNow = Date.now()): FreeBe
     exactDuplicateGroups.length > 0 ? `정확히 같은 dedupe key가 ${exactDuplicateGroups.length}개 남아 있습니다.` : "",
     fuzzyDuplicateGroups.length > 8 ? `비슷한 혜택 중복 후보가 ${fuzzyDuplicateGroups.length}개로 많습니다.` : "",
     noPurchaseCount < 100 ? `구매 조건 없는 무료혜택이 100개 미만입니다. 현재 ${noPurchaseCount}개입니다.` : "",
+    claimReadyAll.length < 40 ? `바로 받을 수 있는 고신뢰 혜택 후보가 40개 미만입니다. 현재 ${claimReadyAll.length}개입니다.` : "",
+    topClaimReadyCount < 16 ? `첫 화면 후보 24개 중 쉬운 참여 혜택이 16개 미만입니다. 현재 ${topClaimReadyCount}개입니다.` : "",
+    topBenefitTypeDiversity < 7 ? `첫 화면 후보 24개 안의 혜택 유형이 7개 미만입니다. 현재 ${topBenefitTypeDiversity}개입니다.` : "",
     average(publishable, "qualityScore") < 90 ? `평균 qualityScore가 90 미만입니다. 현재 ${average(publishable, "qualityScore")}점입니다.` : "",
     average(publishable, "freshnessScore") < 70 ? `평균 freshnessScore가 70 미만입니다. 현재 ${average(publishable, "freshnessScore")}점입니다.` : "",
     maxTopBrandRepeat > 4 ? `첫 화면 후보 24개 안에서 같은 브랜드가 ${maxTopBrandRepeat}회 반복됩니다.` : "",
@@ -353,6 +423,9 @@ export function buildFreeBenefitRankingReport(referenceNow = Date.now()): FreeBe
     publishableCount: publishable.length,
     consumerPublishableCount: consumerPublishable.length,
     noPurchaseCount,
+    claimReadyCount: claimReadyAll.length,
+    topClaimReadyCount,
+    topBenefitTypeDiversity,
     exactDuplicateGroupCount: exactDuplicateGroups.length,
     fuzzyDuplicateGroupCount: fuzzyDuplicateGroups.length,
     maxTopBrandRepeat,
@@ -379,6 +452,26 @@ export function buildFreeBenefitRankingReport(referenceNow = Date.now()): FreeBe
       qualityScore: item.qualityScore,
       freshnessScore: item.freshnessScore,
       rewardScore: item.rewardScore,
+      isNoPurchase: item.isNoPurchase,
+      claimEaseScore: item.claimEaseScore,
+      claimUrgencyLabel: item.claimUrgencyLabel,
+      endDate: item.endDate,
+      finalUrl: item.finalUrl
+    })),
+    claimReadyCandidates: claimReadyCandidates.map((item) => ({
+      id: item.id,
+      brand: item.brand,
+      title: item.title,
+      benefitType: item.benefitType,
+      sourceDomain: item.sourceDomain,
+      rankingScore: item.rankingScore,
+      qualityScore: item.qualityScore,
+      freshnessScore: item.freshnessScore,
+      rewardScore: item.rewardScore,
+      isNoPurchase: item.isNoPurchase,
+      claimEaseScore: item.claimEaseScore,
+      claimUrgencyLabel: item.claimUrgencyLabel,
+      endDate: item.endDate,
       finalUrl: item.finalUrl
     })),
     issues
@@ -390,6 +483,9 @@ export function buildFreeBenefitRankingCsv(report: FreeBenefitRankingReport) {
   rows.push(["summary", "publishableCount", report.ok ? "passed" : "failed", String(report.publishableCount), "노출 가능한 공식 무료혜택", "npm run benefit:ranking:doctor"]);
   rows.push(["summary", "consumerPublishableCount", "count", String(report.consumerPublishableCount), "소비자형 무료혜택", "npm run refresh:benefits"]);
   rows.push(["summary", "noPurchaseCount", "count", String(report.noPurchaseCount), "구매 조건 없는 혜택", "npm run verify:freebies"]);
+  rows.push(["claim_ready", "claimReadyCount", report.claimReadyCount >= 40 ? "passed" : "failed", String(report.claimReadyCount), "바로 받을 수 있는 고신뢰 혜택 후보", "npm run benefit:ranking:doctor"]);
+  rows.push(["claim_ready", "topClaimReadyCount", report.topClaimReadyCount >= 16 ? "passed" : "failed", String(report.topClaimReadyCount), "첫 화면 쉬운 참여 혜택 수", "홈 무료혜택 상단 큐 확인"]);
+  rows.push(["claim_ready", "topBenefitTypeDiversity", report.topBenefitTypeDiversity >= 7 ? "passed" : "failed", String(report.topBenefitTypeDiversity), "첫 화면 혜택 유형 다양성", "혜택 유형별 공식 후보 보강"]);
   rows.push(["quality", "exactDuplicateGroupCount", report.exactDuplicateGroupCount === 0 ? "passed" : "failed", String(report.exactDuplicateGroupCount), "정확 중복 그룹", "dedupe key 확인"]);
   rows.push(["quality", "fuzzyDuplicateGroupCount", report.fuzzyDuplicateGroupCount <= 8 ? "passed" : "watch", String(report.fuzzyDuplicateGroupCount), "유사 중복 후보", "상위 후보 브랜드 반복 확인"]);
   rows.push(["quality", "maxTopBrandRepeat", report.maxTopBrandRepeat <= 4 ? "passed" : "failed", String(report.maxTopBrandRepeat), "첫 화면 브랜드 최대 반복", "홈 무료혜택 다양성 조정"]);
@@ -398,7 +494,10 @@ export function buildFreeBenefitRankingCsv(report: FreeBenefitRankingReport) {
     rows.push(["benefit_type", name, "count", String(count), "혜택 유형별 노출 수", `/free-benefits?eventType=${name}`]);
   }
   for (const item of report.topCandidates) {
-    rows.push(["top_candidate", item.id, "candidate", String(item.rankingScore), `${item.brand}; ${item.title}; ${item.benefitType}; ${item.sourceDomain}`, item.finalUrl]);
+    rows.push(["top_candidate", item.id, "candidate", String(item.rankingScore), `${item.brand}; ${item.title}; ${item.benefitType}; ${item.sourceDomain}; claimEase=${item.claimEaseScore}; ${item.claimUrgencyLabel}`, item.finalUrl]);
+  }
+  for (const item of report.claimReadyCandidates) {
+    rows.push(["claim_ready_candidate", item.id, "candidate", String(item.claimEaseScore), `${item.brand}; ${item.title}; ${item.benefitType}; ${item.sourceDomain}; ${item.claimUrgencyLabel}`, item.finalUrl]);
   }
   for (const issue of report.issues) {
     rows.push(["issue", "ranking_quality", "failed", "", issue, "npm run benefit:ranking:doctor"]);

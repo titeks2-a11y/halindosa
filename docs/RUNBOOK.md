@@ -27,8 +27,8 @@ npm run smoke
   - `npm run daily:operations:report`는 `reports/daily-operations.json`과 `docs/DAILY_OPERATIONS_REPORT.md`를 생성하고, 검증 구매 링크, 공식 혜택, `refresh:all`, 공식 소스 준비도, cron/push, `release:doctor`를 일일 운영 큐로 묶는다.
 - 무료혜택 랭킹 운영 API: `GET /api/admin/free-benefit-ranking?token=$ADMIN_EXPORT_TOKEN`
   - CSV 점검표는 `GET /api/admin/free-benefit-ranking?format=csv&token=$ADMIN_EXPORT_TOKEN`로 내려받는다.
-  - `npm run benefit:ranking:doctor`는 `reports/free-benefit-ranking.json`과 `docs/FREE_BENEFIT_RANKING_REPORT.md`를 생성하고, 노출 가능한 공식 무료혜택 수, 소비자형 혜택 수, 구매조건 없는 혜택 수, 정확/유사 중복, 첫 화면 브랜드·도메인 반복도를 검사한다.
-  - 운영자는 `/admin`의 `무료혜택 랭킹 리포트` 패널에서 `정확 중복 0건`, `첫 화면 브랜드 최대 4회 이하`, `첫 화면 도메인 최대 5회 이하`, `상위 노출 후보`를 확인한다.
+  - `npm run benefit:ranking:doctor`는 `reports/free-benefit-ranking.json`과 `docs/FREE_BENEFIT_RANKING_REPORT.md`를 생성하고, 노출 가능한 공식 무료혜택 수, 소비자형 혜택 수, 구매조건 없는 혜택 수, 바로 받을 수 있는 고신뢰 혜택 수, 첫 화면 쉬운참여 혜택 수, 정확/유사 중복, 첫 화면 브랜드·도메인 반복도를 검사한다.
+  - 운영자는 `/admin`의 `무료혜택 랭킹 리포트` 패널에서 `정확 중복 0건`, `첫 화면 브랜드 최대 4회 이하`, `첫 화면 도메인 최대 5회 이하`, `바로받기 후보`, `첫화면 쉬운참여`, `상위 노출 후보`를 확인한다.
   - 같은 브랜드나 같은 도메인이 홈 상단에 반복되면 `data/refreshedNewsDeals.json`의 source/brand/title/endDate/finalUrl dedupe key를 먼저 확인하고, 공식 대체 소스 또는 다른 혜택 유형 후보를 보강한다.
   - 검색 결과, 블로그, 커뮤니티, 대표몰, 종료 혜택은 랭킹 후보가 아니라 hidden/failed 큐로 남아야 하며, `ranking JSON/CSV`에 top candidate로 나오면 출시 차단 이슈로 본다.
 - 무료혜택 카테고리 커버리지 운영 API: `GET /api/admin/free-benefit-category-coverage?token=$ADMIN_EXPORT_TOKEN`

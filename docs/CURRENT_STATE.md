@@ -68,9 +68,9 @@
 - `benefit:model:doctor`는 실제 `data/refreshedNewsDeals.json` 스냅샷을 런타임 무료혜택 모델로 점검한다. 현재 후보 197개, active 188개, 소비자형 active 152개, 공식 링크 비율 100%, 필수 필드 누락 0개 기준으로 통과하며 QA와 harness에 연결되어 있다.
 - smoke는 `/api/home`, `/api/freebies`, `/api/benefits/events`가 반환하는 실제 무료혜택 이벤트의 필수 런타임 필드, 공식 URL 정합성, active/passed/official/verified 상태를 함께 검사한다. `linkType=official*`이고 검증 통과한 혜택은 provider가 seed여도 `sourceType=official`로 정규화된다.
 - `release:doctor`는 이제 `benefit:model:doctor`와 smoke의 무료혜택 런타임 API 필드 계약 검사(`requiredFreeBenefitRuntimeFields`, `assertFreeBenefitRuntimeFields`)가 QA/harness에 연결되어 있는지 직접 확인한다. 무료혜택 모델 필드가 빠지거나 공식/검증 상태 계약이 약해지면 릴리즈 게이트가 실패한다.
-- `benefit:ranking:doctor`는 실제 무료혜택 스냅샷의 dedupe key, 공식 URL, 소비자형 publishable 수량, 구매조건 없는 혜택 수, 평균 품질/최신성 점수, 첫 화면 후보의 브랜드/도메인 반복도를 검사한다. 같은 혜택 반복 노출이나 낮은 품질 점수가 재발하면 QA, harness, release doctor가 실패한다.
+- `benefit:ranking:doctor`는 실제 무료혜택 스냅샷의 dedupe key, 공식 URL, 소비자형 publishable 수량, 구매조건 없는 혜택 수, 바로 받을 수 있는 고신뢰 혜택 수, 첫 화면 쉬운참여 혜택 수, 혜택 유형 다양성, 평균 품질/최신성 점수, 첫 화면 후보의 브랜드/도메인 반복도를 검사한다. 같은 혜택 반복 노출이나 낮은 품질 점수, 쉬운 참여 혜택 부족이 재발하면 QA, harness, release doctor가 실패한다.
 - `/api/admin/free-benefit-ranking`와 `/api/admin/free-benefit-ranking?format=csv`는 무료혜택 랭킹, 중복, 점수, 첫 화면 브랜드/도메인 반복도를 관리자 보호 API와 CSV로 제공한다. smoke는 JSON/CSV 응답, 공식 HTTPS 후보, 0개 정확 중복, 첫 화면 다양성 기준을 검사한다.
-- 관리자 `/admin` 화면은 무료혜택 랭킹 리포트 패널을 제공한다. 운영자는 정확 중복 0건, 소비자형 혜택 수, 구매조건 없는 혜택 수, 첫 화면 브랜드/도메인 반복도, 상위 후보를 화면에서 확인하고 JSON/CSV를 내려받을 수 있다.
+- 관리자 `/admin` 화면은 무료혜택 랭킹 리포트 패널을 제공한다. 운영자는 정확 중복 0건, 소비자형 혜택 수, 구매조건 없는 혜택 수, 바로받기 후보 수, 첫 화면 쉬운참여 혜택 수, 첫 화면 브랜드/도메인 반복도, 상위 후보를 화면에서 확인하고 JSON/CSV를 내려받을 수 있다.
 - `/api/admin/free-benefit-category-coverage`와 `/api/admin/free-benefit-category-coverage?format=csv`는 `benefit:category:doctor`와 같은 기준으로 전원증정, 선착순, 쿠폰, 무료 샘플, 무료체험, 기프티콘, 포인트/캐시백, 무료배송, 신규가입, 출석체크 10개 필수 축을 관리자 보호 API와 CSV로 제공한다.
 - 관리자 `/admin` 화면은 무료혜택 카테고리 커버리지 패널을 제공한다. 운영자는 노출 가능한 active 공식 혜택 수, 구매조건 없는 혜택 수, 공식 도메인 수, 오늘/이번주 마감 수량, 카테고리별 count/minimum, 상위 후보를 화면에서 확인할 수 있다.
 - 무료혜택 카테고리 커버리지 리포트는 `categoryCandidateGroups`를 포함한다. 운영자는 전원증정, 선착순, 쿠폰, 무료 샘플, 무료체험, 기프티콘, 포인트/캐시백, 무료배송, 신규가입, 출석체크별 상위 공식 후보를 JSON/CSV/관리자 화면에서 바로 확인할 수 있으며, 후보 정렬은 공공·정책성 링크보다 소비자형 브랜드 공식 혜택을 우선한다.
@@ -99,6 +99,7 @@
   - FreeBenefitEvent 기준 active official events 188개, sources 148개, hosts 109개
   - Runtime FreeBenefitEvent 모델 기준 active 188개, consumer active 152개, official rate 100%, 필수 필드 누락 0개
   - FreeBenefitEvent 평균 점수: quality 100, freshness 100, official 96, urgency 41, reward 69
+  - 무료혜택 랭킹 기준: 바로 받을 수 있는 고신뢰 혜택 126개, 첫 화면 쉬운참여 혜택 23개, 첫 화면 혜택 유형 9종, 정확 중복 0개
   - `benefit:category:doctor` 기준 visible active benefits 193개, official hosts 111개, no-purchase 167개, 필수 카테고리 10/10 통과
   - 공식 소스 후보 220개 이상, reachable/guarded 분리 관리
 

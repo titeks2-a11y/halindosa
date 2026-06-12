@@ -2428,7 +2428,7 @@ function checkFreeBenefitOperationsReport() {
   if (!operationApi.includes("canAccessAdminRequest") || !operationApi.includes("getFreeBenefitOperationsReport") || !operationApi.includes("format") || !operationApi.includes("text/csv") || !operationApi.includes("admin-free-benefit-operations")) {
     issues.push("free benefit operations admin API should be protected and support CSV export");
   }
-  for (const phrase of ["buildFreeBenefitRankingReport", "buildFreeBenefitRankingCsv", "exactDuplicateGroupCount", "maxTopBrandRepeat", "topCandidates", "qualityScore"]) {
+  for (const phrase of ["buildFreeBenefitRankingReport", "buildFreeBenefitRankingCsv", "exactDuplicateGroupCount", "maxTopBrandRepeat", "topCandidates", "qualityScore", "claimReadyCount", "topClaimReadyCount", "topBenefitTypeDiversity", "claimReadyCandidates", "claimEaseScore", "claimUrgencyLabel"]) {
     if (!rankingLib.includes(phrase)) issues.push(`free benefit ranking lib missing ${phrase}`);
   }
   for (const phrase of ["buildFreeBenefitCategoryCoverageReport", "buildFreeBenefitCategoryCoverageCsv", "freeBenefitRequiredCategories", "visibleActiveBenefits", "categoryCoverage", "categoryCandidateGroups", "claimEaseScore", "claimUrgencyLabel", "topCandidates"]) {
@@ -2461,7 +2461,7 @@ function checkFreeBenefitOperationsReport() {
   if (!smokeScript.includes("admin free benefit operations api") || !smokeScript.includes("/api/admin/free-benefit-operations") || !smokeScript.includes("Admin free benefit operations should show zero search links") || !smokeScript.includes("operatorActionQueue")) {
     issues.push("smoke tests should cover free benefit operations admin API and CSV");
   }
-  if (!smokeScript.includes("admin free benefit ranking api") || !smokeScript.includes("/api/admin/free-benefit-ranking") || !smokeScript.includes("Admin dashboard missing free benefit ranking and diversity panel") || !smokeScript.includes("exactDuplicateGroupCount")) {
+  if (!smokeScript.includes("admin free benefit ranking api") || !smokeScript.includes("/api/admin/free-benefit-ranking") || !smokeScript.includes("Admin dashboard missing free benefit ranking and diversity panel") || !smokeScript.includes("exactDuplicateGroupCount") || !smokeScript.includes("claimReadyCount") || !smokeScript.includes("claim_ready_candidate")) {
     issues.push("smoke tests should cover free benefit ranking admin API, CSV, and dashboard panel");
   }
   if (!smokeScript.includes("admin free benefit category coverage api") || !smokeScript.includes("/api/admin/free-benefit-category-coverage") || !smokeScript.includes("Admin dashboard missing free benefit required category coverage panel") || !smokeScript.includes("categoryCoverage") || !smokeScript.includes("categoryCandidateGroups")) {

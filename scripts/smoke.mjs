@@ -770,11 +770,16 @@ await check("admin free benefit ranking api", async () => {
   assert(data.report?.publishableCount >= MIN_OFFICIAL_BENEFITS, "Admin free benefit ranking should preserve publishable official benefit count");
   assert(data.report?.consumerPublishableCount >= 90, "Admin free benefit ranking should preserve consumer-first benefit count");
   assert(data.report?.noPurchaseCount >= 100, "Admin free benefit ranking should preserve no-purchase benefit count");
+  assert(data.report?.claimReadyCount >= 40, "Admin free benefit ranking should preserve enough immediately claimable benefits");
+  assert(data.report?.topClaimReadyCount >= 16, "Admin free benefit ranking should keep first-screen candidates easy to claim");
+  assert(data.report?.topBenefitTypeDiversity >= 7, "Admin free benefit ranking should keep first-screen benefit types diverse");
   assert(data.report?.exactDuplicateGroupCount === 0, "Admin free benefit ranking should expose zero exact duplicate groups");
   assert(data.report?.maxTopBrandRepeat <= 4, "Admin free benefit ranking should keep first-screen brand repetition low");
   assert(data.report?.maxTopDomainRepeat <= 5, "Admin free benefit ranking should keep first-screen domain repetition low");
   assert(Array.isArray(data.report?.topCandidates) && data.report.topCandidates.length >= 10, "Admin free benefit ranking should expose top candidates");
-  assert(data.report.topCandidates.every((item) => item.finalUrl?.startsWith("https://") && item.brand && item.title && item.benefitType), "Admin free benefit ranking candidates should expose official HTTPS URLs and display fields");
+  assert(data.report.topCandidates.every((item) => item.finalUrl?.startsWith("https://") && item.brand && item.title && item.benefitType && Number(item.claimEaseScore) >= 0 && item.claimUrgencyLabel), "Admin free benefit ranking candidates should expose official HTTPS URLs, claim ease, and display fields");
+  assert(Array.isArray(data.report?.claimReadyCandidates) && data.report.claimReadyCandidates.length >= 10, "Admin free benefit ranking should expose claim-ready candidates");
+  assert(data.report.claimReadyCandidates.every((item) => item.finalUrl?.startsWith("https://") && item.isNoPurchase === true && Number(item.claimEaseScore) >= 80), "Claim-ready candidates should be no-purchase official links with high claim ease");
 });
 
 await check("admin free benefit ranking csv", async () => {
@@ -782,8 +787,8 @@ await check("admin free benefit ranking csv", async () => {
   const text = await response.text();
   assert(response.status === 200, `Expected free benefit ranking CSV 200, got ${response.status}`);
   assert(response.headers.get("content-type")?.includes("text/csv"), "Admin free benefit ranking CSV should use text/csv content type");
-  assert(text.includes("publishableCount") && text.includes("exactDuplicateGroupCount") && text.includes("top_candidate"), "Admin free benefit ranking CSV missing summary, duplicate, or candidate rows");
-  assert(text.includes("npm run benefit:ranking:doctor") && text.includes("첫 화면"), "Admin free benefit ranking CSV missing regeneration command or diversity guidance");
+  assert(text.includes("publishableCount") && text.includes("exactDuplicateGroupCount") && text.includes("top_candidate") && text.includes("claim_ready_candidate"), "Admin free benefit ranking CSV missing summary, duplicate, claim-ready, or candidate rows");
+  assert(text.includes("npm run benefit:ranking:doctor") && text.includes("첫 화면") && text.includes("claimReadyCount"), "Admin free benefit ranking CSV missing regeneration command, claim-ready guidance, or diversity guidance");
 });
 
 await check("admin free benefit category coverage api", async () => {

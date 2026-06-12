@@ -2457,7 +2457,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
               <p className="text-xs font-black text-violet-700">무료혜택 랭킹 리포트</p>
               <h2 className="mt-1 text-xl font-black text-slate-950">첫 화면 반복 노출과 중복 혜택을 운영 전에 잡습니다</h2>
               <p className="mt-1 text-sm font-semibold leading-6 text-slate-500">
-                공식 링크, 소비자형 혜택, 구매조건 없는 혜택, 중복 key, 첫 화면 브랜드/도메인 반복도를 같은 기준으로 확인합니다.
+                공식 링크, 소비자형 혜택, 바로 받을 수 있는 혜택, 중복 key, 첫 화면 브랜드/도메인 반복도를 같은 기준으로 확인합니다.
               </p>
             </div>
             <div className="flex flex-wrap gap-2">
@@ -2472,7 +2472,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
               </Link>
             </div>
           </div>
-          <div className="mt-4 grid gap-3 md:grid-cols-3 xl:grid-cols-6">
+          <div className="mt-4 grid gap-3 md:grid-cols-3 xl:grid-cols-8">
             {[
               {
                 title: "랭킹 상태",
@@ -2497,6 +2497,18 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                 value: `${freeBenefitRanking.noPurchaseCount}개`,
                 detail: "바로 받을 수 있는 무료 중심 혜택",
                 tone: "good"
+              },
+              {
+                title: "바로받기 후보",
+                value: `${freeBenefitRanking.claimReadyCount ?? 0}개`,
+                detail: "품질·최신성·공식성·쉬운 참여 기준",
+                tone: (freeBenefitRanking.claimReadyCount ?? 0) >= 40 ? "good" : "danger"
+              },
+              {
+                title: "첫화면 쉬운참여",
+                value: `${freeBenefitRanking.topClaimReadyCount ?? 0}개`,
+                detail: `유형 ${freeBenefitRanking.topBenefitTypeDiversity ?? 0}종 이상 유지`,
+                tone: (freeBenefitRanking.topClaimReadyCount ?? 0) >= 16 && (freeBenefitRanking.topBenefitTypeDiversity ?? 0) >= 7 ? "good" : "watch"
               },
               {
                 title: "정확 중복",
@@ -2570,14 +2582,46 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                     <div className="flex items-start justify-between gap-3">
                       <div>
                         <p className="line-clamp-2 text-xs font-black leading-5 text-slate-950">{item.title}</p>
-                        <p className="mt-1 text-[11px] font-bold text-slate-500">{item.brand} · {item.benefitType}</p>
+                        <p className="mt-1 text-[11px] font-bold text-slate-500">{item.brand} · {item.benefitType} · 쉬움 {item.claimEaseScore ?? 0}</p>
                       </div>
                       <span className="rounded-full bg-violet-50 px-2 py-0.5 text-[10px] font-black text-violet-700">{item.rankingScore}</span>
                     </div>
-                    <p className="mt-2 truncate text-[10px] font-bold text-slate-400">{item.sourceDomain}</p>
+                    <p className="mt-2 truncate text-[10px] font-bold text-slate-400">{item.sourceDomain} · {item.claimUrgencyLabel ?? "상시확인"}</p>
                   </a>
                 ))}
               </div>
+            </div>
+          </div>
+          <div className="mt-4 rounded-2xl border border-emerald-100 bg-emerald-50 p-4">
+            <div className="flex items-center justify-between gap-3">
+              <div>
+                <p className="text-sm font-black text-emerald-800">바로 받을 수 있는 혜택 후보</p>
+                <p className="mt-1 text-xs font-bold leading-5 text-emerald-700">
+                  구매 조건이 낮고 공식 링크·최신성·신청 쉬움 기준을 통과한 후보입니다.
+                </p>
+              </div>
+              <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-emerald-700">
+                {freeBenefitRanking.claimReadyCandidates?.length ?? 0}개 표시
+              </span>
+            </div>
+            <div className="mt-3 grid gap-2 md:grid-cols-3">
+              {(freeBenefitRanking.claimReadyCandidates ?? []).slice(0, 6).map((item) => (
+                <a
+                  key={item.id}
+                  href={item.finalUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-2xl bg-white p-3 shadow-sm transition hover:bg-emerald-100"
+                >
+                  <p className="line-clamp-2 text-xs font-black leading-5 text-slate-950">{item.title}</p>
+                  <p className="mt-1 text-[11px] font-bold text-slate-500">{item.brand} · {item.benefitType}</p>
+                  <div className="mt-2 flex flex-wrap gap-1.5 text-[10px] font-black">
+                    <span className="rounded-full bg-emerald-50 px-2 py-1 text-emerald-700">쉬움 {item.claimEaseScore ?? 0}</span>
+                    <span className="rounded-full bg-orange-50 px-2 py-1 text-orange-700">{item.claimUrgencyLabel ?? "상시확인"}</span>
+                  </div>
+                  <p className="mt-2 truncate text-[10px] font-bold text-slate-400">{item.sourceDomain}</p>
+                </a>
+              ))}
             </div>
           </div>
         </section>
