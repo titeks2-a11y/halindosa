@@ -1405,6 +1405,9 @@ await check("health api", async () => {
   assert(typeof data.checks?.officialBenefitFeedCanaryConfiguredUrls === "number", "Health API missing official feed canary configured URL count");
   assert(typeof data.checks?.officialBenefitFeedCanaryVisibleCount === "number", "Health API missing official feed canary visible candidate count");
   assert(Array.isArray(data.checks?.officialBenefitFeedRecommendedEnvKeys), "Health API missing recommended official feed env keys");
+  assert(data.checks.officialBenefitFeedRecommendedEnvKeys.includes("CONVENIENCE_BENEFIT_FEED_URLS"), "Health API missing convenience benefit feed env guidance");
+  assert(data.checks.officialBenefitFeedRecommendedEnvKeys.includes("BEAUTY_SAMPLE_FEED_URLS"), "Health API missing beauty sample feed env guidance");
+  assert(data.checks.officialBenefitFeedRecommendedEnvKeys.includes("CAFE_FRANCHISE_COUPON_FEED_URLS"), "Health API missing cafe franchise coupon feed env guidance");
   assert(data.checks?.officialSourceReadinessOk === true, "Health API missing passing official source readiness");
   assert(data.checks?.officialSourceLaunchGateStatus === "passed", "Health API missing source readiness launch gate");
   assert(data.checks?.officialSourceCandidates >= 30, "Health API missing official source candidate count");

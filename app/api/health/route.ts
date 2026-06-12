@@ -5,6 +5,7 @@ import { buildClaimEffortSummary } from "@/lib/deals/claimEffort";
 import { getNewsOperationsReport } from "@/lib/deals/newsOperations";
 import { getCronRefreshOperationsReport } from "@/lib/operations/cronRefresh";
 import { getOperationalEnvReadiness } from "@/lib/operations/envReadiness";
+import { getOfficialSourceFeedEnvReadiness } from "@/lib/operations/sourceFeedEnvReadiness";
 import { getOfficialSourceReadiness } from "@/lib/operations/sourceReadiness";
 import { getDeploymentInfo } from "@/lib/deploymentInfo";
 
@@ -35,6 +36,7 @@ export async function GET() {
     const operationalEnvReadiness = getOperationalEnvReadiness();
     const cronRefresh = getCronRefreshOperationsReport();
     const sourceReadiness = getOfficialSourceReadiness();
+    const sourceFeedEnvReadiness = getOfficialSourceFeedEnvReadiness();
     const newsOperations = getNewsOperationsReport();
     const officialBenefitReadyCategories = newsOperations.categoryCoverage.filter((item) => item.status === "ready").length;
     const officialBenefitWeakCategories = newsOperations.categoryCoverage.filter((item) => item.status !== "ready").length;
@@ -55,6 +57,23 @@ export async function GET() {
     const officialBenefitFresh = officialBenefitFreshnessHours <= 24;
     const verifiedLinkRate = totalDeals ? Math.round((verifiedLinkDeals.length / totalDeals) * 100) : 0;
     const claimGuideRate = totalDeals ? Math.round((claimGuideReadyDeals.length / totalDeals) * 100) : 0;
+    const officialBenefitFeedRecommendedEnvKeys = Array.from(
+      new Set([
+        ...officialBenefitFeedTransition.recommendedNextEnvKeys,
+        ...sourceFeedEnvReadiness.activationReadiness.recommendedFirstLanes.flatMap((lane) => lane.envKeys),
+        ...sourceFeedEnvReadiness.checkedKeys.filter((key) =>
+          [
+            "TELECOM_MEMBERSHIP_FEED_URLS",
+            "CONVENIENCE_BENEFIT_FEED_URLS",
+            "BEAUTY_SAMPLE_FEED_URLS",
+            "CAFE_FRANCHISE_COUPON_FEED_URLS",
+            "PAY_POINT_BENEFIT_FEED_URLS",
+            "PET_SAMPLE_FEED_URLS",
+            "SIGNUP_GIFT_FEED_URLS"
+          ].includes(key)
+        )
+      ])
+    ).slice(0, 12);
     const operationalStatus =
       totalDeals >= 30 &&
       verifiedLinkRate >= 90 &&
@@ -114,7 +133,7 @@ export async function GET() {
         officialBenefitFeedExternalItemRate: officialBenefitFeedTransition.feedItemRate,
         officialBenefitFeedConfiguredEmptyCount: officialBenefitFeedTransition.configuredEmptyFeedCount,
         officialBenefitFeedConfiguredEmptyProviders: officialBenefitFeedTransition.configuredEmptyFeedProviders,
-        officialBenefitFeedRecommendedEnvKeys: officialBenefitFeedTransition.recommendedNextEnvKeys.slice(0, 5),
+        officialBenefitFeedRecommendedEnvKeys,
         officialBenefitFeedCanaryOk,
         officialBenefitFeedCanaryStatus: newsOperations.feedCanary.status,
         officialBenefitFeedCanaryFreshnessStatus: newsOperations.feedCanary.freshnessStatus,
