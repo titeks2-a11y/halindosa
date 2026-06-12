@@ -1,6 +1,6 @@
 # Free Benefit Category Coverage
 
-Generated: 2026-06-11T22:24:41.516Z
+Generated: 2026-06-12T02:29:52.935Z
 
 | Metric | Value |
 | --- | ---: |
@@ -20,8 +20,8 @@ Generated: 2026-06-11T22:24:41.516Z
 | 전원증정 | 10 | 3 | PASS |
 | 선착순 | 26 | 8 | PASS |
 | 쿠폰 | 10 | 8 | PASS |
-| 무료 샘플 | 9 | 3 | PASS |
-| 무료체험 | 2 | 1 | PASS |
+| 무료 샘플 | 6 | 3 | PASS |
+| 무료체험 | 5 | 1 | PASS |
 | 기프티콘 | 2 | 1 | PASS |
 | 포인트/캐시백 | 104 | 20 | PASS |
 | 무료배송 | 4 | 3 | PASS |

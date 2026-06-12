@@ -213,10 +213,10 @@ function inferEventType(deal: NewsDeal, text: string): FreeBenefitEventType {
   if (/출석|체크인|매일\s*참여|스탬프/i.test(text)) return "checkIn";
   if (/신규|첫\s*구매|첫\s*가입|웰컴/i.test(text)) return "signup";
   if (/기프티콘|교환권|모바일\s*쿠폰|음료권/i.test(text)) return "gifticon";
-  if (/포인트|캐시백|적립|페이/i.test(text)) return "pointCashback";
-  if (samplePattern.test(text)) return "sample";
   if (/공공|정부|지원|문화가\s*있는\s*날|서울시|복지|교육/i.test(text) || deal.benefitType === "public" || deal.benefitType === "public_free" || deal.benefitType === "education") return "publicFree";
   if (/무료\s*체험|trial|구독\s*체험/i.test(text)) return "freeTrial";
+  if (/포인트|캐시백|적립|페이/i.test(text)) return "pointCashback";
+  if (samplePattern.test(text)) return "sample";
   if (/체험단|리뷰단/i.test(text) || deal.benefitType === "freebie") return "experiencePanel";
   if (/무배|무료배송|배송비\s*무료/i.test(text) || deal.benefitType === "freeShipping") return "freeShipping";
   if (/쿠폰|할인권|바우처/i.test(text) || deal.benefitType === "coupon") return "coupon";
