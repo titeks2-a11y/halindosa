@@ -387,6 +387,10 @@ async function checkCiWorkflow() {
     const packageJson = await text("package.json");
     const qaRunner = await text("scripts/run-qa.mjs");
     const harness = await text("scripts/harness.mjs");
+    const adminDeploymentStatusApi = await text("app/api/admin/deployment-status/route.ts");
+    const adminHrefs = await text("lib/adminDashboardHrefs.ts");
+    const adminPage = await text("app/admin/page.tsx");
+    const smoke = await text("scripts/smoke.mjs");
     const requiredVercelWorkflowSnippets = [
       'branches: ["main"]',
       "concurrency:",
@@ -465,7 +469,11 @@ async function checkCiWorkflow() {
       ...requiredDeploymentStatusSnippets.filter((snippet) => !deploymentStatusReport.includes(snippet)),
       ...(!packageJson.includes('"deployment:status"') ? ["package.json deployment:status"] : []),
       ...(!qaRunner.includes('"deployment:status"') ? ["qa deployment:status"] : []),
-      ...(!harness.includes('["deployment:status", ["run", "deployment:status"]]') ? ["harness deployment:status"] : [])
+      ...(!harness.includes('["deployment:status", ["run", "deployment:status"]]') ? ["harness deployment:status"] : []),
+      ...(!adminDeploymentStatusApi.includes("canAccessAdminRequest") || !adminDeploymentStatusApi.includes("buildDeploymentStatusCsv") ? ["admin deployment status api"] : []),
+      ...(!adminHrefs.includes("deploymentStatusApiHref") || !adminHrefs.includes("/api/admin/deployment-status?format=csv") ? ["admin deployment status hrefs"] : []),
+      ...(!adminPage.includes("배포 · 앱 반영 상태") || !adminPage.includes("deploymentStatusApiHref") || !adminPage.includes("Android WebView") ? ["admin deployment status panel"] : []),
+      ...(!smoke.includes("admin deployment status api") || !smoke.includes("/api/admin/deployment-status") || !smoke.includes("latestIsLive") || !smoke.includes("webviewUpdate") ? ["smoke deployment status api"] : [])
     ];
 
     if (missingVercelWorkflow.length || missingDeployGuide.length || missingVercelDoctor.length || missingDeploymentStatus.length) {

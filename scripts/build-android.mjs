@@ -1,5 +1,5 @@
 import { spawnSync } from "node:child_process";
-import { existsSync, renameSync, rmSync } from "node:fs";
+import { existsSync, readFileSync, renameSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
 function run(command, args, env = {}) {
@@ -34,6 +34,8 @@ const temporarilyDisabled = [
   return { source, destination, legacyDestination };
 });
 const moved = [];
+const appPagePath = join(process.cwd(), "app", "page.tsx");
+let originalAppPage = "";
 
 try {
   rmSync(join(process.cwd(), ".next"), { force: true, maxRetries: 5, recursive: true, retryDelay: 500 });
@@ -51,12 +53,27 @@ try {
     }
   }
 
+  if (existsSync(appPagePath)) {
+    originalAppPage = readFileSync(appPagePath, "utf8");
+    const exportSafeAppPage = originalAppPage.replace(
+      /\nexport const dynamic = "force-dynamic";\nexport const revalidate = 0;\nexport const fetchCache = "force-no-store";\n/,
+      "\n"
+    );
+    if (exportSafeAppPage !== originalAppPage) {
+      writeFileSync(appPagePath, exportSafeAppPage, "utf8");
+    }
+  }
+
   run(process.execPath, [join(process.cwd(), "node_modules", "next", "dist", "bin", "next"), "build"], {
     CAPACITOR_BUILD: "true",
     DEAL_DATA_MODE: process.env.DEAL_DATA_MODE ?? "mock",
     DEAL_PROVIDER: process.env.DEAL_PROVIDER ?? "mock"
   });
 } finally {
+  if (originalAppPage) {
+    writeFileSync(appPagePath, originalAppPage, "utf8");
+  }
+
   for (const entry of moved.reverse()) {
     if (existsSync(entry.destination)) {
       renameSync(entry.destination, entry.source);

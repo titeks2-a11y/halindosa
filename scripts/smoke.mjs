@@ -924,6 +924,30 @@ await check("admin health readiness api", async () => {
   assert(data.report.checks.some((check) => check.name === "official source readiness gate"), "Admin health readiness checks missing official source readiness gate");
 });
 
+await check("admin deployment status api", async () => {
+  const { response, data } = await fetchJson("/api/admin/deployment-status");
+  assert(response.status === 200, `Expected deployment status 200, got ${response.status}`);
+  assert(data.ok === true, "Admin deployment status API ok should be true");
+  assert(["live", "pending_deploy", "degraded", "missing"].includes(data.report?.status), "Deployment status should expose a known launch state");
+  assert(typeof data.report?.currentShortCommit === "string", "Deployment status should expose current short commit");
+  assert(Array.isArray(data.report?.deployedShortCommits), "Deployment status should expose deployed commits");
+  assert(typeof data.report?.latestIsLive === "boolean", "Deployment status should expose latestIsLive");
+  assert(typeof data.report?.feedMode === "string", "Deployment status should expose free benefit feed mode");
+  assert(typeof data.report?.configuredFeedUrlCount === "number", "Deployment status should expose configured feed URL count");
+  assert(typeof data.report?.externalFeedItemCount === "number", "Deployment status should expose external feed item count");
+  assert(String(data.report?.androidWebViewUpdate ?? "").includes("Android"), "Deployment status should explain Android WebView update behavior");
+  assert(Array.isArray(data.report?.recommendedNextActions), "Deployment status should include operator next actions");
+});
+
+await check("admin deployment status csv", async () => {
+  const response = await fetch(`${baseUrl}/api/admin/deployment-status?format=csv`);
+  const text = await response.text();
+  assert(response.status === 200, `Expected deployment status CSV 200, got ${response.status}`);
+  assert(response.headers.get("content-type")?.includes("text/csv"), "Admin deployment status CSV should use text/csv content type");
+  assert(text.includes("latestIsLive") && text.includes("feedMode") && text.includes("webviewUpdate"), "Deployment status CSV missing launch, feed, or Android rows");
+  assert(text.includes("npm run deployment:status") && text.includes("npm run vercel:doctor"), "Deployment status CSV missing verification commands");
+});
+
 await check("cron refresh api guard", async () => {
   const denied = await fetchJson("/api/cron/refresh?dryRun=true");
   assert(denied.response.status === 401, `Expected cron refresh without token to be 401, got ${denied.response.status}`);

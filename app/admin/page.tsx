@@ -54,6 +54,7 @@ import { buildReportSlaSummary } from "@/lib/reportSla";
 import { getReportStorageStatus, getReportSummaryLive, listDealReportsLive } from "@/lib/reports";
 import { getCronRefreshOperationsReport } from "@/lib/operations/cronRefresh";
 import { getDailyOperationsReport } from "@/lib/operations/dailyOperations";
+import { getDeploymentStatusReport } from "@/lib/operations/deploymentStatus";
 import { getExposurePolicyReport } from "@/lib/operations/exposurePolicy";
 import { buildFreeBenefitCategoryCoverageReport } from "@/lib/operations/freeBenefitCategoryCoverage";
 import { buildFreeBenefitCollectionLanesReport } from "@/lib/operations/freeBenefitCollectionLanes";
@@ -125,6 +126,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const newsOperations = getNewsOperationsReport();
   const newsFeedPreview = getNewsFeedPreviewReport();
   const healthReadiness = getHealthReadinessReport();
+  const deploymentStatus = getDeploymentStatusReport();
   const sourceLiveReport = getOfficialSourceLiveReport();
   const sourceBreadthReport = getFreeBenefitSourceBreadthReport();
   const sourceOnboardingPlan = getOfficialSourceOnboardingPlan();
@@ -181,6 +183,8 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
     newsFeedCanaryCsvHref,
     newsFeedLiveApiHref,
     newsFeedLiveCsvHref,
+    deploymentStatusApiHref,
+    deploymentStatusCsvHref,
     healthReadinessApiHref,
     cronRefreshDryRunHref,
     cronLiveFeedDryRunHref,
@@ -367,6 +371,97 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
         />
 
         <AdminHealthReadinessPanel report={healthReadiness} apiHref={healthReadinessApiHref} />
+
+        <section className="rounded-3xl border border-blue-100 bg-gradient-to-br from-blue-50 via-white to-red-50 p-5 shadow-lift" aria-label="배포 및 앱 반영 상태">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <p className="text-xs font-black text-blue-700">배포 · 앱 반영 상태</p>
+              <h2 className="mt-1 text-xl font-black text-slate-950">Vercel 운영 웹과 Android WebView 최신 반영 확인</h2>
+              <p className="mt-1 text-sm font-semibold leading-6 text-slate-500">
+                Android 앱은 운영 웹을 WebView로 불러옵니다. 최신 웹 배포가 live이면 네이티브 변경 없이 앱 화면도 함께 갱신됩니다.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <a href={deploymentStatusApiHref} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-2xl bg-slate-950 px-4 py-3 text-sm font-black text-white">
+                <ExternalLink size={16} />
+                JSON 보기
+              </a>
+              <a href={deploymentStatusCsvHref} className="inline-flex items-center gap-2 rounded-2xl border border-blue-100 bg-white px-4 py-3 text-sm font-black text-blue-700">
+                <Download size={16} />
+                CSV
+              </a>
+            </div>
+          </div>
+
+          <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+            {[
+              {
+                label: "상태",
+                value: deploymentStatus.status === "live" ? "운영 반영" : deploymentStatus.status === "pending_deploy" ? "배포 대기" : "점검 필요",
+                detail: `latest=${deploymentStatus.latestIsLive ? "yes" : "no"}`,
+                tone: deploymentStatus.status === "live" ? "bg-emerald-50 text-emerald-700" : "bg-amber-50 text-amber-700"
+              },
+              {
+                label: "현재 커밋",
+                value: deploymentStatus.currentShortCommit || "unknown",
+                detail: `branch ${deploymentStatus.branch || "unknown"}`,
+                tone: "bg-white text-slate-950"
+              },
+              {
+                label: "운영 커밋",
+                value: deploymentStatus.deployedShortCommits?.join(", ") || "unknown",
+                detail: deploymentStatus.allOriginsHealthy ? "도메인 정상" : "도메인 점검",
+                tone: deploymentStatus.allOriginsHealthy ? "bg-emerald-50 text-emerald-700" : "bg-red-50 text-dossa-red"
+              },
+              {
+                label: "무료혜택 feed",
+                value: deploymentStatus.feedMode || "unknown",
+                detail: `URL ${deploymentStatus.configuredFeedUrlCount ?? 0}개 · 외부 ${deploymentStatus.externalFeedItemCount ?? 0}건`,
+                tone: (deploymentStatus.configuredFeedUrlCount ?? 0) > 0 ? "bg-blue-50 text-blue-700" : "bg-slate-100 text-slate-700"
+              },
+              {
+                label: "Android 앱",
+                value: deploymentStatus.latestIsLive ? "자동 반영" : "웹 배포 대기",
+                detail: "네이티브 변경 없음",
+                tone: "bg-violet-50 text-violet-700"
+              }
+            ].map((item) => (
+              <div key={item.label} className={`rounded-2xl border border-white/70 p-4 shadow-sm ${item.tone}`}>
+                <p className="text-xs font-black opacity-80">{item.label}</p>
+                <p className="mt-2 break-words text-xl font-black">{item.value}</p>
+                <p className="mt-1 text-xs font-bold opacity-70">{item.detail}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-4 grid gap-3 lg:grid-cols-2">
+            <div className="rounded-2xl border border-white/70 bg-white p-4">
+              <p className="text-sm font-black text-slate-950">운영 도메인 점검</p>
+              <div className="mt-3 space-y-2">
+                {(deploymentStatus.probes?.length ? deploymentStatus.probes : [{ origin: "https://www.halindosa.com", ok: false, status: 0 }]).map((probe) => (
+                  <div key={probe.origin} className="flex flex-wrap items-center gap-2 rounded-2xl bg-slate-50 px-3 py-2 text-xs font-bold text-slate-600">
+                    <span className={`rounded-full px-2 py-1 font-black ${probe.ok ? "bg-emerald-100 text-emerald-700" : "bg-red-100 text-dossa-red"}`}>
+                      {probe.ok ? "정상" : "점검"}
+                    </span>
+                    <span className="min-w-0 flex-1 truncate">{probe.origin}</span>
+                    <span>{probe.status}</span>
+                    <span>commit {probe.deployment?.shortCommit ?? "unknown"}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="rounded-2xl border border-white/70 bg-white p-4">
+              <p className="text-sm font-black text-slate-950">다음 액션</p>
+              <ul className="mt-3 space-y-2">
+                {(deploymentStatus.recommendedNextActions?.length ? deploymentStatus.recommendedNextActions : ["npm run deployment:status로 운영 반영 상태를 갱신하세요."]).slice(0, 4).map((action) => (
+                  <li key={action} className="rounded-2xl bg-slate-50 px-3 py-2 text-xs font-bold leading-5 text-slate-600">
+                    {action}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
 
         <AdminCronRefreshPanel
           report={cronRefresh}

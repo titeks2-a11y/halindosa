@@ -26,6 +26,8 @@ export function buildAdminDashboardHrefs(token: string | null | undefined) {
     newsFeedCanaryCsvHref: adminHref("/api/admin/news-feed-canary?format=csv", token),
     newsFeedLiveApiHref: adminHref("/api/admin/news-feed-live", token),
     newsFeedLiveCsvHref: adminHref("/api/admin/news-feed-live?format=csv", token),
+    deploymentStatusApiHref: adminHref("/api/admin/deployment-status", token),
+    deploymentStatusCsvHref: adminHref("/api/admin/deployment-status?format=csv", token),
     healthReadinessApiHref: adminHref("/api/admin/health-readiness", token),
     cronRefreshDryRunHref: adminHref("/api/cron/refresh?dryRun=true", token, "/api/cron/refresh?dryRun=true&token=local-admin"),
     cronLiveFeedDryRunHref: adminHref(
