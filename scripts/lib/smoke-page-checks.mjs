@@ -126,6 +126,7 @@ export async function runPageSmokeChecks() {
     assert(homePurchaseLinkCount >= 12, `Home page should render at least 12 verified /go purchase links, got ${homePurchaseLinkCount}`);
     assert(homeOfficialBenefitLinkCount >= 3, `Home page should render official benefit /go/news links, got ${homeOfficialBenefitLinkCount}`);
     assert(text.includes("실시간 검증됨") && text.includes("노출가능"), "Home page missing realtime publishable exposure status copy");
+    assert(text.includes("즉시수령") || text.includes("즉시 수령"), "Home page missing instant-claim free benefit signal");
     assert(unsafeRenderedLinks.length === 0, "Home page rendered hash, javascript, community, search, or result URLs in customer-facing links");
   });
 
@@ -163,6 +164,11 @@ export async function runPageSmokeChecks() {
         assert(
           Array.isArray(data.freebiesMeta?.eventSummary?.topSourceDomains) && data.freebiesMeta.eventSummary.topSourceDomains.length >= 5,
           "/api/home should expose top official source domains for the free benefit hero trust strip"
+        );
+        assert(
+          Number(data.freebiesMeta?.runtimeReadiness?.instantClaimCount ?? 0) >= 40 &&
+            Number(data.freebiesMeta?.runtimeReadiness?.claimAccessLevelCounts?.instant ?? 0) >= 40,
+          "/api/home should expose instant-claim runtime readiness metadata for the home free benefit hero"
         );
         assert(
           Array.isArray(data.freebiesMeta?.categoryCounts) &&

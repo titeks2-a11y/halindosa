@@ -155,6 +155,7 @@ export function buildCombinedHomeSnapshot(data: HomeResponse, filters: HomeDealF
       eventCount: data.freebiesMeta?.eventCount ?? data.freeBenefitEvents?.length ?? 0,
       categoryCounts: data.freebiesMeta?.categoryCounts ?? [],
       deadlineCategoryCounts: data.freebiesMeta?.deadlineCategoryCounts ?? data.freeBenefitEventMeta?.deadlineCategoryCounts ?? [],
+      runtimeReadiness: data.freebiesMeta?.runtimeReadiness ?? data.freeBenefitEventMeta?.runtimeReadiness,
       collectionLanes: data.freebiesMeta?.runtimeReadiness?.collectionLanes ?? data.freeBenefitEventMeta?.runtimeReadiness?.collectionLanes ?? [],
       requiredCategoryCoverage: data.freebiesMeta?.requiredCategoryCoverage,
       summary: data.freebiesMeta?.summary,

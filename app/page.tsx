@@ -187,6 +187,7 @@ export default function Page() {
 
   const chips = [
     { label: "전원증정", value: allBenefits.filter((deal) => /전원|증정/.test([deal.title, deal.summary, ...deal.tags].join(" "))).length, href: "/free-benefits?eventType=everyone" },
+    { label: "즉시수령", value: easyBenefits.length, href: "/free-benefits?claimAccess=instant" },
     { label: "선착순", value: allBenefits.filter((deal) => /선착순|한정/.test([deal.title, deal.summary, ...deal.tags].join(" "))).length, href: "/free-benefits?eventType=firstCome&firstComeOnly=true" },
     { label: "쿠폰", value: statByType(allBenefits, "coupon"), href: "/free-benefits?eventType=coupon" },
     { label: "샘플", value: statByType(allBenefits, "sample"), href: "/free-benefits?eventType=sample" },
@@ -224,6 +225,7 @@ export default function Page() {
             <span className="rounded-full bg-white/95 px-2.5 py-1 text-emerald-700">실시간 검증됨</span>
             <span className="rounded-full bg-white/95 px-2.5 py-1 text-blue-700">노출가능 {mainBenefits.length}개</span>
             <span className="rounded-full bg-white/95 px-2.5 py-1 text-blue-700">전체 무료혜택 {summary.total}개</span>
+            <span className="rounded-full bg-white/95 px-2.5 py-1 text-emerald-700">즉시수령 {easyBenefits.length}개</span>
             <span className="rounded-full bg-white/95 px-2.5 py-1 text-purple-700">쉬운 참여 {easyBenefits.length}개</span>
             <span className="rounded-full bg-white/95 px-2.5 py-1 text-slate-700">구매링크 확인</span>
             <span className="rounded-full bg-white/95 px-2.5 py-1 text-slate-700">적용된 조건 검색 · 구매링크 확인</span>

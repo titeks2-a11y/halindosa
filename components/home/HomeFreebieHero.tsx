@@ -7,7 +7,7 @@ import { getFreeBenefitEventLabel } from "@/lib/freeBenefitEvents";
 import { getDealImageSrc } from "@/lib/imageSrc";
 import { getHomeFreebieBenefitLabel } from "@/lib/homeFreebies";
 import type { FreeBenefitDeadlineCategoryCount, FreeBenefitEventCategoryCount, FreeBenefitEventCollectionLane, FreeBenefitEventSourceSummary } from "@/lib/freeBenefitEvents";
-import type { RequiredFreeBenefitCategoryCoverage } from "@/lib/homeApi";
+import type { FreeBenefitRuntimeReadinessSummary, RequiredFreeBenefitCategoryCoverage } from "@/lib/homeApi";
 import type { FreeBenefitEvent, FreeBenefitEventType } from "@/types/freeBenefitEvent";
 import type { NewsDeal } from "@/types/newsDeal";
 
@@ -201,6 +201,7 @@ interface HomeFreebieHeroProps {
   eventCategoryCounts?: FreeBenefitEventCategoryCount[];
   deadlineCategoryCounts?: FreeBenefitDeadlineCategoryCount[];
   collectionLanes?: FreeBenefitEventCollectionLane[];
+  runtimeReadiness?: FreeBenefitRuntimeReadinessSummary;
   requiredCategoryCoverage?: RequiredFreeBenefitCategoryCoverage | null;
   eventSourceSummary?: FreeBenefitEventSourceSummary;
   totalCount: number;
@@ -226,6 +227,7 @@ export function HomeFreebieHero({
   eventCategoryCounts = [],
   deadlineCategoryCounts = [],
   collectionLanes = [],
+  runtimeReadiness,
   requiredCategoryCoverage,
   eventSourceSummary,
   totalCount,
@@ -251,7 +253,10 @@ export function HomeFreebieHero({
   );
   const checkedLabel = isRefreshing ? "검증 중" : freshnessLabel || (updatedAt ? getRelativeTime(updatedAt, referenceNow) : "확인 대기");
   const lowFrictionEventCount = eventSourceSummary?.noPurchaseCount ?? events.filter((event) => !event.requiresPurchase && event.status === "active").length;
-  const noSignupEventCount = eventSourceSummary?.noLoginNoPurchaseCount ?? events.filter((event) => !event.requiresLogin && !event.requiresPurchase).length;
+  const instantClaimEventCount =
+    runtimeReadiness?.instantClaimCount ??
+    runtimeReadiness?.claimAccessLevelCounts?.instant ??
+    events.filter((event) => event.claimAccessLevel === "instant" && event.isInstantClaim).length;
   const verifiedOfficialEventCount = eventSourceSummary?.officialSourceCount ?? events.filter((event) => event.validationStatus === "passed" && event.finalUrl).length;
   const everyoneRewardCount = eventSourceSummary?.everyoneRewardCount ?? events.filter((event) => event.isEveryoneReward).length;
   const firstComeCount = eventSourceSummary?.firstComeCount ?? events.filter((event) => event.isFirstComeFirstServed).length;
@@ -272,9 +277,9 @@ export function HomeFreebieHero({
       className: "border-emerald-100 bg-emerald-50 text-emerald-700"
     },
     {
-      label: "가입 부담 낮음",
-      value: noSignupEventCount,
-      copy: "조건 쉬운 혜택",
+      label: "즉시수령",
+      value: instantClaimEventCount,
+      copy: "바로 받을 후보",
       className: "border-sky-100 bg-sky-50 text-sky-700"
     },
     {

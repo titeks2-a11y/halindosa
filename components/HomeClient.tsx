@@ -77,6 +77,7 @@ import {
   buildLatestDealsRequestUrl,
   buildNewsDealsRequestUrl,
   type DealsResponse,
+  type FreeBenefitRuntimeReadinessSummary,
   type HomeFreshness,
   type HomeQualitySummary,
   type HomeResponse,
@@ -293,6 +294,12 @@ export default function Home({ initialNow = "", initialNewsSnapshot = emptyIniti
   const [homeFreeBenefitCollectionLanes, setHomeFreeBenefitCollectionLanes] = useState<FreeBenefitEventCollectionLane[]>(() =>
     buildFreeBenefitEventCollectionLanes(selectPublishableFreeBenefitEvents(initialNewsDeals, HOME_FREEBIE_EVENT_LIMIT, initialClockNow || Date.now()))
   );
+  const [homeFreeBenefitRuntimeReadiness, setHomeFreeBenefitRuntimeReadiness] = useState<FreeBenefitRuntimeReadinessSummary>(() => ({
+    instantClaimCount: selectPublishableFreeBenefitEvents(initialNewsDeals, HOME_FREEBIE_EVENT_LIMIT, initialClockNow || Date.now()).filter(
+      (event) => event.claimAccessLevel === "instant" && event.isInstantClaim
+    ).length,
+    collectionLanes: buildFreeBenefitEventCollectionLanes(selectPublishableFreeBenefitEvents(initialNewsDeals, HOME_FREEBIE_EVENT_LIMIT, initialClockNow || Date.now()))
+  }));
   const [requiredFreeBenefitCategoryCoverage, setRequiredFreeBenefitCategoryCoverage] = useState<RequiredFreeBenefitCategoryCoverage | null>(null);
   const [homeFreeBenefitEventSourceSummary, setHomeFreeBenefitEventSourceSummary] = useState<FreeBenefitEventSourceSummary>(() =>
     buildFreeBenefitEventSourceSummary(
@@ -377,7 +384,16 @@ export default function Home({ initialNow = "", initialNewsSnapshot = emptyIniti
         setHomeFreeBenefitEvents(nextEvents);
         setHomeFreeBenefitEventCategoryCounts(buildFreeBenefitEventCategoryCounts(nextEvents));
         setHomeFreeBenefitDeadlineCategoryCounts(buildFreeBenefitEventDeadlineCategoryCounts(nextEvents, referenceNow));
-        setHomeFreeBenefitCollectionLanes(buildFreeBenefitEventCollectionLanes(nextEvents));
+        const nextCollectionLanes = buildFreeBenefitEventCollectionLanes(nextEvents);
+        setHomeFreeBenefitCollectionLanes(nextCollectionLanes);
+        setHomeFreeBenefitRuntimeReadiness({
+          instantClaimCount: nextEvents.filter((event) => event.claimAccessLevel === "instant" && event.isInstantClaim).length,
+          claimAccessLevelCounts: nextEvents.reduce<Record<string, number>>((counts, event) => {
+            counts[event.claimAccessLevel] = (counts[event.claimAccessLevel] ?? 0) + 1;
+            return counts;
+          }, {}),
+          collectionLanes: nextCollectionLanes
+        });
         setHomeFreeBenefitEventSourceSummary(buildFreeBenefitEventSourceSummary(nextEvents, referenceNow));
         setHomeFreebieSummary(buildHomeFreebieSummary(snapshot.deals, referenceNow));
         setNewsRecommendedQueries(snapshot.recommendedQueries);
@@ -998,6 +1014,14 @@ export default function Home({ initialNow = "", initialNewsSnapshot = emptyIniti
         setHomeFreeBenefitEventCategoryCounts(snapshot.freebies.categoryCounts?.length ? snapshot.freebies.categoryCounts : buildFreeBenefitEventCategoryCounts(nextHomeFreeBenefitEvents));
         setHomeFreeBenefitDeadlineCategoryCounts(snapshot.freebies.deadlineCategoryCounts?.length ? snapshot.freebies.deadlineCategoryCounts : buildFreeBenefitEventDeadlineCategoryCounts(nextHomeFreeBenefitEvents, referenceNow));
         setHomeFreeBenefitCollectionLanes(snapshot.freebies.collectionLanes?.length ? snapshot.freebies.collectionLanes : buildFreeBenefitEventCollectionLanes(nextHomeFreeBenefitEvents));
+        setHomeFreeBenefitRuntimeReadiness(snapshot.freebies.runtimeReadiness ?? {
+          instantClaimCount: nextHomeFreeBenefitEvents.filter((event) => event.claimAccessLevel === "instant" && event.isInstantClaim).length,
+          claimAccessLevelCounts: nextHomeFreeBenefitEvents.reduce<Record<string, number>>((counts, event) => {
+            counts[event.claimAccessLevel] = (counts[event.claimAccessLevel] ?? 0) + 1;
+            return counts;
+          }, {}),
+          collectionLanes: buildFreeBenefitEventCollectionLanes(nextHomeFreeBenefitEvents)
+        });
         setRequiredFreeBenefitCategoryCoverage(snapshot.freebies.requiredCategoryCoverage ?? null);
         setHomeFreeBenefitEventSourceSummary(snapshot.freebies.eventSummary ?? buildFreeBenefitEventSourceSummary(nextHomeFreeBenefitEvents, referenceNow));
         setHomeFreebieSummary(snapshot.freebies.summary ?? buildHomeFreebieSummary(snapshot.news.deals, referenceNow));
@@ -1466,6 +1490,7 @@ export default function Home({ initialNow = "", initialNewsSnapshot = emptyIniti
             eventCategoryCounts={homeFreeBenefitEventCategoryCounts}
             deadlineCategoryCounts={homeFreeBenefitDeadlineCategoryCounts}
             collectionLanes={homeFreeBenefitCollectionLanes}
+            runtimeReadiness={homeFreeBenefitRuntimeReadiness}
             requiredCategoryCoverage={requiredFreeBenefitCategoryCoverage}
             eventSourceSummary={homeFreeBenefitEventSourceSummary}
             totalCount={Math.max(homeFreebieSummary.total || newsFreeBenefitCount, homeFreeBenefitEvents.length)}

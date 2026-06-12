@@ -73,17 +73,19 @@ export interface FreebiesResponse {
     averageQualityScore: number;
   };
   eventSummary?: FreeBenefitEventSourceSummary;
-  runtimeReadiness?: {
-    instantClaimCount?: number;
-    claimAccessLevelCounts?: Record<string, number>;
-    collectionLanes?: FreeBenefitEventCollectionLane[];
-  };
+  runtimeReadiness?: FreeBenefitRuntimeReadinessSummary;
   requiredCategoryCoverage?: RequiredFreeBenefitCategoryCoverage;
   cachePolicy?: {
     mode: "no-store";
     generatedAt: string;
   };
   message: string;
+}
+
+export interface FreeBenefitRuntimeReadinessSummary {
+  instantClaimCount?: number;
+  claimAccessLevelCounts?: Record<string, number>;
+  collectionLanes?: FreeBenefitEventCollectionLane[];
 }
 
 export interface FreeBenefitEventsResponse {
@@ -249,20 +251,15 @@ export interface HomeResponse {
     | "freshnessAgeMinutes"
     | "nextRefreshAt"
   >;
-  freebiesMeta?: Pick<FreebiesResponse, "summary" | "eventSummary" | "requiredCategoryCoverage" | "freshnessStatus" | "freshnessLabel" | "freshnessAgeMinutes" | "nextRefreshAt" | "totalCount" | "eventCount" | "deadlineCategoryCounts"> & {
+  freebiesMeta?: Pick<FreebiesResponse, "summary" | "eventSummary" | "runtimeReadiness" | "requiredCategoryCoverage" | "freshnessStatus" | "freshnessLabel" | "freshnessAgeMinutes" | "nextRefreshAt" | "totalCount" | "eventCount" | "deadlineCategoryCounts"> & {
     categoryCounts?: FreeBenefitEventCategoryCount[];
-    runtimeReadiness?: {
-      collectionLanes?: FreeBenefitEventCollectionLane[];
-    };
   };
   freeBenefitEventMeta?: {
     totalCount: number;
     categoryCounts: FreeBenefitEventCategoryCount[];
     deadlineCategoryCounts?: FreeBenefitDeadlineCategoryCount[];
     summary: FreeBenefitEventSourceSummary;
-    runtimeReadiness?: {
-      collectionLanes?: FreeBenefitEventCollectionLane[];
-    };
+    runtimeReadiness?: FreeBenefitRuntimeReadinessSummary;
     visibleTypes: FreeBenefitEventType[];
     policy: {
       countBasis: string;
