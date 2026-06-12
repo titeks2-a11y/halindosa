@@ -23,6 +23,9 @@ const requiredFreeBenefitRuntimeFields = [
   "isVerified",
   "qualityScore",
   "freshnessScore",
+  "officialScore",
+  "urgencyScore",
+  "rewardScore",
   "lastCheckedAt",
   "createdAt",
   "tags"
