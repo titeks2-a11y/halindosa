@@ -74,6 +74,10 @@ export async function runPageSmokeChecks() {
     assert(text.includes("구매 전 판매처 확인") || text.includes("판매처 확인"), "Home page missing purchase verification guidance");
     assert(text.includes("혜택 검색") || text.includes("혜택·브랜드 검색"), "Home page missing compact benefit search");
     assert(text.includes("카테고리 바로가기") || text.includes("전체상품"), "Home page missing category shortcuts");
+    assert(
+      text.includes("data-home-required-free-benefit-categories"),
+      "Home page should render required free benefit category rail in the server shell"
+    );
     assert(text.includes("상품 목록 빠른 스캔") && text.includes("목록 안에서 많이 나온 기준"), "Home page missing product list scan shortcuts");
     assert(
       text.includes("오늘 받을 무료 혜택") ||

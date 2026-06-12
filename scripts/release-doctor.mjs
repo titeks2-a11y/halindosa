@@ -1365,6 +1365,7 @@ async function checkSearchAndPurchaseFlow() {
     !homeRuntimeSource.includes("상품 이동은 모두 새 탭") ||
     !homeRuntimeSource.includes("카테고리 바로가기") ||
     !homeRuntimeSource.includes("quickCategoryShortcuts") ||
+    !homePage.includes("data-home-required-free-benefit-categories") ||
     !homeFreebieHero.includes("data-home-required-free-benefit-categories") ||
     !homeFreebieHero.includes("requiredCategoryCoverage") ||
     !homeApiRoute.includes("requiredCategoryCoverage") ||
