@@ -56,6 +56,25 @@ const categoryHighlights = [
   { key: "delivery", label: "외식·배달 쿠폰", matches: (deal: NewsDeal) => deal.category === "외식/배달" || deal.benefitType === "foodDelivery" }
 ];
 
+function getBenefitConditionLabel(deal: NewsDeal) {
+  if (deal.benefitType === "signup") return "가입 혜택";
+  if (deal.benefitType === "freeShipping") return "무료배송";
+  if (deal.benefitType === "point") return "포인트 적립";
+  if (deal.benefitType === "checkIn") return "출석 참여";
+  if (deal.benefitType === "roulette") return "룰렛 참여";
+  if (deal.benefitType === "freeTrial") return "무료체험";
+  if (deal.benefitType === "sample") return "샘플 신청";
+  if (deal.benefitType === "gifticon") return "기프티콘";
+  if (deal.benefitType === "coupon") return "쿠폰 받기";
+  if (deal.benefitType === "freebie") return "무료 혜택";
+  return "조건 확인";
+}
+
+function getNewsDealCheckedLabel(deal: NewsDeal, referenceNow?: number) {
+  const checkedAt = deal.verifiedAt || deal.lastCheckedAt || deal.updatedAt;
+  return checkedAt ? `검증 ${getRelativeTime(checkedAt, referenceNow)}` : "검증 완료";
+}
+
 export function RealtimeNewsDealsSection({
   deals,
   totalCount,
@@ -251,6 +270,8 @@ export function RealtimeNewsDealsSection({
                       <CalendarClock size={11} />
                       {getTimeLeft(deal.endDate, referenceNow)}
                     </span>
+                    <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-emerald-700">{getNewsDealCheckedLabel(deal, referenceNow)}</span>
+                    <span className="rounded-full bg-red-50 px-2 py-0.5 text-brand-red">{getBenefitConditionLabel(deal)}</span>
                   </div>
                 </div>
                 <Link
@@ -461,6 +482,12 @@ export function RealtimeNewsDealsSection({
               <CommerceBadge tone="neutral" className="bg-white shadow-sm">
                 <CalendarClock size={12} />
                 {getTimeLeft(deal.endDate, referenceNow)}
+              </CommerceBadge>
+              <CommerceBadge tone="success" className="bg-white shadow-sm">
+                {getNewsDealCheckedLabel(deal, referenceNow)}
+              </CommerceBadge>
+              <CommerceBadge tone="gold" className="bg-white shadow-sm">
+                {getBenefitConditionLabel(deal)}
               </CommerceBadge>
             </div>
             <div className="mt-3 flex items-center justify-between gap-2">
