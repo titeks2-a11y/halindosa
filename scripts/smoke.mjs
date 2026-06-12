@@ -5,6 +5,53 @@ import { runPageSmokeChecks } from "./lib/smoke-page-checks.mjs";
 installSmokeFetch();
 
 const MIN_OFFICIAL_BENEFITS = 95;
+const requiredFreeBenefitRuntimeFields = [
+  "id",
+  "brand",
+  "title",
+  "description",
+  "benefitType",
+  "rewardValue",
+  "startDate",
+  "endDate",
+  "sourceUrl",
+  "officialUrl",
+  "imageUrl",
+  "status",
+  "isOfficial",
+  "isFree",
+  "isVerified",
+  "qualityScore",
+  "freshnessScore",
+  "lastCheckedAt",
+  "createdAt",
+  "tags"
+];
+
+function assertFreeBenefitRuntimeFields(events, label) {
+  assert(Array.isArray(events), `${label} should be an array`);
+  for (const event of events) {
+    for (const field of requiredFreeBenefitRuntimeFields) {
+      assert(field in event, `${label} event ${event?.id ?? "(missing id)"} missing runtime field: ${field}`);
+      const value = event[field];
+      if (typeof value === "boolean") continue;
+      if (typeof value === "number") {
+        assert(Number.isFinite(value), `${label} event ${event.id} has invalid numeric runtime field: ${field}`);
+        continue;
+      }
+      if (Array.isArray(value)) {
+        assert(value.length > 0, `${label} event ${event.id} has empty array runtime field: ${field}`);
+        continue;
+      }
+      assert(String(value ?? "").trim().length > 0, `${label} event ${event.id} has blank runtime field: ${field}`);
+    }
+    assert(event.officialUrl === event.finalUrl || event.officialUrl === event.eventUrl || event.sourceUrl === event.officialUrl, `${label} event ${event.id} should keep officialUrl aligned with the final claim URL`);
+    assert(event.isOfficial === true, `${label} event ${event.id} should be official`);
+    assert(event.isVerified === true, `${label} event ${event.id} should be verified`);
+    assert(event.status === "active", `${label} event ${event.id} should be active`);
+    assert(event.validationStatus === "passed", `${label} event ${event.id} should pass validation`);
+  }
+}
 
 await runPageSmokeChecks();
 await runAdminDashboardSmokeChecks();
@@ -166,6 +213,7 @@ await check("free benefit events api", async () => {
   assert(response.status === 200, `Expected free benefit events API 200, got ${response.status}`);
   assert(data.ok === true, "Free benefit events API ok should be true");
   assert(Array.isArray(data.events) && data.events.length >= 8, "Free benefit events API should return official active events");
+  assertFreeBenefitRuntimeFields(data.events, "/api/benefits/events");
   assert(data.totalCount >= 100, `Free benefit events API should keep at least 100 publishable events, got ${data.totalCount}`);
   const expectedBenefitCategories = ["all", "everyone", "firstCome", "coupon", "sample", "freeTrial", "gifticon", "pointCashback", "checkIn", "roulette", "signup", "publicFree", "experiencePanel"];
   assert(Array.isArray(data.categories) && data.categories.some((category) => category.id === "everyone"), "Free benefit events API missing event category metadata");

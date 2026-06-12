@@ -64,6 +64,7 @@
 - Vercel 런타임에서 `reports/free-benefit-operations.json`이 없어도 `/api/admin/free-benefit-operations`는 번들된 `data/refreshedNewsDeals.json`으로 공식 무료혜택 운영 리포트와 `operatorActionQueue`를 계산한다.
 - 뉴스/공식혜택 데이터 모델은 `freeTrial`, `signup`, `checkIn`, `roulette` 혜택 유형을 정식으로 지원한다. seed와 refresh snapshot에서 무료체험 7건, 신규가입 3건, 출석체크 4건, 기프티콘 2건, 룰렛 1건이 독립 유형으로 분류되며 운영 리포트의 혜택 유형 공백 큐는 해소됐다.
 - `benefit:model:doctor`는 실제 `data/refreshedNewsDeals.json` 스냅샷을 런타임 무료혜택 모델로 점검한다. 현재 후보 197개, active 188개, 소비자형 active 152개, 공식 링크 비율 100%, 필수 필드 누락 0개 기준으로 통과하며 QA와 harness에 연결되어 있다.
+- smoke는 `/api/home`, `/api/freebies`, `/api/benefits/events`가 반환하는 실제 무료혜택 이벤트의 필수 런타임 필드, 공식 URL 정합성, active/passed/official/verified 상태를 함께 검사한다. `linkType=official*`이고 검증 통과한 혜택은 provider가 seed여도 `sourceType=official`로 정규화된다.
 
 ## 현재 데이터 품질 기준
 

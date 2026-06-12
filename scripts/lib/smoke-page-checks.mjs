@@ -15,6 +15,54 @@ const hotSignalSectionSource = readFileSync(new URL("../../components/HotSignalS
 const mockHotSignalsSource = readFileSync(new URL("../../data/mockHotSignals.ts", import.meta.url), "utf8");
 const mockDealsSource = readFileSync(new URL("../../data/mockDeals.ts", import.meta.url), "utf8");
 
+const requiredFreeBenefitRuntimeFields = [
+  "id",
+  "brand",
+  "title",
+  "description",
+  "benefitType",
+  "rewardValue",
+  "startDate",
+  "endDate",
+  "sourceUrl",
+  "officialUrl",
+  "imageUrl",
+  "status",
+  "isOfficial",
+  "isFree",
+  "isVerified",
+  "qualityScore",
+  "freshnessScore",
+  "lastCheckedAt",
+  "createdAt",
+  "tags"
+];
+
+function assertFreeBenefitRuntimeFields(events, label) {
+  assert(Array.isArray(events), `${label} should be an array`);
+  for (const event of events) {
+    for (const field of requiredFreeBenefitRuntimeFields) {
+      assert(field in event, `${label} event ${event?.id ?? "(missing id)"} missing runtime field: ${field}`);
+      const value = event[field];
+      if (typeof value === "boolean") continue;
+      if (typeof value === "number") {
+        assert(Number.isFinite(value), `${label} event ${event.id} has invalid numeric runtime field: ${field}`);
+        continue;
+      }
+      if (Array.isArray(value)) {
+        assert(value.length > 0, `${label} event ${event.id} has empty array runtime field: ${field}`);
+        continue;
+      }
+      assert(String(value ?? "").trim().length > 0, `${label} event ${event.id} has blank runtime field: ${field}`);
+    }
+    assert(event.officialUrl === event.finalUrl || event.officialUrl === event.eventUrl || event.sourceUrl === event.officialUrl, `${label} event ${event.id} should keep officialUrl aligned with the final claim URL`);
+    assert(event.isOfficial === true, `${label} event ${event.id} should be official`);
+    assert(event.isVerified === true, `${label} event ${event.id} should be verified`);
+    assert(event.status === "active", `${label} event ${event.id} should be active`);
+    assert(event.validationStatus === "passed", `${label} event ${event.id} should pass validation`);
+  }
+}
+
 export async function runPageSmokeChecks() {
   await check("home page", async () => {
     const response = await fetch(`${baseUrl}/`);
@@ -89,6 +137,7 @@ export async function runPageSmokeChecks() {
         assert(data.newsMeta?.categoryCounts && data.newsMeta?.benefitTypeCounts, "/api/home should expose full official benefit count metadata");
         const expectedFreeBenefitEventCategories = ["all", "everyone", "firstCome", "coupon", "sample", "freeTrial", "gifticon", "pointCashback", "checkIn", "roulette", "signup", "publicFree", "experiencePanel"];
         assert(Array.isArray(data.freeBenefitEvents) && data.freeBenefitEvents.length >= 48, `/api/home should expose a broad publishable free benefit event pool for the home hero, got ${data.freeBenefitEvents?.length ?? 0}`);
+        assertFreeBenefitRuntimeFields(data.freeBenefitEvents.slice(0, 48), "/api/home freeBenefitEvents");
         assert(
           data.freebiesMeta?.eventSummary?.sourceDomainCount >= 30,
           `/api/home should expose broad official source domain coverage for free benefits, got ${data.freebiesMeta?.eventSummary?.sourceDomainCount ?? 0}`
@@ -174,6 +223,7 @@ export async function runPageSmokeChecks() {
     const freebiePool = await fetchJson("/api/freebies?limit=96");
     assert(freebiePool.response.status === 200, `Expected /api/freebies 200, got ${freebiePool.response.status}`);
     assert(Array.isArray(freebiePool.data.events) && freebiePool.data.events.length >= 48, `/api/freebies should expose 48+ publishable official free benefit events, got ${freebiePool.data.events?.length ?? 0}`);
+    assertFreeBenefitRuntimeFields(freebiePool.data.events.slice(0, 48), "/api/freebies events");
     assert(freebiePool.data.eventSummary?.sourceDomainCount >= 30, `/api/freebies should expose broad official source domain coverage, got ${freebiePool.data.eventSummary?.sourceDomainCount ?? 0}`);
     assert(new Set(freebiePool.data.events.map((event) => event.benefitType)).size >= 8, "/api/freebies events should preserve mixed benefit-type discovery");
     assert(Array.isArray(freebiePool.data.categoryCounts), "/api/freebies should expose free benefit event category counts");

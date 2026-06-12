@@ -328,11 +328,12 @@ function inferEventType(deal: NewsDeal, text: string): FreeBenefitEventType {
   return "brandEvent";
 }
 
-function inferSourceType(provider: NewsDeal["provider"], benefitType?: FreeBenefitEventType): FreeBenefitSourceType {
-  if (provider === "official_event") return "official";
-  if (provider === "public_coupon") return benefitType === "publicFree" ? "approved_public" : "official";
-  if (provider === "event_news") return "partner_feed";
-  if (provider === "news") return "partner_feed";
+function inferSourceType(deal: NewsDeal, benefitType?: FreeBenefitEventType): FreeBenefitSourceType {
+  if (String(deal.linkType || "").startsWith("official") && deal.validationStatus === "passed" && isSafeBenefitEventUrl(deal.finalUrl)) return "official";
+  if (deal.provider === "official_event") return "official";
+  if (deal.provider === "public_coupon") return benefitType === "publicFree" ? "approved_public" : "official";
+  if (deal.provider === "event_news") return "partner_feed";
+  if (deal.provider === "news") return "partner_feed";
   return "seed";
 }
 
@@ -582,7 +583,7 @@ export function toFreeBenefitEvent(deal: NewsDeal, referenceNow = Date.now()): F
   const rewardText = sanitizeBenefitText(deal.summary || deal.title, 120);
   const validationStatus = status === "blocked" ? "blocked" : deal.validationStatus === "passed" ? "passed" : deal.validationStatus === "failed" ? "failed" : "needs_review";
   const benefitType = inferEventType(deal, combinedText);
-  const sourceType = inferSourceType(deal.provider, benefitType);
+  const sourceType = inferSourceType(deal, benefitType);
   const requiresLogin = loginPattern.test(combinedText);
   const requiresPurchase = purchasePattern.test(combinedText);
   const isEveryoneReward = everyoneRewardPattern.test(combinedText);
