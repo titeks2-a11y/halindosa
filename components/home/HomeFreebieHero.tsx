@@ -141,6 +141,13 @@ function getEventConditionBadges(event: FreeBenefitEvent) {
   ].filter(Boolean);
 }
 
+function getClaimAccessTone(event: FreeBenefitEvent) {
+  if (event.claimAccessLevel === "instant") return "bg-emerald-50 text-emerald-700";
+  if (event.claimAccessLevel === "login_required") return "bg-indigo-50 text-indigo-700";
+  if (event.claimAccessLevel === "purchase_required") return "bg-amber-50 text-amber-700";
+  return "bg-slate-100 text-slate-600";
+}
+
 function normalizeEventBrandKey(value: string) {
   const normalized = value.toLowerCase().replace(/\s+/g, "").replace(/코리아|공식|이벤트|혜택/g, "");
   if (/royalcanin|로얄캐닌/.test(normalized)) return "royalcanin";
@@ -633,6 +640,7 @@ export function HomeFreebieHero({
                   ))}
               </div>
               <p className="mt-1 truncate text-[10px] font-black text-dossa-red">{event.claimCtaLabel || "무료 혜택 받기"}</p>
+              <p className={`mt-1 inline-flex rounded-full px-1.5 py-0.5 text-[9px] font-black ${getClaimAccessTone(event)}`}>{event.claimAccessLabel}</p>
             </Link>
           ))}
         </div>
@@ -771,6 +779,7 @@ export function HomeFreebieHero({
                   <span className="truncate text-emerald-700">{event.claimCtaLabel || "무료 혜택 받기"}</span>
                   <span className="shrink-0 text-slate-400">{event.urgencyLabel || getTimeLeft(event.endAt, referenceNow)}</span>
                 </div>
+                <p className={`mt-1 inline-flex rounded-full px-1.5 py-0.5 text-[9px] font-black ${getClaimAccessTone(event)}`}>{event.claimAccessLabel}</p>
                 <p className="mt-0.5 truncate text-[8px] font-black text-slate-400" data-home-free-benefit-preclaim="true">
                   {getPreClaimChecklist(event).slice(0, 3).join(" · ")}
                 </p>
@@ -908,6 +917,10 @@ export function HomeFreebieHero({
                     {item}
                   </span>
                 ))}
+              </div>
+              <div className="mt-1 flex items-center justify-between gap-1">
+                <span className={`truncate rounded-full px-2 py-1 text-[10px] font-black ${getClaimAccessTone(event)}`}>{event.claimAccessLabel}</span>
+                <span className="shrink-0 text-[9px] font-bold text-slate-400">공식 검증</span>
               </div>
               <Link
                 href={`/go/news/${encodeURIComponent(event.id)}?from=home-free-benefit-event`}

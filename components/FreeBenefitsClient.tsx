@@ -169,6 +169,13 @@ function getFreeBenefitEventConditionBadges(event: FreeBenefitEvent) {
   ].filter(Boolean);
 }
 
+function getFreeBenefitEventClaimAccessTone(event: FreeBenefitEvent) {
+  if (event.claimAccessLevel === "instant") return "bg-emerald-50 text-emerald-700";
+  if (event.claimAccessLevel === "login_required") return "bg-indigo-50 text-indigo-700";
+  if (event.claimAccessLevel === "purchase_required") return "bg-amber-50 text-amber-700";
+  return "bg-slate-100 text-slate-600";
+}
+
 function isVisibleOfficialBenefit(deal: NewsDeal) {
   return (
     deal.validationStatus === "passed" &&
@@ -1340,6 +1347,10 @@ export function FreeBenefitsClient({
                   <div className="mt-3 grid grid-cols-2 gap-2 text-[11px] font-black text-slate-600">
                     <span className="rounded-2xl bg-white px-2.5 py-2">{event.urgencyLabel || `마감 ${getTimeLeft(event.endAt)}`}</span>
                     <span className="rounded-2xl bg-white px-2.5 py-2">검증 {getRelativeTime(event.verifiedAt || event.updatedAt)}</span>
+                  </div>
+                  <div className="mt-2 flex items-center justify-between gap-2">
+                    <span className={`truncate rounded-full px-2.5 py-1 text-[11px] font-black ${getFreeBenefitEventClaimAccessTone(event)}`}>{event.claimAccessLabel}</span>
+                    <span className="shrink-0 text-[10px] font-bold text-slate-400">공식 링크</span>
                   </div>
                   <div className="mt-3 grid grid-cols-[1fr_auto] gap-2">
                     <Link
