@@ -5,6 +5,7 @@ import { buildClaimEffortSummary } from "@/lib/deals/claimEffort";
 import { getNewsOperationsReport } from "@/lib/deals/newsOperations";
 import { getCronRefreshOperationsReport } from "@/lib/operations/cronRefresh";
 import { getOperationalEnvReadiness } from "@/lib/operations/envReadiness";
+import { getFreeBenefitSourceFeedActivation } from "@/lib/operations/sourceFeedActivation";
 import { getOfficialSourceFeedEnvReadiness } from "@/lib/operations/sourceFeedEnvReadiness";
 import { getOfficialSourceReadiness } from "@/lib/operations/sourceReadiness";
 import { getDeploymentInfo } from "@/lib/deploymentInfo";
@@ -37,6 +38,7 @@ export async function GET() {
     const operationalEnvReadiness = getOperationalEnvReadiness();
     const cronRefresh = getCronRefreshOperationsReport();
     const sourceReadiness = getOfficialSourceReadiness();
+    const sourceFeedActivation = getFreeBenefitSourceFeedActivation();
     const sourceFeedEnvReadiness = getOfficialSourceFeedEnvReadiness();
     const newsOperations = getNewsOperationsReport();
     const freeBenefitRanking = buildFreeBenefitRankingReport();
@@ -51,6 +53,10 @@ export async function GET() {
       sourceReadiness.summary.blockedLiveIssues === 0 &&
       sourceReadiness.summary.feedEnvFailedCount === 0 &&
       sourceReadiness.gates.every((gate) => gate.ok);
+    const officialSourceFeedActivationOk =
+      sourceFeedActivation.ok &&
+      ["seed_ready", "live_feed_ready"].includes(sourceFeedActivation.status) &&
+      sourceFeedActivation.checks.every((check) => check.ok);
     const officialBenefitProviderRiskOk = officialBenefitProviderRiskSummary.danger === 0;
     const officialBenefitGeneratedAt = Date.parse(newsOperations.generatedAt);
     const officialBenefitFreshnessHours = Number.isFinite(officialBenefitGeneratedAt)
@@ -86,6 +92,7 @@ export async function GET() {
       officialBenefitFresh &&
       officialBenefitProviderRiskOk &&
       officialSourceReadinessOk &&
+      officialSourceFeedActivationOk &&
       officialBenefitFeedCanaryOk
         ? "ready"
         : "needs_review";
@@ -161,12 +168,28 @@ export async function GET() {
         officialBenefitFeedCanaryErrorCount: newsOperations.feedCanary.errorCount,
         officialBenefitFeedCanaryConfiguredEmptyCount: newsOperations.feedCanary.configuredEmptyFeedCount,
         officialSourceReadinessOk,
+        officialSourceFeedActivationOk,
+        officialSourceFeedActivationStatus: sourceFeedActivation.status,
+        officialSourceFeedActivationConfiguredUrls: sourceFeedActivation.configuredFeedUrls,
+        officialSourceFeedActivationConfiguredProviders: sourceFeedActivation.configuredProviders,
+        officialSourceFeedActivationVisibleCandidates: sourceFeedActivation.visibleCandidates,
+        officialSourceFeedActivationCanaryStatus: sourceFeedActivation.canaryStatus,
+        officialSourceFeedActivationPassedChecks: sourceFeedActivation.checks.filter((check) => check.ok).length,
+        officialSourceFeedActivationTotalChecks: sourceFeedActivation.checks.length,
+        officialSourceFeedActivationNextActions: sourceFeedActivation.nextActions.slice(0, 3),
         officialSourceLaunchGateStatus: sourceReadiness.launchGateStatus,
         officialSourceReadinessLabel: sourceReadiness.readinessLabel,
         officialSourceCandidates: sourceReadiness.summary.officialSourceCandidates,
         officialSourceReachableCount: sourceReadiness.summary.reachableSources,
         officialSourceGuardedCount: sourceReadiness.summary.guardedSources,
+        officialSourceConsumerSourceRate: sourceReadiness.summary.consumerSourceRate,
+        officialSourcePublicPolicySourceRate: sourceReadiness.summary.publicPolicySourceRate,
+        officialSourceVisibleOfficialBenefits: sourceReadiness.summary.visibleOfficialBenefits,
         officialSourceConfiguredFeedUrls: sourceReadiness.summary.configuredFeedUrls,
+        officialSourceFeedEnvConfiguredUrlCount: sourceFeedEnvReadiness.configuredUrlCount,
+        officialSourceFeedEnvConfiguredKeyCount: sourceFeedEnvReadiness.configuredKeyCount,
+        officialSourceFeedEnvRecommendedLaneCount: sourceFeedEnvReadiness.activationReadiness.recommendedLaneCount,
+        officialSourceFeedEnvActivationStatus: sourceFeedEnvReadiness.activationReadiness.status,
         officialSourceFeedEnvFailedCount: sourceReadiness.summary.feedEnvFailedCount,
         officialSourceBlockedLiveIssues: sourceReadiness.summary.blockedLiveIssues,
         officialSourceFailedGateCount: sourceReadiness.gates.filter((gate) => !gate.ok).length,

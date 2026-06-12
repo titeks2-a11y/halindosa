@@ -364,6 +364,23 @@ checks.push(
       )
     : fail("health claim-ready benefit ranking", "/api/health should expose passing freeBenefitRankingOk, claim-ready count, easy first-screen count, type diversity, zero exact duplicates, recent verification, zero stale checks, and official host diversity.")
 );
+checks.push(
+  healthJson?.checks?.officialSourceFeedActivationOk === true &&
+    ["seed_ready", "live_feed_ready"].includes(healthJson?.checks?.officialSourceFeedActivationStatus) &&
+    Number(healthJson?.checks?.officialSourceFeedActivationPassedChecks ?? -1) === Number(healthJson?.checks?.officialSourceFeedActivationTotalChecks ?? -2) &&
+    Number(healthJson?.checks?.officialSourceFeedEnvRecommendedLaneCount ?? 0) >= 8 &&
+    Number(healthJson?.checks?.officialSourceVisibleOfficialBenefits ?? 0) >= 95 &&
+    Number(healthJson?.checks?.officialSourceConsumerSourceRate ?? 0) >= 60 &&
+    Number(healthJson?.checks?.officialSourcePublicPolicySourceRate ?? 100) <= 35
+    ? pass(
+        "health free benefit source activation",
+        `/api/health confirms official free-benefit source activation is ${healthJson.checks.officialSourceFeedActivationStatus}, checks ${healthJson.checks.officialSourceFeedActivationPassedChecks}/${healthJson.checks.officialSourceFeedActivationTotalChecks}, ${healthJson.checks.officialSourceFeedEnvRecommendedLaneCount} recommended lanes.`
+      )
+    : fail(
+        "health free benefit source activation",
+        "/api/health should expose passing officialSourceFeedActivationOk, safe activation status, passing activation checks, recommended feed lanes, visible official benefit count, and consumer-first source mix."
+      )
+);
 const deployedCommit =
   String(homeJson?.deployment?.commit || healthJson?.deployment?.commit || "").trim();
 const deployedShortCommit =

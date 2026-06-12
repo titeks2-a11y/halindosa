@@ -79,6 +79,7 @@
 - 전역 `app/loading.tsx` fallback은 제거했다. 홈은 서버 HTML에서 실제 무료혜택 카드가 바로 보이도록 유지하며, smoke와 Vercel doctor는 숨겨진 스트리밍 콘텐츠(`S:0`)나 `할인도사 화면을 불러오는 중` fallback이 홈 HTML에 섞이면 실패한다.
 - `/api/health`는 `homepageVisibleRenderGuard=true`, `homepageLoadingFallbackBlocked=true`, `freeBenefitRankingOk`, `freeBenefitClaimReadyCount`, `freeBenefitTopClaimReadyCount`, `freeBenefitTopTypeDiversity`, `freeBenefitExactDuplicateGroupCount`를 반환한다. Vercel doctor는 이 런타임 플래그와 운영 HTML 가시 렌더 검사를 함께 확인해, 문서/스크립트만 바뀐 커밋이 운영 앱에 실제로 반영되지 않는 상황과 첫 화면 무료혜택 품질 저하를 더 쉽게 구분한다.
 - 무료혜택 랭킹 리포트는 `operationalReadiness`를 포함한다. 운영자는 24시간 내 재검증 수, stale/missing 검증 시각 0건, 오늘/이번주 마감 수, 구매조건 없는 비율, 바로받기 비율, 공식 도메인 다양성을 관리자 화면, JSON, CSV, `/api/health`에서 함께 확인한다.
+- `/api/health`는 이제 `officialSourceFeedActivationOk`, `officialSourceFeedActivationStatus`, activation check 통과 수, source feed env 추천 lane 수, 소비자형/공공성 소스 비율까지 반환한다. `smoke:local`, `release:doctor`, `vercel:doctor`는 seed fallback 또는 live feed 전환 상태가 안전한지 함께 검사한다.
 
 ## 현재 데이터 품질 기준
 
@@ -212,6 +213,16 @@
   - `2e2dc652`: 홈 무료혜택 카드에 `검증 n분 전`과 신청 조건 배지를 노출. `lint`, `test:mobile-compact`, `benefit:event:contract`, `smoke:local` 112/112, `build`, `build:android`, `android:webview:doctor`, `release:doctor`, `cap:sync`, `workspace:doctor:strict` 통과
   - `f189a144`: 홈 무료혜택 카드의 `검증` 시각과 신청 조건 라벨이 빠지면 `smoke:local`이 실패하도록 회귀 게이트 추가. `lint`, `test:mobile-compact`, `benefit:event:contract`, `smoke:local` 112/112, `verify:freebies`, `refresh:benefits`, `release:doctor`, `qa`, `build`, `build:android`, `android:webview:doctor`, `cap:sync`, `workspace:doctor:strict` 통과
 - `npm run vercel:doctor`: 운영 계약 검증에 사용. 최신 커밋 반영 여부는 GitHub Actions Vercel Production Deploy 결과와 운영 `/api/health` 응답을 함께 본다.
+- 무료혜택 소스 activation health gate 작업 후 추가 확인:
+  - `npm run lint`: 통과
+  - `npm run source:activation:doctor`: 통과, `seed_ready`, configured feed URL 0개, activation checks 전체 통과
+  - `npm run release:doctor`: 192/192 통과
+  - `npm run build`: 통과
+  - `npm run smoke:local`: 112/112 통과, `/api/health`의 source feed activation 필드와 추천 lane 검사를 포함한다.
+  - `npm run build:android`: 통과
+  - `npm run cap:sync`: 통과
+  - `npm run android:webview:doctor`: 13/13 통과
+  - `npm run workspace:doctor:strict`: 재생성 산출물 0B, 통과
 
 ## CI/Vercel 상태 해석
 

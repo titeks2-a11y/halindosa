@@ -1701,6 +1701,12 @@ export async function checkOperationalDataSurfaces() {
     !sourceFeedActivationDoc.includes("seed_ready") ||
     !sourceFeedActivationDoc.includes("live_feed_ready") ||
     !sourceFeedActivationDoc.includes("npm run test:home-realtime") ||
+    !healthRoute.includes("getFreeBenefitSourceFeedActivation") ||
+    !healthRoute.includes("officialSourceFeedActivationOk") ||
+    !healthRoute.includes("officialSourceFeedActivationStatus") ||
+    !healthRoute.includes("officialSourceFeedEnvRecommendedLaneCount") ||
+    !smoke.includes("Health API missing passing source feed activation readiness") ||
+    !smoke.includes("Health API missing recommended official feed activation lanes") ||
     sourceFeedEnvReport.ok !== true ||
     !Array.isArray(sourceFeedEnvReport.checkedKeys) ||
     sourceFeedEnvReport.checkedKeys.length < 6 ||
