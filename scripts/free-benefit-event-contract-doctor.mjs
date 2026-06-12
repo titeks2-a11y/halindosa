@@ -239,6 +239,20 @@ const checks = [
     "Normalizer should expose freshness, official source, urgency, and reward value score dimensions for ranking and operator reports."
   ),
   check(
+    "normalizer exposes collection lane readiness",
+    hasAll(normalizerSource, [
+      "FreeBenefitEventCollectionLane",
+      "buildFreeBenefitEventCollectionLanes",
+      "OFFICIAL_EVENT_FEED_URLS",
+      "PUBLIC_COUPON_FEED_URLS",
+      "CONVENIENCE_BENEFIT_FEED_URLS",
+      "BEAUTY_SAMPLE_FEED_URLS",
+      "PAY_POINT_BENEFIT_FEED_URLS",
+      "collectionLanes"
+    ]).length === 0,
+    "Runtime readiness should expose official event, coupon, convenience, sample, point, and deadline collection lanes for live feed onboarding."
+  ),
+  check(
     "publishable gate hides invalid events",
     hasAll(normalizerSource, [
       "isPublishableFreeBenefitEvent",

@@ -1789,6 +1789,10 @@ export async function checkOperationalDataSurfaces() {
     !freeBenefitEventsLib.includes('event.validationStatus === "passed"') ||
     !freeBenefitEventsLib.includes("event.qualityScore >= 70") ||
     !freeBenefitEventsLib.includes("normalizeBenefitTitle(event.title)") ||
+    !freeBenefitEventsLib.includes("buildFreeBenefitEventCollectionLanes") ||
+    !freeBenefitEventsLib.includes("collectionLanes") ||
+    !freeBenefitEventsLib.includes("OFFICIAL_EVENT_FEED_URLS") ||
+    !freeBenefitEventsLib.includes("PAY_POINT_BENEFIT_FEED_URLS") ||
     !benefitEventsRoute.includes('dynamic = "force-dynamic"') ||
     !benefitEventsRoute.includes('fetchCache = "force-no-store"') ||
     !benefitEventsRoute.includes("rateLimit") ||

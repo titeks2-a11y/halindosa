@@ -81,8 +81,33 @@ export interface FreeBenefitEventRuntimeReadiness {
   deadlineCategoryCounts: FreeBenefitDeadlineCategoryCount[];
   staleCheckCount: number;
   staleCheckThresholdHours: number;
+  collectionLanes: FreeBenefitEventCollectionLane[];
   topBrands: Array<{ brand: string; count: number }>;
   issues: string[];
+}
+
+export type FreeBenefitCollectionLaneId =
+  | "officialEvents"
+  | "couponsMembership"
+  | "convenienceMart"
+  | "samplesTrials"
+  | "pointsCashback"
+  | "deliveryFood"
+  | "shippingZero"
+  | "deadline";
+
+export interface FreeBenefitEventCollectionLane {
+  id: FreeBenefitCollectionLaneId;
+  label: string;
+  envKey: string;
+  count: number;
+  officialCount: number;
+  verifiedCount: number;
+  noPurchaseCount: number;
+  topBrands: Array<{ brand: string; count: number }>;
+  topBenefitTypes: Array<{ type: FreeBenefitEventType; label: string; count: number }>;
+  status: "healthy" | "thin" | "empty";
+  action: string;
 }
 
 const requiredRuntimeCategoryIds: FreeBenefitEventType[] = [
@@ -97,6 +122,134 @@ const requiredRuntimeCategoryIds: FreeBenefitEventType[] = [
   "signup",
   "freeShipping"
 ];
+
+const collectionLaneConfigs: Array<{
+  id: FreeBenefitCollectionLaneId;
+  label: string;
+  envKey: string;
+  minimum: number;
+  action: string;
+  matches: (event: FreeBenefitEvent) => boolean;
+}> = [
+  {
+    id: "officialEvents",
+    label: "공식 이벤트",
+    envKey: "OFFICIAL_EVENT_FEED_URLS",
+    minimum: 40,
+    action: "공식 브랜드 이벤트 JSON/RSS/API feed를 우선 연결",
+    matches: (event) => event.isOfficial || event.sourceType === "official"
+  },
+  {
+    id: "couponsMembership",
+    label: "쿠폰·멤버십",
+    envKey: "PUBLIC_COUPON_FEED_URLS",
+    minimum: 20,
+    action: "쿠폰함, 멤버십, 신규가입 혜택 feed 연결",
+    matches: (event) =>
+      ["coupon", "signup", "gifticon", "checkIn", "roulette"].includes(event.benefitType) ||
+      /쿠폰|멤버십|신규|웰컴|출석|룰렛|기프티콘|포인트/i.test(`${event.title} ${event.rewardText} ${event.tags.join(" ")}`)
+  },
+  {
+    id: "convenienceMart",
+    label: "편의점·마트",
+    envKey: "CONVENIENCE_BENEFIT_FEED_URLS",
+    minimum: 8,
+    action: "편의점·마트 행사/무료배송 공식 feed 연결",
+    matches: (event) =>
+      /CU|GS25|세븐일레븐|이마트24|이마트|홈플러스|롯데마트|SSG|마트|편의점/i.test(
+        `${event.brandName} ${event.sourceName} ${event.title} ${event.tags.join(" ")}`
+      )
+  },
+  {
+    id: "samplesTrials",
+    label: "샘플·무료체험",
+    envKey: "BEAUTY_SAMPLE_FEED_URLS",
+    minimum: 8,
+    action: "샘플 신청, 무료체험, 전원증정 공식 feed 연결",
+    matches: (event) =>
+      ["sample", "freeTrial", "everyone", "experiencePanel"].includes(event.benefitType) ||
+      /샘플|체험|전원|증정|테스터|무료\s*체험/i.test(`${event.title} ${event.rewardText} ${event.participationCondition}`)
+  },
+  {
+    id: "pointsCashback",
+    label: "포인트·캐시백",
+    envKey: "PAY_POINT_BENEFIT_FEED_URLS",
+    minimum: 8,
+    action: "페이, 포인트, 캐시백 공식 feed 연결",
+    matches: (event) =>
+      event.benefitType === "pointCashback" ||
+      /포인트|캐시백|페이|PAY|Pay|OK캐쉬백|L\.?POINT|H\.?Point/i.test(`${event.brandName} ${event.sourceName} ${event.title} ${event.rewardText}`)
+  },
+  {
+    id: "deliveryFood",
+    label: "배달·외식",
+    envKey: "CAFE_FRANCHISE_COUPON_FEED_URLS",
+    minimum: 8,
+    action: "카페·프랜차이즈·배달 쿠폰 feed 연결",
+    matches: (event) =>
+      /배민|요기요|쿠팡이츠|스타벅스|투썸|이디야|메가|커피|KFC|버거|피자|치킨|외식|배달/i.test(
+        `${event.brandName} ${event.sourceName} ${event.title} ${event.tags.join(" ")}`
+      )
+  },
+  {
+    id: "shippingZero",
+    label: "무료배송",
+    envKey: "BENEFIT_REFRESH_FEED_URLS",
+    minimum: 8,
+    action: "무료배송·무배 공식 행사 feed 연결",
+    matches: (event) => event.benefitType === "freeShipping" || /무료\s*배송|무배/i.test(`${event.title} ${event.rewardText} ${event.tags.join(" ")}`)
+  },
+  {
+    id: "deadline",
+    label: "오늘·이번주 마감",
+    envKey: "OFFICIAL_EVENT_FEED_URLS",
+    minimum: 6,
+    action: "종료일이 포함된 공식 이벤트 feed를 우선 연결",
+    matches: (event) => Number.isFinite(Date.parse(event.endAt))
+  }
+];
+
+function topCounts<T extends string>(values: T[], limit = 5) {
+  const counts = values.reduce<Record<string, number>>((acc, value) => {
+    if (!value) return acc;
+    acc[value] = (acc[value] ?? 0) + 1;
+    return acc;
+  }, {});
+
+  return Object.entries(counts)
+    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+    .slice(0, limit);
+}
+
+export function buildFreeBenefitEventCollectionLanes(events: FreeBenefitEvent[]): FreeBenefitEventCollectionLane[] {
+  return collectionLaneConfigs.map((lane) => {
+    const laneEvents = events.filter(lane.matches);
+    const topBrands = topCounts(laneEvents.map((event) => sanitizeBenefitText(event.brandName || event.brand || event.sourceName || "기타", 40))).map(
+      ([brand, count]) => ({ brand, count })
+    );
+    const topBenefitTypes = topCounts(laneEvents.map((event) => event.benefitType)).map(([type, count]) => ({
+      type: type as FreeBenefitEventType,
+      label: getFreeBenefitEventLabel(type as FreeBenefitEventType),
+      count
+    }));
+    const status: FreeBenefitEventCollectionLane["status"] =
+      laneEvents.length <= 0 ? "empty" : laneEvents.length < lane.minimum ? "thin" : "healthy";
+
+    return {
+      id: lane.id,
+      label: lane.label,
+      envKey: lane.envKey,
+      count: laneEvents.length,
+      officialCount: laneEvents.filter((event) => event.isOfficial || event.sourceType === "official").length,
+      verifiedCount: laneEvents.filter((event) => event.isVerified && event.validationStatus === "passed").length,
+      noPurchaseCount: laneEvents.filter((event) => !event.requiresPurchase).length,
+      topBrands,
+      topBenefitTypes,
+      status,
+      action: lane.action
+    };
+  });
+}
 
 export function buildFreeBenefitEventCategoryCounts(events: FreeBenefitEvent[]): FreeBenefitEventCategoryCount[] {
   const counts = events.reduce<Record<string, number>>(
@@ -181,6 +334,7 @@ export function buildFreeBenefitEventRuntimeReadiness(events: FreeBenefitEvent[]
     { today: 0, thisWeek: 0, soon: 0 }
   );
   const deadlineCategoryCounts = buildFreeBenefitEventDeadlineCategoryCounts(events, referenceNow);
+  const collectionLanes = buildFreeBenefitEventCollectionLanes(events);
   const staleCheckCount = events.filter((event) => {
     const checkedAt = Date.parse(event.lastCheckedAt || event.verifiedAt || event.updatedAt || event.collectedAt);
     return !Number.isFinite(checkedAt) || referenceNow - checkedAt > staleCheckThresholdMs;
@@ -196,6 +350,7 @@ export function buildFreeBenefitEventRuntimeReadiness(events: FreeBenefitEvent[]
     verifiedCount < events.length ? `검증 통과 표시가 없는 혜택이 ${events.length - verifiedCount}개 있습니다.` : "",
     noPurchaseCount < 50 ? `구매 조건 없는 혜택이 50개 미만입니다. 현재 ${noPurchaseCount}개입니다.` : "",
     missingRequiredCategories.length ? `필수 무료혜택 카테고리 공백: ${missingRequiredCategories.map((category) => category.label).join(", ")}` : "",
+    collectionLanes.some((lane) => lane.status === "empty") ? `비어 있는 무료혜택 수집축: ${collectionLanes.filter((lane) => lane.status === "empty").map((lane) => lane.label).join(", ")}` : "",
     staleCheckCount > Math.max(5, Math.floor(events.length * 0.15)) ? `24시간 이상 재검증되지 않은 혜택이 ${staleCheckCount}개입니다.` : ""
   ].filter(Boolean);
 
@@ -214,6 +369,7 @@ export function buildFreeBenefitEventRuntimeReadiness(events: FreeBenefitEvent[]
     deadlineCategoryCounts,
     staleCheckCount,
     staleCheckThresholdHours,
+    collectionLanes,
     topBrands: Object.entries(brandCounts)
       .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
       .slice(0, 12)

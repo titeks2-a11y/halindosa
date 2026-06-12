@@ -1,6 +1,6 @@
 # FreeBenefitEvent 계약
 
-Generated: 2026-06-12T15:54:00.661Z
+Generated: 2026-06-12T16:15:41.603Z
 
 Status: PASS
 
@@ -89,6 +89,7 @@ Status: PASS
 | normalizer sanitizes and blocks unsafe URLs | PASS | Normalizer should sanitize external text and reject search, community, news, private-network, and ended-link signals. |
 | normalizer infers real benefit conditions | PASS | Normalizer should expose login, purchase, everyone reward, first-come, condition, CTA, and trust metadata. |
 | normalizer computes ranking score dimensions | PASS | Normalizer should expose freshness, official source, urgency, and reward value score dimensions for ranking and operator reports. |
+| normalizer exposes collection lane readiness | PASS | Runtime readiness should expose official event, coupon, convenience, sample, point, and deadline collection lanes for live feed onboarding. |
 | publishable gate hides invalid events | PASS | Publishable gate must require active, passed, visible, safe final URL, unexpired, and quality score. |
 | event dedupe uses brand title domain reward type URL and end date | PASS | Deduplication should merge same brand/title/domain/reward-type/normalized-url/end-date events before publishing. |
 | verify benefits report exposes dedupe evidence | PASS | verify:benefits should write human-readable dedupe policy, duplicate groups, and key examples into JSON/Markdown reports. |
