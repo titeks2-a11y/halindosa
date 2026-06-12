@@ -114,6 +114,12 @@ function getDeadlineWindowMs(filter: DeadlineFilter) {
   return null;
 }
 
+function toFreeBenefitEventSort(sort: BenefitSort) {
+  if (sort === "endingSoon") return "endingSoon";
+  if (sort === "savings") return "quality";
+  return "recommended";
+}
+
 function parseFreeBenefitEventType(value: string | null) {
   if (!value) return null;
   return freeBenefitEventTypeIds.has(value as FreeBenefitEventType) ? (value as FreeBenefitEventType) : null;
@@ -300,13 +306,15 @@ export function FreeBenefitsClient({
         ),
         requestJson<FreeBenefitEventsResponse>(
           buildFreeBenefitEventsRequestUrl({
-            limit: 40,
-            query: "",
-            type: "all",
-            sort: "recommended",
-            noPurchaseOnly: false,
-            endingSoonOnly: false,
-            claimAccess: "all",
+            limit: 72,
+            query,
+            type: activeEventType,
+            sort: toFreeBenefitEventSort(sort),
+            noPurchaseOnly: claimAccessFilter === "instant",
+            endingSoonOnly,
+            deadline: deadlineFilter,
+            claimAccess: claimAccessFilter,
+            requiresLogin: noSignupOnly ? false : undefined,
             timestamp: Date.now()
           })
         ),
@@ -354,7 +362,7 @@ export function FreeBenefitsClient({
     } finally {
       setIsRefreshingBenefits(false);
     }
-  }, []);
+  }, [activeEventType, claimAccessFilter, deadlineFilter, endingSoonOnly, noSignupOnly, query, sort]);
 
   useEffect(() => {
     const refreshLocalState = () => {

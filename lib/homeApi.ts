@@ -365,19 +365,31 @@ export function buildFreebiesRequestUrl({
   query,
   limit = 16,
   sort = "priority",
+  eventType = "all",
+  deadline = "all",
+  noPurchaseOnly = false,
+  claimAccess = "all",
   timestamp = Date.now()
 }: {
   query: string;
   limit?: number;
   sort?: "priority" | "endingSoon" | "latest" | "discount";
+  eventType?: FreeBenefitEventType | "all";
+  deadline?: "all" | "today" | "week" | "soon";
+  noPurchaseOnly?: boolean;
+  claimAccess?: "all" | "instant" | "login_required" | "purchase_required" | "condition_check";
   timestamp?: number;
 }) {
   const params = new URLSearchParams({
     limit: String(limit),
     sort,
+    noPurchaseOnly: String(noPurchaseOnly),
     ts: String(timestamp)
   });
 
+  if (eventType !== "all") params.set("eventType", eventType);
+  if (deadline !== "all") params.set("deadline", deadline);
+  if (claimAccess !== "all") params.set("claimAccess", claimAccess);
   if (query.trim()) params.set("q", query.trim());
 
   return `/api/freebies?${params.toString()}`;
@@ -392,6 +404,8 @@ export function buildFreeBenefitEventsRequestUrl({
   endingSoonOnly = false,
   deadline = "all",
   claimAccess = "all",
+  requiresLogin,
+  requiresPurchase,
   timestamp = Date.now()
 }: {
   query: string;
@@ -402,6 +416,8 @@ export function buildFreeBenefitEventsRequestUrl({
   endingSoonOnly?: boolean;
   deadline?: "all" | "today" | "week" | "soon";
   claimAccess?: "all" | "instant" | "login_required" | "purchase_required" | "condition_check";
+  requiresLogin?: boolean;
+  requiresPurchase?: boolean;
   timestamp?: number;
 }) {
   const params = new URLSearchParams({
@@ -415,6 +431,8 @@ export function buildFreeBenefitEventsRequestUrl({
 
   if (deadline !== "all") params.set("deadline", deadline);
   if (claimAccess !== "all") params.set("claimAccess", claimAccess);
+  if (typeof requiresLogin === "boolean") params.set("requiresLogin", String(requiresLogin));
+  if (typeof requiresPurchase === "boolean") params.set("requiresPurchase", String(requiresPurchase));
   if (query.trim()) params.set("q", query.trim());
 
   return `/api/benefits/events?${params.toString()}`;

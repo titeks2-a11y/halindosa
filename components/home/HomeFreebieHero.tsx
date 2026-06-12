@@ -456,7 +456,7 @@ export function HomeFreebieHero({
             오늘 받을 무료 혜택
           </h2>
           <p className="mt-1 line-clamp-1 text-[11px] font-bold text-slate-500 sm:text-xs">
-            공식 혜택 {officialTotalCount.toLocaleString("ko-KR")}개 · 쿠폰·샘플·무료체험·포인트 · 공식 출처 {sourceDomainCount.toLocaleString("ko-KR")}곳 · {checkedLabel}
+            공식 혜택 {officialTotalCount.toLocaleString("ko-KR")}개 · 쿠폰·샘플·무료체험·포인트 · 가입 부담 낮음 · 공식 출처 {sourceDomainCount.toLocaleString("ko-KR")}곳 · {checkedLabel}
           </p>
         </div>
         <div className="flex shrink-0 items-center gap-1.5">

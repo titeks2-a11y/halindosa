@@ -48,6 +48,11 @@ function parseDeadline(value: string | null) {
   return "all";
 }
 
+function parseSort(value: string | null) {
+  if (value === "endingSoon" || value === "latest" || value === "discount" || value === "priority") return value;
+  return "priority";
+}
+
 function getDeadlineWindowMs(deadline: ReturnType<typeof parseDeadline>) {
   if (deadline === "today") return 24 * 60 * 60 * 1000;
   if (deadline === "week") return 7 * 24 * 60 * 60 * 1000;
@@ -55,8 +60,31 @@ function getDeadlineWindowMs(deadline: ReturnType<typeof parseDeadline>) {
   return null;
 }
 
+function includesEventQuery(event: FreeBenefitEvent, query: string) {
+  const normalizedQuery = query.trim().normalize("NFKC").toLowerCase().replace(/\s+/g, "");
+  if (!normalizedQuery) return true;
+
+  const searchableText = [
+    event.title,
+    event.brandName,
+    event.sourceName,
+    event.sourceDomain,
+    event.rewardText,
+    event.participationCondition,
+    event.claimCtaLabel,
+    event.tags.join(" ")
+  ]
+    .join(" ")
+    .normalize("NFKC")
+    .toLowerCase()
+    .replace(/\s+/g, "");
+
+  return searchableText.includes(normalizedQuery);
+}
+
 function filterFreeBenefitEvents(events: FreeBenefitEvent[], request: Request, referenceNow: number) {
   const { searchParams } = new URL(request.url);
+  const q = searchParams.get("q")?.trim().slice(0, 80) ?? "";
   const claimAccess = parseClaimAccess(searchParams.get("claimAccess"));
   const eventType = parseEventType(searchParams.get("eventType") ?? searchParams.get("type"));
   const deadline = parseDeadline(searchParams.get("deadline"));
@@ -67,6 +95,7 @@ function filterFreeBenefitEvents(events: FreeBenefitEvent[], request: Request, r
     if (claimAccess !== "all" && event.claimAccessLevel !== claimAccess) return false;
     if (eventType !== "all" && event.benefitType !== eventType) return false;
     if (noPurchaseOnly && event.requiresPurchase) return false;
+    if (!includesEventQuery(event, q)) return false;
     if (deadlineWindowMs !== null) {
       const endAt = Date.parse(event.endAt);
       if (!Number.isFinite(endAt)) return false;
@@ -74,6 +103,18 @@ function filterFreeBenefitEvents(events: FreeBenefitEvent[], request: Request, r
       if (timeLeft < 0 || timeLeft > deadlineWindowMs) return false;
     }
     return true;
+  });
+}
+
+function sortFreeBenefitEvents(events: FreeBenefitEvent[], request: Request) {
+  const { searchParams } = new URL(request.url);
+  const sort = parseSort(searchParams.get("sort"));
+
+  return [...events].sort((a, b) => {
+    if (sort === "endingSoon") return Date.parse(a.endAt) - Date.parse(b.endAt) || b.priorityScore - a.priorityScore;
+    if (sort === "latest") return Date.parse(b.updatedAt || b.collectedAt) - Date.parse(a.updatedAt || a.collectedAt) || b.priorityScore - a.priorityScore;
+    if (sort === "discount") return b.rewardScore - a.rewardScore || b.qualityScore - a.qualityScore || b.priorityScore - a.priorityScore;
+    return b.priorityScore - a.priorityScore || b.qualityScore - a.qualityScore || b.rewardScore - a.rewardScore;
   });
 }
 
@@ -126,7 +167,7 @@ export async function GET(request: Request) {
     const allEvents = selectPublishableFreeBenefitEvents(defaultDeals, 160, referenceNow, {
       includePublic
     });
-    const filteredEvents = filterFreeBenefitEvents(allEvents, request, referenceNow);
+    const filteredEvents = sortFreeBenefitEvents(filterFreeBenefitEvents(allEvents, request, referenceNow), request);
     const events = filteredEvents.slice(0, safeLimit);
     const summary = buildHomeFreebieSummary(defaultDeals, referenceNow);
     const categoryCounts = buildFreeBenefitEventCategoryCounts(allEvents);
@@ -181,7 +222,7 @@ export async function GET(request: Request) {
       },
       filters: {
         q: q ?? "",
-        sort: searchParams.get("sort") ?? "priority",
+        sort: parseSort(searchParams.get("sort")),
         includePublic,
         eventType: parseEventType(searchParams.get("eventType") ?? searchParams.get("type")),
         deadline: parseDeadline(searchParams.get("deadline")),
