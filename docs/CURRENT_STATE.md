@@ -7,10 +7,10 @@
 ## 현재 기준
 
 - Branch: `codex/12h-product-ux-growth-hardening`
-- 최신 운영 확인 HEAD: `518cec21` (`feat: surface free benefit ranking in admin dashboard`) 기준 Vercel Production 반영 확인.
+- 최신 운영 확인 HEAD(이번 세션 시작 기준): `a4f15c50` (`docs: document free benefit ranking operations`) 기준 Vercel Production 반영 확인.
 - Remote: `origin/main`, `origin/codex/12h-product-ux-growth-hardening`에 반영 대상
 - 운영 URL: `https://www.halindosa.com`
-- Vercel Production Deploy: `518cec21` 기준 운영 `/api/health` 반영 확인. 운영 응답은 `deployment.shortCommit=518cec21`, `branch=main`을 반환한다.
+- Vercel Production Deploy(이번 세션 시작 기준): `a4f15c50` 기준 운영 `/api/health` 반영 확인. 새 커밋 후에는 운영 `/api/health`의 `deployment.shortCommit`으로 최신 반영 여부를 다시 확인한다.
 - GitHub CI: 최신 `main`/`codex/12h-product-ux-growth-hardening` push 대상. 새 커밋 후 운영 `/api/health`의 `deployment.shortCommit`으로 실제 반영 여부를 확인한다.
 - 로컬 최신 홈페이지: `http://127.0.0.1:3000/?verifiedOnly=true`
 - 운영 API 최신 계약 확인:
@@ -69,6 +69,8 @@
 - `benefit:ranking:doctor`는 실제 무료혜택 스냅샷의 dedupe key, 공식 URL, 소비자형 publishable 수량, 구매조건 없는 혜택 수, 평균 품질/최신성 점수, 첫 화면 후보의 브랜드/도메인 반복도를 검사한다. 같은 혜택 반복 노출이나 낮은 품질 점수가 재발하면 QA, harness, release doctor가 실패한다.
 - `/api/admin/free-benefit-ranking`와 `/api/admin/free-benefit-ranking?format=csv`는 무료혜택 랭킹, 중복, 점수, 첫 화면 브랜드/도메인 반복도를 관리자 보호 API와 CSV로 제공한다. smoke는 JSON/CSV 응답, 공식 HTTPS 후보, 0개 정확 중복, 첫 화면 다양성 기준을 검사한다.
 - 관리자 `/admin` 화면은 무료혜택 랭킹 리포트 패널을 제공한다. 운영자는 정확 중복 0건, 소비자형 혜택 수, 구매조건 없는 혜택 수, 첫 화면 브랜드/도메인 반복도, 상위 후보를 화면에서 확인하고 JSON/CSV를 내려받을 수 있다.
+- `/api/admin/free-benefit-category-coverage`와 `/api/admin/free-benefit-category-coverage?format=csv`는 `benefit:category:doctor`와 같은 기준으로 전원증정, 선착순, 쿠폰, 무료 샘플, 무료체험, 기프티콘, 포인트/캐시백, 무료배송, 신규가입, 출석체크 10개 필수 축을 관리자 보호 API와 CSV로 제공한다.
+- 관리자 `/admin` 화면은 무료혜택 카테고리 커버리지 패널을 제공한다. 운영자는 노출 가능한 active 공식 혜택 수, 구매조건 없는 혜택 수, 공식 도메인 수, 오늘/이번주 마감 수량, 카테고리별 count/minimum, 상위 후보를 화면에서 확인할 수 있다.
 
 ## 현재 데이터 품질 기준
 

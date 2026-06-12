@@ -31,6 +31,11 @@ npm run smoke
   - 운영자는 `/admin`의 `무료혜택 랭킹 리포트` 패널에서 `정확 중복 0건`, `첫 화면 브랜드 최대 4회 이하`, `첫 화면 도메인 최대 5회 이하`, `상위 노출 후보`를 확인한다.
   - 같은 브랜드나 같은 도메인이 홈 상단에 반복되면 `data/refreshedNewsDeals.json`의 source/brand/title/endDate/finalUrl dedupe key를 먼저 확인하고, 공식 대체 소스 또는 다른 혜택 유형 후보를 보강한다.
   - 검색 결과, 블로그, 커뮤니티, 대표몰, 종료 혜택은 랭킹 후보가 아니라 hidden/failed 큐로 남아야 하며, `ranking JSON/CSV`에 top candidate로 나오면 출시 차단 이슈로 본다.
+- 무료혜택 카테고리 커버리지 운영 API: `GET /api/admin/free-benefit-category-coverage?token=$ADMIN_EXPORT_TOKEN`
+  - CSV 점검표는 `GET /api/admin/free-benefit-category-coverage?format=csv&token=$ADMIN_EXPORT_TOKEN`로 내려받는다.
+  - 운영자는 `/admin`의 `무료혜택 카테고리 커버리지` 패널에서 전원증정, 선착순, 쿠폰, 무료 샘플, 무료체험, 기프티콘, 포인트/캐시백, 무료배송, 신규가입 혜택, 출석체크 10개 축의 count/minimum을 확인한다.
+  - 이 API는 `npm run benefit:category:doctor`와 같은 publishable 기준을 사용한다. active, passed, 공식 CTA, 안전 URL, 종료 전 혜택만 세며 검색 결과, 대표몰, 커뮤니티/뉴스 중계, 종료/품절/숨김/미검증 링크는 카운트하지 않는다.
+  - 특정 카테고리가 부족하면 CSV의 `category` 행과 `top_candidate` 행을 보고 신규 공식 이벤트/쿠폰/샘플 source를 먼저 보강한다.
 - 실시간 특가 API: `GET /api/deals?q=노트북%20특가&sort=latest`
 - 홈 실시간 snapshot API: `GET /api/home?limit=24&verifiedOnly=true`
   - 응답 헤더는 `Cache-Control: no-store`를 포함해야 한다.

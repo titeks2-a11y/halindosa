@@ -54,6 +54,7 @@ import { getReportStorageStatus, getReportSummaryLive, listDealReportsLive } fro
 import { getCronRefreshOperationsReport } from "@/lib/operations/cronRefresh";
 import { getDailyOperationsReport } from "@/lib/operations/dailyOperations";
 import { getExposurePolicyReport } from "@/lib/operations/exposurePolicy";
+import { buildFreeBenefitCategoryCoverageReport } from "@/lib/operations/freeBenefitCategoryCoverage";
 import { buildFreeBenefitRankingReport } from "@/lib/operations/freeBenefitRanking";
 import { getFreeBenefitOperationsReport } from "@/lib/operations/freeBenefitOperations";
 import { getHealthReadinessReport } from "@/lib/operations/healthReadiness";
@@ -133,6 +134,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const cronRefresh = getCronRefreshOperationsReport();
   const dailyOperations = getDailyOperationsReport();
   const freeBenefitOperations = getFreeBenefitOperationsReport();
+  const freeBenefitCategoryCoverage = buildFreeBenefitCategoryCoverageReport();
   const freeBenefitRanking = buildFreeBenefitRankingReport();
   const freeBenefitTodayEndingCount = Number(freeBenefitOperations.totals?.todayEndingVisibleItems ?? 0);
   const freeBenefitWeekEndingCount = Number(freeBenefitOperations.totals?.thisWeekEndingVisibleItems ?? 0);
@@ -184,6 +186,8 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
     dailyOperationsCsvHref,
     freeBenefitOperationsApiHref,
     freeBenefitOperationsCsvHref,
+    freeBenefitCategoryCoverageApiHref,
+    freeBenefitCategoryCoverageCsvHref,
     freeBenefitRankingApiHref,
     freeBenefitRankingCsvHref,
     exposurePolicyApiHref,
@@ -2335,6 +2339,102 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                       </div>
                       <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-black text-emerald-700">
                         {item.qualityScore ?? 0}
+                      </span>
+                    </div>
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="rounded-3xl border border-sky-100 bg-white p-5 shadow-sm" aria-label="무료혜택 카테고리 커버리지 리포트">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-black text-sky-700">무료혜택 카테고리 커버리지</p>
+              <h2 className="mt-1 text-xl font-black text-slate-950">전원증정·선착순·쿠폰·샘플 공백을 운영 전에 잡습니다</h2>
+              <p className="mt-1 text-sm font-semibold leading-6 text-slate-500">
+                홈 상단에 필요한 필수 혜택 카테고리 10개가 검증된 active 공식 링크로 충분히 채워졌는지 확인합니다.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <a href={freeBenefitCategoryCoverageApiHref} className="rounded-2xl bg-sky-50 px-4 py-3 text-sm font-black text-sky-700">
+                category JSON
+              </a>
+              <a href={freeBenefitCategoryCoverageCsvHref} className="rounded-2xl bg-slate-950 px-4 py-3 text-sm font-black text-white">
+                category CSV
+              </a>
+              <Link href="/free-benefits?deadline=week" className="rounded-2xl bg-orange-50 px-4 py-3 text-sm font-black text-orange-700">
+                이번주 마감 확인
+              </Link>
+            </div>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-3 xl:grid-cols-6">
+            {[
+              {
+                title: "커버리지 상태",
+                value: freeBenefitCategoryCoverage.ok ? "정상" : "점검",
+                detail: freeBenefitCategoryCoverage.ok ? "필수 10개 카테고리 통과" : freeBenefitCategoryCoverage.problems[0] ?? "카테고리 보강 필요",
+                tone: freeBenefitCategoryCoverage.ok ? "good" : "danger"
+              },
+              { title: "노출 가능 혜택", value: `${freeBenefitCategoryCoverage.visibleActiveBenefits}개`, detail: "active·검증·공식 URL 기준", tone: "good" },
+              { title: "구매조건 없음", value: `${freeBenefitCategoryCoverage.noPurchaseVisibleBenefits}개`, detail: "바로 받을 수 있는 무료 혜택", tone: "good" },
+              { title: "공식 도메인", value: `${freeBenefitCategoryCoverage.officialHostCount}개`, detail: "브랜드·공식몰 다양성", tone: "good" },
+              { title: "이번주 마감", value: `${freeBenefitCategoryCoverage.weekEndingBenefits}개`, detail: "마감 필터 대체 노출 풀", tone: "watch" },
+              { title: "오늘마감", value: `${freeBenefitCategoryCoverage.todayEndingBenefits}개`, detail: "0건이면 이번주 마감 대체", tone: freeBenefitCategoryCoverage.todayEndingBenefits > 0 ? "good" : "watch" }
+            ].map((card) => (
+              <div
+                key={card.title}
+                className={`rounded-2xl border p-4 ${
+                  card.tone === "good"
+                    ? "border-sky-100 bg-sky-50"
+                    : card.tone === "danger"
+                      ? "border-red-100 bg-red-50"
+                      : "border-orange-100 bg-orange-50"
+                }`}
+              >
+                <p className="text-[11px] font-black text-slate-500">{card.title}</p>
+                <p className="mt-1 text-xl font-black text-slate-950">{card.value}</p>
+                <p className="mt-1 text-[11px] font-bold leading-4 text-slate-500">{card.detail}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-4 grid gap-3 lg:grid-cols-[1.1fr_0.9fr]">
+            <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
+              <p className="text-sm font-black text-slate-950">필수 혜택 카테고리 10종</p>
+              <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                {freeBenefitCategoryCoverage.categoryCoverage.map((item) => (
+                  <Link
+                    key={item.id}
+                    href={item.href}
+                    className={`flex items-center justify-between rounded-2xl px-3 py-2.5 text-xs font-black shadow-sm transition ${
+                      item.ok ? "bg-white text-slate-700 hover:bg-sky-50" : "bg-red-50 text-red-700 hover:bg-red-100"
+                    }`}
+                  >
+                    <span>{item.label}</span>
+                    <span>{item.count}/{item.minimum}</span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+            <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
+              <p className="text-sm font-black text-slate-950">카테고리 상위 후보</p>
+              <div className="mt-3 space-y-2">
+                {freeBenefitCategoryCoverage.topCandidates.slice(0, 6).map((item) => (
+                  <a
+                    key={item.id}
+                    href={item.finalUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block rounded-2xl bg-white p-3 shadow-sm transition hover:bg-sky-50"
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <div>
+                        <p className="line-clamp-2 text-xs font-black leading-5 text-slate-950">{item.title}</p>
+                        <p className="mt-1 text-[11px] font-bold text-slate-500">{item.sourceName || item.host} · {item.category}</p>
+                      </div>
+                      <span className="rounded-full bg-sky-50 px-2 py-0.5 text-[10px] font-black text-sky-700">
+                        {item.qualityScore + item.priorityScore}
                       </span>
                     </div>
                   </a>

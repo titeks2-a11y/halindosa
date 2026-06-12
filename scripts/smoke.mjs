@@ -786,6 +786,27 @@ await check("admin free benefit ranking csv", async () => {
   assert(text.includes("npm run benefit:ranking:doctor") && text.includes("첫 화면"), "Admin free benefit ranking CSV missing regeneration command or diversity guidance");
 });
 
+await check("admin free benefit category coverage api", async () => {
+  const { response, data } = await fetchJson("/api/admin/free-benefit-category-coverage");
+  assert(response.status === 200, `Expected free benefit category coverage 200, got ${response.status}`);
+  assert(data.ok === true, "Admin free benefit category coverage API ok should be true");
+  assert(data.report?.ok === true, "Admin free benefit category coverage report should pass");
+  assert(data.report?.visibleActiveBenefits >= 150, "Admin free benefit category coverage should preserve visible active benefit count");
+  assert(data.report?.officialHostCount >= 70, "Admin free benefit category coverage should preserve official host diversity");
+  assert(data.report?.noPurchaseVisibleBenefits >= 120, "Admin free benefit category coverage should preserve no-purchase benefit count");
+  assert(Array.isArray(data.report?.categoryCoverage) && data.report.categoryCoverage.length >= 10, "Admin free benefit category coverage should expose required category rows");
+  assert(data.report.categoryCoverage.every((row) => row.ok === true && row.count >= row.minimum && row.href?.startsWith("/free-benefits?eventType=")), "Admin free benefit category coverage should pass every required category and expose filter hrefs");
+});
+
+await check("admin free benefit category coverage csv", async () => {
+  const response = await fetch(`${baseUrl}/api/admin/free-benefit-category-coverage?format=csv`);
+  const text = await response.text();
+  assert(response.status === 200, `Expected free benefit category coverage CSV 200, got ${response.status}`);
+  assert(response.headers.get("content-type")?.includes("text/csv"), "Admin free benefit category coverage CSV should use text/csv content type");
+  assert(text.includes("visibleActiveBenefits") && text.includes("category") && text.includes("top_candidate"), "Admin free benefit category coverage CSV missing summary, category, or candidate rows");
+  assert(text.includes("전원증정") && text.includes("선착순") && text.includes("무료 샘플") && text.includes("npm run benefit:category:doctor"), "Admin free benefit category coverage CSV missing required category labels or regeneration command");
+});
+
 await check("admin health readiness api", async () => {
   const { response, data } = await fetchJson("/api/admin/health-readiness");
   assert(response.status === 200, `Expected 200, got ${response.status}`);

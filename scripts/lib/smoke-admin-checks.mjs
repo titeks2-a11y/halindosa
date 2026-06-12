@@ -159,6 +159,15 @@ export async function runAdminDashboardSmokeChecks() {
         text.includes("첫 화면 상위 후보"),
       "Admin dashboard missing free benefit ranking and diversity panel"
     );
+    assert(
+      text.includes("무료혜택 카테고리 커버리지") &&
+        text.includes("전원증정·선착순·쿠폰·샘플 공백") &&
+        text.includes("category JSON") &&
+        text.includes("category CSV") &&
+        text.includes("필수 혜택 카테고리 10종") &&
+        text.includes("카테고리 상위 후보"),
+      "Admin dashboard missing free benefit required category coverage panel"
+    );
     assert(text.includes("공식 소스 온보딩 우선순위") && text.includes("다음 연결 우선순위 TOP 10"), "Admin dashboard missing official source onboarding plan panel");
     assert(text.includes("온보딩 JSON") && text.includes("온보딩 CSV") && text.includes("feed env") && text.includes("/api/admin/source-onboarding"), "Admin dashboard missing official source onboarding API/CSV/env controls");
     assert(text.includes("feed 연결 후보") && text.includes("제휴 확인") && text.includes("차단 이슈"), "Admin dashboard missing official source onboarding summary cards");
