@@ -368,6 +368,22 @@ export function HomeFreebieHero({
   const requiredCategoryChips = (requiredCategoryCoverage?.categories ?? [])
     .filter((category) => category.count > 0 || !category.ok)
     .slice(0, 10);
+  const fallbackRequiredCategoryChips = requiredCategoryChips.length
+    ? []
+    : eventCategoryCounts
+        .filter((category) => category.id !== "all" && category.count > 0)
+        .map((category) => {
+          const quickFilter = heroQuickFilters.find((filter) => filter.eventType === category.id);
+          return {
+            id: category.id,
+            label: category.label,
+            count: category.count,
+            ok: true,
+            href: quickFilter?.href ?? `/free-benefits?eventType=${encodeURIComponent(category.id)}`
+          };
+        })
+        .slice(0, 10);
+  const visibleRequiredCategoryChips = requiredCategoryChips.length ? requiredCategoryChips : fallbackRequiredCategoryChips;
 
   return (
     <section
@@ -418,13 +434,13 @@ export function HomeFreebieHero({
         ))}
       </div>
 
-      {requiredCategoryChips.length ? (
+      {visibleRequiredCategoryChips.length ? (
         <div
           data-home-required-free-benefit-categories="true"
           className="mt-2 flex gap-1.5 overflow-x-auto pb-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           aria-label="필수 무료혜택 카테고리"
         >
-          {requiredCategoryChips.map((category) => (
+          {visibleRequiredCategoryChips.map((category) => (
             <Link
               key={category.id}
               href={category.href}
