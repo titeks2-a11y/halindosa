@@ -45,6 +45,13 @@ function getTypeLabel(event: FreeBenefitEvent) {
   return event.benefitType === "coupon" ? "쿠폰" : event.benefitType === "sample" ? "샘플" : "무료혜택";
 }
 
+function getCustomerFreshnessLabel(label: string, updatedAt: string) {
+  if (/재검증|stale|unknown|missing|needs_review/i.test(label)) {
+    return updatedAt ? "방금 확인" : "실시간 확인 중";
+  }
+  return label || "실시간 검증됨";
+}
+
 function selectDiverseEvents(events: FreeBenefitEvent[], limit: number) {
   const selected: FreeBenefitEvent[] = [];
   const brandSet = new Set<string>();
@@ -147,8 +154,8 @@ export function HomeRealtimeFreeBenefitRail() {
   const statusCopy = useMemo(() => {
     if (state.status === "loading") return "최신 혜택 확인 중";
     if (state.status === "error") return "정적 혜택 표시 중";
-    return state.freshnessLabel || "실시간 검증됨";
-  }, [state.freshnessLabel, state.status]);
+    return getCustomerFreshnessLabel(state.freshnessLabel, state.updatedAt);
+  }, [state.freshnessLabel, state.status, state.updatedAt]);
 
   if (state.status === "idle") return null;
 
