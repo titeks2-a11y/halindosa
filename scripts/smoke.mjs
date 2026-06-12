@@ -657,6 +657,28 @@ await check("admin daily operations csv", async () => {
   assert(text.includes("npm run daily:operations:report") && text.includes("npm run verify:links"), "Admin daily operations CSV missing regeneration commands");
 });
 
+await check("admin free benefit operations api", async () => {
+  const { response, data } = await fetchJson("/api/admin/free-benefit-operations");
+  assert(response.status === 200, `Expected free benefit operations 200, got ${response.status}`);
+  assert(data.ok === true, "Admin free benefit operations API ok should be true");
+  assert(data.report?.ok === true, "Admin free benefit operations report should pass");
+  assert(data.report?.totals?.visibleOfficialBenefitItems >= MIN_OFFICIAL_BENEFITS, "Admin free benefit operations should preserve visible official benefit count");
+  assert(data.report?.totals?.officialHosts >= 45, "Admin free benefit operations should preserve broad official host coverage");
+  assert(data.report?.qualityGates?.exposedSearchLinks === 0, "Admin free benefit operations should show zero search links");
+  assert(data.report?.qualityGates?.exposedNonOfficialLinks === 0, "Admin free benefit operations should show zero non-official links");
+  assert(data.report?.qualityGates?.brokenImages === 0, "Admin free benefit operations should show zero broken images");
+  assert(Array.isArray(data.report?.topCandidates) && data.report.topCandidates.length >= 10, "Admin free benefit operations should expose top display candidates");
+});
+
+await check("admin free benefit operations csv", async () => {
+  const response = await fetch(`${baseUrl}/api/admin/free-benefit-operations?format=csv`);
+  const text = await response.text();
+  assert(response.status === 200, `Expected free benefit operations CSV 200, got ${response.status}`);
+  assert(response.headers.get("content-type")?.includes("text/csv"), "Admin free benefit operations CSV should use text/csv content type");
+  assert(text.includes("visibleOfficialBenefitItems") && text.includes("exposedSearchLinks") && text.includes("top_candidate"), "Admin free benefit operations CSV missing summary, quality, or candidate rows");
+  assert(text.includes("npm run benefit:operations:report") && text.includes("/free-benefits?deadline=week"), "Admin free benefit operations CSV missing regeneration command or deadline action");
+});
+
 await check("admin health readiness api", async () => {
   const { response, data } = await fetchJson("/api/admin/health-readiness");
   assert(response.status === 200, `Expected 200, got ${response.status}`);
