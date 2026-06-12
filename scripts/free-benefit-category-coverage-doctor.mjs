@@ -112,6 +112,16 @@ function average(items, select) {
   return Math.round(values.reduce((sum, value) => sum + value, 0) / values.length);
 }
 
+function candidateDisplayScore(item) {
+  const publicSectorPenalty = /go\.kr|or\.kr|gov\.kr|seoul|government|복지|공공|서울시|정부|지자체/i.test(
+    `${item.host} ${item.sourceName} ${item.title}`
+  )
+    ? 80
+    : 0;
+  const purchasePenalty = item.requiresPurchase ? 20 : 0;
+  return item.qualityScore + item.priorityScore - publicSectorPenalty - purchasePenalty;
+}
+
 const snapshot = readJson(snapshotPath, { deals: [], generatedAt: "" });
 const rawDeals = Array.isArray(snapshot.deals) ? snapshot.deals : [];
 const now = Date.now();
@@ -147,7 +157,13 @@ const todayEndingCount = visible.filter((item) => {
 const categoryCoverage = requiredCategories.map((category) => ({
   ...category,
   count: Number(categoryCounts[category.id] ?? 0),
-  ok: Number(categoryCounts[category.id] ?? 0) >= category.minimum
+  ok: Number(categoryCounts[category.id] ?? 0) >= category.minimum,
+  href: `/free-benefits?eventType=${encodeURIComponent(category.id)}`
+}));
+const sortedVisible = [...visible].sort((a, b) => candidateDisplayScore(b) - candidateDisplayScore(a));
+const categoryCandidateGroups = categoryCoverage.map((category) => ({
+  ...category,
+  candidates: sortedVisible.filter((item) => item.category === category.id).slice(0, 4)
 }));
 const problems = [];
 
@@ -173,13 +189,12 @@ const report = {
   officialHostCount: hostCount,
   categoryCounts,
   categoryCoverage,
+  categoryCandidateGroups,
   averageScores: {
     quality: average(visible, (item) => item.qualityScore),
     priority: average(visible, (item) => item.priorityScore)
   },
-  topCandidates: [...visible]
-    .sort((a, b) => b.qualityScore + b.priorityScore - (a.qualityScore + a.priorityScore))
-    .slice(0, 20),
+  topCandidates: sortedVisible.slice(0, 20),
   advisories: todayEndingCount === 0 ? ["오늘마감 혜택은 현재 0건입니다. 홈은 이번주 마감과 선착순 혜택으로 대체 노출해야 합니다."] : [],
   problems
 };
@@ -190,6 +205,14 @@ writeFileSync(reportPath, `${JSON.stringify(report, null, 2)}\n`, "utf8");
 
 const table = categoryCoverage
   .map((category) => `| ${category.label} | ${category.count} | ${category.minimum} | ${category.ok ? "PASS" : "FAIL"} |`)
+  .join("\n");
+const candidateTables = categoryCandidateGroups
+  .map((group) => {
+    const rows = group.candidates
+      .map((item) => `| ${group.label} | ${item.sourceName.replace(/\|/g, "/")} | ${item.title.replace(/\|/g, "/")} | ${item.host} | ${item.qualityScore + item.priorityScore} |`)
+      .join("\n");
+    return rows || `| ${group.label} | - | - | - | 0 |`;
+  })
   .join("\n");
 const markdown = `# Free Benefit Category Coverage
 
@@ -211,6 +234,12 @@ Generated: ${report.generatedAt}
 | Category | Count | Minimum | Result |
 | --- | ---: | ---: | --- |
 ${table}
+
+## Category Top Candidates
+
+| Category | Source | Title | Host | Score |
+| --- | --- | --- | --- | ---: |
+${candidateTables}
 
 ## Policy
 

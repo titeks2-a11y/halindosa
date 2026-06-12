@@ -50,6 +50,13 @@ export interface FreeBenefitCategoryCoverageCandidate {
   priorityScore: number;
 }
 
+export interface FreeBenefitCategoryCandidateGroup extends FreeBenefitRequiredCategory {
+  count: number;
+  ok: boolean;
+  href: string;
+  candidates: FreeBenefitCategoryCoverageCandidate[];
+}
+
 export interface FreeBenefitCategoryCoverageReport {
   ok: boolean;
   generatedAt: string;
@@ -63,6 +70,7 @@ export interface FreeBenefitCategoryCoverageReport {
   officialHostCount: number;
   categoryCounts: Record<string, number>;
   categoryCoverage: FreeBenefitCategoryCoverageRow[];
+  categoryCandidateGroups: FreeBenefitCategoryCandidateGroup[];
   averageScores: {
     quality: number;
     priority: number;
@@ -179,6 +187,16 @@ function average<T>(items: T[], select: (item: T) => number) {
   return Math.round(values.reduce((sum, value) => sum + value, 0) / values.length);
 }
 
+function candidateDisplayScore(item: FreeBenefitCategoryCoverageCandidate) {
+  const publicSectorPenalty = /go\.kr|or\.kr|gov\.kr|seoul|government|복지|공공|서울시|정부|지자체/i.test(
+    `${item.host} ${item.sourceName} ${item.title}`
+  )
+    ? 80
+    : 0;
+  const purchasePenalty = item.requiresPurchase ? 20 : 0;
+  return item.qualityScore + item.priorityScore - publicSectorPenalty - purchasePenalty;
+}
+
 export function buildFreeBenefitCategoryCoverageReport(referenceNow = Date.now()): FreeBenefitCategoryCoverageReport {
   const snapshot = readJson<{ generatedAt?: string; deals?: CategoryCoverageSourceItem[] }>(join(process.cwd(), "data", "refreshedNewsDeals.json"), {});
   const rawDeals = Array.isArray(snapshot.deals) ? snapshot.deals : [];
@@ -218,6 +236,11 @@ export function buildFreeBenefitCategoryCoverageReport(referenceNow = Date.now()
       href: `/free-benefits?eventType=${encodeURIComponent(category.id)}`
     };
   });
+  const sortedVisible = [...visible].sort((a, b) => candidateDisplayScore(b) - candidateDisplayScore(a));
+  const categoryCandidateGroups = categoryCoverage.map((category) => ({
+    ...category,
+    candidates: sortedVisible.filter((item) => item.category === category.id).slice(0, 4)
+  }));
   const problems = [
     visible.length < 150 ? `visible active benefits ${visible.length}/150` : "",
     officialHostCount < 70 ? `official host coverage ${officialHostCount}/70` : "",
@@ -240,11 +263,12 @@ export function buildFreeBenefitCategoryCoverageReport(referenceNow = Date.now()
     officialHostCount,
     categoryCounts,
     categoryCoverage,
+    categoryCandidateGroups,
     averageScores: {
       quality: average(visible, (item) => item.qualityScore),
       priority: average(visible, (item) => item.priorityScore)
     },
-    topCandidates: [...visible].sort((a, b) => b.qualityScore + b.priorityScore - (a.qualityScore + a.priorityScore)).slice(0, 20),
+    topCandidates: sortedVisible.slice(0, 20),
     advisories: todayEndingBenefits === 0 ? ["오늘마감 혜택은 현재 0건입니다. 홈은 이번주 마감과 선착순 혜택으로 대체 노출해야 합니다."] : [],
     problems
   };
@@ -259,6 +283,19 @@ export function buildFreeBenefitCategoryCoverageCsv(report: FreeBenefitCategoryC
   rows.push(["summary", "todayEndingBenefits", report.todayEndingBenefits > 0 ? "count" : "advisory", String(report.todayEndingBenefits), "0", "오늘마감은 없으면 이번주 마감으로 대체", "/free-benefits?deadline=soon"]);
   for (const row of report.categoryCoverage) {
     rows.push(["category", row.label, row.ok ? "passed" : "failed", String(row.count), String(row.minimum), row.id, row.href]);
+  }
+  for (const group of report.categoryCandidateGroups) {
+    for (const item of group.candidates) {
+      rows.push([
+        "category_candidate",
+        group.label,
+        group.ok ? "passed" : "failed",
+        String(item.qualityScore + item.priorityScore),
+        String(group.minimum),
+        `${item.sourceName}; ${item.title}; ${item.host}`,
+        item.finalUrl
+      ]);
+    }
   }
   for (const item of report.topCandidates) {
     rows.push(["top_candidate", item.id, "candidate", String(item.qualityScore + item.priorityScore), "", `${item.sourceName}; ${item.title}; ${item.category}; ${item.host}`, item.finalUrl]);

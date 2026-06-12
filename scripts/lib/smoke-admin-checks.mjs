@@ -165,7 +165,7 @@ export async function runAdminDashboardSmokeChecks() {
         text.includes("category JSON") &&
         text.includes("category CSV") &&
         text.includes("필수 혜택 카테고리 10종") &&
-        text.includes("카테고리 상위 후보"),
+        text.includes("카테고리별 상위 후보"),
       "Admin dashboard missing free benefit required category coverage panel"
     );
     assert(text.includes("공식 소스 온보딩 우선순위") && text.includes("다음 연결 우선순위 TOP 10"), "Admin dashboard missing official source onboarding plan panel");

@@ -2418,26 +2418,33 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
               </div>
             </div>
             <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
-              <p className="text-sm font-black text-slate-950">카테고리 상위 후보</p>
+              <p className="text-sm font-black text-slate-950">카테고리별 상위 후보</p>
               <div className="mt-3 space-y-2">
-                {freeBenefitCategoryCoverage.topCandidates.slice(0, 6).map((item) => (
-                  <a
-                    key={item.id}
-                    href={item.finalUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block rounded-2xl bg-white p-3 shadow-sm transition hover:bg-sky-50"
-                  >
-                    <div className="flex items-start justify-between gap-3">
-                      <div>
-                        <p className="line-clamp-2 text-xs font-black leading-5 text-slate-950">{item.title}</p>
-                        <p className="mt-1 text-[11px] font-bold text-slate-500">{item.sourceName || item.host} · {item.category}</p>
-                      </div>
-                      <span className="rounded-full bg-sky-50 px-2 py-0.5 text-[10px] font-black text-sky-700">
-                        {item.qualityScore + item.priorityScore}
+                {freeBenefitCategoryCoverage.categoryCandidateGroups.slice(0, 10).map((group) => (
+                  <div key={group.id} className="rounded-2xl bg-white p-3 shadow-sm">
+                    <div className="flex items-center justify-between gap-3">
+                      <Link href={group.href} className="text-xs font-black text-slate-950 hover:text-sky-700">
+                        {group.label}
+                      </Link>
+                      <span className={`rounded-full px-2 py-0.5 text-[10px] font-black ${group.ok ? "bg-sky-50 text-sky-700" : "bg-red-50 text-red-700"}`}>
+                        {group.count}/{group.minimum}
                       </span>
                     </div>
-                  </a>
+                    <div className="mt-2 space-y-1.5">
+                      {group.candidates.slice(0, 2).map((item) => (
+                        <a
+                          key={item.id}
+                          href={item.finalUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="block rounded-xl border border-slate-100 px-3 py-2 transition hover:border-sky-200 hover:bg-sky-50"
+                        >
+                          <p className="line-clamp-1 text-[11px] font-black text-slate-900">{item.title}</p>
+                          <p className="mt-0.5 text-[10px] font-bold text-slate-500">{item.sourceName || item.host} · {item.host}</p>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
                 ))}
               </div>
             </div>

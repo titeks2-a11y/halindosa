@@ -796,6 +796,19 @@ await check("admin free benefit category coverage api", async () => {
   assert(data.report?.noPurchaseVisibleBenefits >= 120, "Admin free benefit category coverage should preserve no-purchase benefit count");
   assert(Array.isArray(data.report?.categoryCoverage) && data.report.categoryCoverage.length >= 10, "Admin free benefit category coverage should expose required category rows");
   assert(data.report.categoryCoverage.every((row) => row.ok === true && row.count >= row.minimum && row.href?.startsWith("/free-benefits?eventType=")), "Admin free benefit category coverage should pass every required category and expose filter hrefs");
+  assert(Array.isArray(data.report?.categoryCandidateGroups) && data.report.categoryCandidateGroups.length >= 10, "Admin free benefit category coverage should expose per-category candidate groups");
+  assert(
+    data.report.categoryCandidateGroups.every(
+      (group) =>
+        group.ok === true &&
+        group.count >= group.minimum &&
+        group.href?.startsWith("/free-benefits?eventType=") &&
+        Array.isArray(group.candidates) &&
+        group.candidates.length >= 1 &&
+        group.candidates.every((item) => item.finalUrl?.startsWith("https://") && item.title && item.sourceName)
+    ),
+    "Admin free benefit category candidate groups should include official HTTPS display candidates"
+  );
 });
 
 await check("admin free benefit category coverage csv", async () => {
@@ -803,7 +816,7 @@ await check("admin free benefit category coverage csv", async () => {
   const text = await response.text();
   assert(response.status === 200, `Expected free benefit category coverage CSV 200, got ${response.status}`);
   assert(response.headers.get("content-type")?.includes("text/csv"), "Admin free benefit category coverage CSV should use text/csv content type");
-  assert(text.includes("visibleActiveBenefits") && text.includes("category") && text.includes("top_candidate"), "Admin free benefit category coverage CSV missing summary, category, or candidate rows");
+  assert(text.includes("visibleActiveBenefits") && text.includes("category") && text.includes("category_candidate") && text.includes("top_candidate"), "Admin free benefit category coverage CSV missing summary, category, or candidate rows");
   assert(text.includes("전원증정") && text.includes("선착순") && text.includes("무료 샘플") && text.includes("npm run benefit:category:doctor"), "Admin free benefit category coverage CSV missing required category labels or regeneration command");
 });
 

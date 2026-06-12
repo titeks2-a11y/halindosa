@@ -2412,7 +2412,7 @@ function checkFreeBenefitOperationsReport() {
   for (const phrase of ["buildFreeBenefitRankingReport", "buildFreeBenefitRankingCsv", "exactDuplicateGroupCount", "maxTopBrandRepeat", "topCandidates", "qualityScore"]) {
     if (!rankingLib.includes(phrase)) issues.push(`free benefit ranking lib missing ${phrase}`);
   }
-  for (const phrase of ["buildFreeBenefitCategoryCoverageReport", "buildFreeBenefitCategoryCoverageCsv", "freeBenefitRequiredCategories", "visibleActiveBenefits", "categoryCoverage", "topCandidates"]) {
+  for (const phrase of ["buildFreeBenefitCategoryCoverageReport", "buildFreeBenefitCategoryCoverageCsv", "freeBenefitRequiredCategories", "visibleActiveBenefits", "categoryCoverage", "categoryCandidateGroups", "topCandidates"]) {
     if (!categoryCoverageLib.includes(phrase)) issues.push(`free benefit category coverage lib missing ${phrase}`);
   }
   if (!rankingApi.includes("canAccessAdminRequest") || !rankingApi.includes("buildFreeBenefitRankingReport") || !rankingApi.includes("format") || !rankingApi.includes("text/csv") || !rankingApi.includes("admin-free-benefit-ranking")) {
@@ -2436,7 +2436,7 @@ function checkFreeBenefitOperationsReport() {
   for (const phrase of ["무료혜택 랭킹 리포트", "freeBenefitRankingApiHref", "freeBenefitRankingCsvHref", "정확 중복", "첫 화면 상위 후보", "첫 화면 반복"]) {
     if (!adminPage.includes(phrase)) issues.push(`admin page missing free benefit ranking panel phrase: ${phrase}`);
   }
-  for (const phrase of ["무료혜택 카테고리 커버리지", "freeBenefitCategoryCoverageApiHref", "freeBenefitCategoryCoverageCsvHref", "필수 혜택 카테고리 10종", "카테고리 상위 후보", "전원증정"]) {
+  for (const phrase of ["무료혜택 카테고리 커버리지", "freeBenefitCategoryCoverageApiHref", "freeBenefitCategoryCoverageCsvHref", "필수 혜택 카테고리 10종", "카테고리별 상위 후보", "전원증정"]) {
     if (!adminPage.includes(phrase)) issues.push(`admin page missing free benefit category coverage panel phrase: ${phrase}`);
   }
   if (!smokeScript.includes("admin free benefit operations api") || !smokeScript.includes("/api/admin/free-benefit-operations") || !smokeScript.includes("Admin free benefit operations should show zero search links") || !smokeScript.includes("operatorActionQueue")) {
@@ -2445,7 +2445,7 @@ function checkFreeBenefitOperationsReport() {
   if (!smokeScript.includes("admin free benefit ranking api") || !smokeScript.includes("/api/admin/free-benefit-ranking") || !smokeScript.includes("Admin dashboard missing free benefit ranking and diversity panel") || !smokeScript.includes("exactDuplicateGroupCount")) {
     issues.push("smoke tests should cover free benefit ranking admin API, CSV, and dashboard panel");
   }
-  if (!smokeScript.includes("admin free benefit category coverage api") || !smokeScript.includes("/api/admin/free-benefit-category-coverage") || !smokeScript.includes("Admin dashboard missing free benefit required category coverage panel") || !smokeScript.includes("categoryCoverage")) {
+  if (!smokeScript.includes("admin free benefit category coverage api") || !smokeScript.includes("/api/admin/free-benefit-category-coverage") || !smokeScript.includes("Admin dashboard missing free benefit required category coverage panel") || !smokeScript.includes("categoryCoverage") || !smokeScript.includes("categoryCandidateGroups")) {
     issues.push("smoke tests should cover free benefit category coverage admin API, CSV, and dashboard panel");
   }
   for (const phrase of ["무료혜택 운영 리포트", "노출 가능한 공식 무료혜택", "검색 링크 노출", "비공식 링크 노출", "오늘 운영 액션 큐", "상위 노출 후보"]) {
