@@ -44,6 +44,13 @@ const refreshedProducts = JSON.parse(read("data/refreshedDeals.json"));
 const refreshedNews = JSON.parse(read("data/refreshedNewsDeals.json"));
 const newsReport = JSON.parse(read("reports/news-deals.json"));
 
+const appPageSource = read("app/page.tsx");
+if (includesAll(appPageSource, ['dynamic = "force-dynamic"', "revalidate = 0", 'fetchCache = "force-no-store"'])) {
+  pass("home page dynamic no-store shell", "홈 첫 HTML도 force-dynamic/revalidate=0/force-no-store로 고정해 Vercel과 WebView에서 무료혜택 첫 화면이 정적 캐시에 갇히지 않습니다.");
+} else {
+  fail("home page dynamic no-store shell", "app/page.tsx는 무료혜택 첫 화면이므로 force-dynamic, revalidate=0, force-no-store 선언을 유지해야 합니다.");
+}
+
 for (const routePath of apiRoutes) {
   const route = read(routePath);
   if (includesAll(route, ['dynamic = "force-dynamic"', "revalidate = 0", 'fetchCache = "force-no-store"', "noStoreJson", "OPTIONS", "noStoreOptions"])) {

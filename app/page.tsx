@@ -8,6 +8,10 @@ import { buildHomeFreebieSummary, hasLowFrictionBenefitSignal, hasPurchaseCondit
 import { buildFreeBenefitCategoryCoverageReport } from "@/lib/operations/freeBenefitCategoryCoverage";
 import type { NewsBenefitType, NewsDeal } from "@/types/newsDeal";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+export const fetchCache = "force-no-store";
+
 const HOME_BENEFIT_LIMIT = 220;
 
 const priorityBenefitTypes: NewsBenefitType[] = ["freebie", "gifticon", "sample", "coupon", "point", "membership", "foodDelivery", "convenienceStore", "mart", "freeShipping", "event"];
