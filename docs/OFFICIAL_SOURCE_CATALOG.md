@@ -2,10 +2,10 @@
 
 이 문서는 할인도사에 연결할 수 있는 공식 이벤트, 공공 혜택, 제휴 JSON/RSS 후보를 정리합니다. 무단 크롤링 후보가 아니라 운영자가 승인 feed 또는 공식 페이지 매핑으로 전환할 때 쓰는 출발점입니다.
 
-- 생성 시각: 2026-06-11T20:29:06.474Z
+- 생성 시각: 2026-06-12T04:05:15.612Z
 - 상태: PASS
-- 후보 소스: 211개
-- 고우선순위 후보: 86개
+- 후보 소스: 217개
+- 고우선순위 후보: 91개
 - 현재 env feed 연결 후보: 0개
 - 공식 혜택 노출: 197개
 - feed 전환 상태: seed_launch_ready
@@ -16,14 +16,14 @@
 | 카테고리 | 후보 수 | 상태 |
 | --- | ---: | --- |
 | 식품/생필품 | 23 | 충분 |
-| 마트/편의점 | 15 | 충분 |
+| 마트/편의점 | 16 | 충분 |
 | 디지털/가전 | 14 | 충분 |
 | 패션/뷰티 | 24 | 충분 |
-| 외식/배달 | 51 | 충분 |
+| 외식/배달 | 52 | 충분 |
 | 여행/숙박 | 11 | 충분 |
 | 영화/문화 | 27 | 충분 |
-| 카드/멤버십 | 72 | 충분 |
-| 무료혜택 | 174 | 충분 |
+| 카드/멤버십 | 78 | 충분 |
+| 무료혜택 | 180 | 충분 |
 | 정부/공공혜택 | 43 | 충분 |
 
 ## Provider 커버리지
@@ -32,7 +32,7 @@
 | --- | ---: | --- |
 | news | 1 | 포함 |
 | event_news | 2 | 포함 |
-| official_event | 139 | 포함 |
+| official_event | 145 | 포함 |
 | public_coupon | 69 | 포함 |
 
 ## 후보 목록
@@ -250,6 +250,12 @@
 | powderroom-official-campaign | official_event | 무료혜택, 패션/뷰티 | high | https://www.powderroom.co.kr/campaigns | OFFICIAL_EVENT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
 | lotteworld-official-benefit | official_event | 무료혜택, 영화/문화, 여행/숙박 | medium | https://www.lotteworld.com/contents/contents.asp?cmsCd=CM0029 | OFFICIAL_EVENT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
 | everland-official-event | official_event | 무료혜택, 영화/문화, 여행/숙박 | medium | https://www.everland.com/web/everland/now/news/1216661_10436.html | OFFICIAL_EVENT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| mega-mgc-official-event-list | official_event | 무료혜택, 외식/배달, 카드/멤버십 | high | https://www.mega-mgccoffee.com/bbs/?bbs_category=3&bbs_detail_category=12 | CAFE_FRANCHISE_COUPON_FEED_URLS, OFFICIAL_EVENT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| payco-official-reward | official_event | 무료혜택, 카드/멤버십 | high | https://m.payco.com/point/reward.nhn | PAY_POINT_BENEFIT_FEED_URLS, OFFICIAL_EVENT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| payco-official-benefit-home | official_event | 무료혜택, 카드/멤버십 | medium | https://events.payco.com/event/app/detail/sbHAyIM.nhn | PAY_POINT_BENEFIT_FEED_URLS, PUBLIC_COUPON_FEED_URLS, OFFICIAL_EVENT_FEED_URLS |
+| lpoint-official-event-list | official_event | 무료혜택, 카드/멤버십 | high | https://m.lpoint.com/app/event/LWEA100110.do | PAY_POINT_BENEFIT_FEED_URLS, OFFICIAL_EVENT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| shinsegae-point-official-events | official_event | 무료혜택, 마트/편의점, 카드/멤버십 | high | https://m.shinsegaepoint.com/ingevents | PAY_POINT_BENEFIT_FEED_URLS, OFFICIAL_EVENT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
+| shinsegae-point-attendance | official_event | 무료혜택, 카드/멤버십 | high | https://m.shinsegaepoint.com/benefits/pntPlus/attend | PAY_POINT_BENEFIT_FEED_URLS, OFFICIAL_EVENT_FEED_URLS, BENEFIT_REFRESH_FEED_URLS |
 
 ## 다음 작업
 

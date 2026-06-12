@@ -1,7 +1,7 @@
 # 공식 feed 환경변수 안전성 리포트
 
-- 생성 시각: 2026-06-10T19:46:57.976Z
-- 검사한 env key: DEAL_NEWS_FEED_URLS, DEAL_NEWS_RSS_URLS, DEAL_EVENT_NEWS_FEED_URLS, OFFICIAL_EVENT_FEED_URLS, DEAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS, OPTIONAL_PUBLIC_BENEFIT_FEED_URLS
+- 생성 시각: 2026-06-12T04:05:46.118Z
+- 검사한 env key: DEAL_NEWS_FEED_URLS, DEAL_NEWS_RSS_URLS, DEAL_EVENT_NEWS_FEED_URLS, OFFICIAL_EVENT_FEED_URLS, DEAL_EVENT_FEED_URLS, PUBLIC_COUPON_FEED_URLS, BENEFIT_REFRESH_FEED_URLS, TELECOM_MEMBERSHIP_FEED_URLS, CONVENIENCE_BENEFIT_FEED_URLS, BEAUTY_SAMPLE_FEED_URLS, CAFE_FRANCHISE_COUPON_FEED_URLS, PAY_POINT_BENEFIT_FEED_URLS, PET_SAMPLE_FEED_URLS, SIGNUP_GIFT_FEED_URLS, OPTIONAL_PUBLIC_BENEFIT_FEED_URLS
 - 설정된 feed URL: 0개
 - 통과: 0개
 - 실패: 0개
@@ -26,16 +26,16 @@
 | Lane | 우선 Env | 후보 | 접근 가능 | 보호/승인 필요 | 첫 작업 |
 | --- | --- | ---: | ---: | ---: | --- |
 | 오늘 바로 받는 무료혜택 | BENEFIT_REFRESH_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS | 8 | 8 | 0 | BENEFIT_REFRESH_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
-| 편의점 1+1·2+1 | OFFICIAL_EVENT_FEED_URLS<br>DEAL_EVENT_FEED_URLS | 8 | 8 | 0 | OFFICIAL_EVENT_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
-| 뷰티 샘플·체험 | OFFICIAL_EVENT_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS | 8 | 8 | 0 | OFFICIAL_EVENT_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
-| 카페·외식 쿠폰 | OFFICIAL_EVENT_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS<br>DEAL_EVENT_NEWS_FEED_URLS | 8 | 8 | 0 | OFFICIAL_EVENT_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
+| 편의점 1+1·2+1 | CONVENIENCE_BENEFIT_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS<br>DEAL_EVENT_FEED_URLS | 8 | 8 | 0 | CONVENIENCE_BENEFIT_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
+| 뷰티 샘플·체험 | BEAUTY_SAMPLE_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS | 8 | 8 | 0 | BEAUTY_SAMPLE_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
+| 카페·외식 쿠폰 | CAFE_FRANCHISE_COUPON_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS | 8 | 8 | 0 | CAFE_FRANCHISE_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 쇼핑몰·브랜드 쿠폰 | PUBLIC_COUPON_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS<br>DEAL_EVENT_FEED_URLS | 8 | 7 | 1 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
-| 페이·포인트·캐시백 | PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS | 8 | 6 | 2 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
+| 페이·포인트·캐시백 | PAY_POINT_BENEFIT_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS | 8 | 6 | 2 | PAY_POINT_BENEFIT_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 전원증정·선착순 | BENEFIT_REFRESH_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS | 8 | 8 | 0 | BENEFIT_REFRESH_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 출석체크·룰렛·미션 | PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS | 8 | 7 | 1 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
-| 신규가입·웰컴 쿠폰 | PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS | 8 | 8 | 0 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
+| 신규가입·웰컴 쿠폰 | SIGNUP_GIFT_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS | 8 | 8 | 0 | SIGNUP_GIFT_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 기프티콘·문화초대권 | PUBLIC_COUPON_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS | 8 | 6 | 2 | PUBLIC_COUPON_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
-| 반려동물·체험단 | BENEFIT_REFRESH_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS | 8 | 8 | 0 | BENEFIT_REFRESH_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
+| 반려동물·체험단 | PET_SAMPLE_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS | 8 | 8 | 0 | PET_SAMPLE_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 | 선택 운영: 공공·문화 무료 | OPTIONAL_PUBLIC_BENEFIT_FEED_URLS | 8 | 8 | 0 | OPTIONAL_PUBLIC_BENEFIT_FEED_URLS에 승인 JSON/RSS/API feed부터 연결 |
 
 ## 우선 검토 후보
@@ -51,18 +51,18 @@
 | 뷰티 샘플·체험 | 라운드랩 공식 이벤트 게시판 | reachable | OFFICIAL_EVENT_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS | https://roundlab.co.kr/board/gallery/list.html?board_no=8 |
 | 뷰티 샘플·체험 | 아모레몰 공식 이벤트·체험단 목록 | reachable | OFFICIAL_EVENT_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS | https://www.amoremall.com/kr/ko/display/event |
 | 뷰티 샘플·체험 | 맘큐 공식 육아 샘플·이벤트 목록 | reachable | BENEFIT_REFRESH_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS | https://www.momq.co.kr/event |
+| 카페·외식 쿠폰 | 메가MGC커피 공식 이벤트·제휴 혜택 | reachable | CAFE_FRANCHISE_COUPON_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS | https://www.mega-mgccoffee.com/bbs/?bbs_category=3&bbs_detail_category=12 |
 | 카페·외식 쿠폰 | 스타벅스 리워드 공식 혜택 | reachable | PUBLIC_COUPON_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS | https://www.starbucks.co.kr/msr/msreward/about.do |
 | 카페·외식 쿠폰 | 요기요 공식 룰렛 쿠폰 프로모션 | reachable | OFFICIAL_EVENT_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS | https://www.yogiyo.co.kr/promotion/roulette/ |
-| 카페·외식 쿠폰 | KFC 공식 딜리버리 무료배송 혜택 | reachable | OFFICIAL_EVENT_FEED_URLS<br>DEAL_EVENT_NEWS_FEED_URLS | https://www.kfckorea.com/promotion/promotionList/detail/1053 |
 | 쇼핑몰·브랜드 쿠폰 | 롯데ON 공식 롭스·뷰티 이벤트 | reachable | OFFICIAL_EVENT_FEED_URLS<br>DEAL_EVENT_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS | https://www.lotteon.com/event/onLohbsShare |
 | 쇼핑몰·브랜드 쿠폰 | 맘큐 공식 육아 샘플·이벤트 목록 | reachable | BENEFIT_REFRESH_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS | https://www.momq.co.kr/event |
 | 쇼핑몰·브랜드 쿠폰 | 오늘의집 공식 시즌 이벤트·쿠폰 | reachable | OFFICIAL_EVENT_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS | https://events.ohou.se/promotions/o-season-week |
+| 페이·포인트·캐시백 | L.POINT 공식 이벤트·포인트 혜택 | reachable | PAY_POINT_BENEFIT_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS | https://m.lpoint.com/app/event/LWEA100110.do |
 | 페이·포인트·캐시백 | OK캐쉬백 공식 앱 설치·포인트 이벤트 | reachable | OFFICIAL_EVENT_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS | https://www.okcashbag.com/event/newwelcomeback |
 | 페이·포인트·캐시백 | 카카오페이 공식 결제 포인트 혜택 | reachable | OFFICIAL_EVENT_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS | https://www.kakaopay.com/services/life/payment?t_ch=main&t_src=homepage |
-| 페이·포인트·캐시백 | OK캐쉬백 공식 쇼핑적립 포인트 혜택 | reachable | OFFICIAL_EVENT_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS | https://okcashbag.com/shopping |
+| 전원증정·선착순 | 신세계포인트 공식 진행 이벤트 | reachable | PAY_POINT_BENEFIT_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS | https://m.shinsegaepoint.com/ingevents |
 | 전원증정·선착순 | LG생활건강 공식 이벤트 | reachable | OFFICIAL_EVENT_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS | https://www.lghnh.com:984/news/event.jsp |
 | 전원증정·선착순 | 네이버페이 공식 온라인 쿠폰함 | reachable | PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS | https://pay.naver.com/coupon/home/online |
-| 전원증정·선착순 | 맘큐 공식 신규회원 웰컴혜택 | reachable | BENEFIT_REFRESH_FEED_URLS<br>OFFICIAL_EVENT_FEED_URLS | https://www.momq.co.kr/event/202601290003 |
 | 출석체크·룰렛·미션 | 요기요 공식 룰렛 쿠폰 프로모션 | reachable | OFFICIAL_EVENT_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS | https://www.yogiyo.co.kr/promotion/roulette/ |
 | 출석체크·룰렛·미션 | L.POINT 공식 미션·룰렛·출석 혜택 | reachable | OFFICIAL_EVENT_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS | https://www.lpoint.com/app/common/LHZZ300300.do |
 | 출석체크·룰렛·미션 | 해피포인트 공식 쿠폰·모바일 혜택 | reachable | OFFICIAL_EVENT_FEED_URLS<br>PUBLIC_COUPON_FEED_URLS<br>BENEFIT_REFRESH_FEED_URLS | https://www.happypointcard.com/coupon/coupon.spc |

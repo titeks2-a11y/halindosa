@@ -1,7 +1,7 @@
 # 무료혜택 운영 Feed Starter Pack
 
-- 생성 시각: 2026-06-12T02:16:20.846Z
-- 공식 소스 후보: 211개
+- 생성 시각: 2026-06-12T04:05:16.678Z
+- 공식 소스 후보: 217개
 - starter lane: 13개
 - 연결 후보: 104개
 - 접근 가능 후보: 98개
@@ -84,12 +84,12 @@
 
 | 후보 | 상태 | 권장 작업 | 공식 확인 URL |
 | --- | --- | --- | --- |
+| 메가MGC커피 공식 이벤트·제휴 혜택 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.mega-mgccoffee.com/bbs/?bbs_category=3&bbs_detail_category=12 |
 | 스타벅스 리워드 공식 혜택 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.starbucks.co.kr/msr/msreward/about.do |
 | 요기요 공식 룰렛 쿠폰 프로모션 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.yogiyo.co.kr/promotion/roulette/ |
 | KFC 공식 딜리버리 무료배송 혜택 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.kfckorea.com/promotion/promotionList/detail/1053 |
 | 메가MGC커피 공식 이벤트 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.mega-mgccoffee.com/bbs/board.php?bo_table=event |
 | 메가MGC커피 공식 이벤트·쿠폰 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.mega-mgccoffee.com/bbs/?bbs_category=3 |
-| 스타벅스 공식 캠페인 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.starbucks.co.kr/whats_new/campaign_list.do |
 
 ### 쇼핑몰·브랜드 쿠폰
 
@@ -112,12 +112,12 @@
 
 | 후보 | 상태 | 권장 작업 | 공식 확인 URL |
 | --- | --- | --- | --- |
+| L.POINT 공식 이벤트·포인트 혜택 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://m.lpoint.com/app/event/LWEA100110.do |
 | OK캐쉬백 공식 앱 설치·포인트 이벤트 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.okcashbag.com/event/newwelcomeback |
 | 카카오페이 공식 결제 포인트 혜택 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.kakaopay.com/services/life/payment?t_ch=main&t_src=homepage |
 | OK캐쉬백 공식 쇼핑적립 포인트 혜택 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://okcashbag.com/shopping |
+| PAYCO 공식 리워드·포인트 적립 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://m.payco.com/point/reward.nhn |
 | OK캐쉬백 공식 이벤트 혜택 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.okcashbag.com/life/event/eventHome.do |
-| 롯데하이마트 공식 L.POINT 멤버십 혜택 | guarded | 무단 수집하지 말고 브랜드/제휴 담당자 승인 JSON/RSS/API feed로 연결 | https://company.himart.co.kr/membership/intro |
-| 카카오페이 공식 멤버십·포인트 혜택 | guarded | 무단 수집하지 말고 브랜드/제휴 담당자 승인 JSON/RSS/API feed로 연결 | https://www.kakaopay.com/services/life/membership |
 
 ### 전원증정·선착순
 
@@ -126,12 +126,12 @@
 
 | 후보 | 상태 | 권장 작업 | 공식 확인 URL |
 | --- | --- | --- | --- |
+| 신세계포인트 공식 진행 이벤트 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://m.shinsegaepoint.com/ingevents |
 | LG생활건강 공식 이벤트 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.lghnh.com:984/news/event.jsp |
 | 네이버페이 공식 온라인 쿠폰함 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://pay.naver.com/coupon/home/online |
 | 맘큐 공식 신규회원 웰컴혜택 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.momq.co.kr/event/202601290003 |
 | KT 공식 요고 모바일 가입 혜택 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://shop.kt.com/unify/yogoEvent.do |
 | 맘큐 공식 육아 샘플·이벤트 목록 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.momq.co.kr/event |
-| 아모레몰 공식 이벤트·체험단 목록 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.amoremall.com/kr/ko/display/event |
 
 ### 출석체크·룰렛·미션
 
@@ -145,7 +145,7 @@
 | 해피포인트 공식 쿠폰·모바일 혜택 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.happypointcard.com/coupon/coupon.spc |
 | T멤버십 공식 매일 혜택 미션 | guarded | 무단 수집하지 말고 브랜드/제휴 담당자 승인 JSON/RSS/API feed로 연결 | https://m.tworld.co.kr/membership/submain |
 | OK캐쉬백 공식 앱 설치·포인트 이벤트 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.okcashbag.com/event/newwelcomeback |
-| 스타벅스 리워드 공식 혜택 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://www.starbucks.co.kr/msr/msreward/about.do |
+| 신세계포인트 공식 출석체크·포인트 플러스 | reachable | 공식 URL을 기준으로 담당자 승인 JSON/RSS/API feed를 만든 뒤 env에 연결 | https://m.shinsegaepoint.com/benefits/pntPlus/attend |
 
 ### 신규가입·웰컴 쿠폰
 

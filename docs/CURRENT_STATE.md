@@ -7,7 +7,7 @@
 ## 현재 기준
 
 - Branch: `codex/12h-product-ux-growth-hardening`
-- 최신 확인 HEAD: 이번 작업 커밋 기준 확인 필요. 직전 안정 커밋은 `96400505` (`docs: update current state for operations api`)
+- 최신 확인 HEAD: `82fb16e9` (`feat: surface free benefit operations dashboard`) 기준 Vercel Production 반영 확인. 이후 공식 무료혜택 소스 후보 확장 작업은 검증/커밋/push 확인 대상이다.
 - Remote: `origin/main`, `origin/codex/12h-product-ux-growth-hardening`에 반영 대상
 - 운영 URL: `https://www.halindosa.com`
 - Vercel Production Deploy: 기능 커밋 `dc7278cc` 기준 운영 `/api/health` 반영 확인. 이후 무료혜택 GitHub Actions 스케줄러와 운영 리포트 커밋은 배포/push 확인 대상이다.
@@ -42,6 +42,7 @@
 - `benefit:operations:report`는 `reports/free-benefit-operations.json`과 `docs/FREE_BENEFIT_OPERATIONS_REPORT.md`를 생성해 노출 가능한 공식 무료혜택, 제외 후보, 공식 도메인, 브랜드/출처, 오늘/이번주 마감, 검색/비공식/깨진 이미지 0건 게이트, 상위 노출 후보를 운영자가 한 파일에서 확인하게 한다.
 - `/api/admin/free-benefit-operations`와 `/api/admin/free-benefit-operations?format=csv`는 같은 무료혜택 운영 리포트를 관리자 보호 API와 CSV로 제공한다. smoke는 이 API가 공식 무료혜택 수, 공식 도메인 수, 검색/비공식/깨진 이미지 0건, 상위 후보를 유지하는지 검사한다.
 - 관리자 `/admin` 화면은 무료혜택 운영 리포트 패널을 제공한다. 운영자는 화면에서 공식 무료혜택 수, 공식 도메인/브랜드 수, 검색/비공식/깨진 이미지 0건, 오늘/이번주 마감 큐, 상위 노출 후보를 확인하고 JSON/CSV를 내려받을 수 있다.
+- 공식 무료혜택 소스 카탈로그는 메가MGC커피, PAYCO, L.POINT, 신세계포인트 공식 이벤트/리워드/출석체크 후보를 추가해 217개 후보로 확장했다. `source:catalog:report`, `source:breadth:doctor`, `source:live:doctor`, `source:readiness:report`는 검색/대표몰/비공식 CTA를 허용하지 않는 기준으로 이 후보를 검사한다.
 - 홈 무료혜택 히어로는 브랜드 키를 정규화해 같은 브랜드 샘플/쿠폰이 첫 화면에 반복 노출되는 문제를 줄인다.
 - 홈 무료혜택 히어로는 `오늘마감`과 `마감임박`을 분리하고, 공식 무료혜택 카드 16개와 즉시 수령 카드 8개를 모바일 첫 화면 우선 영역으로 노출한다.
 - 오늘마감 혜택이 0건이면 홈 대표 지표와 카테고리 바로가기에서 0건을 크게 띄우지 않고 `이번주마감` 또는 `마감임박` 혜택을 대체 노출한다. 이 정책은 `benefit:event:contract`에서 검사한다.
@@ -72,7 +73,7 @@
   - FreeBenefitEvent 기준 active official events 188개, sources 148개, hosts 109개
   - FreeBenefitEvent 평균 점수: quality 100, freshness 100, official 96, urgency 41, reward 69
   - `benefit:category:doctor` 기준 visible active benefits 193개, official hosts 111개, no-purchase 167개, 필수 카테고리 10/10 통과
-  - 공식 소스 후보 211개 이상, reachable/guarded 분리 관리
+  - 공식 소스 후보 217개 이상, reachable/guarded 분리 관리
 
 ## 최근 통과한 로컬 검증
 

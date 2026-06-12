@@ -1,6 +1,6 @@
 # 무료혜택 Feed 운영 핸드오프
 
-- 생성 시각: 2026-06-12T02:16:30.771Z
+- 생성 시각: 2026-06-12T04:05:39.513Z
 - starter lane: 13개
 - 연결 후보: 104개
 - 접근 가능 후보: 98개
@@ -92,9 +92,9 @@ npm run smoke:local
 
 ### 카페·외식 쿠폰
 
+- 메가MGC커피 공식 이벤트·제휴 혜택: https://www.mega-mgccoffee.com/bbs/?bbs_category=3&bbs_detail_category=12
 - 스타벅스 리워드 공식 혜택: https://www.starbucks.co.kr/msr/msreward/about.do
 - 요기요 공식 룰렛 쿠폰 프로모션: https://www.yogiyo.co.kr/promotion/roulette/
-- KFC 공식 딜리버리 무료배송 혜택: https://www.kfckorea.com/promotion/promotionList/detail/1053
 
 ### 쇼핑몰·브랜드 쿠폰
 
@@ -104,15 +104,15 @@ npm run smoke:local
 
 ### 페이·포인트·캐시백
 
+- L.POINT 공식 이벤트·포인트 혜택: https://m.lpoint.com/app/event/LWEA100110.do
 - OK캐쉬백 공식 앱 설치·포인트 이벤트: https://www.okcashbag.com/event/newwelcomeback
 - 카카오페이 공식 결제 포인트 혜택: https://www.kakaopay.com/services/life/payment?t_ch=main&t_src=homepage
-- OK캐쉬백 공식 쇼핑적립 포인트 혜택: https://okcashbag.com/shopping
 
 ### 전원증정·선착순
 
+- 신세계포인트 공식 진행 이벤트: https://m.shinsegaepoint.com/ingevents
 - LG생활건강 공식 이벤트: https://www.lghnh.com:984/news/event.jsp
 - 네이버페이 공식 온라인 쿠폰함: https://pay.naver.com/coupon/home/online
-- 맘큐 공식 신규회원 웰컴혜택: https://www.momq.co.kr/event/202601290003
 
 ### 출석체크·룰렛·미션
 
