@@ -654,6 +654,9 @@ Status: ${ok ? "PASS" : "BLOCKED"}
 - Cron refresh public guard: ${report.summary.cronRefreshGuardStatus}
 - Cron benefits public guard: ${report.summary.cronBenefitsGuardStatus}
 - Canonical production API contracts: ${report.summary.canonicalOriginContractPassed ? "passed" : "blocked"} (${report.summary.canonicalOriginCount} origin(s))
+- Root free-benefit visible render: ${report.summary.rootVisibleRenderOk ? "passed" : "blocked"}
+- Root official benefit links: ${report.summary.rootOfficialBenefitLinks}
+- Root claim-condition label types: ${report.summary.rootClaimConditionLabels}
 - Home product deals checked: ${report.summary.homeProductDeals}
 - Home official benefits checked: ${report.summary.homeOfficialBenefits}
 - Freebies checked: ${report.summary.freebies}
