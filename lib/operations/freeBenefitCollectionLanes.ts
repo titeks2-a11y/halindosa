@@ -15,6 +15,7 @@ export interface FreeBenefitCollectionLaneReportRow {
   id: string;
   label: string;
   envKey: string;
+  recommendedEnvKeys: string[];
   minimum: number;
   count: number;
   officialCount: number;
@@ -50,6 +51,7 @@ export interface FreeBenefitCollectionLanesReport {
     title: string;
     action: string;
     envKey: string;
+    recommendedEnvKeys: string[];
   }>;
 }
 
@@ -170,6 +172,7 @@ export function buildFreeBenefitCollectionLanesReport(referenceNow = Date.now())
       id: "officialEvents",
       label: "공식 이벤트",
       envKey: "OFFICIAL_EVENT_FEED_URLS",
+      recommendedEnvKeys: ["OFFICIAL_EVENT_FEED_URLS", "BENEFIT_REFRESH_FEED_URLS"],
       minimum: 40,
       matches: (item: BenefitRecord) => /official_event|official_benefit/i.test([item.linkType, item.source, item.provider].map(String).join(" "))
     },
@@ -177,6 +180,7 @@ export function buildFreeBenefitCollectionLanesReport(referenceNow = Date.now())
       id: "couponsMembership",
       label: "쿠폰·멤버십",
       envKey: "PUBLIC_COUPON_FEED_URLS",
+      recommendedEnvKeys: ["PUBLIC_COUPON_FEED_URLS", "BENEFIT_REFRESH_FEED_URLS"],
       minimum: 25,
       matches: (item: BenefitRecord) => /쿠폰|멤버십|회원|웰컴|신규|가입|롯데잇츠|해피포인트|CJ\s*ONE|H\.?Point|L\.?POINT/i.test(textOf(item))
     },
@@ -184,6 +188,7 @@ export function buildFreeBenefitCollectionLanesReport(referenceNow = Date.now())
       id: "convenienceMart",
       label: "편의점·마트",
       envKey: "CONVENIENCE_BENEFIT_FEED_URLS",
+      recommendedEnvKeys: ["CONVENIENCE_BENEFIT_FEED_URLS", "OFFICIAL_EVENT_FEED_URLS", "BENEFIT_REFRESH_FEED_URLS"],
       minimum: 8,
       matches: (item: BenefitRecord) => /GS25|CU|세븐일레븐|이마트24|편의점|마트|홈플러스|이마트|롯데마트|SSG|몰리스|다이소/i.test(textOf(item))
     },
@@ -191,6 +196,7 @@ export function buildFreeBenefitCollectionLanesReport(referenceNow = Date.now())
       id: "samplesTrials",
       label: "샘플·무료체험",
       envKey: "BEAUTY_SAMPLE_FEED_URLS",
+      recommendedEnvKeys: ["BEAUTY_SAMPLE_FEED_URLS", "PUBLIC_COUPON_FEED_URLS", "BENEFIT_REFRESH_FEED_URLS"],
       minimum: 6,
       matches: (item: BenefitRecord) => /샘플|체험|무료체험|체험팩|키트|아모레|올리브영|닥터지|라운드랩|로얄캐닌|반려동물/i.test(textOf(item))
     },
@@ -198,27 +204,31 @@ export function buildFreeBenefitCollectionLanesReport(referenceNow = Date.now())
       id: "pointsCashback",
       label: "포인트·캐시백",
       envKey: "PAY_POINT_BENEFIT_FEED_URLS",
+      recommendedEnvKeys: ["PAY_POINT_BENEFIT_FEED_URLS", "PUBLIC_COUPON_FEED_URLS", "BENEFIT_REFRESH_FEED_URLS"],
       minimum: 12,
       matches: (item: BenefitRecord) => /포인트|캐시백|페이|pay|토스|카카오페이|네이버페이|PAYCO|OK캐쉬백|신세계포인트|L\.?POINT/i.test(textOf(item))
     },
     {
       id: "deliveryFood",
       label: "배달·외식",
-      envKey: "DELIVERY_FOOD_COUPON_FEED_URLS",
+      envKey: "CAFE_FRANCHISE_COUPON_FEED_URLS",
+      recommendedEnvKeys: ["CAFE_FRANCHISE_COUPON_FEED_URLS", "PUBLIC_COUPON_FEED_URLS", "BENEFIT_REFRESH_FEED_URLS"],
       minimum: 10,
       matches: (item: BenefitRecord) => /배민|요기요|쿠팡이츠|롯데잇츠|스타벅스|투썸|이디야|메가|할리스|배스킨|던킨|카페|외식|커피/i.test(textOf(item))
     },
     {
       id: "shippingZero",
       label: "무료배송",
-      envKey: "FREE_SHIPPING_FEED_URLS",
+      envKey: "BENEFIT_REFRESH_FEED_URLS",
+      recommendedEnvKeys: ["BENEFIT_REFRESH_FEED_URLS", "OFFICIAL_EVENT_FEED_URLS", "PUBLIC_COUPON_FEED_URLS"],
       minimum: 4,
       matches: (item: BenefitRecord) => /무료배송|무배|배송비\s*0|배송비\s*무료/i.test(textOf(item))
     },
     {
       id: "deadline",
       label: "오늘·이번주 마감",
-      envKey: "DEADLINE_EVENT_FEED_URLS",
+      envKey: "OFFICIAL_EVENT_FEED_URLS",
+      recommendedEnvKeys: ["OFFICIAL_EVENT_FEED_URLS", "BENEFIT_REFRESH_FEED_URLS", "PUBLIC_COUPON_FEED_URLS"],
       minimum: 1,
       matches: (item: BenefitRecord) => deadlineHours(item, referenceNow) >= 0 && deadlineHours(item, referenceNow) <= 7 * 24
     }
@@ -248,6 +258,7 @@ export function buildFreeBenefitCollectionLanesReport(referenceNow = Date.now())
       id: lane.id,
       label: lane.label,
       envKey: lane.envKey,
+      recommendedEnvKeys: lane.recommendedEnvKeys,
       minimum: lane.minimum,
       count: items.length,
       officialCount: items.filter((item) => stringValue(item.linkType).startsWith("official")).length,
@@ -258,8 +269,8 @@ export function buildFreeBenefitCollectionLanesReport(referenceNow = Date.now())
         status === "healthy"
           ? "현재 홈·카테고리 노출에 충분합니다."
           : status === "thin"
-            ? `${lane.envKey}에 공식 이벤트/쿠폰 URL을 추가해 수집폭을 보강하세요.`
-            : `${lane.envKey}가 비었습니다. 공식 이벤트 feed 또는 seed 후보를 우선 연결하세요.`,
+            ? `${lane.recommendedEnvKeys.join(" 또는 ")}에 공식 이벤트/쿠폰 URL을 추가해 수집폭을 보강하세요.`
+            : `${lane.recommendedEnvKeys.join(" 또는 ")}가 비었습니다. 공식 이벤트 feed 또는 seed 후보를 우선 연결하세요.`,
       topBrands: countTop(items, getBrand),
       topBenefitTypes: countTop(items, (item) => benefitLabel(item.benefitType)),
       topCandidates: items
@@ -304,15 +315,16 @@ export function buildFreeBenefitCollectionLanesReport(referenceNow = Date.now())
         priority: lane.status === "empty" ? "high" : "medium",
         title: `${lane.label} 수집축 보강`,
         action: lane.action,
-        envKey: lane.envKey
+        envKey: lane.envKey,
+        recommendedEnvKeys: lane.recommendedEnvKeys
       }))
   };
 }
 
 export function buildFreeBenefitCollectionLanesCsv(report: FreeBenefitCollectionLanesReport) {
   const lines = [
-    "\uFEFFsection,id,label,status,count,minimum,officialCount,noPurchaseCount,verifiedCount,envKey,action",
-    `summary,total,전체,${report.ok ? "passed" : "needs_review"},${report.summary.consumerVisibleItems},120,${report.summary.visibleOfficialItems},,,${report.source},${report.generatedAt}`,
+    "\uFEFFsection,id,label,status,count,minimum,officialCount,noPurchaseCount,verifiedCount,envKey,recommendedEnvKeys,action",
+    `summary,total,전체,${report.ok ? "passed" : "needs_review"},${report.summary.consumerVisibleItems},120,${report.summary.visibleOfficialItems},,,${report.source},,${report.generatedAt}`,
     ...report.lanes.map((lane) =>
       [
         "lane",
@@ -325,6 +337,7 @@ export function buildFreeBenefitCollectionLanesCsv(report: FreeBenefitCollection
         lane.noPurchaseCount,
         lane.verifiedCount,
         lane.envKey,
+        lane.recommendedEnvKeys.join(" | "),
         lane.action
       ]
         .map((value) => `"${String(value ?? "").replace(/"/g, '""')}"`)

@@ -218,6 +218,8 @@ export async function checkOperationalDataSurfaces() {
     : "";
   const freeBenefitEventTypes = await text("types/freeBenefitEvent.ts");
   const freeBenefitEventsLib = await text("lib/freeBenefitEvents.ts");
+  const freeBenefitCollectionLanes = await text("lib/operations/freeBenefitCollectionLanes.ts");
+  const freeBenefitCollectionLanesReportScript = await text("scripts/free-benefit-collection-lanes-report.mjs");
   const benefitEventsRoute = await text("app/api/benefits/events/route.ts");
   const freeBenefitEventContractScript = await text("scripts/free-benefit-event-contract-doctor.mjs");
   const freeBenefitEventContractDoc = existsSync(join(root, "docs/FREE_BENEFIT_EVENT_CONTRACT.md"))
@@ -795,6 +797,15 @@ export async function checkOperationalDataSurfaces() {
     !healthRoute.includes("buildFreeBenefitEventRuntimeReadiness") ||
     !healthRoute.includes("freeBenefitCollectionLaneOk") ||
     !healthRoute.includes("freeBenefitCollectionLaneStatuses") ||
+    !freeBenefitCollectionLanes.includes("recommendedEnvKeys") ||
+    !freeBenefitCollectionLanesReportScript.includes("recommendedEnvKeys") ||
+    !freeBenefitCollectionLanes.includes("CAFE_FRANCHISE_COUPON_FEED_URLS") ||
+    freeBenefitCollectionLanes.includes("DELIVERY_FOOD_COUPON_FEED_URLS") ||
+    freeBenefitCollectionLanes.includes("FREE_SHIPPING_FEED_URLS") ||
+    freeBenefitCollectionLanes.includes("DEADLINE_EVENT_FEED_URLS") ||
+    freeBenefitCollectionLanesReportScript.includes("DELIVERY_FOOD_COUPON_FEED_URLS") ||
+    freeBenefitCollectionLanesReportScript.includes("FREE_SHIPPING_FEED_URLS") ||
+    freeBenefitCollectionLanesReportScript.includes("DEADLINE_EVENT_FEED_URLS") ||
     !analytics.includes("operationalEnvReadiness") ||
     !envReadiness.includes("getOperationalEnvReadiness") ||
     !envReadiness.includes("NEXT_PUBLIC_SITE_URL") ||

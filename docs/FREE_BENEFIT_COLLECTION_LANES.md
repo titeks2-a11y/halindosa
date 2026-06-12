@@ -1,6 +1,6 @@
 # 무료혜택 수집축 리포트
 
-Generated: 2026-06-12T17:04:01.823Z
+Generated: 2026-06-12T18:01:34.438Z
 
 Status: PASS
 
@@ -18,16 +18,16 @@ Status: PASS
 
 ## 수집축 상태
 
-| 수집축 | 상태 | 개수 | 최소 기준 | 공식 | 구매조건 낮음 | Env key | 다음 액션 |
-| --- | --- | ---: | ---: | ---: | ---: | --- | --- |
-| 공식 이벤트 | healthy | 43 | 40 | 43 | 39 | `OFFICIAL_EVENT_FEED_URLS` | 현재 홈·카테고리 노출에 충분합니다. |
-| 쿠폰·멤버십 | healthy | 136 | 25 | 136 | 116 | `PUBLIC_COUPON_FEED_URLS` | 현재 홈·카테고리 노출에 충분합니다. |
-| 편의점·마트 | healthy | 27 | 8 | 27 | 21 | `CONVENIENCE_BENEFIT_FEED_URLS` | 현재 홈·카테고리 노출에 충분합니다. |
-| 샘플·무료체험 | healthy | 22 | 6 | 22 | 21 | `BEAUTY_SAMPLE_FEED_URLS` | 현재 홈·카테고리 노출에 충분합니다. |
-| 포인트·캐시백 | healthy | 127 | 12 | 127 | 107 | `PAY_POINT_BENEFIT_FEED_URLS` | 현재 홈·카테고리 노출에 충분합니다. |
-| 배달·외식 | healthy | 42 | 10 | 42 | 37 | `DELIVERY_FOOD_COUPON_FEED_URLS` | 현재 홈·카테고리 노출에 충분합니다. |
-| 무료배송 | healthy | 10 | 4 | 10 | 7 | `FREE_SHIPPING_FEED_URLS` | 현재 홈·카테고리 노출에 충분합니다. |
-| 오늘·이번주 마감 | healthy | 1 | 1 | 1 | 0 | `DEADLINE_EVENT_FEED_URLS` | 현재 홈·카테고리 노출에 충분합니다. |
+| 수집축 | 상태 | 개수 | 최소 기준 | 공식 | 구매조건 낮음 | 대표 Env key | 대체 권장 Env keys | 다음 액션 |
+| --- | --- | ---: | ---: | ---: | ---: | --- | --- | --- |
+| 공식 이벤트 | healthy | 43 | 40 | 43 | 39 | `OFFICIAL_EVENT_FEED_URLS` | `OFFICIAL_EVENT_FEED_URLS`<br>`BENEFIT_REFRESH_FEED_URLS` | 현재 홈·카테고리 노출에 충분합니다. |
+| 쿠폰·멤버십 | healthy | 136 | 25 | 136 | 116 | `PUBLIC_COUPON_FEED_URLS` | `PUBLIC_COUPON_FEED_URLS`<br>`BENEFIT_REFRESH_FEED_URLS` | 현재 홈·카테고리 노출에 충분합니다. |
+| 편의점·마트 | healthy | 27 | 8 | 27 | 21 | `CONVENIENCE_BENEFIT_FEED_URLS` | `CONVENIENCE_BENEFIT_FEED_URLS`<br>`OFFICIAL_EVENT_FEED_URLS`<br>`BENEFIT_REFRESH_FEED_URLS` | 현재 홈·카테고리 노출에 충분합니다. |
+| 샘플·무료체험 | healthy | 22 | 6 | 22 | 21 | `BEAUTY_SAMPLE_FEED_URLS` | `BEAUTY_SAMPLE_FEED_URLS`<br>`PUBLIC_COUPON_FEED_URLS`<br>`BENEFIT_REFRESH_FEED_URLS` | 현재 홈·카테고리 노출에 충분합니다. |
+| 포인트·캐시백 | healthy | 127 | 12 | 127 | 107 | `PAY_POINT_BENEFIT_FEED_URLS` | `PAY_POINT_BENEFIT_FEED_URLS`<br>`PUBLIC_COUPON_FEED_URLS`<br>`BENEFIT_REFRESH_FEED_URLS` | 현재 홈·카테고리 노출에 충분합니다. |
+| 배달·외식 | healthy | 42 | 10 | 42 | 37 | `CAFE_FRANCHISE_COUPON_FEED_URLS` | `CAFE_FRANCHISE_COUPON_FEED_URLS`<br>`PUBLIC_COUPON_FEED_URLS`<br>`BENEFIT_REFRESH_FEED_URLS` | 현재 홈·카테고리 노출에 충분합니다. |
+| 무료배송 | healthy | 10 | 4 | 10 | 7 | `BENEFIT_REFRESH_FEED_URLS` | `BENEFIT_REFRESH_FEED_URLS`<br>`OFFICIAL_EVENT_FEED_URLS`<br>`PUBLIC_COUPON_FEED_URLS` | 현재 홈·카테고리 노출에 충분합니다. |
+| 오늘·이번주 마감 | healthy | 1 | 1 | 1 | 0 | `OFFICIAL_EVENT_FEED_URLS` | `OFFICIAL_EVENT_FEED_URLS`<br>`BENEFIT_REFRESH_FEED_URLS`<br>`PUBLIC_COUPON_FEED_URLS` | 현재 홈·카테고리 노출에 충분합니다. |
 
 ## 상위 후보
 
