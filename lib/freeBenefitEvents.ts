@@ -176,6 +176,36 @@ export function getBenefitEventSourceDomain(value?: string) {
   }
 }
 
+function normalizeBenefitEventUrlKey(value?: string) {
+  if (!value) return "";
+
+  try {
+    const url = new URL(value);
+    const removableParams = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content", "fbclid", "gclid", "igshid"];
+    for (const param of removableParams) url.searchParams.delete(param);
+    url.hash = "";
+    url.hostname = url.hostname.replace(/^www\./, "").toLowerCase();
+    url.pathname = url.pathname.replace(/\/+$/, "") || "/";
+    url.searchParams.sort();
+    return url.toString().toLowerCase();
+  } catch {
+    return String(value ?? "").toLowerCase().replace(/[#?].*$/, "").replace(/\/+$/, "");
+  }
+}
+
+function buildFreeBenefitEventDedupeKey(event: FreeBenefitEvent) {
+  const normalizedUrl = normalizeBenefitEventUrlKey(event.finalUrl || event.officialUrl || event.eventUrl);
+  const domain = getBenefitEventSourceDomain(normalizedUrl || event.finalUrl || event.officialUrl || event.eventUrl);
+  return [
+    event.brandName.toLowerCase().replace(/\s+/g, ""),
+    normalizeBenefitTitle(event.title),
+    domain,
+    event.benefitType,
+    event.endAt.slice(0, 10),
+    normalizedUrl
+  ].join("|");
+}
+
 function inferEventType(deal: NewsDeal, text: string): FreeBenefitEventType {
   if (everyoneRewardPattern.test(text)) return "everyone";
   if (firstComePattern.test(text)) return "firstCome";
@@ -612,8 +642,7 @@ export function buildFreeBenefitEvents(deals: NewsDeal[], referenceNow = Date.no
 
   for (const deal of deals) {
     const event = toFreeBenefitEvent(deal, referenceNow);
-    const urlKey = event.finalUrl ? new URL(event.finalUrl).toString().replace(/utm_[^=&]+=[^&]+&?/g, "") : event.eventUrl;
-    const key = [event.brandName, normalizeBenefitTitle(event.title), urlKey, event.endAt.slice(0, 10)].join("|").toLowerCase();
+    const key = buildFreeBenefitEventDedupeKey(event);
     const current = deduped.get(key);
     if (!current || event.qualityScore + event.priorityScore > current.qualityScore + current.priorityScore) {
       deduped.set(key, event);

@@ -240,12 +240,16 @@ const checks = [
     "Publishable gate must require active, passed, visible, safe final URL, unexpired, and quality score."
   ),
   check(
-    "event dedupe uses brand title URL and end date",
+    "event dedupe uses brand title domain reward type URL and end date",
     normalizerSource.includes("new Map<string, FreeBenefitEvent>()") &&
+      normalizerSource.includes("normalizeBenefitEventUrlKey") &&
+      normalizerSource.includes("buildFreeBenefitEventDedupeKey") &&
       normalizerSource.includes("normalizeBenefitTitle(event.title)") &&
+      normalizerSource.includes("event.benefitType") &&
+      normalizerSource.includes("getBenefitEventSourceDomain") &&
       normalizerSource.includes("event.endAt.slice(0, 10)") &&
       normalizerSource.includes("deduped.set(key, event)"),
-    "Deduplication should merge same brand/title/url/end-date events before publishing."
+    "Deduplication should merge same brand/title/domain/reward-type/normalized-url/end-date events before publishing."
   ),
   check(
     "benefits events API is runtime no-store",

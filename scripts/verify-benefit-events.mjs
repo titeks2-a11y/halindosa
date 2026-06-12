@@ -58,6 +58,44 @@ function normalizeHost(host) {
   return String(host ?? "").replace(/^www\./, "").toLowerCase();
 }
 
+function normalizeUrlKey(value) {
+  if (!value) return "";
+
+  try {
+    const url = new URL(value);
+    for (const param of ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content", "fbclid", "gclid", "igshid"]) {
+      url.searchParams.delete(param);
+    }
+    url.hash = "";
+    url.hostname = normalizeHost(url.hostname);
+    url.pathname = url.pathname.replace(/\/+$/, "") || "/";
+    url.searchParams.sort();
+    return url.toString().toLowerCase();
+  } catch {
+    return String(value ?? "").toLowerCase().replace(/[#?].*$/, "").replace(/\/+$/, "");
+  }
+}
+
+function hostFromUrlKey(value) {
+  try {
+    return normalizeHost(new URL(value).hostname);
+  } catch {
+    return "";
+  }
+}
+
+function buildDedupeKey(event) {
+  const normalizedUrl = normalizeUrlKey(event.finalUrl || event.officialUrl || event.eventUrl);
+  return [
+    event.brandName.toLowerCase().replace(/\s+/g, ""),
+    normalizeTitle(event.title),
+    event.host || hostFromUrlKey(normalizedUrl || event.finalUrl || event.officialUrl || event.eventUrl),
+    event.benefitType,
+    String(event.endAt).slice(0, 10),
+    normalizedUrl
+  ].join("|");
+}
+
 function readAllowedHosts() {
   const catalog = readJson(join(root, "data", "officialSourceCatalog.json"), []);
   return new Set(
@@ -211,7 +249,7 @@ const candidates = rawDeals.map((deal) => toEvent(deal, allowedHosts, now));
 const dedupedMap = new Map();
 
 for (const event of candidates) {
-  const key = [event.brandName, normalizeTitle(event.title), event.finalUrl || event.eventUrl, String(event.endAt).slice(0, 10)].join("|").toLowerCase();
+  const key = buildDedupeKey(event).toLowerCase();
   const current = dedupedMap.get(key);
   if (!current || event.qualityScore + event.priorityScore > current.qualityScore + current.priorityScore) dedupedMap.set(key, event);
 }
