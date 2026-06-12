@@ -287,6 +287,21 @@ checks.push(
     ? pass("root security headers", "Production HTML response includes CSP, HSTS, frame, MIME, referrer, and permissions headers.")
     : fail("root security headers", "Production HTML response is missing one or more required security headers.")
 );
+const rootHtml = probes.root.text;
+const rootOfficialBenefitLinks = (rootHtml.match(/href="\/go\/news\//g) ?? []).length;
+const rootClaimConditionLabels = ["쿠폰 받기", "무료 혜택", "샘플 신청", "무료체험", "기프티콘", "포인트 적립", "가입 혜택", "조건 확인"].filter((label) =>
+  rootHtml.includes(label)
+);
+checks.push(
+  rootHtml.includes("무료혜택 메인") && rootHtml.includes("실시간 검증됨") && rootOfficialBenefitLinks >= 3
+    ? pass("root free benefit hero", `Production homepage renders the free-benefit-first hero with ${rootOfficialBenefitLinks} official benefit links.`)
+    : fail("root free benefit hero", "Production homepage should render the free-benefit-first hero, realtime verification copy, and /go/news official benefit links.")
+);
+checks.push(
+  rootHtml.includes("검증 ") && rootClaimConditionLabels.length >= 1
+    ? pass("root free benefit claim badges", `Production homepage renders visible verification time and claim-condition labels: ${rootClaimConditionLabels.join(", ")}.`)
+    : fail("root free benefit claim badges", "Production homepage should show visible verification time and customer-facing claim-condition labels on official benefit cards.")
+);
 
 probes.homeApi = await fetchText(apiHomePath);
 const homeJson = parseJsonProbe(probes.homeApi);
@@ -558,6 +573,8 @@ const report = {
     cronBenefitsGuardStatus: probes.cronBenefitsGuard.status,
     canonicalOriginCount: probes.canonicalOriginApis.rows.length,
     canonicalOriginContractPassed: probes.canonicalOriginApis.ok,
+    rootOfficialBenefitLinks,
+    rootClaimConditionLabels: rootClaimConditionLabels.length,
     homeProductDeals: homeDeals.length,
     homeOfficialBenefits: homeNewsDeals.length,
     freebies: freebies.length,
