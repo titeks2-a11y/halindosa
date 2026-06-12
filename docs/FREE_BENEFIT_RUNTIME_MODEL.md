@@ -1,6 +1,6 @@
 # 무료혜택 런타임 모델 점검
 
-- 생성 시각: 2026-06-12T07:13:35.071Z
+- 생성 시각: 2026-06-12T11:53:31.520Z
 - 상태: PASS
 - 후보 이벤트: 197개
 - active 이벤트: 188개
@@ -10,6 +10,9 @@
 - 필드 누락 실패: 0개
 - 검색/커뮤니티 링크 active 노출: 0개
 - 만료 active 이벤트: 0개
+- 공식 URL 오류: 0개
+- 이벤트 URL 오류: 0개
+- 점수 필드 오류: 0개
 
 ## 필수 런타임 필드
 
@@ -28,11 +31,18 @@
 - `isOfficial`
 - `isFree`
 - `isVerified`
+- `validationStatus`
 - `qualityScore`
 - `freshnessScore`
+- `officialScore`
+- `urgencyScore`
+- `rewardScore`
 - `lastCheckedAt`
 - `createdAt`
 - `tags`
+- `eventUrl`
+- `finalUrl`
+- `sourceDomain`
 
 ## 혜택 유형별 active 수
 

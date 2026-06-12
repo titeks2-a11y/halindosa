@@ -22,11 +22,18 @@ const requiredCanonicalFields = [
   "isOfficial",
   "isFree",
   "isVerified",
+  "validationStatus",
   "qualityScore",
   "freshnessScore",
+  "officialScore",
+  "urgencyScore",
+  "rewardScore",
   "lastCheckedAt",
   "createdAt",
-  "tags"
+  "tags",
+  "eventUrl",
+  "finalUrl",
+  "sourceDomain"
 ];
 
 const blockedUrlPattern = /\/search|search\?|query=|keyword=|shopping\/search|msearch|\/find|\/result|ppomppu|fmkorea|quasarzone|algumon|blog\.naver|news\.naver|v\.daum|news\.daum|youtube/i;
@@ -116,6 +123,33 @@ function freshnessScore(deal, now) {
   return 25;
 }
 
+function officialScore(deal, finalUrl) {
+  if (!finalUrl) return 0;
+  if (String(deal.linkType || "").startsWith("official")) return 100;
+  if (deal.provider === "official_event" || deal.provider === "public_coupon") return 96;
+  return 70;
+}
+
+function urgencyScore(deal, now) {
+  const endTime = Date.parse(String(deal.expiresAt || deal.endDate || ""));
+  if (!Number.isFinite(endTime)) return 35;
+  const hoursLeft = Math.max(0, (endTime - now) / 3_600_000);
+  if (hoursLeft <= 24) return 100;
+  if (hoursLeft <= 72) return 86;
+  if (hoursLeft <= 168) return 72;
+  if (hoursLeft <= 336) return 56;
+  return 35;
+}
+
+function rewardScore(deal) {
+  const text = [deal.title, deal.summary, deal.category, deal.benefitType, deal.tags?.join(" ")].join(" ");
+  let score = 55;
+  if (/전원|누구나|100%|무료\s*증정/i.test(text)) score += 20;
+  if (/쿠폰|기프티콘|포인트|캐시백|샘플|무료\s*체험|출석|룰렛/i.test(text)) score += 15;
+  if (/구매|결제|카드\s*발급|연회비/i.test(text)) score -= 18;
+  return Math.max(0, Math.min(100, score));
+}
+
 function toRuntimeEvent(deal, now) {
   const text = [deal.title, deal.summary, deal.category, deal.sourceName, deal.tags?.join(" ")].join(" ");
   const endTime = Date.parse(String(deal.expiresAt || deal.endDate || ""));
@@ -143,13 +177,18 @@ function toRuntimeEvent(deal, now) {
     endDate: String(deal.expiresAt || deal.endDate || ""),
     sourceUrl: String(deal.sourceUrl || deal.eventUrl || finalUrl || ""),
     officialUrl: String(deal.sourceUrl || finalUrl || ""),
+    eventUrl: String(deal.eventUrl || deal.sourceUrl || finalUrl || ""),
     imageUrl: String(deal.imageUrl || ""),
     status,
     isOfficial: String(deal.linkType || "").startsWith("official") || deal.provider === "official_event" || deal.provider === "public_coupon",
     isFree: !purchaseRequiredPattern.test(text),
     isVerified: deal.validationStatus === "passed" && status === "active",
+    validationStatus: String(deal.validationStatus || "unknown"),
     qualityScore: Number(deal.qualityScore ?? 0),
     freshnessScore: freshnessScore(deal, now),
+    officialScore: officialScore(deal, finalUrl),
+    urgencyScore: urgencyScore(deal, now),
+    rewardScore: rewardScore(deal),
     lastCheckedAt: String(deal.verifiedAt || deal.lastCheckedAt || deal.updatedAt || ""),
     createdAt: String(deal.updatedAt || deal.startDate || ""),
     tags: Array.isArray(deal.tags) ? deal.tags.map((tag) => sanitize(tag, 30)).filter(Boolean) : [],
@@ -193,6 +232,14 @@ const expiredActiveEvents = activeEvents.filter((event) => {
   const endTime = Date.parse(event.endDate);
   return Number.isFinite(endTime) && endTime < now;
 });
+const badOfficialUrlEvents = activeEvents.filter((event) => !isHttpUrl(event.officialUrl) || blockedUrlPattern.test(event.officialUrl));
+const badEventUrlEvents = activeEvents.filter((event) => !isHttpUrl(event.eventUrl) || blockedUrlPattern.test(event.eventUrl));
+const scoreFieldFailures = activeEvents.filter((event) =>
+  ["qualityScore", "freshnessScore", "officialScore", "urgencyScore", "rewardScore"].some((field) => {
+    const value = Number(event[field]);
+    return !Number.isFinite(value) || value < 0 || value > 100;
+  })
+);
 const officialRate = activeEvents.length
   ? Math.round((activeEvents.filter((event) => event.isOfficial).length / activeEvents.length) * 100)
   : 0;
@@ -204,6 +251,9 @@ const ok =
   failures.length === 0 &&
   blockedSearchLinks.length === 0 &&
   expiredActiveEvents.length === 0 &&
+  badOfficialUrlEvents.length === 0 &&
+  badEventUrlEvents.length === 0 &&
+  scoreFieldFailures.length === 0 &&
   officialRate >= 95 &&
   lowFrictionCount >= 50 &&
   consumerActiveEvents.length >= 80;
@@ -221,6 +271,9 @@ const report = {
   missingFieldFailureCount: failures.length,
   blockedSearchLinkCount: blockedSearchLinks.length,
   expiredActiveEventCount: expiredActiveEvents.length,
+  badOfficialUrlCount: badOfficialUrlEvents.length,
+  badEventUrlCount: badEventUrlEvents.length,
+  scoreFieldFailureCount: scoreFieldFailures.length,
   benefitTypeCounts: countBy(activeEvents, (event) => event.benefitType),
   sourceDomainCounts: countBy(activeEvents, (event) => event.sourceDomain),
   fieldFailures: failures.slice(0, 20).map((row) => ({
@@ -236,7 +289,10 @@ const report = {
     sourceDomain: event.sourceDomain,
     endDate: event.endDate,
     qualityScore: event.qualityScore,
-    freshnessScore: event.freshnessScore
+    freshnessScore: event.freshnessScore,
+    officialScore: event.officialScore,
+    urgencyScore: event.urgencyScore,
+    rewardScore: event.rewardScore
   }))
 };
 
@@ -253,6 +309,9 @@ const docs = [
   `- 필드 누락 실패: ${report.missingFieldFailureCount}개`,
   `- 검색/커뮤니티 링크 active 노출: ${report.blockedSearchLinkCount}개`,
   `- 만료 active 이벤트: ${report.expiredActiveEventCount}개`,
+  `- 공식 URL 오류: ${report.badOfficialUrlCount}개`,
+  `- 이벤트 URL 오류: ${report.badEventUrlCount}개`,
+  `- 점수 필드 오류: ${report.scoreFieldFailureCount}개`,
   "",
   "## 필수 런타임 필드",
   "",
