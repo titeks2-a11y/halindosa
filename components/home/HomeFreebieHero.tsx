@@ -370,18 +370,18 @@ export function HomeFreebieHero({
     .slice(0, 10);
   const fallbackRequiredCategoryChips = requiredCategoryChips.length
     ? []
-    : eventCategoryCounts
-        .filter((category) => category.id !== "all" && category.count > 0)
-        .map((category) => {
-          const quickFilter = heroQuickFilters.find((filter) => filter.eventType === category.id);
+    : heroQuickFilters
+        .map((filter) => {
+          const count = getHeroQuickFilterCount(filter);
           return {
-            id: category.id,
-            label: category.label,
-            count: category.count,
+            id: filter.eventType ?? filter.label,
+            label: filter.label,
+            count: Number(count ?? 0),
             ok: true,
-            href: quickFilter?.href ?? `/free-benefits?eventType=${encodeURIComponent(category.id)}`
+            href: filter.href
           };
         })
+        .filter((category) => category.count > 0)
         .slice(0, 10);
   const visibleRequiredCategoryChips = requiredCategoryChips.length ? requiredCategoryChips : fallbackRequiredCategoryChips;
 
