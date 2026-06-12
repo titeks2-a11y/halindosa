@@ -7,11 +7,11 @@
 ## 현재 기준
 
 - Branch: `codex/12h-product-ux-growth-hardening`
-- 최신 확인 HEAD: `f32397ac` (`docs: refresh lane feed deployment evidence`)
+- 최신 확인 HEAD: `81745f65` (`ci: add protected benefit refresh scheduler`)
 - Remote: `origin/main`, `origin/codex/12h-product-ux-growth-hardening`에 반영 대상
 - 운영 URL: `https://www.halindosa.com`
-- Vercel Production Deploy: 기능 커밋 `dc7278cc` 기준 운영 `/api/health` 반영 확인. 문서 커밋 `f32397ac`는 코드 변경이 없으며 push 완료.
-- GitHub CI: 최신 `main`/`codex/12h-product-ux-growth-hardening` push 완료. 운영 기능 상태는 `dc7278cc` 기준 확인.
+- Vercel Production Deploy: 기능 커밋 `dc7278cc` 기준 운영 `/api/health` 반영 확인. 이후 무료혜택 GitHub Actions 스케줄러 커밋 `81745f65`는 배포/push 확인 대상이다.
+- GitHub CI: 최신 `main`/`codex/12h-product-ux-growth-hardening` push 대상. 운영 기능 상태는 `dc7278cc` 기준 확인.
 - 로컬 최신 홈페이지: `http://127.0.0.1:3000/?verifiedOnly=true`
 - 운영 API 최신 계약 확인:
   - `/api/home?limit=1&verifiedOnly=true`: HTTP 200
@@ -38,6 +38,7 @@
 - QA 파이프라인은 중복 실행을 제거해 71개 핵심 게이트로 정리했다. 개별 품질 기준은 유지한다.
 - `/api/home`과 `/api/health`가 비밀이 아닌 deployment commit metadata를 반환한다. `vercel:doctor`는 `REQUIRE_DEPLOY_COMMIT=true`일 때 운영 도메인이 최신 커밋을 실제로 서빙하지 않으면 실패한다.
 - `/api/health`는 무료혜택 feed 전환 추천 키를 lane별로 노출한다. 현재 운영 응답은 `OFFICIAL_EVENT_FEED_URLS`, `PUBLIC_COUPON_FEED_URLS`, `TELECOM_MEMBERSHIP_FEED_URLS`, `CONVENIENCE_BENEFIT_FEED_URLS`, `BEAUTY_SAMPLE_FEED_URLS`, `CAFE_FRANCHISE_COUPON_FEED_URLS`, `PAY_POINT_BENEFIT_FEED_URLS` 등을 포함한다.
+- GitHub Actions `Benefit Refresh Scheduler`는 `CRON_SECRET` 또는 `HALINDOSA_CRON_SECRET` repository secret이 있으면 30분마다 `/api/cron/benefits`를 호출하고, 정각에는 `/api/cron/refresh?mode=liveFeed`를 호출한다. Vercel Hobby의 daily cron은 유지한다.
 - 홈 무료혜택 히어로는 브랜드 키를 정규화해 같은 브랜드 샘플/쿠폰이 첫 화면에 반복 노출되는 문제를 줄인다.
 - 홈 무료혜택 히어로는 `오늘마감`과 `마감임박`을 분리하고, 공식 무료혜택 카드 16개와 즉시 수령 카드 8개를 모바일 첫 화면 우선 영역으로 노출한다.
 - 오늘마감 혜택이 0건이면 홈 대표 지표와 카테고리 바로가기에서 0건을 크게 띄우지 않고 `이번주마감` 또는 `마감임박` 혜택을 대체 노출한다. 이 정책은 `benefit:event:contract`에서 검사한다.
