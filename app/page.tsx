@@ -165,6 +165,11 @@ export default function Page() {
   const sourceCount = new Set(allBenefits.map((deal) => deal.officialHost || deal.sourceName)).size;
   const summary = buildHomeFreebieSummary(allBenefits);
   const freshness = newsResult.freshnessAgeMinutes === null ? "최근 확인" : `${newsResult.freshnessAgeMinutes}분 전 확인`;
+  const endingTodayCount = allBenefits.filter(isEndingToday).length;
+  const endingThisWeekCount = allBenefits.filter(isEndingThisWeek).length;
+  const todayDeadlineChip = { label: "오늘마감", value: endingTodayCount, href: "/free-benefits?deadline=today" };
+  const weekDeadlineChip = { label: "이번주마감", value: endingThisWeekCount, href: "/free-benefits?deadline=week" };
+  const soonDeadlineChip = { label: "마감임박", value: endingBenefits.length, href: "/free-benefits?deadline=soon" };
 
   const chips = [
     { label: "전원증정", value: allBenefits.filter((deal) => /전원|증정/.test([deal.title, deal.summary, ...deal.tags].join(" "))).length, href: "/free-benefits?eventType=everyone" },
@@ -175,9 +180,8 @@ export default function Page() {
     { label: "포인트", value: statByType(allBenefits, "point"), href: "/free-benefits?eventType=pointCashback" },
     { label: "무료체험", value: allBenefits.filter((deal) => /무료\s*체험|체험단|체험팩/.test([deal.title, deal.summary, ...deal.tags].join(" "))).length, href: "/free-benefits?eventType=freeTrial" },
     { label: "무배", value: statByType(allBenefits, "freeShipping"), href: "/free-benefits?eventType=freeShipping" },
-    { label: "오늘마감", value: allBenefits.filter(isEndingToday).length, href: "/free-benefits?deadline=today" },
-    { label: "이번주마감", value: allBenefits.filter(isEndingThisWeek).length, href: "/free-benefits?deadline=week" }
-  ];
+    ...(todayDeadlineChip.value > 0 ? [todayDeadlineChip, weekDeadlineChip] : [weekDeadlineChip, soonDeadlineChip])
+  ].filter((chip) => chip.value > 0);
 
   return (
     <div className="min-h-screen bg-slate-50/70 pb-[calc(5rem+env(safe-area-inset-bottom))]">

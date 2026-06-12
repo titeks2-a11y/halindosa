@@ -335,12 +335,18 @@ export function HomeFreebieHero({
       };
     })
     .filter((lane) => lane.count > 0);
+  const deadlineQuickStat =
+    endingTodayEventCount > 0
+      ? { label: "오늘마감", value: endingTodayEventCount, className: "bg-rose-50 text-rose-700" }
+      : endingThisWeekEventCount > 0
+        ? { label: "이번주마감", value: endingThisWeekEventCount, className: "bg-orange-50 text-orange-700" }
+        : { label: "마감임박", value: endingSoonEventCount, className: "bg-orange-50 text-orange-700" };
   const quickStats = visibleEvents.length
     ? [
         { label: "전원", value: everyoneRewardCount, className: "bg-emerald-50 text-emerald-700" },
         { label: "선착순", value: firstComeCount, className: "bg-orange-50 text-orange-700" },
         { label: "쿠폰", value: events.filter((event) => event.benefitType === "coupon").length, className: "bg-yellow-50 text-yellow-700" },
-        { label: "오늘마감", value: endingTodayEventCount, className: "bg-rose-50 text-rose-700" }
+        deadlineQuickStat
       ]
     : [
         { label: "무료/0원", value: summary?.zeroCost ?? visibleDeals.filter((deal) => deal.benefitType === "freebie" || deal.price === 0).length, className: "bg-emerald-50 text-emerald-700" },

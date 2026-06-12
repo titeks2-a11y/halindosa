@@ -162,10 +162,20 @@ const checks = [
     hasAll(appPageSource, requiredAppPageQuickFilterParams).length === 0 &&
       appPageSource.includes("isEndingToday") &&
       appPageSource.includes("isEndingThisWeek") &&
+      appPageSource.includes("todayDeadlineChip.value > 0") &&
+      appPageSource.includes(".filter((chip) => chip.value > 0)") &&
       appPageSource.includes('statByType(allBenefits, "gifticon")') &&
       appPageSource.includes('statByType(allBenefits, "coupon")') &&
       !appPageSource.includes("href={`/free-benefits?q=${encodeURIComponent(chip.label)}`"),
     `Missing home page params: ${hasAll(appPageSource, requiredAppPageQuickFilterParams).join(", ") || "none"}`
+  ),
+  check(
+    "home freebie hero avoids primary zero today deadline stat",
+    homeFreebieHeroSource.includes("deadlineQuickStat") &&
+      homeFreebieHeroSource.includes("endingTodayEventCount > 0") &&
+      homeFreebieHeroSource.includes("endingThisWeekEventCount > 0") &&
+      homeFreebieHeroSource.includes("이번주마감"),
+    "When today-ending benefits are 0, the hero should promote this-week or soon-ending benefits instead of a primary 0-count today stat."
   ),
   check(
     "home page has live no-store free benefit refresh rail",
