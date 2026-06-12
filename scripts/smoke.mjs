@@ -762,6 +762,30 @@ await check("admin free benefit operations csv", async () => {
   assert(text.includes("npm run benefit:operations:report") && text.includes("/free-benefits?deadline=week"), "Admin free benefit operations CSV missing regeneration command or deadline action");
 });
 
+await check("admin free benefit ranking api", async () => {
+  const { response, data } = await fetchJson("/api/admin/free-benefit-ranking");
+  assert(response.status === 200, `Expected free benefit ranking 200, got ${response.status}`);
+  assert(data.ok === true, "Admin free benefit ranking API ok should be true");
+  assert(data.report?.ok === true, "Admin free benefit ranking report should pass");
+  assert(data.report?.publishableCount >= MIN_OFFICIAL_BENEFITS, "Admin free benefit ranking should preserve publishable official benefit count");
+  assert(data.report?.consumerPublishableCount >= 90, "Admin free benefit ranking should preserve consumer-first benefit count");
+  assert(data.report?.noPurchaseCount >= 100, "Admin free benefit ranking should preserve no-purchase benefit count");
+  assert(data.report?.exactDuplicateGroupCount === 0, "Admin free benefit ranking should expose zero exact duplicate groups");
+  assert(data.report?.maxTopBrandRepeat <= 4, "Admin free benefit ranking should keep first-screen brand repetition low");
+  assert(data.report?.maxTopDomainRepeat <= 5, "Admin free benefit ranking should keep first-screen domain repetition low");
+  assert(Array.isArray(data.report?.topCandidates) && data.report.topCandidates.length >= 10, "Admin free benefit ranking should expose top candidates");
+  assert(data.report.topCandidates.every((item) => item.finalUrl?.startsWith("https://") && item.brand && item.title && item.benefitType), "Admin free benefit ranking candidates should expose official HTTPS URLs and display fields");
+});
+
+await check("admin free benefit ranking csv", async () => {
+  const response = await fetch(`${baseUrl}/api/admin/free-benefit-ranking?format=csv`);
+  const text = await response.text();
+  assert(response.status === 200, `Expected free benefit ranking CSV 200, got ${response.status}`);
+  assert(response.headers.get("content-type")?.includes("text/csv"), "Admin free benefit ranking CSV should use text/csv content type");
+  assert(text.includes("publishableCount") && text.includes("exactDuplicateGroupCount") && text.includes("top_candidate"), "Admin free benefit ranking CSV missing summary, duplicate, or candidate rows");
+  assert(text.includes("npm run benefit:ranking:doctor") && text.includes("첫 화면"), "Admin free benefit ranking CSV missing regeneration command or diversity guidance");
+});
+
 await check("admin health readiness api", async () => {
   const { response, data } = await fetchJson("/api/admin/health-readiness");
   assert(response.status === 200, `Expected 200, got ${response.status}`);
