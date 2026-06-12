@@ -162,6 +162,8 @@ const checks = [
     hasAll(appPageSource, requiredAppPageQuickFilterParams).length === 0 &&
       appPageSource.includes("isEndingToday") &&
       appPageSource.includes("isEndingThisWeek") &&
+      appPageSource.includes('statByType(allBenefits, "gifticon")') &&
+      appPageSource.includes('statByType(allBenefits, "coupon")') &&
       !appPageSource.includes("href={`/free-benefits?q=${encodeURIComponent(chip.label)}`"),
     `Missing home page params: ${hasAll(appPageSource, requiredAppPageQuickFilterParams).join(", ") || "none"}`
   ),
@@ -322,8 +324,11 @@ const checks = [
     homeRouteSource.includes("selectPublishableFreeBenefitEvents") &&
       homeRouteSource.includes("buildFreeBenefitEventCategoryCounts") &&
       homeRouteSource.includes("categoryCounts") &&
+      homeRouteSource.includes("freeBenefitEventMeta") &&
+      homeRouteSource.includes("visibleTypes") &&
+      homeRouteSource.includes("countBasis") &&
       freebiesRouteSource.includes("selectPublishableFreeBenefitEvents"),
-    "Home and /api/freebies should use the same publishable selector as the benefits events API, and home should expose event category counts."
+    "Home and /api/freebies should use the same publishable selector as the benefits events API, and home should expose event category counts and policy metadata."
   ),
   check(
     "home exposes free benefit quick filters",

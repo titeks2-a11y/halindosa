@@ -312,6 +312,17 @@ export async function GET(request: Request) {
         freshnessAgeMinutes: news.freshnessAgeMinutes,
         nextRefreshAt: news.nextRefreshAt
       },
+      freeBenefitEventMeta: {
+        totalCount: freeBenefitEvents.length,
+        categoryCounts: freeBenefitEventCategoryCounts,
+        summary: freeBenefitEventSummary,
+        visibleTypes: freeBenefitEventCategoryCounts.filter((category) => category.id !== "all" && category.count > 0).map((category) => category.id),
+        policy: {
+          countBasis: "publishable free benefit events selected for home",
+          blocked: ["search_link", "homepage_link", "community_link", "expired", "sold_out", "unapproved_host"],
+          cta: "official finalUrl through /go/news/[id]"
+        }
+      },
       cachePolicy: {
         mode: "no-store",
         generatedAt

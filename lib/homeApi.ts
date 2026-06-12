@@ -204,6 +204,17 @@ export interface HomeResponse {
   freebiesMeta?: Pick<FreebiesResponse, "summary" | "eventSummary" | "freshnessStatus" | "freshnessLabel" | "freshnessAgeMinutes" | "nextRefreshAt" | "totalCount" | "eventCount"> & {
     categoryCounts?: FreeBenefitEventCategoryCount[];
   };
+  freeBenefitEventMeta?: {
+    totalCount: number;
+    categoryCounts: FreeBenefitEventCategoryCount[];
+    summary: FreeBenefitEventSourceSummary;
+    visibleTypes: FreeBenefitEventType[];
+    policy: {
+      countBasis: string;
+      blocked: string[];
+      cta: string;
+    };
+  };
   cachePolicy?: {
     mode: "no-store";
     generatedAt: string;
