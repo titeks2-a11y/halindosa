@@ -77,6 +77,7 @@
 - `/api/home`과 `/api/freebies`의 `requiredCategoryCoverage`도 `categoryCandidateGroups`를 반환한다. 홈 무료혜택 히어로는 이 값을 사용해 `카테고리별 대표 혜택` 레일을 노출하고, 사용자는 각 필수 무료혜택 축의 공식 후보를 `/go/news/[id]` 추적 경로로 바로 열 수 있다.
 - 카테고리별 대표 혜택 후보는 `claimEaseScore`와 `claimUrgencyLabel`을 포함한다. 홈 카드와 API는 구매조건이 낮고, 공식 링크이며, 마감 시점이 분명한 혜택을 사용자가 더 빨리 고를 수 있게 `쉬움 N점`, `오늘마감/이번주마감/여유있음` 배지를 함께 제공한다.
 - 전역 `app/loading.tsx` fallback은 제거했다. 홈은 서버 HTML에서 실제 무료혜택 카드가 바로 보이도록 유지하며, smoke와 Vercel doctor는 숨겨진 스트리밍 콘텐츠(`S:0`)나 `할인도사 화면을 불러오는 중` fallback이 홈 HTML에 섞이면 실패한다.
+- `/api/health`는 `homepageVisibleRenderGuard=true`, `homepageLoadingFallbackBlocked=true`를 반환한다. Vercel doctor는 이 런타임 플래그와 운영 HTML 가시 렌더 검사를 함께 확인해, 문서/스크립트만 바뀐 커밋이 운영 앱에 실제로 반영되지 않는 상황을 더 쉽게 구분한다.
 
 ## 현재 데이터 품질 기준
 

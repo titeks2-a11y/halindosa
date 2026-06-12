@@ -108,6 +108,8 @@ export async function GET() {
         operationalEnvReadyRate: operationalEnvReadiness.readyRate,
         operationalEnvReadyGroups: operationalEnvReadiness.readyGroups,
         operationalEnvBlockingGroups: operationalEnvReadiness.blockingGroups.length,
+        homepageVisibleRenderGuard: true,
+        homepageLoadingFallbackBlocked: true,
         officialBenefitFresh,
         officialBenefitFreshnessHours,
         officialBenefitVisibleCount: newsOperations.visibleCount,

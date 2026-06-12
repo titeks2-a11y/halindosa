@@ -411,7 +411,10 @@ async function checkCiWorkflow() {
       "root free benefit visible render",
       "id=\"S:0\"",
       "할인도사 화면을 불러오는 중",
-      "rootVisibleRenderOk"
+      "rootVisibleRenderOk",
+      "health homepage render guard",
+      "homepageVisibleRenderGuard",
+      "homepageLoadingFallbackBlocked"
     ];
     const missingVercelDoctor = requiredVercelDoctorSnippets.filter((snippet) => !vercelDeploymentDoctor.includes(snippet));
 

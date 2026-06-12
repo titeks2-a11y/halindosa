@@ -343,6 +343,11 @@ checks.push(
     ? pass("home api abuse guard", "/api/home exposes requestId and rate-limit headers on the public deployment.")
     : fail("home api abuse guard", "/api/home is not serving the latest requestId/rate-limit contract; production may be stale.")
 );
+checks.push(
+  healthJson?.checks?.homepageVisibleRenderGuard === true && healthJson?.checks?.homepageLoadingFallbackBlocked === true
+    ? pass("health homepage render guard", "/api/health confirms the homepage visible-render guard is active in the deployed runtime.")
+    : fail("health homepage render guard", "/api/health should confirm homepageVisibleRenderGuard and homepageLoadingFallbackBlocked before the app is considered current.")
+);
 const deployedCommit =
   String(homeJson?.deployment?.commit || healthJson?.deployment?.commit || "").trim();
 const deployedShortCommit =
