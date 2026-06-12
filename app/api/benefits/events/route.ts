@@ -12,13 +12,14 @@ import {
   isPublishableFreeBenefitEvent,
   sanitizeBenefitText
 } from "@/lib/freeBenefitEvents";
-import type { FreeBenefitEvent, FreeBenefitEventType } from "@/types/freeBenefitEvent";
+import type { FreeBenefitClaimAccessLevel, FreeBenefitEvent, FreeBenefitEventType } from "@/types/freeBenefitEvent";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 export const fetchCache = "force-no-store";
 
 const benefitTypeIds = new Set<FreeBenefitEventType>(freeBenefitEventCategories.map((category) => category.id));
+const claimAccessLevels = new Set<FreeBenefitClaimAccessLevel>(["instant", "login_required", "purchase_required", "condition_check"]);
 
 function parseLimit(value: string | null) {
   const limit = Number(value ?? 24);
@@ -41,6 +42,10 @@ function parseSort(value: string | null) {
 function parseDeadline(value: string | null) {
   if (value === "today" || value === "week" || value === "soon") return value;
   return "all";
+}
+
+function parseClaimAccess(value: string | null) {
+  return value && claimAccessLevels.has(value as FreeBenefitClaimAccessLevel) ? (value as FreeBenefitClaimAccessLevel) : "all";
 }
 
 function getDeadlineWindowMs(deadline: ReturnType<typeof parseDeadline>, endingSoonOnly: boolean) {
@@ -78,6 +83,7 @@ function filterEvents(events: FreeBenefitEvent[], request: Request, referenceNow
   const requiresLogin = parseBoolean(searchParams.get("requiresLogin"));
   const endingSoonOnly = searchParams.get("endingSoonOnly") === "true";
   const deadline = parseDeadline(searchParams.get("deadline"));
+  const claimAccess = parseClaimAccess(searchParams.get("claimAccess"));
   const deadlineWindowMs = getDeadlineWindowMs(deadline, endingSoonOnly);
   const noPurchaseOnly = searchParams.get("noPurchaseOnly") === "true";
 
@@ -88,6 +94,7 @@ function filterEvents(events: FreeBenefitEvent[], request: Request, referenceNow
     if (requiresPurchase !== null && event.requiresPurchase !== requiresPurchase) return false;
     if (requiresLogin !== null && event.requiresLogin !== requiresLogin) return false;
     if (noPurchaseOnly && event.requiresPurchase) return false;
+    if (claimAccess !== "all" && event.claimAccessLevel !== claimAccess) return false;
     if (deadlineWindowMs !== null) {
       const endAt = Date.parse(event.endAt);
       if (!Number.isFinite(endAt)) return false;
@@ -133,6 +140,10 @@ function summarizeEvents(events: FreeBenefitEvent[], referenceNow = Date.now()) 
     }).length,
     byType: events.reduce<Record<string, number>>((counts, event) => {
       counts[event.benefitType] = (counts[event.benefitType] ?? 0) + 1;
+      return counts;
+    }, {}),
+    claimAccessLevelCounts: events.reduce<Record<string, number>>((counts, event) => {
+      counts[event.claimAccessLevel] = (counts[event.claimAccessLevel] ?? 0) + 1;
       return counts;
     }, {}),
     ...buildFreeBenefitEventSourceSummary(events, referenceNow)
@@ -215,6 +226,7 @@ export async function GET(request: Request) {
           requiresPurchase: parseBoolean(searchParams.get("requiresPurchase")),
           requiresLogin: parseBoolean(searchParams.get("requiresLogin")),
           noPurchaseOnly: searchParams.get("noPurchaseOnly") === "true",
+          claimAccess: parseClaimAccess(searchParams.get("claimAccess")),
           endingSoonOnly: searchParams.get("endingSoonOnly") === "true"
         },
         rankingPolicy: {

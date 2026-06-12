@@ -232,7 +232,8 @@ async function checkPackage() {
     !harness.includes("benefit:priority:doctor") ||
     !harness.includes("security:check") ||
     !smokeSourceSync().includes("requiredFreeBenefitRuntimeFields") ||
-    !smokeSourceSync().includes("assertFreeBenefitRuntimeFields")
+    !smokeSourceSync().includes("assertFreeBenefitRuntimeFields") ||
+    !smokeSourceSync().includes("claimAccess=instant")
   ) {
     fail(
       "free benefit security gates",

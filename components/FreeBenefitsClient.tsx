@@ -52,7 +52,7 @@ import { rememberRecentNewsBenefitId } from "@/lib/recentNewsBenefits";
 import { buildDealRedirectUrl, buildNativeSafeDealUrl } from "@/lib/redirectUrl";
 import { buildPublicDealShareUrl } from "@/lib/shareUrl";
 import { Deal, DealBenefitType } from "@/types/deal";
-import type { FreeBenefitEvent, FreeBenefitEventType } from "@/types/freeBenefitEvent";
+import type { FreeBenefitClaimAccessLevel, FreeBenefitEvent, FreeBenefitEventType } from "@/types/freeBenefitEvent";
 import type { NewsBenefitType, NewsDeal } from "@/types/newsDeal";
 import { freeBenefitEventCategories, getFreeBenefitEventLabel } from "@/lib/freeBenefitEvents";
 
@@ -95,9 +95,15 @@ const freeBenefitDealTypes = new Set<DealBenefitType>([
 const freeBenefitEventTypeOptions = freeBenefitEventCategories;
 const freeBenefitEventTypeIds = new Set<FreeBenefitEventType>(freeBenefitEventTypeOptions.map((option) => option.id));
 type DeadlineFilter = "all" | "today" | "week" | "soon";
+type ClaimAccessFilter = "all" | FreeBenefitClaimAccessLevel;
 
 function parseDeadlineFilter(value: string | null): DeadlineFilter {
   if (value === "today" || value === "week" || value === "soon") return value;
+  return "all";
+}
+
+function parseClaimAccessFilter(value: string | null): ClaimAccessFilter {
+  if (value === "instant" || value === "login_required" || value === "purchase_required" || value === "condition_check") return value;
   return "all";
 }
 
@@ -118,6 +124,7 @@ function getInitialFreeBenefitUrlState() {
     activeEventType: "all" as FreeBenefitEventType,
     query: "",
     deadlineFilter: "all" as DeadlineFilter,
+    claimAccessFilter: "all" as ClaimAccessFilter,
     endingSoonOnly: false,
     firstComeOnly: false,
     noSignupOnly: false,
@@ -130,11 +137,13 @@ function getInitialFreeBenefitUrlState() {
   const eventType = parseFreeBenefitEventType(params.get("eventType"));
   const legacyEndingSoon = params.get("endingSoon") === "true";
   const deadlineFilter = parseDeadlineFilter(params.get("deadline"));
+  const claimAccessFilter = parseClaimAccessFilter(params.get("claimAccess"));
 
   return {
     activeEventType: eventType ?? initialState.activeEventType,
     query: params.get("q")?.trim().slice(0, 80) ?? "",
     deadlineFilter: deadlineFilter === "all" && legacyEndingSoon ? "soon" : deadlineFilter,
+    claimAccessFilter,
     endingSoonOnly: legacyEndingSoon,
     firstComeOnly: params.get("firstComeOnly") === "true",
     noSignupOnly: params.get("noSignupOnly") === "true",
@@ -254,6 +263,7 @@ export function FreeBenefitsClient({
   const [query, setQuery] = useState(initialUrlState.query);
   const [sort, setSort] = useState<BenefitSort>("recommended");
   const [deadlineFilter, setDeadlineFilter] = useState<DeadlineFilter>(initialUrlState.deadlineFilter);
+  const [claimAccessFilter, setClaimAccessFilter] = useState<ClaimAccessFilter>(initialUrlState.claimAccessFilter);
   const [endingSoonOnly, setEndingSoonOnly] = useState(initialUrlState.endingSoonOnly);
   const [freeShippingOnly, setFreeShippingOnly] = useState(false);
   const [noSignupOnly, setNoSignupOnly] = useState(initialUrlState.noSignupOnly);
@@ -296,6 +306,7 @@ export function FreeBenefitsClient({
             sort: "recommended",
             noPurchaseOnly: false,
             endingSoonOnly: false,
+            claimAccess: "all",
             timestamp: Date.now()
           })
         ),
@@ -975,12 +986,13 @@ export function FreeBenefitsClient({
         })
         .filter((event) => !firstComeOnly || event.isFirstComeFirstServed)
         .filter((event) => !noSignupOnly || !event.requiresLogin)
+        .filter((event) => claimAccessFilter === "all" || event.claimAccessLevel === claimAccessFilter)
         .filter((event) => !activeOnly || event.status === "active")
         .filter((event) => matchesFreeBenefitEventQuery(event, query))
         .sort((a, b) => b.priorityScore - a.priorityScore || b.qualityScore - a.qualityScore || Date.parse(a.endAt) - Date.parse(b.endAt))
         .slice(0, 12);
     },
-    [activeEventType, activeOnly, deadlineFilter, endingSoonOnly, firstComeOnly, liveOfficialBenefitEvents, noSignupOnly, query, referenceNow]
+    [activeEventType, activeOnly, claimAccessFilter, deadlineFilter, endingSoonOnly, firstComeOnly, liveOfficialBenefitEvents, noSignupOnly, query, referenceNow]
   );
   const officialEventCounts = useMemo(() => {
     const visibleEvents = liveOfficialBenefitEvents.filter(isVisibleFreeBenefitEvent);
@@ -1012,6 +1024,9 @@ export function FreeBenefitsClient({
         const timeLeft = Date.parse(event.endAt) - referenceNow;
         return Number.isFinite(timeLeft) && timeLeft >= 0 && timeLeft <= 7 * 24 * 60 * 60 * 1000;
       }).length,
+      instant: visibleEvents.filter((event) => event.claimAccessLevel === "instant").length,
+      loginRequired: visibleEvents.filter((event) => event.claimAccessLevel === "login_required").length,
+      purchaseRequired: visibleEvents.filter((event) => event.claimAccessLevel === "purchase_required").length,
       sources: new Set(visibleEvents.map((event) => event.sourceName)).size
     };
   }, [liveOfficialBenefitEventCategoryCounts, liveOfficialBenefitEvents, referenceNow]);
@@ -1149,6 +1164,7 @@ export function FreeBenefitsClient({
     setActiveType("all");
     setSort("recommended");
     setDeadlineFilter("all");
+    setClaimAccessFilter("all");
     setEndingSoonOnly(false);
     setFreeShippingOnly(false);
     setNoSignupOnly(false);
@@ -1162,6 +1178,7 @@ export function FreeBenefitsClient({
     setActiveType(preset.activeType);
     setSort(preset.sort);
     setDeadlineFilter(preset.endingSoonOnly ? "soon" : "all");
+    setClaimAccessFilter("all");
     setEndingSoonOnly(Boolean(preset.endingSoonOnly));
     setFreeShippingOnly(Boolean(preset.freeShippingOnly));
     setNoSignupOnly(Boolean(preset.noSignupOnly));
@@ -1173,6 +1190,7 @@ export function FreeBenefitsClient({
     setQuery("");
     setSort(preset === "endingSoon" ? "endingSoon" : "recommended");
     setDeadlineFilter(preset === "endingSoon" ? "soon" : "all");
+    setClaimAccessFilter("all");
     setEndingSoonOnly(preset === "endingSoon");
     setFreeShippingOnly(preset === "freeShipping");
     setNoSignupOnly(false);
@@ -2426,6 +2444,9 @@ export function FreeBenefitsClient({
               );
             })}
             {[
+              ["instant", "즉시 수령", claimAccessFilter === "instant", () => setClaimAccessFilter((value) => (value === "instant" ? "all" : "instant")), CheckCircle2],
+              ["login", "로그인 필요", claimAccessFilter === "login_required", () => setClaimAccessFilter((value) => (value === "login_required" ? "all" : "login_required")), ShieldCheck],
+              ["purchase", "구매 필요", claimAccessFilter === "purchase_required", () => setClaimAccessFilter((value) => (value === "purchase_required" ? "all" : "purchase_required")), AlertTriangle],
               ["shipping", "배송비 무료", freeShippingOnly, () => setFreeShippingOnly((value) => !value), Truck],
               ["signup", "가입 없이 받기", noSignupOnly, () => setNoSignupOnly((value) => !value), Gift],
               ["first", "선착순 혜택", firstComeOnly, () => setFirstComeOnly((value) => !value), Sparkles],
@@ -2456,7 +2477,7 @@ export function FreeBenefitsClient({
             </button>
           </div>
           <p className="mt-3 text-xs font-bold text-slate-500">
-            현재 결과 {filteredDeals.length}개 · 조건은 판매처에서 최종 확인해야 하며 종료/품절 가능성이 있습니다.
+            공식 무료혜택 {visibleOfficialBenefitEvents.length}개 · 추가 할인상품 {filteredDeals.length}개 · 조건은 제공처에서 최종 확인해야 하며 종료 가능성이 있습니다.
           </p>
         </section>
 

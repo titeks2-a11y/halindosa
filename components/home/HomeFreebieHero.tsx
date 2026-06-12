@@ -55,6 +55,7 @@ const heroQuickFilters: Array<{
   className: string;
 }> = [
   { label: "전원증정", href: "/free-benefits?eventType=everyone", eventType: "everyone", className: "border-emerald-100 bg-emerald-50 text-emerald-700" },
+  { label: "즉시수령", href: "/free-benefits?claimAccess=instant", className: "border-emerald-100 bg-emerald-50 text-emerald-700" },
   { label: "선착순", href: "/free-benefits?eventType=firstCome&firstComeOnly=true", eventType: "firstCome", className: "border-orange-100 bg-orange-50 text-orange-700" },
   { label: "쿠폰", href: "/free-benefits?eventType=coupon", eventType: "coupon", className: "border-yellow-100 bg-yellow-50 text-yellow-700" },
   { label: "무료체험", href: "/free-benefits?eventType=freeTrial", eventType: "freeTrial", className: "border-sky-100 bg-sky-50 text-sky-700" },

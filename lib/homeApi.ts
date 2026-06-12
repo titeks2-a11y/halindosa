@@ -380,6 +380,7 @@ export function buildFreeBenefitEventsRequestUrl({
   noPurchaseOnly = false,
   endingSoonOnly = false,
   deadline = "all",
+  claimAccess = "all",
   timestamp = Date.now()
 }: {
   query: string;
@@ -389,6 +390,7 @@ export function buildFreeBenefitEventsRequestUrl({
   noPurchaseOnly?: boolean;
   endingSoonOnly?: boolean;
   deadline?: "all" | "today" | "week" | "soon";
+  claimAccess?: "all" | "instant" | "login_required" | "purchase_required" | "condition_check";
   timestamp?: number;
 }) {
   const params = new URLSearchParams({
@@ -401,6 +403,7 @@ export function buildFreeBenefitEventsRequestUrl({
   });
 
   if (deadline !== "all") params.set("deadline", deadline);
+  if (claimAccess !== "all") params.set("claimAccess", claimAccess);
   if (query.trim()) params.set("q", query.trim());
 
   return `/api/benefits/events?${params.toString()}`;

@@ -258,11 +258,16 @@ await check("free benefit events api", async () => {
   assert(data.events.every((event) => event.claimCtaLabel && event.urgencyLabel && event.rankingReason && Array.isArray(event.trustBadges) && event.trustBadges.length >= 2), "Free benefit events API missing claim CTA, urgency, ranking reason, or trust badges");
   assert(data.policy?.publishableOnly === true, "Free benefit events API should expose publishable-only policy");
   assert(data.cachePolicy?.mode === "no-store", "Free benefit events API should expose no-store cache policy");
-  const noPurchase = await fetchJson("/api/benefits/events?limit=8&type=all&sort=noPurchase&noPurchaseOnly=true");
-  assert(noPurchase.response.status === 200, `Expected no-purchase benefit event search 200, got ${noPurchase.response.status}`);
-  assert(noPurchase.data.events.length >= 4, "No-purchase benefit event filter should return visible official benefits");
-  assert(noPurchase.data.events.every((event) => event.requiresPurchase === false), "No-purchase benefit event filter returned purchase-required event");
-});
+    const noPurchase = await fetchJson("/api/benefits/events?limit=8&type=all&sort=noPurchase&noPurchaseOnly=true");
+    assert(noPurchase.response.status === 200, `Expected no-purchase benefit event search 200, got ${noPurchase.response.status}`);
+    assert(noPurchase.data.events.length >= 4, "No-purchase benefit event filter should return visible official benefits");
+    assert(noPurchase.data.events.every((event) => event.requiresPurchase === false), "No-purchase benefit event filter returned purchase-required event");
+    const instantClaim = await fetchJson("/api/benefits/events?limit=8&type=all&claimAccess=instant");
+    assert(instantClaim.response.status === 200, `Expected instant-claim benefit event filter 200, got ${instantClaim.response.status}`);
+    assert(instantClaim.data.events.length >= 4, "Instant-claim benefit event filter should return visible official benefits");
+    assert(instantClaim.data.filters?.claimAccess === "instant", "Instant-claim benefit event filter should echo selected claim access");
+    assert(instantClaim.data.events.every((event) => event.claimAccessLevel === "instant" && event.isInstantClaim === true), "Instant-claim benefit event filter returned non-instant event");
+  });
 
 await check("hot signals api internal discovery links", async () => {
   const { response, data } = await fetchJson("/api/hot-signals?limit=8");
