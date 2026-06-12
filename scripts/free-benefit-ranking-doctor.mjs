@@ -98,6 +98,12 @@ function scoreFreshness(deal, now) {
   return 25;
 }
 
+function getCheckedAgeHours(deal, now) {
+  const checkedAt = Date.parse(String(deal.verifiedAt || deal.lastCheckedAt || deal.updatedAt || deal.collectedAt || ""));
+  if (!Number.isFinite(checkedAt)) return null;
+  return Math.max(0, (now - checkedAt) / 3_600_000);
+}
+
 function scoreUrgency(endDate, now) {
   const endAt = Date.parse(String(endDate ?? ""));
   if (!Number.isFinite(endAt)) return 35;
@@ -162,6 +168,7 @@ function toCandidate(deal, now) {
   const qualityScore = Number(deal.qualityScore ?? 0);
   const priorityScore = Number(deal.priorityScore ?? 0);
   const isNoPurchase = !purchaseRequiredPattern.test(text);
+  const checkedAgeHours = getCheckedAgeHours(deal, now);
   const claimEaseScore = Math.max(
     0,
     Math.min(
@@ -192,6 +199,7 @@ function toCandidate(deal, now) {
     claimEaseScore,
     claimUrgencyLabel: getClaimUrgencyLabel(endDate, now),
     priorityScore,
+    checkedAgeHours,
     rankingScore: Math.round(qualityScore + freshnessScore * 0.24 + officialScore * 0.28 + urgencyScore * 0.18 + rewardScore * 0.3 + priorityScore * 0.12),
     exactDedupeKey: [
       normalizeText(brand, 60),
@@ -236,6 +244,11 @@ function average(items, key) {
   const values = items.map((item) => Number(item[key] ?? 0)).filter(Number.isFinite);
   if (!values.length) return 0;
   return Math.round(values.reduce((sum, value) => sum + value, 0) / values.length);
+}
+
+function percent(part, total) {
+  if (!total) return 0;
+  return Math.round((part / total) * 100);
 }
 
 function topDuplicateGroups(groups, limit = 20) {
@@ -294,6 +307,12 @@ const claimReadyCandidates = selectDiverseCandidates(claimReadyAll, 24);
 const topWindow = topConsumer.slice(0, 24);
 const topClaimReadyCount = topWindow.filter((item) => item.isNoPurchase && item.claimEaseScore >= 80).length;
 const topBenefitTypeDiversity = new Set(topWindow.map((item) => item.benefitType)).size;
+const recentlyCheckedCount = publishable.filter((item) => item.checkedAgeHours !== null && item.checkedAgeHours <= 24).length;
+const staleCheckedCount = publishable.filter((item) => item.checkedAgeHours !== null && item.checkedAgeHours > 24).length;
+const missingCheckedAtCount = publishable.filter((item) => item.checkedAgeHours === null).length;
+const expiringTodayCount = publishable.filter((item) => item.claimUrgencyLabel === "오늘마감").length;
+const expiringThisWeekCount = publishable.filter((item) => item.claimUrgencyLabel === "이번주마감").length;
+const officialHostDiversity = new Set(publishable.map((item) => item.sourceDomain).filter(Boolean)).size;
 
 const issues = [
   publishable.length < 120 ? `publishable 공식 무료혜택이 120개 미만입니다. 현재 ${publishable.length}개입니다.` : "",
@@ -304,6 +323,10 @@ const issues = [
   claimReadyAll.length < 40 ? `바로 받을 수 있는 고신뢰 혜택 후보가 40개 미만입니다. 현재 ${claimReadyAll.length}개입니다.` : "",
   topClaimReadyCount < 16 ? `첫 화면 후보 24개 중 쉬운 참여 혜택이 16개 미만입니다. 현재 ${topClaimReadyCount}개입니다.` : "",
   topBenefitTypeDiversity < 7 ? `첫 화면 후보 24개 안의 혜택 유형이 7개 미만입니다. 현재 ${topBenefitTypeDiversity}개입니다.` : "",
+  recentlyCheckedCount < 120 ? `24시간 내 검증된 publishable 혜택이 120개 미만입니다. 현재 ${recentlyCheckedCount}개입니다.` : "",
+  staleCheckedCount > 0 ? `24시간 이상 재검증되지 않은 publishable 혜택이 ${staleCheckedCount}개 있습니다.` : "",
+  missingCheckedAtCount > 0 ? `검증 시각이 없는 publishable 혜택이 ${missingCheckedAtCount}개 있습니다.` : "",
+  officialHostDiversity < 80 ? `공식 도메인 다양성이 80개 미만입니다. 현재 ${officialHostDiversity}개입니다.` : "",
   average(publishable, "qualityScore") < 90 ? `평균 qualityScore가 90 미만입니다. 현재 ${average(publishable, "qualityScore")}점입니다.` : "",
   average(publishable, "freshnessScore") < 70 ? `평균 freshnessScore가 70 미만입니다. 현재 ${average(publishable, "freshnessScore")}점입니다.` : "",
   maxTopBrandRepeat > 4 ? `첫 화면 후보 24개 안에서 같은 브랜드가 ${maxTopBrandRepeat}회 반복됩니다.` : "",
@@ -331,6 +354,16 @@ const report = {
     official: average(publishable, "officialScore"),
     urgency: average(publishable, "urgencyScore"),
     reward: average(publishable, "rewardScore")
+  },
+  operationalReadiness: {
+    recentlyCheckedCount,
+    staleCheckedCount,
+    missingCheckedAtCount,
+    expiringTodayCount,
+    expiringThisWeekCount,
+    noPurchaseShare: percent(noPurchaseCount, publishable.length),
+    claimReadyShare: percent(claimReadyAll.length, publishable.length),
+    officialHostDiversity
   },
   categoryCounts,
   topBrandCounts,
@@ -395,6 +428,19 @@ const docs = `# 무료혜택 랭킹/중복 품질 리포트
 | 유사 중복 후보 그룹 | ${report.fuzzyDuplicateGroupCount} |
 | 첫 화면 후보 브랜드 최대 반복 | ${report.maxTopBrandRepeat} |
 | 첫 화면 후보 도메인 최대 반복 | ${report.maxTopDomainRepeat} |
+
+## 운영 SLA
+
+| 항목 | 값 |
+| --- | ---: |
+| 24시간 내 검증된 혜택 | ${report.operationalReadiness.recentlyCheckedCount} |
+| 24시간 이상 미검증 혜택 | ${report.operationalReadiness.staleCheckedCount} |
+| 검증 시각 누락 혜택 | ${report.operationalReadiness.missingCheckedAtCount} |
+| 오늘마감 혜택 | ${report.operationalReadiness.expiringTodayCount} |
+| 이번주 마감 혜택 | ${report.operationalReadiness.expiringThisWeekCount} |
+| 구매조건 없는 혜택 비율 | ${report.operationalReadiness.noPurchaseShare}% |
+| 바로받기 후보 비율 | ${report.operationalReadiness.claimReadyShare}% |
+| 공식 도메인 다양성 | ${report.operationalReadiness.officialHostDiversity} |
 
 ## 평균 점수
 

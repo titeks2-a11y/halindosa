@@ -353,12 +353,16 @@ checks.push(
     Number(healthJson?.checks?.freeBenefitClaimReadyCount ?? 0) >= 40 &&
     Number(healthJson?.checks?.freeBenefitTopClaimReadyCount ?? 0) >= 16 &&
     Number(healthJson?.checks?.freeBenefitTopTypeDiversity ?? 0) >= 7 &&
-    Number(healthJson?.checks?.freeBenefitExactDuplicateGroupCount ?? 1) === 0
+    Number(healthJson?.checks?.freeBenefitExactDuplicateGroupCount ?? 1) === 0 &&
+    Number(healthJson?.checks?.freeBenefitRecentlyCheckedCount ?? 0) >= 120 &&
+    Number(healthJson?.checks?.freeBenefitStaleCheckedCount ?? 1) === 0 &&
+    Number(healthJson?.checks?.freeBenefitMissingCheckedAtCount ?? 1) === 0 &&
+    Number(healthJson?.checks?.freeBenefitOfficialHostDiversity ?? 0) >= 80
     ? pass(
         "health claim-ready benefit ranking",
-        `/api/health confirms claim-ready free-benefit quality: ${healthJson.checks.freeBenefitClaimReadyCount} claim-ready, ${healthJson.checks.freeBenefitTopClaimReadyCount} top easy-claim, ${healthJson.checks.freeBenefitTopTypeDiversity} top types.`
+        `/api/health confirms claim-ready free-benefit quality: ${healthJson.checks.freeBenefitClaimReadyCount} claim-ready, ${healthJson.checks.freeBenefitTopClaimReadyCount} top easy-claim, ${healthJson.checks.freeBenefitTopTypeDiversity} top types, ${healthJson.checks.freeBenefitRecentlyCheckedCount} recently checked.`
       )
-    : fail("health claim-ready benefit ranking", "/api/health should expose passing freeBenefitRankingOk, claim-ready count, easy first-screen count, type diversity, and zero exact duplicates.")
+    : fail("health claim-ready benefit ranking", "/api/health should expose passing freeBenefitRankingOk, claim-ready count, easy first-screen count, type diversity, zero exact duplicates, recent verification, zero stale checks, and official host diversity.")
 );
 const deployedCommit =
   String(homeJson?.deployment?.commit || healthJson?.deployment?.commit || "").trim();

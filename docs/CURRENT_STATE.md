@@ -78,6 +78,7 @@
 - 카테고리별 대표 혜택 후보는 `claimEaseScore`와 `claimUrgencyLabel`을 포함한다. 홈 카드와 API는 구매조건이 낮고, 공식 링크이며, 마감 시점이 분명한 혜택을 사용자가 더 빨리 고를 수 있게 `쉬움 N점`, `오늘마감/이번주마감/여유있음` 배지를 함께 제공한다.
 - 전역 `app/loading.tsx` fallback은 제거했다. 홈은 서버 HTML에서 실제 무료혜택 카드가 바로 보이도록 유지하며, smoke와 Vercel doctor는 숨겨진 스트리밍 콘텐츠(`S:0`)나 `할인도사 화면을 불러오는 중` fallback이 홈 HTML에 섞이면 실패한다.
 - `/api/health`는 `homepageVisibleRenderGuard=true`, `homepageLoadingFallbackBlocked=true`, `freeBenefitRankingOk`, `freeBenefitClaimReadyCount`, `freeBenefitTopClaimReadyCount`, `freeBenefitTopTypeDiversity`, `freeBenefitExactDuplicateGroupCount`를 반환한다. Vercel doctor는 이 런타임 플래그와 운영 HTML 가시 렌더 검사를 함께 확인해, 문서/스크립트만 바뀐 커밋이 운영 앱에 실제로 반영되지 않는 상황과 첫 화면 무료혜택 품질 저하를 더 쉽게 구분한다.
+- 무료혜택 랭킹 리포트는 `operationalReadiness`를 포함한다. 운영자는 24시간 내 재검증 수, stale/missing 검증 시각 0건, 오늘/이번주 마감 수, 구매조건 없는 비율, 바로받기 비율, 공식 도메인 다양성을 관리자 화면, JSON, CSV, `/api/health`에서 함께 확인한다.
 
 ## 현재 데이터 품질 기준
 
@@ -100,6 +101,7 @@
   - Runtime FreeBenefitEvent 모델 기준 active 188개, consumer active 152개, official rate 100%, 필수 필드 누락 0개
   - FreeBenefitEvent 평균 점수: quality 100, freshness 100, official 96, urgency 41, reward 69
   - 무료혜택 랭킹 기준: 바로 받을 수 있는 고신뢰 혜택 126개, 첫 화면 쉬운참여 혜택 23개, 첫 화면 혜택 유형 9종, 정확 중복 0개
+  - 무료혜택 운영 SLA 기준: 24시간 내 검증된 publishable 혜택 120개 이상, stale checked 0개, checkedAt 누락 0개, 공식 도메인 80개 이상
   - `benefit:category:doctor` 기준 visible active benefits 193개, official hosts 111개, no-purchase 167개, 필수 카테고리 10/10 통과
   - 공식 소스 후보 220개 이상, reachable/guarded 분리 관리
 

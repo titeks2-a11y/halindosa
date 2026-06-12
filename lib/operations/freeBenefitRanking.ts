@@ -54,6 +54,16 @@ export interface FreeBenefitRankingReport {
     urgency: number;
     reward: number;
   };
+  operationalReadiness: {
+    recentlyCheckedCount: number;
+    staleCheckedCount: number;
+    missingCheckedAtCount: number;
+    expiringTodayCount: number;
+    expiringThisWeekCount: number;
+    noPurchaseShare: number;
+    claimReadyShare: number;
+    officialHostDiversity: number;
+  };
   categoryCounts: Record<string, number>;
   topBrandCounts: Record<string, number>;
   topDomainCounts: Record<string, number>;
@@ -180,6 +190,12 @@ function scoreFreshness(item: RankingSourceItem, now: number) {
   return 25;
 }
 
+function getCheckedAgeHours(item: RankingSourceItem, now: number) {
+  const checkedAt = Date.parse(String(item.verifiedAt || item.lastCheckedAt || item.updatedAt || item.collectedAt || ""));
+  if (!Number.isFinite(checkedAt)) return null;
+  return Math.max(0, (now - checkedAt) / 3_600_000);
+}
+
 function scoreUrgency(endDate: unknown, now: number) {
   const endAt = Date.parse(String(endDate ?? ""));
   if (!Number.isFinite(endAt)) return 35;
@@ -224,6 +240,7 @@ interface InternalCandidate extends RankingCandidate {
   officialScore: number;
   urgencyScore: number;
   priorityScore: number;
+  checkedAgeHours: number | null;
   exactDedupeKey: string;
   fuzzyDedupeKey: string;
 }
@@ -242,6 +259,7 @@ function toCandidate(item: RankingSourceItem, now: number): InternalCandidate {
   const rewardValue = sanitize(item.summary || item.title, 140);
   const qualityScore = Number(item.qualityScore ?? 0);
   const freshnessScore = scoreFreshness(item, now);
+  const checkedAgeHours = getCheckedAgeHours(item, now);
   const officialScore = isOfficial ? 100 : 0;
   const urgencyScore = scoreUrgency(endDate, now);
   const rewardScore = scoreReward(item, benefitType, text);
@@ -294,6 +312,7 @@ function toCandidate(item: RankingSourceItem, now: number): InternalCandidate {
     claimEaseScore,
     claimUrgencyLabel: getClaimUrgencyLabel(endDate, now),
     priorityScore,
+    checkedAgeHours,
     rankingScore: Math.round(qualityScore + freshnessScore * 0.24 + officialScore * 0.28 + urgencyScore * 0.18 + rewardScore * 0.3 + priorityScore * 0.12),
     exactDedupeKey: [normalizeText(brand, 60), normalizeText(title, 120), host, benefitType, normalizeText(rewardValue, 80), endDate.slice(0, 10), finalUrl].join("|"),
     fuzzyDedupeKey: [normalizeText(brand, 60), normalizeText(title, 120), host, benefitType, normalizeText(rewardValue, 80), endDate.slice(0, 10)].join("|")
@@ -323,6 +342,11 @@ function average(items: InternalCandidate[], key: keyof Pick<InternalCandidate, 
   const values = items.map((item) => Number(item[key] ?? 0)).filter(Number.isFinite);
   if (!values.length) return 0;
   return Math.round(values.reduce((sum, value) => sum + value, 0) / values.length);
+}
+
+function percent(part: number, total: number) {
+  if (!total) return 0;
+  return Math.round((part / total) * 100);
 }
 
 function topDuplicateGroups(groups: Map<string, InternalCandidate[]>, limit = 20): RankingDuplicateGroup[] {
@@ -399,6 +423,12 @@ export function buildFreeBenefitRankingReport(referenceNow = Date.now()): FreeBe
   const topWindow = topConsumer.slice(0, 24);
   const topClaimReadyCount = topWindow.filter((item) => item.isNoPurchase && item.claimEaseScore >= 80).length;
   const topBenefitTypeDiversity = new Set(topWindow.map((item) => item.benefitType)).size;
+  const recentlyCheckedCount = publishable.filter((item) => item.checkedAgeHours !== null && item.checkedAgeHours <= 24).length;
+  const staleCheckedCount = publishable.filter((item) => item.checkedAgeHours !== null && item.checkedAgeHours > 24).length;
+  const missingCheckedAtCount = publishable.filter((item) => item.checkedAgeHours === null).length;
+  const expiringTodayCount = publishable.filter((item) => item.claimUrgencyLabel === "오늘마감").length;
+  const expiringThisWeekCount = publishable.filter((item) => item.claimUrgencyLabel === "이번주마감").length;
+  const officialHostDiversity = new Set(publishable.map((item) => item.sourceDomain).filter(Boolean)).size;
 
   const issues = [
     publishable.length < 120 ? `publishable 공식 무료혜택이 120개 미만입니다. 현재 ${publishable.length}개입니다.` : "",
@@ -409,6 +439,10 @@ export function buildFreeBenefitRankingReport(referenceNow = Date.now()): FreeBe
     claimReadyAll.length < 40 ? `바로 받을 수 있는 고신뢰 혜택 후보가 40개 미만입니다. 현재 ${claimReadyAll.length}개입니다.` : "",
     topClaimReadyCount < 16 ? `첫 화면 후보 24개 중 쉬운 참여 혜택이 16개 미만입니다. 현재 ${topClaimReadyCount}개입니다.` : "",
     topBenefitTypeDiversity < 7 ? `첫 화면 후보 24개 안의 혜택 유형이 7개 미만입니다. 현재 ${topBenefitTypeDiversity}개입니다.` : "",
+    recentlyCheckedCount < 120 ? `24시간 내 검증된 publishable 혜택이 120개 미만입니다. 현재 ${recentlyCheckedCount}개입니다.` : "",
+    staleCheckedCount > 0 ? `24시간 이상 재검증되지 않은 publishable 혜택이 ${staleCheckedCount}개 있습니다.` : "",
+    missingCheckedAtCount > 0 ? `검증 시각이 없는 publishable 혜택이 ${missingCheckedAtCount}개 있습니다.` : "",
+    officialHostDiversity < 80 ? `공식 도메인 다양성이 80개 미만입니다. 현재 ${officialHostDiversity}개입니다.` : "",
     average(publishable, "qualityScore") < 90 ? `평균 qualityScore가 90 미만입니다. 현재 ${average(publishable, "qualityScore")}점입니다.` : "",
     average(publishable, "freshnessScore") < 70 ? `평균 freshnessScore가 70 미만입니다. 현재 ${average(publishable, "freshnessScore")}점입니다.` : "",
     maxTopBrandRepeat > 4 ? `첫 화면 후보 24개 안에서 같은 브랜드가 ${maxTopBrandRepeat}회 반복됩니다.` : "",
@@ -436,6 +470,16 @@ export function buildFreeBenefitRankingReport(referenceNow = Date.now()): FreeBe
       official: average(publishable, "officialScore"),
       urgency: average(publishable, "urgencyScore"),
       reward: average(publishable, "rewardScore")
+    },
+    operationalReadiness: {
+      recentlyCheckedCount,
+      staleCheckedCount,
+      missingCheckedAtCount,
+      expiringTodayCount,
+      expiringThisWeekCount,
+      noPurchaseShare: percent(noPurchaseCount, publishable.length),
+      claimReadyShare: percent(claimReadyAll.length, publishable.length),
+      officialHostDiversity
     },
     categoryCounts: countBy(publishable, (item) => item.benefitType),
     topBrandCounts,
@@ -486,6 +530,14 @@ export function buildFreeBenefitRankingCsv(report: FreeBenefitRankingReport) {
   rows.push(["claim_ready", "claimReadyCount", report.claimReadyCount >= 40 ? "passed" : "failed", String(report.claimReadyCount), "바로 받을 수 있는 고신뢰 혜택 후보", "npm run benefit:ranking:doctor"]);
   rows.push(["claim_ready", "topClaimReadyCount", report.topClaimReadyCount >= 16 ? "passed" : "failed", String(report.topClaimReadyCount), "첫 화면 쉬운 참여 혜택 수", "홈 무료혜택 상단 큐 확인"]);
   rows.push(["claim_ready", "topBenefitTypeDiversity", report.topBenefitTypeDiversity >= 7 ? "passed" : "failed", String(report.topBenefitTypeDiversity), "첫 화면 혜택 유형 다양성", "혜택 유형별 공식 후보 보강"]);
+  rows.push(["operations", "recentlyCheckedCount", report.operationalReadiness.recentlyCheckedCount >= 120 ? "passed" : "failed", String(report.operationalReadiness.recentlyCheckedCount), "24시간 내 재검증된 publishable 혜택", "npm run refresh:benefits"]);
+  rows.push(["operations", "staleCheckedCount", report.operationalReadiness.staleCheckedCount === 0 ? "passed" : "failed", String(report.operationalReadiness.staleCheckedCount), "24시간 이상 재검증되지 않은 publishable 혜택", "npm run refresh:news"]);
+  rows.push(["operations", "missingCheckedAtCount", report.operationalReadiness.missingCheckedAtCount === 0 ? "passed" : "failed", String(report.operationalReadiness.missingCheckedAtCount), "검증 시각 누락 혜택", "무료혜택 normalizer 확인"]);
+  rows.push(["operations", "officialHostDiversity", report.operationalReadiness.officialHostDiversity >= 80 ? "passed" : "failed", String(report.operationalReadiness.officialHostDiversity), "공식 도메인 다양성", "source:catalog:report"]);
+  rows.push(["operations", "noPurchaseShare", "ratio", `${report.operationalReadiness.noPurchaseShare}%`, "구매조건 없는 혜택 비율", "claim-ready 후보 확인"]);
+  rows.push(["operations", "claimReadyShare", "ratio", `${report.operationalReadiness.claimReadyShare}%`, "바로받기 후보 비율", "claim-ready 후보 확인"]);
+  rows.push(["operations", "expiringTodayCount", "count", String(report.operationalReadiness.expiringTodayCount), "오늘마감 혜택", "/free-benefits?deadline=today"]);
+  rows.push(["operations", "expiringThisWeekCount", "count", String(report.operationalReadiness.expiringThisWeekCount), "이번주 마감 혜택", "/free-benefits?deadline=week"]);
   rows.push(["quality", "exactDuplicateGroupCount", report.exactDuplicateGroupCount === 0 ? "passed" : "failed", String(report.exactDuplicateGroupCount), "정확 중복 그룹", "dedupe key 확인"]);
   rows.push(["quality", "fuzzyDuplicateGroupCount", report.fuzzyDuplicateGroupCount <= 8 ? "passed" : "watch", String(report.fuzzyDuplicateGroupCount), "유사 중복 후보", "상위 후보 브랜드 반복 확인"]);
   rows.push(["quality", "maxTopBrandRepeat", report.maxTopBrandRepeat <= 4 ? "passed" : "failed", String(report.maxTopBrandRepeat), "첫 화면 브랜드 최대 반복", "홈 무료혜택 다양성 조정"]);

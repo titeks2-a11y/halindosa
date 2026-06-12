@@ -2521,6 +2521,35 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                 value: `브랜드 ${freeBenefitRanking.maxTopBrandRepeat}회`,
                 detail: `도메인 최대 ${freeBenefitRanking.maxTopDomainRepeat}회`,
                 tone: freeBenefitRanking.maxTopBrandRepeat <= 4 && freeBenefitRanking.maxTopDomainRepeat <= 5 ? "good" : "watch"
+              },
+              {
+                title: "24시간 검증",
+                value: `${freeBenefitRanking.operationalReadiness?.recentlyCheckedCount ?? 0}개`,
+                detail: `미검증 ${freeBenefitRanking.operationalReadiness?.staleCheckedCount ?? 0}개 · 누락 ${freeBenefitRanking.operationalReadiness?.missingCheckedAtCount ?? 0}개`,
+                tone:
+                  (freeBenefitRanking.operationalReadiness?.recentlyCheckedCount ?? 0) >= 120 &&
+                  (freeBenefitRanking.operationalReadiness?.staleCheckedCount ?? 0) === 0 &&
+                  (freeBenefitRanking.operationalReadiness?.missingCheckedAtCount ?? 0) === 0
+                    ? "good"
+                    : "danger"
+              },
+              {
+                title: "공식 도메인",
+                value: `${freeBenefitRanking.operationalReadiness?.officialHostDiversity ?? 0}개`,
+                detail: "공식 브랜드·공식몰 혜택 다양성",
+                tone: (freeBenefitRanking.operationalReadiness?.officialHostDiversity ?? 0) >= 80 ? "good" : "watch"
+              },
+              {
+                title: "바로받기 비율",
+                value: `${freeBenefitRanking.operationalReadiness?.claimReadyShare ?? 0}%`,
+                detail: `구매조건 없음 ${freeBenefitRanking.operationalReadiness?.noPurchaseShare ?? 0}%`,
+                tone: (freeBenefitRanking.operationalReadiness?.claimReadyShare ?? 0) >= 20 ? "good" : "watch"
+              },
+              {
+                title: "마감 큐",
+                value: `오늘 ${freeBenefitRanking.operationalReadiness?.expiringTodayCount ?? 0}개`,
+                detail: `이번주 ${freeBenefitRanking.operationalReadiness?.expiringThisWeekCount ?? 0}개`,
+                tone: (freeBenefitRanking.operationalReadiness?.expiringThisWeekCount ?? 0) > 0 ? "good" : "watch"
               }
             ].map((card) => (
               <div
