@@ -1,11 +1,11 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-12T02:57:06.262Z",
+  "generatedAt": "2026-06-12T22:34:49.317Z",
   "origin": "https://halindosa.com",
   "branch": "codex/12h-product-ux-growth-hardening",
-  "commit": "dc7278cc",
-  "workingTree": "clean",
-  "workingTreeChangedFileCount": 0,
+  "commit": "3c4e60fe",
+  "workingTree": "1 changed file(s): M docs/DEPLOYMENT_STATUS.md",
+  "workingTreeChangedFileCount": 1,
   "project": {
     "linked": false
   },
@@ -15,19 +15,19 @@
     "vercelProjectIdPresent": false
   },
   "summary": {
-    "totalChecks": 28,
-    "passedChecks": 28,
+    "totalChecks": 34,
+    "passedChecks": 34,
     "failedChecks": 0,
     "rootStatus": 200,
     "homeApiStatus": 200,
     "dealsApiStatus": 200,
     "freebiesApiStatus": 200,
     "healthApiStatus": 200,
-    "homeApiRequestId": "b17a2d13-3e37-45a5-ac18-32bc93e88c64",
-    "deployedCommit": "dc7278cc",
+    "homeApiRequestId": "676c25ec-49b2-404d-a441-2f632aea6c4b",
+    "deployedCommit": "6eb18829",
     "expectedDeployCommit": "",
-    "dealsApiRequestId": "2a160247-7a26-40f2-8171-d9c3db6a5807",
-    "freebiesApiRequestId": "5c137d4a-f176-476e-bc48-8c6ce73297ca",
+    "dealsApiRequestId": "5017f0d1-d09f-4d2e-b530-7e3deda095a4",
+    "freebiesApiRequestId": "99558c6c-3dd6-4b4c-b063-a27ed52c832d",
     "goRedirectStatus": 302,
     "officialBenefitRedirectStatus": 302,
     "homeApiCacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
@@ -36,6 +36,9 @@
     "cronBenefitsGuardStatus": 401,
     "canonicalOriginCount": 2,
     "canonicalOriginContractPassed": true,
+    "rootOfficialBenefitLinks": 41,
+    "rootClaimConditionLabels": 8,
+    "rootVisibleRenderOk": true,
     "homeProductDeals": 8,
     "homeOfficialBenefits": 160,
     "freebies": 12,
@@ -52,6 +55,21 @@
       "name": "root security headers",
       "ok": true,
       "detail": "Production HTML response includes CSP, HSTS, frame, MIME, referrer, and permissions headers."
+    },
+    {
+      "name": "root free benefit visible render",
+      "ok": true,
+      "detail": "Production homepage renders real free-benefit cards without a hidden streamed shell or sticky loading fallback."
+    },
+    {
+      "name": "root free benefit hero",
+      "ok": true,
+      "detail": "Production homepage renders the free-benefit-first hero with 41 official benefit links."
+    },
+    {
+      "name": "root free benefit claim badges",
+      "ok": true,
+      "detail": "Production homepage renders visible verification time and claim-condition labels: 쿠폰 받기, 무료 혜택, 샘플 신청, 무료체험, 기프티콘, 포인트 적립, 가입 혜택, 조건 확인."
     },
     {
       "name": "home api status",
@@ -84,9 +102,24 @@
       "detail": "/api/home exposes requestId and rate-limit headers on the public deployment."
     },
     {
+      "name": "health homepage render guard",
+      "ok": true,
+      "detail": "/api/health confirms the homepage visible-render guard is active in the deployed runtime."
+    },
+    {
+      "name": "health claim-ready benefit ranking",
+      "ok": true,
+      "detail": "/api/health confirms claim-ready free-benefit quality: 117 claim-ready, 140 instant, 23 top easy-claim, 23 top instant, 9 top types, 188 recently checked, score averages Q100/F92/O100/U43/R66."
+    },
+    {
+      "name": "health free benefit source activation",
+      "ok": true,
+      "detail": "/api/health confirms official free-benefit source activation is seed_ready, checks 10/10, 12 recommended lanes."
+    },
+    {
       "name": "deployment commit metadata",
       "ok": true,
-      "detail": "Public APIs expose deployed commit dc7278cc."
+      "detail": "Public APIs expose deployed commit 6eb18829."
     },
     {
       "name": "home product exposure policy",
@@ -189,7 +222,7 @@
       "url": "https://halindosa.com/",
       "status": 200,
       "ok": true,
-      "elapsedMs": 1009,
+      "elapsedMs": 114,
       "cacheControl": "public, max-age=0, must-revalidate",
       "contentType": "text/html; charset=utf-8",
       "contentSecurityPolicy": "default-src 'self'; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; form-action 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https: http: data: blob:; font-src 'self' data:; connect-src 'self' https:; worker-src 'self' blob:; manifest-src 'self'",
@@ -201,14 +234,14 @@
       "requestId": "",
       "rateLimitRemaining": "",
       "location": "",
-      "xVercelId": "icn1::xlkqn-1781233015980-e0d78d5b4255",
+      "xVercelId": "icn1::qn8gf-1781303677582-5cdb4619dbf1",
       "bodyPreview": "<!DOCTYPE html><html lang=\"ko\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover\"/><link rel=\"preload\" as=\"image\" href=\"/halindosa-icon-192.png\"/><link rel=\""
     },
     "homeApi": {
       "url": "https://halindosa.com/api/home?limit=8&verifiedOnly=true",
       "status": 200,
       "ok": true,
-      "elapsedMs": 2626,
+      "elapsedMs": 2364,
       "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
       "contentType": "application/json",
       "contentSecurityPolicy": "default-src 'self'; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; form-action 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https: http: data: blob:; font-src 'self' data:; connect-src 'self' https:; worker-src 'self' blob:; manifest-src 'self'",
@@ -217,17 +250,17 @@
       "xContentTypeOptions": "nosniff",
       "referrerPolicy": "strict-origin-when-cross-origin",
       "permissionsPolicy": "camera=(), microphone=(), geolocation=(), payment=()",
-      "requestId": "b17a2d13-3e37-45a5-ac18-32bc93e88c64",
+      "requestId": "676c25ec-49b2-404d-a441-2f632aea6c4b",
       "rateLimitRemaining": "179",
       "location": "",
-      "xVercelId": "icn1::iad1::qc85s-1781233016911-462286c796b4",
-      "bodyPreview": "{\"ok\":true,\"requestId\":\"b17a2d13-3e37-45a5-ac18-32bc93e88c64\",\"deals\":[{\"id\":\"d001\",\"title\":\"삼성 86인치 4K 스마트 UHD TV\",\"description\":\"롯데온에서 확인된 삼성 86인치 4K 스마트 UHD TV 특가입니다.\",\"price\":889000,\"originalPrice\":1201350,\"salePrice\":889000,\"discountRa"
+      "xVercelId": "icn1::iad1::qn8gf-1781303677624-db04c6982919",
+      "bodyPreview": "{\"ok\":true,\"requestId\":\"676c25ec-49b2-404d-a441-2f632aea6c4b\",\"deals\":[{\"id\":\"d001\",\"title\":\"삼성 86인치 4K 스마트 UHD TV\",\"description\":\"롯데온에서 확인된 삼성 86인치 4K 스마트 UHD TV 특가입니다.\",\"price\":889000,\"originalPrice\":1201350,\"salePrice\":889000,\"discountRa"
     },
     "healthApi": {
       "url": "https://halindosa.com/api/health",
       "status": 200,
       "ok": true,
-      "elapsedMs": 305,
+      "elapsedMs": 646,
       "cacheControl": "public, max-age=0, must-revalidate",
       "contentType": "application/json",
       "contentSecurityPolicy": "default-src 'self'; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; form-action 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https: http: data: blob:; font-src 'self' data:; connect-src 'self' https:; worker-src 'self' blob:; manifest-src 'self'",
@@ -239,14 +272,14 @@
       "requestId": "",
       "rateLimitRemaining": "",
       "location": "",
-      "xVercelId": "icn1::iad1::4pxmm-1781233019311-9a4d89dfa703",
-      "bodyPreview": "{\"ok\":true,\"status\":\"healthy\",\"service\":\"halindosa\",\"checks\":{\"dealsProvider\":\"ok\",\"source\":\"hybrid\",\"operationalStatus\":\"ready\",\"verifiedLinkRate\":100,\"claimGuideRate\":100,\"claimEffortReady\":true,\"claimEffortEasyCount\":6,\"claimEffortCondit"
+      "xVercelId": "icn1::iad1::qn8gf-1781303679985-895dd8466a70",
+      "bodyPreview": "{\"ok\":true,\"status\":\"healthy\",\"service\":\"halindosa\",\"checks\":{\"dealsProvider\":\"ok\",\"source\":\"hybrid\",\"operationalStatus\":\"ready\",\"verifiedLinkRate\":100,\"claimGuideRate\":100,\"claimEffortReady\":true,\"claimEffortEasyCount\":33,\"claimEffortCondi"
     },
     "dealsApi": {
       "url": "https://halindosa.com/api/deals?limit=8&verifiedOnly=true",
       "status": 200,
       "ok": true,
-      "elapsedMs": 730,
+      "elapsedMs": 620,
       "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
       "contentType": "application/json",
       "contentSecurityPolicy": "default-src 'self'; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; form-action 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https: http: data: blob:; font-src 'self' data:; connect-src 'self' https:; worker-src 'self' blob:; manifest-src 'self'",
@@ -255,17 +288,17 @@
       "xContentTypeOptions": "nosniff",
       "referrerPolicy": "strict-origin-when-cross-origin",
       "permissionsPolicy": "camera=(), microphone=(), geolocation=(), payment=()",
-      "requestId": "2a160247-7a26-40f2-8171-d9c3db6a5807",
+      "requestId": "5017f0d1-d09f-4d2e-b530-7e3deda095a4",
       "rateLimitRemaining": "159",
       "location": "",
-      "xVercelId": "icn1::iad1::4pxmm-1781233019831-183360cf3488",
-      "bodyPreview": "{\"ok\":true,\"requestId\":\"2a160247-7a26-40f2-8171-d9c3db6a5807\",\"deals\":[{\"id\":\"d001\",\"title\":\"삼성 86인치 4K 스마트 UHD TV\",\"description\":\"롯데온에서 확인된 삼성 86인치 4K 스마트 UHD TV 특가입니다.\",\"price\":889000,\"originalPrice\":1201350,\"salePrice\":889000,\"discountRa"
+      "xVercelId": "icn1::iad1::qn8gf-1781303680632-3206c1b3ec1c",
+      "bodyPreview": "{\"ok\":true,\"requestId\":\"5017f0d1-d09f-4d2e-b530-7e3deda095a4\",\"deals\":[{\"id\":\"d001\",\"title\":\"삼성 86인치 4K 스마트 UHD TV\",\"description\":\"롯데온에서 확인된 삼성 86인치 4K 스마트 UHD TV 특가입니다.\",\"price\":889000,\"originalPrice\":1201350,\"salePrice\":889000,\"discountRa"
     },
     "freebiesApi": {
       "url": "https://halindosa.com/api/freebies?limit=12",
       "status": 200,
       "ok": true,
-      "elapsedMs": 634,
+      "elapsedMs": 737,
       "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
       "contentType": "application/json",
       "contentSecurityPolicy": "default-src 'self'; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; form-action 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https: http: data: blob:; font-src 'self' data:; connect-src 'self' https:; worker-src 'self' blob:; manifest-src 'self'",
@@ -274,11 +307,11 @@
       "xContentTypeOptions": "nosniff",
       "referrerPolicy": "strict-origin-when-cross-origin",
       "permissionsPolicy": "camera=(), microphone=(), geolocation=(), payment=()",
-      "requestId": "5c137d4a-f176-476e-bc48-8c6ce73297ca",
+      "requestId": "99558c6c-3dd6-4b4c-b063-a27ed52c832d",
       "rateLimitRemaining": "119",
       "location": "",
-      "xVercelId": "icn1::iad1::qc85s-1781233020346-dd7ef332fc53",
-      "bodyPreview": "{\"ok\":true,\"requestId\":\"5c137d4a-f176-476e-bc48-8c6ce73297ca\",\"freebies\":[{\"id\":\"news-royalcanin-official-pet-sample-202606\",\"title\":\"로얄캐닌 공식 반려동물 샘플 캠페인\",\"summary\":\"로얄캐닌 공식 캠페인 페이지에서 반려동물 샘플·체험 혜택과 참여 조건을 확인할 수 있습니다.\",\"merchant\":\"로얄캐닌\",\"ma"
+      "xVercelId": "icn1::iad1::qn8gf-1781303681251-617490b9d5b1",
+      "bodyPreview": "{\"ok\":true,\"requestId\":\"99558c6c-3dd6-4b4c-b063-a27ed52c832d\",\"freebies\":[{\"id\":\"news-lguplus-ongoing-benefit-event-202606\",\"title\":\"LG U+ 공식 진행 중 혜택 이벤트\",\"summary\":\"LG U+ 공식 진행 중 이벤트 페이지에서 무료이용권, 기프티콘, 쿠폰, 장기고객 혜택과 참여 조건을 확인할 수 있습니다.\",\"mer"
     },
     "canonicalOriginApis": {
       "url": "https://halindosa.com, https://www.halindosa.com",
@@ -291,37 +324,37 @@
             "origin": "https://halindosa.com",
             "status": 200,
             "ok": true,
-            "requestId": "a23e0535-e1dd-4e95-8dc9-5e6eff6b14e0",
-            "rateLimitRemaining": "179",
+            "requestId": "99385e1d-a8d9-4a5d-966f-a03319f932e9",
+            "rateLimitRemaining": "178",
             "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
-            "xVercelId": "icn1::iad1::qc85s-1781233020983-a6984d42ef4c",
+            "xVercelId": "icn1::iad1::qn8gf-1781303681990-9a9e98b7ff15",
             "bodyOk": true,
-            "bodyRequestId": "a23e0535-e1dd-4e95-8dc9-5e6eff6b14e0",
-            "bodyPreview": "{\"ok\":true,\"requestId\":\"a23e0535-e1dd-4e95-8dc9-5e6eff6b14e0\",\"deals\":[{\"id\":\"d001\",\"title\":\"삼성 86인치 4K 스마트 UHD TV\",\"description\":\"롯데온에서 확인된 삼성 86인치 4K 스마트 UHD TV 특가입니다.\",\"price\":889000,\"originalPrice\":1201350,\"salePrice\":889000,\"discountRa"
+            "bodyRequestId": "99385e1d-a8d9-4a5d-966f-a03319f932e9",
+            "bodyPreview": "{\"ok\":true,\"requestId\":\"99385e1d-a8d9-4a5d-966f-a03319f932e9\",\"deals\":[{\"id\":\"d001\",\"title\":\"삼성 86인치 4K 스마트 UHD TV\",\"description\":\"롯데온에서 확인된 삼성 86인치 4K 스마트 UHD TV 특가입니다.\",\"price\":889000,\"originalPrice\":1201350,\"salePrice\":889000,\"discountRa"
           },
           "deals": {
             "origin": "https://halindosa.com",
             "status": 200,
             "ok": true,
-            "requestId": "a13fdc01-886a-4a28-b9d7-1cdad474d9d6",
-            "rateLimitRemaining": "158",
+            "requestId": "de045e05-3457-4803-a34e-cf0fa68df4df",
+            "rateLimitRemaining": "159",
             "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
-            "xVercelId": "icn1::iad1::fgggd-1781233021246-cf926ef15729",
+            "xVercelId": "icn1::iad1::qn8gf-1781303682024-abddce632ee2",
             "bodyOk": true,
-            "bodyRequestId": "a13fdc01-886a-4a28-b9d7-1cdad474d9d6",
-            "bodyPreview": "{\"ok\":true,\"requestId\":\"a13fdc01-886a-4a28-b9d7-1cdad474d9d6\",\"deals\":[{\"id\":\"d001\",\"title\":\"삼성 86인치 4K 스마트 UHD TV\",\"description\":\"롯데온에서 확인된 삼성 86인치 4K 스마트 UHD TV 특가입니다.\",\"price\":889000,\"originalPrice\":1201350,\"salePrice\":889000,\"discountRa"
+            "bodyRequestId": "de045e05-3457-4803-a34e-cf0fa68df4df",
+            "bodyPreview": "{\"ok\":true,\"requestId\":\"de045e05-3457-4803-a34e-cf0fa68df4df\",\"deals\":[{\"id\":\"d001\",\"title\":\"삼성 86인치 4K 스마트 UHD TV\",\"description\":\"롯데온에서 확인된 삼성 86인치 4K 스마트 UHD TV 특가입니다.\",\"price\":889000,\"originalPrice\":1201350,\"salePrice\":889000,\"discountRa"
           },
           "freebies": {
             "origin": "https://halindosa.com",
             "status": 200,
             "ok": true,
-            "requestId": "dc7114ff-4847-48b1-885a-195357b69dbe",
-            "rateLimitRemaining": "118",
+            "requestId": "5ff6252a-e7b9-469b-8647-41b66ae4b627",
+            "rateLimitRemaining": "119",
             "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
-            "xVercelId": "icn1::iad1::5p8p9-1781233021020-d825de32c3fd",
+            "xVercelId": "icn1::iad1::njtrn-1781303682025-aa629f9c4a5d",
             "bodyOk": true,
-            "bodyRequestId": "dc7114ff-4847-48b1-885a-195357b69dbe",
-            "bodyPreview": "{\"ok\":true,\"requestId\":\"dc7114ff-4847-48b1-885a-195357b69dbe\",\"freebies\":[{\"id\":\"news-royalcanin-official-pet-sample-202606\",\"title\":\"로얄캐닌 공식 반려동물 샘플 캠페인\",\"summary\":\"로얄캐닌 공식 캠페인 페이지에서 반려동물 샘플·체험 혜택과 참여 조건을 확인할 수 있습니다.\",\"merchant\":\"로얄캐닌\",\"ma"
+            "bodyRequestId": "5ff6252a-e7b9-469b-8647-41b66ae4b627",
+            "bodyPreview": "{\"ok\":true,\"requestId\":\"5ff6252a-e7b9-469b-8647-41b66ae4b627\",\"freebies\":[{\"id\":\"news-lguplus-ongoing-benefit-event-202606\",\"title\":\"LG U+ 공식 진행 중 혜택 이벤트\",\"summary\":\"LG U+ 공식 진행 중 이벤트 페이지에서 무료이용권, 기프티콘, 쿠폰, 장기고객 혜택과 참여 조건을 확인할 수 있습니다.\",\"mer"
           }
         },
         {
@@ -330,37 +363,37 @@
             "origin": "https://www.halindosa.com",
             "status": 200,
             "ok": true,
-            "requestId": "e469ebe8-bbbd-4218-8e85-be30dbc06302",
-            "rateLimitRemaining": "178",
+            "requestId": "a5870372-7c73-471d-8a63-dbe092a8e1aa",
+            "rateLimitRemaining": "177",
             "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
-            "xVercelId": "icn1::iad1::qc85s-1781233022992-8d3af36e1088",
+            "xVercelId": "icn1::iad1::qn8gf-1781303684101-03f4d69739ec",
             "bodyOk": true,
-            "bodyRequestId": "e469ebe8-bbbd-4218-8e85-be30dbc06302",
-            "bodyPreview": "{\"ok\":true,\"requestId\":\"e469ebe8-bbbd-4218-8e85-be30dbc06302\",\"deals\":[{\"id\":\"d001\",\"title\":\"삼성 86인치 4K 스마트 UHD TV\",\"description\":\"롯데온에서 확인된 삼성 86인치 4K 스마트 UHD TV 특가입니다.\",\"price\":889000,\"originalPrice\":1201350,\"salePrice\":889000,\"discountRa"
+            "bodyRequestId": "a5870372-7c73-471d-8a63-dbe092a8e1aa",
+            "bodyPreview": "{\"ok\":true,\"requestId\":\"a5870372-7c73-471d-8a63-dbe092a8e1aa\",\"deals\":[{\"id\":\"d001\",\"title\":\"삼성 86인치 4K 스마트 UHD TV\",\"description\":\"롯데온에서 확인된 삼성 86인치 4K 스마트 UHD TV 특가입니다.\",\"price\":889000,\"originalPrice\":1201350,\"salePrice\":889000,\"discountRa"
           },
           "deals": {
             "origin": "https://www.halindosa.com",
             "status": 200,
             "ok": true,
-            "requestId": "cd799399-dd65-4644-90c1-ef9e1fd685b5",
+            "requestId": "cbcf646b-3536-4f06-bb3d-fb72387abe27",
             "rateLimitRemaining": "159",
             "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
-            "xVercelId": "icn1::iad1::w87vp-1781233022992-c995daf3d3c7",
+            "xVercelId": "icn1::iad1::pl8hd-1781303684102-560e486ca0a7",
             "bodyOk": true,
-            "bodyRequestId": "cd799399-dd65-4644-90c1-ef9e1fd685b5",
-            "bodyPreview": "{\"ok\":true,\"requestId\":\"cd799399-dd65-4644-90c1-ef9e1fd685b5\",\"deals\":[{\"id\":\"d001\",\"title\":\"삼성 86인치 4K 스마트 UHD TV\",\"description\":\"롯데온에서 확인된 삼성 86인치 4K 스마트 UHD TV 특가입니다.\",\"price\":889000,\"originalPrice\":1201350,\"salePrice\":889000,\"discountRa"
+            "bodyRequestId": "cbcf646b-3536-4f06-bb3d-fb72387abe27",
+            "bodyPreview": "{\"ok\":true,\"requestId\":\"cbcf646b-3536-4f06-bb3d-fb72387abe27\",\"deals\":[{\"id\":\"d001\",\"title\":\"삼성 86인치 4K 스마트 UHD TV\",\"description\":\"롯데온에서 확인된 삼성 86인치 4K 스마트 UHD TV 특가입니다.\",\"price\":889000,\"originalPrice\":1201350,\"salePrice\":889000,\"discountRa"
           },
           "freebies": {
             "origin": "https://www.halindosa.com",
             "status": 200,
             "ok": true,
-            "requestId": "fe297611-fb2e-4627-be85-158270e66a78",
-            "rateLimitRemaining": "119",
+            "requestId": "68a73dc9-700d-447c-bdab-17013afb3112",
+            "rateLimitRemaining": "118",
             "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
-            "xVercelId": "icn1::iad1::pn59k-1781233022991-7220f5ee1897",
+            "xVercelId": "icn1::iad1::pzznk-1781303684104-b4637c3d8ba4",
             "bodyOk": true,
-            "bodyRequestId": "fe297611-fb2e-4627-be85-158270e66a78",
-            "bodyPreview": "{\"ok\":true,\"requestId\":\"fe297611-fb2e-4627-be85-158270e66a78\",\"freebies\":[{\"id\":\"news-royalcanin-official-pet-sample-202606\",\"title\":\"로얄캐닌 공식 반려동물 샘플 캠페인\",\"summary\":\"로얄캐닌 공식 캠페인 페이지에서 반려동물 샘플·체험 혜택과 참여 조건을 확인할 수 있습니다.\",\"merchant\":\"로얄캐닌\",\"ma"
+            "bodyRequestId": "68a73dc9-700d-447c-bdab-17013afb3112",
+            "bodyPreview": "{\"ok\":true,\"requestId\":\"68a73dc9-700d-447c-bdab-17013afb3112\",\"freebies\":[{\"id\":\"news-lguplus-ongoing-benefit-event-202606\",\"title\":\"LG U+ 공식 진행 중 혜택 이벤트\",\"summary\":\"LG U+ 공식 진행 중 이벤트 페이지에서 무료이용권, 기프티콘, 쿠폰, 장기고객 혜택과 참여 조건을 확인할 수 있습니다.\",\"mer"
           }
         }
       ]
@@ -369,7 +402,7 @@
       "url": "https://halindosa.com/api/cron/refresh?dryRun=true",
       "status": 401,
       "ok": false,
-      "elapsedMs": 453,
+      "elapsedMs": 1237,
       "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
       "contentType": "application/json",
       "contentSecurityPolicy": "default-src 'self'; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; form-action 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https: http: data: blob:; font-src 'self' data:; connect-src 'self' https:; worker-src 'self' blob:; manifest-src 'self'",
@@ -378,17 +411,17 @@
       "xContentTypeOptions": "nosniff",
       "referrerPolicy": "strict-origin-when-cross-origin",
       "permissionsPolicy": "camera=(), microphone=(), geolocation=(), payment=()",
-      "requestId": "1065a6d4-b7fc-42b3-9ea1-88f6317eedcf",
+      "requestId": "4c55268a-9825-4fc5-8eca-0354817ad49d",
       "rateLimitRemaining": "5",
       "location": "",
-      "xVercelId": "icn1::iad1::xlkqn-1781233025016-d2de2998ea0c",
-      "bodyPreview": "{\"ok\":false,\"requestId\":\"1065a6d4-b7fc-42b3-9ea1-88f6317eedcf\",\"message\":\"cron refresh 권한이 없습니다.\"}"
+      "xVercelId": "icn1::iad1::qn8gf-1781303686295-aa95bbcd810f",
+      "bodyPreview": "{\"ok\":false,\"requestId\":\"4c55268a-9825-4fc5-8eca-0354817ad49d\",\"message\":\"cron refresh 권한이 없습니다.\"}"
     },
     "cronBenefitsGuard": {
       "url": "https://halindosa.com/api/cron/benefits?dryRun=true",
       "status": 401,
       "ok": false,
-      "elapsedMs": 451,
+      "elapsedMs": 592,
       "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
       "contentType": "application/json",
       "contentSecurityPolicy": "default-src 'self'; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; form-action 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https: http: data: blob:; font-src 'self' data:; connect-src 'self' https:; worker-src 'self' blob:; manifest-src 'self'",
@@ -397,17 +430,17 @@
       "xContentTypeOptions": "nosniff",
       "referrerPolicy": "strict-origin-when-cross-origin",
       "permissionsPolicy": "camera=(), microphone=(), geolocation=(), payment=()",
-      "requestId": "530e5577-21b8-4f37-8c02-a1405b90367f",
+      "requestId": "b0a5eaa1-6ef4-4fbc-b6d4-8e6ea8c1454b",
       "rateLimitRemaining": "5",
       "location": "",
-      "xVercelId": "icn1::iad1::qc85s-1781233025452-4ad1f14f4508",
-      "bodyPreview": "{\"ok\":false,\"requestId\":\"530e5577-21b8-4f37-8c02-a1405b90367f\",\"message\":\"cron benefits 권한이 없습니다.\"}"
+      "xVercelId": "icn1::iad1::qn8gf-1781303687515-8ee93b175563",
+      "bodyPreview": "{\"ok\":false,\"requestId\":\"b0a5eaa1-6ef4-4fbc-b6d4-8e6ea8c1454b\",\"message\":\"cron benefits 권한이 없습니다.\"}"
     },
     "goRedirect": {
       "url": "https://halindosa.com/go/d014?from=vercel-doctor",
       "status": 302,
       "ok": false,
-      "elapsedMs": 483,
+      "elapsedMs": 569,
       "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
       "contentType": "",
       "contentSecurityPolicy": "default-src 'self'; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; form-action 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https: http: data: blob:; font-src 'self' data:; connect-src 'self' https:; worker-src 'self' blob:; manifest-src 'self'",
@@ -416,7 +449,7 @@
       "xContentTypeOptions": "nosniff",
       "referrerPolicy": "strict-origin-when-cross-origin",
       "permissionsPolicy": "camera=(), microphone=(), geolocation=(), payment=()",
-      "requestId": "ce8f5b0f-905a-4162-b07b-81a11302a6f3",
+      "requestId": "4b0d40c4-fde3-4791-9109-415d0c34c94f",
       "rateLimitRemaining": "179",
       "location": "https://www.coupang.com/vp/products/7687552147",
       "redirectChain": [
@@ -425,24 +458,24 @@
           "status": 307,
           "location": "https://www.halindosa.com/go/d014?from=vercel-doctor",
           "cacheControl": "public, max-age=0, must-revalidate",
-          "xVercelId": "icn1::b9qcw-1781233025893-22dd0599f6de"
+          "xVercelId": "icn1::jv74p-1781303688097-4d0a140f94a6"
         },
         {
           "url": "https://www.halindosa.com/go/d014?from=vercel-doctor",
           "status": 302,
           "location": "https://www.coupang.com/vp/products/7687552147",
           "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
-          "xVercelId": "icn1::iad1::qc85s-1781233025902-2804a7acffbd"
+          "xVercelId": "icn1::iad1::qn8gf-1781303688116-2deddaf732ca"
         }
       ],
-      "xVercelId": "icn1::iad1::qc85s-1781233025902-2804a7acffbd",
+      "xVercelId": "icn1::iad1::qn8gf-1781303688116-2deddaf732ca",
       "bodyPreview": ""
     },
     "officialBenefitRedirect": {
       "url": "https://halindosa.com/go/news/news-dunkin-monthly-combo-coupon?from=vercel-doctor",
       "status": 302,
       "ok": false,
-      "elapsedMs": 566,
+      "elapsedMs": 601,
       "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
       "contentType": "",
       "contentSecurityPolicy": "default-src 'self'; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; form-action 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https: http: data: blob:; font-src 'self' data:; connect-src 'self' https:; worker-src 'self' blob:; manifest-src 'self'",
@@ -451,7 +484,7 @@
       "xContentTypeOptions": "nosniff",
       "referrerPolicy": "strict-origin-when-cross-origin",
       "permissionsPolicy": "camera=(), microphone=(), geolocation=(), payment=()",
-      "requestId": "169beee9-dcb0-48ff-a37d-8cb278f48d15",
+      "requestId": "1f009022-771d-48e2-a06d-b714031331f7",
       "rateLimitRemaining": "179",
       "location": "https://www.dunkindonuts.co.kr/event/view?id=5392",
       "redirectChain": [
@@ -460,17 +493,17 @@
           "status": 307,
           "location": "https://www.halindosa.com/go/news/news-dunkin-monthly-combo-coupon?from=vercel-doctor",
           "cacheControl": "public, max-age=0, must-revalidate",
-          "xVercelId": "icn1::lgj8r-1781233026385-dd4e9d65fa8d"
+          "xVercelId": "icn1::k7jgh-1781303688687-4661e39e0616"
         },
         {
           "url": "https://www.halindosa.com/go/news/news-dunkin-monthly-combo-coupon?from=vercel-doctor",
           "status": 302,
           "location": "https://www.dunkindonuts.co.kr/event/view?id=5392",
           "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate",
-          "xVercelId": "icn1::iad1::qc85s-1781233026394-c52ed1e8aaec"
+          "xVercelId": "icn1::iad1::j2stj-1781303688765-de9d915a03b9"
         }
       ],
-      "xVercelId": "icn1::iad1::qc85s-1781233026394-c52ed1e8aaec",
+      "xVercelId": "icn1::iad1::j2stj-1781303688765-de9d915a03b9",
       "bodyPreview": ""
     }
   }
