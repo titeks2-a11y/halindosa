@@ -376,6 +376,8 @@ async function checkCiWorkflow() {
     const vercelWorkflow = await text(vercelWorkflowPath);
     const deployGuide = await text("README_DEPLOY.md");
     const vercelDeploymentDoctor = await text("scripts/vercel-deployment-doctor.mjs");
+    const deploymentStatusReport = await text("scripts/deployment-status-report.mjs");
+    const packageJson = await text("package.json");
     const requiredVercelWorkflowSnippets = [
       'branches: ["main"]',
       "concurrency:",
@@ -404,6 +406,7 @@ async function checkCiWorkflow() {
       "VERCEL_ORG_ID",
       "VERCEL_PROJECT_ID",
       "Vercel Project ID",
+      "npm run deployment:status",
       "npm run vercel:doctor",
       "/api/home?limit=3&verifiedOnly=true"
     ];
@@ -434,14 +437,25 @@ async function checkCiWorkflow() {
       "freeBenefitAverageRewardScore"
     ];
     const missingVercelDoctor = requiredVercelDoctorSnippets.filter((snippet) => !vercelDeploymentDoctor.includes(snippet));
+    const requiredDeploymentStatusSnippets = [
+      "reports/deployment-status.json",
+      "docs/DEPLOYMENT_STATUS.md",
+      "deployment.shortCommit",
+      "latestIsLive",
+      "recommendedNextActions"
+    ];
+    const missingDeploymentStatus = [
+      ...requiredDeploymentStatusSnippets.filter((snippet) => !deploymentStatusReport.includes(snippet)),
+      ...(!packageJson.includes('"deployment:status"') ? ["package.json deployment:status"] : [])
+    ];
 
-    if (missingVercelWorkflow.length || missingDeployGuide.length || missingVercelDoctor.length) {
+    if (missingVercelWorkflow.length || missingDeployGuide.length || missingVercelDoctor.length || missingDeploymentStatus.length) {
       fail(
         "vercel production deploy workflow",
-        `Production deploy workflow should validate launch gates, deploy with Vercel secrets, and run vercel:doctor. Missing workflow: ${missingVercelWorkflow.join(", ") || "none"}; guide: ${missingDeployGuide.join(", ") || "none"}; vercel doctor: ${missingVercelDoctor.join(", ") || "none"}`
+        `Production deploy workflow should validate launch gates, expose deployment status, deploy with Vercel secrets, and run vercel:doctor. Missing workflow: ${missingVercelWorkflow.join(", ") || "none"}; guide: ${missingDeployGuide.join(", ") || "none"}; vercel doctor: ${missingVercelDoctor.join(", ") || "none"}; deployment status: ${missingDeploymentStatus.join(", ") || "none"}`
       );
     } else {
-      pass("vercel production deploy workflow", "GitHub Actions production deploy workflow validates launch gates, deploys Vercel with repository secrets, and runs vercel:doctor evidence checks including visible home free-benefit render.");
+      pass("vercel production deploy workflow", "GitHub Actions production deploy workflow validates launch gates, records deployment status, deploys Vercel with repository secrets, and runs vercel:doctor evidence checks including visible home free-benefit render.");
     }
   }
 

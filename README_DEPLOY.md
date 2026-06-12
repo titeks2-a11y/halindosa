@@ -132,7 +132,7 @@ Vercel Project ID는 현재 프로젝트 Deploy Hook에서 확인된 `prj_hWg9KL
 2. Project > Settings > Build and Deployment에서 Production Branch가 `main`인지 확인합니다.
 3. GitHub Repository Secrets에 위 3개 값을 등록합니다.
 4. GitHub Actions > `Vercel Production Deploy`를 `workflow_dispatch`로 수동 실행합니다.
-5. 완료 후 로컬에서 `npm run vercel:doctor`를 실행해 `/api/home?limit=3&verifiedOnly=true` 200, `Cache-Control: no-store`, `requestId`, `X-Request-Id`, `X-RateLimit-Remaining`, publishable deals, `/go` 구매 이동을 확인합니다.
+5. 완료 후 로컬에서 `npm run deployment:status`로 운영 `/api/health.deployment.shortCommit`이 최신 커밋인지 먼저 확인하고, `npm run vercel:doctor`를 실행해 `/api/home?limit=3&verifiedOnly=true` 200, `Cache-Control: no-store`, `requestId`, `X-Request-Id`, `X-RateLimit-Remaining`, publishable deals, `/go` 구매 이동을 확인합니다.
 6. GitHub Actions가 성공인데 공개 `/api/home` 응답에 `requestId` 또는 `X-Request-Id`가 없으면 운영 도메인이 최신 커밋을 보지 않는 stale 배포입니다. Vercel Git 연결, Production Branch, 또는 `VERCEL_TOKEN`/`VERCEL_ORG_ID`/`VERCEL_PROJECT_ID` secrets를 먼저 복구합니다.
 
 ## 5. 도메인 연결
@@ -159,6 +159,7 @@ DNS 반영 후 확인:
 ## 6. 배포 후 체크리스트
 
 - 홈 페이지가 정상 표시되는지 확인
+- `npm run deployment:status`로 GitHub 최신 커밋과 운영 `/api/health.deployment.shortCommit`이 같은지 확인
 - `npm run vercel:doctor`로 실제 공개 URL의 `/api/home?limit=3&verifiedOnly=true` 200 응답, `Cache-Control: no-store`, `requestId`, `X-Request-Id`, `X-RateLimit-Remaining`, `/api/deals` 검증 상품, `/go` 구매 이동을 확인
 - 홈 상단 `빠른 상품 검색`에서 검색어 입력, 쇼핑몰 선택, 오늘특가/무료배송/마감임박/직접구매 필터가 화면 점프 없이 적용되는지 확인
 - `/?q=애플%20워치`처럼 검색 query 진입 시 결과가 유지되는지 확인
