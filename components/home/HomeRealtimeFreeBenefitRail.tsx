@@ -45,6 +45,21 @@ function getTypeLabel(event: FreeBenefitEvent) {
   return event.benefitType === "coupon" ? "쿠폰" : event.benefitType === "sample" ? "샘플" : "무료혜택";
 }
 
+function getTypeTone(event: FreeBenefitEvent) {
+  if (event.isFirstComeFirstServed) return "border-orange-100 bg-orange-50 text-orange-700";
+  if (event.isEveryoneReward) return "border-emerald-100 bg-emerald-50 text-emerald-700";
+  if (event.benefitType === "coupon") return "border-yellow-100 bg-yellow-50 text-yellow-800";
+  if (event.benefitType === "sample" || event.benefitType === "freeTrial") return "border-sky-100 bg-sky-50 text-sky-700";
+  if (event.benefitType === "gifticon") return "border-purple-100 bg-purple-50 text-purple-700";
+  if (event.benefitType === "pointCashback") return "border-indigo-100 bg-indigo-50 text-indigo-700";
+  if (event.benefitType === "freeShipping") return "border-blue-100 bg-blue-50 text-blue-700";
+  return "border-rose-100 bg-rose-50 text-rose-700";
+}
+
+function getRewardSummary(event: FreeBenefitEvent) {
+  return event.rewardValue || event.rewardText || event.description || event.participationCondition || "공식 페이지에서 혜택 조건 확인";
+}
+
 function getCustomerFreshnessLabel(label: string, updatedAt: string) {
   if (/재검증|stale|unknown|missing|needs_review/i.test(label)) {
     return updatedAt ? "방금 확인" : "실시간 확인 중";
@@ -199,11 +214,16 @@ export function HomeRealtimeFreeBenefitRail() {
               aria-label={`${event.title} ${getCtaLabel(event)} 새 탭으로 열기`}
             >
               <div className="flex items-center justify-between gap-1">
-                <span className="rounded-full bg-emerald-50 px-1.5 py-0.5 text-[9px] font-black text-emerald-700">{getTypeLabel(event)}</span>
+                <span className={`rounded-full border px-1.5 py-0.5 text-[9px] font-black ${getTypeTone(event)}`}>{getTypeLabel(event)}</span>
                 <span className="truncate text-[9px] font-black text-slate-400">{getTimeLeft(event.endAt)}</span>
               </div>
               <p className="mt-1 line-clamp-2 min-h-[2rem] text-[11px] font-black leading-4 text-slate-950">{event.title}</p>
-              <p className="mt-1 truncate text-[9px] font-bold text-slate-500">{event.brandName} · 공식 링크</p>
+              <p className="mt-1 line-clamp-2 min-h-[1.75rem] text-[9px] font-bold leading-3.5 text-slate-500">{getRewardSummary(event)}</p>
+              <div className="mt-1 flex flex-wrap gap-1">
+                <span className="rounded-full bg-white px-1.5 py-0.5 text-[8px] font-black text-slate-500">{event.brand || event.brandName}</span>
+                <span className="rounded-full bg-white px-1.5 py-0.5 text-[8px] font-black text-emerald-700">{event.isOfficial ? "공식" : "승인"}</span>
+                <span className="rounded-full bg-white px-1.5 py-0.5 text-[8px] font-black text-slate-500">{event.requiresPurchase ? "구매조건" : "무료조건"}</span>
+              </div>
               <p className="mt-1 flex items-center gap-1 text-[10px] font-black text-dossa-red">
                 <ShieldCheck size={11} />
                 {getCtaLabel(event)}
