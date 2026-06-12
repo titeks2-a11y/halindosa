@@ -61,6 +61,7 @@
 - Vercel 런타임에서 `reports/free-benefit-source-breadth.json`이 없어도 `/api/admin/source-breadth`는 번들된 `data/officialSourceCatalog.json`으로 소스 축 커버리지를 계산한다. 운영 확인값은 필수 축 12/12, 핵심 브랜드 52/52, 공식 소스 후보 217개다.
 - 무료혜택 운영 리포트는 `operatorActionQueue`를 포함한다. 관리자 `/admin`, `/api/admin/free-benefit-operations`, CSV, smoke, release doctor가 오늘마감 공백, 이번주마감 대체 편성, 혜택 유형 공백, 비공식/검색/깨진 이미지 차단 작업을 같은 큐로 확인한다.
 - Vercel 런타임에서 `reports/free-benefit-operations.json`이 없어도 `/api/admin/free-benefit-operations`는 번들된 `data/refreshedNewsDeals.json`으로 공식 무료혜택 운영 리포트와 `operatorActionQueue`를 계산한다.
+- 뉴스/공식혜택 데이터 모델은 `freeTrial`, `signup`, `checkIn`, `roulette` 혜택 유형을 정식으로 지원한다. seed와 refresh snapshot에서 무료체험 7건, 신규가입 3건, 출석체크 4건, 기프티콘 2건, 룰렛 1건이 독립 유형으로 분류되며 운영 리포트의 혜택 유형 공백 큐는 해소됐다.
 
 ## 현재 데이터 품질 기준
 

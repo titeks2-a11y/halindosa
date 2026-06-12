@@ -15,6 +15,10 @@ export type NewsBenefitType =
   | "mart"
   | "sample"
   | "gifticon"
+  | "freeTrial"
+  | "signup"
+  | "checkIn"
+  | "roulette"
   | "education"
   | "public_free";
 

@@ -21,7 +21,23 @@ const purchaseConditionPattern = /구매|주문|결제|최소\s*주문|이상\s*
 const lowFrictionPattern = /무료\s*체험|샘플|쿠폰|포인트|출석|룰렛|기프티콘|0원|전원\s*증정|선착순|신규\s*가입|웰컴/i;
 const blockedUrlPattern = /\/search|search\?|query=|keyword=|shopping\/search|msearch|\/find|\/result|ppomppu|fmkorea|quasarzone|algumon|blog\.naver|news\.naver|v\.daum|news\.daum/i;
 const publicTypes = new Set(["public", "public_free", "education", "culture"]);
-const consumerTypes = new Set(["coupon", "sample", "freebie", "freeShipping", "point", "foodDelivery", "convenienceStore", "mart", "membership", "card"]);
+const consumerTypes = new Set([
+  "coupon",
+  "sample",
+  "freebie",
+  "freeShipping",
+  "point",
+  "foodDelivery",
+  "convenienceStore",
+  "mart",
+  "gifticon",
+  "freeTrial",
+  "signup",
+  "checkIn",
+  "roulette",
+  "membership",
+  "card"
+]);
 
 function textOf(deal) {
   return [deal.title, deal.summary, deal.merchant, deal.mallName, deal.category, deal.benefitType, deal.sourceName, (deal.tags ?? []).join(" ")].join(" ");

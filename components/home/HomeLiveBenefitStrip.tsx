@@ -21,6 +21,10 @@ const benefitLabels: Record<NewsDeal["benefitType"], string> = {
   mart: "마트",
   sample: "샘플",
   gifticon: "기프티콘",
+  freeTrial: "무료체험",
+  signup: "신규가입",
+  checkIn: "출석",
+  roulette: "룰렛",
   education: "교육",
   public_free: "공공"
 };
@@ -39,7 +43,7 @@ interface HomeLiveBenefitStripProps {
 }
 
 function isFreeBenefit(deal: NewsDeal) {
-  return ["freebie", "coupon", "freeShipping", "point", "event"].includes(deal.benefitType) || deal.category === "무료혜택";
+  return ["freebie", "coupon", "freeShipping", "point", "event", "sample", "gifticon", "freeTrial", "signup", "checkIn", "roulette"].includes(deal.benefitType) || deal.category === "무료혜택";
 }
 
 function isEndingSoon(deal: NewsDeal, referenceNow?: number) {

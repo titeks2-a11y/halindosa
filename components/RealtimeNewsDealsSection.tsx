@@ -39,12 +39,16 @@ const benefitLabels: Record<NewsDeal["benefitType"], string> = {
   mart: "마트",
   sample: "샘플",
   gifticon: "기프티콘",
+  freeTrial: "무료체험",
+  signup: "신규가입",
+  checkIn: "출석체크",
+  roulette: "룰렛",
   education: "교육",
   public_free: "공공혜택"
 };
 
 const categoryHighlights = [
-  { key: "free-coupon", label: "무료/쿠폰 혜택", matches: (deal: NewsDeal) => deal.category === "무료혜택" || deal.benefitType === "coupon" || deal.benefitType === "freebie" || deal.benefitType === "point" },
+  { key: "free-coupon", label: "무료/쿠폰 혜택", matches: (deal: NewsDeal) => deal.category === "무료혜택" || ["coupon", "freebie", "point", "sample", "gifticon", "freeTrial", "signup", "checkIn", "roulette"].includes(deal.benefitType) },
   { key: "card", label: "카드·멤버십 할인", matches: (deal: NewsDeal) => deal.category === "카드/멤버십" || deal.benefitType === "card" || deal.benefitType === "membership" },
   { key: "culture", label: "영화·문화 할인", matches: (deal: NewsDeal) => deal.category === "영화/문화" || deal.benefitType === "culture" },
   { key: "mart", label: "마트·편의점 행사", matches: (deal: NewsDeal) => deal.category === "마트/편의점" },

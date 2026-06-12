@@ -353,8 +353,8 @@ function resolveNewsLinkType(deal) {
   if (isBlockedUrl(finalUrl)) return "community";
   if (isSearchUrl(finalUrl)) return "search";
   if (!isApprovedOfficialUrl(finalUrl)) return "news_only";
-  if (["coupon", "card", "membership", "point", "freeShipping"].includes(deal.benefitType)) return "official_coupon";
-  if (["culture", "travel", "public", "public_free", "education", "sample", "freebie", "foodDelivery", "event", "convenienceStore", "mart"].includes(deal.benefitType)) return "official_benefit";
+  if (["coupon", "card", "membership", "point", "freeShipping", "signup", "checkIn", "roulette", "gifticon"].includes(deal.benefitType)) return "official_coupon";
+  if (["culture", "travel", "public", "public_free", "education", "sample", "freebie", "freeTrial", "foodDelivery", "event", "convenienceStore", "mart"].includes(deal.benefitType)) return "official_benefit";
   return "official_event";
 }
 
@@ -383,7 +383,7 @@ function scoreNewsDeal(deal, { reasons = [], availability = "unknown", linkType 
   const benefitSignal =
     deal.discountRate > 0 ||
     deal.couponAmount > 0 ||
-    ["freebie", "sample", "education", "public_free", "coupon", "freeShipping", "event", "membership", "card", "culture", "travel", "public", "point", "foodDelivery", "convenienceStore", "mart"].includes(deal.benefitType);
+    ["freebie", "sample", "freeTrial", "signup", "checkIn", "roulette", "gifticon", "education", "public_free", "coupon", "freeShipping", "event", "membership", "card", "culture", "travel", "public", "point", "foodDelivery", "convenienceStore", "mart"].includes(deal.benefitType);
   const directOfficialBonus = linkType.startsWith("official") ? 18 : -35;
   const freshnessBonus = daysLeft <= 14 ? 8 : daysLeft <= 45 ? 5 : 2;
 
@@ -534,7 +534,7 @@ export function validateNewsDeal(deal, now = Date.now()) {
   const benefitSignal =
     deal.discountRate > 0 ||
     deal.couponAmount > 0 ||
-    ["freebie", "sample", "education", "public_free", "coupon", "freeShipping", "event", "membership", "card", "culture", "travel", "public", "point", "foodDelivery", "convenienceStore", "mart"].includes(deal.benefitType);
+    ["freebie", "sample", "freeTrial", "signup", "checkIn", "roulette", "gifticon", "education", "public_free", "coupon", "freeShipping", "event", "membership", "card", "culture", "travel", "public", "point", "foodDelivery", "convenienceStore", "mart"].includes(deal.benefitType);
   const validationReason = passed ? "passed" : reasons.join(",");
   const priorityScore = scoreNewsDeal(deal, { reasons, availability, linkType, now });
   const qualityScore = scoreNewsDealQuality(deal, { reasons, availability, linkType, now });
@@ -610,7 +610,15 @@ function topKeywordCounts(deals) {
     point: "포인트",
     foodDelivery: "배달쿠폰",
     convenienceStore: "편의점행사",
-    mart: "마트행사"
+    mart: "마트행사",
+    sample: "샘플",
+    gifticon: "기프티콘",
+    freeTrial: "무료체험",
+    signup: "신규가입",
+    checkIn: "출석체크",
+    roulette: "룰렛",
+    education: "교육",
+    public_free: "공공무료"
   };
   const add = (value, weight = 1) => {
     const keyword = cleanText(value);

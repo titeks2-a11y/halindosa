@@ -1,6 +1,6 @@
 # 무료혜택 운영 리포트
 
-Generated: 2026-06-12T05:27:32.813Z
+Generated: 2026-06-12T06:05:03.487Z
 
 ## 요약
 
@@ -46,24 +46,28 @@ Generated: 2026-06-12T05:27:32.813Z
 
 | 혜택 유형 | 수량 |
 | --- | ---: |
-| coupon | 64 |
-| point | 21 |
+| coupon | 59 |
 | membership | 17 |
+| point | 17 |
 | public_free | 16 |
 | card | 13 |
 | education | 11 |
-| sample | 9 |
+| freeTrial | 7 |
 | discount | 5 |
-| freebie | 5 |
 | freeShipping | 5 |
+| checkIn | 4 |
 | convenienceStore | 4 |
 | culture | 4 |
 | foodDelivery | 4 |
+| freebie | 4 |
 | mart | 4 |
 | public | 4 |
+| sample | 3 |
+| signup | 3 |
 | travel | 3 |
 | event | 2 |
-| gifticon | 1 |
+| gifticon | 2 |
+| roulette | 1 |
 
 ## 제외 사유
 
@@ -75,7 +79,6 @@ Generated: 2026-06-12T05:27:32.813Z
 | 우선순위 | 영역 | 작업 | 이유 | 실행 |
 | --- | --- | --- | --- | --- |
 | medium | 마감 편성 | 오늘마감 공백 시 이번주마감 대체 편성 | 오늘마감 혜택이 없어서 홈 상단 마감 슬롯이 약해질 수 있습니다. | 이번주마감 후보를 홈 마감임박 영역에 우선 편성하고 오늘마감 카피는 숨김 |
-| medium | 카테고리 보강 | 혜택 유형 공백 보강 | 무료체험 0개, 기프티콘 1개, 신규가입 0개, 출석체크 0개 | 공식 소스 카탈로그와 feed env 후보에서 부족한 유형의 공식 이벤트 URL을 우선 추가 |
 
 ## 상위 노출 후보
 

@@ -13,6 +13,11 @@ const strongConsumerTypes = new Set([
   "foodDelivery",
   "convenienceStore",
   "mart",
+  "gifticon",
+  "freeTrial",
+  "signup",
+  "checkIn",
+  "roulette",
   "membership",
   "card"
 ]);
@@ -27,7 +32,12 @@ const highIntentConsumerTypes = new Set([
   "point",
   "foodDelivery",
   "convenienceStore",
-  "mart"
+  "mart",
+  "gifticon",
+  "freeTrial",
+  "signup",
+  "checkIn",
+  "roulette"
 ]);
 
 const consumerFacingCategoryPattern = /무료혜택|마트\/편의점|외식\/배달|패션\/뷰티|카드\/멤버십|식품\/생필품|디지털\/가전|여행\/숙박/i;
