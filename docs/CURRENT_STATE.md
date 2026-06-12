@@ -7,12 +7,12 @@
 ## 현재 기준
 
 - Branch: `codex/12h-product-ux-growth-hardening`
-- 최신 운영 확인 기준: `6eb18829` 기준 Vercel Production 반영 확인. 최신 코드 커밋은 `3c4e60fe`이며 Vercel Hobby 일일 배포 제한 해제 후 운영 반영을 재시도한다.
+- 최신 운영 확인 기준: `6eb18829` 기준 Vercel Production 반영 확인. 최신 코드 커밋은 `e85e847a`이며 Vercel Hobby 일일 배포 제한 해제 후 운영 반영을 재시도한다.
 - Remote: `origin/main`, `origin/codex/12h-product-ux-growth-hardening`에 반영 대상
 - 운영 URL: `https://www.halindosa.com`
 - Vercel Production Deploy: `9c9f35ff` 기준 운영 `/api/health` 반영 확인. 새 커밋 후에는 운영 `/api/health`의 `deployment.shortCommit`으로 최신 반영 여부를 다시 확인한다.
-- 2026-06-13 KST 확인: 최신 커밋 `3c4e60fe`는 공식 혜택 feed dry-run을 JSON/RSS뿐 아니라 CSV/NDJSON까지 확장했고, 중복 후보(`duplicate_candidate`)와 종료 문구(`ended_text_detected`)를 사용자 노출 전에 숨기는 검증을 추가했다. `npm run lint`, `npm run test:news-feed-dry-run`, `npm run news:preview`, `npm run smoke:local`, `npm run release:doctor`, `npm run build`, `npm run build:android`, `npm run cap:sync`, `npm run android:webview:doctor`, `npm run workspace:doctor:strict`를 통과했다. 현재 운영은 `seed_fallback_only`, configured official feed URLs 0개, external feed items 0개로 확인되며, 운영 최신 배포와 별개로 진짜 외부 실시간 수집 전환은 Vercel env feed 연결이 필요하다. 직접 `npx vercel deploy --prod --force --yes`는 Hobby 일일 배포 제한(`api-deployments-free-per-day`)으로 실패했다. 운영 `/api/health.deployment.shortCommit`은 아직 `6eb18829`이다. 제한 해제 또는 GitHub Actions 재실행 후 최신 커밋을 배포하고 `/api/health.deployment.shortCommit=3c4e60fe`를 확인한다.
-- GitHub CI: 최신 `main`/`codex/12h-product-ux-growth-hardening`에 `3c4e60fe` push 완료. 새 커밋 후 운영 `/api/health`의 `deployment.shortCommit`으로 실제 반영 여부를 확인한다.
+- 2026-06-13 KST 확인: 최신 커밋 `e85e847a`는 공식 혜택 feed 환경변수 doctor가 대표 홈페이지 메인 URL을 `homepage_link` 사유로 별도 차단하도록 강화했다. 직전 커밋 `3c4e60fe`는 공식 혜택 feed dry-run을 JSON/RSS뿐 아니라 CSV/NDJSON까지 확장했고, 중복 후보(`duplicate_candidate`)와 종료 문구(`ended_text_detected`)를 사용자 노출 전에 숨기는 검증을 추가했다. `npm run source:feed-env:doctor`, `npm run lint`, `npm run smoke:local`, `npm run release:doctor`, `npm run build`, `npm run build:android`, `npm run cap:sync`, `npm run android:webview:doctor`, `npm run workspace:doctor:strict`를 통과했다. 현재 운영은 `seed_fallback_only`, configured official feed URLs 0개, external feed items 0개로 확인되며, 운영 최신 배포와 별개로 진짜 외부 실시간 수집 전환은 Vercel env feed 연결이 필요하다. 직접 `npx vercel deploy --prod --force --yes`는 Hobby 일일 배포 제한(`api-deployments-free-per-day`)으로 실패했다. 운영 `/api/health.deployment.shortCommit`은 아직 `6eb18829`이다. 제한 해제 또는 GitHub Actions 재실행 후 최신 커밋을 배포하고 `/api/health.deployment.shortCommit=e85e847a`를 확인한다.
+- GitHub CI: 최신 `main`/`codex/12h-product-ux-growth-hardening`에 `e85e847a` push 완료. 새 커밋 후 운영 `/api/health`의 `deployment.shortCommit`으로 실제 반영 여부를 확인한다.
 - 로컬 최신 홈페이지: `http://localhost:3010/?verifiedOnly=true` (3002 포트는 다른 앱이 점유 중일 수 있음)
 - 운영 API 최신 계약 확인:
   - `/api/home?limit=1&verifiedOnly=true`: HTTP 200
