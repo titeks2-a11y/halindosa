@@ -426,7 +426,12 @@ async function checkCiWorkflow() {
       "freeBenefitRecentlyCheckedCount",
       "freeBenefitStaleCheckedCount",
       "freeBenefitMissingCheckedAtCount",
-      "freeBenefitOfficialHostDiversity"
+      "freeBenefitOfficialHostDiversity",
+      "freeBenefitAverageQualityScore",
+      "freeBenefitAverageFreshnessScore",
+      "freeBenefitAverageOfficialScore",
+      "freeBenefitAverageUrgencyScore",
+      "freeBenefitAverageRewardScore"
     ];
     const missingVercelDoctor = requiredVercelDoctorSnippets.filter((snippet) => !vercelDeploymentDoctor.includes(snippet));
 

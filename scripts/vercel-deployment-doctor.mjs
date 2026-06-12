@@ -357,12 +357,17 @@ checks.push(
     Number(healthJson?.checks?.freeBenefitRecentlyCheckedCount ?? 0) >= 120 &&
     Number(healthJson?.checks?.freeBenefitStaleCheckedCount ?? 1) === 0 &&
     Number(healthJson?.checks?.freeBenefitMissingCheckedAtCount ?? 1) === 0 &&
-    Number(healthJson?.checks?.freeBenefitOfficialHostDiversity ?? 0) >= 80
+    Number(healthJson?.checks?.freeBenefitOfficialHostDiversity ?? 0) >= 80 &&
+    Number(healthJson?.checks?.freeBenefitAverageQualityScore ?? 0) >= 90 &&
+    Number(healthJson?.checks?.freeBenefitAverageFreshnessScore ?? 0) >= 70 &&
+    Number(healthJson?.checks?.freeBenefitAverageOfficialScore ?? 0) >= 90 &&
+    Number(healthJson?.checks?.freeBenefitAverageUrgencyScore ?? 0) >= 30 &&
+    Number(healthJson?.checks?.freeBenefitAverageRewardScore ?? 0) >= 50
     ? pass(
         "health claim-ready benefit ranking",
-        `/api/health confirms claim-ready free-benefit quality: ${healthJson.checks.freeBenefitClaimReadyCount} claim-ready, ${healthJson.checks.freeBenefitTopClaimReadyCount} top easy-claim, ${healthJson.checks.freeBenefitTopTypeDiversity} top types, ${healthJson.checks.freeBenefitRecentlyCheckedCount} recently checked.`
+        `/api/health confirms claim-ready free-benefit quality: ${healthJson.checks.freeBenefitClaimReadyCount} claim-ready, ${healthJson.checks.freeBenefitTopClaimReadyCount} top easy-claim, ${healthJson.checks.freeBenefitTopTypeDiversity} top types, ${healthJson.checks.freeBenefitRecentlyCheckedCount} recently checked, score averages Q${healthJson.checks.freeBenefitAverageQualityScore}/F${healthJson.checks.freeBenefitAverageFreshnessScore}/O${healthJson.checks.freeBenefitAverageOfficialScore}/U${healthJson.checks.freeBenefitAverageUrgencyScore}/R${healthJson.checks.freeBenefitAverageRewardScore}.`
       )
-    : fail("health claim-ready benefit ranking", "/api/health should expose passing freeBenefitRankingOk, claim-ready count, easy first-screen count, type diversity, zero exact duplicates, recent verification, zero stale checks, and official host diversity.")
+    : fail("health claim-ready benefit ranking", "/api/health should expose passing freeBenefitRankingOk, claim-ready count, easy first-screen count, type diversity, zero exact duplicates, recent verification, zero stale checks, official host diversity, and average quality/freshness/official/urgency/reward scores.")
 );
 checks.push(
   healthJson?.checks?.officialSourceFeedActivationOk === true &&
