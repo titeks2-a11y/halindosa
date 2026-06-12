@@ -6,7 +6,7 @@ import { getRelativeTime, getTimeLeft } from "@/lib/format";
 import { getFreeBenefitEventLabel } from "@/lib/freeBenefitEvents";
 import { getDealImageSrc } from "@/lib/imageSrc";
 import { getHomeFreebieBenefitLabel } from "@/lib/homeFreebies";
-import type { FreeBenefitEventCategoryCount, FreeBenefitEventSourceSummary } from "@/lib/freeBenefitEvents";
+import type { FreeBenefitDeadlineCategoryCount, FreeBenefitEventCategoryCount, FreeBenefitEventSourceSummary } from "@/lib/freeBenefitEvents";
 import type { RequiredFreeBenefitCategoryCoverage } from "@/lib/homeApi";
 import type { FreeBenefitEvent, FreeBenefitEventType } from "@/types/freeBenefitEvent";
 import type { NewsDeal } from "@/types/newsDeal";
@@ -190,6 +190,7 @@ interface HomeFreebieHeroProps {
   deals: NewsDeal[];
   events?: FreeBenefitEvent[];
   eventCategoryCounts?: FreeBenefitEventCategoryCount[];
+  deadlineCategoryCounts?: FreeBenefitDeadlineCategoryCount[];
   requiredCategoryCoverage?: RequiredFreeBenefitCategoryCoverage | null;
   eventSourceSummary?: FreeBenefitEventSourceSummary;
   totalCount: number;
@@ -213,6 +214,7 @@ export function HomeFreebieHero({
   deals,
   events = [],
   eventCategoryCounts = [],
+  deadlineCategoryCounts = [],
   requiredCategoryCoverage,
   eventSourceSummary,
   totalCount,
@@ -242,9 +244,10 @@ export function HomeFreebieHero({
   const verifiedOfficialEventCount = eventSourceSummary?.officialSourceCount ?? events.filter((event) => event.validationStatus === "passed" && event.finalUrl).length;
   const everyoneRewardCount = eventSourceSummary?.everyoneRewardCount ?? events.filter((event) => event.isEveryoneReward).length;
   const firstComeCount = eventSourceSummary?.firstComeCount ?? events.filter((event) => event.isFirstComeFirstServed).length;
-  const endingTodayEventCount = events.filter((event) => isEventEndingToday(event, referenceNow)).length;
-  const endingThisWeekEventCount = events.filter((event) => isEventEndingThisWeek(event, referenceNow)).length;
-  const endingSoonEventCount = eventSourceSummary?.endingSoonCount ?? events.filter((event) => isEventEndingSoon(event, referenceNow)).length;
+  const getDeadlineCategoryCount = (id: FreeBenefitDeadlineCategoryCount["id"]) => deadlineCategoryCounts.find((category) => category.id === id)?.count;
+  const endingTodayEventCount = getDeadlineCategoryCount("today") ?? events.filter((event) => isEventEndingToday(event, referenceNow)).length;
+  const endingThisWeekEventCount = getDeadlineCategoryCount("week") ?? events.filter((event) => isEventEndingThisWeek(event, referenceNow)).length;
+  const endingSoonEventCount = getDeadlineCategoryCount("soon") ?? eventSourceSummary?.endingSoonCount ?? events.filter((event) => isEventEndingSoon(event, referenceNow)).length;
   const topSourceDomains = eventSourceSummary?.topSourceDomains?.slice(0, 5) ?? [];
   const quickClaimEvents = selectDiverseQuickClaimEvents(
     events.filter((event) => event.status === "active" && event.validationStatus === "passed" && event.finalUrl),
@@ -357,6 +360,23 @@ export function HomeFreebieHero({
         { label: "무배", value: summary?.freeShipping ?? visibleDeals.filter((deal) => deal.benefitType === "freeShipping").length, className: "bg-sky-50 text-sky-700" },
         { label: "마감임박", value: summary?.endingToday ?? visibleDeals.filter((deal) => isEndingSoon(deal, referenceNow)).length, className: "bg-orange-50 text-orange-700" }
       ];
+  const deadlineFilterChips = (
+    deadlineCategoryCounts.length
+      ? deadlineCategoryCounts
+      : [
+          { id: "today" as const, label: "오늘마감", count: endingTodayEventCount, href: "/free-benefits?deadline=today", maxHours: 24 },
+          { id: "week" as const, label: "이번주마감", count: endingThisWeekEventCount, href: "/free-benefits?deadline=week", maxHours: 7 * 24 },
+          { id: "soon" as const, label: "마감임박", count: endingSoonEventCount, href: "/free-benefits?deadline=soon", maxHours: 3 * 24 }
+        ]
+  ).map((category) => ({
+    ...category,
+    className:
+      category.id === "today"
+        ? "border-rose-100 bg-rose-50 text-rose-700"
+        : category.id === "week"
+          ? "border-orange-100 bg-orange-50 text-orange-700"
+          : "border-amber-100 bg-amber-50 text-amber-800"
+  }));
   const getHeroQuickFilterCount = (filter: (typeof heroQuickFilters)[number]) => {
     if (!visibleEvents.length) return null;
     if (filter.label === "오늘마감") return endingTodayEventCount;
@@ -445,6 +465,26 @@ export function HomeFreebieHero({
           </div>
         ))}
       </div>
+
+      {deadlineFilterChips.length ? (
+        <div
+          data-home-free-benefit-deadline-categories="true"
+          className="mt-2 grid grid-cols-3 gap-1.5"
+          aria-label="마감 기준 무료혜택 바로가기"
+        >
+          {deadlineFilterChips.map((category) => (
+            <Link
+              key={category.id}
+              href={category.href}
+              className={`rounded-2xl border px-2 py-1.5 text-center transition hover:bg-white ${category.className}`}
+              aria-label={`${category.label} 무료혜택 ${category.count.toLocaleString("ko-KR")}개 보기`}
+            >
+              <span className="block text-[10px] font-black">{category.label}</span>
+              <span className="mt-0.5 block text-xs font-black sm:text-sm">{category.count.toLocaleString("ko-KR")}개</span>
+            </Link>
+          ))}
+        </div>
+      ) : null}
 
       {visibleRequiredCategoryChips.length ? (
         <div

@@ -349,7 +349,10 @@ const checks = [
     "home exposes free benefit quick filters",
       hasAll(homeFreebieHeroSource, [
         "data-home-free-benefit-quick-filters",
+        "data-home-free-benefit-deadline-categories",
         "eventCategoryCounts",
+        "deadlineCategoryCounts",
+        "getDeadlineCategoryCount",
         "isEmptyFilter",
         'aria-disabled="true"',
         "현재 검증된 혜택이 없습니다",
@@ -366,6 +369,8 @@ const checks = [
       "체험단",
       "무료배송",
       "브랜드",
+      "오늘마감",
+      "이번주마감",
       "마감임박",
       ...requiredHomeQuickFilterParams
     ]).length === 0 &&
