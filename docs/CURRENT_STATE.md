@@ -7,7 +7,7 @@
 ## 현재 기준
 
 - Branch: `codex/12h-product-ux-growth-hardening`
-- 최신 확인 HEAD: `0f0295d8` (`feat: add free benefit operations report`)
+- 최신 확인 HEAD: `109e5cee` (`feat: expose free benefit operations api`)
 - Remote: `origin/main`, `origin/codex/12h-product-ux-growth-hardening`에 반영 대상
 - 운영 URL: `https://www.halindosa.com`
 - Vercel Production Deploy: 기능 커밋 `dc7278cc` 기준 운영 `/api/health` 반영 확인. 이후 무료혜택 GitHub Actions 스케줄러와 운영 리포트 커밋은 배포/push 확인 대상이다.
@@ -40,6 +40,7 @@
 - `/api/health`는 무료혜택 feed 전환 추천 키를 lane별로 노출한다. 현재 운영 응답은 `OFFICIAL_EVENT_FEED_URLS`, `PUBLIC_COUPON_FEED_URLS`, `TELECOM_MEMBERSHIP_FEED_URLS`, `CONVENIENCE_BENEFIT_FEED_URLS`, `BEAUTY_SAMPLE_FEED_URLS`, `CAFE_FRANCHISE_COUPON_FEED_URLS`, `PAY_POINT_BENEFIT_FEED_URLS` 등을 포함한다.
 - GitHub Actions `Benefit Refresh Scheduler`는 `CRON_SECRET` 또는 `HALINDOSA_CRON_SECRET` repository secret이 있으면 30분마다 `/api/cron/benefits`를 호출하고, 정각에는 `/api/cron/refresh?mode=liveFeed`를 호출한다. Vercel Hobby의 daily cron은 유지한다.
 - `benefit:operations:report`는 `reports/free-benefit-operations.json`과 `docs/FREE_BENEFIT_OPERATIONS_REPORT.md`를 생성해 노출 가능한 공식 무료혜택, 제외 후보, 공식 도메인, 브랜드/출처, 오늘/이번주 마감, 검색/비공식/깨진 이미지 0건 게이트, 상위 노출 후보를 운영자가 한 파일에서 확인하게 한다.
+- `/api/admin/free-benefit-operations`와 `/api/admin/free-benefit-operations?format=csv`는 같은 무료혜택 운영 리포트를 관리자 보호 API와 CSV로 제공한다. smoke는 이 API가 공식 무료혜택 수, 공식 도메인 수, 검색/비공식/깨진 이미지 0건, 상위 후보를 유지하는지 검사한다.
 - 홈 무료혜택 히어로는 브랜드 키를 정규화해 같은 브랜드 샘플/쿠폰이 첫 화면에 반복 노출되는 문제를 줄인다.
 - 홈 무료혜택 히어로는 `오늘마감`과 `마감임박`을 분리하고, 공식 무료혜택 카드 16개와 즉시 수령 카드 8개를 모바일 첫 화면 우선 영역으로 노출한다.
 - 오늘마감 혜택이 0건이면 홈 대표 지표와 카테고리 바로가기에서 0건을 크게 띄우지 않고 `이번주마감` 또는 `마감임박` 혜택을 대체 노출한다. 이 정책은 `benefit:event:contract`에서 검사한다.
