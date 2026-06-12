@@ -4701,5 +4701,71 @@
     "allowedUse": "신세계포인트 공식 출석체크와 포인트 플러스에서 포인트 적립, 룰렛, 스탬프 조건과 공식 참여 경로가 확인되는 항목",
     "blockedUse": "종료된 스탬프 이벤트 상세, 앱 설치만 유도하는 일반 소개, 비공식 이벤트 모음",
     "notes": "출석체크/룰렛/스탬프형 무료 포인트 혜택은 무료혜택 상단 노출 후보로 관리한다."
+  },
+  {
+    "id": "paikdabang-official-event-coupon",
+    "label": "빽다방 공식 이벤트·쿠폰",
+    "provider": "official_event",
+    "category": [
+      "외식/배달",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://paikdabang.com/news/event/",
+    "preferredEnvKeys": [
+      "CAFE_FRANCHISE_COUPON_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "빽다방 공식 이벤트 게시판에서 음료 쿠폰, 시즌 이벤트, 앱 참여 조건이 확인되는 혜택",
+    "blockedUse": "브랜드 뉴스만 있는 글, 검색 결과, SNS 캡처, 종료 이벤트, 매장 안내만 있는 페이지",
+    "notes": "진행 중인 공식 이벤트 게시글만 무료혜택 후보로 승격하고, 기간이 없으면 운영 검수 큐로 보낸다."
+  },
+  {
+    "id": "theventi-official-event-coupon",
+    "label": "더벤티 공식 이벤트·쿠폰",
+    "provider": "official_event",
+    "category": [
+      "외식/배달",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.theventi.co.kr/new2022/news/event.html",
+    "preferredEnvKeys": [
+      "CAFE_FRANCHISE_COUPON_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "더벤티 공식 이벤트 페이지에서 음료 쿠폰, 멤버십, 선착순, 시즌 프로모션 조건이 확인되는 항목",
+    "blockedUse": "더벤티 대표 홈, 메뉴 페이지, 비공식 쿠폰 판매글, 종료된 프로모션",
+    "notes": "공식 이벤트 목록에서 종료 문구와 기간을 함께 확인하고 active 항목만 고객 화면에 노출한다."
+  },
+  {
+    "id": "tomntoms-official-event-coupon",
+    "label": "탐앤탐스 공식 이벤트·쿠폰",
+    "provider": "official_event",
+    "category": [
+      "외식/배달",
+      "무료혜택"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.tomntoms.com/event/eventList.php",
+    "preferredEnvKeys": [
+      "CAFE_FRANCHISE_COUPON_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "medium",
+    "refreshCadenceHours": 12,
+    "allowedUse": "탐앤탐스 공식 이벤트 목록에서 음료 쿠폰, 멤버십 혜택, 무료 증정, 참여 조건이 확인되는 항목",
+    "blockedUse": "대표 홈, 제품 소개, 비공식 이벤트 정리글, 종료 또는 당첨자 발표 전용 페이지",
+    "notes": "이벤트 상세에서 기간과 혜택 조건이 확인되는 경우에만 사용자 CTA로 연결한다."
   }
 ]

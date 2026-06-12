@@ -2,11 +2,11 @@
 
 이 문서는 공식 이벤트/혜택 소스 후보의 현재 접근 상태를 non-strict 방식으로 기록합니다. 무단 크롤링을 수행하지 않으며, 보호된 페이지는 공식 API/RSS/제휴 feed 또는 수동 승인 데이터로 연결해야 합니다.
 
-- 생성 시각: 2026-06-12T04:05:37.898Z
+- 생성 시각: 2026-06-12T06:22:57.689Z
 - 모드: non_strict_live_readiness
-- 후보 소스: 217개
-- 접근 가능: 190개
-- 보호/권한 확인 필요: 27개
+- 후보 소스: 220개
+- 접근 가능: 192개
+- 보호/권한 확인 필요: 28개
 - 검토 필요: 0개
 - timeout/network error: 0개
 - 404/410 교체 필요: 0개
@@ -22,8 +22,8 @@
 
 | 상태 | 수 | 운영 액션 |
 | --- | ---: | --- |
-| reachable | 190 | 승인 feed 또는 공식 페이지 매핑 후보로 유지 |
-| guarded | 27 | 공식 API/RSS/제휴 feed 확인 |
+| reachable | 192 | 승인 feed 또는 공식 페이지 매핑 후보로 유지 |
+| guarded | 28 | 공식 API/RSS/제휴 feed 확인 |
 | needs_review | 0 | 최종 도메인과 응답 정책 수동 확인 |
 | timeout/network_error | 0 | 재시도 또는 담당자 확인 |
 | stale_or_removed | 0 | 카탈로그 URL 교체 전 사용 금지 |
@@ -44,7 +44,7 @@
 | cgv-events | public_coupon | medium | guarded | 403 | cgv.co.kr | 무단 크롤링하지 말고 공식 API/RSS/제휴 feed 또는 수동 승인 매핑 사용 |
 | lottecinema-events | public_coupon | medium | reachable | 200 | lottecinema.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | megabox-events | public_coupon | medium | reachable | 200 | megabox.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
-| culture-day | public_coupon | high | reachable | 200 | culture.go.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| culture-day | public_coupon | high | guarded | 500 | culture.go.kr | 일시 장애 여부를 재확인하고 노출 데이터는 기존 검증 feed만 유지 |
 | mnuri-benefit | public_coupon | high | reachable | 200 | mnuri.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | naverpay-benefit | official_event | high | guarded | 200 | nid.naver.com | 로그인/권한 페이지를 수집하지 말고 공식 API/RSS/제휴 feed 또는 수동 승인 매핑 사용 |
 | kbcard-events | official_event | medium | reachable | 200 | card.kbcard.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
@@ -150,7 +150,7 @@
 | lottemart-official-benefits | official_event | medium | reachable | 200 | company.lottemart.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | daisomall-official-events | official_event | medium | reachable | 200 | daisomall.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | gmarket-official-coupon-event | official_event | medium | guarded | 403 | gmarket.co.kr | 무단 크롤링하지 말고 공식 API/RSS/제휴 feed 또는 수동 승인 매핑 사용 |
-| auction-official-ecoupon-event | official_event | medium | guarded | 0 | promotion.auction.co.kr | 공식 feed 연결 전 브라우저/제휴 담당자 확인 필요 |
+| auction-official-ecoupon-event | official_event | medium | reachable | 200 | promotion.auction.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | eventhouse-approved-event-discovery | public_coupon | low | reachable | 200 | eventhouse.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | baskinrobbins-official-event-list | official_event | medium | reachable | 200 | baskinrobbins.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | dunkin-official-event-benefits | official_event | medium | reachable | 200 | dunkindonuts.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
@@ -249,6 +249,9 @@
 | lpoint-official-event-list | official_event | high | reachable | 200 | m.lpoint.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | shinsegae-point-official-events | official_event | high | reachable | 200 | m.shinsegaepoint.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
 | shinsegae-point-attendance | official_event | high | reachable | 200 | m.shinsegaepoint.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| paikdabang-official-event-coupon | official_event | medium | reachable | 200 | paikdabang.com | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| theventi-official-event-coupon | official_event | medium | reachable | 200 | theventi.co.kr | 승인 feed 후보로 유지하고 refresh:news 또는 수동 매핑에 연결 |
+| tomntoms-official-event-coupon | official_event | medium | guarded | 0 | tomntoms.com | 공식 feed 연결 전 브라우저/제휴 담당자 확인 필요 |
 
 ## 다음 작업
 
