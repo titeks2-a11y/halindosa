@@ -7,11 +7,11 @@
 ## 현재 기준
 
 - Branch: `codex/12h-product-ux-growth-hardening`
-- 최신 운영 확인 기준: `9c9f35ff` (`test: verify production homepage visible render`) 기준 Vercel Production 반영 확인.
+- 최신 운영 확인 기준: `6eb18829` 기준 Vercel Production 반영 확인. 최신 코드 커밋은 `33b132ba`이며 Vercel Hobby 일일 배포 제한 해제 후 운영 반영을 재시도한다.
 - Remote: `origin/main`, `origin/codex/12h-product-ux-growth-hardening`에 반영 대상
 - 운영 URL: `https://www.halindosa.com`
 - Vercel Production Deploy: `9c9f35ff` 기준 운영 `/api/health` 반영 확인. 새 커밋 후에는 운영 `/api/health`의 `deployment.shortCommit`으로 최신 반영 여부를 다시 확인한다.
-- 2026-06-13 01:25 KST 확인: 최신 커밋 `dd69e1f8`는 GitHub `main`과 `codex/12h-product-ux-growth-hardening`에 push 완료. GitHub Actions의 `CI`와 `Vercel Production Deploy`는 새 커밋 기준으로 다시 실행될 예정이다. 운영 `/api/health.deployment.shortCommit`은 아직 `5b89b450`이다. 직전 `f8d6f2fb` Production Deploy는 실패했으며, 이전 실패 원인은 Hobby 일일 배포 제한(`api-deployments-free-per-day`, 402)이었다. 제한 해제 또는 Actions 재실행 후 최신 커밋을 배포하고 `/api/health.deployment.shortCommit`을 확인한다.
+- 2026-06-13 04:36 KST 확인: 최신 커밋 `33b132ba`는 GitHub `main`과 `codex/12h-product-ux-growth-hardening`에 push 완료. 직접 `vercel deploy --prod --force --yes`는 Hobby 일일 배포 제한(`api-deployments-free-per-day`)으로 실패했다. 운영 `/api/health.deployment.shortCommit`은 `6eb18829`이다. 제한 해제 또는 GitHub Actions 재실행 후 최신 커밋을 배포하고 `/api/health.deployment.shortCommit=33b132ba`를 확인한다.
 - GitHub CI: 최신 `main`/`codex/12h-product-ux-growth-hardening` push 대상. 새 커밋 후 운영 `/api/health`의 `deployment.shortCommit`으로 실제 반영 여부를 확인한다.
 - 로컬 최신 홈페이지: `http://127.0.0.1:3000/?verifiedOnly=true`
 - 운영 API 최신 계약 확인:
