@@ -5,6 +5,7 @@ import { HomeRealtimeFreeBenefitRail } from "@/components/home/HomeRealtimeFreeB
 import { getVisibleNewsDeals } from "@/lib/deals/newsDeals";
 import { formatPrice, getRelativeTime, getTimeLeft } from "@/lib/format";
 import { buildHomeFreebieSummary, hasLowFrictionBenefitSignal, hasPurchaseCondition, selectHomeFreebies } from "@/lib/homeFreebies";
+import { buildFreeBenefitCategoryCoverageReport } from "@/lib/operations/freeBenefitCategoryCoverage";
 import type { NewsBenefitType, NewsDeal } from "@/types/newsDeal";
 
 const HOME_BENEFIT_LIMIT = 220;
@@ -170,6 +171,19 @@ export default function Page() {
   const todayDeadlineChip = { label: "오늘마감", value: endingTodayCount, href: "/free-benefits?deadline=today" };
   const weekDeadlineChip = { label: "이번주마감", value: endingThisWeekCount, href: "/free-benefits?deadline=week" };
   const soonDeadlineChip = { label: "마감임박", value: endingBenefits.length, href: "/free-benefits?deadline=soon" };
+  const requiredCategoryCoverage = buildFreeBenefitCategoryCoverageReport();
+  const categoryRepresentativeBenefits = requiredCategoryCoverage.categoryCandidateGroups
+    .flatMap((group) =>
+      group.candidates.slice(0, 1).map((candidate) => ({
+        ...candidate,
+        groupId: group.id,
+        groupLabel: group.label,
+        groupHref: group.href,
+        groupCount: group.count
+      }))
+    )
+    .filter((candidate) => candidate.finalUrl.startsWith("https://") && candidate.title && candidate.sourceName)
+    .slice(0, 10);
 
   const chips = [
     { label: "전원증정", value: allBenefits.filter((deal) => /전원|증정/.test([deal.title, deal.summary, ...deal.tags].join(" "))).length, href: "/free-benefits?eventType=everyone" },
@@ -232,6 +246,43 @@ export default function Page() {
             </a>
           ))}
         </section>
+
+        {categoryRepresentativeBenefits.length ? (
+          <section
+            data-home-free-benefit-category-representatives="true"
+            className="rounded-[22px] border border-slate-200 bg-white p-3 shadow-sm"
+            aria-label="카테고리별 대표 무료혜택"
+          >
+            <div className="flex items-center justify-between gap-3">
+              <div className="min-w-0">
+                <p className="text-xs font-black text-dossa-red">카테고리별 대표 혜택</p>
+                <h2 className="mt-1 line-clamp-1 text-base font-black text-slate-950">각 혜택 유형에서 바로 받을 후보</h2>
+              </div>
+              <Link href="/free-benefits" className="shrink-0 rounded-2xl bg-slate-950 px-3 py-2 text-xs font-black text-white">
+                전체보기
+              </Link>
+            </div>
+            <div className="mt-3 flex gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              {categoryRepresentativeBenefits.map((candidate) => (
+                <Link
+                  key={`${candidate.groupId}-${candidate.id}`}
+                  href={`/go/news/${encodeURIComponent(candidate.id)}?from=home-shell-category-representative`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="min-h-20 w-[10.75rem] shrink-0 rounded-2xl border border-slate-100 bg-slate-50 p-2.5 transition hover:border-red-100"
+                  aria-label={`${candidate.groupLabel} 대표 혜택 ${candidate.title} 공식 페이지 새 탭으로 열기`}
+                >
+                  <div className="flex min-w-0 items-center justify-between gap-2">
+                    <span className="truncate rounded-full bg-red-50 px-2 py-1 text-[10px] font-black text-dossa-red">{candidate.groupLabel}</span>
+                    <span className="shrink-0 text-[10px] font-black text-slate-400">{candidate.groupCount.toLocaleString("ko-KR")}개</span>
+                  </div>
+                  <p className="mt-2 line-clamp-2 min-h-[2.4rem] text-xs font-black leading-5 text-slate-950">{candidate.title}</p>
+                  <p className="mt-1 truncate text-[10px] font-bold text-slate-500">{candidate.sourceName || candidate.host}</p>
+                </Link>
+              ))}
+            </div>
+          </section>
+        ) : null}
 
         <section className="grid grid-cols-2 gap-2 lg:grid-cols-6" aria-label="핵심 무료혜택">
           {heroBenefits.map((deal) => (

@@ -1366,6 +1366,8 @@ async function checkSearchAndPurchaseFlow() {
     !homeRuntimeSource.includes("카테고리 바로가기") ||
     !homeRuntimeSource.includes("quickCategoryShortcuts") ||
     !homePage.includes("data-home-required-free-benefit-categories") ||
+    !homePage.includes("data-home-free-benefit-category-representatives") ||
+    !homePage.includes("buildFreeBenefitCategoryCoverageReport") ||
     !homeFreebieHero.includes("data-home-required-free-benefit-categories") ||
     !homeFreebieHero.includes("data-home-free-benefit-category-representatives") ||
     !homeFreebieHero.includes("categoryRepresentativeBenefits") ||
