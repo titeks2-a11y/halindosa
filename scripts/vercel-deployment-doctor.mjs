@@ -292,6 +292,12 @@ const rootOfficialBenefitLinks = (rootHtml.match(/href="\/go\/news\//g) ?? []).l
 const rootClaimConditionLabels = ["쿠폰 받기", "무료 혜택", "샘플 신청", "무료체험", "기프티콘", "포인트 적립", "가입 혜택", "조건 확인"].filter((label) =>
   rootHtml.includes(label)
 );
+const rootVisibleRenderOk = !rootHtml.includes('id="S:0"') && !rootHtml.includes("할인도사 화면을 불러오는 중");
+checks.push(
+  rootVisibleRenderOk
+    ? pass("root free benefit visible render", "Production homepage renders real free-benefit cards without a hidden streamed shell or sticky loading fallback.")
+    : fail("root free benefit visible render", "Production homepage should not ship hidden streamed content or the global loading fallback to customers.")
+);
 checks.push(
   rootHtml.includes("무료혜택 메인") && rootHtml.includes("실시간 검증됨") && rootOfficialBenefitLinks >= 3
     ? pass("root free benefit hero", `Production homepage renders the free-benefit-first hero with ${rootOfficialBenefitLinks} official benefit links.`)
@@ -575,6 +581,7 @@ const report = {
     canonicalOriginContractPassed: probes.canonicalOriginApis.ok,
     rootOfficialBenefitLinks,
     rootClaimConditionLabels: rootClaimConditionLabels.length,
+    rootVisibleRenderOk,
     homeProductDeals: homeDeals.length,
     homeOfficialBenefits: homeNewsDeals.length,
     freebies: freebies.length,

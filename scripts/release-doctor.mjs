@@ -373,6 +373,7 @@ async function checkCiWorkflow() {
   } else {
     const vercelWorkflow = await text(vercelWorkflowPath);
     const deployGuide = await text("README_DEPLOY.md");
+    const vercelDeploymentDoctor = await text("scripts/vercel-deployment-doctor.mjs");
     const requiredVercelWorkflowSnippets = [
       'branches: ["main"]',
       "concurrency:",
@@ -406,14 +407,21 @@ async function checkCiWorkflow() {
     ];
     const missingVercelWorkflow = requiredVercelWorkflowSnippets.filter((snippet) => !vercelWorkflow.includes(snippet));
     const missingDeployGuide = requiredDeployGuideSnippets.filter((snippet) => !deployGuide.includes(snippet));
+    const requiredVercelDoctorSnippets = [
+      "root free benefit visible render",
+      "id=\"S:0\"",
+      "할인도사 화면을 불러오는 중",
+      "rootVisibleRenderOk"
+    ];
+    const missingVercelDoctor = requiredVercelDoctorSnippets.filter((snippet) => !vercelDeploymentDoctor.includes(snippet));
 
-    if (missingVercelWorkflow.length || missingDeployGuide.length) {
+    if (missingVercelWorkflow.length || missingDeployGuide.length || missingVercelDoctor.length) {
       fail(
         "vercel production deploy workflow",
-        `Production deploy workflow should validate launch gates, deploy with Vercel secrets, and run vercel:doctor. Missing workflow: ${missingVercelWorkflow.join(", ") || "none"}; guide: ${missingDeployGuide.join(", ") || "none"}`
+        `Production deploy workflow should validate launch gates, deploy with Vercel secrets, and run vercel:doctor. Missing workflow: ${missingVercelWorkflow.join(", ") || "none"}; guide: ${missingDeployGuide.join(", ") || "none"}; vercel doctor: ${missingVercelDoctor.join(", ") || "none"}`
       );
     } else {
-      pass("vercel production deploy workflow", "GitHub Actions production deploy workflow validates launch gates, deploys Vercel with repository secrets, and runs vercel:doctor evidence checks.");
+      pass("vercel production deploy workflow", "GitHub Actions production deploy workflow validates launch gates, deploys Vercel with repository secrets, and runs vercel:doctor evidence checks including visible home free-benefit render.");
     }
   }
 
