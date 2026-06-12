@@ -7,11 +7,11 @@
 ## 현재 기준
 
 - Branch: `codex/12h-product-ux-growth-hardening`
-- 최신 확인 HEAD: 이 문서가 포함된 무료혜택 점수 체계 보강 커밋 기준
+- 최신 확인 HEAD: `f32397ac` (`docs: refresh lane feed deployment evidence`)
 - Remote: `origin/main`, `origin/codex/12h-product-ux-growth-hardening`에 반영 대상
 - 운영 URL: `https://www.halindosa.com`
-- Vercel Production Deploy: 직전 WebView 전환 커밋 `da63cc6a` 기준 성공 확인, 이 문서가 포함된 새 커밋은 push 후 확인
-- GitHub CI: 직전 WebView 전환 커밋 `da63cc6a` 기준 성공 확인, 이 문서가 포함된 새 커밋은 push 후 확인
+- Vercel Production Deploy: 기능 커밋 `dc7278cc` 기준 운영 `/api/health` 반영 확인. 문서 커밋 `f32397ac`는 코드 변경이 없으며 push 완료.
+- GitHub CI: 최신 `main`/`codex/12h-product-ux-growth-hardening` push 완료. 운영 기능 상태는 `dc7278cc` 기준 확인.
 - 로컬 최신 홈페이지: `http://127.0.0.1:3000/?verifiedOnly=true`
 - 운영 API 최신 계약 확인:
   - `/api/home?limit=1&verifiedOnly=true`: HTTP 200
@@ -37,8 +37,10 @@
 - smoke/release 검증은 소비자 우선 기본 피드와 `includePublic=true` 전체 공식 혜택 풀을 구분해서 검사한다.
 - QA 파이프라인은 중복 실행을 제거해 71개 핵심 게이트로 정리했다. 개별 품질 기준은 유지한다.
 - `/api/home`과 `/api/health`가 비밀이 아닌 deployment commit metadata를 반환한다. `vercel:doctor`는 `REQUIRE_DEPLOY_COMMIT=true`일 때 운영 도메인이 최신 커밋을 실제로 서빙하지 않으면 실패한다.
+- `/api/health`는 무료혜택 feed 전환 추천 키를 lane별로 노출한다. 현재 운영 응답은 `OFFICIAL_EVENT_FEED_URLS`, `PUBLIC_COUPON_FEED_URLS`, `TELECOM_MEMBERSHIP_FEED_URLS`, `CONVENIENCE_BENEFIT_FEED_URLS`, `BEAUTY_SAMPLE_FEED_URLS`, `CAFE_FRANCHISE_COUPON_FEED_URLS`, `PAY_POINT_BENEFIT_FEED_URLS` 등을 포함한다.
 - 홈 무료혜택 히어로는 브랜드 키를 정규화해 같은 브랜드 샘플/쿠폰이 첫 화면에 반복 노출되는 문제를 줄인다.
 - 홈 무료혜택 히어로는 `오늘마감`과 `마감임박`을 분리하고, 공식 무료혜택 카드 16개와 즉시 수령 카드 8개를 모바일 첫 화면 우선 영역으로 노출한다.
+- 오늘마감 혜택이 0건이면 홈 대표 지표와 카테고리 바로가기에서 0건을 크게 띄우지 않고 `이번주마감` 또는 `마감임박` 혜택을 대체 노출한다. 이 정책은 `benefit:event:contract`에서 검사한다.
 - `scripts/home-runtime-snapshot-doctor.mjs`는 `localhost:3000`을 먼저 확인하고, 다른 앱이 `127.0.0.1:3000`을 점유해도 할인도사 런타임 스냅샷 검증이 잘못 실패하지 않게 했다.
 - `FreeBenefitEvent`는 `qualityScore`, `freshnessScore`, `officialScore`, `urgencyScore`, `rewardScore`를 함께 계산해 공식성, 최신성, 마감성, 보상 가치를 랭킹과 운영 리포트에 반영한다.
 - `docs/FREE_BENEFIT_SCORING.md`에 무료혜택 노출 조건과 점수 기준을 정리했다.
@@ -101,6 +103,17 @@
   - `npm run build:android`: 통과
   - `npm run cap:sync`: 통과
   - `npm run android:webview:doctor`: 13/13 통과
+  - `npm run workspace:doctor:strict`: 재생성 산출물 0B, 통과
+- `dc7278cc` lane-specific feed guidance 작업 후 추가 확인:
+  - `npm run lint`: 통과
+  - `npm run smoke:local`: 104/104 통과
+  - `npm run release:doctor`: 191/191 통과
+  - `npm run build`: 통과
+  - 운영 `/api/health`: `deployment.shortCommit=dc7278cc`, lane-specific feed env keys 포함 확인
+- `f32397ac` 문서/배포 증거 정리 후 추가 확인:
+  - `npm run build:android`: 통과
+  - `npm run android:webview:doctor`: 13/13 통과
+  - `npm run cap:sync`: 통과
   - `npm run workspace:doctor:strict`: 재생성 산출물 0B, 통과
 - `npm run build`: 통과
 - `npm run build:android`: 통과
