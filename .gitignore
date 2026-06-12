@@ -30,6 +30,7 @@ yarn-error.log*
 pnpm-debug.log*
 .dev-server*.log
 .codex-dev-server*.log
+tmp-dev-*.log
 .codex-runtime/
 
 # Generated verification reports
