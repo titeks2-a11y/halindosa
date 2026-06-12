@@ -1,31 +1,31 @@
 # Vercel Deployment Doctor
 
-Generated: 2026-06-10T19:57:19.561Z
+Generated: 2026-06-12T02:48:13.397Z
 
-Status: BLOCKED
+Status: PASS
 
 ## Target
 
 - Origin: `https://halindosa.com`
 - Branch: `codex/12h-product-ux-growth-hardening`
-- Commit: `a7e87e3d`
-- Working tree: 2 changed file(s): M docs/VERCEL_DEPLOYMENT_REPORT.md; M reports/vercel-deployment.json
+- Commit: `66c34b90`
+- Working tree: clean
 - Vercel project linked locally: no
 - Vercel token present in shell: no
 
 ## Summary
 
-- Checks: 28/29
+- Checks: 28/28
 - Root: 200
 - Home API: 200
 - Deals API: 200
 - Freebies API: 200
 - Health API: 200
-- Deployed commit: (missing)
-- Expected deploy commit: a7e87e3d
-- Home API Request ID: 2e811e76-ebed-44be-9d43-a165819c6c57
-- Deals API Request ID: 8debccff-a077-4cec-8d37-ba2eba0c6cef
-- Freebies API Request ID: a4a224f0-b869-4cb2-9df4-428a11be3a2f
+- Deployed commit: 66c34b90
+- Expected deploy commit: (not enforced)
+- Home API Request ID: 4c7cf304-4b63-41db-a260-7ccbfde0832a
+- Deals API Request ID: b25a0706-e38b-4f7e-939d-96f46adde2a6
+- Freebies API Request ID: 3e535d29-e001-49bd-9435-a6190787a3ab
 - /go redirect: 302
 - Official benefit /go redirect: 302
 - Home API Cache-Control: `no-store, no-cache, must-revalidate, proxy-revalidate`
@@ -34,7 +34,7 @@ Status: BLOCKED
 - Cron benefits public guard: 401
 - Canonical production API contracts: passed (2 origin(s))
 - Home product deals checked: 8
-- Home official benefits checked: 120
+- Home official benefits checked: 160
 - Freebies checked: 12
 - Freebie events checked: 12
 - Public/policy freebies in default response: 0
@@ -48,11 +48,10 @@ Status: BLOCKED
 | PASS | home api status | /api/home returned 200 JSON with ok=true. |
 | PASS | home api no-store | Cache-Control=no-store, no-cache, must-revalidate, proxy-revalidate |
 | PASS | home api deals | /api/home returned 8 deals. |
-| PASS | home api official benefits | /api/home returned 120 official benefits/news deals. |
+| PASS | home api official benefits | /api/home returned 160 official benefits/news deals. |
 | PASS | home api realtime metadata | /api/home exposes cachePolicy=no-store and channel freshness metadata. |
 | PASS | home api abuse guard | /api/home exposes requestId and rate-limit headers on the public deployment. |
-| FAIL | deployment commit metadata | /api/home or /api/health must expose deployment.commit before production verification can prove the latest commit is live. |
-| PASS | deployed commit matches expected | Expected a7e87e3d; public deployment reports . |
+| PASS | deployment commit metadata | Public APIs expose deployed commit 66c34b90. |
 | PASS | home product exposure policy | No invalid, hidden, stale, search, homepage, community, low-quality, or image-less product deal leaked from /api/home. |
 | PASS | home official benefit exposure policy | No invalid, hidden, stale, search, homepage, community, low-quality, or image-less official benefit leaked from /api/home. |
 | PASS | deals api status | /api/deals returned 8 verified deals. |
