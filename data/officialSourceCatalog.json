@@ -4767,5 +4767,75 @@
     "allowedUse": "탐앤탐스 공식 이벤트 목록에서 음료 쿠폰, 멤버십 혜택, 무료 증정, 참여 조건이 확인되는 항목",
     "blockedUse": "대표 홈, 제품 소개, 비공식 이벤트 정리글, 종료 또는 당첨자 발표 전용 페이지",
     "notes": "이벤트 상세에서 기간과 혜택 조건이 확인되는 경우에만 사용자 CTA로 연결한다."
+  },
+  {
+    "id": "twosome-official-event-list",
+    "label": "투썸플레이스 공식 이벤트 목록",
+    "provider": "official_event",
+    "category": [
+      "외식/배달",
+      "무료혜택",
+      "카드/멤버십"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://mo.twosome.co.kr/ev/eventList.do",
+    "preferredEnvKeys": [
+      "CAFE_FRANCHISE_COUPON_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 6,
+    "allowedUse": "투썸플레이스 공식 이벤트 목록에서 쿠폰, 멤버십, 무료 음료, 선착순 증정, 기간 조건이 확인되는 진행 이벤트",
+    "blockedUse": "대표 홈, 종료된 이벤트 상세, 인스타그램 단독 이벤트, 비공식 쿠폰 판매글",
+    "notes": "이벤트 상세에서 기간과 참여 조건이 확인되고 종료 문구가 없을 때만 사용자 CTA로 연결한다."
+  },
+  {
+    "id": "touslesjours-official-event-list",
+    "label": "뚜레쥬르 공식 진행 이벤트",
+    "provider": "official_event",
+    "category": [
+      "외식/배달",
+      "무료혜택",
+      "카드/멤버십"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://m.tlj.co.kr/community/event/list.asp",
+    "preferredEnvKeys": [
+      "CAFE_FRANCHISE_COUPON_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 6,
+    "allowedUse": "뚜레쥬르 공식 진행 이벤트 목록에서 쿠폰, 카드사 혜택, 통신사 혜택, 진행 기간이 확인되는 항목",
+    "blockedUse": "종료 이벤트, 당첨자 발표, 뉴스 기사, 비공식 핫딜 게시글",
+    "notes": "이벤트 상세가 진행 중이고 공식 참여 조건이 확인될 때만 사용자 CTA로 연결한다."
+  },
+  {
+    "id": "cupost-official-event-list",
+    "label": "CU편의점택배 공식 진행 이벤트",
+    "provider": "official_event",
+    "category": [
+      "마트/편의점",
+      "무료혜택",
+      "카드/멤버십"
+    ],
+    "sourceType": "official_event_page",
+    "officialUrl": "https://www.cupost.co.kr/mobile/cuevent/eventList.cupost",
+    "preferredEnvKeys": [
+      "CONVENIENCE_BENEFIT_FEED_URLS",
+      "OFFICIAL_EVENT_FEED_URLS",
+      "BENEFIT_REFRESH_FEED_URLS",
+      "SIGNUP_GIFT_FEED_URLS"
+    ],
+    "integrationMethod": "official_page_or_partner_json_feed",
+    "priority": "high",
+    "refreshCadenceHours": 6,
+    "allowedUse": "CU편의점택배 공식 진행 이벤트에서 신규가입 쿠폰, 반값택배 할인, 경품, 모바일상품권 조건이 확인되는 항목",
+    "blockedUse": "지난 이벤트, 당첨자 발표, 편의점 일반 상품 검색, SNS 단독 이벤트",
+    "notes": "진행 중 이벤트와 기간이 확인되는 상세 또는 목록 항목만 무료혜택 카드 후보로 사용한다."
   }
 ]
