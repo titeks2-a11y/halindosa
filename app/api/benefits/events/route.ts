@@ -4,6 +4,7 @@ import { getVisibleNewsDeals } from "@/lib/deals/newsDeals";
 import {
   buildFreeBenefitEvents,
   buildFreeBenefitEventCategoryCounts,
+  buildFreeBenefitEventRuntimeReadiness,
   buildFreeBenefitEventSourceSummary,
   freeBenefitEventCategories,
   getFreeBenefitEventScore,
@@ -185,6 +186,7 @@ export async function GET(request: Request) {
     const events = filteredEvents.slice(0, limit);
     const categoryCounts = buildFreeBenefitEventCategoryCounts(publishableEvents);
     const filteredCategoryCounts = buildFreeBenefitEventCategoryCounts(filteredEvents);
+    const runtimeReadiness = buildFreeBenefitEventRuntimeReadiness(filteredEvents, referenceNow);
 
     return noStoreJson(
       {
@@ -199,6 +201,7 @@ export async function GET(request: Request) {
         categoryCounts,
         filteredCategoryCounts,
         summary: summarizeEvents(filteredEvents, referenceNow),
+        runtimeReadiness,
         filters: {
           type: searchParams.get("type") ?? "all",
           q: searchParams.get("q") ?? "",

@@ -121,8 +121,8 @@ export async function runPageSmokeChecks() {
           "/api/home free benefit event metadata should explain visible types and official redirect CTA policy"
         );
         assert(
-          data.freebiesMeta.categoryCounts.find((category) => category.id === "all")?.count === data.freeBenefitEvents.length,
-          "/api/home free benefit all-count should match returned home free benefit event rows"
+          data.freebiesMeta.categoryCounts.find((category) => category.id === "all")?.count === data.freebiesMeta.eventCount,
+          "/api/home free benefit all-count should match the full publishable event pool"
         );
         assert(data.quality?.productDeals?.publishableLinks >= 0, "/api/home should expose product publishable quality metadata");
         assert(data.quality?.officialBenefits?.publishable >= 0, "/api/home should expose official benefit publishable quality metadata");
@@ -178,8 +178,8 @@ export async function runPageSmokeChecks() {
     assert(new Set(freebiePool.data.events.map((event) => event.benefitType)).size >= 8, "/api/freebies events should preserve mixed benefit-type discovery");
     assert(Array.isArray(freebiePool.data.categoryCounts), "/api/freebies should expose free benefit event category counts");
     assert(
-      freebiePool.data.categoryCounts.find((category) => category.id === "all")?.count === freebiePool.data.events.length,
-      "/api/freebies category all-count should match returned free benefit event rows"
+      freebiePool.data.categoryCounts.find((category) => category.id === "all")?.count === freebiePool.data.eventCount,
+      "/api/freebies category all-count should match the full publishable event pool"
     );
     assert(
       freebiePool.data.events.every(

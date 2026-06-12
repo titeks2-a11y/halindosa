@@ -53,6 +53,41 @@ export interface FreeBenefitEventSourceSummary {
   averageRewardScore: number;
 }
 
+export interface FreeBenefitEventRuntimeReadiness {
+  ok: boolean;
+  generatedAt: string;
+  total: number;
+  officialCount: number;
+  verifiedCount: number;
+  noPurchaseCount: number;
+  noLoginNoPurchaseCount: number;
+  categoriesWithItems: number;
+  requiredCategoryCount: number;
+  missingRequiredCategories: Array<{ id: FreeBenefitEventType; label: string }>;
+  deadlineBuckets: {
+    today: number;
+    thisWeek: number;
+    soon: number;
+  };
+  staleCheckCount: number;
+  staleCheckThresholdHours: number;
+  topBrands: Array<{ brand: string; count: number }>;
+  issues: string[];
+}
+
+const requiredRuntimeCategoryIds: FreeBenefitEventType[] = [
+  "everyone",
+  "firstCome",
+  "coupon",
+  "sample",
+  "freeTrial",
+  "gifticon",
+  "pointCashback",
+  "checkIn",
+  "signup",
+  "freeShipping"
+];
+
 export function buildFreeBenefitEventCategoryCounts(events: FreeBenefitEvent[]): FreeBenefitEventCategoryCount[] {
   const counts = events.reduce<Record<string, number>>(
     (acc, event) => {
@@ -66,6 +101,76 @@ export function buildFreeBenefitEventCategoryCounts(events: FreeBenefitEvent[]):
     ...category,
     count: category.id === "all" ? events.length : counts[category.id] ?? 0
   }));
+}
+
+export function buildFreeBenefitEventRuntimeReadiness(events: FreeBenefitEvent[], referenceNow = Date.now()): FreeBenefitEventRuntimeReadiness {
+  const categoryCounts = buildFreeBenefitEventCategoryCounts(events);
+  const countByCategory = new Map(categoryCounts.map((category) => [category.id, category.count]));
+  const missingRequiredCategories = requiredRuntimeCategoryIds
+    .filter((id) => (countByCategory.get(id) ?? 0) <= 0)
+    .map((id) => ({
+      id,
+      label: getFreeBenefitEventLabel(id)
+    }));
+  const dayMs = 24 * 60 * 60 * 1000;
+  const staleCheckThresholdHours = 24;
+  const staleCheckThresholdMs = staleCheckThresholdHours * 60 * 60 * 1000;
+  const brandCounts = events.reduce<Record<string, number>>((counts, event) => {
+    const brand = sanitizeBenefitText(event.brandName || event.brand || event.sourceName || "기타", 40);
+    counts[brand] = (counts[brand] ?? 0) + 1;
+    return counts;
+  }, {});
+  const deadlineBuckets = events.reduce(
+    (buckets, event) => {
+      const endAt = Date.parse(event.endAt);
+      if (!Number.isFinite(endAt)) return buckets;
+      const timeLeft = endAt - referenceNow;
+      if (timeLeft < 0) return buckets;
+      if (timeLeft <= dayMs) buckets.today += 1;
+      if (timeLeft <= 3 * dayMs) buckets.soon += 1;
+      if (timeLeft <= 7 * dayMs) buckets.thisWeek += 1;
+      return buckets;
+    },
+    { today: 0, thisWeek: 0, soon: 0 }
+  );
+  const staleCheckCount = events.filter((event) => {
+    const checkedAt = Date.parse(event.lastCheckedAt || event.verifiedAt || event.updatedAt || event.collectedAt);
+    return !Number.isFinite(checkedAt) || referenceNow - checkedAt > staleCheckThresholdMs;
+  }).length;
+  const officialCount = events.filter((event) => event.isOfficial || event.sourceType === "official").length;
+  const verifiedCount = events.filter((event) => event.isVerified && event.validationStatus === "passed").length;
+  const noPurchaseCount = events.filter((event) => !event.requiresPurchase).length;
+  const noLoginNoPurchaseCount = events.filter((event) => !event.requiresLogin && !event.requiresPurchase).length;
+  const categoriesWithItems = categoryCounts.filter((category) => category.id !== "all" && category.count > 0).length;
+  const issues = [
+    events.length < 80 ? `노출 가능한 공식 무료혜택이 80개 미만입니다. 현재 ${events.length}개입니다.` : "",
+    officialCount < events.length ? `공식 출처가 아닌 승인 소스가 ${events.length - officialCount}개 섞여 있습니다.` : "",
+    verifiedCount < events.length ? `검증 통과 표시가 없는 혜택이 ${events.length - verifiedCount}개 있습니다.` : "",
+    noPurchaseCount < 50 ? `구매 조건 없는 혜택이 50개 미만입니다. 현재 ${noPurchaseCount}개입니다.` : "",
+    missingRequiredCategories.length ? `필수 무료혜택 카테고리 공백: ${missingRequiredCategories.map((category) => category.label).join(", ")}` : "",
+    staleCheckCount > Math.max(5, Math.floor(events.length * 0.15)) ? `24시간 이상 재검증되지 않은 혜택이 ${staleCheckCount}개입니다.` : ""
+  ].filter(Boolean);
+
+  return {
+    ok: issues.length === 0,
+    generatedAt: new Date(referenceNow).toISOString(),
+    total: events.length,
+    officialCount,
+    verifiedCount,
+    noPurchaseCount,
+    noLoginNoPurchaseCount,
+    categoriesWithItems,
+    requiredCategoryCount: requiredRuntimeCategoryIds.length,
+    missingRequiredCategories,
+    deadlineBuckets,
+    staleCheckCount,
+    staleCheckThresholdHours,
+    topBrands: Object.entries(brandCounts)
+      .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+      .slice(0, 12)
+      .map(([brand, count]) => ({ brand, count })),
+    issues
+  };
 }
 
 function averageScore(events: FreeBenefitEvent[], select: (event: FreeBenefitEvent) => number) {

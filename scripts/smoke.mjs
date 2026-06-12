@@ -155,6 +155,10 @@ await check("freebies api", async () => {
   assert(data.freebies.every((deal) => !/\/search|search\?|query=|keyword=|shopping\/search|msearch|\/find|\/result|ppomppu|fmkorea|quasarzone|algumon|blog\.naver|news\.naver/i.test(deal.finalUrl)), "Freebies API returned a search, community, or news URL");
   assert(data.cachePolicy?.mode === "no-store", "Freebies API should expose no-store cache policy");
   assert(["fresh", "due", "stale", "seed"].includes(data.freshnessStatus), "Freebies API missing freshness status");
+  assert(data.runtimeReadiness?.total === data.eventCount, "Freebies API runtime readiness total should match eventCount");
+  assert(data.runtimeReadiness?.categoriesWithItems >= 8, "Freebies API runtime readiness should expose broad category coverage");
+  assert(data.runtimeReadiness?.deadlineBuckets?.thisWeek >= 0, "Freebies API runtime readiness missing deadline buckets");
+  assert(Array.isArray(data.runtimeReadiness?.topBrands) && data.runtimeReadiness.topBrands.length >= 4, "Freebies API runtime readiness missing top brand coverage");
 });
 
 await check("free benefit events api", async () => {
@@ -174,6 +178,11 @@ await check("free benefit events api", async () => {
   assert(data.filteredCategoryCounts.find((category) => category.id === "all")?.count === data.totalCount, "Free benefit events API filtered all count should match totalCount");
   assert(data.summary?.noPurchase >= 1 || data.summary?.everyone >= 1 || data.summary?.firstCome >= 1, "Free benefit events API summary missing free-benefit counters");
   assert(data.summary?.officialSourceCount >= 50, "Free benefit events API summary missing official source diversity counter");
+  assert(data.runtimeReadiness?.total === data.totalCount, "Free benefit events API runtime readiness total should match filtered totalCount");
+  assert(data.runtimeReadiness?.officialCount >= 80, "Free benefit events API runtime readiness missing official source count");
+  assert(data.runtimeReadiness?.noPurchaseCount >= 40, "Free benefit events API runtime readiness should favor no-purchase benefits");
+  assert(data.runtimeReadiness?.categoriesWithItems >= 10, "Free benefit events API runtime readiness should cover the core mobile filters");
+  assert(Array.isArray(data.runtimeReadiness?.missingRequiredCategories), "Free benefit events API runtime readiness missing category gap list");
   assert(data.filters?.sort === "recommended", "Free benefit events API should expose selected sort state");
   assert(data.rankingPolicy?.ctaField === "claimCtaLabel" && data.rankingPolicy?.trustField === "trustBadges", "Free benefit events API missing customer-facing ranking policy");
   assert(data.events.every((event) => event.status === "active" && event.validationStatus === "passed" && event.isHidden === false), "Free benefit events API returned non-publishable events");

@@ -7,10 +7,10 @@
 ## 현재 기준
 
 - Branch: `codex/12h-product-ux-growth-hardening`
-- 최신 확인 HEAD: `036ca243` (`feat: expand official free benefit sources`) 기준 Vercel Production 반영 확인.
+- 최신 확인 HEAD: `e6e05667` (`fix: compute source breadth report from bundled catalog`) 기준 Vercel Production 반영 확인.
 - Remote: `origin/main`, `origin/codex/12h-product-ux-growth-hardening`에 반영 대상
 - 운영 URL: `https://www.halindosa.com`
-- Vercel Production Deploy: `036ca243` 기준 운영 `/api/health` 반영 확인. 운영 응답은 `deployment.shortCommit=036ca243`, `branch=main`을 반환한다.
+- Vercel Production Deploy: `e6e05667` 기준 운영 `/api/health` 반영 확인. 운영 응답은 `deployment.shortCommit=e6e05667`, `branch=main`을 반환한다.
 - GitHub CI: 최신 `main`/`codex/12h-product-ux-growth-hardening` push 대상. 운영 기능 상태는 `dc7278cc` 기준 확인.
 - 로컬 최신 홈페이지: `http://127.0.0.1:3000/?verifiedOnly=true`
 - 운영 API 최신 계약 확인:
@@ -56,6 +56,9 @@
 - `benefit:category:doctor`를 추가해 전원증정, 선착순, 쿠폰, 무료 샘플, 무료체험, 기프티콘, 포인트/캐시백, 무료배송, 신규가입, 출석체크 카테고리별 최소 노출 수량을 출시 게이트에서 확인한다.
 - `/api/benefits/events`는 `deadline=today|week|soon`을 지원하며, `/free-benefits` 화면은 `오늘마감`, `이번주마감`, `마감 임박만` 칩으로 공식 무료혜택을 마감 기준으로 좁힐 수 있다.
 - 홈 무료혜택 히어로의 빠른 필터도 `deadline=today|week|soon` URL을 사용해 운영 API와 같은 마감 기준으로 이동한다.
+- `/api/home`, `/api/freebies`, `/api/benefits/events`는 `runtimeReadiness`를 반환한다. 이 메타는 전체 publishable 무료혜택 풀 기준으로 공식/검증/구매조건 없음/카테고리 공백/오늘·이번주 마감/24시간 이상 미검증 항목/상위 브랜드를 요약한다.
+- `/api/freebies?limit=12`처럼 화면에는 일부 카드만 반환해도 `categoryCounts`와 `runtimeReadiness`는 전체 무료혜택 운영 풀 기준으로 계산한다. smoke는 이 계약을 검사한다.
+- Vercel 런타임에서 `reports/free-benefit-source-breadth.json`이 없어도 `/api/admin/source-breadth`는 번들된 `data/officialSourceCatalog.json`으로 소스 축 커버리지를 계산한다. 운영 확인값은 필수 축 12/12, 핵심 브랜드 52/52, 공식 소스 후보 217개다.
 
 ## 현재 데이터 품질 기준
 
@@ -113,6 +116,15 @@
   - `npm run cap:sync`: 통과
   - `npm run android:webview:doctor`: 13/13 통과
   - `npm run workspace:doctor:strict`: 재생성 산출물 0B, 통과
+- 무료혜택 runtimeReadiness 작업 후 추가 확인:
+  - `npm run lint`: 통과
+  - `npm run benefit:event:contract`: 21/21 통과
+  - `npm run build`: 통과
+  - `npm run smoke:local`: 108/108 통과
+  - `npm run release:doctor`: 192/192 통과
+  - `npm run build:android`: 통과
+  - `npm run android:webview:doctor`: 13/13 통과
+  - `npm run cap:sync`: 통과
 - `dc7278cc` lane-specific feed guidance 작업 후 추가 확인:
   - `npm run lint`: 통과
   - `npm run smoke:local`: 104/104 통과

@@ -1357,10 +1357,13 @@ async function checkSearchAndPurchaseFlow() {
     !benefitEventsRoute.includes("BENEFIT_EVENTS_LOAD_FAILED") ||
     !benefitEventsRoute.includes("publishableOnly: true") ||
     !benefitEventsRoute.includes("rankingPolicy") ||
+    !benefitEventsRoute.includes("runtimeReadiness") ||
+    !benefitEventsRoute.includes("buildFreeBenefitEventRuntimeReadiness") ||
     !benefitEventsRoute.includes("claimCtaLabel") ||
     !benefitEventsRoute.includes("trustBadges") ||
     !benefitEventsRoute.includes("noPurchaseOnly") ||
     !smoke.includes("free benefit events api") ||
+    !smoke.includes("runtimeReadiness") ||
     !smoke.includes("/api/benefits/events?limit=12&type=all") ||
     !smoke.includes("sort=noPurchase&noPurchaseOnly=true")
   ) {

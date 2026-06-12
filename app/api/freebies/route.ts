@@ -1,7 +1,12 @@
 import { noStoreJson, noStoreOptions } from "@/lib/api/noStore";
 import { createRequestId, getClientKey, rateLimit, rateLimitHeaders } from "@/lib/apiGuards";
 import { getVisibleNewsDeals } from "@/lib/deals/newsDeals";
-import { buildFreeBenefitEventCategoryCounts, buildFreeBenefitEventSourceSummary, selectPublishableFreeBenefitEvents } from "@/lib/freeBenefitEvents";
+import {
+  buildFreeBenefitEventCategoryCounts,
+  buildFreeBenefitEventRuntimeReadiness,
+  buildFreeBenefitEventSourceSummary,
+  selectPublishableFreeBenefitEvents
+} from "@/lib/freeBenefitEvents";
 import { buildHomeFreebieSummary, selectHomeFreebies } from "@/lib/homeFreebies";
 
 export const dynamic = "force-dynamic";
@@ -52,13 +57,16 @@ export async function GET(request: Request) {
       includePublicPolicy: includePublic
     });
     const defaultDeals = news.deals;
-    const freebies = selectHomeFreebies(defaultDeals, Math.min(safeLimit, 80), Date.parse(generatedAt));
-    const events = selectPublishableFreeBenefitEvents(defaultDeals, safeLimit, Date.parse(generatedAt), {
+    const referenceNow = Date.parse(generatedAt);
+    const freebies = selectHomeFreebies(defaultDeals, Math.min(safeLimit, 80), referenceNow);
+    const allEvents = selectPublishableFreeBenefitEvents(defaultDeals, 160, referenceNow, {
       includePublic
     });
-    const summary = buildHomeFreebieSummary(defaultDeals, Date.parse(generatedAt));
-    const categoryCounts = buildFreeBenefitEventCategoryCounts(events);
-    const eventSummary = buildFreeBenefitEventSourceSummary(events, Date.parse(generatedAt));
+    const events = allEvents.slice(0, safeLimit);
+    const summary = buildHomeFreebieSummary(defaultDeals, referenceNow);
+    const categoryCounts = buildFreeBenefitEventCategoryCounts(allEvents);
+    const eventSummary = buildFreeBenefitEventSourceSummary(allEvents, referenceNow);
+    const runtimeReadiness = buildFreeBenefitEventRuntimeReadiness(allEvents, referenceNow);
 
     return noStoreJson({
       ok: true,
@@ -67,7 +75,7 @@ export async function GET(request: Request) {
       deals: freebies,
       events,
       count: freebies.length,
-      eventCount: events.length,
+      eventCount: allEvents.length,
       totalCount: summary.total,
       updatedAt: generatedAt,
       sourceUpdatedAt: news.updatedAt,
@@ -79,6 +87,7 @@ export async function GET(request: Request) {
       categoryCounts,
       summary,
       eventSummary,
+      runtimeReadiness,
       cachePolicy: {
         mode: "no-store",
         generatedAt

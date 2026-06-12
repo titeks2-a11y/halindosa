@@ -3,7 +3,12 @@ import { createRequestId, getClientKey, rateLimit, rateLimitHeaders } from "@/li
 import { getDeals, normalizeSort } from "@/lib/dealService";
 import { getVisibleNewsDeals } from "@/lib/deals/newsDeals";
 import { summarizeDealQuality } from "@/lib/deals/quality";
-import { buildFreeBenefitEventCategoryCounts, buildFreeBenefitEventSourceSummary, selectPublishableFreeBenefitEvents } from "@/lib/freeBenefitEvents";
+import {
+  buildFreeBenefitEventCategoryCounts,
+  buildFreeBenefitEventRuntimeReadiness,
+  buildFreeBenefitEventSourceSummary,
+  selectPublishableFreeBenefitEvents
+} from "@/lib/freeBenefitEvents";
 import { fetchHotSignals } from "@/lib/hotSignalProvider";
 import { buildHomeFreebieSummary, selectHomeFreebies } from "@/lib/homeFreebies";
 import { HOME_REFRESH_INTERVAL_MS } from "@/lib/homeRealtimeConfig";
@@ -246,6 +251,7 @@ export async function GET(request: Request) {
     const freeBenefitEvents = selectPublishableFreeBenefitEvents(news.deals, freeBenefitLimit, Date.parse(generatedAt));
     const freeBenefitEventCategoryCounts = buildFreeBenefitEventCategoryCounts(freeBenefitEvents);
     const freeBenefitEventSummary = buildFreeBenefitEventSourceSummary(freeBenefitEvents, Date.parse(generatedAt));
+    const freeBenefitRuntimeReadiness = buildFreeBenefitEventRuntimeReadiness(freeBenefitEvents, Date.parse(generatedAt));
     const freebiesSummary = buildHomeFreebieSummary(news.deals, Date.parse(generatedAt));
     counts.freebies = homeFreebies.length;
     const source = {
@@ -306,6 +312,7 @@ export async function GET(request: Request) {
         eventCount: freeBenefitEvents.length,
         categoryCounts: freeBenefitEventCategoryCounts,
         eventSummary: freeBenefitEventSummary,
+        runtimeReadiness: freeBenefitRuntimeReadiness,
         summary: freebiesSummary,
         freshnessStatus: news.freshnessStatus,
         freshnessLabel: news.freshnessLabel,
@@ -316,6 +323,7 @@ export async function GET(request: Request) {
         totalCount: freeBenefitEvents.length,
         categoryCounts: freeBenefitEventCategoryCounts,
         summary: freeBenefitEventSummary,
+        runtimeReadiness: freeBenefitRuntimeReadiness,
         visibleTypes: freeBenefitEventCategoryCounts.filter((category) => category.id !== "all" && category.count > 0).map((category) => category.id),
         policy: {
           countBasis: "publishable free benefit events selected for home",
