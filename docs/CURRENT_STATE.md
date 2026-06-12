@@ -7,10 +7,10 @@
 ## 현재 기준
 
 - Branch: `codex/12h-product-ux-growth-hardening`
-- 최신 운영 확인 HEAD(이번 세션 시작 기준): `a4f15c50` (`docs: document free benefit ranking operations`) 기준 Vercel Production 반영 확인.
+- 최신 운영 확인 HEAD: `2e2dc652` (`feat: show verified benefit condition badges`) 기준 Vercel Production 반영 확인.
 - Remote: `origin/main`, `origin/codex/12h-product-ux-growth-hardening`에 반영 대상
 - 운영 URL: `https://www.halindosa.com`
-- Vercel Production Deploy(이번 세션 시작 기준): `a4f15c50` 기준 운영 `/api/health` 반영 확인. 새 커밋 후에는 운영 `/api/health`의 `deployment.shortCommit`으로 최신 반영 여부를 다시 확인한다.
+- Vercel Production Deploy: `2e2dc652` 기준 운영 `/api/health` 반영 확인. 새 커밋 후에는 운영 `/api/health`의 `deployment.shortCommit`으로 최신 반영 여부를 다시 확인한다.
 - GitHub CI: 최신 `main`/`codex/12h-product-ux-growth-hardening` push 대상. 새 커밋 후 운영 `/api/health`의 `deployment.shortCommit`으로 실제 반영 여부를 확인한다.
 - 로컬 최신 홈페이지: `http://127.0.0.1:3000/?verifiedOnly=true`
 - 운영 API 최신 계약 확인:
@@ -21,6 +21,7 @@
   - `Cache-Control`은 no-store 계열
   - `/api/freebies?limit=5`: HTTP 200, `ok=true`, `requestId` 존재
   - 운영 홈페이지 `https://www.halindosa.com/?verifiedOnly=true`: 무료혜택 카드 DOM 렌더링 확인
+  - 운영 `/api/health`: `deployment.shortCommit=2e2dc652`, `officialBenefitVisibleCount=197`, `officialBenefitFresh=true`
   - WebView Android 앱은 `https://www.halindosa.com` 운영 웹을 직접 로드하므로 Vercel 배포가 성공하면 앱 화면에도 최신 무료혜택 홈이 반영된다.
 
 ## 제품 방향
@@ -199,11 +200,18 @@
   - `npm run build`: 통과
   - `npm run release:doctor`: 192/192 통과
   - `npm run smoke:local`: 108/108 통과. `/api/admin/source-breadth`, CSV, 관리자 패널 검사를 포함한다.
+- 공식 소스 카탈로그 확장/운영 갱신 작업 후 추가 확인:
+  - `746c8bd7`: 투썸플레이스, 뚜레쥬르, CU편의점택배 공식 이벤트 후보 추가. `source:catalog:report`, `source:breadth:doctor`, `source:live:doctor`, `source:readiness:report`, `lint`, `verify:freebies`, `refresh:benefits`, `smoke:local`, `release:doctor`, `build`, `build:android`, `cap:sync`, `android:webview:doctor`, `workspace:doctor:strict` 통과
+  - `dca3aeb8`: GitHub Actions 혜택 refresh scheduler가 운영 `/api/health`와 `/api/freebies?limit=12`까지 확인하도록 강화. `cron:refresh:doctor`, `lint`, `refresh:benefits`, `verify:freebies`, `test:home-realtime`, `build`, `release:doctor`, `build:android`, `android:webview:doctor`, `cap:sync`, `workspace:doctor:strict` 통과
+  - `6e743a18`: 무료혜택 런타임 모델 필수 필드와 점수 필드 게이트 강화. `benefit:model:doctor`, `lint`, `qa`, `release:doctor`, `build`, `build:android`, `android:webview:doctor`, `cap:sync`, `workspace:doctor:strict` 통과
+  - `2e2dc652`: 홈 무료혜택 카드에 `검증 n분 전`과 신청 조건 배지를 노출. `lint`, `test:mobile-compact`, `benefit:event:contract`, `smoke:local` 112/112, `build`, `build:android`, `android:webview:doctor`, `release:doctor`, `cap:sync`, `workspace:doctor:strict` 통과
 - `npm run vercel:doctor`: 운영 계약 검증에 사용. 최신 커밋 반영 여부는 GitHub Actions Vercel Production Deploy 결과와 운영 `/api/health` 응답을 함께 본다.
 
 ## CI/Vercel 상태 해석
 
-- `518cec21` 기준 GitHub push와 Vercel Production Deploy 반영을 확인했다.
+- `2e2dc652` 기준 GitHub push와 Vercel Production Deploy 반영을 확인했다.
+- 운영 `/api/health` 기준 `deployment.shortCommit=2e2dc652`, `branch=main`, `officialBenefitVisibleCount=197`, `officialBenefitFresh=true`를 확인했다.
+- 운영 홈페이지 `https://www.halindosa.com/?verifiedOnly=true`는 모바일 390x844 기준 무료혜택 히어로와 검증/조건 배지, `/go/news/...` 이동 링크를 렌더링한다.
 - CI 실패가 다시 발생하면 먼저 실패 job의 마지막 단계를 확인한다.
 - 로컬 재현 순서:
   1. `npm run release:prepare:reports:ci`

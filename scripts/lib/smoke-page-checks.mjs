@@ -92,6 +92,11 @@ export async function runPageSmokeChecks() {
     assert(text.includes("신뢰 공식출처 우선") && text.includes("신뢰 출처"), "Home page missing trusted official source prioritization");
     assert(text.includes("혜택 바로찾기") && text.includes("공식 링크만"), "Home page missing customer-intent official benefit query rail");
     assert(text.includes("마감 전 우선확인"), "Home page missing official benefit deadline summary");
+    assert(text.includes("검증 ") && text.includes("조건 확인"), "Home official benefit cards should show visible verification time and claim condition badges");
+    assert(
+      ["쿠폰 받기", "무료 혜택", "샘플 신청", "무료체험", "기프티콘", "포인트 적립", "가입 혜택"].some((label) => text.includes(label)),
+      "Home official benefit cards should show customer-facing claim condition labels"
+    );
     assert(text.includes("구매하기") || text.includes("상세 보기") || text.includes("판매처 확인"), "Home page missing commerce actions");
     assert(text.includes("현재 결과") || text.includes("검색 결과"), "Home page missing search result summary");
     assert(homePageSource.includes("getHotSignalDiscoveryQuery"), "Home hot signals should map to verified internal deal discovery");
