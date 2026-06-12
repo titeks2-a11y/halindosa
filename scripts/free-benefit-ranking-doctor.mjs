@@ -137,6 +137,22 @@ function getClaimUrgencyLabel(endDate, now) {
   return "여유있음";
 }
 
+function getClaimAccess(benefitType, isNoPurchase, text) {
+  if (!isNoPurchase) {
+    return { level: "purchase_required", label: "구매 조건 확인", isInstantClaim: false };
+  }
+
+  if (/로그인|회원\s*가입|앱\s*설치|멤버십\s*가입|본인\s*인증/i.test(text)) {
+    return { level: "login_required", label: "로그인 후 수령", isInstantClaim: false };
+  }
+
+  if (["coupon", "sample", "freeTrial", "gifticon", "pointCashback", "checkIn", "roulette", "signup", "everyone", "firstCome"].includes(benefitType)) {
+    return { level: "instant", label: "바로 받을 수 있음", isInstantClaim: true };
+  }
+
+  return { level: "condition_check", label: "조건 확인 후 수령", isInstantClaim: false };
+}
+
 function toCandidate(deal, now) {
   const finalUrl = normalizeUrl(deal.finalUrl || deal.officialUrl || deal.sourceUrl || deal.eventUrl);
   const host = getHost(finalUrl);
@@ -168,6 +184,7 @@ function toCandidate(deal, now) {
   const qualityScore = Number(deal.qualityScore ?? 0);
   const priorityScore = Number(deal.priorityScore ?? 0);
   const isNoPurchase = !purchaseRequiredPattern.test(text);
+  const claimAccess = getClaimAccess(benefitType, isNoPurchase, text);
   const checkedAgeHours = getCheckedAgeHours(deal, now);
   const claimEaseScore = Math.max(
     0,
@@ -197,6 +214,9 @@ function toCandidate(deal, now) {
     urgencyScore,
     rewardScore,
     claimEaseScore,
+    claimAccessLevel: claimAccess.level,
+    claimAccessLabel: claimAccess.label,
+    isInstantClaim: claimAccess.isInstantClaim,
     claimUrgencyLabel: getClaimUrgencyLabel(endDate, now),
     priorityScore,
     checkedAgeHours,
@@ -300,12 +320,14 @@ const maxTopBrandRepeat = Math.max(0, ...Object.values(topBrandCounts));
 const maxTopDomainRepeat = Math.max(0, ...Object.values(topDomainCounts));
 const categoryCounts = countBy(publishable, "benefitType");
 const noPurchaseCount = publishable.filter((item) => item.isNoPurchase).length;
+const instantClaimCount = publishable.filter((item) => item.isInstantClaim).length;
 const claimReadyAll = [...consumerPublishable]
-  .filter((item) => item.isNoPurchase && item.qualityScore >= 90 && item.freshnessScore >= 70 && item.claimEaseScore >= 80)
+  .filter((item) => item.isNoPurchase && item.isInstantClaim && item.qualityScore >= 90 && item.freshnessScore >= 70 && item.claimEaseScore >= 80)
   .sort((a, b) => b.claimEaseScore - a.claimEaseScore || b.rankingScore - a.rankingScore);
 const claimReadyCandidates = selectDiverseCandidates(claimReadyAll, 24);
 const topWindow = topConsumer.slice(0, 24);
 const topClaimReadyCount = topWindow.filter((item) => item.isNoPurchase && item.claimEaseScore >= 80).length;
+const topInstantClaimCount = topWindow.filter((item) => item.isInstantClaim && item.claimEaseScore >= 80).length;
 const topBenefitTypeDiversity = new Set(topWindow.map((item) => item.benefitType)).size;
 const recentlyCheckedCount = publishable.filter((item) => item.checkedAgeHours !== null && item.checkedAgeHours <= 24).length;
 const staleCheckedCount = publishable.filter((item) => item.checkedAgeHours !== null && item.checkedAgeHours > 24).length;
@@ -320,8 +342,10 @@ const issues = [
   exactDuplicateGroups.length > 0 ? `정확히 같은 dedupe key가 ${exactDuplicateGroups.length}개 남아 있습니다.` : "",
   fuzzyDuplicateGroups.length > 8 ? `비슷한 혜택 중복 후보가 ${fuzzyDuplicateGroups.length}개로 많습니다.` : "",
   noPurchaseCount < 100 ? `구매 조건 없는 무료혜택이 100개 미만입니다. 현재 ${noPurchaseCount}개입니다.` : "",
+  instantClaimCount < 80 ? `바로 받을 수 있음으로 분류된 공식 무료혜택이 80개 미만입니다. 현재 ${instantClaimCount}개입니다.` : "",
   claimReadyAll.length < 40 ? `바로 받을 수 있는 고신뢰 혜택 후보가 40개 미만입니다. 현재 ${claimReadyAll.length}개입니다.` : "",
   topClaimReadyCount < 16 ? `첫 화면 후보 24개 중 쉬운 참여 혜택이 16개 미만입니다. 현재 ${topClaimReadyCount}개입니다.` : "",
+  topInstantClaimCount < 12 ? `첫 화면 후보 24개 중 바로 받을 수 있음 혜택이 12개 미만입니다. 현재 ${topInstantClaimCount}개입니다.` : "",
   topBenefitTypeDiversity < 7 ? `첫 화면 후보 24개 안의 혜택 유형이 7개 미만입니다. 현재 ${topBenefitTypeDiversity}개입니다.` : "",
   recentlyCheckedCount < 120 ? `24시간 내 검증된 publishable 혜택이 120개 미만입니다. 현재 ${recentlyCheckedCount}개입니다.` : "",
   staleCheckedCount > 0 ? `24시간 이상 재검증되지 않은 publishable 혜택이 ${staleCheckedCount}개 있습니다.` : "",
@@ -342,6 +366,8 @@ const report = {
   consumerPublishableCount: consumerPublishable.length,
   noPurchaseCount,
   claimReadyCount: claimReadyAll.length,
+  instantClaimCount,
+  topInstantClaimCount,
   topClaimReadyCount,
   topBenefitTypeDiversity,
   exactDuplicateGroupCount: exactDuplicateGroups.length,
@@ -363,8 +389,10 @@ const report = {
     expiringThisWeekCount,
     noPurchaseShare: percent(noPurchaseCount, publishable.length),
     claimReadyShare: percent(claimReadyAll.length, publishable.length),
+    instantClaimShare: percent(instantClaimCount, publishable.length),
     officialHostDiversity
   },
+  claimAccessLevelCounts: countBy(publishable, "claimAccessLevel"),
   categoryCounts,
   topBrandCounts,
   topDomainCounts,
@@ -381,6 +409,9 @@ const report = {
     freshnessScore: item.freshnessScore,
     rewardScore: item.rewardScore,
     isNoPurchase: item.isNoPurchase,
+    claimAccessLevel: item.claimAccessLevel,
+    claimAccessLabel: item.claimAccessLabel,
+    isInstantClaim: item.isInstantClaim,
     claimEaseScore: item.claimEaseScore,
     claimUrgencyLabel: item.claimUrgencyLabel,
     endDate: item.endDate,
@@ -397,6 +428,9 @@ const report = {
     freshnessScore: item.freshnessScore,
     rewardScore: item.rewardScore,
     isNoPurchase: item.isNoPurchase,
+    claimAccessLevel: item.claimAccessLevel,
+    claimAccessLabel: item.claimAccessLabel,
+    isInstantClaim: item.isInstantClaim,
     claimEaseScore: item.claimEaseScore,
     claimUrgencyLabel: item.claimUrgencyLabel,
     endDate: item.endDate,
@@ -421,7 +455,9 @@ const docs = `# 무료혜택 랭킹/중복 품질 리포트
 | 노출 가능 공식 무료혜택 | ${report.publishableCount} |
 | 소비자형 노출 가능 혜택 | ${report.consumerPublishableCount} |
 | 구매 조건 없는 혜택 | ${report.noPurchaseCount} |
+| 바로 받을 수 있음 분류 혜택 | ${report.instantClaimCount} |
 | 바로 받을 수 있는 고신뢰 혜택 | ${report.claimReadyCount} |
+| 첫 화면 바로 수령 가능 혜택 | ${report.topInstantClaimCount} |
 | 첫 화면 쉬운 참여 혜택 | ${report.topClaimReadyCount} |
 | 첫 화면 혜택 유형 수 | ${report.topBenefitTypeDiversity} |
 | 정확 중복 그룹 | ${report.exactDuplicateGroupCount} |
@@ -440,6 +476,7 @@ const docs = `# 무료혜택 랭킹/중복 품질 리포트
 | 이번주 마감 혜택 | ${report.operationalReadiness.expiringThisWeekCount} |
 | 구매조건 없는 혜택 비율 | ${report.operationalReadiness.noPurchaseShare}% |
 | 바로받기 후보 비율 | ${report.operationalReadiness.claimReadyShare}% |
+| 바로 받을 수 있음 혜택 비율 | ${report.operationalReadiness.instantClaimShare}% |
 | 공식 도메인 다양성 | ${report.operationalReadiness.officialHostDiversity} |
 
 ## 평균 점수
@@ -447,6 +484,12 @@ const docs = `# 무료혜택 랭킹/중복 품질 리포트
 | 품질 | 최신성 | 공식성 | 마감성 | 보상가치 |
 | ---: | ---: | ---: | ---: | ---: |
 | ${report.averageScores.quality} | ${report.averageScores.freshness} | ${report.averageScores.official} | ${report.averageScores.urgency} | ${report.averageScores.reward} |
+
+## 수령 방식 분포
+
+| 수령 방식 | 개수 |
+| --- | ---: |
+${Object.entries(report.claimAccessLevelCounts).map(([name, count]) => `| ${name} | ${count} |`).join("\n")}
 
 ## 상위 노출 후보
 

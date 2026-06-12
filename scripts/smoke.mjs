@@ -789,7 +789,9 @@ await check("admin free benefit ranking api", async () => {
   assert(data.report?.publishableCount >= MIN_OFFICIAL_BENEFITS, "Admin free benefit ranking should preserve publishable official benefit count");
   assert(data.report?.consumerPublishableCount >= 90, "Admin free benefit ranking should preserve consumer-first benefit count");
   assert(data.report?.noPurchaseCount >= 100, "Admin free benefit ranking should preserve no-purchase benefit count");
+  assert(data.report?.instantClaimCount >= 80, "Admin free benefit ranking should preserve instant-claim benefit count");
   assert(data.report?.claimReadyCount >= 40, "Admin free benefit ranking should preserve enough immediately claimable benefits");
+  assert(data.report?.topInstantClaimCount >= 12, "Admin free benefit ranking should keep first-screen instant-claim candidates");
   assert(data.report?.topClaimReadyCount >= 16, "Admin free benefit ranking should keep first-screen candidates easy to claim");
   assert(data.report?.topBenefitTypeDiversity >= 7, "Admin free benefit ranking should keep first-screen benefit types diverse");
   assert(data.report?.exactDuplicateGroupCount === 0, "Admin free benefit ranking should expose zero exact duplicate groups");
@@ -799,10 +801,12 @@ await check("admin free benefit ranking api", async () => {
   assert(data.report?.operationalReadiness?.staleCheckedCount === 0, "Admin free benefit ranking should expose zero stale checked benefits");
   assert(data.report?.operationalReadiness?.missingCheckedAtCount === 0, "Admin free benefit ranking should expose zero missing checked-at benefits");
   assert(data.report?.operationalReadiness?.officialHostDiversity >= 80, "Admin free benefit ranking should preserve official host diversity");
+  assert(data.report?.operationalReadiness?.instantClaimShare >= 40, "Admin free benefit ranking should expose instant-claim share");
+  assert(Number(data.report?.claimAccessLevelCounts?.instant ?? 0) >= 80, "Admin free benefit ranking should expose claim access level distribution");
   assert(Array.isArray(data.report?.topCandidates) && data.report.topCandidates.length >= 10, "Admin free benefit ranking should expose top candidates");
-  assert(data.report.topCandidates.every((item) => item.finalUrl?.startsWith("https://") && item.brand && item.title && item.benefitType && Number(item.claimEaseScore) >= 0 && item.claimUrgencyLabel), "Admin free benefit ranking candidates should expose official HTTPS URLs, claim ease, and display fields");
+  assert(data.report.topCandidates.every((item) => item.finalUrl?.startsWith("https://") && item.brand && item.title && item.benefitType && item.claimAccessLevel && item.claimAccessLabel && Number(item.claimEaseScore) >= 0 && item.claimUrgencyLabel), "Admin free benefit ranking candidates should expose official HTTPS URLs, claim access, claim ease, and display fields");
   assert(Array.isArray(data.report?.claimReadyCandidates) && data.report.claimReadyCandidates.length >= 10, "Admin free benefit ranking should expose claim-ready candidates");
-  assert(data.report.claimReadyCandidates.every((item) => item.finalUrl?.startsWith("https://") && item.isNoPurchase === true && Number(item.claimEaseScore) >= 80), "Claim-ready candidates should be no-purchase official links with high claim ease");
+  assert(data.report.claimReadyCandidates.every((item) => item.finalUrl?.startsWith("https://") && item.isNoPurchase === true && item.isInstantClaim === true && Number(item.claimEaseScore) >= 80), "Claim-ready candidates should be instant no-purchase official links with high claim ease");
 });
 
 await check("admin free benefit ranking csv", async () => {
@@ -810,7 +814,7 @@ await check("admin free benefit ranking csv", async () => {
   const text = await response.text();
   assert(response.status === 200, `Expected free benefit ranking CSV 200, got ${response.status}`);
   assert(response.headers.get("content-type")?.includes("text/csv"), "Admin free benefit ranking CSV should use text/csv content type");
-  assert(text.includes("publishableCount") && text.includes("exactDuplicateGroupCount") && text.includes("top_candidate") && text.includes("claim_ready_candidate") && text.includes("recentlyCheckedCount"), "Admin free benefit ranking CSV missing summary, duplicate, claim-ready, operations, or candidate rows");
+  assert(text.includes("publishableCount") && text.includes("exactDuplicateGroupCount") && text.includes("top_candidate") && text.includes("claim_ready_candidate") && text.includes("claim_access") && text.includes("recentlyCheckedCount"), "Admin free benefit ranking CSV missing summary, duplicate, claim-ready, claim-access, operations, or candidate rows");
   assert(text.includes("npm run benefit:ranking:doctor") && text.includes("첫 화면") && text.includes("claimReadyCount") && text.includes("npm run refresh:benefits"), "Admin free benefit ranking CSV missing regeneration command, claim-ready guidance, operations guidance, or diversity guidance");
 });
 
@@ -1598,6 +1602,12 @@ await check("health api", async () => {
   assert(data.checks?.officialBenefitFresh === true, "Health API official benefit feed is stale");
   assert(data.checks?.officialBenefitFreshnessHours <= 24, "Health API missing official benefit freshness hours");
   assert(data.checks?.officialBenefitVisibleCount >= MIN_OFFICIAL_BENEFITS, "Health API missing official benefit visible count");
+  assert(data.checks?.freeBenefitRankingOk === true, "Health API missing passing free benefit ranking status");
+  assert(data.checks?.freeBenefitClaimReadyCount >= 40, "Health API missing claim-ready free benefit count");
+  assert(data.checks?.freeBenefitInstantClaimCount >= 80, "Health API missing instant-claim free benefit count");
+  assert(data.checks?.freeBenefitTopInstantClaimCount >= 12, "Health API missing first-screen instant-claim count");
+  assert(data.checks?.freeBenefitInstantClaimShare >= 40, "Health API missing instant-claim share");
+  assert(Number(data.checks?.freeBenefitClaimAccessLevelCounts?.instant ?? 0) >= 80, "Health API missing claim access level distribution");
   assert(data.checks?.officialBenefitReadyCategories >= 10, "Health API missing official benefit category coverage");
   assert(data.checks?.officialBenefitWeakCategories === 0, "Health API found weak official benefit categories");
   assert(data.checks?.officialBenefitRefreshAllOk === true, "Health API missing refresh:all official benefit status");

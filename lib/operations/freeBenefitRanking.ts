@@ -41,6 +41,8 @@ export interface FreeBenefitRankingReport {
   consumerPublishableCount: number;
   noPurchaseCount: number;
   claimReadyCount: number;
+  instantClaimCount: number;
+  topInstantClaimCount: number;
   topClaimReadyCount: number;
   topBenefitTypeDiversity: number;
   exactDuplicateGroupCount: number;
@@ -62,8 +64,10 @@ export interface FreeBenefitRankingReport {
     expiringThisWeekCount: number;
     noPurchaseShare: number;
     claimReadyShare: number;
+    instantClaimShare: number;
     officialHostDiversity: number;
   };
+  claimAccessLevelCounts: Record<string, number>;
   categoryCounts: Record<string, number>;
   topBrandCounts: Record<string, number>;
   topDomainCounts: Record<string, number>;
@@ -87,6 +91,9 @@ export interface RankingCandidate {
   urgencyScore: number;
   rewardScore: number;
   isNoPurchase: boolean;
+  claimAccessLevel: "instant" | "login_required" | "purchase_required" | "condition_check";
+  claimAccessLabel: string;
+  isInstantClaim: boolean;
   claimEaseScore: number;
   claimUrgencyLabel: string;
   endDate: string;
@@ -231,6 +238,22 @@ function getClaimUrgencyLabel(endDate: string, now: number) {
   return "여유있음";
 }
 
+function getClaimAccess(benefitType: string, isNoPurchase: boolean, text: string) {
+  if (!isNoPurchase) {
+    return { level: "purchase_required" as const, label: "구매 조건 확인", isInstantClaim: false };
+  }
+
+  if (/로그인|회원\s*가입|앱\s*설치|멤버십\s*가입|본인\s*인증/i.test(text)) {
+    return { level: "login_required" as const, label: "로그인 후 수령", isInstantClaim: false };
+  }
+
+  if (["coupon", "sample", "freeTrial", "gifticon", "pointCashback", "checkIn", "roulette", "signup", "everyone", "firstCome"].includes(benefitType)) {
+    return { level: "instant" as const, label: "바로 받을 수 있음", isInstantClaim: true };
+  }
+
+  return { level: "condition_check" as const, label: "조건 확인 후 수령", isInstantClaim: false };
+}
+
 interface InternalCandidate extends RankingCandidate {
   rewardValue: string;
   endDate: string;
@@ -267,6 +290,7 @@ function toCandidate(item: RankingSourceItem, now: number): InternalCandidate {
   const rewardScore = scoreReward(item, benefitType, text);
   const priorityScore = Number(item.priorityScore ?? 0);
   const isNoPurchase = !purchaseRequiredPattern.test(text);
+  const claimAccess = getClaimAccess(benefitType, isNoPurchase, text);
   const claimEaseScore = Math.max(
     0,
     Math.min(
@@ -312,6 +336,9 @@ function toCandidate(item: RankingSourceItem, now: number): InternalCandidate {
     urgencyScore,
     rewardScore,
     claimEaseScore,
+    claimAccessLevel: claimAccess.level,
+    claimAccessLabel: claimAccess.label,
+    isInstantClaim: claimAccess.isInstantClaim,
     claimUrgencyLabel: getClaimUrgencyLabel(endDate, now),
     priorityScore,
     checkedAgeHours,
@@ -375,6 +402,9 @@ function topDuplicateGroups(groups: Map<string, InternalCandidate[]>, limit = 20
           urgencyScore: kept.urgencyScore,
           rewardScore: kept.rewardScore,
           isNoPurchase: kept.isNoPurchase,
+          claimAccessLevel: kept.claimAccessLevel,
+          claimAccessLabel: kept.claimAccessLabel,
+          isInstantClaim: kept.isInstantClaim,
           claimEaseScore: kept.claimEaseScore,
           claimUrgencyLabel: kept.claimUrgencyLabel,
           endDate: kept.endDate,
@@ -420,12 +450,14 @@ export function buildFreeBenefitRankingReport(referenceNow = Date.now()): FreeBe
   const maxTopBrandRepeat = Math.max(0, ...Object.values(topBrandCounts));
   const maxTopDomainRepeat = Math.max(0, ...Object.values(topDomainCounts));
   const noPurchaseCount = publishable.filter((item) => item.isNoPurchase).length;
+  const instantClaimCount = publishable.filter((item) => item.isInstantClaim).length;
   const claimReadyAll = [...consumerPublishable]
-    .filter((item) => item.isNoPurchase && item.qualityScore >= 90 && item.freshnessScore >= 70 && item.claimEaseScore >= 80)
+    .filter((item) => item.isNoPurchase && item.isInstantClaim && item.qualityScore >= 90 && item.freshnessScore >= 70 && item.claimEaseScore >= 80)
     .sort((a, b) => b.claimEaseScore - a.claimEaseScore || b.rankingScore - a.rankingScore);
   const claimReadyCandidates = selectDiverseCandidates(claimReadyAll, 24);
   const topWindow = topConsumer.slice(0, 24);
   const topClaimReadyCount = topWindow.filter((item) => item.isNoPurchase && item.claimEaseScore >= 80).length;
+  const topInstantClaimCount = topWindow.filter((item) => item.isInstantClaim && item.claimEaseScore >= 80).length;
   const topBenefitTypeDiversity = new Set(topWindow.map((item) => item.benefitType)).size;
   const recentlyCheckedCount = publishable.filter((item) => item.checkedAgeHours !== null && item.checkedAgeHours <= 24).length;
   const staleCheckedCount = publishable.filter((item) => item.checkedAgeHours !== null && item.checkedAgeHours > 24).length;
@@ -440,8 +472,10 @@ export function buildFreeBenefitRankingReport(referenceNow = Date.now()): FreeBe
     exactDuplicateGroups.length > 0 ? `정확히 같은 dedupe key가 ${exactDuplicateGroups.length}개 남아 있습니다.` : "",
     fuzzyDuplicateGroups.length > 8 ? `비슷한 혜택 중복 후보가 ${fuzzyDuplicateGroups.length}개로 많습니다.` : "",
     noPurchaseCount < 100 ? `구매 조건 없는 무료혜택이 100개 미만입니다. 현재 ${noPurchaseCount}개입니다.` : "",
+    instantClaimCount < 80 ? `바로 받을 수 있음으로 분류된 공식 무료혜택이 80개 미만입니다. 현재 ${instantClaimCount}개입니다.` : "",
     claimReadyAll.length < 40 ? `바로 받을 수 있는 고신뢰 혜택 후보가 40개 미만입니다. 현재 ${claimReadyAll.length}개입니다.` : "",
     topClaimReadyCount < 16 ? `첫 화면 후보 24개 중 쉬운 참여 혜택이 16개 미만입니다. 현재 ${topClaimReadyCount}개입니다.` : "",
+    topInstantClaimCount < 12 ? `첫 화면 후보 24개 중 바로 받을 수 있음 혜택이 12개 미만입니다. 현재 ${topInstantClaimCount}개입니다.` : "",
     topBenefitTypeDiversity < 7 ? `첫 화면 후보 24개 안의 혜택 유형이 7개 미만입니다. 현재 ${topBenefitTypeDiversity}개입니다.` : "",
     recentlyCheckedCount < 120 ? `24시간 내 검증된 publishable 혜택이 120개 미만입니다. 현재 ${recentlyCheckedCount}개입니다.` : "",
     staleCheckedCount > 0 ? `24시간 이상 재검증되지 않은 publishable 혜택이 ${staleCheckedCount}개 있습니다.` : "",
@@ -462,6 +496,8 @@ export function buildFreeBenefitRankingReport(referenceNow = Date.now()): FreeBe
     consumerPublishableCount: consumerPublishable.length,
     noPurchaseCount,
     claimReadyCount: claimReadyAll.length,
+    instantClaimCount,
+    topInstantClaimCount,
     topClaimReadyCount,
     topBenefitTypeDiversity,
     exactDuplicateGroupCount: exactDuplicateGroups.length,
@@ -483,8 +519,10 @@ export function buildFreeBenefitRankingReport(referenceNow = Date.now()): FreeBe
       expiringThisWeekCount,
       noPurchaseShare: percent(noPurchaseCount, publishable.length),
       claimReadyShare: percent(claimReadyAll.length, publishable.length),
+      instantClaimShare: percent(instantClaimCount, publishable.length),
       officialHostDiversity
     },
+    claimAccessLevelCounts: countBy(publishable, (item) => item.claimAccessLevel),
     categoryCounts: countBy(publishable, (item) => item.benefitType),
     topBrandCounts,
     topDomainCounts,
@@ -503,6 +541,9 @@ export function buildFreeBenefitRankingReport(referenceNow = Date.now()): FreeBe
       urgencyScore: item.urgencyScore,
       rewardScore: item.rewardScore,
       isNoPurchase: item.isNoPurchase,
+      claimAccessLevel: item.claimAccessLevel,
+      claimAccessLabel: item.claimAccessLabel,
+      isInstantClaim: item.isInstantClaim,
       claimEaseScore: item.claimEaseScore,
       claimUrgencyLabel: item.claimUrgencyLabel,
       endDate: item.endDate,
@@ -521,6 +562,9 @@ export function buildFreeBenefitRankingReport(referenceNow = Date.now()): FreeBe
       urgencyScore: item.urgencyScore,
       rewardScore: item.rewardScore,
       isNoPurchase: item.isNoPurchase,
+      claimAccessLevel: item.claimAccessLevel,
+      claimAccessLabel: item.claimAccessLabel,
+      isInstantClaim: item.isInstantClaim,
       claimEaseScore: item.claimEaseScore,
       claimUrgencyLabel: item.claimUrgencyLabel,
       endDate: item.endDate,
@@ -535,8 +579,10 @@ export function buildFreeBenefitRankingCsv(report: FreeBenefitRankingReport) {
   rows.push(["summary", "publishableCount", report.ok ? "passed" : "failed", String(report.publishableCount), "노출 가능한 공식 무료혜택", "npm run benefit:ranking:doctor"]);
   rows.push(["summary", "consumerPublishableCount", "count", String(report.consumerPublishableCount), "소비자형 무료혜택", "npm run refresh:benefits"]);
   rows.push(["summary", "noPurchaseCount", "count", String(report.noPurchaseCount), "구매 조건 없는 혜택", "npm run verify:freebies"]);
+  rows.push(["claim_ready", "instantClaimCount", report.instantClaimCount >= 80 ? "passed" : "failed", String(report.instantClaimCount), "바로 받을 수 있음으로 분류된 공식 혜택", "claimAccessLevel 분류 확인"]);
   rows.push(["claim_ready", "claimReadyCount", report.claimReadyCount >= 40 ? "passed" : "failed", String(report.claimReadyCount), "바로 받을 수 있는 고신뢰 혜택 후보", "npm run benefit:ranking:doctor"]);
   rows.push(["claim_ready", "topClaimReadyCount", report.topClaimReadyCount >= 16 ? "passed" : "failed", String(report.topClaimReadyCount), "첫 화면 쉬운 참여 혜택 수", "홈 무료혜택 상단 큐 확인"]);
+  rows.push(["claim_ready", "topInstantClaimCount", report.topInstantClaimCount >= 12 ? "passed" : "failed", String(report.topInstantClaimCount), "첫 화면 바로 수령 가능 혜택 수", "홈 무료혜택 상단 큐 확인"]);
   rows.push(["claim_ready", "topBenefitTypeDiversity", report.topBenefitTypeDiversity >= 7 ? "passed" : "failed", String(report.topBenefitTypeDiversity), "첫 화면 혜택 유형 다양성", "혜택 유형별 공식 후보 보강"]);
   rows.push(["operations", "recentlyCheckedCount", report.operationalReadiness.recentlyCheckedCount >= 120 ? "passed" : "failed", String(report.operationalReadiness.recentlyCheckedCount), "24시간 내 재검증된 publishable 혜택", "npm run refresh:benefits"]);
   rows.push(["operations", "staleCheckedCount", report.operationalReadiness.staleCheckedCount === 0 ? "passed" : "failed", String(report.operationalReadiness.staleCheckedCount), "24시간 이상 재검증되지 않은 publishable 혜택", "npm run refresh:news"]);
@@ -544,6 +590,7 @@ export function buildFreeBenefitRankingCsv(report: FreeBenefitRankingReport) {
   rows.push(["operations", "officialHostDiversity", report.operationalReadiness.officialHostDiversity >= 80 ? "passed" : "failed", String(report.operationalReadiness.officialHostDiversity), "공식 도메인 다양성", "source:catalog:report"]);
   rows.push(["operations", "noPurchaseShare", "ratio", `${report.operationalReadiness.noPurchaseShare}%`, "구매조건 없는 혜택 비율", "claim-ready 후보 확인"]);
   rows.push(["operations", "claimReadyShare", "ratio", `${report.operationalReadiness.claimReadyShare}%`, "바로받기 후보 비율", "claim-ready 후보 확인"]);
+  rows.push(["operations", "instantClaimShare", "ratio", `${report.operationalReadiness.instantClaimShare}%`, "바로 받을 수 있음 혜택 비율", "claimAccessLevel 분류 확인"]);
   rows.push(["operations", "expiringTodayCount", "count", String(report.operationalReadiness.expiringTodayCount), "오늘마감 혜택", "/free-benefits?deadline=today"]);
   rows.push(["operations", "expiringThisWeekCount", "count", String(report.operationalReadiness.expiringThisWeekCount), "이번주 마감 혜택", "/free-benefits?deadline=week"]);
   rows.push(["quality", "exactDuplicateGroupCount", report.exactDuplicateGroupCount === 0 ? "passed" : "failed", String(report.exactDuplicateGroupCount), "정확 중복 그룹", "dedupe key 확인"]);
@@ -552,6 +599,9 @@ export function buildFreeBenefitRankingCsv(report: FreeBenefitRankingReport) {
   rows.push(["quality", "maxTopDomainRepeat", report.maxTopDomainRepeat <= 5 ? "passed" : "failed", String(report.maxTopDomainRepeat), "첫 화면 도메인 최대 반복", "홈 무료혜택 다양성 조정"]);
   for (const [name, count] of Object.entries(report.categoryCounts)) {
     rows.push(["benefit_type", name, "count", String(count), "혜택 유형별 노출 수", `/free-benefits?eventType=${name}`]);
+  }
+  for (const [name, count] of Object.entries(report.claimAccessLevelCounts)) {
+    rows.push(["claim_access", name, "count", String(count), "수령 방식별 공식 혜택 수", "무료혜택 수령 방식 분류 확인"]);
   }
   for (const item of report.topCandidates) {
     rows.push(["top_candidate", item.id, "candidate", String(item.rankingScore), `${item.brand}; ${item.title}; ${item.benefitType}; ${item.sourceDomain}; quality=${item.qualityScore}; freshness=${item.freshnessScore}; official=${item.officialScore}; urgency=${item.urgencyScore}; reward=${item.rewardScore}; claimEase=${item.claimEaseScore}; ${item.claimUrgencyLabel}`, item.finalUrl]);

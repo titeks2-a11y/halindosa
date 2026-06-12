@@ -2516,6 +2516,12 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                 tone: (freeBenefitRanking.claimReadyCount ?? 0) >= 40 ? "good" : "danger"
               },
               {
+                title: "즉시 수령",
+                value: `${freeBenefitRanking.instantClaimCount ?? 0}개`,
+                detail: `첫 화면 ${freeBenefitRanking.topInstantClaimCount ?? 0}개 · ${freeBenefitRanking.operationalReadiness?.instantClaimShare ?? 0}%`,
+                tone: (freeBenefitRanking.instantClaimCount ?? 0) >= 80 && (freeBenefitRanking.topInstantClaimCount ?? 0) >= 12 ? "good" : "watch"
+              },
+              {
                 title: "첫화면 쉬운참여",
                 value: `${freeBenefitRanking.topClaimReadyCount ?? 0}개`,
                 detail: `유형 ${freeBenefitRanking.topBenefitTypeDiversity ?? 0}종 이상 유지`,

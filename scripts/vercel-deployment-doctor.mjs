@@ -351,7 +351,9 @@ checks.push(
 checks.push(
   healthJson?.checks?.freeBenefitRankingOk === true &&
     Number(healthJson?.checks?.freeBenefitClaimReadyCount ?? 0) >= 40 &&
+    Number(healthJson?.checks?.freeBenefitInstantClaimCount ?? 0) >= 80 &&
     Number(healthJson?.checks?.freeBenefitTopClaimReadyCount ?? 0) >= 16 &&
+    Number(healthJson?.checks?.freeBenefitTopInstantClaimCount ?? 0) >= 12 &&
     Number(healthJson?.checks?.freeBenefitTopTypeDiversity ?? 0) >= 7 &&
     Number(healthJson?.checks?.freeBenefitExactDuplicateGroupCount ?? 1) === 0 &&
     Number(healthJson?.checks?.freeBenefitRecentlyCheckedCount ?? 0) >= 120 &&
@@ -362,12 +364,14 @@ checks.push(
     Number(healthJson?.checks?.freeBenefitAverageFreshnessScore ?? 0) >= 70 &&
     Number(healthJson?.checks?.freeBenefitAverageOfficialScore ?? 0) >= 90 &&
     Number(healthJson?.checks?.freeBenefitAverageUrgencyScore ?? 0) >= 30 &&
-    Number(healthJson?.checks?.freeBenefitAverageRewardScore ?? 0) >= 50
+    Number(healthJson?.checks?.freeBenefitAverageRewardScore ?? 0) >= 50 &&
+    Number(healthJson?.checks?.freeBenefitInstantClaimShare ?? 0) >= 40 &&
+    Number(healthJson?.checks?.freeBenefitClaimAccessLevelCounts?.instant ?? 0) >= 80
     ? pass(
         "health claim-ready benefit ranking",
-        `/api/health confirms claim-ready free-benefit quality: ${healthJson.checks.freeBenefitClaimReadyCount} claim-ready, ${healthJson.checks.freeBenefitTopClaimReadyCount} top easy-claim, ${healthJson.checks.freeBenefitTopTypeDiversity} top types, ${healthJson.checks.freeBenefitRecentlyCheckedCount} recently checked, score averages Q${healthJson.checks.freeBenefitAverageQualityScore}/F${healthJson.checks.freeBenefitAverageFreshnessScore}/O${healthJson.checks.freeBenefitAverageOfficialScore}/U${healthJson.checks.freeBenefitAverageUrgencyScore}/R${healthJson.checks.freeBenefitAverageRewardScore}.`
+        `/api/health confirms claim-ready free-benefit quality: ${healthJson.checks.freeBenefitClaimReadyCount} claim-ready, ${healthJson.checks.freeBenefitInstantClaimCount} instant, ${healthJson.checks.freeBenefitTopClaimReadyCount} top easy-claim, ${healthJson.checks.freeBenefitTopInstantClaimCount} top instant, ${healthJson.checks.freeBenefitTopTypeDiversity} top types, ${healthJson.checks.freeBenefitRecentlyCheckedCount} recently checked, score averages Q${healthJson.checks.freeBenefitAverageQualityScore}/F${healthJson.checks.freeBenefitAverageFreshnessScore}/O${healthJson.checks.freeBenefitAverageOfficialScore}/U${healthJson.checks.freeBenefitAverageUrgencyScore}/R${healthJson.checks.freeBenefitAverageRewardScore}.`
       )
-    : fail("health claim-ready benefit ranking", "/api/health should expose passing freeBenefitRankingOk, claim-ready count, easy first-screen count, type diversity, zero exact duplicates, recent verification, zero stale checks, official host diversity, and average quality/freshness/official/urgency/reward scores.")
+    : fail("health claim-ready benefit ranking", "/api/health should expose passing freeBenefitRankingOk, claim-ready/instant counts, easy first-screen count, type diversity, zero exact duplicates, recent verification, zero stale checks, official host diversity, claim access distribution, and average quality/freshness/official/urgency/reward scores.")
 );
 checks.push(
   healthJson?.checks?.officialSourceFeedActivationOk === true &&
