@@ -701,6 +701,8 @@ await check("admin free benefit operations api", async () => {
   assert(data.report?.qualityGates?.exposedNonOfficialLinks === 0, "Admin free benefit operations should show zero non-official links");
   assert(data.report?.qualityGates?.brokenImages === 0, "Admin free benefit operations should show zero broken images");
   assert(Array.isArray(data.report?.topCandidates) && data.report.topCandidates.length >= 10, "Admin free benefit operations should expose top display candidates");
+  assert(Array.isArray(data.report?.operatorActionQueue) && data.report.operatorActionQueue.length >= 1, "Admin free benefit operations should expose operator action queue");
+  assert(data.report.operatorActionQueue.every((item) => item.title && item.action && item.priority), "Admin free benefit operations action queue should include title, action, and priority");
 });
 
 await check("admin free benefit operations csv", async () => {
@@ -708,7 +710,7 @@ await check("admin free benefit operations csv", async () => {
   const text = await response.text();
   assert(response.status === 200, `Expected free benefit operations CSV 200, got ${response.status}`);
   assert(response.headers.get("content-type")?.includes("text/csv"), "Admin free benefit operations CSV should use text/csv content type");
-  assert(text.includes("visibleOfficialBenefitItems") && text.includes("exposedSearchLinks") && text.includes("top_candidate"), "Admin free benefit operations CSV missing summary, quality, or candidate rows");
+  assert(text.includes("visibleOfficialBenefitItems") && text.includes("exposedSearchLinks") && text.includes("top_candidate") && text.includes("operator_action"), "Admin free benefit operations CSV missing summary, quality, action, or candidate rows");
   assert(text.includes("npm run benefit:operations:report") && text.includes("/free-benefits?deadline=week"), "Admin free benefit operations CSV missing regeneration command or deadline action");
 });
 

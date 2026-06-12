@@ -59,6 +59,8 @@
 - `/api/home`, `/api/freebies`, `/api/benefits/events`는 `runtimeReadiness`를 반환한다. 이 메타는 전체 publishable 무료혜택 풀 기준으로 공식/검증/구매조건 없음/카테고리 공백/오늘·이번주 마감/24시간 이상 미검증 항목/상위 브랜드를 요약한다.
 - `/api/freebies?limit=12`처럼 화면에는 일부 카드만 반환해도 `categoryCounts`와 `runtimeReadiness`는 전체 무료혜택 운영 풀 기준으로 계산한다. smoke는 이 계약을 검사한다.
 - Vercel 런타임에서 `reports/free-benefit-source-breadth.json`이 없어도 `/api/admin/source-breadth`는 번들된 `data/officialSourceCatalog.json`으로 소스 축 커버리지를 계산한다. 운영 확인값은 필수 축 12/12, 핵심 브랜드 52/52, 공식 소스 후보 217개다.
+- 무료혜택 운영 리포트는 `operatorActionQueue`를 포함한다. 관리자 `/admin`, `/api/admin/free-benefit-operations`, CSV, smoke, release doctor가 오늘마감 공백, 이번주마감 대체 편성, 혜택 유형 공백, 비공식/검색/깨진 이미지 차단 작업을 같은 큐로 확인한다.
+- Vercel 런타임에서 `reports/free-benefit-operations.json`이 없어도 `/api/admin/free-benefit-operations`는 번들된 `data/refreshedNewsDeals.json`으로 공식 무료혜택 운영 리포트와 `operatorActionQueue`를 계산한다.
 
 ## 현재 데이터 품질 기준
 

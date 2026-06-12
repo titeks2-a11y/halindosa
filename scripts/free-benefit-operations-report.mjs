@@ -37,6 +37,12 @@ function firstFinite(...values) {
   return 0;
 }
 
+function hoursSince(value, now = new Date()) {
+  const date = new Date(value);
+  if (!Number.isFinite(date.getTime())) return Number.POSITIVE_INFINITY;
+  return Math.round(((now.getTime() - date.getTime()) / (60 * 60 * 1000)) * 10) / 10;
+}
+
 function getHost(value) {
   try {
     return new URL(value).hostname.replace(/^www\./, "").toLowerCase();
@@ -56,6 +62,136 @@ function isThisWeek(value, now = new Date()) {
   if (!Number.isFinite(date.getTime())) return false;
   const diffMs = date.getTime() - now.getTime();
   return diffMs >= 0 && diffMs <= 7 * 24 * 60 * 60 * 1000;
+}
+
+function buildOperatorActionQueue({ reportCore, visible, now }) {
+  const actions = [];
+  const staleThresholdHours = 6;
+  const latestRefreshAgeHours = hoursSince(reportCore.refreshStatus.benefitsRefreshGeneratedAt, now);
+  const requiredBenefitTypes = [
+    ["freebie", "전원증정"],
+    ["sample", "무료 샘플"],
+    ["freeTrial", "무료체험"],
+    ["coupon", "쿠폰"],
+    ["gifticon", "기프티콘"],
+    ["point", "포인트/캐시백"],
+    ["freeShipping", "무료배송"],
+    ["signup", "신규가입"],
+    ["checkIn", "출석체크"],
+    ["convenienceStore", "편의점"]
+  ];
+  const benefitTypeCounts = reportCore.benefitTypeCounts ?? {};
+  const lowCoverageTypes = requiredBenefitTypes
+    .map(([type, label]) => ({ type, label, count: Number(benefitTypeCounts[type] ?? 0) }))
+    .filter((item) => item.count < 2);
+  const todayCount = Number(reportCore.totals.todayEndingVisibleItems ?? 0);
+  const weekCount = Number(reportCore.totals.thisWeekEndingVisibleItems ?? 0);
+  const searchLinks = Number(reportCore.qualityGates.exposedSearchLinks ?? 0);
+  const nonOfficialLinks = Number(reportCore.qualityGates.exposedNonOfficialLinks ?? 0);
+  const brokenImages = Number(reportCore.qualityGates.brokenImages ?? 0);
+  const excludedCount = Number(reportCore.totals.excludedOfficialBenefitItems ?? 0);
+
+  if (latestRefreshAgeHours > staleThresholdHours) {
+    actions.push({
+      id: "refresh-official-benefits",
+      priority: latestRefreshAgeHours >= 24 ? "high" : "medium",
+      area: "수집 갱신",
+      title: "공식 무료혜택 스냅샷 갱신",
+      reason: `마지막 refresh가 ${latestRefreshAgeHours}시간 전입니다. 운영 홈과 WebView 앱의 최신성을 먼저 회복해야 합니다.`,
+      action: "npm run refresh:benefits && npm run verify:freebies && npm run benefit:operations:report",
+      href: "/api/admin/free-benefit-operations",
+      evidence: `${reportCore.refreshStatus.benefitsRefreshGeneratedAt || "unknown"}`
+    });
+  }
+
+  if (searchLinks > 0 || nonOfficialLinks > 0 || brokenImages > 0) {
+    actions.push({
+      id: "block-untrusted-benefit-links",
+      priority: "high",
+      area: "링크 품질",
+      title: "비공식·검색·깨진 이미지 노출 차단",
+      reason: `검색 ${searchLinks}건, 비공식 ${nonOfficialLinks}건, 깨진 이미지 ${brokenImages}건이 감지되면 사용자 CTA를 즉시 막아야 합니다.`,
+      action: "npm run verify:freebies로 실패 항목을 찾고 공식 이벤트 URL 또는 이미지로 교체",
+      href: "/admin",
+      evidence: `search=${searchLinks}; nonOfficial=${nonOfficialLinks}; brokenImages=${brokenImages}`
+    });
+  }
+
+  if (todayCount === 0 && weekCount > 0) {
+    actions.push({
+      id: "promote-week-deadline",
+      priority: "medium",
+      area: "마감 편성",
+      title: "오늘마감 공백 시 이번주마감 대체 편성",
+      reason: "오늘마감 혜택이 없어서 홈 상단 마감 슬롯이 약해질 수 있습니다.",
+      action: "이번주마감 후보를 홈 마감임박 영역에 우선 편성하고 오늘마감 카피는 숨김",
+      href: "/free-benefits?deadline=week",
+      evidence: `today=${todayCount}; week=${weekCount}`
+    });
+  } else if (todayCount > 0) {
+    actions.push({
+      id: "review-today-deadline",
+      priority: "high",
+      area: "마감 편성",
+      title: "오늘마감 무료혜택 우선 검수",
+      reason: `오늘 종료되는 공식 혜택 ${todayCount}개는 고객 클릭 전 종료 문구를 다시 확인해야 합니다.`,
+      action: "오늘마감 링크를 먼저 열어 종료 문구가 있으면 즉시 숨김 처리",
+      href: "/free-benefits?deadline=today",
+      evidence: `today=${todayCount}`
+    });
+  }
+
+  if (lowCoverageTypes.length) {
+    actions.push({
+      id: "fill-benefit-type-gaps",
+      priority: lowCoverageTypes.length >= 3 ? "medium" : "low",
+      area: "카테고리 보강",
+      title: "혜택 유형 공백 보강",
+      reason: lowCoverageTypes.map((item) => `${item.label} ${item.count}개`).join(", "),
+      action: "공식 소스 카탈로그와 feed env 후보에서 부족한 유형의 공식 이벤트 URL을 우선 추가",
+      href: "/admin",
+      evidence: lowCoverageTypes.map((item) => `${item.type}:${item.count}`).join("; ")
+    });
+  }
+
+  if (excludedCount > 0) {
+    actions.push({
+      id: "review-hidden-benefits",
+      priority: "medium",
+      area: "제외 후보",
+      title: "숨김 처리된 공식 혜택 후보 재검토",
+      reason: `공식 혜택 후보 ${excludedCount}개가 노출 조건을 통과하지 못했습니다.`,
+      action: "excludedReasons를 확인해 종료/미검증/비공식 사유별로 공식 URL 또는 마감일을 보강",
+      href: "/api/admin/free-benefit-operations?format=csv",
+      evidence: Object.entries(reportCore.excludedReasons ?? {}).map(([name, count]) => `${name}:${count}`).join("; ")
+    });
+  }
+
+  if (!actions.length) {
+    const topNoPurchase = visible
+      .filter((item) => item.requiresPurchase !== true)
+      .slice()
+      .sort((a, b) => Number(b.rewardScore ?? 0) - Number(a.rewardScore ?? 0))
+      .slice(0, 3)
+      .map((item) => item.title);
+    actions.push({
+      id: "maintain-high-quality-rotation",
+      priority: "low",
+      area: "홈 편성",
+      title: "고품질 무료혜택 회전 편성 유지",
+      reason: "검색·비공식·깨진 이미지가 0건이며 공식 무료혜택 풀이 안정적입니다.",
+      action: "상위 후보를 브랜드 중복 없이 홈 무료혜택, 즉시 수령, 이번주마감 슬롯에 회전 노출",
+      href: "/free-benefits",
+      evidence: topNoPurchase.join(" / ")
+    });
+  }
+
+  return actions
+    .sort((a, b) => {
+      const weights = { high: 0, medium: 1, low: 2 };
+      return (weights[a.priority] ?? 3) - (weights[b.priority] ?? 3) || a.area.localeCompare(b.area, "ko");
+    })
+    .slice(0, 8);
 }
 
 function getOfficialBenefits(snapshot) {
@@ -121,7 +257,7 @@ const excludedReasons = countBy(excluded, (item) => {
   return "not_publishable";
 });
 
-const report = {
+const reportCore = {
   ok:
     visible.length >= 100 &&
     hosts.size >= 45 &&
@@ -170,6 +306,12 @@ const report = {
   topCandidates
 };
 
+const operatorActionQueue = buildOperatorActionQueue({ reportCore, visible, now });
+const report = {
+  ...reportCore,
+  operatorActionQueue
+};
+
 const markdown = [
   "# 무료혜택 운영 리포트",
   "",
@@ -213,6 +355,12 @@ const markdown = [
   "| 사유 | 수량 |",
   "| --- | ---: |",
   ...Object.entries(report.excludedReasons).map(([name, count]) => `| ${name} | ${count} |`),
+  "",
+  "## 오늘 운영 액션 큐",
+  "",
+  "| 우선순위 | 영역 | 작업 | 이유 | 실행 |",
+  "| --- | --- | --- | --- | --- |",
+  ...report.operatorActionQueue.map((item) => `| ${item.priority} | ${item.area} | ${String(item.title).replace(/\|/g, "/")} | ${String(item.reason).replace(/\|/g, "/")} | ${String(item.action).replace(/\|/g, "/")} |`),
   "",
   "## 상위 노출 후보",
   "",

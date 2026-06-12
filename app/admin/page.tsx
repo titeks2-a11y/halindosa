@@ -2261,7 +2261,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
               </div>
             ))}
           </div>
-          <div className="mt-4 grid gap-3 lg:grid-cols-[0.8fr_1.2fr]">
+          <div className="mt-4 grid gap-3 lg:grid-cols-3">
             <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
               <p className="text-sm font-black text-slate-950">마감 운영 큐</p>
               <div className="mt-3 grid gap-2 text-xs font-black text-slate-700">
@@ -2274,6 +2274,34 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                 <a href={freeBenefitOperationsCsvHref} className="rounded-2xl bg-white px-3 py-3 shadow-sm">
                   운영 CSV 내려받기
                 </a>
+              </div>
+            </div>
+            <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
+              <p className="text-sm font-black text-slate-950">오늘 무료혜택 운영 액션 큐</p>
+              <p className="mt-1 text-[11px] font-bold leading-4 text-slate-500">갱신·마감·카테고리 공백·차단 링크를 같은 우선순위로 묶어 봅니다.</p>
+              <div className="mt-3 space-y-2">
+                {(freeBenefitOperations.operatorActionQueue ?? []).slice(0, 4).map((item) => (
+                  <a
+                    key={item.id ?? item.title}
+                    href={item.href ?? freeBenefitOperationsApiHref}
+                    className="block rounded-2xl bg-white p-3 shadow-sm transition hover:bg-emerald-50"
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <div>
+                        <p className="text-xs font-black text-slate-950">{item.title}</p>
+                        <p className="mt-1 text-[11px] font-bold leading-4 text-slate-500">{item.reason}</p>
+                      </div>
+                      <span
+                        className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-black ${
+                          item.priority === "high" ? "bg-red-50 text-dossa-red" : item.priority === "medium" ? "bg-amber-50 text-amber-700" : "bg-emerald-50 text-emerald-700"
+                        }`}
+                      >
+                        {item.priority ?? "medium"}
+                      </span>
+                    </div>
+                    <p className="mt-2 rounded-xl bg-slate-50 px-2.5 py-2 text-[10px] font-black leading-4 text-slate-600">{item.action}</p>
+                  </a>
+                ))}
               </div>
             </div>
             <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
