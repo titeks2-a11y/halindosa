@@ -247,6 +247,8 @@ await check("free benefit events api", async () => {
   assert(data.summary?.officialSourceCount >= 50, "Free benefit events API summary missing official source diversity counter");
   assert(data.runtimeReadiness?.total === data.totalCount, "Free benefit events API runtime readiness total should match filtered totalCount");
   assert(data.runtimeReadiness?.officialCount >= 80, "Free benefit events API runtime readiness missing official source count");
+  assert(Number(data.runtimeReadiness?.instantClaimCount ?? 0) >= 40, "Free benefit events API runtime readiness missing instant-claim count");
+  assert(Number(data.runtimeReadiness?.claimAccessLevelCounts?.instant ?? 0) >= 40, "Free benefit events API runtime readiness missing claim access level distribution");
   assert(data.runtimeReadiness?.noPurchaseCount >= 40, "Free benefit events API runtime readiness should favor no-purchase benefits");
   assert(data.runtimeReadiness?.categoriesWithItems >= 10, "Free benefit events API runtime readiness should cover the core mobile filters");
   assert(Array.isArray(data.runtimeReadiness?.missingRequiredCategories), "Free benefit events API runtime readiness missing category gap list");

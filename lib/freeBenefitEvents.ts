@@ -69,8 +69,10 @@ export interface FreeBenefitEventRuntimeReadiness {
   total: number;
   officialCount: number;
   verifiedCount: number;
+  instantClaimCount: number;
   noPurchaseCount: number;
   noLoginNoPurchaseCount: number;
+  claimAccessLevelCounts: Record<string, number>;
   categoriesWithItems: number;
   requiredCategoryCount: number;
   missingRequiredCategories: Array<{ id: FreeBenefitEventType; label: string }>;
@@ -353,13 +355,19 @@ export function buildFreeBenefitEventRuntimeReadiness(events: FreeBenefitEvent[]
   }).length;
   const officialCount = events.filter((event) => event.isOfficial || event.sourceType === "official").length;
   const verifiedCount = events.filter((event) => event.isVerified && event.validationStatus === "passed").length;
+  const instantClaimCount = events.filter((event) => event.claimAccessLevel === "instant" && event.isInstantClaim).length;
   const noPurchaseCount = events.filter((event) => !event.requiresPurchase).length;
   const noLoginNoPurchaseCount = events.filter((event) => !event.requiresLogin && !event.requiresPurchase).length;
+  const claimAccessLevelCounts = events.reduce<Record<string, number>>((counts, event) => {
+    counts[event.claimAccessLevel] = (counts[event.claimAccessLevel] ?? 0) + 1;
+    return counts;
+  }, {});
   const categoriesWithItems = categoryCounts.filter((category) => category.id !== "all" && category.count > 0).length;
   const issues = [
     events.length < 80 ? `노출 가능한 공식 무료혜택이 80개 미만입니다. 현재 ${events.length}개입니다.` : "",
     officialCount < events.length ? `공식 출처가 아닌 승인 소스가 ${events.length - officialCount}개 섞여 있습니다.` : "",
     verifiedCount < events.length ? `검증 통과 표시가 없는 혜택이 ${events.length - verifiedCount}개 있습니다.` : "",
+    instantClaimCount < 40 ? `즉시 수령으로 분류된 혜택이 40개 미만입니다. 현재 ${instantClaimCount}개입니다.` : "",
     noPurchaseCount < 50 ? `구매 조건 없는 혜택이 50개 미만입니다. 현재 ${noPurchaseCount}개입니다.` : "",
     missingRequiredCategories.length ? `필수 무료혜택 카테고리 공백: ${missingRequiredCategories.map((category) => category.label).join(", ")}` : "",
     collectionLanes.some((lane) => lane.status === "empty") ? `비어 있는 무료혜택 수집축: ${collectionLanes.filter((lane) => lane.status === "empty").map((lane) => lane.label).join(", ")}` : "",
@@ -372,8 +380,10 @@ export function buildFreeBenefitEventRuntimeReadiness(events: FreeBenefitEvent[]
     total: events.length,
     officialCount,
     verifiedCount,
+    instantClaimCount,
     noPurchaseCount,
     noLoginNoPurchaseCount,
+    claimAccessLevelCounts,
     categoriesWithItems,
     requiredCategoryCount: requiredRuntimeCategoryIds.length,
     missingRequiredCategories,

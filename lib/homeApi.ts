@@ -74,6 +74,8 @@ export interface FreebiesResponse {
   };
   eventSummary?: FreeBenefitEventSourceSummary;
   runtimeReadiness?: {
+    instantClaimCount?: number;
+    claimAccessLevelCounts?: Record<string, number>;
     collectionLanes?: FreeBenefitEventCollectionLane[];
   };
   requiredCategoryCoverage?: RequiredFreeBenefitCategoryCoverage;
