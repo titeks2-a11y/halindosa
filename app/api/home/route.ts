@@ -12,6 +12,7 @@ import {
 import { fetchHotSignals } from "@/lib/hotSignalProvider";
 import { buildHomeFreebieSummary, selectHomeFreebies } from "@/lib/homeFreebies";
 import { HOME_REFRESH_INTERVAL_MS } from "@/lib/homeRealtimeConfig";
+import { buildFreeBenefitCategoryCoverageReport } from "@/lib/operations/freeBenefitCategoryCoverage";
 import { getDeploymentInfo } from "@/lib/deploymentInfo";
 import type { HotSignal } from "@/types/hotSignal";
 import type { NewsDeal } from "@/types/newsDeal";
@@ -252,6 +253,7 @@ export async function GET(request: Request) {
     const freeBenefitEventCategoryCounts = buildFreeBenefitEventCategoryCounts(freeBenefitEvents);
     const freeBenefitEventSummary = buildFreeBenefitEventSourceSummary(freeBenefitEvents, Date.parse(generatedAt));
     const freeBenefitRuntimeReadiness = buildFreeBenefitEventRuntimeReadiness(freeBenefitEvents, Date.parse(generatedAt));
+    const requiredCategoryCoverage = buildFreeBenefitCategoryCoverageReport(Date.parse(generatedAt));
     const freebiesSummary = buildHomeFreebieSummary(news.deals, Date.parse(generatedAt));
     counts.freebies = homeFreebies.length;
     const source = {
@@ -313,6 +315,15 @@ export async function GET(request: Request) {
         categoryCounts: freeBenefitEventCategoryCounts,
         eventSummary: freeBenefitEventSummary,
         runtimeReadiness: freeBenefitRuntimeReadiness,
+        requiredCategoryCoverage: {
+          ok: requiredCategoryCoverage.ok,
+          visibleActiveBenefits: requiredCategoryCoverage.visibleActiveBenefits,
+          noPurchaseVisibleBenefits: requiredCategoryCoverage.noPurchaseVisibleBenefits,
+          todayEndingBenefits: requiredCategoryCoverage.todayEndingBenefits,
+          weekEndingBenefits: requiredCategoryCoverage.weekEndingBenefits,
+          officialHostCount: requiredCategoryCoverage.officialHostCount,
+          categories: requiredCategoryCoverage.categoryCoverage
+        },
         summary: freebiesSummary,
         freshnessStatus: news.freshnessStatus,
         freshnessLabel: news.freshnessLabel,

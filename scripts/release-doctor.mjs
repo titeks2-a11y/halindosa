@@ -1290,8 +1290,11 @@ async function checkSearchAndPurchaseFlow() {
   const liveFeed = await text("components/LiveDealFeed.tsx");
   const homeDealGrid = await text("components/home/HomeDealGrid.tsx");
   const quickDealCard = await text("components/QuickDealCard.tsx");
+  const homeFreebieHero = await text("components/home/HomeFreebieHero.tsx");
   const benefitEventsRoute = await text("app/api/benefits/events/route.ts");
-  const homeRuntimeSource = `${homePage}\n${homeDealGrid}\n${quickDealCard}`;
+  const homeApiRoute = await text("app/api/home/route.ts");
+  const freebiesApiRoute = await text("app/api/freebies/route.ts");
+  const homeRuntimeSource = `${homePage}\n${homeDealGrid}\n${quickDealCard}\n${homeFreebieHero}`;
 
   if (
     !search.includes("normalizeSearchText") ||
@@ -1362,6 +1365,12 @@ async function checkSearchAndPurchaseFlow() {
     !homeRuntimeSource.includes("상품 이동은 모두 새 탭") ||
     !homeRuntimeSource.includes("카테고리 바로가기") ||
     !homeRuntimeSource.includes("quickCategoryShortcuts") ||
+    !homeFreebieHero.includes("data-home-required-free-benefit-categories") ||
+    !homeFreebieHero.includes("requiredCategoryCoverage") ||
+    !homeApiRoute.includes("requiredCategoryCoverage") ||
+    !homeApiRoute.includes("buildFreeBenefitCategoryCoverageReport") ||
+    !freebiesApiRoute.includes("requiredCategoryCoverage") ||
+    !smoke.includes("required free benefit category coverage") ||
     !benefitEventsRoute.includes("isPublishableFreeBenefitEvent") ||
     !benefitEventsRoute.includes("getClientKey(request, \"benefit-events\")") ||
     !benefitEventsRoute.includes("BENEFIT_EVENTS_LOAD_FAILED") ||

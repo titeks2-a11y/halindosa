@@ -7,6 +7,7 @@ import { getFreeBenefitEventLabel } from "@/lib/freeBenefitEvents";
 import { getDealImageSrc } from "@/lib/imageSrc";
 import { getHomeFreebieBenefitLabel } from "@/lib/homeFreebies";
 import type { FreeBenefitEventCategoryCount, FreeBenefitEventSourceSummary } from "@/lib/freeBenefitEvents";
+import type { RequiredFreeBenefitCategoryCoverage } from "@/lib/homeApi";
 import type { FreeBenefitEvent, FreeBenefitEventType } from "@/types/freeBenefitEvent";
 import type { NewsDeal } from "@/types/newsDeal";
 
@@ -189,6 +190,7 @@ interface HomeFreebieHeroProps {
   deals: NewsDeal[];
   events?: FreeBenefitEvent[];
   eventCategoryCounts?: FreeBenefitEventCategoryCount[];
+  requiredCategoryCoverage?: RequiredFreeBenefitCategoryCoverage | null;
   eventSourceSummary?: FreeBenefitEventSourceSummary;
   totalCount: number;
   updatedAt: string;
@@ -211,6 +213,7 @@ export function HomeFreebieHero({
   deals,
   events = [],
   eventCategoryCounts = [],
+  requiredCategoryCoverage,
   eventSourceSummary,
   totalCount,
   updatedAt,
@@ -362,6 +365,9 @@ export function HomeFreebieHero({
     if (!filter.eventType) return null;
     return eventCategoryCounts.find((category) => category.id === filter.eventType)?.count ?? events.filter((event) => event.benefitType === filter.eventType).length;
   };
+  const requiredCategoryChips = (requiredCategoryCoverage?.categories ?? [])
+    .filter((category) => category.count > 0 || !category.ok)
+    .slice(0, 10);
 
   return (
     <section
@@ -411,6 +417,29 @@ export function HomeFreebieHero({
           </div>
         ))}
       </div>
+
+      {requiredCategoryChips.length ? (
+        <div
+          data-home-required-free-benefit-categories="true"
+          className="mt-2 flex gap-1.5 overflow-x-auto pb-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          aria-label="필수 무료혜택 카테고리"
+        >
+          {requiredCategoryChips.map((category) => (
+            <Link
+              key={category.id}
+              href={category.href}
+              className={`shrink-0 rounded-full border px-2.5 py-1 text-[10px] font-black transition ${
+                category.ok
+                  ? "border-slate-100 bg-white text-slate-700 shadow-sm hover:bg-sky-50"
+                  : "border-red-100 bg-red-50 text-red-700 hover:bg-red-100"
+              }`}
+              aria-label={`${category.label} 무료혜택 ${category.count.toLocaleString("ko-KR")}개 보기`}
+            >
+              {category.label} {category.count.toLocaleString("ko-KR")}
+            </Link>
+          ))}
+        </div>
+      ) : null}
 
       {quickClaimEvents.length ? (
         <div

@@ -72,6 +72,7 @@ export interface FreebiesResponse {
     averageQualityScore: number;
   };
   eventSummary?: FreeBenefitEventSourceSummary;
+  requiredCategoryCoverage?: RequiredFreeBenefitCategoryCoverage;
   cachePolicy?: {
     mode: "no-store";
     generatedAt: string;
@@ -116,6 +117,23 @@ export interface FreeBenefitEventsResponse {
 }
 
 export type FreeBenefitEventCategoryCount = NonNullable<FreeBenefitEventsResponse["categoryCounts"]>[number];
+
+export interface RequiredFreeBenefitCategoryCoverage {
+  ok: boolean;
+  visibleActiveBenefits: number;
+  noPurchaseVisibleBenefits: number;
+  todayEndingBenefits: number;
+  weekEndingBenefits: number;
+  officialHostCount: number;
+  categories: Array<{
+    id: string;
+    label: string;
+    minimum: number;
+    count: number;
+    ok: boolean;
+    href: string;
+  }>;
+}
 
 export type HomeFreshnessStatus = "fresh" | "due" | "stale" | "seed";
 export type HomeFreshnessChannelKey = "deals" | "newsDeals" | "hotSignals";
@@ -201,7 +219,7 @@ export interface HomeResponse {
     | "freshnessAgeMinutes"
     | "nextRefreshAt"
   >;
-  freebiesMeta?: Pick<FreebiesResponse, "summary" | "eventSummary" | "freshnessStatus" | "freshnessLabel" | "freshnessAgeMinutes" | "nextRefreshAt" | "totalCount" | "eventCount"> & {
+  freebiesMeta?: Pick<FreebiesResponse, "summary" | "eventSummary" | "requiredCategoryCoverage" | "freshnessStatus" | "freshnessLabel" | "freshnessAgeMinutes" | "nextRefreshAt" | "totalCount" | "eventCount"> & {
     categoryCounts?: FreeBenefitEventCategoryCount[];
   };
   freeBenefitEventMeta?: {

@@ -8,6 +8,7 @@ import {
   selectPublishableFreeBenefitEvents
 } from "@/lib/freeBenefitEvents";
 import { buildHomeFreebieSummary, selectHomeFreebies } from "@/lib/homeFreebies";
+import { buildFreeBenefitCategoryCoverageReport } from "@/lib/operations/freeBenefitCategoryCoverage";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -67,6 +68,7 @@ export async function GET(request: Request) {
     const categoryCounts = buildFreeBenefitEventCategoryCounts(allEvents);
     const eventSummary = buildFreeBenefitEventSourceSummary(allEvents, referenceNow);
     const runtimeReadiness = buildFreeBenefitEventRuntimeReadiness(allEvents, referenceNow);
+    const requiredCategoryCoverage = buildFreeBenefitCategoryCoverageReport(referenceNow);
 
     return noStoreJson({
       ok: true,
@@ -88,6 +90,15 @@ export async function GET(request: Request) {
       summary,
       eventSummary,
       runtimeReadiness,
+      requiredCategoryCoverage: {
+        ok: requiredCategoryCoverage.ok,
+        visibleActiveBenefits: requiredCategoryCoverage.visibleActiveBenefits,
+        noPurchaseVisibleBenefits: requiredCategoryCoverage.noPurchaseVisibleBenefits,
+        todayEndingBenefits: requiredCategoryCoverage.todayEndingBenefits,
+        weekEndingBenefits: requiredCategoryCoverage.weekEndingBenefits,
+        officialHostCount: requiredCategoryCoverage.officialHostCount,
+        categories: requiredCategoryCoverage.categoryCoverage
+      },
       cachePolicy: {
         mode: "no-store",
         generatedAt
