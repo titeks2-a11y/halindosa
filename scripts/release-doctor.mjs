@@ -2372,7 +2372,9 @@ function checkFreeBenefitOperationsReport() {
   const packageJson = existsSync(join(root, "package.json")) ? withQaRunnerScripts(JSON.parse(readFileSync(join(root, "package.json"), "utf8"))) : {};
   const operationScript = existsSync(join(root, "scripts/free-benefit-operations-report.mjs")) ? readFileSync(join(root, "scripts/free-benefit-operations-report.mjs"), "utf8") : "";
   const operationLib = existsSync(join(root, "lib/operations/freeBenefitOperations.ts")) ? readFileSync(join(root, "lib/operations/freeBenefitOperations.ts"), "utf8") : "";
+  const rankingLib = existsSync(join(root, "lib/operations/freeBenefitRanking.ts")) ? readFileSync(join(root, "lib/operations/freeBenefitRanking.ts"), "utf8") : "";
   const operationApi = existsSync(join(root, "app/api/admin/free-benefit-operations/route.ts")) ? readFileSync(join(root, "app/api/admin/free-benefit-operations/route.ts"), "utf8") : "";
+  const rankingApi = existsSync(join(root, "app/api/admin/free-benefit-ranking/route.ts")) ? readFileSync(join(root, "app/api/admin/free-benefit-ranking/route.ts"), "utf8") : "";
   const adminPage = existsSync(join(root, "app/admin/page.tsx")) ? readFileSync(join(root, "app/admin/page.tsx"), "utf8") : "";
   const adminHrefs = existsSync(join(root, "lib/adminDashboardHrefs.ts")) ? readFileSync(join(root, "lib/adminDashboardHrefs.ts"), "utf8") : "";
   const smokeScript = smokeSourceSync();
@@ -2393,14 +2395,29 @@ function checkFreeBenefitOperationsReport() {
   if (!operationApi.includes("canAccessAdminRequest") || !operationApi.includes("getFreeBenefitOperationsReport") || !operationApi.includes("format") || !operationApi.includes("text/csv") || !operationApi.includes("admin-free-benefit-operations")) {
     issues.push("free benefit operations admin API should be protected and support CSV export");
   }
+  for (const phrase of ["buildFreeBenefitRankingReport", "buildFreeBenefitRankingCsv", "exactDuplicateGroupCount", "maxTopBrandRepeat", "topCandidates", "qualityScore"]) {
+    if (!rankingLib.includes(phrase)) issues.push(`free benefit ranking lib missing ${phrase}`);
+  }
+  if (!rankingApi.includes("canAccessAdminRequest") || !rankingApi.includes("buildFreeBenefitRankingReport") || !rankingApi.includes("format") || !rankingApi.includes("text/csv") || !rankingApi.includes("admin-free-benefit-ranking")) {
+    issues.push("free benefit ranking admin API should be protected and support CSV export");
+  }
   if (!adminHrefs.includes("freeBenefitOperationsApiHref") || !adminHrefs.includes("/api/admin/free-benefit-operations?format=csv")) {
     issues.push("admin dashboard href builder should expose free benefit operations JSON and CSV links");
+  }
+  if (!adminHrefs.includes("freeBenefitRankingApiHref") || !adminHrefs.includes("/api/admin/free-benefit-ranking?format=csv")) {
+    issues.push("admin dashboard href builder should expose free benefit ranking JSON and CSV links");
   }
   for (const phrase of ["무료혜택 운영 리포트", "freeBenefitOperationsApiHref", "freeBenefitOperationsCsvHref", "오늘 무료혜택 운영 액션 큐", "상위 노출 후보", "검색 링크"]) {
     if (!adminPage.includes(phrase)) issues.push(`admin page missing free benefit operations panel phrase: ${phrase}`);
   }
+  for (const phrase of ["무료혜택 랭킹 리포트", "freeBenefitRankingApiHref", "freeBenefitRankingCsvHref", "정확 중복", "첫 화면 상위 후보", "첫 화면 반복"]) {
+    if (!adminPage.includes(phrase)) issues.push(`admin page missing free benefit ranking panel phrase: ${phrase}`);
+  }
   if (!smokeScript.includes("admin free benefit operations api") || !smokeScript.includes("/api/admin/free-benefit-operations") || !smokeScript.includes("Admin free benefit operations should show zero search links") || !smokeScript.includes("operatorActionQueue")) {
     issues.push("smoke tests should cover free benefit operations admin API and CSV");
+  }
+  if (!smokeScript.includes("admin free benefit ranking api") || !smokeScript.includes("/api/admin/free-benefit-ranking") || !smokeScript.includes("Admin dashboard missing free benefit ranking and diversity panel") || !smokeScript.includes("exactDuplicateGroupCount")) {
+    issues.push("smoke tests should cover free benefit ranking admin API, CSV, and dashboard panel");
   }
   for (const phrase of ["무료혜택 운영 리포트", "노출 가능한 공식 무료혜택", "검색 링크 노출", "비공식 링크 노출", "오늘 운영 액션 큐", "상위 노출 후보"]) {
     if (!docsReport.includes(phrase)) issues.push(`docs/FREE_BENEFIT_OPERATIONS_REPORT.md missing ${phrase}`);

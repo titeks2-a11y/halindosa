@@ -150,6 +150,15 @@ export async function runAdminDashboardSmokeChecks() {
         text.includes("상위 노출 후보"),
       "Admin dashboard missing free benefit operator action queue"
     );
+    assert(
+      text.includes("무료혜택 랭킹 리포트") &&
+        text.includes("첫 화면 반복 노출과 중복 혜택") &&
+        text.includes("ranking JSON") &&
+        text.includes("ranking CSV") &&
+        text.includes("정확 중복") &&
+        text.includes("첫 화면 상위 후보"),
+      "Admin dashboard missing free benefit ranking and diversity panel"
+    );
     assert(text.includes("공식 소스 온보딩 우선순위") && text.includes("다음 연결 우선순위 TOP 10"), "Admin dashboard missing official source onboarding plan panel");
     assert(text.includes("온보딩 JSON") && text.includes("온보딩 CSV") && text.includes("feed env") && text.includes("/api/admin/source-onboarding"), "Admin dashboard missing official source onboarding API/CSV/env controls");
     assert(text.includes("feed 연결 후보") && text.includes("제휴 확인") && text.includes("차단 이슈"), "Admin dashboard missing official source onboarding summary cards");

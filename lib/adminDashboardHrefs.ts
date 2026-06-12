@@ -38,6 +38,8 @@ export function buildAdminDashboardHrefs(token: string | null | undefined) {
     dailyOperationsCsvHref: adminHref("/api/admin/daily-operations?format=csv", token),
     freeBenefitOperationsApiHref: adminHref("/api/admin/free-benefit-operations", token),
     freeBenefitOperationsCsvHref: adminHref("/api/admin/free-benefit-operations?format=csv", token),
+    freeBenefitRankingApiHref: adminHref("/api/admin/free-benefit-ranking", token),
+    freeBenefitRankingCsvHref: adminHref("/api/admin/free-benefit-ranking?format=csv", token),
     exposurePolicyApiHref: adminHref("/api/admin/exposure-policy", token),
     exposurePolicyCsvHref: adminHref("/api/admin/exposure-policy?format=csv", token),
     linkLaunchGateApiHref: adminHref("/api/admin/link-launch-gate", token),
