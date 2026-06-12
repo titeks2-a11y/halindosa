@@ -7,11 +7,11 @@
 ## 현재 기준
 
 - Branch: `codex/12h-product-ux-growth-hardening`
-- 최신 확인 HEAD: `e6e05667` (`fix: compute source breadth report from bundled catalog`) 기준 Vercel Production 반영 확인.
+- 최신 운영 확인 HEAD: `23bcbe08` (`fix: ship official source live readiness snapshot`) 기준 Vercel Production 반영 확인.
 - Remote: `origin/main`, `origin/codex/12h-product-ux-growth-hardening`에 반영 대상
 - 운영 URL: `https://www.halindosa.com`
-- Vercel Production Deploy: `e6e05667` 기준 운영 `/api/health` 반영 확인. 운영 응답은 `deployment.shortCommit=e6e05667`, `branch=main`을 반환한다.
-- GitHub CI: 최신 `main`/`codex/12h-product-ux-growth-hardening` push 대상. 운영 기능 상태는 `dc7278cc` 기준 확인.
+- Vercel Production Deploy: `23bcbe08` 기준 운영 `/api/health` 반영 확인. 운영 응답은 `deployment.shortCommit=23bcbe08`, `branch=main`을 반환한다.
+- GitHub CI: 최신 `main`/`codex/12h-product-ux-growth-hardening` push 대상. 새 커밋 후 운영 `/api/health`의 `deployment.shortCommit`으로 실제 반영 여부를 확인한다.
 - 로컬 최신 홈페이지: `http://127.0.0.1:3000/?verifiedOnly=true`
 - 운영 API 최신 계약 확인:
   - `/api/home?limit=1&verifiedOnly=true`: HTTP 200
@@ -63,6 +63,7 @@
 - 무료혜택 운영 리포트는 `operatorActionQueue`를 포함한다. 관리자 `/admin`, `/api/admin/free-benefit-operations`, CSV, smoke, release doctor가 오늘마감 공백, 이번주마감 대체 편성, 혜택 유형 공백, 비공식/검색/깨진 이미지 차단 작업을 같은 큐로 확인한다.
 - Vercel 런타임에서 `reports/free-benefit-operations.json`이 없어도 `/api/admin/free-benefit-operations`는 번들된 `data/refreshedNewsDeals.json`으로 공식 무료혜택 운영 리포트와 `operatorActionQueue`를 계산한다.
 - 뉴스/공식혜택 데이터 모델은 `freeTrial`, `signup`, `checkIn`, `roulette` 혜택 유형을 정식으로 지원한다. seed와 refresh snapshot에서 무료체험 7건, 신규가입 3건, 출석체크 4건, 기프티콘 2건, 룰렛 1건이 독립 유형으로 분류되며 운영 리포트의 혜택 유형 공백 큐는 해소됐다.
+- `benefit:model:doctor`는 실제 `data/refreshedNewsDeals.json` 스냅샷을 런타임 무료혜택 모델로 점검한다. 현재 후보 197개, active 188개, 소비자형 active 152개, 공식 링크 비율 100%, 필수 필드 누락 0개 기준으로 통과하며 QA와 harness에 연결되어 있다.
 
 ## 현재 데이터 품질 기준
 
@@ -82,6 +83,7 @@
   - `verify:freebies` 기준 193/193 visible, 검색 링크 0, 비공식 링크 0, 깨진 이미지 0
   - `verify:freebies`는 공식 도메인 111개, 브랜드 112개, 구매조건 낮은 혜택 기준도 함께 검사한다.
   - FreeBenefitEvent 기준 active official events 188개, sources 148개, hosts 109개
+  - Runtime FreeBenefitEvent 모델 기준 active 188개, consumer active 152개, official rate 100%, 필수 필드 누락 0개
   - FreeBenefitEvent 평균 점수: quality 100, freshness 100, official 96, urgency 41, reward 69
   - `benefit:category:doctor` 기준 visible active benefits 193개, official hosts 111개, no-purchase 167개, 필수 카테고리 10/10 통과
   - 공식 소스 후보 220개 이상, reachable/guarded 분리 관리
@@ -143,6 +145,17 @@
 - `npm run build`: 통과
 - `npm run build:android`: 통과
 - `npm run cap:sync`: 통과
+- 무료혜택 런타임 모델 게이트 작업 후 추가 확인:
+  - `npm run benefit:model:doctor`: 통과, 후보 197개, active 188개, 소비자형 active 152개, 공식 링크 100%, 필수 필드 누락 0개
+  - `npm run lint`: 통과
+  - `npm run build`: 통과
+  - `npm run release:doctor`: 192/192 통과
+  - `npm run smoke:local`: 108/108 통과
+  - `npm run qa`: 74/74 통과
+  - `npm run build:android`: 통과
+  - `npm run cap:sync`: 통과
+  - `npm run android:webview:doctor`: 13/13 통과
+  - `npm run workspace:doctor:strict`: 재생성 산출물 0B, 통과
 - 무료혜택 소스 축 커버리지 패널/API 작업 후 추가 확인:
   - `npm run source:breadth:doctor`: 통과, 필수 수집축 12/12 및 공식 소스 후보 217개 확인
   - `npm run lint`: 통과
@@ -153,7 +166,7 @@
 
 ## CI/Vercel 상태 해석
 
-- `da63cc6a` 기준 GitHub CI와 Vercel Production Deploy가 모두 성공했다.
+- `23bcbe08` 기준 GitHub CI와 Vercel Production Deploy가 모두 성공했다.
 - CI 실패가 다시 발생하면 먼저 실패 job의 마지막 단계를 확인한다.
 - 로컬 재현 순서:
   1. `npm run release:prepare:reports:ci`

@@ -21,6 +21,7 @@ const coreTasks = [
   "benefit:priority:doctor",
   "benefit:category:doctor",
   "benefit:operations:report",
+  "benefit:model:doctor",
   "verify:benefits",
   "benefit:event:contract",
   "news:freshness:doctor",

@@ -62,6 +62,7 @@
     "benefit:priority:doctor": "node scripts/consumer-benefit-priority-doctor.mjs",
     "benefit:category:doctor": "node scripts/free-benefit-category-coverage-doctor.mjs",
     "benefit:operations:report": "node scripts/free-benefit-operations-report.mjs",
+    "benefit:model:doctor": "node scripts/free-benefit-runtime-model-doctor.mjs",
     "verify:benefits": "node scripts/verify-benefit-events.mjs",
     "benefit:event:contract": "node scripts/free-benefit-event-contract-doctor.mjs",
     "news:images:enrich": "node scripts/enrich-news-benefit-images.mjs",
