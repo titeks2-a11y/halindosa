@@ -348,6 +348,18 @@ checks.push(
     ? pass("health homepage render guard", "/api/health confirms the homepage visible-render guard is active in the deployed runtime.")
     : fail("health homepage render guard", "/api/health should confirm homepageVisibleRenderGuard and homepageLoadingFallbackBlocked before the app is considered current.")
 );
+checks.push(
+  healthJson?.checks?.freeBenefitRankingOk === true &&
+    Number(healthJson?.checks?.freeBenefitClaimReadyCount ?? 0) >= 40 &&
+    Number(healthJson?.checks?.freeBenefitTopClaimReadyCount ?? 0) >= 16 &&
+    Number(healthJson?.checks?.freeBenefitTopTypeDiversity ?? 0) >= 7 &&
+    Number(healthJson?.checks?.freeBenefitExactDuplicateGroupCount ?? 1) === 0
+    ? pass(
+        "health claim-ready benefit ranking",
+        `/api/health confirms claim-ready free-benefit quality: ${healthJson.checks.freeBenefitClaimReadyCount} claim-ready, ${healthJson.checks.freeBenefitTopClaimReadyCount} top easy-claim, ${healthJson.checks.freeBenefitTopTypeDiversity} top types.`
+      )
+    : fail("health claim-ready benefit ranking", "/api/health should expose passing freeBenefitRankingOk, claim-ready count, easy first-screen count, type diversity, and zero exact duplicates.")
+);
 const deployedCommit =
   String(homeJson?.deployment?.commit || healthJson?.deployment?.commit || "").trim();
 const deployedShortCommit =

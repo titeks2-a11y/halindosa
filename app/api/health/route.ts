@@ -8,6 +8,7 @@ import { getOperationalEnvReadiness } from "@/lib/operations/envReadiness";
 import { getOfficialSourceFeedEnvReadiness } from "@/lib/operations/sourceFeedEnvReadiness";
 import { getOfficialSourceReadiness } from "@/lib/operations/sourceReadiness";
 import { getDeploymentInfo } from "@/lib/deploymentInfo";
+import { buildFreeBenefitRankingReport } from "@/lib/operations/freeBenefitRanking";
 
 export async function GET() {
   const startedAt = Date.now();
@@ -38,6 +39,7 @@ export async function GET() {
     const sourceReadiness = getOfficialSourceReadiness();
     const sourceFeedEnvReadiness = getOfficialSourceFeedEnvReadiness();
     const newsOperations = getNewsOperationsReport();
+    const freeBenefitRanking = buildFreeBenefitRankingReport();
     const officialBenefitReadyCategories = newsOperations.categoryCoverage.filter((item) => item.status === "ready").length;
     const officialBenefitWeakCategories = newsOperations.categoryCoverage.filter((item) => item.status !== "ready").length;
     const officialBenefitProviderRiskSummary = newsOperations.providerRiskSummary ?? { healthy: 0, watch: 0, danger: 0 };
@@ -110,6 +112,13 @@ export async function GET() {
         operationalEnvBlockingGroups: operationalEnvReadiness.blockingGroups.length,
         homepageVisibleRenderGuard: true,
         homepageLoadingFallbackBlocked: true,
+        freeBenefitRankingOk: freeBenefitRanking.ok,
+        freeBenefitClaimReadyCount: freeBenefitRanking.claimReadyCount,
+        freeBenefitTopClaimReadyCount: freeBenefitRanking.topClaimReadyCount,
+        freeBenefitTopTypeDiversity: freeBenefitRanking.topBenefitTypeDiversity,
+        freeBenefitExactDuplicateGroupCount: freeBenefitRanking.exactDuplicateGroupCount,
+        freeBenefitMaxTopBrandRepeat: freeBenefitRanking.maxTopBrandRepeat,
+        freeBenefitMaxTopDomainRepeat: freeBenefitRanking.maxTopDomainRepeat,
         officialBenefitFresh,
         officialBenefitFreshnessHours,
         officialBenefitVisibleCount: newsOperations.visibleCount,

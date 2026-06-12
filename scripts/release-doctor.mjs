@@ -414,7 +414,13 @@ async function checkCiWorkflow() {
       "rootVisibleRenderOk",
       "health homepage render guard",
       "homepageVisibleRenderGuard",
-      "homepageLoadingFallbackBlocked"
+      "homepageLoadingFallbackBlocked",
+      "health claim-ready benefit ranking",
+      "freeBenefitRankingOk",
+      "freeBenefitClaimReadyCount",
+      "freeBenefitTopClaimReadyCount",
+      "freeBenefitTopTypeDiversity",
+      "freeBenefitExactDuplicateGroupCount"
     ];
     const missingVercelDoctor = requiredVercelDoctorSnippets.filter((snippet) => !vercelDeploymentDoctor.includes(snippet));
 
