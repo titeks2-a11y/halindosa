@@ -92,6 +92,8 @@ npm run news:feed:live
 
 운영자는 `/api/admin/source-readiness`, `/api/admin/source-readiness?format=csv` 또는 `/admin`의 `공식 소스 통합 준비도` 패널에서 출시 게이트, 공식 후보 수, 접근 가능/보호 소스, feed env 실패, 공식 혜택 노출 수, 다음 연결 액션을 확인한다. 검색 결과, 커뮤니티 원문, 블로그, 쇼핑몰 메인, HTML 이벤트 랜딩 페이지는 공식 feed 후보나 사용자 이동 링크로 쓰지 않는다.
 
+`reports/*.json`은 재생성 산출물이므로 Vercel 런타임에 없을 수 있다. `source:live:doctor`는 배포에 필요한 최소 live 접근성 요약을 `data/officialSourceLiveSnapshot.json`에도 저장한다. 운영 API는 `reports/source-readiness.json`이 없으면 `data/officialSourceCatalog.json`, `data/officialSourceLiveSnapshot.json`, `data/refreshedNewsDeals.json`을 함께 읽어 공식 소스 후보, 접근 가능/보호 소스, 노출 가능한 공식 혜택 수를 계산한다.
+
 `news:feed:live` 결과가 `live_feed_ready`이면 실제 feed URL이 연결된 상태로 운영 가능하다. feed URL이 아직 없으면 `seed_launch_ready`로 통과하며, 이 상태는 무단 크롤링 없이 승인 seed/fallback만 사용자에게 노출한다는 의미다. `needs_attention`이면 실패 step의 stderr와 `reports/source-feed-env-readiness.json`, `reports/news-feed-canary.json`, `reports/news-deals.json`을 먼저 확인한다.
 
 ## 운영 전환 순서

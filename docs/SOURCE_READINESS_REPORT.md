@@ -1,10 +1,10 @@
 # 공식 소스 통합 준비도
 
-- 생성 시각: 2026-06-12T06:22:58.189Z
+- 생성 시각: 2026-06-12T06:42:36.239Z
 - 준비 상태: seed launch ready / 공식 feed 연결 대기
 - 출시 게이트: passed
 - 공식 소스 후보: 220개
-- 접근 가능/보호 소스: 192개 / 28개
+- 접근 가능/보호 소스: 193개 / 27개
 - 설정된 공식 feed URL: 0개
 - 공식 혜택 노출 가능: 197개
 - 차단 이슈: 0개
@@ -22,7 +22,7 @@
 | 게이트 | 상태 | 내용 | 다음 작업 |
 | --- | --- | --- | --- |
 | official source catalog | passed | 220개 공식 소스 후보, 누락 카테고리 0개, 얇은 카테고리 0개 | npm run source:catalog:report |
-| official source live | passed | 접근 가능 192개, 보호 28개, 차단 이슈 0개, 네트워크 점검 0개 | npm run source:live:doctor |
+| official source live | passed | 접근 가능 193개, 보호 27개, 차단 이슈 0개, 네트워크 점검 0개 | npm run source:live:doctor |
 | source onboarding plan | passed | env 후보 8개, 상위 액션 10개 | npm run source:onboarding:plan |
 | source feed env safety | passed | 설정 URL 0개, 실패 0개, 정책 샘플 실패 0개 | npm run source:feed-env:doctor |
 | official benefit exposure | passed | 노출 197개, 숨김 0개, 종료 0개, 실패 0개 | npm run refresh:news && npm run verify:news |
@@ -33,14 +33,14 @@
 
 | Env key | 상태 | 후보 | 접근 가능 | 보호/승인 | 설정 URL | 다음 작업 |
 | --- | --- | ---: | ---: | ---: | ---: | --- |
-| OFFICIAL_EVENT_FEED_URLS | ready_to_connect | 183 | 162 | 21 | 0 | OFFICIAL_EVENT_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL을 줄바꿈 또는 쉼표로 입력 |
+| OFFICIAL_EVENT_FEED_URLS | ready_to_connect | 186 | 164 | 22 | 0 | OFFICIAL_EVENT_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL을 줄바꿈 또는 쉼표로 입력 |
 | PUBLIC_COUPON_FEED_URLS | ready_to_connect | 133 | 116 | 17 | 0 | PUBLIC_COUPON_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL을 줄바꿈 또는 쉼표로 입력 |
-| BENEFIT_REFRESH_FEED_URLS | ready_to_connect | 126 | 113 | 13 | 0 | BENEFIT_REFRESH_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL을 줄바꿈 또는 쉼표로 입력 |
+| BENEFIT_REFRESH_FEED_URLS | ready_to_connect | 129 | 115 | 14 | 0 | BENEFIT_REFRESH_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL을 줄바꿈 또는 쉼표로 입력 |
 | DEAL_EVENT_FEED_URLS | ready_to_connect | 37 | 32 | 5 | 0 | DEAL_EVENT_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL을 줄바꿈 또는 쉼표로 입력 |
 | DEAL_EVENT_NEWS_FEED_URLS | ready_to_connect | 15 | 14 | 1 | 0 | DEAL_EVENT_NEWS_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL을 줄바꿈 또는 쉼표로 입력 |
 | DEAL_NEWS_FEED_URLS | ready_to_connect | 11 | 7 | 4 | 0 | DEAL_NEWS_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL을 줄바꿈 또는 쉼표로 입력 |
 | PAY_POINT_BENEFIT_FEED_URLS | ready_to_connect | 5 | 5 | 0 | 0 | PAY_POINT_BENEFIT_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL을 줄바꿈 또는 쉼표로 입력 |
-| CAFE_FRANCHISE_COUPON_FEED_URLS | ready_to_connect | 1 | 1 | 0 | 0 | CAFE_FRANCHISE_COUPON_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL을 줄바꿈 또는 쉼표로 입력 |
+| CAFE_FRANCHISE_COUPON_FEED_URLS | ready_to_connect | 4 | 3 | 1 | 0 | CAFE_FRANCHISE_COUPON_FEED_URLS에 공식 JSON/RSS 또는 승인된 파트너 feed URL을 줄바꿈 또는 쉼표로 입력 |
 
 ## 점검해야 할 보호/위험 소스
 
@@ -48,12 +48,12 @@
 | --- | --- | --- | --- | ---: | --- | --- | --- | --- |
 | oliveyoung-events | 올리브영 공식 이벤트 | official_event | guarded | 403 | waf_or_permission_guarded | https://www.oliveyoung.co.kr/store/main/getEventList.do | https://www.oliveyoung.co.kr/store/main/getEventList.do | 무단 크롤링하지 말고 공식 API/RSS/제휴 feed 또는 수동 승인 매핑 사용 |
 | cgv-events | CGV 공식 문화 이벤트 | public_coupon | guarded | 403 | waf_or_permission_guarded | https://www.cgv.co.kr/culture-event/event/defaultNew.aspx | https://cgv.co.kr/ | 무단 크롤링하지 말고 공식 API/RSS/제휴 feed 또는 수동 승인 매핑 사용 |
-| culture-day | 문화가 있는 날 공식 혜택 | public_coupon | guarded | 500 | source_server_error | https://www.culture.go.kr/wday/main/main.do | https://www.culture.go.kr/local/ | 일시 장애 여부를 재확인하고 노출 데이터는 기존 검증 feed만 유지 |
 | naverpay-benefit | 네이버페이 공식 이벤트 혜택 | official_event | guarded | 200 | login_or_permission_redirect | https://new-m.pay.naver.com/pcpay/eventbenefit | https://nid.naver.com/nidlogin.login?svctype=262144&url=http%3A%2F%2Fpoint.pay.naver.com%2Fpc%2Fmain | 로그인/권한 페이지를 수집하지 말고 공식 API/RSS/제휴 feed 또는 수동 승인 매핑 사용 |
 | jejuair-events | 제주항공 공식 진행 이벤트 | official_event | guarded | 503 | waf_or_permission_guarded | https://www.jejuair.net/ko/event/event.do | https://www.jejuair.net/ko/event/event.do | 무단 크롤링하지 말고 공식 API/RSS/제휴 feed 또는 수동 승인 매핑 사용 |
 | pizzahut-member-free-coupon-benefit | 피자헛 공식 회원 쿠폰 혜택 | public_coupon | guarded | 200 | login_or_permission_redirect | https://www.pizzahut.co.kr/misc/membership | https://www.pizzahut.co.kr/misc/membership | 로그인/권한 페이지를 수집하지 말고 공식 API/RSS/제휴 feed 또는 수동 승인 매핑 사용 |
 | megabox-membership-official-benefit | 메가박스 공식 멤버십 혜택 | public_coupon | guarded | 200 | login_or_permission_redirect | https://www.megabox.co.kr/benefit/membership | https://www.megabox.co.kr/benefit/membership | 로그인/권한 페이지를 수집하지 말고 공식 API/RSS/제휴 feed 또는 수동 승인 매핑 사용 |
 | lottecinema-lpoint-membership-benefit | 롯데시네마 L.POINT 공식 멤버십 혜택 | public_coupon | guarded | 200 | login_or_permission_redirect | https://www.lottecinema.co.kr/NLCHS/Membership/l_point | https://www.lottecinema.co.kr/NLCHS/Membership/l_point | 로그인/권한 페이지를 수집하지 말고 공식 API/RSS/제휴 feed 또는 수동 승인 매핑 사용 |
+| samsung-members-official-benefit | 삼성 멤버스 공식 혜택 | official_event | guarded | 200 | login_or_permission_redirect | https://www.samsung.com/sec/members/benefit/ | https://www.samsung.com/sec/members/benefit/ | 로그인/권한 페이지를 수집하지 말고 공식 API/RSS/제휴 feed 또는 수동 승인 매핑 사용 |
 
 ## 다음 작업
 

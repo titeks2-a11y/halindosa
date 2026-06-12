@@ -111,6 +111,20 @@ const fallbackReport: SourceReadinessReport = {
   commands: ["npm run source:readiness:report"]
 };
 
+type RuntimeSourceLiveSnapshot = {
+  generatedAt?: string;
+  totalSources?: number;
+  reachableCount?: number;
+  guardedCount?: number;
+  needsReviewCount?: number;
+  timeoutCount?: number;
+  networkErrorCount?: number;
+  staleOrRemovedCount?: number;
+  highPrioritySources?: number;
+  highPriorityReachableOrGuarded?: number;
+  guardedSources?: SourceReadinessRiskSource[];
+};
+
 function readJson<T>(path: string, fallback: T): T {
   if (!existsSync(path)) return fallback;
 
@@ -131,6 +145,7 @@ function getHost(value?: string) {
 
 function buildSnapshotFallbackReport(): SourceReadinessReport {
   const catalog = readJson<Array<Record<string, unknown>>>(join(process.cwd(), "data", "officialSourceCatalog.json"), []);
+  const liveSnapshot = readJson<RuntimeSourceLiveSnapshot>(join(process.cwd(), "data", "officialSourceLiveSnapshot.json"), {});
   const snapshot = readJson<{ generatedAt?: string; deals?: Array<Record<string, unknown>> }>(join(process.cwd(), "data", "refreshedNewsDeals.json"), {});
   const deals = Array.isArray(snapshot.deals) ? snapshot.deals : [];
   const visible = deals.filter((deal) =>
@@ -146,14 +161,31 @@ function buildSnapshotFallbackReport(): SourceReadinessReport {
   const consumerSourceRate = visible.length ? Math.round((consumerSourceCount / visible.length) * 100) : 0;
   const publicPolicySourceRate = visible.length ? Math.round((publicPolicyCount / visible.length) * 100) : 0;
   const highPrioritySources = catalog.filter((source) => source.priority === "high").length;
-  const ok = catalog.length >= 150 && visible.length >= 100 && visibleHosts.size >= 70 && publicPolicySourceRate <= 35;
+  const liveTotalSources = Number(liveSnapshot.totalSources ?? 0);
+  const liveReachableSources = Number(liveSnapshot.reachableCount ?? 0);
+  const liveGuardedSources = Number(liveSnapshot.guardedCount ?? 0);
+  const liveStaleSources = Number(liveSnapshot.staleOrRemovedCount ?? 0);
+  const hasLiveRuntimeSnapshot = liveTotalSources >= Math.max(1, catalog.length);
+  const officialSourceCandidates = Math.max(catalog.length, liveTotalSources);
+  const reachableSources = hasLiveRuntimeSnapshot ? liveReachableSources : visibleHosts.size;
+  const guardedSources = hasLiveRuntimeSnapshot ? liveGuardedSources : 0;
+  const ok = officialSourceCandidates >= 150 && visible.length >= 100 && reachableSources >= 70 && publicPolicySourceRate <= 35 && liveStaleSources === 0;
   const gates: SourceReadinessGate[] = [
     {
       name: "official source catalog snapshot",
-      ok: catalog.length >= 150,
-      status: catalog.length >= 150 ? "passed" : "failed",
-      detail: `배포 스냅샷 공식 소스 후보 ${catalog.length}개`,
+      ok: officialSourceCandidates >= 150,
+      status: officialSourceCandidates >= 150 ? "passed" : "failed",
+      detail: `배포 스냅샷 공식 소스 후보 ${officialSourceCandidates}개`,
       action: "data/officialSourceCatalog.json에 공식 소스 후보를 유지하세요."
+    },
+    {
+      name: "official source live snapshot",
+      ok: reachableSources >= 70 && liveStaleSources === 0,
+      status: reachableSources >= 70 && liveStaleSources === 0 ? "passed" : "failed",
+      detail: hasLiveRuntimeSnapshot
+        ? `배포 live 스냅샷 접근 가능 ${reachableSources}개, 보호 ${guardedSources}개, 교체 필요 ${liveStaleSources}개`
+        : `live 스냅샷 없음, 노출 혜택 호스트 ${reachableSources}개로 대체 확인`,
+      action: "npm run source:live:doctor를 실행해 data/officialSourceLiveSnapshot.json을 갱신하세요."
     },
     {
       name: "visible official benefit snapshot",
@@ -181,16 +213,20 @@ function buildSnapshotFallbackReport(): SourceReadinessReport {
   return {
     ...fallbackReport,
     ok,
-    generatedAt: snapshot.generatedAt ?? "",
-    readinessLabel: ok ? "seed launch ready / 배포 스냅샷 기준 공식 혜택 준비" : "배포 스냅샷 점검 필요",
+    generatedAt: liveSnapshot.generatedAt ?? snapshot.generatedAt ?? "",
+    readinessLabel: ok
+      ? hasLiveRuntimeSnapshot
+        ? "seed launch ready / 배포 live 스냅샷 기준 공식 혜택 준비"
+        : "seed launch ready / 배포 카탈로그 스냅샷 기준 공식 혜택 준비"
+      : "배포 스냅샷 점검 필요",
     launchGateStatus: ok ? "passed" : "blocked",
     summary: {
       ...fallbackReport.summary,
-      officialSourceCandidates: catalog.length,
+      officialSourceCandidates,
       highPrioritySources,
-      reachableSources: visibleHosts.size,
-      guardedSources: Math.max(0, catalog.length - visibleHosts.size),
-      blockedLiveIssues: 0,
+      reachableSources,
+      guardedSources,
+      blockedLiveIssues: liveStaleSources,
       configuredFeedUrls: 0,
       feedEnvConfiguredUrlCount: 0,
       feedEnvFailedCount: 0,
@@ -209,8 +245,9 @@ function buildSnapshotFallbackReport(): SourceReadinessReport {
       publicPolicySourceRate
     },
     gates,
+    riskySources: Array.isArray(liveSnapshot.guardedSources) ? liveSnapshot.guardedSources.slice(0, 8) : [],
     operatorNextActions: [
-      "운영 feed URL이 연결되기 전에는 data/refreshedNewsDeals.json과 data/officialSourceCatalog.json 배포 스냅샷을 기준으로 health를 판단합니다.",
+      "운영 feed URL이 연결되기 전에는 data/refreshedNewsDeals.json, data/officialSourceCatalog.json, data/officialSourceLiveSnapshot.json 배포 스냅샷을 기준으로 health를 판단합니다.",
       "공식 JSON/RSS/Atom feed가 준비되면 Vercel 환경변수 OFFICIAL_EVENT_FEED_URLS 또는 BENEFIT_REFRESH_FEED_URLS에 연결하세요."
     ],
     commands: [

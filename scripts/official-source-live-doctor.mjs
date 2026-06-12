@@ -4,10 +4,12 @@ import { join } from "node:path";
 const root = process.cwd();
 const reportsDir = join(root, "reports");
 const docsDir = join(root, "docs");
+const dataDir = join(root, "data");
 const catalogPath = "data/officialSourceCatalog.json";
 const jsonPath = "reports/official-source-live-check.json";
 const csvPath = "reports/official-source-live-check.csv";
 const docsPath = "docs/OFFICIAL_SOURCE_LIVE_CHECK.md";
+const runtimeSnapshotPath = "data/officialSourceLiveSnapshot.json";
 const timeoutMs = Number(process.env.SOURCE_LIVE_TIMEOUT_MS ?? 4500);
 const maxConcurrent = Number(process.env.SOURCE_LIVE_CONCURRENCY ?? 6);
 
@@ -292,10 +294,41 @@ const report = {
   sources: rows
 };
 
+const runtimeSnapshot = {
+  generatedAt,
+  mode: report.mode,
+  totalSources: report.totalSources,
+  reachableCount: report.reachableCount,
+  guardedCount: report.guardedCount,
+  needsReviewCount: report.needsReviewCount,
+  timeoutCount: report.timeoutCount,
+  networkErrorCount: report.networkErrorCount,
+  staleOrRemovedCount: report.staleOrRemovedCount,
+  highPrioritySources: report.highPrioritySources,
+  highPriorityReachableOrGuarded: report.highPriorityReachableOrGuarded,
+  statusCounts: report.statusCounts,
+  guardedSources: rows
+    .filter((row) => row.status !== "reachable")
+    .slice(0, 12)
+    .map((row) => ({
+      id: row.id,
+      label: row.label,
+      provider: row.provider,
+      officialUrl: row.officialUrl,
+      finalUrl: row.finalUrl,
+      reason: row.reason,
+      httpStatus: row.httpStatus,
+      status: row.status,
+      operatorAction: row.operatorAction
+    }))
+};
+
 mkdirSync(reportsDir, { recursive: true });
 mkdirSync(docsDir, { recursive: true });
+mkdirSync(dataDir, { recursive: true });
 writeFileSync(join(root, jsonPath), `${JSON.stringify(report, null, 2)}\n`, "utf8");
 writeFileSync(join(root, csvPath), `\uFEFF${buildCsv(rows)}\n`, "utf8");
+writeFileSync(join(root, runtimeSnapshotPath), `${JSON.stringify(runtimeSnapshot, null, 2)}\n`, "utf8");
 
 const docsLines = [
   "# 공식 소스 라이브 접근성 점검",
@@ -345,6 +378,7 @@ console.log("Official source live check written.");
 console.log(`- ${jsonPath}`);
 console.log(`- ${csvPath}`);
 console.log(`- ${docsPath}`);
+console.log(`- ${runtimeSnapshotPath}`);
 console.log(`- reachable: ${report.reachableCount}/${report.totalSources}`);
 console.log(`- guarded: ${report.guardedCount}`);
 console.log(`- stale_or_removed: ${report.staleOrRemovedCount}`);
