@@ -23,10 +23,13 @@ export type FreeBenefitSourceType = "official" | "partner_feed" | "approved_publ
 
 export interface FreeBenefitEvent {
   id: string;
+  brand: string;
   title: string;
+  description: string;
   brandName: string;
   benefitType: FreeBenefitEventType;
   legacyBenefitType: NewsBenefitType;
+  rewardValue: string;
   eventUrl: string;
   officialUrl: string;
   finalUrl: string;
@@ -35,6 +38,8 @@ export interface FreeBenefitEvent {
   sourceType: FreeBenefitSourceType;
   sourceUrl: string;
   sourceDomain: string;
+  startDate: string;
+  endDate: string;
   startAt: string;
   endAt: string;
   participationCondition: string;
@@ -49,7 +54,9 @@ export interface FreeBenefitEvent {
   rankingReason: string;
   trustBadges: string[];
   collectedAt: string;
+  createdAt: string;
   updatedAt: string;
+  lastCheckedAt: string;
   verifiedAt: string;
   status: FreeBenefitEventStatus;
   validationStatus: FreeBenefitValidationStatus;
@@ -62,6 +69,9 @@ export interface FreeBenefitEvent {
   priorityScore: number;
   freeConditionScore: number;
   interestScore: number;
+  isOfficial: boolean;
+  isFree: boolean;
+  isVerified: boolean;
   isHidden: boolean;
   hiddenReason: string;
   tags: string[];

@@ -454,6 +454,12 @@ export function toFreeBenefitEvent(deal: NewsDeal, referenceNow = Date.now()): F
   const isFirstComeFirstServed = firstComePattern.test(combinedText);
   const endAt = deal.expiresAt || deal.endDate;
   const sourceDomain = getBenefitEventSourceDomain(deal.finalUrl || deal.sourceUrl || deal.eventUrl);
+  const brandName = sanitizeBenefitText(deal.merchant || deal.mallName || deal.sourceName, 40);
+  const description = sanitizeBenefitText(deal.summary || deal.title, 220);
+  const officialUrl = deal.sourceUrl || deal.finalUrl;
+  const startAt = deal.startDate;
+  const createdAt = deal.updatedAt || deal.startDate;
+  const verifiedAt = deal.verifiedAt || deal.lastCheckedAt;
   const freeConditionScore = getFreeConditionScore({ benefitType, requiresLogin, requiresPurchase, isEveryoneReward, isFirstComeFirstServed });
   const interestScore = getInterestScore(deal, benefitType);
   const freshnessScore = getFreshnessScore(deal, referenceNow);
@@ -463,19 +469,24 @@ export function toFreeBenefitEvent(deal: NewsDeal, referenceNow = Date.now()): F
 
   const event: FreeBenefitEvent = {
     id: deal.id,
+    brand: brandName,
     title: sanitizeBenefitText(deal.title, 90),
-    brandName: sanitizeBenefitText(deal.merchant || deal.mallName || deal.sourceName, 40),
+    description,
+    brandName,
     benefitType,
     legacyBenefitType: deal.benefitType,
+    rewardValue: rewardText,
     eventUrl: deal.eventUrl || deal.finalUrl,
-    officialUrl: deal.sourceUrl || deal.finalUrl,
+    officialUrl,
     finalUrl: isSafeBenefitEventUrl(deal.finalUrl) ? deal.finalUrl : "",
     imageUrl: deal.imageUrl || "",
     sourceName: sanitizeBenefitText(deal.sourceName || deal.merchant, 50),
     sourceType,
     sourceUrl: deal.sourceUrl,
     sourceDomain,
-    startAt: deal.startDate,
+    startDate: startAt,
+    endDate: endAt,
+    startAt,
     endAt,
     participationCondition: buildParticipationCondition({ deal, benefitType, requiresLogin, requiresPurchase, isEveryoneReward, isFirstComeFirstServed }),
     requiresLogin,
@@ -488,9 +499,11 @@ export function toFreeBenefitEvent(deal: NewsDeal, referenceNow = Date.now()): F
     urgencyLabel: getEventUrgencyLabel(endAt, referenceNow),
     rankingReason: "",
     trustBadges: [],
-    collectedAt: deal.updatedAt || deal.startDate,
+    collectedAt: createdAt,
+    createdAt,
     updatedAt: deal.updatedAt,
-    verifiedAt: deal.verifiedAt || deal.lastCheckedAt,
+    lastCheckedAt: verifiedAt,
+    verifiedAt,
     status,
     validationStatus,
     validationReason: sanitizeBenefitText(deal.validationReason || (status === "active" ? "공식 혜택 링크 검증 통과" : "노출 정책 미통과"), 100),
@@ -505,6 +518,9 @@ export function toFreeBenefitEvent(deal: NewsDeal, referenceNow = Date.now()): F
       (isConsumerFacingBenefit(deal) ? 12 : 0),
     freeConditionScore,
     interestScore,
+    isOfficial: sourceType === "official" || sourceType === "approved_public",
+    isFree: !requiresPurchase,
+    isVerified: validationStatus === "passed" && status === "active",
     isHidden: deal.isHidden || status !== "active" || validationStatus !== "passed",
     hiddenReason: sanitizeBenefitText(deal.hiddenReason || (status === "active" ? "" : status), 80),
     tags: deal.tags.map((tag) => sanitizeBenefitText(tag, 24)).filter(Boolean).slice(0, 8)

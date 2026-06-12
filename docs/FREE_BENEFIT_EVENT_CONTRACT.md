@@ -1,6 +1,6 @@
 # FreeBenefitEvent 계약
 
-Generated: 2026-06-12T00:09:06.799Z
+Generated: 2026-06-12T00:41:34.578Z
 
 Status: PASS
 
@@ -30,15 +30,20 @@ Status: PASS
 
 ## 필수 필드
 
+- `brand`
 - `title`
+- `description`
 - `brandName`
 - `benefitType`
+- `rewardValue`
 - `eventUrl`
 - `officialUrl`
 - `finalUrl`
 - `sourceName`
 - `sourceType`
 - `sourceUrl`
+- `startDate`
+- `endDate`
 - `startAt`
 - `endAt`
 - `participationCondition`
@@ -51,7 +56,9 @@ Status: PASS
 - `claimCtaLabel`
 - `trustBadges`
 - `collectedAt`
+- `createdAt`
 - `updatedAt`
+- `lastCheckedAt`
 - `verifiedAt`
 - `status`
 - `validationStatus`
@@ -62,6 +69,9 @@ Status: PASS
 - `urgencyScore`
 - `rewardScore`
 - `priorityScore`
+- `isOfficial`
+- `isFree`
+- `isVerified`
 - `isHidden`
 - `hiddenReason`
 - `tags`
