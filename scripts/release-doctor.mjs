@@ -1367,10 +1367,14 @@ async function checkSearchAndPurchaseFlow() {
     !homeRuntimeSource.includes("quickCategoryShortcuts") ||
     !homePage.includes("data-home-required-free-benefit-categories") ||
     !homeFreebieHero.includes("data-home-required-free-benefit-categories") ||
+    !homeFreebieHero.includes("data-home-free-benefit-category-representatives") ||
+    !homeFreebieHero.includes("categoryRepresentativeBenefits") ||
     !homeFreebieHero.includes("requiredCategoryCoverage") ||
     !homeApiRoute.includes("requiredCategoryCoverage") ||
+    !homeApiRoute.includes("categoryCandidateGroups") ||
     !homeApiRoute.includes("buildFreeBenefitCategoryCoverageReport") ||
     !freebiesApiRoute.includes("requiredCategoryCoverage") ||
+    !freebiesApiRoute.includes("categoryCandidateGroups") ||
     !smoke.includes("required free benefit category coverage") ||
     !benefitEventsRoute.includes("isPublishableFreeBenefitEvent") ||
     !benefitEventsRoute.includes("getClientKey(request, \"benefit-events\")") ||

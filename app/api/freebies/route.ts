@@ -97,7 +97,8 @@ export async function GET(request: Request) {
         todayEndingBenefits: requiredCategoryCoverage.todayEndingBenefits,
         weekEndingBenefits: requiredCategoryCoverage.weekEndingBenefits,
         officialHostCount: requiredCategoryCoverage.officialHostCount,
-        categories: requiredCategoryCoverage.categoryCoverage
+        categories: requiredCategoryCoverage.categoryCoverage,
+        categoryCandidateGroups: requiredCategoryCoverage.categoryCandidateGroups
       },
       cachePolicy: {
         mode: "no-store",

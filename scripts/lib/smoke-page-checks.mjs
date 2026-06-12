@@ -190,6 +190,19 @@ export async function runPageSmokeChecks() {
             data.freebiesMeta.requiredCategoryCoverage.categories.every((category) => category.ok === true && category.href?.startsWith("/free-benefits?eventType=")),
           "/api/home required free benefit category coverage should expose 10 passing mobile filter chips"
         );
+        assert(
+          Array.isArray(data.freebiesMeta?.requiredCategoryCoverage?.categoryCandidateGroups) &&
+            data.freebiesMeta.requiredCategoryCoverage.categoryCandidateGroups.length >= 10 &&
+            data.freebiesMeta.requiredCategoryCoverage.categoryCandidateGroups.every(
+              (group) =>
+                group.ok === true &&
+                group.href?.startsWith("/free-benefits?eventType=") &&
+                Array.isArray(group.candidates) &&
+                group.candidates.length >= 1 &&
+                group.candidates.every((candidate) => candidate.finalUrl?.startsWith("https://") && candidate.title && candidate.sourceName)
+            ),
+          "/api/home required free benefit category coverage should expose representative official candidates per category"
+        );
         assert(data.quality?.productDeals?.publishableLinks >= 0, "/api/home should expose product publishable quality metadata");
         assert(data.quality?.officialBenefits?.publishable >= 0, "/api/home should expose official benefit publishable quality metadata");
         assert(data.quality?.exposure?.publishableTotal >= data.quality?.officialBenefits?.publishable, "/api/home should expose combined publishable exposure quality metadata");

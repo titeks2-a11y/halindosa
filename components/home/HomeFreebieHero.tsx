@@ -384,6 +384,18 @@ export function HomeFreebieHero({
         .filter((category) => category.count > 0)
         .slice(0, 10);
   const visibleRequiredCategoryChips = requiredCategoryChips.length ? requiredCategoryChips : fallbackRequiredCategoryChips;
+  const categoryRepresentativeBenefits = (requiredCategoryCoverage?.categoryCandidateGroups ?? [])
+    .flatMap((group) =>
+      group.candidates.slice(0, 1).map((candidate) => ({
+        ...candidate,
+        groupId: group.id,
+        groupLabel: group.label,
+        groupHref: group.href,
+        groupCount: group.count
+      }))
+    )
+    .filter((candidate) => candidate.finalUrl?.startsWith("https://") && candidate.title && candidate.sourceName)
+    .slice(0, 10);
 
   return (
     <section
@@ -454,6 +466,42 @@ export function HomeFreebieHero({
               {category.label} {category.count.toLocaleString("ko-KR")}
             </Link>
           ))}
+        </div>
+      ) : null}
+
+      {categoryRepresentativeBenefits.length ? (
+        <div
+          data-home-free-benefit-category-representatives="true"
+          className="mt-2 rounded-2xl border border-slate-100 bg-slate-50 p-2"
+          aria-label="카테고리별 대표 무료혜택"
+        >
+          <div className="flex items-center justify-between gap-2">
+            <p className="text-[10px] font-black text-slate-950">카테고리별 대표 혜택</p>
+            <Link href="/free-benefits" className="shrink-0 text-[10px] font-black text-dossa-red">
+              전체 보기
+            </Link>
+          </div>
+          <div className="mt-1.5 flex gap-1.5 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {categoryRepresentativeBenefits.map((candidate) => (
+              <Link
+                key={`${candidate.groupId}-${candidate.id}`}
+                href={`/go/news/${encodeURIComponent(candidate.id)}?from=home-free-benefit-category-representative`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="min-h-16 w-[10.5rem] shrink-0 rounded-2xl border border-white bg-white p-2 shadow-sm transition hover:border-red-100"
+                aria-label={`${candidate.groupLabel} 대표 혜택 ${candidate.title} 공식 페이지 열기`}
+              >
+                <div className="flex min-w-0 items-center justify-between gap-1">
+                  <span className="truncate rounded-full bg-red-50 px-1.5 py-0.5 text-[9px] font-black text-dossa-red">
+                    {candidate.groupLabel}
+                  </span>
+                  <span className="shrink-0 text-[9px] font-black text-slate-400">{candidate.groupCount.toLocaleString("ko-KR")}개</span>
+                </div>
+                <p className="mt-1 line-clamp-2 min-h-[2rem] text-[11px] font-black leading-4 text-slate-950">{candidate.title}</p>
+                <p className="mt-1 truncate text-[9px] font-bold text-slate-500">{candidate.sourceName || candidate.host}</p>
+              </Link>
+            ))}
+          </div>
         </div>
       ) : null}
 

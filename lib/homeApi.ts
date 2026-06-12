@@ -133,6 +133,26 @@ export interface RequiredFreeBenefitCategoryCoverage {
     ok: boolean;
     href: string;
   }>;
+  categoryCandidateGroups?: Array<{
+    id: string;
+    label: string;
+    minimum: number;
+    count: number;
+    ok: boolean;
+    href: string;
+    candidates: Array<{
+      id: string;
+      title: string;
+      sourceName: string;
+      category: string;
+      finalUrl: string;
+      host: string;
+      endAt: string;
+      requiresPurchase: boolean;
+      qualityScore: number;
+      priorityScore: number;
+    }>;
+  }>;
 }
 
 export type HomeFreshnessStatus = "fresh" | "due" | "stale" | "seed";
