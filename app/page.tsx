@@ -219,7 +219,11 @@ export default function Page() {
 
         <HomeRealtimeFreeBenefitRail />
 
-        <section className="grid grid-cols-3 gap-1.5 lg:grid-cols-10" aria-label="카테고리 바로가기">
+        <section
+          data-home-required-free-benefit-categories="true"
+          className="grid grid-cols-3 gap-1.5 lg:grid-cols-10"
+          aria-label="필수 무료혜택 카테고리"
+        >
           <h2 className="sr-only">카테고리 바로가기</h2>
           {chips.map((chip) => (
             <a key={chip.label} href={chip.href} className="rounded-2xl border border-white bg-white px-2.5 py-2 text-center shadow-sm">
