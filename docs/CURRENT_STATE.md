@@ -7,10 +7,10 @@
 ## 현재 기준
 
 - Branch: `codex/12h-product-ux-growth-hardening`
-- 최신 운영 확인 HEAD: `23bcbe08` (`fix: ship official source live readiness snapshot`) 기준 Vercel Production 반영 확인.
+- 최신 운영 확인 HEAD: `518cec21` (`feat: surface free benefit ranking in admin dashboard`) 기준 Vercel Production 반영 확인.
 - Remote: `origin/main`, `origin/codex/12h-product-ux-growth-hardening`에 반영 대상
 - 운영 URL: `https://www.halindosa.com`
-- Vercel Production Deploy: `23bcbe08` 기준 운영 `/api/health` 반영 확인. 운영 응답은 `deployment.shortCommit=23bcbe08`, `branch=main`을 반환한다.
+- Vercel Production Deploy: `518cec21` 기준 운영 `/api/health` 반영 확인. 운영 응답은 `deployment.shortCommit=518cec21`, `branch=main`을 반환한다.
 - GitHub CI: 최신 `main`/`codex/12h-product-ux-growth-hardening` push 대상. 새 커밋 후 운영 `/api/health`의 `deployment.shortCommit`으로 실제 반영 여부를 확인한다.
 - 로컬 최신 홈페이지: `http://127.0.0.1:3000/?verifiedOnly=true`
 - 운영 API 최신 계약 확인:
@@ -68,6 +68,7 @@
 - `release:doctor`는 이제 `benefit:model:doctor`와 smoke의 무료혜택 런타임 API 필드 계약 검사(`requiredFreeBenefitRuntimeFields`, `assertFreeBenefitRuntimeFields`)가 QA/harness에 연결되어 있는지 직접 확인한다. 무료혜택 모델 필드가 빠지거나 공식/검증 상태 계약이 약해지면 릴리즈 게이트가 실패한다.
 - `benefit:ranking:doctor`는 실제 무료혜택 스냅샷의 dedupe key, 공식 URL, 소비자형 publishable 수량, 구매조건 없는 혜택 수, 평균 품질/최신성 점수, 첫 화면 후보의 브랜드/도메인 반복도를 검사한다. 같은 혜택 반복 노출이나 낮은 품질 점수가 재발하면 QA, harness, release doctor가 실패한다.
 - `/api/admin/free-benefit-ranking`와 `/api/admin/free-benefit-ranking?format=csv`는 무료혜택 랭킹, 중복, 점수, 첫 화면 브랜드/도메인 반복도를 관리자 보호 API와 CSV로 제공한다. smoke는 JSON/CSV 응답, 공식 HTTPS 후보, 0개 정확 중복, 첫 화면 다양성 기준을 검사한다.
+- 관리자 `/admin` 화면은 무료혜택 랭킹 리포트 패널을 제공한다. 운영자는 정확 중복 0건, 소비자형 혜택 수, 구매조건 없는 혜택 수, 첫 화면 브랜드/도메인 반복도, 상위 후보를 화면에서 확인하고 JSON/CSV를 내려받을 수 있다.
 
 ## 현재 데이터 품질 기준
 
@@ -128,6 +129,18 @@
   - `npm run build:android`: 통과
   - `npm run cap:sync`: 통과
   - `npm run android:webview:doctor`: 13/13 통과
+- 무료혜택 랭킹 관리자 패널 작업 후 추가 확인:
+  - `npm run lint`: 통과
+  - `npm run build`: 통과
+  - `npm run smoke:local`: 110/110 통과, 관리자 `/admin`의 `무료혜택 랭킹 리포트` 패널 포함
+  - `npm run release:doctor`: 192/192 통과
+  - `npm run qa`: 75/75 통과
+  - `npm run build:android`: 통과
+  - `npm run cap:sync`: 통과
+  - `npm run android:webview:doctor`: 13/13 통과
+  - `npm run workspace:doctor:strict`: 재생성 산출물 0B, 통과
+  - `npm run vercel:doctor`: 28/28 통과
+  - 운영 `/api/health`: `deployment.shortCommit=518cec21`, `branch=main` 확인
   - `npm run smoke:local`: 104/104 통과
   - `npm run release:doctor`: 191/191 통과
   - `npm run build`: 통과
@@ -184,7 +197,7 @@
 
 ## CI/Vercel 상태 해석
 
-- `23bcbe08` 기준 GitHub CI와 Vercel Production Deploy가 모두 성공했다.
+- `518cec21` 기준 GitHub push와 Vercel Production Deploy 반영을 확인했다.
 - CI 실패가 다시 발생하면 먼저 실패 job의 마지막 단계를 확인한다.
 - 로컬 재현 순서:
   1. `npm run release:prepare:reports:ci`
