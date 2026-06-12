@@ -364,8 +364,10 @@ const checks = [
       hasAll(homeFreebieHeroSource, [
         "data-home-free-benefit-quick-filters",
         "data-home-free-benefit-deadline-categories",
+        "data-home-free-benefit-collection-lanes",
         "eventCategoryCounts",
         "deadlineCategoryCounts",
+        "collectionLanes",
         "getDeadlineCategoryCount",
         "isEmptyFilter",
         'aria-disabled="true"',

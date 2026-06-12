@@ -205,6 +205,10 @@ await check("freebies api", async () => {
   assert(data.runtimeReadiness?.total === data.eventCount, "Freebies API runtime readiness total should match eventCount");
   assert(data.runtimeReadiness?.categoriesWithItems >= 8, "Freebies API runtime readiness should expose broad category coverage");
   assert(data.runtimeReadiness?.deadlineBuckets?.thisWeek >= 0, "Freebies API runtime readiness missing deadline buckets");
+  assert(Array.isArray(data.runtimeReadiness?.collectionLanes) && data.runtimeReadiness.collectionLanes.length >= 6, "Freebies API runtime readiness missing collection lanes");
+  assert(data.runtimeReadiness.collectionLanes.some((lane) => lane.id === "officialEvents" && lane.envKey === "OFFICIAL_EVENT_FEED_URLS" && lane.count > 0), "Freebies API collection lanes missing official event lane");
+  assert(data.runtimeReadiness.collectionLanes.some((lane) => lane.id === "couponsMembership" && lane.envKey === "PUBLIC_COUPON_FEED_URLS" && lane.count > 0), "Freebies API collection lanes missing coupon membership lane");
+  assert(data.runtimeReadiness.collectionLanes.every((lane) => ["healthy", "thin", "empty"].includes(lane.status) && typeof lane.action === "string"), "Freebies API collection lanes should expose status and operator action");
   assert(Array.isArray(data.deadlineCategoryCounts) && data.deadlineCategoryCounts.some((category) => category.id === "today"), "Freebies API missing deadline category counts");
   assert(data.deadlineCategoryCounts.every((category) => category.href?.startsWith("/free-benefits?deadline=") && typeof category.count === "number"), "Freebies API deadline category counts should expose href and count");
   assert(Array.isArray(data.runtimeReadiness?.topBrands) && data.runtimeReadiness.topBrands.length >= 4, "Freebies API runtime readiness missing top brand coverage");

@@ -3,7 +3,7 @@ import { isCrossOriginApiRequest, resolveRuntimeApiUrl } from "@/lib/runtimeApi"
 import type { DealQualitySummary } from "@/lib/deals/quality";
 import type { Deal, DealBenefitType, DealSort } from "@/types/deal";
 import type { FreeBenefitEvent, FreeBenefitEventType } from "@/types/freeBenefitEvent";
-import type { FreeBenefitDeadlineCategoryCount, FreeBenefitEventSourceSummary } from "@/lib/freeBenefitEvents";
+import type { FreeBenefitDeadlineCategoryCount, FreeBenefitEventCollectionLane, FreeBenefitEventSourceSummary } from "@/lib/freeBenefitEvents";
 import type { HotSignal } from "@/types/hotSignal";
 import type { NewsDeadlineSummary, NewsDeal, NewsDealSourceTrust, NewsIntentGroup, NewsTargetSection } from "@/types/newsDeal";
 
@@ -73,6 +73,9 @@ export interface FreebiesResponse {
     averageQualityScore: number;
   };
   eventSummary?: FreeBenefitEventSourceSummary;
+  runtimeReadiness?: {
+    collectionLanes?: FreeBenefitEventCollectionLane[];
+  };
   requiredCategoryCoverage?: RequiredFreeBenefitCategoryCoverage;
   cachePolicy?: {
     mode: "no-store";
@@ -246,12 +249,18 @@ export interface HomeResponse {
   >;
   freebiesMeta?: Pick<FreebiesResponse, "summary" | "eventSummary" | "requiredCategoryCoverage" | "freshnessStatus" | "freshnessLabel" | "freshnessAgeMinutes" | "nextRefreshAt" | "totalCount" | "eventCount" | "deadlineCategoryCounts"> & {
     categoryCounts?: FreeBenefitEventCategoryCount[];
+    runtimeReadiness?: {
+      collectionLanes?: FreeBenefitEventCollectionLane[];
+    };
   };
   freeBenefitEventMeta?: {
     totalCount: number;
     categoryCounts: FreeBenefitEventCategoryCount[];
     deadlineCategoryCounts?: FreeBenefitDeadlineCategoryCount[];
     summary: FreeBenefitEventSourceSummary;
+    runtimeReadiness?: {
+      collectionLanes?: FreeBenefitEventCollectionLane[];
+    };
     visibleTypes: FreeBenefitEventType[];
     policy: {
       countBasis: string;

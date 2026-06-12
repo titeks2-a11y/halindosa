@@ -6,7 +6,7 @@ import { getRelativeTime, getTimeLeft } from "@/lib/format";
 import { getFreeBenefitEventLabel } from "@/lib/freeBenefitEvents";
 import { getDealImageSrc } from "@/lib/imageSrc";
 import { getHomeFreebieBenefitLabel } from "@/lib/homeFreebies";
-import type { FreeBenefitDeadlineCategoryCount, FreeBenefitEventCategoryCount, FreeBenefitEventSourceSummary } from "@/lib/freeBenefitEvents";
+import type { FreeBenefitDeadlineCategoryCount, FreeBenefitEventCategoryCount, FreeBenefitEventCollectionLane, FreeBenefitEventSourceSummary } from "@/lib/freeBenefitEvents";
 import type { RequiredFreeBenefitCategoryCoverage } from "@/lib/homeApi";
 import type { FreeBenefitEvent, FreeBenefitEventType } from "@/types/freeBenefitEvent";
 import type { NewsDeal } from "@/types/newsDeal";
@@ -191,6 +191,7 @@ interface HomeFreebieHeroProps {
   events?: FreeBenefitEvent[];
   eventCategoryCounts?: FreeBenefitEventCategoryCount[];
   deadlineCategoryCounts?: FreeBenefitDeadlineCategoryCount[];
+  collectionLanes?: FreeBenefitEventCollectionLane[];
   requiredCategoryCoverage?: RequiredFreeBenefitCategoryCoverage | null;
   eventSourceSummary?: FreeBenefitEventSourceSummary;
   totalCount: number;
@@ -215,6 +216,7 @@ export function HomeFreebieHero({
   events = [],
   eventCategoryCounts = [],
   deadlineCategoryCounts = [],
+  collectionLanes = [],
   requiredCategoryCoverage,
   eventSourceSummary,
   totalCount,
@@ -360,6 +362,13 @@ export function HomeFreebieHero({
         { label: "무배", value: summary?.freeShipping ?? visibleDeals.filter((deal) => deal.benefitType === "freeShipping").length, className: "bg-sky-50 text-sky-700" },
         { label: "마감임박", value: summary?.endingToday ?? visibleDeals.filter((deal) => isEndingSoon(deal, referenceNow)).length, className: "bg-orange-50 text-orange-700" }
       ];
+  const visibleCollectionLanes = collectionLanes
+    .filter((lane) => lane.count > 0)
+    .sort((a, b) => {
+      const statusRank = { healthy: 0, thin: 1, empty: 2 } as const;
+      return statusRank[a.status] - statusRank[b.status] || b.count - a.count || a.label.localeCompare(b.label);
+    })
+    .slice(0, 5);
   const deadlineFilterChips = (
     deadlineCategoryCounts.length
       ? deadlineCategoryCounts
@@ -482,6 +491,30 @@ export function HomeFreebieHero({
               <span className="block text-[10px] font-black">{category.label}</span>
               <span className="mt-0.5 block text-xs font-black sm:text-sm">{category.count.toLocaleString("ko-KR")}개</span>
             </Link>
+          ))}
+        </div>
+      ) : null}
+
+      {visibleCollectionLanes.length ? (
+        <div
+          data-home-free-benefit-collection-lanes="true"
+          className="mt-2 flex gap-1.5 overflow-x-auto pb-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          aria-label="실시간 무료혜택 수집축 상태"
+        >
+          {visibleCollectionLanes.map((lane) => (
+            <span
+              key={lane.id}
+              className={`shrink-0 rounded-full border px-2.5 py-1 text-[10px] font-black ${
+                lane.status === "healthy"
+                  ? "border-blue-100 bg-blue-50 text-blue-700"
+                  : lane.status === "thin"
+                    ? "border-amber-100 bg-amber-50 text-amber-800"
+                    : "border-slate-100 bg-slate-50 text-slate-500"
+              }`}
+              title={`${lane.action} · ${lane.envKey}`}
+            >
+              {lane.label} {lane.count.toLocaleString("ko-KR")}
+            </span>
           ))}
         </div>
       ) : null}

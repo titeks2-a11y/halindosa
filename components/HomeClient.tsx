@@ -61,11 +61,13 @@ import { HOME_REFRESH_INTERVAL_MS, HOME_REFRESH_INTERVAL_SECONDS } from "@/lib/h
 import { buildHomeFreebieSummary, selectHomeFreebies } from "@/lib/homeFreebies";
 import {
   buildFreeBenefitEventCategoryCounts,
+  buildFreeBenefitEventCollectionLanes,
   buildFreeBenefitEventDeadlineCategoryCounts,
   buildFreeBenefitEventSourceSummary,
   selectPublishableFreeBenefitEvents,
   type FreeBenefitDeadlineCategoryCount,
   type FreeBenefitEventCategoryCount,
+  type FreeBenefitEventCollectionLane,
   type FreeBenefitEventSourceSummary
 } from "@/lib/freeBenefitEvents";
 import {
@@ -288,6 +290,9 @@ export default function Home({ initialNow = "", initialNewsSnapshot = emptyIniti
   const [homeFreeBenefitDeadlineCategoryCounts, setHomeFreeBenefitDeadlineCategoryCounts] = useState<FreeBenefitDeadlineCategoryCount[]>(() =>
     buildFreeBenefitEventDeadlineCategoryCounts(selectPublishableFreeBenefitEvents(initialNewsDeals, HOME_FREEBIE_EVENT_LIMIT, initialClockNow || Date.now()), initialClockNow || Date.now())
   );
+  const [homeFreeBenefitCollectionLanes, setHomeFreeBenefitCollectionLanes] = useState<FreeBenefitEventCollectionLane[]>(() =>
+    buildFreeBenefitEventCollectionLanes(selectPublishableFreeBenefitEvents(initialNewsDeals, HOME_FREEBIE_EVENT_LIMIT, initialClockNow || Date.now()))
+  );
   const [requiredFreeBenefitCategoryCoverage, setRequiredFreeBenefitCategoryCoverage] = useState<RequiredFreeBenefitCategoryCoverage | null>(null);
   const [homeFreeBenefitEventSourceSummary, setHomeFreeBenefitEventSourceSummary] = useState<FreeBenefitEventSourceSummary>(() =>
     buildFreeBenefitEventSourceSummary(
@@ -372,6 +377,7 @@ export default function Home({ initialNow = "", initialNewsSnapshot = emptyIniti
         setHomeFreeBenefitEvents(nextEvents);
         setHomeFreeBenefitEventCategoryCounts(buildFreeBenefitEventCategoryCounts(nextEvents));
         setHomeFreeBenefitDeadlineCategoryCounts(buildFreeBenefitEventDeadlineCategoryCounts(nextEvents, referenceNow));
+        setHomeFreeBenefitCollectionLanes(buildFreeBenefitEventCollectionLanes(nextEvents));
         setHomeFreeBenefitEventSourceSummary(buildFreeBenefitEventSourceSummary(nextEvents, referenceNow));
         setHomeFreebieSummary(buildHomeFreebieSummary(snapshot.deals, referenceNow));
         setNewsRecommendedQueries(snapshot.recommendedQueries);
@@ -916,6 +922,7 @@ export default function Home({ initialNow = "", initialNewsSnapshot = emptyIniti
           setHomeFreeBenefitEvents(nextBundleEvents);
           setHomeFreeBenefitEventCategoryCounts(buildFreeBenefitEventCategoryCounts(nextBundleEvents));
           setHomeFreeBenefitDeadlineCategoryCounts(buildFreeBenefitEventDeadlineCategoryCounts(nextBundleEvents, referenceNow));
+          setHomeFreeBenefitCollectionLanes(buildFreeBenefitEventCollectionLanes(nextBundleEvents));
           setHomeFreeBenefitEventSourceSummary(buildFreeBenefitEventSourceSummary(nextBundleEvents, referenceNow));
           setHomeFreebieSummary(buildHomeFreebieSummary(initialNewsDeals, referenceNow));
           setLastHomeSyncAt(generatedAt);
@@ -990,6 +997,7 @@ export default function Home({ initialNow = "", initialNewsSnapshot = emptyIniti
         setHomeFreeBenefitEvents(nextHomeFreeBenefitEvents);
         setHomeFreeBenefitEventCategoryCounts(snapshot.freebies.categoryCounts?.length ? snapshot.freebies.categoryCounts : buildFreeBenefitEventCategoryCounts(nextHomeFreeBenefitEvents));
         setHomeFreeBenefitDeadlineCategoryCounts(snapshot.freebies.deadlineCategoryCounts?.length ? snapshot.freebies.deadlineCategoryCounts : buildFreeBenefitEventDeadlineCategoryCounts(nextHomeFreeBenefitEvents, referenceNow));
+        setHomeFreeBenefitCollectionLanes(snapshot.freebies.collectionLanes?.length ? snapshot.freebies.collectionLanes : buildFreeBenefitEventCollectionLanes(nextHomeFreeBenefitEvents));
         setRequiredFreeBenefitCategoryCoverage(snapshot.freebies.requiredCategoryCoverage ?? null);
         setHomeFreeBenefitEventSourceSummary(snapshot.freebies.eventSummary ?? buildFreeBenefitEventSourceSummary(nextHomeFreeBenefitEvents, referenceNow));
         setHomeFreebieSummary(snapshot.freebies.summary ?? buildHomeFreebieSummary(snapshot.news.deals, referenceNow));
@@ -1457,6 +1465,7 @@ export default function Home({ initialNow = "", initialNewsSnapshot = emptyIniti
             events={homeFreeBenefitEvents}
             eventCategoryCounts={homeFreeBenefitEventCategoryCounts}
             deadlineCategoryCounts={homeFreeBenefitDeadlineCategoryCounts}
+            collectionLanes={homeFreeBenefitCollectionLanes}
             requiredCategoryCoverage={requiredFreeBenefitCategoryCoverage}
             eventSourceSummary={homeFreeBenefitEventSourceSummary}
             totalCount={Math.max(homeFreebieSummary.total || newsFreeBenefitCount, homeFreeBenefitEvents.length)}
