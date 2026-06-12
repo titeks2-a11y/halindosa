@@ -10,10 +10,72 @@ import {
 } from "@/lib/freeBenefitEvents";
 import { buildHomeFreebieSummary, selectHomeFreebies } from "@/lib/homeFreebies";
 import { buildFreeBenefitCategoryCoverageReport } from "@/lib/operations/freeBenefitCategoryCoverage";
+import type { FreeBenefitClaimAccessLevel, FreeBenefitEvent, FreeBenefitEventType } from "@/types/freeBenefitEvent";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 export const fetchCache = "force-no-store";
+
+const claimAccessLevels = new Set<FreeBenefitClaimAccessLevel>(["instant", "login_required", "purchase_required", "condition_check"]);
+const benefitEventTypes = new Set<FreeBenefitEventType>([
+  "all",
+  "everyone",
+  "firstCome",
+  "coupon",
+  "sample",
+  "freeTrial",
+  "gifticon",
+  "pointCashback",
+  "checkIn",
+  "roulette",
+  "signup",
+  "publicFree",
+  "experiencePanel",
+  "freeShipping",
+  "brandEvent"
+]);
+
+function parseClaimAccess(value: string | null) {
+  return value && claimAccessLevels.has(value as FreeBenefitClaimAccessLevel) ? (value as FreeBenefitClaimAccessLevel) : "all";
+}
+
+function parseEventType(value: string | null) {
+  return value && benefitEventTypes.has(value as FreeBenefitEventType) ? (value as FreeBenefitEventType) : "all";
+}
+
+function parseDeadline(value: string | null) {
+  if (value === "today" || value === "week" || value === "soon") return value;
+  return "all";
+}
+
+function getDeadlineWindowMs(deadline: ReturnType<typeof parseDeadline>) {
+  if (deadline === "today") return 24 * 60 * 60 * 1000;
+  if (deadline === "week") return 7 * 24 * 60 * 60 * 1000;
+  if (deadline === "soon") return 3 * 24 * 60 * 60 * 1000;
+  return null;
+}
+
+function filterFreeBenefitEvents(events: FreeBenefitEvent[], request: Request, referenceNow: number) {
+  const { searchParams } = new URL(request.url);
+  const claimAccess = parseClaimAccess(searchParams.get("claimAccess"));
+  const eventType = parseEventType(searchParams.get("eventType") ?? searchParams.get("type"));
+  const deadline = parseDeadline(searchParams.get("deadline"));
+  const noPurchaseOnly = searchParams.get("noPurchaseOnly") === "true";
+  const deadlineWindowMs = getDeadlineWindowMs(deadline);
+
+  return events.filter((event) => {
+    if (claimAccess !== "all" && event.claimAccessLevel !== claimAccess) return false;
+    if (eventType !== "all" && event.benefitType !== eventType) return false;
+    if (noPurchaseOnly && event.requiresPurchase) return false;
+    if (deadlineWindowMs !== null) {
+      const endAt = Date.parse(event.endAt);
+      if (!Number.isFinite(endAt)) return false;
+      const timeLeft = endAt - referenceNow;
+      if (timeLeft < 0 || timeLeft > deadlineWindowMs) return false;
+    }
+    return true;
+  });
+}
 
 export function OPTIONS() {
   return noStoreOptions();
@@ -64,12 +126,15 @@ export async function GET(request: Request) {
     const allEvents = selectPublishableFreeBenefitEvents(defaultDeals, 160, referenceNow, {
       includePublic
     });
-    const events = allEvents.slice(0, safeLimit);
+    const filteredEvents = filterFreeBenefitEvents(allEvents, request, referenceNow);
+    const events = filteredEvents.slice(0, safeLimit);
     const summary = buildHomeFreebieSummary(defaultDeals, referenceNow);
     const categoryCounts = buildFreeBenefitEventCategoryCounts(allEvents);
     const deadlineCategoryCounts = buildFreeBenefitEventDeadlineCategoryCounts(allEvents, referenceNow);
-    const eventSummary = buildFreeBenefitEventSourceSummary(allEvents, referenceNow);
-    const runtimeReadiness = buildFreeBenefitEventRuntimeReadiness(allEvents, referenceNow);
+    const filteredCategoryCounts = buildFreeBenefitEventCategoryCounts(filteredEvents);
+    const filteredDeadlineCategoryCounts = buildFreeBenefitEventDeadlineCategoryCounts(filteredEvents, referenceNow);
+    const eventSummary = buildFreeBenefitEventSourceSummary(filteredEvents, referenceNow);
+    const runtimeReadiness = buildFreeBenefitEventRuntimeReadiness(filteredEvents, referenceNow);
     const requiredCategoryCoverage = buildFreeBenefitCategoryCoverageReport(referenceNow);
 
     return noStoreJson({
@@ -79,7 +144,8 @@ export async function GET(request: Request) {
       deals: freebies,
       events,
       count: freebies.length,
-      eventCount: allEvents.length,
+      eventCount: filteredEvents.length,
+      publishableEventCount: allEvents.length,
       totalCount: summary.total,
       updatedAt: generatedAt,
       sourceUpdatedAt: news.updatedAt,
@@ -89,7 +155,9 @@ export async function GET(request: Request) {
       freshnessAgeMinutes: news.freshnessAgeMinutes,
       nextRefreshAt: news.nextRefreshAt,
       categoryCounts,
+      filteredCategoryCounts,
       deadlineCategoryCounts,
+      filteredDeadlineCategoryCounts,
       summary,
       eventSummary,
       runtimeReadiness,
@@ -110,6 +178,15 @@ export async function GET(request: Request) {
       exposurePolicy: {
         defaultConsumerFirst: !includePublic,
         publicPolicyBenefits: includePublic ? "included_by_request" : "excluded_from_default"
+      },
+      filters: {
+        q: q ?? "",
+        sort: searchParams.get("sort") ?? "priority",
+        includePublic,
+        eventType: parseEventType(searchParams.get("eventType") ?? searchParams.get("type")),
+        deadline: parseDeadline(searchParams.get("deadline")),
+        noPurchaseOnly: searchParams.get("noPurchaseOnly") === "true",
+        claimAccess: parseClaimAccess(searchParams.get("claimAccess"))
       },
       message: "검증된 무료혜택, 쿠폰, 0원딜, 무료배송 혜택을 성공적으로 불러왔습니다."
     }, { headers: rateLimitHeaders(limitResult, requestId) });

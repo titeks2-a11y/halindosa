@@ -304,6 +304,15 @@ export async function runPageSmokeChecks() {
       "/api/freebies events must be active, verified, directly linkable, brand-labeled, and condition-labeled"
     );
 
+    const instantFreebiePool = await fetchJson("/api/freebies?limit=16&claimAccess=instant");
+    assert(instantFreebiePool.response.status === 200, `Expected /api/freebies instant-claim filter 200, got ${instantFreebiePool.response.status}`);
+    assert(instantFreebiePool.data.filters?.claimAccess === "instant", "/api/freebies should echo instant claim access filter");
+    assert(instantFreebiePool.data.eventCount >= 40, `/api/freebies instant-claim filter should keep a broad visible pool, got ${instantFreebiePool.data.eventCount ?? 0}`);
+    assert(
+      instantFreebiePool.data.events.every((event) => event.claimAccessLevel === "instant" && event.isInstantClaim === true),
+      "/api/freebies instant-claim filter returned non-instant events"
+    );
+
     assert(homeApiSource.includes("buildHomeRequestUrl") && homeApiSource.includes("ts: String(timestamp)") && homeApiSource.includes('cache: "no-store"'), "Home API client should use /api/home cache busting and no-store fetch");
     const homeRefreshIntervalUsages = [...homePageSource.matchAll(/window\.setInterval\(([^,]+), HOME_REFRESH_INTERVAL_MS\)/g)].map((match) => match[1].trim());
     assert(

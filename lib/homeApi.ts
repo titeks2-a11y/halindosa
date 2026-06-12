@@ -53,6 +53,7 @@ export interface FreebiesResponse {
   events?: FreeBenefitEvent[];
   count: number;
   eventCount?: number;
+  publishableEventCount?: number;
   totalCount: number;
   updatedAt: string;
   sourceUpdatedAt?: string;
@@ -62,7 +63,9 @@ export interface FreebiesResponse {
   freshnessAgeMinutes?: number | null;
   nextRefreshAt?: string;
   categoryCounts?: Array<{ id: FreeBenefitEventType; label: string; count: number }>;
+  filteredCategoryCounts?: Array<{ id: FreeBenefitEventType; label: string; count: number }>;
   deadlineCategoryCounts?: FreeBenefitDeadlineCategoryCount[];
+  filteredDeadlineCategoryCounts?: FreeBenefitDeadlineCategoryCount[];
   summary?: {
     total: number;
     zeroCost: number;
@@ -75,6 +78,15 @@ export interface FreebiesResponse {
   eventSummary?: FreeBenefitEventSourceSummary;
   runtimeReadiness?: FreeBenefitRuntimeReadinessSummary;
   requiredCategoryCoverage?: RequiredFreeBenefitCategoryCoverage;
+  filters?: {
+    q: string;
+    sort: string;
+    includePublic: boolean;
+    eventType: FreeBenefitEventType | "all";
+    deadline: "all" | "today" | "week" | "soon";
+    noPurchaseOnly: boolean;
+    claimAccess: "all" | "instant" | "login_required" | "purchase_required" | "condition_check";
+  };
   cachePolicy?: {
     mode: "no-store";
     generatedAt: string;
