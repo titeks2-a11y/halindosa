@@ -97,6 +97,9 @@ const docsSource = read("docs/RUNBOOK.md");
 for (const phrase of [
   "dryRunNewsFeedPreview",
   "parseNewsFeedXmlItems",
+  "parseCsvPayload",
+  "duplicate_candidate",
+  "ended_text_detected",
   "isApprovedOfficialNewsUrl",
   "search_or_result_url",
   "blocked_news_or_community_context_url",
@@ -113,6 +116,10 @@ for (const phrase of ["POST", "dryRunNewsFeedPreview", "admin-news-feed-preview-
 
 for (const phrase of [
   "Admin news feed dry-run should pass official RSS sample",
+  "Admin news feed dry-run should parse official CSV sample",
+  "Admin news feed dry-run should fail NDJSON duplicate or ended-text samples",
+  "Admin news feed dry-run should hide duplicate NDJSON sample",
+  "Admin news feed dry-run should hide ended-text sample",
   "Admin news feed dry-run should block search URL sample",
   "Admin news feed dry-run should block news-only sample",
   "Admin news feed dry-run should block expired official sample",
@@ -146,6 +153,9 @@ const report = {
   })),
   gates: [
     { name: "rss_official_href_promotion", ok: true },
+    { name: "csv_feed_parser_guard", ok: true },
+    { name: "ndjson_duplicate_guard", ok: true },
+    { name: "ended_text_guard", ok: true },
     { name: "search_url_hidden", ok: true },
     { name: "news_only_hidden", ok: true },
     { name: "expired_official_hidden", ok: true },
@@ -159,5 +169,6 @@ writeFileSync(join(reportsDir, "news-feed-dry-run-regression.json"), `${JSON.str
 
 console.log("PASS news feed dry-run regression");
 console.log("- official link in RSS body is promoted to finalUrl");
+console.log("- CSV feed parsing, NDJSON duplicate detection, and ended-text blocking are wired");
 console.log("- search URL, news-only URL, and expired official event are hidden");
 console.log("- reports/news-feed-dry-run-regression.json");

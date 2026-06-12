@@ -1644,7 +1644,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                   ))
                 ) : (
                   <p className="rounded-2xl bg-white px-3 py-2 text-xs font-bold leading-5 text-slate-600 shadow-sm">
-                    공식 JSON/RSS/API feed 연결 전 source:feed-env:doctor를 실행하세요.
+                    공식 JSON/NDJSON/CSV/RSS/API feed 연결 전 source:feed-env:doctor를 실행하세요.
                   </p>
                 )}
               </div>
@@ -1811,7 +1811,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
               <p className="text-xs font-black text-emerald-700">공식 feed 환경변수 안전성</p>
               <h2 className="mt-1 text-xl font-black text-slate-950">운영 env에 검색·커뮤니티 링크가 들어가기 전 차단</h2>
               <p className="mt-1 text-sm font-semibold leading-6 text-slate-500">
-                공식 API/RSS/JSON feed만 허용하고 검색 결과, 커뮤니티 원문, 블로그, HTML 랜딩 페이지는 refresh 전에 막습니다.
+                공식 API/RSS/JSON/CSV/NDJSON feed만 허용하고 검색 결과, 커뮤니티 원문, 블로그, HTML 랜딩 페이지는 refresh 전에 막습니다.
               </p>
             </div>
             <a href={sourceFeedEnvApiHref} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-2xl bg-slate-950 px-4 py-3 text-sm font-black text-white">

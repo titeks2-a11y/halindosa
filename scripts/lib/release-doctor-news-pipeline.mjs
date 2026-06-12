@@ -296,6 +296,9 @@ export function checkNewsDealPipeline() {
     !feedDryRunTest.includes("dry-run-negative-search-url") ||
     !feedDryRunTest.includes("dry-run-negative-news-only") ||
     !feedDryRunTest.includes("dry-run-negative-expired-official") ||
+    !feedDryRunTest.includes("parseCsvPayload") ||
+    !feedDryRunTest.includes("duplicate_candidate") ||
+    !feedDryRunTest.includes("ended_text_detected") ||
     !feedDryRunTest.includes("news-feed-dry-run-regression.json") ||
     feedDryRunRegressionReport.ok !== true ||
     feedDryRunRegressionReport.hiddenCount < 3 ||
@@ -492,6 +495,10 @@ export function checkNewsDealPipeline() {
     !smokeScript.includes("Admin news feed preview CSV should use text/csv") ||
     !smokeScript.includes("Admin dashboard missing official news feed preview panel") ||
     !smokeScript.includes("Admin news feed dry-run should pass official RSS sample") ||
+    !smokeScript.includes("Admin news feed dry-run should parse official CSV sample") ||
+    !smokeScript.includes("Admin news feed dry-run should fail NDJSON duplicate or ended-text samples") ||
+    !smokeScript.includes("Admin news feed dry-run should hide duplicate NDJSON sample") ||
+    !smokeScript.includes("Admin news feed dry-run should hide ended-text sample") ||
     !smokeScript.includes("Admin news feed dry-run should block search URL sample") ||
     !smokeScript.includes("Admin news feed dry-run should block news-only sample") ||
     !smokeScript.includes("Admin news feed dry-run should block expired official sample") ||

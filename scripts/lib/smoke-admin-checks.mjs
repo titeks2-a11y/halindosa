@@ -12,7 +12,10 @@ export async function runAdminDashboardSmokeChecks() {
     assert(text.includes("공식 혜택 카테고리 커버리지") && text.includes("공식 혜택 Provider 상태") && text.includes("공식 혜택 Provider 위험도") && text.includes("공식 소스 통합 준비도") && text.includes("API 보기"), "Admin dashboard missing health readiness category/provider/source risk/API controls");
     assert(text.includes("뉴스 수집 현황") && text.includes("공식 이벤트·무료 혜택 feed 후보"), "Admin dashboard missing news collection status");
     assert(text.includes("공식 feed preview") && text.includes("뉴스 본문 공식 링크 승격") && text.includes("Preview JSON") && text.includes("Preview CSV"), "Admin dashboard missing official news feed preview panel");
-    assert(text.includes("공식 뉴스·혜택 feed 붙여넣기 검증") && text.includes("공식 feed dry-run 실행") && text.includes("RSS/JSON을 붙여넣고"), "Admin dashboard missing official news paste dry-run panel");
+    assert(
+      text.includes("공식 뉴스·혜택 feed 붙여넣기 검증") && text.includes("공식 feed dry-run 실행") && text.includes("RSS/JSON/CSV/NDJSON을 붙여넣고"),
+      "Admin dashboard missing official news paste dry-run panel"
+    );
     assert(text.includes("공식 피드 전환 준비도") && text.includes("공식 API/RSS/제휴 feed") && text.includes("seed fallback") && text.includes("canary"), "Admin dashboard missing official feed transition readiness panel");
     assert(text.includes("Provider별 성공/실패") && text.includes("검증 실패 TOP10") && text.includes("최근 20개 수집 로그"), "Admin dashboard missing news provider/log operation panels");
     assert(text.includes("숨김/종료/공식 링크 없음 큐") && text.includes("수동 숨김/복구/재검증 구조"), "Admin dashboard missing news hide/restore/revalidate operation panels");

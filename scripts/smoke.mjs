@@ -469,6 +469,71 @@ await check("admin news feed preview api", async () => {
   assert(dryRun.data.result?.officialLinkPromotedCount === 1, "Admin news feed dry-run should promote official link from RSS body");
   assert(dryRun.data.result?.visibleRows?.[0]?.finalUrl?.includes("mcdonalds.co.kr"), "Admin news feed dry-run should use official final URL");
 
+  const csvDryRun = await fetchJson("/api/admin/news-feed-preview", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      source: "smoke_news_feed_csv_sample",
+      provider: "official_event",
+      text: [
+        "id,title,merchant,benefitType,finalUrl,endDate",
+        "smoke-dry-run-csv-official,CSV 공식 쿠폰 샘플,맥도날드,coupon,https://www.mcdonalds.co.kr/kor/promotion/detail.do?seq=593,2026-12-31T14:59:59.000Z"
+      ].join("\n")
+    })
+  });
+  assert(csvDryRun.response.status === 200, `Expected CSV dry-run 200, got ${csvDryRun.response.status}`);
+  assert(csvDryRun.data.ok === true, "Admin news feed dry-run should parse official CSV sample");
+  assert(csvDryRun.data.result?.visible === 1, "Admin news feed dry-run should expose one CSV visible row");
+  assert(csvDryRun.data.result?.visibleRows?.[0]?.dedupeKey, "Admin news feed dry-run should expose CSV dedupe key evidence");
+
+  const ndjsonDryRun = await fetchJson("/api/admin/news-feed-preview", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      source: "smoke_news_feed_ndjson_samples",
+      provider: "official_event",
+      text: [
+        JSON.stringify({
+          id: "smoke-dry-run-ndjson-visible",
+          title: "NDJSON 공식 쿠폰 샘플",
+          merchant: "맥도날드",
+          benefitType: "coupon",
+          finalUrl: "https://www.mcdonalds.co.kr/kor/promotion/detail.do?seq=593",
+          endDate: "2026-12-31T14:59:59.000Z"
+        }),
+        JSON.stringify({
+          id: "smoke-dry-run-ndjson-duplicate",
+          title: "NDJSON 공식 쿠폰 샘플",
+          merchant: "맥도날드",
+          benefitType: "coupon",
+          finalUrl: "https://www.mcdonalds.co.kr/kor/promotion/detail.do?seq=593",
+          endDate: "2026-12-31T14:59:59.000Z"
+        }),
+        JSON.stringify({
+          id: "smoke-dry-run-ended-text",
+          title: "선착순 마감 공식 쿠폰 샘플",
+          summary: "선착순 마감되었습니다.",
+          merchant: "맥도날드",
+          benefitType: "coupon",
+          finalUrl: "https://www.mcdonalds.co.kr/kor/promotion/detail.do?seq=593",
+          endDate: "2026-12-31T14:59:59.000Z"
+        })
+      ].join("\n")
+    })
+  });
+  assert(ndjsonDryRun.response.status === 200, `Expected NDJSON dry-run 200, got ${ndjsonDryRun.response.status}`);
+  assert(ndjsonDryRun.data.ok === false, "Admin news feed dry-run should fail NDJSON duplicate or ended-text samples");
+  assert(ndjsonDryRun.data.result?.visible === 1, "Admin news feed dry-run should keep one NDJSON visible row");
+  assert(ndjsonDryRun.data.result?.duplicateRemovedCount === 1, "Admin news feed dry-run should count one duplicate candidate");
+  assert(
+    ndjsonDryRun.data.result?.hiddenRows?.some((row) => row.id === "smoke-dry-run-ndjson-duplicate" && row.hiddenReason.includes("duplicate_candidate")),
+    "Admin news feed dry-run should hide duplicate NDJSON sample"
+  );
+  assert(
+    ndjsonDryRun.data.result?.hiddenRows?.some((row) => row.id === "smoke-dry-run-ended-text" && row.hiddenReason.includes("ended_text_detected")),
+    "Admin news feed dry-run should hide ended-text sample"
+  );
+
   const blockedDryRun = await fetchJson("/api/admin/news-feed-preview", {
     method: "POST",
     headers: { "Content-Type": "application/json" },

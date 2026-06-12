@@ -19,6 +19,7 @@ interface CandidateRow {
   benefitType: string;
   finalUrl: string;
   sourceUrl: string;
+  dedupeKey: string;
   linkType: NewsDeal["linkType"];
   availability: NewsDeal["availability"];
   validationStatus: NewsDeal["validationStatus"];
@@ -54,6 +55,19 @@ const searchLikePatterns = [
   "/result",
   "sword=",
   "kwd="
+];
+
+const endedTextPatterns = [
+  /이벤트\s*종료/i,
+  /행사\s*종료/i,
+  /선착순\s*(?:마감|종료)/i,
+  /신청\s*마감/i,
+  /접수\s*마감/i,
+  /마감\s*되었습니다/i,
+  /종료\s*되었습니다/i,
+  /재고\s*소진/i,
+  /품절/i,
+  /판매\s*종료/i
 ];
 
 function stringValue(value: unknown, fallback = "") {
@@ -131,10 +145,25 @@ function parseTextPayload(text: string, provider: NewsProviderName) {
     return parseNewsFeedXmlItems(trimmed, provider, "admin_paste_news_feed");
   }
 
+  if (trimmed.includes("\n") && trimmed.split(/\r?\n/).every((line) => !line.trim() || line.trim().startsWith("{"))) {
+    return trimmed
+      .split(/\r?\n/)
+      .map((line) => line.trim())
+      .filter(Boolean)
+      .map((line) => {
+        try {
+          return JSON.parse(line);
+        } catch {
+          return null;
+        }
+      })
+      .filter(Boolean);
+  }
+
   try {
     return arrayValue(JSON.parse(trimmed));
   } catch {
-    return [];
+    return parseCsvPayload(trimmed);
   }
 }
 
@@ -144,6 +173,76 @@ function classifyLink(finalUrl: string): NewsDeal["linkType"] {
   if (isBlockedContextUrl(finalUrl)) return "news_only";
   if (isApprovedOfficialNewsUrl(finalUrl)) return "official_benefit";
   return "invalid";
+}
+
+function splitCsvLine(line: string) {
+  const cells: string[] = [];
+  let current = "";
+  let quoted = false;
+
+  for (let index = 0; index < line.length; index += 1) {
+    const char = line[index];
+    const next = line[index + 1];
+    if (char === "\"" && quoted && next === "\"") {
+      current += "\"";
+      index += 1;
+    } else if (char === "\"") {
+      quoted = !quoted;
+    } else if (char === "," && !quoted) {
+      cells.push(current.trim());
+      current = "";
+    } else {
+      current += char;
+    }
+  }
+
+  cells.push(current.trim());
+  return cells;
+}
+
+function parseCsvPayload(text: string) {
+  const lines = text.split(/\r?\n/).map((line) => line.trim()).filter(Boolean);
+  if (lines.length < 2 || !lines[0]?.includes(",")) return [];
+  const headers = splitCsvLine(lines[0]).map((header) => header.replace(/^\uFEFF/, "").trim());
+  if (!headers.some((header) => /title|name|finalUrl|eventUrl|officialUrl|url|link/i.test(header))) return [];
+
+  return lines.slice(1).map((line) => {
+    const values = splitCsvLine(line);
+    return headers.reduce<Record<string, string>>((row, header, index) => {
+      row[header] = values[index] ?? "";
+      return row;
+    }, {});
+  });
+}
+
+function normalizeDedupePart(value: string) {
+  return value
+    .toLowerCase()
+    .replace(/https?:\/\//g, "")
+    .replace(/^www\./, "")
+    .replace(/[?#].*$/, "")
+    .replace(/\s+/g, " ")
+    .replace(/[()[\]{}"'`]/g, "")
+    .trim();
+}
+
+function buildDedupeKey(title: string, merchant: string, finalUrl: string, benefitType: string, endDate: string) {
+  const host = normalizeHost(finalUrl);
+  const path = (() => {
+    try {
+      return new URL(finalUrl).pathname.replace(/\/+$/, "");
+    } catch {
+      return "";
+    }
+  })();
+  return [normalizeDedupePart(merchant), normalizeDedupePart(title), host, normalizeDedupePart(path), normalizeDedupePart(benefitType), endDate.slice(0, 10)]
+    .filter(Boolean)
+    .join("|");
+}
+
+function hasEndedText(...values: string[]) {
+  const text = values.join(" ");
+  return endedTextPatterns.some((pattern) => pattern.test(text));
 }
 
 function validateCandidate(raw: unknown, index: number, provider: NewsProviderName, generatedAt: string): CandidateRow {
@@ -172,14 +271,19 @@ function validateCandidate(raw: unknown, index: number, provider: NewsProviderNa
   const linkType = classifyLink(finalUrl);
   const endDate = firstNonEmpty(stringValue(item.endDate), stringValue(item.expireAt), stringValue(item.expiresAt), stringValue(item.expires));
   const endsAt = Date.parse(endDate);
-  const availability: NewsDeal["availability"] = Number.isFinite(endsAt) && endsAt < Date.now() ? "expired" : "active";
+  const endedByText = hasEndedText(title, summary, stringValue(item.status), stringValue(item.availability));
+  const availability: NewsDeal["availability"] = (Number.isFinite(endsAt) && endsAt < Date.now()) || endedByText ? "expired" : "active";
+  const merchant = firstNonEmpty(stringValue(item.merchant), stringValue(item.mallName), stringValue(item.brand), stringValue(item.sourceName), "공식 혜택");
+  const benefitType = firstNonEmpty(stringValue(item.benefitType), "coupon");
+  const dedupeKey = buildDedupeKey(title, merchant, finalUrl, benefitType, endDate);
   const hiddenReasons = [
     !title ? "missing_title" : "",
     !finalUrl ? "missing_final_url" : "",
     linkType === "search" ? "search_or_result_url" : "",
     linkType === "news_only" ? "blocked_news_or_community_context_url" : "",
     linkType === "invalid" && finalUrl ? "not_approved_official_url" : "",
-    availability === "expired" ? "expired_event" : ""
+    Number.isFinite(endsAt) && endsAt < Date.now() ? "expired_event" : "",
+    endedByText ? "ended_text_detected" : ""
   ].filter(Boolean);
   const validationStatus: NewsDeal["validationStatus"] = hiddenReasons.length ? "failed" : "passed";
   const priorityScore = validationStatus === "passed" ? 100 : Math.max(0, 60 - hiddenReasons.length * 15);
@@ -187,11 +291,12 @@ function validateCandidate(raw: unknown, index: number, provider: NewsProviderNa
   return {
     id,
     title,
-    merchant: firstNonEmpty(stringValue(item.merchant), stringValue(item.mallName), stringValue(item.brand), stringValue(item.sourceName), "공식 혜택"),
+    merchant,
     category: firstNonEmpty(stringValue(item.category), "무료혜택"),
-    benefitType: firstNonEmpty(stringValue(item.benefitType), "coupon"),
+    benefitType,
     finalUrl,
     sourceUrl: sourceUrl || finalUrl,
+    dedupeKey,
     linkType,
     availability,
     validationStatus,
@@ -211,7 +316,25 @@ export function dryRunNewsFeedPreview(input: NewsFeedDryRunInput) {
   const generatedAt = new Date().toISOString();
   const provider = input.provider ?? "official_event";
   const rawItems = input.text ? parseTextPayload(input.text, provider) : arrayValue(input.items);
-  const rows = rawItems.map((item, index) => validateCandidate(item, index, provider, generatedAt));
+  const seenDedupeKeys = new Set<string>();
+  const duplicateKeys = new Set<string>();
+  const rows = rawItems.map((item, index) => {
+    const row = validateCandidate(item, index, provider, generatedAt);
+    if (row.dedupeKey) {
+      if (seenDedupeKeys.has(row.dedupeKey)) {
+        duplicateKeys.add(row.dedupeKey);
+        return {
+          ...row,
+          validationStatus: "failed" as const,
+          hiddenReason: [row.hiddenReason, "duplicate_candidate"].filter(Boolean).join(","),
+          priorityScore: Math.min(row.priorityScore, 30),
+          action: "같은 브랜드·제목·URL·마감일 후보가 이미 있습니다. 기존 후보로 병합하세요."
+        };
+      }
+      seenDedupeKeys.add(row.dedupeKey);
+    }
+    return row;
+  });
   const visibleRows = rows.filter((row) => row.validationStatus === "passed" && row.availability === "active" && row.linkType.startsWith("official"));
   const hiddenRows = rows.filter((row) => !visibleRows.includes(row));
   const hiddenReasonTop5 = Object.entries(
@@ -234,6 +357,7 @@ export function dryRunNewsFeedPreview(input: NewsFeedDryRunInput) {
     received: rawItems.length,
     visible: visibleRows.length,
     hidden: hiddenRows.length,
+    duplicateRemovedCount: duplicateKeys.size,
     officialLinkPromotedCount: visibleRows.filter((row) => normalizeHost(row.sourceUrl) && normalizeHost(row.finalUrl) && normalizeHost(row.sourceUrl) !== normalizeHost(row.finalUrl)).length,
     exposedSearchLinkCount: visibleRows.filter((row) => row.linkType === "search").length,
     exposedNonOfficialLinkCount: visibleRows.filter((row) => !row.linkType.startsWith("official")).length,

@@ -29,6 +29,7 @@ interface DryRunResult {
   received: number;
   visible: number;
   hidden: number;
+  duplicateRemovedCount?: number;
   officialLinkPromotedCount: number;
   exposedSearchLinkCount: number;
   exposedNonOfficialLinkCount: number;
@@ -113,7 +114,7 @@ export function NewsFeedDryRunPanel({ token, initialText }: NewsFeedDryRunPanelP
       <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="text-xs font-black text-emerald-700">공식 뉴스·혜택 feed 붙여넣기 검증</p>
-          <h2 className="mt-1 text-xl font-black text-slate-950">RSS/JSON을 붙여넣고 공식 링크 노출 여부를 즉시 확인합니다</h2>
+          <h2 className="mt-1 text-xl font-black text-slate-950">RSS/JSON/CSV/NDJSON을 붙여넣고 공식 링크 노출 여부를 즉시 확인합니다</h2>
           <p className="mt-1 text-sm font-semibold leading-6 text-slate-500">
             검색 결과, 커뮤니티 원문, 뉴스 기사 단독 링크는 숨김 후보로 분류하고, 본문 안 공식 이벤트 링크만 사용자 이동 URL로 인정합니다.
           </p>
@@ -149,7 +150,7 @@ export function NewsFeedDryRunPanel({ token, initialText }: NewsFeedDryRunPanelP
             ))}
           </select>
           <label htmlFor="official-news-feed-text" className="mt-4 block text-sm font-black text-slate-950">
-            공식 RSS/JSON
+            공식 RSS/JSON/CSV/NDJSON
           </label>
           <textarea
             id="official-news-feed-text"
@@ -186,6 +187,7 @@ export function NewsFeedDryRunPanel({ token, initialText }: NewsFeedDryRunPanelP
               { label: "visible", value: `${result?.visible ?? 0}행`, description: "노출 가능 후보" },
               { label: "hidden", value: `${result?.hidden ?? 0}행`, description: "보강 필요" },
               { label: "공식 링크 승격", value: `${result?.officialLinkPromotedCount ?? 0}개`, description: "기사 본문 -> 공식 URL" },
+              { label: "중복 병합 후보", value: `${result?.duplicateRemovedCount ?? 0}개`, description: "같은 혜택 반복 차단" },
               { label: "검색 링크 노출", value: `${result?.exposedSearchLinkCount ?? 0}개`, description: "목표 0" },
               { label: "비공식 링크 노출", value: `${result?.exposedNonOfficialLinkCount ?? 0}개`, description: "목표 0" }
             ].map((item) => (
@@ -200,7 +202,7 @@ export function NewsFeedDryRunPanel({ token, initialText }: NewsFeedDryRunPanelP
           <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
             <p className="text-sm font-black text-slate-950">dry-run 결과</p>
             <p className="mt-1 text-sm font-semibold leading-6 text-slate-500">
-              {result?.message ?? "아직 실행 전입니다. 공식 RSS/JSON을 붙여넣고 dry-run을 실행하세요."}
+              {result?.message ?? "아직 실행 전입니다. 공식 RSS/JSON/CSV/NDJSON을 붙여넣고 dry-run을 실행하세요."}
             </p>
             {result?.hiddenReasonTop5?.length ? (
               <div className="mt-3 flex flex-wrap gap-2">
