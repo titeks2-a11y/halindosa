@@ -10,6 +10,11 @@ import { getOfficialSourceFeedEnvReadiness } from "@/lib/operations/sourceFeedEn
 import { getOfficialSourceReadiness } from "@/lib/operations/sourceReadiness";
 import { getDeploymentInfo } from "@/lib/deploymentInfo";
 import { buildFreeBenefitRankingReport } from "@/lib/operations/freeBenefitRanking";
+import { getVisibleNewsDeals } from "@/lib/deals/newsDeals";
+import {
+  buildFreeBenefitEventRuntimeReadiness,
+  selectPublishableFreeBenefitEvents
+} from "@/lib/freeBenefitEvents";
 
 export async function GET() {
   const startedAt = Date.now();
@@ -42,6 +47,28 @@ export async function GET() {
     const sourceFeedEnvReadiness = getOfficialSourceFeedEnvReadiness();
     const newsOperations = getNewsOperationsReport();
     const freeBenefitRanking = buildFreeBenefitRankingReport();
+    const referenceNow = Date.now();
+    const healthFreeBenefitNewsDeals = getVisibleNewsDeals({
+      limit: 240,
+      sort: "priority",
+      includePublicPolicy: false
+    });
+    const healthFreeBenefitEvents = selectPublishableFreeBenefitEvents(
+      healthFreeBenefitNewsDeals.deals,
+      180,
+      referenceNow
+    );
+    const freeBenefitRuntimeReadiness = buildFreeBenefitEventRuntimeReadiness(
+      healthFreeBenefitEvents,
+      referenceNow
+    );
+    const freeBenefitCollectionLaneHealthyCount = freeBenefitRuntimeReadiness.collectionLanes.filter((lane) => lane.status === "healthy").length;
+    const freeBenefitCollectionLaneThinCount = freeBenefitRuntimeReadiness.collectionLanes.filter((lane) => lane.status === "thin").length;
+    const freeBenefitCollectionLaneEmptyCount = freeBenefitRuntimeReadiness.collectionLanes.filter((lane) => lane.status === "empty").length;
+    const freeBenefitCollectionLaneOk =
+      freeBenefitRuntimeReadiness.collectionLanes.length >= 8 &&
+      freeBenefitCollectionLaneHealthyCount >= 6 &&
+      freeBenefitCollectionLaneEmptyCount === 0;
     const officialBenefitReadyCategories = newsOperations.categoryCoverage.filter((item) => item.status === "ready").length;
     const officialBenefitWeakCategories = newsOperations.categoryCoverage.filter((item) => item.status !== "ready").length;
     const officialBenefitProviderRiskSummary = newsOperations.providerRiskSummary ?? { healthy: 0, watch: 0, danger: 0 };
@@ -93,7 +120,8 @@ export async function GET() {
       officialBenefitProviderRiskOk &&
       officialSourceReadinessOk &&
       officialSourceFeedActivationOk &&
-      officialBenefitFeedCanaryOk
+      officialBenefitFeedCanaryOk &&
+      freeBenefitCollectionLaneOk
         ? "ready"
         : "needs_review";
 
@@ -131,6 +159,22 @@ export async function GET() {
         freeBenefitMissingCheckedAtCount: freeBenefitRanking.operationalReadiness.missingCheckedAtCount,
         freeBenefitOfficialHostDiversity: freeBenefitRanking.operationalReadiness.officialHostDiversity,
         freeBenefitClaimReadyShare: freeBenefitRanking.operationalReadiness.claimReadyShare,
+        freeBenefitCollectionLaneOk,
+        freeBenefitCollectionLaneCount: freeBenefitRuntimeReadiness.collectionLanes.length,
+        freeBenefitCollectionLaneHealthyCount,
+        freeBenefitCollectionLaneThinCount,
+        freeBenefitCollectionLaneEmptyCount,
+        freeBenefitCollectionLaneStatuses: freeBenefitRuntimeReadiness.collectionLanes.map((lane) => ({
+          id: lane.id,
+          label: lane.label,
+          status: lane.status,
+          envKey: lane.envKey,
+          count: lane.count,
+          officialCount: lane.officialCount,
+          verifiedCount: lane.verifiedCount,
+          noPurchaseCount: lane.noPurchaseCount,
+          action: lane.action
+        })),
         officialBenefitFresh,
         officialBenefitFreshnessHours,
         officialBenefitVisibleCount: newsOperations.visibleCount,

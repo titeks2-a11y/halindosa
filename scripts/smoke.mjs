@@ -1588,6 +1588,14 @@ await check("health api", async () => {
   assert(data.checks.officialBenefitFeedRecommendedEnvKeys.includes("CONVENIENCE_BENEFIT_FEED_URLS"), "Health API missing convenience benefit feed env guidance");
   assert(data.checks.officialBenefitFeedRecommendedEnvKeys.includes("BEAUTY_SAMPLE_FEED_URLS"), "Health API missing beauty sample feed env guidance");
   assert(data.checks.officialBenefitFeedRecommendedEnvKeys.includes("CAFE_FRANCHISE_COUPON_FEED_URLS"), "Health API missing cafe franchise coupon feed env guidance");
+  assert(data.checks?.freeBenefitCollectionLaneOk === true, "Health API missing healthy free benefit collection lane readiness");
+  assert(data.checks?.freeBenefitCollectionLaneCount >= 8, "Health API missing free benefit collection lane count");
+  assert(data.checks?.freeBenefitCollectionLaneHealthyCount >= 6, "Health API should show most free benefit collection lanes are healthy");
+  assert(data.checks?.freeBenefitCollectionLaneEmptyCount === 0, "Health API should show zero empty free benefit collection lanes");
+  assert(Array.isArray(data.checks?.freeBenefitCollectionLaneStatuses), "Health API missing free benefit collection lane statuses");
+  assert(data.checks.freeBenefitCollectionLaneStatuses.some((lane) => lane.id === "officialEvents" && lane.envKey === "OFFICIAL_EVENT_FEED_URLS" && lane.count > 0), "Health API missing official event collection lane status");
+  assert(data.checks.freeBenefitCollectionLaneStatuses.some((lane) => lane.id === "couponsMembership" && lane.envKey === "PUBLIC_COUPON_FEED_URLS" && lane.count > 0), "Health API missing coupon membership collection lane status");
+  assert(data.checks.freeBenefitCollectionLaneStatuses.every((lane) => ["healthy", "thin"].includes(lane.status) && typeof lane.action === "string"), "Health API collection lanes should be launch-actionable and non-empty");
   assert(data.checks?.officialSourceReadinessOk === true, "Health API missing passing official source readiness");
   assert(data.checks?.officialSourceFeedActivationOk === true, "Health API missing passing source feed activation readiness");
   assert(["seed_ready", "live_feed_ready"].includes(data.checks?.officialSourceFeedActivationStatus), "Health API missing safe source feed activation status");

@@ -792,6 +792,9 @@ export async function checkOperationalDataSurfaces() {
     !healthRoute.includes("officialBenefitFeedSeedCount") ||
     !healthRoute.includes("officialBenefitFeedExternalItemRate") ||
     !healthRoute.includes("officialBenefitFeedConfiguredEmptyCount") ||
+    !healthRoute.includes("buildFreeBenefitEventRuntimeReadiness") ||
+    !healthRoute.includes("freeBenefitCollectionLaneOk") ||
+    !healthRoute.includes("freeBenefitCollectionLaneStatuses") ||
     !analytics.includes("operationalEnvReadiness") ||
     !envReadiness.includes("getOperationalEnvReadiness") ||
     !envReadiness.includes("NEXT_PUBLIC_SITE_URL") ||
@@ -808,6 +811,8 @@ export async function checkOperationalDataSurfaces() {
     !smoke.includes("Health API official benefit provider risk should be launch-safe") ||
     !smoke.includes("Health API missing official benefit feed transition status") ||
     !smoke.includes("Health API missing official external feed item count") ||
+    !smoke.includes("Health API missing healthy free benefit collection lane readiness") ||
+    !smoke.includes("Health API missing official event collection lane status") ||
     !smoke.includes("Metrics missing operational env readiness rate") ||
     !smoke.includes("Commercialization page missing operational env readiness")
   ) {
