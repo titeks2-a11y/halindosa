@@ -96,6 +96,18 @@ function buildDedupeKey(event) {
   ].join("|");
 }
 
+function describeDedupeKey(event) {
+  const normalizedUrl = normalizeUrlKey(event.finalUrl || event.officialUrl || event.eventUrl);
+  return {
+    brand: event.brandName.toLowerCase().replace(/\s+/g, ""),
+    normalizedTitle: normalizeTitle(event.title),
+    sourceDomain: event.host || hostFromUrlKey(normalizedUrl || event.finalUrl || event.officialUrl || event.eventUrl),
+    benefitType: event.benefitType,
+    endDate: String(event.endAt).slice(0, 10),
+    normalizedUrl
+  };
+}
+
 function readAllowedHosts() {
   const catalog = readJson(join(root, "data", "officialSourceCatalog.json"), []);
   return new Set(
@@ -247,9 +259,13 @@ const allowedHosts = readAllowedHosts();
 const now = Date.now();
 const candidates = rawDeals.map((deal) => toEvent(deal, allowedHosts, now));
 const dedupedMap = new Map();
+const dedupeGroups = new Map();
 
 for (const event of candidates) {
   const key = buildDedupeKey(event).toLowerCase();
+  const group = dedupeGroups.get(key) ?? [];
+  group.push(event);
+  dedupeGroups.set(key, group);
   const current = dedupedMap.get(key);
   if (!current || event.qualityScore + event.priorityScore > current.qualityScore + current.priorityScore) dedupedMap.set(key, event);
 }
@@ -263,6 +279,33 @@ const noPurchase = visible.filter((event) => !event.requiresPurchase);
 const sourceCount = new Set(visible.map((event) => event.sourceName).filter(Boolean)).size;
 const hostCount = new Set(visible.map((event) => event.host).filter(Boolean)).size;
 const problems = [];
+const dedupePolicy = {
+  fields: ["brand", "normalizedTitle", "sourceDomain", "benefitType", "endDate", "normalizedUrl"],
+  urlNormalization: ["lowercaseHost", "stripWww", "stripTrackingParams", "stripHash", "trimTrailingSlash", "sortQueryParams"],
+  winnerRule: "highest qualityScore + priorityScore"
+};
+const duplicateGroups = Array.from(dedupeGroups.entries())
+  .filter(([, group]) => group.length > 1)
+  .map(([key, group]) => {
+    const winner = dedupedMap.get(key);
+    return {
+      keyParts: describeDedupeKey(winner ?? group[0]),
+      mergedCount: group.length - 1,
+      kept: {
+        id: winner?.id ?? "",
+        title: winner?.title ?? "",
+        sourceName: winner?.sourceName ?? "",
+        finalUrl: winner?.finalUrl ?? ""
+      },
+      mergedIds: group.filter((event) => event.id !== winner?.id).map((event) => event.id).slice(0, 10)
+    };
+  })
+  .slice(0, 20);
+const dedupeExamples = visible.slice(0, 8).map((event) => ({
+  id: event.id,
+  title: event.title,
+  keyParts: describeDedupeKey(event)
+}));
 
 if (visible.length < minimumVisibleEvents) problems.push(`active official free benefit events ${visible.length}/${minimumVisibleEvents}`);
 if (visible.some((event) => blockedUrlPattern.test(event.finalUrl))) problems.push("visible event contains search/community/news URL");
@@ -285,6 +328,9 @@ const report = {
   blockedEvents: blocked.length,
   expiredEvents: expired.length,
   duplicateMergedCount: candidates.length - deduped.length,
+  dedupePolicy,
+  duplicateGroups,
+  dedupeExamples,
   sourceCount,
   hostCount,
   averageScores: {
@@ -350,6 +396,20 @@ Generated: ${report.generatedAt}
 - Only active official event, coupon, sample, free trial, point, public benefit, and free-shipping URLs can be visible.
 - Search pages, homepages, community posts, news articles, private-network URLs, and expired/sold-out pages are blocked.
 - Purchase-required events remain visible with lower priority and explicit condition metadata.
+
+## Dedupe Policy
+
+- Fields: ${report.dedupePolicy.fields.join(", ")}
+- URL normalization: ${report.dedupePolicy.urlNormalization.join(", ")}
+- Winner rule: ${report.dedupePolicy.winnerRule}
+
+## Dedupe Evidence
+
+${report.duplicateGroups.length ? report.duplicateGroups.map((group) => `- Merged ${group.mergedCount} duplicate(s): ${group.kept.title} (${group.keyParts.sourceDomain})`).join("\n") : "- No duplicate groups were merged in this snapshot."}
+
+## Dedupe Key Examples
+
+${report.dedupeExamples.map((example) => `- ${example.title}: ${example.keyParts.brand} | ${example.keyParts.normalizedTitle} | ${example.keyParts.sourceDomain} | ${example.keyParts.benefitType} | ${example.keyParts.endDate}`).join("\n")}
 
 ## Problems
 

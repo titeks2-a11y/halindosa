@@ -1,6 +1,6 @@
 # FreeBenefitEvent 계약
 
-Generated: 2026-06-12T01:05:31.604Z
+Generated: 2026-06-12T01:13:35.270Z
 
 Status: PASS
 
@@ -90,6 +90,7 @@ Status: PASS
 | normalizer computes ranking score dimensions | PASS | Normalizer should expose freshness, official source, urgency, and reward value score dimensions for ranking and operator reports. |
 | publishable gate hides invalid events | PASS | Publishable gate must require active, passed, visible, safe final URL, unexpired, and quality score. |
 | event dedupe uses brand title domain reward type URL and end date | PASS | Deduplication should merge same brand/title/domain/reward-type/normalized-url/end-date events before publishing. |
+| verify benefits report exposes dedupe evidence | PASS | verify:benefits should write human-readable dedupe policy, duplicate groups, and key examples into JSON/Markdown reports. |
 | benefits events API is runtime no-store | PASS | Free benefit events API should avoid static cache and expose no-store cache policy. |
 | benefits events API is guarded and filterable | PASS | API should rate-limit and support q, type, purchase/login, ending-soon, no-purchase, sorting, category counts, and summary. |
 | benefits events API exposes trust policy | PASS | API response should tell clients that only active, passed, non-search, non-homepage, non-community events are publishable. |

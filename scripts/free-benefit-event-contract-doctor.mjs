@@ -252,6 +252,21 @@ const checks = [
     "Deduplication should merge same brand/title/domain/reward-type/normalized-url/end-date events before publishing."
   ),
   check(
+    "verify benefits report exposes dedupe evidence",
+    hasAll(verifySource, [
+      "dedupePolicy",
+      "duplicateGroups",
+      "dedupeExamples",
+      "describeDedupeKey",
+      "stripTrackingParams",
+      "highest qualityScore + priorityScore",
+      "## Dedupe Policy",
+      "## Dedupe Evidence",
+      "## Dedupe Key Examples"
+    ]).length === 0,
+    "verify:benefits should write human-readable dedupe policy, duplicate groups, and key examples into JSON/Markdown reports."
+  ),
+  check(
     "benefits events API is runtime no-store",
     hasAll(eventsRouteSource, [
       'dynamic = "force-dynamic"',
