@@ -68,6 +68,7 @@ export type SourceFeedEnvReadinessReport = {
     machineReadableFeedRequired: boolean;
     supportedFeedFormats?: string[];
     officialCatalogHostOrApprovedPartnerHostRequired: boolean;
+    blockedHomepageReason?: string;
     blockedCommunityAndBlogHosts: string[];
     blockedSearchUrlPatterns: string[];
   };
@@ -112,6 +113,7 @@ const fallbackReport: SourceFeedEnvReadinessReport = {
     machineReadableFeedRequired: true,
     supportedFeedFormats: ["json", "ndjson", "csv", "rss", "atom", "xml"],
     officialCatalogHostOrApprovedPartnerHostRequired: true,
+    blockedHomepageReason: "homepage_link",
     blockedCommunityAndBlogHosts: [],
     blockedSearchUrlPatterns: []
   },

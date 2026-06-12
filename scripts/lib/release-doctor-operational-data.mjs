@@ -1505,6 +1505,8 @@ export async function checkOperationalDataSurfaces() {
     !sourceFeedEnvDoctorScript.includes("source-feed-env-readiness.json") ||
     !sourceFeedEnvDoctorScript.includes("HALINDOSA_APPROVED_FEED_HOSTS") ||
     !sourceFeedEnvDoctorScript.includes("not_machine_readable_feed") ||
+    !sourceFeedEnvDoctorScript.includes("homepage_link") ||
+    !sourceFeedEnvDoctorScript.includes("official_homepage_blocked") ||
     !sourceFeedEnvDoctorScript.includes("unlisted_feed_host") ||
     !sourceFeedEnvDoctorScript.includes("community_or_blog_host") ||
     !sourceFeedEnvDoctorScript.includes("policyRegressionSamples") ||
@@ -1741,6 +1743,7 @@ export async function checkOperationalDataSurfaces() {
     !sourceFeedEnvReport.policy.supportedFeedFormats.includes("csv") ||
     !sourceFeedEnvReport.policy.supportedFeedFormats.includes("ndjson") ||
     !sourceFeedEnvReport.policy?.officialCatalogHostOrApprovedPartnerHostRequired ||
+    sourceFeedEnvReport.policy?.blockedHomepageReason !== "homepage_link" ||
     !sourceFeedEnvReport.activationReadiness ||
     !["seed_fallback_only", "feed_configured"].includes(sourceFeedEnvReport.activationReadiness.status) ||
     !Array.isArray(sourceFeedEnvReport.activationReadiness.recommendedFirstLanes) ||
@@ -1753,6 +1756,7 @@ export async function checkOperationalDataSurfaces() {
     sourceFeedEnvReport.policyRegressionSamples.some((sample) => sample.passed !== true) ||
     !sourceFeedEnvReport.policyRegressionSamples.some((sample) => sample.label === "official_csv_feed_allowed" && sample.actualFormat === "csv") ||
     !sourceFeedEnvReport.policyRegressionSamples.some((sample) => sample.label === "official_ndjson_feed_allowed" && sample.actualFormat === "ndjson") ||
+    !sourceFeedEnvReport.policyRegressionSamples.some((sample) => sample.label === "official_homepage_blocked" && sample.actualReason === "homepage_link") ||
     !sourceReadinessLaunchOk ||
     (sourceReadinessReport.summary?.officialSourceCandidates ?? 0) < 30 ||
     (sourceReadinessReport.summary?.visibleOfficialBenefits ?? 0) < MIN_OFFICIAL_BENEFITS ||

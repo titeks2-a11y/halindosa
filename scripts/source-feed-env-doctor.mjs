@@ -54,6 +54,8 @@ const searchPathPatterns = [
   /\/results(?:[./?]|$)/i
 ];
 
+const homePathSet = new Set(["", "/", "/main", "/index"]);
+
 const privateHostPatterns = [
   /^localhost$/i,
   /^127\./,
@@ -206,6 +208,13 @@ function sanitizeUrl(url) {
   }
 }
 
+function isHomepageUrl(parsed) {
+  const normalizedPath = parsed.pathname.replace(/\/+$/, "").toLowerCase();
+  if (!homePathSet.has(normalizedPath)) return false;
+  const machineReadableParams = ["format", "output", "type", "feed"].some((key) => parsed.searchParams.has(key));
+  return !machineReadableParams;
+}
+
 function buildActivationReadiness(configuredUrlCount) {
   const starterPack = readJson(starterPackPath, {});
   const packs = Array.isArray(starterPack.packs) ? starterPack.packs : [];
@@ -283,6 +292,7 @@ function classifyUrl(envKey, rawUrl, catalogHostMap, approvedExtraHosts, allowDa
   const isApprovedExtraHost = approvedExtraHosts.has(host);
   const isCommunityHost = communityHostPatterns.some((pattern) => host === pattern || host.endsWith(`.${pattern}`));
   const isSearchUrl = searchPathPatterns.some((pattern) => pattern.test(pathAndSearch));
+  const isHomepage = isHomepageUrl(parsed);
   const isPrivateHost = privateHostPatterns.some((pattern) => pattern.test(host));
   const isMachineReadable = machineReadablePatterns.some((pattern) => pattern.test(pathAndSearch));
 
@@ -328,6 +338,16 @@ function classifyUrl(envKey, rawUrl, catalogHostMap, approvedExtraHosts, allowDa
       host,
       reason: "search_or_result_url",
       action: "검색 결과 URL은 feed로 금지됩니다. 공식 JSON/RSS/API 또는 승인된 파트너 feed를 연결합니다."
+    };
+  }
+
+  if (isHomepage) {
+    return {
+      ...base,
+      host,
+      matchedSources,
+      reason: "homepage_link",
+      action: "대표 홈페이지 메인 URL은 feed로 금지됩니다. 공식 JSON/RSS/API 또는 승인된 파트너 feed endpoint로 교체합니다."
     };
   }
 
@@ -396,7 +416,7 @@ function buildMarkdown(report) {
     "## 운영 원칙",
     "",
     "- 공식 API, JSON, NDJSON, CSV, RSS, Atom, XML 또는 승인된 파트너 feed만 연결합니다.",
-    "- 검색 결과, 커뮤니티 원문, 블로그, 쇼핑몰 메인 또는 HTML 이벤트 페이지 직접 수집은 금지합니다.",
+    "- 검색 결과, 대표 홈페이지 메인, 커뮤니티 원문, 블로그 또는 HTML 이벤트 페이지 직접 수집은 금지합니다.",
     "- 승인된 외부 feed host는 `HALINDOSA_APPROVED_FEED_HOSTS`에 host만 기록하고, 토큰·query 값은 리포트에 남기지 않습니다.",
     "- 무료혜택 전용 feed는 `BENEFIT_REFRESH_FEED_URLS`에 연결하고, 별도 승인 host는 `BENEFIT_REFRESH_APPROVED_HOSTS`에 host만 기록합니다.",
     `- 현재 활성화 상태: ${report.activationReadiness.status}`,
@@ -487,6 +507,11 @@ const policyRegressionSamples = [
     expectedReason: "not_machine_readable_feed"
   },
   {
+    label: "official_homepage_blocked",
+    url: "https://www.ssg.com/",
+    expectedReason: "homepage_link"
+  },
+  {
     label: "unlisted_host_blocked",
     url: "https://example.com/feed.json",
     expectedReason: "unlisted_feed_host"
@@ -537,6 +562,7 @@ const report = {
     machineReadableFeedRequired: true,
     supportedFeedFormats: ["json", "ndjson", "csv", "rss", "atom", "xml"],
     officialCatalogHostOrApprovedPartnerHostRequired: true,
+    blockedHomepageReason: "homepage_link",
     blockedCommunityAndBlogHosts: communityHostPatterns,
     blockedSearchUrlPatterns: searchPathPatterns.map((pattern) => pattern.source),
     blockedPrivateHostPatterns: privateHostPatterns.map((pattern) => pattern.source)
