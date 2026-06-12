@@ -3,7 +3,7 @@ import { isCrossOriginApiRequest, resolveRuntimeApiUrl } from "@/lib/runtimeApi"
 import type { DealQualitySummary } from "@/lib/deals/quality";
 import type { Deal, DealBenefitType, DealSort } from "@/types/deal";
 import type { FreeBenefitEvent, FreeBenefitEventType } from "@/types/freeBenefitEvent";
-import type { FreeBenefitEventSourceSummary } from "@/lib/freeBenefitEvents";
+import type { FreeBenefitDeadlineCategoryCount, FreeBenefitEventSourceSummary } from "@/lib/freeBenefitEvents";
 import type { HotSignal } from "@/types/hotSignal";
 import type { NewsDeadlineSummary, NewsDeal, NewsDealSourceTrust, NewsIntentGroup, NewsTargetSection } from "@/types/newsDeal";
 
@@ -62,6 +62,7 @@ export interface FreebiesResponse {
   freshnessAgeMinutes?: number | null;
   nextRefreshAt?: string;
   categoryCounts?: Array<{ id: FreeBenefitEventType; label: string; count: number }>;
+  deadlineCategoryCounts?: FreeBenefitDeadlineCategoryCount[];
   summary?: {
     total: number;
     zeroCost: number;
@@ -92,6 +93,8 @@ export interface FreeBenefitEventsResponse {
   categories?: Array<{ id: FreeBenefitEventType; label: string; count: number }>;
   categoryCounts?: Array<{ id: FreeBenefitEventType; label: string; count: number }>;
   filteredCategoryCounts?: Array<{ id: FreeBenefitEventType; label: string; count: number }>;
+  deadlineCategoryCounts?: FreeBenefitDeadlineCategoryCount[];
+  filteredDeadlineCategoryCounts?: FreeBenefitDeadlineCategoryCount[];
   freshnessStatus?: "fresh" | "due" | "stale" | "seed";
   freshnessLabel?: string;
   freshnessAgeMinutes?: number | null;
@@ -241,12 +244,13 @@ export interface HomeResponse {
     | "freshnessAgeMinutes"
     | "nextRefreshAt"
   >;
-  freebiesMeta?: Pick<FreebiesResponse, "summary" | "eventSummary" | "requiredCategoryCoverage" | "freshnessStatus" | "freshnessLabel" | "freshnessAgeMinutes" | "nextRefreshAt" | "totalCount" | "eventCount"> & {
+  freebiesMeta?: Pick<FreebiesResponse, "summary" | "eventSummary" | "requiredCategoryCoverage" | "freshnessStatus" | "freshnessLabel" | "freshnessAgeMinutes" | "nextRefreshAt" | "totalCount" | "eventCount" | "deadlineCategoryCounts"> & {
     categoryCounts?: FreeBenefitEventCategoryCount[];
   };
   freeBenefitEventMeta?: {
     totalCount: number;
     categoryCounts: FreeBenefitEventCategoryCount[];
+    deadlineCategoryCounts?: FreeBenefitDeadlineCategoryCount[];
     summary: FreeBenefitEventSourceSummary;
     visibleTypes: FreeBenefitEventType[];
     policy: {

@@ -34,6 +34,15 @@ export const freeBenefitEventCategories: Array<{ id: FreeBenefitEventType; label
 ];
 
 export type FreeBenefitEventCategoryCount = (typeof freeBenefitEventCategories)[number] & { count: number };
+export type FreeBenefitDeadlineCategoryId = "today" | "week" | "soon";
+
+export interface FreeBenefitDeadlineCategoryCount {
+  id: FreeBenefitDeadlineCategoryId;
+  label: string;
+  count: number;
+  href: string;
+  maxHours: number;
+}
 
 export interface FreeBenefitEventSourceSummary {
   sourceDomainCount: number;
@@ -69,6 +78,7 @@ export interface FreeBenefitEventRuntimeReadiness {
     thisWeek: number;
     soon: number;
   };
+  deadlineCategoryCounts: FreeBenefitDeadlineCategoryCount[];
   staleCheckCount: number;
   staleCheckThresholdHours: number;
   topBrands: Array<{ brand: string; count: number }>;
@@ -103,6 +113,43 @@ export function buildFreeBenefitEventCategoryCounts(events: FreeBenefitEvent[]):
   }));
 }
 
+export function buildFreeBenefitEventDeadlineCategoryCounts(events: FreeBenefitEvent[], referenceNow = Date.now()): FreeBenefitDeadlineCategoryCount[] {
+  const deadlineCategories: Array<Omit<FreeBenefitDeadlineCategoryCount, "count">> = [
+    {
+      id: "today",
+      label: "오늘마감",
+      href: "/free-benefits?deadline=today",
+      maxHours: 24
+    },
+    {
+      id: "week",
+      label: "이번주마감",
+      href: "/free-benefits?deadline=week",
+      maxHours: 7 * 24
+    },
+    {
+      id: "soon",
+      label: "마감임박",
+      href: "/free-benefits?deadline=soon",
+      maxHours: 3 * 24
+    }
+  ];
+
+  return deadlineCategories.map((category) => {
+    const count = events.filter((event) => {
+      const endAt = Date.parse(event.endAt);
+      if (!Number.isFinite(endAt)) return false;
+      const hoursLeft = (endAt - referenceNow) / 3_600_000;
+      return hoursLeft >= 0 && hoursLeft <= category.maxHours;
+    }).length;
+
+    return {
+      ...category,
+      count
+    };
+  });
+}
+
 export function buildFreeBenefitEventRuntimeReadiness(events: FreeBenefitEvent[], referenceNow = Date.now()): FreeBenefitEventRuntimeReadiness {
   const categoryCounts = buildFreeBenefitEventCategoryCounts(events);
   const countByCategory = new Map(categoryCounts.map((category) => [category.id, category.count]));
@@ -133,6 +180,7 @@ export function buildFreeBenefitEventRuntimeReadiness(events: FreeBenefitEvent[]
     },
     { today: 0, thisWeek: 0, soon: 0 }
   );
+  const deadlineCategoryCounts = buildFreeBenefitEventDeadlineCategoryCounts(events, referenceNow);
   const staleCheckCount = events.filter((event) => {
     const checkedAt = Date.parse(event.lastCheckedAt || event.verifiedAt || event.updatedAt || event.collectedAt);
     return !Number.isFinite(checkedAt) || referenceNow - checkedAt > staleCheckThresholdMs;
@@ -163,6 +211,7 @@ export function buildFreeBenefitEventRuntimeReadiness(events: FreeBenefitEvent[]
     requiredCategoryCount: requiredRuntimeCategoryIds.length,
     missingRequiredCategories,
     deadlineBuckets,
+    deadlineCategoryCounts,
     staleCheckCount,
     staleCheckThresholdHours,
     topBrands: Object.entries(brandCounts)

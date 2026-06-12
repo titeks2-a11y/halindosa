@@ -3,6 +3,7 @@ import { createRequestId, getClientKey, rateLimit, rateLimitHeaders } from "@/li
 import { getVisibleNewsDeals } from "@/lib/deals/newsDeals";
 import {
   buildFreeBenefitEventCategoryCounts,
+  buildFreeBenefitEventDeadlineCategoryCounts,
   buildFreeBenefitEventRuntimeReadiness,
   buildFreeBenefitEventSourceSummary,
   selectPublishableFreeBenefitEvents
@@ -66,6 +67,7 @@ export async function GET(request: Request) {
     const events = allEvents.slice(0, safeLimit);
     const summary = buildHomeFreebieSummary(defaultDeals, referenceNow);
     const categoryCounts = buildFreeBenefitEventCategoryCounts(allEvents);
+    const deadlineCategoryCounts = buildFreeBenefitEventDeadlineCategoryCounts(allEvents, referenceNow);
     const eventSummary = buildFreeBenefitEventSourceSummary(allEvents, referenceNow);
     const runtimeReadiness = buildFreeBenefitEventRuntimeReadiness(allEvents, referenceNow);
     const requiredCategoryCoverage = buildFreeBenefitCategoryCoverageReport(referenceNow);
@@ -87,6 +89,7 @@ export async function GET(request: Request) {
       freshnessAgeMinutes: news.freshnessAgeMinutes,
       nextRefreshAt: news.nextRefreshAt,
       categoryCounts,
+      deadlineCategoryCounts,
       summary,
       eventSummary,
       runtimeReadiness,

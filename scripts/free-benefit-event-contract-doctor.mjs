@@ -296,6 +296,7 @@ const checks = [
       'getClientKey(request, "benefit-events")',
       "parseLimit",
       "parseDeadline",
+      "buildFreeBenefitEventDeadlineCategoryCounts",
       "noPurchaseOnly",
       "endingSoonOnly",
       "deadline",
@@ -306,6 +307,8 @@ const checks = [
       "includesQuery",
       "sortEvents",
       "buildFreeBenefitEventCategoryCounts",
+      "deadlineCategoryCounts",
+      "filteredDeadlineCategoryCounts",
       "publishableTotalCount",
       "categoryCounts",
       "filteredCategoryCounts",
@@ -333,7 +336,9 @@ const checks = [
     "home and freebies surfaces share publishable event selector",
     homeRouteSource.includes("selectPublishableFreeBenefitEvents") &&
       homeRouteSource.includes("buildFreeBenefitEventCategoryCounts") &&
+      homeRouteSource.includes("buildFreeBenefitEventDeadlineCategoryCounts") &&
       homeRouteSource.includes("categoryCounts") &&
+      homeRouteSource.includes("deadlineCategoryCounts") &&
       homeRouteSource.includes("freeBenefitEventMeta") &&
       homeRouteSource.includes("visibleTypes") &&
       homeRouteSource.includes("countBasis") &&
@@ -432,6 +437,8 @@ const checks = [
       "publishableTotalCount",
       "categoryCounts",
       "filteredCategoryCounts",
+      "deadlineCategoryCounts",
+      "filteredDeadlineCategoryCounts",
       "sort=noPurchase&noPurchaseOnly=true",
       "publishableOnly",
       "claimCtaLabel",

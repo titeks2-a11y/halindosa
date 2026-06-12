@@ -5,6 +5,7 @@ import { getVisibleNewsDeals } from "@/lib/deals/newsDeals";
 import { summarizeDealQuality } from "@/lib/deals/quality";
 import {
   buildFreeBenefitEventCategoryCounts,
+  buildFreeBenefitEventDeadlineCategoryCounts,
   buildFreeBenefitEventRuntimeReadiness,
   buildFreeBenefitEventSourceSummary,
   selectPublishableFreeBenefitEvents
@@ -251,6 +252,7 @@ export async function GET(request: Request) {
     const homeFreebies = selectHomeFreebies(news.deals, Math.min(Math.max(limit, 8), 16), Date.parse(generatedAt));
     const freeBenefitEvents = selectPublishableFreeBenefitEvents(news.deals, freeBenefitLimit, Date.parse(generatedAt));
     const freeBenefitEventCategoryCounts = buildFreeBenefitEventCategoryCounts(freeBenefitEvents);
+    const freeBenefitEventDeadlineCategoryCounts = buildFreeBenefitEventDeadlineCategoryCounts(freeBenefitEvents, Date.parse(generatedAt));
     const freeBenefitEventSummary = buildFreeBenefitEventSourceSummary(freeBenefitEvents, Date.parse(generatedAt));
     const freeBenefitRuntimeReadiness = buildFreeBenefitEventRuntimeReadiness(freeBenefitEvents, Date.parse(generatedAt));
     const requiredCategoryCoverage = buildFreeBenefitCategoryCoverageReport(Date.parse(generatedAt));
@@ -313,6 +315,7 @@ export async function GET(request: Request) {
         totalCount: freebiesSummary.total,
         eventCount: freeBenefitEvents.length,
         categoryCounts: freeBenefitEventCategoryCounts,
+        deadlineCategoryCounts: freeBenefitEventDeadlineCategoryCounts,
         eventSummary: freeBenefitEventSummary,
         runtimeReadiness: freeBenefitRuntimeReadiness,
         requiredCategoryCoverage: {
@@ -334,6 +337,7 @@ export async function GET(request: Request) {
       freeBenefitEventMeta: {
         totalCount: freeBenefitEvents.length,
         categoryCounts: freeBenefitEventCategoryCounts,
+        deadlineCategoryCounts: freeBenefitEventDeadlineCategoryCounts,
         summary: freeBenefitEventSummary,
         runtimeReadiness: freeBenefitRuntimeReadiness,
         visibleTypes: freeBenefitEventCategoryCounts.filter((category) => category.id !== "all" && category.count > 0).map((category) => category.id),

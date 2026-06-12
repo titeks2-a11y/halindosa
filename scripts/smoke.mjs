@@ -205,6 +205,8 @@ await check("freebies api", async () => {
   assert(data.runtimeReadiness?.total === data.eventCount, "Freebies API runtime readiness total should match eventCount");
   assert(data.runtimeReadiness?.categoriesWithItems >= 8, "Freebies API runtime readiness should expose broad category coverage");
   assert(data.runtimeReadiness?.deadlineBuckets?.thisWeek >= 0, "Freebies API runtime readiness missing deadline buckets");
+  assert(Array.isArray(data.deadlineCategoryCounts) && data.deadlineCategoryCounts.some((category) => category.id === "today"), "Freebies API missing deadline category counts");
+  assert(data.deadlineCategoryCounts.every((category) => category.href?.startsWith("/free-benefits?deadline=") && typeof category.count === "number"), "Freebies API deadline category counts should expose href and count");
   assert(Array.isArray(data.runtimeReadiness?.topBrands) && data.runtimeReadiness.topBrands.length >= 4, "Freebies API runtime readiness missing top brand coverage");
 });
 
@@ -222,6 +224,8 @@ await check("free benefit events api", async () => {
     "Free benefit events API categories should expose active publishable counts for every mobile filter"
   );
   assert(Array.isArray(data.categoryCounts) && Array.isArray(data.filteredCategoryCounts), "Free benefit events API missing global and filtered category count arrays");
+  assert(Array.isArray(data.deadlineCategoryCounts) && Array.isArray(data.filteredDeadlineCategoryCounts), "Free benefit events API missing global and filtered deadline count arrays");
+  assert(["today", "week", "soon"].every((id) => data.deadlineCategoryCounts.some((category) => category.id === id && category.href?.includes(`deadline=${id}`))), "Free benefit events API deadline categories should expose today, week, and soon filters");
   assert(data.categoryCounts.find((category) => category.id === "all")?.count === data.publishableTotalCount, "Free benefit events API global all count should match publishableTotalCount");
   assert(data.filteredCategoryCounts.find((category) => category.id === "all")?.count === data.totalCount, "Free benefit events API filtered all count should match totalCount");
   assert(data.summary?.noPurchase >= 1 || data.summary?.everyone >= 1 || data.summary?.firstCome >= 1, "Free benefit events API summary missing free-benefit counters");
