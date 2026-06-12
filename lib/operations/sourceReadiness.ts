@@ -111,9 +111,119 @@ const fallbackReport: SourceReadinessReport = {
   commands: ["npm run source:readiness:report"]
 };
 
+function readJson<T>(path: string, fallback: T): T {
+  if (!existsSync(path)) return fallback;
+
+  try {
+    return JSON.parse(readFileSync(path, "utf8")) as T;
+  } catch {
+    return fallback;
+  }
+}
+
+function getHost(value?: string) {
+  try {
+    return new URL(String(value ?? "")).hostname.replace(/^www\./, "").toLowerCase();
+  } catch {
+    return "";
+  }
+}
+
+function buildSnapshotFallbackReport(): SourceReadinessReport {
+  const catalog = readJson<Array<Record<string, unknown>>>(join(process.cwd(), "data", "officialSourceCatalog.json"), []);
+  const snapshot = readJson<{ generatedAt?: string; deals?: Array<Record<string, unknown>> }>(join(process.cwd(), "data", "refreshedNewsDeals.json"), {});
+  const deals = Array.isArray(snapshot.deals) ? snapshot.deals : [];
+  const visible = deals.filter((deal) =>
+    deal.publishable !== false &&
+    deal.availability === "active" &&
+    deal.validationStatus === "passed" &&
+    Boolean(deal.finalUrl) &&
+    Number(deal.qualityScore ?? 0) >= 70
+  );
+  const visibleHosts = new Set(visible.map((deal) => getHost(String(deal.finalUrl ?? ""))).filter(Boolean));
+  const publicPolicyCount = visible.filter((deal) => /정부|공공|문화|교육|K-MOOC|복지/i.test(String(deal.category ?? deal.sourceName ?? ""))).length;
+  const consumerSourceCount = Math.max(0, visible.length - publicPolicyCount);
+  const consumerSourceRate = visible.length ? Math.round((consumerSourceCount / visible.length) * 100) : 0;
+  const publicPolicySourceRate = visible.length ? Math.round((publicPolicyCount / visible.length) * 100) : 0;
+  const highPrioritySources = catalog.filter((source) => source.priority === "high").length;
+  const ok = catalog.length >= 150 && visible.length >= 100 && visibleHosts.size >= 70 && publicPolicySourceRate <= 35;
+  const gates: SourceReadinessGate[] = [
+    {
+      name: "official source catalog snapshot",
+      ok: catalog.length >= 150,
+      status: catalog.length >= 150 ? "passed" : "failed",
+      detail: `배포 스냅샷 공식 소스 후보 ${catalog.length}개`,
+      action: "data/officialSourceCatalog.json에 공식 소스 후보를 유지하세요."
+    },
+    {
+      name: "visible official benefit snapshot",
+      ok: visible.length >= 100,
+      status: visible.length >= 100 ? "passed" : "failed",
+      detail: `배포 스냅샷 검증 혜택 ${visible.length}개`,
+      action: "npm run refresh:news 또는 npm run refresh:benefits로 공식 혜택 스냅샷을 갱신하세요."
+    },
+    {
+      name: "official host diversity snapshot",
+      ok: visibleHosts.size >= 70,
+      status: visibleHosts.size >= 70 ? "passed" : "failed",
+      detail: `공식 혜택 호스트 ${visibleHosts.size}개`,
+      action: "브랜드/멤버십/쿠폰/샘플 공식 소스를 더 넓히세요."
+    },
+    {
+      name: "consumer-first source mix",
+      ok: publicPolicySourceRate <= 35,
+      status: publicPolicySourceRate <= 35 ? "passed" : "failed",
+      detail: `소비자 혜택 ${consumerSourceRate}%, 공공성 혜택 ${publicPolicySourceRate}%`,
+      action: "공공성 혜택은 명시 필터에서만 우선 노출하고 홈 기본 피드는 소비자 혜택을 유지하세요."
+    }
+  ];
+
+  return {
+    ...fallbackReport,
+    ok,
+    generatedAt: snapshot.generatedAt ?? "",
+    readinessLabel: ok ? "seed launch ready / 배포 스냅샷 기준 공식 혜택 준비" : "배포 스냅샷 점검 필요",
+    launchGateStatus: ok ? "passed" : "blocked",
+    summary: {
+      ...fallbackReport.summary,
+      officialSourceCandidates: catalog.length,
+      highPrioritySources,
+      reachableSources: visibleHosts.size,
+      guardedSources: Math.max(0, catalog.length - visibleHosts.size),
+      blockedLiveIssues: 0,
+      configuredFeedUrls: 0,
+      feedEnvConfiguredUrlCount: 0,
+      feedEnvFailedCount: 0,
+      policyRegressionFailures: 0,
+      visibleOfficialBenefits: visible.length,
+      hiddenOfficialBenefits: 0,
+      expiredOfficialBenefits: deals.filter((deal) => deal.availability === "expired").length,
+      newsFailedCount: 0,
+      refreshAllOk: visible.length >= 100,
+      productDealsCount: 0,
+      newsDealsCount: visible.length,
+      consumerBenefitSourceCount: consumerSourceCount,
+      consumerSourceRate,
+      highPriorityConsumerSourceCount: Math.min(highPrioritySources, consumerSourceCount),
+      publicPolicySourceCount: publicPolicyCount,
+      publicPolicySourceRate
+    },
+    gates,
+    operatorNextActions: [
+      "운영 feed URL이 연결되기 전에는 data/refreshedNewsDeals.json과 data/officialSourceCatalog.json 배포 스냅샷을 기준으로 health를 판단합니다.",
+      "공식 JSON/RSS/Atom feed가 준비되면 Vercel 환경변수 OFFICIAL_EVENT_FEED_URLS 또는 BENEFIT_REFRESH_FEED_URLS에 연결하세요."
+    ],
+    commands: [
+      "npm run source:readiness:report",
+      "npm run refresh:benefits",
+      "npm run verify:benefits"
+    ]
+  };
+}
+
 export function getOfficialSourceReadiness(): SourceReadinessReport {
   const reportPath = join(process.cwd(), "reports", "source-readiness.json");
-  if (!existsSync(reportPath)) return fallbackReport;
+  if (!existsSync(reportPath)) return buildSnapshotFallbackReport();
 
   try {
     const report = JSON.parse(readFileSync(reportPath, "utf8")) as Partial<SourceReadinessReport>;
