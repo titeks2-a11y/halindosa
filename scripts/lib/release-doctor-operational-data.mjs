@@ -1735,6 +1735,12 @@ export async function checkOperationalDataSurfaces() {
     !sourceOnboardingPlanDoc.includes("다음 연결 우선순위 TOP 10") ||
     !sourceOnboardingPlanDoc.includes("환경변수 연결 템플릿") ||
     !sourceOnboardingPlanDoc.includes("운영 시작 묶음") ||
+    !sourceOnboardingPlanDoc.includes("실시간 feed 연결 순서") ||
+    !sourceOnboardingPlanDoc.includes("OFFICIAL_EVENT_FEED_URLS") ||
+    !sourceOnboardingPlanDoc.includes("PUBLIC_COUPON_FEED_URLS") ||
+    !sourceOnboardingPlanDoc.includes("CONVENIENCE_BENEFIT_FEED_URLS") ||
+    !sourceOnboardingPlanDoc.includes("PAY_POINT_BENEFIT_FEED_URLS") ||
+    !sourceOnboardingPlanDoc.includes("검증이 실패하면 해당 feed는 사용자 화면에 노출하지 않습니다") ||
     !sourceOnboardingPlanDoc.includes("무료혜택·0원딜 우선 연결") ||
     !sourceFeedEnvDoc.includes("공식 feed 환경변수 안전성 리포트") ||
     !sourceFeedEnvDoc.includes("다음 Feed 활성화 큐") ||

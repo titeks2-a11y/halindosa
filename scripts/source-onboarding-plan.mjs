@@ -223,6 +223,95 @@ function buildStarterKits(queue) {
   });
 }
 
+function buildLaunchSequence(starterKits, envPlan) {
+  const envByKey = new Map(envPlan.map((plan) => [plan.envKey, plan]));
+  const sequenceSpecs = [
+    {
+      id: "connect-official-event-feed",
+      title: "1단계: 공식 이벤트 feed 연결",
+      kitId: "free-benefit-starter",
+      primaryEnvKey: "OFFICIAL_EVENT_FEED_URLS",
+      validationCommands: ["npm run source:feed-env:doctor", "npm run news:feed:canary", "npm run refresh:news", "npm run verify:news"],
+      customerImpact: "홈 상단 무료혜택과 오늘 받을 혜택 후보가 seed 반복 없이 더 자주 바뀝니다."
+    },
+    {
+      id: "connect-public-coupon-feed",
+      title: "2단계: 쿠폰·멤버십 feed 연결",
+      kitId: "coupon-event-starter",
+      primaryEnvKey: "PUBLIC_COUPON_FEED_URLS",
+      validationCommands: ["npm run source:feed-env:doctor", "npm run refresh:benefits", "npm run verify:freebies"],
+      customerImpact: "쿠폰, 신규가입, 멤버십 혜택이 공식 링크 중심으로 늘어납니다."
+    },
+    {
+      id: "connect-convenience-mart-feed",
+      title: "3단계: 편의점·마트 feed 연결",
+      kitId: "convenience-mart-starter",
+      primaryEnvKey: "CONVENIENCE_BENEFIT_FEED_URLS",
+      validationCommands: ["npm run source:feed-env:doctor", "npm run refresh:benefits", "npm run smoke:local"],
+      customerImpact: "편의점 1+1, 마트 행사, 무료배송 혜택이 매일 확인 가능한 영역으로 강화됩니다."
+    },
+    {
+      id: "connect-beauty-sample-feed",
+      title: "4단계: 샘플·무료체험 feed 연결",
+      kitId: "free-benefit-starter",
+      primaryEnvKey: "BEAUTY_SAMPLE_FEED_URLS",
+      validationCommands: ["npm run source:feed-env:doctor", "npm run verify:benefits", "npm run benefit:category:doctor"],
+      customerImpact: "무료 샘플, 무료체험, 전원증정 혜택의 빈도가 올라갑니다."
+    },
+    {
+      id: "connect-pay-point-feed",
+      title: "5단계: 포인트·캐시백 feed 연결",
+      kitId: "coupon-event-starter",
+      primaryEnvKey: "PAY_POINT_BENEFIT_FEED_URLS",
+      validationCommands: ["npm run source:feed-env:doctor", "npm run refresh:benefits", "npm run release:doctor"],
+      customerImpact: "앱테크, 포인트, 캐시백 혜택이 홈 추천과 알림 후보에 더 안정적으로 반영됩니다."
+    }
+  ];
+
+  return sequenceSpecs.map((spec, index) => {
+    const kit = starterKits.find((item) => item.id === spec.kitId);
+    const env = envByKey.get(spec.primaryEnvKey);
+    const candidatePool = [
+      ...(kit?.candidates ?? []),
+      ...(env?.topSources ?? [])
+    ];
+    const topCandidateIds = new Set();
+    const topCandidates = candidatePool
+      .filter((candidate) => {
+        if (!candidate?.id || topCandidateIds.has(candidate.id)) return false;
+        topCandidateIds.add(candidate.id);
+        return true;
+      })
+      .slice(0, 5)
+      .map((candidate) => ({
+        id: candidate.id,
+        label: candidate.label,
+        officialUrl: candidate.officialUrl,
+        liveStatus: candidate.liveStatus,
+        rank: candidate.rank
+      }));
+
+    return {
+      order: index + 1,
+      ...spec,
+      status: (env?.configuredFeedUrls ?? 0) > 0 ? "configured_verify" : "ready_to_connect",
+      primaryEnvCandidateCount: env?.candidateCount ?? 0,
+      reachableCandidates: env?.reachableCandidates ?? 0,
+      guardedCandidates: env?.guardedCandidates ?? 0,
+      topCandidates,
+      guardrails: [
+        "공식 JSON/RSS/Atom/API 또는 담당자 승인 feed만 연결",
+        "검색 결과, 커뮤니티 글, 블로그 글, 대표 홈페이지 URL 금지",
+        "연결 직후 검증 명령이 모두 통과하기 전 사용자 노출 금지"
+      ],
+      operatorAction:
+        (env?.configuredFeedUrls ?? 0) > 0
+          ? `${spec.primaryEnvKey} 연결값을 검증하고 실패 URL은 제거`
+          : `${spec.primaryEnvKey}에 승인된 feed endpoint를 1개만 먼저 연결한 뒤 검증`
+    };
+  });
+}
+
 function scoreSource(source, live, categoryCoverage) {
   let score = 0;
   const reasons = [];
@@ -345,6 +434,7 @@ const statusCounts = queue.reduce((acc, row) => {
 const envPlan = buildEnvPlan(queue);
 const envTemplate = buildEnvTemplate(envPlan);
 const starterKits = buildStarterKits(queue);
+const launchSequence = buildLaunchSequence(starterKits, envPlan);
 const advisoryLiveIssues =
   Number(liveReport.needsReviewCount ?? 0) +
   Number(liveReport.timeoutCount ?? 0) +
@@ -375,6 +465,7 @@ const report = {
   envPlan,
   envTemplate,
   starterKits,
+  launchSequence,
   topActions,
   guardrails: [
     "공식 API, RSS, 제휴 feed, 담당자 승인 JSON만 운영 feed로 연결합니다.",
@@ -430,6 +521,34 @@ const docsLines = [
     (kit) =>
       `| ${kit.title} | ${kit.candidateCount} | ${kit.reachableCandidates} | ${kit.guardedCandidates} | ${kit.envKeys.join(" / ")} | ${kit.nextAction} |`
   ),
+  "",
+  "## 실시간 feed 연결 순서",
+  "",
+  "한 번에 모든 소스를 연결하지 않고, 아래 순서대로 env key 1개씩 연결한 뒤 검증합니다. 검증이 실패하면 해당 feed는 사용자 화면에 노출하지 않습니다.",
+  "",
+  "| 순서 | 단계 | 우선 env | 상태 | 후보 | 접근 가능 | 다음 액션 | 고객 영향 |",
+  "| ---: | --- | --- | --- | ---: | ---: | --- | --- |",
+  ...launchSequence.map(
+    (step) =>
+      `| ${step.order} | ${step.title} | ${step.primaryEnvKey} | ${step.status} | ${step.primaryEnvCandidateCount} | ${step.reachableCandidates} | ${step.operatorAction} | ${step.customerImpact} |`
+  ),
+  "",
+  "### 단계별 검증 명령",
+  "",
+  ...launchSequence.flatMap((step) => [
+    `#### ${step.title}`,
+    "",
+    `- 우선 env: \`${step.primaryEnvKey}\``,
+    `- 다음 액션: ${step.operatorAction}`,
+    `- 고객 영향: ${step.customerImpact}`,
+    `- 대표 후보: ${step.topCandidates.map((candidate) => candidate.label).join(" / ") || "후보 없음"}`,
+    "- 검증:",
+    "",
+    "```bash",
+    ...step.validationCommands,
+    "```",
+    ""
+  ]),
   "",
   "### 묶음별 TOP 후보",
   "",
