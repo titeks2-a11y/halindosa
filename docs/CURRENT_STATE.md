@@ -11,7 +11,7 @@
 - Remote: `origin/main`, `origin/codex/12h-product-ux-growth-hardening`에 반영 대상
 - 운영 URL: `https://www.halindosa.com`
 - Vercel Production Deploy: `9c9f35ff` 기준 운영 `/api/health` 반영 확인. 새 커밋 후에는 운영 `/api/health`의 `deployment.shortCommit`으로 최신 반영 여부를 다시 확인한다.
-- 2026-06-13 확인: 최신 커밋 `3231bda0`는 GitHub와 Preview 배포에는 올라갔으나, Vercel Production 승격은 Hobby 일일 배포 제한(`api-deployments-free-per-day`, 402)으로 막혀 있다. 제한이 풀리면 최신 Preview를 Production으로 승격하고 `/api/health.deployment.shortCommit`을 다시 확인한다.
+- 2026-06-13 01:10 KST 확인: 최신 커밋 `c6f1bb5d`는 GitHub `main`과 `codex/12h-product-ux-growth-hardening`에 push 완료. GitHub Actions의 `CI`와 `Vercel Production Deploy`는 실행 중이며, 운영 `/api/health.deployment.shortCommit`은 아직 `5b89b450`이다. 이전 Production Deploy 실패 원인은 Hobby 일일 배포 제한(`api-deployments-free-per-day`, 402)이었으므로, 이번 실행 완료 후에도 운영 커밋이 바뀌지 않으면 제한 해제 시 최신 커밋을 다시 배포하고 `/api/health.deployment.shortCommit`을 확인한다.
 - GitHub CI: 최신 `main`/`codex/12h-product-ux-growth-hardening` push 대상. 새 커밋 후 운영 `/api/health`의 `deployment.shortCommit`으로 실제 반영 여부를 확인한다.
 - 로컬 최신 홈페이지: `http://127.0.0.1:3000/?verifiedOnly=true`
 - 운영 API 최신 계약 확인:
@@ -50,6 +50,7 @@
 - 관리자 `/admin` 화면은 무료혜택 소스 축 커버리지 패널을 제공한다. 운영자는 통신사, 편의점, 뷰티, 카페, 배달, 페이/포인트, 마트, 오픈마켓, 샘플·체험 수집축과 핵심 브랜드 후보가 빠졌는지 확인할 수 있다.
 - 공식 무료혜택 소스 카탈로그는 메가MGC커피, PAYCO, L.POINT, 신세계포인트, 빽다방, 더벤티, 탐앤탐스 공식 이벤트/리워드/출석체크 후보를 추가해 220개 후보로 확장했다. `source:catalog:report`, `source:breadth:doctor`, `source:live:doctor`, `source:readiness:report`는 검색/대표몰/비공식 CTA를 허용하지 않는 기준으로 이 후보를 검사한다.
 - 공식 무료혜택 소스 카탈로그는 투썸플레이스 공식 이벤트 목록, 뚜레쥬르 공식 진행 이벤트, CU편의점택배 공식 진행 이벤트를 추가해 223개 후보로 확장했다. `source:live:doctor` 기준 reachable/guarded 195/28, stale_or_removed 0건이며, 사용자 CTA는 여전히 공식 이벤트/쿠폰/신청 페이지로 검증된 항목만 허용한다.
+- `source:onboarding:plan`은 공식 이벤트 feed, 쿠폰·멤버십 feed, 편의점·마트 feed, 샘플·무료체험 feed, 포인트·캐시백 feed를 5단계로 연결하는 실시간 feed 온보딩 순서를 생성한다. 각 단계는 env key, 대표 공식 후보, 사용자 영향, 검증 명령을 함께 남기며, `release:doctor`는 이 섹션과 핵심 env key가 빠지면 실패한다.
 - `source:live:doctor`는 재생성 리포트(`reports/official-source-live-check.json`)와 함께 배포용 요약(`data/officialSourceLiveSnapshot.json`)을 생성한다. Vercel 런타임에서 `reports/source-readiness.json`이 없어도 `/api/admin/source-readiness`는 공식 소스 후보 220개, 접근 가능/보호 소스 192/28, stale 0건 기준으로 운영 준비도를 계산한다.
 - 홈 무료혜택 히어로는 브랜드 키를 정규화해 같은 브랜드 샘플/쿠폰이 첫 화면에 반복 노출되는 문제를 줄인다.
 - 홈 무료혜택 히어로는 `오늘마감`과 `마감임박`을 분리하고, 공식 무료혜택 카드 16개와 즉시 수령 카드 8개를 모바일 첫 화면 우선 영역으로 노출한다.
