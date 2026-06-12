@@ -37,10 +37,10 @@ function getFreshnessStatus(ageMinutes: number | null, count: number): HomeFresh
 }
 
 function getFreshnessLabel(status: HomeFreshnessStatus, ageMinutes: number | null) {
-  if (status === "seed") return "검증 대기";
+  if (status === "seed") return "혜택 확인 중";
   if (ageMinutes === null || ageMinutes <= 0) return "방금 업데이트";
   if (ageMinutes < 60) return `${ageMinutes}분 전 확인`;
-  return "재검증 필요";
+  return "업데이트 확인 중";
 }
 
 function buildHomeChannelFreshness({
