@@ -46,6 +46,7 @@ npm run smoke
 - 자동 refresh cron: `GET /api/cron/refresh`
   - Vercel Hobby 배포 호환을 위해 Vercel Cron은 `vercel.json` 기준 매일 1회 `/api/cron/refresh`를 호출한다. 더 짧은 주기가 필요하면 Pro 플랜 또는 외부 스케줄러에서 같은 보호 API를 호출한다.
   - 무료혜택 우선 갱신은 같은 Hobby 한도 안에서 `GET /api/cron/benefits`를 별도 daily cron으로 호출한다. 이 경로는 `refresh:benefits`만 실행해 홈 상단 무료혜택, 쿠폰, 샘플, 전원증정 이벤트 리포트를 빠르게 최신화한다.
+  - 더 빠른 운영 갱신은 GitHub Actions `Benefit Refresh Scheduler`가 담당한다. `CRON_SECRET` 또는 `HALINDOSA_CRON_SECRET` repository secret이 있으면 30분마다 `/api/cron/benefits`를 호출하고, 정각에는 `/api/cron/refresh?mode=liveFeed`도 호출한다. secret이 없으면 workflow는 notice만 남기고 안전하게 종료한다.
   - 운영 환경에는 `CRON_SECRET`을 반드시 설정한다. 호출은 `Authorization: Bearer $CRON_SECRET`, `x-cron-secret`, 또는 관리자 `token` 중 하나가 맞아야 실행된다.
   - 로컬 점검은 `GET /api/cron/refresh?dryRun=true&token=local-admin`으로 현재 `reports/refresh-all.json` 상태를 확인한다.
   - 무료혜택 전용 cron 점검은 `GET /api/cron/benefits?dryRun=true&token=local-admin`으로 확인하며, 실행 결과는 `reports/cron-benefits.json`, `reports/benefits-refresh.json`, `reports/free-benefit-events.json`에 남는다.
