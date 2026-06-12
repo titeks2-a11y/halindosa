@@ -1,6 +1,6 @@
 # Free Benefit Category Coverage
 
-Generated: 2026-06-12T10:33:40.044Z
+Generated: 2026-06-12T15:19:25.813Z
 
 | Metric | Value |
 | --- | ---: |

@@ -1,6 +1,6 @@
 # 할인도사 Image Verification Report
 
-Generated: 2026-06-10T19:51:07.829Z
+Generated: 2026-06-12T15:20:29.897Z
 Status: PASS
 
 ## Summary
@@ -16,9 +16,9 @@ Status: PASS
 | Missing image fallback | 0 |
 | Refreshed benefit generated placeholders | 83/140 |
 | Generated placeholder assets | 20 |
-| Official benefit renderable images | 199/199 |
+| Official benefit renderable images | 197/197 |
 | Official benefit OG/schema mappings | 165 |
-| Official benefit official images | 130 |
+| Official benefit official images | 128 |
 | Official benefit generated images | 69 |
 | Official benefit low quality | 0 |
 
@@ -41,6 +41,6 @@ Status: PASS
 - PASS publishable image exposure audit: 노출 상품 140개 모두 공식/파생/생성 이미지로 렌더링 가능합니다.
 - PASS official image operating floor: 공식/파생 이미지 비율이 66%입니다.
 - PASS refreshed benefit placeholder exposure: refresh:deals 산출물 83/140개가 혜택 유형별 generated placeholder를 사용합니다.
-- PASS official benefit image exposure audit: 공식 혜택 199개 모두 렌더 가능한 이미지와 qualityScore 70 이상을 갖습니다.
-- PASS official benefit image operating floor: 공식 혜택 130/199개가 공식 OG/schema 이미지를 사용합니다.
+- PASS official benefit image exposure audit: 공식 혜택 197개 모두 렌더 가능한 이미지와 qualityScore 70 이상을 갖습니다.
+- PASS official benefit image operating floor: 공식 혜택 128/197개가 공식 OG/schema 이미지를 사용합니다.
 - PASS verified product image priority: 검증된 공식 상품/혜택 이미지가 명시 이미지와 생성 placeholder보다 먼저 적용됩니다.

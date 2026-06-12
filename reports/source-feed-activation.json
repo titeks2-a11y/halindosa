@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-12T04:05:44.997Z",
+  "generatedAt": "2026-06-12T15:20:08.176Z",
   "status": "seed_ready",
   "configuredFeedUrls": 0,
   "configuredProviders": 0,
@@ -38,7 +38,7 @@
     {
       "name": "official source live readiness",
       "ok": true,
-      "detail": "reachable=190, guarded=27, stale=0",
+      "detail": "reachable=196, guarded=27, stale=0",
       "action": "Run npm run source:live:doctor and replace or remove any stale_or_removed official source before feed activation."
     },
     {

@@ -11,6 +11,7 @@
 - Remote: `origin/main`, `origin/codex/12h-product-ux-growth-hardening`에 반영 대상
 - 운영 URL: `https://www.halindosa.com`
 - Vercel Production Deploy: `9c9f35ff` 기준 운영 `/api/health` 반영 확인. 새 커밋 후에는 운영 `/api/health`의 `deployment.shortCommit`으로 최신 반영 여부를 다시 확인한다.
+- 2026-06-13 확인: 최신 커밋 `3231bda0`는 GitHub와 Preview 배포에는 올라갔으나, Vercel Production 승격은 Hobby 일일 배포 제한(`api-deployments-free-per-day`, 402)으로 막혀 있다. 제한이 풀리면 최신 Preview를 Production으로 승격하고 `/api/health.deployment.shortCommit`을 다시 확인한다.
 - GitHub CI: 최신 `main`/`codex/12h-product-ux-growth-hardening` push 대상. 새 커밋 후 운영 `/api/health`의 `deployment.shortCommit`으로 실제 반영 여부를 확인한다.
 - 로컬 최신 홈페이지: `http://127.0.0.1:3000/?verifiedOnly=true`
 - 운영 API 최신 계약 확인:
@@ -91,8 +92,8 @@
   - hard failure 노출 0건
   - 외부몰 일시 5xx/접근보호 이슈는 고객 노출에서 숨기고 운영자 재검증 큐로 보낸다.
 - 공식 혜택:
-  - `refresh:news` 기준 190개 공식 혜택 노출
-  - `verify:news` 기준 190/190 공식 혜택 링크 검증
+  - `refresh:news` 기준 197개 공식 혜택 노출
+  - `verify:news` 기준 197/197 공식 혜택 링크 검증
   - 기본 top consumer feed는 공공정책성 혜택 0건
 - 무료혜택:
   - `refresh:benefits` 기준 무료혜택 116/116, 공식 이벤트 174/174

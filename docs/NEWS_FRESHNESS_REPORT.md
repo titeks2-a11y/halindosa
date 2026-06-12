@@ -2,36 +2,36 @@
 
 공식 혜택/할인뉴스가 오래된 정보나 종료된 이벤트를 사용자에게 노출하지 않도록 확인하는 운영 리포트입니다.
 
-- 생성 시각: 2026-06-10T19:46:27.081Z
-- 원본 리포트 생성 시각: 2026-06-10T19:46:24.463Z
+- 생성 시각: 2026-06-12T15:19:29.193Z
+- 원본 리포트 생성 시각: 2026-06-12T15:19:24.034Z
 - 상태: fresh
 - 리포트 나이: 0h
-- 노출 공식 혜택: 199개
+- 노출 공식 혜택: 197개
 - 종료 노출: 0개
-- 14일 이내 종료: 6개
-- 공식 소스 후보: 212개
+- 14일 이내 종료: 7개
+- 공식 소스 후보: 223개
 
 ## Checks
 
 | Check | Status | Detail |
 | --- | --- | --- |
-| visible official benefits | PASS | 199 visible official benefit deals are available. |
+| visible official benefits | PASS | 197 visible official benefit deals are available. |
 | report freshness | PASS | news-deals report age is 0h. |
 | deal check freshness | PASS | No visible official benefit has lastCheckedAt older than 24h. |
 | expired exposure | PASS | No expired official benefit is visible. |
 | category coverage | PASS | All 10 categories have at least 2 visible benefits. |
 | provider freshness queue | PASS | 4 providers have zero hidden/failed/expired/official-missing issues. |
-| official source catalog | PASS | 212 official source candidates are tracked. |
+| official source catalog | PASS | 223 official source candidates are tracked. |
 
 ## Category Coverage
 
 | Category | Count | Status |
 | --- | ---: | --- |
 | 식품/생필품 | 11 | ready |
-| 마트/편의점 | 10 | ready |
+| 마트/편의점 | 9 | ready |
 | 디지털/가전 | 9 | ready |
 | 패션/뷰티 | 18 | ready |
-| 외식/배달 | 30 | ready |
+| 외식/배달 | 29 | ready |
 | 여행/숙박 | 5 | ready |
 | 영화/문화 | 12 | ready |
 | 카드/멤버십 | 55 | ready |
@@ -42,12 +42,13 @@
 
 | Deal | Merchant | End Date | Days Left | Action |
 | --- | --- | --- | ---: | --- |
-| K-MOOC 블록체인·디지털 자산 공식 무료강좌 | K-MOOC | 2026-06-14 | 3.2 | 공식 페이지 종료 여부를 확인하고 대체 혜택 후보를 준비하세요. |
-| GS25 드링킹 페스타 1+1·다량 구매 행사 | GS25 | 2026-06-15 | 4.2 | 공식 페이지 종료 여부를 확인하고 대체 혜택 후보를 준비하세요. |
-| K-MOOC 동역학 공식 무료강좌 | K-MOOC | 2026-06-15 | 4.2 | 공식 페이지 종료 여부를 확인하고 대체 혜택 후보를 준비하세요. |
-| K-MOOC 예술적 얼굴과 감정조절 공식 무료강좌 | K-MOOC | 2026-06-18 | 7.2 | 공식 페이지 종료 여부를 확인하고 대체 혜택 후보를 준비하세요. |
-| 던킨 공식 이달의 콤보 쿠폰 혜택 | 던킨 | 2026-06-21 | 10.2 | 공식 페이지 종료 여부를 확인하고 대체 혜택 후보를 준비하세요. |
-| K-MOOC 컴퓨터그래픽스 공식 무료강좌 | K-MOOC | 2026-06-21 | 10.2 | 공식 페이지 종료 여부를 확인하고 대체 혜택 후보를 준비하세요. |
+| K-MOOC 블록체인·디지털 자산 공식 무료강좌 | K-MOOC | 2026-06-14 | 1.4 | 공식 페이지 종료 여부를 확인하고 대체 혜택 후보를 준비하세요. |
+| GS25 드링킹 페스타 1+1·다량 구매 행사 | GS25 | 2026-06-15 | 2.4 | 공식 페이지 종료 여부를 확인하고 대체 혜택 후보를 준비하세요. |
+| K-MOOC 동역학 공식 무료강좌 | K-MOOC | 2026-06-15 | 2.4 | 공식 페이지 종료 여부를 확인하고 대체 혜택 후보를 준비하세요. |
+| K-MOOC 예술적 얼굴과 감정조절 공식 무료강좌 | K-MOOC | 2026-06-18 | 5.4 | 공식 페이지 종료 여부를 확인하고 대체 혜택 후보를 준비하세요. |
+| 던킨 공식 이달의 콤보 쿠폰 혜택 | 던킨 | 2026-06-21 | 8.4 | 공식 페이지 종료 여부를 확인하고 대체 혜택 후보를 준비하세요. |
+| K-MOOC 컴퓨터그래픽스 공식 무료강좌 | K-MOOC | 2026-06-21 | 8.4 | 공식 페이지 종료 여부를 확인하고 대체 혜택 후보를 준비하세요. |
+| 서서울호수공원 유아 자연체험 6월 무료 예약 | 서울특별시 공공서비스예약 | 2026-06-25 | 12.4 | 공식 페이지 종료 여부를 확인하고 대체 혜택 후보를 준비하세요. |
 
 ## Next Actions
 
