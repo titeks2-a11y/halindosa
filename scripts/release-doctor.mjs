@@ -2348,6 +2348,7 @@ function checkDailyOperationsReport() {
 function checkFreeBenefitOperationsReport() {
   const requiredFiles = [
     "scripts/free-benefit-operations-report.mjs",
+    "lib/operations/freeBenefitOperations.ts",
     "app/api/admin/free-benefit-operations/route.ts",
     "docs/FREE_BENEFIT_OPERATIONS_REPORT.md"
   ];
@@ -2357,7 +2358,10 @@ function checkFreeBenefitOperationsReport() {
 
   const packageJson = existsSync(join(root, "package.json")) ? withQaRunnerScripts(JSON.parse(readFileSync(join(root, "package.json"), "utf8"))) : {};
   const operationScript = existsSync(join(root, "scripts/free-benefit-operations-report.mjs")) ? readFileSync(join(root, "scripts/free-benefit-operations-report.mjs"), "utf8") : "";
+  const operationLib = existsSync(join(root, "lib/operations/freeBenefitOperations.ts")) ? readFileSync(join(root, "lib/operations/freeBenefitOperations.ts"), "utf8") : "";
   const operationApi = existsSync(join(root, "app/api/admin/free-benefit-operations/route.ts")) ? readFileSync(join(root, "app/api/admin/free-benefit-operations/route.ts"), "utf8") : "";
+  const adminPage = existsSync(join(root, "app/admin/page.tsx")) ? readFileSync(join(root, "app/admin/page.tsx"), "utf8") : "";
+  const adminHrefs = existsSync(join(root, "lib/adminDashboardHrefs.ts")) ? readFileSync(join(root, "lib/adminDashboardHrefs.ts"), "utf8") : "";
   const smokeScript = smokeSourceSync();
   const docsReport = existsSync(join(root, "docs/FREE_BENEFIT_OPERATIONS_REPORT.md")) ? readFileSync(join(root, "docs/FREE_BENEFIT_OPERATIONS_REPORT.md"), "utf8") : "";
 
@@ -2370,8 +2374,17 @@ function checkFreeBenefitOperationsReport() {
   for (const phrase of ["visibleOfficialBenefitItems", "excludedOfficialBenefitItems", "exposedSearchLinks", "exposedNonOfficialLinks", "brokenImages", "topCandidates", "docs/FREE_BENEFIT_OPERATIONS_REPORT.md"]) {
     if (!operationScript.includes(phrase)) issues.push(`free benefit operations script missing ${phrase}`);
   }
-  if (!operationApi.includes("canAccessAdminRequest") || !operationApi.includes("format") || !operationApi.includes("text/csv") || !operationApi.includes("admin-free-benefit-operations")) {
+  for (const phrase of ["getFreeBenefitOperationsReport", "buildFreeBenefitOperationsCsv", "visibleOfficialBenefitItems", "topCandidates"]) {
+    if (!operationLib.includes(phrase)) issues.push(`free benefit operations lib missing ${phrase}`);
+  }
+  if (!operationApi.includes("canAccessAdminRequest") || !operationApi.includes("getFreeBenefitOperationsReport") || !operationApi.includes("format") || !operationApi.includes("text/csv") || !operationApi.includes("admin-free-benefit-operations")) {
     issues.push("free benefit operations admin API should be protected and support CSV export");
+  }
+  if (!adminHrefs.includes("freeBenefitOperationsApiHref") || !adminHrefs.includes("/api/admin/free-benefit-operations?format=csv")) {
+    issues.push("admin dashboard href builder should expose free benefit operations JSON and CSV links");
+  }
+  for (const phrase of ["무료혜택 운영 리포트", "freeBenefitOperationsApiHref", "freeBenefitOperationsCsvHref", "상위 노출 후보", "검색 링크"]) {
+    if (!adminPage.includes(phrase)) issues.push(`admin page missing free benefit operations panel phrase: ${phrase}`);
   }
   if (!smokeScript.includes("admin free benefit operations api") || !smokeScript.includes("/api/admin/free-benefit-operations") || !smokeScript.includes("Admin free benefit operations should show zero search links")) {
     issues.push("smoke tests should cover free benefit operations admin API and CSV");

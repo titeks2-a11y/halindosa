@@ -54,6 +54,7 @@ import { getReportStorageStatus, getReportSummaryLive, listDealReportsLive } fro
 import { getCronRefreshOperationsReport } from "@/lib/operations/cronRefresh";
 import { getDailyOperationsReport } from "@/lib/operations/dailyOperations";
 import { getExposurePolicyReport } from "@/lib/operations/exposurePolicy";
+import { getFreeBenefitOperationsReport } from "@/lib/operations/freeBenefitOperations";
 import { getHealthReadinessReport } from "@/lib/operations/healthReadiness";
 import { getLinkLaunchGateReport } from "@/lib/operations/linkLaunchGate";
 import { getLinkRevalidationPriorityReport } from "@/lib/operations/linkRevalidationPriority";
@@ -128,6 +129,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const officialSourceReadiness = getOfficialSourceReadiness();
   const cronRefresh = getCronRefreshOperationsReport();
   const dailyOperations = getDailyOperationsReport();
+  const freeBenefitOperations = getFreeBenefitOperationsReport();
   const exposurePolicy = getExposurePolicyReport();
   const linkLaunchGate = getLinkLaunchGateReport();
   const linkRevalidationPriority = getLinkRevalidationPriorityReport();
@@ -173,6 +175,8 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
     cronBenefitsDryRunHref,
     dailyOperationsApiHref,
     dailyOperationsCsvHref,
+    freeBenefitOperationsApiHref,
+    freeBenefitOperationsCsvHref,
     exposurePolicyApiHref,
     exposurePolicyCsvHref,
     linkLaunchGateApiHref,
@@ -2053,6 +2057,124 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                     </div>
                     <p className="mt-2 rounded-xl bg-slate-50 px-2.5 py-2 text-[10px] font-black leading-4 text-slate-600">{item.action}</p>
                   </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="rounded-3xl border border-emerald-100 bg-white p-5 shadow-sm" aria-label="무료혜택 운영 리포트">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-black text-emerald-700">무료혜택 운영 리포트</p>
+              <h2 className="mt-1 text-xl font-black text-slate-950">공식 무료혜택 노출과 차단 상태를 바로 확인합니다</h2>
+              <p className="mt-1 text-sm font-semibold leading-6 text-slate-500">
+                `reports/free-benefit-operations.json` 기준으로 공식 무료혜택 수, 검색·비공식·깨진 이미지 0건, 오늘/이번주 마감 후보를 운영자가 즉시 확인합니다.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <a href={freeBenefitOperationsApiHref} className="rounded-2xl bg-emerald-50 px-4 py-3 text-sm font-black text-emerald-700">
+                free benefit JSON
+              </a>
+              <a href={freeBenefitOperationsCsvHref} className="rounded-2xl bg-slate-950 px-4 py-3 text-sm font-black text-white">
+                free benefit CSV
+              </a>
+              <Link href="/free-benefits?deadline=week" className="rounded-2xl bg-red-50 px-4 py-3 text-sm font-black text-dossa-red">
+                이번주 마감 보기
+              </Link>
+            </div>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-3 xl:grid-cols-6">
+            {[
+              {
+                title: "노출 공식혜택",
+                value: `${freeBenefitOperations.totals?.visibleOfficialBenefitItems ?? 0}개`,
+                detail: "홈과 무료혜택 탭에 보여줄 수 있는 공식 링크",
+                tone: "good"
+              },
+              {
+                title: "공식 도메인",
+                value: `${freeBenefitOperations.totals?.officialHosts ?? 0}개`,
+                detail: "브랜드·멤버십·공식몰 host 커버리지",
+                tone: "good"
+              },
+              {
+                title: "브랜드/출처",
+                value: `${freeBenefitOperations.totals?.brands ?? 0}개`,
+                detail: "반복 노출을 줄이기 위한 source 다양성",
+                tone: "good"
+              },
+              {
+                title: "검색 링크",
+                value: `${freeBenefitOperations.qualityGates?.exposedSearchLinks ?? 0}건`,
+                detail: "사용자 CTA에 검색 결과 링크 노출 금지",
+                tone: Number(freeBenefitOperations.qualityGates?.exposedSearchLinks ?? 0) === 0 ? "good" : "danger"
+              },
+              {
+                title: "비공식 링크",
+                value: `${freeBenefitOperations.qualityGates?.exposedNonOfficialLinks ?? 0}건`,
+                detail: "커뮤니티·중계 링크 CTA 노출 금지",
+                tone: Number(freeBenefitOperations.qualityGates?.exposedNonOfficialLinks ?? 0) === 0 ? "good" : "danger"
+              },
+              {
+                title: "깨진 이미지",
+                value: `${freeBenefitOperations.qualityGates?.brokenImages ?? 0}건`,
+                detail: "카드 신뢰도와 모바일 가독성 기준",
+                tone: Number(freeBenefitOperations.qualityGates?.brokenImages ?? 0) === 0 ? "good" : "watch"
+              }
+            ].map((card) => (
+              <div
+                key={card.title}
+                className={`rounded-2xl border p-4 ${
+                  card.tone === "good"
+                    ? "border-emerald-100 bg-emerald-50"
+                    : card.tone === "danger"
+                      ? "border-red-100 bg-red-50"
+                      : "border-amber-100 bg-amber-50"
+                }`}
+              >
+                <p className="text-xs font-black text-slate-600">{card.title}</p>
+                <p className="mt-2 text-xl font-black text-slate-950">{card.value}</p>
+                <p className="mt-2 line-clamp-2 text-[11px] font-bold leading-4 text-slate-500">{card.detail}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-4 grid gap-3 lg:grid-cols-[0.8fr_1.2fr]">
+            <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
+              <p className="text-sm font-black text-slate-950">마감 운영 큐</p>
+              <div className="mt-3 grid gap-2 text-xs font-black text-slate-700">
+                <Link href="/free-benefits?deadline=today" className="rounded-2xl bg-white px-3 py-3 shadow-sm">
+                  오늘 마감 {freeBenefitOperations.totals?.todayEndingVisibleItems ?? 0}개 확인
+                </Link>
+                <Link href="/free-benefits?deadline=week" className="rounded-2xl bg-white px-3 py-3 shadow-sm">
+                  이번주 마감 {freeBenefitOperations.totals?.thisWeekEndingVisibleItems ?? 0}개 확인
+                </Link>
+                <a href={freeBenefitOperationsCsvHref} className="rounded-2xl bg-white px-3 py-3 shadow-sm">
+                  운영 CSV 내려받기
+                </a>
+              </div>
+            </div>
+            <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
+              <p className="text-sm font-black text-slate-950">상위 노출 후보</p>
+              <div className="mt-3 grid gap-2 md:grid-cols-2">
+                {(freeBenefitOperations.topCandidates ?? []).slice(0, 6).map((item) => (
+                  <a
+                    key={item.id ?? item.title}
+                    href={item.redirectUrl ?? "/free-benefits"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rounded-2xl bg-white p-3 shadow-sm transition hover:bg-emerald-50"
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <div>
+                        <p className="line-clamp-2 text-xs font-black leading-5 text-slate-950">{item.title}</p>
+                        <p className="mt-1 text-[11px] font-bold text-slate-500">{item.brand ?? "공식 혜택"} · {item.benefitType ?? "무료혜택"}</p>
+                      </div>
+                      <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-black text-emerald-700">
+                        {item.qualityScore ?? 0}
+                      </span>
+                    </div>
+                  </a>
                 ))}
               </div>
             </div>

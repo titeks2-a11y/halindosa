@@ -36,6 +36,8 @@ export function buildAdminDashboardHrefs(token: string | null | undefined) {
     cronBenefitsDryRunHref: adminHref("/api/cron/benefits?dryRun=true", token, "/api/cron/benefits?dryRun=true&token=local-admin"),
     dailyOperationsApiHref: adminHref("/api/admin/daily-operations", token),
     dailyOperationsCsvHref: adminHref("/api/admin/daily-operations?format=csv", token),
+    freeBenefitOperationsApiHref: adminHref("/api/admin/free-benefit-operations", token),
+    freeBenefitOperationsCsvHref: adminHref("/api/admin/free-benefit-operations?format=csv", token),
     exposurePolicyApiHref: adminHref("/api/admin/exposure-policy", token),
     exposurePolicyCsvHref: adminHref("/api/admin/exposure-policy?format=csv", token),
     linkLaunchGateApiHref: adminHref("/api/admin/link-launch-gate", token),
