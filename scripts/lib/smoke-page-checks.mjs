@@ -69,6 +69,8 @@ export async function runPageSmokeChecks() {
     const text = await response.text();
     assert(response.status === 200, `Expected 200, got ${response.status}`);
     assert(text.includes("할인도사"), "Home page missing brand text");
+    assert(!text.includes('id="S:0"'), "Home page should not ship hidden streamed content that can leave the user stuck on the loading fallback");
+    assert(!text.includes("할인도사 화면을 불러오는 중"), "Home page should render real benefit cards instead of the global loading fallback");
     assert(text.includes("샤오미 86인치") || text.includes("새우깡"), "Home page missing initial deal cards");
     assert(text.includes("네트워크 정상") || text.includes("오프라인 상태"), "Home page missing compact network status");
     assert(text.includes("구매 전 판매처 확인") || text.includes("판매처 확인"), "Home page missing purchase verification guidance");

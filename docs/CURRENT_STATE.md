@@ -7,10 +7,10 @@
 ## 현재 기준
 
 - Branch: `codex/12h-product-ux-growth-hardening`
-- 최신 운영 확인 HEAD: `f189a144` (`test: guard free benefit claim badges`) 기준 Vercel Production 반영 확인.
+- 최신 운영 확인 기준: `e969261a` (`fix: render homepage without stuck loading fallback`) 기준 Vercel Production 반영 확인.
 - Remote: `origin/main`, `origin/codex/12h-product-ux-growth-hardening`에 반영 대상
 - 운영 URL: `https://www.halindosa.com`
-- Vercel Production Deploy: `f189a144` 기준 운영 `/api/health` 반영 확인. 새 커밋 후에는 운영 `/api/health`의 `deployment.shortCommit`으로 최신 반영 여부를 다시 확인한다.
+- Vercel Production Deploy: `e969261a` 기준 운영 `/api/health` 반영 확인. 새 커밋 후에는 운영 `/api/health`의 `deployment.shortCommit`으로 최신 반영 여부를 다시 확인한다.
 - GitHub CI: 최신 `main`/`codex/12h-product-ux-growth-hardening` push 대상. 새 커밋 후 운영 `/api/health`의 `deployment.shortCommit`으로 실제 반영 여부를 확인한다.
 - 로컬 최신 홈페이지: `http://127.0.0.1:3000/?verifiedOnly=true`
 - 운영 API 최신 계약 확인:
@@ -20,8 +20,8 @@
   - `X-RateLimit-Remaining` 헤더 존재
   - `Cache-Control`은 no-store 계열
   - `/api/freebies?limit=5`: HTTP 200, `ok=true`, `requestId` 존재
-  - 운영 홈페이지 `https://www.halindosa.com/?verifiedOnly=true`: 무료혜택 카드 DOM 렌더링 확인
-  - 운영 `/api/health`: `deployment.shortCommit=f189a144`, `officialBenefitVisibleCount=197`, `officialBenefitFresh=true`
+  - 운영 홈페이지 `https://www.halindosa.com/?verifiedOnly=true`: 무료혜택 카드 가시 렌더링 확인
+  - 운영 `/api/health`: `deployment.shortCommit=e969261a`, `officialBenefitVisibleCount=197`, `officialBenefitFresh=true`
   - WebView Android 앱은 `https://www.halindosa.com` 운영 웹을 직접 로드하므로 Vercel 배포가 성공하면 앱 화면에도 최신 무료혜택 홈이 반영된다.
 
 ## 제품 방향
@@ -76,6 +76,7 @@
 - 무료혜택 카테고리 커버리지 리포트는 `categoryCandidateGroups`를 포함한다. 운영자는 전원증정, 선착순, 쿠폰, 무료 샘플, 무료체험, 기프티콘, 포인트/캐시백, 무료배송, 신규가입, 출석체크별 상위 공식 후보를 JSON/CSV/관리자 화면에서 바로 확인할 수 있으며, 후보 정렬은 공공·정책성 링크보다 소비자형 브랜드 공식 혜택을 우선한다.
 - `/api/home`과 `/api/freebies`의 `requiredCategoryCoverage`도 `categoryCandidateGroups`를 반환한다. 홈 무료혜택 히어로는 이 값을 사용해 `카테고리별 대표 혜택` 레일을 노출하고, 사용자는 각 필수 무료혜택 축의 공식 후보를 `/go/news/[id]` 추적 경로로 바로 열 수 있다.
 - 카테고리별 대표 혜택 후보는 `claimEaseScore`와 `claimUrgencyLabel`을 포함한다. 홈 카드와 API는 구매조건이 낮고, 공식 링크이며, 마감 시점이 분명한 혜택을 사용자가 더 빨리 고를 수 있게 `쉬움 N점`, `오늘마감/이번주마감/여유있음` 배지를 함께 제공한다.
+- 전역 `app/loading.tsx` fallback은 제거했다. 홈은 서버 HTML에서 실제 무료혜택 카드가 바로 보이도록 유지하며, smoke는 숨겨진 스트리밍 콘텐츠(`S:0`)나 `할인도사 화면을 불러오는 중` fallback이 홈 HTML에 섞이면 실패한다.
 
 ## 현재 데이터 품질 기준
 
