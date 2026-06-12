@@ -277,6 +277,14 @@ export default function Page() {
                     <span className="shrink-0 text-[10px] font-black text-slate-400">{candidate.groupCount.toLocaleString("ko-KR")}개</span>
                   </div>
                   <p className="mt-2 line-clamp-2 min-h-[2.4rem] text-xs font-black leading-5 text-slate-950">{candidate.title}</p>
+                  <div className="mt-1 flex flex-wrap gap-1">
+                    <span className="rounded-full bg-emerald-50 px-1.5 py-0.5 text-[9px] font-black text-emerald-700">
+                      쉬움 {candidate.claimEaseScore}점
+                    </span>
+                    <span className="rounded-full bg-orange-50 px-1.5 py-0.5 text-[9px] font-black text-orange-700">
+                      {candidate.claimUrgencyLabel}
+                    </span>
+                  </div>
                   <p className="mt-1 truncate text-[10px] font-bold text-slate-500">{candidate.sourceName || candidate.host}</p>
                 </Link>
               ))}

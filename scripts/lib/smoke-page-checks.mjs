@@ -199,9 +199,18 @@ export async function runPageSmokeChecks() {
                 group.href?.startsWith("/free-benefits?eventType=") &&
                 Array.isArray(group.candidates) &&
                 group.candidates.length >= 1 &&
-                group.candidates.every((candidate) => candidate.finalUrl?.startsWith("https://") && candidate.title && candidate.sourceName)
+                group.candidates.every(
+                  (candidate) =>
+                    candidate.finalUrl?.startsWith("https://") &&
+                    candidate.title &&
+                    candidate.sourceName &&
+                    Number(candidate.claimEaseScore) >= 0 &&
+                    Number(candidate.claimEaseScore) <= 100 &&
+                    typeof candidate.claimUrgencyLabel === "string" &&
+                    candidate.claimUrgencyLabel.length > 0
+                )
             ),
-          "/api/home required free benefit category coverage should expose representative official candidates per category"
+          "/api/home required free benefit category coverage should expose representative official candidates with claim ease metadata per category"
         );
         assert(data.quality?.productDeals?.publishableLinks >= 0, "/api/home should expose product publishable quality metadata");
         assert(data.quality?.officialBenefits?.publishable >= 0, "/api/home should expose official benefit publishable quality metadata");

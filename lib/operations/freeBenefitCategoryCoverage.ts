@@ -46,6 +46,8 @@ export interface FreeBenefitCategoryCoverageCandidate {
   host: string;
   endAt: string;
   requiresPurchase: boolean;
+  claimEaseScore: number;
+  claimUrgencyLabel: string;
   qualityScore: number;
   priorityScore: number;
 }
@@ -194,7 +196,43 @@ function candidateDisplayScore(item: FreeBenefitCategoryCoverageCandidate) {
     ? 80
     : 0;
   const purchasePenalty = item.requiresPurchase ? 20 : 0;
-  return item.qualityScore + item.priorityScore - publicSectorPenalty - purchasePenalty;
+  return item.qualityScore + item.priorityScore + item.claimEaseScore - publicSectorPenalty - purchasePenalty;
+}
+
+function getHoursLeft(value: string, now: number) {
+  const endAt = Date.parse(value);
+  if (!Number.isFinite(endAt)) return Number.POSITIVE_INFINITY;
+  return (endAt - now) / 3_600_000;
+}
+
+function getClaimUrgencyLabel(endAt: string, now: number) {
+  const hoursLeft = getHoursLeft(endAt, now);
+  if (hoursLeft <= 24) return "오늘마감";
+  if (hoursLeft <= 72) return "3일내마감";
+  if (hoursLeft <= 7 * 24) return "이번주마감";
+  return "여유있음";
+}
+
+function getClaimEaseScore(item: {
+  category: string;
+  requiresPurchase: boolean;
+  title: string;
+  sourceName: string;
+  host: string;
+  endAt: string;
+}, now: number) {
+  const text = `${item.title} ${item.sourceName} ${item.host}`;
+  const hoursLeft = getHoursLeft(item.endAt, now);
+  let score = 50;
+  if (!item.requiresPurchase) score += 25;
+  if (["everyone", "coupon", "sample", "freeTrial", "gifticon", "pointCashback", "signup", "checkIn"].includes(item.category)) score += 12;
+  if (/전원|누구나|100%|모두|무료|샘플|쿠폰|출석|룰렛|포인트|기프티콘/i.test(text)) score += 8;
+  if (/로그인|회원|앱\s*전용/i.test(text)) score -= 6;
+  if (item.requiresPurchase || /구매|주문|결제|이상\s*구매|배송비/i.test(text)) score -= 20;
+  if (hoursLeft <= 24) score += 8;
+  else if (hoursLeft <= 72) score += 5;
+  else if (hoursLeft <= 7 * 24) score += 3;
+  return Math.max(0, Math.min(100, Math.round(score)));
 }
 
 export function buildFreeBenefitCategoryCoverageReport(referenceNow = Date.now()): FreeBenefitCategoryCoverageReport {
@@ -202,18 +240,27 @@ export function buildFreeBenefitCategoryCoverageReport(referenceNow = Date.now()
   const rawDeals = Array.isArray(snapshot.deals) ? snapshot.deals : [];
   const visible = rawDeals
     .filter((deal) => isPublishableBenefit(deal, referenceNow))
-    .map((deal): FreeBenefitCategoryCoverageCandidate => ({
-      id: sanitize(deal.id, 80),
-      title: sanitize(deal.title, 90),
-      sourceName: sanitize(deal.sourceName || deal.mallName || deal.merchant, 48),
-      category: classifyCategory(deal),
-      finalUrl: String(deal.finalUrl ?? ""),
-      host: normalizeHost(deal.finalUrl),
-      endAt: String(deal.expiresAt || deal.endDate || ""),
-      requiresPurchase: /구매|주문|결제|최소\s*주문|이상\s*구매|배송비/.test(sanitize([deal.title, deal.summary, deal.tags?.join(" ")].join(" "), 600)),
-      qualityScore: Number(deal.qualityScore ?? 0),
-      priorityScore: Number(deal.priorityScore ?? deal.confidenceScore ?? 0)
-    }));
+    .map((deal): FreeBenefitCategoryCoverageCandidate => {
+      const category = classifyCategory(deal);
+      const endAt = String(deal.expiresAt || deal.endDate || "");
+      const candidate = {
+        id: sanitize(deal.id, 80),
+        title: sanitize(deal.title, 90),
+        sourceName: sanitize(deal.sourceName || deal.mallName || deal.merchant, 48),
+        category,
+        finalUrl: String(deal.finalUrl ?? ""),
+        host: normalizeHost(deal.finalUrl),
+        endAt,
+        requiresPurchase: /구매|주문|결제|최소\s*주문|이상\s*구매|배송비/.test(sanitize([deal.title, deal.summary, deal.tags?.join(" ")].join(" "), 600)),
+        qualityScore: Number(deal.qualityScore ?? 0),
+        priorityScore: Number(deal.priorityScore ?? deal.confidenceScore ?? 0)
+      };
+      return {
+        ...candidate,
+        claimEaseScore: getClaimEaseScore(candidate, referenceNow),
+        claimUrgencyLabel: getClaimUrgencyLabel(endAt, referenceNow)
+      };
+    });
 
   const categoryCounts = countBy(visible, (item) => item.category);
   const officialHostCount = new Set(visible.map((item) => item.host).filter(Boolean)).size;
@@ -290,9 +337,9 @@ export function buildFreeBenefitCategoryCoverageCsv(report: FreeBenefitCategoryC
         "category_candidate",
         group.label,
         group.ok ? "passed" : "failed",
-        String(item.qualityScore + item.priorityScore),
+        String(item.qualityScore + item.priorityScore + item.claimEaseScore),
         String(group.minimum),
-        `${item.sourceName}; ${item.title}; ${item.host}`,
+        `${item.sourceName}; ${item.title}; ${item.host}; ${item.claimUrgencyLabel}; claimEase=${item.claimEaseScore}`,
         item.finalUrl
       ]);
     }

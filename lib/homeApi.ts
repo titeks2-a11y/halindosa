@@ -149,6 +149,8 @@ export interface RequiredFreeBenefitCategoryCoverage {
       host: string;
       endAt: string;
       requiresPurchase: boolean;
+      claimEaseScore: number;
+      claimUrgencyLabel: string;
       qualityScore: number;
       priorityScore: number;
     }>;

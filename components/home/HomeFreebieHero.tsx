@@ -489,7 +489,7 @@ export function HomeFreebieHero({
                 target="_blank"
                 rel="noopener noreferrer"
                 className="min-h-16 w-[10.5rem] shrink-0 rounded-2xl border border-white bg-white p-2 shadow-sm transition hover:border-red-100"
-                aria-label={`${candidate.groupLabel} 대표 혜택 ${candidate.title} 공식 페이지 열기`}
+                aria-label={`${candidate.groupLabel} 대표 혜택 ${candidate.title} 공식 페이지 열기, 받기 쉬움 ${candidate.claimEaseScore}점`}
               >
                 <div className="flex min-w-0 items-center justify-between gap-1">
                   <span className="truncate rounded-full bg-red-50 px-1.5 py-0.5 text-[9px] font-black text-dossa-red">
@@ -498,6 +498,14 @@ export function HomeFreebieHero({
                   <span className="shrink-0 text-[9px] font-black text-slate-400">{candidate.groupCount.toLocaleString("ko-KR")}개</span>
                 </div>
                 <p className="mt-1 line-clamp-2 min-h-[2rem] text-[11px] font-black leading-4 text-slate-950">{candidate.title}</p>
+                <div className="mt-1 flex flex-wrap gap-1">
+                  <span className="rounded-full bg-emerald-50 px-1.5 py-0.5 text-[9px] font-black text-emerald-700">
+                    쉬움 {candidate.claimEaseScore}
+                  </span>
+                  <span className="rounded-full bg-orange-50 px-1.5 py-0.5 text-[9px] font-black text-orange-700">
+                    {candidate.claimUrgencyLabel}
+                  </span>
+                </div>
                 <p className="mt-1 truncate text-[9px] font-bold text-slate-500">{candidate.sourceName || candidate.host}</p>
               </Link>
             ))}

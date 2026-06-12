@@ -1371,6 +1371,8 @@ async function checkSearchAndPurchaseFlow() {
     !homeFreebieHero.includes("data-home-required-free-benefit-categories") ||
     !homeFreebieHero.includes("data-home-free-benefit-category-representatives") ||
     !homeFreebieHero.includes("categoryRepresentativeBenefits") ||
+    !homeFreebieHero.includes("claimEaseScore") ||
+    !homeFreebieHero.includes("claimUrgencyLabel") ||
     !homeFreebieHero.includes("requiredCategoryCoverage") ||
     !homeApiRoute.includes("requiredCategoryCoverage") ||
     !homeApiRoute.includes("categoryCandidateGroups") ||
@@ -2418,7 +2420,7 @@ function checkFreeBenefitOperationsReport() {
   for (const phrase of ["buildFreeBenefitRankingReport", "buildFreeBenefitRankingCsv", "exactDuplicateGroupCount", "maxTopBrandRepeat", "topCandidates", "qualityScore"]) {
     if (!rankingLib.includes(phrase)) issues.push(`free benefit ranking lib missing ${phrase}`);
   }
-  for (const phrase of ["buildFreeBenefitCategoryCoverageReport", "buildFreeBenefitCategoryCoverageCsv", "freeBenefitRequiredCategories", "visibleActiveBenefits", "categoryCoverage", "categoryCandidateGroups", "topCandidates"]) {
+  for (const phrase of ["buildFreeBenefitCategoryCoverageReport", "buildFreeBenefitCategoryCoverageCsv", "freeBenefitRequiredCategories", "visibleActiveBenefits", "categoryCoverage", "categoryCandidateGroups", "claimEaseScore", "claimUrgencyLabel", "topCandidates"]) {
     if (!categoryCoverageLib.includes(phrase)) issues.push(`free benefit category coverage lib missing ${phrase}`);
   }
   if (!rankingApi.includes("canAccessAdminRequest") || !rankingApi.includes("buildFreeBenefitRankingReport") || !rankingApi.includes("format") || !rankingApi.includes("text/csv") || !rankingApi.includes("admin-free-benefit-ranking")) {
