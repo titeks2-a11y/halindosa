@@ -184,8 +184,11 @@ const checks = [
       homeRealtimeFreeBenefitRailSource.includes("resolveRuntimeApiUrl") &&
       homeRealtimeFreeBenefitRailSource.includes("cache: \"no-store\"") &&
       homeRealtimeFreeBenefitRailSource.includes("HOME_REFRESH_INTERVAL_MS") &&
+      homeRealtimeFreeBenefitRailSource.includes("visibilitychange") &&
+      homeRealtimeFreeBenefitRailSource.includes("window.addEventListener(\"focus\"") &&
+      homeRealtimeFreeBenefitRailSource.includes("window.addEventListener(\"online\"") &&
       homeRealtimeFreeBenefitRailSource.includes("data-home-realtime-free-benefits"),
-    "Home should keep Android static fallback but hydrate a live rail from /api/home with no-store refresh."
+    "Home should keep Android static fallback but hydrate a live rail from /api/home with no-store refresh, foreground refresh, and online refresh."
   ),
   check(
     "FreeBenefitEvent status contract",

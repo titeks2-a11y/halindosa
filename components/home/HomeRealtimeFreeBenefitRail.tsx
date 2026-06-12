@@ -158,11 +158,21 @@ export function HomeRealtimeFreeBenefitRail() {
     isMountedRef.current = true;
     const initialTimer = window.setTimeout(() => void load(false), 0);
     const refreshTimer = window.setInterval(() => void load(true), HOME_REFRESH_INTERVAL_MS);
+    const refreshWhenVisible = () => {
+      if (document.visibilityState === "visible") void load(true);
+    };
+    const refreshWhenFocused = () => void load(true);
+    document.addEventListener("visibilitychange", refreshWhenVisible);
+    window.addEventListener("focus", refreshWhenFocused);
+    window.addEventListener("online", refreshWhenFocused);
 
     return () => {
       isMountedRef.current = false;
       window.clearTimeout(initialTimer);
       window.clearInterval(refreshTimer);
+      document.removeEventListener("visibilitychange", refreshWhenVisible);
+      window.removeEventListener("focus", refreshWhenFocused);
+      window.removeEventListener("online", refreshWhenFocused);
     };
   }, []);
 
