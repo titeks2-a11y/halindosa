@@ -36,6 +36,7 @@ reports/*
 !reports/.gitkeep
 !reports/live-probe-review.json
 !reports/vercel-deployment.json
+artifacts/
 
 # OS and editor files
 .DS_Store

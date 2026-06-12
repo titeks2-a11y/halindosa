@@ -54,3 +54,55 @@ jobs:
           curl --fail --silent --show-error --max-time 180 \
             -H "Authorization: Bearer ${CRON_SECRET}" \
             "${base_url}/api/cron/refresh?mode=liveFeed"
+
+      - name: Verify production benefit readiness
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          base_url="${SITE_URL%/}"
+          echo "Verifying production benefit readiness from ${base_url}"
+
+          SITE_URL="${base_url}" node <<'NODE'
+          const siteUrl = process.env.SITE_URL;
+          const minimumVisibleBenefits = Number(process.env.MINIMUM_VISIBLE_BENEFITS ?? 100);
+
+          async function getJson(path) {
+            const url = `${siteUrl}${path}${path.includes("?") ? "&" : "?"}ts=${Date.now()}`;
+            const response = await fetch(url, {
+              headers: {
+                Accept: "application/json",
+                "Cache-Control": "no-cache"
+              }
+            });
+            const text = await response.text();
+            let body;
+            try {
+              body = JSON.parse(text);
+            } catch {
+              throw new Error(`${path} returned non-JSON response: ${text.slice(0, 120)}`);
+            }
+            if (!response.ok || body?.ok === false) {
+              throw new Error(`${path} failed with status ${response.status}: ${JSON.stringify(body).slice(0, 240)}`);
+            }
+            return body;
+          }
+
+          const health = await getJson("/api/health");
+          const freebies = await getJson("/api/freebies?limit=12");
+          const visibleBenefits = Number(health?.checks?.officialBenefitVisibleCount ?? 0);
+          const freebieEvents = Number(freebies?.eventCount ?? freebies?.count ?? 0);
+          const freshnessOk = health?.checks?.officialBenefitFresh === true || health?.checks?.officialBenefitRefreshAllOk === true;
+
+          if (visibleBenefits < minimumVisibleBenefits) {
+            throw new Error(`officialBenefitVisibleCount is too low: ${visibleBenefits}/${minimumVisibleBenefits}`);
+          }
+          if (freebieEvents < minimumVisibleBenefits) {
+            throw new Error(`freebies eventCount is too low: ${freebieEvents}/${minimumVisibleBenefits}`);
+          }
+          if (!freshnessOk) {
+            throw new Error("official benefit freshness check is not passing.");
+          }
+
+          console.log(`Production benefit readiness OK: health=${visibleBenefits}, freebies=${freebieEvents}`);
+          NODE

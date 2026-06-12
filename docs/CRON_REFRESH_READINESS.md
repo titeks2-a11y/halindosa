@@ -43,7 +43,7 @@ Status: ready
 | benefits cron route | PASS | Dedicated cron benefits endpoint refreshes official free benefit events with the same auth guard. |
 | vercel schedule | PASS | Vercel schedules /api/cron/refresh once daily for Hobby plan compatibility. |
 | vercel benefits schedule | PASS | Vercel schedules /api/cron/benefits once daily for free-benefit-first operations. |
-| github scheduled benefit refresh | PASS | GitHub Actions can call protected benefits refresh every 30 minutes and live feed refresh hourly when cron secrets are configured. |
+| github scheduled benefit refresh | PASS | GitHub Actions can call protected benefits refresh every 30 minutes, live feed refresh hourly, and verify production /api/health plus /api/freebies after refresh. |
 | environment keys | PASS | .env.example documents cron secret and timeout knobs. |
 | operations report | PASS | Cron operations layer exposes last-run status and report path. |
 | benefits operations report | PASS | Cron operations layer exposes dedicated benefits cron status and event evidence. |

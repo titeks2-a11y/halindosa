@@ -115,10 +115,14 @@ const checks = [
   githubBenefitRefreshWorkflow.includes('cron: "*/30 * * * *"') &&
     githubBenefitRefreshWorkflow.includes("/api/cron/benefits") &&
     githubBenefitRefreshWorkflow.includes("/api/cron/refresh?mode=liveFeed") &&
+    githubBenefitRefreshWorkflow.includes("/api/health") &&
+    githubBenefitRefreshWorkflow.includes("/api/freebies?limit=12") &&
+    githubBenefitRefreshWorkflow.includes("officialBenefitVisibleCount") &&
+    githubBenefitRefreshWorkflow.includes("officialBenefitFresh") &&
     githubBenefitRefreshWorkflow.includes("CRON_SECRET") &&
     githubBenefitRefreshWorkflow.includes("HALINDOSA_CRON_SECRET")
-    ? pass("github scheduled benefit refresh", "GitHub Actions can call protected benefits refresh every 30 minutes and live feed refresh hourly when cron secrets are configured.")
-    : fail("github scheduled benefit refresh", "A protected GitHub Actions scheduler should call /api/cron/benefits frequently and /api/cron/refresh?mode=liveFeed on a bounded cadence."),
+    ? pass("github scheduled benefit refresh", "GitHub Actions can call protected benefits refresh every 30 minutes, live feed refresh hourly, and verify production /api/health plus /api/freebies after refresh.")
+    : fail("github scheduled benefit refresh", "A protected GitHub Actions scheduler should call /api/cron/benefits frequently, /api/cron/refresh?mode=liveFeed on a bounded cadence, then verify production /api/health and /api/freebies readiness."),
   envExample.includes("CRON_SECRET=") && envExample.includes("CRON_REFRESH_TIMEOUT_MS=")
     ? pass("environment keys", ".env.example documents cron secret and timeout knobs.")
     : fail("environment keys", ".env.example should document CRON_SECRET and CRON_REFRESH_TIMEOUT_MS."),
