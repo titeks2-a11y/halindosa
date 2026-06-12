@@ -2,6 +2,7 @@ import type { PriceBand } from "@/lib/homeDiscoveryConfig";
 import { isCrossOriginApiRequest, resolveRuntimeApiUrl } from "@/lib/runtimeApi";
 import type { DealQualitySummary } from "@/lib/deals/quality";
 import type { Deal, DealBenefitType, DealSort } from "@/types/deal";
+import type { StandardFreeBenefit } from "@/lib/freeBenefitDto";
 import type { FreeBenefitEvent, FreeBenefitEventType } from "@/types/freeBenefitEvent";
 import type { FreeBenefitDeadlineCategoryCount, FreeBenefitEventCollectionLane, FreeBenefitEventSourceSummary } from "@/lib/freeBenefitEvents";
 import type { HotSignal } from "@/types/hotSignal";
@@ -51,6 +52,7 @@ export interface FreebiesResponse {
   freebies: NewsDeal[];
   deals: NewsDeal[];
   events?: FreeBenefitEvent[];
+  freeBenefits?: StandardFreeBenefit[];
   count: number;
   eventCount?: number;
   publishableEventCount?: number;
@@ -103,6 +105,7 @@ export interface FreeBenefitRuntimeReadinessSummary {
 export interface FreeBenefitEventsResponse {
   ok: boolean;
   events: FreeBenefitEvent[];
+  freeBenefits?: StandardFreeBenefit[];
   count: number;
   totalCount: number;
   publishableTotalCount?: number;
@@ -230,6 +233,7 @@ export interface HomeResponse {
   newsDeals: NewsDeal[];
   freebies?: NewsDeal[];
   freeBenefitEvents?: FreeBenefitEvent[];
+  freeBenefits?: StandardFreeBenefit[];
   hotSignals: HotSignal[];
   counts: {
     deals: number;

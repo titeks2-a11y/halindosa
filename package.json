@@ -64,6 +64,7 @@
     "benefit:operations:report": "node scripts/free-benefit-operations-report.mjs",
     "benefit:collection:report": "node scripts/free-benefit-collection-lanes-report.mjs",
     "benefit:model:doctor": "node scripts/free-benefit-runtime-model-doctor.mjs",
+    "benefit:api-contract": "node scripts/free-benefit-api-contract-doctor.mjs",
     "benefit:ranking:doctor": "node scripts/free-benefit-ranking-doctor.mjs",
     "verify:benefits": "node scripts/verify-benefit-events.mjs",
     "benefit:event:contract": "node scripts/free-benefit-event-contract-doctor.mjs",

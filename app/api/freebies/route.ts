@@ -8,6 +8,7 @@ import {
   buildFreeBenefitEventSourceSummary,
   selectPublishableFreeBenefitEvents
 } from "@/lib/freeBenefitEvents";
+import { toStandardFreeBenefits } from "@/lib/freeBenefitDto";
 import { buildHomeFreebieSummary, selectHomeFreebies } from "@/lib/homeFreebies";
 import { buildFreeBenefitCategoryCoverageReport } from "@/lib/operations/freeBenefitCategoryCoverage";
 import type { FreeBenefitClaimAccessLevel, FreeBenefitEvent, FreeBenefitEventType } from "@/types/freeBenefitEvent";
@@ -169,6 +170,7 @@ export async function GET(request: Request) {
     });
     const filteredEvents = sortFreeBenefitEvents(filterFreeBenefitEvents(allEvents, request, referenceNow), request);
     const events = filteredEvents.slice(0, safeLimit);
+    const freeBenefits = toStandardFreeBenefits(events);
     const summary = buildHomeFreebieSummary(defaultDeals, referenceNow);
     const categoryCounts = buildFreeBenefitEventCategoryCounts(allEvents);
     const deadlineCategoryCounts = buildFreeBenefitEventDeadlineCategoryCounts(allEvents, referenceNow);
@@ -184,6 +186,7 @@ export async function GET(request: Request) {
       freebies,
       deals: freebies,
       events,
+      freeBenefits,
       count: freebies.length,
       eventCount: filteredEvents.length,
       publishableEventCount: allEvents.length,

@@ -10,6 +10,7 @@ import {
   buildFreeBenefitEventSourceSummary,
   selectPublishableFreeBenefitEvents
 } from "@/lib/freeBenefitEvents";
+import { toStandardFreeBenefits } from "@/lib/freeBenefitDto";
 import { fetchHotSignals } from "@/lib/hotSignalProvider";
 import { buildHomeFreebieSummary, selectHomeFreebies } from "@/lib/homeFreebies";
 import { HOME_REFRESH_INTERVAL_MS } from "@/lib/homeRealtimeConfig";
@@ -255,6 +256,7 @@ export async function GET(request: Request) {
     const freeBenefitEventDeadlineCategoryCounts = buildFreeBenefitEventDeadlineCategoryCounts(freeBenefitEvents, Date.parse(generatedAt));
     const freeBenefitEventSummary = buildFreeBenefitEventSourceSummary(freeBenefitEvents, Date.parse(generatedAt));
     const freeBenefitRuntimeReadiness = buildFreeBenefitEventRuntimeReadiness(freeBenefitEvents, Date.parse(generatedAt));
+    const standardFreeBenefits = toStandardFreeBenefits(freeBenefitEvents);
     const requiredCategoryCoverage = buildFreeBenefitCategoryCoverageReport(Date.parse(generatedAt));
     const freebiesSummary = buildHomeFreebieSummary(news.deals, Date.parse(generatedAt));
     counts.freebies = homeFreebies.length;
@@ -273,6 +275,7 @@ export async function GET(request: Request) {
       newsDeals: news.deals,
       freebies: homeFreebies,
       freeBenefitEvents,
+      freeBenefits: standardFreeBenefits,
       hotSignals: signals,
       counts,
       updatedAt: generatedAt,

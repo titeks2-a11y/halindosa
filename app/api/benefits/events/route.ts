@@ -12,6 +12,7 @@ import {
   isPublishableFreeBenefitEvent,
   sanitizeBenefitText
 } from "@/lib/freeBenefitEvents";
+import { toStandardFreeBenefits } from "@/lib/freeBenefitDto";
 import type { FreeBenefitClaimAccessLevel, FreeBenefitEvent, FreeBenefitEventType } from "@/types/freeBenefitEvent";
 
 export const dynamic = "force-dynamic";
@@ -196,6 +197,7 @@ export async function GET(request: Request) {
     const publishableEvents = allEvents.filter((event) => isPublishableFreeBenefitEvent(event, referenceNow));
     const filteredEvents = sortEvents(filterEvents(allEvents, request, referenceNow), sort, referenceNow);
     const events = filteredEvents.slice(0, limit);
+    const freeBenefits = toStandardFreeBenefits(events);
     const categoryCounts = buildFreeBenefitEventCategoryCounts(publishableEvents);
     const filteredCategoryCounts = buildFreeBenefitEventCategoryCounts(filteredEvents);
     const deadlineCategoryCounts = buildFreeBenefitEventDeadlineCategoryCounts(publishableEvents, referenceNow);
@@ -207,6 +209,7 @@ export async function GET(request: Request) {
         ok: true,
         requestId,
         events,
+        freeBenefits,
         count: events.length,
         totalCount: filteredEvents.length,
         sourceTotalCount: allEvents.length,
